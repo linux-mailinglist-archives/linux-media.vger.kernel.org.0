@@ -2,42 +2,53 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DC14462CF47
-	for <lists+linux-media@lfdr.de>; Thu, 17 Nov 2022 01:03:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 55E5D62CFA3
+	for <lists+linux-media@lfdr.de>; Thu, 17 Nov 2022 01:31:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233485AbiKQAD2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 16 Nov 2022 19:03:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48100 "EHLO
+        id S234225AbiKQAbX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 16 Nov 2022 19:31:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59874 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232527AbiKQAD0 (ORCPT
+        with ESMTP id S234418AbiKQAbV (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 16 Nov 2022 19:03:26 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D5EDA287;
-        Wed, 16 Nov 2022 16:03:25 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 3310F6204E;
-        Thu, 17 Nov 2022 00:03:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 148F7C433D6;
-        Thu, 17 Nov 2022 00:03:20 +0000 (UTC)
-Authentication-Results: smtp.kernel.org;
-        dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b="DDPLmlvq"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105;
-        t=1668643399;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=w0AD3Tr58GtUJ9Kv6i6itZC3jzhNZgyVC+4VKe1NEok=;
-        b=DDPLmlvqGCydFG2ungFT1RZWdxcCp8OkwUGh/9TR2kjRISFQ4pEtNgOpmTH2NPcqUdcG6o
-        I/FANGR7sGyNugj9iH8lSaSbSlp7Eo18gRYINb1RpCQp6aeqprML9KXAznslynx0MWLa+Y
-        zK0isK7HUkZ/WTiYMkCVQ5FYJls563o=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 96a20c4a (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
-        Thu, 17 Nov 2022 00:03:19 +0000 (UTC)
-Date:   Thu, 17 Nov 2022 01:03:14 +0100
-From:   "Jason A. Donenfeld" <Jason@zx2c4.com>
-To:     Kees Cook <keescook@chromium.org>
+        Wed, 16 Nov 2022 19:31:21 -0500
+Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com [IPv6:2607:f8b0:4864:20::629])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9603147327
+        for <linux-media@vger.kernel.org>; Wed, 16 Nov 2022 16:31:19 -0800 (PST)
+Received: by mail-pl1-x629.google.com with SMTP id g10so87183plo.11
+        for <linux-media@vger.kernel.org>; Wed, 16 Nov 2022 16:31:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=bfYTHCNCtdWeHJf9pplhisQ2FfqYgZ1s/D8ukZJ0aF0=;
+        b=noLKefdE/A5/nbmTvR6mJw3cGxk/a7fIL83IBp5Ph1Sax30+McHCvDQ9202nLf5uce
+         hPc2gZOe0LsvudzlGDyBmEAgwDGtCwPT27+S6nCdQzTHR81ueFyHGEG25Bj0t5HJUYw6
+         csu11i/pEoPga4S6lvqc8FbzvURZMsHN35+PY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=bfYTHCNCtdWeHJf9pplhisQ2FfqYgZ1s/D8ukZJ0aF0=;
+        b=YaKiKFLzGpVGJmWgXqVNRXcEcdnukFWkPX2oQzglJC7uImpiTZA/yE30V3T16EYg5p
+         9c+RvDJ1fein09YutVBumTk7+XXYfQ8sDQTA5oPwcEU8QpaaAwB4/O3HfBorUCv4wNPC
+         yIfrKcDf82OpyQjs59BG2W5k0oCHUiqYYwMz16bVQ9uKFDb4qWsSZZM1RHA0xWsvgXI8
+         PRhngcXqCClIRCIbrz2OB/c/IJQxtnzEu7G5wngvhYRum6eIWDPdyq8UJkIxoSug9/jh
+         bSl1OCa6WXtR7DcpXAM1td/CtY18LWNbTU800A3nuM4eALkMR0sh7V79SyJsThV+edjH
+         W73A==
+X-Gm-Message-State: ANoB5pkvUbMytMztraQnkZBBcJvAye9npTSqExybezo9CP2eJ/cpu97f
+        h8Z+NJOO3KbEwzF+EiA2dbNvxw==
+X-Google-Smtp-Source: AA0mqf5LCeBMlQYf9iRokqtAPq5JSpm9R+EnXlxq59oA8dqbtgC+he2PCZJy9QgLdGN/YL6SFM4OFA==
+X-Received: by 2002:a17:90a:6949:b0:213:188c:158d with SMTP id j9-20020a17090a694900b00213188c158dmr343097pjm.11.1668645079035;
+        Wed, 16 Nov 2022 16:31:19 -0800 (PST)
+Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net. [198.0.35.241])
+        by smtp.gmail.com with ESMTPSA id s1-20020a170902ea0100b00174f61a7d09sm12946657plg.247.2022.11.16.16.31.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 16 Nov 2022 16:31:18 -0800 (PST)
+Date:   Wed, 16 Nov 2022 16:31:18 -0800
+From:   Kees Cook <keescook@chromium.org>
+To:     "Jason A. Donenfeld" <Jason@zx2c4.com>
 Cc:     linux-kernel@vger.kernel.org, patches@lists.linux.dev,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Jakub Kicinski <kuba@kernel.org>,
@@ -46,7 +57,7 @@ Cc:     linux-kernel@vger.kernel.org, patches@lists.linux.dev,
         Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
         Heiko Carstens <hca@linux.ibm.com>,
         Herbert Xu <herbert@gondor.apana.org.au>,
-        Christoph =?utf-8?Q?B=C3=B6hmwalder?= 
+        Christoph =?iso-8859-1?Q?B=F6hmwalder?= 
         <christoph.boehmwalder@linbit.com>,
         Jani Nikula <jani.nikula@linux.intel.com>,
         Jason Gunthorpe <jgg@nvidia.com>,
@@ -70,38 +81,46 @@ Cc:     linux-kernel@vger.kernel.org, patches@lists.linux.dev,
         ydroneaud@opteya.com
 Subject: Re: [PATCH v2 3/3] treewide: use get_random_u32_between() when
  possible
-Message-ID: <Y3V6QtYMayODVDOk@zx2c4.com>
+Message-ID: <202211161628.164F47F@keescook>
 References: <20221114164558.1180362-1-Jason@zx2c4.com>
  <20221114164558.1180362-4-Jason@zx2c4.com>
  <202211161436.A45AD719A@keescook>
  <Y3V4g8eorwiU++Y3@zx2c4.com>
+ <Y3V6QtYMayODVDOk@zx2c4.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Y3V4g8eorwiU++Y3@zx2c4.com>
-X-Spam-Status: No, score=-6.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+In-Reply-To: <Y3V6QtYMayODVDOk@zx2c4.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Nov 17, 2022 at 12:55:47AM +0100, Jason A. Donenfeld wrote:
-> 2) What to call it:
->    - between I still like, because it mirrors "I'm thinking of a number
->      between 1 and 10 and..." that everybody knows,
->    - inclusive I guess works, but it's not a preposition,
->    - bikeshed color #3?
+On Thu, Nov 17, 2022 at 01:03:14AM +0100, Jason A. Donenfeld wrote:
+> On Thu, Nov 17, 2022 at 12:55:47AM +0100, Jason A. Donenfeld wrote:
+> > 2) What to call it:
+> >    - between I still like, because it mirrors "I'm thinking of a number
+> >      between 1 and 10 and..." that everybody knows,
+> >    - inclusive I guess works, but it's not a preposition,
+> >    - bikeshed color #3?
+> 
+> - between
+> - ranged
+> - spanning
+> 
+> https://www.thefreedictionary.com/List-of-prepositions.htm
+> - amid
+> 
+> Sigh, names.
 
-- between
-- ranged
-- spanning
+I think "inclusive" is best. The other words still don't provide
+unambiguous language. It's the language used in formal math, e.g.
+sigma-notation, etc. It's an adjective for "get random" (verb, noun).
 
-https://www.thefreedictionary.com/List-of-prepositions.htm
-- amid
-
-Sigh, names.
-
+-- 
+Kees Cook
