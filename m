@@ -2,57 +2,57 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2736862D5D1
-	for <lists+linux-media@lfdr.de>; Thu, 17 Nov 2022 10:05:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CDAFF62D5D9
+	for <lists+linux-media@lfdr.de>; Thu, 17 Nov 2022 10:06:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239642AbiKQJFV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 17 Nov 2022 04:05:21 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32930 "EHLO
+        id S239557AbiKQJGg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 17 Nov 2022 04:06:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34188 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239695AbiKQJFF (ORCPT
+        with ESMTP id S233899AbiKQJGf (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 17 Nov 2022 04:05:05 -0500
-Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com [IPv6:2a00:1450:4864:20::631])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B0D765A6E3
-        for <linux-media@vger.kernel.org>; Thu, 17 Nov 2022 01:05:03 -0800 (PST)
-Received: by mail-ej1-x631.google.com with SMTP id ud5so3466044ejc.4
-        for <linux-media@vger.kernel.org>; Thu, 17 Nov 2022 01:05:03 -0800 (PST)
+        Thu, 17 Nov 2022 04:06:35 -0500
+Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com [IPv6:2a00:1450:4864:20::62a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E91825A6DA
+        for <linux-media@vger.kernel.org>; Thu, 17 Nov 2022 01:06:34 -0800 (PST)
+Received: by mail-ej1-x62a.google.com with SMTP id i10so3448090ejg.6
+        for <linux-media@vger.kernel.org>; Thu, 17 Nov 2022 01:06:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=5zhSt35S7o2sfRbbzRgd2mNWx5Jr5hPu7WjLb8VLqDs=;
-        b=SMYpW52Gep2/BpihE2T9vuFlUgkUOux+5U+YRc1GVgDqJfoxxfGoMiyxKMGoq/weON
-         isuKI+IiKh5nNbyJMdVfYOHfXIuM9vTJiLHCJ/R9F3/HaB9J82FdnKsfg0+EIxKSLqLO
-         EAyUNsj7P2nZo8cccxdNXx6TntrfAZBWSEhnfbyOqAn2ob7J6GV7iLhdfMIQyx9iaUfN
-         nhnUCJOb+ezCgzNO8Paldo1NrGQnwwta6lxkSaTNobtOQoR6uY9pFevnu7VlHfwseJd0
-         M2KpxVaXTmFpTwv8+KGvkwk/2oTVVDl2v54TSTIwrEcrkIzddTqU3Hllohy5C93G+DrG
-         ORCg==
+        bh=GUIHx0FPCP5jR/LHWUfo70UQ3DBjjMXeYhmpJNoLXUk=;
+        b=B607JUrWmzu97O71uzkNWPOBJkdpP3cipJkAG7IT3mrsLOKaukWj3bxTmhEjmn3+fA
+         mWBqBrERXRNQ8khFV0UGf5jQ69X3/bJp+iiq5+mDF9hKjO1e+idd3FTm91Elsip//i4T
+         +Jjf+eZgEL2xM6pL7v9e9YTqhC9PMyj3d7JzAB7Vyb6HyV7atkn3xnHrsI2jsIIbjWXJ
+         UKE1hdWP1ejpzDwPHdNTxZq9Xk3Hque7MRsMGjrPh3BZUSeIYC7M6ATlNtkyAj6rjA4v
+         IIUFXi0O9OASZZIS/a2v8581ruH7uPnTaLvQSP3xifG4mFVPFd1Cn7et7w2HS1p6ryUz
+         AWNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=5zhSt35S7o2sfRbbzRgd2mNWx5Jr5hPu7WjLb8VLqDs=;
-        b=qogcQh2XFN43QjoS1/f5WE2C/AX/KxViXhzuYmeHXz7U309LRrPAjJiKW2MYPizMfk
-         4k53rBASzBaIfXMy6o65wrQsvl007xKng5mDBCbiPzAnEkQdZNSje3do8+wzDPZzziUt
-         +UDVo9ZT9+uxMPxdDoaPJZ/3KZhJ9u09EZO3M1DGGEulER4DCdCeuT2FouSGYBjIiLVT
-         tUvzadOc9e7HMkPzAfqe3RRGM9L6pEIqMhuyJCR+czkMhEhbPdWBwtyi7v6nkt26kwGU
-         9Unj5CXbk+xlFtty8SuCoy2Y4N/gEZlakVsJ4UkJlYJSm7oGPZgTq2fGYdUgSIldWZex
-         DRAQ==
-X-Gm-Message-State: ANoB5pn3tGIzWJmsE/exn9mKe/LZu3SxK4tVww3twnhpEJTWF29KG+T+
-        WHfphf59XBQBz9rax+n+bxStvIHAbx85S+04SBFgUN0Os78=
-X-Google-Smtp-Source: AA0mqf4jESMSJ8qf+MvMF6FWuVGMIIjRR1zpeVeaMq4fFJ1pPW1kwXjQbdlFyriIG7MG9vZJlwJzhJumHCs3jXo6dDA=
-X-Received: by 2002:a17:906:7c44:b0:7b2:7096:6c2 with SMTP id
- g4-20020a1709067c4400b007b2709606c2mr1387844ejp.526.1668675902339; Thu, 17
- Nov 2022 01:05:02 -0800 (PST)
+        bh=GUIHx0FPCP5jR/LHWUfo70UQ3DBjjMXeYhmpJNoLXUk=;
+        b=KITzX6gN7nftFuHh0jEeOHnHqWQZDJ1Hn3hiEZ21Uap1CzBnKzc2a1HTepeaAUxblO
+         rZp98qgdbUxHJEl2nKnA/ccM8TpwExe4EOIVhyyX8PSMBnt7zayGnctiOgU5zefxHcdK
+         lINrpztqXyp/d/KcwCj/zE+frCigT4tTkoXANNzb6HbeK+OkbtkRO6xpNBsbyJqIKQex
+         +5qNTpcgQjde8M0CZ/6QjdqBOEt91G9fvw6+V+stzUaCwe8ENmzLI32Y3inXM57NBjLq
+         OzGzC2h9WKMuK4S9yh2vqHUVtKJro19uYUujFEXFW5qKB841HX8dhJPT20oGkMi3/b0K
+         8wsw==
+X-Gm-Message-State: ANoB5pkGG5ejal7weBEeExkzC7j83uUM9YXp1lA6qepicO6aURl5iXUL
+        +LtK3FkxvEG/Myle+1jFTib/zxfs2LDgxsWawxo85CpGjAA=
+X-Google-Smtp-Source: AA0mqf4rhAyRYJ1YhUZfSZ1LtJ1gZDA/eg1Ro0uNpfoVTGEIXFaU8XJy52TgD5R3G0GRY4ehjVY3PISsNsS3ceWUUQM=
+X-Received: by 2002:a17:906:ce35:b0:7ae:215:2dd5 with SMTP id
+ sd21-20020a170906ce3500b007ae02152dd5mr1387029ejb.208.1668675993476; Thu, 17
+ Nov 2022 01:06:33 -0800 (PST)
 MIME-Version: 1.0
-References: <20221115221145.2550572-1-dmitry.torokhov@gmail.com>
-In-Reply-To: <20221115221145.2550572-1-dmitry.torokhov@gmail.com>
+References: <20221115221145.2550572-1-dmitry.torokhov@gmail.com> <20221115221145.2550572-4-dmitry.torokhov@gmail.com>
+In-Reply-To: <20221115221145.2550572-4-dmitry.torokhov@gmail.com>
 From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Thu, 17 Nov 2022 10:04:50 +0100
-Message-ID: <CACRpkdbWp=JjQCps1+KOw8G8yKUQ0zp2iU8=_sFNoUO+b8ntmg@mail.gmail.com>
-Subject: Re: [PATCH 1/4] media: i2c: s5k6a3: switch to using gpiod API
+Date:   Thu, 17 Nov 2022 10:06:21 +0100
+Message-ID: <CACRpkdbARhDuqSiOZM6GZynHsQWau8JhsEa2zcpsPZSLuD07Kg@mail.gmail.com>
+Subject: Re: [PATCH 4/4] media: i2c: s5c73m3: switch to using gpiod API
 To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
 Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Sylwester Nawrocki <s.nawrocki@samsung.com>,
@@ -61,7 +61,8 @@ Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -72,22 +73,12 @@ On Tue, Nov 15, 2022 at 11:11 PM Dmitry Torokhov
 <dmitry.torokhov@gmail.com> wrote:
 
 > This patch switches the driver away from legacy gpio/of_gpio API to
-> gpiod API, and removes one of the last uses of of_get_gpio_flags().
+> gpiod API, and removes use of of_get_named_gpio_flags() which I want to
+> make private to gpiolib.
 >
 > Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 
 Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
-
-> -       sensor->gpio_reset = -EINVAL;
-> -       sensor->clock = ERR_PTR(-EINVAL);
-
-Looks unrelated but makes sense.
-
->         sensor->dev = dev;
->
->         sensor->clock = devm_clk_get(sensor->dev, S5K6A3_CLK_NAME);
-
-Given that it is initialized unconditionally two lines down :P
 
 Yours,
 Linus Walleij
