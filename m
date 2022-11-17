@@ -2,116 +2,189 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9A03F62E384
-	for <lists+linux-media@lfdr.de>; Thu, 17 Nov 2022 18:53:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A29C962E3A6
+	for <lists+linux-media@lfdr.de>; Thu, 17 Nov 2022 19:01:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240205AbiKQRwe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 17 Nov 2022 12:52:34 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37076 "EHLO
+        id S234978AbiKQSBR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 17 Nov 2022 13:01:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43682 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240398AbiKQRwN (ORCPT
+        with ESMTP id S234664AbiKQSBP (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 17 Nov 2022 12:52:13 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A0CD7FC26;
-        Thu, 17 Nov 2022 09:52:12 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 09755621E1;
-        Thu, 17 Nov 2022 17:52:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CE4C2C433D7;
-        Thu, 17 Nov 2022 17:52:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1668707531;
-        bh=wVcYKV9ryyiDH/YHL+yzTatasapLPFcACLj99oy49LE=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=a7sDmIc+MIiyHVMXaBusQ6SkTG7PgwM/a0EJ4zKHIvOVy6oKK6b3AT7G6BL7IAhyb
-         tQrGOQ8EZryz0g9CPyeova2t7BapHsbt5mf3emi2EuVCeQXhXqwUn+kqAW/vkW3pTf
-         Kd3saMsh3WvsIsW95EjyysGP+2g6w6bUubvY77zS2JNX3hodGbWwqnkeOfkUkv44d1
-         wVdNvSyfxUXTwGs/CxfcJu1R/YNgmbTF9P0hHUecae9laDee6pIqWGqoCswKxWBQ7e
-         3D8Kmq02sXbN6LrlSaw20+B84srvuF3HVurawDtGLsPyRommshzXNIKHm27diMG12K
-         Io+tfOlGUFb/g==
-Date:   Thu, 17 Nov 2022 17:52:03 +0000
-From:   Conor Dooley <conor@kernel.org>
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Andrew Lunn <andrew@lunn.ch>, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-clk@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-arm-msm@vger.kernel.org, linux-pm@vger.kernel.org,
-        linux-gpio@vger.kernel.org, linux-iio@vger.kernel.org,
-        linux-input@vger.kernel.org, linux-leds@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-mips@vger.kernel.org,
-        linux-mmc@vger.kernel.org, linux-mtd@lists.infradead.org,
-        netdev@vger.kernel.org, linux-can@vger.kernel.org,
-        linux-pci@vger.kernel.org, linux-pwm@vger.kernel.org,
-        linux-rtc@vger.kernel.org, linux-serial@vger.kernel.org,
-        alsa-devel@alsa-project.org, linux-spi@vger.kernel.org,
-        linux-usb@vger.kernel.org,
-        virtualization@lists.linux-foundation.org,
-        linux-watchdog@vger.kernel.org
-Subject: Re: [RFC PATCH 1/9] dt-bindings: drop redundant part of title of
- shared bindings
-Message-ID: <Y3Z0w6JH1f5zgwvW@spud>
-References: <20221117123850.368213-1-krzysztof.kozlowski@linaro.org>
- <20221117123850.368213-2-krzysztof.kozlowski@linaro.org>
+        Thu, 17 Nov 2022 13:01:15 -0500
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2087.outbound.protection.outlook.com [40.107.93.87])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64EBA7FC0A;
+        Thu, 17 Nov 2022 10:01:14 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=BexqwPq4PMKFW5+4YsJwtqkZ4b4osxKZoE7ZbfZsfX2SL1DQ9J8UGKHd4eR5b2JNT9EKgSM9xq2XKk9SE6fRjHpbmyRpg1vahKzruy3YbKMH8MCkWJCxeeD4HVH3ZyisYVsxevb0ClF9jQwMNJ1UvaPrZO471x29ib9kW1fUsXYhRoBj5o7hdXrndWprycidsPdymbVxtehi9PN+V++oDzWwDdTj58y0786Dqh+CBvZm95PJQXXjm3A2THyiIjNgYMsWlKNjZKEqqb1EACTcuon0vyYGbDXFJCv7wN/3nktVNTnnES4DSEhiBGt5sHb8NX0OJh+FU4tcukiCUO8K9w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=McizwaE73KQSm3spEN4c5sg8PKXcEjPOBzqaS4bcPvk=;
+ b=kAHWMU6GnD2moJg3XBZRJe2g6ACFkDYmzycZfK3Sj0Kg4Moqu2FodB0R4SWoZqsL1SUSm5TulYfinF4ycgQgcDzVR9t4J4a4Zjr/KPf1SEdBzPP/NlKFICmWS86k9L2ffUd0gS8S4M/avJtHGC153tvDOnriJELn52riWUQ+97z2MVlffnNjIpw8wIzp9XR3gR5biP1cG5RUYUD1OLvJv83+eycpK/WK0VxMSTdKMcM0OJ36fBgsQX2J4YDesAqIASeuneDZW0dcZHSrR26MZYnQOzpe8SR1RVChHWCegY32XjqWdzv8sJ9zrn8PHpHDnBhQ1S14EuFEmwTMZ1kuIA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=McizwaE73KQSm3spEN4c5sg8PKXcEjPOBzqaS4bcPvk=;
+ b=b7A1NBm0+dxllMA9cSuTLLtuUrsF39Ct1x4hYKmfrkmcF+hdC+ocaesFKnnew08D+LOaIcCQ4d93uVS76faaUeM+WZolLDQoBRnFChjT2lLLS91U9RMbP8Db/Jzb1EiQ/ltCy6RZMY+yVOS3McMBiCQyYQVBuHi/J+vLwQOXGRM=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
+ by BL1PR12MB5143.namprd12.prod.outlook.com (2603:10b6:208:31b::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5813.19; Thu, 17 Nov
+ 2022 18:01:09 +0000
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::7d43:3f30:4caf:7421]) by BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::7d43:3f30:4caf:7421%7]) with mapi id 15.20.5813.017; Thu, 17 Nov 2022
+ 18:01:09 +0000
+Message-ID: <6ecae1e3-16cb-f5fb-05ce-a98fcf145069@amd.com>
+Date:   Thu, 17 Nov 2022 19:01:05 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH v4] udmabuf: add vmap and vunmap methods to udmabuf_ops
+Content-Language: en-US
+To:     Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+        Lukasz Wiecaszek <lukasz.wiecaszek@googlemail.com>
+Cc:     Gerd Hoffmann <kraxel@redhat.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
+References: <20221117045842.27161-1-lukasz.wiecaszek@gmail.com>
+ <970e798d-ea26-5e1e-ace8-7915a866f7c7@collabora.com>
+ <20221117170838.GA74987@thinkpad-p72>
+ <cd382f43-1995-12a6-840b-32450e62f9f4@collabora.com>
+From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+In-Reply-To: <cd382f43-1995-12a6-840b-32450e62f9f4@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR3P281CA0128.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:94::10) To BN8PR12MB3587.namprd12.prod.outlook.com
+ (2603:10b6:408:43::13)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221117123850.368213-2-krzysztof.kozlowski@linaro.org>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|BL1PR12MB5143:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3252fe27-e091-41be-722e-08dac8c5b4d1
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 9QjUY7wo5+3k2bG0Glk3YiRVWJHp4rWA8nix9KxDDWKQZ4Tf/Gb55n6xa5Lw2U895ixBq+pJLy4dRptUKwHY9Eruz/vyz9i+WYY8bUPcv0rh+tsMUmXE2xVfgt0X/M1+aItbIX8Q7tb3MhkJHUYFoqelzUVHy07z/SqYe/VvFpGExDGnWb7Efwa+aM++dxeroyUsW0t/P3W9ArFR2TqFe8zCX7PcQj3B3VxIBs9plosxVmwJRkvDI0ba7NSEYZsfmq3Ts0onFT/2ttvEUVmoR7qG4It+snteVspm84WDdmZ2MuL2uI/FWqA86EK9xqhZSWmtVfr4sOIP0P1jh3oYWl8/DI81qamwH7CYOn5mG8OILvEYUrVaVwnZRrTxfYg6F+gKelr5olVpX/zXxWyhbtRwFE+lPTgr4NzrFiZ0NyxmTgU1HMT6LD6AB6xlU+90ptyclrHD97pseyKxJzbAPqTFxWdlA7AjBAG05l7B640CVFclt53M5ptonxWiAuQLELs79xVMoFT5YHJ8/xqh9vArvZ6gtYbEZgGvrpuQ30eXyJhgcj0fQxlDv0OyNUFSDejwTOcNpVpXKuS/KF+Sbqkn+xfcNGxECzJGXnRjYstg1OFOlzIrcflxmc1i1uEzXNkVc8HrxiWdw6usWDfgTVSYdqZazk1FMb5i9Q+mA6eDrMYLjt8ZC4vCVABvzE93keFQoTD5vo8sVLCfiGlMf76kex//IFER0lkOcatrTy0=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN8PR12MB3587.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(136003)(346002)(376002)(39860400002)(396003)(366004)(451199015)(6506007)(4326008)(38100700002)(6666004)(2616005)(186003)(86362001)(8676002)(66556008)(66476007)(66946007)(53546011)(31696002)(36756003)(6512007)(41300700001)(478600001)(6486002)(316002)(83380400001)(54906003)(110136005)(2906002)(66899015)(5660300002)(31686004)(8936002)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?QVZhNmh0YWVlbTdpankwZS9CUE1jb3BEZFVCSUNHakxYai8rS0ZLLzV6a2Zp?=
+ =?utf-8?B?ODdmalFudnl5NlRUVGlDek9YQ0IrOUVLTnI5QWdLY3V4T0RkaTZXanBnUFAw?=
+ =?utf-8?B?U2JIeWdNbmhSbks1Q0djdDFCQTdRazgrQUhCbUtNZW04MHRDZzNNYVVUYU83?=
+ =?utf-8?B?aTFubGtheTFSNG1SaHlkM0dNcmxCZWJYV04vOG01MFVHU1dUUjYxcmQzQm92?=
+ =?utf-8?B?bGpoTmVTVUZCRFVieTNwRWJ1ZTU2aDdRSEE5dWdQd1kxRlAxMVpCditJTWgz?=
+ =?utf-8?B?SDVQTEJGcUovVEpZVitpcWRQbXhHdkxKd1JFdjU3ZGNpQXlFcWN0RzZ0eFJk?=
+ =?utf-8?B?L1RtNWVkUUdDVXkxT0hrS211Z2grdnFUL3M3R3BEckkwdUNuYWh5bHlaYzRC?=
+ =?utf-8?B?YW5pclZ4VUt4dXNQQVRVamZUak05dlRvQXl6TjdvQlU4T3ExU2VUNzdxdzI0?=
+ =?utf-8?B?ck94M2ZnUWphd3VzZjV4Sjc3MWtPVThDcjZmYUltUm9xcXRLa1hpbjFoRml4?=
+ =?utf-8?B?aUtqQTFuL2tZTUR1cDd6bzRzOCtkcE41ZktzS3pWUTVpSXV0MG9meWExR3Q4?=
+ =?utf-8?B?dGNhcnJFTWtXajd6cytDQWhLdzVZVnZLcjdmRXFKYmNiTWhhZjNZTTNKT0ZY?=
+ =?utf-8?B?c2pJcUwxREdmT3hMMjlLMWpDSGgyZjFidjFqMi94YlVLQVJuVDBFWHVCTDFq?=
+ =?utf-8?B?c0FxK29URE5GeHBBTTQzR0pvSFUzN2FuV2RXNjgrdC80dm9mdU5aODRFdmVY?=
+ =?utf-8?B?ME8yUm9jVExZK1l3NHZvYWRYMGg5MVM0RlhVUDlNZ2xwS2lUTjJTSG02cFNV?=
+ =?utf-8?B?MndsS1AvOWFRRlRXREhVTWRndGNTTDVGbTlFdDhoRzFXSDBtWU9lTDJucW0v?=
+ =?utf-8?B?Yng4OExDSnBKQ0JmU01QNzc2NWUrb3RjbEtCV1RwL01DYW1ocUJtNG5zdVJT?=
+ =?utf-8?B?TlRONFpyMzlkZGg2QVRvSDZSTEhMNzlseFFmcW9PZ0JsNTQ3MkFTbjBRTzha?=
+ =?utf-8?B?Nk1TdUVRc0ovYTVYYW00OXBHTFRkaGRUdnhpUlYwWTIxYU81eWJiY2Z1Vm9S?=
+ =?utf-8?B?Z1BqR3J5cTltOHFHM1JJT2hNVEJXZDRzeldNTHlKUmhaSGlXd253alFVZUVR?=
+ =?utf-8?B?QjB5NFNLZHNLZjBZckhycEZNRHBvdnRZVmVqN1d2WXNMNmE1TjA2SmZ1c2lO?=
+ =?utf-8?B?MFNvYXBLT2RQWUI4Sm5mRVdGVDZqVEZMRjVvakd1dUVMTFRBNzZJcEFpUFVZ?=
+ =?utf-8?B?bVU3NHpyb0NGc09iYVNKNXBtRVF5TXRuclFnWVpuSUFoZTlJS3NJeE54V2FX?=
+ =?utf-8?B?c2hVOFVpcGlEdmp6Rnc4YjVVb3g5NGRtNUdkSGdyL2sxbnZETHZZbHZOR1ds?=
+ =?utf-8?B?ZFZrQWgwbm9HZzYwL252N3ovekVTc29wZVhnYWMxQXZqK1RiblVFR1M5Z2Fn?=
+ =?utf-8?B?aVl6ZkF6a2xLVkRLK3V6U2txQUVzaWxncXZ2WDAzZFhDUzRXNjFGQmVtMDJm?=
+ =?utf-8?B?RFpPVWhScUtYbjZjSUY5QlhLN2Y2RWtLZjN5UE45Mkh2bnZOeGMwSkM5ZEow?=
+ =?utf-8?B?UXFoQytra2Q4aGlNTkNXUzNVYWtVY2hvM1BzSFVDZ0dRdFRRRHZQQzZaa0lP?=
+ =?utf-8?B?TFhrYndKVXIrTDRrUmtoM0Q2UnZNaVgwSTFXanlpeW52UG1oemNWUExZVHRN?=
+ =?utf-8?B?UVlNd0IzQnd3YzA4VGZiRnhwYjNMQ1kvMi80dUxIY040aExjdW8zckh1NGdE?=
+ =?utf-8?B?VEZqRzkxVnRjQ1J3RDYyS2h1T2RmeDJXYmRsLzBrUnVKQ04rZGcyZkk4NkYx?=
+ =?utf-8?B?WDJvU2p3MlphdjdhemhaNXVmSEZ1S1BRc3JkOXNoTlRLcWtJTnBBbTBuU0tp?=
+ =?utf-8?B?aVhZSWZjaUo2QjlCV0ZkZ3lyVXJDZkpvcFczMHFrWG5GR1pvRlh2eWNkVWlO?=
+ =?utf-8?B?aEdiSXgyMHUycWVXNlFpdVpmbmZpNFRNUWdmZ2FIMU9NRXZXejZEYVk5b3pz?=
+ =?utf-8?B?K0UrMVVYMHNSNWFta3BqZndkNTQzMm5TVUVCWXp3UDl2aHFQUmhIdE5xUS82?=
+ =?utf-8?B?OGhiTWZYRm1PSzRDTUtuMGlLeWxZaXFyRFFnb3RqSjZNOGNyUXBvRCtoQ2Nw?=
+ =?utf-8?B?SXZwV0NkWWpxZzJ2M1ZydTNJdTZKeFZWR3pPVFFsTE9iY1B0ZUp6VmJkdDYz?=
+ =?utf-8?Q?efxxy50UpqJ7087u4IatPLocFU+ZC6JNm2oo2GpYwfIG?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3252fe27-e091-41be-722e-08dac8c5b4d1
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Nov 2022 18:01:09.6427
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: pRrGHYmEiVIvNnlQH/JsLkETFpNcQ+8NtebAX7Sy0h/ZzIAecd4DylctHb1W71+x
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5143
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Nov 17, 2022 at 01:38:42PM +0100, Krzysztof Kozlowski wrote:
-> The Devicetree bindings document does not have to say in the title that
-> it is a "binding", but instead just describe the hardware.  For shared
-> (re-usable) schemas, name them all as "common properties".
+Am 17.11.22 um 18:32 schrieb Dmitry Osipenko:
+> On 11/17/22 20:08, Lukasz Wiecaszek wrote:
+>> On Thu, Nov 17, 2022 at 12:04:35PM +0300, Dmitry Osipenko wrote:
+>>> Hi,
+>>>
+>>> On 11/17/22 07:58, Lukasz Wiecaszek wrote:
+>>>> The reason behind that patch is associated with videobuf2 subsystem
+>>>> (or more genrally with v4l2 framework) and user created
+>>>> dma buffers (udmabuf). In some circumstances
+>>>> when dealing with V4L2_MEMORY_DMABUF buffers videobuf2 subsystem
+>>>> wants to use dma_buf_vmap() method on the attached dma buffer.
+>>>> As udmabuf does not have .vmap operation implemented,
+>>>> such dma_buf_vmap() natually fails.
+>>>>
+>>>> videobuf2_common: __vb2_queue_alloc: allocated 3 buffers, 1 plane(s) each
+>>>> videobuf2_common: __prepare_dmabuf: buffer for plane 0 changed
+>>>> videobuf2_common: __prepare_dmabuf: failed to map dmabuf for plane 0
+>>>> videobuf2_common: __buf_prepare: buffer preparation failed: -14
+>>>>
+>>>> The patch itself seems to be strighforward.
+>>>> It adds implementation of .vmap and .vunmap methods
+>>>> to 'struct dma_buf_ops udmabuf_ops'.
+>>>> .vmap method itself uses vm_map_ram() to map pages linearly
+>>>> into the kernel virtual address space.
+>>>> .vunmap removes mapping created earlier by .vmap.
+>>>> All locking and 'vmapping counting' is done in dma_buf.c
+>>>> so it seems to be redundant/unnecessary in .vmap/.vunmap.
+>>>>
+>>>> Signed-off-by: Lukasz Wiecaszek <lukasz.wiecaszek@gmail.com>
+>>> If new patch version doesn't contain significant changes and you got
+>>> acks/reviews for the previous version, then you should add the given
+>>> acked-by and reviewed-by tags to the commit message by yourself.
+>>>
+>>> -- 
+>>> Best regards,
+>>> Dmitry
+>>>
+>> I would like to thank you all for your patience and on the same time say
+>> sorry that I still cannot follow the process (although I have read
+>> 'submitting patches' chapter).
+> If you'll continue to contribute actively, you'll find things that
+> aren't documented at all. Don't worry about it, usually somebody will
+> tell you about what's missing. Just apply the new knowledge next time ;)
 
+Yeah, it's more learning by doing. Especially I suspect you don't have 
+commit rights to drm-misc-next (or do you want to upstream it through 
+some other branch?), so as soon as nobody has any more objections ping 
+Dmitry or me to push this.
 
-> diff --git a/Documentation/devicetree/bindings/clock/qcom,gcc.yaml b/Documentation/devicetree/bindings/clock/qcom,gcc.yaml
-> index 1ab416c83c8d..d2de3d128b73 100644
-> --- a/Documentation/devicetree/bindings/clock/qcom,gcc.yaml
-> +++ b/Documentation/devicetree/bindings/clock/qcom,gcc.yaml
-> @@ -4,7 +4,7 @@
->  $id: http://devicetree.org/schemas/clock/qcom,gcc.yaml#
->  $schema: http://devicetree.org/meta-schemas/core.yaml#
->  
-> -title: Qualcomm Global Clock & Reset Controller Common Bindings
-> +title: Qualcomm Global Clock & Reset Controller common parts
->  
->  maintainers:
->    - Stephen Boyd <sboyd@kernel.org>
+Cheers,
+Christian
 
+PS: The Signed-of-by, Reviewed-by, Acked-by etc... lines are usually 
+added in chronological order, e.g. your Signed-of-by line should always 
+come first.
 
-> diff --git a/Documentation/devicetree/bindings/opp/opp-v2-base.yaml b/Documentation/devicetree/bindings/opp/opp-v2-base.yaml
-> index cf9c2f7bddc2..20ac432dc683 100644
-> --- a/Documentation/devicetree/bindings/opp/opp-v2-base.yaml
-> +++ b/Documentation/devicetree/bindings/opp/opp-v2-base.yaml
-> @@ -4,7 +4,7 @@
->  $id: http://devicetree.org/schemas/opp/opp-v2-base.yaml#
->  $schema: http://devicetree.org/meta-schemas/core.yaml#
->  
-> -title: Generic OPP (Operating Performance Points) Common Binding
-> +title: Generic OPP (Operating Performance Points) common parts
->  
->  maintainers:
->    - Viresh Kumar <viresh.kumar@linaro.org>
-
-Hey Krzysztof,
-
-Hopefully I've not overlooked something obvious, but it wasnt noted in
-the commit message - how come these two are "parts" rather than
-"properties"? The opp one at least don't seem to have much more than
-properties and patterProperties in it.
-
-Thanks,
-Conor.
 
