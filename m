@@ -2,111 +2,76 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4DFE162DC62
-	for <lists+linux-media@lfdr.de>; Thu, 17 Nov 2022 14:13:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CAD5462DC96
+	for <lists+linux-media@lfdr.de>; Thu, 17 Nov 2022 14:24:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239267AbiKQNNH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 17 Nov 2022 08:13:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33988 "EHLO
+        id S239328AbiKQNYK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 17 Nov 2022 08:24:10 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41348 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239716AbiKQNNF (ORCPT
+        with ESMTP id S240016AbiKQNYA (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 17 Nov 2022 08:13:05 -0500
-Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com [IPv6:2a00:1450:4864:20::12b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 201DA686AE
-        for <linux-media@vger.kernel.org>; Thu, 17 Nov 2022 05:13:04 -0800 (PST)
-Received: by mail-lf1-x12b.google.com with SMTP id b3so2725369lfv.2
-        for <linux-media@vger.kernel.org>; Thu, 17 Nov 2022 05:13:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=TvNNhN9Y8CERDACcTQTBMLAUA43DbdubBtZBLlWg5yg=;
-        b=NSII2LFzYkrCXROZWs8qd5ufIxgYuk7sjyYdelVazxg6QrxRFntmhvWP7W2MC9V892
-         K4IZwBSdtcSdikc4XJlyp7OKyaXokTeH/VvNzTrMLVXTKkbrT8OOSEHRUK8ZyW2L5aVc
-         3GMPYtknPagI0xAweCAaDVvo0YdYgc5XVtJuYCnCTtUIUxTieewBxHYDENCXpWPial6z
-         q3/40Ifwi3EoZyMpZxsshg2KHoUrbkSPbzKtl1W/+xaB6fa21vItuP71PM4WvSGFWADW
-         1u1KK7+qlHUaJTDrK0poRBMo8tzKpPxp943JaCCUClEJVWxPByl0tzBMaTfFmwIc72ai
-         qefA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=TvNNhN9Y8CERDACcTQTBMLAUA43DbdubBtZBLlWg5yg=;
-        b=GQqOZrBgbqiOugg6mT9JFq4p0u+QWjGt74LhMsFfRckqxTEVSvw4qRKo+S+IYO9lU+
-         Vy6Rc6ZYD4GEcm4eHhMZbeIc4PmzQgo7Vwae0oR5e7enhbqiBR09QO+KuFkI3vZWXDR6
-         aXIbaaXjra5PT1vKF+TycJnbERNPT4iv0AGOA0kd65L4LQbw3Yyqp+mweSEcyUDCHvQ1
-         lC9JVGK+9ytro0yU21YnPRQfDtyv7db8/tt+5zQtkzW1c6Z5pvgAF1x9rInTWp7zG0Mc
-         YkUU/bgdI5Vwbtt0rWxJziXH70rANup7ehkKkzZ6fsMn561zvsIhleSi74hvAWp4X+KG
-         F2mw==
-X-Gm-Message-State: ANoB5pmKZQF2gYbj3FgAF341VnvI+6d9rhyLWdzcEfYMmDm/Si61ezcG
-        PKHeN+/XAm/q/5UZQwVDnr3/9w==
-X-Google-Smtp-Source: AA0mqf6dXCtAnwcI18KHJ+hSEK62P7P1YpzMiwZxE1aZLBVxTFepM9qnMh8+tlCk0GT4+V3CThxoww==
-X-Received: by 2002:a05:6512:a93:b0:4a2:6337:872d with SMTP id m19-20020a0565120a9300b004a26337872dmr876100lfu.35.1668690782504;
-        Thu, 17 Nov 2022 05:13:02 -0800 (PST)
-Received: from [192.168.0.20] (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
-        by smtp.gmail.com with ESMTPSA id n4-20020a195504000000b00492ce573726sm147123lfe.47.2022.11.17.05.13.01
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 17 Nov 2022 05:13:01 -0800 (PST)
-Message-ID: <b0125ad2-426c-d908-0839-2021bc59d59f@linaro.org>
-Date:   Thu, 17 Nov 2022 14:13:00 +0100
+        Thu, 17 Nov 2022 08:24:00 -0500
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ACC9F67F5F;
+        Thu, 17 Nov 2022 05:23:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+        s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+        Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+        Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+        bh=+G6PrQX4WZ0clAFOG+6oorGnE1VikHeuERGrZVmD//k=; b=vgwvpEFQBvBPGJ4l5Fdl5ZljTl
+        ypo25jDbsASqpcWo44PsikMJUyEh/j8+KuNKwMVnNYUK8cne4i1X7nrUciBY+tVcS/iiHdJ2HFZ/H
+        2esnkjM/ujU0Xuz3sce+hbgODPmYjA5uixlRGmvbn4lmRkP+O1N9/KY5ao9XxabklPQ0=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+        (envelope-from <andrew@lunn.ch>)
+        id 1overO-002grq-5j; Thu, 17 Nov 2022 14:23:18 +0100
+Date:   Thu, 17 Nov 2022 14:23:18 +0100
+From:   Andrew Lunn <andrew@lunn.ch>
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
+        linux-riscv@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+        linux-pm@vger.kernel.org, linux-gpio@vger.kernel.org,
+        linux-iio@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-leds@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-mips@vger.kernel.org, linux-mmc@vger.kernel.org,
+        linux-mtd@lists.infradead.org, netdev@vger.kernel.org,
+        linux-can@vger.kernel.org, linux-pci@vger.kernel.org,
+        linux-pwm@vger.kernel.org, linux-rtc@vger.kernel.org,
+        linux-serial@vger.kernel.org, alsa-devel@alsa-project.org,
+        linux-spi@vger.kernel.org, linux-usb@vger.kernel.org,
+        virtualization@lists.linux-foundation.org,
+        linux-watchdog@vger.kernel.org
+Subject: Re: [RFC PATCH 1/9] dt-bindings: drop redundant part of title of
+ shared bindings
+Message-ID: <Y3Y1xjOjijBsQLZA@lunn.ch>
+References: <20221117123850.368213-1-krzysztof.kozlowski@linaro.org>
+ <20221117123850.368213-2-krzysztof.kozlowski@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH v2 1/2] media: dt-bindings: allwinner: video-engine: Fix
- number of IOMMU channels
-Content-Language: en-US
-To:     Jernej Skrabec <jernej.skrabec@gmail.com>, mchehab@kernel.org,
-        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-        wens@csie.org, samuel@sholland.org
-Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-        linux-kernel@vger.kernel.org
-References: <20221117060704.367945-1-jernej.skrabec@gmail.com>
- <20221117060704.367945-2-jernej.skrabec@gmail.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20221117060704.367945-2-jernej.skrabec@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221117123850.368213-2-krzysztof.kozlowski@linaro.org>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 17/11/2022 07:07, Jernej Skrabec wrote:
-> Cedrus (video engine) on Allwinner H6 actually uses two IOMMU channel,
-> not just one. However, Cedrus on SoCs like D1 only uses one channel.
-> 
-> Allow up to 2 IOMMU channels.
-> 
-> Fixes: 62a8ccf3a248 ("arm64: dts: allwinner: h6: Fix Cedrus IOMMU usage")
-> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-> ---
->  .../bindings/media/allwinner,sun4i-a10-video-engine.yaml       | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/media/allwinner,sun4i-a10-video-engine.yaml b/Documentation/devicetree/bindings/media/allwinner,sun4i-a10-video-engine.yaml
-> index 541325f900a1..6446004d59d9 100644
-> --- a/Documentation/devicetree/bindings/media/allwinner,sun4i-a10-video-engine.yaml
-> +++ b/Documentation/devicetree/bindings/media/allwinner,sun4i-a10-video-engine.yaml
-> @@ -55,7 +55,8 @@ properties:
->      description: Phandle to the device SRAM
+>  allOf:
+> -  - $ref: "dma-common.yaml#"
+> +  - $ref: dma-common.yaml#
 >  
->    iommus:
-> -    maxItems: 1
-> +    minItems: 1
-> +    maxItems: 2
+>  
+>  allOf:
+> -  - $ref: "dma-common.yaml#"
+> +  - $ref: dma-common.yaml#
 
-You have several compatibles in the file, so usually this is further
-constrained per each variant in allOf:if:then:.
+Looks like some other automated change made its way into this patch.
 
-Best regards,
-Krzysztof
-
+      Andrew
