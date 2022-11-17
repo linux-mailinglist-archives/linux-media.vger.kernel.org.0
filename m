@@ -2,82 +2,92 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AC52562D364
-	for <lists+linux-media@lfdr.de>; Thu, 17 Nov 2022 07:22:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2458162D3BA
+	for <lists+linux-media@lfdr.de>; Thu, 17 Nov 2022 08:03:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238829AbiKQGV5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 17 Nov 2022 01:21:57 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60670 "EHLO
+        id S234430AbiKQHDV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 17 Nov 2022 02:03:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47086 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232139AbiKQGV4 (ORCPT
+        with ESMTP id S231562AbiKQHDT (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 17 Nov 2022 01:21:56 -0500
-Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A8F5030F62
-        for <linux-media@vger.kernel.org>; Wed, 16 Nov 2022 22:21:55 -0800 (PST)
-Received: from kwepemi500012.china.huawei.com (unknown [172.30.72.54])
-        by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4NCV9J2bx9zJnpN;
-        Thu, 17 Nov 2022 14:18:44 +0800 (CST)
-Received: from cgs.huawei.com (10.244.148.83) by
- kwepemi500012.china.huawei.com (7.221.188.12) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Thu, 17 Nov 2022 14:21:53 +0800
-From:   Gaosheng Cui <cuigaosheng1@huawei.com>
-To:     <sumit.semwal@linaro.org>, <christian.koenig@amd.com>,
-        <tjmercier@google.com>, <quic_charante@quicinc.com>,
-        <cuigaosheng1@huawei.com>
-CC:     <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
-        <linaro-mm-sig@lists.linaro.org>
-Subject: [PATCH] dma-buf: Fix possible UAF in dma_buf_export
-Date:   Thu, 17 Nov 2022 14:21:52 +0800
-Message-ID: <20221117062152.3029018-1-cuigaosheng1@huawei.com>
+        Thu, 17 Nov 2022 02:03:19 -0500
+Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 082F16EB5C
+        for <linux-media@vger.kernel.org>; Wed, 16 Nov 2022 23:03:18 -0800 (PST)
+Received: from localhost.localdomain (unknown [124.16.138.125])
+        by APP-01 (Coremail) with SMTP id qwCowADHZ2k123VjvyIjCg--.10142S2;
+        Thu, 17 Nov 2022 14:56:54 +0800 (CST)
+From:   Jiasheng Jiang <jiasheng@iscas.ac.cn>
+To:     p.zabel@pengutronix.de, mchehab@kernel.org
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Jiasheng Jiang <jiasheng@iscas.ac.cn>
+Subject: [PATCH] media: coda: Add check for dcoda_iram_alloc
+Date:   Thu, 17 Nov 2022 14:56:52 +0800
+Message-Id: <20221117065652.44426-1-jiasheng@iscas.ac.cn>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.244.148.83]
-X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
- kwepemi500012.china.huawei.com (7.221.188.12)
-X-CFilter-Loop: Reflected
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: qwCowADHZ2k123VjvyIjCg--.10142S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7WrWxJrWfXw4UZr1kGF13twb_yoW8Xr4kpa
+        yrtr4jyrWrJr9FkF1qyw1ruF98Jrn5WayY9F17Z3s5ZFnxAr4rury5GFy8uFWkAr1rJF1U
+        tF93trWfX3WjkFJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUUyl14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+        rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+        1l84ACjcxK6xIIjxv20xvE14v26r1I6r4UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+        6F4UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
+        CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
+        2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r4j6F4UMcvjeVCFs4IE7xkEbVWUJV
+        W8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1l42xK82IYc2Ij64vI
+        r41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8Gjc
+        xK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIYrxkI7VAKI48JMIIF0xvE2Ix0
+        cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8V
+        AvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVW8JVWxJwCI42IY6I8E87Iv6xkF7I0E
+        14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfU0iiSUUUUU
+X-Originating-IP: [124.16.138.125]
+X-CM-SenderInfo: pmld2xxhqjqxpvfd2hldfou0/
 X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        SPF_HELO_PASS,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Smatch report warning as follows:
+As the coda_iram_alloc may return NULL pointer,
+it should be better to check the return value
+in order to avoid NULL poineter dereference,
+same as the others.
 
-drivers/dma-buf/dma-buf.c:681 dma_buf_export() warn:
-  '&dmabuf->list_node' not removed from list
-
-If dma_buf_stats_setup() fails in dma_buf_export(), goto err_sysfs
-and dmabuf will be freed, but dmabuf->list_node will not be removed
-from db_list.head, then list traversal may cause UAF.
-
-Fix by removeing it from db_list.head before free().
-
-Fixes: ef3a6b70507a ("dma-buf: call dma_buf_stats_setup after dmabuf is in valid list")
-Signed-off-by: Gaosheng Cui <cuigaosheng1@huawei.com>
+Fixes: b313bcc9a467 ("[media] coda: simplify IRAM setup")
+Signed-off-by: Jiasheng Jiang <jiasheng@iscas.ac.cn>
 ---
- drivers/dma-buf/dma-buf.c | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/media/platform/chips-media/coda-bit.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-index b809513b03fe..6848f50226d5 100644
---- a/drivers/dma-buf/dma-buf.c
-+++ b/drivers/dma-buf/dma-buf.c
-@@ -675,6 +675,9 @@ struct dma_buf *dma_buf_export(const struct dma_buf_export_info *exp_info)
- 	return dmabuf;
+diff --git a/drivers/media/platform/chips-media/coda-bit.c b/drivers/media/platform/chips-media/coda-bit.c
+index 2736a902e3df..6d816fd69a17 100644
+--- a/drivers/media/platform/chips-media/coda-bit.c
++++ b/drivers/media/platform/chips-media/coda-bit.c
+@@ -854,7 +854,7 @@ static void coda_setup_iram(struct coda_ctx *ctx)
+ 		/* Only H.264BP and H.263P3 are considered */
+ 		iram_info->buf_dbk_y_use = coda_iram_alloc(iram_info, w64);
+ 		iram_info->buf_dbk_c_use = coda_iram_alloc(iram_info, w64);
+-		if (!iram_info->buf_dbk_c_use)
++		if (!iram_info->buf_dbk_y_use || !iram_info->buf_dbk_c_use)
+ 			goto out;
+ 		iram_info->axi_sram_use |= dbk_bits;
  
- err_sysfs:
-+	mutex_lock(&db_list.lock);
-+	list_del(&dmabuf->list_node);
-+	mutex_unlock(&db_list.lock);
- 	/*
- 	 * Set file->f_path.dentry->d_fsdata to NULL so that when
- 	 * dma_buf_release() gets invoked by dentry_ops, it exits
+@@ -878,7 +878,7 @@ static void coda_setup_iram(struct coda_ctx *ctx)
+ 
+ 		iram_info->buf_dbk_y_use = coda_iram_alloc(iram_info, w128);
+ 		iram_info->buf_dbk_c_use = coda_iram_alloc(iram_info, w128);
+-		if (!iram_info->buf_dbk_c_use)
++		if (!iram_info->buf_dbk_y_use || !iram_info->buf_dbk_c_use)
+ 			goto out;
+ 		iram_info->axi_sram_use |= dbk_bits;
+ 
 -- 
 2.25.1
 
