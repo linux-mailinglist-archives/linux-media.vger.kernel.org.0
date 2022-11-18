@@ -2,172 +2,141 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 29F0A62F2A8
-	for <lists+linux-media@lfdr.de>; Fri, 18 Nov 2022 11:34:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B7C8462F2AC
+	for <lists+linux-media@lfdr.de>; Fri, 18 Nov 2022 11:34:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241329AbiKRKeJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 18 Nov 2022 05:34:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56376 "EHLO
+        id S241372AbiKRKeY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 18 Nov 2022 05:34:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56460 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241108AbiKRKeD (ORCPT
+        with ESMTP id S241281AbiKRKeK (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 18 Nov 2022 05:34:03 -0500
-Received: from m12-14.163.com (m12-14.163.com [220.181.12.14])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 53938CF7;
-        Fri, 18 Nov 2022 02:34:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-        s=s110527; h=Date:From:Subject:Message-ID:MIME-Version; bh=4c9uE
-        3fyeTteQiMB6ZX5jXFCh66NO9kuuzGOxgH3+Ek=; b=lBf8q+dcpErtPBTHaN4Dl
-        nUJnINe+UvgijJJOx2cIDc1OhQJcp71+WQfRGJzZ4jjNmrD/cfk2KOYyme/4Ee2y
-        C84OFmi5Rjx4o7deG4aFIhTH8taAYHAF7c09zWDLo9LfFB9MstikmdSYVvTF4wAP
-        7kbIRJ79mAnGPZU8SU/FDw=
-Received: from localhost (unknown [114.221.197.177])
-        by smtp10 (Coremail) with SMTP id DsCowABXey1AX3djaWaKNQ--.62677S2;
-        Fri, 18 Nov 2022 18:32:33 +0800 (CST)
-Date:   Fri, 18 Nov 2022 18:32:32 +0800
-From:   Chunyou Tang <tangchunyou@163.com>
-To:     Thomas Zimmermann <tzimmermann@suse.de>
-Cc:     maarten.lankhorst@linux.intel.com, mripard@kernel.org,
-        airlied@gmail.com, daniel@ffwll.ch, sumit.semwal@linaro.org,
-        christian.koenig@amd.com, dri-devel@lists.freedesktop.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH v2] drm/gem-shmem: When drm_gem_object_init failed,
- should release object
-Message-ID: <20221118183232.00007638@163.com>
-In-Reply-To: <2b4e38d8-d0ea-e85c-88f1-bb6a714ee0eb@suse.de>
-References: <20221111033817.366-1-tangchunyou@163.com>
-        <2b4e38d8-d0ea-e85c-88f1-bb6a714ee0eb@suse.de>
-Organization: icube
-X-Mailer: Claws Mail 3.10.1 (GTK+ 2.16.6; i586-pc-mingw32msvc)
+        Fri, 18 Nov 2022 05:34:10 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 05902922C5;
+        Fri, 18 Nov 2022 02:34:09 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 95DAF6240E;
+        Fri, 18 Nov 2022 10:34:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1979EC433C1;
+        Fri, 18 Nov 2022 10:34:06 +0000 (UTC)
+Message-ID: <3d7ab1ba-bc9e-4385-8ca8-73d062b383a3@xs4all.nl>
+Date:   Fri, 18 Nov 2022 11:34:04 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=GB18030
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: DsCowABXey1AX3djaWaKNQ--.62677S2
-X-Coremail-Antispam: 1Uf129KBjvJXoWxWw4rAFykKFWUWFWfXr1DWrg_yoW5tFW7pa
-        9xArW7KrW8tFWqgr97XF4kAa43Gw40gF48Wa43J3yakw10yF1DJF15Cr1DAFW7Ar17Xr1a
-        qwnF9F93AFWjyaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07U9o7_UUUUU=
-X-Originating-IP: [114.221.197.177]
-X-CM-SenderInfo: 5wdqwu5kxq50rx6rljoofrz/1tbiVgG9UVqzvEdRtgAAsO
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.0
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Subject: Re: [PATCH v4 3/5] dt-bindings: media: add cat24c208 bindings
+To:     Rob Herring <robh@kernel.org>,
+        Erling Ljunggren <hljunggr@cisco.com>
+Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org
+References: <20221111132906.2212662-1-hljunggr@cisco.com>
+ <20221111132906.2212662-4-hljunggr@cisco.com>
+ <20221116200729.GA761467-robh@kernel.org>
+Content-Language: en-US
+In-Reply-To: <20221116200729.GA761467-robh@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Thomas,
-   Can I discard the first two patchs, and pull the new code, then
-   modify and git send-email this patch?
+On 11/16/22 21:07, Rob Herring wrote:
+> On Fri, Nov 11, 2022 at 02:29:04PM +0100, Erling Ljunggren wrote:
+>> Add devicetree bindings for new cat24c208 EDID EEPROM driver.
+>>
+>> Signed-off-by: Erling Ljunggren <hljunggr@cisco.com>
+>> ---
+>>  .../bindings/media/i2c/onnn,cat24c208.yaml    | 46 +++++++++++++++++++
+>>  1 file changed, 46 insertions(+)
+>>  create mode 100644 Documentation/devicetree/bindings/media/i2c/onnn,cat24c208.yaml
+>>
+>> diff --git a/Documentation/devicetree/bindings/media/i2c/onnn,cat24c208.yaml b/Documentation/devicetree/bindings/media/i2c/onnn,cat24c208.yaml
+>> new file mode 100644
+>> index 000000000000..492eecb3ab7c
+>> --- /dev/null
+>> +++ b/Documentation/devicetree/bindings/media/i2c/onnn,cat24c208.yaml
+>> @@ -0,0 +1,46 @@
+>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+>> +%YAML 1.2
+>> +---
+>> +$id: http://devicetree.org/schemas/media/i2c/onnn,cat24c208.yaml#
+>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>> +
+>> +title: ON Semiconductor CAT24C208 EDID EEPROM driver
+>> +
+>> +maintainers:
+>> +  - Hans Verkuil <hverkuil-cisco@xs4all.nl>
+>> +
+>> +description: |
+>> +  CAT24C208 is a dual port i2c EEPROM designed for EDID storage.
+>> +
+>> +properties:
+>> +  compatible:
+>> +    const: onnn,cat24c208
+>> +
+>> +  reg:
+>> +    maxItems: 1
+>> +
+>> +  input-connector:
+>> +    description: |
+>> +      Phandle to the video input connector, used to find
+>> +      the HPD gpio and the connector label, both optional.
+>> +    $ref: /schemas/types.yaml#/definitions/phandle
+> 
+> The binding and driver feel the wrong way around to me. It seems 
+> like you should have a driver for the connector and it needs HPD GPIO, 
+> label, and EEPROM. The driver instead looks mostly like an EEPROM driver 
+> that hooks into a few connector properties.
 
+A device like this is typically used next to an HDMI receiver: the DDC
+lines and the HPD line are connected to the EDID EEPROM, and the video
+is handled by the HDMI receiver.
 
-ÓÚ Thu, 17 Nov 2022 14:42:36 +0100
-Thomas Zimmermann <tzimmermann@suse.de> Ð´µÀ:
+Most HDMI receivers will have the EDID part integrated into the chip itself
+(see e.g. the adv7604 driver), but that doesn't have to be the case. The EDID
+can be completely separate, it doesn't matter for the receiver part.
 
-> Hi
+In our specific use-case there isn't even an HDMI receiver since the HDMI
+video is passed through and this EDID EEPROM is used to help debug HDMI
+issues by presenting custom EDIDs, similar to something like this:
+
+https://www.amazon.com/dp/B0722NVQHX
+
+The HPD line is controlled by the EDID part since it has to be low if there
+is no EDID or pulled low for at least 100ms if the EDID is being modified.
+
 > 
-> Am 11.11.22 um 04:38 schrieb ChunyouTang:
-> > when goto err_free, the object had init, so it should be release
-> > when fail.
-> > 
-> > Signed-off-by: ChunyouTang <tangchunyou@163.com>
-> > ---
-> >   drivers/gpu/drm/drm_gem.c              | 19 ++++++++++++++++---
-> >   drivers/gpu/drm/drm_gem_shmem_helper.c |  4 +++-
-> >   include/drm/drm_gem.h                  |  1 +
-> >   3 files changed, 20 insertions(+), 4 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
-> > index 8b68a3c1e6ab..cba32c46bb05 100644
-> > --- a/drivers/gpu/drm/drm_gem.c
-> > +++ b/drivers/gpu/drm/drm_gem.c
-> > @@ -169,6 +169,21 @@ void drm_gem_private_object_init(struct
-> > drm_device *dev, }
-> >   EXPORT_SYMBOL(drm_gem_private_object_init);
-> >   
-> > +/**
-> > + * drm_gem_private_object_fini - Finalize a failed drm_gem_object
-> > + * @obj: drm_gem_object
-> > + *
-> > + * Uninitialize an already allocated GEM object when it
-> > initialized failed
-> > + */
-> > +void drm_gem_private_object_fini(struct drm_gem_object *obj)
-> > +{
-> > +	WARN_ON(obj->dma_buf);
+> Reading the datasheet, I don't see anything special about accessing the 
+> EEPROM from the host (DSP) side. Wouldn't the default at24 driver work? 
+> It exposes regmap and nvmem.
+
+No. It is not a regular EEPROM, it is dedicated to store EDIDs. It has to
+correctly toggle the HPD line and inform other drivers (specifically HDMI CEC)
+of EDID updates.
+
+I don't see how the at24 could work: besides the eeprom i2c address it has to
+deal with two additional i2c devices: the segment address and the config
+address of the device itself. Writing to the eeprom from the host side requires
+a write to the segment address followed by a write to the eeprom part itself,
+and that's not something the at24 can do. And it is also something very specific
+to the VESA E-DDC standard (freely downloadable from vesa.org).
+
+Note that historically the first EDID EEPROMs most likely did work like the
+at24, but as EDID sizes grew beyond 256 bytes the E-DDC standard was created
+and that departed from the normal EEPROMs.
+
+Regards,
+
+	Hans
+
 > 
-> Rather lease this in its original place.
-> 
-> > +
-> > +	dma_resv_fini(&obj->_resv);
-> > +	drm_gem_lru_remove(obj);
-> 
-> AFAICT drm_gem_lru_remove() doesn't belong into this function.
-> 
-> > +}
-> > +EXPORT_SYMBOL(drm_gem_private_object_fini);
-> > +
-> >   /**
-> >    * drm_gem_object_handle_free - release resources bound to
-> > userspace handles
-> >    * @obj: GEM object to clean up.
-> > @@ -930,14 +945,12 @@ drm_gem_release(struct drm_device *dev,
-> > struct drm_file *file_private) void
-> >   drm_gem_object_release(struct drm_gem_object *obj)
-> >   {
-> > -	WARN_ON(obj->dma_buf);
-> > +	drm_gem_private_object_fini(obj);
-> >   
-> >   	if (obj->filp)
-> >   		fput(obj->filp);
-> >   
-> > -	dma_resv_fini(&obj->_resv);
-> 
-> Please call drm_gem_private_object_fini() here.
-> 
-> >   	drm_gem_free_mmap_offset(obj);
-> > -	drm_gem_lru_remove(obj);
-> 
-> Please keep this line here.
-> 
-> Best regards
-> Thomas
-> 
-> >   }
-> >   EXPORT_SYMBOL(drm_gem_object_release);
-> >   
-> > diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c
-> > b/drivers/gpu/drm/drm_gem_shmem_helper.c index
-> > 35138f8a375c..845e3d5d71eb 100644 ---
-> > a/drivers/gpu/drm/drm_gem_shmem_helper.c +++
-> > b/drivers/gpu/drm/drm_gem_shmem_helper.c @@ -79,8 +79,10 @@
-> > __drm_gem_shmem_create(struct drm_device *dev, size_t size, bool
-> > private) } else { ret = drm_gem_object_init(dev, obj, size);
-> >   	}
-> > -	if (ret)
-> > +	if (ret) {
-> > +		drm_gem_private_object_fini(obj)
-> >   		goto err_free;
-> > +	}
-> >   
-> >   	ret = drm_gem_create_mmap_offset(obj);
-> >   	if (ret)
-> > diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
-> > index bd42f25e449c..9b1feb03069d 100644
-> > --- a/include/drm/drm_gem.h
-> > +++ b/include/drm/drm_gem.h
-> > @@ -405,6 +405,7 @@ int drm_gem_object_init(struct drm_device *dev,
-> >   			struct drm_gem_object *obj, size_t size);
-> >   void drm_gem_private_object_init(struct drm_device *dev,
-> >   				 struct drm_gem_object *obj,
-> > size_t size); +void drm_gem_private_object_fini(struct
-> > drm_gem_object *obj); void drm_gem_vm_open(struct vm_area_struct
-> > *vma); void drm_gem_vm_close(struct vm_area_struct *vma);
-> >   int drm_gem_mmap_obj(struct drm_gem_object *obj, unsigned long
-> > obj_size,
-> 
+> Rob
 
