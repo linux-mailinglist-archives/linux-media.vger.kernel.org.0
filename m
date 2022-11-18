@@ -2,98 +2,70 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6582462F7C4
-	for <lists+linux-media@lfdr.de>; Fri, 18 Nov 2022 15:35:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8AF6B62F7E6
+	for <lists+linux-media@lfdr.de>; Fri, 18 Nov 2022 15:41:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235343AbiKROfw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 18 Nov 2022 09:35:52 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34146 "EHLO
+        id S242409AbiKROl2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 18 Nov 2022 09:41:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41530 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242449AbiKROfF (ORCPT
+        with ESMTP id S242260AbiKROlG (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 18 Nov 2022 09:35:05 -0500
-Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF5438E2B4
-        for <linux-media@vger.kernel.org>; Fri, 18 Nov 2022 06:33:48 -0800 (PST)
-Received: by mail-wr1-x436.google.com with SMTP id cl5so9513813wrb.9
-        for <linux-media@vger.kernel.org>; Fri, 18 Nov 2022 06:33:48 -0800 (PST)
+        Fri, 18 Nov 2022 09:41:06 -0500
+Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.184])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0211E4A04F
+        for <linux-media@vger.kernel.org>; Fri, 18 Nov 2022 06:39:51 -0800 (PST)
+X-KPN-MessageId: de5a29d8-674e-11ed-bd66-005056994fde
+Received: from smtp.kpnmail.nl (unknown [10.31.155.7])
+        by ewsoutbound.so.kpn.org (Halon) with ESMTPS
+        id de5a29d8-674e-11ed-bd66-005056994fde;
+        Fri, 18 Nov 2022 15:39:55 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=4SvRgFTn6+Gybi1+j9eb6DiJcXSsUC9wg7dcCoAYlxo=;
-        b=rNdR543njIXd/vTYoC3ISLSjkRryowY2q1V07GqmJUyFH4lwy6TTyxgMjsP8O4AKdA
-         CYLwLsgpri/smVj6DDW62FZNw93QkK3gqpHq2HQk379M1DV3NrFNIwncfoYKjJVi6+6E
-         XVZ28lFTylYIhRpbfkpcf1cFDgj8AhxK3mbcTrqXN5bB6aJhMjaM/XZ9G5HSewQfRdRp
-         UFEMd90M0jfE54YuwnblNTl6tI2fn3oHsoKZxXEXOOPnqozVO3GHjDFwnsp/uG/HGse1
-         N+lyHJbxaUEA7S4WxaHcA7nZPgRoXhiwU22v+tCG2qO21jjs1yb9dLbV1ygsljh87xjA
-         0o+Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=4SvRgFTn6+Gybi1+j9eb6DiJcXSsUC9wg7dcCoAYlxo=;
-        b=55X+fT+3q+qkRdrWemUGmczMBAgbZuke2A/FHw0a2YCy3AOzkN/5TP6Ggz3iCLqJ6c
-         QOkac2DdZo6WBEo1atmA+7q1SGeyPB5kHVrnl01ucDGRBn8YK88CWRv+7csPbHG+HMlO
-         SGPNqkb1H/P9Vt2w6BQIC7NkkiMTLUPHMP0usvdC3M6WlPsSvGbPpQ4V8T+6n2/cT9eA
-         fv192aU7yMfVqAgVv0w9PAUxakY+Qd0tJoldlhhqIYnLaU8InLe0e3AgpgeUP1tsSqCV
-         pLJ6oXN+E0U9VLbi86oDaAWQM7ZjsIVv/FaY8/M09PtqVKk9Cx0AcHKqwOZt8GF+DbPa
-         WS2w==
-X-Gm-Message-State: ANoB5pko19ozMWS81zA+tjG6sg8kHMCUWH3t18CyzbVJ+wXeuYnwwAab
-        0PY+DImp9qEVO05LuqbgXxkumw==
-X-Google-Smtp-Source: AA0mqf6QQq479fIUCOCgvip5Pl5AI82bEkY7FqOFZ5rXBu8KR0A3F1ydYiGUSPadA491uLfZ1bpajw==
-X-Received: by 2002:a5d:452d:0:b0:241:c5ec:d0d with SMTP id j13-20020a5d452d000000b00241c5ec0d0dmr804402wra.441.1668782028313;
-        Fri, 18 Nov 2022 06:33:48 -0800 (PST)
-Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:52eb:f6ff:feb3:451a])
-        by smtp.gmail.com with ESMTPSA id j21-20020a05600c1c1500b003cfb7c02542sm5436726wms.11.2022.11.18.06.33.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Nov 2022 06:33:47 -0800 (PST)
-From:   Neil Armstrong <neil.armstrong@linaro.org>
-Date:   Fri, 18 Nov 2022 15:33:38 +0100
-Subject: [PATCH 12/12] dt-bindings: net: convert mdio-mux-meson-g12a.txt to
- dt-schema
+        d=xs4all.nl; s=xs4all01;
+        h=content-type:from:to:subject:mime-version:date:message-id;
+        bh=KAjWbRWqEitk8RQ8rQGWmCu5fnBnnF3qq3D4wL/pwhg=;
+        b=PGuQljui9azlCkqyfPGfVBYQMA7Sfy5qu/k/a94on8TUgdW1i0zq/dfZ4fYLQ/m4QLpIcZ2tIkG+4
+         h6Q/vPQI/gvjShZIiCjzXhcIuvE/SJieKtwVZkPRSxteuey4vOFLWc1CW1FguFAt2Xpy9zKuFFNmer
+         pODbvVydOI/qoRDsMOdZNwIOCsCbGwotqSwYJxQ/cYPTDMeLDNd888EXz0r/VvYt3A9x/V9iFAXjGR
+         FKIh9kN0LoNtSQ73pSvz6gKPVkk/Eng8Csy94Xf+onq6A2jKwh+epmV7tTor2NbemHSWaQDkFeKIQC
+         OvhtNna722oWfjPuXkHaZQvynaAjA9Q==
+X-KPN-MID: 33|pjf0Jn5zAyCMRtfEBaA4sEua2aYn1IRSQpDdlCjFD2Xi2LRJbY5pB91LA8orcZl
+ cUq4QSbC21K8BMR9txUGALQ==
+X-KPN-VerifiedSender: Yes
+X-CMASSUN: 33|ySOW7ppoxARsp8AZR2P/+82tTweUC0409/AltcmQM/hk9iRKek0WfTEiiegtRH4
+ 3jGdHuM6V8DPnnqyebijP9A==
+X-Originating-IP: 173.38.220.59
+Received: from [10.47.77.219] (unknown [173.38.220.59])
+        by smtp.xs4all.nl (Halon) with ESMTPSA
+        id d9605df8-674e-11ed-8bc9-005056998788;
+        Fri, 18 Nov 2022 15:39:48 +0100 (CET)
+Message-ID: <8bed61a3-1200-48b3-0934-65285e322184@xs4all.nl>
+Date:   Fri, 18 Nov 2022 15:39:46 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20221117-b4-amlogic-bindings-convert-v1-12-3f025599b968@linaro.org>
-References: <20221117-b4-amlogic-bindings-convert-v1-0-3f025599b968@linaro.org>
-In-Reply-To: <20221117-b4-amlogic-bindings-convert-v1-0-3f025599b968@linaro.org>
-To:     Jakub Kicinski <kuba@kernel.org>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>, Andrew Lunn <andrew@lunn.ch>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        Eric Dumazet <edumazet@google.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Russell King <linux@armlinux.org.uk>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Kishon Vijay Abraham I <kishon@kernel.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        Paolo Abeni <pabeni@redhat.com>,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.0
+Subject: Re: [PATCH v3] vcodec: mediatek: add check for NULL for
+ vsi->frm_bufs[vsi->new_fb_idx].buf.fb in vp9_swap_frm_bufs
+Content-Language: en-US
+To:     Anastasia Belova <abelova@astralinux.ru>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>
-Cc:     linux-media@vger.kernel.org, netdev@vger.kernel.org,
-        linux-amlogic@lists.infradead.org, linux-mmc@vger.kernel.org,
-        linux-rtc@vger.kernel.org, linux-phy@lists.infradead.org,
+        Matthias Brugger <matthias.bgg@gmail.com>
+Cc:     Tiffany Lin <tiffany.lin@mediatek.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Yunfei Dong <yunfei.dong@mediatek.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org,
-        linux-watchdog@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-pci@vger.kernel.org,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        devicetree@vger.kernel.org
-X-Mailer: b4 0.10.1
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        linux-mediatek@lists.infradead.org, lvc-project@linuxtesting.org
+References: <20221111090604.10327-1-abelova@astralinux.ru>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <20221111090604.10327-1-abelova@astralinux.ru>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_LOW,
         SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -102,155 +74,47 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Convert MDIO bus multiplexer/glue of Amlogic G12a SoC family bindings
-to dt-schema.
+On 11/11/22 10:06, Anastasia Belova wrote:
+> Any time calling vp9_is_sf_ref_fb we need fb != NULL after checks.
 
-Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
----
- .../bindings/net/amlogic,g12a-mdio-mux.yaml        | 80 ++++++++++++++++++++++
- .../bindings/net/mdio-mux-meson-g12a.txt           | 48 -------------
- 2 files changed, 80 insertions(+), 48 deletions(-)
+This doesn't match the subject line at all!
 
-diff --git a/Documentation/devicetree/bindings/net/amlogic,g12a-mdio-mux.yaml b/Documentation/devicetree/bindings/net/amlogic,g12a-mdio-mux.yaml
-new file mode 100644
-index 000000000000..ec5c038ce6a0
---- /dev/null
-+++ b/Documentation/devicetree/bindings/net/amlogic,g12a-mdio-mux.yaml
-@@ -0,0 +1,80 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/net/amlogic,g12a-mdio-mux.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: MDIO bus multiplexer/glue of Amlogic G12a SoC family
-+
-+description:
-+  This is a special case of a MDIO bus multiplexer. It allows to choose between
-+  the internal mdio bus leading to the embedded 10/100 PHY or the external
-+  MDIO bus.
-+
-+maintainers:
-+  - Neil Armstrong <neil.armstrong@linaro.org>
-+
-+allOf:
-+  - $ref: mdio-mux.yaml#
-+
-+properties:
-+  compatible:
-+    const: amlogic,g12a-mdio-mux
-+
-+  reg:
-+    maxItems: 1
-+
-+  clocks:
-+    items:
-+      - description: peripheral clock
-+      - description: platform crytal
-+      - description: SoC 50MHz MPLL
-+
-+  clock-names:
-+    items:
-+      - const: pclk
-+      - const: clkin0
-+      - const: clkin1
-+
-+required:
-+  - compatible
-+  - reg
-+  - clocks
-+  - clock-names
-+
-+unevaluatedProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/interrupt-controller/irq.h>
-+    #include <dt-bindings/interrupt-controller/arm-gic.h>
-+    mdio-multiplexer@4c000 {
-+        compatible = "amlogic,g12a-mdio-mux";
-+        reg = <0x4c000 0xa4>;
-+        clocks = <&clkc_eth_phy>, <&xtal>, <&clkc_mpll>;
-+        clock-names = "pclk", "clkin0", "clkin1";
-+        mdio-parent-bus = <&mdio0>;
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+
-+        mdio@0 {
-+            reg = <0>;
-+            #address-cells = <1>;
-+            #size-cells = <0>;
-+        };
-+
-+        mdio@1 {
-+            reg = <1>;
-+            #address-cells = <1>;
-+            #size-cells = <0>;
-+
-+            ethernet-phy@8 {
-+                compatible = "ethernet-phy-id0180.3301",
-+                             "ethernet-phy-ieee802.3-c22";
-+                interrupts = <GIC_SPI 9 IRQ_TYPE_LEVEL_HIGH>;
-+                reg = <8>;
-+                max-speed = <100>;
-+            };
-+        };
-+    };
-+...
-diff --git a/Documentation/devicetree/bindings/net/mdio-mux-meson-g12a.txt b/Documentation/devicetree/bindings/net/mdio-mux-meson-g12a.txt
-deleted file mode 100644
-index 3a96cbed9294..000000000000
---- a/Documentation/devicetree/bindings/net/mdio-mux-meson-g12a.txt
-+++ /dev/null
-@@ -1,48 +0,0 @@
--Properties for the MDIO bus multiplexer/glue of Amlogic G12a SoC family.
--
--This is a special case of a MDIO bus multiplexer. It allows to choose between
--the internal mdio bus leading to the embedded 10/100 PHY or the external
--MDIO bus.
--
--Required properties in addition to the generic multiplexer properties:
--- compatible : amlogic,g12a-mdio-mux
--- reg: physical address and length of the multiplexer/glue registers
--- clocks: list of clock phandle, one for each entry clock-names.
--- clock-names: should contain the following:
--  * "pclk"   : peripheral clock.
--  * "clkin0" : platform crytal
--  * "clkin1" : SoC 50MHz MPLL
--
--Example :
--
--mdio_mux: mdio-multiplexer@4c000 {
--	compatible = "amlogic,g12a-mdio-mux";
--	reg = <0x0 0x4c000 0x0 0xa4>;
--	clocks = <&clkc CLKID_ETH_PHY>,
--		 <&xtal>,
--		 <&clkc CLKID_MPLL_5OM>;
--	clock-names = "pclk", "clkin0", "clkin1";
--	mdio-parent-bus = <&mdio0>;
--	#address-cells = <1>;
--	#size-cells = <0>;
--
--	ext_mdio: mdio@0 {
--		reg = <0>;
--		#address-cells = <1>;
--		#size-cells = <0>;
--	};
--
--	int_mdio: mdio@1 {
--		reg = <1>;
--		#address-cells = <1>;
--		#size-cells = <0>;
--
--		internal_ephy: ethernet-phy@8 {
--			compatible = "ethernet-phy-id0180.3301",
--				     "ethernet-phy-ieee802.3-c22";
--			interrupts = <GIC_SPI 9 IRQ_TYPE_LEVEL_HIGH>;
--			reg = <8>;
--			max-speed = <100>;
--		};
--	};
--};
+> 
+> Found by Linux Verification Center (linuxtesting.org) with SVACE.
+> 
+> Fixes: f77e89854b3e ("[media] vcodec: mediatek: Add Mediatek VP9 Video Decoder Driver")
 
--- 
-b4 0.10.1
+Drop this, it's not a fix, it just attempts to make things more robust.
+
+> 
+> Signed-off-by: Anastasia Belova <abelova@astralinux.ru>
+> ---
+>  drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_if.c | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
+> diff --git a/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_if.c b/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_if.c
+> index 70b8383f7c8e..776468cd834a 100644
+> --- a/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_if.c
+> +++ b/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_if.c
+> @@ -208,6 +208,9 @@ static bool vp9_is_sf_ref_fb(struct vdec_vp9_inst *inst, struct vdec_fb *fb)
+>  	int i;
+>  	struct vdec_vp9_vsi *vsi = inst->vsi;
+>  
+> +	if (!fb)
+> +		return true;
+> +
+>  	for (i = 0; i < ARRAY_SIZE(vsi->sf_ref_fb); i++) {
+>  		if (fb == &vsi->sf_ref_fb[i].fb)
+>  			return true;
+
+This won't work: if fb == NULL, then depending on whether
+this function returns true or false, the code in vp9_swap_frm_bufs()
+will crash in either vsi->frm_bufs[vsi->new_fb_idx].buf.fb->base_y.va
+or in vp9_free_sf_ref_fb().
+
+Unless you can show there really is a path through which fb can be NULL,
+I don't think it is worth continuing with this.
+
+Regards,
+
+	Hans
