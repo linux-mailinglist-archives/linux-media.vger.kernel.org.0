@@ -2,141 +2,132 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B7C8462F2AC
-	for <lists+linux-media@lfdr.de>; Fri, 18 Nov 2022 11:34:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BBB4262F35D
+	for <lists+linux-media@lfdr.de>; Fri, 18 Nov 2022 12:09:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241372AbiKRKeY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 18 Nov 2022 05:34:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56460 "EHLO
+        id S241847AbiKRLJb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 18 Nov 2022 06:09:31 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47952 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241281AbiKRKeK (ORCPT
+        with ESMTP id S241694AbiKRLJP (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 18 Nov 2022 05:34:10 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 05902922C5;
-        Fri, 18 Nov 2022 02:34:09 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 95DAF6240E;
-        Fri, 18 Nov 2022 10:34:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1979EC433C1;
-        Fri, 18 Nov 2022 10:34:06 +0000 (UTC)
-Message-ID: <3d7ab1ba-bc9e-4385-8ca8-73d062b383a3@xs4all.nl>
-Date:   Fri, 18 Nov 2022 11:34:04 +0100
+        Fri, 18 Nov 2022 06:09:15 -0500
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27B2E3B1;
+        Fri, 18 Nov 2022 03:09:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=EfRO0ptxO3+ypU2KxCKexp96MUHxMRW8bunXh9MGsDQ=; b=LDGBrfajYbkT9xph6b6097Xb/c
+        syw/S6y4TG1cS360/nd6d+c79/tEze+2e0txBMIoIcDriZE8lsPhASFA+NSJ8eg8EVkJO2kPb4qlI
+        t0uGnwKkqKm3kAMzV9dozjGsuBQAveUb/UOZDYoK75AExM4rxBzbgukAnzxUTKevVJRGZPyPEIYWw
+        gSP3hqrNt8ek+/8tR8KcdqQYYDbVJVIGKeEUat+AOQu3Lb7Rqyh8OcjxgSig6/MAUk9wvWAe8ysnQ
+        uQjyqr2Z5/P12vcorm9ew0TUB/Z1OlxqyFa9I2mva2wnFCskZFBF8h9xXwfF4ZV+daEJb09cWUoJB
+        0tx5p2IQ==;
+Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
+        by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1ovzF8-002Dxl-JB; Fri, 18 Nov 2022 11:09:10 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id A8C81300422;
+        Fri, 18 Nov 2022 12:09:02 +0100 (CET)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 7C5AF205A9605; Fri, 18 Nov 2022 12:09:02 +0100 (CET)
+Date:   Fri, 18 Nov 2022 12:09:02 +0100
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     David Hildenbrand <david@redhat.com>, linux-kernel@vger.kernel.org,
+        x86@kernel.org, linux-alpha@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-ia64@vger.kernel.org,
+        linux-mips@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        sparclinux@vger.kernel.org, linux-um@lists.infradead.org,
+        etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+        linux-samsung-soc@vger.kernel.org, linux-rdma@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-mm@kvack.org, linux-perf-users@vger.kernel.org,
+        linux-security-module@vger.kernel.org,
+        linux-kselftest@vger.kernel.org,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        John Hubbard <jhubbard@nvidia.com>,
+        Peter Xu <peterx@redhat.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Hugh Dickins <hughd@google.com>, Nadav Amit <namit@vmware.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Matthew Wilcox <willy@infradead.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Muchun Song <songmuchun@bytedance.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Lucas Stach <l.stach@pengutronix.de>,
+        David Airlie <airlied@gmail.com>,
+        Oded Gabbay <ogabbay@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Christoph Hellwig <hch@infradead.org>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Oleg Nesterov <oleg@redhat.com>,
+        Richard Henderson <richard.henderson@linaro.org>,
+        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+        Matt Turner <mattst88@gmail.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        "David S. Miller" <davem@davemloft.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Richard Weinberger <richard@nod.at>,
+        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+        Johannes Berg <johannes@sipsolutions.net>,
+        Eric Biederman <ebiederm@xmission.com>,
+        Kees Cook <keescook@chromium.org>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Jiri Olsa <jolsa@kernel.org>,
+        Namhyung Kim <namhyung@kernel.org>,
+        Kentaro Takeda <takedakn@nttdata.co.jp>,
+        Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+        Paul Moore <paul@paul-moore.com>,
+        James Morris <jmorris@namei.org>,
+        "Serge E. Hallyn" <serge@hallyn.com>
+Subject: Re: [PATCH mm-unstable v1 20/20] mm: rename FOLL_FORCE to FOLL_PTRACE
+Message-ID: <Y3dnzgwJpjTQXI9y@hirez.programming.kicks-ass.net>
+References: <20221116102659.70287-1-david@redhat.com>
+ <20221116102659.70287-21-david@redhat.com>
+ <CAHk-=wgtEwpR-rE_=cXzecHMZ+zgrx5zf9UfvH0w-mKgckn4=Q@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.0
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: Re: [PATCH v4 3/5] dt-bindings: media: add cat24c208 bindings
-To:     Rob Herring <robh@kernel.org>,
-        Erling Ljunggren <hljunggr@cisco.com>
-Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org
-References: <20221111132906.2212662-1-hljunggr@cisco.com>
- <20221111132906.2212662-4-hljunggr@cisco.com>
- <20221116200729.GA761467-robh@kernel.org>
-Content-Language: en-US
-In-Reply-To: <20221116200729.GA761467-robh@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAHk-=wgtEwpR-rE_=cXzecHMZ+zgrx5zf9UfvH0w-mKgckn4=Q@mail.gmail.com>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 11/16/22 21:07, Rob Herring wrote:
-> On Fri, Nov 11, 2022 at 02:29:04PM +0100, Erling Ljunggren wrote:
->> Add devicetree bindings for new cat24c208 EDID EEPROM driver.
->>
->> Signed-off-by: Erling Ljunggren <hljunggr@cisco.com>
->> ---
->>  .../bindings/media/i2c/onnn,cat24c208.yaml    | 46 +++++++++++++++++++
->>  1 file changed, 46 insertions(+)
->>  create mode 100644 Documentation/devicetree/bindings/media/i2c/onnn,cat24c208.yaml
->>
->> diff --git a/Documentation/devicetree/bindings/media/i2c/onnn,cat24c208.yaml b/Documentation/devicetree/bindings/media/i2c/onnn,cat24c208.yaml
->> new file mode 100644
->> index 000000000000..492eecb3ab7c
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/media/i2c/onnn,cat24c208.yaml
->> @@ -0,0 +1,46 @@
->> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
->> +%YAML 1.2
->> +---
->> +$id: http://devicetree.org/schemas/media/i2c/onnn,cat24c208.yaml#
->> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->> +
->> +title: ON Semiconductor CAT24C208 EDID EEPROM driver
->> +
->> +maintainers:
->> +  - Hans Verkuil <hverkuil-cisco@xs4all.nl>
->> +
->> +description: |
->> +  CAT24C208 is a dual port i2c EEPROM designed for EDID storage.
->> +
->> +properties:
->> +  compatible:
->> +    const: onnn,cat24c208
->> +
->> +  reg:
->> +    maxItems: 1
->> +
->> +  input-connector:
->> +    description: |
->> +      Phandle to the video input connector, used to find
->> +      the HPD gpio and the connector label, both optional.
->> +    $ref: /schemas/types.yaml#/definitions/phandle
-> 
-> The binding and driver feel the wrong way around to me. It seems 
-> like you should have a driver for the connector and it needs HPD GPIO, 
-> label, and EEPROM. The driver instead looks mostly like an EEPROM driver 
-> that hooks into a few connector properties.
+On Wed, Nov 16, 2022 at 10:16:34AM -0800, Linus Torvalds wrote:
+> Following the history of it is a big of a mess, because there's a
+> number of renamings and re-organizations, but it seems to go back to
+> 2007 and commit b6a2fea39318 ("mm: variable length argument support").
 
-A device like this is typically used next to an HDMI receiver: the DDC
-lines and the HPD line are connected to the EDID EEPROM, and the video
-is handled by the HDMI receiver.
+I went back and read parts of the discussions with Ollie, and the
+.force=1 thing just magically appeared one day when we were sending
+work-in-progress patches back and forth without mention of where it came
+from :-/
 
-Most HDMI receivers will have the EDID part integrated into the chip itself
-(see e.g. the adv7604 driver), but that doesn't have to be the case. The EDID
-can be completely separate, it doesn't matter for the receiver part.
+And I certainly can't remember now..
 
-In our specific use-case there isn't even an HDMI receiver since the HDMI
-video is passed through and this EDID EEPROM is used to help debug HDMI
-issues by presenting custom EDIDs, similar to something like this:
-
-https://www.amazon.com/dp/B0722NVQHX
-
-The HPD line is controlled by the EDID part since it has to be low if there
-is no EDID or pulled low for at least 100ms if the EDID is being modified.
-
-> 
-> Reading the datasheet, I don't see anything special about accessing the 
-> EEPROM from the host (DSP) side. Wouldn't the default at24 driver work? 
-> It exposes regmap and nvmem.
-
-No. It is not a regular EEPROM, it is dedicated to store EDIDs. It has to
-correctly toggle the HPD line and inform other drivers (specifically HDMI CEC)
-of EDID updates.
-
-I don't see how the at24 could work: besides the eeprom i2c address it has to
-deal with two additional i2c devices: the segment address and the config
-address of the device itself. Writing to the eeprom from the host side requires
-a write to the segment address followed by a write to the eeprom part itself,
-and that's not something the at24 can do. And it is also something very specific
-to the VESA E-DDC standard (freely downloadable from vesa.org).
-
-Note that historically the first EDID EEPROMs most likely did work like the
-at24, but as EDID sizes grew beyond 256 bytes the E-DDC standard was created
-and that departed from the normal EEPROMs.
-
-Regards,
-
-	Hans
-
-> 
-> Rob
-
+Looking at it now, I have the same reaction as both you and Kees had, it
+seems entirely superflous. So I'm all for trying to remove it.
