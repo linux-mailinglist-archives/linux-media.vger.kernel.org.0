@@ -2,168 +2,117 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CDE2462F59D
-	for <lists+linux-media@lfdr.de>; Fri, 18 Nov 2022 14:12:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 070B262F617
+	for <lists+linux-media@lfdr.de>; Fri, 18 Nov 2022 14:31:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241681AbiKRNMA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 18 Nov 2022 08:12:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37788 "EHLO
+        id S241710AbiKRNbX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 18 Nov 2022 08:31:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52268 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235233AbiKRNLu (ORCPT
+        with ESMTP id S235303AbiKRNbV (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 18 Nov 2022 08:11:50 -0500
-Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com [IPv6:2a00:1450:4864:20::22a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E2748B138
-        for <linux-media@vger.kernel.org>; Fri, 18 Nov 2022 05:11:49 -0800 (PST)
-Received: by mail-lj1-x22a.google.com with SMTP id d20so6670686ljc.12
-        for <linux-media@vger.kernel.org>; Fri, 18 Nov 2022 05:11:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=gWNSpfNgmKIkoqMVV5tmWYlIFYhEHax9TrvGPimvErs=;
-        b=v4nFmk80qIBizuw3D1YMYQGM+vnSIvdnLk9TyHIG0in5TwlQhnPkUxZ9S2wEGIO7+5
-         NloDoVXNp29Tv+V2Ab46XHQlVhufLDrh990FfdE+BCoIabs2Kjsu5+aPGZVZoHtgLY4E
-         Asv3aahR7nX4q3ptImiN2N8+/PiZfDlpXIUl1AV2LXskiukPE0YGDHopQfy42JWo9qrt
-         RjcBxuxPFUEZJvL+xxHGOm3mC4odbJeVAynBHG5r5Luy+JASyjK9R5dMYXHe5TtcRUSw
-         Bjx+cNlKFLPOsmFRX4yckjQy25Tw2A/rEuh0/jCHDai5aJj3brf0FiV2KlBCDADvWndd
-         BnKQ==
+        Fri, 18 Nov 2022 08:31:21 -0500
+Received: from mail-ot1-f51.google.com (mail-ot1-f51.google.com [209.85.210.51])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A0D4713F4D;
+        Fri, 18 Nov 2022 05:31:20 -0800 (PST)
+Received: by mail-ot1-f51.google.com with SMTP id p10-20020a9d76ca000000b0066d6c6bce58so3044403otl.7;
+        Fri, 18 Nov 2022 05:31:20 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=gWNSpfNgmKIkoqMVV5tmWYlIFYhEHax9TrvGPimvErs=;
-        b=zDCiTqeLIVjME4ifLmj1EWaY49+ou/io3k3SCH/t5gbEeanFx8kBKRiqUwWxE0imPa
-         zA//ahT11egPUbir8zVtwxvdjYpjvQdj0rXiggkhzOU8NEmq/5fmnC9hL4gXH9lGUceK
-         bKVjoGiZy9Sj82pE1Zx3bdMHmbOcohLOH4GHneo0/B2bo4ZXG21KvMiSvS6R9R0OeDBt
-         fM+h7RpEF7ZX5IDMMcqBXyV69VsUzzh3p8xrwCPC4VqWguZTeuElJYNHqg1ikQIIFCQx
-         N8qvk+CB1C38Qh3wNmwHvKyMGBt/gRT00AlNDninUNTmP4jKaavBE+3iV3Vcz2TTUNl/
-         emcw==
-X-Gm-Message-State: ANoB5pn0izUvkkiUliIzm09IrIoNm/ahCHsIe+760RN19OApT8CBgFi0
-        8Xcw6SDBQJCmxgkjHezvJOl6gQ==
-X-Google-Smtp-Source: AA0mqf5PKOpsepLXZQM4MZvGilr6TDpkzUoFgDlnpUqKg2bm3LymDyhlqEiF6bM8W2n4RIlehziIUw==
-X-Received: by 2002:a05:651c:178d:b0:278:a59c:390c with SMTP id bn13-20020a05651c178d00b00278a59c390cmr2455317ljb.512.1668777108719;
-        Fri, 18 Nov 2022 05:11:48 -0800 (PST)
-Received: from [192.168.0.20] (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
-        by smtp.gmail.com with ESMTPSA id n4-20020a195504000000b00492ce573726sm661503lfe.47.2022.11.18.05.11.47
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 18 Nov 2022 05:11:48 -0800 (PST)
-Message-ID: <5292cc1b-c951-c5c5-b2ef-c154baf6d7fd@linaro.org>
-Date:   Fri, 18 Nov 2022 14:11:46 +0100
+        h=date:subject:message-id:references:in-reply-to:cc:to:from
+         :mime-version:content-transfer-encoding:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=Q0Mpv79OC10rvhUXLA0ACmvYs6p261vAofPBrF9lFpY=;
+        b=Tj/aorcT5ngzXxbcAtPBrDnQx5m+iH38ovyDGWjcRmYeLbCqFWLnGnXUOIU8yvOtKz
+         Wj7hjJLVB6VBBRV+X5YLY7ZWB/WFzktxO/qVlX9X8qq9GfSYm4M7F/eHKLqh8Vdxl8pY
+         CrceEUHMp+SiZr/1ndrhktzzYF6nymuMqxDwBmKhm9VmMBLwVhiUsGKspBAA8g2odYFq
+         Gp7X6KABeiwLKOdpJ5DKhcrhyXYslBjlc5w6ntUkKJovbrStGauLczvr02HjcVDc6PDs
+         2AX8ur/PtT7XwGJwXu6/lqRcAl10vno4mKyU/Vk0PMI0n+aIlx4qckycyDcJqvpUkg2n
+         56FA==
+X-Gm-Message-State: ANoB5pljhiO3Im9JNL4u/UqK3dWe8To1hQXImkZSqBuVuZU7zd+ZaqqP
+        S0O4d6D5sY0siHkI8LTCsA==
+X-Google-Smtp-Source: AA0mqf4sTJcECMo1xKL09IoTWj/i5Q4HzYzaQhgjRACHz9Us2B9+woBC7DGak4TQZHl4kO19R4t7tA==
+X-Received: by 2002:a05:6830:6407:b0:661:8fc6:2d77 with SMTP id cj7-20020a056830640700b006618fc62d77mr3756668otb.288.1668778279794;
+        Fri, 18 Nov 2022 05:31:19 -0800 (PST)
+Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id x53-20020a056830247500b0066c7733be43sm1536301otr.30.2022.11.18.05.31.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 18 Nov 2022 05:31:19 -0800 (PST)
+Received: (nullmailer pid 1482192 invoked by uid 1000);
+        Fri, 18 Nov 2022 13:31:19 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH 01/23] dt-bindings: display: tegra: add bindings for
- Tegra20 VIP
-Content-Language: en-US
-To:     Luca Ceresoli <luca.ceresoli@bootlin.com>
-Cc:     David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Sowjanya Komatineni <skomatineni@nvidia.com>,
+From:   Rob Herring <robh@kernel.org>
+To:     Paul Elder <paul.elder@ideasonboard.com>
+Cc:     linux-kernel@vger.kernel.org,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Dmitry Osipenko <digetx@gmail.com>,
-        linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Richard Leitner <richard.leitner@skidata.com>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-References: <20221109141852.729246-1-luca.ceresoli@bootlin.com>
- <20221109141852.729246-2-luca.ceresoli@bootlin.com>
- <ca5f3b54-25bd-4dd5-799f-c7bda08cdef6@linaro.org>
- <20221118100800.4950aec0@booty>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20221118100800.4950aec0@booty>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        linux-rockchip@lists.infradead.org,
+        Heiko Stuebner <heiko@sntech.de>,
+        linux-arm-kernel@lists.infradead.org,
+        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Dafna Hirschfeld <dafna@fastmail.com>,
+        Helen Koike <helen.koike@collabora.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-media@vger.kernel.org
+In-Reply-To: <20221118093931.1284465-3-paul.elder@ideasonboard.com>
+References: <20221118093931.1284465-1-paul.elder@ideasonboard.com>
+ <20221118093931.1284465-3-paul.elder@ideasonboard.com>
+Message-Id: <166877740033.1426068.13359373358036408238.robh@kernel.org>
+Subject: Re: [PATCH v3 02/14] dt-bindings: media: rkisp1: Add i.MX8MP ISP example
+Date:   Fri, 18 Nov 2022 07:31:19 -0600
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
+        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 18/11/2022 10:08, Luca Ceresoli wrote:
->   description: parallel video capture interface for the VI
-> 
->>> +    type: object  
->>
->> Do you expect it to grow to more channels?
-> 
-> Not on Tegra20, it has one input only, but for other SoCs it's likely.
-> Definitely some (including Tegra20 itself) have multiple CSI-2 inputs,
-> and it's reasonable that this can apply to parallel input too.
-> 
-> Is this enough motivation to make room for more channels, or should I
-> remove it since I have no plans to introduce support for other Tegra
-> chips?
 
-The best would be to add some more Tegra SoCs here, so that this @0
-makes sense.
-
-But I guess the block can be re-used in future, so it could also stay
-like this.
-
+On Fri, 18 Nov 2022 18:39:19 +0900, Paul Elder wrote:
+> From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 > 
->>> +
->>> +    properties:
->>> +      reg: true  
->>
->> const: 0
->>
->>> +
->>> +      ports:
->>> +        $ref: /schemas/graph.yaml#/properties/ports
->>> +
->>> +        properties:
->>> +          port@0:
->>> +            $ref: /schemas/graph.yaml#/properties/port
->>> +            description:
->>> +              Port receiving the video stream from the sensor
->>> +
->>> +          port@1:
->>> +            $ref: /schemas/graph.yaml#/properties/port
->>> +            description:
->>> +              Port sending the video stream to the VI
->>> +
->>> +        required:
->>> +          - port@0
->>> +          - port@1
->>> +
->>> +    additionalProperties: false
->>> +
->>> +    required:
->>> +      - reg
->>> +      - ports
->>> +
->>> +unevaluatedProperties: false
->>> +
->>> +required:
->>> +  - compatible
->>> +  - "#address-cells"
->>> +  - "#size-cells"
->>> +  - channel@0
->>> +
->>> +# see nvidia,tegra20-vi.yaml for an example  
->>
->> That file does not have this compatible. At least not on next-20221109.
+> Add an example to the rockchip-isp1 DT binding that showcases usage of
+> the parallel input of the ISP, connected to the CSI-2 receiver internal
+> to the i.MX8MP.
 > 
-> It's added in patch 2. It's a chicken-egg problem, should I add a third
-> patch that adds this line only?
+> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> ---
+>  .../bindings/media/rockchip-isp1.yaml         | 72 +++++++++++++++++++
+>  1 file changed, 72 insertions(+)
 > 
-> ACK for all other comments you wrote.
 
-It's ok.
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
-Best regards,
-Krzysztof
+yamllint warnings/errors:
+
+dtschema/dtc warnings/errors:
+Documentation/devicetree/bindings/media/rockchip-isp1.example.dts:199:18: fatal error: dt-bindings/media/video-interfaces.h: No such file or directory
+  199 |         #include <dt-bindings/media/video-interfaces.h>
+      |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+compilation terminated.
+make[1]: *** [scripts/Makefile.lib:406: Documentation/devicetree/bindings/media/rockchip-isp1.example.dtb] Error 1
+make[1]: *** Waiting for unfinished jobs....
+make: *** [Makefile:1492: dt_binding_check] Error 2
+
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20221118093931.1284465-3-paul.elder@ideasonboard.com
+
+This check can fail if there are any dependencies. The base for a patch
+series is generally the most recent rc1.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command.
 
