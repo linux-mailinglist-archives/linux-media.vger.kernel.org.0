@@ -2,136 +2,147 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 54F5A62EEEB
-	for <lists+linux-media@lfdr.de>; Fri, 18 Nov 2022 09:09:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 11F9E62EF05
+	for <lists+linux-media@lfdr.de>; Fri, 18 Nov 2022 09:16:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241332AbiKRIJH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 18 Nov 2022 03:09:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37280 "EHLO
+        id S241131AbiKRIP6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 18 Nov 2022 03:15:58 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40516 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241326AbiKRIJF (ORCPT
+        with ESMTP id S229441AbiKRIP5 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 18 Nov 2022 03:09:05 -0500
-Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com [IPv6:2a00:1450:4864:20::22e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F099D1AD80
-        for <linux-media@vger.kernel.org>; Fri, 18 Nov 2022 00:09:04 -0800 (PST)
-Received: by mail-lj1-x22e.google.com with SMTP id x21so5808447ljg.10
-        for <linux-media@vger.kernel.org>; Fri, 18 Nov 2022 00:09:04 -0800 (PST)
+        Fri, 18 Nov 2022 03:15:57 -0500
+Received: from mail-io1-xd30.google.com (mail-io1-xd30.google.com [IPv6:2607:f8b0:4864:20::d30])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C87DB6455B
+        for <linux-media@vger.kernel.org>; Fri, 18 Nov 2022 00:15:56 -0800 (PST)
+Received: by mail-io1-xd30.google.com with SMTP id r81so3321111iod.2
+        for <linux-media@vger.kernel.org>; Fri, 18 Nov 2022 00:15:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=2in+ZVvPB3cbCrsiVBIVBnCTrRph1aB1FMTEbTyQlkw=;
-        b=yuJiGXCoMPwt7oL9qapbBm1iCXz5XTH3RDTvDTJmelxHxOa682dFXMgvFD4Iwrqy3K
-         qWCZToqNRzEiJeJ44nMcA1wToIO9M3rA6xPq6UcSlV1mDy25ER5IRTnHRLo5v7l4OayS
-         4R4ca8VWiX3shsf9dhEU9VmHnuZ4h1QsrSEiVC0usnxORUxv8WaDqlq7E++MfLsx1rm/
-         Sx/n5gyZ7P6hI6Kgmo3N4+TX2lKk4BWUDdiNS6Dd9Op+F2fP2vtdd3K9kV3zDwQFVMne
-         QRLKfCEtherotSglkLkAOm6EH3YG6OEEHvjBJfqJPm2zdP0Vv3xHsyAxdykOw/vMxA82
-         onLg==
+        d=chromium.org; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=KwPAc197/GRXQfFzKw4N05NeqqdYUbMm9HtIWR5I0BY=;
+        b=VNkG8mqW926v7YUcFCMicxULL4SvQe5s1XW0IpftRviYFQ3FE6318dd0aLRSLvLLiq
+         RrzR7bj0aj1XTsZOXZi8ZFXS2Ypu0o8A5+XbC2M3YTz55lBn7mV+C4FGjXMUYLzARkAW
+         CDT2WLPtUis6xgbTZ5b6IjfgbQIdneg5BvVeQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=2in+ZVvPB3cbCrsiVBIVBnCTrRph1aB1FMTEbTyQlkw=;
-        b=O7wVUlU4L6mza+KrRHl/d2wzlpoXLz0dNt1j6iRfW3JdQZFxifH9yPkZHeY+KVGyQT
-         5fNYL66/r2WTvwU95d1eFD68NJPe5RGsSdlbRfVIyuSN1oOZ8qfjqwq3ygmxKDT1rnbK
-         xw1omsUduTMlUcweq+EVKICc/lhzbJB8JuoE0A2rAvwWGgpQYYICDhpazXLhAy1KRYcx
-         5MS927AZdxsMxXgxv2ralpPXoewd0P21FosaD9zI5EnDDzD/pWm9qfCwXVMsLGzUwodF
-         uIPYPvbUJrsq+apAu+LLhT13bgo5KJEPTatPtPM4SCY2K2R3FElm+WTnGa0iza5ANDlh
-         ygRw==
-X-Gm-Message-State: ANoB5pnewvtnlNZfs1VehU9CeAGE8CWEop9gxzVMsdewWd0PQKvH05wJ
-        NYa5phnou1GwP6xtDW2gQobu3w==
-X-Google-Smtp-Source: AA0mqf6C6B3Tp1AW/gNjoOPLRQ8Z00wbZh+cOnyUAAWuoYiohmnyfV4lHxR20x5LQq07P0+wTujPpg==
-X-Received: by 2002:a2e:a1c6:0:b0:277:4f:bd29 with SMTP id c6-20020a2ea1c6000000b00277004fbd29mr2033408ljm.171.1668758943193;
-        Fri, 18 Nov 2022 00:09:03 -0800 (PST)
-Received: from [192.168.0.20] (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
-        by smtp.gmail.com with ESMTPSA id q3-20020a056512210300b004a8b9c68728sm562417lfr.105.2022.11.18.00.09.01
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=KwPAc197/GRXQfFzKw4N05NeqqdYUbMm9HtIWR5I0BY=;
+        b=dSF0YVk6xYR+lv75DcET8QATgdIwK2N0Wf6YaggZjZFyctGJt6ruoK0yUvlo6RodUn
+         BmHl7iBZEeOq1hCzbRBGBlrRyCCflPD1P1ptDvYhnV49Klfz+rA6R2pxAC4FdNMuSYSM
+         RE/WmFXkv10blbU1cnY6+rTJmUj5UUh1/Y8Rx2Vc34w5TM//9Tj7RDWvWAzQQBUdMeGc
+         ceO7p1PZNP7Pfuq6sPu6vn5DJ745CwOpA1QOyUgv6fVUMELN3wAYRqVya+TroI1UUmJT
+         HTmOf5B66FNyXAggHkmhPngLTfVHwaHhOsxOraxsZrMP5zGhgQkkqy5nwgdxuzBD9eB2
+         DXLA==
+X-Gm-Message-State: ANoB5pkPzsIgWqidTZEmkNZLiLJMvnNqmKLq7aRTyUXkucZU3Sp58qsO
+        OsPxAZ42P2H9aUOxp4uuCM7V+iNgiRNErA==
+X-Google-Smtp-Source: AA0mqf6D1gEHNsiB9uxt4MyMqBSrQ9KWeJ1pR7/KcT1xySzhX6XbgPF3lWHwej8JShom5VZOc6Ry9A==
+X-Received: by 2002:a05:6638:89:b0:363:9e67:d9d9 with SMTP id v9-20020a056638008900b003639e67d9d9mr2748761jao.133.1668759355926;
+        Fri, 18 Nov 2022 00:15:55 -0800 (PST)
+Received: from mail-il1-f170.google.com (mail-il1-f170.google.com. [209.85.166.170])
+        by smtp.gmail.com with ESMTPSA id d2-20020a6b6802000000b006ddf70e3ce8sm1122560ioc.7.2022.11.18.00.15.54
+        for <linux-media@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 18 Nov 2022 00:09:02 -0800 (PST)
-Message-ID: <b6cbbbe5-c1e9-a2fc-dd9d-9076d268a2a0@linaro.org>
-Date:   Fri, 18 Nov 2022 09:09:01 +0100
+        Fri, 18 Nov 2022 00:15:54 -0800 (PST)
+Received: by mail-il1-f170.google.com with SMTP id g7so2219299ile.0
+        for <linux-media@vger.kernel.org>; Fri, 18 Nov 2022 00:15:54 -0800 (PST)
+X-Received: by 2002:a92:ca89:0:b0:302:385e:eeb4 with SMTP id
+ t9-20020a92ca89000000b00302385eeeb4mr2862683ilo.66.1668759353955; Fri, 18 Nov
+ 2022 00:15:53 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH v2 1/2] media: dt-bindings: allwinner: video-engine: Fix
- number of IOMMU channels
-To:     =?UTF-8?Q?Jernej_=c5=a0krabec?= <jernej.skrabec@gmail.com>,
-        mchehab@kernel.org, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, wens@csie.org,
-        samuel@sholland.org
-Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-        linux-kernel@vger.kernel.org
-References: <20221117060704.367945-1-jernej.skrabec@gmail.com>
- <20221117060704.367945-2-jernej.skrabec@gmail.com>
- <b0125ad2-426c-d908-0839-2021bc59d59f@linaro.org>
- <3385828.QJadu78ljV@jernej-laptop>
-Content-Language: en-US
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <3385828.QJadu78ljV@jernej-laptop>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+References: <20221118022302.112121-1-aichao@kylinos.cn>
+In-Reply-To: <20221118022302.112121-1-aichao@kylinos.cn>
+From:   Ricardo Ribalda <ribalda@chromium.org>
+Date:   Fri, 18 Nov 2022 09:15:43 +0100
+X-Gmail-Original-Message-ID: <CANiDSCs746jMSfzPJN9SzUfU-1xhRqG7G2Z9mVF_h=zThNoPxA@mail.gmail.com>
+Message-ID: <CANiDSCs746jMSfzPJN9SzUfU-1xhRqG7G2Z9mVF_h=zThNoPxA@mail.gmail.com>
+Subject: Re: [PATCH v3] media: uvcvideo: Fix bandwidth error for Alcor camera
+To:     Ai Chao <aichao@kylinos.cn>
+Cc:     laurent.pinchart@ideasonboard.com, mchehab@kernel.org,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 17/11/2022 21:31, Jernej Škrabec wrote:
-> Dne četrtek, 17. november 2022 ob 14:13:00 CET je Krzysztof Kozlowski 
-> napisal(a):
->> On 17/11/2022 07:07, Jernej Skrabec wrote:
->>> Cedrus (video engine) on Allwinner H6 actually uses two IOMMU channel,
->>> not just one. However, Cedrus on SoCs like D1 only uses one channel.
->>>
->>> Allow up to 2 IOMMU channels.
->>>
->>> Fixes: 62a8ccf3a248 ("arm64: dts: allwinner: h6: Fix Cedrus IOMMU usage")
->>> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
->>> ---
->>>
->>>  .../bindings/media/allwinner,sun4i-a10-video-engine.yaml       | 3 ++-
->>>  1 file changed, 2 insertions(+), 1 deletion(-)
->>>
->>> diff --git
->>> a/Documentation/devicetree/bindings/media/allwinner,sun4i-a10-video-engin
->>> e.yaml
->>> b/Documentation/devicetree/bindings/media/allwinner,sun4i-a10-video-engin
->>> e.yaml index 541325f900a1..6446004d59d9 100644
->>> ---
->>> a/Documentation/devicetree/bindings/media/allwinner,sun4i-a10-video-engin
->>> e.yaml +++
->>> b/Documentation/devicetree/bindings/media/allwinner,sun4i-a10-video-engin
->>> e.yaml> 
->>> @@ -55,7 +55,8 @@ properties:
->>>      description: Phandle to the device SRAM
->>>    
->>>    iommus:
->>> -    maxItems: 1
->>> +    minItems: 1
->>> +    maxItems: 2
->>
->> You have several compatibles in the file, so usually this is further
->> constrained per each variant in allOf:if:then:.
-> 
-> Usually, yes. But this whole binding would need update. It has a few optional 
-> properties and none of them is tied to any compatible. Additionally, if I do 
-> it as you suggest, then Robs automatic test will report the issue, because 
-> existing H6 based boards won't match this binding anymore. I would much rather 
-> send follow up patch which clears up all optional properties.
+Hi Ai
 
-I don't understand last argument. It's basically like saying - I keep
-bindings not really correct, because otherwise I would see warnings and
-I would need to fix them.
+Thanks for your patch!
 
-If this can be constrained per variant, constrain it and then fix the
-boards.
-Best regards,
-Krzysztof
+On Fri, 18 Nov 2022 at 03:23, Ai Chao <aichao@kylinos.cn> wrote:
+>
+> For Alcor Corp. Slave camera(1b17:6684/2017:0011), it support to
+> output compressed video data, and it return a wrong
+> dwMaxPayloadTransferSize fields. This is a fireware issue,
+s/fireware/firmware/
+> but the manufacturer cannot provide a const return fields
+> by the fireware. For some device, device requested 2752512
+>  B/frame bandwidth. For some device, device requested 3072
+>  B/frame bandwidth. so we check the dwMaxPayloadTransferSize
+>  fields,if it large than 0x1000, reset dwMaxPayloadTransferSize
+> to 1024, and the camera preview normally.
 
+3072 is smaller than 0x1000.
+
+It is ok to have values between 1024 and 0x1000 (4096) ?
+
+Thanks
+
+>
+> Signed-off-by: Ai Chao <aichao@kylinos.cn>
+>
+> ---
+> change for v3
+> - Add VID/PID 2017:0011
+>
+> change for v2
+> - Used usb_match_one_id to check VID and PID
+> ---
+> ---
+>  drivers/media/usb/uvc/uvc_video.c | 11 +++++++++++
+>  1 file changed, 11 insertions(+)
+>
+> diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
+> index d2eb9066e4dc..1260800ef8bd 100644
+> --- a/drivers/media/usb/uvc/uvc_video.c
+> +++ b/drivers/media/usb/uvc/uvc_video.c
+> @@ -135,6 +135,10 @@ static void uvc_fixup_video_ctrl(struct uvc_streaming *stream,
+>         static const struct usb_device_id elgato_cam_link_4k = {
+>                 USB_DEVICE(0x0fd9, 0x0066)
+>         };
+> +       static const struct usb_device_id alcor_corp_slave_cam = {
+> +               USB_DEVICE(0x1b17, 0x6684),
+> +               USB_DEVICE(0x2017, 0x0011),
+> +       };
+>         struct uvc_format *format = NULL;
+>         struct uvc_frame *frame = NULL;
+>         unsigned int i;
+> @@ -234,6 +238,13 @@ static void uvc_fixup_video_ctrl(struct uvc_streaming *stream,
+>
+>                 ctrl->dwMaxPayloadTransferSize = bandwidth;
+>         }
+> +
+> +       /* Alcor Corp. Slave camera return wrong dwMaxPayloadTransferSize */
+> +       if ((format->flags & UVC_FMT_FLAG_COMPRESSED) &&
+> +           (ctrl->dwMaxPayloadTransferSize > 0x1000) &&
+> +            usb_match_one_id(stream->dev->intf, &alcor_corp_slave_cam)) {
+> +               ctrl->dwMaxPayloadTransferSize = 1024;
+> +       }
+>  }
+>
+>  static size_t uvc_video_ctrl_size(struct uvc_streaming *stream)
+> --
+> 2.25.1
+>
+
+
+-- 
+Ricardo Ribalda
