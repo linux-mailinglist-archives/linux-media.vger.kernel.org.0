@@ -2,157 +2,110 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9254B62EA4E
-	for <lists+linux-media@lfdr.de>; Fri, 18 Nov 2022 01:31:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EBCB262EBDC
+	for <lists+linux-media@lfdr.de>; Fri, 18 Nov 2022 03:23:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240645AbiKRAb3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 17 Nov 2022 19:31:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42406 "EHLO
+        id S233780AbiKRCXZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 17 Nov 2022 21:23:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47148 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235086AbiKRAb1 (ORCPT
+        with ESMTP id S232050AbiKRCXW (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 17 Nov 2022 19:31:27 -0500
-Received: from mail-pg1-x533.google.com (mail-pg1-x533.google.com [IPv6:2607:f8b0:4864:20::533])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 37E9156564
-        for <linux-media@vger.kernel.org>; Thu, 17 Nov 2022 16:31:26 -0800 (PST)
-Received: by mail-pg1-x533.google.com with SMTP id 136so3637361pga.1
-        for <linux-media@vger.kernel.org>; Thu, 17 Nov 2022 16:31:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=SdXW0qNT9EJ55g7ZecMibSPRKy2hZHqw3Yh8nMlwERE=;
-        b=aU25zccRjTs3wP43k0MIJn4DgVbsnZCNuzNnI2CpXWYIZxXulCGxIQevzOUHHZBnNX
-         P9dqjL6CLaVk8Gd/8VV9yHkQnYw6wZLIF25d9n4/Hz+qw11dfo4C3uVe8ugX4akyWpVq
-         2j/LOKCC5xRDK3aE2eqqxuB+wZP/Rdy2IY2yY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=SdXW0qNT9EJ55g7ZecMibSPRKy2hZHqw3Yh8nMlwERE=;
-        b=nVvvvz9ogwHjLUcOvxvYC5gTTLP2iKYVaF9SjNvYzEBmo0KK5RL9taQVxodYUjN61f
-         cPlOP0RXZn4Ix43YUeZj+2Dg3MgH3AALZXsyTpnY4fZT0jCcXfxzVojZKAJ0fn6Aaykp
-         +SsPdi8Ng8x0Co1yEApNV3zK/EOgIbizRgzQVPIVfE84ayQfR+N7x6vITQfpLj5vATMT
-         blRro5Uhc5cF7vKkn+l0/sIkAT11DQaKhltXcGJC+Kiq3qlwakP4VIZ9CY+PrIWRvQoc
-         qvKANUV6GQuRxjy/fNcWnR4kJGyWeWVMJG+auHp4DJeTjT+XEfh44nN6zu0Y5Mc/3JeR
-         rBfw==
-X-Gm-Message-State: ANoB5pmoS+SEhBzMLdcepWQ3Y7kqUyh+HI7o8Jk6gPfkmfYPY7I9F8qD
-        uGpIcE1qt0wZMloMMTfN+G5ARg==
-X-Google-Smtp-Source: AA0mqf4Eg6efWFkC4PcZKO6M1HjEMRT/hWrF7/OJe6t0KCBzvaZRup/szSwa3Jgy88qqEUfyA5B6Hg==
-X-Received: by 2002:a65:53ca:0:b0:476:dd80:fb29 with SMTP id z10-20020a6553ca000000b00476dd80fb29mr4360083pgr.619.1668731485545;
-        Thu, 17 Nov 2022 16:31:25 -0800 (PST)
-Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net. [198.0.35.241])
-        by smtp.gmail.com with ESMTPSA id b14-20020a170902650e00b00186b6bb2f48sm2022328plk.129.2022.11.17.16.31.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Nov 2022 16:31:25 -0800 (PST)
-Date:   Thu, 17 Nov 2022 16:31:24 -0800
-From:   Kees Cook <keescook@chromium.org>
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     David Hildenbrand <david@redhat.com>, linux-kernel@vger.kernel.org,
-        x86@kernel.org, linux-alpha@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-ia64@vger.kernel.org,
-        linux-mips@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        sparclinux@vger.kernel.org, linux-um@lists.infradead.org,
-        etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-        linux-samsung-soc@vger.kernel.org, linux-rdma@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-mm@kvack.org, linux-perf-users@vger.kernel.org,
-        linux-security-module@vger.kernel.org,
-        linux-kselftest@vger.kernel.org,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        John Hubbard <jhubbard@nvidia.com>,
-        Peter Xu <peterx@redhat.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Hugh Dickins <hughd@google.com>, Nadav Amit <namit@vmware.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Matthew Wilcox <willy@infradead.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Muchun Song <songmuchun@bytedance.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Lucas Stach <l.stach@pengutronix.de>,
-        David Airlie <airlied@gmail.com>,
-        Oded Gabbay <ogabbay@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Christoph Hellwig <hch@infradead.org>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Richard Henderson <richard.henderson@linaro.org>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        Matt Turner <mattst88@gmail.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Christophe Leroy <christophe.leroy@csgroup.eu>,
-        "David S. Miller" <davem@davemloft.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Richard Weinberger <richard@nod.at>,
-        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-        Johannes Berg <johannes@sipsolutions.net>,
-        Eric Biederman <ebiederm@xmission.com>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Jiri Olsa <jolsa@kernel.org>,
-        Namhyung Kim <namhyung@kernel.org>,
-        Kentaro Takeda <takedakn@nttdata.co.jp>,
-        Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
-        Paul Moore <paul@paul-moore.com>,
-        James Morris <jmorris@namei.org>,
-        "Serge E. Hallyn" <serge@hallyn.com>
-Subject: Re: [PATCH mm-unstable v1 20/20] mm: rename FOLL_FORCE to FOLL_PTRACE
-Message-ID: <202211171630.8EABF5EDD@keescook>
-References: <20221116102659.70287-1-david@redhat.com>
- <20221116102659.70287-21-david@redhat.com>
- <CAHk-=wgtEwpR-rE_=cXzecHMZ+zgrx5zf9UfvH0w-mKgckn4=Q@mail.gmail.com>
- <202211171439.CDE720EAD@keescook>
- <CAHk-=wjykbz-4xVTWF7vkvGJnFoTSXNVeMzfsXaLnGm3CRd8rQ@mail.gmail.com>
+        Thu, 17 Nov 2022 21:23:22 -0500
+Received: from mailgw.kylinos.cn (unknown [124.126.103.232])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 00E6674AAA;
+        Thu, 17 Nov 2022 18:23:17 -0800 (PST)
+X-UUID: 01a59f0de35b4581b34eda7dfd5bef7b-20221118
+X-CPASD-INFO: 113bc3333ceb49adbfea8f3b96d65fcb@eoFtgpBlYWNfg6eug3ysnoKXlZFoklO
+        xe3CEZmOWj4KVhH5xTV5uYFV9fWtVYV9dYVR6eGxQYmBgZFJ4i3-XblBgXoZgUZB3gHNtgpNhYw==
+X-CLOUD-ID: 113bc3333ceb49adbfea8f3b96d65fcb
+X-CPASD-SUMMARY: SIP:-1,APTIP:-2.0,KEY:0.0,FROMBLOCK:1,OB:0.0,URL:-5,TVAL:161.
+        0,ESV:0.0,ECOM:-5.0,ML:0.0,FD:0.0,CUTS:189.0,IP:-2.0,MAL:-5.0,PHF:-5.0,PHC:-5
+        .0,SPF:4.0,EDMS:-5,IPLABEL:4480.0,FROMTO:0,AD:0,FFOB:0.0,CFOB:0.0,SPC:0,SIG:-
+        5,AUF:5,DUF:8679,ACD:144,DCD:144,SL:0,EISP:0,AG:0,CFC:0.526,CFSR:0.029,UAT:0,
+        RAF:0,IMG:-5.0,DFA:0,DTA:0,IBL:-2.0,ADI:-5,SBL:0,REDM:0,REIP:0,ESB:0,ATTNUM:0
+        ,EAF:0,CID:-5.0,VERSION:2.3.17
+X-CPASD-ID: 01a59f0de35b4581b34eda7dfd5bef7b-20221118
+X-CPASD-BLOCK: 1000
+X-CPASD-STAGE: 1
+X-UUID: 01a59f0de35b4581b34eda7dfd5bef7b-20221118
+X-User: aichao@kylinos.cn
+Received: from localhost.localdomain [(112.64.161.44)] by mailgw
+        (envelope-from <aichao@kylinos.cn>)
+        (Generic MTA)
+        with ESMTP id 748414521; Fri, 18 Nov 2022 10:23:36 +0800
+From:   Ai Chao <aichao@kylinos.cn>
+To:     laurent.pinchart@ideasonboard.com, mchehab@kernel.org,
+        ribalda@chromium.org
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Ai Chao <aichao@kylinos.cn>
+Subject: [PATCH v3] media: uvcvideo: Fix bandwidth error for Alcor camera
+Date:   Fri, 18 Nov 2022 10:23:02 +0800
+Message-Id: <20221118022302.112121-1-aichao@kylinos.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAHk-=wjykbz-4xVTWF7vkvGJnFoTSXNVeMzfsXaLnGm3CRd8rQ@mail.gmail.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-0.9 required=5.0 tests=BAYES_00,PDS_RDNS_DYNAMIC_FP,
+        RDNS_DYNAMIC,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Nov 17, 2022 at 03:20:01PM -0800, Linus Torvalds wrote:
-> On Thu, Nov 17, 2022 at 2:58 PM Kees Cook <keescook@chromium.org> wrote:
-> >
-> > Oh, er, why does get_arg_page() even need FOLL_FORCE? This is writing the
-> > new stack contents to the nascent brpm->vma, which was newly allocated
-> > with VM_STACK_FLAGS, which an arch can override, but they all appear to include
-> > VM_WRITE | VM_MAYWRITE.
-> 
-> Yeah, it does seem entirely superfluous.
-> 
-> It's been there since the very beginning (although in that original
-> commit b6a2fea39318 it was there as a '1' to the 'force' argument to
-> get_user_pages()).
-> 
-> I *think* it can be just removed. But as long as it exists, it should
-> most definitely not be renamed to FOLL_PTRACE.
-> 
-> There's a slight worry that it currently hides some other setup issue
-> that makes it matter, since it's been that way so long, but I can't
-> see what it is.
+For Alcor Corp. Slave camera(1b17:6684/2017:0011), it support to
+output compressed video data, and it return a wrong
+dwMaxPayloadTransferSize fields. This is a fireware issue,
+but the manufacturer cannot provide a const return fields
+by the fireware. For some device, device requested 2752512
+ B/frame bandwidth. For some device, device requested 3072
+ B/frame bandwidth. so we check the dwMaxPayloadTransferSize
+ fields,if it large than 0x1000, reset dwMaxPayloadTransferSize
+to 1024, and the camera preview normally.
 
-My test system boots happily with it removed. I'll throw it into -next
-and see if anything melts...
+Signed-off-by: Ai Chao <aichao@kylinos.cn>
 
+---
+change for v3
+- Add VID/PID 2017:0011
+
+change for v2
+- Used usb_match_one_id to check VID and PID
+---
+---
+ drivers/media/usb/uvc/uvc_video.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
+
+diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
+index d2eb9066e4dc..1260800ef8bd 100644
+--- a/drivers/media/usb/uvc/uvc_video.c
++++ b/drivers/media/usb/uvc/uvc_video.c
+@@ -135,6 +135,10 @@ static void uvc_fixup_video_ctrl(struct uvc_streaming *stream,
+ 	static const struct usb_device_id elgato_cam_link_4k = {
+ 		USB_DEVICE(0x0fd9, 0x0066)
+ 	};
++	static const struct usb_device_id alcor_corp_slave_cam = {
++		USB_DEVICE(0x1b17, 0x6684),
++		USB_DEVICE(0x2017, 0x0011),
++	};
+ 	struct uvc_format *format = NULL;
+ 	struct uvc_frame *frame = NULL;
+ 	unsigned int i;
+@@ -234,6 +238,13 @@ static void uvc_fixup_video_ctrl(struct uvc_streaming *stream,
+ 
+ 		ctrl->dwMaxPayloadTransferSize = bandwidth;
+ 	}
++
++	/* Alcor Corp. Slave camera return wrong dwMaxPayloadTransferSize */
++	if ((format->flags & UVC_FMT_FLAG_COMPRESSED) &&
++	    (ctrl->dwMaxPayloadTransferSize > 0x1000) &&
++	     usb_match_one_id(stream->dev->intf, &alcor_corp_slave_cam)) {
++		ctrl->dwMaxPayloadTransferSize = 1024;
++	}
+ }
+ 
+ static size_t uvc_video_ctrl_size(struct uvc_streaming *stream)
 -- 
-Kees Cook
+2.25.1
+
