@@ -2,132 +2,202 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BBB4262F35D
-	for <lists+linux-media@lfdr.de>; Fri, 18 Nov 2022 12:09:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 81EF662F397
+	for <lists+linux-media@lfdr.de>; Fri, 18 Nov 2022 12:23:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241847AbiKRLJb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 18 Nov 2022 06:09:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47952 "EHLO
+        id S241455AbiKRLXK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 18 Nov 2022 06:23:10 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55582 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241694AbiKRLJP (ORCPT
+        with ESMTP id S241427AbiKRLW0 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 18 Nov 2022 06:09:15 -0500
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27B2E3B1;
-        Fri, 18 Nov 2022 03:09:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=EfRO0ptxO3+ypU2KxCKexp96MUHxMRW8bunXh9MGsDQ=; b=LDGBrfajYbkT9xph6b6097Xb/c
-        syw/S6y4TG1cS360/nd6d+c79/tEze+2e0txBMIoIcDriZE8lsPhASFA+NSJ8eg8EVkJO2kPb4qlI
-        t0uGnwKkqKm3kAMzV9dozjGsuBQAveUb/UOZDYoK75AExM4rxBzbgukAnzxUTKevVJRGZPyPEIYWw
-        gSP3hqrNt8ek+/8tR8KcdqQYYDbVJVIGKeEUat+AOQu3Lb7Rqyh8OcjxgSig6/MAUk9wvWAe8ysnQ
-        uQjyqr2Z5/P12vcorm9ew0TUB/Z1OlxqyFa9I2mva2wnFCskZFBF8h9xXwfF4ZV+daEJb09cWUoJB
-        0tx5p2IQ==;
-Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
-        by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1ovzF8-002Dxl-JB; Fri, 18 Nov 2022 11:09:10 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        Fri, 18 Nov 2022 06:22:26 -0500
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D08E8C482;
+        Fri, 18 Nov 2022 03:21:38 -0800 (PST)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id A8C81300422;
-        Fri, 18 Nov 2022 12:09:02 +0100 (CET)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 7C5AF205A9605; Fri, 18 Nov 2022 12:09:02 +0100 (CET)
-Date:   Fri, 18 Nov 2022 12:09:02 +0100
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     David Hildenbrand <david@redhat.com>, linux-kernel@vger.kernel.org,
-        x86@kernel.org, linux-alpha@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-ia64@vger.kernel.org,
-        linux-mips@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        sparclinux@vger.kernel.org, linux-um@lists.infradead.org,
-        etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-        linux-samsung-soc@vger.kernel.org, linux-rdma@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-mm@kvack.org, linux-perf-users@vger.kernel.org,
-        linux-security-module@vger.kernel.org,
-        linux-kselftest@vger.kernel.org,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        John Hubbard <jhubbard@nvidia.com>,
-        Peter Xu <peterx@redhat.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Hugh Dickins <hughd@google.com>, Nadav Amit <namit@vmware.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Matthew Wilcox <willy@infradead.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Muchun Song <songmuchun@bytedance.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Lucas Stach <l.stach@pengutronix.de>,
-        David Airlie <airlied@gmail.com>,
-        Oded Gabbay <ogabbay@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Christoph Hellwig <hch@infradead.org>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Richard Henderson <richard.henderson@linaro.org>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        Matt Turner <mattst88@gmail.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Christophe Leroy <christophe.leroy@csgroup.eu>,
-        "David S. Miller" <davem@davemloft.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Richard Weinberger <richard@nod.at>,
-        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-        Johannes Berg <johannes@sipsolutions.net>,
-        Eric Biederman <ebiederm@xmission.com>,
-        Kees Cook <keescook@chromium.org>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Jiri Olsa <jolsa@kernel.org>,
-        Namhyung Kim <namhyung@kernel.org>,
-        Kentaro Takeda <takedakn@nttdata.co.jp>,
-        Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
-        Paul Moore <paul@paul-moore.com>,
-        James Morris <jmorris@namei.org>,
-        "Serge E. Hallyn" <serge@hallyn.com>
-Subject: Re: [PATCH mm-unstable v1 20/20] mm: rename FOLL_FORCE to FOLL_PTRACE
-Message-ID: <Y3dnzgwJpjTQXI9y@hirez.programming.kicks-ass.net>
-References: <20221116102659.70287-1-david@redhat.com>
- <20221116102659.70287-21-david@redhat.com>
- <CAHk-=wgtEwpR-rE_=cXzecHMZ+zgrx5zf9UfvH0w-mKgckn4=Q@mail.gmail.com>
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out2.suse.de (Postfix) with ESMTPS id BBBAC1F8D7;
+        Fri, 18 Nov 2022 11:21:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+        t=1668770494; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=L3euMKBmPhMy8xs+0Iz9hve6/klsRgyszk94snpweik=;
+        b=wYAotX1b18h44sn2hYO2syv7V4WJnWy4DjyZ6FSE11VpBhJ6yYSPC72B5hOMgiWUFUnLGn
+        aA0AJagr8b1nfmGWgRxRGojh13kAfzPrNJDESaJimUQ6GrPQ02EqoScNQp7P1gG1t9FBL+
+        7PLuEl+nznaW0NTHwL/IzQ9rpFTFanA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+        s=susede2_ed25519; t=1668770494;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=L3euMKBmPhMy8xs+0Iz9hve6/klsRgyszk94snpweik=;
+        b=+wzYH9HXa+M0Ptzkq7AV2wFHscud2W2D1O0r2WSm1IZk7OHfagWckSJPILwt5IzoGOnNWc
+        XzQMc1kGGl3CkTAg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 8CC8A13A66;
+        Fri, 18 Nov 2022 11:21:34 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id AFSGIb5qd2MpYwAAMHmgww
+        (envelope-from <tzimmermann@suse.de>); Fri, 18 Nov 2022 11:21:34 +0000
+Message-ID: <b4681075-ea53-637f-0df5-3cc5891a102e@suse.de>
+Date:   Fri, 18 Nov 2022 12:21:33 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAHk-=wgtEwpR-rE_=cXzecHMZ+zgrx5zf9UfvH0w-mKgckn4=Q@mail.gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH v2] drm/gem-shmem: When drm_gem_object_init failed, should
+ release object
+To:     Chunyou Tang <tangchunyou@163.com>
+Cc:     maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+        airlied@gmail.com, daniel@ffwll.ch, sumit.semwal@linaro.org,
+        christian.koenig@amd.com, dri-devel@lists.freedesktop.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linaro-mm-sig@lists.linaro.org
+References: <20221111033817.366-1-tangchunyou@163.com>
+ <2b4e38d8-d0ea-e85c-88f1-bb6a714ee0eb@suse.de>
+ <20221118183232.00007638@163.com>
+Content-Language: en-US
+From:   Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <20221118183232.00007638@163.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------XgM8ETXUekg0EOJsfaSYemnJ"
 X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Nov 16, 2022 at 10:16:34AM -0800, Linus Torvalds wrote:
-> Following the history of it is a big of a mess, because there's a
-> number of renamings and re-organizations, but it seems to go back to
-> 2007 and commit b6a2fea39318 ("mm: variable length argument support").
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------XgM8ETXUekg0EOJsfaSYemnJ
+Content-Type: multipart/mixed; boundary="------------C0QJjKI0qwoGRcl2Yt0IOPHd";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Chunyou Tang <tangchunyou@163.com>
+Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
+ daniel@ffwll.ch, sumit.semwal@linaro.org, christian.koenig@amd.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+Message-ID: <b4681075-ea53-637f-0df5-3cc5891a102e@suse.de>
+Subject: Re: [PATCH v2] drm/gem-shmem: When drm_gem_object_init failed, should
+ release object
+References: <20221111033817.366-1-tangchunyou@163.com>
+ <2b4e38d8-d0ea-e85c-88f1-bb6a714ee0eb@suse.de>
+ <20221118183232.00007638@163.com>
+In-Reply-To: <20221118183232.00007638@163.com>
 
-I went back and read parts of the discussions with Ollie, and the
-.force=1 thing just magically appeared one day when we were sending
-work-in-progress patches back and forth without mention of where it came
-from :-/
+--------------C0QJjKI0qwoGRcl2Yt0IOPHd
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-And I certainly can't remember now..
+SGkNCg0KQW0gMTguMTEuMjIgdW0gMTE6MzIgc2NocmllYiBDaHVueW91IFRhbmc6DQo+IEhp
+IFRob21hcywNCj4gICAgIENhbiBJIGRpc2NhcmQgdGhlIGZpcnN0IHR3byBwYXRjaHMsIGFu
+ZCBwdWxsIHRoZSBuZXcgY29kZSwgdGhlbg0KPiAgICAgbW9kaWZ5IGFuZCBnaXQgc2VuZC1l
+bWFpbCB0aGlzIHBhdGNoPw0KDQpZZXMsIG9mIGNvdXJzZS4gSnVzdCBtYWtlIHN1cmUgdGhh
+dCB0aGUgbmV4dCB2ZXJzaW9uIGlzIG1hcmtlZCBhcyB2Mywgc28gDQppdCdzIG9idmlvdXMg
+d2hhdCBpdCBiZWxvbmdzIHRvLg0KDQpCZXN0IHJlZ2FyZHMNClRob21hcw0KDQo+IA0KPiAN
+Cj4g5LqOIFRodSwgMTcgTm92IDIwMjIgMTQ6NDI6MzYgKzAxMDANCj4gVGhvbWFzIFppbW1l
+cm1hbm4gPHR6aW1tZXJtYW5uQHN1c2UuZGU+IOWGmemBkzoNCj4gDQo+PiBIaQ0KPj4NCj4+
+IEFtIDExLjExLjIyIHVtIDA0OjM4IHNjaHJpZWIgQ2h1bnlvdVRhbmc6DQo+Pj4gd2hlbiBn
+b3RvIGVycl9mcmVlLCB0aGUgb2JqZWN0IGhhZCBpbml0LCBzbyBpdCBzaG91bGQgYmUgcmVs
+ZWFzZQ0KPj4+IHdoZW4gZmFpbC4NCj4+Pg0KPj4+IFNpZ25lZC1vZmYtYnk6IENodW55b3VU
+YW5nIDx0YW5nY2h1bnlvdUAxNjMuY29tPg0KPj4+IC0tLQ0KPj4+ICAgIGRyaXZlcnMvZ3B1
+L2RybS9kcm1fZ2VtLmMgICAgICAgICAgICAgIHwgMTkgKysrKysrKysrKysrKysrKy0tLQ0K
+Pj4+ICAgIGRyaXZlcnMvZ3B1L2RybS9kcm1fZ2VtX3NobWVtX2hlbHBlci5jIHwgIDQgKysr
+LQ0KPj4+ICAgIGluY2x1ZGUvZHJtL2RybV9nZW0uaCAgICAgICAgICAgICAgICAgIHwgIDEg
+Kw0KPj4+ICAgIDMgZmlsZXMgY2hhbmdlZCwgMjAgaW5zZXJ0aW9ucygrKSwgNCBkZWxldGlv
+bnMoLSkNCj4+Pg0KPj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2dlbS5j
+IGIvZHJpdmVycy9ncHUvZHJtL2RybV9nZW0uYw0KPj4+IGluZGV4IDhiNjhhM2MxZTZhYi4u
+Y2JhMzJjNDZiYjA1IDEwMDY0NA0KPj4+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fZ2Vt
+LmMNCj4+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2dlbS5jDQo+Pj4gQEAgLTE2OSw2
+ICsxNjksMjEgQEAgdm9pZCBkcm1fZ2VtX3ByaXZhdGVfb2JqZWN0X2luaXQoc3RydWN0DQo+
+Pj4gZHJtX2RldmljZSAqZGV2LCB9DQo+Pj4gICAgRVhQT1JUX1NZTUJPTChkcm1fZ2VtX3By
+aXZhdGVfb2JqZWN0X2luaXQpOw0KPj4+ICAgIA0KPj4+ICsvKioNCj4+PiArICogZHJtX2dl
+bV9wcml2YXRlX29iamVjdF9maW5pIC0gRmluYWxpemUgYSBmYWlsZWQgZHJtX2dlbV9vYmpl
+Y3QNCj4+PiArICogQG9iajogZHJtX2dlbV9vYmplY3QNCj4+PiArICoNCj4+PiArICogVW5p
+bml0aWFsaXplIGFuIGFscmVhZHkgYWxsb2NhdGVkIEdFTSBvYmplY3Qgd2hlbiBpdA0KPj4+
+IGluaXRpYWxpemVkIGZhaWxlZA0KPj4+ICsgKi8NCj4+PiArdm9pZCBkcm1fZ2VtX3ByaXZh
+dGVfb2JqZWN0X2Zpbmkoc3RydWN0IGRybV9nZW1fb2JqZWN0ICpvYmopDQo+Pj4gK3sNCj4+
+PiArCVdBUk5fT04ob2JqLT5kbWFfYnVmKTsNCj4+DQo+PiBSYXRoZXIgbGVhc2UgdGhpcyBp
+biBpdHMgb3JpZ2luYWwgcGxhY2UuDQo+Pg0KPj4+ICsNCj4+PiArCWRtYV9yZXN2X2Zpbmko
+Jm9iai0+X3Jlc3YpOw0KPj4+ICsJZHJtX2dlbV9scnVfcmVtb3ZlKG9iaik7DQo+Pg0KPj4g
+QUZBSUNUIGRybV9nZW1fbHJ1X3JlbW92ZSgpIGRvZXNuJ3QgYmVsb25nIGludG8gdGhpcyBm
+dW5jdGlvbi4NCj4+DQo+Pj4gK30NCj4+PiArRVhQT1JUX1NZTUJPTChkcm1fZ2VtX3ByaXZh
+dGVfb2JqZWN0X2ZpbmkpOw0KPj4+ICsNCj4+PiAgICAvKioNCj4+PiAgICAgKiBkcm1fZ2Vt
+X29iamVjdF9oYW5kbGVfZnJlZSAtIHJlbGVhc2UgcmVzb3VyY2VzIGJvdW5kIHRvDQo+Pj4g
+dXNlcnNwYWNlIGhhbmRsZXMNCj4+PiAgICAgKiBAb2JqOiBHRU0gb2JqZWN0IHRvIGNsZWFu
+IHVwLg0KPj4+IEBAIC05MzAsMTQgKzk0NSwxMiBAQCBkcm1fZ2VtX3JlbGVhc2Uoc3RydWN0
+IGRybV9kZXZpY2UgKmRldiwNCj4+PiBzdHJ1Y3QgZHJtX2ZpbGUgKmZpbGVfcHJpdmF0ZSkg
+dm9pZA0KPj4+ICAgIGRybV9nZW1fb2JqZWN0X3JlbGVhc2Uoc3RydWN0IGRybV9nZW1fb2Jq
+ZWN0ICpvYmopDQo+Pj4gICAgew0KPj4+IC0JV0FSTl9PTihvYmotPmRtYV9idWYpOw0KPj4+
+ICsJZHJtX2dlbV9wcml2YXRlX29iamVjdF9maW5pKG9iaik7DQo+Pj4gICAgDQo+Pj4gICAg
+CWlmIChvYmotPmZpbHApDQo+Pj4gICAgCQlmcHV0KG9iai0+ZmlscCk7DQo+Pj4gICAgDQo+
+Pj4gLQlkbWFfcmVzdl9maW5pKCZvYmotPl9yZXN2KTsNCj4+DQo+PiBQbGVhc2UgY2FsbCBk
+cm1fZ2VtX3ByaXZhdGVfb2JqZWN0X2ZpbmkoKSBoZXJlLg0KPj4NCj4+PiAgICAJZHJtX2dl
+bV9mcmVlX21tYXBfb2Zmc2V0KG9iaik7DQo+Pj4gLQlkcm1fZ2VtX2xydV9yZW1vdmUob2Jq
+KTsNCj4+DQo+PiBQbGVhc2Uga2VlcCB0aGlzIGxpbmUgaGVyZS4NCj4+DQo+PiBCZXN0IHJl
+Z2FyZHMNCj4+IFRob21hcw0KPj4NCj4+PiAgICB9DQo+Pj4gICAgRVhQT1JUX1NZTUJPTChk
+cm1fZ2VtX29iamVjdF9yZWxlYXNlKTsNCj4+PiAgICANCj4+PiBkaWZmIC0tZ2l0IGEvZHJp
+dmVycy9ncHUvZHJtL2RybV9nZW1fc2htZW1faGVscGVyLmMNCj4+PiBiL2RyaXZlcnMvZ3B1
+L2RybS9kcm1fZ2VtX3NobWVtX2hlbHBlci5jIGluZGV4DQo+Pj4gMzUxMzhmOGEzNzVjLi44
+NDVlM2Q1ZDcxZWIgMTAwNjQ0IC0tLQ0KPj4+IGEvZHJpdmVycy9ncHUvZHJtL2RybV9nZW1f
+c2htZW1faGVscGVyLmMgKysrDQo+Pj4gYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2dlbV9zaG1l
+bV9oZWxwZXIuYyBAQCAtNzksOCArNzksMTAgQEANCj4+PiBfX2RybV9nZW1fc2htZW1fY3Jl
+YXRlKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsIHNpemVfdCBzaXplLCBib29sDQo+Pj4gcHJp
+dmF0ZSkgfSBlbHNlIHsgcmV0ID0gZHJtX2dlbV9vYmplY3RfaW5pdChkZXYsIG9iaiwgc2l6
+ZSk7DQo+Pj4gICAgCX0NCj4+PiAtCWlmIChyZXQpDQo+Pj4gKwlpZiAocmV0KSB7DQo+Pj4g
+KwkJZHJtX2dlbV9wcml2YXRlX29iamVjdF9maW5pKG9iaikNCj4+PiAgICAJCWdvdG8gZXJy
+X2ZyZWU7DQo+Pj4gKwl9DQo+Pj4gICAgDQo+Pj4gICAgCXJldCA9IGRybV9nZW1fY3JlYXRl
+X21tYXBfb2Zmc2V0KG9iaik7DQo+Pj4gICAgCWlmIChyZXQpDQo+Pj4gZGlmZiAtLWdpdCBh
+L2luY2x1ZGUvZHJtL2RybV9nZW0uaCBiL2luY2x1ZGUvZHJtL2RybV9nZW0uaA0KPj4+IGlu
+ZGV4IGJkNDJmMjVlNDQ5Yy4uOWIxZmViMDMwNjlkIDEwMDY0NA0KPj4+IC0tLSBhL2luY2x1
+ZGUvZHJtL2RybV9nZW0uaA0KPj4+ICsrKyBiL2luY2x1ZGUvZHJtL2RybV9nZW0uaA0KPj4+
+IEBAIC00MDUsNiArNDA1LDcgQEAgaW50IGRybV9nZW1fb2JqZWN0X2luaXQoc3RydWN0IGRy
+bV9kZXZpY2UgKmRldiwNCj4+PiAgICAJCQlzdHJ1Y3QgZHJtX2dlbV9vYmplY3QgKm9iaiwg
+c2l6ZV90IHNpemUpOw0KPj4+ICAgIHZvaWQgZHJtX2dlbV9wcml2YXRlX29iamVjdF9pbml0
+KHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsDQo+Pj4gICAgCQkJCSBzdHJ1Y3QgZHJtX2dlbV9v
+YmplY3QgKm9iaiwNCj4+PiBzaXplX3Qgc2l6ZSk7ICt2b2lkIGRybV9nZW1fcHJpdmF0ZV9v
+YmplY3RfZmluaShzdHJ1Y3QNCj4+PiBkcm1fZ2VtX29iamVjdCAqb2JqKTsgdm9pZCBkcm1f
+Z2VtX3ZtX29wZW4oc3RydWN0IHZtX2FyZWFfc3RydWN0DQo+Pj4gKnZtYSk7IHZvaWQgZHJt
+X2dlbV92bV9jbG9zZShzdHJ1Y3Qgdm1fYXJlYV9zdHJ1Y3QgKnZtYSk7DQo+Pj4gICAgaW50
+IGRybV9nZW1fbW1hcF9vYmooc3RydWN0IGRybV9nZW1fb2JqZWN0ICpvYmosIHVuc2lnbmVk
+IGxvbmcNCj4+PiBvYmpfc2l6ZSwNCj4+DQo+IA0KDQotLSANClRob21hcyBaaW1tZXJtYW5u
+DQpHcmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVyDQpTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBH
+ZXJtYW55IEdtYkgNCk1heGZlbGRzdHIuIDUsIDkwNDA5IE7DvHJuYmVyZywgR2VybWFueQ0K
+KEhSQiAzNjgwOSwgQUcgTsO8cm5iZXJnKQ0KR2VzY2jDpGZ0c2bDvGhyZXI6IEl2byBUb3Rl
+dg0K
 
-Looking at it now, I have the same reaction as both you and Kees had, it
-seems entirely superflous. So I'm all for trying to remove it.
+--------------C0QJjKI0qwoGRcl2Yt0IOPHd--
+
+--------------XgM8ETXUekg0EOJsfaSYemnJ
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmN3ar0FAwAAAAAACgkQlh/E3EQov+AQ
+cxAAj0bf/fYJ3JvbpYSlat9Qo5WZ+4xZ1ypD0on92QLSIWGejH5cUbRoQLhuql2LEWLHThXyM0CG
+P4QMnK2vS8mVyGqVScRQ47LljkmJN9Qd+TomGP5vvMUoHtovhyKDd/yDWZmkGjHw16yJtEon0SBH
+m5vODEgxtB9aK5xex+6MiDJkZg22Div6Pewr1MGTYx4Smu7pxs1SjC7Qzwwf7bDzPhgIVmPsJFVB
+VatoAVlpx9pOFxL79TLR2+6wBCssNK/f+e4BDdObFxnK/zO31oHZ/uf17Ibmxxyak1i0LybQpLvX
+T3Vmh/yvOGDPRuTuTLiASANnJTGR9l1i23rtldVLPAenl9jG3RX4CWmaO7PJCNEBPQbE+rjPLz+U
+/xU/vQoZe3VdX3L44FdS6gMTh4ddqZYgRB+xu9ml9rs6uXiSqRT5dXNwq7/2FppblKqme8FmjKJR
+ts4jfPiS36QkCp8vnsLW+AJ5kzwZU+/giXRUiZVGEIFA//SUB8LHVn1jddfuBLlZHy5Ul0zz4H+G
+Uqmyd24JbbVzm9Nq6ZzXF3ODBln9r351bsY2vjDXaj46JL2kI+rIt9tH2IQi9OWRsilJ9taWafGY
+dngwZ1p7uDmsbBXjslP2wVRGFVxd0n13eA9Sd252mueqomLVtiuvvw+WCK+83XAkbNIkiv2NMaNr
+9ew=
+=SGdM
+-----END PGP SIGNATURE-----
+
+--------------XgM8ETXUekg0EOJsfaSYemnJ--
