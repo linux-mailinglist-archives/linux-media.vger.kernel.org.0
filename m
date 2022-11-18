@@ -2,127 +2,152 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 91DDE62FE01
-	for <lists+linux-media@lfdr.de>; Fri, 18 Nov 2022 20:32:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C827C630016
+	for <lists+linux-media@lfdr.de>; Fri, 18 Nov 2022 23:29:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234627AbiKRTcE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 18 Nov 2022 14:32:04 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50700 "EHLO
+        id S231297AbiKRW3H (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 18 Nov 2022 17:29:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53736 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235502AbiKRTcB (ORCPT
+        with ESMTP id S231490AbiKRW3F (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 18 Nov 2022 14:32:01 -0500
-Received: from mail-oi1-x22e.google.com (mail-oi1-x22e.google.com [IPv6:2607:f8b0:4864:20::22e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB920786FB
-        for <linux-media@vger.kernel.org>; Fri, 18 Nov 2022 11:31:58 -0800 (PST)
-Received: by mail-oi1-x22e.google.com with SMTP id l127so6409799oia.8
-        for <linux-media@vger.kernel.org>; Fri, 18 Nov 2022 11:31:58 -0800 (PST)
+        Fri, 18 Nov 2022 17:29:05 -0500
+Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com [IPv6:2607:f8b0:4864:20::1035])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE8847CBB0
+        for <linux-media@vger.kernel.org>; Fri, 18 Nov 2022 14:29:03 -0800 (PST)
+Received: by mail-pj1-x1035.google.com with SMTP id b11so5689146pjp.2
+        for <linux-media@vger.kernel.org>; Fri, 18 Nov 2022 14:29:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=S4aUMnezBjeTl1jsDQJ0t2bffjzqiY8JJHUDYwCqwLA=;
-        b=jM3AmfCW/2nHZxFgGS9Heu3pQvdP14z1y35P4H80L5GvxTjhGcP7LFZgivC4gaY60w
-         nN+fDhHzgWT+2NAIbiSfL6Rns9ljZnWLIlo99CYzOUugLbs2wTkpPqm/GQQc12jBVjZR
-         4+9kRbCPA2VzSdqbnS9ygKwPs6bsFRbks995B1w1BCOjrw1RMcFhLHExZZx4o2k8qTgr
-         TjmsbBTlyhwqdXMkFnzdwd9h1r6hFKN8kO0kSFSZO9Ik7Hz28tqbGqJDGyBpyOfRyIOb
-         v1S32k4HE0ADNTZ2XWf1Pm3h52Ya5QeOaA51YlzhXUK1zboM4QvbwyM5ahK1hNR7nmS+
-         qEMQ==
+        d=chromium.org; s=google;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=UbBsvDU//DL6nEBTfVogOGw4gtrIt5cEgoWU7wg0yqE=;
+        b=An8R27hBelrmHfCbOWIi0CQbpB+FbdUKZd/K74OWA+t1inv8v4494buerQXpAbVoQ/
+         hawXo5IWqwOaOJXIlgQJ62nY4aZ8mzIQL8T0sN5QawgAa8EGZw3klOrzN/KXycM8ohn1
+         PnwiDQNXHvwQENzmlhMaoO6BFIxzwB92hREPE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=S4aUMnezBjeTl1jsDQJ0t2bffjzqiY8JJHUDYwCqwLA=;
-        b=KayYjL6QJFijUS5GO9OB+OOGuANEwTkDOrZKDYIjr3QCsKk+LrOfPVhdCNmZ5iLLyt
-         THnaPm2OqB2Nhc9MYvxbfs8dme4U0FKdWYQdvzfQ95PPJqCD9nc4eJBNT5nT1vWOWGH+
-         752Ax8bLrk64eaHZ9X5HmQpLV7vmCjBy42qbuvlSuntfdAb666ts3zwHLNPxeVJ2HB3l
-         1OVdcQPCyKt7qaRAcexkkgrGi422fQHJEctqlSYKE4L8tdUtAU29iq2OwiNZ1rDCpXSF
-         bla7GvXBQiOUI0kiKrwdOFNSOybGHlruhsW8FobMv+O3aZm2RCy2FOulVBRIQCAPHwP2
-         7q+Q==
-X-Gm-Message-State: ANoB5plqS1EXRBM2IKGSo8pZojM86LDGhl8NtBlPonXw50Z7P9EHtdqS
-        y9GQT7Qx9lDcQ6wBy3E6QCLcI8UnSrGROdodxGs=
-X-Google-Smtp-Source: AA0mqf7f2OW5VJGSiFWIbV1iX15MWwqhFk2z0a4peRT5QDLGMcj5gnnNu7gdRSqtSDb5fD6MgxHrYtioX+SoXulEiT4=
-X-Received: by 2002:a05:6808:2086:b0:354:46fc:9bb3 with SMTP id
- s6-20020a056808208600b0035446fc9bb3mr4221461oiw.38.1668799918044; Fri, 18 Nov
- 2022 11:31:58 -0800 (PST)
-MIME-Version: 1.0
-References: <20221020121316.3946-1-christian.koenig@amd.com>
- <3d7353f3fa5905ce18e5b2d92f758f098189bc5a.camel@pengutronix.de>
- <7f5eff36-6886-bb06-061a-dd4263b61605@gmail.com> <f5de84cfe81fee828bbe0d47d379028d28ef6ca6.camel@pengutronix.de>
- <e02cedc2-6741-8813-a7a5-f8769e301745@gmail.com> <a53e5df51ec0f2f9d4c2d377c0cc5ba85f2e58ff.camel@ndufresne.ca>
- <9d716641-55c6-1590-26c2-1c3b14a28226@gmail.com> <CAPj87rMPkmimR_RJHhxYZokH__TVpPArk0h6drOUSx7Z9+oAHA@mail.gmail.com>
- <11a6f97c-e45f-f24b-8a73-48d5a388a2cc@gmail.com> <caf4d6b82843788db97555a58bc9e33915e5b50a.camel@ndufresne.ca>
- <b422be59-4b4b-2d0d-8e8c-b19f27c6832e@gmail.com> <4fa4e5d3b1f46e46139bad069cbf5e795e63afa8.camel@pengutronix.de>
- <cc091a11-d012-d998-b7e2-8b3d616867a7@gmail.com> <0abc6efddb8dfc1888de15a1bedaaac6688fd078.camel@pengutronix.de>
- <1e2a6750-9849-e9ee-69d6-e4bfdcfb64f3@gmail.com> <CAAFQd5B+VHs62M5Wf2L-xOw=_PoaXT+akAySkeZc75HeA3d0jQ@mail.gmail.com>
- <b2dec9b3-03a7-e7ac-306e-1da024af8982@amd.com> <346d6ad023ef8697aafd93ac1b100890f3637e44.camel@ndufresne.ca>
-In-Reply-To: <346d6ad023ef8697aafd93ac1b100890f3637e44.camel@ndufresne.ca>
-From:   Rob Clark <robdclark@gmail.com>
-Date:   Fri, 18 Nov 2022 11:32:19 -0800
-Message-ID: <CAF6AEGuqgWi0T=B9cb+Uy7aoWBPGQmZ3JbwFcK_45GbkY2nHPg@mail.gmail.com>
-Subject: Re: Try to address the DMA-buf coherency problem
-To:     Nicolas Dufresne <nicolas@ndufresne.ca>
-Cc:     =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        Tomasz Figa <tfiga@chromium.org>,
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=UbBsvDU//DL6nEBTfVogOGw4gtrIt5cEgoWU7wg0yqE=;
+        b=ZNXLaOP4Hm/65S2JTnowZpF+EZx0xPMW14EHsT6do3HEqs86RalPs1EO3zIGW5RIl5
+         ymC+sXOfllOp9/iGqkx9xUzNtZpu3aol+OWcJ5lV3XuSAhEIGnh8xwJo2SdgQ6ozD5jN
+         VwB/aflaiyKAzg8GXt7a4JYQe7R6Ef4YXSq8tkLmf2/tabW4A763KrKwJdr3XLbNRdBy
+         DksSAb1Ht0G8xWkbD6PmRDBB4tzvejGwGqbtZQSeV0khkcnVpdj//dD6ex1wfEwcNNZG
+         NQRlzyF/1t5CyBqhX0gFb1oOZ127/cyIec8AtiDhzmxgJQFBQGGTk6A2B09i3Wu0P5xJ
+         DBbQ==
+X-Gm-Message-State: ANoB5pmkbvBc0bcsETXWaqUz4PlmWsoEltq0d2H3Nd1H3BlfUvcu94UB
+        HYVJ3vWXQrnv3k9EdS+oqmBa+g==
+X-Google-Smtp-Source: AA0mqf6x3WR1+0wUVWwli47/xk6od69+oUWF0cQjmoupKb1o7R1u9AWIvzDIrLxmCvQfjLJnyEjRtg==
+X-Received: by 2002:a17:902:e009:b0:188:649b:9dbe with SMTP id o9-20020a170902e00900b00188649b9dbemr1414800plo.107.1668810543395;
+        Fri, 18 Nov 2022 14:29:03 -0800 (PST)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id b29-20020aa7951d000000b00561382a5a25sm3714931pfp.26.2022.11.18.14.29.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 18 Nov 2022 14:29:02 -0800 (PST)
+Date:   Fri, 18 Nov 2022 14:29:02 -0800
+From:   Kees Cook <keescook@chromium.org>
+To:     Peter Zijlstra <peterz@infradead.org>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        David Hildenbrand <david@redhat.com>,
+        linux-kernel@vger.kernel.org, x86@kernel.org,
+        linux-alpha@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-ia64@vger.kernel.org, linux-mips@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, sparclinux@vger.kernel.org,
+        linux-um@lists.infradead.org, etnaviv@lists.freedesktop.org,
+        dri-devel@lists.freedesktop.org, linux-samsung-soc@vger.kernel.org,
+        linux-rdma@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+        linux-perf-users@vger.kernel.org,
+        linux-security-module@vger.kernel.org,
+        linux-kselftest@vger.kernel.org,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        John Hubbard <jhubbard@nvidia.com>,
+        Peter Xu <peterx@redhat.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Hugh Dickins <hughd@google.com>, Nadav Amit <namit@vmware.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Matthew Wilcox <willy@infradead.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Muchun Song <songmuchun@bytedance.com>,
+        Shuah Khan <shuah@kernel.org>,
         Lucas Stach <l.stach@pengutronix.de>,
-        Daniel Stone <daniel@fooishbar.org>, ppaalanen@gmail.com,
-        sumit.semwal@linaro.org, daniel@ffwll.ch,
-        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-        linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        David Airlie <airlied@gmail.com>,
+        Oded Gabbay <ogabbay@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Christoph Hellwig <hch@infradead.org>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Oleg Nesterov <oleg@redhat.com>,
+        Richard Henderson <richard.henderson@linaro.org>,
+        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+        Matt Turner <mattst88@gmail.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        "David S. Miller" <davem@davemloft.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Richard Weinberger <richard@nod.at>,
+        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+        Johannes Berg <johannes@sipsolutions.net>,
+        Eric Biederman <ebiederm@xmission.com>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Jiri Olsa <jolsa@kernel.org>,
+        Namhyung Kim <namhyung@kernel.org>,
+        Kentaro Takeda <takedakn@nttdata.co.jp>,
+        Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+        Paul Moore <paul@paul-moore.com>,
+        James Morris <jmorris@namei.org>,
+        "Serge E. Hallyn" <serge@hallyn.com>
+Subject: Re: [PATCH mm-unstable v1 20/20] mm: rename FOLL_FORCE to FOLL_PTRACE
+Message-ID: <202211181427.4D1C3132FE@keescook>
+References: <20221116102659.70287-1-david@redhat.com>
+ <20221116102659.70287-21-david@redhat.com>
+ <CAHk-=wgtEwpR-rE_=cXzecHMZ+zgrx5zf9UfvH0w-mKgckn4=Q@mail.gmail.com>
+ <Y3dnzgwJpjTQXI9y@hirez.programming.kicks-ass.net>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y3dnzgwJpjTQXI9y@hirez.programming.kicks-ass.net>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Nov 17, 2022 at 7:38 AM Nicolas Dufresne <nicolas@ndufresne.ca> wro=
-te:
->
-> Le jeudi 17 novembre 2022 =C3=A0 13:10 +0100, Christian K=C3=B6nig a =C3=
-=A9crit :
-> > > > DMA-Buf let's the exporter setup the DMA addresses the importer use=
-s to
-> > > > be able to directly decided where a certain operation should go. E.=
-g. we
-> > > > have cases where for example a P2P write doesn't even go to memory,=
- but
-> > > > rather a doorbell BAR to trigger another operation. Throwing in CPU
-> > > > round trips for explicit ownership transfer completely breaks that
-> > > > concept.
-> > > It sounds like we should have a dma_dev_is_coherent_with_dev() which
-> > > accepts two (or an array?) of devices and tells the caller whether th=
-e
-> > > devices need explicit ownership transfer.
-> >
-> > No, exactly that's the concept I'm pushing back on very hard here.
-> >
-> > In other words explicit ownership transfer is not something we would
-> > want as requirement in the framework, cause otherwise we break tons of
-> > use cases which require concurrent access to the underlying buffer.
->
-> I'm not pushing for this solution, but really felt the need to correct yo=
-u here.
-> I have quite some experience with ownership transfer mechanism, as this i=
-s how
-> GStreamer framework works since 2000. Concurrent access is a really commo=
-n use
-> cases and it is quite well defined in that context. The bracketing system=
- (in
-> this case called map() unmap(), with flag stating the usage intention lik=
-e reads
-> and write) is combined the the refcount. The basic rules are simple:
+On Fri, Nov 18, 2022 at 12:09:02PM +0100, Peter Zijlstra wrote:
+> On Wed, Nov 16, 2022 at 10:16:34AM -0800, Linus Torvalds wrote:
+> > Following the history of it is a big of a mess, because there's a
+> > number of renamings and re-organizations, but it seems to go back to
+> > 2007 and commit b6a2fea39318 ("mm: variable length argument support").
+> 
+> I went back and read parts of the discussions with Ollie, and the
+> .force=1 thing just magically appeared one day when we were sending
+> work-in-progress patches back and forth without mention of where it came
+> from :-/
+> 
+> And I certainly can't remember now..
+> 
+> Looking at it now, I have the same reaction as both you and Kees had, it
+> seems entirely superflous. So I'm all for trying to remove it.
 
-This is all CPU oriented, I think Christian is talking about the case
-where ownership transfer happens without CPU involvement, such as via
-GPU waiting on a fence
+Thanks for digging through the history! I've pushed the change to -next:
+https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git/commit/?h=for-next/execve&id=cd57e443831d8eeb083c7165bce195d886e216d4
 
-BR,
--R
+-- 
+Kees Cook
