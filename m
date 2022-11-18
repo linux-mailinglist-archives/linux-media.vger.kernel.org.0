@@ -2,71 +2,57 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 92ABA62F232
-	for <lists+linux-media@lfdr.de>; Fri, 18 Nov 2022 11:11:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 29F0A62F2A8
+	for <lists+linux-media@lfdr.de>; Fri, 18 Nov 2022 11:34:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235238AbiKRKLR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 18 Nov 2022 05:11:17 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42098 "EHLO
+        id S241329AbiKRKeJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 18 Nov 2022 05:34:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56376 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241845AbiKRKKk (ORCPT
+        with ESMTP id S241108AbiKRKeD (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 18 Nov 2022 05:10:40 -0500
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A82F91509;
-        Fri, 18 Nov 2022 02:10:29 -0800 (PST)
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits))
-        (No client certificate requested)
-        (Authenticated sender: kholk11)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id F1DD36602AA7;
-        Fri, 18 Nov 2022 10:10:26 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1668766227;
-        bh=36XHqXHW9/4pThD2dF/5JFo7f13qGtp3LHEod+p8KXQ=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=GnB3VAJyaDI54TY0WKGzD12xkMUnqgE1NeVQZNzB0IdnmQfjabbST7saZMjqNShtu
-         MAeFO1+tfRr2nchORINd5e1PzClkQgrD4Lusa8NuQszuRWaUGXE7VCbO4CemhgHBoO
-         k7AYWhyB8ItQXbeLxUKUSKZ1CgSbUuB3XOcrdD0eG5zRU7imUkb2SGpvwz1OeC+Aku
-         AnKR0ZIkTcFRZGTVS9ZiT2Ys5pYHDkKNFe04KFhhnGHHoStCriNNR96BahtyAGaPvp
-         +tpsfrT7sWAvd0yIviDiySTotR+RVM5YYFGvdCK8Lu5fbHcnMo8XkuF/YvFsUHGAEz
-         XsQ3Br4H2ocWA==
-Message-ID: <b09a64fb-262b-6ed3-0399-de0c9f438385@collabora.com>
-Date:   Fri, 18 Nov 2022 11:10:24 +0100
+        Fri, 18 Nov 2022 05:34:03 -0500
+Received: from m12-14.163.com (m12-14.163.com [220.181.12.14])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 53938CF7;
+        Fri, 18 Nov 2022 02:34:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+        s=s110527; h=Date:From:Subject:Message-ID:MIME-Version; bh=4c9uE
+        3fyeTteQiMB6ZX5jXFCh66NO9kuuzGOxgH3+Ek=; b=lBf8q+dcpErtPBTHaN4Dl
+        nUJnINe+UvgijJJOx2cIDc1OhQJcp71+WQfRGJzZ4jjNmrD/cfk2KOYyme/4Ee2y
+        C84OFmi5Rjx4o7deG4aFIhTH8taAYHAF7c09zWDLo9LfFB9MstikmdSYVvTF4wAP
+        7kbIRJ79mAnGPZU8SU/FDw=
+Received: from localhost (unknown [114.221.197.177])
+        by smtp10 (Coremail) with SMTP id DsCowABXey1AX3djaWaKNQ--.62677S2;
+        Fri, 18 Nov 2022 18:32:33 +0800 (CST)
+Date:   Fri, 18 Nov 2022 18:32:32 +0800
+From:   Chunyou Tang <tangchunyou@163.com>
+To:     Thomas Zimmermann <tzimmermann@suse.de>
+Cc:     maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+        airlied@gmail.com, daniel@ffwll.ch, sumit.semwal@linaro.org,
+        christian.koenig@amd.com, dri-devel@lists.freedesktop.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH v2] drm/gem-shmem: When drm_gem_object_init failed,
+ should release object
+Message-ID: <20221118183232.00007638@163.com>
+In-Reply-To: <2b4e38d8-d0ea-e85c-88f1-bb6a714ee0eb@suse.de>
+References: <20221111033817.366-1-tangchunyou@163.com>
+        <2b4e38d8-d0ea-e85c-88f1-bb6a714ee0eb@suse.de>
+Organization: icube
+X-Mailer: Claws Mail 3.10.1 (GTK+ 2.16.6; i586-pc-mingw32msvc)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.3
-Subject: Re: [PATCH v2,4/5] media: mediatek: vcodec: Setting lat buf to
- lat_list when lat decode error
-Content-Language: en-US
-To:     Yunfei Dong <yunfei.dong@mediatek.com>,
-        Chen-Yu Tsai <wenst@chromium.org>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Tiffany Lin <tiffany.lin@mediatek.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        George Sun <george.sun@mediatek.com>,
-        Xiaoyong Lu <xiaoyong.lu@mediatek.com>,
-        Hsin-Yi Wang <hsinyi@chromium.org>,
-        Fritz Koenig <frkoenig@chromium.org>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Steve Cho <stevecho@chromium.org>, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org,
-        Project_Global_Chrome_Upstream_Group@mediatek.com
-References: <20221117092453.31366-1-yunfei.dong@mediatek.com>
- <20221117092453.31366-5-yunfei.dong@mediatek.com>
-From:   AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20221117092453.31366-5-yunfei.dong@mediatek.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=GB18030
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: DsCowABXey1AX3djaWaKNQ--.62677S2
+X-Coremail-Antispam: 1Uf129KBjvJXoWxWw4rAFykKFWUWFWfXr1DWrg_yoW5tFW7pa
+        9xArW7KrW8tFWqgr97XF4kAa43Gw40gF48Wa43J3yakw10yF1DJF15Cr1DAFW7Ar17Xr1a
+        qwnF9F93AFWjyaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07U9o7_UUUUU=
+X-Originating-IP: [114.221.197.177]
+X-CM-SenderInfo: 5wdqwu5kxq50rx6rljoofrz/1tbiVgG9UVqzvEdRtgAAsO
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
         SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -74,12 +60,114 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Il 17/11/22 10:24, Yunfei Dong ha scritto:
-> Need to set lat buf to lat_list when lat decode error, or lat buffer will lost.
+Hi Thomas,
+   Can I discard the first two patchs, and pull the new code, then
+   modify and git send-email this patch?
+
+
+ÓÚ Thu, 17 Nov 2022 14:42:36 +0100
+Thomas Zimmermann <tzimmermann@suse.de> Ð´µÀ:
+
+> Hi
 > 
-> Fixes: 5d418351ca8f ("media: mediatek: vcodec: support stateless VP9 decoding")
-> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
-
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-
+> Am 11.11.22 um 04:38 schrieb ChunyouTang:
+> > when goto err_free, the object had init, so it should be release
+> > when fail.
+> > 
+> > Signed-off-by: ChunyouTang <tangchunyou@163.com>
+> > ---
+> >   drivers/gpu/drm/drm_gem.c              | 19 ++++++++++++++++---
+> >   drivers/gpu/drm/drm_gem_shmem_helper.c |  4 +++-
+> >   include/drm/drm_gem.h                  |  1 +
+> >   3 files changed, 20 insertions(+), 4 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
+> > index 8b68a3c1e6ab..cba32c46bb05 100644
+> > --- a/drivers/gpu/drm/drm_gem.c
+> > +++ b/drivers/gpu/drm/drm_gem.c
+> > @@ -169,6 +169,21 @@ void drm_gem_private_object_init(struct
+> > drm_device *dev, }
+> >   EXPORT_SYMBOL(drm_gem_private_object_init);
+> >   
+> > +/**
+> > + * drm_gem_private_object_fini - Finalize a failed drm_gem_object
+> > + * @obj: drm_gem_object
+> > + *
+> > + * Uninitialize an already allocated GEM object when it
+> > initialized failed
+> > + */
+> > +void drm_gem_private_object_fini(struct drm_gem_object *obj)
+> > +{
+> > +	WARN_ON(obj->dma_buf);
+> 
+> Rather lease this in its original place.
+> 
+> > +
+> > +	dma_resv_fini(&obj->_resv);
+> > +	drm_gem_lru_remove(obj);
+> 
+> AFAICT drm_gem_lru_remove() doesn't belong into this function.
+> 
+> > +}
+> > +EXPORT_SYMBOL(drm_gem_private_object_fini);
+> > +
+> >   /**
+> >    * drm_gem_object_handle_free - release resources bound to
+> > userspace handles
+> >    * @obj: GEM object to clean up.
+> > @@ -930,14 +945,12 @@ drm_gem_release(struct drm_device *dev,
+> > struct drm_file *file_private) void
+> >   drm_gem_object_release(struct drm_gem_object *obj)
+> >   {
+> > -	WARN_ON(obj->dma_buf);
+> > +	drm_gem_private_object_fini(obj);
+> >   
+> >   	if (obj->filp)
+> >   		fput(obj->filp);
+> >   
+> > -	dma_resv_fini(&obj->_resv);
+> 
+> Please call drm_gem_private_object_fini() here.
+> 
+> >   	drm_gem_free_mmap_offset(obj);
+> > -	drm_gem_lru_remove(obj);
+> 
+> Please keep this line here.
+> 
+> Best regards
+> Thomas
+> 
+> >   }
+> >   EXPORT_SYMBOL(drm_gem_object_release);
+> >   
+> > diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c
+> > b/drivers/gpu/drm/drm_gem_shmem_helper.c index
+> > 35138f8a375c..845e3d5d71eb 100644 ---
+> > a/drivers/gpu/drm/drm_gem_shmem_helper.c +++
+> > b/drivers/gpu/drm/drm_gem_shmem_helper.c @@ -79,8 +79,10 @@
+> > __drm_gem_shmem_create(struct drm_device *dev, size_t size, bool
+> > private) } else { ret = drm_gem_object_init(dev, obj, size);
+> >   	}
+> > -	if (ret)
+> > +	if (ret) {
+> > +		drm_gem_private_object_fini(obj)
+> >   		goto err_free;
+> > +	}
+> >   
+> >   	ret = drm_gem_create_mmap_offset(obj);
+> >   	if (ret)
+> > diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
+> > index bd42f25e449c..9b1feb03069d 100644
+> > --- a/include/drm/drm_gem.h
+> > +++ b/include/drm/drm_gem.h
+> > @@ -405,6 +405,7 @@ int drm_gem_object_init(struct drm_device *dev,
+> >   			struct drm_gem_object *obj, size_t size);
+> >   void drm_gem_private_object_init(struct drm_device *dev,
+> >   				 struct drm_gem_object *obj,
+> > size_t size); +void drm_gem_private_object_fini(struct
+> > drm_gem_object *obj); void drm_gem_vm_open(struct vm_area_struct
+> > *vma); void drm_gem_vm_close(struct vm_area_struct *vma);
+> >   int drm_gem_mmap_obj(struct drm_gem_object *obj, unsigned long
+> > obj_size,
+> 
 
