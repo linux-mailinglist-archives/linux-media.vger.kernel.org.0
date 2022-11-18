@@ -2,167 +2,172 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EBA9A62EBFC
-	for <lists+linux-media@lfdr.de>; Fri, 18 Nov 2022 03:37:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D183F62ED74
+	for <lists+linux-media@lfdr.de>; Fri, 18 Nov 2022 07:07:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234728AbiKRChK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 17 Nov 2022 21:37:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52918 "EHLO
+        id S241059AbiKRGHs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 18 Nov 2022 01:07:48 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36748 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234664AbiKRChJ (ORCPT
+        with ESMTP id S240866AbiKRGHp (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 17 Nov 2022 21:37:09 -0500
-Received: from mail-yb1-xb33.google.com (mail-yb1-xb33.google.com [IPv6:2607:f8b0:4864:20::b33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E3E58D4A3
-        for <linux-media@vger.kernel.org>; Thu, 17 Nov 2022 18:37:08 -0800 (PST)
-Received: by mail-yb1-xb33.google.com with SMTP id k84so4162124ybk.3
-        for <linux-media@vger.kernel.org>; Thu, 17 Nov 2022 18:37:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4HRVnwEPfcbOzbMRSuMs2NCAF/YKRv3NoY+l+faUblg=;
-        b=kHLH0YZhlWdDrEgGrLPz9ScoylswZMbdh04T67tjO/2HzqKAq+V2G0l4muslRCxzg+
-         XCKNpW1eZlF8HrwLu0bwE9DIUnlOT8Y7y+9S6dUqcOq+5IuVnzRW0TgQ8r0C2kjXKBvB
-         hoBxUXD8HY/BkmaFMWt/KDIaodNUFrDjijNn/1w9HeHfuppM7oRouEjnm5IvqR5SbL1b
-         160DXvkdT4vLDOYaYmu0nMyhqKEVPiunDPabVeh8oCYdThAFJJkdeArsC3KZjCxR79rU
-         JvuS8yxkEhE104xvnTdDcou4o20pmw0RUape/+jG6GjP4MLtepO8NiyW0VX25VU9GG1L
-         4WLg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=4HRVnwEPfcbOzbMRSuMs2NCAF/YKRv3NoY+l+faUblg=;
-        b=XXrrkNIQp6+96g06JNSIR+dYO67VKAdCHZeHyV9f1vrRuBjCvdi+DdkNYlb8hHbW13
-         TSMS83YFIqH3rqjOWO5CRJjwlrumehnV14GiaYRacNUjw8WfG23lqgHPniYMWzeTCHLK
-         5vItld14kHH+/NH6qp9nDa3kr533V6ZTdoPi20bN94THOxWLbzSSXH6uXFtXP+5yNZXy
-         FI9JYqSeG9dYlLm3rZ0yzhBTWEsUnl8kSJpFqzPrQmKn9bgcz9vmZWm0keX5sK6ZTLV6
-         4+VZl0msxx07cjNwGSprhzQx3xvkKshHb/7xYWwDyW8/rrkKwg1LI6NKdx42QRg3xL9j
-         UOxA==
-X-Gm-Message-State: ANoB5pnR5QJ9Z3Q6SXEg9ISaYzo1iQuoTNSdUtenLKkZi1HZQmgmU1TD
-        vLjAhOdxavIahBGOAQxp/GlfgtsL5nCm9n6uhsKvhyhlP6RToA==
-X-Google-Smtp-Source: AA0mqf6tvEM8h8k0SC7Z2uTEXO+9G7gHq4QnR8+nNOQhmac2n6iyv5bfxPTv+iudbxbyX0LXFzhxaaeEGkxRLsrl2TQ=
-X-Received: by 2002:a5b:b06:0:b0:6dd:6382:90c with SMTP id z6-20020a5b0b06000000b006dd6382090cmr4828354ybp.636.1668739027644;
- Thu, 17 Nov 2022 18:37:07 -0800 (PST)
+        Fri, 18 Nov 2022 01:07:45 -0500
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7352D9A5C3;
+        Thu, 17 Nov 2022 22:07:37 -0800 (PST)
+X-UUID: 94788235810d480c8e2a92849ab3b2af-20221118
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+        h=Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=A1+E6zUcXM7KWUwrCuEohNuT19+u0ZqHVLOlME/NAkE=;
+        b=A5n7sY0eI6YdaZMljcZlASIWmFI80js4CSGHdf9q+iFuAQvzxuhH2m4fncpYjd/yGBfC3UbQxNIzDPNwTN6ba2QA70aIhk4K++XygraVnIxKQGNocV1b7f4nF7QOMc3rNv6PeP5Vp5QD/dGJ76lU5MdcUQgaq2KVtB/sHaVZZlo=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.13,REQID:856b5215-0f28-4000-8ff6-35aaf9cf6516,IP:0,U
+        RL:0,TC:0,Content:0,EDM:0,RT:0,SF:100,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
+        N:release,TS:100
+X-CID-INFO: VERSION:1.1.13,REQID:856b5215-0f28-4000-8ff6-35aaf9cf6516,IP:0,URL
+        :0,TC:0,Content:0,EDM:0,RT:0,SF:100,FILE:0,BULK:0,RULE:Spam_GS981B3D,ACTIO
+        N:quarantine,TS:100
+X-CID-META: VersionHash:d12e911,CLOUDID:6071232f-2938-482e-aafd-98d66723b8a9,B
+        ulkID:221118140732UI5E2ZT3,BulkQuantity:0,Recheck:0,SF:38|28|17|19|48,TC:n
+        il,Content:0,EDM:-3,IP:nil,URL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0
+X-UUID: 94788235810d480c8e2a92849ab3b2af-20221118
+Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw01.mediatek.com
+        (envelope-from <yongqiang.niu@mediatek.com>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+        with ESMTP id 23650525; Fri, 18 Nov 2022 14:07:30 +0800
+Received: from mtkmbs13n2.mediatek.inc (172.21.101.108) by
+ mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.792.15; Fri, 18 Nov 2022 14:07:28 +0800
+Received: from localhost.localdomain (10.17.3.154) by mtkmbs13n2.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.2.792.15 via Frontend
+ Transport; Fri, 18 Nov 2022 14:07:28 +0800
+From:   Yongqiang Niu <yongqiang.niu@mediatek.com>
+To:     Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>
+CC:     <dri-devel@lists.freedesktop.org>,
+        <linux-mediatek@lists.infradead.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
+        <linaro-mm-sig@lists.linaro.org>,
+        <Project_Global_Chrome_Upstream_Group@mediatek.com>,
+        Hsin-Yi Wang <hsinyi@chromium.org>,
+        Yongqiang Niu <yongqiang.niu@mediatek.com>
+Subject: [PATCH v1] drm/mediatek: add dma buffer control for drm plane disable
+Date:   Fri, 18 Nov 2022 14:07:25 +0800
+Message-ID: <20221118060725.13134-1-yongqiang.niu@mediatek.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20221117062152.3029018-1-cuigaosheng1@huawei.com>
- <f12a5dbe-4626-f6c7-236b-30bb16be1dd6@quicinc.com> <99d3aee6-ba3e-5333-6f79-ddbcfc0e8843@amd.com>
-In-Reply-To: <99d3aee6-ba3e-5333-6f79-ddbcfc0e8843@amd.com>
-From:   "T.J. Mercier" <tjmercier@google.com>
-Date:   Thu, 17 Nov 2022 18:36:56 -0800
-Message-ID: <CABdmKX1UMB0L0PmHB59nijReZef6LUQ3XKXitHZo2YnUrJTz9Q@mail.gmail.com>
-Subject: Re: [PATCH] dma-buf: Fix possible UAF in dma_buf_export
-To:     =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc:     Charan Teja Kalla <quic_charante@quicinc.com>,
-        Gaosheng Cui <cuigaosheng1@huawei.com>,
-        sumit.semwal@linaro.org, Dan Carpenter <dan.carpenter@oracle.com>,
-        Pavan Kondeti <quic_pkondeti@quicinc.com>,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-MTK:  N
+X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,DKIM_INVALID,
+        DKIM_SIGNED,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,T_SPF_TEMPERROR,
+        UNPARSEABLE_RELAY autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Nov 17, 2022 at 2:16 AM Christian K=C3=B6nig
-<christian.koenig@amd.com> wrote:
->
-> Am 17.11.22 um 08:48 schrieb Charan Teja Kalla:
-> > Sometime back Dan also reported the same issue[1] where I do mentioned
-> > that fput()-->dma_buf_file_release() will remove it from the list.
-> >
-> > But it seems that I failed to notice fput() here calls the
-> > dma_buf_file_release() asynchronously i.e. dmabuf that is accessed in
-> > the close path is already freed. Am I wrong here?
-> >
-> > Should we have the __fput_sync(file) here instead of just fput(file)
-> > which can solve this problem?
-> >
-> > [1]https://nam11.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2F=
-lore.kernel.org%2Fall%2F20220516084704.GG29930%40kadam%2F&amp;data=3D05%7C0=
-1%7Cchristian.koenig%40amd.com%7C115292dd7a874278b3ed08dac8701320%7C3dd8961=
-fe4884e608e11a82d994e183d%7C0%7C0%7C638042680960627756%7CUnknown%7CTWFpbGZs=
-b3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C30=
-00%7C%7C%7C&amp;sdata=3DNYNIAJjt%2FSUXoc3wCz2vPvo%2Be%2FIVcABEA2JYZ8%2F2q04=
-%3D&amp;reserved=3D0
->
-> That doesn't look like the right solution to me either.
->
-> Essentially we have two separate tear down methods for the dma_buf
-> object here:
->
-> 1. It's not completely initialized and we can call kfree()+module_put()
-> to clean up.
->      There is actually a dma_resv_fini() here. That should probably be
-> fixed.
->
-> 2. The dma_buf object is fully initialized, but creating the sysfs stats
-> file failed.
->      In this case we should *not* clean it up like we currently do, but
-> rather call fput().
->
-> So the right thing to do is a) fix the missing dma_resv_fini() call and
-> b) drop the setting d_fsdata=3DNULL hack and properly return after the fp=
-ut().
->
-This looks right to me if by properly return you mean return
-ERR_PTR(ret); at the end of err_sysfs after the fput. (letting
-dma_buf_file_release and dma_buf_release do the full cleanup)
+get dma buffer when drm plane disable
+put dma buffer when overlay really disable
 
-If we still want to avoid calling dmabuf->ops->release(dmabuf) in
-dma_buf_release like the comment says I guess we could use sysfs_entry
-and ERR_PTR to flag that, otherwise it looks like we'd need a bit
-somewhere.
+Signed-off-by: Yongqiang Niu <yongqiang.niu@mediatek.com>
+---
+ drivers/gpu/drm/mediatek/mtk_drm_crtc.c  | 11 +++++++++++
+ drivers/gpu/drm/mediatek/mtk_drm_plane.c | 12 ++++++++++++
+ drivers/gpu/drm/mediatek/mtk_drm_plane.h |  1 +
+ 3 files changed, 24 insertions(+)
 
- >
-> Regards,
-> Christian.
->
-> >
-> > Thanks,
-> > Charan
-> > On 11/17/2022 11:51 AM, Gaosheng Cui wrote:
-> >> Smatch report warning as follows:
-> >>
-> >> drivers/dma-buf/dma-buf.c:681 dma_buf_export() warn:
-> >>    '&dmabuf->list_node' not removed from list
-> >>
-> >> If dma_buf_stats_setup() fails in dma_buf_export(), goto err_sysfs
-> >> and dmabuf will be freed, but dmabuf->list_node will not be removed
-> >> from db_list.head, then list traversal may cause UAF.
-> >>
-> >> Fix by removeing it from db_list.head before free().
-> >>
-> >> Fixes: ef3a6b70507a ("dma-buf: call dma_buf_stats_setup after dmabuf i=
-s in valid list")
-> >> Signed-off-by: Gaosheng Cui <cuigaosheng1@huawei.com>
-> >> ---
-> >>   drivers/dma-buf/dma-buf.c | 3 +++
-> >>   1 file changed, 3 insertions(+)
-> >>
-> >> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-> >> index b809513b03fe..6848f50226d5 100644
-> >> --- a/drivers/dma-buf/dma-buf.c
-> >> +++ b/drivers/dma-buf/dma-buf.c
-> >> @@ -675,6 +675,9 @@ struct dma_buf *dma_buf_export(const struct dma_bu=
-f_export_info *exp_info)
-> >>      return dmabuf;
-> >>
-> >>   err_sysfs:
-> >> +    mutex_lock(&db_list.lock);
-> >> +    list_del(&dmabuf->list_node);
-> >> +    mutex_unlock(&db_list.lock);
-> >>      /*
-> >>       * Set file->f_path.dentry->d_fsdata to NULL so that when
-> >>       * dma_buf_release() gets invoked by dentry_ops, it exits
->
+diff --git a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+index 112615817dcb..1b1341b57d62 100644
+--- a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
++++ b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+@@ -4,6 +4,7 @@
+  */
+ 
+ #include <linux/clk.h>
++#include <linux/dma-buf.h>
+ #include <linux/dma-mapping.h>
+ #include <linux/mailbox_controller.h>
+ #include <linux/pm_runtime.h>
+@@ -283,6 +284,14 @@ struct mtk_ddp_comp *mtk_drm_ddp_comp_for_plane(struct drm_crtc *crtc,
+ }
+ 
+ #if IS_REACHABLE(CONFIG_MTK_CMDQ)
++static void mtk_drm_dma_buf_put(struct mtk_plane_state *plane_state)
++{
++	if (plane_state && plane_state->pending.dma_buf) {
++		dma_buf_put(plane_state->pending.dma_buf);
++		plane_state->pending.dma_buf = NULL;
++	}
++}
++
+ static void ddp_cmdq_cb(struct mbox_client *cl, void *mssg)
+ {
+ 	struct cmdq_cb_data *data = mssg;
+@@ -306,6 +315,7 @@ static void ddp_cmdq_cb(struct mbox_client *cl, void *mssg)
+ 			plane_state = to_mtk_plane_state(plane->state);
+ 
+ 			plane_state->pending.config = false;
++			mtk_drm_dma_buf_put(plane_state);
+ 		}
+ 		mtk_crtc->pending_planes = false;
+ 	}
+@@ -318,6 +328,7 @@ static void ddp_cmdq_cb(struct mbox_client *cl, void *mssg)
+ 			plane_state = to_mtk_plane_state(plane->state);
+ 
+ 			plane_state->pending.async_config = false;
++			mtk_drm_dma_buf_put(plane_state);
+ 		}
+ 		mtk_crtc->pending_async_planes = false;
+ 	}
+diff --git a/drivers/gpu/drm/mediatek/mtk_drm_plane.c b/drivers/gpu/drm/mediatek/mtk_drm_plane.c
+index 2f5e007dd380..b67fdf12e237 100644
+--- a/drivers/gpu/drm/mediatek/mtk_drm_plane.c
++++ b/drivers/gpu/drm/mediatek/mtk_drm_plane.c
+@@ -11,6 +11,7 @@
+ #include <drm/drm_fourcc.h>
+ #include <drm/drm_framebuffer.h>
+ #include <drm/drm_gem_atomic_helper.h>
++#include <linux/dma-buf.h>
+ 
+ #include "mtk_drm_crtc.h"
+ #include "mtk_drm_ddp_comp.h"
+@@ -212,6 +213,17 @@ static void mtk_plane_atomic_disable(struct drm_plane *plane,
+ 	struct drm_plane_state *new_state = drm_atomic_get_new_plane_state(state,
+ 									   plane);
+ 	struct mtk_plane_state *mtk_plane_state = to_mtk_plane_state(new_state);
++	struct drm_plane_state *old_state = drm_atomic_get_old_plane_state(state,
++									   plane);
++
++	if (old_state && old_state->fb) {
++		struct drm_gem_object *gem = old_state->fb->obj[0];
++
++		if (gem && gem->dma_buf) {
++			get_dma_buf(gem->dma_buf);
++			mtk_plane_state->pending.dma_buf = gem->dma_buf;
++		}
++	}
+ 	mtk_plane_state->pending.enable = false;
+ 	wmb(); /* Make sure the above parameter is set before update */
+ 	mtk_plane_state->pending.dirty = true;
+diff --git a/drivers/gpu/drm/mediatek/mtk_drm_plane.h b/drivers/gpu/drm/mediatek/mtk_drm_plane.h
+index 2d5ec66e3df1..e0985b107c36 100644
+--- a/drivers/gpu/drm/mediatek/mtk_drm_plane.h
++++ b/drivers/gpu/drm/mediatek/mtk_drm_plane.h
+@@ -25,6 +25,7 @@ struct mtk_plane_pending_state {
+ 	bool				async_dirty;
+ 	bool				async_config;
+ 	enum drm_color_encoding		color_encoding;
++	struct dma_buf			*dma_buf;
+ };
+ 
+ struct mtk_plane_state {
+-- 
+2.25.1
+
