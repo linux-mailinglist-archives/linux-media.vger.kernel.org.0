@@ -2,178 +2,237 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 27E7962F923
-	for <lists+linux-media@lfdr.de>; Fri, 18 Nov 2022 16:20:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D209262F93E
+	for <lists+linux-media@lfdr.de>; Fri, 18 Nov 2022 16:27:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242142AbiKRPU1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 18 Nov 2022 10:20:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43854 "EHLO
+        id S241819AbiKRP1B (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 18 Nov 2022 10:27:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46810 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242101AbiKRPU0 (ORCPT
+        with ESMTP id S233929AbiKRP1A (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 18 Nov 2022 10:20:26 -0500
+        Fri, 18 Nov 2022 10:27:00 -0500
 Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C99431CB08;
-        Fri, 18 Nov 2022 07:20:24 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B737A62044
+        for <linux-media@vger.kernel.org>; Fri, 18 Nov 2022 07:26:58 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id DD06FB82448;
-        Fri, 18 Nov 2022 15:20:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 68B9FC433D6;
-        Fri, 18 Nov 2022 15:20:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1668784821;
-        bh=SpvFCOXvPUWOiKQM23aihGopezt0vreTxIsAJdpgDSo=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=oc7/TRl+C+oGFHGA0/HLwnXKqEXXKpT8Tx1dY16SqJw9lkVcvNICA1XLIGSXswup6
-         ZCR0Dt5ZXnGKfZGGN8GMnfQRp4ozowb3pInAPwMMW9SI47DOhfZruVNKHsQj+Bvr8I
-         L9awqeg9l3UqAcPXsJHTBJ2ld9thZxkgJKn9DlHZDXmRrHBaKLm9WcWc0W5NHCVH5K
-         y59ypGSpQJqGabhYvkUWLvJgWSjzrqjbZEJzjWHm1qRYedZEA4xn2LEiOOKPt8tKJL
-         fLTECJFPPQxv3KvG5674syCZ/4udl0gDwx8cjqsIr/gXJMPeP/2xG0d02Mm20JWI/m
-         ciPdalNuQJJKg==
-Received: by mail-lf1-f52.google.com with SMTP id g7so8722373lfv.5;
-        Fri, 18 Nov 2022 07:20:21 -0800 (PST)
-X-Gm-Message-State: ANoB5pkBof8ICQJ2tjTYSiHW0oglqXBmu7tKpOO6Yj3H9dJRTO5ZpwYv
-        Qkap2Y2FTcQj1unfP1Q6c2siIsYJaNI86D67qA==
-X-Google-Smtp-Source: AA0mqf4EL07ceQCbbxeKyc252T6oLQShTRKBiEUE8bTfHXb2zfJ9zXJeBa/xS2aGnC6wqvpDpDa5FPgo/eVCoOSa/xI=
-X-Received: by 2002:ac2:442f:0:b0:4a2:8d76:abaa with SMTP id
- w15-20020ac2442f000000b004a28d76abaamr2707645lfl.74.1668784819339; Fri, 18
- Nov 2022 07:20:19 -0800 (PST)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 6D166B8243E
+        for <linux-media@vger.kernel.org>; Fri, 18 Nov 2022 15:26:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1B2C3C433D6;
+        Fri, 18 Nov 2022 15:26:54 +0000 (UTC)
+Message-ID: <ff1712bc-084d-a010-54a4-1d21f2bc8751@xs4all.nl>
+Date:   Fri, 18 Nov 2022 16:26:52 +0100
 MIME-Version: 1.0
-References: <20221111132906.2212662-1-hljunggr@cisco.com> <20221111132906.2212662-4-hljunggr@cisco.com>
- <20221116200729.GA761467-robh@kernel.org> <3d7ab1ba-bc9e-4385-8ca8-73d062b383a3@xs4all.nl>
-In-Reply-To: <3d7ab1ba-bc9e-4385-8ca8-73d062b383a3@xs4all.nl>
-From:   Rob Herring <robh@kernel.org>
-Date:   Fri, 18 Nov 2022 09:20:10 -0600
-X-Gmail-Original-Message-ID: <CAL_Jsq+M2A-5B+ZM2xjZVYXdQFyU=7coitVe9aKx9GHpR_H1Ug@mail.gmail.com>
-Message-ID: <CAL_Jsq+M2A-5B+ZM2xjZVYXdQFyU=7coitVe9aKx9GHpR_H1Ug@mail.gmail.com>
-Subject: Re: [PATCH v4 3/5] dt-bindings: media: add cat24c208 bindings
-To:     Hans Verkuil <hverkuil@xs4all.nl>,
-        Bartosz Golaszewski <brgl@bgdev.pl>
-Cc:     Erling Ljunggren <hljunggr@cisco.com>, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.0
+Content-Language: en-US
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+        "eugen.hristev@microchip.com" <eugen.hristev@microchip.com>,
+        Daniel Almeida <daniel.almeida@collabora.com>,
+        "jernej.skrabec@gmail.com" <jernej.skrabec@gmail.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [GIT PULL FOR v6.2] Various fixes, visl and MC microchip-isc
+ replacement
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-+Bartosz
+Besides a lot of fixes, this also adds the virtual 'visl' driver. This also
+copies the non-MC atmel-isc driver to staging and renames the mainline driver
+to microchip-isc and adds MC support.
 
-On Fri, Nov 18, 2022 at 4:34 AM Hans Verkuil <hverkuil@xs4all.nl> wrote:
->
-> On 11/16/22 21:07, Rob Herring wrote:
-> > On Fri, Nov 11, 2022 at 02:29:04PM +0100, Erling Ljunggren wrote:
-> >> Add devicetree bindings for new cat24c208 EDID EEPROM driver.
-> >>
-> >> Signed-off-by: Erling Ljunggren <hljunggr@cisco.com>
-> >> ---
-> >>  .../bindings/media/i2c/onnn,cat24c208.yaml    | 46 +++++++++++++++++++
-> >>  1 file changed, 46 insertions(+)
-> >>  create mode 100644 Documentation/devicetree/bindings/media/i2c/onnn,cat24c208.yaml
-> >>
-> >> diff --git a/Documentation/devicetree/bindings/media/i2c/onnn,cat24c208.yaml b/Documentation/devicetree/bindings/media/i2c/onnn,cat24c208.yaml
-> >> new file mode 100644
-> >> index 000000000000..492eecb3ab7c
-> >> --- /dev/null
-> >> +++ b/Documentation/devicetree/bindings/media/i2c/onnn,cat24c208.yaml
-> >> @@ -0,0 +1,46 @@
-> >> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> >> +%YAML 1.2
-> >> +---
-> >> +$id: http://devicetree.org/schemas/media/i2c/onnn,cat24c208.yaml#
-> >> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> >> +
-> >> +title: ON Semiconductor CAT24C208 EDID EEPROM driver
-> >> +
-> >> +maintainers:
-> >> +  - Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> >> +
-> >> +description: |
-> >> +  CAT24C208 is a dual port i2c EEPROM designed for EDID storage.
-> >> +
-> >> +properties:
-> >> +  compatible:
-> >> +    const: onnn,cat24c208
-> >> +
-> >> +  reg:
-> >> +    maxItems: 1
-> >> +
-> >> +  input-connector:
-> >> +    description: |
-> >> +      Phandle to the video input connector, used to find
-> >> +      the HPD gpio and the connector label, both optional.
-> >> +    $ref: /schemas/types.yaml#/definitions/phandle
-> >
-> > The binding and driver feel the wrong way around to me. It seems
-> > like you should have a driver for the connector and it needs HPD GPIO,
-> > label, and EEPROM. The driver instead looks mostly like an EEPROM driver
-> > that hooks into a few connector properties.
->
-> A device like this is typically used next to an HDMI receiver: the DDC
-> lines and the HPD line are connected to the EDID EEPROM, and the video
-> is handled by the HDMI receiver.
->
-> Most HDMI receivers will have the EDID part integrated into the chip itself
-> (see e.g. the adv7604 driver), but that doesn't have to be the case. The EDID
-> can be completely separate, it doesn't matter for the receiver part.
->
-> In our specific use-case there isn't even an HDMI receiver since the HDMI
-> video is passed through and this EDID EEPROM is used to help debug HDMI
-> issues by presenting custom EDIDs, similar to something like this:
->
-> https://www.amazon.com/dp/B0722NVQHX
->
-> The HPD line is controlled by the EDID part since it has to be low if there
-> is no EDID or pulled low for at least 100ms if the EDID is being modified.
+Eventually in a few years the old atmel-isc driver can be removed. For now
+keep it in staging/media/deprecated.
 
-There is no HPD control on the EEPROM itself. So HPD does not belong
-in the EEPROM node. That is the fundamental problem with the binding.
+Regards,
 
-We've always started bindings without connector nodes and just shove
-properties into whatever node we do have. Then things evolve to be
-more complicated with different h/w and that doesn't work. Start with
-a connector even if you think it is overkill.
+	Hans
 
-> > Reading the datasheet, I don't see anything special about accessing the
-> > EEPROM from the host (DSP) side. Wouldn't the default at24 driver work?
-> > It exposes regmap and nvmem.
->
-> No. It is not a regular EEPROM, it is dedicated to store EDIDs. It has to
-> correctly toggle the HPD line and inform other drivers (specifically HDMI CEC)
-> of EDID updates.
->
-> I don't see how the at24 could work: besides the eeprom i2c address it has to
-> deal with two additional i2c devices: the segment address and the config
-> address of the device itself. Writing to the eeprom from the host side requires
-> a write to the segment address followed by a write to the eeprom part itself,
-> and that's not something the at24 can do. And it is also something very specific
-> to the VESA E-DDC standard (freely downloadable from vesa.org).
+The following changes since commit a7bab6f8b73fe15a6181673149734a2756845dae:
 
-The addressing is different on the DSP (as the datasheet calls it)
-side compared to the DDC side which has the EDID_SEL signal. Linux
-only sees the DSP side, right? Looking at it a bit more, it looks like
-the segment addressing is different from at24 which uses an i2c
-address per segment. It is similar to ee1004 SPD where the segment is
-selected by a write to a 2nd i2c address.
+  Merge tag 'br-v6.2e' of git://linuxtv.org/hverkuil/media_tree into media_stage (2022-11-15 11:55:54 +0000)
 
-> Note that historically the first EDID EEPROMs most likely did work like the
-> at24, but as EDID sizes grew beyond 256 bytes the E-DDC standard was created
-> and that departed from the normal EEPROMs.
+are available in the Git repository at:
 
-What happens if/when you have more than 1 part to support? Why not
-provide a regmap or nvmem to the EDID storage and then the backend
-device can be anything. I could imagine we could have a s/w
-implementation.
+  git://linuxtv.org/hverkuil/media_tree.git tags/br-v6.2f
 
-Anyways, I don't really care if you do any of that now, but I still
-think the binding is backwards. It's the connector you are managing,
-not just an EEPROM, so you should bind to the connector and from there
-gather all the resources you need to do that (EEPROM, HPD).
+for you to fetch changes up to fc6836b3b142dd80fa6a1a2c2a3bde2b8095867d:
 
-Rob
+  media: atmel: atmel-isc: move to staging (2022-11-18 15:48:18 +0100)
+
+----------------------------------------------------------------
+Tag branch
+
+----------------------------------------------------------------
+Aakarsh Jain (3):
+      media: s5p-mfc: fix usage of symbolic permissions to octal
+      media: s5p-mfc:fix usage of Block comment alignment
+      media: s5p-mfc: Optimisation of code to remove error message
+
+Chen Zhongjin (1):
+      media: vidtv: Fix use-after-free in vidtv_bridge_dvb_init()
+
+Daniel Almeida (1):
+      media: visl: add virtual stateless decoder driver
+
+Deepak R Varma (1):
+      staging: media: meson: vdec: use min() for comparison and assignment
+
+Eugen Hristev (6):
+      media: atmel: move microchip_csi2dc to dedicated microchip platform
+      media: microchip: add ISC driver as Microchip ISC
+      media: microchip: microchip-isc: prepare for media controller support
+      media: microchip: microchip-isc: implement media controller
+      media: microchip: microchip-isc: move media_pipeline_* to (un)prepare cb
+      media: atmel: atmel-isc: move to staging
+
+Hans Verkuil (3):
+      media: admin-guide: cec.rst
+      vb2: add (un)prepare_streaming queue ops
+      vb2/au0828: move the v4l_vb2q_enable_media_source to the au0828 driver
+
+Ian Cowan (1):
+      staging: media: sunxi: cedrus: make vb2_ops struct definition const
+
+Jammy Huang (1):
+      media: aspeed: Use v4l2_dbg to replace v4l2_warn to avoid log spam
+
+Jernej Skrabec (3):
+      media: cedrus: Adjust buffer size based on codec
+      media: cedrus: h265: Support decoding 10-bit frames
+      media: cedrus: Relax HEVC SPS restrictions
+
+Ming Qian (2):
+      media: amphion: add lock around vdec_g_fmt
+      media: amphion: apply vb2_queue_error instead of setting manually
+
+Yang Yingliang (2):
+      media: solo6x10: fix possible memory leak in solo_sysfs_init()
+      media: mtk-jpegdec: add missing destroy_workqueue()
+
+Yuan Can (2):
+      media: platform: exynos4-is: Fix error handling in fimc_md_init()
+      media: amphion: Fix error handling in vpu_driver_init()
+
+ Documentation/admin-guide/media/cec-drivers.rst                                |   10 -
+ Documentation/admin-guide/media/cec.rst                                        |  369 ++++++++
+ Documentation/admin-guide/media/index.rst                                      |    3 +-
+ Documentation/admin-guide/media/pulse8-cec.rst                                 |   13 -
+ Documentation/admin-guide/media/v4l-drivers.rst                                |    1 +
+ Documentation/admin-guide/media/visl.rst                                       |  175 ++++
+ Documentation/userspace-api/media/cec/cec-pin-error-inj.rst                    |    2 +
+ MAINTAINERS                                                                    |   15 +-
+ drivers/media/common/videobuf2/videobuf2-core.c                                |   26 +-
+ drivers/media/pci/solo6x10/solo6x10-core.c                                     |    1 +
+ drivers/media/platform/Kconfig                                                 |    1 +
+ drivers/media/platform/Makefile                                                |    1 +
+ drivers/media/platform/amphion/vdec.c                                          |    2 +
+ drivers/media/platform/amphion/vpu_drv.c                                       |    6 +-
+ drivers/media/platform/amphion/vpu_v4l2.c                                      |   11 +-
+ drivers/media/platform/aspeed/aspeed-video.c                                   |   16 +-
+ drivers/media/platform/atmel/Kconfig                                           |   51 -
+ drivers/media/platform/atmel/Makefile                                          |    7 -
+ drivers/media/platform/mediatek/jpeg/mtk_jpeg_dec_hw.c                         |   10 +
+ drivers/media/platform/microchip/Kconfig                                       |   61 ++
+ drivers/media/platform/microchip/Makefile                                      |    9 +
+ drivers/media/platform/{atmel => microchip}/microchip-csi2dc.c                 |    0
+ drivers/media/platform/microchip/microchip-isc-base.c                          | 2040 ++++++++++++++++++++++++++++++++++++++++
+ drivers/media/platform/microchip/microchip-isc-clk.c                           |  311 ++++++
+ drivers/media/platform/microchip/microchip-isc-regs.h                          |  413 ++++++++
+ drivers/media/platform/microchip/microchip-isc-scaler.c                        |  267 ++++++
+ drivers/media/platform/microchip/microchip-isc.h                               |  400 ++++++++
+ drivers/media/platform/microchip/microchip-sama5d2-isc.c                       |  683 ++++++++++++++
+ drivers/media/platform/microchip/microchip-sama7g5-isc.c                       |  646 +++++++++++++
+ drivers/media/platform/samsung/exynos4-is/fimc-core.c                          |    2 +-
+ drivers/media/platform/samsung/exynos4-is/media-dev.c                          |    6 +-
+ drivers/media/platform/samsung/s5p-mfc/s5p_mfc.c                               |   52 +-
+ drivers/media/test-drivers/Kconfig                                             |    1 +
+ drivers/media/test-drivers/Makefile                                            |    1 +
+ drivers/media/test-drivers/vidtv/vidtv_bridge.c                                |   22 +-
+ drivers/media/test-drivers/visl/Kconfig                                        |   29 +
+ drivers/media/test-drivers/visl/Makefile                                       |    8 +
+ drivers/media/test-drivers/visl/visl-core.c                                    |  541 +++++++++++
+ drivers/media/test-drivers/visl/visl-debugfs.c                                 |  112 +++
+ drivers/media/test-drivers/visl/visl-debugfs.h                                 |   40 +
+ drivers/media/test-drivers/visl/visl-dec.c                                     |  499 ++++++++++
+ drivers/media/test-drivers/visl/visl-dec.h                                     |   67 ++
+ drivers/media/test-drivers/visl/visl-trace-fwht.h                              |   66 ++
+ drivers/media/test-drivers/visl/visl-trace-h264.h                              |  349 +++++++
+ drivers/media/test-drivers/visl/visl-trace-hevc.h                              |  405 ++++++++
+ drivers/media/test-drivers/visl/visl-trace-mpeg2.h                             |   99 ++
+ drivers/media/test-drivers/visl/visl-trace-points.c                            |   10 +
+ drivers/media/test-drivers/visl/visl-trace-vp8.h                               |  156 +++
+ drivers/media/test-drivers/visl/visl-trace-vp9.h                               |  292 ++++++
+ drivers/media/test-drivers/visl/visl-video.c                                   |  767 +++++++++++++++
+ drivers/media/test-drivers/visl/visl-video.h                                   |   27 +
+ drivers/media/test-drivers/visl/visl.h                                         |  176 ++++
+ drivers/media/usb/au0828/au0828-vbi.c                                          |    2 +
+ drivers/media/usb/au0828/au0828-video.c                                        |    1 +
+ drivers/staging/media/Kconfig                                                  |    1 +
+ drivers/staging/media/Makefile                                                 |    1 +
+ drivers/staging/media/deprecated/atmel/Kconfig                                 |   47 +
+ drivers/staging/media/deprecated/atmel/Makefile                                |    8 +
+ drivers/staging/media/deprecated/atmel/TODO                                    |   34 +
+ drivers/{media/platform => staging/media/deprecated}/atmel/atmel-isc-base.c    |   20 +-
+ drivers/{media/platform => staging/media/deprecated}/atmel/atmel-isc-clk.c     |    8 +-
+ drivers/{media/platform => staging/media/deprecated}/atmel/atmel-isc-regs.h    |    0
+ drivers/{media/platform => staging/media/deprecated}/atmel/atmel-isc.h         |   16 +-
+ drivers/{media/platform => staging/media/deprecated}/atmel/atmel-sama5d2-isc.c |   18 +-
+ drivers/{media/platform => staging/media/deprecated}/atmel/atmel-sama7g5-isc.c |   18 +-
+ drivers/staging/media/meson/vdec/codec_vp9.c                                   |    7 +-
+ drivers/staging/media/sunxi/cedrus/cedrus.c                                    |   31 +-
+ drivers/staging/media/sunxi/cedrus/cedrus.h                                    |    3 +
+ drivers/staging/media/sunxi/cedrus/cedrus_h265.c                               |   35 +
+ drivers/staging/media/sunxi/cedrus/cedrus_regs.h                               |   16 +
+ drivers/staging/media/sunxi/cedrus/cedrus_video.c                              |    6 +-
+ include/media/videobuf2-core.h                                                 |   14 +
+ 72 files changed, 9365 insertions(+), 198 deletions(-)
+ delete mode 100644 Documentation/admin-guide/media/cec-drivers.rst
+ create mode 100644 Documentation/admin-guide/media/cec.rst
+ delete mode 100644 Documentation/admin-guide/media/pulse8-cec.rst
+ create mode 100644 Documentation/admin-guide/media/visl.rst
+ create mode 100644 drivers/media/platform/microchip/Kconfig
+ create mode 100644 drivers/media/platform/microchip/Makefile
+ rename drivers/media/platform/{atmel => microchip}/microchip-csi2dc.c (100%)
+ create mode 100644 drivers/media/platform/microchip/microchip-isc-base.c
+ create mode 100644 drivers/media/platform/microchip/microchip-isc-clk.c
+ create mode 100644 drivers/media/platform/microchip/microchip-isc-regs.h
+ create mode 100644 drivers/media/platform/microchip/microchip-isc-scaler.c
+ create mode 100644 drivers/media/platform/microchip/microchip-isc.h
+ create mode 100644 drivers/media/platform/microchip/microchip-sama5d2-isc.c
+ create mode 100644 drivers/media/platform/microchip/microchip-sama7g5-isc.c
+ create mode 100644 drivers/media/test-drivers/visl/Kconfig
+ create mode 100644 drivers/media/test-drivers/visl/Makefile
+ create mode 100644 drivers/media/test-drivers/visl/visl-core.c
+ create mode 100644 drivers/media/test-drivers/visl/visl-debugfs.c
+ create mode 100644 drivers/media/test-drivers/visl/visl-debugfs.h
+ create mode 100644 drivers/media/test-drivers/visl/visl-dec.c
+ create mode 100644 drivers/media/test-drivers/visl/visl-dec.h
+ create mode 100644 drivers/media/test-drivers/visl/visl-trace-fwht.h
+ create mode 100644 drivers/media/test-drivers/visl/visl-trace-h264.h
+ create mode 100644 drivers/media/test-drivers/visl/visl-trace-hevc.h
+ create mode 100644 drivers/media/test-drivers/visl/visl-trace-mpeg2.h
+ create mode 100644 drivers/media/test-drivers/visl/visl-trace-points.c
+ create mode 100644 drivers/media/test-drivers/visl/visl-trace-vp8.h
+ create mode 100644 drivers/media/test-drivers/visl/visl-trace-vp9.h
+ create mode 100644 drivers/media/test-drivers/visl/visl-video.c
+ create mode 100644 drivers/media/test-drivers/visl/visl-video.h
+ create mode 100644 drivers/media/test-drivers/visl/visl.h
+ create mode 100644 drivers/staging/media/deprecated/atmel/Kconfig
+ create mode 100644 drivers/staging/media/deprecated/atmel/Makefile
+ create mode 100644 drivers/staging/media/deprecated/atmel/TODO
+ rename drivers/{media/platform => staging/media/deprecated}/atmel/atmel-isc-base.c (99%)
+ rename drivers/{media/platform => staging/media/deprecated}/atmel/atmel-isc-clk.c (97%)
+ rename drivers/{media/platform => staging/media/deprecated}/atmel/atmel-isc-regs.h (100%)
+ rename drivers/{media/platform => staging/media/deprecated}/atmel/atmel-isc.h (96%)
+ rename drivers/{media/platform => staging/media/deprecated}/atmel/atmel-sama5d2-isc.c (97%)
+ rename drivers/{media/platform => staging/media/deprecated}/atmel/atmel-sama7g5-isc.c (97%)
