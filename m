@@ -2,133 +2,165 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 577AC62F6B4
-	for <lists+linux-media@lfdr.de>; Fri, 18 Nov 2022 15:00:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 76F3562F6D7
+	for <lists+linux-media@lfdr.de>; Fri, 18 Nov 2022 15:10:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242039AbiKROAE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 18 Nov 2022 09:00:04 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42838 "EHLO
+        id S242065AbiKROKt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 18 Nov 2022 09:10:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46504 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235288AbiKROAC (ORCPT
+        with ESMTP id S234213AbiKROKs (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 18 Nov 2022 09:00:02 -0500
-Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.183])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A689B72109
-        for <linux-media@vger.kernel.org>; Fri, 18 Nov 2022 06:00:00 -0800 (PST)
-X-KPN-MessageId: c34d9545-6748-11ed-888a-005056992ed3
-Received: from smtp.kpnmail.nl (unknown [10.31.155.8])
-        by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-        id c34d9545-6748-11ed-888a-005056992ed3;
-        Fri, 18 Nov 2022 14:56:13 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=xs4all.nl; s=xs4all01;
-        h=content-type:from:to:subject:mime-version:date:message-id;
-        bh=3ZTIZrlQy6tIDXDJIDu2NCrcPK3B0Wx5EvlOVVY9zSc=;
-        b=fTKl7N4/C4uGKKu4f4APHngBJBRyaTfSr5pthQ2C6+voB0Rm0nwtJ7rhIZFvBV7KQpoWCm/kmAkci
-         h4/e2d0sJ7FdAqdvqUzxg6wUHutfSBCrOgnkqo8b/pnxUTBdqei4CmKCH4M7H5V/uVbKgilEP3tbJh
-         XvLlQN5DIEhqbqJtOaqs3DuKi/yutJrHyxfM2LEuCxXc8uz+ZL12ZejFpBNUdgeopa663qc8Ew7ySZ
-         rOjPhSrtzKzjSumJZPlTwRpi6ZhDdvmCKFy5yEZMHcvnuW0R9iGm6wJ9QO9IhJya3DosSV2OOEW+x6
-         Q1PZpNm3TsJ4DICfHvqUKl6wLhtyIbQ==
-X-KPN-MID: 33|9SHzWYl570sL3QL2F2TzO5sm7WfIlDqqkfwWlgmKr3Mn9MWsYuqojJ+8D1DJfU3
- bb3cwUl1eW4kgC80/BBDHplO0pbiZHnPSonjmOdlcgvw=
-X-KPN-VerifiedSender: Yes
-X-CMASSUN: 33|6HNrUcqY+Z97rrHv00YgQM93rAOEwSUGEvvOfrzzORiDiH61r+SJmvm99m5lm7n
- X9/fUGVJBUShGGGq/AKm/VA==
-X-Originating-IP: 173.38.220.59
-Received: from [10.47.77.219] (unknown [173.38.220.59])
-        by smtp.xs4all.nl (Halon) with ESMTPSA
-        id 49250849-6749-11ed-9b28-00505699d6e5;
-        Fri, 18 Nov 2022 14:59:58 +0100 (CET)
-Message-ID: <5b77b349-16d2-e020-e4a7-43815088e1b8@xs4all.nl>
-Date:   Fri, 18 Nov 2022 14:59:57 +0100
+        Fri, 18 Nov 2022 09:10:48 -0500
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5EC7D12743;
+        Fri, 18 Nov 2022 06:10:47 -0800 (PST)
+Received: from notapiano (zone.collabora.co.uk [167.235.23.81])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: nfraprado)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id AAFAA6602A3B;
+        Fri, 18 Nov 2022 14:10:43 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1668780645;
+        bh=pRPLysf0FJETMjuGSkgqfys84EBTLQ8RPJqmeUpzLus=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=hPDjIVrjv+RcBBumuWkCUzkAJKbmtQJSvAVRHQJDzBuEhgWdBss5qhwg/aj+UO+uT
+         jSy2KjzAuFvp77R98uQBiVXDGgC2TZ1EpWn0IoMIreoHlxO001spqMe8+IfhKaUHNT
+         HVzPV5uhKpFFZoncWs6Oo2i//qZszII2CKvzuoLNfHzK7cWc41qhL2/VoXFuXkQKM7
+         fqcXar9iztIYLbcddpGHfR0CkUBKCmFnSviQIfbdDoT/T4a/jtJsGfuFz2rB517LrQ
+         A4YWZEA6qlRb6YMqvbh0JDQQjYXgMa/Zo6Ke6I22b29XITeMFDtajeRSVztdKa7f65
+         lHteVNz0/JSzg==
+Date:   Fri, 18 Nov 2022 09:10:39 -0500
+From:   =?utf-8?B?TsOtY29sYXMgRi4gUi4gQS4=?= Prado 
+        <nfraprado@collabora.com>
+To:     Allen-KH Cheng <allen-kh.cheng@mediatek.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Project_Global_Chrome_Upstream_Group@mediatek.com,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-mediatek@lists.infradead.org
+Subject: Re: [PATCH v4 2/2] arm64: dts: mt8192: Add vcodec lat and core nodes
+Message-ID: <20221118141039.y2ap7dzdp26ih2la@notapiano>
+References: <20220930112237.14411-1-allen-kh.cheng@mediatek.com>
+ <20220930112237.14411-3-allen-kh.cheng@mediatek.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.0
-Subject: Re: [PATCH] media: amphion: check and cancel vpu before release
-Content-Language: en-US
-To:     Ming Qian <ming.qian@nxp.com>, mchehab@kernel.org
-Cc:     shawnguo@kernel.org, robh+dt@kernel.org, s.hauer@pengutronix.de,
-        kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
-        xiahong.bao@nxp.com, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-References: <afd6674a68c02d25cdd57a70db8135217c70a358.1667289237.git.ming.qian@nxp.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <afd6674a68c02d25cdd57a70db8135217c70a358.1667289237.git.ming.qian@nxp.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220930112237.14411-3-allen-kh.cheng@mediatek.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Ming,
-
-On 11/1/22 09:05, Ming Qian wrote:
-> driver need to cancel vpu before releasing the vpu instance,
-> but it doesn't want to release the m2m_ctx before
-> the release callback of instance is called,
-> as driver may access the m2m_ctx in handling some event
-> which may be received in releasing instance.
+On Fri, Sep 30, 2022 at 07:22:37PM +0800, Allen-KH Cheng wrote:
+> Add vcodec lat and core nodes for mt8192 SoC.
 > 
-> check and cancel the unstopped instance before release.
-> 
-> Fixes: d91d7bc85062 ("media: amphion: release m2m ctx when releasing vpu instance")
-> Signed-off-by: Ming Qian <ming.qian@nxp.com>
+> Signed-off-by: Allen-KH Cheng <allen-kh.cheng@mediatek.com>
+> Tested-by: Chen-Yu Tsai <wenst@chromium.org>
+> Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 > ---
->  drivers/media/platform/amphion/vpu_v4l2.c | 18 ++++++++++++++++++
->  1 file changed, 18 insertions(+)
+>  arch/arm64/boot/dts/mediatek/mt8192.dtsi | 60 ++++++++++++++++++++++++
+>  1 file changed, 60 insertions(+)
 > 
-> diff --git a/drivers/media/platform/amphion/vpu_v4l2.c b/drivers/media/platform/amphion/vpu_v4l2.c
-> index 99ad2f1c5a53..845fc53d8937 100644
-> --- a/drivers/media/platform/amphion/vpu_v4l2.c
-> +++ b/drivers/media/platform/amphion/vpu_v4l2.c
-> @@ -767,6 +767,23 @@ int vpu_v4l2_open(struct file *file, struct vpu_inst *inst)
->  	return ret;
->  }
+> diff --git a/arch/arm64/boot/dts/mediatek/mt8192.dtsi b/arch/arm64/boot/dts/mediatek/mt8192.dtsi
+> index 6b20376191a7..92a20f87468b 100644
+> --- a/arch/arm64/boot/dts/mediatek/mt8192.dtsi
+> +++ b/arch/arm64/boot/dts/mediatek/mt8192.dtsi
+> @@ -1449,6 +1449,66 @@
+>  			power-domains = <&spm MT8192_POWER_DOMAIN_ISP2>;
+>  		};
 >  
-> +static void vpu_v4l2_check_and_cancel(struct file *file, struct vpu_inst *inst)
-> +{
-> +	struct vb2_queue *vq;
+> +		vcodec_dec: video-codec@16000000 {
+> +			compatible = "mediatek,mt8192-vcodec-dec";
+> +			reg = <0 0x16000000 0 0x1000>;
+> +			mediatek,scp = <&scp>;
+> +			iommus = <&iommu0 M4U_PORT_L4_VDEC_MC_EXT>;
+> +			dma-ranges = <0x1 0x0 0x0 0x40000000 0x0 0xfff00000>;
+
+Hi,
+
+since commit 951d48855d86 ("of: Make of_dma_get_range() work on bus nodes") [1]
+was merged this no longer works as is. Running the fluster codec tests results
+in IOMMU faults:
+
+	[  386.233976] mtk-iommu 1401d000.m4u: fault type=0x280 iova=0x1fcdc0000 pa=0x0 master=0x500041c(larb=4 port=7) layer=0 read
+	[  386.250666] mtk_vdec_worker(),241: [MTK_V4L2][ERROR]  <===[138], src_buf[0] sz=0x298 pts=0 vdec_if_decode() ret=1 res_chg=0===>
+
+The issue is that the DMA configuration supplied by dma-ranges is now looked for
+in the parent node, so the vcodec_dec node no longer gets the configuration it
+expected.
+
+That said, given that the node already uses the IOMMU for the address
+translations (iommus property), there shouldn't even be a dma-ranges property.
+Indeed simply removing the dma-ranges property from this node fixes the issue
+and gets the decoder working again.
+
+Thanks,
+Nícolas
+
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=f1ad5338a4d57fe1fe6475003acb8c70bf9d1bdf
+
+> +			#address-cells = <2>;
+> +			#size-cells = <2>;
+> +			ranges = <0 0 0 0x16000000 0 0x26000>;
 > +
-> +	vpu_inst_lock(inst);
+> +			video-codec-lat@10000 {
+> +				compatible = "mediatek,mtk-vcodec-lat";
+> +				reg = <0x0 0x10000 0 0x800>;
+> +				interrupts = <GIC_SPI 426 IRQ_TYPE_LEVEL_HIGH 0>;
+> +				iommus = <&iommu0 M4U_PORT_L5_VDEC_LAT0_VLD_EXT>,
+> +					 <&iommu0 M4U_PORT_L5_VDEC_LAT0_VLD2_EXT>,
+> +					 <&iommu0 M4U_PORT_L5_VDEC_LAT0_AVC_MV_EXT>,
+> +					 <&iommu0 M4U_PORT_L5_VDEC_LAT0_PRED_RD_EXT>,
+> +					 <&iommu0 M4U_PORT_L5_VDEC_LAT0_TILE_EXT>,
+> +					 <&iommu0 M4U_PORT_L5_VDEC_LAT0_WDMA_EXT>,
+> +					 <&iommu0 M4U_PORT_L5_VDEC_LAT0_RG_CTRL_DMA_EXT>,
+> +					 <&iommu0 M4U_PORT_L5_VDEC_UFO_ENC_EXT>;
+> +				clocks = <&topckgen CLK_TOP_VDEC_SEL>,
+> +					 <&vdecsys_soc CLK_VDEC_SOC_VDEC>,
+> +					 <&vdecsys_soc CLK_VDEC_SOC_LAT>,
+> +					 <&vdecsys_soc CLK_VDEC_SOC_LARB1>,
+> +					 <&topckgen CLK_TOP_MAINPLL_D4>;
+> +				clock-names = "sel", "soc-vdec", "soc-lat", "vdec", "top";
+> +				assigned-clocks = <&topckgen CLK_TOP_VDEC_SEL>;
+> +				assigned-clock-parents = <&topckgen CLK_TOP_MAINPLL_D4>;
+> +				power-domains = <&spm MT8192_POWER_DOMAIN_VDEC>;
+> +			};
 > +
-> +	vq = v4l2_m2m_get_src_vq(inst->fh.m2m_ctx);
-> +	if (vb2_is_streaming(vq))
-> +		v4l2_m2m_streamoff(file, inst->fh.m2m_ctx, vq->type);
+> +			video-codec-core@25000 {
+> +				compatible = "mediatek,mtk-vcodec-core";
+> +				reg = <0 0x25000 0 0x1000>;
+> +				interrupts = <GIC_SPI 425 IRQ_TYPE_LEVEL_HIGH 0>;
+> +				iommus = <&iommu0 M4U_PORT_L4_VDEC_MC_EXT>,
+> +					 <&iommu0 M4U_PORT_L4_VDEC_UFO_EXT>,
+> +					 <&iommu0 M4U_PORT_L4_VDEC_PP_EXT>,
+> +					 <&iommu0 M4U_PORT_L4_VDEC_PRED_RD_EXT>,
+> +					 <&iommu0 M4U_PORT_L4_VDEC_PRED_WR_EXT>,
+> +					 <&iommu0 M4U_PORT_L4_VDEC_PPWRAP_EXT>,
+> +					 <&iommu0 M4U_PORT_L4_VDEC_TILE_EXT>,
+> +					 <&iommu0 M4U_PORT_L4_VDEC_VLD_EXT>,
+> +					 <&iommu0 M4U_PORT_L4_VDEC_VLD2_EXT>,
+> +					 <&iommu0 M4U_PORT_L4_VDEC_AVC_MV_EXT>,
+> +					 <&iommu0 M4U_PORT_L4_VDEC_RG_CTRL_DMA_EXT>;
+> +				clocks = <&topckgen CLK_TOP_VDEC_SEL>,
+> +					 <&vdecsys CLK_VDEC_VDEC>,
+> +					 <&vdecsys CLK_VDEC_LAT>,
+> +					 <&vdecsys CLK_VDEC_LARB1>,
+> +					 <&topckgen CLK_TOP_MAINPLL_D4>;
+> +				clock-names = "sel", "soc-vdec", "soc-lat", "vdec", "top";
+> +				assigned-clocks = <&topckgen CLK_TOP_VDEC_SEL>;
+> +				assigned-clock-parents = <&topckgen CLK_TOP_MAINPLL_D4>;
+> +				power-domains = <&spm MT8192_POWER_DOMAIN_VDEC2>;
+> +			};
+> +		};
 > +
-> +	vq = v4l2_m2m_get_dst_vq(inst->fh.m2m_ctx);
-> +	if (vb2_is_streaming(vq))
-> +		v4l2_m2m_streamoff(file, inst->fh.m2m_ctx, vq->type);
-> +
-> +	vpu_inst_unlock(inst);
-
-This feels weird. This is normally done in v4l2_m2m_ctx_release(), so
-if you need to do this here, doesn't that mean perhaps that the order
-of releasing things should be changed? I.e., first call v4l2_m2m_ctx_release()
-and only afterwards release the vpu instance.
-
-In other words, are you just fixing the symptom rather than the actual
-cause?
-
-Regards,
-
-	Hans
-
-> +}
-> +
->  int vpu_v4l2_close(struct file *file)
->  {
->  	struct vpu_dev *vpu = video_drvdata(file);
-> @@ -774,6 +791,7 @@ int vpu_v4l2_close(struct file *file)
->  
->  	vpu_trace(vpu->dev, "tgid = %d, pid = %d, inst = %p\n", inst->tgid, inst->pid, inst);
->  
-> +	vpu_v4l2_check_and_cancel(file, inst);
->  	call_void_vop(inst, release);
->  	vpu_inst_unregister(inst);
->  	vpu_inst_put(inst);
-
