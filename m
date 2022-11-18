@@ -2,197 +2,107 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7AEAF62FCFD
-	for <lists+linux-media@lfdr.de>; Fri, 18 Nov 2022 19:51:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2F49862FD8A
+	for <lists+linux-media@lfdr.de>; Fri, 18 Nov 2022 20:01:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242524AbiKRSu7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 18 Nov 2022 13:50:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51060 "EHLO
+        id S242780AbiKRTBO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 18 Nov 2022 14:01:14 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34040 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235502AbiKRSu6 (ORCPT
+        with ESMTP id S242339AbiKRTBI (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 18 Nov 2022 13:50:58 -0500
-Received: from mail-oi1-f172.google.com (mail-oi1-f172.google.com [209.85.167.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E15048C0B3;
-        Fri, 18 Nov 2022 10:50:55 -0800 (PST)
-Received: by mail-oi1-f172.google.com with SMTP id n186so6294576oih.7;
-        Fri, 18 Nov 2022 10:50:55 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=date:subject:message-id:references:in-reply-to:cc:to:from
-         :mime-version:content-transfer-encoding:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=AEGisTxdolA6TJB3qImtZFl0Ek6u4ZDhP6CL8w75bQo=;
-        b=YZWNei94SVp8T8gnoS2hCQpeH6znfsgErh2YuUHnuljMlPFX/Q8wTahu1wd0FsE4FC
-         P3AG99UOyY3GJiOkI+PlwEbQ3Ra1bVHoqIj6IB00gi6plBDIcvlD3rghC+05Y/TcgC2F
-         eMDmMHcbhVR7d6UCO6s6k3wnJVjVnBtzzJK+xtoHfIywO9BY3PQ1eBE+MCcrKJ7br9Qu
-         qQFLq+byrb1d4FBp7/nCSPLXvPtQo6s7RuiVzl8Rb3YHOCw7k0FqYN/tHoJIkO+s4Fiy
-         PMlTJ+k+9rhtvZBm+05ztWIDqq2OntlxEly2kvrgJya4zXEaCpvG7jxLQgR6Bcc66q4r
-         e62g==
-X-Gm-Message-State: ANoB5plySIqP/kfJ+ggW63CNMKWsyTgtHGpx6OozNFDtb3VhYHd31Ce8
-        xcRx4H6SbacaVlTuAl+HRw==
-X-Google-Smtp-Source: AA0mqf41OMDQLBy2vrDxYSCq614dvKht2GD0zl0kCDAuuXBa962QTC+b9/Mrb78yb8+vJHmZs3z4Lg==
-X-Received: by 2002:a05:6808:20a:b0:35a:eae4:b8c5 with SMTP id l10-20020a056808020a00b0035aeae4b8c5mr4164391oie.155.1668797455071;
-        Fri, 18 Nov 2022 10:50:55 -0800 (PST)
-Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id q11-20020a9d630b000000b0066da36d2c45sm1893619otk.22.2022.11.18.10.50.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Nov 2022 10:50:54 -0800 (PST)
-Received: (nullmailer pid 856957 invoked by uid 1000);
-        Fri, 18 Nov 2022 18:50:54 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-MIME-Version: 1.0
-From:   Rob Herring <robh@kernel.org>
-To:     Neil Armstrong <neil.armstrong@linaro.org>
-Cc:     Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        Eric Dumazet <edumazet@google.com>,
-        linux-amlogic@lists.infradead.org, Vinod Koul <vkoul@kernel.org>,
-        linux-kernel@vger.kernel.org,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        linux-phy@lists.infradead.org,
-        Thomas Gleixner <tglx@linutronix.de>,
-        linux-watchdog@vger.kernel.org, Andrew Lunn <andrew@lunn.ch>,
-        Bjorn Helgaas <bhelgaas@google.com>,
+        Fri, 18 Nov 2022 14:01:08 -0500
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C826233A2;
+        Fri, 18 Nov 2022 11:01:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1668798068; x=1700334068;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=WvZ7SWFh8KHhZL+jsKQNukYdJbXBUPn1qpeTKkRZRVM=;
+  b=Ib0lef1dWTXH8EXl5URnBFrezCwDAZkrJqeaXRjaSTcvEHJlbuCY5JKq
+   jN9/qUkusoXO/Mc7PqS6U1BNvdD6Exl+fRSJR63Ki2EGFdt0oJ3Gaqr1g
+   mnvT9Ghqipa9Yjy+Lq3Q+UFOQpMeEaKKuSrQPbWndUY4nc+GD963gOt3l
+   xyMj2D6HEZM3kU00sChj/OjCh1DahdoxgYKMbkx7cNsTxE0IEnUQfuvYP
+   DCLIJvdg8LmGuu2J5o0wo9Uh4NVC9dL75hyM06YTrHUpU9qxFfyFD0RrJ
+   V21ddroO0wygthtzYBOzK9euXp80zg0jX3HWe+FE0ngCjcH2jCeeB+Mcl
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10535"; a="315028382"
+X-IronPort-AV: E=Sophos;i="5.96,175,1665471600"; 
+   d="scan'208";a="315028382"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2022 11:01:05 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10535"; a="746106506"
+X-IronPort-AV: E=Sophos;i="5.96,175,1665471600"; 
+   d="scan'208";a="746106506"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by fmsmga002.fm.intel.com with ESMTP; 18 Nov 2022 11:01:01 -0800
+Received: by black.fi.intel.com (Postfix, from userid 1003)
+        id 4968910E; Fri, 18 Nov 2022 21:01:26 +0200 (EET)
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     =?UTF-8?q?Cl=C3=A9ment=20L=C3=A9ger?= <clement.leger@bootlin.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Russell King <linux@armlinux.org.uk>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        linux-media@vger.kernel.org, Guenter Roeck <linux@roeck-us.net>,
-        linux-arm-kernel@lists.infradead.org,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        linux-pci@vger.kernel.org, netdev@vger.kernel.org,
-        linux-rtc@vger.kernel.org,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Kishon Vijay Abraham I <kishon@kernel.org>,
-        devicetree@vger.kernel.org, linux-mmc@vger.kernel.org,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-In-Reply-To: <20221117-b4-amlogic-bindings-convert-v1-1-3f025599b968@linaro.org>
-References: <20221117-b4-amlogic-bindings-convert-v1-0-3f025599b968@linaro.org> 
- <20221117-b4-amlogic-bindings-convert-v1-1-3f025599b968@linaro.org>
-Message-Id: <166879731050.850509.16574480348039079520.robh@kernel.org>
-Subject: Re: [PATCH 01/12] dt-bindings: firmware: convert meson_sm.txt to dt-schema
-Date:   Fri, 18 Nov 2022 12:50:54 -0600
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+        Hans de Goede <hdegoede@redhat.com>,
+        linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org
+Cc:     Daniel Scally <djrscally@gmail.com>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Yong Zhi <yong.zhi@intel.com>,
+        Bingbu Cao <bingbu.cao@intel.com>,
+        Tianshu Qiu <tian.shu.qiu@intel.com>
+Subject: [PATCH v1 1/4] media: ipu3-cio2: Don't dereference fwnode handle
+Date:   Fri, 18 Nov 2022 20:56:14 +0200
+Message-Id: <20221118185617.33908-1-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.35.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Use acpi_fwnode_handle() instead of dereferencing an fwnode handle directly,
+which is a better coding practice.
 
-On Fri, 18 Nov 2022 15:33:27 +0100, Neil Armstrong wrote:
-> Convert the Amlogic Secure Monitor bindings to dt-schema.
-> 
-> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
-> ---
->  .../bindings/firmware/amlogic,meson-gxbb-sm.yaml   | 36 ++++++++++++++++++++++
->  .../bindings/firmware/meson/meson_sm.txt           | 15 ---------
->  2 files changed, 36 insertions(+), 15 deletions(-)
-> 
+Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+---
+ drivers/media/pci/intel/ipu3/cio2-bridge.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-Running 'make dtbs_check' with the schema in this patch gives the
-following warnings. Consider if they are expected or the schema is
-incorrect. These may not be new warnings.
-
-Note that it is not yet a requirement to have 0 warnings for dtbs_check.
-This will change in the future.
-
-Full log is available here: https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20221117-b4-amlogic-bindings-convert-v1-1-3f025599b968@linaro.org
-
-
-secure-monitor: compatible:0: 'amlogic,meson-gxbb-sm' was expected
-	arch/arm64/boot/dts/amlogic/meson-gxbb-kii-pro.dtb
-	arch/arm64/boot/dts/amlogic/meson-gxbb-nanopi-k2.dtb
-	arch/arm64/boot/dts/amlogic/meson-gxbb-nexbox-a95x.dtb
-	arch/arm64/boot/dts/amlogic/meson-gxbb-odroidc2.dtb
-	arch/arm64/boot/dts/amlogic/meson-gxbb-p200.dtb
-	arch/arm64/boot/dts/amlogic/meson-gxbb-p201.dtb
-	arch/arm64/boot/dts/amlogic/meson-gxbb-vega-s95-meta.dtb
-	arch/arm64/boot/dts/amlogic/meson-gxbb-vega-s95-pro.dtb
-	arch/arm64/boot/dts/amlogic/meson-gxbb-vega-s95-telos.dtb
-	arch/arm64/boot/dts/amlogic/meson-gxbb-wetek-hub.dtb
-	arch/arm64/boot/dts/amlogic/meson-gxbb-wetek-play2.dtb
-	arch/arm64/boot/dts/amlogic/meson-gxl-s805x-libretech-ac.dtb
-	arch/arm64/boot/dts/amlogic/meson-gxl-s805x-p241.dtb
-	arch/arm64/boot/dts/amlogic/meson-gxl-s905d-libretech-pc.dtb
-	arch/arm64/boot/dts/amlogic/meson-gxl-s905d-mecool-kii-pro.dtb
-	arch/arm64/boot/dts/amlogic/meson-gxl-s905d-p230.dtb
-	arch/arm64/boot/dts/amlogic/meson-gxl-s905d-p231.dtb
-	arch/arm64/boot/dts/amlogic/meson-gxl-s905d-phicomm-n1.dtb
-	arch/arm64/boot/dts/amlogic/meson-gxl-s905d-sml5442tw.dtb
-	arch/arm64/boot/dts/amlogic/meson-gxl-s905d-vero4k-plus.dtb
-	arch/arm64/boot/dts/amlogic/meson-gxl-s905w-jethome-jethub-j80.dtb
-	arch/arm64/boot/dts/amlogic/meson-gxl-s905w-p281.dtb
-	arch/arm64/boot/dts/amlogic/meson-gxl-s905w-tx3-mini.dtb
-	arch/arm64/boot/dts/amlogic/meson-gxl-s905x-hwacom-amazetv.dtb
-	arch/arm64/boot/dts/amlogic/meson-gxl-s905x-khadas-vim.dtb
-	arch/arm64/boot/dts/amlogic/meson-gxl-s905x-libretech-cc.dtb
-	arch/arm64/boot/dts/amlogic/meson-gxl-s905x-libretech-cc-v2.dtb
-	arch/arm64/boot/dts/amlogic/meson-gxl-s905x-nexbox-a95x.dtb
-	arch/arm64/boot/dts/amlogic/meson-gxl-s905x-p212.dtb
-	arch/arm64/boot/dts/amlogic/meson-gxm-gt1-ultimate.dtb
-	arch/arm64/boot/dts/amlogic/meson-gxm-khadas-vim2.dtb
-	arch/arm64/boot/dts/amlogic/meson-gxm-mecool-kiii-pro.dtb
-	arch/arm64/boot/dts/amlogic/meson-gxm-minix-neo-u9h.dtb
-	arch/arm64/boot/dts/amlogic/meson-gxm-nexbox-a1.dtb
-	arch/arm64/boot/dts/amlogic/meson-gxm-q200.dtb
-	arch/arm64/boot/dts/amlogic/meson-gxm-q201.dtb
-	arch/arm64/boot/dts/amlogic/meson-gxm-rbox-pro.dtb
-	arch/arm64/boot/dts/amlogic/meson-gxm-s912-libretech-pc.dtb
-	arch/arm64/boot/dts/amlogic/meson-gxm-vega-s96.dtb
-	arch/arm64/boot/dts/amlogic/meson-gxm-wetek-core2.dtb
-
-secure-monitor: compatible: ['amlogic,meson-gx-sm', 'amlogic,meson-gxbb-sm'] is too long
-	arch/arm64/boot/dts/amlogic/meson-gxbb-kii-pro.dtb
-	arch/arm64/boot/dts/amlogic/meson-gxbb-nanopi-k2.dtb
-	arch/arm64/boot/dts/amlogic/meson-gxbb-nexbox-a95x.dtb
-	arch/arm64/boot/dts/amlogic/meson-gxbb-odroidc2.dtb
-	arch/arm64/boot/dts/amlogic/meson-gxbb-p200.dtb
-	arch/arm64/boot/dts/amlogic/meson-gxbb-p201.dtb
-	arch/arm64/boot/dts/amlogic/meson-gxbb-vega-s95-meta.dtb
-	arch/arm64/boot/dts/amlogic/meson-gxbb-vega-s95-pro.dtb
-	arch/arm64/boot/dts/amlogic/meson-gxbb-vega-s95-telos.dtb
-	arch/arm64/boot/dts/amlogic/meson-gxbb-wetek-hub.dtb
-	arch/arm64/boot/dts/amlogic/meson-gxbb-wetek-play2.dtb
-	arch/arm64/boot/dts/amlogic/meson-gxl-s805x-libretech-ac.dtb
-	arch/arm64/boot/dts/amlogic/meson-gxl-s805x-p241.dtb
-	arch/arm64/boot/dts/amlogic/meson-gxl-s905d-libretech-pc.dtb
-	arch/arm64/boot/dts/amlogic/meson-gxl-s905d-mecool-kii-pro.dtb
-	arch/arm64/boot/dts/amlogic/meson-gxl-s905d-p230.dtb
-	arch/arm64/boot/dts/amlogic/meson-gxl-s905d-p231.dtb
-	arch/arm64/boot/dts/amlogic/meson-gxl-s905d-phicomm-n1.dtb
-	arch/arm64/boot/dts/amlogic/meson-gxl-s905d-sml5442tw.dtb
-	arch/arm64/boot/dts/amlogic/meson-gxl-s905d-vero4k-plus.dtb
-	arch/arm64/boot/dts/amlogic/meson-gxl-s905w-jethome-jethub-j80.dtb
-	arch/arm64/boot/dts/amlogic/meson-gxl-s905w-p281.dtb
-	arch/arm64/boot/dts/amlogic/meson-gxl-s905w-tx3-mini.dtb
-	arch/arm64/boot/dts/amlogic/meson-gxl-s905x-hwacom-amazetv.dtb
-	arch/arm64/boot/dts/amlogic/meson-gxl-s905x-khadas-vim.dtb
-	arch/arm64/boot/dts/amlogic/meson-gxl-s905x-libretech-cc.dtb
-	arch/arm64/boot/dts/amlogic/meson-gxl-s905x-libretech-cc-v2.dtb
-	arch/arm64/boot/dts/amlogic/meson-gxl-s905x-nexbox-a95x.dtb
-	arch/arm64/boot/dts/amlogic/meson-gxl-s905x-p212.dtb
-	arch/arm64/boot/dts/amlogic/meson-gxm-gt1-ultimate.dtb
-	arch/arm64/boot/dts/amlogic/meson-gxm-khadas-vim2.dtb
-	arch/arm64/boot/dts/amlogic/meson-gxm-mecool-kiii-pro.dtb
-	arch/arm64/boot/dts/amlogic/meson-gxm-minix-neo-u9h.dtb
-	arch/arm64/boot/dts/amlogic/meson-gxm-nexbox-a1.dtb
-	arch/arm64/boot/dts/amlogic/meson-gxm-q200.dtb
-	arch/arm64/boot/dts/amlogic/meson-gxm-q201.dtb
-	arch/arm64/boot/dts/amlogic/meson-gxm-rbox-pro.dtb
-	arch/arm64/boot/dts/amlogic/meson-gxm-s912-libretech-pc.dtb
-	arch/arm64/boot/dts/amlogic/meson-gxm-vega-s96.dtb
-	arch/arm64/boot/dts/amlogic/meson-gxm-wetek-core2.dtb
+diff --git a/drivers/media/pci/intel/ipu3/cio2-bridge.c b/drivers/media/pci/intel/ipu3/cio2-bridge.c
+index df6c94da2f6a..18974a72e94a 100644
+--- a/drivers/media/pci/intel/ipu3/cio2-bridge.c
++++ b/drivers/media/pci/intel/ipu3/cio2-bridge.c
+@@ -263,7 +263,7 @@ static int cio2_bridge_connect_sensor(const struct cio2_sensor_config *cfg,
+ 				      struct cio2_bridge *bridge,
+ 				      struct pci_dev *cio2)
+ {
+-	struct fwnode_handle *fwnode;
++	struct fwnode_handle *fwnode, *primary;
+ 	struct cio2_sensor *sensor;
+ 	struct acpi_device *adev;
+ 	acpi_status status;
+@@ -322,7 +322,9 @@ static int cio2_bridge_connect_sensor(const struct cio2_sensor_config *cfg,
+ 		}
+ 
+ 		sensor->adev = acpi_dev_get(adev);
+-		adev->fwnode.secondary = fwnode;
++
++		primary = acpi_fwnode_handle(adev);
++		primary->secondary = fwnode;
+ 
+ 		cio2_bridge_instantiate_vcm_i2c_client(sensor);
+ 
+-- 
+2.35.1
 
