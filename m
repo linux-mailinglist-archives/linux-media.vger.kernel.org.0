@@ -2,335 +2,478 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AAFF462FCE6
-	for <lists+linux-media@lfdr.de>; Fri, 18 Nov 2022 19:43:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 75E7C62FD11
+	for <lists+linux-media@lfdr.de>; Fri, 18 Nov 2022 19:51:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242497AbiKRSm4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 18 Nov 2022 13:42:56 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47886 "EHLO
+        id S242732AbiKRSvQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 18 Nov 2022 13:51:16 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51100 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234391AbiKRSmx (ORCPT
+        with ESMTP id S242644AbiKRSvC (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 18 Nov 2022 13:42:53 -0500
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D74FA67128;
-        Fri, 18 Nov 2022 10:42:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1668796971; x=1700332971;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=V5Hw9NYkCkvMm5f8vj1Mv2/Ssn9brYUwFrrE08qkFnQ=;
-  b=b3/F+Qs+F5YQ8Zl7NUx+CyPDJEctrKJMMtNBjDIjdbLtdz0QMTQ2k4DV
-   +OT//41XPUXDVB/GkSyhZ2Mp5T/1C4DPfEGJjcR6KD/TxiR7O34a4Fzco
-   Duttxh0+OtJJChkqJ2nDuv9vRByrsHg7Q6tGwGEo7MA3NJCd23boMDvIc
-   UcuH1Rl8X4A4HWT3S0SZq1lesVFgQgvL1Iv6H589CkxzizyGkZIWlqWFC
-   5xmTc5BzgwsloMZ2aRifqehnKNfb4aak5Z81W77jVx7fK4Cv5pphVVw+K
-   twcM5ri675RuDljhUQZp/ID/JqbKveyjdItlrnpi2REmffFrQSVtL/PaN
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10535"; a="310836553"
-X-IronPort-AV: E=Sophos;i="5.96,175,1665471600"; 
-   d="scan'208";a="310836553"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2022 10:42:51 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10535"; a="746101486"
-X-IronPort-AV: E=Sophos;i="5.96,175,1665471600"; 
-   d="scan'208";a="746101486"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by fmsmga002.fm.intel.com with ESMTP; 18 Nov 2022 10:42:49 -0800
-Received: by black.fi.intel.com (Postfix, from userid 1003)
-        id 707EA10E; Fri, 18 Nov 2022 20:43:14 +0200 (EET)
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Hans de Goede <hdegoede@redhat.com>
-Subject: [PATCH v1 1/1] atomisp: Make bds_factors_list be type of struct u32_fract
-Date:   Fri, 18 Nov 2022 20:43:09 +0200
-Message-Id: <20221118184309.60834-1-andriy.shevchenko@linux.intel.com>
-X-Mailer: git-send-email 2.35.1
-MIME-Version: 1.0
+        Fri, 18 Nov 2022 13:51:02 -0500
+Received: from mail-oa1-f46.google.com (mail-oa1-f46.google.com [209.85.160.46])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 766A079E25;
+        Fri, 18 Nov 2022 10:51:00 -0800 (PST)
+Received: by mail-oa1-f46.google.com with SMTP id 586e51a60fabf-13be3ef361dso6929198fac.12;
+        Fri, 18 Nov 2022 10:51:00 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=date:subject:message-id:references:in-reply-to:cc:to:from
+         :mime-version:content-transfer-encoding:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=9ZEyhvgIkjObPnrJ2/dp9ATGlB6fWPvCU9H7pSpDxZU=;
+        b=OZ1FTXe7Gh7kvBRqShQePMwBoSbS5QPml9EiKTDbeLm4JypI5/EXNrhYaut21EuKIl
+         U+nk/a7RqWWauNsKFIWKot/KDcBK1ZgOrYyRMFayItrUZ6WjEnAurHq3Xe7BwNtFY86u
+         6VwsKN/sE2TOEhm7/AACZzHhjkq0YiUsxw+DhXBqWC11IvRtmBA/IBgeIcRnokshWtG9
+         DMn+wBfgCHxSU6lf5BQzhZ2PCtu6YNdBo2MY5uOC7AnkQLspZrKGdJ52BvhxBwGXZwQ8
+         3zCYwQB/ekF0VfwTmO9wG9DVtnB0ltDlY/8WU8AU9vx15Og1urEvGOosQCugK0ApXSdP
+         y3Vw==
+X-Gm-Message-State: ANoB5pmQN5Ec+rA794UL6OR/A60i6thbnESc17DwgfXg3UHI+TUKBPX9
+        hDf6Ipsziyg75Io+HGYmeg==
+X-Google-Smtp-Source: AA0mqf4Qt/xgfku9KmZ2RGjFgxxdPXhg0D/QQKgiTA8V2ods2mh+Z8i6W2f00I3oV94/oUmuX/PNkA==
+X-Received: by 2002:a05:6870:960b:b0:13b:a720:efa1 with SMTP id d11-20020a056870960b00b0013ba720efa1mr7695302oaq.16.1668797459565;
+        Fri, 18 Nov 2022 10:50:59 -0800 (PST)
+Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id e18-20020a05683013d200b0063696cbb6bdsm1841768otq.62.2022.11.18.10.50.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 18 Nov 2022 10:50:59 -0800 (PST)
+Received: (nullmailer pid 856965 invoked by uid 1000);
+        Fri, 18 Nov 2022 18:50:54 -0000
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-7.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+MIME-Version: 1.0
+From:   Rob Herring <robh@kernel.org>
+To:     Neil Armstrong <neil.armstrong@linaro.org>
+Cc:     linux-kernel@vger.kernel.org,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Alessandro Zummo <a.zummo@towertech.it>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Kishon Vijay Abraham I <kishon@kernel.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        "David S. Miller" <davem@davemloft.net>,
+        linux-media@vger.kernel.org, linux-watchdog@vger.kernel.org,
+        Jakub Kicinski <kuba@kernel.org>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        linux-arm-kernel@lists.infradead.org,
+        linux-phy@lists.infradead.org, devicetree@vger.kernel.org,
+        Paolo Abeni <pabeni@redhat.com>, netdev@vger.kernel.org,
+        Kevin Hilman <khilman@baylibre.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Russell King <linux@armlinux.org.uk>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        linux-pci@vger.kernel.org,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Eric Dumazet <edumazet@google.com>, linux-rtc@vger.kernel.org,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        linux-mmc@vger.kernel.org, Ulf Hansson <ulf.hansson@linaro.org>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Jerome Brunet <jbrunet@baylibre.com>,
+        linux-amlogic@lists.infradead.org, Vinod Koul <vkoul@kernel.org>
+In-Reply-To: <20221117-b4-amlogic-bindings-convert-v1-10-3f025599b968@linaro.org>
+References: <20221117-b4-amlogic-bindings-convert-v1-0-3f025599b968@linaro.org> 
+ <20221117-b4-amlogic-bindings-convert-v1-10-3f025599b968@linaro.org>
+Message-Id: <166879731763.852137.10737377868850361519.robh@kernel.org>
+Subject: Re: [PATCH 10/12] dt-bindings: mmc: convert amlogic,meson-gx.txt to dt-schema
+Date:   Fri, 18 Nov 2022 12:50:54 -0600
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
+        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The list contains the Bayer scale index, and rational fraction of it.
-The struct u32_fract is suitable type to hold that. Convert the driver
-to use latter instead of former.
 
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
----
- .../pipe/interface/ia_css_pipe_binarydesc.h   | 13 ++---
- .../pci/camera/pipe/src/pipe_binarydesc.c     | 55 ++++++++-----------
- .../atomisp/pci/runtime/binary/src/binary.c   | 42 +++++---------
- .../media/atomisp/pci/sh_css_param_shading.c  | 19 +++----
- 4 files changed, 51 insertions(+), 78 deletions(-)
+On Fri, 18 Nov 2022 15:33:36 +0100, Neil Armstrong wrote:
+> Convert the Amlogic SD / eMMC controller for S905/GXBB family SoCs
+> to dt-schema.
+> 
+> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+> ---
+>  .../bindings/mmc/amlogic,meson-gx-mmc.yaml         | 78 ++++++++++++++++++++++
+>  .../devicetree/bindings/mmc/amlogic,meson-gx.txt   | 39 -----------
+>  2 files changed, 78 insertions(+), 39 deletions(-)
+> 
 
-diff --git a/drivers/staging/media/atomisp/pci/camera/pipe/interface/ia_css_pipe_binarydesc.h b/drivers/staging/media/atomisp/pci/camera/pipe/interface/ia_css_pipe_binarydesc.h
-index 965cfda50707..e42eeaeb3ee4 100644
---- a/drivers/staging/media/atomisp/pci/camera/pipe/interface/ia_css_pipe_binarydesc.h
-+++ b/drivers/staging/media/atomisp/pci/camera/pipe/interface/ia_css_pipe_binarydesc.h
-@@ -16,6 +16,8 @@
- #ifndef __IA_CSS_PIPE_BINARYDESC_H__
- #define __IA_CSS_PIPE_BINARYDESC_H__
- 
-+#include <linux/math.h>
-+
- #include <ia_css_types.h>		/* ia_css_pipe */
- #include <ia_css_frame_public.h>	/* ia_css_frame_info */
- #include <ia_css_binary.h>		/* ia_css_binary_descr */
-@@ -56,17 +58,12 @@ void ia_css_pipe_get_vfpp_binarydesc(
-  *
-  * @param[in] bds_factor: The bayer downscaling factor.
-  *		(= The bds_factor member in the sh_css_bds_factor structure.)
-- * @param[out] bds_factor_numerator: The numerator of the bayer downscaling factor.
-- *		(= The numerator member in the sh_css_bds_factor structure.)
-- * @param[out] bds_factor_denominator: The denominator of the bayer downscaling factor.
-- *		(= The denominator member in the sh_css_bds_factor structure.)
-+ * @param[out] bds: The rational fraction of the bayer downscaling factor.
-+ *		(= The respective member in the sh_css_bds_factor structure.)
-  * @return	0 or error code upon error.
-  *
-  */
--int sh_css_bds_factor_get_numerator_denominator(
--    unsigned int bds_factor,
--    unsigned int *bds_factor_numerator,
--    unsigned int *bds_factor_denominator);
-+int sh_css_bds_factor_get_fract(unsigned int bds_factor, struct u32_fract *bds);
- 
- /* @brief Get a binary descriptor for preview stage.
-  *
-diff --git a/drivers/staging/media/atomisp/pci/camera/pipe/src/pipe_binarydesc.c b/drivers/staging/media/atomisp/pci/camera/pipe/src/pipe_binarydesc.c
-index 7dd0e4a53c8b..06664ce75b60 100644
---- a/drivers/staging/media/atomisp/pci/camera/pipe/src/pipe_binarydesc.c
-+++ b/drivers/staging/media/atomisp/pci/camera/pipe/src/pipe_binarydesc.c
-@@ -13,6 +13,9 @@
-  * more details.
-  */
- 
-+#include <linux/kernel.h>
-+#include <linux/math.h>
-+
- #include "ia_css_pipe_binarydesc.h"
- #include "ia_css_frame_format.h"
- #include "ia_css_pipe.h"
-@@ -23,7 +26,6 @@
- #include <assert_support.h>
- /* HRT_GDC_N */
- #include "gdc_device.h"
--#include <linux/kernel.h>
- 
- /* This module provides a binary descriptions to used to find a binary. Since,
-  * every stage is associated with a binary, it implicity helps stage
-@@ -126,40 +128,29 @@ void ia_css_pipe_get_vfpp_binarydesc(
- 	IA_CSS_LEAVE_PRIVATE("");
- }
- 
--static struct sh_css_bds_factor bds_factors_list[] = {
--	{1, 1, SH_CSS_BDS_FACTOR_1_00},
--	{5, 4, SH_CSS_BDS_FACTOR_1_25},
--	{3, 2, SH_CSS_BDS_FACTOR_1_50},
--	{2, 1, SH_CSS_BDS_FACTOR_2_00},
--	{9, 4, SH_CSS_BDS_FACTOR_2_25},
--	{5, 2, SH_CSS_BDS_FACTOR_2_50},
--	{3, 1, SH_CSS_BDS_FACTOR_3_00},
--	{4, 1, SH_CSS_BDS_FACTOR_4_00},
--	{9, 2, SH_CSS_BDS_FACTOR_4_50},
--	{5, 1, SH_CSS_BDS_FACTOR_5_00},
--	{6, 1, SH_CSS_BDS_FACTOR_6_00},
--	{8, 1, SH_CSS_BDS_FACTOR_8_00}
-+static struct u32_fract bds_factors_list[] = {
-+	[SH_CSS_BDS_FACTOR_1_00] = {1, 1},
-+	[SH_CSS_BDS_FACTOR_1_25] = {5, 4},
-+	[SH_CSS_BDS_FACTOR_1_50] = {3, 2},
-+	[SH_CSS_BDS_FACTOR_2_00] = {2, 1},
-+	[SH_CSS_BDS_FACTOR_2_25] = {9, 4},
-+	[SH_CSS_BDS_FACTOR_2_50] = {5, 2},
-+	[SH_CSS_BDS_FACTOR_3_00] = {3, 1},
-+	[SH_CSS_BDS_FACTOR_4_00] = {4, 1},
-+	[SH_CSS_BDS_FACTOR_4_50] = {9, 2},
-+	[SH_CSS_BDS_FACTOR_5_00] = {5, 1},
-+	[SH_CSS_BDS_FACTOR_6_00] = {6, 1},
-+	[SH_CSS_BDS_FACTOR_8_00] = {8, 1},
- };
- 
--int sh_css_bds_factor_get_numerator_denominator(
--    unsigned int bds_factor,
--    unsigned int *bds_factor_numerator,
--    unsigned int *bds_factor_denominator)
-+int sh_css_bds_factor_get_fract(unsigned int bds_factor, struct u32_fract *bds)
- {
--	unsigned int i;
--
--	/* Loop over all bds factors until a match is found */
--	for (i = 0; i < ARRAY_SIZE(bds_factors_list); i++) {
--		if (bds_factors_list[i].bds_factor == bds_factor) {
--			*bds_factor_numerator = bds_factors_list[i].numerator;
--			*bds_factor_denominator = bds_factors_list[i].denominator;
--			return 0;
--		}
--	}
-+	/* Throw an error since bds_factor cannot be found in bds_factors_list */
-+	if (bds_factor >= ARRAY_SIZE(bds_factors_list))
-+		return -EINVAL;
- 
--	/* Throw an error since bds_factor cannot be found
--	in bds_factors_list */
--	return -EINVAL;
-+	*bds = bds_factors_list[bds_factor];
-+	return 0;
- }
- 
- int binarydesc_calculate_bds_factor(
-@@ -194,7 +185,7 @@ int binarydesc_calculate_bds_factor(
- 			    (out_h * num / den <= in_h);
- 
- 		if (cond) {
--			*bds_factor = bds_factors_list[i].bds_factor;
-+			*bds_factor = i;
- 			return 0;
- 		}
- 	}
-diff --git a/drivers/staging/media/atomisp/pci/runtime/binary/src/binary.c b/drivers/staging/media/atomisp/pci/runtime/binary/src/binary.c
-index 406ed5fb4c6a..768da86b8c2c 100644
---- a/drivers/staging/media/atomisp/pci/runtime/binary/src/binary.c
-+++ b/drivers/staging/media/atomisp/pci/runtime/binary/src/binary.c
-@@ -13,6 +13,8 @@
-  * more details.
-  */
- 
-+#include <linux/math.h>
-+
- #include <math_support.h>
- #include <gdc_device.h>	/* HR_GDC_N */
- 
-@@ -128,16 +130,8 @@ ia_css_binary_compute_shading_table_bayer_origin(
- {
- 	int err;
- 
--	/* Numerator and denominator of the fixed bayer downscaling factor.
--	(numerator >= denominator) */
--	unsigned int bds_num, bds_den;
--
--	/* Horizontal/Vertical ratio of bayer scaling
--	between input area and output area. */
--	unsigned int bs_hor_ratio_in;
--	unsigned int bs_hor_ratio_out;
--	unsigned int bs_ver_ratio_in;
--	unsigned int bs_ver_ratio_out;
-+	/* Rational fraction of the fixed bayer downscaling factor. */
-+	struct u32_fract bds;
- 
- 	/* Left padding set by InputFormatter. */
- 	unsigned int left_padding_bqs;			/* in bqs */
-@@ -158,19 +152,11 @@ ia_css_binary_compute_shading_table_bayer_origin(
- 	unsigned int bad_bqs_on_top_before_bs;	/* in bqs */
- 	unsigned int bad_bqs_on_top_after_bs;	/* in bqs */
- 
--	/* Get the numerator and denominator of bayer downscaling factor. */
--	err = sh_css_bds_factor_get_numerator_denominator
--	(required_bds_factor, &bds_num, &bds_den);
-+	/* Get the rational fraction of bayer downscaling factor. */
-+	err = sh_css_bds_factor_get_fract(required_bds_factor, &bds);
- 	if (err)
- 		return err;
- 
--	/* Set the horizontal/vertical ratio of bayer scaling
--	between input area and output area. */
--	bs_hor_ratio_in  = bds_num;
--	bs_hor_ratio_out = bds_den;
--	bs_ver_ratio_in  = bds_num;
--	bs_ver_ratio_out = bds_den;
--
- 	/* Set the left padding set by InputFormatter. (ifmtr.c) */
- 	if (stream_config->left_padding == -1)
- 		left_padding_bqs = _ISP_BQS(binary->left_padding);
-@@ -228,18 +214,18 @@ ia_css_binary_compute_shading_table_bayer_origin(
- 	located on the shading table during the shading correction. */
- 	res->sc_bayer_origin_x_bqs_on_shading_table =
- 		((left_padding_adjusted_bqs + bad_bqs_on_left_before_bs)
--		* bs_hor_ratio_out + bs_hor_ratio_in / 2) / bs_hor_ratio_in
-+		* bds.denominator + bds.numerator / 2) / bds.numerator
- 		+ bad_bqs_on_left_after_bs;
--	/* "+ bs_hor_ratio_in/2": rounding for division by bs_hor_ratio_in */
-+	/* "+ bds.numerator / 2": rounding for division by bds.numerator */
- 	res->sc_bayer_origin_y_bqs_on_shading_table =
--		(bad_bqs_on_top_before_bs * bs_ver_ratio_out + bs_ver_ratio_in / 2) / bs_ver_ratio_in
-+		(bad_bqs_on_top_before_bs * bds.denominator + bds.numerator / 2) / bds.numerator
- 		+ bad_bqs_on_top_after_bs;
--	/* "+ bs_ver_ratio_in/2": rounding for division by bs_ver_ratio_in */
-+	/* "+ bds.numerator / 2": rounding for division by bds.numerator */
- 
--	res->bayer_scale_hor_ratio_in  = (uint32_t)bs_hor_ratio_in;
--	res->bayer_scale_hor_ratio_out = (uint32_t)bs_hor_ratio_out;
--	res->bayer_scale_ver_ratio_in  = (uint32_t)bs_ver_ratio_in;
--	res->bayer_scale_ver_ratio_out = (uint32_t)bs_ver_ratio_out;
-+	res->bayer_scale_hor_ratio_in  = bds.numerator;
-+	res->bayer_scale_hor_ratio_out = bds.denominator;
-+	res->bayer_scale_ver_ratio_in  = bds.numerator;
-+	res->bayer_scale_ver_ratio_out = bds.denominator;
- 
- 	return err;
- }
-diff --git a/drivers/staging/media/atomisp/pci/sh_css_param_shading.c b/drivers/staging/media/atomisp/pci/sh_css_param_shading.c
-index 41a4c9162319..5b43cc656269 100644
---- a/drivers/staging/media/atomisp/pci/sh_css_param_shading.c
-+++ b/drivers/staging/media/atomisp/pci/sh_css_param_shading.c
-@@ -13,6 +13,7 @@
-  * more details.
-  */
- 
-+#include <linux/math.h>
- #include <linux/slab.h>
- 
- #include <math_support.h>
-@@ -239,10 +240,9 @@ prepare_shading_table(const struct ia_css_shading_table *in_table,
- {
- 	unsigned int input_width, input_height, table_width, table_height, i;
- 	unsigned int left_padding, top_padding, left_cropping;
--	unsigned int bds_numerator, bds_denominator;
--	int right_padding;
--
- 	struct ia_css_shading_table *result;
-+	struct u32_fract bds;
-+	int right_padding;
- 
- 	assert(target_table);
- 	assert(binary);
-@@ -265,17 +265,16 @@ prepare_shading_table(const struct ia_css_shading_table *in_table,
- 	left_cropping = (binary->info->sp.pipeline.left_cropping == 0) ?
- 			binary->dvs_envelope.width : 2 * ISP_VEC_NELEMS;
- 
--	sh_css_bds_factor_get_numerator_denominator
--	(bds_factor, &bds_numerator, &bds_denominator);
-+	sh_css_bds_factor_get_fract(bds_factor, &bds);
- 
- 	left_padding  = (left_padding + binary->info->sp.pipeline.left_cropping) *
--			bds_numerator / bds_denominator -
-+			bds.numerator / bds.denominator -
- 			binary->info->sp.pipeline.left_cropping;
- 	right_padding = (binary->internal_frame_info.res.width -
--			 binary->effective_in_frame_res.width * bds_denominator /
--			 bds_numerator - left_cropping) * bds_numerator / bds_denominator;
--	top_padding = binary->info->sp.pipeline.top_cropping * bds_numerator /
--		      bds_denominator -
-+			 binary->effective_in_frame_res.width * bds.denominator /
-+			 bds.numerator - left_cropping) * bds.numerator / bds.denominator;
-+	top_padding = binary->info->sp.pipeline.top_cropping * bds.numerator /
-+		      bds.denominator -
- 		      binary->info->sp.pipeline.top_cropping;
- 
- 	/*
--- 
-2.35.1
+Running 'make dtbs_check' with the schema in this patch gives the
+following warnings. Consider if they are expected or the schema is
+incorrect. These may not be new warnings.
+
+Note that it is not yet a requirement to have 0 warnings for dtbs_check.
+This will change in the future.
+
+Full log is available here: https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20221117-b4-amlogic-bindings-convert-v1-10-3f025599b968@linaro.org
+
+
+mmc@70000: compatible: 'oneOf' conditional failed, one must be fixed:
+	arch/arm64/boot/dts/amlogic/meson-gxbb-kii-pro.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxbb-nanopi-k2.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxbb-nexbox-a95x.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxbb-odroidc2.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxbb-p200.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxbb-p201.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxbb-vega-s95-meta.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxbb-vega-s95-pro.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxbb-vega-s95-telos.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxbb-wetek-hub.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxbb-wetek-play2.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxl-s805x-libretech-ac.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxl-s805x-p241.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxl-s905d-libretech-pc.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxl-s905d-mecool-kii-pro.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxl-s905d-p230.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxl-s905d-p231.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxl-s905d-phicomm-n1.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxl-s905d-sml5442tw.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxl-s905d-vero4k-plus.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxl-s905w-jethome-jethub-j80.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxl-s905w-p281.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxl-s905w-tx3-mini.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxl-s905x-hwacom-amazetv.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxl-s905x-khadas-vim.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxl-s905x-libretech-cc.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxl-s905x-libretech-cc-v2.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxl-s905x-nexbox-a95x.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxl-s905x-p212.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxm-gt1-ultimate.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxm-khadas-vim2.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxm-mecool-kiii-pro.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxm-minix-neo-u9h.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxm-nexbox-a1.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxm-q200.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxm-q201.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxm-rbox-pro.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxm-s912-libretech-pc.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxm-vega-s96.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxm-wetek-core2.dtb
+
+mmc@70000: Unevaluated properties are not allowed ('compatible' was unexpected)
+	arch/arm64/boot/dts/amlogic/meson-gxbb-kii-pro.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxbb-nanopi-k2.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxbb-nexbox-a95x.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxbb-odroidc2.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxbb-p200.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxbb-p201.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxbb-vega-s95-meta.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxbb-vega-s95-pro.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxbb-vega-s95-telos.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxbb-wetek-hub.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxbb-wetek-play2.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxl-s805x-libretech-ac.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxl-s805x-p241.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxl-s905d-libretech-pc.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxl-s905d-mecool-kii-pro.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxl-s905d-p230.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxl-s905d-p231.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxl-s905d-phicomm-n1.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxl-s905d-sml5442tw.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxl-s905d-vero4k-plus.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxl-s905w-jethome-jethub-j80.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxl-s905w-p281.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxl-s905w-tx3-mini.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxl-s905x-hwacom-amazetv.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxl-s905x-khadas-vim.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxl-s905x-libretech-cc.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxl-s905x-libretech-cc-v2.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxl-s905x-nexbox-a95x.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxl-s905x-p212.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxm-gt1-ultimate.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxm-khadas-vim2.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxm-mecool-kiii-pro.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxm-minix-neo-u9h.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxm-nexbox-a1.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxm-q200.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxm-q201.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxm-rbox-pro.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxm-s912-libretech-pc.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxm-vega-s96.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxm-wetek-core2.dtb
+
+mmc@72000: compatible: 'oneOf' conditional failed, one must be fixed:
+	arch/arm64/boot/dts/amlogic/meson-gxbb-kii-pro.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxbb-nanopi-k2.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxbb-nexbox-a95x.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxbb-odroidc2.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxbb-p200.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxbb-p201.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxbb-vega-s95-meta.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxbb-vega-s95-pro.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxbb-vega-s95-telos.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxbb-wetek-hub.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxbb-wetek-play2.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxl-s805x-libretech-ac.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxl-s805x-p241.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxl-s905d-libretech-pc.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxl-s905d-mecool-kii-pro.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxl-s905d-p230.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxl-s905d-p231.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxl-s905d-phicomm-n1.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxl-s905d-sml5442tw.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxl-s905d-vero4k-plus.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxl-s905w-jethome-jethub-j80.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxl-s905w-p281.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxl-s905w-tx3-mini.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxl-s905x-hwacom-amazetv.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxl-s905x-khadas-vim.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxl-s905x-libretech-cc.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxl-s905x-libretech-cc-v2.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxl-s905x-nexbox-a95x.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxl-s905x-p212.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxm-gt1-ultimate.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxm-khadas-vim2.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxm-mecool-kiii-pro.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxm-minix-neo-u9h.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxm-nexbox-a1.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxm-q200.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxm-q201.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxm-rbox-pro.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxm-s912-libretech-pc.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxm-vega-s96.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxm-wetek-core2.dtb
+
+mmc@72000: Unevaluated properties are not allowed ('compatible' was unexpected)
+	arch/arm64/boot/dts/amlogic/meson-gxbb-kii-pro.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxbb-nanopi-k2.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxbb-nexbox-a95x.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxbb-odroidc2.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxbb-p200.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxbb-p201.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxbb-vega-s95-meta.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxbb-vega-s95-pro.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxbb-vega-s95-telos.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxbb-wetek-hub.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxbb-wetek-play2.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxl-s805x-libretech-ac.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxl-s805x-p241.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxl-s905d-libretech-pc.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxl-s905d-mecool-kii-pro.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxl-s905d-p230.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxl-s905d-p231.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxl-s905d-phicomm-n1.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxl-s905d-sml5442tw.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxl-s905d-vero4k-plus.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxl-s905w-jethome-jethub-j80.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxl-s905w-p281.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxl-s905w-tx3-mini.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxl-s905x-hwacom-amazetv.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxl-s905x-khadas-vim.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxl-s905x-libretech-cc.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxl-s905x-libretech-cc-v2.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxl-s905x-nexbox-a95x.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxl-s905x-p212.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxm-gt1-ultimate.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxm-khadas-vim2.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxm-mecool-kiii-pro.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxm-minix-neo-u9h.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxm-nexbox-a1.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxm-q200.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxm-q201.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxm-rbox-pro.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxm-s912-libretech-pc.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxm-vega-s96.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxm-wetek-core2.dtb
+
+mmc@74000: compatible: 'oneOf' conditional failed, one must be fixed:
+	arch/arm64/boot/dts/amlogic/meson-gxbb-kii-pro.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxbb-nanopi-k2.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxbb-nexbox-a95x.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxbb-odroidc2.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxbb-p200.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxbb-p201.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxbb-vega-s95-meta.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxbb-vega-s95-pro.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxbb-vega-s95-telos.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxbb-wetek-hub.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxbb-wetek-play2.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxl-s805x-libretech-ac.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxl-s805x-p241.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxl-s905d-libretech-pc.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxl-s905d-mecool-kii-pro.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxl-s905d-p230.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxl-s905d-p231.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxl-s905d-phicomm-n1.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxl-s905d-sml5442tw.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxl-s905d-vero4k-plus.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxl-s905w-jethome-jethub-j80.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxl-s905w-p281.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxl-s905w-tx3-mini.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxl-s905x-hwacom-amazetv.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxl-s905x-khadas-vim.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxl-s905x-libretech-cc.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxl-s905x-libretech-cc-v2.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxl-s905x-nexbox-a95x.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxl-s905x-p212.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxm-gt1-ultimate.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxm-khadas-vim2.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxm-mecool-kiii-pro.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxm-minix-neo-u9h.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxm-nexbox-a1.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxm-q200.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxm-q201.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxm-rbox-pro.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxm-s912-libretech-pc.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxm-vega-s96.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxm-wetek-core2.dtb
+
+mmc@74000: Unevaluated properties are not allowed ('compatible' was unexpected)
+	arch/arm64/boot/dts/amlogic/meson-gxbb-kii-pro.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxbb-nanopi-k2.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxbb-nexbox-a95x.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxbb-odroidc2.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxbb-p200.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxbb-p201.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxbb-vega-s95-meta.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxbb-vega-s95-pro.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxbb-vega-s95-telos.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxbb-wetek-hub.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxbb-wetek-play2.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxl-s805x-libretech-ac.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxl-s805x-p241.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxl-s905d-libretech-pc.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxl-s905d-mecool-kii-pro.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxl-s905d-p230.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxl-s905d-p231.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxl-s905d-phicomm-n1.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxl-s905d-sml5442tw.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxl-s905d-vero4k-plus.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxl-s905w-jethome-jethub-j80.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxl-s905w-p281.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxl-s905w-tx3-mini.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxl-s905x-hwacom-amazetv.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxl-s905x-khadas-vim.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxl-s905x-libretech-cc.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxl-s905x-libretech-cc-v2.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxl-s905x-nexbox-a95x.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxl-s905x-p212.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxm-gt1-ultimate.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxm-khadas-vim2.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxm-mecool-kiii-pro.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxm-minix-neo-u9h.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxm-nexbox-a1.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxm-q200.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxm-q201.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxm-rbox-pro.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxm-s912-libretech-pc.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxm-vega-s96.dtb
+	arch/arm64/boot/dts/amlogic/meson-gxm-wetek-core2.dtb
+
+sd@5000: $nodename:0: 'sd@5000' does not match '^mmc(@.*)?$'
+	arch/arm64/boot/dts/amlogic/meson-axg-jethome-jethub-j100.dtb
+	arch/arm64/boot/dts/amlogic/meson-axg-jethome-jethub-j110-rev-2.dtb
+	arch/arm64/boot/dts/amlogic/meson-axg-jethome-jethub-j110-rev-3.dtb
+	arch/arm64/boot/dts/amlogic/meson-axg-s400.dtb
+
+sd@5000: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'broken-cd', 'bus-width', 'cap-sd-highspeed', 'disable-wp', 'max-frequency', 'mmc-pwrseq', 'vmmc-supply', 'vqmmc-supply' were unexpected)
+	arch/arm64/boot/dts/amlogic/meson-axg-jethome-jethub-j110-rev-2.dtb
+	arch/arm64/boot/dts/amlogic/meson-axg-jethome-jethub-j110-rev-3.dtb
+
+sd@5000: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'bus-width', 'cap-sd-highspeed', 'disable-wp', 'max-frequency', 'mmc-pwrseq', 'non-removable', 'sd-uhs-sdr104', 'vmmc-supply', 'vqmmc-supply', 'wifi@1' were unexpected)
+	arch/arm64/boot/dts/amlogic/meson-axg-s400.dtb
+
+sd@5000: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'bus-width', 'cap-sd-highspeed', 'disable-wp', 'max-frequency', 'mmc-pwrseq', 'non-removable', 'vmmc-supply', 'vqmmc-supply', 'wifi@1' were unexpected)
+	arch/arm64/boot/dts/amlogic/meson-axg-jethome-jethub-j100.dtb
+
+sd@ffe03000: $nodename:0: 'sd@ffe03000' does not match '^mmc(@.*)?$'
+	arch/arm64/boot/dts/amlogic/meson-g12a-radxa-zero.dtb
+	arch/arm64/boot/dts/amlogic/meson-g12a-sei510.dtb
+	arch/arm64/boot/dts/amlogic/meson-g12a-u200.dtb
+	arch/arm64/boot/dts/amlogic/meson-g12a-x96-max.dtb
+	arch/arm64/boot/dts/amlogic/meson-g12b-a311d-khadas-vim3.dtb
+	arch/arm64/boot/dts/amlogic/meson-g12b-gsking-x.dtb
+	arch/arm64/boot/dts/amlogic/meson-g12b-gtking.dtb
+	arch/arm64/boot/dts/amlogic/meson-g12b-gtking-pro.dtb
+	arch/arm64/boot/dts/amlogic/meson-g12b-odroid-n2.dtb
+	arch/arm64/boot/dts/amlogic/meson-g12b-odroid-n2-plus.dtb
+	arch/arm64/boot/dts/amlogic/meson-g12b-s922x-khadas-vim3.dtb
+	arch/arm64/boot/dts/amlogic/meson-g12b-ugoos-am6.dtb
+	arch/arm64/boot/dts/amlogic/meson-sm1-a95xf3-air.dtb
+	arch/arm64/boot/dts/amlogic/meson-sm1-a95xf3-air-gbit.dtb
+	arch/arm64/boot/dts/amlogic/meson-sm1-bananapi-m5.dtb
+	arch/arm64/boot/dts/amlogic/meson-sm1-h96-max.dtb
+	arch/arm64/boot/dts/amlogic/meson-sm1-khadas-vim3l.dtb
+	arch/arm64/boot/dts/amlogic/meson-sm1-odroid-c4.dtb
+	arch/arm64/boot/dts/amlogic/meson-sm1-odroid-hc4.dtb
+	arch/arm64/boot/dts/amlogic/meson-sm1-sei610.dtb
+	arch/arm64/boot/dts/amlogic/meson-sm1-x96-air.dtb
+	arch/arm64/boot/dts/amlogic/meson-sm1-x96-air-gbit.dtb
+
+sd@ffe03000: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'bus-width', 'cap-sd-highspeed', 'disable-wp', 'keep-power-in-suspend', 'max-frequency', 'mmc-pwrseq', 'non-removable', 'sd-uhs-sdr104', 'vmmc-supply', 'vqmmc-supply' were unexpected)
+	arch/arm64/boot/dts/amlogic/meson-sm1-a95xf3-air.dtb
+	arch/arm64/boot/dts/amlogic/meson-sm1-a95xf3-air-gbit.dtb
+	arch/arm64/boot/dts/amlogic/meson-sm1-h96-max.dtb
+	arch/arm64/boot/dts/amlogic/meson-sm1-x96-air.dtb
+	arch/arm64/boot/dts/amlogic/meson-sm1-x96-air-gbit.dtb
+
+sd@ffe03000: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'bus-width', 'cap-sd-highspeed', 'disable-wp', 'keep-power-in-suspend', 'max-frequency', 'mmc-pwrseq', 'non-removable', 'sd-uhs-sdr50', 'vmmc-supply', 'vqmmc-supply', 'wifi@1' were unexpected)
+	arch/arm64/boot/dts/amlogic/meson-g12a-radxa-zero.dtb
+	arch/arm64/boot/dts/amlogic/meson-g12a-sei510.dtb
+	arch/arm64/boot/dts/amlogic/meson-g12a-x96-max.dtb
+	arch/arm64/boot/dts/amlogic/meson-sm1-khadas-vim3l.dtb
+	arch/arm64/boot/dts/amlogic/meson-sm1-sei610.dtb
+
+sd@ffe03000: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'bus-width', 'cap-sd-highspeed', 'disable-wp', 'keep-power-in-suspend', 'max-frequency', 'mmc-pwrseq', 'non-removable', 'vmmc-supply', 'vqmmc-supply', 'wifi@1' were unexpected)
+	arch/arm64/boot/dts/amlogic/meson-g12b-a311d-khadas-vim3.dtb
+	arch/arm64/boot/dts/amlogic/meson-g12b-gsking-x.dtb
+	arch/arm64/boot/dts/amlogic/meson-g12b-gtking.dtb
+	arch/arm64/boot/dts/amlogic/meson-g12b-gtking-pro.dtb
+	arch/arm64/boot/dts/amlogic/meson-g12b-s922x-khadas-vim3.dtb
+	arch/arm64/boot/dts/amlogic/meson-g12b-ugoos-am6.dtb
+
+sd@ffe05000: $nodename:0: 'sd@ffe05000' does not match '^mmc(@.*)?$'
+	arch/arm64/boot/dts/amlogic/meson-g12a-radxa-zero.dtb
+	arch/arm64/boot/dts/amlogic/meson-g12a-sei510.dtb
+	arch/arm64/boot/dts/amlogic/meson-g12a-u200.dtb
+	arch/arm64/boot/dts/amlogic/meson-g12a-x96-max.dtb
+	arch/arm64/boot/dts/amlogic/meson-g12b-a311d-khadas-vim3.dtb
+	arch/arm64/boot/dts/amlogic/meson-g12b-gsking-x.dtb
+	arch/arm64/boot/dts/amlogic/meson-g12b-gtking.dtb
+	arch/arm64/boot/dts/amlogic/meson-g12b-gtking-pro.dtb
+	arch/arm64/boot/dts/amlogic/meson-g12b-odroid-n2.dtb
+	arch/arm64/boot/dts/amlogic/meson-g12b-odroid-n2-plus.dtb
+	arch/arm64/boot/dts/amlogic/meson-g12b-s922x-khadas-vim3.dtb
+	arch/arm64/boot/dts/amlogic/meson-g12b-ugoos-am6.dtb
+	arch/arm64/boot/dts/amlogic/meson-sm1-a95xf3-air.dtb
+	arch/arm64/boot/dts/amlogic/meson-sm1-a95xf3-air-gbit.dtb
+	arch/arm64/boot/dts/amlogic/meson-sm1-bananapi-m5.dtb
+	arch/arm64/boot/dts/amlogic/meson-sm1-h96-max.dtb
+	arch/arm64/boot/dts/amlogic/meson-sm1-khadas-vim3l.dtb
+	arch/arm64/boot/dts/amlogic/meson-sm1-odroid-c4.dtb
+	arch/arm64/boot/dts/amlogic/meson-sm1-odroid-hc4.dtb
+	arch/arm64/boot/dts/amlogic/meson-sm1-sei610.dtb
+	arch/arm64/boot/dts/amlogic/meson-sm1-x96-air.dtb
+	arch/arm64/boot/dts/amlogic/meson-sm1-x96-air-gbit.dtb
+
+sd@ffe05000: Unevaluated properties are not allowed ('bus-width', 'cap-sd-highspeed', 'cd-gpios', 'disable-wp', 'max-frequency', 'sd-uhs-sdr104', 'sd-uhs-sdr12', 'sd-uhs-sdr25', 'sd-uhs-sdr50', 'vmmc-supply', 'vqmmc-supply' were unexpected)
+	arch/arm64/boot/dts/amlogic/meson-sm1-odroid-c4.dtb
+	arch/arm64/boot/dts/amlogic/meson-sm1-odroid-hc4.dtb
+
+sd@ffe05000: Unevaluated properties are not allowed ('bus-width', 'cap-sd-highspeed', 'cd-gpios', 'disable-wp', 'max-frequency', 'vmmc-supply', 'vqmmc-supply' were unexpected)
+	arch/arm64/boot/dts/amlogic/meson-g12a-radxa-zero.dtb
+	arch/arm64/boot/dts/amlogic/meson-g12a-sei510.dtb
+	arch/arm64/boot/dts/amlogic/meson-g12a-u200.dtb
+	arch/arm64/boot/dts/amlogic/meson-g12a-x96-max.dtb
+	arch/arm64/boot/dts/amlogic/meson-g12b-a311d-khadas-vim3.dtb
+	arch/arm64/boot/dts/amlogic/meson-g12b-gsking-x.dtb
+	arch/arm64/boot/dts/amlogic/meson-g12b-gtking.dtb
+	arch/arm64/boot/dts/amlogic/meson-g12b-gtking-pro.dtb
+	arch/arm64/boot/dts/amlogic/meson-g12b-odroid-n2.dtb
+	arch/arm64/boot/dts/amlogic/meson-g12b-odroid-n2-plus.dtb
+	arch/arm64/boot/dts/amlogic/meson-g12b-s922x-khadas-vim3.dtb
+	arch/arm64/boot/dts/amlogic/meson-g12b-ugoos-am6.dtb
+	arch/arm64/boot/dts/amlogic/meson-sm1-a95xf3-air.dtb
+	arch/arm64/boot/dts/amlogic/meson-sm1-a95xf3-air-gbit.dtb
+	arch/arm64/boot/dts/amlogic/meson-sm1-bananapi-m5.dtb
+	arch/arm64/boot/dts/amlogic/meson-sm1-h96-max.dtb
+	arch/arm64/boot/dts/amlogic/meson-sm1-khadas-vim3l.dtb
+	arch/arm64/boot/dts/amlogic/meson-sm1-sei610.dtb
+	arch/arm64/boot/dts/amlogic/meson-sm1-x96-air.dtb
+	arch/arm64/boot/dts/amlogic/meson-sm1-x96-air-gbit.dtb
 
