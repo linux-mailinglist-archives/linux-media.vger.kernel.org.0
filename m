@@ -2,43 +2,44 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5478262F22B
-	for <lists+linux-media@lfdr.de>; Fri, 18 Nov 2022 11:10:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 92ABA62F232
+	for <lists+linux-media@lfdr.de>; Fri, 18 Nov 2022 11:11:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241136AbiKRKJm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 18 Nov 2022 05:09:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40866 "EHLO
+        id S235238AbiKRKLR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 18 Nov 2022 05:11:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42098 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241309AbiKRKJP (ORCPT
+        with ESMTP id S241845AbiKRKKk (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 18 Nov 2022 05:09:15 -0500
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E84A17019A;
-        Fri, 18 Nov 2022 02:09:14 -0800 (PST)
+        Fri, 18 Nov 2022 05:10:40 -0500
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A82F91509;
+        Fri, 18 Nov 2022 02:10:29 -0800 (PST)
 Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
         (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits))
         (No client certificate requested)
         (Authenticated sender: kholk11)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id BE9796602AAB;
-        Fri, 18 Nov 2022 10:09:12 +0000 (GMT)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id F1DD36602AA7;
+        Fri, 18 Nov 2022 10:10:26 +0000 (GMT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1668766153;
-        bh=UnL9wkeR7m5ts4yqDKWZfymPVaulqbGW5ILVOZUGguY=;
+        s=mail; t=1668766227;
+        bh=36XHqXHW9/4pThD2dF/5JFo7f13qGtp3LHEod+p8KXQ=;
         h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=avltAjeP69GgZgDh6cHxaEomdtD4fm43H/dec0zrbRmveZbgKkCqgs1WDPKf4fuLH
-         ZpVCiiFvNzwwyXKD46etXlTCAER9/lteoK9c9u0/qyOcolsPrUuv8OeikPKwaCynW9
-         7CVYqi45mQ3NhcgevLzSn6w43qPUj+TJGCWlZRXtbZZlgWdHWC9PPNqAhGxfdIjV3W
-         piKTLUB0Y4o809FkBJjH2Xt0e+aDpBpsJvQpQ+FxpwzngKWKjB8dvr5X5uxFSbfD5Q
-         PmyZVEUdK9dYSd2v+UXCaahYm/RsHuOwcsBKJEB6dY8SXDLHJnzVTW8T/Kn6r3NQY9
-         wjVg9I7hQkfqw==
-Message-ID: <facc72b4-8eaa-0b16-19df-7a5a30ba26ea@collabora.com>
-Date:   Fri, 18 Nov 2022 11:09:09 +0100
+        b=GnB3VAJyaDI54TY0WKGzD12xkMUnqgE1NeVQZNzB0IdnmQfjabbST7saZMjqNShtu
+         MAeFO1+tfRr2nchORINd5e1PzClkQgrD4Lusa8NuQszuRWaUGXE7VCbO4CemhgHBoO
+         k7AYWhyB8ItQXbeLxUKUSKZ1CgSbUuB3XOcrdD0eG5zRU7imUkb2SGpvwz1OeC+Aku
+         AnKR0ZIkTcFRZGTVS9ZiT2Ys5pYHDkKNFe04KFhhnGHHoStCriNNR96BahtyAGaPvp
+         +tpsfrT7sWAvd0yIviDiySTotR+RVM5YYFGvdCK8Lu5fbHcnMo8XkuF/YvFsUHGAEz
+         XsQ3Br4H2ocWA==
+Message-ID: <b09a64fb-262b-6ed3-0399-de0c9f438385@collabora.com>
+Date:   Fri, 18 Nov 2022 11:10:24 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.3.3
-Subject: Re: [PATCH v2,3/5] media: mediatek: vcodec: Fix h264 set lat buffer
- error
+Subject: Re: [PATCH v2,4/5] media: mediatek: vcodec: Setting lat buf to
+ lat_list when lat decode error
+Content-Language: en-US
 To:     Yunfei Dong <yunfei.dong@mediatek.com>,
         Chen-Yu Tsai <wenst@chromium.org>,
         Nicolas Dufresne <nicolas@ndufresne.ca>,
@@ -58,11 +59,10 @@ Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-mediatek@lists.infradead.org,
         Project_Global_Chrome_Upstream_Group@mediatek.com
 References: <20221117092453.31366-1-yunfei.dong@mediatek.com>
- <20221117092453.31366-4-yunfei.dong@mediatek.com>
-Content-Language: en-US
+ <20221117092453.31366-5-yunfei.dong@mediatek.com>
 From:   AngeloGioacchino Del Regno 
         <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20221117092453.31366-4-yunfei.dong@mediatek.com>
+In-Reply-To: <20221117092453.31366-5-yunfei.dong@mediatek.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -75,12 +75,9 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 Il 17/11/22 10:24, Yunfei Dong ha scritto:
-> Will set lat buffer to lat_list two times when lat decode timeout for
-> inner racing mode.
+> Need to set lat buf to lat_list when lat decode error, or lat buffer will lost.
 > 
-> If core thread can't get frame buffer, need to return error value.
-> 
-> Fixes: 59fba9eed5a7 ("media: mediatek: vcodec: support stateless H.264 decoding for mt8192")
+> Fixes: 5d418351ca8f ("media: mediatek: vcodec: support stateless VP9 decoding")
 > Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
 
 Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
