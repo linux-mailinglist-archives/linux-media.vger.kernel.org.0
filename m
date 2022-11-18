@@ -2,203 +2,198 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DB2E262F08A
-	for <lists+linux-media@lfdr.de>; Fri, 18 Nov 2022 10:08:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AE4DA62F0AA
+	for <lists+linux-media@lfdr.de>; Fri, 18 Nov 2022 10:12:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241740AbiKRJIN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 18 Nov 2022 04:08:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56010 "EHLO
+        id S241791AbiKRJMg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 18 Nov 2022 04:12:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59392 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241682AbiKRJIK (ORCPT
+        with ESMTP id S241820AbiKRJMY (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 18 Nov 2022 04:08:10 -0500
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 321DE7A351;
-        Fri, 18 Nov 2022 01:08:08 -0800 (PST)
-Received: from booty (unknown [77.244.183.192])
-        (Authenticated sender: luca.ceresoli@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id 7A6901BF207;
-        Fri, 18 Nov 2022 09:08:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1668762486;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=Hk4AOBalIifEeElfq46iL3XmVWZkthoRP4j/dELNq74=;
-        b=PYaFvwIBT1fZvme+y7/XZhypZc3UGJ3ePCvBZDeMt2zQO1MUbe0YBjbLrxU0sCOC0e5JF5
-        Fbyffoq9cAiim1MkYGqDT2ReFThFRTBY16CeKQ7N0oNXL2lXwTFwauHUmgEtbxhHwaw1uR
-        IcWwAVz1wE+Rs2xHOy0PPNZk8T9c6ab9Xg09GRCJenTNtguS0VyW4VWvyrGHZG66g9xAkA
-        wvcqxvJPvXP0OYmTXe9yYhryfScr61gXbfi5llscfY1ci7Jref8RW5UzkRXPGnGll9iy2R
-        rnBq6epnoqVkVxsKa40UFORjMIP9xFhEhdv/O6admiHsdEFYJ9ZLuuuQJJU9Pg==
-Date:   Fri, 18 Nov 2022 10:08:00 +0100
-From:   Luca Ceresoli <luca.ceresoli@bootlin.com>
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc:     David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Sowjanya Komatineni <skomatineni@nvidia.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Dmitry Osipenko <digetx@gmail.com>,
-        linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Richard Leitner <richard.leitner@skidata.com>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Subject: Re: [PATCH 01/23] dt-bindings: display: tegra: add bindings for
- Tegra20 VIP
-Message-ID: <20221118100800.4950aec0@booty>
-In-Reply-To: <ca5f3b54-25bd-4dd5-799f-c7bda08cdef6@linaro.org>
-References: <20221109141852.729246-1-luca.ceresoli@bootlin.com>
-        <20221109141852.729246-2-luca.ceresoli@bootlin.com>
-        <ca5f3b54-25bd-4dd5-799f-c7bda08cdef6@linaro.org>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+        Fri, 18 Nov 2022 04:12:24 -0500
+Received: from mail-io1-xd29.google.com (mail-io1-xd29.google.com [IPv6:2607:f8b0:4864:20::d29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6BE858C0A1
+        for <linux-media@vger.kernel.org>; Fri, 18 Nov 2022 01:12:18 -0800 (PST)
+Received: by mail-io1-xd29.google.com with SMTP id y6so3374485iof.9
+        for <linux-media@vger.kernel.org>; Fri, 18 Nov 2022 01:12:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=2NLsExkTQRD/KnCK+VgZa80ipWuwDokxoxfdxECYJsw=;
+        b=k514VFb7op0zkhFildJQXj/PR0qQCyUXaviqec2rGZ5m3ibzB77sNI+6k94AvMal+m
+         2DF5idsx4KJsOfJX4q5eFZNYLCuZRb6JKJhEMJhKdS8qSdPGkpOPpml/iOoWzowfs99/
+         oeQR99VlpUPuof25iTCBQV+ogXZmS1t/HVUCM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=2NLsExkTQRD/KnCK+VgZa80ipWuwDokxoxfdxECYJsw=;
+        b=tdPYfXp76AERz/3tgQRY0T0iuFXGoRZ1E6qRDEhxswixQOrfNbywl+Quv9bOVUQ2nx
+         PepZUWG/2XV6NCFgcGcj2VajmU67IjsAasMXup5scCeBF35pMdliyr+mgh4Y3wSUIqmw
+         +YIP4RSLvKdyTuvgGalyqoOdwhE8+JLOvJiW6Hd+0E6hMgV0eCZXZRxWEHw3BJN5MHzi
+         b929eXopMGYNLUNjhn0HB8by1MfRvGASvSwSXA2EQXPsqEUr9Ol8UtFoNsVd6jwC3KwK
+         I2/Fu28fHQ1ZDzMEAKZDeSh8PmaumP+UjfgCzVgmuPHJM9Q+mAXzYWkcVNOr4UKw2acr
+         Gt5Q==
+X-Gm-Message-State: ANoB5pmzMuu7yC8WXK+grssOsGrMRBtHbIXgN31XKNRsiS3GSVK3FkFN
+        AVSVRBBvClA7yxZuiLZhWCDwOokQEvh1WA==
+X-Google-Smtp-Source: AA0mqf6kdoFTG6Ls+LwD7Zp630nTFzmjs8FHkLVIPDXYwuFxy5XJF7CseWLYFjO5LTVh7cf0ng/eOw==
+X-Received: by 2002:a05:6638:3e13:b0:374:32e6:4b3c with SMTP id co19-20020a0566383e1300b0037432e64b3cmr2765523jab.197.1668762737544;
+        Fri, 18 Nov 2022 01:12:17 -0800 (PST)
+Received: from mail-il1-f171.google.com (mail-il1-f171.google.com. [209.85.166.171])
+        by smtp.gmail.com with ESMTPSA id y6-20020a92d0c6000000b0030258f9670bsm1102843ila.13.2022.11.18.01.12.16
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 18 Nov 2022 01:12:16 -0800 (PST)
+Received: by mail-il1-f171.google.com with SMTP id r2so2235726ilg.8
+        for <linux-media@vger.kernel.org>; Fri, 18 Nov 2022 01:12:16 -0800 (PST)
+X-Received: by 2002:a05:6e02:c61:b0:300:f4ed:47f8 with SMTP id
+ f1-20020a056e020c6100b00300f4ed47f8mr2831778ilj.243.1668762735853; Fri, 18
+ Nov 2022 01:12:15 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+References: <19g9yqb7lrp-19gb8o4mnli@nsmail6.0>
+In-Reply-To: <19g9yqb7lrp-19gb8o4mnli@nsmail6.0>
+From:   Ricardo Ribalda <ribalda@chromium.org>
+Date:   Fri, 18 Nov 2022 10:12:05 +0100
+X-Gmail-Original-Message-ID: <CANiDSCs2y6zOu09sxU60NX7se-N=wq3Z6USQz+XckQt7rC=3xg@mail.gmail.com>
+Message-ID: <CANiDSCs2y6zOu09sxU60NX7se-N=wq3Z6USQz+XckQt7rC=3xg@mail.gmail.com>
+Subject: Re: Re: [PATCH v3] media: uvcvideo: Fix bandwidth error for Alcor camera
+To:     =?UTF-8?B?6Im+6LaF?= <aichao@kylinos.cn>
+Cc:     laurent.pinchart@ideasonboard.com, mchehab@kernel.org,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello Krzysztof,
+Hi Ai
 
-thanks for the review. I'm glad my error rate on bindings is lower than
-it used to be before I attended your ELCE talk! ;)
+On Fri, 18 Nov 2022 at 10:09, =E8=89=BE=E8=B6=85 <aichao@kylinos.cn> wrote:
+>
+> Hi Ricardo
+>
+>
+> > 3072 is smaller than 0x1000.
+> > It is ok to have values between 1024 and 0x1000 (4096) ?
 
-On Tue, 15 Nov 2022 13:12:44 +0100
-Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> wrote:
+Wouldn't it make more sense ?
+  ctrl->dwMaxPayloadTransferSize =3D 0x1000;
 
-> On 09/11/2022 15:18, luca.ceresoli@bootlin.com wrote:
-> > From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-> > 
-> > VIP is the parallel video capture component within the video input
-> > subsystem of Tegra20 (and other Tegra chips, apparently).  
-> 
-> Subject: drop second, redundant "bindings".
-> 
-> > 
-> > Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+
+The value 1000 seems a bit random, specially when your compare your
+range with 4096
+>
+>
+> Yes,  for some new device which requested 3072 B/frame bandwidth,  that t=
+he camera preview normally.
+>
+>
+>
+>
+> ----
+>
+>
+>
+>
+>
+>
+> =E4=B8=BB=E3=80=80=E9=A2=98=EF=BC=9ARe: [PATCH v3] media: uvcvideo: Fix b=
+andwidth error for Alcor camera
+> =E6=97=A5=E3=80=80=E6=9C=9F=EF=BC=9A2022-11-18 16:15
+> =E5=8F=91=E4=BB=B6=E4=BA=BA=EF=BC=9Aribalda@chromium.org
+> =E6=94=B6=E4=BB=B6=E4=BA=BA=EF=BC=9A=E8=89=BE=E8=B6=85
+>
+>
+> Hi Ai
+>
+> Thanks for your patch!
+>
+> On Fri, 18 Nov 2022 at 03:23, Ai Chao <aichao@kylinos.cn> wrote:
+> >
+> > For Alcor Corp. Slave camera(1b17:6684/2017:0011), it support to
+> > output compressed video data, and it return a wrong
+> > dwMaxPayloadTransferSize fields. This is a fireware issue,
+> s/fireware/firmware/
+> > but the manufacturer cannot provide a const return fields
+> > by the fireware. For some device, device requested 2752512
+> >  B/frame bandwidth. For some device, device requested 3072
+> >  B/frame bandwidth. so we check the dwMaxPayloadTransferSize
+> >  fields,if it large than 0x1000, reset dwMaxPayloadTransferSize
+> > to 1024, and the camera preview normally.
+>
+> 3072 is smaller than 0x1000.
+>
+> It is ok to have values between 1024 and 0x1000 (4096) ?
+>
+> Thanks
+>
+> >
+> > Signed-off-by: Ai Chao <aichao@kylinos.cn>
+> >
 > > ---
-> >  .../display/tegra/nvidia,tegra20-vip.yaml     | 64 +++++++++++++++++++
-> >  MAINTAINERS                                   |  7 ++
-> >  2 files changed, 71 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vip.yaml
-> > 
-> > diff --git a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vip.yaml b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vip.yaml
-> > new file mode 100644
-> > index 000000000000..934dabfd2307
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vip.yaml
-> > @@ -0,0 +1,64 @@
-> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/display/tegra/nvidia,tegra20-vip.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > change for v3
+> > - Add VID/PID 2017:0011
+> >
+> > change for v2
+> > - Used usb_match_one_id to check VID and PID
+> > ---
+> > ---
+> >  drivers/media/usb/uvc/uvc_video.c | 11 +++++++++++
+> >  1 file changed, 11 insertions(+)
+> >
+> > diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/=
+uvc_video.c
+> > index d2eb9066e4dc..1260800ef8bd 100644
+> > --- a/drivers/media/usb/uvc/uvc_video.c
+> > +++ b/drivers/media/usb/uvc/uvc_video.c
+> > @@ -135,6 +135,10 @@ static void uvc_fixup_video_ctrl(struct uvc_stream=
+ing *stream,
+> >         static const struct usb_device_id elgato_cam_link_4k =3D {
+> >                 USB_DEVICE(0x0fd9, 0x0066)
+> >         };
+> > +       static const struct usb_device_id alcor_corp_slave_cam =3D {
+> > +               USB_DEVICE(0x1b17, 0x6684),
+> > +               USB_DEVICE(0x2017, 0x0011),
+> > +       };
+> >         struct uvc_format *format =3D NULL;
+> >         struct uvc_frame *frame =3D NULL;
+> >         unsigned int i;
+> > @@ -234,6 +238,13 @@ static void uvc_fixup_video_ctrl(struct uvc_stream=
+ing *stream,
+> >
+> >                 ctrl->dwMaxPayloadTransferSize =3D bandwidth;
+> >         }
 > > +
-> > +title: NVIDIA Tegra VIP (parallel video capture) controller
-> > +
-> > +maintainers:
-> > +  - Luca Ceresoli <luca.ceresoli@bootlin.com>
-> > +
-> > +properties:
-> > +  $nodename:
-> > +    const: vip  
-> 
-> No need to enforce names in device schemas, especially that this does
-> not look like a generic name.
-> 
-> > +
-> > +  compatible:
-> > +    enum:
-> > +      - nvidia,tegra20-vip
-> > +
-> > +  "#address-cells":
-> > +    const: 1
-> > +
-> > +  "#size-cells":
-> > +    const: 0
-> > +
-> > +  channel@0:  
-> 
-> Missing description.
+> > +       /* Alcor Corp. Slave camera return wrong dwMaxPayloadTransferSi=
+ze */
+> > +       if ((format->flags & UVC_FMT_FLAG_COMPRESSED) &&
+> > +           (ctrl->dwMaxPayloadTransferSize > 0x1000) &&
+> > +            usb_match_one_id(stream->dev->intf, &alcor_corp_slave_cam)=
+) {
+> > +               ctrl->dwMaxPayloadTransferSize =3D 1024;
+> > +       }
+> >  }
+> >
+> >  static size_t uvc_video_ctrl_size(struct uvc_streaming *stream)
+> > --
+> > 2.25.1
+> >
+>
+>
+> --
+> Ricardo Ribalda
 
-OK, I think this should do:
 
-  description: parallel video capture interface for the VI
 
-> > +    type: object  
-> 
-> Do you expect it to grow to more channels?
-
-Not on Tegra20, it has one input only, but for other SoCs it's likely.
-Definitely some (including Tegra20 itself) have multiple CSI-2 inputs,
-and it's reasonable that this can apply to parallel input too.
-
-Is this enough motivation to make room for more channels, or should I
-remove it since I have no plans to introduce support for other Tegra
-chips?
-
-> > +
-> > +    properties:
-> > +      reg: true  
-> 
-> const: 0
-> 
-> > +
-> > +      ports:
-> > +        $ref: /schemas/graph.yaml#/properties/ports
-> > +
-> > +        properties:
-> > +          port@0:
-> > +            $ref: /schemas/graph.yaml#/properties/port
-> > +            description:
-> > +              Port receiving the video stream from the sensor
-> > +
-> > +          port@1:
-> > +            $ref: /schemas/graph.yaml#/properties/port
-> > +            description:
-> > +              Port sending the video stream to the VI
-> > +
-> > +        required:
-> > +          - port@0
-> > +          - port@1
-> > +
-> > +    additionalProperties: false
-> > +
-> > +    required:
-> > +      - reg
-> > +      - ports
-> > +
-> > +unevaluatedProperties: false
-> > +
-> > +required:
-> > +  - compatible
-> > +  - "#address-cells"
-> > +  - "#size-cells"
-> > +  - channel@0
-> > +
-> > +# see nvidia,tegra20-vi.yaml for an example  
-> 
-> That file does not have this compatible. At least not on next-20221109.
-
-It's added in patch 2. It's a chicken-egg problem, should I add a third
-patch that adds this line only?
-
-ACK for all other comments you wrote.
-
--- 
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+--=20
+Ricardo Ribalda
