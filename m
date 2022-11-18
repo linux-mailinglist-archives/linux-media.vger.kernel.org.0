@@ -2,62 +2,100 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 18B2B62F7F4
-	for <lists+linux-media@lfdr.de>; Fri, 18 Nov 2022 15:43:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C48F062F80A
+	for <lists+linux-media@lfdr.de>; Fri, 18 Nov 2022 15:46:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241474AbiKROng (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 18 Nov 2022 09:43:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41832 "EHLO
+        id S241905AbiKROqh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 18 Nov 2022 09:46:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46084 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242049AbiKROnO (ORCPT
+        with ESMTP id S241916AbiKROqd (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 18 Nov 2022 09:43:14 -0500
-Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.184])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 788EB14081
-        for <linux-media@vger.kernel.org>; Fri, 18 Nov 2022 06:43:06 -0800 (PST)
-X-KPN-MessageId: 52309e82-674f-11ed-bd66-005056994fde
-Received: from smtp.kpnmail.nl (unknown [10.31.155.5])
-        by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-        id 52309e82-674f-11ed-bd66-005056994fde;
-        Fri, 18 Nov 2022 15:43:09 +0100 (CET)
+        Fri, 18 Nov 2022 09:46:33 -0500
+Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com [IPv6:2a00:1450:4864:20::12f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 56D5C701A3
+        for <linux-media@vger.kernel.org>; Fri, 18 Nov 2022 06:46:30 -0800 (PST)
+Received: by mail-lf1-x12f.google.com with SMTP id j4so8606917lfk.0
+        for <linux-media@vger.kernel.org>; Fri, 18 Nov 2022 06:46:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=xs4all.nl; s=xs4all01;
-        h=content-type:from:to:subject:mime-version:date:message-id;
-        bh=pdKgFBSjrP7J6mKQWKcIHbUGqiu8JHE7FpanMMKui3g=;
-        b=BgVJUG6vwXZgwsVHy52Z9oCXmaMqSN+28IZDHEUPzlrFkGElqCPZMgN6VUdjQ62RZYOHfu4fIBXfu
-         bOhoGzmtirLjc6X3v+HdKmf8O5vv/OLYFKSmfVZI8o8XkoVfI71X6OPlVfXZ1Jvblt9sh7/fyYfBZ6
-         r7XCD6jSWatpceQb4l8N+aPqd4CU1b5GsRxz5j/XAMmIxG6NB0MtJKrJaZsvjpbbxDhormaVm2TU3f
-         o0oZkzzV1TTUG8RpQtuEnSxxMjDaHAtncb5dOoe4FbfBd4W4jce1sIaIWa6QaLRCrZxiBscjjadV8+
-         8ro9aFmub64GuhkyjBz4jMQ4YTZKTIw==
-X-KPN-MID: 33|fFbkAkP83JGUv1qU/pkLvLXfT30fA7fHDImREHGq0OWKitaWJxgZHuYLjNX20sd
- 8Y4TSjdxnqiTBqkocf6bxo2mf264VvBfGDuMtNnGFIMU=
-X-KPN-VerifiedSender: Yes
-X-CMASSUN: 33|aHFuH5bFQHDW5BFR+HnL4ys8tdkYBqpjYSJCY+kUj64PdKCi5JWSVX+hIOzqbkh
- R4Gvzo2Hok/cWEKeNGFSRVA==
-X-Originating-IP: 173.38.220.59
-Received: from [10.47.77.219] (unknown [173.38.220.59])
-        by smtp.xs4all.nl (Halon) with ESMTPSA
-        id 4e226081-674f-11ed-9b31-00505699b758;
-        Fri, 18 Nov 2022 15:43:03 +0100 (CET)
-Message-ID: <9c46615d-2dfb-837e-48a8-9d952c04a824@xs4all.nl>
-Date:   Fri, 18 Nov 2022 15:43:02 +0100
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=hahClhRd3DWgz5IfF3Hi2OhGzrj/JdBwzY9rjBeju8s=;
+        b=JZmmE5Z+1MzabRyRffMS4z0aGT9BgDXgC9DY0MCMYG1Od3pGNI30/93iq6QOZW6IdU
+         fzRFWbJEIsHpicLM2uM84cqyzD3qkQI9fT5ohEFetg4fYo8GpGdRtchVdyxXexmPlddC
+         eGYx58fwwwBR/DsKEi58q/WGkaBmfRML0mdohoszmg6ZPltefO3A2rcCnwjg9H2e4uHz
+         Ht2YGQKv1bXzlOexPAnjWHR0AMT7xMNE/h4sT/R2kdz2G7JqebBANYjHtmXhnqbDNEln
+         rVq3At5moD/Yhfg5Ccq+IamuGznKvyJiQMbNIvLxeCTTkEAeoLQaX+gl3f5Kw0H/Tmzx
+         zd0g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=hahClhRd3DWgz5IfF3Hi2OhGzrj/JdBwzY9rjBeju8s=;
+        b=Glx4x3REgEMD+AMZvGQdGVezeGE/uxEGuMOkdsZ4doptuNOOSwljO1k2ipuhjoMBmj
+         jA49M4seOTUAZ/Y5675puUG2vwqBgzHRaH14uBZyFegbw2pvg6KIIprM+ePov7Ec2x4S
+         U8IZG0Hh/XuieRL8CSbJ4urpRtDzkakeRZw1WZzlHdZSm9kZXjSrDQueK3/g675P/nid
+         zQikBLBPKrWyjQzcOgunLvjLoG5TR3Cg5RxFMKNoyxsrSzxkoqrUBUyOmeB05JgWStKu
+         +MHHu0R0XD+FwO67UyivAhyqq18PaVDjESRF06f1gARrW3t0BXZSfGxsWSgxSCLitu71
+         gxqQ==
+X-Gm-Message-State: ANoB5pkfTn55VegLsPlaO8OujQRlq9hLPiCYgzP86vI5MHt9iz6ndFa6
+        0Lle+7hXRzlAVXMpE0Urd/3N8Q==
+X-Google-Smtp-Source: AA0mqf4xQNEVq6KlclNCEMjl56xKu/uoZoZfSEq3TwF8gKAhDBzYdep45hA5R/OZ/mt+9IdD6Luzkg==
+X-Received: by 2002:a19:4f14:0:b0:4b4:b20c:4b7 with SMTP id d20-20020a194f14000000b004b4b20c04b7mr2476398lfb.201.1668782788658;
+        Fri, 18 Nov 2022 06:46:28 -0800 (PST)
+Received: from [192.168.0.20] (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
+        by smtp.gmail.com with ESMTPSA id c3-20020ac25f63000000b004b177293a8dsm682197lfc.210.2022.11.18.06.46.26
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 18 Nov 2022 06:46:28 -0800 (PST)
+Message-ID: <57c2ca7c-05be-7fc1-69ad-e06b6e571d60@linaro.org>
+Date:   Fri, 18 Nov 2022 15:46:26 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.0
-Subject: Re: [PATCH] media: platform: mtk-mdp3: add missing call to
- of_node_put()
+ Thunderbird/102.4.2
+Subject: Re: [PATCH 01/12] dt-bindings: firmware: convert meson_sm.txt to
+ dt-schema
 Content-Language: en-US
-To:     wangkailong@jari.cn, mchehab@kernel.org, matthias.bgg@gmail.com,
-        moudy.ho@mediatek.com, sunke32@huawei.com
-Cc:     linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org
-References: <be6c204.133.18470aa3e15.Coremail.wangkailong@jari.cn>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <be6c204.133.18470aa3e15.Coremail.wangkailong@jari.cn>
+To:     Neil Armstrong <neil.armstrong@linaro.org>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>, Andrew Lunn <andrew@lunn.ch>,
+        Alessandro Zummo <a.zummo@towertech.it>,
+        Eric Dumazet <edumazet@google.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        Russell King <linux@armlinux.org.uk>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Kishon Vijay Abraham I <kishon@kernel.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Jerome Brunet <jbrunet@baylibre.com>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>
+Cc:     linux-media@vger.kernel.org, netdev@vger.kernel.org,
+        linux-amlogic@lists.infradead.org, linux-mmc@vger.kernel.org,
+        linux-rtc@vger.kernel.org, linux-phy@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-watchdog@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-pci@vger.kernel.org, devicetree@vger.kernel.org
+References: <20221117-b4-amlogic-bindings-convert-v1-0-3f025599b968@linaro.org>
+ <20221117-b4-amlogic-bindings-convert-v1-1-3f025599b968@linaro.org>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20221117-b4-amlogic-bindings-convert-v1-1-3f025599b968@linaro.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_LOW,
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -66,62 +104,52 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 11/13/22 12:05, wangkailong@jari.cn wrote:
-> Fix the following coccicheck warning:
+On 18/11/2022 15:33, Neil Armstrong wrote:
+> Convert the Amlogic Secure Monitor bindings to dt-schema.
 > 
-> drivers/media/platform/mediatek/mdp3/mtk-mdp3-comp.c:892:1-23: WARNING:
-> Function "for_each_child_of_node" should have of_node_put() before
-> return around line 914.
-> drivers/media/platform/mediatek/mdp3/mtk-mdp3-comp.c:892:1-23: WARNING:
-> Function "for_each_child_of_node" should have of_node_put() before
-> return around line 920.
-> drivers/media/platform/mediatek/mdp3/mtk-mdp3-comp.c:951:1-23: WARNING:
-> Function "for_each_child_of_node" should have of_node_put() before
-> return around line 993.
-> 
-> Signed-off-by: KaiLong Wang <wangkailong@jari.cn>
+> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
 > ---
->  drivers/media/platform/mediatek/mdp3/mtk-mdp3-comp.c | 6 +++++-
->  1 file changed, 5 insertions(+), 1 deletion(-)
+>  .../bindings/firmware/amlogic,meson-gxbb-sm.yaml   | 36 ++++++++++++++++++++++
+>  .../bindings/firmware/meson/meson_sm.txt           | 15 ---------
+>  2 files changed, 36 insertions(+), 15 deletions(-)
 > 
-> diff --git a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-comp.c b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-comp.c
-> index d3eaf8884412..4162fc732f38 100644
-> --- a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-comp.c
-> +++ b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-comp.c
-> @@ -908,6 +908,7 @@ static int mdp_comp_sub_create(struct mdp_dev *mdp)
->  		alias_id = mdp_comp_alias_id[type];
->  		id = mdp_comp_get_id(type, alias_id);
->  		if (id < 0) {
-> +			of_node_put(node);
->  			dev_err(dev,
->  				"Fail to get sub comp. id: type %d alias %d\n",
->  				type, alias_id);
-> @@ -916,8 +917,10 @@ static int mdp_comp_sub_create(struct mdp_dev *mdp)
->  		mdp_comp_alias_id[type]++;
->  
->  		comp = mdp_comp_create(mdp, node, id);
-> -		if (IS_ERR(comp))
-> +		if (IS_ERR(comp)) {
-> +			of_node_put(node);
->  			return PTR_ERR(comp);
-> +		}
->  	}
->  
->  	return 0;
-> @@ -988,6 +991,7 @@ int mdp_comp_config(struct mdp_dev *mdp)
->  
->  		pdev = of_find_device_by_node(node);
->  		if (!pdev) {
-> +			of_node_put(node);
->  			dev_warn(dev, "can't find platform device of node:%s\n",
->  				 node->name);
->  			return -ENODEV;
+> diff --git a/Documentation/devicetree/bindings/firmware/amlogic,meson-gxbb-sm.yaml b/Documentation/devicetree/bindings/firmware/amlogic,meson-gxbb-sm.yaml
+> new file mode 100644
+> index 000000000000..33d1408610cf
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/firmware/amlogic,meson-gxbb-sm.yaml
+> @@ -0,0 +1,36 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/firmware/amlogic,meson-gxbb-sm.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Amlogic Secure Monitor (SM)
+> +
+> +description:
+> +  In the Amlogic SoCs the Secure Monitor code is used to provide access to the
+> +  NVMEM, enable JTAG, set USB boot, etc...
+> +
+> +maintainers:
+> +  - Neil Armstrong <neil.armstrong@linaro.org>
+> +
+> +properties:
+> +  compatible:
+> +    const: amlogic,meson-gxbb-sm
+> +
+> +patternProperties:
+> +  "power-controller":
 
-There is a 'goto err_init_comps;' in this function as well that needs
-an of_node_put(node); line.
+This looks like a property, not a pattern.
 
-Can you make a v2?
+> +    type: object
+> +    $ref: /schemas/power/amlogic,meson-sec-pwrc.yaml#
 
-Regards,
+Would be nice to add it here to example and drop from
+amlogic,meson-sec-pwrc.yaml (unless it will be used by more schemas?).
 
-	Hans
+
+Best regards,
+Krzysztof
+
