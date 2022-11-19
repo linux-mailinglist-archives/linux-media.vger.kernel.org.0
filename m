@@ -2,123 +2,125 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5DDED630CD4
-	for <lists+linux-media@lfdr.de>; Sat, 19 Nov 2022 08:01:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 92372630E26
+	for <lists+linux-media@lfdr.de>; Sat, 19 Nov 2022 11:55:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230333AbiKSHAt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 19 Nov 2022 02:00:49 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50350 "EHLO
+        id S229824AbiKSKzV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 19 Nov 2022 05:55:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35868 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229502AbiKSHAr (ORCPT
+        with ESMTP id S229470AbiKSKzV (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 19 Nov 2022 02:00:47 -0500
-Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com [IPv6:2607:f8b0:4864:20::62b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE35286FC1;
-        Fri, 18 Nov 2022 23:00:46 -0800 (PST)
-Received: by mail-pl1-x62b.google.com with SMTP id jn7so4551764plb.13;
-        Fri, 18 Nov 2022 23:00:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=cRAOmB00k/DF2MsO6e47n76D2kqQ2kdAKBcmpCqoE/A=;
-        b=ItHJ0hF5INKVX1wbyfxzd6eZsrbkVtn9MdvDO00uLjHHAy6eHZVNpr8FqzhkewcCPI
-         d59lwl5WJ4F9q4q7fGdgToswmbaX2E+ABxJtCCEqds4V3VnMSc61Q5OksLvl/fw2DGJ2
-         d1+H1lOt9jtyRNKogekkcSUwximJrtllZyz0HDkUDKy3UteGz/pcxM8oUpQtUjaHyIfB
-         oox18B6XDh9nnt6MTBcdErHzcvxDNFx7NFg9VVniHVLNLk73YN83fhzU04bbCVOR7sPL
-         StDPaKoTA1RzsgD6aJ3xGsGFjwP9xIeuP2TUFdG5pmwW6F4fOScdlvUWh2l5anDJI9g5
-         qNUg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=cRAOmB00k/DF2MsO6e47n76D2kqQ2kdAKBcmpCqoE/A=;
-        b=8LhhTcHCBDDthCSUmfv+zes5QCzyvSU79fIYeL1zg7z6HXCLrnUpzFFJODW2ksnXzB
-         GnaN6degAom7XCeqIRrZtV7fAc+cNtPasQtc66CIUWwoBJ8Cw58fI4OASh7eouojsvJU
-         qC7oKoa7yfoJmc6K7W+LHUR175c/Sg31UuNBJKM5n8UhDQg7vMJycQ7mTjwjf2IwmTBZ
-         J8CI8s1zEWw/CTKUOK1TPIufAgkfLHWG97A9C1EM4sPQVu2UeZ9ByzsZFVtulUlO8rGe
-         7TaKfN7zoPQ/Fb9rBaGHAnrSNgpzgNbsU0wwCGpuUc1XO7/BcIchFyXqZId5rrH/7H5g
-         5RIA==
-X-Gm-Message-State: ANoB5pkQZq3D3zoxeAUzilfTpIf5D/fvHZsj4wbPAA2FsQRrXnx4n/aY
-        kYFQQet2v4iNK7ynyVXp2nQRC9dqTbYhbw392lQ=
-X-Google-Smtp-Source: AA0mqf74+P394tK/lKQ1jhKFS1h29vSidwP1M8qGvlToHowCnmZe/ElYjmabO9KLj99rcxucZs1/RdsKF5HX6Emgzlc=
-X-Received: by 2002:a17:90a:fa46:b0:200:1df3:a7a9 with SMTP id
- dt6-20020a17090afa4600b002001df3a7a9mr16855744pjb.202.1668841246325; Fri, 18
- Nov 2022 23:00:46 -0800 (PST)
+        Sat, 19 Nov 2022 05:55:21 -0500
+Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com [66.111.4.25])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A934920B2;
+        Sat, 19 Nov 2022 02:55:20 -0800 (PST)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+        by mailout.nyi.internal (Postfix) with ESMTP id 1ED415C0112;
+        Sat, 19 Nov 2022 05:55:18 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute2.internal (MEProxy); Sat, 19 Nov 2022 05:55:18 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fastmail.com; h=
+        cc:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+        :message-id:mime-version:references:reply-to:sender:subject
+        :subject:to:to; s=fm1; t=1668855318; x=1668941718; bh=CIwr77lYrj
+        EiDjN+lfmJBa8qTpOY2sqozIVlYRnXdhU=; b=Hmk/n8p3OvZWDV2jFpZZq2IZbG
+        uVhTVcq1s+BL0vWBjOBJ9SoJ+74Xq2YeZAR4wGmsYj+UOSnFisapOunmqqYUIH7G
+        k7EWWJDtLZWT66MaGKcTeVRvKZXBGc+s/ORIyn60H2ksXqBIfT81yHud0KtC7LcI
+        tJzerUVlEoNx76CKuOvehncGS7gPDuO/L5ozWtJjNtnfi6MpSGFxOpKhYV2RqKVX
+        mKaw6qipy7aCNSpEkPb6l0DNpye7QTcmA3mSoTS8yugKAGpLCqQI/RSDntOy/sMM
+        x95HxmIi/D7b6MTtPloNvBh5NpxJWi2GiDJwxq36/9o+Jsyg9jlfBgwpNmRw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+        :mime-version:references:reply-to:sender:subject:subject:to:to
+        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+        fm1; t=1668855318; x=1668941718; bh=CIwr77lYrjEiDjN+lfmJBa8qTpOY
+        2sqozIVlYRnXdhU=; b=lNwUjvTWpmRNUVzK2Y2i31Wapj29V0azTxZPkj3TH3Xj
+        IeNLDBlOhvo6AHPaLoWMuzMvo0qPuAurb2ieg0AdXbTIfGnOMKZDthY6utk12jEO
+        Oz4m+gkvLTQ3OY+64JJUK0ZD6TJEAhauSK8yYb3JwI2iopARxKQ8RhwOB96rwUhR
+        PUueNyRQmva5OmAIFnPqUVEWeIRV4IObYqBbw3bNs7wPtngTi5Kr+3M8UxSNZW9o
+        sGoz7zalfjBudGyDfVm/zuxlD/X44DpA/bWxp4Bg8dUO1S2DfLFW78dT1Cr/B7SJ
+        Dlf+xdxHQw58iq+ITrPpqzAToJ3XgeWImi0kL6YtgA==
+X-ME-Sender: <xms:FbZ4Y579I-XB7wSjbSt-U0qwvOR5XkO9w3kiOhTh04el7yL3MHpjlA>
+    <xme:FbZ4Y24Mzf_TWOZh72i8-J_pjUAJnSS908O8v1APKsJSLgR6soKzh9iw1OGGbaU7N
+    Q3EfD60yJtc6Bh181M>
+X-ME-Received: <xmr:FbZ4Ywd3QfTbjriFPRI6AC7lgneacQjr1AcTQIrNPq4mPKA3hjbnug>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrhedvgddvvdcutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpeffhffvvefukfhfgggtuggjsehttdertddttdejnecuhfhrohhmpeffrghfnhgr
+    ucfjihhrshgthhhfvghlugcuoegurghfnhgrsehfrghsthhmrghilhdrtghomheqnecugg
+    ftrfgrthhtvghrnhepvdehtdeludekgeevleefuedvudejieetheekvdfhteekffdujefh
+    fedtudehvdeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
+    homhepuggrfhhnrgesfhgrshhtmhgrihhlrdgtohhm
+X-ME-Proxy: <xmx:FbZ4YyJkJ-KjVecGPdMMxNYNtg9ogFvUjwh1ioLPQCSGPmYOlkvuAQ>
+    <xmx:FbZ4Y9LyV7aUYOGKTJj1iT4g4QNpc1r6TNvHFIHzN6rxeCdNOhGi3w>
+    <xmx:FbZ4Y7yrGR6YfkyYdphJHOT79cgKXmHfnC4kdjsXej4AoodGZceYLA>
+    <xmx:FrZ4Y18GJE1wkYTEPgztTjgA3yeFt_OEcORBYvcRqJR04bfgJU4iOA>
+Feedback-ID: i0e894699:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
+ 19 Nov 2022 05:55:15 -0500 (EST)
+Date:   Sat, 19 Nov 2022 12:55:10 +0200
+From:   Dafna Hirschfeld <dafna@fastmail.com>
+To:     Colin Ian King <colin.i.king@gmail.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Heiko Stuebner <heiko@sntech.de>, linux-media@vger.kernel.org,
+        linux-rockchip@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org,
+        kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: rkisp1: make const arrays ae_wnd_num and
+ hist_wnd_num static
+Message-ID: <20221119105510.26n7jk6tc4anu3f3@guri>
+References: <20221102155117.144570-1-colin.i.king@gmail.com>
 MIME-Version: 1.0
-References: <20221118224540.619276-1-uwe@kleine-koenig.org> <20221118224540.619276-359-uwe@kleine-koenig.org>
-In-Reply-To: <20221118224540.619276-359-uwe@kleine-koenig.org>
-From:   Janusz Krzysztofik <jmkrzyszt@gmail.com>
-Date:   Sat, 19 Nov 2022 08:00:34 +0100
-Message-ID: <CAGfqbt6HG88psov6CE2PqNn1YOdrc=TfYXHw8BgqrLbUc1MJRA@mail.gmail.com>
-Subject: Re: [PATCH 358/606] media: i2c/ov6650: Convert to i2c's .probe_new()
-To:     Angel Iglesias <ang.iglesiasg@gmail.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        Grant Likely <grant.likely@linaro.org>,
-        Wolfram Sang <wsa@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <uwe@kleine-koenig.org>
-Cc:     linux-i2c@vger.kernel.org, kernel@pengutronix.de,
-        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-0.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,HK_RANDOM_ENVFROM,
-        HK_RANDOM_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=no
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Disposition: inline
+In-Reply-To: <20221102155117.144570-1-colin.i.king@gmail.com>
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Dnia pi=C4=85tek, 18 listopada 2022 23:41:32 CET Uwe Kleine-K=C3=B6nig pisz=
-e:
-> From: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
+On 02.11.2022 15:51, Colin Ian King wrote:
+>Don't populate the const arrays on the stack, instead make them
+>static. Also makes the object code smaller.
 >
-> The probe function doesn't make use of the i2c_device_id * parameter so i=
-t
-> can be trivially converted.
+>Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
+
+Reviewed-by: Dafna Hirschfeld <dafna@fastmail.com>
+
+>---
+> drivers/media/platform/rockchip/rkisp1/rkisp1-params.c | 4 ++--
+> 1 file changed, 2 insertions(+), 2 deletions(-)
 >
-> Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
-
-LGTM
-
-Acked-by: Janusz Krzysztofik <jmkrzyszt@gmail.com>
-
-
-> ---
->  drivers/media/i2c/ov6650.c | 5 ++---
->  1 file changed, 2 insertions(+), 3 deletions(-)
+>diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c
+>index d8731ebbf479..3482f7d707b7 100644
+>--- a/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c
+>+++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c
+>@@ -715,7 +715,7 @@ static void rkisp1_aec_config_v12(struct rkisp1_params *params,
+> 	u32 exp_ctrl;
+> 	u32 block_hsize, block_vsize;
+> 	u32 wnd_num_idx = 1;
+>-	const u32 ae_wnd_num[] = { 5, 9, 15, 15 };
+>+	static const u32 ae_wnd_num[] = { 5, 9, 15, 15 };
 >
-> diff --git a/drivers/media/i2c/ov6650.c b/drivers/media/i2c/ov6650.c
-> index 18f041e985b7..4c0ea2ae671b 100644
-> --- a/drivers/media/i2c/ov6650.c
-> +++ b/drivers/media/i2c/ov6650.c
-> @@ -1025,8 +1025,7 @@ static const struct v4l2_subdev_internal_ops ov6650=
-_internal_ops =3D {
->  /*
->   * i2c_driver function
->   */
-> -static int ov6650_probe(struct i2c_client *client,
-> -                     const struct i2c_device_id *did)
-> +static int ov6650_probe(struct i2c_client *client)
->  {
->       struct ov6650 *priv;
->       int ret;
-> @@ -1114,7 +1113,7 @@ static struct i2c_driver ov6650_i2c_driver =3D {
->       .driver =3D {
->               .name =3D "ov6650",
->       },
-> -     .probe    =3D ov6650_probe,
-> +     .probe_new =3D ov6650_probe,
->       .remove   =3D ov6650_remove,
->       .id_table =3D ov6650_id,
->  };
+> 	/* avoid to override the old enable value */
+> 	exp_ctrl = rkisp1_read(params->rkisp1, RKISP1_CIF_ISP_EXP_CTRL);
+>@@ -822,7 +822,7 @@ static void rkisp1_hst_config_v12(struct rkisp1_params *params,
+> 	u32 block_hsize, block_vsize;
+> 	u32 wnd_num_idx, hist_weight_num, hist_ctrl, value;
+> 	u8 weight15x15[RKISP1_CIF_ISP_HIST_WEIGHT_REG_SIZE_V12];
+>-	const u32 hist_wnd_num[] = { 5, 9, 15, 15 };
+>+	static const u32 hist_wnd_num[] = { 5, 9, 15, 15 };
+>
+> 	/* now we just support 9x9 window */
+> 	wnd_num_idx = 1;
+>-- 
+>2.37.3
 >
