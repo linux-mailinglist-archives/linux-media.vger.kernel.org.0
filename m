@@ -2,95 +2,122 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9AFD1630BE2
-	for <lists+linux-media@lfdr.de>; Sat, 19 Nov 2022 05:20:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 45AAA630C45
+	for <lists+linux-media@lfdr.de>; Sat, 19 Nov 2022 06:51:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231664AbiKSEUS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 18 Nov 2022 23:20:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42838 "EHLO
+        id S230424AbiKSFvX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 19 Nov 2022 00:51:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38066 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231171AbiKSEUN (ORCPT
+        with ESMTP id S229670AbiKSFvW (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 18 Nov 2022 23:20:13 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA21A6B9EE
-        for <linux-media@vger.kernel.org>; Fri, 18 Nov 2022 20:20:11 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 00A0E6006F
-        for <linux-media@vger.kernel.org>; Sat, 19 Nov 2022 04:20:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 18D3BC433D6
-        for <linux-media@vger.kernel.org>; Sat, 19 Nov 2022 04:20:09 +0000 (UTC)
-Date:   Sat, 19 Nov 2022 05:20:08 +0100
-From:   "Hans Verkuil" <hverkuil-cisco@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-Message-Id: <20221119042010.18D3BC433D6@smtp.kernel.org>
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+        Sat, 19 Nov 2022 00:51:22 -0500
+Received: from mail-qk1-x72c.google.com (mail-qk1-x72c.google.com [IPv6:2607:f8b0:4864:20::72c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E6DB88F3DC
+        for <linux-media@vger.kernel.org>; Fri, 18 Nov 2022 21:51:21 -0800 (PST)
+Received: by mail-qk1-x72c.google.com with SMTP id z1so4872889qkl.9
+        for <linux-media@vger.kernel.org>; Fri, 18 Nov 2022 21:51:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=konsulko.com; s=google;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+NYADKFfUKiUYt9pKWaup4dX2bzMkM0QGRAT1eGPqno=;
+        b=HGRTPj9vM9aXazwb3zKhh5+QGoBJEBkl1pusx1Vc7lmJdwNDAhsYSgmDY3v3vXUgTG
+         9lMhUXG3a+IS/MEsnO8YxC7CA9zTwUsb6p3KhMKRWWWJSoxFynmPwNtImbOxfIld8RGD
+         9NO/PTV9QDtfUZV8MMmMF1yBqPDqBWT+QjUkU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=+NYADKFfUKiUYt9pKWaup4dX2bzMkM0QGRAT1eGPqno=;
+        b=oAF3zsIwGbB+YgoPI1eKtvS/8A7stEJXrlY883B0GUe6qDdViS2VBkCvjNHhxW+Kr2
+         ACuMC176puQsfOqdxsdUzDECjmRw4PcnGMHXvgK48xUpeUzp3fgjQDF+oGOaOklc3Y3t
+         CfUBF489URaZWGxwK2vyBl89N/DUXV1z/NEtohS73kMuqr0O51oyJisslwvPEHiDev2G
+         w2VWxLLKX45fQG9NztNIM7Q6YfwPUJ1hGmIHr5JOxIn3vXK0ULm8gJ8YcfHl9QP8LSkb
+         Y0BicDA+mVBopw333anLxtL/176V90J8YDSKrGrRIZl/kMzovLpx4B96PYvIilJz1/HT
+         6ipQ==
+X-Gm-Message-State: ANoB5plMly+dYLQr2OuqpRqiSwqeNmgcKdS2yADhxf9rXn9oJUR9Oy2R
+        R6wcAr6qPT7AnEYBgE8QGOBqhTwP3GHotGfWahs/OQ==
+X-Google-Smtp-Source: AA0mqf5FYax0IOSEUurOeDD3qfk4TmY/gSXgXJaM8ZFQDcp9oSPrmb1hFazcYXxZGD8hJpmsI1FcWXPJBXDOyjmEBcw=
+X-Received: by 2002:a05:620a:219c:b0:6fa:cbd7:6103 with SMTP id
+ g28-20020a05620a219c00b006facbd76103mr92424qka.235.1668837081109; Fri, 18 Nov
+ 2022 21:51:21 -0800 (PST)
+MIME-Version: 1.0
+References: <20221118224540.619276-1-uwe@kleine-koenig.org> <20221118224540.619276-391-uwe@kleine-koenig.org>
+In-Reply-To: <20221118224540.619276-391-uwe@kleine-koenig.org>
+From:   Matt Ranostay <matt.ranostay@konsulko.com>
+Date:   Sat, 19 Nov 2022 13:51:09 +0800
+Message-ID: <CAJCx=g=7RMZyzmOecGG0F5ctArFa8Qsvyton8+2e1TaQ2gVg=g@mail.gmail.com>
+Subject: Re: [PATCH 390/606] media: i2c/video-i2c: Convert to i2c's .probe_new()
+To:     =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <uwe@kleine-koenig.org>
+Cc:     Angel Iglesias <ang.iglesiasg@gmail.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Grant Likely <grant.likely@linaro.org>,
+        Wolfram Sang <wsa@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-i2c@vger.kernel.org, kernel@pengutronix.de,
+        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+On Sat, Nov 19, 2022 at 6:47 AM Uwe Kleine-K=C3=B6nig <uwe@kleine-koenig.or=
+g> wrote:
+>
+> From: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
+>
+> .probe_new() doesn't get the i2c_device_id * parameter, so determine
+> that explicitly in the probe function.
+>
+> Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
 
-Results of the daily build of media_tree:
+Looks good to me.
 
-date:			Sat Nov 19 03:00:09 CET 2022
-media-tree git hash:	a7bab6f8b73fe15a6181673149734a2756845dae
-media_build git hash:	0fe857b86addf382f6fd383948bd7736a3201403
-v4l-utils git hash:	0c96e7ca0266bb7097f170e42f897190b66eb92c
-edid-decode git hash:	2c2f3dfbbb1b34d1a8ca8fdc89d39cb06ccc872f
-gcc version:		i686-linux-gcc (GCC) 12.2.0
-sparse repo:            git://git.kernel.org/pub/scm/devel/sparse/sparse.git
-sparse version:		v0.6.4-39-gce1a6720-dirty
-smatch repo:            git://repo.or.cz/smatch.git
-smatch version:		v0.5.0-8195-g5341dc07-dirty
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 15b0f25830f711d40a19e9f219b3065e5eea44eb
-host hardware:		x86_64
-host os:		5.19.0-2-amd64
+Acked-by: Matt Ranostay <matt.ranostay@konsulko.com>
 
-linux-git-sh: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-pxa: OK
-linux-git-powerpc64: OK
-linux-git-mips: OK
-linux-git-arm-stm32: OK
-linux-git-arm-multi: WARNINGS
-linux-git-arm64: WARNINGS
-linux-git-i686: WARNINGS
-linux-git-x86_64: WARNINGS
-Check COMPILE_TEST: WARNINGS: VIDEO_OV08X40
-Check for strcpy/strncpy/strlcpy: OK
-apps: OK
-spec-git: WARNINGS
-virtme: OK: Final Summary: 3080, Succeeded: 3080, Failed: 0, Warnings: 0
-virtme-32: WARNINGS: Final Summary: 3193, Succeeded: 3193, Failed: 0, Warnings: 2
-sparse: WARNINGS
-smatch: ERRORS
-kerneldoc: OK
-
-Detailed results are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Saturday.log
-
-Detailed regression test results are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Saturday-test-media.log
-https://hverkuil.home.xs4all.nl/logs/Saturday-test-media-32.log
-https://hverkuil.home.xs4all.nl/logs/Saturday-test-media-dmesg.log
-
-Full logs are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Saturday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-https://hverkuil.home.xs4all.nl/spec/index.html
+> ---
+>  drivers/media/i2c/video-i2c.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/media/i2c/video-i2c.c b/drivers/media/i2c/video-i2c.=
+c
+> index f15ef2d13059..dddf9827b314 100644
+> --- a/drivers/media/i2c/video-i2c.c
+> +++ b/drivers/media/i2c/video-i2c.c
+> @@ -757,9 +757,9 @@ static void video_i2c_release(struct video_device *vd=
+ev)
+>         kfree(data);
+>  }
+>
+> -static int video_i2c_probe(struct i2c_client *client,
+> -                            const struct i2c_device_id *id)
+> +static int video_i2c_probe(struct i2c_client *client)
+>  {
+> +       const struct i2c_device_id *id =3D i2c_client_get_device_id(clien=
+t);
+>         struct video_i2c_data *data;
+>         struct v4l2_device *v4l2_dev;
+>         struct vb2_queue *queue;
+> @@ -959,7 +959,7 @@ static struct i2c_driver video_i2c_driver =3D {
+>                 .of_match_table =3D video_i2c_of_match,
+>                 .pm     =3D &video_i2c_pm_ops,
+>         },
+> -       .probe          =3D video_i2c_probe,
+> +       .probe_new      =3D video_i2c_probe,
+>         .remove         =3D video_i2c_remove,
+>         .id_table       =3D video_i2c_id_table,
+>  };
+> --
+> 2.38.1
+>
