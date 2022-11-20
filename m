@@ -2,45 +2,77 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A63926315D9
-	for <lists+linux-media@lfdr.de>; Sun, 20 Nov 2022 20:27:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 32A576315F2
+	for <lists+linux-media@lfdr.de>; Sun, 20 Nov 2022 20:43:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229610AbiKTT12 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 20 Nov 2022 14:27:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41666 "EHLO
+        id S229713AbiKTTnx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 20 Nov 2022 14:43:53 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45488 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229449AbiKTT11 (ORCPT
+        with ESMTP id S229449AbiKTTns (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 20 Nov 2022 14:27:27 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D4D12DAA1
-        for <linux-media@vger.kernel.org>; Sun, 20 Nov 2022 11:27:24 -0800 (PST)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8DF4330A;
-        Sun, 20 Nov 2022 20:27:21 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1668972441;
-        bh=OPTnyuAMhbgCI9M9cZLRQq1C4zmUg12g7IiobUNZrd4=;
+        Sun, 20 Nov 2022 14:43:48 -0500
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 703BD1EC46;
+        Sun, 20 Nov 2022 11:43:47 -0800 (PST)
+Received: from mercury (unknown [185.209.196.162])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: sre)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 981D16602381;
+        Sun, 20 Nov 2022 19:43:45 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1668973425;
+        bh=T3nU7r4TDRBfUE21qBPtx6/vbbqNd5aTZrUhEKVEpe8=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=SvyfRnJnhi5CPDkciTi3E21kgDuj+uTfqPmZnY3AF6bqplhK6P63QxncuS0SHt7XY
-         3H0j1uWXjJdcOPlnviLf6Vtk8+vvpM/oV0EG4bJ9olJI3JT+Kne9qjzz18U5jQ5H5k
-         DtDv8SFNcGgkl+ipZfAA4pnGYiqvBC9dZ5v21Tic=
-Date:   Sun, 20 Nov 2022 21:27:06 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Marek Vasut <marex@denx.de>
-Cc:     linux-media@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Stefan Riedmueller <s.riedmueller@phytec.de>
-Subject: Re: [PATCH v2] media: mt9p031: Increase post-reset delay
-Message-ID: <Y3p/ioswT4W4IW3L@pendragon.ideasonboard.com>
-References: <20220823222216.411656-1-marex@denx.de>
+        b=eTDOl2wCVRsu/tyZH+YPJZtqzX+lTk+zyDWIOt7B5OERtVQXV05JqgkECzvZaxhvq
+         GWHynwzbAdTGjQc4EiizPb4JzuNJErOOA6MGMcIE1OOBJsR2nJxdyKqik4rZXW8I8S
+         YL9hLYJH9B0qYNlv0ofE25pkedfO3Zr0ukRr6nTWoiYIF0ElBn0uG1ehB/KKpnJkB6
+         LmHZCe95IKsjPugXIHsbUyR3TPbe/Uz/FTgEe5YV5fHfIiRZ+dwYB8lU4/MgAmu4vM
+         BZjO4bgM9A0wAKu6Ub+wy7zE/lgrgtzyeA/1iFwakjmg/vd8UL0auYvToqpQCZqsxv
+         +Bmg67/Ow+Rwg==
+Received: by mercury (Postfix, from userid 1000)
+        id 1C1D2106F223; Sun, 20 Nov 2022 20:43:43 +0100 (CET)
+Date:   Sun, 20 Nov 2022 20:43:43 +0100
+From:   Sebastian Reichel <sebastian.reichel@collabora.com>
+To:     Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <uwe@kleine-koenig.org>
+Cc:     Angel Iglesias <ang.iglesiasg@gmail.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Grant Likely <grant.likely@linaro.org>,
+        Wolfram Sang <wsa@kernel.org>, linux-i2c@vger.kernel.org,
+        kernel@pengutronix.de, linux-integrity@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-crypto@vger.kernel.org, linux-gpio@vger.kernel.org,
+        Broadcom internal kernel review list 
+        <bcm-kernel-feedback-list@broadcom.com>,
+        linux-rpi-kernel@lists.infradead.org, linux-iio@vger.kernel.org,
+        linux-input@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-leds@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        linux-media@vger.kernel.org, patches@opensource.cirrus.com,
+        linux-actions@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org,
+        linux-amlogic@lists.infradead.org, alsa-devel@alsa-project.org,
+        linux-omap@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
+        linux-mtd@lists.infradead.org, netdev@vger.kernel.org,
+        devicetree@vger.kernel.org, chrome-platform@lists.linux.dev,
+        linux-pm@vger.kernel.org, Purism Kernel Team <kernel@puri.sm>,
+        linux-pwm@vger.kernel.org, linux-rtc@vger.kernel.org,
+        linux-spi@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-serial@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-fbdev@vger.kernel.org, linux-watchdog@vger.kernel.org,
+        openipmi-developer@lists.sourceforge.net
+Subject: Re: [PATCH 000/606] i2c: Complete conversion to i2c_probe_new
+Message-ID: <20221120194343.nnpzhgjapep7iwqk@mercury.elektranox.org>
+References: <20221118224540.619276-1-uwe@kleine-koenig.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="wvm2z6appxwdd5fa"
 Content-Disposition: inline
-In-Reply-To: <20220823222216.411656-1-marex@denx.de>
+In-Reply-To: <20221118224540.619276-1-uwe@kleine-koenig.org>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -48,72 +80,98 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Marek,
 
-Thank you for the patch.
+--wvm2z6appxwdd5fa
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Aug 24, 2022 at 12:22:16AM +0200, Marek Vasut wrote:
-> The MT9P006 sensor driver sporadically fails to probe because the sensor
-> responds with a NACK condition to I2C address on the bus during an attempt
-> to read the sensor MT9P031_CHIP_VERSION register in mt9p031_registered().
-> 
-> Neither the MT9P006 nor MT9P031 datasheets are clear on reset signal timing.
-> Older MT9M034 [1] datasheet provides those timing figures in Appendix-A and
-> indicates it is necessary to wait 850000 EXTCLK cycles before starting any
-> I2C communication.
-> 
-> Add such a delay, which does make the sporadic I2C NACK go away, so it is
-> likely similar constraint applies to this sensor.
-> 
-> [1] https://www.onsemi.com/pdf/datasheet/mt9m034-d.pdf
-> 
-> Signed-off-by: Marek Vasut <marex@denx.de>
+Hi,
 
-Given the lack of information regarding the MT9P006 reset timings, this
-seems to be the best we can do.
+On Fri, Nov 18, 2022 at 11:35:34PM +0100, Uwe Kleine-K=F6nig wrote:
+> Hello,
+>=20
+> since commit b8a1a4cd5a98 ("i2c: Provide a temporary .probe_new()
+> call-back type") from 2016 there is a "temporary" alternative probe
+> callback for i2c drivers.
+>=20
+> This series completes all drivers to this new callback (unless I missed
+> something). It's based on current next/master.
+> A part of the patches depend on commit 662233731d66 ("i2c: core:
+> Introduce i2c_client_get_device_id helper function"), there is a branch t=
+hat
+> you can pull into your tree to get it:
+>=20
+> 	https://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git i2c/client=
+_device_id_helper-immutable
+>=20
+> I don't think it's feasable to apply this series in one go, so I ask the
+> maintainers of the changed files to apply via their tree. I guess it
+> will take a few kernel release iterations until all patch are in, but I
+> think a single tree creates too much conflicts.
+>=20
+> The last patch changes i2c_driver::probe, all non-converted drivers will
+> fail to compile then. So I hope the build bots will tell me about any
+> driver I missed to convert. This patch is obviously not for application
+> now.
+>=20
+> I dropped most individuals from the recipents of this mail to not
+> challenge the mail servers and mailing list filters too much. Sorry if
+> you had extra efforts to find this mail.
+>=20
+> Best regards
+> Uwe
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+=2E..
 
-> ---
-> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> Cc: Sakari Ailus <sakari.ailus@linux.intel.com>
-> Cc: Stefan Riedmueller <s.riedmueller@phytec.de>
-> ---
-> V2: - In case clk_get_rate() returns 0, use slowest supported clock
->       to avoid division by zero
-> ---
->  drivers/media/i2c/mt9p031.c | 8 +++++++-
->  1 file changed, 7 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/i2c/mt9p031.c b/drivers/media/i2c/mt9p031.c
-> index 45f7b5e52bc39..5f5caafe56887 100644
-> --- a/drivers/media/i2c/mt9p031.c
-> +++ b/drivers/media/i2c/mt9p031.c
-> @@ -307,6 +307,7 @@ static inline int mt9p031_pll_disable(struct mt9p031 *mt9p031)
->  
->  static int mt9p031_power_on(struct mt9p031 *mt9p031)
->  {
-> +	unsigned long rate, delay;
->  	int ret;
->  
->  	/* Ensure RESET_BAR is active */
-> @@ -334,7 +335,12 @@ static int mt9p031_power_on(struct mt9p031 *mt9p031)
->  	/* Now RESET_BAR must be high */
->  	if (mt9p031->reset) {
->  		gpiod_set_value(mt9p031->reset, 0);
-> -		usleep_range(1000, 2000);
-> +		/* Wait 850000 EXTCLK cycles before de-asserting reset. */
-> +		rate = clk_get_rate(mt9p031->clk);
-> +		if (!rate)
-> +			rate = 6000000;	/* Slowest supported clock, 6 MHz */
-> +		delay = DIV_ROUND_UP(850000 * 1000, rate);
-> +		msleep(delay);
->  	}
->  
->  	return 0;
+>   power: supply: adp5061: Convert to i2c's .probe_new()
+>   power: supply: bq2415x: Convert to i2c's .probe_new()
+>   power: supply: bq24190: Convert to i2c's .probe_new()
+>   power: supply: bq24257: Convert to i2c's .probe_new()
+>   power: supply: bq24735: Convert to i2c's .probe_new()
+>   power: supply: bq2515x: Convert to i2c's .probe_new()
+>   power: supply: bq256xx: Convert to i2c's .probe_new()
+>   power: supply: bq25890: Convert to i2c's .probe_new()
+>   power: supply: bq25980: Convert to i2c's .probe_new()
+>   power: supply: bq27xxx: Convert to i2c's .probe_new()
+>   power: supply: ds2782: Convert to i2c's .probe_new()
+>   power: supply: lp8727: Convert to i2c's .probe_new()
+>   power: supply: ltc2941: Convert to i2c's .probe_new()
+>   power: supply: ltc4162-l: Convert to i2c's .probe_new()
+>   power: supply: max14656: Convert to i2c's .probe_new()
+>   power: supply: max17040: Convert to i2c's .probe_new()
+>   power: supply: max17042_battery: Convert to i2c's .probe_new()
+>   power: supply: rt5033_battery: Convert to i2c's .probe_new()
+>   power: supply: rt9455: Convert to i2c's .probe_new()
+>   power: supply: sbs: Convert to i2c's .probe_new()
+>   power: supply: sbs-manager: Convert to i2c's .probe_new()
+>   power: supply: smb347: Convert to i2c's .probe_new()
+>   power: supply: ucs1002: Convert to i2c's .probe_new()
+>   power: supply: z2_battery: Convert to i2c's .probe_new()
+>   [...]
 
--- 
-Regards,
+Thanks, I queued patches 513-536 to the power-supply subsystem.
 
-Laurent Pinchart
+-- Sebastian
+
+--wvm2z6appxwdd5fa
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmN6g2YACgkQ2O7X88g7
++pocPA/+MG7rp45xJuAH0zlIFTM8ovBviXnLvra0hpvK+vMB8SVdh4K8vRCAoeoT
+lxML9oRVfhraHzo/3X6+7V87cw+QzEx3GZbYsIasGqic46MoFYkbA2i3Q8s8hS5y
+qpAcKn/efXJaBtdIxWQnOc0xU0YCiteiIik8Idb9MjHFupUspLxtIjCzTAmvKQ0k
+hJ5u5cqv3d/MP6VpsOCUYPDet9nS9ByPeg8Kr9Ux1a0WEldPYUO+dU0ObqRdhliZ
+agftaEtCvFYkfO9k8ubBL/x00gTn002xOB7gp+5s0V0D3wKfT5EPVYOoUZbeYMIu
+QOZaLHkNkBtV85kGm18h7IFdQZQY9ahcaGTYZplyz/YzHlK/AlfjA2umKS1+rs5m
+A+DDqnAkuWw9fLg0MJ4dLSPwOSPX3VfgmVS3By3Do2gotQkCqXsRdhrG1cIoE1aL
+AZYpSwLTn2rAYF59poL3rgSqx/MhgrLwmKQOH3fjwZ3R7PIAWFhYP1We2UtKdCEM
+Gjpr7QfAUiOuXDKi5OrBbWr4m2eX26A4uifwR62OyldwH8pUWAq3umgkw3rotQAA
+hdwOOPM+cHTyLbtP8kaP1XSR6u0ybuTbw8OQE/XPDNVceoMqR4XxUSYbs0Q0UzY6
+fwljGfbakuGbaNlb7s2LBsy0ESZuiz64Za/0gfJhI5rP1eNRR1U=
+=Dh+o
+-----END PGP SIGNATURE-----
+
+--wvm2z6appxwdd5fa--
