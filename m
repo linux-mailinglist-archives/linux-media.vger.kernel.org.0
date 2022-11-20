@@ -2,67 +2,66 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8CB256316D6
-	for <lists+linux-media@lfdr.de>; Sun, 20 Nov 2022 23:25:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BBD316316E2
+	for <lists+linux-media@lfdr.de>; Sun, 20 Nov 2022 23:40:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229677AbiKTWZb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 20 Nov 2022 17:25:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59940 "EHLO
+        id S229610AbiKTWkx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 20 Nov 2022 17:40:53 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35776 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229449AbiKTWZa (ORCPT
+        with ESMTP id S229547AbiKTWkw (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 20 Nov 2022 17:25:30 -0500
+        Sun, 20 Nov 2022 17:40:52 -0500
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 772CEF028
-        for <linux-media@vger.kernel.org>; Sun, 20 Nov 2022 14:24:29 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4314523391
+        for <linux-media@vger.kernel.org>; Sun, 20 Nov 2022 14:39:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1668983068;
+        s=mimecast20190719; t=1668983997;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=bsuiREUBAtxZhsYAijrEDfxF5vu/EWlEJis9HV/mqf4=;
-        b=IGW5fni6cKpqfj7uJFiXS7/qz7iWBaqEN+PaYhQQNsusYEtzbIlbrDOMnX3KetLrtSk56P
-        x/DHhKwXB6KJx+VPrE84hatAbYtXxC/bMtQB5D4YHaW5VqHfpefQbywma4Vl6AKUTV2Pep
-        JcgeauorNOqBRz+geNvLPvrmdIyLw2w=
+        bh=hoSHzQL4DUaK1Wqq7ep1f7TaKzUePlXTfhewoznSyVE=;
+        b=GUgRNPkxO1529Gx4+PYm12A/cMJq4G7GGke8HPmWSgkplhXaRUr0cSJdD3qFgdPaGT7XsJ
+        OwicJ2FA0iz4QmwbO4LGMswmVQjTCPlXRjX83yhpYJoNDBeCjM4NShsRgLpLdkWKE0QKPY
+        mNVVJI3hZ2m39FQKQfK1Xh1gue/xjy0=
 Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
  [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-650-UMZE-xXzPkqT9a3q4KXnDA-1; Sun, 20 Nov 2022 17:24:17 -0500
-X-MC-Unique: UMZE-xXzPkqT9a3q4KXnDA-1
-Received: by mail-ed1-f71.google.com with SMTP id m13-20020a056402510d00b0046913fa9291so3432818edd.6
-        for <linux-media@vger.kernel.org>; Sun, 20 Nov 2022 14:24:17 -0800 (PST)
+ us-mta-418-BxXHws-3Myaw07iMnsjRYQ-1; Sun, 20 Nov 2022 17:39:41 -0500
+X-MC-Unique: BxXHws-3Myaw07iMnsjRYQ-1
+Received: by mail-ed1-f71.google.com with SMTP id w17-20020a056402269100b00461e28a75ccso5506844edd.8
+        for <linux-media@vger.kernel.org>; Sun, 20 Nov 2022 14:39:41 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=bsuiREUBAtxZhsYAijrEDfxF5vu/EWlEJis9HV/mqf4=;
-        b=Zof1BuBiQxwy6tgexdhuy1C8ISxLQAp5+vOdiHXF+Fqxkkl4bJrcwsV+J296yLU/MA
-         mDJ6XTNSkZT79U0YUOWlwsBedgdT/XwxyOoKiTvbTqLHCcxEPO/Qa4KeuYhzU14wyhP2
-         nFb74ul+5pkR73+vigb869kupnIWdnxpcRVKhpGRr1ZrdivoUqJsXZWUf1YJT3ZQgdah
-         mXL2S0gc5Zi4vySUibLDs6Z5FXIaDc+PCoxgYhT/zucHJel4re7sZQI6EN0D49virOt0
-         ZeueRmiWDlyQAIf1pQhgQn4Hq3MI8Bkl6Mcm7uIQwmz+cfaa/q9WNAWJrMNhnNyVpEGx
-         hnvg==
-X-Gm-Message-State: ANoB5pkQsIulzZJc581tFBBSvrJs+4g85SwVw976/V6FIV9828qhzuug
-        XvdTyirjjd/hY57G8An6Ql2m0JwYPfCACop7j2dNtqlafEtkAgfgbfWPe/XrGEuwPejbJL2hylj
-        4/N8RwjjsO/Hu7EIGnN634EQ=
-X-Received: by 2002:a05:6402:3644:b0:45f:c7f2:297d with SMTP id em4-20020a056402364400b0045fc7f2297dmr14043261edb.266.1668983056088;
-        Sun, 20 Nov 2022 14:24:16 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf6gGU+K9fqnOHZgwjB7Fkmw6we7sYQdwFIh5U7HS34ZoDGuDcYvgQyK9vVwWpOPUO3wt0af7A==
-X-Received: by 2002:a05:6402:3644:b0:45f:c7f2:297d with SMTP id em4-20020a056402364400b0045fc7f2297dmr14043247edb.266.1668983055947;
-        Sun, 20 Nov 2022 14:24:15 -0800 (PST)
+        bh=hoSHzQL4DUaK1Wqq7ep1f7TaKzUePlXTfhewoznSyVE=;
+        b=tjVuGj8dFqb6C10NxaV3OVAZ4sHIwvThfcMd5SeYyRxTfP8S0HV/lojXL0ONiXtoDB
+         cuYqgqR21SD8eBk6EfCM1qhyCCs+K1iatsbtQND8IwiCqtZiO2eupJX14w5NffI05qW2
+         sgpTAIdOK5gmCWFTdwWdMOyOqvY1AvzghLHPdkKO22+7IfDPwjizmi1QJnaa9dIJgR8Q
+         VoBnxqrmhrdtXCXL5h5t63EP+FxfpdzorDBFQN1yHKpbmquXoJsBYsjJjxv2dOF0A1ne
+         bwqVPuEM5Ua4TIe6ZV62nYeHSJltlpQrAA0Jrhah1Ahs58LMiyESSL3Ohh22NgnOIoFF
+         OB/A==
+X-Gm-Message-State: ANoB5pm+ispVL4o8WLyRTww3vyEko3WJBc6pjPs6tO50/+mVliu3Bsfu
+        oEAZoROA6zOZ+IuMwJsKh0lPWT24ty1MWazAvHY/YSJwWu/D+PXYINa+aAXkNCdzNEVLX3ru8oJ
+        5dtHQBveKOTlIyAaph4QnrUg=
+X-Received: by 2002:a17:906:e0d2:b0:7ad:b45c:dbe1 with SMTP id gl18-20020a170906e0d200b007adb45cdbe1mr13706304ejb.726.1668983980423;
+        Sun, 20 Nov 2022 14:39:40 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf5ARpjfFDI1MJ8Veby3ldYkRuyL8mRhwTYL/RNxCCeXCcmahCflUwM/ugp4ZY0YXQ62/UzJPw==
+X-Received: by 2002:a17:906:e0d2:b0:7ad:b45c:dbe1 with SMTP id gl18-20020a170906e0d200b007adb45cdbe1mr13706292ejb.726.1668983980253;
+        Sun, 20 Nov 2022 14:39:40 -0800 (PST)
 Received: from ?IPV6:2001:1c00:c1e:bf00:d69d:5353:dba5:ee81? (2001-1c00-0c1e-bf00-d69d-5353-dba5-ee81.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:d69d:5353:dba5:ee81])
-        by smtp.gmail.com with ESMTPSA id jg20-20020a170907971400b007a9c3831409sm4369113ejc.137.2022.11.20.14.24.15
+        by smtp.gmail.com with ESMTPSA id cw24-20020a056402229800b0046730154ccbsm4479804edb.42.2022.11.20.14.39.39
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 20 Nov 2022 14:24:15 -0800 (PST)
-Message-ID: <754a31cf-491c-0bfb-1041-9aae93e3e3eb@redhat.com>
-Date:   Sun, 20 Nov 2022 23:24:14 +0100
+        Sun, 20 Nov 2022 14:39:39 -0800 (PST)
+Message-ID: <79417219-537c-dead-02ef-c18bc93f83f6@redhat.com>
+Date:   Sun, 20 Nov 2022 23:39:38 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.5.0
-Subject: Re: [PATCH v2 17/17] media: atomisp: gc0310: Power on sensor from
- set_fmt() callback
+Subject: Re: [PATCH v2 00/17] media: atomisp: Convert to videobuf2
 Content-Language: en-US, nl
 To:     Andy Shevchenko <andy@kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -73,10 +72,9 @@ Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         andrey.i.trufanov@gmail.com, Fabio Aiuto <fabioaiuto83@gmail.com>,
         linux-media@vger.kernel.org, linux-staging@lists.linux.dev
 References: <20221020195533.114049-1-hdegoede@redhat.com>
- <20221020195533.114049-18-hdegoede@redhat.com>
- <Y3Iyh4Fqd81sFxlS@smile.fi.intel.com>
+ <Y3Iy86AUKvoMz2l1@smile.fi.intel.com>
 From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <Y3Iyh4Fqd81sFxlS@smile.fi.intel.com>
+In-Reply-To: <Y3Iy86AUKvoMz2l1@smile.fi.intel.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
@@ -91,32 +89,53 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Hi,
 
-On 11/14/22 13:20, Andy Shevchenko wrote:
-> On Thu, Oct 20, 2022 at 09:55:33PM +0200, Hans de Goede wrote:
->> Depending on which order userspace makes various v4l2 calls, the sensor
->> might still be powered down when set_fmt is called.
+On 11/14/22 13:22, Andy Shevchenko wrote:
+> On Thu, Oct 20, 2022 at 09:55:16PM +0200, Hans de Goede wrote:
+>> Hi All,
 >>
->> What should really happen here is delay the writing of the mode-related
->> registers till streaming is started, but for now use the same quick fix
->> as the atomisp_ov2680 code and call power_up() from set_fmt() in
->> combination with keeping track of the power-state to avoid doing the
->> power-up sequence twice.
+>> Here is v2 of my patch series converting the staging atomisp driver to use
+>> the videobuf2 framework, fixing MMAP mode not working.
+>>
+>> New in v2 is that the "media: atomisp: Convert to videobuf2" patch
+>> now also contains moving over to using a per vb_queue lock as is
+>> standard for v4l2 drivers. This removes a bunch of FIXME + checkpatch
+>> warnings (due to commented out prep for this) from v1 of this patch.
+>> This v2 also fixes the 1 new warning pointed out by the lkp test robot.
+>>
+>> For some more background info here are the still relevant bits of
+>> the v1 cover-letter:
+>>
+>> This also contains an important fix to try_fmt handling, so that
+>> the various supported output formats can actually be used by userspace
+>> which calls try_fmt before doing s_fmt.
+>>
+>> So slowly this is starting to look more and more like a standard
+>> v4l2 device (with all the complex pipeline handling hidden in the driver,
+>> moving that to userspace seems to be impossible with this design since
+>> multiple pipeline steps are handled by a single firmware program).
 > 
-> ...
+> I completely in favour of the series, so
+> Reviewed-by: Andy Shevchenko <andy@kernel.org>
+> for non-commented patches, for the commented, where comment is a "side note".
 > 
->> +	/* s_power has not been called yet for std v4l2 clients (camorama) */
->> +	power_up(sd);
-> 
-> if camorama is fixed, will this become a problem?
+> For the rest depends on your action, if you are going to address as suggested,
+> feel free to add my tag.
 
-This is not a camorama issue but an issue with the atomisp2 + sensor driver
-combination. camorama uses a slightly different order in which various
-v4l2 ioctls are done so it needs the power_up() here. Note that power_up()
-checks + sets a flag so that if it gets called multiple times it only does
-the actual power-up once.
+Thanks, I've pushed an updated version with your suggested changes and
+your Reviewed-by added to my media-atomisp branch in preparation for
+sending a pull-req to Mauro with these changes.
+
+I'll also add your patch "[PATCH v1 1/1] atomisp: Make bds_factors_list be type
+of struct u32_fract" there once I have had the time to review it.
+
+Note since I send out this series I've been working on a bunch of further
+cleanups / on preparation work for getting rid of the ugly PCI power-management
+errors on (runtime)suspend/resume.
+
+I will send these out as a patch series now and I've also pushed these to my
+media-atomisp branch.
 
 Regards,
 
 Hans
-
 
