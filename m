@@ -2,97 +2,125 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 812246312C0
-	for <lists+linux-media@lfdr.de>; Sun, 20 Nov 2022 07:59:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 44A79631359
+	for <lists+linux-media@lfdr.de>; Sun, 20 Nov 2022 11:34:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229505AbiKTG7X (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 20 Nov 2022 01:59:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53968 "EHLO
+        id S229661AbiKTKer (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 20 Nov 2022 05:34:47 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35818 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229454AbiKTG7W (ORCPT
+        with ESMTP id S229648AbiKTKeq (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 20 Nov 2022 01:59:22 -0500
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0265A1A29;
-        Sat, 19 Nov 2022 22:59:20 -0800 (PST)
-Received: from canpemm500005.china.huawei.com (unknown [172.30.72.57])
-        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4NFLw50mMCzHvrS;
-        Sun, 20 Nov 2022 14:58:45 +0800 (CST)
-Received: from huawei.com (10.175.104.82) by canpemm500005.china.huawei.com
- (7.192.104.229) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.31; Sun, 20 Nov
- 2022 14:59:18 +0800
-From:   Baisong Zhong <zhongbaisong@huawei.com>
-To:     <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-CC:     <mchehab@kernel.org>, <zhongbaisong@huawei.com>,
-        <Adams.xu@azwave.com.cn>
-Subject: [PATCH -next] media: dvb-usb: az6027: fix null-ptr-deref in az6027_i2c_xfer()
-Date:   Sun, 20 Nov 2022 14:59:18 +0800
-Message-ID: <20221120065918.2160782-1-zhongbaisong@huawei.com>
-X-Mailer: git-send-email 2.25.1
+        Sun, 20 Nov 2022 05:34:46 -0500
+Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com [IPv6:2a00:1450:4864:20::12f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E91A7D52B
+        for <linux-media@vger.kernel.org>; Sun, 20 Nov 2022 02:34:44 -0800 (PST)
+Received: by mail-lf1-x12f.google.com with SMTP id j16so14875362lfe.12
+        for <linux-media@vger.kernel.org>; Sun, 20 Nov 2022 02:34:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=8D4BClPP9qrwATF1t4nCunXzUqHb8yDxaV0KlH+7vLs=;
+        b=ngHAa6H5aYEfS3vMjANdUuM9RsJdWy9RmqP1HxGhiDlqZzHX3bMuK5JHG7yjhKHMU9
+         41+DdKziUR4qZ0Jg2m6OxkucZzaC/z2rTF2766hh1O4sxASm9sHaaZup8FvZVV9IaHdc
+         ObKMgReB3Ym325bcng3X/NNJXvSs4oJz9QymH9VVmZf0CeGfE+CqVop6efX552xJuiNN
+         lV/XAtAsIcsyDwObFzlyrXidYxHA0If1H2ZiPZurHoTek8gXD+7wR2kvRQgb29vRj+jd
+         WCcNeu9OJ7ehepkL3CUw+x+t4Ccka9BkJdI8Q/6HpFA3SohZd6OarmGaUZEnQU8lB4Ez
+         x/gw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=8D4BClPP9qrwATF1t4nCunXzUqHb8yDxaV0KlH+7vLs=;
+        b=NF59rVQRjg7yAXWCVfujaK2Su9slbsAFZhDpYF7DUN5g/JAzofoToO/VMk4E3bnqlQ
+         olBI92G8Fcyb074TxmoK2O1aAzWzDrbc7/3pnLBhBV2Y8jpR4joiiQxdQTuQNePkz5Qm
+         xEk0CuBZgJYA8+EFRMfNJpo5nZl0lbiM2qKOb+B3qgAvzdIB8iaEj1miSgyq/I4hLJpB
+         hqtmAPsi9vwL8v7UcI5+VDa5pZxZ0ApiJ0N3CVtK3UJFc5kbUqy6Az3n4G1vanbVKfrY
+         5sehnG2wNYTtQ3h2LjewqHkhyFej1xyZtNL/kpUyCzOUFs4xyDwFEjTYWaUv92g9zVX0
+         E7Lg==
+X-Gm-Message-State: ANoB5pnzAq6chQqErGNpQG1AuSNdm2vMbRebronIEISB5AAz18lbxBme
+        QMzQ57OtLYP3eEv5pUMGaIz4lQ==
+X-Google-Smtp-Source: AA0mqf7o759OuxPpc1jEao2vB98NHQHMxY3bsLWqPy3t+QLguIdEiBC/oMg307GKo5mtBXonCmHJYA==
+X-Received: by 2002:a19:ca0b:0:b0:4b1:7972:627a with SMTP id a11-20020a19ca0b000000b004b17972627amr4266924lfg.101.1668940482960;
+        Sun, 20 Nov 2022 02:34:42 -0800 (PST)
+Received: from [192.168.0.20] (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
+        by smtp.gmail.com with ESMTPSA id i5-20020a0565123e0500b004978e51b691sm1491759lfv.266.2022.11.20.02.34.41
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 20 Nov 2022 02:34:42 -0800 (PST)
+Message-ID: <7ab50a13-9711-2d77-ff47-ad4c2d9b4faf@linaro.org>
+Date:   Sun, 20 Nov 2022 11:34:41 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.175.104.82]
-X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
- canpemm500005.china.huawei.com (7.192.104.229)
-X-CFilter-Loop: Reflected
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH v3 02/14] dt-bindings: media: rkisp1: Add i.MX8MP ISP
+ example
+Content-Language: en-US
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Paul Elder <paul.elder@ideasonboard.com>,
+        linux-media@vger.kernel.org, Dafna Hirschfeld <dafna@fastmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Helen Koike <helen.koike@collabora.com>,
+        linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+References: <20221118093931.1284465-1-paul.elder@ideasonboard.com>
+ <20221118093931.1284465-3-paul.elder@ideasonboard.com>
+ <ca8a6070-3888-8d42-5974-d7c2adc62417@linaro.org>
+ <Y3kLZ6nQ1VzN+2eu@pendragon.ideasonboard.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <Y3kLZ6nQ1VzN+2eu@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Wei Chen reports a kernel bug as blew:
+On 19/11/2022 17:59, Laurent Pinchart wrote:
+> Hi Krzysztof,
+> 
+> On Fri, Nov 18, 2022 at 02:06:14PM +0100, Krzysztof Kozlowski wrote:
+>> On 18/11/2022 10:39, Paul Elder wrote:
+>>> From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+>>>
+>>> Add an example to the rockchip-isp1 DT binding that showcases usage of
+>>> the parallel input of the ISP, connected to the CSI-2 receiver internal
+>>> to the i.MX8MP.
+>>>
+>>> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+>>
+>> Missing SoB.
+>>
+>>> ---
+>>>  .../bindings/media/rockchip-isp1.yaml         | 72 +++++++++++++++++++
+>>>  1 file changed, 72 insertions(+)
+>>>
+>>
+>> I don't know what do you demonstrate there... usage of endpoints? That's
+>> the only difference. Such usage is the same everywhere, nothing specific
+>> to this example. You already have two examples, so I don't think this
+>> brings anything more.
+> 
+> The i.MX8MP is the only SoC integrating this ISP (and supported in
+> mainlineà that has an external CSI-2 receiver, as opposed to using the
+> CSI-2 receiver from the ISP. This patch this showcases the DT
+> integration for that use case. If you think it's not worth it, I'm fine
+> dropping it.
 
-general protection fault, probably for non-canonical address
-KASAN: null-ptr-deref in range [0x0000000000000010-0x0000000000000017]
-...
-Call Trace:
-<TASK>
-__i2c_transfer+0x77e/0x1930 drivers/i2c/i2c-core-base.c:2109
-i2c_transfer+0x1d5/0x3d0 drivers/i2c/i2c-core-base.c:2170
-i2cdev_ioctl_rdwr+0x393/0x660 drivers/i2c/i2c-dev.c:297
-i2cdev_ioctl+0x75d/0x9f0 drivers/i2c/i2c-dev.c:458
-vfs_ioctl fs/ioctl.c:51 [inline]
-__do_sys_ioctl fs/ioctl.c:870 [inline]
-__se_sys_ioctl+0xfb/0x170 fs/ioctl.c:856
-do_syscall_x64 arch/x86/entry/common.c:50 [inline]
-do_syscall_64+0x3d/0x90 arch/x86/entry/common.c:80
-entry_SYSCALL_64_after_hwframe+0x63/0xcd
-RIP: 0033:0x7fd834a8bded
+The purpose of examples are not to demonstrate the SoC, but only this
+given binding.
+> 
 
-In az6027_i2c_xfer(), if msg[i].addr is 0x99,
-a null-ptr-deref will caused when accessing msg[i].buf.
-For msg[i].len is 0 and msg[i].buf is null.
-
-Fix this by checking msg[i].len in az6027_i2c_xfer().
-
-Fixes: 76f9a820c867 ("V4L/DVB: AZ6027: Initial import of the driver")
-Link: https://lore.kernel.org/lkml/CAO4mrfcPHB5aQJO=mpqV+p8mPLNg-Fok0gw8gZ=zemAfMGTzMg@mail.gmail.com/
-Reported-by: Wei Chen <harperchen1110@gmail.com>
-Signed-off-by: Baisong Zhong <zhongbaisong@huawei.com>
----
- drivers/media/usb/dvb-usb/az6027.c | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/drivers/media/usb/dvb-usb/az6027.c b/drivers/media/usb/dvb-usb/az6027.c
-index cf15988dfb51..7d78ee09be5e 100644
---- a/drivers/media/usb/dvb-usb/az6027.c
-+++ b/drivers/media/usb/dvb-usb/az6027.c
-@@ -975,6 +975,10 @@ static int az6027_i2c_xfer(struct i2c_adapter *adap, struct i2c_msg msg[], int n
- 		if (msg[i].addr == 0x99) {
- 			req = 0xBE;
- 			index = 0;
-+			if (msg[i].len < 1) {
-+				i = -EOPNOTSUPP;
-+				break;
-+			}
- 			value = msg[i].buf[0] & 0x00ff;
- 			length = 1;
- 			az6027_usb_out_op(d, req, value, index, data, length);
--- 
-2.25.1
+Best regards,
+Krzysztof
 
