@@ -2,42 +2,42 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 036756316F0
-	for <lists+linux-media@lfdr.de>; Sun, 20 Nov 2022 23:43:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AD5316316E9
+	for <lists+linux-media@lfdr.de>; Sun, 20 Nov 2022 23:43:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229685AbiKTWnZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 20 Nov 2022 17:43:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35956 "EHLO
+        id S229747AbiKTWnK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 20 Nov 2022 17:43:10 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35954 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229777AbiKTWnM (ORCPT
+        with ESMTP id S229586AbiKTWnJ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 20 Nov 2022 17:43:12 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6E4FF240B5
-        for <linux-media@vger.kernel.org>; Sun, 20 Nov 2022 14:41:35 -0800 (PST)
+        Sun, 20 Nov 2022 17:43:09 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EDA8F2409F
+        for <linux-media@vger.kernel.org>; Sun, 20 Nov 2022 14:41:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1668984094;
+        s=mimecast20190719; t=1668984093;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=M3U+wFH0/tAg82yKmstwF74PbEzVdI1wACOO/EkoVQU=;
-        b=eKzHQBQCMA4tyDsqZNrVEdJlSwduUTOnRls6ebGZNmrYpuT6AjsZvJ73YwqCZW/T6amm2i
-        Sut4Rt1fPwvQZ5bA+cizjeKzvmq7XtojcRAg+VEiv4c3ePh0D4ihzVlONM5E+kx7tVdafq
-        /AnM5L3gTcFYhxZ+FNFZYjP4XRjRWhw=
+        bh=4TqMfHU2WtW9dP91YrXnJUNngz4nZrbVS91NAKAbt9I=;
+        b=M1GPU5UawweO3BnWouzOdia2K9iht/SkYKAYdqOu+SdbhRG1/mOhAxsq550jD9MFXc0JTK
+        8FYBcHAfGFUIIE8TmzbYwYHbCvhgKFmLJjorRK+83JprjkgsF4mOeHwlZTvi2VYcC6RUcE
+        etE0/CWIPjFQxo3Jwt/GOkWcGGSs6MA=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-277-ygewqicdNaWedT-yeyLSrA-1; Sun, 20 Nov 2022 17:41:27 -0500
-X-MC-Unique: ygewqicdNaWedT-yeyLSrA-1
+ us-mta-16-OGlMGEMSOSih8mSLTBXznQ-1; Sun, 20 Nov 2022 17:41:28 -0500
+X-MC-Unique: OGlMGEMSOSih8mSLTBXznQ-1
 Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B857A185A79C;
-        Sun, 20 Nov 2022 22:41:26 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6B0AF833A06;
+        Sun, 20 Nov 2022 22:41:28 +0000 (UTC)
 Received: from localhost.localdomain (unknown [10.39.192.70])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 4B1C647505E;
-        Sun, 20 Nov 2022 22:41:25 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id EC2EC47505E;
+        Sun, 20 Nov 2022 22:41:26 +0000 (UTC)
 From:   Hans de Goede <hdegoede@redhat.com>
 To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Sakari Ailus <sakari.ailus@linux.intel.com>
@@ -48,9 +48,9 @@ Cc:     Hans de Goede <hdegoede@redhat.com>,
         Nable <nable.maininbox@googlemail.com>,
         andrey.i.trufanov@gmail.com, Fabio Aiuto <fabioaiuto83@gmail.com>,
         linux-media@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: [PATCH 09/20] media: atomisp: Remove unused ia_css_frame_*() functions
-Date:   Sun, 20 Nov 2022 23:40:50 +0100
-Message-Id: <20221120224101.746199-10-hdegoede@redhat.com>
+Subject: [PATCH 10/20] media: atomisp: Drop userptr support from hmm
+Date:   Sun, 20 Nov 2022 23:40:51 +0100
+Message-Id: <20221120224101.746199-11-hdegoede@redhat.com>
 In-Reply-To: <20221120224101.746199-1-hdegoede@redhat.com>
 References: <20221120224101.746199-1-hdegoede@redhat.com>
 MIME-Version: 1.0
@@ -66,246 +66,202 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-After the conversion to videobuf2 a bunch of ia_css_frame_*()
-functions are unused, remove them.
+After the conversion to videobuf2 userptr support is no longer needed,
+drop it.
 
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- .../media/atomisp/pci/ia_css_frame_public.h   |  74 -----------
- .../atomisp/pci/runtime/frame/src/frame.c     | 121 ------------------
- 2 files changed, 195 deletions(-)
+ .../staging/media/atomisp/include/hmm/hmm.h   |  1 -
+ .../media/atomisp/include/hmm/hmm_bo.h        |  2 -
+ drivers/staging/media/atomisp/pci/hmm/hmm.c   | 19 +++----
+ .../staging/media/atomisp/pci/hmm/hmm_bo.c    | 53 +------------------
+ 4 files changed, 7 insertions(+), 68 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/ia_css_frame_public.h b/drivers/staging/media/atomisp/pci/ia_css_frame_public.h
-index 32d6d9699c37..7ba464abf447 100644
---- a/drivers/staging/media/atomisp/pci/ia_css_frame_public.h
-+++ b/drivers/staging/media/atomisp/pci/ia_css_frame_public.h
-@@ -205,15 +205,6 @@ struct ia_css_frame {
- 	.flash_state		= IA_CSS_FRAME_FLASH_STATE_NONE, \
+diff --git a/drivers/staging/media/atomisp/include/hmm/hmm.h b/drivers/staging/media/atomisp/include/hmm/hmm.h
+index b81b8580d405..2bc323b34f89 100644
+--- a/drivers/staging/media/atomisp/include/hmm/hmm.h
++++ b/drivers/staging/media/atomisp/include/hmm/hmm.h
+@@ -37,7 +37,6 @@ int hmm_init(void);
+ void hmm_cleanup(void);
+ 
+ ia_css_ptr hmm_alloc(size_t bytes);
+-ia_css_ptr hmm_create_from_userdata(size_t bytes, const void __user *userptr);
+ ia_css_ptr hmm_create_from_vmalloc_buf(size_t bytes, void *vmalloc_addr);
+ 
+ void hmm_free(ia_css_ptr ptr);
+diff --git a/drivers/staging/media/atomisp/include/hmm/hmm_bo.h b/drivers/staging/media/atomisp/include/hmm/hmm_bo.h
+index a51d89f0b5cc..b4c03e0ca9c0 100644
+--- a/drivers/staging/media/atomisp/include/hmm/hmm_bo.h
++++ b/drivers/staging/media/atomisp/include/hmm/hmm_bo.h
+@@ -74,7 +74,6 @@
+ enum hmm_bo_type {
+ 	HMM_BO_PRIVATE,
+ 	HMM_BO_VMALLOC,
+-	HMM_BO_USER,
+ 	HMM_BO_LAST,
+ };
+ 
+@@ -208,7 +207,6 @@ int hmm_bo_allocated(struct hmm_buffer_object *bo);
+  */
+ int hmm_bo_alloc_pages(struct hmm_buffer_object *bo,
+ 		       enum hmm_bo_type type,
+-		       const void __user *userptr,
+ 		       void *vmalloc_addr);
+ void hmm_bo_free_pages(struct hmm_buffer_object *bo);
+ int hmm_bo_page_allocated(struct hmm_buffer_object *bo);
+diff --git a/drivers/staging/media/atomisp/pci/hmm/hmm.c b/drivers/staging/media/atomisp/pci/hmm/hmm.c
+index a262477104fc..e266628be332 100644
+--- a/drivers/staging/media/atomisp/pci/hmm/hmm.c
++++ b/drivers/staging/media/atomisp/pci/hmm/hmm.c
+@@ -42,9 +42,8 @@ static bool hmm_initialized;
+ /*
+  * p: private
+  * v: vmalloc
+- * u: user
+  */
+-static const char hmm_bo_type_string[] = "pvu";
++static const char hmm_bo_type_string[] = "pv";
+ 
+ static ssize_t bo_show(struct device *dev, struct device_attribute *attr,
+ 		       char *buf, struct list_head *bo_list, bool active)
+@@ -168,7 +167,6 @@ void hmm_cleanup(void)
  }
  
--/* @brief Fill a frame with zeros
-- *
-- * @param	frame		The frame.
-- * @return	None
-- *
-- * Fill a frame with pixel values of zero
-- */
--void ia_css_frame_zero(struct ia_css_frame *frame);
+ static ia_css_ptr __hmm_alloc(size_t bytes, enum hmm_bo_type type,
+-			      const void __user *userptr,
+ 			      void *vmalloc_addr)
+ {
+ 	unsigned int pgnr;
+@@ -193,7 +191,7 @@ static ia_css_ptr __hmm_alloc(size_t bytes, enum hmm_bo_type type,
+ 	}
+ 
+ 	/* Allocate pages for memory */
+-	ret = hmm_bo_alloc_pages(bo, type, userptr, vmalloc_addr);
++	ret = hmm_bo_alloc_pages(bo, type, vmalloc_addr);
+ 	if (ret) {
+ 		dev_err(atomisp_dev, "hmm_bo_alloc_pages failed.\n");
+ 		goto alloc_page_err;
+@@ -207,8 +205,8 @@ static ia_css_ptr __hmm_alloc(size_t bytes, enum hmm_bo_type type,
+ 	}
+ 
+ 	dev_dbg(atomisp_dev,
+-		"%s: pages: 0x%08x (%zu bytes), type: %d, user ptr %p\n",
+-		__func__, bo->start, bytes, type, userptr);
++		"%s: pages: 0x%08x (%zu bytes), type: %d, vmalloc %p\n",
++		__func__, bo->start, bytes, type, vmalloc);
+ 
+ 	return bo->start;
+ 
+@@ -222,17 +220,12 @@ static ia_css_ptr __hmm_alloc(size_t bytes, enum hmm_bo_type type,
+ 
+ ia_css_ptr hmm_alloc(size_t bytes)
+ {
+-	return __hmm_alloc(bytes, HMM_BO_PRIVATE, NULL, NULL);
++	return __hmm_alloc(bytes, HMM_BO_PRIVATE, NULL);
+ }
+ 
+ ia_css_ptr hmm_create_from_vmalloc_buf(size_t bytes, void *vmalloc_addr)
+ {
+-	return __hmm_alloc(bytes, HMM_BO_VMALLOC, NULL, vmalloc_addr);
+-}
 -
- /* @brief Allocate a CSS frame structure
+-ia_css_ptr hmm_create_from_userdata(size_t bytes, const void __user *userptr)
+-{
+-	return __hmm_alloc(bytes, HMM_BO_USER, userptr, NULL);
++	return __hmm_alloc(bytes, HMM_BO_VMALLOC, vmalloc_addr);
+ }
+ 
+ void hmm_free(ia_css_ptr virt)
+diff --git a/drivers/staging/media/atomisp/pci/hmm/hmm_bo.c b/drivers/staging/media/atomisp/pci/hmm/hmm_bo.c
+index 3c150268db51..11c43e296de1 100644
+--- a/drivers/staging/media/atomisp/pci/hmm/hmm_bo.c
++++ b/drivers/staging/media/atomisp/pci/hmm/hmm_bo.c
+@@ -652,49 +652,6 @@ static int alloc_private_pages(struct hmm_buffer_object *bo)
+ 	return 0;
+ }
+ 
+-static void free_user_pages(struct hmm_buffer_object *bo,
+-			    unsigned int page_nr)
+-{
+-	int i;
+-
+-	for (i = 0; i < page_nr; i++)
+-		put_page(bo->pages[i]);
+-}
+-
+-/*
+- * Convert user space virtual address into pages list
+- */
+-static int alloc_user_pages(struct hmm_buffer_object *bo,
+-			    const void __user *userptr)
+-{
+-	int page_nr;
+-
+-	userptr = untagged_addr(userptr);
+-
+-	/* Handle frame buffer allocated in user space */
+-	mutex_unlock(&bo->mutex);
+-	page_nr = get_user_pages_fast((unsigned long)userptr, bo->pgnr, 1, bo->pages);
+-	mutex_lock(&bo->mutex);
+-
+-	/* can be written by caller, not forced */
+-	if (page_nr != bo->pgnr) {
+-		dev_err(atomisp_dev,
+-			"get_user_pages err: bo->pgnr = %d, pgnr actually pinned = %d.\n",
+-			bo->pgnr, page_nr);
+-		if (page_nr < 0)
+-			page_nr = 0;
+-		goto out_of_mem;
+-	}
+-
+-	return 0;
+-
+-out_of_mem:
+-
+-	free_user_pages(bo, page_nr);
+-
+-	return -ENOMEM;
+-}
+-
+ static int alloc_vmalloc_pages(struct hmm_buffer_object *bo, void *vmalloc_addr)
+ {
+ 	void *vaddr = vmalloc_addr;
+@@ -716,16 +673,12 @@ static int alloc_vmalloc_pages(struct hmm_buffer_object *bo, void *vmalloc_addr)
+  * allocate/free physical pages for the bo.
   *
-  * @param	frame		The allocated frame.
-@@ -270,71 +261,6 @@ ia_css_frame_allocate_from_info(struct ia_css_frame **frame,
- void
- ia_css_frame_free(struct ia_css_frame *frame);
- 
--/* @brief Allocate a CSS frame structure using a frame info structure.
+  * type indicate where are the pages from. currently we have 3 types
+- * of memory: HMM_BO_PRIVATE, HMM_BO_VMALLOC, HMM_BO_USER.
++ * of memory: HMM_BO_PRIVATE, HMM_BO_VMALLOC.
+  *
+  * vmalloc_addr is only valid when type is HMM_BO_VMALLOC.
 - *
-- * @param	frame	The allocated frame.
-- * @param[in]	info	The frame info structure.
-- * @return		The error code.
-- *
-- * Allocate an empty CSS frame with no data buffer using the parameters
-- * in the frame info.
-- */
--int
--ia_css_frame_create_from_info(struct ia_css_frame **frame,
--			      const struct ia_css_frame_info *info);
--
--/* @brief Set a mapped data buffer to a CSS frame
-- *
-- * @param[in]	frame       Valid CSS frame pointer
-- * @param[in]	mapped_data  Mapped data buffer to be assigned to the CSS frame
-- * @param[in]	data_size_bytes  Size of the mapped_data in bytes
-- * @return      The error code.
-- *
-- * Sets a mapped data buffer to this frame. This function can be called multiple
-- * times with different buffers or NULL to reset the data pointer. This API
-- * would not try free the mapped_data and its the callers responsiblity to
-- * free the mapped_data buffer. However if ia_css_frame_free() is called and
-- * the frame had a valid data buffer, it would be freed along with the frame.
-- */
--int
--ia_css_frame_set_data(struct ia_css_frame *frame,
--		      const ia_css_ptr   mapped_data,
--		      size_t data_size_bytes);
--
--/* @brief Map an existing frame data pointer to a CSS frame.
-- *
-- * @param	frame		Pointer to the frame to be initialized
-- * @param[in]	info		The frame info.
-- * @param[in]	data		Pointer to the allocated frame data.
-- * @param[in]	attribute	Attributes to be passed to mmgr_mmap.
-- * @param[in]	context		Pointer to the a context to be passed to mmgr_mmap.
-- * @return			The allocated frame structure.
-- *
-- * This function maps a pre-allocated pointer into a CSS frame. This can be
-- * used when an upper software layer is responsible for allocating the frame
-- * data and it wants to share that frame pointer with the CSS code.
-- * This function will fill the CSS frame structure just like
-- * ia_css_frame_allocate() does, but instead of allocating the memory, it will
-- * map the pre-allocated memory into the CSS address space.
-- */
--int
--ia_css_frame_map(struct ia_css_frame **frame,
--		 const struct ia_css_frame_info *info,
--		 const void __user *data,
--		 unsigned int pgnr);
--
--/* @brief Unmap a CSS frame structure.
-- *
-- * @param[in]	frame	Pointer to the CSS frame.
-- * @return	None
-- *
-- * This function unmaps the frame data pointer within a CSS frame and
-- * then frees the CSS frame structure. Use this for frame pointers created
-- * using ia_css_frame_map().
-- */
--void
--ia_css_frame_unmap(struct ia_css_frame *frame);
--
- static inline const struct ia_css_frame_info *
- ia_css_frame_get_info(const struct ia_css_frame *frame)
+- * userptr is only valid when type is HMM_BO_USER, it indicates
+- * the start address from user space task.
+  */
+ int hmm_bo_alloc_pages(struct hmm_buffer_object *bo,
+ 		       enum hmm_bo_type type,
+-		       const void __user *userptr,
+ 		       void *vmalloc_addr)
  {
-diff --git a/drivers/staging/media/atomisp/pci/runtime/frame/src/frame.c b/drivers/staging/media/atomisp/pci/runtime/frame/src/frame.c
-index 332b4a39e74d..83bb42e05421 100644
---- a/drivers/staging/media/atomisp/pci/runtime/frame/src/frame.c
-+++ b/drivers/staging/media/atomisp/pci/runtime/frame/src/frame.c
-@@ -88,12 +88,6 @@ ia_css_elems_bytes_from_info(
- **	CSS API functions, exposed by ia_css.h
- **************************************************************************/
+ 	int ret = -EINVAL;
+@@ -745,8 +698,6 @@ int hmm_bo_alloc_pages(struct hmm_buffer_object *bo,
+ 		ret = alloc_private_pages(bo);
+ 	} else if (type == HMM_BO_VMALLOC) {
+ 		ret = alloc_vmalloc_pages(bo, vmalloc_addr);
+-	} else if (type == HMM_BO_USER) {
+-		ret = alloc_user_pages(bo, userptr);
+ 	} else {
+ 		dev_err(atomisp_dev, "invalid buffer type.\n");
+ 		ret = -EINVAL;
+@@ -792,8 +743,6 @@ void hmm_bo_free_pages(struct hmm_buffer_object *bo)
+ 		free_private_bo_pages(bo);
+ 	else if (bo->type == HMM_BO_VMALLOC)
+ 		; /* No-op, nothing to do */
+-	else if (bo->type == HMM_BO_USER)
+-		free_user_pages(bo, bo->pgnr);
+ 	else
+ 		dev_err(atomisp_dev, "invalid buffer type.\n");
  
--void ia_css_frame_zero(struct ia_css_frame *frame)
--{
--	assert(frame);
--	hmm_set(frame->data, 0, frame->data_bytes);
--}
--
- int ia_css_frame_allocate_from_info(struct ia_css_frame **frame,
- 	const struct ia_css_frame_info *info)
- {
-@@ -143,121 +137,6 @@ int ia_css_frame_allocate(struct ia_css_frame **frame,
- 	return err;
- }
- 
--int ia_css_frame_map(struct ia_css_frame **frame,
--				 const struct ia_css_frame_info *info,
--				 const void __user *data,
--				 unsigned int pgnr)
--{
--	int err = 0;
--	struct ia_css_frame *me;
--
--	assert(frame);
--
--	/* Create the frame structure */
--	err = ia_css_frame_create_from_info(&me, info);
--
--	if (err)
--		return err;
--
--	if (pgnr < ((PAGE_ALIGN(me->data_bytes)) >> PAGE_SHIFT)) {
--		dev_err(atomisp_dev,
--			"user space memory size is less than the expected size..\n");
--		err = -ENOMEM;
--		goto error;
--	} else if (pgnr > ((PAGE_ALIGN(me->data_bytes)) >> PAGE_SHIFT)) {
--		dev_err(atomisp_dev,
--			"user space memory size is large than the expected size..\n");
--		err = -ENOMEM;
--		goto error;
--	}
--
--	me->data = hmm_create_from_userdata(me->data_bytes, data);
--	if (me->data == mmgr_NULL)
--		err = -EINVAL;
--
--error:
--	if (err) {
--		kvfree(me);
--		me = NULL;
--	}
--
--	*frame = me;
--
--	return err;
--}
--
--int ia_css_frame_create_from_info(struct ia_css_frame **frame,
--	const struct ia_css_frame_info *info)
--{
--	int err = 0;
--	struct ia_css_frame *me;
--
--	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE,
--			    "ia_css_frame_create_from_info() enter:\n");
--	if (!frame || !info) {
--		ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE,
--				    "ia_css_frame_create_from_info() leave: invalid arguments\n");
--		return -EINVAL;
--	}
--
--	me = frame_create(info->res.width,
--			  info->res.height,
--			  info->format,
--			  info->padded_width,
--			  info->raw_bit_depth,
--			  false);
--	if (!me) {
--		ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE,
--				    "ia_css_frame_create_from_info() leave: frame create failed\n");
--		return -ENOMEM;
--	}
--
--	err = ia_css_frame_init_planes(me);
--
--	if (err) {
--		kvfree(me);
--		me = NULL;
--	}
--
--	*frame = me;
--
--	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE,
--			    "ia_css_frame_create_from_info() leave:\n");
--
--	return err;
--}
--
--int ia_css_frame_set_data(struct ia_css_frame *frame,
--				      const ia_css_ptr mapped_data,
--				      size_t data_bytes)
--{
--	int err = 0;
--
--	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE,
--			    "ia_css_frame_set_data() enter:\n");
--	if (!frame) {
--		ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE,
--				    "ia_css_frame_set_data() leave: NULL frame\n");
--		return -EINVAL;
--	}
--
--	/* If we are setting a valid data.
--	 * Make sure that there is enough
--	 * room for the expected frame format
--	 */
--	if ((mapped_data != mmgr_NULL) && (frame->data_bytes > data_bytes)) {
--		ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE,
--				    "ia_css_frame_set_data() leave: invalid arguments\n");
--		return -EINVAL;
--	}
--
--	frame->data = mapped_data;
--
--	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE, "ia_css_frame_set_data() leave:\n");
--
--	return err;
--}
--
- void ia_css_frame_free(struct ia_css_frame *frame)
- {
- 	IA_CSS_ENTER_PRIVATE("frame = %p", frame);
 -- 
 2.38.1
 
