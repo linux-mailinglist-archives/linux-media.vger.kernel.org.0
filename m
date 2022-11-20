@@ -2,65 +2,66 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 44A79631359
-	for <lists+linux-media@lfdr.de>; Sun, 20 Nov 2022 11:34:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 851E363135A
+	for <lists+linux-media@lfdr.de>; Sun, 20 Nov 2022 11:36:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229661AbiKTKer (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 20 Nov 2022 05:34:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35818 "EHLO
+        id S229669AbiKTKgh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 20 Nov 2022 05:36:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36152 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229648AbiKTKeq (ORCPT
+        with ESMTP id S229546AbiKTKgg (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 20 Nov 2022 05:34:46 -0500
-Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com [IPv6:2a00:1450:4864:20::12f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E91A7D52B
-        for <linux-media@vger.kernel.org>; Sun, 20 Nov 2022 02:34:44 -0800 (PST)
-Received: by mail-lf1-x12f.google.com with SMTP id j16so14875362lfe.12
-        for <linux-media@vger.kernel.org>; Sun, 20 Nov 2022 02:34:44 -0800 (PST)
+        Sun, 20 Nov 2022 05:36:36 -0500
+Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com [IPv6:2a00:1450:4864:20::12a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD7D87DC97
+        for <linux-media@vger.kernel.org>; Sun, 20 Nov 2022 02:36:34 -0800 (PST)
+Received: by mail-lf1-x12a.google.com with SMTP id p8so14885879lfu.11
+        for <linux-media@vger.kernel.org>; Sun, 20 Nov 2022 02:36:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=8D4BClPP9qrwATF1t4nCunXzUqHb8yDxaV0KlH+7vLs=;
-        b=ngHAa6H5aYEfS3vMjANdUuM9RsJdWy9RmqP1HxGhiDlqZzHX3bMuK5JHG7yjhKHMU9
-         41+DdKziUR4qZ0Jg2m6OxkucZzaC/z2rTF2766hh1O4sxASm9sHaaZup8FvZVV9IaHdc
-         ObKMgReB3Ym325bcng3X/NNJXvSs4oJz9QymH9VVmZf0CeGfE+CqVop6efX552xJuiNN
-         lV/XAtAsIcsyDwObFzlyrXidYxHA0If1H2ZiPZurHoTek8gXD+7wR2kvRQgb29vRj+jd
-         WCcNeu9OJ7ehepkL3CUw+x+t4Ccka9BkJdI8Q/6HpFA3SohZd6OarmGaUZEnQU8lB4Ez
-         x/gw==
+        bh=Bkqr5CITlf9Pw0k+sezW0jUIFDxvpCmwSMWyehFOiNM=;
+        b=l01VxSQh8yun766SjOSDe7zfb3SL3HFlZdKdnKf6D2EiEzXVI2Av+lmCp2NZ3lVlpi
+         Y1vEvHZJw3wFXGX8mBTgR99tBrci4iwdycuAW/irJzmXCKEaLmEYE7tla4U219jYYgbu
+         Ak71A+oY5nA0KSe2u+ozcIWsvG4O2ZWQUiXohw9BlFJCJFvsfSfm2aLpRJ2dQORoJodZ
+         4qb7oYyFiJcNAQpz4ahaM//QrbawwiBwlOtchNsCfw4bxU1aDWxicQcnRxjMPb6tfVKa
+         lilYfjjOSydFNN055+AMwVyOy7UBFRTHzCkdQlVY+9eDKHuOYZ01pXXvoMEHytic9Ecg
+         dzwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=8D4BClPP9qrwATF1t4nCunXzUqHb8yDxaV0KlH+7vLs=;
-        b=NF59rVQRjg7yAXWCVfujaK2Su9slbsAFZhDpYF7DUN5g/JAzofoToO/VMk4E3bnqlQ
-         olBI92G8Fcyb074TxmoK2O1aAzWzDrbc7/3pnLBhBV2Y8jpR4joiiQxdQTuQNePkz5Qm
-         xEk0CuBZgJYA8+EFRMfNJpo5nZl0lbiM2qKOb+B3qgAvzdIB8iaEj1miSgyq/I4hLJpB
-         hqtmAPsi9vwL8v7UcI5+VDa5pZxZ0ApiJ0N3CVtK3UJFc5kbUqy6Az3n4G1vanbVKfrY
-         5sehnG2wNYTtQ3h2LjewqHkhyFej1xyZtNL/kpUyCzOUFs4xyDwFEjTYWaUv92g9zVX0
-         E7Lg==
-X-Gm-Message-State: ANoB5pnzAq6chQqErGNpQG1AuSNdm2vMbRebronIEISB5AAz18lbxBme
-        QMzQ57OtLYP3eEv5pUMGaIz4lQ==
-X-Google-Smtp-Source: AA0mqf7o759OuxPpc1jEao2vB98NHQHMxY3bsLWqPy3t+QLguIdEiBC/oMg307GKo5mtBXonCmHJYA==
-X-Received: by 2002:a19:ca0b:0:b0:4b1:7972:627a with SMTP id a11-20020a19ca0b000000b004b17972627amr4266924lfg.101.1668940482960;
-        Sun, 20 Nov 2022 02:34:42 -0800 (PST)
+        bh=Bkqr5CITlf9Pw0k+sezW0jUIFDxvpCmwSMWyehFOiNM=;
+        b=pddKS31LJbri2G0JPZ15AzVlmGvgypisAer9c0znRz71tyH+QsZXQCC2YiGXnnPWEb
+         n6W7YATbJm5Fg4C+tIng+N+tv1oLJiM9s3z98NXz/6fIl8dey5FBtSl/JRT3hh8inKFy
+         NOaGJ1xLwFIKaB38WIBzqGHIE/sqyT6P+PFh5bDMNzb2Kj1CavibkkozJRq2hTJe94MG
+         HjxQBd0bE/b29kzXXha0UfpKMFcwLFOgIb7N46XZKhoHdliFi0WsHcnPn02KE2Zk7QVX
+         TrAyxJh9onuDQapSfi45UCmTr7GCBlHizOlgfyOzsMCSbjarnXpWlZuknnCTb45UT5jA
+         IiGg==
+X-Gm-Message-State: ANoB5pliv/TKsgeMc/+Ni2ukN5TTpqz0V/PjwQWwEDLN3zvlv5tuCfNT
+        /STBOPGXhmg6N2nD8L5LpfRKXA==
+X-Google-Smtp-Source: AA0mqf6Mn70Z7ivGYWkW2u7n1bmFEm8KUVOAgQ7UoY06kP3Jgu4IpvXfJfXjOWCewEwECTOGz+/xQQ==
+X-Received: by 2002:a05:6512:b8f:b0:4a2:3953:7e43 with SMTP id b15-20020a0565120b8f00b004a239537e43mr4517786lfv.229.1668940592846;
+        Sun, 20 Nov 2022 02:36:32 -0800 (PST)
 Received: from [192.168.0.20] (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
-        by smtp.gmail.com with ESMTPSA id i5-20020a0565123e0500b004978e51b691sm1491759lfv.266.2022.11.20.02.34.41
+        by smtp.gmail.com with ESMTPSA id u21-20020a196a15000000b00498f871f33fsm1497394lfu.86.2022.11.20.02.36.31
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 20 Nov 2022 02:34:42 -0800 (PST)
-Message-ID: <7ab50a13-9711-2d77-ff47-ad4c2d9b4faf@linaro.org>
-Date:   Sun, 20 Nov 2022 11:34:41 +0100
+        Sun, 20 Nov 2022 02:36:32 -0800 (PST)
+Message-ID: <238f7bf8-578c-5bb4-9f00-50f36334c5cf@linaro.org>
+Date:   Sun, 20 Nov 2022 11:36:31 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.2
 Subject: Re: [PATCH v3 02/14] dt-bindings: media: rkisp1: Add i.MX8MP ISP
  example
 Content-Language: en-US
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Paul Elder <paul.elder@ideasonboard.com>,
-        linux-media@vger.kernel.org, Dafna Hirschfeld <dafna@fastmail.com>,
+To:     Paul Elder <paul.elder@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Dafna Hirschfeld <dafna@fastmail.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
@@ -71,24 +72,21 @@ Cc:     Paul Elder <paul.elder@ideasonboard.com>,
 References: <20221118093931.1284465-1-paul.elder@ideasonboard.com>
  <20221118093931.1284465-3-paul.elder@ideasonboard.com>
  <ca8a6070-3888-8d42-5974-d7c2adc62417@linaro.org>
- <Y3kLZ6nQ1VzN+2eu@pendragon.ideasonboard.com>
+ <Y3h93cLdEvMzInXe@pyrite.rasen.tech>
 From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <Y3kLZ6nQ1VzN+2eu@pendragon.ideasonboard.com>
+In-Reply-To: <Y3h93cLdEvMzInXe@pyrite.rasen.tech>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 19/11/2022 17:59, Laurent Pinchart wrote:
-> Hi Krzysztof,
-> 
+On 19/11/2022 07:55, Paul Elder wrote:
 > On Fri, Nov 18, 2022 at 02:06:14PM +0100, Krzysztof Kozlowski wrote:
 >> On 18/11/2022 10:39, Paul Elder wrote:
 >>> From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
@@ -100,6 +98,12 @@ On 19/11/2022 17:59, Laurent Pinchart wrote:
 >>> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 >>
 >> Missing SoB.
+> 
+> I don't quite understand. I see an SoB right there.
+
+Laurent did not sent it. Did you run checkpatch before sending?
+
+> 
 >>
 >>> ---
 >>>  .../bindings/media/rockchip-isp1.yaml         | 72 +++++++++++++++++++
@@ -108,18 +112,20 @@ On 19/11/2022 17:59, Laurent Pinchart wrote:
 >>
 >> I don't know what do you demonstrate there... usage of endpoints? That's
 >> the only difference. Such usage is the same everywhere, nothing specific
+> 
+> I guess...? Doesn't the same argument apply against the px30 example too
+> then?
+> 
 >> to this example. You already have two examples, so I don't think this
 >> brings anything more.
 > 
-> The i.MX8MP is the only SoC integrating this ISP (and supported in
-> mainlineà that has an external CSI-2 receiver, as opposed to using the
-> CSI-2 receiver from the ISP. This patch this showcases the DT
-> integration for that use case. If you think it's not worth it, I'm fine
-> dropping it.
+> We do have usage of this in imx8mp.dtsi and overlays for the ISP, but
+> those patches haven't been sent/merged yet, so in the meantime I think
+> there is value in providing an example here for the imx8mp.
 
-The purpose of examples are not to demonstrate the SoC, but only this
-given binding.
-> 
+The examples are not for demonstrating imx8mp or any other soc, but this
+one given binding. Changing compatibles and few properties is not a
+different example - from "exampleness" point of view it is very similar.
 
 Best regards,
 Krzysztof
