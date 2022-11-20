@@ -2,88 +2,117 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1B2D463166E
-	for <lists+linux-media@lfdr.de>; Sun, 20 Nov 2022 21:51:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3E9A76316A2
+	for <lists+linux-media@lfdr.de>; Sun, 20 Nov 2022 22:56:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229653AbiKTUvV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 20 Nov 2022 15:51:21 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40108 "EHLO
+        id S229551AbiKTV4x (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 20 Nov 2022 16:56:53 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51578 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229622AbiKTUvU (ORCPT
+        with ESMTP id S229449AbiKTV4w (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 20 Nov 2022 15:51:20 -0500
-Received: from mail-il1-f200.google.com (mail-il1-f200.google.com [209.85.166.200])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0618123BD5
-        for <linux-media@vger.kernel.org>; Sun, 20 Nov 2022 12:51:20 -0800 (PST)
-Received: by mail-il1-f200.google.com with SMTP id a14-20020a921a0e000000b00302a8ffa8e5so5334880ila.2
-        for <linux-media@vger.kernel.org>; Sun, 20 Nov 2022 12:51:19 -0800 (PST)
+        Sun, 20 Nov 2022 16:56:52 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 74F58B849
+        for <linux-media@vger.kernel.org>; Sun, 20 Nov 2022 13:55:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1668981355;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=70/m7cIp/vsG8qVJ5kAKqw8ft3BEh2reYWs4pFDO8EY=;
+        b=WIJZ3/GQ5CiHBVBUtTCAbQkqiy9xIplcNaNkwYpOGlruGd8YyZaijrW53N6DTCvByPStVT
+        1424eOSRap5iEqZ90a8iPOFxLfRHeMZg9q6JiP+E4+4BF7XEuOjVFHz1PRHcCeymlEyy4E
+        6j2Z38XXN6x2lC0jcy28+iRgwdaJxpo=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-91-2u9zdfMYPdakSMuJhKgnTQ-1; Sun, 20 Nov 2022 16:55:54 -0500
+X-MC-Unique: 2u9zdfMYPdakSMuJhKgnTQ-1
+Received: by mail-ed1-f69.google.com with SMTP id b14-20020a056402278e00b004621a2642d7so5459211ede.1
+        for <linux-media@vger.kernel.org>; Sun, 20 Nov 2022 13:55:53 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=to:from:subject:message-id:in-reply-to:date:mime-version
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=oDLcfZl+txYsJtzeVXqCYMCFgcOLb6wRGnlPi43ilE8=;
-        b=Z59aXxLZyDVgcrj8RRQavotsGmBhQCpJRW5rCKa4VZty81yceIkjzaxXFFobK5gaPT
-         d89RRYM/7WOFe2RWhLsuLVF25/iM4RpDji3jTfFuTPoMas3XvmIb6MHcJM14FKmZw/qq
-         OlpGhbDXW2JSInKYFOq7ZRUUuhQNk6KSiTX6ySwyGS/eGzbD9hEvldqE4zqUPRBVnaO/
-         c7qbWrJg/ZTLsHN6MEeCNQg1uIhEh+LYamR9c0wpEm1bWlxcA0hN6qW8/jOLWFxDqc+Q
-         buotlp62z+72jGDFNAb7C5zOawuHGiLIOKo16Z7EveclnnVaIcXE2JWfxyA73qQcNgBq
-         9d7w==
-X-Gm-Message-State: ANoB5plEWCaHo+cUbhcc3tZg6YEm9gX46gS97qpm9D0iMSd12tL8nlJH
-        YTfEQf3bCBihkCwXD1lUQkPTwnEjtfh4OH0XtVLZJe4QYpq6
-X-Google-Smtp-Source: AA0mqf5CBYmEqRFQYqm1UpoVHrdbq/uYkStlCRHWaDTVvlLNGxzh0dMVaQAZBLUykBc00JqAz74S8DO7Ridn5eA4tsjxMLFw/LVU
+        bh=70/m7cIp/vsG8qVJ5kAKqw8ft3BEh2reYWs4pFDO8EY=;
+        b=quSBt4GotGc4bz49xvoPZ/ysm4p0Qfd4FeKDO88v6x8nLng3UURsXdIhGG7W6wMIpt
+         jXV8MKEUgrlbKLYlFeIGDX0JGs+qndit6MnU5ApSI9cL1lfTY5HGAULXUlIH8LiAK2Lt
+         w50+SkgcuZSb/EIIb0PgNZr3EALsRoqJPsnhMms1LMF+I2bSSSW2SW4aIfcDbIgy4Llw
+         k6s72IUCxWEHmWgASxQIG3oYfl16J8JWsBjDo2w5HTWqqfJhPQpz9pyJrxy4NOnqZ89O
+         GiaS7kq83ZpIIXo/1DBR89uvLmY2uTFwz3Y+tVyTCCuUcwAW/A1luKcsGEBptEHHwcpP
+         R8VQ==
+X-Gm-Message-State: ANoB5pl2ov+Hocbky4zwIRYARc2+JsGXmInnjl1GzFMRyyGrWzO8hIJb
+        yNxrH+CFhbYql3E0BDnJmQvxc7D6Q8DPz4+EiU0pfaBA/yxDsSYv3R9EcIBqDoZpB6k0w1P1Qua
+        2EPSVnMN+RnCrWXHA0VhsKqY=
+X-Received: by 2002:aa7:d803:0:b0:467:f948:6df4 with SMTP id v3-20020aa7d803000000b00467f9486df4mr13617620edq.217.1668981352979;
+        Sun, 20 Nov 2022 13:55:52 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf4JLlGdlV7kxjwNxqnupTpkzo5Zy5GbkiSadqyGgrPUHOGYjhNYANm70MTv4LPn4tb8XoGdrw==
+X-Received: by 2002:aa7:d803:0:b0:467:f948:6df4 with SMTP id v3-20020aa7d803000000b00467f9486df4mr13617612edq.217.1668981352813;
+        Sun, 20 Nov 2022 13:55:52 -0800 (PST)
+Received: from ?IPV6:2001:1c00:c1e:bf00:d69d:5353:dba5:ee81? (2001-1c00-0c1e-bf00-d69d-5353-dba5-ee81.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:d69d:5353:dba5:ee81])
+        by smtp.gmail.com with ESMTPSA id e25-20020a056402105900b004610899742asm4350678edu.13.2022.11.20.13.55.51
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 20 Nov 2022 13:55:52 -0800 (PST)
+Message-ID: <632a6420-3d61-841a-a18d-01b1ed1eece7@redhat.com>
+Date:   Sun, 20 Nov 2022 22:55:51 +0100
 MIME-Version: 1.0
-X-Received: by 2002:a92:c64c:0:b0:2fa:de7:7c09 with SMTP id
- 12-20020a92c64c000000b002fa0de77c09mr6888485ill.94.1668977479370; Sun, 20 Nov
- 2022 12:51:19 -0800 (PST)
-Date:   Sun, 20 Nov 2022 12:51:19 -0800
-In-Reply-To: <00000000000021719805d692e035@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000cbce8405eded1951@google.com>
-Subject: Re: [syzbot] inconsistent lock state in sync_info_debugfs_show
-From:   syzbot <syzbot+007bfe0f3330f6e1e7d1@syzkaller.appspotmail.com>
-To:     bp@alien8.de, christian.koenig@amd.com,
-        dri-devel@lists.freedesktop.org, gustavo@padovan.org,
-        hdanton@sina.com, hpa@zytor.com, jmattson@google.com,
-        joro@8bytes.org, kvm@vger.kernel.org,
-        linaro-mm-sig-bounces@lists.linaro.org,
-        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, mark.rutland@arm.com,
-        mingo@redhat.com, pbonzini@redhat.com, peterz@infradead.org,
-        seanjc@google.com, sumit.semwal@linaro.org,
-        syzkaller-bugs@googlegroups.com, tglx@linutronix.de,
-        vkuznets@redhat.com, wanpengli@tencent.com, will@kernel.org,
-        x86@kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=0.9 required=5.0 tests=BAYES_00,FROM_LOCAL_HEX,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SORTED_RECIPS,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-        version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.0
+Subject: Re: [PATCH v2 04/17] media: atomisp: On streamoff wait for buffers
+ owned by the CSS to be given back
+Content-Language: en-US, nl
+To:     Andy Shevchenko <andy@kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Tsuchiya Yuto <kitakar@gmail.com>,
+        Yury Luneff <yury.lunev@gmail.com>,
+        Nable <nable.maininbox@googlemail.com>,
+        andrey.i.trufanov@gmail.com, Fabio Aiuto <fabioaiuto83@gmail.com>,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev
+References: <20221020195533.114049-1-hdegoede@redhat.com>
+ <20221020195533.114049-5-hdegoede@redhat.com>
+ <Y3IalSFWZcG0ycjM@smile.fi.intel.com>
+From:   Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <Y3IalSFWZcG0ycjM@smile.fi.intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-syzbot has bisected this issue to:
+Hi,
 
-commit 997acaf6b4b59c6a9c259740312a69ea549cc684
-Author: Mark Rutland <mark.rutland@arm.com>
-Date:   Mon Jan 11 15:37:07 2021 +0000
+On 11/14/22 11:38, Andy Shevchenko wrote:
+> On Thu, Oct 20, 2022 at 09:55:20PM +0200, Hans de Goede wrote:
+>> There is no guarantee that when we stop the pipeline all buffers owned
+>> by the CSS are cleanly returned to the videobuf queue.
+>>
+>> This is a problem with videobuf2 which will complain loudly when not
+>> all buffers have been returned after the streamoff() queue op has
+>> returned.
+>>
+>> And this also allows moving a WARN() in the continuous mode path.
+> 
+> ...
+> 
+>> +	if (ret <= 0)
+>> +		return ret ? ret : -ETIME;
+> 
+> You can use Elvis and ETIME is not correct AFAIU, should be -ETIMEDOUT.
 
-    lockdep: report broken irq restoration
+Both fixed in the version which I'm about to push to:
+https://git.kernel.org/pub/scm/linux/kernel/git/hansg/linux.git/log/?h=media-atomisp
 
-bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=115b350d880000
-start commit:   84368d882b96 Merge tag 'soc-fixes-6.1-3' of git://git.kern..
-git tree:       upstream
-final oops:     https://syzkaller.appspot.com/x/report.txt?x=135b350d880000
-console output: https://syzkaller.appspot.com/x/log.txt?x=155b350d880000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=6f4e5e9899396248
-dashboard link: https://syzkaller.appspot.com/bug?extid=007bfe0f3330f6e1e7d1
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=164376f9880000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=16cf0965880000
+Regards,
 
-Reported-by: syzbot+007bfe0f3330f6e1e7d1@syzkaller.appspotmail.com
-Fixes: 997acaf6b4b5 ("lockdep: report broken irq restoration")
+Hans
 
-For information about bisection process see: https://goo.gl/tpsmEJ#bisection
