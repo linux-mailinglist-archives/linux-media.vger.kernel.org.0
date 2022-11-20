@@ -2,93 +2,69 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8E45463149D
-	for <lists+linux-media@lfdr.de>; Sun, 20 Nov 2022 15:14:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7FA336315A4
+	for <lists+linux-media@lfdr.de>; Sun, 20 Nov 2022 19:24:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229519AbiKTONQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 20 Nov 2022 09:13:16 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60268 "EHLO
+        id S229685AbiKTSXr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 20 Nov 2022 13:23:47 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58324 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229454AbiKTONP (ORCPT
+        with ESMTP id S229634AbiKTSXq (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 20 Nov 2022 09:13:15 -0500
-Received: from phobos.denx.de (phobos.denx.de [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24BD911A0E
-        for <linux-media@vger.kernel.org>; Sun, 20 Nov 2022 06:13:11 -0800 (PST)
-Received: from tr.lan (ip-86-49-120-218.bb.vodafone.cz [86.49.120.218])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-        (No client certificate requested)
-        (Authenticated sender: marex@denx.de)
-        by phobos.denx.de (Postfix) with ESMTPSA id B479D85200;
-        Sun, 20 Nov 2022 15:13:08 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
-        s=phobos-20191101; t=1668953588;
-        bh=ychfoC5HS5VEpXYoxvKbHk5rt/ZSI4r4nDmg8RY6qGE=;
-        h=From:To:Cc:Subject:Date:From;
-        b=wOglhAMpA/Hs4FyTCxdety194DrCD0SFhrLCYAl6AALDdF64g4GQQ1a23nR1/RIIE
-         t3stmf2cc1vBFwiz2eC7qxxALFMD4O5kpXHrRKwXVk8+VgqMOJPDGJuESwAtrUVv7R
-         Ejmqyg2nn/3rppImlK9TJk4cROAPIoaEMwZLKljv1CqZJVDfHVxB19ujG1jPFde260
-         EjV+z9tIhtntZFUGbnET6Hpp/4Avo8QSjDM+cWIjrgnu2xFJ8UkufJy9faOkiY+q0R
-         jKorD5lG2ZY8nNR4ydThb+226hZLia+aEsyIumtu6DjsjWNXWHk5ynN6gh/ru/a5vm
-         2mocEUPyH9ZmQ==
-From:   Marek Vasut <marex@denx.de>
+        Sun, 20 Nov 2022 13:23:46 -0500
+Received: from gofer.mess.org (gofer.mess.org [IPv6:2a02:8011:d000:212::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E0959C10
+        for <linux-media@vger.kernel.org>; Sun, 20 Nov 2022 10:23:44 -0800 (PST)
+Received: by gofer.mess.org (Postfix, from userid 1000)
+        id C02CD100068; Sun, 20 Nov 2022 18:23:42 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
+        t=1668968622; bh=dmvGPoZtpwZQiV9hGKdaLJfjVQg2VfwL5A6b2+/xMoM=;
+        h=Date:From:To:Subject:From;
+        b=CPcg0dZJEDD1yIi65Ieak7rnkJKH2UnGnyfpCBD2TGi7AwN3eP8Xxpz/c9OAeR9i7
+         K9whcJ9dq1hQmEX78NSAYihE3bz42emvFeJBCuQ29utglVX3QxX8oVAdQ6j9JyMibt
+         PWvrlDo/9EfnA/3Mwo7U3PMgV30gUBShCIgzj9NJL4pgBuU8MlG10UpClNHJfXKwbq
+         iEg5OGWKNuMmqiINm5VdBcdvft/Y4z4ndPVwqOPLfwQGofVBYOJF4QkfNaDKgg5G6m
+         KYUrpb2humzoqlvzA9tKChnlUkwfZsjUzy0ARz6MIExQ8Gdsms16xUkTl0bydtNL/f
+         0d8tXMxMYZhFw==
+Date:   Sun, 20 Nov 2022 18:23:42 +0000
+From:   Sean Young <sean@mess.org>
 To:     linux-media@vger.kernel.org
-Cc:     Marek Vasut <marex@denx.de>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Stefan Riedmueller <s.riedmueller@phytec.de>
-Subject: [PATCH] media: mt9p031: Drop bogus v4l2_subdev_get_try_crop() call from mt9p031_init_cfg()
-Date:   Sun, 20 Nov 2022 15:13:04 +0100
-Message-Id: <20221120141304.80832-1-marex@denx.de>
-X-Mailer: git-send-email 2.35.1
+Subject: [GIT PULL FOR v6.2] rc fixes
+Message-ID: <Y3pwrsn8vEho86nA@gofer.mess.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Virus-Scanned: clamav-milter 0.103.6 at phobos.denx.de
-X-Virus-Status: Clean
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The mt9p031_init_cfg() already calls __mt9p031_get_pad_crop(), which
-correctly calls v4l2_subdev_get_try_crop() on V4L2_SUBDEV_FORMAT_TRY
-or returns &mt9p031->crop on V4L2_SUBDEV_FORMAT_ACTIVE. No need to
-call v4l2_subdev_get_try_crop() in mt9p031_init_cfg() again in case
-of both V4L2_SUBDEV_FORMAT_TRY and V4L2_SUBDEV_FORMAT_ACTIVE.
+The following changes since commit a7bab6f8b73fe15a6181673149734a2756845dae:
 
-This also fixes a splat generated by this call since commit
-2ba3e38517f5a ("media: v4l: subdev: Fail graciously when getting try data for NULL state")
-because v4l2_subdev_get_try_crop() is called with sd_state = NULL
-in mt9p031_init_cfg().
+  Merge tag 'br-v6.2e' of git://linuxtv.org/hverkuil/media_tree into media_stage (2022-11-15 11:55:54 +0000)
 
-Fixes: 69681cd041648 ("media: mt9p031: Move open subdev op init code into init_cfg")
-Signed-off-by: Marek Vasut <marex@denx.de>
----
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Stefan Riedmueller <s.riedmueller@phytec.de>
----
- drivers/media/i2c/mt9p031.c | 1 -
- 1 file changed, 1 deletion(-)
+are available in the Git repository at:
 
-diff --git a/drivers/media/i2c/mt9p031.c b/drivers/media/i2c/mt9p031.c
-index 5f5caafe56887..4ffc2f6e7db47 100644
---- a/drivers/media/i2c/mt9p031.c
-+++ b/drivers/media/i2c/mt9p031.c
-@@ -708,7 +708,6 @@ static int mt9p031_init_cfg(struct v4l2_subdev *subdev,
- 					     V4L2_SUBDEV_FORMAT_TRY;
- 
- 	crop = __mt9p031_get_pad_crop(mt9p031, sd_state, 0, which);
--	v4l2_subdev_get_try_crop(subdev, sd_state, 0);
- 	crop->left = MT9P031_COLUMN_START_DEF;
- 	crop->top = MT9P031_ROW_START_DEF;
- 	crop->width = MT9P031_WINDOW_WIDTH_DEF;
--- 
-2.35.1
+  git://linuxtv.org/syoung/media_tree.git tags/v6.2a
 
+for you to fetch changes up to 10b62658475377a85508e4310c9940de4f628b86:
+
+  media: imon: fix a race condition in send_packet() (2022-11-20 18:01:18 +0000)
+
+----------------------------------------------------------------
+v6.2a
+
+----------------------------------------------------------------
+Gautam Menghani (1):
+      media: imon: fix a race condition in send_packet()
+
+Wei Yongjun (1):
+      media: ir-spi: silence no spi_device_id warnings
+
+ drivers/media/rc/imon.c   | 6 +++---
+ drivers/media/rc/ir-spi.c | 7 +++++++
+ 2 files changed, 10 insertions(+), 3 deletions(-)
