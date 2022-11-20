@@ -2,90 +2,172 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AE81F6316A4
-	for <lists+linux-media@lfdr.de>; Sun, 20 Nov 2022 22:57:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DA7F66316A8
+	for <lists+linux-media@lfdr.de>; Sun, 20 Nov 2022 23:00:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229674AbiKTV5t (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 20 Nov 2022 16:57:49 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52038 "EHLO
+        id S229530AbiKTWAB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 20 Nov 2022 17:00:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52336 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229449AbiKTV5s (ORCPT
+        with ESMTP id S229480AbiKTWAA (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 20 Nov 2022 16:57:48 -0500
-Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 39635101F8
-        for <linux-media@vger.kernel.org>; Sun, 20 Nov 2022 13:57:45 -0800 (PST)
-Received: by mail-ej1-x62c.google.com with SMTP id n20so24810634ejh.0
-        for <linux-media@vger.kernel.org>; Sun, 20 Nov 2022 13:57:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=to:subject:message-id:date:from:references:in-reply-to:reply-to
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=e1AoTlJAK3QOFYfEmMhg1BA7nUrOPA852HOGrTdWcGU=;
-        b=b+jiQKg+Z0/DyLUCnkFCKKKrp8bhbvjO/p41Qg3tom/24Ob1FPaWnlgvd72Kibt5Ed
-         atQVOHg8RUJG/cs7CFHgWL0aPmNiNoevnB7casi1ogzM0z4bZhMJWrEffIL9vWex5DqW
-         1KQqtKNLtulRBMRISU5/wzIab3R5M0gPoS9xMxS01U3D1qT/srb0lqZYRi24LnpBt32B
-         pamgcwsxjQasF9OWgHIkjXfgdeMF4KBPAvrrUtnTjYdLWrXuvwFZ5+YH9z8uoKjaFn2P
-         q397yTpoCrOifbCLcgpT6/djUqrnUfbx5Pnc140oIQcmvwRu4Q85I3KGXHbhzf3onKfz
-         K9ig==
+        Sun, 20 Nov 2022 17:00:00 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 832B42034A
+        for <linux-media@vger.kernel.org>; Sun, 20 Nov 2022 13:59:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1668981547;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=nwBWsFKvrbqfiKa4gmMjzhOepWlGG2NUw03g19n66y4=;
+        b=cX02+GFZIYB22E3wjIAGrfVyTCW7tq88ssbgXpYSTLJZoNKr/4Fev4sQ8h4kzMjS8KLtzV
+        5wRfOcxBWbkk/6gzCC9I1w4s9WrO5ccFzYumcbshafofsAE0YCM5jricKr/0cQC/WpkCpl
+        1h9TR5QhUF8vclteK1N3TmqMxizjwEc=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-349-89E_oO9rMHmQ-gKDO-rEJA-1; Sun, 20 Nov 2022 16:59:06 -0500
+X-MC-Unique: 89E_oO9rMHmQ-gKDO-rEJA-1
+Received: by mail-ed1-f70.google.com with SMTP id q13-20020a056402518d00b00462b0599644so5571515edd.20
+        for <linux-media@vger.kernel.org>; Sun, 20 Nov 2022 13:59:06 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=to:subject:message-id:date:from:references:in-reply-to:reply-to
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=e1AoTlJAK3QOFYfEmMhg1BA7nUrOPA852HOGrTdWcGU=;
-        b=u7yTYJaYnHTFnwHgS0AUO4WjWZkWwP4lGCFcK9N9Q0sGiQ/aYKwAqlVEUKJk0sLZUw
-         EmazSgbL5pAjGM2fjb9+VrMe4XQiX27IpBBiUeNAROo9Jfr5pmk2WYp+XzZRRGvWaX2l
-         0feusLOQVs5ECdfvzMRVWe44iWW2wYy8NOIfSiFausy5qhdjMxg2SnX+CznyhWZuGie6
-         UJ3yESVwjRRLETuHpILhZS6T2NXXppXa34WnU//hiZMT0N9XlCxeiVx8HQBWI1dzcrGI
-         xYrIur8YIT9SF1qAkRPwYY/EP2Xi2+3Vgv8NIqSvcch1lmWsd5269yLAfwVHOY4/dRsg
-         mhag==
-X-Gm-Message-State: ANoB5pnDmkqGpe+r7Pek62NoOOA5cuS9rMBSxmFdEaLl5gGelniPuwHg
-        ZCbTqd13bPZxMtkQeghqk4dFudkd5DUUA/6BFgU=
-X-Google-Smtp-Source: AA0mqf7BshE8PuNQG7Pw2bqlAKp+NnYa4MtkHEh5n/rOql/mPW0+nWPe5bL9Dl+sme1z7BsFz9bvenUCoDkiIrhr92U=
-X-Received: by 2002:a17:906:4a8d:b0:78d:a4ca:32df with SMTP id
- x13-20020a1709064a8d00b0078da4ca32dfmr12746328eju.686.1668981463917; Sun, 20
- Nov 2022 13:57:43 -0800 (PST)
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=nwBWsFKvrbqfiKa4gmMjzhOepWlGG2NUw03g19n66y4=;
+        b=au4GvLKb+qtmEVpmuFRf9XHI5KKBddL1VlyVBn8qYzfBsEVidpqeToL9lwOzv98oTJ
+         U7QSGMIi2bYUbS8YS7fe4z1i8jw2NWoIBSB/7xySbWNb/OZas99A3FEkcZG3hz+UCyNz
+         u2CVtna1znTbwuNiWCNMXZnyT73XM8iIWufGA1xUL6CZ3yAwxiIaKbprVvDGLw0ds0QO
+         7sAMC+x4UqAky4essGPFu16/vyK4xBS2LnmO/HKCrFFShjvYbG2oouPjhRb1D1m9w3rT
+         jHWE6dUvpOb2/yHznZbIpnoUEbwclfhSGu83laNGVOOvo5CwECLGRyiqUTeQQL/nAEM+
+         dyFg==
+X-Gm-Message-State: ANoB5pk6but5IKOf9heOzgnr1CBWiqG9i8xuUfOTHQzutOT8G8Qh+gQ1
+        sXP50CEu7TSxuxxyFzO8YbdCfDVCRGyYae6mMltajcYLTn6M1tg786DHjD3eds5iWPUs0821T/h
+        nsggebUQ88DMoXz6z16dCSYA=
+X-Received: by 2002:aa7:d844:0:b0:458:fa8f:f82c with SMTP id f4-20020aa7d844000000b00458fa8ff82cmr13659069eds.246.1668981545050;
+        Sun, 20 Nov 2022 13:59:05 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf4Gar3N8Hyi6mwsbDm9bH0P/hxbZ1qv+flxwNDdbKITcrrtrpHCiR2vaR4vmS4fscJtW9bFwQ==
+X-Received: by 2002:aa7:d844:0:b0:458:fa8f:f82c with SMTP id f4-20020aa7d844000000b00458fa8ff82cmr13659063eds.246.1668981544898;
+        Sun, 20 Nov 2022 13:59:04 -0800 (PST)
+Received: from ?IPV6:2001:1c00:c1e:bf00:d69d:5353:dba5:ee81? (2001-1c00-0c1e-bf00-d69d-5353-dba5-ee81.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:d69d:5353:dba5:ee81])
+        by smtp.gmail.com with ESMTPSA id er21-20020a056402449500b00451319a43dasm4377085edb.2.2022.11.20.13.59.03
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 20 Nov 2022 13:59:04 -0800 (PST)
+Message-ID: <8a32c643-491c-d039-6fd2-7c86d41144b3@redhat.com>
+Date:   Sun, 20 Nov 2022 22:59:03 +0100
 MIME-Version: 1.0
-Received: by 2002:a05:7208:d046:b0:5d:44ac:25cc with HTTP; Sun, 20 Nov 2022
- 13:57:43 -0800 (PST)
-Reply-To: davidtayo2007@gmail.com
-In-Reply-To: <CAN7LwtH+DvPsWDn-kdcTohHZtaUO6BaM9KZVC=0mA+R-E-jdWQ@mail.gmail.com>
-References: <CAN7LwtFHhewN0Q2hoz0i-+UhbUCTThU2+Aqmt=y2J+hpK_BbhA@mail.gmail.com>
- <CAN7LwtGCc3qL5AsMAA_V_BAZk-JNA1GJ8a-vnQwW0Xc+ygi6KA@mail.gmail.com>
- <CAN7LwtHMRHH3nB95WXmyff-whofbW3SMMigx8o2tpuN5ksLjaA@mail.gmail.com>
- <CAN7LwtE=Qx9TeHXUN+PA9RuKK844EmCmSaJFP2GZZ5H5tN-xHA@mail.gmail.com>
- <CAN7LwtGacf_mbJY3gMxS=aQvjet5cHBO72jh2Y5fN28s5Ny0iA@mail.gmail.com>
- <CAN7LwtHdtt3wGfjZ2CkGWu+k+Yvn6cLWJ6bfmXBpZDp+d_d8ZA@mail.gmail.com>
- <CAN7LwtGyAaRMw7Mk_7GfRGaUqpYpw6DFW9aakoSGk3+f271Lfw@mail.gmail.com>
- <CAN7LwtEboGwEi=wTamOLs+SfNHVxuoyxZSi2OtiQQqEgSusVxw@mail.gmail.com>
- <CAN7LwtFSafFNek0adTtXzqyN50XwJJ_niQSv0oeEwxrbRBkT9Q@mail.gmail.com>
- <CAN7LwtHqZ4FuK-8FuO4=WH674YpPQV7VVwdsMYadBeW4xgrVGw@mail.gmail.com>
- <CAN7LwtGhqpoMGb3J18LtNzDGvWT6Thy01dgezfL6jKZACOjeTA@mail.gmail.com>
- <CAN7LwtG-TjC1ueDSN2T47Y8Pu3Rx3d4a=zGvPkqPge7Tx1WiYg@mail.gmail.com>
- <CAN7LwtH=gpAKRqu8QJ9dLOY-w+7180dgzfEjnu4hXtt7Pgym8w@mail.gmail.com>
- <CAN7LwtHZ9XPX8BJpvTP1jYt9BD5XPtbJghrEG2-nXSCuK07__Q@mail.gmail.com>
- <CAN7LwtGxt7Wh5H2iw_f7TqiY54Ln5ofJe_vC_-K_xnB9OdJuiw@mail.gmail.com> <CAN7LwtH+DvPsWDn-kdcTohHZtaUO6BaM9KZVC=0mA+R-E-jdWQ@mail.gmail.com>
-From:   david tayo <larchermartin001@gmail.com>
-Date:   Sun, 20 Nov 2022 22:57:43 +0100
-Message-ID: <CAN7LwtE6MPAsVucpQHV4cOgQHLEngYM5YHS2WgsP-zheuuj4VA@mail.gmail.com>
-Subject: =?UTF-8?B?R3LDvMOfZSw=?=
-To:     davidtayo2007@gmail.com
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=2.1 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,FREEMAIL_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=no
-        autolearn_force=no version=3.4.6
-X-Spam-Level: **
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.0
+Subject: Re: [PATCH v2 06/17] media: atomisp: Also track buffers in a list
+ when submitted to the ISP
+Content-Language: en-US, nl
+To:     Andy Shevchenko <andy@kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Tsuchiya Yuto <kitakar@gmail.com>,
+        Yury Luneff <yury.lunev@gmail.com>,
+        Nable <nable.maininbox@googlemail.com>,
+        andrey.i.trufanov@gmail.com, Fabio Aiuto <fabioaiuto83@gmail.com>,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev
+References: <20221020195533.114049-1-hdegoede@redhat.com>
+ <20221020195533.114049-7-hdegoede@redhat.com>
+ <Y3IsUUUjonfNclcb@smile.fi.intel.com>
+From:   Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <Y3IsUUUjonfNclcb@smile.fi.intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hallo, haben Sie die Ihnen zugesandten Detailinformationen erhalten?
-Bitte antworten Sie mir, es ist sehr wichtig
+Hi,
 
-Mit besten Empfehlungen
-David Tayo
+On 11/14/22 12:53, Andy Shevchenko wrote:
+> On Thu, Oct 20, 2022 at 09:55:22PM +0200, Hans de Goede wrote:
+>> Instead of using an integer to keep count of how many buffers have
+>> been handed over to the ISP (buffers_in_css) move buffers handed
+>> over to the ISP to a new buffers_in_css list_head so that we can
+>> easily loop over them.
+>>
+>> This removes the need for atomisp_flush_video_pipe() to loop over
+>> all buffers and then (ab)use the state to figure out if they
+>> were handed over to the ISP.
+>>
+>> Since the buffers are now always on a list when owned by the driver
+>> this also allows the buffer_done path on flush vs normal completion
+>> to be unified (both now need a list_del()) and this common code can
+>> now be factored out into a new atomisp_buffer_done() helper.
+>>
+>> This is a preparation patch for moving the driver over to
+>> the videobuf2 framework.
+> 
+> ...
+> 
+>> +int atomisp_buffers_in_css(struct atomisp_video_pipe *pipe)
+>>  {
+>>  	unsigned long irqflags;
+>> +	struct list_head *pos;
+>> +	int buffers_in_css = 0;
+>>  
+>> +	spin_lock_irqsave(&pipe->irq_lock, irqflags);
+>>  
+>> +	list_for_each(pos, &pipe->buffers_in_css)
+>> +		buffers_in_css++;
+>> +
+>> +	spin_unlock_irqrestore(&pipe->irq_lock, irqflags);
+>> +
+>> +	return buffers_in_css;
+>> +}
+> 
+> Looking at this I come up with the
+> https://lore.kernel.org/r/20221114112842.38565-1-andriy.shevchenko@linux.intel.com
+> 
+> But I think your stuff will be earlier in upstream, so feel free to create
+> a followup later on.
+
+That is super useful, thanks. But as you mention it is probably best to
+just conver the code here to this alter. I've added this to my atomisp
+TODO list.
+
+
+> 
+> ...
+> 
+>> +		vb = list_first_entry_or_null(&pipe->activeq, struct videobuf_buffer, queue);
+>> +		if (vb) {
+> 
+> Wouldn't simply list_empty() work here? (Yes, you would need to have else
+> branch under spin lock, but codewise seems better to me).
+
+The problem with that is that the else branch does a "return -EINVAL;"
+so then I would need a separate spin_unlock_irqrestore() for the else
+branch and I really dislike not having my locks / unlocks cleanly
+balanced 1:1.
+
+Regards,
+
+Hans
+
+
+
+> 
+>> +			list_move_tail(&vb->queue, &pipe->buffers_in_css);
+>> +			vb->state = VIDEOBUF_ACTIVE;
+>>  		}
+> 
+>>  		spin_unlock_irqrestore(&pipe->irq_lock, irqflags);
+>>  
+>> +		if (!vb)
+>> +			return -EINVAL;
+> 
+> 
+
