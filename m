@@ -2,105 +2,163 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3516D63212E
-	for <lists+linux-media@lfdr.de>; Mon, 21 Nov 2022 12:49:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B0281632137
+	for <lists+linux-media@lfdr.de>; Mon, 21 Nov 2022 12:49:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231388AbiKULtL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 21 Nov 2022 06:49:11 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49300 "EHLO
+        id S230105AbiKULts convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Mon, 21 Nov 2022 06:49:48 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49940 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231442AbiKULtD (ORCPT
+        with ESMTP id S231220AbiKULtm (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 21 Nov 2022 06:49:03 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8572A2035E;
-        Mon, 21 Nov 2022 03:49:02 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 3D798B80ED0;
-        Mon, 21 Nov 2022 11:49:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 49026C433C1;
-        Mon, 21 Nov 2022 11:48:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1669031340;
-        bh=hEe5obcGne0U90s9+lAPprjcYQ8Jw5h37tfxbPTIQsk=;
-        h=Date:Subject:To:References:From:In-Reply-To:From;
-        b=TvywWYJBFq+75v8AhpPGULDju92sa8F9+mmk7gqSBbnGaItoU1PqRjIFWgEE5eCFW
-         kQS43BZcBzNMMpmaqHOOMOEXyCliEixlp+kRcRgwTQYZoKVJZkiwvVNbO3FDerFjuv
-         x/wGtud8a9sPC5s9g4GW0lutTswTlumIKFziafdxs22reH43/OrdOWXSvdcRezoQHC
-         k6uOd8u2HFOFp7ixhyPaP6a4G3g3BoagO7+QzGLJsyN5d8hABd0bKoatdokA1BmWf9
-         x8AqCAPncZdjiPLNnMpykw9HDE5nry2iZ9YM4xvzCF3utGlRpAroP0S7mY0PsWEQyV
-         xJjPAo0J/gwow==
-Message-ID: <f04e9d91-f953-6f75-2f17-a4054384ef75@kernel.org>
-Date:   Mon, 21 Nov 2022 12:48:54 +0100
+        Mon, 21 Nov 2022 06:49:42 -0500
+Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB1942871B;
+        Mon, 21 Nov 2022 03:49:40 -0800 (PST)
+Received: by mail-qk1-f174.google.com with SMTP id x18so7786993qki.4;
+        Mon, 21 Nov 2022 03:49:40 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=4lbzYkmJhxm5C+/5IVFkRr+sFHYjfyy9aJrVSznookE=;
+        b=FroeX4zcqIGR8MG5kdyM2yOek4t2ISFjlMCX+MD0MxP920Z+p1tHkfhAA9ZX84LPZK
+         nuL8w3hp52Pktp+52q05QWzsVZdjC8w9uv5AehGoWOu7J2TMSWWQ/63jdfUMDR60w3j+
+         eamsBDp3mEvNSYeQ9tY3gId0Q0zr5BCkLKH9qhOioD52qGAVcVLSqBr3yLFW6ZdB/a6L
+         OsJjT30JsB7DEduh47h494Udt2kDltynkFymoDkxQ3QAyIxu5AITzcxP412RBh1OBJhs
+         1FfXm00TdrOxHvEBcux5BvilW3GxVVYYX9UexBuGiPKNveuH5faPBgHb/phYSVv6dUU4
+         2axg==
+X-Gm-Message-State: ANoB5plS5hQVWRy1CrN2bkYCpK6SrqJ7ZFpkrkqQdoi8v2P6MH4/kV0K
+        47rN2yef3Rma/0XgvngnfOVvL39PKFTZV/U4OKc=
+X-Google-Smtp-Source: AA0mqf46epIs+NcHJYD6sFzeJoDiCU0QUrd8rQyiq1r2eQjiNS7/0XOCN53oHWUTPo5MxqAfEsJksRoUxCgj+R4BG3Y=
+X-Received: by 2002:a05:620a:4611:b0:6fa:af7e:927c with SMTP id
+ br17-20020a05620a461100b006faaf7e927cmr15551057qkb.443.1669031379745; Mon, 21
+ Nov 2022 03:49:39 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH 4/5] media: fsd: add MIPI CSI2 Rx controller driver
-Content-Language: en-US
-To:     Sathyakam M <sathya@samsung.com>, mchehab@kernel.org,
-        laurent.pinchart@ideasonboard.com, hverkuil-cisco@xs4all.nl,
-        jernej.skrabec@gmail.com, ming.qian@nxp.com, digetx@gmail.com,
-        jacopo@jmondi.org, pankaj.dubey@samsung.com,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <cover.1668963790.git.sathya@samsung.com>
- <CGME20221121044855epcas5p3ef93576acdcdb6e4feba63c15917d9de@epcas5p3.samsung.com>
- <7e7832c16925386b771ddb7e00e08661115aa0ea.1668963790.git.sathya@samsung.com>
-From:   Krzysztof Kozlowski <krzk@kernel.org>
-In-Reply-To: <7e7832c16925386b771ddb7e00e08661115aa0ea.1668963790.git.sathya@samsung.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+References: <20221121094649.1556002-1-gregkh@linuxfoundation.org> <20221121094649.1556002-3-gregkh@linuxfoundation.org>
+In-Reply-To: <20221121094649.1556002-3-gregkh@linuxfoundation.org>
+From:   "Rafael J. Wysocki" <rafael@kernel.org>
+Date:   Mon, 21 Nov 2022 12:49:25 +0100
+Message-ID: <CAJZ5v0j=HLEdKUhHjWGd8NTNLYW4n1q4OAKer-EZSufgX0ujeQ@mail.gmail.com>
+Subject: Re: [PATCH 3/5] kobject: kset_uevent_ops: make filter() callback take
+ a const *
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     linux-kernel@vger.kernel.org,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-1.5 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 21/11/2022 05:53, Sathyakam M wrote:
-> The FSD MIPI CSI2 Rx controller is compliant to MIPI CSI2 v1.3 and
-> D-PHY v1.2 specifications.
-> 
-> There are up to maximum 4 data lanes (default).
-> Controls are provided for User to change number of lanes if needed.
-> 
-> Both the video and v4l-subdev instances are exposed to the user
-> under /dev directory.
-> 
-> The driver can be built as a loadable module or as a platform_driver.
-> 
-> Signed-off-by: Sathyakam M <sathya@samsung.com>
-> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-> Cc: Sathyakam M <sathya@samsung.com>
-> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
-> Cc: Ming Qian <ming.qian@nxp.com>
-> Cc: Dmitry Osipenko <digetx@gmail.com>
-> Cc: Jacopo Mondi <jacopo@jmondi.org>
-> Cc: Pankaj Kumar Dubey <pankaj.dubey@samsung.com>
+On Mon, Nov 21, 2022 at 10:47 AM Greg Kroah-Hartman
+<gregkh@linuxfoundation.org> wrote:
+>
+> The filter() callback in struct kset_uevent_ops does not modify the
+> kobject passed into it, so make the pointer const to enforce this
+> restriction.  When doing so, fix up all existing filter() callbacks to
+> have the correct signature to preserve the build.
+>
+> Cc: "Rafael J. Wysocki" <rafael@kernel.org>
+> Cc: Sumit Semwal <sumit.semwal@linaro.org>
+> Cc: "Christian König" <christian.koenig@amd.com>
 > Cc: linux-media@vger.kernel.org
-> Cc: linux-kernel@vger.kernel.org
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: linaro-mm-sig@lists.linaro.org
+> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+
+Acked-by: Rafael J. Wysocki <rafael@kernel.org>
+
 > ---
->  .../media/drivers/fsd-csis-uapi.rst           |   78 +
->  MAINTAINERS                                   |    1 +
->  drivers/media/platform/Kconfig                |    1 +
->  drivers/media/platform/Makefile               |    1 +
->  drivers/media/platform/fsd/Kconfig            |   73 +
->  drivers/media/platform/fsd/Makefile           |    1 +
->  drivers/media/platform/fsd/fsd-csis.c         | 2664 +++++++++++++++++
->  drivers/media/platform/fsd/fsd-csis.h         |  785 +++++
-
-drivers/media/platform/samsung/
-
-Plus we have drivers for it, so please integrate with existing ones.
-Samsung is known of heavily reusing its IP core designs, so they are
-usually similar.
-
-Best regards,
-Krzysztof
-
+>  drivers/base/bus.c                    | 2 +-
+>  drivers/base/core.c                   | 4 ++--
+>  drivers/dma-buf/dma-buf-sysfs-stats.c | 2 +-
+>  include/linux/kobject.h               | 2 +-
+>  kernel/params.c                       | 2 +-
+>  5 files changed, 6 insertions(+), 6 deletions(-)
+>
+> diff --git a/drivers/base/bus.c b/drivers/base/bus.c
+> index 7ca47e5b3c1f..4ec6dbab73be 100644
+> --- a/drivers/base/bus.c
+> +++ b/drivers/base/bus.c
+> @@ -163,7 +163,7 @@ static struct kobj_type bus_ktype = {
+>         .release        = bus_release,
+>  };
+>
+> -static int bus_uevent_filter(struct kobject *kobj)
+> +static int bus_uevent_filter(const struct kobject *kobj)
+>  {
+>         const struct kobj_type *ktype = get_ktype(kobj);
+>
+> diff --git a/drivers/base/core.c b/drivers/base/core.c
+> index a79b99ecf4d8..005a2b092f3e 100644
+> --- a/drivers/base/core.c
+> +++ b/drivers/base/core.c
+> @@ -2362,12 +2362,12 @@ static struct kobj_type device_ktype = {
+>  };
+>
+>
+> -static int dev_uevent_filter(struct kobject *kobj)
+> +static int dev_uevent_filter(const struct kobject *kobj)
+>  {
+>         const struct kobj_type *ktype = get_ktype(kobj);
+>
+>         if (ktype == &device_ktype) {
+> -               struct device *dev = kobj_to_dev(kobj);
+> +               const struct device *dev = kobj_to_dev(kobj);
+>                 if (dev->bus)
+>                         return 1;
+>                 if (dev->class)
+> diff --git a/drivers/dma-buf/dma-buf-sysfs-stats.c b/drivers/dma-buf/dma-buf-sysfs-stats.c
+> index 2bba0babcb62..f69d68122b9b 100644
+> --- a/drivers/dma-buf/dma-buf-sysfs-stats.c
+> +++ b/drivers/dma-buf/dma-buf-sysfs-stats.c
+> @@ -132,7 +132,7 @@ void dma_buf_stats_teardown(struct dma_buf *dmabuf)
+>
+>
+>  /* Statistics files do not need to send uevents. */
+> -static int dmabuf_sysfs_uevent_filter(struct kobject *kobj)
+> +static int dmabuf_sysfs_uevent_filter(const struct kobject *kobj)
+>  {
+>         return 0;
+>  }
+> diff --git a/include/linux/kobject.h b/include/linux/kobject.h
+> index 5a2d58e10bf5..640f59d4b3de 100644
+> --- a/include/linux/kobject.h
+> +++ b/include/linux/kobject.h
+> @@ -135,7 +135,7 @@ struct kobj_uevent_env {
+>  };
+>
+>  struct kset_uevent_ops {
+> -       int (* const filter)(struct kobject *kobj);
+> +       int (* const filter)(const struct kobject *kobj);
+>         const char *(* const name)(struct kobject *kobj);
+>         int (* const uevent)(struct kobject *kobj, struct kobj_uevent_env *env);
+>  };
+> diff --git a/kernel/params.c b/kernel/params.c
+> index 5b92310425c5..d2237209ceda 100644
+> --- a/kernel/params.c
+> +++ b/kernel/params.c
+> @@ -926,7 +926,7 @@ static const struct sysfs_ops module_sysfs_ops = {
+>         .store = module_attr_store,
+>  };
+>
+> -static int uevent_filter(struct kobject *kobj)
+> +static int uevent_filter(const struct kobject *kobj)
+>  {
+>         const struct kobj_type *ktype = get_ktype(kobj);
+>
+> --
+> 2.38.1
+>
