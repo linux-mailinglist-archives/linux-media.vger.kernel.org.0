@@ -2,177 +2,118 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6750C6319C0
-	for <lists+linux-media@lfdr.de>; Mon, 21 Nov 2022 07:35:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C4680631AEB
+	for <lists+linux-media@lfdr.de>; Mon, 21 Nov 2022 09:04:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229751AbiKUGfS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 21 Nov 2022 01:35:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56628 "EHLO
+        id S229676AbiKUIEe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 21 Nov 2022 03:04:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38714 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229489AbiKUGfS (ORCPT
+        with ESMTP id S229555AbiKUIEd (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 21 Nov 2022 01:35:18 -0500
-Received: from EUR01-HE1-obe.outbound.protection.outlook.com (mail-eopbgr130042.outbound.protection.outlook.com [40.107.13.42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D4B4C30F78;
-        Sun, 20 Nov 2022 22:35:16 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=a5vSUSZsZOTYDDEDMVDX28loSIqICb3YjS4WshmKSinxQ5Yu7dBdE/Sx08dLkkHetrSS4W5gsn8aTfOHOZBwLDL3+V1n+22ZizHkk3ITs+47TYjarHvlXUsLlvbwggjr7dwrYpPGejH5VsEZi+X8AS1MF05W6qH0dBsLVzuHV27vx0fIucUhlJLPaZv8ip1yhL36dWiPoVZiYh6qqQGbacQwQoDHKA0AmcY1zhfOULoo6JFO7ByO1ii119AAl0Rf5IDrcyE6p9PAtEqV9P1fXgUjpbHIFPIo5AtJJpXv6aiBydJcT3ZHMIgAtA29ok5i8yJlgOl+SdO6bTYWYSKkzg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=hfhVT7FQpbc86Ob1Ku1QmxqQqk7KeVMCCIN4okjmBAw=;
- b=kN7xG3M8ag3jGidUhvlcajYHgm7YrebnExZRtiJgjdoAxt3USWBf2PJ6dLyS6mN+gYsbCdJdsYTCHkgypMfKK0t5blvnSN9cWP3KzhfDdipmxJAzC8xwW0882wF9nzOzUmugTeo5S8/7RgRuE5aLs58WsHjYDb3VIc5SGHwNqavyrzdYiauQ0ysl7czI/WiSh81yQivrDnIwYL4XktHShdZw0dTE6FBEXb6BJzjh4WYS6cz8b6y+z2n61DGI1YIB1AE/z8r8eHUeflMmcQzEXXclIZLus2JS8UlkrhK5TGuPJ3r5GKTnjVYBg93sD6bGF5q6Lx/8fo/bdXlkDpeOVQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hfhVT7FQpbc86Ob1Ku1QmxqQqk7KeVMCCIN4okjmBAw=;
- b=gCq2w/RjtUFk4BcBsuLDdQRCV7EW6F3slFLk/amd/9NbRNh612TlyC03WcQyPedvfxMpWAY50DKI/dEXHcSK+YWPgWfGjKAlUNdT2oxBp6gu9S7nNA6sRgbH86kS/kAE1NyDQoJxHu4daXA3076dK2oCevG6SQqs7mRYdJGS9Ck=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from AM6PR04MB6341.eurprd04.prod.outlook.com (2603:10a6:20b:d8::14)
- by PAXPR04MB8736.eurprd04.prod.outlook.com (2603:10a6:102:20c::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5834.9; Mon, 21 Nov
- 2022 06:35:14 +0000
-Received: from AM6PR04MB6341.eurprd04.prod.outlook.com
- ([fe80::5c78:27ea:319f:d11]) by AM6PR04MB6341.eurprd04.prod.outlook.com
- ([fe80::5c78:27ea:319f:d11%3]) with mapi id 15.20.5834.015; Mon, 21 Nov 2022
- 06:35:14 +0000
-From:   Ming Qian <ming.qian@nxp.com>
-To:     mchehab@kernel.org, hverkuil-cisco@xs4all.nl
-Cc:     shawnguo@kernel.org, robh+dt@kernel.org, s.hauer@pengutronix.de,
-        kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
-        xiahong.bao@nxp.com, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Subject: [PATCH] media: amphion: lock and check m2m_ctx in event handler
-Date:   Mon, 21 Nov 2022 14:34:42 +0800
-Message-Id: <20221121063442.8565-1-ming.qian@nxp.com>
-X-Mailer: git-send-email 2.38.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SI1PR02CA0006.apcprd02.prod.outlook.com
- (2603:1096:4:1f7::11) To AM6PR04MB6341.eurprd04.prod.outlook.com
- (2603:10a6:20b:d8::14)
+        Mon, 21 Nov 2022 03:04:33 -0500
+Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com [IPv6:2a00:1450:4864:20::12d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CED7023BE4
+        for <linux-media@vger.kernel.org>; Mon, 21 Nov 2022 00:04:32 -0800 (PST)
+Received: by mail-lf1-x12d.google.com with SMTP id l12so17614451lfp.6
+        for <linux-media@vger.kernel.org>; Mon, 21 Nov 2022 00:04:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=SQXNwXriyENMBxcRvt5HwJj1BFFBn/vx8r8A40oB0Tc=;
+        b=DQqLRI7fYzNORFBvv3pu5HOUzWXdPDA+z+U4wFKW7mEn7VdJgPVSFdvA5APdkvf4mg
+         NJMOqaVt5aDPidpqNOcibQCfzw8GMcitQtUQN4bInHcEEoaKCkG2HXe8d4Sie1MSQ454
+         ibIbQ1JLCApYS1yvVIGhiY8hziX/Gv54o7RsymuCfL8je8yiiB+gjPhH1pK228inL3/Z
+         /GAaZOzBgLNcfqZX4UZ6uoJXuTAaStZAa7+fMaZiwMDh4C6Jp10AoCF3UPUFHThxnpoa
+         GeRskEkYHojOa6Y2jjTAG6J+aXj5BRbRUv6n2lQNpNKsOMKSRR+QLsvP4Y6EndzVeNdd
+         wtDQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=SQXNwXriyENMBxcRvt5HwJj1BFFBn/vx8r8A40oB0Tc=;
+        b=RMVkdrWPBH8lFkwazUI/GwosJ16o2MKn0Lg+AigwNXojVi8xbhhFZTYXwAJEHSXzt+
+         cZCoZmDD+jwf+pVmMF5x9dPQ/TInGENmrnNtYam2/d61SVkyHCwi6/jLLu5d76vb4OvQ
+         u89UgcznOEC9efmNeDH/u6i7SR8OugRfM40Wv5XllbQyi5pnn8kdsbq7wLySAwDMbCws
+         1g+ihagtolisQQrRV2YSuEgalmNktUK3dYjMB+g6jRESg0SGhF283g4L0n/iufweUG3d
+         +uTNUdG2mViA2zMcPm2fSytrpw8xx2/JxcvYrLzry1V+S8yh7mtko2F9ULtIHOES7Xlg
+         jArQ==
+X-Gm-Message-State: ANoB5pl81eo9bbXgx1VeJg9kC2sNCOY37b/Nmf0aLFiAP7ffl/X+zXD1
+        R9hJgFL3yPjkqnvfgisSMXKSFQ==
+X-Google-Smtp-Source: AA0mqf4+Zek9Tov+SKx3s7/VKFuRhbRwGPPf2pj6BxCr9D6CuqD2m1NUJkKSuVjJ1ijnEZQWQbp+qA==
+X-Received: by 2002:a19:f010:0:b0:4a2:2e81:9be5 with SMTP id p16-20020a19f010000000b004a22e819be5mr5860494lfc.486.1669017870905;
+        Mon, 21 Nov 2022 00:04:30 -0800 (PST)
+Received: from [192.168.0.20] (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
+        by smtp.gmail.com with ESMTPSA id a25-20020a056512201900b00492dbf809e8sm1908442lfb.118.2022.11.21.00.04.29
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 21 Nov 2022 00:04:30 -0800 (PST)
+Message-ID: <50024f2e-4820-ef78-d54d-5bfe53ccac7e@linaro.org>
+Date:   Mon, 21 Nov 2022 09:04:29 +0100
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM6PR04MB6341:EE_|PAXPR04MB8736:EE_
-X-MS-Office365-Filtering-Correlation-Id: f69f5862-12b2-4e9b-9241-08dacb8a8beb
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Tn4vCO+TtRiltsEpF6uk858491uvDSCdbQIK/Xff5bLLyQNxacxzQDTD/r4/RB9/pprvRNNI6d96sQeBbMEwgllHGYuJ0vBDpNnyqLFuf1iNthby0/uA418C3n6wnjpidCOdVT7fqlLNdEL0wQkfDxcDr66rKcsbY4zgyYV44BLJ74Yl7WqYkGIZb0V+vk4Lpavm7xKxeM8wL8kriF7GIKmtPYVvRbMVx9jusc07nGw/nPVHIegsTQAZbnoFhaatvlYxydagZ4aBMSbOPw/3BG+ABtdaCNoJK/GRmRZjCbrGTpKxBOibzykGmAL0lvAAYDmj3ZWTz0ztW247qCb0TkHN69ZoPGmgNCR52xp5qBz9yfxtwC2BLkUIsl+JWpkygq67V778IOs33rMOGqHN7w3Ee7NPCtilInVbPZZuqdF2j2ozszMVncxV2ves2pRdUUQgaZogZW/9ERkk999pRq2hCDcnLeP/MEaI2Ouj+6tJ343liCL6ZbR9eJqhPOh5JL+DOrSBFru5VaeKSRZMyVp3lSftJsWzWvfP4wlztj7UOtX+L3Vde2vLKSsLmothrvbJ6JmmxlCP/lTB9a3FbwjcBvIyjlKmxKGdYytTxrvUElM9sjPeibGIevxHObX7Ej3NCJDFl2qCZLpLofBnuWpOSztej7ih+TDOE3aJzWJ5M/iNitMcsIXIo0nD6qHNZV1z6axmlo3na9MSoAlimg==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6PR04MB6341.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(39860400002)(346002)(366004)(376002)(396003)(136003)(451199015)(5660300002)(44832011)(7416002)(6506007)(316002)(52116002)(66476007)(8676002)(4326008)(66946007)(36756003)(6512007)(41300700001)(2616005)(26005)(1076003)(8936002)(186003)(38350700002)(38100700002)(2906002)(83380400001)(86362001)(66556008)(6666004)(6486002)(478600001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?36lopGQuYesLb3s0tmDaKujGcIaFLu2xlHLRsdCEUVKvBDgyX/7BszAzSCkC?=
- =?us-ascii?Q?c5v6UasYPL5/XbUCFAGEkjYRE1u+0MIte0yYV96LVEwoM9nbrbjN7bu6DWom?=
- =?us-ascii?Q?twEEKqK0umtRcabM9lFUUQoWzDCjryz413twOaKGhnGvk2ATWa3G5CJZmDI5?=
- =?us-ascii?Q?TJSDkgmW47RE46Gwe93y9/yCVLYmsEaQd5A3Cfa1QJvsK+3J4nmntiaxTfP9?=
- =?us-ascii?Q?RThUL4BSnwmf+rMrj9t0sWKTunwdMt5OEHnQhbUFpV/d1rOCdQZTvP/u5SFb?=
- =?us-ascii?Q?WYcM3f7HjC//+VpaWz/NhBwJqhDLN8EATTpIbO4UPauhYUfruDSHgEJ4WaeW?=
- =?us-ascii?Q?kqg7gXGU/t287KO1hLWQkfje/cTef1p7SzxKSHYrvERrNRoDn5+8BPqr1U4O?=
- =?us-ascii?Q?MRgzTV9P0+hoTaBlDnDi19Xg6xJnx1KmT8EikiMDsttxesShFbwyssqKIRFP?=
- =?us-ascii?Q?oIE07RJoJ1ANlDrWZgMPWiluUannI6/A7Oj6W4e/ZuuoACnKHq4sVhqG/sKF?=
- =?us-ascii?Q?XTBZYPZMvVDlcCBdXE9sPBZVt1B4euIHkIc/K5vPeu23N1KKtlRKMWLTbjCD?=
- =?us-ascii?Q?K7Y0OkOgUjgRy+sbU2Si1vVpVEkDDCoOenxSTdrzXPDlmCYBnMK0WkLmPtuY?=
- =?us-ascii?Q?TfAoaHIreB4R36gsDLX70CLOIjBMDs4AZAyZTZkSvHos4nnb0WTa1ne9QZ12?=
- =?us-ascii?Q?nZ/EVxuremJG5RYtIfOeTkwqo4bzQGgCdrOPykoYSldtGKJoFQ/S9s0iKoXb?=
- =?us-ascii?Q?7zXNagGKr9hxzHKIVuQy0CQsJiabz4Vo2Puv5HHXQcelVCCDrCrSpEAJ+9OU?=
- =?us-ascii?Q?7V7ANbTrF0m0t6KxIa5GR4XkWwUVkwgtQ0/+HLbMTb/RtHJvh+F/bwq9MIP/?=
- =?us-ascii?Q?PWkrEC1JWQ0pH2SZWUZ3yjNFH/cltSI38iuhupWa8hyQJovOgh+5tYRT0T/x?=
- =?us-ascii?Q?7L6aHNZg/PT8s1+94Ob62VR60Hp2et2+yY55xpZSGLjEN3iFZGkIU4W2Fp1+?=
- =?us-ascii?Q?1DsZyBUS62bbbZhg/uQujgxVpPThq9wo1sfiE8oi3EdnxDjKf1GWIQvDKa/n?=
- =?us-ascii?Q?IdVNT9+7TsxjAL7iOFsMZVNEd4+5sMqqgzSCySgJonylqiXU9iXv1AMMXTKm?=
- =?us-ascii?Q?zQXVJAr+pIs+NPhUIhIPETkY0W0gIK5WgevqQ9brjA6qAXS7lKtTY15FNF2Z?=
- =?us-ascii?Q?nQYB7Cnnl0H5gshFHiqttJ1kaBL5DIdmX8GMBl8dhcnSClD4XSiLonpskSyq?=
- =?us-ascii?Q?ewQuN4COI/b7YyTQ3J3OSonTmEFVKpDT/sCzJF+9/7inR8ZYkv9cCIKEiBaN?=
- =?us-ascii?Q?9knXt9G9p66AXl5Ljw4fBhP6PuuUTZSfoPlMsUXUSgK6x9sl86L3YBdEYj22?=
- =?us-ascii?Q?0XbOCWQA9v7AhHNW970m1gal4VIXcrKQfNajTudeG9aNk84TEm99jlggvrWO?=
- =?us-ascii?Q?SwNWOhAf7WKYGypN5GfvB9Y3EfKZonYO9vc1U16HeZeBDz8JVVIZ1R//jaIV?=
- =?us-ascii?Q?J+/2+k/LdS5TwLsU/bVgI+PzmNm9v4yr00YzuzxUy3qFEw0jNtI5ad6Q/o8M?=
- =?us-ascii?Q?CVSz3f62raJYOIEL+DZoDSN2RdeP1R+EVXNVPbOY?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f69f5862-12b2-4e9b-9241-08dacb8a8beb
-X-MS-Exchange-CrossTenant-AuthSource: AM6PR04MB6341.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Nov 2022 06:35:14.1149
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: V5dAdMUfXN34nGS9eYXnEHRLrpmlgZSWcRmWkS5kz9o0xOtrj9FmGIkE5hmNtFmVXBWOFq07GbTh4kGmpbbZIg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR04MB8736
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH v3 02/14] dt-bindings: media: rkisp1: Add i.MX8MP ISP
+ example
+Content-Language: en-US
+To:     Paul Elder <paul.elder@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Dafna Hirschfeld <dafna@fastmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Helen Koike <helen.koike@collabora.com>,
+        linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+References: <20221118093931.1284465-1-paul.elder@ideasonboard.com>
+ <20221118093931.1284465-3-paul.elder@ideasonboard.com>
+ <ca8a6070-3888-8d42-5974-d7c2adc62417@linaro.org>
+ <Y3h93cLdEvMzInXe@pyrite.rasen.tech>
+ <238f7bf8-578c-5bb4-9f00-50f36334c5cf@linaro.org>
+ <Y3sIAHqd8Kd/XBB/@pyrite.rasen.tech>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <Y3sIAHqd8Kd/XBB/@pyrite.rasen.tech>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-driver needs to cancel vpu before releasing the vpu instance,
-so call v4l2_m2m_ctx_release() first,
-to handle the redundant event triggered after m2m_ctx is released.
+On 21/11/2022 06:09, Paul Elder wrote:
+> On Sun, Nov 20, 2022 at 11:36:31AM +0100, Krzysztof Kozlowski wrote:
+>> On 19/11/2022 07:55, Paul Elder wrote:
+>>> On Fri, Nov 18, 2022 at 02:06:14PM +0100, Krzysztof Kozlowski wrote:
+>>>> On 18/11/2022 10:39, Paul Elder wrote:
+>>>>> From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+>>>>>
+>>>>> Add an example to the rockchip-isp1 DT binding that showcases usage of
+>>>>> the parallel input of the ISP, connected to the CSI-2 receiver internal
+>>>>> to the i.MX8MP.
+>>>>>
+>>>>> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+>>>>
+>>>> Missing SoB.
+>>>
+>>> I don't quite understand. I see an SoB right there.
+>>
+>> Laurent did not sent it. Did you run checkpatch before sending?
+> 
+> That's why he's on the "From:" in the beginning. checkpatch says it's
+> fine.
 
-lock and check m2m_ctx in the event handler.
+Ah, indeed, checkpatch misses that feature (it's part of Greg's
+verify_signedoff.sh). Anyway, your SoB is missing, as Laurent did not
+send the patch.
 
-Fixes: 3cd084519c6f ("media: amphion: add vpu v4l2 m2m support")
-Signed-off-by: Ming Qian <ming.qian@nxp.com>
----
- drivers/media/platform/amphion/vpu_msgs.c | 2 ++
- drivers/media/platform/amphion/vpu_v4l2.c | 8 ++++++--
- 2 files changed, 8 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/media/platform/amphion/vpu_msgs.c b/drivers/media/platform/amphion/vpu_msgs.c
-index d8247f36d84b..92672a802b49 100644
---- a/drivers/media/platform/amphion/vpu_msgs.c
-+++ b/drivers/media/platform/amphion/vpu_msgs.c
-@@ -43,6 +43,7 @@ static void vpu_session_handle_mem_request(struct vpu_inst *inst, struct vpu_rpc
- 		  req_data.ref_frame_num,
- 		  req_data.act_buf_size,
- 		  req_data.act_buf_num);
-+	vpu_inst_lock(inst);
- 	call_void_vop(inst, mem_request,
- 		      req_data.enc_frame_size,
- 		      req_data.enc_frame_num,
-@@ -50,6 +51,7 @@ static void vpu_session_handle_mem_request(struct vpu_inst *inst, struct vpu_rpc
- 		      req_data.ref_frame_num,
- 		      req_data.act_buf_size,
- 		      req_data.act_buf_num);
-+	vpu_inst_unlock(inst);
- }
- 
- static void vpu_session_handle_stop_done(struct vpu_inst *inst, struct vpu_rpc_event *pkt)
-diff --git a/drivers/media/platform/amphion/vpu_v4l2.c b/drivers/media/platform/amphion/vpu_v4l2.c
-index 33aaa86d465f..6773b885597c 100644
---- a/drivers/media/platform/amphion/vpu_v4l2.c
-+++ b/drivers/media/platform/amphion/vpu_v4l2.c
-@@ -327,8 +327,12 @@ int vpu_process_capture_buffer(struct vpu_inst *inst)
- 
- struct vb2_v4l2_buffer *vpu_next_src_buf(struct vpu_inst *inst)
- {
--	struct vb2_v4l2_buffer *src_buf = v4l2_m2m_next_src_buf(inst->fh.m2m_ctx);
-+	struct vb2_v4l2_buffer *src_buf = NULL;
- 
-+	if (!inst->fh.m2m_ctx)
-+		return NULL;
-+
-+	src_buf = v4l2_m2m_next_src_buf(inst->fh.m2m_ctx);
- 	if (!src_buf || vpu_get_buffer_state(src_buf) == VPU_BUF_STATE_IDLE)
- 		return NULL;
- 
-@@ -351,7 +355,7 @@ void vpu_skip_frame(struct vpu_inst *inst, int count)
- 	enum vb2_buffer_state state;
- 	int i = 0;
- 
--	if (count <= 0)
-+	if (count <= 0 || !inst->fh.m2m_ctx)
- 		return;
- 
- 	while (i < count) {
--- 
-2.38.1
+Best regards,
+Krzysztof
 
