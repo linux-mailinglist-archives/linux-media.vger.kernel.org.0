@@ -2,30 +2,30 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2C12F6330A1
-	for <lists+linux-media@lfdr.de>; Tue, 22 Nov 2022 00:18:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 100176330AB
+	for <lists+linux-media@lfdr.de>; Tue, 22 Nov 2022 00:22:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230522AbiKUXSW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 21 Nov 2022 18:18:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36866 "EHLO
+        id S231262AbiKUXWP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 21 Nov 2022 18:22:15 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38038 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229864AbiKUXSV (ORCPT
+        with ESMTP id S229676AbiKUXWO (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 21 Nov 2022 18:18:21 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 230EFC6628;
-        Mon, 21 Nov 2022 15:18:19 -0800 (PST)
+        Mon, 21 Nov 2022 18:22:14 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D22F4C6628;
+        Mon, 21 Nov 2022 15:22:13 -0800 (PST)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 30F8888F;
-        Tue, 22 Nov 2022 00:18:16 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4B12388F;
+        Tue, 22 Nov 2022 00:22:11 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1669072696;
-        bh=HY/GKu5IoQe7GFwzazYfXrmfafSspQ3CMoXMXMsbbBc=;
+        s=mail; t=1669072931;
+        bh=4rD0mH/nQMz3jhYfYvSCQW+AjpQxc5wuB3zU0+3GzBY=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=UvEiEbw9fhgx7QWNabRaGKTVKkqM+hZ9RMuBJbRnLUrubRcX/7UFul+2i4Z9rID+T
-         9+8V7w10FOAQyPTgcdEmMrfVJlZTpK36YFsD3QXn45qaN51wqq+T0KUB3k7lvMny1z
-         FeLrcz7wN3mgZAHauYBwayeNZ323sAq2ucA99p94=
-Date:   Tue, 22 Nov 2022 01:18:01 +0200
+        b=pYMdMiPl5IrORg/CnguFQwPxjYBCJXu3p5rszsx4+nBwcHfMtcZvG4QwzXlP8mU2a
+         jhexLoWbFLy+osr9fnKJT1ly2Zz8LEiUvYL+Qb0Z/UUW3E7zpR4geuQbqUnNpOyF8u
+         y/ctkgREjNe4OrG1xkTGPbURlsuP6zPNvV/Hk90E=
+Date:   Tue, 22 Nov 2022 01:21:56 +0200
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Umang Jain <umang.jain@ideasonboard.com>
 Cc:     linux-media@vger.kernel.org, kernel-list@raspberrypi.com,
@@ -38,17 +38,16 @@ Cc:     linux-media@vger.kernel.org, kernel-list@raspberrypi.com,
         Florian Fainelli <f.fainelli@gmail.com>,
         Naushir Patuck <naush@raspberrypi.com>,
         David Plowman <david.plowman@raspberrypi.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Dave Stevenson <dave.stevenson@raspberrypi.org>
-Subject: Re: [PATCH 03/14] media: videobuf2: Allow exporting of a struct
- dmabuf
-Message-ID: <Y3wHKfeNB6Fv9Xpo@pendragon.ideasonboard.com>
+        Kieran Bingham <kieran.bingham@ideasonboard.com>
+Subject: Re: [PATCH 06/14] staging: mmal_vchiq: Add image formats to be used
+ by bcm2835-isp
+Message-ID: <Y3wIFNGQst623Se4@pendragon.ideasonboard.com>
 References: <20221121214722.22563-1-umang.jain@ideasonboard.com>
- <20221121214722.22563-4-umang.jain@ideasonboard.com>
+ <20221121214722.22563-7-umang.jain@ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20221121214722.22563-4-umang.jain@ideasonboard.com>
+In-Reply-To: <20221121214722.22563-7-umang.jain@ideasonboard.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
         autolearn=ham autolearn_force=no version=3.4.6
@@ -62,147 +61,102 @@ Hi Umang and Dave,
 
 Thank you for the patch.
 
-On Tue, Nov 22, 2022 at 03:17:11AM +0530, Umang Jain wrote:
-> From: Dave Stevenson <dave.stevenson@raspberrypi.org>
+On Tue, Nov 22, 2022 at 03:17:14AM +0530, Umang Jain wrote:
+> From: Dave Stevenson <dave.stevenson@raspberrypi.com>
 > 
-> videobuf2 only allowed exporting a dmabuf as a file descriptor,
-> but there are instances where having the struct dma_buf is
-> useful within the kernel.
+> The bcm2835-isp supports Bayer, so add in the encodings for them.
+> Also, Add support for monochrome image formats in the various MIPI
+> packings.
 > 
-> Split the current implementation into two, one step which
-> exports a struct dma_buf, and the second which converts that
-> into an fd.
-> 
-> Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.org>
+> Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 > Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
 > ---
->  .../media/common/videobuf2/videobuf2-core.c   | 36 +++++++++++++------
->  include/media/videobuf2-core.h                | 15 ++++++++
->  2 files changed, 40 insertions(+), 11 deletions(-)
+>  .../vc04_services/vchiq-mmal/mmal-encodings.h | 62 +++++++++++++++++++
+>  1 file changed, 62 insertions(+)
 > 
-> diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
-> index ab9697f3b5f1..32b26737cac4 100644
-> --- a/drivers/media/common/videobuf2/videobuf2-core.c
-> +++ b/drivers/media/common/videobuf2/videobuf2-core.c
-> @@ -2184,49 +2184,49 @@ static int __find_plane_by_offset(struct vb2_queue *q, unsigned long off,
->  	return -EINVAL;
->  }
->  
-> -int vb2_core_expbuf(struct vb2_queue *q, int *fd, unsigned int type,
-> -		unsigned int index, unsigned int plane, unsigned int flags)
-> +struct dma_buf *vb2_core_expbuf_dmabuf(struct vb2_queue *q, unsigned int type,
-> +				       unsigned int index, unsigned int plane,
-> +				       unsigned int flags)
-
-This function is used in the ISP driver, in bcm2835_isp_buf_prepare(),
-for MMAP buffers, and as far as I can tell, its only purpose is to
-create a dma_buf instance to then be imported in
-vchiq_mmal_submit_buffer() with a call to vc_sm_cma_import_dmabuf().
-That sounds like a very complicated set of operations, and quite
-inefficient :-(
-
->  {
->  	struct vb2_buffer *vb = NULL;
->  	struct vb2_plane *vb_plane;
-> -	int ret;
->  	struct dma_buf *dbuf;
->  
->  	if (q->memory != VB2_MEMORY_MMAP) {
->  		dprintk(q, 1, "queue is not currently set up for mmap\n");
-> -		return -EINVAL;
-> +		return ERR_PTR(-EINVAL);
->  	}
->  
->  	if (!q->mem_ops->get_dmabuf) {
->  		dprintk(q, 1, "queue does not support DMA buffer exporting\n");
-> -		return -EINVAL;
-> +		return ERR_PTR(-EINVAL);
->  	}
->  
->  	if (flags & ~(O_CLOEXEC | O_ACCMODE)) {
->  		dprintk(q, 1, "queue does support only O_CLOEXEC and access mode flags\n");
-> -		return -EINVAL;
-> +		return ERR_PTR(-EINVAL);
->  	}
->  
->  	if (type != q->type) {
->  		dprintk(q, 1, "invalid buffer type\n");
-> -		return -EINVAL;
-> +		return ERR_PTR(-EINVAL);
->  	}
->  
->  	if (index >= q->num_buffers) {
->  		dprintk(q, 1, "buffer index out of range\n");
-> -		return -EINVAL;
-> +		return ERR_PTR(-EINVAL);
->  	}
->  
->  	vb = q->bufs[index];
->  
->  	if (plane >= vb->num_planes) {
->  		dprintk(q, 1, "buffer plane out of range\n");
-> -		return -EINVAL;
-> +		return ERR_PTR(-EINVAL);
->  	}
->  
->  	if (vb2_fileio_is_active(q)) {
->  		dprintk(q, 1, "expbuf: file io in progress\n");
-> -		return -EBUSY;
-> +		return ERR_PTR(-EBUSY);
->  	}
->  
->  	vb_plane = &vb->planes[plane];
-> @@ -2238,9 +2238,23 @@ int vb2_core_expbuf(struct vb2_queue *q, int *fd, unsigned int type,
->  	if (IS_ERR_OR_NULL(dbuf)) {
->  		dprintk(q, 1, "failed to export buffer %d, plane %d\n",
->  			index, plane);
-> -		return -EINVAL;
-> +		return ERR_PTR(-EINVAL);
->  	}
->  
-> +	return dbuf;
-> +}
-> +EXPORT_SYMBOL_GPL(vb2_core_expbuf_dmabuf);
-> +
-> +int vb2_core_expbuf(struct vb2_queue *q, int *fd, unsigned int type,
-> +		    unsigned int index, unsigned int plane, unsigned int flags)
-> +{
-> +	struct dma_buf *dbuf;
-> +	int ret;
-> +
-> +	dbuf = vb2_core_expbuf_dmabuf(q, type, index, plane, flags);
-> +	if (IS_ERR(dbuf))
-> +		return PTR_ERR(dbuf);
-> +
->  	ret = dma_buf_fd(dbuf, flags & ~O_ACCMODE);
->  	if (ret < 0) {
->  		dprintk(q, 3, "buffer %d, plane %d failed to export (%d)\n",
-> diff --git a/include/media/videobuf2-core.h b/include/media/videobuf2-core.h
-> index 3253bd2f6fee..33629ed2b64f 100644
-> --- a/include/media/videobuf2-core.h
-> +++ b/include/media/videobuf2-core.h
-> @@ -911,6 +911,21 @@ int vb2_core_streamon(struct vb2_queue *q, unsigned int type);
+> diff --git a/drivers/staging/vc04_services/vchiq-mmal/mmal-encodings.h b/drivers/staging/vc04_services/vchiq-mmal/mmal-encodings.h
+> index e15ae7b24f73..4711877a9711 100644
+> --- a/drivers/staging/vc04_services/vchiq-mmal/mmal-encodings.h
+> +++ b/drivers/staging/vc04_services/vchiq-mmal/mmal-encodings.h
+> @@ -69,6 +69,68 @@
 >   */
->  int vb2_core_streamoff(struct vb2_queue *q, unsigned int type);
+>  #define MMAL_ENCODING_OPAQUE           MMAL_FOURCC('O', 'P', 'Q', 'V')
 >  
-> +/**
-> + * vb2_core_expbuf_dmabuf() - Export a buffer as a dma_buf structure
-> + * @q:         videobuf2 queue
-> + * @type:      buffer type
-> + * @index:     id number of the buffer
-> + * @plane:     index of the plane to be exported, 0 for single plane queues
-> + * @flags:     flags for newly created file, currently only O_CLOEXEC is
-> + *             supported, refer to manual of open syscall for more details
-> + *
-> + * Return: Returns the dmabuf pointer
+> +/* Bayer formats
+
+/*
+ * Bayer formats
+
+> + * FourCC values copied from V4L2 where defined.
 > + */
-> +struct dma_buf *vb2_core_expbuf_dmabuf(struct vb2_queue *q, unsigned int type,
-> +				       unsigned int index, unsigned int plane,
-> +				       unsigned int flags);
+> +/* 8 bit per pixel Bayer formats. */
+> +#define MMAL_ENCODING_BAYER_SBGGR8     MMAL_FOURCC('B', 'A', '8', '1')
+> +#define MMAL_ENCODING_BAYER_SGBRG8     MMAL_FOURCC('G', 'B', 'R', 'G')
+> +#define MMAL_ENCODING_BAYER_SGRBG8     MMAL_FOURCC('G', 'R', 'B', 'G')
+> +#define MMAL_ENCODING_BAYER_SRGGB8     MMAL_FOURCC('R', 'G', 'G', 'B')
 > +
->  /**
->   * vb2_core_expbuf() - Export a buffer as a file descriptor.
->   * @q:		pointer to &struct vb2_queue with videobuf2 queue.
+> +/* 10 bit per pixel packed Bayer formats. */
+> +#define MMAL_ENCODING_BAYER_SBGGR10P   MMAL_FOURCC('p', 'B', 'A', 'A')
+> +#define MMAL_ENCODING_BAYER_SGRBG10P   MMAL_FOURCC('p', 'g', 'A', 'A')
+> +#define MMAL_ENCODING_BAYER_SGBRG10P   MMAL_FOURCC('p', 'G', 'A', 'A')
+
+SGBRG should go before SGRBG, like for the raw 8 formats. Same below for
+the 12P, 10 and 12 formats.
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+> +#define MMAL_ENCODING_BAYER_SRGGB10P   MMAL_FOURCC('p', 'R', 'A', 'A')
+> +
+> +/* 12 bit per pixel packed Bayer formats. */
+> +#define MMAL_ENCODING_BAYER_SBGGR12P   MMAL_FOURCC('p', 'B', '1', '2')
+> +#define MMAL_ENCODING_BAYER_SGRBG12P   MMAL_FOURCC('p', 'g', '1', '2')
+> +#define MMAL_ENCODING_BAYER_SGBRG12P   MMAL_FOURCC('p', 'G', '1', '2')
+> +#define MMAL_ENCODING_BAYER_SRGGB12P   MMAL_FOURCC('p', 'R', '1', '2')
+> +
+> +/* 14 bit per pixel Bayer formats. */
+> +#define MMAL_ENCODING_BAYER_SBGGR14P   MMAL_FOURCC('p', 'B', 'E', 'E')
+> +#define MMAL_ENCODING_BAYER_SGBRG14P   MMAL_FOURCC('p', 'G', 'E', 'E')
+> +#define MMAL_ENCODING_BAYER_SGRBG14P   MMAL_FOURCC('p', 'g', 'E', 'E')
+> +#define MMAL_ENCODING_BAYER_SRGGB14P   MMAL_FOURCC('p', 'R', 'E', 'E')
+> +
+> +/* 16 bit per pixel Bayer formats. */
+> +#define MMAL_ENCODING_BAYER_SBGGR16    MMAL_FOURCC('B', 'G', '1', '6')
+> +#define MMAL_ENCODING_BAYER_SGBRG16    MMAL_FOURCC('G', 'B', '1', '6')
+> +#define MMAL_ENCODING_BAYER_SGRBG16    MMAL_FOURCC('G', 'R', '1', '6')
+> +#define MMAL_ENCODING_BAYER_SRGGB16    MMAL_FOURCC('R', 'G', '1', '6')
+> +
+> +/* 10 bit per pixel unpacked (16bit) Bayer formats. */
+> +#define MMAL_ENCODING_BAYER_SBGGR10    MMAL_FOURCC('B', 'G', '1', '0')
+> +#define MMAL_ENCODING_BAYER_SGRBG10    MMAL_FOURCC('B', 'A', '1', '0')
+> +#define MMAL_ENCODING_BAYER_SGBRG10    MMAL_FOURCC('G', 'B', '1', '0')
+> +#define MMAL_ENCODING_BAYER_SRGGB10    MMAL_FOURCC('R', 'G', '1', '0')
+> +
+> +/* 12 bit per pixel unpacked (16bit) Bayer formats */
+> +#define MMAL_ENCODING_BAYER_SBGGR12    MMAL_FOURCC('B', 'G', '1', '2')
+> +#define MMAL_ENCODING_BAYER_SGRBG12    MMAL_FOURCC('B', 'A', '1', '2')
+> +#define MMAL_ENCODING_BAYER_SGBRG12    MMAL_FOURCC('G', 'B', '1', '2')
+> +#define MMAL_ENCODING_BAYER_SRGGB12    MMAL_FOURCC('R', 'G', '1', '2')
+> +
+> +/* 14 bit per pixel unpacked (16bit) Bayer formats */
+> +#define MMAL_ENCODING_BAYER_SBGGR14    MMAL_FOURCC('B', 'G', '1', '4')
+> +#define MMAL_ENCODING_BAYER_SGBRG14    MMAL_FOURCC('G', 'B', '1', '4')
+> +#define MMAL_ENCODING_BAYER_SGRBG14    MMAL_FOURCC('G', 'R', '1', '4')
+> +#define MMAL_ENCODING_BAYER_SRGGB14    MMAL_FOURCC('R', 'G', '1', '4')
+> +
+> +/* MIPI packed monochrome images */
+> +#define MMAL_ENCODING_GREY    MMAL_FOURCC('G', 'R', 'E', 'Y')
+> +#define MMAL_ENCODING_Y10P    MMAL_FOURCC('Y', '1', '0', 'P')
+> +#define MMAL_ENCODING_Y12P    MMAL_FOURCC('Y', '1', '2', 'P')
+> +#define MMAL_ENCODING_Y14P    MMAL_FOURCC('Y', '1', '4', 'P')
+> +#define MMAL_ENCODING_Y16     MMAL_FOURCC('Y', '1', '6', ' ')
+> +/* Unpacked monochrome formats (16bit per sample, but only N LSBs used) */
+> +#define MMAL_ENCODING_Y10     MMAL_FOURCC('Y', '1', '0', ' ')
+> +#define MMAL_ENCODING_Y12     MMAL_FOURCC('Y', '1', '2', ' ')
+> +#define MMAL_ENCODING_Y14     MMAL_FOURCC('Y', '1', '4', ' ')
+> +
+>  /** An EGL image handle
+>   */
+>  #define MMAL_ENCODING_EGL_IMAGE        MMAL_FOURCC('E', 'G', 'L', 'I')
 
 -- 
 Regards,
