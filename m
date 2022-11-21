@@ -2,22 +2,22 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7EE1D632BD4
-	for <lists+linux-media@lfdr.de>; Mon, 21 Nov 2022 19:15:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 51C04632BD5
+	for <lists+linux-media@lfdr.de>; Mon, 21 Nov 2022 19:15:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229622AbiKUSPj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 21 Nov 2022 13:15:39 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59486 "EHLO
+        id S229628AbiKUSPk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 21 Nov 2022 13:15:40 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59502 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229628AbiKUSPh (ORCPT
+        with ESMTP id S229702AbiKUSPj (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 21 Nov 2022 13:15:37 -0500
+        Mon, 21 Nov 2022 13:15:39 -0500
 Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 223ABC051E
-        for <linux-media@vger.kernel.org>; Mon, 21 Nov 2022 10:15:35 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6399AC0528
+        for <linux-media@vger.kernel.org>; Mon, 21 Nov 2022 10:15:38 -0800 (PST)
 Received: (Authenticated sender: jacopo@jmondi.org)
-        by mail.gandi.net (Postfix) with ESMTPSA id C20CEC0009;
-        Mon, 21 Nov 2022 18:15:32 +0000 (UTC)
+        by mail.gandi.net (Postfix) with ESMTPSA id B1F6BC0005;
+        Mon, 21 Nov 2022 18:15:35 +0000 (UTC)
 From:   Jacopo Mondi <jacopo@jmondi.org>
 To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
@@ -26,9 +26,9 @@ To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>
 Cc:     Jacopo Mondi <jacopo@jmondi.org>,
         Linux Media Mailing List <linux-media@vger.kernel.org>
-Subject: [PATCH v2 1/2] documentation: media: camera_sensor: Document blankings handling
-Date:   Mon, 21 Nov 2022 19:15:14 +0100
-Message-Id: <20221121181515.34008-2-jacopo@jmondi.org>
+Subject: [PATCH v2 2/2] documentation: media: camera_sensor: Update exposure on blanking change
+Date:   Mon, 21 Nov 2022 19:15:15 +0100
+Message-Id: <20221121181515.34008-3-jacopo@jmondi.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221121181515.34008-1-jacopo@jmondi.org>
 References: <20221121181515.34008-1-jacopo@jmondi.org>
@@ -43,61 +43,64 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-When a new image format is applied on the sensor it is necessary to
-update the vertical and horizontal blanking limits, to comply with the
-new visibile sizes.
+The maximum achieable exposure time in a camera sensor is usually
+bound by the total frame height (visible + blankings) minus a fixed
+sensor-speific offset.
 
-Add that part to the documentation of camera sensor subdevices.
+When the vertical blanking control value is changed, the exposure
+control limits should be updated as well.
+
+Add this to the camera sensor documentation.
 
 Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
 ---
- .../driver-api/media/camera-sensor.rst        | 33 +++++++++++++++++++
- 1 file changed, 33 insertions(+)
+ .../driver-api/media/camera-sensor.rst        | 36 +++++++++++++++++++
+ 1 file changed, 36 insertions(+)
 
 diff --git a/Documentation/driver-api/media/camera-sensor.rst b/Documentation/driver-api/media/camera-sensor.rst
-index c7d4891bd24e..382ea4ecebd4 100644
+index 382ea4ecebd4..675f55ad54b5 100644
 --- a/Documentation/driver-api/media/camera-sensor.rst
 +++ b/Documentation/driver-api/media/camera-sensor.rst
-@@ -108,6 +108,39 @@ The first entity in the linear pipeline is the pixel array. The pixel array may
- be followed by other entities that are there to allow configuring binning,
- skipping, scaling or digital crop :ref:`v4l2-subdev-selections`.
- 
-+Blankings initialization and reconfiguration
-+""""""""""""""""""""""""""""""""""""""""""""
+@@ -184,3 +184,39 @@ used to obtain device's power state after the power state transition:
+ The function returns a non-zero value if it succeeded getting the power count or
+ runtime PM was disabled, in either of which cases the driver may proceed to
+ access the device.
 +
-+The value used to initialize the vertical and horizontal blanking controls
-+should be selected in order to realize, in association with the driver default
-+format and default pixel rate, a reasonable frame rate output, usually one of
-+the standard 15, 30 or 60 frame per second.
++Resetting exposure limits on vertical blanking update
++"""""""""""""""""""""""""""""""""""""""""""""""""""""
 +
-+When a new frame size is applied on the subdevice, sensor drivers are required
-+to update the limits of their blankings controls.
++The sensor exposure time, specified by the ``V4L2_CID_EXPOSURE`` control, is
++usually limited to a maximum value related to the frame interval. Frequently it
++is a number of lines less than the frame length that will be specified in the
++sensor documentation.
 +
-+The V4L2 control framework provides the ``v4l2_ctrl_modify_range()`` function
-+(and the unlocked ``__v4l2_ctrl_modify_range()`` counterpart) to assist drivers
-+in re-computing the controls limits.
++When a new ``V4L2_CID_VBLANK`` value is applied, regardless of it being actually
++programmed to the hardware or not, the limits of the ``V4L2_CID_EXPOSURE``
++control should be updated as well.
 +
-+The new limits for the controls should be re-calculated using the newly
-+configured size:
++The typical coding pattern that realizes that in the ``.s_ctrl`` callback
++handler is:
 +
 +.. code-block:: c
 +
-+	#define SENSOR_MAX_VTS          <see sensor documentation>
++	#define SENSOR_EXPOSURE_OFFSET   <see sensor documentation>
 +
-+	max_vblank = SENSOR_MAX_VTS - (analogue crop height);
-+	ret = __v4l2_ctrl_modify_range(sensor->ctrls.vblank,
-+				       sensor->ctrls.vblank->minimum,
-+				       max_vblank, sensor->ctrls.vblank->step,
-+				       sensor->ctrls.vblank->minimum);
++	static int s_ctrl(struct v4l2_ctrl *ctrl)
++	{
++		int exp_max;
 +
-+The minimum value could potentially change as well.
++		switch (ctrl->id) {
++		case V4L2_CID_VBLANK:
++			exp_max = (analogue crop height) + ctrl->val - SENSOR_EXPOSURE_OFFSET;
++			__v4l2_ctrl_modify_range(sensor->ctrls.exposure,
++						 sensor->ctrls.exposure->minimum,
++						 exp_max, sensor->ctrls.exposure->step,
++						 sensor->ctrls.exposure->default_value);
++			break;
++		}
 +
-+The control default value is reset to the control's minimum and the V4L2
-+control framework automatically clamps the control's value in the new limits.
-+
- USB cameras etc. devices
- ~~~~~~~~~~~~~~~~~~~~~~~~
- 
--- 
++		if (!pm_runtime_get_if_in_use(&sensor->i2c_client->dev))
++			return 0;
+--
 2.38.1
 
