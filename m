@@ -2,71 +2,104 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2897A6327FA
-	for <lists+linux-media@lfdr.de>; Mon, 21 Nov 2022 16:27:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8C269632820
+	for <lists+linux-media@lfdr.de>; Mon, 21 Nov 2022 16:29:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232117AbiKUP0t (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 21 Nov 2022 10:26:49 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56482 "EHLO
+        id S232429AbiKUP3O (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 21 Nov 2022 10:29:14 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57136 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231324AbiKUP0q (ORCPT
+        with ESMTP id S232473AbiKUP2e (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 21 Nov 2022 10:26:46 -0500
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B303AC;
-        Mon, 21 Nov 2022 07:26:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1669044405; x=1700580405;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=2BKmILpU0EKVuXiS647V739vhLgJGOZVqprtJ6L4XrY=;
-  b=JZjriEgqtAI6snkKbRjWCfm8unuHWAkEucRRiFDH3OPfbggsDOR3nSwH
-   I2FczUlpAeg+WuFoC15bCLUyVB7tinpYPawUlQuO5KXBsUeovby/PXgkl
-   J/eInsu3pwi3B7Y6H2pqwmqGfdgX6MByod/0SOp0qlHvy263jkmgiKc+S
-   n7GoEPUqQgIfizEeNBpSw7D3bv9FMYSsPvot1RcSEWST3xfz1bQeZ2Xiu
-   f9d7Ga3zOMvJSAqVhev/7vdRKzM7u2Kn520BiIxtlzsXJ/jvh08edz1B3
-   c3bJUeaSlqqnAf6dDtmF8vVvONUG3VMJyym/SrjO0Z9uW2+LAnIEHd29n
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10538"; a="296941341"
-X-IronPort-AV: E=Sophos;i="5.96,181,1665471600"; 
-   d="scan'208";a="296941341"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2022 07:26:43 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10538"; a="635213957"
-X-IronPort-AV: E=Sophos;i="5.96,181,1665471600"; 
-   d="scan'208";a="635213957"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by orsmga007.jf.intel.com with ESMTP; 21 Nov 2022 07:26:39 -0800
-Received: by black.fi.intel.com (Postfix, from userid 1003)
-        id 4E7E3385; Mon, 21 Nov 2022 17:27:05 +0200 (EET)
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        =?UTF-8?q?Cl=C3=A9ment=20L=C3=A9ger?= <clement.leger@bootlin.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Daniel Scally <djrscally@gmail.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Yong Zhi <yong.zhi@intel.com>,
-        Bingbu Cao <bingbu.cao@intel.com>,
-        Tianshu Qiu <tian.shu.qiu@intel.com>,
-        Daniel Scally <dan.scally@ideasonboard.com>
-Subject: [PATCH v2 4/4] software node: Remove unused APIs
-Date:   Mon, 21 Nov 2022 17:27:04 +0200
-Message-Id: <20221121152704.30180-4-andriy.shevchenko@linux.intel.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20221121152704.30180-1-andriy.shevchenko@linux.intel.com>
-References: <20221121152704.30180-1-andriy.shevchenko@linux.intel.com>
+        Mon, 21 Nov 2022 10:28:34 -0500
+Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01olkn2038.outbound.protection.outlook.com [40.92.98.38])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 306F2C7593;
+        Mon, 21 Nov 2022 07:28:23 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Qelv/iufT4t1r0STen5pA4Obumrn9/St/SUjUhI0VdsG5XFCy/TfG9G7o5ABzskMguMY6jgP+w0gkM4Igzy2BfUjocAHrNBQ2oVifr7GqGx9BA5gxRoSaWJ/4ja6ymXiUibnvhSbXFtEuA4UCmXNFfsJAfpkhoS4W9dg0nY9Yha1SDYj0V9htK1KUXHI9N4BLtHvSnuku1qtK8iTLIeS9zpaM3VUjRF3Dw/udXK6IF6fjMaooHQTnqTosOiDK9L/35qdIxmYbvmQE66ddX8vMOxe5F6/aU/9mpiblPc7CfVZEXMHWGSZBa1W2amBkTXw5ncwEyI8H4OsVGl6HHUUjA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Ly1rcD1U0Bd9tIswe0QbNLxpcD4H4qzzCby4dNqVSwE=;
+ b=YZYTDuRhq4el0D9+x2iDsxPxmCBXA9W5MVl+7ypf5X/BA9JDpJaniO9WsoZPH0nMWUZ2otRAo1zPaYNorQyFR9PPyTqCFzjvjiZXQRW4gCTBKFs0Zxu7Kex9PT907srpTrEiG7OKGzaf30UV8KQ96xbbds5GUX4GTa6Kkf79OUyXJieKkU5E5fhUWdAKyNM/TdK1wPC+M1PWblODdJvJ+/Hn7jqWJ4M4YPTRPiBkf8GIgDjUjG8lLlP8kCxjgk7N2tbXJd0KL/hdRhmANrkxlyiNTsyIRJN7u+AZP6rE0RMk1eyNgp7Ur3Fcf89djuEA+WdpOqnOQsyBTGssJ/auzA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Ly1rcD1U0Bd9tIswe0QbNLxpcD4H4qzzCby4dNqVSwE=;
+ b=Ntx0wTRw3fQtkRLN/nwK4IPXHcdmzHeSdwm5T6MHh5CNmvI+vagLH42ZYChC+wh2JTdJ8yeGpqwOncei4XTjw+RmKi/v88GcoQMHHeBFG5YnJQY90VLKSEFBpudD6DqDjW5yjWO56EFkUWvKQoP93nwlfz2IpOpAOcQkh4p4/mNdxNA/jr60Mg1lPMaR6xHLbjNuZ2Ep8ACHenH67RKLbgyWASufaVRsLODYBZ6wrF6R2iZODJ2125GbxGJQZyqtG3OcjHuL0NtUqVxlbBuWJMdaw5k5EKD9P2+ZKPOogpjN/3ferj+BSCKvtbDAK8m1ZEm5D/RHmxHihKgl2C0NMQ==
+Received: from TYCP286MB2323.JPNP286.PROD.OUTLOOK.COM (2603:1096:400:152::9)
+ by OSZP286MB1557.JPNP286.PROD.OUTLOOK.COM (2603:1096:604:1b2::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5834.15; Mon, 21 Nov
+ 2022 15:28:19 +0000
+Received: from TYCP286MB2323.JPNP286.PROD.OUTLOOK.COM
+ ([fe80::ff96:9cb6:e047:c605]) by TYCP286MB2323.JPNP286.PROD.OUTLOOK.COM
+ ([fe80::ff96:9cb6:e047:c605%4]) with mapi id 15.20.5834.015; Mon, 21 Nov 2022
+ 15:28:19 +0000
+Date:   Mon, 21 Nov 2022 23:28:13 +0800
+From:   Dawei Li <set_pte_at@outlook.com>
+To:     sumit.semwal@linaro.org, christian.koenig@amd.com
+Cc:     benjamin.gaignard@collabora.com, labbott@redhat.com,
+        Brian.Starkey@arm.com, jstultz@google.com, afd@ti.com,
+        sspatil@android.com, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4] dma-buf: fix racing conflict of dma_heap_add()
+Message-ID: <TYCP286MB2323894F9939C27291FD998CCA0A9@TYCP286MB2323.JPNP286.PROD.OUTLOOK.COM>
+References: <TYCP286MB2323873BBDF88020781FB986CA3B9@TYCP286MB2323.JPNP286.PROD.OUTLOOK.COM>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <TYCP286MB2323873BBDF88020781FB986CA3B9@TYCP286MB2323.JPNP286.PROD.OUTLOOK.COM>
+X-TMN:  [UoBXl6n5xYFVzXXIeJukr5rGJBgLvpuw]
+X-ClientProxiedBy: SI2PR02CA0022.apcprd02.prod.outlook.com
+ (2603:1096:4:195::23) To TYCP286MB2323.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:400:152::9)
+X-Microsoft-Original-Message-ID: <20221121152813.GA4430@wendao-VirtualBox>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TYCP286MB2323:EE_|OSZP286MB1557:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8bdd4859-e0bd-4a7a-ac5a-08dacbd5037c
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: GqoSvLfYXio+NfurrX6DuPkLI264iiky6pW8TDT72WhS29smZPkFMMY9nQ6Js8Nq7LLLJYXGcXvmkVgfha4Awaiw3rOXIz8mw8UY0a5e8n5viR/tpusvEsCLasF69YhMuezOgHOtOQ+aMSZHz1KkoaGYpz0ajSdhgBuUIfFw4Vsl8Teo1zhzT7CsANhMmGLJcQhtaXdByccj5hDUZzCE7LhbBWgEHSsNPswitvR3YtRVI/MdEZhvpQT/i4xWYVJ9HdvMl+GrhppuCO5aBmjQUx6jttqxHNWBIandEpyH0rpWiGwASMapPPNAZsTv1iA0NtmjmvE/oL+M+IXkGpf7nBhEs9jefOvXUwxTTmLBNM/mKESNfsdlI9TH7Cq8mX78Q4DMa/d2JV//ZQBUGumPt7UK11Wks0MEemughLvod/jFYismmwtmxPJIGSZVgUkl5ZD/DVMd8UzAkFCQG6ERU+0v4LuADDimU1TcQkEO9E2DNdSqQVJ9RPJhWcEMu03xkDXJWOmV8thXsV+hnFlYBNsEFeYGfIpBYBeKP94onGnfCu+PVwvw9Kn6ncwZ8/y7Va9oa9TjfUlBwuECMII7+qgt9dPdiXPzLzJk9mdpYkv//mmInoVxdq58t3hb9O6W0YLcOdtFHrT/7wmvcirq2Q==
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?vBpnwVeJMnCyVEzp23LIvfCxQ9la+ozPK451H4PzT5prytczX1hOpXAI8LNp?=
+ =?us-ascii?Q?hq7RM4SNqa3ddlx2eKwoN5DU5/ZQSQexItwVZAtx9BXSLCEOY4mcYwGB75WW?=
+ =?us-ascii?Q?3n4K9Pptcx7Yp8dQvgKzKEYkNNFPQuTlUpgxlCRqFUDFGlpCMKcsFvJj3tY1?=
+ =?us-ascii?Q?eJCm79itu3QHeqmQaSA6OUWDW328IkX6N09nhtGLw+4rCwBiYDOZwkhC0rPm?=
+ =?us-ascii?Q?wJ8nPld8YwB9RJptBHj6NDcocKADHKXao/RImLIthniuBjfrWpcsYCS0Qu8f?=
+ =?us-ascii?Q?FSX+yHeQ3okcguK7dOE5UPqCmMralAVsiVQNBk5j0F0cvsZ10vIyA8z+CK2F?=
+ =?us-ascii?Q?Przkq3RfsoiFq8ZfGnASZ44tCt0QCZVdIXfbmJx9GdlXIi3+QE13x3cFA3w9?=
+ =?us-ascii?Q?/73X3WeYy8wYIfd2EXGyqO3r3XMgaqNege21cp7LbqE5RkIEcEheSKYa3bo+?=
+ =?us-ascii?Q?t2Y/OLhYbMX5uv1qwoF4xAlzR02VNFOBQRt4rVZKCmw9SyotRCUJ21dUljq7?=
+ =?us-ascii?Q?ykYzQ71M+D7l5KP6QEdRECl5No0Qo6WJRiuYgqxIhYm9xv38qMNYLTlefAQW?=
+ =?us-ascii?Q?q+k+eadEcwbnPNajXiSVmRReP9fJoA1CsMsaIyKivfpyph3EA1MHFvTuB+gx?=
+ =?us-ascii?Q?S01L7/wm7VtWqi07xYOcbawz4yX0jgpAeYy0RoAtwuvEIovgApFdKpTWSvxP?=
+ =?us-ascii?Q?pLdArMxbedEjY2bZPIlxOhXeY5JWUdPXOq1deyzp+SmWoslCM8ZiLdbSewCN?=
+ =?us-ascii?Q?ugDxyn112kVpSapEA60iPHFgTmbsYRimgXNN4PdG25ekHy0LNe0hIIbC0yqa?=
+ =?us-ascii?Q?d6AqR16G/R3H3PFevtIkWiejd28oAE9ks+Ai+Pt+1oiokQ5TDZqloy7mw3iJ?=
+ =?us-ascii?Q?6SGoVfk0NX/S13FwHiYe5Dnqo+DlXInis16GEVPDz/OFvOD5PjCOHS6dyxvS?=
+ =?us-ascii?Q?adXAXZkNqaM/4zkra1VaiTBPyk5m0jhHH2XtT+XzosDM84JoIsWyYptw2P3N?=
+ =?us-ascii?Q?aeOQb0zOHvskmHZoI9fTSfuZGzYKfBqvb/cEbyE7uEUS3dtbftTSxrdXEDZp?=
+ =?us-ascii?Q?eiYPLk00LMI0EBnfsCnlSQmW2eDE8jR6PWCaJTZ7s02mXj1B7Az0y5wOOv6Y?=
+ =?us-ascii?Q?uAmT7HL4POnakvTaHrwL3mQAwfXLLuSS+AVGRt/BK1h4xI7DW8fz+Ahluh00?=
+ =?us-ascii?Q?OUvtBzxQnkMC9f6A52x/ow9bI7PwQs618Kfw38he7oTbAof8EGHh0eJW+d9J?=
+ =?us-ascii?Q?c98tr8+J7ZS4gtw7X7ThxgevikZkIycJTTC0Rz/7eQ=3D=3D?=
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8bdd4859-e0bd-4a7a-ac5a-08dacbd5037c
+X-MS-Exchange-CrossTenant-AuthSource: TYCP286MB2323.JPNP286.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Nov 2022 15:28:19.4874
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSZP286MB1557
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -74,105 +107,94 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-There are no more users of software_node_register_nodes() and
-software_node_unregister_nodes(). Remove them.
+On Sat, Nov 05, 2022 at 12:05:36AM +0800, Dawei Li wrote:
 
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Tested-by: Daniel Scally <dan.scally@ideasonboard.com>
-Acked-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
----
-v2: added tags (Heikki, Daniel)
+Hi Christian,
+May I have your opinion on this change?
 
- drivers/base/swnode.c    | 61 ----------------------------------------
- include/linux/property.h |  3 --
- 2 files changed, 64 deletions(-)
+Thanks,
+Dawei
 
-diff --git a/drivers/base/swnode.c b/drivers/base/swnode.c
-index 0a482212c7e8..da3c1c2cb9a8 100644
---- a/drivers/base/swnode.c
-+++ b/drivers/base/swnode.c
-@@ -819,67 +819,6 @@ swnode_register(const struct software_node *node, struct swnode *parent,
- 	return &swnode->fwnode;
- }
- 
--/**
-- * software_node_register_nodes - Register an array of software nodes
-- * @nodes: Zero terminated array of software nodes to be registered
-- *
-- * Register multiple software nodes at once. If any node in the array
-- * has its .parent pointer set (which can only be to another software_node),
-- * then its parent **must** have been registered before it is; either outside
-- * of this function or by ordering the array such that parent comes before
-- * child.
-- */
--int software_node_register_nodes(const struct software_node *nodes)
--{
--	int ret;
--	int i;
--
--	for (i = 0; nodes[i].name; i++) {
--		const struct software_node *parent = nodes[i].parent;
--
--		if (parent && !software_node_to_swnode(parent)) {
--			ret = -EINVAL;
--			goto err_unregister_nodes;
--		}
--
--		ret = software_node_register(&nodes[i]);
--		if (ret)
--			goto err_unregister_nodes;
--	}
--
--	return 0;
--
--err_unregister_nodes:
--	software_node_unregister_nodes(nodes);
--	return ret;
--}
--EXPORT_SYMBOL_GPL(software_node_register_nodes);
--
--/**
-- * software_node_unregister_nodes - Unregister an array of software nodes
-- * @nodes: Zero terminated array of software nodes to be unregistered
-- *
-- * Unregister multiple software nodes at once. If parent pointers are set up
-- * in any of the software nodes then the array **must** be ordered such that
-- * parents come before their children.
-- *
-- * NOTE: If you are uncertain whether the array is ordered such that
-- * parents will be unregistered before their children, it is wiser to
-- * remove the nodes individually, in the correct order (child before
-- * parent).
-- */
--void software_node_unregister_nodes(const struct software_node *nodes)
--{
--	unsigned int i = 0;
--
--	while (nodes[i].name)
--		i++;
--
--	while (i--)
--		software_node_unregister(&nodes[i]);
--}
--EXPORT_SYMBOL_GPL(software_node_unregister_nodes);
--
- /**
-  * software_node_register_node_group - Register a group of software nodes
-  * @node_group: NULL terminated array of software node pointers to be registered
-diff --git a/include/linux/property.h b/include/linux/property.h
-index 5d840299146d..6870abe12dc5 100644
---- a/include/linux/property.h
-+++ b/include/linux/property.h
-@@ -492,9 +492,6 @@ const struct software_node *
- software_node_find_by_name(const struct software_node *parent,
- 			   const char *name);
- 
--int software_node_register_nodes(const struct software_node *nodes);
--void software_node_unregister_nodes(const struct software_node *nodes);
--
- int software_node_register_node_group(const struct software_node **node_group);
- void software_node_unregister_node_group(const struct software_node **node_group);
- 
--- 
-2.35.1
-
+> Racing conflict could be:
+> task A                 task B
+> list_for_each_entry
+> strcmp(h->name))
+>                        list_for_each_entry
+>                        strcmp(h->name)
+> kzalloc                kzalloc
+> ......                 .....
+> device_create          device_create
+> list_add
+>                        list_add
+> 
+> The root cause is that task B has no idea about the fact someone
+> else(A) has inserted heap with same name when it calls list_add,
+> so a potential collision occurs.
+> 
+> Fixes: c02a81fba74f ("dma-buf: Add dma-buf heaps framework")
+> Signed-off-by: Dawei Li <set_pte_at@outlook.com>
+> ---
+> v1: https://lore.kernel.org/all/TYCP286MB2323950197F60FC3473123B7CA349@TYCP286MB2323.JPNP286.PROD.OUTLOOK.COM/
+> v1->v2: Narrow down locking scope, check the existence of heap before
+> insertion, as suggested by Andrew Davis.
+> v2->v3: Remove double checking.
+> v3->v4: Minor coding style and patch formatting adjustment.
+> ---
+>  drivers/dma-buf/dma-heap.c | 28 +++++++++++++++-------------
+>  1 file changed, 15 insertions(+), 13 deletions(-)
+> 
+> diff --git a/drivers/dma-buf/dma-heap.c b/drivers/dma-buf/dma-heap.c
+> index 8f5848aa144f..59d158873f4c 100644
+> --- a/drivers/dma-buf/dma-heap.c
+> +++ b/drivers/dma-buf/dma-heap.c
+> @@ -233,18 +233,6 @@ struct dma_heap *dma_heap_add(const struct dma_heap_export_info *exp_info)
+>  		return ERR_PTR(-EINVAL);
+>  	}
+>  
+> -	/* check the name is unique */
+> -	mutex_lock(&heap_list_lock);
+> -	list_for_each_entry(h, &heap_list, list) {
+> -		if (!strcmp(h->name, exp_info->name)) {
+> -			mutex_unlock(&heap_list_lock);
+> -			pr_err("dma_heap: Already registered heap named %s\n",
+> -			       exp_info->name);
+> -			return ERR_PTR(-EINVAL);
+> -		}
+> -	}
+> -	mutex_unlock(&heap_list_lock);
+> -
+>  	heap = kzalloc(sizeof(*heap), GFP_KERNEL);
+>  	if (!heap)
+>  		return ERR_PTR(-ENOMEM);
+> @@ -283,13 +271,27 @@ struct dma_heap *dma_heap_add(const struct dma_heap_export_info *exp_info)
+>  		err_ret = ERR_CAST(dev_ret);
+>  		goto err2;
+>  	}
+> -	/* Add heap to the list */
+> +
+>  	mutex_lock(&heap_list_lock);
+> +	/* check the name is unique */
+> +	list_for_each_entry(h, &heap_list, list) {
+> +		if (!strcmp(h->name, exp_info->name)) {
+> +			mutex_unlock(&heap_list_lock);
+> +			pr_err("dma_heap: Already registered heap named %s\n",
+> +			       exp_info->name);
+> +			err_ret = ERR_PTR(-EINVAL);
+> +			goto err3;
+> +		}
+> +	}
+> +
+> +	/* Add heap to the list */
+>  	list_add(&heap->list, &heap_list);
+>  	mutex_unlock(&heap_list_lock);
+>  
+>  	return heap;
+>  
+> +err3:
+> +	device_destroy(dma_heap_class, heap->heap_devt);
+>  err2:
+>  	cdev_del(&heap->heap_cdev);
+>  err1:
+> -- 
+> 2.25.1
+> 
