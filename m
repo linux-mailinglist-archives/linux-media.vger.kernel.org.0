@@ -2,67 +2,67 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 444F56321F2
-	for <lists+linux-media@lfdr.de>; Mon, 21 Nov 2022 13:28:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AEA60632210
+	for <lists+linux-media@lfdr.de>; Mon, 21 Nov 2022 13:31:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231241AbiKUM2s (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 21 Nov 2022 07:28:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45384 "EHLO
+        id S231244AbiKUMa7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 21 Nov 2022 07:30:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47276 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230050AbiKUM23 (ORCPT
+        with ESMTP id S230430AbiKUMad (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 21 Nov 2022 07:28:29 -0500
+        Mon, 21 Nov 2022 07:30:33 -0500
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 388242BEC
-        for <linux-media@vger.kernel.org>; Mon, 21 Nov 2022 04:27:26 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6DDCABCA5
+        for <linux-media@vger.kernel.org>; Mon, 21 Nov 2022 04:29:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1669033646;
+        s=mimecast20190719; t=1669033776;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=wKxH9/fWSqKGEkCfEcHmUeJnfpLMxgDZZRQLqro+QtU=;
-        b=jWUdQRomgeUvORZC/QY5kwJLFVL8zc7/wfia9uNBGKeQSeQZk4JJiiPu/49N6Ja2esdbe6
-        siAoyoL6mzmj8CQkB6I7W0WGdSpOWO/JIOC5LmwDOWrDtFzStHpKK6wRc/Kj4i03lequdH
-        FXPxKvIeR1W5pwV0wDAaeGjm+zee1Kc=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=/hWYzdY8pp69gJAN6Ao8jjyimu9MRzFcxQpQWDRT5hk=;
+        b=AP0W9YTu+OhAu3/rPKzIVy5a0adxs/0wah0np/gQhqOMlQ1AKk7r3pG2ja7XCHK85nHm/d
+        o9q+TkdBpIWFO4vE8nB7U8j4p+ya6qzmHflwhxqLQmKBJYJz25tkpWI+qROLaXxtm53zRJ
+        nbsESuz0WJcvwxRtzHgHgqe7qnDvcic=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-94-yFBolZ4wPwyM041isgYlXg-1; Mon, 21 Nov 2022 07:27:24 -0500
-X-MC-Unique: yFBolZ4wPwyM041isgYlXg-1
-Received: by mail-ej1-f69.google.com with SMTP id sb4-20020a1709076d8400b007ae596eac08so6648365ejc.22
-        for <linux-media@vger.kernel.org>; Mon, 21 Nov 2022 04:27:24 -0800 (PST)
+ us-mta-592-Z_z-ckCAPXuwkIX4vjAmUA-1; Mon, 21 Nov 2022 07:29:34 -0500
+X-MC-Unique: Z_z-ckCAPXuwkIX4vjAmUA-1
+Received: by mail-ej1-f72.google.com with SMTP id sb4-20020a1709076d8400b007ae596eac08so6651037ejc.22
+        for <linux-media@vger.kernel.org>; Mon, 21 Nov 2022 04:29:34 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=wKxH9/fWSqKGEkCfEcHmUeJnfpLMxgDZZRQLqro+QtU=;
-        b=VyqNLqo42dMlol8DbhSuIhek+mo+IkaavPPQweMWZrQlF55De8lJnOHaL6rW83i5Ru
-         9c5gDJGDWaT976qGRU0j3mSq2Qmdd2VrYpagYwzbYeSVDEoQ7bEXFQpt60rO1juLsof9
-         BjStgi8w+sIostdns/YZ5D0YsFkFmlLiAbFBMgp5N/moGzeIZ0rDFFZska/h4tTNENPM
-         OQxtmE6Fu6hK1LiDzGrbKYb2ZVqwY+xRMBIJK44eMWiW4Vb4BorymE6PMZahDhoZan9K
-         YNR40P+dMNNQWavraiHB57YrJMjE6vtyUvp7HeG0NjYPRPVE96cRcAOg5XgO804ctUFD
-         2GFw==
-X-Gm-Message-State: ANoB5pma/l/Qi+tFnPtr6GXrLJnALWm+q3mJHJUendbHm/Wn1cbY1ffU
-        0qev0ba8Zux+9h9PiUzeDbascsdq1ZZHGIaVr0vWOWMd5jj1mbM8/gD8iaUSYfcE9S1zB54zy4Q
-        nPow22OVMpz5A1N8U+T98eHI=
-X-Received: by 2002:a17:907:7782:b0:7b6:dd6d:b829 with SMTP id ky2-20020a170907778200b007b6dd6db829mr2456661ejc.602.1669033643586;
-        Mon, 21 Nov 2022 04:27:23 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf5ca6+OaZv/0S/phi/znpxDmtprdtWtxlfAkP2Y7dCPF6UJn5q16s1ThL3qZr3Xb02QVOsGTA==
-X-Received: by 2002:a17:907:7782:b0:7b6:dd6d:b829 with SMTP id ky2-20020a170907778200b007b6dd6db829mr2456640ejc.602.1669033643352;
-        Mon, 21 Nov 2022 04:27:23 -0800 (PST)
+        bh=/hWYzdY8pp69gJAN6Ao8jjyimu9MRzFcxQpQWDRT5hk=;
+        b=6cJ+8MccN8SI8yhcc2B9PZMDoJpdQGGjQu5uvskxS3EHlOUJ9/vLkqxc3khMsN+wDB
+         bBhKMVJlT12qaJdRm0z7NBLwNkcW7gPQivH/Sd5qoPsNZqXixObtO00D4hzef295EZkk
+         WAWJuIaydhv0K+13ZkLHw25a3IkCRoAq9xb0/YG2dSJ0ASDGccUse0Gomgzd+fj7Q8xc
+         xY3NqBCxT7MBISQCmdMGE2SvvU3A+x3BneFZhLRS1x2dgbHyH5BWNmH7e7w0ijcYQk4h
+         Fa9vCpvnXWT47ZGKXdQN83T4Wp5DSK0Mc4uQPfXtdmrsXISnd2F7G1nXtXlRcjYU9pvm
+         xIrA==
+X-Gm-Message-State: ANoB5pk4ERqCWOMXZRJr2Nk7dXN46F0HLGLKPbcF5fQUFi8wQUc4zi1W
+        ZWwmPupIWCYi8zvBm6lVtWV6wCK2McOKWIzsKIrL/FrQh3wkilc4rm28oY+HrS0mD6IFIQ8gISA
+        5Im7fDuEPoWb7aTydShhyDaM=
+X-Received: by 2002:a17:906:81cc:b0:7ae:4373:c8aa with SMTP id e12-20020a17090681cc00b007ae4373c8aamr15574115ejx.466.1669033773643;
+        Mon, 21 Nov 2022 04:29:33 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf5iTHPCffdDV1lG7rCc7HhYezcsaBiBmHzgqsviLz35yyEF+pLC+yeuGaXVTX9aqaw5T0xzzQ==
+X-Received: by 2002:a17:906:81cc:b0:7ae:4373:c8aa with SMTP id e12-20020a17090681cc00b007ae4373c8aamr15574096ejx.466.1669033773463;
+        Mon, 21 Nov 2022 04:29:33 -0800 (PST)
 Received: from [10.40.98.142] ([78.108.130.194])
-        by smtp.gmail.com with ESMTPSA id g18-20020a17090604d200b007415f8ffcbbsm4999398eja.98.2022.11.21.04.27.21
+        by smtp.gmail.com with ESMTPSA id x20-20020a170906805400b007919ba4295esm4978724ejw.216.2022.11.21.04.29.32
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 21 Nov 2022 04:27:22 -0800 (PST)
-Message-ID: <37d912ae-b33a-3be2-30d1-4fa6b6ddf098@redhat.com>
-Date:   Mon, 21 Nov 2022 13:27:21 +0100
+        Mon, 21 Nov 2022 04:29:32 -0800 (PST)
+Message-ID: <96be9818-4c97-b9fc-a694-7a46e4b8f108@redhat.com>
+Date:   Mon, 21 Nov 2022 13:29:32 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.3.1
-Subject: Re: [PATCH 01/20] media: atomisp: Silence: 'atomisp_q_one_s3a_buffer:
- drop one s3a stat which has exp_id xx' log messages
+Subject: Re: [PATCH 05/20] media: atomisp: Log an error on failing to alloc
+ private-mem
 Content-Language: en-US
 To:     Andy Shevchenko <andy@kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -73,10 +73,10 @@ Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         andrey.i.trufanov@gmail.com, Fabio Aiuto <fabioaiuto83@gmail.com>,
         linux-media@vger.kernel.org, linux-staging@lists.linux.dev
 References: <20221120224101.746199-1-hdegoede@redhat.com>
- <20221120224101.746199-2-hdegoede@redhat.com>
- <Y3s84dzxX3ARSZPb@smile.fi.intel.com>
+ <20221120224101.746199-6-hdegoede@redhat.com>
+ <Y3s9wLqlHojRq8jS@smile.fi.intel.com>
 From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <Y3s84dzxX3ARSZPb@smile.fi.intel.com>
+In-Reply-To: <Y3s9wLqlHojRq8jS@smile.fi.intel.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
@@ -91,27 +91,35 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Hi,
 
-On 11/21/22 09:54, Andy Shevchenko wrote:
-> On Sun, Nov 20, 2022 at 11:40:42PM +0100, Hans de Goede wrote:
->> Standard v4l2 userspace apps do not consume the s3a statistics block
->> data. Until we have a userspace consumer for this (libcamera), which
->> might also involve changing the API for this, lower the log level
->> of these messages to dev_dbg() to avoid them filling up the logs.
+On 11/21/22 09:58, Andy Shevchenko wrote:
+> On Sun, Nov 20, 2022 at 11:40:46PM +0100, Hans de Goede wrote:
+>> I managed to trigger an atomisp_css_start() error by pushing my test
+>> system towards an OOM situation, this resulted in the following errors:
+>>
+>> atomisp-isp2 0000:00:03.0: alloc pages err...
+>> atomisp-isp2 0000:00:03.0: hmm_bo_alloc_pages failed.
+>> atomisp-isp2 0000:00:03.0: stream[0] start error.
+>>
+>> But it is not entirely clear what the root cause of
+>> the "alloc pages err..." error is. I suspect the root cause is
+>> alloc_pages_bulk_array() failing. Add a log message to make
+>> the root cause more clear if this is hit again.
 > 
 > ...
 > 
->> -			dev_warn(asd->isp->dev, "%s: drop one s3a stat which has exp_id %d!\n",
->> -				 __func__, exp_id);
->> +			dev_dbg(asd->isp->dev, "%s: drop one s3a stat which has exp_id %d!\n",
->> +				__func__, exp_id);
+>> +		dev_err(atomisp_dev, "alloc_pages_bulk_array() failed\n");
 > 
-> Please, drop __func__ as well. Most probably this can be run on the systems
-> with Dynamic Debug enabled, meaning that __func__ and __LINE__ can be enabled
-> at runtime.
+> I would put it after calling the below function, but I'm not sure about side
+> effects (if the below can hang or something else).
+> 
+>>  		free_pages_bulk_array(ret, bo->pages);
+>>  		return -ENOMEM;
+> 
 
 Fixed in my media-atomisp branch.
 
 Regards,
 
 Hans
+
 
