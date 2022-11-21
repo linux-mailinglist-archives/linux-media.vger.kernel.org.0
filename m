@@ -2,79 +2,152 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CB8BE631D19
-	for <lists+linux-media@lfdr.de>; Mon, 21 Nov 2022 10:44:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BE0E2631D36
+	for <lists+linux-media@lfdr.de>; Mon, 21 Nov 2022 10:47:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230328AbiKUJoS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 21 Nov 2022 04:44:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52770 "EHLO
+        id S230432AbiKUJrR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 21 Nov 2022 04:47:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54828 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230330AbiKUJoN (ORCPT
+        with ESMTP id S230452AbiKUJrB (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 21 Nov 2022 04:44:13 -0500
-Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com [IPv6:2607:f8b0:4864:20::1035])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 37C1463D7;
-        Mon, 21 Nov 2022 01:44:12 -0800 (PST)
-Received: by mail-pj1-x1035.google.com with SMTP id k5so9947266pjo.5;
-        Mon, 21 Nov 2022 01:44:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=kq+XXThWPqKCp1nTLkhYhNaA9lJwpFLK+mGfpV+1NAo=;
-        b=I8VawbMRUWMC2zkEX+jYnP6T7ilDzoIhvvF4OS2qzXAqh+vo2Ds0Mm1pbCpIbjq+vg
-         eiQ60ojn3+8EWBnDRohBcLpyBFvwyEhZ86htTgx/nevipapq8VGmJj6PUej5Ssb9MGJA
-         nwMVJJ+ezQKzGN8xndVStpnj2VR7hrOn09UM/6bMVRCWAEPRJUAWpEVTUFCTRlJcQ7k9
-         ATB+rRpX7rZMouAn6uqbY0g9Hfpe6dePT/QmB4ltO61Z1e0yQO79/tTIimY0WWDlVLvc
-         XtcFb+LLrz6pwIoNaH3kXssNNZXCqBT9LkBbjB5GeEUNtrsO4llLDXJScU9cMF82FnMg
-         bvwA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=kq+XXThWPqKCp1nTLkhYhNaA9lJwpFLK+mGfpV+1NAo=;
-        b=0leNnmSYSpFxwXc0YS2OZ3Qa9ZKviEWBk1aeYHvPWrKWqYwbwotAeJ8SKTEEczQip4
-         iAmI3m8Ee+6tj5sm87VVxMk/5BdeNOZu8GOAb7k3NqO1Q3r2fu1srwMqCsIR83z+5etc
-         +k7HM5i6psRYUzNs4jOl8r6Bxl2QB/19bnDp+Yl+PMimxNqaXOyXJZ0cQxAnSG4Qke3g
-         uqvnJLQulGHtxnseggkVa4hnFWE7LThfBQcvMFgO6r4NZza1rIVe/Q4Lvu+VO/7iMYf9
-         H6Z8lRDPSVdFb/u2+FYO2H5cf3f0NkO6/BaBGL3cLQBzwMyj2jCVx40ymi/6c7N+NTTe
-         5avg==
-X-Gm-Message-State: ANoB5pkEZZ60ls1HPmkTaNjkmY/MJ/4HHsukwK3JdKE2ry74WqLpdjF1
-        pY3AQWZpjOoZMrx4IfWIcVG5jIb+jy4=
-X-Google-Smtp-Source: AA0mqf7VUZP5WL8w0KYpuEylBqxVM+R+qsCToD3i516YT8qUkPqvdnh9YozzqmbulM7I5w6ktU2qnA==
-X-Received: by 2002:a17:902:bd42:b0:188:ca57:8945 with SMTP id b2-20020a170902bd4200b00188ca578945mr1615541plx.116.1669023851841;
-        Mon, 21 Nov 2022 01:44:11 -0800 (PST)
-Received: from ?IPv6:240b:c020:461:8350:394b:7d0:c360:6914? ([240b:c020:461:8350:394b:7d0:c360:6914])
-        by smtp.gmail.com with ESMTPSA id d12-20020a170903230c00b0017e9b820a1asm9431678plh.100.2022.11.21.01.44.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Nov 2022 01:44:11 -0800 (PST)
-Message-ID: <8881e8428d765583e0dff7e90fa3e2c92392fc5a.camel@gmail.com>
-Subject: Re: [PATCH 406/606] media: tuners/qm1d1c0042: Convert to i2c's
- .probe_new()
-From:   Akihiro TSUKADA <tskd08@gmail.com>
-To:     Uwe =?ISO-8859-1?Q?Kleine-K=F6nig?= <uwe@kleine-koenig.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-i2c@vger.kernel.org, kernel@pengutronix.de,
-        Uwe =?ISO-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>, linux-media@vger.kernel.org
-Date:   Mon, 21 Nov 2022 18:44:06 +0900
-In-Reply-To: <20221118224540.619276-407-uwe@kleine-koenig.org>
-References: <20221118224540.619276-1-uwe@kleine-koenig.org>
-         <20221118224540.619276-407-uwe@kleine-koenig.org>
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
-User-Agent: Evolution 3.46.1 
+        Mon, 21 Nov 2022 04:47:01 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 857EDE08D;
+        Mon, 21 Nov 2022 01:47:00 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 24AB960F93;
+        Mon, 21 Nov 2022 09:47:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 32F77C433D6;
+        Mon, 21 Nov 2022 09:46:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1669024019;
+        bh=VQZYBH1bhf90ko3Gyb0TeinDWhHpYreu0f9unIS25Zw=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=LP5Bcu/o6ov0sKBaLpR4FOMpj0KiyS6oh9p0I60JpynrFARptBhfmho4EJPJ4/m8m
+         8P/d6EM/AqaaQLCXJhqPIcFWHodFvsubWuvWx28DPgaLvAZqckMNaKwqG6/tHpp2k2
+         NhwnVwWHQ5eSkDwvMZ+zEr7bgrLiNVmVBz09kxJI=
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     linux-kernel@vger.kernel.org
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org
+Subject: [PATCH 3/5] kobject: kset_uevent_ops: make filter() callback take a const *
+Date:   Mon, 21 Nov 2022 10:46:47 +0100
+Message-Id: <20221121094649.1556002-3-gregkh@linuxfoundation.org>
+X-Mailer: git-send-email 2.38.1
+In-Reply-To: <20221121094649.1556002-1-gregkh@linuxfoundation.org>
+References: <20221121094649.1556002-1-gregkh@linuxfoundation.org>
 MIME-Version: 1.0
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3268; i=gregkh@linuxfoundation.org; h=from:subject; bh=VQZYBH1bhf90ko3Gyb0TeinDWhHpYreu0f9unIS25Zw=; b=owGbwMvMwCRo6H6F97bub03G02pJDMnVnpyPX3yeVMM/57Desw3BLcVtK7dElz68+Jj/h3hLmCLD i9stHbEsDIJMDLJiiixftvEc3V9xSNHL0PY0zBxWJpAhDFycAjAR2ViGBcs28T5zS33/Xe98772MPX fXBXVIsjIsaPjXGMjtXphX9MSuufH7/2k3/JI6AQ==
+X-Developer-Key: i=gregkh@linuxfoundation.org; a=openpgp; fpr=F4B60CC5BF78C2214A313DCB3147D40DDB2DFB29
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Tested-by: Akihiro Tsukada <tskd08@gmail.com>
+The filter() callback in struct kset_uevent_ops does not modify the
+kobject passed into it, so make the pointer const to enforce this
+restriction.  When doing so, fix up all existing filter() callbacks to
+have the correct signature to preserve the build.
+
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>
+Cc: "Christian König" <christian.koenig@amd.com>
+Cc: linux-media@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
+Cc: linaro-mm-sig@lists.linaro.org
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+---
+ drivers/base/bus.c                    | 2 +-
+ drivers/base/core.c                   | 4 ++--
+ drivers/dma-buf/dma-buf-sysfs-stats.c | 2 +-
+ include/linux/kobject.h               | 2 +-
+ kernel/params.c                       | 2 +-
+ 5 files changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/base/bus.c b/drivers/base/bus.c
+index 7ca47e5b3c1f..4ec6dbab73be 100644
+--- a/drivers/base/bus.c
++++ b/drivers/base/bus.c
+@@ -163,7 +163,7 @@ static struct kobj_type bus_ktype = {
+ 	.release	= bus_release,
+ };
+ 
+-static int bus_uevent_filter(struct kobject *kobj)
++static int bus_uevent_filter(const struct kobject *kobj)
+ {
+ 	const struct kobj_type *ktype = get_ktype(kobj);
+ 
+diff --git a/drivers/base/core.c b/drivers/base/core.c
+index a79b99ecf4d8..005a2b092f3e 100644
+--- a/drivers/base/core.c
++++ b/drivers/base/core.c
+@@ -2362,12 +2362,12 @@ static struct kobj_type device_ktype = {
+ };
+ 
+ 
+-static int dev_uevent_filter(struct kobject *kobj)
++static int dev_uevent_filter(const struct kobject *kobj)
+ {
+ 	const struct kobj_type *ktype = get_ktype(kobj);
+ 
+ 	if (ktype == &device_ktype) {
+-		struct device *dev = kobj_to_dev(kobj);
++		const struct device *dev = kobj_to_dev(kobj);
+ 		if (dev->bus)
+ 			return 1;
+ 		if (dev->class)
+diff --git a/drivers/dma-buf/dma-buf-sysfs-stats.c b/drivers/dma-buf/dma-buf-sysfs-stats.c
+index 2bba0babcb62..f69d68122b9b 100644
+--- a/drivers/dma-buf/dma-buf-sysfs-stats.c
++++ b/drivers/dma-buf/dma-buf-sysfs-stats.c
+@@ -132,7 +132,7 @@ void dma_buf_stats_teardown(struct dma_buf *dmabuf)
+ 
+ 
+ /* Statistics files do not need to send uevents. */
+-static int dmabuf_sysfs_uevent_filter(struct kobject *kobj)
++static int dmabuf_sysfs_uevent_filter(const struct kobject *kobj)
+ {
+ 	return 0;
+ }
+diff --git a/include/linux/kobject.h b/include/linux/kobject.h
+index 5a2d58e10bf5..640f59d4b3de 100644
+--- a/include/linux/kobject.h
++++ b/include/linux/kobject.h
+@@ -135,7 +135,7 @@ struct kobj_uevent_env {
+ };
+ 
+ struct kset_uevent_ops {
+-	int (* const filter)(struct kobject *kobj);
++	int (* const filter)(const struct kobject *kobj);
+ 	const char *(* const name)(struct kobject *kobj);
+ 	int (* const uevent)(struct kobject *kobj, struct kobj_uevent_env *env);
+ };
+diff --git a/kernel/params.c b/kernel/params.c
+index 5b92310425c5..d2237209ceda 100644
+--- a/kernel/params.c
++++ b/kernel/params.c
+@@ -926,7 +926,7 @@ static const struct sysfs_ops module_sysfs_ops = {
+ 	.store = module_attr_store,
+ };
+ 
+-static int uevent_filter(struct kobject *kobj)
++static int uevent_filter(const struct kobject *kobj)
+ {
+ 	const struct kobj_type *ktype = get_ktype(kobj);
+ 
+-- 
+2.38.1
+
