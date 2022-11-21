@@ -2,206 +2,158 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3B8456319BB
-	for <lists+linux-media@lfdr.de>; Mon, 21 Nov 2022 07:33:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A8C976319BE
+	for <lists+linux-media@lfdr.de>; Mon, 21 Nov 2022 07:34:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229698AbiKUGdU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 21 Nov 2022 01:33:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56268 "EHLO
+        id S229734AbiKUGe3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 21 Nov 2022 01:34:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56366 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229490AbiKUGdS (ORCPT
+        with ESMTP id S229489AbiKUGe2 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 21 Nov 2022 01:33:18 -0500
-Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C70442F3A1
-        for <linux-media@vger.kernel.org>; Sun, 20 Nov 2022 22:33:14 -0800 (PST)
-Received: by mail-pl1-x632.google.com with SMTP id io19so9716210plb.8
-        for <linux-media@vger.kernel.org>; Sun, 20 Nov 2022 22:33:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=theori.io; s=google;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=rldQbVzv5ebudT94dGZh2jVY/qkQgmXwBXggpzupv6g=;
-        b=FUXLpBXC985sjZvdr2/n7L886E22UrSSCgeTmKY/YRtMKh3+UNmA3BhhLhBQI+34Mn
-         IJDgN5xFyBg/ALxwNwmIWJ4YZG6zrE/QOk1p2ERomztODtaBfJnQkpDTiDFj+3sdIhVc
-         ZvHBg7n7Plw7Lml7AVVCzOAvHaeWN1hag9A2U=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=rldQbVzv5ebudT94dGZh2jVY/qkQgmXwBXggpzupv6g=;
-        b=zq3CJOjkEGdYgrNeXX9nmJbmYdiM5NiXTb4rUjXlBaxCkPSMlBXTioWXRaUT3aMe0K
-         NDLYjXq3LrHbY9Q/e0JBjHgwUtjnmgzYv7S7di81HixXtqwAEl2UF0MCNf5twnr0wTtz
-         AO4kDb8MleC9RanlCONdymLzipIfCqgLYQjXXFSis4iuJyTKnAzeq3kMqS+4O8t+IupS
-         wLufj5hqiAUNUTxl5FlQqKhZnEvtbFpl8Y/ezGvyrTu13qOclpvFEfAlA/aXMcDfd0mD
-         AbrgW6Ny0sC3ZAAjGAwudZGsaipW15npcbQrYQtJzg/PFoTuq7+3x2sqdjNk/F0g8PO6
-         Qb4A==
-X-Gm-Message-State: ANoB5pmfOIXFLingfyy/pQG4KZyajMlsgAlezpcKyv+dUs4f/xbTgH+r
-        1+Epi60z7ClUNAOlVe/MUHpNmg==
-X-Google-Smtp-Source: AA0mqf66VffZbM1/0KybknJnOwPt5S0b1hE4ZfrN6xpKk4e8OzGYFNFZuL8Zo7e57awlk6ixqCTZ2A==
-X-Received: by 2002:a17:90a:4886:b0:211:42a9:d132 with SMTP id b6-20020a17090a488600b0021142a9d132mr19262919pjh.8.1669012394383;
-        Sun, 20 Nov 2022 22:33:14 -0800 (PST)
-Received: from ubuntu ([121.133.63.188])
-        by smtp.gmail.com with ESMTPSA id 143-20020a621495000000b00565b259a52asm7854502pfu.1.2022.11.20.22.33.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 20 Nov 2022 22:33:13 -0800 (PST)
-Date:   Sun, 20 Nov 2022 22:33:08 -0800
-From:   Hyunwoo Kim <v4bel@theori.io>
-To:     mchehab@kernel.org
-Cc:     linux-media@vger.kernel.org, linux-usb@vger.kernel.org,
-        tiwai@suse.de, v4bel@theori.io
-Subject: [PATCH] media: dvb-core: Fix use-after-free due to race condition
- occurring in dvb_ca_en50221
-Message-ID: <20221121063308.GA33821@ubuntu>
+        Mon, 21 Nov 2022 01:34:28 -0500
+Received: from EUR03-AM7-obe.outbound.protection.outlook.com (mail-am7eur03on2082.outbound.protection.outlook.com [40.107.105.82])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6693130F73;
+        Sun, 20 Nov 2022 22:34:27 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=gtEDrR7eL5UJcS2PYSQSMp1bSHyXUPzfj5gKCvxlNRgautsPGGZ7LLbZfsacCJr9olXrqssNJPU3FiK7cL7UI3zz0nM6ejuWNejx2OJo0HqBHuiTiOGYCXTbGivrN+K9X06cEL4JYedBzmDT0H7pJOlhvipQVQ6Ma+KWdCG3zwCVqcO/VjUU/wq4UT9RLxTZXEFNSL5cZCcpULaJ5BLyAGsI68wnxCaPzNJkFnX4C2ByAG6YWna/z/J4AXHg+YAYODKm57BJrBQfIxOe5EW+oVBmMXe5S3G8Vl93WauLieOg7qA+4Kxng4l2/KC6deWFhwLYkPPWoq4wKK6IFemBGg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=JflHKlYZmBKZNnJsTXXhJIB6LzGhT9Y0Ng0hOtUdIo8=;
+ b=lg3GE3YuTETXG+cfk3dhKoAzFAOCIUKiivug13J/S0B7SUoBDCRedCsIc0AcXdQCCTTIPIvHcNNKYpfWnPMi/vnVRRoptS+/r/jy+t55OdcBBs9KZpdybG12Q82J/Fpe6Z1SnFdUfeTZcuCIcGO8QYVtfOHQStCyBlyczLDmrfQXyw9qMcRK6pqD2mKJpE8ayCU03V35e5B75eu0mgauVkJWQCSybDVdFsMUq/pwFnc/Otc7l3kmKooBg4Rt1tDgrp6bdLi025lUj5zGsPZ488sWLRL+hvgmESA06SKIbLH3hGf5l8ApESUPFoqz4bnwNv+QlrUzJY0YJ7lUrl6kpQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=JflHKlYZmBKZNnJsTXXhJIB6LzGhT9Y0Ng0hOtUdIo8=;
+ b=L8KyEfkX6SKC0wbOzx4mR/tQ665DCzQ1PDC7yXZMUZPifluYsFUowZc1bDFy+8Yg5PxHbkRIbBkCnHCfqxSvKNkLhU1ZXJmi90v/cTbQcgTBaCHS6u3FwEaGObrLrVL1nysEq/g2MQ2E8SJXSV37m/5S8S+RSjPbTd7WfBoWL8w=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from AM6PR04MB6341.eurprd04.prod.outlook.com (2603:10a6:20b:d8::14)
+ by PAXPR04MB8736.eurprd04.prod.outlook.com (2603:10a6:102:20c::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5834.9; Mon, 21 Nov
+ 2022 06:34:24 +0000
+Received: from AM6PR04MB6341.eurprd04.prod.outlook.com
+ ([fe80::5c78:27ea:319f:d11]) by AM6PR04MB6341.eurprd04.prod.outlook.com
+ ([fe80::5c78:27ea:319f:d11%3]) with mapi id 15.20.5834.015; Mon, 21 Nov 2022
+ 06:34:24 +0000
+From:   Ming Qian <ming.qian@nxp.com>
+To:     mchehab@kernel.org, hverkuil-cisco@xs4all.nl
+Cc:     shawnguo@kernel.org, robh+dt@kernel.org, s.hauer@pengutronix.de,
+        kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
+        xiahong.bao@nxp.com, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Subject: [PATCH] media: amphion: cancel vpu before release instance
+Date:   Mon, 21 Nov 2022 14:34:07 +0800
+Message-Id: <20221121063407.7770-1-ming.qian@nxp.com>
+X-Mailer: git-send-email 2.38.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SI2PR06CA0018.apcprd06.prod.outlook.com
+ (2603:1096:4:186::8) To AM6PR04MB6341.eurprd04.prod.outlook.com
+ (2603:10a6:20b:d8::14)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM6PR04MB6341:EE_|PAXPR04MB8736:EE_
+X-MS-Office365-Filtering-Correlation-Id: a9a60fd1-fa03-49d9-20de-08dacb8a6e85
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 8JjugRWAQMxMYRtoEEpGVMlxaQvqn+XJGA54ThM1KfaYJeQLBbVJYw1UhUPsTsjisY1miXBOIyMVo9MzCYxwelwUkRcjDT/fiWz3Qo4NnoKz7GWmTbv81bX/cM7MXxgbFFNG8BR7Ny1ng4fKSOpqHaDHI+/NtBbi+7LFeYnLMXXWe0qe02TOuMgkiAYAKOyIZoxUcSndCJuevXwabrLwrgYXdmHU3QouoGiM7PiY9CHbDOO6HNjHwg5WJ2CQfqUCtv7EQqDrIiTzB4FBPvMrKsEfdzer1fd058nySETclWaw3+HpNdv2bNtXk6OisWjW/68K9WXTaetUSG0/AXwYF+ZoxiSNmpb/czmmsIjc9zOWJEnxc+TJqpwbUWFXoo2I4LuI8EohYTvvIZrC0zClh6gaipmoW2CGbMPGoHzX2F6eZHVxYDQUZ3FpsNyV754k4AwzA86FL1MAudPuPrdO1vhJ5o7QDc0KmM+HyFec5EC6a4ahMNasfFbs9XQ1cjzkoBwNn60ajGCB2cDNrc/BtrsjIaFT9zXhrmFhz1KtqWYdO890Tk4t6cotmyDlyibrSXGFH2j1P3hMfs40I09W6cKsKYT6oeveH5REZ2K+m7uLEtZRsQukKGZbDZJuXQ+Ymj5iyjGNtd4TaO+Uk2ly0s5Jwa0Vhwsn40kEx/DLPZ/4Sqo2qlcBwsNo64IiVFWefzBPHdpbJD3bf3xSqkZDOQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6PR04MB6341.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(39860400002)(346002)(366004)(376002)(396003)(136003)(451199015)(5660300002)(44832011)(7416002)(6506007)(316002)(52116002)(66476007)(8676002)(4326008)(66946007)(36756003)(6512007)(41300700001)(2616005)(26005)(1076003)(8936002)(186003)(38350700002)(38100700002)(2906002)(83380400001)(86362001)(66556008)(6666004)(6486002)(478600001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?yMmqRuUhvND132bILu+UfELstXcupo5kEHtcT3JztXDcnXKFGL8wE5vf/oTk?=
+ =?us-ascii?Q?veKtDxOFC5AZezUooBw/0ltYYQpeHjMh2g+TG7JjAY3YebZ+26B5ou3tc24k?=
+ =?us-ascii?Q?g16SljcrAxjPSc0qY/07UBoIT2AyM4WvXYzsv1V2/D1UAturYnt5fWLuA8k4?=
+ =?us-ascii?Q?M9+czLNlp4JQiMJ2Ojvx7y9DCxoxN3XuDp3DgpMJbDPWXGpDZmv+5ZvrW+/a?=
+ =?us-ascii?Q?BHL3IQyy3MjqpSH5sLGtYFoTHFdhKcyE9k3vQ8zjnsF+Y736R4S5SKNFadYy?=
+ =?us-ascii?Q?QqnCU0DccSLPwFX5hcfo1M2ZuREn20j7lVVNR6GLMYqCEt72LzACz5py8MeF?=
+ =?us-ascii?Q?7sI+rMCR6LANd9gWBw2Lk96chGQVNYBxI6ahGJvsBphzoovlmAaktq0yJz1q?=
+ =?us-ascii?Q?VzthY2i5n1zM5ic/McoTIG1r1s772Kl1VoxgD4AoNLmfHOiuHUln0+fLYOH6?=
+ =?us-ascii?Q?N3rzrBdKTO9Km/+t2gvhmxPHs/XdtGJyHgHfkkdtnZlpZepZdF585VPVN7Ms?=
+ =?us-ascii?Q?DhvP7TU2E0bXqsWM/3jo8J2wqvdjNLOGAaLZ4T/i0v/Zhp2/nz2UFPh1ip5l?=
+ =?us-ascii?Q?9mKNALgZ4fdWTJDl6epwO6CY5Hg0AGo3DFvSsyheJ4nXHfZVqs1SBSjUcoqh?=
+ =?us-ascii?Q?Y8GEHM+vTmIB5z0pQGgv1Yzot6uMbjxnwcOlum+1MvQ7f73Y0/AdWcEW4kRu?=
+ =?us-ascii?Q?AEMvRgcxvoxHDukp+mXgYng07tOmCyaBlxeX26IYJlslDiWiGu5uueqtlwN2?=
+ =?us-ascii?Q?bz5akcp7PmqglQFO2nhc03xu6/N0EbrourWp3bIXkb0f2CaPNqiQjBWWGUr4?=
+ =?us-ascii?Q?/BCEpArqQxK86St8nEMY34MD+qJGKGni0iLprFHB90UAWf/Er3EL8XaEoTGH?=
+ =?us-ascii?Q?+BnO8YOMXHgNN4lpIDGuBMjOg3JDlWZAshS5xpI4tObXmJOQ1xYmCh80e+RS?=
+ =?us-ascii?Q?lMWjdeAJqplj64OLsuAMzFmhHypsTV4VwHPYdbEf2fahr3SFcD7/PefZ6/oz?=
+ =?us-ascii?Q?VYB2IanujGEeysi5KNOXbnc/6EnfjaLA69BbDnPzySeV/C0xKhZTneeR0ZJn?=
+ =?us-ascii?Q?u2ZSWTpk2Z4n/kbG2mP46Ooq2FNbbkDtatp7wA75no6Pnn8Qg6fg99X4JZ04?=
+ =?us-ascii?Q?ZA3KtUWR/xuu+1YLn6XTGFZqvSGwj87qKuQTaZD0QAofpQ7XyLdv19yynDl9?=
+ =?us-ascii?Q?kPBvKqT7P81tP6XnsfVvhDuJKV8J51bUx+bzDs8ZzLdwe2WKjKZ5HePhNWG5?=
+ =?us-ascii?Q?wchJqv4Mk+PDJsMEa66f6JKxeCnq+1Xr3zYAeqqFlVpACyupyxfZPrHtTRUZ?=
+ =?us-ascii?Q?jgjir9PIJwy6GIXkoVF7zq+LWrOwMvMu3mk/iZyszcCMPc7S+qIMMvaK8Wha?=
+ =?us-ascii?Q?q+n4wFxpaF1FvnoWSfNxZTfSd2urO0TY+uSObMaX0hmRPblSqi9Jb1BdZPRt?=
+ =?us-ascii?Q?+I87a07AbqM5/POA32RTqYNpJLFJFDaCFzqmr+KQGew8S4mTUk3XCheO0BRX?=
+ =?us-ascii?Q?YlBVvJj32um45vTUxIwyZm7++4LLwynnJumGSUUJWfgkdCtl3mxtSVeDd3uz?=
+ =?us-ascii?Q?v9H9UBTIZNA01xWPvbMOdQiY/Ng4pBtIMRLtaUGl?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a9a60fd1-fa03-49d9-20de-08dacb8a6e85
+X-MS-Exchange-CrossTenant-AuthSource: AM6PR04MB6341.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Nov 2022 06:34:24.8208
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: YsL3YeVX0/Whf58b8aBHDDz0CTkIQ5vTf5TUFoRSIR1+4f3fYo+Wu3rHT2BsqVGPYeUfyokgaLcjAU9oRiUg5A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR04MB8736
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-If the device node of dvb_ca_en50221 is open() and the
-device is disconnected, a UAF may occur when calling
-close() on the device node.
+Revert "media: amphion: release m2m ctx when releasing vpu instance"
+This reverts commit d91d7bc85062309aae6d8064563ddf17947cb6bc.
 
-The root cause is that wake_up() and wait_event() for
-dvbdev->wait_queue are not implemented.
+Call v4l2_m2m_ctx_release() to cancel vpu,
+afterwards release the vpu instance.
 
-So implement wait_event() function in dvb_ca_en50221_release()
-and add 'remove_mutex' which prevents race condition
-for 'ca->exit'.
-
-Signed-off-by: Hyunwoo Kim <v4bel@theori.io>
+Fixes: d91d7bc85062 ("media: amphion: release m2m ctx when releasing vpu instance")
+Signed-off-by: Ming Qian <ming.qian@nxp.com>
 ---
- drivers/media/dvb-core/dvb_ca_en50221.c | 36 ++++++++++++++++++++++++-
- 1 file changed, 35 insertions(+), 1 deletion(-)
+ drivers/media/platform/amphion/vpu_v4l2.c | 11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/media/dvb-core/dvb_ca_en50221.c b/drivers/media/dvb-core/dvb_ca_en50221.c
-index 15a08d8c69ef..60133a315701 100644
---- a/drivers/media/dvb-core/dvb_ca_en50221.c
-+++ b/drivers/media/dvb-core/dvb_ca_en50221.c
-@@ -151,6 +151,12 @@ struct dvb_ca_private {
- 
- 	/* mutex serializing ioctls */
- 	struct mutex ioctl_mutex;
-+
-+	/* A mutex used when a device is disconnected */
-+	struct mutex remove_mutex;
-+
-+	/* Whether the device is disconnected */
-+	int exit;
- };
- 
- static void dvb_ca_private_free(struct dvb_ca_private *ca)
-@@ -1709,12 +1715,22 @@ static int dvb_ca_en50221_io_open(struct inode *inode, struct file *file)
- 
- 	dprintk("%s\n", __func__);
- 
--	if (!try_module_get(ca->pub->owner))
-+	mutex_lock(&ca->remove_mutex);
-+
-+	if (ca->exit) {
-+		mutex_unlock(&ca->remove_mutex);
-+		return -ENODEV;
-+	}
-+
-+	if (!try_module_get(ca->pub->owner)) {
-+		mutex_unlock(&ca->remove_mutex);
- 		return -EIO;
-+	}
- 
- 	err = dvb_generic_open(inode, file);
- 	if (err < 0) {
- 		module_put(ca->pub->owner);
-+		mutex_unlock(&ca->remove_mutex);
- 		return err;
+diff --git a/drivers/media/platform/amphion/vpu_v4l2.c b/drivers/media/platform/amphion/vpu_v4l2.c
+index 30ce9f06d91e..33aaa86d465f 100644
+--- a/drivers/media/platform/amphion/vpu_v4l2.c
++++ b/drivers/media/platform/amphion/vpu_v4l2.c
+@@ -681,10 +681,6 @@ static int vpu_v4l2_release(struct vpu_inst *inst)
+ 		inst->workqueue = NULL;
  	}
  
-@@ -1739,6 +1755,7 @@ static int dvb_ca_en50221_io_open(struct inode *inode, struct file *file)
+-	if (inst->fh.m2m_ctx) {
+-		v4l2_m2m_ctx_release(inst->fh.m2m_ctx);
+-		inst->fh.m2m_ctx = NULL;
+-	}
+ 	v4l2_ctrl_handler_free(&inst->ctrl_handler);
+ 	mutex_destroy(&inst->lock);
+ 	v4l2_fh_del(&inst->fh);
+@@ -767,6 +763,13 @@ int vpu_v4l2_close(struct file *file)
  
- 	dvb_ca_private_get(ca);
+ 	vpu_trace(vpu->dev, "tgid = %d, pid = %d, inst = %p\n", inst->tgid, inst->pid, inst);
  
-+	mutex_unlock(&ca->remove_mutex);
- 	return 0;
- }
- 
-@@ -1758,6 +1775,8 @@ static int dvb_ca_en50221_io_release(struct inode *inode, struct file *file)
- 
- 	dprintk("%s\n", __func__);
- 
-+	mutex_lock(&ca->remove_mutex);
++	vpu_inst_lock(inst);
++	if (inst->fh.m2m_ctx) {
++		v4l2_m2m_ctx_release(inst->fh.m2m_ctx);
++		inst->fh.m2m_ctx = NULL;
++	}
++	vpu_inst_unlock(inst);
 +
- 	/* mark the CA device as closed */
- 	ca->open = 0;
- 	dvb_ca_en50221_thread_update_delay(ca);
-@@ -1768,6 +1787,12 @@ static int dvb_ca_en50221_io_release(struct inode *inode, struct file *file)
- 
- 	dvb_ca_private_put(ca);
- 
-+	if (dvbdev->users == 1 && ca->exit == 1) {
-+		mutex_unlock(&ca->remove_mutex);
-+		wake_up(&dvbdev->wait_queue);
-+	} else
-+		mutex_unlock(&ca->remove_mutex);
-+
- 	return err;
- }
- 
-@@ -1891,6 +1916,7 @@ int dvb_ca_en50221_init(struct dvb_adapter *dvb_adapter,
- 	}
- 
- 	mutex_init(&ca->ioctl_mutex);
-+	mutex_init(&ca->remove_mutex);
- 
- 	if (signal_pending(current)) {
- 		ret = -EINTR;
-@@ -1933,6 +1959,14 @@ void dvb_ca_en50221_release(struct dvb_ca_en50221 *pubca)
- 
- 	dprintk("%s\n", __func__);
- 
-+	mutex_lock(&ca->remove_mutex);
-+	ca->exit = 1;
-+	mutex_unlock(&ca->remove_mutex);
-+
-+	if (ca->dvbdev->users < 1)
-+		wait_event(ca->dvbdev->wait_queue,
-+				ca->dvbdev->users == 1);
-+
- 	/* shutdown the thread if there was one */
- 	kthread_stop(ca->thread);
- 
+ 	call_void_vop(inst, release);
+ 	vpu_inst_unregister(inst);
+ 	vpu_inst_put(inst);
 -- 
-2.25.1
+2.38.1
 
-
-Dear,
-
-A UAF can occur in a flow like the one below:
-```
-                cpu0                                                cpu1
-                                                             1. dvb_usbv2_probe()
-                                                                d->priv = kzalloc(d->props->size_of_priv, GFP_KERNEL);
-                                                                ...
-                                                                dvb_usbv2_init()
-                                                                anysee_init()
-                                                                anysee_ci_init()
-                                                                dvb_ca_en50221_init()
-                                                                ca->pub = pubca;    // pubca : &state->ci, state : d->priv
-       2. open()
-          dvb_device_open()
-          dvb_ca_en50221_io_open()
-                                                             3. dvb_usbv2_disconnect()
-                                                                kfree(d->priv);
-       4. close()
-          dvb_ca_en50221_io_release()
-          module_put(ca->pub->owner);    // UAF
-```
-
-
-Regards,
-Hyunwoo Kim
