@@ -2,53 +2,46 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E115D6330B9
-	for <lists+linux-media@lfdr.de>; Tue, 22 Nov 2022 00:36:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D26DD6330BC
+	for <lists+linux-media@lfdr.de>; Tue, 22 Nov 2022 00:39:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231615AbiKUXgG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 21 Nov 2022 18:36:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44230 "EHLO
+        id S229866AbiKUXjH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 21 Nov 2022 18:39:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46410 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229687AbiKUXgF (ORCPT
+        with ESMTP id S231697AbiKUXjC (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 21 Nov 2022 18:36:05 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C1644AF3E;
-        Mon, 21 Nov 2022 15:36:04 -0800 (PST)
+        Mon, 21 Nov 2022 18:39:02 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2941A49B7A
+        for <linux-media@vger.kernel.org>; Mon, 21 Nov 2022 15:38:58 -0800 (PST)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2404588F;
-        Tue, 22 Nov 2022 00:36:02 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6DBF488F;
+        Tue, 22 Nov 2022 00:38:56 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1669073762;
-        bh=3VWpmzoh5E5Wu8pU8xTt80N7017DTFHJ6/6yLl+OX5c=;
+        s=mail; t=1669073936;
+        bh=CqKtBbc+UztcReSsY5uc7wHmjqnU7LShRraVJC+DhjE=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=m3D9zVzZY9O/z86qEYnCXv+Mmiz0DYEQJq6OoYJ1aSA6y/dPIin5oAumzlg5myhRf
-         H3RLAvu2Y3K0v7Srli5unumLxaI8SXCdjnCwfByBUDSgDM0piU6RxZ0oyCHowpEfEW
-         KHuUOv7MhZYfAHR7xQBXHySRaiuwwYuj9GcJT2sQ=
-Date:   Tue, 22 Nov 2022 01:35:47 +0200
+        b=nIw6Pcl3Z/Ap3qVz93mC5/XwW2FMds+r9WuTUEeiOkSRRRUqIKi21drT533ej/my1
+         nMzIOlQBD8fUIexazhHnRPoPWlRQHdK89Ykg9R55Svw6P/IHtix+ovu7M7tdT5wpr/
+         r0+I5V6ZjGJ5c/HqgBgn5J05BCp7TKK7k2p/cDa0=
+Date:   Tue, 22 Nov 2022 01:38:41 +0200
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Umang Jain <umang.jain@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, kernel-list@raspberrypi.com,
-        linux-kernel@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-staging@lists.linux.dev,
-        Broadcom internal kernel review list 
-        <bcm-kernel-feedback-list@broadcom.com>,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Naushir Patuck <naush@raspberrypi.com>,
-        David Plowman <david.plowman@raspberrypi.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>
-Subject: Re: [PATCH 12/14] staging: vc04_services: bcm2835_isp: Allow
- multiple users
-Message-ID: <Y3wLUwfOn0TzndZe@pendragon.ideasonboard.com>
-References: <20221121214722.22563-1-umang.jain@ideasonboard.com>
- <20221121214722.22563-13-umang.jain@ideasonboard.com>
- <Y3wJ6/+Hl6JTm1Bu@pendragon.ideasonboard.com>
+To:     Jacopo Mondi <jacopo@jmondi.org>
+Cc:     Krzysztof =?utf-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@iki.fi>,
+        linux-media@vger.kernel.org,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>
+Subject: Re: [PATCH v3 00/10] media: ar0521: Add analog gain, rework clock
+ tree
+Message-ID: <Y3wMAVlpal8SHJuF@pendragon.ideasonboard.com>
+References: <20221104142452.117135-1-jacopo@jmondi.org>
+ <20221121174933.fousgbqgmgxvvdmf@uno.localdomain>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <Y3wJ6/+Hl6JTm1Bu@pendragon.ideasonboard.com>
+In-Reply-To: <20221121174933.fousgbqgmgxvvdmf@uno.localdomain>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
         autolearn=ham autolearn_force=no version=3.4.6
@@ -58,191 +51,61 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Nov 22, 2022 at 01:29:48AM +0200, Laurent Pinchart wrote:
-> Hi Umang and Naush,
-> 
-> Thank you for the patch.
-> 
-> On Tue, Nov 22, 2022 at 03:17:20AM +0530, Umang Jain wrote:
-> > From: Naushir Patuck <naush@raspberrypi.com>
-> > 
-> > Add a second (identical) set of device nodes to allow concurrent use of
-> > the bcm2835-isp hardware by another user. This change effectively
-> > creates a second state structure (struct bcm2835_isp_dev) to maintain
-> > independent state for the second user. Node and media entity names are
-> > appened with the instance index appropriately.
-> > 
-> > Further users can be added by changing the BCM2835_ISP_NUM_INSTANCES
-> > define.
-> > 
-> > Signed-off-by: Naushir Patuck <naush@raspberrypi.com>
-> > Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
-> 
-> Let's squash this with 09/14.
+Hi Jacopo,
 
-Also, the documentation in 13/14 should be updated.
+On Mon, Nov 21, 2022 at 06:49:33PM +0100, Jacopo Mondi wrote:
+> I just noticed patch 10/10 was missing.
+> 
+> Now sent in reply to this thread.
+> 
+> While at it, gentle ping to see if this can make it for 6.2 ?
 
-> > ---
-> >  .../bcm2835-isp/bcm2835-v4l2-isp.c            | 77 +++++++++++++++----
-> >  1 file changed, 61 insertions(+), 16 deletions(-)
-> > 
-> > diff --git a/drivers/staging/vc04_services/bcm2835-isp/bcm2835-v4l2-isp.c b/drivers/staging/vc04_services/bcm2835-isp/bcm2835-v4l2-isp.c
-> > index cb7cdba76682..0dbcb25595e7 100644
-> > --- a/drivers/staging/vc04_services/bcm2835-isp/bcm2835-v4l2-isp.c
-> > +++ b/drivers/staging/vc04_services/bcm2835-isp/bcm2835-v4l2-isp.c
-> > @@ -28,13 +28,19 @@
-> >  
-> >  MODULE_IMPORT_NS(DMA_BUF);
-> >  
-> > +/*
-> > + * We want to instantiate 2 independent instances allowing 2 simultaneous users
-> > + * of the ISP hardware.
-> > + */
-> > +#define BCM2835_ISP_NUM_INSTANCES 2
-> > +
-> >  static unsigned int debug;
-> >  module_param(debug, uint, 0644);
-> >  MODULE_PARM_DESC(debug, "activates debug info");
-> >  
-> > -static unsigned int video_nr = 13;
-> > -module_param(video_nr, uint, 0644);
-> > -MODULE_PARM_DESC(video_nr, "base video device number");
-> > +static unsigned int video_nr[BCM2835_ISP_NUM_INSTANCES] = { 13, 20 };
-> > +module_param_array(video_nr, uint, NULL, 0644);
-> > +MODULE_PARM_DESC(video_nr, "base video device numbers");
-> >  
-> >  #define BCM2835_ISP_NAME "bcm2835-isp"
-> >  #define BCM2835_ISP_ENTITY_NAME_LEN 32
-> > @@ -1286,6 +1292,7 @@ static int bcm2835_isp_get_supported_fmts(struct bcm2835_isp_node *node)
-> >   * or output nodes.
-> >   */
-> >  static int register_node(struct bcm2835_isp_dev *dev,
-> > +			 unsigned int instance,
-> >  			 struct bcm2835_isp_node *node,
-> >  			 int index)
-> >  {
-> > @@ -1447,7 +1454,7 @@ static int register_node(struct bcm2835_isp_dev *dev,
-> >  	snprintf(vfd->name, sizeof(node->vfd.name), "%s-%s%d", BCM2835_ISP_NAME,
-> >  		 node->name, node->id);
-> >  
-> > -	ret = video_register_device(vfd, VFL_TYPE_VIDEO, video_nr + index);
-> > +	ret = video_register_device(vfd, VFL_TYPE_VIDEO, video_nr[instance]);
-> >  	if (ret) {
-> >  		v4l2_err(&dev->v4l2_dev,
-> >  			 "Failed to register video %s[%d] device node\n",
-> > @@ -1668,9 +1675,8 @@ static int media_controller_register(struct bcm2835_isp_dev *dev)
-> >  	return ret;
-> >  }
-> >  
-> > -static int bcm2835_isp_remove(struct platform_device *pdev)
-> > +static void bcm2835_isp_remove_instance(struct bcm2835_isp_dev *dev)
-> >  {
-> > -	struct bcm2835_isp_dev *dev = platform_get_drvdata(pdev);
-> >  	unsigned int i;
-> >  
-> >  	media_controller_unregister(dev);
-> > @@ -1685,11 +1691,11 @@ static int bcm2835_isp_remove(struct platform_device *pdev)
-> >  					      dev->component);
-> >  
-> >  	vchiq_mmal_finalise(dev->mmal_instance);
-> > -
-> > -	return 0;
-> >  }
-> >  
-> > -static int bcm2835_isp_probe(struct platform_device *pdev)
-> > +static int bcm2835_isp_probe_instance(struct platform_device *pdev,
-> > +				      struct bcm2835_isp_dev **dev_int,
-> > +				      unsigned int instance)
-> >  {
-> >  	struct bcm2835_isp_dev *dev;
-> >  	unsigned int i;
-> > @@ -1699,6 +1705,7 @@ static int bcm2835_isp_probe(struct platform_device *pdev)
-> >  	if (!dev)
-> >  		return -ENOMEM;
-> >  
-> > +	*dev_int = dev;
-> >  	dev->dev = &pdev->dev;
-> >  
-> >  	ret = v4l2_device_register(&pdev->dev, &dev->v4l2_dev);
-> > @@ -1716,7 +1723,7 @@ static int bcm2835_isp_probe(struct platform_device *pdev)
-> >  	if (ret) {
-> >  		v4l2_err(&dev->v4l2_dev,
-> >  			 "%s: failed to create ril.isp component\n", __func__);
-> > -		goto error;
-> > +		return ret;
-> >  	}
-> >  
-> >  	if (dev->component->inputs < BCM2835_ISP_NUM_OUTPUTS ||
-> > @@ -1728,7 +1735,7 @@ static int bcm2835_isp_probe(struct platform_device *pdev)
-> >  			  BCM2835_ISP_NUM_OUTPUTS,
-> >  			  dev->component->outputs,
-> >  			  BCM2835_ISP_NUM_CAPTURES + BCM2835_ISP_NUM_METADATA);
-> > -		goto error;
-> > +		return -EINVAL;
-> >  	}
-> >  
-> >  	atomic_set(&dev->num_streaming, 0);
-> > @@ -1736,17 +1743,55 @@ static int bcm2835_isp_probe(struct platform_device *pdev)
-> >  	for (i = 0; i < BCM2835_ISP_NUM_NODES; i++) {
-> >  		struct bcm2835_isp_node *node = &dev->node[i];
-> >  
-> > -		ret = register_node(dev, node, i);
-> > +		ret = register_node(dev, instance, node, i);
-> >  		if (ret)
-> > -			goto error;
-> > +			return ret;
-> >  	}
-> >  
-> >  	ret = media_controller_register(dev);
-> >  	if (ret)
-> > -		goto error;
-> > +		return ret;
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +static int bcm2835_isp_remove(struct platform_device *pdev)
-> > +{
-> > +	struct bcm2835_isp_dev **bcm2835_isp_instances;
-> > +	unsigned int i;
-> > +
-> > +	bcm2835_isp_instances = platform_get_drvdata(pdev);
-> > +	for (i = 0; i < BCM2835_ISP_NUM_INSTANCES; i++) {
-> > +		if (bcm2835_isp_instances[i])
-> > +			bcm2835_isp_remove_instance(bcm2835_isp_instances[i]);
-> > +	}
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +static int bcm2835_isp_probe(struct platform_device *pdev)
-> > +{
-> > +	struct bcm2835_isp_dev **bcm2835_isp_instances;
-> > +	unsigned int i;
-> > +	int ret;
-> > +
-> > +	bcm2835_isp_instances = devm_kzalloc(&pdev->dev,
-> > +					     sizeof(bcm2835_isp_instances) *
-> > +						      BCM2835_ISP_NUM_INSTANCES,
-> > +					     GFP_KERNEL);
-> > +	if (!bcm2835_isp_instances)
-> > +		return -ENOMEM;
-> > +
-> > +	platform_set_drvdata(pdev, bcm2835_isp_instances);
-> > +
-> > +	for (i = 0; i < BCM2835_ISP_NUM_INSTANCES; i++) {
-> > +		ret = bcm2835_isp_probe_instance(pdev,
-> > +						 &bcm2835_isp_instances[i], i);
-> > +		if (ret)
-> > +			goto error;
-> > +	}
-> >  
-> > -	platform_set_drvdata(pdev, dev);
-> > -	v4l2_info(&dev->v4l2_dev, "Loaded V4L2 %s\n", BCM2835_ISP_NAME);
-> > +	dev_info(&pdev->dev, "Loaded V4L2 %s\n", BCM2835_ISP_NAME);
-> >  	return 0;
-> >  
-> >  error:
+I'm drowning in reviews, so you'll need another volunteer.
+
+> On Fri, Nov 04, 2022 at 03:24:43PM +0100, Jacopo Mondi wrote:
+> > Hello,
+> >   this series adds a few features to the ar0521 driver to enable its usage
+> > with libcamera.
+> >
+> > In particular:
+> > - enum_frame_sizes
+> > - global analog gain control
+> > - LINK_FREQ
+> > - Rework blanking handligs
+> >
+> > v3 (Dave)
+> > - Check __v4l2_ctrl_modify_range() return value
+> > - Make LINK_FREQ readonly to avoid additional churn in s_ctrl
+> > - Fix trivial early return in s_ctrl
+> > - Use exposure's default value when modifying the controls' limits
+> > - Change the exposure default to 0x70 to match the register default value
+> >
+> > v2:
+> > - I have dropped the most controverse part that allows to change the link
+> >   frequency to obtain 60FPS. It can be eventually be applied on top.
+> > - Use register 0x3028 to control analog gain not to overwrite the global digital
+> >   gain.
+> > - Fix the HBLANK/VBLANK max by using the values read from on-chip registers.
+> > - Fix handling of LINK_FREQ in s_cltr (but do not make the control read only).
+> > - Fix errors reported by 0-days:
+> >   - use do_div() for 64-bit division
+> >   - declare variables in function scope and not in case scope in s_ctrl
+> >
+> > Jacopo Mondi (10):
+> >   media: ar0521: Implement enum_frame_sizes
+> >   media: ar0521: Add V4L2_CID_ANALOG_GAIN
+> >   media: ar0521: Set maximum resolution to 2592x1944
+> >   media: ar0521: Rework PLL computation
+> >   media: ar0521: Refuse unsupported controls
+> >   media: ar0521: Add LINK_FREQ control
+> >   media: ar0521: Adjust exposure and blankings limits
+> >   media: ar0521: Setup controls at s_stream time
+> >   media: ar0521: Rework startup sequence
+> >   media: ar0521: Tab-align definitions
+> >
+> >  drivers/media/i2c/ar0521.c | 352 ++++++++++++++++++++++++++-----------
+> >  1 file changed, 250 insertions(+), 102 deletions(-)
+> >
 
 -- 
 Regards,
