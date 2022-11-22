@@ -2,70 +2,60 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 644DD633BAD
-	for <lists+linux-media@lfdr.de>; Tue, 22 Nov 2022 12:44:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 38E6B633BC3
+	for <lists+linux-media@lfdr.de>; Tue, 22 Nov 2022 12:50:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233431AbiKVLoW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 22 Nov 2022 06:44:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58578 "EHLO
+        id S233073AbiKVLuE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 22 Nov 2022 06:50:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39458 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233493AbiKVLnq (ORCPT
+        with ESMTP id S233069AbiKVLuC (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 22 Nov 2022 06:43:46 -0500
-Received: from mail-il1-x134.google.com (mail-il1-x134.google.com [IPv6:2607:f8b0:4864:20::134])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3B2D12D13
-        for <linux-media@vger.kernel.org>; Tue, 22 Nov 2022 03:42:39 -0800 (PST)
-Received: by mail-il1-x134.google.com with SMTP id o13so6965106ilc.7
-        for <linux-media@vger.kernel.org>; Tue, 22 Nov 2022 03:42:39 -0800 (PST)
+        Tue, 22 Nov 2022 06:50:02 -0500
+Received: from mail-io1-xd2a.google.com (mail-io1-xd2a.google.com [IPv6:2607:f8b0:4864:20::d2a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C5B3326123
+        for <linux-media@vger.kernel.org>; Tue, 22 Nov 2022 03:50:01 -0800 (PST)
+Received: by mail-io1-xd2a.google.com with SMTP id p184so10705365iof.11
+        for <linux-media@vger.kernel.org>; Tue, 22 Nov 2022 03:50:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=raspberrypi.com; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=qN4bq7rhJmbsASifkFdopqqK3ZXMq/RRJe82gn4yruE=;
-        b=AxWmjW5lDzgeFN1g1yQNfCUhwThMsKHcnJrwynI/j3dRzCUcOa/ZhXVk13q4VPK29h
-         abeD7LiuC7XUQujuOGPwIQbhaD3uZH4Ws/7dUj4D9YfvDz+TMCD+X8DMBJ24JPfx9VPD
-         zimzJ9xu3mv3vsU355VTEe/MxfZ+4NKAy3yh5YYymU+GbA/LEuJhIEl8N9kfJ49pHzIw
-         FRcv0AvI7A5jK9GO9dJF91MxzDmzLvUdeDrA1aaDWQ2PrWrNwLhXCNQfG2u8on0A6J/0
-         NysbWUtfSI+Fz5j9H0C/QzTl14VUv/740gQxxhBYEOVIgWcBVKpmsVeS+Qx1yibuZCS4
-         epNQ==
+        bh=uY+PE1zp0HLoJFKsLmIrItqPJJAi5gmvU6X0S4I32YM=;
+        b=fJd+OUEEo7yhUJglhlNtPWTOyNMHgwOSnlyR6wM976/O7K/FgDVYq1/T2eW/Ch0y8T
+         lYeaTAeJWpP627HlIWYxslxEGMZjknzRypVE8AMMrFctrLA+wxW/XOj5CnX/P+tID6ob
+         CodEhA3q2dyrOZPsju29XY4wqwoudju01QZFABu+XT2de8LPdOUteKFCdZ21g1rzTVOw
+         nC4JGgzh2Sn2guLB+3SaHqnqIXQGpEsBCESZpc0AiMKxsgjsbPV6Mhc3Orkp1D23DYUa
+         ovc8bQf79RUKUu649OrJ9NDBEUMf4Chl0mGrNStc5Lbi+Wsgd5ov4GflaOarwwXD54aq
+         TiUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=qN4bq7rhJmbsASifkFdopqqK3ZXMq/RRJe82gn4yruE=;
-        b=aC9vCe3peFXVn6MUq02u2/CLok4T2GJge46N6kEG9Z/8tao77JzblaJ5Y2VoE4A6Nd
-         aeBI129TLzADnzBQvtWkPuL29AMgXEpYiYtSfuH9k1D9FcxncGd5yoLSpSxbbMj211YM
-         7a+11Kn2XQeLFqCP5MKgrIyxP9Y91t7rC6cfMaY4ozzRYgQUxs0mW8GObpc5DXRAU2oZ
-         bgTrzwMeHZj6fCgll0SU0+HIUMKsVmS55ZGGfAel3jYWumSQoliV04g+SqyFYldcdI1d
-         ZjaNZ8/wB1A8oLHIMB6u4u8CSLoJwfYO0hbmmudOCEFys/fskxdurWcwfJvJLUIjgtT9
-         jgcA==
-X-Gm-Message-State: ANoB5pm3UKF1qdGCU5T8dsLk/vZKPQPimwXZYyz+zMrEV3MUA4bnuSyp
-        +6W1YknZLnswyD9MkubyvuBTgLRYKw00cFuu2Gbv3A==
-X-Google-Smtp-Source: AA0mqf65UWNzQ0vL7id209ir9dKbqf9j0HVrcEYRyCApESrKVFUjZeoKGOFNoLCAMZHQ/7Yc1CXPLjroY96LK/6Xd5U=
-X-Received: by 2002:a92:d311:0:b0:302:d31c:46c2 with SMTP id
- x17-20020a92d311000000b00302d31c46c2mr1550373ila.304.1669117359152; Tue, 22
- Nov 2022 03:42:39 -0800 (PST)
+        bh=uY+PE1zp0HLoJFKsLmIrItqPJJAi5gmvU6X0S4I32YM=;
+        b=HzM+RvjY1/tytEX6rN8OEXqkRsF00AzZbmPxxFUChsXu6+rbs3ylm8T/8ZhoaL/ijE
+         ofS93pWmeEqht9TtvHaQ3dXdA05Swc1habCFhwAg3P8WwdXPLmu2poXehT9V9y7cITr3
+         lP3lSFE+WL4LkC8VYaqs/bo+SXecxijtn5snpWe4rP+7RjbcIkrUmQuEBSzhJZK3MWRJ
+         GDZMypDsBV0bHmzwTE4QNKP+2TxzihgxrkYcuSB+Fv8Kyd/rumq+c4qvZVVYsxaiGTs5
+         JOwNrN122F0JrpfxxLipyY6TM3lSCKJwD9OIcx4HhGqM+Nbn9kOgzkg9N7eC47LSj9/X
+         aWOw==
+X-Gm-Message-State: ANoB5pljQgcdrrC6lwJWJ3Jaaa5Ssq/og5k1RSt5fqvCyAf224ANf9MC
+        /cgMdenWr800IiooVy9NRb5KcrHvTRWV+3e8RKXBnOx2KHgOMQ==
+X-Google-Smtp-Source: AA0mqf7Kww//EoK1uUHu3UYIvIaqzUOmahlR5BfndbdMWvuXglEww7GzgGuAMOob5QSkskjLU2seQ0Nro6zt5yV92qo=
+X-Received: by 2002:a6b:4402:0:b0:6c3:996b:5960 with SMTP id
+ r2-20020a6b4402000000b006c3996b5960mr1698256ioa.169.1669117801207; Tue, 22
+ Nov 2022 03:50:01 -0800 (PST)
 MIME-Version: 1.0
-References: <20221121214722.22563-1-umang.jain@ideasonboard.com> <Y3v4uZuhZTve2UI5@pendragon.ideasonboard.com>
-In-Reply-To: <Y3v4uZuhZTve2UI5@pendragon.ideasonboard.com>
 From:   Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date:   Tue, 22 Nov 2022 11:42:23 +0000
-Message-ID: <CAPY8ntBrLvj_m_Rwt5SOjHypM5W3Foc6wRemFCcc1rpNQjMV0g@mail.gmail.com>
-Subject: Re: [PATCH 00/14] staging: vc04_services: bcm2835-isp support
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Umang Jain <umang.jain@ideasonboard.com>,
-        linux-media@vger.kernel.org, kernel-list@raspberrypi.com,
-        linux-kernel@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-staging@lists.linux.dev,
-        Broadcom internal kernel review list 
-        <bcm-kernel-feedback-list@broadcom.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Naushir Patuck <naush@raspberrypi.com>,
-        David Plowman <david.plowman@raspberrypi.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>
+Date:   Tue, 22 Nov 2022 11:49:45 +0000
+Message-ID: <CAPY8ntC4XjhTC5jQd6OZF_6WsS+BLUD1QbxzjKTTLdiSgO2VzA@mail.gmail.com>
+Subject: Handling of colorspace fields in image format
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
@@ -75,152 +65,53 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Umang and Laurent
+Hi Hans
 
-On Mon, 21 Nov 2022 at 22:16, Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> Hi Umang,
->
-> Nice to see this series on the list !
->
-> On Tue, Nov 22, 2022 at 03:17:08AM +0530, Umang Jain wrote:
-> > This series aims to upport bcm2835-isp from the RPi kernel [1] and is a
-> > independent subset of earlier series [2] posted to upport CSI-2/CCP2
-> > receiver IP core("Unicam) + the ISP driver found in BCM283x and compatible
-> > SoCs (namely BCM2711). Unicam is still under active development to work
-> > with multistream support to get into mainline. Hence only the ISP driver
-> > will remain the primary area of this series.
-> >
-> > Patch (01-02)/14  adds a new driver named vc-sm-cma to handle memory sharing
-> > with the VC4 VPU.
-> >
-> > Patch 03/14 adds a small extension to videobuf2 to allow exporting as a
-> > dma_buf instead of a file-descriptor.
-> >
-> > Patch (04-05)/14 adds a couple of improvements/support for
-> > bcm2835-isp(event callback and zero-copy) to vchiq-mmal.
-> >
-> > Patch (06-09)/14 adds the core bcm2835-isp driver along with headers
-> > and format defintions.
-> >
-> > Patch (10-11)/14 deals with the colorspace support.
-> > Note: This is still WIP since the implementation of colorspace is still
-> > getting ironed out (especially around setting of colorspace flags handling).
-> >
-> > Patch 12/14 allows multiple instances of the ISP.
-> >
-> > Patch 13/14 adds a admin-guide document on bcm2835-isp.
-> >
-> > Patch 14/14 wires all this up with the vchiq-mmal driver.
-> >
-> > Testing:
-> > Tested with RPi Model 4B running linux mainline v6.1-rc6. To test
-> > end-to-end, I choose to cherry-pick the Unicam patches and OV5647 DT
-> > bindings from [1]). Once done, functional testing was conducted with
-> > libcamera[3] and its utility tools.
-> >
-> > Also note: Reviews given on [2] for the relevant ISP driver patches have
-> > been incorporated in this version.
-> >
-> > Known issues:
-> > - Colorspace handling
->
-> This will require further discussions, I'll try to comment on this topic
-> in the review of the ISP driver patch.
->
-> > - vc-sm-cma spamming kernel log with
-> >       - pr_err("%s: Expecting an uncached alias for dma_addr %pad\n"
->
-> Do you have any plan to address this ? Is the root cause known ?
+This has come about from a discussion with Laurent over how to handle
+colorspace fields, whether a particular configuration is legitimate,
+and whether we're looking at the correct behaviour. You're the go-to
+person for that sort of question :-)
 
-You've picked up an old version of the downstream driver.
-Pi0&1 share the VPU L2 cache with the ARM in the architecture, so they
-use the 0x8 cache alias.
-See https://github.com/raspberrypi/linux/commit/e22927f8ec9dc87772ac61d6aba00dc8046b4f49
+- CAPTURE queue (in this case on a M2M ISP device, but that doesn't
+really matter).
+- Limited colorspace options are available from the device (standard
+SDTV BT601 limited range, HDTV BT709 limited range, and JPEG's BT601
+full range).
+- VIDIOC_ENUM_FMT flags returns V4L2_FMT_FLAG_CSC_COLORSPACE. It does
+NOT set V4L2_FMT_FLAG_CSC_XFER_FUNC, V4L2_FMT_FLAG_CSC_YCBCR_ENC, or
+V4L2_FMT_FLAG_CSC_QUANTIZATION. (No documentation saying this isn't
+permitted, and why have 4 flags if they aren't independent).
+- VIDIOC_S_FMT called with V4L2_PIX_FMT_FLAG_SET_CSC set.
 
+Which colourspace fields from the format are applied?
+
+The driver is saying that only colorspace is supported, and [1] says that
+"The first is the colorspace identifier (enum v4l2_colorspace) which
+defines the chromaticities, the default transfer function, the default
+Y=E2=80=99CbCr encoding and the default quantization method"
+so we have all 4 parameters defined via the defaults.
+I read it that the ycbcr_enc, quantization, and xfer_func values
+passed in should be ignored and replaced with the "default" values
+derived from the colorspace value (use V4L2_MAP_XFER_FUNC_DEFAULT,
+V4L2_MAP_YCBCR_ENC_DEFAULT, and V4L2_MAP_QUANTIZATION_DEFAULT)
+Is this a valid interpretation?
+
+Confusion comes from [2] for V4L2_PIX_FMT_FLAG_SET_CSC saying:
+"If the colorimetry field (colorspace, xfer_func, ycbcr_enc, hsv_enc
+or quantization) is set to *_DEFAULT, then that colorimetry setting
+will remain unchanged from what was received."
+What is "received" in this case? There is no inherent colourspace for
+the device as it is M2M, so does that come back to being default
+anyway, or reflecting the OUTPUT queue which might be Bayer and have
+no range? Can we still ignore them all as the relevant
+V4L2_FMT_FLAG_CSC_* flags aren't set?
+
+Hopefully you can enlighten us.
+
+Cheers
   Dave
 
-> > [1]: https://github.com/raspberrypi/linux
-> > [2]: https://lore.kernel.org/linux-media/20200504092611.9798-1-laurent.pinchart@ideasonboard.com/
-> > [3]: https://libcamera.org/getting-started.html
-> >
-> > Dave Stevenson (7):
-> >   staging: vc04_services: Add new vc-sm-cma driver
-> >   staging: vchiq_arm: Register vcsm-cma as a platform driver
-> >   media: videobuf2: Allow exporting of a struct dmabuf
-> >   staging: mmal-vchiq: Add support for event callbacks
-> >   staging: mmal-vchiq: Use vc-sm-cma to support zero copy
-> >   staging: mmal_vchiq: Add image formats to be used by bcm2835-isp
-> >   uapi: bcm2835-isp: Add bcm2835-isp uapi header file
-> >
-> > David Plowman (2):
-> >   vc04_services: bcm2835-isp: Allow formats with different colour spaces
-> >   vc04_services: bcm2835-isp: Permit all sRGB colour spaces on ISP
-> >     outputs
-> >
-> > Naushir Patuck (5):
-> >   media: uapi: v4l2-core: Add ISP statistics output V4L2 fourcc type
-> >   staging: vc04_services: bcm2835-isp: Add a more complex ISP processing
-> >     component
-> >   staging: vc04_services: bcm2835_isp: Allow multiple users
-> >   docs: admin-guide: media: bcm2835-isp: Add documentation for
-> >     bcm2835-isp
-> >   staging: vc04_services: vchiq: Load bcm2835_isp driver from vchiq
-> >
-> >  .../admin-guide/media/bcm2835-isp.rst         |  127 ++
-> >  .../userspace-api/media/drivers/index.rst     |    1 +
-> >  .../userspace-api/media/v4l/meta-formats.rst  |    1 +
-> >  .../v4l/pixfmt-meta-bcm2835-isp-stats.rst     |   41 +
-> >  MAINTAINERS                                   |    9 +
-> >  .../media/common/videobuf2/videobuf2-core.c   |   36 +-
-> >  drivers/media/v4l2-core/v4l2-ioctl.c          |    1 +
-> >  drivers/staging/vc04_services/Kconfig         |    4 +
-> >  drivers/staging/vc04_services/Makefile        |    2 +
-> >  .../staging/vc04_services/bcm2835-isp/Kconfig |   14 +
-> >  .../vc04_services/bcm2835-isp/Makefile        |    8 +
-> >  .../bcm2835-isp/bcm2835-isp-ctrls.h           |   72 +
-> >  .../bcm2835-isp/bcm2835-isp-fmts.h            |  558 +++++
-> >  .../bcm2835-isp/bcm2835-v4l2-isp.c            | 1817 +++++++++++++++++
-> >  .../interface/vchiq_arm/vchiq_arm.c           |    6 +
-> >  .../staging/vc04_services/vc-sm-cma/Kconfig   |   10 +
-> >  .../staging/vc04_services/vc-sm-cma/Makefile  |   12 +
-> >  .../staging/vc04_services/vc-sm-cma/vc_sm.c   |  801 ++++++++
-> >  .../staging/vc04_services/vc-sm-cma/vc_sm.h   |   54 +
-> >  .../vc04_services/vc-sm-cma/vc_sm_cma_vchi.c  |  507 +++++
-> >  .../vc04_services/vc-sm-cma/vc_sm_cma_vchi.h  |   63 +
-> >  .../vc04_services/vc-sm-cma/vc_sm_defs.h      |  187 ++
-> >  .../vc04_services/vc-sm-cma/vc_sm_knl.h       |   28 +
-> >  .../staging/vc04_services/vchiq-mmal/Kconfig  |    1 +
-> >  .../vc04_services/vchiq-mmal/mmal-common.h    |    5 +
-> >  .../vc04_services/vchiq-mmal/mmal-encodings.h |   66 +
-> >  .../vc04_services/vchiq-mmal/mmal-msg.h       |   35 +
-> >  .../vchiq-mmal/mmal-parameters.h              |  165 +-
-> >  .../vc04_services/vchiq-mmal/mmal-vchiq.c     |  253 ++-
-> >  .../vc04_services/vchiq-mmal/mmal-vchiq.h     |    5 +
-> >  include/media/videobuf2-core.h                |   15 +
-> >  include/uapi/linux/bcm2835-isp.h              |  347 ++++
-> >  include/uapi/linux/v4l2-controls.h            |    6 +
-> >  include/uapi/linux/videodev2.h                |    1 +
-> >  34 files changed, 5225 insertions(+), 33 deletions(-)
-> >  create mode 100644 Documentation/admin-guide/media/bcm2835-isp.rst
-> >  create mode 100644 Documentation/userspace-api/media/v4l/pixfmt-meta-bcm2835-isp-stats.rst
-> >  create mode 100644 drivers/staging/vc04_services/bcm2835-isp/Kconfig
-> >  create mode 100644 drivers/staging/vc04_services/bcm2835-isp/Makefile
-> >  create mode 100644 drivers/staging/vc04_services/bcm2835-isp/bcm2835-isp-ctrls.h
-> >  create mode 100644 drivers/staging/vc04_services/bcm2835-isp/bcm2835-isp-fmts.h
-> >  create mode 100644 drivers/staging/vc04_services/bcm2835-isp/bcm2835-v4l2-isp.c
-> >  create mode 100644 drivers/staging/vc04_services/vc-sm-cma/Kconfig
-> >  create mode 100644 drivers/staging/vc04_services/vc-sm-cma/Makefile
-> >  create mode 100644 drivers/staging/vc04_services/vc-sm-cma/vc_sm.c
-> >  create mode 100644 drivers/staging/vc04_services/vc-sm-cma/vc_sm.h
-> >  create mode 100644 drivers/staging/vc04_services/vc-sm-cma/vc_sm_cma_vchi.c
-> >  create mode 100644 drivers/staging/vc04_services/vc-sm-cma/vc_sm_cma_vchi.h
-> >  create mode 100644 drivers/staging/vc04_services/vc-sm-cma/vc_sm_defs.h
-> >  create mode 100644 drivers/staging/vc04_services/vc-sm-cma/vc_sm_knl.h
-> >  create mode 100644 include/uapi/linux/bcm2835-isp.h
->
-> --
-> Regards,
->
-> Laurent Pinchart
+[1] https://www.kernel.org/doc/html/latest/userspace-api/media/v4l/colorspa=
+ces-defs.html
+[2] https://www.kernel.org/doc/html/latest/userspace-api/media/v4l/pixfmt-v=
+4l2.html#v4l2-pix-fmt-flag-set-csc
