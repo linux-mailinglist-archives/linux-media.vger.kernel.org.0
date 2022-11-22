@@ -2,172 +2,77 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9E546634059
-	for <lists+linux-media@lfdr.de>; Tue, 22 Nov 2022 16:36:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0DB14634090
+	for <lists+linux-media@lfdr.de>; Tue, 22 Nov 2022 16:51:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234121AbiKVPgh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 22 Nov 2022 10:36:37 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44210 "EHLO
+        id S233553AbiKVPvY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 22 Nov 2022 10:51:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56376 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234089AbiKVPgF (ORCPT
+        with ESMTP id S229449AbiKVPvX (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 22 Nov 2022 10:36:05 -0500
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 01AFA71F03;
-        Tue, 22 Nov 2022 07:35:54 -0800 (PST)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        Tue, 22 Nov 2022 10:51:23 -0500
+Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AAD24716C2;
+        Tue, 22 Nov 2022 07:51:22 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by smtp-out1.suse.de (Postfix) with ESMTPS id 8357A22007;
-        Tue, 22 Nov 2022 15:35:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-        t=1669131353; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=xzeEtRVGkBValjf4cAqJIIBnm0WLgHIJrOj2Qpyeryk=;
-        b=hSz8uo53GqZkaSBqbG3aIh16lgMQB2Sw8gZ6Z+fnEjIR6uPvpuBuVkR8TpcuCDJwN2rjjn
-        iqJmydTFhzXH0tY5jw9oJ6zK0Sx7/l0zZrHLYI1mzVvp/woqabMd2RthMdqBUz+tckoXxt
-        gvUiGWpp9yM7xLCq0tNctpGuD1es/pI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-        s=susede2_ed25519; t=1669131353;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=xzeEtRVGkBValjf4cAqJIIBnm0WLgHIJrOj2Qpyeryk=;
-        b=87yFyDfodelF6paPP+3fZVkcbfCamfu6aYJAmnQjTNh2RXFp/RQ8a0uSheJsgsaRl+tSbc
-        rgSpbkEWiLk/2KDQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id E380913B01;
-        Tue, 22 Nov 2022 15:35:52 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id /ANwNljsfGPGGwAAMHmgww
-        (envelope-from <vbabka@suse.cz>); Tue, 22 Nov 2022 15:35:52 +0000
-Message-ID: <34835490-57d7-4e26-7474-008b2c4c6b39@suse.cz>
-Date:   Tue, 22 Nov 2022 16:35:52 +0100
+        by sin.source.kernel.org (Postfix) with ESMTPS id 0580ECE1D9F;
+        Tue, 22 Nov 2022 15:51:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D907C433D6;
+        Tue, 22 Nov 2022 15:51:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1669132279;
+        bh=lWd5x0V3lXHg5SggtZkzO0kT0BBqPdsaqNDQOKegjGg=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=PNAuVEXm1ndFeWsqWs5CO3sC/mXj1G5ZtFaF58i9NckRgPGHVTNZgnQvRq5QVDWnv
+         u3yj1jk6BQu+q4rIrVjEvAZkYycucnqpLVgDSU49u16i3kCRZ/WayB6yBS8NImB1F9
+         i2xcXA53WCnhseUgKQClB8dWQWgA2zaSbs/pnPDo=
+Date:   Tue, 22 Nov 2022 16:51:15 +0100
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Michael Grzeschik <m.grzeschik@pengutronix.de>
+Cc:     linux-usb@vger.kernel.org, linux-media@vger.kernel.org,
+        balbi@kernel.org, laurent.pinchart@ideasonboard.com,
+        kernel@pengutronix.de
+Subject: Re: [PATCH v5] usb: gadget: uvc: add validate and fix function for
+ uvc response
+Message-ID: <Y3zv8+Tqa6v1q8Jz@kroah.com>
+References: <20221025222657.1883922-1-m.grzeschik@pengutronix.de>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Subject: Re: [PATCH mm-unstable v1 08/20] mm: extend FAULT_FLAG_UNSHARE
- support to anything in a COW mapping
-Content-Language: en-US
-To:     David Hildenbrand <david@redhat.com>, linux-kernel@vger.kernel.org
-Cc:     x86@kernel.org, linux-alpha@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-ia64@vger.kernel.org,
-        linux-mips@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        sparclinux@vger.kernel.org, linux-um@lists.infradead.org,
-        etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-        linux-samsung-soc@vger.kernel.org, linux-rdma@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-mm@kvack.org, linux-perf-users@vger.kernel.org,
-        linux-security-module@vger.kernel.org,
-        linux-kselftest@vger.kernel.org,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        John Hubbard <jhubbard@nvidia.com>,
-        Peter Xu <peterx@redhat.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Hugh Dickins <hughd@google.com>, Nadav Amit <namit@vmware.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Muchun Song <songmuchun@bytedance.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Lucas Stach <l.stach@pengutronix.de>,
-        David Airlie <airlied@gmail.com>,
-        Oded Gabbay <ogabbay@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Christoph Hellwig <hch@infradead.org>,
-        Alex Williamson <alex.williamson@redhat.com>
-References: <20221116102659.70287-1-david@redhat.com>
- <20221116102659.70287-9-david@redhat.com>
-From:   Vlastimil Babka <vbabka@suse.cz>
-In-Reply-To: <20221116102659.70287-9-david@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_SOFTFAIL autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221025222657.1883922-1-m.grzeschik@pengutronix.de>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 11/16/22 11:26, David Hildenbrand wrote:
-> Extend FAULT_FLAG_UNSHARE to break COW on anything mapped into a
-> COW (i.e., private writable) mapping and adjust the documentation
-> accordingly.
+On Wed, Oct 26, 2022 at 12:26:57AM +0200, Michael Grzeschik wrote:
+> When the userspace gets the setup requests for UVC_GET_CUR UVC_GET_MIN,
+> UVC_GET_MAX, UVC_GET_DEF it will fill out the ctrl response. This data
+> needs to be validated. Since the kernel also knows the limits for valid
+> cases, it can fixup the values in case the userspace is setting invalid
+> data.
 > 
-> FAULT_FLAG_UNSHARE will now also break COW when encountering the shared
-> zeropage, a pagecache page, a PFNMAP, ... inside a COW mapping, by
-> properly replacing the mapped page/pfn by a private copy (an exclusive
-> anonymous page).
+> Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
 > 
-> Note that only do_wp_page() needs care: hugetlb_wp() already handles
-> FAULT_FLAG_UNSHARE correctly. wp_huge_pmd()/wp_huge_pud() also handles it
-> correctly, for example, splitting the huge zeropage on FAULT_FLAG_UNSHARE
-> such that we can handle FAULT_FLAG_UNSHARE on the PTE level.
-> 
-> This change is a requirement for reliable long-term R/O pinning in
-> COW mappings.
-> 
-> Signed-off-by: David Hildenbrand <david@redhat.com>
-
-Reviewed-by: Vlastimil Babka <vbabka@suse.cz>
-
 > ---
->  include/linux/mm_types.h | 8 ++++----
->  mm/memory.c              | 4 ----
->  2 files changed, 4 insertions(+), 8 deletions(-)
+> v1: -> v4:
+> - new patch
+> v4: -> v5:
+> - changed uvcg_info to uvcg_dbg for fixups, updated info strings
 > 
-> diff --git a/include/linux/mm_types.h b/include/linux/mm_types.h
-> index 5e7f4fac1e78..5e9aaad8c7b2 100644
-> --- a/include/linux/mm_types.h
-> +++ b/include/linux/mm_types.h
-> @@ -1037,9 +1037,9 @@ typedef struct {
->   * @FAULT_FLAG_REMOTE: The fault is not for current task/mm.
->   * @FAULT_FLAG_INSTRUCTION: The fault was during an instruction fetch.
->   * @FAULT_FLAG_INTERRUPTIBLE: The fault can be interrupted by non-fatal signals.
-> - * @FAULT_FLAG_UNSHARE: The fault is an unsharing request to unshare (and mark
-> - *                      exclusive) a possibly shared anonymous page that is
-> - *                      mapped R/O.
-> + * @FAULT_FLAG_UNSHARE: The fault is an unsharing request to break COW in a
-> + *                      COW mapping, making sure that an exclusive anon page is
-> + *                      mapped after the fault.
->   * @FAULT_FLAG_ORIG_PTE_VALID: whether the fault has vmf->orig_pte cached.
->   *                        We should only access orig_pte if this flag set.
->   *
-> @@ -1064,7 +1064,7 @@ typedef struct {
->   *
->   * The combination FAULT_FLAG_WRITE|FAULT_FLAG_UNSHARE is illegal.
->   * FAULT_FLAG_UNSHARE is ignored and treated like an ordinary read fault when
-> - * no existing R/O-mapped anonymous page is encountered.
-> + * applied to mappings that are not COW mappings.
->   */
->  enum fault_flag {
->  	FAULT_FLAG_WRITE =		1 << 0,
-> diff --git a/mm/memory.c b/mm/memory.c
-> index d47ad33c6487..56b21ab1e4d2 100644
-> --- a/mm/memory.c
-> +++ b/mm/memory.c
-> @@ -3432,10 +3432,6 @@ static vm_fault_t do_wp_page(struct vm_fault *vmf)
->  		}
->  		wp_page_reuse(vmf);
->  		return 0;
-> -	} else if (unshare) {
-> -		/* No anonymous page -> nothing to do. */
-> -		pte_unmap_unlock(vmf->pte, vmf->ptl);
-> -		return 0;
->  	}
->  copy:
->  	/*
+>  drivers/usb/gadget/function/f_uvc.c    |  4 +-
 
+Does not apply to 6.1-rc6 :(
+
+Please rebase and resubmit.
+
+thanks,
+
+greg k-h
