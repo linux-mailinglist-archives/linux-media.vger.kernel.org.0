@@ -2,69 +2,100 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DBFA96338CD
-	for <lists+linux-media@lfdr.de>; Tue, 22 Nov 2022 10:41:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 33C3E6338AF
+	for <lists+linux-media@lfdr.de>; Tue, 22 Nov 2022 10:38:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233358AbiKVJlP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 22 Nov 2022 04:41:15 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41950 "EHLO
+        id S233218AbiKVJir (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 22 Nov 2022 04:38:47 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40198 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233332AbiKVJlM (ORCPT
+        with ESMTP id S233143AbiKVJiq (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 22 Nov 2022 04:41:12 -0500
-X-Greylist: delayed 1802 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 22 Nov 2022 01:41:09 PST
-Received: from mail.axisfairfi.com (mail.axisfairfi.com [94.177.230.134])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D73251C2A
-        for <linux-media@vger.kernel.org>; Tue, 22 Nov 2022 01:41:07 -0800 (PST)
-Received: by mail.axisfairfi.com (Postfix, from userid 1001)
-        id BBAEF824C1; Tue, 22 Nov 2022 09:05:14 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=axisfairfi.com;
-        s=mail; t=1669107914;
-        bh=0BgaW9t8GFER5QecxVkFsHrVi3gO/4V5KAZgJaiRYBs=;
-        h=Date:From:To:Subject:From;
-        b=bVbuw2xwClPFoC6AZ8jS+EQLXlVDW5K7XNtN1GZzDDWPWrKdi9kzogPwzB/dfsAJY
-         p9IwZt3sxJZZbUkjNzLhUgiEyuAt03CWI0UoJZuhtNnLJBNimGSBpROVi1BFCIHCPd
-         IA/ZMKKLe7Z/4UiNTv21b14kGVhCQVcrf6m/xow0XsOdufXt0xkKoX7y37p/1nNDbk
-         boixFL8IMYYZk/irbfcEw4OHqwSdONJflRyBZQwF/FVtDR9utg7/miQOAotuemmGvs
-         zq2ak2+xPDT1vSfz0tG5J4hcNFYOX+w3tVD5BBekjYj/jXVkz3bg3Vgc2NjFgUGTmh
-         0358GWKm5pqLg==
-Received: by mail.axisfairfi.com for <linux-media@vger.kernel.org>; Tue, 22 Nov 2022 09:05:14 GMT
-Message-ID: <20221122074500-0.1.d.nlw.0.r6yphbgoc6@axisfairfi.com>
-Date:   Tue, 22 Nov 2022 09:05:14 GMT
-From:   "Zbynek Spacek" <zbynek.spacek@axisfairfi.com>
-To:     <linux-media@vger.kernel.org>
-Subject: Silikonmischungen
-X-Mailer: mail.axisfairfi.com
+        Tue, 22 Nov 2022 04:38:46 -0500
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F20127B27;
+        Tue, 22 Nov 2022 01:38:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1669109925; x=1700645925;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=4YfwEoCNf9y2bbVgA0lkiee8S9bFPoPb39DN1uonMiY=;
+  b=OAs8IruyjG8128kcyK9MxwEvkeXKiw10xCUiGFoaRXdFL6Ac3Jtwjovj
+   ABhypCqsrZleCdwuknhEMDCnjDZIXRjF+4g+1uSGfxvCXTggfJwbRFn9D
+   PdyhuK3yOuwVo2p7mvYqMad2aAJtl5sHePNj22pse+jPb3jIB+DJgE3mb
+   myzLkIe8hTJy8KuGC5uy03OGRNv49J6LRPikPTVECxRY8evqGGNyD/r+K
+   OpmfFWhmYug+ZGtWGtTj7AMtECJrPDZqqVsieh7fbN23ntoQ1oaBa8XBp
+   x3fDV4H2hejiajKHd5qLCs1v1ww1RYBIr5SeSWotRo+/X5ZaCGvfp7JK2
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10538"; a="312477955"
+X-IronPort-AV: E=Sophos;i="5.96,183,1665471600"; 
+   d="scan'208";a="312477955"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Nov 2022 01:38:32 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10538"; a="816041518"
+X-IronPort-AV: E=Sophos;i="5.96,183,1665471600"; 
+   d="scan'208";a="816041518"
+Received: from punajuuri.fi.intel.com (HELO paasikivi.fi.intel.com) ([10.237.72.43])
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Nov 2022 01:38:28 -0800
+Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
+        by paasikivi.fi.intel.com (Postfix) with SMTP id D054C2015F;
+        Tue, 22 Nov 2022 11:38:25 +0200 (EET)
+Date:   Tue, 22 Nov 2022 09:38:25 +0000
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Prabhakar <prabhakar.csengg@gmail.com>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH v5 4/4] media: platform: Add Renesas RZ/G2L CRU driver
+Message-ID: <Y3yYkQhJJFLau08X@paasikivi.fi.intel.com>
+References: <20221102004329.5410-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20221102004329.5410-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=1.6 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FROM_FMBLA_NEWDOM14,
-        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Level: *
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221102004329.5410-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Good morning,
+Hi Prabhakar,
 
-do you need intermediates for processing, plastics (e.g. rubber) or silic=
-one mixtures?
+On Wed, Nov 02, 2022 at 12:43:29AM +0000, Prabhakar wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> 
+> Add v4l driver for Renesas RZ/G2L Camera data Receiving Unit.
+> 
+> Based on a patch in the BSP by Hien Huynh
+> <hien.huynh.px@renesas.com>
+> 
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-We provide a wide range of silicone rubbers with various properties, sili=
-cone mixtures from renowned manufacturers such as Wacker, Elastosil LR an=
-d dyes, stabilizers, primers and anti-adhesive additives.
+Laurent's comment arrive a little late but the patch does not compile
+against the media tree anymore. The argument of the media_pipeline_start()
+and media_pipeline_stop() is now a pad, not an entity. See what the changes
+look like in other drivers (the commit id is
+12cecbf9150f67b0ce7d88bc2e243e67637726c2).
 
-We also produce technical silicone compounds with increased resistance to=
- oils, resistant to high temperatures and water vapor, conductive and man=
-y more.
+I'll still take the DT binding patches.
 
-We provide fast order fulfillment, timely deliveries and cost optimizatio=
-n.
+-- 
+Kind regards,
 
-Can I introduce what we can offer you?
-
-
-Zbynek Spacek
+Sakari Ailus
