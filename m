@@ -2,224 +2,204 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0F1B8633F57
-	for <lists+linux-media@lfdr.de>; Tue, 22 Nov 2022 15:51:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5484A633FCB
+	for <lists+linux-media@lfdr.de>; Tue, 22 Nov 2022 16:05:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232590AbiKVOvZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 22 Nov 2022 09:51:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36744 "EHLO
+        id S233217AbiKVPFI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 22 Nov 2022 10:05:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52690 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232875AbiKVOvU (ORCPT
+        with ESMTP id S233239AbiKVPFG (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 22 Nov 2022 09:51:20 -0500
-Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com [IPv6:2a00:1450:4864:20::42c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A88CA6BDEE
-        for <linux-media@vger.kernel.org>; Tue, 22 Nov 2022 06:51:18 -0800 (PST)
-Received: by mail-wr1-x42c.google.com with SMTP id cl5so25088629wrb.9
-        for <linux-media@vger.kernel.org>; Tue, 22 Nov 2022 06:51:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=in-reply-to:content-disposition:mime-version:references
-         :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=BvxfKUBEbZtm/9q2PXpeTYs+sX6KUk9fkZeJnGMjw9w=;
-        b=Kpk19b2GUmYhNh3v56qB0t7QkAgI8q0rTt8RSQvpWwpYb7JQmeuyh2EvbDjSGFjSdL
-         sGgHsmN+j3Pp+opqB/x5/xejEg0XZiAgyx8+nXMm49lyYbJjQLqaxdaPRUhjFedxh8r/
-         OOY7q7ShSLkPHxt23hrkaRf8JNS1rOEYFFQ38=
+        Tue, 22 Nov 2022 10:05:06 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3DF206F351
+        for <linux-media@vger.kernel.org>; Tue, 22 Nov 2022 07:03:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1669129425;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=In9GuqAn29oXIcP45h0iG42nfIf4b++tYbTcRtB/XTA=;
+        b=UoDFTxlRvUIM05y6A5yE5XXaLyXml2Cxe/arzQDZlxTTH03LIX4fJuqGecGKCSdtWpxTll
+        eTQrSjBNwxzy/eO7lNVPU9AMbvZFYHNy4wCKbGmA5VkBXaTWNgFxvkEJlos+G2BJI9LvnJ
+        J1A4Vg21FuvaOs8zOXXKeoocJNIeCFs=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-6-uU-m7Xp-N_qwPqnfFd_iwA-1; Tue, 22 Nov 2022 10:03:43 -0500
+X-MC-Unique: uU-m7Xp-N_qwPqnfFd_iwA-1
+Received: by mail-wm1-f70.google.com with SMTP id l32-20020a05600c1d2000b003cfefa531c9so914779wms.0
+        for <linux-media@vger.kernel.org>; Tue, 22 Nov 2022 07:03:43 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references
-         :mail-followup-to:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=BvxfKUBEbZtm/9q2PXpeTYs+sX6KUk9fkZeJnGMjw9w=;
-        b=gnaCs7DYK0UnV61MzykuLJlfWYV5kS0rLhY8vTSv6V4/yJaJvAOFIWgu1CO54+OhjJ
-         fhi/xCnVFusDh7sswLLFDbqCGr+CuEMXcBVqIjtRP/1AuA979h5TltO4HYVNIzpr5iaF
-         eahqpXfxRYg/c/PxEJ/gEv9GneqC1/j8RKpQLlJDHmSYLW5fWDZiKz+jrQ/BvaWRuJR/
-         BGr2vjRyr6wKSoXf+SXsJMtmx3fMQuurXaBkXUYk6LvV3VwP8CjKSEAqs/P7UBnXNgL7
-         2+Xeq8mEhyZSxCN2aS82tU3IsRUSvb7CHsZicVKsSNPZp+dxWz7YzhsCVnyST+UdI+1m
-         z/qA==
-X-Gm-Message-State: ANoB5pnb6uHT9XvNtIVZqqjV0fFJzvV33KJS6PNHup4lgdz3keyMihQ/
-        gM2Yez4jIqUYdDgXtSGb95IMdw==
-X-Google-Smtp-Source: AA0mqf5vH7ZJ1XkzTC/CSVVQJm4aSKBNGCyrRsjp98SHsh8Sm737KIa/Vbj8njUNZ4F/ML+KAl+5yw==
-X-Received: by 2002:a5d:6b46:0:b0:236:56a6:823e with SMTP id x6-20020a5d6b46000000b0023656a6823emr14295283wrw.495.1669128677199;
-        Tue, 22 Nov 2022 06:51:17 -0800 (PST)
-Received: from phenom.ffwll.local (212-51-149-33.fiber7.init7.net. [212.51.149.33])
-        by smtp.gmail.com with ESMTPSA id s2-20020adff802000000b00241c712916fsm12896669wrp.0.2022.11.22.06.51.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Nov 2022 06:51:16 -0800 (PST)
-Date:   Tue, 22 Nov 2022 15:51:14 +0100
-From:   Daniel Vetter <daniel@ffwll.ch>
-To:     syzbot <syzbot+007bfe0f3330f6e1e7d1@syzkaller.appspotmail.com>
-Cc:     christian.koenig@amd.com, dri-devel@lists.freedesktop.org,
-        gustavo@padovan.org, linaro-mm-sig-bounces@lists.linaro.org,
-        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, sumit.semwal@linaro.org,
-        syzkaller-bugs@googlegroups.com
-Subject: Re: [syzbot] inconsistent lock state in sync_info_debugfs_show
-Message-ID: <Y3zh4naNB+nZ0YTd@phenom.ffwll.local>
-Mail-Followup-To: syzbot <syzbot+007bfe0f3330f6e1e7d1@syzkaller.appspotmail.com>,
-        christian.koenig@amd.com, dri-devel@lists.freedesktop.org,
-        gustavo@padovan.org, linaro-mm-sig-bounces@lists.linaro.org,
-        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, sumit.semwal@linaro.org,
-        syzkaller-bugs@googlegroups.com
-References: <00000000000021719805d692e035@google.com>
- <000000000000d5b3af05edc9d445@google.com>
+        h=content-transfer-encoding:in-reply-to:organization:from:references
+         :cc:to:content-language:subject:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=In9GuqAn29oXIcP45h0iG42nfIf4b++tYbTcRtB/XTA=;
+        b=rMaUUxsSId4jf5t3ErN3dn8JPZYrSwgmfD7AV/vmBh8Kt5VhkYsq/lk3HsCFEgd7dp
+         m8x9Ia6DDBr/jL8/+Ar6qoxPHwYckaqWjNdE8GGw85qpNyQ7VeM1u9RwcaKcqPOCaXcr
+         6BmEuxAb/ByKSz7cOOh9VmaaZwF4xlgPtk1WiGw2BqKNnZto8SBxeNfYpFRaUg6GbtQ9
+         kZN/nZiAeHZeryZts+jQ+stgRfaA4RTB5tuUA8lcnW3r56WTfdBXeTZRe7yVOhjMaU/f
+         wc8gLpKGg4XeXo/WeGi1WYnfmkp72hWwCmmvy0yAjrLbZ4m2l78wPMpdsn59cRFTOn4V
+         XMqg==
+X-Gm-Message-State: ANoB5pkhC/AgEV7Ztmp2qUaj3UrNXl1CfIYF467a5fVh2Zt376gG9+wx
+        9rZjAi9cPOSUt3AHd4tgnE1Ik7D2AHbd89nd19xGe81qoH2nw0l5rp9MRdjyfUIE84AR4+Nf29R
+        Q1syI5uL4i8jTrx2u47xc6+0=
+X-Received: by 2002:adf:ea4d:0:b0:22e:38b9:5d6d with SMTP id j13-20020adfea4d000000b0022e38b95d6dmr4031749wrn.276.1669129422182;
+        Tue, 22 Nov 2022 07:03:42 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf54snVDIVC/Upuxil+entzwHNnXxSae3W9n6F4Fs/sye/XpHsJ2iwBQKe4HoNog5OAYgHNY7A==
+X-Received: by 2002:adf:ea4d:0:b0:22e:38b9:5d6d with SMTP id j13-20020adfea4d000000b0022e38b95d6dmr4031700wrn.276.1669129421815;
+        Tue, 22 Nov 2022 07:03:41 -0800 (PST)
+Received: from ?IPV6:2003:cb:c706:c300:b066:75e3:f1d2:b69b? (p200300cbc706c300b06675e3f1d2b69b.dip0.t-ipconnect.de. [2003:cb:c706:c300:b066:75e3:f1d2:b69b])
+        by smtp.gmail.com with ESMTPSA id l13-20020a5d668d000000b00236488f62d6sm14289929wru.79.2022.11.22.07.03.40
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 22 Nov 2022 07:03:41 -0800 (PST)
+Message-ID: <56fecbe9-ecf1-bdac-4e05-4767aa9d4386@redhat.com>
+Date:   Tue, 22 Nov 2022 16:03:39 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <000000000000d5b3af05edc9d445@google.com>
-X-Operating-System: Linux phenom 5.19.0-2-amd64 
-X-Spam-Status: No, score=0.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SORTED_RECIPS,SPF_HELO_NONE,SPF_NONE autolearn=no autolearn_force=no
-        version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.1
+Subject: Re: [PATCH RFC 16/19] mm/frame-vector: remove FOLL_FORCE usage
+Content-Language: en-US
+To:     Hans Verkuil <hverkuil@xs4all.nl>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>
+Cc:     linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, linux-rdma@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        John Hubbard <jhubbard@nvidia.com>,
+        Peter Xu <peterx@redhat.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Hugh Dickins <hughd@google.com>, Nadav Amit <namit@vmware.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Matthew Wilcox <willy@infradead.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Muchun Song <songmuchun@bytedance.com>,
+        Lucas Stach <l.stach@pengutronix.de>,
+        David Airlie <airlied@gmail.com>,
+        Oded Gabbay <ogabbay@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+References: <20221107161740.144456-1-david@redhat.com>
+ <20221107161740.144456-17-david@redhat.com>
+ <CAAFQd5C3Ba1WhjYJF_7tW06mgvzoz9KTakNo+Tz8h_f6dGKzHQ@mail.gmail.com>
+ <6175d780-3307-854c-448a-8e6c7ad0772c@xs4all.nl>
+ <6ace6cd4-3e13-8ec1-4c2a-49e2e14e81a6@redhat.com>
+ <4d3ef082-f7b3-2b6e-6fcf-5f991ffe14e9@xs4all.nl>
+From:   David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+In-Reply-To: <4d3ef082-f7b3-2b6e-6fcf-5f991ffe14e9@xs4all.nl>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Nov 18, 2022 at 06:46:38PM -0800, syzbot wrote:
-> syzbot has found a reproducer for the following issue on:
+On 22.11.22 15:07, Hans Verkuil wrote:
+> On 11/22/22 13:38, David Hildenbrand wrote:
+>> On 22.11.22 13:25, Hans Verkuil wrote:
+>>> Hi Tomasz, David,
+>>>
+>>> On 11/8/22 05:45, Tomasz Figa wrote:
+>>>> Hi David,
+>>>>
+>>>> On Tue, Nov 8, 2022 at 1:19 AM David Hildenbrand <david@redhat.com> wrote:
+>>>>>
+>>>>> FOLL_FORCE is really only for debugger access. According to commit
+>>>>> 707947247e95 ("media: videobuf2-vmalloc: get_userptr: buffers are always
+>>>>> writable"), the pinned pages are always writable.
+>>>>
+>>>> Actually that patch is only a workaround to temporarily disable
+>>>> support for read-only pages as they seemed to suffer from some
+>>>> corruption issues in the retrieved user pages. We expect to support
+>>>> read-only pages as hardware input after. That said, FOLL_FORCE doesn't
+>>>> sound like the right thing even in that case, but I don't know the
+>>>> background behind it being added here in the first place. +Hans
+>>>> Verkuil +Marek Szyprowski do you happen to remember anything about it?
+>>>
+>>> I tracked the use of 'force' all the way back to the first git commit
+>>> (2.6.12-rc1) in the very old video-buf.c. So it is very, very old and the
+>>> reason is lost in the mists of time.
+>>>
+>>> I'm not sure if the 'force' argument of get_user_pages() at that time
+>>> even meant the same as FOLL_FORCE today. From what I can tell it has just
+>>> been faithfully used ever since, but I have my doubt that anyone understands
+>>> the reason behind it since it was never explained.
+>>>
+>>> Looking at this old LWN article https://lwn.net/Articles/28548/ suggests
+>>> that it might be related to calling get_user_pages for write buffers
+>>> (non-zero write argument) where you also want to be able to read from the
+>>> buffer. That is certainly something that some drivers need to do post-capture
+>>> fixups.
+>>>
+>>> But 'force' was also always set for read buffers, and I don't know if that
+>>> was something that was actually needed, or just laziness.
+>>>
+>>> I assume that removing FOLL_FORCE from 'FOLL_FORCE|FOLL_WRITE' will still
+>>> allow drivers to read from the buffer?
+>>
+>> Yes. The only problematic corner case I can imagine is if someone has a
+>> VMA without write permissions (no PROT_WRITE/VM_WRITE) and wants to pin
+>> user space pages as a read buffer. We'd specify now FOLL_WRITE without
+>> FOLL_FORCE and GUP would reject that: write access without write
+>> permissions is invalid.
 > 
-> HEAD commit:    84368d882b96 Merge tag 'soc-fixes-6.1-3' of git://git.kern..
-> git tree:       upstream
-> console+strace: https://syzkaller.appspot.com/x/log.txt?x=1670fb65880000
-> kernel config:  https://syzkaller.appspot.com/x/.config?x=6f4e5e9899396248
-> dashboard link: https://syzkaller.appspot.com/bug?extid=007bfe0f3330f6e1e7d1
-> compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
-> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=164376f9880000
-> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=16cf0965880000
+> I do not believe this will be an issue.
 > 
-> Downloadable assets:
-> disk image: https://storage.googleapis.com/syzbot-assets/031b6e68785d/disk-84368d88.raw.xz
-> vmlinux: https://storage.googleapis.com/syzbot-assets/cff5e66b90e8/vmlinux-84368d88.xz
-> kernel image: https://storage.googleapis.com/syzbot-assets/e75525784a66/bzImage-84368d88.xz
+>>
+>> There would be no way around "fixing" this implementation to not specify
+>> FOLL_WRITE when only reading from user-space pages. Not sure what the
+>> implications are regarding that corruption that was mentioned in
+>> 707947247e95.
 > 
-> IMPORTANT: if you fix the issue, please add the following tag to the commit:
-> Reported-by: syzbot+007bfe0f3330f6e1e7d1@syzkaller.appspotmail.com
+> Before 707947247e95 the FOLL_WRITE flag was only set for write buffers
+> (i.e. video capture, DMA_FROM_DEVICE), not for read buffers (video output,
+> DMA_TO_DEVICE). In the video output case there should never be any need
+> for drivers to write to the buffer to the best of my knowledge.
 > 
-> ================================
-> WARNING: inconsistent lock state
-> 6.1.0-rc5-syzkaller-00144-g84368d882b96 #0 Not tainted
-> --------------------------------
-> inconsistent {IN-HARDIRQ-W} -> {HARDIRQ-ON-W} usage.
-> syz-executor333/3645 [HC0[0]:SC0[0]:HE0:SE1] takes:
-> ffffffff8d295c38 (sync_timeline_list_lock){?...}-{2:2}, at: spin_lock_irq include/linux/spinlock.h:375 [inline]
-> ffffffff8d295c38 (sync_timeline_list_lock){?...}-{2:2}, at: sync_info_debugfs_show+0x31/0x200 drivers/dma-buf/sync_debug.c:147
-> {IN-HARDIRQ-W} state was registered at:
->   lock_acquire kernel/locking/lockdep.c:5668 [inline]
->   lock_acquire+0x1e3/0x630 kernel/locking/lockdep.c:5633
->   __raw_spin_lock_irqsave include/linux/spinlock_api_smp.h:110 [inline]
->   _raw_spin_lock_irqsave+0x3d/0x60 kernel/locking/spinlock.c:162
->   sync_timeline_debug_remove+0x29/0x1a0 drivers/dma-buf/sync_debug.c:31
->   sync_timeline_free drivers/dma-buf/sw_sync.c:104 [inline]
->   kref_put include/linux/kref.h:65 [inline]
->   sync_timeline_put drivers/dma-buf/sw_sync.c:116 [inline]
->   timeline_fence_release+0x267/0x340 drivers/dma-buf/sw_sync.c:144
->   dma_fence_release+0x14b/0x690 drivers/dma-buf/dma-fence.c:559
+> But I have had some complaints about that commit that it causes problems
+> in some scenarios, and it has been on my todo list for quite some time now
+> to dig deeper into this. I probably should prioritize this for this or
+> next week.
+> 
+>>
+>> Having said that, I assume such a scenario is unlikely -- but you might
+>> know better how user space usually uses this interface. There would be
+>> three options:
+>>
+>> 1) Leave the FOLL_FORCE hack in for now, which I *really* want to avoid.
+>> 2) Remove FOLL_FORCE and see if anybody even notices (this patch) and
+>>      leave the implementation as is for now.
+>> 3) Remove FOLL_FORCE and fixup the implementation to only specify
+>>      FOLL_WRITE if the pages will actually get written to.
+>>
+>> 3) would most probably ideal, however, I am no expert on that code and
+>> can't do it (707947247e95 confuses me). So naive me would go with 2) first.
+>>
+> 
+> Option 3 would be best. And 707947247e95 confuses me as well, and I actually
+> wrote it :-) I am wondering whether it was addressed at the right level, but
+> as I said, I need to dig a bit deeper into this.
 
-Do we need to just generally push all dma_fence_release finalization to an
-irq work to untangle this mess once and for all? Or is this not just plain
-old recursion? Christian, any good ideas?
--Daniel
-
->   kref_put include/linux/kref.h:65 [inline]
->   dma_fence_put include/linux/dma-fence.h:276 [inline]
->   dma_fence_array_release+0x1fa/0x2d0 drivers/dma-buf/dma-fence-array.c:120
->   dma_fence_release+0x14b/0x690 drivers/dma-buf/dma-fence.c:559
->   kref_put include/linux/kref.h:65 [inline]
->   dma_fence_put include/linux/dma-fence.h:276 [inline]
->   irq_dma_fence_array_work+0xa9/0xd0 drivers/dma-buf/dma-fence-array.c:52
->   irq_work_single+0x124/0x260 kernel/irq_work.c:211
->   irq_work_run_list kernel/irq_work.c:242 [inline]
->   irq_work_run_list+0x91/0xc0 kernel/irq_work.c:225
->   irq_work_run+0x58/0xd0 kernel/irq_work.c:251
->   __sysvec_irq_work+0xce/0x4e0 arch/x86/kernel/irq_work.c:22
->   sysvec_irq_work+0x92/0xc0 arch/x86/kernel/irq_work.c:17
->   asm_sysvec_irq_work+0x1a/0x20 arch/x86/include/asm/idtentry.h:675
->   __raw_spin_unlock_irq include/linux/spinlock_api_smp.h:160 [inline]
->   _raw_spin_unlock_irq+0x29/0x50 kernel/locking/spinlock.c:202
->   spin_unlock_irq include/linux/spinlock.h:400 [inline]
->   sw_sync_debugfs_release+0x162/0x240 drivers/dma-buf/sw_sync.c:321
->   __fput+0x27c/0xa90 fs/file_table.c:320
->   task_work_run+0x16f/0x270 kernel/task_work.c:179
->   ptrace_notify+0x118/0x140 kernel/signal.c:2354
->   ptrace_report_syscall include/linux/ptrace.h:420 [inline]
->   ptrace_report_syscall_exit include/linux/ptrace.h:482 [inline]
->   syscall_exit_work kernel/entry/common.c:251 [inline]
->   syscall_exit_to_user_mode_prepare+0x129/0x280 kernel/entry/common.c:278
->   __syscall_exit_to_user_mode_work kernel/entry/common.c:283 [inline]
->   syscall_exit_to_user_mode+0xd/0x50 kernel/entry/common.c:296
->   do_syscall_64+0x46/0xb0 arch/x86/entry/common.c:86
->   entry_SYSCALL_64_after_hwframe+0x63/0xcd
-> irq event stamp: 638
-> hardirqs last  enabled at (637): [<ffffffff81cc6530>] ___slab_alloc+0xca0/0x1400 mm/slub.c:3132
-> hardirqs last disabled at (638): [<ffffffff89f47e95>] __raw_spin_lock_irq include/linux/spinlock_api_smp.h:117 [inline]
-> hardirqs last disabled at (638): [<ffffffff89f47e95>] _raw_spin_lock_irq+0x45/0x50 kernel/locking/spinlock.c:170
-> softirqs last  enabled at (538): [<ffffffff814c1d03>] invoke_softirq kernel/softirq.c:445 [inline]
-> softirqs last  enabled at (538): [<ffffffff814c1d03>] __irq_exit_rcu+0x123/0x180 kernel/softirq.c:650
-> softirqs last disabled at (505): [<ffffffff814c1d03>] invoke_softirq kernel/softirq.c:445 [inline]
-> softirqs last disabled at (505): [<ffffffff814c1d03>] __irq_exit_rcu+0x123/0x180 kernel/softirq.c:650
-> 
-> other info that might help us debug this:
->  Possible unsafe locking scenario:
-> 
->        CPU0
->        ----
->   lock(sync_timeline_list_lock);
->   <Interrupt>
->     lock(sync_timeline_list_lock);
-> 
->  *** DEADLOCK ***
-> 
-> 2 locks held by syz-executor333/3645:
->  #0: ffff888021f8c8b8 (&p->lock){+.+.}-{3:3}, at: seq_read_iter+0xe3/0x1280 fs/seq_file.c:182
->  #1: ffffffff8d295c38 (sync_timeline_list_lock){?...}-{2:2}, at: spin_lock_irq include/linux/spinlock.h:375 [inline]
->  #1: ffffffff8d295c38 (sync_timeline_list_lock){?...}-{2:2}, at: sync_info_debugfs_show+0x31/0x200 drivers/dma-buf/sync_debug.c:147
-> 
-> stack backtrace:
-> CPU: 1 PID: 3645 Comm: syz-executor333 Not tainted 6.1.0-rc5-syzkaller-00144-g84368d882b96 #0
-> Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 10/26/2022
-> Call Trace:
->  <TASK>
->  __dump_stack lib/dump_stack.c:88 [inline]
->  dump_stack_lvl+0xd1/0x138 lib/dump_stack.c:106
->  print_usage_bug kernel/locking/lockdep.c:3963 [inline]
->  valid_state kernel/locking/lockdep.c:3975 [inline]
->  mark_lock_irq kernel/locking/lockdep.c:4178 [inline]
->  mark_lock.part.0.cold+0x18/0xd8 kernel/locking/lockdep.c:4634
->  mark_lock kernel/locking/lockdep.c:4598 [inline]
->  mark_held_locks+0x9f/0xe0 kernel/locking/lockdep.c:4236
->  __trace_hardirqs_on_caller kernel/locking/lockdep.c:4254 [inline]
->  lockdep_hardirqs_on_prepare kernel/locking/lockdep.c:4321 [inline]
->  lockdep_hardirqs_on_prepare+0x139/0x410 kernel/locking/lockdep.c:4273
->  trace_hardirqs_on+0x31/0x160 kernel/trace/trace_preemptirq.c:49
->  __raw_spin_unlock_irq include/linux/spinlock_api_smp.h:159 [inline]
->  _raw_spin_unlock_irq+0x23/0x50 kernel/locking/spinlock.c:202
->  spin_unlock_irq include/linux/spinlock.h:400 [inline]
->  sync_print_obj drivers/dma-buf/sync_debug.c:118 [inline]
->  sync_info_debugfs_show+0xef/0x200 drivers/dma-buf/sync_debug.c:153
->  seq_read_iter+0x4f9/0x1280 fs/seq_file.c:230
->  seq_read+0x171/0x210 fs/seq_file.c:162
->  vfs_read+0x25b/0x930 fs/read_write.c:468
->  ksys_read+0x12b/0x250 fs/read_write.c:613
->  do_syscall_x64 arch/x86/entry/common.c:50 [inline]
->  do_syscall_64+0x39/0xb0 arch/x86/entry/common.c:80
->  entry_SYSCALL_64_after_hwframe+0x63/0xcd
-> RIP: 0033:0x7f7cb1bbb049
-> Code: 28 00 00 00 75 05 48 83 c4 28 c3 e8 b1 14 00 00 90 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 c0 ff ff ff f7 d8 64 89 01 48
-> RSP: 002b:00007ffd52951818 EFLAGS: 00000246 ORIG_RAX: 0000000000000000
-> RAX: ffffffffffffffda RBX: 00000000000f4240 RCX: 00007f7cb1bbb049
-> RDX: 0000000000002020 RSI: 0000000020002200 RDI: 0000000000000003
-> RBP: 0000000000000000 R08: 0000000000000001 R09: 0000000000000001
-> R10: 00007ffd52951290 R11: 0000000000000246 R12: 000000000000e32c
-> R13: 00007ffd5295182c R14: 00007ffd52951840 R15: 00007ffd52951830
->  </TASK>
-> 
+Cool, let me know if I can help!
 
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Thanks,
+
+David / dhildenb
+
