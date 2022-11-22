@@ -2,36 +2,36 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1B8C2634A1C
-	for <lists+linux-media@lfdr.de>; Tue, 22 Nov 2022 23:35:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 69E2B634A20
+	for <lists+linux-media@lfdr.de>; Tue, 22 Nov 2022 23:35:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235170AbiKVWdQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 22 Nov 2022 17:33:16 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37518 "EHLO
+        id S235182AbiKVWdR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 22 Nov 2022 17:33:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37628 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235131AbiKVWdO (ORCPT
+        with ESMTP id S235178AbiKVWdQ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 22 Nov 2022 17:33:14 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C7A99A13F2
-        for <linux-media@vger.kernel.org>; Tue, 22 Nov 2022 14:33:12 -0800 (PST)
+        Tue, 22 Nov 2022 17:33:16 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 450AD9DB94
+        for <linux-media@vger.kernel.org>; Tue, 22 Nov 2022 14:33:15 -0800 (PST)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 82881133C;
-        Tue, 22 Nov 2022 23:33:10 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id E218C1381;
+        Tue, 22 Nov 2022 23:33:11 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1669156390;
-        bh=PTzzjYA6KCX+me59SAU7yS6pA3Nxb/SPcR+s7GM/DLM=;
+        s=mail; t=1669156392;
+        bh=Y5irZuHjx5jIN3WOBELk2dJRtr6NOEYHANCsY7ocVTQ=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=ZMdNoXloSryO6IvVN2iF6xQv6ct0Y8g59g9Bv/ZqTIuFlGSmb83WgYSfU9fXq3CbC
-         B6/Qwhrh4s2wRCuEk876x7d04XDxrm3f/9wdIDJ2ixp9MIwKk/NpuI13NeS0m8w/nu
-         d58X6Z6HPq/t56xGQXRjFX/zcj11Plk28D7Nvb4A=
+        b=otu/u8DhSGmBu1fl7ZMiN8smZWt/KWNbSAFRoTqd8mEe8792auGTQ0V3Vy8U2BO4l
+         5zidTLE3kZJ02RPwMHlU/Pg0B9Ak7aVvMbwl6qDX8ecu+zXYYV/7mPEYk+b4rHOOcq
+         3l3eUP8KtvsA6BtkhwVlJzkGShDXmTt2xKqqqWAc=
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     linux-media@vger.kernel.org
 Cc:     Sakari Ailus <sakari.ailus@iki.fi>,
         Manivannan Sadhasivam <mani@kernel.org>
-Subject: [PATCH v1 03/15] media: i2c: imx290: Factor out control update code to a function
-Date:   Wed, 23 Nov 2022 00:32:38 +0200
-Message-Id: <20221122223250.21233-4-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v1 04/15] media: i2c: imx290: Access link_freq_index directly
+Date:   Wed, 23 Nov 2022 00:32:39 +0200
+Message-Id: <20221122223250.21233-5-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.37.4
 In-Reply-To: <20221122223250.21233-1-laurent.pinchart@ideasonboard.com>
 References: <20221122223250.21233-1-laurent.pinchart@ideasonboard.com>
@@ -46,68 +46,47 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Move the control update code to a separate function to group it with all
-the control-related code and make imx290_set_fmt() more readable.
+The imx290_get_link_freq_index() function hides the fact that it relies
+on the imx290 current_mode field, which obfuscates the code instead of
+making it more readable. Inline it in the callers, and use the mode
+pointer we already have in imx290_ctrl_update() instead of using the
+current_mode field.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- drivers/media/i2c/imx290.c | 36 ++++++++++++++++--------------------
- 1 file changed, 16 insertions(+), 20 deletions(-)
+ drivers/media/i2c/imx290.c | 10 ++--------
+ 1 file changed, 2 insertions(+), 8 deletions(-)
 
 diff --git a/drivers/media/i2c/imx290.c b/drivers/media/i2c/imx290.c
-index 4dbf218e7a63..eb295502d0c3 100644
+index eb295502d0c3..2d198b167853 100644
 --- a/drivers/media/i2c/imx290.c
 +++ b/drivers/media/i2c/imx290.c
-@@ -639,6 +639,21 @@ static const char * const imx290_test_pattern_menu[] = {
- 	"000/555h Toggle Pattern",
- };
+@@ -547,14 +547,9 @@ static int imx290_write_current_format(struct imx290 *imx290)
+ 	return 0;
+ }
  
-+static void imx290_ctrl_update(struct imx290 *imx290,
-+			       const struct imx290_mode *mode)
-+{
-+	unsigned int hblank = mode->hmax - mode->width;
-+	unsigned int vblank = IMX290_VMAX_DEFAULT - mode->height;
-+
-+	__v4l2_ctrl_s_ctrl(imx290->link_freq,
-+			   imx290_get_link_freq_index(imx290));
-+	__v4l2_ctrl_s_ctrl_int64(imx290->pixel_rate,
-+				 imx290_calc_pixel_rate(imx290));
-+
-+	__v4l2_ctrl_modify_range(imx290->hblank, hblank, hblank, 1, hblank);
-+	__v4l2_ctrl_modify_range(imx290->vblank, vblank, vblank, 1, vblank);
-+}
-+
- static int imx290_ctrl_init(struct imx290 *imx290)
+-static inline u8 imx290_get_link_freq_index(struct imx290 *imx290)
+-{
+-	return imx290->current_mode->link_freq_index;
+-}
+-
+ static s64 imx290_get_link_freq(struct imx290 *imx290)
  {
- 	struct v4l2_fwnode_device_properties props;
-@@ -904,26 +919,7 @@ static int imx290_set_fmt(struct v4l2_subdev *sd,
- 		imx290->current_mode = mode;
- 		imx290->bpp = imx290_formats[i].bpp;
+-	u8 index = imx290_get_link_freq_index(imx290);
++	u8 index = imx290->current_mode->link_freq_index;
  
--		if (imx290->link_freq)
--			__v4l2_ctrl_s_ctrl(imx290->link_freq,
--					   imx290_get_link_freq_index(imx290));
--		if (imx290->pixel_rate)
--			__v4l2_ctrl_s_ctrl_int64(imx290->pixel_rate,
--						 imx290_calc_pixel_rate(imx290));
--
--		if (imx290->hblank) {
--			unsigned int hblank = mode->hmax - mode->width;
--
--			__v4l2_ctrl_modify_range(imx290->hblank, hblank, hblank,
--						 1, hblank);
--		}
--
--		if (imx290->vblank) {
--			unsigned int vblank = IMX290_VMAX_DEFAULT - mode->height;
--
--			__v4l2_ctrl_modify_range(imx290->vblank, vblank, vblank,
--						 1, vblank);
--		}
-+		imx290_ctrl_update(imx290, mode);
- 	}
+ 	return *(imx290_link_freqs_ptr(imx290) + index);
+ }
+@@ -645,8 +640,7 @@ static void imx290_ctrl_update(struct imx290 *imx290,
+ 	unsigned int hblank = mode->hmax - mode->width;
+ 	unsigned int vblank = IMX290_VMAX_DEFAULT - mode->height;
  
- 	*format = fmt->format;
+-	__v4l2_ctrl_s_ctrl(imx290->link_freq,
+-			   imx290_get_link_freq_index(imx290));
++	__v4l2_ctrl_s_ctrl(imx290->link_freq, mode->link_freq_index);
+ 	__v4l2_ctrl_s_ctrl_int64(imx290->pixel_rate,
+ 				 imx290_calc_pixel_rate(imx290));
+ 
 -- 
 Regards,
 
