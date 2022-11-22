@@ -2,208 +2,799 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1A9C2634397
-	for <lists+linux-media@lfdr.de>; Tue, 22 Nov 2022 19:27:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7766C6343C5
+	for <lists+linux-media@lfdr.de>; Tue, 22 Nov 2022 19:41:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234455AbiKVS1F (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 22 Nov 2022 13:27:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38012 "EHLO
+        id S234529AbiKVSlH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 22 Nov 2022 13:41:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45598 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232021AbiKVS1D (ORCPT
+        with ESMTP id S232366AbiKVSlG (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 22 Nov 2022 13:27:03 -0500
-Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com [IPv6:2a00:1450:4864:20::52c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 145EE729A8
-        for <linux-media@vger.kernel.org>; Tue, 22 Nov 2022 10:27:01 -0800 (PST)
-Received: by mail-ed1-x52c.google.com with SMTP id x2so21841030edd.2
-        for <linux-media@vger.kernel.org>; Tue, 22 Nov 2022 10:27:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=YuLHzdnVezmbIpehx2h6/dnqYAu8v7KYMyvH9VaugYw=;
-        b=NTmJC5lXXDteO1TzcKFiDAE31oHTlG2RVx8+4ouCu6VQpBiKSqzmPJVHgZZPDWyYM6
-         t8VlohS/Vl+ltOKCphTGumZH5BN97tmZJrmEqAo8XwD/iY2GICsL+PDs7jQTW3/RzGNe
-         cDngWYnxHhno1/NSakx58Y2rfBECXaGV4fbZ4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=YuLHzdnVezmbIpehx2h6/dnqYAu8v7KYMyvH9VaugYw=;
-        b=zn3Niz0Jr0QhiPBK+xo6pfVNs8KvQA/10Tk2o/3yu2llMJVms2/g4SQGtA/YmoqpQT
-         0mJfGDCftaiSeGSNorYuienBd7Sf7FqRf2wX1ibe+HAPrTFFmEZME5LsOrJwofR0ertW
-         Xqivu+smPmR3cuaG7r/Va7ESx6brGiF6n5YVc4ZYu3Zgc74asOQJCLaUVKSk+RI+aBiS
-         lJjPDsQ4edynXt1d2bxgBH6Nz6KMCCQMVoVq8Asp3Y69hoTnAv9FeAsZxmiGjVKZ062o
-         nylsu73I12eEScniRQrYtj34uV1i1uFSEmO4F3LvAFr2wLNKoNnqO6dhuliufmpI3T4I
-         ikTw==
-X-Gm-Message-State: ANoB5pk2G+7NK3L5I3xKgTtu83PX2t72dDB10LvtVdVvzgOwtVt/oqZv
-        KK4rkN3Pk3yVifDwZ03WMtH5zag89Wh4fS0/vXeiSw==
-X-Google-Smtp-Source: AA0mqf7uKugj4+VjnLOmVFqxL1s4AavX/tb4mgqzPy0yRNKjQpkiLy6jrFkvnCfcaczhmidwseHJJXO71t3tQNMli/Q=
-X-Received: by 2002:a05:6402:28a9:b0:461:f5ce:a478 with SMTP id
- eg41-20020a05640228a900b00461f5cea478mr22062611edb.304.1669141619619; Tue, 22
- Nov 2022 10:26:59 -0800 (PST)
+        Tue, 22 Nov 2022 13:41:06 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8733C85A2C;
+        Tue, 22 Nov 2022 10:41:01 -0800 (PST)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id D74181180;
+        Tue, 22 Nov 2022 19:40:58 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1669142459;
+        bh=bcPaKNGwYUhsGGmHv5s/kcMKhJiDxZIq87z1IjLKin8=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=s94mPeRt4lCGN8XJS4LMIz7PdC2ViNAoZ9yj6p8w3uPJMfz0lEuyPOgCPgJfo53tx
+         P/0g5HgMrOmGrgo/LMyT2rQtL2thpKO32UaiiuoBU8PBe39nVt0ywKqluDPM5XG1x+
+         8umM4nd2YQSgTIpwD0mUpAVW1KxXj4A6x8QhqDPk=
+Date:   Tue, 22 Nov 2022 20:40:43 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH v5 3/4] media: platform: Add Renesas RZ/G2L MIPI CSI-2
+ receiver driver
+Message-ID: <Y30Xq6D6Mut5Solx@pendragon.ideasonboard.com>
+References: <20221102004329.5410-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20221102004329.5410-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <Y3wioC4Oyl81mBGh@pendragon.ideasonboard.com>
+ <CA+V-a8tqT61fsge=wJwqnG3M3ZA4Ybkiyx2o0LnArwM6LoWdfQ@mail.gmail.com>
 MIME-Version: 1.0
-References: <caf4d6b82843788db97555a58bc9e33915e5b50a.camel@ndufresne.ca>
- <b422be59-4b4b-2d0d-8e8c-b19f27c6832e@gmail.com> <4fa4e5d3b1f46e46139bad069cbf5e795e63afa8.camel@pengutronix.de>
- <cc091a11-d012-d998-b7e2-8b3d616867a7@gmail.com> <0abc6efddb8dfc1888de15a1bedaaac6688fd078.camel@pengutronix.de>
- <1e2a6750-9849-e9ee-69d6-e4bfdcfb64f3@gmail.com> <CAAFQd5B+VHs62M5Wf2L-xOw=_PoaXT+akAySkeZc75HeA3d0jQ@mail.gmail.com>
- <b2dec9b3-03a7-e7ac-306e-1da024af8982@amd.com> <346d6ad023ef8697aafd93ac1b100890f3637e44.camel@ndufresne.ca>
- <CAF6AEGuqgWi0T=B9cb+Uy7aoWBPGQmZ3JbwFcK_45GbkY2nHPg@mail.gmail.com>
- <Y3zeYnufgXJHQAbN@phenom.ffwll.local> <ae9ba9ba-3ad3-af23-be66-1540862bf571@amd.com>
-In-Reply-To: <ae9ba9ba-3ad3-af23-be66-1540862bf571@amd.com>
-From:   Daniel Vetter <daniel@ffwll.ch>
-Date:   Tue, 22 Nov 2022 19:26:47 +0100
-Message-ID: <CAKMK7uFdvMoonvmgKDeMTksRfN8r797AYm2JJAWBEazgK8BFvA@mail.gmail.com>
-Subject: Re: Try to address the DMA-buf coherency problem
-To:     =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc:     Rob Clark <robdclark@gmail.com>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Lucas Stach <l.stach@pengutronix.de>,
-        Daniel Stone <daniel@fooishbar.org>, ppaalanen@gmail.com,
-        sumit.semwal@linaro.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org, linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CA+V-a8tqT61fsge=wJwqnG3M3ZA4Ybkiyx2o0LnArwM6LoWdfQ@mail.gmail.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, 22 Nov 2022 at 18:34, Christian K=C3=B6nig <christian.koenig@amd.co=
-m> wrote:
-> Am 22.11.22 um 15:36 schrieb Daniel Vetter:
-> > On Fri, Nov 18, 2022 at 11:32:19AM -0800, Rob Clark wrote:
-> >> On Thu, Nov 17, 2022 at 7:38 AM Nicolas Dufresne <nicolas@ndufresne.ca=
-> wrote:
-> >>> Le jeudi 17 novembre 2022 =C3=A0 13:10 +0100, Christian K=C3=B6nig a =
-=C3=A9crit :
-> >>>>>> DMA-Buf let's the exporter setup the DMA addresses the importer us=
-es to
-> >>>>>> be able to directly decided where a certain operation should go. E=
-.g. we
-> >>>>>> have cases where for example a P2P write doesn't even go to memory=
-, but
-> >>>>>> rather a doorbell BAR to trigger another operation. Throwing in CP=
-U
-> >>>>>> round trips for explicit ownership transfer completely breaks that
-> >>>>>> concept.
-> >>>>> It sounds like we should have a dma_dev_is_coherent_with_dev() whic=
-h
-> >>>>> accepts two (or an array?) of devices and tells the caller whether =
-the
-> >>>>> devices need explicit ownership transfer.
-> >>>> No, exactly that's the concept I'm pushing back on very hard here.
-> >>>>
-> >>>> In other words explicit ownership transfer is not something we would
-> >>>> want as requirement in the framework, cause otherwise we break tons =
-of
-> >>>> use cases which require concurrent access to the underlying buffer.
-> >>> I'm not pushing for this solution, but really felt the need to correc=
-t you here.
-> >>> I have quite some experience with ownership transfer mechanism, as th=
-is is how
-> >>> GStreamer framework works since 2000. Concurrent access is a really c=
-ommon use
-> >>> cases and it is quite well defined in that context. The bracketing sy=
-stem (in
-> >>> this case called map() unmap(), with flag stating the usage intention=
- like reads
-> >>> and write) is combined the the refcount. The basic rules are simple:
-> >> This is all CPU oriented, I think Christian is talking about the case
-> >> where ownership transfer happens without CPU involvement, such as via
-> >> GPU waiting on a fence
-> > Yeah for pure device2device handover the rule pretty much has to be tha=
-t
-> > any coherency management that needs to be done must be done from the
-> > device side (flushing device side caches and stuff like that) only. But
-> > under the assumption that _all_ cpu side management has been done alrea=
-dy
-> > before the first device access started.
+Hi Prabhakar,
+
+On Tue, Nov 22, 2022 at 05:42:46PM +0000, Lad, Prabhakar wrote:
+> On Tue, Nov 22, 2022 at 1:15 AM Laurent Pinchart wrote:
+> > On Wed, Nov 02, 2022 at 12:43:28AM +0000, Prabhakar wrote:
+> > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > >
+> > > Add MIPI CSI-2 receiver driver for Renesas RZ/G2L. The MIPI
+> > > CSI-2 is part of the CRU module found on RZ/G2L family.
+> > >
+> > > Based on a patch in the BSP by Hien Huynh
+> > > <hien.huynh.px@renesas.com>
+> > >
+> > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > > ---
+> > > v4 -> v5
+> > > * Made sure to cleanup in s_stream error path
+> > >
+> <snip>
+> > > +struct rzg2l_csi2_timings {
+> > > +     u32 t_init;
+> > > +     u32 tclk_miss;
+> > > +     u32 tclk_settle;
+> > > +     u32 ths_settle;
+> > > +     u32 tclk_prepare;
+> > > +     u32 ths_prepare;
+> > > +     u32 max_hsfreq;
+> > > +};
+> > > +
+> > > +static const struct rzg2l_csi2_timings rzg2l_csi2_global_timings[] = {
+> > > +     [0] = {
 > >
-> > And then the map/unmap respectively begin/end_cpu_access can be used wh=
-at
-> > it was meant for with cpu side invalidation/flushing and stuff like tha=
-t,
-> > while having pretty clear handover/ownership rules and hopefully not do=
-ing
-> > no unecessary flushes. And all that while allowing device acces to be
-> > pipelined. Worst case the exporter has to insert some pipelined cache
-> > flushes as a dma_fence pipelined work of its own between the device acc=
-ess
-> > when moving from one device to the other. That last part sucks a bit ri=
-ght
-> > now, because we don't have any dma_buf_attachment method which does thi=
-s
-> > syncing without recreating the mapping, but in reality this is solved b=
-y
-> > caching mappings in the exporter (well dma-buf layer) nowadays.
+> > You can drop [0]. Same below.
 > >
-> > True concurrent access like vk/compute expects is still a model that
-> > dma-buf needs to support on top, but that's a special case and pretty m=
-uch
-> > needs hw that supports such concurrent access without explicit handover
-> > and fencing.
+> The ths_settle value differs for [1].
+
+I meant you can drop the "[0] = ", "[1] = ", ... :-)
+
+> > > +             .max_hsfreq = 80,
+> > > +             .t_init = 79801,
+> > > +             .tclk_miss = 4,
+> > > +             .tclk_settle = 23,
+> > > +             .ths_settle = 31,
+> > > +             .tclk_prepare = 10,
+> > > +             .ths_prepare = 19,
+> > > +     },
+> > > +     [1] = {
+> > > +             .max_hsfreq = 125,
+> > > +             .t_init = 79801,
+> > > +             .tclk_miss = 4,
+> > > +             .tclk_settle = 23,
+> > > +             .ths_settle = 28,
+> > > +             .tclk_prepare = 10,
+> > > +             .ths_prepare = 19,
+> > > +     },
+> > > +     [2] = {
+> > > +             .max_hsfreq = 250,
+> > > +             .t_init = 79801,
+> > > +             .tclk_miss = 4,
+> > > +             .tclk_settle = 23,
+> > > +             .ths_settle = 22,
+> > > +             .tclk_prepare = 10,
+> > > +             .ths_prepare = 16,
+> > > +     },
+> > > +     [3] = {
+> > > +             .max_hsfreq = 360,
+> > > +             .t_init = 79801,
+> > > +             .tclk_miss = 4,
+> > > +             .tclk_settle = 18,
+> > > +             .ths_settle = 19,
+> > > +             .tclk_prepare = 10,
+> > > +             .ths_prepare = 10,
+> > > +     },
+> > > +     [4] = {
+> > > +             .max_hsfreq = 1500,
+> > > +             .t_init = 79801,
+> > > +             .tclk_miss = 4,
+> > > +             .tclk_settle = 18,
+> > > +             .ths_settle = 18,
+> > > +             .tclk_prepare = 10,
+> > > +             .ths_prepare = 10,
+> > > +     },
+> > > +};
+> > > +
+> > > +struct rzg2l_csi2_format {
+> > > +     u32 code;
+> > > +     unsigned int datatype;
+> > > +     unsigned int bpp;
+> > > +};
+> > > +
+> > > +static const struct rzg2l_csi2_format rzg2l_csi2_formats[] = {
+> > > +     { .code = MEDIA_BUS_FMT_UYVY8_1X16,     .datatype = 0x1e, .bpp = 16 },
+> > > +};
+> > > +
+> > > +static inline struct rzg2l_csi2 *sd_to_csi2(struct v4l2_subdev *sd)
+> > > +{
+> > > +     return container_of(sd, struct rzg2l_csi2, subdev);
+> > > +}
+> > > +
+> > > +static const struct rzg2l_csi2_format *rzg2l_csi2_code_to_fmt(unsigned int code)
+> > > +{
+> > > +     unsigned int i;
+> > > +
+> > > +     for (i = 0; i < ARRAY_SIZE(rzg2l_csi2_formats); i++)
+> > > +             if (rzg2l_csi2_formats[i].code == code)
+> > > +                     return &rzg2l_csi2_formats[i];
+> > > +
+> > > +     return NULL;
+> > > +}
+> > > +
+> > > +static inline struct rzg2l_csi2 *notifier_to_csi2(struct v4l2_async_notifier *n)
+> > > +{
+> > > +     return container_of(n, struct rzg2l_csi2, notifier);
+> > > +}
+> > > +
+> > > +static u32 rzg2l_csi2_read(struct rzg2l_csi2 *csi2, unsigned int reg)
+> > > +{
+> > > +     return ioread32(csi2->base + reg);
+> > > +}
+> > > +
+> > > +static void rzg2l_csi2_write(struct rzg2l_csi2 *csi2, unsigned int reg,
+> > > +                          u32 data)
+> > > +{
+> > > +     iowrite32(data, csi2->base + reg);
+> > > +}
+> > > +
+> > > +static void rzg2l_csi2_set(struct rzg2l_csi2 *csi2, unsigned int reg, u32 set)
+> > > +{
+> > > +     rzg2l_csi2_write(csi2, reg, rzg2l_csi2_read(csi2, reg) | set);
+> > > +}
+> > > +
+> > > +static void rzg2l_csi2_clr(struct rzg2l_csi2 *csi2, unsigned int reg, u32 clr)
+> > > +{
+> > > +     rzg2l_csi2_write(csi2, reg, rzg2l_csi2_read(csi2, reg) & ~clr);
+> > > +}
+> > > +
+> > > +static int rzg2l_csi2_calc_mbps(struct rzg2l_csi2 *csi2)
+> > > +{
+> > > +     struct v4l2_subdev *source = csi2->remote_source;
+> > > +     const struct rzg2l_csi2_format *format;
+> > > +     const struct v4l2_mbus_framefmt *fmt;
+> > > +     struct v4l2_subdev_state *state;
+> > > +     struct v4l2_ctrl *ctrl;
+> > > +     u64 mbps;
+> > > +
+> > > +     /* Read the pixel rate control from remote. */
+> > > +     ctrl = v4l2_ctrl_find(source->ctrl_handler, V4L2_CID_PIXEL_RATE);
+> > > +     if (!ctrl) {
+> > > +             dev_err(csi2->dev, "no pixel rate control in subdev %s\n",
+> > > +                     source->name);
+> > > +             return -EINVAL;
+> > > +     }
+> > > +
+> > > +     state = v4l2_subdev_lock_and_get_active_state(&csi2->subdev);
+> > > +     fmt = v4l2_subdev_get_pad_format(&csi2->subdev, state, RZG2L_CSI2_SINK);
+> > > +     format = rzg2l_csi2_code_to_fmt(fmt->code);
+> > > +     v4l2_subdev_unlock_state(state);
+> > > +
+> > > +     /*
+> > > +      * Calculate hsfreq in Mbps
+> > > +      * hsfreq = (pixel_rate * bits_per_sample) / number_of_lanes
+> > > +      */
+> > > +     mbps = v4l2_ctrl_g_ctrl_int64(ctrl) * format->bpp;
+> > > +     do_div(mbps, csi2->lanes * 1000000);
+> > > +
+> > > +     return mbps;
+> > > +}
+> > > +
+> > > +/* -----------------------------------------------------------------------------
+> > > + * DPHY setting
+> > > + */
+> > > +
+> > > +static int rzg2l_csi2_dphy_disable(struct rzg2l_csi2 *csi2)
+> > > +{
+> > > +     int ret;
+> > > +
+> > > +     /* Reset the CRU (D-PHY) */
+> > > +     ret = reset_control_assert(csi2->cmn_rstb);
+> > > +     if (ret)
+> > > +             return ret;
+> > > +
+> > > +     /* Stop the D-PHY clock */
+> > > +     clk_disable_unprepare(csi2->sysclk);
+> > > +
+> > > +     /* Cancel the EN_LDO1200 register setting */
+> > > +     rzg2l_csi2_clr(csi2, CSIDPHYCTRL0, CSIDPHYCTRL0_EN_LDO1200);
+> > > +
+> > > +     /* Cancel the EN_BGR register setting */
+> > > +     rzg2l_csi2_clr(csi2, CSIDPHYCTRL0, CSIDPHYCTRL0_EN_BGR);
+> > > +
+> > > +     csi2->dphy_enabled = false;
+> > > +
+> > > +     return 0;
+> > > +}
+> > > +
+> > > +static int rzg2l_csi2_dphy_enable(struct rzg2l_csi2 *csi2)
+> > > +{
+> > > +     const struct rzg2l_csi2_timings *dphy_timing;
+> > > +     u32 dphytim0, dphytim1;
+> > > +     unsigned int i;
+> > > +     int mbps;
+> > > +     int ret;
+> > > +
+> > > +     mbps = rzg2l_csi2_calc_mbps(csi2);
+> > > +     if (mbps < 0)
+> > > +             return mbps;
+> > > +
+> > > +     csi2->hsfreq = mbps;
+> > > +
+> > > +     /* Set DPHY timing parameters */
+> > > +     for (i = 0; i < ARRAY_SIZE(rzg2l_csi2_global_timings); ++i) {
+> > > +             dphy_timing = &rzg2l_csi2_global_timings[i];
+> > > +
+> > > +             if (csi2->hsfreq <= dphy_timing->max_hsfreq)
+> > > +                     break;
+> > > +     }
+> > > +
+> > > +     if (i >= ARRAY_SIZE(rzg2l_csi2_global_timings))
+> > > +             return -EINVAL;
+> > > +
+> > > +     /* Set D-PHY timing parameters */
+> > > +     dphytim0 = CSIDPHYTIM0_TCLK_MISS(dphy_timing->tclk_miss) |
+> > > +                     CSIDPHYTIM0_T_INIT(dphy_timing->t_init);
+> > > +     dphytim1 = CSIDPHYTIM1_THS_PREPARE(dphy_timing->ths_prepare) |
+> > > +                     CSIDPHYTIM1_TCLK_PREPARE(dphy_timing->tclk_prepare) |
+> > > +                     CSIDPHYTIM1_THS_SETTLE(dphy_timing->ths_settle) |
+> > > +                     CSIDPHYTIM1_TCLK_SETTLE(dphy_timing->tclk_settle);
+> > > +     rzg2l_csi2_write(csi2, CSIDPHYTIM0, dphytim0);
+> > > +     rzg2l_csi2_write(csi2, CSIDPHYTIM1, dphytim1);
+> > > +
+> > > +     /* Enable D-PHY power control 0 */
+> > > +     rzg2l_csi2_write(csi2, CSIDPHYSKW0, CSIDPHYSKW0_DEFAULT_SKW);
+> > > +
+> > > +     /* Set the EN_BGR bit */
+> > > +     rzg2l_csi2_set(csi2, CSIDPHYCTRL0, CSIDPHYCTRL0_EN_BGR);
+> > > +
+> > > +     /* Delay 20us to be stable */
+> > > +     usleep_range(20, 40);
+> > > +
+> > > +     /* Enable D-PHY power control 1 */
+> > > +     rzg2l_csi2_set(csi2, CSIDPHYCTRL0, CSIDPHYCTRL0_EN_LDO1200);
+> > > +
+> > > +     /* Delay 10us to be stable */
+> > > +     usleep_range(10, 20);
+> > > +
+> > > +     /* Start supplying the internal clock for the D-PHY block */
+> > > +     ret = clk_prepare_enable(csi2->sysclk);
+> > > +     if (ret)
+> > > +             rzg2l_csi2_dphy_disable(csi2);
+> > > +
+> > > +     csi2->dphy_enabled = true;
+> > > +
+> > > +     return ret;
+> > > +}
+> > > +
+> > > +static int rzg2l_csi2_enable_reg_access(struct rzg2l_csi2 *csi2)
+> > > +{
+> > > +     int ret;
+> > > +
+> > > +     ret = reset_control_deassert(csi2->presetn);
+> > > +     if (ret < 0)
+> > > +             return ret;
 > >
-> > Aside from some historical accidents and still a few warts, I do think
-> > dma-buf does support both of these models.
+> > Could this be done in the runtime PM resume handler ? Same for
+> > reset_control_assert() in the runtime PM suspend handler.
 >
-> We should have come up with dma-heaps earlier and make it clear that
-> exporting a DMA-buf from a device gives you something device specific
-> which might or might not work with others.
+> Yes it can be done, I'll move them to the runtime PM handlers.
 
-Yeah, but engineering practicalities were pretty clear that no one
-would rewrite the entire Xorg stack and all the drivers just to make
-that happen for prime.
+Great, that will make things easier :-) You could then drop the
+enable|disable_reg_access wrappers and call the RPM functions directly.
 
-> Apart from that I agree, DMA-buf should be capable of handling this.
-> Question left is what documentation is missing to make it clear how
-> things are supposed to work?
+> > > +
+> > > +     ret = pm_runtime_resume_and_get(csi2->dev);
+> > > +     if (ret)
+> > > +             reset_control_assert(csi2->presetn);
+> > > +
+> > > +     return ret;
+> > > +}
+> > > +
+> > > +static void rzg2l_csi2_disable_reg_access(struct rzg2l_csi2 *csi2)
+> > > +{
+> > > +     pm_runtime_put_sync(csi2->dev);
+> > > +     reset_control_assert(csi2->presetn);
+> > > +}
+> > > +
+> > > +static int rzg2l_csi2_dphy_setting(struct v4l2_subdev *sd, bool on)
+> > > +{
+> > > +     struct rzg2l_csi2 *csi2 = sd_to_csi2(sd);
+> > > +     int ret;
+> > > +
+> > > +     ret = rzg2l_csi2_enable_reg_access(csi2);
+> > > +     if (ret < 0)
+> > > +             return ret;
+> > > +
+> > > +     if (on)
+> > > +             ret = rzg2l_csi2_dphy_enable(csi2);
+> > > +     else
+> > > +             ret = rzg2l_csi2_dphy_disable(csi2);
+> > > +
+> > > +     rzg2l_csi2_disable_reg_access(csi2);
+> > > +
+> > > +     return ret;
+> > > +}
+> > > +
+> > > +static void rzg2l_csi2_mipi_link_enable(struct rzg2l_csi2 *csi2)
+> > > +{
+> > > +     unsigned long vclk_rate = csi2->vclk_rate / HZ_PER_MHZ;
+> > > +     u32 frrskw, frrclk, frrskw_coeff, frrclk_coeff;
+> > > +
+> > > +     /* Select data lanes */
+> > > +     rzg2l_csi2_write(csi2, CSI2nMCT0, CSI2nMCT0_VDLN(csi2->lanes));
+> > > +
+> > > +     frrskw_coeff = 3 * vclk_rate * 8;
+> > > +     frrclk_coeff = frrskw_coeff / 2;
+> > > +     frrskw = DIV_ROUND_UP(frrskw_coeff, csi2->hsfreq);
+> > > +     frrclk = DIV_ROUND_UP(frrclk_coeff, csi2->hsfreq);
+> > > +     rzg2l_csi2_write(csi2, CSI2nMCT2, CSI2nMCT2_FRRSKW(frrskw) |
+> > > +                      CSI2nMCT2_FRRCLK(frrclk));
+> > > +
+> > > +     /*
+> > > +      * Select data type.
+> > > +      * FS, FE, LS, LE, Generic Short Packet Codes 1 to 8,
+> > > +      * Generic Long Packet Data Types 1 to 4 YUV422 8-bit,
+> > > +      * RGB565, RGB888, RAW8 to RAW20, User-defined 8-bit
+> > > +      * data types 1 to 8
+> > > +      */
+> > > +     rzg2l_csi2_write(csi2, CSI2nDTEL, 0xf778ff0f);
+> > > +     rzg2l_csi2_write(csi2, CSI2nDTEH, 0x00ffff1f);
+> > > +
+> > > +     /* Enable LINK reception */
+> > > +     rzg2l_csi2_write(csi2, CSI2nMCT3, CSI2nMCT3_RXEN);
+> > > +}
+> > > +
+> > > +static void rzg2l_csi2_mipi_link_disable(struct rzg2l_csi2 *csi2)
+> > > +{
+> > > +     unsigned int timeout = VSRSTS_RETRIES;
+> > > +
+> > > +     /* Stop LINK reception */
+> > > +     rzg2l_csi2_clr(csi2, CSI2nMCT3, CSI2nMCT3_RXEN);
+> > > +
+> > > +     /* Request a software reset of the LINK Video Pixel Interface */
+> > > +     rzg2l_csi2_write(csi2, CSI2nRTCT, CSI2nRTCT_VSRST);
+> > > +
+> > > +     /* Make sure CSI2nRTST.VSRSTS bit is cleared */
+> > > +     while (timeout--) {
+> > > +             if (!(rzg2l_csi2_read(csi2, CSI2nRTST) & CSI2nRTST_VSRSTS))
+> > > +                     break;
+> > > +             usleep_range(100, 200);
+> > > +     };
+> > > +
+> > > +     if (!timeout)
+> > > +             dev_err(csi2->dev, "Clearing CSI2nRTST.VSRSTS timed out\n");
+> > > +}
+> > > +
+> > > +static int rzg2l_csi2_mipi_link_setting(struct v4l2_subdev *sd, bool on)
+> > > +{
+> > > +     struct rzg2l_csi2 *csi2 = sd_to_csi2(sd);
+> > > +     int ret;
+> > > +
+> > > +     ret = rzg2l_csi2_enable_reg_access(csi2);
+> > > +     if (ret < 0)
+> > > +             return ret;
+> > > +
+> > > +     if (on)
+> > > +             rzg2l_csi2_mipi_link_enable(csi2);
+> > > +     else
+> > > +             rzg2l_csi2_mipi_link_disable(csi2);
+> > > +
+> > > +     rzg2l_csi2_disable_reg_access(csi2);
+> >
+> > This doesn't seem right. Runtime PM isn't just about register access.
+> > You need to call pm_runtime_resume_and_get() at the beginning of
+> > rzg2l_csi2_s_stream() when enabling, and pm_runtime_put_sync() at the
+> > end of rzg2l_csi2_s_stream() when disabling (+ error paths for the
+> > enable case).
+> 
+> OK, I'll make use of runtime PM in s_stream callback.
+> 
+> > > +
+> > > +     return 0;
+> > > +}
+> > > +
+> > > +static int rzg2l_csi2_s_stream(struct v4l2_subdev *sd, int enable)
+> > > +{
+> > > +     struct rzg2l_csi2 *csi2 = sd_to_csi2(sd);
+> > > +     int s_stream_ret = 0;
+> > > +     int ret;
+> > > +
+> > > +     if (enable) {
+> > > +             int ret;
+> > > +
+> > > +             ret = rzg2l_csi2_mipi_link_setting(sd, 1);
+> > > +             if (ret)
+> > > +                     return ret;
+> > > +
+> > > +             ret = reset_control_deassert(csi2->cmn_rstb);
+> > > +             if (ret)
+> > > +                     goto err_mipi_link_disable;
+> > > +     }
+> > > +
+> > > +     ret = v4l2_subdev_call(csi2->remote_source, video, s_stream, enable);
+> > > +     if (ret) {
+> > > +             s_stream_ret = ret;
+> > > +             dev_err(csi2->dev, "s_stream failed on remote source\n");
+> >
+> > With
+> > https://lore.kernel.org/linux-media/20221026065123.595777-1-sakari.ailus@linux.intel.com/
+> > I think you can drop this error message.
+> 
+> Agreed, I will drop the error message.
+> 
+> > > +     }
+> > > +
+> > > +     if (enable && ret)
+> > > +             goto err_assert_rstb;
+> > > +
+> > > +     if (!enable) {
+> > > +             ret = rzg2l_csi2_dphy_setting(sd, 0);
+> > > +             if (ret && !s_stream_ret)
+> > > +                     s_stream_ret = ret;
+> > > +             ret = rzg2l_csi2_mipi_link_setting(sd, 0);
+> > > +             if (ret && !s_stream_ret)
+> > > +                     s_stream_ret = ret;
+> > > +     }
+> > > +
+> > > +     return s_stream_ret;
+> > > +
+> > > +err_assert_rstb:
+> > > +     reset_control_assert(csi2->cmn_rstb);
+> > > +err_mipi_link_disable:
+> > > +     rzg2l_csi2_mipi_link_setting(sd, 0);
+> > > +     return ret;
+> > > +}
+> > > +
+> > > +static int rzg2l_csi2_pre_streamon(struct v4l2_subdev *sd, u32 flags)
+> > > +{
+> > > +     return rzg2l_csi2_dphy_setting(sd, 1);
+> > > +}
+> > > +
+> > > +static int rzg2l_csi2_post_streamoff(struct v4l2_subdev *sd)
+> > > +{
+> > > +     struct rzg2l_csi2 *csi2 = sd_to_csi2(sd);
+> > > +
+> > > +     /*
+> > > +      * In ideal case D-PHY will be disabled in s_stream(0) callback
+> > > +      * as mentioned the HW manual. The below will only happen when
+> > > +      * pre_streamon succeeds and further down the line s_stream(1)
+> > > +      * fails so we need to undo things in post_streamoff.
+> > > +      */
+> > > +     if (csi2->dphy_enabled)
+> > > +             return rzg2l_csi2_dphy_setting(sd, 0);
+> > > +
+> > > +     return 0;
+> > > +}
+> > > +
+> > > +static int rzg2l_csi2_set_format(struct v4l2_subdev *sd,
+> > > +                              struct v4l2_subdev_state *state,
+> > > +                              struct v4l2_subdev_format *fmt)
+> > > +{
+> > > +     struct v4l2_mbus_framefmt *src_format;
+> > > +     struct v4l2_mbus_framefmt *sink_format;
+> > > +
+> > > +     if (fmt->pad != RZG2L_CSI2_SINK && fmt->pad != RZG2L_CSI2_SOURCE)
+> > > +             return -EINVAL;
+> >
+> > You can drop this check as the set_format wrapper validates the pad
+> > value already.
+> 
+> OK, I will drop this check.
+> 
+> > > +
+> > > +     sink_format = v4l2_subdev_get_pad_format(sd, state, RZG2L_CSI2_SINK);
+> > > +     src_format = v4l2_subdev_get_pad_format(sd, state, RZG2L_CSI2_SOURCE);
+> >
+> > As the CSI-2 receiver can't modify the format on the output,
+> > set_format() on the source pad must not modify the format. Just add
+> >
+> >         if (fmt->pad == RZG2L_CSI2_SOURCE) {
+> >                 fmt->format = *src_format;
+> >                 return 0;
+> >         }
+> >
+> > here.
+> 
+> OK, I will update as above.
+> 
+> > > +
+> > > +     if (!rzg2l_csi2_code_to_fmt(fmt->format.code))
+> > > +             sink_format->code = rzg2l_csi2_formats[0].code;
+> > > +     else
+> > > +             sink_format->code = fmt->format.code;
+> > > +
+> > > +     sink_format->field = V4L2_FIELD_NONE;
+> > > +     sink_format->colorspace = fmt->format.colorspace;
+> > > +     sink_format->xfer_func = fmt->format.xfer_func;
+> > > +     sink_format->ycbcr_enc = fmt->format.ycbcr_enc;
+> > > +     sink_format->quantization = fmt->format.quantization;
+> > > +     sink_format->width = clamp_t(u32, fmt->format.width,
+> > > +                                  RZG2L_CSI2_MIN_WIDTH, RZG2L_CSI2_MAX_WIDTH);
+> > > +     sink_format->height = clamp_t(u32, fmt->format.height,
+> > > +                                   RZG2L_CSI2_MIN_HEIGHT, RZG2L_CSI2_MAX_HEIGHT);
+> > > +     fmt->format = *sink_format;
+> > > +
+> > > +     /* propagate format to source pad */
+> > > +     *src_format = *sink_format;
+> > > +
+> > > +     return 0;
+> > > +}
+> > > +
+> > > +static int rzg2l_csi2_init_config(struct v4l2_subdev *sd,
+> > > +                               struct v4l2_subdev_state *sd_state)
+> > > +{
+> > > +     struct v4l2_subdev_format fmt = { .pad = RZG2L_CSI2_SINK, };
+> > > +
+> > > +     fmt.format.width = RZG2L_CSI2_DEFAULT_WIDTH;
+> > > +     fmt.format.height = RZG2L_CSI2_DEFAULT_HEIGHT;
+> > > +     fmt.format.field = V4L2_FIELD_NONE;
+> > > +     fmt.format.code = RZG2L_CSI2_DEFAULT_FMT;
+> > > +     fmt.format.colorspace = V4L2_COLORSPACE_SRGB;
+> > > +     fmt.format.ycbcr_enc = V4L2_YCBCR_ENC_DEFAULT;
+> > > +     fmt.format.quantization = V4L2_QUANTIZATION_DEFAULT;
+> > > +     fmt.format.xfer_func = V4L2_XFER_FUNC_DEFAULT;
+> > > +
+> > > +     return rzg2l_csi2_set_format(sd, sd_state, &fmt);
+> > > +}
+> > > +
+> > > +static int rzg2l_csi2_enum_mbus_code(struct v4l2_subdev *sd,
+> > > +                                  struct v4l2_subdev_state *sd_state,
+> > > +                                  struct v4l2_subdev_mbus_code_enum *code)
+> > > +{
+> > > +     if (code->index >= ARRAY_SIZE(rzg2l_csi2_formats))
+> > > +             return -EINVAL;
+> > > +
+> > > +     code->code = rzg2l_csi2_formats[code->index].code;
+> > > +
+> > > +     return 0;
+> > > +}
+> > > +
+> > > +static int rzg2l_csi2_enum_frame_size(struct v4l2_subdev *sd,
+> > > +                                   struct v4l2_subdev_state *sd_state,
+> > > +                                   struct v4l2_subdev_frame_size_enum *fse)
+> > > +{
+> > > +     if (fse->index != 0)
+> > > +             return -EINVAL;
+> > > +
+> > > +     fse->min_width = RZG2L_CSI2_MIN_WIDTH;
+> > > +     fse->min_height = RZG2L_CSI2_MIN_HEIGHT;
+> > > +     fse->max_width = RZG2L_CSI2_MAX_WIDTH;
+> > > +     fse->max_height = RZG2L_CSI2_MAX_HEIGHT;
+> > > +
+> > > +     return 0;
+> > > +}
+> > > +
+> > > +static const struct v4l2_subdev_video_ops rzg2l_csi2_video_ops = {
+> > > +     .s_stream = rzg2l_csi2_s_stream,
+> > > +     .pre_streamon = rzg2l_csi2_pre_streamon,
+> > > +     .post_streamoff = rzg2l_csi2_post_streamoff,
+> > > +};
+> > > +
+> > > +static const struct v4l2_subdev_pad_ops rzg2l_csi2_pad_ops = {
+> > > +     .enum_mbus_code = rzg2l_csi2_enum_mbus_code,
+> > > +     .init_cfg = rzg2l_csi2_init_config,
+> > > +     .enum_frame_size = rzg2l_csi2_enum_frame_size,
+> > > +     .set_fmt = rzg2l_csi2_set_format,
+> > > +     .get_fmt = v4l2_subdev_get_fmt,
+> > > +};
+> > > +
+> > > +static const struct v4l2_subdev_ops rzg2l_csi2_subdev_ops = {
+> > > +     .video  = &rzg2l_csi2_video_ops,
+> > > +     .pad    = &rzg2l_csi2_pad_ops,
+> > > +};
+> > > +
+> > > +/* -----------------------------------------------------------------------------
+> > > + * Async handling and registration of subdevices and links.
+> > > + */
+> > > +
+> > > +static int rzg2l_csi2_notify_bound(struct v4l2_async_notifier *notifier,
+> > > +                                struct v4l2_subdev *subdev,
+> > > +                                struct v4l2_async_subdev *asd)
+> > > +{
+> > > +     struct rzg2l_csi2 *csi2 = notifier_to_csi2(notifier);
+> > > +
+> > > +     csi2->remote_source = subdev;
+> > > +
+> > > +     dev_dbg(csi2->dev, "Bound subdev: %s pad\n", subdev->name);
+> > > +
+> > > +     return media_create_pad_link(&subdev->entity, RZG2L_CSI2_SINK,
+> > > +                                  &csi2->subdev.entity, 0,
+> > > +                                  MEDIA_LNK_FL_ENABLED |
+> > > +                                  MEDIA_LNK_FL_IMMUTABLE);
+> > > +}
+> > > +
+> > > +static void rzg2l_csi2_notify_unbind(struct v4l2_async_notifier *notifier,
+> > > +                                  struct v4l2_subdev *subdev,
+> > > +                                  struct v4l2_async_subdev *asd)
+> > > +{
+> > > +     struct rzg2l_csi2 *csi2 = notifier_to_csi2(notifier);
+> > > +
+> > > +     csi2->remote_source = NULL;
+> > > +
+> > > +     dev_dbg(csi2->dev, "Unbind subdev %s\n", subdev->name);
+> > > +}
+> > > +
+> > > +static const struct v4l2_async_notifier_operations rzg2l_csi2_notify_ops = {
+> > > +     .bound = rzg2l_csi2_notify_bound,
+> > > +     .unbind = rzg2l_csi2_notify_unbind,
+> > > +};
+> > > +
+> > > +static int rzg2l_csi2_parse_v4l2(struct rzg2l_csi2 *csi2,
+> > > +                              struct v4l2_fwnode_endpoint *vep)
+> > > +{
+> > > +     /* Only port 0 endpoint 0 is valid. */
+> > > +     if (vep->base.port || vep->base.id)
+> > > +             return -ENOTCONN;
+> > > +
+> > > +     csi2->lanes = vep->bus.mipi_csi2.num_data_lanes;
+> > > +
+> > > +     return 0;
+> > > +}
+> > > +
+> > > +static int rzg2l_csi2_parse_dt(struct rzg2l_csi2 *csi2)
+> > > +{
+> > > +     struct v4l2_fwnode_endpoint v4l2_ep = {
+> > > +             .bus_type = V4L2_MBUS_CSI2_DPHY
+> > > +     };
+> > > +     struct v4l2_async_subdev *asd;
+> > > +     struct fwnode_handle *fwnode;
+> > > +     struct fwnode_handle *ep;
+> > > +     int ret;
+> > > +
+> > > +     ep = fwnode_graph_get_endpoint_by_id(dev_fwnode(csi2->dev), 0, 0, 0);
+> > > +     if (!ep) {
+> > > +             dev_err(csi2->dev, "Not connected to subdevice\n");
+> > > +             return -EINVAL;
+> > > +     }
+> > > +
+> > > +     ret = v4l2_fwnode_endpoint_parse(ep, &v4l2_ep);
+> > > +     if (ret) {
+> > > +             dev_err(csi2->dev, "Could not parse v4l2 endpoint\n");
+> > > +             fwnode_handle_put(ep);
+> > > +             return -EINVAL;
+> > > +     }
+> > > +
+> > > +     ret = rzg2l_csi2_parse_v4l2(csi2, &v4l2_ep);
+> > > +     if (ret) {
+> > > +             fwnode_handle_put(ep);
+> > > +             return ret;
+> > > +     }
+> > > +
+> > > +     fwnode = fwnode_graph_get_remote_endpoint(ep);
+> > > +     fwnode_handle_put(ep);
+> > > +
+> > > +     v4l2_async_nf_init(&csi2->notifier);
+> > > +     csi2->notifier.ops = &rzg2l_csi2_notify_ops;
+> > > +
+> > > +     asd = v4l2_async_nf_add_fwnode(&csi2->notifier, fwnode,
+> > > +                                    struct v4l2_async_subdev);
+> > > +     fwnode_handle_put(fwnode);
+> > > +     if (IS_ERR(asd))
+> > > +             return PTR_ERR(asd);
+> > > +
+> > > +     ret = v4l2_async_subdev_nf_register(&csi2->subdev, &csi2->notifier);
+> > > +     if (ret)
+> > > +             v4l2_async_nf_cleanup(&csi2->notifier);
+> > > +
+> > > +     return ret;
+> > > +}
+> > > +
+> > > +static int rzg2l_validate_csi2_lanes(struct rzg2l_csi2 *csi2)
+> > > +{
+> > > +     int ret = 0;
+> > > +     int lanes;
+> > > +
+> > > +     if (csi2->lanes != 1 && csi2->lanes != 2 && csi2->lanes != 4) {
+> > > +             dev_err(csi2->dev, "Unsupported number of data-lanes: %u\n",
+> > > +                     csi2->lanes);
+> > > +             return -EINVAL;
+> > > +     }
+> > > +
+> > > +     ret = rzg2l_csi2_enable_reg_access(csi2);
+> > > +     if (ret < 0)
+> > > +             return ret;
+> > > +
+> > > +     /* Checking the maximum lanes support for CSI-2 module */
+> > > +     lanes = (rzg2l_csi2_read(csi2, CSI2nMCG) & CSI2nMCG_SDLN) >> 8;
+> > > +     if (lanes < csi2->lanes) {
+> > > +             dev_err(csi2->dev,
+> > > +                     "Failed to support %d data lanes\n", csi2->lanes);
+> > > +             ret = -EINVAL;
+> > > +     }
+> > > +
+> > > +     rzg2l_csi2_disable_reg_access(csi2);
+> > > +
+> > > +     return ret;
+> > > +}
+> > > +
+> > > +/* -----------------------------------------------------------------------------
+> > > + * Platform Device Driver.
+> > > + */
+> > > +
+> > > +static const struct media_entity_operations rzg2l_csi2_entity_ops = {
+> > > +     .link_validate = v4l2_subdev_link_validate,
+> > > +};
+> > > +
+> > > +static int rzg2l_csi2_probe(struct platform_device *pdev)
+> > > +{
+> > > +     struct rzg2l_csi2 *csi2;
+> > > +     struct clk *vclk;
+> > > +     int ret;
+> > > +
+> > > +     csi2 = devm_kzalloc(&pdev->dev, sizeof(*csi2), GFP_KERNEL);
+> > > +     if (!csi2)
+> > > +             return -ENOMEM;
+> > > +
+> > > +     csi2->base = devm_platform_ioremap_resource(pdev, 0);
+> > > +     if (IS_ERR(csi2->base))
+> > > +             return PTR_ERR(csi2->base);
+> > > +
+> > > +     csi2->cmn_rstb = devm_reset_control_get_exclusive(&pdev->dev, "cmn-rstb");
+> > > +     if (IS_ERR(csi2->cmn_rstb))
+> > > +             return dev_err_probe(&pdev->dev, PTR_ERR(csi2->cmn_rstb),
+> > > +                                  "Failed to get cpg cmn-rstb\n");
+> > > +
+> > > +     csi2->presetn = devm_reset_control_get_shared(&pdev->dev, "presetn");
+> >
+> > Is this really a shared reset control, or do you use the shared API only
+> > to enable reference counting of the reset controller ?
+> 
+> As the CSI2 block is part of CRU itself the presetn reset (enables reg
+> access) is shared with the CRU driver too hence the use of shared api.
 
-Given the historical baggage of existing use-case, I think the only
-way out is that we look at concrete examples from real world users
-that break, and figure out how to fix them. Without breaking any of
-the existing mess.
+Thanks for the confirmation.
 
-One idea might be that we have a per-platform
-dma_buf_legacy_coherency_mode(), which tells you what mode (cpu cache
-snooping or uncached memory) you need to use to make sure that all
-devices agree. On x86 the rule might be that it's cpu cache snooping
-by default, but if you have an integrated gpu then everyone needs to
-use uncached. That sucks, but at least we could keep the existing mess
-going and clean it up. Everyone else would be uncached, except maybe
-arm64 servers with pcie connectors. Essentially least common
-denominator to make this work. Note that uncached actually means
-device access doesn't snoop, the cpu side you can handle with either
-uc/wc mappings or explicit flushing.
+-- 
+Regards,
 
-Then once we have that we could implement the coherency negotiation
-protocol on top as an explicit opt-in, so that you can still use
-coherent buffers across two pcie gpus even if you also have an
-integrated gpu.
-
-Doing only the new protocol without some means to keep the existing
-pile of carefully hacked up assumptions would break things, and we
-can't do that. Also I have no idea whether that global legacy device
-coherency mode would work. Also we might more than just
-snooped/unsnoop, since depending upon architecture you might want to
-only snoop one transaction (reads vs writes) instead of both of them:
-If writes snoop then cpu reads would never need to invalidate caches
-beforehand, but writes would still need to flush (and would give you
-faster reads on the device side since those can still bypass
-snooping). Some igpu platforms work like that, but I'm not sure
-whether there's any other device that would care enough about these
-for this to matter. Yes it's a hw mis-design (well I don't like it
-personally), they fixed it :-)
-
-Cheers, Daniel
---=20
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Laurent Pinchart
