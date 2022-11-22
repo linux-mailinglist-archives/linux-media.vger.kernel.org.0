@@ -2,163 +2,161 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 405AF633D8A
-	for <lists+linux-media@lfdr.de>; Tue, 22 Nov 2022 14:24:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5569B633E89
+	for <lists+linux-media@lfdr.de>; Tue, 22 Nov 2022 15:09:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233205AbiKVNYE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 22 Nov 2022 08:24:04 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53172 "EHLO
+        id S234041AbiKVOJq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 22 Nov 2022 09:09:46 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33298 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233721AbiKVNX6 (ORCPT
+        with ESMTP id S233725AbiKVOJV (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 22 Nov 2022 08:23:58 -0500
-Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com [IPv6:2a00:1450:4864:20::62b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C4D81A07D;
-        Tue, 22 Nov 2022 05:23:51 -0800 (PST)
-Received: by mail-ej1-x62b.google.com with SMTP id m22so35688067eji.10;
-        Tue, 22 Nov 2022 05:23:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=WV4i7O8BzgnNi9s3HIsw9M8JIdyfTKAykF37RMUEeDI=;
-        b=FmwPwbnr0QiwbN9cFi0HeIzq91QfJ9NAmquz0Iv6i36HQBqvOLp7Xbg/fMhtUACapS
-         2W5H6W73OAc6rbsdatD8MTqCkgrmhxEPVkoQwhbQwq7frlPhDLzqs7IWxoWcEcmlZAOt
-         hZPaLY0H6iDWRRpzclVQuU8j/nK0rI7fWRYG5uaHTCpz8W6UhCP2WpdQXBd1kFC5ZglH
-         OH/pWbbGqFRMuIZkp9PeHgOlTUuGf8mBarEUFQvkfarXgHildhXmJzv0/R7ZX4bMB9aS
-         XPkuXpLV7mDnnF5mxRoJRm1OuiwRmL1/PJGZ0UxNKkdWkTHtRPIopDZziAAA7DnxWNLm
-         UaWQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=WV4i7O8BzgnNi9s3HIsw9M8JIdyfTKAykF37RMUEeDI=;
-        b=SeoH4GLIMknVVJ67q8a4MeO7+K5Iq4uufNvAxVuTGDp40SBob0hAuodzzJznL3Q0n7
-         BzC9loyhnfjls0OqyebgWfsLAZW08DoQrOhwSCdyceFsKoSm7NPGm5KQIc68KLdrGhxZ
-         JxUNfGJwCr5yEYSSD1exdPK0RN5Rw68FsvRbZb1ZBty3TJeOkW7drjnmqfWtSp3jGuIi
-         UQQkMIteDX7Q4aYJHd3lKNtyLsiLG54V1FcI0Sa0W071lyN651nW5ZGWo5Hdm8BzMSNK
-         ghyAYj1uFOrR+FiwsIuHhI7AzhZcODi8Fxa8wCn7vv9GBMPFsB+0m7Dzx4PITPnhePOU
-         TvmA==
-X-Gm-Message-State: ANoB5pnpeqsPcA4vOV8lnmyYdSylwEjWM6TTt77FFRd4YigdUxYqgkk0
-        z6wirOGrakAu9RYKHuC9/Bk=
-X-Google-Smtp-Source: AA0mqf5zQy0JMJm9xD6ZBOVIN5DHUP0heNHNJ5Y+eIMmNRJoeW2dTtMzPucyUyRkNu04MavtMVvUcA==
-X-Received: by 2002:a17:906:1244:b0:78d:d4ca:21f7 with SMTP id u4-20020a170906124400b0078dd4ca21f7mr20059292eja.128.1669123430366;
-        Tue, 22 Nov 2022 05:23:50 -0800 (PST)
-Received: from felia.fritz.box (200116b8267b3700c41d4e99e424db57.dip.versatel-1u1.de. [2001:16b8:267b:3700:c41d:4e99:e424:db57])
-        by smtp.gmail.com with ESMTPSA id bd27-20020a056402207b00b004585eba4baesm5429717edb.80.2022.11.22.05.23.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Nov 2022 05:23:49 -0800 (PST)
-From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
-To:     Steve Longerbeam <slongerbeam@gmail.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Tue, 22 Nov 2022 09:09:21 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DAA5713D14;
+        Tue, 22 Nov 2022 06:07:42 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 8002461724;
+        Tue, 22 Nov 2022 14:07:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B899AC433C1;
+        Tue, 22 Nov 2022 14:07:35 +0000 (UTC)
+Message-ID: <4d3ef082-f7b3-2b6e-6fcf-5f991ffe14e9@xs4all.nl>
+Date:   Tue, 22 Nov 2022 15:07:33 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.0
+Subject: Re: [PATCH RFC 16/19] mm/frame-vector: remove FOLL_FORCE usage
+Content-Language: en-US
+To:     David Hildenbrand <david@redhat.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>
+Cc:     linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, linux-rdma@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        John Hubbard <jhubbard@nvidia.com>,
+        Peter Xu <peterx@redhat.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org
-Cc:     kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Subject: [PATCH] media: imx: remove code for non-existing config IMX_GPT_ICAP
-Date:   Tue, 22 Nov 2022 14:23:30 +0100
-Message-Id: <20221122132330.30408-1-lukas.bulwahn@gmail.com>
-X-Mailer: git-send-email 2.17.1
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Hugh Dickins <hughd@google.com>, Nadav Amit <namit@vmware.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Matthew Wilcox <willy@infradead.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Muchun Song <songmuchun@bytedance.com>,
+        Lucas Stach <l.stach@pengutronix.de>,
+        David Airlie <airlied@gmail.com>,
+        Oded Gabbay <ogabbay@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+References: <20221107161740.144456-1-david@redhat.com>
+ <20221107161740.144456-17-david@redhat.com>
+ <CAAFQd5C3Ba1WhjYJF_7tW06mgvzoz9KTakNo+Tz8h_f6dGKzHQ@mail.gmail.com>
+ <6175d780-3307-854c-448a-8e6c7ad0772c@xs4all.nl>
+ <6ace6cd4-3e13-8ec1-4c2a-49e2e14e81a6@redhat.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+In-Reply-To: <6ace6cd4-3e13-8ec1-4c2a-49e2e14e81a6@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-There never was a config IMX_GPT_ICAP in the repository. So remove the code
-conditional on this config and simplify the callers that just called empty
-functions.
+On 11/22/22 13:38, David Hildenbrand wrote:
+> On 22.11.22 13:25, Hans Verkuil wrote:
+>> Hi Tomasz, David,
+>>
+>> On 11/8/22 05:45, Tomasz Figa wrote:
+>>> Hi David,
+>>>
+>>> On Tue, Nov 8, 2022 at 1:19 AM David Hildenbrand <david@redhat.com> wrote:
+>>>>
+>>>> FOLL_FORCE is really only for debugger access. According to commit
+>>>> 707947247e95 ("media: videobuf2-vmalloc: get_userptr: buffers are always
+>>>> writable"), the pinned pages are always writable.
+>>>
+>>> Actually that patch is only a workaround to temporarily disable
+>>> support for read-only pages as they seemed to suffer from some
+>>> corruption issues in the retrieved user pages. We expect to support
+>>> read-only pages as hardware input after. That said, FOLL_FORCE doesn't
+>>> sound like the right thing even in that case, but I don't know the
+>>> background behind it being added here in the first place. +Hans
+>>> Verkuil +Marek Szyprowski do you happen to remember anything about it?
+>>
+>> I tracked the use of 'force' all the way back to the first git commit
+>> (2.6.12-rc1) in the very old video-buf.c. So it is very, very old and the
+>> reason is lost in the mists of time.
+>>
+>> I'm not sure if the 'force' argument of get_user_pages() at that time
+>> even meant the same as FOLL_FORCE today. From what I can tell it has just
+>> been faithfully used ever since, but I have my doubt that anyone understands
+>> the reason behind it since it was never explained.
+>>
+>> Looking at this old LWN article https://lwn.net/Articles/28548/ suggests
+>> that it might be related to calling get_user_pages for write buffers
+>> (non-zero write argument) where you also want to be able to read from the
+>> buffer. That is certainly something that some drivers need to do post-capture
+>> fixups.
+>>
+>> But 'force' was also always set for read buffers, and I don't know if that
+>> was something that was actually needed, or just laziness.
+>>
+>> I assume that removing FOLL_FORCE from 'FOLL_FORCE|FOLL_WRITE' will still
+>> allow drivers to read from the buffer?
+> 
+> Yes. The only problematic corner case I can imagine is if someone has a 
+> VMA without write permissions (no PROT_WRITE/VM_WRITE) and wants to pin 
+> user space pages as a read buffer. We'd specify now FOLL_WRITE without 
+> FOLL_FORCE and GUP would reject that: write access without write 
+> permissions is invalid.
 
-Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
----
- drivers/staging/media/imx/imx-media-fim.c | 54 -----------------------
- 1 file changed, 54 deletions(-)
+I do not believe this will be an issue.
 
-diff --git a/drivers/staging/media/imx/imx-media-fim.c b/drivers/staging/media/imx/imx-media-fim.c
-index 3a9182933508..19a48eb445fd 100644
---- a/drivers/staging/media/imx/imx-media-fim.c
-+++ b/drivers/staging/media/imx/imx-media-fim.c
-@@ -187,54 +187,6 @@ static void frame_interval_monitor(struct imx_media_fim *fim,
- 		send_fim_event(fim, error_avg);
- }
- 
--#ifdef CONFIG_IMX_GPT_ICAP
--/*
-- * Input Capture method of measuring frame intervals. Not subject
-- * to interrupt latency.
-- */
--static void fim_input_capture_handler(int channel, void *dev_id,
--				      ktime_t timestamp)
--{
--	struct imx_media_fim *fim = dev_id;
--	unsigned long flags;
--
--	spin_lock_irqsave(&fim->lock, flags);
--
--	frame_interval_monitor(fim, timestamp);
--
--	if (!completion_done(&fim->icap_first_event))
--		complete(&fim->icap_first_event);
--
--	spin_unlock_irqrestore(&fim->lock, flags);
--}
--
--static int fim_request_input_capture(struct imx_media_fim *fim)
--{
--	init_completion(&fim->icap_first_event);
--
--	return mxc_request_input_capture(fim->icap_channel,
--					 fim_input_capture_handler,
--					 fim->icap_flags, fim);
--}
--
--static void fim_free_input_capture(struct imx_media_fim *fim)
--{
--	mxc_free_input_capture(fim->icap_channel, fim);
--}
--
--#else /* CONFIG_IMX_GPT_ICAP */
--
--static int fim_request_input_capture(struct imx_media_fim *fim)
--{
--	return 0;
--}
--
--static void fim_free_input_capture(struct imx_media_fim *fim)
--{
--}
--
--#endif /* CONFIG_IMX_GPT_ICAP */
--
- /*
-  * In case we are monitoring the first frame interval after streamon
-  * (when fim->num_skip = 0), we need a valid fim->last_ts before we
-@@ -435,14 +387,8 @@ int imx_media_fim_set_stream(struct imx_media_fim *fim,
- 		spin_unlock_irqrestore(&fim->lock, flags);
- 
- 		if (icap_enabled(fim)) {
--			ret = fim_request_input_capture(fim);
--			if (ret)
--				goto out;
- 			fim_acquire_first_ts(fim);
- 		}
--	} else {
--		if (icap_enabled(fim))
--			fim_free_input_capture(fim);
- 	}
- 
- 	fim->stream_on = on;
--- 
-2.17.1
+> 
+> There would be no way around "fixing" this implementation to not specify 
+> FOLL_WRITE when only reading from user-space pages. Not sure what the 
+> implications are regarding that corruption that was mentioned in 
+> 707947247e95.
 
+Before 707947247e95 the FOLL_WRITE flag was only set for write buffers
+(i.e. video capture, DMA_FROM_DEVICE), not for read buffers (video output,
+DMA_TO_DEVICE). In the video output case there should never be any need
+for drivers to write to the buffer to the best of my knowledge.
+
+But I have had some complaints about that commit that it causes problems
+in some scenarios, and it has been on my todo list for quite some time now
+to dig deeper into this. I probably should prioritize this for this or
+next week.
+
+> 
+> Having said that, I assume such a scenario is unlikely -- but you might 
+> know better how user space usually uses this interface. There would be 
+> three options:
+> 
+> 1) Leave the FOLL_FORCE hack in for now, which I *really* want to avoid.
+> 2) Remove FOLL_FORCE and see if anybody even notices (this patch) and
+>     leave the implementation as is for now.
+> 3) Remove FOLL_FORCE and fixup the implementation to only specify
+>     FOLL_WRITE if the pages will actually get written to.
+> 
+> 3) would most probably ideal, however, I am no expert on that code and 
+> can't do it (707947247e95 confuses me). So naive me would go with 2) first.
+> 
+
+Option 3 would be best. And 707947247e95 confuses me as well, and I actually
+wrote it :-) I am wondering whether it was addressed at the right level, but
+as I said, I need to dig a bit deeper into this.
+
+Regards,
+
+	Hans
