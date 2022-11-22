@@ -2,243 +2,102 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0C7626330DC
-	for <lists+linux-media@lfdr.de>; Tue, 22 Nov 2022 00:43:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0BD49633117
+	for <lists+linux-media@lfdr.de>; Tue, 22 Nov 2022 01:01:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231978AbiKUXnd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 21 Nov 2022 18:43:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47784 "EHLO
+        id S231909AbiKVABU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 21 Nov 2022 19:01:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34938 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232017AbiKUXmm (ORCPT
+        with ESMTP id S231546AbiKVABO (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 21 Nov 2022 18:42:42 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0600AE0DC9;
-        Mon, 21 Nov 2022 15:41:46 -0800 (PST)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2322788F;
-        Tue, 22 Nov 2022 00:41:36 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1669074096;
-        bh=OsNzWOxt+1Uz9pblEiTC7lBWE1dWJGL9cCym66ao+hA=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=BSYxu68Bxi+i6zA2IBtJTdyNSgC0QbSR4M/jE4FDeatfguQNWpW/e5l8ysyKLwagi
-         qm4CIZU/Dt1P7hV3Wzymz4NWWtinO9DHg33OD5e+dVVePLMzJH/58FnjkXkH7t9jRS
-         zb8qd3rPQ3qx2kNM42eps2A/QcP3kQeRt66HXCdg=
-Date:   Tue, 22 Nov 2022 01:41:21 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Umang Jain <umang.jain@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, kernel-list@raspberrypi.com,
-        linux-kernel@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-staging@lists.linux.dev,
-        Broadcom internal kernel review list 
-        <bcm-kernel-feedback-list@broadcom.com>,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Naushir Patuck <naush@raspberrypi.com>,
-        David Plowman <david.plowman@raspberrypi.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>
-Subject: Re: [PATCH 13/14] docs: admin-guide: media: bcm2835-isp: Add
- documentation for bcm2835-isp
-Message-ID: <Y3wMof/ERK7ZBINW@pendragon.ideasonboard.com>
-References: <20221121214722.22563-1-umang.jain@ideasonboard.com>
- <20221121214722.22563-14-umang.jain@ideasonboard.com>
+        Mon, 21 Nov 2022 19:01:14 -0500
+Received: from meesny.iki.fi (meesny.iki.fi [IPv6:2001:67c:2b0:1c1::201])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 242BB1D30E
+        for <linux-media@vger.kernel.org>; Mon, 21 Nov 2022 16:01:14 -0800 (PST)
+Received: from hillosipuli.retiisi.eu (dkxjnptf9d2bpn7gcmbty-3.rev.dnainternet.fi [IPv6:2001:14ba:44ce:b640:9d1d:82c5:eca2:5060])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: sailus)
+        by meesny.iki.fi (Postfix) with ESMTPSA id C22D52024D;
+        Tue, 22 Nov 2022 02:01:10 +0200 (EET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
+        t=1669075270;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=pOgZxu6oA+xdulcsE1WdCwefVGW+WLE2mFPGCRIlrB8=;
+        b=rPKXPIh9lSYAgaZ57RrAs5SAnyiA00kmQ9pvfq+K64JlzfQ3MTxSeMbv82QoJ/VIltB4Dx
+        dDpDJ7SA7Bq8eb18lEl15pUT3ML9/jrVQeAcuecdmQHQAdHGiB9SArV8QGJAtYfdtd3Ye7
+        kYcHyoi8UXQfP4eJo+c4ToaHS+hAfZA=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+        s=meesny; t=1669075270;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=pOgZxu6oA+xdulcsE1WdCwefVGW+WLE2mFPGCRIlrB8=;
+        b=BOidMXEhLy5fvL+bTEsJAiHPzHyXjszigrENFM7JX+uTWKiMqrKX58DjMVuq+rnJIj1IwD
+        GQvDMjh23kbAE89EydT60OA+3gi7+IrFo1AWiEAa2slr7EAanUWZUEfv5Qy5Iqxv0I7IhL
+        r5vTSwXTYvaWi7vo8B5Rmqk7v9NAd2A=
+ARC-Authentication-Results: i=1;
+        ORIGINATING;
+        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Seal: i=1; s=meesny; d=iki.fi; t=1669075270; a=rsa-sha256; cv=none;
+        b=QG+Gvw9oSjEJ/J+o8J89HJKQFqPCzkkdHIZh/4fsOe0jRNEA1DYmwjuQh5Z6agx9xr/jVZ
+        7v7M7oBgFF2sAaFEDNgZmHbqIV/FBORgGyJQMGDHoCQjJNv9UzpMZwnn0gCBKjIqfMfuVD
+        hxk3gwD050P7UNNJl2lTiXWazd/ATtQ=
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 35E82634C91;
+        Tue, 22 Nov 2022 02:01:10 +0200 (EET)
+Date:   Tue, 22 Nov 2022 02:01:10 +0200
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Jacopo Mondi <jacopo@jmondi.org>,
+        Krzysztof =?utf-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>
+Subject: Re: [PATCH v3 00/10] media: ar0521: Add analog gain, rework clock
+ tree
+Message-ID: <Y3wRRrqcCT6Cw2FC@valkosipuli.retiisi.eu>
+References: <20221104142452.117135-1-jacopo@jmondi.org>
+ <20221121174933.fousgbqgmgxvvdmf@uno.localdomain>
+ <Y3wMAVlpal8SHJuF@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20221121214722.22563-14-umang.jain@ideasonboard.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <Y3wMAVlpal8SHJuF@pendragon.ideasonboard.com>
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Umang and Naush,
+Hi Laurent, Jacopo,
 
-Thank you for the patch.
-
-On Tue, Nov 22, 2022 at 03:17:21AM +0530, Umang Jain wrote:
-> From: Naushir Patuck <naush@raspberrypi.com>
+On Tue, Nov 22, 2022 at 01:38:41AM +0200, Laurent Pinchart wrote:
+> Hi Jacopo,
 > 
-> Document device nodes, frame buffer formats and initial set of
-> configuraiton that can be set from userspace to configure the pipeline.
-
-s/configuraiton/configuration/
-
-> Signed-off-by: Naushir Patuck <naush@raspberrypi.com>
-> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
-> ---
->  .../admin-guide/media/bcm2835-isp.rst         | 127 ++++++++++++++++++
->  .../userspace-api/media/drivers/index.rst     |   1 +
->  2 files changed, 128 insertions(+)
->  create mode 100644 Documentation/admin-guide/media/bcm2835-isp.rst
+> On Mon, Nov 21, 2022 at 06:49:33PM +0100, Jacopo Mondi wrote:
+> > I just noticed patch 10/10 was missing.
+> > 
+> > Now sent in reply to this thread.
+> > 
+> > While at it, gentle ping to see if this can make it for 6.2 ?
 > 
-> diff --git a/Documentation/admin-guide/media/bcm2835-isp.rst b/Documentation/admin-guide/media/bcm2835-isp.rst
-> new file mode 100644
-> index 000000000000..e1c19f78435e
-> --- /dev/null
-> +++ b/Documentation/admin-guide/media/bcm2835-isp.rst
-> @@ -0,0 +1,127 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +BCM2835 ISP Driver
-> +==================
-> +
-> +Introduction
-> +------------
-> +
-> +The BCM2835 Image Sensor Pipeline (ISP) is a fixed function hardware pipeline
-> +for performing image processing operations.  Images are fed to the input
-> +of the ISP through memory frame buffers.  These images may be in various YUV,
-> +RGB, or Bayer formats.
+> I'm drowning in reviews, so you'll need another volunteer.
 
-Does the ISP really support RGB or YUV input images ? Is this supported
-by the driver ?
-
-> A typical use case would have Bayer images obtained from
-> +an image sensor by the BCM2835 Unicam peripheral, written to a memory
-> +frame buffer, and finally fed into the input of the ISP.  Two concurrent output
-> +images may be generated in YUV or RGB format at different resolutions.
-> +Statistics output is also generated for Bayer input images.
-> +
-> +The bcm2835-isp driver exposes the following media pads as V4L2 device nodes:
-
-This sounds weird. Pads are not video nodes, are they ? Or are those
-MMAL pads ?
-
-> +
-> +.. tabularcolumns:: |l|l|l|l|
-> +
-> +.. cssclass: longtable
-> +
-> +.. flat-table::
-> +
-> +    * - *Pad*
-> +      - *Direction*
-> +      - *Purpose*
-> +      - *Formats*
-> +
-> +    * - "bcm2835-isp0-output0"
-> +      - sink
-> +      - Accepts Bayer, RGB or YUV format frame buffers as input to the ISP HW
-> +        pipeline.
-> +      - :ref:`RAW8 <V4L2-PIX-FMT-SRGGB8>`,
-> +        :ref:`RAW10P <V4L2-PIX-FMT-SRGGB10P>`,
-> +        :ref:`RAW12P <V4L2-PIX-FMT-SRGGB12P>`,
-> +        :ref:`RAW14P <V4L2-PIX-FMT-SRGGB14P>`,
-> +        :ref:`RAW16 <V4L2-PIX-FMT-SRGGB16>`,
-> +        :ref:`RGB24/BGR24 <V4L2-PIX-FMT-RGB24>`,
-> +        :ref:`YUYV <V4L2-PIX-FMT-YUYV>`,
-> +        :ref:`YVYU <V4L2-PIX-FMT-YVYU>`,
-> +        :ref:`UYVY <V4L2-PIX-FMT-UYVY>`,
-> +        :ref:`VYUY <V4L2-PIX-FMT-VYUY>`,
-> +        :ref:`YUV420/YVU420 <V4L2-PIX-FMT-YUV420>`
-> +
-> +    * - "bcm2835-isp0-capture1"
-> +      - source
-> +      - High resolution YUV or RGB processed output from the ISP.
-> +      - :ref:`RGB565 <V4L2-PIX-FMT-RGB565>`,
-> +        :ref:`RGB24/BGR24 <V4L2-PIX-FMT-RGB24>`,
-> +        :ref:`ABGR32 <V4L2-PIX-FMT-ABGR32>`,
-> +        :ref:`YUYV <V4L2-PIX-FMT-YUYV>`,
-> +        :ref:`YVYU <V4L2-PIX-FMT-YVYU>`,
-> +        :ref:`UYVY <V4L2-PIX-FMT-UYVY>`,
-> +        :ref:`VYUY <V4L2-PIX-FMT-VYUY>`.
-> +        :ref:`YUV420/YVU420 <V4L2-PIX-FMT-YUV420>`,
-> +        :ref:`NV12/NV21 <V4L2-PIX-FMT-NV12>`,
-> +
-> +    * - "bcm2835-isp0-capture2"
-> +      - source
-> +      - Low resolution YUV processed output from the ISP. The output of
-> +        this pad cannot have a resolution larger than the "bcm2835-isp0-capture1" pad in any dimension.
-> +      - :ref:`YUYV <V4L2-PIX-FMT-YUYV>`,
-> +        :ref:`YVYU <V4L2-PIX-FMT-YVYU>`,
-> +        :ref:`UYVY <V4L2-PIX-FMT-UYVY>`,
-> +        :ref:`VYUY <V4L2-PIX-FMT-VYUY>`.
-> +        :ref:`YUV420/YVU420 <V4L2-PIX-FMT-YUV420>`,
-> +        :ref:`NV12/NV21 <V4L2-PIX-FMT-NV12>`,
-> +
-> +    * - "bcm2835-isp0-capture1"
-
-Is that capture3 ?
-
-Maybe the video nodes should be renamed to make their purpose clearer ?
-
-> +      - source
-> +      - Image statistics calculated from the input image provided on the
-> +        "bcm2835-isp0-output0" pad.  Statistics are only available for Bayer
-> +        format input images.
-> +      - :ref:`v4l2-meta-fmt-bcm2835-isp-stats`.
-> +
-> +Pipeline Configuration
-> +----------------------
-> +
-> +The ISP pipeline can be configure through user-space by calling
-> +:ref:`VIDIOC_S_EXT_CTRLS <VIDIOC_G_EXT_CTRLS>` on the “bcm2835-isp0-output0”
-> +node with the appropriate parameters as shown in the table below.
-> +
-> +.. tabularcolumns:: |p{2cm}|p{5.0cm}|
-> +
-> +.. cssclass: longtable
-> +
-> +.. flat-table::
-> +
-> +    * - *id*
-> +      - *Parameter*
-> +
-> +    * - ``V4L2_CID_USER_BCM2835_ISP_CC_MATRIX``
-> +      - struct :c:type:`bcm2835_isp_custom_ccm`
-> +
-> +    * - ``V4L2_CID_USER_BCM2835_ISP_LENS_SHADING``
-> +      - struct :c:type:`bcm2835_isp_lens_shading`
-> +
-> +    * - ``V4L2_CID_USER_BCM2835_ISP_BLACK_LEVEL``
-> +      - struct :c:type:`bcm2835_isp_black_level`
-> +
-> +    * - ``V4L2_CID_USER_BCM2835_ISP_GEQ``
-> +      - struct :c:type:`bcm2835_isp_geq`
-> +
-> +    * - ``V4L2_CID_USER_BCM2835_ISP_GAMMA``
-> +      - struct :c:type:`bcm2835_isp_gamma`
-> +
-> +    * - ``V4L2_CID_USER_BCM2835_ISP_DENOISE``
-> +      - struct :c:type:`bcm2835_isp_denoise`
-> +
-> +    * - ``V4L2_CID_USER_BCM2835_ISP_SHARPEN``
-> +      - struct :c:type:`bcm2835_isp_sharpen`
-> +
-> +    * - ``V4L2_CID_USER_BCM2835_ISP_DPC``
-> +      - struct :c:type:`bcm2835_isp_dpc`
-> +
-> +++++++++++++++++++++++++
-> +Configuration Parameters
-> +++++++++++++++++++++++++
-> +
-> +.. kernel-doc:: include/uapi/linux/bcm2835-isp.h
-> +   :functions: bcm2835_isp_rational bcm2835_isp_ccm bcm2835_isp_custom_ccm
-> +                bcm2835_isp_gain_format bcm2835_isp_lens_shading
-> +                bcm2835_isp_black_level bcm2835_isp_geq bcm2835_isp_gamma
-> +                bcm2835_isp_denoise bcm2835_isp_sharpen
-> +                bcm2835_isp_dpc_mode bcm2835_isp_dpc
-> diff --git a/Documentation/userspace-api/media/drivers/index.rst b/Documentation/userspace-api/media/drivers/index.rst
-> index 32f82aed47d9..34e0d7102ef0 100644
-> --- a/Documentation/userspace-api/media/drivers/index.rst
-> +++ b/Documentation/userspace-api/media/drivers/index.rst
-> @@ -31,6 +31,7 @@ For more details see the file COPYING in the source distribution of Linux.
->  	:maxdepth: 5
->  	:numbered:
->  
-> +	bcm2835-isp
->  	ccs
->  	cx2341x-uapi
->  	dw100
+I rather thought the set is good as there are no comments for almost three
+weeks. It's in my tree now, I expect to send a PR soon...
 
 -- 
 Regards,
 
-Laurent Pinchart
+Sakari Ailus
