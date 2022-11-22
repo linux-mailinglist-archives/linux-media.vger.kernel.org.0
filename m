@@ -2,102 +2,123 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0BD49633117
-	for <lists+linux-media@lfdr.de>; Tue, 22 Nov 2022 01:01:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 50096633163
+	for <lists+linux-media@lfdr.de>; Tue, 22 Nov 2022 01:36:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231909AbiKVABU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 21 Nov 2022 19:01:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34938 "EHLO
+        id S231614AbiKVAgI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 21 Nov 2022 19:36:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53274 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231546AbiKVABO (ORCPT
+        with ESMTP id S229489AbiKVAgG (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 21 Nov 2022 19:01:14 -0500
-Received: from meesny.iki.fi (meesny.iki.fi [IPv6:2001:67c:2b0:1c1::201])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 242BB1D30E
-        for <linux-media@vger.kernel.org>; Mon, 21 Nov 2022 16:01:14 -0800 (PST)
-Received: from hillosipuli.retiisi.eu (dkxjnptf9d2bpn7gcmbty-3.rev.dnainternet.fi [IPv6:2001:14ba:44ce:b640:9d1d:82c5:eca2:5060])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: sailus)
-        by meesny.iki.fi (Postfix) with ESMTPSA id C22D52024D;
-        Tue, 22 Nov 2022 02:01:10 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
-        t=1669075270;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=pOgZxu6oA+xdulcsE1WdCwefVGW+WLE2mFPGCRIlrB8=;
-        b=rPKXPIh9lSYAgaZ57RrAs5SAnyiA00kmQ9pvfq+K64JlzfQ3MTxSeMbv82QoJ/VIltB4Dx
-        dDpDJ7SA7Bq8eb18lEl15pUT3ML9/jrVQeAcuecdmQHQAdHGiB9SArV8QGJAtYfdtd3Ye7
-        kYcHyoi8UXQfP4eJo+c4ToaHS+hAfZA=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-        s=meesny; t=1669075270;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=pOgZxu6oA+xdulcsE1WdCwefVGW+WLE2mFPGCRIlrB8=;
-        b=BOidMXEhLy5fvL+bTEsJAiHPzHyXjszigrENFM7JX+uTWKiMqrKX58DjMVuq+rnJIj1IwD
-        GQvDMjh23kbAE89EydT60OA+3gi7+IrFo1AWiEAa2slr7EAanUWZUEfv5Qy5Iqxv0I7IhL
-        r5vTSwXTYvaWi7vo8B5Rmqk7v9NAd2A=
-ARC-Authentication-Results: i=1;
-        ORIGINATING;
-        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Seal: i=1; s=meesny; d=iki.fi; t=1669075270; a=rsa-sha256; cv=none;
-        b=QG+Gvw9oSjEJ/J+o8J89HJKQFqPCzkkdHIZh/4fsOe0jRNEA1DYmwjuQh5Z6agx9xr/jVZ
-        7v7M7oBgFF2sAaFEDNgZmHbqIV/FBORgGyJQMGDHoCQjJNv9UzpMZwnn0gCBKjIqfMfuVD
-        hxk3gwD050P7UNNJl2lTiXWazd/ATtQ=
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 35E82634C91;
-        Tue, 22 Nov 2022 02:01:10 +0200 (EET)
-Date:   Tue, 22 Nov 2022 02:01:10 +0200
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Jacopo Mondi <jacopo@jmondi.org>,
-        Krzysztof =?utf-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>
-Subject: Re: [PATCH v3 00/10] media: ar0521: Add analog gain, rework clock
- tree
-Message-ID: <Y3wRRrqcCT6Cw2FC@valkosipuli.retiisi.eu>
-References: <20221104142452.117135-1-jacopo@jmondi.org>
- <20221121174933.fousgbqgmgxvvdmf@uno.localdomain>
- <Y3wMAVlpal8SHJuF@pendragon.ideasonboard.com>
+        Mon, 21 Nov 2022 19:36:06 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 63EEEC6972
+        for <linux-media@vger.kernel.org>; Mon, 21 Nov 2022 16:36:05 -0800 (PST)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5298E88F;
+        Tue, 22 Nov 2022 01:36:03 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1669077363;
+        bh=orWK0Bo2WGn8GVjSoxAYIlHSXtIoc9aAKiQluEASgsI=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=v9vpdus1hB2dM6GslgUcNGG5/gf9qr1ENmUtmpo2dcXCZgPQRnnV/Uw8DOzhvKXxQ
+         Jdwrb5VtJbs2wWOp50/MXWflN3JK7+2Sz4fEzbVKJ56bhzy4PBIvsl3zFuxJIX8Vnq
+         9jSIu4/uSTH6erBOTNvFaV75QcEB3xF5VZ5KPpgc=
+Date:   Tue, 22 Nov 2022 02:35:48 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     linux-media@vger.kernel.org,
+        Prabhakar Lad <prabhakar.csengg@gmail.com>
+Subject: Re: [PATCH 1/1] v4l: subdev: Warn if disabling streaming failed,
+ return success
+Message-ID: <Y3wZZM/fl/lbBcaT@pendragon.ideasonboard.com>
+References: <20221026065123.595777-1-sakari.ailus@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <Y3wMAVlpal8SHJuF@pendragon.ideasonboard.com>
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <20221026065123.595777-1-sakari.ailus@linux.intel.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent, Jacopo,
+Hi Sakari,
 
-On Tue, Nov 22, 2022 at 01:38:41AM +0200, Laurent Pinchart wrote:
-> Hi Jacopo,
-> 
-> On Mon, Nov 21, 2022 at 06:49:33PM +0100, Jacopo Mondi wrote:
-> > I just noticed patch 10/10 was missing.
-> > 
-> > Now sent in reply to this thread.
-> > 
-> > While at it, gentle ping to see if this can make it for 6.2 ?
-> 
-> I'm drowning in reviews, so you'll need another volunteer.
+Thank you for the patch.
 
-I rather thought the set is good as there are no comments for almost three
-weeks. It's in my tree now, I expect to send a PR soon...
+On Wed, Oct 26, 2022 at 09:51:23AM +0300, Sakari Ailus wrote:
+> Complain in the newly added s_stream video op wrapper if disabling
+> streaming failed. Also return zero in this case as there's nothing the
+> caller can do to return the error.
+> 
+> This way drivers also won't need to bother with printing error messages.
+> 
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+
+> ---
+>  drivers/media/v4l2-core/v4l2-subdev.c | 15 +++++++++++++++
+>  include/media/v4l2-subdev.h           |  6 ++++--
+>  2 files changed, 19 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
+> index 5c27bac772ea4..8a4ca2bd1584d 100644
+> --- a/drivers/media/v4l2-core/v4l2-subdev.c
+> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
+> @@ -318,6 +318,20 @@ static int call_get_mbus_config(struct v4l2_subdev *sd, unsigned int pad,
+>  	       sd->ops->pad->get_mbus_config(sd, pad, config);
+>  }
+>  
+> +static int call_s_stream(struct v4l2_subdev *sd, int enable)
+> +{
+> +	int ret;
+> +
+> +	ret = sd->ops->video->s_stream(sd, enable);
+> +
+> +	if (!enable && ret < 0) {
+> +		dev_warn(sd->dev, "disabling streaming failed (%d)\n", ret);
+> +		return 0;
+> +	}
+> +
+> +	return ret;
+> +}
+> +
+>  #ifdef CONFIG_MEDIA_CONTROLLER
+>  /*
+>   * Create state-management wrapper for pad ops dealing with subdev state. The
+> @@ -377,6 +391,7 @@ static const struct v4l2_subdev_pad_ops v4l2_subdev_call_pad_wrappers = {
+>  static const struct v4l2_subdev_video_ops v4l2_subdev_call_video_wrappers = {
+>  	.g_frame_interval	= call_g_frame_interval,
+>  	.s_frame_interval	= call_s_frame_interval,
+> +	.s_stream		= call_s_stream,
+>  };
+>  
+>  const struct v4l2_subdev_ops v4l2_subdev_call_wrappers = {
+> diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
+> index 54566d139da79..b15fa9930f30c 100644
+> --- a/include/media/v4l2-subdev.h
+> +++ b/include/media/v4l2-subdev.h
+> @@ -440,8 +440,10 @@ enum v4l2_subdev_pre_streamon_flags {
+>   * @g_input_status: get input status. Same as the status field in the
+>   *	&struct v4l2_input
+>   *
+> - * @s_stream: used to notify the driver that a video stream will start or has
+> - *	stopped.
+> + * @s_stream: start (enabled == 1) or stop (enabled == 0) streaming on the
+> + *	sub-device. Failure on stop will remove any resources acquired in
+> + *	streaming start, while the error code is still returned by the driver.
+> + *	Also see call_s_stream wrapper in v4l2-subdev.c.
+>   *
+>   * @g_pixelaspect: callback to return the pixelaspect ratio.
+>   *
 
 -- 
 Regards,
 
-Sakari Ailus
+Laurent Pinchart
