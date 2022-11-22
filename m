@@ -2,148 +2,217 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3628A633C6B
-	for <lists+linux-media@lfdr.de>; Tue, 22 Nov 2022 13:26:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 86507633C90
+	for <lists+linux-media@lfdr.de>; Tue, 22 Nov 2022 13:35:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233745AbiKVMZ6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 22 Nov 2022 07:25:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38244 "EHLO
+        id S233763AbiKVMff (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 22 Nov 2022 07:35:35 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43916 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232312AbiKVMZ5 (ORCPT
+        with ESMTP id S232429AbiKVMfe (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 22 Nov 2022 07:25:57 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 463B556573;
-        Tue, 22 Nov 2022 04:25:56 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id EE7E5B81A4A;
-        Tue, 22 Nov 2022 12:25:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C8585C433C1;
-        Tue, 22 Nov 2022 12:25:47 +0000 (UTC)
-Message-ID: <6175d780-3307-854c-448a-8e6c7ad0772c@xs4all.nl>
-Date:   Tue, 22 Nov 2022 13:25:45 +0100
+        Tue, 22 Nov 2022 07:35:34 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 060695B5B4;
+        Tue, 22 Nov 2022 04:35:31 -0800 (PST)
+Received: from [192.168.1.104] (unknown [103.86.18.138])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9A9FB2D9;
+        Tue, 22 Nov 2022 13:35:25 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1669120529;
+        bh=/6M+QajsyhNYA9rP2hcLG0kUVsJ1q/Gz4kqYMfPwRbU=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=O2eHZtjTE6LIOqkwO8wKRhMYrAoSZazKUA3c0pKFFmvok5PbRmU3nsVo+8aNuG50T
+         4OLbxsgAAGzzxQ9wUDDkum4m4hewAHXikGu7ApSB7vlzdDYk4ppZvrF4mrwFuLLkWw
+         zBivxMMYi31c1srKtitQfG6WHgKMKsR8IXsnSVHw=
+Message-ID: <74899338-8586-b24c-ae6d-213d419376a7@ideasonboard.com>
+Date:   Tue, 22 Nov 2022 18:04:30 +0530
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.0
-Subject: Re: [PATCH RFC 16/19] mm/frame-vector: remove FOLL_FORCE usage
-Content-Language: en-US
-To:     Tomasz Figa <tfiga@chromium.org>,
-        David Hildenbrand <david@redhat.com>,
-        Marek Szyprowski <m.szyprowski@samsung.com>
-Cc:     linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Thunderbird/102.4.1
+Subject: Re: [PATCH 00/14] staging: vc04_services: bcm2835-isp support
+To:     Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, kernel-list@raspberrypi.com,
+        linux-kernel@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
         linux-arm-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org, linux-rdma@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        John Hubbard <jhubbard@nvidia.com>,
-        Peter Xu <peterx@redhat.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Hugh Dickins <hughd@google.com>, Nadav Amit <namit@vmware.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Matthew Wilcox <willy@infradead.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Muchun Song <songmuchun@bytedance.com>,
-        Lucas Stach <l.stach@pengutronix.de>,
-        David Airlie <airlied@gmail.com>,
-        Oded Gabbay <ogabbay@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-References: <20221107161740.144456-1-david@redhat.com>
- <20221107161740.144456-17-david@redhat.com>
- <CAAFQd5C3Ba1WhjYJF_7tW06mgvzoz9KTakNo+Tz8h_f6dGKzHQ@mail.gmail.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-In-Reply-To: <CAAFQd5C3Ba1WhjYJF_7tW06mgvzoz9KTakNo+Tz8h_f6dGKzHQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
+        linux-staging@lists.linux.dev,
+        Broadcom internal kernel review list 
+        <bcm-kernel-feedback-list@broadcom.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Naushir Patuck <naush@raspberrypi.com>,
+        David Plowman <david.plowman@raspberrypi.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>
+References: <20221121214722.22563-1-umang.jain@ideasonboard.com>
+ <Y3v4uZuhZTve2UI5@pendragon.ideasonboard.com>
+ <CAPY8ntBrLvj_m_Rwt5SOjHypM5W3Foc6wRemFCcc1rpNQjMV0g@mail.gmail.com>
+Content-Language: en-US
+From:   Umang Jain <umang.jain@ideasonboard.com>
+In-Reply-To: <CAPY8ntBrLvj_m_Rwt5SOjHypM5W3Foc6wRemFCcc1rpNQjMV0g@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Tomasz, David,
+Hi Dave,
 
-On 11/8/22 05:45, Tomasz Figa wrote:
-> Hi David,
-> 
-> On Tue, Nov 8, 2022 at 1:19 AM David Hildenbrand <david@redhat.com> wrote:
+On 11/22/22 5:12 PM, Dave Stevenson wrote:
+> Hi Umang and Laurent
+>
+> On Mon, 21 Nov 2022 at 22:16, Laurent Pinchart
+> <laurent.pinchart@ideasonboard.com> wrote:
+>> Hi Umang,
 >>
->> FOLL_FORCE is really only for debugger access. According to commit
->> 707947247e95 ("media: videobuf2-vmalloc: get_userptr: buffers are always
->> writable"), the pinned pages are always writable.
-> 
-> Actually that patch is only a workaround to temporarily disable
-> support for read-only pages as they seemed to suffer from some
-> corruption issues in the retrieved user pages. We expect to support
-> read-only pages as hardware input after. That said, FOLL_FORCE doesn't
-> sound like the right thing even in that case, but I don't know the
-> background behind it being added here in the first place. +Hans
-> Verkuil +Marek Szyprowski do you happen to remember anything about it?
-
-I tracked the use of 'force' all the way back to the first git commit
-(2.6.12-rc1) in the very old video-buf.c. So it is very, very old and the
-reason is lost in the mists of time.
-
-I'm not sure if the 'force' argument of get_user_pages() at that time
-even meant the same as FOLL_FORCE today. From what I can tell it has just
-been faithfully used ever since, but I have my doubt that anyone understands
-the reason behind it since it was never explained.
-
-Looking at this old LWN article https://lwn.net/Articles/28548/ suggests
-that it might be related to calling get_user_pages for write buffers
-(non-zero write argument) where you also want to be able to read from the
-buffer. That is certainly something that some drivers need to do post-capture
-fixups.
-
-But 'force' was also always set for read buffers, and I don't know if that
-was something that was actually needed, or just laziness.
-
-I assume that removing FOLL_FORCE from 'FOLL_FORCE|FOLL_WRITE' will still
-allow drivers to read from the buffer?
-
-Regards,
-
-	Hans
-
-> 
-> Best regards,
-> Tomasz
-> 
+>> Nice to see this series on the list !
 >>
->> FOLL_FORCE in this case seems to be a legacy leftover. Let's just remove
->> it.
+>> On Tue, Nov 22, 2022 at 03:17:08AM +0530, Umang Jain wrote:
+>>> This series aims to upport bcm2835-isp from the RPi kernel [1] and is a
+>>> independent subset of earlier series [2] posted to upport CSI-2/CCP2
+>>> receiver IP core("Unicam) + the ISP driver found in BCM283x and compatible
+>>> SoCs (namely BCM2711). Unicam is still under active development to work
+>>> with multistream support to get into mainline. Hence only the ISP driver
+>>> will remain the primary area of this series.
+>>>
+>>> Patch (01-02)/14  adds a new driver named vc-sm-cma to handle memory sharing
+>>> with the VC4 VPU.
+>>>
+>>> Patch 03/14 adds a small extension to videobuf2 to allow exporting as a
+>>> dma_buf instead of a file-descriptor.
+>>>
+>>> Patch (04-05)/14 adds a couple of improvements/support for
+>>> bcm2835-isp(event callback and zero-copy) to vchiq-mmal.
+>>>
+>>> Patch (06-09)/14 adds the core bcm2835-isp driver along with headers
+>>> and format defintions.
+>>>
+>>> Patch (10-11)/14 deals with the colorspace support.
+>>> Note: This is still WIP since the implementation of colorspace is still
+>>> getting ironed out (especially around setting of colorspace flags handling).
+>>>
+>>> Patch 12/14 allows multiple instances of the ISP.
+>>>
+>>> Patch 13/14 adds a admin-guide document on bcm2835-isp.
+>>>
+>>> Patch 14/14 wires all this up with the vchiq-mmal driver.
+>>>
+>>> Testing:
+>>> Tested with RPi Model 4B running linux mainline v6.1-rc6. To test
+>>> end-to-end, I choose to cherry-pick the Unicam patches and OV5647 DT
+>>> bindings from [1]). Once done, functional testing was conducted with
+>>> libcamera[3] and its utility tools.
+>>>
+>>> Also note: Reviews given on [2] for the relevant ISP driver patches have
+>>> been incorporated in this version.
+>>>
+>>> Known issues:
+>>> - Colorspace handling
+>> This will require further discussions, I'll try to comment on this topic
+>> in the review of the ISP driver patch.
 >>
->> Cc: Tomasz Figa <tfiga@chromium.org>
->> Cc: Marek Szyprowski <m.szyprowski@samsung.com>
->> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
->> Signed-off-by: David Hildenbrand <david@redhat.com>
->> ---
->>  drivers/media/common/videobuf2/frame_vector.c | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/drivers/media/common/videobuf2/frame_vector.c b/drivers/media/common/videobuf2/frame_vector.c
->> index 542dde9d2609..062e98148c53 100644
->> --- a/drivers/media/common/videobuf2/frame_vector.c
->> +++ b/drivers/media/common/videobuf2/frame_vector.c
->> @@ -50,7 +50,7 @@ int get_vaddr_frames(unsigned long start, unsigned int nr_frames,
->>         start = untagged_addr(start);
->>
->>         ret = pin_user_pages_fast(start, nr_frames,
->> -                                 FOLL_FORCE | FOLL_WRITE | FOLL_LONGTERM,
->> +                                 FOLL_WRITE | FOLL_LONGTERM,
->>                                   (struct page **)(vec->ptrs));
->>         if (ret > 0) {
->>                 vec->got_ref = true;
+>>> - vc-sm-cma spamming kernel log with
+>>>        - pr_err("%s: Expecting an uncached alias for dma_addr %pad\n"
+>> Do you have any plan to address this ? Is the root cause known ?
+> You've picked up an old version of the downstream driver.
+
+I didn't pick version of driver rather, I picked commits that were 
+leading to the rpi-5.15.y branch of the downstream kernel
+
+> Pi0&1 share the VPU L2 cache with the ARM in the architecture, so they
+> use the 0x8 cache alias.
+> See https://github.com/raspberrypi/linux/commit/e22927f8ec9dc87772ac61d6aba00dc8046b4f49
+
+And certainly I missed to notice / pick this commit out on the vc-sm-cma 
+driver.
+Thanks for providing the link! I'll squash it for v2.
+>
+>    Dave
+>
+>>> [1]: https://github.com/raspberrypi/linux
+>>> [2]: https://lore.kernel.org/linux-media/20200504092611.9798-1-laurent.pinchart@ideasonboard.com/
+>>> [3]: https://libcamera.org/getting-started.html
+>>>
+>>> Dave Stevenson (7):
+>>>    staging: vc04_services: Add new vc-sm-cma driver
+>>>    staging: vchiq_arm: Register vcsm-cma as a platform driver
+>>>    media: videobuf2: Allow exporting of a struct dmabuf
+>>>    staging: mmal-vchiq: Add support for event callbacks
+>>>    staging: mmal-vchiq: Use vc-sm-cma to support zero copy
+>>>    staging: mmal_vchiq: Add image formats to be used by bcm2835-isp
+>>>    uapi: bcm2835-isp: Add bcm2835-isp uapi header file
+>>>
+>>> David Plowman (2):
+>>>    vc04_services: bcm2835-isp: Allow formats with different colour spaces
+>>>    vc04_services: bcm2835-isp: Permit all sRGB colour spaces on ISP
+>>>      outputs
+>>>
+>>> Naushir Patuck (5):
+>>>    media: uapi: v4l2-core: Add ISP statistics output V4L2 fourcc type
+>>>    staging: vc04_services: bcm2835-isp: Add a more complex ISP processing
+>>>      component
+>>>    staging: vc04_services: bcm2835_isp: Allow multiple users
+>>>    docs: admin-guide: media: bcm2835-isp: Add documentation for
+>>>      bcm2835-isp
+>>>    staging: vc04_services: vchiq: Load bcm2835_isp driver from vchiq
+>>>
+>>>   .../admin-guide/media/bcm2835-isp.rst         |  127 ++
+>>>   .../userspace-api/media/drivers/index.rst     |    1 +
+>>>   .../userspace-api/media/v4l/meta-formats.rst  |    1 +
+>>>   .../v4l/pixfmt-meta-bcm2835-isp-stats.rst     |   41 +
+>>>   MAINTAINERS                                   |    9 +
+>>>   .../media/common/videobuf2/videobuf2-core.c   |   36 +-
+>>>   drivers/media/v4l2-core/v4l2-ioctl.c          |    1 +
+>>>   drivers/staging/vc04_services/Kconfig         |    4 +
+>>>   drivers/staging/vc04_services/Makefile        |    2 +
+>>>   .../staging/vc04_services/bcm2835-isp/Kconfig |   14 +
+>>>   .../vc04_services/bcm2835-isp/Makefile        |    8 +
+>>>   .../bcm2835-isp/bcm2835-isp-ctrls.h           |   72 +
+>>>   .../bcm2835-isp/bcm2835-isp-fmts.h            |  558 +++++
+>>>   .../bcm2835-isp/bcm2835-v4l2-isp.c            | 1817 +++++++++++++++++
+>>>   .../interface/vchiq_arm/vchiq_arm.c           |    6 +
+>>>   .../staging/vc04_services/vc-sm-cma/Kconfig   |   10 +
+>>>   .../staging/vc04_services/vc-sm-cma/Makefile  |   12 +
+>>>   .../staging/vc04_services/vc-sm-cma/vc_sm.c   |  801 ++++++++
+>>>   .../staging/vc04_services/vc-sm-cma/vc_sm.h   |   54 +
+>>>   .../vc04_services/vc-sm-cma/vc_sm_cma_vchi.c  |  507 +++++
+>>>   .../vc04_services/vc-sm-cma/vc_sm_cma_vchi.h  |   63 +
+>>>   .../vc04_services/vc-sm-cma/vc_sm_defs.h      |  187 ++
+>>>   .../vc04_services/vc-sm-cma/vc_sm_knl.h       |   28 +
+>>>   .../staging/vc04_services/vchiq-mmal/Kconfig  |    1 +
+>>>   .../vc04_services/vchiq-mmal/mmal-common.h    |    5 +
+>>>   .../vc04_services/vchiq-mmal/mmal-encodings.h |   66 +
+>>>   .../vc04_services/vchiq-mmal/mmal-msg.h       |   35 +
+>>>   .../vchiq-mmal/mmal-parameters.h              |  165 +-
+>>>   .../vc04_services/vchiq-mmal/mmal-vchiq.c     |  253 ++-
+>>>   .../vc04_services/vchiq-mmal/mmal-vchiq.h     |    5 +
+>>>   include/media/videobuf2-core.h                |   15 +
+>>>   include/uapi/linux/bcm2835-isp.h              |  347 ++++
+>>>   include/uapi/linux/v4l2-controls.h            |    6 +
+>>>   include/uapi/linux/videodev2.h                |    1 +
+>>>   34 files changed, 5225 insertions(+), 33 deletions(-)
+>>>   create mode 100644 Documentation/admin-guide/media/bcm2835-isp.rst
+>>>   create mode 100644 Documentation/userspace-api/media/v4l/pixfmt-meta-bcm2835-isp-stats.rst
+>>>   create mode 100644 drivers/staging/vc04_services/bcm2835-isp/Kconfig
+>>>   create mode 100644 drivers/staging/vc04_services/bcm2835-isp/Makefile
+>>>   create mode 100644 drivers/staging/vc04_services/bcm2835-isp/bcm2835-isp-ctrls.h
+>>>   create mode 100644 drivers/staging/vc04_services/bcm2835-isp/bcm2835-isp-fmts.h
+>>>   create mode 100644 drivers/staging/vc04_services/bcm2835-isp/bcm2835-v4l2-isp.c
+>>>   create mode 100644 drivers/staging/vc04_services/vc-sm-cma/Kconfig
+>>>   create mode 100644 drivers/staging/vc04_services/vc-sm-cma/Makefile
+>>>   create mode 100644 drivers/staging/vc04_services/vc-sm-cma/vc_sm.c
+>>>   create mode 100644 drivers/staging/vc04_services/vc-sm-cma/vc_sm.h
+>>>   create mode 100644 drivers/staging/vc04_services/vc-sm-cma/vc_sm_cma_vchi.c
+>>>   create mode 100644 drivers/staging/vc04_services/vc-sm-cma/vc_sm_cma_vchi.h
+>>>   create mode 100644 drivers/staging/vc04_services/vc-sm-cma/vc_sm_defs.h
+>>>   create mode 100644 drivers/staging/vc04_services/vc-sm-cma/vc_sm_knl.h
+>>>   create mode 100644 include/uapi/linux/bcm2835-isp.h
 >> --
->> 2.38.1
+>> Regards,
 >>
+>> Laurent Pinchart
 
