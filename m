@@ -2,136 +2,118 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8E1FB63448C
-	for <lists+linux-media@lfdr.de>; Tue, 22 Nov 2022 20:29:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 983E9634494
+	for <lists+linux-media@lfdr.de>; Tue, 22 Nov 2022 20:31:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234769AbiKVT3W (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 22 Nov 2022 14:29:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52384 "EHLO
+        id S234801AbiKVTbN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 22 Nov 2022 14:31:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53250 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234492AbiKVT3T (ORCPT
+        with ESMTP id S234791AbiKVTbK (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 22 Nov 2022 14:29:19 -0500
-Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com [IPv6:2a00:1450:4864:20::533])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6F898FFAC
-        for <linux-media@vger.kernel.org>; Tue, 22 Nov 2022 11:29:17 -0800 (PST)
-Received: by mail-ed1-x533.google.com with SMTP id b8so11231720edf.11
-        for <linux-media@vger.kernel.org>; Tue, 22 Nov 2022 11:29:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=NVDnmC2dKJqAUSDipNMGo0RTknLwbcl5eyAafViq/zw=;
-        b=F6JQcHUsspYdGaSt4ieZNwOMZpEsONnlt9o3YWjXlEPIa0eIcgJ24H9S942F8Q4aMc
-         g+39K4DM+a7d2RygbPWquSET+BAUOl/CuMuwn+gW+NMmdBYH2TajHT6E0wgDLsvyRn8Q
-         Oyjdw7OWDhgLbC7P9JZW0uMGCjhOePfyWsSdI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=NVDnmC2dKJqAUSDipNMGo0RTknLwbcl5eyAafViq/zw=;
-        b=rW196cuVfjFTJFLgJdarUAQYqdad5rLAbQ0VJuqvI1bI/y6UG9pEF0di1aqX46KNku
-         fX6EEI/itPgQtduIJB8+Avyl0Lm7aM5Pxb50VeDWXCP4ElKQ+cKPL4Iez9ghiRv9X7fT
-         yOiONZTtWvgXl2esn4+PNQZq7oqRmEvX8Y1qQMvLLMAYTcVTx8FzbhjRCUjgn+pSF+/R
-         cI/jEb1YFCHzPndHFmvNpqzWUVxhcyUtYaCCdTwiL8J0EMuu1WZEQ8jFEnqlNtLuuj5/
-         UxaaxrmYr7ApoXfeSXgfcdnjJIOxW7NdCyAXLYqcpuWyZMtqSgVDvDicKXbAm94+K97r
-         9/yw==
-X-Gm-Message-State: ANoB5pmIpPwUPYoYUVAcUYmuXJzqCpf+uVr8h8eLTz6LJrNgpTX9xmTI
-        foKs9PzVgHZZjtxaFcu/eRBeWAzb3EWJLQpJlBV8WA==
-X-Google-Smtp-Source: AA0mqf7IcusChboGRGGt1s/cB7q39wPkujHV5XTXD9uN+GJhpblKvI9MCtZZtq2mwcwYehW0Unnkdw9V4tf6ONn4w74=
-X-Received: by 2002:a05:6402:c0b:b0:463:a83c:e0af with SMTP id
- co11-20020a0564020c0b00b00463a83ce0afmr21647244edb.158.1669145356462; Tue, 22
- Nov 2022 11:29:16 -0800 (PST)
+        Tue, 22 Nov 2022 14:31:10 -0500
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4FDBA91514;
+        Tue, 22 Nov 2022 11:31:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1669145469; x=1700681469;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=zyJQjgV0e1WVZZJXVzgDlssVZQ+0qMeIqZmVuMKL3lo=;
+  b=QX9lLB3juMy9qqcd6SfHgBWM4/rzkwewaLcCjsIHH6H0FKuX8TNhhCdN
+   SSBUfQLVDDuokBhewz5gSRQLt4tQwyvxZab0Y5ezwq/1hTmbDH1mWl5bJ
+   vBsAJNZhJNPbEDkD0p3gaubtSKpQSqPA3CIM7TxJM7hJ4jG/7ECbKEEbF
+   xSDiVAWCscblhZrNXufFiTHoM5P/+licIFsFgxSt9rqSvd4p4cdyyLoFN
+   G5rHdouoCcXBGesJsZsCw5G1EGMzi9i4xteH4lcB2XHiGtR+zFwGx1wRY
+   L6rIsLlq1W7wv0j8gPjSuZPNbkS+fkKwv0gu2RX8WYebPqrnR+G7vFvbx
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10539"; a="400188230"
+X-IronPort-AV: E=Sophos;i="5.96,184,1665471600"; 
+   d="scan'208";a="400188230"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Nov 2022 11:31:08 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10539"; a="674457700"
+X-IronPort-AV: E=Sophos;i="5.96,184,1665471600"; 
+   d="scan'208";a="674457700"
+Received: from punajuuri.fi.intel.com (HELO paasikivi.fi.intel.com) ([10.237.72.43])
+  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Nov 2022 11:31:04 -0800
+Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
+        by paasikivi.fi.intel.com (Postfix) with SMTP id 74709201D2;
+        Tue, 22 Nov 2022 21:31:00 +0200 (EET)
+Date:   Tue, 22 Nov 2022 19:31:00 +0000
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH v5 4/4] media: platform: Add Renesas RZ/G2L CRU driver
+Message-ID: <Y30jdErgPI223eoM@paasikivi.fi.intel.com>
+References: <20221102004329.5410-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20221102004329.5410-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <Y3yYkQhJJFLau08X@paasikivi.fi.intel.com>
+ <CA+V-a8u9QS6Wk8SSmmJheHmtRiUWyOpv9DDJO6qDR8viz1Wp7A@mail.gmail.com>
 MIME-Version: 1.0
-References: <20221122170801.842766-1-daniel.vetter@ffwll.ch>
- <Y30PDdsvHIJo5YHR@ziepe.ca> <CAKMK7uEccwYTNwDYQazmZvTfBFQOikZt5A6BmegweyO-inKYbQ@mail.gmail.com>
- <Y30Z4VxT7Wdoc1Lc@ziepe.ca>
-In-Reply-To: <Y30Z4VxT7Wdoc1Lc@ziepe.ca>
-From:   Daniel Vetter <daniel.vetter@ffwll.ch>
-Date:   Tue, 22 Nov 2022 20:29:05 +0100
-Message-ID: <CAKMK7uE=8eqyh9BKg_+7B1jjMi6K4wrmPyi9xeLVvVYFxBgF9g@mail.gmail.com>
-Subject: Re: [PATCH] dma-buf: Require VM_PFNMAP vma for mmap
-To:     Jason Gunthorpe <jgg@ziepe.ca>
-Cc:     DRI Development <dri-devel@lists.freedesktop.org>,
-        Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        John Stultz <john.stultz@linaro.org>,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CA+V-a8u9QS6Wk8SSmmJheHmtRiUWyOpv9DDJO6qDR8viz1Wp7A@mail.gmail.com>
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, 22 Nov 2022 at 19:50, Jason Gunthorpe <jgg@ziepe.ca> wrote:
->
-> On Tue, Nov 22, 2022 at 07:08:25PM +0100, Daniel Vetter wrote:
-> > On Tue, 22 Nov 2022 at 19:04, Jason Gunthorpe <jgg@ziepe.ca> wrote:
-> > >
-> > > On Tue, Nov 22, 2022 at 06:08:00PM +0100, Daniel Vetter wrote:
-> > > > tldr; DMA buffers aren't normal memory, expecting that you can use
-> > > > them like that (like calling get_user_pages works, or that they're
-> > > > accounting like any other normal memory) cannot be guaranteed.
-> > > >
-> > > > Since some userspace only runs on integrated devices, where all
-> > > > buffers are actually all resident system memory, there's a huge
-> > > > temptation to assume that a struct page is always present and useable
-> > > > like for any more pagecache backed mmap. This has the potential to
-> > > > result in a uapi nightmare.
-> > > >
-> > > > To stop this gap require that DMA buffer mmaps are VM_PFNMAP, which
-> > > > blocks get_user_pages and all the other struct page based
-> > > > infrastructure for everyone. In spirit this is the uapi counterpart to
-> > > > the kernel-internal CONFIG_DMABUF_DEBUG.
-> > > >
-> > > > Motivated by a recent patch which wanted to swich the system dma-buf
-> > > > heap to vm_insert_page instead of vm_insert_pfn.
-> > > >
-> > > > v2:
-> > > >
-> > > > Jason brought up that we also want to guarantee that all ptes have the
-> > > > pte_special flag set, to catch fast get_user_pages (on architectures
-> > > > that support this). Allowing VM_MIXEDMAP (like VM_SPECIAL does) would
-> > > > still allow vm_insert_page, but limiting to VM_PFNMAP will catch that.
-> > > >
-> > > > From auditing the various functions to insert pfn pte entires
-> > > > (vm_insert_pfn_prot, remap_pfn_range and all it's callers like
-> > > > dma_mmap_wc) it looks like VM_PFNMAP is already required anyway, so
-> > > > this should be the correct flag to check for.
-> > >
-> > > I didn't look at how this actually gets used, but it is a bit of a
-> > > pain to insert a lifetime controlled object like a struct page as a
-> > > special PTE/VM_PFNMAP
-> > >
-> > > How is the lifetime model implemented here? How do you know when
-> > > userspace has finally unmapped the page?
-> >
-> > The vma has a filp which is the refcounted dma_buf. With dma_buf you
-> > never get an individual page it's always the entire object. And it's
-> > up to the allocator how exactly it wants to use or not use the page's
-> > refcount. So if gup goes in and elevates the refcount, you can break
-> > stuff, which is why I'm doing this.
->
-> But how does move work?
+Hi Prabhakar,
 
-You nuke all the ptes. Drivers that move have slightly more than a
-bare struct file, they also have a struct address_space so that
-invalidate_mapping_range() works. Refaulting and any coherency issues
-when a refault races against a dma-buf migration is up to the
-driver/exporter to handle correctly. None rely on struct page like mm/
-moving stuff around for compaction/ksm/numa-balancing/whateverr.
--Daniel
+On Tue, Nov 22, 2022 at 10:26:28AM +0000, Lad, Prabhakar wrote:
+> Hi Sakari,
+> 
+> On Tue, Nov 22, 2022 at 9:38 AM Sakari Ailus
+> <sakari.ailus@linux.intel.com> wrote:
+> >
+> > Hi Prabhakar,
+> >
+> > On Wed, Nov 02, 2022 at 12:43:29AM +0000, Prabhakar wrote:
+> > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > >
+> > > Add v4l driver for Renesas RZ/G2L Camera data Receiving Unit.
+> > >
+> > > Based on a patch in the BSP by Hien Huynh
+> > > <hien.huynh.px@renesas.com>
+> > >
+> > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> >
+> > Laurent's comment arrive a little late but the patch does not compile
+> > against the media tree anymore. The argument of the media_pipeline_start()
+> > and media_pipeline_stop() is now a pad, not an entity. See what the changes
+> > look like in other drivers (the commit id is
+> > 12cecbf9150f67b0ce7d88bc2e243e67637726c2).
+> >
+> I'll go through them soon, when do you plan to close the v6.2 window?
+> 
+> > I'll still take the DT binding patches.
+> >
+> Or maybe we could wait and get them alongside the drivers?
+
+Can you send a new version by tomorrow morning (Finnish time)? The needed
+changes didn't seem too complicated, I wouldn't want to delay my PR much
+later as chances slipping to 6.3 will increase.
+
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Kind regards,
+
+Sakari Ailus
