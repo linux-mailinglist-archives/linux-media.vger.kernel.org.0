@@ -2,111 +2,241 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A09FC633A26
-	for <lists+linux-media@lfdr.de>; Tue, 22 Nov 2022 11:32:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CF9A7633B94
+	for <lists+linux-media@lfdr.de>; Tue, 22 Nov 2022 12:40:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232753AbiKVKcO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 22 Nov 2022 05:32:14 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56148 "EHLO
+        id S233269AbiKVLkZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 22 Nov 2022 06:40:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59092 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233577AbiKVKba (ORCPT
+        with ESMTP id S232291AbiKVLjv (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 22 Nov 2022 05:31:30 -0500
-Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 90DA856D43;
-        Tue, 22 Nov 2022 02:26:56 -0800 (PST)
-Received: by mail-ej1-x629.google.com with SMTP id f27so34819038eje.1;
-        Tue, 22 Nov 2022 02:26:56 -0800 (PST)
+        Tue, 22 Nov 2022 06:39:51 -0500
+Received: from mail-io1-xd31.google.com (mail-io1-xd31.google.com [IPv6:2607:f8b0:4864:20::d31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 41ED363168
+        for <linux-media@vger.kernel.org>; Tue, 22 Nov 2022 03:35:48 -0800 (PST)
+Received: by mail-io1-xd31.google.com with SMTP id e189so10728216iof.1
+        for <linux-media@vger.kernel.org>; Tue, 22 Nov 2022 03:35:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
+        d=raspberrypi.com; s=google;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=yq5BeDsfOkj486y5H1ERahq8TpRQn9TfZ3ScikXfWmM=;
-        b=XPSVUQXoXr3PvCCxBKMQN7m6u6cu4taFeNyyljtGb7W+WI1Nh81lOHWO/k6MAhDs22
-         sMIGwku1WXvVymnbxBiLnnBKoFjmaOzNaxJjKIthlPEtVbRN7/bg3t48g4W13Rhs/cOP
-         oIyZfL9n4AI1/KBNDnbtStEAIwOTi+ydUCiE0SyJ9v72UPjxgshY+qlnhyMKOT13O1Ua
-         3lS9qdaMLnTDSna34HVodPM3vlgVegYeB1gd4mZAC89bmD9WrjrpQF4jsAFpcbV/jN9Y
-         iI1pr3sVa4SujG6A/1fe1wjfySY8Z7ms56XfbbjJcht+mGKcCuDd/IqtuFo2w2HdcgBs
-         4eUQ==
+        bh=Weuvsj9Ph1lxw8aHlC9F8s8S70wYA+EI0s4JK82WZpo=;
+        b=SG70hc5F0o9EuDoI9bLz5Dfer2Q3CDA0Wi9uHtgdyghw9TLwsNkMTxDgc/TOJzUC+x
+         he2wW6JLQ0ouUqsrWKsm0YjHYNSXHkssD5q+Dj5hTBgaq+YJ+dDsbF9LKUosIqQuaVxz
+         k8z4if7TjMi/eZJXH3mp4+GEYNakIyltJcRBOSRNb1X3aQOhLIxfBU1vNUyLG02tadPp
+         PT65TdDAH7deRrtmlkrXcDqsi5QIDgs/vEtDrwF4H432lv5OP0m6dKsfEXbNg73JEtEN
+         d1hOq0FIUldofK7PbDxkvepK7iM5w+xaEgSvdzuh03EvYEhN8ElQOJUPGwdhKthHJQq1
+         LmRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=yq5BeDsfOkj486y5H1ERahq8TpRQn9TfZ3ScikXfWmM=;
-        b=UWF72qlsmYASbW3soYhjlRuiA/xk4xObtKgFqkDjN1c3HsGcKZsjyk89gTRK8Yn6JO
-         p0RPuH0K2KodojAWRWYD5+L1HIESGOadtRQ+lSvbEcQUm6rZVNE6Et1vtUWVxPb0MJRO
-         MpyCTXapmLJo4wer20ceBZoe6dUr8KMa1bQfvmUfWS3e7Y7+M40LL5TBOB8Mp2Zn5xYB
-         HRXgg3Z02M0IxO+2NoGxXE41zoAWsUEJK6fcKkmC2o+5BVuh8LLXSYQ9tyf+jUNbI/dd
-         rMeRLDKFqGoMMbxuqveWRHGTH/yLad8pC0TjrCDVSmvFgQ6/SoTti+0XKELW981R3dh2
-         rPqQ==
-X-Gm-Message-State: ANoB5pn9muWuDF3P1ne1hzgasoEukVQDtloUPTw+2Cli1jiXPBBteWac
-        QA6J/gUBTXZuwDK5nnxX4r6KEGLaLQg28h4Q55g=
-X-Google-Smtp-Source: AA0mqf514JQr3DRpS4KD4jCrWqs6HRrx1z6hGT/uOBoAk0jHHJTdNY9ByeiniQQ/5/vW8d3+za1uOc6O0xKW+qEGM0w=
-X-Received: by 2002:a17:906:3792:b0:7aa:97c7:2bfe with SMTP id
- n18-20020a170906379200b007aa97c72bfemr19067753ejc.196.1669112814960; Tue, 22
- Nov 2022 02:26:54 -0800 (PST)
+        bh=Weuvsj9Ph1lxw8aHlC9F8s8S70wYA+EI0s4JK82WZpo=;
+        b=4hI8PihmmebbSeAiWtDi9NY35WtJvpjroiKu6XjJRFRKCQCNnQBpPPomTMGxpwW6HD
+         cnjnpSdQr+x2NVUXeD8NrflVkP3Esu17zwLusk4nlHETMxFN/FB+1N0+CB2DKApXfcnK
+         tFm3W8HoNDImPeO8Z4YVWa3j7VDdGCdXOKO+AxmfWSZNWhk2MRyJybfYtX7C0X4HxUOg
+         SQQv6rKvwqseJZaGUnjY2+U/22z3+UU5/pdOaTN/vrNvrJfoEeR4x7T2o5TEHWsOLbKj
+         cNwWW7NRpRw9MNA7ObHdRYZ7MO9KIkY95oQ4+dJGd0ev5iNeWmZ7SB2kM2PLfspYrcG5
+         56RQ==
+X-Gm-Message-State: ANoB5pksHOHlfMTg7bjWpViMd5f0i7qRVRHZuS+UYe/hz2ze7+GE50nL
+        4VFYWF1ZhRWWECw5D07Lns2WRggwAsHDj87CsvmLmQ==
+X-Google-Smtp-Source: AA0mqf5cKFaxMU39VgUo7JRFFXTv0Cyxe45k89SDohlm5M2uJI0q9fvnmrkz8wehsFuY/Fccm//Ja7pEUw7xwcTS4JE=
+X-Received: by 2002:a05:6602:e:b0:6d6:d016:b56a with SMTP id
+ b14-20020a056602000e00b006d6d016b56amr4052778ioa.204.1669116947650; Tue, 22
+ Nov 2022 03:35:47 -0800 (PST)
 MIME-Version: 1.0
-References: <20221102004329.5410-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20221102004329.5410-5-prabhakar.mahadev-lad.rj@bp.renesas.com> <Y3yYkQhJJFLau08X@paasikivi.fi.intel.com>
-In-Reply-To: <Y3yYkQhJJFLau08X@paasikivi.fi.intel.com>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Tue, 22 Nov 2022 10:26:28 +0000
-Message-ID: <CA+V-a8u9QS6Wk8SSmmJheHmtRiUWyOpv9DDJO6qDR8viz1Wp7A@mail.gmail.com>
-Subject: Re: [PATCH v5 4/4] media: platform: Add Renesas RZ/G2L CRU driver
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20221121214722.22563-1-umang.jain@ideasonboard.com>
+ <20221121214722.22563-4-umang.jain@ideasonboard.com> <Y3wHKfeNB6Fv9Xpo@pendragon.ideasonboard.com>
+In-Reply-To: <Y3wHKfeNB6Fv9Xpo@pendragon.ideasonboard.com>
+From:   Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date:   Tue, 22 Nov 2022 11:35:31 +0000
+Message-ID: <CAPY8ntAtbnUqhJRd7+bWLRUz+K=1Hnd33XwSR930hPVfc7EPPg@mail.gmail.com>
+Subject: Re: [PATCH 03/14] media: videobuf2: Allow exporting of a struct dmabuf
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Umang Jain <umang.jain@ideasonboard.com>,
+        linux-media@vger.kernel.org, kernel-list@raspberrypi.com,
+        linux-kernel@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-staging@lists.linux.dev,
+        Broadcom internal kernel review list 
+        <bcm-kernel-feedback-list@broadcom.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Naushir Patuck <naush@raspberrypi.com>,
+        David Plowman <david.plowman@raspberrypi.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Dave Stevenson <dave.stevenson@raspberrypi.org>
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari,
-
-On Tue, Nov 22, 2022 at 9:38 AM Sakari Ailus
-<sakari.ailus@linux.intel.com> wrote:
+On Mon, 21 Nov 2022 at 23:18, Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
 >
-> Hi Prabhakar,
+> Hi Umang and Dave,
 >
-> On Wed, Nov 02, 2022 at 12:43:29AM +0000, Prabhakar wrote:
-> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Thank you for the patch.
+>
+> On Tue, Nov 22, 2022 at 03:17:11AM +0530, Umang Jain wrote:
+> > From: Dave Stevenson <dave.stevenson@raspberrypi.org>
 > >
-> > Add v4l driver for Renesas RZ/G2L Camera data Receiving Unit.
+> > videobuf2 only allowed exporting a dmabuf as a file descriptor,
+> > but there are instances where having the struct dma_buf is
+> > useful within the kernel.
 > >
-> > Based on a patch in the BSP by Hien Huynh
-> > <hien.huynh.px@renesas.com>
+> > Split the current implementation into two, one step which
+> > exports a struct dma_buf, and the second which converts that
+> > into an fd.
 > >
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.org>
+> > Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
+> > ---
+> >  .../media/common/videobuf2/videobuf2-core.c   | 36 +++++++++++++------
+> >  include/media/videobuf2-core.h                | 15 ++++++++
+> >  2 files changed, 40 insertions(+), 11 deletions(-)
+> >
+> > diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
+> > index ab9697f3b5f1..32b26737cac4 100644
+> > --- a/drivers/media/common/videobuf2/videobuf2-core.c
+> > +++ b/drivers/media/common/videobuf2/videobuf2-core.c
+> > @@ -2184,49 +2184,49 @@ static int __find_plane_by_offset(struct vb2_queue *q, unsigned long off,
+> >       return -EINVAL;
+> >  }
+> >
+> > -int vb2_core_expbuf(struct vb2_queue *q, int *fd, unsigned int type,
+> > -             unsigned int index, unsigned int plane, unsigned int flags)
+> > +struct dma_buf *vb2_core_expbuf_dmabuf(struct vb2_queue *q, unsigned int type,
+> > +                                    unsigned int index, unsigned int plane,
+> > +                                    unsigned int flags)
 >
-> Laurent's comment arrive a little late but the patch does not compile
-> against the media tree anymore. The argument of the media_pipeline_start()
-> and media_pipeline_stop() is now a pad, not an entity. See what the changes
-> look like in other drivers (the commit id is
-> 12cecbf9150f67b0ce7d88bc2e243e67637726c2).
->
-I'll go through them soon, when do you plan to close the v6.2 window?
+> This function is used in the ISP driver, in bcm2835_isp_buf_prepare(),
+> for MMAP buffers, and as far as I can tell, its only purpose is to
+> create a dma_buf instance to then be imported in
+> vchiq_mmal_submit_buffer() with a call to vc_sm_cma_import_dmabuf().
+> That sounds like a very complicated set of operations, and quite
+> inefficient :-(
 
-> I'll still take the DT binding patches.
->
-Or maybe we could wait and get them alongside the drivers?
+Are you saying that dmabufs are not the preferred route for sharing
+buffers between kernel subsystems? What are you suggesting instead?
 
-Cheers,
-Prabhakar
+If the VPU (firmware) has a handle to the buffer then we need to
+manage the lifetime such that it is not freed until the VPU has
+released it. That is handled for you with dmabufs, therefore why
+reinvent the wheel?
+
+  Dave
+
+> >  {
+> >       struct vb2_buffer *vb = NULL;
+> >       struct vb2_plane *vb_plane;
+> > -     int ret;
+> >       struct dma_buf *dbuf;
+> >
+> >       if (q->memory != VB2_MEMORY_MMAP) {
+> >               dprintk(q, 1, "queue is not currently set up for mmap\n");
+> > -             return -EINVAL;
+> > +             return ERR_PTR(-EINVAL);
+> >       }
+> >
+> >       if (!q->mem_ops->get_dmabuf) {
+> >               dprintk(q, 1, "queue does not support DMA buffer exporting\n");
+> > -             return -EINVAL;
+> > +             return ERR_PTR(-EINVAL);
+> >       }
+> >
+> >       if (flags & ~(O_CLOEXEC | O_ACCMODE)) {
+> >               dprintk(q, 1, "queue does support only O_CLOEXEC and access mode flags\n");
+> > -             return -EINVAL;
+> > +             return ERR_PTR(-EINVAL);
+> >       }
+> >
+> >       if (type != q->type) {
+> >               dprintk(q, 1, "invalid buffer type\n");
+> > -             return -EINVAL;
+> > +             return ERR_PTR(-EINVAL);
+> >       }
+> >
+> >       if (index >= q->num_buffers) {
+> >               dprintk(q, 1, "buffer index out of range\n");
+> > -             return -EINVAL;
+> > +             return ERR_PTR(-EINVAL);
+> >       }
+> >
+> >       vb = q->bufs[index];
+> >
+> >       if (plane >= vb->num_planes) {
+> >               dprintk(q, 1, "buffer plane out of range\n");
+> > -             return -EINVAL;
+> > +             return ERR_PTR(-EINVAL);
+> >       }
+> >
+> >       if (vb2_fileio_is_active(q)) {
+> >               dprintk(q, 1, "expbuf: file io in progress\n");
+> > -             return -EBUSY;
+> > +             return ERR_PTR(-EBUSY);
+> >       }
+> >
+> >       vb_plane = &vb->planes[plane];
+> > @@ -2238,9 +2238,23 @@ int vb2_core_expbuf(struct vb2_queue *q, int *fd, unsigned int type,
+> >       if (IS_ERR_OR_NULL(dbuf)) {
+> >               dprintk(q, 1, "failed to export buffer %d, plane %d\n",
+> >                       index, plane);
+> > -             return -EINVAL;
+> > +             return ERR_PTR(-EINVAL);
+> >       }
+> >
+> > +     return dbuf;
+> > +}
+> > +EXPORT_SYMBOL_GPL(vb2_core_expbuf_dmabuf);
+> > +
+> > +int vb2_core_expbuf(struct vb2_queue *q, int *fd, unsigned int type,
+> > +                 unsigned int index, unsigned int plane, unsigned int flags)
+> > +{
+> > +     struct dma_buf *dbuf;
+> > +     int ret;
+> > +
+> > +     dbuf = vb2_core_expbuf_dmabuf(q, type, index, plane, flags);
+> > +     if (IS_ERR(dbuf))
+> > +             return PTR_ERR(dbuf);
+> > +
+> >       ret = dma_buf_fd(dbuf, flags & ~O_ACCMODE);
+> >       if (ret < 0) {
+> >               dprintk(q, 3, "buffer %d, plane %d failed to export (%d)\n",
+> > diff --git a/include/media/videobuf2-core.h b/include/media/videobuf2-core.h
+> > index 3253bd2f6fee..33629ed2b64f 100644
+> > --- a/include/media/videobuf2-core.h
+> > +++ b/include/media/videobuf2-core.h
+> > @@ -911,6 +911,21 @@ int vb2_core_streamon(struct vb2_queue *q, unsigned int type);
+> >   */
+> >  int vb2_core_streamoff(struct vb2_queue *q, unsigned int type);
+> >
+> > +/**
+> > + * vb2_core_expbuf_dmabuf() - Export a buffer as a dma_buf structure
+> > + * @q:         videobuf2 queue
+> > + * @type:      buffer type
+> > + * @index:     id number of the buffer
+> > + * @plane:     index of the plane to be exported, 0 for single plane queues
+> > + * @flags:     flags for newly created file, currently only O_CLOEXEC is
+> > + *             supported, refer to manual of open syscall for more details
+> > + *
+> > + * Return: Returns the dmabuf pointer
+> > + */
+> > +struct dma_buf *vb2_core_expbuf_dmabuf(struct vb2_queue *q, unsigned int type,
+> > +                                    unsigned int index, unsigned int plane,
+> > +                                    unsigned int flags);
+> > +
+> >  /**
+> >   * vb2_core_expbuf() - Export a buffer as a file descriptor.
+> >   * @q:               pointer to &struct vb2_queue with videobuf2 queue.
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
