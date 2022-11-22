@@ -2,36 +2,36 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 710E9634A1D
-	for <lists+linux-media@lfdr.de>; Tue, 22 Nov 2022 23:35:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9D5FA634A1A
+	for <lists+linux-media@lfdr.de>; Tue, 22 Nov 2022 23:35:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235203AbiKVWd3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 22 Nov 2022 17:33:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37734 "EHLO
+        id S235104AbiKVWda (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 22 Nov 2022 17:33:30 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37746 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235216AbiKVWd2 (ORCPT
+        with ESMTP id S235216AbiKVWd3 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 22 Nov 2022 17:33:28 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 664679DBA6
-        for <linux-media@vger.kernel.org>; Tue, 22 Nov 2022 14:33:27 -0800 (PST)
+        Tue, 22 Nov 2022 17:33:29 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D9BC09DBA6
+        for <linux-media@vger.kernel.org>; Tue, 22 Nov 2022 14:33:28 -0800 (PST)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id E37451180;
-        Tue, 22 Nov 2022 23:33:25 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 682611381;
+        Tue, 22 Nov 2022 23:33:27 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1669156406;
-        bh=lCd+0Rify8OxctodoF85rFQq0gcmx9kyLzEQ57TonAI=;
+        s=mail; t=1669156407;
+        bh=c3ggw/yTbh55ye89FplO8fY9/IYd+XC5xzEpZnLCh9U=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=KeHUq+5uOryO16ICDWoAd4uHJiA4Y+yjdUQVkK0YmtuxtcswjkwYHStY3SDsSWa6g
-         qRbioAX92fggiXKrM8YJd49yIKCeatVqkMBef1SW6DEpoDyKhmY1dDJzHVMLriZP5G
-         0Dgh/Vl8nyiDDOU/+gdgjGuB+uyxNkHsFVh9AKnU=
+        b=nThI42J4L+oBfZwRI1fD1BIvc7C65MOdlZsLYfXmT6ltKqG6gmydWXMj8OGg2PfiH
+         0USoqn/KFl/Be5d4yYPDiSLPSDOEAzBtVZIt+o+FANQ4iXcY5/ufifD/mdlg8jc2Xe
+         6PulN84x8tF0VLrYiiDZvisyhmbnTcd1Cya7baCI=
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     linux-media@vger.kernel.org
 Cc:     Sakari Ailus <sakari.ailus@iki.fi>,
         Manivannan Sadhasivam <mani@kernel.org>
-Subject: [PATCH v1 14/15] media: i2c: imx290: Configure data lanes at start time
-Date:   Wed, 23 Nov 2022 00:32:49 +0200
-Message-Id: <20221122223250.21233-15-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v1 15/15] media: i2c: imx290: Simplify imx290_set_data_lanes()
+Date:   Wed, 23 Nov 2022 00:32:50 +0200
+Message-Id: <20221122223250.21233-16-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.37.4
 In-Reply-To: <20221122223250.21233-1-laurent.pinchart@ideasonboard.com>
 References: <20221122223250.21233-1-laurent.pinchart@ideasonboard.com>
@@ -46,38 +46,57 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-There's no need to configure the data lanes in the runtime PM resume
-handler. Do so in imx290_start_streaming() instead.
+There's no need to check for an incorrect number of data lanes in
+imx290_set_data_lanes() as the value is validated at probe() time. Drop
+the check.
+
+The PHY_LANE_NUM and CSI_LANE_MODE registers are programmed with a value
+equal to the number of lanes minus one. Compute it instead of handling
+it in the switch/case.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- drivers/media/i2c/imx290.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/media/i2c/imx290.c | 17 +++++------------
+ 1 file changed, 5 insertions(+), 12 deletions(-)
 
 diff --git a/drivers/media/i2c/imx290.c b/drivers/media/i2c/imx290.c
-index dbed703fa199..4dfa090f918d 100644
+index 4dfa090f918d..369db35a7afd 100644
 --- a/drivers/media/i2c/imx290.c
 +++ b/drivers/media/i2c/imx290.c
-@@ -753,6 +753,9 @@ static int imx290_start_streaming(struct imx290 *imx290,
- 		return ret;
+@@ -512,28 +512,21 @@ static int imx290_set_register_array(struct imx290 *imx290,
+ 
+ static int imx290_set_data_lanes(struct imx290 *imx290)
+ {
+-	int ret = 0, laneval, frsel;
++	int ret = 0;
++	u32 frsel;
+ 
+ 	switch (imx290->nlanes) {
+ 	case 2:
+-		laneval = 0x01;
++	default:
+ 		frsel = 0x02;
+ 		break;
+ 	case 4:
+-		laneval = 0x03;
+ 		frsel = 0x01;
+ 		break;
+-	default:
+-		/*
+-		 * We should never hit this since the data lane count is
+-		 * validated in probe itself
+-		 */
+-		dev_err(imx290->dev, "Lane configuration not supported\n");
+-		return -EINVAL;
  	}
  
-+	/* Set data lane count */
-+	imx290_set_data_lanes(imx290);
-+
- 	/* Apply the register values related to current frame format */
- 	format = v4l2_subdev_get_pad_format(&imx290->sd, state, 0);
- 	ret = imx290_setup_format(imx290, format);
-@@ -1052,9 +1055,6 @@ static int imx290_power_on(struct device *dev)
- 	gpiod_set_value_cansleep(imx290->rst_gpio, 0);
- 	usleep_range(30000, 31000);
+-	imx290_write(imx290, IMX290_PHY_LANE_NUM, laneval, &ret);
+-	imx290_write(imx290, IMX290_CSI_LANE_MODE, laneval, &ret);
++	imx290_write(imx290, IMX290_PHY_LANE_NUM, imx290->nlanes - 1, &ret);
++	imx290_write(imx290, IMX290_CSI_LANE_MODE, imx290->nlanes - 1, &ret);
+ 	imx290_write(imx290, IMX290_FR_FDG_SEL, frsel, &ret);
  
--	/* Set data lane count */
--	imx290_set_data_lanes(imx290);
--
- 	return 0;
- }
- 
+ 	return ret;
 -- 
 Regards,
 
