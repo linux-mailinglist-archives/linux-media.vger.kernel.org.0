@@ -2,178 +2,159 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BDB82634180
-	for <lists+linux-media@lfdr.de>; Tue, 22 Nov 2022 17:29:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 07273634231
+	for <lists+linux-media@lfdr.de>; Tue, 22 Nov 2022 18:08:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234187AbiKVQ3Y (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 22 Nov 2022 11:29:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34718 "EHLO
+        id S234449AbiKVRIJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 22 Nov 2022 12:08:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35826 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233399AbiKVQ3U (ORCPT
+        with ESMTP id S232783AbiKVRIH (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 22 Nov 2022 11:29:20 -0500
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3FE802F037;
-        Tue, 22 Nov 2022 08:29:19 -0800 (PST)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out2.suse.de (Postfix) with ESMTPS id DF6E31F85D;
-        Tue, 22 Nov 2022 16:29:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-        t=1669134557; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=i4/RJcDx5W5MDWxatsZO6Jcd+cYSccjZheprFRMkSho=;
-        b=X60dEluFtp4cLi1JihULzmkzaAA9/k4ioOG0n7SnZjElr35p11yH8f4Bssb8T6zKnqjhw2
-        BDEDmmllzzQfnE37AD6LBoQboXkTfOwklpWC3spbAYDRkpU5ZxaFtM8EabO2lg17w4JmPI
-        FG84E0lRMDGpjDhIqVm+gTJfS8SspQg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-        s=susede2_ed25519; t=1669134557;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=i4/RJcDx5W5MDWxatsZO6Jcd+cYSccjZheprFRMkSho=;
-        b=tytwOJur3SCnNybSVppd+YvRZnEtonPJqvXEuE1IgRt5Krn2SkTFWXTND8eoiVlqfQBoI0
-        i1KrLu2gVmy/a2Bg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 4E82B13AA1;
-        Tue, 22 Nov 2022 16:29:17 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id h9BSEt34fGMmOQAAMHmgww
-        (envelope-from <vbabka@suse.cz>); Tue, 22 Nov 2022 16:29:17 +0000
-Message-ID: <8bb93984-a2f4-2029-7cec-bea659e77b6c@suse.cz>
-Date:   Tue, 22 Nov 2022 17:29:16 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Subject: Re: [PATCH mm-unstable v1 09/20] mm/gup: reliable R/O long-term
- pinning in COW mappings
-Content-Language: en-US
-To:     David Hildenbrand <david@redhat.com>, linux-kernel@vger.kernel.org
-Cc:     x86@kernel.org, linux-alpha@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-ia64@vger.kernel.org,
-        linux-mips@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        sparclinux@vger.kernel.org, linux-um@lists.infradead.org,
-        etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-        linux-samsung-soc@vger.kernel.org, linux-rdma@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-mm@kvack.org, linux-perf-users@vger.kernel.org,
-        linux-security-module@vger.kernel.org,
-        linux-kselftest@vger.kernel.org,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
+        Tue, 22 Nov 2022 12:08:07 -0500
+Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B48411A81C
+        for <linux-media@vger.kernel.org>; Tue, 22 Nov 2022 09:08:05 -0800 (PST)
+Received: by mail-wr1-x42e.google.com with SMTP id n3so9146409wrp.5
+        for <linux-media@vger.kernel.org>; Tue, 22 Nov 2022 09:08:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Ve9qToTAjko4Xn5/rlkROCfUSo37Rgk78oiOnmwUwAU=;
+        b=UTgjIRpLOL/7otFlPM7wX91GWVEbyelUoIOfxeC6ZhL8WuxwL4Nb7rXb4HD1EytWRF
+         fM6S4/NXWz/8WrAreoT9cPW/bjXslVl/BKUmEg5pyx6M4Uaclx3FjX7vn4vXq8ig0wzL
+         rCBB7/W7XRNLC+tcLw3TAl4no/GdXkQLmuKTA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Ve9qToTAjko4Xn5/rlkROCfUSo37Rgk78oiOnmwUwAU=;
+        b=oX8FO7mK92kShFzDa91a6kQInGZ4HyRaYKSN+ffSpf8GUZC9155/FR2k6okdzKBiYL
+         DnQPx7DCtZLMLy4He5JLqgZ4D+ZvdiMhsReJqitltNiJ16fZXrFgPqNB3oXxnsFrd031
+         PKk1CRc/IXa+UTu0zfA4vj7pMygwP6dmeJF5j3DdabwomLfiS19NWP9K50Dvfe5k8QK3
+         JWhkFTxaE0E3UZpqk9AR4XHGP7f23plzS2dJ6rqyLrG+rKKqX1/466NRBUhtWcliBtXv
+         ZrW7OGobFyfkTieUYDxwZ6dDjZbQijT8vUUAqfDX2Aj6pcwb5zmTtgADk3hLRcUXdGCP
+         dDgg==
+X-Gm-Message-State: ANoB5plZpcJc1DDjNkPqSz0VLghCaepmX3QVu+zgi5K9Eevt7hcgUa8S
+        iLxYWTDEHnJkWSAOfVNV2XGIdA==
+X-Google-Smtp-Source: AA0mqf74IZLJygrpyRzf5qHhhvP3A1tbMBtTE6ln+kXNQdMnkp0LHZho99MMNt+23oEZ2UGDXNYLyA==
+X-Received: by 2002:a5d:6547:0:b0:241:e4cc:f044 with SMTP id z7-20020a5d6547000000b00241e4ccf044mr2164424wrv.457.1669136884287;
+        Tue, 22 Nov 2022 09:08:04 -0800 (PST)
+Received: from phenom.ffwll.local (212-51-149-33.fiber7.init7.net. [212.51.149.33])
+        by smtp.gmail.com with ESMTPSA id m42-20020a05600c3b2a00b003cf47556f21sm24861760wms.2.2022.11.22.09.08.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 22 Nov 2022 09:08:03 -0800 (PST)
+From:   Daniel Vetter <daniel.vetter@ffwll.ch>
+To:     DRI Development <dri-devel@lists.freedesktop.org>
+Cc:     Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+        Daniel Vetter <daniel.vetter@ffwll.ch>,
+        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
         Jason Gunthorpe <jgg@ziepe.ca>,
-        John Hubbard <jhubbard@nvidia.com>,
-        Peter Xu <peterx@redhat.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Hugh Dickins <hughd@google.com>, Nadav Amit <namit@vmware.com>,
+        Suren Baghdasaryan <surenb@google.com>,
         Matthew Wilcox <willy@infradead.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Muchun Song <songmuchun@bytedance.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Lucas Stach <l.stach@pengutronix.de>,
-        David Airlie <airlied@gmail.com>,
-        Oded Gabbay <ogabbay@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Christoph Hellwig <hch@infradead.org>,
-        Alex Williamson <alex.williamson@redhat.com>
-References: <20221116102659.70287-1-david@redhat.com>
- <20221116102659.70287-10-david@redhat.com>
-From:   Vlastimil Babka <vbabka@suse.cz>
-In-Reply-To: <20221116102659.70287-10-david@redhat.com>
+        John Stultz <john.stultz@linaro.org>,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+Subject: [PATCH] dma-buf: Require VM_PFNMAP vma for mmap
+Date:   Tue, 22 Nov 2022 18:08:00 +0100
+Message-Id: <20221122170801.842766-1-daniel.vetter@ffwll.ch>
+X-Mailer: git-send-email 2.37.2
+MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_SOFTFAIL autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 11/16/22 11:26, David Hildenbrand wrote:
-> We already support reliable R/O pinning of anonymous memory. However,
-> assume we end up pinning (R/O long-term) a pagecache page or the shared
-> zeropage inside a writable private ("COW") mapping. The next write access
-> will trigger a write-fault and replace the pinned page by an exclusive
-> anonymous page in the process page tables to break COW: the pinned page no
-> longer corresponds to the page mapped into the process' page table.
-> 
-> Now that FAULT_FLAG_UNSHARE can break COW on anything mapped into a
-> COW mapping, let's properly break COW first before R/O long-term
-> pinning something that's not an exclusive anon page inside a COW
-> mapping. FAULT_FLAG_UNSHARE will break COW and map an exclusive anon page
-> instead that can get pinned safely.
-> 
-> With this change, we can stop using FOLL_FORCE|FOLL_WRITE for reliable
-> R/O long-term pinning in COW mappings.
-> 
-> With this change, the new R/O long-term pinning tests for non-anonymous
-> memory succeed:
->   # [RUN] R/O longterm GUP pin ... with shared zeropage
->   ok 151 Longterm R/O pin is reliable
->   # [RUN] R/O longterm GUP pin ... with memfd
->   ok 152 Longterm R/O pin is reliable
->   # [RUN] R/O longterm GUP pin ... with tmpfile
->   ok 153 Longterm R/O pin is reliable
->   # [RUN] R/O longterm GUP pin ... with huge zeropage
->   ok 154 Longterm R/O pin is reliable
->   # [RUN] R/O longterm GUP pin ... with memfd hugetlb (2048 kB)
->   ok 155 Longterm R/O pin is reliable
->   # [RUN] R/O longterm GUP pin ... with memfd hugetlb (1048576 kB)
->   ok 156 Longterm R/O pin is reliable
->   # [RUN] R/O longterm GUP-fast pin ... with shared zeropage
->   ok 157 Longterm R/O pin is reliable
->   # [RUN] R/O longterm GUP-fast pin ... with memfd
->   ok 158 Longterm R/O pin is reliable
->   # [RUN] R/O longterm GUP-fast pin ... with tmpfile
->   ok 159 Longterm R/O pin is reliable
->   # [RUN] R/O longterm GUP-fast pin ... with huge zeropage
->   ok 160 Longterm R/O pin is reliable
->   # [RUN] R/O longterm GUP-fast pin ... with memfd hugetlb (2048 kB)
->   ok 161 Longterm R/O pin is reliable
->   # [RUN] R/O longterm GUP-fast pin ... with memfd hugetlb (1048576 kB)
->   ok 162 Longterm R/O pin is reliable
-> 
-> Note 1: We don't care about short-term R/O-pinning, because they have
-> snapshot semantics: they are not supposed to observe modifications that
-> happen after pinning.
-> 
-> As one example, assume we start direct I/O to read from a page and store
-> page content into a file: modifications to page content after starting
-> direct I/O are not guaranteed to end up in the file. So even if we'd pin
-> the shared zeropage, the end result would be as expected -- getting zeroes
-> stored to the file.
-> 
-> Note 2: For shared mappings we'll now always fallback to the slow path to
-> lookup the VMA when R/O long-term pining. While that's the necessary price
-> we have to pay right now, it's actually not that bad in practice: most
-> FOLL_LONGTERM users already specify FOLL_WRITE, for example, along with
-> FOLL_FORCE because they tried dealing with COW mappings correctly ...
-> 
-> Note 3: For users that use FOLL_LONGTERM right now without FOLL_WRITE,
-> such as VFIO, we'd now no longer pin the shared zeropage. Instead, we'd
-> populate exclusive anon pages that we can pin. There was a concern that
-> this could affect the memlock limit of existing setups.
-> 
-> For example, a VM running with VFIO could run into the memlock limit and
-> fail to run. However, we essentially had the same behavior already in
-> commit 17839856fd58 ("gup: document and work around "COW can break either
-> way" issue") which got merged into some enterprise distros, and there were
-> not any such complaints. So most probably, we're fine.
-> 
-> Signed-off-by: David Hildenbrand <david@redhat.com>
+tldr; DMA buffers aren't normal memory, expecting that you can use
+them like that (like calling get_user_pages works, or that they're
+accounting like any other normal memory) cannot be guaranteed.
 
-Reviewed-by: Vlastimil Babka <vbabka@suse.cz>
+Since some userspace only runs on integrated devices, where all
+buffers are actually all resident system memory, there's a huge
+temptation to assume that a struct page is always present and useable
+like for any more pagecache backed mmap. This has the potential to
+result in a uapi nightmare.
+
+To stop this gap require that DMA buffer mmaps are VM_PFNMAP, which
+blocks get_user_pages and all the other struct page based
+infrastructure for everyone. In spirit this is the uapi counterpart to
+the kernel-internal CONFIG_DMABUF_DEBUG.
+
+Motivated by a recent patch which wanted to swich the system dma-buf
+heap to vm_insert_page instead of vm_insert_pfn.
+
+v2:
+
+Jason brought up that we also want to guarantee that all ptes have the
+pte_special flag set, to catch fast get_user_pages (on architectures
+that support this). Allowing VM_MIXEDMAP (like VM_SPECIAL does) would
+still allow vm_insert_page, but limiting to VM_PFNMAP will catch that.
+
+From auditing the various functions to insert pfn pte entires
+(vm_insert_pfn_prot, remap_pfn_range and all it's callers like
+dma_mmap_wc) it looks like VM_PFNMAP is already required anyway, so
+this should be the correct flag to check for.
+
+v3: Change to WARN_ON_ONCE (Thomas Zimmermann)
+
+References: https://lore.kernel.org/lkml/CAKMK7uHi+mG0z0HUmNt13QCCvutuRVjpcR0NjRL12k-WbWzkRg@mail.gmail.com/
+Acked-by: Christian König <christian.koenig@amd.com>
+Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Jason Gunthorpe <jgg@ziepe.ca>
+Cc: Suren Baghdasaryan <surenb@google.com>
+Cc: Matthew Wilcox <willy@infradead.org>
+Cc: John Stultz <john.stultz@linaro.org>
+Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>
+Cc: "Christian König" <christian.koenig@amd.com>
+Cc: linux-media@vger.kernel.org
+Cc: linaro-mm-sig@lists.linaro.org
+--
+Ok I entirely forgot about this patch but stumbled over it and checked
+what's up with it no. I think it's ready now for merging:
+- shmem helper patches to fix up vgem landed
+- ttm has been fixed since a while
+- I don't think we've had any other open issues
+
+Time to lock down this uapi contract for real?
+-Daniel
+---
+ drivers/dma-buf/dma-buf.c | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+index b6c36914e7c6..88718665c3c3 100644
+--- a/drivers/dma-buf/dma-buf.c
++++ b/drivers/dma-buf/dma-buf.c
+@@ -150,6 +150,8 @@ static int dma_buf_mmap_internal(struct file *file, struct vm_area_struct *vma)
+ 	ret = dmabuf->ops->mmap(dmabuf, vma);
+ 	dma_resv_unlock(dmabuf->resv);
+ 
++	WARN_ON_ONCE(!(vma->vm_flags & VM_PFNMAP));
++
+ 	return ret;
+ }
+ 
+@@ -1495,6 +1497,8 @@ int dma_buf_mmap(struct dma_buf *dmabuf, struct vm_area_struct *vma,
+ 	ret = dmabuf->ops->mmap(dmabuf, vma);
+ 	dma_resv_unlock(dmabuf->resv);
+ 
++	WARN_ON_ONCE(!(vma->vm_flags & VM_PFNMAP));
++
+ 	return ret;
+ }
+ EXPORT_SYMBOL_NS_GPL(dma_buf_mmap, DMA_BUF);
+-- 
+2.37.2
 
