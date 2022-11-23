@@ -2,202 +2,153 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0672663597C
-	for <lists+linux-media@lfdr.de>; Wed, 23 Nov 2022 11:18:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 464A2635984
+	for <lists+linux-media@lfdr.de>; Wed, 23 Nov 2022 11:19:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237109AbiKWKRy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 23 Nov 2022 05:17:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44292 "EHLO
+        id S236601AbiKWKTh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 23 Nov 2022 05:19:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45374 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237595AbiKWKRQ (ORCPT
+        with ESMTP id S236540AbiKWKTK (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 23 Nov 2022 05:17:16 -0500
-Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [IPv6:2a0b:5c81:1c1::37])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B748112EBC3
-        for <linux-media@vger.kernel.org>; Wed, 23 Nov 2022 02:05:25 -0800 (PST)
-Received: from hillosipuli.retiisi.eu (82-181-192-243.bb.dnainternet.fi [82.181.192.243])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: sailus)
-        by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 20D7A1B000EF
-        for <linux-media@vger.kernel.org>; Wed, 23 Nov 2022 12:05:22 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
-        t=1669197922;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:mime-version:mime-version:content-type:content-type;
-        bh=ptiZ5MUw/dIrPaHvLFzyKDk9+PzV81psK21lIV9uXDs=;
-        b=Lq2o4WoZcMDMqZJyQ6/4ISQbysn6zs9ZOOrmWCpOBYgnvoTg8L9giDZpeRrcedMvUEuYE4
-        Dc4wTmAs9kyWDqST5gr+DchN1ITjIr4lX4mrNmBEz56O4XL3v7bSIOvfg+RWiTQ80JWxgY
-        UnlfCmgTP8BOzmx3Fd+wL1T6sjXA5ERbeCetiboWIYcndZWnJgmyvnXogW68zD7VcBZBPH
-        MR3margxq0dVEIYGVn17HcuBqJOzIWxE4TW5GEz5Gy632ne4CGH1AzqZbDiWGhPszMOFjI
-        RKFLR5/EJJ6FCfz4kmkuNYgIVCY8O/DlAAhzgx1UTfrk2sgXqExllPcc2B8Cmg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-        s=lahtoruutu; t=1669197922;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:mime-version:mime-version:content-type:content-type;
-        bh=ptiZ5MUw/dIrPaHvLFzyKDk9+PzV81psK21lIV9uXDs=;
-        b=gonSZgShxzdSeGPKWEsW8yBDsZ5GtCzut2Y3qurZdncVG6GmzNWQMYEl3gvnE6Khcell8Z
-        Z2o2Lj7Rh6+ctndCYs9Yurn/rAKBU4lAc8U5xMDiNhEg24rA1Kkw+QJJL7MomRC+tKHO9o
-        lWR9+jlEG5ns1JJo8pjXqY/LTqbjofXoDEvDQ4NcX3+U8S1QZ3C1BJXOR6XZngq7xYa1SO
-        xXUnUPzQR5BhV0OB8StwyPjeGqe+evA/Doidz0oAm8Qih4tGKqIwlUKPLEh+/iUxgo/MLt
-        VX8P/JFsGEk8eVc+p+Gq7KUhV8K5Smm4SGprut7c5zHfPBHdhSGrhMYQlZL+LQ==
-ARC-Authentication-Results: i=1;
-        ORIGINATING;
-        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1669197922; a=rsa-sha256;
-        cv=none;
-        b=Fwb1rYhS2FnJQNmBUNWM5kFk6mWnw1tKTVgye7w5KyQo2Y0JpI0KfAX0ppupbYAmjokUmN
-        xeM4ii79dW2CNoTDu1rIgq18HbQLV74lErnDu/gFDv1/5k+9jrFghCC52Kz6psUz4ipToO
-        SUbVGusPHnfzHu4gy+NEsoR7XUpDl7H3wq21KM3/LUIlM2YQcPtBI4xLVPy6ADw048bzeO
-        9W7b3tLZUl4UoHQzqEuJN7SUrTRM/5FxSqkxGC0ALYJtAmnXKsW7tyIi29WSa8r9uGiDgf
-        y/FtccJU3hcfMzZovxuydT2M0vooZxuO5soijvfbX+BuZY1Z8pBVjAZoZGAt8w==
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id B87B4634C92
-        for <linux-media@vger.kernel.org>; Wed, 23 Nov 2022 12:05:21 +0200 (EET)
-Date:   Wed, 23 Nov 2022 12:05:21 +0200
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     linux-media@vger.kernel.org
-Subject: [GIT PULL FOR 6.2] Even more V4L2 patches
-Message-ID: <Y33wYUzQhIOWhTQU@valkosipuli.retiisi.eu>
+        Wed, 23 Nov 2022 05:19:10 -0500
+Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5EAFBA182
+        for <linux-media@vger.kernel.org>; Wed, 23 Nov 2022 02:07:08 -0800 (PST)
+Received: by mail-ej1-x62e.google.com with SMTP id m22so41558153eji.10
+        for <linux-media@vger.kernel.org>; Wed, 23 Nov 2022 02:07:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=h+UdvofUGp6+nqq/FR8FcX4hvZmapqrFr41Q2JO7x4c=;
+        b=TQ51N5ElxONDKI/zhDJ3pCgpfLjbZshPT3dmaV8oEwygDZ7SUkV43yilCvjo5DTHkM
+         5vinp6v+ldQAo/Z6KGaY5xTUo3Lnhb4v5NMeNcJq5CXQqT+ExG+ICc1x7EqIpc/l8ZI+
+         6kkzXHBS485z5Q3W1BWot8CJKckOO6+wlmPxY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=h+UdvofUGp6+nqq/FR8FcX4hvZmapqrFr41Q2JO7x4c=;
+        b=HBZRswjMycUpE+TwncYEYpB+BlwDtUefiuhL73tS219wlR1xz1/JxZu/1EERCCcxVm
+         Dte4Gg4yp06gED6MRHvEFrSJmNnxsxQtYnqG1OZBnkID8fMREugc3seJn5zBSGYl4/5H
+         pdRu3IHtufMKXXdlhPweO6ONGufPKovEN1uzlu1cLnuyNcDGCjMa9zarX3COLqQRDrc+
+         3Nssnd0RUrI7fiWS6qRfJe3f7cVsQjcSutibNo1WHDmapMx6eWRycrsKCq+ZTkPAVom+
+         89AldqFxMy86kLxzMPLqw8+11v7nTaS7/4qms/tJFVG1bCN5W/RUAVnsRpJPH4zr0tic
+         dIVg==
+X-Gm-Message-State: ANoB5pnCncoHVZ1nWq110dyZbcZR8+eHH111mfNOQK/lwWJbWlzhYF+/
+        o31zqHAbQoVDkuWxxbamFvomQ/UowX5lMx0MKJRHBA==
+X-Google-Smtp-Source: AA0mqf7tcZdPWNPPAaRZELTq9mvgZpMH+k/1GataSXqkuF2ePYeDW4qUMkJISiWe8P9mQTOVdyKvWgBCSqeQKGcAWaA=
+X-Received: by 2002:a17:907:8197:b0:7b8:eae2:716a with SMTP id
+ iy23-20020a170907819700b007b8eae2716amr4704467ejc.516.1669198026954; Wed, 23
+ Nov 2022 02:07:06 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+References: <20221122170801.842766-1-daniel.vetter@ffwll.ch>
+ <Y30PDdsvHIJo5YHR@ziepe.ca> <CAKMK7uEccwYTNwDYQazmZvTfBFQOikZt5A6BmegweyO-inKYbQ@mail.gmail.com>
+ <Y30Z4VxT7Wdoc1Lc@ziepe.ca> <CAKMK7uE=8eqyh9BKg_+7B1jjMi6K4wrmPyi9xeLVvVYFxBgF9g@mail.gmail.com>
+ <Y30kK6dsssSLJVgp@ziepe.ca> <CAKMK7uFQQkG82PzuSTGQTnN3ZNps5N_4TjR5NRWo0LaJkEaNew@mail.gmail.com>
+ <3d8607b4-973d-945d-c184-260157ade7c3@amd.com> <CAKMK7uHVGgGHTiXYOfseXXda2Ug992nYvhPsL+4z18ssqeHXHQ@mail.gmail.com>
+ <b05e6091-4e07-1e32-773d-f603ac9ac98b@gmail.com>
+In-Reply-To: <b05e6091-4e07-1e32-773d-f603ac9ac98b@gmail.com>
+From:   Daniel Vetter <daniel.vetter@ffwll.ch>
+Date:   Wed, 23 Nov 2022 11:06:55 +0100
+Message-ID: <CAKMK7uFjmzewqv3r4hL9hvLADwV536n2n6xbAWaUvmAcStr5KQ@mail.gmail.com>
+Subject: Re: [Linaro-mm-sig] Re: [PATCH] dma-buf: Require VM_PFNMAP vma for mmap
+To:     =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
+Cc:     =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        DRI Development <dri-devel@lists.freedesktop.org>,
+        Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        John Stultz <john.stultz@linaro.org>,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mauro,
+On Wed, 23 Nov 2022 at 10:39, Christian K=C3=B6nig
+<ckoenig.leichtzumerken@gmail.com> wrote:
+>
+> Am 23.11.22 um 10:30 schrieb Daniel Vetter:
+> > On Wed, 23 Nov 2022 at 10:06, Christian K=C3=B6nig <christian.koenig@am=
+d.com> wrote:
+> >> Am 22.11.22 um 20:50 schrieb Daniel Vetter:
+> >>> On Tue, 22 Nov 2022 at 20:34, Jason Gunthorpe <jgg@ziepe.ca> wrote:
+> >>>> On Tue, Nov 22, 2022 at 08:29:05PM +0100, Daniel Vetter wrote:
+> >>>>> You nuke all the ptes. Drivers that move have slightly more than a
+> >>>>> bare struct file, they also have a struct address_space so that
+> >>>>> invalidate_mapping_range() works.
+> >>>> Okay, this is one of the ways that this can be made to work correctl=
+y,
+> >>>> as long as you never allow GUP/GUP_fast to succeed on the PTEs. (thi=
+s
+> >>>> was the DAX mistake)
+> >>> Hence this patch, to enforce that no dma-buf exporter gets this wrong=
+.
+> >>> Which some did, and then blamed bug reporters for the resulting splat=
+s
+> >>> :-) One of the things we've reverted was the ttm huge pte support,
+> >>> since that doesn't have the pmd_special flag (yet) and so would let
+> >>> gup_fast through.
+> >> The problem is not only gup, a lot of people seem to assume that when
+> >> you are able to grab a reference to a page that the ptes pointing to
+> >> that page can't change any more. And that's obviously incorrect.
+> >>
+> >> I witnessed tons of discussions about that already. Some customers eve=
+n
+> >> modified our code assuming that and then wondered why the heck they ra=
+n
+> >> into data corruption.
+> >>
+> >> It's gotten so bad that I've even proposed intentionally mangling the
+> >> page reference count on TTM allocated pages:
+> >> https://patchwork.kernel.org/project/dri-devel/patch/20220927143529.13=
+5689-1-christian.koenig@amd.com/
+> > Yeah maybe something like this could be applied after we land this
+> > patch here.
+>
+> I think both should land ASAP. We don't have any other way than to
+> clearly point out incorrect approaches if we want to prevent the
+> resulting data corruption.
+>
+> > Well maybe should have the same check in gem mmap code to
+> > make sure no driver
+>
+> Reads like the sentence is somehow cut of?
 
-Here's the final set for camera sensor related patches for 6.2.
+Yeah, just wanted to say that we need to make sure in as many places
+as possible that VM_PFNMAP is set for bo mmaps.
 
-There are improvements and cleanups for the ov2740, st-vgxy61, ov9282,
-ar0521, tc358746, ov08x40 and mt9p031 drivers and new drivers for Renesas
-CSI-2 receiver and CRU device. Also included are Laurent's bus-type macros
-for DT bindings.
+> >> I think it would be better that instead of having special flags in the
+> >> ptes and vmas that you can't follow them to a page structure we would
+> >> add something to the page indicating that you can't grab a reference t=
+o
+> >> it. But this might break some use cases as well.
+> > Afaik the problem with that is that there's no free page bits left for
+> > these debug checks. Plus the pte+vma flags are the flags to make this
+> > clear already.
+>
+> Maybe a GFP flag to set the page reference count to zero or something
+> like this?
 
-Please pull.
-
-
-The following changes since commit 1e284ea984d3705e042b6b07469a66f1d43371e3:
-
-  Merge git://linuxtv.org/sailus/media_tree into media_stage (2022-11-08 08:46:21 +0000)
-
-are available in the Git repository at:
-
-  git://linuxtv.org/sailus/media_tree.git tags/for-6.2-3-signed
-
-for you to fetch changes up to d244a87ab5e64ca874aaff961fe8d2f847a34556:
-
-  media: i2c: refer to config VIDEO_DEV to make ov08x40 image sensor driver usable (2022-11-23 10:40:18 +0200)
-
-----------------------------------------------------------------
-Yet more V4L2 patches for 6.3
-
-----------------------------------------------------------------
-Andy Shevchenko (7):
-      media: ov2740: Remove duplicative pointer in struct nvm_data
-      media: ov2740: Switch from __maybe_unused to pm_sleep_ptr() etc
-      media: ov2740: Remove duplicate check for NULL fwnode
-      media: ov2740: Drop redundant assignments of ret = 0
-      media: ov2740: Switch to use dev_err_probe()
-      media: ov2740: Add missed \n to the end of the messages
-      media: ov2740: Use traditional pattern when checking error codes
-
-Benjamin Mugnier (5):
-      media: i2c: st-vgxy61: Fix regulator counter underflow
-      media: Documentation: st-vgxy61: Limit driver specific documentation to 80 characters
-      media: Documentation: st-vgxy61: Remove quotes around 'No HDR' identifier
-      media: Documentation: st-vgxy61: Fix driver specific documentation not being included in the index
-      media: i2c: st-vgxy61: Fix smatch warnings
-
-Dave Stevenson (2):
-      dt-bindings: media: ovti,ov9282: Add optional regulators
-      media: i2c: ov9282: Add support for regulators.
-
-Jacopo Mondi (10):
-      media: ar0521: Implement enum_frame_sizes
-      media: ar0521: Add V4L2_CID_ANALOG_GAIN
-      media: ar0521: Set maximum resolution to 2592x1944
-      media: ar0521: Rework PLL computation
-      media: ar0521: Refuse unsupported controls
-      media: ar0521: Add LINK_FREQ control
-      media: ar0521: Adjust exposure and blankings limits
-      media: ar0521: Setup controls at s_stream time
-      media: ar0521: Rework startup sequence
-      media: ar0521: Tab-align definitions
-
-Kieran Bingham (1):
-      media: i2c: ov08x40: Make remove callback return void
-
-Lad Prabhakar (4):
-      media: dt-bindings: Document Renesas RZ/G2L CSI-2 block
-      media: dt-bindings: Document Renesas RZ/G2L CRU block
-      media: platform: Add Renesas RZ/G2L MIPI CSI-2 receiver driver
-      media: platform: Add Renesas RZ/G2L CRU driver
-
-Laurent Pinchart (2):
-      dt-bindings: media: Add macros for video interface bus types
-      dt-bindings: Use new video interface bus type macros in examples
-
-Lukas Bulwahn (1):
-      media: i2c: refer to config VIDEO_DEV to make ov08x40 image sensor driver usable
-
-Marco Felsch (1):
-      media: tc358746: drop selecting COMMON_CLK
-
-Marek Vasut (2):
-      media: mt9p031: Drop bogus v4l2_subdev_get_try_crop() call from mt9p031_init_cfg()
-      media: mt9p031: Increase post-reset delay
-
- .../devicetree/bindings/media/i2c/mipi-ccs.yaml    |    3 +-
- .../devicetree/bindings/media/i2c/ovti,ov772x.yaml |    3 +-
- .../devicetree/bindings/media/i2c/ovti,ov9282.yaml |    9 +
- .../bindings/media/marvell,mmp2-ccic.yaml          |    3 +-
- .../devicetree/bindings/media/microchip,xisc.yaml  |    3 +-
- .../bindings/media/renesas,rzg2l-cru.yaml          |  157 +++
- .../bindings/media/renesas,rzg2l-csi2.yaml         |  149 +++
- .../devicetree/bindings/media/st,stm32-dcmi.yaml   |    4 +-
- .../userspace-api/media/drivers/index.rst          |    1 +
- .../userspace-api/media/drivers/st-vgxy61.rst      |   12 +-
- drivers/media/i2c/Kconfig                          |    3 +-
- drivers/media/i2c/ar0521.c                         |  352 +++++--
- drivers/media/i2c/mt9p031.c                        |    9 +-
- drivers/media/i2c/ov08x40.c                        |    4 +-
- drivers/media/i2c/ov2740.c                         |  134 ++-
- drivers/media/i2c/ov9282.c                         |   38 +
- drivers/media/i2c/st-vgxy61.c                      |   33 +-
- drivers/media/platform/renesas/Kconfig             |    1 +
- drivers/media/platform/renesas/Makefile            |    1 +
- drivers/media/platform/renesas/rzg2l-cru/Kconfig   |   33 +
- drivers/media/platform/renesas/rzg2l-cru/Makefile  |    6 +
- .../media/platform/renesas/rzg2l-cru/rzg2l-core.c  |  338 +++++++
- .../media/platform/renesas/rzg2l-cru/rzg2l-cru.h   |  152 +++
- .../media/platform/renesas/rzg2l-cru/rzg2l-csi2.c  |  877 ++++++++++++++++
- .../media/platform/renesas/rzg2l-cru/rzg2l-ip.c    |  255 +++++
- .../media/platform/renesas/rzg2l-cru/rzg2l-video.c | 1057 ++++++++++++++++++++
- include/dt-bindings/media/video-interfaces.h       |   16 +
- 27 files changed, 3440 insertions(+), 213 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/media/renesas,rzg2l-cru.yaml
- create mode 100644 Documentation/devicetree/bindings/media/renesas,rzg2l-csi2.yaml
- create mode 100644 drivers/media/platform/renesas/rzg2l-cru/Kconfig
- create mode 100644 drivers/media/platform/renesas/rzg2l-cru/Makefile
- create mode 100644 drivers/media/platform/renesas/rzg2l-cru/rzg2l-core.c
- create mode 100644 drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h
- create mode 100644 drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c
- create mode 100644 drivers/media/platform/renesas/rzg2l-cru/rzg2l-ip.c
- create mode 100644 drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
- create mode 100644 include/dt-bindings/media/video-interfaces.h
-
--- 
-Kind regards,
-
-Sakari Ailus
+Hm yeah that might work. I'm not sure what it will all break though?
+And we'd need to make sure that underflowing the page refcount dies in
+a backtrace.
+-Daniel
+--=20
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
