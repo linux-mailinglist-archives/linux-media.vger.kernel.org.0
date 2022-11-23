@@ -2,58 +2,58 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0EE796362AF
-	for <lists+linux-media@lfdr.de>; Wed, 23 Nov 2022 16:04:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 748B76362EA
+	for <lists+linux-media@lfdr.de>; Wed, 23 Nov 2022 16:10:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236429AbiKWPEb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 23 Nov 2022 10:04:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39846 "EHLO
+        id S238282AbiKWPJ5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 23 Nov 2022 10:09:57 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43620 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235955AbiKWPEa (ORCPT
+        with ESMTP id S238404AbiKWPJg (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 23 Nov 2022 10:04:30 -0500
-Received: from mail-qv1-xf36.google.com (mail-qv1-xf36.google.com [IPv6:2607:f8b0:4864:20::f36])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8147BDB1
-        for <linux-media@vger.kernel.org>; Wed, 23 Nov 2022 07:04:29 -0800 (PST)
-Received: by mail-qv1-xf36.google.com with SMTP id d13so6584740qvj.8
-        for <linux-media@vger.kernel.org>; Wed, 23 Nov 2022 07:04:29 -0800 (PST)
+        Wed, 23 Nov 2022 10:09:36 -0500
+Received: from mail-qv1-xf30.google.com (mail-qv1-xf30.google.com [IPv6:2607:f8b0:4864:20::f30])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 322EE6154
+        for <linux-media@vger.kernel.org>; Wed, 23 Nov 2022 07:09:01 -0800 (PST)
+Received: by mail-qv1-xf30.google.com with SMTP id df6so10085216qvb.0
+        for <linux-media@vger.kernel.org>; Wed, 23 Nov 2022 07:09:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=ziepe.ca; s=google;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=FBEH7FU3hds/tvKbXdMlXPtYdkYQK2zhDrcZFkrz0mE=;
-        b=KbvhaD/OFUhW+1OPwGfqfp9mQ5zjYM5Yc3gcYSNfC0GNXLuvDL6Tt9tkh6TO6Q/M+e
-         MPgnHS9/c+nXmkVvB0y+LvWp1Yg4X/GBbBaNettvziGu79P/qHdJWhmD1yDQsjIOPzfe
-         HX1V+FBxFpvFta6LJiUWXtALCwxl1RaSpmdhNQUSaBXPCKJ7BUeKj8L5AfxcGhQYXt9r
-         4Y0uneLWW86LvWjmM6Z8keD/8toP38iA5CPOlGq0eqX859PaMBK4R6S9XK+13DwqF0U2
-         cIjGBN2XTpw58MVf2q4r64z5xLMIIFSO6I57I/RmQdleSVDnMQ1IAT+TJruJ+BHv3Cf5
-         23uA==
+        bh=yl5EWh2LPGXKg4ZX+0uMGR+SP4+5g4wansDQ2racGIw=;
+        b=UZ90yvpYHpAD2wJFcceeqxHp5n/1J/IMdboyjPLp9xSvgX7lhd9bIH3J7mYPJrCrgH
+         tIUHI5mfCyqHqL/FPnEKA2O3D4UL7ejl7s4SZWtCiLkQMQ0C9Vp59OLuPUd9l9rtsP/H
+         5KMfSJskvLx0jvavXd2BcujWMJkK2mF1Y/bBE2Auf5ZuOkr+OEzP+TYvNGzpLDMh1E/b
+         /tk+XGOAsg1BHi8GoUKfhHIo0iTmbkce9zo9I7xuGjeffWnbCQMDz+hFZmGT49zCWuvX
+         8So0XmT6Euoi53OroYVLDNKa4yZxbJs5xlXojPLsNHKLC7aadu52zmFmfAidIVRVxdfh
+         /nVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=FBEH7FU3hds/tvKbXdMlXPtYdkYQK2zhDrcZFkrz0mE=;
-        b=c1Z2JRt7dF43PAYqS7QLy4FO/ciic/QY/gFZjs+GMULin+yWo+7dYmsdQ9IqK/XYWx
-         26sSrm2LPvYO1oazFI8pDrGGTuqu3DzXZYdshxAm1SWJdZcc5Roy1dONcYDQ/edcJqLE
-         A2ifZLdF+hqqtaf7cV4Y44DX2mfxvCq7GFZXc5rkAt5ikX3y8COtBDiHUI/a4KE0r/oL
-         3CeoBMoGDp6ruBrRYOe/nhfO6TIMBzCIXPnPyEj5srluqP+GRARfx2oaowZN3nFrxzSH
-         44w5WHN7FcEW6RCzCYYMwusGmeBOT2RmuHA2RNEyj4zWvIjQtRcZUwsoJqNU+bnHG1/N
-         4wDg==
-X-Gm-Message-State: ANoB5pkVRGdEDgzcFWsWczLoYpkkTrsATh/Ru8j0wNrBWCUNhvfne+NU
-        4ogLhFpDjJEk5HTaebwhptuBcA==
-X-Google-Smtp-Source: AA0mqf56pidAa3YTB06LY1QYSMl3063l/28XS7JhvQ9qi9gepPYorNcNhgDN/VcYdvMsrmMwORDsaQ==
-X-Received: by 2002:ad4:5445:0:b0:4c6:62af:5e14 with SMTP id h5-20020ad45445000000b004c662af5e14mr10912011qvt.95.1669215868434;
-        Wed, 23 Nov 2022 07:04:28 -0800 (PST)
+        bh=yl5EWh2LPGXKg4ZX+0uMGR+SP4+5g4wansDQ2racGIw=;
+        b=YmlFmCP6wb3XYkGPU3xTyW0/5CEeRe1zuVO0q4jpTPJlHYYc+t/mpQlBMskPKyZr4Y
+         r5Q8XjaZrAe7swRox793LpxIGqbnZDSO9yu7d9HLCVCiRE+HsOfIFyPluJw9cZ2Ds0UR
+         pJ5+iVwLJg6YjWHVr/VDRT/0Hb+Dyqrdz1SCEJmekCuRkDiAItU0rf3Y4Ae5ujp1ULZ8
+         UO2TEOkZNN/l6xaL0Yvu8qcbrZEW+gis/NA7Tr+9q6VICABwFGqZ0agHEWErG5/cnSGO
+         jE55W6SBS1FleSMzZbcERuM0eFMd49SP5dqgkAKTBberTet0qP7qb91auTvxE4cN1OkS
+         n2Wg==
+X-Gm-Message-State: ANoB5pnEP0zm/Nh6It1/tyskAE3da4NeWGGCvqQZ9KCrA+KUI8uvlzgb
+        6ziJ/hR6f2JMllIOU/NEsI5CBoycMwAu3A==
+X-Google-Smtp-Source: AA0mqf7e8Ogh/ZJOSZP+2cSLpyEbwDySY9r7p8UtFKlyBZNWj/XPJyjVbU2TWKfbCouXJyhbUXJI9w==
+X-Received: by 2002:a0c:b405:0:b0:4bb:666c:384d with SMTP id u5-20020a0cb405000000b004bb666c384dmr27071486qve.91.1669216140695;
+        Wed, 23 Nov 2022 07:09:00 -0800 (PST)
 Received: from ziepe.ca (hlfxns017vw-47-55-122-23.dhcp-dynamic.fibreop.ns.bellaliant.net. [47.55.122.23])
-        by smtp.gmail.com with ESMTPSA id ey10-20020a05622a4c0a00b003a5fb681ae7sm9891959qtb.3.2022.11.23.07.04.26
+        by smtp.gmail.com with ESMTPSA id ca9-20020a05622a1f0900b00398a7c860c2sm10023130qtb.4.2022.11.23.07.08.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Nov 2022 07:04:27 -0800 (PST)
+        Wed, 23 Nov 2022 07:08:59 -0800 (PST)
 Received: from jgg by wakko with local (Exim 4.95)
         (envelope-from <jgg@ziepe.ca>)
-        id 1oxrIY-00AMYp-BS;
-        Wed, 23 Nov 2022 11:04:26 -0400
-Date:   Wed, 23 Nov 2022 11:04:26 -0400
+        id 1oxrMw-00AMdR-Vh;
+        Wed, 23 Nov 2022 11:08:58 -0400
+Date:   Wed, 23 Nov 2022 11:08:58 -0400
 From:   Jason Gunthorpe <jgg@ziepe.ca>
 To:     Daniel Vetter <daniel.vetter@ffwll.ch>
 Cc:     Christian =?utf-8?B?S8O2bmln?= <ckoenig.leichtzumerken@gmail.com>,
@@ -69,7 +69,7 @@ Cc:     Christian =?utf-8?B?S8O2bmln?= <ckoenig.leichtzumerken@gmail.com>,
         linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
 Subject: Re: [Linaro-mm-sig] Re: [PATCH] dma-buf: Require VM_PFNMAP vma for
  mmap
-Message-ID: <Y342emkzKHXLQvsN@ziepe.ca>
+Message-ID: <Y343ijGoqyf73d+I@ziepe.ca>
 References: <3d8607b4-973d-945d-c184-260157ade7c3@amd.com>
  <CAKMK7uHVGgGHTiXYOfseXXda2Ug992nYvhPsL+4z18ssqeHXHQ@mail.gmail.com>
  <b05e6091-4e07-1e32-773d-f603ac9ac98b@gmail.com>
@@ -79,11 +79,11 @@ References: <3d8607b4-973d-945d-c184-260157ade7c3@amd.com>
  <Y34XvmtHfb4ZwopN@ziepe.ca>
  <dc2a9d7f-192b-e9d8-b1d1-3b868cb1fd44@gmail.com>
  <Y34gBUl0m+j1JdFk@ziepe.ca>
- <CAKMK7uHWyOcZ77-+GY7hxFUA65uQYFe0fw2rww6Y-rLXvHFAYw@mail.gmail.com>
+ <CAKMK7uEzaUjroODbWe4DtxHQ+gmr7_DVK+fUJjAgMsgP61uGSQ@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAKMK7uHWyOcZ77-+GY7hxFUA65uQYFe0fw2rww6Y-rLXvHFAYw@mail.gmail.com>
+In-Reply-To: <CAKMK7uEzaUjroODbWe4DtxHQ+gmr7_DVK+fUJjAgMsgP61uGSQ@mail.gmail.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
@@ -93,51 +93,48 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Nov 23, 2022 at 03:28:27PM +0100, Daniel Vetter wrote:
-
-> > This patch is known to be broken in so many ways. It also has a major
-> > security hole that it ignores the PTE flags making the page
-> > RO. Ignoring the special bit is somehow not surprising :(
+On Wed, Nov 23, 2022 at 03:34:54PM +0100, Daniel Vetter wrote:
+> > diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
+> > index 1376a47fedeedb..4161241fc3228c 100644
+> > --- a/virt/kvm/kvm_main.c
+> > +++ b/virt/kvm/kvm_main.c
+> > @@ -2598,6 +2598,19 @@ static int hva_to_pfn_remapped(struct vm_area_struct *vma,
+> >                         return r;
+> >         }
 > >
-> > This probably doesn't work, but is the general idea of what KVM needs
-> > to do:
+> > +       /*
+> > +        * Special PTEs are never convertible into a struct page, even if the
+> > +        * driver that owns them might have put a PFN with a struct page into
+> > +        * the PFNMAP. If the arch doesn't support special then we cannot
+> > +        * safely process these pages.
+> > +        */
+> > +#ifdef CONFIG_ARCH_HAS_PTE_SPECIAL
+> > +       if (pte_special(*ptep))
+> > +               return -EINVAL;
 > 
-> Oh dear, when I dug around in there I entirely missed that
-> kvm_try_get_pfn exists, and it's very broken indeed. kvm really needs
-> to grow a proper mmu notifier.
-> 
-> Another thing I'm wondering right now, the follow_pte();
-> fixup_user_fault(); follow_pte(); approach does not make any
-> guarantees of actually being right. If you're sufficiently unlucky you
-> might race against an immediate pte invalidate between the fixup and
-> the 2nd follow_pte(). But you can also not loop, because that would
-> fail to catch permanent faults.
+> On second thought this wont work, because it completely defeats the
+> point of why this code here exists. remap_pfn_range() (which is what
+> the various dma_mmap functions and the ioremap functions are built on
+> top of too) sets VM_PFNMAP too, so this check would even catch the
+> static mappings.
 
-Yes, it is pretty broken.
+The problem with the way this code is designed is how it allows
+returning the pfn without taking any reference based on things like
+!pfn_valid or page_reserved. This allows it to then conditionally put
+back the reference based on the same reasoning. It is impossible to
+thread pte special into that since it is a PTE flag, not a property of
+the PFN.
 
-kvm already has support for mmu notifiers and uses it for other
-stuff. I can't remember what exactly this code path was for, IIRC
-Paolo talked about having a big rework/fix for it when we last talked
-about the missing write protect. I also vauagely recall he had some
-explanation why this might be safe.
+I don't entirely understand why it needs the page reference at all,
+even if it is available - so I can't guess why it is OK to ignore the
+page reference in other cases, or why it is OK to be racy..
 
-> I think the iommu fault drivers have a similar pattern.
+Eg hmm_range_fault() does not obtain page references and implements a
+very similar algorithm to kvm.
 
-Where? It shouldn't
+> Plus these static mappings aren't all that static either, e.g. pci
+> access also can revoke bar mappings nowadays.
 
-The common code for SVA just calls handle_mm_fault() and restarts the
-PRI. Since the page table is physically shared there is no issue with
-a stale copy.
-
-> What am I missing here? Or is that also just broken. gup works around
-> this with the slow path that takes the mmap sem and walking the vma
-> tree, follow_pte/fixup_user_fautl users dont.
-
-follow_pte() is just fundamentally broken, things must not use it.
-
-> Maybe mmu notifier based restarting would help with this too, if
-> done properly.
-
-That is called hmm_range_fault()
+And there are already mmu notifiers to handle that, AFAIK.
 
 Jason
