@@ -2,172 +2,373 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DAE99636109
-	for <lists+linux-media@lfdr.de>; Wed, 23 Nov 2022 15:04:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3F03A636152
+	for <lists+linux-media@lfdr.de>; Wed, 23 Nov 2022 15:17:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238486AbiKWOEB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 23 Nov 2022 09:04:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57088 "EHLO
+        id S237108AbiKWOR2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 23 Nov 2022 09:17:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39918 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238402AbiKWODl (ORCPT
+        with ESMTP id S237374AbiKWORZ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 23 Nov 2022 09:03:41 -0500
-Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com [IPv6:2a00:1450:4864:20::630])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 23FAC7658;
-        Wed, 23 Nov 2022 05:59:06 -0800 (PST)
-Received: by mail-ej1-x630.google.com with SMTP id f18so42997141ejz.5;
-        Wed, 23 Nov 2022 05:59:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=AJ96Qo939E/LqBCZfcidWQRpLbhFZIXN8NEAiTpAhxk=;
-        b=iZRqD+AZI8YXmWPNNo+Fwqqrxkdxxp8sdDhXpzQpS+Z7O6ViZRfqwWBRa1+q6Fn++z
-         AayBKunxqdaXyMJwtJZy3prCnDCGQ0bf8s3sNL8v8cU+NRhqFpeFsIofjTg60S/cPv71
-         H+sPHuj9u82mvhCqWAi/DQC3hw1wr9h8SadxlGtO1i2opKK+8L4eXSIBcFr67zvlz0zl
-         CppQAaJx+cMEavlnguot+la0zcqSDuv3T+S6/PQUa7xI6LA3gJLCSh2MX8CVHkwmdm4o
-         1ueE/AeHSGD8djbrX3VA431+kO+OYoaPdqwS1MoX0XoMPIRKU2d/L5Kyjwtu65MvGCmS
-         m0iA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=AJ96Qo939E/LqBCZfcidWQRpLbhFZIXN8NEAiTpAhxk=;
-        b=N/g480wtD8DkRSvzjFK0982z5jF2d5bt6Z1mRY2gUT8oWuFBrWpXcTDoTGEPC1oVjY
-         HmgB7FZUep8UNto1dQarttCT5e3x/XLxsACdFjekiqBJLgQa5Aw7Tk6tO3E9FkGwA5ON
-         ALcL2RLr1kNdIuXQyYgriWXLBCa6cFr4zmC/W5v5grjhxxpy2VeztCJkn6jUdMJzHS2M
-         ZBMuVcPqSbispu9NW8zw5xFgVDF+YIR2cpycjrTInTGEAI0B7U4HWbOtVSiJRU84vp43
-         fy8C2FRHALL5moTG7La08EDJ5ioCnI51rHhzn5kVAn5ZhAEcciSfpraZ5ee5a63WXSVG
-         v5Cg==
-X-Gm-Message-State: ANoB5pnP/M70V7HMqNOn81cSXBk/Q/kxqbX6LGjBSOfq10OY/urW1f+G
-        X13+ETVLkpWNCdJ4HXMB4YA=
-X-Google-Smtp-Source: AA0mqf4zngmNYriYQQf6WQDa/SSuXsv/0hsexE8WPkPKL+mwy2wneQC+ycXRX8UErwxgAKGb3ytkyA==
-X-Received: by 2002:a17:906:c30c:b0:7ba:1f48:ccec with SMTP id s12-20020a170906c30c00b007ba1f48ccecmr1909635ejz.105.1669211944571;
-        Wed, 23 Nov 2022 05:59:04 -0800 (PST)
-Received: from [10.20.0.7] ([37.120.217.162])
-        by smtp.gmail.com with ESMTPSA id d12-20020a056402078c00b0045b3853c4b7sm7741854edy.51.2022.11.23.05.59.01
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 23 Nov 2022 05:59:04 -0800 (PST)
-Message-ID: <97be39ed-3cea-d55a-caa6-c2652baef399@gmail.com>
-Date:   Wed, 23 Nov 2022 14:59:00 +0100
+        Wed, 23 Nov 2022 09:17:25 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D05A631F81
+        for <linux-media@vger.kernel.org>; Wed, 23 Nov 2022 06:17:21 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 71621B81FF5
+        for <linux-media@vger.kernel.org>; Wed, 23 Nov 2022 14:17:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 67210C433C1;
+        Wed, 23 Nov 2022 14:17:18 +0000 (UTC)
+Message-ID: <a0db73c5-fd80-cce5-8669-0b26128304e7@xs4all.nl>
+Date:   Wed, 23 Nov 2022 15:17:16 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Subject: Re: [PATCH 3/5] driver core: make struct device_type.uevent() take a
- const *
+ Thunderbird/102.4.1
+Subject: Re: Handling of colorspace fields in image format
 Content-Language: en-US
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-kernel@vger.kernel.org, Jens Axboe <axboe@kernel.dk>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Len Brown <lenb@kernel.org>,
-        Stefan Richter <stefanr@s5r6.in-berlin.de>,
-        Wolfram Sang <wsa@kernel.org>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Sean Young <sean@mess.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Mark Gross <markgross@kernel.org>,
-        Vinod Koul <vkoul@kernel.org>,
-        Bard Liao <yung-chuan.liao@linux.intel.com>,
-        Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
-        Sanyog Kale <sanyog.r.kale@intel.com>,
-        Andreas Noever <andreas.noever@gmail.com>,
-        Michael Jamet <michael.jamet@intel.com>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Yehezkel Bernat <YehezkelShB@gmail.com>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-        "Martin K. Petersen" <martin.petersen@oracle.com>,
-        Chaitanya Kulkarni <kch@nvidia.com>,
-        Ming Lei <ming.lei@redhat.com>,
-        Jilin Yuan <yuanjilin@cdjrlc.com>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ira Weiny <ira.weiny@intel.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Won Chung <wonchung@google.com>, alsa-devel@alsa-project.org,
-        devicetree@vger.kernel.org, linux-acpi@vger.kernel.org,
-        linux-block@vger.kernel.org, linux-i2c@vger.kernel.org,
-        linux-i3c@lists.infradead.org, linux-input@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-serial@vger.kernel.org,
-        linux-usb@vger.kernel.org, linux1394-devel@lists.sourceforge.net,
-        platform-driver-x86@vger.kernel.org
-References: <20221123122523.1332370-1-gregkh@linuxfoundation.org>
- <20221123122523.1332370-3-gregkh@linuxfoundation.org>
- <711d5275-7e80-c00d-0cdc-0f3d52175361@gmail.com>
- <Y34hgIW8p1RlQTBB@smile.fi.intel.com>
-From:   Maximilian Luz <luzmaximilian@gmail.com>
-In-Reply-To: <Y34hgIW8p1RlQTBB@smile.fi.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_SBL_CSS,SPF_HELO_NONE,SPF_PASS autolearn=no
-        autolearn_force=no version=3.4.6
-X-Spam-Level: *
+To:     Dave Stevenson <dave.stevenson@raspberrypi.com>
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+References: <CAPY8ntC4XjhTC5jQd6OZF_6WsS+BLUD1QbxzjKTTLdiSgO2VzA@mail.gmail.com>
+ <9afffc8e-00b0-fdfc-93fa-3fcb648ad5e6@xs4all.nl>
+ <CAPY8ntBz10bc1c119EZVSCM2E0iw5Nt6jbeAb3x_6qDNOuRO5g@mail.gmail.com>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <CAPY8ntBz10bc1c119EZVSCM2E0iw5Nt6jbeAb3x_6qDNOuRO5g@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 11/23/22 14:34, Andy Shevchenko wrote:
-> On Wed, Nov 23, 2022 at 02:14:31PM +0100, Maximilian Luz wrote:
->> On 11/23/22 13:25, Greg Kroah-Hartman wrote:
->>> The uevent() callback in struct device_type should not be modifying the
->>> device that is passed into it, so mark it as a const * and propagate the
->>> function signature changes out into all relevant subsystems that use
->>> this callback.
+Hi Dave,
+
+On 23/11/2022 10:52, Dave Stevenson wrote:
+> Hi Hans
+> Thanks for the response
 > 
-> [...]
-> 
->>> -static inline struct ssam_device *to_ssam_device(struct device *d)
->>> +static inline struct ssam_device *to_ssam_device(const struct device *d)
->>>    {
->>>    	return container_of(d, struct ssam_device, dev);
->>>    }
+> On Tue, 22 Nov 2022 at 14:23, Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
 >>
->> I am slightly conflicted about this change as that now more or less
->> implicitly drops the const. So I'm wondering if it wouldn't be better to
->> either create a function specifically for const pointers or to just
->> open-code it in the instance above.
+>> On 11/22/22 12:49, Dave Stevenson wrote:
+>>> Hi Hans
+>>>
+>>> This has come about from a discussion with Laurent over how to handle
+>>> colorspace fields, whether a particular configuration is legitimate,
+>>> and whether we're looking at the correct behaviour. You're the go-to
+>>> person for that sort of question :-)
+>>>
+>>> - CAPTURE queue (in this case on a M2M ISP device, but that doesn't
+>>> really matter).
+>>> - Limited colorspace options are available from the device (standard
+>>> SDTV BT601 limited range, HDTV BT709 limited range, and JPEG's BT601
+>>> full range).
+>>> - VIDIOC_ENUM_FMT flags returns V4L2_FMT_FLAG_CSC_COLORSPACE. It does
+>>> NOT set V4L2_FMT_FLAG_CSC_XFER_FUNC, V4L2_FMT_FLAG_CSC_YCBCR_ENC, or
+>>> V4L2_FMT_FLAG_CSC_QUANTIZATION. (No documentation saying this isn't
+>>> permitted, and why have 4 flags if they aren't independent).
+>>> - VIDIOC_S_FMT called with V4L2_PIX_FMT_FLAG_SET_CSC set.
+>>>
+>>> Which colourspace fields from the format are applied?
 >>
->> I guess we could also convert this to a macro. Then at least there
->> wouldn't be an explicit and potentially misleading const-conversion
->> indicated in the function signature.
+>> If only V4L2_FMT_FLAG_CSC_COLORSPACE is set, then only the colorspace
+>> field from userspace is applied. Which is almost certainly wrong
+>> sicne switching between the colorspace that is received and the
+>> colorspace that you want requires complex calculations. And if a
+>> device can do that, then it certainly can also allow userspace to
+>> override the other three colorimetry fields. So setting just
+>> V4L2_FMT_FLAG_CSC_COLORSPACE makes no sense.
+>>
+>> The V4L2_FMT_FLAG_CSC_* flags come into play if you want to allow
+>> userspace to convert the colorimetry of the captured data to another
+>> colorimetry. That's often not supported, the colorimetry fields are
+>> just filled in based on what was captured. Often there is some support
+>> to convert between YCBCR/RGB/QUANTIZATION settings, so such devices
+>> can set V4L2_FMT_FLAG_CSC_YCBCR_ENC | V4L2_FMT_FLAG_CSC_QUANTIZATION
+>> if they want. This is typically a 3x3 matrix + one vector in the hardware.
 > 
-> This is an intermediate step as far as I know since moving container_of to
-> recognize const is a bit noisy right now. I guess you can find a discussion
-> on the topic between Greg and Sakari.
+> It's not a simple 3x3 matrix + vector in this case, and selection is
+> via an enum.
+> 
+>>>
+>>> The driver is saying that only colorspace is supported, and [1] says that
+>>
+>> No, the driver is saying that it can convert to another colorspace
+>> if requested to do so by userspace, while leaving the xfer function,
+>> ycbcr encoding and quantization range untouched.
+>> That's a highly unlikely situation, and I think it's likely a bug
+>> in the driver. It should probably drop that flag.
+>>
+>>> "The first is the colorspace identifier (enum v4l2_colorspace) which
+>>> defines the chromaticities, the default transfer function, the default
+>>> Y’CbCr encoding and the default quantization method"
+>>> so we have all 4 parameters defined via the defaults.
+>>> I read it that the ycbcr_enc, quantization, and xfer_func values
+>>> passed in should be ignored and replaced with the "default" values
+>>> derived from the colorspace value (use V4L2_MAP_XFER_FUNC_DEFAULT,
+>>> V4L2_MAP_YCBCR_ENC_DEFAULT, and V4L2_MAP_QUANTIZATION_DEFAULT)
+>>> Is this a valid interpretation?
+>>
+>> No. First of all, unless one or more of the V4L2_FMT_FLAG_CSC_* flags are
+>> set, the driver fills in these fields, and ignores what userspace
+>> filled in. So [1] just describes what these fields mean, and that you
+>> can use those DEFAULT macros to determine what the actual xfer_func,
+>> ycbcr_enc or quantization is if the driver left those values to 0.
+>>
+>> What those defaults are depends on the chosen colorspace field.
+>>
+>>>
+>>> Confusion comes from [2] for V4L2_PIX_FMT_FLAG_SET_CSC saying:
+>>
+>> So if this flag is set, then userspace can ask the driver to convert
+>> to specific colorimetry settings, if supported (what is supported is
+>> indicated by the V4L2_FMT_FLAG_CSC_* flags returned by ENUM_FMT).
+>>
+>>> "If the colorimetry field (colorspace, xfer_func, ycbcr_enc, hsv_enc
+>>> or quantization) is set to *_DEFAULT, then that colorimetry setting
+>>> will remain unchanged from what was received."
+>>> What is "received" in this case?
+>>
+>> This relates to a capture device, so for an m2m device that means
+>> the colorimetry that userspace set for the output device.
+> 
+> This is an ISP. What is the xfer function, ycbcr encoding and
+> quantization range settings for a Bayer image with colorspace
+> V4L2_COLORSPACE_RAW? The documentation does not work for that use
+> case.
 
-Thanks! I assume you are referring to the following?
+It wasn't clear to me that this was specifically about raw Bayer.
 
-	https://lore.kernel.org/lkml/4218173bd72b4f1899d4c41a8e251f0d@AcuMS.aculab.com/T/
+For COLORSPACE_RAW there really is no xfer_func as such. V4L2_MAP_XFER_FUNC_DEFAULT
+sets it to NONE for COLORSPACE_RAW, but the documentation for NONE is a bit
+misleading since it says that that means linear. For COLORSPACE_RAW is really
+means custom. I am wondering if a XFER_FUNC_RAW or _CUSTOM should be introduced
+to properly signal this. I am certainly not opposed to that.
 
-As far as I can tell this is only a warning in documentation, not
-compile time (which would probably be impossible?).
+The YCbCr encoding will be DEFAULT for Bayer (really, it is ignored, but
+it is good practice to set it to DEFAULT in that case). If you DO convert
+to YCbCr, then it has to follow some standard.
 
-As I've said I'd be fine with converting the function to a macro (and
-preferably adding a similar warning like the one proposed in that
-thread). The point that irks me up is just that, as proposed, the
-function signature would now advertise a conversion that should never be
-happening.
+The quantization range will be FULL for Bayer. Again, something else doesn't
+make sense for Bayer.
 
-Having two separate functions would create a compile-time guarantee, so
-I'd prefer that, but I can understand if that might be considered too
-noisy in code. Or if there is a push to make container_of() emit a
-compile-time warning I'd also be perfectly happy with converting it to a
-macro now as that'd alleviate the need for functions in the future.
+> 
+>> A typical m2m device will just copy the colorimetry fields from output
+>> to capture format. If you want it to act as a csc device, then it will
+>> have to advertise the relevant V4L2_FMT_FLAG_CSC_* flags.
+>>
+>> If it converts between different pixelformats (e.g. RGB to YUV), then
+>> there is an implicit csc step, of course, but the result will be using
+>> the default rules.
+>>
+>> Example: userspace passes a frame with V4L2_COLORSPACE_BT2020, V4L2_XFER_FUNC_709,
+>> V4L2_YCBCR_ENC_DEFAULT (n/a) and V4L2_QUANTIZATION_FULL_RANGE, and wants
+>> a NV12 back. The colorimetry for that will be V4L2_COLORSPACE_BT2020,
+>> V4L2_XFER_FUNC_709, V4L2_YCBCR_ENC_BT2020 (most likely, hw limitations might
+>> force this to 709 or 601) and V4L2_QUANTIZATION_LIM_RANGE.
+>>
+>> So this is all determined by the driver, not userspace.
+> 
+> Now I pass a Bayer frame of colorspace V4L2_COLORSPACE_RAW,
+> V4L2_XFER_FUNC_NONE in, and ask for NV12 out. What properties do I use
+> on that NV12 frame please?
+
+Bayer frame:
+colorspace = RAW
+xfer_func = NONE
+ycbcr_enc = DEFAULT (ignored)
+quantization = FULL
+
+NV12 frame:
+colorspace = RAW
+xfer_func = NONE
+ycbcr_enc = 601 for SDTV, 709 for !SDTV
+quantization = LIMITED
+
+> Likewise I could pass in RGB with colorspace V4L2_COLORSPACE_SRGB and
+> ask for NV12 out that is to be JPEG encoded. How do I ensure I get the
+> appropriate conversion parameters?
+
+RGB frame:
+colorspace = SRGB
+xfer_func = SRGB
+ycbcr_enc = DEFAULT (ignored)
+quantization = FULL
+
+JPEG frame:
+colorspace = SRGB
+xfer_func = SRGB
+ycbcr_enc = 601
+quantization = FULL
+
+(or you just set colorspace to COLORSPACE_JPEG, which is a shorthand for this)
+
+> 
+>>> There is no inherent colourspace for
+>>> the device as it is M2M, so does that come back to being default
+>>> anyway, or reflecting the OUTPUT queue which might be Bayer and have
+>>> no range? Can we still ignore them all as the relevant
+>>> V4L2_FMT_FLAG_CSC_* flags aren't set?
+>>>
+>>> Hopefully you can enlighten us.
+>>
+>> So, to recap:
+>>
+>> 1) for an m2m device it is userspace that provides the colorimetry data
+>>    in the output format. For a regular capture device it is the
+>>    video receiver driver that sets it (typically determined by the
+>>    sensor driver or a video receiver driver).
+>> 2) Implicit CSC conversion might take place when converting between
+>>    different pixel formats. Typically this will only affect the
+>>    ycbcr_enc and quantization fields, since that's usually all that
+>>    is supported. The colorspace and xfer_func fields are just copied
+>>    from the output pixelformat.
+> 
+> As above, RGB or Bayer in to NV12 out makes no sense to copy
+> colorspace and xfer_func fields from the output pixelformat.
+
+Perhaps you should describe what your m2m device actually *does*? Ah,
+you did at the end :-)
+
+The m2m devices that I know just convert RGB to YUV or JPEG (or vice
+versa). In both cases the colorspace and transfer function remain as-is,
+so copying these two values from the output pixelformat is the right
+thing to do. It's all you have, nobody else can fill it in. Typically
+userspace will get this information from the sensor or video receiver.
+
+The process of converting a raw Bayer sensor to something presentable
+is something an ISP does, but the end result will have to specify
+valid (i.e. non-raw) colorspace/xfer_func/ycbcr_enc/quantization colorimetry,
+otherwise nobody will know how to interpret the resulting frame.
+
+> 
+>> 3) If explicit CSC conversion is signaled by the driver by setting
+>>    V4L2_FMT_FLAG_CSC_* flags, then userspace can request specific
+>>    colorimetry results, and the hardware will be configured by the
+>>    driver to give that result.
+> 
+> Not all results are achievable by all hardware.
+> So do we set all the V4L2_FMT_FLAG_CSC_* flags and just alter the bits
+> of the request that aren't supported in a way that the driver sees
+> fit?
+> 
+>> I hope this helps!
+> 
+> Sort of, but only by muddying the waters.
+> 
+> Flipping it around then and asking how it should be implemented.
+> 
+> We have configuration for the ISP output path that produces 3
+> configurations regardless of input format corresponding to:
+> - V4L2_COLORSPACE_JPEG, V4L2_YCBCR_ENC_601, V4L2_XFER_FUNC_SRGB,
+> V4L2_QUANTIZATION_FULL_RANGE
+
+Here you request the JPEG pixelformat, so that forces the output
+configuration. So no need for any V4L2_FMT_FLAG_CSC_* for this pixel
+format.
+
+> - V4L2_COLORSPACE_SMPTE170M, V4L2_YCBCR_ENC_601, V4L2_XFER_FUNC_709,
+> V4L2_QUANTIZATION_LIM_RANGE
+> - V4L2_COLORSPACE_REC709, V4L2_YCBCR_ENC_709, V4L2_XFER_FUNC_709,
+> V4L2_QUANTIZATION_LIM_RANGE
+
+Here you select a YUV format (NV12 or similar). The default colorimetry
+it should select is V4L2_COLORSPACE_SMPTE170M for SDTV and V4L2_COLORSPACE_REC709
+otherwise. If you want to allow this to be overridden, then that can be
+done with V4L2_FMT_FLAG_CSC_COLORSPACE for these two pixelformats.
+
+If userspace selects an unsupported colorspace, then the driver should
+pick a supported colorspace (almost certainly you would want V4L2_COLORSPACE_REC709).
+
+> (Those should be the the same ycbcr_enc, xfer_func, and quantization
+> as the defaults for each colourspace, and translate to the normal
+> values used for JPEG, SDTV, and HDTV respectively).
+> These are selected by enum and we are not proposing on adding any extra ones.
+> 
+> The input is going to be Bayer with colorspace set to
+> V4L2_COLORSPACE_RAW. There are therefore no colorspace parameters that
+> can be "left unchanged" or otherwise copied from the OUPTUT queue.
+
+So this device does a lot more than most m2m devices: it apparently knows
+how to convert the raw Bayer data to a proper picture.
+
+I do wonder if it is really converting correctly to these three colorimetry
+permutations. If you give it a test pattern, then save the result in these
+three format and visually compare them, do they look identical? If the ISP
+really does convert correctly, then you should not be able to see any
+difference. There is a clear difference between V4L2_XFER_FUNC_SRGB and
+V4L2_XFER_FUNC_709 when seen side-by-side. Note that the difference between
+V4L2_COLORSPACE_SMPTE170M and V4L2_COLORSPACE_REC709 is pretty much impossible
+to see, they are very close.
+
+> 
+> What is the correct way to allow userspace selection of those options
+> within V4L2?
+> 
+> 
+> Looking at the datasheet for TC358743 (a chip that your company
+> maintains the driver for), it can convert the incoming HDMI to 6
+> output formats via the VI_REP register field VOUT_COLOR_SEL:
+> RGB Full
+> RGB Limited
+> 601YCbCr Full
+> 601 YCbCr Limited
+> 709 YCbCr Full
+> 709 YCbCr Limited
+> This is the same situation as for our ISP - configuration through an
+> enum even though there is more complexity underneath.
+> 
+> Currently the driver always selects 601 YCbCr Limited for UYVY output,
+> or RGB Full for 24bpp RGB.
+> If we were to extend that driver in a non-media controller system to
+> allow selection of the converted colourspace, how do we enforce those
+> restrictions?
+
+That chip can only convert between RGB/YUV and limited/full quantization
+range. The colorspace and xfer_func will be whatever is received in the AVI
+InfoFrame of the HDMI video stream. So this is a typical example of a
+3x3 matrix + vector implementation. It comes with a bunch of default matrixes
+(hardcoded and selected by the enum), but I believe it can be manually set
+as well. I can't remember if that's done in this driver.
+
+If you want to manually set ycbcr_enc and quantization, then you would
+have to specify V4L2_FMT_FLAG_CSC_YCBCR_ENC | V4L2_FMT_FLAG_CSC_QUANTIZATION.
+
+> Under MC you get a similar set of flags in V4L2_MBUS_FRAMEFMT_SET_CSC
+> for struct v4l2_mbus_framefmt and set_format, and
+> V4L2_SUBDEV_MBUS_CODE_CSC_* in struct v4l2_subdev_mbus_code_enum, so
+> the same principles will presumably apply there too.
+
+Yes.
+
+> (I'm noting that the tc358743 driver currently doesn't bother setting
+> any of the colorimetry fields other than colorspace).
+
+I believe the driver predates these additional colorimetry fields.
 
 Regards,
-Max
+
+	Hans
+
+> 
+> Thanks
+>   Dave
+> 
+>> Regards,
+>>
+>>         Hans
+>>
+>>>
+>>> Cheers
+>>>   Dave
+>>>
+>>> [1] https://www.kernel.org/doc/html/latest/userspace-api/media/v4l/colorspaces-defs.html
+>>> [2] https://www.kernel.org/doc/html/latest/userspace-api/media/v4l/pixfmt-v4l2.html#v4l2-pix-fmt-flag-set-csc
+>>
 
