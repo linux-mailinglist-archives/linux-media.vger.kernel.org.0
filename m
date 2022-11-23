@@ -2,103 +2,184 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9D5FA634A1A
-	for <lists+linux-media@lfdr.de>; Tue, 22 Nov 2022 23:35:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 682A5634B73
+	for <lists+linux-media@lfdr.de>; Wed, 23 Nov 2022 01:05:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235104AbiKVWda (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 22 Nov 2022 17:33:30 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37746 "EHLO
+        id S235104AbiKWAF4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 22 Nov 2022 19:05:56 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36332 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235216AbiKVWd3 (ORCPT
+        with ESMTP id S229728AbiKWAFy (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 22 Nov 2022 17:33:29 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D9BC09DBA6
-        for <linux-media@vger.kernel.org>; Tue, 22 Nov 2022 14:33:28 -0800 (PST)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 682611381;
-        Tue, 22 Nov 2022 23:33:27 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1669156407;
-        bh=c3ggw/yTbh55ye89FplO8fY9/IYd+XC5xzEpZnLCh9U=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=nThI42J4L+oBfZwRI1fD1BIvc7C65MOdlZsLYfXmT6ltKqG6gmydWXMj8OGg2PfiH
-         0USoqn/KFl/Be5d4yYPDiSLPSDOEAzBtVZIt+o+FANQ4iXcY5/ufifD/mdlg8jc2Xe
-         6PulN84x8tF0VLrYiiDZvisyhmbnTcd1Cya7baCI=
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     linux-media@vger.kernel.org
-Cc:     Sakari Ailus <sakari.ailus@iki.fi>,
-        Manivannan Sadhasivam <mani@kernel.org>
-Subject: [PATCH v1 15/15] media: i2c: imx290: Simplify imx290_set_data_lanes()
-Date:   Wed, 23 Nov 2022 00:32:50 +0200
-Message-Id: <20221122223250.21233-16-laurent.pinchart@ideasonboard.com>
-X-Mailer: git-send-email 2.37.4
-In-Reply-To: <20221122223250.21233-1-laurent.pinchart@ideasonboard.com>
-References: <20221122223250.21233-1-laurent.pinchart@ideasonboard.com>
+        Tue, 22 Nov 2022 19:05:54 -0500
+Received: from mail-io1-f42.google.com (mail-io1-f42.google.com [209.85.166.42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED74CD2F57;
+        Tue, 22 Nov 2022 16:05:53 -0800 (PST)
+Received: by mail-io1-f42.google.com with SMTP id n188so12144067iof.8;
+        Tue, 22 Nov 2022 16:05:53 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=HOAOA3l25FTlYWgHdX0NRqhyY9RcRAzmGvtq9++eoqg=;
+        b=zN8wvWkvhB3aWE6+Ul8ko4wtDbePEXuyuJ8SBoDmCib4qmXxJp/ig97AtEdJLdwxiK
+         zABZHiAU4ZKmexgcoUMB4jdnsgf/ToA9VXbl1DHT/rCzal+BGFRbkBf0JzHl+zofisD3
+         M1mP+vVEKqnr7JZbDurXgoUFpif+IIh9ZZRFk18FKiVoAqRFuYzgGfHVv9ptG0CXdIc8
+         cjDkVRySbyGbzyjkONdUXBTzMNrwe83tcMCuosFcQkkip7LL2bbd1iN3ZuA26q0UbGy2
+         znsYADbpf0j8lK9IeRMNbn7978hCB6OamqFR8Fw+tY0X49HlrSSbuo3qU3/cmho89a7/
+         OUOg==
+X-Gm-Message-State: ANoB5pk/MeX2Wy9PJE0MABBYTUINLUuhjQcRwtAHEKt94RK245Ojy44b
+        DfLX+M1Zc8xqJz0J+6LmLa7FCypfDQ==
+X-Google-Smtp-Source: AA0mqf7BJHES9MUwE3wyYO2MhDcoicDShRER72IeewX9pYLrmCObA2dqPuNTNfOnNiY9xNcRz1K8tA==
+X-Received: by 2002:a6b:c844:0:b0:6db:fe34:6948 with SMTP id y65-20020a6bc844000000b006dbfe346948mr3010433iof.209.1669161953103;
+        Tue, 22 Nov 2022 16:05:53 -0800 (PST)
+Received: from robh_at_kernel.org ([64.188.179.252])
+        by smtp.gmail.com with ESMTPSA id b4-20020a05660214c400b006cab79c4214sm5776318iow.46.2022.11.22.16.05.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 22 Nov 2022 16:05:52 -0800 (PST)
+Received: (nullmailer pid 823019 invoked by uid 1000);
+        Wed, 23 Nov 2022 00:05:52 -0000
+Date:   Tue, 22 Nov 2022 18:05:52 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Marvin Lin <milkfafa@gmail.com>
+Cc:     mchehab@kernel.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        openbmc@lists.ozlabs.org, avifishman70@gmail.com,
+        tmaimon77@gmail.com, tali.perry1@gmail.com, kwliu@nuvoton.com,
+        kflin@nuvoton.com
+Subject: Re: [PATCH v7 2/7] media: dt-binding: nuvoton: Add bindings for NPCM
+ VCD and ECE engine
+Message-ID: <20221123000552.GA817752-robh@kernel.org>
+References: <20221122085724.3245078-1-milkfafa@gmail.com>
+ <20221122085724.3245078-3-milkfafa@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221122085724.3245078-3-milkfafa@gmail.com>
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-There's no need to check for an incorrect number of data lanes in
-imx290_set_data_lanes() as the value is validated at probe() time. Drop
-the check.
+On Tue, Nov 22, 2022 at 04:57:19PM +0800, Marvin Lin wrote:
+> Add dt-binding document for Video Capture/Differentiation Engine (VCD)
+> and Encoding Compression Engine (ECE) present on Nuvoton NPCM SoCs.
+> 
+> Signed-off-by: Marvin Lin <milkfafa@gmail.com>
+> ---
+>  .../bindings/media/nuvoton,npcm-video.yaml    | 87 +++++++++++++++++++
+>  1 file changed, 87 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/nuvoton,npcm-video.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/media/nuvoton,npcm-video.yaml b/Documentation/devicetree/bindings/media/nuvoton,npcm-video.yaml
+> new file mode 100644
+> index 000000000000..b5be7ef09038
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/nuvoton,npcm-video.yaml
+> @@ -0,0 +1,87 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/nuvoton,npcm-video.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Nuvoton NPCM Video Capture/Encode Engine Device Tree Bindings
 
-The PHY_LANE_NUM and CSI_LANE_MODE registers are programmed with a value
-equal to the number of lanes minus one. Compute it instead of handling
-it in the switch/case.
+Drop ' Device Tree Bindings'
 
-Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
----
- drivers/media/i2c/imx290.c | 17 +++++------------
- 1 file changed, 5 insertions(+), 12 deletions(-)
+> +
+> +maintainers:
+> +  - Joseph Liu <kwliu@nuvoton.com>
+> +  - Marvin Lin <kflin@nuvoton.com>
+> +
+> +description: |
+> +  Video Capture/Differentiation Engine (VCD) and Encoding Compression Engine
+> +  (ECE) present on Nuvoton NPCM SoCs.
 
-diff --git a/drivers/media/i2c/imx290.c b/drivers/media/i2c/imx290.c
-index 4dfa090f918d..369db35a7afd 100644
---- a/drivers/media/i2c/imx290.c
-+++ b/drivers/media/i2c/imx290.c
-@@ -512,28 +512,21 @@ static int imx290_set_register_array(struct imx290 *imx290,
- 
- static int imx290_set_data_lanes(struct imx290 *imx290)
- {
--	int ret = 0, laneval, frsel;
-+	int ret = 0;
-+	u32 frsel;
- 
- 	switch (imx290->nlanes) {
- 	case 2:
--		laneval = 0x01;
-+	default:
- 		frsel = 0x02;
- 		break;
- 	case 4:
--		laneval = 0x03;
- 		frsel = 0x01;
- 		break;
--	default:
--		/*
--		 * We should never hit this since the data lane count is
--		 * validated in probe itself
--		 */
--		dev_err(imx290->dev, "Lane configuration not supported\n");
--		return -EINVAL;
- 	}
- 
--	imx290_write(imx290, IMX290_PHY_LANE_NUM, laneval, &ret);
--	imx290_write(imx290, IMX290_CSI_LANE_MODE, laneval, &ret);
-+	imx290_write(imx290, IMX290_PHY_LANE_NUM, imx290->nlanes - 1, &ret);
-+	imx290_write(imx290, IMX290_CSI_LANE_MODE, imx290->nlanes - 1, &ret);
- 	imx290_write(imx290, IMX290_FR_FDG_SEL, frsel, &ret);
- 
- 	return ret;
--- 
-Regards,
+Sounds like 2 h/w blocks? If so, then it should be 2 separate nodes.
 
-Laurent Pinchart
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - nuvoton,npcm750-video
+> +      - nuvoton,npcm845-video
 
+'video' doesn't sound like the name of the h/w block(s).
+
+> +
+> +  reg:
+> +    items:
+> +      - description: VCD registers
+> +      - description: ECE registers
+> +
+> +  reg-names:
+> +    items:
+> +      - const: vcd
+> +      - const: ece
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  resets:
+> +    items:
+> +      - description: VCD reset control
+> +      - description: ECE reset control
+> +
+> +  reset-names:
+> +    items:
+> +      - const: vcd
+> +      - const: ece
+> +
+> +  nuvoton,syscon-gcr:
+> +    $ref: /schemas/types.yaml#definitions/phandle
+> +    description: Phandle to the Global Control Register DT node
+> +
+> +  nuvoton,syscon-gfxi:
+> +    $ref: /schemas/types.yaml#definitions/phandle
+> +    description: Phandle to the Graphics Core Information DT node
+> +
+> +  memory-region:
+> +    description:
+> +      CMA pool to use for buffers allocation instead of the default CMA pool.
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - reg-names
+> +  - interrupts
+> +  - resets
+> +  - reset-names
+> +  - nuvoton,syscon-gcr
+> +  - nuvoton,syscon-gfxi
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +    #include <dt-bindings/reset/nuvoton,npcm7xx-reset.h>
+> +
+> +    video: video@f0810000 {
+> +        compatible = "nuvoton,npcm750-video";
+> +        reg = <0xf0810000 0x10000>,
+> +              <0xf0820000 0x2000>;
+> +        reg-names = "vcd", "ece";
+> +        interrupts = <GIC_SPI 22 IRQ_TYPE_LEVEL_HIGH>;
+> +        resets = <&rstc NPCM7XX_RESET_IPSRST2 NPCM7XX_RESET_VCD>,
+> +                 <&rstc NPCM7XX_RESET_IPSRST2 NPCM7XX_RESET_ECE>;
+> +        reset-names = "vcd", "ece";
+> +        nuvoton,syscon-gcr = <&gcr>;
+> +        nuvoton,syscon-gfxi = <&gfxi>;
+> +    };
+> -- 
+> 2.34.1
+> 
+> 
