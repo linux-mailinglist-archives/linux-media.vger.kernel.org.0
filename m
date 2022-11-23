@@ -2,179 +2,127 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EACF9636856
-	for <lists+linux-media@lfdr.de>; Wed, 23 Nov 2022 19:13:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 25930636864
+	for <lists+linux-media@lfdr.de>; Wed, 23 Nov 2022 19:16:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239491AbiKWSNa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 23 Nov 2022 13:13:30 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40728 "EHLO
+        id S239692AbiKWSOw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 23 Nov 2022 13:14:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40782 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239487AbiKWSLv (ORCPT
+        with ESMTP id S239435AbiKWSN7 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 23 Nov 2022 13:11:51 -0500
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1CD0DCEFFB;
-        Wed, 23 Nov 2022 10:06:29 -0800 (PST)
-Received: from notapiano (unknown [IPv6:2600:4041:5b1a:cd00:524d:e95d:1a9c:492a])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        Wed, 23 Nov 2022 13:13:59 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC4D913D41;
+        Wed, 23 Nov 2022 10:10:53 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        (Authenticated sender: nfraprado)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 30EBA6600014;
-        Wed, 23 Nov 2022 18:06:05 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1669226767;
-        bh=VkdBVLf6PQKIQJO5DDFSN1vQB/6ESgX35dSNtG4ynI8=;
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 8B45661E38;
+        Wed, 23 Nov 2022 18:10:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1BB2DC433D6;
+        Wed, 23 Nov 2022 18:10:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1669227053;
+        bh=7X1Me0V7EXsm5r0OrPDHsQK8HbsG4Re2XTojZLZDjdc=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=PgoQBnUGv8ddeQErPYf+crVHXVCMUcSW/khqsSqmcAHWz5do81TouoAdsnSkVM39G
-         X6SlkkwTySVDB/MXAcxhF3BdhYQAVzsxzoiBq2k2X3CbiLSGwvYBDO9qItMUotDDXC
-         4RgWKv9Flkw6ABTo7Uisva7agqC+oEpvAskzZuZH3w0e+69tWAtV6WzUC7XKxoxmZC
-         Kdyw6khXuXR9328AcpzjUi94/YSQo283G5IGMgB//FmFb67+t2vPDsyBjk+n71Gv0l
-         zP/3MJkftdobYN8ChJkOyhq7CLlTCQTjiMmTj3QaYFp8FsML4frkA8FPLsHB+myJnZ
-         4948FkBNCR0lw==
-Date:   Wed, 23 Nov 2022 13:06:00 -0500
-From:   =?utf-8?B?TsOtY29sYXMgRi4gUi4gQS4=?= Prado 
-        <nfraprado@collabora.com>
-To:     Yunfei Dong <yunfei.dong@mediatek.com>
-Cc:     Rob Herring <robh@kernel.org>, Chen-Yu Tsai <wenst@chromium.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Tiffany Lin <tiffany.lin@mediatek.com>,
+        b=YTyA9A1RK3VBVc4OuLsGmjha4gZZFX3fOAmM46DVvT12a9cMFNag8b+bk1nJBSkOS
+         iYBRuVdyoNseo7VxiYe+zfzA7cAKf7r+yPGFV7L1PjP6Bq7qE0QAPRFkIwzbad3cyJ
+         8YPFAWrJ2IcD41r/Fw+Je3USDQVOZs3K0ic3VM6I=
+Date:   Wed, 23 Nov 2022 19:10:49 +0100
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Matthew Wilcox <willy@infradead.org>
+Cc:     Jason Gunthorpe <jgg@ziepe.ca>,
+        Maximilian Luz <luzmaximilian@gmail.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        linux-kernel@vger.kernel.org, Jens Axboe <axboe@kernel.dk>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Len Brown <lenb@kernel.org>,
+        Stefan Richter <stefanr@s5r6.in-berlin.de>,
+        Wolfram Sang <wsa@kernel.org>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Sean Young <sean@mess.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Hsin-Yi Wang <hsinyi@chromium.org>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Steve Cho <stevecho@chromium.org>, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org,
-        Project_Global_Chrome_Upstream_Group@mediatek.com,
-        Allen-KH Cheng =?utf-8?B?KOeoi+WGoOWLsyk=?= 
-        <Allen-KH.Cheng@mediatek.com>
-Subject: Re: [PATCH v2,3/3] arm64: dts: mt8195: Add video decoder node
-Message-ID: <20221123180600.a4w5e2jzydwer7h6@notapiano>
-References: <20221110102834.8946-1-yunfei.dong@mediatek.com>
- <20221110102834.8946-3-yunfei.dong@mediatek.com>
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Mark Gross <markgross@kernel.org>,
+        Vinod Koul <vkoul@kernel.org>,
+        Bard Liao <yung-chuan.liao@linux.intel.com>,
+        Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+        Sanyog Kale <sanyog.r.kale@intel.com>,
+        Andreas Noever <andreas.noever@gmail.com>,
+        Michael Jamet <michael.jamet@intel.com>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Yehezkel Bernat <YehezkelShB@gmail.com>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        Chaitanya Kulkarni <kch@nvidia.com>,
+        Ming Lei <ming.lei@redhat.com>,
+        Jilin Yuan <yuanjilin@cdjrlc.com>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ira Weiny <ira.weiny@intel.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Won Chung <wonchung@google.com>, alsa-devel@alsa-project.org,
+        devicetree@vger.kernel.org, linux-acpi@vger.kernel.org,
+        linux-block@vger.kernel.org, linux-i2c@vger.kernel.org,
+        linux-i3c@lists.infradead.org, linux-input@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-serial@vger.kernel.org,
+        linux-usb@vger.kernel.org, linux1394-devel@lists.sourceforge.net,
+        platform-driver-x86@vger.kernel.org
+Subject: Re: [PATCH 3/5] driver core: make struct device_type.uevent() take a
+ const *
+Message-ID: <Y35iKfYf3ThdVvaR@kroah.com>
+References: <20221123122523.1332370-3-gregkh@linuxfoundation.org>
+ <711d5275-7e80-c00d-0cdc-0f3d52175361@gmail.com>
+ <Y34hgIW8p1RlQTBB@smile.fi.intel.com>
+ <97be39ed-3cea-d55a-caa6-c2652baef399@gmail.com>
+ <Y34zyzdbRUdyOSkA@casper.infradead.org>
+ <Y34+V2bCDdqujBDk@kroah.com>
+ <Y35JfNJDppRp5bLX@ziepe.ca>
+ <Y35R+/eQJYI7VaDS@kroah.com>
+ <Y35YlI93UBuTfgYy@ziepe.ca>
+ <Y35dMIaNYSE0Cykd@casper.infradead.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20221110102834.8946-3-yunfei.dong@mediatek.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <Y35dMIaNYSE0Cykd@casper.infradead.org>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Nov 10, 2022 at 06:28:34PM +0800, Yunfei Dong wrote:
-> Add video decoder node to mt8195 device tree.
+On Wed, Nov 23, 2022 at 05:49:36PM +0000, Matthew Wilcox wrote:
+> On Wed, Nov 23, 2022 at 01:29:56PM -0400, Jason Gunthorpe wrote:
+> > #define generic_container_of(in_type, in, out_type, out_member) \
+> > 	_Generic(in,                                        \
+> >                   const in_type *: ((const out_type *)container_of(in, out_type, out_member)),   \
+> >                   in_type *: ((out_type *)container_of(in, out_type, out_member)) \
+> > 		  )
 > 
-> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
-> ---
-> Compared with v1:
-> - add description in yaml, and remove /* ... */ for each reg.
-> ---
->  arch/arm64/boot/dts/mediatek/mt8195.dtsi | 63 ++++++++++++++++++++++++
->  1 file changed, 63 insertions(+)
+> There's a neat trick I found in seqlock.h:
 > 
-> diff --git a/arch/arm64/boot/dts/mediatek/mt8195.dtsi b/arch/arm64/boot/dts/mediatek/mt8195.dtsi
-> index 905d1a90b406..3ef7eef02415 100644
-> --- a/arch/arm64/boot/dts/mediatek/mt8195.dtsi
-> +++ b/arch/arm64/boot/dts/mediatek/mt8195.dtsi
-> @@ -1874,6 +1874,69 @@
->  			power-domains = <&spm MT8195_POWER_DOMAIN_CAM>;
->  		};
->  
-> +		video-codec@18000000 {
-> +			compatible = "mediatek,mt8195-vcodec-dec";
-> +			mediatek,scp = <&scp>;
-> +			iommus = <&iommu_vdo M4U_PORT_L21_VDEC_MC_EXT>;
-> +			dma-ranges = <0x1 0x0 0x0 0x40000000 0x0 0xfff00000>;
-
-Hi,
-
-similarly to what I've commented for the mt8192 node [1], having dma-ranges
-on this node causes IOMMU faults on the latest next. Since the iommu is already
-used in this node, please drop the dma-ranges property.
-
-The binding will also need updating to remove this property (given it was marked
-as required), so please include that change in either your or Allen's series.
-
-+cc Allen
-
-[1] https://lore.kernel.org/all/20221118141039.y2ap7dzdp26ih2la@notapiano
-
-Thanks,
-Nícolas
-
-> +			#address-cells = <2>;
-> +			#size-cells = <2>;
-> +			reg = <0 0x18000000 0 0x1000>,
-> +			      <0 0x18004000 0 0x1000>;
-> +			ranges = <0 0 0 0x18000000 0 0x26000>;
-> +			clocks = <&topckgen CLK_TOP_VDEC>,
-> +			         <&topckgen CLK_TOP_UNIVPLL_D4>;
-> +			clock-names = "vdec-sel", "top";
-> +			assigned-clocks = <&topckgen CLK_TOP_VDEC>;
-> +			assigned-clock-parents = <&topckgen CLK_TOP_UNIVPLL_D4>;
-> +
-> +			vcodec-lat-soc@2000 {
-> +				compatible = "mediatek,mtk-vcodec-lat-soc";
-> +				reg = <0 0x2000 0 0x800>;
-> +				iommus = <&iommu_vpp M4U_PORT_L23_VDEC_UFO_ENC_EXT>,
-> +					 <&iommu_vpp M4U_PORT_L23_VDEC_RDMA_EXT>;
-> +				clocks = <&vdecsys_soc CLK_VDEC_SOC_VDEC>,
-> +					 <&vdecsys_soc CLK_VDEC_SOC_LAT>;
-> +				clock-names = "vdec-soc-vdec", "vdec-soc-lat";
-> +				power-domains = <&spm MT8195_POWER_DOMAIN_VDEC0>;
-> +			};
-> +
-> +			vcodec-lat@10000 {
-> +				compatible = "mediatek,mtk-vcodec-lat";
-> +				reg = <0 0x10000 0 0x800>;
-> +				interrupts = <GIC_SPI 708 IRQ_TYPE_LEVEL_HIGH 0>;
-> +				iommus = <&iommu_vdo M4U_PORT_L24_VDEC_LAT0_VLD_EXT>,
-> +					 <&iommu_vdo M4U_PORT_L24_VDEC_LAT0_VLD2_EXT>,
-> +					 <&iommu_vdo M4U_PORT_L24_VDEC_LAT0_AVC_MC_EXT>,
-> +					 <&iommu_vdo M4U_PORT_L24_VDEC_LAT0_PRED_RD_EXT>,
-> +					 <&iommu_vdo M4U_PORT_L24_VDEC_LAT0_TILE_EXT>,
-> +					 <&iommu_vdo M4U_PORT_L24_VDEC_LAT0_WDMA_EXT>;
-> +				clocks = <&vdecsys_soc CLK_VDEC_SOC_VDEC>,
-> +					 <&vdecsys_soc CLK_VDEC_SOC_LAT>;
-> +				clock-names = "vdec-soc-vdec", "vdec-soc-lat";
-> +				power-domains = <&spm MT8195_POWER_DOMAIN_VDEC0>;
-> +			};
-> +
-> +			vcodec-core@25000 {
-> +				compatible = "mediatek,mtk-vcodec-core";
-> +				reg = <0 0x25000 0 0x1000>;
-> +				interrupts = <GIC_SPI 707 IRQ_TYPE_LEVEL_HIGH 0>;
-> +				iommus = <&iommu_vdo M4U_PORT_L21_VDEC_MC_EXT>,
-> +					 <&iommu_vdo M4U_PORT_L21_VDEC_UFO_EXT>,
-> +					 <&iommu_vdo M4U_PORT_L21_VDEC_PP_EXT>,
-> +					 <&iommu_vdo M4U_PORT_L21_VDEC_PRED_RD_EXT>,
-> +					 <&iommu_vdo M4U_PORT_L21_VDEC_PRED_WR_EXT>,
-> +					 <&iommu_vdo M4U_PORT_L21_VDEC_PPWRAP_EXT>,
-> +					 <&iommu_vdo M4U_PORT_L21_VDEC_TILE_EXT>,
-> +					 <&iommu_vdo M4U_PORT_L21_VDEC_VLD_EXT>,
-> +					 <&iommu_vdo M4U_PORT_L21_VDEC_VLD2_EXT>,
-> +					 <&iommu_vdo M4U_PORT_L21_VDEC_AVC_MV_EXT>;
-> +				clocks = <&vdecsys CLK_VDEC_VDEC>, <&vdecsys CLK_VDEC_LAT>;
-> +				clock-names = "vdec-vdec", "vdec-lat";
-> +				power-domains = <&spm MT8195_POWER_DOMAIN_VDEC1>;
-> +			};
-> +		};
-> +
->  		larb24: larb@1800d000 {
->  			compatible = "mediatek,mt8195-smi-larb";
->  			reg = <0 0x1800d000 0 0x1000>;
-> -- 
-> 2.18.0
+> #define generic_container_of(in_t, in, out_t, m)			\
+> 	_Generic(*(in),							\
+> 		const in_t: ((const out_t *)container_of(in, out_t, m)), \
+> 		in_t: ((out_t *)container_of(in, out_type, m))	\
+> 	)
 > 
-> 
-> 
+> and now it fits in 80 columns ;-)
+
+Nice trick!  Dropping the inline functions is a bit different, let me
+see if that still gives a sane error if we pass an incorrect type or
+mess with the const * the wrong way.  I'll run some tests tomorrow
+afternoon...
+
+thanks,
+
+greg k-h
