@@ -2,165 +2,172 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4CD0B635FA9
-	for <lists+linux-media@lfdr.de>; Wed, 23 Nov 2022 14:31:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F0C9E635FB8
+	for <lists+linux-media@lfdr.de>; Wed, 23 Nov 2022 14:33:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238046AbiKWNbe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 23 Nov 2022 08:31:34 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38684 "EHLO
+        id S238282AbiKWNcr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 23 Nov 2022 08:32:47 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39696 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236550AbiKWNbB (ORCPT
+        with ESMTP id S238096AbiKWNbg (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 23 Nov 2022 08:31:01 -0500
-Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com [IPv6:2a00:1450:4864:20::636])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5CE8FBC0
-        for <linux-media@vger.kernel.org>; Wed, 23 Nov 2022 05:12:28 -0800 (PST)
-Received: by mail-ej1-x636.google.com with SMTP id m22so42612895eji.10
-        for <linux-media@vger.kernel.org>; Wed, 23 Nov 2022 05:12:28 -0800 (PST)
+        Wed, 23 Nov 2022 08:31:36 -0500
+Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com [IPv6:2a00:1450:4864:20::531])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 382C76F359;
+        Wed, 23 Nov 2022 05:14:36 -0800 (PST)
+Received: by mail-ed1-x531.google.com with SMTP id f7so24786039edc.6;
+        Wed, 23 Nov 2022 05:14:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=Bvs98D7kn/blwT63+h55cu2gonMJ65ywZrI5Z5R+q8s=;
-        b=CbKrP7EDuQM1+snQr1Bb3MbhbQ1msQARnAhP8lLIaw8jsoWgtUxr2YZuSk/BGmdbmJ
-         CHML6hqeeAqT5QapkEJBOq5hHCB/AFN2yNlNe0UTVNNzfzV9/OUQvXEwNyHqnNUkvY1T
-         XUteu4rleCYD+KdeDTBkycgH+nx6bdv7x5woMj/jfEdULmuRFG1kYORmlhBvWNHyjq/x
-         H7opk6T9ej6goLupldeCS1Ai/LJlUZUOxPUAiwU0bK3GQ4OL9oZmnaLbFfWEJQr0UdrJ
-         8M3M4FzvBqbSzpKZSgEd1wobGpuhu0JxJgOdz4rmFVlq1zq8VKc+WvA4aSOCyLsvSPc7
-         tlWQ==
+        bh=sauF/j+i6mkS8I5Asm3wkjg9rAoolnMVFFABQhVn7ts=;
+        b=JrgCjNHpmpS+UFD/hJxkEdxsDcmk00K9l1zgw4rjJ6QL5LFgR9cDjNY17XgiVyuKWT
+         GVX3FjNvQF532OmACfplDQxa0ET6vUF3+AwWkzCoQgdvk8wm/vwi5bqEPhjgds3tvHVk
+         qcn3+9bWbQ09f6O6mbQXTHtJZBCGwc8Lfjz7fIehiorZZ8oPg8dRKYCne/QKG+ZgQ3Z5
+         zzGAl10ChcVHD+8+Mhy+mnFO2Ek6zUiOt22qnko9TArrSnnj1eidLr1A138vvA9aLTcz
+         ZwMNfHN3QT6GpL5rAIMHY7Io5oO/gphYT8wcDC9vjb4hS9xYXmqoE4cy5//Ks0/sJomc
+         X3OA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Bvs98D7kn/blwT63+h55cu2gonMJ65ywZrI5Z5R+q8s=;
-        b=pVmkNvH5S0xNfeDMoi0F0/3rJrllA10wEg322wUtkpoBOC2nRPCg72fLhZuYEvXfqU
-         aUjfN3maKcputciwnPtk2ZTQY8QMNj/4zTSQr8Hl4kp/SWSRbnWt+mRq+1/ZbZ4G5EHb
-         nGS22qlN+y9np3VpOrcsaNor91HvqncLwTikxCZcsu7m7VjkEfMP7bzYh7eu6A6eW52v
-         lq1kGBYG161jOD57n843tTSdGyrkIP5Nx9a/FRSFaB2UkhN0cTsJVn0o8+KRy5zC+d3R
-         PJdNHJ0DBgf9g+SjSj/Bb4XKkPW6f19ZUhFCFXjVgWR4rOSRm60mbbACIRm9AIxhRa1L
-         Y0Ug==
-X-Gm-Message-State: ANoB5plQH97NDffDpaTk8+0/v4uTTlomOms2idPvZQbqmjfEMcm92HQI
-        XZxgUZre0N3cYJGbzrIOSnw=
-X-Google-Smtp-Source: AA0mqf5Nj1HAYv/xJhMhjUhsdKhcctZzH8JOkFU/AOEqdt3oRJ5z0AWvGNokuhO7wHbBhMGKlisOWQ==
-X-Received: by 2002:a17:906:1ecf:b0:7ad:902c:d1d6 with SMTP id m15-20020a1709061ecf00b007ad902cd1d6mr12072437ejj.143.1669209147048;
-        Wed, 23 Nov 2022 05:12:27 -0800 (PST)
-Received: from ?IPV6:2a02:908:1256:79a0:d2d7:ceea:efc2:af43? ([2a02:908:1256:79a0:d2d7:ceea:efc2:af43])
-        by smtp.gmail.com with ESMTPSA id mh23-20020a170906eb9700b007af105a87cbsm7152028ejb.152.2022.11.23.05.12.25
+        bh=sauF/j+i6mkS8I5Asm3wkjg9rAoolnMVFFABQhVn7ts=;
+        b=hTNUNN9prRDxYVem/12iuh5DtKfC5PRe+pzM1IrmUMOLxQc3FQ/yFXOPvGHBcvGji9
+         Wzl22oWHAMP9an14CgNX2/ihv8DD2OqqgNEAYqJd+3JNTaoqi+Xtopqi1pTy498UAVvW
+         cMC1niuea8DC+Vp1EuaBc2oBhoArwK86qNSq7CPerDBxPZ+Vl0mBWB/DPt4JE5K+EmGx
+         1u8VH+yBg8xOyCyYN09YFJlaO1EtG7SWE3aNDDXR3Fxorqu5VhaIlfs9UxMnoMA/BnCF
+         +EBlhakytqHlVOEQyRaANdboSi3nT5W0Flujf/+2evK7KMsI+xz8YPqSfZZ51erEW/g/
+         b9yQ==
+X-Gm-Message-State: ANoB5pnopyhkTq/4FvLPy0osu2m+4sy5RaC2DL4duSgtGf6o4Q0Cy4oF
+        4twblCdXN3tBgDHzhtoAL7I=
+X-Google-Smtp-Source: AA0mqf4EMwcpsdY1UQ9nMh8FYiw8FldQtuxFrB6UO57Z4G73kQazssLgzz4HdFhaHz+MfDNKhbLKUA==
+X-Received: by 2002:a05:6402:181:b0:461:ea0c:e151 with SMTP id r1-20020a056402018100b00461ea0ce151mr11327924edv.376.1669209274614;
+        Wed, 23 Nov 2022 05:14:34 -0800 (PST)
+Received: from [10.20.0.7] ([37.120.217.162])
+        by smtp.gmail.com with ESMTPSA id oz36-20020a1709077da400b00734bfab4d59sm958602ejc.170.2022.11.23.05.14.31
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 23 Nov 2022 05:12:26 -0800 (PST)
-Message-ID: <dc2a9d7f-192b-e9d8-b1d1-3b868cb1fd44@gmail.com>
-Date:   Wed, 23 Nov 2022 14:12:25 +0100
+        Wed, 23 Nov 2022 05:14:34 -0800 (PST)
+Message-ID: <711d5275-7e80-c00d-0cdc-0f3d52175361@gmail.com>
+Date:   Wed, 23 Nov 2022 14:14:31 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [Linaro-mm-sig] Re: [PATCH] dma-buf: Require VM_PFNMAP vma for
- mmap
+ Thunderbird/102.5.0
+Subject: Re: [PATCH 3/5] driver core: make struct device_type.uevent() take a
+ const *
 Content-Language: en-US
-To:     Jason Gunthorpe <jgg@ziepe.ca>
-Cc:     Daniel Vetter <daniel.vetter@ffwll.ch>,
-        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
-        DRI Development <dri-devel@lists.freedesktop.org>,
-        Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        John Stultz <john.stultz@linaro.org>,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-References: <Y30Z4VxT7Wdoc1Lc@ziepe.ca>
- <CAKMK7uE=8eqyh9BKg_+7B1jjMi6K4wrmPyi9xeLVvVYFxBgF9g@mail.gmail.com>
- <Y30kK6dsssSLJVgp@ziepe.ca>
- <CAKMK7uFQQkG82PzuSTGQTnN3ZNps5N_4TjR5NRWo0LaJkEaNew@mail.gmail.com>
- <3d8607b4-973d-945d-c184-260157ade7c3@amd.com>
- <CAKMK7uHVGgGHTiXYOfseXXda2Ug992nYvhPsL+4z18ssqeHXHQ@mail.gmail.com>
- <b05e6091-4e07-1e32-773d-f603ac9ac98b@gmail.com>
- <CAKMK7uFjmzewqv3r4hL9hvLADwV536n2n6xbAWaUvmAcStr5KQ@mail.gmail.com>
- <Y34WI9SZdiH/p1tA@ziepe.ca> <f8f844a5-0910-d19a-5aea-df7a1d83b1d3@gmail.com>
- <Y34XvmtHfb4ZwopN@ziepe.ca>
-From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-In-Reply-To: <Y34XvmtHfb4ZwopN@ziepe.ca>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-kernel@vger.kernel.org
+Cc:     Jens Axboe <axboe@kernel.dk>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Len Brown <lenb@kernel.org>,
+        Stefan Richter <stefanr@s5r6.in-berlin.de>,
+        Wolfram Sang <wsa@kernel.org>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Sean Young <sean@mess.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Mark Gross <markgross@kernel.org>,
+        Vinod Koul <vkoul@kernel.org>,
+        Bard Liao <yung-chuan.liao@linux.intel.com>,
+        Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+        Sanyog Kale <sanyog.r.kale@intel.com>,
+        Andreas Noever <andreas.noever@gmail.com>,
+        Michael Jamet <michael.jamet@intel.com>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Yehezkel Bernat <YehezkelShB@gmail.com>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        Chaitanya Kulkarni <kch@nvidia.com>,
+        Ming Lei <ming.lei@redhat.com>,
+        Jilin Yuan <yuanjilin@cdjrlc.com>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ira Weiny <ira.weiny@intel.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Won Chung <wonchung@google.com>, alsa-devel@alsa-project.org,
+        devicetree@vger.kernel.org, linux-acpi@vger.kernel.org,
+        linux-block@vger.kernel.org, linux-i2c@vger.kernel.org,
+        linux-i3c@lists.infradead.org, linux-input@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-serial@vger.kernel.org,
+        linux-usb@vger.kernel.org, linux1394-devel@lists.sourceforge.net,
+        platform-driver-x86@vger.kernel.org
+References: <20221123122523.1332370-1-gregkh@linuxfoundation.org>
+ <20221123122523.1332370-3-gregkh@linuxfoundation.org>
+From:   Maximilian Luz <luzmaximilian@gmail.com>
+In-Reply-To: <20221123122523.1332370-3-gregkh@linuxfoundation.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        RCVD_IN_DNSWL_NONE,RCVD_IN_SBL_CSS,SPF_HELO_NONE,SPF_PASS autolearn=no
         autolearn_force=no version=3.4.6
+X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am 23.11.22 um 13:53 schrieb Jason Gunthorpe:
-> On Wed, Nov 23, 2022 at 01:49:41PM +0100, Christian König wrote:
->> Am 23.11.22 um 13:46 schrieb Jason Gunthorpe:
->>> On Wed, Nov 23, 2022 at 11:06:55AM +0100, Daniel Vetter wrote:
->>>
->>>>> Maybe a GFP flag to set the page reference count to zero or something
->>>>> like this?
->>>> Hm yeah that might work. I'm not sure what it will all break though?
->>>> And we'd need to make sure that underflowing the page refcount dies in
->>>> a backtrace.
->>> Mucking with the refcount like this to protect against crazy out of
->>> tree drives seems horrible..
->> Well not only out of tree drivers. The intree KVM got that horrible
->> wrong as well, those where the latest guys complaining about it.
-> kvm was taking refs on special PTEs? That seems really unlikely?
+Hi,
 
-Well then look at this code here:
+On 11/23/22 13:25, Greg Kroah-Hartman wrote:
+> The uevent() callback in struct device_type should not be modifying the
+> device that is passed into it, so mark it as a const * and propagate the
+> function signature changes out into all relevant subsystems that use
+> this callback.
 
-commit add6a0cd1c5ba51b201e1361b05a5df817083618
-Author: Paolo Bonzini <pbonzini@redhat.com>
-Date:   Tue Jun 7 17:51:18 2016 +0200
+[...]
 
-     KVM: MMU: try to fix up page faults before giving up
+> diff --git a/drivers/platform/surface/aggregator/bus.c b/drivers/platform/surface/aggregator/bus.c
+> index de539938896e..407eb55050a6 100644
+> --- a/drivers/platform/surface/aggregator/bus.c
+> +++ b/drivers/platform/surface/aggregator/bus.c
+> @@ -35,9 +35,9 @@ static struct attribute *ssam_device_attrs[] = {
+>   };
+>   ATTRIBUTE_GROUPS(ssam_device);
+>   
+> -static int ssam_device_uevent(struct device *dev, struct kobj_uevent_env *env)
+> +static int ssam_device_uevent(const struct device *dev, struct kobj_uevent_env *env)
+>   {
+> -	struct ssam_device *sdev = to_ssam_device(dev);
+> +	const struct ssam_device *sdev = to_ssam_device(dev);
+>   
+>   	return add_uevent_var(env, "MODALIAS=ssam:d%02Xc%02Xt%02Xi%02Xf%02X",
+>   			      sdev->uid.domain, sdev->uid.category,
 
-     The vGPU folks would like to trap the first access to a BAR by setting
-     vm_ops on the VMAs produced by mmap-ing a VFIO device.  The fault 
-handler
-     then can use remap_pfn_range to place some non-reserved pages in 
-the VMA.
+[...]
 
-     This kind of VM_PFNMAP mapping is not handled by KVM, but follow_pfn
-     and fixup_user_fault together help supporting it.  The patch also 
-supports
-     VM_MIXEDMAP vmas where the pfns are not reserved and thus subject to
-     reference counting.
+> --- a/include/linux/surface_aggregator/device.h
+> +++ b/include/linux/surface_aggregator/device.h
+> @@ -229,7 +229,7 @@ static inline bool is_ssam_device(struct device *d)
+>    * Return: Returns a pointer to the &struct ssam_device wrapping the given
+>    * device @d.
+>    */
+> -static inline struct ssam_device *to_ssam_device(struct device *d)
+> +static inline struct ssam_device *to_ssam_device(const struct device *d)
+>   {
+>   	return container_of(d, struct ssam_device, dev);
+>   }
 
-     Cc: Xiao Guangrong <guangrong.xiao@linux.intel.com>
-     Cc: Andrea Arcangeli <aarcange@redhat.com>
-     Cc: Radim Krčmář <rkrcmar@redhat.com>
-     Tested-by: Neo Jia <cjia@nvidia.com>
-     Reported-by: Kirti Wankhede <kwankhede@nvidia.com>
-     Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+I am slightly conflicted about this change as that now more or less
+implicitly drops the const. So I'm wondering if it wouldn't be better to
+either create a function specifically for const pointers or to just
+open-code it in the instance above.
 
-And see also the discussion here: 
-https://patchwork.freedesktop.org/patch/414123/
+I guess we could also convert this to a macro. Then at least there
+wouldn't be an explicit and potentially misleading const-conversion
+indicated in the function signature.
 
-as well as here: https://patchwork.freedesktop.org/patch/499190/
-
-I can't count how often I have pointed out that this is absolutely 
-illegal and KVM can't touch pages in VMAs with VM_PFNMAP.
-
->>> The WARN_ON(pag_count(p) != 1) seems like a reasonable thing to do
->>> though, though you must combine this with the special PTE flag..
->> That's not sufficient. The pages are released much later than things
->> actually go wrong. In most cases this WARN_ON here won't hit.
-> How so? As long as the page is mapped into the PTE there is no issue
-> with corruption. If dmabuf checks the refcount after it does the unmap
-> mapping range it should catch any bogus pin that might be confused
-> about address coherency.
-
-Yeah, that would work. The problem is this WARN_ON() comes much later.
-
-The device drivers usually keep the page around for a while even after 
-it is unmapped. IIRC the cleanup worker only runs every 10ms or so.
-
-Christian.
-
->
-> Jason
-
+Regards,
+Max
