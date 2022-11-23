@@ -2,150 +2,181 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 49A42636272
-	for <lists+linux-media@lfdr.de>; Wed, 23 Nov 2022 15:53:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AC9F46362E5
+	for <lists+linux-media@lfdr.de>; Wed, 23 Nov 2022 16:09:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238123AbiKWOxZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 23 Nov 2022 09:53:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52942 "EHLO
+        id S238324AbiKWPJO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 23 Nov 2022 10:09:14 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44148 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237907AbiKWOxN (ORCPT
+        with ESMTP id S238299AbiKWPIz (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 23 Nov 2022 09:53:13 -0500
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7E471EEF2;
-        Wed, 23 Nov 2022 06:53:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=d34IWNksyN/fUaMdJSyNyFr5/NYJSUamcGjA6pAMtuA=; b=caDYBku0DlKozdr16VvQx2Pf47
-        2FemMLhC3IcrPQOUzURzAZnbhstHNQck3oc9tp/PXObEiBO1MfrwTzqTVM4sWneDrW/0ivZt02rfR
-        GJ97qbtKp6invRyg7JlLsZYl3ZG3vWExlD7hzk57S+mKdQTrPuVtfzCSbDoVVJ8FxhHKtoRSJ0jtU
-        XYB3KakhM7UNmV0lB+Oflj6FYMkeTc2cxN2tMw87mvmQsXCHH2Ve1EXgve0TduL0q7RtvwUTii1c5
-        R8WonwObHfVSic7ZLMDFLvXv3RjVaPGgy5xWCwSrWbCPm+c1AWWTPP+4n4zTi5sjodPbwnBYZMh7x
-        2Km029GQ==;
-Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1oxr7T-007j3f-RC; Wed, 23 Nov 2022 14:53:00 +0000
-Date:   Wed, 23 Nov 2022 14:52:59 +0000
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Maximilian Luz <luzmaximilian@gmail.com>
-Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-kernel@vger.kernel.org, Jens Axboe <axboe@kernel.dk>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Len Brown <lenb@kernel.org>,
-        Stefan Richter <stefanr@s5r6.in-berlin.de>,
-        Wolfram Sang <wsa@kernel.org>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Sean Young <sean@mess.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Mark Gross <markgross@kernel.org>,
-        Vinod Koul <vkoul@kernel.org>,
-        Bard Liao <yung-chuan.liao@linux.intel.com>,
-        Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
-        Sanyog Kale <sanyog.r.kale@intel.com>,
-        Andreas Noever <andreas.noever@gmail.com>,
-        Michael Jamet <michael.jamet@intel.com>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Yehezkel Bernat <YehezkelShB@gmail.com>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        "Martin K. Petersen" <martin.petersen@oracle.com>,
-        Chaitanya Kulkarni <kch@nvidia.com>,
-        Ming Lei <ming.lei@redhat.com>,
-        Jilin Yuan <yuanjilin@cdjrlc.com>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ira Weiny <ira.weiny@intel.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Won Chung <wonchung@google.com>, alsa-devel@alsa-project.org,
-        devicetree@vger.kernel.org, linux-acpi@vger.kernel.org,
-        linux-block@vger.kernel.org, linux-i2c@vger.kernel.org,
-        linux-i3c@lists.infradead.org, linux-input@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-serial@vger.kernel.org,
-        linux-usb@vger.kernel.org, linux1394-devel@lists.sourceforge.net,
-        platform-driver-x86@vger.kernel.org
-Subject: Re: [PATCH 3/5] driver core: make struct device_type.uevent() take a
- const *
-Message-ID: <Y34zyzdbRUdyOSkA@casper.infradead.org>
-References: <20221123122523.1332370-1-gregkh@linuxfoundation.org>
- <20221123122523.1332370-3-gregkh@linuxfoundation.org>
- <711d5275-7e80-c00d-0cdc-0f3d52175361@gmail.com>
- <Y34hgIW8p1RlQTBB@smile.fi.intel.com>
- <97be39ed-3cea-d55a-caa6-c2652baef399@gmail.com>
+        Wed, 23 Nov 2022 10:08:55 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0711F63160;
+        Wed, 23 Nov 2022 07:08:07 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 371BEB82096;
+        Wed, 23 Nov 2022 15:08:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 56599C433D6;
+        Wed, 23 Nov 2022 15:08:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1669216084;
+        bh=WLXFnRRwAGSB6144++E7djuO+TN+sZS/XitCX2fAGgM=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=TG/g2GBNIgALQ5wN0e7SltfaGtNUnCLJ4tyf5qe6uQ5+MbiK+cD1wi657xD/BIUEB
+         CG+UXgA9PMKXtbZp1C2/A/mO5p3IAw8lYD3+jt+t283E7aalR0c3smvT62zCNrAtnX
+         1ivquwrWVIhD54Y1FcbDNoo/E0bVzCk9kMS2Ov7Haz3ukZkKg05zLfGETYiLRbFXww
+         NtmKrARu8OD+0ZRSAQUuri8TQn7V77A49zWffoSq6LVnp+DaR/E0V8R9JRXyoGNt92
+         3DbPYMJG/1akWttP5fwCshqoMLtUm+QMHEZWaaAAkB3tKwp1uA/39TsJWpLJjNXiQl
+         eHjl8jTYlAyCQ==
+Date:   Wed, 23 Nov 2022 22:58:11 +0800
+From:   Jisheng Zhang <jszhang@kernel.org>
+To:     Hsia-Jun Li <randy.li@synaptics.com>
+Cc:     dri-devel@lists.freedesktop.org, airlied@linux.ie, daniel@ffwll.ch,
+        ezequiel@vanguardiasur.com.ar, helen.koike@collabora.com,
+        laurent.pinchart@ideasonboard.com,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, maarten.lankhorst@linux.intel.com,
+        mchehab@kernel.org, mripard@kernel.org, nicolas@ndufresne.ca,
+        ribalda@chromium.org, sakari.ailus@linux.intel.com,
+        sebastian.hesselbarth@gmail.com, tfiga@chromium.org,
+        tzimmermann@suse.de, ayaka@soulik.info
+Subject: Re: [PATCH v4] drm/fourcc: Add Synaptics VideoSmart tiled modifiers
+Message-ID: <Y341AxDwqRC/0eep@xhacker>
+References: <20221123091957.75967-1-randy.li@synaptics.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <97be39ed-3cea-d55a-caa6-c2652baef399@gmail.com>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <20221123091957.75967-1-randy.li@synaptics.com>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Nov 23, 2022 at 02:59:00PM +0100, Maximilian Luz wrote:
-> On 11/23/22 14:34, Andy Shevchenko wrote:
-> > On Wed, Nov 23, 2022 at 02:14:31PM +0100, Maximilian Luz wrote:
-> > > On 11/23/22 13:25, Greg Kroah-Hartman wrote:
-> > > > The uevent() callback in struct device_type should not be modifying the
-> > > > device that is passed into it, so mark it as a const * and propagate the
-> > > > function signature changes out into all relevant subsystems that use
-> > > > this callback.
-> > 
-> > [...]
-> > 
-> > > > -static inline struct ssam_device *to_ssam_device(struct device *d)
-> > > > +static inline struct ssam_device *to_ssam_device(const struct device *d)
-> > > >    {
-> > > >    	return container_of(d, struct ssam_device, dev);
-> > > >    }
-> > > 
-> > > I am slightly conflicted about this change as that now more or less
-> > > implicitly drops the const. So I'm wondering if it wouldn't be better to
-> > > either create a function specifically for const pointers or to just
-> > > open-code it in the instance above.
-> > > 
-> > > I guess we could also convert this to a macro. Then at least there
-> > > wouldn't be an explicit and potentially misleading const-conversion
-> > > indicated in the function signature.
-> > 
-> > This is an intermediate step as far as I know since moving container_of to
-> > recognize const is a bit noisy right now. I guess you can find a discussion
-> > on the topic between Greg and Sakari.
+On Wed, Nov 23, 2022 at 05:19:57PM +0800, Hsia-Jun Li wrote:
+> From: "Hsia-Jun(Randy) Li" <randy.li@synaptics.com>
 > 
-> Thanks! I assume you are referring to the following?
+> Memory Traffic Reduction(MTR) is a module in Synaptics
+> VideoSmart platform could process lossless compression image
+> and cache the tile memory line.
 > 
-> 	https://lore.kernel.org/lkml/4218173bd72b4f1899d4c41a8e251f0d@AcuMS.aculab.com/T/
+> Those modifiers only record the parameters would effort pixel
+> layout or memory layout. Whether physical memory page mapping
+> is used is not a part of format.
 > 
-> As far as I can tell this is only a warning in documentation, not
-> compile time (which would probably be impossible?).
+> We would allocate the same size of memory for uncompressed
+> and compressed luma and chroma data, while the compressed buffer
+> would request two extra planes holding the metadata for
+> the decompression.
 > 
-> As I've said I'd be fine with converting the function to a macro (and
-> preferably adding a similar warning like the one proposed in that
-> thread). The point that irks me up is just that, as proposed, the
-> function signature would now advertise a conversion that should never be
-> happening.
+> Signed-off-by: Hsia-Jun(Randy) Li <randy.li@synaptics.com>
+> ---
+>  include/uapi/drm/drm_fourcc.h | 75 +++++++++++++++++++++++++++++++++++
+>  1 file changed, 75 insertions(+)
 > 
-> Having two separate functions would create a compile-time guarantee, so
-> I'd prefer that, but I can understand if that might be considered too
-> noisy in code. Or if there is a push to make container_of() emit a
-> compile-time warning I'd also be perfectly happy with converting it to a
-> macro now as that'd alleviate the need for functions in the future.
+> diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.h
+> index bc056f2d537d..ca0b4ca70b36 100644
+> --- a/include/uapi/drm/drm_fourcc.h
+> +++ b/include/uapi/drm/drm_fourcc.h
+> @@ -407,6 +407,7 @@ extern "C" {
+>  #define DRM_FORMAT_MOD_VENDOR_ARM     0x08
+>  #define DRM_FORMAT_MOD_VENDOR_ALLWINNER 0x09
+>  #define DRM_FORMAT_MOD_VENDOR_AMLOGIC 0x0a
+> +#define DRM_FORMAT_MOD_VENDOR_SYNAPTICS 0x0b
 
-Can't we do:
+Any users in the mainline tree?
 
-static inline const struct ssam_device *to_ssam_device(const struct device *d)
-{
-	return container_of(d, const struct ssam_device, dev);
-}
-
+>  
+>  /* add more to the end as needed */
+>  
+> @@ -1507,6 +1508,80 @@ drm_fourcc_canonicalize_nvidia_format_mod(__u64 modifier)
+>  #define AMD_FMT_MOD_CLEAR(field) \
+>  	(~((__u64)AMD_FMT_MOD_##field##_MASK << AMD_FMT_MOD_##field##_SHIFT))
+>  
+> +/*
+> + * Synaptics VideoSmart modifiers
+> + *
+> + * Tiles could be arranged in Groups of Tiles (GOTs), it is a small tile
+> + * within a tile. GOT size and layout varies based on platform and
+> + * performance concern. When the compression is applied, it is possible
+> + * that we would have two tile type in the GOT, these parameters can't
+> + * tell the secondary tile type.
+> + *
+> + * Besides, an 8 size 4 bytes arrary (32 bytes) would be need to store
+> + * some compression parameters for a compression meta data plane.
+> + *
+> + *       Macro
+> + * Bits  Param Description
+> + * ----  ----- -----------------------------------------------------------------
+> + *
+> + *  7:0  f     Scan direction description.
+> + *
+> + *               0 = Invalid
+> + *               1 = V4, the scan would always start from vertical for 4 pixel
+> + *                   then move back to the start pixel of the next horizontal
+> + *                   direction.
+> + *               2 = Reserved for future use.
+> + *
+> + * 15:8  m     The times of pattern repeat in the right angle direction from
+> + *             the first scan direction.
+> + *
+> + * 19:16 p     The padding bits after the whole scan, could be zero.
+> + *
+> + * 20:20 g     GOT packing flag.
+> + *
+> + * 23:21 -     Reserved for future use.  Must be zero.
+> + *
+> + * 27:24 h     log2(horizontal) of bytes, in GOTs.
+> + *
+> + * 31:28 v     log2(vertical) of bytes, in GOTs.
+> + *
+> + * 35:32 -     Reserved for future use.  Must be zero.
+> + *
+> + * 36:36 c     Compression flag.
+> + *
+> + * 55:37 -     Reserved for future use.  Must be zero.
+> + *
+> + */
+> +
+> +#define DRM_FORMAT_MOD_SYNA_V4_TILED		fourcc_mod_code(SYNAPTICS, 1)
+> +
+> +#define DRM_FORMAT_MOD_SYNA_MTR_LINEAR_2D(f, m, p, g, h, v, c) \
+> +	fourcc_mod_code(SYNAPTICS, ((__u64)((f) & 0xff) | \
+> +				 ((__u64)((m) & 0xff) << 8) | \
+> +				 ((__u64)((p) & 0xf) << 16) | \
+> +				 ((__u64)((g) & 0x1) << 20) | \
+> +				 ((__u64)((h) & 0xf) << 24) | \
+> +				 ((__u64)((v) & 0xf) << 28) | \
+> +				 ((__u64)((c) & 0x1) << 36)))
+> +
+> +#define DRM_FORMAT_MOD_SYNA_V4H1 \
+> +	DRM_FORMAT_MOD_SYNA_MTR_LINEAR_2D(1, 1, 0, 0, 0, 0, 0)
+> +
+> +#define DRM_FORMAT_MOD_SYNA_V4H3P8 \
+> +	DRM_FORMAT_MOD_SYNA_MTR_LINEAR_2D(1, 3, 8, 0, 0, 0, 0)
+> +
+> +#define DRM_FORMAT_MOD_SYNA_V4H1_64L4_COMPRESSED \
+> +	DRM_FORMAT_MOD_SYNA_MTR_LINEAR_2D(1, 1, 0, 1, 6, 2, 1)
+> +
+> +#define DRM_FORMAT_MOD_SYNA_V4H3P8_64L4_COMPRESSED \
+> +	DRM_FORMAT_MOD_SYNA_MTR_LINEAR_2D(1, 3, 8, 1, 6, 2, 1)
+> +
+> +#define DRM_FORMAT_MOD_SYNA_V4H1_128L128_COMPRESSED \
+> +	DRM_FORMAT_MOD_SYNA_MTR_LINEAR_2D(1, 1, 0, 1, 7, 7, 1)
+> +
+> +#define DRM_FORMAT_MOD_SYNA_V4H3P8_128L128_COMPRESSED \
+> +	DRM_FORMAT_MOD_SYNA_MTR_LINEAR_2D(1, 3, 8, 1, 7, 7, 1)
+> +
+>  #if defined(__cplusplus)
+>  }
+>  #endif
+> -- 
+> 2.17.1
+> 
