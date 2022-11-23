@@ -2,70 +2,77 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 185B5635231
-	for <lists+linux-media@lfdr.de>; Wed, 23 Nov 2022 09:21:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F02EE635253
+	for <lists+linux-media@lfdr.de>; Wed, 23 Nov 2022 09:23:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235951AbiKWIUM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 23 Nov 2022 03:20:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56380 "EHLO
+        id S236117AbiKWIV6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 23 Nov 2022 03:21:58 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57760 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234531AbiKWIUH (ORCPT
+        with ESMTP id S235512AbiKWIV4 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 23 Nov 2022 03:20:07 -0500
-Received: from mail-io1-xd2b.google.com (mail-io1-xd2b.google.com [IPv6:2607:f8b0:4864:20::d2b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7FD3742F4B
-        for <linux-media@vger.kernel.org>; Wed, 23 Nov 2022 00:20:06 -0800 (PST)
-Received: by mail-io1-xd2b.google.com with SMTP id n188so12671004iof.8
-        for <linux-media@vger.kernel.org>; Wed, 23 Nov 2022 00:20:06 -0800 (PST)
+        Wed, 23 Nov 2022 03:21:56 -0500
+Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com [IPv6:2a00:1450:4864:20::334])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC510C67CE
+        for <linux-media@vger.kernel.org>; Wed, 23 Nov 2022 00:21:52 -0800 (PST)
+Received: by mail-wm1-x334.google.com with SMTP id v124-20020a1cac82000000b003cf7a4ea2caso829629wme.5
+        for <linux-media@vger.kernel.org>; Wed, 23 Nov 2022 00:21:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=c6XRhHsjuFYmFz1yvcQmws2gxItyrK+zhuXTxyaOjn8=;
-        b=gSoTf+STpbc5D7fgHbxmENe5Sw/k2nZZ8tBPBr/6h75sLpLVg7ajqbUbP3gQbg7QNl
-         cGh+7ovg5aOCtWg1/tRvOHe1ZsFwrb3053VwO/TI/GooYg0IqJItvp5Dxr4MMH798juF
-         Dt5FMeeAPqayNpaKhsx7MawQ4YL026aF9RPrQ=
+        d=amarulasolutions.com; s=google;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=L9Thz9yns+FIJXusgM78SIai92l4nRiseqTTKyEIwSM=;
+        b=Qx9r8WsmzKnrKHCSE/h2oX+vFSIBIZN3d05cSGFXZqC424S44b1Jx8CzvEYjvVo/vQ
+         IvNvyMO05iYuXvNZb8hfX9/s+YkzIT7itzXCXaepG+sICmshpaORyGBsXw47ZThtyFYD
+         lET+9yMm5imEg+7giLsm0yHdWscNKjWIPfvtk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=c6XRhHsjuFYmFz1yvcQmws2gxItyrK+zhuXTxyaOjn8=;
-        b=Y5kpZdwirxsgbPTbSyaf9F4NHGOVkaAx7klIwQPmWVioSicj7j01/pvQR+IpL+rYoM
-         wUwyNQ2GTSWJRbKbKSPC6Q3SWuMcxqWVVVGW0KmLLipk1vn/zNlM9FlbtrmhB1Bkof/s
-         MCFqc4uKmOxq5hLs5e5SlNYNWNWBlzVYI/s3nuwKUofwVIp7Uq7z4CUbJIWcqx50u13r
-         wa4IMh7S3bke4ZrGp74rQH311+fHU1XM8CaZJtC8EJEmGOybhWiB3U9fkaTnL+z2ph/o
-         VEZvhYLZ5vWOJWKjOzI5epqsFd94Ro/KPbZA6rswy1/VdN9UmFyqHxtf9UCHVUv/Ikal
-         qS+w==
-X-Gm-Message-State: ANoB5pk0etWXNzX4wyp/oDz8DirqcFZ15+xTPHeipvphD0ssF4Ot09M0
-        vmn9abRKOoS7ehs+afTd75G9rn/cfnd49A==
-X-Google-Smtp-Source: AA0mqf4m5BtWtRTcVVew1ELu+stv6rLikLjfWG1OSnm8uhO2c/Iq+q6nDfi6UrGBkTfyH0ePeYHMbg==
-X-Received: by 2002:a5e:d70a:0:b0:6bf:e736:22a with SMTP id v10-20020a5ed70a000000b006bfe736022amr3851698iom.94.1669191605583;
-        Wed, 23 Nov 2022 00:20:05 -0800 (PST)
-Received: from mail-io1-f45.google.com (mail-io1-f45.google.com. [209.85.166.45])
-        by smtp.gmail.com with ESMTPSA id u14-20020a056e02110e00b00302c31956b2sm2725505ilk.10.2022.11.23.00.20.04
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 23 Nov 2022 00:20:04 -0800 (PST)
-Received: by mail-io1-f45.google.com with SMTP id q21so12679295iod.4
-        for <linux-media@vger.kernel.org>; Wed, 23 Nov 2022 00:20:04 -0800 (PST)
-X-Received: by 2002:a5e:c809:0:b0:6cf:8cf0:91ac with SMTP id
- y9-20020a5ec809000000b006cf8cf091acmr3586128iol.186.1669191604023; Wed, 23
- Nov 2022 00:20:04 -0800 (PST)
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=L9Thz9yns+FIJXusgM78SIai92l4nRiseqTTKyEIwSM=;
+        b=DSoV7s4vDYJxugV1YMX25R6CWO0Ye7lxk5I973XcdiUx6Cdc4q++m8+aziMe+uXAqD
+         kjeCs6E/qjLs2+k6L9DNY+v+T3GwtEr/k6mvoEmwtBkbBpCEIPucc4vSssoyHAc/Gtxh
+         3Yx52KNCLmqk8KGrxDVBjGYs0A/UQ74/0BI7ma3k5zYeKAKqESNcs2IS4SCJwEHPFMtA
+         2+G0rGOLJhWfM+Sl2o8ZsUr48uQ/HQcYJ1TRGiZ4GwawC92G0mgBLNWSSfXRJFvSNjK5
+         /XPcV6zbO4LeI3EG1lK8VXdPQyBMVLpwq0stjSu3UabxRbtxvSIjBGcKV3MK1Jxa85dJ
+         7mtQ==
+X-Gm-Message-State: ANoB5pnFNurXsxkA37+6ffJ4sAU8iJccq5DUoGjotgZQFPMg+MZAvcyR
+        d//1T0KmaH64/gnCCwp/vpPWHw==
+X-Google-Smtp-Source: AA0mqf6nenQbqL5kVqF3svPV7Z481oVYS0C1JSjWJhHqfh2Ns7JBkLFmxh0/kDbGvLsWJlVFhwIIHQ==
+X-Received: by 2002:a05:600c:3795:b0:3cf:cfcd:1e0 with SMTP id o21-20020a05600c379500b003cfcfcd01e0mr11411542wmr.166.1669191711172;
+        Wed, 23 Nov 2022 00:21:51 -0800 (PST)
+Received: from tom-ThinkPad-T14s-Gen-2i (net-188-217-55-94.cust.vodafonedsl.it. [188.217.55.94])
+        by smtp.gmail.com with ESMTPSA id bg8-20020a05600c3c8800b003a6125562e1sm1456252wmb.46.2022.11.23.00.21.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 23 Nov 2022 00:21:50 -0800 (PST)
+Date:   Wed, 23 Nov 2022 09:21:48 +0100
+From:   Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
+To:     Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Cc:     Steve Longerbeam <slongerbeam@gmail.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org,
+        kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: imx: remove code for non-existing config
+ IMX_GPT_ICAP
+Message-ID: <20221123082148.GC39395@tom-ThinkPad-T14s-Gen-2i>
+References: <20221122132330.30408-1-lukas.bulwahn@gmail.com>
+ <20221122160937.GB39395@tom-ThinkPad-T14s-Gen-2i>
+ <CAKXUXMxk-YoG4TdB8Em+cEMF8NA7rdMAboQz8nmhfVmVQ8oATA@mail.gmail.com>
 MIME-Version: 1.0
-References: <20221122084833.1241078-1-aichao@kylinos.cn>
-In-Reply-To: <20221122084833.1241078-1-aichao@kylinos.cn>
-From:   Ricardo Ribalda <ribalda@chromium.org>
-Date:   Wed, 23 Nov 2022 09:19:51 +0100
-X-Gmail-Original-Message-ID: <CANiDSCv8wSJ3+sF33ffikcBeYQ-ExabWe6nofQWj_-HmuCiTHA@mail.gmail.com>
-Message-ID: <CANiDSCv8wSJ3+sF33ffikcBeYQ-ExabWe6nofQWj_-HmuCiTHA@mail.gmail.com>
-Subject: Re: [PATCH v4] media: uvcvideo: Fix bandwidth error for Alcor camera
-To:     Ai Chao <aichao@kylinos.cn>
-Cc:     laurent.pinchart@ideasonboard.com, mchehab@kernel.org,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAKXUXMxk-YoG4TdB8Em+cEMF8NA7rdMAboQz8nmhfVmVQ8oATA@mail.gmail.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -73,72 +80,157 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Ai
+Hi Lukas,
 
-On Tue, 22 Nov 2022 at 09:49, Ai Chao <aichao@kylinos.cn> wrote:
->
-> For Alcor Corp. Slave camera(1b17:6684/2017:0011), it support to output
->  compressed video data, and it return a wrong dwMaxPayloadTransferSize
->  fields. This is a fireware issue, but the manufacturer cannot provide
->  a const return fieldsby the fireware. For some device, it requested
-nit:s/fireware/firmware/
->  2752512 B/frame bandwidth. For normally device, it requested 3072 or 1024
->  B/frame bandwidth. so we check the dwMaxPayloadTransferSize fields,if it
->  large than 0x1000, reset dwMaxPayloadTransferSize to 1024, and the camera
->  preview normally.
->
-> Signed-off-by: Ai Chao <aichao@kylinos.cn>
-Reviewed-by: Ricardo Ribalda <ribalda@chromium.org>
->
-> ---
-> change for v4
-> - Change usb_match_one_id to usb_match_id
-> - Modify the discription
->
-> change for v3
-> - Add VID/PID 2017:0011
->
-> change for v2
-> - Used usb_match_one_id to check VID and PID
-> ---
-> ---
->  drivers/media/usb/uvc/uvc_video.c | 12 ++++++++++++
->  1 file changed, 12 insertions(+)
->
-> diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
-> index d2eb9066e4dc..75bdd71d0e5a 100644
-> --- a/drivers/media/usb/uvc/uvc_video.c
-> +++ b/drivers/media/usb/uvc/uvc_video.c
-> @@ -135,6 +135,11 @@ static void uvc_fixup_video_ctrl(struct uvc_streaming *stream,
->         static const struct usb_device_id elgato_cam_link_4k = {
->                 USB_DEVICE(0x0fd9, 0x0066)
->         };
-> +       static const struct usb_device_id alcor_corp_slave_cam[] = {
-> +               { USB_DEVICE(0x2017, 0x0011) },
-> +               { USB_DEVICE(0x1b17, 0x6684) },
-> +               { }
-> +       };
->         struct uvc_format *format = NULL;
->         struct uvc_frame *frame = NULL;
->         unsigned int i;
-> @@ -234,6 +239,13 @@ static void uvc_fixup_video_ctrl(struct uvc_streaming *stream,
->
->                 ctrl->dwMaxPayloadTransferSize = bandwidth;
->         }
-> +
-> +       /* Alcor Corp. Slave camera return wrong dwMaxPayloadTransferSize */
-> +       if ((format->flags & UVC_FMT_FLAG_COMPRESSED) &&
-> +           (ctrl->dwMaxPayloadTransferSize > 0x1000) &&
-> +           usb_match_id(stream->dev->intf, alcor_corp_slave_cam)) {
-> +               ctrl->dwMaxPayloadTransferSize = 1024;
-> +       }
->  }
->
->  static size_t uvc_video_ctrl_size(struct uvc_streaming *stream)
-> --
-> 2.25.1
->
+On Wed, Nov 23, 2022 at 08:56:06AM +0100, Lukas Bulwahn wrote:
+> On Tue, Nov 22, 2022 at 5:09 PM Tommaso Merciai
+> <tommaso.merciai@amarulasolutions.com> wrote:
+> >
+> > Hi Lukas,
+> >
+> > On Tue, Nov 22, 2022 at 02:23:30PM +0100, Lukas Bulwahn wrote:
+> > > There never was a config IMX_GPT_ICAP in the repository. So remove the code
+> > > conditional on this config and simplify the callers that just called empty
+> > > functions.
+> > >
+> > > Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+> > > ---
+> > >  drivers/staging/media/imx/imx-media-fim.c | 54 -----------------------
+> > >  1 file changed, 54 deletions(-)
+> > >
+> > > diff --git a/drivers/staging/media/imx/imx-media-fim.c b/drivers/staging/media/imx/imx-media-fim.c
+> > > index 3a9182933508..19a48eb445fd 100644
+> > > --- a/drivers/staging/media/imx/imx-media-fim.c
+> > > +++ b/drivers/staging/media/imx/imx-media-fim.c
+> > > @@ -187,54 +187,6 @@ static void frame_interval_monitor(struct imx_media_fim *fim,
+> > >               send_fim_event(fim, error_avg);
+> > >  }
+> > >
+> > > -#ifdef CONFIG_IMX_GPT_ICAP
+> > > -/*
+> > > - * Input Capture method of measuring frame intervals. Not subject
+> > > - * to interrupt latency.
+> > > - */
+> > > -static void fim_input_capture_handler(int channel, void *dev_id,
+> > > -                                   ktime_t timestamp)
+> > > -{
+> > > -     struct imx_media_fim *fim = dev_id;
+> > > -     unsigned long flags;
+> > > -
+> > > -     spin_lock_irqsave(&fim->lock, flags);
+> > > -
+> > > -     frame_interval_monitor(fim, timestamp);
+> > > -
+> > > -     if (!completion_done(&fim->icap_first_event))
+> > > -             complete(&fim->icap_first_event);
+> > > -
+> > > -     spin_unlock_irqrestore(&fim->lock, flags);
+> > > -}
+> > > -
+> > > -static int fim_request_input_capture(struct imx_media_fim *fim)
+> > > -{
+> > > -     init_completion(&fim->icap_first_event);
+> > > -
+> > > -     return mxc_request_input_capture(fim->icap_channel,
+> > > -                                      fim_input_capture_handler,
+> > > -                                      fim->icap_flags, fim);
+> > > -}
+> > > -
+> > > -static void fim_free_input_capture(struct imx_media_fim *fim)
+> > > -{
+> > > -     mxc_free_input_capture(fim->icap_channel, fim);
+> > > -}
+> > > -
+> > > -#else /* CONFIG_IMX_GPT_ICAP */
+> > > -
+> > > -static int fim_request_input_capture(struct imx_media_fim *fim)
+> > > -{
+> > > -     return 0;
+> > > -}
+> > > -
+> > > -static void fim_free_input_capture(struct imx_media_fim *fim)
+> > > -{
+> > > -}
+> > > -
+> > > -#endif /* CONFIG_IMX_GPT_ICAP */
+> > > -
+> > >  /*
+> > >   * In case we are monitoring the first frame interval after streamon
+> > >   * (when fim->num_skip = 0), we need a valid fim->last_ts before we
+> > > @@ -435,14 +387,8 @@ int imx_media_fim_set_stream(struct imx_media_fim *fim,
+> > >               spin_unlock_irqrestore(&fim->lock, flags);
+> > >
+> > >               if (icap_enabled(fim)) {
+> > > -                     ret = fim_request_input_capture(fim);
+> > > -                     if (ret)
+> > > -                             goto out;
+> > >                       fim_acquire_first_ts(fim);
+> > >               }
+> >
+> > As suggested by the checkpatch.pl:
+> > WARNING: braces {} are not necessary for single statement blocks
+> >
+> > > -     } else {
+> > > -             if (icap_enabled(fim))
+> > > -                     fim_free_input_capture(fim);
+> > >       }
+> > >
+> > >       fim->stream_on = on;
+> > > --
+> > > 2.17.1
+> > >
+> >
+> 
+> Strangely, my checkpatch invocation on next-20221116 did not show that
+> warning and I am unaware that I made any specific changes to
+> checkpatch or its configuration.
+> 
+> Anyway, checkpatch and you, Tommaso, are right and the patch can of
+> course be improved. I sent out a patch v2:
+> 
+> https://lore.kernel.org/all/20221123075216.28193-1-lukas.bulwahn@gmail.com/
+> 
+> I hope to get an Acked-by: tag from you now. Thanks.
 
+Sorry I miss the tag :)
+
+Acked-by: Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
+
+Apply the patch then run:
+ scripts/checkpatch.pl -f drivers/staging/media/imx/imx-media-fim.c
+
+Regards,
+Tommaso
+
+> 
+> Lukas
+> 
+> > Apart of this, patch looks good to me.
+> > Thanks.
+> >
+> > Regards,
+> > Tommaso
+> >
+> > --
+> > Tommaso Merciai
+> > Embedded Linux Engineer
+> > tommaso.merciai@amarulasolutions.com
+> > __________________________________
+> >
+> > Amarula Solutions SRL
+> > Via Le Canevare 30, 31100 Treviso, Veneto, IT
+> > T. +39 042 243 5310
+> > info@amarulasolutions.com
+> > www.amarulasolutions.com
 
 -- 
-Ricardo Ribalda
+Tommaso Merciai
+Embedded Linux Engineer
+tommaso.merciai@amarulasolutions.com
+__________________________________
+
+Amarula Solutions SRL
+Via Le Canevare 30, 31100 Treviso, Veneto, IT
+T. +39 042 243 5310
+info@amarulasolutions.com
+www.amarulasolutions.com
