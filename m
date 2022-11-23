@@ -2,73 +2,136 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B1032636629
-	for <lists+linux-media@lfdr.de>; Wed, 23 Nov 2022 17:50:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1C0D163666C
+	for <lists+linux-media@lfdr.de>; Wed, 23 Nov 2022 18:02:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238106AbiKWQuH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 23 Nov 2022 11:50:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44472 "EHLO
+        id S237269AbiKWRBz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 23 Nov 2022 12:01:55 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51350 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235632AbiKWQuG (ORCPT
+        with ESMTP id S235738AbiKWRBx (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 23 Nov 2022 11:50:06 -0500
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64D5097A95
-        for <linux-media@vger.kernel.org>; Wed, 23 Nov 2022 08:50:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1669222206; x=1700758206;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=FVWJ52C08lQI5duJRdrh8VZWbRHWdly/1DOjlluqf9E=;
-  b=XTRqESOu2o/5UgvwAV0Pa+8SJjjaeInu23v+VJkCZLvicUgAiYmtIIQd
-   lY2YxpTHE3zRwmn9iA5Osuxp3lNQT5bPhOPfdaGfRAOV3mljUgy4sOOkf
-   KoACJTTcoZEZQ3QgEbctv16FvZgGsMUAVBE3SCx2WjABksIGBVzh/Us6+
-   iL2Mb+pFydKLxlcjLBsxbla/bhJE1ve+1rOBQUA7qvVFFbAvE7czsDoL8
-   8CVLS951O3zdw3L006IvJWKLSn1dMBBwmr1oVBg7Z+FnFX9Hliz5oNSGR
-   rXSuGJED1qX1UzREieOz66FFGdFYLqrE/HXlv6Qv6vXqKW+OVQdwIxJqQ
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10540"; a="314145119"
-X-IronPort-AV: E=Sophos;i="5.96,187,1665471600"; 
-   d="scan'208";a="314145119"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Nov 2022 08:50:06 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10540"; a="592579214"
-X-IronPort-AV: E=Sophos;i="5.96,187,1665471600"; 
-   d="scan'208";a="592579214"
-Received: from punajuuri.fi.intel.com (HELO paasikivi.fi.intel.com) ([10.237.72.43])
-  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Nov 2022 08:50:04 -0800
-Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
-        by paasikivi.fi.intel.com (Postfix) with SMTP id 06D2B20207;
-        Wed, 23 Nov 2022 18:50:02 +0200 (EET)
-Date:   Wed, 23 Nov 2022 16:50:01 +0000
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH] MAINTAINERS: Add Hans de Goede as staging/atomisp
- maintainer
-Message-ID: <Y35POV42NRUIUQe3@paasikivi.fi.intel.com>
-References: <20221123161447.15834-1-hdegoede@redhat.com>
+        Wed, 23 Nov 2022 12:01:53 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E20E32B9B;
+        Wed, 23 Nov 2022 09:01:52 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id E04F561DFD;
+        Wed, 23 Nov 2022 17:01:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 777BCC433D6;
+        Wed, 23 Nov 2022 17:01:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1669222911;
+        bh=o3haMfaeHZfYTyEePRwp9h5E4unKgpaM0OuqyhoXnp0=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=qo8vJIErhb/ipCwuy4gwV/i9YmIAaJMojUiZPS4IOOd8yQY7LyT3VrOZMJTKRDS9x
+         i8L49I9CCW+G4gWPmwXnGTUcpWsWu7OwHPDHLjbFVstIHlX3U3iCwopRHJdZmvOcLy
+         DUuQU3VjRGKHYyj8ctniAuEtEhb8ztF3vFHL+6eY=
+Date:   Wed, 23 Nov 2022 18:01:47 +0100
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Jason Gunthorpe <jgg@ziepe.ca>
+Cc:     Matthew Wilcox <willy@infradead.org>,
+        Maximilian Luz <luzmaximilian@gmail.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        linux-kernel@vger.kernel.org, Jens Axboe <axboe@kernel.dk>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Len Brown <lenb@kernel.org>,
+        Stefan Richter <stefanr@s5r6.in-berlin.de>,
+        Wolfram Sang <wsa@kernel.org>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Sean Young <sean@mess.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Mark Gross <markgross@kernel.org>,
+        Vinod Koul <vkoul@kernel.org>,
+        Bard Liao <yung-chuan.liao@linux.intel.com>,
+        Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+        Sanyog Kale <sanyog.r.kale@intel.com>,
+        Andreas Noever <andreas.noever@gmail.com>,
+        Michael Jamet <michael.jamet@intel.com>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Yehezkel Bernat <YehezkelShB@gmail.com>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        Chaitanya Kulkarni <kch@nvidia.com>,
+        Ming Lei <ming.lei@redhat.com>,
+        Jilin Yuan <yuanjilin@cdjrlc.com>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ira Weiny <ira.weiny@intel.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Won Chung <wonchung@google.com>, alsa-devel@alsa-project.org,
+        devicetree@vger.kernel.org, linux-acpi@vger.kernel.org,
+        linux-block@vger.kernel.org, linux-i2c@vger.kernel.org,
+        linux-i3c@lists.infradead.org, linux-input@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-serial@vger.kernel.org,
+        linux-usb@vger.kernel.org, linux1394-devel@lists.sourceforge.net,
+        platform-driver-x86@vger.kernel.org
+Subject: Re: [PATCH 3/5] driver core: make struct device_type.uevent() take a
+ const *
+Message-ID: <Y35R+/eQJYI7VaDS@kroah.com>
+References: <20221123122523.1332370-1-gregkh@linuxfoundation.org>
+ <20221123122523.1332370-3-gregkh@linuxfoundation.org>
+ <711d5275-7e80-c00d-0cdc-0f3d52175361@gmail.com>
+ <Y34hgIW8p1RlQTBB@smile.fi.intel.com>
+ <97be39ed-3cea-d55a-caa6-c2652baef399@gmail.com>
+ <Y34zyzdbRUdyOSkA@casper.infradead.org>
+ <Y34+V2bCDdqujBDk@kroah.com>
+ <Y35JfNJDppRp5bLX@ziepe.ca>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221123161447.15834-1-hdegoede@redhat.com>
-X-Spam-Status: No, score=-7.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <Y35JfNJDppRp5bLX@ziepe.ca>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Nov 23, 2022 at 05:14:47PM +0100, Hans de Goede wrote:
-> Add myself as maintainer for the drivers/staging/media/atomisp code.
+On Wed, Nov 23, 2022 at 12:25:32PM -0400, Jason Gunthorpe wrote:
+> On Wed, Nov 23, 2022 at 04:37:59PM +0100, Greg Kroah-Hartman wrote:
+> > static inline struct device *__kobj_to_dev(struct kobject *kobj)
+> > {
+> >         return container_of(kobj, struct device, kobj);
+> > }
+> > 
+> > static inline const struct device *__kobj_to_dev_const(const struct kobject *kobj)
+> > {
+> >         return container_of(kobj, const struct device, kobj);
+> > }
+> > 
+> > /*
+> >  * container_of() will happily take a const * and spit back a non-const * as it
+> >  * is just doing pointer math.  But we want to be a bit more careful in the
+> >  * driver code, so manually force any const * of a kobject to also be a const *
+> >  * to a device.
+> >  */
+> > #define kobj_to_dev(kobj)                                       \
+> >         _Generic((kobj),                                        \
+> >                  const struct kobject *: __kobj_to_dev_const,   \
+> >                  struct kobject *: __kobj_to_dev)(kobj)
+> > 
+> > 
+> > Want me to do the same thing here as well?
 > 
-> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> It would be nice to have a shared macro code gen all of the above
+> instead of copy and pasting it. Then maybe other cases beyond struct
+> device could adopt const too..
 
-Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+I think I tried to create such a beast, but failed, so ended up
+open-coding it in a few places in the USB headers already.  I can try it
+again, but the redirection gets tricky (defines creating defines...)
 
--- 
-Sakari Ailus
+thanks,
+
+greg k-h
