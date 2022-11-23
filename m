@@ -2,114 +2,273 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9624B6359EF
-	for <lists+linux-media@lfdr.de>; Wed, 23 Nov 2022 11:31:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DA6C6635A01
+	for <lists+linux-media@lfdr.de>; Wed, 23 Nov 2022 11:35:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236403AbiKWKbN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 23 Nov 2022 05:31:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59120 "EHLO
+        id S236199AbiKWKcg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 23 Nov 2022 05:32:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33820 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236834AbiKWKav (ORCPT
+        with ESMTP id S237236AbiKWKcA (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 23 Nov 2022 05:30:51 -0500
-Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com [209.85.219.50])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD7EF12294D;
-        Wed, 23 Nov 2022 02:13:45 -0800 (PST)
-Received: by mail-qv1-f50.google.com with SMTP id h7so11249056qvs.3;
-        Wed, 23 Nov 2022 02:13:45 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=1J1/Dk89lTEXUaWgB7PSlowyLzY8WAPYmQ4lIK/72+8=;
-        b=MVWl9JHFuL2lc+s1+HJdbHS8/dX2EQbXoX/yMwXWry9nV83l3kIFK9J2NbD8G8ksK7
-         vKWQVhdYEc0jbEyzk+M5ZnIJ7Ktaet+C+XJBIDIkV9aM2N2h5S2baPiYA6V2t0PSal35
-         bUF35z9wxqyNqqDTLmaavKxJLg5aMVatIdEZ7P/aDx2wmxvAO9UGJHT/AL0OPsaGuT3C
-         6OzsIwUzXOjJjVput1wGYQg4sL6j/3mmemYnwERJqFDoTPatfxVq/g/HgNoi1BctD6yM
-         v+tmKQLFdQ9pOkCuQnxYwp4JunOd0sIfr84WO09tkqCRwf/ULYQjidb7oBeRyeCaZhdw
-         RPxw==
-X-Gm-Message-State: ANoB5pkRMLrZnKmK7eC9qju88lreIPjBeL95myKnVwM2/PqsWRIYrACi
-        3FGYNqJPKiebGugOqJnoP6zSQKEN2jUtbA==
-X-Google-Smtp-Source: AA0mqf7B09LUkeAyo/gD39xh+jGigjeZU8wlH5Mw5bvBWprw/17e7pDva275Zrue7vnVQQBhF6dADA==
-X-Received: by 2002:a05:6214:4290:b0:4bb:5d3a:bdad with SMTP id og16-20020a056214429000b004bb5d3abdadmr7798908qvb.26.1669198424729;
-        Wed, 23 Nov 2022 02:13:44 -0800 (PST)
-Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com. [209.85.128.173])
-        by smtp.gmail.com with ESMTPSA id ey10-20020a05622a4c0a00b003a5fb681ae7sm9573050qtb.3.2022.11.23.02.13.42
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 23 Nov 2022 02:13:43 -0800 (PST)
-Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-3691e040abaso169719247b3.9;
-        Wed, 23 Nov 2022 02:13:42 -0800 (PST)
-X-Received: by 2002:a05:690c:b01:b0:370:202b:f085 with SMTP id
- cj1-20020a05690c0b0100b00370202bf085mr25967882ywb.502.1669198422650; Wed, 23
- Nov 2022 02:13:42 -0800 (PST)
+        Wed, 23 Nov 2022 05:32:00 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A245A11A704
+        for <linux-media@vger.kernel.org>; Wed, 23 Nov 2022 02:16:21 -0800 (PST)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0603F88F;
+        Wed, 23 Nov 2022 11:16:19 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1669198580;
+        bh=FqC9UY7tgk9azFLIuV2sI6UDFx/RZot0hz5R6KH9w38=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=oQh0xQIv7+0CgqscmmOnqlAQPQlExFE1ffq3m4fgSw510g30bO9LomVDEedKwGsjD
+         yl+7wrl74YzqlHofjRs/VlNMtvcaZFhE5fEk2O1CcX0pjLYV+n8r7ZgqVO0+A7Fkoa
+         IkhkyTpwqDTX7OAn0KkD7sxQ+3KckPeN2sBpCVf0=
+Date:   Wed, 23 Nov 2022 12:16:04 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Alexander Stein <alexander.stein@ew.tq-group.com>
+Cc:     linux-media@vger.kernel.org, Sakari Ailus <sakari.ailus@iki.fi>,
+        Manivannan Sadhasivam <mani@kernel.org>
+Subject: Re: [PATCH v1 08/15] media: i2c: imx290: Factor out DT parsing to
+ separate function
+Message-ID: <Y33y5NWdLVUnCzR5@pendragon.ideasonboard.com>
+References: <20221122223250.21233-1-laurent.pinchart@ideasonboard.com>
+ <20221122223250.21233-9-laurent.pinchart@ideasonboard.com>
+ <3708802.kQq0lBPeGt@steina-w>
 MIME-Version: 1.0
-References: <a50fa46075fb760d8409ff6ea2232b2ddb7a102b.1669046259.git.geert+renesas@glider.be>
- <20221123100831.GE39395@tom-ThinkPad-T14s-Gen-2i>
-In-Reply-To: <20221123100831.GE39395@tom-ThinkPad-T14s-Gen-2i>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 23 Nov 2022 11:13:31 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdUW8iKFjDj4fPtWfPvyQ1sjGcAy1Kz5j-osz9F4pdA47Q@mail.gmail.com>
-Message-ID: <CAMuHMdUW8iKFjDj4fPtWfPvyQ1sjGcAy1Kz5j-osz9F4pdA47Q@mail.gmail.com>
-Subject: Re: [PATCH resend] media: staging: stkwebcam: Restore
- MEDIA_{USB,CAMERA}_SUPPORT dependencies
-To:     Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
-        Ricardo Ribalda <ribalda@chromium.org>,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.5 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=no autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <3708802.kQq0lBPeGt@steina-w>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Tommaso,
+Hi Alexander,
 
-On Wed, Nov 23, 2022 at 11:08 AM Tommaso Merciai
-<tommaso.merciai@amarulasolutions.com> wrote:
-> On Mon, Nov 21, 2022 at 04:58:33PM +0100, Geert Uytterhoeven wrote:
-> > By moving support for the USB Syntek DC1125 Camera to staging, the
-> > dependencies on MEDIA_USB_SUPPORT and MEDIA_CAMERA_SUPPORT were lost.
-> >
-> > Fixes: 56280c64ecacc971 ("media: stkwebcam: deprecate driver, move to staging")
->
-> Patch itself looks good but we have some style issue. Applying this
-> patch I got the following warning from checkpatchl:
->
-> WARNING: Please use correct Fixes: style 'Fixes: <12 chars of sha1> ("<title line>")' - ie: 'Fixes: 56280c64ecac ("media: stkwebcam: deprecate driver, move to staging")'
-> #10:
->
-> You have to pass only the first 12 chars of the sha1 commit into Fixes
-> msg:
->
-> Use:
->
->  Fixes: 56280c64ecac ("media: stkwebcam: deprecate driver, move to staging")
->
-> Instead of:
->
->  Fixes: 56280c64ecacc971 ("media: stkwebcam: deprecate driver, move to staging")
+On Wed, Nov 23, 2022 at 09:14:34AM +0100, Alexander Stein wrote:
+> Am Dienstag, 22. November 2022, 23:32:43 CET schrieb Laurent Pinchart:
+> > Make the probe() function more readable by factoring out the DT parsing
+> > code to a separate function. No functional change intended.
+> > 
+> > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > ---
+> >  drivers/media/i2c/imx290.c | 97 +++++++++++++++++++++-----------------
+> >  1 file changed, 53 insertions(+), 44 deletions(-)
+> > 
+> > diff --git a/drivers/media/i2c/imx290.c b/drivers/media/i2c/imx290.c
+> > index d9fc6c44b0f0..655f676df3d2 100644
+> > --- a/drivers/media/i2c/imx290.c
+> > +++ b/drivers/media/i2c/imx290.c
+> > @@ -1139,112 +1139,125 @@ static s64 imx290_check_link_freqs(const struct
+> > imx290 *imx290, return 0;
+> >  }
+> > 
+> > -static int imx290_probe(struct i2c_client *client)
+> > +static int imx290_parse_dt(struct imx290 *imx290)
+> >  {
+> > -	struct device *dev = &client->dev;
+> > -	struct fwnode_handle *endpoint;
+> >  	/* Only CSI2 is supported for now: */
+> >  	struct v4l2_fwnode_endpoint ep = {
+> >  		.bus_type = V4L2_MBUS_CSI2_DPHY
+> >  	};
+> > -	struct imx290 *imx290;
+> > -	u32 xclk_freq;
+> > -	u32 chip_id;
+> 
+> I assume your patch for reading the chip ID slipped into this series.
+> Either add it to the series or rearrange your patches.
 
-I always use 16 chars, to avoid these becoming ambiguous in a few years.
+Oops. I'll fix that.
 
-Gr{oetje,eeting}s,
+> > +	struct fwnode_handle *endpoint;
+> > +	int ret;
+> >  	s64 fq;
+> > -	int ret;
+> > 
+> > -	imx290 = devm_kzalloc(dev, sizeof(*imx290), GFP_KERNEL);
+> > -	if (!imx290)
+> > -		return -ENOMEM;
+> > -
+> > -	imx290->dev = dev;
+> > -	imx290->regmap = devm_regmap_init_i2c(client, &imx290_regmap_config);
+> > -	if (IS_ERR(imx290->regmap)) {
+> > -		dev_err(dev, "Unable to initialize I2C\n");
+> > -		return -ENODEV;
+> > -	}
+> > -
+> > -	endpoint = fwnode_graph_get_next_endpoint(dev_fwnode(dev), NULL);
+> > +	endpoint = fwnode_graph_get_next_endpoint(dev_fwnode(imx290->dev), NULL);
+> >  	if (!endpoint) {
+> > -		dev_err(dev, "Endpoint node not found\n");
+> > +		dev_err(imx290->dev, "Endpoint node not found\n");
+> >  		return -EINVAL;
+> >  	}
+> > 
+> >  	ret = v4l2_fwnode_endpoint_alloc_parse(endpoint, &ep);
+> >  	fwnode_handle_put(endpoint);
+> >  	if (ret == -ENXIO) {
+> > -		dev_err(dev, "Unsupported bus type, should be CSI2\n");
+> > -		goto err_endpoint;
+> > +		dev_err(imx290->dev, "Unsupported bus type, should be CSI2\n");
+> > +		goto done;
+> >  	} else if (ret) {
+> > -		dev_err(dev, "Parsing endpoint node failed\n");
+> > -		goto err_endpoint;
+> > +		dev_err(imx290->dev, "Parsing endpoint node failed\n");
+> > +		goto done;
+> >  	}
+> > 
+> >  	/* Get number of data lanes */
+> >  	imx290->nlanes = ep.bus.mipi_csi2.num_data_lanes;
+> >  	if (imx290->nlanes != 2 && imx290->nlanes != 4) {
+> > -		dev_err(dev, "Invalid data lanes: %d\n", imx290->nlanes);
+> > +		dev_err(imx290->dev, "Invalid data lanes: %d\n", imx290->nlanes);
+> >  		ret = -EINVAL;
+> > -		goto err_endpoint;
+> > +		goto done;
+> >  	}
+> > 
+> > -	dev_dbg(dev, "Using %u data lanes\n", imx290->nlanes);
+> > +	dev_dbg(imx290->dev, "Using %u data lanes\n", imx290->nlanes);
+> > 
+> >  	if (!ep.nr_of_link_frequencies) {
+> > -		dev_err(dev, "link-frequency property not found in DT\n");
+> > +		dev_err(imx290->dev, "link-frequency property not found in DT\n");
+> >  		ret = -EINVAL;
+> > -		goto err_endpoint;
+> > +		goto done;
+> >  	}
+> > 
+> >  	/* Check that link frequences for all the modes are in device tree 
+> */
+> >  	fq = imx290_check_link_freqs(imx290, &ep);
+> >  	if (fq) {
+> > -		dev_err(dev, "Link frequency of %lld is not supported\n", fq);
+> > +		dev_err(imx290->dev, "Link frequency of %lld is not supported\n",
+> > +			fq);
+> >  		ret = -EINVAL;
+> > -		goto err_endpoint;
+> > +		goto done;
+> >  	}
+> > 
+> > +	ret = 0;
+> > +
+> > +done:
+> > +	v4l2_fwnode_endpoint_free(&ep);
+> > +	return ret;
+> > +}
+> > +
+> > +static int imx290_probe(struct i2c_client *client)
+> > +{
+> > +	struct device *dev = &client->dev;
+> > +	struct imx290 *imx290;
+> > +	u32 xclk_freq;
+> > +	u32 chip_id;
+> > +	int ret;
+> > +
+> > +	imx290 = devm_kzalloc(dev, sizeof(*imx290), GFP_KERNEL);
+> > +	if (!imx290)
+> > +		return -ENOMEM;
+> > +
+> > +	imx290->dev = dev;
+> > +	imx290->regmap = devm_regmap_init_i2c(client, &imx290_regmap_config);
+> > +	if (IS_ERR(imx290->regmap)) {
+> > +		dev_err(dev, "Unable to initialize I2C\n");
+> > +		return -ENODEV;
+> > +	}
+> > +
+> > +	ret = imx290_parse_dt(imx290);
+> > +	if (ret)
+> > +		return ret;
+> > +
+> >  	/* get system clock (xclk) */
+> >  	imx290->xclk = devm_clk_get(dev, "xclk");
+> >  	if (IS_ERR(imx290->xclk)) {
+> >  		dev_err(dev, "Could not get xclk");
+> > -		ret = PTR_ERR(imx290->xclk);
+> > -		goto err_endpoint;
+> > +		return PTR_ERR(imx290->xclk);
+> 
+> Mh, using dev_err_probe this can be a one-liner.
 
-                        Geert
+It's done later in the series :-)
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+> >  	}
+> > 
+> >  	ret = fwnode_property_read_u32(dev_fwnode(dev), "clock-frequency",
+> >  				       &xclk_freq);
+> >  	if (ret) {
+> >  		dev_err(dev, "Could not get xclk frequency\n");
+> > -		goto err_endpoint;
+> > +		return ret;
+> >  	}
+> > 
+> >  	/* external clock must be 37.125 MHz */
+> >  	if (xclk_freq != 37125000) {
+> >  		dev_err(dev, "External clock frequency %u is not supported\n",
+> >  			xclk_freq);
+> > -		ret = -EINVAL;
+> > -		goto err_endpoint;
+> > +		return -EINVAL;
+> >  	}
+> > 
+> >  	ret = clk_set_rate(imx290->xclk, xclk_freq);
+> >  	if (ret) {
+> >  		dev_err(dev, "Could not set xclk frequency\n");
+> > -		goto err_endpoint;
+> > +		return ret;
+> >  	}
+> > 
+> >  	ret = imx290_get_regulators(dev, imx290);
+> >  	if (ret < 0) {
+> >  		dev_err(dev, "Cannot get regulators\n");
+> > -		goto err_endpoint;
+> > +		return ret;
+> 
+> Using dev_err_probe this can be a one-liner as well.
+> 
+> >  	}
+> > 
+> >  	imx290->rst_gpio = devm_gpiod_get_optional(dev, "reset",
+> >  						   
+> GPIOD_OUT_HIGH);
+> >  	if (IS_ERR(imx290->rst_gpio)) {
+> >  		dev_err(dev, "Cannot get reset gpio\n");
+> > -		ret = PTR_ERR(imx290->rst_gpio);
+> > -		goto err_endpoint;
+> > +		return PTR_ERR(imx290->rst_gpio);
+> 
+> Using dev_err_probe this can be a one-liner as well.
+> 
+> >  	}
+> > 
+> >  	mutex_init(&imx290->lock);
+> > @@ -1279,16 +1292,12 @@ static int imx290_probe(struct i2c_client *client)
+> >  	pm_runtime_enable(dev);
+> >  	pm_runtime_idle(dev);
+> > 
+> > -	v4l2_fwnode_endpoint_free(&ep);
+> > -
+> >  	return 0;
+> > 
+> >  err_subdev:
+> >  	imx290_subdev_cleanup(imx290);
+> >  err_mutex:
+> >  	mutex_destroy(&imx290->lock);
+> > -err_endpoint:
+> > -	v4l2_fwnode_endpoint_free(&ep);
+> > 
+> >  	return ret;
+> >  }
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+-- 
+Regards,
+
+Laurent Pinchart
