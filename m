@@ -2,70 +2,67 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 26DB76356C7
-	for <lists+linux-media@lfdr.de>; Wed, 23 Nov 2022 10:34:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 460366356DE
+	for <lists+linux-media@lfdr.de>; Wed, 23 Nov 2022 10:37:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237753AbiKWJcQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 23 Nov 2022 04:32:16 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50210 "EHLO
+        id S237899AbiKWJhT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 23 Nov 2022 04:37:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58262 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237752AbiKWJbZ (ORCPT
+        with ESMTP id S237977AbiKWJg7 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 23 Nov 2022 04:31:25 -0500
-Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com [IPv6:2a00:1450:4864:20::630])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A04C38FE44
-        for <linux-media@vger.kernel.org>; Wed, 23 Nov 2022 01:30:50 -0800 (PST)
-Received: by mail-ej1-x630.google.com with SMTP id f18so41465321ejz.5
-        for <linux-media@vger.kernel.org>; Wed, 23 Nov 2022 01:30:50 -0800 (PST)
+        Wed, 23 Nov 2022 04:36:59 -0500
+Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com [IPv6:2a00:1450:4864:20::634])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5BCF6F5A32
+        for <linux-media@vger.kernel.org>; Wed, 23 Nov 2022 01:34:10 -0800 (PST)
+Received: by mail-ej1-x634.google.com with SMTP id ha10so5103228ejb.3
+        for <linux-media@vger.kernel.org>; Wed, 23 Nov 2022 01:34:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=ffwll.ch; s=google;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=k/P6HmngRm+KyT9/p0YBOvUT5RPDSJ3KZFWEC9yJwyg=;
-        b=SEYF/QTgkO2KyNYiHEjRyucUFb+Ry9Ekx3DQApfopXV78YDBzf9VwXBQKgQJiCjU1x
-         i9Ujwox9aEaL0s0ptkZ33/Eiv9tYtfXn/YlySaB4qMn6tMtPQ9g3j0KpDQKXZA10tmgT
-         luHNcWnUrOP+rBqLFyPSotsOcnLRVK6vYN7CA=
+        bh=eaoNQNPQh1D0M9ASOIATnCY2bDKOxaIZFdZSYeu2AVU=;
+        b=RMt3JOxIQZ+xFx84pQltpGWI1aa+nHijLWYpM/9MD53KeuGh9anNrdvbMkILFssPxr
+         2IGkvYiWoiVnbqC4YWeIB7pkomSW8Zpv79dOx7NSzp9pu6N18yQiih29xUZLqCaGldKu
+         QZ2diXWp1IIJPK8cQ6O8cweW3/WDsoBxtmfj4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=k/P6HmngRm+KyT9/p0YBOvUT5RPDSJ3KZFWEC9yJwyg=;
-        b=HGkH2JWGE34B6tMrdf2ZnrtkA22N7H45pb+X0p0I3qznykj4ds2o5afp1LjuD3G0Of
-         a9G9s81Eter9N5yBVCufC9zhMFrA49YZEA0RVDh87QbVYbK66Ynjz4j77gs613PDCR90
-         4eRmQkb0wtFp5WgfCcQ1HkUc6erRWjdi8oh/GweFq9VfN0v2gNP7noBKmPlJLfVsOfwa
-         32TkPDUprpRjyFzrIwmhdTrX83sWAADROc8Gh9l22CV0I71/ve64O6DHGrhnYndjzkaN
-         LoixEwDE2F0sUpXf4Ic1xCGmlj9IX+OFrU/QUSPiXh4F5CuSBGr+Wol+ByhHVXhir7Mn
-         KZeQ==
-X-Gm-Message-State: ANoB5pnabG3ivX7EfPn5L4Q1U9uGWPsFE/YjGzuLVkgMkns3AMVpte6E
-        zJhyC3WA94KWZuyDq7a1FyRb09WtRgC0JAMp24XAwSjWLLs=
-X-Google-Smtp-Source: AA0mqf568pBwzED/LXK5vNiD3i8xo4oBiTQDcMA8vk117sCWXiDHnVcKEywyfB4Esfm/JhlCEhfPrQ2dAt8gaFHsgEk=
-X-Received: by 2002:a17:907:2a53:b0:7a1:6786:4566 with SMTP id
- fe19-20020a1709072a5300b007a167864566mr11215974ejc.433.1669195849127; Wed, 23
- Nov 2022 01:30:49 -0800 (PST)
+        bh=eaoNQNPQh1D0M9ASOIATnCY2bDKOxaIZFdZSYeu2AVU=;
+        b=3/A0T0spyrMjeSo23iYgpfRG3DsymcqGXzT9MsTBGLA7iSalAdJKwFMKxS08rOj3dh
+         RL5Z76Y7JmgtWrX3HicZYGvJ+LHe/CYCdLiMcu67FqMnPAhJ7oL0QfV0GVtvyR7qIQyT
+         FGx3IDZ9eZUfcPbsJnn4P7ebD3LHUmUCeVqETLvmERHeuZuKoF6caUaC+6fZ/plJ/jws
+         UIYOIs4qtVkD4kuyn6JrbQrUptUFCK9hxqwbY1UXr4p4oD8coejgp5H2JC1t9v4+AnSu
+         N+iZj8oLp0464xJl7ObGL9JMTYzHcSgTCLFyeBIGwK7SD1CDHbjHUZow7qouZh5Z31I6
+         rNgQ==
+X-Gm-Message-State: ANoB5pnxW8gI0cUlb0aIJaiFZpI/hvQgFazQGgifTOj7PKn3t7aSKUQu
+        nqpLrZ/WT11BozXE2NtUlkr0cY2lFd5m85IVbrV1ow==
+X-Google-Smtp-Source: AA0mqf5FwM2IuOqLfNqel4/ejeW7bYTnzXwCbpgfhL4aPEVMyPRFaHI3e6WRPKcn6SNyBGK84yQq/1c1DMMfY3IL7+E=
+X-Received: by 2002:a17:906:1614:b0:78d:4e5b:ffaa with SMTP id
+ m20-20020a170906161400b0078d4e5bffaamr6742960ejd.455.1669196048915; Wed, 23
+ Nov 2022 01:34:08 -0800 (PST)
 MIME-Version: 1.0
-References: <20221122170801.842766-1-daniel.vetter@ffwll.ch>
- <Y30PDdsvHIJo5YHR@ziepe.ca> <CAKMK7uEccwYTNwDYQazmZvTfBFQOikZt5A6BmegweyO-inKYbQ@mail.gmail.com>
- <Y30Z4VxT7Wdoc1Lc@ziepe.ca> <CAKMK7uE=8eqyh9BKg_+7B1jjMi6K4wrmPyi9xeLVvVYFxBgF9g@mail.gmail.com>
- <Y30kK6dsssSLJVgp@ziepe.ca> <CAKMK7uFQQkG82PzuSTGQTnN3ZNps5N_4TjR5NRWo0LaJkEaNew@mail.gmail.com>
- <3d8607b4-973d-945d-c184-260157ade7c3@amd.com>
-In-Reply-To: <3d8607b4-973d-945d-c184-260157ade7c3@amd.com>
+References: <20221122170801.842766-1-daniel.vetter@ffwll.ch> <5c3c8d4f-2c06-9210-b00a-4d0ff6f6fbb7@suse.de>
+In-Reply-To: <5c3c8d4f-2c06-9210-b00a-4d0ff6f6fbb7@suse.de>
 From:   Daniel Vetter <daniel.vetter@ffwll.ch>
-Date:   Wed, 23 Nov 2022 10:30:37 +0100
-Message-ID: <CAKMK7uHVGgGHTiXYOfseXXda2Ug992nYvhPsL+4z18ssqeHXHQ@mail.gmail.com>
+Date:   Wed, 23 Nov 2022 10:33:57 +0100
+Message-ID: <CAKMK7uGqQMs5q0h40q=E5JqTxw7qRjGT3GaTF0CJVU--B+pjRg@mail.gmail.com>
 Subject: Re: [PATCH] dma-buf: Require VM_PFNMAP vma for mmap
-To:     =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc:     Jason Gunthorpe <jgg@ziepe.ca>,
-        DRI Development <dri-devel@lists.freedesktop.org>,
+To:     Thomas Zimmermann <tzimmermann@suse.de>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     DRI Development <dri-devel@lists.freedesktop.org>,
         Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Suren Baghdasaryan <surenb@google.com>,
         Matthew Wilcox <willy@infradead.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        linaro-mm-sig@lists.linaro.org, Jason Gunthorpe <jgg@ziepe.ca>,
         John Stultz <john.stultz@linaro.org>,
         Daniel Vetter <daniel.vetter@intel.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+        Suren Baghdasaryan <surenb@google.com>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        linux-media@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -77,49 +74,127 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, 23 Nov 2022 at 10:06, Christian K=C3=B6nig <christian.koenig@amd.co=
-m> wrote:
-> Am 22.11.22 um 20:50 schrieb Daniel Vetter:
-> > On Tue, 22 Nov 2022 at 20:34, Jason Gunthorpe <jgg@ziepe.ca> wrote:
-> >> On Tue, Nov 22, 2022 at 08:29:05PM +0100, Daniel Vetter wrote:
-> >>> You nuke all the ptes. Drivers that move have slightly more than a
-> >>> bare struct file, they also have a struct address_space so that
-> >>> invalidate_mapping_range() works.
-> >> Okay, this is one of the ways that this can be made to work correctly,
-> >> as long as you never allow GUP/GUP_fast to succeed on the PTEs. (this
-> >> was the DAX mistake)
-> > Hence this patch, to enforce that no dma-buf exporter gets this wrong.
-> > Which some did, and then blamed bug reporters for the resulting splats
-> > :-) One of the things we've reverted was the ttm huge pte support,
-> > since that doesn't have the pmd_special flag (yet) and so would let
-> > gup_fast through.
+On Wed, 23 Nov 2022 at 09:07, Thomas Zimmermann <tzimmermann@suse.de> wrote=
+:
 >
-> The problem is not only gup, a lot of people seem to assume that when
-> you are able to grab a reference to a page that the ptes pointing to
-> that page can't change any more. And that's obviously incorrect.
+> Hi
 >
-> I witnessed tons of discussions about that already. Some customers even
-> modified our code assuming that and then wondered why the heck they ran
-> into data corruption.
+> Am 22.11.22 um 18:08 schrieb Daniel Vetter:
+> > tldr; DMA buffers aren't normal memory, expecting that you can use
+> > them like that (like calling get_user_pages works, or that they're
+> > accounting like any other normal memory) cannot be guaranteed.
+> >
+> > Since some userspace only runs on integrated devices, where all
+> > buffers are actually all resident system memory, there's a huge
+> > temptation to assume that a struct page is always present and useable
+> > like for any more pagecache backed mmap. This has the potential to
+> > result in a uapi nightmare.
+> >
+> > To stop this gap require that DMA buffer mmaps are VM_PFNMAP, which
+> > blocks get_user_pages and all the other struct page based
+> > infrastructure for everyone. In spirit this is the uapi counterpart to
+> > the kernel-internal CONFIG_DMABUF_DEBUG.
+> >
+> > Motivated by a recent patch which wanted to swich the system dma-buf
+> > heap to vm_insert_page instead of vm_insert_pfn.
+> >
+> > v2:
+> >
+> > Jason brought up that we also want to guarantee that all ptes have the
+> > pte_special flag set, to catch fast get_user_pages (on architectures
+> > that support this). Allowing VM_MIXEDMAP (like VM_SPECIAL does) would
+> > still allow vm_insert_page, but limiting to VM_PFNMAP will catch that.
+> >
+> >  From auditing the various functions to insert pfn pte entires
+> > (vm_insert_pfn_prot, remap_pfn_range and all it's callers like
+> > dma_mmap_wc) it looks like VM_PFNMAP is already required anyway, so
+> > this should be the correct flag to check for.
+> >
+> > v3: Change to WARN_ON_ONCE (Thomas Zimmermann)
+> >
+> > References: https://lore.kernel.org/lkml/CAKMK7uHi+mG0z0HUmNt13QCCvutuR=
+VjpcR0NjRL12k-WbWzkRg@mail.gmail.com/
+> > Acked-by: Christian K=C3=B6nig <christian.koenig@amd.com>
+> > Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+> > Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> > Cc: Jason Gunthorpe <jgg@ziepe.ca>
+> > Cc: Suren Baghdasaryan <surenb@google.com>
+> > Cc: Matthew Wilcox <willy@infradead.org>
+> > Cc: John Stultz <john.stultz@linaro.org>
+> > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> > Cc: Sumit Semwal <sumit.semwal@linaro.org>
+> > Cc: "Christian K=C3=B6nig" <christian.koenig@amd.com>
+> > Cc: linux-media@vger.kernel.org
+> > Cc: linaro-mm-sig@lists.linaro.org
+> > --
+> > Ok I entirely forgot about this patch but stumbled over it and checked
+> > what's up with it no. I think it's ready now for merging:
+> > - shmem helper patches to fix up vgem landed
+> > - ttm has been fixed since a while
+> > - I don't think we've had any other open issues
+> >
+> > Time to lock down this uapi contract for real?
+> > -Daniel
+> > ---
+> >   drivers/dma-buf/dma-buf.c | 4 ++++
+> >   1 file changed, 4 insertions(+)
+> >
+> > diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+> > index b6c36914e7c6..88718665c3c3 100644
+> > --- a/drivers/dma-buf/dma-buf.c
+> > +++ b/drivers/dma-buf/dma-buf.c
+> > @@ -150,6 +150,8 @@ static int dma_buf_mmap_internal(struct file *file,=
+ struct vm_area_struct *vma)
+> >       ret =3D dmabuf->ops->mmap(dmabuf, vma);
+> >       dma_resv_unlock(dmabuf->resv);
+> >
+> > +     WARN_ON_ONCE(!(vma->vm_flags & VM_PFNMAP));
 >
-> It's gotten so bad that I've even proposed intentionally mangling the
-> page reference count on TTM allocated pages:
-> https://patchwork.kernel.org/project/dri-devel/patch/20220927143529.13568=
-9-1-christian.koenig@amd.com/
+> Well , I already a-b'ed this, but does it work with DMa helpers. I'm
+> asking because of [1].
+>
+> Best regards
+> Thomas
+>
+> [1]
+> https://elixir.bootlin.com/linux/v6.1-rc6/source/drivers/gpu/drm/drm_gem_=
+dma_helper.c#L533
 
-Yeah maybe something like this could be applied after we land this
-patch here. Well maybe should have the same check in gem mmap code to
-make sure no driver
+This one is entertaining, but also doesn't matter, because the
+remap_pfn_range that the various dma_mmap functions boil down to sets
+the VM_PFNMAP and a pile of other flags. See
 
-> I think it would be better that instead of having special flags in the
-> ptes and vmas that you can't follow them to a page structure we would
-> add something to the page indicating that you can't grab a reference to
-> it. But this might break some use cases as well.
+https://elixir.bootlin.com/linux/v6.1-rc6/source/mm/memory.c#L2518
 
-Afaik the problem with that is that there's no free page bits left for
-these debug checks. Plus the pte+vma flags are the flags to make this
-clear already.
+I have no idea why Laurent cleared this flag here just so it gets
+reset again a bit later when he added that code. Laurent?
 -Daniel
+
+> > +
+> >       return ret;
+> >   }
+> >
+> > @@ -1495,6 +1497,8 @@ int dma_buf_mmap(struct dma_buf *dmabuf, struct v=
+m_area_struct *vma,
+> >       ret =3D dmabuf->ops->mmap(dmabuf, vma);
+> >       dma_resv_unlock(dmabuf->resv);
+> >
+> > +     WARN_ON_ONCE(!(vma->vm_flags & VM_PFNMAP));
+> > +
+> >       return ret;
+> >   }
+> >   EXPORT_SYMBOL_NS_GPL(dma_buf_mmap, DMA_BUF);
+>
+> --
+> Thomas Zimmermann
+> Graphics Driver Developer
+> SUSE Software Solutions Germany GmbH
+> Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+> (HRB 36809, AG N=C3=BCrnberg)
+> Gesch=C3=A4ftsf=C3=BChrer: Ivo Totev
+
+
+
 --=20
 Daniel Vetter
 Software Engineer, Intel Corporation
