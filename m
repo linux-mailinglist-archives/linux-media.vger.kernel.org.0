@@ -2,153 +2,213 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 464A2635984
-	for <lists+linux-media@lfdr.de>; Wed, 23 Nov 2022 11:19:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 59CD26359BF
+	for <lists+linux-media@lfdr.de>; Wed, 23 Nov 2022 11:27:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236601AbiKWKTh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 23 Nov 2022 05:19:37 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45374 "EHLO
+        id S237375AbiKWKXt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 23 Nov 2022 05:23:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50766 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236540AbiKWKTK (ORCPT
+        with ESMTP id S237501AbiKWKWK (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 23 Nov 2022 05:19:10 -0500
-Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5EAFBA182
-        for <linux-media@vger.kernel.org>; Wed, 23 Nov 2022 02:07:08 -0800 (PST)
-Received: by mail-ej1-x62e.google.com with SMTP id m22so41558153eji.10
-        for <linux-media@vger.kernel.org>; Wed, 23 Nov 2022 02:07:08 -0800 (PST)
+        Wed, 23 Nov 2022 05:22:10 -0500
+Received: from mail-il1-x133.google.com (mail-il1-x133.google.com [IPv6:2607:f8b0:4864:20::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6282638B0
+        for <linux-media@vger.kernel.org>; Wed, 23 Nov 2022 02:08:37 -0800 (PST)
+Received: by mail-il1-x133.google.com with SMTP id h2so7618576ile.11
+        for <linux-media@vger.kernel.org>; Wed, 23 Nov 2022 02:08:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=h+UdvofUGp6+nqq/FR8FcX4hvZmapqrFr41Q2JO7x4c=;
-        b=TQ51N5ElxONDKI/zhDJ3pCgpfLjbZshPT3dmaV8oEwygDZ7SUkV43yilCvjo5DTHkM
-         5vinp6v+ldQAo/Z6KGaY5xTUo3Lnhb4v5NMeNcJq5CXQqT+ExG+ICc1x7EqIpc/l8ZI+
-         6kkzXHBS485z5Q3W1BWot8CJKckOO6+wlmPxY=
+        d=raspberrypi.com; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=WyhlgSD0Qi5eYBn+SBJQEiELArCoAWM3aJmJZehxrVs=;
+        b=k9Xabmh506G2xZbAIQx1rAZmaDKe8mnOQtDnjqIAbIs0JKStvSwsdThsVyM55e0DDG
+         GvSY3/HUEK9MozCSvRmRoPsyzXz/uhkIoVexln86g2Lu4Z6R+gcZYcB8yhKJ8bST8sUJ
+         on5UlXLmcvCQh+4j5a7ih+0Wodhr1Hn+GIWdppRsClx7xDPf1gQzzq3sEjI9rrE2DCjm
+         OGa3eUr/7Fh6vk+0KLqptffAxf3S36r+JgQpoMVGTtVKGAV0y8qT14Q/Rz/VnFItRU7e
+         fk2lBPVp+/8nxDYodp+VI6mb2KWyGJYzrtjyMvelrSdT4hzmBnSQZl8j9dFcqNfuSfxb
+         8zPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=h+UdvofUGp6+nqq/FR8FcX4hvZmapqrFr41Q2JO7x4c=;
-        b=HBZRswjMycUpE+TwncYEYpB+BlwDtUefiuhL73tS219wlR1xz1/JxZu/1EERCCcxVm
-         Dte4Gg4yp06gED6MRHvEFrSJmNnxsxQtYnqG1OZBnkID8fMREugc3seJn5zBSGYl4/5H
-         pdRu3IHtufMKXXdlhPweO6ONGufPKovEN1uzlu1cLnuyNcDGCjMa9zarX3COLqQRDrc+
-         3Nssnd0RUrI7fiWS6qRfJe3f7cVsQjcSutibNo1WHDmapMx6eWRycrsKCq+ZTkPAVom+
-         89AldqFxMy86kLxzMPLqw8+11v7nTaS7/4qms/tJFVG1bCN5W/RUAVnsRpJPH4zr0tic
-         dIVg==
-X-Gm-Message-State: ANoB5pnCncoHVZ1nWq110dyZbcZR8+eHH111mfNOQK/lwWJbWlzhYF+/
-        o31zqHAbQoVDkuWxxbamFvomQ/UowX5lMx0MKJRHBA==
-X-Google-Smtp-Source: AA0mqf7tcZdPWNPPAaRZELTq9mvgZpMH+k/1GataSXqkuF2ePYeDW4qUMkJISiWe8P9mQTOVdyKvWgBCSqeQKGcAWaA=
-X-Received: by 2002:a17:907:8197:b0:7b8:eae2:716a with SMTP id
- iy23-20020a170907819700b007b8eae2716amr4704467ejc.516.1669198026954; Wed, 23
- Nov 2022 02:07:06 -0800 (PST)
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=WyhlgSD0Qi5eYBn+SBJQEiELArCoAWM3aJmJZehxrVs=;
+        b=EN9kRUBJV8YcgeGTnWrTfAQ4/Tx3FZ7dE2Rv+R6X7R8CDzgHh2XO+ejj2VSFZl/YwL
+         7RiuQzZU/m/ZIgLocMKluiuzrCjIxL6QAot1rpzTrIRgyZyeFJVT/KrzseSEEDUPjPpX
+         hVwuv19EKH+esTB0Lp+ac28G6SDY4K++UpDiglSF7d+4DsI/Pfc5x4SBvEr1Yt6oQ2A5
+         M8zzHYsu7sb+038GY6kV13Sba/NGvjnbFb+RG9ysv36HQ2LScR34BHQA4CJKcPRFZRis
+         TNAcmyAPu8fuBzEPjW9AsiymfzrCw4y43OGyjJpei9CAMlmNRPpRFZPfP4eZwgxb8LDh
+         rBiw==
+X-Gm-Message-State: ANoB5pl55gFiCb2ZLFZticxl0y+wre/C9PB+JgIUPjx/xqIQxNpOLBiA
+        bHs3+01ijdwoqROOsJ92Ef0THjFz9aL+wpARD/VhXNGw0eW74A==
+X-Google-Smtp-Source: AA0mqf773rHMEQeFmFAa2Quvl/g573Z+5EOEyBx87ZfMTeaeEYn/5ym7M/F7sgmdNVwqXub2qheliJek+qXmOxLKA+Q=
+X-Received: by 2002:a92:cd0d:0:b0:302:467a:4eb2 with SMTP id
+ z13-20020a92cd0d000000b00302467a4eb2mr3515439iln.165.1669198116525; Wed, 23
+ Nov 2022 02:08:36 -0800 (PST)
 MIME-Version: 1.0
-References: <20221122170801.842766-1-daniel.vetter@ffwll.ch>
- <Y30PDdsvHIJo5YHR@ziepe.ca> <CAKMK7uEccwYTNwDYQazmZvTfBFQOikZt5A6BmegweyO-inKYbQ@mail.gmail.com>
- <Y30Z4VxT7Wdoc1Lc@ziepe.ca> <CAKMK7uE=8eqyh9BKg_+7B1jjMi6K4wrmPyi9xeLVvVYFxBgF9g@mail.gmail.com>
- <Y30kK6dsssSLJVgp@ziepe.ca> <CAKMK7uFQQkG82PzuSTGQTnN3ZNps5N_4TjR5NRWo0LaJkEaNew@mail.gmail.com>
- <3d8607b4-973d-945d-c184-260157ade7c3@amd.com> <CAKMK7uHVGgGHTiXYOfseXXda2Ug992nYvhPsL+4z18ssqeHXHQ@mail.gmail.com>
- <b05e6091-4e07-1e32-773d-f603ac9ac98b@gmail.com>
-In-Reply-To: <b05e6091-4e07-1e32-773d-f603ac9ac98b@gmail.com>
-From:   Daniel Vetter <daniel.vetter@ffwll.ch>
-Date:   Wed, 23 Nov 2022 11:06:55 +0100
-Message-ID: <CAKMK7uFjmzewqv3r4hL9hvLADwV536n2n6xbAWaUvmAcStr5KQ@mail.gmail.com>
-Subject: Re: [Linaro-mm-sig] Re: [PATCH] dma-buf: Require VM_PFNMAP vma for mmap
-To:     =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
-Cc:     =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        DRI Development <dri-devel@lists.freedesktop.org>,
-        Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        John Stultz <john.stultz@linaro.org>,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+References: <20221122223250.21233-1-laurent.pinchart@ideasonboard.com> <20221122223250.21233-8-laurent.pinchart@ideasonboard.com>
+In-Reply-To: <20221122223250.21233-8-laurent.pinchart@ideasonboard.com>
+From:   Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date:   Wed, 23 Nov 2022 10:08:19 +0000
+Message-ID: <CAPY8ntAqXK3efWB+J_KG==1yuewmon1abea8enk0CL8p9pkS9A@mail.gmail.com>
+Subject: Re: [PATCH v1 07/15] media: i2c: imx290: Factor out black level
+ setting to a function
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, Sakari Ailus <sakari.ailus@iki.fi>,
+        Manivannan Sadhasivam <mani@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, 23 Nov 2022 at 10:39, Christian K=C3=B6nig
-<ckoenig.leichtzumerken@gmail.com> wrote:
->
-> Am 23.11.22 um 10:30 schrieb Daniel Vetter:
-> > On Wed, 23 Nov 2022 at 10:06, Christian K=C3=B6nig <christian.koenig@am=
-d.com> wrote:
-> >> Am 22.11.22 um 20:50 schrieb Daniel Vetter:
-> >>> On Tue, 22 Nov 2022 at 20:34, Jason Gunthorpe <jgg@ziepe.ca> wrote:
-> >>>> On Tue, Nov 22, 2022 at 08:29:05PM +0100, Daniel Vetter wrote:
-> >>>>> You nuke all the ptes. Drivers that move have slightly more than a
-> >>>>> bare struct file, they also have a struct address_space so that
-> >>>>> invalidate_mapping_range() works.
-> >>>> Okay, this is one of the ways that this can be made to work correctl=
-y,
-> >>>> as long as you never allow GUP/GUP_fast to succeed on the PTEs. (thi=
-s
-> >>>> was the DAX mistake)
-> >>> Hence this patch, to enforce that no dma-buf exporter gets this wrong=
-.
-> >>> Which some did, and then blamed bug reporters for the resulting splat=
-s
-> >>> :-) One of the things we've reverted was the ttm huge pte support,
-> >>> since that doesn't have the pmd_special flag (yet) and so would let
-> >>> gup_fast through.
-> >> The problem is not only gup, a lot of people seem to assume that when
-> >> you are able to grab a reference to a page that the ptes pointing to
-> >> that page can't change any more. And that's obviously incorrect.
-> >>
-> >> I witnessed tons of discussions about that already. Some customers eve=
-n
-> >> modified our code assuming that and then wondered why the heck they ra=
-n
-> >> into data corruption.
-> >>
-> >> It's gotten so bad that I've even proposed intentionally mangling the
-> >> page reference count on TTM allocated pages:
-> >> https://patchwork.kernel.org/project/dri-devel/patch/20220927143529.13=
-5689-1-christian.koenig@amd.com/
-> > Yeah maybe something like this could be applied after we land this
-> > patch here.
->
-> I think both should land ASAP. We don't have any other way than to
-> clearly point out incorrect approaches if we want to prevent the
-> resulting data corruption.
->
-> > Well maybe should have the same check in gem mmap code to
-> > make sure no driver
->
-> Reads like the sentence is somehow cut of?
+Hi Laurent
 
-Yeah, just wanted to say that we need to make sure in as many places
-as possible that VM_PFNMAP is set for bo mmaps.
-
-> >> I think it would be better that instead of having special flags in the
-> >> ptes and vmas that you can't follow them to a page structure we would
-> >> add something to the page indicating that you can't grab a reference t=
-o
-> >> it. But this might break some use cases as well.
-> > Afaik the problem with that is that there's no free page bits left for
-> > these debug checks. Plus the pte+vma flags are the flags to make this
-> > clear already.
+On Tue, 22 Nov 2022 at 22:34, Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
 >
-> Maybe a GFP flag to set the page reference count to zero or something
-> like this?
+> The black level programmed in the BLKLEVEL register depends on the
+> output format. The black level value computation is currently performed
+> in imx290_set_ctrl(), in addition to having different black level values
+> in the output-specific register value tables. Move it to a separate
+> function to simplify the imx290_set_ctrl() code.
 
-Hm yeah that might work. I'm not sure what it will all break though?
-And we'd need to make sure that underflowing the page refcount dies in
-a backtrace.
--Daniel
---=20
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Does this actually help?
+The sensor only supports 10 and 12 bpp readout, so making it generic
+for any bpp is rather redundant.
+If you are looking at having different on-sensor black level values
+kicking around, then tuning data goes out the window.
+
+OK we do appear to have duplication between imx290_[10|12]bit_settings
+and imx290_set_ctrl, but I don't get the need to compute it.
+
+  Dave
+
+> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> ---
+>  drivers/media/i2c/imx290.c | 53 +++++++++++++++++++++-----------------
+>  1 file changed, 29 insertions(+), 24 deletions(-)
+>
+> diff --git a/drivers/media/i2c/imx290.c b/drivers/media/i2c/imx290.c
+> index 135ed55592a1..d9fc6c44b0f0 100644
+> --- a/drivers/media/i2c/imx290.c
+> +++ b/drivers/media/i2c/imx290.c
+> @@ -152,6 +152,9 @@
+>  #define IMX290_PIXEL_ARRAY_RECORDING_WIDTH             1920
+>  #define IMX290_PIXEL_ARRAY_RECORDING_HEIGHT            1080
+>
+> +/* Equivalent value for 16bpp */
+> +#define IMX290_BLACK_LEVEL_DEFAULT                     3840
+> +
+>  #define IMX290_NUM_SUPPLIES                            3
+>
+>  struct imx290_regval {
+> @@ -315,7 +318,6 @@ static const struct imx290_regval imx290_10bit_settings[] = {
+>         { IMX290_ADBIT2, IMX290_ADBIT2_10BIT },
+>         { IMX290_ADBIT3, IMX290_ADBIT3_10BIT },
+>         { IMX290_CSI_DT_FMT, IMX290_CSI_DT_FMT_RAW10 },
+> -       { IMX290_BLKLEVEL, 60 },
+>  };
+>
+>  static const struct imx290_regval imx290_12bit_settings[] = {
+> @@ -325,7 +327,6 @@ static const struct imx290_regval imx290_12bit_settings[] = {
+>         { IMX290_ADBIT2, IMX290_ADBIT2_12BIT },
+>         { IMX290_ADBIT3, IMX290_ADBIT3_12BIT },
+>         { IMX290_CSI_DT_FMT, IMX290_CSI_DT_FMT_RAW12 },
+> -       { IMX290_BLKLEVEL, 240 },
+>  };
+>
+>  /* supported link frequencies */
+> @@ -516,35 +517,43 @@ static int imx290_set_data_lanes(struct imx290 *imx290)
+>         return ret;
+>  }
+>
+> +static int imx290_set_black_level(struct imx290 *imx290,
+> +                                 unsigned int black_level, int *err)
+> +{
+> +       return imx290_write(imx290, IMX290_BLKLEVEL,
+> +                           black_level >> (16 - imx290->bpp), err);
+> +}
+> +
+>  static int imx290_write_current_format(struct imx290 *imx290)
+>  {
+> +       const struct imx290_regval *regs;
+> +       unsigned int num_regs;
+> +       unsigned int bpp;
+>         int ret;
+>
+>         switch (imx290->current_format.code) {
+>         case MEDIA_BUS_FMT_SRGGB10_1X10:
+> -               ret = imx290_set_register_array(imx290, imx290_10bit_settings,
+> -                                               ARRAY_SIZE(
+> -                                                       imx290_10bit_settings));
+> -               if (ret < 0) {
+> -                       dev_err(imx290->dev, "Could not set format registers\n");
+> -                       return ret;
+> -               }
+> +               regs = imx290_10bit_settings;
+> +               num_regs = ARRAY_SIZE(imx290_10bit_settings);
+> +               bpp = 10;
+>                 break;
+>         case MEDIA_BUS_FMT_SRGGB12_1X12:
+> -               ret = imx290_set_register_array(imx290, imx290_12bit_settings,
+> -                                               ARRAY_SIZE(
+> -                                                       imx290_12bit_settings));
+> -               if (ret < 0) {
+> -                       dev_err(imx290->dev, "Could not set format registers\n");
+> -                       return ret;
+> -               }
+> +               regs = imx290_12bit_settings;
+> +               num_regs = ARRAY_SIZE(imx290_12bit_settings);
+> +               bpp = 12;
+>                 break;
+>         default:
+>                 dev_err(imx290->dev, "Unknown pixel format\n");
+>                 return -EINVAL;
+>         }
+>
+> -       return 0;
+> +       ret = imx290_set_register_array(imx290, regs, num_regs);
+> +       if (ret < 0) {
+> +               dev_err(imx290->dev, "Could not set format registers\n");
+> +               return ret;
+> +       }
+> +
+> +       return imx290_set_black_level(imx290, IMX290_BLACK_LEVEL_DEFAULT, &ret);
+>  }
+>
+>  /* ----------------------------------------------------------------------------
+> @@ -573,7 +582,7 @@ static int imx290_set_ctrl(struct v4l2_ctrl *ctrl)
+>
+>         case V4L2_CID_TEST_PATTERN:
+>                 if (ctrl->val) {
+> -                       imx290_write(imx290, IMX290_BLKLEVEL, 0, &ret);
+> +                       imx290_set_black_level(imx290, 0, &ret);
+>                         usleep_range(10000, 11000);
+>                         imx290_write(imx290, IMX290_PGCTRL,
+>                                      (u8)(IMX290_PGCTRL_REGEN |
+> @@ -582,12 +591,8 @@ static int imx290_set_ctrl(struct v4l2_ctrl *ctrl)
+>                 } else {
+>                         imx290_write(imx290, IMX290_PGCTRL, 0x00, &ret);
+>                         usleep_range(10000, 11000);
+> -                       if (imx290->bpp == 10)
+> -                               imx290_write(imx290, IMX290_BLKLEVEL, 0x3c,
+> -                                            &ret);
+> -                       else /* 12 bits per pixel */
+> -                               imx290_write(imx290, IMX290_BLKLEVEL, 0xf0,
+> -                                            &ret);
+> +                       imx290_set_black_level(imx290, IMX290_BLACK_LEVEL_DEFAULT,
+> +                                              &ret);
+>                 }
+>                 break;
+>         default:
+> --
+> Regards,
+>
+> Laurent Pinchart
+>
