@@ -2,91 +2,85 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 12510635D00
-	for <lists+linux-media@lfdr.de>; Wed, 23 Nov 2022 13:39:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2ECC8635D11
+	for <lists+linux-media@lfdr.de>; Wed, 23 Nov 2022 13:41:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237611AbiKWMig (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 23 Nov 2022 07:38:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44074 "EHLO
+        id S236590AbiKWMjm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 23 Nov 2022 07:39:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45690 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237163AbiKWMiZ (ORCPT
+        with ESMTP id S237450AbiKWMjW (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 23 Nov 2022 07:38:25 -0500
-Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 251196586F;
-        Wed, 23 Nov 2022 04:38:17 -0800 (PST)
-Received: by mail-qv1-f42.google.com with SMTP id e15so12024040qvo.4;
-        Wed, 23 Nov 2022 04:38:17 -0800 (PST)
+        Wed, 23 Nov 2022 07:39:22 -0500
+Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com [209.85.222.181])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 89B0A663D3;
+        Wed, 23 Nov 2022 04:39:09 -0800 (PST)
+Received: by mail-qk1-f181.google.com with SMTP id x21so12298567qkj.0;
+        Wed, 23 Nov 2022 04:39:09 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=7NkUKCNmCWXBNvukMIfZGAknzbWVh0TXCQdqjxDeaN4=;
-        b=prqMtrIwLOBGqBv943u9aOZWR82NYdjQQpNnh15MtOcu8NWSBQzrTUZuSN2vtBV+4a
-         p5r2kBzUr9OrlmhKlTJxhN+1WNsGJpWOyRKzKOVuyyKAWcQ7Jqrpd8xRM5Tbls/ktw0t
-         Ke2AN73+r21EpjgjoSdKkhhjARanDSyzy9TDN6lDkSHjJFrsqAay0o0OT9AbXnjuLomz
-         6rc3t+DdRwl2pUF2CxIDrSSuez/LJrqSU+IG8rg7oA3Kz3RGWkM9oSdDcDRBuNga9U33
-         Yo3mTAYX11TSBceterjFH8PdY4s8lcAqPlrMCxvIKAE0djryhFnhtFvM/T1IytxjuDu6
-         5VBw==
-X-Gm-Message-State: ANoB5pmIhnMRAzlVTjer23XmEkLjb00wt/Hn27qpEZRbF6Z20284htFT
-        GMsEVamvRnwtgzdbv3OQIkdpo4r+D3imBDfO6k4=
-X-Google-Smtp-Source: AA0mqf6UCSCQQ7JObQehXZXhHjuD6y8mdmSKy1E2q4G6RlAyS87PHHdi8k5SiBpy46XVKXMVVouGYdRwh8HVfNaVaqA=
-X-Received: by 2002:ad4:534b:0:b0:4b1:8429:a8a7 with SMTP id
- v11-20020ad4534b000000b004b18429a8a7mr7947668qvs.52.1669207096142; Wed, 23
- Nov 2022 04:38:16 -0800 (PST)
+        bh=23ZKjQivDaJ6vcJyWC4uv5Yzkf6ZjHvU8yFz/P5RXg4=;
+        b=JYdpPwR/WV2EUeCG6tDHcV2nmRZdskSmIx8qFZnQbRvkamPdOtPESUjN1MYMu1KZAk
+         NtIzcIHKNltzP8lCAn4XILJBz20VUacFZScrkqqSkjsj8spRooIXaYfNWowwgLeIZle9
+         DHf/0qQ15JdVlM+Hmh7EtCfuJKOZ60spbcJwA8TBi4/OuTsay8P7FphzTbLk/s6JyJiU
+         XHJzTvVt9P/1gtLbvw8FYuHInlYLEz8MGSTTuo6B4TXPmRVjye7Ds3nvBCf6F3fKeUK9
+         HuX9qnP+Wk89Kb+HLAebCZllGOvu4oI7AgIbCIraUANO+FB3rOAIrTiJs9SAjvPK6ZNv
+         Bnfw==
+X-Gm-Message-State: ANoB5pmDutuHvsNr2XDC52bJk5wR6Cf9BjlIMqb5lkGE5yPkpYBM3P+S
+        oM5ORQuYM5DU5aEGQIdCjENJgkal9cZZFJw7SlI=
+X-Google-Smtp-Source: AA0mqf41PAaYKSESBcDnkru4EJGZZF66sfFYKXsivNVokGnQ1/TrWtjCKB7G2DKR5wuyuaIubXDR0TK1CxhTvz3zwMc=
+X-Received: by 2002:a05:620a:51ca:b0:6ec:fa04:d97c with SMTP id
+ cx10-20020a05620a51ca00b006ecfa04d97cmr8572791qkb.764.1669207148628; Wed, 23
+ Nov 2022 04:39:08 -0800 (PST)
 MIME-Version: 1.0
-References: <20221123122523.1332370-1-gregkh@linuxfoundation.org> <20221123122523.1332370-3-gregkh@linuxfoundation.org>
-In-Reply-To: <20221123122523.1332370-3-gregkh@linuxfoundation.org>
+References: <20221123122523.1332370-1-gregkh@linuxfoundation.org>
+In-Reply-To: <20221123122523.1332370-1-gregkh@linuxfoundation.org>
 From:   "Rafael J. Wysocki" <rafael@kernel.org>
-Date:   Wed, 23 Nov 2022 13:38:05 +0100
-Message-ID: <CAJZ5v0gqD_TW3iGLAiH=us1B0-JLGtv2VGTJjQwiWxCmris9ag@mail.gmail.com>
-Subject: Re: [PATCH 3/5] driver core: make struct device_type.uevent() take a
+Date:   Wed, 23 Nov 2022 13:38:57 +0100
+Message-ID: <CAJZ5v0grLAZQbZTfMNo-O+o8OJ1prhXVQ0aaS1P4O2dO_A35fg@mail.gmail.com>
+Subject: Re: [PATCH 1/5] driver core: make struct class.dev_uevent() take a
  const *
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc:     linux-kernel@vger.kernel.org, Jens Axboe <axboe@kernel.dk>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Russ Weight <russell.h.weight@intel.com>,
         "Rafael J. Wysocki" <rafael@kernel.org>,
-        Len Brown <lenb@kernel.org>,
-        Stefan Richter <stefanr@s5r6.in-berlin.de>,
-        Wolfram Sang <wsa@kernel.org>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Sean Young <sean@mess.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Maximilian Luz <luzmaximilian@gmail.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Mark Gross <markgross@kernel.org>,
-        Vinod Koul <vkoul@kernel.org>,
-        Bard Liao <yung-chuan.liao@linux.intel.com>,
-        Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
-        Sanyog Kale <sanyog.r.kale@intel.com>,
-        Andreas Noever <andreas.noever@gmail.com>,
-        Michael Jamet <michael.jamet@intel.com>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Yehezkel Bernat <YehezkelShB@gmail.com>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-        "Martin K. Petersen" <martin.petersen@oracle.com>,
-        Chaitanya Kulkarni <kch@nvidia.com>,
-        Ming Lei <ming.lei@redhat.com>,
-        Jilin Yuan <yuanjilin@cdjrlc.com>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Jean Delvare <jdelvare@suse.com>,
+        Johan Hovold <johan@kernel.org>,
         Jason Gunthorpe <jgg@ziepe.ca>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ira Weiny <ira.weiny@intel.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Won Chung <wonchung@google.com>, alsa-devel@alsa-project.org,
-        devicetree@vger.kernel.org, linux-acpi@vger.kernel.org,
-        linux-block@vger.kernel.org, linux-i2c@vger.kernel.org,
-        linux-i3c@lists.infradead.org, linux-input@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-serial@vger.kernel.org,
-        linux-usb@vger.kernel.org, linux1394-devel@lists.sourceforge.net,
-        platform-driver-x86@vger.kernel.org
+        Leon Romanovsky <leon@kernel.org>,
+        Karsten Keil <isdn@linux-pingi.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Keith Busch <kbusch@kernel.org>,
+        Christoph Hellwig <hch@lst.de>,
+        Sagi Grimberg <sagi@grimberg.me>,
+        Dominik Brodowski <linux@dominikbrodowski.net>,
+        Sebastian Reichel <sre@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Johannes Berg <johannes@sipsolutions.net>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Raed Salem <raeds@nvidia.com>,
+        Chen Zhongjin <chenzhongjin@huawei.com>,
+        Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+        Avihai Horon <avihaih@nvidia.com>,
+        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Colin Ian King <colin.i.king@gmail.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Jakob Koschel <jakobkoschel@gmail.com>,
+        Antoine Tenart <atenart@kernel.org>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        Wang Yufen <wangyufen@huawei.com>, linux-block@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-nvme@lists.infradead.org,
+        linux-pm@vger.kernel.org, linux-rdma@vger.kernel.org,
+        linux-usb@vger.kernel.org, linux-wireless@vger.kernel.org,
+        netdev@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-1.5 required=5.0 tests=BAYES_00,
         FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
@@ -101,685 +95,382 @@ X-Mailing-List: linux-media@vger.kernel.org
 On Wed, Nov 23, 2022 at 1:25 PM Greg Kroah-Hartman
 <gregkh@linuxfoundation.org> wrote:
 >
-> The uevent() callback in struct device_type should not be modifying the
-> device that is passed into it, so mark it as a const * and propagate the
-> function signature changes out into all relevant subsystems that use
-> this callback.
+> The dev_uevent() in struct class should not be modifying the device that
+> is passed into it, so mark it as a const * and propagate the function
+> signature changes out into all relevant subsystems that use this
+> callback.
 >
 > Cc: Jens Axboe <axboe@kernel.dk>
+> Cc: Luis Chamberlain <mcgrof@kernel.org>
+> Cc: Russ Weight <russell.h.weight@intel.com>
 > Cc: "Rafael J. Wysocki" <rafael@kernel.org>
-> Cc: Len Brown <lenb@kernel.org>
-> Cc: Stefan Richter <stefanr@s5r6.in-berlin.de>
-> Cc: Wolfram Sang <wsa@kernel.org>
-> Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>
-> Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-> Cc: Sean Young <sean@mess.org>
-> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-> Cc: Rob Herring <robh+dt@kernel.org>
-> Cc: Frank Rowand <frowand.list@gmail.com>
-> Cc: Maximilian Luz <luzmaximilian@gmail.com>
-> Cc: Hans de Goede <hdegoede@redhat.com>
-> Cc: Mark Gross <markgross@kernel.org>
-> Cc: Vinod Koul <vkoul@kernel.org>
-> Cc: Bard Liao <yung-chuan.liao@linux.intel.com>
-> Cc: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-> Cc: Sanyog Kale <sanyog.r.kale@intel.com>
-> Cc: Andreas Noever <andreas.noever@gmail.com>
-> Cc: Michael Jamet <michael.jamet@intel.com>
-> Cc: Mika Westerberg <mika.westerberg@linux.intel.com>
-> Cc: Yehezkel Bernat <YehezkelShB@gmail.com>
-> Cc: Jiri Slaby <jirislaby@kernel.org>
-> Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-> Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>
-> Cc: "Martin K. Petersen" <martin.petersen@oracle.com>
-> Cc: Chaitanya Kulkarni <kch@nvidia.com>
-> Cc: Ming Lei <ming.lei@redhat.com>
-> Cc: Jilin Yuan <yuanjilin@cdjrlc.com>
-> Cc: Alan Stern <stern@rowland.harvard.edu>
-> Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> Cc: Sakari Ailus <sakari.ailus@linux.intel.com>
+> Cc: Jean Delvare <jdelvare@suse.com>
+> Cc: Johan Hovold <johan@kernel.org>
 > Cc: Jason Gunthorpe <jgg@ziepe.ca>
-> Cc: Thomas Gleixner <tglx@linutronix.de>
-> Cc: Ira Weiny <ira.weiny@intel.com>
-> Cc: Dan Williams <dan.j.williams@intel.com>
-> Cc: Won Chung <wonchung@google.com>
-> Cc: alsa-devel@alsa-project.org
-> Cc: devicetree@vger.kernel.org
-> Cc: linux-acpi@vger.kernel.org
+> Cc: Leon Romanovsky <leon@kernel.org>
+> Cc: Karsten Keil <isdn@linux-pingi.de>
+> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+> Cc: Keith Busch <kbusch@kernel.org>
+> Cc: Christoph Hellwig <hch@lst.de>
+> Cc: Sagi Grimberg <sagi@grimberg.me>
+> Cc: Dominik Brodowski <linux@dominikbrodowski.net>
+> Cc: Sebastian Reichel <sre@kernel.org>
+> Cc: "David S. Miller" <davem@davemloft.net>
+> Cc: Eric Dumazet <edumazet@google.com>
+> Cc: Jakub Kicinski <kuba@kernel.org>
+> Cc: Paolo Abeni <pabeni@redhat.com>
+> Cc: Johannes Berg <johannes@sipsolutions.net>
+> Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> Cc: Raed Salem <raeds@nvidia.com>
+> Cc: Chen Zhongjin <chenzhongjin@huawei.com>
+> Cc: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+> Cc: Avihai Horon <avihaih@nvidia.com>
+> Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>
+> Cc: Alan Stern <stern@rowland.harvard.edu>
+> Cc: Colin Ian King <colin.i.king@gmail.com>
+> Cc: Geert Uytterhoeven <geert+renesas@glider.be>
+> Cc: Jakob Koschel <jakobkoschel@gmail.com>
+> Cc: Antoine Tenart <atenart@kernel.org>
+> Cc: Frederic Weisbecker <frederic@kernel.org>
+> Cc: Wang Yufen <wangyufen@huawei.com>
 > Cc: linux-block@vger.kernel.org
-> Cc: linux-i2c@vger.kernel.org
-> Cc: linux-i3c@lists.infradead.org
-> Cc: linux-input@vger.kernel.org
 > Cc: linux-kernel@vger.kernel.org
 > Cc: linux-media@vger.kernel.org
-> Cc: linux-serial@vger.kernel.org
+> Cc: linux-nvme@lists.infradead.org
+> Cc: linux-pm@vger.kernel.org
+> Cc: linux-rdma@vger.kernel.org
 > Cc: linux-usb@vger.kernel.org
-> Cc: linux1394-devel@lists.sourceforge.net
-> Cc: platform-driver-x86@vger.kernel.org
+> Cc: linux-wireless@vger.kernel.org
+> Cc: netdev@vger.kernel.org
 > Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
-Acked-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
-
-(which my ACPI maintainer hat on).
-
-Thanks!
+Acked-by: Rafael J. Wysocki <rafael@kernel.org>
 
 > ---
->  block/partitions/core.c                   |  4 ++--
->  drivers/acpi/device_sysfs.c               |  8 ++++----
->  drivers/acpi/internal.h                   |  2 +-
->  drivers/firewire/core-device.c            |  8 ++++----
->  drivers/i2c/i2c-core-base.c               |  4 ++--
->  drivers/i3c/device.c                      |  4 ++--
->  drivers/i3c/master.c                      |  4 ++--
->  drivers/input/input.c                     | 16 ++++++++--------
->  drivers/media/rc/rc-main.c                |  2 +-
->  drivers/of/device.c                       |  4 ++--
->  drivers/platform/surface/aggregator/bus.c |  4 ++--
->  drivers/soundwire/bus_type.c              |  4 ++--
->  drivers/thunderbolt/switch.c              |  4 ++--
->  drivers/thunderbolt/tb.h                  |  2 +-
->  drivers/thunderbolt/xdomain.c             |  6 +++---
->  drivers/tty/serdev/core.c                 |  2 +-
->  drivers/usb/core/message.c                |  8 ++++----
->  drivers/usb/core/usb.c                    |  4 ++--
->  drivers/usb/phy/phy.c                     |  6 +++---
->  drivers/usb/roles/class.c                 |  3 +--
->  drivers/usb/typec/class.c                 |  2 +-
->  include/linux/acpi.h                      |  4 ++--
->  include/linux/device.h                    |  2 +-
->  include/linux/firewire.h                  |  6 +++---
->  include/linux/i3c/device.h                |  4 ++--
->  include/linux/of_device.h                 |  4 ++--
->  include/linux/soundwire/sdw_type.h        |  2 +-
->  include/linux/surface_aggregator/device.h |  2 +-
->  28 files changed, 62 insertions(+), 63 deletions(-)
+>  block/genhd.c                             | 4 ++--
+>  drivers/base/firmware_loader/sysfs.c      | 6 +++---
+>  drivers/base/firmware_loader/sysfs.h      | 2 +-
+>  drivers/firmware/dmi-id.c                 | 2 +-
+>  drivers/gnss/core.c                       | 6 +++---
+>  drivers/infiniband/core/device.c          | 2 +-
+>  drivers/isdn/mISDN/core.c                 | 4 ++--
+>  drivers/media/dvb-core/dvbdev.c           | 4 ++--
+>  drivers/nvme/host/core.c                  | 4 ++--
+>  drivers/pcmcia/cs.c                       | 4 ++--
+>  drivers/power/supply/power_supply.h       | 2 +-
+>  drivers/power/supply/power_supply_sysfs.c | 8 ++++----
+>  drivers/usb/gadget/udc/core.c             | 4 ++--
+>  include/linux/device/class.h              | 2 +-
+>  include/linux/mISDNif.h                   | 2 +-
+>  net/atm/atm_sysfs.c                       | 4 ++--
+>  net/core/net-sysfs.c                      | 4 ++--
+>  net/rfkill/core.c                         | 2 +-
+>  18 files changed, 33 insertions(+), 33 deletions(-)
 >
-> diff --git a/block/partitions/core.c b/block/partitions/core.c
-> index b8112f52d388..7b8ef6296abd 100644
-> --- a/block/partitions/core.c
-> +++ b/block/partitions/core.c
-> @@ -254,9 +254,9 @@ static void part_release(struct device *dev)
->         iput(dev_to_bdev(dev)->bd_inode);
+> diff --git a/block/genhd.c b/block/genhd.c
+> index 0f9769db2de8..3f1124713442 100644
+> --- a/block/genhd.c
+> +++ b/block/genhd.c
+> @@ -1181,9 +1181,9 @@ static void disk_release(struct device *dev)
+>         iput(disk->part0->bd_inode);    /* frees the disk */
 >  }
 >
-> -static int part_uevent(struct device *dev, struct kobj_uevent_env *env)
-> +static int part_uevent(const struct device *dev, struct kobj_uevent_env *env)
+> -static int block_uevent(struct device *dev, struct kobj_uevent_env *env)
+> +static int block_uevent(const struct device *dev, struct kobj_uevent_env *env)
 >  {
-> -       struct block_device *part = dev_to_bdev(dev);
-> +       const struct block_device *part = dev_to_bdev(dev);
+> -       struct gendisk *disk = dev_to_disk(dev);
+> +       const struct gendisk *disk = dev_to_disk(dev);
 >
->         add_uevent_var(env, "PARTN=%u", part->bd_partno);
->         if (part->bd_meta_info && part->bd_meta_info->volname[0])
-> diff --git a/drivers/acpi/device_sysfs.c b/drivers/acpi/device_sysfs.c
-> index 120873dad2cc..daff2c0c5c52 100644
-> --- a/drivers/acpi/device_sysfs.c
-> +++ b/drivers/acpi/device_sysfs.c
-> @@ -133,7 +133,7 @@ static void acpi_hide_nondev_subnodes(struct acpi_device_data *data)
->   *         -EINVAL: output error
->   *         -ENOMEM: output is truncated
->   */
-> -static int create_pnp_modalias(struct acpi_device *acpi_dev, char *modalias,
-> +static int create_pnp_modalias(const struct acpi_device *acpi_dev, char *modalias,
->                                int size)
->  {
->         int len;
-> @@ -191,7 +191,7 @@ static int create_pnp_modalias(struct acpi_device *acpi_dev, char *modalias,
->   * only be called for devices having ACPI_DT_NAMESPACE_HID in their list of
->   * ACPI/PNP IDs.
->   */
-> -static int create_of_modalias(struct acpi_device *acpi_dev, char *modalias,
-> +static int create_of_modalias(const struct acpi_device *acpi_dev, char *modalias,
->                               int size)
->  {
->         struct acpi_buffer buf = { ACPI_ALLOCATE_BUFFER };
-> @@ -239,7 +239,7 @@ static int create_of_modalias(struct acpi_device *acpi_dev, char *modalias,
->         return len;
+>         return add_uevent_var(env, "DISKSEQ=%llu", disk->diskseq);
 >  }
+> diff --git a/drivers/base/firmware_loader/sysfs.c b/drivers/base/firmware_loader/sysfs.c
+> index 5b66b3d1fa16..56911d75b90a 100644
+> --- a/drivers/base/firmware_loader/sysfs.c
+> +++ b/drivers/base/firmware_loader/sysfs.c
+> @@ -64,7 +64,7 @@ static struct attribute *firmware_class_attrs[] = {
+>  };
+>  ATTRIBUTE_GROUPS(firmware_class);
 >
-> -int __acpi_device_uevent_modalias(struct acpi_device *adev,
-> +int __acpi_device_uevent_modalias(const struct acpi_device *adev,
->                                   struct kobj_uevent_env *env)
+> -static int do_firmware_uevent(struct fw_sysfs *fw_sysfs, struct kobj_uevent_env *env)
+> +static int do_firmware_uevent(const struct fw_sysfs *fw_sysfs, struct kobj_uevent_env *env)
 >  {
->         int len;
-> @@ -277,7 +277,7 @@ int __acpi_device_uevent_modalias(struct acpi_device *adev,
->   * Because other buses do not support ACPI HIDs & CIDs, e.g. for a device with
->   * hid:IBM0001 and cid:ACPI0001 you get: "acpi:IBM0001:ACPI0001".
->   */
-> -int acpi_device_uevent_modalias(struct device *dev, struct kobj_uevent_env *env)
-> +int acpi_device_uevent_modalias(const struct device *dev, struct kobj_uevent_env *env)
->  {
->         return __acpi_device_uevent_modalias(acpi_companion_match(dev), env);
->  }
-> diff --git a/drivers/acpi/internal.h b/drivers/acpi/internal.h
-> index 219c02df9a08..d422884eb3d0 100644
-> --- a/drivers/acpi/internal.h
-> +++ b/drivers/acpi/internal.h
-> @@ -120,7 +120,7 @@ int acpi_bus_register_early_device(int type);
->                       Device Matching and Notification
->     -------------------------------------------------------------------------- */
->  struct acpi_device *acpi_companion_match(const struct device *dev);
-> -int __acpi_device_uevent_modalias(struct acpi_device *adev,
-> +int __acpi_device_uevent_modalias(const struct acpi_device *adev,
->                                   struct kobj_uevent_env *env);
->
->  /* --------------------------------------------------------------------------
-> diff --git a/drivers/firewire/core-device.c b/drivers/firewire/core-device.c
-> index adddd8c45d0c..aa597cda0d88 100644
-> --- a/drivers/firewire/core-device.c
-> +++ b/drivers/firewire/core-device.c
-> @@ -133,7 +133,7 @@ static void get_ids(const u32 *directory, int *id)
->         }
->  }
->
-> -static void get_modalias_ids(struct fw_unit *unit, int *id)
-> +static void get_modalias_ids(const struct fw_unit *unit, int *id)
->  {
->         get_ids(&fw_parent_device(unit)->config_rom[5], id);
->         get_ids(unit->directory, id);
-> @@ -195,7 +195,7 @@ static void fw_unit_remove(struct device *dev)
->         driver->remove(fw_unit(dev));
->  }
->
-> -static int get_modalias(struct fw_unit *unit, char *buffer, size_t buffer_size)
-> +static int get_modalias(const struct fw_unit *unit, char *buffer, size_t buffer_size)
->  {
->         int id[] = {0, 0, 0, 0};
->
-> @@ -206,9 +206,9 @@ static int get_modalias(struct fw_unit *unit, char *buffer, size_t buffer_size)
->                         id[0], id[1], id[2], id[3]);
->  }
->
-> -static int fw_unit_uevent(struct device *dev, struct kobj_uevent_env *env)
-> +static int fw_unit_uevent(const struct device *dev, struct kobj_uevent_env *env)
->  {
-> -       struct fw_unit *unit = fw_unit(dev);
-> +       const struct fw_unit *unit = fw_unit(dev);
->         char modalias[64];
->
->         get_modalias(unit, modalias, sizeof(modalias));
-> diff --git a/drivers/i2c/i2c-core-base.c b/drivers/i2c/i2c-core-base.c
-> index b4edf10e8fd0..fb16e33e52c6 100644
-> --- a/drivers/i2c/i2c-core-base.c
-> +++ b/drivers/i2c/i2c-core-base.c
-> @@ -136,9 +136,9 @@ static int i2c_device_match(struct device *dev, struct device_driver *drv)
+>         if (add_uevent_var(env, "FIRMWARE=%s", fw_sysfs->fw_priv->fw_name))
+>                 return -ENOMEM;
+> @@ -76,9 +76,9 @@ static int do_firmware_uevent(struct fw_sysfs *fw_sysfs, struct kobj_uevent_env
 >         return 0;
 >  }
 >
-> -static int i2c_device_uevent(struct device *dev, struct kobj_uevent_env *env)
-> +static int i2c_device_uevent(const struct device *dev, struct kobj_uevent_env *env)
+> -static int firmware_uevent(struct device *dev, struct kobj_uevent_env *env)
+> +static int firmware_uevent(const struct device *dev, struct kobj_uevent_env *env)
 >  {
-> -       struct i2c_client *client = to_i2c_client(dev);
-> +       const struct i2c_client *client = to_i2c_client(dev);
->         int rc;
+> -       struct fw_sysfs *fw_sysfs = to_fw_sysfs(dev);
+> +       const struct fw_sysfs *fw_sysfs = to_fw_sysfs(dev);
+>         int err = 0;
 >
->         rc = of_device_uevent_modalias(dev, env);
-> diff --git a/drivers/i3c/device.c b/drivers/i3c/device.c
-> index e92d3e9a52bd..05f8ab762e34 100644
-> --- a/drivers/i3c/device.c
-> +++ b/drivers/i3c/device.c
-> @@ -58,7 +58,7 @@ EXPORT_SYMBOL_GPL(i3c_device_do_priv_xfers);
->   *
->   * Retrieve I3C dev info.
->   */
-> -void i3c_device_get_info(struct i3c_device *dev,
-> +void i3c_device_get_info(const struct i3c_device *dev,
->                          struct i3c_device_info *info)
->  {
->         if (!info)
-> @@ -194,7 +194,7 @@ EXPORT_SYMBOL_GPL(i3cdev_to_dev);
->   *
->   * Return: a pointer to an I3C device object.
->   */
-> -struct i3c_device *dev_to_i3cdev(struct device *dev)
-> +struct i3c_device *dev_to_i3cdev(const struct device *dev)
->  {
->         return container_of(dev, struct i3c_device, dev);
->  }
-> diff --git a/drivers/i3c/master.c b/drivers/i3c/master.c
-> index 351c81a929a6..bf1a2b2f34c4 100644
-> --- a/drivers/i3c/master.c
-> +++ b/drivers/i3c/master.c
-> @@ -273,9 +273,9 @@ static struct attribute *i3c_device_attrs[] = {
->  };
->  ATTRIBUTE_GROUPS(i3c_device);
->
-> -static int i3c_device_uevent(struct device *dev, struct kobj_uevent_env *env)
-> +static int i3c_device_uevent(const struct device *dev, struct kobj_uevent_env *env)
->  {
-> -       struct i3c_device *i3cdev = dev_to_i3cdev(dev);
-> +       const struct i3c_device *i3cdev = dev_to_i3cdev(dev);
->         struct i3c_device_info devinfo;
->         u16 manuf, part, ext;
->
-> diff --git a/drivers/input/input.c b/drivers/input/input.c
-> index 50597165dc54..a612afffa196 100644
-> --- a/drivers/input/input.c
-> +++ b/drivers/input/input.c
-> @@ -1371,7 +1371,7 @@ INPUT_DEV_STRING_ATTR_SHOW(phys);
->  INPUT_DEV_STRING_ATTR_SHOW(uniq);
->
->  static int input_print_modalias_bits(char *buf, int size,
-> -                                    char name, unsigned long *bm,
-> +                                    char name, const unsigned long *bm,
->                                      unsigned int min_bit, unsigned int max_bit)
->  {
->         int len = 0, i;
-> @@ -1383,7 +1383,7 @@ static int input_print_modalias_bits(char *buf, int size,
->         return len;
->  }
->
-> -static int input_print_modalias(char *buf, int size, struct input_dev *id,
-> +static int input_print_modalias(char *buf, int size, const struct input_dev *id,
->                                 int add_cr)
->  {
->         int len;
-> @@ -1431,7 +1431,7 @@ static ssize_t input_dev_show_modalias(struct device *dev,
->  }
->  static DEVICE_ATTR(modalias, S_IRUGO, input_dev_show_modalias, NULL);
->
-> -static int input_print_bitmap(char *buf, int buf_size, unsigned long *bitmap,
-> +static int input_print_bitmap(char *buf, int buf_size, const unsigned long *bitmap,
->                               int max, int add_cr);
->
->  static ssize_t input_dev_show_properties(struct device *dev,
-> @@ -1523,7 +1523,7 @@ static const struct attribute_group input_dev_id_attr_group = {
->         .attrs  = input_dev_id_attrs,
+>         mutex_lock(&fw_lock);
+> diff --git a/drivers/base/firmware_loader/sysfs.h b/drivers/base/firmware_loader/sysfs.h
+> index df1d5add698f..fd0b4ad9bdbb 100644
+> --- a/drivers/base/firmware_loader/sysfs.h
+> +++ b/drivers/base/firmware_loader/sysfs.h
+> @@ -81,7 +81,7 @@ struct fw_sysfs {
+>         void *fw_upload_priv;
 >  };
 >
-> -static int input_print_bitmap(char *buf, int buf_size, unsigned long *bitmap,
-> +static int input_print_bitmap(char *buf, int buf_size, const unsigned long *bitmap,
->                               int max, int add_cr)
+> -static inline struct fw_sysfs *to_fw_sysfs(struct device *dev)
+> +static inline struct fw_sysfs *to_fw_sysfs(const struct device *dev)
 >  {
->         int i;
-> @@ -1620,7 +1620,7 @@ static void input_dev_release(struct device *device)
->   * device bitfields.
->   */
->  static int input_add_uevent_bm_var(struct kobj_uevent_env *env,
-> -                                  const char *name, unsigned long *bitmap, int max)
-> +                                  const char *name, const unsigned long *bitmap, int max)
->  {
->         int len;
->
-> @@ -1638,7 +1638,7 @@ static int input_add_uevent_bm_var(struct kobj_uevent_env *env,
+>         return container_of(dev, struct fw_sysfs, dev);
 >  }
->
->  static int input_add_uevent_modalias_var(struct kobj_uevent_env *env,
-> -                                        struct input_dev *dev)
-> +                                        const struct input_dev *dev)
->  {
->         int len;
->
-> @@ -1676,9 +1676,9 @@ static int input_add_uevent_modalias_var(struct kobj_uevent_env *env,
->                         return err;                                     \
->         } while (0)
->
-> -static int input_dev_uevent(struct device *device, struct kobj_uevent_env *env)
-> +static int input_dev_uevent(const struct device *device, struct kobj_uevent_env *env)
->  {
-> -       struct input_dev *dev = to_input_dev(device);
-> +       const struct input_dev *dev = to_input_dev(device);
->
->         INPUT_ADD_HOTPLUG_VAR("PRODUCT=%x/%x/%x/%x",
->                                 dev->id.bustype, dev->id.vendor,
-> diff --git a/drivers/media/rc/rc-main.c b/drivers/media/rc/rc-main.c
-> index 527d9324742b..6bdad6341844 100644
-> --- a/drivers/media/rc/rc-main.c
-> +++ b/drivers/media/rc/rc-main.c
-> @@ -1614,7 +1614,7 @@ static void rc_dev_release(struct device *device)
->         kfree(dev);
->  }
->
-> -static int rc_dev_uevent(struct device *device, struct kobj_uevent_env *env)
-> +static int rc_dev_uevent(const struct device *device, struct kobj_uevent_env *env)
->  {
->         struct rc_dev *dev = to_rc_dev(device);
->         int ret = 0;
-> diff --git a/drivers/of/device.c b/drivers/of/device.c
-> index c674a13c3055..dda51b7ce597 100644
-> --- a/drivers/of/device.c
-> +++ b/drivers/of/device.c
-> @@ -248,7 +248,7 @@ const void *of_device_get_match_data(const struct device *dev)
->  }
->  EXPORT_SYMBOL(of_device_get_match_data);
->
-> -static ssize_t of_device_get_modalias(struct device *dev, char *str, ssize_t len)
-> +static ssize_t of_device_get_modalias(const struct device *dev, char *str, ssize_t len)
->  {
->         const char *compat;
->         char *c;
-> @@ -372,7 +372,7 @@ void of_device_uevent(const struct device *dev, struct kobj_uevent_env *env)
->         mutex_unlock(&of_mutex);
->  }
->
-> -int of_device_uevent_modalias(struct device *dev, struct kobj_uevent_env *env)
-> +int of_device_uevent_modalias(const struct device *dev, struct kobj_uevent_env *env)
->  {
->         int sl;
->
-> diff --git a/drivers/platform/surface/aggregator/bus.c b/drivers/platform/surface/aggregator/bus.c
-> index de539938896e..407eb55050a6 100644
-> --- a/drivers/platform/surface/aggregator/bus.c
-> +++ b/drivers/platform/surface/aggregator/bus.c
-> @@ -35,9 +35,9 @@ static struct attribute *ssam_device_attrs[] = {
->  };
->  ATTRIBUTE_GROUPS(ssam_device);
->
-> -static int ssam_device_uevent(struct device *dev, struct kobj_uevent_env *env)
-> +static int ssam_device_uevent(const struct device *dev, struct kobj_uevent_env *env)
->  {
-> -       struct ssam_device *sdev = to_ssam_device(dev);
-> +       const struct ssam_device *sdev = to_ssam_device(dev);
->
->         return add_uevent_var(env, "MODALIAS=ssam:d%02Xc%02Xt%02Xi%02Xf%02X",
->                               sdev->uid.domain, sdev->uid.category,
-> diff --git a/drivers/soundwire/bus_type.c b/drivers/soundwire/bus_type.c
-> index 04b3529f8929..26c9a0a85d49 100644
-> --- a/drivers/soundwire/bus_type.c
-> +++ b/drivers/soundwire/bus_type.c
-> @@ -58,9 +58,9 @@ int sdw_slave_modalias(const struct sdw_slave *slave, char *buf, size_t size)
->                         slave->id.sdw_version, slave->id.class_id);
->  }
->
-> -int sdw_slave_uevent(struct device *dev, struct kobj_uevent_env *env)
-> +int sdw_slave_uevent(const struct device *dev, struct kobj_uevent_env *env)
->  {
-> -       struct sdw_slave *slave = dev_to_sdw_dev(dev);
-> +       const struct sdw_slave *slave = dev_to_sdw_dev(dev);
->         char modalias[32];
->
->         sdw_slave_modalias(slave, modalias, sizeof(modalias));
-> diff --git a/drivers/thunderbolt/switch.c b/drivers/thunderbolt/switch.c
-> index 60da5c23ccaf..2f4ef156b210 100644
-> --- a/drivers/thunderbolt/switch.c
-> +++ b/drivers/thunderbolt/switch.c
-> @@ -2175,9 +2175,9 @@ static void tb_switch_release(struct device *dev)
->         kfree(sw);
->  }
->
-> -static int tb_switch_uevent(struct device *dev, struct kobj_uevent_env *env)
-> +static int tb_switch_uevent(const struct device *dev, struct kobj_uevent_env *env)
->  {
-> -       struct tb_switch *sw = tb_to_switch(dev);
-> +       const struct tb_switch *sw = tb_to_switch(dev);
->         const char *type;
->
->         if (sw->config.thunderbolt_version == USB4_VERSION_1_0) {
-> diff --git a/drivers/thunderbolt/tb.h b/drivers/thunderbolt/tb.h
-> index f9786976f5ec..909da0a98134 100644
-> --- a/drivers/thunderbolt/tb.h
-> +++ b/drivers/thunderbolt/tb.h
-> @@ -815,7 +815,7 @@ static inline bool tb_is_switch(const struct device *dev)
->         return dev->type == &tb_switch_type;
->  }
->
-> -static inline struct tb_switch *tb_to_switch(struct device *dev)
-> +static inline struct tb_switch *tb_to_switch(const struct device *dev)
->  {
->         if (tb_is_switch(dev))
->                 return container_of(dev, struct tb_switch, dev);
-> diff --git a/drivers/thunderbolt/xdomain.c b/drivers/thunderbolt/xdomain.c
-> index f00b2f62d8e3..aeb40a384bea 100644
-> --- a/drivers/thunderbolt/xdomain.c
-> +++ b/drivers/thunderbolt/xdomain.c
-> @@ -881,7 +881,7 @@ static ssize_t key_show(struct device *dev, struct device_attribute *attr,
->  }
->  static DEVICE_ATTR_RO(key);
->
-> -static int get_modalias(struct tb_service *svc, char *buf, size_t size)
-> +static int get_modalias(const struct tb_service *svc, char *buf, size_t size)
->  {
->         return snprintf(buf, size, "tbsvc:k%sp%08Xv%08Xr%08X", svc->key,
->                         svc->prtcid, svc->prtcvers, svc->prtcrevs);
-> @@ -953,9 +953,9 @@ static const struct attribute_group *tb_service_attr_groups[] = {
->         NULL,
->  };
->
-> -static int tb_service_uevent(struct device *dev, struct kobj_uevent_env *env)
-> +static int tb_service_uevent(const struct device *dev, struct kobj_uevent_env *env)
->  {
-> -       struct tb_service *svc = container_of(dev, struct tb_service, dev);
-> +       const struct tb_service *svc = container_of(dev, struct tb_service, dev);
->         char modalias[64];
->
->         get_modalias(svc, modalias, sizeof(modalias));
-> diff --git a/drivers/tty/serdev/core.c b/drivers/tty/serdev/core.c
-> index 0180e1e4e75d..aa80de3a8194 100644
-> --- a/drivers/tty/serdev/core.c
-> +++ b/drivers/tty/serdev/core.c
-> @@ -42,7 +42,7 @@ static struct attribute *serdev_device_attrs[] = {
->  };
->  ATTRIBUTE_GROUPS(serdev_device);
->
-> -static int serdev_device_uevent(struct device *dev, struct kobj_uevent_env *env)
-> +static int serdev_device_uevent(const struct device *dev, struct kobj_uevent_env *env)
->  {
->         int rc;
->
-> diff --git a/drivers/usb/core/message.c b/drivers/usb/core/message.c
-> index 4d59d927ae3e..c397574a6570 100644
-> --- a/drivers/usb/core/message.c
-> +++ b/drivers/usb/core/message.c
-> @@ -1818,11 +1818,11 @@ void usb_authorize_interface(struct usb_interface *intf)
->         }
->  }
->
-> -static int usb_if_uevent(struct device *dev, struct kobj_uevent_env *env)
-> +static int usb_if_uevent(const struct device *dev, struct kobj_uevent_env *env)
->  {
-> -       struct usb_device *usb_dev;
-> -       struct usb_interface *intf;
-> -       struct usb_host_interface *alt;
-> +       const struct usb_device *usb_dev;
-> +       const struct usb_interface *intf;
-> +       const struct usb_host_interface *alt;
->
->         intf = to_usb_interface(dev);
->         usb_dev = interface_to_usbdev(intf);
-> diff --git a/drivers/usb/core/usb.c b/drivers/usb/core/usb.c
-> index 11b15d7b357a..8527c06b65e6 100644
-> --- a/drivers/usb/core/usb.c
-> +++ b/drivers/usb/core/usb.c
-> @@ -423,9 +423,9 @@ static void usb_release_dev(struct device *dev)
->         kfree(udev);
->  }
->
-> -static int usb_dev_uevent(struct device *dev, struct kobj_uevent_env *env)
-> +static int usb_dev_uevent(const struct device *dev, struct kobj_uevent_env *env)
->  {
-> -       struct usb_device *usb_dev;
-> +       const struct usb_device *usb_dev;
->
->         usb_dev = to_usb_device(dev);
->
-> diff --git a/drivers/usb/phy/phy.c b/drivers/usb/phy/phy.c
-> index 1b24492bb4e5..4b468bde19cf 100644
-> --- a/drivers/usb/phy/phy.c
-> +++ b/drivers/usb/phy/phy.c
-> @@ -80,7 +80,7 @@ static struct usb_phy *__of_usb_find_phy(struct device_node *node)
->         return ERR_PTR(-EPROBE_DEFER);
->  }
->
-> -static struct usb_phy *__device_to_usb_phy(struct device *dev)
-> +static struct usb_phy *__device_to_usb_phy(const struct device *dev)
->  {
->         struct usb_phy *usb_phy;
->
-> @@ -145,9 +145,9 @@ static void usb_phy_notify_charger_work(struct work_struct *work)
->         kobject_uevent(&usb_phy->dev->kobj, KOBJ_CHANGE);
->  }
->
-> -static int usb_phy_uevent(struct device *dev, struct kobj_uevent_env *env)
-> +static int usb_phy_uevent(const struct device *dev, struct kobj_uevent_env *env)
->  {
-> -       struct usb_phy *usb_phy;
-> +       const struct usb_phy *usb_phy;
->         char uchger_state[50] = { 0 };
->         char uchger_type[50] = { 0 };
->         unsigned long flags;
-> diff --git a/drivers/usb/roles/class.c b/drivers/usb/roles/class.c
-> index a3575a5a18ce..3708fb70b693 100644
-> --- a/drivers/usb/roles/class.c
-> +++ b/drivers/usb/roles/class.c
-> @@ -271,8 +271,7 @@ static const struct attribute_group *usb_role_switch_groups[] = {
->         NULL,
->  };
->
-> -static int
-> -usb_role_switch_uevent(struct device *dev, struct kobj_uevent_env *env)
-> +static int usb_role_switch_uevent(const struct device *dev, struct kobj_uevent_env *env)
->  {
->         int ret;
->
-> diff --git a/drivers/usb/typec/class.c b/drivers/usb/typec/class.c
-> index bd5e5dd70431..8e2b2077f262 100644
-> --- a/drivers/usb/typec/class.c
-> +++ b/drivers/usb/typec/class.c
-> @@ -1718,7 +1718,7 @@ static const struct attribute_group *typec_groups[] = {
+> diff --git a/drivers/firmware/dmi-id.c b/drivers/firmware/dmi-id.c
+> index 940ddf916202..5f3a3e913d28 100644
+> --- a/drivers/firmware/dmi-id.c
+> +++ b/drivers/firmware/dmi-id.c
+> @@ -155,7 +155,7 @@ static const struct attribute_group* sys_dmi_attribute_groups[] = {
 >         NULL
 >  };
 >
-> -static int typec_uevent(struct device *dev, struct kobj_uevent_env *env)
-> +static int typec_uevent(const struct device *dev, struct kobj_uevent_env *env)
+> -static int dmi_dev_uevent(struct device *dev, struct kobj_uevent_env *env)
+> +static int dmi_dev_uevent(const struct device *dev, struct kobj_uevent_env *env)
 >  {
+>         ssize_t len;
+>
+> diff --git a/drivers/gnss/core.c b/drivers/gnss/core.c
+> index 1e82b7967570..77a4b280c552 100644
+> --- a/drivers/gnss/core.c
+> +++ b/drivers/gnss/core.c
+> @@ -337,7 +337,7 @@ static const char * const gnss_type_names[GNSS_TYPE_COUNT] = {
+>         [GNSS_TYPE_MTK]         = "MTK",
+>  };
+>
+> -static const char *gnss_type_name(struct gnss_device *gdev)
+> +static const char *gnss_type_name(const struct gnss_device *gdev)
+>  {
+>         const char *name = NULL;
+>
+> @@ -365,9 +365,9 @@ static struct attribute *gnss_attrs[] = {
+>  };
+>  ATTRIBUTE_GROUPS(gnss);
+>
+> -static int gnss_uevent(struct device *dev, struct kobj_uevent_env *env)
+> +static int gnss_uevent(const struct device *dev, struct kobj_uevent_env *env)
+>  {
+> -       struct gnss_device *gdev = to_gnss_device(dev);
+> +       const struct gnss_device *gdev = to_gnss_device(dev);
 >         int ret;
 >
-> diff --git a/include/linux/acpi.h b/include/linux/acpi.h
-> index 3015235d65e3..fc956c3f8324 100644
-> --- a/include/linux/acpi.h
-> +++ b/include/linux/acpi.h
-> @@ -722,7 +722,7 @@ const struct acpi_device_id *acpi_match_device(const struct acpi_device_id *ids,
->  const void *acpi_device_get_match_data(const struct device *dev);
->  extern bool acpi_driver_match_device(struct device *dev,
->                                      const struct device_driver *drv);
-> -int acpi_device_uevent_modalias(struct device *, struct kobj_uevent_env *);
-> +int acpi_device_uevent_modalias(const struct device *, struct kobj_uevent_env *);
->  int acpi_device_modalias(struct device *, char *, int);
->
->  struct platform_device *acpi_create_platform_device(struct acpi_device *,
-> @@ -957,7 +957,7 @@ static inline union acpi_object *acpi_evaluate_dsm(acpi_handle handle,
->         return NULL;
+>         ret = add_uevent_var(env, "GNSS_TYPE=%s", gnss_type_name(gdev));
+> diff --git a/drivers/infiniband/core/device.c b/drivers/infiniband/core/device.c
+> index fa65c5d3d395..4186dbf9377f 100644
+> --- a/drivers/infiniband/core/device.c
+> +++ b/drivers/infiniband/core/device.c
+> @@ -511,7 +511,7 @@ static void ib_device_release(struct device *device)
+>         kfree_rcu(dev, rcu_head);
 >  }
 >
-> -static inline int acpi_device_uevent_modalias(struct device *dev,
-> +static inline int acpi_device_uevent_modalias(const struct device *dev,
+> -static int ib_device_uevent(struct device *device,
+> +static int ib_device_uevent(const struct device *device,
+>                             struct kobj_uevent_env *env)
+>  {
+>         if (add_uevent_var(env, "NAME=%s", dev_name(device)))
+> diff --git a/drivers/isdn/mISDN/core.c b/drivers/isdn/mISDN/core.c
+> index 90ee56d07a6e..9120be590325 100644
+> --- a/drivers/isdn/mISDN/core.c
+> +++ b/drivers/isdn/mISDN/core.c
+> @@ -139,9 +139,9 @@ static struct attribute *mISDN_attrs[] = {
+>  };
+>  ATTRIBUTE_GROUPS(mISDN);
+>
+> -static int mISDN_uevent(struct device *dev, struct kobj_uevent_env *env)
+> +static int mISDN_uevent(const struct device *dev, struct kobj_uevent_env *env)
+>  {
+> -       struct mISDNdevice *mdev = dev_to_mISDN(dev);
+> +       const struct mISDNdevice *mdev = dev_to_mISDN(dev);
+>
+>         if (!mdev)
+>                 return 0;
+> diff --git a/drivers/media/dvb-core/dvbdev.c b/drivers/media/dvb-core/dvbdev.c
+> index 675d877a67b2..6ef18bab9648 100644
+> --- a/drivers/media/dvb-core/dvbdev.c
+> +++ b/drivers/media/dvb-core/dvbdev.c
+> @@ -1008,9 +1008,9 @@ void dvb_module_release(struct i2c_client *client)
+>  EXPORT_SYMBOL_GPL(dvb_module_release);
+>  #endif
+>
+> -static int dvb_uevent(struct device *dev, struct kobj_uevent_env *env)
+> +static int dvb_uevent(const struct device *dev, struct kobj_uevent_env *env)
+>  {
+> -       struct dvb_device *dvbdev = dev_get_drvdata(dev);
+> +       const struct dvb_device *dvbdev = dev_get_drvdata(dev);
+>
+>         add_uevent_var(env, "DVB_ADAPTER_NUM=%d", dvbdev->adapter->num);
+>         add_uevent_var(env, "DVB_DEVICE_TYPE=%s", dnames[dvbdev->type]);
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index da55ce45ac70..b4778b970dd4 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -4580,9 +4580,9 @@ void nvme_remove_namespaces(struct nvme_ctrl *ctrl)
+>  }
+>  EXPORT_SYMBOL_GPL(nvme_remove_namespaces);
+>
+> -static int nvme_class_uevent(struct device *dev, struct kobj_uevent_env *env)
+> +static int nvme_class_uevent(const struct device *dev, struct kobj_uevent_env *env)
+>  {
+> -       struct nvme_ctrl *ctrl =
+> +       const struct nvme_ctrl *ctrl =
+>                 container_of(dev, struct nvme_ctrl, ctrl_device);
+>         struct nvmf_ctrl_options *opts = ctrl->opts;
+>         int ret;
+> diff --git a/drivers/pcmcia/cs.c b/drivers/pcmcia/cs.c
+> index f70197154a36..e3224e49c43f 100644
+> --- a/drivers/pcmcia/cs.c
+> +++ b/drivers/pcmcia/cs.c
+> @@ -810,10 +810,10 @@ int pcmcia_reset_card(struct pcmcia_socket *skt)
+>  EXPORT_SYMBOL(pcmcia_reset_card);
+>
+>
+> -static int pcmcia_socket_uevent(struct device *dev,
+> +static int pcmcia_socket_uevent(const struct device *dev,
 >                                 struct kobj_uevent_env *env)
 >  {
->         return -ENODEV;
-> diff --git a/include/linux/device.h b/include/linux/device.h
-> index 84ae52de6746..46093bae6905 100644
-> --- a/include/linux/device.h
-> +++ b/include/linux/device.h
-> @@ -88,7 +88,7 @@ int subsys_virtual_register(struct bus_type *subsys,
->  struct device_type {
->         const char *name;
->         const struct attribute_group **groups;
-> -       int (*uevent)(struct device *dev, struct kobj_uevent_env *env);
-> +       int (*uevent)(const struct device *dev, struct kobj_uevent_env *env);
->         char *(*devnode)(struct device *dev, umode_t *mode,
->                          kuid_t *uid, kgid_t *gid);
->         void (*release)(struct device *dev);
-> diff --git a/include/linux/firewire.h b/include/linux/firewire.h
-> index 980019053e54..4c882d57df02 100644
-> --- a/include/linux/firewire.h
-> +++ b/include/linux/firewire.h
-> @@ -208,7 +208,7 @@ struct fw_device {
->         struct fw_attribute_group attribute_group;
+> -       struct pcmcia_socket *s = container_of(dev, struct pcmcia_socket, dev);
+> +       const struct pcmcia_socket *s = container_of(dev, struct pcmcia_socket, dev);
+>
+>         if (add_uevent_var(env, "SOCKET_NO=%u", s->sock))
+>                 return -ENOMEM;
+> diff --git a/drivers/power/supply/power_supply.h b/drivers/power/supply/power_supply.h
+> index c310d4f36c10..645eee4d6b6a 100644
+> --- a/drivers/power/supply/power_supply.h
+> +++ b/drivers/power/supply/power_supply.h
+> @@ -16,7 +16,7 @@ struct power_supply;
+>  #ifdef CONFIG_SYSFS
+>
+>  extern void power_supply_init_attrs(struct device_type *dev_type);
+> -extern int power_supply_uevent(struct device *dev, struct kobj_uevent_env *env);
+> +extern int power_supply_uevent(const struct device *dev, struct kobj_uevent_env *env);
+>
+>  #else
+>
+> diff --git a/drivers/power/supply/power_supply_sysfs.c b/drivers/power/supply/power_supply_sysfs.c
+> index 5369abaceb5c..6ca7d3985a40 100644
+> --- a/drivers/power/supply/power_supply_sysfs.c
+> +++ b/drivers/power/supply/power_supply_sysfs.c
+> @@ -427,7 +427,7 @@ void power_supply_init_attrs(struct device_type *dev_type)
+>         }
+>  }
+>
+> -static int add_prop_uevent(struct device *dev, struct kobj_uevent_env *env,
+> +static int add_prop_uevent(const struct device *dev, struct kobj_uevent_env *env,
+>                            enum power_supply_property prop, char *prop_buf)
+>  {
+>         int ret = 0;
+> @@ -438,7 +438,7 @@ static int add_prop_uevent(struct device *dev, struct kobj_uevent_env *env,
+>         pwr_attr = &power_supply_attrs[prop];
+>         dev_attr = &pwr_attr->dev_attr;
+>
+> -       ret = power_supply_show_property(dev, dev_attr, prop_buf);
+> +       ret = power_supply_show_property((struct device *)dev, dev_attr, prop_buf);
+>         if (ret == -ENODEV || ret == -ENODATA) {
+>                 /*
+>                  * When a battery is absent, we expect -ENODEV. Don't abort;
+> @@ -458,9 +458,9 @@ static int add_prop_uevent(struct device *dev, struct kobj_uevent_env *env,
+>                               pwr_attr->prop_name, prop_buf);
+>  }
+>
+> -int power_supply_uevent(struct device *dev, struct kobj_uevent_env *env)
+> +int power_supply_uevent(const struct device *dev, struct kobj_uevent_env *env)
+>  {
+> -       struct power_supply *psy = dev_get_drvdata(dev);
+> +       const struct power_supply *psy = dev_get_drvdata(dev);
+>         int ret = 0, j;
+>         char *prop_buf;
+>
+> diff --git a/drivers/usb/gadget/udc/core.c b/drivers/usb/gadget/udc/core.c
+> index c63c0c2cf649..b5994a0604f6 100644
+> --- a/drivers/usb/gadget/udc/core.c
+> +++ b/drivers/usb/gadget/udc/core.c
+> @@ -1723,9 +1723,9 @@ static const struct attribute_group *usb_udc_attr_groups[] = {
+>         NULL,
 >  };
 >
-> -static inline struct fw_device *fw_device(struct device *dev)
-> +static inline struct fw_device *fw_device(const struct device *dev)
+> -static int usb_udc_uevent(struct device *dev, struct kobj_uevent_env *env)
+> +static int usb_udc_uevent(const struct device *dev, struct kobj_uevent_env *env)
 >  {
->         return container_of(dev, struct fw_device, device);
->  }
-> @@ -229,7 +229,7 @@ struct fw_unit {
->         struct fw_attribute_group attribute_group;
+> -       struct usb_udc          *udc = container_of(dev, struct usb_udc, dev);
+> +       const struct usb_udc    *udc = container_of(dev, struct usb_udc, dev);
+>         int                     ret;
+>
+>         ret = add_uevent_var(env, "USB_UDC_NAME=%s", udc->gadget->name);
+> diff --git a/include/linux/device/class.h b/include/linux/device/class.h
+> index 20103e0b03c3..94b1107258e5 100644
+> --- a/include/linux/device/class.h
+> +++ b/include/linux/device/class.h
+> @@ -59,7 +59,7 @@ struct class {
+>         const struct attribute_group    **dev_groups;
+>         struct kobject                  *dev_kobj;
+>
+> -       int (*dev_uevent)(struct device *dev, struct kobj_uevent_env *env);
+> +       int (*dev_uevent)(const struct device *dev, struct kobj_uevent_env *env);
+>         char *(*devnode)(struct device *dev, umode_t *mode);
+>
+>         void (*class_release)(struct class *class);
+> diff --git a/include/linux/mISDNif.h b/include/linux/mISDNif.h
+> index 7dd1f01ec4f9..7aab4a769736 100644
+> --- a/include/linux/mISDNif.h
+> +++ b/include/linux/mISDNif.h
+> @@ -586,7 +586,7 @@ extern struct mISDNclock *mISDN_register_clock(char *, int, clockctl_func_t *,
+>                                                 void *);
+>  extern void    mISDN_unregister_clock(struct mISDNclock *);
+>
+> -static inline struct mISDNdevice *dev_to_mISDN(struct device *dev)
+> +static inline struct mISDNdevice *dev_to_mISDN(const struct device *dev)
+>  {
+>         if (dev)
+>                 return dev_get_drvdata(dev);
+> diff --git a/net/atm/atm_sysfs.c b/net/atm/atm_sysfs.c
+> index 0fdbdfd19474..466353b3dde4 100644
+> --- a/net/atm/atm_sysfs.c
+> +++ b/net/atm/atm_sysfs.c
+> @@ -108,9 +108,9 @@ static struct device_attribute *atm_attrs[] = {
 >  };
 >
-> -static inline struct fw_unit *fw_unit(struct device *dev)
-> +static inline struct fw_unit *fw_unit(const struct device *dev)
+>
+> -static int atm_uevent(struct device *cdev, struct kobj_uevent_env *env)
+> +static int atm_uevent(const struct device *cdev, struct kobj_uevent_env *env)
 >  {
->         return container_of(dev, struct fw_unit, device);
->  }
-> @@ -246,7 +246,7 @@ static inline void fw_unit_put(struct fw_unit *unit)
->         put_device(&unit->device);
->  }
+> -       struct atm_dev *adev;
+> +       const struct atm_dev *adev;
 >
-> -static inline struct fw_device *fw_parent_device(struct fw_unit *unit)
-> +static inline struct fw_device *fw_parent_device(const struct fw_unit *unit)
+>         if (!cdev)
+>                 return -ENODEV;
+> diff --git a/net/core/net-sysfs.c b/net/core/net-sysfs.c
+> index 9cfc80b8ed25..03a61d1dffbd 100644
+> --- a/net/core/net-sysfs.c
+> +++ b/net/core/net-sysfs.c
+> @@ -1873,9 +1873,9 @@ const struct kobj_ns_type_operations net_ns_type_operations = {
+>  };
+>  EXPORT_SYMBOL_GPL(net_ns_type_operations);
+>
+> -static int netdev_uevent(struct device *d, struct kobj_uevent_env *env)
+> +static int netdev_uevent(const struct device *d, struct kobj_uevent_env *env)
 >  {
->         return fw_device(unit->device.parent);
+> -       struct net_device *dev = to_net_dev(d);
+> +       const struct net_device *dev = to_net_dev(d);
+>         int retval;
+>
+>         /* pass interface to uevent. */
+> diff --git a/net/rfkill/core.c b/net/rfkill/core.c
+> index dac4fdc7488a..b390ff245d5e 100644
+> --- a/net/rfkill/core.c
+> +++ b/net/rfkill/core.c
+> @@ -832,7 +832,7 @@ static void rfkill_release(struct device *dev)
+>         kfree(rfkill);
 >  }
-> diff --git a/include/linux/i3c/device.h b/include/linux/i3c/device.h
-> index 8242e13e7b0b..cda61c1d6d60 100644
-> --- a/include/linux/i3c/device.h
-> +++ b/include/linux/i3c/device.h
-> @@ -186,7 +186,7 @@ static inline struct i3c_driver *drv_to_i3cdrv(struct device_driver *drv)
->  }
 >
->  struct device *i3cdev_to_dev(struct i3c_device *i3cdev);
-> -struct i3c_device *dev_to_i3cdev(struct device *dev);
-> +struct i3c_device *dev_to_i3cdev(const struct device *dev);
->
->  const struct i3c_device_id *
->  i3c_device_match_id(struct i3c_device *i3cdev,
-> @@ -293,7 +293,7 @@ int i3c_device_do_priv_xfers(struct i3c_device *dev,
->                              struct i3c_priv_xfer *xfers,
->                              int nxfers);
->
-> -void i3c_device_get_info(struct i3c_device *dev, struct i3c_device_info *info);
-> +void i3c_device_get_info(const struct i3c_device *dev, struct i3c_device_info *info);
->
->  struct i3c_ibi_payload {
->         unsigned int len;
-> diff --git a/include/linux/of_device.h b/include/linux/of_device.h
-> index ab7d557d541d..f4b57614979d 100644
-> --- a/include/linux/of_device.h
-> +++ b/include/linux/of_device.h
-> @@ -36,7 +36,7 @@ extern ssize_t of_device_modalias(struct device *dev, char *str, ssize_t len);
->  extern int of_device_request_module(struct device *dev);
->
->  extern void of_device_uevent(const struct device *dev, struct kobj_uevent_env *env);
-> -extern int of_device_uevent_modalias(struct device *dev, struct kobj_uevent_env *env);
-> +extern int of_device_uevent_modalias(const struct device *dev, struct kobj_uevent_env *env);
->
->  static inline struct device_node *of_cpu_device_node_get(int cpu)
+> -static int rfkill_dev_uevent(struct device *dev, struct kobj_uevent_env *env)
+> +static int rfkill_dev_uevent(const struct device *dev, struct kobj_uevent_env *env)
 >  {
-> @@ -83,7 +83,7 @@ static inline int of_device_request_module(struct device *dev)
->         return -ENODEV;
->  }
->
-> -static inline int of_device_uevent_modalias(struct device *dev,
-> +static inline int of_device_uevent_modalias(const struct device *dev,
->                                    struct kobj_uevent_env *env)
->  {
->         return -ENODEV;
-> diff --git a/include/linux/soundwire/sdw_type.h b/include/linux/soundwire/sdw_type.h
-> index 52eb66cd11bc..d8c27f1e5559 100644
-> --- a/include/linux/soundwire/sdw_type.h
-> +++ b/include/linux/soundwire/sdw_type.h
-> @@ -21,7 +21,7 @@ static inline int is_sdw_slave(const struct device *dev)
->  int __sdw_register_driver(struct sdw_driver *drv, struct module *owner);
->  void sdw_unregister_driver(struct sdw_driver *drv);
->
-> -int sdw_slave_uevent(struct device *dev, struct kobj_uevent_env *env);
-> +int sdw_slave_uevent(const struct device *dev, struct kobj_uevent_env *env);
->
->  /**
->   * module_sdw_driver() - Helper macro for registering a Soundwire driver
-> diff --git a/include/linux/surface_aggregator/device.h b/include/linux/surface_aggregator/device.h
-> index 46c45d1b6368..a5dff729edb7 100644
-> --- a/include/linux/surface_aggregator/device.h
-> +++ b/include/linux/surface_aggregator/device.h
-> @@ -229,7 +229,7 @@ static inline bool is_ssam_device(struct device *d)
->   * Return: Returns a pointer to the &struct ssam_device wrapping the given
->   * device @d.
->   */
-> -static inline struct ssam_device *to_ssam_device(struct device *d)
-> +static inline struct ssam_device *to_ssam_device(const struct device *d)
->  {
->         return container_of(d, struct ssam_device, dev);
->  }
+>         struct rfkill *rfkill = to_rfkill(dev);
+>         unsigned long flags;
 > --
 > 2.38.1
 >
