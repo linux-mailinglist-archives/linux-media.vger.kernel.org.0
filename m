@@ -2,109 +2,206 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A6E62635AA1
-	for <lists+linux-media@lfdr.de>; Wed, 23 Nov 2022 11:57:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EB5A9635AF2
+	for <lists+linux-media@lfdr.de>; Wed, 23 Nov 2022 12:05:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236972AbiKWK5s (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 23 Nov 2022 05:57:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57024 "EHLO
+        id S237096AbiKWLEN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 23 Nov 2022 06:04:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39376 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237567AbiKWK5M (ORCPT
+        with ESMTP id S237200AbiKWLD5 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 23 Nov 2022 05:57:12 -0500
-Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 42FBEFC731;
-        Wed, 23 Nov 2022 02:50:33 -0800 (PST)
-Received: by mail-wr1-x42e.google.com with SMTP id s5so11582349wru.1;
-        Wed, 23 Nov 2022 02:50:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=5mJ4XYFEsSMGscEtu1E88MW80nC31aQOMXivDq2lhNc=;
-        b=IE8UMA6VhinH8zgY45hA6zbdXgQnSd5mHtHg/96rArFtXQepHbI1yalKQFcKl1vBs/
-         WgvqUt6fm6vUcruIwrjm2+Ke8mbxrIis5SqNMdOeEjQQeflQ3vcJkW/PG+7BirCkLHtw
-         qIqn/3eiyUjhjWnP+kXHHjf1zTv9eePWcPW0qS4EBFk1jcnD8cvgq+/pRaAry+w9o8Fx
-         pAUR76EFHRIgYplPPvn9EBK15JHP4Hsnfn4s9hXynC1PzmYf/eRDf8V6yP/sW0t++dcE
-         O6sabjTlVviMjoXCo9ybeCJUcWk+XO05zhNwNEWbCMnxWZ4+uLDkREkYLvfXfMZUT+DX
-         1UWg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=5mJ4XYFEsSMGscEtu1E88MW80nC31aQOMXivDq2lhNc=;
-        b=EtG8R0WRsXBsjIXxbml4MLXjFHXwnzEqbTSjxbs5AHW2yUzy8y7jo/Z+hMWg1sj+mX
-         KTx++iGUbqZh+kGQ5Qnjb+/PkmjnlmGSO6LjiSUT5KhOaFesa+vtYLadOsF4EGF2pQxt
-         j9I3AY64Jtz7QvUlNBMn1x0Kr4H59ilnOxmiT8ax0ZPbrFsglQQinjB6LVRMCcpRQ/Ie
-         zkrDvQr/wXoC7NHruDxw6r59MU8UeyLUImtvtKyvg4068IWXMqKA7SMXN3cnY/LY1bD0
-         zLJu79+Wv1smWuUdUP7XsWf80x+fjVC0hY0mC0n8mpsfUildAnkOtLBiLTYQW2jjBgJv
-         JAUw==
-X-Gm-Message-State: ANoB5pkwwQZqXMAHYzGiD+7tGdCnKb02DL6hlr4o6FTUXbuhulv47D+0
-        swf19H9nIpHnuZiq7XdsVYO49L5mWlclaw==
-X-Google-Smtp-Source: AA0mqf461/lZE5/BT2BQpKWrgzp7uOAmtw0frJclKgxnll5YFmNIxfqRxwAB7zwaQ17pLHbtKKYC+Q==
-X-Received: by 2002:adf:e0c2:0:b0:236:6f18:37e6 with SMTP id m2-20020adfe0c2000000b002366f1837e6mr16294620wri.262.1669200631806;
-        Wed, 23 Nov 2022 02:50:31 -0800 (PST)
-Received: from prasmi.home ([2a00:23c8:2501:c701:3178:d8a1:a393:6d85])
-        by smtp.gmail.com with ESMTPSA id v19-20020a05600c4d9300b003cf37c5ddc0sm1759317wmp.22.2022.11.23.02.50.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Nov 2022 02:50:31 -0800 (PST)
-From:   Prabhakar <prabhakar.csengg@gmail.com>
-X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH] media: platform: rzg2l-cru: rzg2l-csi2: Enclose the macro in parentheses
-Date:   Wed, 23 Nov 2022 10:50:22 +0000
-Message-Id: <20221123105022.336198-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.25.1
+        Wed, 23 Nov 2022 06:03:57 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E893A2610B
+        for <linux-media@vger.kernel.org>; Wed, 23 Nov 2022 03:00:28 -0800 (PST)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id CFA1A88F;
+        Wed, 23 Nov 2022 12:00:26 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1669201227;
+        bh=1ImU1eNT1DdzwouZq/mqlbZgJT8LeXtEajqhpgsh1S0=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=X2nJBiHtg/4gNGqF2IGnXeHxLioQbanmLxI0VypYEpQBRPM7/53nN+UExWZiKJdDL
+         KSkkxAgJvlCLtCybl9I68hDaw9t8MzGeDtm0BcF6ZV6/KfqZ17h14boU07p+0AFDwa
+         hDBv60LGqVH/8u3Dxfb5Gv0kGrzz8pe3acl3GnYw=
+Date:   Wed, 23 Nov 2022 13:00:11 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Dave Stevenson <dave.stevenson@raspberrypi.com>
+Cc:     linux-media@vger.kernel.org, Sakari Ailus <sakari.ailus@iki.fi>,
+        Manivannan Sadhasivam <mani@kernel.org>
+Subject: Re: [PATCH v1 07/15] media: i2c: imx290: Factor out black level
+ setting to a function
+Message-ID: <Y339O5TYeO2jVRYP@pendragon.ideasonboard.com>
+References: <20221122223250.21233-1-laurent.pinchart@ideasonboard.com>
+ <20221122223250.21233-8-laurent.pinchart@ideasonboard.com>
+ <CAPY8ntAqXK3efWB+J_KG==1yuewmon1abea8enk0CL8p9pkS9A@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CAPY8ntAqXK3efWB+J_KG==1yuewmon1abea8enk0CL8p9pkS9A@mail.gmail.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Hi Dave,
 
-Fix the below error reported by checkpatch:
+On Wed, Nov 23, 2022 at 10:08:19AM +0000, Dave Stevenson wrote:
+> On Tue, 22 Nov 2022 at 22:34, Laurent Pinchart wrote:
+> >
+> > The black level programmed in the BLKLEVEL register depends on the
+> > output format. The black level value computation is currently performed
+> > in imx290_set_ctrl(), in addition to having different black level values
+> > in the output-specific register value tables. Move it to a separate
+> > function to simplify the imx290_set_ctrl() code.
+> 
+> Does this actually help?
+> The sensor only supports 10 and 12 bpp readout, so making it generic
+> for any bpp is rather redundant.
+> If you are looking at having different on-sensor black level values
+> kicking around, then tuning data goes out the window.
 
-ERROR: Macros with complex values should be enclosed in parentheses
-					CSIDPHYSKW0_UTIL_DL1_SKW_ADJ(1) | \
-					CSIDPHYSKW0_UTIL_DL2_SKW_ADJ(1) | \
-					CSIDPHYSKW0_UTIL_DL3_SKW_ADJ(1)
+This may be needed for some use cases, but that's not what I'm after
+here. By the way, could you explain why we can't just set it to 0 in the
+sensor and avoid subtracting it in the ISP (at least for the data
+pedestal value that is added on purpose in the sensor, there can also be
+an additional black level due to other reasons) ? I'm sure there's a
+reason :-)
 
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
----
- drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+> OK we do appear to have duplication between imx290_[10|12]bit_settings
+> and imx290_set_ctrl, but I don't get the need to compute it.
 
-diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c
-index aa752b80574c..a26a17eee1e7 100644
---- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c
-+++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c
-@@ -81,10 +81,10 @@
- #define CSIDPHYSKW0_UTIL_DL1_SKW_ADJ(x)	(((x) & 0x3) << 4)
- #define CSIDPHYSKW0_UTIL_DL2_SKW_ADJ(x)	(((x) & 0x3) << 8)
- #define CSIDPHYSKW0_UTIL_DL3_SKW_ADJ(x)	(((x) & 0x3) << 12)
--#define CSIDPHYSKW0_DEFAULT_SKW		CSIDPHYSKW0_UTIL_DL0_SKW_ADJ(1) | \
--					CSIDPHYSKW0_UTIL_DL1_SKW_ADJ(1) | \
--					CSIDPHYSKW0_UTIL_DL2_SKW_ADJ(1) | \
--					CSIDPHYSKW0_UTIL_DL3_SKW_ADJ(1)
-+#define CSIDPHYSKW0_DEFAULT_SKW		(CSIDPHYSKW0_UTIL_DL0_SKW_ADJ(1) | \
-+					 CSIDPHYSKW0_UTIL_DL1_SKW_ADJ(1) | \
-+					 CSIDPHYSKW0_UTIL_DL2_SKW_ADJ(1) | \
-+					 CSIDPHYSKW0_UTIL_DL3_SKW_ADJ(1))
- 
- #define VSRSTS_RETRIES			20
- 
+The idea was to centralize black level setting in a single place, to
+prepare for the removal of he imx290->bpp field. It's really in
+imx290_set_ctrl() that it matters, I could keep the value in the
+imx290_10bit_settings and imx290_12bit_settings arrays, but I thought I
+could as well do it the same way everywhere.
+
+> > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > ---
+> >  drivers/media/i2c/imx290.c | 53 +++++++++++++++++++++-----------------
+> >  1 file changed, 29 insertions(+), 24 deletions(-)
+> >
+> > diff --git a/drivers/media/i2c/imx290.c b/drivers/media/i2c/imx290.c
+> > index 135ed55592a1..d9fc6c44b0f0 100644
+> > --- a/drivers/media/i2c/imx290.c
+> > +++ b/drivers/media/i2c/imx290.c
+> > @@ -152,6 +152,9 @@
+> >  #define IMX290_PIXEL_ARRAY_RECORDING_WIDTH             1920
+> >  #define IMX290_PIXEL_ARRAY_RECORDING_HEIGHT            1080
+> >
+> > +/* Equivalent value for 16bpp */
+> > +#define IMX290_BLACK_LEVEL_DEFAULT                     3840
+> > +
+> >  #define IMX290_NUM_SUPPLIES                            3
+> >
+> >  struct imx290_regval {
+> > @@ -315,7 +318,6 @@ static const struct imx290_regval imx290_10bit_settings[] = {
+> >         { IMX290_ADBIT2, IMX290_ADBIT2_10BIT },
+> >         { IMX290_ADBIT3, IMX290_ADBIT3_10BIT },
+> >         { IMX290_CSI_DT_FMT, IMX290_CSI_DT_FMT_RAW10 },
+> > -       { IMX290_BLKLEVEL, 60 },
+> >  };
+> >
+> >  static const struct imx290_regval imx290_12bit_settings[] = {
+> > @@ -325,7 +327,6 @@ static const struct imx290_regval imx290_12bit_settings[] = {
+> >         { IMX290_ADBIT2, IMX290_ADBIT2_12BIT },
+> >         { IMX290_ADBIT3, IMX290_ADBIT3_12BIT },
+> >         { IMX290_CSI_DT_FMT, IMX290_CSI_DT_FMT_RAW12 },
+> > -       { IMX290_BLKLEVEL, 240 },
+> >  };
+> >
+> >  /* supported link frequencies */
+> > @@ -516,35 +517,43 @@ static int imx290_set_data_lanes(struct imx290 *imx290)
+> >         return ret;
+> >  }
+> >
+> > +static int imx290_set_black_level(struct imx290 *imx290,
+> > +                                 unsigned int black_level, int *err)
+> > +{
+> > +       return imx290_write(imx290, IMX290_BLKLEVEL,
+> > +                           black_level >> (16 - imx290->bpp), err);
+> > +}
+> > +
+> >  static int imx290_write_current_format(struct imx290 *imx290)
+> >  {
+> > +       const struct imx290_regval *regs;
+> > +       unsigned int num_regs;
+> > +       unsigned int bpp;
+> >         int ret;
+> >
+> >         switch (imx290->current_format.code) {
+> >         case MEDIA_BUS_FMT_SRGGB10_1X10:
+> > -               ret = imx290_set_register_array(imx290, imx290_10bit_settings,
+> > -                                               ARRAY_SIZE(
+> > -                                                       imx290_10bit_settings));
+> > -               if (ret < 0) {
+> > -                       dev_err(imx290->dev, "Could not set format registers\n");
+> > -                       return ret;
+> > -               }
+> > +               regs = imx290_10bit_settings;
+> > +               num_regs = ARRAY_SIZE(imx290_10bit_settings);
+> > +               bpp = 10;
+> >                 break;
+> >         case MEDIA_BUS_FMT_SRGGB12_1X12:
+> > -               ret = imx290_set_register_array(imx290, imx290_12bit_settings,
+> > -                                               ARRAY_SIZE(
+> > -                                                       imx290_12bit_settings));
+> > -               if (ret < 0) {
+> > -                       dev_err(imx290->dev, "Could not set format registers\n");
+> > -                       return ret;
+> > -               }
+> > +               regs = imx290_12bit_settings;
+> > +               num_regs = ARRAY_SIZE(imx290_12bit_settings);
+> > +               bpp = 12;
+> >                 break;
+> >         default:
+> >                 dev_err(imx290->dev, "Unknown pixel format\n");
+> >                 return -EINVAL;
+> >         }
+> >
+> > -       return 0;
+> > +       ret = imx290_set_register_array(imx290, regs, num_regs);
+> > +       if (ret < 0) {
+> > +               dev_err(imx290->dev, "Could not set format registers\n");
+> > +               return ret;
+> > +       }
+> > +
+> > +       return imx290_set_black_level(imx290, IMX290_BLACK_LEVEL_DEFAULT, &ret);
+> >  }
+> >
+> >  /* ----------------------------------------------------------------------------
+> > @@ -573,7 +582,7 @@ static int imx290_set_ctrl(struct v4l2_ctrl *ctrl)
+> >
+> >         case V4L2_CID_TEST_PATTERN:
+> >                 if (ctrl->val) {
+> > -                       imx290_write(imx290, IMX290_BLKLEVEL, 0, &ret);
+> > +                       imx290_set_black_level(imx290, 0, &ret);
+> >                         usleep_range(10000, 11000);
+> >                         imx290_write(imx290, IMX290_PGCTRL,
+> >                                      (u8)(IMX290_PGCTRL_REGEN |
+> > @@ -582,12 +591,8 @@ static int imx290_set_ctrl(struct v4l2_ctrl *ctrl)
+> >                 } else {
+> >                         imx290_write(imx290, IMX290_PGCTRL, 0x00, &ret);
+> >                         usleep_range(10000, 11000);
+> > -                       if (imx290->bpp == 10)
+> > -                               imx290_write(imx290, IMX290_BLKLEVEL, 0x3c,
+> > -                                            &ret);
+> > -                       else /* 12 bits per pixel */
+> > -                               imx290_write(imx290, IMX290_BLKLEVEL, 0xf0,
+> > -                                            &ret);
+> > +                       imx290_set_black_level(imx290, IMX290_BLACK_LEVEL_DEFAULT,
+> > +                                              &ret);
+> >                 }
+> >                 break;
+> >         default:
+
 -- 
-2.25.1
+Regards,
 
+Laurent Pinchart
