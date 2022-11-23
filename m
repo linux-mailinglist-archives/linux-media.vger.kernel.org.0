@@ -2,98 +2,442 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B3BE8635A98
-	for <lists+linux-media@lfdr.de>; Wed, 23 Nov 2022 11:54:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0B4D0635ABF
+	for <lists+linux-media@lfdr.de>; Wed, 23 Nov 2022 11:58:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237189AbiKWKxj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 23 Nov 2022 05:53:39 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55792 "EHLO
+        id S236617AbiKWK5j (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 23 Nov 2022 05:57:39 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58080 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237038AbiKWKxS (ORCPT
+        with ESMTP id S237422AbiKWK5H (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 23 Nov 2022 05:53:18 -0500
-Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com [IPv6:2a00:1450:4864:20::22b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6291612636
-        for <linux-media@vger.kernel.org>; Wed, 23 Nov 2022 02:40:53 -0800 (PST)
-Received: by mail-lj1-x22b.google.com with SMTP id s24so20869445ljs.11
-        for <linux-media@vger.kernel.org>; Wed, 23 Nov 2022 02:40:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Jb7YR0GFDqY1Kfa4xR3/nU9IXgoeQD15tKD48LTheeY=;
-        b=HhYWafmgyiO/NnJUON7VEZ6pKju3ElgQOocUWRS5Pa1Me3s4SLm7/R6iGUr0+7hP/+
-         26D8SVLeOYdIF1WKdiY4H1LDH1plneGzeMgNJDrnGgNuPXIkDhOZ8P/ibbwhlSfvb/LM
-         R3bMQCrKsllrmu/MeUxHgopDgI/o3xhqI1ocQts5mTuGXxiThgt8746vPApEDFCJlWy2
-         A85e52FbAaGOosOnf8RREUZR6XGErJRsopJiiu2mXrUvYhVZW420uwplUq0Uqqs9xbpQ
-         s4cTAs1UdEjS5yZ3AvkwzKAnWfvEFTGY1WMlXONF1kiTQP216BQ05CBwlTFM2eG1UvZi
-         lnVw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Jb7YR0GFDqY1Kfa4xR3/nU9IXgoeQD15tKD48LTheeY=;
-        b=ixFeRF723UJsojmc3jswpL8v2jAfwOL2o7l3VFLsFfHYVWCyl1gSEKl4nQxf2JmJFD
-         5jfMB5w87oNIlYFCmOYRwkwiBB6tv8GjeK8JVb/K2J4vvxyb1xo4ChbRbIHwLzpeI5sa
-         V/A051FnrQDvwffojgSYC9x4QjoIu+2Wom0MrVq8ThLY6kkjMZ+vCXB+R06mNZJPne1x
-         VQ1mAb8blJwqfU0S5aQMLEsRTenrBGyJpqDyp4HAAiaRn9CqG6sGOBHug4WxfexvXaqN
-         0vk++55BfRRbIEf+qXMFksbwlQ7qZIYex0zRp5nKRrIB7H3AHloXTZhZ8f5gIfcv7fB7
-         ZUFw==
-X-Gm-Message-State: ANoB5pkmHElTe6oVs4MGhYBPXUUA0YOmG61TXSmXZM31j6wOK95WnrUX
-        xvid9XcOErZs9AXzTLn2KlGXSg==
-X-Google-Smtp-Source: AA0mqf5GsJuni51SqYncQf/wVtBRKjQCX/guXNJ0g35bfmKx4gB2hyDvjQmSOfZMHste+3RQthANvQ==
-X-Received: by 2002:a2e:bd85:0:b0:279:7ee8:d06e with SMTP id o5-20020a2ebd85000000b002797ee8d06emr66068ljq.215.1669200051778;
-        Wed, 23 Nov 2022 02:40:51 -0800 (PST)
-Received: from [192.168.0.20] (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
-        by smtp.gmail.com with ESMTPSA id t14-20020a056512208e00b004ae24559388sm2824097lfr.111.2022.11.23.02.40.50
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 23 Nov 2022 02:40:51 -0800 (PST)
-Message-ID: <a803531d-41a9-f1b7-eec6-9ce142e5196a@linaro.org>
-Date:   Wed, 23 Nov 2022 11:40:50 +0100
+        Wed, 23 Nov 2022 05:57:07 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8978CFCDC4
+        for <linux-media@vger.kernel.org>; Wed, 23 Nov 2022 02:50:07 -0800 (PST)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id E17D488F;
+        Wed, 23 Nov 2022 11:50:05 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1669200606;
+        bh=jbgwWI0AdXmeTo8O77PgmCjt+1WGcGDMlSfriFx4n18=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=v+i6ftAHvN/4/wte1iP8T5Cvlvm6YhrtGNLYmwUCJIfKjEx+h+VzCHY2ruXUKqfsg
+         5PLzua6q1DSa+ZtcO5Zn5H73+KBLD2SaiOgY9IRdhozxlwvgnFBdyRzaSIOrqyFmhC
+         Q/Ek7BcJVDoVdzFLiX9oMwFOPQH2sPdWDxaigbZU=
+Date:   Wed, 23 Nov 2022 12:49:49 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Alexander Stein <alexander.stein@ew.tq-group.com>
+Cc:     linux-media@vger.kernel.org, Sakari Ailus <sakari.ailus@iki.fi>,
+        Manivannan Sadhasivam <mani@kernel.org>
+Subject: Re: [PATCH v1 11/15] media: i2c: imx290: Use V4L2 subdev active state
+Message-ID: <Y336zY4cgMpHLD8k@pendragon.ideasonboard.com>
+References: <20221122223250.21233-1-laurent.pinchart@ideasonboard.com>
+ <20221122223250.21233-12-laurent.pinchart@ideasonboard.com>
+ <2540630.Lt9SDvczpP@steina-w>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Subject: Re: [PATCH v4 1/2] media: dt-bindings: media: renesas,vsp1: Document
- RZ/V2L VSPD bindings
-Content-Language: en-US
-To:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        devicetree@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-References: <20221122193415.1873179-1-biju.das.jz@bp.renesas.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20221122193415.1873179-1-biju.das.jz@bp.renesas.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <2540630.Lt9SDvczpP@steina-w>
+X-Spam-Status: No, score=-0.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,PDS_OTHER_BAD_TLD,SPF_HELO_PASS,
+        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 22/11/2022 20:34, Biju Das wrote:
-> Document VSPD found in RZ/V2L SoC. The VSPD block is identical to RZ/G2L
-> SoC and therefore use RZ/G2L fallback to avoid any driver changes.
+Hi Alexander,
+
+On Wed, Nov 23, 2022 at 09:42:10AM +0100, Alexander Stein wrote:
+> Am Dienstag, 22. November 2022, 23:32:46 CET schrieb Laurent Pinchart:
+> > Use the V4L2 subdev active state API to store the active format. This
+> > simplifies the driver not only by dropping the imx290 current_format
+> > field, but it also allows dropping the imx290 lock, replaced with the
+> > state lock.
+> > 
+> > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > ---
+> >  drivers/media/i2c/imx290.c | 139 +++++++++++++++----------------------
+> >  1 file changed, 56 insertions(+), 83 deletions(-)
+> > 
+> > diff --git a/drivers/media/i2c/imx290.c b/drivers/media/i2c/imx290.c
+> > index 848de4c90d3b..cd2154983341 100644
+> > --- a/drivers/media/i2c/imx290.c
+> > +++ b/drivers/media/i2c/imx290.c
+> > @@ -177,12 +177,12 @@ struct imx290 {
+> >  	struct clk *xclk;
+> >  	struct regmap *regmap;
+> >  	u8 nlanes;
+> > -	u8 bpp;
+> > 
+> >  	struct v4l2_subdev sd;
+> >  	struct media_pad pad;
+> > -	struct v4l2_mbus_framefmt current_format;
+> > +
+> >  	const struct imx290_mode *current_mode;
+> > +	u8 bpp;
+> > 
+> >  	struct regulator_bulk_data supplies[IMX290_NUM_SUPPLIES];
+> >  	struct gpio_desc *rst_gpio;
+> > @@ -192,8 +192,6 @@ struct imx290 {
+> >  	struct v4l2_ctrl *pixel_rate;
+> >  	struct v4l2_ctrl *hblank;
+> >  	struct v4l2_ctrl *vblank;
+> > -
+> > -	struct mutex lock;
+> >  };
+> > 
+> >  static inline struct imx290 *to_imx290(struct v4l2_subdev *_sd)
+> > @@ -524,14 +522,15 @@ static int imx290_set_black_level(struct imx290
+> > *imx290, black_level >> (16 - imx290->bpp), err);
+> >  }
+> > 
+> > -static int imx290_write_current_format(struct imx290 *imx290)
+> > +static int imx290_setup_format(struct imx290 *imx290,
+> > +			       const struct v4l2_mbus_framefmt *format)
+> >  {
+> >  	const struct imx290_regval *regs;
+> >  	unsigned int num_regs;
+> >  	unsigned int bpp;
+> >  	int ret;
+> > 
+> > -	switch (imx290->current_format.code) {
+> > +	switch (format->code) {
+> >  	case MEDIA_BUS_FMT_SRGGB10_1X10:
+> >  		regs = imx290_10bit_settings;
+> >  		num_regs = ARRAY_SIZE(imx290_10bit_settings);
+> > @@ -564,12 +563,17 @@ static int imx290_set_ctrl(struct v4l2_ctrl *ctrl)
+> >  {
+> >  	struct imx290 *imx290 = container_of(ctrl->handler,
+> >  					     struct imx290, ctrls);
+> > +	const struct v4l2_mbus_framefmt *format;
+> > +	struct v4l2_subdev_state *state;
+> >  	int ret = 0;
+> > 
+> >  	/* V4L2 controls values will be applied only when power is already up */
+> >  	if (!pm_runtime_get_if_in_use(imx290->dev))
+> >  		return 0;
+> > 
+> > +	state = v4l2_subdev_get_locked_active_state(&imx290->sd);
+> > +	format = v4l2_subdev_get_pad_format(&imx290->sd, state, 0);
+> > +
+> >  	switch (ctrl->id) {
+> >  	case V4L2_CID_ANALOGUE_GAIN:
+> >  		ret = imx290_write(imx290, IMX290_GAIN, ctrl->val, NULL);
+> > @@ -646,11 +650,10 @@ static int imx290_ctrl_init(struct imx290 *imx290)
+> >  	int ret;
+> > 
+> >  	ret = v4l2_fwnode_device_parse(imx290->dev, &props);
+> > -	if (ret < 0)
+> > +	if (ret)
 > 
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> ---
-> * New patch
+> This is an unrelated change.
 
+I'll drop it.
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> >  		return ret;
+> > 
+> >  	v4l2_ctrl_handler_init(&imx290->ctrls, 9);
+> > -	imx290->ctrls.lock = &imx290->lock;
+> > 
+> >  	/*
+> >  	 * The sensor has an analog gain and a digital gain, both controlled
+> > @@ -715,11 +718,6 @@ static int imx290_ctrl_init(struct imx290 *imx290)
+> >  		return ret;
+> >  	}
+> > 
+> > -	mutex_lock(imx290->ctrls.lock);
+> > -	imx290_ctrl_update(imx290, &imx290->current_format,
+> > -			   imx290->current_mode);
+> > -	mutex_unlock(imx290->ctrls.lock);
+> > -
+> >  	return 0;
+> >  }
+> > 
+> > @@ -728,8 +726,10 @@ static int imx290_ctrl_init(struct imx290 *imx290)
+> >   */
+> > 
+> >  /* Start streaming */
+> > -static int imx290_start_streaming(struct imx290 *imx290)
+> > +static int imx290_start_streaming(struct imx290 *imx290,
+> > +				  struct v4l2_subdev_state *state)
+> >  {
+> > +	const struct v4l2_mbus_framefmt *format;
+> >  	int ret;
+> > 
+> >  	/* Set init register settings */
+> > @@ -742,7 +742,8 @@ static int imx290_start_streaming(struct imx290 *imx290)
+> > }
+> > 
+> >  	/* Apply the register values related to current frame format */
+> > -	ret = imx290_write_current_format(imx290);
+> > +	format = v4l2_subdev_get_pad_format(&imx290->sd, state, 0);
+> > +	ret = imx290_setup_format(imx290, format);
+> >  	if (ret < 0) {
+> >  		dev_err(imx290->dev, "Could not set frame format\n");
+> >  		return ret;
+> > @@ -762,7 +763,7 @@ static int imx290_start_streaming(struct imx290 *imx290)
+> > return ret;
+> > 
+> >  	/* Apply customized values from user */
+> > -	ret = v4l2_ctrl_handler_setup(imx290->sd.ctrl_handler);
+> > +	ret = __v4l2_ctrl_handler_setup(imx290->sd.ctrl_handler);
+> 
+> Why is it safe to ignore the lock now? There is no user-specified lock for 
+> imx290->ctrls.lock, but instead imx290->ctrls._lock is set, no?
 
-Best regards,
-Krzysztof
+That's because the control handler and subdev state lock are the same.
+The imx290_start_streaming() function starts by calling
+v4l2_subdev_lock_and_get_active_state(), which takes the lock, so we
+must not lock again with v4l2_ctrl_handler_setup().
 
+> >  	if (ret) {
+> >  		dev_err(imx290->dev, "Could not sync v4l2 controls\n");
+> >  		return ret;
+> > @@ -791,39 +792,32 @@ static int imx290_stop_streaming(struct imx290
+> > *imx290) static int imx290_set_stream(struct v4l2_subdev *sd, int enable)
+> >  {
+> >  	struct imx290 *imx290 = to_imx290(sd);
+> > +	struct v4l2_subdev_state *state;
+> >  	int ret = 0;
+> > 
+> > +	state = v4l2_subdev_lock_and_get_active_state(sd);
+> > +
+> >  	if (enable) {
+> >  		ret = pm_runtime_resume_and_get(imx290->dev);
+> >  		if (ret < 0)
+> > -			goto unlock_and_return;
+> > +			goto unlock;
+> > 
+> > -		ret = imx290_start_streaming(imx290);
+> > +		ret = imx290_start_streaming(imx290, state);
+> >  		if (ret) {
+> >  			dev_err(imx290->dev, "Start stream failed\n");
+> >  			pm_runtime_put(imx290->dev);
+> > -			goto unlock_and_return;
+> > +			goto unlock;
+> >  		}
+> >  	} else {
+> >  		imx290_stop_streaming(imx290);
+> >  		pm_runtime_put(imx290->dev);
+> >  	}
+> > 
+> > -unlock_and_return:
+> > -
+> > +unlock:
+> > +	v4l2_subdev_unlock_state(state);
+> >  	return ret;
+> >  }
+> > 
+> > -static struct v4l2_mbus_framefmt *
+> > -imx290_get_pad_format(struct imx290 *imx290, struct v4l2_subdev_state
+> > *state, -		      u32 which)
+> > -{
+> > -	if (which == V4L2_SUBDEV_FORMAT_ACTIVE)
+> > -		return &imx290->current_format;
+> > -	else
+> > -		return v4l2_subdev_get_try_format(&imx290->sd, state, 0);
+> > -}
+> > -
+> >  static int imx290_enum_mbus_code(struct v4l2_subdev *sd,
+> >  				 struct v4l2_subdev_state *sd_state,
+> >  				 struct v4l2_subdev_mbus_code_enum *code)
+> > @@ -858,23 +852,6 @@ static int imx290_enum_frame_size(struct v4l2_subdev
+> > *sd, return 0;
+> >  }
+> > 
+> > -static int imx290_get_fmt(struct v4l2_subdev *sd,
+> > -			  struct v4l2_subdev_state *sd_state,
+> > -			  struct v4l2_subdev_format *fmt)
+> > -{
+> > -	struct imx290 *imx290 = to_imx290(sd);
+> > -	struct v4l2_mbus_framefmt *framefmt;
+> > -
+> > -	mutex_lock(&imx290->lock);
+> > -
+> > -	framefmt = imx290_get_pad_format(imx290, sd_state, fmt->which);
+> > -	fmt->format = *framefmt;
+> > -
+> > -	mutex_unlock(&imx290->lock);
+> > -
+> > -	return 0;
+> > -}
+> > -
+> >  static int imx290_set_fmt(struct v4l2_subdev *sd,
+> >  			  struct v4l2_subdev_state *sd_state,
+> >  			  struct v4l2_subdev_format *fmt)
+> > @@ -884,8 +861,6 @@ static int imx290_set_fmt(struct v4l2_subdev *sd,
+> >  	struct v4l2_mbus_framefmt *format;
+> >  	unsigned int i;
+> > 
+> > -	mutex_lock(&imx290->lock);
+> > -
+> >  	mode = v4l2_find_nearest_size(imx290_modes_ptr(imx290),
+> >  				      imx290_modes_num(imx290), width, height,
+> >  				      fmt->format.width, fmt-
+> >format.height);
+> > @@ -903,7 +878,7 @@ static int imx290_set_fmt(struct v4l2_subdev *sd,
+> >  	fmt->format.code = imx290_formats[i].code;
+> >  	fmt->format.field = V4L2_FIELD_NONE;
+> > 
+> > -	format = imx290_get_pad_format(imx290, sd_state, fmt->which);
+> > +	format = v4l2_subdev_get_pad_format(sd, sd_state, 0);
+> > 
+> >  	if (fmt->which == V4L2_SUBDEV_FORMAT_ACTIVE) {
+> >  		imx290->current_mode = mode;
+> > @@ -914,8 +889,6 @@ static int imx290_set_fmt(struct v4l2_subdev *sd,
+> > 
+> >  	*format = fmt->format;
+> > 
+> > -	mutex_unlock(&imx290->lock);
+> > -
+> >  	return 0;
+> >  }
+> > 
+> > @@ -923,14 +896,11 @@ static int imx290_get_selection(struct v4l2_subdev
+> > *sd, struct v4l2_subdev_state *sd_state,
+> >  				struct v4l2_subdev_selection *sel)
+> >  {
+> > -	struct imx290 *imx290 = to_imx290(sd);
+> >  	struct v4l2_mbus_framefmt *format;
+> > 
+> >  	switch (sel->target) {
+> >  	case V4L2_SEL_TGT_CROP: {
+> > -		format = imx290_get_pad_format(imx290, sd_state, sel->which);
+> > -
+> > -		mutex_lock(&imx290->lock);
+> > +		format = v4l2_subdev_get_pad_format(sd, sd_state, 0);
+> > 
+> >  		sel->r.top = IMX920_PIXEL_ARRAY_MARGIN_TOP
+> >  			   + (IMX290_PIXEL_ARRAY_RECORDING_HEIGHT - format->height) / 2;
+> > @@ -939,7 +909,6 @@ static int imx290_get_selection(struct v4l2_subdev *sd,
+> >  		sel->r.width = format->width;
+> >  		sel->r.height = format->height;
+> > 
+> > -		mutex_unlock(&imx290->lock);
+> >  		return 0;
+> >  	}
+> > 
+> > @@ -968,11 +937,13 @@ static int imx290_get_selection(struct v4l2_subdev
+> > *sd, static int imx290_entity_init_cfg(struct v4l2_subdev *subdev,
+> >  				  struct v4l2_subdev_state *sd_state)
+> >  {
+> > -	struct v4l2_subdev_format fmt = { 0 };
+> > -
+> > -	fmt.which = sd_state ? V4L2_SUBDEV_FORMAT_TRY : V4L2_SUBDEV_FORMAT_ACTIVE;
+> > -	fmt.format.width = 1920;
+> > -	fmt.format.height = 1080;
+> > +	struct v4l2_subdev_format fmt = {
+> > +		.which = V4L2_SUBDEV_FORMAT_TRY,
+> > +		.format = {
+> > +			.width = 1920,
+> > +			.height = 1080,
+> > +		},
+> > +	};
+> > 
+> >  	imx290_set_fmt(subdev, sd_state, &fmt);
+> > 
+> > @@ -987,7 +958,7 @@ static const struct v4l2_subdev_pad_ops imx290_pad_ops =
+> > { .init_cfg = imx290_entity_init_cfg,
+> >  	.enum_mbus_code = imx290_enum_mbus_code,
+> >  	.enum_frame_size = imx290_enum_frame_size,
+> > -	.get_fmt = imx290_get_fmt,
+> > +	.get_fmt = v4l2_subdev_get_fmt,
+> >  	.set_fmt = imx290_set_fmt,
+> >  	.get_selection = imx290_get_selection,
+> >  };
+> > @@ -1004,20 +975,12 @@ static const struct media_entity_operations
+> > imx290_subdev_entity_ops = { static int imx290_subdev_init(struct imx290
+> > *imx290)
+> >  {
+> >  	struct i2c_client *client = to_i2c_client(imx290->dev);
+> > +	const struct v4l2_mbus_framefmt *format;
+> > +	struct v4l2_subdev_state *state;
+> >  	int ret;
+> > 
+> > -	/*
+> > -	 * Initialize the frame format. In particular, imx290->current_mode
+> > -	 * and imx290->bpp are set to defaults: imx290_calc_pixel_rate() call
+> > -	 * below relies on these fields.
+> > -	 */
+> > -	imx290_entity_init_cfg(&imx290->sd, NULL);
+> > -
+> > -	ret = imx290_ctrl_init(imx290);
+> > -	if (ret < 0) {
+> > -		dev_err(imx290->dev, "Control initialization error %d\n", ret);
+> > -		return ret;
+> > -	}
+> > +	imx290->current_mode = &imx290_modes_ptr(imx290)[0];
+> > +	imx290->bpp = imx290_formats[0].bpp;
+> > 
+> >  	v4l2_i2c_subdev_init(&imx290->sd, client, &imx290_subdev_ops);
+> >  	imx290->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
+> > @@ -1032,6 +995,22 @@ static int imx290_subdev_init(struct imx290 *imx290)
+> >  		return ret;
+> >  	}
+> > 
+> > +	ret = imx290_ctrl_init(imx290);
+> > +	if (ret < 0) {
+> > +		dev_err(imx290->dev, "Control initialization error %d\n", ret);
+> > +		media_entity_cleanup(&imx290->sd.entity);
+> > +		return ret;
+> > +	}
+> > +
+> > +	imx290->sd.state_lock = imx290->ctrls.lock;
+> > +
+> > +	v4l2_subdev_init_finalize(&imx290->sd);
+> > +
+> > +	state = v4l2_subdev_lock_and_get_active_state(&imx290->sd);
+> > +	format = v4l2_subdev_get_pad_format(&imx290->sd, state, 0);
+> > +	imx290_ctrl_update(imx290, format, imx290->current_mode);
+> > +	v4l2_subdev_unlock_state(state);
+> 
+> Do you need to check for state == NULL here?
+
+No, v4l2_subdev_lock_and_get_active_state() can only return NULL if the
+subdev driver doesn't have an active state, and
+v4l2_subdev_init_finalize() guarantees it has one.
+
+> > +
+> >  	return 0;
+> >  }
+> > 
+> > @@ -1268,12 +1247,10 @@ static int imx290_probe(struct i2c_client *client)
+> >  	if (ret)
+> >  		return ret;
+> > 
+> > -	mutex_init(&imx290->lock);
+> > -
+> >  	/* Initialize and register subdev. */
+> >  	ret = imx290_subdev_init(imx290);
+> >  	if (ret)
+> > -		goto err_mutex;
+> > +		return ret;
+> > 
+> >  	ret = v4l2_async_register_subdev(&imx290->sd);
+> >  	if (ret < 0) {
+> > @@ -1305,8 +1282,6 @@ static int imx290_probe(struct i2c_client *client)
+> > 
+> >  err_subdev:
+> >  	imx290_subdev_cleanup(imx290);
+> > -err_mutex:
+> > -	mutex_destroy(&imx290->lock);
+> > 
+> >  	return ret;
+> >  }
+> > @@ -1319,8 +1294,6 @@ static void imx290_remove(struct i2c_client *client)
+> >  	v4l2_async_unregister_subdev(sd);
+> >  	imx290_subdev_cleanup(imx290);
+> > 
+> > -	mutex_destroy(&imx290->lock);
+> > -
+> >  	pm_runtime_disable(imx290->dev);
+> >  	if (!pm_runtime_status_suspended(imx290->dev))
+> >  		imx290_power_off(imx290->dev);
+
+-- 
+Regards,
+
+Laurent Pinchart
