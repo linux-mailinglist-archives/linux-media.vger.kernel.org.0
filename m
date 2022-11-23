@@ -2,134 +2,153 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C0DC863659E
-	for <lists+linux-media@lfdr.de>; Wed, 23 Nov 2022 17:23:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C65446365AF
+	for <lists+linux-media@lfdr.de>; Wed, 23 Nov 2022 17:25:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237965AbiKWQXI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 23 Nov 2022 11:23:08 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48734 "EHLO
+        id S235632AbiKWQZl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 23 Nov 2022 11:25:41 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50396 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236459AbiKWQXH (ORCPT
+        with ESMTP id S238610AbiKWQZg (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 23 Nov 2022 11:23:07 -0500
-Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com [IPv6:2a00:1450:4864:20::530])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C0367340D
-        for <linux-media@vger.kernel.org>; Wed, 23 Nov 2022 08:23:04 -0800 (PST)
-Received: by mail-ed1-x530.google.com with SMTP id v8so14505212edi.3
-        for <linux-media@vger.kernel.org>; Wed, 23 Nov 2022 08:23:04 -0800 (PST)
+        Wed, 23 Nov 2022 11:25:36 -0500
+Received: from mail-qt1-x830.google.com (mail-qt1-x830.google.com [IPv6:2607:f8b0:4864:20::830])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D43AF8F3ED
+        for <linux-media@vger.kernel.org>; Wed, 23 Nov 2022 08:25:34 -0800 (PST)
+Received: by mail-qt1-x830.google.com with SMTP id w4so11581863qts.0
+        for <linux-media@vger.kernel.org>; Wed, 23 Nov 2022 08:25:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=iTqTgZZVPcHur4ir72Zm6jriTBFysIHApeXSgPETKzY=;
-        b=MdK7M0VzmZomTsVbTF5VbNsJh1nEKpsEXsHKhmrxjl/ibRYPHUUU639yOwXeAFFKE/
-         d5+Yx24UTr8EuPay2xBO2QkSphdbrLFPSkqmd351ooGBqm+1CnMAD8DdMkfb7NerISxP
-         7mkvjLZxrCmbInMgkOvRsf1/xXov6LDHvpROg=
+        d=ziepe.ca; s=google;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=PhJSJnLVsP1vBula4KCFSx5kBTht7CuZrspFHU0N884=;
+        b=ebGDyq+q12UGY7Qk5Tupc9qhDLGyIcTZVkm5UZYo/563kMYJJqyAeOt5CzUtM4J8DZ
+         3trFHny8FIDylUgXR9JjN8PS72NcWsvrDfr1Nd1Q7FDnTR43onbW+jw1+Ctw0cwtwrCd
+         T18F6CTTWbwHWY6WrhS9prZWxtXaTjwzs7IQnIsjaZTmFdCmKdzeecD0BbnuyMQqVQVg
+         z0s4POzfjTxMQ62r8mCHZM0rSmjmaRN4hzlYV7zdZbP1xMXxym5gxZ3SKz4kt6tgYYum
+         EfCUt6/g2D4WDco0MNWeSPD0NJ6lencxZ7NqZJCJlD8ikZ4WiUl7N0yJnMd2Q4wIPSG2
+         7pnw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=iTqTgZZVPcHur4ir72Zm6jriTBFysIHApeXSgPETKzY=;
-        b=LCLNFXFNxyoj4CYiMbupcYYZT7AVdoj9o+BK4H11bJD4uGjJiGqrzzDZwCShrhCKfA
-         g1z7/3sXRx4wDfIzv8uKqgPajPEUySOofE6RohHAFQn87TwK1ikG2xjkVUAV1lzpeZmi
-         suATT0y8dccokPjSXhizi95HTv7McO7MqTv11qc4N6v7bIBnVrPsAu/m+6/TRiuDfStp
-         X8RObL4wEDUKYgG8VHJMPZY1JsLIpRX5EAGyA/XU8XcvpXq64Z0uRCSKROlpY37AhqBY
-         urB1Lj2n9J995XjAvle6AoGP3SPzHDOKUKoRto/z6tevZfT9s4Cj5z4QPVhZNi5DD7sf
-         zaFA==
-X-Gm-Message-State: ANoB5pmczbxMOzKmvlL9eS0h4ASbVQQh7GTsmqkkPbt2yqFVOKEhSJxs
-        39Ov5JkCkAshAJigYbJJMTxK17T94zo2qF3EFEQTqQ==
-X-Google-Smtp-Source: AA0mqf4uJK6xmmkcy0DbmopiWQIfYRWzSsGguvQ75ijiLZdjrbFVHaDuEpUfzy2ywAK59n9HUhAbmq2ai7zD1+42AAU=
-X-Received: by 2002:a05:6402:d69:b0:46a:392b:2440 with SMTP id
- ec41-20020a0564020d6900b0046a392b2440mr2475553edb.341.1669220582842; Wed, 23
- Nov 2022 08:23:02 -0800 (PST)
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=PhJSJnLVsP1vBula4KCFSx5kBTht7CuZrspFHU0N884=;
+        b=MadC3wG4k38u9hXr+GfihSo9ZPn/RQp5dlpFeaz586HHd2uimq1hABnSbTdeQQu0m3
+         wYYivc2DSCxQtIiwxZ8/jqaYUeUygL4bFaeD6Y8wmxogEugKvzsyMsKwoFcOQPfW881y
+         1pMbkhbuVdkhDwnoz15ftjyQg85d605cNZax6OgB+9bDaor3kXNxSP4Dou5f7uFL7bsH
+         iU21j665mlno+bH0aZYSn+gFZMZ6WCLeVvXrPS7cBnuY0f3lDcIQvmut5FPX3lXUeLXr
+         z1Ue2FPY9Q1KbTMBk6J0oEeMFtFfYqQx8REMIPrv18bVJ2LBNl796Bj2fbwF6uxvUY3B
+         ihxg==
+X-Gm-Message-State: ANoB5pmwnU8uSPm6Wvxi2WTXkQNokrKfTe4j8vmgbdV2wEqhMeM1Gwf6
+        fSpk4XzYbHH60FqEqKtjuuZu7Q==
+X-Google-Smtp-Source: AA0mqf7URgWK3LZKBiCOJvrYX2BcRTBThzd2VlaYXoILbXTQHzjAWJMWnGzlcI0wVuCFvjEWzX6GjA==
+X-Received: by 2002:ac8:60c:0:b0:3a6:37bd:ace5 with SMTP id d12-20020ac8060c000000b003a637bdace5mr14127789qth.426.1669220734011;
+        Wed, 23 Nov 2022 08:25:34 -0800 (PST)
+Received: from ziepe.ca (hlfxns017vw-47-55-122-23.dhcp-dynamic.fibreop.ns.bellaliant.net. [47.55.122.23])
+        by smtp.gmail.com with ESMTPSA id q7-20020a05620a0d8700b006f8665f483fsm12561497qkl.85.2022.11.23.08.25.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 23 Nov 2022 08:25:33 -0800 (PST)
+Received: from jgg by wakko with local (Exim 4.95)
+        (envelope-from <jgg@ziepe.ca>)
+        id 1oxsZ2-00AOLL-MZ;
+        Wed, 23 Nov 2022 12:25:32 -0400
+Date:   Wed, 23 Nov 2022 12:25:32 -0400
+From:   Jason Gunthorpe <jgg@ziepe.ca>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Matthew Wilcox <willy@infradead.org>,
+        Maximilian Luz <luzmaximilian@gmail.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        linux-kernel@vger.kernel.org, Jens Axboe <axboe@kernel.dk>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Len Brown <lenb@kernel.org>,
+        Stefan Richter <stefanr@s5r6.in-berlin.de>,
+        Wolfram Sang <wsa@kernel.org>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Sean Young <sean@mess.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Mark Gross <markgross@kernel.org>,
+        Vinod Koul <vkoul@kernel.org>,
+        Bard Liao <yung-chuan.liao@linux.intel.com>,
+        Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+        Sanyog Kale <sanyog.r.kale@intel.com>,
+        Andreas Noever <andreas.noever@gmail.com>,
+        Michael Jamet <michael.jamet@intel.com>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Yehezkel Bernat <YehezkelShB@gmail.com>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        Chaitanya Kulkarni <kch@nvidia.com>,
+        Ming Lei <ming.lei@redhat.com>,
+        Jilin Yuan <yuanjilin@cdjrlc.com>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ira Weiny <ira.weiny@intel.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Won Chung <wonchung@google.com>, alsa-devel@alsa-project.org,
+        devicetree@vger.kernel.org, linux-acpi@vger.kernel.org,
+        linux-block@vger.kernel.org, linux-i2c@vger.kernel.org,
+        linux-i3c@lists.infradead.org, linux-input@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-serial@vger.kernel.org,
+        linux-usb@vger.kernel.org, linux1394-devel@lists.sourceforge.net,
+        platform-driver-x86@vger.kernel.org
+Subject: Re: [PATCH 3/5] driver core: make struct device_type.uevent() take a
+ const *
+Message-ID: <Y35JfNJDppRp5bLX@ziepe.ca>
+References: <20221123122523.1332370-1-gregkh@linuxfoundation.org>
+ <20221123122523.1332370-3-gregkh@linuxfoundation.org>
+ <711d5275-7e80-c00d-0cdc-0f3d52175361@gmail.com>
+ <Y34hgIW8p1RlQTBB@smile.fi.intel.com>
+ <97be39ed-3cea-d55a-caa6-c2652baef399@gmail.com>
+ <Y34zyzdbRUdyOSkA@casper.infradead.org>
+ <Y34+V2bCDdqujBDk@kroah.com>
 MIME-Version: 1.0
-References: <3d8607b4-973d-945d-c184-260157ade7c3@amd.com> <CAKMK7uHVGgGHTiXYOfseXXda2Ug992nYvhPsL+4z18ssqeHXHQ@mail.gmail.com>
- <b05e6091-4e07-1e32-773d-f603ac9ac98b@gmail.com> <CAKMK7uFjmzewqv3r4hL9hvLADwV536n2n6xbAWaUvmAcStr5KQ@mail.gmail.com>
- <Y34WI9SZdiH/p1tA@ziepe.ca> <f8f844a5-0910-d19a-5aea-df7a1d83b1d3@gmail.com>
- <Y34XvmtHfb4ZwopN@ziepe.ca> <dc2a9d7f-192b-e9d8-b1d1-3b868cb1fd44@gmail.com>
- <Y34gBUl0m+j1JdFk@ziepe.ca> <CAKMK7uHWyOcZ77-+GY7hxFUA65uQYFe0fw2rww6Y-rLXvHFAYw@mail.gmail.com>
- <Y342emkzKHXLQvsN@ziepe.ca>
-In-Reply-To: <Y342emkzKHXLQvsN@ziepe.ca>
-From:   Daniel Vetter <daniel.vetter@ffwll.ch>
-Date:   Wed, 23 Nov 2022 17:22:50 +0100
-Message-ID: <CAKMK7uEXybD3iV7dDjcaP=joY-kE8aZZ5odCsjUBpatJe=Sd=Q@mail.gmail.com>
-Subject: Re: [Linaro-mm-sig] Re: [PATCH] dma-buf: Require VM_PFNMAP vma for mmap
-To:     Jason Gunthorpe <jgg@ziepe.ca>
-Cc:     =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        DRI Development <dri-devel@lists.freedesktop.org>,
-        Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        John Stultz <john.stultz@linaro.org>,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y34+V2bCDdqujBDk@kroah.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, 23 Nov 2022 at 16:04, Jason Gunthorpe <jgg@ziepe.ca> wrote:
->
-> On Wed, Nov 23, 2022 at 03:28:27PM +0100, Daniel Vetter wrote:
->
-> > > This patch is known to be broken in so many ways. It also has a major
-> > > security hole that it ignores the PTE flags making the page
-> > > RO. Ignoring the special bit is somehow not surprising :(
-> > >
-> > > This probably doesn't work, but is the general idea of what KVM needs
-> > > to do:
-> >
-> > Oh dear, when I dug around in there I entirely missed that
-> > kvm_try_get_pfn exists, and it's very broken indeed. kvm really needs
-> > to grow a proper mmu notifier.
-> >
-> > Another thing I'm wondering right now, the follow_pte();
-> > fixup_user_fault(); follow_pte(); approach does not make any
-> > guarantees of actually being right. If you're sufficiently unlucky you
-> > might race against an immediate pte invalidate between the fixup and
-> > the 2nd follow_pte(). But you can also not loop, because that would
-> > fail to catch permanent faults.
->
-> Yes, it is pretty broken.
->
-> kvm already has support for mmu notifiers and uses it for other
-> stuff. I can't remember what exactly this code path was for, IIRC
-> Paolo talked about having a big rework/fix for it when we last talked
-> about the missing write protect. I also vauagely recall he had some
-> explanation why this might be safe.
->
-> > I think the iommu fault drivers have a similar pattern.
->
-> Where? It shouldn't
->
-> The common code for SVA just calls handle_mm_fault() and restarts the
-> PRI. Since the page table is physically shared there is no issue with
-> a stale copy.
->
-> > What am I missing here? Or is that also just broken. gup works around
-> > this with the slow path that takes the mmap sem and walking the vma
-> > tree, follow_pte/fixup_user_fautl users dont.
->
-> follow_pte() is just fundamentally broken, things must not use it.
->
-> > Maybe mmu notifier based restarting would help with this too, if
-> > done properly.
->
-> That is called hmm_range_fault()
+On Wed, Nov 23, 2022 at 04:37:59PM +0100, Greg Kroah-Hartman wrote:
+> static inline struct device *__kobj_to_dev(struct kobject *kobj)
+> {
+>         return container_of(kobj, struct device, kobj);
+> }
+> 
+> static inline const struct device *__kobj_to_dev_const(const struct kobject *kobj)
+> {
+>         return container_of(kobj, const struct device, kobj);
+> }
+> 
+> /*
+>  * container_of() will happily take a const * and spit back a non-const * as it
+>  * is just doing pointer math.  But we want to be a bit more careful in the
+>  * driver code, so manually force any const * of a kobject to also be a const *
+>  * to a device.
+>  */
+> #define kobj_to_dev(kobj)                                       \
+>         _Generic((kobj),                                        \
+>                  const struct kobject *: __kobj_to_dev_const,   \
+>                  struct kobject *: __kobj_to_dev)(kobj)
+> 
+> 
+> Want me to do the same thing here as well?
 
-Ah right I mixed that up on a quick grep, thanks for pointing me in
-the right direction. Worries appeased.
--Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+It would be nice to have a shared macro code gen all of the above
+instead of copy and pasting it. Then maybe other cases beyond struct
+device could adopt const too..
+
+Jason
