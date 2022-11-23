@@ -2,197 +2,236 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 771DD635483
-	for <lists+linux-media@lfdr.de>; Wed, 23 Nov 2022 10:08:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0BDBD6355B2
+	for <lists+linux-media@lfdr.de>; Wed, 23 Nov 2022 10:24:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237088AbiKWJHb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 23 Nov 2022 04:07:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45058 "EHLO
+        id S237498AbiKWJVD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 23 Nov 2022 04:21:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36188 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237220AbiKWJHO (ORCPT
+        with ESMTP id S237417AbiKWJUi (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 23 Nov 2022 04:07:14 -0500
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E870106120
-        for <linux-media@vger.kernel.org>; Wed, 23 Nov 2022 01:06:51 -0800 (PST)
+        Wed, 23 Nov 2022 04:20:38 -0500
+Received: from NAM02-DM3-obe.outbound.protection.outlook.com (mail-dm3nam02on2062.outbound.protection.outlook.com [40.107.95.62])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 744108FE74;
+        Wed, 23 Nov 2022 01:20:36 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Y/7MSF+96YqP3yqWbDbZY/l4j8tQu8Zegy7g853avB0Ji+fnEOV3h6WySqAV2aU9Q0XJp8+Y2gU1c153AUGG4Us7IUHA5suRIHheyzSzfzZOZ2qo/LgmOi8Z2SQ7Vnzpnsacphu/stOWjOBBJzh2oa9ejb4wZ2Kf5Nw3b7Q2Dra7paeAvait33QUndDvKLjQL0MstUsluGqgxllUfTAV12pU2CNIO8isOg+fnn2xom5jQrI5nrZ1/YIDkfRRQXAX+/mwvVw4R+fIjm7AHNUrYaS1oQaKsbGuLyP58y/4b59RgF6cD9brOIWI2zpM5cIWs8AKI+KceacVTiDYsr5QaA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=V9nxb7J9kIIeH/n/FLXw3QUOA6jjKpMU+gpq28t8f7c=;
+ b=bqf3nasCKvhwDJ6AHLlT9/QoSBhuSLuow3iM1vUBV7Bo9xJOKG8fjTnt2nlJa9M9/GrtUgn/HIIt50mtuKIQr3icS/PNLEYZPM581WFt6bvo1WDd7DP4fQS39FHKFSRc1c+iK3zJkKJMT0UrOiilqK14cAPtAE0jfggplfDF96ESat+1HCXSxMjEeCFOGAAH3viYcoAub5SvSFNCoQMNym2j22/yNUIbSw4S1Lbkf9h9HKDE1R6zyUl2Xej0XFzWHLFzgze/ohKd3M+RWp90kV5nMbN55KpbZlUobwOUXd1P3KfPTueoBaVMYns7yNH3WA+UNUuEx8Iw2+cUxgrU6Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=synaptics.com; dmarc=pass action=none
+ header.from=synaptics.com; dkim=pass header.d=synaptics.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1669194411; x=1700730411;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=2f/9nxESPnqNnRoQ4pC724Hbf42EyScGYQyvPVJ5uoY=;
-  b=XgqFNMmGh40MMhwSsHhHlX8kG5cRUn+9SqrqeT/hpS4Tl3IB81iUz6ol
-   d/G3HE68h9PPXJdZKeI5DDjxspWE0kiD7PNdtdwuCefm6PCsojmjmjUWR
-   FJBlxDd4R6eSrSSbZajwteFzAcIsv4zNaGnmWZU7nJM2EZmleKtcKNExe
-   37LlnZV5uA7BsA2bD9g40UmMxAihxH//rHenZhd0xU6oH1ythF17xJunq
-   uBCXksa/+xEZIYspDy2/hhCtV9BQTplPFWpY444qDL74eATChd23+FsfK
-   dKwOjDAz7yQ7LFb76dyuFDDOMuFRHGG9LfV/f6BrZj02qC6KFocaCLdDe
-   g==;
-X-IronPort-AV: E=Sophos;i="5.96,186,1665439200"; 
-   d="scan'208";a="27529276"
-Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
-  by mx1-pgp.tq-group.com with ESMTP; 23 Nov 2022 10:06:39 +0100
-Received: from mx1.tq-group.com ([192.168.6.7])
-  by tq-pgp-pr1.tq-net.de (PGP Universal service);
-  Wed, 23 Nov 2022 10:06:39 +0100
-X-PGP-Universal: processed;
-        by tq-pgp-pr1.tq-net.de on Wed, 23 Nov 2022 10:06:39 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1669194399; x=1700730399;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=2f/9nxESPnqNnRoQ4pC724Hbf42EyScGYQyvPVJ5uoY=;
-  b=SDKX0YEo5Lmt6Csmai8VNwrUbLtjqPLL8aPo7LDjMx6VbRIkZGkj+rGE
-   mbnjz4HIeJgTFbg+PI/z2gO0yC3qS+naBPVU3TMUqWySb84u31PzP+z24
-   XTTlIzHBtQGCiaunumkNNluMm2M5JeC/qsMh/4e9LvJa3XzHSIYj8+EVi
-   GKFMunHi71NjnckHIRWkULO9ClwsCQpIdaW0sI4PQAJ1hHXdT0jGtwp6V
-   VeZWEfJDaDzlkABAbITnvRtqgIQALPrHMeIxZDIfRVREsF7GxuleTwJgu
-   RZbmAh7UbLp3W7GsW80m6n/VRKObmExxKtgNw1d5Ufi2e5pHlekm1+W5e
-   Q==;
-X-IronPort-AV: E=Sophos;i="5.96,186,1665439200"; 
-   d="scan'208";a="27529275"
-Received: from vtuxmail01.tq-net.de ([10.115.0.20])
-  by mx1.tq-group.com with ESMTP; 23 Nov 2022 10:06:39 +0100
-Received: from steina-w.localnet (unknown [10.123.53.21])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-        (No client certificate requested)
-        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 46CCC280056;
-        Wed, 23 Nov 2022 10:06:39 +0100 (CET)
-From:   Alexander Stein <alexander.stein@ew.tq-group.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, Sakari Ailus <sakari.ailus@iki.fi>,
-        Manivannan Sadhasivam <mani@kernel.org>
-Subject: Re: [PATCH v1 05/15] media: i2c: imx290: Pass format and mode to imx290_calc_pixel_rate()
-Date:   Wed, 23 Nov 2022 10:06:41 +0100
-Message-ID: <111287339.nniJfEyVGO@steina-w>
-Organization: TQ-Systems GmbH
-In-Reply-To: <20221122223250.21233-6-laurent.pinchart@ideasonboard.com>
-References: <20221122223250.21233-1-laurent.pinchart@ideasonboard.com> <20221122223250.21233-6-laurent.pinchart@ideasonboard.com>
+ d=Synaptics.onmicrosoft.com; s=selector2-Synaptics-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=V9nxb7J9kIIeH/n/FLXw3QUOA6jjKpMU+gpq28t8f7c=;
+ b=U/ZiurlUqIfgnjSNfoDlCnIpzIrXdAcAw9XpVmcwuXnDQmmXXnlp28R/16B7G1hftdEcQlEq3oXWMz1qH0NG0WeXXK3GRH46YfxtVaMXHCSWHavIHtneBGGnlFx4ml5rdW8DK0BgBgAbu5oT7P1CUE7Heyzr+9ntSeUBLv7iHIo=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=synaptics.com;
+Received: from DM6PR03MB5196.namprd03.prod.outlook.com (2603:10b6:5:24a::19)
+ by CO1PR03MB5682.namprd03.prod.outlook.com (2603:10b6:303:94::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5857.17; Wed, 23 Nov
+ 2022 09:20:34 +0000
+Received: from DM6PR03MB5196.namprd03.prod.outlook.com
+ ([fe80::a132:66d9:ed0f:e5c1]) by DM6PR03MB5196.namprd03.prod.outlook.com
+ ([fe80::a132:66d9:ed0f:e5c1%6]) with mapi id 15.20.5834.015; Wed, 23 Nov 2022
+ 09:20:34 +0000
+From:   Hsia-Jun Li <randy.li@synaptics.com>
+To:     dri-devel@lists.freedesktop.org
+Cc:     airlied@linux.ie, daniel@ffwll.ch, ezequiel@vanguardiasur.com.ar,
+        helen.koike@collabora.com, jszhang@kernel.org,
+        laurent.pinchart@ideasonboard.com,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, maarten.lankhorst@linux.intel.com,
+        mchehab@kernel.org, mripard@kernel.org, nicolas@ndufresne.ca,
+        ribalda@chromium.org, sakari.ailus@linux.intel.com,
+        sebastian.hesselbarth@gmail.com, tfiga@chromium.org,
+        tzimmermann@suse.de, ayaka@soulik.info,
+        "Hsia-Jun(Randy) Li" <randy.li@synaptics.com>
+Subject: [PATCH v4] drm/fourcc: Add Synaptics VideoSmart tiled modifiers
+Date:   Wed, 23 Nov 2022 17:19:57 +0800
+Message-Id: <20221123091957.75967-1-randy.li@synaptics.com>
+X-Mailer: git-send-email 2.37.3
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SJ0PR13CA0053.namprd13.prod.outlook.com
+ (2603:10b6:a03:2c2::28) To DM6PR03MB5196.namprd03.prod.outlook.com
+ (2603:10b6:5:24a::19)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM6PR03MB5196:EE_|CO1PR03MB5682:EE_
+X-MS-Office365-Filtering-Correlation-Id: 614fc8ce-3403-4f5f-8e02-08dacd33f858
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: uHLhaFLCZGgmIKGmrAnLN8fqtFGcO755GSriGlXJPlY3XLSbBaOEWk/EWX9Qy2o5B8LCWhgcgBNIcxlPwV9jfVZtwOa1B8Rpnc0wJ+MQJoN0ItZ8HWi9uEpJhuCGAJZPlBOFs1bjOX4f6EaRHsaUjgv4ZcxZtnx9W2EEBqNbXj9jng+dfcHf0lhMPZhkIJF8R2dSRHeLS4aL45Lx00K9tS+N1v5R+X0yqhdRgrZy1WRkt6Vhzj1NVPHs7vYCF+cPO2luW2mYNfGPxShJPuLswBq8AzFq+c3F5t35g8x52ORJ/lzYsQrc1UaFf3IXXgPO5FyknwHeuBPtp0Puohk7fI4JlS/YisJua2oZ1XzxLygZhjNY0DWmhACdnHx5jCo4oeqmUbV2cVclBC/La2nViBHHlBkE+yMi8S3w6SXnUsab3KzPuNDDaYD0550xjkbWz2cvl1zUrUjVaxZQ698hSYMml7FvsuSZomd+89pq54VBwBuWQwC0LJIK3z0J3RyDZzdMFMJjI+7fZD/1VB0ipQLHx896lP7bAb5HoDjPVa5ecDjdASTmQutdYhnEUfPp5siO8cZn33USsX5hwc5PaP/k50xIgK552Q/YdZfwlq/P2pw+iXmWtkyVZMyjnYRAOxB4BTP7i5UodeAPt3egj59CBrJ0f5+zW58b0WzwsZBq8zw6vu7uC/7A2fmBMQ9EAQPlgyYaPPIzDv8hLPd9ww==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR03MB5196.namprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(366004)(376002)(39860400002)(136003)(346002)(396003)(451199015)(36756003)(2906002)(5660300002)(316002)(8936002)(66476007)(86362001)(186003)(2616005)(66556008)(6916009)(7416002)(83380400001)(4326008)(478600001)(26005)(6512007)(66946007)(1076003)(6486002)(8676002)(107886003)(6666004)(38350700002)(38100700002)(52116002)(6506007)(41300700001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?n83cspczHNFfpPWJ5MUqfoc7TN7P408GwPlIUfWgk+rdStSe6bAGD13iBJTr?=
+ =?us-ascii?Q?hMoPXHj1gVxafncv5gbRPVS/Y7AJH50DfplTAZiUqlN1ZqVSfzBCZDT5Z7ZF?=
+ =?us-ascii?Q?Qgkvcf2l14q4b3C/33rQefv+QkZTuCQAKMJA2Q2qh+GB/zyKHp9BMegv2nmQ?=
+ =?us-ascii?Q?7fTh6rHYdisbanAti7EfendrjT1b2x7SdS8fuXkk7nIZWCRec+8VR2s0pZig?=
+ =?us-ascii?Q?1ROiQ9cqplYvVIxxUbSOe0C0dGIwEzl7qLvChjNKjtUdLN+zjnm49vmsaChZ?=
+ =?us-ascii?Q?ubLch5tv6VtnydUqADRD/pnOF6x/W/7Rn/bVRrczVBKQoH+15WtLpSfn4c0o?=
+ =?us-ascii?Q?0kRrJcESO4Du/ZR/upz/CuMvftsrLUurVcV0M3PblY9XSfwSu6aA8ivaaGhD?=
+ =?us-ascii?Q?LaM6TtTsEZwGG7gJ+0Uz9DJS6xIRn9C3E81q43/ioPTZmcDp1n7wy7cF+EmP?=
+ =?us-ascii?Q?cb4FWY+fadtIXjHVXEOgT0X4Jghmb/3nPfLAV8lQhQw+CN1scYElCAR6N8/M?=
+ =?us-ascii?Q?Jbc1SXw0zvqCed1NX2Orh+acS1lrcQXxigC67vYxU88od6i9bMsTRIReubO6?=
+ =?us-ascii?Q?hTsE+lli3Z2rrGhHI3DcDHSGs+Xnz5PsNRc6t+yLS3otpUkdRuRT3jO8LMUi?=
+ =?us-ascii?Q?b60WwWVo3adocELl106ta2s+4Ou2ZA4IcJrqlAO+hzrwxOSwHSI01DZGWajS?=
+ =?us-ascii?Q?eWAFPYX38K6BE7ZMs5W8h3EclqxHToS2/hetg7m4YG8UdgQOuqsx2dG840Ca?=
+ =?us-ascii?Q?0f51o9SI1HEZiNcUwlt77th8kQ2sjhe9RP8UYmINPuopCRtxcb+r8y9CpKMm?=
+ =?us-ascii?Q?zT443tAyafINyAHUy64mCdUI13zPMiL6w0ShCcoMya+KEuA1rfKwIakbKpS2?=
+ =?us-ascii?Q?mTHHW2bzmwUdKPVk5Q8Ibcj1+cqf6SRVoxKibYUJCBT+K6rBv02R5Q7J7Jz8?=
+ =?us-ascii?Q?CT0CxS6GbS5Y07ptvDzrMROtICBAWqI0Wq14Wg+LMMq1FFsiFIgtTb2GvkaG?=
+ =?us-ascii?Q?Ugy2sYwBWupYWuN8IYDhdCpJ8acCHS3T871QQBNkYJSuVdh7J+zkJC2UCWhc?=
+ =?us-ascii?Q?6LaBVqVDPYlUbNOMfDdLmejAlv2kzULLxu8EmHcGvI3ElwELcHGcZaJHVs2w?=
+ =?us-ascii?Q?G/bsk52mRZbWEwgrPqdeojgzLVh/8GTMhqgbyVOF0wst0DEcjmck4ghtYkCc?=
+ =?us-ascii?Q?eZIRpqYb0CZoaYDK90DInll/oEWQi3I9xQaUSODrv1IbX4JGHvnyey4LdCoS?=
+ =?us-ascii?Q?msVoK2G0a5M4++bS5s5k88s03HPWDheiB51feSJf0AuGcrnn+24RT40NUXXb?=
+ =?us-ascii?Q?xpLXtFc0x1luhnt97+hEnKUrg8Qlq/UFAYO5zRHjR8KoGn1kuPuevA9Dm4Bo?=
+ =?us-ascii?Q?6N70zT8wwT44LDYTYZL6KXz/9DOya45s59zMJoL5p5XLJ5hMIIo7+NYOzwlA?=
+ =?us-ascii?Q?gfBgSIO3N3RarJp3qZ71BLi6M29bIhgCuebLS2vztC6YvNvcp4cu/SZXj7i9?=
+ =?us-ascii?Q?AP48+fHahMZY4bPYJQ2tofbf2W/v6NJ0A6+aEXfFaeVtxXbLHJDWGvgLBnWh?=
+ =?us-ascii?Q?bdKTadUXYviHWOjGixUOAUXtNd7MD0YKtwjdVQ/j?=
+X-OriginatorOrg: synaptics.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 614fc8ce-3403-4f5f-8e02-08dacd33f858
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR03MB5196.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Nov 2022 09:20:34.3672
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 335d1fbc-2124-4173-9863-17e7051a2a0e
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: UUAVmx351ZAIgStjztlRHUwi9bUBgWPLKlOVz8ng/T/8xZnnI+Jyum/fD3NhiSan1zNAWwiTKK10f+tx4H/CVQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR03MB5682
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello Laurent,
+From: "Hsia-Jun(Randy) Li" <randy.li@synaptics.com>
 
-thanks for working on this.
+Memory Traffic Reduction(MTR) is a module in Synaptics
+VideoSmart platform could process lossless compression image
+and cache the tile memory line.
 
-Am Dienstag, 22. November 2022, 23:32:40 CET schrieb Laurent Pinchart:
-> Avoid accessing the imx290 current_format and current_mode fields in
-> imx290_calc_pixel_rate() to prepare for the removal of those fields.
-> Among the two callers of the function, imx290_ctrl_update() has an
-> explicit mode pointer already, and we can also give it a format pointer.
-> Use those explicitly.
-> 
-> While at it, inline the imx290_get_link_freq() function in
-> imx290_calc_pixel_rate() as it is only called there.
-> 
-> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> ---
->  drivers/media/i2c/imx290.c | 27 ++++++++++++---------------
->  1 file changed, 12 insertions(+), 15 deletions(-)
-> 
-> diff --git a/drivers/media/i2c/imx290.c b/drivers/media/i2c/imx290.c
-> index 2d198b167853..a676ce93f96e 100644
-> --- a/drivers/media/i2c/imx290.c
-> +++ b/drivers/media/i2c/imx290.c
-> @@ -547,21 +547,15 @@ static int imx290_write_current_format(struct imx290
-> *imx290) return 0;
->  }
-> 
-> -static s64 imx290_get_link_freq(struct imx290 *imx290)
-> +static u64 imx290_calc_pixel_rate(struct imx290 *imx290,
-> +				  const struct v4l2_mbus_framefmt 
-*format,
+Those modifiers only record the parameters would effort pixel
+layout or memory layout. Whether physical memory page mapping
+is used is not a part of format.
 
-You can remove format here. It's unused and gets removed in the next patch 
-anyway.
+We would allocate the same size of memory for uncompressed
+and compressed luma and chroma data, while the compressed buffer
+would request two extra planes holding the metadata for
+the decompression.
 
-Regards,
-Alexander
+Signed-off-by: Hsia-Jun(Randy) Li <randy.li@synaptics.com>
+---
+ include/uapi/drm/drm_fourcc.h | 75 +++++++++++++++++++++++++++++++++++
+ 1 file changed, 75 insertions(+)
 
-> +				  const struct imx290_mode *mode)
->  {
-> -	u8 index = imx290->current_mode->link_freq_index;
-> -
-> -	return *(imx290_link_freqs_ptr(imx290) + index);
-> -}
-> -
-> -static u64 imx290_calc_pixel_rate(struct imx290 *imx290)
-> -{
-> -	s64 link_freq = imx290_get_link_freq(imx290);
-> -	u8 nlanes = imx290->nlanes;
-> +	s64 link_freq = imx290_link_freqs_ptr(imx290)[mode-
->link_freq_index];
->  	u64 pixel_rate;
-> 
->  	/* pixel rate = link_freq * 2 * nr_of_lanes / bits_per_sample */
-> -	pixel_rate = link_freq * 2 * nlanes;
-> +	pixel_rate = link_freq * 2 * imx290->nlanes;
->  	do_div(pixel_rate, imx290->bpp);
->  	return pixel_rate;
->  }
-> @@ -635,6 +629,7 @@ static const char * const imx290_test_pattern_menu[] = {
-> };
-> 
->  static void imx290_ctrl_update(struct imx290 *imx290,
-> +			       const struct v4l2_mbus_framefmt *format,
->  			       const struct imx290_mode *mode)
->  {
->  	unsigned int hblank = mode->hmax - mode->width;
-> @@ -642,7 +637,7 @@ static void imx290_ctrl_update(struct imx290 *imx290,
-> 
->  	__v4l2_ctrl_s_ctrl(imx290->link_freq, mode->link_freq_index);
->  	__v4l2_ctrl_s_ctrl_int64(imx290->pixel_rate,
-> -				 imx290_calc_pixel_rate(imx290));
-> +				 imx290_calc_pixel_rate(imx290, 
-format, mode));
-> 
->  	__v4l2_ctrl_modify_range(imx290->hblank, hblank, hblank, 1, hblank);
->  	__v4l2_ctrl_modify_range(imx290->vblank, vblank, vblank, 1, vblank);
-> @@ -652,6 +647,7 @@ static int imx290_ctrl_init(struct imx290 *imx290)
->  {
->  	struct v4l2_fwnode_device_properties props;
->  	unsigned int blank;
-> +	u64 pixel_rate;
->  	int ret;
-> 
->  	ret = v4l2_fwnode_device_parse(imx290->dev, &props);
-> @@ -689,10 +685,11 @@ static int imx290_ctrl_init(struct imx290 *imx290)
->  	if (imx290->link_freq)
->  		imx290->link_freq->flags |= V4L2_CTRL_FLAG_READ_ONLY;
-> 
-> +	pixel_rate = imx290_calc_pixel_rate(imx290, &imx290->current_format,
-> +					    imx290->current_mode);
->  	imx290->pixel_rate = v4l2_ctrl_new_std(&imx290->ctrls, 
-&imx290_ctrl_ops,
->  					       V4L2_CID_PIXEL_RATE,
-> -					       1, INT_MAX, 1,
-> -					       
-imx290_calc_pixel_rate(imx290));
-> +					       1, INT_MAX, 1, 
-pixel_rate);
-> 
->  	v4l2_ctrl_new_std_menu_items(&imx290->ctrls, &imx290_ctrl_ops,
->  				     V4L2_CID_TEST_PATTERN,
-> @@ -913,7 +910,7 @@ static int imx290_set_fmt(struct v4l2_subdev *sd,
->  		imx290->current_mode = mode;
->  		imx290->bpp = imx290_formats[i].bpp;
-> 
-> -		imx290_ctrl_update(imx290, mode);
-> +		imx290_ctrl_update(imx290, &fmt->format, mode);
->  	}
-> 
->  	*format = fmt->format;
-
-
-
+diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.h
+index bc056f2d537d..ca0b4ca70b36 100644
+--- a/include/uapi/drm/drm_fourcc.h
++++ b/include/uapi/drm/drm_fourcc.h
+@@ -407,6 +407,7 @@ extern "C" {
+ #define DRM_FORMAT_MOD_VENDOR_ARM     0x08
+ #define DRM_FORMAT_MOD_VENDOR_ALLWINNER 0x09
+ #define DRM_FORMAT_MOD_VENDOR_AMLOGIC 0x0a
++#define DRM_FORMAT_MOD_VENDOR_SYNAPTICS 0x0b
+ 
+ /* add more to the end as needed */
+ 
+@@ -1507,6 +1508,80 @@ drm_fourcc_canonicalize_nvidia_format_mod(__u64 modifier)
+ #define AMD_FMT_MOD_CLEAR(field) \
+ 	(~((__u64)AMD_FMT_MOD_##field##_MASK << AMD_FMT_MOD_##field##_SHIFT))
+ 
++/*
++ * Synaptics VideoSmart modifiers
++ *
++ * Tiles could be arranged in Groups of Tiles (GOTs), it is a small tile
++ * within a tile. GOT size and layout varies based on platform and
++ * performance concern. When the compression is applied, it is possible
++ * that we would have two tile type in the GOT, these parameters can't
++ * tell the secondary tile type.
++ *
++ * Besides, an 8 size 4 bytes arrary (32 bytes) would be need to store
++ * some compression parameters for a compression meta data plane.
++ *
++ *       Macro
++ * Bits  Param Description
++ * ----  ----- -----------------------------------------------------------------
++ *
++ *  7:0  f     Scan direction description.
++ *
++ *               0 = Invalid
++ *               1 = V4, the scan would always start from vertical for 4 pixel
++ *                   then move back to the start pixel of the next horizontal
++ *                   direction.
++ *               2 = Reserved for future use.
++ *
++ * 15:8  m     The times of pattern repeat in the right angle direction from
++ *             the first scan direction.
++ *
++ * 19:16 p     The padding bits after the whole scan, could be zero.
++ *
++ * 20:20 g     GOT packing flag.
++ *
++ * 23:21 -     Reserved for future use.  Must be zero.
++ *
++ * 27:24 h     log2(horizontal) of bytes, in GOTs.
++ *
++ * 31:28 v     log2(vertical) of bytes, in GOTs.
++ *
++ * 35:32 -     Reserved for future use.  Must be zero.
++ *
++ * 36:36 c     Compression flag.
++ *
++ * 55:37 -     Reserved for future use.  Must be zero.
++ *
++ */
++
++#define DRM_FORMAT_MOD_SYNA_V4_TILED		fourcc_mod_code(SYNAPTICS, 1)
++
++#define DRM_FORMAT_MOD_SYNA_MTR_LINEAR_2D(f, m, p, g, h, v, c) \
++	fourcc_mod_code(SYNAPTICS, ((__u64)((f) & 0xff) | \
++				 ((__u64)((m) & 0xff) << 8) | \
++				 ((__u64)((p) & 0xf) << 16) | \
++				 ((__u64)((g) & 0x1) << 20) | \
++				 ((__u64)((h) & 0xf) << 24) | \
++				 ((__u64)((v) & 0xf) << 28) | \
++				 ((__u64)((c) & 0x1) << 36)))
++
++#define DRM_FORMAT_MOD_SYNA_V4H1 \
++	DRM_FORMAT_MOD_SYNA_MTR_LINEAR_2D(1, 1, 0, 0, 0, 0, 0)
++
++#define DRM_FORMAT_MOD_SYNA_V4H3P8 \
++	DRM_FORMAT_MOD_SYNA_MTR_LINEAR_2D(1, 3, 8, 0, 0, 0, 0)
++
++#define DRM_FORMAT_MOD_SYNA_V4H1_64L4_COMPRESSED \
++	DRM_FORMAT_MOD_SYNA_MTR_LINEAR_2D(1, 1, 0, 1, 6, 2, 1)
++
++#define DRM_FORMAT_MOD_SYNA_V4H3P8_64L4_COMPRESSED \
++	DRM_FORMAT_MOD_SYNA_MTR_LINEAR_2D(1, 3, 8, 1, 6, 2, 1)
++
++#define DRM_FORMAT_MOD_SYNA_V4H1_128L128_COMPRESSED \
++	DRM_FORMAT_MOD_SYNA_MTR_LINEAR_2D(1, 1, 0, 1, 7, 7, 1)
++
++#define DRM_FORMAT_MOD_SYNA_V4H3P8_128L128_COMPRESSED \
++	DRM_FORMAT_MOD_SYNA_MTR_LINEAR_2D(1, 3, 8, 1, 7, 7, 1)
++
+ #if defined(__cplusplus)
+ }
+ #endif
+-- 
+2.17.1
 
