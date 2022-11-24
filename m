@@ -2,42 +2,48 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9A7DD6376D9
-	for <lists+linux-media@lfdr.de>; Thu, 24 Nov 2022 11:54:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 216946376E7
+	for <lists+linux-media@lfdr.de>; Thu, 24 Nov 2022 11:57:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229775AbiKXKyB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 24 Nov 2022 05:54:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45430 "EHLO
+        id S229596AbiKXK5F (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 24 Nov 2022 05:57:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47376 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229686AbiKXKyB (ORCPT
+        with ESMTP id S229863AbiKXK4v (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 24 Nov 2022 05:54:01 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BFE02179A8A;
-        Thu, 24 Nov 2022 02:53:59 -0800 (PST)
+        Thu, 24 Nov 2022 05:56:51 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D32F48419;
+        Thu, 24 Nov 2022 02:56:48 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 651306208B;
-        Thu, 24 Nov 2022 10:53:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4CEF8C433D6;
-        Thu, 24 Nov 2022 10:53:57 +0000 (UTC)
-Message-ID: <bce00af1-1a2a-e910-2a53-e5efff117b06@xs4all.nl>
-Date:   Thu, 24 Nov 2022 11:53:55 +0100
+        by ams.source.kernel.org (Postfix) with ESMTPS id C6FE2B82777;
+        Thu, 24 Nov 2022 10:56:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 03929C433D7;
+        Thu, 24 Nov 2022 10:56:43 +0000 (UTC)
+Message-ID: <8e3a3b74-0016-8e07-fa1b-fab34014f801@xs4all.nl>
+Date:   Thu, 24 Nov 2022 11:56:42 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.1
+Subject: Re: [PATCH] media: v4l2-ctrl: Add main 10 still picture profile for
+ hevc
 Content-Language: en-US
-To:     Yuji Ishikawa <yuji2.ishikawa@toshiba.co.jp>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>
-Cc:     linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-References: <20220810132822.32534-1-yuji2.ishikawa@toshiba.co.jp>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: Re: [PATCH v3 0/4] Add Toshiba Visconti Video Input Interface driver
-In-Reply-To: <20220810132822.32534-1-yuji2.ishikawa@toshiba.co.jp>
+To:     "Dikshita Agarwal (QUIC)" <quic_dikshita@quicinc.com>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "ezequiel@collabora.com" <ezequiel@collabora.com>
+Cc:     "stanimir.varbanov@linaro.org" <stanimir.varbanov@linaro.org>,
+        "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
+        "Vikash Garodia (QUIC)" <quic_vgarodia@quicinc.com>,
+        "Maheshwar Ajja (QUIC)" <quic_majja@quicinc.com>,
+        quic_jdas <quic_jdas@quicinc.com>
+References: <1661239563-14346-1-git-send-email-quic_dikshita@quicinc.com>
+ <7122b146-46c7-7e58-5b26-4b94d3a8c1d8@xs4all.nl>
+ <DM6PR02MB514811A30653D54C9010F25AF3759@DM6PR02MB5148.namprd02.prod.outlook.com>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <DM6PR02MB514811A30653D54C9010F25AF3759@DM6PR02MB5148.namprd02.prod.outlook.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
@@ -49,103 +55,78 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Yuji,
-
-On 10/08/2022 15:28, Yuji Ishikawa wrote:
-> This series is the Video Input Interface driver
-> for Toshiba's ARM SoC, Visconti[0].
-> This provides DT binding documentation,
-> device driver, documentation and MAINTAINER files.
+On 26/08/2022 08:34, Dikshita Agarwal (QUIC) wrote:
+> Hi Hans,
 > 
-> A visconti VIIF driver instance exposes
-> 1 media control device file and 3 video device files
-> for a VIIF hardware. 
-> Detailed HW/SW are described in documentation directory.
-> The VIIF hardware has CSI2 receiver,
-> image signal processor and DMAC inside.
-> The subdevice for image signal processor provides
-> vendor specific V4L2 controls.
+> -----Original Message-----
+> From: Hans Verkuil <hverkuil-cisco@xs4all.nl> 
+> Sent: Wednesday, August 24, 2022 5:36 PM
+> To: Dikshita Agarwal (QUIC) <quic_dikshita@quicinc.com>; linux-media@vger.kernel.org; linux-kernel@vger.kernel.org; ezequiel@collabora.com
+> Cc: stanimir.varbanov@linaro.org; linux-arm-msm@vger.kernel.org; Vikash Garodia (QUIC) <quic_vgarodia@quicinc.com>; Maheshwar Ajja (QUIC) <quic_majja@quicinc.com>; quic_jdas <quic_jdas@quicinc.com>
+> Subject: Re: [PATCH] media: v4l2-ctrl: Add main 10 still picture profile for hevc
 > 
-> The device driver depends on two other drivers under development;
-> clock framework driver and IOMMU driver.
-> Corresponding features will be added later.
+> Hi Dikshita,
+> 
+> On 23/08/2022 09:26, Dikshita Agarwal wrote:
+>> Add main 10 still picture profile for HEVC encoder.
+> 
+> Hmm, is this the same as the "Main 4:4:4 Still Picture" profile mentioned here:
+> 
+> https://en.wikipedia.org/wiki/High_Efficiency_Video_Coding#Version_2_profiles
+> 
+> If not, where it is defined? I would also prefer to have this patch merged together with a driver that uses it.
+> 
+> It is different and definition can be found in Latest HEVC spec, Annex A, A.3.3 Main 10 and Main 10 Still Picture profiles.
+> https://www.itu.int/rec/dologin_pub.asp?lang=s&id=T-REC-H.265-201906-S!!PDF-E&type=items
 
-I'm not sure what the status is of this series. There were comments for patch 1,
-and also note that patch 2 never made it to the linux-media mailinglist (too large,
-it should be split up in smaller patches).
+It will be useful to have a reference to that in the documentation.
 
-I'm marking it as 'Changes Requested' in patchwork, so please post a v4
-and I will do my best to review it.
-
-Also please ping me in the future to encourage me to review it. These are
-big drivers and it takes a lot of time to review, so I have a tendency (wrong,
-I know) keep postponing it. A ping helps me prioritize it.
+Also note that I can't merge this without a driver that uses it!
 
 Regards,
 
 	Hans
 
 > 
-> Best regards,
-> Yuji
+> Thanks,
+> Dikshita
 > 
-> Changelog v2:
-> - Resend v1 because a patch exceeds size limit.
+> Regards,
 > 
-> Changelog v3:
-> - Add documentation to describe SW and HW
-> - Adapted to media control framework
-> - Introduced ISP subdevice, capture device
-> - Remove private IOCTLs and add vendor specific V4L2 controls
-> - Change function name avoiding camelcase and uppercase letters
+> 	Hans
 > 
-> [0]: https://toshiba.semicon-storage.com/ap-en/semiconductor/product/image-recognition-processors-visconti.html
-> 
-> Yuji Ishikawa (4):
->   dt-bindings: media: platform: visconti: Add Toshiba Visconti Video
->     Input Interface bindings
->   media: platform: visconti: Add Toshiba Visconti Video Input Interface
->     driver
->   documentation: media: add documentation for Toshiba Visconti Video
->     Input Interface driver
->   MAINTAINERS: Add entries for Toshiba Visconti Video Input Interface
-> 
->  .../bindings/media/toshiba,visconti-viif.yaml |  103 +
->  .../driver-api/media/drivers/index.rst        |    1 +
->  .../media/drivers/visconti-viif.rst           |  455 +++
->  MAINTAINERS                                   |    3 +
->  drivers/media/platform/Kconfig                |    2 +
->  drivers/media/platform/Makefile               |    4 +
->  drivers/media/platform/visconti/Kconfig       |    9 +
->  drivers/media/platform/visconti/Makefile      |    9 +
->  drivers/media/platform/visconti/hwd_viif.c    | 1791 +++++++++++
->  drivers/media/platform/visconti/hwd_viif.h    |  701 +++++
->  .../media/platform/visconti/hwd_viif_csi2rx.c |  723 +++++
->  .../platform/visconti/hwd_viif_internal.h     |  348 ++
->  .../media/platform/visconti/hwd_viif_l1isp.c  | 2727 ++++++++++++++++
->  .../media/platform/visconti/hwd_viif_reg.h    | 2802 +++++++++++++++++
->  drivers/media/platform/visconti/viif.c        |  479 +++
->  drivers/media/platform/visconti/viif.h        |  195 ++
->  .../media/platform/visconti/viif_capture.c    | 1215 +++++++
->  .../media/platform/visconti/viif_controls.c   | 1149 +++++++
->  drivers/media/platform/visconti/viif_isp.c    |  852 +++++
->  include/uapi/linux/visconti_viif.h            | 1724 ++++++++++
->  20 files changed, 15292 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/toshiba,visconti-viif.yaml
->  create mode 100644 Documentation/driver-api/media/drivers/visconti-viif.rst
->  create mode 100644 drivers/media/platform/visconti/Kconfig
->  create mode 100644 drivers/media/platform/visconti/Makefile
->  create mode 100644 drivers/media/platform/visconti/hwd_viif.c
->  create mode 100644 drivers/media/platform/visconti/hwd_viif.h
->  create mode 100644 drivers/media/platform/visconti/hwd_viif_csi2rx.c
->  create mode 100644 drivers/media/platform/visconti/hwd_viif_internal.h
->  create mode 100644 drivers/media/platform/visconti/hwd_viif_l1isp.c
->  create mode 100644 drivers/media/platform/visconti/hwd_viif_reg.h
->  create mode 100644 drivers/media/platform/visconti/viif.c
->  create mode 100644 drivers/media/platform/visconti/viif.h
->  create mode 100644 drivers/media/platform/visconti/viif_capture.c
->  create mode 100644 drivers/media/platform/visconti/viif_controls.c
->  create mode 100644 drivers/media/platform/visconti/viif_isp.c
->  create mode 100644 include/uapi/linux/visconti_viif.h
-> 
+>>
+>> Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
+>> ---
+>>  Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst | 2 ++
+>>  include/uapi/linux/v4l2-controls.h                        | 1 +
+>>  2 files changed, 3 insertions(+)
+>>
+>> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst 
+>> b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+>> index 2a165ae..5b2da84 100644
+>> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+>> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+>> @@ -2424,6 +2424,8 @@ enum v4l2_mpeg_video_hevc_profile -
+>>        - Main still picture profile.
+>>      * - ``V4L2_MPEG_VIDEO_HEVC_PROFILE_MAIN_10``
+>>        - Main 10 profile.
+>> +    * - ``V4L2_MPEG_VIDEO_HEVC_PROFILE_MAIN_10_STILL_PICTURE``
+>> +      - Main 10 still picture profile.
+>>  
+>>  .. raw:: latex
+>>  
+>> diff --git a/include/uapi/linux/v4l2-controls.h 
+>> b/include/uapi/linux/v4l2-controls.h
+>> index 5f46bf4..1159337 100644
+>> --- a/include/uapi/linux/v4l2-controls.h
+>> +++ b/include/uapi/linux/v4l2-controls.h
+>> @@ -743,6 +743,7 @@ enum v4l2_mpeg_video_hevc_profile {
+>>  	V4L2_MPEG_VIDEO_HEVC_PROFILE_MAIN = 0,
+>>  	V4L2_MPEG_VIDEO_HEVC_PROFILE_MAIN_STILL_PICTURE = 1,
+>>  	V4L2_MPEG_VIDEO_HEVC_PROFILE_MAIN_10 = 2,
+>> +	V4L2_MPEG_VIDEO_HEVC_PROFILE_MAIN_10_STILL_PICTURE = 3,
+>>  };
+>>  #define V4L2_CID_MPEG_VIDEO_HEVC_LEVEL		(V4L2_CID_CODEC_BASE + 616)
+>>  enum v4l2_mpeg_video_hevc_level {
 
