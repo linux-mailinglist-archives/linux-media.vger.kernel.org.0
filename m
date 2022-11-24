@@ -2,128 +2,138 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AB3A6637C8D
-	for <lists+linux-media@lfdr.de>; Thu, 24 Nov 2022 16:11:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B052A637CFF
+	for <lists+linux-media@lfdr.de>; Thu, 24 Nov 2022 16:29:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229975AbiKXPLX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 24 Nov 2022 10:11:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53214 "EHLO
+        id S229622AbiKXP27 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 24 Nov 2022 10:28:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44686 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229956AbiKXPLU (ORCPT
+        with ESMTP id S229471AbiKXP26 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 24 Nov 2022 10:11:20 -0500
+        Thu, 24 Nov 2022 10:28:58 -0500
 Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8752615B4E5;
-        Thu, 24 Nov 2022 07:11:19 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C18E3BE85F
+        for <linux-media@vger.kernel.org>; Thu, 24 Nov 2022 07:28:57 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 3E2D7B827FF;
-        Thu, 24 Nov 2022 15:11:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 789E8C433D7;
-        Thu, 24 Nov 2022 15:11:14 +0000 (UTC)
-Message-ID: <11e1c489-85d8-82e2-8334-c47265a587f2@xs4all.nl>
-Date:   Thu, 24 Nov 2022 16:11:13 +0100
+        by ams.source.kernel.org (Postfix) with ESMTPS id 6F731B8284C
+        for <linux-media@vger.kernel.org>; Thu, 24 Nov 2022 15:28:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 19D46C433D6;
+        Thu, 24 Nov 2022 15:28:53 +0000 (UTC)
+Message-ID: <51f9534a-7bf7-ba8c-2401-1770a79d6c25@xs4all.nl>
+Date:   Thu, 24 Nov 2022 16:28:52 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.1
-Subject: Re: [RESEND 2/6 v2] media: uapi: Document format
- MEDIA_BUS_FMT_RGB565_1X24_CPADHI
 Content-Language: en-US
-To:     Chris Morgan <macroalpha82@gmail.com>,
-        dri-devel@lists.freedesktop.org
-Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        thierry.reding@gmail.com, sam@ravnborg.org, airlied@linux.ie,
-        daniel@ffwll.ch, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, mchehab@kernel.org,
-        emma@anholt.net, mripard@kernel.org,
-        Chris Morgan <macromorgan@hotmail.com>
-References: <20220519162935.1585-1-macroalpha82@gmail.com>
- <20220519162935.1585-3-macroalpha82@gmail.com>
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Ming Qian <ming.qian@nxp.com>,
+        =?UTF-8?Q?Niklas_S=c3=b6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        Yunfei Dong <yunfei.dong@mediatek.com>
 From:   Hans Verkuil <hverkuil@xs4all.nl>
-In-Reply-To: <20220519162935.1585-3-macroalpha82@gmail.com>
+Subject: [GIT PULL FOR v6.2] Various fixes and enhancements
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 19/05/2022 18:29, Chris Morgan wrote:
-> From: Chris Morgan <macromorgan@hotmail.com>
-> 
-> Add support for MEDIA_BUS_FMT_RGB565_1X24_CPADHI. This format is used
-> by the Geekworm MZP280 panel which interfaces with the Raspberry Pi.
-> 
-> Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
-> ---
->  .../media/v4l/subdev-formats.rst              | 37 +++++++++++++++++++
->  1 file changed, 37 insertions(+)
-> 
-> diff --git a/Documentation/userspace-api/media/v4l/subdev-formats.rst b/Documentation/userspace-api/media/v4l/subdev-formats.rst
-> index 0cbc045d5..e43e07634 100644
-> --- a/Documentation/userspace-api/media/v4l/subdev-formats.rst
-> +++ b/Documentation/userspace-api/media/v4l/subdev-formats.rst
-> @@ -624,6 +624,43 @@ The following tables list existing packed RGB formats.
->        - b\ :sub:`2`
->        - b\ :sub:`1`
->        - b\ :sub:`0`
-> +    * .. _MEDIA_BUS_FMT_RGB565_1X24_CPADHI:
-> +
-> +      - MEDIA_BUS_FMT_RGB565_1X24_CPADHI
-> +      - 0x101e
+The following changes since commit b9fbe29c59065c24df9e9fb3153db36403d45e2d:
 
-Given the latest media tree this is now 0x1022.
+  Merge tag 'br-v6.2d' of git://linuxtv.org/hverkuil/media_tree into media_stage (2022-11-15 12:11:46 +0000)
 
-Otherwise:
+are available in the Git repository at:
 
-Acked-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+  git://linuxtv.org/hverkuil/media_tree.git tags/br-v6.2h
 
-It's an old series by now, but as far as I am concerned this can go through
-the drm subsystem (after updating this value).
+for you to fetch changes up to debeddab26adefb61c767aa2f1de5ea2d326ba0f:
 
-Regards,
+  media: s5p-mfc: Add variant data for MFC v7 hardware for Exynos 3250 SoC (2022-11-24 14:23:44 +0100)
 
-	Hans
+----------------------------------------------------------------
+Tag branch
 
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      - 0
-> +      - 0
-> +      - 0
-> +      - r\ :sub:`4`
-> +      - r\ :sub:`3`
-> +      - r\ :sub:`2`
-> +      - r\ :sub:`1`
-> +      - r\ :sub:`0`
-> +      - 0
-> +      - 0
-> +      - g\ :sub:`5`
-> +      - g\ :sub:`4`
-> +      - g\ :sub:`3`
-> +      - g\ :sub:`2`
-> +      - g\ :sub:`1`
-> +      - g\ :sub:`0`
-> +      - 0
-> +      - 0
-> +      - 0
-> +      - b\ :sub:`4`
-> +      - b\ :sub:`3`
-> +      - b\ :sub:`2`
-> +      - b\ :sub:`1`
-> +      - b\ :sub:`0`
->      * .. _MEDIA-BUS-FMT-BGR565-2X8-BE:
->  
->        - MEDIA_BUS_FMT_BGR565_2X8_BE
+----------------------------------------------------------------
+Aakarsh Jain (2):
+      media: dt-bindings: s5p-mfc: Add new compatible string for Exynos3250 SoC
+      media: s5p-mfc: Add variant data for MFC v7 hardware for Exynos 3250 SoC
 
+Deming Wang (1):
+      media: vivid.rst: fix TV and S-Video Inputs section
+
+Irui Wang (1):
+      dt-bindings: mediatek: vcodec: Add the platform compatible to schema
+
+Ming Qian (7):
+      media: add nv12_8l128 and nv12_10be_8l128 video format.
+      media: amphion: tell and handle contiguous and non contiguous format
+      media: amphion: decoder add support for contiguous planes
+      media: amphion: encoder add support for contiguous planes
+      media: amphion: try to wakeup vpu core to avoid failure
+      media: amphion: cancel vpu before release instance
+      media: amphion: lock and check m2m_ctx in event handler
+
+Niklas Söderlund (3):
+      media: rcar-vin: Do not cache remote rectangle
+      media: rcar-vin: Store scaler in a function pointer
+      media: rcar-vin: Add support for Gen3 UDS (Up Down Scaler)
+
+Paul Kocialkowski (4):
+      media: sun6i-mipi-csi2: Require both pads to be connected for streaming
+      media: sun8i-a83t-mipi-csi2: Require both pads to be connected for streaming
+      media: sun6i-mipi-csi2: Register async subdev with no sensor attached
+      media: sun8i-a83t-mipi-csi2: Register async subdev with no sensor attached
+
+Peter Robinson (1):
+      Add dependency on ARCH_ASPEED
+
+Xiu Jianfeng (1):
+      media: v4l: Use memset_after() helper
+
+Yunfei Dong (5):
+      media: mediatek: vcodec: Fix getting NULL pointer for dst buffer
+      media: mediatek: vcodec: Can't set dst buffer to done when lat decode error
+      media: mediatek: vcodec: Fix h264 set lat buffer error
+      media: mediatek: vcodec: Setting lat buf to lat_list when lat decode error
+      media: mediatek: vcodec: Core thread depends on core_list
+
+ Documentation/admin-guide/media/vivid.rst                                |   2 +-
+ Documentation/devicetree/bindings/media/mediatek,vcodec-encoder.yaml     |  12 ++-
+ Documentation/devicetree/bindings/media/s5p-mfc.txt                      |  10 ++-
+ Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst              |   8 ++
+ drivers/media/platform/amphion/vdec.c                                    | 203 ++++++++++++++++++++++++++--------------------
+ drivers/media/platform/amphion/venc.c                                    |  41 +++++-----
+ drivers/media/platform/amphion/vpu.h                                     |   5 +-
+ drivers/media/platform/amphion/vpu_cmds.c                                |  39 ++++++++-
+ drivers/media/platform/amphion/vpu_dbg.c                                 |   8 +-
+ drivers/media/platform/amphion/vpu_helpers.c                             |  45 ++++++++--
+ drivers/media/platform/amphion/vpu_helpers.h                             |   2 +
+ drivers/media/platform/amphion/vpu_malone.c                              |   4 +-
+ drivers/media/platform/amphion/vpu_msgs.c                                |   2 +
+ drivers/media/platform/amphion/vpu_v4l2.c                                | 188 +++++++++++++++++++++++++++++++-----------
+ drivers/media/platform/amphion/vpu_v4l2.h                                |   3 +-
+ drivers/media/platform/amphion/vpu_windsor.c                             |   9 +-
+ drivers/media/platform/aspeed/Kconfig                                    |   1 +
+ drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_stateless.c        |  13 +--
+ drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_multi_if.c     |  28 ++++---
+ drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c        |  15 ++--
+ drivers/media/platform/mediatek/vcodec/vdec_msg_queue.c                  |   2 +-
+ drivers/media/platform/renesas/rcar-vin/rcar-core.c                      |  22 ++++-
+ drivers/media/platform/renesas/rcar-vin/rcar-dma.c                       | 104 +++++++++++++++++++++---
+ drivers/media/platform/renesas/rcar-vin/rcar-v4l2.c                      |  93 ++++++++++++++++-----
+ drivers/media/platform/renesas/rcar-vin/rcar-vin.h                       |   9 +-
+ drivers/media/platform/samsung/s5p-mfc/s5p_mfc.c                         |  17 +++-
+ drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c           |  23 ++++--
+ drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_mipi_csi2.c |  23 ++++--
+ drivers/media/v4l2-core/v4l2-ioctl.c                                     |  86 ++++++++++----------
+ include/uapi/linux/videodev2.h                                           |   2 +
+ 30 files changed, 721 insertions(+), 298 deletions(-)
