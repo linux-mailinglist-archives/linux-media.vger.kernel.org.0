@@ -2,46 +2,52 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 72357637464
-	for <lists+linux-media@lfdr.de>; Thu, 24 Nov 2022 09:49:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E069363749C
+	for <lists+linux-media@lfdr.de>; Thu, 24 Nov 2022 09:57:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229717AbiKXItE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 24 Nov 2022 03:49:04 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51378 "EHLO
+        id S230022AbiKXI5b (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 24 Nov 2022 03:57:31 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59838 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229547AbiKXItD (ORCPT
+        with ESMTP id S229946AbiKXI5a (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 24 Nov 2022 03:49:03 -0500
+        Thu, 24 Nov 2022 03:57:30 -0500
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8ABE8275EA;
-        Thu, 24 Nov 2022 00:49:02 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C10B6F6D;
+        Thu, 24 Nov 2022 00:57:29 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 2582161F33;
-        Thu, 24 Nov 2022 08:49:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3EBEFC433D6;
-        Thu, 24 Nov 2022 08:48:59 +0000 (UTC)
-Message-ID: <7213be47-1746-b7c6-9807-21865adc190a@xs4all.nl>
-Date:   Thu, 24 Nov 2022 09:48:58 +0100
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 689316203B;
+        Thu, 24 Nov 2022 08:57:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5EF1BC433D6;
+        Thu, 24 Nov 2022 08:57:27 +0000 (UTC)
+Message-ID: <0c65521c-513d-1620-fc17-5011e1269d68@xs4all.nl>
+Date:   Thu, 24 Nov 2022 09:57:26 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.1
-Subject: Re: [PATCH] dt-bindings: media: amphion: use hyphen in node name of
- vpu core
+Subject: Re: [PATCH v4 03/24] media: videobuf2-v4l2: Warn on holding buffers
+ without support
 Content-Language: en-US
-To:     Ming Qian <ming.qian@nxp.com>, mchehab@kernel.org,
-        shawnguo@kernel.org
-Cc:     robh+dt@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
-        festevam@gmail.com, linux-imx@nxp.com, aisheng.dong@nxp.com,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-devicetree <devicetree@vger.kernel.org>
-References: <20220411074855.25114-1-ming.qian@nxp.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <20220411074855.25114-1-ming.qian@nxp.com>
+To:     Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Sebastian Fricke <sebastian.fricke@collabora.com>,
+        linux-media@vger.kernel.org,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        linux-kernel@vger.kernel.org
+References: <20220426125751.108293-1-nicolas.dufresne@collabora.com>
+ <20220426125751.108293-4-nicolas.dufresne@collabora.com>
+ <CAAFQd5C6qmxmn4y=cx5Mtb3p8vcTAFm6Jfc1vMAE8+x9iwhDZg@mail.gmail.com>
+ <a78920881b2ffaf1fba04bc9ebeda591ec0dfd87.camel@ndufresne.ca>
+ <4b7a3d71-629b-56d6-fdc7-d07682390fd2@xs4all.nl>
+ <d8de72b8c9c6252e2ea66d790e4a5c938050fb0a.camel@ndufresne.ca>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+In-Reply-To: <d8de72b8c9c6252e2ea66d790e4a5c938050fb0a.camel@ndufresne.ca>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
         HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
@@ -51,60 +57,102 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Rob, can you Ack (or nack) this old patch? It looks like it was
-missed, most likely because the devicetree ML wasn't CCed.
+On 28/04/2022 15:09, Nicolas Dufresne wrote:
+> Le jeudi 28 avril 2022 à 08:12 +0200, Hans Verkuil a écrit :
+>> On 27/04/2022 17:08, Nicolas Dufresne wrote:
+>>> Le mercredi 27 avril 2022 à 13:31 +0900, Tomasz Figa a écrit :
+>>>> Hi Nicolas, Sebastian,
+>>>>
+>>>> On Tue, Apr 26, 2022 at 9:58 PM Nicolas Dufresne
+>>>> <nicolas.dufresne@collabora.com> wrote:
+>>>>>
+>>>>> From: Sebastian Fricke <sebastian.fricke@collabora.com>
+>>>>>
+>>>>> Using V4L2_BUF_FLAG_M2M_HOLD_CAPTURE_BUF flag without specifying the
+>>>>> subsystem flag VB2_V4L2_FL_SUPPORTS_M2M_HOLD_CAPTURE_BUF, results in
+>>>>> silently ignoring it.
+>>>>> Warn the user via a debug print when the flag is requested but ignored
+>>>>> by the videobuf2 framework.
+>>>>>
+>>>>> Signed-off-by: Sebastian Fricke <sebastian.fricke@collabora.com>
+>>>>> Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+>>>>> Reviewed-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+>>>>> ---
+>>>>>  drivers/media/common/videobuf2/videobuf2-v4l2.c | 7 ++++++-
+>>>>>  1 file changed, 6 insertions(+), 1 deletion(-)
+>>>>>
+>>>>
+>>>> Thanks for the patch. Please see my comments inline.
+>>>>
+>>>>> diff --git a/drivers/media/common/videobuf2/videobuf2-v4l2.c b/drivers/media/common/videobuf2/videobuf2-v4l2.c
+>>>>> index 6edf4508c636..812c8d1962e0 100644
+>>>>> --- a/drivers/media/common/videobuf2/videobuf2-v4l2.c
+>>>>> +++ b/drivers/media/common/videobuf2/videobuf2-v4l2.c
+>>>>> @@ -329,8 +329,13 @@ static int vb2_fill_vb2_v4l2_buffer(struct vb2_buffer *vb, struct v4l2_buffer *b
+>>>>>                  */
+>>>>>                 vbuf->flags &= ~V4L2_BUF_FLAG_TIMECODE;
+>>>>>                 vbuf->field = b->field;
+>>>>> -               if (!(q->subsystem_flags & VB2_V4L2_FL_SUPPORTS_M2M_HOLD_CAPTURE_BUF))
+>>>>> +               if (!(q->subsystem_flags & VB2_V4L2_FL_SUPPORTS_M2M_HOLD_CAPTURE_BUF)) {
+>>>>> +                       if (vbuf->flags & V4L2_BUF_FLAG_M2M_HOLD_CAPTURE_BUF)
+>>>>> +                               dprintk(q, 1,
+>>>>> +                                       "Request holding buffer (%d), unsupported on output queue\n",
+>>>>> +                                       b->index);
+>>>>
+>>>> I wonder if we shouldn't just fail such a QBUF operation. Otherwise
+>>>> the application would get unexpected behavior from the kernel.
+>>>> Although it might be too late to do it now if there are applications
+>>>> that rely on this implicit ignore...
+>>>
+>>> In the context of this patchset, the statu quo seems to be the logical thing to
+>>> do. We can raise this up in a separate thread. The side effect is of course
+>>> confusing for developers, but it is hard for me to tell if a hard failure may
+>>> break an existing software.
+>>
+>> I am leaning towards returning an error as well. It makes no sense to try
+>> to hold on to a buffer when this is not supported.
+>>
+>> I also thought that it should be enough to rely on the core to clear the
+>> flag upon return if it isn't supported, but looking through the vb2 core code
+>> it looks like we're not clearing unknown flags at all, so running this for
+>> older kernels that do not support holding at all will not clear the flag
+>> either.
+>>
+>> The handling for flags in vb2 can be improved, I think I'll take a look at
+>> that myself.
+>>
+>> I plan to merge this series soon, but will skip this patch for now.
+> 
+> Ok, no problem. For me, as long as we do something about it, since it was not
+> obvious and time consuming to debug.
+
+After thinking some more (it only took me 7 months :-) ) I believe that an error
+should be returned and the documentation for V4L2_BUF_FLAG_M2M_HOLD_CAPTURE_BUF
+should be updated to mention that it will return EINVAL if set for a queue that
+doesn't support this. vb2_queue_or_prepare_buf() is probably the best place for
+this check.
 
 Regards,
 
 	Hans
 
-On 11/04/2022 09:48, Ming Qian wrote:
-> Hyphen is recommended in node name than underscore.
-> So change the node name from "vpu_core" to "vpu-core"
 > 
-> Signed-off-by: Ming Qian <ming.qian@nxp.com>
-> ---
->  Documentation/devicetree/bindings/media/amphion,vpu.yaml | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
+> regards,
+> Nicolas
 > 
-> diff --git a/Documentation/devicetree/bindings/media/amphion,vpu.yaml b/Documentation/devicetree/bindings/media/amphion,vpu.yaml
-> index a9d80eaeeeb6..c0d83d755239 100644
-> --- a/Documentation/devicetree/bindings/media/amphion,vpu.yaml
-> +++ b/Documentation/devicetree/bindings/media/amphion,vpu.yaml
-> @@ -47,7 +47,7 @@ patternProperties:
->      $ref: ../mailbox/fsl,mu.yaml#
->  
->  
-> -  "^vpu_core@[0-9a-f]+$":
-> +  "^vpu-core@[0-9a-f]+$":
->      description:
->        Each core correspond a decoder or encoder, need to configure them
->        separately. NXP i.MX8QM SoC has one decoder and two encoder, i.MX8QXP SoC
-> @@ -143,7 +143,7 @@ examples:
->          power-domains = <&pd IMX_SC_R_VPU_MU_2>;
->        };
->  
-> -      vpu_core0: vpu_core@2d080000 {
-> +      vpu_core0: vpu-core@2d080000 {
->          compatible = "nxp,imx8q-vpu-decoder";
->          reg = <0x2d080000 0x10000>;
->          power-domains = <&pd IMX_SC_R_VPU_DEC_0>;
-> @@ -154,7 +154,7 @@ examples:
->          memory-region = <&decoder_boot>, <&decoder_rpc>;
->        };
->  
-> -      vpu_core1: vpu_core@2d090000 {
-> +      vpu_core1: vpu-core@2d090000 {
->          compatible = "nxp,imx8q-vpu-encoder";
->          reg = <0x2d090000 0x10000>;
->          power-domains = <&pd IMX_SC_R_VPU_ENC_0>;
-> @@ -165,7 +165,7 @@ examples:
->          memory-region = <&encoder1_boot>, <&encoder1_rpc>;
->        };
->  
-> -      vpu_core2: vpu_core@2d0a0000 {
-> +      vpu_core2: vpu-core@2d0a0000 {
->          reg = <0x2d0a0000 0x10000>;
->          compatible = "nxp,imx8q-vpu-encoder";
->          power-domains = <&pd IMX_SC_R_VPU_ENC_1>;
+>>
+>> Regards,
+>>
+>> 	Hans
+>>
+>>>
+>>> regards,
+>>> Nicolas
+>>>
+>>>>
+>>>> Best regards,
+>>>> Tomasz
+>>>
+>>
+> 
 
