@@ -2,203 +2,221 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6F67B6378F7
-	for <lists+linux-media@lfdr.de>; Thu, 24 Nov 2022 13:37:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C7049637908
+	for <lists+linux-media@lfdr.de>; Thu, 24 Nov 2022 13:39:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229672AbiKXMhx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 24 Nov 2022 07:37:53 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49288 "EHLO
+        id S229689AbiKXMjX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 24 Nov 2022 07:39:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51308 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229661AbiKXMhw (ORCPT
+        with ESMTP id S229776AbiKXMjQ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 24 Nov 2022 07:37:52 -0500
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2059.outbound.protection.outlook.com [40.107.94.59])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA4624B9A6
-        for <linux-media@vger.kernel.org>; Thu, 24 Nov 2022 04:37:50 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=hFvhN1xHfwlvfg/JW5Jc4sHRsDe26IKJT/yBpJ/pyQei2eUdYPrVCSj/7wONKALQvQxqnOhuFMTJFkt6uDrqdIQP60T3KeuWb8o21gG0pk/R2Zh9U4YV3MYVXxJja/e9C4pVEYaYU+Gl2YOKH2wmpnvkfsRHMHv+hkYBSUj2vTpm2T0+kE1cnaHth8pmr3/Wm8nqppVdNqE8KTR50lKV/SC6IoGht0V1RbAoJntiAKTRB8ZK384KD9YXRlN2xI1brF1MCh/18SV7Zuq+3+H1/mhTi+rkdmMKYdeqA9/JxaDMnoke5dy+t7OtMnw6kKgGUSoxd4wbyjUCnIYJYo64jA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=kOeLNjOt/AkC1Px+fUVueqEskL2XhcFRi+cecQ4lGXI=;
- b=Q7VFwceF/qhvTFa/0kWaUmkdrCA6/ccFj00WnA6428TXpUKTu6iE2Dos09pA4bfj/gIeowqbJIL/qHVQ28ypUb8OzwB5lLSEZHVVZyPJGndtmkJW4u8DDTnSf9YBVotIYzlHroxheyqYDRf8ydjZvSKNwARCnMfaP1Ew0c4jFRQB4iavmcoxcZQK+DtZmWA9euiCeR3eAomINtCm7TCIYogoak61XH6UgJraTbDX+nm2QTJUGvTuVan1uEuwQxitxmWHnvAVap0rUIjwcjqauniw2nQ5GeLZV68P/G3XAfNwHFLZhxM6wgecCJHjfeOyF5veGw3nnzMaDtq4zReamg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kOeLNjOt/AkC1Px+fUVueqEskL2XhcFRi+cecQ4lGXI=;
- b=YcXrh5i2INpi3kOXcfrRlDGYrZgH2pdGrE1zMWTCxJoXUqNg9YKbBU9u5fotyrNfl53ci2hS39Qe/M8w9ukmQj0VWoyLBr8NnQ3vB+WUE0/x914P1fbqKz1V0PhB5azTnEgwRxq5aX1D0n9l9QoFYFHq67pWnViIfHZ8GqkuWjs=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by CH2PR12MB4086.namprd12.prod.outlook.com (2603:10b6:610:7c::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5857.19; Thu, 24 Nov
- 2022 12:37:46 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::7d43:3f30:4caf:7421]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::7d43:3f30:4caf:7421%7]) with mapi id 15.20.5857.019; Thu, 24 Nov 2022
- 12:37:46 +0000
-Message-ID: <689ad89b-0e34-3743-24c9-3f92856720f8@amd.com>
-Date:   Thu, 24 Nov 2022 13:37:41 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH] dma-buf: Fix possible UAF in dma_buf_export
-Content-Language: en-US
-To:     cuigaosheng <cuigaosheng1@huawei.com>,
-        Charan Teja Kalla <quic_charante@quicinc.com>,
-        "T.J. Mercier" <tjmercier@google.com>
-Cc:     sumit.semwal@linaro.org, Dan Carpenter <dan.carpenter@oracle.com>,
-        Pavan Kondeti <quic_pkondeti@quicinc.com>,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org
-References: <20221117062152.3029018-1-cuigaosheng1@huawei.com>
- <f12a5dbe-4626-f6c7-236b-30bb16be1dd6@quicinc.com>
- <99d3aee6-ba3e-5333-6f79-ddbcfc0e8843@amd.com>
- <CABdmKX1UMB0L0PmHB59nijReZef6LUQ3XKXitHZo2YnUrJTz9Q@mail.gmail.com>
- <2c9fa595-e788-5474-4f2b-ffbd08a70d13@amd.com>
- <CABdmKX0KJJV0iQwy0aUNXcLc1DGyLjmh6_Y53asHEoh-uyHzAA@mail.gmail.com>
- <83944425-c177-7918-bcde-9cf7296a613f@amd.com>
- <e12784da-b3e3-ddec-0e84-f968d60097c4@quicinc.com>
- <b2d5d904-99f2-7974-a22d-63a6cf864973@huawei.com>
-From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <b2d5d904-99f2-7974-a22d-63a6cf864973@huawei.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR2P281CA0022.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:14::9) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
+        Thu, 24 Nov 2022 07:39:16 -0500
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 55F7E8B86D;
+        Thu, 24 Nov 2022 04:39:11 -0800 (PST)
+X-UUID: 943fd13c9eaf4916b1d557f623f080ba-20221124
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+        h=Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=pUJpnX38MTUYdJw0+joE4HCfW+fYw9uYjfz54UOs6rY=;
+        b=IxOfwUJwsr8+RVzVCQUx19639P0sl0PzjuISr2T3XRdlQ9DRhIiJOIElWejGjW6LaAqZ4MNiIPnu24ZmzNypTdO6KkslEevemS/lMEgou0h2P8T9j+yqT4fYCPenkVb6on3EqkuK7l9Wc/UjLTAXFYMx5kyw+hj3oAx1iGRm+4s=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.14,REQID:6cd35e87-1a9f-47bb-94ec-ad840e401f47,IP:0,U
+        RL:0,TC:0,Content:-25,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
+        N:release,TS:-25
+X-CID-META: VersionHash:dcaaed0,CLOUDID:948c25dc-6ad4-42ff-91f3-18e0272db660,B
+        ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
+        RL:1,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0
+X-UUID: 943fd13c9eaf4916b1d557f623f080ba-20221124
+Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by mailgw01.mediatek.com
+        (envelope-from <moudy.ho@mediatek.com>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+        with ESMTP id 1081700785; Thu, 24 Nov 2022 20:39:02 +0800
+Received: from mtkmbs11n1.mediatek.inc (172.21.101.185) by
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.792.3;
+ Thu, 24 Nov 2022 20:39:01 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
+ mtkmbs11n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.792.15 via Frontend Transport; Thu, 24 Nov 2022 20:39:01 +0800
+From:   Moudy Ho <moudy.ho@mediatek.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
+CC:     Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+        <linux-media@vger.kernel.org>,
+        <linux-mediatek@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>,
+        <Project_Global_Chrome_Upstream_Group@mediatek.com>,
+        Moudy Ho <moudy.ho@mediatek.com>
+Subject: [PATCH v4 0/9] Add support for multiple chips
+Date:   Thu, 24 Nov 2022 20:38:50 +0800
+Message-ID: <20221124123859.24395-1-moudy.ho@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|CH2PR12MB4086:EE_
-X-MS-Office365-Filtering-Correlation-Id: e014ea8d-b097-4a64-f69b-08dace18b09b
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: LzV4DXbWNBXCS3dG+CoHAvW28niVUDumJBpaaiFtX7TgBFrRa//p0movGXAJ1/pbbFCzHEssCrrNX/OCY5/e60HznO8z3NhMAChElUPUhNQi6egCBZyIJeTZME5x4WsWMDsYS233RPIPLkQxrpEeOxINY7+iz/ej0bn25XRrPdki75AjnZ7D83u3Y7tl336Z8a080GA5IOnGWIDuwQkMm5zxZa2AiObbAIW02oQx1OAj9UjCCytQIxPcFBe+OCLi98SSesewu5eUhWnCm4QlpjPCT12G/Ch+FZOJPhhMJfDeYjw5RDq29XbOkYB/MtPKnPQH9sjU5UhXLTAQpW31thUTZvMKMkiVwMEAkE0ARCFn9dmFNgCTwFjKBFcFOZDkvxInxAwcRL7s0czLUsJKhgmIU9nnRmmAqK/vtcroPXLPqQhmzXEzXgXwFH5arR0u6y5VALJtjwSgy0K1+t+tzsZzKkyGFuAyys3/lsEubf0tM/aMZracg+ACdaXccUvcaPO96/LDH1+5PO+3qf6729lGBtTpfBzXnQgFP0itw5/7H5GhqqI4z3WpXIbk+KGMp4Rooe/N8I+PmF6g0T9z50e37W2NOL0Q3HRH5LyndEZPROBAYG+2hMxu7C0HqwD6se7Hq2oe1SpVMa4FzwQX1GwQiBIfKJqxK/SO75qnBky2hgjD1uq95EnXR0NAtzpJi18aHufh8fg9ETUMzfbNCZxqUkeDmixp6iwNGFBJC9M=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN8PR12MB3587.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(396003)(39860400002)(136003)(366004)(346002)(376002)(451199015)(5660300002)(2906002)(31686004)(83380400001)(66946007)(36756003)(4326008)(66476007)(8676002)(66556008)(110136005)(86362001)(31696002)(316002)(54906003)(8936002)(41300700001)(6486002)(478600001)(6506007)(26005)(6666004)(53546011)(6512007)(2616005)(186003)(66574015)(38100700002)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?R2tKODZHUHNhMHlVNUNHdy9JU1BwQW1KV0hBVWlzQVBiaU1uc2MxUVdHUi84?=
- =?utf-8?B?Wm4vVGhsc3BCT1BNc2tWWmo2c3V1T2pqbVk1ekE3REtUNFFQbVNPNFpHSmQy?=
- =?utf-8?B?YjdtRFJjcnprMmxTZzVZQjF4WmNpNnY2ZzVHbmlOd0RJMk80QVpVR0FmV3JE?=
- =?utf-8?B?d1MxaDAzVW5LUnRXZWR1TEJzT1UrSFRHVk9nZUp0M3VRbE1TU0t5RXdOZEI3?=
- =?utf-8?B?dFBzTEpjQkRuNVdXSFVkeFNKbnp4NWhhblJVK3NkcFN0RDdsS1RkMTJqSEJn?=
- =?utf-8?B?UHF2U0doQng3VUZIWk1waUVrd0JLYkpWMkd0dTBXK2hmR2F5V0lPY1UxREhP?=
- =?utf-8?B?NDhweVFnT1BYc0lPUSt2d3B6WHRoak0xTWdsVWhlcDFrTklTcUphcFlyT0NY?=
- =?utf-8?B?Vm1ZVThZU3BRMDdOSWhNTTY2RkNjQXlGVUpKL01wR1NoN2tYYUZOYmt5cFNx?=
- =?utf-8?B?YmMra0crYzA3MWhCN29tSVJYS2xST3lHcU12L3VEb01ndlpLN2FXdk1YZ0N1?=
- =?utf-8?B?Uy9pak03OG9nVTdVWk1xeURMQ2lNcHhTemdCRzBmSjhqd2F6Ty9USWR6Y0dz?=
- =?utf-8?B?NU9QcDZhVjMwc040Y0Y0UmJjOVh1bHpSUzduMmFlUE5KTytXTWdBRVNpSU1O?=
- =?utf-8?B?VDRFU2FPdEJvVFVmakFFQ1EwU3VENUxlR2RHMjdlbktyeFB6aGNaMDdjdHlP?=
- =?utf-8?B?RlNRM3FTY2lWakFKeEI5dTJhaDJOSktmUEpSSHpZUjExTDZNN0pIRUgzRktQ?=
- =?utf-8?B?L05Bd3M5clNrR29lVkxINDN1K1pJaDFTY21wRCsvc0hUT2JSWFBGVmV5YmJU?=
- =?utf-8?B?V0xKYW81MGR2QzdkRmpkMFlBUTUvb2JKU0M0V2xGL25IcFBDTTJXVTZHby8y?=
- =?utf-8?B?QWswQXE3elRuZmpTRFhwRXZrYWtuemxzRFRMN3Z0SFZpM3dnQ0FTZ1NwekE0?=
- =?utf-8?B?d01QRElGckVEeURTckcySk9SMkR6SVhEZHFqOFE5SDNaQndEZ0J2R1lYM2px?=
- =?utf-8?B?S05PK0ZhQXBROXhXOG5JYWhGeWEvK250Sk5EbzhDTGpCQUEwSDZrNXVRWE1Z?=
- =?utf-8?B?QUFZeldDeUtnWW9VNy9NQTBxWDNnVVU1dHVTMzZsMVhDZ1o0OU1kWnpWRkY0?=
- =?utf-8?B?ZG5nSXlZN29qbkU2VUp1d2VGbVFOREFRLzlsaXdhcVdTTjZ5azdZamlsSEtH?=
- =?utf-8?B?YlRkYkRBajhvTjErQjZRVzVEeS8wa1pGLzZXMlVSRkRZak5iRkRVOE40REN4?=
- =?utf-8?B?VmM5V3lSdXFVV1hPZHJIaGF2WUlNbk1rZ1RRRWZna2JxS2t1UkV5d3ByYTRa?=
- =?utf-8?B?b0F1Zit1Ym9nQWcydUZaRFljVXN5VnJmY25yVjZ0dGE0RHdYQkp4d0tvemNv?=
- =?utf-8?B?T05YRzVSNm1aZ0l6OEZIRnBtQkNmMDQ1bDAyM3pCdWJuOHpHb0VoWnRJOVVo?=
- =?utf-8?B?TDAwTVhsZ1lML0xLdHNhMXJkY0N2MzBENWxiV2tlSGFya1pvS3VCNW5Qd0ZE?=
- =?utf-8?B?U3dQdWVjTFU5WlM5TTVpSndtaGZDeE0vMWdKUEJ5ems3R0E1WEozMjJGZk1D?=
- =?utf-8?B?UmNUN0dsUXBBSHVQc3RSckpMejJXVWVGY1pxUVl0MWlWNVJ4cEhWNUxmeW13?=
- =?utf-8?B?K1BUTEY2a0k3bUxXUEUwSkhiV0FsVlJ6M2QrRG1sbHBtaW5HMEtNN3A1K1pZ?=
- =?utf-8?B?aEtCMWtJZm55M3FyM3Evd0V1R2Joa2hKZnBoTlEwb1pOSTlvcjBVWEw1MFdD?=
- =?utf-8?B?U0Zhdm4vNjdzV3A4T3N2Y2g1djBGRkVVSGVvbExjd1VxNFRIS25hNDh4Nktt?=
- =?utf-8?B?NWN5NVpCR3NUMVEvaVBrbFJKc3Q4SlNrOGFqN0gvODZOYVJsazVENm1iOXla?=
- =?utf-8?B?azlRcGo1VWltY2pqUDJTMkNpTnJxS2F6SGo4OHp5SUZoZHh6Q3BQeHdka3kx?=
- =?utf-8?B?c2pHQzFBTWdnK005R1FGZ21JeUI0Q1psT0xLQm1uMDk2allGMUNkcjYxbk1D?=
- =?utf-8?B?cGRkbTN0MkJLdktJVVZNeTN4bmdFeXFWZnNuWjRmVTVtRmJkM1JvdW9xYUhl?=
- =?utf-8?B?RlZxNG9HS2RmK1ZKR1dReTFzN0kvUU96NEVZOHl4aU9reXJ5alJPajlBeTRQ?=
- =?utf-8?Q?yqWM=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e014ea8d-b097-4a64-f69b-08dace18b09b
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Nov 2022 12:37:46.6394
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: UoPgDK+GNvk9+N/C6XvBmDGQvJARz5k0m4hGeexzQ2F8IPraZ7XIcO/6ThzIcDZs
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB4086
+Content-Type: text/plain
+X-MTK:  N
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,
+        SPF_PASS,UNPARSEABLE_RELAY autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Changes since v3:
+- Rebase on linux-next.
+- In the file "mtk-mdp3-m2m.c", use the limited resolution defined by
+  each platform to replace the default format.
+- Add platform ID in driver data, and refine shared memory structure preprocessing.
+- Simplify the way to get mutex ID in function "mdp_path_subfrm_require".
 
+Changes since v2:
+- Depend on :
+  [1] https://patchwork.kernel.org/project/linux-mediatek/list/?series=687004
+- Split the shared memory header(mtk-img-ipi.h) by preprocessing instead, and
+  classify the generic parts into "mtk-mdp3-type.h", and move
+  chip-specific parts to"mt8183/mdp3-comp-mt8183.h".
 
-Am 24.11.22 um 13:05 schrieb cuigaosheng:
-> Some tips:
->     Before we call the dma_buf_stats_setup(), we have to finish 
-> creating the file,
-> otherwise dma_buf_stats_setup() will return -EINVAL, maybe we need to 
-> think about
-> this when making a new patch.
+Changes since v1:
+- Depend on :
+  [1] https://patchwork.kernel.org/project/linux-mediatek/list/?series=687004
+- For hardware-specific structures in the shared memory header(mtk-img-ipi.h),
+  split the relevant functions and structure definitions.
 
-I was already wondering why the order is this way.
+Hi,
 
-Why is dma_buf_stats_setup() needing the file in the first place?
+To support multiple chips, a chip configuration header file needs to be created
+and the relevant information split and moved into it.
 
-Thanks,
-Christian.
+The v4l2-compliance test results list is as follows:
+	v4l2-compliance 1.23.0-4942, 32 bits, 32-bit time_t
+	v4l2-compliance SHA: 4cf258c24026 2022-07-28 15:43:45
 
->
-> Hope these tips are useful, thanks!
->
-> On 2022/11/24 13:56, Charan Teja Kalla wrote:
->> Thanks T.J and Christian for the inputs.
->>
->> On 11/19/2022 7:00 PM, Christian König wrote:
->>>>      Yes, exactly that's the idea.
->>>>
->>>>      The only alternatives I can see would be to either move 
->>>> allocating
->>>>      the
->>>>      file and so completing the dma_buf initialization last again 
->>>> or just
->>>>      ignore errors from sysfs.
->>>>
->>>>      > If we still want to avoid calling 
->>>> dmabuf->ops->release(dmabuf) in
->>>>      > dma_buf_release like the comment says I guess we could use
->>>>      sysfs_entry
->>>>      > and ERR_PTR to flag that, otherwise it looks like we'd need 
->>>> a bit
->>>>      > somewhere.
->>>>
->>>>      No, this should be dropped as far as I can see. The sysfs cleanup
->>>>      code
->>>>      looks like it can handle not initialized kobj pointers.
->>>>
->>>>
->>>> Yeah there is also the null check in dma_buf_stats_teardown() that
->>>> would prevent it from running, but I understood the comment to be
->>>> referring to the release() dma_buf_ops call into the exporter which
->>>> comes right after the teardown call. That looks like it's preventing
->>>> the fput task work calling back into the exporter after the exporter
->>>> already got an error from dma_buf_export(). Otherwise the exporter
->>>> sees a release() for a buffer that it doesn't know about / thinks
->>>> shouldn't exist. So I could imagine an exporter trying to double free:
->>>> once for the failed dma_buf_export() call, and again when the
->>>> release() op is called later.
->>>
->>> Oh, very good point as well. Yeah, then creating the file should
->>> probably come last.
->>>
->> @Gaosheng: Could you please make these changes or you let me to do?
->>
->>> Regards,
->>> Christian.
->> .
+	Compliance test for mtk-mdp3 device /dev/video0:
+
+	Driver Info:
+	Driver name      : mtk-mdp3
+	Card type        : MediaTek MDP3
+	Bus info         : platform:14001000.mdp3-rdma0
+	Driver version   : 6.1.0
+	Capabilities     : 0x84204000
+		Video Memory-to-Memory Multiplanar
+		Streaming
+		Extended Pix Format
+		Device Capabilities
+	Device Caps      : 0x04204000
+		Video Memory-to-Memory Multiplanar
+		Streaming
+		Extended Pix Format
+	Required ioctls:
+		test VIDIOC_QUERYCAP: OK
+		test invalid ioctls: OK
+	Allow for multiple opens:
+		test second /dev/video0 open: OK
+		test VIDIOC_QUERYCAP: OK
+		test VIDIOC_G/S_PRIORITY: OK
+		test for unlimited opens: OK
+	Debug ioctls:
+		test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
+		test VIDIOC_LOG_STATUS: OK (Not Supported)
+	Input ioctls:
+		test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+		test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+		test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+		test VIDIOC_ENUMAUDIO: OK (Not Supported)
+		test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
+		test VIDIOC_G/S_AUDIO: OK (Not Supported)
+		Inputs: 0 Audio Inputs: 0 Tuners: 0
+	Output ioctls:
+		test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+		test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+		test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+		test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+		test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+		Outputs: 0 Audio Outputs: 0 Modulators: 0
+	Input/Output configuration ioctls:
+		test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+		test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+		test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+		test VIDIOC_G/S_EDID: OK (Not Supported)
+	Control ioctls:
+		test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
+		test VIDIOC_QUERYCTRL: OK
+		test VIDIOC_G/S_CTRL: OK
+		test VIDIOC_G/S/TRY_EXT_CTRLS: OK
+		test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
+		test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+		Standard Controls: 4 Private Controls: 0
+	Format ioctls:
+		test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+		test VIDIOC_G/S_PARM: OK (Not Supported)
+		test VIDIOC_G_FBUF: OK (Not Supported)
+		test VIDIOC_G_FMT: OK
+		test VIDIOC_TRY_FMT: OK
+		test VIDIOC_S_FMT: OK
+		test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+		test Cropping: OK
+		test Composing: OK
+		test Scaling: OK
+	Codec ioctls:
+		test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+		test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+		test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+	Buffer ioctls:
+		test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+		test VIDIOC_EXPBUF: OK
+		test Requests: OK (Not Supported)
+		test TIME32/64: OK
+	Test input 0:
+	Streaming ioctls:
+		test read/write: OK (Not Supported)
+		test blocking wait: OK
+		Video Capture Multiplanar: Captured 58 buffers
+		test MMAP (no poll): OK
+		Video Capture Multiplanar: Captured 58 buffers
+		test MMAP (select): OK
+		Video Capture Multiplanar: Captured 58 buffers
+		test MMAP (epoll): OK
+		test USERPTR (no poll): OK (Not Supported)
+		test USERPTR (select): OK (Not Supported)
+		test DMABUF: Cannot test, specify --expbuf-device
+	Stream using all formats:
+		(snip)
+	Total for mtk-mdp3 device /dev/video0:
+		1592, Succeeded: 1592, Failed: 0, Warnings: 0
+
+Moudy Ho (9):
+  media: platform: mtk-mdp3: add chip configuration header file
+  media: platform: mtk-mdp3: chip config split about component settings
+  media: platform: mtk-mdp3: chip config split about subcomponents
+  media: platform: mtk-mdp3: chip config split about color format
+  media: platform: mtk-mdp3: chip config split about resolution
+    limitations
+  media: platform: mtk-mdp3: chip config split about pipe info
+  media: platform: mtk-mdp3: extend mdp_color format for compressed mode
+  media: platform: mtk-mdp3: Split general definitions used in MDP3
+  media: platform: mtk-mdp3: decompose hardware-related information in
+    shared memory
+
+ .../mediatek/mdp3/mt8183/mdp3-comp-mt8183.h   | 144 +++++
+ .../mediatek/mdp3/mt8183/mdp3-plat-mt8183.h   | 409 ++++++++++++++
+ .../platform/mediatek/mdp3/mtk-img-ipi.h      | 186 +------
+ .../platform/mediatek/mdp3/mtk-mdp3-cmdq.c    | 145 +++--
+ .../platform/mediatek/mdp3/mtk-mdp3-comp.c    | 520 ++++++++++++------
+ .../platform/mediatek/mdp3/mtk-mdp3-comp.h    |  24 +-
+ .../platform/mediatek/mdp3/mtk-mdp3-core.c    |  49 +-
+ .../platform/mediatek/mdp3/mtk-mdp3-core.h    |  14 +
+ .../platform/mediatek/mdp3/mtk-mdp3-m2m.c     |  15 +-
+ .../platform/mediatek/mdp3/mtk-mdp3-regs.c    | 283 +---------
+ .../platform/mediatek/mdp3/mtk-mdp3-regs.h    | 214 +++----
+ .../platform/mediatek/mdp3/mtk-mdp3-type.h    |  53 ++
+ 12 files changed, 1267 insertions(+), 789 deletions(-)
+ create mode 100644 drivers/media/platform/mediatek/mdp3/mt8183/mdp3-comp-mt8183.h
+ create mode 100644 drivers/media/platform/mediatek/mdp3/mt8183/mdp3-plat-mt8183.h
+ create mode 100644 drivers/media/platform/mediatek/mdp3/mtk-mdp3-type.h
+
+-- 
+2.18.0
 
