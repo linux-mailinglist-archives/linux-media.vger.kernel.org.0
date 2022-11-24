@@ -2,275 +2,189 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C93B663788F
-	for <lists+linux-media@lfdr.de>; Thu, 24 Nov 2022 13:07:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4EF946378F3
+	for <lists+linux-media@lfdr.de>; Thu, 24 Nov 2022 13:36:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229609AbiKXMHh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 24 Nov 2022 07:07:37 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43010 "EHLO
+        id S229512AbiKXMf7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 24 Nov 2022 07:35:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47932 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229966AbiKXMHS (ORCPT
+        with ESMTP id S229450AbiKXMf5 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 24 Nov 2022 07:07:18 -0500
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 25B2A5DBB3;
-        Thu, 24 Nov 2022 04:07:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1669291621; x=1700827621;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=YsgidHp3z6YWpMEV/I6fovM+NYx8bsUJoi4Wsw5apxY=;
-  b=MArkUQYSNW/32VOOOrRrjKeQFjPTRqJx7q0W6gtyoFNxEyppICK6w+iu
-   6KqeFzr+/u5/Ll8mPeVM0wvXNInGMo0k0wCppD8JfwAU8pZfa1GBSgNb7
-   fSYpVRZXfqhMmDYdUmw7AHndOkO8mFddvFn2mPnwa7d5aXEF9BhVfMq/R
-   3bXNayt86Xs0ynqYBONdyKMokhVQH3DuhSQa7SzX/I4SGQhBQot+Rv28C
-   N20leLoakEkq6S3ehKvBS+WmHl7WLiNnIzp41wJhcBwt818NzD2hYhpzI
-   YPEtONyR8/mj/EyOWmSCK6LCRGrnmbPShxnpcZddlxpYWoduz2Tnm1yfC
-   A==;
-X-IronPort-AV: E=Sophos;i="5.96,190,1665439200"; 
-   d="scan'208";a="27561043"
-Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
-  by mx1-pgp.tq-group.com with ESMTP; 24 Nov 2022 13:06:59 +0100
-Received: from mx1.tq-group.com ([192.168.6.7])
-  by tq-pgp-pr1.tq-net.de (PGP Universal service);
-  Thu, 24 Nov 2022 13:06:59 +0100
-X-PGP-Universal: processed;
-        by tq-pgp-pr1.tq-net.de on Thu, 24 Nov 2022 13:06:59 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1669291619; x=1700827619;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=YsgidHp3z6YWpMEV/I6fovM+NYx8bsUJoi4Wsw5apxY=;
-  b=CAsPUIDnwafQ/ui5JQBW7dM6hGwx5bbIBWXJTz6gn1FQYeJGqwm6e6X6
-   J5dKdAcGWPJeP5kZa/FbwBfPUVx/9T+++r/4A4DLNfWjb/KBNqi7eDmNk
-   +Jtst9fGd20d/X9HwkOvH75baIG1pAWRVm+YvQnCw9CyW+20CnA34LOfJ
-   UOEiCOynEan/r6jy7OtLesKJYcdctaY7ueNo9D++cdYMGmBzX+KQg5ahA
-   8GBErlzmAUr3rz+vzFfEpwCzQJ08LT4v4Wblh2kcjU1a82S5lGVrNzYoC
-   SLgveSUWeSVLwKadH6Zqo6/7EOf5x4wIH6nBiMvpYVveXDHGcx7Vll55/
-   g==;
-X-IronPort-AV: E=Sophos;i="5.96,190,1665439200"; 
-   d="scan'208";a="27561042"
-Received: from vtuxmail01.tq-net.de ([10.115.0.20])
-  by mx1.tq-group.com with ESMTP; 24 Nov 2022 13:06:58 +0100
-Received: from steina-w.localnet (unknown [10.123.53.21])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-        (No client certificate requested)
-        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id B7B0F280056;
-        Thu, 24 Nov 2022 13:06:58 +0100 (CET)
-From:   Alexander Stein <alexander.stein@ew.tq-group.com>
-To:     Dave Stevenson <dave.stevenson@raspberrypi.com>
-Cc:     paul.j.murphy@intel.com, daniele.alessandrelli@intel.com,
-        linux-media@vger.kernel.org, robh+dt@kernel.org,
-        devicetree@vger.kernel.org
-Subject: Re: [PATCH 2/2] media: i2c: ov9282: Add support for regulators.
-Date:   Thu, 24 Nov 2022 13:06:56 +0100
-Message-ID: <2615981.X9hSmTKtgW@steina-w>
-Organization: TQ-Systems GmbH
-In-Reply-To: <CAPY8ntA0oq4qYu1gJszEf3WpRLywn-+8V5=Y36jzboTa69-=Tw@mail.gmail.com>
-References: <20221005152018.3783890-1-dave.stevenson@raspberrypi.com> <834648869.0ifERbkFSE@steina-w> <CAPY8ntA0oq4qYu1gJszEf3WpRLywn-+8V5=Y36jzboTa69-=Tw@mail.gmail.com>
+        Thu, 24 Nov 2022 07:35:57 -0500
+Received: from comms.puri.sm (comms.puri.sm [159.203.221.185])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C2FD898E1;
+        Thu, 24 Nov 2022 04:35:56 -0800 (PST)
+Received: from localhost (localhost [127.0.0.1])
+        by comms.puri.sm (Postfix) with ESMTP id 3BD8DEC9DF;
+        Thu, 24 Nov 2022 04:35:56 -0800 (PST)
+Received: from comms.puri.sm ([127.0.0.1])
+        by localhost (comms.puri.sm [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id oW5luY8rDfud; Thu, 24 Nov 2022 04:35:55 -0800 (PST)
+Date:   Thu, 24 Nov 2022 13:35:33 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=puri.sm; s=comms;
+        t=1669293355; bh=RgJG5Oidxh068x+5k52+UvIseZv630peSoQN5/PYCPI=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=iFsi2/PVDljgfb1nr8mziG0gyeBx8cDqZjgkthRQ27i0jmfzIYDIGtzA3t9orfNZR
+         uvXk9Aaax8wuxnLts44dS9tCrj8yEHC7mqP9u5ps8U6xdoiJV5NvdbU/cfKG58y2lX
+         iKC9EE2Hmg4PJhv2r1OHdEYfi0VbXiM/gJYJ+3L4FNiUPeG9wM/UKjlXeZ5M2+SNAf
+         zJnW49PpncLiAcPvxQslziVBetIFjqaeRFXwVwuj3PDg45NkKVl1VHcZVlyfTyHJ3j
+         JWS6LDX/zLnCU/+RJDh2JtPZ2cCgQZjnPyKl0clE4ccOuB26ix/m1SYCzFN8DFjEb8
+         et6ydzTNzp9tg==
+From:   Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Steve Longerbeam <slongerbeam@gmail.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        kernel@puri.sm, phone-devel@vger.kernel.org
+Subject: Re: [PATCHv3 1/1 RESEND] media: imx: Round line size to 4 bytes
+Message-ID: <20221124133533.1041f1b1.dorota.czaplejewicz@puri.sm>
+In-Reply-To: <Y39Vx6L7MovBxOfs@pendragon.ideasonboard.com>
+References: <20221016163928.1ef0a4fe.dorota.czaplejewicz@puri.sm>
+        <Y00SSRMFuL3Drjd4@pendragon.ideasonboard.com>
+        <20221017163059.377ac677.dorota.czaplejewicz@puri.sm>
+        <20221101133834.0c1a20db.dorota.czaplejewicz@puri.sm>
+        <Y39Vx6L7MovBxOfs@pendragon.ideasonboard.com>
+Organization: Purism
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: multipart/signed; boundary="Sig_/0w4EGCp0VVCKoSCDIxcxR1Z";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Dave,
+--Sig_/0w4EGCp0VVCKoSCDIxcxR1Z
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Am Donnerstag, 24. November 2022, 12:58:08 CET schrieb Dave Stevenson:
-> Hi Alexander
-> 
-> Thanks for the review.
-> 
-> Sakari has already picked this up and included it in a pull to Mauro for
-> 6.2. https://www.spinics.net/lists/linux-media/msg222346.html
+Hello,
 
-A quite recent, I wasn't aware of that. Thanks for the hint.
+On Thu, 24 Nov 2022 13:30:15 +0200
+Laurent Pinchart <laurent.pinchart@ideasonboard.com> wrote:
 
-> On Thu, 24 Nov 2022 at 09:31, Alexander Stein
-> 
-> <alexander.stein@ew.tq-group.com> wrote:
-> > Hello Dave,
-> > 
-> > Am Mittwoch, 5. Oktober 2022, 17:20:18 CET schrieb Dave Stevenson:
-> > > The sensor takes 3 supply rails - AVDD, DVDD, and DOVDD.
-> > > 
-> > > Add hooks into the regulator framework for each of these
-> > > regulators.
-> > > 
-> > > Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> > > ---
-> > > 
-> > >  drivers/media/i2c/ov9282.c | 38 ++++++++++++++++++++++++++++++++++++++
-> > >  1 file changed, 38 insertions(+)
-> > > 
-> > > diff --git a/drivers/media/i2c/ov9282.c b/drivers/media/i2c/ov9282.c
-> > > index 2e0b315801e5..699fc5b753b4 100644
-> > > --- a/drivers/media/i2c/ov9282.c
-> > > +++ b/drivers/media/i2c/ov9282.c
-> > > @@ -11,6 +11,7 @@
-> > > 
-> > >  #include <linux/i2c.h>
-> > >  #include <linux/module.h>
-> > >  #include <linux/pm_runtime.h>
-> > > 
-> > > +#include <linux/regulator/consumer.h>
-> > > 
-> > >  #include <media/v4l2-ctrls.h>
-> > >  #include <media/v4l2-fwnode.h>
-> > > 
-> > > @@ -55,6 +56,14 @@
-> > > 
-> > >  #define OV9282_REG_MIN               0x00
-> > >  #define OV9282_REG_MAX               0xfffff
-> > > 
-> > > +static const char * const ov9282_supply_names[] = {
-> > > +     "avdd",         /* Analog power */
-> > > +     "dovdd",        /* Digital I/O power */
-> > > +     "dvdd",         /* Digital core power */
-> > > +};
-> > > +
-> > > +#define OV9282_NUM_SUPPLIES ARRAY_SIZE(ov9282_supply_names)
-> > > +
-> > > 
-> > >  /**
-> > >  
-> > >   * struct ov9282_reg - ov9282 sensor register
-> > >   * @address: Register address
-> > > 
-> > > @@ -128,6 +137,7 @@ struct ov9282 {
-> > > 
-> > >       struct media_pad pad;
-> > >       struct gpio_desc *reset_gpio;
-> > >       struct clk *inclk;
-> > > 
-> > > +     struct regulator_bulk_data supplies[OV9282_NUM_SUPPLIES];
-> > 
-> > Please add documentation for supplies.
-> 
-> Is it the place for the driver to document the supplies beyond the
-> comments in ov9282_supply_names with regard to which sensor rail they
-> relate to?
-> Some drivers include the typical values for each supply, but those are
-> technically inaccurate as each will have a min and max value.
-> 
-> Anyone interfacing with a sensor is going to have the datasheet for it
-> and should be referring to that for the characteristics of supply
-> rails. Duplicating some of that in the driver seems redundant, and has
-> the potential to be incorrect.
+> Hi Dorota,
+>=20
+> On Tue, Nov 01, 2022 at 01:38:34PM +0100, Dorota Czaplejewicz wrote:
+> > On Mon, 17 Oct 2022 16:30:59 +0200 Dorota Czaplejewicz wrote: =20
+> > > On Mon, 17 Oct 2022 11:28:57 +0300 Laurent Pinchart wrote: =20
+> >=20
+> > [snip]
+> >  =20
+> > > > I would also very much appreciate feedback from NXP on this. There'=
+s a
+> > > > risk of ill side-effects that I would prefer ruling out very clearl=
+y.   =20
+> > >=20
+> > > I posted a question on the NXP forum: https://community.nxp.com/t5/i-=
+MX-Processors/i-MX8MQ-CSI-line-size-constraint-documentation-mistake/m-p/15=
+38629#M196448
+> > >  =20
+> >=20
+> > This question received a reply from NXP today: https://community.nxp.co=
+m/t5/i-MX-Processors/i-MX8MQ-CSI-line-size-constraint-documentation-mistake=
+/m-p/1546872/highlight/true#M197067
+> >=20
+> > Quoting NXP's answer:
+> >  =20
+> > > Do I understand correctly, that streams divisible by 4=C3=974 will wo=
+rk on other i.MX8 hardware too? - Yes
+> > > Will those kind of resolutions work on i.MX7 series CSI hardware? - Y=
+es =20
+> >=20
+> > which implies no bad side effects the way I read it. Is this
+> > sufficient for the kernel? =20
+>=20
+> Ideally I'd like to test that on i.MX7 but I don't think I'll have time
+> to do so in the near future. I don't want to block the patch on this, so
+> I'm fine merging it, but I'd like a comment in the code that explains
+> why it's safe to depart from the documentation.
+>=20
+> Also, the discussion on the NXP forum said that a width that is a
+> multiple of 4 bytes but not a multiple of 8 bytes works only if the
+> height is also a multiple of 4. I don't see that constraint being
+> enforced in the code, am I missing something ?
 
-What I meant was adding " @supplies: power supply regulators" to the doxygen 
-(?) documentation directly above.
-I agree that no details about those supplies should be added to driver code 
-though.
+Thanks for pointing it out, I'll have to double-check it.
+>=20
+> You mentioned in the forum that you tried 1052x779 and that failed. How
+> did it fail ? Have you also tried 1052x778 ?
 
-Alexander
+I tried with many resolutions when I was checking out the sensor, and came =
+to the conclusion that the line count must be even. Otherwise the last 4 by=
+tes of the buffer would end up corrupted.
 
-> 
-> > >       struct v4l2_ctrl_handler ctrl_handler;
-> > >       struct v4l2_ctrl *link_freq_ctrl;
-> > >       struct v4l2_ctrl *pclk_ctrl;
-> > > 
-> > > @@ -767,6 +777,18 @@ static int ov9282_detect(struct ov9282 *ov9282)
-> > > 
-> > >       return 0;
-> > >  
-> > >  }
-> > > 
-> > > +static int ov9282_configure_regulators(struct ov9282 *ov9282)
-> > > +{
-> > > +     unsigned int i;
-> > > +
-> > > +     for (i = 0; i < OV9282_NUM_SUPPLIES; i++)
-> > > +             ov9282->supplies[i].supply = ov9282_supply_names[i];
-> > > +
-> > > +     return devm_regulator_bulk_get(ov9282->dev,
-> > > +                                    OV9282_NUM_SUPPLIES,
-> > > +                                    ov9282->supplies);
-> > > +}
-> > > +
-> > > 
-> > >  /**
-> > >  
-> > >   * ov9282_parse_hw_config() - Parse HW configuration and check if
-> > >   supported
-> > > 
-> > > * @ov9282: pointer to ov9282 device
-> > > @@ -803,6 +825,12 @@ static int ov9282_parse_hw_config(struct ov9282
-> > > *ov9282) return PTR_ERR(ov9282->inclk);
-> > > 
-> > >       }
-> > > 
-> > > +     ret = ov9282_configure_regulators(ov9282);
-> > > +     if (ret) {
-> > > +             dev_err(ov9282->dev, "Failed to get power regulators\n");
-> > 
-> > dev_err_probe seems sensible here.
-> 
-> That would have been good - sorry. I must get into the habit of
-> remembering to use dev_err_probe.
-> 
->   Dave
-> 
-> > > +             return ret;
-> > > +     }
-> > > +
-> > > 
-> > >       rate = clk_get_rate(ov9282->inclk);
-> > >       if (rate != OV9282_INCLK_RATE) {
-> > >       
-> > >               dev_err(ov9282->dev, "inclk frequency mismatch");
-> > > 
-> > > @@ -874,6 +902,12 @@ static int ov9282_power_on(struct device *dev)
-> > > 
-> > >       struct ov9282 *ov9282 = to_ov9282(sd);
-> > >       int ret;
-> > > 
-> > > +     ret = regulator_bulk_enable(OV9282_NUM_SUPPLIES,
-> > > ov9282->supplies);
-> > > +     if (ret < 0) {
-> > > +             dev_err(dev, "Failed to enable regulators\n");
-> > > +             return ret;
-> > > +     }
-> > > +
-> > > 
-> > >       usleep_range(400, 600);
-> > >       
-> > >       gpiod_set_value_cansleep(ov9282->reset_gpio, 1);
-> > > 
-> > > @@ -891,6 +925,8 @@ static int ov9282_power_on(struct device *dev)
-> > > 
-> > >  error_reset:
-> > >       gpiod_set_value_cansleep(ov9282->reset_gpio, 0);
-> > > 
-> > > +     regulator_bulk_disable(OV9282_NUM_SUPPLIES, ov9282->supplies);
-> > > +
-> > > 
-> > >       return ret;
-> > >  
-> > >  }
-> > > 
-> > > @@ -909,6 +945,8 @@ static int ov9282_power_off(struct device *dev)
-> > > 
-> > >       clk_disable_unprepare(ov9282->inclk);
-> > > 
-> > > +     regulator_bulk_disable(OV9282_NUM_SUPPLIES, ov9282->supplies);
-> > > +
-> > > 
-> > >       return 0;
-> > >  
-> > >  }
-> > 
-> > Despite the nits above
-> > Acked-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+My guess is that the copy engine can indeed only do bursts of 8 bytes, but =
+that the whole buffer is copied at once rather than line-by-line.
+>=20
+> > > > > Signed-off-by: Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>
+> > > > > ---
+> > > > > Hello,
+> > > > >=20
+> > > > > the Librem 5 is using an out-of-tree driver for s5k3l6xx, and
+> > > > > rounding to 4 is optimal to operate it.
+> > > > >=20
+> > > > > This revision improves the commit message.
+> > > > >=20
+> > > > > Cheers,
+> > > > > Dorota Czaplejewicz
+> > > > >=20
+> > > > >  drivers/staging/media/imx/imx7-media-csi.c | 4 ++--
+> > > > >  1 file changed, 2 insertions(+), 2 deletions(-)
+> > > > >=20
+> > > > > diff --git a/drivers/staging/media/imx/imx7-media-csi.c b/drivers=
+/staging/media/imx/imx7-media-csi.c
+> > > > > index a0553c24cce4..af821b410c3f 100644
+> > > > > --- a/drivers/staging/media/imx/imx7-media-csi.c
+> > > > > +++ b/drivers/staging/media/imx/imx7-media-csi.c
+> > > > > @@ -999,10 +999,10 @@ static int imx7_csi_mbus_fmt_to_pix_fmt(str=
+uct v4l2_pix_format *pix,
+> > > > >  	}
+> > > > > =20
+> > > > >  	/* Round up width for minimum burst size */
+> > > > > -	width =3D round_up(mbus->width, 8);
+> > > > > +	width =3D round_up(mbus->width, 4);
+> > > > > =20
+> > > > >  	/* Round up stride for IDMAC line start address alignment */
+> > > > > -	stride =3D round_up((width * cc->bpp) >> 3, 8);
+> > > > > +	stride =3D round_up((width * cc->bpp) >> 3, 4);
+> > > > > =20
+> > > > >  	pix->width =3D width;
+> > > > >  	pix->height =3D mbus->height;     =20
+>=20
 
 
+--Sig_/0w4EGCp0VVCKoSCDIxcxR1Z
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
+-----BEGIN PGP SIGNATURE-----
 
+iQIzBAEBCAAdFiEExKRqtqfFqmh+lu1oADBpX4S8ZncFAmN/ZRUACgkQADBpX4S8
+ZncZgg/+M00zWn+qqaDOzjU/5vY0xfnGbBLJutiOhKbc6PJnYAJKk3Kxm1EDpRKK
+h/Ux3rgC8FAo8nJXcL0nrromadYRwBK62ph4cszlOM4P1Yz9FxV7qA0ePvoNk+qY
+vJEEwSeHjKwiyls8knSEcLPNeynR7zNndWTmL9lKkiWIkXHYJcfj5hEl/f8GllPj
+tMN4tPFxlDtyDwBn3+Fcn/Q1577Z/u16h+/93U0PZjMwgV3hOTnxbvsvcKyKWQz4
+3jHKx8vRgYxkKABqlR30TaBcxUXm/+Mg2ThvjBJjpdu+3agNFhsi4FC+kUrZ2LFn
+nnQzJ2QjHtiSVNLABjeVWRnn0PscnmGguMv5SAygDAxzAqFGWSWuFwHLNPExd5nN
+9rGxC0ndbQe6IV8pz3I87DBQ0Q92RgH8noI9UHoRhJDhqLCP/M0vMZf2yca5YDH6
+/k5z8Hg8H/IUGw9nYJ+u0pUUaMY2El/vTPmtwooEsaxBgUAoEbrBCiQiGXDMWCiW
+qPfdjiN+sMjpbYWxMMuOn+EaOPk5GUmssOF3WSezxVnQHpcMRx9Zz+Vudhak1n21
+3xk4fce95luLiEwnPivkvXYBsOWyFHA8ba7yKqSd4YKzy5WvackN6169EQhoEomp
+0YjTbktaA0AOxXHSar2QeaMJ7T5lu4ZdA+0wem7hfySVXbgNsvw=
+=2qyk
+-----END PGP SIGNATURE-----
+
+--Sig_/0w4EGCp0VVCKoSCDIxcxR1Z--
