@@ -2,158 +2,140 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3C7C8637710
-	for <lists+linux-media@lfdr.de>; Thu, 24 Nov 2022 12:03:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 29B0263771E
+	for <lists+linux-media@lfdr.de>; Thu, 24 Nov 2022 12:06:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229933AbiKXLDU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 24 Nov 2022 06:03:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56598 "EHLO
+        id S229885AbiKXLF6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 24 Nov 2022 06:05:58 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34654 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229939AbiKXLDM (ORCPT
+        with ESMTP id S229630AbiKXLF4 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 24 Nov 2022 06:03:12 -0500
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B9DD450AC
-        for <linux-media@vger.kernel.org>; Thu, 24 Nov 2022 03:03:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1669287791; x=1700823791;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=2fe1Z/Hxuf8FvB+1rCcU0EpuWF3g8OCMekAr6wavhvE=;
-  b=MBJDVWxawGnC0JTlIlhWikT2H6VjKyL2JNglqlzcK0i/pjxoJnKXtmuZ
-   hKXNzqheI+OfESACkvBbJ9IbAXXgElN4etsRxw0qNa6zaAPDXsMX+lXaX
-   W5k8eNwo7nFRpWtALeIRZb2vbYZ9CCdIY2PjhfKIhM78gPDM6ImWT7tWn
-   DAG4IO+8Omdub7iLI56G5lbiwBq4zaNsdvC4/314dvIR37XgkzEZF42zg
-   xwSbX1hGjllKgf2G8Fveo39qU/TUn7rtsSkjfsUQcKiyOm3MADaky5m6h
-   y5oiKSirdtGMnrGYWxd2xg1DDhYH3mZpz8CrAqJ3WWcmwiF8oSxGd8Teg
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10540"; a="314312601"
-X-IronPort-AV: E=Sophos;i="5.96,190,1665471600"; 
-   d="scan'208";a="314312601"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2022 03:03:11 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10540"; a="642302868"
-X-IronPort-AV: E=Sophos;i="5.96,190,1665471600"; 
-   d="scan'208";a="642302868"
-Received: from lkp-server01.sh.intel.com (HELO 64a2d449c951) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 24 Nov 2022 03:03:09 -0800
-Received: from kbuild by 64a2d449c951 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1oyA0a-0003nX-2Y;
-        Thu, 24 Nov 2022 11:03:08 +0000
-Date:   Thu, 24 Nov 2022 19:02:19 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     linux-media@vger.kernel.org
-Subject: [sailus-media-tree:master] BUILD SUCCESS
- d244a87ab5e64ca874aaff961fe8d2f847a34556
-Message-ID: <637f4f3b.H04qs3KsuYIgk1qN%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        Thu, 24 Nov 2022 06:05:56 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E3A45C0CC;
+        Thu, 24 Nov 2022 03:05:56 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id B7B3E620C5;
+        Thu, 24 Nov 2022 11:05:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F74BC433D6;
+        Thu, 24 Nov 2022 11:05:52 +0000 (UTC)
+Message-ID: <de2198dd-16a7-f412-932d-a75cccf801e0@xs4all.nl>
+Date:   Thu, 24 Nov 2022 12:05:51 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.1
+Subject: Re: [PATCH v4 1/2] media: dt-bindings: mediatek: Rename child node
+ names for decoder
+Content-Language: en-US
+To:     =?UTF-8?B?QWxsZW4tS0ggQ2hlbmcgKOeoi+WGoOWLsyk=?= 
+        <Allen-KH.Cheng@mediatek.com>, "robh@kernel.org" <robh@kernel.org>,
+        "krzysztof.kozlowski@linaro.org" <krzysztof.kozlowski@linaro.org>
+Cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-mediatek@lists.infradead.org" 
+        <linux-mediatek@lists.infradead.org>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "mchehab@kernel.org" <mchehab@kernel.org>,
+        Project_Global_Chrome_Upstream_Group 
+        <Project_Global_Chrome_Upstream_Group@mediatek.com>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>
+References: <20220930112237.14411-1-allen-kh.cheng@mediatek.com>
+ <20220930112237.14411-2-allen-kh.cheng@mediatek.com>
+ <20220930220011.GA1107972-robh@kernel.org>
+ <ffc56eb60a3ef74c815c8d3c170a0df51958e20d.camel@mediatek.com>
+ <24361bea-ecfe-b6e1-e755-5151220767f2@linaro.org>
+ <722194a3d413ca15069554ebab1f34dec25057eb.camel@mediatek.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+In-Reply-To: <722194a3d413ca15069554ebab1f34dec25057eb.camel@mediatek.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-tree/branch: git://linuxtv.org/sailus/media_tree.git master
-branch HEAD: d244a87ab5e64ca874aaff961fe8d2f847a34556  media: i2c: refer to config VIDEO_DEV to make ov08x40 image sensor driver usable
+Hi Krzysztof,
 
-elapsed time: 1344m
+On 05/10/2022 13:58, Allen-KH Cheng (程冠勳) wrote:
+> Hi Krzysztof,
+> 
+> On Wed, 2022-10-05 at 09:30 +0200, Krzysztof Kozlowski wrote:
+>> On 05/10/2022 09:21, Allen-KH Cheng (程冠勳) wrote:
+>>> Hi Rob,
+>>>
+>>> On Fri, 2022-09-30 at 17:00 -0500, Rob Herring wrote:
+>>>> On Fri, Sep 30, 2022 at 07:22:36PM +0800, Allen-KH Cheng wrote:
+>>>>> In order to make the names of the child nodes more generic, we
+>>>>> rename
+>>>>> "vcodec" to "video-codec" for decoder in patternProperties and
+>>>>> example.
+>>>>
+>>>> They are either generic or they aren't. Until something generic
+>>>> is 
+>>>> defined, I don't think it's worth the churn to change.
+>>>>
+>>>>
+>>>>> Signed-off-by: Allen-KH Cheng <allen-kh.cheng@mediatek.com>
+>>>>> Reviewed-by: AngeloGioacchino Del Regno <
+>>>>> angelogioacchino.delregno@collabora.com>
+>>>>> ---
+>>>>>  .../bindings/media/mediatek,vcodec-subdev-decoder.yaml    | 8
+>>>>> ++++----
+>>>>>  1 file changed, 4 insertions(+), 4 deletions(-)
+>>>>>
+>>>>> diff --git
+>>>>> a/Documentation/devicetree/bindings/media/mediatek,vcodec-
+>>>>> subdev-
+>>>>> decoder.yaml
+>>>>> b/Documentation/devicetree/bindings/media/mediatek,vcodec-
+>>>>> subdev-
+>>>>> decoder.yaml
+>>>>> index c4f20acdc1f8..67fde48f991c 100644
+>>>>> --- a/Documentation/devicetree/bindings/media/mediatek,vcodec-
+>>>>> subdev-decoder.yaml
+>>>>> +++ b/Documentation/devicetree/bindings/media/mediatek,vcodec-
+>>>>> subdev-decoder.yaml
+>>>>> @@ -91,7 +91,7 @@ properties:
+>>>>>  
+>>>>>  # Required child node:
+>>>>>  patternProperties:
+>>>>> -  '^vcodec-lat@[0-9a-f]+$':
+>>>>> +  '^video-codec-lat@[0-9a-f]+$':
+>>>>
+>>>> Just 'video-codec' doesn't work?
+>>>>
+>>>
+>>> Thanks for your reply.
+>>>
+>>> hmm, I think 'vidoe-codec' does wrok.
+>>>
+>>> There are two seperate hardwares for the MTK video codec.
+>>> codec-lat and codec-core.
+>>>
+>>> Is it ok to keep two child node names for various hardwares?
+>>>
+>>
+>> Aren't they still codecs?
+>>
+>> Best regards,
+>> Krzysztof
+> 
+> Yes, They are both hardware deocders. Lat is responsible for the
+> bitstream and write the outcome to the lat buffer. Core will decode the
+> lat buffer and write the outcome to the output buffer. Each frame will
+> be decoded cyclically by these two hardware deocders.
 
-configs tested: 76
-configs skipped: 2
+So is this patch OK to be merged? Or do you still want changes?
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+Regards,
 
-gcc tested configs:
-arc                                 defconfig
-um                             i386_defconfig
-um                           x86_64_defconfig
-alpha                               defconfig
-s390                                defconfig
-x86_64                          rhel-8.3-func
-x86_64                    rhel-8.3-kselftests
-powerpc                           allnoconfig
-x86_64                           rhel-8.3-syz
-mips                             allyesconfig
-x86_64                         rhel-8.3-kunit
-powerpc                          allmodconfig
-x86_64                           rhel-8.3-kvm
-s390                             allmodconfig
-sh                               allmodconfig
-m68k                             allyesconfig
-m68k                             allmodconfig
-alpha                            allyesconfig
-arc                              allyesconfig
-s390                             allyesconfig
-ia64                             allmodconfig
-i386                 randconfig-a011-20221121
-i386                 randconfig-a013-20221121
-i386                 randconfig-a012-20221121
-i386                 randconfig-a016-20221121
-i386                 randconfig-a014-20221121
-i386                 randconfig-a015-20221121
-x86_64                        randconfig-a013
-x86_64                        randconfig-a011
-x86_64                        randconfig-a015
-x86_64                               rhel-8.3
-x86_64                              defconfig
-i386                                defconfig
-x86_64                           allyesconfig
-arc                  randconfig-r043-20221124
-i386                             allyesconfig
-x86_64                            allnoconfig
-ia64                          tiger_defconfig
-powerpc                     redwood_defconfig
-arm                          lpd270_defconfig
-arm                             pxa_defconfig
-arm                     eseries_pxa_defconfig
-sh                           se7721_defconfig
-sh                          polaris_defconfig
-mips                         cobalt_defconfig
-arm                         nhk8815_defconfig
-sh                           se7724_defconfig
-powerpc                       ppc64_defconfig
-sh                          r7785rp_defconfig
-riscv                    nommu_virt_defconfig
-riscv                          rv32_defconfig
-riscv                    nommu_k210_defconfig
-riscv                             allnoconfig
-i386                   debian-10.3-kselftests
-i386                              debian-10.3
-i386                          debian-10.3-kvm
-i386                        debian-10.3-kunit
-i386                         debian-10.3-func
-arm64                            allyesconfig
-arm                                 defconfig
-arm                              allyesconfig
-
-clang tested configs:
-x86_64               randconfig-a001-20221121
-x86_64               randconfig-a003-20221121
-x86_64               randconfig-a002-20221121
-x86_64               randconfig-a005-20221121
-x86_64               randconfig-a006-20221121
-x86_64               randconfig-a004-20221121
-x86_64                        randconfig-a012
-x86_64                        randconfig-a016
-x86_64                        randconfig-a014
-i386                          randconfig-a006
-riscv                randconfig-r042-20221124
-hexagon              randconfig-r041-20221124
-hexagon              randconfig-r045-20221124
-s390                 randconfig-r044-20221124
-x86_64                        randconfig-k001
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+	Hans
