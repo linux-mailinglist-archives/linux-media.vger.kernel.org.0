@@ -2,206 +2,148 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 49125637535
-	for <lists+linux-media@lfdr.de>; Thu, 24 Nov 2022 10:32:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 95CD4637544
+	for <lists+linux-media@lfdr.de>; Thu, 24 Nov 2022 10:36:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229646AbiKXJcA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 24 Nov 2022 04:32:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43396 "EHLO
+        id S229705AbiKXJgb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 24 Nov 2022 04:36:31 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45346 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229612AbiKXJb7 (ORCPT
+        with ESMTP id S229632AbiKXJga (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 24 Nov 2022 04:31:59 -0500
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 781C911E714;
-        Thu, 24 Nov 2022 01:31:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1669282317; x=1700818317;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=NWlBaxQt3W9WLLicNYqXQv+njBhdZsXbYEamMElvhBg=;
-  b=TrlWeY5c+Gf5vHSGEA5X/TO85o/Ic1tB/hT5OQmPv/fTCQVx4ozVB8b0
-   HSiGVY96OD7chy9yBfUu4okeHL9+W2tY7heCEcKzh/Jp5E5/jfY3J8eCW
-   lkg+4sKkJwBX+xopQIn0IyQ3IX7vfB5GgjSuCBLCycX/SQaK4v3Pe+bNX
-   mbyrsUL8mrPW9qHX2/YKWXKW/xjn5mo2ctM5hfi9BosfY5iE/wZbUU1Cf
-   6JZR2KZBhRXhMD75PsNr8w5oUWrVEpTGMWHDvYpkRo1PAUK5uqNkNVLT1
-   z12UDDywuQ6u9ip6af+tDguXWxd9+V4InjHFzuMuuihJJH1B8kkj8AqAU
-   Q==;
-X-IronPort-AV: E=Sophos;i="5.96,190,1665439200"; 
-   d="scan'208";a="27556206"
-Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
-  by mx1-pgp.tq-group.com with ESMTP; 24 Nov 2022 10:31:55 +0100
-Received: from mx1.tq-group.com ([192.168.6.7])
-  by tq-pgp-pr1.tq-net.de (PGP Universal service);
-  Thu, 24 Nov 2022 10:31:55 +0100
-X-PGP-Universal: processed;
-        by tq-pgp-pr1.tq-net.de on Thu, 24 Nov 2022 10:31:55 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1669282315; x=1700818315;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=NWlBaxQt3W9WLLicNYqXQv+njBhdZsXbYEamMElvhBg=;
-  b=FUo0INdzNkSLDoipxieVO3+38xrbJWWzyhpz9SQXic3zgoW4PQbpy+Fg
-   EoOXtBPZDsLhRWMkrZNzQKlgBCaLUpLi9HlKk8EgDduNUe+gq58e0ozpr
-   Ta/b0196tZaCywXmaQP2kQQeH+mTy7/WwkzaDc8DYb4e/l3FaUCZLv/D/
-   fw55DK9VJvPq4tKFg9Qo/F2dfDEaXbKNbycM0/L2NU4XjVLN5QKAsH2pg
-   SnemQDZcPNELqve/xz1hUQjMwIh/E32Sti98Z6C2fITXhHcIlJdunSsM2
-   CBpNTN9+CZEyTzszSzyjGDvUtLZ/xuw7VXZeQiRA/QDP39GlC8ik4s9Qb
-   g==;
-X-IronPort-AV: E=Sophos;i="5.96,190,1665439200"; 
-   d="scan'208";a="27556205"
-Received: from vtuxmail01.tq-net.de ([10.115.0.20])
-  by mx1.tq-group.com with ESMTP; 24 Nov 2022 10:31:55 +0100
-Received: from steina-w.localnet (unknown [10.123.53.21])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-        (No client certificate requested)
-        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 0E87A280056;
-        Thu, 24 Nov 2022 10:31:55 +0100 (CET)
-From:   Alexander Stein <alexander.stein@ew.tq-group.com>
-To:     Dave Stevenson <dave.stevenson@raspberrypi.com>
-Cc:     paul.j.murphy@intel.com, daniele.alessandrelli@intel.com,
-        linux-media@vger.kernel.org, robh+dt@kernel.org,
-        devicetree@vger.kernel.org,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>
-Subject: Re: [PATCH 2/2] media: i2c: ov9282: Add support for regulators.
-Date:   Thu, 24 Nov 2022 10:31:53 +0100
-Message-ID: <834648869.0ifERbkFSE@steina-w>
-Organization: TQ-Systems GmbH
-In-Reply-To: <20221005152018.3783890-3-dave.stevenson@raspberrypi.com>
-References: <20221005152018.3783890-1-dave.stevenson@raspberrypi.com> <20221005152018.3783890-3-dave.stevenson@raspberrypi.com>
+        Thu, 24 Nov 2022 04:36:30 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA51F28718
+        for <linux-media@vger.kernel.org>; Thu, 24 Nov 2022 01:35:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1669282527;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=el6XGWviR/PCGmRihnqAZfscMrZw0hrSkTQ+6kb8ZRU=;
+        b=cXPK8EaDehQW9xyEo5vFP+Gbbykg2rQdvk03Ds0nWi8srcP/2rxHXfRxkVLf0aBOG55oGe
+        326+4rVzqwcXAhPEkWVUB6W5nfmba58omERvO/SIoLGMgWynXmaXQw3s2A1t3Q5XteyuQ6
+        8HTX07l/vZHplpk9N17lvFSuPnWhhq4=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-636-uAc3eZADPQG_9joEzofXVg-1; Thu, 24 Nov 2022 04:35:26 -0500
+X-MC-Unique: uAc3eZADPQG_9joEzofXVg-1
+Received: by mail-wr1-f72.google.com with SMTP id q13-20020adfab0d000000b002420132f543so98221wrc.19
+        for <linux-media@vger.kernel.org>; Thu, 24 Nov 2022 01:35:26 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:subject:organization:from
+         :references:cc:to:content-language:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=el6XGWviR/PCGmRihnqAZfscMrZw0hrSkTQ+6kb8ZRU=;
+        b=7ehlIXzhEx9xlA2AMUOi3cHk3JYz0w/3TTjKfXU6iUOcdCfiwfYgAwIkgFl0u98gCE
+         LaTZWegnpeD1Cl4gaW8czfErf3dHqJMn3Usm1Ac6lb4/hTCzz+4UhqNBnk1pXrxhJsuG
+         k4k46iiDBl0KXUzZoUxmeAfdrDSY+3bXSB/YzatR3BCiLTlPmTWqrRypF35CiT7+iOEF
+         VHkxqW2t+hlcajmSjAY+Zb2ygj7zLMwWKQ/dTHMxAFzxoYJ/Y/7SsUqphZRycIdwXRIk
+         Qd7kURyZ/VsWhDYp0yPWkRnE5bAE9zCPMqjW3BMTphNAWPbBW7hQu5N2LiUum6w8kFMn
+         0Tew==
+X-Gm-Message-State: ANoB5pnNm4KkoO759xyr4Edf3vmiIVp37+cof5LgIz1HpuhWecWujsaj
+        m1Q/4QkTaJP4hiZRTtp0M+N3NKWJJHZBF1RPtN6F/bg1FEd+NTD9i8ichq5TaNVp25BFvwCJg5g
+        K4YELPr3hIxZKZi/0+OTI+XI=
+X-Received: by 2002:a05:6000:1c03:b0:241:c567:8e3a with SMTP id ba3-20020a0560001c0300b00241c5678e3amr7536690wrb.120.1669282524893;
+        Thu, 24 Nov 2022 01:35:24 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf4vzKuHBnrxrR5/zffozdmnM5k4upWLPl7eg5r5wbB8p43k4LW4nIVoASmSJU1EFMZVS52ZIw==
+X-Received: by 2002:a05:6000:1c03:b0:241:c567:8e3a with SMTP id ba3-20020a0560001c0300b00241c5678e3amr7536673wrb.120.1669282524544;
+        Thu, 24 Nov 2022 01:35:24 -0800 (PST)
+Received: from ?IPV6:2003:cb:c704:2200:bfcb:7212:1370:de13? (p200300cbc7042200bfcb72121370de13.dip0.t-ipconnect.de. [2003:cb:c704:2200:bfcb:7212:1370:de13])
+        by smtp.gmail.com with ESMTPSA id o7-20020a5d4087000000b002366b17ca8bsm923888wrp.108.2022.11.24.01.35.23
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 24 Nov 2022 01:35:24 -0800 (PST)
+Message-ID: <e79ea6b6-f4a5-51e2-5d1d-e93a1cb314f4@redhat.com>
+Date:   Thu, 24 Nov 2022 10:35:23 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.1
+Content-Language: en-US
+To:     Hans Verkuil <hverkuil@xs4all.nl>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     Tomasz Figa <tfiga@chromium.org>,
+        Hirokazu Honda <hiroh@chromium.org>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>
+References: <71bdd3cf-b044-3f12-df58-7c16d5749587@xs4all.nl>
+ <b437cabc-bf3f-135f-2100-13f45c16e3a3@redhat.com>
+ <951827b8-22cd-2a7b-274f-25aa5dcd15cf@xs4all.nl>
+From:   David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+Subject: Re: [PATCH] media: videobuf2: revert "get_userptr: buffers are always
+ writable"
+In-Reply-To: <951827b8-22cd-2a7b-274f-25aa5dcd15cf@xs4all.nl>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello Dave,
+On 24.11.22 10:13, Hans Verkuil wrote:
+> On 24/11/2022 09:45, David Hildenbrand wrote:
+>> On 24.11.22 09:29, Hans Verkuil wrote:
+>>> Commit 707947247e95 ("media: videobuf2-vmalloc: get_userptr: buffers are
+>>> always writable") caused problems in a corner case (passing read-only
+>>> shmem memory as a userptr). So revert this patch.
+>>>
+>>> The original problem for which that commit was originally made is
+>>> something that I could not reproduce after reverting it. So just go
+>>> back to the way it was for many years, and if problems arise in
+>>> the future, then another approach should be taken to resolve it.
+>>>
+>>> This patch is based on a patch from Hirokazu.
+>>>
+>>> Fixes: 707947247e95 ("media: videobuf2-vmalloc: get_userptr: buffers are always writable")
+>>> Signed-off-by: Hirokazu Honda <hiroh@chromium.org>
+>>> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+>>> ---
+>>
+>> Regarding possible merge conflicts with the FOLL_FORCE patch [1] that's already in -next, would it make sense to base this patch on the FOLL_FORCE patch and routing it through the -mm tree? Or what's
+>> the best way to move forward?
+>>
+>> CCing Andrew
+>>
+>> [1] https://lkml.kernel.org/r/20221116102659.70287-17-david@redhat.com
+>>
+> 
+> My preference would be to apply the removal of FOLL_FORCE *after* this
+> patch has been merged. This patch will likely be something that will be
+> backported to older kernels as well, and that's easier to do if it is
+> applied before your patch.
+> 
+> I think it is best to apply your patch for this after v6.2-rc1 is released.
+> If you post a patch removing FOLL_FORCE to linux-media once v6.2-rc1 is released,
+> then I can ensure it will be merged in a later v6.2-rcX.
 
-Am Mittwoch, 5. Oktober 2022, 17:20:18 CET schrieb Dave Stevenson:
-> The sensor takes 3 supply rails - AVDD, DVDD, and DOVDD.
-> 
-> Add hooks into the regulator framework for each of these
-> regulators.
-> 
-> Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> ---
->  drivers/media/i2c/ov9282.c | 38 ++++++++++++++++++++++++++++++++++++++
->  1 file changed, 38 insertions(+)
-> 
-> diff --git a/drivers/media/i2c/ov9282.c b/drivers/media/i2c/ov9282.c
-> index 2e0b315801e5..699fc5b753b4 100644
-> --- a/drivers/media/i2c/ov9282.c
-> +++ b/drivers/media/i2c/ov9282.c
-> @@ -11,6 +11,7 @@
->  #include <linux/i2c.h>
->  #include <linux/module.h>
->  #include <linux/pm_runtime.h>
-> +#include <linux/regulator/consumer.h>
-> 
->  #include <media/v4l2-ctrls.h>
->  #include <media/v4l2-fwnode.h>
-> @@ -55,6 +56,14 @@
->  #define OV9282_REG_MIN		0x00
->  #define OV9282_REG_MAX		0xfffff
-> 
-> +static const char * const ov9282_supply_names[] = {
-> +	"avdd",		/* Analog power */
-> +	"dovdd",	/* Digital I/O power */
-> +	"dvdd",		/* Digital core power */
-> +};
-> +
-> +#define OV9282_NUM_SUPPLIES ARRAY_SIZE(ov9282_supply_names)
-> +
->  /**
->   * struct ov9282_reg - ov9282 sensor register
->   * @address: Register address
-> @@ -128,6 +137,7 @@ struct ov9282 {
->  	struct media_pad pad;
->  	struct gpio_desc *reset_gpio;
->  	struct clk *inclk;
-> +	struct regulator_bulk_data supplies[OV9282_NUM_SUPPLIES];
+Such dependencies with the -MM tree usually imply trouble. :/
 
-Please add documentation for supplies.
+There are two ways:
 
->  	struct v4l2_ctrl_handler ctrl_handler;
->  	struct v4l2_ctrl *link_freq_ctrl;
->  	struct v4l2_ctrl *pclk_ctrl;
-> @@ -767,6 +777,18 @@ static int ov9282_detect(struct ov9282 *ov9282)
->  	return 0;
->  }
-> 
-> +static int ov9282_configure_regulators(struct ov9282 *ov9282)
-> +{
-> +	unsigned int i;
-> +
-> +	for (i = 0; i < OV9282_NUM_SUPPLIES; i++)
-> +		ov9282->supplies[i].supply = ov9282_supply_names[i];
-> +
-> +	return devm_regulator_bulk_get(ov9282->dev,
-> +				       OV9282_NUM_SUPPLIES,
-> +				       ov9282->supplies);
-> +}
-> +
->  /**
->   * ov9282_parse_hw_config() - Parse HW configuration and check if supported
-> * @ov9282: pointer to ov9282 device
-> @@ -803,6 +825,12 @@ static int ov9282_parse_hw_config(struct ov9282
-> *ov9282) return PTR_ERR(ov9282->inclk);
->  	}
-> 
-> +	ret = ov9282_configure_regulators(ov9282);
-> +	if (ret) {
-> +		dev_err(ov9282->dev, "Failed to get power regulators\n");
+1) Andrew picks up your patch and we rebase my patch based on yours. All 
+goes in via the -mm tree in -rc1.
 
-dev_err_probe seems sensible here.
-
-> +		return ret;
-> +	}
-> +
->  	rate = clk_get_rate(ov9282->inclk);
->  	if (rate != OV9282_INCLK_RATE) {
->  		dev_err(ov9282->dev, "inclk frequency mismatch");
-> @@ -874,6 +902,12 @@ static int ov9282_power_on(struct device *dev)
->  	struct ov9282 *ov9282 = to_ov9282(sd);
->  	int ret;
-> 
-> +	ret = regulator_bulk_enable(OV9282_NUM_SUPPLIES, ov9282->supplies);
-> +	if (ret < 0) {
-> +		dev_err(dev, "Failed to enable regulators\n");
-> +		return ret;
-> +	}
-> +
->  	usleep_range(400, 600);
-> 
->  	gpiod_set_value_cansleep(ov9282->reset_gpio, 1);
-> @@ -891,6 +925,8 @@ static int ov9282_power_on(struct device *dev)
->  error_reset:
->  	gpiod_set_value_cansleep(ov9282->reset_gpio, 0);
-> 
-> +	regulator_bulk_disable(OV9282_NUM_SUPPLIES, ov9282->supplies);
-> +
->  	return ret;
->  }
-> 
-> @@ -909,6 +945,8 @@ static int ov9282_power_off(struct device *dev)
-> 
->  	clk_disable_unprepare(ov9282->inclk);
-> 
-> +	regulator_bulk_disable(OV9282_NUM_SUPPLIES, ov9282->supplies);
-> +
->  	return 0;
->  }
-
-Despite the nits above
-Acked-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+2) Andrew drops my patch and you apply the rebased patch later.
 
 
+Applying patches after v6.2-rc1 doesn't really give them the chance to 
+lurk in -next for a longer time, and it kind-of feels wrong for 
+something that doesn't have a fixed tag attached. But I don't care as 
+long as we don't unnecessarily delay the FOLL_FORCE cleanup from getting 
+merged.
+
+@Andrew?
+
+-- 
+Thanks,
+
+David / dhildenb
 
