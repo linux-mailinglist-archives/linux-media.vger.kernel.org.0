@@ -2,51 +2,52 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DFC91637416
-	for <lists+linux-media@lfdr.de>; Thu, 24 Nov 2022 09:36:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 19C3B63743D
+	for <lists+linux-media@lfdr.de>; Thu, 24 Nov 2022 09:42:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229964AbiKXIgX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 24 Nov 2022 03:36:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59322 "EHLO
+        id S229892AbiKXImk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 24 Nov 2022 03:42:40 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40906 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229935AbiKXIgU (ORCPT
+        with ESMTP id S229599AbiKXImi (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 24 Nov 2022 03:36:20 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE6E5F2C0D;
-        Thu, 24 Nov 2022 00:36:19 -0800 (PST)
+        Thu, 24 Nov 2022 03:42:38 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 91D86FF3
+        for <linux-media@vger.kernel.org>; Thu, 24 Nov 2022 00:42:36 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 69FE66202F;
-        Thu, 24 Nov 2022 08:36:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 800B3C433D7;
-        Thu, 24 Nov 2022 08:36:15 +0000 (UTC)
-Message-ID: <3ecd7c3d-b013-18b8-ea12-ca3c673de22c@xs4all.nl>
-Date:   Thu, 24 Nov 2022 09:36:14 +0100
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 9031662035
+        for <linux-media@vger.kernel.org>; Thu, 24 Nov 2022 08:42:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CCB5FC433D6;
+        Thu, 24 Nov 2022 08:42:33 +0000 (UTC)
+Message-ID: <0859e9ba-e080-261f-85f7-6ca21bbbde47@xs4all.nl>
+Date:   Thu, 24 Nov 2022 09:42:32 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.1
-Subject: Re: [PATCH 00/23] Add Tegra20 parallel video input capture
+Subject: Re: [PATCH v5] media: mtk-vpu: Ensure alignment of 8 for DTCM buffer
 Content-Language: en-US
-To:     luca.ceresoli@bootlin.com, David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Sowjanya Komatineni <skomatineni@nvidia.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Dmitry Osipenko <digetx@gmail.com>
-Cc:     linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Richard Leitner <richard.leitner@skidata.com>
-References: <20221109141852.729246-1-luca.ceresoli@bootlin.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <20221109141852.729246-1-luca.ceresoli@bootlin.com>
+To:     houlong wei <houlong.wei@mediatek.com>,
+        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+Cc:     Alexandre Courbot <acourbot@chromium.org>,
+        "kernel@collabora.com" <kernel@collabora.com>,
+        "dafna3@gmail.com" <dafna3@gmail.com>,
+        =?UTF-8?B?VGlmZmFueSBMaW4gKOael+aFp+ePiik=?= 
+        <tiffany.lin@mediatek.com>,
+        =?UTF-8?B?QW5kcmV3LUNUIENoZW4gKOmZs+aZuui/qik=?= 
+        <Andrew-CT.Chen@mediatek.com>,
+        =?UTF-8?B?TWluZ2hzaXUgVHNhaSAo6JSh5piO5L+uKQ==?= 
+        <Minghsiu.Tsai@mediatek.com>,
+        "mchehab@kernel.org" <mchehab@kernel.org>,
+        "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
+        irui.wang@mediatek.com
+References: <20211204144732.13472-1-dafna.hirschfeld@collabora.com>
+ <aee15e0fae71436c0e75e2b7cea0638da5d8b707.camel@mediatek.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+In-Reply-To: <aee15e0fae71436c0e75e2b7cea0638da5d8b707.camel@mediatek.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
@@ -58,137 +59,94 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Luca,
+Hi Dafna, Houlong,
 
-On 09/11/2022 15:18, luca.ceresoli@bootlin.com wrote:
-> From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-> 
-> Tegra20 and other Tegra SoCs have a video input (VI) peripheral that can
-> receive from either MIPI CSI-2 or parallel video (called respectively "CSI"
-> and "VIP" in the documentation). The kernel currently has a staging driver
-> for Tegra210 CSI capture. This patch set adds support for Tegra20 VIP
-> capture.
-> 
-> Unfortunately I had no real documentation available to base this work on,
-> and I started from a working downstream 3.1 kernel, that I have heavily
-> reworked to fit into the existing tegra-video driver. The existing code
-> appears written with the intent of being modular and allow adding new input
-> mechanisms and new SoCs while keeping a unique VI core module. However its
-> modularity and extensibility was not enough to add Tegra20 VIP support, so
-> I added some hooks to turn hard-coded behaviour into per-SoC or per-bus
-> customizable code. There are also some fixes, some generic cleanups and DT
-> bindings.
-
-I plan on testing this series (esp. making sure it keeps working on non-tegra210
-hardware), but I have to find time for that. This is on my TODO list, so I will
-get to it, but it might time.
-
-In the meantime, don't hesitate to post new versions (I saw comments on the
-bindings), when I have time for testing I'll pick the latest version you post.
-In other words, don't let lack of review comments from me stop you from working
-on this :-)
+I am marking this patch as 'Obsoleted' in patchwork because there has been
+no updates or comments and it is too old. If you believe this is still
+needed, then please repost after rebasing it.
 
 Regards,
 
 	Hans
 
+On 06/12/2021 02:21, houlong wei wrote:
+> cc mtk-vpu expert irui.wang.
 > 
-> Quick tour of the patches:
-> 
->  * Device tree bindings and minor DTS improvements
-> 
->    01. dt-bindings: display: tegra: add bindings for Tegra20 VIP
->    02. dt-bindings: display: tegra: vi: add 'vip' property and example
->    03. ARM: dts: tegra20: add label to nvidia,tegra20-vi node
->    04. ARM: dts: tegra20-tamonten: add label to avdd_vdac regulator
-> 
->  * A fix
-> 
->    05. staging: media: tegra-video: fix .vidioc_enum_fmt_vid_cap to return all formats
-> 
->  * Minor improvements to logging, comments, cleanups
-> 
->    06. staging: media: tegra-video: improve documentation of tegra_video_format fields
->    07. staging: media: tegra-video: document tegra_channel_get_remote_source_subdev
->    08. staging: media: tegra-video: fix typos in comment
->    09. staging: media: tegra-video: improve error messages
->    10. staging: media: tegra-video: slightly simplify cleanup on errors
->    11. staging: media: tegra-video: move private struct declaration to C file
->    12. staging: media: tegra-video: remove unneeded include
-> 
->  * Preparation to make the VI module generic enough to host Tegra20 and VIP
-> 
->    13. staging: media: tegra-video: Kconfig: allow TPG only on Tegra210
->    14. staging: media: tegra-video: move tegra_channel_fmt_align to a per-soc op
->    15. staging: media: tegra-video: move default format to soc-specific data
->    16. staging: media: tegra-video: move MIPI calibration calls from VI to CSI
->    17. staging: media: tegra-video: add a per-soc enable/disable op
->    18. staging: media: tegra-video: move syncpt init/free to a per-soc op
->    19. staging: media: tegra-video: add syncpts for Tegra20 to struct tegra_vi
->    20. staging: media: tegra-video: add hooks for planar YUV and H/V flip
->    21. staging: media: tegra-video: add H/V flip controls
-> 
->  * Implementation of VIP and Tegra20
-> 
->    22. staging: media: tegra-video: add support for VIP (parallel video input)
->    23. staging: media: tegra-video: add tegra20 variant
-> 
-> Enjoy!
-> 
-> Luca
-> 
-> Luca Ceresoli (23):
->   dt-bindings: display: tegra: add bindings for Tegra20 VIP
->   dt-bindings: display: tegra: vi: add 'vip' property and example
->   ARM: dts: tegra20: add label to nvidia,tegra20-vi node
->   ARM: dts: tegra20-tamonten: add label to avdd_vdac regulator
->   staging: media: tegra-video: fix .vidioc_enum_fmt_vid_cap to return
->     all formats
->   staging: media: tegra-video: improve documentation of
->     tegra_video_format fields
->   staging: media: tegra-video: document
->     tegra_channel_get_remote_source_subdev
->   staging: media: tegra-video: fix typos in comment
->   staging: media: tegra-video: improve error messages
->   staging: media: tegra-video: slightly simplify cleanup on errors
->   staging: media: tegra-video: move private struct declaration to C file
->   staging: media: tegra-video: remove unneeded include
->   staging: media: tegra-video: Kconfig: allow TPG only on Tegra210
->   staging: media: tegra-video: move tegra_channel_fmt_align to a per-soc
->     op
->   staging: media: tegra-video: move default format to soc-specific data
->   staging: media: tegra-video: move MIPI calibration calls from VI to
->     CSI
->   staging: media: tegra-video: add a per-soc enable/disable op
->   staging: media: tegra-video: move syncpt init/free to a per-soc op
->   staging: media: tegra-video: add syncpts for Tegra20 to struct
->     tegra_vi
->   staging: media: tegra-video: add hooks for planar YUV and H/V flip
->   staging: media: tegra-video: add H/V flip controls
->   staging: media: tegra-video: add support for VIP (parallel video
->     input)
->   staging: media: tegra-video: add tegra20 variant
-> 
->  .../display/tegra/nvidia,tegra20-vi.yaml      |  68 ++
->  .../display/tegra/nvidia,tegra20-vip.yaml     |  64 ++
->  MAINTAINERS                                   |  10 +
->  arch/arm/boot/dts/tegra20-tamonten.dtsi       |   2 +-
->  arch/arm/boot/dts/tegra20.dtsi                |   2 +-
->  drivers/staging/media/tegra-video/Kconfig     |   1 +
->  drivers/staging/media/tegra-video/Makefile    |   2 +
->  drivers/staging/media/tegra-video/csi.c       |  44 ++
->  drivers/staging/media/tegra-video/tegra20.c   | 649 ++++++++++++++++++
->  drivers/staging/media/tegra-video/tegra210.c  |  97 ++-
->  drivers/staging/media/tegra-video/vi.c        | 321 ++-------
->  drivers/staging/media/tegra-video/vi.h        |  76 +-
->  drivers/staging/media/tegra-video/video.c     |   5 +
->  drivers/staging/media/tegra-video/video.h     |   2 +-
->  drivers/staging/media/tegra-video/vip.c       | 298 ++++++++
->  drivers/staging/media/tegra-video/vip.h       |  72 ++
->  16 files changed, 1425 insertions(+), 288 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vip.yaml
->  create mode 100644 drivers/staging/media/tegra-video/tegra20.c
->  create mode 100644 drivers/staging/media/tegra-video/vip.c
->  create mode 100644 drivers/staging/media/tegra-video/vip.h
-> 
+> On Sat, 2021-12-04 at 22:47 +0800, Dafna Hirschfeld wrote:
+>> From: Alexandre Courbot <acourbot@chromium.org>
+>>
+>> When running memcpy_toio:
+>> memcpy_toio(send_obj->share_buf, buf, len);
+>> it was found that errors appear if len is not a multiple of 8:
+>>
+>> [58.350841] mtk-mdp 14001000.rdma: processing failed: -22
+>>
+>> This is because in ARM64, memcpy_toio does byte-size access
+>> when the length is not a multiple of 8 while access to the
+>> vpu iomem must be 4 aligned.
+>>
+>> This patch ensures the copy of a multiple of 8 size by calling
+>> round_up(len, 8) when copying
+>>
+>> Fixes: e6599adfad30 ("media: mtk-vpu: avoid unaligned access to DTCM
+>> buffer.")
+>> Signed-off-by: Alexandre Courbot <acourbot@chromium.org>
+>> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+>> Reviewed-by: Houlong Wei <houlong.wei@mediatek.com>
+>> ---
+>> changes since v4:
+>> 1. replace data[SHARE_BUF_SIZE]; with data[sizeof(send_obj-
+>>> share_buf)]
+>> 2. Add the explanation for the failure in commit log and inline doc
+>>
+>> changes since v3:
+>> 1. multile -> multiple
+>> 2. add inline doc
+>>
+>> changes since v2:
+>> 1. do the extra copy only if len is not multiple of 8
+>>
+>> changes since v1:
+>> 1. change sign-off-by tags
+>> 2. change values to memset
+>>
+>>  drivers/media/platform/mtk-vpu/mtk_vpu.c | 17 ++++++++++++++++-
+>>  1 file changed, 16 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/media/platform/mtk-vpu/mtk_vpu.c
+>> b/drivers/media/platform/mtk-vpu/mtk_vpu.c
+>> index 7f1647da0ade..2ef93db239b9 100644
+>> --- a/drivers/media/platform/mtk-vpu/mtk_vpu.c
+>> +++ b/drivers/media/platform/mtk-vpu/mtk_vpu.c
+>> @@ -349,7 +349,22 @@ int vpu_ipi_send(struct platform_device *pdev,
+>>  		}
+>>  	} while (vpu_cfg_readl(vpu, HOST_TO_VPU));
+>>  
+>> -	memcpy_toio(send_obj->share_buf, buf, len);
+>> +	/*
+>> +	 * On Arm64, the memcpy_toio does byte-size access as long as
+>> address or length are
+>> +	 * not 8 aligned. Access to the vpu iomem must be 4 aligned.
+>> Byte-size access is
+>> +	 * not allowed and cause processing to fail. Therefore make
+>> sure the length
+>> +	 * sent to memcpy_toio is a multiply of 8.
+>> +	 */
+>> +	if (len % 8 != 0) {
+>> +		unsigned char data[sizeof(send_obj->share_buf)];
+>> +
+>> +		memset(data + len, 0, sizeof(data) - len);
+>> +		memcpy(data, buf, len);
+>> +		memcpy_toio(send_obj->share_buf, data, round_up(len,
+>> 8));
+>> +	} else {
+>> +		memcpy_toio(send_obj->share_buf, buf, len);
+>> +	}
+>> +
+>>  	writel(len, &send_obj->len);
+>>  	writel(id, &send_obj->id);
+>>  
+>> -- 
+>> 2.17.1
+>>
 
