@@ -2,125 +2,174 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C3B0D637685
-	for <lists+linux-media@lfdr.de>; Thu, 24 Nov 2022 11:30:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3BEE76376A8
+	for <lists+linux-media@lfdr.de>; Thu, 24 Nov 2022 11:42:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229613AbiKXKau (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 24 Nov 2022 05:30:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49942 "EHLO
+        id S229720AbiKXKml (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 24 Nov 2022 05:42:41 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34974 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229871AbiKXKaY (ORCPT
+        with ESMTP id S229582AbiKXKmi (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 24 Nov 2022 05:30:24 -0500
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8957AD0DF2;
-        Thu, 24 Nov 2022 02:30:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1669285816; x=1700821816;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=8EzM2+AU1Fro6JRdsVRnMz881rd525NgC/kvBamkYW8=;
-  b=dIOqgMTXbcpX/PHNw6YZCM4O5aer4F+x6MJczEw0FtiOYNcEOmcOeuQ0
-   cNwYO1IsmCaPNa3PsEPSd0XRYJWH6a58F2SzWRMBm2AL5vFKITEsnFhji
-   bvQBk63PlJKgOYA3Jg0w6FlauFyEuFe8ZVgAMuLEXMTMrMbsWSmp742Ua
-   Gk5rqZMhF6JQ5nA5dw6MaUWZtm1thC2qcoMESWq2YeTp/+oByI0+qSjuK
-   q0zjEFgoNDNx531aaZXwQikQkjOvdgQcMcg4T5ZY/lZPa9wI7UW9vrt9t
-   Yu+X1jsvs1ferI2Q/JU9K7P9C+5xmDuOyjrG/j7pboRpxlN6JJSEn9o11
-   g==;
-X-IronPort-AV: E=Sophos;i="5.96,190,1665439200"; 
-   d="scan'208";a="27558280"
-Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
-  by mx1-pgp.tq-group.com with ESMTP; 24 Nov 2022 11:30:04 +0100
-Received: from mx1.tq-group.com ([192.168.6.7])
-  by tq-pgp-pr1.tq-net.de (PGP Universal service);
-  Thu, 24 Nov 2022 11:30:04 +0100
-X-PGP-Universal: processed;
-        by tq-pgp-pr1.tq-net.de on Thu, 24 Nov 2022 11:30:04 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1669285804; x=1700821804;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=8EzM2+AU1Fro6JRdsVRnMz881rd525NgC/kvBamkYW8=;
-  b=Sqk2aDi/tz4wnljZuzRTKGfY/DSd4kQtWtsh/Jmx6VD0+tH4V16SCL/U
-   l6QNM/WjhWrUvgq4Upd6hjCB7zrqK2ft87PMXJOIyzLDJxpthVQaer2s0
-   3OAVX48JwL5sYg54tgYWcpRLfaOrslboTbL5Sb48QXgE34rL617B2D7c1
-   77zjlWDcB/f6NB5Cd4rBVnNrx8e5LnKVRrO4KgWuKuSK11SSuLS7OH+BW
-   A3Z4hqfb4+cP+yo830Rp39sRqUjGASxTjrI1GEUXalWS9+JTKPD5a8yt3
-   fHhLIuwqmU4qvBfEyOXFG+MLyGTeBSgPBP+pVsnWjj39MMeZEMKO0vsC2
-   g==;
-X-IronPort-AV: E=Sophos;i="5.96,190,1665439200"; 
-   d="scan'208";a="27558279"
-Received: from vtuxmail01.tq-net.de ([10.115.0.20])
-  by mx1.tq-group.com with ESMTP; 24 Nov 2022 11:30:04 +0100
-Received: from steina-w.tq-net.de (unknown [10.123.53.21])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+        Thu, 24 Nov 2022 05:42:38 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E5D293E0A0;
+        Thu, 24 Nov 2022 02:42:35 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 4BBAD280073;
-        Thu, 24 Nov 2022 11:30:04 +0100 (CET)
-From:   Alexander Stein <alexander.stein@ew.tq-group.com>
-To:     "Paul J . Murphy" <paul.j.murphy@intel.com>,
-        Daniele Alessandrelli <daniele.alessandrelli@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Cc:     Alexander Stein <alexander.stein@ew.tq-group.com>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        Sakari Ailus <sakari.ailus@iki.fi>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>
-Subject: [PATCH v5 2/2] media: i2c: ov9282: Add ov9281 compatible
-Date:   Thu, 24 Nov 2022 11:29:59 +0100
-Message-Id: <20221124102959.1605202-3-alexander.stein@ew.tq-group.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20221124102959.1605202-1-alexander.stein@ew.tq-group.com>
-References: <20221124102959.1605202-1-alexander.stein@ew.tq-group.com>
+        by ams.source.kernel.org (Postfix) with ESMTPS id 82775B8274B;
+        Thu, 24 Nov 2022 10:42:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D4626C433D6;
+        Thu, 24 Nov 2022 10:42:29 +0000 (UTC)
+Message-ID: <15ba9b9e-f3f6-7f30-c200-d7c9593a4735@xs4all.nl>
+Date:   Thu, 24 Nov 2022 11:42:28 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.1
+Subject: Re: [PATCH] media: videobuf2: add V4L2_BUF_FLAG_HEADERS_ONLY flag
+Content-Language: en-US
+To:     Ming Qian <ming.qian@nxp.com>, mchehab@kernel.org
+Cc:     shawnguo@kernel.org, robh+dt@kernel.org, s.hauer@pengutronix.de,
+        kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Tomasz Figa <tfiga@chromium.org>
+References: <20220712093754.23370-1-ming.qian@nxp.com>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <20220712093754.23370-1-ming.qian@nxp.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-According to product brief they are identical from software point of view.
-Differences are a different chief ray angle (CRA) and the package.
-To distinguish ov9281 & ov9282 in userspace the name has to be explicitly
-set. Provide a fixed string using platform data.
++CC Nicolas and Tomasz.
 
-Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
-Acked-by: Daniele Alessandrelli <daniele.alessandrelli@intel.com>
-Reviewed-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
----
- drivers/media/i2c/ov9282.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+I would like some feedback for this patch.
 
-diff --git a/drivers/media/i2c/ov9282.c b/drivers/media/i2c/ov9282.c
-index 072144668892..3d31d6f58dab 100644
---- a/drivers/media/i2c/ov9282.c
-+++ b/drivers/media/i2c/ov9282.c
-@@ -1400,6 +1400,8 @@ static int ov9282_probe(struct i2c_client *client)
- 
- 	/* Initialize subdev */
- 	v4l2_i2c_subdev_init(&ov9282->sd, client, &ov9282_subdev_ops);
-+	v4l2_i2c_subdev_set_name(&ov9282->sd, client,
-+				 device_get_match_data(ov9282->dev), NULL);
- 
- 	ret = ov9282_parse_hw_config(ov9282);
- 	if (ret) {
-@@ -1499,7 +1501,8 @@ static const struct dev_pm_ops ov9282_pm_ops = {
- };
- 
- static const struct of_device_id ov9282_of_match[] = {
--	{ .compatible = "ovti,ov9282" },
-+	{ .compatible = "ovti,ov9281", .data = "ov9281" },
-+	{ .compatible = "ovti,ov9282", .data = "ov9282" },
- 	{ }
- };
- 
--- 
-2.34.1
+On 12/07/2022 11:37, Ming Qian wrote:
+> By setting the V4L2_BUF_FLAG_HEADERS_ONLY flag,
+> hint the vb2 only contains stream header,
+> but does not contain any frame data.
+> 
+> This flag needs to be used when header mode is set to
+> V4L2_MPEG_VIDEO_HEADER_MODE_SEPARATE.
+> 
+> Signed-off-by: Ming Qian <ming.qian@nxp.com>
+> ---
+>  Documentation/userspace-api/media/v4l/buffer.rst      | 11 +++++++++++
+>  .../userspace-api/media/v4l/ext-ctrls-codec.rst       | 10 +++++++---
+>  include/uapi/linux/videodev2.h                        |  2 ++
+>  3 files changed, 20 insertions(+), 3 deletions(-)
+> 
+> diff --git a/Documentation/userspace-api/media/v4l/buffer.rst b/Documentation/userspace-api/media/v4l/buffer.rst
+> index 4638ec64db00..18a6f5fcc822 100644
+> --- a/Documentation/userspace-api/media/v4l/buffer.rst
+> +++ b/Documentation/userspace-api/media/v4l/buffer.rst
+> @@ -607,6 +607,17 @@ Buffer Flags
+>  	the format. Any subsequent call to the
+>  	:ref:`VIDIOC_DQBUF <VIDIOC_QBUF>` ioctl will not block anymore,
+>  	but return an ``EPIPE`` error code.
+> +    * .. _`V4L2-BUF-FLAG-HEADERS-ONLY`:
+> +
+> +      - ``V4L2_BUF_FLAG_HEADERS_ONLY``
+> +      - 0x00200000
+> +      - This flag may be set when the buffer only contains codec
 
+Set by the driver or userspace? Or either, depending on whether it is
+an encoder or decoder?
+
+codec -> the codec
+
+> +	header, but does not contain any frame data. Usually the codec
+> +	header is merged to the next idr frame, with the flag
+
+to -> with
+idr -> IDR
+
+> +	``V4L2_BUF_FLAG_KEYFRAME``, but there is still some scenes that will
+
+is -> are
+
+scenes: do you mean 'scenarios'?
+
+> +	split the header and queue it separately. This flag can set only when
+
+"split the header and queue it separately" -> queue the header in a separate buffer
+
+can -> can be
+
+> +	codec support V4L2_MPEG_VIDEO_HEADER_MODE_SEPARATE,
+
+codec -> the codec
+support -> supports
+
+> +	and the header mode is set to V4L2_MPEG_VIDEO_HEADER_MODE_SEPARATE
+>      * .. _`V4L2-BUF-FLAG-REQUEST-FD`:
+>  
+>        - ``V4L2_BUF_FLAG_REQUEST_FD``
+> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> index 6183f43f4d73..478b6af4205d 100644
+> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> @@ -1386,8 +1386,12 @@ enum v4l2_mpeg_video_intra_refresh_period_type -
+>      (enum)
+>  
+>  enum v4l2_mpeg_video_header_mode -
+> -    Determines whether the header is returned as the first buffer or is
+> -    it returned together with the first frame. Applicable to encoders.
+> +    Determines whether the header is returned as the first buffer
+> +    with flag V4L2_BUF_FLAG_HEADERS_ONLY or is
+
+or is it -> or if it is
+
+> +    it returned together with the first frame.
+> +    Applicable to encoders and decoders.
+> +    If it's not implemented in a driver,
+> +    V4L2_MPEG_VIDEO_HEADER_MODE_JOINED_WITH_1ST_FRAME is to be assumed,
+>      Possible values are:
+>  
+>  .. raw:: latex
+> @@ -1401,7 +1405,7 @@ enum v4l2_mpeg_video_header_mode -
+>      :stub-columns: 0
+>  
+>      * - ``V4L2_MPEG_VIDEO_HEADER_MODE_SEPARATE``
+> -      - The stream header is returned separately in the first buffer.
+> +      - The stream header is returned separately in the first buffer with the flag V4L2_BUF_FLAG_HEADERS_ONLY.
+>      * - ``V4L2_MPEG_VIDEO_HEADER_MODE_JOINED_WITH_1ST_FRAME``
+>        - The stream header is returned together with the first encoded
+>  	frame.
+> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+> index 5311ac4fde35..6fd96acd6080 100644
+> --- a/include/uapi/linux/videodev2.h
+> +++ b/include/uapi/linux/videodev2.h
+> @@ -1131,6 +1131,8 @@ static inline __u64 v4l2_timeval_to_ns(const struct timeval *tv)
+>  #define V4L2_BUF_FLAG_TSTAMP_SRC_SOE		0x00010000
+>  /* mem2mem encoder/decoder */
+>  #define V4L2_BUF_FLAG_LAST			0x00100000
+> +/* Buffer only contains codec header */
+
+codec -> the codec
+
+> +#define V4L2_BUF_FLAG_HEADERS_ONLY		0x00200000
+>  /* request_fd is valid */
+>  #define V4L2_BUF_FLAG_REQUEST_FD		0x00800000
+>  
+
+Of course, there needs to be a driver that uses this as well. And drivers that support
+V4L2_MPEG_VIDEO_HEADER_MODE_SEPARATE would need to add support for this flag as well,
+I guess.
+
+And what I haven't seen here is *why* you need this flag. There are already drivers that
+support V4L2_MPEG_VIDEO_HEADER_MODE_SEPARATE, and they managed fine without it.
+
+Regards,
+
+	Hans
