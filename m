@@ -2,193 +2,218 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A920F637372
-	for <lists+linux-media@lfdr.de>; Thu, 24 Nov 2022 09:12:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 129816373E4
+	for <lists+linux-media@lfdr.de>; Thu, 24 Nov 2022 09:29:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229834AbiKXIMV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 24 Nov 2022 03:12:21 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57944 "EHLO
+        id S229727AbiKXI3k (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 24 Nov 2022 03:29:40 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53532 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229838AbiKXILv (ORCPT
+        with ESMTP id S229536AbiKXI3j (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 24 Nov 2022 03:11:51 -0500
-Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com [IPv6:2a00:1450:4864:20::635])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 36B62DDFB8
-        for <linux-media@vger.kernel.org>; Thu, 24 Nov 2022 00:11:30 -0800 (PST)
-Received: by mail-ej1-x635.google.com with SMTP id e27so2383509ejc.12
-        for <linux-media@vger.kernel.org>; Thu, 24 Nov 2022 00:11:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amarulasolutions.com; s=google;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=6YHJgPorhOUbyl8qXKZ/Y1Fb0whHUGXa2Cr+bH3NpKM=;
-        b=B4nBu20bW7mnUL2BeHRcg59KXuEcGTlAVaR5iapLDCicXnF3jFRGL0KaCd3/+h9Tdw
-         vY9pRcqoKoWybtisYS+ZxcgaQKr5iVDQ7zAsYRhTzvbjh9N+7LqU/5PuYXAq73/SPu5K
-         lK1a6zcpRASRjG7B8xKq1P1Np87iRH6szFwH0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=6YHJgPorhOUbyl8qXKZ/Y1Fb0whHUGXa2Cr+bH3NpKM=;
-        b=FOjW/J318gOfeH0x+OmrK5Pcy9kPOP+MJeATO54a3gj1M+FhbZXOaR269xQ8FyL9b3
-         pZXkShMxEsmFfWm53k3+1AexUBk/6Try4+bwamMemwcZcesDmY71t8VEnyEKn6MihhnG
-         EonmIyMMU6q/uqGs1kP+xhZQL4VFMEoFz7B2qTjJqcOBeXw25l5WlurwpIcGNjR1gqhp
-         iGGKg7X7xUc1BHk3nApL6qBCMLXJt7mvKtR0uxBxhmu7JanVqMUZRV1sT/eJnJrAEZbJ
-         cxS0pihAwF3NwapQV+Wwg7601kEnNyHulY/qz0p24egassR9MWxP7tNDneQAY2geTif1
-         bKgQ==
-X-Gm-Message-State: ANoB5pkXeO3VEnYOJvS2QdwIX9AjBjBm84mt1v8PWJLQOAXV+2KCfKz5
-        z7Qk788aE/2PFE5ftuNMxik9xUcNpSGkIw==
-X-Google-Smtp-Source: AA0mqf7aVZbVSFuG+L8Eyzm7AhG74w3bgdJjvzEEZlZQFKaZUtPxj3jnE/eIs0+1qpSwdBYG5TXoFA==
-X-Received: by 2002:a17:906:245a:b0:78d:857d:b4a8 with SMTP id a26-20020a170906245a00b0078d857db4a8mr5069511ejb.495.1669277488639;
-        Thu, 24 Nov 2022 00:11:28 -0800 (PST)
-Received: from tom-ThinkPad-T14s-Gen-2i (net-188-217-55-94.cust.vodafonedsl.it. [188.217.55.94])
-        by smtp.gmail.com with ESMTPSA id wl3-20020a170907310300b007b4bc423b41sm145907ejb.190.2022.11.24.00.11.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Nov 2022 00:11:27 -0800 (PST)
-Date:   Thu, 24 Nov 2022 09:11:26 +0100
-From:   Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
-To:     "T.J. Mercier" <tjmercier@google.com>
-Cc:     Sumit Semwal <sumit.semwal@linaro.org>,
-        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] dma-buf: A collection of typo and documentation fixes
-Message-ID: <20221124081126.GA607444@tom-ThinkPad-T14s-Gen-2i>
-References: <20221123193519.3948105-1-tjmercier@google.com>
+        Thu, 24 Nov 2022 03:29:39 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2FD7293CF6
+        for <linux-media@vger.kernel.org>; Thu, 24 Nov 2022 00:29:37 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id CF0E0B8271B
+        for <linux-media@vger.kernel.org>; Thu, 24 Nov 2022 08:29:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B7A4AC433C1;
+        Thu, 24 Nov 2022 08:29:33 +0000 (UTC)
+Message-ID: <71bdd3cf-b044-3f12-df58-7c16d5749587@xs4all.nl>
+Date:   Thu, 24 Nov 2022 09:29:32 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221123193519.3948105-1-tjmercier@google.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.1
+Content-Language: en-US
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     Tomasz Figa <tfiga@chromium.org>,
+        Hirokazu Honda <hiroh@chromium.org>,
+        David Hildenbrand <david@redhat.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [PATCH] media: videobuf2: revert "get_userptr: buffers are always
+ writable"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi T.J,
+Commit 707947247e95 ("media: videobuf2-vmalloc: get_userptr: buffers are
+always writable") caused problems in a corner case (passing read-only
+shmem memory as a userptr). So revert this patch.
 
-On Wed, Nov 23, 2022 at 07:35:18PM +0000, T.J. Mercier wrote:
-> I've been collecting these typo fixes for a while and it feels like
-> time to send them in.
-> 
-> Signed-off-by: T.J. Mercier <tjmercier@google.com>
-> ---
->  drivers/dma-buf/dma-buf.c | 14 +++++++-------
->  include/linux/dma-buf.h   |  6 +++---
->  2 files changed, 10 insertions(+), 10 deletions(-)
-> 
-> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-> index dd0f83ee505b..614ccd208af4 100644
-> --- a/drivers/dma-buf/dma-buf.c
-> +++ b/drivers/dma-buf/dma-buf.c
-> @@ -1141,7 +1141,7 @@ EXPORT_SYMBOL_NS_GPL(dma_buf_unmap_attachment, DMA_BUF);
->   *
->   * @dmabuf:	[in]	buffer which is moving
->   *
-> - * Informs all attachmenst that they need to destroy and recreated all their
-> + * Informs all attachments that they need to destroy and recreate all their
->   * mappings.
->   */
->  void dma_buf_move_notify(struct dma_buf *dmabuf)
-> @@ -1159,11 +1159,11 @@ EXPORT_SYMBOL_NS_GPL(dma_buf_move_notify, DMA_BUF);
->  /**
->   * DOC: cpu access
->   *
-> - * There are mutliple reasons for supporting CPU access to a dma buffer object:
-> + * There are multiple reasons for supporting CPU access to a dma buffer object:
->   *
->   * - Fallback operations in the kernel, for example when a device is connected
->   *   over USB and the kernel needs to shuffle the data around first before
-> - *   sending it away. Cache coherency is handled by braketing any transactions
-> + *   sending it away. Cache coherency is handled by bracketing any transactions
->   *   with calls to dma_buf_begin_cpu_access() and dma_buf_end_cpu_access()
->   *   access.
->   *
-> @@ -1190,7 +1190,7 @@ EXPORT_SYMBOL_NS_GPL(dma_buf_move_notify, DMA_BUF);
->   *   replace ION buffers mmap support was needed.
->   *
->   *   There is no special interfaces, userspace simply calls mmap on the dma-buf
-> - *   fd. But like for CPU access there's a need to braket the actual access,
-> + *   fd. But like for CPU access there's a need to bracket the actual access,
->   *   which is handled by the ioctl (DMA_BUF_IOCTL_SYNC). Note that
->   *   DMA_BUF_IOCTL_SYNC can fail with -EAGAIN or -EINTR, in which case it must
->   *   be restarted.
-> @@ -1264,10 +1264,10 @@ static int __dma_buf_begin_cpu_access(struct dma_buf *dmabuf,
->   * preparations. Coherency is only guaranteed in the specified range for the
->   * specified access direction.
->   * @dmabuf:	[in]	buffer to prepare cpu access for.
-> - * @direction:	[in]	length of range for cpu access.
-> + * @direction:	[in]	direction of access.
->   *
->   * After the cpu access is complete the caller should call
-> - * dma_buf_end_cpu_access(). Only when cpu access is braketed by both calls is
-> + * dma_buf_end_cpu_access(). Only when cpu access is bracketed by both calls is
->   * it guaranteed to be coherent with other DMA access.
->   *
->   * This function will also wait for any DMA transactions tracked through
-> @@ -1307,7 +1307,7 @@ EXPORT_SYMBOL_NS_GPL(dma_buf_begin_cpu_access, DMA_BUF);
->   * actions. Coherency is only guaranteed in the specified range for the
->   * specified access direction.
->   * @dmabuf:	[in]	buffer to complete cpu access for.
-> - * @direction:	[in]	length of range for cpu access.
-> + * @direction:	[in]	direction of access.
->   *
->   * This terminates CPU access started with dma_buf_begin_cpu_access().
->   *
-> diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
-> index 71731796c8c3..1d61a4f6db35 100644
-> --- a/include/linux/dma-buf.h
-> +++ b/include/linux/dma-buf.h
-> @@ -330,7 +330,7 @@ struct dma_buf {
->  	 * @lock:
->  	 *
->  	 * Used internally to serialize list manipulation, attach/detach and
-> -	 * vmap/unmap. Note that in many cases this is superseeded by
-> +	 * vmap/unmap. Note that in many cases this is superseded by
->  	 * dma_resv_lock() on @resv.
->  	 */
->  	struct mutex lock;
-> @@ -365,7 +365,7 @@ struct dma_buf {
->  	 */
->  	const char *name;
->  
-> -	/** @name_lock: Spinlock to protect name acces for read access. */
-> +	/** @name_lock: Spinlock to protect name access for read access. */
->  	spinlock_t name_lock;
->  
->  	/**
-> @@ -402,7 +402,7 @@ struct dma_buf {
->  	 *   anything the userspace API considers write access.
->  	 *
->  	 * - Drivers may just always add a write fence, since that only
-> -	 *   causes unecessarily synchronization, but no correctness issues.
-> +	 *   causes unnecessary synchronization, but no correctness issues.
->  	 *
->  	 * - Some drivers only expose a synchronous userspace API with no
->  	 *   pipelining across drivers. These do not set any fences for their
-> -- 
-> 2.38.1.584.g0f3c55d4c2-goog
-> 
+The original problem for which that commit was originally made is
+something that I could not reproduce after reverting it. So just go
+back to the way it was for many years, and if problems arise in
+the future, then another approach should be taken to resolve it.
 
-Looks good to me.
+This patch is based on a patch from Hirokazu.
 
-Reviewed-by: Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
+Fixes: 707947247e95 ("media: videobuf2-vmalloc: get_userptr: buffers are always writable")
+Signed-off-by: Hirokazu Honda <hiroh@chromium.org>
+Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+---
+ drivers/media/common/videobuf2/frame_vector.c         | 10 +++++++---
+ drivers/media/common/videobuf2/videobuf2-dma-contig.c |  3 ++-
+ drivers/media/common/videobuf2/videobuf2-dma-sg.c     |  4 +++-
+ drivers/media/common/videobuf2/videobuf2-memops.c     |  6 ++++--
+ drivers/media/common/videobuf2/videobuf2-vmalloc.c    |  4 +++-
+ include/media/frame_vector.h                          |  2 +-
+ include/media/videobuf2-memops.h                      |  3 ++-
+ 7 files changed, 22 insertions(+), 10 deletions(-)
 
-Thanks & Regards,
-Tommaso
+diff --git a/drivers/media/common/videobuf2/frame_vector.c b/drivers/media/common/videobuf2/frame_vector.c
+index 542dde9d2609..aad72640f055 100644
+--- a/drivers/media/common/videobuf2/frame_vector.c
++++ b/drivers/media/common/videobuf2/frame_vector.c
+@@ -14,6 +14,7 @@
+  * get_vaddr_frames() - map virtual addresses to pfns
+  * @start:	starting user address
+  * @nr_frames:	number of pages / pfns from start to map
++ * @write:	the mapped address has write permission
+  * @vec:	structure which receives pages / pfns of the addresses mapped.
+  *		It should have space for at least nr_frames entries.
+  *
+@@ -32,7 +33,7 @@
+  *
+  * This function takes care of grabbing mmap_lock as necessary.
+  */
+-int get_vaddr_frames(unsigned long start, unsigned int nr_frames,
++int get_vaddr_frames(unsigned long start, unsigned int nr_frames, bool write,
+ 		     struct frame_vector *vec)
+ {
+ 	struct mm_struct *mm = current->mm;
+@@ -40,6 +41,7 @@ int get_vaddr_frames(unsigned long start, unsigned int nr_frames,
+ 	int ret_pin_user_pages_fast = 0;
+ 	int ret = 0;
+ 	int err;
++	unsigned int gup_flags = FOLL_FORCE | FOLL_LONGTERM;
 
+ 	if (nr_frames == 0)
+ 		return 0;
+@@ -49,8 +51,10 @@ int get_vaddr_frames(unsigned long start, unsigned int nr_frames,
+
+ 	start = untagged_addr(start);
+
+-	ret = pin_user_pages_fast(start, nr_frames,
+-				  FOLL_FORCE | FOLL_WRITE | FOLL_LONGTERM,
++	if (write)
++		gup_flags |= FOLL_WRITE;
++
++	ret = pin_user_pages_fast(start, nr_frames, gup_flags,
+ 				  (struct page **)(vec->ptrs));
+ 	if (ret > 0) {
+ 		vec->got_ref = true;
+diff --git a/drivers/media/common/videobuf2/videobuf2-dma-contig.c b/drivers/media/common/videobuf2/videobuf2-dma-contig.c
+index 678b359717c4..8e55468cb60d 100644
+--- a/drivers/media/common/videobuf2/videobuf2-dma-contig.c
++++ b/drivers/media/common/videobuf2/videobuf2-dma-contig.c
+@@ -603,7 +603,8 @@ static void *vb2_dc_get_userptr(struct vb2_buffer *vb, struct device *dev,
+ 	buf->vb = vb;
+
+ 	offset = lower_32_bits(offset_in_page(vaddr));
+-	vec = vb2_create_framevec(vaddr, size);
++	vec = vb2_create_framevec(vaddr, size, buf->dma_dir == DMA_FROM_DEVICE ||
++					       buf->dma_dir == DMA_BIDIRECTIONAL);
+ 	if (IS_ERR(vec)) {
+ 		ret = PTR_ERR(vec);
+ 		goto fail_buf;
+diff --git a/drivers/media/common/videobuf2/videobuf2-dma-sg.c b/drivers/media/common/videobuf2/videobuf2-dma-sg.c
+index fa69158a65b1..099693e42bc6 100644
+--- a/drivers/media/common/videobuf2/videobuf2-dma-sg.c
++++ b/drivers/media/common/videobuf2/videobuf2-dma-sg.c
+@@ -241,7 +241,9 @@ static void *vb2_dma_sg_get_userptr(struct vb2_buffer *vb, struct device *dev,
+ 	buf->size = size;
+ 	buf->dma_sgt = &buf->sg_table;
+ 	buf->vb = vb;
+-	vec = vb2_create_framevec(vaddr, size);
++	vec = vb2_create_framevec(vaddr, size,
++				  buf->dma_dir == DMA_FROM_DEVICE ||
++				  buf->dma_dir == DMA_BIDIRECTIONAL);
+ 	if (IS_ERR(vec))
+ 		goto userptr_fail_pfnvec;
+ 	buf->vec = vec;
+diff --git a/drivers/media/common/videobuf2/videobuf2-memops.c b/drivers/media/common/videobuf2/videobuf2-memops.c
+index 9dd6c27162f4..f9a4ec44422e 100644
+--- a/drivers/media/common/videobuf2/videobuf2-memops.c
++++ b/drivers/media/common/videobuf2/videobuf2-memops.c
+@@ -26,6 +26,7 @@
+  * vb2_create_framevec() - map virtual addresses to pfns
+  * @start:	Virtual user address where we start mapping
+  * @length:	Length of a range to map
++ * @write:	Should we map for writing into the area
+  *
+  * This function allocates and fills in a vector with pfns corresponding to
+  * virtual address range passed in arguments. If pfns have corresponding pages,
+@@ -34,7 +35,8 @@
+  * failure. Returned vector needs to be freed via vb2_destroy_pfnvec().
+  */
+ struct frame_vector *vb2_create_framevec(unsigned long start,
+-					 unsigned long length)
++					 unsigned long length,
++					 bool write)
+ {
+ 	int ret;
+ 	unsigned long first, last;
+@@ -47,7 +49,7 @@ struct frame_vector *vb2_create_framevec(unsigned long start,
+ 	vec = frame_vector_create(nr);
+ 	if (!vec)
+ 		return ERR_PTR(-ENOMEM);
+-	ret = get_vaddr_frames(start & PAGE_MASK, nr, vec);
++	ret = get_vaddr_frames(start & PAGE_MASK, nr, write, vec);
+ 	if (ret < 0)
+ 		goto out_destroy;
+ 	/* We accept only complete set of PFNs */
+diff --git a/drivers/media/common/videobuf2/videobuf2-vmalloc.c b/drivers/media/common/videobuf2/videobuf2-vmalloc.c
+index 948152f1596b..67d0b89e701b 100644
+--- a/drivers/media/common/videobuf2/videobuf2-vmalloc.c
++++ b/drivers/media/common/videobuf2/videobuf2-vmalloc.c
+@@ -85,7 +85,9 @@ static void *vb2_vmalloc_get_userptr(struct vb2_buffer *vb, struct device *dev,
+ 	buf->dma_dir = vb->vb2_queue->dma_dir;
+ 	offset = vaddr & ~PAGE_MASK;
+ 	buf->size = size;
+-	vec = vb2_create_framevec(vaddr, size);
++	vec = vb2_create_framevec(vaddr, size,
++				  buf->dma_dir == DMA_FROM_DEVICE ||
++				  buf->dma_dir == DMA_BIDIRECTIONAL);
+ 	if (IS_ERR(vec)) {
+ 		ret = PTR_ERR(vec);
+ 		goto fail_pfnvec_create;
+diff --git a/include/media/frame_vector.h b/include/media/frame_vector.h
+index bfed1710dc24..541c71a2c7be 100644
+--- a/include/media/frame_vector.h
++++ b/include/media/frame_vector.h
+@@ -16,7 +16,7 @@ struct frame_vector {
+ struct frame_vector *frame_vector_create(unsigned int nr_frames);
+ void frame_vector_destroy(struct frame_vector *vec);
+ int get_vaddr_frames(unsigned long start, unsigned int nr_pfns,
+-		     struct frame_vector *vec);
++		     bool write, struct frame_vector *vec);
+ void put_vaddr_frames(struct frame_vector *vec);
+ int frame_vector_to_pages(struct frame_vector *vec);
+ void frame_vector_to_pfns(struct frame_vector *vec);
+diff --git a/include/media/videobuf2-memops.h b/include/media/videobuf2-memops.h
+index cd4a46331531..4b5b84f93538 100644
+--- a/include/media/videobuf2-memops.h
++++ b/include/media/videobuf2-memops.h
+@@ -34,7 +34,8 @@ struct vb2_vmarea_handler {
+ extern const struct vm_operations_struct vb2_common_vm_ops;
+
+ struct frame_vector *vb2_create_framevec(unsigned long start,
+-					 unsigned long length);
++					 unsigned long length,
++					 bool write);
+ void vb2_destroy_framevec(struct frame_vector *vec);
+
+ #endif
 -- 
-Tommaso Merciai
-Embedded Linux Engineer
-tommaso.merciai@amarulasolutions.com
-__________________________________
+2.35.1
 
-Amarula Solutions SRL
-Via Le Canevare 30, 31100 Treviso, Veneto, IT
-T. +39 042 243 5310
-info@amarulasolutions.com
-www.amarulasolutions.com
