@@ -2,60 +2,58 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9921A637EC3
-	for <lists+linux-media@lfdr.de>; Thu, 24 Nov 2022 19:03:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DE635637EF3
+	for <lists+linux-media@lfdr.de>; Thu, 24 Nov 2022 19:32:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229639AbiKXSDP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 24 Nov 2022 13:03:15 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60708 "EHLO
+        id S229821AbiKXScK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 24 Nov 2022 13:32:10 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51392 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229564AbiKXSDN (ORCPT
+        with ESMTP id S229652AbiKXScJ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 24 Nov 2022 13:03:13 -0500
-Received: from mail-io1-xd2a.google.com (mail-io1-xd2a.google.com [IPv6:2607:f8b0:4864:20::d2a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B5D57716FF
-        for <linux-media@vger.kernel.org>; Thu, 24 Nov 2022 10:03:11 -0800 (PST)
-Received: by mail-io1-xd2a.google.com with SMTP id p141so1635760iod.6
-        for <linux-media@vger.kernel.org>; Thu, 24 Nov 2022 10:03:11 -0800 (PST)
+        Thu, 24 Nov 2022 13:32:09 -0500
+Received: from mail-io1-xd2f.google.com (mail-io1-xd2f.google.com [IPv6:2607:f8b0:4864:20::d2f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3DE6AECCD3
+        for <linux-media@vger.kernel.org>; Thu, 24 Nov 2022 10:32:08 -0800 (PST)
+Received: by mail-io1-xd2f.google.com with SMTP id d123so1674987iof.7
+        for <linux-media@vger.kernel.org>; Thu, 24 Nov 2022 10:32:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=raspberrypi.com; s=google;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=mjuRiPX7EHTo5vSfyT35utZHsBrQyctoZatQb3kpAbg=;
-        b=eEnTaLBMv9JwbzOpxmj2aH4aBTyQJG2kRPbDjCLEBQVws4kynw/hkQ1+C7mTkhyjWs
-         bPinj1TngQTQByeMsljQMksdO1oFwwMn1LRBZcXJlsEoJbo77yAKtAdb+5vZb+cKtNiL
-         psyEmzlUJBbm6av0GggolSXFViq7ds8HiZnY0pPYbRYsYnhUY1THqeDtCMLxoWa3/Wcq
-         ZVb/zQihje+FeHFzXkwxt0ELIQm3WNsNkL4eIjZn1ul687h5Iy6WS2kR906bOiya0QBF
-         vCi9AL1ZeHHJztx/Q8InUEU1ky/9RunVqduau1fauMvdvsDnNmXZzylCs6aW/gheaPX3
-         sY0Q==
+        bh=4NfCbnlGwMwNvR3opzZ201wBZPAnh094/StFzknlc/s=;
+        b=mlgvuhkTWShwpGDtWdIRqA38yYcnc13278O0D2Oy7KA9mtoRB4TvPrs4rB00pW+CU4
+         p/cA2JtQ1c2zbpbPfx/HYtxQvazYz0ZFPktCZfVEBYyAXG8WpJrZR9uuVJp2g/kY0Qvw
+         vdpxBHlEGh7F3MwicTZy5QpZ26eZmWPB0/Ijn6dqCd+B8fO6CLKYvk+mZXvuY/zk/lAj
+         pc3oQzK7DmriQk1enUsCN0Pq722ZoKK+KHYx/N0lCXxpwHrnywZvUGoB9A20uSOqxYaN
+         fYeDhf9kDP2HQiy2X5nKRfF2xA41wbocBzGnxvmuucv1wv0LUYUXzgzBHoR+Aak9Asit
+         vVuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=mjuRiPX7EHTo5vSfyT35utZHsBrQyctoZatQb3kpAbg=;
-        b=xzdRZATFrvFvUgCjk7669yPw9EBmLUov9h1PK3OeXzSZSau7Aq2ubdPj2HWhNVcuHy
-         Cn6rYsxFj+oSzJwqSVNuLErRoQHoXuho4VH+4TW4LMMdSerk0bHoV4R4FK85CArVx9u+
-         t2AB1gbmcSjeboA0gOyLLh7Zz/5XYkPjsZ7taWedMby5FBNZXtG/tVB1ocQI3IXEqEyb
-         G0oXYql7Gukd/30Bxy5qD3LpL5ulO2W1mN2J/u0THZdqdMPB34abePI0VAz7bqNUn+2A
-         unaGNtaiiuFIIhcySIRBMjjYv8fK3Lwzu5qmJtRErtBmuG3MiaJZz5hYL+gzR8Bb/CcW
-         JUGA==
-X-Gm-Message-State: ANoB5pmGk38BNsWIHylhw7SVbKu2wBdyCm7fDcqImaTZGcytM6GFNjxC
-        q9o/QBUaMF1uJLLyHx+8KmhgtGnd5AL4XlzrgqvVRuvCMDc=
-X-Google-Smtp-Source: AA0mqf41LVQz7bFI12cFLvEvgpbzMJOWeEUNrH3XpJVQxJup0POXGeBAa6DQdeORw2hmdT/89sAdHHK1hs5dFqN/yN8=
-X-Received: by 2002:a05:6602:2814:b0:6de:ca95:45d8 with SMTP id
- d20-20020a056602281400b006deca9545d8mr9895054ioe.26.1669312991048; Thu, 24
- Nov 2022 10:03:11 -0800 (PST)
+        bh=4NfCbnlGwMwNvR3opzZ201wBZPAnh094/StFzknlc/s=;
+        b=osWTRbVcQGv5/8LPvI5VmEMKb3QpnL+PPrBRL0llZSv/j3l2kOA4cdDuMe3iLndZ90
+         eYq3tTcMWCZx/rW85Edg2xRcL8H+kXmp9wYDlTvhlLn/8j/EPuqsQxmszckz3JteS1Js
+         Jr8KIlUpyVns52k6CBlbAS8xt817g512sofjGefj2eyeo2jSIkzptTP+siky5BT+NCC1
+         v+y/DDOkLdDK0Hhk7GkEf4k2w7BKk9Qqe8JTHcFGZvxJlv11uOUKETF2pjwf7MV+EBbs
+         N8iPXIzWhx0N9q91Qr9lFzafehd8crnZK2ToD+IVGCnr2RbNte4uu8EkK+hyoxSSUx8o
+         QteA==
+X-Gm-Message-State: ANoB5pm6nGOeAM1iV7+i7U4llIjQ5bN87bWNqIFIBQWIbcGfWIU2yyJ5
+        NnJSwwfbOzheG0hsNDxJ5r2487JK2biv5cIaDo6tww==
+X-Google-Smtp-Source: AA0mqf7zhJNcQgwOnjEesU7Xx5oHLrGMyj4LGUsoo3NRt7deqoIGMoJfI7nv4s4d9F3lg8Io4P/0WOKrva8JS/wQ0lM=
+X-Received: by 2002:a6b:6d0b:0:b0:6ca:5fd2:f8e1 with SMTP id
+ a11-20020a6b6d0b000000b006ca5fd2f8e1mr16122059iod.118.1669314727621; Thu, 24
+ Nov 2022 10:32:07 -0800 (PST)
 MIME-Version: 1.0
-References: <20221122223250.21233-1-laurent.pinchart@ideasonboard.com>
- <20221122223250.21233-15-laurent.pinchart@ideasonboard.com>
- <CAPY8ntD+82HitFj7G9QTbwx4dNFf59adqhn6q2-mKAdTwc-iQA@mail.gmail.com> <Y34uIE+bjlnIXGD9@pendragon.ideasonboard.com>
-In-Reply-To: <Y34uIE+bjlnIXGD9@pendragon.ideasonboard.com>
+References: <20221122223250.21233-1-laurent.pinchart@ideasonboard.com> <20221122223250.21233-3-laurent.pinchart@ideasonboard.com>
+In-Reply-To: <20221122223250.21233-3-laurent.pinchart@ideasonboard.com>
 From:   Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date:   Thu, 24 Nov 2022 18:02:54 +0000
-Message-ID: <CAPY8ntB_5wQADBd2q2kO6Vstnu_1P=mQEkAFjQ9ee0PJ=eJrXQ@mail.gmail.com>
-Subject: Re: [PATCH v1 14/15] media: i2c: imx290: Configure data lanes at
- start time
+Date:   Thu, 24 Nov 2022 18:31:51 +0000
+Message-ID: <CAPY8ntB7p6DtFOEg9gU5FBPu3kCRX0ssHGzXqc7UL31R8c_dZw@mail.gmail.com>
+Subject: Re: [PATCH v1 02/15] media: i2c: imx290: Factor out subdev init and
+ cleanup to functions
 To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc:     linux-media@vger.kernel.org, Sakari Ailus <sakari.ailus@iki.fi>,
         Manivannan Sadhasivam <mani@kernel.org>
@@ -71,112 +69,252 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Hi Laurent
 
-On Wed, 23 Nov 2022 at 14:29, Laurent Pinchart
+On Tue, 22 Nov 2022 at 22:34, Laurent Pinchart
 <laurent.pinchart@ideasonboard.com> wrote:
 >
-> Hi Dave,
+> The probe() function is large. Make it more readable by factoring the
+> subdev initialization code out. While at it, rename the error labels as
+> the "free_" prefix isn't accurate.
 >
-> On Wed, Nov 23, 2022 at 10:16:58AM +0000, Dave Stevenson wrote:
-> > On Tue, 22 Nov 2022 at 22:34, Laurent Pinchart wrote:
-> > >
-> > > There's no need to configure the data lanes in the runtime PM resume
-> > > handler. Do so in imx290_start_streaming() instead.
-> >
-> > Interesting as I had Sakari advocating putting clock mode selection
-> > register control in "power on" for my recent ov9282 series. Is there
-> > any consistency?
+> No functional change intended.
 >
-> No there isn't :-) There hasn't been any official rule so far, so it's
-> no surprise different drivers exhibit different behaviours. I'm all for
-> standardization when possible though.
-
-Likewise! Standardisation is a good thing!
-
-Sorry my comment was slightly tongue-in-cheek due to having had such a
-similar thread with Sakari so recently. When a long-standing member of
-the community then comes along with a similar patch it just reinforced
-that, in the absence of any documented guidelines, it is all very much
-ad-hoc.
-It then frustrates me that these sorts of issues are then raised at
-review, which either results in having to justify the choice, or
-respinning patches often with time constraints if trying to hit a
-merge window.
-
-> Overall, I think there's a general agreement that the runtime PM resume
-> handler needs to control everything required to make the sensor
-> accessible by software. That covers at least hard reset, regulators and
-> clocks.
+> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> ---
+>  drivers/media/i2c/imx290.c | 109 +++++++++++++++++++++----------------
+>  1 file changed, 62 insertions(+), 47 deletions(-)
 >
-> For software settings, it's less clear. If the sensor requires a
-> software reset sequence immediately after power on, it makes sense to
-> also handle that in the runtime PM resume handler. Same thing for any
-> other initialization required to reach a quiescent state (for instance
-> there are many sensors that start streaming automatically right after
-> power on for a reason I can't understand, so that needs to be disabled).
+> diff --git a/drivers/media/i2c/imx290.c b/drivers/media/i2c/imx290.c
+> index aae4f51941a1..4dbf218e7a63 100644
+> --- a/drivers/media/i2c/imx290.c
+> +++ b/drivers/media/i2c/imx290.c
+> @@ -1015,6 +1015,46 @@ static const struct media_entity_operations imx290_subdev_entity_ops = {
+>         .link_validate = v4l2_subdev_link_validate,
+>  };
 >
-> This means that the runtime PM handler will thus access the sensor over
-> I2C. We may not want to do so in probe() before having a chance to probe
-> it (by reading an ID register for instance). The power on sequence could
-> be split in two to handle this, with one function that powers the sensor
-> up, and the other one that handles software initialization. Both would
-> be called from the runtime PM resume handler, and in probe(), we could
-> first power on the sensor, identify it, and then initialize it. I think
-> that will be fine on DT platforms as we don't need to RPM-resume the I2C
-> device in probe before accessing it as far as I can tell, given that the
-> probe() function should be called with the I2C controller RPM-resumed.
-> I'll let Sakari confirms if this works for ACPI).
+> +static int imx290_subdev_init(struct imx290 *imx290)
+> +{
+> +       struct i2c_client *client = to_i2c_client(imx290->dev);
+> +       int ret;
+> +
+> +       /*
+> +        * Initialize the frame format. In particular, imx290->current_mode
+> +        * and imx290->bpp are set to defaults: imx290_calc_pixel_rate() call
+> +        * below relies on these fields.
+> +        */
+> +       imx290_entity_init_cfg(&imx290->sd, NULL);
+> +
+> +       ret = imx290_ctrl_init(imx290);
+> +       if (ret < 0) {
+> +               dev_err(imx290->dev, "Control initialization error %d\n", ret);
+> +               return ret;
+> +       }
+> +
+> +       v4l2_i2c_subdev_init(&imx290->sd, client, &imx290_subdev_ops);
+> +       imx290->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
+> +       imx290->sd.dev = imx290->dev;
+> +       imx290->sd.entity.ops = &imx290_subdev_entity_ops;
+> +       imx290->sd.entity.function = MEDIA_ENT_F_CAM_SENSOR;
+> +
+> +       imx290->pad.flags = MEDIA_PAD_FL_SOURCE;
+> +       ret = media_entity_pads_init(&imx290->sd.entity, 1, &imx290->pad);
+> +       if (ret < 0) {
+> +               dev_err(imx290->dev, "Could not register media entity\n");
+> +               return ret;
+> +       }
+> +
+> +       return 0;
+> +}
+> +
+> +static void imx290_subdev_cleanup(struct imx290 *imx290)
+> +{
+> +       media_entity_cleanup(&imx290->sd.entity);
+> +       v4l2_ctrl_handler_free(&imx290->ctrls);
+> +}
+> +
+>  /* ----------------------------------------------------------------------------
+>   * Power management
+>   */
+> @@ -1148,10 +1188,10 @@ static int imx290_probe(struct i2c_client *client)
+>         fwnode_handle_put(endpoint);
+>         if (ret == -ENXIO) {
+>                 dev_err(dev, "Unsupported bus type, should be CSI2\n");
+> -               goto free_err;
+> +               goto err_endpoint;
+>         } else if (ret) {
+>                 dev_err(dev, "Parsing endpoint node failed\n");
+> -               goto free_err;
+> +               goto err_endpoint;
+>         }
+>
+>         /* Get number of data lanes */
+> @@ -1159,7 +1199,7 @@ static int imx290_probe(struct i2c_client *client)
+>         if (imx290->nlanes != 2 && imx290->nlanes != 4) {
+>                 dev_err(dev, "Invalid data lanes: %d\n", imx290->nlanes);
+>                 ret = -EINVAL;
+> -               goto free_err;
+> +               goto err_endpoint;
+>         }
+>
+>         dev_dbg(dev, "Using %u data lanes\n", imx290->nlanes);
+> @@ -1167,7 +1207,7 @@ static int imx290_probe(struct i2c_client *client)
+>         if (!ep.nr_of_link_frequencies) {
+>                 dev_err(dev, "link-frequency property not found in DT\n");
+>                 ret = -EINVAL;
+> -               goto free_err;
+> +               goto err_endpoint;
+>         }
+>
+>         /* Check that link frequences for all the modes are in device tree */
+> @@ -1175,7 +1215,7 @@ static int imx290_probe(struct i2c_client *client)
+>         if (fq) {
+>                 dev_err(dev, "Link frequency of %lld is not supported\n", fq);
+>                 ret = -EINVAL;
+> -               goto free_err;
+> +               goto err_endpoint;
+>         }
+>
+>         /* get system clock (xclk) */
+> @@ -1183,14 +1223,14 @@ static int imx290_probe(struct i2c_client *client)
+>         if (IS_ERR(imx290->xclk)) {
+>                 dev_err(dev, "Could not get xclk");
+>                 ret = PTR_ERR(imx290->xclk);
+> -               goto free_err;
+> +               goto err_endpoint;
+>         }
+>
+>         ret = fwnode_property_read_u32(dev_fwnode(dev), "clock-frequency",
+>                                        &xclk_freq);
+>         if (ret) {
+>                 dev_err(dev, "Could not get xclk frequency\n");
+> -               goto free_err;
+> +               goto err_endpoint;
+>         }
+>
+>         /* external clock must be 37.125 MHz */
+> @@ -1198,19 +1238,19 @@ static int imx290_probe(struct i2c_client *client)
+>                 dev_err(dev, "External clock frequency %u is not supported\n",
+>                         xclk_freq);
+>                 ret = -EINVAL;
+> -               goto free_err;
+> +               goto err_endpoint;
+>         }
+>
+>         ret = clk_set_rate(imx290->xclk, xclk_freq);
+>         if (ret) {
+>                 dev_err(dev, "Could not set xclk frequency\n");
+> -               goto free_err;
+> +               goto err_endpoint;
+>         }
+>
+>         ret = imx290_get_regulators(dev, imx290);
+>         if (ret < 0) {
+>                 dev_err(dev, "Cannot get regulators\n");
+> -               goto free_err;
+> +               goto err_endpoint;
+>         }
+>
+>         imx290->rst_gpio = devm_gpiod_get_optional(dev, "reset",
+> @@ -1218,55 +1258,33 @@ static int imx290_probe(struct i2c_client *client)
+>         if (IS_ERR(imx290->rst_gpio)) {
+>                 dev_err(dev, "Cannot get reset gpio\n");
+>                 ret = PTR_ERR(imx290->rst_gpio);
+> -               goto free_err;
+> +               goto err_endpoint;
+>         }
+>
+>         mutex_init(&imx290->lock);
+>
+> -       /*
+> -        * Initialize the frame format. In particular, imx290->current_mode
+> -        * and imx290->bpp are set to defaults: imx290_calc_pixel_rate() call
+> -        * below relies on these fields.
+> -        */
+> -       imx290_entity_init_cfg(&imx290->sd, NULL);
+> -
+> -       ret = imx290_ctrl_init(imx290);
+> -       if (ret < 0) {
+> -               dev_err(dev, "Control initialization error %d\n", ret);
+> -               goto free_mutex;
+> -       }
+> -
+> -       v4l2_i2c_subdev_init(&imx290->sd, client, &imx290_subdev_ops);
+> -       imx290->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
+> -       imx290->sd.dev = &client->dev;
+> -       imx290->sd.entity.ops = &imx290_subdev_entity_ops;
+> -       imx290->sd.entity.function = MEDIA_ENT_F_CAM_SENSOR;
+> -
+> -       imx290->pad.flags = MEDIA_PAD_FL_SOURCE;
+> -       ret = media_entity_pads_init(&imx290->sd.entity, 1, &imx290->pad);
+> -       if (ret < 0) {
+> -               dev_err(dev, "Could not register media entity\n");
+> -               goto free_ctrl;
+> -       }
+> +       ret = imx290_subdev_init(imx290);
+> +       if (ret)
+> +               goto err_mutex;
+>
+>         ret = v4l2_async_register_subdev(&imx290->sd);
+>         if (ret < 0) {
+>                 dev_err(dev, "Could not register v4l2 device\n");
+> -               goto free_entity;
+> +               goto err_subdev;
+>         }
+>
+>         /* Power on the device to match runtime PM state below */
+>         ret = imx290_power_on(dev);
+>         if (ret < 0) {
+>                 dev_err(dev, "Could not power on the device\n");
+> -               goto free_entity;
+> +               goto err_subdev;
+>         }
+>
+>         ret = imx290_read(imx290, IMX290_CHIP_ID, &chip_id);
+>         if (ret) {
+>                 dev_err(dev, "Could not read chip ID: %d\n", ret);
+>                 imx290_power_off(dev);
+> -               goto free_entity;
+> +               goto err_subdev;
+>         }
 
-For ov9282 I'd also raised the issue that a fair number of sensor
-drivers include a software reset in their lists of registers, which
-will undo any settings done in resume.
+Which tree is this patch based on, as neither Sakari nor Mauro's trees
+have this read in them.
+I suspect an older patch which added it got dropped due to the worry
+over Vision Component's modules which block 16 bit reads.
 
-As above, it was more of an observation than issue with this patch.
-Alexander has already given an R-b, so there's limited point adding mine.
-
-I'll try and test the series out tomorrow, and I will get around to
-submitting my series on top.
-
-Cheers.
   Dave
 
-> For other settings, I wouldn't handle them in the runtime PM resume
-> handler. In this particular case, the number of data lanes could even
-> vary based on the sensor mode (we don't do so at the moment), so
-> .s_stream() time seems better to me.
 >
-> > https://patchwork.linuxtv.org/project/linux-media/patch/20221005152809.3785786-9-dave.stevenson@raspberrypi.com/#141118
-> >
-> > > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > > ---
-> > >  drivers/media/i2c/imx290.c | 6 +++---
-> > >  1 file changed, 3 insertions(+), 3 deletions(-)
-> > >
-> > > diff --git a/drivers/media/i2c/imx290.c b/drivers/media/i2c/imx290.c
-> > > index dbed703fa199..4dfa090f918d 100644
-> > > --- a/drivers/media/i2c/imx290.c
-> > > +++ b/drivers/media/i2c/imx290.c
-> > > @@ -753,6 +753,9 @@ static int imx290_start_streaming(struct imx290 *imx290,
-> > >                 return ret;
-> > >         }
-> > >
-> > > +       /* Set data lane count */
-> > > +       imx290_set_data_lanes(imx290);
-> > > +
-> > >         /* Apply the register values related to current frame format */
-> > >         format = v4l2_subdev_get_pad_format(&imx290->sd, state, 0);
-> > >         ret = imx290_setup_format(imx290, format);
-> > > @@ -1052,9 +1055,6 @@ static int imx290_power_on(struct device *dev)
-> > >         gpiod_set_value_cansleep(imx290->rst_gpio, 0);
-> > >         usleep_range(30000, 31000);
-> > >
-> > > -       /* Set data lane count */
-> > > -       imx290_set_data_lanes(imx290);
-> > > -
-> > >         return 0;
-> > >  }
-> > >
+>         dev_info(dev, "chip ID 0x%04x\n", chip_id);
+> @@ -1279,13 +1297,11 @@ static int imx290_probe(struct i2c_client *client)
+>
+>         return 0;
+>
+> -free_entity:
+> -       media_entity_cleanup(&imx290->sd.entity);
+> -free_ctrl:
+> -       v4l2_ctrl_handler_free(&imx290->ctrls);
+> -free_mutex:
+> +err_subdev:
+> +       imx290_subdev_cleanup(imx290);
+> +err_mutex:
+>         mutex_destroy(&imx290->lock);
+> -free_err:
+> +err_endpoint:
+>         v4l2_fwnode_endpoint_free(&ep);
+>
+>         return ret;
+> @@ -1297,8 +1313,7 @@ static void imx290_remove(struct i2c_client *client)
+>         struct imx290 *imx290 = to_imx290(sd);
+>
+>         v4l2_async_unregister_subdev(sd);
+> -       media_entity_cleanup(&sd->entity);
+> -       v4l2_ctrl_handler_free(sd->ctrl_handler);
+> +       imx290_subdev_cleanup(imx290);
+>
+>         mutex_destroy(&imx290->lock);
 >
 > --
 > Regards,
 >
 > Laurent Pinchart
+>
