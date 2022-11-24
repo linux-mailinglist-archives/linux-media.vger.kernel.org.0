@@ -2,118 +2,109 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 39E97637458
-	for <lists+linux-media@lfdr.de>; Thu, 24 Nov 2022 09:46:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 72357637464
+	for <lists+linux-media@lfdr.de>; Thu, 24 Nov 2022 09:49:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229525AbiKXIqH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 24 Nov 2022 03:46:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46974 "EHLO
+        id S229717AbiKXItE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 24 Nov 2022 03:49:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51378 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229468AbiKXIqG (ORCPT
+        with ESMTP id S229547AbiKXItD (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 24 Nov 2022 03:46:06 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B3D5B1095B0
-        for <linux-media@vger.kernel.org>; Thu, 24 Nov 2022 00:45:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1669279509;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=yyVqM8m0A1Yt3/547UwUAxmhT9qExAZBUAhbiuxPqxQ=;
-        b=ATHb8jPxJ61ikhhzsHpWLUbwx2rVtKH0v9ntcBAti3IBE95KKyggNqFGfPFoxREDO5j6rZ
-        TlPTlbrkjV6Hl8SqcC8lib3z+UJG3BcM87kNwH8Je5AEZHjA3wc5yxYie7AeEQuY2A6K6z
-        gEn90Caxw4NOTSP+/hYx+6qoqexSdp0=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-635-QRANL4sPPsuuu7fSUvN35w-1; Thu, 24 Nov 2022 03:45:08 -0500
-X-MC-Unique: QRANL4sPPsuuu7fSUvN35w-1
-Received: by mail-wm1-f69.google.com with SMTP id 206-20020a1c02d7000000b003d02dc20735so667845wmc.0
-        for <linux-media@vger.kernel.org>; Thu, 24 Nov 2022 00:45:08 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:organization:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=yyVqM8m0A1Yt3/547UwUAxmhT9qExAZBUAhbiuxPqxQ=;
-        b=LE8pEGNm/6bw4eisoM1jLLSyHK6A9WZOZZ5BuPYRyI47t9J/pKlu4nTp41Nm9o15Pe
-         D5dPtNLh2IJesCuv6MH9663XtsTg0sbIrJjsWJ8Mc9IIy3D/B5qsLwOMgBTD3OjPKARW
-         u9G1ehg8N5bMJQ2UF/9SbmmZgW6przgMPnigrrf339N9i5HIuv4Y5V3m8cfiUVsFxqcB
-         QBH9iHVy8QaHUvgHtE53ffzedjcECSTr/tx5aFYZTFiJDDd4s5swCY4hTpBRZeW5L8nt
-         XDtyxmP5LkFbulcNEo/xIvPuxdNVraNrwp92XSKkN1T1u9uln/gM9qReRbvOpgvmZJ+J
-         2Dug==
-X-Gm-Message-State: ANoB5pk+1vpN1EkcqtYb+egSJXBbdjdmnrPlcec6ZF9aq7EKdmT29MLz
-        zMhrUaiNsCQ4iZXeVzSbaFdgc9U3inOouIWd1o7E0m6H0nhZlsRrTsvMlvM4NN1jCX1kADruak3
-        DpfEQydXv/yJwnyfOJKrll+w=
-X-Received: by 2002:a05:6000:12c7:b0:241:c876:773c with SMTP id l7-20020a05600012c700b00241c876773cmr14079581wrx.95.1669279507279;
-        Thu, 24 Nov 2022 00:45:07 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf6Wh5ih9XfIPLihzEAtASEUD+klYsECQLpj/o0bwQPCT8PlEuhJEA2KOOUJGONjKkmUdHrTWg==
-X-Received: by 2002:a05:6000:12c7:b0:241:c876:773c with SMTP id l7-20020a05600012c700b00241c876773cmr14079563wrx.95.1669279506865;
-        Thu, 24 Nov 2022 00:45:06 -0800 (PST)
-Received: from ?IPV6:2003:cb:c704:2200:bfcb:7212:1370:de13? (p200300cbc7042200bfcb72121370de13.dip0.t-ipconnect.de. [2003:cb:c704:2200:bfcb:7212:1370:de13])
-        by smtp.gmail.com with ESMTPSA id m24-20020a05600c3b1800b003cf47556f21sm5672981wms.2.2022.11.24.00.45.06
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 24 Nov 2022 00:45:06 -0800 (PST)
-Message-ID: <b437cabc-bf3f-135f-2100-13f45c16e3a3@redhat.com>
-Date:   Thu, 24 Nov 2022 09:45:05 +0100
+        Thu, 24 Nov 2022 03:49:03 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8ABE8275EA;
+        Thu, 24 Nov 2022 00:49:02 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 2582161F33;
+        Thu, 24 Nov 2022 08:49:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3EBEFC433D6;
+        Thu, 24 Nov 2022 08:48:59 +0000 (UTC)
+Message-ID: <7213be47-1746-b7c6-9807-21865adc190a@xs4all.nl>
+Date:   Thu, 24 Nov 2022 09:48:58 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.1
-Subject: Re: [PATCH] media: videobuf2: revert "get_userptr: buffers are always
- writable"
-To:     Hans Verkuil <hverkuil@xs4all.nl>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     Tomasz Figa <tfiga@chromium.org>,
-        Hirokazu Honda <hiroh@chromium.org>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>
-References: <71bdd3cf-b044-3f12-df58-7c16d5749587@xs4all.nl>
+Subject: Re: [PATCH] dt-bindings: media: amphion: use hyphen in node name of
+ vpu core
 Content-Language: en-US
-From:   David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-In-Reply-To: <71bdd3cf-b044-3f12-df58-7c16d5749587@xs4all.nl>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To:     Ming Qian <ming.qian@nxp.com>, mchehab@kernel.org,
+        shawnguo@kernel.org
+Cc:     robh+dt@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
+        festevam@gmail.com, linux-imx@nxp.com, aisheng.dong@nxp.com,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-devicetree <devicetree@vger.kernel.org>
+References: <20220411074855.25114-1-ming.qian@nxp.com>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <20220411074855.25114-1-ming.qian@nxp.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 24.11.22 09:29, Hans Verkuil wrote:
-> Commit 707947247e95 ("media: videobuf2-vmalloc: get_userptr: buffers are
-> always writable") caused problems in a corner case (passing read-only
-> shmem memory as a userptr). So revert this patch.
+Rob, can you Ack (or nack) this old patch? It looks like it was
+missed, most likely because the devicetree ML wasn't CCed.
+
+Regards,
+
+	Hans
+
+On 11/04/2022 09:48, Ming Qian wrote:
+> Hyphen is recommended in node name than underscore.
+> So change the node name from "vpu_core" to "vpu-core"
 > 
-> The original problem for which that commit was originally made is
-> something that I could not reproduce after reverting it. So just go
-> back to the way it was for many years, and if problems arise in
-> the future, then another approach should be taken to resolve it.
-> 
-> This patch is based on a patch from Hirokazu.
-> 
-> Fixes: 707947247e95 ("media: videobuf2-vmalloc: get_userptr: buffers are always writable")
-> Signed-off-by: Hirokazu Honda <hiroh@chromium.org>
-> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> Signed-off-by: Ming Qian <ming.qian@nxp.com>
 > ---
-
-Regarding possible merge conflicts with the FOLL_FORCE patch [1] that's 
-already in -next, would it make sense to base this patch on the 
-FOLL_FORCE patch and routing it through the -mm tree? Or what's the best 
-way to move forward?
-
-CCing Andrew
-
-[1] https://lkml.kernel.org/r/20221116102659.70287-17-david@redhat.com
-
--- 
-Thanks,
-
-David / dhildenb
+>  Documentation/devicetree/bindings/media/amphion,vpu.yaml | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/media/amphion,vpu.yaml b/Documentation/devicetree/bindings/media/amphion,vpu.yaml
+> index a9d80eaeeeb6..c0d83d755239 100644
+> --- a/Documentation/devicetree/bindings/media/amphion,vpu.yaml
+> +++ b/Documentation/devicetree/bindings/media/amphion,vpu.yaml
+> @@ -47,7 +47,7 @@ patternProperties:
+>      $ref: ../mailbox/fsl,mu.yaml#
+>  
+>  
+> -  "^vpu_core@[0-9a-f]+$":
+> +  "^vpu-core@[0-9a-f]+$":
+>      description:
+>        Each core correspond a decoder or encoder, need to configure them
+>        separately. NXP i.MX8QM SoC has one decoder and two encoder, i.MX8QXP SoC
+> @@ -143,7 +143,7 @@ examples:
+>          power-domains = <&pd IMX_SC_R_VPU_MU_2>;
+>        };
+>  
+> -      vpu_core0: vpu_core@2d080000 {
+> +      vpu_core0: vpu-core@2d080000 {
+>          compatible = "nxp,imx8q-vpu-decoder";
+>          reg = <0x2d080000 0x10000>;
+>          power-domains = <&pd IMX_SC_R_VPU_DEC_0>;
+> @@ -154,7 +154,7 @@ examples:
+>          memory-region = <&decoder_boot>, <&decoder_rpc>;
+>        };
+>  
+> -      vpu_core1: vpu_core@2d090000 {
+> +      vpu_core1: vpu-core@2d090000 {
+>          compatible = "nxp,imx8q-vpu-encoder";
+>          reg = <0x2d090000 0x10000>;
+>          power-domains = <&pd IMX_SC_R_VPU_ENC_0>;
+> @@ -165,7 +165,7 @@ examples:
+>          memory-region = <&encoder1_boot>, <&encoder1_rpc>;
+>        };
+>  
+> -      vpu_core2: vpu_core@2d0a0000 {
+> +      vpu_core2: vpu-core@2d0a0000 {
+>          reg = <0x2d0a0000 0x10000>;
+>          compatible = "nxp,imx8q-vpu-encoder";
+>          power-domains = <&pd IMX_SC_R_VPU_ENC_1>;
 
