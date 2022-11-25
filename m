@@ -2,40 +2,42 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B480E638D84
-	for <lists+linux-media@lfdr.de>; Fri, 25 Nov 2022 16:35:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BE236638D83
+	for <lists+linux-media@lfdr.de>; Fri, 25 Nov 2022 16:35:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229652AbiKYPfB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        id S229580AbiKYPfB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
         Fri, 25 Nov 2022 10:35:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56756 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56762 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229502AbiKYPe6 (ORCPT
+        with ESMTP id S229495AbiKYPe6 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Fri, 25 Nov 2022 10:34:58 -0500
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B192A2BB1B
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C41FC2F006
         for <linux-media@vger.kernel.org>; Fri, 25 Nov 2022 07:34:57 -0800 (PST)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
         by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <mgr@pengutronix.de>)
-        id 1oyaj9-0005nt-KE; Fri, 25 Nov 2022 16:34:55 +0100
+        id 1oyaj9-0005nu-KE; Fri, 25 Nov 2022 16:34:55 +0100
 Received: from [2a0a:edc0:0:1101:1d::ac] (helo=dude04.red.stw.pengutronix.de)
         by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
         (envelope-from <mgr@pengutronix.de>)
-        id 1oyaj7-000Frc-V0; Fri, 25 Nov 2022 16:34:54 +0100
+        id 1oyaj8-000Frf-0X; Fri, 25 Nov 2022 16:34:54 +0100
 Received: from mgr by dude04.red.stw.pengutronix.de with local (Exim 4.94.2)
         (envelope-from <mgr@pengutronix.de>)
-        id 1oyaj8-001Rdc-5X; Fri, 25 Nov 2022 16:34:54 +0100
+        id 1oyaj8-001Rde-5y; Fri, 25 Nov 2022 16:34:54 +0100
 From:   Michael Grzeschik <m.grzeschik@pengutronix.de>
 To:     linux-usb@vger.kernel.org
 Cc:     linux-media@vger.kernel.org, gregkh@linuxfoundation.org,
         balbi@kernel.org, laurent.pinchart@ideasonboard.com,
         kernel@pengutronix.de, stable <stable@kernel.org>
-Subject: [PATCH v2 1/2] media: videobuf2-dma-sg: fix vmap and vunmap callbacks
-Date:   Fri, 25 Nov 2022 16:34:49 +0100
-Message-Id: <20221125153450.344392-1-m.grzeschik@pengutronix.de>
+Subject: [PATCH v2 2/2] usb: gadget: uvc: limit isoc_sg to super speed gadgets
+Date:   Fri, 25 Nov 2022 16:34:50 +0100
+Message-Id: <20221125153450.344392-2-m.grzeschik@pengutronix.de>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20221125153450.344392-1-m.grzeschik@pengutronix.de>
+References: <20221125153450.344392-1-m.grzeschik@pengutronix.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
@@ -50,62 +52,74 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-For dmabuf import users to be able to use the vaddr from another
-videobuf2-dma-sg source, the exporter needs to set a proper vaddr on
-vb2_dma_sg_dmabuf_ops_vmap callback.
+When calling uvc_video_encode_isoc_sg the function is preparing the sg payload
+by setting the sglist pointers of the videobuffer for the request. The usb
+gadget driver then is parsing the sg list and uses each sg entry to send in one
+urb to the host. Because of the unrelated buffer of the uvc header that buffer
+has to be send separately in an extra sg entry.
 
-This patch adds vm_map_ram on map if buf->vaddr was not set, and also
-adds the vb2_dma_sg_dmabuf_ops_vunmap function to remove the mapping
-afterwards.
+When it comes to transfers with an limited payload (e.g. the maximum of 3kB for
+high-speed) this extra payload handling is not justified. A simple memcpy of
+the header and payload is usually faster and does not come with that extra
+runtime overhead.
+
+This patch is changing the uvc_video_encode_isoc_sg encode function only to be
+used for super speed gadgets.
 
 Cc: stable <stable@kernel.org>
 Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
 
 ---
-v1 -> v2: using vmap and vunmap instead of vm_map_ram and vm_unmap_ram
+v1 -> v2: - left the sg assignment in uvc_buffer_sg under the test for use_sg
+          - rephrased the commit message
 
- .../media/common/videobuf2/videobuf2-dma-sg.c    | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+ drivers/usb/gadget/function/uvc_queue.c | 3 +--
+ drivers/usb/gadget/function/uvc_video.c | 9 +++++++--
+ 2 files changed, 8 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/media/common/videobuf2/videobuf2-dma-sg.c b/drivers/media/common/videobuf2/videobuf2-dma-sg.c
-index fa69158a65b1fd..dcb8de5ab3e84a 100644
---- a/drivers/media/common/videobuf2/videobuf2-dma-sg.c
-+++ b/drivers/media/common/videobuf2/videobuf2-dma-sg.c
-@@ -496,11 +496,26 @@ static int vb2_dma_sg_dmabuf_ops_vmap(struct dma_buf *dbuf,
+diff --git a/drivers/usb/gadget/function/uvc_queue.c b/drivers/usb/gadget/function/uvc_queue.c
+index 0aa3d7e1f3cc32..0abb1763faf1b6 100644
+--- a/drivers/usb/gadget/function/uvc_queue.c
++++ b/drivers/usb/gadget/function/uvc_queue.c
+@@ -87,9 +87,8 @@ static int uvc_buffer_prepare(struct vb2_buffer *vb)
+ 	if (queue->use_sg) {
+ 		buf->sgt = vb2_dma_sg_plane_desc(vb, 0);
+ 		buf->sg = buf->sgt->sgl;
+-	} else {
+-		buf->mem = vb2_plane_vaddr(vb, 0);
+ 	}
++	buf->mem = vb2_plane_vaddr(vb, 0);
+ 	buf->length = vb2_plane_size(vb, 0);
+ 	if (vb->type == V4L2_BUF_TYPE_VIDEO_CAPTURE)
+ 		buf->bytesused = 0;
+diff --git a/drivers/usb/gadget/function/uvc_video.c b/drivers/usb/gadget/function/uvc_video.c
+index dd1c6b2ca7c6f3..b6ea600b011185 100644
+--- a/drivers/usb/gadget/function/uvc_video.c
++++ b/drivers/usb/gadget/function/uvc_video.c
+@@ -459,6 +459,9 @@ static void uvcg_video_pump(struct work_struct *work)
+  */
+ int uvcg_video_enable(struct uvc_video *video, int enable)
  {
- 	struct vb2_dma_sg_buf *buf = dbuf->priv;
++	struct uvc_device *uvc = video->uvc;
++	struct usb_composite_dev *cdev = uvc->func.config->cdev;
++	struct usb_gadget *gadget = cdev->gadget;
+ 	unsigned int i;
+ 	int ret;
  
-+	if (!buf->vaddr)
-+		buf->vaddr = vmap(buf->pages, buf->num_pages, VM_MAP,
-+				  PAGE_KERNEL);
-+
- 	iosys_map_set_vaddr(map, buf->vaddr);
+@@ -490,9 +493,11 @@ int uvcg_video_enable(struct uvc_video *video, int enable)
+ 	if (video->max_payload_size) {
+ 		video->encode = uvc_video_encode_bulk;
+ 		video->payload_size = 0;
+-	} else
+-		video->encode = video->queue.use_sg ?
++	} else {
++		video->encode = (video->queue.use_sg &&
++				 !(gadget->speed <= USB_SPEED_HIGH)) ?
+ 			uvc_video_encode_isoc_sg : uvc_video_encode_isoc;
++	}
  
- 	return 0;
- }
+ 	video->req_int_count = 0;
  
-+static void vb2_dma_sg_dmabuf_ops_vunmap(struct dma_buf *dbuf,
-+				      struct iosys_map *map)
-+{
-+	struct vb2_dma_sg_buf *buf = dbuf->priv;
-+
-+	if (buf->vaddr)
-+		vunmap(buf->vaddr);
-+
-+	buf->vaddr = NULL;
-+}
-+
- static int vb2_dma_sg_dmabuf_ops_mmap(struct dma_buf *dbuf,
- 	struct vm_area_struct *vma)
- {
-@@ -515,6 +530,7 @@ static const struct dma_buf_ops vb2_dma_sg_dmabuf_ops = {
- 	.begin_cpu_access = vb2_dma_sg_dmabuf_ops_begin_cpu_access,
- 	.end_cpu_access = vb2_dma_sg_dmabuf_ops_end_cpu_access,
- 	.vmap = vb2_dma_sg_dmabuf_ops_vmap,
-+	.vunmap = vb2_dma_sg_dmabuf_ops_vunmap,
- 	.mmap = vb2_dma_sg_dmabuf_ops_mmap,
- 	.release = vb2_dma_sg_dmabuf_ops_release,
- };
 -- 
 2.30.2
 
