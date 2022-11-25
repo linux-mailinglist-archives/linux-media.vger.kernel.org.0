@@ -2,58 +2,58 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B2F41638D78
-	for <lists+linux-media@lfdr.de>; Fri, 25 Nov 2022 16:31:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 173B9638D7A
+	for <lists+linux-media@lfdr.de>; Fri, 25 Nov 2022 16:31:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229623AbiKYPbf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 25 Nov 2022 10:31:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53078 "EHLO
+        id S229630AbiKYPbz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 25 Nov 2022 10:31:55 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53170 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229587AbiKYPbe (ORCPT
+        with ESMTP id S229580AbiKYPbx (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 25 Nov 2022 10:31:34 -0500
-Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com [IPv6:2a00:1450:4864:20::630])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 72A0A2871E
-        for <linux-media@vger.kernel.org>; Fri, 25 Nov 2022 07:31:33 -0800 (PST)
-Received: by mail-ej1-x630.google.com with SMTP id ud5so11125105ejc.4
-        for <linux-media@vger.kernel.org>; Fri, 25 Nov 2022 07:31:33 -0800 (PST)
+        Fri, 25 Nov 2022 10:31:53 -0500
+Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9288C25E8A
+        for <linux-media@vger.kernel.org>; Fri, 25 Nov 2022 07:31:52 -0800 (PST)
+Received: by mail-ej1-x62c.google.com with SMTP id vv4so11141785ejc.2
+        for <linux-media@vger.kernel.org>; Fri, 25 Nov 2022 07:31:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=konsulko.com; s=google;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=nh5MwmK/rpgu4dep0zQ7hNCT5OBsH1qzr2wUQzS5UDg=;
-        b=Z0QOUkHNbUhcxB7/qsRBOHolpcQUNhJ2Vr+k+PhgqYsMopbt5CG8AGVuNwcc9uFJbV
-         y1kOkWvenIaa/OsBSyNyVum+v3lc/UP1yzOntuZcHirrFKLPYgp04PHgABy4N1oyVdzB
-         RgjaYgdV0jTyXJOtCEM5Yg6Iy0kUfHAv3hb1k=
+        bh=B7xutFDYfxv2Xy2TxGLikGVF5LOdRp8bJ3PZY3ODS4k=;
+        b=XUPHLQeUPNtB1gOhP/tR9W79tQ1jjiAvTDwHuS2ilQDSOOymQZtrNII0uBGDV3PYWS
+         RwWrZedwzNVCCxh4BJwV/lEHBmMyHyopIIqz1i4nzFsauP9RuPd87oTVJmGsvHf2Sjis
+         ut43W9/yBNc6SMY7q8RfhvLSzWEX4La4n8yx0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=nh5MwmK/rpgu4dep0zQ7hNCT5OBsH1qzr2wUQzS5UDg=;
-        b=b6/HL2DEEQntOonqpmBljO01qtwvpXNJf+3gCZQ3U88ihCOoI5D+IWXYGsjzB0jTQK
-         UGKZi1JMBkoYzQ/TeJHVY68kMSWQMI4Hdfax2FuWEhDWx4lEbfYq0He8Z2ueclfOUp9r
-         y0+cxFN0j27wJnCkQAUPcpHv218TaKVu/NoBpLNwhCVosGYnetb8/hX7v90rCqM5Qeh0
-         GdMh0I3a0M7YB+BXsCapp3Al0bsVN0gos99Acg//H1YUm/PU5KA5icFQol71vdRKD83n
-         6H/bffaYXKzjihLPH4/i7wgyMULoIirEGsd7a6+RT7vC+t+nrLK3tSPVGiajPSb9j0v6
-         LPIg==
-X-Gm-Message-State: ANoB5pmzjc4DtpMJCjHajNt3jnlKWHr4pPdLvZFNSSu0g8FlcEpoacVD
-        g6PXmYzwnpC25RK+/FacwHO+3VARXOmunw==
-X-Google-Smtp-Source: AA0mqf4OW90GcQfYttnvOEzCTft2cYBLMX4YQDa7yGPxTYzzpcK79QCgYCnoUwu5jN6M8F69y4hhWA==
-X-Received: by 2002:a17:907:c70a:b0:7ad:d6c6:eb7c with SMTP id ty10-20020a170907c70a00b007add6c6eb7cmr24743937ejc.249.1669390292508;
-        Fri, 25 Nov 2022 07:31:32 -0800 (PST)
+        bh=B7xutFDYfxv2Xy2TxGLikGVF5LOdRp8bJ3PZY3ODS4k=;
+        b=IATjhqnxV/fzS5T+dKtYGwwl9dHR6Dm0pHTAXKxL+DuoA0fJWH2rYPLyRdmkK7baNi
+         Ezr37ojA2DcI6H94Wa1QAUDAP70WZs/sNiiauhj3YLrM2jLkYL2j3T4RDKUmN9svtQkQ
+         9GFF1mp6xjEL+O+EsPbntCigx9R7sA7538yVyaAwEr6UIMFhz8b3RYtWSAA9/5WhONjK
+         j3Xtxj6UtlrAGkod4enHlmjBadCNAy9QLZp+hLu4hLRW8zpW5yGAmsh1opKVI6a9AIy9
+         Ii0nx6VRMsf9DRNB83SwBewDObbcnltVSS+0SAx9EF+MqDzrgx0BWp36gzLQKbrvoWCy
+         DSfg==
+X-Gm-Message-State: ANoB5pnVaWLcq9wtE5Lfv1vuZyONvLfbvyTYFwUpZuwcfDuVnjMAj7mo
+        KmvavVrpD85/SOtQnPz5UXqKJXDSt7ywmQ==
+X-Google-Smtp-Source: AA0mqf5ffyFmityByOs/JOCceWPfZw+kQuNw1EgBj+gAbhyZV3Zexcz82scNQqjBm9zmN9TJ+K6rSg==
+X-Received: by 2002:a17:906:cf85:b0:78d:b66d:749f with SMTP id um5-20020a170906cf8500b0078db66d749fmr31106432ejb.566.1669390293850;
+        Fri, 25 Nov 2022 07:31:33 -0800 (PST)
 Received: from tone.k.g (lan.nucleusys.com. [92.247.61.126])
-        by smtp.gmail.com with ESMTPSA id p10-20020aa7cc8a000000b0045b4b67156fsm1878435edt.45.2022.11.25.07.31.31
+        by smtp.gmail.com with ESMTPSA id p10-20020aa7cc8a000000b0045b4b67156fsm1878435edt.45.2022.11.25.07.31.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 25 Nov 2022 07:31:31 -0800 (PST)
+        Fri, 25 Nov 2022 07:31:33 -0800 (PST)
 From:   Petko Manolov <petko.manolov@konsulko.com>
 To:     linux-media@vger.kernel.org
 Cc:     laurent.pinchart@ideasonboard.com, sakari.ailus@iki.fi,
         Petko Manolov <petko.manolov@konsulko.com>
-Subject: [PATCH v1 4/5] media: i2c: add imx492 config entry
-Date:   Fri, 25 Nov 2022 17:31:19 +0200
-Message-Id: <20221125153120.541298-5-petko.manolov@konsulko.com>
+Subject: [PATCH v1 5/5] media: i2c: add imx492 entry for make
+Date:   Fri, 25 Nov 2022 17:31:20 +0200
+Message-Id: <20221125153120.541298-6-petko.manolov@konsulko.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20221125153120.541298-1-petko.manolov@konsulko.com>
 References: <20221125153120.541298-1-petko.manolov@konsulko.com>
@@ -68,38 +68,25 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Adds the Kconfig entry right after it's sibling.
+Make sure the driver gets compiled in case it is selected in Kconfig.
 
 Signed-off-by: Petko Manolov <petko.manolov@konsulko.com>
 ---
- drivers/media/i2c/Kconfig | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+ drivers/media/i2c/Makefile | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
-index 49c1c27afdc1..db69725d2f9a 100644
---- a/drivers/media/i2c/Kconfig
-+++ b/drivers/media/i2c/Kconfig
-@@ -228,6 +228,20 @@ config VIDEO_IMX412
- 	  To compile this driver as a module, choose M here: the
- 	  module will be called imx412.
- 
-+config VIDEO_IMX492
-+	tristate "Sony IMX492 sensor support"
-+	depends on OF_GPIO
-+	depends on I2C && VIDEO_DEV
-+	select VIDEO_V4L2_SUBDEV_API
-+	select MEDIA_CONTROLLER
-+	select V4L2_FWNODE
-+	help
-+	  This is a Video4Linux2 sensor driver for the Sony
-+	  IMX492 camera.
-+
-+	  To compile this driver as a module, choose M here: the
-+	  module will be called imx492.
-+
- config VIDEO_MAX9271_LIB
- 	tristate
- 
+diff --git a/drivers/media/i2c/Makefile b/drivers/media/i2c/Makefile
+index ba28a8f8a07f..8cdad7e25e5e 100644
+--- a/drivers/media/i2c/Makefile
++++ b/drivers/media/i2c/Makefile
+@@ -48,6 +48,7 @@ obj-$(CONFIG_VIDEO_IMX334) += imx334.o
+ obj-$(CONFIG_VIDEO_IMX335) += imx335.o
+ obj-$(CONFIG_VIDEO_IMX355) += imx355.o
+ obj-$(CONFIG_VIDEO_IMX412) += imx412.o
++obj-$(CONFIG_VIDEO_IMX492) += imx492.o
+ obj-$(CONFIG_VIDEO_IR_I2C) += ir-kbd-i2c.o
+ obj-$(CONFIG_VIDEO_ISL7998X) += isl7998x.o
+ obj-$(CONFIG_VIDEO_KS0127) += ks0127.o
 -- 
 2.30.2
 
