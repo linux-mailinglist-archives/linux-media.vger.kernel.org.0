@@ -2,124 +2,118 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BE236638D83
-	for <lists+linux-media@lfdr.de>; Fri, 25 Nov 2022 16:35:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9EB0D638D8B
+	for <lists+linux-media@lfdr.de>; Fri, 25 Nov 2022 16:37:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229580AbiKYPfB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 25 Nov 2022 10:35:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56762 "EHLO
+        id S229661AbiKYPhc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 25 Nov 2022 10:37:32 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57612 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229495AbiKYPe6 (ORCPT
+        with ESMTP id S229493AbiKYPhb (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 25 Nov 2022 10:34:58 -0500
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C41FC2F006
-        for <linux-media@vger.kernel.org>; Fri, 25 Nov 2022 07:34:57 -0800 (PST)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <mgr@pengutronix.de>)
-        id 1oyaj9-0005nu-KE; Fri, 25 Nov 2022 16:34:55 +0100
-Received: from [2a0a:edc0:0:1101:1d::ac] (helo=dude04.red.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-        (envelope-from <mgr@pengutronix.de>)
-        id 1oyaj8-000Frf-0X; Fri, 25 Nov 2022 16:34:54 +0100
-Received: from mgr by dude04.red.stw.pengutronix.de with local (Exim 4.94.2)
-        (envelope-from <mgr@pengutronix.de>)
-        id 1oyaj8-001Rde-5y; Fri, 25 Nov 2022 16:34:54 +0100
-From:   Michael Grzeschik <m.grzeschik@pengutronix.de>
-To:     linux-usb@vger.kernel.org
-Cc:     linux-media@vger.kernel.org, gregkh@linuxfoundation.org,
-        balbi@kernel.org, laurent.pinchart@ideasonboard.com,
-        kernel@pengutronix.de, stable <stable@kernel.org>
-Subject: [PATCH v2 2/2] usb: gadget: uvc: limit isoc_sg to super speed gadgets
-Date:   Fri, 25 Nov 2022 16:34:50 +0100
-Message-Id: <20221125153450.344392-2-m.grzeschik@pengutronix.de>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20221125153450.344392-1-m.grzeschik@pengutronix.de>
-References: <20221125153450.344392-1-m.grzeschik@pengutronix.de>
+        Fri, 25 Nov 2022 10:37:31 -0500
+Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com [IPv6:2a00:1450:4864:20::22d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 05556BA7
+        for <linux-media@vger.kernel.org>; Fri, 25 Nov 2022 07:37:28 -0800 (PST)
+Received: by mail-lj1-x22d.google.com with SMTP id bn5so5597619ljb.2
+        for <linux-media@vger.kernel.org>; Fri, 25 Nov 2022 07:37:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=melexis.com; s=google;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Cy7rH5pyJVnH/+6lKqlr5TaljKJablOrGP9ii/rIiII=;
+        b=pDHesMp1btaqc/TUfkbEP1d2tiYcYMBbqO2TfVSWFgK3WXApD3WEeAyuGAx57+uO3X
+         Otbl+HR83ZPO5r4I/mH1imRhToX5EdNfMupigVdZkRaHY4gRD8L2aIafExiNQw4AK2Vq
+         dLECruzCU04SKJiT3ul92Mvy5TjFxR5i/VQ2X3/KAiXftx8aePW4e5wL/TuxZyiwZ+GH
+         EiUY+5j8iNIRJNYIloZFHV1R3z8nt+Hbikzp66ZgG8U1M35lS0NhoIeVTUfL59I/Zuz3
+         wvG0nDdlnQk/dPE9hQBDbsSqXW4wec6gFzl9uHhBUClT9QpdWwHaitdibDz6jEXORFsv
+         Kgnw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Cy7rH5pyJVnH/+6lKqlr5TaljKJablOrGP9ii/rIiII=;
+        b=KwwyBzGbK/WbSWc7UO5OpfNFMLJ/fIDKEioyii1tGNZBng8vdYfgJhaML/GBXzTQJG
+         1eVaB1QdNzeSW1JJecK21XqyXT26kkVBGJonKsYJggSjWjXPa7uyQH0xetmFfzIZGNDf
+         VKsuwJkYKAubs4KSmBhqs7PCdbQ1zdsU8pp0/FzZzQVSCf55ax9LUW4G64Pm42gIT8LM
+         4soQ3oN2PsQhNsJsPwM7jYym8v4w5i0clKQcKQTq2KEH6btScujR31J4+/8/OrWdd3gJ
+         Z9NXs9Ygun9piQp+lXRKed7gkGoQtKK8UBEry+T8J7OECHEJ9Lliw4Ge5uUOlgW94TVm
+         QKgA==
+X-Gm-Message-State: ANoB5plQfJ37b8Z4tL4msSBOqOqQV85DvLr0H133ALv5UyrWc5A42FVs
+        wgSqUdXhIsLvwmw2f8/DXHpG9g==
+X-Google-Smtp-Source: AA0mqf5K+x97VLQnH3hlsKXfJmEoZzglbn0gl1ASwDslzHBNOHw8t7x5/ZFMQCaxMBNHh0HFbx93NQ==
+X-Received: by 2002:a2e:3c18:0:b0:279:8173:4396 with SMTP id j24-20020a2e3c18000000b0027981734396mr3072327lja.345.1669390646369;
+        Fri, 25 Nov 2022 07:37:26 -0800 (PST)
+Received: from melexis.com ([91.192.183.26])
+        by smtp.gmail.com with ESMTPSA id q21-20020a05651232b500b004ac980a1ba1sm567760lfe.24.2022.11.25.07.37.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 25 Nov 2022 07:37:25 -0800 (PST)
+Date:   Fri, 25 Nov 2022 17:37:22 +0200
+From:   Volodymyr Kharuk <vkh@melexis.com>
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc:     linux-media@vger.kernel.org, Andrii Kyselov <ays@melexis.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        devicetree@vger.kernel.org,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Benjamin Mugnier <benjamin.mugnier@foss.st.com>
+Subject: Re: [PATCH v3 7/8] media: dt-bindings: media: i2c: Add mlx7502x
+ camera sensor
+Message-ID: <Y4DhMvjLNertB2xp@melexis.com>
+References: <cover.1669381013.git.vkh@melexis.com>
+ <343c0ab708ab35ec101bcefbe2fda5c15d5e6bfd.1669381013.git.vkh@melexis.com>
+ <756daf8d-9d4e-12f7-4d3a-e9da8480ed6a@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: mgr@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <756daf8d-9d4e-12f7-4d3a-e9da8480ed6a@linaro.org>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-When calling uvc_video_encode_isoc_sg the function is preparing the sg payload
-by setting the sglist pointers of the videobuffer for the request. The usb
-gadget driver then is parsing the sg list and uses each sg entry to send in one
-urb to the host. Because of the unrelated buffer of the uvc header that buffer
-has to be send separately in an extra sg entry.
+On Fri, Nov 25, 2022 at 04:19:16PM +0100, Krzysztof Kozlowski wrote:
+> On 25/11/2022 14:34, Volodymyr Kharuk wrote:
+> > Add device tree binding of the mlx7502x and update MAINTAINERS
+> > 
+> > Signed-off-by: Volodymyr Kharuk <vkh@melexis.com>
+> > ---
+> >  .../bindings/media/i2c/melexis,mlx7502x.yaml  | 126 ++++++++++++++++++
+> 
+> I mentioned you have wrong subject prefix. Only one "media" in the
+> subject prefix is needed, so:
+> "media: dt-bindings: Add melexis,mlx7502x camera sensor"
+Ah, I missed it. Thanks for review.
+> 
+> >  MAINTAINERS                                   |   1 +
+> >  2 files changed, 127 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/media/i2c/melexis,mlx7502x.yaml
+> > 
+> 
+> 
+> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> 
+> Best regards,
+> Krzysztof
+> 
 
-When it comes to transfers with an limited payload (e.g. the maximum of 3kB for
-high-speed) this extra payload handling is not justified. A simple memcpy of
-the header and payload is usually faster and does not come with that extra
-runtime overhead.
-
-This patch is changing the uvc_video_encode_isoc_sg encode function only to be
-used for super speed gadgets.
-
-Cc: stable <stable@kernel.org>
-Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
-
----
-v1 -> v2: - left the sg assignment in uvc_buffer_sg under the test for use_sg
-          - rephrased the commit message
-
- drivers/usb/gadget/function/uvc_queue.c | 3 +--
- drivers/usb/gadget/function/uvc_video.c | 9 +++++++--
- 2 files changed, 8 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/usb/gadget/function/uvc_queue.c b/drivers/usb/gadget/function/uvc_queue.c
-index 0aa3d7e1f3cc32..0abb1763faf1b6 100644
---- a/drivers/usb/gadget/function/uvc_queue.c
-+++ b/drivers/usb/gadget/function/uvc_queue.c
-@@ -87,9 +87,8 @@ static int uvc_buffer_prepare(struct vb2_buffer *vb)
- 	if (queue->use_sg) {
- 		buf->sgt = vb2_dma_sg_plane_desc(vb, 0);
- 		buf->sg = buf->sgt->sgl;
--	} else {
--		buf->mem = vb2_plane_vaddr(vb, 0);
- 	}
-+	buf->mem = vb2_plane_vaddr(vb, 0);
- 	buf->length = vb2_plane_size(vb, 0);
- 	if (vb->type == V4L2_BUF_TYPE_VIDEO_CAPTURE)
- 		buf->bytesused = 0;
-diff --git a/drivers/usb/gadget/function/uvc_video.c b/drivers/usb/gadget/function/uvc_video.c
-index dd1c6b2ca7c6f3..b6ea600b011185 100644
---- a/drivers/usb/gadget/function/uvc_video.c
-+++ b/drivers/usb/gadget/function/uvc_video.c
-@@ -459,6 +459,9 @@ static void uvcg_video_pump(struct work_struct *work)
-  */
- int uvcg_video_enable(struct uvc_video *video, int enable)
- {
-+	struct uvc_device *uvc = video->uvc;
-+	struct usb_composite_dev *cdev = uvc->func.config->cdev;
-+	struct usb_gadget *gadget = cdev->gadget;
- 	unsigned int i;
- 	int ret;
- 
-@@ -490,9 +493,11 @@ int uvcg_video_enable(struct uvc_video *video, int enable)
- 	if (video->max_payload_size) {
- 		video->encode = uvc_video_encode_bulk;
- 		video->payload_size = 0;
--	} else
--		video->encode = video->queue.use_sg ?
-+	} else {
-+		video->encode = (video->queue.use_sg &&
-+				 !(gadget->speed <= USB_SPEED_HIGH)) ?
- 			uvc_video_encode_isoc_sg : uvc_video_encode_isoc;
-+	}
- 
- 	video->req_int_count = 0;
- 
 -- 
-2.30.2
+--
+Volodymyr Kharuk
+Embedded Software Engineer
+Melexis-Ukraine
+Mykhaila Kotel'nykova St, 4, Kyiv
+Mobile phone: +38 050 346 5527
+www.melexis.com
+---
+The contents of this e-mail are CONFIDENTIAL AND PROPRIETARY. Please read
+our disclaimer at http://www.melexis.com/mailpolicy
 
