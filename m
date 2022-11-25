@@ -2,257 +2,230 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7E008638ECE
-	for <lists+linux-media@lfdr.de>; Fri, 25 Nov 2022 18:07:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B4525639001
+	for <lists+linux-media@lfdr.de>; Fri, 25 Nov 2022 19:39:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230079AbiKYRHX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 25 Nov 2022 12:07:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44844 "EHLO
+        id S229806AbiKYSje (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 25 Nov 2022 13:39:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51200 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229883AbiKYRHV (ORCPT
+        with ESMTP id S229717AbiKYSjc (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 25 Nov 2022 12:07:21 -0500
-Received: from mail-qk1-x734.google.com (mail-qk1-x734.google.com [IPv6:2607:f8b0:4864:20::734])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6570247335
-        for <linux-media@vger.kernel.org>; Fri, 25 Nov 2022 09:07:20 -0800 (PST)
-Received: by mail-qk1-x734.google.com with SMTP id z1so3001877qkl.9
-        for <linux-media@vger.kernel.org>; Fri, 25 Nov 2022 09:07:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=97kBq1lHFGTQU+jw0/b/R8A8S8A1UfU8aPvHkRRFZT4=;
-        b=20KP1RhXPKqqM2jWK5xsvK/NjCT6INujtBc6GaRsjf4fMRpNCxBMaCGt/1zoioiro+
-         Qjgxu2+QSi6zaOGIa5lKH6/wvdtKSXSpmVtTxFkKqTbVGNiZfprfSwGfVAqZXbY3fTtV
-         gcZktnSKO7PkuJ5dUsnTXJ0HgSdYfGbli61uB3hnnF62JBLpRB2QOMP7UAM/f6kKSp7L
-         3kRf9KIoIjMH6Fm8/0ieNzBiqxqb+oEtilxQSE1M5I7pjT5J3+d0YGmSFr+ohGYuB7Cs
-         g0gcoMNUFQj6RwxESEtsjVfrf+b7Gy257GahKgFhtnKaM4IFJy9S72r9tl81jBuVRtNJ
-         dX5Q==
+        Fri, 25 Nov 2022 13:39:32 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F178C65D9
+        for <linux-media@vger.kernel.org>; Fri, 25 Nov 2022 10:38:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1669401511;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=oVFt4OOYHWXEHQBp4UYCRdZAKrVLk0eN3Eg8qXa0JLo=;
+        b=U1qoKyqRc2hex1cLtk+2+HpABehsj1E6760K1LZcJG2ubuVFzFyBqq1egrPM/yt6PsfU+S
+        S447hcnAKVqsYC68BxSSiJbiRobqTwfmCwjfvR6pBdHTJm2Z2e6MsbJjfIiD+pb40aPLjx
+        jAvEWT7M4LjEb6RGTqntr50e0Ub9CWY=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-578-6J75OwPqNmOuO7lFKSQ0aw-1; Fri, 25 Nov 2022 13:38:29 -0500
+X-MC-Unique: 6J75OwPqNmOuO7lFKSQ0aw-1
+Received: by mail-ej1-f71.google.com with SMTP id dn14-20020a17090794ce00b007ae5d040ca8so2554708ejc.17
+        for <linux-media@vger.kernel.org>; Fri, 25 Nov 2022 10:38:29 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=97kBq1lHFGTQU+jw0/b/R8A8S8A1UfU8aPvHkRRFZT4=;
-        b=vi0aZfvz90YmQm7qu55JTfINcG6h5tLh0IQBXdzOXuJVP6vZvCBJbTnZZSurDuudfn
-         9CrKQN7fjPpskG3QXVCiBpj+b0lTCUier6R8rx1PCepwBWhDWj532ib3HnH0ZlX0A7R+
-         QV8fNtaCt29nILgkYGTPGIfti+yfGObR3IOstF5D91sgtWJ7FtYu3xZmKq1a/P3DvLvW
-         0FaqC3Og3rWhTQkqMFWC5S8tQF11Z68FXUSGQJakdl7fYFRuWhp2uMQe4I3WQYCiOeeR
-         xVY57XcmZaHWG/Ae0QvmkehipqKPc7kwYDyI9L+iyNsj4WVQHO3b9lOoXNzLA9zBUqHM
-         J3hw==
-X-Gm-Message-State: ANoB5pnz48FI8oCV4Fodv1z9X/AdnBSXMD1pIaoB9K2XjK7Ok2FoeooR
-        WaVDl/V9uTkCcgPa3cXSOUVQyA==
-X-Google-Smtp-Source: AA0mqf73BwAzRPM9OhZfqMvWynMdb0MPgrv9Ij3EKAfQMLZasIQDPXgVwAUXC0S60Weaq3zaXcXzHw==
-X-Received: by 2002:a05:620a:2b8b:b0:6fb:28a:4a57 with SMTP id dz11-20020a05620a2b8b00b006fb028a4a57mr35004047qkb.239.1669396039467;
-        Fri, 25 Nov 2022 09:07:19 -0800 (PST)
-Received: from nicolas-tpx395.localdomain (192-222-136-102.qc.cable.ebox.net. [192.222.136.102])
-        by smtp.gmail.com with ESMTPSA id bv14-20020a05622a0a0e00b0039c37a7914csm2502106qtb.23.2022.11.25.09.07.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 25 Nov 2022 09:07:19 -0800 (PST)
-Message-ID: <35256805b1ce0b2b7533f53f658c799a37255469.camel@ndufresne.ca>
-Subject: Re: [PATCH] media: videobuf2: add V4L2_BUF_FLAG_HEADERS_ONLY flag
-From:   Nicolas Dufresne <nicolas@ndufresne.ca>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Ming Qian <ming.qian@nxp.com>, mchehab@kernel.org
-Cc:     shawnguo@kernel.org, robh+dt@kernel.org, s.hauer@pengutronix.de,
-        kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        Tomasz Figa <tfiga@chromium.org>
-Date:   Fri, 25 Nov 2022 12:07:17 -0500
-In-Reply-To: <15ba9b9e-f3f6-7f30-c200-d7c9593a4735@xs4all.nl>
-References: <20220712093754.23370-1-ming.qian@nxp.com>
-         <15ba9b9e-f3f6-7f30-c200-d7c9593a4735@xs4all.nl>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.4 (3.44.4-2.fc36) 
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=oVFt4OOYHWXEHQBp4UYCRdZAKrVLk0eN3Eg8qXa0JLo=;
+        b=S5pFa3plhB6ULWIHQYpiNTfCIuJy01kVeRvSLTmD1NUYJmxIRpmiSp9Elh3t2HWy9H
+         p9Bzy+Q8GUEKfpCSvBf0SbB8xGm+75p2c9IZqlC4N2xBcW0wygFiSzU0r84j3YTTm6FE
+         iWrVMwbllT88ZAMXq5A64ROEDcLrB1raw4QD7g0qD5Kg4bmSsJhuliHD3vd1STZpsq1p
+         NKabovUSbkTLEecBVFnlULkGczlz45qo9lzBZeIlO/BSzHhZ7sJfffIpoxi1qbpL0qPL
+         rODRMFyt621tXqiJJvIBNoGzkx877gvaiJtui7aYpNSmlmx/1HzlDUVX5F71liTBjcBX
+         H2gg==
+X-Gm-Message-State: ANoB5pnLaCBTBHp8V9Tphy4Y51QfVLa2TI4aUGK7vlvX3PsJheNZEhj6
+        qxb8VLGAZ6bC//Lm77dwB6tE7Bc6KupP5FwwEFVGHWYoVINM+ZDAvtRGFvjXDKdgoFsM3saYd4W
+        ce8pvI7mZ681hcDTqLBPUevA=
+X-Received: by 2002:a05:6402:3c9:b0:46a:b56d:92d with SMTP id t9-20020a05640203c900b0046ab56d092dmr4803172edw.336.1669401508476;
+        Fri, 25 Nov 2022 10:38:28 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf5EbNgkTUc1iVKYZFHB9gb5KYPqUxOjv1R5Yom9zaWt3o+4st1DjiHbvmtKc8onMTe8jYzKvw==
+X-Received: by 2002:a05:6402:3c9:b0:46a:b56d:92d with SMTP id t9-20020a05640203c900b0046ab56d092dmr4803153edw.336.1669401508244;
+        Fri, 25 Nov 2022 10:38:28 -0800 (PST)
+Received: from ?IPV6:2001:1c00:2a07:3a01:67e5:daf9:cec0:df6? (2001-1c00-2a07-3a01-67e5-daf9-cec0-0df6.cable.dynamic.v6.ziggo.nl. [2001:1c00:2a07:3a01:67e5:daf9:cec0:df6])
+        by smtp.gmail.com with ESMTPSA id y5-20020aa7ccc5000000b0045b3853c4b7sm2057068edt.51.2022.11.25.10.38.27
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 25 Nov 2022 10:38:27 -0800 (PST)
+Message-ID: <e7fb85f9-9e39-e33e-61b7-14e02cfafb88@redhat.com>
+Date:   Fri, 25 Nov 2022 19:38:26 +0100
 MIME-Version: 1.0
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE
-        autolearn=unavailable autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.1
+Subject: Re: [PATCH 3/3] platform/x86: int3472/discrete: Add support for
+ sensor-drivers which expect clken + pled GPIOs
+Content-Language: en-US
+To:     Dan Scally <dan.scally@ideasonboard.com>,
+        Mark Gross <markgross@kernel.org>,
+        Andy Shevchenko <andy@kernel.org>,
+        Daniel Scally <djrscally@gmail.com>
+Cc:     platform-driver-x86@vger.kernel.org,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Kate Hsuan <hpa@redhat.com>, linux-media@vger.kernel.org
+References: <20221124200007.390901-1-hdegoede@redhat.com>
+ <20221124200007.390901-4-hdegoede@redhat.com>
+ <0fa6d92a-9b3b-cec9-c834-1b530ffe7a68@ideasonboard.com>
+From:   Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <0fa6d92a-9b3b-cec9-c834-1b530ffe7a68@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Replying on top, a bit unusual, but I think it makes sense ....
+Hi,
 
-Le jeudi 24 novembre 2022 =C3=A0 11:42 +0100, Hans Verkuil a =C3=A9crit=C2=
-=A0:
-> +CC Nicolas and Tomasz.
->=20
-> I would like some feedback for this patch.
->=20
-> On 12/07/2022 11:37, Ming Qian wrote:
-> > By setting the V4L2_BUF_FLAG_HEADERS_ONLY flag,
-> > hint the vb2 only contains stream header,
-> > but does not contain any frame data.
-> >=20
-> > This flag needs to be used when header mode is set to
-> > V4L2_MPEG_VIDEO_HEADER_MODE_SEPARATE.
-> >=20
-> > Signed-off-by: Ming Qian <ming.qian@nxp.com>
-> > ---
-> >  Documentation/userspace-api/media/v4l/buffer.rst      | 11 +++++++++++
-> >  .../userspace-api/media/v4l/ext-ctrls-codec.rst       | 10 +++++++---
-> >  include/uapi/linux/videodev2.h                        |  2 ++
-> >  3 files changed, 20 insertions(+), 3 deletions(-)
-> >=20
-> > diff --git a/Documentation/userspace-api/media/v4l/buffer.rst b/Documen=
-tation/userspace-api/media/v4l/buffer.rst
-> > index 4638ec64db00..18a6f5fcc822 100644
-> > --- a/Documentation/userspace-api/media/v4l/buffer.rst
-> > +++ b/Documentation/userspace-api/media/v4l/buffer.rst
-> > @@ -607,6 +607,17 @@ Buffer Flags
-> >  	the format. Any subsequent call to the
-> >  	:ref:`VIDIOC_DQBUF <VIDIOC_QBUF>` ioctl will not block anymore,
-> >  	but return an ``EPIPE`` error code.
-> > +    * .. _`V4L2-BUF-FLAG-HEADERS-ONLY`:
-> > +
-> > +      - ``V4L2_BUF_FLAG_HEADERS_ONLY``
-> > +      - 0x00200000
-> > +      - This flag may be set when the buffer only contains codec
->=20
-> Set by the driver or userspace? Or either, depending on whether it is
-> an encoder or decoder?
+On 11/25/22 17:07, Dan Scally wrote:
+> Hi Hans
+> 
+> On 24/11/2022 20:00, Hans de Goede wrote:
+>> The hm11b1 and ov01a1s sensor drivers shipped with the out of tree IPU6
+>> driver, expect the clk_en GPIO to be modelled as a "clken" GPIO rather
+>> then using the clk framework; and the hm11b1, ov01a1s and ov2740 driver
+>> all 3 expect the privacy-led to be modelled as a "pled" GPIO, rather then
+>> it being turned on/off at the same time as the clk.
+>>
+>> Adjust how we handle the GPIOs on these sensors accordingly, for now at
+>> least, so that the out of tree driver can work with standard distro kernels
+>> through e.g. dkms. Otherwise users need to run a patched kernel just for
+>> this small difference.
+>>
+>> This of course needs to be revisited when we mainline these sensor drivers,
+>> I can imagine the drivers getting clk-framework support when they are
+>> mainlined and then at that same time their acpi HID can be dropped from
+>> the use_gpio_for_clk_acpi_ids[] array.
+>>
+>> Note there already is a mainline driver for the ov2740, but that is not
+>> impacted by this change since atm it uses neither the clk framework nor
+>> a "clken" GPIO.
+>>
+>> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+>> ---
+>> Maybe we should patch the sensor drivers for sensors supported with
+>> the IPU3 to also expect the privacy-led to always be a separate GPIO?
+>>
+>> This way we can also avoid the camera LED briefly going on at boot,
+>> when the driver is powering things up to read the sensor's ID register.
+>>
+>> And I have also put looking at making the mainline ov2740 driver suitable
+>> for use with the (out of tree) IPU6 driver on my TODO list.
+>> ---
+>>   drivers/platform/x86/intel/int3472/common.h   |  2 +-
+>>   drivers/platform/x86/intel/int3472/discrete.c | 37 +++++++++++++++----
+>>   2 files changed, 31 insertions(+), 8 deletions(-)
+>>
+>> diff --git a/drivers/platform/x86/intel/int3472/common.h b/drivers/platform/x86/intel/int3472/common.h
+>> index 53270d19c73a..58647d3084b9 100644
+>> --- a/drivers/platform/x86/intel/int3472/common.h
+>> +++ b/drivers/platform/x86/intel/int3472/common.h
+>> @@ -23,7 +23,7 @@
+>>   #define INT3472_GPIO_TYPE_PRIVACY_LED                0x0d
+>>     #define INT3472_PDEV_MAX_NAME_LEN                23
+>> -#define INT3472_MAX_SENSOR_GPIOS                3
+>> +#define INT3472_MAX_SENSOR_GPIOS                4
+>>     #define GPIO_REGULATOR_NAME_LENGTH                21
+>>   #define GPIO_REGULATOR_SUPPLY_NAME_LENGTH            9
+>> diff --git a/drivers/platform/x86/intel/int3472/discrete.c b/drivers/platform/x86/intel/int3472/discrete.c
+>> index 9159291be28a..bfcf8184db16 100644
+>> --- a/drivers/platform/x86/intel/int3472/discrete.c
+>> +++ b/drivers/platform/x86/intel/int3472/discrete.c
+>> @@ -216,6 +216,26 @@ static const char *int3472_dsm_type_to_func(u8 type)
+>>       return "unknown";
+>>   }
+>>   +/*
+>> + * The hm11b1 and ov01a1s sensor drivers shipped with the out of tree IPU6 driver,
+>> + * expect the clk_en GPIO to be modelled as a "clken" GPIO rather then as a clk and
+>> + * the hm11b1, ov01a1s and ov2740 driver all 3 expect the privacy-led to be modelled
+>> + * as a "pled" GPIO, rather then it being turned on/off at the same time as the clk.
+>> + *
+>> + * Note there also is a mainline driver for the ov2740, but that does not use
+>> + * the clk framework atm either.
+>> + *
+>> + * Adjust how we handle the GPIOs on these sensors accordingly, for now at least.
+>> + * This needs to be revisited when we mainline these sensor drivers / when we merge
+>> + * the necessary changes in the ov2740 sensor driver so that it can work on the IPU6.
+>> + */
+> 
+> 
+> I'm not really sure about this one though; wouldn't it be better to alter those sensor drivers to use the clock framework properly?
 
-I think it should be set by the driver when encoding, and set by user space=
- when
-decoding. And of course, should be documented as previous review underline.
+Yes, Laurent more or less said the same thing; and I was already starting
+to think in this direction myself when typing the cover letter.
 
->=20
-> codec -> the codec
->=20
-> > +	header, but does not contain any frame data. Usually the codec
-> > +	header is merged to the next idr frame, with the flag
->=20
-> to -> with
-> idr -> IDR
->=20
-> > +	``V4L2_BUF_FLAG_KEYFRAME``, but there is still some scenes that will
->=20
-> is -> are
->=20
-> scenes: do you mean 'scenarios'?
->=20
-> > +	split the header and queue it separately. This flag can set only when
->=20
-> "split the header and queue it separately" -> queue the header in a separ=
-ate buffer
->=20
-> can -> can be
->=20
-> > +	codec support V4L2_MPEG_VIDEO_HEADER_MODE_SEPARATE,
->=20
-> codec -> the codec
-> support -> supports
->=20
-> > +	and the header mode is set to V4L2_MPEG_VIDEO_HEADER_MODE_SEPARATE
-> >      * .. _`V4L2-BUF-FLAG-REQUEST-FD`:
-> > =20
-> >        - ``V4L2_BUF_FLAG_REQUEST_FD``
-> > diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst =
-b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> > index 6183f43f4d73..478b6af4205d 100644
-> > --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> > +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> > @@ -1386,8 +1386,12 @@ enum v4l2_mpeg_video_intra_refresh_period_type -
-> >      (enum)
-> > =20
-> >  enum v4l2_mpeg_video_header_mode -
-> > -    Determines whether the header is returned as the first buffer or i=
-s
-> > -    it returned together with the first frame. Applicable to encoders.
-> > +    Determines whether the header is returned as the first buffer
-> > +    with flag V4L2_BUF_FLAG_HEADERS_ONLY or is
->=20
-> or is it -> or if it is
->=20
-> > +    it returned together with the first frame.
-> > +    Applicable to encoders and decoders.
-> > +    If it's not implemented in a driver,
-> > +    V4L2_MPEG_VIDEO_HEADER_MODE_JOINED_WITH_1ST_FRAME is to be assumed=
-,
-> >      Possible values are:
-> > =20
-> >  .. raw:: latex
-> > @@ -1401,7 +1405,7 @@ enum v4l2_mpeg_video_header_mode -
-> >      :stub-columns: 0
-> > =20
-> >      * - ``V4L2_MPEG_VIDEO_HEADER_MODE_SEPARATE``
-> > -      - The stream header is returned separately in the first buffer.
-> > +      - The stream header is returned separately in the first buffer w=
-ith the flag V4L2_BUF_FLAG_HEADERS_ONLY.
-> >      * - ``V4L2_MPEG_VIDEO_HEADER_MODE_JOINED_WITH_1ST_FRAME``
-> >        - The stream header is returned together with the first encoded
-> >  	frame.
-> > diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videod=
-ev2.h
-> > index 5311ac4fde35..6fd96acd6080 100644
-> > --- a/include/uapi/linux/videodev2.h
-> > +++ b/include/uapi/linux/videodev2.h
-> > @@ -1131,6 +1131,8 @@ static inline __u64 v4l2_timeval_to_ns(const stru=
-ct timeval *tv)
-> >  #define V4L2_BUF_FLAG_TSTAMP_SRC_SOE		0x00010000
-> >  /* mem2mem encoder/decoder */
-> >  #define V4L2_BUF_FLAG_LAST			0x00100000
-> > +/* Buffer only contains codec header */
->=20
-> codec -> the codec
->=20
-> > +#define V4L2_BUF_FLAG_HEADERS_ONLY		0x00200000
-> >  /* request_fd is valid */
-> >  #define V4L2_BUF_FLAG_REQUEST_FD		0x00800000
-> > =20
->=20
-> Of course, there needs to be a driver that uses this as well. And drivers=
- that support
-> V4L2_MPEG_VIDEO_HEADER_MODE_SEPARATE would need to add support for this f=
-lag as well,
-> I guess.
->=20
-> And what I haven't seen here is *why* you need this flag. There are alrea=
-dy drivers that
-> support V4L2_MPEG_VIDEO_HEADER_MODE_SEPARATE, and they managed fine witho=
-ut it.
+So yes I agree with you and Laurent. That still leaves the question of what to do
+with devices with just a privacy LED without a clk-en though.
 
-I think this can make sense, I'm not user of this, since this is OMX/Androi=
-d
-specific behaviour, but I think I can make sense of it.
+Dan, do you have a list of sensors which currently are known to work / be used
+together with the IPU3 (and the int3472 discrete code) ?
 
-For encoders, in WebRTC (any RTP, or streaming protocol with keyframe reque=
-st),
-we often ask the encoder to produce a new keyframe. We don't reset the enco=
-der
-this point. Some encoder may resend the headers, as the encoder is in "sepe=
-rate
-mode" it should send it separately. Userland can then handle resending the =
-last
-seem header if it wasn't there. It also help locating when the request was
-actually honoured (I'm guessing there is already a keyframe flag of some so=
-rt).
-So to me this enhancement is valid, it makes everything nicer. I agree it n=
-eeds
-a solid adoption, so any driver supporting this should be ported (could be =
-blind
-ported and tested by their maintainers).
+I know I will need to modifi the ov5693 code, but I wonder what other drivers
+I will need to modify ?
 
-For decoders, if a a decoder is in "separate mode", it seems that sending
-headers must happen this way. If this uses a separate path internally, the
-kernel needs also to be aware which buffers are what (and we don't parse in=
- the
-kernel). In very basic case, the driver assume that the first buffer after
-streamon is a header, but that prevents resolution changes without a
-drain+flush, which android and chromeos folks seems to use. (I always drain=
- and
-flush for what I'm doing).
+I think I might just move those sensor-drivers over to using a GPIO
+for the privacy LED and just always register a GPIO for the privacy LED
+pin, does that sound like a good idea to you ?
 
-Nicolas
+Anyways it is weekend now and I've already worked too many hours this week,
+so I'll take a look at this on Monday.
 
->=20
-> Regards,
->=20
-> 	Hans
+Regards,
+
+Hans
+
+
+
+>> +static const struct acpi_device_id use_gpio_for_clk_acpi_ids[] = {
+>> +    { "HIMX11B1" }, /* hm11b1 */
+>> +    { "OVTI01AS" }, /* ov01a1s */
+>> +    { "INT3474" },  /* ov2740 */
+>> +    {}
+>> +};
+>> +
+>>   /**
+>>    * skl_int3472_handle_gpio_resources: Map PMIC resources to consuming sensor
+>>    * @ares: A pointer to a &struct acpi_resource
+>> @@ -293,19 +313,22 @@ static int skl_int3472_handle_gpio_resources(struct acpi_resource *ares,
+>>           (polarity == GPIO_ACTIVE_HIGH) ? "high" : "low");
+>>         switch (type) {
+>> +    case INT3472_GPIO_TYPE_CLK_ENABLE:
+>> +    case INT3472_GPIO_TYPE_PRIVACY_LED:
+>> +        if (!acpi_match_device_ids(int3472->adev, use_gpio_for_clk_acpi_ids)) {
+>> +            ret = skl_int3472_map_gpio_to_clk(int3472, agpio, type);
+>> +            if (ret)
+>> +                err_msg = "Failed to map GPIO to clock\n";
+>> +
+>> +            break;
+>> +        }
+>> +        fallthrough;
+>>       case INT3472_GPIO_TYPE_RESET:
+>>       case INT3472_GPIO_TYPE_POWERDOWN:
+>>           ret = skl_int3472_map_gpio_to_sensor(int3472, agpio, func, polarity);
+>>           if (ret)
+>>               err_msg = "Failed to map GPIO pin to sensor\n";
+>>   -        break;
+>> -    case INT3472_GPIO_TYPE_CLK_ENABLE:
+>> -    case INT3472_GPIO_TYPE_PRIVACY_LED:
+>> -        ret = skl_int3472_map_gpio_to_clk(int3472, agpio, type);
+>> -        if (ret)
+>> -            err_msg = "Failed to map GPIO to clock\n";
+>> -
+>>           break;
+>>       case INT3472_GPIO_TYPE_POWER_ENABLE:
+>>           ret = skl_int3472_register_regulator(int3472, agpio);
+> 
 
