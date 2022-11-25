@@ -2,172 +2,135 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BE3A6638C24
-	for <lists+linux-media@lfdr.de>; Fri, 25 Nov 2022 15:28:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5720D638C40
+	for <lists+linux-media@lfdr.de>; Fri, 25 Nov 2022 15:33:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229653AbiKYO2g (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 25 Nov 2022 09:28:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51456 "EHLO
+        id S230029AbiKYOdt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 25 Nov 2022 09:33:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55092 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229633AbiKYO2f (ORCPT
+        with ESMTP id S229558AbiKYOdq (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 25 Nov 2022 09:28:35 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A6E5EE2B;
-        Fri, 25 Nov 2022 06:28:34 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 06351622F2;
-        Fri, 25 Nov 2022 14:28:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9151BC433C1;
-        Fri, 25 Nov 2022 14:28:31 +0000 (UTC)
-Message-ID: <de7a776e-3fb2-3631-c301-847502fc1a39@xs4all.nl>
-Date:   Fri, 25 Nov 2022 15:28:30 +0100
+        Fri, 25 Nov 2022 09:33:46 -0500
+Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com [66.111.4.224])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 208142ED7B;
+        Fri, 25 Nov 2022 06:33:45 -0800 (PST)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+        by mailnew.nyi.internal (Postfix) with ESMTP id DB89C5803E5;
+        Fri, 25 Nov 2022 09:33:41 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute2.internal (MEProxy); Fri, 25 Nov 2022 09:33:41 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+        :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+        :message-id:mime-version:references:reply-to:sender:subject
+        :subject:to:to; s=fm2; t=1669386821; x=1669394021; bh=M6MnU6LmiA
+        YmvlmzIoIefG1FuwFoAznyitukgUEcknw=; b=P6EcLVbnBM2XgS0pzWCe/1rIDW
+        LJpD0QMQb7FEm85MnUCRx0OIT/NTT0Iat6SeNrZQ33egH5CGd3JqkVO8TYdYlwJQ
+        vrAZjZTditwnXo9fRTQXz2sZJjZIuKiBmW3+jT06X9mylNcQCwaFiizcn8pK927+
+        PowVQgWtPcog16wDBa1OOVLvLoiTkSaujr/rs1lPblFCvGihAIYdCmtb7fXtD0P2
+        md8BrtBzQsGth02UVxQVwjifyrfoMwhQ9gHoqyPmbKx4ITw69RjgPiUz6/SeWqg7
+        MDTATCC27wthxBtYdMPsSjzxlEqeCUCq5KXEgiQBJA4DeHMWGiQEaeFpLgzQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+        :mime-version:references:reply-to:sender:subject:subject:to:to
+        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+        fm1; t=1669386821; x=1669394021; bh=M6MnU6LmiAYmvlmzIoIefG1FuwFo
+        AznyitukgUEcknw=; b=j9jhcO81ZwRz1HzwCBRYdFInEE4Gu0n/iVzAkl1gjRN+
+        VGRNi0+3J29Zh/qZpFG0ZehU//Zf4eNGkPVyK7LvyTaAeql+jtWGuTm0U5zSF2TJ
+        I65Ug05FVmOx5AlurbYPPQOKTwdeTr+ZHTfMhIGV1y7VLu7Ihqu0BCUJnUlPbg8j
+        D/KC6mWK1oSrLQOzn/SIPpgfHvIWpMohK0dcPjC8x8UCP7T9nBmF3yUQc/DvUFTc
+        IW9etyFO5LVMrPdBpIjlfbK+kkny5z1BZkuqY1aO7eePY4sUV10ZVoM/LXWihz1E
+        4tu0RokOn3atFsFWacXh+3KO8yLTeoM0cMPbbDCe1g==
+X-ME-Sender: <xms:RNKAY91dPIvOopiSBkTlZTlsBtawKib3krM6hYQ2iK4L1lPTo4bPeQ>
+    <xme:RNKAY0Ghuvp2N3Ox1NHKS_kkb5iP2fd-5EB0veQZR2dWgDOzLvHtnkp5wY50-6lTx
+    cKgosbve5HIzDWdblY>
+X-ME-Received: <xmr:RNKAY95mo2uSj7_xUAsiyOQQj3g5DtI5TMSGg_THRkHo-yUYGuzRKxShcXnMxm73TUjElj81GR6SIYFJf9XEEKdmovwouFEz8PfeQsIKJpALtg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrieehgdeiiecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpeffhffvvefukfhfgggtuggjsehgtderredttddunecuhfhrohhmpeforgigihhm
+    vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+    htvghrnhepjeevfeehfeekieffgeevleevtefgffefkedtfeeuhfettdegjeehgfegudff
+    ffdunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
+    grgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:RNKAY62siUBO6VQir3UrNe22QwYWPBDHPrGpfl_P707sZD7N330bJg>
+    <xmx:RNKAYwG4gZ0CkAhklQIb1FQHTdJwtcroegQS-7D3xsd2MhrWUEgb-A>
+    <xmx:RNKAY7_aXptjD05fY78X0D8c9xuodR2S7HsyxLzHSB3A8wwTGHyjCA>
+    <xmx:RdKAY2R83jecd_63_yfenloFGvhBQCg2ePMGaB9yA5U_fVvwXbOMyg>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 25 Nov 2022 09:33:39 -0500 (EST)
+Date:   Fri, 25 Nov 2022 15:33:37 +0100
+From:   Maxime Ripard <maxime@cerno.tech>
+To:     =?utf-8?B?TWHDrXJh?= Canal <mairacanal@riseup.net>
+Cc:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        David Airlie <airlied@gmail.com>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Gow <davidgow@google.com>,
+        Brendan Higgins <brendan.higgins@linux.dev>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        Javier Martinez Canillas <javierm@redhat.com>,
+        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        linaro-mm-sig@lists.linaro.org, linux-kselftest@vger.kernel.org,
+        kunit-dev@googlegroups.com, linux-media@vger.kernel.org
+Subject: Re: [PATCH 01/24] drm/tests: helpers: Rename the device init helper
+Message-ID: <20221125143337.edzn53n6ackomhv5@houat>
+References: <20221123-rpi-kunit-tests-v1-0-051a0bb60a16@cerno.tech>
+ <20221123-rpi-kunit-tests-v1-1-051a0bb60a16@cerno.tech>
+ <6a817cad-df46-42ac-3c14-dbdce681cde6@riseup.net>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.1
-Subject: Re: [PATCH v3 3/8] media: Documentation: v4l: Add TOF class controls
-Content-Language: en-US
-To:     Volodymyr Kharuk <vkh@melexis.com>, linux-media@vger.kernel.org
-Cc:     Andrii Kyselov <ays@melexis.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        devicetree@vger.kernel.org,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Benjamin Mugnier <benjamin.mugnier@foss.st.com>
-References: <cover.1669381013.git.vkh@melexis.com>
- <01cfeb602d52456bed08c89da356474474361e73.1669381013.git.vkh@melexis.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <01cfeb602d52456bed08c89da356474474361e73.1669381013.git.vkh@melexis.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="acmx5lmtcx2n462u"
+Content-Disposition: inline
+In-Reply-To: <6a817cad-df46-42ac-3c14-dbdce681cde6@riseup.net>
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 25/11/2022 14:34, Volodymyr Kharuk wrote:
-> Add description about V4L2_CID_TOF_PHASE_SEQ, V4L2_CID_TOF_FMOD
-> and V4L2_CID_TOF_TINT.
-> Also updated MAINTAINERS with new ext-ctrls-tof file.
-> 
-> Signed-off-by: Volodymyr Kharuk <vkh@melexis.com>
-> ---
->  .../userspace-api/media/v4l/common.rst        |  1 +
->  .../userspace-api/media/v4l/ext-ctrls-tof.rst | 35 +++++++++++++++++++
->  MAINTAINERS                                   |  7 ++++
->  3 files changed, 43 insertions(+)
->  create mode 100644 Documentation/userspace-api/media/v4l/ext-ctrls-tof.rst
-> 
-> diff --git a/Documentation/userspace-api/media/v4l/common.rst b/Documentation/userspace-api/media/v4l/common.rst
-> index ea0435182e44..1ea79e453066 100644
-> --- a/Documentation/userspace-api/media/v4l/common.rst
-> +++ b/Documentation/userspace-api/media/v4l/common.rst
-> @@ -52,6 +52,7 @@ applicable to all devices.
->      ext-ctrls-fm-rx
->      ext-ctrls-detect
->      ext-ctrls-colorimetry
-> +    ext-ctrls-tof
->      fourcc
->      format
->      planar-apis
-> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-tof.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-tof.rst
-> new file mode 100644
-> index 000000000000..8902cc7cd47b
-> --- /dev/null
-> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-tof.rst
-> @@ -0,0 +1,35 @@
-> +.. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
-> +
-> +.. _tof-controls:
-> +
-> +***************************************
-> +Time of Flight Camera Control Reference
-> +***************************************
-> +
-> +The Time of Flight class includes controls for digital features
-> +of TOF camera.
 
-You might want to extend this description a bit and give more info
-about how they work. Perhaps a link to wikipedia or something
-might help too.
+--acmx5lmtcx2n462u
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> +
-> +.. _tof-control-id:
-> +
-> +Time of Flight Camera Control IDs
-> +=================================
-> +
-> +``V4L2_CID_TOF_CLASS (class)``
-> +    The TOF class descriptor. Calling :ref:`VIDIOC_QUERYCTRL` for
-> +    this control will return a description of this control class.
-> +
-> +``V4L2_CID_TOF_PHASE_SEQ (dynamic array u16)``
-> +    Change the shift between illumination and sampling for each phase
-> +    in degrees. A distance/confidence picture is obtained by merging
-> +    3..8 captures of the same scene using different phase shifts(some
+Hi,
 
-Space before (
+On Fri, Nov 25, 2022 at 11:10:02AM -0300, Ma=EDra Canal wrote:
+> On 11/23/22 12:25, Maxime Ripard wrote:
+> > The name doesn't really fit the conventions for the other helpers in
+> > DRM/KMS, so let's rename it to make it obvious that we allocate a new
+> > DRM device.
+> >=20
+> > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+>=20
+> Although I believe using "drm_device" on the function name is a bit
+> redundant (maybe drm_kunit_helper_alloc_dev or drm_kunit_helper_alloc_dev=
+ice
+> would be cleaner),
 
-> +    TOF sensors use different frequency modulation).
+Yeah, I don't quite like the name either, but we'll need to also
+allocate a struct device in the next few patches so we need to make the
+distinction between a struct drm_device and a struct device.
 
-Either: use -> use a
-Or:     modulation -> modulations
+Maxime
 
-It's not clear right now whether "frequency modulation" is meant to be singular
-or plural.
+--acmx5lmtcx2n462u
+Content-Type: application/pgp-signature; name="signature.asc"
 
-> +
-> +    The maximum array size is driver specific.
-> +
-> +``V4L2_CID_TOF_FMOD (dynamic array u8)``
-> +    The control sets the modulation frequency(in Mhz) per each phase.
+-----BEGIN PGP SIGNATURE-----
 
-Space before (
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCY4DSQQAKCRDj7w1vZxhR
+xeGkAPkBFLa3lV36E2W1jTknr7iiJBV/Zjt6EB2CqXA8txhT8AD/TvavUqFz4lG/
+jgViwFq+5i24QHZJ/YlXq5ZvEZ09pAI=
+=52Ai
+-----END PGP SIGNATURE-----
 
-per each phase -> for each phase
-
-> +    The maximum array size is driver specific.
-
-What does the maximum array size signify? The number of phases?
-It's not clear from the spec (and I have to admit I know very little
-about TOF sensors).
-
-> +
-> +``V4L2_CID_TOF_TINT (dynamic array u16)``
-> +    The control sets the integration time(in us) per each phase.
-
-Add space before (
-
-per each phase -> for each phase
-
-> +    The maximum array size is driver specific.
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index aa1974054fce..a2bc2ce53056 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -13111,6 +13111,13 @@ S:	Supported
->  W:	http://www.melexis.com
->  F:	drivers/iio/temperature/mlx90632.c
->  
-> +MELEXIS MLX7502X DRIVER
-> +M:	Volodymyr Kharuk <vkh@melexis.com>
-> +L:	linux-media@vger.kernel.org
-> +S:	Supported
-> +W:	http://www.melexis.com
-> +F:	Documentation/userspace-api/media/v4l/ext-ctrls-tof.rst
-> +
->  MELFAS MIP4 TOUCHSCREEN DRIVER
->  M:	Sangwon Jee <jeesw@melfas.com>
->  S:	Supported
-
-Regards,
-
-	Hans
+--acmx5lmtcx2n462u--
