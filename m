@@ -2,95 +2,123 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 888DC63831E
-	for <lists+linux-media@lfdr.de>; Fri, 25 Nov 2022 05:21:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0502663835A
+	for <lists+linux-media@lfdr.de>; Fri, 25 Nov 2022 06:08:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229583AbiKYEVl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 24 Nov 2022 23:21:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60610 "EHLO
+        id S229541AbiKYFIT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 25 Nov 2022 00:08:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33724 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229476AbiKYEVk (ORCPT
+        with ESMTP id S229469AbiKYFIS (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 24 Nov 2022 23:21:40 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E04D428E06
-        for <linux-media@vger.kernel.org>; Thu, 24 Nov 2022 20:21:38 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 726F1B82900
-        for <linux-media@vger.kernel.org>; Fri, 25 Nov 2022 04:21:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BB2C2C433D6
-        for <linux-media@vger.kernel.org>; Fri, 25 Nov 2022 04:21:35 +0000 (UTC)
-Date:   Fri, 25 Nov 2022 05:21:33 +0100
-From:   "Hans Verkuil" <hverkuil-cisco@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-Message-Id: <20221125042135.BB2C2C433D6@smtp.kernel.org>
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+        Fri, 25 Nov 2022 00:08:18 -0500
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB74F27B0F;
+        Thu, 24 Nov 2022 21:08:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+  t=1669352894; x=1700888894;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=+Iru+rPzbuM4DVegAhL9qv+EEr9L1O1AHIlf4byW/4Y=;
+  b=h0DfmCC7CBjdy9PRidL3RwGO0t4MR5hYrEcK48UOg3JbcDsXVAQ+LI2p
+   iUqhp/pOmGFboZWuCo6lmnkADUf99PawnhRDXo7fQuwwSCQHv/t84Une3
+   Z4UWWXpKnSq/jVdOkrdKQXrTxII7TF0ZqaZNmuYUDo52BqzBesODo1bql
+   VE6sR/JjGcUMqGhf3kyTEo2mp5sbgY65qQYHv6dBeFbJqPOY1A1FOADXR
+   fxBzdO0ZP5SMKTIZexeYJI6e5HiK2gmhjX3RElyCm7XM6PLm+kZYGQQyv
+   bc+FyjfA7Hn5AHE33rzwjzEvai4Il0v6fAnSLLg9IzVih773PV6kndIGO
+   g==;
+X-IronPort-AV: E=Sophos;i="5.96,192,1665471600"; 
+   d="scan'208";a="188604123"
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+  by esa2.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 24 Nov 2022 22:08:13 -0700
+Received: from chn-vm-ex01.mchp-main.com (10.10.85.143) by
+ chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.12; Thu, 24 Nov 2022 22:08:12 -0700
+Received: from microchip1-OptiPlex-9020.microchip.com (10.10.115.15) by
+ chn-vm-ex01.mchp-main.com (10.10.85.143) with Microsoft SMTP Server id
+ 15.1.2507.12 via Frontend Transport; Thu, 24 Nov 2022 22:08:09 -0700
+From:   shravan kumar <shravan.chippa@microchip.com>
+To:     <paul.j.murphy@intel.com>, <daniele.alessandrelli@intel.com>,
+        <mchehab@kernel.org>
+CC:     <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        "Shravan Chippa" <shravan.chippa@microchip.com>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Sakari Ailus <sakari.ailus@iki.fi>
+Subject: [PATCH v5 0/6] media: i2c: imx334: support lower bandwidth mode
+Date:   Fri, 25 Nov 2022 10:38:01 +0530
+Message-ID: <20221125050807.1857479-1-shravan.chippa@microchip.com>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+From: Shravan Chippa <shravan.chippa@microchip.com>
 
-Results of the daily build of media_tree:
+Hi
 
-date:			Fri Nov 25 03:00:10 CET 2022
-media-tree git hash:	b9fbe29c59065c24df9e9fb3153db36403d45e2d
-media_build git hash:	0fe857b86addf382f6fd383948bd7736a3201403
-v4l-utils git hash:	96022d88960bdb0f6edd540b10f7b8422b25b277
-edid-decode git hash:	894eefd10f5fd67327fae8e6160e7eb4172e554f
-gcc version:		i686-linux-gcc (GCC) 12.2.0
-sparse repo:            git://git.kernel.org/pub/scm/devel/sparse/sparse.git
-sparse version:		v0.6.4-39-gce1a6720-dirty
-smatch repo:            git://repo.or.cz/smatch.git
-smatch version:		v0.5.0-8202-g07aefcd0-dirty
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 15b0f25830f711d40a19e9f219b3065e5eea44eb
-host hardware:		x86_64
-host os:		5.19.0-2-amd64
+This patch series is for imx334 sensor driver support for lower bandwidth
 
-linux-git-sh: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-pxa: OK
-linux-git-powerpc64: OK
-linux-git-mips: OK
-linux-git-arm-stm32: OK
-linux-git-arm-multi: OK
-linux-git-arm64: OK
-linux-git-i686: WARNINGS
-linux-git-x86_64: WARNINGS
-Check COMPILE_TEST: WARNINGS: VIDEO_OV08X40
-Check for strcpy/strncpy/strlcpy: OK
-apps: OK
-spec-git: WARNINGS
-virtme: WARNINGS: Final Summary: 3080, Succeeded: 3080, Failed: 0, Warnings: 2
-virtme-32: WARNINGS: Final Summary: 3193, Succeeded: 3193, Failed: 0, Warnings: 2
-sparse: WARNINGS
-smatch: ERRORS
-kerneldoc: OK
+Some platforms may not be capable of supporting the bandwidth
+required for 12 bit or 3840x2160@60 resolutions.
 
-Detailed results are available here:
+Add support for dynamically selecting 10 bit and 1920x1080@30
+resolutions while leaving the existing configuration as default
 
-https://hverkuil.home.xs4all.nl/logs/Friday.log
+Sorry for taking dealy to send updated the series
+as i need to check the impact of my patch on 3840x2160@60 resolutions
 
-Detailed regression test results are available here:
+V4 -> V5
+-Added 5 more patchs as per the review comments witch has below updates
+-Updated 1782000000Mbps link frequency for 3840x2160@60 as per the mode
+values
+-Updated 1782000000Mbps link frequency in dt-bindings also
+-Updated 3840x2160@60 mode array with default(reset) values
 
-https://hverkuil.home.xs4all.nl/logs/Friday-test-media.log
-https://hverkuil.home.xs4all.nl/logs/Friday-test-media-32.log
-https://hverkuil.home.xs4all.nl/logs/Friday-test-media-dmesg.log
+-Updated hblank __v4l2_ctrl_s_ctrl() to __v4l2_ctrl_modify_range()
+Suggested-by: Jacopo Mondi <jacopo@jmondi.org>
 
-Full logs are available here:
+-Current mode update only when we try to set V4L2_SUBDEV_FORMAT_ACTIVE
+-Added link frequency (891000000Mbps) and pixel rate (74250000) to
+1920x1080@30 mode
+Suggested-by: Sakari Ailus <sakari.ailus@iki.fi>
 
-https://hverkuil.home.xs4all.nl/logs/Friday.tar.bz2
+-Updated commit message
 
-The Media Infrastructure API from this daily build is here:
+V3 -> V4
+- Make the 12 bit and 3840x2160 as default
+- Set bus code SRGGB12 if set format fails
 
-https://hverkuil.home.xs4all.nl/spec/index.html
+V2 -> V3
+- Fixed the warning reported by kernel test robot
+
+V1 -> V2
+- Addressed the review comment given by Jacopo Mondi,
+  Which has bug in imx334_enum_frame_size() loop function,
+- Renamed array codes[] to imx334_mbus_codes[]
+- Modified supported_modes[] to get higher resolution first
+
+Shravan Chippa (6):
+  dt-bindings: imx334: modify link frequency in examples
+  media: i2c: imx334: modify link frequency as for the configureation
+  media: i2c: imx334: hblank set function modify
+  media: i2c: imx334: add default values in 3840x2160@60 array
+  media: i2c: imx334: support lower bandwidth mode
+  media: i2c: imx334: updating pixel and link frequency
+
+ .../bindings/media/i2c/sony,imx334.yaml       |   2 +-
+ drivers/media/i2c/imx334.c                    | 338 ++++++++++++++++--
+ 2 files changed, 311 insertions(+), 29 deletions(-)
+
+-- 
+2.34.1
+
