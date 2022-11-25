@@ -2,140 +2,159 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 63991638804
-	for <lists+linux-media@lfdr.de>; Fri, 25 Nov 2022 11:59:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1F95F63881C
+	for <lists+linux-media@lfdr.de>; Fri, 25 Nov 2022 12:01:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229676AbiKYK7F (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 25 Nov 2022 05:59:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54202 "EHLO
+        id S230355AbiKYLBt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 25 Nov 2022 06:01:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55440 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229538AbiKYK7E (ORCPT
+        with ESMTP id S230348AbiKYLBr (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 25 Nov 2022 05:59:04 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7841D10B77;
-        Fri, 25 Nov 2022 02:59:03 -0800 (PST)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id B29AC326;
-        Fri, 25 Nov 2022 11:59:01 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1669373941;
-        bh=vkPeeZx2zrLguFGmeG7S7r8eIy4fjIzuFYQYQsly73Q=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=hXHIshYy2c1kGmArrquvdywzeewxtlx1DM5VrDmdwKafeWKcsBcPJ8IjJE3VSVxEb
-         yrvcBPAV0koFUFfpxxOpRQcnyOxfL+Z/NTgOb5DqsO8vf949SJr7kTyr8ScFWStPPa
-         1dQiFm63u+CE1DsDMKFUGoRM2y6IMkWKSu0FcsU8=
-Date:   Fri, 25 Nov 2022 12:58:46 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Dan Scally <dan.scally@ideasonboard.com>
-Cc:     Hans de Goede <hdegoede@redhat.com>,
-        Mark Gross <markgross@kernel.org>,
-        Andy Shevchenko <andy@kernel.org>,
-        Daniel Scally <djrscally@gmail.com>,
-        platform-driver-x86@vger.kernel.org,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Kate Hsuan <hpa@redhat.com>, linux-media@vger.kernel.org
-Subject: Re: [PATCH 0/3] platform/x86: int3472/discrete: Make it work with
- IPU6
-Message-ID: <Y4Cf5tLWsBDTndei@pendragon.ideasonboard.com>
-References: <20221124200007.390901-1-hdegoede@redhat.com>
- <e5d8913c-13ba-3b11-94bc-5d1ee1d736b0@ideasonboard.com>
+        Fri, 25 Nov 2022 06:01:47 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E8C954A5A2
+        for <linux-media@vger.kernel.org>; Fri, 25 Nov 2022 03:00:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1669374049;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=H/ZkLtm8A9FTaUIt1krh1NXQg3mdZeQrz9lNHvK9Ra0=;
+        b=Ynt936F3L64vY2SATAA+42O1c1oRsAdtVz70eQ0TYF0OqZ5I5uBx/lOdoCJbjF74A1fjer
+        8ttF1+AxquXpLpopu1fHo3VYoB21vunRisblvq7eN6rIw124CZF0EjhK5RoTe9QHASu/kf
+        0hXqhiBcK019ROsCoMIWd4JmKqhWRZM=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-591-d6mhQTMUPcm09ay8M4KqCg-1; Fri, 25 Nov 2022 06:00:47 -0500
+X-MC-Unique: d6mhQTMUPcm09ay8M4KqCg-1
+Received: by mail-wr1-f72.google.com with SMTP id m17-20020adfa3d1000000b00241cbfd296eso776163wrb.15
+        for <linux-media@vger.kernel.org>; Fri, 25 Nov 2022 03:00:47 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=H/ZkLtm8A9FTaUIt1krh1NXQg3mdZeQrz9lNHvK9Ra0=;
+        b=dNyE2NNc5MGzg4NYIt0uZfoqf2jGVSrJVceGOnc9CKWh/etCqf8889uQRRR9NPaMKu
+         sgngPc+qI2mD1scwRC+xUPjHW35m4LVaOo9Nt4sLzODJuvxbXOVRDeJQQfCTHtRu92t/
+         +bQplId+EjdbsGu+HFjaygv8vW4ztLFQ2V4XTYMhzBgDCvVWPghQSOGch+52Rk0seP0a
+         szObW5BeQxM6UN4YgvtT73867ro69Him/VAtbco+dJFLNGmx8nlw0Oq40+YrNGPe4Dbt
+         JLZShrpU51mrOUJoAkj28LKikKE/XsdeiOecYoy7ymYYlTYSI8AbNXV6ifLTDBuKhxgU
+         7e0g==
+X-Gm-Message-State: ANoB5pmvuWusatvszxmZFUg4yqkDXsVI+xEzK9qszR1M6zHrBnHZkFtj
+        3ZsmB/0MdNMZpXJ/33FY2PveZApfdD+L2Fqpg61FxQlVfMgFC+4nBh3+MJ6RCNaX9oslEI4Yp8e
+        rnWw9Ysq4zxEEd9sCvO95/VE=
+X-Received: by 2002:adf:e508:0:b0:236:588f:b5d with SMTP id j8-20020adfe508000000b00236588f0b5dmr11244639wrm.255.1669374046482;
+        Fri, 25 Nov 2022 03:00:46 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf7Xu/NP6mlFBtx0snOLhZERGkaY9p8k3uPMLjkAV/xFHCXfHC5Y76yhHYrvcopCb8lv41h+LQ==
+X-Received: by 2002:adf:e508:0:b0:236:588f:b5d with SMTP id j8-20020adfe508000000b00236588f0b5dmr11244612wrm.255.1669374046175;
+        Fri, 25 Nov 2022 03:00:46 -0800 (PST)
+Received: from [192.168.1.130] (205.pool92-176-231.dynamic.orange.es. [92.176.231.205])
+        by smtp.gmail.com with ESMTPSA id p1-20020a1c5441000000b003b4cba4ef71sm8531125wmi.41.2022.11.25.03.00.44
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 25 Nov 2022 03:00:45 -0800 (PST)
+Message-ID: <2762e41f-0508-2e25-b787-7b68d5014a77@redhat.com>
+Date:   Fri, 25 Nov 2022 12:00:44 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <e5d8913c-13ba-3b11-94bc-5d1ee1d736b0@ideasonboard.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.1
+Subject: Re: [PATCH 10/24] drm/vc4: kms: Sort the CRTCs by output before
+ assigning them
+Content-Language: en-US
+To:     Maxime Ripard <maxime@cerno.tech>,
+        Maxime Ripard <mripard@kernel.org>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        David Airlie <airlied@gmail.com>,
+        Thomas Zimmermann <tzimmermann@suse.de>
+Cc:     David Gow <davidgow@google.com>, linaro-mm-sig@lists.linaro.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-kselftest@vger.kernel.org,
+        =?UTF-8?Q?Ma=c3=adra_Canal?= <mairacanal@riseup.net>,
+        linux-media@vger.kernel.org, kunit-dev@googlegroups.com,
+        dri-devel@lists.freedesktop.org,
+        Brendan Higgins <brendan.higgins@linux.dev>,
+        linux-kernel@vger.kernel.org,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>
+References: <20221123-rpi-kunit-tests-v1-0-051a0bb60a16@cerno.tech>
+ <20221123-rpi-kunit-tests-v1-10-051a0bb60a16@cerno.tech>
+From:   Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <20221123-rpi-kunit-tests-v1-10-051a0bb60a16@cerno.tech>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Nov 25, 2022 at 10:17:17AM +0000, Dan Scally wrote:
-> Morning Hans - thanks for the set
+On 11/23/22 16:25, Maxime Ripard wrote:
+> On the vc4 devices (and later), the blending is done by a single device
+> called the HVS. The HVS has three FIFO that can operate in parallel, and
+> route their output to 6 CRTCs and 7 encoders on the BCM2711.
 > 
-> On 24/11/2022 20:00, Hans de Goede wrote:
-> > Hi All,
-> >
-> > Here is a small set of patches to make the int3472/discrete code
-> > work with the sensor drivers bundled with the (unfortunately out of tree)
-> > IPU6 driver.
-> >
-> > There are parts of the out of tree IPU6 code, like the sensor drivers,
-> > which can be moved to the mainline and I do plan to work on this at some
-> > point and then some of this might need to change. But for now the goal is
-> > to make the out of tree driver work with standard mainline distro kernels
-> > through e.g. dkms. Otherwise users need to run a patched kernel just for
-> > a couple of small differences.
-> >
-> > This is basically a rewrite of this patch:
-> > https://github.com/intel/ipu6-drivers/blob/master/patch/int3472-support-independent-clock-and-LED-gpios-5.17%2B.patch
-> >
-> > Wich users who want to use the IPU6 driver so far have had to manually
-> > apply to their kernels which is quite inconvenient.
-> >
-> > This rewrite makes 2 significant changes:
-> >
-> > 1. Don't break things on IPU3 platforms
-> >
-> > 2. Instead of extending the int3472_sensor_configs[] quirks table for each
-> > model which needs "clken" and "pled" GPIOs, do this based on matching
-> > the ACPI HID of the ACPI device describing the sensor.
-> >
-> > The need for these GPIOs is a property of the specific sensor driver which
-> > binds using this same HID, so by using this we avoid having to extend the
-> > int3472_sensor_configs[] quirks table all the time.
-> >
-> > This allows roling back the behavior to at least use a clk-framework
-> > clk instead of clken GPIO on a per sensor(-driver) basis as we mainline
-> > the sensor drivers, assuming that the drivers are switched over to the
-> > clk framework as part of their mainlining.
-> >
-> > A bigger question is what to do with the privacy-led GPIO on IPU3
-> > we so far have turned the LED on/off at the same as te clock,
-> > but at least on some IPU6 models this won't work, because they only
-> > have a privacy-led GPIO and no clk_en GPIO (there is no sensor
-> > clk-control at all on some models).
-> 
-> Ah how annoying, we hadn't come across any situations for IPU3 with a 
-> privacy LED but no clock GPIO
-> 
-> > I think we should maybe move all models, including IPU3 based
-> > models over to using a normal GPIO for controlling the privacy-led
-> > to make things consistent.
-> 
-> I think they probably should be represented as LED devices then, and 
-> have the media subsytem call some framework to find associated LEDs and 
-> cycle them at power on time in the sensor drivers. I know there's the 
-> v4l2_flash structure at the moment, but not sure if a privacy one exists.
+> Each of these CRTCs and encoders have some contraints on which FIFO they
 
-The whole point of a privacy LED is to be controlled automatically (and
-ideally without software intervention, but that's a different story).
-Can the LED framework be used without having the LED exposed to
-userspace ?
+constraints.
 
-> > And likewise (eventually) completely drop the "clken" GPIO this
-> > patch series introduces (with some sensors) and instead always model
-> > this through the clk-framework.
-> >
-> > Regards,
-> >
-> > Hans
-> >
-> >
-> > Hans de Goede (3):
-> >    platform/x86: int3472/discrete: Refactor GPIO to sensor mapping
-> >    platform/x86: int3472/discrete: Get the polarity from the _DSM entry
-> >    platform/x86: int3472/discrete: Add support for sensor-drivers which
-> >      expect clken + pled GPIOs
-> >
-> >   drivers/platform/x86/intel/int3472/common.h   |  2 +-
-> >   drivers/platform/x86/intel/int3472/discrete.c | 92 ++++++++++++++++---
-> >   2 files changed, 78 insertions(+), 16 deletions(-)
+> can feed from, so we need some code to take all those constraints into
+> account and assign FIFOs to CRTCs.
+> 
+> The problem can be simplified by assigning those FIFOs to CRTCs by
+> ascending output index number. We had a comment mentioning it already,
+> but we were never actually enforcing it.
+> 
+> It was working still in most situations because the probe order is
+> roughly equivalent, except for the (optional, and fairly rarely used on
+> the Pi4) VEC which was last in the probe order sequence, but one of the
+> earliest device to assign.
+> 
+> This resulted in configurations that were rejected by our code but were
+> still valid with a different assignment.
+> 
+> We can fix this by making sure we assign CRTCs to FIFOs by ordering
+> them by ascending HVS output index.
+> 
+> Fixes: 87ebcd42fb7b ("drm/vc4: crtc: Assign output to channel automatically")
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> ---
+
+[...]
+
+>  
+> -	for_each_oldnew_crtc_in_state(state, crtc, old_crtc_state, new_crtc_state, i) {
+> -		struct vc4_crtc_state *old_vc4_crtc_state =
+> -			to_vc4_crtc_state(old_crtc_state);
+> -		struct vc4_crtc_state *new_vc4_crtc_state =
+> -			to_vc4_crtc_state(new_crtc_state);
+> -		struct vc4_crtc *vc4_crtc = to_vc4_crtc(crtc);
+> +	/*
+> +	 * The problem we have to solve here is that we have up to 7
+> +	 * encoders, connected to up to 6 CRTCs.
+> +	 *
+> +	 * Those CRTCs, depending on the instance, can be routed to 1, 2
+> +	 * or 3 HVS FIFOs, and we need to set the change the muxing
+
+This sentence sounds a little bit off to me. Did you mean:
+
+"we need to set the muxing between" or "we need to change the muxing" ?
+
+I'm not familiar with VC4 but the patch seems to do what the commit message
+says, so the changes look good to me.
+
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
 -- 
-Regards,
+Best regards,
 
-Laurent Pinchart
+Javier Martinez Canillas
+Core Platforms
+Red Hat
+
