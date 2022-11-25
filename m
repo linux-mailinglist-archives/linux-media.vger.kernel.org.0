@@ -2,170 +2,141 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9A6D7638622
-	for <lists+linux-media@lfdr.de>; Fri, 25 Nov 2022 10:26:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3E7F663862F
+	for <lists+linux-media@lfdr.de>; Fri, 25 Nov 2022 10:28:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229476AbiKYJ0q (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 25 Nov 2022 04:26:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40624 "EHLO
+        id S229877AbiKYJ2q (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 25 Nov 2022 04:28:46 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45260 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229631AbiKYJ00 (ORCPT
+        with ESMTP id S229871AbiKYJ22 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 25 Nov 2022 04:26:26 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE42C2AE07
-        for <linux-media@vger.kernel.org>; Fri, 25 Nov 2022 01:25:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1669368331;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=PdoQUUexZ7ga7BmgL2KbubMH7KSrCAhYA4sosdJ8U/Q=;
-        b=giVqJNnwSpAmIsy5HDtDQGT3+bBWEA8OgflXYS1O/0SdAGqnYYt+bsNx/APK4UFk7j2or7
-        DtRUkIN4IqTkKhYJURUGtRRCx5NZ8r0v9T/XOj5Y7U/pzJ/3hKoivblPIy7blRxO9n4k38
-        8YHfW+7eV3ZAbTvXG5qJD3BCegmIwBo=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-187-ZlO90_CzMGqjXD4d1MSRiw-1; Fri, 25 Nov 2022 04:25:29 -0500
-X-MC-Unique: ZlO90_CzMGqjXD4d1MSRiw-1
-Received: by mail-wm1-f69.google.com with SMTP id x10-20020a05600c420a00b003cfa33f2e7cso2168133wmh.2
-        for <linux-media@vger.kernel.org>; Fri, 25 Nov 2022 01:25:29 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=PdoQUUexZ7ga7BmgL2KbubMH7KSrCAhYA4sosdJ8U/Q=;
-        b=e5QSs0rKK6i+OvCGDx/UL7vZ9xMsXUIUNRdueoRnABxL7F/sInpB+xwL1OdUBTEtHO
-         Ys2o3N7jntHGPI0nY1qyPUnUfnCxpa80MCqy0Ek6beM6TNvQ5Sm/tVN+G++FMD12esjs
-         dzgHXhi3IUOwNJ0CUnos6Ugny6CUzLtglYWHXZjH0A6xKYG/D7xXnonrjk8UU37WOR0+
-         j8J760a6N96tn9sKseV/+/2D2xunKczwRy1Sf9Trnq8jOKjhXkOENN8C2ZKUKMJpTZ9N
-         k1Od4s/KtuFIISroGhRqPKjEp7IrwpmOc1lacEYMJDS1hxQE9VQyCeCZ+R5FP3pp1HmQ
-         YITw==
-X-Gm-Message-State: ANoB5pn0Ooacbw7vOEF4cQFN/ujpwFpsbLshMmPE3qpHHqAz7yBanEfF
-        wr+ZM4UG0EhH0btIT7IJOkhb6hi4P20UUDmHPUcQAuROUdpWDCC0TJKPUd8te7+Fw5jJme9ptX7
-        uwTVHPzGlj1NCyitV1CUAq9c=
-X-Received: by 2002:a05:600c:3501:b0:3c7:4f0:77b3 with SMTP id h1-20020a05600c350100b003c704f077b3mr13270559wmq.93.1669368328284;
-        Fri, 25 Nov 2022 01:25:28 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf4vxRVWps62Nub/Y/bXYoNoPFQkcrqfFgC4Xw+JywmVH37euSYEJ8/pRQ9JWKoQwlq2n7w9Uw==
-X-Received: by 2002:a05:600c:3501:b0:3c7:4f0:77b3 with SMTP id h1-20020a05600c350100b003c704f077b3mr13270533wmq.93.1669368328022;
-        Fri, 25 Nov 2022 01:25:28 -0800 (PST)
-Received: from [192.168.1.130] (205.pool92-176-231.dynamic.orange.es. [92.176.231.205])
-        by smtp.gmail.com with ESMTPSA id b17-20020a5d4b91000000b0024207478de3sm664177wrt.93.2022.11.25.01.25.25
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 25 Nov 2022 01:25:26 -0800 (PST)
-Message-ID: <56cbef35-da0e-d278-fef5-83b0944ed416@redhat.com>
-Date:   Fri, 25 Nov 2022 10:25:24 +0100
+        Fri, 25 Nov 2022 04:28:28 -0500
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB53A222BB;
+        Fri, 25 Nov 2022 01:28:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+  t=1669368504; x=1700904504;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=Wzwmhe1tAJXVDVxgspmjOf4RzyKkfCj4R+nMlHGJos8=;
+  b=dcMxsgzS+J1wjQfB1wt4NC632r/WZPuOF4+DsiVMZIms1Mnz5hVezLuf
+   SgJUS96g0oWxgD9wUvutFR+jaoPo08g+lQ/+uqvpe93odydm23blLZ8Fq
+   ucHGe8xpH7HfLv1q0b027OrP2FByQQFYLg98fNK6Qurkawum3Yo9W1ls6
+   1+HMwi2qDr4P77aTAbaEJmlTjtbCQj/dGg0/obQJmAZah/ZDOH4VDnhQu
+   amuIRD74kzpCj0MX9rD6vtTpaupDq/GXol8ojBdJD3FQio3YUShYGI1md
+   9PsRwUHTIWAWjbrZfC3Q/9K3l8MXqXm87JKiLgVcAvVkefyJRTGx0O69B
+   A==;
+X-IronPort-AV: E=Sophos;i="5.96,193,1665471600"; 
+   d="scan'208";a="190492699"
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+  by esa5.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 25 Nov 2022 02:28:23 -0700
+Received: from chn-vm-ex01.mchp-main.com (10.10.85.143) by
+ chn-vm-ex01.mchp-main.com (10.10.85.143) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.12; Fri, 25 Nov 2022 02:28:22 -0700
+Received: from ROB-ULT-M18282.microchip.com (10.10.115.15) by
+ chn-vm-ex01.mchp-main.com (10.10.85.143) with Microsoft SMTP Server id
+ 15.1.2507.12 via Frontend Transport; Fri, 25 Nov 2022 02:28:21 -0700
+From:   Eugen Hristev <eugen.hristev@microchip.com>
+To:     <claudiu.beznea@microchip.com>
+CC:     <linux-arm-kernel@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
+        Eugen Hristev <eugen.hristev@microchip.com>
+Subject: [PATCH] ARM: configs: switch to new MICROCHIP_ISC driver
+Date:   Fri, 25 Nov 2022 11:28:12 +0200
+Message-ID: <20221125092812.446379-1-eugen.hristev@microchip.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.1
-Subject: Re: [PATCH 04/24] drm/tests: helpers: Switch to a platform_device
-Content-Language: en-US
-To:     Maxime Ripard <maxime@cerno.tech>,
-        Maxime Ripard <mripard@kernel.org>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        David Airlie <airlied@gmail.com>,
-        Thomas Zimmermann <tzimmermann@suse.de>
-Cc:     David Gow <davidgow@google.com>, linaro-mm-sig@lists.linaro.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-kselftest@vger.kernel.org,
-        =?UTF-8?Q?Ma=c3=adra_Canal?= <mairacanal@riseup.net>,
-        linux-media@vger.kernel.org, kunit-dev@googlegroups.com,
-        dri-devel@lists.freedesktop.org,
-        Brendan Higgins <brendan.higgins@linux.dev>,
-        linux-kernel@vger.kernel.org,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>
-References: <20221123-rpi-kunit-tests-v1-0-051a0bb60a16@cerno.tech>
- <20221123-rpi-kunit-tests-v1-4-051a0bb60a16@cerno.tech>
-From:   Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <20221123-rpi-kunit-tests-v1-4-051a0bb60a16@cerno.tech>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE
-        autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 11/23/22 16:25, Maxime Ripard wrote:
-> The device managed resources are ran if the device has bus, which is not
-> the case of a root_device.
-> 
-> Let's use a platform_device instead.
-> 
-> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-> ---
->  drivers/gpu/drm/tests/drm_kunit_helpers.c | 19 +++++++++++++++++--
->  1 file changed, 17 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/tests/drm_kunit_helpers.c b/drivers/gpu/drm/tests/drm_kunit_helpers.c
-> index 2f974f45c5b4..651aa93a98a8 100644
-> --- a/drivers/gpu/drm/tests/drm_kunit_helpers.c
-> +++ b/drivers/gpu/drm/tests/drm_kunit_helpers.c
-> @@ -6,6 +6,7 @@
->  #include <kunit/resource.h>
->  
->  #include <linux/device.h>
-> +#include <linux/platform_device.h>
->  
->  #include "drm_kunit_helpers.h"
->  
-> @@ -20,12 +21,26 @@ static const struct drm_mode_config_funcs drm_mode_config_funcs = {
->  
->  struct device *drm_kunit_helper_alloc_device(struct kunit *test)
->  {
-> -	return root_device_register(FAKE_DEVICE_NAME);
-> +	struct platform_device *pdev;
-> +	int ret;
-> +
-> +	ret = platform_driver_register(&fake_platform_driver);
+The ATMEL_ISC and ATMEL_XISC have been deprecated and moved to staging.
+Use the new MICROCHIP_ISC/MICROCHIP_XISC symbols which are the
+replacement drivers.
 
-Maybe the platform_driver_register() is something that should be done
-in the drm_client_modeset_test_init() callback ?
+Signed-off-by: Eugen Hristev <eugen.hristev@microchip.com>
+---
 
-I would also as a part of this series rename the kunit_suite from
-"drm_test_pick_cmdline_test_suite" to "drm_test_modeset_test_suite"
-or something like that. Since you are already setting the .init and
-.exit callbacks to allocate and release the devices. So it is more
-than just a test suite for cmdline params testing.
+Hi,
 
-> +	KUNIT_ASSERT_EQ(test, ret, 0);
-> +
-> +	pdev = platform_device_alloc(FAKE_DEVICE_NAME, PLATFORM_DEVID_NONE);
-> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, pdev);
-> +
-> +	ret = platform_device_add(pdev);
-> +	KUNIT_ASSERT_EQ(test, ret, 0);
-> +
-> +	return &pdev->dev;
->  }
->
+This should go in 6.2, after the media subsystem new features will be merged.
+The tree here :
+https://git.linuxtv.org/media_stage.git/
+... contains the patches that are destined for 6.2 and perform the
+move of the ISC drivers to staging:
 
-Probably won't do it as a part of this series to avoid making it cross
-subsystem, but I think there's room to further consolidation since this
-helper seems to be quite generic and something that would be useful for
-other subsystems. So it would make sense for kunit to have helpers to
-manage platform drivers and devices.
+https://git.linuxtv.org/media_stage.git/commit/?id=55927c98a2c88019e23353a87f44032107ca2854
 
-In fact, I see that drivers/base/test/test_async_driver_probe.c already
-has similar helpers that could be exposed to the rest of the kernel.
+Hence this patch has to go in the same kernel version to allow the current
+defconfigs that use the ISC to switch to the new driver.
+(The old driver won't be selected anymore since it depends on
+MEDIA_DEPRECATED , so that symbol has to be selected first to select the
+old driver which is now in staging )
 
-The patch looks good to me though and any of these changes could be done
-as a follow-up:
+Thanks
 
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+ arch/arm/configs/multi_v7_defconfig | 6 +++---
+ arch/arm/configs/sama5_defconfig    | 2 +-
+ arch/arm/configs/sama7_defconfig    | 2 +-
+ 3 files changed, 5 insertions(+), 5 deletions(-)
 
+diff --git a/arch/arm/configs/multi_v7_defconfig b/arch/arm/configs/multi_v7_defconfig
+index b61b2e3d116b..d1686bc40e5d 100644
+--- a/arch/arm/configs/multi_v7_defconfig
++++ b/arch/arm/configs/multi_v7_defconfig
+@@ -663,11 +663,11 @@ CONFIG_USB_VIDEO_CLASS=m
+ CONFIG_V4L_PLATFORM_DRIVERS=y
+ CONFIG_V4L_MEM2MEM_DRIVERS=y
+ CONFIG_VIDEO_ASPEED=m
+-CONFIG_VIDEO_ATMEL_ISC=m
+-CONFIG_VIDEO_ATMEL_XISC=m
+ CONFIG_VIDEO_ATMEL_ISI=m
+-CONFIG_VIDEO_MICROCHIP_CSI2DC=m
+ CONFIG_VIDEO_MMP_CAMERA=m
++CONFIG_VIDEO_MICROCHIP_ISC=m
++CONFIG_VIDEO_MICROCHIP_XISC=m
++CONFIG_VIDEO_MICROCHIP_CSI2DC=m
+ CONFIG_VIDEO_TEGRA_VDE=m
+ CONFIG_VIDEO_RENESAS_CEU=m
+ CONFIG_VIDEO_RCAR_VIN=m
+diff --git a/arch/arm/configs/sama5_defconfig b/arch/arm/configs/sama5_defconfig
+index 877bbe7b777e..f89fd4e0d10a 100644
+--- a/arch/arm/configs/sama5_defconfig
++++ b/arch/arm/configs/sama5_defconfig
+@@ -150,8 +150,8 @@ CONFIG_MEDIA_PLATFORM_SUPPORT=y
+ CONFIG_MEDIA_USB_SUPPORT=y
+ CONFIG_USB_VIDEO_CLASS=m
+ CONFIG_V4L_PLATFORM_DRIVERS=y
+-CONFIG_VIDEO_ATMEL_ISC=y
+ CONFIG_VIDEO_ATMEL_ISI=y
++CONFIG_VIDEO_MICROCHIP_ISC=y
+ CONFIG_VIDEO_MT9V032=m
+ CONFIG_VIDEO_OV2640=m
+ CONFIG_VIDEO_OV5640=m
+diff --git a/arch/arm/configs/sama7_defconfig b/arch/arm/configs/sama7_defconfig
+index 8f28c9d443f0..cc42cea77f38 100644
+--- a/arch/arm/configs/sama7_defconfig
++++ b/arch/arm/configs/sama7_defconfig
+@@ -140,7 +140,7 @@ CONFIG_MEDIA_SUPPORT_FILTER=y
+ CONFIG_MEDIA_CAMERA_SUPPORT=y
+ CONFIG_MEDIA_PLATFORM_SUPPORT=y
+ CONFIG_V4L_PLATFORM_DRIVERS=y
+-CONFIG_VIDEO_ATMEL_XISC=y
++CONFIG_VIDEO_MICROCHIP_XISC=y
+ CONFIG_VIDEO_MICROCHIP_CSI2DC=y
+ CONFIG_VIDEO_IMX219=m
+ CONFIG_VIDEO_IMX274=m
 -- 
-Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
+2.25.1
 
