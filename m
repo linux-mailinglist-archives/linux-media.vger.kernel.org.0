@@ -2,54 +2,54 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id ADF81638CE5
-	for <lists+linux-media@lfdr.de>; Fri, 25 Nov 2022 16:06:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0B4F4638D10
+	for <lists+linux-media@lfdr.de>; Fri, 25 Nov 2022 16:08:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229753AbiKYPGF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 25 Nov 2022 10:06:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58994 "EHLO
+        id S230271AbiKYPHw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 25 Nov 2022 10:07:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33262 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229452AbiKYPGE (ORCPT
+        with ESMTP id S229788AbiKYPHo (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 25 Nov 2022 10:06:04 -0500
-Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com [IPv6:2a00:1450:4864:20::533])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C23EF27B0C
-        for <linux-media@vger.kernel.org>; Fri, 25 Nov 2022 07:06:01 -0800 (PST)
-Received: by mail-ed1-x533.google.com with SMTP id f7so6755898edc.6
-        for <linux-media@vger.kernel.org>; Fri, 25 Nov 2022 07:06:01 -0800 (PST)
+        Fri, 25 Nov 2022 10:07:44 -0500
+Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 80813DF6F
+        for <linux-media@vger.kernel.org>; Fri, 25 Nov 2022 07:07:43 -0800 (PST)
+Received: by mail-ej1-x629.google.com with SMTP id i10so10951758ejg.6
+        for <linux-media@vger.kernel.org>; Fri, 25 Nov 2022 07:07:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=melexis.com; s=google;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=fvqdmTUWT2xrEs7EUWyBWddANF1nz9rdB64JipOk+bQ=;
-        b=cKJf3Bor2OFyZBLIh0WUIq1HVFaLOp8T+qsYxprqyKEje6jbdKS5tr0Ispl0lzki8+
-         eO68hXpM864fW6bAHaGIIHbdBl+uDyfgnL87ijgZ0DBK3SD9/pOoHp2jkm3hQn15VHpC
-         XUR5sIORuhBpojVHBk/MUzudQmIVFofNi27nD1iWr69LbR/BQ+mmfdEpaE8IJPTVEU5v
-         MLETBzIGr5VyEpxcNIlgalItSWgl+ppASZxNcVR9Gslse7i7ndlxZCNljDX4zT5/pAJi
-         6kJZyMPFHp8zZT/DGaIG5YQAVbUsNm59+5UAJWwuXz4Nv5Eel01AxYo6yRLkzUde6e4r
-         nhGA==
+        bh=E4XSsR+dbzmd1mhecep8xM2ebmxu9yjLHuBDKo3tp9k=;
+        b=ojyco4eRnNNLJfcCQ6JscsLAqgE6b3EON9+Jj9JCWW28bCP87A46gtwuyeonDnG0oo
+         U+AAbgHJ9dHjUTw6gfT0uW8aUvbRYvhmMXd2Oljl+ncVyJvCwj8szNbh3yZ75iv+UR6i
+         Rkva0+m6c9RF3dVs8uI/Z7AyPQM6iw3d7bnTEOCPADBlM5s7TcAV1JOagHA7Z27USFyz
+         3G7L8iy4kRTPabZ+2J7B+dDJ6x8YBYlxQLrq5tjqSM60TQK5igj/F6n5YkQGeCGysQds
+         h8ET69v95fDNfxdkdFRgOPKrHVPPFyJm5XcGwEW3XPxVlAFLatWv0FfBO2EIhmllvb5Y
+         RMkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=fvqdmTUWT2xrEs7EUWyBWddANF1nz9rdB64JipOk+bQ=;
-        b=7Mtts4yFZ8ogdyCYoqZhbSlYAcbVEZaPsjZ79rwPvMIRoax4220s6RLCCMSuiQ3tOa
-         HES45mwWl1EdnprKupuJ5ikmQFroXg56rOOnTa5ofaFetKUOK25Q0ZES6BdU0biJqXbq
-         imGQWq2Gvd6P5+109KUycXVgESlJqywNQhhzrJ2qkTp58eqZPiWO9QJISouuL6+2a1A4
-         ZU3qvJGnwoU6cver9g6YWKaXYlw+ydca0HK4Am9li78xUmr4rWyZqwgm2jGPaBMPHU5T
-         oE97CDJCiPJ9UiekVLBSuqHPyofEEeIlIOLFVGfPdi44jQfOdmi4jcA1R6ZznwDTsz08
-         bbcw==
-X-Gm-Message-State: ANoB5ploxg7qshtqKcdSjkDTretKWLqK+FUxa5+MtL4tqzza56Xjxd9z
-        unuvQf0ewpzL9xIMnp6T6AZ8jg==
-X-Google-Smtp-Source: AA0mqf7jgt3PeWxJilXyfbPsUkqudms+cGCl/vYbtk8bV0e8nB2mna5DtYQj/DkP+VgItJb8UpTsZg==
-X-Received: by 2002:aa7:c6da:0:b0:469:172:1f38 with SMTP id b26-20020aa7c6da000000b0046901721f38mr33411953eds.195.1669388760077;
-        Fri, 25 Nov 2022 07:06:00 -0800 (PST)
+        bh=E4XSsR+dbzmd1mhecep8xM2ebmxu9yjLHuBDKo3tp9k=;
+        b=lgZB/DdcUGJU6l4N9E3BEZSuNON1U4FKcVMljWlAOYUiQfIQz3SoZbwYrPs2j+AC5y
+         gPSJ/R60m1S0Vu+Y/OKP5RHgz36s8niuYh4XJpyIovmgfIEARQlarSUe7g9euwzqCF2q
+         JTmAsGpSiD3bcZkvwqjZqcr+UCigxtEFyhM8Po7v1oJyxM5vehq4u6YLmexLu1e+7w/e
+         b3AcGKuOhWxfxRHS2KoSGbUCBynV8VAvt5x0T7xl6oOvTLYeDcXO8RvWaANSPFQjmaSJ
+         g/BieQG9q3tXLffpzVVJF7l4o25OnXgCEx2j+w2yVf6V54K6n+OkQgmm9diCxNFIRFjq
+         I+zQ==
+X-Gm-Message-State: ANoB5pkTLus7h0d8Vsj5vQXcwD9x70BRvbqn6yWTE9TcYNGy4E5tQump
+        eepS8Sm3lnzuTiL9Xc+BR13+AvIfjPqd8gtn
+X-Google-Smtp-Source: AA0mqf4gQJvRm/S+3RjqRiqrIEc2QOIXdsOYz2AXioD6Cf7tiYAtQN7/cApj1EyYj6fTOEoMWMt+kw==
+X-Received: by 2002:a17:906:7d13:b0:7bc:addd:2c54 with SMTP id u19-20020a1709067d1300b007bcaddd2c54mr2906391ejo.24.1669388861581;
+        Fri, 25 Nov 2022 07:07:41 -0800 (PST)
 Received: from melexis.com ([2a02:2378:1085:b41d:bec4:93fd:8998:6d7a])
-        by smtp.gmail.com with ESMTPSA id f24-20020a170906495800b007bb32e2d6f5sm1637452ejt.207.2022.11.25.07.05.58
+        by smtp.gmail.com with ESMTPSA id 17-20020a170906219100b007b265d3f6a6sm1615146eju.162.2022.11.25.07.07.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 25 Nov 2022 07:05:59 -0800 (PST)
-Date:   Fri, 25 Nov 2022 17:05:55 +0200
+        Fri, 25 Nov 2022 07:07:41 -0800 (PST)
+Date:   Fri, 25 Nov 2022 17:07:37 +0200
 From:   Volodymyr Kharuk <vkh@melexis.com>
 To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Cc:     linux-media@vger.kernel.org, Andrii Kyselov <ays@melexis.com>,
@@ -60,16 +60,16 @@ Cc:     linux-media@vger.kernel.org, Andrii Kyselov <ays@melexis.com>,
         devicetree@vger.kernel.org,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
         Benjamin Mugnier <benjamin.mugnier@foss.st.com>
-Subject: Re: [PATCH v3 1/8] media: uapi: ctrls: Add Time of Flight class
+Subject: Re: [PATCH v3 2/8] media: v4l: ctrls: Fill V4L2_CID_TOF_CLASS
  controls
-Message-ID: <Y4DZ009tDZxOu1n0@melexis.com>
+Message-ID: <Y4DaOQKG43AbE74K@melexis.com>
 References: <cover.1669381013.git.vkh@melexis.com>
- <8819951fe1bb25501ab88e00bcf8e76734e97663.1669381013.git.vkh@melexis.com>
- <a021fcb2-81f4-38bd-6958-4fca59738878@xs4all.nl>
+ <d3fb74f580865c972877047f95cb65b65e773837.1669381013.git.vkh@melexis.com>
+ <29a4cc81-f43c-71a6-25f1-23234d7041e0@xs4all.nl>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <a021fcb2-81f4-38bd-6958-4fca59738878@xs4all.nl>
+In-Reply-To: <29a4cc81-f43c-71a6-25f1-23234d7041e0@xs4all.nl>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
@@ -79,66 +79,80 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans,
+Thanks for your review.
+I'll fix your remarks in next version.
 
-Thanks for your review,
-
-On Fri, Nov 25, 2022 at 03:20:46PM +0100, Hans Verkuil wrote:
+On Fri, Nov 25, 2022 at 03:22:16PM +0100, Hans Verkuil wrote:
 > On 25/11/2022 14:34, Volodymyr Kharuk wrote:
-> > Define Time of Flight class controls.
-> > Also add most common TOF controls:
-> >  - phase sequence
-> >  - time integration
-> >  - frequency modulation
+> > Define names, flags and types of TOF controls. *dims* is driver specific.
+> > It also means, that it is not possible to use new_std for arrays.
 > > 
 > > Signed-off-by: Volodymyr Kharuk <vkh@melexis.com>
 > > ---
-> >  include/uapi/linux/v4l2-controls.h | 8 ++++++++
-> >  1 file changed, 8 insertions(+)
+> >  drivers/media/v4l2-core/v4l2-ctrls-defs.c | 20 ++++++++++++++++++++
+> >  1 file changed, 20 insertions(+)
 > > 
-> > diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
-> > index d27e255ed33b..a9ecfaa4252c 100644
-> > --- a/include/uapi/linux/v4l2-controls.h
-> > +++ b/include/uapi/linux/v4l2-controls.h
-> > @@ -68,6 +68,7 @@
-> >  #define V4L2_CTRL_CLASS_DETECT		0x00a30000	/* Detection controls */
-> >  #define V4L2_CTRL_CLASS_CODEC_STATELESS 0x00a40000	/* Stateless codecs controls */
-> >  #define V4L2_CTRL_CLASS_COLORIMETRY	0x00a50000	/* Colorimetry controls */
-> > +#define V4L2_CTRL_CLASS_TOF		0x00a60000	/* Time of light camera controls */
-> 
-> light -> flight
-oh, indeed. Will fix.
-> 
-> >  
-> >  /* User-class control IDs */
-> >  
-> > @@ -2782,6 +2783,13 @@ struct v4l2_ctrl_vp9_compressed_hdr {
-> >  	struct v4l2_vp9_mv_probs mv;
-> >  };
-> >  
-> > +#define V4L2_CID_TOF_CLASS_BASE		(V4L2_CTRL_CLASS_TOF | 0x900)
-> > +#define V4L2_CID_TOF_CLASS		(V4L2_CTRL_CLASS_TOF | 1)
+> > diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> > index 564fedee2c88..1135d33c1baa 100644
+> > --- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> > +++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> > @@ -1196,6 +1196,13 @@ const char *v4l2_ctrl_get_name(u32 id)
+> >  	case V4L2_CID_COLORIMETRY_CLASS:	return "Colorimetry Controls";
+> >  	case V4L2_CID_COLORIMETRY_HDR10_CLL_INFO:		return "HDR10 Content Light Info";
+> >  	case V4L2_CID_COLORIMETRY_HDR10_MASTERING_DISPLAY:	return "HDR10 Mastering Display";
 > > +
-> > +#define V4L2_CID_TOF_PHASE_SEQ		(V4L2_CID_TOF_CLASS_BASE + 0)
-> > +#define V4L2_CID_TOF_FMOD		(V4L2_CID_TOF_CLASS_BASE + 1)
+> > +	/* Time of light camera controls */
+> > +	/* Keep the order of the 'case's the same as in v4l2-controls.h! */
+> > +	case V4L2_CID_TOF_CLASS:	return "Time of light Camera Controls";
 > 
-> I'd go for _FREQ_MOD
-Ok. Will fix.
+> light -> Flight
 > 
-> > +#define V4L2_CID_TOF_TINT		(V4L2_CID_TOF_CLASS_BASE + 2)
+> > +	case V4L2_CID_TOF_PHASE_SEQ:	return "TOF phase sequence";
 > 
-> and _TIME_INTEGRATION
-Ok. Will fix.
+> Capitalize, so: "TOF Phase Sequence"
+> 
+> > +	case V4L2_CID_TOF_FMOD:		return "TOF frequency modulation";
+> 
+> "TOF Frequency Modulation"
+> 
+> > +	case V4L2_CID_TOF_TINT:		return "TOF time integration";
+> 
+> "TOF Time Integration"
+> 
+> >  	default:
+> >  		return NULL;
+> >  	}
+> > @@ -1403,6 +1410,7 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
+> >  	case V4L2_CID_DETECT_CLASS:
+> >  	case V4L2_CID_CODEC_STATELESS_CLASS:
+> >  	case V4L2_CID_COLORIMETRY_CLASS:
+> > +	case V4L2_CID_TOF_CLASS:
+> >  		*type = V4L2_CTRL_TYPE_CTRL_CLASS;
+> >  		/* You can neither read nor write these */
+> >  		*flags |= V4L2_CTRL_FLAG_READ_ONLY | V4L2_CTRL_FLAG_WRITE_ONLY;
+> > @@ -1541,6 +1549,18 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
+> >  	case V4L2_CID_COLORIMETRY_HDR10_MASTERING_DISPLAY:
+> >  		*type = V4L2_CTRL_TYPE_HDR10_MASTERING_DISPLAY;
+> >  		break;
+> > +	case V4L2_CID_TOF_PHASE_SEQ:
+> > +		*type = V4L2_CTRL_TYPE_U16;
+> > +		*flags |= V4L2_CTRL_FLAG_DYNAMIC_ARRAY;
+> > +		break;
+> > +	case V4L2_CID_TOF_FMOD:
+> > +		*type = V4L2_CTRL_TYPE_U8;
+> > +		*flags |= V4L2_CTRL_FLAG_DYNAMIC_ARRAY;
+> > +		break;
+> > +	case V4L2_CID_TOF_TINT:
+> > +		*type = V4L2_CTRL_TYPE_U16;
+> > +		*flags |= V4L2_CTRL_FLAG_DYNAMIC_ARRAY;
+> > +		break;
+> >  	default:
+> >  		*type = V4L2_CTRL_TYPE_INTEGER;
+> >  		break;
 > 
 > Regards,
 > 
 > 	Hans
-> 
-> > +
-> >  /* MPEG-compression definitions kept for backwards compatibility */
-> >  #ifndef __KERNEL__
-> >  #define V4L2_CTRL_CLASS_MPEG            V4L2_CTRL_CLASS_CODEC
-> 
 
 -- 
 --
