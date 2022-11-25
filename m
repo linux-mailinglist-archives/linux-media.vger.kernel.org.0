@@ -2,185 +2,168 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2E010638C53
-	for <lists+linux-media@lfdr.de>; Fri, 25 Nov 2022 15:36:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 610C3638C62
+	for <lists+linux-media@lfdr.de>; Fri, 25 Nov 2022 15:39:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230030AbiKYOgu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 25 Nov 2022 09:36:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57884 "EHLO
+        id S230072AbiKYOjW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 25 Nov 2022 09:39:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33040 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230007AbiKYOgt (ORCPT
+        with ESMTP id S230021AbiKYOjV (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 25 Nov 2022 09:36:49 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9D97D31DED;
-        Fri, 25 Nov 2022 06:36:48 -0800 (PST)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6E157496;
-        Fri, 25 Nov 2022 15:36:45 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1669387005;
-        bh=9BVf21ejFFpO4xjlZS5xPumIzAKd+1naJNV5koJSjNU=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=UX7Wq5+secWwOvBLfWeL09Z9iZz41H/VxBOcpGH6khQsFV3XJHbauvO/+RYfD824/
-         jQacD6D+8ofS3EMGggiIHZdzbH1rcxS4FsjPPvWdn6EygTBClPP+cPsXAX9cKmJzjm
-         QHw+hT7dhYkQ48HKky8+7VLVPPH0UbLuGjUuuS2A=
-Date:   Fri, 25 Nov 2022 16:36:29 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Mark Gross <markgross@kernel.org>,
-        Andy Shevchenko <andy@kernel.org>,
-        Daniel Scally <djrscally@gmail.com>,
-        platform-driver-x86@vger.kernel.org,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Kate Hsuan <hpa@redhat.com>, linux-media@vger.kernel.org
-Subject: Re: [PATCH 3/3] platform/x86: int3472/discrete: Add support for
- sensor-drivers which expect clken + pled GPIOs
-Message-ID: <Y4DS7XBwDVAf9qrC@pendragon.ideasonboard.com>
-References: <20221124200007.390901-1-hdegoede@redhat.com>
- <20221124200007.390901-4-hdegoede@redhat.com>
+        Fri, 25 Nov 2022 09:39:21 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3BCD717895;
+        Fri, 25 Nov 2022 06:39:20 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id CCAF262480;
+        Fri, 25 Nov 2022 14:39:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70D07C433C1;
+        Fri, 25 Nov 2022 14:39:17 +0000 (UTC)
+Message-ID: <06d4c93d-3f94-cc95-f123-751e7bb2ab3b@xs4all.nl>
+Date:   Fri, 25 Nov 2022 15:39:16 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20221124200007.390901-4-hdegoede@redhat.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.1
+Subject: Re: [PATCH v3 6/8] media: uapi: Add mlx7502x header file
+Content-Language: en-US
+To:     Volodymyr Kharuk <vkh@melexis.com>, linux-media@vger.kernel.org
+Cc:     Andrii Kyselov <ays@melexis.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        devicetree@vger.kernel.org,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Benjamin Mugnier <benjamin.mugnier@foss.st.com>
+References: <cover.1669381013.git.vkh@melexis.com>
+ <cc798c882c35ef135179fba869d3f98507edde50.1669381013.git.vkh@melexis.com>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <cc798c882c35ef135179fba869d3f98507edde50.1669381013.git.vkh@melexis.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans,
-
-Thank you for the patch.
-
-On Thu, Nov 24, 2022 at 09:00:07PM +0100, Hans de Goede wrote:
-> The hm11b1 and ov01a1s sensor drivers shipped with the out of tree IPU6
-> driver, expect the clk_en GPIO to be modelled as a "clken" GPIO rather
-> then using the clk framework; and the hm11b1, ov01a1s and ov2740 driver
-> all 3 expect the privacy-led to be modelled as a "pled" GPIO, rather then
-> it being turned on/off at the same time as the clk.
-
-I don't like this idea much. I see this as opening the door to other
-hacks in mainline just for the purpose of supporting out-of-tree
-drivers. That's not how we should operate upstream.
-
-Why can't we patch the out-of-tree drivers to use the clock framework,
-given that's what it will need to do in mainline ? That shouldn't be a
-too intrusive change.
-
-> Adjust how we handle the GPIOs on these sensors accordingly, for now at
-> least, so that the out of tree driver can work with standard distro kernels
-> through e.g. dkms. Otherwise users need to run a patched kernel just for
-> this small difference.
+On 25/11/2022 14:34, Volodymyr Kharuk wrote:
+> Define user controls for mlx7502x driver, add its documentation and
+> update MAINTAINERS
 > 
-> This of course needs to be revisited when we mainline these sensor drivers,
-> I can imagine the drivers getting clk-framework support when they are
-> mainlined and then at that same time their acpi HID can be dropped from
-> the use_gpio_for_clk_acpi_ids[] array.
-> 
-> Note there already is a mainline driver for the ov2740, but that is not
-> impacted by this change since atm it uses neither the clk framework nor
-> a "clken" GPIO.
-> 
-> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> Signed-off-by: Volodymyr Kharuk <vkh@melexis.com>
 > ---
-> Maybe we should patch the sensor drivers for sensors supported with
-> the IPU3 to also expect the privacy-led to always be a separate GPIO?
+>  .../userspace-api/media/drivers/index.rst     |  1 +
+>  .../userspace-api/media/drivers/mlx7502x.rst  | 28 +++++++++++++++++++
+>  MAINTAINERS                                   |  2 ++
+>  include/uapi/linux/mlx7502x.h                 | 20 +++++++++++++
+>  4 files changed, 51 insertions(+)
+>  create mode 100644 Documentation/userspace-api/media/drivers/mlx7502x.rst
+>  create mode 100644 include/uapi/linux/mlx7502x.h
 > 
-> This way we can also avoid the camera LED briefly going on at boot,
-> when the driver is powering things up to read the sensor's ID register.
-
-To fix the privacy LED flickering problem correctly we need to avoid
-powering up sensor at probe time, as there are hardware designs that
-wire the privacy LED to the sensor power rails without any way to
-disable it in software.
-
-> And I have also put looking at making the mainline ov2740 driver suitable
-> for use with the (out of tree) IPU6 driver on my TODO list.
-> ---
->  drivers/platform/x86/intel/int3472/common.h   |  2 +-
->  drivers/platform/x86/intel/int3472/discrete.c | 37 +++++++++++++++----
->  2 files changed, 31 insertions(+), 8 deletions(-)
-> 
-> diff --git a/drivers/platform/x86/intel/int3472/common.h b/drivers/platform/x86/intel/int3472/common.h
-> index 53270d19c73a..58647d3084b9 100644
-> --- a/drivers/platform/x86/intel/int3472/common.h
-> +++ b/drivers/platform/x86/intel/int3472/common.h
-> @@ -23,7 +23,7 @@
->  #define INT3472_GPIO_TYPE_PRIVACY_LED				0x0d
+> diff --git a/Documentation/userspace-api/media/drivers/index.rst b/Documentation/userspace-api/media/drivers/index.rst
+> index 32f82aed47d9..f49e1b64c256 100644
+> --- a/Documentation/userspace-api/media/drivers/index.rst
+> +++ b/Documentation/userspace-api/media/drivers/index.rst
+> @@ -37,5 +37,6 @@ For more details see the file COPYING in the source distribution of Linux.
+>  	imx-uapi
+>  	max2175
+>  	meye-uapi
+> +	mlx7502x
+>  	omap3isp-uapi
+>  	uvcvideo
+> diff --git a/Documentation/userspace-api/media/drivers/mlx7502x.rst b/Documentation/userspace-api/media/drivers/mlx7502x.rst
+> new file mode 100644
+> index 000000000000..6f4874ec010d
+> --- /dev/null
+> +++ b/Documentation/userspace-api/media/drivers/mlx7502x.rst
+> @@ -0,0 +1,28 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +Melexis mlx7502x ToF camera sensor driver
+> +=========================================
+> +
+> +The mlx7502x driver implements the following driver-specific controls:
+> +
+> +``V4L2_CID_MLX7502X_OUTPUT_MODE (menu)``
+> +----------------------------------------
+> +	The sensor has two taps, which gather reflected light: A and B.
+> +	The control sets the way data should be put in a buffer. The most
+> +	common output mode is A-B which provides the best sunlight robustness.
+> +
+> +.. flat-table::
+> +	:header-rows:  0
+> +	:stub-columns: 0
+> +	:widths:       1 4
+> +
+> +	* - ``(0)``
+> +	  - A minus B
+> +	* - ``(1)``
+> +	  - A plus B
+> +	* - ``(2)``
+> +	  - only A
+> +	* - ``(3)``
+> +	  - only B
+> +	* - ``(4)``
+> +	  - A and B (this config will change PAD format)
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index a2bc2ce53056..0a6dda8da6bc 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -13116,7 +13116,9 @@ M:	Volodymyr Kharuk <vkh@melexis.com>
+>  L:	linux-media@vger.kernel.org
+>  S:	Supported
+>  W:	http://www.melexis.com
+> +F:	Documentation/userspace-api/media/drivers/mlx7502x.rst
+>  F:	Documentation/userspace-api/media/v4l/ext-ctrls-tof.rst
+> +F:	include/uapi/linux/mlx7502x.h
 >  
->  #define INT3472_PDEV_MAX_NAME_LEN				23
-> -#define INT3472_MAX_SENSOR_GPIOS				3
-> +#define INT3472_MAX_SENSOR_GPIOS				4
->  
->  #define GPIO_REGULATOR_NAME_LENGTH				21
->  #define GPIO_REGULATOR_SUPPLY_NAME_LENGTH			9
-> diff --git a/drivers/platform/x86/intel/int3472/discrete.c b/drivers/platform/x86/intel/int3472/discrete.c
-> index 9159291be28a..bfcf8184db16 100644
-> --- a/drivers/platform/x86/intel/int3472/discrete.c
-> +++ b/drivers/platform/x86/intel/int3472/discrete.c
-> @@ -216,6 +216,26 @@ static const char *int3472_dsm_type_to_func(u8 type)
->  	return "unknown";
->  }
->  
+>  MELFAS MIP4 TOUCHSCREEN DRIVER
+>  M:	Sangwon Jee <jeesw@melfas.com>
+> diff --git a/include/uapi/linux/mlx7502x.h b/include/uapi/linux/mlx7502x.h
+> new file mode 100644
+> index 000000000000..68014f550ed2
+> --- /dev/null
+> +++ b/include/uapi/linux/mlx7502x.h
+> @@ -0,0 +1,20 @@
+> +/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
 > +/*
-> + * The hm11b1 and ov01a1s sensor drivers shipped with the out of tree IPU6 driver,
-> + * expect the clk_en GPIO to be modelled as a "clken" GPIO rather then as a clk and
-> + * the hm11b1, ov01a1s and ov2740 driver all 3 expect the privacy-led to be modelled
-> + * as a "pled" GPIO, rather then it being turned on/off at the same time as the clk.
+> + * Melexis 7502x ToF cameras driver.
 > + *
-> + * Note there also is a mainline driver for the ov2740, but that does not use
-> + * the clk framework atm either.
+> + * Copyright (C) 2021 Melexis N.V.
 > + *
-> + * Adjust how we handle the GPIOs on these sensors accordingly, for now at least.
-> + * This needs to be revisited when we mainline these sensor drivers / when we merge
-> + * the necessary changes in the ov2740 sensor driver so that it can work on the IPU6.
 > + */
-> +static const struct acpi_device_id use_gpio_for_clk_acpi_ids[] = {
-> +	{ "HIMX11B1" }, /* hm11b1 */
-> +	{ "OVTI01AS" }, /* ov01a1s */
-> +	{ "INT3474" },  /* ov2740 */
-> +	{}
-> +};
 > +
->  /**
->   * skl_int3472_handle_gpio_resources: Map PMIC resources to consuming sensor
->   * @ares: A pointer to a &struct acpi_resource
-> @@ -293,19 +313,22 @@ static int skl_int3472_handle_gpio_resources(struct acpi_resource *ares,
->  		(polarity == GPIO_ACTIVE_HIGH) ? "high" : "low");
->  
->  	switch (type) {
-> +	case INT3472_GPIO_TYPE_CLK_ENABLE:
-> +	case INT3472_GPIO_TYPE_PRIVACY_LED:
-> +		if (!acpi_match_device_ids(int3472->adev, use_gpio_for_clk_acpi_ids)) {
-> +			ret = skl_int3472_map_gpio_to_clk(int3472, agpio, type);
-> +			if (ret)
-> +				err_msg = "Failed to map GPIO to clock\n";
+> +#ifndef __UAPI_MLX7502X_H_
+> +#define __UAPI_MLX7502X_H_
 > +
-> +			break;
-> +		}
-> +		fallthrough;
->  	case INT3472_GPIO_TYPE_RESET:
->  	case INT3472_GPIO_TYPE_POWERDOWN:
->  		ret = skl_int3472_map_gpio_to_sensor(int3472, agpio, func, polarity);
->  		if (ret)
->  			err_msg = "Failed to map GPIO pin to sensor\n";
->  
-> -		break;
-> -	case INT3472_GPIO_TYPE_CLK_ENABLE:
-> -	case INT3472_GPIO_TYPE_PRIVACY_LED:
-> -		ret = skl_int3472_map_gpio_to_clk(int3472, agpio, type);
-> -		if (ret)
-> -			err_msg = "Failed to map GPIO to clock\n";
-> -
->  		break;
->  	case INT3472_GPIO_TYPE_POWER_ENABLE:
->  		ret = skl_int3472_register_regulator(int3472, agpio);
+> +#include <linux/v4l2-controls.h>
+> +
+> +/*
+> + * this is related to the taps in ToF cameras,
+> + * usually A minus B is the best option
+> + */
+> +#define V4L2_CID_MLX7502X_OUTPUT_MODE	(V4L2_CID_USER_MLX7502X_BASE + 0)
 
--- 
+You need to add an enum with the mode settings. E.g.:
+
+enum v4l2_mlx7502x_output_mode {
+        V4L2_MLX7502X_OUTPUT_MODE_A_MINUS_B     = 0,
+	...
+};
+
+And you can use those enum defines in the documentation.
+
 Regards,
 
-Laurent Pinchart
+	Hans
+
+> +
+> +#endif /* __UAPI_MLX7502X_H_ */
+
