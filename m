@@ -2,137 +2,217 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EC3DF638DFD
-	for <lists+linux-media@lfdr.de>; Fri, 25 Nov 2022 17:00:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2C2C3638E02
+	for <lists+linux-media@lfdr.de>; Fri, 25 Nov 2022 17:01:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229817AbiKYQAN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 25 Nov 2022 11:00:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51526 "EHLO
+        id S229865AbiKYQBp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 25 Nov 2022 11:01:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52256 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229770AbiKYQAM (ORCPT
+        with ESMTP id S229770AbiKYQBo (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 25 Nov 2022 11:00:12 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C14B22FFD7;
-        Fri, 25 Nov 2022 08:00:10 -0800 (PST)
-Received: from [192.168.0.43] (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net [86.13.91.161])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id E197E496;
-        Fri, 25 Nov 2022 17:00:08 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1669392009;
-        bh=cbdHVV2MrKXct2FMDoQfcRxM16G4dnrUe44uQpf2HvM=;
-        h=Date:To:Cc:References:From:Subject:In-Reply-To:From;
-        b=Penc6fcZwJKK+8p+FiWAio+z6qwam96N1qGUbM4blTpwycoTI81Sdx+3JnP13Iygu
-         DEgTfWlkXb86JBr0Ki0kvHZQMTl9526xL3X5SctIuI8KUgi9OMGDK/3Ag5GD4LVHnG
-         cRvwOdCC0QYvHxgw/Yj4i9xku3wadKZoBt5RBUwY=
-Message-ID: <6ee3d17c-3481-b33f-682d-ac4a1e03061c@ideasonboard.com>
-Date:   Fri, 25 Nov 2022 16:00:06 +0000
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Content-Language: en-US
-To:     Hans de Goede <hdegoede@redhat.com>,
-        Mark Gross <markgross@kernel.org>,
-        Andy Shevchenko <andy@kernel.org>,
-        Daniel Scally <djrscally@gmail.com>
-Cc:     platform-driver-x86@vger.kernel.org,
+        Fri, 25 Nov 2022 11:01:44 -0500
+Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com [IPv6:2a00:1450:4864:20::234])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 87EE64B9A9
+        for <linux-media@vger.kernel.org>; Fri, 25 Nov 2022 08:01:43 -0800 (PST)
+Received: by mail-lj1-x234.google.com with SMTP id z24so5646530ljn.4
+        for <linux-media@vger.kernel.org>; Fri, 25 Nov 2022 08:01:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=melexis.com; s=google;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=QzEV4++7bXQHfd6gsAbxp8XUPvUs+nkOTyY83Sr3UTY=;
+        b=ZAiDK5yd/xeqy+ZSFr/KfpvNyJ0zNSZPAnup7G/ynZV+BOLO63vAp6mSvi0yyXtjhs
+         fGKGHUZApe+Mx42JNbZD7ZGJQYjYlpRfaCMj8JFeU1jOAILfXDT7zmibzV4GYJurNokt
+         VcZUwm5JesMnYBAMjv6roTAOig7PTMaIHF0JZRWJ/srodncvnorOyfLqKwnxpj5wP9HI
+         +TNWtSLBBa0Y16DL2iFrHAvCsJkzviMlKJy4dbTY2skZdTRBtIbODZjSl+wL5+RjC+aC
+         ocuFFThxggVRcTo14DAE0Rqh985y/quw++JJta5skK+JciZ4IPmITH63sTTHh4ra68wS
+         /XKg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=QzEV4++7bXQHfd6gsAbxp8XUPvUs+nkOTyY83Sr3UTY=;
+        b=uaU41oJ3Bx1ak4r+7srhzaKVLJL1RVn9zUnhauzsTmYLwHxmb603vyx56vVsImU/R2
+         e4q4SIqIBs872mjcmadij0mNeuVst9bw1mMg5pb0U2WTDppPVsTM2hbe7YvBbsu2L7EA
+         qSF1hKEMsJmHx9P6GPHDF06TGZoq+zvgjK+lXPxcTrAr06gG6A4GnlW2KYleUJFVOf5J
+         PIk5TDH7DuI+MyA41yjtNvJgUCoTuvE+hu61GFBkbmT802IQSK7x4YWpOOtB5GUDmLBI
+         96NCubhuqzPThzj8iBy7+fcv7VbKKJEv4br2eygvwtVhpXG2/rdtskZJf514dzvWxsVJ
+         s77g==
+X-Gm-Message-State: ANoB5pmqj1Z8iuLPaRkvdPp2GAaaFMuJFgyY/gDJ1687HdWHolf/GbnV
+        8s0EpKJ/SSkMP5vSHOr8fiPFIg==
+X-Google-Smtp-Source: AA0mqf6uPCogSlP5rPSi0t3jnuQe0YhGzLoBriMSzf9EMfOMiNHRouH14/pDsZF8A/CO7aR9dN/T4g==
+X-Received: by 2002:a05:651c:1954:b0:277:43c4:a864 with SMTP id bs20-20020a05651c195400b0027743c4a864mr11777535ljb.463.1669392098910;
+        Fri, 25 Nov 2022 08:01:38 -0800 (PST)
+Received: from melexis.com ([91.192.183.26])
+        by smtp.gmail.com with ESMTPSA id bt14-20020a056512260e00b00499d70c0310sm571160lfb.3.2022.11.25.08.01.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 25 Nov 2022 08:01:38 -0800 (PST)
+Date:   Fri, 25 Nov 2022 18:01:34 +0200
+From:   Volodymyr Kharuk <vkh@melexis.com>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     linux-media@vger.kernel.org, Andrii Kyselov <ays@melexis.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        devicetree@vger.kernel.org,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Kate Hsuan <hpa@redhat.com>, linux-media@vger.kernel.org
-References: <20221124200007.390901-1-hdegoede@redhat.com>
- <20221124200007.390901-2-hdegoede@redhat.com>
-From:   Dan Scally <dan.scally@ideasonboard.com>
-Subject: Re: [PATCH 1/3] platform/x86: int3472/discrete: Refactor GPIO to
- sensor mapping
-In-Reply-To: <20221124200007.390901-2-hdegoede@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+        Benjamin Mugnier <benjamin.mugnier@foss.st.com>
+Subject: Re: [PATCH v3 3/8] media: Documentation: v4l: Add TOF class controls
+Message-ID: <Y4Dm3pghvTTlXBNx@melexis.com>
+References: <cover.1669381013.git.vkh@melexis.com>
+ <01cfeb602d52456bed08c89da356474474361e73.1669381013.git.vkh@melexis.com>
+ <de7a776e-3fb2-3631-c301-847502fc1a39@xs4all.nl>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <de7a776e-3fb2-3631-c301-847502fc1a39@xs4all.nl>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans
+Thanks for review.
 
-On 24/11/2022 20:00, Hans de Goede wrote:
-> Make the GPIO to sensor mapping more generic and fold the
-> INT3472_GPIO_TYPE_RESET and INT3472_GPIO_TYPE_POWERDOWN cases into
-> a single generic case.
->
-> This is a preparation patch for further GPIO mapping changes.
->
-> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-> ---
+On Fri, Nov 25, 2022 at 03:28:30PM +0100, Hans Verkuil wrote:
+> On 25/11/2022 14:34, Volodymyr Kharuk wrote:
+> > Add description about V4L2_CID_TOF_PHASE_SEQ, V4L2_CID_TOF_FMOD
+> > and V4L2_CID_TOF_TINT.
+> > Also updated MAINTAINERS with new ext-ctrls-tof file.
+> > 
+> > Signed-off-by: Volodymyr Kharuk <vkh@melexis.com>
+> > ---
+> >  .../userspace-api/media/v4l/common.rst        |  1 +
+> >  .../userspace-api/media/v4l/ext-ctrls-tof.rst | 35 +++++++++++++++++++
+> >  MAINTAINERS                                   |  7 ++++
+> >  3 files changed, 43 insertions(+)
+> >  create mode 100644 Documentation/userspace-api/media/v4l/ext-ctrls-tof.rst
+> > 
+> > diff --git a/Documentation/userspace-api/media/v4l/common.rst b/Documentation/userspace-api/media/v4l/common.rst
+> > index ea0435182e44..1ea79e453066 100644
+> > --- a/Documentation/userspace-api/media/v4l/common.rst
+> > +++ b/Documentation/userspace-api/media/v4l/common.rst
+> > @@ -52,6 +52,7 @@ applicable to all devices.
+> >      ext-ctrls-fm-rx
+> >      ext-ctrls-detect
+> >      ext-ctrls-colorimetry
+> > +    ext-ctrls-tof
+> >      fourcc
+> >      format
+> >      planar-apis
+> > diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-tof.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-tof.rst
+> > new file mode 100644
+> > index 000000000000..8902cc7cd47b
+> > --- /dev/null
+> > +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-tof.rst
+> > @@ -0,0 +1,35 @@
+> > +.. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
+> > +
+> > +.. _tof-controls:
+> > +
+> > +***************************************
+> > +Time of Flight Camera Control Reference
+> > +***************************************
+> > +
+> > +The Time of Flight class includes controls for digital features
+> > +of TOF camera.
+> 
+> You might want to extend this description a bit and give more info
+> about how they work. Perhaps a link to wikipedia or something
+> might help too.
+I was not sure what to add here. Ok, I will update.
+> 
+> > +
+> > +.. _tof-control-id:
+> > +
+> > +Time of Flight Camera Control IDs
+> > +=================================
+> > +
+> > +``V4L2_CID_TOF_CLASS (class)``
+> > +    The TOF class descriptor. Calling :ref:`VIDIOC_QUERYCTRL` for
+> > +    this control will return a description of this control class.
+> > +
+> > +``V4L2_CID_TOF_PHASE_SEQ (dynamic array u16)``
+> > +    Change the shift between illumination and sampling for each phase
+> > +    in degrees. A distance/confidence picture is obtained by merging
+> > +    3..8 captures of the same scene using different phase shifts(some
+> 
+> Space before (
+> 
+> > +    TOF sensors use different frequency modulation).
+> 
+> Either: use -> use a
+> Or:     modulation -> modulations
+> 
+> It's not clear right now whether "frequency modulation" is meant to be singular
+> or plural.
+> 
+> > +
+> > +    The maximum array size is driver specific.
+> > +
+> > +``V4L2_CID_TOF_FMOD (dynamic array u8)``
+> > +    The control sets the modulation frequency(in Mhz) per each phase.
+> 
+> Space before (
+> 
+> per each phase -> for each phase
+> 
+> > +    The maximum array size is driver specific.
+> 
+> What does the maximum array size signify? The number of phases?
+> It's not clear from the spec (and I have to admit I know very little
+> about TOF sensors).
+yes, array size defines the number of phases.
+But the maximum number of phases can be different and depend on the sensor.
+I'll update the doc.
+> 
+> > +
+> > +``V4L2_CID_TOF_TINT (dynamic array u16)``
+> > +    The control sets the integration time(in us) per each phase.
+> 
+> Add space before (
+> 
+> per each phase -> for each phase
+> 
+> > +    The maximum array size is driver specific.
+> > diff --git a/MAINTAINERS b/MAINTAINERS
+> > index aa1974054fce..a2bc2ce53056 100644
+> > --- a/MAINTAINERS
+> > +++ b/MAINTAINERS
+> > @@ -13111,6 +13111,13 @@ S:	Supported
+> >  W:	http://www.melexis.com
+> >  F:	drivers/iio/temperature/mlx90632.c
+> >  
+> > +MELEXIS MLX7502X DRIVER
+> > +M:	Volodymyr Kharuk <vkh@melexis.com>
+> > +L:	linux-media@vger.kernel.org
+> > +S:	Supported
+> > +W:	http://www.melexis.com
+> > +F:	Documentation/userspace-api/media/v4l/ext-ctrls-tof.rst
+> > +
+> >  MELFAS MIP4 TOUCHSCREEN DRIVER
+> >  M:	Sangwon Jee <jeesw@melfas.com>
+> >  S:	Supported
+> 
+> Regards,
+> 
+> 	Hans
 
+-- 
+--
+Volodymyr Kharuk
+Embedded Software Engineer
+Melexis-Ukraine
+Mykhaila Kotel'nykova St, 4, Kyiv
+Mobile phone: +38 050 346 5527
+www.melexis.com
+---
+The contents of this e-mail are CONFIDENTIAL AND PROPRIETARY. Please read
+our disclaimer at http://www.melexis.com/mailpolicy
 
-Reviewed-by: Daniel Scally <dan.scally@ideasonboard.com>
-
-Tested-by: Daniel Scally <dan.scally@ideasonboard.com>
-
->   drivers/platform/x86/intel/int3472/discrete.c | 31 ++++++++++++++-----
->   1 file changed, 23 insertions(+), 8 deletions(-)
->
-> diff --git a/drivers/platform/x86/intel/int3472/discrete.c b/drivers/platform/x86/intel/int3472/discrete.c
-> index 974a132db651..bc6c62f3f3bf 100644
-> --- a/drivers/platform/x86/intel/int3472/discrete.c
-> +++ b/drivers/platform/x86/intel/int3472/discrete.c
-> @@ -184,6 +184,24 @@ static int skl_int3472_map_gpio_to_clk(struct int3472_discrete_device *int3472,
->   	return 0;
->   }
->   
-> +static const char *int3472_dsm_type_to_func(u8 type)
-> +{
-> +	switch (type) {
-> +	case INT3472_GPIO_TYPE_RESET:
-> +		return "reset";
-> +	case INT3472_GPIO_TYPE_POWERDOWN:
-> +		return "powerdown";
-> +	case INT3472_GPIO_TYPE_CLK_ENABLE:
-> +		return "clken";
-> +	case INT3472_GPIO_TYPE_PRIVACY_LED:
-> +		return "pled";
-> +	case INT3472_GPIO_TYPE_POWER_ENABLE:
-> +		return "power-enable";
-> +	}
-> +
-> +	return "unknown";
-> +}
-> +
->   /**
->    * skl_int3472_handle_gpio_resources: Map PMIC resources to consuming sensor
->    * @ares: A pointer to a &struct acpi_resource
-> @@ -223,6 +241,7 @@ static int skl_int3472_handle_gpio_resources(struct acpi_resource *ares,
->   	struct acpi_resource_gpio *agpio;
->   	union acpi_object *obj;
->   	const char *err_msg;
-> +	const char *func;
->   	int ret;
->   	u8 type;
->   
-> @@ -246,19 +265,15 @@ static int skl_int3472_handle_gpio_resources(struct acpi_resource *ares,
->   
->   	type = obj->integer.value & 0xff;
->   
-> +	func = int3472_dsm_type_to_func(type);
-> +
->   	switch (type) {
->   	case INT3472_GPIO_TYPE_RESET:
-> -		ret = skl_int3472_map_gpio_to_sensor(int3472, agpio, "reset",
-> -						     GPIO_ACTIVE_LOW);
-> -		if (ret)
-> -			err_msg = "Failed to map reset pin to sensor\n";
-> -
-> -		break;
->   	case INT3472_GPIO_TYPE_POWERDOWN:
-> -		ret = skl_int3472_map_gpio_to_sensor(int3472, agpio, "powerdown",
-> +		ret = skl_int3472_map_gpio_to_sensor(int3472, agpio, func,
->   						     GPIO_ACTIVE_LOW);
->   		if (ret)
-> -			err_msg = "Failed to map powerdown pin to sensor\n";
-> +			err_msg = "Failed to map GPIO pin to sensor\n";
->   
->   		break;
->   	case INT3472_GPIO_TYPE_CLK_ENABLE:
