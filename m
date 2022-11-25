@@ -2,80 +2,52 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 239AF638DF9
-	for <lists+linux-media@lfdr.de>; Fri, 25 Nov 2022 16:59:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EC3DF638DFD
+	for <lists+linux-media@lfdr.de>; Fri, 25 Nov 2022 17:00:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229676AbiKYP7G (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 25 Nov 2022 10:59:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50868 "EHLO
+        id S229817AbiKYQAN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 25 Nov 2022 11:00:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51526 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229453AbiKYP7F (ORCPT
+        with ESMTP id S229770AbiKYQAM (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 25 Nov 2022 10:59:05 -0500
-Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 631AE1DF26
-        for <linux-media@vger.kernel.org>; Fri, 25 Nov 2022 07:59:05 -0800 (PST)
-Received: from hillosipuli.retiisi.eu (82-181-192-243.bb.dnainternet.fi [82.181.192.243])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: sailus)
-        by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 5187D1B001C5;
-        Fri, 25 Nov 2022 17:59:00 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
-        t=1669391940;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=WB7foQQL/Dk5LZAj1aKx/3cAkEF/z3UAEifYPWTvHLc=;
-        b=nhM6AE3+K5BpRENYDYJW1OH3BLlKWaAsfXlFLFqMb5ysg8ft/7xhuJBc5WjG1CC+SkJJ8C
-        GSXDaUZdsJjbpaguq8/7cbT+K5DfGVCjy9+inQkkTzQ8GidV3sO07ej/1OoGbfgl147YIA
-        ASbx+Y5oFOAgKqdEH2iJb0F5L/OXKWl4IdQ4YNhvh12pF+j+TP1FTctrZR/DmEOwDzF5rB
-        fjLICcWyc7qvCTGm2Qur7JcuxrDJkgLouep19/sC2Has05f7DZsplo5YwlElbPCVZLUWkf
-        ktagjYixJrOLqH/YMRZ7xoEuXg/RiL1yL6qAuBWtpcUX67aTfjHiGCcp+v4c0g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-        s=lahtoruutu; t=1669391940;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=WB7foQQL/Dk5LZAj1aKx/3cAkEF/z3UAEifYPWTvHLc=;
-        b=ZFG1f6NikbWqRzblWiopcWIj83Cvpj0mpNNElHuXL4hH9PnXKNEkNW3knM0JjnezOZ/R2p
-        MmlQBwpxIU5C/0KlPqKs3+IAwLGaOtJiNh51CscSGeeHu+6Dm0/yB2A/WvBBcesTo/G8oM
-        BUaT45eG9CQKKvo5Xe1VP+Tp0YOOIVn2n+v+f6DHlOM/MVF6HBZxfv6PfEq9FzOA6btGOR
-        tDndWcsu2J+/MBaroE1xa0XG+eVYbJXvka9j8APTGDQ3b8I+h/+JuU/SGeAliEjQHfi72j
-        dFKsrtMI3AgridFOA7iJjPLkC1SbLVreSSKV2ZtMTUq2HDyeH6GWlST0fi7n8g==
-ARC-Authentication-Results: i=1;
-        ORIGINATING;
-        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1669391940; a=rsa-sha256;
-        cv=none;
-        b=Whh2clDAltkNBCmcHZsbA9PsmOK7yOFUjzOg7Lf8agQzStAap+KmEnKshb9dBPlR0TAT3u
-        ccHpm0fvTPCuQCNX6XNElAbi+mTqyhXNXeFDO8NOLM5j15sLgQBuysvrwMmKtruxluHAZI
-        7uAypiPNvfc2ZAm+SSPSsAsZ2GGgNAPmOkOmVE5jwdwXkBK+/R5F7CQ1+uqheFcYgqPZWg
-        wMZYnuuie1WHEOo/t1INFLcIYLqKuSYPQixrGIN2l1XVA5L2/M1hNa00ly41o798tMlNk/
-        rVjlzWHfaY5eAkKmoedqSeyaM1f4OLNERe5TNSNi3b8TEJBemnzmG079PputBQ==
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id F28E6634C92;
-        Fri, 25 Nov 2022 17:58:59 +0200 (EET)
-Date:   Fri, 25 Nov 2022 17:58:59 +0200
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     shravan kumar <shravan.chippa@microchip.com>
-Cc:     paul.j.murphy@intel.com, daniele.alessandrelli@intel.com,
-        mchehab@kernel.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Jacopo Mondi <jacopo@jmondi.org>
-Subject: Re: [PATCH v5 3/6] media: i2c: imx334: hblank set function modify
-Message-ID: <Y4DmQ8DftK9/WLXM@valkosipuli.retiisi.eu>
-References: <20221125050807.1857479-1-shravan.chippa@microchip.com>
- <20221125050807.1857479-4-shravan.chippa@microchip.com>
+        Fri, 25 Nov 2022 11:00:12 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C14B22FFD7;
+        Fri, 25 Nov 2022 08:00:10 -0800 (PST)
+Received: from [192.168.0.43] (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net [86.13.91.161])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id E197E496;
+        Fri, 25 Nov 2022 17:00:08 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1669392009;
+        bh=cbdHVV2MrKXct2FMDoQfcRxM16G4dnrUe44uQpf2HvM=;
+        h=Date:To:Cc:References:From:Subject:In-Reply-To:From;
+        b=Penc6fcZwJKK+8p+FiWAio+z6qwam96N1qGUbM4blTpwycoTI81Sdx+3JnP13Iygu
+         DEgTfWlkXb86JBr0Ki0kvHZQMTl9526xL3X5SctIuI8KUgi9OMGDK/3Ag5GD4LVHnG
+         cRvwOdCC0QYvHxgw/Yj4i9xku3wadKZoBt5RBUwY=
+Message-ID: <6ee3d17c-3481-b33f-682d-ac4a1e03061c@ideasonboard.com>
+Date:   Fri, 25 Nov 2022 16:00:06 +0000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221125050807.1857479-4-shravan.chippa@microchip.com>
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Content-Language: en-US
+To:     Hans de Goede <hdegoede@redhat.com>,
+        Mark Gross <markgross@kernel.org>,
+        Andy Shevchenko <andy@kernel.org>,
+        Daniel Scally <djrscally@gmail.com>
+Cc:     platform-driver-x86@vger.kernel.org,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Kate Hsuan <hpa@redhat.com>, linux-media@vger.kernel.org
+References: <20221124200007.390901-1-hdegoede@redhat.com>
+ <20221124200007.390901-2-hdegoede@redhat.com>
+From:   Dan Scally <dan.scally@ideasonboard.com>
+Subject: Re: [PATCH 1/3] platform/x86: int3472/discrete: Refactor GPIO to
+ sensor mapping
+In-Reply-To: <20221124200007.390901-2-hdegoede@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
         SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -83,52 +55,84 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Shravan,
+Hi Hans
 
-Thanks for the patch.
-
-On Fri, Nov 25, 2022 at 10:38:04AM +0530, shravan kumar wrote:
-> From: Shravan Chippa <shravan.chippa@microchip.com>
-> 
-> -If we one modes hblank will not change and it is readonly
-> -If we have multipull modes and if we do mode switch, hblank value will
-> change and __v4l2_ctrl_s_ctrl() returns error, so modified
-> function from __v4l2_ctrl_s_ctrl() to __v4l2_ctrl_modify_range()
-> will updated all values max, min default it is not showing any error
-> while changing the mode and update value
-
-I think the commit message needs some more work.
-
-> 
-> Suggested-by: Jacopo Mondi <jacopo@jmondi.org>
-> Signed-off-by: Shravan Chippa <shravan.chippa@microchip.com>
+On 24/11/2022 20:00, Hans de Goede wrote:
+> Make the GPIO to sensor mapping more generic and fold the
+> INT3472_GPIO_TYPE_RESET and INT3472_GPIO_TYPE_POWERDOWN cases into
+> a single generic case.
+>
+> This is a preparation patch for further GPIO mapping changes.
+>
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 > ---
->  drivers/media/i2c/imx334.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/i2c/imx334.c b/drivers/media/i2c/imx334.c
-> index acc9f9f15e47..d3bb62c162b3 100644
-> --- a/drivers/media/i2c/imx334.c
-> +++ b/drivers/media/i2c/imx334.c
-> @@ -382,7 +382,8 @@ static int imx334_update_controls(struct imx334 *imx334,
->  	if (ret)
->  		return ret;
->  
-> -	ret = __v4l2_ctrl_s_ctrl(imx334->hblank_ctrl, mode->hblank);
-> +	ret = __v4l2_ctrl_modify_range(imx334->hblank_ctrl, IMX334_REG_MIN,
-> +				       IMX334_REG_MAX, 1, mode->hblank);
 
-I'd use mode->hblank for all the three values. This won't be settable by
-the user anyway.
 
-I wonder if IMX334_REG_MAX is correct as it would appear to require 20
-bits, not 16, to store the value.
+Reviewed-by: Daniel Scally <dan.scally@ideasonboard.com>
 
->  	if (ret)
->  		return ret;
->  
+Tested-by: Daniel Scally <dan.scally@ideasonboard.com>
 
--- 
-Kind regards,
-
-Sakari Ailus
+>   drivers/platform/x86/intel/int3472/discrete.c | 31 ++++++++++++++-----
+>   1 file changed, 23 insertions(+), 8 deletions(-)
+>
+> diff --git a/drivers/platform/x86/intel/int3472/discrete.c b/drivers/platform/x86/intel/int3472/discrete.c
+> index 974a132db651..bc6c62f3f3bf 100644
+> --- a/drivers/platform/x86/intel/int3472/discrete.c
+> +++ b/drivers/platform/x86/intel/int3472/discrete.c
+> @@ -184,6 +184,24 @@ static int skl_int3472_map_gpio_to_clk(struct int3472_discrete_device *int3472,
+>   	return 0;
+>   }
+>   
+> +static const char *int3472_dsm_type_to_func(u8 type)
+> +{
+> +	switch (type) {
+> +	case INT3472_GPIO_TYPE_RESET:
+> +		return "reset";
+> +	case INT3472_GPIO_TYPE_POWERDOWN:
+> +		return "powerdown";
+> +	case INT3472_GPIO_TYPE_CLK_ENABLE:
+> +		return "clken";
+> +	case INT3472_GPIO_TYPE_PRIVACY_LED:
+> +		return "pled";
+> +	case INT3472_GPIO_TYPE_POWER_ENABLE:
+> +		return "power-enable";
+> +	}
+> +
+> +	return "unknown";
+> +}
+> +
+>   /**
+>    * skl_int3472_handle_gpio_resources: Map PMIC resources to consuming sensor
+>    * @ares: A pointer to a &struct acpi_resource
+> @@ -223,6 +241,7 @@ static int skl_int3472_handle_gpio_resources(struct acpi_resource *ares,
+>   	struct acpi_resource_gpio *agpio;
+>   	union acpi_object *obj;
+>   	const char *err_msg;
+> +	const char *func;
+>   	int ret;
+>   	u8 type;
+>   
+> @@ -246,19 +265,15 @@ static int skl_int3472_handle_gpio_resources(struct acpi_resource *ares,
+>   
+>   	type = obj->integer.value & 0xff;
+>   
+> +	func = int3472_dsm_type_to_func(type);
+> +
+>   	switch (type) {
+>   	case INT3472_GPIO_TYPE_RESET:
+> -		ret = skl_int3472_map_gpio_to_sensor(int3472, agpio, "reset",
+> -						     GPIO_ACTIVE_LOW);
+> -		if (ret)
+> -			err_msg = "Failed to map reset pin to sensor\n";
+> -
+> -		break;
+>   	case INT3472_GPIO_TYPE_POWERDOWN:
+> -		ret = skl_int3472_map_gpio_to_sensor(int3472, agpio, "powerdown",
+> +		ret = skl_int3472_map_gpio_to_sensor(int3472, agpio, func,
+>   						     GPIO_ACTIVE_LOW);
+>   		if (ret)
+> -			err_msg = "Failed to map powerdown pin to sensor\n";
+> +			err_msg = "Failed to map GPIO pin to sensor\n";
+>   
+>   		break;
+>   	case INT3472_GPIO_TYPE_CLK_ENABLE:
