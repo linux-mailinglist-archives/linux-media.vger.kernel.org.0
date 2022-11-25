@@ -2,66 +2,66 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 153AA6388C8
-	for <lists+linux-media@lfdr.de>; Fri, 25 Nov 2022 12:31:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4407C6388D1
+	for <lists+linux-media@lfdr.de>; Fri, 25 Nov 2022 12:33:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229862AbiKYLbm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 25 Nov 2022 06:31:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58556 "EHLO
+        id S229739AbiKYLdQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 25 Nov 2022 06:33:16 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59534 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229693AbiKYLbd (ORCPT
+        with ESMTP id S229731AbiKYLdO (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 25 Nov 2022 06:31:33 -0500
+        Fri, 25 Nov 2022 06:33:14 -0500
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0DB511789E
-        for <linux-media@vger.kernel.org>; Fri, 25 Nov 2022 03:30:34 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4DFDCEE3D
+        for <linux-media@vger.kernel.org>; Fri, 25 Nov 2022 03:32:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1669375834;
+        s=mimecast20190719; t=1669375943;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=0NAIt6DmSH0rxYc10/Lncuu2fhazNaRFZIsHf4ynJeo=;
-        b=LosUu0sQXoMCT7DerQKRcE5GfxcBo50McXrKnJGFGo6NkoyPF6Ijtpd1cB7B1bnWFaHlgL
-        +PeYg07TPBakCKgbb2+y2lW0OvdONnTjCQYnqLZderviAV19Z84g5Ndmmq5qIrHcmVICSa
-        4HLz9cwhmfoGQDlvgS+CEAA6jWEbtnw=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=VsGy2+SrkApv7QX3F61FbC2SPRAOik8DhfKcdY40dBI=;
+        b=XLGa/PlxlbWm7ybOXLUt+g55fnBvcW9mnXetQpFFiuvO8sgIgL7tIV8TDYushOo+H2ICyB
+        /eFxTnp9NLYLKIXKg50PULbMoOhGIC8JEpWGoWFnQd6TXdWfnQdQsJfrrmlDh1sMlCKytc
+        QGPsWckLAHUmtQTvvt83OHVjYHzpWoA=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-663-E2m041MJOGCp2ODbbqI1VA-1; Fri, 25 Nov 2022 06:30:32 -0500
-X-MC-Unique: E2m041MJOGCp2ODbbqI1VA-1
-Received: by mail-wm1-f69.google.com with SMTP id c187-20020a1c35c4000000b003cfee3c91cdso2303212wma.6
-        for <linux-media@vger.kernel.org>; Fri, 25 Nov 2022 03:30:32 -0800 (PST)
+ us-mta-615-4DAMMi0pNO2fUVMaGDEwTA-1; Fri, 25 Nov 2022 06:32:19 -0500
+X-MC-Unique: 4DAMMi0pNO2fUVMaGDEwTA-1
+Received: by mail-wr1-f70.google.com with SMTP id h10-20020adfaa8a000000b0024208cf285eso98088wrc.22
+        for <linux-media@vger.kernel.org>; Fri, 25 Nov 2022 03:32:19 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=0NAIt6DmSH0rxYc10/Lncuu2fhazNaRFZIsHf4ynJeo=;
-        b=U/E+KBZ6rc7/c2+OhKTGvMmfdSRVt9Ot1E3rAWz3oqpUHr1u7d9rGKiQVhrfBxx481
-         NWLaky08ZqhaMb/8lMRwaxbMxlkzHx1ONI27dQaWIKSw0khLMfFXJ73I/rNhsZU0z4+7
-         S44n7GFu7S2Fup6VPuyfESGHpIze396VySH7BzEskmslOBdIPRXJF80EAizpWCjRJbTK
-         SWV7CJtXmVBZUrvm9IXEgUFN26PCZR1Al5iwRfUvHav5ZBCp91qCwdEJN3k2QcFCJbaw
-         jj2vckbu+bol9goosQsR0i7rxPyPt6jeQMLOaPRSbYskLJgASBGGxuGSoUbqIpat5XD9
-         ACHQ==
-X-Gm-Message-State: ANoB5plUdFabzsx1tTrSB/U0JDFWRMg8geQ1FTCyG4OFkYtf6Kx9w5sf
-        oHispvcUvMNV+OcqA1akZYbgJAcfFmCztXnBnQ2YB3YD6bbaPNI2xFrQMKBIF04yC32+yv4G9AB
-        2kfB6ip6ai0jGYBBo+BBW6js=
-X-Received: by 2002:adf:f782:0:b0:236:73fa:c56e with SMTP id q2-20020adff782000000b0023673fac56emr16927468wrp.432.1669375831774;
-        Fri, 25 Nov 2022 03:30:31 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf5BqcPogGv74wKCFoPNLhym/zSZ5Ydptut3F8lISznnnvwUd9+tWysN/KklB3LvI2knnu0JgQ==
-X-Received: by 2002:adf:f782:0:b0:236:73fa:c56e with SMTP id q2-20020adff782000000b0023673fac56emr16927439wrp.432.1669375831561;
-        Fri, 25 Nov 2022 03:30:31 -0800 (PST)
+        bh=VsGy2+SrkApv7QX3F61FbC2SPRAOik8DhfKcdY40dBI=;
+        b=hS6IxgFIWDBEYCnJqtz1ID6O4TRmXjwG2Az0A9uQ3tmrvK21NxFAG9cVV2QhDuDhqv
+         mYBjoW+5XGlQHMu6jxf5HddT8GDHq7KsNL50cEYBNUQnk3aA+EfQ7jCE4dd44gQc0Qe+
+         OMvO/VaVpm3kw3l4IUuBznpaWfeyicKD4oE44aQma5e9pIGRyG/TZWhNqrMpsVEsx1bY
+         ZBd6t/yeQmHxyqK5yK1WxYwMl212ezA7szZcLkM4OFLKCdGer2iGODgAtE8aSpcfgaFp
+         8YFAy6Ia9SsNdt/5+zSnnOfAt/weJLJGAmieZSgJ5vpRw48u+PX9an0fMKb3F3xByT4y
+         9/vQ==
+X-Gm-Message-State: ANoB5pm2OhdqYw1rbeBmJf2GwHJC+ZxihD5SVNq3khyyDQKK0IJFgby3
+        5PKzJozwTY2nf5ae0wgHSzSezL55mfWkaLNL/jl2m7B+Ns35U/7el5rSQsYLgosrqkzBF5RV5lx
+        gVKuWtxTRzLFjLx05qFC7/5Q=
+X-Received: by 2002:a05:600c:246:b0:3cf:760a:fbaf with SMTP id 6-20020a05600c024600b003cf760afbafmr14987948wmj.110.1669375938633;
+        Fri, 25 Nov 2022 03:32:18 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf5OsbzQLyftwLIWI3nDfrRG5jE1JPupjLhaA0WX3eVwlG57KKybql+K8IcZ8fhxJNc3nhLhqQ==
+X-Received: by 2002:a05:600c:246:b0:3cf:760a:fbaf with SMTP id 6-20020a05600c024600b003cf760afbafmr14987919wmj.110.1669375938413;
+        Fri, 25 Nov 2022 03:32:18 -0800 (PST)
 Received: from [192.168.1.130] (205.pool92-176-231.dynamic.orange.es. [92.176.231.205])
-        by smtp.gmail.com with ESMTPSA id z4-20020a05600c0a0400b003c70191f267sm9996825wmp.39.2022.11.25.03.30.29
+        by smtp.gmail.com with ESMTPSA id x10-20020a05600c21ca00b003a6125562e1sm4484075wmj.46.2022.11.25.03.32.17
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 25 Nov 2022 03:30:30 -0800 (PST)
-Message-ID: <323c8e02-4085-c46f-61cc-b9edbd902544@redhat.com>
-Date:   Fri, 25 Nov 2022 12:30:28 +0100
+        Fri, 25 Nov 2022 03:32:17 -0800 (PST)
+Message-ID: <171d89b4-fbd9-8df8-5250-5fabd1973960@redhat.com>
+Date:   Fri, 25 Nov 2022 12:32:16 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.3.1
-Subject: Re: [PATCH 19/24] drm/vc4: crtc: Make encoder lookup helper public
+Subject: Re: [PATCH 20/24] drm/vc4: crtc: Provide a CRTC name
 Content-Language: en-US
 To:     Maxime Ripard <maxime@cerno.tech>,
         Maxime Ripard <mripard@kernel.org>,
@@ -79,9 +79,9 @@ Cc:     David Gow <davidgow@google.com>, linaro-mm-sig@lists.linaro.org,
         linux-kernel@vger.kernel.org,
         Dave Stevenson <dave.stevenson@raspberrypi.com>
 References: <20221123-rpi-kunit-tests-v1-0-051a0bb60a16@cerno.tech>
- <20221123-rpi-kunit-tests-v1-19-051a0bb60a16@cerno.tech>
+ <20221123-rpi-kunit-tests-v1-20-051a0bb60a16@cerno.tech>
 From:   Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <20221123-rpi-kunit-tests-v1-19-051a0bb60a16@cerno.tech>
+In-Reply-To: <20221123-rpi-kunit-tests-v1-20-051a0bb60a16@cerno.tech>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
@@ -95,12 +95,30 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 On 11/23/22 16:26, Maxime Ripard wrote:
-> We'll need a function that looks up an encoder by its vc4_encoder_type.
-> Such a function is already present in the CRTC code, so let's make it
-> public so that we can reuse it in the unit tests.
+> It's fairly hard to figure out the instance of the CRTC affected by an
+> atomic change using the default name.
+> 
+> Since we can provide our own to the CRTC initialization functions, let's
+> do so to make the debugging sessions easier.
 > 
 > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 > ---
+>  drivers/gpu/drm/vc4/vc4_crtc.c | 10 +++++++++-
+>  drivers/gpu/drm/vc4/vc4_drv.h  |  2 ++
+>  drivers/gpu/drm/vc4/vc4_txp.c  |  1 +
+>  3 files changed, 12 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/vc4/vc4_crtc.c b/drivers/gpu/drm/vc4/vc4_crtc.c
+> index 8bc30ad0904b..59e473059fa2 100644
+> --- a/drivers/gpu/drm/vc4/vc4_crtc.c
+> +++ b/drivers/gpu/drm/vc4/vc4_crtc.c
+> @@ -1118,6 +1118,7 @@ static const struct drm_crtc_helper_funcs vc4_crtc_helper_funcs = {
+>  
+>  static const struct vc4_pv_data bcm2835_pv0_data = {
+>  	.base = {
+> +		.name = "pixelvalve-0",
+
+I wonder if would make sense to add the SoC name too, but either way:
 
 Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
