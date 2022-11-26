@@ -2,83 +2,95 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7B20B63957D
-	for <lists+linux-media@lfdr.de>; Sat, 26 Nov 2022 11:45:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2560F639693
+	for <lists+linux-media@lfdr.de>; Sat, 26 Nov 2022 15:42:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229717AbiKZKpz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 26 Nov 2022 05:45:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33548 "EHLO
+        id S229589AbiKZOml (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 26 Nov 2022 09:42:41 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46296 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229712AbiKZKpe (ORCPT
+        with ESMTP id S229621AbiKZOmj (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 26 Nov 2022 05:45:34 -0500
-Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7D122CDE6;
-        Sat, 26 Nov 2022 02:44:08 -0800 (PST)
-Received: from dggpemm500021.china.huawei.com (unknown [172.30.72.56])
-        by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4NK7ch0ywLz15Mr5;
-        Sat, 26 Nov 2022 18:43:32 +0800 (CST)
-Received: from dggpemm100009.china.huawei.com (7.185.36.113) by
- dggpemm500021.china.huawei.com (7.185.36.109) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Sat, 26 Nov 2022 18:44:06 +0800
-Received: from huawei.com (10.175.113.32) by dggpemm100009.china.huawei.com
- (7.185.36.113) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.31; Sat, 26 Nov
- 2022 18:44:06 +0800
-From:   Liu Shixin <liushixin2@huawei.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-CC:     <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        Liu Shixin <liushixin2@huawei.com>
-Subject: [PATCH] media: saa7164: fix missing pci_disable_device()
-Date:   Sat, 26 Nov 2022 19:31:26 +0800
-Message-ID: <20221126113126.3291673-1-liushixin2@huawei.com>
-X-Mailer: git-send-email 2.25.1
+        Sat, 26 Nov 2022 09:42:39 -0500
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 09938BD0;
+        Sat, 26 Nov 2022 06:42:34 -0800 (PST)
+Received: from [192.168.1.139] ([37.4.248.27]) by mrelayeu.kundenserver.de
+ (mreue109 [212.227.15.183]) with ESMTPSA (Nemesis) id
+ 1MiJhQ-1oUqQd2vmY-00fQ6v; Sat, 26 Nov 2022 15:42:13 +0100
+Message-ID: <fc2fb888-7742-123c-69c9-cdb156ff2d9f@i2se.com>
+Date:   Sat, 26 Nov 2022 15:42:12 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.175.113.32]
-X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
- dggpemm100009.china.huawei.com (7.185.36.113)
-X-CFilter-Loop: Reflected
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH 00/14] staging: vc04_services: bcm2835-isp support
+To:     Umang Jain <umang.jain@ideasonboard.com>,
+        linux-media@vger.kernel.org, kernel-list@raspberrypi.com,
+        linux-kernel@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-staging@lists.linux.dev,
+        Broadcom internal kernel review list 
+        <bcm-kernel-feedback-list@broadcom.com>
+Cc:     Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Naushir Patuck <naush@raspberrypi.com>,
+        David Plowman <david.plowman@raspberrypi.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+References: <20221121214722.22563-1-umang.jain@ideasonboard.com>
+Content-Language: en-US
+From:   Stefan Wahren <stefan.wahren@i2se.com>
+In-Reply-To: <20221121214722.22563-1-umang.jain@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Provags-ID: V03:K1:8slHj8WkDJRsqxXk3QgZmn+S+i3YLVteMlITc3PvYqzk28jedC4
+ rj+rgBgwyecIyhEY4Efl+Zfh71iJxNfpynuMMa2KESZQD17AFit04t2abBWBCsfPtUHGl0e
+ 6uH8OtSC1EzFomt97H52CLwfecfNMdCB0RMWx0yX/1/EYq22l5kuU98K6nekJY6pw5PsViJ
+ UJpNLSKyHBWqQ09sF1UlA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:iN8eChRQexM=:3hd2ZDNNSqzS7KHNr8NdqF
+ LQ/eFh9Fti6fu91n8lVXq0EOySvmQcpWmhNU/LC7XxpOoqCkWNsXuM/wZ75+puxH8ekhsaVG2
+ oRCt4Ir84rExF11FFCnSHBkoHpTazm7tmUnaZalBcJIC2zOJfZHUdy4SLgu0Q00fa4ZIrIPhS
+ qQa9sGtYfbkuBqTVAcT+xXjdJteXbYtAyfkjNy3NoBHQZfBgHCguKmhNmeFqwwdtcb1S16Y5k
+ qZc3pu6zoWKHwWoOQkdcKa2WQ7xjatRyWmrxZsjE0DpQoyTeRlO9PZNjIrTUs9vYQWjEN+DFG
+ Hzh2JK+SMckmUUGb1E5s/qJQPBdV21ZwgyY8zqehK71NZ8czVB/uNZXwoa+pqivKvCOVW87tz
+ etzKXvISd0JF5TdSA960dS5ydQf7YQMZGoaMlr2pH0BRRiYVzVwJZQFjFqtLKVWVUIC6LYeXo
+ tRHdCvbU9+UhB6v0dGphWRCcM1dwuVNuMrRtyH1s8jMudszKh+9KKu6GtL+njuOtPnCdlmXwG
+ LNOjeKF+ynPBWpy8rCa8bTwKKHUGNKO8ZR5/faASSaeGqzz8j+Ha53RDoDomXdladzw/Cd8Kg
+ jTrMAm1/KaUtCWd36d7/3ys2sgywHIc0Cm7UL32NhtwtokEETFpHAbGiKWCRW/7Dj/gd4jWOA
+ R26SPQEU/SsLsqDPPdAFE4x70CE+BtnvnMyRr9G62OTjNe+m4g3ggLE/NNZGK6PlSB3qCDD2r
+ 29y5mlmFZK+5RHFemcVNxZvewO5N3Zr92kfXCuM2rYAY3htcZFJOXpOCZEdjHcdqPAUGmMf3y
+ pDcqGpJUlrlx2sQyo0is3Xaj/lufg==
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add missing pci_disable_device() in the error path in saa7164_initdev().
+Hi Umang,
 
-Fixes: 1da177e4c3f4 ("V4L/DVB (12923): SAA7164: Add support for the NXP SAA7164 silicon")
-Signed-off-by: Liu Shixin <liushixin2@huawei.com>
----
- drivers/media/pci/saa7164/saa7164-core.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+Am 21.11.22 um 22:47 schrieb Umang Jain:
+> This series aims to upport bcm2835-isp from the RPi kernel [1] and is a
+> independent subset of earlier series [2] posted to upport CSI-2/CCP2
+> receiver IP core("Unicam) + the ISP driver found in BCM283x and compatible
+> SoCs (namely BCM2711). Unicam is still under active development to work
+> with multistream support to get into mainline. Hence only the ISP driver
+> will remain the primary area of this series.
 
-diff --git a/drivers/media/pci/saa7164/saa7164-core.c b/drivers/media/pci/saa7164/saa7164-core.c
-index d5f32e3ff544..754c8be1b6d8 100644
---- a/drivers/media/pci/saa7164/saa7164-core.c
-+++ b/drivers/media/pci/saa7164/saa7164-core.c
-@@ -1259,7 +1259,7 @@ static int saa7164_initdev(struct pci_dev *pci_dev,
- 
- 	if (saa7164_dev_setup(dev) < 0) {
- 		err = -EINVAL;
--		goto fail_free;
-+		goto fail_dev;
- 	}
- 
- 	/* print pci info */
-@@ -1427,6 +1427,8 @@ static int saa7164_initdev(struct pci_dev *pci_dev,
- 
- fail_irq:
- 	saa7164_dev_unregister(dev);
-+fail_dev:
-+	pci_disable_device(pci_dev);
- fail_free:
- 	v4l2_device_unregister(&dev->v4l2_dev);
- 	kfree(dev);
--- 
-2.25.1
+thanks for working on this. But honestly i would prefer that vchiq comes 
+out of staging before adding more features. As Greg said some time ago 
+staging is not a place to "dump code and run away". These new files are 
+in the same bad shape as the rest of vc04 before the clean-up here in 
+staging started.
+
+I agree that VCSM is on the TODO list for vchiq, but this driver is not 
+necessary for making bcm2835-audio & bcm2835-camera leave staging. It 
+just binds more resources on a new feature.
+
+Unfortuntately i hadn't much time to work on vchiq by myself.
+
+Just my two cents
+Stefan
 
