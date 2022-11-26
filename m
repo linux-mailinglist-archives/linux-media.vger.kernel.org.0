@@ -2,132 +2,116 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BED836396E0
-	for <lists+linux-media@lfdr.de>; Sat, 26 Nov 2022 16:44:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4BBBA639738
+	for <lists+linux-media@lfdr.de>; Sat, 26 Nov 2022 17:27:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229733AbiKZPoK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 26 Nov 2022 10:44:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45430 "EHLO
+        id S229493AbiKZQ1U (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 26 Nov 2022 11:27:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42510 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229521AbiKZPoI (ORCPT
+        with ESMTP id S229464AbiKZQ1R (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 26 Nov 2022 10:44:08 -0500
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1E0EF7A;
-        Sat, 26 Nov 2022 07:44:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1669477447; x=1701013447;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=TYZva1qhZaDDzx7ssD6565IlpCg24ayIFbcaC7tY8Tc=;
-  b=afaV5wieNPUjxu0caJC6JdakAXQOqaG+mJP11E9sBOfdvxW/FCdDmoSq
-   uszGkpjb5nf3De548PRwyr8tA0gjYkdzZijT5eCkTI9MaUL7wuDEK5FNd
-   DHxxEedinEuG50v1wryTy8tuS2GfxLpPE0gycyCpJAkwIvhrwC+gn8YZP
-   vqGEDAZKZz5uKM+4zWczaOB+RJUrHWVl1v9DiPG/G1MsaoSG/5NPhScuG
-   JcNKVf2MOUenZM/iTJdfierEPIRgcSWgA7CVeokYeMdRvPe3t3BpDN/xD
-   57LDEQ+dPBOukc9S9pF7aZDWoHCdzdL+VmK/32YN6VaBwDrOJGpoZ9vaZ
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10543"; a="376747252"
-X-IronPort-AV: E=Sophos;i="5.96,196,1665471600"; 
-   d="scan'208";a="376747252"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2022 07:44:06 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10543"; a="620587303"
-X-IronPort-AV: E=Sophos;i="5.96,196,1665471600"; 
-   d="scan'208";a="620587303"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by orsmga006.jf.intel.com with ESMTP; 26 Nov 2022 07:43:54 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-        (envelope-from <andriy.shevchenko@intel.com>)
-        id 1oyxLL-000Bco-1n;
-        Sat, 26 Nov 2022 17:43:51 +0200
-Date:   Sat, 26 Nov 2022 17:43:51 +0200
-From:   Andy Shevchenko <andriy.shevchenko@intel.com>
-To:     Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-Cc:     Jonathan Cameron <jic23@kernel.org>,
-        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <uwe@kleine-koenig.org>,
-        alsa-devel@alsa-project.org, linux-staging@lists.linux.dev,
-        linux-pwm@vger.kernel.org, linux-iio@vger.kernel.org,
-        linux-fbdev@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-        linux-mtd@lists.infradead.org, linux-i2c@vger.kernel.org,
-        Lee Jones <lee.jones@linaro.org>,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-leds@vger.kernel.org, linux-rtc@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        linux-samsung-soc@vger.kernel.org, linux-pm@vger.kernel.org,
-        Broadcom internal kernel review list 
-        <bcm-kernel-feedback-list@broadcom.com>,
-        linux-serial@vger.kernel.org, linux-input@vger.kernel.org,
-        Grant Likely <grant.likely@linaro.org>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-watchdog@vger.kernel.org, chrome-platform@lists.linux.dev,
-        linux-actions@lists.infradead.org, linux-gpio@vger.kernel.org,
-        Angel Iglesias <ang.iglesiasg@gmail.com>,
-        gregkh@linuxfoundation.org, linux-rpi-kernel@lists.infradead.org,
-        linux-amlogic@lists.infradead.org,
-        openipmi-developer@lists.sourceforge.net,
-        linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        Purism Kernel Team <kernel@puri.sm>,
-        patches@opensource.cirrus.com, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-spi@vger.kernel.org,
-        Wolfram Sang <wsa@kernel.org>, linux-crypto@vger.kernel.org,
-        kernel@pengutronix.de, netdev@vger.kernel.org,
-        linux-integrity@vger.kernel.org, linuxppc-dev@lists.ozlabs.org
-Subject: Re: [PATCH 000/606] i2c: Complete conversion to i2c_probe_new
-Message-ID: <Y4I0N3KpU/LSJYpd@smile.fi.intel.com>
-References: <20221118224540.619276-1-uwe@kleine-koenig.org>
- <20221122185818.3740200d@jic23-huawei>
- <20221122201654.5rdaisqho33buibj@pengutronix.de>
+        Sat, 26 Nov 2022 11:27:17 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66B6A26A;
+        Sat, 26 Nov 2022 08:27:16 -0800 (PST)
+Received: from [192.168.1.104] (unknown [103.238.109.19])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 600A1471;
+        Sat, 26 Nov 2022 17:27:09 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1669480033;
+        bh=9JgwMYaMqW628l2Ol/scePAZkaal2MIBpF9/7ieZUYU=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=NyL1IUSIS9+5gvfkmBxMMqCbVEiIpkAT8Q+t9SFRNRchj2SyoOTkT0t4fGhSY+YP7
+         uPi/myeHxO09kbL0LUFo0QSYA4If9VTQn+mygQrIQDtJxIiwXiHw/OM5/jLFrtpEwf
+         THnXDhut39B7Bd7CPd0zmdT63lsZ1qNMfjj35iDk=
+Message-ID: <a56d7687-ee44-629c-1a9d-fa34e65e847f@ideasonboard.com>
+Date:   Sat, 26 Nov 2022 21:56:12 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.0
+Subject: Re: [PATCH 00/14] staging: vc04_services: bcm2835-isp support
+To:     Stefan Wahren <stefan.wahren@i2se.com>,
+        linux-media@vger.kernel.org, kernel-list@raspberrypi.com,
+        linux-kernel@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-staging@lists.linux.dev,
+        Broadcom internal kernel review list 
+        <bcm-kernel-feedback-list@broadcom.com>
+Cc:     Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Naushir Patuck <naush@raspberrypi.com>,
+        David Plowman <david.plowman@raspberrypi.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+References: <20221121214722.22563-1-umang.jain@ideasonboard.com>
+ <fc2fb888-7742-123c-69c9-cdb156ff2d9f@i2se.com>
+Content-Language: en-US
+From:   Umang Jain <umang.jain@ideasonboard.com>
+In-Reply-To: <fc2fb888-7742-123c-69c9-cdb156ff2d9f@i2se.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20221122201654.5rdaisqho33buibj@pengutronix.de>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Nov 22, 2022 at 09:16:54PM +0100, Uwe Kleine-K�nig wrote:
-> On Tue, Nov 22, 2022 at 06:58:18PM +0000, Jonathan Cameron wrote:
+Hi Stefan
 
-> > Queued all of the below:
-> > with one tweaked as per your suggestion and the highlighted one dropped on basis
-> > I was already carrying the equivalent - as you pointed out.
-> > 
-> > I was already carrying the required dependency.
-> > 
-> > Includes the IIO ones in staging.
-> > 
+On 11/26/22 8:12 PM, Stefan Wahren wrote:
+> Hi Umang,
+>
+> Am 21.11.22 um 22:47 schrieb Umang Jain:
+>> This series aims to upport bcm2835-isp from the RPi kernel [1] and is a
+>> independent subset of earlier series [2] posted to upport CSI-2/CCP2
+>> receiver IP core("Unicam) + the ISP driver found in BCM283x and 
+>> compatible
+>> SoCs (namely BCM2711). Unicam is still under active development to work
+>> with multistream support to get into mainline. Hence only the ISP driver
+>> will remain the primary area of this series.
+>
+> thanks for working on this. But honestly i would prefer that vchiq 
+> comes out of staging before adding more features. As Greg said some 
+> time ago staging is not a place to "dump code and run away". These new 
+> files are in the same bad shape as the rest of vc04 before the 
+> clean-up here in staging started.
 
-> > p.s. I perhaps foolishly did this in a highly manual way so as to
-> > also pick up Andy's RB.  So might have dropped one...
-> 
-> You could have done:
-> 
-> 	H=$(git rev-parse @)
-> 	b4 am -P 49-190 20221118224540.619276-1-uwe@kleine-koenig.org
-> 	git am ...
-> 	git filter-branch -f --msg-filter "grep -v 'Signed-off-by: Jonathan'; echo 'Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>'; echo 'Signed-off-by: Jonathan Cameron <jic23@kernel.org>'" $H..
-> 
-> (untested, but you get the idea).
+Certainly, I am not here to do that - but I am still learning the ropes.
 
-That's, for example (just last from the history as is), how I usually do it
-(tested):
+If the staging issue is becoming a blocker for bcm2835-isp going 
+upstream, I would be happy to help here! Though I must mention that I 
+still have limited visibility so my aim would be to chart out a plan of 
+things needed to be done to get vc04_services out of staging!
 
- git filter-branch --msg-filter 'sed -e "/Signed-off-by: Andy Shevchenko/ a Tested-by: Daniel Scally <dan.scally@ideasonboard.com>"' -f HEAD~4..HEAD
+>
+> I agree that VCSM is on the TODO list for vchiq, but this driver is 
+> not necessary for making bcm2835-audio & bcm2835-camera leave staging. 
+> It just binds more resources on a new feature.
+
+I see two TODO files in vc04_services:
+     ./bcm2835-camera/TODO
+     ./interface/TODO
+
+One of the bcm2835-camera TODO points to the vc-sm-cma driver itself. So 
+that's address in the series. The other remaining one - I will need to 
+take a deeper look before commenting on it.
+
+The main chunk of TODO are in vc04_services/interfaces/TODO.  Doing a 
+cursory reading of them suggests that these apply to *all* vc04_services 
+components? Am I right?
+
+Are these are the specific bits of cleanup you are referring to in your 
+comment?
 
 
--- 
-With Best Regards,
-Andy Shevchenko
-
+>
+> Unfortuntately i hadn't much time to work on vchiq by myself.
+>
+> Just my two cents
+> Stefan
+>
 
