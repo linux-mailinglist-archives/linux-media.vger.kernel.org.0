@@ -2,85 +2,81 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 393A96392CC
-	for <lists+linux-media@lfdr.de>; Sat, 26 Nov 2022 01:35:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2779B63936A
+	for <lists+linux-media@lfdr.de>; Sat, 26 Nov 2022 03:30:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230123AbiKZAfI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 25 Nov 2022 19:35:08 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46008 "EHLO
+        id S230109AbiKZCa3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 25 Nov 2022 21:30:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58814 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230116AbiKZAfG (ORCPT
+        with ESMTP id S230148AbiKZCaV (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 25 Nov 2022 19:35:06 -0500
-X-Greylist: delayed 423 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 25 Nov 2022 16:35:03 PST
-Received: from mail.psssf.go.tz (mail.psssf.go.tz [196.11.255.52])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 150185B5B5;
-        Fri, 25 Nov 2022 16:35:02 -0800 (PST)
-Received: from localhost (localhost [127.0.0.1])
-        by mail.psssf.go.tz (Postfix) with ESMTP id DDA6D10040BC;
-        Sat, 26 Nov 2022 03:26:15 +0300 (EAT)
-Received: from mail.psssf.go.tz ([127.0.0.1])
-        by localhost (mail.psssf.go.tz [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id KnMoM5RKyMME; Sat, 26 Nov 2022 03:26:15 +0300 (EAT)
-Received: from localhost (localhost [127.0.0.1])
-        by mail.psssf.go.tz (Postfix) with ESMTP id 9A60E1004111;
-        Sat, 26 Nov 2022 03:26:15 +0300 (EAT)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.psssf.go.tz 9A60E1004111
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=psssf.go.tz;
-        s=psssfdkim; t=1669422375;
-        bh=GgFYceHPfP/4Ju84fndFJB/TSJ1oqCCcVK78ii2DXwQ=;
-        h=MIME-Version:To:From:Date:Message-Id;
-        b=Cy+/TibqOsRDZ+tAWqJVJv+eocn6iERHIJTFBXHXsPQUdmiNAqwmCLrjm/3NldWy1
-         JSSWGfNF1Pf2eRuK1RlSkoupqD7VX4kI+EXxvIwIgkFJHP4M6LXysskMgBw7US91eR
-         4ZIsbSb52tqcddIW8sOcyqyg/GCXTz4LQrE44u5i3wkDTdLW8MrDxJxYZW52hrHrW0
-         oZxo3i2tlZFbIcj/P4dbwD6UEi+WJvV1LYa10e51JfCN+IFmlyiBMvNoQh+vl6OCS8
-         G+osRr2Kt7pqJ1pPFGUhmlJWcbfn/Q6HLMxQnxRPqXuLfQwfgCwWZqRpfcMDCMbjV7
-         EJoySyF48aSQw==
-X-Virus-Scanned: amavisd-new at mail.psssf.go.tz
-Received: from mail.psssf.go.tz ([127.0.0.1])
-        by localhost (mail.psssf.go.tz [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id J-KYvJzBHMaE; Sat, 26 Nov 2022 03:26:15 +0300 (EAT)
-Received: from EC2AMAZ-O7KPIJ2.ec2.internal (ec2-3-238-242-41.compute-1.amazonaws.com [3.238.242.41])
-        by mail.psssf.go.tz (Postfix) with ESMTPSA id 6537B10040BC;
-        Sat, 26 Nov 2022 03:26:10 +0300 (EAT)
-Content-Type: text/plain; charset="iso-8859-1"
+        Fri, 25 Nov 2022 21:30:21 -0500
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 034A85801E;
+        Fri, 25 Nov 2022 18:30:21 -0800 (PST)
+Received: from kwepemi500013.china.huawei.com (unknown [172.30.72.53])
+        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4NJwfx11zxzRpXl;
+        Sat, 26 Nov 2022 10:29:45 +0800 (CST)
+Received: from huawei.com (10.175.112.208) by kwepemi500013.china.huawei.com
+ (7.221.188.120) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.31; Sat, 26 Nov
+ 2022 10:30:18 +0800
+From:   Zheng Yongjun <zhengyongjun3@huawei.com>
+To:     <eajames@linux.ibm.com>, <mchehab@kernel.org>,
+        <linux-media@vger.kernel.org>, <openbmc@lists.ozlabs.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-aspeed@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>
+CC:     <joel@jms.id.au>, <andrew@aj.id.au>
+Subject: [PATCH v2] media: aspeed: Fix return value check in aspeed_video_debugfs_create()
+Date:   Sat, 26 Nov 2022 02:28:13 +0000
+Message-ID: <20221126022813.57372-1-zhengyongjun3@huawei.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Description: Mail message body
-Subject: 
-To:     Recipients <lusajo.anderson@psssf.go.tz>
-From:   "Rowell" <lusajo.anderson@psssf.go.tz>
-Date:   Fri, 25 Nov 2022 19:27:45 -0500
-Reply-To: rowellhm0192@gmail.com
-Message-Id: <20221126002610.6537B10040BC@mail.psssf.go.tz>
-X-Spam-Status: Yes, score=5.8 required=5.0 tests=BAYES_99,BAYES_999,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        FREEMAIL_FORGED_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Report: * -0.0 RCVD_IN_MSPIKE_H2 RBL: Average reputation (+2)
-        *      [196.11.255.52 listed in wl.mailspike.net]
-        *  0.2 BAYES_999 BODY: Bayes spam probability is 99.9 to 100%
-        *      [score: 0.9993]
-        *  3.5 BAYES_99 BODY: Bayes spam probability is 99 to 100%
-        *      [score: 0.9993]
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        *  0.2 FREEMAIL_REPLYTO_END_DIGIT Reply-To freemail username ends in
-        *      digit
-        *      [rowellhm0192[at]gmail.com]
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
-        *      envelope-from domain
-        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-        *       valid
-        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-        *      author's domain
-        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-        *  2.1 FREEMAIL_FORGED_REPLYTO Freemail in Reply-To, but not From
-X-Spam-Level: *****
+Content-Type: text/plain
+X-Originating-IP: [10.175.112.208]
+X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
+ kwepemi500013.china.huawei.com (7.221.188.120)
+X-CFilter-Loop: Reflected
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hope you get my mail
+In case of error, the function debugfs_create_file() returns ERR_PTR()
+and never returns NULL. The NULL test in the return value check
+should be replaced with IS_ERR().
+
+Fixes: 52fed10ad756 ("media: aspeed: add debugfs")
+Signed-off-by: Zheng Yongjun <zhengyongjun3@huawei.com>
+---
+v2:
+- change return error code from ERR_PTR to PTR_ERR.
+ drivers/media/platform/aspeed/aspeed-video.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/media/platform/aspeed/aspeed-video.c b/drivers/media/platform/aspeed/aspeed-video.c
+index 20f795ccc11b..0113e6bc836f 100644
+--- a/drivers/media/platform/aspeed/aspeed-video.c
++++ b/drivers/media/platform/aspeed/aspeed-video.c
+@@ -1780,10 +1780,12 @@ static int aspeed_video_debugfs_create(struct aspeed_video *video)
+ 	debugfs_entry = debugfs_create_file(DEVICE_NAME, 0444, NULL,
+ 					    video,
+ 					    &aspeed_video_debugfs_ops);
+-	if (!debugfs_entry)
++	if (IS_ERR(debugfs_entry)) {
+ 		aspeed_video_debugfs_remove(video);
++		return PTR_ERR(debugfs_entry);
++	}
+
+-	return !debugfs_entry ? -EIO : 0;
++	return 0;
+ }
+ #else
+ static void aspeed_video_debugfs_remove(struct aspeed_video *video) { }
+--
+2.17.1
+
