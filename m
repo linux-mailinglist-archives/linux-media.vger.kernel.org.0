@@ -2,95 +2,129 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2560F639693
-	for <lists+linux-media@lfdr.de>; Sat, 26 Nov 2022 15:42:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 650866396AE
+	for <lists+linux-media@lfdr.de>; Sat, 26 Nov 2022 15:52:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229589AbiKZOml (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 26 Nov 2022 09:42:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46296 "EHLO
+        id S229496AbiKZOwp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 26 Nov 2022 09:52:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53260 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229621AbiKZOmj (ORCPT
+        with ESMTP id S229518AbiKZOwn (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 26 Nov 2022 09:42:39 -0500
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 09938BD0;
-        Sat, 26 Nov 2022 06:42:34 -0800 (PST)
-Received: from [192.168.1.139] ([37.4.248.27]) by mrelayeu.kundenserver.de
- (mreue109 [212.227.15.183]) with ESMTPSA (Nemesis) id
- 1MiJhQ-1oUqQd2vmY-00fQ6v; Sat, 26 Nov 2022 15:42:13 +0100
-Message-ID: <fc2fb888-7742-123c-69c9-cdb156ff2d9f@i2se.com>
-Date:   Sat, 26 Nov 2022 15:42:12 +0100
+        Sat, 26 Nov 2022 09:52:43 -0500
+Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10B5E6476;
+        Sat, 26 Nov 2022 06:52:39 -0800 (PST)
+Received: from hillosipuli.retiisi.eu (dkxjnptf9d2bpn7gcmbty-3.rev.dnainternet.fi [IPv6:2001:14ba:44ce:b640:9d1d:82c5:eca2:5060])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: sailus)
+        by lahtoruutu.iki.fi (Postfix) with ESMTPSA id D1B8D1B00118;
+        Sat, 26 Nov 2022 16:52:36 +0200 (EET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
+        t=1669474357;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=Eam9jeoBQiN3SrHfi7a8ZxUvYPGxuG4vei6/xRQJZTk=;
+        b=Egy/Snw4aLdAGA/cCwbZNNip7ODsR8iCctJ50MCaareaH3dPf1aSBXEF3bzAfc1BAXmVNF
+        G1i0mtTfW7pLiiJO+hIUffnLWQy0h3mu6kUuxnno8iAodg/Wn/8H8Y1OzL900eAdMbFPHe
+        FIrKDacfUZLEMGCSFuP8qkqkIE+EwlrTbHy4Fvq72UvLpvxDIwrNoCmT0pDIzmfS5ufQo7
+        A/wbiQhz5Hh1oqq1Z7DKaIzaRQ0+9FE2Gy6BGjB0k5SVdCtpnlrV0yXxrTOfnti3nQaIrZ
+        K1qG12NM1AFbRSRCMe5wZdhN7ickITOir4ncO6Xhrr0Ga5YBju89Alow78C1jA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+        s=lahtoruutu; t=1669474357;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=Eam9jeoBQiN3SrHfi7a8ZxUvYPGxuG4vei6/xRQJZTk=;
+        b=Z7C92FfMLbI+WqUKeGrkVpDL9CWvjI5PdRFmE8I1rsCyd82FT8ARGbZycHOG4kYFHCEihp
+        vG1DlBHa9yHbvhIXTif5CL7vmjjoGFrsm2s1HzoZKBN4z3H6kAf6OGAmulTgQ/lspcOXp0
+        /vZJV7OYPMsyKkHuRYv1CMTk4WnJSibnJV2TXKgskd1+T8U4PV5x6XRrtf03ULsDBu/oLz
+        5wYjCUaDHs55MzjsgHxMUJrIAyQOjvRUnZk+H5txoV87QpCyfx2AxGbZgvDqgXE/LXaMuR
+        +d3GwjG6k9Mui3lS994/ioIn4OYdVfKfVE/Vb2hYmyqAJ/7ugH7OxTzV5dH94w==
+ARC-Authentication-Results: i=1;
+        ORIGINATING;
+        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1669474357; a=rsa-sha256;
+        cv=none;
+        b=rT58Ant0zIwQO/3RsO+vdoxkzSlWHolhtspR2FEqRFgpam7G3jZvYqawuy1o8TlMFepMrs
+        b06XFwe+Nb/OYTZHQPNuziUTJAdXvgq3GGdFmQCMBxslS+4COhEq+pX90y9ZwQCE742rGq
+        N5KDRjfHoDFJemRlkwgGhCxnlBEygWg7EF0z7okRAJMzdu6TPFvZ5/jYXvmYCP/tib2bIC
+        C1ED5dEIyMBnMYrrcxClktu1/FBWOg1pdB3cxOafvIWiNRhWSi62KmQx48EY7gNKQINIIE
+        RIAS7d7UoMlVeC5RWPmXEoudrKWFaP/r7ecXx22BWFZagBNV1uwCSAAw03Jlmg==
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 81A78634C92;
+        Sat, 26 Nov 2022 16:52:36 +0200 (EET)
+Date:   Sat, 26 Nov 2022 16:52:36 +0200
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     shravan kumar <shravanmicrochip@gmail.com>
+Cc:     shravan kumar <shravan.chippa@microchip.com>,
+        paul.j.murphy@intel.com, daniele.alessandrelli@intel.com,
+        mchehab@kernel.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5 1/6] dt-bindings: imx334: modify link frequency in
+ examples
+Message-ID: <Y4IoNGaPNzQ+fa7A@valkosipuli.retiisi.eu>
+References: <20221125050807.1857479-1-shravan.chippa@microchip.com>
+ <20221125050807.1857479-2-shravan.chippa@microchip.com>
+ <Y4DlZWqlVf6zYZTo@valkosipuli.retiisi.eu>
+ <CAOPdzVa7Fb3Nwfs8ZzTLGJkJ6KMbqAs3KB6p-fu2jKVO0qNv4w@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH 00/14] staging: vc04_services: bcm2835-isp support
-To:     Umang Jain <umang.jain@ideasonboard.com>,
-        linux-media@vger.kernel.org, kernel-list@raspberrypi.com,
-        linux-kernel@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-staging@lists.linux.dev,
-        Broadcom internal kernel review list 
-        <bcm-kernel-feedback-list@broadcom.com>
-Cc:     Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Naushir Patuck <naush@raspberrypi.com>,
-        David Plowman <david.plowman@raspberrypi.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-References: <20221121214722.22563-1-umang.jain@ideasonboard.com>
-Content-Language: en-US
-From:   Stefan Wahren <stefan.wahren@i2se.com>
-In-Reply-To: <20221121214722.22563-1-umang.jain@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Provags-ID: V03:K1:8slHj8WkDJRsqxXk3QgZmn+S+i3YLVteMlITc3PvYqzk28jedC4
- rj+rgBgwyecIyhEY4Efl+Zfh71iJxNfpynuMMa2KESZQD17AFit04t2abBWBCsfPtUHGl0e
- 6uH8OtSC1EzFomt97H52CLwfecfNMdCB0RMWx0yX/1/EYq22l5kuU98K6nekJY6pw5PsViJ
- UJpNLSKyHBWqQ09sF1UlA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:iN8eChRQexM=:3hd2ZDNNSqzS7KHNr8NdqF
- LQ/eFh9Fti6fu91n8lVXq0EOySvmQcpWmhNU/LC7XxpOoqCkWNsXuM/wZ75+puxH8ekhsaVG2
- oRCt4Ir84rExF11FFCnSHBkoHpTazm7tmUnaZalBcJIC2zOJfZHUdy4SLgu0Q00fa4ZIrIPhS
- qQa9sGtYfbkuBqTVAcT+xXjdJteXbYtAyfkjNy3NoBHQZfBgHCguKmhNmeFqwwdtcb1S16Y5k
- qZc3pu6zoWKHwWoOQkdcKa2WQ7xjatRyWmrxZsjE0DpQoyTeRlO9PZNjIrTUs9vYQWjEN+DFG
- Hzh2JK+SMckmUUGb1E5s/qJQPBdV21ZwgyY8zqehK71NZ8czVB/uNZXwoa+pqivKvCOVW87tz
- etzKXvISd0JF5TdSA960dS5ydQf7YQMZGoaMlr2pH0BRRiYVzVwJZQFjFqtLKVWVUIC6LYeXo
- tRHdCvbU9+UhB6v0dGphWRCcM1dwuVNuMrRtyH1s8jMudszKh+9KKu6GtL+njuOtPnCdlmXwG
- LNOjeKF+ynPBWpy8rCa8bTwKKHUGNKO8ZR5/faASSaeGqzz8j+Ha53RDoDomXdladzw/Cd8Kg
- jTrMAm1/KaUtCWd36d7/3ys2sgywHIc0Cm7UL32NhtwtokEETFpHAbGiKWCRW/7Dj/gd4jWOA
- R26SPQEU/SsLsqDPPdAFE4x70CE+BtnvnMyRr9G62OTjNe+m4g3ggLE/NNZGK6PlSB3qCDD2r
- 29y5mlmFZK+5RHFemcVNxZvewO5N3Zr92kfXCuM2rYAY3htcZFJOXpOCZEdjHcdqPAUGmMf3y
- pDcqGpJUlrlx2sQyo0is3Xaj/lufg==
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAOPdzVa7Fb3Nwfs8ZzTLGJkJ6KMbqAs3KB6p-fu2jKVO0qNv4w@mail.gmail.com>
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Umang,
+On Sat, Nov 26, 2022 at 04:21:57PM +0530, shravan kumar wrote:
+> On Fri, Nov 25, 2022 at 9:27 PM Sakari Ailus <sakari.ailus@iki.fi> wrote:
+> >
+> > Hi Shravan,
+> >
+> > On Fri, Nov 25, 2022 at 10:38:02AM +0530, shravan kumar wrote:
+> > > From: Shravan Chippa <shravan.chippa@microchip.com>
+> > >
+> > > -imx334 sensor is configured to 1782Mbps/lane for 3840x2160@60.
+> > > -But in device tree bindings exapmple we are passing 891Mbps/lane
+> > > so modified to 1782Mbps
+> > >
+> > > Signed-off-by: Shravan Chippa <shravan.chippa@microchip.com>
+> > > ---
+> > >  Documentation/devicetree/bindings/media/i2c/sony,imx334.yaml | 2 +-
+> > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > >
+> > > diff --git a/Documentation/devicetree/bindings/media/i2c/sony,imx334.yaml b/Documentation/devicetree/bindings/media/i2c/sony,imx334.yaml
+> > > index f5055b9db693..ea3c93f97d65 100644
+> > > --- a/Documentation/devicetree/bindings/media/i2c/sony,imx334.yaml
+> > > +++ b/Documentation/devicetree/bindings/media/i2c/sony,imx334.yaml
+> > > @@ -82,7 +82,7 @@ examples:
+> > >                  imx334: endpoint {
+> > >                      remote-endpoint = <&cam>;
+> > >                      data-lanes = <1 2 3 4>;
+> > > -                    link-frequencies = /bits/ 64 <891000000>;
+> > > +                    link-frequencies = /bits/ 64 <1782000000>;
+> >
+> > My understanding is that the original frequency is correct --- 594 MHz
+> > pixel clock, 12 bpp, four lanes (and DDR).
+> 
+> As per my understanding, other than these three parameters there is
+> one more link frequency (communication frequency from imx334 sensor to
+> MIPI CSI2 controller).
+> thanks,
 
-Am 21.11.22 um 22:47 schrieb Umang Jain:
-> This series aims to upport bcm2835-isp from the RPi kernel [1] and is a
-> independent subset of earlier series [2] posted to upport CSI-2/CCP2
-> receiver IP core("Unicam) + the ISP driver found in BCM283x and compatible
-> SoCs (namely BCM2711). Unicam is still under active development to work
-> with multistream support to get into mainline. Hence only the ISP driver
-> will remain the primary area of this series.
+Feel free to add additional frequencies later on. But this patch appears to
+be just wrong.
 
-thanks for working on this. But honestly i would prefer that vchiq comes 
-out of staging before adding more features. As Greg said some time ago 
-staging is not a place to "dump code and run away". These new files are 
-in the same bad shape as the rest of vc04 before the clean-up here in 
-staging started.
-
-I agree that VCSM is on the TODO list for vchiq, but this driver is not 
-necessary for making bcm2835-audio & bcm2835-camera leave staging. It 
-just binds more resources on a new feature.
-
-Unfortuntately i hadn't much time to work on vchiq by myself.
-
-Just my two cents
-Stefan
-
+-- 
+Sakari Ailus
