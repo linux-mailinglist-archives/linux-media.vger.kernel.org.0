@@ -2,100 +2,90 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6CB1D6394A8
-	for <lists+linux-media@lfdr.de>; Sat, 26 Nov 2022 09:28:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AC7A163953B
+	for <lists+linux-media@lfdr.de>; Sat, 26 Nov 2022 11:14:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229553AbiKZI2s convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Sat, 26 Nov 2022 03:28:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43184 "EHLO
+        id S229589AbiKZKOP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 26 Nov 2022 05:14:15 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43572 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229498AbiKZI2r (ORCPT
+        with ESMTP id S229495AbiKZKOO (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 26 Nov 2022 03:28:47 -0500
-Received: from kozue.soulik.info (kozue.soulik.info [IPv6:2001:19f0:7000:8404:5054:ff:fe75:428f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA98FEE39;
-        Sat, 26 Nov 2022 00:28:46 -0800 (PST)
-Received: from [192.168.10.76] (unknown [112.65.61.224])
-        by kozue.soulik.info (Postfix) with ESMTPSA id 3ABC1100C90;
-        Sat, 26 Nov 2022 17:28:32 +0900 (JST)
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8BIT
-From:   ayaka <ayaka@soulik.info>
-Mime-Version: 1.0 (1.0)
-Subject: Re: [PATCH] media: v4l2-mem2mem: allow device run without buf
-Date:   Sat, 26 Nov 2022 16:28:33 +0800
-Message-Id: <80315D27-6558-44F8-B4F0-8F464602D709@soulik.info>
-References: <edd368ea3cc9bb31700600a7f1fe7c837501458c.camel@collabora.com>
-Cc:     Hsia-Jun Li <randy.li@synaptics.com>, linux-media@vger.kernel.org,
-        mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
-        sebastian.fricke@collabora.com,
-        kieran.bingham+renesas@ideasonboard.com,
-        laurent.pinchart@ideasonboard.com, ming.qian@nxp.com,
-        wenst@chromium.org, linux-kernel@vger.kernel.org
-In-Reply-To: <edd368ea3cc9bb31700600a7f1fe7c837501458c.camel@collabora.com>
-To:     Nicolas Dufresne <nicolas.dufresne@collabora.com>
-X-Mailer: iPad Mail (18D61)
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        Sat, 26 Nov 2022 05:14:14 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4847D27930;
+        Sat, 26 Nov 2022 02:14:12 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id A249360A0B;
+        Sat, 26 Nov 2022 10:14:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3DE3AC433D6;
+        Sat, 26 Nov 2022 10:14:10 +0000 (UTC)
+Message-ID: <7293f7a2-0136-1c1c-e6ac-4fe810081c64@xs4all.nl>
+Date:   Sat, 26 Nov 2022 11:14:08 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.1
+Subject: Re: [PATCH 12/31] media: v4l2-core: changing LED_* from enum
+ led_brightness to actual value
+Content-Language: en-US
+To:     Luiz Sampaio <sampaio.ime@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+References: <20220121165436.30956-1-sampaio.ime@gmail.com>
+ <20220121165436.30956-13-sampaio.ime@gmail.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+In-Reply-To: <20220121165436.30956-13-sampaio.ime@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Luiz,
 
+On 21/01/2022 17:54, Luiz Sampaio wrote:
+> The enum led_brightness, which contains the declaration of LED_OFF,
+> LED_ON, LED_HALF and LED_FULL is obsolete, as the led class now supports
+> max_brightness.
 
-> On Nov 25, 2022, at 9:43 PM, Nicolas Dufresne <nicolas.dufresne@collabora.com> wrote:
-> 
-> ﻿CAUTION: Email originated externally, do not click links or open attachments unless you recognize the sender and know the content is safe.
-> 
-> 
->> Le mercredi 23 novembre 2022 à 17:24 +0800, Hsia-Jun Li a écrit :
->> From: Randy Li <ayaka@soulik.info>
->> 
->> For the decoder supports Dynamic Resolution Change,
->> we don't need to allocate any CAPTURE or graphics buffer
->> for them at inital CAPTURE setup step.
->> 
->> We need to make the device run or we can't get those
->> metadata.
-> 
-> Nack: This is not how it works. I know the m2m framework make it difficult, but
-> it is expected that the driver have a special state for OUTPUT streamon (before
-> capture streamon). Please have a look at other drivers.
-> 
-I have some good reasons here that make dynamic resolution should happen in the device_run().
-1. If the CAPTURE is STREAMON, when the resolution changed event should be triggered? Of course it would be in device_run(), there is no reason to make an special case here.
+Note that there is no Signed-off-by line, so I can't take this.
 
-The following reasons may be better applied for encrypted(DRM) video, when no normal video stream parser could be invoked.
-We don’t know whether the user input contains valid sequence header, would the sequence header applied to the current frame? Beside the metadata we need may not at the beginning of the buffer.
-2. If it would cost lots of device time on parsing it, it even may even need to read more than one OUTPUT buffers, we would be better to fix this into the normal schedule procedure. Or it would block the other running contexts(instances)
-3. We need extra methods to wait the other context done their work which breaks the original job queue.
+Same for patches 11/31 and 10/31.
 
-buffered flag is a perfect way to fix these problems, I didn’t see any m2m driver uses them.
+If this is still relevant (it's an old series, after all), then please
+repost.
 
-> Nicolas
->> 
->> Signed-off-by: Randy Li <ayaka@soulik.info>
->> ---
->> drivers/media/v4l2-core/v4l2-mem2mem.c | 5 +++--
->> 1 file changed, 3 insertions(+), 2 deletions(-)
->> 
->> diff --git a/drivers/media/v4l2-core/v4l2-mem2mem.c b/drivers/media/v4l2-core/v4l2-mem2mem.c
->> index be7fde1ed3ea..cd56d60fad9d 100644
->> --- a/drivers/media/v4l2-core/v4l2-mem2mem.c
->> +++ b/drivers/media/v4l2-core/v4l2-mem2mem.c
->> @@ -301,8 +301,9 @@ static void __v4l2_m2m_try_queue(struct v4l2_m2m_dev *m2m_dev,
->> 
->>      dprintk("Trying to schedule a job for m2m_ctx: %p\n", m2m_ctx);
->> 
->> -     if (!m2m_ctx->out_q_ctx.q.streaming
->> -         || !m2m_ctx->cap_q_ctx.q.streaming) {
->> +     if (!(m2m_ctx->out_q_ctx.q.streaming || m2m_ctx->out_q_ctx.buffered)
->> +         || !(m2m_ctx->cap_q_ctx.q.streaming
->> +              || m2m_ctx->cap_q_ctx.buffered)) {
->>              dprintk("Streaming needs to be on for both queues\n");
->>              return;
->>      }
+Regards,
+
+	Hans
+
+> ---
+>  drivers/media/v4l2-core/v4l2-flash-led-class.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 > 
+> diff --git a/drivers/media/v4l2-core/v4l2-flash-led-class.c b/drivers/media/v4l2-core/v4l2-flash-led-class.c
+> index e70e128ccc9c..a47ac654c9f4 100644
+> --- a/drivers/media/v4l2-core/v4l2-flash-led-class.c
+> +++ b/drivers/media/v4l2-core/v4l2-flash-led-class.c
+> @@ -234,11 +234,11 @@ static int v4l2_flash_s_ctrl(struct v4l2_ctrl *c)
+>  	case V4L2_CID_FLASH_LED_MODE:
+>  		switch (c->val) {
+>  		case V4L2_FLASH_LED_MODE_NONE:
+> -			led_set_brightness_sync(led_cdev, LED_OFF);
+> +			led_set_brightness_sync(led_cdev, 0);
+>  			return led_set_flash_strobe(fled_cdev, false);
+>  		case V4L2_FLASH_LED_MODE_FLASH:
+>  			/* Turn the torch LED off */
+> -			led_set_brightness_sync(led_cdev, LED_OFF);
+> +			led_set_brightness_sync(led_cdev, 0);
+>  			if (ctrls[STROBE_SOURCE]) {
+>  				external_strobe = (ctrls[STROBE_SOURCE]->val ==
+>  					V4L2_FLASH_STROBE_SOURCE_EXTERNAL);
 
