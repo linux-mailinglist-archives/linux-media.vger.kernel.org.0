@@ -2,100 +2,163 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7F50763984D
-	for <lists+linux-media@lfdr.de>; Sat, 26 Nov 2022 22:49:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D755B63988B
+	for <lists+linux-media@lfdr.de>; Sat, 26 Nov 2022 23:57:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229534AbiKZVtl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 26 Nov 2022 16:49:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46926 "EHLO
+        id S229708AbiKZW5G (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 26 Nov 2022 17:57:06 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40984 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229459AbiKZVtk (ORCPT
+        with ESMTP id S229690AbiKZW47 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 26 Nov 2022 16:49:40 -0500
-Received: from mail-yb1-xb31.google.com (mail-yb1-xb31.google.com [IPv6:2607:f8b0:4864:20::b31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D614167CC
-        for <linux-media@vger.kernel.org>; Sat, 26 Nov 2022 13:49:39 -0800 (PST)
-Received: by mail-yb1-xb31.google.com with SMTP id 1so8973300ybl.7
-        for <linux-media@vger.kernel.org>; Sat, 26 Nov 2022 13:49:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=64rZY6gHcuVaviWfitw7c133Lk1q1wMsjFa4kaG/g+s=;
-        b=iP4J6FZzKaMir0+W4S4i3tVRMi0ESzplhJxBU4jXzpD7AquMBJvX0CZteC6hbdh6sz
-         Vod09BoB8GrSAWPTQejsBtuqJyKPlM5oTXx9AUoDkVnvz1E2EAX+gzLKARuIL7/MUZ9i
-         fO5cdhe78lSAWKQoVLB/DJO0i4g/+/nQEurrSurmpJwDOr54xXq/r5bdTfvuRg+QIMK2
-         QTVrh0aV4V00t8m/771s3L5t++xDhj92VgphhnUKOvXCUOsv/Z286yd8hovLVSSjQO5/
-         SO0pFAezWkZfB9FB04eKlTnj6vX50JHeqDvXo1HcCQa2/suaaOuMxi0ObrkHV6mzOpfq
-         KnNQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=64rZY6gHcuVaviWfitw7c133Lk1q1wMsjFa4kaG/g+s=;
-        b=PDvpEH3V4QGk7U+idzMa7eZWwFaEIFDf7oO+A7/NcgpNpbrxgEq5MsZ48IVMdj1qJL
-         /SpGV9wmagGUORLygPStBhgUop8aqQevSmNdrvkTa2oVgs390QFl6sobvhWr2yMuWhUY
-         T5T9mQj4o4mi+bXiJDVXuVzZAemyc3IiIUaO6Ofq0CS8D5f0CEhv3wAYpHFKIkT3Nqek
-         YANwqRxLXTErOe5DN3M14ELR5X8OBuyOktkll+gw4Ah16OItVNqu2zZK7WCQLJbKDerO
-         +LoB5rtFCokAc23mUT5EmF7GqEW5BxZoJfdYdIxBColyHc4/tWzzTkfr+X7XAilQSmGF
-         Nntw==
-X-Gm-Message-State: ANoB5pnyaEgrueIFXcz1ZhgMAnOZt14ZeQ46Sbwj7NlD4dtOsGSgrUQ+
-        vdJ5ZNypQ+RzLjrGgqzn2ye5RYJUB5/RZ3zG1nV+yQ==
-X-Google-Smtp-Source: AA0mqf6gdk3XLLJowDZX5ZGc5gTQstM3esNfZxiYvyNeRAMLuMKV5iSVY7uMMAKw8ERGI5Q/odz8aNizpviciL/7GnU=
-X-Received: by 2002:a25:c485:0:b0:6be:8e8d:639f with SMTP id
- u127-20020a25c485000000b006be8e8d639fmr40035380ybf.506.1669499378786; Sat, 26
- Nov 2022 13:49:38 -0800 (PST)
+        Sat, 26 Nov 2022 17:56:59 -0500
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.135])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B1F71583E;
+        Sat, 26 Nov 2022 14:56:51 -0800 (PST)
+Received: from [192.168.1.139] ([37.4.248.27]) by mrelayeu.kundenserver.de
+ (mreue010 [212.227.15.167]) with ESMTPSA (Nemesis) id
+ 1MCbZL-1p7cnv0cV9-009el7; Sat, 26 Nov 2022 23:56:36 +0100
+Message-ID: <bb16004f-8d5b-5794-8445-aa7e1a758ffa@i2se.com>
+Date:   Sat, 26 Nov 2022 23:56:31 +0100
 MIME-Version: 1.0
-References: <20221115221145.2550572-1-dmitry.torokhov@gmail.com>
- <20221115221145.2550572-4-dmitry.torokhov@gmail.com> <CACRpkdbARhDuqSiOZM6GZynHsQWau8JhsEa2zcpsPZSLuD07Kg@mail.gmail.com>
- <e4609919-d9be-33c4-1488-352443523b14@xs4all.nl>
-In-Reply-To: <e4609919-d9be-33c4-1488-352443523b14@xs4all.nl>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Sat, 26 Nov 2022 22:49:27 +0100
-Message-ID: <CACRpkdaczw75FX17m96s6zS1ng+rp8QXwW2=n8HZ5OKYH6xpsA@mail.gmail.com>
-Subject: Re: [PATCH 4/4] media: i2c: s5c73m3: switch to using gpiod API
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sylwester Nawrocki <s.nawrocki@samsung.com>,
-        Andrzej Hajda <andrzej.hajda@intel.com>,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH 00/14] staging: vc04_services: bcm2835-isp support
+To:     Umang Jain <umang.jain@ideasonboard.com>,
+        linux-media@vger.kernel.org, kernel-list@raspberrypi.com,
+        linux-kernel@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-staging@lists.linux.dev,
+        Broadcom internal kernel review list 
+        <bcm-kernel-feedback-list@broadcom.com>
+Cc:     Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Naushir Patuck <naush@raspberrypi.com>,
+        David Plowman <david.plowman@raspberrypi.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+References: <20221121214722.22563-1-umang.jain@ideasonboard.com>
+ <fc2fb888-7742-123c-69c9-cdb156ff2d9f@i2se.com>
+ <a56d7687-ee44-629c-1a9d-fa34e65e847f@ideasonboard.com>
+Content-Language: en-US
+From:   Stefan Wahren <stefan.wahren@i2se.com>
+In-Reply-To: <a56d7687-ee44-629c-1a9d-fa34e65e847f@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:mOh+jfsovNViNNFGnkXKYR6uFOi0sqfG0SFzTs1OIoe0785Y1c8
+ MscO7c9Q1LnicN1ocUBaPyw3swJ9vwTHF13uUdWGVDIRuZXt7ENejNpiqbi4wqzirD154eJ
+ 2UNEb3o/CgOtr9nin5UnAXPx0JO5g3zeSP2SzG/odYL7ubwXPbRP7z9KgHS0SyYrHcRH+Yl
+ sX33AMEeVluzOtY5kC0Tg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:wa2tfLXpUeg=:KH3HVowP0x6IOJs0dfQ3Fd
+ EAMKGhQXwBvLVWOXoRMnGLKpKiffQ/sydVQ55W6wiEo8i3PJ8qIwPXG9ikqp7xKVyZ3bZ3LQl
+ Z7S3Lg7ljRyYABImyPTar+q/pgNtPdMdAoGbMIvh+kLvUcev96LFRe+XlSEXRpOL/w8vSW3c5
+ SF7wklR2L8RckQq1GBXZGDh6y5rxpFm4QPMoyFVDtWB1yy7WD1UXx/UsGD/t/jXUKVNdhSnaN
+ Wr6H/pzFVgxVF9GE/mpBw7pqinWojF98pLXLOfZPmoKV8slzN2/L+jhujP/bOnBUNgZ2AzJQN
+ ZMcsDwt/wKMmjumPAqHi3et6eN2kDLUeIx2lpfscXalYu16ADMjwiQlgogZE90Xs7WvbfKpDx
+ yO5HywHqtXpAyFyMhxX68hKponPBkYDNhCLiFftaowlEzqLCA5eVqIIDe/qmXjolmwlwRsBAM
+ M37cOGQOBQ+gQzixhhoAz8fqtj/FPknmukvkom162pgxoJ6lDtGnR6tM4ouqKODwa/U0zZpEP
+ +yAFn/xTfRDINTJcbtOsHJAehhSIOasldotnfuCNGFjdutcG23AOkehuognrPRFKq3CU1+gTk
+ r45YomqYkZIkYj1vyHENJlsJ7SnnF7M6xVOmo0sKy/7we5tpnFHNk7CmN0wYGTZeIl5vykxyQ
+ SWM3z5OifaWCsaLDA+rdAhidJIgxEsQvz858ydVM2ydiQsfJUsrl+Q665i/P5SomlDPY1DiDF
+ mSUQVdeT5pwdI3s2f2bL6LtHl+G56lpnfZWIW9d0jg7dkBfOmQX/3qTNpGYiwJLbarqL8+U8k
+ i7UiyRUZWHdLzLycL6dzi8bUEOY4w==
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sat, Nov 26, 2022 at 11:34 AM Hans Verkuil <hverkuil@xs4all.nl> wrote:
-> On 17/11/2022 10:06, Linus Walleij wrote:
-> > On Tue, Nov 15, 2022 at 11:11 PM Dmitry Torokhov
-> > <dmitry.torokhov@gmail.com> wrote:
-> >
-> >> This patch switches the driver away from legacy gpio/of_gpio API to
-> >> gpiod API, and removes use of of_get_named_gpio_flags() which I want to
-> >> make private to gpiolib.
-> >>
-> >> Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-> >
-> > Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+Hi Umang,
+
+Am 26.11.22 um 17:26 schrieb Umang Jain:
+> Hi Stefan
 >
-> There are now two patches that do this switch to using the gpiod API:
-> this one, and one from you:
-
-Ooops we stepped on each others' toes again. Dmitry & I really like
-to fix these drivers :D sorry about that.
-
-> https://patchwork.linuxtv.org/project/linux-media/patch/20221108100604.1500909-1-linus.walleij@linaro.org/
+> On 11/26/22 8:12 PM, Stefan Wahren wrote:
+>> Hi Umang,
+>>
+>> Am 21.11.22 um 22:47 schrieb Umang Jain:
+>>> This series aims to upport bcm2835-isp from the RPi kernel [1] and is a
+>>> independent subset of earlier series [2] posted to upport CSI-2/CCP2
+>>> receiver IP core("Unicam) + the ISP driver found in BCM283x and 
+>>> compatible
+>>> SoCs (namely BCM2711). Unicam is still under active development to work
+>>> with multistream support to get into mainline. Hence only the ISP 
+>>> driver
+>>> will remain the primary area of this series.
+>>
+>> thanks for working on this. But honestly i would prefer that vchiq 
+>> comes out of staging before adding more features. As Greg said some 
+>> time ago staging is not a place to "dump code and run away". These 
+>> new files are in the same bad shape as the rest of vc04 before the 
+>> clean-up here in staging started.
 >
-> Any preference?
+> Certainly, I am not here to do that - but I am still learning the ropes.
+no problem.
+>
+> If the staging issue is becoming a blocker for bcm2835-isp going 
+> upstream, I would be happy to help here! Though I must mention that I 
+> still have limited visibility so my aim would be to chart out a plan 
+> of things needed to be done to get vc04_services out of staging!
 
-Not really, take the one you like best, they look functionally equivalent to me,
-just slightly different stylistic choices.
+The vchiq driver is in staging since 2016, so every step forwards is 
+good. Unfortunately all of the low hanging fruits has been gathered.
 
-Yours,
-Linus Walleij
+For me the most important, but not to tricky steps to get vchiq out of 
+staging would be:
+
+* Cleanup logging mechanism
+
+* Get rid of custom function return values
+
+There was already an attempt for this [1]
+
+* Get rid of all non essential global structures and create a proper per
+device structure
+
+>
+>>
+>> I agree that VCSM is on the TODO list for vchiq, but this driver is 
+>> not necessary for making bcm2835-audio & bcm2835-camera leave 
+>> staging. It just binds more resources on a new feature.
+>
+> I see two TODO files in vc04_services:
+>     ./bcm2835-camera/TODO
+>     ./interface/TODO
+>
+> One of the bcm2835-camera TODO points to the vc-sm-cma driver itself. 
+> So that's address in the series. The other remaining one - I will need 
+> to take a deeper look before commenting on it.
+>
+> The main chunk of TODO are in vc04_services/interfaces/TODO. Doing a 
+> cursory reading of them suggests that these apply to *all* 
+> vc04_services components? Am I right?
+Actually these applies just for the interfaces directory. Some of them 
+could apply to the services, but this is no priority.
+>
+> Are these are the specific bits of cleanup you are referring to in 
+> your comment?
+
+You mean about bcm2835-isp? There were too many changes to vchiq that i 
+don't remember them all. The first that come to my mind was those fancy 
+comment sections which is not kernel coding style. It has been removed.
+
+[1] - 
+https://lore.kernel.org/linux-staging/20220712181928.17547-1-jslebodn@redhat.com/
+
+>
+>
+>>
+>> Unfortuntately i hadn't much time to work on vchiq by myself.
+>>
+>> Just my two cents
+>> Stefan
+>>
+>
+>
+> _______________________________________________
+> linux-arm-kernel mailing list
+> linux-arm-kernel@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
