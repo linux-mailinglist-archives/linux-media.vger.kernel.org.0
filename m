@@ -2,116 +2,67 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4BBBA639738
-	for <lists+linux-media@lfdr.de>; Sat, 26 Nov 2022 17:27:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D4D64639771
+	for <lists+linux-media@lfdr.de>; Sat, 26 Nov 2022 18:25:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229493AbiKZQ1U (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 26 Nov 2022 11:27:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42510 "EHLO
+        id S229590AbiKZRZt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 26 Nov 2022 12:25:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40564 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229464AbiKZQ1R (ORCPT
+        with ESMTP id S229450AbiKZRZs (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 26 Nov 2022 11:27:17 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66B6A26A;
-        Sat, 26 Nov 2022 08:27:16 -0800 (PST)
-Received: from [192.168.1.104] (unknown [103.238.109.19])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 600A1471;
-        Sat, 26 Nov 2022 17:27:09 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1669480033;
-        bh=9JgwMYaMqW628l2Ol/scePAZkaal2MIBpF9/7ieZUYU=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=NyL1IUSIS9+5gvfkmBxMMqCbVEiIpkAT8Q+t9SFRNRchj2SyoOTkT0t4fGhSY+YP7
-         uPi/myeHxO09kbL0LUFo0QSYA4If9VTQn+mygQrIQDtJxIiwXiHw/OM5/jLFrtpEwf
-         THnXDhut39B7Bd7CPd0zmdT63lsZ1qNMfjj35iDk=
-Message-ID: <a56d7687-ee44-629c-1a9d-fa34e65e847f@ideasonboard.com>
-Date:   Sat, 26 Nov 2022 21:56:12 +0530
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Subject: Re: [PATCH 00/14] staging: vc04_services: bcm2835-isp support
-To:     Stefan Wahren <stefan.wahren@i2se.com>,
-        linux-media@vger.kernel.org, kernel-list@raspberrypi.com,
-        linux-kernel@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
+        Sat, 26 Nov 2022 12:25:48 -0500
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 82CC11CB32;
+        Sat, 26 Nov 2022 09:25:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+        s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+        Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+        Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+        bh=oc2TrEmr5KqotgSvg9398nOl+D8T+97lMY4B5EaEzvg=; b=RsUsqCrSLnBVxNF9DQ50ZHA+TD
+        uyJHRNxVAfcSDagZmeWTjuRD2W89a2yGOzAipRYzO8zJWN9QO1nr+6qik3SPp1ehavIBrd8WpTu5p
+        P2e4qwAHk/YWthWNz063iq0BfeC1Fwhz2o5G0iTLUXK+Ajq7/NR9Fdc6Jvtxsqwl8VsI=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+        (envelope-from <andrew@lunn.ch>)
+        id 1oyyvL-003WXJ-L6; Sat, 26 Nov 2022 18:25:07 +0100
+Date:   Sat, 26 Nov 2022 18:25:07 +0100
+From:   Andrew Lunn <andrew@lunn.ch>
+To:     Zheng Yongjun <zhengyongjun3@huawei.com>
+Cc:     eajames@linux.ibm.com, mchehab@kernel.org,
+        linux-media@vger.kernel.org, openbmc@lists.ozlabs.org,
         linux-arm-kernel@lists.infradead.org,
-        linux-staging@lists.linux.dev,
-        Broadcom internal kernel review list 
-        <bcm-kernel-feedback-list@broadcom.com>
-Cc:     Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Naushir Patuck <naush@raspberrypi.com>,
-        David Plowman <david.plowman@raspberrypi.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-References: <20221121214722.22563-1-umang.jain@ideasonboard.com>
- <fc2fb888-7742-123c-69c9-cdb156ff2d9f@i2se.com>
-Content-Language: en-US
-From:   Umang Jain <umang.jain@ideasonboard.com>
-In-Reply-To: <fc2fb888-7742-123c-69c9-cdb156ff2d9f@i2se.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+        linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org,
+        joel@jms.id.au, andrew@aj.id.au
+Subject: Re: [PATCH v2] media: aspeed: Fix return value check in
+ aspeed_video_debugfs_create()
+Message-ID: <Y4JL89BCcs1pjWZZ@lunn.ch>
+References: <20221126022813.57372-1-zhengyongjun3@huawei.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221126022813.57372-1-zhengyongjun3@huawei.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Stefan
+On Sat, Nov 26, 2022 at 02:28:13AM +0000, Zheng Yongjun wrote:
+> In case of error, the function debugfs_create_file() returns ERR_PTR()
+> and never returns NULL. The NULL test in the return value check
+> should be replaced with IS_ERR().
+> 
+> Fixes: 52fed10ad756 ("media: aspeed: add debugfs")
+> Signed-off-by: Zheng Yongjun <zhengyongjun3@huawei.com>
 
-On 11/26/22 8:12 PM, Stefan Wahren wrote:
-> Hi Umang,
->
-> Am 21.11.22 um 22:47 schrieb Umang Jain:
->> This series aims to upport bcm2835-isp from the RPi kernel [1] and is a
->> independent subset of earlier series [2] posted to upport CSI-2/CCP2
->> receiver IP core("Unicam) + the ISP driver found in BCM283x and 
->> compatible
->> SoCs (namely BCM2711). Unicam is still under active development to work
->> with multistream support to get into mainline. Hence only the ISP driver
->> will remain the primary area of this series.
->
-> thanks for working on this. But honestly i would prefer that vchiq 
-> comes out of staging before adding more features. As Greg said some 
-> time ago staging is not a place to "dump code and run away". These new 
-> files are in the same bad shape as the rest of vc04 before the 
-> clean-up here in staging started.
+Please see:
 
-Certainly, I am not here to do that - but I am still learning the ropes.
+https://patchwork.kernel.org/project/linux-wireless/patch/20200429101526.GA2094124@kroah.com/
 
-If the staging issue is becoming a blocker for bcm2835-isp going 
-upstream, I would be happy to help here! Though I must mention that I 
-still have limited visibility so my aim would be to chart out a plan of 
-things needed to be done to get vc04_services out of staging!
+and there are other examples. Just delete all the checks.
 
->
-> I agree that VCSM is on the TODO list for vchiq, but this driver is 
-> not necessary for making bcm2835-audio & bcm2835-camera leave staging. 
-> It just binds more resources on a new feature.
-
-I see two TODO files in vc04_services:
-     ./bcm2835-camera/TODO
-     ./interface/TODO
-
-One of the bcm2835-camera TODO points to the vc-sm-cma driver itself. So 
-that's address in the series. The other remaining one - I will need to 
-take a deeper look before commenting on it.
-
-The main chunk of TODO are in vc04_services/interfaces/TODO.  Doing a 
-cursory reading of them suggests that these apply to *all* vc04_services 
-components? Am I right?
-
-Are these are the specific bits of cleanup you are referring to in your 
-comment?
-
-
->
-> Unfortuntately i hadn't much time to work on vchiq by myself.
->
-> Just my two cents
-> Stefan
->
-
+	Andrew
