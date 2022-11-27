@@ -2,222 +2,119 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6EF136399E5
-	for <lists+linux-media@lfdr.de>; Sun, 27 Nov 2022 11:37:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 88C8F639B29
+	for <lists+linux-media@lfdr.de>; Sun, 27 Nov 2022 14:54:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229587AbiK0KgK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 27 Nov 2022 05:36:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52292 "EHLO
+        id S229554AbiK0Ny5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 27 Nov 2022 08:54:57 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60310 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229526AbiK0KgJ (ORCPT
+        with ESMTP id S229450AbiK0Nyz (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 27 Nov 2022 05:36:09 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27E4FD13B
-        for <linux-media@vger.kernel.org>; Sun, 27 Nov 2022 02:35:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1669545314;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=a/FKhEJUKr4Au5jEDV0nA39boCfv1uOAmeL78/XZzlw=;
-        b=O27xJtPpaXX+WGWtRHYJetfQf0LitOuWyYASTvh9BOIc76OBbAvqAJoksVcyj8ihyyybuL
-        K0BzXUXxU998BrnvTHmhdCmjqJ56s5MlltXbtXEOh8pcP8m9+etTCwEOVSMLMxVzLD+KhE
-        02JICc1N+vm9jg/GhumwHtE2HYBwStg=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-629-dwhDBYDIO4aR_h6RTWbXGA-1; Sun, 27 Nov 2022 05:35:13 -0500
-X-MC-Unique: dwhDBYDIO4aR_h6RTWbXGA-1
-Received: by mail-wr1-f72.google.com with SMTP id h10-20020adfaa8a000000b0024208cf285eso610447wrc.22
-        for <linux-media@vger.kernel.org>; Sun, 27 Nov 2022 02:35:12 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:subject:organization:from
-         :content-language:references:cc:to:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=a/FKhEJUKr4Au5jEDV0nA39boCfv1uOAmeL78/XZzlw=;
-        b=ziEb8FgXPYn7WYs/rBxdQCyeTm/hmBSgsvL1IDt0J2y71k3KS0kFQv6a/8QJAi0hQK
-         PqfVwxba3J3aTLV7oMeYyw0xki1MOqQC3/5gdDEabQ/wfJQ+kTJB2ZficECOnC1oui2d
-         cA/igDZTnSGxknL25q+UM/1p2yC+NDVgpnpLPRqZQS0g1Aq8+kLyGXqab7B73E7nDL/l
-         uCDJS2oXYVLlhkmjOyQ7m3mSF0e25i/Pm8OC/I7qdqL9a8nlcw4xzIXEyL/fmM6w/zzm
-         gelzgXqPsLmjuh2900KIcjxPC4MwUd2wyMpZdN6xeW71jBs1gyR9bd9VIWjClMYDua1K
-         sAKw==
-X-Gm-Message-State: ANoB5pnxSz/2VqOvPqX5lXMCNED6AG6OeTR4+kCaiVdMjp11o2E0NhHo
-        yd52d09a9+UkIf26rQ3415txAw9fZDxK3qIAAPtTMMVXipP0/oaiGXCRqQgRbO+q4GV9bD1I+Ud
-        nxwYnrGmeXImyfXhBLPj/lik=
-X-Received: by 2002:a05:600c:4e88:b0:3b5:477:1e80 with SMTP id f8-20020a05600c4e8800b003b504771e80mr34594845wmq.200.1669545311982;
-        Sun, 27 Nov 2022 02:35:11 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf44zTk6J1KBaqs1seffTqR2+v9TqwwPSmjBWI2JrtJKUPaYELfhGu32bDJHUXiVwBKDfUuj3g==
-X-Received: by 2002:a05:600c:4e88:b0:3b5:477:1e80 with SMTP id f8-20020a05600c4e8800b003b504771e80mr34594816wmq.200.1669545311706;
-        Sun, 27 Nov 2022 02:35:11 -0800 (PST)
-Received: from ?IPV6:2003:cb:c724:dc00:5ea8:da59:8609:7da? (p200300cbc724dc005ea8da59860907da.dip0.t-ipconnect.de. [2003:cb:c724:dc00:5ea8:da59:8609:7da])
-        by smtp.gmail.com with ESMTPSA id u10-20020a05600c19ca00b003c5571c27a1sm14797024wmq.32.2022.11.27.02.35.09
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 27 Nov 2022 02:35:11 -0800 (PST)
-Message-ID: <81fb0fa3-2e06-b765-56ac-a7d981194e59@redhat.com>
-Date:   Sun, 27 Nov 2022 11:35:09 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.1
-To:     linux-kernel@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>,
-        Andrew Morton <akpm@linux-foundation.org>
-Cc:     x86@kernel.org, linux-alpha@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-ia64@vger.kernel.org,
-        linux-mips@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        sparclinux@vger.kernel.org, linux-um@lists.infradead.org,
-        etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-        linux-samsung-soc@vger.kernel.org, linux-rdma@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-mm@kvack.org, linux-perf-users@vger.kernel.org,
-        linux-security-module@vger.kernel.org,
-        linux-kselftest@vger.kernel.org,
-        Linus Torvalds <torvalds@linux-foundation.org>,
+        Sun, 27 Nov 2022 08:54:55 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03880B86E;
+        Sun, 27 Nov 2022 05:54:55 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 9A4C860D28;
+        Sun, 27 Nov 2022 13:54:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 68D01C433D6;
+        Sun, 27 Nov 2022 13:54:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1669557294;
+        bh=yBXFwdf6dHy6NKqLSbFuwY2ODTarq/fHEqUCJbDArGc=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Nk7s5lWEAiKkbiHApH4KVdNYo+dE77wMv9el27gVNLV6vJ8bqio04oPle12nog6/N
+         QZJnMGnTpuchNmx+393MIhVm5To4LYwv2fgwAWxLOKa3Wbo2x7CZmTxpFABdw+u3gk
+         BKlc2ytv29xRY3fdiySvnZCwugu9Z2Y1dflPI6q8=
+Date:   Sun, 27 Nov 2022 14:45:36 +0100
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Bart Van Assche <bvanassche@acm.org>
+Cc:     linux-kernel@vger.kernel.org, Jens Axboe <axboe@kernel.dk>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Russ Weight <russell.h.weight@intel.com>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Jean Delvare <jdelvare@suse.com>,
+        Johan Hovold <johan@kernel.org>,
         Jason Gunthorpe <jgg@ziepe.ca>,
-        John Hubbard <jhubbard@nvidia.com>,
-        Peter Xu <peterx@redhat.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Hugh Dickins <hughd@google.com>, Nadav Amit <namit@vmware.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Matthew Wilcox <willy@infradead.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Muchun Song <songmuchun@bytedance.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Lucas Stach <l.stach@pengutronix.de>,
-        David Airlie <airlied@gmail.com>,
-        Oded Gabbay <ogabbay@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Christoph Hellwig <hch@infradead.org>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-References: <20221116102659.70287-1-david@redhat.com>
- <20221116102659.70287-17-david@redhat.com>
-Content-Language: en-US
-From:   David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-Subject: Re: [PATCH mm-unstable v1 16/20] mm/frame-vector: remove FOLL_FORCE
- usage
-In-Reply-To: <20221116102659.70287-17-david@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE
-        autolearn=unavailable autolearn_force=no version=3.4.6
+        Leon Romanovsky <leon@kernel.org>,
+        Karsten Keil <isdn@linux-pingi.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Keith Busch <kbusch@kernel.org>,
+        Christoph Hellwig <hch@lst.de>,
+        Sagi Grimberg <sagi@grimberg.me>,
+        Dominik Brodowski <linux@dominikbrodowski.net>,
+        Sebastian Reichel <sre@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Johannes Berg <johannes@sipsolutions.net>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Raed Salem <raeds@nvidia.com>,
+        Chen Zhongjin <chenzhongjin@huawei.com>,
+        Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+        Avihai Horon <avihaih@nvidia.com>,
+        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Colin Ian King <colin.i.king@gmail.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Jakob Koschel <jakobkoschel@gmail.com>,
+        Antoine Tenart <atenart@kernel.org>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        Wang Yufen <wangyufen@huawei.com>, linux-block@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-nvme@lists.infradead.org,
+        linux-pm@vger.kernel.org, linux-rdma@vger.kernel.org,
+        linux-usb@vger.kernel.org, linux-wireless@vger.kernel.org,
+        netdev@vger.kernel.org
+Subject: Re: [PATCH 1/5] driver core: make struct class.dev_uevent() take a
+ const *
+Message-ID: <Y4NqAJW5V0tAP8ax@kroah.com>
+References: <20221123122523.1332370-1-gregkh@linuxfoundation.org>
+ <d448b944-708a-32d4-37d7-0be16ee5f73c@acm.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <d448b944-708a-32d4-37d7-0be16ee5f73c@acm.org>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 16.11.22 11:26, David Hildenbrand wrote:
-> FOLL_FORCE is really only for ptrace access. According to commit
-> 707947247e95 ("media: videobuf2-vmalloc: get_userptr: buffers are always
-> writable"), get_vaddr_frames() currently pins all pages writable as a
-> workaround for issues with read-only buffers.
+On Fri, Nov 25, 2022 at 03:51:11PM -0800, Bart Van Assche wrote:
+> On 11/23/22 04:25, Greg Kroah-Hartman wrote:
+> > diff --git a/include/linux/mISDNif.h b/include/linux/mISDNif.h
+> > index 7dd1f01ec4f9..7aab4a769736 100644
+> > --- a/include/linux/mISDNif.h
+> > +++ b/include/linux/mISDNif.h
+> > @@ -586,7 +586,7 @@ extern struct mISDNclock *mISDN_register_clock(char *, int, clockctl_func_t *,
+> >   						void *);
+> >   extern void	mISDN_unregister_clock(struct mISDNclock *);
+> > -static inline struct mISDNdevice *dev_to_mISDN(struct device *dev)
+> > +static inline struct mISDNdevice *dev_to_mISDN(const struct device *dev)
+> >   {
+> >   	if (dev)
+> >   		return dev_get_drvdata(dev);
 > 
-> FOLL_FORCE, however, seems to be a legacy leftover as it predates
-> commit 707947247e95 ("media: videobuf2-vmalloc: get_userptr: buffers are
-> always writable"). Let's just remove it.
-> 
-> Once the read-only buffer issue has been resolved, FOLL_WRITE could
-> again be set depending on the DMA direction.
-> 
-> Cc: Hans Verkuil <hverkuil@xs4all.nl>
-> Cc: Marek Szyprowski <m.szyprowski@samsung.com>
-> Cc: Tomasz Figa <tfiga@chromium.org>
-> Cc: Marek Szyprowski <m.szyprowski@samsung.com>
-> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-> Signed-off-by: David Hildenbrand <david@redhat.com>
-> ---
->   drivers/media/common/videobuf2/frame_vector.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/common/videobuf2/frame_vector.c b/drivers/media/common/videobuf2/frame_vector.c
-> index 542dde9d2609..062e98148c53 100644
-> --- a/drivers/media/common/videobuf2/frame_vector.c
-> +++ b/drivers/media/common/videobuf2/frame_vector.c
-> @@ -50,7 +50,7 @@ int get_vaddr_frames(unsigned long start, unsigned int nr_frames,
->   	start = untagged_addr(start);
->   
->   	ret = pin_user_pages_fast(start, nr_frames,
-> -				  FOLL_FORCE | FOLL_WRITE | FOLL_LONGTERM,
-> +				  FOLL_WRITE | FOLL_LONGTERM,
->   				  (struct page **)(vec->ptrs));
->   	if (ret > 0) {
->   		vec->got_ref = true;
+> Why does the dev_to_mISDN() function drop constness? I haven't found an
+> explanation for this in the cover letter.
 
+I agree, this is going to be fixed up, see the thread starting here:
+	https://lore.kernel.org/r/Y34+V2bCDdqujBDk@kroah.com
 
-Hi Andrew,
+I'll work on making a const / non const version for these so that we
+don't loose the marking.
 
-see the discussion at [1] regarding a conflict and how to proceed with
-upstreaming. The conflict would be easy to resolve, however, also
-the patch description doesn't make sense anymore with [1].
+Oh wait, no, this function is fine, it's not modifying the device
+structure at all, and only returning the pointer in the private data
+stored in the device.  There is no loss of const-ness here.
 
+thanks,
 
-On top of mm-unstable, reverting this patch and applying [1] gives me
-an updated patch:
-
-
- From 1e66c25f1467c1f1e5f275312f2c6df29308d4df Mon Sep 17 00:00:00 2001
-From: David Hildenbrand <david@redhat.com>
-Date: Wed, 16 Nov 2022 11:26:55 +0100
-Subject: [PATCH] mm/frame-vector: remove FOLL_FORCE usage
-
-GUP now supports reliable R/O long-term pinning in COW mappings, such
-that we break COW early. MAP_SHARED VMAs only use the shared zeropage so
-far in one corner case (DAXFS file with holes), which can be ignored
-because GUP does not support long-term pinning in fsdax (see
-check_vma_flags()).
-
-Consequently, FOLL_FORCE | FOLL_WRITE | FOLL_LONGTERM is no longer required
-for reliable R/O long-term pinning: FOLL_LONGTERM is sufficient. So stop
-using FOLL_FORCE, which is really only for ptrace access.
-
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-Acked-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc: Hans Verkuil <hverkuil@xs4all.nl>
-Cc: Marek Szyprowski <m.szyprowski@samsung.com>
-Cc: Tomasz Figa <tfiga@chromium.org>
-Cc: Marek Szyprowski <m.szyprowski@samsung.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-Signed-off-by: David Hildenbrand <david@redhat.com>
----
-  drivers/media/common/videobuf2/frame_vector.c | 2 +-
-  1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/media/common/videobuf2/frame_vector.c b/drivers/media/common/videobuf2/frame_vector.c
-index aad72640f055..8606fdacf5b8 100644
---- a/drivers/media/common/videobuf2/frame_vector.c
-+++ b/drivers/media/common/videobuf2/frame_vector.c
-@@ -41,7 +41,7 @@ int get_vaddr_frames(unsigned long start, unsigned int nr_frames, bool write,
-  	int ret_pin_user_pages_fast = 0;
-  	int ret = 0;
-  	int err;
--	unsigned int gup_flags = FOLL_FORCE | FOLL_LONGTERM;
-+	unsigned int gup_flags = FOLL_LONGTERM;
-  
-  	if (nr_frames == 0)
-  		return 0;
--- 
-2.38.1
-
-
-
-Please let me know how you want to proceed. Ideally, you'd pick up
-[1] and apply this updated patch. Also, please tell me if I should
-send this updated patch in a separate mail (e.g., as reply to this mail).
-
-
-[1] https://lkml.kernel.org/r/71bdd3cf-b044-3f12-df58-7c16d5749587@xs4all.nl
-
--- 
-Thanks,
-
-David / dhildenb
-
+greg k-h
