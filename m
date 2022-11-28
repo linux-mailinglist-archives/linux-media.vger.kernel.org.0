@@ -2,63 +2,64 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8D62263A90D
-	for <lists+linux-media@lfdr.de>; Mon, 28 Nov 2022 14:12:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 14C9263A942
+	for <lists+linux-media@lfdr.de>; Mon, 28 Nov 2022 14:16:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230462AbiK1NMl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 28 Nov 2022 08:12:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38722 "EHLO
+        id S231902AbiK1NQs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 28 Nov 2022 08:16:48 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39686 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230423AbiK1NMi (ORCPT
+        with ESMTP id S231517AbiK1NQ1 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 28 Nov 2022 08:12:38 -0500
-Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B27FE110C
-        for <linux-media@vger.kernel.org>; Mon, 28 Nov 2022 05:12:34 -0800 (PST)
-Received: by mail-ej1-x62c.google.com with SMTP id n20so25733559ejh.0
-        for <linux-media@vger.kernel.org>; Mon, 28 Nov 2022 05:12:34 -0800 (PST)
+        Mon, 28 Nov 2022 08:16:27 -0500
+Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com [IPv6:2a00:1450:4864:20::62b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A94481F2C0
+        for <linux-media@vger.kernel.org>; Mon, 28 Nov 2022 05:14:29 -0800 (PST)
+Received: by mail-ej1-x62b.google.com with SMTP id ud5so25688945ejc.4
+        for <linux-media@vger.kernel.org>; Mon, 28 Nov 2022 05:14:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=konsulko.com; s=google;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=uetIAYuvzne8EViMee+/+fVMtWiCqbwTeIsV/1N/KAE=;
-        b=XnAjIa97cpX/fTyRgNpA9tqL6UEVB82utvZfH585c3s4S+GW/KpGyRWTiLvfecHJO/
-         q+oclJYMR25bxVm1S79WgFfuR6njWYSIdsfLfQNQWyRnn35FNTNRsaHMaIcPgKskEknb
-         PecRYGv/4it9X7DgpKGmBy/RGtxaAoRQWeCbs=
+        bh=1WLwtPLVe+kok+GF/9bkopFID8gJSprLPMTL4UtK5Oo=;
+        b=ZBc4ZbpFCkjXpEc3iIjaYaONc3dCBbJ6Lby/+XqCCE8ztuNP04NU4ugL6GNOEEYbPk
+         AP8WD08RiDp0I2+2S1+Q++9GxZm3Cfb8gDGDmKTBXs/qsqIvhv4M7kGm+L0+xP19dmDq
+         137AnM08Tz20F+40PLHvRIEbs/IJWjNCmG+Sw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=uetIAYuvzne8EViMee+/+fVMtWiCqbwTeIsV/1N/KAE=;
-        b=HAbeUIEJD19O0PXhacXJnUjpcw0uOy+ba5u2iRh0WHopXukxVuJQpdw5/Ypz2iNA2A
-         Sv3x9jcjfz7flyzkXq05oLWW618ut1cxp78rfakhMZETTaSgNZq+u/wzJlvoMQ78x2S+
-         Xs28rQqYPa4RoWDQuKP4bqQA5R7BbbQZyEz1FNRWrcAiCvcNS8yh4Kv+cjfHAcu2zoTb
-         /pgtORLdR/SODh5C/ExSBmUkNed9KbdQCO0qaWGLPoBq8BwkVy9ms1V7yZsv5IWb9UgB
-         y3hWWgBcsK0gLmiWzC9DmuAkMTr4OYTmD9ea2Un7/79P9Lg9cxLdQt+K0m9oaawNd6n9
-         LOSg==
-X-Gm-Message-State: ANoB5plWskY0AtQbbLxVQ8JyamcJcyhsU0HrvrOYSKWwGGIW2GP9Fyhk
-        TYC1trrCslVKLvwtvfHO6d7TYhNA/2bzpw==
-X-Google-Smtp-Source: AA0mqf6q4wLZeHozPzEBFURwqXR7x32FJI+HUNPOe1wylzr82KXspR83HYuDCl5wBULkeZtrd47+wA==
-X-Received: by 2002:a17:906:a1a:b0:79e:9aea:7b60 with SMTP id w26-20020a1709060a1a00b0079e9aea7b60mr44168125ejf.444.1669641153169;
-        Mon, 28 Nov 2022 05:12:33 -0800 (PST)
+        bh=1WLwtPLVe+kok+GF/9bkopFID8gJSprLPMTL4UtK5Oo=;
+        b=02JEfIIDot/id5u68CYHBGFU5C1LDYmuzsSde3FkZPLaBR53RSkaLYDsXY52WpA9tM
+         UIgleiZppBznD6+LNFEbclQCeTxvyAkgqb/C2Il9ysQPllJN+9oFzQkCRsfcX7z685lI
+         yBONgyxZSLg2VcZ7kUBG1a/AyzugGuXF3SLVFhEZ9xV5sqh77g2BM7goM88JHX59/Vt6
+         C4BH57MrfEydmqnf7UtH3sGrqsKpicAgm0rwfU5Tn6l/szNKXj+0UeIGt9mJ+tk6Qfsx
+         xncwYRV9dpIbLPDpS7UVMWiMLncvoZiM1L84qII2jBLjHjWRIgk/ynhsoxtOJ+bjwMeH
+         fw1w==
+X-Gm-Message-State: ANoB5pmiSHIzklrRKSE6q4u7IvI/dzqqSMLCigZfj7xsGfSnztgkFQeQ
+        9eEhMRRM/mHsCqWBCYTo8zK0Lw==
+X-Google-Smtp-Source: AA0mqf4cqBo1/fepcCplaAk0A1rjj7bMDmJQY2UZXpop/ZjNZbOep5IJOxmchubwJRlz1l8nrsOMtA==
+X-Received: by 2002:a17:906:9402:b0:78d:8bb6:ba7f with SMTP id q2-20020a170906940200b0078d8bb6ba7fmr33514976ejx.100.1669641267731;
+        Mon, 28 Nov 2022 05:14:27 -0800 (PST)
 Received: from bender.k.g (lan.nucleusys.com. [92.247.61.126])
-        by smtp.gmail.com with ESMTPSA id kx12-20020a170907774c00b0078c1e174e11sm4906196ejc.136.2022.11.28.05.12.32
+        by smtp.gmail.com with ESMTPSA id n17-20020a05640206d100b00459f4974128sm5175482edy.50.2022.11.28.05.14.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Nov 2022 05:12:32 -0800 (PST)
-Date:   Mon, 28 Nov 2022 15:12:31 +0200
+        Mon, 28 Nov 2022 05:14:27 -0800 (PST)
+Date:   Mon, 28 Nov 2022 15:14:26 +0200
 From:   Petko Manolov <petko.manolov@konsulko.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, sakari.ailus@iki.fi
+To:     Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com,
+        sakari.ailus@iki.fi
 Subject: Re: [PATCH v1 2/5] media: i2c: imx492: driver's header
-Message-ID: <Y4Szv7KGSJMnQMFG@bender.k.g>
+Message-ID: <Y4S0MinGKoYW3Bfq@bender.k.g>
 References: <20221125153120.541298-1-petko.manolov@konsulko.com>
  <20221125153120.541298-3-petko.manolov@konsulko.com>
- <Y4Q7t1Yj/gBSzof3@pendragon.ideasonboard.com>
+ <166963964534.1079859.8944627251139157210@Monstersaurus>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Y4Q7t1Yj/gBSzof3@pendragon.ideasonboard.com>
+In-Reply-To: <166963964534.1079859.8944627251139157210@Monstersaurus>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
@@ -68,19 +69,10 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 22-11-28 06:40:23, Laurent Pinchart wrote:
-> Hi Petko,
-> 
-> Thank you for the patch.
-> 
-> On Fri, Nov 25, 2022 at 05:31:17PM +0200, Petko Manolov wrote:
+On 22-11-28 12:47:25, Kieran Bingham wrote:
+> Quoting Petko Manolov (2022-11-25 15:31:17)
 > > The header.  For the moment only two modes are supported.
-> 
-> No need to split this in a separate patch, you can squash patches 2/5 to 5/5
-> together for v2.
-
-Yup.
-
+> > 
 > > Signed-off-by: Petko Manolov <petko.manolov@konsulko.com>
 > > ---
 > >  drivers/media/i2c/imx492.h | 555 +++++++++++++++++++++++++++++++++++++
@@ -93,574 +85,24 @@ Yup.
 > > --- /dev/null
 > > +++ b/drivers/media/i2c/imx492.h
 > > @@ -0,0 +1,555 @@
-> 
-> Missing SPDX license header. Please run checkpath.pl on the whole series.
-
-OK.
-
-> > +#ifndef	__imx492_h__
-> > +#define	__imx492_h__
-> 
-> checkpatch.pl will also complain about this.
-> 
+> > +#ifndef        __imx492_h__
+> > +#define        __imx492_h__
 > > +
 > > +struct imx492_reg {
-> > +	u16 address;
-> > +	u8 val;
+> > +       u16 address;
+> > +       u8 val;
 > > +};
 > > +
 > > +static const struct imx492_reg mode_17to9_regs[] = {
-> > +	{ 0x3033, 0x30 },
-> > +	{ 0x303c, 0x01 },
-> > +	{ 0x31e8, 0xa0 },
-> > +	{ 0x31f4, 0x01 },
-> > +	{ 0x31e9, 0x00 },
-> > +	{ 0x3122, 0x02 },
-> > +	{ 0x3129, 0x90 },
-> > +	{ 0x312a, 0x02 },
-> > +	{ 0x311f, 0x00 },
-> > +	{ 0x3123, 0x00 },
-> > +	{ 0x3124, 0x00 },
-> > +	{ 0x3125, 0x01 },
-> > +	{ 0x3127, 0x02 },
-> > +	{ 0x312d, 0x02 },
-> > +	{ 0x3000, 0x12 },
-> > +	{ 0x310b, 0x00 },
-> > +	{ 0x3004, 0x1c },
-> > +	{ 0x3005, 0x06 },
-> > +	{ 0x3006, 0x00 },
-> > +	{ 0x3007, 0xa7 },
-> > +	{ 0x3047, 0x02 },
-> > +	{ 0x304e, 0x0b },
-> > +	{ 0x304f, 0x2a },
-> > +	{ 0x3052, 0xee },
-> > +	{ 0x3062, 0x25 },
-> > +	{ 0x3064, 0x78 },
-> > +	{ 0x3065, 0x33 },
-> > +	{ 0x3066, 0x64 },
-> > +	{ 0x3067, 0x71 },
-> > +	{ 0x307e, 0x07 },
-> > +	{ 0x3081, 0x00 },
-> > +	{ 0x3088, 0x75 },
-> > +	{ 0x308a, 0x09 },
-> > +	{ 0x308c, 0x61 },
-> > +	{ 0x30ef, 0x01 },
-> > +	{ 0x3146, 0x00 },
-> > +	{ 0x31f5, 0x01 },
-> > +	{ 0x3234, 0x32 },
-> > +	{ 0x3248, 0xbc },
-> > +	{ 0x3250, 0xbc },
-> > +	{ 0x3258, 0xbc },
-> > +	{ 0x3260, 0xbc },
-> > +	{ 0x3274, 0x13 },
-> > +	{ 0x3276, 0x00 },
-> > +	{ 0x3277, 0x00 },
-> > +	{ 0x327c, 0x13 },
-> > +	{ 0x327e, 0x00 },
-> > +	{ 0x327f, 0x00 },
-> > +	{ 0x3284, 0x13 },
-> > +	{ 0x3286, 0x00 },
-> > +	{ 0x3287, 0x00 },
-> > +	{ 0x328c, 0x13 },
-> > +	{ 0x328e, 0x00 },
-> > +	{ 0x328f, 0x00 },
-> > +	{ 0x32ae, 0x00 },
-> > +	{ 0x32af, 0x00 },
-> > +	{ 0x32ca, 0x5a },
-> > +	{ 0x332c, 0x00 },
-> > +	{ 0x332f, 0x00 },
-> > +	{ 0x334a, 0x00 },
-> > +	{ 0x334c, 0x01 },
-> > +	{ 0x3352, 0x50 },
-> > +	{ 0x3356, 0x4f },
-> > +	{ 0x335a, 0x79 },
-> > +	{ 0x335e, 0x56 },
-> > +	{ 0x3360, 0x6a },
-> > +	{ 0x336a, 0x56 },
-> > +	{ 0x33d6, 0x79 },
-> > +	{ 0x340c, 0x6e },
-> > +	{ 0x3448, 0x7e },
-> > +	{ 0x348e, 0x6f },
-> > +	{ 0x3492, 0x11 },
-> > +	{ 0x34c4, 0x5a },
-> > +	{ 0x3506, 0x56 },
-> > +	{ 0x350c, 0x56 },
-> > +	{ 0x350e, 0x58 },
-> > +	{ 0x353d, 0x10 },
-> > +	{ 0x3549, 0x04 },
-> > +	{ 0x355d, 0x03 },
-> > +	{ 0x355e, 0x03 },
-> > +	{ 0x3574, 0x56 },
-> > +	{ 0x357f, 0x0c },
-> > +	{ 0x3580, 0x0a },
-> > +	{ 0x3581, 0x08 },
-> > +	{ 0x3583, 0x72 },
-> > +	{ 0x3587, 0x01 },
-> > +	{ 0x35b6, 0x00 },
-> > +	{ 0x35b8, 0x00 },
-> > +	{ 0x35d0, 0x5e },
-> > +	{ 0x35d4, 0x63 },
-> > +	{ 0x366a, 0x04 },
-> > +	{ 0x366b, 0x04 },
-> > +	{ 0x366c, 0x00 },
-> > +	{ 0x366d, 0x00 },
-> > +	{ 0x366e, 0x00 },
-> > +	{ 0x366f, 0x00 },
-> > +	{ 0x3670, 0x00 },
-> > +	{ 0x3671, 0x05 },
-> > +	{ 0x3676, 0x83 },
-> > +	{ 0x3677, 0x03 },
-> > +	{ 0x3678, 0x00 },
-> > +	{ 0x3679, 0x04 },
-> > +	{ 0x367a, 0x2c },
-> > +	{ 0x367b, 0x05 },
-> > +	{ 0x367d, 0x06 },
-> > +	{ 0x367e, 0xff },
-> > +	{ 0x367f, 0x06 },
-> > +	{ 0x3680, 0x4b },
-> > +	{ 0x3688, 0x05 },
-> > +	{ 0x3690, 0x27 },
-> > +	{ 0x3692, 0x65 },
-> > +	{ 0x3694, 0x4f },
-> > +	{ 0x3696, 0xa1 },
-> > +	{ 0x36bc, 0x00 },
-> > +	{ 0x371c, 0x02 },
-> > +	{ 0x372f, 0x3c },
-> > +	{ 0x3730, 0x01 },
-> > +	{ 0x3732, 0xb8 },
-> > +	{ 0x3734, 0x4a },
-> > +	{ 0x3736, 0x57 },
-> > +	{ 0x3738, 0x4d },
-> > +	{ 0x3744, 0x0f },
-> > +	{ 0x375b, 0x01 },
-> > +	{ 0x382b, 0x68 },
-> > +	{ 0x38b3, 0x00 },
-> > +	{ 0x3910, 0x90 },
-> > +	{ 0x3911, 0x70 },
-> > +	{ 0x3912, 0x92 },
-> > +	{ 0x3913, 0x24 },
-> > +	{ 0x3914, 0x93 },
-> > +	{ 0x3915, 0x0b },
-> > +	{ 0x3916, 0x01 },
-> > +	{ 0x3918, 0x04 },
-> > +	{ 0x391c, 0x90 },
-> > +	{ 0x391d, 0x05 },
-> > +	{ 0x3920, 0x96 },
-> > +	{ 0x3921, 0x06 },
-> > +	{ 0x3a2a, 0x01 },
-> > +	{ 0x3a7a, 0x01 },
-> > +	{ 0x3a7b, 0x01 },
-> > +	{ 0x3acb, 0x06 },
-> > +	{ 0x3c08, 0x3f },
-> > +	{ 0x3c0c, 0x1b },
-> > +	{ 0x3e80, 0x14 },
-> > +	{ 0x3e82, 0x30 },
-> > +	{ 0x3e84, 0x0c },
-> > +	{ 0x3e85, 0x06 },
-> > +	{ 0x3e86, 0xfc },
-> > +	{ 0x3e87, 0x10 },
-> > +	{ 0x3e88, 0x03 },
-> > +	{ 0x3e89, 0xfe },
-> > +	{ 0x3e8a, 0x01 },
-> > +	{ 0x3e8b, 0x06 },
-> > +	{ 0x3e8e, 0x03 },
-> > +	{ 0x3e8f, 0xfe },
-> > +	{ 0x3e90, 0x01 },
-> > +	{ 0x3e91, 0x06 },
-> > +	{ 0x3e94, 0x33 },
-> > +	{ 0x3e95, 0x01 },
-> > +	{ 0x3e96, 0x19 },
-> > +	{ 0x3e98, 0x30 },
-> > +	{ 0x3e9a, 0x11 },
-> > +	{ 0x3e9b, 0x06 },
-> > +	{ 0x3e9c, 0xfc },
-> > +	{ 0x3e9d, 0x10 },
-> > +	{ 0x3e9e, 0xfe },
-> > +	{ 0x3e9f, 0x03 },
-> > +	{ 0x3ea0, 0x06 },
-> > +	{ 0x3ea3, 0x01 },
-> > +	{ 0x3ea4, 0xfe },
-> > +	{ 0x3ea5, 0x03 },
-> > +	{ 0x3ea6, 0x06 },
-> > +	{ 0x3ea9, 0x33 },
-> > +	{ 0x3eaa, 0x00 },
-> > +	{ 0x3eab, 0x08 },
-> > +	{ 0x3eac, 0x08 },
-> > +	{ 0x3ead, 0x01 },
-> > +	{ 0x3eae, 0x08 },
-> > +	{ 0x3eaf, 0x08 },
-> > +	{ 0x3eb0, 0x00 },
-> > +	{ 0x3eb1, 0x10 },
-> > +	{ 0x3eb2, 0x10 },
-> > +	{ 0x3eb3, 0x01 },
-> > +	{ 0x3eb4, 0x10 },
-> > +	{ 0x3eb5, 0x10 },
-> > +	{ 0x3eb6, 0x00 },
-> > +	{ 0x3eb7, 0x00 },
-> > +	{ 0x3eb8, 0x00 },
-> > +	{ 0x3eb9, 0x00 },
-> > +	{ 0x3eba, 0x00 },
-> > +	{ 0x3ebb, 0x00 },
-> > +	{ 0x3ec0, 0x54 },
-> > +	{ 0x3ecc, 0x04 },
-> > +	{ 0x3ecd, 0x04 },
-> > +	{ 0x3ed0, 0xf0 },
-> > +	{ 0x3ed1, 0x20 },
-> > +	{ 0x3ed2, 0x0b },
-> > +	{ 0x3ed3, 0x04 },
-> > +	{ 0x3ed5, 0x13 },
-> > +	{ 0x3ed6, 0x00 },
-> > +	{ 0x3ed9, 0x0f },
-> > +	{ 0x3ee4, 0x02 },
-> > +	{ 0x3ee5, 0x02 },
-> > +	{ 0x3ee7, 0x00 },
-> > +	{ 0x3ef6, 0x00 },
-> > +	{ 0x3ef8, 0x10 },
-> > +	{ 0x3efa, 0x00 },
-> > +	{ 0x3efc, 0x10 },
-> > +	{ 0x3134, 0xa7 },
-> > +	{ 0x3135, 0x00 },
-> > +	{ 0x3136, 0x9f },
-> > +	{ 0x3137, 0x00 },
-> > +	{ 0x3138, 0x6f },
-> > +	{ 0x3139, 0x00 },
-> > +	{ 0x313a, 0x5f },
-> > +	{ 0x313b, 0x00 },
-> > +	{ 0x313c, 0x5f },
-> > +	{ 0x313d, 0x00 },
-> > +	{ 0x313e, 0x7f },
-> > +	{ 0x313f, 0x01 },
-> > +	{ 0x3140, 0x6f },
-> > +	{ 0x3141, 0x00 },
-> > +	{ 0x3142, 0x4f },
-> > +	{ 0x3143, 0x00 },
-> > +	{ 0x300e, 0x00 },
-> > +	{ 0x300f, 0x00 },
-> > +	{ 0x302c, 0x0c },
-> > +	{ 0x302d, 0x00 },
-> > +	{ 0x3034, 0x01 },
-> > +	{ 0x3035, 0x01 },
-> > +	{ 0x3036, 0x64 },
-> > +	{ 0x3037, 0x00 },
-> > +	{ 0x3038, 0xc8 },
-> > +	{ 0x3039, 0x00 },
-> > +	{ 0x3084, 0x4e },
-> > +	{ 0x3085, 0x04 },
-> > +	{ 0x3086, 0x4e },
-> > +	{ 0x3087, 0x04 },
-> > +	{ 0x30a9, 0xe0 },
-> > +	{ 0x30aa, 0x2e },
-> > +	{ 0x30ab, 0x00 },
-> > +	{ 0x30ac, 0x48 },
-> > +	{ 0x30ad, 0x0d },
-> > +	{ 0x30e2, 0x00 },
-> > +	{ 0x312f, 0x20 },
-> > +	{ 0x3130, 0x1c },
-> > +	{ 0x3131, 0x11 },
-> > +	{ 0x3132, 0xfc },
-> > +	{ 0x3133, 0x10 },
-> > +	{ 0x3a54, 0xf0 },
-> > +	{ 0x3a55, 0x20 },
-> > +	{ 0x3a43, 0x01 },
-> > +	{ 0x3a3b, 0x00 },
-> > +	{ 0x3042, 0x32 },
-> > +	{ 0x3092, 0x00 },
-> > +	{ 0x30dd, 0x00 },
-> > +	{ 0x30de, 0x00 },
-> > +	{ 0x30df, 0x00 },
-> > +	{ 0x30e0, 0x00 },
-> > +	{ 0x30e1, 0x00 },
-> > +	{ 0x332c, 0x00 },
-> > +	{ 0x332d, 0x00 },
-> > +	{ 0x334a, 0x00 },
-> > +	{ 0x334b, 0x00 },
-> > +	{ 0x35b6, 0x00 },
-> > +	{ 0x35b7, 0x00 },
-> > +	{ 0x35b8, 0x00 },
-> > +	{ 0x35b9, 0x00 },
-> > +	{ 0x36bc, 0x00 },
-> > +	{ 0x36bd, 0x00 },
-> > +};
-> > +
-> > +static const struct imx492_reg mode_all_regs[] = {
-> > +	{ 0x3033, 0x30 },
-> > +	{ 0x303c, 0x01 },
-> > +	{ 0x31e8, 0xa0 },
-> > +	{ 0x31f4, 0x01 },
-> > +	{ 0x31e9, 0x00 },
-> > +	{ 0x3122, 0x02 },
-> > +	{ 0x3129, 0x90 },
-> > +	{ 0x312a, 0x02 },
-> > +	{ 0x311f, 0x00 },
-> > +	{ 0x3123, 0x00 },
-> > +	{ 0x3124, 0x00 },
-> > +	{ 0x3125, 0x01 },
-> > +	{ 0x3127, 0x02 },
-> > +	{ 0x312d, 0x02 },
-> > +	{ 0x3000, 0x12 },
-> > +	{ 0x310b, 0x00 },
-> > +	{ 0x3004, 0x1c },
-> > +	{ 0x3005, 0x06 },
-> > +	{ 0x3006, 0x00 },
-> > +	{ 0x3007, 0xa7 },
-> > +	{ 0x3047, 0x02 },
-> > +	{ 0x304e, 0x0b },
-> > +	{ 0x304f, 0x2a },
-> > +	{ 0x3052, 0xee },
-> > +	{ 0x3062, 0x25 },
-> > +	{ 0x3064, 0x78 },
-> > +	{ 0x3065, 0x33 },
-> > +	{ 0x3066, 0x64 },
-> > +	{ 0x3067, 0x71 },
-> > +	{ 0x307e, 0x07 },
-> > +	{ 0x3081, 0x00 },
-> > +	{ 0x3088, 0x75 },
-> > +	{ 0x308a, 0x09 },
-> > +	{ 0x308c, 0x61 },
-> > +	{ 0x30ef, 0x01 },
-> > +	{ 0x3146, 0x00 },
-> > +	{ 0x31f5, 0x01 },
-> > +	{ 0x3234, 0x32 },
-> > +	{ 0x3248, 0xbc },
-> > +	{ 0x3250, 0xbc },
-> > +	{ 0x3258, 0xbc },
-> > +	{ 0x3260, 0xbc },
-> > +	{ 0x3274, 0x13 },
-> > +	{ 0x3276, 0x00 },
-> > +	{ 0x3277, 0x00 },
-> > +	{ 0x327c, 0x13 },
-> > +	{ 0x327e, 0x00 },
-> > +	{ 0x327f, 0x00 },
-> > +	{ 0x3284, 0x13 },
-> > +	{ 0x3286, 0x00 },
-> > +	{ 0x3287, 0x00 },
-> > +	{ 0x328c, 0x13 },
-> > +	{ 0x328e, 0x00 },
-> > +	{ 0x328f, 0x00 },
-> > +	{ 0x32ae, 0x00 },
-> > +	{ 0x32af, 0x00 },
-> > +	{ 0x32ca, 0x5a },
-> > +	{ 0x332c, 0x00 },
-> > +	{ 0x332f, 0x00 },
-> > +	{ 0x334a, 0x00 },
-> > +	{ 0x334c, 0x01 },
-> > +	{ 0x3352, 0x50 },
-> > +	{ 0x3356, 0x4f },
-> > +	{ 0x335a, 0x79 },
-> > +	{ 0x335e, 0x56 },
-> > +	{ 0x3360, 0x6a },
-> > +	{ 0x336a, 0x56 },
-> > +	{ 0x33d6, 0x79 },
-> > +	{ 0x340c, 0x6e },
-> > +	{ 0x3448, 0x7e },
-> > +	{ 0x348e, 0x6f },
-> > +	{ 0x3492, 0x11 },
-> > +	{ 0x34c4, 0x5a },
-> > +	{ 0x3506, 0x56 },
-> > +	{ 0x350c, 0x56 },
-> > +	{ 0x350e, 0x58 },
-> > +	{ 0x353d, 0x10 },
-> > +	{ 0x3549, 0x04 },
-> > +	{ 0x355d, 0x03 },
-> > +	{ 0x355e, 0x03 },
-> > +	{ 0x3574, 0x56 },
-> > +	{ 0x357f, 0x0c },
-> > +	{ 0x3580, 0x0a },
-> > +	{ 0x3581, 0x08 },
-> > +	{ 0x3583, 0x72 },
-> > +	{ 0x3587, 0x01 },
-> > +	{ 0x35b6, 0x00 },
-> > +	{ 0x35b8, 0x00 },
-> > +	{ 0x35d0, 0x5e },
-> > +	{ 0x35d4, 0x63 },
-> > +	{ 0x366a, 0x04 },
-> > +	{ 0x366b, 0x04 },
-> > +	{ 0x366c, 0x00 },
-> > +	{ 0x366d, 0x00 },
-> > +	{ 0x366e, 0x00 },
-> > +	{ 0x366f, 0x00 },
-> > +	{ 0x3670, 0x00 },
-> > +	{ 0x3671, 0x05 },
-> > +	{ 0x3676, 0x83 },
-> > +	{ 0x3677, 0x03 },
-> > +	{ 0x3678, 0x00 },
-> > +	{ 0x3679, 0x04 },
-> > +	{ 0x367a, 0x2c },
-> > +	{ 0x367b, 0x05 },
-> > +	{ 0x367d, 0x06 },
-> > +	{ 0x367e, 0xff },
-> > +	{ 0x367f, 0x06 },
-> > +	{ 0x3680, 0x4b },
-> > +	{ 0x3688, 0x05 },
-> > +	{ 0x3690, 0x27 },
-> > +	{ 0x3692, 0x65 },
-> > +	{ 0x3694, 0x4f },
-> > +	{ 0x3696, 0xa1 },
-> > +	{ 0x36bc, 0x00 },
-> > +	{ 0x371c, 0x02 },
-> > +	{ 0x372f, 0x3c },
-> > +	{ 0x3730, 0x01 },
-> > +	{ 0x3732, 0xb8 },
-> > +	{ 0x3734, 0x4a },
-> > +	{ 0x3736, 0x57 },
-> > +	{ 0x3738, 0x4d },
-> > +	{ 0x3744, 0x0f },
-> > +	{ 0x375b, 0x01 },
-> > +	{ 0x382b, 0x68 },
-> > +	{ 0x38b3, 0x00 },
-> > +	{ 0x3910, 0x90 },
-> > +	{ 0x3911, 0x70 },
-> > +	{ 0x3912, 0x92 },
-> > +	{ 0x3913, 0x24 },
-> > +	{ 0x3914, 0x93 },
-> > +	{ 0x3915, 0x0b },
-> > +	{ 0x3916, 0x01 },
-> > +	{ 0x3918, 0x04 },
-> > +	{ 0x391c, 0x90 },
-> > +	{ 0x391d, 0x05 },
-> > +	{ 0x3920, 0x96 },
-> > +	{ 0x3921, 0x06 },
-> > +	{ 0x3a2a, 0x01 },
-> > +	{ 0x3a7a, 0x01 },
-> > +	{ 0x3a7b, 0x01 },
-> > +	{ 0x3acb, 0x06 },
-> > +	{ 0x3c08, 0x3f },
-> > +	{ 0x3c0c, 0x1b },
-> > +	{ 0x3e80, 0x14 },
-> > +	{ 0x3e82, 0x30 },
-> > +	{ 0x3e84, 0x0c },
-> > +	{ 0x3e85, 0x06 },
-> > +	{ 0x3e86, 0xfc },
-> > +	{ 0x3e87, 0x10 },
-> > +	{ 0x3e88, 0x03 },
-> > +	{ 0x3e89, 0xfe },
-> > +	{ 0x3e8a, 0x01 },
-> > +	{ 0x3e8b, 0x06 },
-> > +	{ 0x3e8e, 0x03 },
-> > +	{ 0x3e8f, 0xfe },
-> > +	{ 0x3e90, 0x01 },
-> > +	{ 0x3e91, 0x06 },
-> > +	{ 0x3e94, 0x33 },
-> > +	{ 0x3e95, 0x01 },
-> > +	{ 0x3e96, 0x19 },
-> > +	{ 0x3e98, 0x30 },
-> > +	{ 0x3e9a, 0x11 },
-> > +	{ 0x3e9b, 0x06 },
-> > +	{ 0x3e9c, 0xfc },
-> > +	{ 0x3e9d, 0x10 },
-> > +	{ 0x3e9e, 0xfe },
-> > +	{ 0x3e9f, 0x03 },
-> > +	{ 0x3ea0, 0x06 },
-> > +	{ 0x3ea3, 0x01 },
-> > +	{ 0x3ea4, 0xfe },
-> > +	{ 0x3ea5, 0x03 },
-> > +	{ 0x3ea6, 0x06 },
-> > +	{ 0x3ea9, 0x33 },
-> > +	{ 0x3eaa, 0x00 },
-> > +	{ 0x3eab, 0x08 },
-> > +	{ 0x3eac, 0x08 },
-> > +	{ 0x3ead, 0x01 },
-> > +	{ 0x3eae, 0x08 },
-> > +	{ 0x3eaf, 0x08 },
-> > +	{ 0x3eb0, 0x00 },
-> > +	{ 0x3eb1, 0x10 },
-> > +	{ 0x3eb2, 0x10 },
-> > +	{ 0x3eb3, 0x01 },
-> > +	{ 0x3eb4, 0x10 },
-> > +	{ 0x3eb5, 0x10 },
-> > +	{ 0x3eb6, 0x00 },
-> > +	{ 0x3eb7, 0x00 },
-> > +	{ 0x3eb8, 0x00 },
-> > +	{ 0x3eb9, 0x00 },
-> > +	{ 0x3eba, 0x00 },
-> > +	{ 0x3ebb, 0x00 },
-> > +	{ 0x3ec0, 0x54 },
-> > +	{ 0x3ecc, 0x04 },
-> > +	{ 0x3ecd, 0x04 },
-> > +	{ 0x3ed0, 0xf0 },
-> > +	{ 0x3ed1, 0x20 },
-> > +	{ 0x3ed2, 0x0b },
-> > +	{ 0x3ed3, 0x04 },
-> > +	{ 0x3ed5, 0x13 },
-> > +	{ 0x3ed6, 0x00 },
-> > +	{ 0x3ed9, 0x0f },
-> > +	{ 0x3ee4, 0x02 },
-> > +	{ 0x3ee5, 0x02 },
-> > +	{ 0x3ee7, 0x00 },
-> > +	{ 0x3ef6, 0x00 },
-> > +	{ 0x3ef8, 0x10 },
-> > +	{ 0x3efa, 0x00 },
-> > +	{ 0x3efc, 0x10 },
-> > +	{ 0x3134, 0xa7 },
-> > +	{ 0x3135, 0x00 },
-> > +	{ 0x3136, 0x9f },
-> > +	{ 0x3137, 0x00 },
-> > +	{ 0x3138, 0x6f },
-> > +	{ 0x3139, 0x00 },
-> > +	{ 0x313a, 0x5f },
-> > +	{ 0x313b, 0x00 },
-> > +	{ 0x313c, 0x5f },
-> > +	{ 0x313d, 0x00 },
-> > +	{ 0x313e, 0x7f },
-> > +	{ 0x313f, 0x01 },
-> > +	{ 0x3140, 0x6f },
-> > +	{ 0x3141, 0x00 },
-> > +	{ 0x3142, 0x4f },
-> > +	{ 0x3143, 0x00 },
-> > +	{ 0x300e, 0x00 },
-> > +	{ 0x300f, 0x00 },
-> > +	{ 0x302c, 0x0c },
-> > +	{ 0x302d, 0x00 },
-> > +	{ 0x3034, 0x01 },
-> > +	{ 0x3035, 0x01 },
-> > +	{ 0x3036, 0x64 },
-> > +	{ 0x3037, 0x00 },
-> > +	{ 0x3038, 0xc8 },
-> > +	{ 0x3039, 0x00 },
-> > +	{ 0x3084, 0x4e },
-> > +	{ 0x3085, 0x04 },
-> > +	{ 0x3086, 0x4e },
-> > +	{ 0x3087, 0x04 },
-> > +	{ 0x30a9, 0xe0 },
-> > +	{ 0x30aa, 0x2e },
-> > +	{ 0x30ab, 0x00 },
-> > +	{ 0x30ac, 0x48 },
-> > +	{ 0x30ad, 0x0d },
-> > +	{ 0x30e2, 0x00 },
-> > +	{ 0x312f, 0x20 },
-> > +	{ 0x3130, 0x1c },
-> > +	{ 0x3131, 0x11 },
-> > +	{ 0x3132, 0xfc },
-> > +	{ 0x3133, 0x10 },
-> > +	{ 0x3a54, 0xf0 },
-> > +	{ 0x3a55, 0x20 },
-> > +	{ 0x3a43, 0x01 },
-> > +	{ 0x3a3b, 0x00 },
-> > +	{ 0x3042, 0x32 },
-> > +	{ 0x3092, 0x00 },
-> > +	{ 0x30dd, 0x00 },
-> > +	{ 0x30de, 0x00 },
-> > +	{ 0x30df, 0x00 },
-> > +	{ 0x30e0, 0x00 },
-> > +	{ 0x30e1, 0x00 },
-> > +	{ 0x332c, 0x00 },
-> > +	{ 0x332d, 0x00 },
-> > +	{ 0x334a, 0x00 },
-> > +	{ 0x334b, 0x00 },
-> > +	{ 0x35b6, 0x00 },
-> > +	{ 0x35b7, 0x00 },
-> > +	{ 0x35b8, 0x00 },
-> > +	{ 0x35b9, 0x00 },
-> > +	{ 0x36bc, 0x00 },
-> > +	{ 0x36bd, 0x00 },
-> > +};
-> > +
-> > +#endif /* __imx492_h__ */
 > 
-> -- 
-> Regards,
-> 
-> Laurent Pinchart
+> Why is this table in the header? Should it be available in multiple locations?
+
+Nope, but there are multiple modes that will eventually be in use and scrolling
+down a couple of seconds until one gets to the code started to get a bit boring.
+
+> I think it is likely better in the driver itself.
+
+Will put register definitions in the .c file for the time being.
 
 
 		Petko
