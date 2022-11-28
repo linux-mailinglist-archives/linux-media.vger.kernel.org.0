@@ -2,43 +2,44 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7E26F63A971
-	for <lists+linux-media@lfdr.de>; Mon, 28 Nov 2022 14:28:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4383D63A986
+	for <lists+linux-media@lfdr.de>; Mon, 28 Nov 2022 14:31:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230392AbiK1N2u (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 28 Nov 2022 08:28:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54600 "EHLO
+        id S230453AbiK1NbT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 28 Nov 2022 08:31:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56774 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230241AbiK1N2s (ORCPT
+        with ESMTP id S231545AbiK1Nay (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 28 Nov 2022 08:28:48 -0500
+        Mon, 28 Nov 2022 08:30:54 -0500
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B5D681144F
-        for <linux-media@vger.kernel.org>; Mon, 28 Nov 2022 05:28:46 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5198E1E701
+        for <linux-media@vger.kernel.org>; Mon, 28 Nov 2022 05:30:53 -0800 (PST)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 20027501;
-        Mon, 28 Nov 2022 14:28:45 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id A8838501;
+        Mon, 28 Nov 2022 14:30:51 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1669642125;
-        bh=jj3Q5w4nDi++LCHmvDM+vZ8t7/9LC+giR9BKGuQisjQ=;
+        s=mail; t=1669642251;
+        bh=3x6S0F5Y1hSjPvL9oIzcFkhveW/TYxJ/GmweavKKHyI=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=vQIO+oa6OWx+F0Gx78VaWBmfQXFQaURi3AJddTSLW+1tVzZA17Ecv9SC075Xhzilc
-         f6uDejjjUEIhk0jd9EXTWUqzclYGXMfg7/j1RRIl1miHCQWRP4+6N8JhRexrYPTUme
-         amFd87s1MVY670qWiqxq2w4mulXwQ7b+NKeSB14s=
-Date:   Mon, 28 Nov 2022 15:28:30 +0200
+        b=T5Z3t4ywVbfIZrHQFY6t9Qg4u3U8Kc6ujS6IYGcOroKTqUIGPjvisP1qetqrWknMr
+         XuGieYziXhB+3WiciwbCjfU+K5sSzF5u1trIGeltKpxjVzgyFdHYXmtnISBXw7WGzi
+         ByHnGDl1gtv68qCnEkko6xwZVsROLXF8KYLVFHeI=
+Date:   Mon, 28 Nov 2022 15:30:37 +0200
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Petko Manolov <petko.manolov@konsulko.com>
-Cc:     linux-media@vger.kernel.org, sakari.ailus@iki.fi
-Subject: Re: [PATCH v1 1/5] DT bindings for imx492
-Message-ID: <Y4S3fpziQPmL3Nvi@pendragon.ideasonboard.com>
+Cc:     Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        linux-media@vger.kernel.org, sakari.ailus@iki.fi
+Subject: Re: [PATCH v1 2/5] media: i2c: imx492: driver's header
+Message-ID: <Y4S3/UVEPZscrbag@pendragon.ideasonboard.com>
 References: <20221125153120.541298-1-petko.manolov@konsulko.com>
- <20221125153120.541298-2-petko.manolov@konsulko.com>
- <Y4Q7JiJlhUL96yBW@pendragon.ideasonboard.com>
- <Y4SyiutWc2r52KVt@bender.k.g>
+ <20221125153120.541298-3-petko.manolov@konsulko.com>
+ <166963964534.1079859.8944627251139157210@Monstersaurus>
+ <Y4S0MinGKoYW3Bfq@bender.k.g>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <Y4SyiutWc2r52KVt@bender.k.g>
+In-Reply-To: <Y4S0MinGKoYW3Bfq@bender.k.g>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
         autolearn=ham autolearn_force=no version=3.4.6
@@ -48,186 +49,48 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Nov 28, 2022 at 03:07:22PM +0200, Petko Manolov wrote:
-> On 22-11-28 06:37:58, Laurent Pinchart wrote:
-> > Hi Petko,
-> > 
-> > Thank you for the patch.
-> > 
-> > The subject line should start with the proper prefix. Look at the git
-> > log in the directory to see what is customary. Furthermore,
-> > s/imx492/Sony IMX492/.
-> > 
-> > On Fri, Nov 25, 2022 at 05:31:16PM +0200, Petko Manolov wrote:
-> > > Here goes the DT bindings file.
-> > 
-> > This is also a peculiar commit message :-)
-> 
-> Short and to the point, isn't it? :)
-> 
-> Honestly, i'm not sure what else i should put as subject line, apart from "Sony
-> IMX492".
-
-media: dt-bindings: Add binding for Sony IMX492 camera sensor
-
-would be a good subject line.
-
+On Mon, Nov 28, 2022 at 03:14:26PM +0200, Petko Manolov wrote:
+> On 22-11-28 12:47:25, Kieran Bingham wrote:
+> > Quoting Petko Manolov (2022-11-25 15:31:17)
+> > > The header.  For the moment only two modes are supported.
+> > > 
 > > > Signed-off-by: Petko Manolov <petko.manolov@konsulko.com>
 > > > ---
-> > >  .../bindings/media/i2c/sony,imx492.yaml       | 101 ++++++++++++++++++
-> > >  1 file changed, 101 insertions(+)
-> > >  create mode 100644 Documentation/devicetree/bindings/media/i2c/sony,imx492.yaml
+> > >  drivers/media/i2c/imx492.h | 555 +++++++++++++++++++++++++++++++++++++
+> > >  1 file changed, 555 insertions(+)
+> > >  create mode 100644 drivers/media/i2c/imx492.h
 > > > 
-> > > diff --git a/Documentation/devicetree/bindings/media/i2c/sony,imx492.yaml b/Documentation/devicetree/bindings/media/i2c/sony,imx492.yaml
+> > > diff --git a/drivers/media/i2c/imx492.h b/drivers/media/i2c/imx492.h
 > > > new file mode 100644
-> > > index 000000000000..f4feef17c677
+> > > index 000000000000..301fd66c77d5
 > > > --- /dev/null
-> > > +++ b/Documentation/devicetree/bindings/media/i2c/sony,imx492.yaml
-> > > @@ -0,0 +1,101 @@
-> > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > > +%YAML 1.2
-> > > +---
-> > > +$id: http://devicetree.org/schemas/media/i2c/sony,imx492.yaml#
-> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > > +++ b/drivers/media/i2c/imx492.h
+> > > @@ -0,0 +1,555 @@
+> > > +#ifndef        __imx492_h__
+> > > +#define        __imx492_h__
 > > > +
-> > > +title: Sony imx492 Sensor
+> > > +struct imx492_reg {
+> > > +       u16 address;
+> > > +       u8 val;
+> > > +};
+> > > +
+> > > +static const struct imx492_reg mode_17to9_regs[] = {
 > > 
-> > s/imx492/IMX492/. Same below. When referring to the hardware, it's
-> > customary to use uppercase.
+> > Why is this table in the header? Should it be available in multiple locations?
 > 
-> OK.
+> Nope, but there are multiple modes that will eventually be in use and scrolling
+> down a couple of seconds until one gets to the code started to get a bit boring.
+
+Ideally we should get rid of those tables and use logic to compute
+register values :-) That's a dream only at this point though.
+
+I agree with Kieran that everything could be in the same file, and I
+also agree with you that it's not nice to have a large list of registers
+at the beginning of the driver. I'm thus fine with either option.
+
+> > I think it is likely better in the driver itself.
 > 
-> > > +
-> > > +maintainers:
-> > > +  - Petko Manolov <petko.manolov@konsulko.com>
-> > > +
-> > > +description:
-> > > +
-> > > +  imx492 is a diagonal 23.1 mm (Type 1.4) CMOS image sensor with color or
-> > > +  monochrome square pixel array and approximately 47.08 M effective pixels.
-> > > +  12-bit digital output makes it possible to output the signals with high
-> > > +  definition for moving pictures. It is programmable through I2C interface. The
-> > > +  I2C client address can be either 0x10 or 0x1a depending on SLASEL pin. Image
-> > > +  data is sent through MIPI CSI-2.
-> > > +
-> > > +properties:
-> > > +  compatible:
-> > > +    const: sony,imx492
-> > 
-> > Missing blank line.
-> 
-> OK.
-> 
-> > > +  reg:
-> > > +    description: I2C address
-> > 
-> > You can drop the description.
-> > 
-> > > +    maxItems: 1
-> > > +
-> > > +  assigned-clocks: true
-> > > +  assigned-clock-parents: true
-> > > +  assigned-clock-rates: true
-> > 
-> > This shouldn't be needed.
-> 
-> OK.
-> 
-> > > +
-> > > +  clocks:
-> > > +    description: Clock frequency 6MHz, 12MHz, 18MHz and 24MHz
-> > 
-> > If you know the name of the clock pin, I would include it here.
-> 
-> OK.
-> 
-> > > +    maxItems: 1
-> > > +
-> > > +  dovdd-supply:
-> > > +    description: Interface power supply.
-> > 
-> > I would list the voltage. Same below.
-> 
-> OK.
-> 
-> > > +
-> > > +  avdd-supply:
-> > > +    description: Analog power supply.
-> > > +
-> > > +  dvdd-supply:
-> > > +    description: Digital power supply.
-> > > +
-> > > +  reset-gpios:
-> > > +    description: Reference to the GPIO connected to the XCLR pin, if any.
-> > > +    maxItems: 1
-> > > +
-> > > +  port:
-> > > +    additionalProperties: false
-> > > +    $ref: /schemas/graph.yaml#/$defs/port-base
-> > > +
-> > > +    properties:
-> > > +      endpoint:
-> > > +        $ref: /schemas/media/video-interfaces.yaml#
-> > > +        unevaluatedProperties: false
-> > > +
-> > > +        properties:
-> > > +          data-lanes: true
-> > > +          link-frequencies: true
-> > > +
-> > > +        required:
-> > > +          - data-lanes
-> > > +          - link-frequencies
-> > > +
-> > > +    required:
-> > > +      - endpoint
-> > > +
-> > > +required:
-> > > +  - compatible
-> > > +  - reg
-> > > +  - clocks
-> > > +  - port
-> > > +
-> > > +additionalProperties: false
-> > > +
-> > > +examples:
-> > > +  - |
-> > > +    i2c0 {
-> > > +        #address-cells = <1>;
-> > > +        #size-cells = <0>;
-> > > +
-> > > +        camera@10 {
-> > > +            compatible = "sony,imx492";
-> > > +            reg = <0x10>;
-> > > +            clocks = <&imx492_clk>;
-> > > +
-> > > +            assigned-clocks = <&imx492_clk>;
-> > > +            assigned-clock-parents = <&imx492_clk_parent>;
-> > > +            assigned-clock-rates = <24000000>;
-> > 
-> > You can drop this from the example, it doesn't showcase the DT bindings for
-> > the IMX492.
-> 
-> OK.
-> 
-> > > +
-> > > +            port {
-> > > +                imx492: endpoint {
-> > 
-> > s/imx492/imx492_out/
-> > 
-> > > +                    remote-endpoint = <&cam>;
-> > 
-> > s/cam/cam_in/
-> 
-> OK to both of the above.
-> 
-> > > +                    data-lanes = <1 2 3 4>;
-> > > +                    link-frequencies = /bits/ 64 <600000000>;
-> > > +                };
-> > > +            };
-> > > +        };
-> > > +    };
-> > > +...
+> Will put register definitions in the .c file for the time being.
 
 -- 
 Regards,
