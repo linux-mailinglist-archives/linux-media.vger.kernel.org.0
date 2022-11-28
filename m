@@ -2,193 +2,121 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6113A63B3AD
-	for <lists+linux-media@lfdr.de>; Mon, 28 Nov 2022 21:49:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7541B63B459
+	for <lists+linux-media@lfdr.de>; Mon, 28 Nov 2022 22:45:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234319AbiK1UtD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 28 Nov 2022 15:49:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58240 "EHLO
+        id S232919AbiK1VpQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 28 Nov 2022 16:45:16 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38924 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234350AbiK1Usd (ORCPT
+        with ESMTP id S232860AbiK1VpM (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 28 Nov 2022 15:48:33 -0500
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7AF892F661;
-        Mon, 28 Nov 2022 12:48:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-        s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
-        References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
-        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-        Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-        List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=Jz2hvAT/K6kCHF/STG2fHRhRhklQMEYtVkKxZL0G/yU=; b=ZNh1cCs+OiKgGuoJs5FtQ/uRs5
-        hVRJoqFiqAPIHwkJvEstX0NjVH85b+in8BuqEhg5H6wrrm7NyilFdlV2xnWJXKYZtuuVxriI7wexm
-        dDL11fSvBT8hhLmBgJLrmn8Pj6ZjMLNLKKywJK+l4SDW6SvGtcAZfdjarNnrN75zeYdqGexm7XNdA
-        HS8AcxKqDpuHdUoujTpZ6zcVX1BGib3UgVFcRZJhwmDGQbx4gfa24oCd1QPt2ZaOBglpf55SZYuRh
-        zpUV4hC/JMvYU+XczsOekT86Mrll6hv86e1RFBqMLRl9RS7S0DJoVRPBaddiihnOtTZVped+TX70j
-        yp7h0p6g==;
-Received: from [177.34.169.227] (helo=[192.168.0.8])
-        by fanzine2.igalia.com with esmtpsa 
-        (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
-        id 1ozl2x-00AcwT-CJ; Mon, 28 Nov 2022 21:48:11 +0100
-Message-ID: <9b321967-917c-0afd-0483-7c5d72479f0e@igalia.com>
-Date:   Mon, 28 Nov 2022 17:48:02 -0300
+        Mon, 28 Nov 2022 16:45:12 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24F4B2B618
+        for <linux-media@vger.kernel.org>; Mon, 28 Nov 2022 13:44:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1669671859;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=jjeIa9pagPqNk41fRJdTkVrz+H7PIkcsjSzIe9Ct0qI=;
+        b=jGj0C2x1/5WHUVVoCxm1TmRITYpN/tpreT2ZxtY4WB3ytLutOpKoSHVFkJ3ppeN/IHqZya
+        W+tt9JHbjhAjep1IkAUpKOYWdXLpBW0lk4TcyOLgegXhOvPdwKwCY5zfQPYUu4zeTsm4gn
+        va2tNz0cysLhGTzmlAtml1HlQ6m5AJE=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-79-WGq9Iw5XNrS9CZv8JPvVEg-1; Mon, 28 Nov 2022 16:44:13 -0500
+X-MC-Unique: WGq9Iw5XNrS9CZv8JPvVEg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com [10.11.54.2])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E3702811E7A;
+        Mon, 28 Nov 2022 21:44:12 +0000 (UTC)
+Received: from shalem.redhat.com (unknown [10.39.192.115])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 2291940C6EC2;
+        Mon, 28 Nov 2022 21:44:11 +0000 (UTC)
+From:   Hans de Goede <hdegoede@redhat.com>
+To:     Mark Gross <markgross@kernel.org>,
+        Andy Shevchenko <andy@kernel.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Daniel Scally <djrscally@gmail.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Hans de Goede <hdegoede@redhat.com>,
+        platform-driver-x86@vger.kernel.org, linux-gpio@vger.kernel.org,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Kate Hsuan <hpa@redhat.com>, linux-media@vger.kernel.org
+Subject: [PATCH 0/5] gpio/media/int3472: Add support for tps68470 privacy-LED output
+Date:   Mon, 28 Nov 2022 22:44:03 +0100
+Message-Id: <20221128214408.165726-1-hdegoede@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Subject: Re: [PATCH v2 00/17] drm: Introduce Kunit Tests to VC4
-Content-Language: en-US
-To:     Maxime Ripard <maxime@cerno.tech>, Daniel Vetter <daniel@ffwll.ch>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        David Airlie <airlied@gmail.com>,
-        Thomas Zimmermann <tzimmermann@suse.de>
-Cc:     dri-devel@lists.freedesktop.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        kunit-dev@googlegroups.com, linux-media@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
-        Brendan Higgins <brendan.higgins@linux.dev>,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        Javier Martinez Canillas <javierm@redhat.com>,
-        linux-kernel@vger.kernel.org, David Gow <davidgow@google.com>
-References: <20221123-rpi-kunit-tests-v2-0-efe5ed518b63@cerno.tech>
-From:   =?UTF-8?Q?Ma=c3=adra_Canal?= <mcanal@igalia.com>
-In-Reply-To: <20221123-rpi-kunit-tests-v2-0-efe5ed518b63@cerno.tech>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 11/28/22 11:53, Maxime Ripard wrote:
-> Hi,
-> 
-> This series introduce Kunit tests to the vc4 KMS driver, but unlike what we
-> have been doing so far in KMS, it actually tests the atomic modesetting code.
-> 
-> In order to do so, I've had to improve a fair bit on the Kunit helpers already
-> found in the tree in order to register a full blown and somewhat functional KMS
-> driver.
-> 
-> It's of course relying on a mock so that we can test it anywhere. The mocking
-> approach created a number of issues, the main one being that we need to create
-> a decent mock in the first place, see patch 22. The basic idea is that I
-> created some structures to provide a decent approximation of the actual
-> hardware, and that would support both major architectures supported by vc4.
-> 
-> This is of course meant to evolve over time and support more tests, but I've
-> focused on testing the HVS FIFO assignment code which is fairly tricky (and the
-> tests have actually revealed one more bug with our current implementation). I
-> used to have a userspace implementation of those tests, where I would copy and
-> paste the kernel code and run the tests on a regular basis. It's was obviously
-> fairly suboptimal, so it seemed like the perfect testbed for that series.
-> 
-> It can be run using:
-> ./tools/testing/kunit/kunit.py run \
->         --kunitconfig=drivers/gpu/drm/vc4/tests/.kunitconfig \
->         --cross_compile aarch64-linux-gnu- --arch arm64
-> 
-> Let me know what you think,
-> Maxime
+Hi All,
 
-Hi Maxime,
+While working on the earlier discussed changes for dealing with
+the privacy LED for "discrete" INT3472 ACPI devices I was wondering
+"how are we dealing with the privacy LED when the INT3472 ACPI device
+is a tps68470?".
 
-It is great to see some device mocking with KUnit! Other than the
-comments that I pointed out in the series, I believe that a small entry
-on the VC4 documentation would be nice to cover how to run the tests and
-also what the tests are currently covering.
+Well it turns out we were not dealing with this at all, leading to
+the privacy LED on the back of the Surface Go series not lighting up
+when the back camera is on.
 
-Best Regards,
-- Maíra Canal
+This series fixes this, it consists of:
 
-> 
-> To: David Airlie <airlied@gmail.com>
-> To: Daniel Vetter <daniel@ffwll.ch>
-> To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> To: Maxime Ripard <mripard@kernel.org>
-> To: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> Cc: Javier Martinez Canillas <javierm@redhat.com>
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: Maíra Canal <mairacanal@riseup.net>
-> Cc: Brendan Higgins <brendan.higgins@linux.dev>
-> Cc: David Gow <davidgow@google.com>
-> Cc: linux-kselftest@vger.kernel.org
-> Cc: kunit-dev@googlegroups.com
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: linux-kernel@vger.kernel.org
-> Cc: linux-media@vger.kernel.org
-> Cc: linaro-mm-sig@lists.linaro.org
-> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-> 
-> ---
-> Changes in v2:
-> - Added some documentation for public functions
-> - Removed the fake device probe/remove workqueue 
-> - Made sure the tests could be compiled as modules
-> - Moved the vc4 tests in the vc4 module
-> - Applied some of the preliminary patches
-> - Rebased on top of current drm-misc-next branch
-> - Fixed checkpatch issues
-> - Introduced BCM2835 (Pi0-3) tests for muxing
-> - Introduced tests to cover past bugs we had
-> - Link to v1: https://lore.kernel.org/r/20221123-rpi-kunit-tests-v1-0-051a0bb60a16@cerno.tech
-> 
-> ---
-> Maxime Ripard (17):
->       drm/tests: helpers: Move the helper header to include/drm
->       drm/tests: helpers: Document drm_kunit_device_init()
->       drm/tests: helpers: Rename the device init helper
->       drm/tests: helpers: Remove the name parameter
->       drm/tests: helpers: Create the device in another function
->       drm/tests: helpers: Switch to a platform_device
->       drm/tests: helpers: Make sure the device is bound
->       drm/tests: helpers: Allow for a custom device struct to be allocated
->       drm/tests: helpers: Allow to pass a custom drm_driver
->       drm/tests: Add a test for DRM managed actions
->       drm/vc4: Move HVS state to main header
->       drm/vc4: crtc: Introduce a lower-level crtc init helper
->       drm/vc4: crtc: Make encoder lookup helper public
->       drm/vc4: hvs: Provide a function to initialize the HVS structure
->       drm/vc4: tests: Introduce a mocking infrastructure
->       drm/vc4: tests: Fail the current test if we access a register
->       drm/vc4: tests: Add unit test suite for the PV muxing
-> 
->  drivers/gpu/drm/tests/Makefile                  |    1 +
->  drivers/gpu/drm/tests/drm_client_modeset_test.c |   19 +-
->  drivers/gpu/drm/tests/drm_kunit_helpers.c       |  106 ++-
->  drivers/gpu/drm/tests/drm_kunit_helpers.h       |   11 -
->  drivers/gpu/drm/tests/drm_managed_test.c        |   71 ++
->  drivers/gpu/drm/tests/drm_modes_test.c          |   19 +-
->  drivers/gpu/drm/tests/drm_probe_helper_test.c   |   20 +-
->  drivers/gpu/drm/vc4/Kconfig                     |   15 +
->  drivers/gpu/drm/vc4/Makefile                    |    7 +
->  drivers/gpu/drm/vc4/tests/.kunitconfig          |   14 +
->  drivers/gpu/drm/vc4/tests/vc4_mock.c            |  200 +++++
->  drivers/gpu/drm/vc4/tests/vc4_mock.h            |   63 ++
->  drivers/gpu/drm/vc4/tests/vc4_mock_crtc.c       |   41 +
->  drivers/gpu/drm/vc4/tests/vc4_mock_output.c     |  138 +++
->  drivers/gpu/drm/vc4/tests/vc4_mock_plane.c      |   47 +
->  drivers/gpu/drm/vc4/tests/vc4_test_pv_muxing.c  | 1039 +++++++++++++++++++++++
->  drivers/gpu/drm/vc4/vc4_crtc.c                  |  102 ++-
->  drivers/gpu/drm/vc4/vc4_dpi.c                   |   13 +-
->  drivers/gpu/drm/vc4/vc4_drv.c                   |    4 +-
->  drivers/gpu/drm/vc4/vc4_drv.h                   |   91 +-
->  drivers/gpu/drm/vc4/vc4_dsi.c                   |    9 +-
->  drivers/gpu/drm/vc4/vc4_hdmi_regs.h             |    4 +
->  drivers/gpu/drm/vc4/vc4_hvs.c                   |   81 +-
->  drivers/gpu/drm/vc4/vc4_kms.c                   |   25 +-
->  drivers/gpu/drm/vc4/vc4_txp.c                   |   15 +-
->  drivers/gpu/drm/vc4/vc4_vec.c                   |   13 +-
->  include/drm/drm_kunit_helpers.h                 |   91 ++
->  27 files changed, 2087 insertions(+), 172 deletions(-)
-> ---
-> base-commit: 199557fab92548f8e9d5207e385097213abe0cab
-> change-id: 20221123-rpi-kunit-tests-87a388492a73
-> 
-> Best regards,
+Patches 1-2: 2 small bugfixes to the gpio-tps68470 code
+Patch3:      Add support for the indicator LED outputs on the tps68470 as GPIOs
+Patch4:      Add support for a privacy LED to the ov8865 sensor driver
+Patch5:      Add gpio-lookup table entry for the privacy LED.
+
+There is one small issue here, I believe that patches 1-3 need to land before
+4 + 5 do. Once 4 + 5 have landed the ov8865 driver will try to get a
+GPIO with pin number 10 from the gpio-tps68470 provider and without patch 3,
+that will fail because only pins 0-9 exist until patch 3 lands.
+
+The easiest way to avoid this issue would be for me to merge patches 1-3 +
+5 through the pdx86 tree. GPIO subsystem maintainers, may I have your ack
+for this ?
+
+Note patch 4 is not a problem without patch 5, it uses gpiod_get_optional,
+so as long as there is no lookup entry for a "privacy-led" GPIO it is
+a no-op.
+
+Regards,
+
+Hans
+
+
+
+Hans de Goede (5):
+  gpio: tps68470: Fix tps68470_gpio_get() reading from the wrong
+    register
+  gpio: tps68470: Make tps68470_gpio_output() always set the initial
+    value
+  gpio: tps68470: Add support for the indicator LED outputs
+  media: ov8865: Add support for a privacy-led GPIO
+  platform/x86: int3472: Add support for the back privacy LED on Surface
+    Go models
+
+ drivers/gpio/gpio-tps68470.c                  | 52 +++++++++++++------
+ drivers/media/i2c/ov8865.c                    |  9 ++++
+ .../x86/intel/int3472/tps68470_board_data.c   |  1 +
+ include/linux/mfd/tps68470.h                  |  4 ++
+ 4 files changed, 49 insertions(+), 17 deletions(-)
+
+-- 
+2.38.1
+
