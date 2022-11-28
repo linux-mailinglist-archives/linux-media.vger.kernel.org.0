@@ -2,56 +2,44 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E741163AA01
-	for <lists+linux-media@lfdr.de>; Mon, 28 Nov 2022 14:49:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9248C63AA1B
+	for <lists+linux-media@lfdr.de>; Mon, 28 Nov 2022 14:53:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231933AbiK1Nta (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 28 Nov 2022 08:49:30 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46116 "EHLO
+        id S232235AbiK1NxL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 28 Nov 2022 08:53:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49796 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232119AbiK1Nt0 (ORCPT
+        with ESMTP id S232234AbiK1Nwr (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 28 Nov 2022 08:49:26 -0500
+        Mon, 28 Nov 2022 08:52:47 -0500
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 61F961EECF;
-        Mon, 28 Nov 2022 05:49:24 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2152DDB9;
+        Mon, 28 Nov 2022 05:52:33 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id E15EE6118A;
-        Mon, 28 Nov 2022 13:49:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF178C433D7;
-        Mon, 28 Nov 2022 13:49:18 +0000 (UTC)
-Message-ID: <738a2461-7a6a-286b-89e8-d46a26ec6506@xs4all.nl>
-Date:   Mon, 28 Nov 2022 14:49:17 +0100
+        by dfw.source.kernel.org (Postfix) with ESMTPS id AB00C6118C;
+        Mon, 28 Nov 2022 13:52:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A05DC433C1;
+        Mon, 28 Nov 2022 13:52:30 +0000 (UTC)
+Message-ID: <538d4c30-aa78-ed05-4c46-84018fd9afdd@xs4all.nl>
+Date:   Mon, 28 Nov 2022 14:52:28 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.3.0
-Subject: Re: [PATCH v4 6/9] media: i2c: ov5645: Use runtime PM
+Subject: Re: [PATCH v5 0/2] ov9282: Add ov9281 support
 Content-Language: en-US
-To:     Prabhakar <prabhakar.csengg@gmail.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+To:     Alexander Stein <alexander.stein@ew.tq-group.com>,
+        "Paul J . Murphy" <paul.j.murphy@intel.com>,
+        Daniele Alessandrelli <daniele.alessandrelli@intel.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>
-Cc:     Shawn Tu <shawnx.tu@intel.com>, Jacopo Mondi <jacopo@jmondi.org>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-renesas-soc@vger.kernel.org,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20221031232202.131945-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20221031232202.131945-7-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        Sakari Ailus <sakari.ailus@iki.fi>
+References: <20221124102959.1605202-1-alexander.stein@ew.tq-group.com>
 From:   Hans Verkuil <hverkuil@xs4all.nl>
-In-Reply-To: <20221031232202.131945-7-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20221124102959.1605202-1-alexander.stein@ew.tq-group.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-6.9 required=5.0 tests=BAYES_00,
@@ -63,154 +51,48 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Prabhakar,
+Hi Alexander,
 
-On 11/1/22 00:21, Prabhakar wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+On 11/24/22 11:29, Alexander Stein wrote:
+> Hello all,
 > 
-> Switch to using runtime PM for power management.
+> This is v5 of the ov9281 support series. Thanks for the feedback I received
+> over the time.
 > 
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> ---
-> v3->v4
-> * Fixed comments pointed by Sakari
+> Changes in v5:
+> * Removed unrelated patches from the series
+> * Squashed previous patch 3 & 6 (now patch 2)
+> * Removed error handling for device_get_match_data() call
+> * Added Kieran's r-b to patch 2
 > 
-> v2->v3
-> * Jumped to err_pm_runtime label in case of sd register failure
-> * Now calling pm_runtime_mark_last_busy() before pm_runtime_put_autosuspend()
->   call
-> * Now calling pm_runtime_put_sync() in case s_stream(1) fails
-> * In s_stream(0) no calling pm_runtime_mark_last_busy() and
->   pm_runtime_put_autosuspend()
-> * Included RB tag from Laurent.
+> Best regards,
+> Alexander
 > 
-> v1->v2
-> * Moved pm_runtime_*_autosuspend() calls after registering the subdev.
-> ---
->  drivers/media/i2c/ov5645.c | 133 +++++++++++++++++++------------------
->  1 file changed, 68 insertions(+), 65 deletions(-)
+> Alexander Stein (2):
+>   media: dt-bindings: media: Add compatible for ov9281
+>   media: i2c: ov9282: Add ov9281 compatible
 > 
-> diff --git a/drivers/media/i2c/ov5645.c b/drivers/media/i2c/ov5645.c
-> index 47451238ca05..2e6135d0a31a 100644
-> --- a/drivers/media/i2c/ov5645.c
-> +++ b/drivers/media/i2c/ov5645.c
-> @@ -27,6 +27,7 @@
->  #include <linux/module.h>
->  #include <linux/of.h>
->  #include <linux/of_graph.h>
-> +#include <linux/pm_runtime.h>
->  #include <linux/regulator/consumer.h>
->  #include <linux/slab.h>
->  #include <linux/types.h>
-> @@ -108,7 +109,6 @@ struct ov5645 {
->  	u8 timing_tc_reg21;
->  
->  	struct mutex power_lock; /* lock to protect power state */
-> -	int power_count;
->  
->  	struct gpio_desc *enable_gpio;
->  	struct gpio_desc *rst_gpio;
-> @@ -635,8 +635,24 @@ static int ov5645_set_register_array(struct ov5645 *ov5645,
->  	return 0;
->  }
->  
-> -static int ov5645_set_power_on(struct ov5645 *ov5645)
-> +static int ov5645_set_power_off(struct device *dev)
->  {
-> +	struct v4l2_subdev *sd = dev_get_drvdata(dev);
-> +	struct ov5645 *ov5645 = to_ov5645(sd);
-> +
-> +	ov5645_write_reg(ov5645, OV5645_IO_MIPI_CTRL00, 0x58);
-> +	gpiod_set_value_cansleep(ov5645->rst_gpio, 1);
-> +	gpiod_set_value_cansleep(ov5645->enable_gpio, 0);
-> +	clk_disable_unprepare(ov5645->xclk);
-> +	regulator_bulk_disable(OV5645_NUM_SUPPLIES, ov5645->supplies);
-> +
-> +	return 0;
-> +}
-> +
-> +static int ov5645_set_power_on(struct device *dev)
-> +{
-> +	struct v4l2_subdev *sd = dev_get_drvdata(dev);
-> +	struct ov5645 *ov5645 = to_ov5645(sd);
->  	int ret;
->  
->  	ret = regulator_bulk_enable(OV5645_NUM_SUPPLIES, ov5645->supplies);
-> @@ -658,57 +674,19 @@ static int ov5645_set_power_on(struct ov5645 *ov5645)
->  
->  	msleep(20);
->  
-> -	return 0;
-> -}
-> -
-> -static void ov5645_set_power_off(struct ov5645 *ov5645)
-> -{
-> -	gpiod_set_value_cansleep(ov5645->rst_gpio, 1);
-> -	gpiod_set_value_cansleep(ov5645->enable_gpio, 0);
-> -	clk_disable_unprepare(ov5645->xclk);
-> -	regulator_bulk_disable(OV5645_NUM_SUPPLIES, ov5645->supplies);
-> -}
-> -
-> -static int ov5645_s_power(struct v4l2_subdev *sd, int on)
-> -{
-> -	struct ov5645 *ov5645 = to_ov5645(sd);
-> -	int ret = 0;
-> -
-> -	mutex_lock(&ov5645->power_lock);
-> -
-> -	/* If the power count is modified from 0 to != 0 or from != 0 to 0,
-> -	 * update the power state.
-> -	 */
-> -	if (ov5645->power_count == !on) {
-> -		if (on) {
-> -			ret = ov5645_set_power_on(ov5645);
-> -			if (ret < 0)
-> -				goto exit;
-> -
-> -			ret = ov5645_set_register_array(ov5645,
-> -					ov5645_global_init_setting,
-> +	ret = ov5645_set_register_array(ov5645, ov5645_global_init_setting,
->  					ARRAY_SIZE(ov5645_global_init_setting));
-> -			if (ret < 0) {
-> -				dev_err(ov5645->dev,
-> -					"could not set init registers\n");
-> -				ov5645_set_power_off(ov5645);
-> -				goto exit;
-> -			}
-> -
-> -			usleep_range(500, 1000);
-> -		} else {
-> -			ov5645_write_reg(ov5645, OV5645_IO_MIPI_CTRL00, 0x58);
-> -			ov5645_set_power_off(ov5645);
-> -		}
-> +	if (ret < 0) {
-> +		dev_err(ov5645->dev, "could not set init registers\n");
-> +		goto exit;
->  	}
->  
-> -	/* Update the power count. */
-> -	ov5645->power_count += on ? 1 : -1;
-> -	WARN_ON(ov5645->power_count < 0);
-> +	usleep_range(500, 1000);
->  
-> -exit:
-> -	mutex_unlock(&ov5645->power_lock);
-> +	return 0;
->  
-> +exit:
-> +	ov5645_set_power_off(dev);
->  	return ret;
+>  Documentation/devicetree/bindings/media/i2c/ovti,ov9282.yaml | 5 ++++-
+>  drivers/media/i2c/ov9282.c                                   | 5 ++++-
+>  2 files changed, 8 insertions(+), 2 deletions(-)
+> 
 
-smatch gives this warning:
+With the latest staging tree I am now getting these smatch and sparse warnings:
 
-drivers/media/i2c/ov5645.c:687 ov5645_set_power_on() warn: 'ov5645->xclk' from clk_prepare_enable() not released on lines: 687.
+sparse:
 
-Can you take a look?
+drivers/media/i2c/ov9282.c:267:24: warning: symbol 'common_regs_list' was not declared. Should it be static?
+drivers/media/i2c/ov9282.c:145: warning: Function parameter or member 'crop' not described in 'ov9282_mode'
+drivers/media/i2c/ov9282.c:190: warning: Function parameter or member 'supplies' not described in 'ov9282'
+drivers/media/i2c/ov9282.c:190: warning: Function parameter or member 'pixel_rate' not described in 'ov9282'
+drivers/media/i2c/ov9282.c:190: warning: Function parameter or member 'noncontinuous_clock' not described in 'ov9282'
+
+smatch also has this:
+
+drivers/media/i2c/ov9282.c:1262 ov9282_power_on() warn: 'ov9282->inclk' from clk_prepare_enable() not released on lines: 1252.
+
+Can you take a look and post a patch on top fixing this?
 
 Thanks!
 
 	Hans
-
->  }
-
