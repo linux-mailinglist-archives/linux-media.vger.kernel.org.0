@@ -2,98 +2,112 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2906F63A0CC
-	for <lists+linux-media@lfdr.de>; Mon, 28 Nov 2022 06:43:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5593263A118
+	for <lists+linux-media@lfdr.de>; Mon, 28 Nov 2022 07:16:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229591AbiK1FnN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 28 Nov 2022 00:43:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47268 "EHLO
+        id S229752AbiK1GQm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 28 Nov 2022 01:16:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60982 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229503AbiK1FnM (ORCPT
+        with ESMTP id S229751AbiK1GQk (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 28 Nov 2022 00:43:12 -0500
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C7286151;
-        Sun, 27 Nov 2022 21:43:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
-        Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
-        Content-Description:In-Reply-To:References;
-        bh=rAZjs5UVPuF5bfxao1OY7vzICa60Q2zFN/Hm2qt2VHU=; b=CPlXT/MSLy7JhJ6JO5Jfwo++/p
-        L8SaNZpnC+leKaKJV9IbxZimN4AISrYseGendIuLB91Ky60ID+0zESWRBQ8emK7crgXLXjtKUPz7C
-        79lZxrt26G38UtVoULi3xyzrm6m7UBMETyz8YzleQ9D0SeAYwnmN5L8AQYdsvk2r0+gojaYKxEjAF
-        1KgGjCcgz5+hXKM9f2VNnzdprOLlkDpPg6lmh0ihkbBbM60joL6ATuOC8FRQYEQecRMML9/KiUP3k
-        F1uiN6vUDS7gRZzRq8L4Tjg3czSKeW4eu6QvE8rLtEIq5WKDyDs7m1zM3F+w60un/9vIgxL4bohZ+
-        mf48/4Ag==;
-Received: from [2601:1c2:d80:3110::a2e7] (helo=casper.infradead.org)
-        by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1ozWvD-00COhF-1z; Mon, 28 Nov 2022 05:43:15 +0000
-From:   Randy Dunlap <rdunlap@infradead.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     Randy Dunlap <rdunlap@infradead.org>, linux-media@vger.kernel.org,
-        Robert Schlabbach <robert_s@gmx.net>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: [PATCH -next] media: dvb/frontend.h: fix kernel-doc warnings
-Date:   Sun, 27 Nov 2022 21:43:03 -0800
-Message-Id: <20221128054303.3124-1-rdunlap@infradead.org>
+        Mon, 28 Nov 2022 01:16:40 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12B2A11174;
+        Sun, 27 Nov 2022 22:16:40 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 9B33F60FB0;
+        Mon, 28 Nov 2022 06:16:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6428FC433D7;
+        Mon, 28 Nov 2022 06:16:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1669616199;
+        bh=ypKwixzldPb7kQWuOxo+5LWR+IrDt1cLNbjX20e7Zeg=;
+        h=From:To:Cc:Subject:Date:From;
+        b=EdX6WAuLVe+R0n4yj7msuQgS3CTsToakfIhaZE0DkQqcxaDZunj9Y1UMhywWEDQmr
+         fcMsF1PO0y5nkdbTGi3HXxvE+nkDwWNCaZto8bnVkqRZ2G10lEdmbsP2otwhvX4Neo
+         TCfLlJxQfsnVqYDCWtoLCeQ1ljU09NnqZkbHWnf3lZBfA2gtUCaS4f5RZ4do0s5zSF
+         D+11y7EDCeGmeY85WX9D0xA69Tj0YwYr8WV/bb9OBSd+nw6OHzoQnwYOWjAikfTN3T
+         DkPqtWqB4Lw/64iBIvXT6l4UsAY/hnIVIzMyl+l2sBrLxjGXJR8VKW5YBiQGXZsxmQ
+         S/exotE8Yv7uA==
+From:   Nathan Chancellor <nathan@kernel.org>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc:     Nick Desaulniers <ndesaulniers@google.com>,
+        Tom Rix <trix@redhat.com>, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, llvm@lists.linux.dev,
+        patches@lists.linux.dev, Nathan Chancellor <nathan@kernel.org>
+Subject: [PATCH] media: rzg2l-cru: Remove unnecessary shadowing of ret in rzg2l_csi2_s_stream()
+Date:   Sun, 27 Nov 2022 23:16:22 -0700
+Message-Id: <20221128061622.1470489-1-nathan@kernel.org>
 X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-scripts/kernel-doc spouts multiple warnings, so fix them:
+Clang warns:
 
-include/uapi/linux/dvb/frontend.h:399: warning: Enum value 'QAM_1024' not described in enum 'fe_modulation'
-include/uapi/linux/dvb/frontend.h:399: warning: Enum value 'QAM_4096' not described in enum 'fe_modulation'
-frontend.h:286: warning: contents before sections
-frontend.h:780: warning: missing initial short description on line:
- * enum atscmh_rs_code_mode
+  drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c:445:7: error: variable 'ret' is used uninitialized whenever 'if' condition is true [-Werror,-Wsometimes-uninitialized]
+                  if (ret)
+                      ^~~
+  drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c:475:9: note: uninitialized use occurs here
+          return ret;
+                ^~~
+  drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c:445:3: note: remove the 'if' if its condition is always false
+                  if (ret)
+                  ^~~~~~~~
+  drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c:441:7: error: variable 'ret' is used uninitialized whenever 'if' condition is true [-Werror,-Wsometimes-uninitialized]
+                  if (ret)
+                      ^~~
+  drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c:475:9: note: uninitialized use occurs here
+          return ret;
+                ^~~
+  drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c:441:3: note: remove the 'if' if its condition is always false
+                  if (ret)
+                  ^~~~~~~~
+  drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c:431:9: note: initialize the variable 'ret' to silence this warning
+          int ret;
+                ^
+                  = 0
+  2 errors generated.
 
-Fixes: 8220ead805b6 ("media: dvb/frontend.h: document the uAPI file")
-Fixes: 6508a50fe84f ("media: dvb: add DVB-C2 and DVB-S2X parameter values")
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: linux-media@vger.kernel.org
-Cc: Robert Schlabbach <robert_s@gmx.net>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+ret is unnecessarily shadowed, meaning the assignments to ret within the
+first 'if (enable)' block are only applied to the inner scope, not the
+outer one as intended. Remove the shadowing to fix the warnings and make
+everything work correctly.
+
+Fixes: 51e8415e39a9 ("media: platform: Add Renesas RZ/G2L MIPI CSI-2 receiver driver")
+Link: https://github.com/ClangBuiltLinux/linux/issues/1764
+Signed-off-by: Nathan Chancellor <nathan@kernel.org>
 ---
- include/uapi/linux/dvb/frontend.h |    7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+ drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff -- a/include/uapi/linux/dvb/frontend.h b/include/uapi/linux/dvb/frontend.h
---- a/include/uapi/linux/dvb/frontend.h
-+++ b/include/uapi/linux/dvb/frontend.h
-@@ -282,7 +282,6 @@ enum fe_spectral_inversion {
- /**
-  * enum fe_code_rate - Type of Forward Error Correction (FEC)
-  *
-- *
-  * @FEC_NONE: No Forward Error Correction Code
-  * @FEC_1_2:  Forward Error Correction Code 1/2
-  * @FEC_2_3:  Forward Error Correction Code 2/3
-@@ -363,8 +362,8 @@ enum fe_code_rate {
-  * @APSK_32:	32-APSK modulation
-  * @DQPSK:	DQPSK modulation
-  * @QAM_4_NR:	4-QAM-NR modulation
-- * @QAM-1024:	1024-QAM modulation
-- * @QAM-4096:	4096-QAM modulation
-+ * @QAM_1024:	1024-QAM modulation
-+ * @QAM_4096:	4096-QAM modulation
-  * @APSK_8_L:	8APSK-L modulation
-  * @APSK_16_L:	16APSK-L modulation
-  * @APSK_32_L:	32APSK-L modulation
-@@ -777,7 +776,7 @@ enum atscmh_rs_frame_mode {
- };
+diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c
+index aa752b80574c..3deb09be6400 100644
+--- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c
++++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c
+@@ -431,8 +431,6 @@ static int rzg2l_csi2_s_stream(struct v4l2_subdev *sd, int enable)
+ 	int ret;
  
- /**
-- * enum atscmh_rs_code_mode
-+ * enum atscmh_rs_code_mode - ATSC-M/H Reed Solomon modes
-  * @ATSCMH_RSCODE_211_187:	Reed Solomon code (211,187).
-  * @ATSCMH_RSCODE_223_187:	Reed Solomon code (223,187).
-  * @ATSCMH_RSCODE_235_187:	Reed Solomon code (235,187).
+ 	if (enable) {
+-		int ret;
+-
+ 		ret = pm_runtime_resume_and_get(csi2->dev);
+ 		if (ret)
+ 			return ret;
+
+base-commit: 6a5a4514854a637d01c50f5ea17b28f78b31ddb8
+-- 
+2.38.1
+
