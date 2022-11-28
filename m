@@ -2,134 +2,188 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 629E263A26B
-	for <lists+linux-media@lfdr.de>; Mon, 28 Nov 2022 09:02:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BFE0A63A295
+	for <lists+linux-media@lfdr.de>; Mon, 28 Nov 2022 09:17:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229744AbiK1ICU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 28 Nov 2022 03:02:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56428 "EHLO
+        id S230095AbiK1IRP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 28 Nov 2022 03:17:15 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60778 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229730AbiK1ICT (ORCPT
+        with ESMTP id S229629AbiK1IRN (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 28 Nov 2022 03:02:19 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A219B7EC
-        for <linux-media@vger.kernel.org>; Mon, 28 Nov 2022 00:02:18 -0800 (PST)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id A788C501;
-        Mon, 28 Nov 2022 09:02:16 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1669622536;
-        bh=sNu2YI98bdKcNFr62WC7xOiNkkGM1N19cIqCl1s6NyU=;
-        h=From:To:Cc:Subject:Date:From;
-        b=GX9yLtGa61xJohUWE64JQsS5UM1o4LOVOt5bxygn5OOEZVMe31tJvkT5fOu5LwQh3
-         0namRYDA21cHIbMO0ODIogbjzOfxS2GXquw0/Ra6DG+8r9f0W7IENaYSLyCoUr2KUn
-         SqhHTpZemtFZ+lI21riKx3UaaggutLF8uq2Kd5po=
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     linux-media@vger.kernel.org
-Cc:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-        Sakari Ailus <sakari.ailus@iki.fi>,
-        Paul Elder <paul.elder@ideasonboard.com>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        hugues.fruchet@st.com, prabhakar.mahadev-lad.rj@bp.renesas.com,
-        aford173@gmail.com, festevam@gmail.com, eddy.khan@vergesense.com,
-        paul.kocialkowski@bootlin.com, eugen.hristev@microchip.com
-Subject: [PATCH v2] media: ov5640: Fix analogue gain control
-Date:   Mon, 28 Nov 2022 10:02:01 +0200
-Message-Id: <20221128080201.15104-1-laurent.pinchart@ideasonboard.com>
-X-Mailer: git-send-email 2.37.4
+        Mon, 28 Nov 2022 03:17:13 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C3F5D5FC2;
+        Mon, 28 Nov 2022 00:17:11 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 7B7ABB80B3A;
+        Mon, 28 Nov 2022 08:17:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF774C433D6;
+        Mon, 28 Nov 2022 08:17:01 +0000 (UTC)
+Message-ID: <08b65ac6-6786-1080-18f8-d2be109c85fc@xs4all.nl>
+Date:   Mon, 28 Nov 2022 09:17:00 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.0
+Content-Language: en-US
+To:     David Hildenbrand <david@redhat.com>, linux-kernel@vger.kernel.org,
+        Andrew Morton <akpm@linux-foundation.org>
+Cc:     x86@kernel.org, linux-alpha@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-ia64@vger.kernel.org,
+        linux-mips@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        sparclinux@vger.kernel.org, linux-um@lists.infradead.org,
+        etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+        linux-samsung-soc@vger.kernel.org, linux-rdma@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-mm@kvack.org, linux-perf-users@vger.kernel.org,
+        linux-security-module@vger.kernel.org,
+        linux-kselftest@vger.kernel.org,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        John Hubbard <jhubbard@nvidia.com>,
+        Peter Xu <peterx@redhat.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Hugh Dickins <hughd@google.com>, Nadav Amit <namit@vmware.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Matthew Wilcox <willy@infradead.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Muchun Song <songmuchun@bytedance.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Lucas Stach <l.stach@pengutronix.de>,
+        David Airlie <airlied@gmail.com>,
+        Oded Gabbay <ogabbay@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Christoph Hellwig <hch@infradead.org>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+References: <20221116102659.70287-1-david@redhat.com>
+ <20221116102659.70287-17-david@redhat.com>
+ <81fb0fa3-2e06-b765-56ac-a7d981194e59@redhat.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Subject: Re: [PATCH mm-unstable v1 16/20] mm/frame-vector: remove FOLL_FORCE
+ usage
+In-Reply-To: <81fb0fa3-2e06-b765-56ac-a7d981194e59@redhat.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-6.9 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Paul Elder <paul.elder@ideasonboard.com>
+Hi David,
 
-Gain control is badly documented in publicly available (including
-leaked) documentation.
+On 27/11/2022 11:35, David Hildenbrand wrote:
+> On 16.11.22 11:26, David Hildenbrand wrote:
+>> FOLL_FORCE is really only for ptrace access. According to commit
+>> 707947247e95 ("media: videobuf2-vmalloc: get_userptr: buffers are always
+>> writable"), get_vaddr_frames() currently pins all pages writable as a
+>> workaround for issues with read-only buffers.
+>>
+>> FOLL_FORCE, however, seems to be a legacy leftover as it predates
+>> commit 707947247e95 ("media: videobuf2-vmalloc: get_userptr: buffers are
+>> always writable"). Let's just remove it.
+>>
+>> Once the read-only buffer issue has been resolved, FOLL_WRITE could
+>> again be set depending on the DMA direction.
+>>
+>> Cc: Hans Verkuil <hverkuil@xs4all.nl>
+>> Cc: Marek Szyprowski <m.szyprowski@samsung.com>
+>> Cc: Tomasz Figa <tfiga@chromium.org>
+>> Cc: Marek Szyprowski <m.szyprowski@samsung.com>
+>> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+>> Signed-off-by: David Hildenbrand <david@redhat.com>
+>> ---
+>>   drivers/media/common/videobuf2/frame_vector.c | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/media/common/videobuf2/frame_vector.c b/drivers/media/common/videobuf2/frame_vector.c
+>> index 542dde9d2609..062e98148c53 100644
+>> --- a/drivers/media/common/videobuf2/frame_vector.c
+>> +++ b/drivers/media/common/videobuf2/frame_vector.c
+>> @@ -50,7 +50,7 @@ int get_vaddr_frames(unsigned long start, unsigned int nr_frames,
+>>       start = untagged_addr(start);
+>>         ret = pin_user_pages_fast(start, nr_frames,
+>> -                  FOLL_FORCE | FOLL_WRITE | FOLL_LONGTERM,
+>> +                  FOLL_WRITE | FOLL_LONGTERM,
+>>                     (struct page **)(vec->ptrs));
+>>       if (ret > 0) {
+>>           vec->got_ref = true;
+> 
+> 
+> Hi Andrew,
+> 
+> see the discussion at [1] regarding a conflict and how to proceed with
+> upstreaming. The conflict would be easy to resolve, however, also
+> the patch description doesn't make sense anymore with [1].
 
-There is an AGC pre-gain in register 0x3a13, expressed as a 6-bit value
-(plus an enable bit in bit 6). The driver hardcodes it to 0x43, which
-one application note states is equal to x1.047. The documentation also
-states that 0x40 is equel to x1.000. The pre-gain thus seems to be
-expressed as in 1/64 increments, and thus ranges from x1.00 to x1.984.
-What the pre-gain does is however unspecified.
+Might it be easier and less confusing if you post a v2 of this series
+with my patch first? That way it is clear that 1) my patch has to come
+first, and 2) that it is part of a single series and should be merged
+by the mm subsystem.
 
-There is then an AGC gain limit, in registers 0x3a18 and 0x3a19,
-expressed as a 10-bit "real gain format" value. One application note
-sets it to 0x00f8 and states it is equal to x15.5, so it appears to be
-expressed in 1/16 increments, up to x63.9375.
+Less chances of things going wrong that way.
 
-The manual gain is stored in registers 0x350a and 0x350b, also as a
-10-bit "real gain format" value. It is documented in the application
-note as a Q6.4 values, up to x63.9375.
+Just mention in the v2 cover letter that the first patch was added to
+make it easy to backport that fix without being hampered by merge
+conflicts if it was added after your frame_vector.c patch.
 
-One version of the datasheet indicates that the sensor supports a
-digital gain:
-
-  The OV5640 supports 1/2/4 digital gain. Normally, the gain is
-  controlled automatically by the automatic gain control (AGC) block.
-
-It isn't clear how that would be controlled manually.
-
-There appears to be no indication regarding whether the gain controlled
-through registers 0x350a and 0x350b is an analogue gain only or also
-includes digital gain. The words "real gain" don't necessarily mean
-"combined analogue and digital gains". Some OmniVision sensors (such as
-the OV8858) are documented as supoprting different formats for the gain
-values, selectable through a register bit, and they are called "real
-gain format" and "sensor gain format". For that sensor, we have (one of)
-the gain registers documented as
-
-  0x3503[2]=0, gain[7:0] is real gain format, where low 4 bits are
-  fraction bits, for example, 0x10 is 1x gain, 0x28 is 2.5x gain
-
-  If 0x3503[2]=1, gain[7:0] is sensor gain format, gain[7:4] is coarse
-  gain, 00000: 1x, 00001: 2x, 00011: 4x, 00111: 8x, gain[7] is 1,
-  gain[3:0] is fine gain. For example, 0x10 is 1x gain, 0x30 is 2x gain,
-  0x70 is 4x gain
-
-(The second part of the text makes little sense)
-
-"Real gain" may thus refer to the combination of the coarse and fine
-analogue gains as a single value.
-
-The OV5640 0x350a and 0x350b registers thus appear to control analogue
-gain. The driver incorrectly uses V4L2_CID_GAIN as V4L2 has a specific
-control for analogue gain, V4L2_CID_ANALOGUE_GAIN. Use it.
-
-If registers 0x350a and 0x350b are later found to control digital gain
-as well, the driver could then restrict the range of the analogue gain
-control value to lower than x64 and add a separate digital gain control.
-
-Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
-Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
----
- drivers/media/i2c/ov5640.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
-index 2d740397a5d4..c65c391bc1eb 100644
---- a/drivers/media/i2c/ov5640.c
-+++ b/drivers/media/i2c/ov5640.c
-@@ -3458,7 +3458,7 @@ static int ov5640_init_controls(struct ov5640_dev *sensor)
- 	/* Auto/manual gain */
- 	ctrls->auto_gain = v4l2_ctrl_new_std(hdl, ops, V4L2_CID_AUTOGAIN,
- 					     0, 1, 1, 1);
--	ctrls->gain = v4l2_ctrl_new_std(hdl, ops, V4L2_CID_GAIN,
-+	ctrls->gain = v4l2_ctrl_new_std(hdl, ops, V4L2_CID_ANALOGUE_GAIN,
- 					0, 1023, 1, 0);
- 
- 	ctrls->saturation = v4l2_ctrl_new_std(hdl, ops, V4L2_CID_SATURATION,
--- 
 Regards,
 
-Laurent Pinchart
+	Hans
+
+> 
+> 
+> On top of mm-unstable, reverting this patch and applying [1] gives me
+> an updated patch:
+> 
+> 
+> From 1e66c25f1467c1f1e5f275312f2c6df29308d4df Mon Sep 17 00:00:00 2001
+> From: David Hildenbrand <david@redhat.com>
+> Date: Wed, 16 Nov 2022 11:26:55 +0100
+> Subject: [PATCH] mm/frame-vector: remove FOLL_FORCE usage
+> 
+> GUP now supports reliable R/O long-term pinning in COW mappings, such
+> that we break COW early. MAP_SHARED VMAs only use the shared zeropage so
+> far in one corner case (DAXFS file with holes), which can be ignored
+> because GUP does not support long-term pinning in fsdax (see
+> check_vma_flags()).
+> 
+> Consequently, FOLL_FORCE | FOLL_WRITE | FOLL_LONGTERM is no longer required
+> for reliable R/O long-term pinning: FOLL_LONGTERM is sufficient. So stop
+> using FOLL_FORCE, which is really only for ptrace access.
+> 
+> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+> Acked-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> Cc: Hans Verkuil <hverkuil@xs4all.nl>
+> Cc: Marek Szyprowski <m.szyprowski@samsung.com>
+> Cc: Tomasz Figa <tfiga@chromium.org>
+> Cc: Marek Szyprowski <m.szyprowski@samsung.com>
+> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+> Signed-off-by: David Hildenbrand <david@redhat.com>
+> ---
+>  drivers/media/common/videobuf2/frame_vector.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/common/videobuf2/frame_vector.c b/drivers/media/common/videobuf2/frame_vector.c
+> index aad72640f055..8606fdacf5b8 100644
+> --- a/drivers/media/common/videobuf2/frame_vector.c
+> +++ b/drivers/media/common/videobuf2/frame_vector.c
+> @@ -41,7 +41,7 @@ int get_vaddr_frames(unsigned long start, unsigned int nr_frames, bool write,
+>      int ret_pin_user_pages_fast = 0;
+>      int ret = 0;
+>      int err;
+> -    unsigned int gup_flags = FOLL_FORCE | FOLL_LONGTERM;
+> +    unsigned int gup_flags = FOLL_LONGTERM;
+>  
+>      if (nr_frames == 0)
+>          return 0;
 
