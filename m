@@ -2,208 +2,182 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 58ACE63A5A6
-	for <lists+linux-media@lfdr.de>; Mon, 28 Nov 2022 11:05:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0AF4663A60B
+	for <lists+linux-media@lfdr.de>; Mon, 28 Nov 2022 11:23:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230116AbiK1KFH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 28 Nov 2022 05:05:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46174 "EHLO
+        id S230252AbiK1KXw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 28 Nov 2022 05:23:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58370 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230211AbiK1KFB (ORCPT
+        with ESMTP id S230242AbiK1KXu (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 28 Nov 2022 05:05:01 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A51511A077
-        for <linux-media@vger.kernel.org>; Mon, 28 Nov 2022 02:04:57 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 21275B80CB9
-        for <linux-media@vger.kernel.org>; Mon, 28 Nov 2022 10:04:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E9748C433D6;
-        Mon, 28 Nov 2022 10:04:53 +0000 (UTC)
-Message-ID: <ac74fda5-4160-1cd7-4ce1-bb8ad64aed51@xs4all.nl>
-Date:   Mon, 28 Nov 2022 11:04:51 +0100
+        Mon, 28 Nov 2022 05:23:50 -0500
+Received: from mail-io1-f69.google.com (mail-io1-f69.google.com [209.85.166.69])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6DEFB9A
+        for <linux-media@vger.kernel.org>; Mon, 28 Nov 2022 02:23:47 -0800 (PST)
+Received: by mail-io1-f69.google.com with SMTP id o15-20020a6bf80f000000b006de313e5cfeso5540908ioh.6
+        for <linux-media@vger.kernel.org>; Mon, 28 Nov 2022 02:23:47 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=NobAw+FI5C8ULf/Y4Ui7fBPT64uhSipLoJa02tBgo6w=;
+        b=xxCTJmd+dl2pS7IPSe5okBKQypRsYcPCP3654Qz32AA0Cwh3Kwmuq2woRkqImo3qNC
+         63JYLm6HyB0WL29hl6nXVyMlRZQgb1P2xi9jYx6QmV1wIWLjwinfEAF5/2gAevWKPCla
+         nTrE+dkrHo9lriU1irN9scno5BUsLbt6vUKGXmDUnm2iM6SHOPiyBOmZ4IW9T00LuMk5
+         nkvtp04vZXAO5/oMUUMgdHPKU3cKd82jPrvPPQn+0/w/K6bfrCYlWpGT01vx+aBuaClA
+         6j2jhHzP21bjqMmUqHkrn6rRjt2DxamcyjdVknwC/vUXm6Vk/BIIWyJJ+7HKJouM/xyt
+         VTAQ==
+X-Gm-Message-State: ANoB5pnzYoPtQeqJ7JTM6QGHss0ARKthCZ5JDl6+2PB8sup36VMa/86R
+        GD6QLHtWC4Etg2kfztCuTXceHcRiccGteJ0jm3aOSUwZRjNw
+X-Google-Smtp-Source: AA0mqf4q82h5u4p7M9JpZmf8yostPPR0v00Z1sWBDTOj2UMlZRBmJ58XVJx36gq0C2LTe7Y34B4QfwYkzwhvSooCAYj0epoKt1QT
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.0
-Content-Language: en-US
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        Smitha T Murthy <smitha.t@samsung.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [GIT PULL FOR v6.2] Various fixes and enhancements
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Received: by 2002:a02:7409:0:b0:375:4727:8625 with SMTP id
+ o9-20020a027409000000b0037547278625mr14738013jac.300.1669631027186; Mon, 28
+ Nov 2022 02:23:47 -0800 (PST)
+Date:   Mon, 28 Nov 2022 02:23:47 -0800
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <00000000000048102d05ee8544e5@google.com>
+Subject: [syzbot] linux-next boot error: WARNING: refcount bug in dvb_register_device
+From:   syzbot <syzbot+fce48a3dd3368645bd6c@syzkaller.appspotmail.com>
+To:     colin.i.king@gmail.com, keitasuzuki.park@sslab.ics.keio.ac.jp,
+        linma@zju.edu.cn, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-next@vger.kernel.org,
+        mchehab@kernel.org, sfr@canb.auug.org.au,
+        syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=0.9 required=5.0 tests=BAYES_00,FROM_LOCAL_HEX,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SORTED_RECIPS,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The following changes since commit 3ab848bea7790583674a0e08eb5f8c1553d07751:
+Hello,
 
-  media: dt-bindings: s5p-mfc: Add new compatible string for Exynos3250 SoC (2022-11-25 11:33:17 +0000)
+syzbot found the following issue on:
 
-are available in the Git repository at:
+HEAD commit:    15f2f20ccbf2 Add linux-next specific files for 20221128
+git tree:       linux-next
+console output: https://syzkaller.appspot.com/x/log.txt?x=114a14ad880000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=50be0d6c9da3be9d
+dashboard link: https://syzkaller.appspot.com/bug?extid=fce48a3dd3368645bd6c
+compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
 
-  git://linuxtv.org/hverkuil/media_tree.git tags/br-v6.2i
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/0bcd04c8e812/disk-15f2f20c.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/23f3cf3f818e/vmlinux-15f2f20c.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/9111cdf112e7/bzImage-15f2f20c.xz
 
-for you to fetch changes up to 44166bee71543021b407e8e5af99e8a4537bf894:
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+fce48a3dd3368645bd6c@syzkaller.appspotmail.com
 
-  media: s5c73m3: Switch to GPIO descriptors (2022-11-28 10:15:58 +0100)
+usbcore: registered new interface driver sonixj
+usbcore: registered new interface driver spca500
+usbcore: registered new interface driver spca501
+usbcore: registered new interface driver spca505
+usbcore: registered new interface driver spca506
+usbcore: registered new interface driver spca508
+usbcore: registered new interface driver spca561
+usbcore: registered new interface driver spca1528
+usbcore: registered new interface driver sq905
+usbcore: registered new interface driver sq905c
+usbcore: registered new interface driver sq930x
+usbcore: registered new interface driver sunplus
+usbcore: registered new interface driver stk014
+usbcore: registered new interface driver stk1135
+usbcore: registered new interface driver stv0680
+usbcore: registered new interface driver t613
+usbcore: registered new interface driver gspca_topro
+usbcore: registered new interface driver touptek
+usbcore: registered new interface driver tv8532
+usbcore: registered new interface driver vc032x
+usbcore: registered new interface driver vicam
+usbcore: registered new interface driver xirlink-cit
+usbcore: registered new interface driver gspca_zc3xx
+usbcore: registered new interface driver ALi m5602
+usbcore: registered new interface driver STV06xx
+usbcore: registered new interface driver gspca_gl860
+usbcore: registered new interface driver hackrf
+usbcore: registered new interface driver msi2500
+usbcore: registered new interface driver Philips webcam
+usbcore: registered new interface driver uvcvideo
+au0828: au0828 driver loaded
+usbcore: registered new interface driver au0828
+usbcore: registered new interface driver cx231xx
+usbcore: registered new interface driver em28xx
+em28xx: Registered (Em28xx v4l2 Extension) extension
+em28xx: Registered (Em28xx Audio Extension) extension
+em28xx: Registered (Em28xx dvb Extension) extension
+em28xx: Registered (Em28xx Input Extension) extension
+usbcore: registered new interface driver go7007
+usbcore: registered new interface driver go7007-loader
+usbcore: registered new interface driver hdpvr
+usbcore: registered new interface driver pvrusb2
+pvrusb2: V4L in-tree version:Hauppauge WinTV-PVR-USB2 MPEG2 Encoder/Tuner
+pvrusb2: Debug mask is 31 (0x1f)
+usbcore: registered new interface driver stk1160
+usbcore: registered new interface driver usbtv
+dvbdev: DVB: registering new adapter (dvb_vidtv_bridge)
+i2c i2c-0: DVB: registering adapter 0 frontend 0 (Dummy demod for DVB-T/T2/C/S/S2)...
+------------[ cut here ]------------
+refcount_t: addition on 0; use-after-free.
+WARNING: CPU: 0 PID: 1 at lib/refcount.c:25 refcount_warn_saturate+0x17c/0x1f0 lib/refcount.c:25
+Modules linked in:
+CPU: 0 PID: 1 Comm: swapper/0 Not tainted 6.1.0-rc6-next-20221128-syzkaller #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 10/26/2022
+RIP: 0010:refcount_warn_saturate+0x17c/0x1f0 lib/refcount.c:25
+Code: 0a 31 ff 89 de e8 64 54 75 fd 84 db 0f 85 2e ff ff ff e8 e7 57 75 fd 48 c7 c7 60 4c a6 8a c6 05 bf 49 51 0a 01 e8 5c 83 b4 05 <0f> 0b e9 0f ff ff ff e8 c8 57 75 fd 0f b6 1d a9 49 51 0a 31 ff 89
+RSP: 0000:ffffc900000678d0 EFLAGS: 00010282
+RAX: 0000000000000000 RBX: 0000000000000000 RCX: 0000000000000000
+RDX: ffff88813ff58000 RSI: ffffffff81660e7c RDI: fffff5200000cf0c
+RBP: ffff888022a45010 R08: 0000000000000005 R09: 0000000000000000
+R10: 0000000080000000 R11: 0000000000000000 R12: 0000000000000001
+R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000001
+FS:  0000000000000000(0000) GS:ffff8880b9800000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: ffff88823ffff000 CR3: 000000000c48e000 CR4: 00000000003506f0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+Call Trace:
+ <TASK>
+ __refcount_add include/linux/refcount.h:199 [inline]
+ __refcount_inc include/linux/refcount.h:250 [inline]
+ refcount_inc include/linux/refcount.h:267 [inline]
+ kref_get include/linux/kref.h:45 [inline]
+ dvb_device_get drivers/media/dvb-core/dvbdev.c:585 [inline]
+ dvb_register_device+0xe83/0x16e0 drivers/media/dvb-core/dvbdev.c:517
+ dvb_register_frontend+0x58f/0x8c0 drivers/media/dvb-core/dvb_frontend.c:3044
+ vidtv_bridge_dvb_init drivers/media/test-drivers/vidtv/vidtv_bridge.c:430 [inline]
+ vidtv_bridge_probe+0x450/0x9f0 drivers/media/test-drivers/vidtv/vidtv_bridge.c:502
+ platform_probe+0x100/0x1f0 drivers/base/platform.c:1400
+ call_driver_probe drivers/base/dd.c:560 [inline]
+ really_probe+0x249/0xb90 drivers/base/dd.c:639
+ __driver_probe_device+0x1df/0x4d0 drivers/base/dd.c:778
+ driver_probe_device+0x4c/0x1a0 drivers/base/dd.c:808
+ __driver_attach+0x271/0x570 drivers/base/dd.c:1194
+ bus_for_each_dev+0x14b/0x1d0 drivers/base/bus.c:301
+ bus_add_driver+0x4cd/0x640 drivers/base/bus.c:618
+ driver_register+0x224/0x3a0 drivers/base/driver.c:246
+ vidtv_bridge_init+0x3b/0x68 drivers/media/test-drivers/vidtv/vidtv_bridge.c:594
+ do_one_initcall+0x141/0x790 init/main.c:1306
+ do_initcall_level init/main.c:1379 [inline]
+ do_initcalls init/main.c:1395 [inline]
+ do_basic_setup init/main.c:1414 [inline]
+ kernel_init_freeable+0x6f9/0x782 init/main.c:1634
+ kernel_init+0x1e/0x1d0 init/main.c:1522
+ ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:308
+ </TASK>
 
-----------------------------------------------------------------
-Tag branch
 
-----------------------------------------------------------------
-Aakarsh Jain (1):
-      media: s5p-mfc: Add variant data for MFC v7 hardware for Exynos 3250 SoC
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-Adam Borowski (1):
-      media: ipu3-cio2: make the bridge depend on i2c
-
-Chen-Yu Tsai (1):
-      media: dt-bindings: allwinner: h6-vpu-g2: Add IOMMU reference property
-
-Christophe JAILLET (4):
-      media: pt3: Use dma_set_mask_and_coherent() and simplify code
-      media: ths7303: Fix the include guard
-      headers: Remove some left-over license text in include/uapi/linux/dvb/
-      headers: Remove some left-over license text in include/uapi/linux/v4l2-*
-
-Colin Ian King (1):
-      media: i2c: isl7998x: make const array isl7998x_video_in_chan_map static
-
-Dmitry Torokhov (2):
-      media: i2c: s5k6a3: switch to using gpiod API
-      media: i2c: s5k5baf: switch to using gpiod API
-
-Geert Uytterhoeven (1):
-      media: staging: stkwebcam: Restore MEDIA_{USB,CAMERA}_SUPPORT dependencies
-
-Gustavo A. R. Silva (1):
-      media: usb: pwc-uncompress: Use flex array destination for memcpy()
-
-Hans de Goede (1):
-      media: MAINTAINERS: Add Hans de Goede as staging/atomisp maintainer
-
-Jason A. Donenfeld (1):
-      media: stv0288: use explicitly signed char
-
-Jiasheng Jiang (2):
-      media: coda: Add check for dcoda_iram_alloc
-      media: coda: Add check for kmalloc
-
-Lecopzer Chen (1):
-      media: Kconfig: Make DVB_CORE=m possible when MEDIA_SUPPORT=y
-
-Liang He (1):
-      media: c8sectpfe: Add of_node_put() when breaking out of loop
-
-Linus Walleij (3):
-      media: s5k4ecgx: Switch to GPIO descriptors
-      media: s5k4ecgx: Delete driver
-      media: s5c73m3: Switch to GPIO descriptors
-
-Lukas Bulwahn (1):
-      media: imx: remove code for non-existing config IMX_GPT_ICAP
-
-Maíra Canal (1):
-      dt-bindings: media: s5c73m3: Fix reset-gpio descriptor
-
-Michael Riesch (2):
-      dt-bindings: media: video-interfaces: add support for dual edge sampling
-      media: v4l2-mediabus: add support for dual edge sampling
-
-Moses Christopher Bollavarapu (1):
-      drivers: staging: media: omap4iss: Use BIT macro instead of left shifting
-
-Philipp Zabel (1):
-      media: imx: Use get_mbus_config instead of parsing upstream DT endpoints
-
-Shigeru Yoshida (1):
-      media: si470x: Fix use-after-free in si470x_int_in_callback()
-
-Smitha T Murthy (3):
-      media: s5p-mfc: Fix in register read and write for H264
-      media: s5p-mfc: Clear workbit to handle error condition
-      media: s5p-mfc: Fix to handle reference queue during finishing
-
-Yang Yingliang (1):
-      media: Switch to use dev_err_probe() helper
-
-wangjianli (1):
-      platform/renesas: fix repeated words in comments
-
- Documentation/devicetree/bindings/media/allwinner,sun50i-h6-vpu-g2.yaml |    5 +
- Documentation/devicetree/bindings/media/samsung-s5c73m3.txt             |    2 +-
- Documentation/devicetree/bindings/media/video-interfaces.yaml           |    5 +-
- MAINTAINERS                                                             |    1 +
- drivers/media/Kconfig                                                   |    2 +-
- drivers/media/cec/platform/stm32/stm32-cec.c                            |    9 +-
- drivers/media/dvb-frontends/stv0288.c                                   |    5 +-
- drivers/media/i2c/Kconfig                                               |   10 -
- drivers/media/i2c/Makefile                                              |    1 -
- drivers/media/i2c/ad5820.c                                              |   18 +-
- drivers/media/i2c/imx274.c                                              |    5 +-
- drivers/media/i2c/isl7998x.c                                            |    2 +-
- drivers/media/i2c/s5c73m3/s5c73m3-core.c                                |  107 +---
- drivers/media/i2c/s5c73m3/s5c73m3-ctrls.c                               |    1 -
- drivers/media/i2c/s5c73m3/s5c73m3.h                                     |   10 +-
- drivers/media/i2c/s5k4ecgx.c                                            | 1031 ----------------------------------
- drivers/media/i2c/s5k5baf.c                                             |   64 +--
- drivers/media/i2c/s5k6a3.c                                              |   30 +-
- drivers/media/i2c/tc358743.c                                            |    9 +-
- drivers/media/pci/intel/ipu3/Kconfig                                    |    1 +
- drivers/media/pci/pt3/pt3.c                                             |   16 +-
- drivers/media/platform/chips-media/coda-bit.c                           |   14 +-
- drivers/media/platform/mediatek/mdp/mtk_mdp_comp.c                      |    5 +-
- drivers/media/platform/renesas/renesas-ceu.c                            |    2 +-
- drivers/media/platform/samsung/exynos4-is/media-dev.c                   |    4 +-
- drivers/media/platform/samsung/s5p-mfc/s5p_mfc.c                        |   17 +-
- drivers/media/platform/samsung/s5p-mfc/s5p_mfc_ctrl.c                   |    4 +-
- drivers/media/platform/samsung/s5p-mfc/s5p_mfc_enc.c                    |   12 +-
- drivers/media/platform/samsung/s5p-mfc/s5p_mfc_opr_v6.c                 |   14 +-
- drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-core.c                |    1 +
- drivers/media/platform/st/stm32/stm32-dcmi.c                            |   27 +-
- drivers/media/platform/ti/omap3isp/isp.c                                |    3 +-
- drivers/media/platform/xilinx/xilinx-csi2rxss.c                         |    8 +-
- drivers/media/radio/si470x/radio-si470x-usb.c                           |    4 +-
- drivers/media/rc/gpio-ir-recv.c                                         |   10 +-
- drivers/media/rc/gpio-ir-tx.c                                           |    9 +-
- drivers/media/rc/ir-rx51.c                                              |    9 +-
- drivers/media/usb/pwc/pwc-uncompress.c                                  |    2 +-
- drivers/media/usb/uvc/uvc_driver.c                                      |    9 +-
- drivers/media/v4l2-core/v4l2-fwnode.c                                   |   23 +-
- drivers/staging/media/deprecated/stkwebcam/Kconfig                      |    2 +-
- drivers/staging/media/imx/TODO                                          |   12 -
- drivers/staging/media/imx/imx-media-csi.c                               |  135 +++--
- drivers/staging/media/imx/imx-media-fim.c                               |   57 +-
- drivers/staging/media/imx/imx-media-utils.c                             |   33 --
- drivers/staging/media/imx/imx-media.h                                   |    1 -
- drivers/staging/media/omap4iss/iss_video.h                              |   18 +-
- include/media/i2c/s5c73m3.h                                             |   15 -
- include/media/i2c/s5k4ecgx.h                                            |   33 --
- include/media/i2c/ths7303.h                                             |    4 +-
- include/media/v4l2-mediabus.h                                           |   17 +-
- include/uapi/linux/dvb/audio.h                                          |   15 -
- include/uapi/linux/dvb/ca.h                                             |   15 -
- include/uapi/linux/dvb/dmx.h                                            |   15 -
- include/uapi/linux/dvb/frontend.h                                       |   15 -
- include/uapi/linux/dvb/net.h                                            |   15 -
- include/uapi/linux/dvb/osd.h                                            |   15 -
- include/uapi/linux/dvb/version.h                                        |   15 -
- include/uapi/linux/dvb/video.h                                          |   15 -
- include/uapi/linux/v4l2-common.h                                        |   39 --
- include/uapi/linux/v4l2-controls.h                                      |   38 --
- include/uapi/linux/v4l2-dv-timings.h                                    |    9 -
- include/uapi/linux/v4l2-mediabus.h                                      |    4 -
- include/uapi/linux/v4l2-subdev.h                                        |   13 -
- 64 files changed, 267 insertions(+), 1794 deletions(-)
- delete mode 100644 drivers/media/i2c/s5k4ecgx.c
- delete mode 100644 include/media/i2c/s5k4ecgx.h
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
