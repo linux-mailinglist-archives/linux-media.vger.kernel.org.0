@@ -2,150 +2,207 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F3933639F7E
-	for <lists+linux-media@lfdr.de>; Mon, 28 Nov 2022 03:38:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 63D9263A0A0
+	for <lists+linux-media@lfdr.de>; Mon, 28 Nov 2022 05:38:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229695AbiK1Ciq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 27 Nov 2022 21:38:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42338 "EHLO
+        id S229641AbiK1EiT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 27 Nov 2022 23:38:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34260 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229504AbiK1Cip (ORCPT
+        with ESMTP id S229504AbiK1EiS (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 27 Nov 2022 21:38:45 -0500
-Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D68C3A1B1;
-        Sun, 27 Nov 2022 18:38:44 -0800 (PST)
-Received: by mail-pg1-f181.google.com with SMTP id s196so8734766pgs.3;
-        Sun, 27 Nov 2022 18:38:44 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=1kG9z2qzxuFG+VRjNYAaaunJxmRkVIHKxHuUo9QjcyE=;
-        b=xpq/ddy9z30TTL8jOYYx+QH71jompOnAITlXG+/Q1SiCODz5cYlaf0vjWFE3f52vzr
-         GNw2vsAdcRB1jcqVSY4MynR3K4RQC/qab86MHxqkjpf3O+MEi5RwS2oeepxt2mh8z1ks
-         fdqFtgnoMBOu/QS+Ns8Ubtev3NmPGrlAklOmb/1Vr4lIT2UgGvYY3UFeIoIBuZ5gnug2
-         VWDAEZn/tPz+Anpr5vpw82wIqmBk7fYCidUVF1iMPh+Kmgmfr+Edx8IKulMIqborvP29
-         sFKWqMP3EYOcj5T+vQ4Vzx/KLwGzSL6O/qihDYlmy1obapyz6JY9h00JJHczDJ3ZLwWb
-         jxvg==
-X-Gm-Message-State: ANoB5pkdOvMNP2ETKz5fRr4ZM1ZIuWMlFE/Vh+llRsp5BAReHGwXftCV
-        iMqCyh/pUNi8vV9n5bbxd7o=
-X-Google-Smtp-Source: AA0mqf5vmCbco6ZHPjAXXxhwtD8PwFo1rRkGl5sk/L6YEIBylIo5gFL0rkxaBBXNXZfCI6rD4vcBjA==
-X-Received: by 2002:a63:388:0:b0:477:c828:dd2d with SMTP id 130-20020a630388000000b00477c828dd2dmr18012978pgd.105.1669603124285;
-        Sun, 27 Nov 2022 18:38:44 -0800 (PST)
-Received: from [192.168.3.219] ([98.51.102.78])
-        by smtp.gmail.com with ESMTPSA id j8-20020a170902da8800b00176ea6ce0efsm7507123plx.109.2022.11.27.18.38.40
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 27 Nov 2022 18:38:43 -0800 (PST)
-Message-ID: <5b14cdea-1bbe-1900-0004-a218ba97bbcb@acm.org>
-Date:   Sun, 27 Nov 2022 18:38:39 -0800
+        Sun, 27 Nov 2022 23:38:18 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 89CB56369
+        for <linux-media@vger.kernel.org>; Sun, 27 Nov 2022 20:38:16 -0800 (PST)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2B55E55A;
+        Mon, 28 Nov 2022 05:38:14 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1669610294;
+        bh=/9EhkXHaTwEx9QKlo0TvQWXPT8M+2w7YCCQbdD3HdRk=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=hEuyGlMxj/76WTdOTNUG4EmEQUrvM1vpjIiKz8jXoMss/UMNoEcz6Lp+nhnX/qbfu
+         ST3JZQ9BoNi4p35rXiFJmPHQDYqZbI7QJyoKkhVGXvEhwFFeRw/cF+gYQfiKLvy4+O
+         +Adg1ULS+BbNMB/Btz1i3jQ1BRzJCK0V2meKsHok=
+Date:   Mon, 28 Nov 2022 06:37:58 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Petko Manolov <petko.manolov@konsulko.com>
+Cc:     linux-media@vger.kernel.org, sakari.ailus@iki.fi
+Subject: Re: [PATCH v1 1/5] DT bindings for imx492
+Message-ID: <Y4Q7JiJlhUL96yBW@pendragon.ideasonboard.com>
+References: <20221125153120.541298-1-petko.manolov@konsulko.com>
+ <20221125153120.541298-2-petko.manolov@konsulko.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Subject: Re: [PATCH 1/5] driver core: make struct class.dev_uevent() take a
- const *
-Content-Language: en-US
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     linux-kernel@vger.kernel.org, Jens Axboe <axboe@kernel.dk>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Russ Weight <russell.h.weight@intel.com>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Jean Delvare <jdelvare@suse.com>,
-        Johan Hovold <johan@kernel.org>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Leon Romanovsky <leon@kernel.org>,
-        Karsten Keil <isdn@linux-pingi.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Keith Busch <kbusch@kernel.org>,
-        Christoph Hellwig <hch@lst.de>,
-        Sagi Grimberg <sagi@grimberg.me>,
-        Dominik Brodowski <linux@dominikbrodowski.net>,
-        Sebastian Reichel <sre@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Johannes Berg <johannes@sipsolutions.net>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Raed Salem <raeds@nvidia.com>,
-        Chen Zhongjin <chenzhongjin@huawei.com>,
-        Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
-        Avihai Horon <avihaih@nvidia.com>,
-        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Colin Ian King <colin.i.king@gmail.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Jakob Koschel <jakobkoschel@gmail.com>,
-        Antoine Tenart <atenart@kernel.org>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        Wang Yufen <wangyufen@huawei.com>, linux-block@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-nvme@lists.infradead.org,
-        linux-pm@vger.kernel.org, linux-rdma@vger.kernel.org,
-        linux-usb@vger.kernel.org, linux-wireless@vger.kernel.org,
-        netdev@vger.kernel.org
-References: <20221123122523.1332370-1-gregkh@linuxfoundation.org>
- <d448b944-708a-32d4-37d7-0be16ee5f73c@acm.org> <Y4NqAJW5V0tAP8ax@kroah.com>
-From:   Bart Van Assche <bvanassche@acm.org>
-In-Reply-To: <Y4NqAJW5V0tAP8ax@kroah.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        NICE_REPLY_A,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20221125153120.541298-2-petko.manolov@konsulko.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 11/27/22 05:45, Greg Kroah-Hartman wrote:
-> On Fri, Nov 25, 2022 at 03:51:11PM -0800, Bart Van Assche wrote:
->> On 11/23/22 04:25, Greg Kroah-Hartman wrote:
->>> diff --git a/include/linux/mISDNif.h b/include/linux/mISDNif.h
->>> index 7dd1f01ec4f9..7aab4a769736 100644
->>> --- a/include/linux/mISDNif.h
->>> +++ b/include/linux/mISDNif.h
->>> @@ -586,7 +586,7 @@ extern struct mISDNclock *mISDN_register_clock(char *, int, clockctl_func_t *,
->>>    						void *);
->>>    extern void	mISDN_unregister_clock(struct mISDNclock *);
->>> -static inline struct mISDNdevice *dev_to_mISDN(struct device *dev)
->>> +static inline struct mISDNdevice *dev_to_mISDN(const struct device *dev)
->>>    {
->>>    	if (dev)
->>>    		return dev_get_drvdata(dev);
->>
->> Why does the dev_to_mISDN() function drop constness? I haven't found an
->> explanation for this in the cover letter.
+Hi Petko,
+
+Thank you for the patch.
+
+The subject line should start with the proper prefix. Look at the git
+log in the directory to see what is customary. Furthermore,
+s/imx492/Sony IMX492/.
+
+On Fri, Nov 25, 2022 at 05:31:16PM +0200, Petko Manolov wrote:
+> Here goes the DT bindings file.
+
+This is also a peculiar commit message :-)
+
+> Signed-off-by: Petko Manolov <petko.manolov@konsulko.com>
+> ---
+>  .../bindings/media/i2c/sony,imx492.yaml       | 101 ++++++++++++++++++
+>  1 file changed, 101 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/i2c/sony,imx492.yaml
 > 
-> I agree, this is going to be fixed up, see the thread starting here:
-> 	https://lore.kernel.org/r/Y34+V2bCDdqujBDk@kroah.com
-> 
-> I'll work on making a const / non const version for these so that we
-> don't loose the marking.
-> 
-> Oh wait, no, this function is fine, it's not modifying the device
-> structure at all, and only returning the pointer in the private data
-> stored in the device.  There is no loss of const-ness here.
+> diff --git a/Documentation/devicetree/bindings/media/i2c/sony,imx492.yaml b/Documentation/devicetree/bindings/media/i2c/sony,imx492.yaml
+> new file mode 100644
+> index 000000000000..f4feef17c677
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/i2c/sony,imx492.yaml
+> @@ -0,0 +1,101 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/i2c/sony,imx492.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Sony imx492 Sensor
 
-Hi Greg,
+s/imx492/IMX492/. Same below. When referring to the hardware, it's
+customary to use uppercase.
 
-This is what I found in include/linux/mISDNif.h:
+> +
+> +maintainers:
+> +  - Petko Manolov <petko.manolov@konsulko.com>
+> +
+> +description:
+> +
+> +  imx492 is a diagonal 23.1 mm (Type 1.4) CMOS image sensor with color or
+> +  monochrome square pixel array and approximately 47.08 M effective pixels.
+> +  12-bit digital output makes it possible to output the signals with high
+> +  definition for moving pictures. It is programmable through I2C interface. The
+> +  I2C client address can be either 0x10 or 0x1a depending on SLASEL pin. Image
+> +  data is sent through MIPI CSI-2.
+> +
+> +properties:
+> +  compatible:
+> +    const: sony,imx492
 
-struct mISDNdevice {
-	struct mISDNchannel	D;
-	u_int			id;
-	u_int			Dprotocols;
-	u_int			Bprotocols;
-	u_int			nrbchan;
-	u_char			channelmap[MISDN_CHMAP_SIZE];
-	struct list_head	bchannels;
-	struct mISDNchannel	*teimgr;
-	struct device		dev;
-};
+Missing blank line.
 
-As one can see 'dev' is a member of struct mISDNdevice. I still think 
-that dev_to_mISDN() drops constness. Did I perhaps overlook something?
+> +  reg:
+> +    description: I2C address
 
-Bart.
+You can drop the description.
+
+> +    maxItems: 1
+> +
+> +  assigned-clocks: true
+> +  assigned-clock-parents: true
+> +  assigned-clock-rates: true
+
+This shouldn't be needed.
+
+> +
+> +  clocks:
+> +    description: Clock frequency 6MHz, 12MHz, 18MHz and 24MHz
+
+If you know the name of the clock pin, I would include it here.
+
+> +    maxItems: 1
+> +
+> +  dovdd-supply:
+> +    description: Interface power supply.
+
+I would list the voltage. Same below.
+
+> +
+> +  avdd-supply:
+> +    description: Analog power supply.
+> +
+> +  dvdd-supply:
+> +    description: Digital power supply.
+> +
+> +  reset-gpios:
+> +    description: Reference to the GPIO connected to the XCLR pin, if any.
+> +    maxItems: 1
+> +
+> +  port:
+> +    additionalProperties: false
+> +    $ref: /schemas/graph.yaml#/$defs/port-base
+> +
+> +    properties:
+> +      endpoint:
+> +        $ref: /schemas/media/video-interfaces.yaml#
+> +        unevaluatedProperties: false
+> +
+> +        properties:
+> +          data-lanes: true
+> +          link-frequencies: true
+> +
+> +        required:
+> +          - data-lanes
+> +          - link-frequencies
+> +
+> +    required:
+> +      - endpoint
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - clocks
+> +  - port
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    i2c0 {
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +
+> +        camera@10 {
+> +            compatible = "sony,imx492";
+> +            reg = <0x10>;
+> +            clocks = <&imx492_clk>;
+> +
+> +            assigned-clocks = <&imx492_clk>;
+> +            assigned-clock-parents = <&imx492_clk_parent>;
+> +            assigned-clock-rates = <24000000>;
+
+You can drop this from the example, it doesn't showcase the DT bindings
+for the IMX492.
+
+> +
+> +            port {
+> +                imx492: endpoint {
+
+s/imx492/imx492_out/
+
+> +                    remote-endpoint = <&cam>;
+
+s/cam/cam_in/
+
+> +                    data-lanes = <1 2 3 4>;
+> +                    link-frequencies = /bits/ 64 <600000000>;
+> +                };
+> +            };
+> +        };
+> +    };
+> +...
+
+-- 
+Regards,
+
+Laurent Pinchart
