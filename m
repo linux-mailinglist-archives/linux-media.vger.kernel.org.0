@@ -2,1367 +2,510 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C55D963AAB4
-	for <lists+linux-media@lfdr.de>; Mon, 28 Nov 2022 15:18:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0E02863AAC7
+	for <lists+linux-media@lfdr.de>; Mon, 28 Nov 2022 15:24:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232268AbiK1OS2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 28 Nov 2022 09:18:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45366 "EHLO
+        id S232187AbiK1OYV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 28 Nov 2022 09:24:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48422 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231503AbiK1OS1 (ORCPT
+        with ESMTP id S231263AbiK1OYU (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 28 Nov 2022 09:18:27 -0500
-Received: from mail-io1-xd31.google.com (mail-io1-xd31.google.com [IPv6:2607:f8b0:4864:20::d31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 01142186
-        for <linux-media@vger.kernel.org>; Mon, 28 Nov 2022 06:18:23 -0800 (PST)
-Received: by mail-io1-xd31.google.com with SMTP id 11so7681027iou.0
-        for <linux-media@vger.kernel.org>; Mon, 28 Nov 2022 06:18:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=M3p7LZ9j1sxj9mhSE/j9qex0Np6i9lMqyl7IWnUcpbw=;
-        b=WIhbCYkoBgTJFY8EGMPFAOqazHBpboScalD3LIRapIzGHVJu9Rj1dJjsnks0d4szdJ
-         jkaE5H+++tKKisw6VPmGwpo/N5E649Pc+fypDsuO7Go4YiEo+LFyBj2JXeTdyLugm9Ap
-         E23q2JH4vy8Urp6KC2HQzfPqTDgLuQf+V7oTlWp50Nt5s2X511Cg5Sm1iv+8m5h8S7uy
-         oDeiAIJ8e8LIOk0isNEYrqPuQFem+7Wx4xv5Mca2VudW8xneJR/WVTNnqoWPvcLfeHeG
-         AIYd0qm+OqCuwIBxZ01scPua84ZsJwBXVVP+vpo/pzccGbwsxPV88a4Hq42pFiUg4Gab
-         D/zA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=M3p7LZ9j1sxj9mhSE/j9qex0Np6i9lMqyl7IWnUcpbw=;
-        b=R+pn00qFgmBx5s5a3LRaST5oyF2UJ0Tryu0QQEH8VPJxQKI+eI1FecEJv06OxoH+Y2
-         f8b69Du3slZ7E2DJTgcuNlBctY/dMted40f8A1KETSKrKO8HcapbwiO3QhXiL6Ng53P4
-         dKipfd2JClMWANURoDQGBKZZwNQErHQ8BeeQENTluNrd8ZftJXL5aYL3Pe/rfcjnb1/A
-         pd5H0D4GW9y0paxKkpvwyF39hOj3THlZx1vt9/tEf25iPFwwfESodiPU7/DdBQvMy8CA
-         5HGYGKnkCs9WndkjoBi34sXpaAb6barJpBqvf/HiT/is5tGRjfkhCGpRBWUXm/EyIuaU
-         eMcg==
-X-Gm-Message-State: ANoB5pmIJ08gwnIQnKUG1xxp/MTdYT6kMv2Ddmi1IIUZKhNUEUffIdAK
-        lW9oIwht5Jhkmb5jj8FoShrA0Uj+Kap2y9dQRy2RDw==
-X-Google-Smtp-Source: AA0mqf42QUOt42rqqSOIexmzblii30S/T3s8mB3R/2Os1IwSNAp3MK9MmG/H07SEXsJcS2xxL29M/h3s+JOEjMYM+uA=
-X-Received: by 2002:a6b:4402:0:b0:6c3:996b:5960 with SMTP id
- r2-20020a6b4402000000b006c3996b5960mr14191928ioa.169.1669645102830; Mon, 28
- Nov 2022 06:18:22 -0800 (PST)
+        Mon, 28 Nov 2022 09:24:20 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 998ED2AEF
+        for <linux-media@vger.kernel.org>; Mon, 28 Nov 2022 06:24:18 -0800 (PST)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id ED9C4501;
+        Mon, 28 Nov 2022 15:24:16 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1669645457;
+        bh=Adf2NxFkLOhCU+hBfB7R2PuQK3cg1+KgdFaQlPXnJzs=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=MhqX07eU6Tc1pqzEBeyW26Tc1Pp1+aA2DQSl+rAEgxKPcL0A968QHk15WS2O/IrMH
+         gUwWKe9VVWnact672mXtJ+Zs3Q0251MeGoKkOLpJ6iGfaR/H7MpeE0wVbjCUmHxXJH
+         Oacks/ruIwj9xBjkX82cGKcIZ6EJXPX/9gt0kZe0=
+Date:   Mon, 28 Nov 2022 16:24:02 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Amos Tibaldi <tibaldi.amos@gmail.com>
+Cc:     linux-media@vger.kernel.org
+Subject: Re: request for help on uvcvideo driver issue
+Message-ID: <Y4TEgkIQS3MswsxR@pendragon.ideasonboard.com>
+References: <CAKAO289-s=VJYJzt5JBCSvAzHmG-KMY12yX-RMREQTQCHVe6YA@mail.gmail.com>
+ <Y358tj0cKyXyaFFF@pendragon.ideasonboard.com>
+ <CAKAO28-5OPZgz=7oSr9qrU0KRB7=Tmfj_nM3DQP6rdgw61=YaQ@mail.gmail.com>
+ <Y4AbJFVL426tanO5@pendragon.ideasonboard.com>
+ <CAKAO289ZCUgpCmgOO8Oe3DNB60tLHvmRq_zu_zOmUkvO19C7OA@mail.gmail.com>
+ <Y4Dk3R3qSnszEOO3@pendragon.ideasonboard.com>
+ <CAKAO28-2TdOjjGN0hYwwN-u7e0makaOX=OLOwWoTCX4VRJvtvQ@mail.gmail.com>
+ <CAKAO28_nE6v+f8wPab9cHuJRwjmneaADLy-GwsWQEk343=dERg@mail.gmail.com>
 MIME-Version: 1.0
-References: <20221125153120.541298-1-petko.manolov@konsulko.com>
- <20221125153120.541298-4-petko.manolov@konsulko.com> <Y4REJnVbzKjbgJv6@pendragon.ideasonboard.com>
- <Y4S6w6JsksNmLU/W@bender.k.g>
-In-Reply-To: <Y4S6w6JsksNmLU/W@bender.k.g>
-From:   Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date:   Mon, 28 Nov 2022 14:18:05 +0000
-Message-ID: <CAPY8ntASc_C0nbrd3ohvnr661jdpgt0GW8oOqxbQT_DwkvO0rg@mail.gmail.com>
-Subject: Re: [PATCH v1 3/5] media: i2c: imx492: driver's source
-To:     Petko Manolov <petko.manolov@konsulko.com>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-media@vger.kernel.org, sakari.ailus@iki.fi
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CAKAO28_nE6v+f8wPab9cHuJRwjmneaADLy-GwsWQEk343=dERg@mail.gmail.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, 28 Nov 2022 at 13:43, Petko Manolov <petko.manolov@konsulko.com> wrote:
->
-> On 22-11-28 07:16:22, Laurent Pinchart wrote:
-> > Hi Petko,
-> >
-> > Thank you for the patch.
-> >
-> > On Fri, Nov 25, 2022 at 05:31:18PM +0200, Petko Manolov wrote:
-> > > imx492 is a diagonal 23.1 mm (Type 1.4) CMOS image sensor with color or
-> > > monochrome square pixel array and approximately 47.08 M effective pixels. 12-bit
-> > > digital output makes it possible to output the signals with high definition for
-> > > moving pictures. It is programmable through I2C interface. The I2C client
-> > > address can be either 0x10 or 0x1a depending on SLASEL pin. Image data is sent
-> > > through MIPI CSI-2.
-> > >
-> > > Signed-off-by: Petko Manolov <petko.manolov@konsulko.com>
-> > > ---
-> > >  drivers/media/i2c/imx492.c | 1092 ++++++++++++++++++++++++++++++++++++
-> > >  1 file changed, 1092 insertions(+)
-> > >  create mode 100644 drivers/media/i2c/imx492.c
-> > >
-> > > diff --git a/drivers/media/i2c/imx492.c b/drivers/media/i2c/imx492.c
-> > > new file mode 100644
-> > > index 000000000000..0713256b4b63
-> > > --- /dev/null
-> > > +++ b/drivers/media/i2c/imx492.c
-> > > @@ -0,0 +1,1092 @@
-> > > +// SPDX-License-Identifier: GPL-2.0-only
-> > > +/*
-> > > + * Sony imx492 Camera Sensor Driver (based on imx412.c source);
-> > > + *
-> > > + * Copyright (C) 2022 Petko Manolov <petko.manolov@konsulko.com>
-> > > + */
-> > > +
-> > > +#include <asm/unaligned.h>
-> > > +
-> > > +#include <linux/clk.h>
-> > > +#include <linux/delay.h>
-> > > +#include <linux/i2c.h>
-> > > +#include <linux/module.h>
-> > > +#include <linux/pm_runtime.h>
-> > > +#include <linux/regulator/consumer.h>
-> >
-> > There are missing headers, at least for GPIO. Please check if anything else is
-> > missing.
->
-> The driver compiles cleanly.  Not sure what i have to add here.
->
-> > > +#include <media/v4l2-ctrls.h>
-> > > +#include <media/v4l2-fwnode.h>
-> > > +#include <media/v4l2-subdev.h>
-> > > +
-> > > +#include "imx492.h"
-> > > +
-> > > +/* Streaming Mode */
-> > > +#define IMX492_REG_MODE_SELECT     0x3000
-> > > +
-> > > +/* Chip ID */
-> > > +#define IMX492_ID          0x13
-> > > +
-> > > +/* Analog gain control */
-> > > +#define IMX492_REG_AGAIN   0x300a
-> > > +#define IMX492_AGAIN_MIN   0
-> > > +#define IMX492_AGAIN_MAX   978
-> > > +#define IMX492_AGAIN_STEP  1
-> > > +#define IMX492_AGAIN_DEFAULT       0
-> > > +
-> > > +/* Group hold register */
-> > > +#define IMX492_REG_HOLD            0x302b
-> > > +#define    IMX492_REG_XMSTA        0x3033
-> > > +#define    IMX492_REG_SYSCLKEN     0x35e5
-> >
-> > You can replace the first tab (just after #define) with a space.
->
-> OK.
->
-> > > +/* CSI2 HW configuration */
-> > > +#define IMX492_LINK_FREQ   745000000
-> > > +#define IMX492_NUM_DATA_LANES      4
-> > > +
-> > > +#define IMX492_REG_MIN             0x3000
-> > > +#define IMX492_REG_MAX             0xffff
-> > > +
-> > > +/* *** */
-> > > +
-> > > +#define IMX492_REG_STANDBY IMX492_REG_MODE_SELECT
-> >
-> > No aliases for register names please, that's confusing.
->
-> This register is known with both of the above names in the documentation.  I
-> strongly suspect that at least two different teams/persons at Sony had a go at
-> that document.
->
-> Will select one of these names to avoid confusion.
->
-> > > +#define IMX492_BIT_STANDBY 0x01
-> > > +#define IMX492_BIT_STBLOGIC        0x02
-> > > +#define IMX492_BIT_STBDV   0x10
-> > > +
-> > > +#define IMX492_MODE_STANDBY        (IMX492_BIT_STBDV | IMX492_BIT_STBLOGIC | IMX492_BIT_STANDBY)
-> > > +#define IMX492_MODE_STREAMING      0x00
-> > > +
-> > > +#define IMX492_REG_TESTPTRN        0x303A
-> > > +#define IMX492_BIT_CLKEN   0x01
-> > > +#define IMX492_BIT_TESTPTRN        0x10
-> > > +#define IMX492_BITS_TPTRN_ON       (IMX492_BIT_TESTPTRN | IMX492_BIT_CLKEN)
-> > > +#define IMX492_BITS_TPTRN_OFF      0x00
-> > > +
-> > > +#define IMX492_REG_TESTPATSEL      0x303B
-> > > +#define IMX492_BIT_TPAT00  0x00
-> > > +#define IMX492_BIT_TPAT01  0x01
-> > > +#define IMX492_BIT_TPAT02  0x02
-> > > +#define IMX492_BIT_TPAT03  0x03
-> > > +#define IMX492_BIT_TPAT0A  0x0A
-> > > +#define IMX492_BIT_TPAT0B  0x0B
-> > > +
-> > > +#define IMX492_EXPOSURE_MIN                8
-> > > +#define IMX492_EXPOSURE_OFFSET             22
-> > > +#define IMX492_EXPOSURE_STEP               1
-> > > +#define IMX492_EXPOSURE_DEFAULT            0x0648
-> > > +
-> > > +#define    DEFAULT_FPS             6
-> > > +
-> > > +/**
-> > > + * struct imx492_reg_list - imx492 sensor register list
-> > > + * @num_of_regs: Number of registers in the list
-> > > + * @regs: Pointer to register list
-> > > + */
-> > > +struct imx492_reg_list {
-> > > +   u32 num_of_regs;
-> > > +   const struct imx492_reg *regs;
-> > > +};
-> > > +
-> > > +/**
-> > > + * struct imx492_mode - imx492 sensor mode structure
-> > > + * @width: Frame width
-> > > + * @height: Frame height
-> > > + * @code: Format code
-> > > + * @hblank: Horizontal blanking in lines
-> > > + * @vblank: Vertical blanking in lines
-> > > + * @vblank_min: Minimum vertical blanking in lines
-> > > + * @vblank_max: Maximum vertical blanking in lines
-> > > + * @pclk: Sensor pixel clock
-> > > + * @link_freq_idx: Link frequency index
-> > > + * @reg_list: Register list for sensor mode
-> > > + */
-> > > +struct imx492_mode {
-> > > +   u32 width;
-> > > +   u32 height;
-> > > +   u32 code;
-> > > +   u32 hblank;
-> > > +   u32 hblank_min;
-> > > +   u32 hblank_max;
-> > > +   u32 vblank;
-> > > +   u32 vblank_min;
-> > > +   u32 vblank_max;
-> > > +   u64 pclk;
-> > > +   u32 link_freq_idx;
-> > > +   struct imx492_reg_list reg_list;
-> > > +};
-> > > +
-> > > +/**
-> > > + * struct imx492 - imx492 sensor device structure
-> > > + * @dev: Pointer to generic device
-> > > + * @client: Pointer to i2c client
-> > > + * @sd: V4L2 sub-device
-> > > + * @pad: Media pad. Only one pad supported
-> > > + * @reset_gpio: Sensor reset gpio
-> > > + * @reset_gpio: Sensor power gpio
-> > > + * @inclk: Sensor input clock
-> > > + * @supplies: Regulator supplies
-> > > + * @ctrl_handler: V4L2 control handler
-> > > + * @link_freq_ctrl: Pointer to link frequency control
-> > > + * @pclk_ctrl: Pointer to pixel clock control
-> > > + * @hblank_ctrl: Pointer to horizontal blanking control
-> > > + * @vblank_ctrl: Pointer to vertical blanking control
-> > > + * @exp_ctrl: Pointer to exposure control
-> > > + * @again_ctrl: Pointer to analog gain control
-> > > + * @vblank: Vertical blanking in lines
-> > > + * @cur_mode: Pointer to current selected sensor mode
-> > > + * @mutex: Mutex for serializing sensor controls
-> >
-> > Please use the same order for fields in the documentation and the
-> > structure defininition.
->
-> Mkey.
->
-> > > + * @streaming: Flag indicating streaming state
-> > > + */
-> > > +struct imx492 {
-> > > +   struct device *dev;
-> > > +   struct i2c_client *client;
-> > > +   struct v4l2_subdev sd;
-> > > +   struct media_pad pad;
-> > > +   struct v4l2_captureparm scap;
-> >
-> > This is set but never used. You can drop it.
->
-> OK.
->
-> > > +   struct gpio_desc *reset_gpio;
-> > > +   struct gpio_desc *power_gpio;
-> > > +   struct gpio_desc *oscen_gpio;
-> > > +   struct clk *inclk;
-> > > +   struct v4l2_ctrl_handler ctrl_handler;
-> > > +   struct v4l2_ctrl *link_freq_ctrl;
-> > > +   struct v4l2_ctrl *pclk_ctrl;
-> > > +   struct v4l2_ctrl *hblank_ctrl;
-> > > +   struct v4l2_ctrl *vblank_ctrl;
-> > > +   struct v4l2_ctrl *exp_ctrl;
-> > > +   struct v4l2_ctrl *again_ctrl;
-> > > +   const struct imx492_mode *cur_mode;
-> > > +   struct mutex mutex;
-> > > +   u32 tpatt;
-> >
-> > Not used, drop it.
->
-> Ah, a left over.  Will remove it.
->
-> > > +   u32 vblank;
-> > > +   bool streaming;
-> > > +};
-> > > +
-> > > +static const s64 link_freq[] = {
-> > > +   IMX492_LINK_FREQ,
-> > > +};
-> > > +
-> > > +
-> > > +/* Supported sensor mode configurations */
-> > > +static const struct imx492_mode supported_modes[] = {
-> > > +   {
-> > > +           .width = 8192,
-> > > +           .height = 4320,
-> > > +           .hblank = 1108,
-> > > +           .hblank_min = 1102,
-> > > +           .hblank_max = 32768,
-> > > +           .vblank = 5728,
-> > > +           .vblank_min = 4428,
-> > > +           .vblank_max = 32768,
-> > > +           .pclk = 745000000,
-> > > +           .link_freq_idx = 0,
-> > > +           .code = MEDIA_BUS_FMT_SGBRG12_1X12,
-> > > +           .reg_list = {
-> > > +                   .num_of_regs = ARRAY_SIZE(mode_17to9_regs),
-> > > +                   .regs = mode_17to9_regs,
-> > > +           },
-> > > +   }, {
-> > > +           .width = 8192,
-> > > +           .height = 5556,
-> > > +           .hblank = 1108,
-> > > +           .hblank_min = 1102,
-> > > +           .hblank_max = 32768,
-> > > +           .vblank = 5728,
-> > > +           .vblank_min = 4428,
-> > > +           .vblank_max = 32768,
-> > > +           .pclk = 745000000,
-> > > +           .link_freq_idx = 0,
-> > > +           .code = MEDIA_BUS_FMT_SGBRG12_1X12,
-> > > +           .reg_list = {
-> > > +                   .num_of_regs = ARRAY_SIZE(mode_all_regs),
-> > > +                   .regs = mode_all_regs,
-> > > +           },
-> > > +   },
-> > > +};
-> > > +
-> > > +static const char * const imx492_test_pattern_menu[] = {
-> > > +   "Disabled",
-> > > +   "Solid black",
-> > > +   "Solid white",
-> > > +   "Solid dark grey",
-> > > +   "Solid light gray",
-> > > +   "None",
-> > > +   "None",
-> > > +   "None",
-> > > +   "None",
-> > > +   "None",
-> > > +   "None",
-> >
-> > Menu controls shouldn't have entries with identical names. All these should be
-> > dropped if they're not implemented by the sensor, or given a proper name.
->
-> Err, this was easier to do.  Will refactor...
->
-> > > +   "Vertical color bars",
-> > > +   "Horizontal color bars",
-> > > +};
-> > > +
-> > > +/**
-> > > + * to_imx492() - imx492 V4L2 sub-device to imx492 device.
-> > > + * @subdev: pointer to imx492 V4L2 sub-device
-> > > + *
-> > > + * Return: pointer to imx492 device
-> > > + */
-> > > +static inline struct imx492 *to_imx492(struct v4l2_subdev *subdev)
-> > > +{
-> > > +   return container_of(subdev, struct imx492, sd);
-> > > +}
-> > > +
-> > > +/**
-> > > + * imx492_read_reg() - Read registers.
-> > > + * @imx492: pointer to imx492 device
-> > > + * @reg: register address
-> > > + * @len: length of bytes to read. Max supported bytes is 4
-> > > + * @val: pointer to register value to be filled.
-> > > + *
-> > > + * Return: 0 if successful, error code otherwise.
-> > > + */
-> > > +static int imx492_read_reg(struct imx492 *imx492, u16 reg, u32 len, u32 *val)
-> > > +{
-> > > +   struct i2c_client *client = v4l2_get_subdevdata(&imx492->sd);
-> > > +   struct i2c_msg msgs[2] = {0};
-> > > +   u8 addr_buf[2] = {0};
-> > > +   u8 data_buf[4] = {0};
-> > > +   int ret;
-> > > +
-> > > +   if (WARN_ON(len > 4))
-> > > +           return -EINVAL;
-> > > +
-> > > +   put_unaligned_be16(reg, addr_buf);
-> > > +
-> > > +   /* Write register address */
-> > > +   msgs[0].addr = client->addr;
-> > > +   msgs[0].flags = 0;
-> > > +   msgs[0].len = ARRAY_SIZE(addr_buf);
-> > > +   msgs[0].buf = addr_buf;
-> > > +
-> > > +   /* Read data from register */
-> > > +   msgs[1].addr = client->addr;
-> > > +   msgs[1].flags = I2C_M_RD;
-> > > +   msgs[1].len = len;
-> > > +   msgs[1].buf = &data_buf[4 - len];
-> > > +
-> > > +   ret = i2c_transfer(client->adapter, msgs, ARRAY_SIZE(msgs));
-> > > +   if (ret != ARRAY_SIZE(msgs))
-> > > +           return -EIO;
-> > > +
-> > > +   *val = get_unaligned_be32(data_buf);
-> > > +
-> > > +   return 0;
-> > > +}
-> > > +
-> > > +/**
-> > > + * imx492_write_reg() - Write register
-> > > + * @imx492: pointer to imx492 device
-> > > + * @reg: register address
-> > > + * @len: length of bytes. Max supported bytes is 4
-> > > + * @val: register value
-> > > + *
-> > > + * Return: 0 if successful, error code otherwise.
-> > > + */
-> > > +static int imx492_write_reg(struct imx492 *imx492, u16 reg, u32 len, u32 val)
-> > > +{
-> > > +   struct i2c_client *client = v4l2_get_subdevdata(&imx492->sd);
-> > > +   u8 buf[6] = {0};
-> > > +
-> > > +   if (WARN_ON(len > 4))
-> > > +           return -EINVAL;
-> > > +
-> > > +   put_unaligned_be16(reg, buf);
-> > > +   put_unaligned_be32(val << (8 * (4 - len)), buf + 2);
-> > > +   if (i2c_master_send(client, buf, len + 2) != len + 2)
-> > > +           return -EIO;
-> > > +
-> > > +   return 0;
-> > > +}
-> > > +
-> > > +/**
-> > > + * imx492_write_regs() - Write a list of registers
-> > > + * @imx492: pointer to imx492 device
-> > > + * @regs: list of registers to be written
-> > > + * @len: length of registers array
-> > > + *
-> > > + * Return: 0 if successful, error code otherwise.
-> > > + */
-> > > +static int imx492_write_regs(struct imx492 *imx492,
-> > > +                        const struct imx492_reg *regs, u32 len)
-> > > +{
-> > > +   unsigned int i;
-> > > +   int ret;
-> > > +
-> > > +   for (i = 0; i < len; i++) {
-> > > +           ret = imx492_write_reg(imx492, regs[i].address, 1, regs[i].val);
-> > > +           if (ret)
-> > > +                   return ret;
-> > > +   }
-> > > +
-> > > +   return 0;
-> > > +}
-> > > +
-> > > +static u32 imx492_get_format_code(struct imx492 *imx492, u32 code)
-> > > +{
-> > > +   /* for now this is the only format we support */
-> > > +   return MEDIA_BUS_FMT_SGBRG12_1X12;
-> > > +}
-> > > +
-> > > +/**
-> > > + * imx492_update_controls() - Update control ranges based on streaming mode
-> > > + * @imx492: pointer to imx492 device
-> > > + * @mode: pointer to imx492_mode sensor mode
-> > > + *
-> > > + * Return: 0 if successful, error code otherwise.
-> > > + */
-> > > +static int imx492_update_controls(struct imx492 *imx492,
-> > > +                             const struct imx492_mode *mode)
-> > > +{
-> > > +   int ret;
-> > > +
-> > > +   ret = __v4l2_ctrl_s_ctrl(imx492->link_freq_ctrl, mode->link_freq_idx);
-> > > +   if (ret)
-> > > +           return ret;
-> > > +
-> > > +   ret = __v4l2_ctrl_s_ctrl(imx492->hblank_ctrl, mode->hblank);
-> > > +   if (ret)
-> > > +           return ret;
-> > > +
-> > > +   return __v4l2_ctrl_modify_range(imx492->vblank_ctrl, mode->vblank_min,
-> > > +                                   mode->vblank_max, 1, mode->vblank);
-> > > +}
-> > > +
-> > > +/**
-> > > + * imx492_update_exp_gain() - Set updated exposure and gain
-> > > + * @imx492: pointer to imx492 device
-> > > + * @exposure: updated exposure value
-> > > + * @gain: updated analog gain value
-> > > + *
-> > > + * Return: 0 if successful, error code otherwise.
-> > > + */
-> > > +static int imx492_update_exp_gain(struct imx492 *imx492, u32 exposure, u32 gain)
-> > > +{
-> > > +   u32 lpfr, shutter;
-> > > +   int ret;
-> > > +
-> > > +   lpfr = imx492->vblank + imx492->cur_mode->height;
-> > > +   shutter = lpfr - exposure;
-> > > +
-> > > +   ret = imx492_write_reg(imx492, IMX492_REG_HOLD, 1, 1);
-> > > +   if (ret)
-> > > +           return ret;
-> > > +
-> > > +   ret = imx492_write_reg(imx492, IMX492_REG_AGAIN, 2, gain);
-> > > +
-> > > +   return ret;
-> > > +}
-> > > +
-> > > +/**
-> > > + * imx492_set_ctrl() - Set subdevice control
-> > > + * @ctrl: pointer to v4l2_ctrl structure
-> > > + *
-> > > + * Return: 0 if successful, error code otherwise.
-> > > + */
-> > > +static int imx492_set_ctrl(struct v4l2_ctrl *ctrl)
-> > > +{
-> > > +   struct imx492 *imx492 =
-> > > +           container_of(ctrl->handler, struct imx492, ctrl_handler);
-> > > +   u32 analog_gain;
-> > > +   u32 exposure;
-> > > +   int ret;
-> > > +
-> > > +   switch (ctrl->id) {
-> > > +   case V4L2_CID_VBLANK:
-> > > +           imx492->vblank = imx492->vblank_ctrl->val;
-> > > +
-> > > +           ret = __v4l2_ctrl_modify_range(imx492->exp_ctrl,
-> > > +                                          IMX492_EXPOSURE_MIN,
-> > > +                                          imx492->vblank +
-> > > +                                          imx492->cur_mode->height -
-> > > +                                          IMX492_EXPOSURE_OFFSET,
-> > > +                                          1, IMX492_EXPOSURE_DEFAULT);
-> >
-> > It looks like you forgot to write the corresponding registers.
->
-> Yeah, will look into this one as well.
->
-> > > +           break;
-> > > +   case V4L2_CID_EXPOSURE:
-> > > +           /* Set controls only if sensor is in power on state */
-> > > +           if (!pm_runtime_get_if_in_use(imx492->dev))
-> > > +                   return 0;
-> > > +           exposure = ctrl->val;
-> > > +           analog_gain = imx492->again_ctrl->val;
-> > > +           ret = imx492_update_exp_gain(imx492, exposure, analog_gain);
-> > > +           pm_runtime_put(imx492->dev);
-> > > +           break;
-> > > +   case V4L2_CID_TEST_PATTERN:
-> > > +           if (ctrl->val) {
-> > > +                   imx492_write_reg(imx492, IMX492_REG_TESTPATSEL, 1, ctrl->val - 1);
-> > > +                   imx492_write_reg(imx492, IMX492_REG_TESTPTRN, 1, IMX492_BITS_TPTRN_ON);
-> > > +           } else {
-> > > +                   imx492_write_reg(imx492, IMX492_REG_TESTPTRN, 1, IMX492_BITS_TPTRN_OFF);
-> > > +           }
-> >
-> > Don't you need the same pm_runtime_get_if_in_use() dance as for
-> > V4L2_CID_EXPOSURE ?
->
-> Yup.
->
-> > > +           ret = 0;
-> > > +           break;
-> >
-> > Missing V4L2_CID_ANALOGUE_GAIN.
->
-> Not implemented at the moment.
->
-> > > +   default:
-> > > +           dev_err(imx492->dev, "Invalid control %d", ctrl->id);
-> >
-> > This shouldn't happen if you correctly handle all the controls you have
-> > instanciated in imx492_init_controls().
->
-> Well, need to verify if that's the case here.
->
-> > > +           ret = -EINVAL;
-> > > +   }
-> > > +
-> > > +   return ret;
-> > > +}
-> > > +
-> > > +/* V4l2 subdevice control ops*/
-> > > +static const struct v4l2_ctrl_ops imx492_ctrl_ops = {
-> > > +   .s_ctrl = imx492_set_ctrl,
-> > > +};
-> > > +
-> > > +/**
-> > > + * imx492_enum_mbus_code() - Enumerate V4L2 sub-device mbus codes
-> > > + * @sd: pointer to imx492 V4L2 sub-device structure
-> > > + * @sd_state: V4L2 sub-device configuration
-> > > + * @code: V4L2 sub-device code enumeration need to be filled
-> > > + *
-> > > + * Return: 0 if successful, error code otherwise.
-> > > + */
-> > > +static int imx492_enum_mbus_code(struct v4l2_subdev *sd,
-> > > +                            struct v4l2_subdev_state *sd_state,
-> > > +                            struct v4l2_subdev_mbus_code_enum *code)
-> > > +{
-> > > +   if (code->index > ARRAY_SIZE(supported_modes))
-> > > +           return -EINVAL;
-> > > +
-> > > +   code->code = supported_modes[code->index].code;
-> >
-> > All modes have the same media bus code, you shouldn't report duplicated
-> > values.
->
-> This sensor support 10bit format so this is prep work when these get properly
-> implemented.
->
-> > > +
-> > > +   return 0;
-> > > +}
-> > > +
-> > > +/**
-> > > + * imx492_enum_frame_size() - Enumerate V4L2 sub-device frame sizes
-> > > + * @sd: pointer to imx492 V4L2 sub-device structure
-> > > + * @sd_state: V4L2 sub-device configuration
-> > > + * @fsize: V4L2 sub-device size enumeration need to be filled
-> > > + *
-> > > + * Return: 0 if successful, error code otherwise.
-> > > + */
-> > > +static int imx492_enum_frame_size(struct v4l2_subdev *sd,
-> > > +                             struct v4l2_subdev_state *sd_state,
-> > > +                             struct v4l2_subdev_frame_size_enum *fsize)
-> > > +{
-> > > +   if (fsize->index > ARRAY_SIZE(supported_modes))
-> > > +           return -EINVAL;
-> > > +
-> > > +   if (fsize->code != supported_modes[fsize->index].code)
-> > > +           return -EINVAL;
-> > > +
-> > > +   fsize->max_width = supported_modes[fsize->index].width;
-> > > +   fsize->min_width = fsize->max_width;
-> > > +   fsize->max_height = supported_modes[fsize->index].height;
-> > > +   fsize->min_height = fsize->max_height;
-> > > +
-> > > +   return 0;
-> > > +}
-> > > +
-> > > +/**
-> > > +n * imx492_fill_pad_format() - Fill subdevice pad format
-> > > + *                            from selected sensor mode
-> > > + * @imx492: pointer to imx492 device
-> > > + * @mode: pointer to imx492_mode sensor mode
-> > > + * @fmt: V4L2 sub-device format need to be filled
-> > > + */
-> > > +static void imx492_fill_pad_format(struct imx492 *imx492,
-> > > +                              const struct imx492_mode *mode,
-> > > +                              struct v4l2_subdev_format *fmt)
-> > > +{
-> > > +   fmt->format.width = mode->width;
-> > > +   fmt->format.height = mode->height;
-> > > +   fmt->format.code = mode->code;
-> > > +   fmt->format.field = V4L2_FIELD_NONE;
-> > > +   fmt->format.colorspace = V4L2_COLORSPACE_RAW;
-> > > +   fmt->format.ycbcr_enc = V4L2_YCBCR_ENC_DEFAULT;
-> > > +   fmt->format.quantization = V4L2_QUANTIZATION_DEFAULT;
-> >
-> > You can use V4L2_QUANTIZATION_FULL_RANGE.
->
-> OK.
->
-> > > +   fmt->format.xfer_func = V4L2_XFER_FUNC_NONE;
-> > > +}
-> > > +
-> > > +/**
-> > > + * imx492_get_pad_format() - Get subdevice pad format
-> > > + * @sd: pointer to imx492 V4L2 sub-device structure
-> > > + * @sd_state: V4L2 sub-device configuration
-> > > + * @fmt: V4L2 sub-device format need to be set
-> > > + *
-> > > + * Return: 0 if successful, error code otherwise.
-> > > + */
-> > > +static int imx492_get_pad_format(struct v4l2_subdev *sd,
-> > > +                            struct v4l2_subdev_state *sd_state,
-> > > +                            struct v4l2_subdev_format *fmt)
-> > > +{
-> > > +   struct imx492 *imx492 = to_imx492(sd);
-> > > +
-> > > +   mutex_lock(&imx492->mutex);
-> > > +
-> > > +   if (fmt->which == V4L2_SUBDEV_FORMAT_TRY) {
-> > > +           struct v4l2_mbus_framefmt *framefmt;
-> > > +
-> > > +           framefmt = v4l2_subdev_get_try_format(sd, sd_state, fmt->pad);
-> > > +           fmt->format = *framefmt;
-> > > +   } else {
-> > > +           imx492_fill_pad_format(imx492, imx492->cur_mode, fmt);
-> > > +   }
-> > > +
-> > > +   mutex_unlock(&imx492->mutex);
-> > > +
-> > > +   return 0;
-> > > +}
-> > > +
-> > > +/**
-> > > + * imx492_set_pad_format() - Set subdevice pad format
-> > > + * @sd: pointer to imx492 V4L2 sub-device structure
-> > > + * @sd_state: V4L2 sub-device configuration
-> > > + * @fmt: V4L2 sub-device format need to be set
-> > > + *
-> > > + * Return: 0 if successful, error code otherwise.
-> > > + */
-> > > +static int imx492_set_pad_format(struct v4l2_subdev *sd,
-> > > +                            struct v4l2_subdev_state *sd_state,
-> > > +                            struct v4l2_subdev_format *fmt)
-> > > +{
-> > > +   struct imx492 *imx492 = to_imx492(sd);
-> > > +   const struct imx492_mode *mode;
-> > > +   int ret = 0;
-> > > +
-> > > +   mutex_lock(&imx492->mutex);
-> > > +
-> > > +   fmt->format.code = imx492_get_format_code(imx492, 0);
-> > > +   mode = v4l2_find_nearest_size(supported_modes,
-> > > +                                   ARRAY_SIZE(supported_modes),
-> > > +                                   width, height,
-> > > +                                   fmt->format.width, fmt->format.height);
-> > > +   imx492_fill_pad_format(imx492, mode, fmt);
-> > > +
-> > > +   if (fmt->which == V4L2_SUBDEV_FORMAT_TRY) {
-> > > +           struct v4l2_mbus_framefmt *framefmt;
-> > > +
-> > > +           framefmt = v4l2_subdev_get_try_format(sd, sd_state, fmt->pad);
-> > > +           *framefmt = fmt->format;
-> > > +   } else {
-> > > +           ret = imx492_update_controls(imx492, mode);
-> > > +           if (!ret)
-> > > +                   imx492->cur_mode = mode;
-> > > +   }
-> > > +
-> > > +   mutex_unlock(&imx492->mutex);
-> > > +
-> > > +   return ret;
-> > > +}
-> > > +
-> > > +/**
-> > > + * imx492_init_pad_cfg() - Initialize sub-device pad configuration
-> > > + * @sd: pointer to imx492 V4L2 sub-device structure
-> > > + * @sd_state: V4L2 sub-device configuration
-> > > + *
-> > > + * Return: 0 if successful, error code otherwise.
-> > > + */
-> > > +static int imx492_init_pad_cfg(struct v4l2_subdev *sd,
-> > > +                          struct v4l2_subdev_state *sd_state)
-> > > +{
-> > > +   struct imx492 *imx492 = to_imx492(sd);
-> > > +   struct v4l2_subdev_format fmt = { 0 };
-> > > +
-> > > +   fmt.which = sd_state ? V4L2_SUBDEV_FORMAT_TRY : V4L2_SUBDEV_FORMAT_ACTIVE;
-> >
-> > When using the active state API you will never get a null state here, so you
-> > can set this to
-> >
-> >       struct v4l2_subdev_format fmt = { .which = V4L2_SUBDEV_FORMAT_TRY, };
-> >
-> > unconditionally.
->
-> OK.
->
-> > > +   imx492_fill_pad_format(imx492, &supported_modes[0], &fmt);
-> > > +
-> > > +   return imx492_set_pad_format(sd, sd_state, &fmt);
-> > > +}
-> > > +
-> > > +/**
-> > > + * imx492_start_streaming() - Start sensor stream
-> > > + * @imx492: pointer to imx492 device
-> > > + *
-> > > + * Return: 0 if successful, error code otherwise.
-> > > + */
-> > > +static int imx492_start_streaming(struct imx492 *imx492)
-> > > +{
-> > > +   const struct imx492_reg_list *reg_list;
-> > > +   int ret;
-> > > +
-> > > +   /* Write sensor mode registers */
-> > > +   reg_list = &imx492->cur_mode->reg_list;
-> > > +   ret = imx492_write_regs(imx492, reg_list->regs,
-> > > +                           reg_list->num_of_regs);
-> > > +   if (ret) {
-> > > +           dev_err(imx492->dev, "fail to write initial registers");
-> > > +           return ret;
-> > > +   }
-> > > +
-> > > +   /* Setup handler will write actual exposure and gain */
-> > > +   ret = __v4l2_ctrl_handler_setup(imx492->sd.ctrl_handler);
-> > > +   if (ret) {
-> > > +           dev_err(imx492->dev, "fail to setup handler");
-> > > +           return ret;
-> > > +   }
-> > > +
-> > > +   /* 1st stabilization period */
-> > > +   usleep_range(10000, 11000);
-> > > +   imx492_write_reg(imx492, IMX492_REG_MODE_SELECT, 1, 0x02);
-> > > +   imx492_write_reg(imx492, IMX492_REG_SYSCLKEN, 1, 0x92);
-> > > +   imx492_write_reg(imx492, IMX492_REG_SYSCLKEN, 1, 0x9a);
-> > > +   imx492_write_reg(imx492, IMX492_REG_MODE_SELECT, 1, IMX492_MODE_STREAMING);
-> > > +
-> > > +   /* 2nd stabilization period */
-> > > +   usleep_range(7000, 8000);
-> > > +
-> > > +   /* Start streaming */
-> > > +   ret = imx492_write_reg(imx492, IMX492_REG_XMSTA, 1, 0x20);
-> > > +
-> > > +   if (ret) {
-> > > +           dev_err(imx492->dev, "fail to start streaming");
-> > > +           return ret;
-> > > +   }
-> > > +
-> > > +   return 0;
-> > > +}
-> > > +
-> > > +/**
-> > > + * imx492_stop_streaming() - Stop sensor stream
-> > > + * @imx492: pointer to imx492 device
-> > > + *
-> > > + * Return: 0 if successful, error code otherwise.
-> > > + */
-> > > +static void imx492_stop_streaming(struct imx492 *imx492)
-> > > +{
-> > > +   imx492_write_reg(imx492, IMX492_REG_MODE_SELECT, 1, IMX492_MODE_STANDBY);
-> > > +   imx492_write_reg(imx492, IMX492_REG_XMSTA, 1, 0x10);
-> > > +}
-> > > +
-> > > +/**
-> > > + * imx492_set_stream() - Enable sensor streaming
-> > > + * @sd: pointer to imx492 subdevice
-> > > + * @enable: set to enable sensor streaming
-> > > + *
-> > > + * Return: 0 if successful, error code otherwise.
-> > > + */
-> > > +static int imx492_set_stream(struct v4l2_subdev *sd, int enable)
-> > > +{
-> > > +   struct imx492 *imx492 = to_imx492(sd);
-> > > +   int ret;
-> > > +
-> > > +   mutex_lock(&imx492->mutex);
-> > > +
-> > > +   if (imx492->streaming == enable) {
-> >
-> > This should never happen. You can drop imx492->streaming.
->
-> Well, OK.
->
-> > > +           mutex_unlock(&imx492->mutex);
-> > > +           return 0;
-> > > +   }
-> > > +
-> > > +   if (enable) {
-> > > +           ret = pm_runtime_resume_and_get(imx492->dev);
-> > > +           if (ret)
-> > > +                   goto error_unlock;
-> > > +           ret = imx492_start_streaming(imx492);
-> > > +           if (ret)
-> > > +                   goto error_power_off;
-> > > +   } else {
-> > > +           imx492_stop_streaming(imx492);
-> > > +           pm_runtime_put(imx492->dev);
-> > > +   }
-> > > +
-> > > +   imx492->streaming = enable;
-> > > +
-> > > +   mutex_unlock(&imx492->mutex);
-> > > +
-> > > +   return 0;
-> > > +
-> > > +error_power_off:
-> > > +   pm_runtime_put(imx492->dev);
-> > > +error_unlock:
-> > > +   mutex_unlock(&imx492->mutex);
-> > > +
-> > > +   return ret;
-> > > +}
-> > > +
-> > > +/**
-> > > + * imx492_detect() - Detect imx492 sensor
-> > > + * @imx492: pointer to imx492 device
-> > > + *
-> > > + * Return: 0 if successful, -EIO if sensor id does not match
-> > > + */
-> > > +static int imx492_detect(struct imx492 *imx492)
-> > > +{
-> > > +   int ret;
-> > > +   u32 val;
-> > > +
-> > > +   ret = imx492_read_reg(imx492, IMX492_REG_STANDBY, 1, &val);
-> >
-> > Is the chip ID really stored in that register ?
->
-> No.  There simply isn't an ID register.  In order to see if the sensor is
-> properly powered up and reset i had to chose a register with a known, non-zero
-> value.
->
-> > > +   if (ret)
-> > > +           return ret;
-> > > +
-> > > +   if (val != IMX492_ID) {
-> > > +           dev_err(imx492->dev, "chip id mismatch: %x!=%x", IMX492_ID, val);
-> > > +           return -ENXIO;
-> > > +   }
-> > > +
-> > > +   return 0;
-> > > +}
-> > > +
-> > > +/**
-> > > + * imx492_parse_hw_config() - Parse HW configuration and check if supported
-> > > + * @imx492: pointer to imx492 device
-> > > + *
-> > > + * Return: 0 if successful, error code otherwise.
-> > > + */
-> > > +static int imx492_parse_hw_config(struct imx492 *imx492)
-> > > +{
-> > > +   struct fwnode_handle *fwnode = dev_fwnode(imx492->dev);
-> > > +   struct v4l2_fwnode_endpoint bus_cfg = {
-> > > +           .bus_type = V4L2_MBUS_CSI2_DPHY
-> > > +   };
-> > > +   struct fwnode_handle *ep;
-> > > +   unsigned int i;
-> > > +   int ret;
-> > > +
-> > > +   if (!fwnode)
-> > > +           return -ENXIO;
-> > > +
-> > > +   imx492->power_gpio = devm_gpiod_get(imx492->dev, "power", GPIOD_OUT_HIGH);
-> >
-> > Not listed in the DT binding.
-> >
-> > > +   if (IS_ERR(imx492->power_gpio)) {
-> > > +           dev_err(imx492->dev, "failed to get power gpio %ld",
-> > > +                   PTR_ERR(imx492->power_gpio));
-> > > +           return PTR_ERR(imx492->power_gpio);
-> > > +   }
-> > > +
-> > > +   imx492->oscen_gpio = devm_gpiod_get(imx492->dev, "oscen", GPIOD_OUT_HIGH);
-> >
-> > Not listed in the DT binding.
->
-> Both of the above are specific to this particular sensor board.  Other
-> implementations may well not have any of these.
->
-> > You should also handle regulators in the driver.
->
-> Err...
->
-> > > +   if (IS_ERR(imx492->oscen_gpio)) {
-> > > +           dev_err(imx492->dev, "failed to get oscen gpio %ld",
-> > > +                   PTR_ERR(imx492->oscen_gpio));
-> > > +           return PTR_ERR(imx492->oscen_gpio);
-> > > +   }
-> > > +
-> > > +   imx492->reset_gpio = devm_gpiod_get(imx492->dev, "reset", GPIOD_OUT_HIGH);
-> > > +   if (IS_ERR(imx492->reset_gpio)) {
-> > > +           dev_err(imx492->dev, "failed to get reset gpio %ld",
-> > > +                   PTR_ERR(imx492->reset_gpio));
-> > > +           return PTR_ERR(imx492->reset_gpio);
-> > > +   }
-> > > +
-> > > +   if (gpiod_direction_output(imx492->power_gpio, 1) ||
-> > > +       gpiod_direction_output(imx492->oscen_gpio, 1) ||
-> > > +       gpiod_direction_output(imx492->reset_gpio, 0)) {
-> >
-> > This is done by devm_gpiod_get().
->
-> OK.
->
-> > > +           dev_err(imx492->dev, "failed to change gpio direction");
-> > > +           return -EINVAL;
-> > > +   }
-> > > +
-> > > +   /* Get sensor input clock */
-> > > +   imx492->inclk = devm_clk_get(imx492->dev, NULL);
-> > > +   if (IS_ERR(imx492->inclk)) {
-> > > +           dev_err(imx492->dev, "could not get inclk");
-> > > +           return PTR_ERR(imx492->inclk);
-> > > +   }
-> > > +
-> > > +   ep = fwnode_graph_get_next_endpoint(fwnode, NULL);
-> > > +   if (!ep) {
-> > > +           dev_err(imx492->dev, "next endpoint?");
-> > > +           return -ENXIO;
-> > > +   }
-> > > +
-> > > +   ret = v4l2_fwnode_endpoint_alloc_parse(ep, &bus_cfg);
-> > > +   fwnode_handle_put(ep);
-> > > +   if (ret) {
-> > > +           dev_err(imx492->dev, "endpoint alloc parse");
-> > > +           return ret;
-> > > +   }
-> > > +
-> > > +   if (bus_cfg.bus.mipi_csi2.num_data_lanes != IMX492_NUM_DATA_LANES) {
-> > > +           dev_err(imx492->dev, "number of CSI2 data lanes %d is not supported",
-> > > +                   bus_cfg.bus.mipi_csi2.num_data_lanes);
-> > > +           ret = -EINVAL;
-> > > +           goto done_endpoint_free;
-> > > +   }
-> > > +
-> > > +   if (!bus_cfg.nr_of_link_frequencies) {
-> > > +           dev_err(imx492->dev, "no link frequencies defined");
-> > > +           ret = -EINVAL;
-> > > +           goto done_endpoint_free;
-> > > +   }
-> > > +
-> > > +   for (i = 0; i < bus_cfg.nr_of_link_frequencies; i++) {
-> > > +           if (bus_cfg.link_frequencies[i] == IMX492_LINK_FREQ)
-> > > +                   goto done_endpoint_free;
-> > > +   }
-> > > +
-> > > +   ret = -EINVAL;
-> > > +
-> > > +done_endpoint_free:
-> > > +   v4l2_fwnode_endpoint_free(&bus_cfg);
-> > > +
-> > > +   return ret;
-> > > +}
-> > > +
-> > > +/* V4l2 subdevice ops */
-> > > +static const struct v4l2_subdev_video_ops imx492_video_ops = {
-> > > +   .s_stream = imx492_set_stream,
-> > > +};
-> > > +
-> > > +static const struct v4l2_subdev_pad_ops imx492_pad_ops = {
-> > > +   .init_cfg = imx492_init_pad_cfg,
-> > > +   .enum_mbus_code = imx492_enum_mbus_code,
-> > > +   .enum_frame_size = imx492_enum_frame_size,
-> > > +   .get_fmt = imx492_get_pad_format,
-> >
-> > Please use the subdev active state API. You need to call
-> > v4l2_subdev_init_finalize() at probe time, and you can set this to
-> >
-> >       .get_fmt = v4l2_subdev_get_fmt,
->
-> OK.
->
-> > Then, in imx492_set_pad_format() (and elsewhere as needed), you can use
-> > v4l2_subdev_get_pad_format() to replace v4l2_subdev_get_try_format(). This
-> > helps making code paths identical for the TRY and ACTIVE cases, the only
-> > exception being the update of controls in .set_fmt() in the ACTIVE case.
-> >
-> > > +   .set_fmt = imx492_set_pad_format,
-> >
-> > Please also implement the .get_selection operation to report the
-> > V4L2_SEL_TGT_CROP, V4L2_SEL_TGT_CROP_BOUNDS, V4L2_SEL_TGT_CROP_DEFAULT and
-> > V4L2_SEL_TGT_NATIVE_SIZE values.
->
-> Cropping is a big pain in the ass with this sensor and is currently not stable.
-> Could you please point me to an existing driver that's a good example?
->
-> > > +};
-> > > +
-> > > +static const struct v4l2_subdev_ops imx492_subdev_ops = {
-> > > +   .video = &imx492_video_ops,
-> > > +   .pad = &imx492_pad_ops,
-> > > +};
-> > > +
-> > > +/**
-> > > + * imx492_power_on() - Sensor power on sequence
-> > > + * @dev: pointer to i2c device
-> > > + *
-> > > + * Return: 0 if successful, error code otherwise.
-> > > + */
-> > > +static int imx492_power_on(struct device *dev)
-> > > +{
-> > > +   struct v4l2_subdev *sd = dev_get_drvdata(dev);
-> > > +   struct imx492 *imx492 = to_imx492(sd);
-> > > +
-> > > +   gpiod_set_value_cansleep(imx492->power_gpio, 1);
-> > > +   msleep(1);
-> > > +   gpiod_set_value_cansleep(imx492->reset_gpio, 1);
-> > > +   msleep(1);
-> > > +   gpiod_set_value_cansleep(imx492->oscen_gpio, 1);
-> > > +   msleep(1);
-> >
-> > How about regulators and clock ?
->
-> In this particular case i don't have to alter any of them.  Do i need to prepare
-> some code for the general case?
->
-> > > +
-> > > +   return 0;
-> > > +}
-> > > +
-> > > +/**
-> > > + * imx492_power_off() - Sensor power off sequence
-> > > + * @dev: pointer to i2c device
-> > > + *
-> > > + * Return: 0 if successful, error code otherwise.
-> > > + */
-> > > +static int imx492_power_off(struct device *dev)
-> > > +{
-> > > +   struct v4l2_subdev *sd = dev_get_drvdata(dev);
-> > > +   struct imx492 *imx492 = to_imx492(sd);
-> > > +
-> > > +   gpiod_set_value_cansleep(imx492->oscen_gpio, 0);
-> > > +   gpiod_set_value_cansleep(imx492->reset_gpio, 0);
-> > > +   gpiod_set_value_cansleep(imx492->power_gpio, 0);
-> > > +
-> > > +   return 0;
-> > > +}
-> > > +
-> > > +/**
-> > > + * imx492_init_controls() - Initialize sensor subdevice controls
-> > > + * @imx492: pointer to imx492 device
-> > > + *
-> > > + * Return: 0 if successful, error code otherwise.
-> > > + */
-> > > +static int imx492_init_controls(struct imx492 *imx492)
-> > > +{
-> > > +   struct v4l2_ctrl_handler *ctrl_hdlr = &imx492->ctrl_handler;
-> > > +   const struct imx492_mode *mode = imx492->cur_mode;
-> > > +   u32 lpfr;
-> > > +   int ret;
-> > > +
-> > > +   ret = v4l2_ctrl_handler_init(ctrl_hdlr, 6);
-> > > +   if (ret)
-> > > +           return ret;
-> > > +
-> > > +   /* Serialize controls with sensor device */
-> > > +   ctrl_hdlr->lock = &imx492->mutex;
-> > > +   /* Initialize exposure and gain */
-> > > +   lpfr = mode->vblank + mode->height;
-> > > +   imx492->exp_ctrl = v4l2_ctrl_new_std(ctrl_hdlr,
-> > > +                                        &imx492_ctrl_ops,
-> > > +                                        V4L2_CID_EXPOSURE,
-> > > +                                        IMX492_EXPOSURE_MIN,
-> > > +                                        lpfr - IMX492_EXPOSURE_OFFSET,
-> > > +                                        IMX492_EXPOSURE_STEP,
-> > > +                                        IMX492_EXPOSURE_DEFAULT);
-> > > +
-> > > +   imx492->again_ctrl = v4l2_ctrl_new_std(ctrl_hdlr,
-> > > +                                          &imx492_ctrl_ops,
-> > > +                                          V4L2_CID_ANALOGUE_GAIN,
-> > > +                                          IMX492_AGAIN_MIN,
-> > > +                                          IMX492_AGAIN_MAX,
-> > > +                                          IMX492_AGAIN_STEP,
-> > > +                                          IMX492_AGAIN_DEFAULT);
-> > > +
-> > > +   v4l2_ctrl_cluster(2, &imx492->exp_ctrl);
-> > > +
-> > > +   imx492->vblank_ctrl = v4l2_ctrl_new_std(ctrl_hdlr,
-> > > +                                           &imx492_ctrl_ops,
-> > > +                                           V4L2_CID_VBLANK,
-> > > +                                           mode->vblank_min,
-> > > +                                           mode->vblank_max,
-> > > +                                           1, mode->vblank);
-> > > +   /* Read only controls */
-> > > +   imx492->hblank_ctrl = v4l2_ctrl_new_std(ctrl_hdlr,
-> > > +                                           &imx492_ctrl_ops,
-> > > +                                           V4L2_CID_HBLANK,
-> > > +                                           mode->hblank_min,
-> > > +                                           mode->hblank_max,
-> > > +                                           1, mode->hblank);
-> > > +   if (imx492->hblank_ctrl)
-> > > +           imx492->hblank_ctrl->flags |= V4L2_CTRL_FLAG_READ_ONLY;
-> > > +
-> > > +   imx492->pclk_ctrl = v4l2_ctrl_new_std(ctrl_hdlr,
-> > > +                                         &imx492_ctrl_ops,
-> > > +                                         V4L2_CID_PIXEL_RATE,
-> > > +                                         mode->pclk, mode->pclk,
-> > > +                                         1, mode->pclk);
-> >
-> > Shouldn't this be read-only ?
->
-> Yup.
+Hi Amos,
 
-It is already made read only by the framework. The driver code here is correct.
-https://elixir.bootlin.com/linux/latest/source/drivers/media/v4l2-core/v4l2-ctrls-defs.c#L1460
+On Sat, Nov 26, 2022 at 06:06:48PM +0100, Amos Tibaldi wrote:
+> Hello. Anyway the 10 frames captured are empty, so there is a problem
+> anyway.
 
-  Dave
+The logs suggest otherwise. yavta doesn't capture frames to disk by
+default. Could you add the `-F` argument and check if frames are
+captured correctly ?
 
-> > > +
-> > > +   imx492->link_freq_ctrl = v4l2_ctrl_new_int_menu(ctrl_hdlr,
-> > > +                                                   &imx492_ctrl_ops,
-> > > +                                                   V4L2_CID_LINK_FREQ,
-> > > +                                                   ARRAY_SIZE(link_freq) -
-> > > +                                                   1,
-> > > +                                                   mode->link_freq_idx,
-> > > +                                                   link_freq);
-> > > +   if (imx492->link_freq_ctrl)
-> > > +           imx492->link_freq_ctrl->flags |= V4L2_CTRL_FLAG_READ_ONLY;
-> > > +
-> > > +   v4l2_ctrl_new_std_menu_items(ctrl_hdlr, &imx492_ctrl_ops,
-> > > +                                V4L2_CID_TEST_PATTERN,
-> > > +                                ARRAY_SIZE(imx492_test_pattern_menu) - 1,
-> > > +                                0, 0, imx492_test_pattern_menu);
-> > > +
-> > > +   if (ctrl_hdlr->error) {
-> > > +           dev_err(imx492->dev, "control init failed: %d", ctrl_hdlr->error);
-> > > +           v4l2_ctrl_handler_free(ctrl_hdlr);
-> > > +           return ctrl_hdlr->error;
-> > > +   }
-> > > +
-> > > +   imx492->sd.ctrl_handler = ctrl_hdlr;
-> > > +
-> > > +   return 0;
-> > > +}
-> > > +
-> > > +/**
-> > > + * imx492_probe() - I2C client device binding
-> > > + * @client: pointer to i2c client device
-> > > + *
-> > > + * Return: 0 if successful, error code otherwise.
-> > > + */
-> > > +static int imx492_probe(struct i2c_client *client)
-> > > +{
-> > > +   struct imx492 *imx492;
-> > > +   int ret;
-> > > +
-> > > +   imx492 = devm_kzalloc(&client->dev, sizeof(*imx492), GFP_KERNEL);
-> > > +   if (!imx492)
-> > > +           return -ENOMEM;
-> > > +
-> > > +   imx492->dev = &client->dev;
-> > > +
-> > > +   /* Initialize subdev */
-> > > +   v4l2_i2c_subdev_init(&imx492->sd, client, &imx492_subdev_ops);
-> > > +
-> > > +   ret = imx492_parse_hw_config(imx492);
-> > > +   if (ret) {
-> > > +           dev_err(imx492->dev, "HW configuration is not supported");
-> > > +           return ret;
-> > > +   }
-> > > +
-> > > +   mutex_init(&imx492->mutex);
-> > > +
-> > > +   ret = imx492_power_on(imx492->dev);
-> > > +   if (ret) {
-> > > +           dev_err(imx492->dev, "failed to power-on the sensor");
-> > > +           goto error_mutex_destroy;
-> > > +   }
-> > > +
-> > > +   /* Check module identity */
-> > > +   ret = imx492_detect(imx492);
-> > > +   if (ret) {
-> > > +           dev_err(imx492->dev, "failed to find sensor: %d", ret);
-> > > +           goto error_power_off;
-> > > +   }
-> > > +
-> > > +   /* Set default mode to max resolution */
-> > > +   imx492->cur_mode = &supported_modes[0];
-> > > +   imx492->vblank = imx492->cur_mode->vblank;
-> > > +
-> > > +   ret = imx492_init_controls(imx492);
-> > > +   if (ret) {
-> > > +           dev_err(imx492->dev, "failed to init controls: %d", ret);
-> > > +           goto error_power_off;
-> > > +   }
-> > > +
-> > > +   /* Initialize subdev */
-> > > +   imx492->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
-> > > +   imx492->sd.entity.function = MEDIA_ENT_F_CAM_SENSOR;
-> > > +
-> > > +   imx492->scap.capability = V4L2_MODE_HIGHQUALITY | V4L2_CAP_TIMEPERFRAME;
-> > > +   imx492->scap.capturemode = 0;
-> > > +   imx492->scap.timeperframe.denominator = DEFAULT_FPS;
-> > > +   imx492->scap.timeperframe.numerator = 1;
-> > > +
-> > > +   /* Initialize source pad */
-> > > +   imx492->pad.flags = MEDIA_PAD_FL_SOURCE;
-> > > +   ret = media_entity_pads_init(&imx492->sd.entity, 1, &imx492->pad);
-> > > +   if (ret) {
-> > > +           dev_err(imx492->dev, "failed to init entity pads: %d", ret);
-> > > +           goto error_handler_free;
-> > > +   }
-> > > +
-> > > +   ret = v4l2_async_register_subdev(&imx492->sd);
-> > > +   if (ret < 0) {
-> > > +           dev_err(imx492->dev, "failed to register async subdev: %d", ret);
-> > > +           goto error_media_entity;
-> > > +   }
+> I wonder why two years ago the driver was working and now not any more.
+> 
+> On Fri, Nov 25, 2022 at 6:38 PM Amos Tibaldi <tibaldi.amos@gmail.com> wrote:
+> 
+> > Hello, here is the output from yavta, it captures 10 frames but does not
+> > show anything, and if I run it again other times it captures nothing more,
+> > unluckily.
 > >
-> > This should be done at the very end of probe(), as the sensor can be used
-> > right after it gets registered, so it should be fully operational.
+> > tibaldi@ryzen:~/Desktop/src/yavta$ yavta -f YUYV -s 1920x1080 -c10
+> > /dev/video0
+> > Device /dev/video0 opened.
+> > Device `ezcap U3 capture: ezcap U3 capt' on `usb-0000:02:00.0-3' (driver
+> > 'uvcvideo') supports video, capture, without mplanes.
+> > Video format set: YUYV (56595559) 1920x1080 (stride 3840) field none
+> > buffer size 4147200
+> > Video format: YUYV (56595559) 1920x1080 (stride 3840) field none buffer
+> > size 4147200
+> > 8 buffers requested.
+> > length: 4147200 offset: 0 timestamp type/source: mono/SoE
+> > Buffer 0/0 mapped at address 0x7fcd90081000.
+> > length: 4147200 offset: 4149248 timestamp type/source: mono/SoE
+> > Buffer 1/0 mapped at address 0x7fcd8fc8c000.
+> > length: 4147200 offset: 8298496 timestamp type/source: mono/SoE
+> > Buffer 2/0 mapped at address 0x7fcd8f897000.
+> > length: 4147200 offset: 12447744 timestamp type/source: mono/SoE
+> > Buffer 3/0 mapped at address 0x7fcd8f4a2000.
+> > length: 4147200 offset: 16596992 timestamp type/source: mono/SoE
+> > Buffer 4/0 mapped at address 0x7fcd8f0ad000.
+> > length: 4147200 offset: 20746240 timestamp type/source: mono/SoE
+> > Buffer 5/0 mapped at address 0x7fcd8ecb8000.
+> > length: 4147200 offset: 24895488 timestamp type/source: mono/SoE
+> > Buffer 6/0 mapped at address 0x7fcd8e8c3000.
+> > length: 4147200 offset: 29044736 timestamp type/source: mono/SoE
+> > Buffer 7/0 mapped at address 0x7fcd8e4ce000.
+> > 0 (0) [-] none 0 4147200 B 636.063000 636.094430 4.068 fps ts mono/SoE
+> > 1 (1) [-] none 1 4147200 B 636.095847 636.127739 30.444 fps ts mono/SoE
+> > 2 (2) [-] none 2 4147200 B 636.129171 636.161062 30.008 fps ts mono/SoE
+> > 3 (3) [-] none 3 4147200 B 636.162494 636.194385 30.009 fps ts mono/SoE
+> > 4 (4) [-] none 4 4147200 B 636.195818 636.227709 30.008 fps ts mono/SoE
+> > 5 (5) [-] none 5 4147200 B 636.229142 636.261034 30.008 fps ts mono/SoE
+> > 6 (6) [-] none 6 4147200 B 636.262465 636.294357 30.009 fps ts mono/SoE
+> > 7 (7) [-] none 7 4147200 B 636.295789 636.327681 30.008 fps ts mono/SoE
+> > 8 (0) [-] none 8 4147200 B 636.329112 636.361005 30.009 fps ts mono/SoE
+> > 9 (1) [-] none 9 4147200 B 636.362436 636.394328 30.008 fps ts mono/SoE
+> > Captured 10 frames in 0.577147 seconds (17.326601 fps, 71856878.812123 B/s).
+> > 8 buffers released.
+> > tibaldi@ryzen:~/Desktop/src/yavta$ ls
+> > yavta-0.0+git20190114.e21525b
+> >  yavta_0.0+git20190114.e21525b-1.debian.tar.xz
+> >  yavta_0.0+git20190114.e21525b-1.dsc
+> >  yavta_0.0+git20190114.e21525b.orig.tar.gz
+> > tibaldi@ryzen:~/Desktop/src/yavta$
 > >
-> > > +
-> > > +   pm_runtime_set_active(imx492->dev);
-> > > +   pm_runtime_enable(imx492->dev);
-> > > +   pm_runtime_idle(imx492->dev);
+> > Here is the dmesg:
 > >
-> > While at it, I would also implement autosuspend. You should then add a call to
-> > pm_runtime_get_noresume() before pm_runtime_enable(), drop the
-> > pm_runtime_idle() call, and add
->
-> From what i can see most, even 2022, drivers come with the above sequence.
-> Which one does it right?
->
-> >       pm_runtime_set_autosuspend_delay(imx492->dev, 1000);
-> >       pm_runtime_use_autosuspend(imx492->dev);
-> >       pm_runtime_put_autosuspend(imx492->dev);
+> > [  590.224080] usb 2-3: new SuperSpeed Gen 1 USB device number 2 using xhci_hcd
+> > [  590.257648] usb 2-3: New USB device found, idVendor=1bcf, idProduct=2c99, bcdDevice= 2.00
+> > [  590.257651] usb 2-3: New USB device strings: Mfr=1, Product=2, SerialNumber=0
+> > [  590.257652] usb 2-3: Product: ezcap U3 capture
+> > [  590.257653] usb 2-3: Manufacturer: VXIS Inc
+> > [  590.288882] mc: Linux media interface: v0.10
+> > [  590.295626] videodev: Linux video capture interface: v2.00
+> > [  590.302902] uvcvideo: Found UVC 1.00 device ezcap U3 capture (1bcf:2c99)
+> > [  590.322509] input: ezcap U3 capture: ezcap U3 capt as /devices/pci0000:00/0000:00:01.3/0000:02:00.0/usb2/2-3/2-3:1.0/input/input17
+> > [  590.322603] usbcore: registered new interface driver uvcvideo
+> > [  590.322603] USB Video Class driver (1.1.1)
+> > [  722.776405] usbcore: deregistering interface driver uvcvideo
+> > [  730.533290] uvcvideo: Probing generic UVC device 3
+> > [  730.534818] uvcvideo: Found format MJPEG.
+> > [  730.534820] uvcvideo: - 1920x1080 (30.0 fps)
+> > [  730.534820] uvcvideo: - 640x480 (30.0 fps)
+> > [  730.534821] uvcvideo: - 800x600 (30.0 fps)
+> > [  730.534822] uvcvideo: - 1024x768 (30.0 fps)
+> > [  730.534822] uvcvideo: - 1280x720 (30.0 fps)
+> > [  730.534823] uvcvideo: - 1280x960 (30.0 fps)
+> > [  730.534824] uvcvideo: - 1280x1024 (30.0 fps)
+> > [  730.534824] uvcvideo: - 1360x768 (30.0 fps)
+> > [  730.534825] uvcvideo: - 1400x900 (30.0 fps)
+> > [  730.534825] uvcvideo: - 1440x900 (30.0 fps)
+> > [  730.534826] uvcvideo: Found format YUV 4:2:2 (YUYV).
+> > [  730.534827] uvcvideo: - 1920x1080 (30.0 fps)
+> > [  730.534827] uvcvideo: - 640x480 (30.0 fps)
+> > [  730.534828] uvcvideo: - 800x600 (30.0 fps)
+> > [  730.534829] uvcvideo: - 1024x768 (30.0 fps)
+> > [  730.534829] uvcvideo: - 1280x720 (30.0 fps)
+> > [  730.534830] uvcvideo: - 1280x960 (30.0 fps)
+> > [  730.534831] uvcvideo: - 1280x1024 (30.0 fps)
+> > [  730.534831] uvcvideo: - 1360x768 (30.0 fps)
+> > [  730.534832] uvcvideo: - 1400x900 (30.0 fps)
+> > [  730.534832] uvcvideo: - 1440x900 (30.0 fps)
+> > [  730.534835] uvcvideo: Found a Status endpoint (addr 87).
+> > [  730.534836] uvcvideo: Found UVC 1.00 device ezcap U3 capture (1bcf:2c99)
+> > [  730.534839] uvcvideo: Added control 00000000-0000-0000-0000-000000000101/2 to device 3 entity 2
+> > [  730.536029] uvcvideo: Adding mapping 'Brightness' to control 00000000-0000-0000-0000-000000000101/2.
+> > [  730.536032] uvcvideo: Added control 00000000-0000-0000-0000-000000000101/3 to device 3 entity 2
+> > [  730.537278] uvcvideo: Adding mapping 'Contrast' to control 00000000-0000-0000-0000-000000000101/3.
+> > [  730.537281] uvcvideo: Added control 00000000-0000-0000-0000-000000000101/6 to device 3 entity 2
+> > [  730.538778] uvcvideo: Adding mapping 'Hue' to control 00000000-0000-0000-0000-000000000101/6.
+> > [  730.538781] uvcvideo: Added control 00000000-0000-0000-0000-000000000101/7 to device 3 entity 2
+> > [  730.539779] uvcvideo: Adding mapping 'Saturation' to control 00000000-0000-0000-0000-000000000101/7.
+> > [  730.539782] uvcvideo: Scanning UVC chain: OT 5 <- XU 4 <- XU 3 <- PU 2 <- IT 1
+> > [  730.539785] uvcvideo: Found a valid video chain (1 -> 5).
+> > [  730.552707] input: ezcap U3 capture: ezcap U3 capt as /devices/pci0000:00/0000:00:01.3/0000:02:00.0/usb2/2-3/2-3:1.0/input/input18
+> > [  730.552746] uvcvideo: UVC device initialized.
+> > [  730.552778] usbcore: registered new interface driver uvcvideo
+> > [  730.552779] USB Video Class driver (1.1.1)
+> > [  730.555114] uvcvideo: uvc_v4l2_open
+> > [  730.555199] uvcvideo: uvc_v4l2_release
+> > [  730.560666] uvcvideo: uvc_v4l2_open
+> > [  730.560675] uvcvideo: uvc_v4l2_release
+> > [  730.561046] uvcvideo: uvc_v4l2_open
+> > [  730.561053] uvcvideo: uvc_ioctl_queryctrl 1
+> > [  730.561090] uvcvideo: uvc_v4l2_open
+> > [  730.561095] uvcvideo: uvc_v4l2_release
+> > [  730.561147] uvcvideo: uvc_v4l2_open
+> > [  730.561149] uvcvideo: uvc_ioctl_queryctrl 1
+> > [  730.565780] uvcvideo: uvc_ioctl_queryctrl 1
+> > [  730.565784] uvcvideo: uvc_ioctl_queryctrl 1
+> > [  730.570782] uvcvideo: uvc_ioctl_queryctrl 1
+> > [  730.570802] uvcvideo: uvc_ioctl_queryctrl 1
+> > [  730.576534] uvcvideo: uvc_ioctl_queryctrl 1
+> > [  730.582041] uvcvideo: uvc_ioctl_queryctrl 1
+> > [  730.582065] uvcvideo: uvc_ioctl_queryctrl 1
+> > [  730.582067] uvcvideo: uvc_v4l2_release
+> > [  730.582069] uvcvideo: uvc_ioctl_queryctrl 1
+> > [  730.582071] uvcvideo: uvc_ioctl_queryctrl 1
+> > [  730.582073] uvcvideo: uvc_ioctl_queryctrl 1
+> > [  730.582075] uvcvideo: uvc_v4l2_release
+> > [  732.812026] uvcvideo: Suspending interface 1
+> > [  732.812028] uvcvideo: Suspending interface 0
+> > [  735.089271] uvcvideo: uvc_v4l2_open
+> > [  735.188180] uvcvideo: Resuming interface 0
+> > [  735.188182] uvcvideo: Resuming interface 1
+> > [  735.188308] uvcvideo: Trying format 0x56595559 (YUYV): 1920x1080.
+> > [  735.188309] uvcvideo: Using default frame interval 33333.3 us (30.0 fps).
+> > [  735.205693] uvcvideo: uvc_v4l2_mmap
+> > [  735.205798] uvcvideo: uvc_v4l2_mmap
+> > [  735.205868] uvcvideo: uvc_v4l2_mmap
+> > [  735.205938] uvcvideo: uvc_v4l2_mmap
+> > [  735.206007] uvcvideo: uvc_v4l2_mmap
+> > [  735.206075] uvcvideo: uvc_v4l2_mmap
+> > [  735.206144] uvcvideo: uvc_v4l2_mmap
+> > [  735.206213] uvcvideo: uvc_v4l2_mmap
+> > [  735.206288] uvcvideo: uvc_ioctl_streamon 1
+> > [  735.206289] uvcvideo: uvc_ioctl_streamon 2
+> > [  735.208655] uvcvideo: Allocated 5 URB buffers of 16x1024 bytes each.
+> > [  735.484187] uvcvideo: Frame complete (EOF found).
+> > [  735.484188] uvcvideo: EOF in empty payload.
+> > [  735.485645] uvcvideo: frame 1 stats: 0/254/255 packets, 0/0/255 pts (!early initial), 252/255 scr, last pts/stc/sof 1327236385/1331368258/1068
+> > [  735.517519] uvcvideo: Frame complete (EOF found).
+> > [  735.517520] uvcvideo: EOF in empty payload.
+> > [  735.518977] uvcvideo: frame 2 stats: 0/254/255 packets, 0/0/255 pts (!early initial), 254/255 scr, last pts/stc/sof 1331392640/1335530392/1102
+> > [  735.550850] uvcvideo: Frame complete (EOF found).
+> > [  735.550850] uvcvideo: EOF in empty payload.
+> > [  735.552311] uvcvideo: frame 3 stats: 0/254/255 packets, 0/0/255 pts (!early initial), 253/255 scr, last pts/stc/sof 1335548893/1339676935/1135
+> > [  735.584182] uvcvideo: Frame complete (EOF found).
+> > [  735.584183] uvcvideo: EOF in empty payload.
+> > [  735.585642] uvcvideo: frame 4 stats: 0/254/255 packets, 0/0/255 pts (!early initial), 254/255 scr, last pts/stc/sof 1339705150/1343839068/1168
+> > [  735.617515] uvcvideo: Frame complete (EOF found).
+> > [  735.617516] uvcvideo: EOF in empty payload.
+> > [  735.618973] uvcvideo: frame 5 stats: 0/254/255 packets, 0/0/255 pts (!early initial), 253/255 scr, last pts/stc/sof 1343861406/1347985615/1202
+> > [  735.650846] uvcvideo: Frame complete (EOF found).
+> > [  735.650847] uvcvideo: EOF in empty payload.
+> > [  735.652307] uvcvideo: frame 6 stats: 0/254/255 packets, 0/0/255 pts (!early initial), 253/255 scr, last pts/stc/sof 1348017659/1352147749/1235
+> > [  735.684178] uvcvideo: Frame complete (EOF found).
+> > [  735.684179] uvcvideo: EOF in empty payload.
+> > [  735.685639] uvcvideo: frame 7 stats: 0/254/255 packets, 0/0/255 pts (!early initial), 254/255 scr, last pts/stc/sof 1352173915/1356309883/1268
+> > [  735.717511] uvcvideo: Frame complete (EOF found).
+> > [  735.717512] uvcvideo: EOF in empty payload.
+> > [  735.718969] uvcvideo: frame 8 stats: 0/254/255 packets, 0/0/255 pts (!early initial), 253/255 scr, last pts/stc/sof 1356330172/1360456426/1302
+> > [  735.750842] uvcvideo: Frame complete (EOF found).
+> > [  735.750843] uvcvideo: EOF in empty payload.
+> > [  735.752303] uvcvideo: frame 9 stats: 0/254/255 packets, 0/0/255 pts (!early initial), 253/255 scr, last pts/stc/sof 1360486426/1364618560/1335
+> > [  735.784175] uvcvideo: Frame complete (EOF found).
+> > [  735.784175] uvcvideo: EOF in empty payload.
+> > [  735.784409] uvcvideo: uvc_ioctl_streamoff 1
+> > [  735.787877] uvcvideo: uvc_v4l2_release
+> > [  737.804700] uvcvideo: Suspending interface 1
+> > [  737.804701] uvcvideo: Suspending interface 0
+> > [  759.203616] uvcvideo: uvc_v4l2_open
+> > [  759.299952] uvcvideo: Resuming interface 0
+> > [  759.299953] uvcvideo: Resuming interface 1
+> > [  759.300035] uvcvideo: Trying format 0x56595559 (YUYV): 1920x1080.
+> > [  759.300036] uvcvideo: Using default frame interval 33333.3 us (30.0 fps).
+> > [  759.317823] uvcvideo: uvc_v4l2_mmap
+> > [  759.317938] uvcvideo: uvc_v4l2_mmap
+> > [  759.317998] uvcvideo: uvc_v4l2_mmap
+> > [  759.318054] uvcvideo: uvc_v4l2_mmap
+> > [  759.318108] uvcvideo: uvc_v4l2_mmap
+> > [  759.318163] uvcvideo: uvc_v4l2_mmap
+> > [  759.318217] uvcvideo: uvc_v4l2_mmap
+> > [  759.318271] uvcvideo: uvc_v4l2_mmap
+> > [  759.318331] uvcvideo: uvc_ioctl_streamon 1
+> > [  759.318331] uvcvideo: uvc_ioctl_streamon 2
+> > [  759.320968] uvcvideo: Allocated 5 URB buffers of 16x1024 bytes each.
+> > [  792.216502] uvcvideo: uvc_v4l2_release
+> > [  792.216709] xhci_hcd 0000:02:00.0: WARN Set TR Deq Ptr cmd failed due to incorrect slot or ep state.
+> > [  794.720498] uvcvideo: Suspending interface 1
+> > [  794.720500] uvcvideo: Suspending interface 0
+> > [  806.281910] uvcvideo: uvc_v4l2_open
+> > [  806.378953] uvcvideo: Resuming interface 0
+> > [  806.378954] uvcvideo: Resuming interface 1
+> > [  806.379036] uvcvideo: Trying format 0x56595559 (YUYV): 1920x1080.
+> > [  806.379037] uvcvideo: Using default frame interval 33333.3 us (30.0 fps).
+> > [  806.396248] uvcvideo: uvc_v4l2_mmap
+> > [  806.396356] uvcvideo: uvc_v4l2_mmap
+> > [  806.396427] uvcvideo: uvc_v4l2_mmap
+> > [  806.396496] uvcvideo: uvc_v4l2_mmap
+> > [  806.396565] uvcvideo: uvc_v4l2_mmap
+> > [  806.396634] uvcvideo: uvc_v4l2_mmap
+> > [  806.396745] uvcvideo: uvc_v4l2_mmap
+> > [  806.396821] uvcvideo: uvc_v4l2_mmap
+> > [  806.396896] uvcvideo: uvc_ioctl_streamon 1
+> > [  806.396896] uvcvideo: uvc_ioctl_streamon 2
+> > [  806.399460] uvcvideo: Allocated 5 URB buffers of 16x1024 bytes each.
+> > [  808.585707] uvcvideo: uvc_v4l2_release
+> > [  810.589730] uvcvideo: Suspending interface 1
+> > [  810.589732] uvcvideo: Suspending interface 0
 > >
-> > You will also need to replace pm_runtime_put() with
-> > pm_runtime_mark_last_busy() + pm_runtime_put_autosuspend() above.
+> > On Fri, Nov 25, 2022 at 4:53 PM Laurent Pinchart wrote:
 > >
-> > > +
-> > > +   return 0;
-> > > +
-> > > +error_media_entity:
-> > > +   media_entity_cleanup(&imx492->sd.entity);
-> > > +error_handler_free:
-> > > +   v4l2_ctrl_handler_free(imx492->sd.ctrl_handler);
-> > > +error_power_off:
-> > > +   imx492_power_off(imx492->dev);
-> > > +error_mutex_destroy:
-> > > +   mutex_destroy(&imx492->mutex);
-> > > +
-> > > +   return ret;
-> > > +}
-> > > +
-> > > +/**
-> > > + * imx492_remove() - I2C client device unbinding
-> > > + * @client: pointer to I2C client device
-> > > + */
-> > > +static void imx492_remove(struct i2c_client *client)
-> > > +{
-> > > +   struct v4l2_subdev *sd = i2c_get_clientdata(client);
-> > > +   struct imx492 *imx492 = to_imx492(sd);
-> > > +
-> > > +   v4l2_async_unregister_subdev(sd);
-> > > +   media_entity_cleanup(&sd->entity);
-> > > +   v4l2_ctrl_handler_free(sd->ctrl_handler);
-> > > +   pm_runtime_disable(&client->dev);
-> > > +   if (!pm_runtime_status_suspended(&client->dev))
-> > > +           imx492_power_off(&client->dev);
-> > > +   pm_runtime_set_suspended(&client->dev);
-> > > +   mutex_destroy(&imx492->mutex);
-> > > +}
-> > > +
-> > > +static const struct dev_pm_ops imx492_pm_ops = {
-> > > +   SET_RUNTIME_PM_OPS(imx492_power_off, imx492_power_on, NULL)
-> > > +};
-> > > +
-> > > +static const struct of_device_id imx492_of_match[] = {
-> > > +   { .compatible = "sony,imx492_mipi" },
-> > > +   { }
-> > > +};
-> > > +
-> > > +MODULE_DEVICE_TABLE(of, imx492_of_match);
-> > > +
-> > > +static struct i2c_driver imx492_driver = {
-> > > +   .probe_new = imx492_probe,
-> > > +   .remove = imx492_remove,
-> > > +   .driver = {
-> > > +           .name = "imx492",
-> > > +           .pm = &imx492_pm_ops,
-> > > +           .of_match_table = imx492_of_match,
-> > > +   },
-> > > +};
-> > > +
-> > > +module_i2c_driver(imx492_driver);
-> > > +
-> > > +MODULE_DESCRIPTION("Sony imx492 sensor driver");
-> > > +MODULE_AUTHOR("Petko Manolov <petko.manolov@konsulko.com>");
-> > > +MODULE_LICENSE("GPL");
-> >
-> > --
-> > Regards,
-> >
-> > Laurent Pinchart
->
->
-> cheers,
-> Petko
+> >> Hi Amos,
+> >>
+> >> On Fri, Nov 25, 2022 at 03:11:22AM +0100, Amos Tibaldi wrote:
+> >> > Hello, I blacklisted the snd_usb_audio and traced 0xffff uvcvideo.ko. The
+> >> > problem has slightly changed. Now the frames are coming but are not shown,
+> >> > as you can see from the syslog and dmesg below. Cheese, mpv, vlc, xawtv
+> >> > show all black window
+> >> >
+> >> > tibaldi@ryzen:~/Desktop/src/svl2/SimpleV4L2-SimpleV4L2_v0.2.5/build$ xawtv
+> >> > This is xawtv-3.106, running on Linux/x86_64 (5.4.212)
+> >> > xinerama 0: 1920x1080+0+0
+> >> > vid-open-auto: using grabber/webcam device /dev/video0
+> >> > v4l2: oops: select timeout
+> >>
+> >> [snip]
+> >>
+> >> > [  686.740627] uvcvideo: Probing generic UVC device 3
+> >> > [  686.742123] uvcvideo: Found format MJPEG.
+> >> > [  686.742125] uvcvideo: - 1920x1080 (30.0 fps)
+> >> > [  686.742126] uvcvideo: - 640x480 (30.0 fps)
+> >> > [  686.742127] uvcvideo: - 800x600 (30.0 fps)
+> >> > [  686.742128] uvcvideo: - 1024x768 (30.0 fps)
+> >> > [  686.742129] uvcvideo: - 1280x720 (30.0 fps)
+> >> > [  686.742130] uvcvideo: - 1280x960 (30.0 fps)
+> >> > [  686.742130] uvcvideo: - 1280x1024 (30.0 fps)
+> >> > [  686.742131] uvcvideo: - 1360x768 (30.0 fps)
+> >> > [  686.742132] uvcvideo: - 1400x900 (30.0 fps)
+> >> > [  686.742133] uvcvideo: - 1440x900 (30.0 fps)
+> >> > [  686.742134] uvcvideo: Found format YUV 4:2:2 (YUYV).
+> >> > [  686.742135] uvcvideo: - 1920x1080 (30.0 fps)
+> >> > [  686.742135] uvcvideo: - 640x480 (30.0 fps)
+> >> > [  686.742136] uvcvideo: - 800x600 (30.0 fps)
+> >> > [  686.742137] uvcvideo: - 1024x768 (30.0 fps)
+> >> > [  686.742138] uvcvideo: - 1280x720 (30.0 fps)
+> >> > [  686.742139] uvcvideo: - 1280x960 (30.0 fps)
+> >> > [  686.742140] uvcvideo: - 1280x1024 (30.0 fps)
+> >> > [  686.742141] uvcvideo: - 1360x768 (30.0 fps)
+> >> > [  686.742141] uvcvideo: - 1400x900 (30.0 fps)
+> >> > [  686.742142] uvcvideo: - 1440x900 (30.0 fps)
+> >> > [  686.742146] uvcvideo: Found a Status endpoint (addr 87).
+> >> > [  686.742147] uvcvideo: Found UVC 1.00 device ezcap U3 capture (1bcf:2c99)
+> >> > [  686.742151] uvcvideo: Added control 00000000-0000-0000-0000-000000000101/2 to device 3 entity 2
+> >> > [  686.743061] uvcvideo: Adding mapping 'Brightness' to control 00000000-0000-0000-0000-000000000101/2.
+> >> > [  686.743063] uvcvideo: Added control 00000000-0000-0000-0000-000000000101/3 to device 3 entity 2
+> >> > [  686.744306] uvcvideo: Adding mapping 'Contrast' to control 00000000-0000-0000-0000-000000000101/3.
+> >> > [  686.744307] uvcvideo: Added control 00000000-0000-0000-0000-000000000101/6 to device 3 entity 2
+> >> > [  686.745557] uvcvideo: Adding mapping 'Hue' to control 00000000-0000-0000-0000-000000000101/6.
+> >> > [  686.745558] uvcvideo: Added control 00000000-0000-0000-0000-000000000101/7 to device 3 entity 2
+> >> > [  686.746808] uvcvideo: Adding mapping 'Saturation' to control 00000000-0000-0000-0000-000000000101/7.
+> >> > [  686.746811] uvcvideo: Scanning UVC chain: OT 5 <- XU 4 <- XU 3 <- PU 2 <- IT 1
+> >> > [  686.746814] uvcvideo: Found a valid video chain (1 -> 5).
+> >> > [  686.759767] input: ezcap U3 capture: ezcap U3 capt as /devices/pci0000:00/0000:00:01.3/0000:02:00.0/usb2/2-3/2-3:1.0/input/input20
+> >> > [  686.759814] uvcvideo: UVC device initialized.
+> >> > [  686.759856] usbcore: registered new interface driver uvcvideo
+> >> > [  686.759857] USB Video Class driver (1.1.1)
+> >> > [  688.950588] uvcvideo: Suspending interface 1
+> >> > [  688.950591] uvcvideo: Suspending interface 0
+> >> > [  693.066866] uvcvideo: uvc_v4l2_open
+> >> > [  693.164163] uvcvideo: Resuming interface 0
+> >> > [  693.164164] uvcvideo: Resuming interface 1
+> >> > [  693.164213] uvcvideo: uvc_v4l2_poll
+> >> > [  693.164216] uvcvideo: uvc_v4l2_read: not implemented.
+> >>
+> >> That's an ancient API that the uvcvideo driver doesn't support. xawtv is
+> >> likely a bad test application. Let's start simply, could you run
+> >>
+> >> yavta -f YUYV -s 1920x1080 -c10 /dev/video0
+> >>
+> >> and provide both the kernel log and the messages output by yavta ?
+> >>
+> >> > [  693.164220] uvcvideo: uvc_v4l2_poll
+> >> > [  693.164221] uvcvideo: uvc_v4l2_read: not implemented.
+> >> > [  693.164234] uvcvideo: uvc_v4l2_poll
+> >> > [  693.164234] uvcvideo: uvc_v4l2_read: not implemented.
+> >> > [  693.164240] uvcvideo: uvc_v4l2_poll
+> >> > [  693.164241] uvcvideo: uvc_v4l2_read: not implemented.
+> >> > [  693.167317] uvcvideo: uvc_v4l2_poll
+> >> > [  693.167320] uvcvideo: uvc_v4l2_read: not implemented.
+> >> > [  693.167887] uvcvideo: uvc_v4l2_open
+> >> > [  693.167894] uvcvideo: uvc_ioctl_g_input 1
+> >> > [  693.167895] uvcvideo: uvc_ioctl_enum_input 1
+> >> > [  693.167903] uvcvideo: Trying format 0x32315559 (YU12): 1920x1080.
+> >> > [  693.167904] uvcvideo: Using default frame interval 33333.3 us (30.0 fps).
+> >> > [  693.181968] uvcvideo: Trying format 0x32315559 (YU12): 1920x1080.
+> >> > [  693.181970] uvcvideo: Using default frame interval 33333.3 us (30.0 fps).
+> >> > [  693.196719] uvcvideo: Trying format 0x32315659 (YV12): 1920x1080.
+> >> > [  693.196721] uvcvideo: Using default frame interval 33333.3 us (30.0 fps).
+> >> > [  693.210226] uvcvideo: Trying format 0x50323234 (422P): 1920x1080.
+> >> > [  693.210228] uvcvideo: Using default frame interval 33333.3 us (30.0 fps).
+> >> > [  693.224215] uvcvideo: Trying format 0x56595559 (YUYV): 1920x1080.
+> >> > [  693.224217] uvcvideo: Using default frame interval 33333.3 us (30.0 fps).
+> >> > [  693.237715] uvcvideo: uvc_ioctl_g_parm 1
+> >> > [  693.251341] uvcvideo: uvc_v4l2_mmap
+> >> > [  693.251460] uvcvideo: uvc_v4l2_mmap
+> >> > [  693.251536] uvcvideo: uvc_v4l2_mmap
+> >> > [  693.251602] uvcvideo: uvc_v4l2_mmap
+> >> > [  693.251660] uvcvideo: uvc_v4l2_mmap
+> >> > [  693.251715] uvcvideo: uvc_v4l2_mmap
+> >> > [  693.251768] uvcvideo: uvc_v4l2_mmap
+> >> > [  693.251821] uvcvideo: uvc_v4l2_mmap
+> >> > [  693.251873] uvcvideo: uvc_v4l2_mmap
+> >> > [  693.251925] uvcvideo: uvc_v4l2_mmap
+> >> > [  693.251977] uvcvideo: uvc_v4l2_mmap
+> >> > [  693.252030] uvcvideo: uvc_v4l2_mmap
+> >> > [  693.252082] uvcvideo: uvc_v4l2_mmap
+> >> > [  693.252134] uvcvideo: uvc_v4l2_mmap
+> >> > [  693.252185] uvcvideo: uvc_v4l2_mmap
+> >> > [  693.252237] uvcvideo: uvc_v4l2_mmap
+> >> > [  693.252288] uvcvideo: uvc_v4l2_mmap
+> >> > [  693.252340] uvcvideo: uvc_v4l2_mmap
+> >> > [  693.252391] uvcvideo: uvc_v4l2_mmap
+> >> > [  693.252442] uvcvideo: uvc_v4l2_mmap
+> >> > [  693.252494] uvcvideo: uvc_v4l2_mmap
+> >> > [  693.252545] uvcvideo: uvc_v4l2_mmap
+> >> > [  693.252596] uvcvideo: uvc_v4l2_mmap
+> >> > [  693.252648] uvcvideo: uvc_v4l2_mmap
+> >> > [  693.252699] uvcvideo: uvc_v4l2_mmap
+> >> > [  693.252750] uvcvideo: uvc_v4l2_mmap
+> >> > [  693.252801] uvcvideo: uvc_v4l2_mmap
+> >> > [  693.252852] uvcvideo: uvc_v4l2_mmap
+> >> > [  693.252903] uvcvideo: uvc_v4l2_mmap
+> >> > [  693.252954] uvcvideo: uvc_v4l2_mmap
+> >> > [  693.253005] uvcvideo: uvc_v4l2_mmap
+> >> > [  693.253056] uvcvideo: uvc_v4l2_mmap
+> >> > [  693.253126] uvcvideo: uvc_ioctl_streamon 1
+> >> > [  693.253126] uvcvideo: uvc_ioctl_streamon 2
+> >> > [  693.255834] uvcvideo: Allocated 5 URB buffers of 16x1024 bytes each.
+> >> > [  693.528952] uvcvideo: Frame complete (EOF found).
+> >> > [  693.528953] uvcvideo: EOF in empty payload.
+> >> > [  693.530411] uvcvideo: frame 1 stats: 0/254/255 packets, 0/0/255 pts (!early initial), 253/255 scr, last pts/stc/sof 532789400/536923291/88
+> >> > [  693.562281] uvcvideo: Frame complete (EOF found).
+> >> > [  693.562282] uvcvideo: EOF in empty payload.
+> >> > [  693.563740] uvcvideo: frame 2 stats: 0/254/255 packets, 0/0/255 pts (!early initial), 253/255 scr, last pts/stc/sof 536945656/541069838/121
+> >> > [  693.595614] uvcvideo: Frame complete (EOF found).
+> >> > [  693.595615] uvcvideo: EOF in empty payload.
+> >> > [  693.597074] uvcvideo: frame 3 stats: 0/254/255 packets, 0/0/255 pts (!early initial), 253/255 scr, last pts/stc/sof 541101909/545231972/154
+> >> > [  693.628948] uvcvideo: Frame complete (EOF found).
+> >> > [  693.628949] uvcvideo: EOF in empty payload.
+> >> > [  693.630406] uvcvideo: frame 4 stats: 0/254/255 packets, 0/0/255 pts (!early initial), 254/255 scr, last pts/stc/sof 545258164/549394108/188
+> >> > [  693.662279] uvcvideo: Frame complete (EOF found).
+> >> > [  693.662280] uvcvideo: EOF in empty payload.
+> >> > .......
+> >> > [  710.361665] uvcvideo: EOF in empty payload.
+> >> > [  710.363124] uvcvideo: frame 506 stats: 0/254/255 packets, 0/0/255 pts (!early initial), 253/255 scr, last pts/stc/sof 2631698065/2635823538/534
+> >> > [  710.394996] uvcvideo: Frame complete (EOF found).
+> >> > [  710.394997] uvcvideo: EOF in empty payload.
+> >> > [  710.396456] uvcvideo: frame 507 stats: 0/254/255 packets, 0/0/255 pts (!early initial), 253/255 scr, last pts/stc/sof 2635854320/2639985673/567
+> >> > [  710.428329] uvcvideo: Frame complete (EOF found).
+> >> > [  710.428330] uvcvideo: EOF in empty payload.
+> >> > [  710.428407] uvcvideo: uvc_ioctl_streamoff 1
+> >> > [  710.432808] uvcvideo: uvc_v4l2_release
+> >> > [  710.435191] uvcvideo: uvc_v4l2_release
+> >> > [  712.815575] uvcvideo: Suspending interface 1
+> >> > [  712.815578] uvcvideo: Suspending interface 0
+> >> >
+> >> > On Fri, Nov 25, 2022 at 2:32 AM Laurent Pinchart wrote:
+> >> >
+> >> > > Hi Amos,
+> >> > >
+> >> > > Could you please avoid dropping the mailing list from CC when replying ?
+> >> > >
+> >> > > On Wed, Nov 23, 2022 at 09:43:10PM +0100, Amos Tibaldi wrote:
+> >> > > > Hello, I attached the dmesg text file of one linux mint 20.1 that I have
+> >> > > > just installed. The issue is the same. I hope it helps. Thanks.
+> >> > >
+> >> > > Quoting the interesting part from the log:
+> >> > >
+> >> > > > [  823.596518] usb 2-3: new SuperSpeed Gen 1 USB device number 2 using xhci_hcd
+> >> > > > [  823.629237] usb 2-3: New USB device found, idVendor=1bcf, idProduct=2c99, bcdDevice= 2.00
+> >> > > > [  823.629239] usb 2-3: New USB device strings: Mfr=1, Product=2, SerialNumber=0
+> >> > > > [  823.629240] usb 2-3: Product: ezcap U3 capture
+> >> > > > [  823.629241] usb 2-3: Manufacturer: VXIS Inc
+> >> > >
+> >> > > So far so good.
+> >> > >
+> >> > > > [  823.659423] mc: Linux media interface: v0.10
+> >> > > > [  823.667890] videodev: Linux video capture interface: v2.00
+> >> > > > [  823.678367] usb 2-3: 3:1: cannot get freq at ep 0x86
+> >> > > > [  823.685869] usb 2-3: 3:2: cannot get freq at ep 0x86
+> >> > > > [  823.692874] usb 2-3: 3:3: cannot get freq at ep 0x86
+> >> > >
+> >> > > This I don't like. I've seen many devices having trouble with the audio
+> >> > > side, which resulted in different kind of firmware misbehaviours (most
+> >> > > likely including crashes) that affected the video side. Could you try to
+> >> > > blacklist the snd_usb_audio module to see if it helps ? It can be done
+> >> > > by adding
+> >> > >
+> >> > > blacklist snd_usb_audio
+> >> > >
+> >> > > to /etc/modprobe.d/blacklist.conf
+> >> > >
+> >> > > > [  823.738250] usb 2-3: Warning! Unlikely big volume range (=4096), cval->res is probably wrong.
+> >> > > > [  823.738252] usb 2-3: [5] FU [Digital In Capture Volume] ch = 1, val = 0/4096/1
+> >> > > > [  823.738384] usbcore: registered new interface driver snd-usb-audio
+> >> > > > [  823.740047] uvcvideo: Found UVC 1.00 device ezcap U3 capture (1bcf:2c99)
+> >> > > > [  823.760905] input: ezcap U3 capture: ezcap U3 capt as /devices/pci0000:00/0000:00:01.3/0000:02:00.0/usb2/2-3/2-3:1.0/input/input17
+> >> > > > [  823.760976] usbcore: registered new interface driver uvcvideo
+> >> > > > [  823.760977] USB Video Class driver (1.1.1)
+> >> > >
+> >> > > Could you start video capture with any application and check if
+> >> > > additional messages are then printed in the kernel log ?
+> >> > >
+> >> > > > On Wed, Nov 23, 2022 at 9:04 PM Laurent Pinchart wrote:
+> >> > > >
+> >> > > > > Hi Amos,
+> >> > > > >
+> >> > > > > CC'ing the linux-media mailing list.
+> >> > > > >
+> >> > > > > On Wed, Nov 23, 2022 at 07:16:05PM +0100, Amos Tibaldi wrote:
+> >> > > > > > Hello,
+> >> > > > > >    I have a usb framegrabber and it worked fine in ubuntu 20.04 and previous
+> >> > > > > > releases of ubuntu with the uvcvideo.ko kernel module but now that I have
+> >> > > > > > ubuntu 22.10 the uvcvideo.ko does not work with the ezcap261 framegrabber. The
+> >> > > > > > ko is loaded but cheese or xawtv or vlc go on timeout when issuing video
+> >> > > > > > acquisition, and the select returns wrong argument. I have also updated the
+> >> > > > > > firmware of the framegrabber. What can I do?
+> >> > > > >
+> >> > > > > Could you please send a copy of the kernel log, in text form ? You can
+> >> > > > > retrieve it with `dmesg` or `sudo dmesg`. I'm particularly interested in
+> >> > > > > messages printed when the device is plugged in, or when an application
+> >> > > > > attempts to use it.
+
+-- 
+Regards,
+
+Laurent Pinchart
