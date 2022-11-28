@@ -2,182 +2,67 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0AF4663A60B
-	for <lists+linux-media@lfdr.de>; Mon, 28 Nov 2022 11:23:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7EAA263A60E
+	for <lists+linux-media@lfdr.de>; Mon, 28 Nov 2022 11:24:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230252AbiK1KXw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 28 Nov 2022 05:23:52 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58370 "EHLO
+        id S230250AbiK1KYc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 28 Nov 2022 05:24:32 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59130 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230242AbiK1KXu (ORCPT
+        with ESMTP id S230269AbiK1KYV (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 28 Nov 2022 05:23:50 -0500
-Received: from mail-io1-f69.google.com (mail-io1-f69.google.com [209.85.166.69])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6DEFB9A
-        for <linux-media@vger.kernel.org>; Mon, 28 Nov 2022 02:23:47 -0800 (PST)
-Received: by mail-io1-f69.google.com with SMTP id o15-20020a6bf80f000000b006de313e5cfeso5540908ioh.6
-        for <linux-media@vger.kernel.org>; Mon, 28 Nov 2022 02:23:47 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=NobAw+FI5C8ULf/Y4Ui7fBPT64uhSipLoJa02tBgo6w=;
-        b=xxCTJmd+dl2pS7IPSe5okBKQypRsYcPCP3654Qz32AA0Cwh3Kwmuq2woRkqImo3qNC
-         63JYLm6HyB0WL29hl6nXVyMlRZQgb1P2xi9jYx6QmV1wIWLjwinfEAF5/2gAevWKPCla
-         nTrE+dkrHo9lriU1irN9scno5BUsLbt6vUKGXmDUnm2iM6SHOPiyBOmZ4IW9T00LuMk5
-         nkvtp04vZXAO5/oMUUMgdHPKU3cKd82jPrvPPQn+0/w/K6bfrCYlWpGT01vx+aBuaClA
-         6j2jhHzP21bjqMmUqHkrn6rRjt2DxamcyjdVknwC/vUXm6Vk/BIIWyJJ+7HKJouM/xyt
-         VTAQ==
-X-Gm-Message-State: ANoB5pnzYoPtQeqJ7JTM6QGHss0ARKthCZ5JDl6+2PB8sup36VMa/86R
-        GD6QLHtWC4Etg2kfztCuTXceHcRiccGteJ0jm3aOSUwZRjNw
-X-Google-Smtp-Source: AA0mqf4q82h5u4p7M9JpZmf8yostPPR0v00Z1sWBDTOj2UMlZRBmJ58XVJx36gq0C2LTe7Y34B4QfwYkzwhvSooCAYj0epoKt1QT
+        Mon, 28 Nov 2022 05:24:21 -0500
+Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7DC551A83B
+        for <linux-media@vger.kernel.org>; Mon, 28 Nov 2022 02:24:12 -0800 (PST)
+Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1ozbJ4-00H3kL-Sq; Mon, 28 Nov 2022 10:24:10 +0000
+Received: from ip6-localhost ([::1] helo=localhost.localdomain)
+        by slave0 with esmtp (Exim 4.94.2)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1ozbJ1-001VwK-Rw; Mon, 28 Nov 2022 10:24:07 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL FOR v6.2] Various fixes and enhancements (#87830)
+Date:   Mon, 28 Nov 2022 10:24:07 +0000
+Message-Id: <20221128102407.361058-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <ac74fda5-4160-1cd7-4ce1-bb8ad64aed51@xs4all.nl>
+References: 
 MIME-Version: 1.0
-X-Received: by 2002:a02:7409:0:b0:375:4727:8625 with SMTP id
- o9-20020a027409000000b0037547278625mr14738013jac.300.1669631027186; Mon, 28
- Nov 2022 02:23:47 -0800 (PST)
-Date:   Mon, 28 Nov 2022 02:23:47 -0800
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <00000000000048102d05ee8544e5@google.com>
-Subject: [syzbot] linux-next boot error: WARNING: refcount bug in dvb_register_device
-From:   syzbot <syzbot+fce48a3dd3368645bd6c@syzkaller.appspotmail.com>
-To:     colin.i.king@gmail.com, keitasuzuki.park@sslab.ics.keio.ac.jp,
-        linma@zju.edu.cn, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-next@vger.kernel.org,
-        mchehab@kernel.org, sfr@canb.auug.org.au,
-        syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=0.9 required=5.0 tests=BAYES_00,FROM_LOCAL_HEX,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SORTED_RECIPS,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello,
+From: builder@linuxtv.org
 
-syzbot found the following issue on:
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/ac74fda5-4160-1cd7-4ce1-bb8ad64aed51@xs4all.nl/
+Build log: https://builder.linuxtv.org/job/patchwork/259856/
+Build time: 00:00:00
+Link: https://lore.kernel.org/linux-media/ac74fda5-4160-1cd7-4ce1-bb8ad64aed51@xs4all.nl
 
-HEAD commit:    15f2f20ccbf2 Add linux-next specific files for 20221128
-git tree:       linux-next
-console output: https://syzkaller.appspot.com/x/log.txt?x=114a14ad880000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=50be0d6c9da3be9d
-dashboard link: https://syzkaller.appspot.com/bug?extid=fce48a3dd3368645bd6c
-compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
-
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/0bcd04c8e812/disk-15f2f20c.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/23f3cf3f818e/vmlinux-15f2f20c.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/9111cdf112e7/bzImage-15f2f20c.xz
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+fce48a3dd3368645bd6c@syzkaller.appspotmail.com
-
-usbcore: registered new interface driver sonixj
-usbcore: registered new interface driver spca500
-usbcore: registered new interface driver spca501
-usbcore: registered new interface driver spca505
-usbcore: registered new interface driver spca506
-usbcore: registered new interface driver spca508
-usbcore: registered new interface driver spca561
-usbcore: registered new interface driver spca1528
-usbcore: registered new interface driver sq905
-usbcore: registered new interface driver sq905c
-usbcore: registered new interface driver sq930x
-usbcore: registered new interface driver sunplus
-usbcore: registered new interface driver stk014
-usbcore: registered new interface driver stk1135
-usbcore: registered new interface driver stv0680
-usbcore: registered new interface driver t613
-usbcore: registered new interface driver gspca_topro
-usbcore: registered new interface driver touptek
-usbcore: registered new interface driver tv8532
-usbcore: registered new interface driver vc032x
-usbcore: registered new interface driver vicam
-usbcore: registered new interface driver xirlink-cit
-usbcore: registered new interface driver gspca_zc3xx
-usbcore: registered new interface driver ALi m5602
-usbcore: registered new interface driver STV06xx
-usbcore: registered new interface driver gspca_gl860
-usbcore: registered new interface driver hackrf
-usbcore: registered new interface driver msi2500
-usbcore: registered new interface driver Philips webcam
-usbcore: registered new interface driver uvcvideo
-au0828: au0828 driver loaded
-usbcore: registered new interface driver au0828
-usbcore: registered new interface driver cx231xx
-usbcore: registered new interface driver em28xx
-em28xx: Registered (Em28xx v4l2 Extension) extension
-em28xx: Registered (Em28xx Audio Extension) extension
-em28xx: Registered (Em28xx dvb Extension) extension
-em28xx: Registered (Em28xx Input Extension) extension
-usbcore: registered new interface driver go7007
-usbcore: registered new interface driver go7007-loader
-usbcore: registered new interface driver hdpvr
-usbcore: registered new interface driver pvrusb2
-pvrusb2: V4L in-tree version:Hauppauge WinTV-PVR-USB2 MPEG2 Encoder/Tuner
-pvrusb2: Debug mask is 31 (0x1f)
-usbcore: registered new interface driver stk1160
-usbcore: registered new interface driver usbtv
-dvbdev: DVB: registering new adapter (dvb_vidtv_bridge)
-i2c i2c-0: DVB: registering adapter 0 frontend 0 (Dummy demod for DVB-T/T2/C/S/S2)...
-------------[ cut here ]------------
-refcount_t: addition on 0; use-after-free.
-WARNING: CPU: 0 PID: 1 at lib/refcount.c:25 refcount_warn_saturate+0x17c/0x1f0 lib/refcount.c:25
-Modules linked in:
-CPU: 0 PID: 1 Comm: swapper/0 Not tainted 6.1.0-rc6-next-20221128-syzkaller #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 10/26/2022
-RIP: 0010:refcount_warn_saturate+0x17c/0x1f0 lib/refcount.c:25
-Code: 0a 31 ff 89 de e8 64 54 75 fd 84 db 0f 85 2e ff ff ff e8 e7 57 75 fd 48 c7 c7 60 4c a6 8a c6 05 bf 49 51 0a 01 e8 5c 83 b4 05 <0f> 0b e9 0f ff ff ff e8 c8 57 75 fd 0f b6 1d a9 49 51 0a 31 ff 89
-RSP: 0000:ffffc900000678d0 EFLAGS: 00010282
-RAX: 0000000000000000 RBX: 0000000000000000 RCX: 0000000000000000
-RDX: ffff88813ff58000 RSI: ffffffff81660e7c RDI: fffff5200000cf0c
-RBP: ffff888022a45010 R08: 0000000000000005 R09: 0000000000000000
-R10: 0000000080000000 R11: 0000000000000000 R12: 0000000000000001
-R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000001
-FS:  0000000000000000(0000) GS:ffff8880b9800000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: ffff88823ffff000 CR3: 000000000c48e000 CR4: 00000000003506f0
-DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-Call Trace:
- <TASK>
- __refcount_add include/linux/refcount.h:199 [inline]
- __refcount_inc include/linux/refcount.h:250 [inline]
- refcount_inc include/linux/refcount.h:267 [inline]
- kref_get include/linux/kref.h:45 [inline]
- dvb_device_get drivers/media/dvb-core/dvbdev.c:585 [inline]
- dvb_register_device+0xe83/0x16e0 drivers/media/dvb-core/dvbdev.c:517
- dvb_register_frontend+0x58f/0x8c0 drivers/media/dvb-core/dvb_frontend.c:3044
- vidtv_bridge_dvb_init drivers/media/test-drivers/vidtv/vidtv_bridge.c:430 [inline]
- vidtv_bridge_probe+0x450/0x9f0 drivers/media/test-drivers/vidtv/vidtv_bridge.c:502
- platform_probe+0x100/0x1f0 drivers/base/platform.c:1400
- call_driver_probe drivers/base/dd.c:560 [inline]
- really_probe+0x249/0xb90 drivers/base/dd.c:639
- __driver_probe_device+0x1df/0x4d0 drivers/base/dd.c:778
- driver_probe_device+0x4c/0x1a0 drivers/base/dd.c:808
- __driver_attach+0x271/0x570 drivers/base/dd.c:1194
- bus_for_each_dev+0x14b/0x1d0 drivers/base/bus.c:301
- bus_add_driver+0x4cd/0x640 drivers/base/bus.c:618
- driver_register+0x224/0x3a0 drivers/base/driver.c:246
- vidtv_bridge_init+0x3b/0x68 drivers/media/test-drivers/vidtv/vidtv_bridge.c:594
- do_one_initcall+0x141/0x790 init/main.c:1306
- do_initcall_level init/main.c:1379 [inline]
- do_initcalls init/main.c:1395 [inline]
- do_basic_setup init/main.c:1414 [inline]
- kernel_init_freeable+0x6f9/0x782 init/main.c:1634
- kernel_init+0x1e/0x1d0 init/main.c:1522
- ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:308
- </TASK>
+gpg: Signature made Mon 28 Nov 2022 09:16:31 AM UTC
+gpg:                using EDDSA key 52ADCAAE8A4F70B99ACD8D726B425DF79B1C1E76
+gpg: Good signature from "Hans Verkuil <hverkuil-cisco@xs4all.nl>" [unknown]
+gpg:                 aka "Hans Verkuil <hverkuil@xs4all.nl>" [full]
 
 
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+Build aborted due to a fatal error:
+FAILED: patch patch patches/0001-media-s5p-mfc-Add-variant-data-for-MFC-v7-hardware-f.patch doesn't apply:
+Applying patch patches/0001-media-s5p-mfc-Add-variant-data-for-MFC-v7-hardware-f.patch
+patching file drivers/media/platform/samsung/s5p-mfc/s5p_mfc.c
+Hunk #1 FAILED at 1590.
+Hunk #2 succeeded at 1671 with fuzz 2 (offset 10 lines).
+1 out of 2 hunks FAILED -- rejects in file drivers/media/platform/samsung/s5p-mfc/s5p_mfc.c
+Patch patches/0001-media-s5p-mfc-Add-variant-data-for-MFC-v7-hardware-f.patch can be reverse-applied
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
