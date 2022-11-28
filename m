@@ -2,87 +2,105 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 109D663A252
-	for <lists+linux-media@lfdr.de>; Mon, 28 Nov 2022 08:54:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 245A063A26A
+	for <lists+linux-media@lfdr.de>; Mon, 28 Nov 2022 09:00:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229726AbiK1Hyp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 28 Nov 2022 02:54:45 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52618 "EHLO
+        id S229907AbiK1IAq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 28 Nov 2022 03:00:46 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56168 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229529AbiK1Hyo (ORCPT
+        with ESMTP id S229730AbiK1IAo (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 28 Nov 2022 02:54:44 -0500
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1451CC37;
-        Sun, 27 Nov 2022 23:54:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net; s=s31663417;
-        t=1669622065; bh=l+U0T/Rd2eXdAseoL2kbnPGmga6pXph0NSJHHSCRLDo=;
-        h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
-        b=SHYo88/n9BZIoXqljs9nOqiwIyPxaY/XM6FfuViUP6uqe9NtVCh4t8+StTOJ3n6ka
-         dqLXaXLMkvTNegGoTzoQpt5+ZnK4kV5/b/ihdGbRp5vR/kpmNdQCxgk430Z34AxhKv
-         9zWWnU53rFvdYzhELXX1ZaXw1MuTAohRDf3CLFmmiqTdlqrejQWuB3umGDjQZjI6kl
-         Ap+jtI3sQt3N/6FWxjpUvXIOhsVupNm64J8e32+TA9NIvTch8oN4wAoR8GikmIMsuB
-         7un8Y5A3mRw1MvHGNQrkcMFiCJjpb8w41oPLzgFmYxMNZ/kMr3kmRU4dUGItE3wsGj
-         D9iajZ/plB8/g==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [91.65.146.82] ([91.65.146.82]) by web-mail.gmx.net
- (3c-app-gmx-bs10.server.lan [172.19.170.61]) (via HTTP); Mon, 28 Nov 2022
- 08:54:25 +0100
+        Mon, 28 Nov 2022 03:00:44 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8536364E9
+        for <linux-media@vger.kernel.org>; Mon, 28 Nov 2022 00:00:42 -0800 (PST)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7678B501;
+        Mon, 28 Nov 2022 09:00:40 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1669622440;
+        bh=peRoVpzLDoNZqmWFdTmtXryCrTmVgj/0c1IElMs1GF0=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=SVT/YSgIJlzhFqyEIm+3aqqgHSmJ/7JoD8t353H7TuBey75cduy/F6HSDvliAxLRA
+         j1kG9Kav2kEnkW7J/cEB/a8wsVBMg6mt6f1Lx5H4JwXbn2WXfy8YewvlB5xblSCgAq
+         cXG4ado1YYOFa470jpoCmxXiV3RijoyISm0jQY5w=
+Date:   Mon, 28 Nov 2022 10:00:25 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, Sakari Ailus <sakari.ailus@iki.fi>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        Paul Elder <paul.elder@ideasonboard.com>,
+        hugues.fruchet@st.com, prabhakar.mahadev-lad.rj@bp.renesas.com,
+        aford173@gmail.com, festevam@gmail.com, eddy.khan@vergesense.com,
+        paul.kocialkowski@bootlin.com, eugen.hristev@microchip.com
+Subject: Re: [PATCH] media: ov5640: Fix analogue gain control
+Message-ID: <Y4RqmfajEpTYQ27M@pendragon.ideasonboard.com>
+References: <20221123095407.2393-1-laurent.pinchart@ideasonboard.com>
+ <20221125091224.a6llcciylnz5rfg5@uno.localdomain>
 MIME-Version: 1.0
-Message-ID: <trinity-50896a7d-eff4-424e-98d7-ab33ac2587db-1669622065632@3c-app-gmx-bs10>
-From:   Robert Schlabbach <robert_s@gmx.net>
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     linux-kernel@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>,
-        linux-media@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: Re: [PATCH -next] media: dvb/frontend.h: fix kernel-doc warnings
-Content-Type: text/plain; charset=UTF-8
-Date:   Mon, 28 Nov 2022 08:54:25 +0100
-Importance: normal
-Sensitivity: Normal
-In-Reply-To: <20221128054303.3124-1-rdunlap@infradead.org>
-References: <20221128054303.3124-1-rdunlap@infradead.org>
-Content-Transfer-Encoding: quoted-printable
-X-UI-Message-Type: mail
-X-Priority: 3
-X-Provags-ID: V03:K1:L3Z6jtlzUGImJGN99vpeUabCOjuQukxXS1/jGMDWbfPGn6Go5qCqTZSUMh2xXednlD2BT
- r8oR0nSuBiBrw+r386GeLaDCk27c27to+7LNiL38F9JuErNk8v9JZjcQLGEUX/fNGcc8IDWXKDp0
- m5qVStMCC28VWQnKhDGZXIVAmoQ/9BW8GKJoIDAOtFkILMuVJlKhrd6zP4jHobbUFiBTiNCsHC6C
- Gr9a6+NzD9Q5CUnpG4NNJnzTUOpMGOrpDdJf5+rr+JM/MZRlckPLbh0N+Zg9kqFKVmshVQ3S9xec
- vs=
-UI-OutboundReport: notjunk:1;M01:P0:pf6JK/LzQAU=;E5iXPqUe6USmVcUjIfwQv/8xRvt
- +P/qZrA7yWhl+4FD41OpdVZA7yf0VE4SQY8P9sqJhMMIR7og4zhxV3BPqhaj0EtA2Pq/LoX9f
- PTeyBBJjL5NCoZxqA9kdRL/Ry4ybawJIe8jJORTennLKIUtzYw7ROIHhFdHwYMMvuLA7OaqfQ
- kR9KhtGI8QZiRIK2LuMziqqi736KBm0JCqKtdzeBjFQz18dtVXIzJkUtJQ4ZucYtohUKbgSWg
- G35udbcZMQx+7T6qiqIR7NrP0aEjrNGiGADdc8i4cYgEo7TLzlpPonPuuad10fbagaz4YsEAx
- HUrgOf2v5KJ3TG+N5vpSWuX2u97GVBksWQpYwUcTTDpAE0H+bB+tGX9bihMY1bOpWjWAKJVQL
- fyFgXjUB1sDmm2yCtF0kcyRNHwaYvrM+F2rwTQaNYGFhCeAS+8QGTsF5ukXturWRQvIFnOq/d
- Rd/pYs3He8MpxMECkR5dbeYFVBg7acH++dwnNnN9MpgBFgkwA8C2X/t9IXWr41rgMkOdE1yl/
- 0HlFq7CWv6P1kOByvivS9cP2DqDW0XgfEooUlhWOVOKa/IlWSqPzTVxJUkA8NijGmziLIv+WM
- 0sA/H3bxlrGj6lSG5pU0Y8Umgw/YfDqQOJrFveoRcHF80eBeaQBXPre7uuOtF5CU1h0tSY0bh
- 7g0L6KmpBkqGQD4MYDNzoNwJ6W/YEpdlMZSQVLXYXcmPherMAKnJdsGWt1vb5J+ojvPZiikLu
- OtXnuctPy9Lfn9AnAFCQqW/zuG+D2p2gpv3T5nYyIdi26b9ANdLvi5xWrz+KIWyDoAmE7RpHp
- RtkvEOB8EkkyDw8dJA5Ppzh9dmy6fCgTjcI9ASY3WxwM4=
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20221125091224.a6llcciylnz5rfg5@uno.localdomain>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-> From:=C2=A0"Randy Dunlap" <rdunlap@infradead=2Eorg>
-> Subject:=C2=A0[PATCH -next] media: dvb/frontend=2Eh: fix kernel-doc warn=
-ings
->=20
-> scripts/kernel-doc spouts multiple warnings, so fix them:
+On Fri, Nov 25, 2022 at 10:12:24AM +0100, Jacopo Mondi wrote:
+> Hi Laurent
+> 
+> On Wed, Nov 23, 2022 at 11:54:07AM +0200, Laurent Pinchart wrote:
+> > From: Paul Elder <paul.elder@ideasonboard.com>
+> >
+> > The ov5640 driver incorrectly uses V4L2_CID_GAIN for the analogue gain.
+> > V4L2 has a specific control for analogue gain, V4L2_CID_ANALOGUE_GAIN.
+> > Use it.
+> >
+> > Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
+> > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> 
+> It's a bit of a shame we cannot report here your analysis of the gain
+> control handling on ov5640, so I'll link it here for reference
 
-Wow, sorry for introducing those, and thanks for promptly providing a fix!
+I think we can :-) I'll post a v2 with an expanded commit message.
 
-Reviewed-by: Robert Schlabbach <robert_s@gmx=2Enet>
+> https://lists.libcamera.org/pipermail/libcamera-devel/2022-November/035655.html
+> 
+> I agree with the above conclusions, until proven differently we can
+> consider 0x350a/b to control the analogue gain, as there's a separate
+> digital gain register, hence the below change makes sense to me.
+> 
+> I've expanded the cc-list to who has been recently involved in ov5640
+> developments. If required by any user, we should try to map
+> CID_GAIN on CID_ANALOGUE_GAIN for compatibility.
+> 
+> From my side it's good the way it is:
+> Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> 
+> > ---
+> >  drivers/media/i2c/ov5640.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
+> > index 2d740397a5d4..c65c391bc1eb 100644
+> > --- a/drivers/media/i2c/ov5640.c
+> > +++ b/drivers/media/i2c/ov5640.c
+> > @@ -3458,7 +3458,7 @@ static int ov5640_init_controls(struct ov5640_dev *sensor)
+> >  	/* Auto/manual gain */
+> >  	ctrls->auto_gain = v4l2_ctrl_new_std(hdl, ops, V4L2_CID_AUTOGAIN,
+> >  					     0, 1, 1, 1);
+> > -	ctrls->gain = v4l2_ctrl_new_std(hdl, ops, V4L2_CID_GAIN,
+> > +	ctrls->gain = v4l2_ctrl_new_std(hdl, ops, V4L2_CID_ANALOGUE_GAIN,
+> >  					0, 1023, 1, 0);
+> >
+> >  	ctrls->saturation = v4l2_ctrl_new_std(hdl, ops, V4L2_CID_SATURATION,
 
-Best Regards,
---=20
-Robert Schlabbach
+-- 
+Regards,
+
+Laurent Pinchart
