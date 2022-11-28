@@ -2,225 +2,162 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3A27763A13E
-	for <lists+linux-media@lfdr.de>; Mon, 28 Nov 2022 07:31:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F237463A17D
+	for <lists+linux-media@lfdr.de>; Mon, 28 Nov 2022 07:45:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229805AbiK1Gbu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 28 Nov 2022 01:31:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38684 "EHLO
+        id S229852AbiK1GpW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 28 Nov 2022 01:45:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44154 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229621AbiK1Gbs (ORCPT
+        with ESMTP id S229753AbiK1GpU (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 28 Nov 2022 01:31:48 -0500
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4AC0412D35;
-        Sun, 27 Nov 2022 22:31:47 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by sin.source.kernel.org (Postfix) with ESMTPS id A8981CE0A25;
-        Mon, 28 Nov 2022 06:31:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A120FC433D6;
-        Mon, 28 Nov 2022 06:31:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1669617103;
-        bh=GoMPjr5XsVPNgE8a7EZDAqFErocF043LS2O0MhMI8uE=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=nuUMVY/m7QpEi5j3ZUXuVzKX48kyIktz+8oGrms1mxwO3gFhPahaWakPyGUEp2wJP
-         KjvePJS5XucxQM3wKk9KGFYE8d4kkZv0D3/ELB5JAJJA5oVoIAi+ucKUdhnBsP6E+y
-         GdMfUK1NzYgQ/hphGoQZ1QfpZ5C9VMn5BUUJIGVxl2cgF3amNkzYjw34J4W3n7Cb1B
-         CQp5ji3dVoZDWt8Wf6K8BUQyQK/qYkevIE8w8QNaVlV113B9Q0srkWx91uOZ569oUG
-         /N8QO574kH45ZkkMgBp+L1SXIYs2QIFhUjoikAuOFvNMS8RR+bPhkm0Dbv/BOGvkIf
-         4XTP1CtUamZwg==
-Date:   Sun, 27 Nov 2022 23:31:41 -0700
-From:   Nathan Chancellor <nathan@kernel.org>
-To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-        linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
+        Mon, 28 Nov 2022 01:45:20 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 576D060EC;
+        Sun, 27 Nov 2022 22:45:19 -0800 (PST)
+Received: from [IPV6:2401:4900:1f3f:3634:f7a:4485:ffcd:6086] (unknown [IPv6:2401:4900:1f3f:3634:f7a:4485:ffcd:6086])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4CB53501;
+        Mon, 28 Nov 2022 07:45:14 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1669617916;
+        bh=zW75EAKiwigmhz5e0ReBRq5bEoqYtMlGo7RJdrQHOkU=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=JWw+/VTr+S+8D0JSECaB1F4f3s8dNB2DoQsmcwR5eeOmt/Wr5ZP+UTY70NY3xXB9N
+         1Uu8VHi1VG3CrLPcoxvszPRcdHKNMrXEs6dqkLndFvcV68YBScPx/qRWmMOL/Jkike
+         6s/kLQOISEvLFLzrqE1KqR+e1A4+8r6tUEV7zPVI=
+Message-ID: <6af7a4d9-ee71-86c3-f1b9-0432b24a8ed5@ideasonboard.com>
+Date:   Mon, 28 Nov 2022 12:14:19 +0530
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.0
+Subject: Re: [PATCH v2 1/3] media: dt-bindings: ak7375: Convert to DT schema
+To:     Yassine Oudjana <yassine.oudjana@gmail.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Samuel Holland <samuel@sholland.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        llvm@lists.linux.dev
-Subject: Re: [PATCH v8 3/6] staging: media: Add support for the Allwinner A31
- ISP
-Message-ID: <Y4RVzSM4FQ/tYQAV@dev-arch.thelio-3990X>
-References: <20221103163717.246217-1-paul.kocialkowski@bootlin.com>
- <20221103163717.246217-4-paul.kocialkowski@bootlin.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221103163717.246217-4-paul.kocialkowski@bootlin.com>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Tianshu Qiu <tian.shu.qiu@intel.com>,
+        Bingbu Cao <bingbu.cao@intel.com>
+Cc:     Yassine Oudjana <y.oudjana@protonmail.com>,
+        Jacopo Mondi <jacopo@jmondi.org>, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20220711144039.232196-1-y.oudjana@protonmail.com>
+ <20220711144039.232196-2-y.oudjana@protonmail.com>
+Content-Language: en-US
+From:   Umang Jain <umang.jain@ideasonboard.com>
+In-Reply-To: <20220711144039.232196-2-y.oudjana@protonmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Paul,
+Hello,
 
-On Thu, Nov 03, 2022 at 05:37:14PM +0100, Paul Kocialkowski wrote:
-> Some Allwinner platforms come with an Image Signal Processor, which
-> supports various features in order to enhance and transform data
-> received by image sensors into good-looking pictures. In most cases,
-> the data is raw bayer, which gets internally converted to RGB and
-> finally YUV, which is what the hardware produces.
-> 
-> This driver supports ISPs that are similar to the A31 ISP, which was
-> the first standalone ISP found in Allwinner platforms. Simpler ISP
-> blocks were found in the A10 and A20, where they are tied to a CSI
-> controller. Newer generations of Allwinner SoCs (starting with the
-> H6, H616, etc) come with a new camera subsystem and revised ISP.
-> Even though these previous and next-generation ISPs are somewhat
-> similar to the A31 ISP, they have enough significant differences to
-> be out of the scope of this driver.
-> 
-> While the ISP supports many features, including 3A and many
-> enhancement blocks, this implementation is limited to the following:
-> - V3s (V3/S3) platform support;
-> - Bayer media bus formats as input;
-> - Semi-planar YUV (NV12/NV21) as output;
-> - Debayering with per-component gain and offset configuration;
-> - 2D noise filtering with configurable coefficients.
-> 
-> Since many features are missing from the associated uAPI, the driver
-> is aimed to integrate staging until all features are properly
-> described.
-> 
-> On the technical side, it uses the v4l2 and media controller APIs,
-> with a video node for capture, a processor subdev and a video node
-> for parameters submission. A specific uAPI structure and associated
-> v4l2 meta format are used to configure parameters of the supported
-> modules.
-> 
-> One particular thing about the hardware is that configuration for
-> module registers needs to be stored in a DMA buffer and gets copied
-> to actual registers by the hardware at the next vsync, when instructed
-> by a flag. This is handled by the "state" mechanism in the driver.
-> 
-> Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+I have been testing this VCM in conjunction with Arducam's IMX519 sensor 
+with libcamera and an autofocus algorithm plumbed in libcamera [1]
 
-This patch is now in -next as commit e3185e1d7c14 ("media: staging:
-media: Add support for the Allwinner A31 ISP"), where it causes the
-following clang warnings:
+On 7/11/22 8:10 PM, Yassine Oudjana wrote:
+> From: Yassine Oudjana <y.oudjana@protonmail.com>
+>
+> Convert DT bindings document for AKM AK7375 VCM to DT schema
+> format and add an example.
+>
+> Signed-off-by: Yassine Oudjana <y.oudjana@protonmail.com>
+> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+So,
 
-> +void sun6i_isp_capture_configure(struct sun6i_isp_device *isp_dev)
-> +{
-> +	unsigned int width, height;
-> +	unsigned int stride_luma, stride_chroma = 0;
-> +	unsigned int stride_luma_div4, stride_chroma_div4;
-> +	const struct sun6i_isp_capture_format *format;
-> +	const struct v4l2_format_info *info;
-> +	u32 pixelformat;
+Tested-by: Umang Jain <umang.jain@ideasonboard.com>
+
+[1] https://patchwork.libcamera.org/project/libcamera/list/?series=3174
+
+> ---
+> Changes since v1:
+>    - Add vendor prefix to DT binding doc file name
+>
+>   .../devicetree/bindings/media/i2c/ak7375.txt  |  8 ----
+>   .../media/i2c/asahi-kasei,ak7375.yaml         | 41 +++++++++++++++++++
+>   MAINTAINERS                                   |  2 +-
+>   3 files changed, 42 insertions(+), 9 deletions(-)
+>   delete mode 100644 Documentation/devicetree/bindings/media/i2c/ak7375.txt
+>   create mode 100644 Documentation/devicetree/bindings/media/i2c/asahi-kasei,ak7375.yaml
+>
+> diff --git a/Documentation/devicetree/bindings/media/i2c/ak7375.txt b/Documentation/devicetree/bindings/media/i2c/ak7375.txt
+> deleted file mode 100644
+> index aa3e24b41241..000000000000
+> --- a/Documentation/devicetree/bindings/media/i2c/ak7375.txt
+> +++ /dev/null
+> @@ -1,8 +0,0 @@
+> -Asahi Kasei Microdevices AK7375 voice coil lens driver
+> -
+> -AK7375 is a camera voice coil lens.
+> -
+> -Mandatory properties:
+> -
+> -- compatible: "asahi-kasei,ak7375"
+> -- reg: I2C slave address
+> diff --git a/Documentation/devicetree/bindings/media/i2c/asahi-kasei,ak7375.yaml b/Documentation/devicetree/bindings/media/i2c/asahi-kasei,ak7375.yaml
+> new file mode 100644
+> index 000000000000..22b1251b16ee
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/i2c/asahi-kasei,ak7375.yaml
+> @@ -0,0 +1,41 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/i2c/asahi-kasei,ak7375.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > +
-> +	sun6i_isp_capture_dimensions(isp_dev, &width, &height);
-> +	sun6i_isp_capture_format(isp_dev, &pixelformat);
+> +title: Asahi Kasei Microdevices AK7375 voice coil lens actuator
 > +
-> +	format = sun6i_isp_capture_format_find(pixelformat);
-> +	if (WARN_ON(!format))
-> +		return;
+> +maintainers:
+> +  - Tianshu Qiu <tian.shu.qiu@intel.com>
 > +
-> +	sun6i_isp_load_write(isp_dev, SUN6I_ISP_MCH_SIZE_CFG_REG,
-> +			     SUN6I_ISP_MCH_SIZE_CFG_WIDTH(width) |
-> +			     SUN6I_ISP_MCH_SIZE_CFG_HEIGHT(height));
+> +description:
+> +  AK7375 is a voice coil motor (VCM) camera lens actuator that
+> +  is controlled over I2C.
 > +
-> +	info = v4l2_format_info(pixelformat);
-> +	if (WARN_ON(!info))
-> +		return;
+> +properties:
+> +  compatible:
+> +    const: asahi-kasei,ak7375
 > +
-> +	stride_luma = width * info->bpp[0];
-> +	stride_luma_div4 = DIV_ROUND_UP(stride_luma, 4);
+> +  reg:
+> +    maxItems: 1
 > +
-> +	if (info->comp_planes > 1) {
-> +		stride_chroma = width * info->bpp[1] / info->hdiv;
-> +		stride_chroma_div4 = DIV_ROUND_UP(stride_chroma, 4);
-> +	}
+> +required:
+> +  - compatible
+> +  - reg
 > +
-> +	sun6i_isp_load_write(isp_dev, SUN6I_ISP_MCH_CFG_REG,
-> +			     SUN6I_ISP_MCH_CFG_EN |
-> +			     SUN6I_ISP_MCH_CFG_OUTPUT_FMT(format->output_format) |
-> +			     SUN6I_ISP_MCH_CFG_STRIDE_Y_DIV4(stride_luma_div4) |
-> +			     SUN6I_ISP_MCH_CFG_STRIDE_UV_DIV4(stride_chroma_div4));
-> +}
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    i2c {
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +
+> +        ak7375: camera-lens@c {
+> +            compatible = "asahi-kasei,ak7375";
+> +            reg = <0x0c>;
+> +        };
+> +    };
+> +
+> +...
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index a97fef8c131d..e6accf8bc12b 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -3063,7 +3063,7 @@ M:	Tianshu Qiu <tian.shu.qiu@intel.com>
+>   L:	linux-media@vger.kernel.org
+>   S:	Maintained
+>   T:	git git://linuxtv.org/media_tree.git
+> -F:	Documentation/devicetree/bindings/media/i2c/ak7375.txt
+> +F:	Documentation/devicetree/bindings/media/i2c/asahi-kasei,ak7375.yaml
+>   F:	drivers/media/i2c/ak7375.c
+>   
+>   ASAHI KASEI AK8974 DRIVER
 
-
-  drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_capture.c:135:6: error: variable 'stride_chroma_div4' is used uninitialized whenever 'if' condition is false [-Werror,-Wsometimes-uninitialized]
-          if (info->comp_planes > 1) {
-              ^~~~~~~~~~~~~~~~~~~~~
-  drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_capture.c:144:42: note: uninitialized use occurs here
-                              SUN6I_ISP_MCH_CFG_STRIDE_UV_DIV4(stride_chroma_div4));
-                                                                ^~~~~~~~~~~~~~~~~~
-  drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_reg.h:249:48: note: expanded from macro 'SUN6I_ISP_MCH_CFG_STRIDE_UV_DIV4'
-  #define SUN6I_ISP_MCH_CFG_STRIDE_UV_DIV4(v)     (((v) << 20) & GENMASK(30, 20))
-                                                    ^
-  drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_capture.c:135:2: note: remove the 'if' if its condition is always true
-          if (info->comp_planes > 1) {
-          ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-  drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_capture.c:112:51: note: initialize the variable 'stride_chroma_div4' to silence this warning
-          unsigned int stride_luma_div4, stride_chroma_div4;
-                                                          ^
-                                                            = 0
-
-Does stride_chroma_div4 want to just be initialized to zero?
-
-> +static int sun6i_isp_proc_notifier_bound(struct v4l2_async_notifier *notifier,
-> +					 struct v4l2_subdev *remote_subdev,
-> +					 struct v4l2_async_subdev *async_subdev)
-> +{
-> +	struct sun6i_isp_device *isp_dev =
-> +		container_of(notifier, struct sun6i_isp_device, proc.notifier);
-> +	struct sun6i_isp_proc_async_subdev *proc_async_subdev =
-> +		container_of(async_subdev, struct sun6i_isp_proc_async_subdev,
-> +			     async_subdev);
-> +	struct sun6i_isp_proc *proc = &isp_dev->proc;
-> +	struct sun6i_isp_proc_source *source = proc_async_subdev->source;
-> +	bool enabled;
-> +
-> +	switch (source->endpoint.base.port) {
-> +	case SUN6I_ISP_PORT_CSI0:
-> +		source = &proc->source_csi0;
-> +		enabled = true;
-> +		break;
-> +	case SUN6I_ISP_PORT_CSI1:
-> +		source = &proc->source_csi1;
-> +		enabled = !proc->source_csi0.expected;
-> +		break;
-> +	default:
-> +		break;
-> +	}
-> +
-> +	source->subdev = remote_subdev;
-> +
-> +	return sun6i_isp_proc_link(isp_dev, SUN6I_ISP_PROC_PAD_SINK_CSI,
-> +				   remote_subdev, enabled);
-> +}
-
-  drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_proc.c:418:2: error: variable 'enabled' is used uninitialized whenever switch default is taken [-Werror,-Wsometimes-uninitialized]
-          default:
-          ^~~~~~~
-  drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_proc.c:425:23: note: uninitialized use occurs here
-                                    remote_subdev, enabled);
-                                                    ^~~~~~~
-  drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_proc.c:407:14: note: initialize the variable 'enabled' to silence this warning
-          bool enabled;
-                      ^
-                      = 0
-
-Should there be an early return in the default case?
-
-I do not mind sending patches if you are unable to, assuming I have the
-right fixes.
-
-Cheers,
-Nathan
