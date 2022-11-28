@@ -2,854 +2,620 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C472263ACA3
-	for <lists+linux-media@lfdr.de>; Mon, 28 Nov 2022 16:28:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 40BC463ACB0
+	for <lists+linux-media@lfdr.de>; Mon, 28 Nov 2022 16:34:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232427AbiK1P2r (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 28 Nov 2022 10:28:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60522 "EHLO
+        id S230092AbiK1Pd5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 28 Nov 2022 10:33:57 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45126 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231863AbiK1P2K (ORCPT
+        with ESMTP id S230273AbiK1Pd4 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 28 Nov 2022 10:28:10 -0500
-Received: from relay11.mail.gandi.net (relay11.mail.gandi.net [IPv6:2001:4b98:dc4:8::231])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1E9111A18;
-        Mon, 28 Nov 2022 07:26:10 -0800 (PST)
-Received: from booty.fritz.box (unknown [77.244.183.192])
-        (Authenticated sender: luca.ceresoli@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPA id 4C34F100009;
-        Mon, 28 Nov 2022 15:25:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1669649169;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=xdXrhPG0nMnVZkGqWG5Nps9bsJmZujugVgt8Zlukom8=;
-        b=LA/NfJbyp4jY8FSmkomNVhPTCA2X/oeH8sfLShC+zvUW9c4a97ktYsRs9dQKqCfurz0uOG
-        jOk/XI4kTK1AoJzEKXGbIwboCdjpCdWxC3RV3aOzGyLY9kX3jAdIWlynp/l0B/5/VyY+xi
-        06UcF1GWVD70E5EqcWtUzSVX5qBdXBKxPIT+i4YHdmG3JuyOdoFkX2wlfUfaqNQneoRxf+
-        8aSVbAPf38NFGERVlh4owFza8oLF6O8CB3cQNCrGjemcvKLDMQ8M4Hus90pjuw0Qy+gt7X
-        bRmUSIOTtRxNPcErUh5aV8+/3YntDhjeHBSuUnI5E4SIHRjQ5aL0ywplK3q8xg==
-From:   Luca Ceresoli <luca.ceresoli@bootlin.com>
-To:     David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Sowjanya Komatineni <skomatineni@nvidia.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Dmitry Osipenko <digetx@gmail.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     Luca Ceresoli <luca.ceresoli@bootlin.com>,
-        linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Richard Leitner <richard.leitner@skidata.com>
-Subject: [PATCH v2 21/21] staging: media: tegra-video: add tegra20 variant
-Date:   Mon, 28 Nov 2022 16:23:36 +0100
-Message-Id: <20221128152336.133953-22-luca.ceresoli@bootlin.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20221128152336.133953-1-luca.ceresoli@bootlin.com>
-References: <20221128152336.133953-1-luca.ceresoli@bootlin.com>
+        Mon, 28 Nov 2022 10:33:56 -0500
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D64A8BEC
+        for <linux-media@vger.kernel.org>; Mon, 28 Nov 2022 07:33:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1669649634; x=1701185634;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=BP++InAh3vUijTo/m0+HfWVNJ6nFmXcoW/cRvNUV4dE=;
+  b=hnJst3tGcwTimEgJ5aXNXt0sg4kDo3ogZDGimPUS5GbPhmK0LtDY6Qqc
+   EFFBqtTyBrYSSzYojnuEJy3CiyjC9+j3N0SWQKbqtElsKT2ThndX7CzR2
+   e5MX/JrkF8S6n1f3B6hmOZWC/ucGYxRk8LKIkwjSaBgFMLvoByRH1NYd8
+   cJ8YYemQ8y3yf1L5gsz/6PzjZqDGnT+a/BUwmZx30fOxlMJG2FKQFKhWZ
+   7J3Qc+R5xNTdmrzzHpUedGwPJHA1O8H/T9HQeMuMeq58j4RmwdyZErlig
+   JpY2fN+VgDmLGiOeqKOBW7DyDod1G0T16JrFtScRTqhfSVfuEFdfNIeqH
+   w==;
+X-IronPort-AV: E=Sophos;i="5.96,200,1665439200"; 
+   d="scan'208";a="27621191"
+Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
+  by mx1-pgp.tq-group.com with ESMTP; 28 Nov 2022 16:33:52 +0100
+Received: from mx1.tq-group.com ([192.168.6.7])
+  by tq-pgp-pr1.tq-net.de (PGP Universal service);
+  Mon, 28 Nov 2022 16:33:52 +0100
+X-PGP-Universal: processed;
+        by tq-pgp-pr1.tq-net.de on Mon, 28 Nov 2022 16:33:52 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1669649632; x=1701185632;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=BP++InAh3vUijTo/m0+HfWVNJ6nFmXcoW/cRvNUV4dE=;
+  b=AoHEdHZ8gjsHygPkYeqZrW2YLgdZG9JKaNeuXLGVV8d4nuW7hgGitqzH
+   wNsYdzA8XEdpr0UEBrg83iUY0rer7GG5x+ML9g//rsCUQxp4laJaWoa+U
+   P2qaiz5d5HQR22L8hwnaLXUcdoh9b288w5qiYPcjmhO9NNnZ/ZBERQgwF
+   H4u/DW6r47ymVirgOSmNraYH3M7MoTNS8eosyeyd3XMNLwz+uxIe4s1Lx
+   WY0ktKmpoomDMbpEDVj4j9fe8BB06Ii95rDvQ8kt3QhETl/uj/FhYVECN
+   GNXO79SOTAetJ5wED8RP+ynmwp/iEEWckqjLp6rixLpk86c1YruahCg7I
+   w==;
+X-IronPort-AV: E=Sophos;i="5.96,200,1665439200"; 
+   d="scan'208";a="27621190"
+Received: from vtuxmail01.tq-net.de ([10.115.0.20])
+  by mx1.tq-group.com with ESMTP; 28 Nov 2022 16:33:52 +0100
+Received: from steina-w.localnet (unknown [10.123.53.21])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+        (No client certificate requested)
+        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 05B0C280056;
+        Mon, 28 Nov 2022 16:33:52 +0100 (CET)
+From:   Alexander Stein <alexander.stein@ew.tq-group.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, Sakari Ailus <sakari.ailus@iki.fi>,
+        Manivannan Sadhasivam <mani@kernel.org>
+Subject: Re: [PATCH v1 11/15] media: i2c: imx290: Use V4L2 subdev active state
+Date:   Mon, 28 Nov 2022 16:33:53 +0100
+Message-ID: <3706399.kQq0lBPeGt@steina-w>
+Organization: TQ-Systems GmbH
+In-Reply-To: <Y336zY4cgMpHLD8k@pendragon.ideasonboard.com>
+References: <20221122223250.21233-1-laurent.pinchart@ideasonboard.com> <2540630.Lt9SDvczpP@steina-w> <Y336zY4cgMpHLD8k@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+X-Spam-Status: No, score=-0.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,PDS_OTHER_BAD_TLD,SPF_HELO_NONE,SPF_PASS
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The staging tegra-video driver currently implements MIPI CSI-2 video
-capture for Tegra210. Add support for parallel video capture (VIP) on
-Tegra20. With the generalizations added to the VI driver in previous
-commits, this is only a matter of adding the tegra20.c implementation and
-registering it.
+Am Mittwoch, 23. November 2022, 11:49:49 CET schrieb Laurent Pinchart:
+> Hi Alexander,
+> 
+> On Wed, Nov 23, 2022 at 09:42:10AM +0100, Alexander Stein wrote:
+> > Am Dienstag, 22. November 2022, 23:32:46 CET schrieb Laurent Pinchart:
+> > > Use the V4L2 subdev active state API to store the active format. This
+> > > simplifies the driver not only by dropping the imx290 current_format
+> > > field, but it also allows dropping the imx290 lock, replaced with the
+> > > state lock.
+> > > 
+> > > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > > ---
+> > > 
+> > >  drivers/media/i2c/imx290.c | 139 +++++++++++++++----------------------
+> > >  1 file changed, 56 insertions(+), 83 deletions(-)
+> > > 
+> > > diff --git a/drivers/media/i2c/imx290.c b/drivers/media/i2c/imx290.c
+> > > index 848de4c90d3b..cd2154983341 100644
+> > > --- a/drivers/media/i2c/imx290.c
+> > > +++ b/drivers/media/i2c/imx290.c
+> > > @@ -177,12 +177,12 @@ struct imx290 {
+> > > 
+> > >  	struct clk *xclk;
+> > >  	struct regmap *regmap;
+> > >  	u8 nlanes;
+> > > 
+> > > -	u8 bpp;
+> > > 
+> > >  	struct v4l2_subdev sd;
+> > >  	struct media_pad pad;
+> > > 
+> > > -	struct v4l2_mbus_framefmt current_format;
+> > > +
+> > > 
+> > >  	const struct imx290_mode *current_mode;
+> > > 
+> > > +	u8 bpp;
+> > > 
+> > >  	struct regulator_bulk_data supplies[IMX290_NUM_SUPPLIES];
+> > >  	struct gpio_desc *rst_gpio;
+> > > 
+> > > @@ -192,8 +192,6 @@ struct imx290 {
+> > > 
+> > >  	struct v4l2_ctrl *pixel_rate;
+> > >  	struct v4l2_ctrl *hblank;
+> > >  	struct v4l2_ctrl *vblank;
+> > > 
+> > > -
+> > > -	struct mutex lock;
+> > > 
+> > >  };
+> > >  
+> > >  static inline struct imx290 *to_imx290(struct v4l2_subdev *_sd)
+> > > 
+> > > @@ -524,14 +522,15 @@ static int imx290_set_black_level(struct imx290
+> > > *imx290, black_level >> (16 - imx290->bpp), err);
+> > > 
+> > >  }
+> > > 
+> > > -static int imx290_write_current_format(struct imx290 *imx290)
+> > > +static int imx290_setup_format(struct imx290 *imx290,
+> > > +			       const struct v4l2_mbus_framefmt *format)
+> > > 
+> > >  {
+> > >  
+> > >  	const struct imx290_regval *regs;
+> > >  	unsigned int num_regs;
+> > >  	unsigned int bpp;
+> > >  	int ret;
+> > > 
+> > > -	switch (imx290->current_format.code) {
+> > > +	switch (format->code) {
+> > > 
+> > >  	case MEDIA_BUS_FMT_SRGGB10_1X10:
+> > >  		regs = imx290_10bit_settings;
+> > >  		num_regs = ARRAY_SIZE(imx290_10bit_settings);
+> > > 
+> > > @@ -564,12 +563,17 @@ static int imx290_set_ctrl(struct v4l2_ctrl *ctrl)
+> > > 
+> > >  {
+> > >  
+> > >  	struct imx290 *imx290 = container_of(ctrl->handler,
+> > >  	
+> > >  					     struct imx290, ctrls);
+> > > 
+> > > +	const struct v4l2_mbus_framefmt *format;
+> > > +	struct v4l2_subdev_state *state;
+> > > 
+> > >  	int ret = 0;
+> > >  	
+> > >  	/* V4L2 controls values will be applied only when power is already 
+up
+> > >  	*/
+> > >  	if (!pm_runtime_get_if_in_use(imx290->dev))
+> > >  	
+> > >  		return 0;
+> > > 
+> > > +	state = v4l2_subdev_get_locked_active_state(&imx290->sd);
+> > > +	format = v4l2_subdev_get_pad_format(&imx290->sd, state, 0);
+> > > +
+> > > 
+> > >  	switch (ctrl->id) {
+> > >  	
+> > >  	case V4L2_CID_ANALOGUE_GAIN:
+> > >  		ret = imx290_write(imx290, IMX290_GAIN, ctrl->val, NULL);
+> > > 
+> > > @@ -646,11 +650,10 @@ static int imx290_ctrl_init(struct imx290 *imx290)
+> > > 
+> > >  	int ret;
+> > >  	
+> > >  	ret = v4l2_fwnode_device_parse(imx290->dev, &props);
+> > > 
+> > > -	if (ret < 0)
+> > > +	if (ret)
+> > 
+> > This is an unrelated change.
+> 
+> I'll drop it.
+> 
+> > >  		return ret;
+> > >  	
+> > >  	v4l2_ctrl_handler_init(&imx290->ctrls, 9);
+> > > 
+> > > -	imx290->ctrls.lock = &imx290->lock;
+> > > 
+> > >  	/*
+> > >  	
+> > >  	 * The sensor has an analog gain and a digital gain, both controlled
+> > > 
+> > > @@ -715,11 +718,6 @@ static int imx290_ctrl_init(struct imx290 *imx290)
+> > > 
+> > >  		return ret;
+> > >  	
+> > >  	}
+> > > 
+> > > -	mutex_lock(imx290->ctrls.lock);
+> > > -	imx290_ctrl_update(imx290, &imx290->current_format,
+> > > -			   imx290->current_mode);
+> > > -	mutex_unlock(imx290->ctrls.lock);
+> > > -
+> > > 
+> > >  	return 0;
+> > >  
+> > >  }
+> > > 
+> > > @@ -728,8 +726,10 @@ static int imx290_ctrl_init(struct imx290 *imx290)
+> > > 
+> > >   */
+> > >  
+> > >  /* Start streaming */
+> > > 
+> > > -static int imx290_start_streaming(struct imx290 *imx290)
+> > > +static int imx290_start_streaming(struct imx290 *imx290,
+> > > +				  struct v4l2_subdev_state *state)
+> > > 
+> > >  {
+> > > 
+> > > +	const struct v4l2_mbus_framefmt *format;
+> > > 
+> > >  	int ret;
+> > >  	
+> > >  	/* Set init register settings */
+> > > 
+> > > @@ -742,7 +742,8 @@ static int imx290_start_streaming(struct imx290
+> > > *imx290) }
+> > > 
+> > >  	/* Apply the register values related to current frame format */
+> > > 
+> > > -	ret = imx290_write_current_format(imx290);
+> > > +	format = v4l2_subdev_get_pad_format(&imx290->sd, state, 0);
+> > > +	ret = imx290_setup_format(imx290, format);
+> > > 
+> > >  	if (ret < 0) {
+> > >  	
+> > >  		dev_err(imx290->dev, "Could not set frame format\n");
+> > >  		return ret;
+> > > 
+> > > @@ -762,7 +763,7 @@ static int imx290_start_streaming(struct imx290
+> > > *imx290) return ret;
+> > > 
+> > >  	/* Apply customized values from user */
+> > > 
+> > > -	ret = v4l2_ctrl_handler_setup(imx290->sd.ctrl_handler);
+> > > +	ret = __v4l2_ctrl_handler_setup(imx290->sd.ctrl_handler);
+> > 
+> > Why is it safe to ignore the lock now? There is no user-specified lock for
+> > imx290->ctrls.lock, but instead imx290->ctrls._lock is set, no?
+> 
+> That's because the control handler and subdev state lock are the same.
+> The imx290_start_streaming() function starts by calling
+> v4l2_subdev_lock_and_get_active_state(), which takes the lock, so we
+> must not lock again with v4l2_ctrl_handler_setup().
 
-Unfortunately there was no documentation available for the VI or VIP
-peripherals of Tegra20 (or any other Tegra chips). This implementation has
-been based entirely on the code from a vendor kernel based on Linux 3.1 and
-massively adapted to fit into the tegra-video driver. Parts of this code is
-definitely non-optimal to say the least (especially tegra20_vi_enable() and
-the single-frame capture logic), but it was impossible to improve it.
+v4l2_subdev_lock_and_get_active_state() is called in imx290_set_stream, not 
+imx290_start_streaming.
+But while holding this lock imx290_start_streaming() is called. Okay, looks 
+good.
 
-Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+> > >  	if (ret) {
+> > >  	
+> > >  		dev_err(imx290->dev, "Could not sync v4l2 controls\n");
+> > >  		return ret;
+> > > 
+> > > @@ -791,39 +792,32 @@ static int imx290_stop_streaming(struct imx290
+> > > *imx290) static int imx290_set_stream(struct v4l2_subdev *sd, int
+> > > enable)
+> > > 
+> > >  {
+> > >  
+> > >  	struct imx290 *imx290 = to_imx290(sd);
+> > > 
+> > > +	struct v4l2_subdev_state *state;
+> > > 
+> > >  	int ret = 0;
+> > > 
+> > > +	state = v4l2_subdev_lock_and_get_active_state(sd);
+> > > +
+> > > 
+> > >  	if (enable) {
+> > >  	
+> > >  		ret = pm_runtime_resume_and_get(imx290->dev);
+> > >  		if (ret < 0)
+> > > 
+> > > -			goto unlock_and_return;
+> > > +			goto unlock;
+> > > 
+> > > -		ret = imx290_start_streaming(imx290);
+> > > +		ret = imx290_start_streaming(imx290, state);
+> > > 
+> > >  		if (ret) {
+> > >  		
+> > >  			dev_err(imx290->dev, "Start stream failed\n");
+> > >  			pm_runtime_put(imx290->dev);
+> > > 
+> > > -			goto unlock_and_return;
+> > > +			goto unlock;
+> > > 
+> > >  		}
+> > >  	
+> > >  	} else {
+> > >  	
+> > >  		imx290_stop_streaming(imx290);
+> > >  		pm_runtime_put(imx290->dev);
+> > >  	
+> > >  	}
+> > > 
+> > > -unlock_and_return:
+> > > -
+> > > +unlock:
+> > > +	v4l2_subdev_unlock_state(state);
+> > > 
+> > >  	return ret;
+> > >  
+> > >  }
+> > > 
+> > > -static struct v4l2_mbus_framefmt *
+> > > -imx290_get_pad_format(struct imx290 *imx290, struct v4l2_subdev_state
+> > > *state, -		      u32 which)
+> > > -{
+> > > -	if (which == V4L2_SUBDEV_FORMAT_ACTIVE)
+> > > -		return &imx290->current_format;
+> > > -	else
+> > > -		return v4l2_subdev_get_try_format(&imx290->sd, state, 0);
+> > > -}
+> > > -
+> > > 
+> > >  static int imx290_enum_mbus_code(struct v4l2_subdev *sd,
+> > >  
+> > >  				 struct v4l2_subdev_state *sd_state,
+> > >  				 struct v4l2_subdev_mbus_code_enum 
+*code)
+> > > 
+> > > @@ -858,23 +852,6 @@ static int imx290_enum_frame_size(struct
+> > > v4l2_subdev
+> > > *sd, return 0;
+> > > 
+> > >  }
+> > > 
+> > > -static int imx290_get_fmt(struct v4l2_subdev *sd,
+> > > -			  struct v4l2_subdev_state *sd_state,
+> > > -			  struct v4l2_subdev_format *fmt)
+> > > -{
+> > > -	struct imx290 *imx290 = to_imx290(sd);
+> > > -	struct v4l2_mbus_framefmt *framefmt;
+> > > -
+> > > -	mutex_lock(&imx290->lock);
+> > > -
+> > > -	framefmt = imx290_get_pad_format(imx290, sd_state, fmt->which);
+> > > -	fmt->format = *framefmt;
+> > > -
+> > > -	mutex_unlock(&imx290->lock);
+> > > -
+> > > -	return 0;
+> > > -}
+> > > -
+> > > 
+> > >  static int imx290_set_fmt(struct v4l2_subdev *sd,
+> > >  
+> > >  			  struct v4l2_subdev_state *sd_state,
+> > >  			  struct v4l2_subdev_format *fmt)
+> > > 
+> > > @@ -884,8 +861,6 @@ static int imx290_set_fmt(struct v4l2_subdev *sd,
+> > > 
+> > >  	struct v4l2_mbus_framefmt *format;
+> > >  	unsigned int i;
+> > > 
+> > > -	mutex_lock(&imx290->lock);
+> > > -
+> > > 
+> > >  	mode = v4l2_find_nearest_size(imx290_modes_ptr(imx290),
+> > >  	
+> > >  				      imx290_modes_num(imx290), width, 
+height,
+> > >  				      fmt->format.width, fmt-
+> > >
+> > >format.height);
+> > >
+> > > @@ -903,7 +878,7 @@ static int imx290_set_fmt(struct v4l2_subdev *sd,
+> > > 
+> > >  	fmt->format.code = imx290_formats[i].code;
+> > >  	fmt->format.field = V4L2_FIELD_NONE;
+> > > 
+> > > -	format = imx290_get_pad_format(imx290, sd_state, fmt->which);
+> > > +	format = v4l2_subdev_get_pad_format(sd, sd_state, 0);
+> > > 
+> > >  	if (fmt->which == V4L2_SUBDEV_FORMAT_ACTIVE) {
+> > >  	
+> > >  		imx290->current_mode = mode;
+> > > 
+> > > @@ -914,8 +889,6 @@ static int imx290_set_fmt(struct v4l2_subdev *sd,
+> > > 
+> > >  	*format = fmt->format;
+> > > 
+> > > -	mutex_unlock(&imx290->lock);
+> > > -
+> > > 
+> > >  	return 0;
+> > >  
+> > >  }
+> > > 
+> > > @@ -923,14 +896,11 @@ static int imx290_get_selection(struct v4l2_subdev
+> > > *sd, struct v4l2_subdev_state *sd_state,
+> > > 
+> > >  				struct v4l2_subdev_selection *sel)
+> > >  
+> > >  {
+> > > 
+> > > -	struct imx290 *imx290 = to_imx290(sd);
+> > > 
+> > >  	struct v4l2_mbus_framefmt *format;
+> > >  	
+> > >  	switch (sel->target) {
+> > >  	case V4L2_SEL_TGT_CROP: {
+> > > 
+> > > -		format = imx290_get_pad_format(imx290, sd_state, sel-
+>which);
+> > > -
+> > > -		mutex_lock(&imx290->lock);
+> > > +		format = v4l2_subdev_get_pad_format(sd, sd_state, 0);
+> > > 
+> > >  		sel->r.top = IMX920_PIXEL_ARRAY_MARGIN_TOP
+> > >  		
+> > >  			   + (IMX290_PIXEL_ARRAY_RECORDING_HEIGHT - 
+format->height) / 2;
+> > > 
+> > > @@ -939,7 +909,6 @@ static int imx290_get_selection(struct v4l2_subdev
+> > > *sd,
+> > > 
+> > >  		sel->r.width = format->width;
+> > >  		sel->r.height = format->height;
+> > > 
+> > > -		mutex_unlock(&imx290->lock);
+> > > 
+> > >  		return 0;
+> > >  	
+> > >  	}
+> > > 
+> > > @@ -968,11 +937,13 @@ static int imx290_get_selection(struct v4l2_subdev
+> > > *sd, static int imx290_entity_init_cfg(struct v4l2_subdev *subdev,
+> > > 
+> > >  				  struct v4l2_subdev_state *sd_state)
+> > >  
+> > >  {
+> > > 
+> > > -	struct v4l2_subdev_format fmt = { 0 };
+> > > -
+> > > -	fmt.which = sd_state ? V4L2_SUBDEV_FORMAT_TRY :
+> > > V4L2_SUBDEV_FORMAT_ACTIVE; -	fmt.format.width = 1920;
+> > > -	fmt.format.height = 1080;
+> > > +	struct v4l2_subdev_format fmt = {
+> > > +		.which = V4L2_SUBDEV_FORMAT_TRY,
+> > > +		.format = {
+> > > +			.width = 1920,
+> > > +			.height = 1080,
+> > > +		},
+> > > +	};
+> > > 
+> > >  	imx290_set_fmt(subdev, sd_state, &fmt);
+> > > 
+> > > @@ -987,7 +958,7 @@ static const struct v4l2_subdev_pad_ops
+> > > imx290_pad_ops = { .init_cfg = imx290_entity_init_cfg,
+> > > 
+> > >  	.enum_mbus_code = imx290_enum_mbus_code,
+> > >  	.enum_frame_size = imx290_enum_frame_size,
+> > > 
+> > > -	.get_fmt = imx290_get_fmt,
+> > > +	.get_fmt = v4l2_subdev_get_fmt,
+> > > 
+> > >  	.set_fmt = imx290_set_fmt,
+> > >  	.get_selection = imx290_get_selection,
+> > >  
+> > >  };
+> > > 
+> > > @@ -1004,20 +975,12 @@ static const struct media_entity_operations
+> > > imx290_subdev_entity_ops = { static int imx290_subdev_init(struct imx290
+> > > *imx290)
+> > > 
+> > >  {
+> > >  
+> > >  	struct i2c_client *client = to_i2c_client(imx290->dev);
+> > > 
+> > > +	const struct v4l2_mbus_framefmt *format;
+> > > +	struct v4l2_subdev_state *state;
+> > > 
+> > >  	int ret;
+> > > 
+> > > -	/*
+> > > -	 * Initialize the frame format. In particular, imx290->current_mode
+> > > -	 * and imx290->bpp are set to defaults: imx290_calc_pixel_rate() 
+call
+> > > -	 * below relies on these fields.
+> > > -	 */
+> > > -	imx290_entity_init_cfg(&imx290->sd, NULL);
+> > > -
+> > > -	ret = imx290_ctrl_init(imx290);
+> > > -	if (ret < 0) {
+> > > -		dev_err(imx290->dev, "Control initialization error %d\n", 
+ret);
+> > > -		return ret;
+> > > -	}
+> > > +	imx290->current_mode = &imx290_modes_ptr(imx290)[0];
+> > > +	imx290->bpp = imx290_formats[0].bpp;
+> > > 
+> > >  	v4l2_i2c_subdev_init(&imx290->sd, client, &imx290_subdev_ops);
+> > >  	imx290->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
+> > > 
+> > > @@ -1032,6 +995,22 @@ static int imx290_subdev_init(struct imx290
+> > > *imx290)
+> > > 
+> > >  		return ret;
+> > >  	
+> > >  	}
+> > > 
+> > > +	ret = imx290_ctrl_init(imx290);
+> > > +	if (ret < 0) {
+> > > +		dev_err(imx290->dev, "Control initialization error %d\n", 
+ret);
+> > > +		media_entity_cleanup(&imx290->sd.entity);
+> > > +		return ret;
+> > > +	}
+> > > +
+> > > +	imx290->sd.state_lock = imx290->ctrls.lock;
+> > > +
+> > > +	v4l2_subdev_init_finalize(&imx290->sd);
+> > > +
+> > > +	state = v4l2_subdev_lock_and_get_active_state(&imx290->sd);
+> > > +	format = v4l2_subdev_get_pad_format(&imx290->sd, state, 0);
+> > > +	imx290_ctrl_update(imx290, format, imx290->current_mode);
+> > > +	v4l2_subdev_unlock_state(state);
+> > 
+> > Do you need to check for state == NULL here?
+> 
+> No, v4l2_subdev_lock_and_get_active_state() can only return NULL if the
+> subdev driver doesn't have an active state, and
+> v4l2_subdev_init_finalize() guarantees it has one.
 
----
+I see, but that is only true if v4l2_subdev_init_finalize()/
+__v4l2_subdev_init_finalize() does not return an error. AFAICS it's possible 
+due to memory allocation failure or pad init_cfg() fails.
 
-Changed in v2:
- - fix tegra20_vi_enable() to clear bit when on==false
- - clamp width/height from set/try_fmt to avoid returning sizeimage=0
-   (fixes v4l2-compliance)
----
- MAINTAINERS                                 |   1 +
- drivers/staging/media/tegra-video/Makefile  |   1 +
- drivers/staging/media/tegra-video/tegra20.c | 661 ++++++++++++++++++++
- drivers/staging/media/tegra-video/vi.c      |   3 +
- drivers/staging/media/tegra-video/vi.h      |   3 +
- drivers/staging/media/tegra-video/video.c   |   5 +
- drivers/staging/media/tegra-video/video.h   |   1 +
- 7 files changed, 675 insertions(+)
- create mode 100644 drivers/staging/media/tegra-video/tegra20.c
+Regards,
+Alexander
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 1601465e8e31..9869746863b2 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -20322,6 +20322,7 @@ L:	linux-tegra@vger.kernel.org
- S:	Maintained
- F:	Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vi.yaml
- F:	Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vip.yaml
-+F:	drivers/staging/media/tegra-video/tegra20.c
- F:	drivers/staging/media/tegra-video/vip.*
- 
- TEGRA XUSB PADCTL DRIVER
-diff --git a/drivers/staging/media/tegra-video/Makefile b/drivers/staging/media/tegra-video/Makefile
-index 3c8ec1bb1f3e..6c7552e05109 100644
---- a/drivers/staging/media/tegra-video/Makefile
-+++ b/drivers/staging/media/tegra-video/Makefile
-@@ -5,5 +5,6 @@ tegra-video-objs := \
- 		vip.o \
- 		csi.o
- 
-+tegra-video-$(CONFIG_ARCH_TEGRA_2x_SOC)  += tegra20.o
- tegra-video-$(CONFIG_ARCH_TEGRA_210_SOC) += tegra210.o
- obj-$(CONFIG_VIDEO_TEGRA) += tegra-video.o
-diff --git a/drivers/staging/media/tegra-video/tegra20.c b/drivers/staging/media/tegra-video/tegra20.c
-new file mode 100644
-index 000000000000..002a66d12ecb
---- /dev/null
-+++ b/drivers/staging/media/tegra-video/tegra20.c
-@@ -0,0 +1,661 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Tegra20-specific VI implementation
-+ *
-+ * Copyright (C) 2022 SKIDATA GmbH
-+ * Author: Luca Ceresoli <luca.ceresoli@bootlin.com>
-+ */
-+
-+/*
-+ * This source file contains Tegra20 supported video formats,
-+ * VI and VIP SoC specific data, operations and registers accessors.
-+ */
-+
-+#include <linux/bitfield.h>
-+#include <linux/delay.h>
-+#include <linux/host1x.h>
-+#include <linux/kernel.h>
-+#include <linux/kthread.h>
-+#include <linux/v4l2-mediabus.h>
-+
-+#include "vip.h"
-+#include "vi.h"
-+
-+#define TEGRA_VI_SYNCPT_WAIT_TIMEOUT			msecs_to_jiffies(200)
-+
-+/* This are just good-sense numbers. The actual min/max is not documented. */
-+#define TEGRA20_MIN_WIDTH	32U
-+#define TEGRA20_MIN_HEIGHT	32U
-+#define TEGRA20_MAX_WIDTH	2048U
-+#define TEGRA20_MAX_HEIGHT	2048U
-+
-+/* --------------------------------------------------------------------------
-+ * Registers
-+ */
-+
-+#define TEGRA_VI_CONT_SYNCPT_OUT_1			0x0060
-+#define       VI_CONT_SYNCPT_OUT_1_CONTINUOUS_SYNCPT	BIT(8)
-+#define       VI_CONT_SYNCPT_OUT_1_SYNCPT_IDX_SFT	0
-+
-+#define TEGRA_VI_VI_INPUT_CONTROL			0x0088
-+#define       VI_INPUT_FIELD_DETECT			BIT(27)
-+#define       VI_INPUT_BT656				BIT(25)
-+#define       VI_INPUT_YUV_INPUT_FORMAT_SFT		8  /* bits [9:8] */
-+#define       VI_INPUT_YUV_INPUT_FORMAT_UYVY		(0 << VI_INPUT_YUV_INPUT_FORMAT_SFT)
-+#define       VI_INPUT_YUV_INPUT_FORMAT_VYUY		(1 << VI_INPUT_YUV_INPUT_FORMAT_SFT)
-+#define       VI_INPUT_YUV_INPUT_FORMAT_YUYV		(2 << VI_INPUT_YUV_INPUT_FORMAT_SFT)
-+#define       VI_INPUT_YUV_INPUT_FORMAT_YVYU		(3 << VI_INPUT_YUV_INPUT_FORMAT_SFT)
-+#define       VI_INPUT_INPUT_FORMAT_SFT			2  /* bits [5:2] */
-+#define       VI_INPUT_INPUT_FORMAT_YUV422		(0 << VI_INPUT_INPUT_FORMAT_SFT)
-+#define       VI_INPUT_VIP_INPUT_ENABLE			BIT(1)
-+
-+#define TEGRA_VI_VI_CORE_CONTROL			0x008c
-+#define       VI_VI_CORE_CONTROL_PLANAR_CONV_IN_SEL_EXT	BIT(31)
-+#define       VI_VI_CORE_CONTROL_CSC_INPUT_SEL_EXT	BIT(30)
-+#define       VI_VI_CORE_CONTROL_INPUT_TO_ALT_MUX_SFT	27
-+#define       VI_VI_CORE_CONTROL_INPUT_TO_CORE_EXT_SFT	24
-+#define       VI_VI_CORE_CONTROL_OUTPUT_TO_ISP_EXT_SFT	21
-+#define       VI_VI_CORE_CONTROL_ISP_HOST_STALL_OFF	BIT(20)
-+#define       VI_VI_CORE_CONTROL_V_DOWNSCALING		BIT(19)
-+#define       VI_VI_CORE_CONTROL_V_AVERAGING		BIT(18)
-+#define       VI_VI_CORE_CONTROL_H_DOWNSCALING		BIT(17)
-+#define       VI_VI_CORE_CONTROL_H_AVERAGING		BIT(16)
-+#define       VI_VI_CORE_CONTROL_CSC_INPUT_SEL		BIT(11)
-+#define       VI_VI_CORE_CONTROL_PLANAR_CONV_INPUT_SEL	BIT(10)
-+#define       VI_VI_CORE_CONTROL_INPUT_TO_CORE_SFT	8
-+#define       VI_VI_CORE_CONTROL_ISP_DOWNSAMPLE_SFT	5
-+#define       VI_VI_CORE_CONTROL_OUTPUT_TO_EPP_SFT	2
-+#define       VI_VI_CORE_CONTROL_OUTPUT_TO_ISP_SFT	0
-+
-+#define TEGRA_VI_VI_FIRST_OUTPUT_CONTROL		0x0090
-+#define       VI_OUTPUT_FORMAT_EXT			BIT(22)
-+#define       VI_OUTPUT_V_DIRECTION			BIT(20)
-+#define       VI_OUTPUT_H_DIRECTION			BIT(19)
-+#define       VI_OUTPUT_YUV_OUTPUT_FORMAT_SFT		17
-+#define       VI_OUTPUT_YUV_OUTPUT_FORMAT_UYVY		(0 << VI_OUTPUT_YUV_OUTPUT_FORMAT_SFT)
-+#define       VI_OUTPUT_YUV_OUTPUT_FORMAT_VYUY		(1 << VI_OUTPUT_YUV_OUTPUT_FORMAT_SFT)
-+#define       VI_OUTPUT_YUV_OUTPUT_FORMAT_YUYV		(2 << VI_OUTPUT_YUV_OUTPUT_FORMAT_SFT)
-+#define       VI_OUTPUT_YUV_OUTPUT_FORMAT_YVYU		(3 << VI_OUTPUT_YUV_OUTPUT_FORMAT_SFT)
-+#define       VI_OUTPUT_OUTPUT_BYTE_SWAP		BIT(16)
-+#define       VI_OUTPUT_LAST_PIXEL_DUPLICATION		BIT(8)
-+#define       VI_OUTPUT_OUTPUT_FORMAT_SFT		0
-+#define       VI_OUTPUT_OUTPUT_FORMAT_YUV422POST	(3 << VI_OUTPUT_OUTPUT_FORMAT_SFT)
-+#define       VI_OUTPUT_OUTPUT_FORMAT_YUV420PLANAR	(6 << VI_OUTPUT_OUTPUT_FORMAT_SFT)
-+
-+#define TEGRA_VI_VIP_H_ACTIVE				0x00a4
-+#define       VI_VIP_H_ACTIVE_PERIOD_SFT		16 /* active pixels/line, must be even */
-+#define       VI_VIP_H_ACTIVE_START_SFT			0
-+
-+#define TEGRA_VI_VIP_V_ACTIVE				0x00a8
-+#define       VI_VIP_V_ACTIVE_PERIOD_SFT		16 /* active lines */
-+#define       VI_VIP_V_ACTIVE_START_SFT			0
-+
-+#define TEGRA_VI_VB0_START_ADDRESS_FIRST		0x00c4
-+#define TEGRA_VI_VB0_BASE_ADDRESS_FIRST			0x00c8
-+#define TEGRA_VI_VB0_START_ADDRESS_U			0x00cc
-+#define TEGRA_VI_VB0_BASE_ADDRESS_U			0x00d0
-+#define TEGRA_VI_VB0_START_ADDRESS_V			0x00d4
-+#define TEGRA_VI_VB0_BASE_ADDRESS_V			0x00d8
-+
-+#define TEGRA_VI_FIRST_OUTPUT_FRAME_SIZE		0x00e0
-+#define       VI_FIRST_OUTPUT_FRAME_HEIGHT_SFT		16
-+#define       VI_FIRST_OUTPUT_FRAME_WIDTH_SFT		0
-+
-+#define TEGRA_VI_VB0_COUNT_FIRST			0x00e4
-+
-+#define TEGRA_VI_VB0_SIZE_FIRST				0x00e8
-+#define       VI_VB0_SIZE_FIRST_V_SFT			16
-+#define       VI_VB0_SIZE_FIRST_H_SFT			0
-+
-+#define TEGRA_VI_VB0_BUFFER_STRIDE_FIRST		0x00ec
-+#define       VI_VB0_BUFFER_STRIDE_FIRST_CHROMA_SFT	30
-+#define       VI_VB0_BUFFER_STRIDE_FIRST_LUMA_SFT	0
-+
-+#define TEGRA_VI_H_LPF_CONTROL				0x0108
-+#define       VI_H_LPF_CONTROL_CHROMA_SFT		16
-+#define       VI_H_LPF_CONTROL_LUMA_SFT			0
-+
-+#define TEGRA_VI_H_DOWNSCALE_CONTROL			0x010c
-+#define TEGRA_VI_V_DOWNSCALE_CONTROL			0x0110
-+
-+#define TEGRA_VI_VIP_INPUT_STATUS			0x0144
-+
-+#define TEGRA_VI_VI_DATA_INPUT_CONTROL			0x0168
-+#define       VI_DATA_INPUT_SFT				0 /* [11:0] = mask pin inputs to VI core */
-+
-+#define TEGRA_VI_PIN_INPUT_ENABLE			0x016c
-+#define       VI_PIN_INPUT_VSYNC			BIT(14)
-+#define       VI_PIN_INPUT_HSYNC			BIT(13)
-+#define       VI_PIN_INPUT_VD_SFT			0 /* [11:0] = data bin N input enable */
-+
-+#define TEGRA_VI_PIN_INVERSION				0x0174
-+#define       VI_PIN_INVERSION_VSYNC_ACTIVE_HIGH	BIT(1)
-+#define       VI_PIN_INVERSION_HSYNC_ACTIVE_HIGH	BIT(0)
-+
-+#define TEGRA_VI_CAMERA_CONTROL				0x01a0
-+#define       VI_CAMERA_CONTROL_STOP_CAPTURE		BIT(2)
-+#define       VI_CAMERA_CONTROL_TEST_MODE		BIT(1)
-+#define       VI_CAMERA_CONTROL_VIP_ENABLE		BIT(0)
-+
-+#define TEGRA_VI_VI_ENABLE				0x01a4
-+#define       VI_VI_ENABLE_SW_FLOW_CONTROL_OUT1		BIT(1)
-+#define       VI_VI_ENABLE_FIRST_OUTPUT_TO_MEM_DISABLE	BIT(0)
-+
-+#define TEGRA_VI_VI_RAISE				0x01ac
-+#define       VI_VI_RAISE_ON_EDGE			BIT(0)
-+
-+/* --------------------------------------------------------------------------
-+ * VI
-+ */
-+
-+static void tegra20_vi_write(struct tegra_vi_channel *chan, unsigned int addr, u32 val)
-+{
-+	writel(val, chan->vi->iomem + addr);
-+}
-+
-+/*
-+ * Get the main input format (YUV/RGB...) and the YUV variant as values to
-+ * be written into registers for the current VI input mbus code.
-+ */
-+static void tegra20_vi_get_input_formats(struct tegra_vi_channel *chan,
-+					 unsigned int *main_input_format,
-+					 unsigned int *yuv_input_format)
-+{
-+	unsigned int input_mbus_code = chan->fmtinfo->code;
-+
-+	(*main_input_format) = VI_INPUT_INPUT_FORMAT_YUV422;
-+
-+	switch (input_mbus_code) {
-+	case MEDIA_BUS_FMT_UYVY8_2X8:
-+		(*yuv_input_format) = VI_INPUT_YUV_INPUT_FORMAT_UYVY;
-+		break;
-+	case MEDIA_BUS_FMT_VYUY8_2X8:
-+		(*yuv_input_format) = VI_INPUT_YUV_INPUT_FORMAT_VYUY;
-+		break;
-+	case MEDIA_BUS_FMT_YUYV8_2X8:
-+		(*yuv_input_format) = VI_INPUT_YUV_INPUT_FORMAT_YUYV;
-+		break;
-+	case MEDIA_BUS_FMT_YVYU8_2X8:
-+		(*yuv_input_format) = VI_INPUT_YUV_INPUT_FORMAT_YVYU;
-+		break;
-+	}
-+}
-+
-+/*
-+ * Get the main output format (YUV/RGB...) and the YUV variant as values to
-+ * be written into registers for the current VI output pixel format.
-+ */
-+static void tegra20_vi_get_output_formats(struct tegra_vi_channel *chan,
-+					  unsigned int *main_output_format,
-+					  unsigned int *yuv_output_format)
-+{
-+	u32 output_fourcc = chan->format.pixelformat;
-+
-+	/* Default to YUV422 non-planar (U8Y8V8Y8) after downscaling */
-+	(*main_output_format) = VI_OUTPUT_OUTPUT_FORMAT_YUV422POST;
-+	(*yuv_output_format) = VI_OUTPUT_YUV_OUTPUT_FORMAT_UYVY;
-+
-+	switch (output_fourcc) {
-+	case V4L2_PIX_FMT_UYVY:
-+		(*yuv_output_format) = VI_OUTPUT_YUV_OUTPUT_FORMAT_UYVY;
-+		break;
-+	case V4L2_PIX_FMT_VYUY:
-+		(*yuv_output_format) = VI_OUTPUT_YUV_OUTPUT_FORMAT_VYUY;
-+		break;
-+	case V4L2_PIX_FMT_YUYV:
-+		(*yuv_output_format) = VI_OUTPUT_YUV_OUTPUT_FORMAT_YUYV;
-+		break;
-+	case V4L2_PIX_FMT_YVYU:
-+		(*yuv_output_format) = VI_OUTPUT_YUV_OUTPUT_FORMAT_YVYU;
-+		break;
-+	case V4L2_PIX_FMT_YUV420:
-+	case V4L2_PIX_FMT_YVU420:
-+		(*main_output_format) = VI_OUTPUT_OUTPUT_FORMAT_YUV420PLANAR;
-+		break;
-+	}
-+}
-+
-+/*
-+ * Make the VI to be accessible (needed on Tegra20).
-+ *
-+ * This function writes an unknown bit into an unknown register. The code
-+ * comes from a downstream 3.1 kernel that has a working VIP driver for
-+ * Tegra20, and removing it makes the VI completely unaccessible. It should
-+ * be rewritten and possibly moved elsewhere, but the appropriate location
-+ * and implementation is unknown due to a total lack of documentation.
-+ */
-+static int tegra20_vi_enable(struct tegra_vi *vi, bool on)
-+{
-+	/* from arch/arm/mach-tegra/iomap.h */
-+	const phys_addr_t TEGRA_APB_MISC_BASE = 0x70000000;
-+	const unsigned long reg_offset = 0x42c;
-+	void __iomem *apb_misc;
-+	u32 val;
-+
-+	apb_misc = ioremap(TEGRA_APB_MISC_BASE, PAGE_SIZE);
-+	if (!apb_misc)
-+		apb_misc = ERR_PTR(-ENOENT);
-+	if (IS_ERR(apb_misc))
-+		return dev_err_probe(vi->dev, PTR_ERR(apb_misc), "cannot access APB_MISC");
-+
-+	val = readl(apb_misc + reg_offset);
-+	val &= ~BIT(0);
-+	val |= on ? BIT(0) : 0;
-+	writel(val, apb_misc + reg_offset);
-+	iounmap(apb_misc);
-+
-+	return 0;
-+}
-+
-+static int tegra20_channel_host1x_syncpt_init(struct tegra_vi_channel *chan)
-+{
-+	struct tegra_vi *vi = chan->vi;
-+	struct host1x_syncpt *out_sp;
-+
-+	out_sp = host1x_syncpt_request(&vi->client, HOST1X_SYNCPT_CLIENT_MANAGED);
-+	if (!out_sp)
-+		return dev_err_probe(vi->dev, -ENOMEM, "failed to request syncpoint\n");
-+
-+	chan->out_sp = out_sp;
-+
-+	return 0;
-+}
-+
-+static void tegra20_channel_host1x_syncpt_free(struct tegra_vi_channel *chan)
-+{
-+	host1x_syncpt_put(chan->out_sp);
-+}
-+
-+static void tegra20_fmt_align(struct v4l2_pix_format *pix, unsigned int bpp)
-+{
-+	pix->width  = clamp(pix->width,  TEGRA20_MIN_WIDTH,  TEGRA20_MAX_WIDTH);
-+	pix->height = clamp(pix->height, TEGRA20_MIN_HEIGHT, TEGRA20_MAX_HEIGHT);
-+
-+	switch (pix->pixelformat) {
-+	case V4L2_PIX_FMT_UYVY:
-+	case V4L2_PIX_FMT_VYUY:
-+	case V4L2_PIX_FMT_YUYV:
-+	case V4L2_PIX_FMT_YVYU:
-+		pix->bytesperline = roundup(pix->width, 2) * 2;
-+		pix->sizeimage = roundup(pix->width, 2) * 2 * pix->height;
-+		break;
-+	case V4L2_PIX_FMT_YUV420:
-+	case V4L2_PIX_FMT_YVU420:
-+		pix->bytesperline = roundup(pix->width, 8);
-+		pix->sizeimage = roundup(pix->width, 8) * pix->height * 3 / 2;
-+		break;
-+	}
-+}
-+
-+/*
-+ * Compute buffer offsets once per stream so that
-+ * tegra20_channel_vi_buffer_setup() only has to do very simple maths for
-+ * each buffer.
-+ */
-+static void tegra20_channel_queue_setup(struct tegra_vi_channel *chan)
-+{
-+	unsigned int stride = chan->format.bytesperline;
-+	unsigned int height = chan->format.height;
-+
-+	chan->start_offset = 0;
-+
-+	switch (chan->format.pixelformat) {
-+	case V4L2_PIX_FMT_UYVY:
-+	case V4L2_PIX_FMT_VYUY:
-+	case V4L2_PIX_FMT_YUYV:
-+	case V4L2_PIX_FMT_YVYU:
-+		if (chan->vflip)
-+			chan->start_offset += stride * (height - 1);
-+		if (chan->hflip)
-+			chan->start_offset += stride - 1;
-+		break;
-+
-+	case V4L2_PIX_FMT_YUV420:
-+	case V4L2_PIX_FMT_YVU420:
-+		chan->addr_offset_u = stride * height;
-+		chan->addr_offset_v = chan->addr_offset_u + stride * height / 4;
-+
-+		/* For YVU420, we swap the locations of the U and V planes. */
-+		if (chan->format.pixelformat == V4L2_PIX_FMT_YVU420) {
-+			unsigned long temp;
-+
-+			temp = chan->addr_offset_u;
-+			chan->addr_offset_u = chan->addr_offset_v;
-+			chan->addr_offset_v = temp;
-+		}
-+
-+		chan->start_offset_u = chan->addr_offset_u;
-+		chan->start_offset_v = chan->addr_offset_v;
-+
-+		if (chan->vflip) {
-+			chan->start_offset   += stride * (height - 1);
-+			chan->start_offset_u += (stride / 2) * ((height / 2) - 1);
-+			chan->start_offset_v += (stride / 2) * ((height / 2) - 1);
-+		}
-+		if (chan->hflip) {
-+			chan->start_offset   += stride - 1;
-+			chan->start_offset_u += (stride / 2) - 1;
-+			chan->start_offset_v += (stride / 2) - 1;
-+		}
-+		break;
-+	}
-+}
-+
-+static void release_buffer(struct tegra_vi_channel *chan,
-+			   struct tegra_channel_buffer *buf,
-+			   enum vb2_buffer_state state)
-+{
-+	struct vb2_v4l2_buffer *vb = &buf->buf;
-+
-+	vb->sequence = chan->sequence++;
-+	vb->field = V4L2_FIELD_NONE;
-+	vb->vb2_buf.timestamp = ktime_get_ns();
-+	vb2_buffer_done(&vb->vb2_buf, state);
-+}
-+
-+static void tegra20_channel_vi_buffer_setup(struct tegra_vi_channel *chan,
-+					    struct tegra_channel_buffer *buf)
-+{
-+	dma_addr_t base = buf->addr;
-+
-+	switch (chan->fmtinfo->fourcc) {
-+	case V4L2_PIX_FMT_YUV420:
-+	case V4L2_PIX_FMT_YVU420:
-+		tegra20_vi_write(chan, TEGRA_VI_VB0_BASE_ADDRESS_U,  base + chan->addr_offset_u);
-+		tegra20_vi_write(chan, TEGRA_VI_VB0_START_ADDRESS_U, base + chan->start_offset_u);
-+		tegra20_vi_write(chan, TEGRA_VI_VB0_BASE_ADDRESS_V,  base + chan->addr_offset_v);
-+		tegra20_vi_write(chan, TEGRA_VI_VB0_START_ADDRESS_V, base + chan->start_offset_v);
-+		fallthrough;
-+
-+	case V4L2_PIX_FMT_UYVY:
-+	case V4L2_PIX_FMT_VYUY:
-+	case V4L2_PIX_FMT_YUYV:
-+	case V4L2_PIX_FMT_YVYU:
-+		tegra20_vi_write(chan, TEGRA_VI_VB0_BASE_ADDRESS_FIRST,  base);
-+		tegra20_vi_write(chan, TEGRA_VI_VB0_START_ADDRESS_FIRST, base + chan->start_offset);
-+		break;
-+	}
-+}
-+
-+static int tegra20_channel_capture_frame(struct tegra_vi_channel *chan,
-+					 struct tegra_channel_buffer *buf)
-+{
-+	u32 value;
-+	int err;
-+
-+	chan->next_out_sp_idx++;
-+
-+	tegra20_channel_vi_buffer_setup(chan, buf);
-+
-+	tegra20_vi_write(chan, TEGRA_VI_CAMERA_CONTROL, VI_CAMERA_CONTROL_VIP_ENABLE);
-+
-+	/* Wait for syncpt counter to reach frame start event threshold */
-+	err = host1x_syncpt_wait(chan->out_sp, chan->next_out_sp_idx,
-+				 TEGRA_VI_SYNCPT_WAIT_TIMEOUT, &value);
-+	if (err) {
-+		host1x_syncpt_incr(chan->out_sp);
-+		dev_err_ratelimited(&chan->video.dev, "frame start syncpt timeout: %d\n", err);
-+		release_buffer(chan, buf, VB2_BUF_STATE_ERROR);
-+		return err;
-+	}
-+
-+	tegra20_vi_write(chan, TEGRA_VI_CAMERA_CONTROL,
-+			 VI_CAMERA_CONTROL_STOP_CAPTURE | VI_CAMERA_CONTROL_VIP_ENABLE);
-+
-+	release_buffer(chan, buf, VB2_BUF_STATE_DONE);
-+
-+	return 0;
-+}
-+
-+static int tegra20_chan_capture_kthread_start(void *data)
-+{
-+	struct tegra_vi_channel *chan = data;
-+	struct tegra_channel_buffer *buf;
-+	unsigned int retries = 0;
-+	int err = 0;
-+
-+	while (1) {
-+		/*
-+		 * Source is not streaming if error is non-zero.
-+		 * So, do not dequeue buffers on error and let the thread sleep
-+		 * till kthread stop signal is received.
-+		 */
-+		wait_event_interruptible(chan->start_wait,
-+					 kthread_should_stop() ||
-+					 (!list_empty(&chan->capture) && !err));
-+
-+		if (kthread_should_stop())
-+			break;
-+
-+		/* dequeue the buffer and start capture */
-+		spin_lock(&chan->start_lock);
-+		if (list_empty(&chan->capture)) {
-+			spin_unlock(&chan->start_lock);
-+			continue;
-+		}
-+
-+		buf = list_first_entry(&chan->capture, struct tegra_channel_buffer, queue);
-+		list_del_init(&buf->queue);
-+		spin_unlock(&chan->start_lock);
-+
-+		err = tegra20_channel_capture_frame(chan, buf);
-+		if (!err) {
-+			retries = 0;
-+			continue;
-+		}
-+
-+		if (retries++ > chan->syncpt_timeout_retry)
-+			vb2_queue_error(&chan->queue);
-+		else
-+			err = 0;
-+	}
-+
-+	return 0;
-+}
-+
-+static void tegra20_camera_capture_setup(struct tegra_vi_channel *chan)
-+{
-+	u32 output_fourcc = chan->format.pixelformat;
-+	int width  = chan->format.width;
-+	int height = chan->format.height;
-+	int stride_l = chan->format.bytesperline;
-+	int stride_c = (output_fourcc == V4L2_PIX_FMT_YUV420 ||
-+			output_fourcc == V4L2_PIX_FMT_YVU420) ? 1 : 0;
-+	int main_output_format;
-+	int yuv_output_format;
-+
-+	tegra20_vi_get_output_formats(chan, &main_output_format, &yuv_output_format);
-+
-+	/*
-+	 * Set up low pass filter.  Use 0x240 for chromaticity and 0x240
-+	 * for luminance, which is the default and means not to touch
-+	 * anything.
-+	 */
-+	tegra20_vi_write(chan, TEGRA_VI_H_LPF_CONTROL,
-+			 0x0240 << VI_H_LPF_CONTROL_LUMA_SFT |
-+			 0x0240 << VI_H_LPF_CONTROL_CHROMA_SFT);
-+
-+	/* Set up raise-on-edge, so we get an interrupt on end of frame. */
-+	tegra20_vi_write(chan, TEGRA_VI_VI_RAISE, VI_VI_RAISE_ON_EDGE);
-+
-+	tegra20_vi_write(chan, TEGRA_VI_VI_FIRST_OUTPUT_CONTROL,
-+			 (chan->vflip ? VI_OUTPUT_V_DIRECTION : 0) |
-+			 (chan->hflip ? VI_OUTPUT_H_DIRECTION : 0) |
-+			 yuv_output_format << VI_OUTPUT_YUV_OUTPUT_FORMAT_SFT |
-+			 main_output_format << VI_OUTPUT_OUTPUT_FORMAT_SFT);
-+
-+	/* Set up frame size */
-+	tegra20_vi_write(chan, TEGRA_VI_FIRST_OUTPUT_FRAME_SIZE,
-+			 height << VI_FIRST_OUTPUT_FRAME_HEIGHT_SFT |
-+			 width  << VI_FIRST_OUTPUT_FRAME_WIDTH_SFT);
-+
-+	/* First output memory enabled */
-+	tegra20_vi_write(chan, TEGRA_VI_VI_ENABLE, 0);
-+
-+	/* Set the number of frames in the buffer */
-+	tegra20_vi_write(chan, TEGRA_VI_VB0_COUNT_FIRST, 1);
-+
-+	/* Set up buffer frame size */
-+	tegra20_vi_write(chan, TEGRA_VI_VB0_SIZE_FIRST,
-+			 height << VI_VB0_SIZE_FIRST_V_SFT |
-+			 width  << VI_VB0_SIZE_FIRST_H_SFT);
-+
-+	tegra20_vi_write(chan, TEGRA_VI_VB0_BUFFER_STRIDE_FIRST,
-+			 stride_l << VI_VB0_BUFFER_STRIDE_FIRST_LUMA_SFT |
-+			 stride_c << VI_VB0_BUFFER_STRIDE_FIRST_CHROMA_SFT);
-+
-+	tegra20_vi_write(chan, TEGRA_VI_VI_ENABLE, 0);
-+}
-+
-+static int tegra20_vi_start_streaming(struct vb2_queue *vq, u32 count)
-+{
-+	struct tegra_vi_channel *chan = vb2_get_drv_priv(vq);
-+	struct media_pipeline *pipe = &chan->video.pipe;
-+	int err;
-+
-+	chan->next_out_sp_idx = host1x_syncpt_read(chan->out_sp);
-+
-+	err = video_device_pipeline_start(&chan->video, pipe);
-+	if (err)
-+		goto error_pipeline_start;
-+
-+	tegra20_camera_capture_setup(chan);
-+
-+	err = tegra_channel_set_stream(chan, true);
-+	if (err)
-+		goto error_set_stream;
-+
-+	chan->sequence = 0;
-+
-+	chan->kthread_start_capture = kthread_run(tegra20_chan_capture_kthread_start,
-+						  chan, "%s:0", chan->video.name);
-+	if (IS_ERR(chan->kthread_start_capture)) {
-+		err = PTR_ERR(chan->kthread_start_capture);
-+		chan->kthread_start_capture = NULL;
-+		dev_err_probe(&chan->video.dev, err, "failed to run capture kthread\n");
-+		goto error_kthread_start;
-+	}
-+
-+	return 0;
-+
-+error_kthread_start:
-+	tegra_channel_set_stream(chan, false);
-+error_set_stream:
-+	video_device_pipeline_stop(&chan->video);
-+error_pipeline_start:
-+	tegra_channel_release_buffers(chan, VB2_BUF_STATE_QUEUED);
-+
-+	return err;
-+}
-+
-+static void tegra20_vi_stop_streaming(struct vb2_queue *vq)
-+{
-+	struct tegra_vi_channel *chan = vb2_get_drv_priv(vq);
-+
-+	if (chan->kthread_start_capture) {
-+		kthread_stop(chan->kthread_start_capture);
-+		chan->kthread_start_capture = NULL;
-+	}
-+
-+	tegra_channel_release_buffers(chan, VB2_BUF_STATE_ERROR);
-+	tegra_channel_set_stream(chan, false);
-+	video_device_pipeline_stop(&chan->video);
-+}
-+
-+static const struct tegra_vi_ops tegra20_vi_ops = {
-+	.vi_enable = tegra20_vi_enable,
-+	.channel_host1x_syncpt_init = tegra20_channel_host1x_syncpt_init,
-+	.channel_host1x_syncpt_free = tegra20_channel_host1x_syncpt_free,
-+	.vi_fmt_align = tegra20_fmt_align,
-+	.channel_queue_setup = tegra20_channel_queue_setup,
-+	.vi_start_streaming = tegra20_vi_start_streaming,
-+	.vi_stop_streaming = tegra20_vi_stop_streaming,
-+};
-+
-+#define TEGRA20_VIDEO_FMT(MBUS_CODE, BPP, FOURCC)	\
-+{							\
-+	.code    = MEDIA_BUS_FMT_##MBUS_CODE,		\
-+	.bpp     = BPP,					\
-+	.fourcc  = V4L2_PIX_FMT_##FOURCC,		\
-+}
-+
-+static const struct tegra_video_format tegra20_video_formats[] = {
-+	TEGRA20_VIDEO_FMT(UYVY8_2X8, 2, UYVY),
-+	TEGRA20_VIDEO_FMT(VYUY8_2X8, 2, VYUY),
-+	TEGRA20_VIDEO_FMT(YUYV8_2X8, 2, YUYV),
-+	TEGRA20_VIDEO_FMT(YVYU8_2X8, 2, YVYU),
-+	TEGRA20_VIDEO_FMT(UYVY8_2X8, 1, YUV420),
-+	TEGRA20_VIDEO_FMT(UYVY8_2X8, 1, YVU420),
-+};
-+
-+const struct tegra_vi_soc tegra20_vi_soc = {
-+	.video_formats = tegra20_video_formats,
-+	.nformats = ARRAY_SIZE(tegra20_video_formats),
-+	.default_video_format = &tegra20_video_formats[0],
-+	.ops = &tegra20_vi_ops,
-+	.vi_max_channels = 1, /* parallel input (VIP) */
-+	.vi_max_clk_hz = 150000000,
-+	.has_h_v_flip = true,
-+};
-+
-+/* --------------------------------------------------------------------------
-+ * VIP
-+ */
-+
-+/*
-+ * VIP-specific configuration for stream start.
-+ *
-+ * Whatever is common among VIP and CSI is done by the VI component (see
-+ * tegra20_vi_start_streaming()). Here we do what is VIP-specific.
-+ */
-+static int tegra20_vip_start_streaming(struct tegra_vip_channel *vip_chan)
-+{
-+	struct tegra_vi_channel *vi_chan = v4l2_get_subdev_hostdata(&vip_chan->subdev);
-+	int width  = vi_chan->format.width;
-+	int height = vi_chan->format.height;
-+
-+	unsigned int main_input_format;
-+	unsigned int yuv_input_format;
-+
-+	tegra20_vi_get_input_formats(vi_chan, &main_input_format, &yuv_input_format);
-+
-+	tegra20_vi_write(vi_chan, TEGRA_VI_VI_CORE_CONTROL, 0);
-+
-+	tegra20_vi_write(vi_chan, TEGRA_VI_VI_INPUT_CONTROL,
-+			 VI_INPUT_VIP_INPUT_ENABLE | main_input_format | yuv_input_format);
-+
-+	tegra20_vi_write(vi_chan, TEGRA_VI_V_DOWNSCALE_CONTROL, 0);
-+	tegra20_vi_write(vi_chan, TEGRA_VI_H_DOWNSCALE_CONTROL, 0);
-+
-+	tegra20_vi_write(vi_chan, TEGRA_VI_VIP_V_ACTIVE, height << VI_VIP_V_ACTIVE_PERIOD_SFT);
-+	tegra20_vi_write(vi_chan, TEGRA_VI_VIP_H_ACTIVE,
-+			 roundup(width, 2) << VI_VIP_H_ACTIVE_PERIOD_SFT);
-+
-+	/*
-+	 * For VIP, D9..D2 is mapped to the video decoder's P7..P0.
-+	 * Disable/mask out the other Dn wires. When not in BT656
-+	 * mode we also need the V/H sync.
-+	 */
-+	tegra20_vi_write(vi_chan, TEGRA_VI_PIN_INPUT_ENABLE,
-+			 GENMASK(9, 2) << VI_PIN_INPUT_VD_SFT |
-+			 VI_PIN_INPUT_HSYNC | VI_PIN_INPUT_VSYNC);
-+	tegra20_vi_write(vi_chan, TEGRA_VI_VI_DATA_INPUT_CONTROL,
-+			 GENMASK(9, 2) << VI_DATA_INPUT_SFT);
-+	tegra20_vi_write(vi_chan, TEGRA_VI_PIN_INVERSION, 0);
-+
-+	tegra20_vi_write(vi_chan, TEGRA_VI_CONT_SYNCPT_OUT_1,
-+			 VI_CONT_SYNCPT_OUT_1_CONTINUOUS_SYNCPT |
-+			 host1x_syncpt_id(vi_chan->out_sp) << VI_CONT_SYNCPT_OUT_1_SYNCPT_IDX_SFT);
-+
-+	tegra20_vi_write(vi_chan, TEGRA_VI_CAMERA_CONTROL, VI_CAMERA_CONTROL_STOP_CAPTURE);
-+
-+	return 0;
-+}
-+
-+static const struct tegra_vip_ops tegra20_vip_ops = {
-+	.vip_start_streaming = tegra20_vip_start_streaming,
-+};
-+
-+const struct tegra_vip_soc tegra20_vip_soc = {
-+	.ops = &tegra20_vip_ops,
-+};
-diff --git a/drivers/staging/media/tegra-video/vi.c b/drivers/staging/media/tegra-video/vi.c
-index 0dbc3da6f98c..193ef948542a 100644
---- a/drivers/staging/media/tegra-video/vi.c
-+++ b/drivers/staging/media/tegra-video/vi.c
-@@ -1862,6 +1862,9 @@ static int tegra_vi_remove(struct platform_device *pdev)
- }
- 
- static const struct of_device_id tegra_vi_of_id_table[] = {
-+#if defined(CONFIG_ARCH_TEGRA_2x_SOC)
-+	{ .compatible = "nvidia,tegra20-vi",  .data = &tegra20_vi_soc },
-+#endif
- #if defined(CONFIG_ARCH_TEGRA_210_SOC)
- 	{ .compatible = "nvidia,tegra210-vi", .data = &tegra210_vi_soc },
- #endif
-diff --git a/drivers/staging/media/tegra-video/vi.h b/drivers/staging/media/tegra-video/vi.h
-index 7cb038957f1b..d11822c7b6ed 100644
---- a/drivers/staging/media/tegra-video/vi.h
-+++ b/drivers/staging/media/tegra-video/vi.h
-@@ -293,6 +293,9 @@ struct tegra_video_format {
- 	u32 fourcc;
- };
- 
-+#if defined(CONFIG_ARCH_TEGRA_2x_SOC)
-+extern const struct tegra_vi_soc tegra20_vi_soc;
-+#endif
- #if defined(CONFIG_ARCH_TEGRA_210_SOC)
- extern const struct tegra_vi_soc tegra210_vi_soc;
- #endif
-diff --git a/drivers/staging/media/tegra-video/video.c b/drivers/staging/media/tegra-video/video.c
-index d966b319553f..074ad0dc56ca 100644
---- a/drivers/staging/media/tegra-video/video.c
-+++ b/drivers/staging/media/tegra-video/video.c
-@@ -123,6 +123,10 @@ static int host1x_video_remove(struct host1x_device *dev)
- }
- 
- static const struct of_device_id host1x_video_subdevs[] = {
-+#if defined(CONFIG_ARCH_TEGRA_2x_SOC)
-+	{ .compatible = "nvidia,tegra20-vip", },
-+	{ .compatible = "nvidia,tegra20-vi", },
-+#endif
- #if defined(CONFIG_ARCH_TEGRA_210_SOC)
- 	{ .compatible = "nvidia,tegra210-csi", },
- 	{ .compatible = "nvidia,tegra210-vi", },
-@@ -141,6 +145,7 @@ static struct host1x_driver host1x_video_driver = {
- 
- static struct platform_driver * const drivers[] = {
- 	&tegra_csi_driver,
-+	&tegra_vip_driver,
- 	&tegra_vi_driver,
- };
- 
-diff --git a/drivers/staging/media/tegra-video/video.h b/drivers/staging/media/tegra-video/video.h
-index 1e9be1474a9c..7275affa6558 100644
---- a/drivers/staging/media/tegra-video/video.h
-+++ b/drivers/staging/media/tegra-video/video.h
-@@ -24,5 +24,6 @@ int tegra_v4l2_nodes_setup_tpg(struct tegra_video_device *vid);
- void tegra_v4l2_nodes_cleanup_tpg(struct tegra_video_device *vid);
- 
- extern struct platform_driver tegra_vi_driver;
-+extern struct platform_driver tegra_vip_driver;
- extern struct platform_driver tegra_csi_driver;
- #endif
--- 
-2.34.1
+> > > +
+> > > 
+> > >  	return 0;
+> > >  
+> > >  }
+> > > 
+> > > @@ -1268,12 +1247,10 @@ static int imx290_probe(struct i2c_client
+> > > *client)
+> > > 
+> > >  	if (ret)
+> > >  	
+> > >  		return ret;
+> > > 
+> > > -	mutex_init(&imx290->lock);
+> > > -
+> > > 
+> > >  	/* Initialize and register subdev. */
+> > >  	ret = imx290_subdev_init(imx290);
+> > >  	if (ret)
+> > > 
+> > > -		goto err_mutex;
+> > > +		return ret;
+> > > 
+> > >  	ret = v4l2_async_register_subdev(&imx290->sd);
+> > >  	if (ret < 0) {
+> > > 
+> > > @@ -1305,8 +1282,6 @@ static int imx290_probe(struct i2c_client *client)
+> > > 
+> > >  err_subdev:
+> > >  	imx290_subdev_cleanup(imx290);
+> > > 
+> > > -err_mutex:
+> > > -	mutex_destroy(&imx290->lock);
+> > > 
+> > >  	return ret;
+> > >  
+> > >  }
+> > > 
+> > > @@ -1319,8 +1294,6 @@ static void imx290_remove(struct i2c_client
+> > > *client)
+> > > 
+> > >  	v4l2_async_unregister_subdev(sd);
+> > >  	imx290_subdev_cleanup(imx290);
+> > > 
+> > > -	mutex_destroy(&imx290->lock);
+> > > -
+> > > 
+> > >  	pm_runtime_disable(imx290->dev);
+> > >  	if (!pm_runtime_status_suspended(imx290->dev))
+> > >  	
+> > >  		imx290_power_off(imx290->dev);
+
+
+
 
