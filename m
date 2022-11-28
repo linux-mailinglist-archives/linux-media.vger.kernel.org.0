@@ -2,70 +2,86 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 90FF663AD9D
-	for <lists+linux-media@lfdr.de>; Mon, 28 Nov 2022 17:23:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 64ED063AED5
+	for <lists+linux-media@lfdr.de>; Mon, 28 Nov 2022 18:25:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232740AbiK1QX3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 28 Nov 2022 11:23:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53876 "EHLO
+        id S233022AbiK1RZd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 28 Nov 2022 12:25:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41422 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232711AbiK1QXK (ORCPT
+        with ESMTP id S232984AbiK1RZR (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 28 Nov 2022 11:23:10 -0500
-Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 528E024BF1
-        for <linux-media@vger.kernel.org>; Mon, 28 Nov 2022 08:23:09 -0800 (PST)
-Received: by mail-wr1-x42b.google.com with SMTP id q7so16816903wrr.8
-        for <linux-media@vger.kernel.org>; Mon, 28 Nov 2022 08:23:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=K9Tv/pFhgevsl9Hu0zmbLfmBjTOF9KQSurh2+NHp5DA=;
-        b=ADOctLLB3qfGtoFM1BsNGENK9Ly6U59mumtdiZ02DMG29xoJvxKqlN+ScwX5+0e3VL
-         byk1QpmBeKrn4UmbzFbr2CL7+wWPTFkb4JLjFX8BNkfGrhaJq6eHEqMfkHYw1/fkRkSj
-         An2ejdawPoflAUonkRhqXOwoqqYQfXt/DwdntM4ll4GBN6WHFr1zW4RBLAoGos2GyPaA
-         wdue8sTpNNP8nsHFOiTEk7OqiK5518HAbRpoisZH0UJElnI4H3P2GcygYfhv26pfY0Qd
-         sVOubjbjgym92WuwHlQ/8sTbSu7tP5Fndo8UzBw13SQKAPLQwjWmZ59yt03f7RXt+mIc
-         WiJA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=K9Tv/pFhgevsl9Hu0zmbLfmBjTOF9KQSurh2+NHp5DA=;
-        b=ISxBccxyKTyaGfXve+PfviPRljoVEu2ThBBgcx60PDGF1TbOK6tf2SnUVcsRueFvnp
-         6ip91KbmGKuvPbQMKmctXD2SYSbYKHNk+E419pCuwEod/GKZERhuxIRkAnvINZlyY/VJ
-         ieQtiPYOHKXnWs/zSDeewhRzMSNDKMLB7Z0E5TNvZk4EK1EV1BSWnGSENlwLbLzjqkLZ
-         dqhQakMcmjLCpX/EwfPk09FXmXbC7TotsTjECIn0OigritXCbu4Q4nTsAlKb+rtVWd3Q
-         wlbpuaYQ1FKdkG6C6zj04tW2m4ZLwnw6WUSAaFosfRJFS+Um6mokqXAvM9PC1MsXtxTJ
-         hh2A==
-X-Gm-Message-State: ANoB5pnE+akbDQP+YoTSCgTO5YTWMGngZEJb8pRaaI5VN6ByZTL0pmKz
-        Bb4MaKB1LtdGSlnjhtVAaKoXEw==
-X-Google-Smtp-Source: AA0mqf7Caw79R6fuhS0qnP0ccrEdqzES2mHAOZ8dHT6+bfLnEsYtMIGEct43HJAVA0NKtbZP3jwR7A==
-X-Received: by 2002:a5d:4946:0:b0:241:f7b9:7c05 with SMTP id r6-20020a5d4946000000b00241f7b97c05mr14792231wrs.528.1669652587893;
-        Mon, 28 Nov 2022 08:23:07 -0800 (PST)
-Received: from dave-Ubuntu2204.pitowers.org ([93.93.133.154])
-        by smtp.googlemail.com with ESMTPSA id o15-20020a5d474f000000b002421a8f4fa6sm2353530wrs.92.2022.11.28.08.23.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Nov 2022 08:23:07 -0800 (PST)
-From:   Dave Stevenson <dave.stevenson@raspberrypi.com>
-To:     "Paul J. Murphy" <paul.j.murphy@intel.com>,
-        Daniele Alessandrelli <daniele.alessandrelli@intel.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-media@vger.kernel.org
-Cc:     Dave Stevenson <dave.stevenson@raspberrypi.com>
-Subject: [PATCH 3/3] media: i2c: ov9282: Add missing clk_disable_unprepare to error path
-Date:   Mon, 28 Nov 2022 16:22:49 +0000
-Message-Id: <20221128162249.536455-4-dave.stevenson@raspberrypi.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20221128162249.536455-1-dave.stevenson@raspberrypi.com>
-References: <20221128162249.536455-1-dave.stevenson@raspberrypi.com>
+        Mon, 28 Nov 2022 12:25:17 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D61B20349;
+        Mon, 28 Nov 2022 09:25:14 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id B6D92B80E90;
+        Mon, 28 Nov 2022 17:25:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 002F2C433D6;
+        Mon, 28 Nov 2022 17:25:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1669656311;
+        bh=wZlmYJl8LMxMeefdCbrE5viQuX+AZVgF+lHUSAzV8mA=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=jklUVBk1mHdNx5UwNOVAyoL9FcfwZD4B7KDGLSBvRl5IAv16CCb++ynZ+TPs/2xnW
+         Y09yfkYWX7Zusj8ufWXnQv3O5+iO2GnPgg5dqoMaQRFD7eFKipOag5+WZBxv2B/3hS
+         npOJ5H5324elD5m0VsViiZtApWHVqoGlQ7+jDW9I=
+Date:   Mon, 28 Nov 2022 18:25:09 +0100
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Bart Van Assche <bvanassche@acm.org>
+Cc:     linux-kernel@vger.kernel.org, Jens Axboe <axboe@kernel.dk>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Russ Weight <russell.h.weight@intel.com>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Jean Delvare <jdelvare@suse.com>,
+        Johan Hovold <johan@kernel.org>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Leon Romanovsky <leon@kernel.org>,
+        Karsten Keil <isdn@linux-pingi.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Keith Busch <kbusch@kernel.org>,
+        Christoph Hellwig <hch@lst.de>,
+        Sagi Grimberg <sagi@grimberg.me>,
+        Dominik Brodowski <linux@dominikbrodowski.net>,
+        Sebastian Reichel <sre@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Johannes Berg <johannes@sipsolutions.net>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Raed Salem <raeds@nvidia.com>,
+        Chen Zhongjin <chenzhongjin@huawei.com>,
+        Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+        Avihai Horon <avihaih@nvidia.com>,
+        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Colin Ian King <colin.i.king@gmail.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Jakob Koschel <jakobkoschel@gmail.com>,
+        Antoine Tenart <atenart@kernel.org>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        Wang Yufen <wangyufen@huawei.com>, linux-block@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-nvme@lists.infradead.org,
+        linux-pm@vger.kernel.org, linux-rdma@vger.kernel.org,
+        linux-usb@vger.kernel.org, linux-wireless@vger.kernel.org,
+        netdev@vger.kernel.org
+Subject: Re: [PATCH 1/5] driver core: make struct class.dev_uevent() take a
+ const *
+Message-ID: <Y4Tu9UUGGiEdFcVw@kroah.com>
+References: <20221123122523.1332370-1-gregkh@linuxfoundation.org>
+ <d448b944-708a-32d4-37d7-0be16ee5f73c@acm.org>
+ <Y4NqAJW5V0tAP8ax@kroah.com>
+ <5b14cdea-1bbe-1900-0004-a218ba97bbcb@acm.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <5b14cdea-1bbe-1900-0004-a218ba97bbcb@acm.org>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -73,34 +89,74 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-If ov9282_power_on failed the I2C write, it returned without releasing
-clocks or regulators. Fix this.
+On Sun, Nov 27, 2022 at 06:38:39PM -0800, Bart Van Assche wrote:
+> On 11/27/22 05:45, Greg Kroah-Hartman wrote:
+> > On Fri, Nov 25, 2022 at 03:51:11PM -0800, Bart Van Assche wrote:
+> > > On 11/23/22 04:25, Greg Kroah-Hartman wrote:
+> > > > diff --git a/include/linux/mISDNif.h b/include/linux/mISDNif.h
+> > > > index 7dd1f01ec4f9..7aab4a769736 100644
+> > > > --- a/include/linux/mISDNif.h
+> > > > +++ b/include/linux/mISDNif.h
+> > > > @@ -586,7 +586,7 @@ extern struct mISDNclock *mISDN_register_clock(char *, int, clockctl_func_t *,
+> > > >    						void *);
+> > > >    extern void	mISDN_unregister_clock(struct mISDNclock *);
+> > > > -static inline struct mISDNdevice *dev_to_mISDN(struct device *dev)
+> > > > +static inline struct mISDNdevice *dev_to_mISDN(const struct device *dev)
+> > > >    {
+> > > >    	if (dev)
+> > > >    		return dev_get_drvdata(dev);
+> > > 
+> > > Why does the dev_to_mISDN() function drop constness? I haven't found an
+> > > explanation for this in the cover letter.
+> > 
+> > I agree, this is going to be fixed up, see the thread starting here:
+> > 	https://lore.kernel.org/r/Y34+V2bCDdqujBDk@kroah.com
+> > 
+> > I'll work on making a const / non const version for these so that we
+> > don't loose the marking.
+> > 
+> > Oh wait, no, this function is fine, it's not modifying the device
+> > structure at all, and only returning the pointer in the private data
+> > stored in the device.  There is no loss of const-ness here.
+> 
+> Hi Greg,
+> 
+> This is what I found in include/linux/mISDNif.h:
+> 
+> struct mISDNdevice {
+> 	struct mISDNchannel	D;
+> 	u_int			id;
+> 	u_int			Dprotocols;
+> 	u_int			Bprotocols;
+> 	u_int			nrbchan;
+> 	u_char			channelmap[MISDN_CHMAP_SIZE];
+> 	struct list_head	bchannels;
+> 	struct mISDNchannel	*teimgr;
+> 	struct device		dev;
+> };
+> 
+> As one can see 'dev' is a member of struct mISDNdevice. I still think that
+> dev_to_mISDN() drops constness. Did I perhaps overlook something?
 
-Fixes: 6f7def3d8a65 ("media: i2c: ov9282: Add selection for CSI2 clock mode")
-Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
----
- drivers/media/i2c/ov9282.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+I think you are missing that dev_to_mISDN() is doing something different
+than most dev_to_FOO() functions do (i.e. there is no container_of()
+call here at all):
 
-diff --git a/drivers/media/i2c/ov9282.c b/drivers/media/i2c/ov9282.c
-index 94e18da55a05..38b8d33799d5 100644
---- a/drivers/media/i2c/ov9282.c
-+++ b/drivers/media/i2c/ov9282.c
-@@ -1253,11 +1253,13 @@ static int ov9282_power_on(struct device *dev)
- 					OV9282_GATED_CLOCK : 0);
- 	if (ret) {
- 		dev_err(ov9282->dev, "fail to write MIPI_CTRL00");
--		return ret;
-+		goto error_clk;
- 	}
- 
- 	return 0;
- 
-+error_clk:
-+	clk_disable_unprepare(ov9282->inclk);
- error_reset:
- 	gpiod_set_value_cansleep(ov9282->reset_gpio, 0);
- 
--- 
-2.34.1
+static inline struct mISDNdevice *dev_to_mISDN(struct device *dev)
+{
+	if (dev)
+		return dev_get_drvdata(dev);
+	else
+		return NULL;
+}
 
+See, no pointer mess or anything else here, all that happens is the
+driver data pointer in struct device is returned.
+
+If this was a "normal" dev_to_FOO() function, then yes, the const-ness
+of the pointer would be called into question as the thread I linked to
+discusses.
+
+thanks,
+
+greg k-h
