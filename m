@@ -2,914 +2,137 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5580263C36A
-	for <lists+linux-media@lfdr.de>; Tue, 29 Nov 2022 16:17:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2BB6D63C3A0
+	for <lists+linux-media@lfdr.de>; Tue, 29 Nov 2022 16:23:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235027AbiK2PRc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 29 Nov 2022 10:17:32 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44244 "EHLO
+        id S235697AbiK2PX2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 29 Nov 2022 10:23:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51112 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234994AbiK2PRa (ORCPT
+        with ESMTP id S235946AbiK2PXK (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 29 Nov 2022 10:17:30 -0500
-Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::222])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BEB4045096
-        for <linux-media@vger.kernel.org>; Tue, 29 Nov 2022 07:17:27 -0800 (PST)
-Received: (Authenticated sender: jacopo@jmondi.org)
-        by mail.gandi.net (Postfix) with ESMTPSA id 0D5DB40005;
-        Tue, 29 Nov 2022 15:17:24 +0000 (UTC)
-Date:   Tue, 29 Nov 2022 16:17:24 +0100
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Nicholas Roth <nicholas@rothemail.net>
-Cc:     linux-media@vger.kernel.org, libcamera-devel@lists.libcamera.org,
-        robert.mader@posteo.de
-Subject: Re: [PATCH v2] media: i2c: ov8858 Add driver for ov8858
-Message-ID: <20221129151724.j335ht3rwd4giwap@uno.localdomain>
-References: <20221128175335.jigoufquhafshexg@uno.localdomain>
- <7CA17657-D4C8-4307-9236-28B9073CEE61@rothemail.net>
+        Tue, 29 Nov 2022 10:23:10 -0500
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 75B5D5F862
+        for <linux-media@vger.kernel.org>; Tue, 29 Nov 2022 07:23:01 -0800 (PST)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <mgr@pengutronix.de>)
+        id 1p02Rn-0002bM-Ly; Tue, 29 Nov 2022 16:22:59 +0100
+Received: from mgr by ptx.hi.pengutronix.de with local (Exim 4.92)
+        (envelope-from <mgr@pengutronix.de>)
+        id 1p02Rn-0003MH-AA; Tue, 29 Nov 2022 16:22:59 +0100
+Date:   Tue, 29 Nov 2022 16:22:59 +0100
+From:   Michael Grzeschik <mgr@pengutronix.de>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-usb@vger.kernel.org, linux-media@vger.kernel.org,
+        gregkh@linuxfoundation.org, balbi@kernel.org,
+        kernel@pengutronix.de, Daniel Scally <dan.scally@ideasonboard.com>
+Subject: Re: [PATCH v7] usb: gadget: uvc: add validate and fix function for
+ uvc response
+Message-ID: <20221129152259.GQ18924@pengutronix.de>
+References: <20221128103124.655264-1-m.grzeschik@pengutronix.de>
+ <Y4V4IED+SBhUR7Su@pendragon.ideasonboard.com>
+ <20221129102308.GO18924@pengutronix.de>
+ <Y4X0unPRK7iAnfaH@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="L0TNCHh3fkwjpuuE"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <7CA17657-D4C8-4307-9236-28B9073CEE61@rothemail.net>
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <Y4X0unPRK7iAnfaH@pendragon.ideasonboard.com>
+X-Sent-From: Pengutronix Hildesheim
+X-URL:  http://www.pengutronix.de/
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: mgr@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-To continue following up on this
 
-I found an old version of a driver for the 8858 from a very old
-android BSP, which mentions
-https://android.googlesource.com/kernel/x86/+/android-x86-grant-3.10-marshmallow-mr1-wear-release/drivers/external_drivers/camera/drivers/media/i2c/ov8858.h#417
+--L0TNCHh3fkwjpuuE
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-        /*
-         * [10:7] are integer gain, [6:0] are fraction gain.  For
-         * example: 0x80 is 1x gain, 0x100 is 2x gain, 0x1C0 is 3.5x
-         * gain
+On Tue, Nov 29, 2022 at 02:02:02PM +0200, Laurent Pinchart wrote:
+>Hi Michael,
+>
+>On Tue, Nov 29, 2022 at 11:23:08AM +0100, Michael Grzeschik wrote:
+>> On Tue, Nov 29, 2022 at 05:10:24AM +0200, Laurent Pinchart wrote:
+>> > On Mon, Nov 28, 2022 at 11:31:25AM +0100, Michael Grzeschik wrote:
+>> >> When the userspace gets the setup requests for UVC_GET_CUR UVC_GET_MI=
+N,
+>> >> UVC_GET_MAX, UVC_GET_DEF it will fill out the ctrl response. This data
+>> >> needs to be validated. Since the kernel also knows the limits for val=
+id
+>> >> cases, it can fixup the values in case the userspace is setting inval=
+id
+>> >> data.
+>> >
+>> > Why is this a good idea ?
+>>
+>> Why is it not? We don't want the userspace to communicate other things
+>> to the host than what is configured in the configfs. If you only object
+>> the explanation, then I will improve the commit message and send an
+>> fixed v8. If you have more objections please share your doubts, thanks.
+>
+>What bothers me is that this patch silently clamps invalid value, trying
+>to hide the gadget userspace error from the host. It may allow the host
+>to proceed one step further, but if the gadget userspace got it wrong in
+>the first place, there's a very high chance it won't do the right thing
+>in the next step anyway. This will make debugging more complicated,
+>while at the same time not bringing much value.
 
-	{OV8858_8BIT, 0x3508, 0x02}, /* long gain = 0x0200 */
-	{OV8858_8BIT, 0x3509, 0x00}, /* long gain = 0x0200 *//
+I discussed this and we came up with a better approach. When the
+userspace will send UVCIOC_SEND_RESPONSE we can return with a negativ
+return value. Like EAGAIN if the validation was seeeing some trouble
+with the userspaces uvc_streaming_control feedback to the host.
 
-Which suggests the gain format is actually Q4.7
+The validation code will then still fixup the data, but instead of
+transfering this manipulated answer to the host, it will return the
+changes to the application with EAGAIN. So now the userspace can
+react to it and it should even point out misconfigurations between
+kernel and userspace and so will simplify the debugging.
 
-This results in a camera sensor helper with { m0 = 1, c1 = 128 }
+How about that?
 
-        class CameraSensorHelperOv8858 : public CameraSensorHelper
-        {
-        public:
-                CameraSensorHelperOv8858()
-                {
-                        gainType_ = AnalogueGainLinear;
-                        gainConstants_.linear = { 1, 0, 0, 128 };
-                }
-        };
-        REGISTER_CAMERA_SENSOR_HELPER("ov8858", CameraSensorHelperOv8858)
+Michael
 
-Which, surprise surprise, it's very similar to the ov8865 one (might be
-a pure coincidence though)
+--=20
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
 
-        class CameraSensorHelperOv8865 : public CameraSensorHelper
-        {
-        public:
-                CameraSensorHelperOv8865()
-                {
-                        gainType_ = AnalogueGainLinear;
-                        gainConstants_.linear = { 1, 0, 0, 128 };
-                }
-        };
-        REGISTER_CAMERA_SENSOR_HELPER("ov8865", CameraSensorHelperOv8865)
+--L0TNCHh3fkwjpuuE
+Content-Type: application/pgp-signature; name="signature.asc"
 
-With this, I get much better results, however the image is still a
-little dark.
+-----BEGIN PGP SIGNATURE-----
 
-I got brighter results poking bits above the 10th as I said in the
-previous email the brighter images I can get were obtained with 8192
-(0x1fff) obtained by setting the higher 12th and 11th MSBs.
+iQIzBAABCgAdFiEElXvEUs6VPX6mDPT8C+njFXoeLGQFAmOGI9AACgkQC+njFXoe
+LGSk+g/8DgiqoIHq8YqQ7alo7UnUwP6ewu9MUk8R9PeRBhhLEl9rCbS5iJrepvSc
+MCcjp8dDlD8czDFrohEfY65KZu6ko36FrgEBHp3M0Eo8ALydPV9l0QKii2ajiGlO
+/Zq/d5ozqvY0EFM1La4k0qQnlmUyaLNQ9iHDPcuxpdjvQZ9uY1DOyQeR2A3v/4ze
+Zz/tsQbY639VH7bth634QecU8YmZ+sRvLpVque85LNYhi6V7knUQPpySW69jlAYy
+qE5gtwbr9/od/iNaRsP0V+0HH0fH4jG93SY7Cyk0elUXbTYqmXnjpwrDcZ7vy7Ih
+hbMNDatM2jC2zeZo7XGyTFjWJ+5ABYOH4iLpOmJmXQa/LPqmzTZPKPn/fR5q466U
+S8MQfMMoeEehlRQ1wZyaRZC14aJPGjsxDcm+KZHPpdluXjwCqOV238YiG/xhkd4z
+8I1mP4k7UJIV4b/J0zMhVVd6PPkBSkjCr0T9vusCaU5luMNsgwoMvmLe9c+FoCHr
+ftrUgkSdOBe7PTNXSXO0fM445+XD0S3EtTf+zgjquo02KyZkWjaTcMKgGyDYjB9g
+i2NpJqgkbDtWj8uZ9O6FUf/I3YdPsr+g505o6tBmKJFUDCnnhpiL8BaE2hSJqmCE
+ndJPKP8ZVe51ONYnmpXheCtA6LEgOEH5lJG5AIF7TVL8091VJ7o=
+=Tz9d
+-----END PGP SIGNATURE-----
 
-The register description mentions it has 13 valid bits, but whenever
-I use the 2 MSB ones I hit non-linearity issues. I wonder if the analog
-gain could actually be pushed above 16x [1], but it is limited to that in
-software for stable results.
-
-Added Robert in cc which is experiencing dark images as I am
-
-[1] The chip manual says "The OV8858 has a maximum 16x analog gain."
-
-On Mon, Nov 28, 2022 at 12:04:50PM -0600, Nicholas Roth wrote:
-> I took pictures with both sensors and posted them to https://github.com/
-> waydroid/waydroid/issues/519 without any issues. However, someone else
-> following along on the ticket also noted that their pictures were unusable dark
-> as well with the same configuration I used.
->
-> I was using Megi’s driver and kernel, the same one I submitted for upstreaming.
-> I wonder if there may be some variability in the hardware?
->
-> On Nov 28, 2022, at 11:53 AM, Jacopo Mondi <jacopo@jmondi.org> wrote:
->
->
->
->     Hi Nicholas,
->       a few notes on testing the analogue gain response on your driver
->
->     On Sun, Nov 06, 2022 at 11:11:30AM -0600, Nicholas Roth wrote:
->     [snip]
->
->
->         +    case V4L2_CID_ANALOGUE_GAIN:
->
->         +        ret = ov8858_write_reg(ov8858->client,
->
->         +                    OV8858_REG_GAIN_H,
->
->         +                    OV8858_REG_VALUE_08BIT,
->
->         +                    (ctrl->val >> OV8858_GAIN_H_SHIFT) &
->
->         +                    OV8858_GAIN_H_MASK);
->
->         +        ret |= ov8858_write_reg(ov8858->client,
->
->         +                    OV8858_REG_GAIN_L,
->
->         +                    OV8858_REG_VALUE_08BIT,
->
->         +                    ctrl->val & OV8858_GAIN_L_MASK);
->
->         +        break;
->
->
->     I've started this investigation because I have very dark images when
->     running from this sensor.
->
->     I'm running libcamera with the camera sensor helper that you have
->     submitted, which implements a linear gain model with (m0=1,c1=16)
->     which seems to match the registers documentation when running in "real
->     mode". Quoting:
->
->     0x3503[2]=0, gain[7:0] is real gain format, where low 4 bits are
->     fraction bits, for example, 0x10 is 1x gain, 0x28 is 2.5x gain
->
->     Unfortunately I don't get usable images with this configuration.
->     My testing procedure has been
->
->     1) Disconnect DelayedControls from RkISP1 pipeline handler to avoid it
->       writing controls to the sensor
->
->     --- a/src/libcamera/pipeline/rkisp1/rkisp1.cpp
->     +++ b/src/libcamera/pipeline/rkisp1/rkisp1.cpp
->     @@ -393,9 +393,9 @@ void RkISP1CameraData::paramFilled(unsigned int frame)
->     }
->
->     void RkISP1CameraData::setSensorControls([[maybe_unused]] unsigned int
->     frame,
->     -                                        const ControlList &sensorControls)
->     +                                        [[maybe_unused]] const ControlList
->     &sensorControls)
->     {
->     -       delayedCtrls_->push(sensorControls);
->     +       //delayedCtrls_->push(sensorControls);
->     }
->
->     2) Disable Agc and Awb algorithm by removing the entries in
->       /usr/share/libcamera/rkisp1/uncalibrated.yaml
->
->     3) Run a preview window and observe how it changes by issuing controls
->       with v4l2-ctl:
->
->       1) set a reasonable exposure value
->          $ v4l2-ctl -c 0x00980911=2047 -d /dev/v4l-subdev4
->
->       2) pump up digital gain a bit
->         $ v4l2-ctl -c 0x009f0905=800 -d /dev/v4l-subdev4
->
->       3) Start sending analogue gain controls to see how the image
->          response changes
->
->         $ v4l2-ctl -c 0x009e0903=128 -d /dev/v4l-subdev4
->         $ v4l2-ctl -c 0x009e0903=512 -d /dev/v4l-subdev4
->         $ v4l2-ctl -c 0x009e0903=1024 -d /dev/v4l-subdev4
->         $ v4l2-ctl -c 0x009e0903=2048 -d /dev/v4l-subdev4
->
->     My observations are that
->     - The highest gain I can apply is obtained with 8191, which
->      corresponds to 0x1fff which matches to the register description
->      of:
->
->      0x3508 LONG_GAIN_HIGH = gain[12:6]
->      0x3509 LONG_GAIN_LOW = gain[7:0]
->
->      This seems to indicate the gain register is actually 13-bits long
->      and not
->
->     - The gain is not linear:
->
->      127 is more brilliant than 128
->      2047 is more brilliant than 2048
->
->     I'm afraid the description we get for the register is not accurate and
->     doesn't tell exactly how the gain value is assembled in the 0x3508 and
->     0x3509 register ?
->
->     Are you experiencing anything similar ?
->
->     Thanks
->      j
->
->
->         +    case V4L2_CID_DIGITAL_GAIN:
->
->         +        ret = ov8858_write_reg(ov8858->client,
->
->         +                    OV8858_REG_DGAIN_H,
->
->         +                    OV8858_REG_VALUE_08BIT,
->
->         +                    (ctrl->val >> OV8858_DGAIN_H_SHIFT) &
->
->         +                    OV8858_DGAIN_H_MASK);
->
->         +        ret |= ov8858_write_reg(ov8858->client,
->
->         +                    OV8858_REG_DGAIN_L,
->
->         +                    OV8858_REG_VALUE_08BIT,
->
->         +                    ctrl->val & OV8858_DGAIN_L_MASK);
->
->         +        break;
->
->         +    case V4L2_CID_VBLANK:
->
->         +        ret = ov8858_write_reg(ov8858->client,
->
->         +                    OV8858_REG_VTS,
->
->         +                    OV8858_REG_VALUE_16BIT,
->
->         +                    ctrl->val + ov8858->cur_mode->height);
->
->         +        break;
->
->         +    case V4L2_CID_TEST_PATTERN:
->
->         +        ret = ov8858_enable_test_pattern(ov8858, ctrl->val);
->
->         +        break;
->
->         +    default:
->
->         +        dev_warn(&client->dev, "%s Unhandled id:0x%x, val:0x%x\n",
->
->         +             __func__, ctrl->id, ctrl->val);
->
->         +        break;
->
->         +    }
->
->         +
->
->         +    pm_runtime_put(&client->dev);
->
->         +
->
->         +    return ret;
->
->         +}
->
->         +
->
->         +static const struct v4l2_ctrl_ops ov8858_ctrl_ops = {
->
->         +    .s_ctrl = ov8858_set_ctrl,
->
->         +};
->
->         +
->
->         +static int ov8858_initialize_controls(struct ov8858 *ov8858)
->
->         +{
->
->         +    const struct ov8858_mode *mode;
->
->         +    struct v4l2_ctrl_handler *handler;
->
->         +    struct v4l2_ctrl *ctrl;
->
->         +    s64 exposure_max, vblank_def;
->
->         +    u32 h_blank;
->
->         +    int ret;
->
->         +
->
->         +    handler = &ov8858->ctrl_handler;
->
->         +    mode = ov8858->cur_mode;
->
->         +    ret = v4l2_ctrl_handler_init(handler, 8);
->
->         +    if (ret)
->
->         +        return ret;
->
->         +    handler->lock = &ov8858->mutex;
->
->         +
->
->         +    ctrl = v4l2_ctrl_new_int_menu(handler, NULL, V4L2_CID_LINK_FREQ,
->
->         +                      0, 0, link_freq_menu_items);
->
->         +    if (ctrl)
->
->         +        ctrl->flags |= V4L2_CTRL_FLAG_READ_ONLY;
->
->         +
->
->         +    v4l2_ctrl_new_std(handler, NULL, V4L2_CID_PIXEL_RATE,
->
->         +              0, ov8858->pixel_rate, 1, ov8858->pixel_rate);
->
->         +
->
->         +    h_blank = mode->hts_def - mode->width;
->
->         +    ov8858->hblank = v4l2_ctrl_new_std(handler, NULL, V4L2_CID_HBLANK,
->
->         +                h_blank, h_blank, 1, h_blank);
->
->         +    if (ov8858->hblank)
->
->         +        ov8858->hblank->flags |= V4L2_CTRL_FLAG_READ_ONLY;
->
->         +
->
->         +    vblank_def = mode->vts_def - mode->height;
->
->         +    ov8858->vblank = v4l2_ctrl_new_std(handler, &ov8858_ctrl_ops,
->
->         +                V4L2_CID_VBLANK, vblank_def,
->
->         +                OV8858_VTS_MAX - mode->height,
->
->         +                1, vblank_def);
->
->         +
->
->         +    exposure_max = mode->vts_def - 4;
->
->         +    ov8858->exposure = v4l2_ctrl_new_std(handler, &ov8858_ctrl_ops,
->
->         +                V4L2_CID_EXPOSURE, OV8858_EXPOSURE_MIN,
->
->         +                exposure_max, OV8858_EXPOSURE_STEP,
->
->         +                mode->exp_def);
->
->         +
->
->         +    ov8858->anal_gain = v4l2_ctrl_new_std(handler, &ov8858_ctrl_ops,
->
->         +                V4L2_CID_ANALOGUE_GAIN, OV8858_GAIN_MIN,
->
->         +                OV8858_GAIN_MAX, OV8858_GAIN_STEP,
->
->         +                OV8858_GAIN_DEFAULT);
->
->         +
->
->         +    ov8858->digi_gain = v4l2_ctrl_new_std(handler, &ov8858_ctrl_ops,
->
->         +                V4L2_CID_DIGITAL_GAIN, OV8858_DGAIN_MIN,
->
->         +                OV8858_DGAIN_MAX, OV8858_DGAIN_STEP,
->
->         +                OV8858_DGAIN_DEFAULT);
->
->         +
->
->         +    ov8858->test_pattern = v4l2_ctrl_new_std_menu_items(handler,
->
->         +                &ov8858_ctrl_ops, V4L2_CID_TEST_PATTERN,
->
->         +                ARRAY_SIZE(ov8858_test_pattern_menu) - 1,
->
->         +                0, 0, ov8858_test_pattern_menu);
->
->         +
->
->         +    if (handler->error) {
->
->         +        ret = handler->error;
->
->         +        dev_err(&ov8858->client->dev,
->
->         +            "Failed to init controls(%d)\n", ret);
->
->         +        goto err_free_handler;
->
->         +    }
->
->         +
->
->         +    ov8858->subdev.ctrl_handler = handler;
->
->         +
->
->         +    return 0;
->
->         +
->
->         +err_free_handler:
->
->         +    v4l2_ctrl_handler_free(handler);
->
->         +
->
->         +    return ret;
->
->         +}
->
->         +
->
->         +static int ov8858_check_sensor_id(struct ov8858 *ov8858,
->
->         +                   struct i2c_client *client)
->
->         +{
->
->         +    struct device *dev = &ov8858->client->dev;
->
->         +    u32 id = 0;
->
->         +    int ret;
->
->         +
->
->         +    ret = ov8858_read_reg(client, OV8858_REG_CHIP_ID,
->
->         +                  OV8858_REG_VALUE_24BIT, &id);
->
->         +    if (id != CHIP_ID) {
->
->         +        dev_err(dev, "Unexpected sensor id(%06x), ret(%d)\n", id,
->         ret);
->
->         +        return ret;
->
->         +    }
->
->         +
->
->         +    ret = ov8858_read_reg(client, OV8858_CHIP_REVISION_REG,
->
->         +                  OV8858_REG_VALUE_08BIT, &id);
->
->         +    if (ret) {
->
->         +        dev_err(dev, "Read chip revision register error\n");
->
->         +        return ret;
->
->         +    }
->
->         +
->
->         +    dev_info(dev, "Detected OV%06x sensor, REVISION 0x%x\n", CHIP_ID,
->         id);
->
->         +
->
->         +    if (id == OV8858_R2A) {
->
->         +        if (4 == ov8858->lane_num) {
->
->         +            ov8858_global_regs = ov8858_global_regs_r2a_4lane;
->
->         +        } else {
->
->         +            ov8858_global_regs = ov8858_global_regs_r2a_2lane;
->
->         +        }
->
->         +
->
->         +        ov8858->is_r2a = true;
->
->         +    } else {
->
->         +        ov8858_global_regs = ov8858_global_regs_r1a;
->
->         +        ov8858->is_r2a = false;
->
->         +        dev_warn(dev, "R1A may not work well current!\n");
->
->         +    }
->
->         +
->
->         +    return 0;
->
->         +}
->
->         +
->
->         +static int ov8858_configure_regulators(struct ov8858 *ov8858)
->
->         +{
->
->         +    unsigned int i;
->
->         +
->
->         +    for (i = 0; i < OV8858_NUM_SUPPLIES; i++)
->
->         +        ov8858->supplies[i].supply = ov8858_supply_names[i];
->
->         +
->
->         +    return devm_regulator_bulk_get(&ov8858->client->dev,
->
->         +                       OV8858_NUM_SUPPLIES,
->
->         +                       ov8858->supplies);
->
->         +}
->
->         +
->
->         +static int ov8858_parse_of(struct ov8858 *ov8858)
->
->         +{
->
->         +    struct device *dev = &ov8858->client->dev;
->
->         +    struct device_node *endpoint;
->
->         +    struct fwnode_handle *fwnode;
->
->         +    int rval;
->
->         +
->
->         +    endpoint = of_graph_get_next_endpoint(dev->of_node, NULL);
->
->         +    if (!endpoint) {
->
->         +        dev_err(dev, "Failed to get endpoint\n");
->
->         +        return -EINVAL;
->
->         +    }
->
->         +
->
->         +    fwnode = of_fwnode_handle(endpoint);
->
->         +    rval = fwnode_property_read_u32_array(fwnode, "data-lanes", NULL,
->         0);
->
->         +    if (rval <= 0) {
->
->         +        dev_warn(dev, " Get mipi lane num failed!\n");
->
->         +        return -1;
->
->         +    }
->
->         +
->
->         +    ov8858->lane_num = rval;
->
->         +    if (4 == ov8858->lane_num) {
->
->         +        ov8858->cur_mode = &supported_modes_4lane[0];
->
->         +        supported_modes = supported_modes_4lane;
->
->         +        ov8858->cfg_num = ARRAY_SIZE(supported_modes_4lane);
->
->         +
->
->         +        /* pixel rate = link frequency * 2 * lanes / BITS_PER_SAMPLE *
->         /
->
->         +        ov8858->pixel_rate = MIPI_FREQ * 2U * ov8858->lane_num / 10U;
->
->         +        dev_info(dev, "lane_num(%d)  pixel_rate(%u)\n",
->
->         +                 ov8858->lane_num, ov8858->pixel_rate);
->
->         +    } else {
->
->         +        ov8858->cur_mode = &supported_modes_2lane[0];
->
->         +        supported_modes = supported_modes_2lane;
->
->         +        ov8858->cfg_num = ARRAY_SIZE(supported_modes_2lane);
->
->         +
->
->         +        /*pixel rate = link frequency * 2 * lanes / BITS_PER_SAMPLE */
->
->         +        ov8858->pixel_rate = MIPI_FREQ * 2U * (ov8858->lane_num) /
->         10U;
->
->         +        dev_info(dev, "lane_num(%d)  pixel_rate(%u)\n",
->
->         +                 ov8858->lane_num, ov8858->pixel_rate);
->
->         +    }
->
->         +    return 0;
->
->         +}
->
->         +
->
->         +static int ov8858_probe(struct i2c_client *client,
->
->         +             const struct i2c_device_id *id)
->
->         +{
->
->         +    struct device *dev = &client->dev;
->
->         +    struct device_node *node = dev->of_node;
->
->         +    struct ov8858 *ov8858;
->
->         +    struct v4l2_subdev *sd;
->
->         +    int ret;
->
->         +
->
->         +    ov8858 = devm_kzalloc(dev, sizeof(*ov8858), GFP_KERNEL);
->
->         +    if (!ov8858)
->
->         +        return -ENOMEM;
->
->         +
->
->         +    ov8858->client = client;
->
->         +
->
->         +    ov8858->xvclk = devm_clk_get(dev, "xvclk");
->
->         +    if (IS_ERR(ov8858->xvclk))
->
->         +        return dev_err_probe(dev, PTR_ERR(ov8858->xvclk),
->
->         +                     "Failed to get xvclk\n");
->
->         +
->
->         +    ov8858->reset_gpio = devm_gpiod_get_optional(dev, "reset",
->
->         +                             GPIOD_OUT_HIGH);
->
->         +    if (IS_ERR(ov8858->reset_gpio))
->
->         +        return dev_err_probe(dev, PTR_ERR(ov8858->reset_gpio),
->
->         +                     "Failed to get reset gpio\n");
->
->         +
->
->         +    ov8858->pwdn_gpio = devm_gpiod_get_optional(dev, "powerdown",
->
->         +                            GPIOD_OUT_HIGH);
->
->         +    if (IS_ERR(ov8858->pwdn_gpio))
->
->         +        return dev_err_probe(dev, PTR_ERR(ov8858->pwdn_gpio),
->
->         +                     "Failed to get powerdown gpio\n");
->
->         +
->
->         +    ret = ov8858_configure_regulators(ov8858);
->
->         +    if (ret)
->
->         +        return dev_err_probe(dev, ret,
->
->         +                     "Failed to get power regulators\n");
->
->         +
->
->         +    ret = ov8858_parse_of(ov8858);
->
->         +    if (ret != 0)
->
->         +        return -EINVAL;
->
->         +
->
->         +    mutex_init(&ov8858->mutex);
->
->         +
->
->         +    sd = &ov8858->subdev;
->
->         +    v4l2_i2c_subdev_init(sd, client, &ov8858_subdev_ops);
->
->         +    ret = ov8858_initialize_controls(ov8858);
->
->         +    if (ret)
->
->         +        goto err_destroy_mutex;
->
->         +
->
->         +    ret = __ov8858_power_on(ov8858);
->
->         +    if (ret)
->
->         +        goto err_free_handler;
->
->         +
->
->         +    ret = ov8858_check_sensor_id(ov8858, client);
->
->         +    if (ret)
->
->         +        goto err_power_off;
->
->         +
->
->         +    sd->internal_ops = &ov8858_internal_ops;
->
->         +    sd->flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
->
->         +    ov8858->pad.flags = MEDIA_PAD_FL_SOURCE;
->
->         +    sd->entity.function = MEDIA_ENT_F_CAM_SENSOR;
->
->         +    ret = media_entity_pads_init(&sd->entity, 1, &ov8858->pad);
->
->         +    if (ret < 0)
->
->         +        goto err_power_off;
->
->         +
->
->         +    ret = v4l2_async_register_subdev_sensor(sd);
->
->         +    if (ret) {
->
->         +        dev_err(dev, "v4l2 async register subdev failed\n");
->
->         +        goto err_clean_entity;
->
->         +    }
->
->         +
->
->         +    pm_runtime_set_active(dev);
->
->         +    pm_runtime_enable(dev);
->
->         +    pm_runtime_idle(dev);
->
->         +
->
->         +    return 0;
->
->         +
->
->         +err_clean_entity:
->
->         +    media_entity_cleanup(&sd->entity);
->
->         +err_power_off:
->
->         +    __ov8858_power_off(ov8858);
->
->         +err_free_handler:
->
->         +    v4l2_ctrl_handler_free(&ov8858->ctrl_handler);
->
->         +err_destroy_mutex:
->
->         +    mutex_destroy(&ov8858->mutex);
->
->         +
->
->         +    return ret;
->
->         +}
->
->         +
->
->         +static int ov8858_remove(struct i2c_client *client)
->
->         +{
->
->         +    struct v4l2_subdev *sd = i2c_get_clientdata(client);
->
->         +    struct ov8858 *ov8858 = to_ov8858(sd);
->
->         +
->
->         +    v4l2_async_unregister_subdev(sd);
->
->         +#ifdef CONFIG_MEDIA_CONTROLLER
->
->         +    media_entity_cleanup(&sd->entity);
->
->         +#endif
->
->         +    v4l2_ctrl_handler_free(&ov8858->ctrl_handler);
->
->         +    mutex_destroy(&ov8858->mutex);
->
->         +
->
->         +    pm_runtime_disable(&client->dev);
->
->         +    if (!pm_runtime_status_suspended(&client->dev))
->
->         +        __ov8858_power_off(ov8858);
->
->         +    pm_runtime_set_suspended(&client->dev);
->
->         +
->
->         +    return 0;
->
->         +}
->
->         +
->
->         +#if IS_ENABLED(CONFIG_OF)
->
->         +static const struct of_device_id ov8858_of_match[] = {
->
->         +    { .compatible = "ovti,ov8858" },
->
->         +    {},
->
->         +};
->
->         +MODULE_DEVICE_TABLE(of, ov8858_of_match);
->
->         +#endif
->
->         +
->
->         +static const struct i2c_device_id ov8858_match_id[] = {
->
->         +    { "ovti,ov8858", 0 },
->
->         +    { },
->
->         +};
->
->         +
->
->         +static struct i2c_driver ov8858_i2c_driver = {
->
->         +    .driver = {
->
->         +        .name = OV8858_NAME,
->
->         +        .pm = &ov8858_pm_ops,
->
->         +        .of_match_table = of_match_ptr(ov8858_of_match),
->
->         +    },
->
->         +    .probe        = &ov8858_probe,
->
->         +    .remove        = &ov8858_remove,
->
->         +    .id_table    = ov8858_match_id,
->
->         +};
->
->         +
->
->         +module_i2c_driver(ov8858_i2c_driver);
->
->         +
->
->         +MODULE_DESCRIPTION("OmniVision ov8858 sensor driver");
->
->         +MODULE_LICENSE("GPL v2");
->
->         --
->
->         2.34.1
->
->
->
+--L0TNCHh3fkwjpuuE--
