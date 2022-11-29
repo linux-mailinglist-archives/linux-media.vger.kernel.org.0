@@ -2,158 +2,169 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C5B4563BD61
-	for <lists+linux-media@lfdr.de>; Tue, 29 Nov 2022 10:57:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9885963BDB8
+	for <lists+linux-media@lfdr.de>; Tue, 29 Nov 2022 11:13:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231514AbiK2J5F (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 29 Nov 2022 04:57:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52554 "EHLO
+        id S232274AbiK2KN0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 29 Nov 2022 05:13:26 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33812 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229601AbiK2J45 (ORCPT
+        with ESMTP id S232303AbiK2KNF (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 29 Nov 2022 04:56:57 -0500
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2064.outbound.protection.outlook.com [40.107.223.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6D493F34
-        for <linux-media@vger.kernel.org>; Tue, 29 Nov 2022 01:56:56 -0800 (PST)
+        Tue, 29 Nov 2022 05:13:05 -0500
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2041.outbound.protection.outlook.com [40.107.236.41])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D28F360349;
+        Tue, 29 Nov 2022 02:11:23 -0800 (PST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=RGxm8TTVvUpm9pOLfCzz16i6A5rsMZuciG1XL4ltro/D6MMkRvmaY20vci8RACT4DibhjTfb3Hz1CRTDiRrJmrjbhBkgEgs73XDuBVlOkZfTPSmaOUKbZb+CwBDSYjRob3lvHToymtd2wXQgH/rLTfJ1scrk2DDaUF5gFEnxD/bh23SatbZS0d7oMwNEjlRhUubq2u4nL1t67qvWpAcbTY46FkEOJg1Ei4C6Rn5uRXNzM9uIdCs0cqSl6CUPXXMT9HmYvvE2XutHOPLiAJnBlPjXDBNJTnkLWN2r+PUyCqt8+XtpBYaenwGPNPConCSjCwoFsSqQ+F8SLwh4oKD/Yg==
+ b=NstijxWGCpUH5/1HtpXtnHxyxgyC5dD0iao+hkb9sZaUKoC5fTWtp5axmrIJUWpoEyHwcfZgRm/og9Ps/1Pc2HMjEbvXDeJ7O66jjGxOi4GI6htrcKwf877oshLalUMuBix4LzymLYiJLFpBDZYSJbirY4eV93QWbyrncGP83uhkOqkq4RC7I/AjomWhwKDz5iLhssSh07TbWJb85hHpUiMgDh/bNf4tYFJjAGIRYwgXDqIhgnN3aQjOyN6wKr7AmXtzw61XNhv5A7dnT6C30GcMzPBINzRkwHqVtPv01RxEhbO3rL/HpmqYq/WaZ+ddLN6/TW8qglfGaT6sU6tibw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=V6PRemTzn8ld+fKOQ0cHU/Obs9oW009HqNQbFC+CHK0=;
- b=VH/H4+D9NzgzvXELtjflO4zoQ/2ubCjhloFIGHpbrk3xEtNp73T6eFqHQMaOp0sqZquPLhk3hAwGbt+hf5xfK+MJmePkM75MWVMdHjDZz89kUkegIy9GCTAa1N/brEcy7qhA7daaW0I9dTBwk+sO4JthouJW8qJecvZ+4T3cPqJAC2CokAHUXdaE4+qeMAxoe0cnAqMGXhpTlZi1HFAEwdL34ROH5M6ENdnGeOFU6KmX1Ath834hG35o+7+kQU5T+ttWyzUMjWH9cCo7IYeKvL7pKm5VKF4Qg+lGFaL23fbMTkLGZRDWjh5vTDolMgFU+lpM2gftBL2y/fGbm31D4A==
+ bh=8ddCxePYf208LNv13iRvA2SYa5H+1anRlq37hgKMrLo=;
+ b=eKYWf6qxqgJsevyaOVKcxvmb3xH2dQE3+JBztA96G8d8knd0ybxXjSltBZ+SOtOrZVBMJZjehdkTOTwLRNdZYb93/AeVy09fq2V1iZws8wGiypWwvVRqXfIVORMQp87FIakvQ4BJ9et3IomjTCjv3c+19R9JiKFmEAJL+6ZXhbuUlligBKfg5KIH2DyC9h1elZ0cUHC2LIDq9tQ/zraf9w4+PioVljOiKlBW9ohx/OULV043uM60LEnQtD+pm9OHWPbB2ibEh+xfp1pz1/9kk8qxuiyedw43VWcUh2AFqpqD/Lkh0DgDBE6/YCIT8Rm0xZrQ4isrShSwn2djjPYVjA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ smtp.mailfrom=synaptics.com; dmarc=pass action=none
+ header.from=synaptics.com; dkim=pass header.d=synaptics.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=Synaptics.onmicrosoft.com; s=selector2-Synaptics-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=V6PRemTzn8ld+fKOQ0cHU/Obs9oW009HqNQbFC+CHK0=;
- b=ShoSFmHmdIAR9eSOXi7keBXnSVm7RP6sQVEbp6JuPmX0xUeGYz1RcQxF9NQ07OZasncEeGH8iucXEWatggal4gF6tQi27ZFuidwlaj8oAoL4mlO4tHgL+URQr0ch6dPKobCojce/dxwf4cUSGqE3I8iol0NFry2DGBrj7dzKZc0=
+ bh=8ddCxePYf208LNv13iRvA2SYa5H+1anRlq37hgKMrLo=;
+ b=nu+GHFM97FHinahUY8S4BD4be774Pz5g7Z9c4qOCGH7ouviQiwqdyV+0CteiRoKf3xJk5gvXTlB9g1vNReFEx1U+3osg4k2FS4sbn5nWPtd3BfarondiHwnp/4UQxh8xowM1zAOpqLbSl9Zsg8oHkOPhusS/SOMaza5sS650zlI=
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by PH0PR12MB8128.namprd12.prod.outlook.com (2603:10b6:510:294::9) with
+ header.d=none;dmarc=none action=none header.from=synaptics.com;
+Received: from DM6PR03MB5196.namprd03.prod.outlook.com (2603:10b6:5:24a::19)
+ by PH0PR03MB6368.namprd03.prod.outlook.com (2603:10b6:510:aa::21) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5834.11; Tue, 29 Nov
- 2022 09:56:51 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::7d43:3f30:4caf:7421]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::7d43:3f30:4caf:7421%7]) with mapi id 15.20.5857.023; Tue, 29 Nov 2022
- 09:56:50 +0000
-Message-ID: <dea4806e-f96a-262a-e0d5-ae60c199458c@amd.com>
-Date:   Tue, 29 Nov 2022 10:56:45 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH] doc: add dma-buf IOCTL code to table
-Content-Language: en-US
-To:     Simon Ser <contact@emersion.fr>, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Sumit Semwal <sumit.semwal@linaro.org>
-References: <20221128133853.355645-1-contact@emersion.fr>
-From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20221128133853.355645-1-contact@emersion.fr>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5857.23; Tue, 29 Nov
+ 2022 10:11:07 +0000
+Received: from DM6PR03MB5196.namprd03.prod.outlook.com
+ ([fe80::a132:66d9:ed0f:e5c1]) by DM6PR03MB5196.namprd03.prod.outlook.com
+ ([fe80::a132:66d9:ed0f:e5c1%5]) with mapi id 15.20.5857.023; Tue, 29 Nov 2022
+ 10:11:07 +0000
+From:   Hsia-Jun Li <randy.li@synaptics.com>
+To:     dri-devel@lists.freedesktop.org
+Cc:     linux-media@vger.kernel.org, hverkuil@xs4all.nl,
+        tfiga@chromium.org, nicolas@ndufresne.ca,
+        maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+        tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch,
+        linux-kernel@vger.kernel.org, ayaka@soulik.info,
+        "Hsia-Jun(Randy) Li" <randy.li@synaptics.com>
+Subject: [RFC] drm/fourcc: Add a modifier for contiguous memory
+Date:   Tue, 29 Nov 2022 18:10:30 +0800
+Message-Id: <20221129101030.57499-1-randy.li@synaptics.com>
+X-Mailer: git-send-email 2.37.3
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR2P281CA0003.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:a::13) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
+Content-Type: text/plain
+X-ClientProxiedBy: BYAPR07CA0018.namprd07.prod.outlook.com
+ (2603:10b6:a02:bc::31) To DM6PR03MB5196.namprd03.prod.outlook.com
+ (2603:10b6:5:24a::19)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|PH0PR12MB8128:EE_
-X-MS-Office365-Filtering-Correlation-Id: c12d01eb-bb17-4762-525f-08dad1f00954
+X-MS-TrafficTypeDiagnostic: DM6PR03MB5196:EE_|PH0PR03MB6368:EE_
+X-MS-Office365-Filtering-Correlation-Id: 61d9ba93-994f-4932-3351-08dad1f207be
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: jbkYQw0zr9MkTEEcX7BMTwduxwMMFY3D5aUgYfJ9/bjJKKoilDYHZ0nCMPAlkJAqp3PdEaSZpxG7Qi6yXPLqV4IIYRwYfq44Okci1n/fv3LL5aC7kxvicgcGG7tzvsmqXxoOlEOSAEIzvF8Ltf2Knfv4aO/qIKKrKw+cpktbXbUqJHcpvWZZKOn2Uun2sGe3ZgofQKMHxLmkTL4JI9taSVpxNSkmwQskoYJX+EFKgin8yBS0kBnsFt0S4r8Y8BniSVsWue8T8/9DUKE1NmYfrGmPCWlMUzGd70Qi6AmZKAjSx5OGmF+4KWCmwHhLAPrnztDmVIi71tgTZs8Bh/Lp3ZA5fysDnuHL1CNRxQNKW4cOWxTZFPMumJjb9thJSfzESoLCltMqdaTrCduRkZ/D/LE0SP3qz7PGx3RKht5k1VQvsPDr0fJ+LImRS5dX1O1CjXI4S4QEL1rM0nn9PopedgchqY7SM+Yfht1/l95iYp+CgA/VDNDFaTzH94YBetSk7JxYDlmTePUZWb4I9AEf1rOVvsUZQSnjWpJnBgjMhb41N+GDGKXruTq0AWAD0xB40i7QXDpzsbAF0RjX0vnNNCrhfTiuXJB69z99WrKPxJhSQDouOpladpZis9en1NSGcY1w+5+NjIZcfYo940ou2TVhq1cZIbokh4h7dTTQEojFIr7B6NwPC/jjfYIxDRb5or7JoWyIDVR3WMs0IP2ngnuO84G/Xl72StnTsVKnXCY=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN8PR12MB3587.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(39860400002)(396003)(346002)(136003)(376002)(366004)(451199015)(8676002)(41300700001)(316002)(54906003)(66946007)(66556008)(4326008)(31686004)(66476007)(5660300002)(2616005)(36756003)(6486002)(2906002)(186003)(31696002)(6506007)(478600001)(8936002)(86362001)(38100700002)(6512007)(6666004)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: 23gcwD7CyWdgx+z7eDdxI6sDznvAXhWgGRQnB+0Zf+lZ4kpBg0dc4IHu2VVKEBumkPd0DcIyJy2+/jz9LAFNFoGjz341In6cb3ur9MDfPlyDqzqZt59NuhBDTBmon08dSpYCes2vvycyqzyVyRHLdhSTo/6yDOF2RKBC+iMtuR4lSxn4mh3jU3GRu8QMt3PpZI52Y9qNJXj8DSYIEOI44xSNBmpOnwvppKFelAnzy5ZbScDs0EvC1ubXy85dJHNRCJKhj8WzRvO2iaHIo0SWqv9l6sp+sOot/XzqcPkGHv/JzslX4RtJvCu5gV6hVEX1/fwN9g23ra84npirtlLf55H+TUmNmZ5r+TubQnwDqeZ9A81xqA6c84khQnFrqdImqmIgC8Bpb3U/1y+7XHfX9OY5lXqU4mdt82CvC/0HUcG21qSbNxa1xRhSpoXLYZqL3anJjIBjM2Q2Nu5lqEaSpmJaBP86dYHD6/iCFCz9j/0WZxgitsCXWpW2wTjc6JBdJRe5U01eAQMUAWfvBFvcjdoPX5nl5GpoHXiHduXcsV37dsA+3lOa/6kTmZZFzSY2llexkDJXewnmC3yubSIZWq7DsDCGWuRBM9xurr0f7TdpUK5gkyiHPYDboHpEcuRttu2TnfEuyZfoMe+7v21Ux6Zhk4yNBbWfy6BkXsJttV82hPg6j+K1sh/f0pR4q95X
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR03MB5196.namprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(376002)(396003)(39860400002)(346002)(366004)(136003)(451199015)(316002)(2906002)(478600001)(66946007)(86362001)(36756003)(6486002)(6916009)(1076003)(38350700002)(38100700002)(107886003)(6666004)(6506007)(26005)(52116002)(6512007)(186003)(2616005)(5660300002)(7416002)(41300700001)(8936002)(66556008)(66476007)(4326008)(8676002);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?OTBhK0ltb2UzL040d3ZNekhudjVCK2Nnb0tGOElBNkVRTXFaZCtXbWZYcXg0?=
- =?utf-8?B?bk9vNlRnWUhwV3dYUU42cUdoeGRtekkzVllGRHEwMzZXUFMzUFlyRlRRTXpi?=
- =?utf-8?B?V2kxYlIwNXYzSzRhM2tFVFJiMjN6QUZKNUdhNWF1TVhEUmRQK3ZMWVRyN0Jr?=
- =?utf-8?B?UzUrODB1bnlMT1JJYk83SVo4NGJtVUhmNCtjZ2dEU0dUM3ROMG52VmVQWUd0?=
- =?utf-8?B?WkwxbGZvY2p1R0hWRjliQU9GSDFDMlh3UFlNczUwell2czZHNi9vVzREb1V5?=
- =?utf-8?B?aW1CODVJbFNPejBXYVBlcFA4UnE2VkUyVVpXQjF2SE9NWWw2R2s1M3c0SjRU?=
- =?utf-8?B?Y1YybnB4cThTdHNrdUJkdnpqZDFHK2xHVUQxSms0WUFDcmxRZmNYaVpTOGxv?=
- =?utf-8?B?N0ZGR2k2Q3c5d0p6YmhzRktad05FQTNkOCt5WVUzdlZRT1pPcE5JdXZUQjdm?=
- =?utf-8?B?V1Y5YUpqMmVLUy92RjJ5TDB3MVRhZStmLzY2VGhxM1BhTXI3UlRlM09jbWhs?=
- =?utf-8?B?Yy9MQ25aTzA0bS9NT3RnRkZ2UW4vYktTZWRvVUJTSXg3bEpEUExWOHNkM2Vw?=
- =?utf-8?B?c0VtUUZIL2Z3Tng2dWxtaC82ZmlQeVNtOW5WY0xQaFdDUGhTbEprSHJxUlB5?=
- =?utf-8?B?TE42Zmx4bmlPMjZ3NHphRFBSdGlYdDFONTd4WTJsWVV2elB5Y2FrNGM3QjhH?=
- =?utf-8?B?TVE3aUEzMzRnckcrb0ZKZmJ6dE1EckQ2Vm1SWmNESUJJMDJ5N3dRdVhRemVH?=
- =?utf-8?B?YXBSbEp2VUM3blNJQ1lkanZrTkRJelNNbUxsTWNpc3o3aUxmVnM0eUQ0dThU?=
- =?utf-8?B?Vy9qa2d1eDNjQnJGaVR3UlFsZi9ZUGxqN1E5b1pzaGZRRk8xem9QRHFXWVZy?=
- =?utf-8?B?c1VGMmRCdHhrcTZobndtRExkNm1BcjVzSjVRc0c3T1QwWmI5OTdYNVBtU3g1?=
- =?utf-8?B?ZVBzdDdXaXpvbnowRktsMEtPQk41UklMUmwrMlBnejFoeFRER0t2KzkrYkxW?=
- =?utf-8?B?QUdYT2UzWmkzSWFvNFpnVDJhWFFPUTY0Z1RvMDNJeTY4WTZVQi85MU82VVoz?=
- =?utf-8?B?ckx0aTdObFc1SEFwc1R4akV1ZWJLMGFmZHM3akRkRlVXQ1B1UHFWUDlNejY5?=
- =?utf-8?B?bm0vVkp1NzNiQVFtKzRiOS9KcFFTSnJqUXMrY2hPQ2U5SU9oZjFYRjJDcFBv?=
- =?utf-8?B?ekRpMm90QmRaQ0JIRm9pc2dyMmFmUEM3a3dIcnkydXRoajJCMzFmZGVQQVVL?=
- =?utf-8?B?N2hUOHNvM2l4TnVHRTZJQzJCN2VtSDVJOU1KMHVTcFMzV3FvREhhMlVGTjdy?=
- =?utf-8?B?ZVdYc3BjcWhhcGlPM1UrVkNvbG5NRW0vQTEwL0wrcTAvdzBsSithSkFJakZB?=
- =?utf-8?B?VnAvbElQYmdOc2p2a25ickFoeDdaWjgrTExqSGY5UVNLVWlVcmZ2c0gybktk?=
- =?utf-8?B?b25oT20rN3pnOHVmbk9qdzg0bVZvcTIxcmJjYkQwR3dZQjN1UWtwTUV2WUpt?=
- =?utf-8?B?V1NIS2x6L2R2MjJEbDhLMExCbGtOUXBHRUZackhkRUxFcTBTVUlqM0NaaWhF?=
- =?utf-8?B?Vmd1RVhxT0haWGo2cm8wbEJJK1lHWkJNNnZUTVc2aXhrV2tuYys1K3BVQlVk?=
- =?utf-8?B?WXNTQ2RoQmRnc1BLNUJKQUpyNUc1Wm9hZTFScGIxdjNoUjZtZ1NUSllZVW5K?=
- =?utf-8?B?aEtsUW00VVZiN0piVEp2UjZldDdUV0x3T1VhYnl6aitzTlFkeW1lTjlZSTgw?=
- =?utf-8?B?RkRtSGpXbWhkVllTa3psRHBJUTVmZ1J2NzNhYzBQZ0YvczAxSUlYMFpDTFdx?=
- =?utf-8?B?S0hvaitielhWSVIrYXFYQWdDOUNhODNKOXdaZHY0aUdRWFdoY2Nxb2VPNWtX?=
- =?utf-8?B?cmRlYUtXUTQ2enNnSFd1bnY0L1F6ZnM0THFHMUFhV0kzM09NaDZrcXBVa1F2?=
- =?utf-8?B?WHI5elNIRDR6Y1hiRndxVjJQSWZ5dmJ3akVyemJFeERKTFdWTkZtMlJtaFhM?=
- =?utf-8?B?ZXBaQ3pUdGNBSU9FalJjT0JNQU1NZWxyMlhpQkVvc3loV0tLTVFKOTJ4cXVJ?=
- =?utf-8?B?cDc1eWw1QlpzckJZcHdGeERVUEFSWGFrT2ptREVQTWM2K0tnOTV2cHFXZ3A1?=
- =?utf-8?B?aVdiMHhPTWttMHl1QkRHeUlIekVrNEtnZnBSTVZadGFZWXhGbzlzSDROdXNo?=
- =?utf-8?Q?vV7Ypm8QS+Yjfci4YmMsRWVSAu4NoQiEursEWZPD9oZ5?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c12d01eb-bb17-4762-525f-08dad1f00954
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?anIJWs960hbLY/lINvDdJqaD1ftgTWRqzvO57y/Etp+69JZ8HIF9fc0/CY2/?=
+ =?us-ascii?Q?OGeMTLvlUqidfMQ4gVnSzKtA9TcjMudA8Tx3Vnj0KnySIGPU55oANj7f4tCP?=
+ =?us-ascii?Q?RdUNfuoP2j00SMvj2GaIfYFBQXaP5o+brxDPF6thpdf243P0O/2z4VpNUDcx?=
+ =?us-ascii?Q?Ky2dXxjW6CKA2P0JHApuq3eu0bKDhiLRJO+S1mqbbhROh1FOcp0wX4u7GN+1?=
+ =?us-ascii?Q?QgAOOBPr2X1ugGJsZstU25VEd3zYiwWQAvdIkUibcWnvLOYdsEEipSwa8n+y?=
+ =?us-ascii?Q?ZrFtHNx/Dmqq5WAAF/Sr4pNrYToYjT1e31UU0FDs6s4K3AAeLiK3V7aRcKD1?=
+ =?us-ascii?Q?QqN/PoRW9HheMV4936BWCXXSELd9od0LoqzFkbjZ/4YEqqDUkJHF8chIOoAO?=
+ =?us-ascii?Q?NDq7fho44ITvO1f9uqoho7md0ngVMO45J7EpNxxb82I08kE+ZdQWGTU0AkI8?=
+ =?us-ascii?Q?KzH6PEyIt51w4DwRlPaYzr9h27RWBsaIIqUG7xNFDTUaaLr72StGCZMU9uN2?=
+ =?us-ascii?Q?IIrCM6jjieD0MiGcX6obfR1WR/DwPD8oEYXm0oT0G4mFUybl/P3kfn9Irk+0?=
+ =?us-ascii?Q?pQxG8HDuIcprQmG3TaUjOCfIkRD/1lVZ3Lrz6BNrHM8PaYqJq4/LObkQPVc5?=
+ =?us-ascii?Q?j55WcW8uPkEjRDRXSw1teB7WFAdbgMw31npIRN0uQCv7CyPDDDl/atBYe6sT?=
+ =?us-ascii?Q?Zs9PfmerqmuKFXl98/0KW4tjKvJpplsUfmvl1PUsiszdOlBaXCQ56w8l4cOl?=
+ =?us-ascii?Q?JPYvbdehcQo0PdcKcDVhB6GSiHepN1DM1gR8iR4nSWfc3LUbbnyfv7O6eRaQ?=
+ =?us-ascii?Q?8geYDtJGZCovuvwZLzeNjutwYm13ZmYw0PWE+30Xr0RRyVZ4q7x6Rn8gI06/?=
+ =?us-ascii?Q?Rc/FLH969A4m1BCJGas2/hgOPqXaMH01Cp+zL3iTITTzTy7sArvI+jFXFBR0?=
+ =?us-ascii?Q?CtbuNC4H5drRaP7GhwHY3cXG1uM6z9iGyy1PjXsH0d0usfgnK2Zid8BX/O1B?=
+ =?us-ascii?Q?owVdbBz6m+bq3N8m2HEVdFJUCYbR4K+CeZH1WTc3L/RDn/4+skbcU5fZW37K?=
+ =?us-ascii?Q?zZpZHzmL/sDYP/w8x2WqASR6cgLm/K2cEP1RlhMgE9JnSF5eHauERNF5qMM5?=
+ =?us-ascii?Q?T8q1kWI1dqzVkLjAl8kMM6J8R9FBvbQLe8L6Ct/Y/sWsLuRe/AObRQ/JgNwa?=
+ =?us-ascii?Q?uYpMJB0IEd/fnisKLnchCPfBOND5YPIQE05EwFBJx4tSJ8109K2o+fZn1ewA?=
+ =?us-ascii?Q?FWcUyg9fEYYt2lGulG5nLoI38KCSdbyYWiQ2A14/hVI5vVfVLcifqc7y82NE?=
+ =?us-ascii?Q?oAUixc0itoW8uojK5ygqUYiqlUwISgTtqWiKRYz+37Dd9jVz7eRQ6070NxFL?=
+ =?us-ascii?Q?ENVoK3SYGfD67yi97ZKp0iF4IDcIc/1hoD4tb2C0gqK4jmlyRhgSsexHhOic?=
+ =?us-ascii?Q?WQv5dtbT57tAvX5rsxBets8E5zbIND1hg/9641c2d9AFX56XKobdn62nhQfh?=
+ =?us-ascii?Q?L0/2P0L2hsjVTHAcOouaenEEPJPGovCmfY/ekFf/HaVh1DfQRnxkHjtmri73?=
+ =?us-ascii?Q?ce56t7wm3UyM9NaGRWlB0oHzuOq3iGQlc4wxW0uP?=
+X-OriginatorOrg: synaptics.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 61d9ba93-994f-4932-3351-08dad1f207be
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR03MB5196.namprd03.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Nov 2022 09:56:50.7723
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Nov 2022 10:11:07.1510
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-Id: 335d1fbc-2124-4173-9863-17e7051a2a0e
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 8qR1t2frYq2dO+ULJmsSa8N8Sb2+xM0DvqZQCxK7+ODjUoyAASIfxqfjB1be+CT6
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB8128
-X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+X-MS-Exchange-CrossTenant-UserPrincipalName: ES/9cz5NPmqqO4a8Ax4grkntIKOXnnEFgh42wfq7XTcoa+dFJJHKaqTjEo5bW/OJQELlVZzFmLhKLfhGU8lxpQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR03MB6368
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am 28.11.22 um 14:39 schrieb Simon Ser:
-> The code 'b' is used for dma-buf IOCTLs.
->
-> Signed-off-by: Simon Ser <contact@emersion.fr>
-> Cc: Linus Torvalds <torvalds@linux-foundation.org>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: Christian König <christian.koenig@amd.com>
-> Cc: Sumit Semwal <sumit.semwal@linaro.org>
+From: "Hsia-Jun(Randy) Li" <randy.li@synaptics.com>
 
-Reviewed-by: Christian König <christian.koenig@amd.com>
+Hello All
 
-Should I also push this?
+Currently, we assume all the pixel formats are multiple planes, devices
+could support each component has its own memory plane.
+But that may not apply for any device in the world. We could have a
+device without IOMMU then this is not impossible.
 
-> ---
->   Documentation/userspace-api/ioctl/ioctl-number.rst | 1 +
->   1 file changed, 1 insertion(+)
->
-> diff --git a/Documentation/userspace-api/ioctl/ioctl-number.rst b/Documentation/userspace-api/ioctl/ioctl-number.rst
-> index 5f81e2a24a5c..184a7a222701 100644
-> --- a/Documentation/userspace-api/ioctl/ioctl-number.rst
-> +++ b/Documentation/userspace-api/ioctl/ioctl-number.rst
-> @@ -221,6 +221,7 @@ Code  Seq#    Include File                                           Comments
->   'a'   00-0F  drivers/crypto/qat/qat_common/adf_cfg_common.h          conflict! qat driver
->   'b'   00-FF                                                          conflict! bit3 vme host bridge
->                                                                        <mailto:natalia@nikhefk.nikhef.nl>
-> +'b'   00-0F  linux/dma-buf.h                                         conflict!
->   'c'   all    linux/cm4000_cs.h                                       conflict!
->   'c'   00-7F  linux/comstats.h                                        conflict!
->   'c'   00-7F  linux/coda.h                                            conflict!
+Besides, when we export an handle through the PRIME, the upstream
+device(likes a capture card or camera) may not support non-contiguous
+memory. It would be better to allocate the handle in contiguous memory
+at the first time.
+
+We may think the memory allocation is done in user space, we could do
+the trick there. But the dumb_create() sometimes is not the right API
+for that.
+
+"Note that userspace is not allowed to use such objects for render
+acceleration - drivers must create their own private ioctls for such a
+use case."
+"Note that dumb objects may not be used for gpu acceleration, as has
+been attempted on some ARM embedded platforms. Such drivers really must
+have a hardware-specific ioctl to allocate suitable buffer objects."
+
+We need to relay on those device custom APIs then. It would be helpful
+for their library to calculate the right size for contiguous memory. It
+would be useful for the driver supports rendering dumb buffer as well.
+
+Signed-off-by: Hsia-Jun(Randy) Li <randy.li@synaptics.com>
+---
+ include/uapi/drm/drm_fourcc.h | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.h
+index bc056f2d537d..ec039ced8257 100644
+--- a/include/uapi/drm/drm_fourcc.h
++++ b/include/uapi/drm/drm_fourcc.h
+@@ -473,6 +473,11 @@ extern "C" {
+  */
+ #define DRM_FORMAT_MOD_LINEAR	fourcc_mod_code(NONE, 0)
+ 
++/*
++ * Contiguous memory
++ */
++#define DRM_FORMAT_MOD_CONTIG_MEM	fourcc_mod_code(NONE, 1)
++
+ /*
+  * Deprecated: use DRM_FORMAT_MOD_LINEAR instead
+  *
+-- 
+2.17.1
 
