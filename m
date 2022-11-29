@@ -2,98 +2,105 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6DCF863C520
-	for <lists+linux-media@lfdr.de>; Tue, 29 Nov 2022 17:28:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 967C363C63A
+	for <lists+linux-media@lfdr.de>; Tue, 29 Nov 2022 18:13:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234465AbiK2Q2x (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 29 Nov 2022 11:28:53 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57498 "EHLO
+        id S236492AbiK2RND (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 29 Nov 2022 12:13:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46464 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234009AbiK2Q2w (ORCPT
+        with ESMTP id S236435AbiK2RMx (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 29 Nov 2022 11:28:52 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5F2985ADC1
-        for <linux-media@vger.kernel.org>; Tue, 29 Nov 2022 08:28:50 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 0E8D7B816D4
-        for <linux-media@vger.kernel.org>; Tue, 29 Nov 2022 16:28:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD1A4C433D6;
-        Tue, 29 Nov 2022 16:28:46 +0000 (UTC)
-Message-ID: <c4e6c1ad-0551-951d-c469-407e07d18b5b@xs4all.nl>
-Date:   Tue, 29 Nov 2022 17:28:45 +0100
+        Tue, 29 Nov 2022 12:12:53 -0500
+Received: from mail-yw1-x1133.google.com (mail-yw1-x1133.google.com [IPv6:2607:f8b0:4864:20::1133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 929D912A99
+        for <linux-media@vger.kernel.org>; Tue, 29 Nov 2022 09:12:49 -0800 (PST)
+Received: by mail-yw1-x1133.google.com with SMTP id 00721157ae682-381662c78a9so145365627b3.7
+        for <linux-media@vger.kernel.org>; Tue, 29 Nov 2022 09:12:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=JHEjD2xxLNtQCC6FYElEPgk7av75DQm6bwKKXcbxhRE=;
+        b=rcG6dqqNMky7jtdTJ46UkMVCNRhCC2wS2wzYNMxEWmGIbDbfjKUTHWdytUvxxZ1hCO
+         hii0c0lXZOyFm8dJkzKTYZkEVGzbv50tfIKwFHk1Z4+6D/+dF+zj4hRkJfq9z8cmBL21
+         qQbfMHJ2NlTGaB434A4h0QmMLvib0OqFYg5apgzZxYpA/sF5NBxK46w8UJ2wJy6vAGY8
+         3IeY9uTE0JxVikWmy/lCoTqxXfVyFtezGLVM3gKj95d4Dxt9v5+8VM8ZbuDVvgyI4R7x
+         EFR+uEnDq8S9gWaKyUB+g/NJ/YALqL4rI5FDrlTaSuguvEvo77nrE8+8zKnFOLXVVUTD
+         5LIA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=JHEjD2xxLNtQCC6FYElEPgk7av75DQm6bwKKXcbxhRE=;
+        b=DOPjTaEeEGc2eCXX9U4EjyLyBWxs3+/xEFnrWaiptl8b3HxUFvQkJH5rsddAUIBFbT
+         rodUTtga+JvMOn4+pP9zxefxJ9Az3L82NABJ9Jnls+KPOtilXmSxz0o4s9txmK6xo266
+         ZBQlYhxyRgTcuCh2e84aPsdcFoTHhB/R10G+GHG1QuUM9EsjQegoyVY9UWpMs+nZASRN
+         BEvTUZj8xbdf2AkwOoVnIA4FD38QAoVjGjIn4AkzaMO24ul0CnOFaezI1id0w4/gm+jJ
+         Bq8Unlg3d1i89L/9U/blVX/Tv5beEihIaLRVG0aOwPuvMJGF07Bps41gf6yt56VU6dbq
+         p4Kg==
+X-Gm-Message-State: ANoB5pndoSG/jRWuezekDUBGh8fKmENmgxcQCl7ThwurVb5ecmwqf5KZ
+        Jf7/OgR+cNi3svgnvJJrXsj1lPQcR42ala8XPuLeFg==
+X-Google-Smtp-Source: AA0mqf6tFV1ruJYeq+RpTMqBCXfOUZuF64Zqeq76MlGGXN950+keht0aCkWxTl6Ut47af6Q+Cm0dvHmw7A4GE9YbArk=
+X-Received: by 2002:a81:9a94:0:b0:3af:eac8:76e0 with SMTP id
+ r142-20020a819a94000000b003afeac876e0mr30728331ywg.256.1669741968574; Tue, 29
+ Nov 2022 09:12:48 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Subject: Re: Correct way to use vb2_dma_sg via USB?
-Content-Language: en-US
-To:     Florian Echtler <floe@butterbrot.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        Christoph Hellwig <hch@lst.de>
-References: <c8e912fd-fe0e-8066-6357-e945a51afec2@butterbrot.org>
- <01c9cd34-2499-79a2-7142-7269a9ff7711@butterbrot.org>
- <47d4a419-a5fb-1361-93e2-c039625e94f9@butterbrot.org>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-In-Reply-To: <47d4a419-a5fb-1361-93e2-c039625e94f9@butterbrot.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-6.9 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+References: <202211241926133236370@zte.com.cn>
+In-Reply-To: <202211241926133236370@zte.com.cn>
+From:   "T.J. Mercier" <tjmercier@google.com>
+Date:   Tue, 29 Nov 2022 09:12:37 -0800
+Message-ID: <CABdmKX2aidW7LnvTWdULtHr0yzdSb=KqTWp=7RUUNCOA548Pag@mail.gmail.com>
+Subject: Re: [PATCH linux-next] dma-buf: use strscpy() to instead of strlcpy()
+To:     yang.yang29@zte.com.cn
+Cc:     sumit.semwal@linaro.org, christian.koenig@amd.com,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+        xu.panda@zte.com.cn
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 29/11/2022 16:48, Florian Echtler wrote:
-> Following up on [PATCH 1/7] media: videobuf-dma-contig: use dma_mmap_coherent:
-> 
-> If the videobuf framework is going to be replaced anyway, would it even make sense to try and fix this bug in the (admittedly very specific) sur40 driver?
+On Thu, Nov 24, 2022 at 3:26 AM <yang.yang29@zte.com.cn> wrote:
+>
+> From: Xu Panda <xu.panda@zte.com.cn>
+>
+> The implementation of strscpy() is more robust and safer.
+> That's now the recommended way to copy NUL terminated strings.
+>
+> Signed-off-by: Xu Panda <xu.panda@zte.com.cn>
+> Signed-off-by: Yang Yang <yang.yang29@zte.com>
+> ---
+>  drivers/dma-buf/dma-buf.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+> index b6c36914e7c6..485cf4f3431e 100644
+> --- a/drivers/dma-buf/dma-buf.c
+> +++ b/drivers/dma-buf/dma-buf.c
+> @@ -51,7 +51,7 @@ static char *dmabuffs_dname(struct dentry *dentry, char *buffer, int buflen)
+>         dmabuf = dentry->d_fsdata;
+>         spin_lock(&dmabuf->name_lock);
+>         if (dmabuf->name)
+> -               ret = strlcpy(name, dmabuf->name, DMA_BUF_NAME_LEN);
+> +               ret = strscpy(name, dmabuf->name, DMA_BUF_NAME_LEN);
 
-videobuf is the old predecessor of the videobuf2 framework. The sur40 driver
-uses vb2 (as it should), and vb2 is here to stay.
+The type of ret should also be changed to ssize_t to capture the
+negative error value which strlcpy does not have. We shouldn't ever
+see that error condition here with the code the way it is now, but
+let's not risk it.
 
-The old videobuf framework is on the way out, but that's unrelated to your driver.
-
-I'm afraid I'm not a usb expert, so I can't help with this.
-
-Regards,
-
-	Hans
-
-> 
-> If the answer should be yes, then I'd still need a hint about how to make vb2_dma_sg work with usb_sg_init...
-> 
-> Best, Florian
-> 
-> On 14.11.22 15:32, Florian Echtler wrote:
->> Sorry to nag again, but is there anyone around who might be able to give me hint? Have not been able to find any conclusive documentation on this.
->>
->> Best, Florian
->>
->> On 09.11.22 11:09, Florian Echtler wrote:
->>> Hello everyone,
->>>
->>> while trying to fix the regression in sur40.ko mentioned earlier, I noticed that apparently some other bits of the DMA pipeline have changed as well in the meantime.
->>>
->>> The code bit in question in sur40.c currently looks as follows:
->>>
->>>      sgt = vb2_dma_sg_plane_desc(&new_buf->vb.vb2_buf, 0);
->>>
->>>      result = usb_sg_init(&sgr, sur40->usbdev,
->>>          usb_rcvbulkpipe(sur40->usbdev, VIDEO_ENDPOINT), 0,
->>>          sgt->sgl, sgt->nents, sur40->pix_fmt.sizeimage, GFP_KERNEL);
->>>
->>> However, when I put in some debug output, I noticed that sgt->nents is zero. Shouldn't that be initialized by vb2_dma_sg_plane_desc?
->>>
->>> I tried to manually set it to 1 and got some partially-filled buffers back, so this seems the right way to go, but I couldn't find any other driver/example that uses this combination. Any hints
->>> very welcome.
->>>
->>> Best, Florian
->>
-> 
-
+>         spin_unlock(&dmabuf->name_lock);
+>
+>         return dynamic_dname(buffer, buflen, "/%s:%s",
+> --
+> 2.15.2
