@@ -2,41 +2,42 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CAC4463CB98
-	for <lists+linux-media@lfdr.de>; Wed, 30 Nov 2022 00:13:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0CF8163CB99
+	for <lists+linux-media@lfdr.de>; Wed, 30 Nov 2022 00:13:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236152AbiK2XNC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 29 Nov 2022 18:13:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49310 "EHLO
+        id S236177AbiK2XND (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 29 Nov 2022 18:13:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49326 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236198AbiK2XM6 (ORCPT
+        with ESMTP id S233312AbiK2XNC (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 29 Nov 2022 18:12:58 -0500
+        Tue, 29 Nov 2022 18:13:02 -0500
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC7B71A05E
-        for <linux-media@vger.kernel.org>; Tue, 29 Nov 2022 15:12:03 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88DFF6DFEF
+        for <linux-media@vger.kernel.org>; Tue, 29 Nov 2022 15:12:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1669763523;
+        s=mimecast20190719; t=1669763524;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=a7TwedOwHv5bA5wRzf5U0hsgOS6LnxDWJQ6E1Bo1APE=;
-        b=eF/8ARXMRyp20a5i028fuOoJMX4Xpf56Q4eVnFwSh4VSKfu8xz+xG5xKEIo+51+VZVG1CO
-        /HeZTmhunHedciqb7HZnvL3nTs4vGgO0ED7j1PfaK0l5GVt6USlUVPWUt6tit/NZgve1C3
-        PWJXu+tLY6bfePkTo0Wpum5G3XHEpSk=
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=C939oRAvxHAy3INMCz18zu/7PTNLXzdIbHg2+/St1x8=;
+        b=Uxe30H53msRTelMrt1yB+LFQxNrPAyKddFsDzt7rM+okZSkT4iUnLW/QL47miONPtWzPVj
+        1/yylsQaSPpz0Rirl8GPUZT3O1jDbjRZXcmWI5XObizXi334VXGlFqRTT9qXhKfH8hPcB0
+        G3NqciYIW0Cp6Pt5VK4Lh3mj8uOZt9A=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-632-LIZXgpQmNQ2LeRynaLZc3w-1; Tue, 29 Nov 2022 18:11:59 -0500
-X-MC-Unique: LIZXgpQmNQ2LeRynaLZc3w-1
+ us-mta-628-MbhRlaBqPXG4PTqqP6HY9A-1; Tue, 29 Nov 2022 18:12:01 -0500
+X-MC-Unique: MbhRlaBqPXG4PTqqP6HY9A-1
 Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 56219185A792;
-        Tue, 29 Nov 2022 23:11:58 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DF3D3101A528;
+        Tue, 29 Nov 2022 23:11:59 +0000 (UTC)
 Received: from localhost.localdomain (unknown [10.39.192.14])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id E9813492CA4;
-        Tue, 29 Nov 2022 23:11:56 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 8A5654A9254;
+        Tue, 29 Nov 2022 23:11:58 +0000 (UTC)
 From:   Hans de Goede <hdegoede@redhat.com>
 To:     Mark Gross <markgross@kernel.org>,
         Andy Shevchenko <andy@kernel.org>,
@@ -48,9 +49,11 @@ Cc:     Hans de Goede <hdegoede@redhat.com>,
         Kate Hsuan <hpa@redhat.com>,
         Mark Pearson <markpearson@lenovo.com>,
         linux-media@vger.kernel.org
-Subject: [PATCH 0/6] ov5693/int3472: Privacy LED handling changes + IPU6 compatibility
-Date:   Wed, 30 Nov 2022 00:11:43 +0100
-Message-Id: <20221129231149.697154-1-hdegoede@redhat.com>
+Subject: [PATCH 1/6] media: ov5693: Add support for a privacy-led GPIO
+Date:   Wed, 30 Nov 2022 00:11:44 +0100
+Message-Id: <20221129231149.697154-2-hdegoede@redhat.com>
+In-Reply-To: <20221129231149.697154-1-hdegoede@redhat.com>
+References: <20221129231149.697154-1-hdegoede@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
@@ -64,61 +67,66 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi All,
+Add support for a privacy-led GPIO.
 
-The out of tree IPU6 driver has moved to using the in kernel INT3472
-code for doing power-ctrl rather then doing their own thing (good!).
+Making the privacy LED to controlable from userspace, as using the LED
+class subsystem would do, would make it too easy for spy-ware to disable
+the LED.
 
-Some of the IPU6 devices with a discrete INT3472 ACPI device have a
-privacy-led GPIO. but no clk-enable GPIO. To make this work this series
-moves the privacy LED control from being integrated with the clk-provider
-to modelling the privacy LED as a separate GPIO. This also brings the
-discrete INT3472 ACPI device privacy LED handling inline with the privacy
-LED handling for INT3472 TPS68470 PMIC devices which I posted here:
+To avoid this have the sensor driver directly control the LED.
 
-https://lore.kernel.org/platform-driver-x86/20221128214408.165726-1-hdegoede@redhat.com/
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+---
+Note an additional advantage of directly controlling the GPIO is that
+GPIOs are tied directly to consumer devices. Where as with a LED class
+device, there would need to be some mechanism to tie the right LED
+(e.g front or back) to the right sensor.
+---
+ drivers/media/i2c/ov5693.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-This obsoletes my previous "[PATCH 0/3] platform/x86: int3472/discrete:
-Make it work with IPU6" series:
-
-https://lore.kernel.org/platform-driver-x86/20221124200007.390901-1-hdegoede@redhat.com/
-
-Mauro since laptops with IPU6 cameras are becoming more and more
-popular I would like to get this merged for 6.2 so that with 6.2
-users will be able to build the out of tree IPU6 driver without
-requiring patching their main kernel. I realize we are a bit
-late in the cycle, but can you please still take the ov5693 patch
-for 6.2 ? It is quite small / straight-forward and since it used
-gpiod_get_optional() it is a no-op without the rest of this series.
-
-This series has been tested on:
-
-- Lenovo ThinkPad X1 Yoga gen 7, IPU6, front: ov2740 with privacy LED
-- Dell Latitude 9420, IPU 6 with privacy LED on front
-- Mirosoft Surface Go, IPU3, front: ov5693 with privacy LED,
-                              back: ov8865 with privacy LED
-
-Regards,
-
-Hans
-
-
-Hans de Goede (6):
-  media: ov5693: Add support for a privacy-led GPIO
-  platform/x86: int3472/discrete: Refactor GPIO to sensor mapping
-  platform/x86: int3472/discrete: Treat privacy LED as regular GPIO
-  platform/x86: int3472/discrete: Move GPIO request to
-    skl_int3472_register_clock()
-  platform/x86: int3472/discrete: Ensure the clk/power enable pins are
-    in output mode
-  platform/x86: int3472/discrete: Get the polarity from the _DSM entry
-
- drivers/media/i2c/ov5693.c                    | 10 ++
- .../x86/intel/int3472/clk_and_regulator.c     | 35 +++++--
- drivers/platform/x86/intel/int3472/common.h   |  4 +-
- drivers/platform/x86/intel/int3472/discrete.c | 95 ++++++++-----------
- 4 files changed, 80 insertions(+), 64 deletions(-)
-
+diff --git a/drivers/media/i2c/ov5693.c b/drivers/media/i2c/ov5693.c
+index a97ec132ba3a..e3c3bed69ad6 100644
+--- a/drivers/media/i2c/ov5693.c
++++ b/drivers/media/i2c/ov5693.c
+@@ -156,6 +156,7 @@ struct ov5693_device {
+ 
+ 	struct gpio_desc *reset;
+ 	struct gpio_desc *powerdown;
++	struct gpio_desc *privacy_led;
+ 	struct regulator_bulk_data supplies[OV5693_NUM_SUPPLIES];
+ 	struct clk *xvclk;
+ 
+@@ -789,6 +790,7 @@ static int ov5693_sensor_init(struct ov5693_device *ov5693)
+ 
+ static void ov5693_sensor_powerdown(struct ov5693_device *ov5693)
+ {
++	gpiod_set_value_cansleep(ov5693->privacy_led, 0);
+ 	gpiod_set_value_cansleep(ov5693->reset, 1);
+ 	gpiod_set_value_cansleep(ov5693->powerdown, 1);
+ 
+@@ -818,6 +820,7 @@ static int ov5693_sensor_powerup(struct ov5693_device *ov5693)
+ 
+ 	gpiod_set_value_cansleep(ov5693->powerdown, 0);
+ 	gpiod_set_value_cansleep(ov5693->reset, 0);
++	gpiod_set_value_cansleep(ov5693->privacy_led, 1);
+ 
+ 	usleep_range(5000, 7500);
+ 
+@@ -1325,6 +1328,13 @@ static int ov5693_configure_gpios(struct ov5693_device *ov5693)
+ 		return PTR_ERR(ov5693->powerdown);
+ 	}
+ 
++	ov5693->privacy_led = devm_gpiod_get_optional(ov5693->dev, "privacy-led",
++						      GPIOD_OUT_LOW);
++	if (IS_ERR(ov5693->privacy_led)) {
++		dev_err(ov5693->dev, "Error fetching privacy-led GPIO\n");
++		return PTR_ERR(ov5693->privacy_led);
++	}
++
+ 	return 0;
+ }
+ 
 -- 
 2.38.1
 
