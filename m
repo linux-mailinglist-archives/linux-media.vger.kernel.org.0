@@ -2,201 +2,147 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DA56763CAC9
-	for <lists+linux-media@lfdr.de>; Tue, 29 Nov 2022 22:58:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9E61F63CABB
+	for <lists+linux-media@lfdr.de>; Tue, 29 Nov 2022 22:57:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236755AbiK2V6C (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 29 Nov 2022 16:58:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38420 "EHLO
+        id S236610AbiK2V46 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 29 Nov 2022 16:56:58 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38402 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236832AbiK2V5e (ORCPT
+        with ESMTP id S236772AbiK2V4w (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 29 Nov 2022 16:57:34 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E1D76DFD0
-        for <linux-media@vger.kernel.org>; Tue, 29 Nov 2022 13:56:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1669758993;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=0AUk6qR4B5ebSDINamVmjl1eCAYkVyyZCd85+CuwZ6E=;
-        b=C7EShfOc1p7hqmWAuQM7GeOPUd3HoStqzr3NuUTZC+DYOYRMR91C1ca/Re+1ikp3czWJl6
-        gxNNZSf66Mqxc2dJkblZ6fOblPySAPdL4e5egvPau+FX5NMSLfGEXyFFKO9k/JBtXid4D0
-        ZmPAHgK6rXN9An8INZXyb6+J7W3U5g0=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-635-jzcQHSpTOOy4iBTY8g6_Qw-1; Tue, 29 Nov 2022 16:56:32 -0500
-X-MC-Unique: jzcQHSpTOOy4iBTY8g6_Qw-1
-Received: by mail-ed1-f69.google.com with SMTP id g14-20020a056402090e00b0046790cd9082so8977416edz.21
-        for <linux-media@vger.kernel.org>; Tue, 29 Nov 2022 13:56:31 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=0AUk6qR4B5ebSDINamVmjl1eCAYkVyyZCd85+CuwZ6E=;
-        b=VUG/L/tRpDLCWAUWeBEuLWs1zCnJ64YqZ0U1OJQJYjEeXYtw5AwCdCrV4M8usueD62
-         eRJuBk8tOMMPB+qOduOmQciO07Lyb19Egm2vKEtCYG7Pag90c7uV5cUjbWQ7pEvkG+R6
-         uROvO9ELgPxhdZjMmNEL8L6TGpvbUia3sPfSsLD5Q4THvRYBLKpZAJoA9ZTvT8LchNkg
-         zzoTzXQ4ychU6UYkg4pW0B0ncqurm8SQh+WZ4Iqva3J3LZPWILlMrrZFvvyN/apAdt5A
-         Z6uD/J4lc6Q3FtWmAsgbAHaSS2iqBsVQRNHAkcZwA2sds27sCt7wlvqTgaAjOfRsVvQN
-         ohAg==
-X-Gm-Message-State: ANoB5pnQhrdNjUbarE1AkB2I1dzycNs/vOrBmCuS1JMmVP4dHM5sGbWa
-        mrwCZGj0ZzNX38gEiMKZzMxLzrCJuNZ4/cg3/mAY08eusqd9kXRZlhzFYSVew4Y/SBVQqM1e1VS
-        MoM/0ruj7IxIFMXvhEGSZ9q0=
-X-Received: by 2002:a17:906:d281:b0:782:7790:f132 with SMTP id ay1-20020a170906d28100b007827790f132mr33754570ejb.649.1669758990823;
-        Tue, 29 Nov 2022 13:56:30 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf56sOg4TvbyTvw3KXXplTnjusmLirIhT2V04UdQAWz+JG9TesKuBEvmYv9QyqHNkbHpuRtM5A==
-X-Received: by 2002:a17:906:d281:b0:782:7790:f132 with SMTP id ay1-20020a170906d28100b007827790f132mr33754561ejb.649.1669758990600;
-        Tue, 29 Nov 2022 13:56:30 -0800 (PST)
-Received: from ?IPV6:2001:1c00:c1e:bf00:d69d:5353:dba5:ee81? (2001-1c00-0c1e-bf00-d69d-5353-dba5-ee81.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:d69d:5353:dba5:ee81])
-        by smtp.gmail.com with ESMTPSA id kw11-20020a170907770b00b007add28659b0sm6644596ejc.140.2022.11.29.13.56.29
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 29 Nov 2022 13:56:30 -0800 (PST)
-Message-ID: <9894401b-8d5f-a619-4db7-7834a8f15208@redhat.com>
-Date:   Tue, 29 Nov 2022 22:56:29 +0100
+        Tue, 29 Nov 2022 16:56:52 -0500
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE3506C733
+        for <linux-media@vger.kernel.org>; Tue, 29 Nov 2022 13:56:50 -0800 (PST)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <mgr@pengutronix.de>)
+        id 1p08av-0000nh-6E; Tue, 29 Nov 2022 22:56:49 +0100
+Received: from mgr by ptx.hi.pengutronix.de with local (Exim 4.92)
+        (envelope-from <mgr@pengutronix.de>)
+        id 1p08au-0006Hi-PH; Tue, 29 Nov 2022 22:56:48 +0100
+Date:   Tue, 29 Nov 2022 22:56:48 +0100
+From:   Michael Grzeschik <mgr@pengutronix.de>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-usb@vger.kernel.org, linux-media@vger.kernel.org,
+        gregkh@linuxfoundation.org, balbi@kernel.org,
+        kernel@pengutronix.de, Daniel Scally <dan.scally@ideasonboard.com>
+Subject: Re: [PATCH v7] usb: gadget: uvc: add validate and fix function for
+ uvc response
+Message-ID: <20221129215648.GR18924@pengutronix.de>
+References: <20221128103124.655264-1-m.grzeschik@pengutronix.de>
+ <Y4V4IED+SBhUR7Su@pendragon.ideasonboard.com>
+ <20221129102308.GO18924@pengutronix.de>
+ <Y4X0unPRK7iAnfaH@pendragon.ideasonboard.com>
+ <20221129152259.GQ18924@pengutronix.de>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Subject: Re: [PATCH 2/3] platform/x86: int3472/discrete: Get the polarity from
- the _DSM entry
-To:     Mark Gross <markgross@kernel.org>,
-        Andy Shevchenko <andy@kernel.org>,
-        Daniel Scally <djrscally@gmail.com>
-Cc:     platform-driver-x86@vger.kernel.org,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Kate Hsuan <hpa@redhat.com>, linux-media@vger.kernel.org
-References: <20221124200007.390901-1-hdegoede@redhat.com>
- <20221124200007.390901-3-hdegoede@redhat.com>
-Content-Language: en-US, nl
-From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20221124200007.390901-3-hdegoede@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="JB7KW7Ey7eB5HOHs"
+Content-Disposition: inline
+In-Reply-To: <20221129152259.GQ18924@pengutronix.de>
+X-Sent-From: Pengutronix Hildesheim
+X-URL:  http://www.pengutronix.de/
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: mgr@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi All,
 
-On 11/24/22 21:00, Hans de Goede wrote:
-> The out of tree IPU6 driver has moved to also using the in kernel INT3472
-> code for doing power-ctrl rather then doing their own thing (good!).
-> 
-> On IPU6 the polarity is encoded in the _DSM entry rather then being
-> hardcoded to GPIO_ACTIVE_LOW.
-> 
-> Using the _DSM entry for this on IPU3 leads to regressions, so only
-> use the _DSM entry for this on non IPU3 devices.
+--JB7KW7Ey7eB5HOHs
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-So it turns out that the reason why this does not work on IPU3 is
-because looking at this as polarity = (bits 31-24) ? high:low is not
-correct.
+On Tue, Nov 29, 2022 at 04:22:59PM +0100, Michael Grzeschik wrote:
+>On Tue, Nov 29, 2022 at 02:02:02PM +0200, Laurent Pinchart wrote:
+>>On Tue, Nov 29, 2022 at 11:23:08AM +0100, Michael Grzeschik wrote:
+>>>On Tue, Nov 29, 2022 at 05:10:24AM +0200, Laurent Pinchart wrote:
+>>>> On Mon, Nov 28, 2022 at 11:31:25AM +0100, Michael Grzeschik wrote:
+>>>>> When the userspace gets the setup requests for UVC_GET_CUR UVC_GET_MI=
+N,
+>>>>> UVC_GET_MAX, UVC_GET_DEF it will fill out the ctrl response. This data
+>>>>> needs to be validated. Since the kernel also knows the limits for val=
+id
+>>>>> cases, it can fixup the values in case the userspace is setting inval=
+id
+>>>>> data.
+>>>>
+>>>> Why is this a good idea ?
+>>>
+>>>Why is it not? We don't want the userspace to communicate other things
+>>>to the host than what is configured in the configfs. If you only object
+>>>the explanation, then I will improve the commit message and send an
+>>>fixed v8. If you have more objections please share your doubts, thanks.
+>>
+>>What bothers me is that this patch silently clamps invalid value, trying
+>>to hide the gadget userspace error from the host. It may allow the host
+>>to proceed one step further, but if the gadget userspace got it wrong in
+>>the first place, there's a very high chance it won't do the right thing
+>>in the next step anyway. This will make debugging more complicated,
+>>while at the same time not bringing much value.
+>
+>I discussed this and we came up with a better approach. When the
+>userspace will send UVCIOC_SEND_RESPONSE we can return with a negativ
+>return value. Like EAGAIN if the validation was seeeing some trouble
+>with the userspaces uvc_streaming_control feedback to the host.
+>
+>The validation code will then still fixup the data, but instead of
+>transfering this manipulated answer to the host, it will return the
+>changes to the application with EAGAIN. So now the userspace can
+>react to it and it should even point out misconfigurations between
+>kernel and userspace and so will simplify the debugging.
+>
+>How about that?
 
-The correct way of looking at this really is:
+While implementing this I came across the problem that the
+UVCIOC_SEND_RESPONSE is handled in the vidioc_default handler.
+But for this handler we can not set flag INFO_FL_ALWAYS_COPY like
+for common v4l2_ioctls. :(
 
-	polarity = default-polarity-for-pin;
-	if ((bits 31-24) == 0)
-		polarity = !polarity;
+I think this is still worth a path to go, but I am currently out
+of ideas how to achieve it. Help for this is much appreciated.
 
-The: "polarity = (bits 31-24) ? high:low" thing did work with IPU6
-because the out of tree bundled drivers set reset and poweroff
-to 1 on power-on and to 0 on power-off. IOW they apply the
-default active-low-ness of these pins at the sensor driver level
-rather then letting the GPIO core handle this. Which is actually
-the wrong thing to do...
-
-For the new series replacing this one I'm going to go with the:
-
-	if ((bits 31-24) == 0)
-		polarity = !polarity;
-
-Approach which works on both IPU3 and IPU6. I'll also make this
-the last patch in the series and I'll probably merge it later
-then the rest of the series so that it can get some extra testing.
-
-Regards,
-
-Hans
+Thanks,
+Michael
 
 
-> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-> ---
->  drivers/platform/x86/intel/int3472/discrete.c | 28 +++++++++++++++++--
->  1 file changed, 26 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/platform/x86/intel/int3472/discrete.c b/drivers/platform/x86/intel/int3472/discrete.c
-> index bc6c62f3f3bf..9159291be28a 100644
-> --- a/drivers/platform/x86/intel/int3472/discrete.c
-> +++ b/drivers/platform/x86/intel/int3472/discrete.c
-> @@ -11,6 +11,7 @@
->  #include <linux/kernel.h>
->  #include <linux/module.h>
->  #include <linux/overflow.h>
-> +#include <linux/pci.h>
->  #include <linux/platform_device.h>
->  #include <linux/uuid.h>
->  
-> @@ -36,6 +37,19 @@ static const guid_t cio2_sensor_module_guid =
->  	GUID_INIT(0x822ace8f, 0x2814, 0x4174,
->  		  0xa5, 0x6b, 0x5f, 0x02, 0x9f, 0xe0, 0x79, 0xee);
->  
-> +/* IPU3 vs IPU6 needs to be handled differently */
-> +#define IPU3_CIO2_PCI_ID				0x9d32
-> +
-> +static const struct pci_device_id ipu3_cio2_pci_id_table[] = {
-> +	{ PCI_DEVICE(PCI_VENDOR_ID_INTEL, IPU3_CIO2_PCI_ID) },
-> +	{ }
-> +};
-> +
-> +static int ipu3_present(void)
-> +{
-> +	return pci_dev_present(ipu3_cio2_pci_id_table);
-> +}
-> +
->  /*
->   * Here follows platform specific mapping information that we can pass to
->   * the functions mapping resources to the sensors. Where the sensors have
-> @@ -242,6 +256,7 @@ static int skl_int3472_handle_gpio_resources(struct acpi_resource *ares,
->  	union acpi_object *obj;
->  	const char *err_msg;
->  	const char *func;
-> +	u32 polarity;
->  	int ret;
->  	u8 type;
->  
-> @@ -265,13 +280,22 @@ static int skl_int3472_handle_gpio_resources(struct acpi_resource *ares,
->  
->  	type = obj->integer.value & 0xff;
->  
-> +	/* IPU3 always uses active-low, IPU6 polarity is encoded in the _DSM entry. */
-> +	if (ipu3_present())
-> +		polarity = GPIO_ACTIVE_LOW;
-> +	else
-> +		polarity = ((obj->integer.value >> 24) & 0xff) ? GPIO_ACTIVE_HIGH : GPIO_ACTIVE_LOW;
-> +
->  	func = int3472_dsm_type_to_func(type);
->  
-> +	dev_dbg(int3472->dev, "%s %s pin %d active-%s\n", func,
-> +		agpio->resource_source.string_ptr, agpio->pin_table[0],
-> +		(polarity == GPIO_ACTIVE_HIGH) ? "high" : "low");
-> +
->  	switch (type) {
->  	case INT3472_GPIO_TYPE_RESET:
->  	case INT3472_GPIO_TYPE_POWERDOWN:
-> -		ret = skl_int3472_map_gpio_to_sensor(int3472, agpio, func,
-> -						     GPIO_ACTIVE_LOW);
-> +		ret = skl_int3472_map_gpio_to_sensor(int3472, agpio, func, polarity);
->  		if (ret)
->  			err_msg = "Failed to map GPIO pin to sensor\n";
->  
+--=20
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
 
+--JB7KW7Ey7eB5HOHs
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEElXvEUs6VPX6mDPT8C+njFXoeLGQFAmOGgB4ACgkQC+njFXoe
+LGSe/xAAo/NslPqLmcUVcAU/QdQif5RKL4YG9F8M4CRkSd+JnhaUZQu/YmxvFmAC
+CmZKtSCu5XkL3FrDUEq+djF339I8pNup5L/9FkFq+MplbWjhEiaTcz1EmMFiFjMM
+iO3suWDbZBKo755KPgN/KhDe3GLjvkljK1omv0n93yLUH7lG8yML9bBrgsaSSSOt
+1VvNOQXbOe7b70RpZ6oxbq6Y9EUEHlG59XpYl2Jc6YMRoL5x03d+JeCTYSw21Fps
+0ulqZcmSQyXDBhu1oeCBrxFvL+ufD0Y3uewWO3AtqLyCcOBOAwpcmwunpSamoEow
+DP3Qd065U7iLyhg+LMo9lTftMJr/BbW+l0Wo8MHFaRnDBWcJHaHJt+gCpuRiW4OU
+prUi8m18q95WrFrkwDq+oTsZsjPqEd/hH/TCf1buxuOFjO6eoTf8ETF7a32bWGD+
+BvfnHhGqSUi581ZVm/7n/ohZ4laWsirW9zD6qpzvVfBpcP/aipeQFUUOKaDY/W/T
+H13gGzLu0MLZ62JcL0mEdsH7jPKKDDsVzuIpu9xnjvohdUynVZot0w6kWrgxxy/1
+l8+dbRg1uBOgAJiGa/W4bjl+dOVLRmPyoIgc0422rtLSwe6fbcKKmKwkZYKkrdSG
+fgEXsDFo19IB2hyYFXXUAnnD6YaMp7pBuhprkfBQvpkzS7bPkxc=
+=9nNw
+-----END PGP SIGNATURE-----
+
+--JB7KW7Ey7eB5HOHs--
