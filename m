@@ -2,121 +2,151 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AB18763BEB3
-	for <lists+linux-media@lfdr.de>; Tue, 29 Nov 2022 12:15:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 22BF563BEEC
+	for <lists+linux-media@lfdr.de>; Tue, 29 Nov 2022 12:28:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230161AbiK2LPR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 29 Nov 2022 06:15:17 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55152 "EHLO
+        id S232486AbiK2L2s (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 29 Nov 2022 06:28:48 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35540 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229777AbiK2LPP (ORCPT
+        with ESMTP id S229650AbiK2L2r (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 29 Nov 2022 06:15:15 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97F054FFB3;
-        Tue, 29 Nov 2022 03:15:14 -0800 (PST)
-Received: from [192.168.0.43] (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net [86.13.91.161])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id ABA124DA;
-        Tue, 29 Nov 2022 12:15:11 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1669720512;
-        bh=6ymnuxC73Bi+XxxsJo1TuShFF+5Hw8ToW16HXWGnwvk=;
-        h=Date:To:Cc:References:From:Subject:In-Reply-To:From;
-        b=krzFuGlb2VAKdyjutf31+7QPQuRviHxuekQRTjsBX1xALDM1d+PveC54rSO5Kz3ae
-         7yTEAWj1teiHDYYVBSZNGVSZn+Xwl0L70mkDT5A6YvrPeOPTYLLKCS1bphU+/RDPM+
-         0yqtcl5EAL6v9ocum7GV8cMx2bQmYeQhtWpHL7pY=
-Message-ID: <2e28fbab-2367-5d00-6e46-37879fd046e5@ideasonboard.com>
-Date:   Tue, 29 Nov 2022 11:15:08 +0000
+        Tue, 29 Nov 2022 06:28:47 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E0C0C12F
+        for <linux-media@vger.kernel.org>; Tue, 29 Nov 2022 03:27:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1669721265;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=JNeN8GPpJrHlbWssIOBz2DcHNIKoFYFW+IzzrdE30Ic=;
+        b=h6xlXG/DLOh5TdVxySv7rCwJKYeRRbkOkIkqtquV3zA1tSiOaZg9Dp/qSrmsFr+EFDG0rD
+        Zy3Pl0bZnolyGaQ2r13X+uItOYitO7BGyOzXR9TLSgDXf64j+kGlkkdMGomj8KOI5pdBQD
+        balEdH4p47k68AbG5ZEthCHrQtNt1dk=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-84-aRLHgFHBPS6GTHBGHLnLNQ-1; Tue, 29 Nov 2022 06:27:43 -0500
+X-MC-Unique: aRLHgFHBPS6GTHBGHLnLNQ-1
+Received: by mail-ej1-f69.google.com with SMTP id qw20-20020a1709066a1400b007af13652c92so6396846ejc.20
+        for <linux-media@vger.kernel.org>; Tue, 29 Nov 2022 03:27:43 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=JNeN8GPpJrHlbWssIOBz2DcHNIKoFYFW+IzzrdE30Ic=;
+        b=4c0X1Qgw8sM0ur42O0aE17YUgLd0Dp/riKTNgkuT691P/IgGE8h8Tx69lkwbOK37s9
+         vQXmxioA5i4p50wYPpbbdXc67DJJ/zaJeUD6mRHMEIWfhZK23C4FMhDum5KsE/QWi6Je
+         WEBmn9TEhkx5DoDusQcAER1ueEZOjRD5QlQ1+KrwfLLCUpWRaqhHWoSr9e7VHPv+rtQE
+         e50pkdugOa6IQp4st5iOykca2ri39Wrm0TUshMhiEjybzDaZBij9+cTyoJtMzquWbX4D
+         3jUIy7ZvUw5BHi/8l4G4BvDDNMJQbnk0ZABskv5OcFY6soRaS/z73NXzpunwqwOe8LL9
+         1oOw==
+X-Gm-Message-State: ANoB5pnD101XzLfgbv37Dxkc3Eht+BJ+gz67ic+oVuTcXRcubjSRhw6H
+        ED2lg50Gky9KgCsgegIC6b130cBDO6gNC5jAUtr8E5TjpSaX9/KntkiHoNbOa5iEHcClX2VK59y
+        RfVjSVSOTe2rv9cUfX6jYHrc=
+X-Received: by 2002:a05:6402:2488:b0:467:3ea1:acdd with SMTP id q8-20020a056402248800b004673ea1acddmr52740581eda.96.1669721262538;
+        Tue, 29 Nov 2022 03:27:42 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf40Atovb0T/uPocwF34I4V7PN+Lzr4d20b7/Ii4B2B97qox/i3YuuKF9f/Z0Ewh2ohVjnBEBg==
+X-Received: by 2002:a05:6402:2488:b0:467:3ea1:acdd with SMTP id q8-20020a056402248800b004673ea1acddmr52740565eda.96.1669721262322;
+        Tue, 29 Nov 2022 03:27:42 -0800 (PST)
+Received: from ?IPV6:2001:1c00:c1e:bf00:d69d:5353:dba5:ee81? (2001-1c00-0c1e-bf00-d69d-5353-dba5-ee81.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:d69d:5353:dba5:ee81])
+        by smtp.gmail.com with ESMTPSA id v3-20020a056402174300b004691de0e25bsm6171213edx.54.2022.11.29.03.27.41
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 29 Nov 2022 03:27:41 -0800 (PST)
+Message-ID: <9a4336d1-3222-fe50-f234-93ab175d606a@redhat.com>
+Date:   Tue, 29 Nov 2022 12:27:40 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Content-Language: en-US
-To:     Michael Grzeschik <mgr@pengutronix.de>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-usb@vger.kernel.org, linux-media@vger.kernel.org,
-        gregkh@linuxfoundation.org, balbi@kernel.org, kernel@pengutronix.de
-References: <20221128103124.655264-1-m.grzeschik@pengutronix.de>
- <Y4V4IED+SBhUR7Su@pendragon.ideasonboard.com>
- <20221129102308.GO18924@pengutronix.de>
-From:   Dan Scally <dan.scally@ideasonboard.com>
-Subject: Re: [PATCH v7] usb: gadget: uvc: add validate and fix function for
- uvc response
-In-Reply-To: <20221129102308.GO18924@pengutronix.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+ Thunderbird/102.5.0
+Subject: Re: [PATCH 1/5] gpio: tps68470: Fix tps68470_gpio_get() reading from
+ the wrong register
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc:     Mark Gross <markgross@kernel.org>,
+        Andy Shevchenko <andy@kernel.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Daniel Scally <djrscally@gmail.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        platform-driver-x86@vger.kernel.org, linux-gpio@vger.kernel.org,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Kate Hsuan <hpa@redhat.com>, linux-media@vger.kernel.org
+References: <20221128214408.165726-1-hdegoede@redhat.com>
+ <20221128214408.165726-2-hdegoede@redhat.com>
+ <CAHp75VcXfh46z4m+R4bDTZbcWrqEmebzg-2gT_P+2uAYTNPoYQ@mail.gmail.com>
+Content-Language: en-US, nl
+From:   Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <CAHp75VcXfh46z4m+R4bDTZbcWrqEmebzg-2gT_P+2uAYTNPoYQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi,
 
-On 29/11/2022 10:23, Michael Grzeschik wrote:
-> On Tue, Nov 29, 2022 at 05:10:24AM +0200, Laurent Pinchart wrote:
->> Hi Michael,
+On 11/29/22 11:22, Andy Shevchenko wrote:
+> On Mon, Nov 28, 2022 at 11:44 PM Hans de Goede <hdegoede@redhat.com> wrote:
 >>
->> (CC'ing Dan)
->>
->> Thank you for the patch.
->>
->> On Mon, Nov 28, 2022 at 11:31:25AM +0100, Michael Grzeschik wrote:
->>> When the userspace gets the setup requests for UVC_GET_CUR UVC_GET_MIN,
->>> UVC_GET_MAX, UVC_GET_DEF it will fill out the ctrl response. This data
->>> needs to be validated. Since the kernel also knows the limits for valid
->>> cases, it can fixup the values in case the userspace is setting invalid
->>> data.
->>
->> Why is this a good idea ?
->
-> Why is it not? We don't want the userspace to communicate other things
-> to the host than what is configured in the configfs. If you only object
-> the explanation, then I will improve the commit message and send an
-> fixed v8. If you have more objections please share your doubts, thanks.
+>> For the regular GPIO pins the value should be read from TPS68470_REG_GPDI,
+>> so that the actual value of the pin is read, rather then the value the pin
+> 
+> than
 
+Ack.
 
-I'm also not really sure of the benefit; wouldn't this result in 
-userspace streaming data that's configured differently to what the host 
-is expecting?
+>> would output when put in output mode.
+> 
+> I don't see it here and haven't checked the context, but the idea is
+> to check the direction and return either input (if pin is in input
+> mode) or [cached] output.If it's the case, the patch looks good to me.
 
->>>  static int
->>>  uvc_send_response(struct uvc_device *uvc, struct uvc_request_data 
->>> *data)
->>>  {
->>> @@ -192,6 +253,21 @@ uvc_send_response(struct uvc_device *uvc, 
->>> struct uvc_request_data *data)
->>>
->>>      memcpy(req->buf, data->data, req->length);
->>>
->>> +    /* validate the ctrl content and fixup */
->>> +    if (!uvc->event_setup_out) {
->>> +        struct uvc_streaming_control *ctrl = req->buf;
->>> +
->>> +        switch (uvc->streaming_request) {
->>> +        case UVC_GET_CUR:
->>> +        case UVC_GET_MIN:
->>> +        case UVC_GET_MAX:
->>> +        case UVC_GET_DEF:
->>> +            uvc_validate_streaming_ctrl(uvc, ctrl);
->>> +        default:
->>> +            break;
->>> +        }
->>> +    }
->>> +
+No the idea is to always actually use the input register when reading
+the pins, independent of the input/output mode. Instead of always
+reading the [cached] output register value.
+
+The input buffer will still work when the device is in output mode
+and if somehow an external force is pushing the pin low/high against
+the output value then the input buffer will correctly reflect this
+(assuming the output is current limited and thus the magic smoke
+stays inside the chip).
+
+Regards,
+
+Hans
 
 
-What about read requests for controls that aren't for the streaming 
-interface?
 
->>>      return usb_ep_queue(cdev->gadget->ep0, req, GFP_KERNEL);
->>>  }
->>>
+> 
+>> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+>> ---
+>>  drivers/gpio/gpio-tps68470.c | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
 >>
->> -- 
->> Regards,
+>> diff --git a/drivers/gpio/gpio-tps68470.c b/drivers/gpio/gpio-tps68470.c
+>> index aaddcabe9b35..778a72cf800c 100644
+>> --- a/drivers/gpio/gpio-tps68470.c
+>> +++ b/drivers/gpio/gpio-tps68470.c
+>> @@ -30,7 +30,7 @@ static int tps68470_gpio_get(struct gpio_chip *gc, unsigned int offset)
+>>  {
+>>         struct tps68470_gpio_data *tps68470_gpio = gpiochip_get_data(gc);
+>>         struct regmap *regmap = tps68470_gpio->tps68470_regmap;
+>> -       unsigned int reg = TPS68470_REG_GPDO;
+>> +       unsigned int reg = TPS68470_REG_GPDI;
+>>         int val, ret;
 >>
->> Laurent Pinchart
+>>         if (offset >= TPS68470_N_REGULAR_GPIO) {
+>> --
+>> 2.38.1
 >>
->
+> 
+> 
+
