@@ -2,69 +2,79 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0D99563B8A8
-	for <lists+linux-media@lfdr.de>; Tue, 29 Nov 2022 04:17:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5ED3C63B8E4
+	for <lists+linux-media@lfdr.de>; Tue, 29 Nov 2022 04:47:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235103AbiK2DR1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 28 Nov 2022 22:17:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43030 "EHLO
+        id S235526AbiK2Drp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 28 Nov 2022 22:47:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34906 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230298AbiK2DR0 (ORCPT
+        with ESMTP id S234975AbiK2Dro (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 28 Nov 2022 22:17:26 -0500
-Received: from out30-133.freemail.mail.aliyun.com (out30-133.freemail.mail.aliyun.com [115.124.30.133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 91B574733F;
-        Mon, 28 Nov 2022 19:17:25 -0800 (PST)
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R171e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018045170;MF=jiapeng.chong@linux.alibaba.com;NM=1;PH=DS;RN=6;SR=0;TI=SMTPD_---0VVym2Ua_1669691835;
-Received: from localhost(mailfrom:jiapeng.chong@linux.alibaba.com fp:SMTPD_---0VVym2Ua_1669691835)
-          by smtp.aliyun-inc.com;
-          Tue, 29 Nov 2022 11:17:23 +0800
-From:   Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
-To:     mchehab@kernel.org
-Cc:     p.zabel@pengutronix.de, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Jiapeng Chong <jiapeng.chong@linux.alibaba.com>,
-        Abaci Robot <abaci@linux.alibaba.com>
-Subject: [PATCH] media: platform:  Fix missing error code in rzg2l_cru_start_streaming_vq()
-Date:   Tue, 29 Nov 2022 11:17:12 +0800
-Message-Id: <20221129031712.115354-1-jiapeng.chong@linux.alibaba.com>
-X-Mailer: git-send-email 2.20.1.7.g153144c
+        Mon, 28 Nov 2022 22:47:44 -0500
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF4135FE6;
+        Mon, 28 Nov 2022 19:47:42 -0800 (PST)
+Received: from fraeml740-chm.china.huawei.com (unknown [172.18.147.206])
+        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4NLpBK4xbbz67Q1L;
+        Tue, 29 Nov 2022 11:44:57 +0800 (CST)
+Received: from lhrpeml500004.china.huawei.com (7.191.163.9) by
+ fraeml740-chm.china.huawei.com (10.206.15.221) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Tue, 29 Nov 2022 04:47:40 +0100
+Received: from mscphis00759.huawei.com (10.123.66.134) by
+ lhrpeml500004.china.huawei.com (7.191.163.9) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.34; Tue, 29 Nov 2022 03:47:39 +0000
+From:   Konstantin Meskhidze <konstantin.meskhidze@huawei.com>
+To:     <Felix.Kuehling@amd.com>
+CC:     <alexander.deucher@amd.com>, <christian.koenig@amd.com>,
+        <Xinhui.Pan@amd.com>, <airlied@gmail.com>, <daniel@ffwll.ch>,
+        <sumit.semwal@linaro.org>, <linux-media@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <amd-gfx@lists.freedesktop.org>,
+        <dri-devel@lists.freedesktop.org>, <yusongping@huawei.com>,
+        <hukeping@huawei.com>, <artem.kuzin@huawei.com>
+Subject: [PATCH] drm/amdkfd: Fix memory leakage
+Date:   Tue, 29 Nov 2022 11:47:34 +0800
+Message-ID: <20221129034734.2141562-1-konstantin.meskhidze@huawei.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-9.9 required=5.0 tests=BAYES_00,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        UNPARSEABLE_RELAY,USER_IN_DEF_SPF_WL autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.123.66.134]
+X-ClientProxiedBy: mscpeml100001.china.huawei.com (7.188.26.227) To
+ lhrpeml500004.china.huawei.com (7.191.163.9)
+X-CFilter-Loop: Reflected
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Failed to allocate scratch buffer, add the error code '-ENOMEM' to the
-return value 'ret'.
+This patch fixes potential memory leakage and seg fault
+in  _gpuvm_import_dmabuf() function
 
-drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c:676 rzg2l_cru_start_streaming_vq() warn: missing error code 'ret'.
-
-Link: https://bugzilla.openanolis.cn/show_bug.cgi?id=3275
-Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+Signed-off-by: Konstantin Meskhidze <konstantin.meskhidze@huawei.com>
 ---
- drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-index 9533e4069ecd..91b57c7c2e56 100644
---- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-+++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-@@ -673,6 +673,7 @@ static int rzg2l_cru_start_streaming_vq(struct vb2_queue *vq, unsigned int count
- 	if (!cru->scratch) {
- 		return_unused_buffers(cru, VB2_BUF_STATE_QUEUED);
- 		dev_err(cru->dev, "Failed to allocate scratch buffer\n");
-+		ret = -ENOMEM;
- 		goto free_image_conv_irq;
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
+index 978d3970b5cc..e0084f712e02 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
+@@ -2257,7 +2257,7 @@ int amdgpu_amdkfd_gpuvm_import_dmabuf(struct amdgpu_device *adev,
+ 
+ 	ret = drm_vma_node_allow(&obj->vma_node, drm_priv);
+ 	if (ret) {
+-		kfree(mem);
++		kfree(*mem);
+ 		return ret;
  	}
  
 -- 
-2.20.1.7.g153144c
+2.25.1
 
