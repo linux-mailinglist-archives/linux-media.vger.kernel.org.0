@@ -2,67 +2,68 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 22BF563BEEC
-	for <lists+linux-media@lfdr.de>; Tue, 29 Nov 2022 12:28:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E978163BF20
+	for <lists+linux-media@lfdr.de>; Tue, 29 Nov 2022 12:34:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232486AbiK2L2s (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 29 Nov 2022 06:28:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35540 "EHLO
+        id S232035AbiK2LeP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 29 Nov 2022 06:34:15 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39592 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229650AbiK2L2r (ORCPT
+        with ESMTP id S229957AbiK2Ldp (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 29 Nov 2022 06:28:47 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E0C0C12F
-        for <linux-media@vger.kernel.org>; Tue, 29 Nov 2022 03:27:45 -0800 (PST)
+        Tue, 29 Nov 2022 06:33:45 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C3E15DE0
+        for <linux-media@vger.kernel.org>; Tue, 29 Nov 2022 03:32:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1669721265;
+        s=mimecast20190719; t=1669721557;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=JNeN8GPpJrHlbWssIOBz2DcHNIKoFYFW+IzzrdE30Ic=;
-        b=h6xlXG/DLOh5TdVxySv7rCwJKYeRRbkOkIkqtquV3zA1tSiOaZg9Dp/qSrmsFr+EFDG0rD
-        Zy3Pl0bZnolyGaQ2r13X+uItOYitO7BGyOzXR9TLSgDXf64j+kGlkkdMGomj8KOI5pdBQD
-        balEdH4p47k68AbG5ZEthCHrQtNt1dk=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=/d4T5zjZ2/xv0d6C4B2qXDDWBIIfOQ90oEadaEWlU8I=;
+        b=Zl6w2h6KnNuBP5zIpcdreIKmCf2aRx7lWfbKj9rnS3VjafcKneBVrzM6/l5vrfGmgstT7a
+        ffEcFt5VZLzHeoOIRhF/qzRgdKsZU6efrZAHD1PkDwHu9N3M3mvI6XZr+I+fQHN6eQp5dZ
+        8tNNMDLwirfLV/mcFLZNexkkZKlQKbU=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-84-aRLHgFHBPS6GTHBGHLnLNQ-1; Tue, 29 Nov 2022 06:27:43 -0500
-X-MC-Unique: aRLHgFHBPS6GTHBGHLnLNQ-1
-Received: by mail-ej1-f69.google.com with SMTP id qw20-20020a1709066a1400b007af13652c92so6396846ejc.20
-        for <linux-media@vger.kernel.org>; Tue, 29 Nov 2022 03:27:43 -0800 (PST)
+ us-mta-221-fjhMANWuOtm7PS_qUdq3HA-1; Tue, 29 Nov 2022 06:32:36 -0500
+X-MC-Unique: fjhMANWuOtm7PS_qUdq3HA-1
+Received: by mail-ej1-f72.google.com with SMTP id sa20-20020a1709076d1400b007bbe8699c2eso5334666ejc.6
+        for <linux-media@vger.kernel.org>; Tue, 29 Nov 2022 03:32:36 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=JNeN8GPpJrHlbWssIOBz2DcHNIKoFYFW+IzzrdE30Ic=;
-        b=4c0X1Qgw8sM0ur42O0aE17YUgLd0Dp/riKTNgkuT691P/IgGE8h8Tx69lkwbOK37s9
-         vQXmxioA5i4p50wYPpbbdXc67DJJ/zaJeUD6mRHMEIWfhZK23C4FMhDum5KsE/QWi6Je
-         WEBmn9TEhkx5DoDusQcAER1ueEZOjRD5QlQ1+KrwfLLCUpWRaqhHWoSr9e7VHPv+rtQE
-         e50pkdugOa6IQp4st5iOykca2ri39Wrm0TUshMhiEjybzDaZBij9+cTyoJtMzquWbX4D
-         3jUIy7ZvUw5BHi/8l4G4BvDDNMJQbnk0ZABskv5OcFY6soRaS/z73NXzpunwqwOe8LL9
-         1oOw==
-X-Gm-Message-State: ANoB5pnD101XzLfgbv37Dxkc3Eht+BJ+gz67ic+oVuTcXRcubjSRhw6H
-        ED2lg50Gky9KgCsgegIC6b130cBDO6gNC5jAUtr8E5TjpSaX9/KntkiHoNbOa5iEHcClX2VK59y
-        RfVjSVSOTe2rv9cUfX6jYHrc=
-X-Received: by 2002:a05:6402:2488:b0:467:3ea1:acdd with SMTP id q8-20020a056402248800b004673ea1acddmr52740581eda.96.1669721262538;
-        Tue, 29 Nov 2022 03:27:42 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf40Atovb0T/uPocwF34I4V7PN+Lzr4d20b7/Ii4B2B97qox/i3YuuKF9f/Z0Ewh2ohVjnBEBg==
-X-Received: by 2002:a05:6402:2488:b0:467:3ea1:acdd with SMTP id q8-20020a056402248800b004673ea1acddmr52740565eda.96.1669721262322;
-        Tue, 29 Nov 2022 03:27:42 -0800 (PST)
+        bh=/d4T5zjZ2/xv0d6C4B2qXDDWBIIfOQ90oEadaEWlU8I=;
+        b=iKTdQxIyvMY8rAedJLZg25ZvHcYv9Y+BJ1pe/wx6GUTmZNKd1ztMuIF8eUTurlVO61
+         yDNeNPjV1N8ixGdiYSol9k0npjB5NusOEru81VDfIRnKe1jxMPRdzt4WNUOawAGP7Wrw
+         ydDPKHgKpfyulAIBPrQwZPSZaoqBFOp/uMF/Yytt+eDOynjfxBCIEGgl2tmTW/VbaR2f
+         NtMIOyPrWVlBQQdRrrgUs3AFfiAF2jPtLkFX7haZr5SooB0EbK5qFC9IBnHA+slHQWfx
+         p2Z146Trwp259CL85RdjDdb2nAuawHD9GX2nm7S8zRete7qzXDfxKM4/ttmyg1tOmUQV
+         z2mw==
+X-Gm-Message-State: ANoB5pnAqJvKc/t7Wl171aXjCb62copWXxogJcJWuFcSRg/46EhYEN38
+        XJPQ9OdaMotKHybhCB5E9UYjxmB0Wm7tZiFjCmKmHS9rExvRRIKuyKOro5fKXqx6e59O23CNfQX
+        zAjGlI5qN3JEJaYMWaM6k7/4=
+X-Received: by 2002:aa7:c788:0:b0:458:b9f9:9fba with SMTP id n8-20020aa7c788000000b00458b9f99fbamr35342094eds.305.1669721555247;
+        Tue, 29 Nov 2022 03:32:35 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf47O6/boMZ9eapNP4eorwpxZfjoAbJB/XrVKiwje3UMF6/g6R0k8vp0N7qnRMo1p06c2veGNg==
+X-Received: by 2002:aa7:c788:0:b0:458:b9f9:9fba with SMTP id n8-20020aa7c788000000b00458b9f99fbamr35342077eds.305.1669721555084;
+        Tue, 29 Nov 2022 03:32:35 -0800 (PST)
 Received: from ?IPV6:2001:1c00:c1e:bf00:d69d:5353:dba5:ee81? (2001-1c00-0c1e-bf00-d69d-5353-dba5-ee81.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:d69d:5353:dba5:ee81])
-        by smtp.gmail.com with ESMTPSA id v3-20020a056402174300b004691de0e25bsm6171213edx.54.2022.11.29.03.27.41
+        by smtp.gmail.com with ESMTPSA id d26-20020a170906305a00b007415f8ffcbbsm6096378ejd.98.2022.11.29.03.32.33
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 29 Nov 2022 03:27:41 -0800 (PST)
-Message-ID: <9a4336d1-3222-fe50-f234-93ab175d606a@redhat.com>
-Date:   Tue, 29 Nov 2022 12:27:40 +0100
+        Tue, 29 Nov 2022 03:32:34 -0800 (PST)
+Message-ID: <007a6345-62e7-20ee-1a48-4adb4a9fa9df@redhat.com>
+Date:   Tue, 29 Nov 2022 12:32:33 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.5.0
-Subject: Re: [PATCH 1/5] gpio: tps68470: Fix tps68470_gpio_get() reading from
- the wrong register
+Subject: Re: [PATCH 3/5] gpio: tps68470: Add support for the indicator LED
+ outputs
+Content-Language: en-US, nl
 To:     Andy Shevchenko <andy.shevchenko@gmail.com>
 Cc:     Mark Gross <markgross@kernel.org>,
         Andy Shevchenko <andy@kernel.org>,
@@ -74,11 +75,10 @@ Cc:     Mark Gross <markgross@kernel.org>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
         Kate Hsuan <hpa@redhat.com>, linux-media@vger.kernel.org
 References: <20221128214408.165726-1-hdegoede@redhat.com>
- <20221128214408.165726-2-hdegoede@redhat.com>
- <CAHp75VcXfh46z4m+R4bDTZbcWrqEmebzg-2gT_P+2uAYTNPoYQ@mail.gmail.com>
-Content-Language: en-US, nl
+ <20221128214408.165726-4-hdegoede@redhat.com>
+ <CAHp75VcJJtYsxbAYt2FjqSEJGhjpok7Dsh3vp46VyOm3=5_2FQ@mail.gmail.com>
 From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <CAHp75VcXfh46z4m+R4bDTZbcWrqEmebzg-2gT_P+2uAYTNPoYQ@mail.gmail.com>
+In-Reply-To: <CAHp75VcJJtYsxbAYt2FjqSEJGhjpok7Dsh3vp46VyOm3=5_2FQ@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
@@ -91,33 +91,44 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+Hi Andy,
 
-On 11/29/22 11:22, Andy Shevchenko wrote:
+Thank you for the reviews.
+
+On 11/29/22 11:28, Andy Shevchenko wrote:
 > On Mon, Nov 28, 2022 at 11:44 PM Hans de Goede <hdegoede@redhat.com> wrote:
 >>
->> For the regular GPIO pins the value should be read from TPS68470_REG_GPDI,
->> so that the actual value of the pin is read, rather then the value the pin
+>> The tps68470 has support for 2 indicator LED outputs called
+>> ileda and iledb, at support for these as GPIO pins 10 + 11.
 > 
-> than
+> add ?
 
-Ack.
+This models ileda and iledb outputs *as* GPIO pins 10 + 11
+on the linux gpiochip.
 
->> would output when put in output mode.
+But yes it also adds gpio pins 10 + 11 to the gpiochip, so
+either one works I guess :)
+
 > 
-> I don't see it here and haven't checked the context, but the idea is
-> to check the direction and return either input (if pin is in input
-> mode) or [cached] output.If it's the case, the patch looks good to me.
+> ...
+> 
+>> +static void tps68470_gpio_get_reg_and_mask(bool get, unsigned int offset,
+>> +                                          unsigned int *reg, int *mask)
+> 
+> Hmm... Usual way is to put the get/set flag at the end of the list of
+> parameters.
 
-No the idea is to always actually use the input register when reading
-the pins, independent of the input/output mode. Instead of always
-reading the [cached] output register value.
+For functions returning values by reference I always follow the
+pattern of input parameters first, then output parameters.
 
-The input buffer will still work when the device is in output mode
-and if somehow an external force is pushing the pin low/high against
-the output value then the input buffer will correctly reflect this
-(assuming the output is current limited and thus the magic smoke
-stays inside the chip).
+> Also why not naming it as 'dir' to avoid confusion with the _get in
+> the function name?
+
+Because dir is meaningless without an enum to to define what a dir
+of 0/false means. Where as get is clear without such an enum.
+get is set to true when this function is called from
+tps68470_gpio_get() and false when it is called from
+tps68470_gpio_set(). It does not get more straight forward then that.
 
 Regards,
 
@@ -125,28 +136,25 @@ Hans
 
 
 
+
 > 
->> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
->> ---
->>  drivers/gpio/gpio-tps68470.c | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/drivers/gpio/gpio-tps68470.c b/drivers/gpio/gpio-tps68470.c
->> index aaddcabe9b35..778a72cf800c 100644
->> --- a/drivers/gpio/gpio-tps68470.c
->> +++ b/drivers/gpio/gpio-tps68470.c
->> @@ -30,7 +30,7 @@ static int tps68470_gpio_get(struct gpio_chip *gc, unsigned int offset)
->>  {
->>         struct tps68470_gpio_data *tps68470_gpio = gpiochip_get_data(gc);
->>         struct regmap *regmap = tps68470_gpio->tps68470_regmap;
->> -       unsigned int reg = TPS68470_REG_GPDO;
->> +       unsigned int reg = TPS68470_REG_GPDI;
->>         int val, ret;
->>
->>         if (offset >= TPS68470_N_REGULAR_GPIO) {
->> --
->> 2.38.1
->>
-> 
+>> +{
+>> +       if (offset < TPS68470_N_REGULAR_GPIO) {
+>> +               if (get)
+>> +                       *reg = TPS68470_REG_GPDI;
+>> +               else
+>> +                       *reg = TPS68470_REG_GPDO;
+>> +               *mask = BIT(offset);
+>> +       } else if (offset < (TPS68470_N_REGULAR_GPIO + TPS68470_N_LOGIC_OUTPUT)) {
+>> +               *reg = TPS68470_REG_SGPO;
+>> +               *mask = BIT(offset - TPS68470_N_REGULAR_GPIO);
+>> +       } else {
+>> +               *reg = TPS68470_REG_ILEDCTL;
+>> +               if (offset == (TPS68470_N_REGULAR_GPIO + TPS68470_N_LOGIC_OUTPUT))
+>> +                       *mask = TPS68470_ILEDCTL_ENA;
+>> +               else
+>> +                       *mask = TPS68470_ILEDCTL_ENB;
+>> +       }
+>> +}
 > 
 
