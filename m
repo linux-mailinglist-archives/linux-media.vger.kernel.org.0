@@ -2,84 +2,151 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 647D763BB03
-	for <lists+linux-media@lfdr.de>; Tue, 29 Nov 2022 08:53:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C0CD963BBFC
+	for <lists+linux-media@lfdr.de>; Tue, 29 Nov 2022 09:49:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229943AbiK2Hxa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 29 Nov 2022 02:53:30 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45692 "EHLO
+        id S230092AbiK2Itf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 29 Nov 2022 03:49:35 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58020 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229514AbiK2Hx3 (ORCPT
+        with ESMTP id S229618AbiK2Itd (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 29 Nov 2022 02:53:29 -0500
-Received: from out30-54.freemail.mail.aliyun.com (out30-54.freemail.mail.aliyun.com [115.124.30.54])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 678BD18367;
-        Mon, 28 Nov 2022 23:53:27 -0800 (PST)
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R791e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018046049;MF=yang.lee@linux.alibaba.com;NM=1;PH=DS;RN=6;SR=0;TI=SMTPD_---0VVzdaRy_1669708403;
-Received: from localhost(mailfrom:yang.lee@linux.alibaba.com fp:SMTPD_---0VVzdaRy_1669708403)
-          by smtp.aliyun-inc.com;
-          Tue, 29 Nov 2022 15:53:24 +0800
-From:   Yang Li <yang.lee@linux.alibaba.com>
-To:     hverkuil@xs4all.nl, mchehab@kernel.org, linux-media@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, Yang Li <yang.lee@linux.alibaba.com>,
-        Abaci Robot <abaci@linux.alibaba.com>
-Subject: [PATCH -next v2] media: rzg2l-cru: Remove unneeded semicolon
-Date:   Tue, 29 Nov 2022 15:53:22 +0800
-Message-Id: <20221129075322.62777-1-yang.lee@linux.alibaba.com>
-X-Mailer: git-send-email 2.20.1.7.g153144c
+        Tue, 29 Nov 2022 03:49:33 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7348741989
+        for <linux-media@vger.kernel.org>; Tue, 29 Nov 2022 00:48:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1669711719;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=+9/SG262uJs5aEn47977HgvoOkAGZaXesrmlGYL/QQU=;
+        b=TRUplZ8JiMKfzb4Bc04YLrOyZbdADW/mzTd3ypL8o6Ck350NukTBLh+Ot4ffwSs8sCvA8Y
+        xqdqKD3HkWgI+XVwWGSNFok9uKLvqdvaPxwB52tFiggUwNFsVNkZeE4d7tCDB7mYzpGkGT
+        oQW14tfDht7LYRQhV9icYzLgV3epDCI=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-63-xE83fv0xO0OogOw741nhGQ-1; Tue, 29 Nov 2022 03:48:37 -0500
+X-MC-Unique: xE83fv0xO0OogOw741nhGQ-1
+Received: by mail-wr1-f71.google.com with SMTP id m24-20020adfa3d8000000b00242168ce9d1so1365771wrb.15
+        for <linux-media@vger.kernel.org>; Tue, 29 Nov 2022 00:48:37 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:organization:from:references
+         :cc:to:content-language:subject:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=+9/SG262uJs5aEn47977HgvoOkAGZaXesrmlGYL/QQU=;
+        b=Vayo5mwEP4ajsMbR8OmtkRZ5U7/eJgHdv1eS6x/YY1UK4xspErtVkDdOIYKk8Oatg1
+         ee1V3sKXHooHdgJqk2Zc8I3bwk2CIk3YKLB1QMjGKElhiAJnDhLbCB+eFq7U7B+eicIj
+         9BkXrTzCaqS7/9yD3si9Ln7UdVww2y3A8sfMQBi2McuuzFlPZU78l7Vevp0g+5yPQuW0
+         O7l5Y4poDiP1d9VjT+/c6bAC3phq9OvKWIgBo0z2orZLaAnpnLR5BrRH9bL2ZVn6OzOb
+         T0ZfinnHeY92PhIPGYoXv5LMFOc+xZ60tqvdrAkej+6RuRckWYA1LEdX3qfesx1gP5JZ
+         unNQ==
+X-Gm-Message-State: ANoB5pli4awjUaRoLJM5TJqt/6M6SIjlw6XgKh+dx1zcBxJwP/54fpzZ
+        OoJTwLAVxs6fau7Z6h3N2CbnO7c2mvzED7AxzIg9a/GMXgJOfZNSPIxBAmbxbybdc26CBT3cW4t
+        pZA9yYMT3w0x4t9DRVaFgLhI=
+X-Received: by 2002:adf:ed86:0:b0:236:4930:2468 with SMTP id c6-20020adfed86000000b0023649302468mr27266622wro.221.1669711716549;
+        Tue, 29 Nov 2022 00:48:36 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf5WObKFiHoIvjAvSDGoBWk7nZS9J8pydo8v+yQ7WbXm3jibFRxv0v14chgZsAxfMxQqYFXPxw==
+X-Received: by 2002:adf:ed86:0:b0:236:4930:2468 with SMTP id c6-20020adfed86000000b0023649302468mr27266600wro.221.1669711716176;
+        Tue, 29 Nov 2022 00:48:36 -0800 (PST)
+Received: from ?IPV6:2003:cb:c705:ca00:3fb8:c253:3bf7:b60e? (p200300cbc705ca003fb8c2533bf7b60e.dip0.t-ipconnect.de. [2003:cb:c705:ca00:3fb8:c253:3bf7:b60e])
+        by smtp.gmail.com with ESMTPSA id j5-20020a5d5645000000b00225307f43fbsm13057331wrw.44.2022.11.29.00.48.34
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 29 Nov 2022 00:48:35 -0800 (PST)
+Message-ID: <22b1107b-0acc-5772-a883-8f3c4682eb1b@redhat.com>
+Date:   Tue, 29 Nov 2022 09:48:33 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-9.9 required=5.0 tests=BAYES_00,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,USER_IN_DEF_SPF_WL
-        autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.1
+Subject: Re: [PATCH mm-unstable v1 16/20] mm/frame-vector: remove FOLL_FORCE
+ usage
+Content-Language: en-US
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     Hans Verkuil <hverkuil@xs4all.nl>, linux-kernel@vger.kernel.org,
+        x86@kernel.org, linux-alpha@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-ia64@vger.kernel.org,
+        linux-mips@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        sparclinux@vger.kernel.org, linux-um@lists.infradead.org,
+        etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+        linux-samsung-soc@vger.kernel.org, linux-rdma@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-mm@kvack.org, linux-perf-users@vger.kernel.org,
+        linux-security-module@vger.kernel.org,
+        linux-kselftest@vger.kernel.org,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        John Hubbard <jhubbard@nvidia.com>,
+        Peter Xu <peterx@redhat.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Hugh Dickins <hughd@google.com>, Nadav Amit <namit@vmware.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Matthew Wilcox <willy@infradead.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Muchun Song <songmuchun@bytedance.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Lucas Stach <l.stach@pengutronix.de>,
+        David Airlie <airlied@gmail.com>,
+        Oded Gabbay <ogabbay@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Christoph Hellwig <hch@infradead.org>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+References: <20221116102659.70287-1-david@redhat.com>
+ <20221116102659.70287-17-david@redhat.com>
+ <81fb0fa3-2e06-b765-56ac-a7d981194e59@redhat.com>
+ <08b65ac6-6786-1080-18f8-d2be109c85fc@xs4all.nl>
+ <9d0bf98a-3d6a-1082-e992-1338e1525935@redhat.com>
+ <20221128145927.df895bf1966cfa125cae9668@linux-foundation.org>
+From:   David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+In-Reply-To: <20221128145927.df895bf1966cfa125cae9668@linux-foundation.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-./drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c:409:2-3: Unneeded semicolon
-./drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c:407:2-3: Unneeded semicolon
+On 28.11.22 23:59, Andrew Morton wrote:
+> On Mon, 28 Nov 2022 09:18:47 +0100 David Hildenbrand <david@redhat.com> wrote:
+> 
+>>> Less chances of things going wrong that way.
+>>>
+>>> Just mention in the v2 cover letter that the first patch was added to
+>>> make it easy to backport that fix without being hampered by merge
+>>> conflicts if it was added after your frame_vector.c patch.
+>>
+>> Yes, that's the way I would naturally do, it, however, Andrew prefers
+>> delta updates for minor changes.
+>>
+>> @Andrew, whatever you prefer!
+> 
+> I'm inclined to let things sit as they are.  Cross-tree conflicts
+> happen, and Linus handles them.  I'll flag this (very simple) conflict
+> in the pull request, if MM merges second.  If v4l merges second then
+> hopefully they will do the same.  But this one is so simple that Linus
+> hardly needs our help.
+> 
+> But Linus won't be editing changelogs so that the changelog makes more
+> sense after both trees are joined.  I'm inclined to let the changelog
+> sit as it is as well.
 
-Link: https://bugzilla.openanolis.cn/show_bug.cgi?id=3273
-Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
----
+Works for me. Thanks Andrew!
 
-change in v2:
---According to Hans's suggestion, use a proper subject line prefix: "media: rzg2l-cru:".
-
- drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c  | 2 +-
- drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c
-index aa752b80574c..5b80feaad927 100644
---- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c
-+++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c
-@@ -406,7 +406,7 @@ static void rzg2l_csi2_mipi_link_disable(struct rzg2l_csi2 *csi2)
- 		if (!(rzg2l_csi2_read(csi2, CSI2nRTST) & CSI2nRTST_VSRSTS))
- 			break;
- 		usleep_range(100, 200);
--	};
-+	}
- 
- 	if (!timeout)
- 		dev_err(csi2->dev, "Clearing CSI2nRTST.VSRSTS timed out\n");
-diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-index 9533e4069ecd..cec4d20963a8 100644
---- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-+++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-@@ -404,7 +404,7 @@ void rzg2l_cru_stop_image_processing(struct rzg2l_cru_dev *cru)
- 			break;
- 
- 		usleep_range(10, 20);
--	};
-+	}
- 
- 	/* Notify that AXI bus can not stop here */
- 	if (!retries)
 -- 
-2.20.1.7.g153144c
+Thanks,
+
+David / dhildenb
 
