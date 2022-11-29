@@ -2,211 +2,166 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6C82863B62C
-	for <lists+linux-media@lfdr.de>; Tue, 29 Nov 2022 00:54:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E124B63B639
+	for <lists+linux-media@lfdr.de>; Tue, 29 Nov 2022 01:03:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234805AbiK1XyF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 28 Nov 2022 18:54:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35214 "EHLO
+        id S234846AbiK2ADX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 28 Nov 2022 19:03:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39066 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234822AbiK1XyE (ORCPT
+        with ESMTP id S234279AbiK2ADW (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 28 Nov 2022 18:54:04 -0500
-Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2104.outbound.protection.outlook.com [40.107.113.104])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E76A14D33;
-        Mon, 28 Nov 2022 15:54:02 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=W/ncrzW0/FD4U+BxnJSg3mAYqKLP7+rj/qhEqgBc0dC1SLQgCNea4TvlV6OkytO12yJsYURJuvVdLeV8n2FYwZ035unn2/RsGk1ChjkhZq3j/xmoy8f4w3KWVDlf31xj6EPmxybVWr94e/2s+sy6UBnOphXUbet2YLAq8Bx7brz+thn+WBBdmlWV57WjIacvmN2fhfsNG0mpEG2ZDNu9229FWd/l27ukwWzHUmILW9k4bd9bCgrC8kzMMDatkBn+J9Jcp7mbzLqMWya1zJGF1Xdddsl5/Rf6JqBaL76psPrKKA9kzZZ3hEHYrzg45Abwd32v3EE345G8GRjaqOg98A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=HX+0PmQp36/2l4TZL9L23ZFjRL0nVzvu99j9OEO0hDc=;
- b=jvOK/m4dO6NNCae8kgiIhnz1/bnLW+3Pb0CDd9/qhiHOGcm6BrTn7MfjNmZBKJPoHCuHL8rwnUW9VixLVY/3Q37Blb71d0uQ+ncrDp/lUMblukRsYtL7OVjvFtsDbFmmaPLXjpNXnd5ITTZR2OSX6hUI0nzFc8WzOicqgy/QOEsNVfRCQ8C4MF/DIyqWrDRoXRHKPY9+sYMmcKmMTU4CM5n6Bz/XBO3m58TW0JMLtCHTYpdupQNK0URI1ryd8R2t8+VLo9dMZL9ory8GxZqHkeMfh+Sx8tpNxKc2/Q25krWyi3v3n12p+AqCfWsCPZT7UDlKJDo8TVyMRpIX0Pbc6Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=HX+0PmQp36/2l4TZL9L23ZFjRL0nVzvu99j9OEO0hDc=;
- b=mPHYjGv2RjQExjGGsjBeizhRVxWc+akJ9yc5CcHyTpzvIz0wU6ktyOJT5JTaaMrcrBUpArstjc4/LfCvn6rW2rsCdrOTCcUFpljxYt+HQmEyoBvg+N4ilBmIWv0o1UBais4iW4HveLJDUi2UacfOLDfwJiLKwk9UYhuEYAkOFPo=
-Received: from OSZPR01MB7019.jpnprd01.prod.outlook.com (2603:1096:604:13c::8)
- by OS0PR01MB5492.jpnprd01.prod.outlook.com (2603:1096:604:a5::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5857.23; Mon, 28 Nov
- 2022 23:53:59 +0000
-Received: from OSZPR01MB7019.jpnprd01.prod.outlook.com
- ([fe80::2b87:97f9:d59f:8839]) by OSZPR01MB7019.jpnprd01.prod.outlook.com
- ([fe80::2b87:97f9:d59f:8839%5]) with mapi id 15.20.5857.023; Mon, 28 Nov 2022
- 23:53:58 +0000
-From:   Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To:     Nathan Chancellor <nathan@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>
-CC:     Nick Desaulniers <ndesaulniers@google.com>,
-        Tom Rix <trix@redhat.com>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "llvm@lists.linux.dev" <llvm@lists.linux.dev>,
-        "patches@lists.linux.dev" <patches@lists.linux.dev>
-Subject: RE: [PATCH] media: rzg2l-cru: Remove unnecessary shadowing of ret in
- rzg2l_csi2_s_stream()
-Thread-Topic: [PATCH] media: rzg2l-cru: Remove unnecessary shadowing of ret in
- rzg2l_csi2_s_stream()
-Thread-Index: AQHZAvD+TzEN+26BO0Oadq85NNUNv65VAWvg
-Date:   Mon, 28 Nov 2022 23:53:58 +0000
-Message-ID: <OSZPR01MB7019DDDF3BE79CABBD8A582FAA139@OSZPR01MB7019.jpnprd01.prod.outlook.com>
-References: <20221128061622.1470489-1-nathan@kernel.org>
-In-Reply-To: <20221128061622.1470489-1-nathan@kernel.org>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: OSZPR01MB7019:EE_|OS0PR01MB5492:EE_
-x-ms-office365-filtering-correlation-id: 3b49d1fa-717e-47aa-2426-08dad19bd154
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: GbXXGkLade4vPuCny5nsPTThob5QYWDXmews5hcaeKwoDc3fG4xQR7iH2nJSdfL9a7CzhSZ1yQQgv9CpKugUKllQLFJe9bBQB2K8bE0ScHWzRnU5glhuI2naQdtuJ9LJaFBSMP9qrWBGF80fmVIMTdUgbnz6bipHf38quSsODI2cv0GNCPV81OVw99rxDudK/J5bK72Qgb6nRTDDAFIRT7DXx6rsGwPT+I79mGcuUc61HufucwCNW4Vqs5Ogrz7SHfQBeylFg9gPJiR+Ho+fJ9sUEz39MMPF+49STbjHGBKHFOQQpDzWlDkXH49TD+G+2DDbZLSSP7G/3dEEwaJVsGpLAmV6Us1oYzGKi4hNJnvGXmZwnsfblHFeJ1x859aycIcJpo7KzUJa8ohcGdnIt0EP6pkcWst+4UyMhkvC02ks/uR48z1LriUlv3uvY5TG3frP71lteRMTHZTox3O0K3wQOQgmC6qexQz2XvYEqdvAEiHXrgIr8qP34Req26EDwe2sovl4ZfH41wzLB/RdaW8ll34P3eAmKFuZes2yVoT1UM0BMPqDk7XcDFJLdrCGyJfFC/bIMndHeQt/BAuxYu+mfxPaM65qggjyjWFLL8CuixYopfDXEuzz/wGiIV2UX0qXl9TikpRahEIj/cA2xCfAVBS6gi0ZDson7RIjhAyG2jPhMYqr9FmnF7HKvpnayJVwuVYqZEv6ILJleM2f5WIdqeCcHCG8XOQ4jckTYa0=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OSZPR01MB7019.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(136003)(39860400002)(366004)(376002)(346002)(396003)(451199015)(55016003)(38070700005)(2906002)(33656002)(86362001)(7696005)(71200400001)(966005)(478600001)(53546011)(6506007)(316002)(76116006)(66446008)(52536014)(66946007)(41300700001)(66476007)(45080400002)(5660300002)(4326008)(8676002)(54906003)(64756008)(66556008)(26005)(110136005)(8936002)(122000001)(9686003)(38100700002)(83380400001)(186003);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?zeFVKnLvzob2kPGIjNbzjFmRo5+z8n9NDzVRdv0sYpsDuZN8zrwtiO5cGcTm?=
- =?us-ascii?Q?DLhVkoJmtIzcDBC3QIlAbpaKzyv+4l8jm8hL5Aa7LadeFFRUe+ECpJPo284o?=
- =?us-ascii?Q?mwpNdOdENhUU/F57QM1JUWOvQKy/WWMNjVQDrcUAwxwY1vdlOD1npEtx1IOx?=
- =?us-ascii?Q?M6DHJEYXVW7QpJ0nsdsLkSlk4pKv7pMpAPTFLYGzBEZtUe5SBc1m8hcrMvFA?=
- =?us-ascii?Q?EDzRhIaiC6+PdArALbc8ARTAQKrEHUJYAcScG1UR0My+1nQhCa2IecQVJDT5?=
- =?us-ascii?Q?dh6eddqHu4dw0+2kSRZukPqmybG3tVGqGFG3tmTsiZQqIITo+cCltkzkJwv7?=
- =?us-ascii?Q?EPd15sNfQggq4WGzOnJZ/HhuwPnAHD5rQ0Z9qtLSmqVikh5V/dFtE+c+ChS0?=
- =?us-ascii?Q?goZm3Oi0PjCFMM0EIethGcS9pyf8+/s0JJMhik6AgpqQ4kzYiDimNxgB9TGj?=
- =?us-ascii?Q?Wat3o5wTOZo09Nhv1pp+adsJG1DVywj8xLZvL5CxjR2eUOSS6uNRElJRbcwv?=
- =?us-ascii?Q?h5By62LuMmQFKlseMaMfqfGh7InrQScr7ZZi74iutEQ7Csj8TPAOaR0yHcLz?=
- =?us-ascii?Q?qxDc/5zw2Jc0X4kWBpdMDLoe9iEEXUsV8QGWkRLoDtlVfh4PXFQ5LE5V5/16?=
- =?us-ascii?Q?E2jt6Pdr2q7M8TkEiG4RfW1ItuaXn5w9Wl09kziH65VUtBoFEuamou+kZ0jk?=
- =?us-ascii?Q?mzVEBG6eJOYZ2vGVqdGpcqYZ0fLpC8LQU4V88X6ht5GuNR8HqjA0XSn9qm72?=
- =?us-ascii?Q?ktShrnEKEoZcdgj8J92Z5vJIhiqT0COeFLdOLnSTuqzqwlgsJOeG9ZTIadly?=
- =?us-ascii?Q?VYml0ZIkO93ONqvVHLa2VXGADQjy8EULSeXJvo39y2nR6b/PAJc1W5pvsTDh?=
- =?us-ascii?Q?wT4rskUiCrTudvuIl+hw+AeYlv6qtuk8/1+V5CYZfBs1o3RT7XJYax0bCwkX?=
- =?us-ascii?Q?yxodWW3OuB2uJEMnpzhxZjueKsfUwmG66Q5Op9pG3jIw+dEbU5Y3FyQphb49?=
- =?us-ascii?Q?HYJJa7EpjLVUzRRppGMXCp4E/cDNlX3xnITVVId40L1xq2H2K2beeEMW/cMF?=
- =?us-ascii?Q?iAfE9Tcq6UudVSPqGk64Q84dagSicnzDz23JfFFIavsPDXLPpCBMvCqYEoYP?=
- =?us-ascii?Q?WliPk5XeCP7CKXwC/q2/MnOUCpI8Et3fVrF/G+/caLhrOveIqPl5RsD0EIH9?=
- =?us-ascii?Q?RL/pz7SOPtinOV1vq1OzRIT4JKBMb02ZEBpv0dCgiydE4ygu9dr4LbfDH1nU?=
- =?us-ascii?Q?zKE7H88C//zHcPc7sI2Qq30H8irnORKJ0iymhG3i9wz7uEiPq5rXa1exOe2G?=
- =?us-ascii?Q?T8z02R8uvpvN8tHLmQJapfAXsSZUs27RczVqDwQj0VEHAMTRShBmgMqKyQI2?=
- =?us-ascii?Q?lH5nypmQSbiyBPyS3d31QizzbVMw7naGZZWShJRZ/dpPzqAw4kXeKe9i8hQm?=
- =?us-ascii?Q?VxTIhsHuhv4rHNuXZpmTTYo/DVVba38K6k8wi/C5DS+JPB7eKWhYUAGIb0pW?=
- =?us-ascii?Q?LtG0WmwcDmqwap9AlhWjT56e3gtp0a8KXUarJawt52Kf9uWJPgI9f3SCcHho?=
- =?us-ascii?Q?9EYthjrNzKx0J/PXQmEoCIsnq3znHgcAoMrTpsxGXhvDnf6JWR4aoWNsh8VQ?=
- =?us-ascii?Q?d8V37M1GbjcN9ZbnYNpwMG4=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        Mon, 28 Nov 2022 19:03:22 -0500
+Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com [IPv6:2a00:1450:4864:20::631])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B1FF186D1;
+        Mon, 28 Nov 2022 16:03:20 -0800 (PST)
+Received: by mail-ej1-x631.google.com with SMTP id ml11so5030777ejb.6;
+        Mon, 28 Nov 2022 16:03:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=TdT+BmdIneu3TI8BLD07hqcjbUZk43YKZ9BLkChxuPo=;
+        b=ITLzLdBFltzXasiY87QzobnsGAjZcX0eJgUsWviLRRgFDR1MRrM4wsOblh9/4+aPB4
+         0JfrE9SZtsCFujA8tq23N3E0AU5kGd/U9kNLDNPzO9Za1iRKHD9TomJ+/ntSxcAv0Y01
+         wSMzvLcdHUXNh8lqpaHHYYoxOcyrv3yD1kVbu3x+HlgbjGHJ+F1+yj3mtX3BsWqnO+63
+         KTIWo3kYnm8ybgI6QnNyMqUkOFHRs82X2UHVwwg/ihCrBmi5bsW6KRSxLc+CigJKDLRR
+         Jsp60TaeQ6fZLG+iPAmuAkRt30YUaa+EjLRWAOZ7g97549Ly0HjnWS7J7uSH5/yZMJ67
+         W8RQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=TdT+BmdIneu3TI8BLD07hqcjbUZk43YKZ9BLkChxuPo=;
+        b=QWy7xPeVhog24jn7VED9vydNy5CdhIZG/J6Azq8vZ44ljo5QJEYd+DyoOgvDtLn75s
+         BVnumjbCorBs6FeJmZy0ekUhqLNWD+t04hyg2NC6JDSxkcs8hU0flRH0ECG8Gi5+gWBR
+         A0OrywqLaIpzZxm69+tiqHUO/PY08sF/Z7BBLEomjHzH6aWhvCGOZAPmZpRft9ecKfoz
+         qoEicKMlhoF4UyGUIOr5SPOIdlJ6gHuriFvuYdEzp7qox1DM2hiGko/WSgZWZWQbXze8
+         EacPPvPBH39fyLqWI707tkxoju8xLMmExlzZtpx7d8yOKX6cy2nAJJ1U5oAX/eyi7A7j
+         o3Rg==
+X-Gm-Message-State: ANoB5pngbqfWxhNEH4XMeiQbqQ9VixjI4Hrmn9TMiDD160q/AuxIk9+H
+        gDjDqJymO/cvZpryiIJbed4nCkGew/7bJps1VPg=
+X-Google-Smtp-Source: AA0mqf6fZM8tA810LE12Y15mX6MIkaG2UqDn3lS7Cb+AUhc5yb+m4XendEUXBVGYmQ36nUCanxQnZ2pOmiYUlk7SLu8=
+X-Received: by 2002:a17:906:79c4:b0:778:e3e2:8311 with SMTP id
+ m4-20020a17090679c400b00778e3e28311mr31820692ejo.342.1669680198945; Mon, 28
+ Nov 2022 16:03:18 -0800 (PST)
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: OSZPR01MB7019.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3b49d1fa-717e-47aa-2426-08dad19bd154
-X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Nov 2022 23:53:58.8122
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: wZyKMXg3yVibY+jfWSPqJXgxRQ3koM8lv0f68p+f+Wq8UtARqwktfJnnCi28+xhCQtaR5k/0ffTXLkrf9n4vHSwbOFgFIZwWN4h/NgW+HnK/YXY2jB3Fg2+FkY6xAXy9
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS0PR01MB5492
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+References: <20221031232202.131945-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20221031232202.131945-7-prabhakar.mahadev-lad.rj@bp.renesas.com> <738a2461-7a6a-286b-89e8-d46a26ec6506@xs4all.nl>
+In-Reply-To: <738a2461-7a6a-286b-89e8-d46a26ec6506@xs4all.nl>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Tue, 29 Nov 2022 00:02:52 +0000
+Message-ID: <CA+V-a8tr9486HV4zvVG3bh4fWNQ-edUDPMZAUM-kKDN-PvRU+w@mail.gmail.com>
+Subject: Re: [PATCH v4 6/9] media: i2c: ov5645: Use runtime PM
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Shawn Tu <shawnx.tu@intel.com>,
+        Jacopo Mondi <jacopo@jmondi.org>, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Nathan,
+Hi Hans,
 
-Thank you for the patch.
-
-> -----Original Message-----
-> From: Nathan Chancellor <nathan@kernel.org>
-> Sent: 28 November 2022 06:16
-> To: Mauro Carvalho Chehab <mchehab@kernel.org>; Sakari Ailus <sakari.ailu=
-s@linux.intel.com>; Prabhakar
-> Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> Cc: Nick Desaulniers <ndesaulniers@google.com>; Tom Rix <trix@redhat.com>=
-; linux-
-> media@vger.kernel.org; linux-kernel@vger.kernel.org; llvm@lists.linux.dev=
-; patches@lists.linux.dev;
-> Nathan Chancellor <nathan@kernel.org>
-> Subject: [PATCH] media: rzg2l-cru: Remove unnecessary shadowing of ret in=
- rzg2l_csi2_s_stream()
->=20
-> Clang warns:
->=20
->   drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c:445:7: error: var=
-iable 'ret' is used
-> uninitialized whenever 'if' condition is true [-Werror,-Wsometimes-uninit=
-ialized]
->                   if (ret)
->                       ^~~
->   drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c:475:9: note: unin=
-itialized use occurs here
->           return ret;
->                 ^~~
->   drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c:445:3: note: remo=
-ve the 'if' if its condition
-> is always false
->                   if (ret)
->                   ^~~~~~~~
->   drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c:441:7: error: var=
-iable 'ret' is used
-> uninitialized whenever 'if' condition is true [-Werror,-Wsometimes-uninit=
-ialized]
->                   if (ret)
->                       ^~~
->   drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c:475:9: note: unin=
-itialized use occurs here
->           return ret;
->                 ^~~
->   drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c:441:3: note: remo=
-ve the 'if' if its condition
-> is always false
->                   if (ret)
->                   ^~~~~~~~
->   drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c:431:9: note: init=
-ialize the variable 'ret' to
-> silence this warning
->           int ret;
->                 ^
->                   =3D 0
->   2 errors generated.
->=20
-> ret is unnecessarily shadowed, meaning the assignments to ret within the =
-first 'if (enable)' block are
-> only applied to the inner scope, not the outer one as intended. Remove th=
-e shadowing to fix the
-> warnings and make everything work correctly.
->=20
-> Fixes: 51e8415e39a9 ("media: platform: Add Renesas RZ/G2L MIPI CSI-2 rece=
-iver driver")
-> Link:
-> https://jpn01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fgithu=
-b.com%2FClangBuiltLinux%2Flinux
-> %2Fissues%2F1764&amp;data=3D05%7C01%7Cprabhakar.mahadev-
-> lad.rj%40bp.renesas.com%7C76d2a49f939a46e8d15208dad1081ed7%7C53d82571da19=
-47e49cb4625a166a4a2a%7C0%7C0%
-> 7C638052130064697087%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoi=
-V2luMzIiLCJBTiI6Ik1haWwiLCJXV
-> CI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=3Dfp%2F1JCtgKY8E6qVMRlLewVLYc9WDZ%2By=
-Ntg6t%2BGqIUvk%3D&amp;reserved=3D
-> 0
-> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
-> ---
->  drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c | 2 --
->  1 file changed, 2 deletions(-)
->=20
-Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+On Mon, Nov 28, 2022 at 1:49 PM Hans Verkuil <hverkuil@xs4all.nl> wrote:
+>
+> Hi Prabhakar,
+>
+> On 11/1/22 00:21, Prabhakar wrote:
+> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> >
+<snip>
+> > -static void ov5645_set_power_off(struct ov5645 *ov5645)
+> > -{
+> > -     gpiod_set_value_cansleep(ov5645->rst_gpio, 1);
+> > -     gpiod_set_value_cansleep(ov5645->enable_gpio, 0);
+> > -     clk_disable_unprepare(ov5645->xclk);
+> > -     regulator_bulk_disable(OV5645_NUM_SUPPLIES, ov5645->supplies);
+> > -}
+> > -
+> > -static int ov5645_s_power(struct v4l2_subdev *sd, int on)
+> > -{
+> > -     struct ov5645 *ov5645 = to_ov5645(sd);
+> > -     int ret = 0;
+> > -
+> > -     mutex_lock(&ov5645->power_lock);
+> > -
+> > -     /* If the power count is modified from 0 to != 0 or from != 0 to 0,
+> > -      * update the power state.
+> > -      */
+> > -     if (ov5645->power_count == !on) {
+> > -             if (on) {
+> > -                     ret = ov5645_set_power_on(ov5645);
+> > -                     if (ret < 0)
+> > -                             goto exit;
+> > -
+> > -                     ret = ov5645_set_register_array(ov5645,
+> > -                                     ov5645_global_init_setting,
+> > +     ret = ov5645_set_register_array(ov5645, ov5645_global_init_setting,
+> >                                       ARRAY_SIZE(ov5645_global_init_setting));
+> > -                     if (ret < 0) {
+> > -                             dev_err(ov5645->dev,
+> > -                                     "could not set init registers\n");
+> > -                             ov5645_set_power_off(ov5645);
+> > -                             goto exit;
+> > -                     }
+> > -
+> > -                     usleep_range(500, 1000);
+> > -             } else {
+> > -                     ov5645_write_reg(ov5645, OV5645_IO_MIPI_CTRL00, 0x58);
+> > -                     ov5645_set_power_off(ov5645);
+> > -             }
+> > +     if (ret < 0) {
+> > +             dev_err(ov5645->dev, "could not set init registers\n");
+> > +             goto exit;
+> >       }
+> >
+> > -     /* Update the power count. */
+> > -     ov5645->power_count += on ? 1 : -1;
+> > -     WARN_ON(ov5645->power_count < 0);
+> > +     usleep_range(500, 1000);
+> >
+> > -exit:
+> > -     mutex_unlock(&ov5645->power_lock);
+> > +     return 0;
+> >
+> > +exit:
+> > +     ov5645_set_power_off(dev);
+> >       return ret;
+>
+> smatch gives this warning:
+>
+> drivers/media/i2c/ov5645.c:687 ov5645_set_power_on() warn: 'ov5645->xclk' from clk_prepare_enable() not released on lines: 687.
+>
+it's a false positive, as in case of error we jump to the exit label
+which calls ov5645_set_power_off() which internally calls
+clk_disable_unprepare() for xclk and on success we need to have xclk
+ON during s_stream(ON) and eventually the
+xclk will be unprepared in s_stream(OFF).
 
 Cheers,
 Prabhakar
