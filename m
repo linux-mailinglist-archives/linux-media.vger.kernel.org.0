@@ -2,42 +2,42 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0CF8163CB99
-	for <lists+linux-media@lfdr.de>; Wed, 30 Nov 2022 00:13:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 711AB63CB9B
+	for <lists+linux-media@lfdr.de>; Wed, 30 Nov 2022 00:13:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236177AbiK2XND (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 29 Nov 2022 18:13:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49326 "EHLO
+        id S236589AbiK2XNF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 29 Nov 2022 18:13:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49342 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233312AbiK2XNC (ORCPT
+        with ESMTP id S236354AbiK2XNC (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Tue, 29 Nov 2022 18:13:02 -0500
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88DFF6DFEF
-        for <linux-media@vger.kernel.org>; Tue, 29 Nov 2022 15:12:05 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D2006DFEE
+        for <linux-media@vger.kernel.org>; Tue, 29 Nov 2022 15:12:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1669763524;
+        s=mimecast20190719; t=1669763527;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=C939oRAvxHAy3INMCz18zu/7PTNLXzdIbHg2+/St1x8=;
-        b=Uxe30H53msRTelMrt1yB+LFQxNrPAyKddFsDzt7rM+okZSkT4iUnLW/QL47miONPtWzPVj
-        1/yylsQaSPpz0Rirl8GPUZT3O1jDbjRZXcmWI5XObizXi334VXGlFqRTT9qXhKfH8hPcB0
-        G3NqciYIW0Cp6Pt5VK4Lh3mj8uOZt9A=
+        bh=9EObKcorRf56C2xDqW0BWAYkgDqfOgIpznI8lOd3rok=;
+        b=AHFNpU5q6S7bR5zjWWBGs0bYyOQ3zxC3LG+RWcsLDw+8tN/Ljfu2UBfYF36cW/yCNj5Q34
+        0yM4qp8P0pDkg3ttwI/fGJD3N90w8HLS5u2CO0bK0HVykKtO83B8B7V82EmOlOAl50hS/G
+        7M40jlJt/qm+ux0YKwN6TYHsR1G2CkA=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-628-MbhRlaBqPXG4PTqqP6HY9A-1; Tue, 29 Nov 2022 18:12:01 -0500
-X-MC-Unique: MbhRlaBqPXG4PTqqP6HY9A-1
+ us-mta-120-U4yl-hdhO_GE5C-vtun-ew-1; Tue, 29 Nov 2022 18:12:02 -0500
+X-MC-Unique: U4yl-hdhO_GE5C-vtun-ew-1
 Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DF3D3101A528;
-        Tue, 29 Nov 2022 23:11:59 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 73B0886F12E;
+        Tue, 29 Nov 2022 23:12:01 +0000 (UTC)
 Received: from localhost.localdomain (unknown [10.39.192.14])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 8A5654A9254;
-        Tue, 29 Nov 2022 23:11:58 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 1F3F34A9254;
+        Tue, 29 Nov 2022 23:12:00 +0000 (UTC)
 From:   Hans de Goede <hdegoede@redhat.com>
 To:     Mark Gross <markgross@kernel.org>,
         Andy Shevchenko <andy@kernel.org>,
@@ -49,9 +49,9 @@ Cc:     Hans de Goede <hdegoede@redhat.com>,
         Kate Hsuan <hpa@redhat.com>,
         Mark Pearson <markpearson@lenovo.com>,
         linux-media@vger.kernel.org
-Subject: [PATCH 1/6] media: ov5693: Add support for a privacy-led GPIO
-Date:   Wed, 30 Nov 2022 00:11:44 +0100
-Message-Id: <20221129231149.697154-2-hdegoede@redhat.com>
+Subject: [PATCH 2/6] platform/x86: int3472/discrete: Refactor GPIO to sensor mapping
+Date:   Wed, 30 Nov 2022 00:11:45 +0100
+Message-Id: <20221129231149.697154-3-hdegoede@redhat.com>
 In-Reply-To: <20221129231149.697154-1-hdegoede@redhat.com>
 References: <20221129231149.697154-1-hdegoede@redhat.com>
 MIME-Version: 1.0
@@ -59,7 +59,7 @@ Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=ham
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -67,66 +67,96 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add support for a privacy-led GPIO.
+Add a helper function to map the type returned by the _DSM
+method to a function name + the default polarity for that function.
 
-Making the privacy LED to controlable from userspace, as using the LED
-class subsystem would do, would make it too easy for spy-ware to disable
-the LED.
+And fold the INT3472_GPIO_TYPE_RESET and INT3472_GPIO_TYPE_POWERDOWN
+cases into a single generic case.
 
-To avoid this have the sensor driver directly control the LED.
+This is a preparation patch for further GPIO mapping changes.
 
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
-Note an additional advantage of directly controlling the GPIO is that
-GPIOs are tied directly to consumer devices. Where as with a LED class
-device, there would need to be some mechanism to tie the right LED
-(e.g front or back) to the right sensor.
+Changes in v2:
+- Make the helper function doing the type -> function mapping,
+  also return a default polarity for the function.
 ---
- drivers/media/i2c/ov5693.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ drivers/platform/x86/intel/int3472/discrete.c | 44 +++++++++++++++----
+ 1 file changed, 35 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/media/i2c/ov5693.c b/drivers/media/i2c/ov5693.c
-index a97ec132ba3a..e3c3bed69ad6 100644
---- a/drivers/media/i2c/ov5693.c
-+++ b/drivers/media/i2c/ov5693.c
-@@ -156,6 +156,7 @@ struct ov5693_device {
- 
- 	struct gpio_desc *reset;
- 	struct gpio_desc *powerdown;
-+	struct gpio_desc *privacy_led;
- 	struct regulator_bulk_data supplies[OV5693_NUM_SUPPLIES];
- 	struct clk *xvclk;
- 
-@@ -789,6 +790,7 @@ static int ov5693_sensor_init(struct ov5693_device *ov5693)
- 
- static void ov5693_sensor_powerdown(struct ov5693_device *ov5693)
- {
-+	gpiod_set_value_cansleep(ov5693->privacy_led, 0);
- 	gpiod_set_value_cansleep(ov5693->reset, 1);
- 	gpiod_set_value_cansleep(ov5693->powerdown, 1);
- 
-@@ -818,6 +820,7 @@ static int ov5693_sensor_powerup(struct ov5693_device *ov5693)
- 
- 	gpiod_set_value_cansleep(ov5693->powerdown, 0);
- 	gpiod_set_value_cansleep(ov5693->reset, 0);
-+	gpiod_set_value_cansleep(ov5693->privacy_led, 1);
- 
- 	usleep_range(5000, 7500);
- 
-@@ -1325,6 +1328,13 @@ static int ov5693_configure_gpios(struct ov5693_device *ov5693)
- 		return PTR_ERR(ov5693->powerdown);
- 	}
- 
-+	ov5693->privacy_led = devm_gpiod_get_optional(ov5693->dev, "privacy-led",
-+						      GPIOD_OUT_LOW);
-+	if (IS_ERR(ov5693->privacy_led)) {
-+		dev_err(ov5693->dev, "Error fetching privacy-led GPIO\n");
-+		return PTR_ERR(ov5693->privacy_led);
-+	}
-+
+diff --git a/drivers/platform/x86/intel/int3472/discrete.c b/drivers/platform/x86/intel/int3472/discrete.c
+index 974a132db651..1eb053d13353 100644
+--- a/drivers/platform/x86/intel/int3472/discrete.c
++++ b/drivers/platform/x86/intel/int3472/discrete.c
+@@ -184,6 +184,35 @@ static int skl_int3472_map_gpio_to_clk(struct int3472_discrete_device *int3472,
  	return 0;
  }
  
++static void int3472_get_func_and_polarity(u8 type, const char **func, u32 *polarity)
++{
++	switch (type) {
++	case INT3472_GPIO_TYPE_RESET:
++		*func = "reset";
++		*polarity = GPIO_ACTIVE_LOW;
++		break;
++	case INT3472_GPIO_TYPE_POWERDOWN:
++		*func = "powerdown";
++		*polarity = GPIO_ACTIVE_LOW;
++		break;
++	case INT3472_GPIO_TYPE_CLK_ENABLE:
++		*func = "clk-enable";
++		*polarity = GPIO_ACTIVE_HIGH;
++		break;
++	case INT3472_GPIO_TYPE_PRIVACY_LED:
++		*func = "privacy-led";
++		*polarity = GPIO_ACTIVE_HIGH;
++		break;
++	case INT3472_GPIO_TYPE_POWER_ENABLE:
++		*func = "power-enable";
++		*polarity = GPIO_ACTIVE_HIGH;
++		break;
++	default:
++		*func = "unknown";
++		*polarity = GPIO_ACTIVE_HIGH;
++	}
++}
++
+ /**
+  * skl_int3472_handle_gpio_resources: Map PMIC resources to consuming sensor
+  * @ares: A pointer to a &struct acpi_resource
+@@ -223,6 +252,8 @@ static int skl_int3472_handle_gpio_resources(struct acpi_resource *ares,
+ 	struct acpi_resource_gpio *agpio;
+ 	union acpi_object *obj;
+ 	const char *err_msg;
++	const char *func;
++	u32 polarity;
+ 	int ret;
+ 	u8 type;
+ 
+@@ -246,19 +277,14 @@ static int skl_int3472_handle_gpio_resources(struct acpi_resource *ares,
+ 
+ 	type = obj->integer.value & 0xff;
+ 
++	int3472_get_func_and_polarity(type, &func, &polarity);
++
+ 	switch (type) {
+ 	case INT3472_GPIO_TYPE_RESET:
+-		ret = skl_int3472_map_gpio_to_sensor(int3472, agpio, "reset",
+-						     GPIO_ACTIVE_LOW);
+-		if (ret)
+-			err_msg = "Failed to map reset pin to sensor\n";
+-
+-		break;
+ 	case INT3472_GPIO_TYPE_POWERDOWN:
+-		ret = skl_int3472_map_gpio_to_sensor(int3472, agpio, "powerdown",
+-						     GPIO_ACTIVE_LOW);
++		ret = skl_int3472_map_gpio_to_sensor(int3472, agpio, func, polarity);
+ 		if (ret)
+-			err_msg = "Failed to map powerdown pin to sensor\n";
++			err_msg = "Failed to map GPIO pin to sensor\n";
+ 
+ 		break;
+ 	case INT3472_GPIO_TYPE_CLK_ENABLE:
 -- 
 2.38.1
 
