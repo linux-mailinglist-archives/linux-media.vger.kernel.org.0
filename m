@@ -2,116 +2,289 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A057D63D6A7
-	for <lists+linux-media@lfdr.de>; Wed, 30 Nov 2022 14:27:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B949C63D6AF
+	for <lists+linux-media@lfdr.de>; Wed, 30 Nov 2022 14:29:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235421AbiK3N1Y (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 30 Nov 2022 08:27:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33894 "EHLO
+        id S234763AbiK3N3E (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 30 Nov 2022 08:29:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35502 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229472AbiK3N1X (ORCPT
+        with ESMTP id S230274AbiK3N3D (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 30 Nov 2022 08:27:23 -0500
-Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com [IPv6:2a00:1450:4864:20::62a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 778E752892
-        for <linux-media@vger.kernel.org>; Wed, 30 Nov 2022 05:27:22 -0800 (PST)
-Received: by mail-ej1-x62a.google.com with SMTP id td2so27201472ejc.5
-        for <linux-media@vger.kernel.org>; Wed, 30 Nov 2022 05:27:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:subject:from:to:content-language
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Y8Xn6LJgqOaqUOJvllVtK/7z29XiCe20Dq6u22yxPjQ=;
-        b=nIlLNsFVVrChv7MrUKC9WwWw77ybqE2eGNqbYLthladtysQ30QWvG7BIWTBEz0Mjht
-         ogzHaSaNuClU2Ibn2xL5swhlcQP4rWDKdkI/zIXmiCD0CNzt6zqfEEQ6i4stVlzJhZKN
-         XmTXc6f8EeRPiMtIat7I6Lv4FSC70LguP+tf5yLVRO/Slkb9eyx1BcY+mzid/tsTyqZa
-         h1I/D/b6yN+gNm2KT6tzRWV7Z+0c1W/BiVyqxtDKsFXfLJ1z+bJYqinqwOyv4WZe1pfr
-         wcNborP3h88szIpG3a5WooCIl+2iWTBIShv6uq4S9/+Rxls8sNtFuMRcS3GpsXM9w5NA
-         whfg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:subject:from:to:content-language
-         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=Y8Xn6LJgqOaqUOJvllVtK/7z29XiCe20Dq6u22yxPjQ=;
-        b=XaHB58IJyUBxNprQsll26N8XCs0+oE26XPyQZB4NuW67KROKrkFbsDQDKODZvds4lX
-         UOptQw8Dly0BD4zrTZWpMRj5xyyAM/Gq+lGk4q1XN2UVItWi9Sga0/2Na+mNyLfW6bfL
-         /ptqaNKdFA0hDudATQpbgcInJXTW4pmUf/geWrZ6+b0Wv8aydNv2nOQvpZoNqt6e4voi
-         c4xE+8YoS1NXl2OURBxe7aDPfbdKm6Iq12dEALpHpC7mThftV0OTP3Jbwn+iJeI5ozBQ
-         Grg0nGBJIDQ4/z8Rla8LZQoscysJ/yeStd5yOILcJ85feBnjQ9mJYSWu3Zu1Nsv92uS+
-         APVA==
-X-Gm-Message-State: ANoB5pm0qYgiKreHWiUddgZxzpIo0n++LEJ60fqCJ3q8slwau9djNIZk
-        RhcSuqyHs4MHLSUw5ATey/ptxjKuARA=
-X-Google-Smtp-Source: AA0mqf77sSdn6lOMrC1lwiXKvp2UbVJF9ipgrNQJLD/mm6/QCbqBbHyimOq/PQhs312yNAZ5MlRwrw==
-X-Received: by 2002:a17:907:b689:b0:78c:f5a1:86bf with SMTP id vm9-20020a170907b68900b0078cf5a186bfmr26797557ejc.245.1669814841033;
-        Wed, 30 Nov 2022 05:27:21 -0800 (PST)
-Received: from [192.168.178.36] (p54a626b1.dip0.t-ipconnect.de. [84.166.38.177])
-        by smtp.gmail.com with ESMTPSA id s17-20020a05640217d100b004585eba4baesm618682edy.80.2022.11.30.05.27.20
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 30 Nov 2022 05:27:20 -0800 (PST)
-Message-ID: <d0a24a46-8906-3839-8285-9b356741f684@gmail.com>
-Date:   Wed, 30 Nov 2022 14:27:19 +0100
+        Wed, 30 Nov 2022 08:29:03 -0500
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 738F055A91
+        for <linux-media@vger.kernel.org>; Wed, 30 Nov 2022 05:29:01 -0800 (PST)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <mgr@pengutronix.de>)
+        id 1p0N91-0000Ms-O7; Wed, 30 Nov 2022 14:28:59 +0100
+Received: from [2a0a:edc0:0:1101:1d::ac] (helo=dude04.red.stw.pengutronix.de)
+        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+        (envelope-from <mgr@pengutronix.de>)
+        id 1p0N90-001Jq3-2R; Wed, 30 Nov 2022 14:28:58 +0100
+Received: from mgr by dude04.red.stw.pengutronix.de with local (Exim 4.94.2)
+        (envelope-from <mgr@pengutronix.de>)
+        id 1p0N90-005VxR-5R; Wed, 30 Nov 2022 14:28:58 +0100
+From:   Michael Grzeschik <m.grzeschik@pengutronix.de>
+To:     linux-usb@vger.kernel.org
+Cc:     linux-media@vger.kernel.org, gregkh@linuxfoundation.org,
+        balbi@kernel.org, laurent.pinchart@ideasonboard.com,
+        kernel@pengutronix.de
+Subject: [PATCH v8] usb: gadget: uvc: add validate and fix function for uvc response
+Date:   Wed, 30 Nov 2022 14:28:55 +0100
+Message-Id: <20221130132855.1263114-1-m.grzeschik@pengutronix.de>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Content-Language: de-DE
-To:     linux-media@vger.kernel.org
-From:   "Ben K." <kuchenohnegraeten@gmail.com>
-Subject: not listed but supported device: Creative Live! Cam Sync 1080p V2
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: mgr@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-tested on ubuntu 22.04 with Microsoft-Teams (native app and web app in 
-chromium) and with Cheese:
+When the userspace gets the setup requests for UVC_GET_CUR, UVC_GET_MIN,
+UVC_GET_MAX, UVC_GET_DEF it will fill out the ctrl response. This data
+needs to be validated. Since the kernel also knows the limits we can
+return EINVAL if the userspace does try to send invalid data to the
+host.
 
-$ v4l2-ctl -D
-Driver Info:
-     Driver name      : uvcvideo
-     Card type        : Creative Live! Cam Sync 1080p V
-     Bus info         : usb-0000:0a:00.3-2
-     Driver version   : 5.15.64
-     Capabilities     : 0x84a00001
-         Video Capture
-         Metadata Capture
-         Streaming
-         Extended Pix Format
-         Device Capabilities
-     Device Caps      : 0x04200001
-         Video Capture
-         Streaming
-         Extended Pix Format
-Media Driver Info:
-     Driver name      : uvcvideo
-     Model            : Creative Live! Cam Sync 1080p V
-     Serial           : Creative Live! Cam Sync 1080p V2 Audio
-     Bus info         : usb-0000:0a:00.3-2
-     Media version    : 5.15.64
-     Hardware revision: 0x00000100 (256)
-     Driver version   : 5.15.64
-Interface Info:
-     ID               : 0x03000002
-     Type             : V4L Video
-Entity Info:
-     ID               : 0x00000001 (1)
-     Name             : Creative Live! Cam Sync 1080p V
-     Function         : V4L2 I/O
-     Flags            : default
-     Pad 0x01000007   : 0: Sink
-       Link 0x02000010: from remote pad 0x100000a of entity 'Processing 
-2' (Video Pixel Formatter): Data, Enabled, Immutable
+For UVC_GET_MAX and UVC_GET_MIN we fixup the bFrameIndex and
+bFormatIndex to the correct boundaries. And for all other requests we
+set valid dwFrameInterval, dwMaxPayloadTransferSize and
+dwMaxVideoFrameSize if the userspace did not set any value at all.
 
+Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
 
-Output from lsusb:
-Bus 005 Device 002: ID 041e:40a0 Creative Technology, Ltd Creative Live! 
-Cam Sync 1080p V2
+---
+v1: -> v4:
+- new patch
+v4: -> v5:
+- changed uvcg_info to uvcg_dbg for fixups, updated info strings
+v5: -> v6:
+- no changes
+v6 -> v7:
+- reworked to not need 'd182bf156c4c ("usb: gadget: uvc: default the ctrl request interface offsets")'
+v7 -> v8:
+- splitup validate and fix to separate functions
+- only validate on UVC_GET_CUR
+- return with EINVAL if validate fails
+- fixup on UVC_GET_MIN, UVC_GET_MAX and UVC_GET_DEF
+- rebased again on necessary patch 'd182bf156c4c ("usb: gadget: uvc: default the ctrl request interface offsets")'
+- after validating one streaming request unset the current streaming_request
+
+ drivers/usb/gadget/function/f_uvc.c    |   4 +-
+ drivers/usb/gadget/function/uvc.h      |   1 +
+ drivers/usb/gadget/function/uvc_v4l2.c | 154 +++++++++++++++++++++++++
+ 3 files changed, 158 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/usb/gadget/function/f_uvc.c b/drivers/usb/gadget/function/f_uvc.c
+index 6e131624011a5e..098bd3c4e3c0b3 100644
+--- a/drivers/usb/gadget/function/f_uvc.c
++++ b/drivers/usb/gadget/function/f_uvc.c
+@@ -254,8 +254,10 @@ uvc_function_setup(struct usb_function *f, const struct usb_ctrlrequest *ctrl)
+ 	 */
+ 	mctrl = &uvc_event->req;
+ 	mctrl->wIndex &= ~cpu_to_le16(0xff);
+-	if (interface == uvc->streaming_intf)
++	if (interface == uvc->streaming_intf) {
++		uvc->streaming_request = ctrl->bRequest;
+ 		mctrl->wIndex = cpu_to_le16(UVC_STRING_STREAMING_IDX);
++	}
+ 
+ 	v4l2_event_queue(&uvc->vdev, &v4l2_event);
+ 
+diff --git a/drivers/usb/gadget/function/uvc.h b/drivers/usb/gadget/function/uvc.h
+index 40226b1f7e148a..1be4d5f24b46bf 100644
+--- a/drivers/usb/gadget/function/uvc.h
++++ b/drivers/usb/gadget/function/uvc.h
+@@ -151,6 +151,7 @@ struct uvc_device {
+ 	void *control_buf;
+ 
+ 	unsigned int streaming_intf;
++	unsigned char streaming_request;
+ 
+ 	/* Events */
+ 	unsigned int event_length;
+diff --git a/drivers/usb/gadget/function/uvc_v4l2.c b/drivers/usb/gadget/function/uvc_v4l2.c
+index a189b08bba800d..a5a109e7708f4b 100644
+--- a/drivers/usb/gadget/function/uvc_v4l2.c
++++ b/drivers/usb/gadget/function/uvc_v4l2.c
+@@ -178,6 +178,137 @@ static struct uvcg_frame *find_closest_frame_by_size(struct uvc_device *uvc,
+  * Requests handling
+  */
+ 
++/* validate streaming ctrl request response data for valid parameters */
++static int
++uvc_validate_streaming_ctrl(struct uvc_device *uvc,
++			    struct uvc_streaming_control *ctrl)
++{
++	struct f_uvc_opts *opts = fi_to_f_uvc_opts(uvc->func.fi);
++	unsigned int iformat, iframe;
++	struct uvcg_format *uformat;
++	struct uvcg_frame *uframe;
++	bool ival_found = false;
++	int i;
++
++	iformat = ctrl->bFormatIndex;
++	iframe = ctrl->bFrameIndex;
++
++	iformat = clamp((unsigned int)iformat, 1U,
++			(unsigned int)uvc->header->num_fmt);
++	if (iformat != ctrl->bFormatIndex) {
++		uvcg_dbg(&uvc->func,
++			 "invalid bFormatIndex set: %d\n",
++			 ctrl->bFormatIndex);
++		return -EINVAL;
++	}
++	uformat = find_format_by_index(uvc, iformat);
++
++	iframe = clamp((unsigned int)iframe, 1U,
++		       (unsigned int)uformat->num_frames);
++	if (iframe != ctrl->bFrameIndex) {
++		uvcg_dbg(&uvc->func,
++			 "invalid bFrameIndex set: %d\n",
++			 ctrl->bFrameIndex);
++		return -EINVAL;
++	}
++	uframe = find_frame_by_index(uvc, uformat, iframe);
++
++	if (ctrl->dwFrameInterval) {
++		for (i = 0; i < uframe->frame.b_frame_interval_type; i++) {
++			if (ctrl->dwFrameInterval ==
++				 uframe->dw_frame_interval[i]) {
++				ival_found = true;
++				break;
++			}
++		}
++		if (!ival_found) {
++			uvcg_dbg(&uvc->func,
++				 "invalid dwFrameInterval set: %d\n",
++				 ctrl->dwFrameInterval);
++			return -EINVAL;
++		}
++	}
++
++	if (ctrl->dwMaxPayloadTransferSize >
++				opts->streaming_maxpacket) {
++		uvcg_dbg(&uvc->func,
++			  "invalid dwMaxPayloadTransferSize set: %d\n",
++			  ctrl->dwMaxPayloadTransferSize);
++		return -EINVAL;
++	}
++
++	if (ctrl->dwMaxVideoFrameSize >
++				uframe->frame.dw_max_video_frame_buffer_size) {
++		uvcg_dbg(&uvc->func,
++			  "invalid dwMaxVideoFrameSize set: %d\n",
++			  ctrl->dwMaxVideoFrameSize);
++		return -EINVAL;
++	}
++
++	return 0;
++}
++
++static void
++uvc_fixup_streaming_ctrl(struct uvc_device *uvc,
++			    struct uvc_streaming_control *ctrl)
++{
++	struct f_uvc_opts *opts = fi_to_f_uvc_opts(uvc->func.fi);
++	unsigned int iformat, iframe;
++	struct uvcg_format *uformat;
++	struct uvcg_frame *uframe;
++
++	iformat = ctrl->bFormatIndex;
++	iframe = ctrl->bFrameIndex;
++
++	/* Fixup the bFormatIndex on UVC_GET_{MIN,MAX} events */
++	if (ctrl->bFormatIndex == U8_MAX || !ctrl->bFormatIndex) {
++		iformat = clamp((unsigned int)iformat, 1U,
++				(unsigned int)uvc->header->num_fmt);
++		ctrl->bFormatIndex = iformat;
++		uvcg_dbg(&uvc->func,
++			  "fixup bFormatIndex: %d\n",
++			  ctrl->bFormatIndex);
++	}
++
++	uformat = find_format_by_index(uvc, iformat);
++
++	/* Fixup the bFrameIndex on UVC_GET_{MIN,MAX} events */
++	if (ctrl->bFrameIndex == U8_MAX || !ctrl->bFrameIndex) {
++		iframe = clamp((unsigned int)iframe, 1U,
++			       (unsigned int)uformat->num_frames);
++		ctrl->bFrameIndex = iframe;
++		uvcg_dbg(&uvc->func,
++			  "fixup bFrameIndex: %d\n",
++			  ctrl->bFrameIndex);
++	}
++
++	uframe = find_frame_by_index(uvc, uformat, iframe);
++
++	/* Fixup values where the userspace does not set the paramters
++	 * but does handover the preparing of the values to the kernel.
++	 */
++	if (!ctrl->dwFrameInterval) {
++		ctrl->dwFrameInterval = uframe->frame.dw_default_frame_interval;
++		uvcg_dbg(&uvc->func,
++			  "fixup dwFrameInterval: %d\n",
++			  ctrl->dwFrameInterval);
++	}
++
++	if (!ctrl->dwMaxPayloadTransferSize) {
++		ctrl->dwMaxPayloadTransferSize = opts->streaming_maxpacket;
++		uvcg_dbg(&uvc->func,
++			  "fixup dwMaxPayloadTransferSize: %d\n",
++			  ctrl->dwMaxPayloadTransferSize);
++	}
++
++	if (!ctrl->dwMaxVideoFrameSize) {
++		ctrl->dwMaxVideoFrameSize = uvc_get_frame_size(uformat, uframe);
++		uvcg_dbg(&uvc->func,
++			  "fixup dwMaxVideoFrameSize: %d\n",
++			  ctrl->dwMaxVideoFrameSize);
++	}
++}
++
+ static int
+ uvc_send_response(struct uvc_device *uvc, struct uvc_request_data *data)
+ {
+@@ -192,6 +323,29 @@ uvc_send_response(struct uvc_device *uvc, struct uvc_request_data *data)
+ 
+ 	memcpy(req->buf, data->data, req->length);
+ 
++	/* validate the ctrl content and fixup */
++	if (!uvc->event_setup_out) {
++		struct uvc_streaming_control *ctrl = req->buf;
++		int ret;
++
++		switch (uvc->streaming_request) {
++		case UVC_GET_CUR:
++			ret = uvc_validate_streaming_ctrl(uvc, ctrl);
++			if (ret)
++				return ret;
++			fallthrough;
++		case UVC_GET_MIN:
++		case UVC_GET_MAX:
++		case UVC_GET_DEF:
++			uvc_fixup_streaming_ctrl(uvc, ctrl);
++			break;
++		default:
++			break;
++		}
++
++		uvc->streaming_request = UVC_RC_UNDEFINED;
++	}
++
+ 	return usb_ep_queue(cdev->gadget->ep0, req, GFP_KERNEL);
+ }
+ 
+-- 
+2.30.2
+
