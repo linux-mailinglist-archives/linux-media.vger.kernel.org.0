@@ -2,67 +2,68 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E87CE63D382
-	for <lists+linux-media@lfdr.de>; Wed, 30 Nov 2022 11:36:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 41C1963D386
+	for <lists+linux-media@lfdr.de>; Wed, 30 Nov 2022 11:38:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235256AbiK3KgC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 30 Nov 2022 05:36:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36312 "EHLO
+        id S235747AbiK3Kh7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 30 Nov 2022 05:37:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36780 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229457AbiK3KgA (ORCPT
+        with ESMTP id S234392AbiK3Kh6 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 30 Nov 2022 05:36:00 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E506D450B8
-        for <linux-media@vger.kernel.org>; Wed, 30 Nov 2022 02:35:03 -0800 (PST)
+        Wed, 30 Nov 2022 05:37:58 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5696C45A33
+        for <linux-media@vger.kernel.org>; Wed, 30 Nov 2022 02:37:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1669804503;
+        s=mimecast20190719; t=1669804630;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=Cvc7zQE6RbA2ONv2qyzGEDJ/T9bPExPePrr7SYOkIKM=;
-        b=ZzkOb57UxWyMewdn/eZ43fICEq6J9JJhId3+IFBOqEUGMP8XbTKzieH/vhpHTO1Jmhab4k
-        lQOn3f3eOlqdltOrQ7r45DiAr/ihiNj62fV9RODhG0C5giue1VFXsIU7hnBDD1/voyYMwC
-        siZGJTk09GJsPl5quZyifU+WmZXTLC0=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=y5HIAjpAp5xsN/moTRJ8czbrJfueHAQeSYkPRAVcZmQ=;
+        b=LL7UhEOOjW3Fc8FL9TeXBFPNwdFFO6XRRvnQb1z7e8au/LcOKO9jE9XZml0pM85Dj+zY4x
+        6t8nCK7wqAjK+KMVomp6LBEBvpcDyIwJi5a7w4wmhcG+1RxqMcb4IedxVq4p8LJ0gugsyg
+        A9ZuEmEot8xCW98Goc3+cX37qDwjpXY=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-547-ociuRwP6P_C-ZSnCPCoHrA-1; Wed, 30 Nov 2022 05:35:00 -0500
-X-MC-Unique: ociuRwP6P_C-ZSnCPCoHrA-1
-Received: by mail-ed1-f69.google.com with SMTP id h9-20020a05640250c900b00461d8ee12e2so9606176edb.23
-        for <linux-media@vger.kernel.org>; Wed, 30 Nov 2022 02:35:00 -0800 (PST)
+ us-mta-520-ISeDHI0jPpaquZ1lt-A42g-1; Wed, 30 Nov 2022 05:37:08 -0500
+X-MC-Unique: ISeDHI0jPpaquZ1lt-A42g-1
+Received: by mail-ed1-f70.google.com with SMTP id w4-20020a05640234c400b004631f8923baso9586406edc.5
+        for <linux-media@vger.kernel.org>; Wed, 30 Nov 2022 02:37:08 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Cvc7zQE6RbA2ONv2qyzGEDJ/T9bPExPePrr7SYOkIKM=;
-        b=LoQSpTI/JtmoSH8R4T2YptSXkc2ljWXA6pl+cQolmv19akOEQx4/GkjEJK5hn41vyV
-         BApIodpU8yE4tR/9lFX0qY752Bn5sxw24aK1+NYNH+/3kuyQev7fsczECLpIXYt2N/4w
-         Q1tklkvj1FRdfDN1xNdf9f6N38wZUnji4EohIHPvqAohLfxiw8oHWY8DlW5fuT46TSwH
-         DPrSj2bJvzfVsA3HPTAy8H+zyyIPNOU0vLZPDv1vFYYLPIOuhPmwnZ4Wxjf8iN16G2g9
-         wNZyNlsnN1QCocUEabnkGwDs1VDpt7bM0JzDvWqYPRft8BnB0z2ceV8YAcNDrTq49gL/
-         9P6w==
-X-Gm-Message-State: ANoB5pnkO4c8tiKE1dNnWAh5SJFSgAWGZ3fHB3NCJo8N9+CpWLGJl38+
-        DHb/cIdDaHOCujbG5oH8AegpeFy8EmC9rbKqozfFrnKlBaBHV0nbKiHWXclCQmIjg+BpufMMBDB
-        WB8kEmoQCHyaeY0a8xwGwE7w=
-X-Received: by 2002:aa7:dd4d:0:b0:45c:98a9:7bbf with SMTP id o13-20020aa7dd4d000000b0045c98a97bbfmr39326417edw.372.1669804499604;
-        Wed, 30 Nov 2022 02:34:59 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf59ssUHREjZsmQz9LJjiR983EFAnjxYQCIU0PCW65a3e4+hmwm1voA9Pp0gimhglc2Gac98Lg==
-X-Received: by 2002:aa7:dd4d:0:b0:45c:98a9:7bbf with SMTP id o13-20020aa7dd4d000000b0045c98a97bbfmr39326401edw.372.1669804499345;
-        Wed, 30 Nov 2022 02:34:59 -0800 (PST)
+        bh=y5HIAjpAp5xsN/moTRJ8czbrJfueHAQeSYkPRAVcZmQ=;
+        b=TTNOsZVkMXEQfz19Fh9lDm31LXtPF7VpzoJbQtL6vg65ErW0WnNQ8q3yWh75hondIJ
+         bVWe+iqk/wID44xwjZnKDg1aZ49FMW5PkPar3vFYNuxxfy+B91h8UHWa6o9JMShzVw93
+         0sLLzgk783otQkbNemGz44tjNjWAi2VKiQ/aT/pz4Cqu757zOpQZbOReF2IJAEIoV2kD
+         a+Gjk4//KI61+vt1irUuGzB9Pv8Rj4lTESDc6zdjiJRj3oUdHqqdzdYp4BEqhbZOinG2
+         z2RJ7/+BCzMMCEVSRrNs0ZwD1RD0Gpr8UaQ2nRc14A+ZRKF/9+igyYq3HJCWfE6HmzpI
+         qMUA==
+X-Gm-Message-State: ANoB5pnBqI6MFJmPBrr5Hk+ho8KpTE89JiMiC6F8LfKPDqTSp3T6mNUJ
+        LJIs29exXiqMQZje9n/ligAaW0iOloEZy6D0L6zQqlp0jScCduvT14KYb9DXPtkcaTCwHwut8OE
+        GwR2V2902XVhsDp/PZAvhgAc=
+X-Received: by 2002:a05:6402:541a:b0:463:be84:5283 with SMTP id ev26-20020a056402541a00b00463be845283mr13883408edb.7.1669804627657;
+        Wed, 30 Nov 2022 02:37:07 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf5fnArATidH5FgS9m+AnofKa5JXZVqzu7DndjOqOBNztVqRwGyBjIcz414kEfdg3WyU9S3HXg==
+X-Received: by 2002:a05:6402:541a:b0:463:be84:5283 with SMTP id ev26-20020a056402541a00b00463be845283mr13883389edb.7.1669804627479;
+        Wed, 30 Nov 2022 02:37:07 -0800 (PST)
 Received: from ?IPV6:2001:1c00:c1e:bf00:d69d:5353:dba5:ee81? (2001-1c00-0c1e-bf00-d69d-5353-dba5-ee81.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:d69d:5353:dba5:ee81])
-        by smtp.gmail.com with ESMTPSA id sb25-20020a1709076d9900b007ae4717bef1sm506303ejc.15.2022.11.30.02.34.58
+        by smtp.gmail.com with ESMTPSA id 1-20020a170906310100b0073ae9ba9ba8sm501503ejx.3.2022.11.30.02.37.06
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 30 Nov 2022 02:34:58 -0800 (PST)
-Message-ID: <f54e3235-b146-ed4d-4848-edfbeb97bbe6@redhat.com>
-Date:   Wed, 30 Nov 2022 11:34:57 +0100
+        Wed, 30 Nov 2022 02:37:06 -0800 (PST)
+Message-ID: <181622c7-afc9-6493-5815-237728a26e77@redhat.com>
+Date:   Wed, 30 Nov 2022 11:37:05 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.5.0
-Subject: Re: [PATCH 3/6] platform/x86: int3472/discrete: Treat privacy LED as
- regular GPIO
+Subject: Re: [PATCH 2/6] platform/x86: int3472/discrete: Refactor GPIO to
+ sensor mapping
+Content-Language: en-US, nl
 To:     Andy Shevchenko <andy.shevchenko@gmail.com>
 Cc:     Mark Gross <markgross@kernel.org>,
         Andy Shevchenko <andy@kernel.org>,
@@ -74,11 +75,10 @@ Cc:     Mark Gross <markgross@kernel.org>,
         Mark Pearson <markpearson@lenovo.com>,
         linux-media@vger.kernel.org
 References: <20221129231149.697154-1-hdegoede@redhat.com>
- <20221129231149.697154-4-hdegoede@redhat.com>
- <CAHp75VfZ2Lk-AaQDazaUJARiHrGrMH46d5La7qwVTU8fkDiPAQ@mail.gmail.com>
-Content-Language: en-US, nl
+ <20221129231149.697154-3-hdegoede@redhat.com>
+ <CAHp75Vc8BrXBnkvRgWk=hD9gHd5_Yd7fjJRsVA+G2+D2x1Ozbw@mail.gmail.com>
 From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <CAHp75VfZ2Lk-AaQDazaUJARiHrGrMH46d5La7qwVTU8fkDiPAQ@mail.gmail.com>
+In-Reply-To: <CAHp75Vc8BrXBnkvRgWk=hD9gHd5_Yd7fjJRsVA+G2+D2x1Ozbw@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
@@ -93,63 +93,51 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Hi,
 
-On 11/30/22 10:54, Andy Shevchenko wrote:
+On 11/30/22 10:49, Andy Shevchenko wrote:
 > On Wed, Nov 30, 2022 at 1:12 AM Hans de Goede <hdegoede@redhat.com> wrote:
 >>
->> On some systems, e.g. the Lenovo ThinkPad X1 Yoga gen 7 and the ThinkPad
->> X1 Nano gen 2 there is no clock-enable pin, triggering the:
->> "No clk GPIO. The privacy LED won't work" warning and causing the privacy
->> LED to not work.
+>> Add a helper function to map the type returned by the _DSM
+>> method to a function name + the default polarity for that function.
 >>
->> Fix this by treating the privacy LED as a regular GPIO rather then
->> integrating it with the registered clock.
+>> And fold the INT3472_GPIO_TYPE_RESET and INT3472_GPIO_TYPE_POWERDOWN
+>> cases into a single generic case.
 >>
->> Note this relies on the ov5693 driver change to support an (optional)
->> privacy-led GPIO to avoid the front cam privacy LED regressing on some
->> models.
+>> This is a preparation patch for further GPIO mapping changes.
 > 
 > ...
 > 
->> -       case INT3472_GPIO_TYPE_PRIVACY_LED:
->> -               gpio = acpi_get_and_request_gpiod(path, pin, "int3472,privacy-led");
->> -               if (IS_ERR(gpio))
->> -                       return (PTR_ERR(gpio));
->>
->> -               int3472->clock.led_gpio = gpio;
->> -               break;
+>> +       switch (type) {
+>> +       case INT3472_GPIO_TYPE_RESET:
+>> +               *func = "reset";
+>> +               *polarity = GPIO_ACTIVE_LOW;
+>> +               break;
+>> +       case INT3472_GPIO_TYPE_POWERDOWN:
+>> +               *func = "powerdown";
+>> +               *polarity = GPIO_ACTIVE_LOW;
+>> +               break;
+>> +       case INT3472_GPIO_TYPE_CLK_ENABLE:
+>> +               *func = "clk-enable";
+>> +               *polarity = GPIO_ACTIVE_HIGH;
+>> +               break;
+>> +       case INT3472_GPIO_TYPE_PRIVACY_LED:
+>> +               *func = "privacy-led";
+>> +               *polarity = GPIO_ACTIVE_HIGH;
+>> +               break;
+>> +       case INT3472_GPIO_TYPE_POWER_ENABLE:
+>> +               *func = "power-enable";
+>> +               *polarity = GPIO_ACTIVE_HIGH;
+>> +               break;
+>> +       default:
+>> +               *func = "unknown";
+>> +               *polarity = GPIO_ACTIVE_HIGH;
 > 
-> I'm not sure how the previous patch makes this one work without
-> regressions. We have a "privacy-led" GPIO name there and here it used
-> to be with a prefix. Maybe I'm missing something...
+> A nit-pick: In long term maintenance it's always good to have a break
+> statement even in the default case.
 
-The GPIO used to be controlled as part of the clk-provider,
-and the "int3472,privacy-led" name was the name of the consumer
-of the GPIO shown in /sys/kernel/debug/gpio. The "int3472,privacy-led"
-name has no lookup meaning since the pin is directly looked up by
-GPIO chip ACPI path + pin offset here.
-
-Since not all devices with a privacy LED also have a clk-enable GPIO
-and thus a clk provider this did not work anywhere.
-
-So this patch removes the code which controls the privacy LED
-through the clk-provider (which used the "int3472,privacy-led"
-and instead now adds an entry to the GPIO lookup table attached
-to the sensor. That new GPIO lookup table entry uses the name
-"privacy-led" since the LED no now longer is controlled by
-the INT3472 code (*).  The matching sensor driver patch
-(patch 1/6) to make the sensor driver directly control the
-privacy-led also uses "privacy-led" when calling gpiod_get()
-for it.
-
-I hope this helps explain.
+Ack, I'll add this when merging this (unless there are other / bigger
+reasons for a v2).
 
 Regards,
 
 Hans
-
-
-*) all the INT3472 code now does is add the lookup table entry
-gpio lookup table 
-
-
 
