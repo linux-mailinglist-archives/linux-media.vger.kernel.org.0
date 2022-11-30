@@ -2,33 +2,38 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C088263CE4C
-	for <lists+linux-media@lfdr.de>; Wed, 30 Nov 2022 05:17:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 187F863CFA3
+	for <lists+linux-media@lfdr.de>; Wed, 30 Nov 2022 08:20:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232801AbiK3ERR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 29 Nov 2022 23:17:17 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53934 "EHLO
+        id S233735AbiK3HU3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 30 Nov 2022 02:20:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43248 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232641AbiK3ERO (ORCPT
+        with ESMTP id S229648AbiK3HU2 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 29 Nov 2022 23:17:14 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0441A26499
-        for <linux-media@vger.kernel.org>; Tue, 29 Nov 2022 20:17:13 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 92DD9619B2
-        for <linux-media@vger.kernel.org>; Wed, 30 Nov 2022 04:17:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A45D5C433C1
-        for <linux-media@vger.kernel.org>; Wed, 30 Nov 2022 04:17:11 +0000 (UTC)
-Date:   Wed, 30 Nov 2022 05:17:09 +0100
-Message-ID: <fdfa71ca548dfc34b10d559b2221df53.hverkuil@xs4all.nl>
-From:   "Hans Verkuil" <hverkuil-cisco@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS
+        Wed, 30 Nov 2022 02:20:28 -0500
+Received: from out30-57.freemail.mail.aliyun.com (out30-57.freemail.mail.aliyun.com [115.124.30.57])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 874712A24D;
+        Tue, 29 Nov 2022 23:20:26 -0800 (PST)
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R201e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018046051;MF=jiapeng.chong@linux.alibaba.com;NM=1;PH=DS;RN=6;SR=0;TI=SMTPD_---0VW1oelD_1669792816;
+Received: from localhost(mailfrom:jiapeng.chong@linux.alibaba.com fp:SMTPD_---0VW1oelD_1669792816)
+          by smtp.aliyun-inc.com;
+          Wed, 30 Nov 2022 15:20:23 +0800
+From:   Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+To:     mchehab@kernel.org
+Cc:     p.zabel@pengutronix.de, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Jiapeng Chong <jiapeng.chong@linux.alibaba.com>,
+        Abaci Robot <abaci@linux.alibaba.com>
+Subject: [PATCH v2] media: rzg2l-cru: Fix missing error code in rzg2l_cru_start_streaming_vq()
+Date:   Wed, 30 Nov 2022 15:20:14 +0800
+Message-Id: <20221130072014.95092-1-jiapeng.chong@linux.alibaba.com>
+X-Mailer: git-send-email 2.20.1.7.g153144c
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-9.9 required=5.0 tests=BAYES_00,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,USER_IN_DEF_SPF_WL
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -36,61 +41,33 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+Failed to allocate scratch buffer, add the error code '-ENOMEM' to the
+return value 'ret'.
 
-Results of the daily build of media_tree:
+drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c:676 rzg2l_cru_start_streaming_vq() warn: missing error code 'ret'.
 
-date:			Wed Nov 30 03:00:09 CET 2022
-media-tree git hash:	6a5a4514854a637d01c50f5ea17b28f78b31ddb8
-media_build git hash:	0fe857b86addf382f6fd383948bd7736a3201403
-v4l-utils git hash:	6bd5d9c82a533756365493c64778eb118fc3a773
-edid-decode git hash:	894eefd10f5fd67327fae8e6160e7eb4172e554f
-gcc version:		i686-linux-gcc (GCC) 12.2.0
-sparse repo:            git://git.kernel.org/pub/scm/devel/sparse/sparse.git
-sparse version:		v0.6.4-39-gce1a6720-dirty
-smatch repo:            git://repo.or.cz/smatch.git
-smatch version:		v0.5.0-8214-gde31689e-dirty
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: b94d6c23fb05f4009c71695ebf139359f6a46a58
-host hardware:		x86_64
-host os:		6.0.0-4-amd64
+Link: https://bugzilla.openanolis.cn/show_bug.cgi?id=3275
+Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+---
+Changes in v2:
+  -Modified the subject line to "media: rzg2l-cru:".
 
-linux-git-sh: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-powerpc64: OK
-linux-git-mips: OK
-linux-git-arm-multi: WARNINGS
-linux-git-arm64: WARNINGS
-linux-git-i686: WARNINGS
-linux-git-x86_64: WARNINGS
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-apps: OK
-spec-git: WARNINGS
-virtme: OK: Final Summary: 3080, Succeeded: 3080, Failed: 0, Warnings: 0
-virtme-32: OK: Final Summary: 3193, Succeeded: 3193, Failed: 0, Warnings: 0
-sparse: WARNINGS
-smatch: ERRORS
-kerneldoc: WARNINGS
+ drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-Detailed results are available here:
+diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
+index 9533e4069ecd..91b57c7c2e56 100644
+--- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
++++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
+@@ -673,6 +673,7 @@ static int rzg2l_cru_start_streaming_vq(struct vb2_queue *vq, unsigned int count
+ 	if (!cru->scratch) {
+ 		return_unused_buffers(cru, VB2_BUF_STATE_QUEUED);
+ 		dev_err(cru->dev, "Failed to allocate scratch buffer\n");
++		ret = -ENOMEM;
+ 		goto free_image_conv_irq;
+ 	}
+ 
+-- 
+2.20.1.7.g153144c
 
-https://hverkuil.home.xs4all.nl/logs/Wednesday.log
-
-Detailed regression test results are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Wednesday-test-media.log
-https://hverkuil.home.xs4all.nl/logs/Wednesday-test-media-32.log
-https://hverkuil.home.xs4all.nl/logs/Wednesday-test-media-dmesg.log
-
-Full logs are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Wednesday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-https://hverkuil.home.xs4all.nl/spec/index.html
