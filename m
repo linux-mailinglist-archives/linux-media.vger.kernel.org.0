@@ -2,58 +2,58 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DC07D63D28C
-	for <lists+linux-media@lfdr.de>; Wed, 30 Nov 2022 10:54:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7E6E963D2A2
+	for <lists+linux-media@lfdr.de>; Wed, 30 Nov 2022 10:59:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232577AbiK3Jyl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 30 Nov 2022 04:54:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56038 "EHLO
+        id S232994AbiK3J7r (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 30 Nov 2022 04:59:47 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59788 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231821AbiK3Jyl (ORCPT
+        with ESMTP id S229853AbiK3J7q (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 30 Nov 2022 04:54:41 -0500
-Received: from mail-qk1-x72f.google.com (mail-qk1-x72f.google.com [IPv6:2607:f8b0:4864:20::72f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4278828E1E;
-        Wed, 30 Nov 2022 01:54:40 -0800 (PST)
-Received: by mail-qk1-x72f.google.com with SMTP id p18so11839844qkg.2;
-        Wed, 30 Nov 2022 01:54:40 -0800 (PST)
+        Wed, 30 Nov 2022 04:59:46 -0500
+Received: from mail-qv1-xf29.google.com (mail-qv1-xf29.google.com [IPv6:2607:f8b0:4864:20::f29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE8152F38E;
+        Wed, 30 Nov 2022 01:59:45 -0800 (PST)
+Received: by mail-qv1-xf29.google.com with SMTP id d2so6640778qvp.12;
+        Wed, 30 Nov 2022 01:59:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=U3pFP5eHdwJ8xVAduEA55Vvy3vc6xPFygfrMRPcVO4g=;
-        b=cFd2XMo7xtVe4naxkm1MTsoM0ZcNPnt4JkdNZHdvnnH4gEJH428WDQ7I8TJET/J/ng
-         XfZyQn2Wsh6xP8aFp8oz23GzQvYvcQhg76DUgi4tyHuuOpInydmLoYQ6XhUlAJEJKQVI
-         NadRyHH4LntgyUgtMgTO6ZBcgxXXd8xFxJ2jwIdtzXuHZypp+TS9E8AR63gffi5pmuab
-         LelNQi23s05AAzMB03IzOWRfy7Rb7qiErNG7zNXXsvUCirtuJuTceJG+Nr+Cv9pOc1jE
-         xIHAH0iSW1a0RK3Vjci/mu762gCJzfotrg6dqQZh2N+yqeernxYuv4i3j5WhBr+2lqFg
-         P4aQ==
+        bh=Gvd/UsTkZXhKMSN0l+cJA3z1P3QGNDytMulpPdf28ok=;
+        b=bczKfFiIRdLnf7fOdZ9h9H5x/IONcQQwNcjJZNLsbGN1t2VTBG3I8PmqPU1T3NFs2W
+         9RKfMpyPs3wUtYZ74evNJ9l/kxiBmcimm+CWtzHvbyfnMR5vMy0Ht8OEic6Zz83qmarO
+         nqt41Aw/SFxdRbykCzv6qn37OEFtuXzXTE7g/PJPOFF17j4Mjc8dzh4q7z6Sr5aAQrAd
+         2jV0EtHZWrQMB0F2xVNM2LTQmQERQNsidzFv4So+7qLdkoi2dXUDNo73I8Uvx8eyobTA
+         Ao40PYL/9w/S+azrQG1JXO3LI0uGJZI0KoroCSr/7k39yEtstTFzecD/qjLVRQ9dTIAE
+         fHrw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=U3pFP5eHdwJ8xVAduEA55Vvy3vc6xPFygfrMRPcVO4g=;
-        b=a2IVI6HC/owLRfmQ3ggb0HJFkg3BU4x+fWLqewlx1ejqGATx19kdC4qE8D029tULsM
-         4LA2ebqYR2NkUB4tmV6RrnUgy8dYJ5NcsfgQk+F9z89JIFi7MhHnW5XlpcCt0ROcQp8M
-         a1WqtyqCDXjc9+eSi/tE2r75UxEt/XWdhwSN6ZjcAkWRPa5fWT+uEHXMGORJaEMw/bBX
-         XJxxEWPPPZYFnFNNj5u9G73McQTFCGSXxzRqr6EqMo8T25EFE/6aRloJLigpSRMi3Q8F
-         VZla90mKWW7u1OkIMqPIqhLXSOcaGq0NwTvcHaK5MdCnp2vLOcJVOGEfUPiavKkTstHs
-         NL0A==
-X-Gm-Message-State: ANoB5pn/5HspLGejsQ9XUCuZLvCOrqcwQS9od9Fk+/BPN/sAOuC+OMu0
-        y3/0dj/Z8a8ODIcPdDmxmf0XO8K96jy/WtgDEP8FIpT2Ci2Vag==
-X-Google-Smtp-Source: AA0mqf6yk2iYPuxsrlh94TezuS5tzutL/JB+h25HtZxLkaDACcVxSDkbv9Z0JmtCtjfLB2eyqhwQDf95KZ8/wMJN4CQ=
-X-Received: by 2002:a37:b404:0:b0:6fa:4a82:1152 with SMTP id
- d4-20020a37b404000000b006fa4a821152mr55538969qkf.504.1669802079321; Wed, 30
- Nov 2022 01:54:39 -0800 (PST)
+        bh=Gvd/UsTkZXhKMSN0l+cJA3z1P3QGNDytMulpPdf28ok=;
+        b=6q2uY1NRP0mhtuPKam3ZGgUngCCVtppi+uivmjW0aGqosJ5P8DTya9afek66UuKiQ1
+         Ckil1YQfXeiHyA7/JtpFF8aNsrXrl4weknhiVozYxauDxgl3GHauHwzCFaBIwYWaLXEX
+         xpyi4vtdDd+pMiwPxh/WWEzVN5NnJe87r89/ICN6BWvscn/1d2wxsslQaPFcb53+4o79
+         C8VwvyjbnOuUAs9m04lo9gCZVpZM94fC1405vzA7/E4N8lzULB0PW0Sj8p8EPVPwS0TK
+         Bjl122xNcypEpMvHOzRONjvCr22hbzj1l9Avfr2DXnMMA9BuIvfPdr5yNa3ePm/PwXJP
+         VI9A==
+X-Gm-Message-State: ANoB5plAsqmGK4MX2MRSx/OsfpCX1UY5scx7UfpUHrf+to8D1Z5OwEr2
+        9bLhVz9Ths2XsOSCbbBIn22g5+6eSim0vnywrRk=
+X-Google-Smtp-Source: AA0mqf429vvSdIdmxi3xgsA14GJGrXZiyGdBzPHGGOVdmepQUfnTDlC+ed4s0TqGQ0aQguShr+zMNuwpnZA4swDV3Wk=
+X-Received: by 2002:a05:6214:5cc2:b0:4c6:a622:cb4f with SMTP id
+ lk2-20020a0562145cc200b004c6a622cb4fmr46050535qvb.97.1669802384974; Wed, 30
+ Nov 2022 01:59:44 -0800 (PST)
 MIME-Version: 1.0
-References: <20221129231149.697154-1-hdegoede@redhat.com> <20221129231149.697154-4-hdegoede@redhat.com>
-In-Reply-To: <20221129231149.697154-4-hdegoede@redhat.com>
+References: <20221129231149.697154-1-hdegoede@redhat.com> <20221129231149.697154-6-hdegoede@redhat.com>
+In-Reply-To: <20221129231149.697154-6-hdegoede@redhat.com>
 From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Wed, 30 Nov 2022 11:54:03 +0200
-Message-ID: <CAHp75VfZ2Lk-AaQDazaUJARiHrGrMH46d5La7qwVTU8fkDiPAQ@mail.gmail.com>
-Subject: Re: [PATCH 3/6] platform/x86: int3472/discrete: Treat privacy LED as
- regular GPIO
+Date:   Wed, 30 Nov 2022 11:59:09 +0200
+Message-ID: <CAHp75VdQqJu1YRozd5-qKKn5W9Rk_fLyzfHm0+HVDcgg0heCDA@mail.gmail.com>
+Subject: Re: [PATCH 5/6] platform/x86: int3472/discrete: Ensure the clk/power
+ enable pins are in output mode
 To:     Hans de Goede <hdegoede@redhat.com>
 Cc:     Mark Gross <markgross@kernel.org>,
         Andy Shevchenko <andy@kernel.org>,
@@ -77,31 +77,34 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 On Wed, Nov 30, 2022 at 1:12 AM Hans de Goede <hdegoede@redhat.com> wrote:
 >
-> On some systems, e.g. the Lenovo ThinkPad X1 Yoga gen 7 and the ThinkPad
-> X1 Nano gen 2 there is no clock-enable pin, triggering the:
-> "No clk GPIO. The privacy LED won't work" warning and causing the privacy
-> LED to not work.
+> acpi_get_and_request_gpiod() does not take a gpio_lookup_flags argument
+> specifying that the pins direction should be initialized to a specific
+> value.
 >
-> Fix this by treating the privacy LED as a regular GPIO rather then
-> integrating it with the registered clock.
+> This means that in some cases the pins might be left in input mode, causing
+> the gpiod_set() calls made to enable the clk / regulator to not work.
 >
-> Note this relies on the ov5693 driver change to support an (optional)
-> privacy-led GPIO to avoid the front cam privacy LED regressing on some
-> models.
+> One example of this problem is the clk-enable GPIO for the ov01a1s sensor
+> on a Dell Latitude 9420 being left in input mode causing the clk to
+> never get enabled.
+>
+> Explicitly set the direction of the pins to output to fix this.
 
 ...
 
-> -       case INT3472_GPIO_TYPE_PRIVACY_LED:
-> -               gpio = acpi_get_and_request_gpiod(path, pin, "int3472,privacy-led");
-> -               if (IS_ERR(gpio))
-> -                       return (PTR_ERR(gpio));
->
-> -               int3472->clock.led_gpio = gpio;
-> -               break;
+> +       /* Ensure the pin is in output mode */
 
-I'm not sure how the previous patch makes this one work without
-regressions. We have a "privacy-led" GPIO name there and here it used
-to be with a prefix. Maybe I'm missing something...
+...in output mode and non-active state */
+
+> +       gpiod_direction_output(int3472->clock.ena_gpio, 0);
+
+...
+
+> +       /* Ensure the pin is in output mode */
+> +       gpiod_direction_output(int3472->regulator.gpio, 0);
+
+So, previously it was AS IS and now it's non-active state. I believe
+this makes no regressions for the other laptops / platforms.
 
 -- 
 With Best Regards,
