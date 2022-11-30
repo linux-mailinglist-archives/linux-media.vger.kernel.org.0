@@ -2,58 +2,57 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 75BF563D2B0
-	for <lists+linux-media@lfdr.de>; Wed, 30 Nov 2022 11:02:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EF7E163D2B9
+	for <lists+linux-media@lfdr.de>; Wed, 30 Nov 2022 11:03:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233763AbiK3KCf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 30 Nov 2022 05:02:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33162 "EHLO
+        id S235372AbiK3KDx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 30 Nov 2022 05:03:53 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35160 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235263AbiK3KCe (ORCPT
+        with ESMTP id S232803AbiK3KDo (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 30 Nov 2022 05:02:34 -0500
-Received: from mail-qt1-x831.google.com (mail-qt1-x831.google.com [IPv6:2607:f8b0:4864:20::831])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 25510DD4;
-        Wed, 30 Nov 2022 02:02:33 -0800 (PST)
-Received: by mail-qt1-x831.google.com with SMTP id r19so690160qtx.6;
-        Wed, 30 Nov 2022 02:02:33 -0800 (PST)
+        Wed, 30 Nov 2022 05:03:44 -0500
+Received: from mail-qk1-x730.google.com (mail-qk1-x730.google.com [IPv6:2607:f8b0:4864:20::730])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0296E2FA7C;
+        Wed, 30 Nov 2022 02:03:44 -0800 (PST)
+Received: by mail-qk1-x730.google.com with SMTP id k2so11836007qkk.7;
+        Wed, 30 Nov 2022 02:03:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=mHWjGUutZvu8frMTpQcEffMDOgN6Ykcc4XU27MSKLpE=;
-        b=hab7k5udL3w5GIpgm6MkZ533MiVm3fSmAhKrbwplfOzD+gmRkJyLQ+EpFwXJ8W8CF/
-         s+QfudLqU0D/GJzlrrbsbVeudGS0WJ23EEEIofFt6sU+sio44HHb0c4gULblGFbnV2oI
-         qkGG2wfYys/3SpVbG3g/xs8Da4AFYtkwwjFvd2L2/5Nb5P5LEJC2vDHhRuau7XXUFRjT
-         L+z9YmCa7klhDuHaYq5yPR42SNlC92yJdkIhnTuAvrR4hm0vvQt9D/yzV6lb9SwYuyyV
-         L61/+ARI24aSSQsd0TrCn+uARMG0qEdD+tiv3F+6GxH3Rch4498l/UYcbhdP9lTgHag+
-         mgLg==
+        bh=eaVjldeP+uADnpJz5nFWHJvfok/q/RDOhNw15aDm8Fk=;
+        b=b+gunAuaxdJNm18EbKAXvEkjEIWYWR4ShZh2OJI2DmqX9NrIVhTev4poU37dgVDsnD
+         EdlL7f5YevGZnnetp9PEu8ogL05rVlKg3f1LqqZGcd7mE/P94Opv5APFmhvXmmVwwawF
+         7wxYLEQSPNR1qZivhVOCuOoXntHtXfWANQQUE2XgjeJS6bG5MPcWddI7VP4N7UssL5bs
+         BKjEw63j33NYKWvj5tGoUGeGMDlg6VmGjx15ElnJKUQ5/invypY6R5hGCVfjO+sp8eB+
+         s4Idx0/PjELuiKHaVybfECqpqlUmRW2tKU6gm28wNDbmjB5U1sAYMAvuYB8Au91tpg7H
+         aSwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=mHWjGUutZvu8frMTpQcEffMDOgN6Ykcc4XU27MSKLpE=;
-        b=allYv0WhbL6kGzMYf7j0q+dj50jvo4YshPA6dNxEgtQi+kboBNXn/7sTXx+iAKyABw
-         EIJbLH6gEk7oN4ui5h9a1X5nC/7IjPrEHF4hCQpALHJ6dpds3YuOTl6Mqhp5cziwNCfD
-         5yBOCLw0QoO6Pa3jTuzIBDLD+kZO7KpYAuVIr1zWvJeov9D9bTGi6uuvjeqf4ay7gD89
-         Xhj0aKK/eY8mNPiPvmrglKfpqrOlReJZ3PBxmT/t7CoNAm7kp3UWO8qzQqaLOnmzIA8b
-         Fry4AnkDbRZ+xIu1iTc0oJX3DUMbcAXxNf+s2vhzbdWK0P/8+vUJh7KqWV3YTPGbgiIo
-         nubg==
-X-Gm-Message-State: ANoB5pn03U8dlzfAxKH8CKoKZyvRCO/OcLMn4tuupfnQ7vxLkFCXsy+O
-        FkDSzDyfq3nxl9Eeu6etQRdO81fDZHXs3+7TtoI=
-X-Google-Smtp-Source: AA0mqf7J6vr2fxLt7gDxlIFH9YpJD0f+PqW7ziZz0kgIKiww3b+1M5DmzvBoJVNsnRSt+Iu+lL2mrOFGMwHCTMf4yL8=
-X-Received: by 2002:ac8:4cd1:0:b0:3a5:1940:a027 with SMTP id
- l17-20020ac84cd1000000b003a51940a027mr54900469qtv.195.1669802552185; Wed, 30
- Nov 2022 02:02:32 -0800 (PST)
+        bh=eaVjldeP+uADnpJz5nFWHJvfok/q/RDOhNw15aDm8Fk=;
+        b=cmY4TnSoI8gc+9VmaLjs/wLUTTqnDSp4L1Nx+RqieGCWJN2kqH3Pn6wTKKj2vfrU2H
+         0Zj7Aq7fPghnudBQG9Zwej6jzxp38uaPg0K1bxEiw2xFDw9sG4UQ+NtV7cd63r8n9IBK
+         7XZH5wIR9hZ1N7Q+lxlCBWQeXWwCG1TxCszoRIxndPxGDjaPyOtXxg8rRz2JS6n7deBs
+         Bva/xLBmtQ8zmm6nZuWpmyRKNVjnbQVTCP2ZmPfDzYZ5hVOQerbtBPNuTlXgugLnIy+z
+         ixJwyD+RFX8Jztw6UBdZRSfXmNxkVdQVIGs74rLWyNpKjoRbsCi90NT5C7YIc/TXIhCt
+         OTVg==
+X-Gm-Message-State: ANoB5pmr255tt3ng/GQ/7kbBkld1XJvobOsnEXUgKiz4MP75ikB9cRpp
+        FO+7Bad27r+VFFVGKPZUNWXF3IkUWI3ElopLeqw=
+X-Google-Smtp-Source: AA0mqf6ajD+uUb73bB7xIine8wZa8kJJXlWR4hBFk0gUci+QyAlbT3ut/JGRChCt9QrYbz9VAD4mUqqCyqtpcKxA8AM=
+X-Received: by 2002:a05:620a:1aa3:b0:6fa:b56f:7ede with SMTP id
+ bl35-20020a05620a1aa300b006fab56f7edemr54317437qkb.383.1669802623073; Wed, 30
+ Nov 2022 02:03:43 -0800 (PST)
 MIME-Version: 1.0
-References: <20221129231149.697154-1-hdegoede@redhat.com> <20221129231149.697154-7-hdegoede@redhat.com>
-In-Reply-To: <20221129231149.697154-7-hdegoede@redhat.com>
+References: <20221129231149.697154-1-hdegoede@redhat.com>
+In-Reply-To: <20221129231149.697154-1-hdegoede@redhat.com>
 From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Wed, 30 Nov 2022 12:01:56 +0200
-Message-ID: <CAHp75Vc2nYtvHhrsNPe8JwbK_665F5_Z6bMDfvmtBKr0HomycA@mail.gmail.com>
-Subject: Re: [PATCH 6/6] platform/x86: int3472/discrete: Get the polarity from
- the _DSM entry
+Date:   Wed, 30 Nov 2022 12:03:07 +0200
+Message-ID: <CAHp75Vfvsefb8M-yZXxu18PQwnN7b0NgCSJKpQ4Qcdkv5Tu9-Q@mail.gmail.com>
+Subject: Re: [PATCH 0/6] ov5693/int3472: Privacy LED handling changes + IPU6 compatibility
 To:     Hans de Goede <hdegoede@redhat.com>
 Cc:     Mark Gross <markgross@kernel.org>,
         Andy Shevchenko <andy@kernel.org>,
@@ -77,42 +76,46 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 On Wed, Nov 30, 2022 at 1:12 AM Hans de Goede <hdegoede@redhat.com> wrote:
 >
-> According to:
-> https://github.com/intel/ipu6-drivers/blob/master/patch/int3472-support-independent-clock-and-LED-gpios-5.17%2B.patch
+> Hi All,
 >
-> Bits 31-24 of the _DSM pin entry integer value codes the active-value,
-> that is the actual physical signal (0 or 1) which needs to be output on
-> the pin to turn the sensor chip on (to make it active).
+> The out of tree IPU6 driver has moved to using the in kernel INT3472
+> code for doing power-ctrl rather then doing their own thing (good!).
+
+than
+
+> Some of the IPU6 devices with a discrete INT3472 ACPI device have a
+> privacy-led GPIO. but no clk-enable GPIO. To make this work this series
+> moves the privacy LED control from being integrated with the clk-provider
+> to modelling the privacy LED as a separate GPIO. This also brings the
+> discrete INT3472 ACPI device privacy LED handling inline with the privacy
+> LED handling for INT3472 TPS68470 PMIC devices which I posted here:
 >
-> So if bits 31-24 are 0 for a reset pin, then the actual value of the reset
-> pin needs to be 0 to take the chip out of reset. IOW in this case the reset
-> signal is active-high rather then the default active-low.
+> https://lore.kernel.org/platform-driver-x86/20221128214408.165726-1-hdegoede@redhat.com/
 >
-> And if bits 31-24 are 0 for a clk-en pin then the actual value of the clk
-> pin needs to be 0 to enable the clk. So in this case the clk-en signal
-> is active-low rather then the default active-high.
+> This obsoletes my previous "[PATCH 0/3] platform/x86: int3472/discrete:
+> Make it work with IPU6" series:
 >
-> IOW if bits 31-24 are 0 for a pin, then the default polarity of the pin
-> is inverted.
+> https://lore.kernel.org/platform-driver-x86/20221124200007.390901-1-hdegoede@redhat.com/
 >
-> Add a check for this and also propagate this new polarity to the clock
-> registration.
+> Mauro since laptops with IPU6 cameras are becoming more and more
+> popular I would like to get this merged for 6.2 so that with 6.2
+> users will be able to build the out of tree IPU6 driver without
+> requiring patching their main kernel. I realize we are a bit
+> late in the cycle, but can you please still take the ov5693 patch
+> for 6.2 ? It is quite small / straight-forward and since it used
+> gpiod_get_optional() it is a no-op without the rest of this series.
+>
+> This series has been tested on:
+>
+> - Lenovo ThinkPad X1 Yoga gen 7, IPU6, front: ov2740 with privacy LED
+> - Dell Latitude 9420, IPU 6 with privacy LED on front
+> - Mirosoft Surface Go, IPU3, front: ov5693 with privacy LED,
 
-I like it in this form, thanks!
+Microsoft?
 
-...
+>                               back: ov8865 with privacy LED
 
-> +               (polarity == GPIO_ACTIVE_HIGH) ? "high" : "low");
-
-Perhaps
-
-static inline str_high_low(bool v)
-{
-  return v ? "high" : "low";
-}
-
-In the string_helpers.h? If you are okay with the idea, you may use my
-tag ahead for that patch.
+I like this series! Minimum invasion and code.
 
 -- 
 With Best Regards,
