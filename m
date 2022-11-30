@@ -2,110 +2,185 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7E6E963D2A2
-	for <lists+linux-media@lfdr.de>; Wed, 30 Nov 2022 10:59:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C306463D2A6
+	for <lists+linux-media@lfdr.de>; Wed, 30 Nov 2022 11:00:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232994AbiK3J7r (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 30 Nov 2022 04:59:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59788 "EHLO
+        id S235116AbiK3KAl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 30 Nov 2022 05:00:41 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59776 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229853AbiK3J7q (ORCPT
+        with ESMTP id S235105AbiK3KAk (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 30 Nov 2022 04:59:46 -0500
-Received: from mail-qv1-xf29.google.com (mail-qv1-xf29.google.com [IPv6:2607:f8b0:4864:20::f29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE8152F38E;
-        Wed, 30 Nov 2022 01:59:45 -0800 (PST)
-Received: by mail-qv1-xf29.google.com with SMTP id d2so6640778qvp.12;
-        Wed, 30 Nov 2022 01:59:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Gvd/UsTkZXhKMSN0l+cJA3z1P3QGNDytMulpPdf28ok=;
-        b=bczKfFiIRdLnf7fOdZ9h9H5x/IONcQQwNcjJZNLsbGN1t2VTBG3I8PmqPU1T3NFs2W
-         9RKfMpyPs3wUtYZ74evNJ9l/kxiBmcimm+CWtzHvbyfnMR5vMy0Ht8OEic6Zz83qmarO
-         nqt41Aw/SFxdRbykCzv6qn37OEFtuXzXTE7g/PJPOFF17j4Mjc8dzh4q7z6Sr5aAQrAd
-         2jV0EtHZWrQMB0F2xVNM2LTQmQERQNsidzFv4So+7qLdkoi2dXUDNo73I8Uvx8eyobTA
-         Ao40PYL/9w/S+azrQG1JXO3LI0uGJZI0KoroCSr/7k39yEtstTFzecD/qjLVRQ9dTIAE
-         fHrw==
+        Wed, 30 Nov 2022 05:00:40 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF8E22E684
+        for <linux-media@vger.kernel.org>; Wed, 30 Nov 2022 01:59:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1669802381;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=i9YloUXR8YgxG0RXDuEgcRvlMcfIOaju0pjadJIoBw0=;
+        b=d4Ilwr7g/zJvmsCiZvucpqZjmSLCWrR/B1F6Ut3oXrLvmEJYpA5BkHxy6k8Msuer1g4MfC
+        NSavCopL8nx66MyJmoosOCtmMxfc7UnBQ2JJbi6D6N3TMWE2f8UWEcu8T/ALWokBeZsAl2
+        ElnhhjAXlvAObReivvtvwa8TLZL2xXU=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-383-TsjtZWvhOd6M20rgEmxsiA-1; Wed, 30 Nov 2022 04:59:40 -0500
+X-MC-Unique: TsjtZWvhOd6M20rgEmxsiA-1
+Received: by mail-wm1-f69.google.com with SMTP id z15-20020a1c4c0f000000b003cf6f80007cso453808wmf.3
+        for <linux-media@vger.kernel.org>; Wed, 30 Nov 2022 01:59:40 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Gvd/UsTkZXhKMSN0l+cJA3z1P3QGNDytMulpPdf28ok=;
-        b=6q2uY1NRP0mhtuPKam3ZGgUngCCVtppi+uivmjW0aGqosJ5P8DTya9afek66UuKiQ1
-         Ckil1YQfXeiHyA7/JtpFF8aNsrXrl4weknhiVozYxauDxgl3GHauHwzCFaBIwYWaLXEX
-         xpyi4vtdDd+pMiwPxh/WWEzVN5NnJe87r89/ICN6BWvscn/1d2wxsslQaPFcb53+4o79
-         C8VwvyjbnOuUAs9m04lo9gCZVpZM94fC1405vzA7/E4N8lzULB0PW0Sj8p8EPVPwS0TK
-         Bjl122xNcypEpMvHOzRONjvCr22hbzj1l9Avfr2DXnMMA9BuIvfPdr5yNa3ePm/PwXJP
-         VI9A==
-X-Gm-Message-State: ANoB5plAsqmGK4MX2MRSx/OsfpCX1UY5scx7UfpUHrf+to8D1Z5OwEr2
-        9bLhVz9Ths2XsOSCbbBIn22g5+6eSim0vnywrRk=
-X-Google-Smtp-Source: AA0mqf429vvSdIdmxi3xgsA14GJGrXZiyGdBzPHGGOVdmepQUfnTDlC+ed4s0TqGQ0aQguShr+zMNuwpnZA4swDV3Wk=
-X-Received: by 2002:a05:6214:5cc2:b0:4c6:a622:cb4f with SMTP id
- lk2-20020a0562145cc200b004c6a622cb4fmr46050535qvb.97.1669802384974; Wed, 30
- Nov 2022 01:59:44 -0800 (PST)
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=i9YloUXR8YgxG0RXDuEgcRvlMcfIOaju0pjadJIoBw0=;
+        b=yexQREwugmdM/lrwVXTXsTx28TvE141/z86xvBrATrhO4m2n8LgdraU1rsMvXAveM3
+         afntGgjbwYTaqsv6LAflodoyEGM4ICJTvBKWKGJMBCQ1vjX/ayBLfSaOKa3v38lBPCEv
+         HuRgKUqY/OtNVihn4cMvkg+dCKhLTvDx1IQt/y15zMP+uIIKYyzBeBASQHPw1GZrZGds
+         9qonfH4+41NU3pNALxgppAkCv2mGSKMOP6H7dVBwOH7zNMj0HF4tt9UmmacLL0/jnGpP
+         6doD3R0I6z5EY+xj6SjmnJkj3Gwud7KaQtnE1LXfbRG5v1r/wX2MB9SWAH1hpQlHDBCZ
+         CeMQ==
+X-Gm-Message-State: ANoB5pmUekixkttocqPYycnubShqyv0TO1EVKjcTcKvC2eoclq591tsz
+        EKuaNB1yswVvSsyklNovm8cYht7vHpjFsGRqnkxMUF/8KAjl5+WIG9V9H4wQhshJi5ube73UdaH
+        j1BoRxKQDvx6iMJenZzj2Eic=
+X-Received: by 2002:a1c:ed04:0:b0:3cf:d08d:3eb2 with SMTP id l4-20020a1ced04000000b003cfd08d3eb2mr44719684wmh.129.1669802379215;
+        Wed, 30 Nov 2022 01:59:39 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf79VoYVflQvJw4f+0ufZcLu3pjWScxDx/iG55eOd/S6Dqx9Zr87reES7FRBY59uRsQEURml4w==
+X-Received: by 2002:a1c:ed04:0:b0:3cf:d08d:3eb2 with SMTP id l4-20020a1ced04000000b003cfd08d3eb2mr44719668wmh.129.1669802379003;
+        Wed, 30 Nov 2022 01:59:39 -0800 (PST)
+Received: from [192.168.1.130] (205.pool92-176-231.dynamic.orange.es. [92.176.231.205])
+        by smtp.gmail.com with ESMTPSA id fc13-20020a05600c524d00b003d04e4ed873sm5840399wmb.22.2022.11.30.01.59.37
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 30 Nov 2022 01:59:38 -0800 (PST)
+Message-ID: <98d47486-d04c-b81a-6ae4-fa7f62828a0e@redhat.com>
+Date:   Wed, 30 Nov 2022 10:59:37 +0100
 MIME-Version: 1.0
-References: <20221129231149.697154-1-hdegoede@redhat.com> <20221129231149.697154-6-hdegoede@redhat.com>
-In-Reply-To: <20221129231149.697154-6-hdegoede@redhat.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Wed, 30 Nov 2022 11:59:09 +0200
-Message-ID: <CAHp75VdQqJu1YRozd5-qKKn5W9Rk_fLyzfHm0+HVDcgg0heCDA@mail.gmail.com>
-Subject: Re: [PATCH 5/6] platform/x86: int3472/discrete: Ensure the clk/power
- enable pins are in output mode
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Mark Gross <markgross@kernel.org>,
-        Andy Shevchenko <andy@kernel.org>,
-        Daniel Scally <djrscally@gmail.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        platform-driver-x86@vger.kernel.org,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Kate Hsuan <hpa@redhat.com>,
-        Mark Pearson <markpearson@lenovo.com>,
-        linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.1
+Subject: Re: [PATCH v2 15/17] drm/vc4: tests: Introduce a mocking
+ infrastructure
+Content-Language: en-US
+To:     Maxime Ripard <maxime@cerno.tech>, Daniel Vetter <daniel@ffwll.ch>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        David Airlie <airlied@gmail.com>,
+        Thomas Zimmermann <tzimmermann@suse.de>
+Cc:     dri-devel@lists.freedesktop.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        kunit-dev@googlegroups.com, linux-media@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+        Brendan Higgins <brendan.higgins@linux.dev>,
+        =?UTF-8?Q?Ma=c3=adra_Canal?= <mairacanal@riseup.net>,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        linux-kernel@vger.kernel.org, David Gow <davidgow@google.com>
+References: <20221123-rpi-kunit-tests-v2-0-efe5ed518b63@cerno.tech>
+ <20221123-rpi-kunit-tests-v2-15-efe5ed518b63@cerno.tech>
+From:   Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <20221123-rpi-kunit-tests-v2-15-efe5ed518b63@cerno.tech>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Nov 30, 2022 at 1:12 AM Hans de Goede <hdegoede@redhat.com> wrote:
->
-> acpi_get_and_request_gpiod() does not take a gpio_lookup_flags argument
-> specifying that the pins direction should be initialized to a specific
-> value.
->
-> This means that in some cases the pins might be left in input mode, causing
-> the gpiod_set() calls made to enable the clk / regulator to not work.
->
-> One example of this problem is the clk-enable GPIO for the ov01a1s sensor
-> on a Dell Latitude 9420 being left in input mode causing the clk to
-> never get enabled.
->
-> Explicitly set the direction of the pins to output to fix this.
+On 11/28/22 15:53, Maxime Ripard wrote:
+> In order to test the current atomic_check hooks we need to have a DRM
+> device that has roughly the same capabilities and layout that the actual
+> hardware. We'll also need a bunch of functions to create arbitrary
+> atomic states.
+> 
+> Let's create some helpers to create a device that behaves like the real
+> one, and some helpers to maintain the atomic state we want to check.
+> 
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> ---
 
-...
+[...]
 
-> +       /* Ensure the pin is in output mode */
+> +
+> +config DRM_VC4_KUNIT_TEST
+> +	bool "KUnit tests for VC4" if !KUNIT_ALL_TESTS
+> +	depends on DRM_VC4 && KUNIT
 
-...in output mode and non-active state */
+shouldn't this depend on DRM_KUNIT_TEST instead ?
 
-> +       gpiod_direction_output(int3472->clock.ena_gpio, 0);
+[...]
 
-...
+> +static struct vc4_dev *__mock_device(struct kunit *test, bool is_vc5)
+> +{
+> +	struct drm_device *drm;
+> +	const struct drm_driver *drv = is_vc5 ? &vc5_drm_driver : &vc4_drm_driver;
+> +	const struct vc4_mock_desc *desc = is_vc5 ? &vc5_mock : &vc4_mock;
+> +	struct vc4_dev *vc4;
 
-> +       /* Ensure the pin is in output mode */
-> +       gpiod_direction_output(int3472->regulator.gpio, 0);
+Since it could be vc4 or vc5, maybe can be renamed to just struct vc_dev *vc ?
 
-So, previously it was AS IS and now it's non-active state. I believe
-this makes no regressions for the other laptops / platforms.
+> +struct vc4_dummy_plane *vc4_dummy_plane(struct kunit *test,
+> +					struct drm_device *drm,
+> +					enum drm_plane_type type)
+> +{
+> +	struct vc4_dummy_plane *dummy_plane;
+> +	struct drm_plane *plane;
+> +
+> +	dummy_plane = drmm_universal_plane_alloc(drm,
+> +						 struct vc4_dummy_plane, plane.base,
+> +						 0,
+> +						 &vc4_dummy_plane_funcs,
+> +						 vc4_dummy_plane_formats,
+> +						 ARRAY_SIZE(vc4_dummy_plane_formats),
+> +						 NULL,
+> +						 DRM_PLANE_TYPE_PRIMARY,
+> +						 NULL);
+> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, dummy_plane);
+> +
+> +	plane = &dummy_plane->plane.base;
+> +	drm_plane_helper_add(plane, &vc4_dummy_plane_helper_funcs);
+> +
+> +	return dummy_plane;
+> +}
+
+I guess many of these helpers could grow to be generic, like this one since
+most drivers support the DRM_FORMAT_XRGB8888 format for their primary plane.
+
+[...]
+
+>  
+> +extern const struct vc4_pv_data bcm2835_pv0_data;
+> +extern const struct vc4_pv_data bcm2835_pv1_data;
+> +extern const struct vc4_pv_data bcm2835_pv2_data;
+> +extern const struct vc4_pv_data bcm2711_pv0_data;
+> +extern const struct vc4_pv_data bcm2711_pv1_data;
+> +extern const struct vc4_pv_data bcm2711_pv2_data;
+> +extern const struct vc4_pv_data bcm2711_pv3_data;
+> +extern const struct vc4_pv_data bcm2711_pv4_data;
+> +
+
+Maybe the driver could expose a helper function to get the pixelvalve data
+and avoid having to expose all of these variables? For example you could
+define an enum vc4_pixelvalve type and have something like the following:
+
+const struct vc4_pv_data *vc4_crtc_get_pixelvalve_data(enum vc4_pixelvalve pv);
+
+All these are small nits though, the patch looks great to me and I think is
+awesome to have this level of testing with KUnit. Hope other drivers follow
+your lead.
+
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
 -- 
-With Best Regards,
-Andy Shevchenko
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
+
