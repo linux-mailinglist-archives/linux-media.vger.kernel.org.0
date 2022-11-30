@@ -2,138 +2,139 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 72E5663D372
-	for <lists+linux-media@lfdr.de>; Wed, 30 Nov 2022 11:31:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9252163D37A
+	for <lists+linux-media@lfdr.de>; Wed, 30 Nov 2022 11:34:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235256AbiK3KbY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 30 Nov 2022 05:31:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59464 "EHLO
+        id S233439AbiK3KeS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 30 Nov 2022 05:34:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36148 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235763AbiK3KbC (ORCPT
+        with ESMTP id S229457AbiK3KeR (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 30 Nov 2022 05:31:02 -0500
-Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com [IPv6:2a00:1450:4864:20::330])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0BD44842F
-        for <linux-media@vger.kernel.org>; Wed, 30 Nov 2022 02:30:59 -0800 (PST)
-Received: by mail-wm1-x330.google.com with SMTP id t1so12864596wmi.4
-        for <linux-media@vger.kernel.org>; Wed, 30 Nov 2022 02:30:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=YXQc9XEWwXQO5oC1YosCl7efmTS9cTKVl0+Fl9Ojos8=;
-        b=cFwn//sQuJyEF+Xqojf4F3dtCdu6AOypSnbLJkW3w/W2bvEbw3MBgE85Rlo8X/E9Hn
-         vwQOJMOLxK031tjfVgULjfK7VQth9G9gdUafF2gebgGPWDePmMoHlZn/U4SxZldtR0Ml
-         tNjZx9/SU8X1YZWdqC9XDCSlsM6k1qJVhaoQ8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=YXQc9XEWwXQO5oC1YosCl7efmTS9cTKVl0+Fl9Ojos8=;
-        b=XIhQT04MsFRMCBDUwMKTUrqwO5gqGWlOXnpQ2/5m4DXZDFBzc3hBThoUQWb+MdzjeS
-         TvkXinpV8bvEAeVv6Wmf+ttK7iS/uJmpczblopmlUON0bd5wm9zJ3UiF2PZFDMd3R6pr
-         YEjVgz9hO5MNE5LvbwkwTGybYtq/UJXR47MYqWqpe789Q08s/7Wz0liV3JwV8AGwsp6h
-         XlCY4mX34wfommRtUterzwunwiZO+BWuPc8kzEnP9VAkAHWYn+cMGzSJ9vCYU1dNj2aZ
-         qSf513uMnPkSSDNl2PqNA02WOd7P4HWLRusDX28WeUNevl5pDq/ZDaZAwm3AtSV8Iu9X
-         B+Ow==
-X-Gm-Message-State: ANoB5pmSvvOp8h92lAfNOuKhESTle/CWq12HhdwiTGkL0KuzyXPssmPw
-        dvQ3NIdO2RVpd3qR7X2C2z2aNw==
-X-Google-Smtp-Source: AA0mqf6SRJsk/MKKc9HQxdUZJsG0RmKyyQXTtpD31OSl0Vlst25pFdkXAN5H9o19tdez0HxXD0c9+A==
-X-Received: by 2002:a05:600c:5407:b0:3cf:774b:ce5a with SMTP id he7-20020a05600c540700b003cf774bce5amr36233164wmb.0.1669804258491;
-        Wed, 30 Nov 2022 02:30:58 -0800 (PST)
-Received: from phenom.ffwll.local (212-51-149-33.fiber7.init7.net. [212.51.149.33])
-        by smtp.gmail.com with ESMTPSA id u18-20020adfed52000000b00241d2df4960sm1109971wro.17.2022.11.30.02.30.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 30 Nov 2022 02:30:57 -0800 (PST)
-Date:   Wed, 30 Nov 2022 11:30:55 +0100
-From:   Daniel Vetter <daniel@ffwll.ch>
-To:     Nicolas Dufresne <nicolas@ndufresne.ca>
-Cc:     Daniel Vetter <daniel@ffwll.ch>,
-        Pekka Paalanen <ppaalanen@gmail.com>,
-        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-        Rob Clark <robdclark@gmail.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Lucas Stach <l.stach@pengutronix.de>,
-        Daniel Stone <daniel@fooishbar.org>, sumit.semwal@linaro.org,
-        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-        linux-media@vger.kernel.org
-Subject: Re: Try to address the DMA-buf coherency problem
-Message-ID: <Y4cw36MUO+ftP468@phenom.ffwll.local>
-References: <1e2a6750-9849-e9ee-69d6-e4bfdcfb64f3@gmail.com>
- <CAAFQd5B+VHs62M5Wf2L-xOw=_PoaXT+akAySkeZc75HeA3d0jQ@mail.gmail.com>
- <b2dec9b3-03a7-e7ac-306e-1da024af8982@amd.com>
- <346d6ad023ef8697aafd93ac1b100890f3637e44.camel@ndufresne.ca>
- <CAF6AEGuqgWi0T=B9cb+Uy7aoWBPGQmZ3JbwFcK_45GbkY2nHPg@mail.gmail.com>
- <Y3zeYnufgXJHQAbN@phenom.ffwll.local>
- <ae9ba9ba-3ad3-af23-be66-1540862bf571@amd.com>
- <20221123103338.238571e1@eldfell>
- <Y35LcspZ385IC4lJ@phenom.ffwll.local>
- <ba6e42f04c436d93bfa71d5dee7fd35ef2245073.camel@ndufresne.ca>
+        Wed, 30 Nov 2022 05:34:17 -0500
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1914E45A33
+        for <linux-media@vger.kernel.org>; Wed, 30 Nov 2022 02:34:16 -0800 (PST)
+Received: from [192.168.0.192] (unknown [194.146.248.75])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: andrzej.p)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id EA0776602B30;
+        Wed, 30 Nov 2022 10:34:13 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1669804454;
+        bh=2hFC5RSF5GsbSet1B9Ixu/bnkB8s7uP8bwzEtBcEJrY=;
+        h=Date:Subject:To:References:From:In-Reply-To:From;
+        b=Id34rgdvjDhgBWdQE7jhsxbfP/LCKwvxTPzn4V0EQty5zXc9itZt3bPGCYp+AYK2N
+         jSS9Wj5PvnnF8Fr85a2wqrU+b/6CTeslvgEAmPSAa+R3EhWlEJZL/or5fSrjoDyrh+
+         62NQCFtcthEuOGAICIfjUVBI1nBNwmEfK8yhCuRvqr4yVjJ3o/B2qi/ox1JbsKy0k+
+         i8OSd3mf/bwLQ6lm/TSZFfHS+VP51SMNsuxMvG6N19uJHRxbyo19NgV9zBep6AJShg
+         kfpX5zGOSh3RVG2lkY/8P/JprGLKDj5jWJDZugLyUyX+esor8u6V4wraOdznn4GY54
+         tU19Du/b47rBw==
+Message-ID: <d9106e1d-c03d-e792-6e7a-1fd4c9c47872@collabora.com>
+Date:   Wed, 30 Nov 2022 11:34:11 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: Correct way to use vb2_dma_sg via USB?
+To:     Hans Verkuil <hverkuil@xs4all.nl>,
+        Florian Echtler <floe@butterbrot.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Hans Verkuil <hans.verkuil@cisco.com>,
+        Christoph Hellwig <hch@lst.de>
+References: <c8e912fd-fe0e-8066-6357-e945a51afec2@butterbrot.org>
+ <01c9cd34-2499-79a2-7142-7269a9ff7711@butterbrot.org>
+ <47d4a419-a5fb-1361-93e2-c039625e94f9@butterbrot.org>
+ <c4e6c1ad-0551-951d-c469-407e07d18b5b@xs4all.nl>
+Content-Language: en-US
+From:   Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+In-Reply-To: <c4e6c1ad-0551-951d-c469-407e07d18b5b@xs4all.nl>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <ba6e42f04c436d93bfa71d5dee7fd35ef2245073.camel@ndufresne.ca>
-X-Operating-System: Linux phenom 5.19.0-2-amd64 
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Nov 25, 2022 at 11:40:04AM -0500, Nicolas Dufresne wrote:
-> Le mercredi 23 novembre 2022 � 17:33 +0100, Daniel Vetter a �crit�:
-> > On Wed, Nov 23, 2022 at 10:33:38AM +0200, Pekka Paalanen wrote:
-> > > On Tue, 22 Nov 2022 18:33:59 +0100
-> > > Christian K�nig <christian.koenig@amd.com> wrote:
-> > > 
-> > > > We should have come up with dma-heaps earlier and make it clear that 
-> > > > exporting a DMA-buf from a device gives you something device specific 
-> > > > which might or might not work with others.
-> > > > 
-> > > > Apart from that I agree, DMA-buf should be capable of handling this. 
-> > > > Question left is what documentation is missing to make it clear how 
-> > > > things are supposed to work?
-> > > 
-> > > Perhaps somewhat related from Daniel Stone that seems to have been
-> > > forgotten:
-> > > https://lore.kernel.org/dri-devel/20210905122742.86029-1-daniels@collabora.com/
-> > > 
-> > > It aimed mostly at userspace, but sounds to me like the coherency stuff
-> > > could use a section of its own there?
-> > 
-> > Hm yeah it would be great to land that and then eventually extend. Daniel?
+Hi Florian,
+
+W dniu 29.11.2022 o 17:28, Hans Verkuil pisze:
+> On 29/11/2022 16:48, Florian Echtler wrote:
+>> Following up on [PATCH 1/7] media: videobuf-dma-contig: use dma_mmap_coherent:
+>>
+>> If the videobuf framework is going to be replaced anyway, would it even make sense to try and fix this bug in the (admittedly very specific) sur40 driver?
 > 
-> There is a lot of things documented in this document that have been said to be
-> completely wrong user-space behaviour in this thread. But it seems to pre-date
-> the DMA Heaps. The document also assume that DMA Heaps completely solves the CMA
-> vs system memory issue. But it also underline a very important aspect, that
-> userland is not aware which one to use. What this document suggest though seems
-> more realist then what has been said here.
+> videobuf is the old predecessor of the videobuf2 framework. The sur40 driver
+> uses vb2 (as it should), and vb2 is here to stay.
 > 
-> Its overall a great document, it unfortunate that it only makes it into the DRM
-> mailing list.
+> The old videobuf framework is on the way out, but that's unrelated to your driver.
+> 
+> I'm afraid I'm not a usb expert, so I can't help with this.
+> 
+> Regards,
+> 
+> 	Hans
+> 
+>>
+>> If the answer should be yes, then I'd still need a hint about how to make vb2_dma_sg work with usb_sg_init...
+>>
+>> Best, Florian
+>>
+>> On 14.11.22 15:32, Florian Echtler wrote:
+>>> Sorry to nag again, but is there anyone around who might be able to give me hint? Have not been able to find any conclusive documentation on this.
+>>>
+>>> Best, Florian
+>>>
+>>> On 09.11.22 11:09, Florian Echtler wrote:
+>>>> Hello everyone,
+>>>>
+>>>> while trying to fix the regression in sur40.ko mentioned earlier, I noticed that apparently some other bits of the DMA pipeline have changed as well in the meantime.
+>>>>
+>>>> The code bit in question in sur40.c currently looks as follows:
+>>>>
+>>>>       sgt = vb2_dma_sg_plane_desc(&new_buf->vb.vb2_buf, 0);
 
-The doc is more about document the current status quo/best practices,
-which is very much not using dma-heaps.
+I can't give you a fish, but maybe I can point to where the fishing rod is.
 
-The issue there is that currently userspace has no idea which dma-heap to
-use for shared buffers, plus not all allocators are exposed through heaps
-to begin with. We had this noted as a todo item (add some device->heap
-sysfs links was the idea), until that's done all you can do is hardcode
-the right heaps for the right usage in userspace, which is what android
-does. Plus android doesn't have dgpu, so doesn't need the missing ttm
-heap.
+Based on the description (nents == 0) I'd _assume_ that the problem is not at
+the videobuf2-usb intersection but rather in a way videobuf2 is/should be used.
+This is only an _assumption_, though.
 
-But yeah the long-term aspiration also hasn't changed, because the
-dma-heap todo list is also very, very old by now :-/
--Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+The above call ends up in vb2_dma_sg_cookie(). The "cookie" is buf->dma_sgt,
+which, according to the comment in struct vb2_dma_sg_buf definition, will point
+to eiter sg_table (vb2_dma_sg_buf's member) or dma_buf sglist.
+
+You need to know which memory model you use: mmap, userptr or dmabuf.
+
+The reason why nents is (still?) zero might be that dma_map_sgtable() has never
+been called. Or __dma_map_sg_attrs() in dma_map_sgtable() returns < 0, or 0.
+While at it, sgt->orig_nents is actually used in __dma_map_sg_attrs()
+invocation. Inside __dma_map_sg_attrs() a zero is returned if !dev->dma_mask.
+Otherwise a result of either dma_direct_map_sg() or ops->map_sg() is returned.
+
+Maybe that helps you debug the issue.
+
+Regards,
+
+Andrzej
+
+>>>>
+>>>>       result = usb_sg_init(&sgr, sur40->usbdev,
+>>>>           usb_rcvbulkpipe(sur40->usbdev, VIDEO_ENDPOINT), 0,
+>>>>           sgt->sgl, sgt->nents, sur40->pix_fmt.sizeimage, GFP_KERNEL);
+>>>>
+>>>> However, when I put in some debug output, I noticed that sgt->nents is zero. Shouldn't that be initialized by vb2_dma_sg_plane_desc?
+>>>>
+>>>> I tried to manually set it to 1 and got some partially-filled buffers back, so this seems the right way to go, but I couldn't find any other driver/example that uses this combination. Any hints
+>>>> very welcome.
+>>>>
+>>>> Best, Florian
+>>>
+>>
+> 
+
