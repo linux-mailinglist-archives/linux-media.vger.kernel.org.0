@@ -2,121 +2,134 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EF7E163D2B9
-	for <lists+linux-media@lfdr.de>; Wed, 30 Nov 2022 11:03:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8D8D563D2DA
+	for <lists+linux-media@lfdr.de>; Wed, 30 Nov 2022 11:11:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235372AbiK3KDx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 30 Nov 2022 05:03:53 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35160 "EHLO
+        id S235284AbiK3KLH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 30 Nov 2022 05:11:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40310 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232803AbiK3KDo (ORCPT
+        with ESMTP id S233628AbiK3KLB (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 30 Nov 2022 05:03:44 -0500
-Received: from mail-qk1-x730.google.com (mail-qk1-x730.google.com [IPv6:2607:f8b0:4864:20::730])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0296E2FA7C;
-        Wed, 30 Nov 2022 02:03:44 -0800 (PST)
-Received: by mail-qk1-x730.google.com with SMTP id k2so11836007qkk.7;
-        Wed, 30 Nov 2022 02:03:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=eaVjldeP+uADnpJz5nFWHJvfok/q/RDOhNw15aDm8Fk=;
-        b=b+gunAuaxdJNm18EbKAXvEkjEIWYWR4ShZh2OJI2DmqX9NrIVhTev4poU37dgVDsnD
-         EdlL7f5YevGZnnetp9PEu8ogL05rVlKg3f1LqqZGcd7mE/P94Opv5APFmhvXmmVwwawF
-         7wxYLEQSPNR1qZivhVOCuOoXntHtXfWANQQUE2XgjeJS6bG5MPcWddI7VP4N7UssL5bs
-         BKjEw63j33NYKWvj5tGoUGeGMDlg6VmGjx15ElnJKUQ5/invypY6R5hGCVfjO+sp8eB+
-         s4Idx0/PjELuiKHaVybfECqpqlUmRW2tKU6gm28wNDbmjB5U1sAYMAvuYB8Au91tpg7H
-         aSwQ==
+        Wed, 30 Nov 2022 05:11:01 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A98D27CE6
+        for <linux-media@vger.kernel.org>; Wed, 30 Nov 2022 02:10:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1669803003;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=NoPdGdP1XN2IHlWy3xzG7ljlYAvy6qLxs9MsnW+HAEQ=;
+        b=ZlZdyiD78BGnR/7hjwAEKvQuX3EWxeCxZAEK1un/gXLY11oC2oLzTipH7O2gQvjAkNXSfl
+        VWCLswQXrsJ0DeE4uElLYmxNPYlFjF7gMIja7EsP/eBVb8zgPxM2525nGISImPvjh3nbLQ
+        xTmuQ3MdMBKlw/dgan7AxN2Yc7Qd600=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-563-B1AnKgFhN_qqfzyrYkG3tQ-1; Wed, 30 Nov 2022 05:10:02 -0500
+X-MC-Unique: B1AnKgFhN_qqfzyrYkG3tQ-1
+Received: by mail-wm1-f71.google.com with SMTP id bg25-20020a05600c3c9900b003cf3ed7e27bso9173031wmb.4
+        for <linux-media@vger.kernel.org>; Wed, 30 Nov 2022 02:10:01 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=eaVjldeP+uADnpJz5nFWHJvfok/q/RDOhNw15aDm8Fk=;
-        b=cmY4TnSoI8gc+9VmaLjs/wLUTTqnDSp4L1Nx+RqieGCWJN2kqH3Pn6wTKKj2vfrU2H
-         0Zj7Aq7fPghnudBQG9Zwej6jzxp38uaPg0K1bxEiw2xFDw9sG4UQ+NtV7cd63r8n9IBK
-         7XZH5wIR9hZ1N7Q+lxlCBWQeXWwCG1TxCszoRIxndPxGDjaPyOtXxg8rRz2JS6n7deBs
-         Bva/xLBmtQ8zmm6nZuWpmyRKNVjnbQVTCP2ZmPfDzYZ5hVOQerbtBPNuTlXgugLnIy+z
-         ixJwyD+RFX8Jztw6UBdZRSfXmNxkVdQVIGs74rLWyNpKjoRbsCi90NT5C7YIc/TXIhCt
-         OTVg==
-X-Gm-Message-State: ANoB5pmr255tt3ng/GQ/7kbBkld1XJvobOsnEXUgKiz4MP75ikB9cRpp
-        FO+7Bad27r+VFFVGKPZUNWXF3IkUWI3ElopLeqw=
-X-Google-Smtp-Source: AA0mqf6ajD+uUb73bB7xIine8wZa8kJJXlWR4hBFk0gUci+QyAlbT3ut/JGRChCt9QrYbz9VAD4mUqqCyqtpcKxA8AM=
-X-Received: by 2002:a05:620a:1aa3:b0:6fa:b56f:7ede with SMTP id
- bl35-20020a05620a1aa300b006fab56f7edemr54317437qkb.383.1669802623073; Wed, 30
- Nov 2022 02:03:43 -0800 (PST)
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=NoPdGdP1XN2IHlWy3xzG7ljlYAvy6qLxs9MsnW+HAEQ=;
+        b=ad39j9gTffvbThcpbML6uwCJukmUipyGA5tvR5e1MT61Ta1pDffSAuwmy5PcjQp+WU
+         QnUPoeRQBDCg1rmcYFJdKsJfUrJ005QDV5qMpsSalHfMIdUEU+rSV21AnO1WB+kOLT4I
+         r9CjMwi14x4iFjTFLLsim0Zeb1Erl2b6oXBAOmOcJT8JUXL4j+r6B1UGwRIm7D/DEusq
+         u5B8uOE+Zi7w97BMgy0QnUcz5lWvCmBoVaa65ChkjbwF3miuJAOpu4BklJ+NQUdqK6No
+         +F/YlwdOPeNZG3VYePUg+XysWX064aKhkId6zcVwb67mHtRO3hZUDb2+r0ADW7AWrTVq
+         Iq9Q==
+X-Gm-Message-State: ANoB5pkO0rFOm3QP/cQUB2w2hGDwaBeqDdodzlRtaRYPODKTgeQlqUXK
+        GTKxJK4z7p6J7HkHUQeToRva1wqkhZ/szlHfk6I0ppEhfveTtYtH4KzK++3rGXbxIT/q6SmvlYs
+        hhHHiRzS159diBZWWvBOKfZY=
+X-Received: by 2002:a5d:504d:0:b0:242:246c:2f89 with SMTP id h13-20020a5d504d000000b00242246c2f89mr3758400wrt.108.1669803000957;
+        Wed, 30 Nov 2022 02:10:00 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf5FkWQT/k1GHgrsZnt54cNcc31t/15SG2tVARml33QGcmHm1VSq1hvfrPDi51V6Qbq5abMc4Q==
+X-Received: by 2002:a5d:504d:0:b0:242:246c:2f89 with SMTP id h13-20020a5d504d000000b00242246c2f89mr3758377wrt.108.1669803000781;
+        Wed, 30 Nov 2022 02:10:00 -0800 (PST)
+Received: from [192.168.1.130] (205.pool92-176-231.dynamic.orange.es. [92.176.231.205])
+        by smtp.gmail.com with ESMTPSA id b18-20020a5d5512000000b0023c8026841csm514653wrv.23.2022.11.30.02.09.59
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 30 Nov 2022 02:10:00 -0800 (PST)
+Message-ID: <31351d94-91ba-b0fe-cb20-3dcc8254fb66@redhat.com>
+Date:   Wed, 30 Nov 2022 11:09:59 +0100
 MIME-Version: 1.0
-References: <20221129231149.697154-1-hdegoede@redhat.com>
-In-Reply-To: <20221129231149.697154-1-hdegoede@redhat.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Wed, 30 Nov 2022 12:03:07 +0200
-Message-ID: <CAHp75Vfvsefb8M-yZXxu18PQwnN7b0NgCSJKpQ4Qcdkv5Tu9-Q@mail.gmail.com>
-Subject: Re: [PATCH 0/6] ov5693/int3472: Privacy LED handling changes + IPU6 compatibility
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Mark Gross <markgross@kernel.org>,
-        Andy Shevchenko <andy@kernel.org>,
-        Daniel Scally <djrscally@gmail.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        platform-driver-x86@vger.kernel.org,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Kate Hsuan <hpa@redhat.com>,
-        Mark Pearson <markpearson@lenovo.com>,
-        linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.1
+Subject: Re: [PATCH v2 16/17] drm/vc4: tests: Fail the current test if we
+ access a register
+Content-Language: en-US
+To:     Maxime Ripard <maxime@cerno.tech>, Daniel Vetter <daniel@ffwll.ch>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        David Airlie <airlied@gmail.com>,
+        Thomas Zimmermann <tzimmermann@suse.de>
+Cc:     dri-devel@lists.freedesktop.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        kunit-dev@googlegroups.com, linux-media@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+        Brendan Higgins <brendan.higgins@linux.dev>,
+        =?UTF-8?Q?Ma=c3=adra_Canal?= <mairacanal@riseup.net>,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        linux-kernel@vger.kernel.org, David Gow <davidgow@google.com>
+References: <20221123-rpi-kunit-tests-v2-0-efe5ed518b63@cerno.tech>
+ <20221123-rpi-kunit-tests-v2-16-efe5ed518b63@cerno.tech>
+From:   Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <20221123-rpi-kunit-tests-v2-16-efe5ed518b63@cerno.tech>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Nov 30, 2022 at 1:12 AM Hans de Goede <hdegoede@redhat.com> wrote:
->
-> Hi All,
->
-> The out of tree IPU6 driver has moved to using the in kernel INT3472
-> code for doing power-ctrl rather then doing their own thing (good!).
+On 11/28/22 15:53, Maxime Ripard wrote:
+> Accessing a register when running under kunit is a bad idea since our
+> device is completely mocked.
+> 
+> Fail the current test if we ever access any of our hardware registers.
+> 
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> ---
 
-than
+[...]
 
-> Some of the IPU6 devices with a discrete INT3472 ACPI device have a
-> privacy-led GPIO. but no clk-enable GPIO. To make this work this series
-> moves the privacy LED control from being integrated with the clk-provider
-> to modelling the privacy LED as a separate GPIO. This also brings the
-> discrete INT3472 ACPI device privacy LED handling inline with the privacy
-> LED handling for INT3472 TPS68470 PMIC devices which I posted here:
->
-> https://lore.kernel.org/platform-driver-x86/20221128214408.165726-1-hdegoede@redhat.com/
->
-> This obsoletes my previous "[PATCH 0/3] platform/x86: int3472/discrete:
-> Make it work with IPU6" series:
->
-> https://lore.kernel.org/platform-driver-x86/20221124200007.390901-1-hdegoede@redhat.com/
->
-> Mauro since laptops with IPU6 cameras are becoming more and more
-> popular I would like to get this merged for 6.2 so that with 6.2
-> users will be able to build the out of tree IPU6 driver without
-> requiring patching their main kernel. I realize we are a bit
-> late in the cycle, but can you please still take the ov5693 patch
-> for 6.2 ? It is quite small / straight-forward and since it used
-> gpiod_get_optional() it is a no-op without the rest of this series.
->
-> This series has been tested on:
->
-> - Lenovo ThinkPad X1 Yoga gen 7, IPU6, front: ov2740 with privacy LED
-> - Dell Latitude 9420, IPU 6 with privacy LED on front
-> - Mirosoft Surface Go, IPU3, front: ov5693 with privacy LED,
+> -#define CRTC_WRITE(offset, val) writel(val, vc4_crtc->regs + (offset))
+> -#define CRTC_READ(offset) readl(vc4_crtc->regs + (offset))
+> +#define CRTC_WRITE(offset, val)								\
+> +	do {										\
+> +		kunit_fail_current_test("Accessing a register in a unit test!\n");	\
+> +		writel(val, vc4_crtc->regs + (offset));					\
+> +	} while (0)
+> +
+> +#define CRTC_READ(offset)								\
+> +	({										\
+> +		kunit_fail_current_test("Accessing a register in a unit test!\n");	\
+> +		readl(vc4_crtc->regs + (offset));					\
+> +	})
+> 
 
-Microsoft?
+Should this be made conditional on whether DRM_VC4_KUNIT_TEST is enabled ? 
 
->                               back: ov8865 with privacy LED
+That is, just define the simpler macros when is disabled? The kunit_fail_current_test()
+is just a no-op if CONFIG_KUNIT isn't enabled, but I think my question still stands.
 
-I like this series! Minimum invasion and code.
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
 -- 
-With Best Regards,
-Andy Shevchenko
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
+
