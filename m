@@ -2,284 +2,271 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C6C5E63DAF7
-	for <lists+linux-media@lfdr.de>; Wed, 30 Nov 2022 17:49:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1F04063DB07
+	for <lists+linux-media@lfdr.de>; Wed, 30 Nov 2022 17:53:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229997AbiK3Qt3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 30 Nov 2022 11:49:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38668 "EHLO
+        id S230015AbiK3Qxh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 30 Nov 2022 11:53:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42868 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229565AbiK3Qt1 (ORCPT
+        with ESMTP id S229798AbiK3Qxg (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 30 Nov 2022 11:49:27 -0500
-Received: from NAM04-DM6-obe.outbound.protection.outlook.com (mail-dm6nam04on2062.outbound.protection.outlook.com [40.107.102.62])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 47D5C26541;
-        Wed, 30 Nov 2022 08:49:26 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=NBLmQKz7TH0eeYv/cr9firVFx7lwVUd088DsntW0bj25CaqNGqGmX/0c/3zPRr+mQw2fdBVQIeaaIYHbpuu+zX7YEU+Uv5rQs4U7wUz/vCUsl5Y8GGlZAJro9w4+eWSystTY0N+RD6U/cEQTdyuCPrbpr/4l1LkMpat/45CEC9+MM5ZQEl1mu8TNB8lSMx9qUuLmLplIc/ksyi4I/eMKY1kKZzo964EkFjYjtet0gof69oVTpOsMy2qNrw01IPGJ7pn5MfgFa6l9BnHvvHjf2I/+DEA0jQxezT2ctUBZ/Ex4mlrhLD4EzxSeJ5r689ixsONQgQvhi+LYy655Tbb15w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=G3rIJH+VISFKpKVgwu04SYI1Z9pp9VKzC1h5GCjd6SM=;
- b=iMkAinOFo8Ff2T2r+N+zhnpYAmAMJVDrPqa7mNc2NlwbOjbE7+3CnqVKfOPseMTauEwOkPk6ElhzHTw52lwT35IfUDDN+4ICOvaRtKLMvd8imnX3k3Y7GAR2jof4Rqay8w1QD+YCciyTIKM4K53oMcRhFsA++LXzXkgqEjcM53XULd/xsJWvzOlxyU9LQV4xgWh7b6xXyrdnaK5APm7qEjzPYwgIoJ3b1+5dCDk0j+9kfzKeFx/pGVMqkBJ9UheGhaIiYJuWNHUsx9b2ZxxWbvmwGp47xu0bsrmvKb06KVGbuNDWljKPtR10xKRgcqkCYc1fd88twWd6zZWr1SJt2g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=synaptics.com; dmarc=pass action=none
- header.from=synaptics.com; dkim=pass header.d=synaptics.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=Synaptics.onmicrosoft.com; s=selector2-Synaptics-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=G3rIJH+VISFKpKVgwu04SYI1Z9pp9VKzC1h5GCjd6SM=;
- b=SJ1mcmYmfoUvFfBzaCdbA48GBLtX3ROZGDFXIg6T8KUD8vgDUQc/6nTj0UrnoXwzuu4Gr3dwQkddKXWa5l7f0zVqAu2qF97xVJaEC3vJwiJOMsnZ0Dadj+LrdCA+5qsi9i5ZzZD+wplS2acoz+3uQiAD+RDoNb3FbauGeK3Wm90=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=synaptics.com;
-Received: from DM6PR03MB5196.namprd03.prod.outlook.com (2603:10b6:5:24a::19)
- by SJ0PR03MB6343.namprd03.prod.outlook.com (2603:10b6:a03:399::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5857.23; Wed, 30 Nov
- 2022 16:49:23 +0000
-Received: from DM6PR03MB5196.namprd03.prod.outlook.com
- ([fe80::a132:66d9:ed0f:e5c1]) by DM6PR03MB5196.namprd03.prod.outlook.com
- ([fe80::a132:66d9:ed0f:e5c1%5]) with mapi id 15.20.5857.023; Wed, 30 Nov 2022
- 16:49:23 +0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-From:   Randy Li <ranl@synaptics.com>
-Subject: Re: [PATCH v5 1/2] drm/fourcc: Add Synaptics VideoSmart tiled modifiers
-Date:   Thu, 1 Dec 2022 00:49:16 +0800
-Message-Id: <0D62976C-77E2-4748-AA90-C50D5E2CA48C@synaptics.com>
-References: <Y4c+5f3qZd6Epd1C@phenom.ffwll.local>
-Cc:     Hsia-Jun Li <randy.li@synaptics.com>,
-        dri-devel@lists.freedesktop.org, nicolas@ndufresne.ca,
-        sakari.ailus@linux.intel.com, airlied@linux.ie, ayaka@soulik.info,
-        linux-kernel@vger.kernel.org, tfiga@chromium.org,
-        helen.koike@collabora.com, linux-media@vger.kernel.org,
-        ezequiel@vanguardiasur.com.ar, tzimmermann@suse.de,
-        ribalda@chromium.org, sebastian.hesselbarth@gmail.com,
-        mchehab@kernel.org, linux-arm-kernel@lists.infradead.org,
-        laurent.pinchart@ideasonboard.com
-In-Reply-To: <Y4c+5f3qZd6Epd1C@phenom.ffwll.local>
-To:     Daniel Vetter <daniel@ffwll.ch>
-X-Mailer: iPad Mail (18D61)
-X-ClientProxiedBy: BYAPR11CA0077.namprd11.prod.outlook.com
- (2603:10b6:a03:f4::18) To DM6PR03MB5196.namprd03.prod.outlook.com
- (2603:10b6:5:24a::19)
+        Wed, 30 Nov 2022 11:53:36 -0500
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E5C7E10FA;
+        Wed, 30 Nov 2022 08:53:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1669827214; x=1701363214;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=2CWqfYWjz0j8ooZ46ClrtGPt6u4hsbMa9B6BtMjzhTI=;
+  b=hQ/yraFBBrMnBhGFmLv311/Z2C8UWPfvHZMXABpvILdPxgiWDYUVnq8g
+   mOTUfPN3NJvXkLH2JK1QYRHVUYJcJNwUyobblopZw7cy76HoETxmHQl2u
+   4+VlcEm9majyNkXJSEI9ZkAOwqxfqVjOJpEbg4Jj2kslg11rJcA6Nusm4
+   hjXasl3SCN6Cfj94Uc9jYHNECfAPj6ff4aP3olqcSeTvLlBqfyBRcSUag
+   /41hkJIOEk/fuRRyGcHrLt9EAyijSQTAaP/viUO84De/vqPf3DXiOazZu
+   pKHbPEa60fz5tZeFDv2+7t6Yzf5K2QNCIEis3WM/dm5F1a6LJRiN8pO+1
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10547"; a="317296535"
+X-IronPort-AV: E=Sophos;i="5.96,207,1665471600"; 
+   d="scan'208";a="317296535"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Nov 2022 08:53:34 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10547"; a="750417452"
+X-IronPort-AV: E=Sophos;i="5.96,207,1665471600"; 
+   d="scan'208";a="750417452"
+Received: from lkp-server01.sh.intel.com (HELO 64a2d449c951) ([10.239.97.150])
+  by fmsmga002.fm.intel.com with ESMTP; 30 Nov 2022 08:53:31 -0800
+Received: from kbuild by 64a2d449c951 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1p0QKw-000BT1-18;
+        Wed, 30 Nov 2022 16:53:30 +0000
+Date:   Thu, 01 Dec 2022 00:52:57 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     nouveau@lists.freedesktop.org, netfilter-devel@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, linux-omap@vger.kernel.org,
+        linux-mm@kvack.org, linux-media@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        dri-devel@lists.freedesktop.org, coreteam@netfilter.org,
+        amd-gfx@lists.freedesktop.org,
+        Linux Memory Management List <linux-mm@kvack.org>
+Subject: [linux-next:master] BUILD REGRESSION
+ 700e0cd3a5ce6a2cb90d9a2aab729b52f092a7d6
+Message-ID: <63878a69.MJgnxRPRAUz4LkuC%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6PR03MB5196:EE_|SJ0PR03MB6343:EE_
-X-MS-Office365-Filtering-Correlation-Id: 69a61328-e22b-4c3c-18e5-08dad2f2d56d
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 4V33pVodBJPerAZtVpWnKdRhIGTPkWp3q+5LRjnWXUKXsZYekjkjtc4wmhd63XJfA3h4NbQu7YvQIIrYw82TKpdBbtObVUPHd6cQIVV5EmNWPvHgaZSusZaelJri5xnn2/4FAa8z3QgCvBkDon84EIEcBvMKnGADhxqivJUxbYbrbcLzVJM4OaixnLQBlpbewzxx5S1cljIawX3OC12Icm3sXb93gJlMaueZnH/krH73AzyzappVIA/is1jqNlM1XsiN7U9n5NhatDk5eqZlP89kwDcVL8dE7mPclzksVXECPja55Y9dLsr7jH+5kxlP03F6yEzUK1ffr3feoGHgjwyVtMrtbYzUJFjDNWU8UpA3noAPLIvg/8vc5lTkmfu3GOiauHGHCFCvMsqBQb3/PtILGgHm5E1OfSzsTOCTWo31wdRWOTvMeJnLHiutjPk7nFGqSM2jF6l54sk1DaQRKN22HUpyL8CesAKW/V6/jMDPZJ9BzXolIUptLAuqJPHmerrAGqB6CwTD4ucawyAljkcXB7lF42UFmH0vbKseWivDD42oSzgWQ3YPHdsx1YlW0wTDNNQCGxcEXt6z/uPTWrHTF3JX8iRvnvzfIceo38Lw3WQVIBly5kfW+LDSPrJYjx1aekFp0wQrLFf7cdrTrCYwheloNZGyY5jfYgDgdHZO1aDZPK5kahPzvsr/ccFzluJkJ8w8JS0SLQTFaGPbv+p7WwuqXhqw4gjLc+7yiMBeQrQtV1JRei3lzUnIfbbp
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR03MB5196.namprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(346002)(366004)(39860400002)(396003)(376002)(136003)(451199015)(4326008)(8676002)(41300700001)(5660300002)(7416002)(8936002)(66946007)(2906002)(66556008)(66476007)(6486002)(966005)(6506007)(26005)(6666004)(6512007)(478600001)(2616005)(186003)(52116002)(53546011)(36756003)(316002)(6916009)(33656002)(38100700002)(38350700002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TEtwcmQzTnRBQXRsdnB4RGNOcW0rNERuNnlvdXNzLzlzWldKbUh1WlVZeUY1?=
- =?utf-8?B?WDV2UGdnQ1VUdUJQYjlSVTZWaGRrdzNoQklMRFRMZmIxQmx3dDFxaWlWTVZy?=
- =?utf-8?B?eTVVSHlJWXc3RUJOU1BDWTFOak5JWG9YOHJPMEVPZGpXZXBGZm5jTktnRWlD?=
- =?utf-8?B?N3g3cnhEK2pZbVZvM1VPa2k3cVZJcEVROFc2bHVYY3I1dUt2YnJzR1VnOVUr?=
- =?utf-8?B?QmtlcGRvSjRoTG16RlIwd3dOS2dmblpCVlExRGtFSUpTQ2xuM3VIYnlJeGNj?=
- =?utf-8?B?bkhkQmVHRlVoYWV1VEVnOGJHSEg1OXpvYzlhSHozRVNQRzlNK0ZjNzBkMUND?=
- =?utf-8?B?d2Y0bCtUNUh5QWZuVG5PQnhKUTdMVmxCK3liRlVDTkIrWDZqRWlmVk82VWxP?=
- =?utf-8?B?ZTFSVyt3MmgzOGVLN1pMQUsrcWlkQUlyeHZJTU1lc2wxalh0N3JJOUYyUFZY?=
- =?utf-8?B?OFVVWnl3ZjdDM3V6YlpjNExkUU40aldKSHhJWGkxemhzSnhQeSs3WDJPVnY1?=
- =?utf-8?B?bEwvTTBxYWdlWFE4Z0xrTjd5SEFtajNkRFBHNHJBeHl5QU1pZ3VOZzFlY1Ir?=
- =?utf-8?B?ZklHT2krT0JRSmZnYXNaL0JjcFVHZU1VTTh5eGJNWHp3WTAzaFNzamZCT3lC?=
- =?utf-8?B?YWFHclBrdzUzWlY4T1YyQzRNck9vb3ZkYlYrWXg0NEZsVGlkbzMrNk5yaW10?=
- =?utf-8?B?S0NqVy9ZeWJGUVZJS01PbHJsT1hZanJxLzA4dUNpUllRNkt6bU1YV0tjcFZT?=
- =?utf-8?B?RFJldTZJSkFnM0hOZnlQYUdvanM3RU9rcWVCdE1HNDJ1UGhjOWRqY1hheXZR?=
- =?utf-8?B?MmJ6TDYrMGtlYStKTzluaGlIdXdwSmZ0MU14RTk1R29ZVTlHbzVBR1lJNDVM?=
- =?utf-8?B?TFJ6M0xYMzhsTGVjWUVVTE1MYmFpbXcxbG93R0lKUFFXbzd0OFR1WmJCVnRX?=
- =?utf-8?B?SEtrd1JaTmZOT1JZaDNRK2Rvc3FhOXlmRE13OXcydFFrc2h0Qm04YUJhRTQ4?=
- =?utf-8?B?emVKVUc0THlsYlFrdUpyeThOVHAvWTUrNjN6eEp3MFZqeUIzRWMvZEJ1anlq?=
- =?utf-8?B?WjBmVXdISm1tckZlS0NmeEtjSVNyNHFSWnBYTVQyaEFxUmV3TU1HeHIwc1dB?=
- =?utf-8?B?UUdjd0RyUTBzMDNBUWVrVXdjQzhxdG1RZm81TCtONURIZlMrUzVhZHFqYy9R?=
- =?utf-8?B?Z0Y3MXg1S0pNNkJPeGhzT0VLWUQrSUlwS2YyeE9iZ1JZZUJxZHNlQWllcGJD?=
- =?utf-8?B?T0I2bTFkcDAyOERBM0JJUkdzSjdzbFpSeTg4TWFMeStiejJrTEJUdWl0V0VV?=
- =?utf-8?B?Tjg1STRPeVpwRUxCSmNsV2M1c2JwT2UweWtmQnFna2Z2cFJsbXBTRnQxMURr?=
- =?utf-8?B?TEQvTFRHY0U0WHkwbXpjTFgyV3VwWWFwZFNnWjU1Y01EVDIwY1A5ZmVPTzdC?=
- =?utf-8?B?bGZhT0ZKMXRiV21zNEFzVlZIUThzNjZRaWNvS2lVN2JtTmJHQ1gzS1RPWnow?=
- =?utf-8?B?eUZraldIKyt4T3N3TzlheGdkNEw3S3hwaTN4Y0FoNjhiL1BuVCtzZlRRNEZz?=
- =?utf-8?B?alRrOWhOWXRxOUZZYXIzVUxKOTdBSVJNeXBsZ21WQUNkcFJheURDZkRyUlpJ?=
- =?utf-8?B?R0pVblJKMG1WOGdNUWlSUERMSzg5MzIvQzYyYWNNY2wyNWhOUTFkdWlZZ1Aw?=
- =?utf-8?B?TXB4UFFTemc4OE1vMG5FQzNvUGN2Z3p1dTB3OHFaSUhUbVU5THIrZFJ2cElF?=
- =?utf-8?B?dWtlY2gxeFpiRStzeHlZR0RTbGsweGNwWkNQUHgyb2dzYkFRbDVQbzVGbk5y?=
- =?utf-8?B?NnZQMTd1QlNNNnhaTk0rSCtqNnRXMW9tVlk2eXBYQVpmWmlXK3FYWmh6OHVJ?=
- =?utf-8?B?ZFBWUWpjVG9aTTBDb3V5RFhmK0tFemtuekNxcVZYUVIrcGdmblR5a21VMVV1?=
- =?utf-8?B?R0MxQmxaTjdrakdSV1ovVEdlTTJ2akRFREpVMUFUbjYxYkZRMHlwcXFoeWx4?=
- =?utf-8?B?QllYOTRsTDZFYnVhSG91cEZrMXhZaDJMaWJjTzhneDBYbG1VMUhsazFXbzdQ?=
- =?utf-8?B?R1hZcjIwMW41M0hvS2s2TWhCbkNhQXRhK3dnT0hDY240RDZxZkIyeWlvbTYr?=
- =?utf-8?Q?nPNOB2AX6oNUjotoNDzYhcmI6?=
-X-OriginatorOrg: synaptics.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 69a61328-e22b-4c3c-18e5-08dad2f2d56d
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR03MB5196.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Nov 2022 16:49:23.2693
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 335d1fbc-2124-4173-9863-17e7051a2a0e
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Emkj7PGFsa3Lts83BADhtXjbVd+qqg+aIkBQ0CJ3LmvGkMA/M1vikyGohh+WXYm+F8zLddDw6rlBsphADY2jiw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR03MB6343
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+branch HEAD: 700e0cd3a5ce6a2cb90d9a2aab729b52f092a7d6  Add linux-next specific files for 20221130
 
+Error/Warning reports:
 
-Sent from my iPad
+https://lore.kernel.org/oe-kbuild-all/202211090634.RyFKK0WS-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202211110149.0ETIfpy6-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202211242021.FDZRFNA8-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202211242120.MzZVGULn-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202211282102.QUr7HHrW-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202211301622.RXGmFGTv-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202211301634.cejLlTJP-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202211301840.y7rROb13-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202211302059.vIaoimsf-lkp@intel.com
 
-> On Nov 30, 2022, at 7:30 PM, Daniel Vetter <daniel@ffwll.ch> wrote:
->=20
-> =EF=BB=BFCAUTION: Email originated externally, do not click links or open=
- attachments unless you recognize the sender and know the content is safe.
->=20
->=20
->> On Wed, Nov 30, 2022 at 05:21:48PM +0800, Hsia-Jun Li wrote:
->> From: "Hsia-Jun(Randy) Li" <randy.li@synaptics.com>
->>=20
->> Those modifiers only record the parameters would effort pixel
->> layout or memory layout. Whether physical memory page mapping
->> is used is not a part of format.
->>=20
->> Signed-off-by: Hsia-Jun(Randy) Li <randy.li@synaptics.com>
->> ---
->> include/uapi/drm/drm_fourcc.h | 76 +++++++++++++++++++++++++++++++++++
->> 1 file changed, 76 insertions(+)
->>=20
->> diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc=
-.h
->> index bc056f2d537d..e0905f573f43 100644
->> --- a/include/uapi/drm/drm_fourcc.h
->> +++ b/include/uapi/drm/drm_fourcc.h
->> @@ -407,6 +407,7 @@ extern "C" {
->> #define DRM_FORMAT_MOD_VENDOR_ARM     0x08
->> #define DRM_FORMAT_MOD_VENDOR_ALLWINNER 0x09
->> #define DRM_FORMAT_MOD_VENDOR_AMLOGIC 0x0a
->> +#define DRM_FORMAT_MOD_VENDOR_SYNAPTICS 0x0b
->>=20
->> /* add more to the end as needed */
->>=20
->> @@ -1507,6 +1508,81 @@ drm_fourcc_canonicalize_nvidia_format_mod(__u64 m=
-odifier)
->> #define AMD_FMT_MOD_CLEAR(field) \
->>      (~((__u64)AMD_FMT_MOD_##field##_MASK << AMD_FMT_MOD_##field##_SHIFT=
-))
->>=20
->> +/*
->> + * Synaptics VideoSmart modifiers
->> + *
->> + * Tiles could be arranged in Groups of Tiles (GOTs), it is a small til=
-e
->> + * within a tile. GOT size and layout varies based on platform and
->> + * performance concern.
->> + *
->> + * Besides, an 8 length 4 bytes arrary (32 bytes) would be need to stor=
-e
->> + * some compression parameters for a compression metadata plane.
->> + *
->> + * Further information can be found in
->> + * Documentation/gpu/synaptics.rst
->> + *
->> + *       Macro
->> + * Bits  Param Description
->> + * ----  ----- --------------------------------------------------------=
----------
->> + *
->> + *  7:0  f     Scan direction description.
->> + *
->> + *               0 =3D Invalid
->> + *               1 =3D V4, the scan would always start from vertical fo=
-r 4 pixel
->> + *                   then move back to the start pixel of the next hori=
-zontal
->> + *                   direction.
->> + *               2 =3D Reserved for future use.
->> + *
->> + * 15:8  m     The times of pattern repeat in the right angle direction=
- from
->> + *             the first scan direction.
->> + *
->> + * 19:16 p     The padding bits after the whole scan, could be zero.
->> + *
->> + * 20:20 g     GOT packing flag.
->> + *
->> + * 23:21 -     Reserved for future use.  Must be zero.
->=20
-> Can you pls fold all the future use reservations into the top end?
-You see we could put more related flag in each of reserved area.
-Here is for the group of tiles flag.
-Bit 35 to 32 could be used for describing the dimension of the group of til=
-es.
-> Also I
-> think it'd be good to at least reserve maybe the top 8 bits or so for a
-> synaptics specific format indicator, so that it's easier to extend this i=
-n
-> the future ...
-I think the  bit 56 to 63 are used for storing the vendor id. That is why I=
- didn=E2=80=99t include them below. Or you mean the bit 7 to 0?
-Do yo
-> -Daniel
->=20
->=20
->> + *
->> + * 27:24 h     log2(horizontal) of pixels, in GOTs.
->> + *
->> + * 31:28 v     log2(vertical) of pixels, in GOTs.
->> + *
->> + * 35:32 -     Reserved for future use.  Must be zero.
->> + *
->> + * 36:36 c     Compression flag.
->> + *
->> + * 55:37 -     Reserved for future use.  Must be zero.
->> + *
->> + */
->> +
->> +#define DRM_FORMAT_MOD_SYNA_V4_TILED         fourcc_mod_code(SYNAPTICS,=
- 1)
->> +
->> +#define DRM_FORMAT_MOD_SYNA_MTR_LINEAR_2D(f, m, p, g, h, v, c) \
->> +     fourcc_mod_code(SYNAPTICS, ((__u64)((f) & 0xff) | \
->> +                              ((__u64)((m) & 0xff) << 8) | \
->> +                              ((__u64)((p) & 0xf) << 16) | \
->> +                              ((__u64)((g) & 0x1) << 20) | \
->> +                              ((__u64)((h) & 0xf) << 24) | \
->> +                              ((__u64)((v) & 0xf) << 28) | \
->> +                              ((__u64)((c) & 0x1) << 36)))
->> +
->> +#define DRM_FORMAT_MOD_SYNA_V4H1 \
->> +     DRM_FORMAT_MOD_SYNA_MTR_LINEAR_2D(1, 1, 0, 0, 0, 0, 0)
->> +
->> +#define DRM_FORMAT_MOD_SYNA_V4H3P8 \
->> +     DRM_FORMAT_MOD_SYNA_MTR_LINEAR_2D(1, 3, 8, 0, 0, 0, 0)
->> +
->> +#define DRM_FORMAT_MOD_SYNA_V4H1_64L4_COMPRESSED \
->> +     DRM_FORMAT_MOD_SYNA_MTR_LINEAR_2D(1, 1, 0, 1, 6, 2, 1)
->> +
->> +#define DRM_FORMAT_MOD_SYNA_V4H3P8_64L4_COMPRESSED \
->> +     DRM_FORMAT_MOD_SYNA_MTR_LINEAR_2D(1, 3, 8, 1, 6, 2, 1)
->> +
->> +#define DRM_FORMAT_MOD_SYNA_V4H1_128L128_COMPRESSED \
->> +     DRM_FORMAT_MOD_SYNA_MTR_LINEAR_2D(1, 1, 0, 1, 7, 7, 1)
->> +
->> +#define DRM_FORMAT_MOD_SYNA_V4H3P8_128L128_COMPRESSED \
->> +     DRM_FORMAT_MOD_SYNA_MTR_LINEAR_2D(1, 3, 8, 1, 7, 7, 1)
->> +
->> #if defined(__cplusplus)
->> }
->> #endif
->> --
->> 2.37.3
->>=20
->=20
-> --
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> https://urldefense.proofpoint.com/v2/url?u=3Dhttp-3A__blog.ffwll.ch&d=3DD=
-wIBAg&c=3D7dfBJ8cXbWjhc0BhImu8wVIoUFmBzj1s88r8EGyM0UY&r=3DP4xb2_7biqBxD4LGG=
-PrSV6j-jf3C3xlR7PXU-mLTeZE&m=3Dd1mgHWc-ItDXK9dSnz0WGYs9xoXTTk9LqbifMtn2LOxm=
-aHHsc4ieCoE78BFkHI1i&s=3D8ptqPzTUwb3X3fBSyQA6nVAA6DchubUUsMRgmLIp1lY&e=3D
+Error/Warning: (recently discovered and may have been fixed)
+
+arch/arm/mach-s3c/devs.c:32:10: fatal error: linux/platform_data/dma-s3c24xx.h: No such file or directory
+arch/powerpc/kernel/kvm_emul.o: warning: objtool: kvm_template_end(): can't find starting instruction
+arch/powerpc/kernel/optprobes_head.o: warning: objtool: optprobe_template_end(): can't find starting instruction
+drivers/gpu/drm/amd/amdgpu/../display/dc/irq/dcn201/irq_service_dcn201.c:40:20: warning: no previous prototype for 'to_dal_irq_source_dcn201' [-Wmissing-prototypes]
+drivers/gpu/drm/nouveau/nvkm/engine/fifo/gf100.c:451:1: warning: no previous prototype for 'gf100_fifo_nonstall_block' [-Wmissing-prototypes]
+drivers/gpu/drm/nouveau/nvkm/engine/fifo/gf100.c:451:1: warning: no previous prototype for function 'gf100_fifo_nonstall_block' [-Wmissing-prototypes]
+drivers/gpu/drm/nouveau/nvkm/engine/fifo/runl.c:34:1: warning: no previous prototype for 'nvkm_engn_cgrp_get' [-Wmissing-prototypes]
+drivers/gpu/drm/nouveau/nvkm/engine/fifo/runl.c:34:1: warning: no previous prototype for function 'nvkm_engn_cgrp_get' [-Wmissing-prototypes]
+drivers/gpu/drm/nouveau/nvkm/engine/gr/tu102.c:210:1: warning: no previous prototype for 'tu102_gr_load' [-Wmissing-prototypes]
+drivers/gpu/drm/nouveau/nvkm/engine/gr/tu102.c:210:1: warning: no previous prototype for function 'tu102_gr_load' [-Wmissing-prototypes]
+drivers/gpu/drm/nouveau/nvkm/nvfw/acr.c:49:1: warning: no previous prototype for 'wpr_generic_header_dump' [-Wmissing-prototypes]
+drivers/gpu/drm/nouveau/nvkm/nvfw/acr.c:49:1: warning: no previous prototype for function 'wpr_generic_header_dump' [-Wmissing-prototypes]
+drivers/gpu/drm/nouveau/nvkm/subdev/acr/lsfw.c:221:21: warning: variable 'loc' set but not used [-Wunused-but-set-variable]
+drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c:1474:38: warning: unused variable 'mt8173_jpeg_drvdata' [-Wunused-const-variable]
+drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c:1489:38: warning: unused variable 'mtk_jpeg_drvdata' [-Wunused-const-variable]
+drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c:1890:38: warning: unused variable 'mtk8195_jpegdec_drvdata' [-Wunused-const-variable]
+drivers/regulator/tps65219-regulator.c:310:60: warning: parameter 'dev' set but not used [-Wunused-but-set-parameter]
+drivers/regulator/tps65219-regulator.c:370:26: warning: ordered comparison of pointer with integer zero [-Wextra]
+include/linux/hugetlb.h:1240:33: error: 'VM_MAYSHARE' undeclared (first use in this function)
+include/linux/hugetlb.h:1240:47: error: 'VM_SHARED' undeclared (first use in this function); did you mean 'MNT_SHARED'?
+include/linux/hugetlb.h:1262:56: error: invalid use of undefined type 'struct hugetlb_vma_lock'
+net/netfilter/nf_conntrack_netlink.c:2674:6: warning: unused variable 'mark' [-Wunused-variable]
+vmlinux.o: warning: objtool: __btrfs_map_block+0x1d77: unreachable instruction
+
+Unverified Error/Warning (likely false positive, please contact us if interested):
+
+drivers/media/i2c/ov9282.c:470:3: warning: Value stored to 'ret' is never read [clang-analyzer-deadcode.DeadStores]
+
+Error/Warning ids grouped by kconfigs:
+
+gcc_recent_errors
+|-- alpha-allyesconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-irq-dcn201-irq_service_dcn201.c:warning:no-previous-prototype-for-to_dal_irq_source_dcn201
+|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-gf100.c:warning:no-previous-prototype-for-gf100_fifo_nonstall_block
+|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-runl.c:warning:no-previous-prototype-for-nvkm_engn_cgrp_get
+|   |-- drivers-gpu-drm-nouveau-nvkm-engine-gr-tu102.c:warning:no-previous-prototype-for-tu102_gr_load
+|   |-- drivers-gpu-drm-nouveau-nvkm-nvfw-acr.c:warning:no-previous-prototype-for-wpr_generic_header_dump
+|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-acr-lsfw.c:warning:variable-loc-set-but-not-used
+|-- arc-allyesconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-irq-dcn201-irq_service_dcn201.c:warning:no-previous-prototype-for-to_dal_irq_source_dcn201
+|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-gf100.c:warning:no-previous-prototype-for-gf100_fifo_nonstall_block
+|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-runl.c:warning:no-previous-prototype-for-nvkm_engn_cgrp_get
+|   |-- drivers-gpu-drm-nouveau-nvkm-engine-gr-tu102.c:warning:no-previous-prototype-for-tu102_gr_load
+|   |-- drivers-gpu-drm-nouveau-nvkm-nvfw-acr.c:warning:no-previous-prototype-for-wpr_generic_header_dump
+|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-acr-lsfw.c:warning:variable-loc-set-but-not-used
+|-- arm-allyesconfig
+|   |-- arch-arm-mach-s3c-devs.c:fatal-error:linux-platform_data-dma-s3c24xx.h:No-such-file-or-directory
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-irq-dcn201-irq_service_dcn201.c:warning:no-previous-prototype-for-to_dal_irq_source_dcn201
+|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-gf100.c:warning:no-previous-prototype-for-gf100_fifo_nonstall_block
+|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-runl.c:warning:no-previous-prototype-for-nvkm_engn_cgrp_get
+|   |-- drivers-gpu-drm-nouveau-nvkm-engine-gr-tu102.c:warning:no-previous-prototype-for-tu102_gr_load
+|   |-- drivers-gpu-drm-nouveau-nvkm-nvfw-acr.c:warning:no-previous-prototype-for-wpr_generic_header_dump
+|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-acr-lsfw.c:warning:variable-loc-set-but-not-used
+|-- arm-defconfig
+|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-gf100.c:warning:no-previous-prototype-for-gf100_fifo_nonstall_block
+|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-runl.c:warning:no-previous-prototype-for-nvkm_engn_cgrp_get
+|   |-- drivers-gpu-drm-nouveau-nvkm-engine-gr-tu102.c:warning:no-previous-prototype-for-tu102_gr_load
+|   |-- drivers-gpu-drm-nouveau-nvkm-nvfw-acr.c:warning:no-previous-prototype-for-wpr_generic_header_dump
+|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-acr-lsfw.c:warning:variable-loc-set-but-not-used
+|-- arm64-allyesconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-irq-dcn201-irq_service_dcn201.c:warning:no-previous-prototype-for-to_dal_irq_source_dcn201
+|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-gf100.c:warning:no-previous-prototype-for-gf100_fifo_nonstall_block
+|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-runl.c:warning:no-previous-prototype-for-nvkm_engn_cgrp_get
+|   |-- drivers-gpu-drm-nouveau-nvkm-engine-gr-tu102.c:warning:no-previous-prototype-for-tu102_gr_load
+|   |-- drivers-gpu-drm-nouveau-nvkm-nvfw-acr.c:warning:no-previous-prototype-for-wpr_generic_header_dump
+|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-acr-lsfw.c:warning:variable-loc-set-but-not-used
+|-- i386-allyesconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-irq-dcn201-irq_service_dcn201.c:warning:no-previous-prototype-for-to_dal_irq_source_dcn201
+|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-gf100.c:warning:no-previous-prototype-for-gf100_fifo_nonstall_block
+|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-runl.c:warning:no-previous-prototype-for-nvkm_engn_cgrp_get
+|   |-- drivers-gpu-drm-nouveau-nvkm-engine-gr-tu102.c:warning:no-previous-prototype-for-tu102_gr_load
+|   |-- drivers-gpu-drm-nouveau-nvkm-nvfw-acr.c:warning:no-previous-prototype-for-wpr_generic_header_dump
+|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-acr-lsfw.c:warning:variable-loc-set-but-not-used
+|-- i386-randconfig-r004-20221128
+|   `-- include-linux-hugetlb.h:error:invalid-use-of-undefined-type-struct-hugetlb_vma_lock
+|-- ia64-allmodconfig
+|   `-- drivers-gpu-drm-amd-amdgpu-..-display-dc-irq-dcn201-irq_service_dcn201.c:warning:no-previous-prototype-for-to_dal_irq_source_dcn201
+|-- mips-allyesconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-irq-dcn201-irq_service_dcn201.c:warning:no-previous-prototype-for-to_dal_irq_source_dcn201
+|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-gf100.c:warning:no-previous-prototype-for-gf100_fifo_nonstall_block
+|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-runl.c:warning:no-previous-prototype-for-nvkm_engn_cgrp_get
+clang_recent_errors
+|-- arm-randconfig-c002-20221128
+|   `-- drivers-media-i2c-ov9282.c:warning:Value-stored-to-ret-is-never-read-clang-analyzer-deadcode.DeadStores
+|-- arm64-buildonly-randconfig-r006-20221129
+|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-gf100.c:warning:no-previous-prototype-for-function-gf100_fifo_nonstall_block
+|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-runl.c:warning:no-previous-prototype-for-function-nvkm_engn_cgrp_get
+|   |-- drivers-gpu-drm-nouveau-nvkm-engine-gr-tu102.c:warning:no-previous-prototype-for-function-tu102_gr_load
+|   `-- drivers-gpu-drm-nouveau-nvkm-nvfw-acr.c:warning:no-previous-prototype-for-function-wpr_generic_header_dump
+|-- arm64-randconfig-r021-20221128
+|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-gf100.c:warning:no-previous-prototype-for-function-gf100_fifo_nonstall_block
+|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-runl.c:warning:no-previous-prototype-for-function-nvkm_engn_cgrp_get
+|   |-- drivers-gpu-drm-nouveau-nvkm-engine-gr-tu102.c:warning:no-previous-prototype-for-function-tu102_gr_load
+|   `-- drivers-gpu-drm-nouveau-nvkm-nvfw-acr.c:warning:no-previous-prototype-for-function-wpr_generic_header_dump
+|-- hexagon-randconfig-r041-20221128
+|   |-- drivers-media-platform-mediatek-jpeg-mtk_jpeg_core.c:warning:unused-variable-mt8173_jpeg_drvdata
+|   |-- drivers-media-platform-mediatek-jpeg-mtk_jpeg_core.c:warning:unused-variable-mtk8195_jpegdec_drvdata
+|   `-- drivers-media-platform-mediatek-jpeg-mtk_jpeg_core.c:warning:unused-variable-mtk_jpeg_drvdata
+|-- i386-randconfig-a014-20221128
+|   `-- net-netfilter-nf_conntrack_netlink.c:warning:unused-variable-mark
+|-- powerpc-randconfig-r026-20221128
+|   |-- arch-powerpc-kernel-btext.o:warning:objtool:btext_prepare_BAT:unannotated-intra-function-call
+|   |-- arch-powerpc-kernel-kvm_emul.o:warning:objtool:kvm_template_end():can-t-find-starting-instruction
+|   |-- arch-powerpc-kernel-prom_init.o:warning:objtool:prom_init:unannotated-intra-function-call
+|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-gf100.c:warning:no-previous-prototype-for-function-gf100_fifo_nonstall_block
+|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-runl.c:warning:no-previous-prototype-for-function-nvkm_engn_cgrp_get
+|   |-- drivers-gpu-drm-nouveau-nvkm-engine-gr-tu102.c:warning:no-previous-prototype-for-function-tu102_gr_load
+|   `-- drivers-gpu-drm-nouveau-nvkm-nvfw-acr.c:warning:no-previous-prototype-for-function-wpr_generic_header_dump
+`-- s390-randconfig-r044-20221128
+    |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-gf100.c:warning:no-previous-prototype-for-function-gf100_fifo_nonstall_block
+    |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-runl.c:warning:no-previous-prototype-for-function-nvkm_engn_cgrp_get
+    |-- drivers-gpu-drm-nouveau-nvkm-engine-gr-tu102.c:warning:no-previous-prototype-for-function-tu102_gr_load
+    `-- drivers-gpu-drm-nouveau-nvkm-nvfw-acr.c:warning:no-previous-prototype-for-function-wpr_generic_header_dump
+
+elapsed time: 730m
+
+configs tested: 58
+configs skipped: 2
+
+gcc tested configs:
+um                           x86_64_defconfig
+um                             i386_defconfig
+x86_64                              defconfig
+arc                                 defconfig
+i386                                defconfig
+alpha                               defconfig
+powerpc                           allnoconfig
+x86_64                        randconfig-a013
+x86_64                        randconfig-a011
+arm                                 defconfig
+x86_64                        randconfig-a015
+x86_64                               rhel-8.3
+s390                             allmodconfig
+sh                               allmodconfig
+s390                                defconfig
+arc                  randconfig-r043-20221128
+ia64                             allmodconfig
+x86_64                           rhel-8.3-syz
+mips                             allyesconfig
+m68k                             allmodconfig
+arm                              allyesconfig
+powerpc                          allmodconfig
+x86_64                    rhel-8.3-kselftests
+x86_64                         rhel-8.3-kunit
+arc                              allyesconfig
+x86_64                           allyesconfig
+arm64                            allyesconfig
+s390                             allyesconfig
+x86_64                           rhel-8.3-kvm
+x86_64                          rhel-8.3-func
+i386                 randconfig-a002-20221128
+alpha                            allyesconfig
+x86_64                        randconfig-a004
+i386                             allyesconfig
+m68k                             allyesconfig
+x86_64                        randconfig-a002
+i386                 randconfig-a003-20221128
+x86_64                        randconfig-a006
+i386                 randconfig-a001-20221128
+i386                 randconfig-a005-20221128
+i386                 randconfig-a006-20221128
+i386                 randconfig-a004-20221128
+
+clang tested configs:
+x86_64                        randconfig-a012
+x86_64                        randconfig-a014
+x86_64                        randconfig-a016
+hexagon              randconfig-r045-20221128
+hexagon              randconfig-r041-20221128
+riscv                randconfig-r042-20221128
+s390                 randconfig-r044-20221128
+x86_64                        randconfig-a001
+x86_64                        randconfig-a003
+x86_64                        randconfig-a005
+i386                 randconfig-a012-20221128
+i386                 randconfig-a011-20221128
+i386                 randconfig-a013-20221128
+i386                 randconfig-a015-20221128
+i386                 randconfig-a016-20221128
+i386                 randconfig-a014-20221128
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
