@@ -2,57 +2,57 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C8E4163E7EC
-	for <lists+linux-media@lfdr.de>; Thu,  1 Dec 2022 03:33:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 232A563E7ED
+	for <lists+linux-media@lfdr.de>; Thu,  1 Dec 2022 03:33:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229841AbiLACdG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 30 Nov 2022 21:33:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39524 "EHLO
+        id S229851AbiLACdM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 30 Nov 2022 21:33:12 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39636 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229501AbiLACdF (ORCPT
+        with ESMTP id S229501AbiLACdK (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 30 Nov 2022 21:33:05 -0500
-Received: from mail-pg1-x54a.google.com (mail-pg1-x54a.google.com [IPv6:2607:f8b0:4864:20::54a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 755094219A
-        for <linux-media@vger.kernel.org>; Wed, 30 Nov 2022 18:33:04 -0800 (PST)
-Received: by mail-pg1-x54a.google.com with SMTP id q63-20020a632a42000000b0045724b1dfb9so527166pgq.3
-        for <linux-media@vger.kernel.org>; Wed, 30 Nov 2022 18:33:04 -0800 (PST)
+        Wed, 30 Nov 2022 21:33:10 -0500
+Received: from mail-pg1-x549.google.com (mail-pg1-x549.google.com [IPv6:2607:f8b0:4864:20::549])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44CAD2B185
+        for <linux-media@vger.kernel.org>; Wed, 30 Nov 2022 18:33:09 -0800 (PST)
+Received: by mail-pg1-x549.google.com with SMTP id g193-20020a636bca000000b00476a2298bd1so506805pgc.12
+        for <linux-media@vger.kernel.org>; Wed, 30 Nov 2022 18:33:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Irho+t3sB9hIi5ncYXkY5M9p18wVPjmHaKEuFApF/Ns=;
-        b=o5/yv0M5SnvdDF+1rJIEGlTBgwD17k03UyxPtHrqPdzAoUbRk9RFRQBjNXk20O3K1a
-         n6JnjJ+w5SgzoQulkkqlASiYf6LZJNXqvMnq2eKuaTtDMbSNRNbPQEsLPTAsTcGI2Gwg
-         fxGzo1Ox4g9enWDdYmsl8btRoyw9ng+uv5PKodw/f+nc0X6742SxBzT1kZHIOP7TPVmT
-         s07vgETwHMqoSjQuTP5cbrOkyBUJDekUAmHXYM6kDuIRe99AWDDenU+HjGBk+rc1uTEA
-         W2o5LGusIq96r+EK+7SUH0b03pIdbJ10jhZb70WGGIK6gG4MXKT8VPZMVIsmFYZjbE0Q
-         M/7w==
+        bh=dXGh+whUFfSVOqnt2jMxHxRS/YETRRHx+wWfeEz4/kg=;
+        b=kUiFVCB81OCxq9lZe3ghJgsmqJdPs/MReWPFJh0JLczpbrPsD3rylFaHP03L+MhBwL
+         GmupedbkHqBTbqAPSLaUmOiB0s9jyEfcXXOP913u/rQ4OHJiQ/WtbscH3jNLjUcNVYT9
+         RTQYOcN40DEsyDxqyMqAI2C9ZvIdjLu3+E3hIJMod4H1lxf4zVql+lX4wZX1pEf7YOyR
+         1yRZ90Ar0Efht/Cjl6azNTRAAbl/y7GU9+ckvTnpQ7/uwt7cR3yzW985s5K9UeJ3I9RX
+         t+7iClFXtXbuvX24IGHa8oDGbrWRf9DJRcW7rqPtfw9UzEtquUwaNAj6lvoE8nYdnfDL
+         Jt9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Irho+t3sB9hIi5ncYXkY5M9p18wVPjmHaKEuFApF/Ns=;
-        b=z4QghJc8ZrYKIKuWwa7e+9v6z8+mdauhbFkII1VmzypH6fSd/L6iO40lWb7aUiKhD8
-         lVl0qqyZrI2JAted8gjLv/nNv4k82BKa/11x9af90RXktNbsDcMjZbnK+9EK772I4QAg
-         jpZE6w+6p3eDdT1zoOia3lp1B2yBh04ZoQe8ZqehTAzK7nxqVCtqcfThTbAPKezlYB5k
-         NlSHexcN6uEKLck9ZYIsK88rw7BCGxQ63CUJM/V3vg97S+7UwUhWgdwutMTR8JYcKdlT
-         QNOOq7Su6iBZ4l+SUrMODsDf0Sjuju7+SYbMzvYEM2UVrCXZMeZGA9do23vxVD8CE3kT
-         Ww7Q==
-X-Gm-Message-State: ANoB5pn8KPoNMN2HwndkTwZ3IGmYC1+yORPH/nxuHBCdGhGAnERY3fCN
-        OWrSo85dbgxNhzQ3ITA/XxzyD5C/ngY=
-X-Google-Smtp-Source: AA0mqf4BWPUECPVN/NTsmjmAoUlwJu+VMtpWdg7K/a1IEA9wLEufzpECvKZvBHs2EfwHCtksmu/+qz4LsMQ=
+        bh=dXGh+whUFfSVOqnt2jMxHxRS/YETRRHx+wWfeEz4/kg=;
+        b=IbP+4vZm1zScYbn3YZKJWCojbfvjPgEjvN/oZR+j4IBRBifdOCf1g/tSoxKYu1ublF
+         668ouRg0zOuvUz2/zXr9sVjUt2ap+GmLgJQNCBYidBCD2kJNiXjLSMxmDerhoDnaDaxd
+         irpsekjDRiTdsgY7g7c3khpSuboQP+6CS1jsN+ipms5UhTb8r2xGbSgJaYk7URnJk/kM
+         rkmQWb1KF6ofCiiJpChn6qGvUQ5EZK2s4MX2pTl+FTFpwpJUdTO5neO9svhQ02xejpuT
+         +ur0E8Nx+w2lNMB0Z4/mMzvHDFu27zvyGP5CyCkXr53Ykckg03IntPcVdWCIPl6UvLw4
+         GlLg==
+X-Gm-Message-State: ANoB5pmxw7DJ/ZdvWo8C15za5Nszb1mG3e9U8jpfMLWSZHap4h9MGQ54
+        EPgLkeQaQ9Nt0ei3lEOgKJxiS53IbiQ=
+X-Google-Smtp-Source: AA0mqf7ld+4uSucNpLmaiSAc6uHTz8ohNEChc7KodAvZaZ/oEiPyHGH5G4P4T/KFAgqA80AUFk1w31iAtG0=
 X-Received: from yunkec1.tok.corp.google.com ([2401:fa00:8f:203:8366:b78e:6451:c163])
- (user=yunkec job=sendgmr) by 2002:a63:5a56:0:b0:46e:9bac:17f with SMTP id
- k22-20020a635a56000000b0046e9bac017fmr41402479pgm.420.1669861984156; Wed, 30
- Nov 2022 18:33:04 -0800 (PST)
-Date:   Thu,  1 Dec 2022 11:32:03 +0900
+ (user=yunkec job=sendgmr) by 2002:a17:90a:294e:b0:219:65c0:619f with SMTP id
+ x14-20020a17090a294e00b0021965c0619fmr5919188pjf.150.1669861988853; Wed, 30
+ Nov 2022 18:33:08 -0800 (PST)
+Date:   Thu,  1 Dec 2022 11:32:04 +0900
 In-Reply-To: <20221201023204.2177458-1-yunkec@google.com>
 Mime-Version: 1.0
 References: <20221201023204.2177458-1-yunkec@google.com>
 X-Mailer: git-send-email 2.38.1.584.g0f3c55d4c2-goog
-Message-ID: <20221201023204.2177458-11-yunkec@google.com>
-Subject: [PATCH v10 10/11 RESEND] media: uvcvideo: support V4L2_CTRL_WHICH_MIN/MAX_VAL
+Message-ID: <20221201023204.2177458-12-yunkec@google.com>
+Subject: [PATCH v10 11/11 RESEND] media: uvcvideo: document UVC v1.5 ROI
 From:   Yunke Cao <yunkec@google.com>
 To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>
@@ -71,145 +71,102 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add support for V4L2_CTRL_WHICH_MIN/MAX_VAL in uvc driver.
-It is useful for the V4L2_CID_UVC_REGION_OF_INTEREST_RECT control.
+Added documentation of V4L2_CID_UVC_REGION_OF_INTEREST_RECT and
+V4L2_CID_UVC_REGION_OF_INTEREST_AUTO.
 
 Signed-off-by: Yunke Cao <yunkec@google.com>
 Reviewed-by: Ricardo Ribalda <ribalda@chromium.org>
 ---
 Changelog since v9:
-- Revert a change in v7 that causes v4l2-compliance failure:
-- In uvc_ioctl_g_ext_ctrls(), when v4l2_which is not V4L2_CTRL_WHICH_*_VAL,
-- treat it the same as cur instead of returning EINVAL. This is the existing
-- behavior.
-- The change in v7 of returning EINVAL fails the check in
-- v4l2-compliance/v4l2-test-controls.cpp#L834.
+- No change.
 Changelog since v8:
 - No change.
 Changelog since v7:
-- Address some comments.
+- Fix documentation for automatic exposure based on comment in v7.
 
- drivers/media/usb/uvc/uvc_ctrl.c | 44 +++++++++++++++++++++++++++-----
- drivers/media/usb/uvc/uvc_v4l2.c |  7 +++--
- drivers/media/usb/uvc/uvcvideo.h |  3 ++-
- 3 files changed, 44 insertions(+), 10 deletions(-)
+Some descriptions for some V4L2_UVC_REGION_OF_INTEREST_AUTO_* are vague because
+I copied these options from the UVC spec.
 
-diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
-index cba31ee36fed..0cb74a1e80f7 100644
---- a/drivers/media/usb/uvc/uvc_ctrl.c
-+++ b/drivers/media/usb/uvc/uvc_ctrl.c
-@@ -1985,19 +1985,47 @@ static int __uvc_ctrl_get_boundary_std(struct uvc_video_chain *chain,
- 	if (ret < 0)
- 		return ret;
+ .../userspace-api/media/drivers/uvcvideo.rst  | 62 +++++++++++++++++++
+ 1 file changed, 62 insertions(+)
+
+diff --git a/Documentation/userspace-api/media/drivers/uvcvideo.rst b/Documentation/userspace-api/media/drivers/uvcvideo.rst
+index aab4304e6bb5..3dc062221f8b 100644
+--- a/Documentation/userspace-api/media/drivers/uvcvideo.rst
++++ b/Documentation/userspace-api/media/drivers/uvcvideo.rst
+@@ -181,6 +181,7 @@ Argument: struct uvc_xu_control_mapping
+ 	UVC_CTRL_DATA_TYPE_BOOLEAN	Boolean
+ 	UVC_CTRL_DATA_TYPE_ENUM		Enumeration
+ 	UVC_CTRL_DATA_TYPE_BITMASK	Bitmask
++	UVC_CTRL_DATA_TYPE_RECT		Rectangular area
  
--	xctrl->value = qc.default_value;
-+	switch (v4l2_which) {
-+	case V4L2_CTRL_WHICH_DEF_VAL:
-+		xctrl->value = qc.default_value;
-+		break;
-+	case V4L2_CTRL_WHICH_MIN_VAL:
-+		xctrl->value = qc.minimum;
-+		break;
-+	case V4L2_CTRL_WHICH_MAX_VAL:
-+		xctrl->value = qc.maximum;
-+		break;
-+	}
+ 
+ UVCIOC_CTRL_QUERY - Query a UVC XU control
+@@ -255,3 +256,64 @@ Argument: struct uvc_xu_control_query
+ 	__u8	query		Request code to send to the device
+ 	__u16	size		Control data size (in bytes)
+ 	__u8	*data		Control value
 +
- 	return 0;
- }
- 
- static int __uvc_ctrl_get_boundary_compound(struct uvc_video_chain *chain,
- 					    struct uvc_control *ctrl,
- 					    struct uvc_control_mapping *mapping,
-+					    u32 v4l2_which,
- 					    struct v4l2_ext_control *xctrl)
- {
-+	u32 flag, id;
- 	int ret;
- 
--	if (!uvc_ctrl_mapping_is_compound(mapping))
--		return -EINVAL;
-+	switch (v4l2_which) {
-+	case V4L2_CTRL_WHICH_DEF_VAL:
-+		flag = UVC_CTRL_FLAG_GET_DEF;
-+		id = UVC_CTRL_DATA_DEF;
-+		break;
-+	case V4L2_CTRL_WHICH_MIN_VAL:
-+		flag = UVC_CTRL_FLAG_GET_MIN;
-+		id = UVC_CTRL_DATA_MIN;
-+		break;
-+	case V4L2_CTRL_WHICH_MAX_VAL:
-+		flag = UVC_CTRL_FLAG_GET_MAX;
-+		id = UVC_CTRL_DATA_MAX;
-+		break;
-+	}
 +
-+	if (!(ctrl->info.flags & flag) && flag != UVC_CTRL_FLAG_GET_DEF)
-+		return -EACCES;
- 
- 	if (!ctrl->cached) {
- 		ret = uvc_ctrl_populate_cache(chain, ctrl);
-@@ -2005,11 +2033,11 @@ static int __uvc_ctrl_get_boundary_compound(struct uvc_video_chain *chain,
- 			return ret;
- 	}
- 
--	return __uvc_ctrl_get_compound(mapping, ctrl, UVC_CTRL_DATA_DEF, xctrl);
-+	return __uvc_ctrl_get_compound(mapping, ctrl, id, xctrl);
- }
- 
- int uvc_ctrl_get_boundary(struct uvc_video_chain *chain,
--			  struct v4l2_ext_control *xctrl)
-+			  struct v4l2_ext_control *xctrl, u32 v4l2_which)
- {
- 	struct uvc_control *ctrl;
- 	struct uvc_control_mapping *mapping;
-@@ -2026,9 +2054,11 @@ int uvc_ctrl_get_boundary(struct uvc_video_chain *chain,
- 
- 	if (uvc_ctrl_mapping_is_compound(mapping))
- 		ret = __uvc_ctrl_get_boundary_compound(chain, ctrl, mapping,
--						       xctrl);
-+						       v4l2_which, xctrl);
- 	else
--		ret = __uvc_ctrl_get_boundary_std(chain, ctrl, mapping, xctrl);
-+		ret = __uvc_ctrl_get_boundary_std(chain, ctrl, mapping,
-+						  v4l2_which, xctrl);
++Driver-specific V4L2 controls
++-----------------------------
 +
- 
- done:
- 	mutex_unlock(&chain->ctrl_mutex);
-diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
-index 52a7dc9ad4b9..494ce646eb4b 100644
---- a/drivers/media/usb/uvc/uvc_v4l2.c
-+++ b/drivers/media/usb/uvc/uvc_v4l2.c
-@@ -1047,9 +1047,12 @@ static int uvc_ioctl_g_ext_ctrls(struct file *file, void *fh,
- 	if (ret < 0)
- 		return ret;
- 
--	if (ctrls->which == V4L2_CTRL_WHICH_DEF_VAL) {
-+	switch (ctrls->which) {
-+	case V4L2_CTRL_WHICH_DEF_VAL:
-+	case V4L2_CTRL_WHICH_MIN_VAL:
-+	case V4L2_CTRL_WHICH_MAX_VAL:
- 		for (i = 0; i < ctrls->count; ++ctrl, ++i) {
--			ret = uvc_ctrl_get_boundary(chain, ctrl);
-+			ret = uvc_ctrl_get_boundary(chain, ctrl, ctrls->which);
- 			if (ret < 0) {
- 				ctrls->error_idx = i;
- 				return ret;
-diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-index c7d20333ca8a..5c3b4ce85615 100644
---- a/drivers/media/usb/uvc/uvcvideo.h
-+++ b/drivers/media/usb/uvc/uvcvideo.h
-@@ -778,7 +778,8 @@ static inline int uvc_ctrl_rollback(struct uvc_fh *handle)
- 
- int uvc_ctrl_get(struct uvc_video_chain *chain, struct v4l2_ext_control *xctrl);
- int uvc_ctrl_get_boundary(struct uvc_video_chain *chain,
--			  struct v4l2_ext_control *xctrl);
-+			  struct v4l2_ext_control *xctrl,
-+			  u32 v4l2_which);
- int uvc_ctrl_set(struct uvc_fh *handle, struct v4l2_ext_control *xctrl);
- int uvc_ctrl_is_accessible(struct uvc_video_chain *chain, u32 v4l2_id,
- 			   bool read);
++The uvcvideo driver implements the following UVC-specific controls:
++
++``V4L2_CID_UVC_REGION_OF_INTEREST_RECT (struct)``
++	This control determines the region of interest (ROI). ROI is a
++	rectangular area represented by a struct :c:type:`v4l2_rect`. The
++	rectangle is in global sensor coordinates and pixel units. It is
++	independent of the field of view, not impacted by any cropping or
++	scaling.
++
++	Use ``V4L2_CTRL_WHICH_MIN_VAL`` and ``V4L2_CTRL_WHICH_MAX_VAL`` to query
++	the range of rectangle sizes. The left/top coordinates of a minimum or
++	maximum rectangle are always 0. For example, a device can have a minimum
++	ROI rectangle of 1x1@0x0 and a maximum of 640x480@0x0.
++
++	Setting a ROI allows the camera to optimize the capture for the region.
++	The value of ``V4L2_CID_REGION_OF_INTEREST_AUTO`` control determines
++	the detailed behavior.
++
++
++``V4L2_CID_UVC_REGION_OF_INTEREST_AUTO (bitmask)``
++	This determines which, if any, on board features should track to the
++	Region of Interest specified by the current value of
++	``V4L2_CID_UVD__REGION_OF_INTEREST_RECT``.
++
++	Max value is a mask indicating all supported Auto Controls.
++
++.. flat-table::
++    :header-rows:  0
++    :stub-columns: 0
++
++    * - ``V4L2_UVC_REGION_OF_INTEREST_AUTO_EXPOSURE``
++      - Setting this to true causes automatic exposure to track the region of
++	interest instead of the whole image.
++    * - ``V4L2_UVC_REGION_OF_INTEREST_AUTO_IRIS``
++      - Setting this to true causes automatic iris to track the region of
++	interest instead of the whole image.
++    * - ``V4L2_UVC_REGION_OF_INTEREST_AUTO_WHITE_BALANCE``
++      - Setting this to true causes automatic white balance to track the region
++	of interest instead of the whole image.
++    * - ``V4L2_UVC_REGION_OF_INTEREST_AUTO_FOCUS``
++      - Setting this to true causes automatic focus adjustment to track the
++	region of interest instead of the whole image.
++    * - ``V4L2_UVC_REGION_OF_INTEREST_AUTO_FACE_DETECT``
++      - Setting this to true causes automatic face detection to track the
++	region of interest instead of the whole image.
++    * - ``V4L2_UVC_REGION_OF_INTEREST_AUTO_DETECT_AND_TRACK``
++      - Setting this to true enables automatic face detection and tracking. The
++	current value of ``V4L2_CID_REGION_OF_INTEREST_RECT`` may be updated by
++	the driver.
++    * - ``V4L2_UVC_REGION_OF_INTEREST_AUTO_IMAGE_STABILIZATION``
++      - Setting this to true enables automatic image stabilization. The
++	current value of ``V4L2_CID_REGION_OF_INTEREST_RECT`` may be updated by
++	the driver.
++    * - ``V4L2_UVC_REGION_OF_INTEREST_AUTO_HIGHER_QUALITY``
++      - Setting this to true enables automatically capture the specified region
++	with higher quality if possible.
 -- 
 2.38.1.584.g0f3c55d4c2-goog
 
