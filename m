@@ -2,45 +2,70 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E7BF863E7A3
-	for <lists+linux-media@lfdr.de>; Thu,  1 Dec 2022 03:19:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A0C8063E866
+	for <lists+linux-media@lfdr.de>; Thu,  1 Dec 2022 04:43:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229931AbiLACS7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 30 Nov 2022 21:18:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53212 "EHLO
+        id S229604AbiLADnR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 30 Nov 2022 22:43:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57642 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229862AbiLACSo (ORCPT
+        with ESMTP id S229812AbiLADnO (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 30 Nov 2022 21:18:44 -0500
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB2F4537CE;
-        Wed, 30 Nov 2022 18:18:38 -0800 (PST)
-Received: from kwepemi500014.china.huawei.com (unknown [172.30.72.53])
-        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4NN08y6QGGzRpZP;
-        Thu,  1 Dec 2022 10:17:54 +0800 (CST)
-Received: from localhost.localdomain (10.175.112.70) by
- kwepemi500014.china.huawei.com (7.221.188.232) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Thu, 1 Dec 2022 10:18:35 +0800
-From:   Qiheng Lin <linqiheng@huawei.com>
-To:     <mchehab@kernel.org>, <matthias.bgg@gmail.com>
-CC:     <angelogioacchino.delregno@collabora.com>,
-        <linux-media@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-mediatek@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>, Qiheng Lin <linqiheng@huawei.com>
-Subject: [PATCH v2] media: platform: mtk-mdp3: Fix return value check in mdp_probe()
-Date:   Thu, 1 Dec 2022 10:35:05 +0800
-Message-ID: <20221201023505.48015-1-linqiheng@huawei.com>
-X-Mailer: git-send-email 2.32.0
+        Wed, 30 Nov 2022 22:43:14 -0500
+Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com [IPv6:2607:f8b0:4864:20::434])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 11DD75131C
+        for <linux-media@vger.kernel.org>; Wed, 30 Nov 2022 19:43:09 -0800 (PST)
+Received: by mail-pf1-x434.google.com with SMTP id x66so703205pfx.3
+        for <linux-media@vger.kernel.org>; Wed, 30 Nov 2022 19:43:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=+qPymb+e3NO4fDhV92RsqtMV3xXUMKo3XaTx8p58m5A=;
+        b=Selx3zhZk4GgEmgxsWporsd1zWh7PMSkGyijzMN6f6pd9s52K8k3xUkHFu94POsete
+         N8Ot2RwADfvuFFc08yzZijr7YkVfDmHzIj/Rnhh5Jgxy2iH+s0GXRdGyT7EhRDtdgvSF
+         5OiNCDqIgz5xGXqjfoVzIHLRl7trfUMnJuPdw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+qPymb+e3NO4fDhV92RsqtMV3xXUMKo3XaTx8p58m5A=;
+        b=pw7oaqVTc02q1nFLRolsb/J1dNqDsVpJUggHkll1uux1fdb3Lye7w3EPap84h7D6QL
+         cox3r+8O5fV2T4UYPM8yCzV5OZcCDi31XE7LY8BjzkXu/ouyaZ55x1Q2jHxdTW61BY4b
+         SNeLhfG1nCNGtTFuBHigSoYC2iJe2iodJWBp1f+kIYz6bDF8S5z/qqSdzBNLq1+0Jsng
+         4VMD3F1EpeYOVKzZ19cBIrCMtd0yS5YxuLlcpi/eF3CHH2M9DB2eA5TmN0+03qqJ5/V0
+         TQX+sCZwLGJIUi0520u5Awzc04wH6dsETYpB+QAdRshxuhQlmZIbMmUGRzunIn3L15K/
+         qjcQ==
+X-Gm-Message-State: ANoB5pna5+uIJ3kBNTiyWGybqhdrHGSZsDEBRqXOGJtA1KRMVRjPO8EG
+        n4pUYpA+bVY/B9OXuy2wmuT4kCouMXC5uQ==
+X-Google-Smtp-Source: AA0mqf7YbWNGrDZHONIY4h3+nw06gneGj4zmsLbpIEiKbJXnYqcBWBgwIjHERbBBF4muCkwgMCC5KQ==
+X-Received: by 2002:a63:4944:0:b0:44e:466f:4759 with SMTP id y4-20020a634944000000b0044e466f4759mr39458163pgk.194.1669866188500;
+        Wed, 30 Nov 2022 19:43:08 -0800 (PST)
+Received: from google.com (KD124209188001.ppp-bb.dion.ne.jp. [124.209.188.1])
+        by smtp.gmail.com with ESMTPSA id y2-20020aa78f22000000b0053e62b6fd22sm2101369pfr.126.2022.11.30.19.43.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 30 Nov 2022 19:43:07 -0800 (PST)
+Date:   Thu, 1 Dec 2022 12:43:02 +0900
+From:   Sergey Senozhatsky <senozhatsky@chromium.org>
+To:     Yunke Cao <yunkec@google.com>
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        Ricardo Ribalda <ribalda@chromium.org>,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH v10 01/11 RESEND] media: v4l2_ctrl: Add
+ V4L2_CTRL_TYPE_RECT
+Message-ID: <Y4gixnD/C8UeNtcX@google.com>
+References: <20221201023204.2177458-1-yunkec@google.com>
+ <20221201023204.2177458-2-yunkec@google.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.175.112.70]
-X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
- kwepemi500014.china.huawei.com (7.221.188.232)
-X-CFilter-Loop: Reflected
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221201023204.2177458-2-yunkec@google.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -48,50 +73,12 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-In case of error, the function mtk_mutex_get()
-returns ERR_PTR() and never returns NULL. The NULL test in the
-return value check should be replaced with IS_ERR().
-And also fix the err_return case.
+On (22/12/01 11:31), Yunke Cao wrote:
+> Add p_rect to struct v4l2_ext_control with basic support in
+> v4l2-ctrls.
+> 
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Reviewed-by: Ricardo Ribalda <ribalda@chromium.org>
+> Signed-off-by: Yunke Cao <yunkec@google.com>
 
-Fixes: 61890ccaefaf ("media: platform: mtk-mdp3: add MediaTek MDP3 driver")
-Signed-off-by: Qiheng Lin <linqiheng@huawei.com>
----
-
-v2:
- - Add fix the err_return case.
-
- drivers/media/platform/mediatek/mdp3/mtk-mdp3-core.c | 11 ++++++-----
- 1 file changed, 6 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-core.c b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-core.c
-index c413e59d4286..48f3e32fe54e 100644
---- a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-core.c
-+++ b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-core.c
-@@ -207,8 +207,8 @@ static int mdp_probe(struct platform_device *pdev)
- 	}
- 	for (i = 0; i < MDP_PIPE_MAX; i++) {
- 		mdp->mdp_mutex[i] = mtk_mutex_get(&mm_pdev->dev);
--		if (!mdp->mdp_mutex[i]) {
--			ret = -ENODEV;
-+		if (IS_ERR(mdp->mdp_mutex[i])) {
-+			ret = PTR_ERR(mdp->mdp_mutex[i]);
- 			goto err_return;
- 		}
- 	}
-@@ -288,9 +288,10 @@ static int mdp_probe(struct platform_device *pdev)
- err_deinit_comp:
- 	mdp_comp_destroy(mdp);
- err_return:
--	for (i = 0; i < MDP_PIPE_MAX; i++)
--		if (mdp)
--			mtk_mutex_put(mdp->mdp_mutex[i]);
-+	if (mdp)
-+		for (i = 0; i < MDP_PIPE_MAX; i++)
-+			if (!IS_ERR_OR_NULL(mdp->mdp_mutex[i]))
-+				mtk_mutex_put(mdp->mdp_mutex[i]);
- 	kfree(mdp);
- 	dev_dbg(dev, "Errno %d\n", ret);
- 	return ret;
--- 
-2.32.0
-
+Reviewed-by: Sergey Senozhatsky <senozhatsky@chromium.org>
