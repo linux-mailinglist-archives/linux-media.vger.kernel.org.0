@@ -2,140 +2,161 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8FF6A63EE0A
-	for <lists+linux-media@lfdr.de>; Thu,  1 Dec 2022 11:39:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 29F0463EF70
+	for <lists+linux-media@lfdr.de>; Thu,  1 Dec 2022 12:28:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230300AbiLAKjY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 1 Dec 2022 05:39:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47604 "EHLO
+        id S229976AbiLAL2O (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 1 Dec 2022 06:28:14 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44342 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229614AbiLAKjW (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 1 Dec 2022 05:39:22 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 68B1F54465
-        for <linux-media@vger.kernel.org>; Thu,  1 Dec 2022 02:38:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1669891113;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=10Al1tSX1JNmT1W2eYBPU7HPfHOrdNXuqygGPStHWlc=;
-        b=WytJe5b9dZZOf14CVQbSwOdtp4ZeLvSbTYtwvy+DKrArVSXU1aVTQ9H2pCTjU4rWVzA1NG
-        755nZrP2BN6DNJur/uUTxlu16/f4g7PHXMVnxmMZt9ZFonmW16FNjXhCAd2LPkhMi4IHfF
-        eTkJkKTldV3WStqyHsDelQ4U6epU5jU=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-489-BIfy8aqGNA2OOdZij_KhUg-1; Thu, 01 Dec 2022 05:38:32 -0500
-X-MC-Unique: BIfy8aqGNA2OOdZij_KhUg-1
-Received: by mail-wr1-f71.google.com with SMTP id l9-20020adfa389000000b00241f907e102so282979wrb.8
-        for <linux-media@vger.kernel.org>; Thu, 01 Dec 2022 02:38:32 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=10Al1tSX1JNmT1W2eYBPU7HPfHOrdNXuqygGPStHWlc=;
-        b=QARLONZWKzxIw5Y9Isafvg+IDzPh0H6oAxil+WAwgYDLeCyUg5aOn6DVD0XPeVXjtD
-         iTeesyhCRqgt54+LPzHEo/PVyhgD13FCmViClLqb6MHbcAONYdA4bZS7tiCKqHfw9sOb
-         vC3twlFzUS8tz2Ny/Zy41uq6fIJh2hYklVkcjIGJBXVhHoP3Tksri5Iiwn8o6TlP9u1g
-         B6DTjj8vx5dvM5BRdcNvgzf+SraiR6heTrDXUyOAfeyzhgM/0MTFIBVE/7dU9mQey40m
-         XzPC9CNr7m3S186lBPH3v9mb3lRepx8bf3UWIRb0XfFXy1reu4nP8YaREFv23v4pjRW7
-         Pq8w==
-X-Gm-Message-State: ANoB5pns7Mj5cbnJgdyFaprHpvhDEUuUVBQy//yKJ0smkGtubWSRMaRO
-        ULEwAz+EOABolCVX5RxzeI5wkHW/EbMvtgmJQm139+F9II3lBaLeO1/htzI0WBMAlHAhlfWpjnj
-        wUjfZYqGbhQHu4lpK69ZYODc=
-X-Received: by 2002:a5d:43c9:0:b0:236:78d0:5223 with SMTP id v9-20020a5d43c9000000b0023678d05223mr41643009wrr.250.1669891111396;
-        Thu, 01 Dec 2022 02:38:31 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf6KufTftndeSFnuJj0ww4Bi4u4dwK5MuxmTqCH6QTPyZEYTXUnzD5dmnVqEGF5aWgQYEpubqQ==
-X-Received: by 2002:a5d:43c9:0:b0:236:78d0:5223 with SMTP id v9-20020a5d43c9000000b0023678d05223mr41642998wrr.250.1669891111156;
-        Thu, 01 Dec 2022 02:38:31 -0800 (PST)
-Received: from [192.168.1.130] (205.pool92-176-231.dynamic.orange.es. [92.176.231.205])
-        by smtp.gmail.com with ESMTPSA id fc13-20020a05600c524d00b003d04e4ed873sm10098252wmb.22.2022.12.01.02.38.29
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 01 Dec 2022 02:38:30 -0800 (PST)
-Message-ID: <31192e08-3d83-6fb0-06b0-51d50d073abc@redhat.com>
-Date:   Thu, 1 Dec 2022 11:38:29 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.1
-Subject: Re: [PATCH v2 01/17] drm/tests: helpers: Move the helper header to
- include/drm
-Content-Language: en-US
-To:     Maxime Ripard <maxime@cerno.tech>
-Cc:     Daniel Vetter <daniel@ffwll.ch>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        David Airlie <airlied@gmail.com>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        dri-devel@lists.freedesktop.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        kunit-dev@googlegroups.com, linux-media@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
-        Brendan Higgins <brendan.higgins@linux.dev>,
-        =?UTF-8?Q?Ma=c3=adra_Canal?= <mairacanal@riseup.net>,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        linux-kernel@vger.kernel.org, David Gow <davidgow@google.com>
-References: <20221123-rpi-kunit-tests-v2-0-efe5ed518b63@cerno.tech>
- <20221123-rpi-kunit-tests-v2-1-efe5ed518b63@cerno.tech>
- <ebe02c21-7770-0415-096e-76a839bad154@redhat.com>
- <20221201102756.cdvxu4iryhu3rjpf@houat>
-From:   Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <20221201102756.cdvxu4iryhu3rjpf@houat>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE
-        autolearn=ham autolearn_force=no version=3.4.6
+        with ESMTP id S229722AbiLAL2N (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 1 Dec 2022 06:28:13 -0500
+Received: from mxhk.zte.com.cn (mxhk.zte.com.cn [63.216.63.35])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E3F2250D70;
+        Thu,  1 Dec 2022 03:28:09 -0800 (PST)
+Received: from mse-fl2.zte.com.cn (unknown [10.5.228.133])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mxhk.zte.com.cn (FangMail) with ESMTPS id 4NNDMr3pKmz4xVnf;
+        Thu,  1 Dec 2022 19:28:08 +0800 (CST)
+Received: from xaxapp01.zte.com.cn ([10.88.40.50])
+        by mse-fl2.zte.com.cn with SMTP id 2B1BRunB071769;
+        Thu, 1 Dec 2022 19:27:56 +0800 (+08)
+        (envelope-from ye.xingchen@zte.com.cn)
+Received: from mapi (xaxapp01[null])
+        by mapi (Zmail) with MAPI id mid31;
+        Thu, 1 Dec 2022 19:27:59 +0800 (CST)
+Date:   Thu, 1 Dec 2022 19:27:59 +0800 (CST)
+X-Zmail-TransId: 2af963888fbf0b577f89
+X-Mailer: Zmail v1.0
+Message-ID: <202212011927592559291@zte.com.cn>
+Mime-Version: 1.0
+From:   <ye.xingchen@zte.com.cn>
+To:     <isely@pobox.com>
+Cc:     <mchehab@kernel.org>, <linux-media@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+Subject: =?UTF-8?B?W1BBVENIXSBtZWRpYTogcHZydXNiMjogdXNlIHN5c2ZzX2VtaXQoKSB0byBpbnN0ZWFkIG9mIHNjbnByaW50Zigp?=
+Content-Type: text/plain;
+        charset="UTF-8"
+X-MAIL: mse-fl2.zte.com.cn 2B1BRunB071769
+X-Fangmail-Gw-Spam-Type: 0
+X-FangMail-Miltered: at cgslv5.04-192.168.250.138.novalocal with ID 63888FC8.000 by FangMail milter!
+X-FangMail-Envelope: 1669894088/4NNDMr3pKmz4xVnf/63888FC8.000/10.5.228.133/[10.5.228.133]/mse-fl2.zte.com.cn/<ye.xingchen@zte.com.cn>
+X-Fangmail-Anti-Spam-Filtered: true
+X-Fangmail-MID-QID: 63888FC8.000/4NNDMr3pKmz4xVnf
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
+        SPF_PASS,UNPARSEABLE_RELAY autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello Maxime,
+From: ye xingchen <ye.xingchen@zte.com.cn>
 
-On 12/1/22 11:27, Maxime Ripard wrote:
+Follow the advice of the Documentation/filesystems/sysfs.rst and show()
+should only use sysfs_emit() or sysfs_emit_at() when formatting the
+value to be returned to user space.
 
-[...]
+Signed-off-by: ye xingchen <ye.xingchen@zte.com.cn>
+---
+ drivers/media/usb/pvrusb2/pvrusb2-sysfs.c | 20 ++++++++++----------
+ 1 file changed, 10 insertions(+), 10 deletions(-)
 
->>
->> I wonder if now that this header was moved outside of the tests directory,
->> if we should add stub functions in the header file that are just defined
->> but do nothing if CONFIG_DRM_KUNIT_TEST isn't enabled. So that including
->> it in drivers will be a no-op.
->>
->> Or do you plan to conditionally include this header file in drivers? So
->> that is only included when CONFIG_DRM_KUNIT_TEST is enabled?
-> 
-> I'm not entirely sure. I'd expect only the tests to include it, and thus
-> would depend on DRM_KUNIT_TEST already. But we can always add the stubs
-> if it's ever included in a different context.
-> 
->> Another thing that wondered is if we want a different namespace for this
->> header, i.e: <drm/testing/drm_kunit_helpers.h>, to make it clear that is
->> not part of the DRM API but just for testing helpers.
-> 
-> If there's a single header, I don't think we need to create the
-> directory. This is also something we can consolidate later on if needed.
->
+diff --git a/drivers/media/usb/pvrusb2/pvrusb2-sysfs.c b/drivers/media/usb/pvrusb2/pvrusb2-sysfs.c
+index 3e42e209be37..81c8b65bd9ef 100644
+--- a/drivers/media/usb/pvrusb2/pvrusb2-sysfs.c
++++ b/drivers/media/usb/pvrusb2/pvrusb2-sysfs.c
+@@ -81,7 +81,7 @@ static ssize_t show_name(struct device *class_dev,
+ 	pvr2_sysfs_trace("pvr2_sysfs(%p) show_name(cid=%d) is %s",
+ 			 cip->chptr, cip->ctl_id, name);
+ 	if (!name) return -EINVAL;
+-	return scnprintf(buf, PAGE_SIZE, "%s\n", name);
++	return sysfs_emit(buf, "%s\n", name);
+ }
 
-Agree on both. It's better to land as is and then figure out if needs
-to be changed once other drivers add more tests.
- 
->> But these are open questions really, and they can be done as follow-up:
->>
->> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-> 
-> Thanks :)
+ static ssize_t show_type(struct device *class_dev,
+@@ -102,7 +102,7 @@ static ssize_t show_type(struct device *class_dev,
+ 	}
+ 	pvr2_sysfs_trace("pvr2_sysfs(%p) show_type(cid=%d) is %s",
+ 			 cip->chptr, cip->ctl_id, name);
+-	return scnprintf(buf, PAGE_SIZE, "%s\n", name);
++	return sysfs_emit(buf, "%s\n", name);
+ }
 
-You are welcome!
+ static ssize_t show_min(struct device *class_dev,
+@@ -115,7 +115,7 @@ static ssize_t show_min(struct device *class_dev,
+ 	val = pvr2_ctrl_get_min(cip->cptr);
+ 	pvr2_sysfs_trace("pvr2_sysfs(%p) show_min(cid=%d) is %ld",
+ 			 cip->chptr, cip->ctl_id, val);
+-	return scnprintf(buf, PAGE_SIZE, "%ld\n", val);
++	return sysfs_emit(buf, "%ld\n", val);
+ }
+
+ static ssize_t show_max(struct device *class_dev,
+@@ -128,7 +128,7 @@ static ssize_t show_max(struct device *class_dev,
+ 	val = pvr2_ctrl_get_max(cip->cptr);
+ 	pvr2_sysfs_trace("pvr2_sysfs(%p) show_max(cid=%d) is %ld",
+ 			 cip->chptr, cip->ctl_id, val);
+-	return scnprintf(buf, PAGE_SIZE, "%ld\n", val);
++	return sysfs_emit(buf, "%ld\n", val);
+ }
+
+ static ssize_t show_def(struct device *class_dev,
+@@ -551,7 +551,7 @@ static ssize_t v4l_minor_number_show(struct device *class_dev,
+ 	struct pvr2_sysfs *sfp;
+ 	sfp = dev_get_drvdata(class_dev);
+ 	if (!sfp) return -EINVAL;
+-	return scnprintf(buf,PAGE_SIZE,"%d\n",
++	return sysfs_emit(buf, "%d\n",
+ 			 pvr2_hdw_v4l_get_minor_number(sfp->channel.hdw,
+ 						       pvr2_v4l_type_video));
+ }
+@@ -563,7 +563,7 @@ static ssize_t bus_info_show(struct device *class_dev,
+ 	struct pvr2_sysfs *sfp;
+ 	sfp = dev_get_drvdata(class_dev);
+ 	if (!sfp) return -EINVAL;
+-	return scnprintf(buf,PAGE_SIZE,"%s\n",
++	return sysfs_emit(buf, "%s\n",
+ 			 pvr2_hdw_get_bus_info(sfp->channel.hdw));
+ }
+
+@@ -574,7 +574,7 @@ static ssize_t hdw_name_show(struct device *class_dev,
+ 	struct pvr2_sysfs *sfp;
+ 	sfp = dev_get_drvdata(class_dev);
+ 	if (!sfp) return -EINVAL;
+-	return scnprintf(buf,PAGE_SIZE,"%s\n",
++	return sysfs_emit(buf, "%s\n",
+ 			 pvr2_hdw_get_type(sfp->channel.hdw));
+ }
+
+@@ -585,7 +585,7 @@ static ssize_t hdw_desc_show(struct device *class_dev,
+ 	struct pvr2_sysfs *sfp;
+ 	sfp = dev_get_drvdata(class_dev);
+ 	if (!sfp) return -EINVAL;
+-	return scnprintf(buf,PAGE_SIZE,"%s\n",
++	return sysfs_emit(buf, "%s\n",
+ 			 pvr2_hdw_get_desc(sfp->channel.hdw));
+ }
+
+@@ -597,7 +597,7 @@ static ssize_t v4l_radio_minor_number_show(struct device *class_dev,
+ 	struct pvr2_sysfs *sfp;
+ 	sfp = dev_get_drvdata(class_dev);
+ 	if (!sfp) return -EINVAL;
+-	return scnprintf(buf,PAGE_SIZE,"%d\n",
++	return sysfs_emit(buf, "%d\n",
+ 			 pvr2_hdw_v4l_get_minor_number(sfp->channel.hdw,
+ 						       pvr2_v4l_type_radio));
+ }
+@@ -609,7 +609,7 @@ static ssize_t unit_number_show(struct device *class_dev,
+ 	struct pvr2_sysfs *sfp;
+ 	sfp = dev_get_drvdata(class_dev);
+ 	if (!sfp) return -EINVAL;
+-	return scnprintf(buf,PAGE_SIZE,"%d\n",
++	return sysfs_emit(buf, "%d\n",
+ 			 pvr2_hdw_get_unit_number(sfp->channel.hdw));
+ }
 
 -- 
-Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
-
+2.25.1
