@@ -2,46 +2,64 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A8A0F63EF85
-	for <lists+linux-media@lfdr.de>; Thu,  1 Dec 2022 12:33:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 19CD663EFDA
+	for <lists+linux-media@lfdr.de>; Thu,  1 Dec 2022 12:49:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230410AbiLALdD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 1 Dec 2022 06:33:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49026 "EHLO
+        id S230336AbiLALtw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 1 Dec 2022 06:49:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37996 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230403AbiLALdB (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 1 Dec 2022 06:33:01 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E5E132252C;
-        Thu,  1 Dec 2022 03:32:58 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id A04DBB81EED;
-        Thu,  1 Dec 2022 11:32:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 061CEC433C1;
-        Thu,  1 Dec 2022 11:32:54 +0000 (UTC)
-Message-ID: <20badb75-65c7-719e-ab93-28e6b5e97f22@xs4all.nl>
-Date:   Thu, 1 Dec 2022 12:32:53 +0100
+        with ESMTP id S229658AbiLALtv (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 1 Dec 2022 06:49:51 -0500
+Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 45B0CDFD6
+        for <linux-media@vger.kernel.org>; Thu,  1 Dec 2022 03:49:50 -0800 (PST)
+Received: by mail-wr1-x429.google.com with SMTP id d1so2248890wrs.12
+        for <linux-media@vger.kernel.org>; Thu, 01 Dec 2022 03:49:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=amarulasolutions.com; s=google;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Y9EKZPY2hBniiNOtz3xFsIq3ixIyaR/34E24Cwlg4TM=;
+        b=Tfoq8xnEDOdKYT+BTIWDRJ/clQ9qBFy9Q6K+s4018wd20fxlU+a5wkqQijASISO6RY
+         FGCzBGXt82C2oe8Ox5isIxegfmEwuD62h3jTMbh0HX1SKu/MuG1wG4MeGl4rJv+cXj+p
+         bQqTHsfg7PcM7b+jN28i/NmNGOj5H4c/kbhWM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Y9EKZPY2hBniiNOtz3xFsIq3ixIyaR/34E24Cwlg4TM=;
+        b=dOOSFOnUOcUnoaW0FgBKIAXhXb7TE5vX4Nhtb4wxMJUOOsQCgiC8dbMd7o0bRMBmd1
+         xZZDQUKpNGI0qk8I+v7hGlV1IjMTlQWirkKMwZLYoZglLCSfBsCAzoWllhUfMeTp07wC
+         DYeSefFnLCYGW23xS6FunCNxhCY5JN6bLa1VzA54EE39XaGwZ/cJEaY0btx4LBJJblNH
+         H1nORW8cI5t+N4ZDNKPSFJqn2wGCkgxd+s9cO8zjhJlFGTR3TrcD4HCNJaYFAiOB9Ls5
+         b5pE3jSvuR4GahkpptJrBihVhU9AeDpNBP+J5DFIRqR3eTapYM+dWNZLbcLyHF5512O0
+         csRQ==
+X-Gm-Message-State: ANoB5pkbr7kt0vRtO5XZdLsAIR+viuFcx70J+I/0wxzvxtgWuxWLuIze
+        Ya1KqxneafFtqXeHb41Qu6RwBg==
+X-Google-Smtp-Source: AA0mqf4qcEqAuLwD8njmkdLkxFyZkebZPMxSJGaXrkDX3Ot1nqpkA1QFzJnmVd4NWofEpOUZXHT8/w==
+X-Received: by 2002:adf:d84e:0:b0:241:7ad0:dd0a with SMTP id k14-20020adfd84e000000b002417ad0dd0amr41578048wrl.290.1669895388800;
+        Thu, 01 Dec 2022 03:49:48 -0800 (PST)
+Received: from tom-ThinkPad-T14s-Gen-2i (net-188-217-49-206.cust.vodafonedsl.it. [188.217.49.206])
+        by smtp.gmail.com with ESMTPSA id m28-20020a056000025c00b00242257f2672sm4268751wrz.77.2022.12.01.03.49.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 01 Dec 2022 03:49:48 -0800 (PST)
+Date:   Thu, 1 Dec 2022 12:49:46 +0100
+From:   Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
+To:     ye.xingchen@zte.com.cn
+Cc:     isely@pobox.com, mchehab@kernel.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: pvrusb2: use sysfs_emit() to instead of
+ scnprintf()
+Message-ID: <20221201114946.GA1289482@tom-ThinkPad-T14s-Gen-2i>
+References: <202212011927592559291@zte.com.cn>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Subject: Re: Question for an accepted patch: use of DMA-BUF based videobuf2
- capture buffer with no-HW-cache-coherent HW
-Content-Language: en-US
-To:     yuji2.ishikawa@toshiba.co.jp, posciak@chromium.org,
-        paul.kocialkowski@bootlin.com, mchehab+samsung@kernel.org,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Tomasz Figa <tfiga@chromium.org>
-References: <TYAPR01MB6201561D2644EE783BA8B196922E9@TYAPR01MB6201.jpnprd01.prod.outlook.com>
- <b645f983-447b-7b4b-6dd6-d5f10da08e96@xs4all.nl>
- <TYAPR01MB62019A8DD1215F41F0FE663C92309@TYAPR01MB6201.jpnprd01.prod.outlook.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <TYAPR01MB62019A8DD1215F41F0FE663C92309@TYAPR01MB6201.jpnprd01.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-6.9 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <202212011927592559291@zte.com.cn>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -49,164 +67,128 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Yuji,
+Hi,
 
-On 26/10/2022 11:16, yuji2.ishikawa@toshiba.co.jp wrote:
-> Hi Hans,
+On Thu, Dec 01, 2022 at 07:27:59PM +0800, ye.xingchen@zte.com.cn wrote:
+> From: ye xingchen <ye.xingchen@zte.com.cn>
 > 
->> -----Original Message-----
->> From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
->> Sent: Monday, October 24, 2022 4:49 PM
->> To: ishikawa yuji(石川 悠司 ○ＲＤＣ□ＡＩＴＣ○ＥＡ開)
->> <yuji2.ishikawa@toshiba.co.jp>; posciak@chromium.org;
->> paul.kocialkowski@bootlin.com; mchehab+samsung@kernel.org;
->> linux-media@vger.kernel.org; linux-kernel@vger.kernel.org
->> Subject: Re: Question for an accepted patch: use of DMA-BUF based videobuf2
->> capture buffer with no-HW-cache-coherent HW
->>
->> Hi Yuji,
->>
->> On 10/24/22 06:02, yuji2.ishikawa@toshiba.co.jp wrote:
->>> Hi,
->>>
->>> I'm porting a V4L2 capture driver from 4.19.y to 5.10.y [1].
->>>
->>> When I test the ported driver, I sometimes find a corruption on a captured
->> image.
->>>
->>> Because the corruption is exactly aligned with cacheline, I started
->> investigation from map/unmap of DMA-BUF.
->>>
->>>
->>>
->>> The capture driver uses DMA-BUF for videobuf2.
->>>
->>> The capture hardware does not have HW-mantained cache coherency with
->> CPU, that is, explicit map/unmap is essential on QBUF/DQBUF.
->>>
->>> After some hours of struggle, I found a patch removing cache synchronizations
->> on QBUF/DQBUF.
->>>
->>>
->>>
->>> https://patchwork.kernel.org/project/linux-media/patch/20190124095156.
->>> 21898-1-paul.kocialkowski@bootlin.com/
->>> <https://patchwork.kernel.org/project/linux-media/patch/20190124095156
->>> .21898-1-paul.kocialkowski@bootlin.com/>
->>>
->>>
->>>
->>> When I removed this patch from my 5.10.y working-tree, the driver
->>> yielded images without any defects.v
->>>
->>>
->>>
->>> ***************
->>>
->>> Sorry for a mention to a patch released 4 years ago.
->>>
->>> The patch removes map/unmap on QBUF/DQBUF to improve the
->> performance of V4L2 decoder device, by reusing previously decoded frames.
->>>
->>> However, there seems no cares nor compensations for modifying lifecycle of
->> DMA-BUF, especially on video capture devices.
->>
->> I'm not entirely sure what you mean exactly.
->>
-> My concern is consistency between ioctls and the state transition of capture buffers.
-> Generally, streaming I/O (DMA-BUF importing) buffers are handled following by userland.
+> Follow the advice of the Documentation/filesystems/sysfs.rst and show()
+> should only use sysfs_emit() or sysfs_emit_at() when formatting the
+> value to be returned to user space.
 > 
-> Ioctl(VIDIOC_QBUF) -> /* DMA transfer from HW*/ -> ioctl(VIDIOC_DQBUF) -> /* access from CPU */ -> ioctl(VIDIOC_QBUF) -> ...
+> Signed-off-by: ye xingchen <ye.xingchen@zte.com.cn>
+> ---
+>  drivers/media/usb/pvrusb2/pvrusb2-sysfs.c | 20 ++++++++++----------
+>  1 file changed, 10 insertions(+), 10 deletions(-)
 > 
-> Therefore, expected semantics is that a buffer is owned by HW after QBUF, and owned by CPU after DQBUF.
-> In practice, ioctl(QBUF) kicks vb2_dc_map_dma_buf() and ioctl(DQBUF) kicks vb2_dc_unmap_dma_buf() before applying the patch.
-> This implementation keeps consistency in terms of cache coherency as cache-clean is done in vb2_dc_map_dma_buf().
+> diff --git a/drivers/media/usb/pvrusb2/pvrusb2-sysfs.c b/drivers/media/usb/pvrusb2/pvrusb2-sysfs.c
+> index 3e42e209be37..81c8b65bd9ef 100644
+> --- a/drivers/media/usb/pvrusb2/pvrusb2-sysfs.c
+> +++ b/drivers/media/usb/pvrusb2/pvrusb2-sysfs.c
+> @@ -81,7 +81,7 @@ static ssize_t show_name(struct device *class_dev,
+>  	pvr2_sysfs_trace("pvr2_sysfs(%p) show_name(cid=%d) is %s",
+>  			 cip->chptr, cip->ctl_id, name);
+>  	if (!name) return -EINVAL;
+> -	return scnprintf(buf, PAGE_SIZE, "%s\n", name);
+> +	return sysfs_emit(buf, "%s\n", name);
+>  }
 > 
-> By applying the patch, ioctl(DQBUF) does not kick unmap_dma() anymore. The similar for ioctl(QBUF).
-> Therefore, in practice, a buffer is not owned by CPU just after ioctl(DQBUF).
-> To keep compatibility of buffer operations, there should be delayed map_dma()/unmap_dma() call just before DMA-transfer/CPU-access.
-> However, no one referred to such function in the v4l2 framework in the examination of the patch.
-> Also, there is no advice for individual video device drivers; such that adding map_dma()/unmap_dma() explicitly.
-
-The cache syncing is supposed to happen in __vb2_buf_mem_finish() where the
-'finish' memop is called.
-
-But for DMABUF it notes that:
-
-        /*
-         * DMA exporter should take care of cache syncs, so we can avoid
-         * explicit ->prepare()/->finish() syncs. For other ->memory types
-         * we always need ->prepare() or/and ->finish() cache sync.
-         */
-
-And here https://docs.kernel.org/driver-api/dma-buf.html I read that userspace
-must call DMA_BUF_IOCTL_SYNC to ensure the caches are synced before using the
-buffer.
-
-Are you calling DMA_BUF_IOCTL_SYNC?
-
-I suspect that vb2_dc_unmap_dma_buf() caused a cache sync, so you never noticed
-issues.
-
-Regards,
-
-	Hans
-
+>  static ssize_t show_type(struct device *class_dev,
+> @@ -102,7 +102,7 @@ static ssize_t show_type(struct device *class_dev,
+>  	}
+>  	pvr2_sysfs_trace("pvr2_sysfs(%p) show_type(cid=%d) is %s",
+>  			 cip->chptr, cip->ctl_id, name);
+> -	return scnprintf(buf, PAGE_SIZE, "%s\n", name);
+> +	return sysfs_emit(buf, "%s\n", name);
+>  }
 > 
->>>
->>>
->>>
->>> Would you tell me some idea on this patch:
->>>
->>> * Do well-implemented capture drivers work well even if this patch is applied?
->>
->> Yes, dmabuf is used extensively and I have not had any reports of issues.
+>  static ssize_t show_min(struct device *class_dev,
+> @@ -115,7 +115,7 @@ static ssize_t show_min(struct device *class_dev,
+>  	val = pvr2_ctrl_get_min(cip->cptr);
+>  	pvr2_sysfs_trace("pvr2_sysfs(%p) show_min(cid=%d) is %ld",
+>  			 cip->chptr, cip->ctl_id, val);
+> -	return scnprintf(buf, PAGE_SIZE, "%ld\n", val);
+> +	return sysfs_emit(buf, "%ld\n", val);
+>  }
 > 
-> Many architectures can avoid this problem.
-> A problem statistically occurs, only if a video capture HW does not have HW-maintained cache coherency with CPU.
-> Does this patch consider such case?
+>  static ssize_t show_max(struct device *class_dev,
+> @@ -128,7 +128,7 @@ static ssize_t show_max(struct device *class_dev,
+>  	val = pvr2_ctrl_get_max(cip->cptr);
+>  	pvr2_sysfs_trace("pvr2_sysfs(%p) show_max(cid=%d) is %ld",
+>  			 cip->chptr, cip->ctl_id, val);
+> -	return scnprintf(buf, PAGE_SIZE, "%ld\n", val);
+> +	return sysfs_emit(buf, "%ld\n", val);
+>  }
 > 
->>>
->>> * How should a video capture driver call V4L2/videobuf2 APIs, especially
->> when the hardware does not support cache coherency?
->>
->> It should all be handled correctly by the core frameworks.
->>
->> I think you need to debug more inside videobuf2-core.c. Some printk's that show
->> the dmabuf fd when the buffer is mapped and when it is unmapped + the length
->> it is mapping should hopefully help a bit.
+>  static ssize_t show_def(struct device *class_dev,
+> @@ -551,7 +551,7 @@ static ssize_t v4l_minor_number_show(struct device *class_dev,
+>  	struct pvr2_sysfs *sfp;
+>  	sfp = dev_get_drvdata(class_dev);
+>  	if (!sfp) return -EINVAL;
+> -	return scnprintf(buf,PAGE_SIZE,"%d\n",
+> +	return sysfs_emit(buf, "%d\n",
+>  			 pvr2_hdw_v4l_get_minor_number(sfp->channel.hdw,
+>  						       pvr2_v4l_type_video));
+>  }
+> @@ -563,7 +563,7 @@ static ssize_t bus_info_show(struct device *class_dev,
+>  	struct pvr2_sysfs *sfp;
+>  	sfp = dev_get_drvdata(class_dev);
+>  	if (!sfp) return -EINVAL;
+> -	return scnprintf(buf,PAGE_SIZE,"%s\n",
+> +	return sysfs_emit(buf, "%s\n",
+>  			 pvr2_hdw_get_bus_info(sfp->channel.hdw));
+>  }
 > 
-> I added printk and dump_stack() to several functions.
-> The patched function __prepare_dmabuf() is called every ioctl(QBUF).
-> Function vb2_dc_map_dmabuf() is called only for the 1st call of ioctl(QBUF) for a buffer instance.
-> After that, vb2_dc_map_dmabuf() was never called, as the patch intended.
+> @@ -574,7 +574,7 @@ static ssize_t hdw_name_show(struct device *class_dev,
+>  	struct pvr2_sysfs *sfp;
+>  	sfp = dev_get_drvdata(class_dev);
+>  	if (!sfp) return -EINVAL;
+> -	return scnprintf(buf,PAGE_SIZE,"%s\n",
+> +	return sysfs_emit(buf, "%s\n",
+>  			 pvr2_hdw_get_type(sfp->channel.hdw));
+>  }
 > 
-> Regards,
-> 	Yuji
+> @@ -585,7 +585,7 @@ static ssize_t hdw_desc_show(struct device *class_dev,
+>  	struct pvr2_sysfs *sfp;
+>  	sfp = dev_get_drvdata(class_dev);
+>  	if (!sfp) return -EINVAL;
+> -	return scnprintf(buf,PAGE_SIZE,"%s\n",
+> +	return sysfs_emit(buf, "%s\n",
+>  			 pvr2_hdw_get_desc(sfp->channel.hdw));
+>  }
 > 
->>
->> Regards,
->>
->> 	Hans
->>
->>>
->>>
->>>
->>> ***************
->>>
->>> [1] FYI: the capture driver is not on mainline yet; the candidate is,
->>>
->>> https://lore.kernel.org/all/20220810132822.32534-1-yuji2.ishikawa@tosh
->>> iba.co.jp/
->>> <https://lore.kernel.org/all/20220810132822.32534-1-yuji2.ishikawa@tos
->>> hiba.co.jp/>
->>>
->>>
->>>
->>>
->>>
->>> Regards,
->>>
->>>               Yuji Ishikawa
->>>
+> @@ -597,7 +597,7 @@ static ssize_t v4l_radio_minor_number_show(struct device *class_dev,
+>  	struct pvr2_sysfs *sfp;
+>  	sfp = dev_get_drvdata(class_dev);
+>  	if (!sfp) return -EINVAL;
+> -	return scnprintf(buf,PAGE_SIZE,"%d\n",
+> +	return sysfs_emit(buf, "%d\n",
+>  			 pvr2_hdw_v4l_get_minor_number(sfp->channel.hdw,
+>  						       pvr2_v4l_type_radio));
+>  }
+> @@ -609,7 +609,7 @@ static ssize_t unit_number_show(struct device *class_dev,
+>  	struct pvr2_sysfs *sfp;
+>  	sfp = dev_get_drvdata(class_dev);
+>  	if (!sfp) return -EINVAL;
+> -	return scnprintf(buf,PAGE_SIZE,"%d\n",
+> +	return sysfs_emit(buf, "%d\n",
+>  			 pvr2_hdw_get_unit_number(sfp->channel.hdw));
+>  }
+> 
+> -- 
+> 2.25.1
 
+Looks good to me.
+Reviewed-by: Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
+
+-- 
+Tommaso Merciai
+Embedded Linux Engineer
+tommaso.merciai@amarulasolutions.com
+__________________________________
+
+Amarula Solutions SRL
+Via Le Canevare 30, 31100 Treviso, Veneto, IT
+T. +39 042 243 5310
+info@amarulasolutions.com
+www.amarulasolutions.com
