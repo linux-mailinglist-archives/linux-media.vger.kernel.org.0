@@ -2,69 +2,52 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9B1F063E75C
-	for <lists+linux-media@lfdr.de>; Thu,  1 Dec 2022 02:56:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 60C1863E77E
+	for <lists+linux-media@lfdr.de>; Thu,  1 Dec 2022 03:09:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229674AbiLABzy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 30 Nov 2022 20:55:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60028 "EHLO
+        id S229662AbiLACJ1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 30 Nov 2022 21:09:27 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44920 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229535AbiLABzh (ORCPT
+        with ESMTP id S229551AbiLACJ0 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 30 Nov 2022 20:55:37 -0500
-Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com [IPv6:2607:f8b0:4864:20::42a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C4F3E16;
-        Wed, 30 Nov 2022 17:55:36 -0800 (PST)
-Received: by mail-pf1-x42a.google.com with SMTP id 140so509392pfz.6;
-        Wed, 30 Nov 2022 17:55:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=C8hpJ+dhKLwcq6yGKXl9JYCXBoLbIiY9R+toMXs7xSY=;
-        b=PXW7kMdCN3ai+CI0xhP8dUH6+O2YzxU2IhSV5eUBFDR4EwrNFfWs9iu7/OUr82Un6v
-         Xf2FxRIXxOn71D8Csqze226LrlxI2ZYZgVWHq8dAdMV0Yr3bRyOZ3UbFb7rA0qIdsFHi
-         SKiZSi5nqW4qutJZNdS9mLQZykYBw+dVCuW3lFaN4P+n8nvRhHBnAo5t7BnJeMlX0P7p
-         vNxhz5gBRw/Qwhol3ns2Y4F1VMvh6Qg7GefnnMVokuX+Lo3UTT72XDF/yqHTLJogFzSl
-         VRzU5lLsVhFSl0PojqcwKhDkrjQEXpRdONrkgc+bD27rsP26wYC2DJxHIn7jC7CiOUE9
-         iD5g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=C8hpJ+dhKLwcq6yGKXl9JYCXBoLbIiY9R+toMXs7xSY=;
-        b=tW42Axpamc9EBmBe98OZI4lEypyZMzFWQQW0wlN3ghWYXKS1mzsubZjO/GIt4MRTkf
-         xxTBOhY2smBjc7QFOJuhI8jiR/BcuUD1EIAwATE8X3csRnH3dFJ45RCtNzBwDKma9+7D
-         qgo0EGxoLj+0282dh0RvXu8zj+iSBb8Ga0vSwo9t4Z3ApACSen5l93FaNMKdKOinbD9c
-         dzn7DXh5VQTSTbzl+QytJnWBHfZTG3FiMEgkYPvvXibX6wwa8KSLSoZhk1c5wiElTFQR
-         74E+UBBIYVCnNsDjO2DYgcfYWpv8vuU+RbIRWBTz/SQ9keCEYUMkr5yzPGBbRE4cMKhV
-         wnUw==
-X-Gm-Message-State: ANoB5pkc++zu8nYLxEWIUuX6au3irgAv/MyAe+JlbGjYPrRV1odYmm5y
-        gfAtKBViO2TCAvmW/G7SnKg=
-X-Google-Smtp-Source: AA0mqf7W++ZGlAQng+eeRI1JZVWPEnuY6Xb3IZoLdPXSTzOLfDjzAs7B0Z6Sl0DCk+ll7W7tSZa5qA==
-X-Received: by 2002:a62:8446:0:b0:574:8c08:6c15 with SMTP id k67-20020a628446000000b005748c086c15mr34168668pfd.82.1669859736108;
-        Wed, 30 Nov 2022 17:55:36 -0800 (PST)
-Received: from localhost.localdomain ([43.132.141.8])
-        by smtp.gmail.com with ESMTPSA id x9-20020aa79a49000000b0056e0ff577edsm2013079pfj.43.2022.11.30.17.55.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 30 Nov 2022 17:55:35 -0800 (PST)
-From:   zys.zljxml@gmail.com
-To:     thierry.reding@gmail.com, airlied@gmail.com, daniel@ffwll.ch,
-        sumit.semwal@linaro.org, christian.koenig@amd.com
-Cc:     dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linaro-mm-sig@lists.linaro.org,
-        Yushan Zhou <katrinzhou@tencent.com>
-Subject: [PATCH] gpu: host1x: Remove redundant null checks before kfree
-Date:   Thu,  1 Dec 2022 09:55:21 +0800
-Message-Id: <20221201015522.38163-1-zys.zljxml@gmail.com>
-X-Mailer: git-send-email 2.27.0
+        Wed, 30 Nov 2022 21:09:26 -0500
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8BE3743857;
+        Wed, 30 Nov 2022 18:09:25 -0800 (PST)
+Received: from kwepemi500014.china.huawei.com (unknown [172.30.72.55])
+        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4NMzyL0gfFzmWBp;
+        Thu,  1 Dec 2022 10:08:42 +0800 (CST)
+Received: from [10.174.176.189] (10.174.176.189) by
+ kwepemi500014.china.huawei.com (7.221.188.232) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Thu, 1 Dec 2022 10:09:23 +0800
+Message-ID: <683df422-68f2-12e3-ff5e-66c45e567db2@huawei.com>
+Date:   Thu, 1 Dec 2022 10:09:22 +0800
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.0
+Subject: Re: [PATCH] media: platform: mtk-mdp3: Fix return value check in
+ mdp_probe()
+To:     AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>
+CC:     <mchehab@kernel.org>, <matthias.bgg@gmail.com>,
+        <linux-media@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-mediatek@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>
+References: <20221130081312.35523-1-linqiheng@huawei.com>
+ <fc7ac761-eb81-347b-1c51-cdc9c786ee5b@collabora.com>
+From:   Qiheng Lin <linqiheng@huawei.com>
+In-Reply-To: <fc7ac761-eb81-347b-1c51-cdc9c786ee5b@collabora.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,HK_RANDOM_ENVFROM,
-        HK_RANDOM_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=no
+X-Originating-IP: [10.174.176.189]
+X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
+ kwepemi500014.china.huawei.com (7.221.188.232)
+X-CFilter-Loop: Reflected
+X-Spam-Status: No, score=-4.5 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -72,31 +55,48 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Yushan Zhou <katrinzhou@tencent.com>
+在 2022/11/30 17:44, AngeloGioacchino Del Regno 写道:
+> Il 30/11/22 09:13, Qiheng Lin ha scritto:
+>> In case of error, the function mtk_mutex_get()
+>> returns ERR_PTR() and never returns NULL. The NULL test in the
+>> return value check should be replaced with IS_ERR().
+>>
+>> Fixes: 61890ccaefaf ("media: platform: mtk-mdp3: add MediaTek MDP3 
+>> driver")
+>> Signed-off-by: Qiheng Lin <linqiheng@huawei.com>
+>> ---
+>>   drivers/media/platform/mediatek/mdp3/mtk-mdp3-core.c | 4 ++--
+>>   1 file changed, 2 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-core.c 
+>> b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-core.c
+>> index c413e59d4286..7a2d992dd842 100644
+>> --- a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-core.c
+>> +++ b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-core.c
+>> @@ -207,8 +207,8 @@ static int mdp_probe(struct platform_device *pdev)
+>>       }
+>>       for (i = 0; i < MDP_PIPE_MAX; i++) {
+>>           mdp->mdp_mutex[i] = mtk_mutex_get(&mm_pdev->dev);
+>> -        if (!mdp->mdp_mutex[i]) {
+>> -            ret = -ENODEV;
+>> +        if (IS_ERR(mdp->mdp_mutex[i])) {
+>> +            ret = PTR_ERR(mdp->mdp_mutex[i]);
+>>               goto err_return;
+>>           }
+>>       }
+>>
+> 
+> That's true, and I fully agree.
+> While you're at it, can you also fix the err_return case?
+> 
+> if (mdp)
+>      for ...
+>          if (!IS_ERR_OR_NULL(mdp->mdp_mutex[i]))
+>              mtk_mutex_put(...)
+> 
 
-Fix the following coccicheck warning:
-./drivers/gpu/host1x/fence.c:97:2-7: WARNING:
-NULL check before some freeing functions is not needed.
+Thanks for your suggestion, will send the v2.
 
-Signed-off-by: Yushan Zhou <katrinzhou@tencent.com>
----
- drivers/gpu/host1x/fence.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
-
-diff --git a/drivers/gpu/host1x/fence.c b/drivers/gpu/host1x/fence.c
-index ecab72882192..05b36bfc8b74 100644
---- a/drivers/gpu/host1x/fence.c
-+++ b/drivers/gpu/host1x/fence.c
-@@ -93,8 +93,7 @@ static void host1x_syncpt_fence_release(struct dma_fence *f)
- {
- 	struct host1x_syncpt_fence *sf = to_host1x_fence(f);
- 
--	if (sf->waiter)
--		kfree(sf->waiter);
-+	kfree(sf->waiter);
- 
- 	dma_fence_free(f);
- }
--- 
-2.27.0
+> Thanks,
+> Angelo
 
