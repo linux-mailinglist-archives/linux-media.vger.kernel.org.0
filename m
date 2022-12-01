@@ -2,38 +2,91 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 08A8B63EDF5
-	for <lists+linux-media@lfdr.de>; Thu,  1 Dec 2022 11:36:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8FF6A63EE0A
+	for <lists+linux-media@lfdr.de>; Thu,  1 Dec 2022 11:39:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229679AbiLAKgc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 1 Dec 2022 05:36:32 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44792 "EHLO
+        id S230300AbiLAKjY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 1 Dec 2022 05:39:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47604 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229542AbiLAKgb (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 1 Dec 2022 05:36:31 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE658EB2
-        for <linux-media@vger.kernel.org>; Thu,  1 Dec 2022 02:36:28 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 9B369B81DEB
-        for <linux-media@vger.kernel.org>; Thu,  1 Dec 2022 10:36:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 08629C433D6
-        for <linux-media@vger.kernel.org>; Thu,  1 Dec 2022 10:36:25 +0000 (UTC)
-Message-ID: <28e553f9-885f-68c9-f10b-4401a26669eb@xs4all.nl>
-Date:   Thu, 1 Dec 2022 11:36:24 +0100
+        with ESMTP id S229614AbiLAKjW (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 1 Dec 2022 05:39:22 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 68B1F54465
+        for <linux-media@vger.kernel.org>; Thu,  1 Dec 2022 02:38:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1669891113;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=10Al1tSX1JNmT1W2eYBPU7HPfHOrdNXuqygGPStHWlc=;
+        b=WytJe5b9dZZOf14CVQbSwOdtp4ZeLvSbTYtwvy+DKrArVSXU1aVTQ9H2pCTjU4rWVzA1NG
+        755nZrP2BN6DNJur/uUTxlu16/f4g7PHXMVnxmMZt9ZFonmW16FNjXhCAd2LPkhMi4IHfF
+        eTkJkKTldV3WStqyHsDelQ4U6epU5jU=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-489-BIfy8aqGNA2OOdZij_KhUg-1; Thu, 01 Dec 2022 05:38:32 -0500
+X-MC-Unique: BIfy8aqGNA2OOdZij_KhUg-1
+Received: by mail-wr1-f71.google.com with SMTP id l9-20020adfa389000000b00241f907e102so282979wrb.8
+        for <linux-media@vger.kernel.org>; Thu, 01 Dec 2022 02:38:32 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=10Al1tSX1JNmT1W2eYBPU7HPfHOrdNXuqygGPStHWlc=;
+        b=QARLONZWKzxIw5Y9Isafvg+IDzPh0H6oAxil+WAwgYDLeCyUg5aOn6DVD0XPeVXjtD
+         iTeesyhCRqgt54+LPzHEo/PVyhgD13FCmViClLqb6MHbcAONYdA4bZS7tiCKqHfw9sOb
+         vC3twlFzUS8tz2Ny/Zy41uq6fIJh2hYklVkcjIGJBXVhHoP3Tksri5Iiwn8o6TlP9u1g
+         B6DTjj8vx5dvM5BRdcNvgzf+SraiR6heTrDXUyOAfeyzhgM/0MTFIBVE/7dU9mQey40m
+         XzPC9CNr7m3S186lBPH3v9mb3lRepx8bf3UWIRb0XfFXy1reu4nP8YaREFv23v4pjRW7
+         Pq8w==
+X-Gm-Message-State: ANoB5pns7Mj5cbnJgdyFaprHpvhDEUuUVBQy//yKJ0smkGtubWSRMaRO
+        ULEwAz+EOABolCVX5RxzeI5wkHW/EbMvtgmJQm139+F9II3lBaLeO1/htzI0WBMAlHAhlfWpjnj
+        wUjfZYqGbhQHu4lpK69ZYODc=
+X-Received: by 2002:a5d:43c9:0:b0:236:78d0:5223 with SMTP id v9-20020a5d43c9000000b0023678d05223mr41643009wrr.250.1669891111396;
+        Thu, 01 Dec 2022 02:38:31 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf6KufTftndeSFnuJj0ww4Bi4u4dwK5MuxmTqCH6QTPyZEYTXUnzD5dmnVqEGF5aWgQYEpubqQ==
+X-Received: by 2002:a5d:43c9:0:b0:236:78d0:5223 with SMTP id v9-20020a5d43c9000000b0023678d05223mr41642998wrr.250.1669891111156;
+        Thu, 01 Dec 2022 02:38:31 -0800 (PST)
+Received: from [192.168.1.130] (205.pool92-176-231.dynamic.orange.es. [92.176.231.205])
+        by smtp.gmail.com with ESMTPSA id fc13-20020a05600c524d00b003d04e4ed873sm10098252wmb.22.2022.12.01.02.38.29
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 01 Dec 2022 02:38:30 -0800 (PST)
+Message-ID: <31192e08-3d83-6fb0-06b0-51d50d073abc@redhat.com>
+Date:   Thu, 1 Dec 2022 11:38:29 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
+ Thunderbird/102.3.1
+Subject: Re: [PATCH v2 01/17] drm/tests: helpers: Move the helper header to
+ include/drm
 Content-Language: en-US
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [GIT PULL FOR v6.2] A vb2 revert and compile/smatch/sparse fixes
+To:     Maxime Ripard <maxime@cerno.tech>
+Cc:     Daniel Vetter <daniel@ffwll.ch>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        David Airlie <airlied@gmail.com>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        dri-devel@lists.freedesktop.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        kunit-dev@googlegroups.com, linux-media@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+        Brendan Higgins <brendan.higgins@linux.dev>,
+        =?UTF-8?Q?Ma=c3=adra_Canal?= <mairacanal@riseup.net>,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        linux-kernel@vger.kernel.org, David Gow <davidgow@google.com>
+References: <20221123-rpi-kunit-tests-v2-0-efe5ed518b63@cerno.tech>
+ <20221123-rpi-kunit-tests-v2-1-efe5ed518b63@cerno.tech>
+ <ebe02c21-7770-0415-096e-76a839bad154@redhat.com>
+ <20221201102756.cdvxu4iryhu3rjpf@houat>
+From:   Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <20221201102756.cdvxu4iryhu3rjpf@houat>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS
+X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -41,82 +94,48 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-"media: videobuf2: revert "get_userptr: buffers are always writable" reverts
-an oldish vb2 patch that broke a corner case. More importantly, I was unable
-to reproduce the original issue that prompted this patch.
+Hello Maxime,
 
-I did consider fast tracking this to 6.1, but I prefer to have it in 6.2 to
-give it more test time in case the original problem reappears.
+On 12/1/22 11:27, Maxime Ripard wrote:
 
-The other patches all fix various compiler/sparse/smatch warnings, cutting
-down on the noise in the daily build reports, and there are a few actual
-fixes as well.
+[...]
 
-Regards,
+>>
+>> I wonder if now that this header was moved outside of the tests directory,
+>> if we should add stub functions in the header file that are just defined
+>> but do nothing if CONFIG_DRM_KUNIT_TEST isn't enabled. So that including
+>> it in drivers will be a no-op.
+>>
+>> Or do you plan to conditionally include this header file in drivers? So
+>> that is only included when CONFIG_DRM_KUNIT_TEST is enabled?
+> 
+> I'm not entirely sure. I'd expect only the tests to include it, and thus
+> would depend on DRM_KUNIT_TEST already. But we can always add the stubs
+> if it's ever included in a different context.
+> 
+>> Another thing that wondered is if we want a different namespace for this
+>> header, i.e: <drm/testing/drm_kunit_helpers.h>, to make it clear that is
+>> not part of the DRM API but just for testing helpers.
+> 
+> If there's a single header, I don't think we need to create the
+> directory. This is also something we can consolidate later on if needed.
+>
 
-	Hans
+Agree on both. It's better to land as is and then figure out if needs
+to be changed once other drivers add more tests.
+ 
+>> But these are open questions really, and they can be done as follow-up:
+>>
+>> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+> 
+> Thanks :)
 
-The following changes since commit 6a5a4514854a637d01c50f5ea17b28f78b31ddb8:
+You are welcome!
 
-  media: ipu3-cio2: make the bridge depend on i2c (2022-11-25 11:49:20 +0000)
+-- 
+Best regards,
 
-are available in the Git repository at:
+Javier Martinez Canillas
+Core Platforms
+Red Hat
 
-  git://linuxtv.org/hverkuil/media_tree.git tags/br-v6.2j
-
-for you to fetch changes up to add4e87268c0bf59008281e1efce43b7e81e4140:
-
-  media: rzg2l-cru: fix a test for timeout (2022-12-01 09:32:54 +0100)
-
-----------------------------------------------------------------
-Tag branch
-
-----------------------------------------------------------------
-Dan Carpenter (1):
-      media: rzg2l-cru: fix a test for timeout
-
-Hans Verkuil (5):
-      media: videobuf2: revert "get_userptr: buffers are always writable"
-      media/frontend.h.rst.exceptions: add exceptions for new dvb defines
-      media: dvb-frontends: drx39xyj: set missing error code
-      media: i2c: tc358746: make DEFINE_RUNTIME_DEV_PM_OPS static
-      media: sun6i-csi: clarify return value, fix uninited variable and add missing static
-
-Jiapeng Chong (1):
-      media: rzg2l-cru: Fix missing error code in rzg2l_cru_start_streaming_vq()
-
-Lad Prabhakar (1):
-      media: platform: renesas: rzg2l-cru: Add missing documentation for image_conv_irq
-
-Lin Ma (2):
-      media: dvbdev: fix build warning due to comments
-      media: dvbdev: fix refcnt bug
-
-Liu Shixin (1):
-      media: saa7164: fix missing pci_disable_device()
-
-Nathan Chancellor (1):
-      media: rzg2l-cru: Remove unnecessary shadowing of ret in rzg2l_csi2_s_stream()
-
-Randy Dunlap (1):
-      media: dvb/frontend.h: fix kernel-doc warnings
-
- Documentation/userspace-api/media/frontend.h.rst.exceptions | 28 ++++++++++++++++++++++++++++
- drivers/media/common/videobuf2/frame_vector.c               | 10 +++++++---
- drivers/media/common/videobuf2/videobuf2-dma-contig.c       |  3 ++-
- drivers/media/common/videobuf2/videobuf2-dma-sg.c           |  4 +++-
- drivers/media/common/videobuf2/videobuf2-memops.c           |  6 ++++--
- drivers/media/common/videobuf2/videobuf2-vmalloc.c          |  4 +++-
- drivers/media/dvb-core/dvbdev.c                             |  2 +-
- drivers/media/dvb-frontends/drx39xyj/drxj.c                 |  1 +
- drivers/media/i2c/tc358746.c                                |  4 ++--
- drivers/media/pci/saa7164/saa7164-core.c                    |  4 +++-
- drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h        |  2 ++
- drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c       |  4 +---
- drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c      |  1 +
- drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_bridge.c   |  8 ++++----
- include/media/dvbdev.h                                      |  3 ++-
- include/media/frame_vector.h                                |  2 +-
- include/media/videobuf2-memops.h                            |  3 ++-
- include/uapi/linux/dvb/frontend.h                           |  7 +++----
- 18 files changed, 70 insertions(+), 26 deletions(-)
