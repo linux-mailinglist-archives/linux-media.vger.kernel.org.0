@@ -2,93 +2,125 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8FABC63F129
-	for <lists+linux-media@lfdr.de>; Thu,  1 Dec 2022 14:04:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6AF8B63F223
+	for <lists+linux-media@lfdr.de>; Thu,  1 Dec 2022 15:00:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231355AbiLANEy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 1 Dec 2022 08:04:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44352 "EHLO
+        id S231687AbiLAOAJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 1 Dec 2022 09:00:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42836 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231341AbiLANEh (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 1 Dec 2022 08:04:37 -0500
-Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com [66.111.4.221])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E097B9E474;
-        Thu,  1 Dec 2022 05:03:50 -0800 (PST)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
-        by mailnew.nyi.internal (Postfix) with ESMTP id E32BA5803D4;
-        Thu,  1 Dec 2022 08:03:49 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute2.internal (MEProxy); Thu, 01 Dec 2022 08:03:49 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
-        :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
-        :message-id:mime-version:references:reply-to:sender:subject
-        :subject:to:to; s=fm2; t=1669899829; x=1669907029; bh=WNe2ZaoFKQ
-        D4oljvp7EpbhZ90+6/RSN0zGkVNyucd3E=; b=PiY7ewqeYTYUyhKSenMQ1lm1h+
-        wDE0YujOYyzgUtA9SIpAK/QYIq12uaQQb7gwtxutN0C39O/UJVc/Hy9EKt3eXfid
-        abLLarhbQWHb46EE2b7jjLfKKx9C9AQRZHE8d8SUhTss5HnXFe8JVA/xuHCpPtJu
-        Pk/EGC8VkA4ImFxzhsL9lPKp8lu5I32N3a2xCKZbsLuqfGSQIyBrvJ+5UoG9reUc
-        gKHZtokIHwBXeatVXex1/9FvRqGJfoYqzqRoQ2iTXLk5ryI9R2rVv4Dj0fy09bZF
-        VvJKHPI1T0dJIxfx9+VJ8tUT+BLlq8aCDlB4jbuBpTGGyYzEgmzoLWlfuRrA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
-        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
-        :mime-version:references:reply-to:sender:subject:subject:to:to
-        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm1; t=1669899829; x=1669907029; bh=WNe2ZaoFKQD4oljvp7EpbhZ90+6/
-        RSN0zGkVNyucd3E=; b=aAJII91dFUut4+tFeFDIaHX/zw1TswvxVzirq5xfC9sI
-        4DRkGBYNW4NQrQbo81OubswB53Vkr517gNeAoVcoqHcjeY9iMFpeP7TZUsYWxkwa
-        JaLwouDclYT+rEnP+JQZwF8Zt5Qx2wjbtQ36XnjejzbWTRXyGJ0PpB6nxLDFWDZK
-        u17a9KhSO++J/w6+pJgI+BkB1objEr6QwZaKGFbhvVfBEiIQVEP5jQaN8Xehyf0w
-        Vmnigb05vA+EooAus7koUwMqaiWDoP147VAXWkA+cjEFebkFSVRHfKDjwjZbRssL
-        u7MB8cafidTaIVo/p5TXKoLTq0B4UByrMm5dMWMzpw==
-X-ME-Sender: <xms:NaaIY0zKMydcp742u4piLoUn2nVmWv2VtZJXkFrf9Nzsq3uMHZNFKA>
-    <xme:NaaIY4SG0-Z0uYTAntKh6-bVjlD64kJaVC79_a68zu4KXouj84zSqnZ_bzGDZaykm
-    zmSQsjSP25G45h7MJY>
-X-ME-Received: <xmr:NaaIY2U2-8Nni73vnFjAwTD7Sbb94JQMW3noJVIHEjlOi_BDpCXnsM10VFfOMvTZLEu1C194MxRKx1Z_LjNxA6rhgyl4y3TO5SQ_L6eDVdNOew>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrtdehgdegkecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpeffhffvvefukfhfgggtuggjsehgtderredttddunecuhfhrohhmpeforgigihhm
-    vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
-    htvghrnhepleejuefggeevteelveekteffgeduveeiteeiueegueegiedvtdejjedvfeef
-    tefgnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpe
-    dtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:NaaIYyhT1CT3FzKzlTfkLLwYoznI71Dh_zUCGbAn_dbaig-Uy5cxPg>
-    <xmx:NaaIY2AcQQbBj2Q5acelH2UUf2tx9bBvfw2PNC0NoPyz4cqbkwfL8Q>
-    <xmx:NaaIYzLxnRIJogEa25sEETalVvr4mHp--x6OzM94fkIy5qK0NSNRjQ>
-    <xmx:NaaIYzM7IqG8zbbp3GPImPxmK1wzC7ls6Hpwi4dJB_XcJlPIqwP_hA>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 1 Dec 2022 08:03:48 -0500 (EST)
-Date:   Thu, 1 Dec 2022 14:03:46 +0100
-From:   Maxime Ripard <maxime@cerno.tech>
-To:     Javier Martinez Canillas <javierm@redhat.com>
-Cc:     Daniel Vetter <daniel@ffwll.ch>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        David Airlie <airlied@gmail.com>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        dri-devel@lists.freedesktop.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        kunit-dev@googlegroups.com, linux-media@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
-        Brendan Higgins <brendan.higgins@linux.dev>,
-        =?utf-8?B?TWHDrXJh?= Canal <mairacanal@riseup.net>,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        linux-kernel@vger.kernel.org, David Gow <davidgow@google.com>
-Subject: Re: [PATCH v2 15/17] drm/vc4: tests: Introduce a mocking
- infrastructure
-Message-ID: <20221201130346.by6zzfdbuyidwekb@houat>
-References: <20221123-rpi-kunit-tests-v2-0-efe5ed518b63@cerno.tech>
- <20221123-rpi-kunit-tests-v2-15-efe5ed518b63@cerno.tech>
- <98d47486-d04c-b81a-6ae4-fa7f62828a0e@redhat.com>
+        with ESMTP id S231172AbiLAOAH (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 1 Dec 2022 09:00:07 -0500
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2057.outbound.protection.outlook.com [40.107.223.57])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4B41900F0;
+        Thu,  1 Dec 2022 06:00:05 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=mHL8UsPkvfFqQhdm4eeETr7k9zy76xgvDBN7QCnzXaG2a4x3+bnNljCpePlS0MbVcfhbjVZS+Mlu/aTZ8MyDHyy1cMpJX/2o96T9Td3u5nwJrZQyGhRCwTKKYHDMsqpdEuFi1TFjOpBZIV81YMV97rHJglv3gp/hQ9pZIkI2oXeGu5Lx0R/jr9xITp6NUnZy1bCsIGSK21mk0WiOKvd/vsseIhlzm3qGqAbosoYHUxMewaLtDpmt6ywy0q3eXKFUvagWmROpafk5ItKBJBk73JmWy3hzcR3qMyZB4EnDrI+3NVeu0sl9hpmyi22N+sgwHrLUW0GklZDLVHyAEBIKzw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Y1uHt/BjsdwtUgYMAy9s07cMucb66t8VYub3NDbd3M0=;
+ b=IaAgZWxA0q5CfyXNzeQIkY6iJmQRabwTGn034CsnX1mhZAv02mZFA6+NbmFImIQGNH2WajduVkJawZy3qweFuCHb6WOR5UawJN+6vfEaTP9O3/zhd5dbWcnKkjkg/fNK64Nxf40wJGMgDApljDhKgP86YXeojDgpjDoySsRzBqm+cEixrA9cnFoVWCm7Wx0rgFayEnb2s7olB4xCa0ElHiJz1nHWpJOl+1gfGcyC1i7W00VIn9sl93RkBeZR4uq8L937ZQv9atdg0AXk4g220U71wofQtk0qhvlL6Q6JhM7+KS1/agr2eVYK+NfQ954mKcD+Fnyu+XQrh3VPujaGhA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=synaptics.com; dmarc=pass action=none
+ header.from=synaptics.com; dkim=pass header.d=synaptics.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=Synaptics.onmicrosoft.com; s=selector2-Synaptics-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Y1uHt/BjsdwtUgYMAy9s07cMucb66t8VYub3NDbd3M0=;
+ b=G83pv0q0UvfLV5ucBF6buByoP2xDjV3UsMGWQfMIp7KbxzoLcKaZbqk0iTB7GF5GpJwfcpB1Br+J/q4e/4mVg7M1LmNK7NjjbazY5lSFMYSy09udjDYDrBJWI/hlFR6yQAKF+ycTIqdJtQMniFWuLaZRS0TgR6Pc9arP/iWMCME=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=synaptics.com;
+Received: from DM6PR03MB5196.namprd03.prod.outlook.com (2603:10b6:5:24a::19)
+ by SA0PR03MB5593.namprd03.prod.outlook.com (2603:10b6:806:b9::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5857.23; Thu, 1 Dec
+ 2022 14:00:03 +0000
+Received: from DM6PR03MB5196.namprd03.prod.outlook.com
+ ([fe80::a132:66d9:ed0f:e5c1]) by DM6PR03MB5196.namprd03.prod.outlook.com
+ ([fe80::a132:66d9:ed0f:e5c1%5]) with mapi id 15.20.5857.023; Thu, 1 Dec 2022
+ 14:00:03 +0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v5 1/2] drm/fourcc: Add Synaptics VideoSmart tiled modifiers
+From:   Randy Li <ranl@synaptics.com>
+In-Reply-To: <Y4h2LFfDLZjC+JVc@phenom.ffwll.local>
+Cc:     Hsia-Jun Li <randy.li@synaptics.com>,
+        dri-devel@lists.freedesktop.org, nicolas@ndufresne.ca,
+        sakari.ailus@linux.intel.com, airlied@linux.ie, ayaka@soulik.info,
+        linux-kernel@vger.kernel.org, tfiga@chromium.org,
+        helen.koike@collabora.com, linux-media@vger.kernel.org,
+        ezequiel@vanguardiasur.com.ar, tzimmermann@suse.de,
+        ribalda@chromium.org, sebastian.hesselbarth@gmail.com,
+        mchehab@kernel.org, linux-arm-kernel@lists.infradead.org,
+        laurent.pinchart@ideasonboard.com
+Date:   Thu, 1 Dec 2022 21:59:56 +0800
+Message-Id: <B7EA66D1-1454-4612-BA68-59D4875506AD@synaptics.com>
+References: <Y4h2LFfDLZjC+JVc@phenom.ffwll.local>
+To:     Daniel Vetter <daniel@ffwll.ch>
+X-Mailer: iPad Mail (18D61)
+X-ClientProxiedBy: SJ0PR13CA0113.namprd13.prod.outlook.com
+ (2603:10b6:a03:2c5::28) To DM6PR03MB5196.namprd03.prod.outlook.com
+ (2603:10b6:5:24a::19)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="jln5wp2b5zhcs7vh"
-Content-Disposition: inline
-In-Reply-To: <98d47486-d04c-b81a-6ae4-fa7f62828a0e@redhat.com>
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM6PR03MB5196:EE_|SA0PR03MB5593:EE_
+X-MS-Office365-Filtering-Correlation-Id: 51f8d779-2067-4d5f-23d3-08dad3a45808
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: mURDvBX2NcU2StsSNCWLMrwyVONALoJERGIRsJC8Q17+yTSMifJtq4ZLoWCxxuS9SWD2jjzSQRJVwqQIxTf6LxQfZpMADBAJXon2CuvJuaaE8bD2T+6tESEZ4vVzY/i5O1OnSR5WBJ+PBnru3+eLwEm45bapz/CvMxbpXJVdOtBeCYHw4Bd0j6UdgTtX6H+k8IlECJI9zzEdUWkFN+M6EJ7d3UHO49UhgXTZ0yQ7C5TIfebABSUH1lg8HqM36tDzV9ocM2hJTl7lgTrm03fAC0cqe+N9V2ymyveNefGBFiWSxzUcoW6lWXCfixsob+q5fLVTjTwzlNmnY98xLwrg/PX83/gM7p0oKquRgAYZGo7O8bKcUfNPIodP5LglOb0ftcSKpsoAfLzvlTfBOJBeQehYRap4f3s0/NH4KaLU+S+3wpLZ0niXTBmiGw2uPGBnneYOShCkVDjPXjfQF34kOePFQffkaknYcyv0ylCLtln4WKNxDkLY6WDjhiz/nkWgak9RG6M6ids968JC3CG5nHXKRNYPTYFNNmkRAW3F2vK+ckV+ox16nL5Ppy7m1xA+uqt25O5+QHDqjX22+q5Q7YMCYR26WL4it39VeQQURO2K9VzQpodSH5Y2WQ3vZ1xdShj2YRc1zoyT1GTePFtGfSouvs86jukMLoPFOp8GbFv9GySWAcOzegSAk6eLifQRWgDKIxwgN463kQDdD+pPqZN00FcOzf8Ynp4yuNR/ckrXOTnEyufNSMtXnw5CaThv
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR03MB5196.namprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(136003)(39860400002)(376002)(396003)(346002)(366004)(451199015)(36756003)(66556008)(7416002)(6666004)(38350700002)(38100700002)(6916009)(5660300002)(6512007)(316002)(26005)(186003)(33656002)(41300700001)(6506007)(8936002)(66476007)(8676002)(2616005)(4326008)(66946007)(966005)(6486002)(478600001)(83380400001)(2906002)(52116002)(53546011)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?a0VVYzlLWXlFamw2VGdNU0svMFhlMkJ4aHJYSHAwUmJKSHlTTlhrRFhaK21J?=
+ =?utf-8?B?Nlh3MXNkbnlVK1lKRFp3ZTQyNnpKV1N4eUsyK0xoUGRKckcwVUd0R0RYcjNo?=
+ =?utf-8?B?bklkZit6MUtTK3l2ZG53cWNTSGJnTWlMdXdNVzhGM3VOTzRYVUtERWJ0eGFz?=
+ =?utf-8?B?QXhvdCtUSzJCOUpPOXNBTHdTWm9qNmNwY0ZSU05NVDE0V3NoQU9MckNQL2hz?=
+ =?utf-8?B?anVLMFBkbXA2eStHYkh3bWxBSWtuTGlSOTlrNUFjb2M4cEEyOThiSFRZS3Y3?=
+ =?utf-8?B?OGxkUDBmSUpNWDNKdXYvVEtuV1VXcHFUV3lHZmQweTAxT2FZaVNWVlRHTklm?=
+ =?utf-8?B?MWp1M1VhdVR6ek9zS1dtVkowajVicFpxc1V0UUIrRFBDMW01dXF0SGxaMmxx?=
+ =?utf-8?B?eXA0U3Z5ZFpHc2pnME5TK29pUFlNVnhQdGFMd0lPT3RlLzVQZG00S3VDSTI3?=
+ =?utf-8?B?VFhRczlrNTZjdi84WHVrdHBRbVVjb0kxS3BmOGlaT243SlZHRXlVeG9wc0RO?=
+ =?utf-8?B?VklCZFNmQjlWaFU0WFVFcnIxc3JKZVFiRVVGMDBuVGVXT3k0TEd5R0thNDFP?=
+ =?utf-8?B?NHJSWnRqMlJHRWc3NklKdEtNMnNSR0wzZElzTzlEV1FZOFJiVTROSFk5VFJr?=
+ =?utf-8?B?djczNzZQcnlKV25NbWxoU0NaZ2ZrQ1FOWDJUSnFTODJ4TXhrZENub0NVbFMx?=
+ =?utf-8?B?ZWtySUc3VlFhQkx6MzAybUs5K0JZVWM1WWVHUE1Wb0NXcGRMN1d5UVozVkZW?=
+ =?utf-8?B?ZkltVkhzb29yK25nSlVvcEdIQTdENjJNcm5pU3ZLMHpIbVFCSEVVQzBWeGxP?=
+ =?utf-8?B?dTE0RFIzdndKRmYzWW0zbWJCcW00WnRrVmxUS2cwMnY5Qmgwb2hGL0xSOVFm?=
+ =?utf-8?B?ZFZoV25Uc3l5MGdiK09ldzAvTS9NSlpFWWx4VmxGcVB1S0o3cTdpMlRVajVy?=
+ =?utf-8?B?ZHRkZmQ1a29hczJJTUZSNnhZWXBGSkxaUFlYNU9pTzRHckhkWUcyYzc0cXRs?=
+ =?utf-8?B?R3ROcmp5TjYyRGhBSTlZN09xaHdqZjZ2ZElNNEM3VzJnMnluK25TYUR4QndE?=
+ =?utf-8?B?em5aaG0ybW5RRThJSlFrWHNRYzZoQ3pkdUQvRzRuL0RLaUZQN1hhdkJ3NE5p?=
+ =?utf-8?B?VmUzOU9tUnJndTV4Y3dlcFZpUU01R1BXTWdtWWVpa1pkb1NqQ09uL1ZoRHFO?=
+ =?utf-8?B?LzNJelJsSDU1cHdKVzgxL0JOdnBuRE55S3hndCtxZkNLYkVUd3hNU3pIZkp6?=
+ =?utf-8?B?bWVZaWNBdkE1aWY3WExMeWl6cFFqdTdZVkMyc2NMNHhQVlZLejk5VFJaNmJq?=
+ =?utf-8?B?azhyQWR2MlV3OGtobkRVdlBkNi9pR0hiVGltU2tWTjV0UDdPK2ZNdUZhMTNG?=
+ =?utf-8?B?V1BLaUVrdGZERVB4dDhOdzcwMHgzS1dKRjRINHlFYVA0Z1FCeUFDdWFpZlYz?=
+ =?utf-8?B?V3g3MGt4THhNZGNlUk9wb3ZCc1IzZDFOanpKYnYydFlwRTZ3dFE5UTJ0S1Jy?=
+ =?utf-8?B?T2RpVVpLRzFtUGRQd2h3SnZ0bDlpeFpPcnVoc1FQbGgyaW5hRmZNZzFzL0xs?=
+ =?utf-8?B?Zm02MkhWRkNrNTBlOW52K2Q2TTN5WjR0TFZxRkthZTZRU1ZsS1RvSGkzZHhH?=
+ =?utf-8?B?WE1tZWpZRzRPWE5UK1o0OWxZbUg0R2ptWUJ5K2tzVjY2TU9hS1d5V3cxM2VV?=
+ =?utf-8?B?V1kwdkx1aW5LM1AxYTBYc1l0S0Y4ZXVFSXZsM2pOa2RDa21RRlZBWSs4c3Zq?=
+ =?utf-8?B?Unl1ek9jL2Njc0lodGZEVDZxVnZPM0tGMUdUUDBsazR5ZjhzZlVyaytVU2o2?=
+ =?utf-8?B?Mit3RngrZHZ3RjF5UTMzd0ZHWFliQnQ3bzVqaUtSYTZKWlNsTE9ERCtFN1ZO?=
+ =?utf-8?B?Wm1zem52T3duUHVacWNEMmR4MGZSUnA1cTFlcXI2b2xTVmxucXJ1Q3hXcVpp?=
+ =?utf-8?B?NWtSSWFpSXFQb2Y2YWVMOC9QZTNVNUtKQUJPMURuZWQ5a3VwV0lxRjFnSWlj?=
+ =?utf-8?B?eE1nVDJ2bk4wOTBFSzFQUy9GUnIydTRKUTVyMTVGNDdHT2JEcGFsaUtiZXRz?=
+ =?utf-8?B?WmhEekoyRUgzVit6NjV1Y1o5TTkyTGV2SVVxTkN6dTBIMkt1UHhkWHJNSnVB?=
+ =?utf-8?Q?+985qHzxt+pE34u1Ciu8Tz5+Y?=
+X-OriginatorOrg: synaptics.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 51f8d779-2067-4d5f-23d3-08dad3a45808
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR03MB5196.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Dec 2022 14:00:03.2622
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 335d1fbc-2124-4173-9863-17e7051a2a0e
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: sDmI1yfxaQqbWcV3so3T6SuVSL0l/2ZM9VEVYeU+sIeFQ7WWTga1HaiSPg2XJrR98637fP1MEngLigeyfxiBxw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR03MB5593
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -97,136 +129,185 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 
---jln5wp2b5zhcs7vh
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-Hi Javier,
+Sent from my iPad
 
-On Wed, Nov 30, 2022 at 10:59:37AM +0100, Javier Martinez Canillas wrote:
-> On 11/28/22 15:53, Maxime Ripard wrote:
-> > In order to test the current atomic_check hooks we need to have a DRM
-> > device that has roughly the same capabilities and layout that the actual
-> > hardware. We'll also need a bunch of functions to create arbitrary
-> > atomic states.
-> >=20
-> > Let's create some helpers to create a device that behaves like the real
-> > one, and some helpers to maintain the atomic state we want to check.
-> >=20
-> > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-> > ---
+> On Dec 1, 2022, at 5:39 PM, Daniel Vetter <daniel@ffwll.ch> wrote:
+> =EF=BB=BFCAUTION: Email originated externally, do not click links or open=
+ attachments unless you recognize the sender and know the content is safe.
 >=20
-> [...]
 >=20
-> > +
-> > +config DRM_VC4_KUNIT_TEST
-> > +	bool "KUnit tests for VC4" if !KUNIT_ALL_TESTS
-> > +	depends on DRM_VC4 && KUNIT
+>> On Thu, Dec 01, 2022 at 12:49:16AM +0800, Randy Li wrote:
+>>=20
+>>=20
+>> Sent from my iPad
+>>=20
+>>>> On Nov 30, 2022, at 7:30 PM, Daniel Vetter <daniel@ffwll.ch> wrote:
+>>> =EF=BB=BFCAUTION: Email originated externally, do not click links or op=
+en attachments unless you recognize the sender and know the content is safe=
+.
+>>>> On Wed, Nov 30, 2022 at 05:21:48PM +0800, Hsia-Jun Li wrote:
+>>>> From: "Hsia-Jun(Randy) Li" <randy.li@synaptics.com>
+>>>> Those modifiers only record the parameters would effort pixel
+>>>> layout or memory layout. Whether physical memory page mapping
+>>>> is used is not a part of format.
+>>>> Signed-off-by: Hsia-Jun(Randy) Li <randy.li@synaptics.com>
+>>>> ---
+>>>> include/uapi/drm/drm_fourcc.h | 76 +++++++++++++++++++++++++++++++++++
+>>>> 1 file changed, 76 insertions(+)
+>>>> diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_four=
+cc.h
+>>>> index bc056f2d537d..e0905f573f43 100644
+>>>> --- a/include/uapi/drm/drm_fourcc.h
+>>>> +++ b/include/uapi/drm/drm_fourcc.h
+>>>> @@ -407,6 +407,7 @@ extern "C" {
+>>>> #define DRM_FORMAT_MOD_VENDOR_ARM     0x08
+>>>> #define DRM_FORMAT_MOD_VENDOR_ALLWINNER 0x09
+>>>> #define DRM_FORMAT_MOD_VENDOR_AMLOGIC 0x0a
+>>>> +#define DRM_FORMAT_MOD_VENDOR_SYNAPTICS 0x0b
+>>>> /* add more to the end as needed */
+>>>> @@ -1507,6 +1508,81 @@ drm_fourcc_canonicalize_nvidia_format_mod(__u64=
+ modifier)
+>>>> #define AMD_FMT_MOD_CLEAR(field) \
+>>>>     (~((__u64)AMD_FMT_MOD_##field##_MASK << AMD_FMT_MOD_##field##_SHIF=
+T))
+>>>> +/*
+>>>> + * Synaptics VideoSmart modifiers
+>>>> + *
+>>>> + * Tiles could be arranged in Groups of Tiles (GOTs), it is a small t=
+ile
+>>>> + * within a tile. GOT size and layout varies based on platform and
+>>>> + * performance concern.
+>>>> + *
+>>>> + * Besides, an 8 length 4 bytes arrary (32 bytes) would be need to st=
+ore
+>>>> + * some compression parameters for a compression metadata plane.
+>>>> + *
+>>>> + * Further information can be found in
+>>>> + * Documentation/gpu/synaptics.rst
+>>>> + *
+>>>> + *       Macro
+>>>> + * Bits  Param Description
+>>>> + * ----  ----- ------------------------------------------------------=
+-----------
+>>>> + *
+>>>> + *  7:0  f     Scan direction description.
+>>>> + *
+>>>> + *               0 =3D Invalid
+>>>> + *               1 =3D V4, the scan would always start from vertical =
+for 4 pixel
+>>>> + *                   then move back to the start pixel of the next ho=
+rizontal
+>>>> + *                   direction.
+>>>> + *               2 =3D Reserved for future use.
+>>>> + *
+>>>> + * 15:8  m     The times of pattern repeat in the right angle directi=
+on from
+>>>> + *             the first scan direction.
+>>>> + *
+>>>> + * 19:16 p     The padding bits after the whole scan, could be zero.
+>>>> + *
+>>>> + * 20:20 g     GOT packing flag.
+>>>> + *
+>>>> + * 23:21 -     Reserved for future use.  Must be zero.
+>>> Can you pls fold all the future use reservations into the top end?
+>> You see we could put more related flag in each of reserved area.
+>> Here is for the group of tiles flag.
+>> Bit 35 to 32 could be used for describing the dimension of the group of =
+tiles.
 >=20
-> shouldn't this depend on DRM_KUNIT_TEST instead ?
+> Oh also on the dimension thing, this is the tile size and has nothing to
+> do with the overall buffer size, right?
+I don=E2=80=99t think you could have a insufficient tile, that applies to t=
+he group of tile.
+> Because the overall buffer size is
+> meant to be carried in separate metadata (like the drm_framebuffer
+> structure or ADDFB2 ioctl data). drm fourcc/modifier assume that height,
+> width, offset and stride are specified per plane already (unless the
+> auxiary plane has a fixed layout and is not tracked as a separate plane
+> for this format).
+One thing I noticed here, there is no way to tell the buffer size that user=
+ should request/allocate from the drm API. It needs to be calculated in the=
+ userspace unless you would use the custom ioctl.
 >=20
-> [...]
-
-You're right, but the rework suggested by Ma=EDra will add a select to the
-helpers Kconfig symbol there so we should be safe.
-
-> > +static struct vc4_dev *__mock_device(struct kunit *test, bool is_vc5)
-> > +{
-> > +	struct drm_device *drm;
-> > +	const struct drm_driver *drv =3D is_vc5 ? &vc5_drm_driver : &vc4_drm_=
-driver;
-> > +	const struct vc4_mock_desc *desc =3D is_vc5 ? &vc5_mock : &vc4_mock;
-> > +	struct vc4_dev *vc4;
+>>> Also I
+>>> think it'd be good to at least reserve maybe the top 8 bits or so for a
+>>> synaptics specific format indicator, so that it's easier to extend this=
+ in
+>>> the future ...
+>> I think the  bit 56 to 63 are used for storing the vendor id. That is wh=
+y I didn=E2=80=99t include them below. Or you mean the bit 7 to 0?
+>> Do yo
 >=20
-> Since it could be vc4 or vc5, maybe can be renamed to just struct vc_dev =
-*vc ?
-
-vc4_dev is the main structure in the driver for the DRM device, so we
-can't rename it easily.
-
-Generally speaking the driver was (and still is) called vc4 after the IP
-name in the original RaspberryPi SoC.
-
-There's been a new generation since, but we supported it through the vc4
-driver. Even if it's a bit ambiguous, vc4 refers to both the driver name
-and is used extensively in the infrastructure, but also refers to the
-initial generation we supported. vc5 is only the new generation.
-
-I'm not sure removing the number would be less confusing.
-
-> > +struct vc4_dummy_plane *vc4_dummy_plane(struct kunit *test,
-> > +					struct drm_device *drm,
-> > +					enum drm_plane_type type)
-> > +{
-> > +	struct vc4_dummy_plane *dummy_plane;
-> > +	struct drm_plane *plane;
-> > +
-> > +	dummy_plane =3D drmm_universal_plane_alloc(drm,
-> > +						 struct vc4_dummy_plane, plane.base,
-> > +						 0,
-> > +						 &vc4_dummy_plane_funcs,
-> > +						 vc4_dummy_plane_formats,
-> > +						 ARRAY_SIZE(vc4_dummy_plane_formats),
-> > +						 NULL,
-> > +						 DRM_PLANE_TYPE_PRIMARY,
-> > +						 NULL);
-> > +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, dummy_plane);
-> > +
-> > +	plane =3D &dummy_plane->plane.base;
-> > +	drm_plane_helper_add(plane, &vc4_dummy_plane_helper_funcs);
-> > +
-> > +	return dummy_plane;
-> > +}
+> Yeah there's 8 bit vendor id, but you could reserve another 8 bit at the
+> top (so 48:55 or something like that) to enumerate within the synaptics
+> space. Just to future proof the schema, because experience says that hw
+> engineers absolutely do love to change this stuff eventually.
+I left the whole 37:55.
+> -Daniel
 >=20
-> I guess many of these helpers could grow to be generic, like this one sin=
-ce
-> most drivers support the DRM_FORMAT_XRGB8888 format for their primary pla=
-ne.
-
-Yeah, that's what I'd expect at some point as well :)
-
-> > +extern const struct vc4_pv_data bcm2835_pv0_data;
-> > +extern const struct vc4_pv_data bcm2835_pv1_data;
-> > +extern const struct vc4_pv_data bcm2835_pv2_data;
-> > +extern const struct vc4_pv_data bcm2711_pv0_data;
-> > +extern const struct vc4_pv_data bcm2711_pv1_data;
-> > +extern const struct vc4_pv_data bcm2711_pv2_data;
-> > +extern const struct vc4_pv_data bcm2711_pv3_data;
-> > +extern const struct vc4_pv_data bcm2711_pv4_data;
-> > +
+>>> -Daniel
+>>>> + *
+>>>> + * 27:24 h     log2(horizontal) of pixels, in GOTs.
+>>>> + *
+>>>> + * 31:28 v     log2(vertical) of pixels, in GOTs.
+>>>> + *
+>>>> + * 35:32 -     Reserved for future use.  Must be zero.
+>>>> + *
+>>>> + * 36:36 c     Compression flag.
+>>>> + *
+>>>> + * 55:37 -     Reserved for future use.  Must be zero.
+>>>> + *
+>>>> + */
+>>>> +
+>>>> +#define DRM_FORMAT_MOD_SYNA_V4_TILED         fourcc_mod_code(SYNAPTIC=
+S, 1)
+>>>> +
+>>>> +#define DRM_FORMAT_MOD_SYNA_MTR_LINEAR_2D(f, m, p, g, h, v, c) \
+>>>> +     fourcc_mod_code(SYNAPTICS, ((__u64)((f) & 0xff) | \
+>>>> +                              ((__u64)((m) & 0xff) << 8) | \
+>>>> +                              ((__u64)((p) & 0xf) << 16) | \
+>>>> +                              ((__u64)((g) & 0x1) << 20) | \
+>>>> +                              ((__u64)((h) & 0xf) << 24) | \
+>>>> +                              ((__u64)((v) & 0xf) << 28) | \
+>>>> +                              ((__u64)((c) & 0x1) << 36)))
+>>>> +
+>>>> +#define DRM_FORMAT_MOD_SYNA_V4H1 \
+>>>> +     DRM_FORMAT_MOD_SYNA_MTR_LINEAR_2D(1, 1, 0, 0, 0, 0, 0)
+>>>> +
+>>>> +#define DRM_FORMAT_MOD_SYNA_V4H3P8 \
+>>>> +     DRM_FORMAT_MOD_SYNA_MTR_LINEAR_2D(1, 3, 8, 0, 0, 0, 0)
+>>>> +
+>>>> +#define DRM_FORMAT_MOD_SYNA_V4H1_64L4_COMPRESSED \
+>>>> +     DRM_FORMAT_MOD_SYNA_MTR_LINEAR_2D(1, 1, 0, 1, 6, 2, 1)
+>>>> +
+>>>> +#define DRM_FORMAT_MOD_SYNA_V4H3P8_64L4_COMPRESSED \
+>>>> +     DRM_FORMAT_MOD_SYNA_MTR_LINEAR_2D(1, 3, 8, 1, 6, 2, 1)
+>>>> +
+>>>> +#define DRM_FORMAT_MOD_SYNA_V4H1_128L128_COMPRESSED \
+>>>> +     DRM_FORMAT_MOD_SYNA_MTR_LINEAR_2D(1, 1, 0, 1, 7, 7, 1)
+>>>> +
+>>>> +#define DRM_FORMAT_MOD_SYNA_V4H3P8_128L128_COMPRESSED \
+>>>> +     DRM_FORMAT_MOD_SYNA_MTR_LINEAR_2D(1, 3, 8, 1, 7, 7, 1)
+>>>> +
+>>>> #if defined(__cplusplus)
+>>>> }
+>>>> #endif
+>>>> --
+>>>> 2.37.3
+>>> --
+>>> Daniel Vetter
+>>> Software Engineer, Intel Corporation
+>>> https://urldefense.proofpoint.com/v2/url?u=3Dhttp-3A__blog.ffwll.ch&d=
+=3DDwIBAg&c=3D7dfBJ8cXbWjhc0BhImu8wVIoUFmBzj1s88r8EGyM0UY&r=3DP4xb2_7biqBxD=
+4LGGPrSV6j-jf3C3xlR7PXU-mLTeZE&m=3Dd1mgHWc-ItDXK9dSnz0WGYs9xoXTTk9LqbifMtn2=
+LOxmaHHsc4ieCoE78BFkHI1i&s=3D8ptqPzTUwb3X3fBSyQA6nVAA6DchubUUsMRgmLIp1lY&e=
+=3D
 >=20
-> Maybe the driver could expose a helper function to get the pixelvalve data
-> and avoid having to expose all of these variables? For example you could
-> define an enum vc4_pixelvalve type and have something like the following:
->=20
-> const struct vc4_pv_data *vc4_crtc_get_pixelvalve_data(enum vc4_pixelvalv=
-e pv);
->=20
-> All these are small nits though, the patch looks great to me and I think =
-is
-> awesome to have this level of testing with KUnit. Hope other drivers foll=
-ow
-> your lead.
-
-I'm not sure. It adds an interface for something we don't really need,
-so I'm not sure if it's really beneficial.
-
-David pointed at that patch though, which seems more promising:
-https://lore.kernel.org/linux-kselftest/20221102175959.2921063-1-rmoar@goog=
-le.com/
-
-Maxime
-
---jln5wp2b5zhcs7vh
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCY4imMgAKCRDj7w1vZxhR
-xcrRAQDU2AjAdKl8Lz9EVmvZL0MtLMtF6tuSl/Al2cKN4Nlc0wD/cRAIduKDlxZi
-pjemK6JK1GLDi6UiLchHE6nBdkPySw4=
-=F2NM
------END PGP SIGNATURE-----
-
---jln5wp2b5zhcs7vh--
+> --
+> Daniel Vetter
+> Software Engineer, Intel Corporation
+> https://urldefense.proofpoint.com/v2/url?u=3Dhttp-3A__blog.ffwll.ch&d=3DD=
+wIDaQ&c=3D7dfBJ8cXbWjhc0BhImu8wVIoUFmBzj1s88r8EGyM0UY&r=3DreqwguHMk9_Krd2xy=
+ybLKUi7qRQg3FIHG-6xLimUZv8&m=3DtmN4FcUbfHQ74lDlCJfhwkr5WqNNCY6CzNFzTM6X_i1H=
+Sp9Nt2WlyXv-Wu-yNI9y&s=3DyEyPRethHiPbmj0QHoJMsmb1Pj2IN7B0J8_vlBvy0wk&e=3D
