@@ -2,91 +2,116 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AB87263FC5F
-	for <lists+linux-media@lfdr.de>; Fri,  2 Dec 2022 00:58:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6DDF963FC9C
+	for <lists+linux-media@lfdr.de>; Fri,  2 Dec 2022 01:12:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231808AbiLAX6K (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 1 Dec 2022 18:58:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59942 "EHLO
+        id S232043AbiLBAMc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 1 Dec 2022 19:12:32 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47728 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231702AbiLAX6D (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 1 Dec 2022 18:58:03 -0500
-Received: from mail-oi1-f176.google.com (mail-oi1-f176.google.com [209.85.167.176])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 75FD1205F1;
-        Thu,  1 Dec 2022 15:58:02 -0800 (PST)
-Received: by mail-oi1-f176.google.com with SMTP id m204so3771575oib.6;
-        Thu, 01 Dec 2022 15:58:02 -0800 (PST)
+        with ESMTP id S231573AbiLBAMb (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 1 Dec 2022 19:12:31 -0500
+Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com [IPv6:2a00:1450:4864:20::22a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC514CEF9D
+        for <linux-media@vger.kernel.org>; Thu,  1 Dec 2022 16:12:29 -0800 (PST)
+Received: by mail-lj1-x22a.google.com with SMTP id x11so3719481ljh.7
+        for <linux-media@vger.kernel.org>; Thu, 01 Dec 2022 16:12:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=P8p0Z0zeTz3i1GFfP7TnrNV/siBjMEcrSAAgdFihh2s=;
+        b=PZZabSocQzrzEETht1TzRFqTDjibqlc1QHcRGQjYir1wLVy8qvqa+SyHW1jxiJmvpp
+         /0dYKiSzwz8OQXz68NS6iaS6uNXB5YsXAlmDmn2m9htZMg2RuXbsmifJ8f1rRYynjFrh
+         zqCUiNubfMIuFUmX6/kdmzE0VDKUjbc2cNY90=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=MWVVNliZTYEWF5fFNtzs+9P9giHEjE14UGyme1WyflI=;
-        b=TBWQrE9NWrWpDpF4b3BR19Q6vT1wNP0Q2GvixVNw77C0p4iPPtoPMCdlFST6qjmzF+
-         79uph4DXb2dkhD85u7ja1s2gDPKCJE6EXTb9fkKbzaRhYbwbXkCW2vtH8ByInwkeQzTO
-         SPsLYhz7KDBgb/FAoZEsJYSId4sU79rbsqcUyBiFsxp09meFFz7kJY9PJCHhP1ujUOFg
-         0Rz5ihgU3B2hiHf2OFWIQtmNX/SycMNKNoaUycYxpKqvwi/awMgN7fCEhs2Z2AKGLFFO
-         BDOilc0cDhrq1ATAQdQVXzYCUPHJi7LoYKY+hlRpoSBxRAFEpkE+NVUfORKZbFrItld/
-         eH4A==
-X-Gm-Message-State: ANoB5pkGL1yvLojorqb9q0a6GTL/wUC+TO0PP6iFrvsioa7tC6DfKQ73
-        XYXx+48XJYMEsMKnUfpRIA==
-X-Google-Smtp-Source: AA0mqf4YVTkuZvfflbzP+Mc3FwFsYD5Oo+5FxUcIgBACGlK4Na2GfKNmSrAZRDWlBHAEh8J3UbTh3A==
-X-Received: by 2002:a05:6808:81:b0:354:b67e:611d with SMTP id s1-20020a056808008100b00354b67e611dmr34806088oic.210.1669939081714;
-        Thu, 01 Dec 2022 15:58:01 -0800 (PST)
-Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id ca19-20020a056830611300b00661a3f4113bsm2731191otb.64.2022.12.01.15.58.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 Dec 2022 15:58:01 -0800 (PST)
-Received: (nullmailer pid 1720098 invoked by uid 1000);
-        Thu, 01 Dec 2022 23:58:00 -0000
-Date:   Thu, 1 Dec 2022 17:58:00 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Yunfei Dong <yunfei.dong@mediatek.com>
-Cc:     Matthias Brugger <matthias.bgg@gmail.com>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        linux-arm-kernel@lists.infradead.org,
-        Project_Global_Chrome_Upstream_Group@mediatek.com,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Chen-Yu Tsai <wenst@chromium.org>, devicetree@vger.kernel.org,
-        Steve Cho <stevecho@chromium.org>, linux-media@vger.kernel.org,
-        linux-mediatek@lists.infradead.org,
-        Hsin-Yi Wang <hsinyi@chromium.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-kernel@vger.kernel.org,
-        Tiffany Lin <tiffany.lin@mediatek.com>,
-        Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH v3,2/3] media: dt-bindings: media: mediatek: vcodec:
- Change the max reg value to 2
-Message-ID: <166993907978.1720037.12508933639302184491.robh@kernel.org>
-References: <20221201121525.30777-1-yunfei.dong@mediatek.com>
- <20221201121525.30777-2-yunfei.dong@mediatek.com>
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=P8p0Z0zeTz3i1GFfP7TnrNV/siBjMEcrSAAgdFihh2s=;
+        b=dnOICodjC1Nkl8IOQZiSdGzgy0j2T7FLbXXp/Vy/kB5zeStcqNq50bF+Dbj4KDcTtd
+         ilszyQAo8oOcMwHlU3r20nMlFogGWxjexNFWWlmY/BipbCKlrt/xm9CeeXZ1uydr6cOf
+         xpfxA0fxpo96KVr6ynn3McayELaB8Y/zQ8//zAgjC7ZTWHK36oTpSyHtO1pjmTr1i5py
+         Dnj+qpbHaXfN1/3gJ4G3Q4vAHuo16VPuZcgeLeB4sBdnuMxA/l47GUYdpbuW7lkA45t+
+         H9pmUw+YZVkS/X1plWqQm1VA/OmRTlQeE/x++KiRAEAWoY/JCV8fGkjN1OqDMAZkYcdu
+         TWXQ==
+X-Gm-Message-State: ANoB5plLPiGveOOELQJtjh2G598jk6zk/jMCx5chk39IxU+3TJDKcO1r
+        8+DqLPRjnJV/jLFhDuXweN3I1gy5fW41+x9RKa13Rw==
+X-Google-Smtp-Source: AA0mqf6SWLUf6ohVB+dVwukRPOdFAe9kAAGGi6mbnqGZi4xpM4mbOGdxvJDzhVaMqW3rCjNmU19YSegd0Ad8WPGtSs0=
+X-Received: by 2002:a2e:b007:0:b0:279:8b4f:3aeb with SMTP id
+ y7-20020a2eb007000000b002798b4f3aebmr11980670ljk.132.1669939947971; Thu, 01
+ Dec 2022 16:12:27 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221201121525.30777-2-yunfei.dong@mediatek.com>
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+References: <20221115121004.28197-1-quic_vboma@quicinc.com> <20221115121004.28197-2-quic_vboma@quicinc.com>
+In-Reply-To: <20221115121004.28197-2-quic_vboma@quicinc.com>
+From:   Nathan Hebert <nhebert@chromium.org>
+Date:   Thu, 1 Dec 2022 16:12:16 -0800
+Message-ID: <CANHAJhEH7qTjaVaMWk3MeuhYMnwt1qTUSKxAZ_XTfxPJObC=nQ@mail.gmail.com>
+Subject: Re: [PATCH 1/1] venus : Fix for H265 decoding failure.
+To:     quic_vboma@quicinc.com
+Cc:     Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Vikash Garodia <vgarodia@qti.qualcomm.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-
-On Thu, 01 Dec 2022 20:15:23 +0800, Yunfei Dong wrote:
-> From: Yunfei Dong <yunfei.dong@mediatek.corp-partner.google.com>
-> 
-> Need to add racing control register base in device node for mt8195 support
-> inner racing mode. Changing the max reg value from 1 to 2.
-> 
-> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
+On Tue, Nov 15, 2022 at 4:10 AM <quic_vboma@quicinc.com> wrote:
+>
+> From: Viswanath Boma <quic_vboma@quicinc.com>
+>
+> Aligned the mismatch of persist1 and scratch1 buffer calculation,
+> as per the firmware requirements .
+>
+> Signed-off-by: Vikash Garodia <vgarodia@qti.qualcomm.com>
+> Signed-off-by: Viswanath Boma <quic_vboma@quicinc.com>
 > ---
->  .../bindings/media/mediatek,vcodec-subdev-decoder.yaml      | 6 +++++-
->  1 file changed, 5 insertions(+), 1 deletion(-)
-> 
+>  drivers/media/platform/qcom/venus/hfi_plat_bufs_v6.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/media/platform/qcom/venus/hfi_plat_bufs_v6.c b/drivers/media/platform/qcom/venus/hfi_plat_bufs_v6.c
+> index ea25c451222b..a9be31ec6927 100644
+> --- a/drivers/media/platform/qcom/venus/hfi_plat_bufs_v6.c
+> +++ b/drivers/media/platform/qcom/venus/hfi_plat_bufs_v6.c
+> @@ -93,7 +93,7 @@
+>  #define LCU_MIN_SIZE_PELS              16
+>  #define SIZE_SEI_USERDATA              4096
+>
+> -#define H265D_MAX_SLICE                        600
+> +#define H265D_MAX_SLICE                        3600
+>  #define SIZE_H265D_HW_PIC_T            SIZE_H264D_HW_PIC_T
+>  #define SIZE_H265D_BSE_CMD_PER_BUF     (16 * sizeof(u32))
+>  #define SIZE_H265D_VPP_CMD_PER_BUF     256
+> @@ -1021,7 +1021,7 @@ static u32 h264d_persist1_size(void)
+>  static u32 h265d_persist1_size(void)
+>  {
+>         return ALIGN((SIZE_SLIST_BUF_H265 * NUM_SLIST_BUF_H265 + H265_NUM_TILE
+> -                       * sizeof(u32)), HFI_DMA_ALIGNMENT);
+> +                       * sizeof(u32) + NUM_HW_PIC_BUF * SIZE_SEI_USERDATA), HFI_DMA_ALIGNMENT);
+>  }
+>
+>  static u32 vp8d_persist1_size(void)
+> --
+> 2.17.1
+>
+Hi Viswanath. I tested this patch on ChromiumOS's downstream
+5.15-based fork. Using ITU-T HEVC test vectors [0] I am seeing
+firmware errors "qcom-venus-decoder aa00000.video-codec:video-decoder:
+VenusMed : event not sufficient resources". Does this change fix HEVC
+decoding for you?
 
-Acked-by: Rob Herring <robh@kernel.org>
+[0]: https://www.itu.int/wftp3/av-arch/jctvc-site/bitstream_exchange/draft_conformance/HEVC_v1/
+
+Best regards,
+Nathan Hebert
