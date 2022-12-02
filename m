@@ -2,110 +2,103 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E7DC76406BA
-	for <lists+linux-media@lfdr.de>; Fri,  2 Dec 2022 13:24:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D59436406FC
+	for <lists+linux-media@lfdr.de>; Fri,  2 Dec 2022 13:41:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233332AbiLBMYC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 2 Dec 2022 07:24:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49448 "EHLO
+        id S233504AbiLBMlA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 2 Dec 2022 07:41:00 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38088 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233146AbiLBMYA (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 2 Dec 2022 07:24:00 -0500
-Received: from mail-qt1-x835.google.com (mail-qt1-x835.google.com [IPv6:2607:f8b0:4864:20::835])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC88ACBA66;
-        Fri,  2 Dec 2022 04:23:58 -0800 (PST)
-Received: by mail-qt1-x835.google.com with SMTP id e15so4801573qts.1;
-        Fri, 02 Dec 2022 04:23:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=dbkaMxzhc2uYdfTG1qS40AJW00cOjbuhUVn/IXQMNNc=;
-        b=PHlLMeKq8gJzDJbZ3pYL5tnVnwKb59Nr9QHimBwH4X4d68h/w69TwTnOGnj4cyZS08
-         WsZy99X0N8tZGNUTkDtJW1LO5FC/fpwbaua7H4FQYhuniVhW+JFWZ+5hOjq+ssQCgnu2
-         0nkE0c4SadYPv4ogzGnyvPviONH4Tg8fNHl7IbSGjAPBIaao4k4AboZb9/YQVW2/77r0
-         0+E+n+wKs5IWyXA9FoD+chHIfu8Iz+tEoM6Xf2+yOYxItAmC7AF6xNeifu4U9Nrj0+Nz
-         i6xKzXOfsMfSJJrzxvx4zJ4C8wMIRIpnPrXDrkhJsf32st5DadVILBEsELw61nJuWhW/
-         n0DA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=dbkaMxzhc2uYdfTG1qS40AJW00cOjbuhUVn/IXQMNNc=;
-        b=jXeJdVtjx1DkXE6nDuFgGdYB1p1XaPKAhVuPJNahdnhq4LsMHn4N8rdeETdCNAi4R8
-         zLOVuLXcyKpag/MNS/o2zlAPqjoWfblUVDJBw+Tnv69SlKdQlvtnB4GZYQ+uYHQtJpcD
-         bdjf1j+f/Uygah6VFZdYDnaD7eajlvp3jqLN2/H1JNA4oHVTiegxOshmeNR2AaTaZGkS
-         QiR9OHUMdNleRzHqaOKCOxM3Q5DuRZ0QgYm7s9YfnVH2qxfrg7HPHamSNGGIATML6RTQ
-         QDUl/zjTQLMLMv7B5D3OOsJ82GjO0C/wsB/sk0He2q8vf/puuEaK6PdBA5QdSfsuKDsX
-         nSxw==
-X-Gm-Message-State: ANoB5pn3jrinRxr+48rkmiWcHK19sDWuT3rrZIMuNQ8vMdraji1oV3di
-        LvWjEkq8CRj5X1JawsUC/Yo8bVpsvSf4279BeWI=
-X-Google-Smtp-Source: AA0mqf7g5fnop05y1iIlnb8OPWeZ6h5BcjPIgGEl7CkI+8X8MmQ53cWNBaqZ3SzXAOtfStT1gmPdoSSWY4eAET4duu8=
-X-Received: by 2002:a05:620a:21ce:b0:6fa:d149:6d47 with SMTP id
- h14-20020a05620a21ce00b006fad1496d47mr46401943qka.734.1669983838079; Fri, 02
- Dec 2022 04:23:58 -0800 (PST)
+        with ESMTP id S232621AbiLBMk4 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 2 Dec 2022 07:40:56 -0500
+X-Greylist: delayed 316 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 02 Dec 2022 04:40:53 PST
+Received: from mout.kundenserver.de (mout.kundenserver.de [217.72.192.74])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DEE8C91C16;
+        Fri,  2 Dec 2022 04:40:53 -0800 (PST)
+Received: from [192.168.1.139] ([37.4.248.27]) by mrelayeu.kundenserver.de
+ (mreue107 [212.227.15.183]) with ESMTPSA (Nemesis) id
+ 1MuUWi-1ojpcj28mI-00rWFS; Fri, 02 Dec 2022 13:35:19 +0100
+Message-ID: <d44a4819-1d4c-255e-212d-70abcf9fbb05@i2se.com>
+Date:   Fri, 2 Dec 2022 13:35:15 +0100
 MIME-Version: 1.0
-References: <20221129231149.697154-1-hdegoede@redhat.com> <20221129231149.697154-2-hdegoede@redhat.com>
- <Y4ddgnRbRyUDSPFI@paasikivi.fi.intel.com> <ad9d01b6-de08-b54c-d300-cf133df90536@redhat.com>
- <Y4duQpP/GrfFQkwS@paasikivi.fi.intel.com> <fef2a014-1ef9-049a-2516-539ea14abdac@redhat.com>
- <Y4nZUpGvtKMpxrDR@pendragon.ideasonboard.com> <29b30a50-0fc1-e185-c79b-10856a80bceb@redhat.com>
- <Y4nmZND8Mm89X0Y/@pendragon.ideasonboard.com> <CAHp75VeN_2TNQfSAji+QN_EpgtVrm2Lxw50mAQkdnLeQPmsp5A@mail.gmail.com>
- <Y4nsNp4RSVZwI98H@pendragon.ideasonboard.com>
-In-Reply-To: <Y4nsNp4RSVZwI98H@pendragon.ideasonboard.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Fri, 2 Dec 2022 14:23:22 +0200
-Message-ID: <CAHp75Vdb+vbBTJTpi4unUYpkwFUjCW387pVQ=78OxzQLWgJVnQ@mail.gmail.com>
-Subject: Re: [PATCH 1/6] media: ov5693: Add support for a privacy-led GPIO
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Hans de Goede <hdegoede@redhat.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Mark Gross <markgross@kernel.org>,
-        Andy Shevchenko <andy@kernel.org>,
-        Daniel Scally <djrscally@gmail.com>,
-        platform-driver-x86@vger.kernel.org, Kate Hsuan <hpa@redhat.com>,
-        Mark Pearson <markpearson@lenovo.com>,
-        linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH 00/14] staging: vc04_services: bcm2835-isp support
+Content-Language: en-US
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>
+Cc:     Umang Jain <umang.jain@ideasonboard.com>,
+        linux-media@vger.kernel.org, kernel-list@raspberrypi.com,
+        linux-kernel@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-staging@lists.linux.dev,
+        Broadcom internal kernel review list 
+        <bcm-kernel-feedback-list@broadcom.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Naushir Patuck <naush@raspberrypi.com>,
+        David Plowman <david.plowman@raspberrypi.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Peter Robinson <pbrobinson@gmail.com>,
+        "Ivan T. Ivanov" <iivanov@suse.de>
+References: <20221121214722.22563-1-umang.jain@ideasonboard.com>
+ <fc2fb888-7742-123c-69c9-cdb156ff2d9f@i2se.com>
+ <a56d7687-ee44-629c-1a9d-fa34e65e847f@ideasonboard.com>
+ <bb16004f-8d5b-5794-8445-aa7e1a758ffa@i2se.com>
+ <c73f7261-ec33-ec88-df3e-a34cf9b8015c@ideasonboard.com>
+ <0f683076-43e6-3f65-e5e1-052059ce7c86@i2se.com>
+ <910dbd8f-85f2-4979-49ee-6d760e89af84@ideasonboard.com>
+ <Y4nCnEwqs69QezPn@pendragon.ideasonboard.com>
+ <CAPY8ntAK9yh6ZQkuOrZqUn2GC2=qGaJrcxEjWyGep7KcWvxkhQ@mail.gmail.com>
+ <Y4nrPuq0OjWKCzfS@pendragon.ideasonboard.com>
+From:   Stefan Wahren <stefan.wahren@i2se.com>
+In-Reply-To: <Y4nrPuq0OjWKCzfS@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Provags-ID: V03:K1:G3bNdCF9NfdRZxvP//LZQ/peuodgZ2ios5536nOU0JmXGDwmg3n
+ KX8j0Suxmrz8Zcr6Daoo7h9HZspILwoeBvdM6Ue4JB67YLkMn5Bqh/DuLQI4g1iluKKrL/J
+ sdpNL5PDZB92owIcdH4JPFc8lZvtLR6UU6YDwKppfg9Xc8iVquXm1wmRAkVjEP33OtVPdjF
+ 5bL1rrcSrR4j17WBg+HLA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:8nxra/ts3vM=:GQzXrNqxmtys5pVopjkZ8C
+ ElOpdlgFag7++3DVgbW4JcmVWeJcyVX0UnZMoaYNSNY88YLeVxN/kxjY+IUNT5YUYxxxJ3qZc
+ +JcXMX+ujjLyMyNRZr0x50KLZR9vl/2kcB7zdrBsSC0jebQ7cRtzctaQyyPtzBSCZmSh+mw7v
+ ThuOc+/8pqHbzipx7OCjV3zhSZLZqQfTzQA4Xv2UkMd7TfJ+t7F7X/ucNn56lthjjVxerv8Ob
+ brqYvDJVfVOp5gagESDPGl9EA9ccD1yiOXr8blXxgnJcyyh7+gZqC7RMlo2G0Y8pxirW3F/ll
+ qeyvSIgWBiI2ffnCYjBxyFqPyR3jTqb8VFL0VSDPRn5cIkf+IhJgG4Chi/mwpAL6O9+w0cJ/k
+ IhlxT6KmSHu9t8GY6ubgsgGoJoGruVkZICu3pueLkUa8VkbrootWIY3Z2/5age/wdCZEabo/n
+ PDSKvhSaSxsyq/t/MCw5Az0niK6BzlymvxKqfLfk0mpJS+fn6dBwFM+D9jysXhK6Mr+WMqi7n
+ gRPAXSPcYF2h1jCVzpIyqUUBiiBQHL4dl8vJafBJNJMLW8bXadwezz/0hBrUBx825MfqafS+G
+ ihVoW5yp9ZGkYUXRa1QAOMcbvFz5NVJ4mPPXHlqBx5DNe7uSgcE9r+KYwPpq/e8wghcBwkASH
+ RcVh5bWqPTiO6Tbs6qQcTj+zskgL13FKTxZUtQv5X/UnlEmSgTdeHwcBOEszjFPAa8kyBa95d
+ wtw0//LlPoQMz3SU9OzBOvtYBXFchJEtxCW4KR1dTUiI3Mb+/323JzNi6iGRk/DJ82hTKNfov
+ Ju1e8quo0aajCUfCbwc28opAJl0Dg==
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Dec 2, 2022 at 2:14 PM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
-> On Fri, Dec 02, 2022 at 01:53:55PM +0200, Andy Shevchenko wrote:
-> > On Fri, Dec 2, 2022 at 1:50 PM Laurent Pinchart wrote:
-> > > On Fri, Dec 02, 2022 at 12:21:12PM +0100, Hans de Goede wrote:
-> > > > On 12/2/22 11:54, Laurent Pinchart wrote:
+Hi Laurent,
 
-...
-
-> > > > Note the need for an index -> name map is standard for all GPIOs
-> > > > on ACPI platforms.
-> > >
-> > > It's funny how ARM platforms were criticized for their need of board
-> > > files, with x86/ACPI being revered as a saint. Now we have DT on ARM and
-> > > x86 needs board files :-)
-> >
-> > I believe it's a misunderstanding here due to missing words at Hans'
-> > statement, i..e.
-> > "..., which do not provide the descriptions in _DSD() method."
-> >
-> > So, no, x86 does not need board files generally speaking. The problem
-> > here is some departments of some big companies that didn't get ACPI
-> > properly or at all.
+Am 02.12.22 um 13:10 schrieb Laurent Pinchart:
+> Hi Dave,
 >
-> When it comes to camera support, that seems to cover an overwhelming
-> majority of systems, if not all of them.
+> On Fri, Dec 02, 2022 at 11:23:29AM +0000, Dave Stevenson wrote:
+>> Dropping anything prior to those points would be rather premature in my book.
+> Something I forgot to mention is that there should be no issue at all
+> keeping bcm2835-camera fully supported in the Raspberry Pi downstream
+> kernel for a longer period of time. It's in upstream that I don't think
+> it should be destaged, as it's already considered legacy and should be
+> phased out. Do you know if there are users of that driver with a
+> mainline kernel ?
+>
+In Fedora there seems to be no official support [1], but openSuSE seems 
+to mention it [2].
 
-Unfortunately :-(
+[1] - 
+https://docs.fedoraproject.org/en-US/quick-docs/raspberry-pi/#_does_the_add_on_camera_work
 
--- 
-With Best Regards,
-Andy Shevchenko
+[2] - https://en.opensuse.org/HCL:Raspberry_Pi_Camera_Modules
+
