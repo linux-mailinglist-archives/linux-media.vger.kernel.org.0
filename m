@@ -2,73 +2,127 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8683D640701
-	for <lists+linux-media@lfdr.de>; Fri,  2 Dec 2022 13:42:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F417064072C
+	for <lists+linux-media@lfdr.de>; Fri,  2 Dec 2022 13:51:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233291AbiLBMmL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 2 Dec 2022 07:42:11 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38908 "EHLO
+        id S233572AbiLBMvO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 2 Dec 2022 07:51:14 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50194 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233006AbiLBMmK (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 2 Dec 2022 07:42:10 -0500
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.10])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 08555D4AD7;
-        Fri,  2 Dec 2022 04:42:08 -0800 (PST)
-Received: from [192.168.1.139] ([37.4.248.27]) by mrelayeu.kundenserver.de
- (mreue109 [212.227.15.183]) with ESMTPSA (Nemesis) id
- 1N9dkB-1oxG471d5h-015ajP; Fri, 02 Dec 2022 13:41:54 +0100
-Message-ID: <845957f9-46fc-d264-977e-7c3339c4d5c9@i2se.com>
-Date:   Fri, 2 Dec 2022 13:41:53 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH 00/14] staging: vc04_services: bcm2835-isp support
+        with ESMTP id S231929AbiLBMvM (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 2 Dec 2022 07:51:12 -0500
+Received: from EUR01-HE1-obe.outbound.protection.outlook.com (mail-he1eur01on2045.outbound.protection.outlook.com [40.107.13.45])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B1692A5546
+        for <linux-media@vger.kernel.org>; Fri,  2 Dec 2022 04:51:10 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=jRiEVQ37uObwV3ioJaiE5zJqO/Tn65Ab93IcQntVdYjZcPpAon+H0VYO+0W/Zx4dntxY0s6k01gRcAObwgY/vgM8l7FvABe6tgmKhifzGV4MiDs+csoLUxnf1ExllqQqo47934HGSEZnortFuIchXkNNH7ERb6cYWNZ3RRvYZ0k8XhvGid2bWzbgMxITNFkKsmStxB0Iu5osWovip4xbOOn0nADh/sVnRgFQHAsAJLnjr3ncH0FtoF8ywBWv5wT0wkWIOU/bPWev47mp1mNueywCCN8e30HMPnpgfNVH8tUA21z6f9xHGoDWY6yUYrV2hC4vGrSndDTWRfaSGtkXOA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=FqrUKuEHEjqntq02wxryvys1Lk0Ueg6gDdhiBC7f5V8=;
+ b=n8Zn20xlasfw9S8PaIby22le90xxNfMFjJdn2EUeHq1DVfcPcyxCfzVHAseeTTZF8o/E7+YWTD5heeAv06YtV91zKqP+GweFqZXm9G24w7SJizvIw1VwgQZZYY+5TOYfkLZc7tJaYMAciw/Q44PvY4KDgl0rHiWOTMLeqy9vWLDgTrdQSCdyUzr2Ks7eXAv/b31uM+mgoUw/TONdOOKUcgqjkODKPUHABhGecc81w94VjsOLyiHf5TJc1zR/rFvydX+f7Gcxq5ts0QU+e2/KUXHvYxGrotEc6f1f2eZW1hDKtwfT2KppmgU9oEA53AVEg/vMqIlGjdYN7CKBr3kWlw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
+ dkim=pass header.d=oss.nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
+ s=selector2-NXP1-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=FqrUKuEHEjqntq02wxryvys1Lk0Ueg6gDdhiBC7f5V8=;
+ b=Oqz9p6nY8jgtrmGxjK2SU01ZYH1FTtZmud54O1sSHpGlA4pjjthbKDEPvRWxbj/PUz8m1QftvYaW6wNhXPDUh3FnxJm9qbGGFD3qVDRUwBSYTkgUCEpGAn6UY7kC0nD+mrE0LDNj51Y5VMckoNjMXCWe/b880MBpc+NCSFHGsks=
+Received: from AS8PR04MB9080.eurprd04.prod.outlook.com (2603:10a6:20b:447::16)
+ by DB8PR04MB7004.eurprd04.prod.outlook.com (2603:10a6:10:11c::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5857.20; Fri, 2 Dec
+ 2022 12:51:07 +0000
+Received: from AS8PR04MB9080.eurprd04.prod.outlook.com
+ ([fe80::d355:6f96:866e:b857]) by AS8PR04MB9080.eurprd04.prod.outlook.com
+ ([fe80::d355:6f96:866e:b857%3]) with mapi id 15.20.5857.023; Fri, 2 Dec 2022
+ 12:51:07 +0000
+From:   "G.N. Zhou (OSS)" <guoniu.zhou@oss.nxp.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        "G.N. Zhou (OSS)" <guoniu.zhou@oss.nxp.com>
+CC:     "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "slongerbeam@gmail.com" <slongerbeam@gmail.com>,
+        "mchehab@kernel.org" <mchehab@kernel.org>,
+        "jacopo@jmondi.org" <jacopo@jmondi.org>,
+        "sakari.ailus@linux.intel.com" <sakari.ailus@linux.intel.com>
+Subject: RE: [PATCH] media: ov5640: report correct frame rate to user
+Thread-Topic: [PATCH] media: ov5640: report correct frame rate to user
+Thread-Index: AQHZBjqs+HWSIeW/wEGXkychLnAPTa5acDyAgAAE+OA=
+Date:   Fri, 2 Dec 2022 12:51:07 +0000
+Message-ID: <AS8PR04MB90800323EE89C16CAC1BD585FA179@AS8PR04MB9080.eurprd04.prod.outlook.com>
+References: <20221202104250.2634726-1-guoniu.zhou@oss.nxp.com>
+ <Y4nck1V4ScHOAtCN@pendragon.ideasonboard.com>
+In-Reply-To: <Y4nck1V4ScHOAtCN@pendragon.ideasonboard.com>
+Accept-Language: zh-CN, en-US
 Content-Language: en-US
-To:     Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Umang Jain <umang.jain@ideasonboard.com>,
-        linux-media@vger.kernel.org, kernel-list@raspberrypi.com,
-        linux-kernel@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-staging@lists.linux.dev,
-        Broadcom internal kernel review list 
-        <bcm-kernel-feedback-list@broadcom.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Naushir Patuck <naush@raspberrypi.com>,
-        David Plowman <david.plowman@raspberrypi.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>
-References: <20221121214722.22563-1-umang.jain@ideasonboard.com>
- <fc2fb888-7742-123c-69c9-cdb156ff2d9f@i2se.com>
- <a56d7687-ee44-629c-1a9d-fa34e65e847f@ideasonboard.com>
- <bb16004f-8d5b-5794-8445-aa7e1a758ffa@i2se.com>
- <c73f7261-ec33-ec88-df3e-a34cf9b8015c@ideasonboard.com>
- <0f683076-43e6-3f65-e5e1-052059ce7c86@i2se.com>
- <910dbd8f-85f2-4979-49ee-6d760e89af84@ideasonboard.com>
- <Y4nCnEwqs69QezPn@pendragon.ideasonboard.com>
- <CAPY8ntAK9yh6ZQkuOrZqUn2GC2=qGaJrcxEjWyGep7KcWvxkhQ@mail.gmail.com>
-From:   Stefan Wahren <stefan.wahren@i2se.com>
-In-Reply-To: <CAPY8ntAK9yh6ZQkuOrZqUn2GC2=qGaJrcxEjWyGep7KcWvxkhQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Provags-ID: V03:K1:w7cbRFiuQ7ESWHggXOZ6OFp0NpMSvLOkpmddNzQrRZlFeltTkNb
- 90atBuC80RgeSIFNLs1J+PrGAFDMFTpf67HcWUizPzCa1eaGCUrXxzw+ZVYHExYKwmYUYL2
- MHWzC79iQ82mUrNYhbV/ov12YVeGOos+rMnYYoZw/L19WUox6FOftJdc3gxrwX37VkA86+J
- ji+eKMcu91xbE//BFW92g==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:Ohjx5ZX6tjw=:1xrVlpB2f2i7znKu7Oav15
- 4PzQTIwq16s0qjEaamR1SXmg77Y2XGf4gu6Pz5H3xjyQlRCqtPl1hlPXZP8iePjFghizqx1ou
- WTDbzc7R3t0cShDrvxxIfa7leVBP9g/R17jrzsA7OSyl8ELxuMP7KSfJxmvL39iV5bLJxAdPb
- l3LfPLL6Q71ZKMzAiw8U24MyUKcuOid5Izqx9IxMJ1Q/kCTN2mzBQxmNsqKbeJhtGyzMjIaP5
- MmnQwSfLlx63QnD7/5FdYKZo1BmNDP8n/Yvk9plq8eiOFfYkncZHGmQt/PeY30seZLF2s1hxf
- eHbBJdkGmsH4AYJ00C3ASzaSIbNy1uxwTIAPFbfMx/YoPlY1u9yvjxkT3G5cNjgsUgeQ5H/gj
- XA7OBlYep4DV2dKoRRXLYsd4MstESEMVigRTu15KR3yiDqoiGtk5RDPuBmuAe9g6OtuQn2l4n
- yOCVNNB8IkCpr23UYhy9euaDqY7T18VMz+S5zrHBjcnITcVLk1nZEIMr43DwcOzBjm+lM1loI
- YCclJyljNDBhpPShRLleAxne5/25N3MTKmttRCa13C7rqW2Py3GQgtGb/WUPEV7vZKibcIgGO
- jlQ6IGal3FgYuMtHdL49TvVKLBQBx/DFY7mlRxGOWoont9XjdJV8NnpPm9Rr2hTZwKn/jIRHK
- RoqlGX4ktYL/XdR5hTk9ZE01lnPUfHZ/iQnWXrCmoOKTGLc+TmfVYmrebPg7Su85d2TE4Ash/
- 4O1y1cveAxJ6/uWq76YLRG8XeN+VQmIfomDMYJ6jg35dlxCqIC/szo9eQNm0Ii3BiX7g5Mxwt
- Bc+qA/c/hT3ZNjQOzxXsg6S+sNfxQ==
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=oss.nxp.com;
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: AS8PR04MB9080:EE_|DB8PR04MB7004:EE_
+x-ms-office365-filtering-correlation-id: db916ee4-be8e-4084-7b30-08dad463e168
+x-ms-exchange-sharedmailbox-routingagent-processed: True
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: wxqTVJeX89zpR5ypVKRnICj6oettJMh1ekPxMfl+sAaQWPhKY1y7tWSdpCUoSh5DXauKBy3MLFWmF0UTtKta9ulXcgpYopD7oIGVR7gK7Qy7liPvW/GHDkTCfEZ+Gruuqyv15zPXE1dawN1TV8sjJLu6AYVSPitEzBhTWTMNwFvf8rgj4Z9MI6FH3ELJsd480vayiwV7VQr0R+36CXHn/8qJu9MYRRCPW+KbREsEpeNu6TAs424WzoLHj7495GVTje9SKeabVW9CuyG/6NgOo1QSu+yu7WQdRFztL+F1h2i/dK6vkDqSp9zN2QnwW2MAtpPzo0Kfx2r9PPJd4StdTRv+K8LqsfBI/BXKT1vNO7nIWrwwJ2RjA4i34si10CHmGFXes4hWLVaknK7D+HQCQAnmm3oLIX/ReKYS8XYbIhBG0uQD9qVrAG1nU0EKfGkH9tSiufTqdyo5PorzfGJClXhmFVXcsP9pCnMAM/M+UP+ebDocEcbYsZqa5LVY86ThiYrSk0lw701eeh7I+FIu8wIoerVZRez4onumC1z2kbPN1HZ14CMupaKFVrvOXW8x5Ik/MZcCeM2MbHd3LcnfcX4GXydekZXJWjThAyVlvaMfGFGrn8wAWerPHAJVq7Qln9es1ugHlyy4O/4JOfrEMsffwvpV/9yg6Sxon++yuMTX7lhN579EAuwp4u93e0bY
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8PR04MB9080.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(396003)(376002)(366004)(136003)(39860400002)(346002)(451199015)(4326008)(8676002)(41300700001)(66556008)(66446008)(76116006)(66946007)(5660300002)(64756008)(66476007)(55016003)(38100700002)(122000001)(52536014)(8936002)(71200400001)(54906003)(110136005)(38070700005)(83380400001)(316002)(2906002)(186003)(53546011)(9686003)(478600001)(6506007)(7696005)(26005)(86362001)(33656002);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?NGRnRnpWV0RHTVU3bmZ0NjQxTDMyRXY3NFYyVHQ4Wkh0VmhIVzhvVjIzdytr?=
+ =?utf-8?B?ZFQvNmltT0w1L2hVdmZaUjZUSmo5dWhCTS85UUcvalNHSmlKRW9wZ0d2Tmts?=
+ =?utf-8?B?UXEwMzhIajcrTXdMTVIxczd6M2hIdkl4NFJRKy9EVlNzd2xmNlRIVEI3SXVU?=
+ =?utf-8?B?NENvTFI0ZXZtT0pBdHFxdmEranRmeElvY0ZVaVIvSFBSeDhjdzdseUg2NFRP?=
+ =?utf-8?B?bWU0aDFBWkpiVW9qY2RjeUpMR3ZISkV5QzNKbDVrZnlXRkFHZC9WaUd3R2pm?=
+ =?utf-8?B?b3diVGk4N29GUVJpWklTcWlUZy9oRUJyNEV2dUYrb0dIUEc2RjBHa1g2VnVw?=
+ =?utf-8?B?MWNJTFZIa1pPZUVGK3VINkRrVzM5elZzUDR1WlhYT3lhZmxHVUJVV3kzeSs5?=
+ =?utf-8?B?TTN5VVZyRFM3TnVlS3VBUG1PTmNIWi90YWpqQnBvNFZ3b1hBL2hpeXN5SVhQ?=
+ =?utf-8?B?Tml4M3JWWTIwZm5BMDNMdVJoeVprMnJXUjR2U3dFbk43SXZETEk5eDBOeWEz?=
+ =?utf-8?B?Ly81a251bjExT2IxM2hNTHJ4REMxVjVWbllBYXVXdkhsTUVtRUoyQnB0UWZv?=
+ =?utf-8?B?aERoQUQveFFmVGZKcUZyRWNxM1Q2K2dYcm96WTBIMk5HTVg2MlVOR1poNW9U?=
+ =?utf-8?B?ZS9WNENrem56dTF2S1d2UmVHcFZSMEFrNHBPN0dZUHYwekU0WXVjbmFEUzhr?=
+ =?utf-8?B?ZkNGTitwT0VjTlYrNW1acjFuWTFOWkhGRllBYlArSnd1YmpldUU2dnliUGg4?=
+ =?utf-8?B?Tlp2cVgwTFdSZ3pFb1pQdnU1U1cyMUpIdkUzTThTNkZSWkhPMXJLWURWUHYy?=
+ =?utf-8?B?WGlXMExYcHBDcml0MXNlOWNZTnI3VDN5SFluSmJ4eFR1OFpJamQ4Ly9hdkE3?=
+ =?utf-8?B?NjBkT0NkMjlOV0hWNHE5TnV1Nm5Ubk04MjdSRkM5aTZ6VlZvMTFzK2g3My9r?=
+ =?utf-8?B?WnlqclhUZWlXYTJrUGpLckpqZHdxZnBWMFhjL1N5c3UzaTRnck15UGJFM3Ri?=
+ =?utf-8?B?MXVTcGxOOUQ5YldzdmY1bjdWNDc4bnlqeUp2OGRLclBoaGplUHByNlphVnVN?=
+ =?utf-8?B?VTNVNnV6ZXJOcmlxZlNqeHo3b3hVaFppckp4bDdwMlNaLzkrZ2dKbUJnYVJy?=
+ =?utf-8?B?RG1vN0lKNkkxNG9uU09Nc2xmaFk2T0FSbHBBTTI0bUdDaDZPNktyMzVxWDVI?=
+ =?utf-8?B?ZjU1eUR1dzhWVjBmYnpIZmJBTjczY3ozY2JFZDhqVWs1ZWxiN25IaUh1Z2hs?=
+ =?utf-8?B?bWFWazBoLzFNZ3VQY0pHNVhwUWh6WEN5K1h4S2tuaVRISUhFdE5pa21HdkZs?=
+ =?utf-8?B?amw4RjU5ZXRUdW82R1FiYS9ERnhJUmF0N2piekJXczVRa29pWllDZDk3Zmxu?=
+ =?utf-8?B?Yk8rOCt6OHJBaDYraWZTdFgrNis2VGN3cUVuNEl1U2VzVDF2WEFjN1QzMFlQ?=
+ =?utf-8?B?QmxkTnNzeml2MHE0RjBJK2RBemNsMGV1THJmcEVPVnB3SlBEMmxsY2kwblFy?=
+ =?utf-8?B?dGoyUUNkYloxdVhsVVdPdGk1Uk44Y004ZWlIbEtlZW5zcHllTHRCWVVxY0tj?=
+ =?utf-8?B?L05nMDdRbVozZG9wL2VlQzE3SjZrYS9JMmg4TVl0cjA4NllOU2tlVFd5bTdM?=
+ =?utf-8?B?djdPSVNRUkhONXBvWDFkbUJRR2tsOGc3SjdEV2FIMWM3eUZYVDFTMWc0SUxm?=
+ =?utf-8?B?WkFnakRQdVBGQzROUnpoWmV0MUo4b1BwYkxIWWJhR1lIMEdpNGxzd3N3d3FT?=
+ =?utf-8?B?dkc4Wi94OFQyeUcwZDFKMEt5Zkw3YTlMaWpkZ085eWRaWDNKU01yM1RhMmJl?=
+ =?utf-8?B?WTkwMjdaWjU3eHFjK1JhRUZFQ1JtSHUrSHloa21xM3U5NGErNmZWam9LWmhY?=
+ =?utf-8?B?aVJjazFVRkRHR0VoSmRWSjdsaUd6cTdvWnhndW5aN3FhRWJlUVB1RDVhVktl?=
+ =?utf-8?B?WUlRYWM5K3JmUVZpcTV3T2VoWWFFSzRLcXpjMXBybTl6dnBkY1NkVUhib253?=
+ =?utf-8?B?S2cyVnowcHN4MStaWkhudVFSQWg4WHBWQmFKQzhJZUJHQ0E2K1hPYmxvbVUv?=
+ =?utf-8?B?R29uNjZsaDNibENmdmRQa1dqYzIzUXgycjYzYXNEaTgzb1MvNngwL0VIQnZH?=
+ =?utf-8?Q?b63otiTcdlvGeoasToEauDWJv?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-OriginatorOrg: oss.nxp.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: AS8PR04MB9080.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: db916ee4-be8e-4084-7b30-08dad463e168
+X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Dec 2022 12:51:07.4761
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: RUXhuQRFhd7rDxNaBnzkviq8S9mN1AuCxhiA3LBvVpXL3bgEQa1u75+jcYLWaKoQo8DYh+Dj3ltKB0ZtnByOUA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR04MB7004
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -76,203 +130,52 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Dave,
-
-Am 02.12.22 um 12:23 schrieb Dave Stevenson:
-> Hi Laurent, Umang, and Stefan.
->
-> On Fri, 2 Dec 2022 at 09:17, Laurent Pinchart
-> <laurent.pinchart@ideasonboard.com> wrote:
->> Hi Umang,
->>
->> On Fri, Dec 02, 2022 at 11:57:18AM +0800, Umang Jain wrote:
->>> On 12/2/22 6:45 AM, Stefan Wahren wrote:
->>>> Am 30.11.22 um 11:58 schrieb Umang Jain:
->>>>> On 11/27/22 6:56 AM, Stefan Wahren wrote:
->>>>>> Am 26.11.22 um 17:26 schrieb Umang Jain:
->>>>>>> On 11/26/22 8:12 PM, Stefan Wahren wrote:
->>>>>>>> Am 21.11.22 um 22:47 schrieb Umang Jain:
->>>>>>>>> This series aims to upport bcm2835-isp from the RPi kernel [1] and is a
->>>>>>>>> independent subset of earlier series [2] posted to upport CSI-2/CCP2
->>>>>>>>> receiver IP core("Unicam) + the ISP driver found in BCM283x and compatible
->>>>>>>>> SoCs (namely BCM2711). Unicam is still under active development to work
->>>>>>>>> with multistream support to get into mainline. Hence only the ISP driver
->>>>>>>>> will remain the primary area of this series.
->>>>>>>> thanks for working on this. But honestly i would prefer that vchiq
->>>>>>>> comes out of staging before adding more features. As Greg said
->>>>>>>> some time ago staging is not a place to "dump code and run away".
->>>>>>>> These new files are in the same bad shape as the rest of vc04
->>>>>>>> before the clean-up here in staging started.
->>>>>>> Certainly, I am not here to do that - but I am still learning the ropes.
->>>>>> no problem.
->>>>>>
->>>>>>> If the staging issue is becoming a blocker for bcm2835-isp going
->>>>>>> upstream, I would be happy to help here! Though I must mention that
->>>>>>> I still have limited visibility so my aim would be to chart out a
->>>>>>> plan of things needed to be done to get vc04_services out of staging!
->>>>>> The vchiq driver is in staging since 2016, so every step forwards is
->>>>>> good. Unfortunately all of the low hanging fruits has been gathered.
->>>>>>
->>>>>> For me the most important, but not to tricky steps to get vchiq out
->>>>>> of staging would be:
->>>>>>
->>>>>> * Cleanup logging mechanism
->>>>>>
->>>>>> * Get rid of custom function return values
->>>>>>
->>>>>> There was already an attempt for this [1]
->>>>>>
->>>>>> * Get rid of all non essential global structures and create a proper per
->>>>>> device structure
->>>>>>
->>>>>>>> I agree that VCSM is on the TODO list for vchiq, but this driver
->>>>>>>> is not necessary for making bcm2835-audio & bcm2835-camera leave
->>>>>>>> staging. It just binds more resources on a new feature.
->>>>> bcm2835-camera is the legacy camera stack which probably need to be
->>>>> dropped from hereon...
->>>> I don't not know if there any users left, so i would be careful here.
->>>> Can bcm2835-isp completely replace bcm2835-camera? Sorry, for this
->>>> dumb question but i'm not expert here.
->>> I am careful too here and probably need Input from RaspberryPi in order
->>> to proceed to drop it. But from my perspective - bcm2835-camera is _not_
->>> going out of staging - it'll either sit here (or probably dropped) as
->>> statied from [1]
->>>
->>> ```
->>> + * There are two camera drivers in the kernel for BCM283x - this one
->>> + * and bcm2835-camera (currently in staging).
->>> ```
->>>
->>> The bcm2835-camera is meant to be replaced by unicam [1] , but the ISP
->>> (bcm2835-isp) is meant to be worked with unicam [1]. In fact, I have
->>> mentioned in my cover the testing of bcm2835-isp happened on top of
->>> unicam patches.
->> To be accurate, the bcm2835-camera driver supports the VC4
->> firmware-based camera stack. In that setup, the camera sensors (OV5647
->> or IMX219), CSI-2 receiver (Unicam) and ISP are all controlled by the
->> firmware, which provides a high-level interface towards the kernel. This
->> architecture has been replaced by Linux-side control of the camera
->> sensors (through existing drivers in drivers/media/i2c/), Unicam
->> (through the driver from [1]) and ISP (through this driver). Moving
->> control to the Linux side requires complex processing in userspace,
->> handled by libcamera.
->>
->> bcm2835-camera is thus replaced by multiple drivers combined with
->> libcamera, and that is the camera stack that is shipped by Raspberry Pi
->> these days. While this may affect some userspace use cases), we will not
->> work on destaging bcm2835-camera, and as far as I'm aware, nobody else
->> is planning to do so either. I don't mind much if the driver stays in
->> staging for some more time, but I'd rather drop it if possible.
-Thanks for clarification. Okay, so Unicam + bcm2835-isp are able to 
-handle the old camera (OV5647)?
-> It would be reasonable to drop it at the point that Libcamera can work
-> to a similar level with at least the following list of applications:
-> - FFmpeg
-> - Gstreamer
-> - Chromium
-> - Firefox
-> - Motion
-> And that still leaves a huge number of existing V4L2 apps out in the cold.
->
-> Do you wish to make any predictions as to when that would be
-> achievable? Or even when a v1.0 release of libcamera is going to
-> happen?
-> Dropping anything prior to those points would be rather premature in my book.
->
->
-> The TODOs on bcm2835-camera are:
-> 1) Zero copy. That comes almost for free as bcm2835-isp already does
-> this, but it does rely on vcsm-cma.
-> The main reason I haven't pushed it is that it then requires
-> reasonable amounts of CMA heap for all the buffers, which until
-> recently haven't been present in the default configurations. With the
-> vc4 DRM driver now being default (at least for the vendor kernel) and
-> also requiring CMA, making the change makes more sense.
-> AFAIK there is no easy way to have one driver choosing between using
-> vb2_vmalloc_memops and vb2_dma_contig_memops at runtime, but I may be
-> wrong.
-> Actually bcm2835_defconfig appears to only allocate a 32MB CMA heap,
-> so perhaps we don't get very far.
-CMA configuration should actually happen in device tree or kernel 
-cmdline. The bcm2835_defconfig is limited to make it work even with the 
-original Pi.
->
-> 2) This isn't workable within the current V4L2 frameworks. The
-> multi-planar V4L2 pixel formats are currently allocated as independent
-> buffers for each plane, whereas the firmware needs a single buffer
-> with (currently) specific offsets for the chroma planes. The
-> V4L2/videobuf2 core changes required to implement that are going to be
-> significant, and have minimal gain.
-> The specific stride handling is already dealt with (set bytesperline
-> appropriately), it's the padding of the height to a multiple of 16
-> before the chroma planes on YUV420 and NV12 formats that require the
-> firmware to do a small amount of repacking. The performance hit is
-> actually minimal anyway.
->
-> If bcm2835-camera is the only thing holding back vc04_services, then I
-> can have a look at it.
-
-No, it's the vchiq interface which needs the work.
-
-Thanks Stefan
-
->
->    Dave
->
->>> [1]: https://lore.kernel.org/linux-media/20220208155027.891055-5-jeanmichel.hautbois@ideasonboard.com/
->>>
->>>>>>> I see two TODO files in vc04_services:
->>>>>>>      ./bcm2835-camera/TODO
->>>>>>>      ./interface/TODO
->>>>>>>
->>>>>>> One of the bcm2835-camera TODO points to the vc-sm-cma driver
->>>>>>> itself. So that's address in the series. The other remaining one -
->>>>>>> I will need to take a deeper look before commenting on it.
->>>>>>>
->>>>>>> The main chunk of TODO are in vc04_services/interfaces/TODO. Doing
->>>>>>> a cursory reading of them suggests that these apply to *all*
->>>>>>> vc04_services components? Am I right?
->>>>>> Actually these applies just for the interfaces directory. Some of
->>>>>> them could apply to the services, but this is no priority.
->>>>> By no priority, you mean this doesn't affect the criteria required to
->>>>> ful-fill to get these out of staging?
->>>> Correct
->>>>
->>>>>>> Are these are the specific bits of cleanup you are referring to in
->>>>>>> your comment?
->>>>>> You mean about bcm2835-isp? There were too many changes to vchiq
->>>>>> that i don't remember them all. The first that come to my mind was
->>>>>> those fancy comment sections which is not kernel coding style. It
->>>>>> has been removed.
->>>>> No, I don't mean the bcm2835-isp changes (those are upcoming /
->>>>> out-of-tree still so...). I mean what are the specific bits / points
->>>>> that needs to be addressed to get vc04_services out of the staging.
->>>> These were the points which i mentioned in my last email. They came
->>>> from interface/TODO.
->>>>
->>>>> You have mentioned it above now, so I'll follow up on those.
->>>> That would be great :)
->>>>
->>>>> The many vchiq changes you referred to above comment (that you don't
->>>>> remember) are from [1] as well or some other series ?
->>>> Sorry, for the confusing. The many changes i refer were the dozens of
->>>> clean up patches for vc04_interfaces in mainline staging since the
->>>> last years. [1] was just a single patch which has been accepted yet.
->>> Ah I see. There are many others that I've to dig out then. Thanks for
->>> clarifying!
->>>
->>>>>> [1] -
->>>>>> https://lore.kernel.org/linux-staging/20220712181928.17547-1-jslebodn@redhat.com/
->>>>>>
->>>>>>>> Unfortuntately i hadn't much time to work on vchiq by myself.
->>>>>>>>
->>>>>>>> Just my two cents
->>>>>>>> Stefan
->> --
->> Regards,
->>
->> Laurent Pinchart
-> _______________________________________________
-> linux-arm-kernel mailing list
-> linux-arm-kernel@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
+SGkgTGF1cmVudCBQaW5jaGFydCwNCg0KVGhhbmsgeW91IGZvciB5b3UgcmVwbHlpbmcgYW5kIHF1
+aWNrIHJldmlld2luZy4NCg0KPiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBM
+YXVyZW50IFBpbmNoYXJ0IDxsYXVyZW50LnBpbmNoYXJ0QGlkZWFzb25ib2FyZC5jb20+DQo+IFNl
+bnQ6IDIwMjLlubQxMuaciDLml6UgMTk6MDgNCj4gVG86IEcuTi4gWmhvdSAoT1NTKSA8Z3Vvbml1
+Lnpob3VAb3NzLm54cC5jb20+DQo+IENjOiBsaW51eC1tZWRpYUB2Z2VyLmtlcm5lbC5vcmc7IHNs
+b25nZXJiZWFtQGdtYWlsLmNvbTsNCj4gbWNoZWhhYkBrZXJuZWwub3JnOyBqYWNvcG9Aam1vbmRp
+Lm9yZzsgc2FrYXJpLmFpbHVzQGxpbnV4LmludGVsLmNvbQ0KPiBTdWJqZWN0OiBSZTogW1BBVENI
+XSBtZWRpYTogb3Y1NjQwOiByZXBvcnQgY29ycmVjdCBmcmFtZSByYXRlIHRvIHVzZXINCj4gDQo+
+IEhpIEd1b25pdSBaaG91LA0KPiANCj4gVGhhbmsgeW91IGZvciB0aGUgcGF0Y2guDQo+IA0KPiBP
+biBGcmksIERlYyAwMiwgMjAyMiBhdCAwNjo0Mjo1MFBNICswODAwLCBHLk4uIFpob3UgKE9TUykg
+d3JvdGU6DQo+ID4gRnJvbTogIkd1b25pdS56aG91IiA8Z3Vvbml1Lnpob3VAbnhwLmNvbT4NCj4g
+Pg0KPiA+IEluIGNvbW1pdCAzMTQ1ZWZjZGI0ZDAgKCJtZWRpYTogb3Y1NjQwOiBSZXdvcmsgdGlt
+aW5ncyBwcm9ncmFtbWluZyIpLA0KPiA+IGl0IGRlZmluZXMgbWF4X2ZwcyBmaWVsZCBpbiBvdjU2
+NDBfbW9kZV9pbmZvIHN0cnVjdHVyZSB0byBzdG9yZQ0KPiA+IG1heGltdW0gZnJhbWUgcmF0ZSBz
+dXBwb3J0ZWQgYnkgZWFjaCBtb2RlLiBCdXQgaW4NCj4gPiBvdjU2NDBfdHJ5X2ZyYW1lX2ludGVy
+dmFsKCksaXQNCj4gDQo+IHMvLGl0LywgaXQvDQo+IA0KPiA+IGFzc3VtZXMgdGhlIG1heGltdW0g
+ZnJhbWUgcmF0ZSBzdXBwb3J0ZWQgYnkgYWxsIG1vZGVzIGlzIDYwLiBCdXQNCj4gPiBhY3R1bGx5
+LA0KPiANCj4gcy9hY3R1bGx5L2FjdHVhbGx5Lw0KPiANCj4gPiBvbmx5IFZHQSBzdXBwb3J0IGl0
+LiBGb3Igb3RoZXJzLCB0aGUgbWF4aW11bSBmcmFtZSByYXRlIHN1cHBvcnRlZCBpcyAzMC4NCj4g
+PiBTbyBjb3JyZWN0IGl0IGJ5IHRha2luZyB0aGUgbWF4aW11bSBmcmFtZSByYXRlIHN1cHBvcnRl
+ZCBieSBlYWNoIG1vZGUNCj4gPiBhcyB0aGUgaW5pdGlhbGl6YXRpb24gdmFsdWUgb2YgdGhlIGxv
+Y2FsIHZhcmlhYmxlIG1heGZwcy4NCj4gPg0KPiA+IFNpZ25lZC1vZmYtYnk6IEd1b25pdS56aG91
+IDxndW9uaXUuemhvdUBueHAuY29tPg0KPiA+IC0tLQ0KPiA+ICBkcml2ZXJzL21lZGlhL2kyYy9v
+djU2NDAuYyB8IDggKysrKysrLS0NCj4gPiAgMSBmaWxlIGNoYW5nZWQsIDYgaW5zZXJ0aW9ucygr
+KSwgMiBkZWxldGlvbnMoLSkNCj4gPg0KPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL21lZGlhL2ky
+Yy9vdjU2NDAuYyBiL2RyaXZlcnMvbWVkaWEvaTJjL292NTY0MC5jDQo+ID4gaW5kZXggM2Y2ZDcx
+NWVmYTgyLi5hMzk2ZjNlYWYwNTQgMTAwNjQ0DQo+ID4gLS0tIGEvZHJpdmVycy9tZWRpYS9pMmMv
+b3Y1NjQwLmMNCj4gPiArKysgYi9kcml2ZXJzL21lZGlhL2kyYy9vdjU2NDAuYw0KPiA+IEBAIC0y
+NzIyLDEzICsyNzIyLDE3IEBAIHN0YXRpYyBpbnQgb3Y1NjQwX3RyeV9mcmFtZV9pbnRlcnZhbChz
+dHJ1Y3QNCj4gb3Y1NjQwX2RldiAqc2Vuc29yLA0KPiA+ICAJaW50IG1pbmZwcywgbWF4ZnBzLCBi
+ZXN0X2ZwcywgZnBzOw0KPiA+ICAJaW50IGk7DQo+ID4NCj4gPiArCW1vZGUgPSBvdjU2NDBfZmlu
+ZF9tb2RlKHNlbnNvciwgd2lkdGgsIGhlaWdodCwgZmFsc2UpOw0KPiA+ICsJaWYgKCFtb2RlKQ0K
+PiA+ICsJCXJldHVybiAtRUlOVkFMOw0KPiANCj4gVGhlcmUgYXJlIHR3byBjYWxsZXJzIG9mIHRo
+aXMgZnVuY3Rpb24sIG92NTY0MF9lbnVtX2ZyYW1lX2ludGVydmFsKCkgYW5kDQo+IG92NTY0MF9z
+X2ZyYW1lX2ludGVydmFsKCkuIFRoZSBsYXR0ZXIgYWxyZWFkeSBoYXMgYSBtb2RlIHBvaW50ZXIg
+KHRha2VuIGZyb20NCj4gc2Vuc29yLT5jdXJyZW50X21vZGUpLiBJIHdvdWxkIHRodXMgbW92ZSB0
+aGUgb3Y1NjQwX2ZpbmRfbW9kZSgpIGNhbGwgdG8NCj4gb3Y1NjQwX2VudW1fZnJhbWVfaW50ZXJ2
+YWwoKSwgYW5kIHBhc3MgdGhlIG1vZGUgdG8NCj4gb3Y1NjQwX3RyeV9mcmFtZV9pbnRlcnZhbC4N
+Cj4gDQo+IE9uIGEgc2lkZSBub3RlLCB0aGUgb3Y1NjQwX2ZpbmRfbW9kZSgpIGNhbGwgaW4gb3Y1
+NjQwX3NfZnJhbWVfaW50ZXJ2YWwoKSBhZnRlcg0KPiBvdjU2NDBfdHJ5X2ZyYW1lX2ludGVydmFs
+KCkgc2VlbXMgdW5uZWVkZWQgdG8gbWUsIGl0IGxvb2tzIGxpa2UgaXQgY291bGQgYmUNCj4gZHJv
+cHBlZCAoaW4gYSBzZXBhcmF0ZSBwYXRjaCkuDQo+IA0KPiA+ICsNCj4gPiAgCW1pbmZwcyA9IG92
+NTY0MF9mcmFtZXJhdGVzW09WNTY0MF8xNV9GUFNdOw0KPiA+IC0JbWF4ZnBzID0gb3Y1NjQwX2Zy
+YW1lcmF0ZXNbT1Y1NjQwXzYwX0ZQU107DQo+ID4gKwltYXhmcHMgPSBvdjU2NDBfZnJhbWVyYXRl
+c1ttb2RlLT5tYXhfZnBzXTsNCj4gPg0KPiA+ICAJaWYgKGZpLT5udW1lcmF0b3IgPT0gMCkgew0K
+PiA+ICAJCWZpLT5kZW5vbWluYXRvciA9IG1heGZwczsNCj4gPiAgCQlmaS0+bnVtZXJhdG9yID0g
+MTsNCj4gPiAtCQlyYXRlID0gT1Y1NjQwXzYwX0ZQUzsNCj4gPiArCQlyYXRlID0gbW9kZS0+bWF4
+X2ZwczsNCj4gPiAgCQlnb3RvIGZpbmRfbW9kZTsNCj4gPiAgCX0NCj4gPg0KPiANCj4gLS0NCj4g
+UmVnYXJkcywNCj4gDQo+IExhdXJlbnQgUGluY2hhcnQNCg==
