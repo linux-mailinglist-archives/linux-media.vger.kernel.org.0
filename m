@@ -2,127 +2,241 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B5671640EBF
-	for <lists+linux-media@lfdr.de>; Fri,  2 Dec 2022 20:48:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AB78C640F78
+	for <lists+linux-media@lfdr.de>; Fri,  2 Dec 2022 21:51:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234838AbiLBTs4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 2 Dec 2022 14:48:56 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51972 "EHLO
+        id S233784AbiLBUv5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 2 Dec 2022 15:51:57 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56524 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234425AbiLBTsy (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 2 Dec 2022 14:48:54 -0500
-Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com [IPv6:2a00:1450:4864:20::131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D5777EF0F8
-        for <linux-media@vger.kernel.org>; Fri,  2 Dec 2022 11:48:50 -0800 (PST)
-Received: by mail-lf1-x131.google.com with SMTP id b3so8931163lfv.2
-        for <linux-media@vger.kernel.org>; Fri, 02 Dec 2022 11:48:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=LKRU6k6DP3+MoWkZKc6pR9Fxw8QPzYqEpMkErX9J1aI=;
-        b=TJt+az+6QemYlHALrKlPXXwpeSk5LEevUf1/CUYcJbogqyVJzzaOv91evf3XQpLFAN
-         wwFNcx6fxAuP8V1JJ4TYXKKIH8/H7lGHVWLSuizBUqOOwmy6NyMQc1DzDQJNQag93Fw8
-         nrXx+l3XHCoJMEyWcllJ7Gx1ydav3UU0pLH0A=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=LKRU6k6DP3+MoWkZKc6pR9Fxw8QPzYqEpMkErX9J1aI=;
-        b=sWI2g7Po5k3vD2ppyCGfb6mOpl/5KeN0KeUKQHDDEGmkQVrDX0+VAG8SzWiRBcN85n
-         SFWL27irfwJHOPYjVfpZF0K18aDqqdS1a6pxjG222/k0sYiRZFt6rb4CtidF1eIiIeBY
-         3/IBlKSmBy/QwilPduk7YUGKP57AiUObK3VLEO773O8mcURnkn/apKRq1OSL/iCnSLkJ
-         as5ZC/6hI2e7DdwfiKbagGYRDZrExvFQ13e1+dQoDKB499EAnEEZsHek4UEg/0o0O3lV
-         t5bl0yewl5jCKUTpntGU54B98T8xFG5ZYzuRT0SwG0nvtleFq476CFsG3UhogQ7iSMQO
-         /bpA==
-X-Gm-Message-State: ANoB5pkWB41DVHpBgCgwYmFvfhTsQuyVCC+N/oFArGFTj2rU/iOnMGJC
-        p5Ztqy179xFT/YEoogQNtrHrzX7n8ujQ7S61l4d2OA==
-X-Google-Smtp-Source: AA0mqf7vWuXOietesbVcX1O+qubMF7A+WQ/MIHQ9UUxKQTH3AwZtVv3L8yaDU8p4H2poYaZEVGkXkn1HTBR+uXhkT4U=
-X-Received: by 2002:a05:6512:a83:b0:4aa:f944:f7ec with SMTP id
- m3-20020a0565120a8300b004aaf944f7ecmr19927828lfu.467.1670010529136; Fri, 02
- Dec 2022 11:48:49 -0800 (PST)
+        with ESMTP id S233664AbiLBUvp (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 2 Dec 2022 15:51:45 -0500
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0CD1659E;
+        Fri,  2 Dec 2022 12:51:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1670014302; x=1701550302;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=3P5GUEaL1fs6nNStLmETjawtgamxBjBIqCSJKf0sz6E=;
+  b=eUI8arIJYStLhkNSr2qkPvt2cIDN1L+f1s2ORc/7UK+6UERQP+aw1ASp
+   F7uef6MRKYe8P5IM0HB6HjZ87IuCYXiDOpZfhq9AsLHokWm8v059kChtQ
+   pXd1Yuw3K+4jsTHKr9J4GYoA2k1C37URQkrQRuFn9gAx/4nr1Am4+ArzW
+   b/4rfMpewOhYWQ6WpqToRZ5CfN0tmxpqoDh/XhV79b3QL5D1fuJllrF5e
+   /LYXg6JD5kw4lRT414W7w4f0zuxKDpSO/pUOTxKWvFbFdFRZiBMPDZZ+f
+   Lqy8iHvYcJ39gLGNLvFyWjHWDRNmiScBmZo46rX4BRVwGqGSW1dh1y1jj
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10549"; a="378193838"
+X-IronPort-AV: E=Sophos;i="5.96,213,1665471600"; 
+   d="scan'208";a="378193838"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2022 12:51:31 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10549"; a="751406445"
+X-IronPort-AV: E=Sophos;i="5.96,213,1665471600"; 
+   d="scan'208";a="751406445"
+Received: from lkp-server01.sh.intel.com (HELO 64a2d449c951) ([10.239.97.150])
+  by fmsmga002.fm.intel.com with ESMTP; 02 Dec 2022 12:51:28 -0800
+Received: from kbuild by 64a2d449c951 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1p1D0J-000E15-2x;
+        Fri, 02 Dec 2022 20:51:27 +0000
+Date:   Sat, 03 Dec 2022 04:51:05 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     nouveau@lists.freedesktop.org, linuxppc-dev@lists.ozlabs.org,
+        linux-omap@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+        Linux Memory Management List <linux-mm@kvack.org>
+Subject: [linux-next:master] BUILD REGRESSION
+ 5be860bfc73408bc1a8af9167955e480ecebba84
+Message-ID: <638a6539.qDMYj3a+alYfBmLi%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-References: <20221115121004.28197-1-quic_vboma@quicinc.com>
- <20221115121004.28197-2-quic_vboma@quicinc.com> <CANHAJhEH7qTjaVaMWk3MeuhYMnwt1qTUSKxAZ_XTfxPJObC=nQ@mail.gmail.com>
-In-Reply-To: <CANHAJhEH7qTjaVaMWk3MeuhYMnwt1qTUSKxAZ_XTfxPJObC=nQ@mail.gmail.com>
-From:   Nathan Hebert <nhebert@chromium.org>
-Date:   Fri, 2 Dec 2022 11:48:37 -0800
-Message-ID: <CANHAJhENA5ssFBBDeqfDyC8v_CwZhpiJC93B1HZnL4K+N3N35A@mail.gmail.com>
-Subject: Re: [PATCH 1/1] venus : Fix for H265 decoding failure.
-To:     quic_vboma@quicinc.com
-Cc:     Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Vikash Garodia <vgarodia@qti.qualcomm.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Dec 1, 2022 at 4:12 PM Nathan Hebert <nhebert@chromium.org> wrote:
->
-> On Tue, Nov 15, 2022 at 4:10 AM <quic_vboma@quicinc.com> wrote:
-> >
-> > From: Viswanath Boma <quic_vboma@quicinc.com>
-> >
-> > Aligned the mismatch of persist1 and scratch1 buffer calculation,
-> > as per the firmware requirements .
-> >
-> > Signed-off-by: Vikash Garodia <vgarodia@qti.qualcomm.com>
-> > Signed-off-by: Viswanath Boma <quic_vboma@quicinc.com>
-> > ---
-> >  drivers/media/platform/qcom/venus/hfi_plat_bufs_v6.c | 4 ++--
-> >  1 file changed, 2 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/drivers/media/platform/qcom/venus/hfi_plat_bufs_v6.c b/drivers/media/platform/qcom/venus/hfi_plat_bufs_v6.c
-> > index ea25c451222b..a9be31ec6927 100644
-> > --- a/drivers/media/platform/qcom/venus/hfi_plat_bufs_v6.c
-> > +++ b/drivers/media/platform/qcom/venus/hfi_plat_bufs_v6.c
-> > @@ -93,7 +93,7 @@
-> >  #define LCU_MIN_SIZE_PELS              16
-> >  #define SIZE_SEI_USERDATA              4096
-> >
-> > -#define H265D_MAX_SLICE                        600
-> > +#define H265D_MAX_SLICE                        3600
-> >  #define SIZE_H265D_HW_PIC_T            SIZE_H264D_HW_PIC_T
-> >  #define SIZE_H265D_BSE_CMD_PER_BUF     (16 * sizeof(u32))
-> >  #define SIZE_H265D_VPP_CMD_PER_BUF     256
-> > @@ -1021,7 +1021,7 @@ static u32 h264d_persist1_size(void)
-> >  static u32 h265d_persist1_size(void)
-> >  {
-> >         return ALIGN((SIZE_SLIST_BUF_H265 * NUM_SLIST_BUF_H265 + H265_NUM_TILE
-> > -                       * sizeof(u32)), HFI_DMA_ALIGNMENT);
-> > +                       * sizeof(u32) + NUM_HW_PIC_BUF * SIZE_SEI_USERDATA), HFI_DMA_ALIGNMENT);
-> >  }
-> >
-> >  static u32 vp8d_persist1_size(void)
-> > --
-> > 2.17.1
-> >
-> Hi Viswanath. I tested this patch on ChromiumOS's downstream
-> 5.15-based fork. Using ITU-T HEVC test vectors [0] I am seeing
-> firmware errors "qcom-venus-decoder aa00000.video-codec:video-decoder:
-> VenusMed : event not sufficient resources". Does this change fix HEVC
-> decoding for you?
->
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+branch HEAD: 5be860bfc73408bc1a8af9167955e480ecebba84  Add linux-next specific files for 20221202
 
-Hi Viswanath. Thanks for looking at the logs offline. I re-tested
-after adding Q08C (UBWC) support to my decoder client, and it fixed
-the error that I was seeing. My mistake. Each of the main profile test
-vectors now decodes correctly after applying your patch!
+Error/Warning reports:
 
-Tested-by: Nathan Hebert <nhebert@chromium.org>
+https://lore.kernel.org/oe-kbuild-all/202211041320.coq8EELJ-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202211090634.RyFKK0WS-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202211242120.MzZVGULn-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202211301840.y7rROb13-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202212021651.g6zTJJsz-lkp@intel.com
 
-> [0]: https://www.itu.int/wftp3/av-arch/jctvc-site/bitstream_exchange/draft_conformance/HEVC_v1/
->
-> Best regards,
-> Nathan Hebert
+Error/Warning: (recently discovered and may have been fixed)
+
+ERROR: modpost: "__ld_r13_to_r21_ret" [lib/zstd/zstd_decompress.ko] undefined!
+ERROR: modpost: "__st_r13_to_r21" [lib/zstd/zstd_decompress.ko] undefined!
+arch/arm/mach-s3c/devs.c:32:10: fatal error: linux/platform_data/dma-s3c24xx.h: No such file or directory
+arch/powerpc/kernel/kvm_emul.o: warning: objtool: kvm_template_end(): can't find starting instruction
+arch/powerpc/kernel/optprobes_head.o: warning: objtool: optprobe_template_end(): can't find starting instruction
+drivers/gpu/drm/amd/amdgpu/../display/dc/irq/dcn201/irq_service_dcn201.c:40:20: warning: no previous prototype for 'to_dal_irq_source_dcn201' [-Wmissing-prototypes]
+drivers/gpu/drm/nouveau/nvkm/engine/fifo/gf100.c:451:1: warning: no previous prototype for 'gf100_fifo_nonstall_block' [-Wmissing-prototypes]
+drivers/gpu/drm/nouveau/nvkm/engine/fifo/gf100.c:451:1: warning: no previous prototype for function 'gf100_fifo_nonstall_block' [-Wmissing-prototypes]
+drivers/gpu/drm/nouveau/nvkm/engine/fifo/runl.c:34:1: warning: no previous prototype for 'nvkm_engn_cgrp_get' [-Wmissing-prototypes]
+drivers/gpu/drm/nouveau/nvkm/engine/fifo/runl.c:34:1: warning: no previous prototype for function 'nvkm_engn_cgrp_get' [-Wmissing-prototypes]
+drivers/gpu/drm/nouveau/nvkm/engine/gr/tu102.c:210:1: warning: no previous prototype for 'tu102_gr_load' [-Wmissing-prototypes]
+drivers/gpu/drm/nouveau/nvkm/engine/gr/tu102.c:210:1: warning: no previous prototype for function 'tu102_gr_load' [-Wmissing-prototypes]
+drivers/gpu/drm/nouveau/nvkm/nvfw/acr.c:49:1: warning: no previous prototype for 'wpr_generic_header_dump' [-Wmissing-prototypes]
+drivers/gpu/drm/nouveau/nvkm/nvfw/acr.c:49:1: warning: no previous prototype for function 'wpr_generic_header_dump' [-Wmissing-prototypes]
+drivers/gpu/drm/nouveau/nvkm/subdev/acr/lsfw.c:221:21: warning: variable 'loc' set but not used [-Wunused-but-set-variable]
+drivers/regulator/tps65219-regulator.c:310:60: warning: parameter 'dev' set but not used [-Wunused-but-set-parameter]
+drivers/regulator/tps65219-regulator.c:370:26: warning: ordered comparison of pointer with integer zero [-Wextra]
+ld.lld: error: .btf.vmlinux.bin.o: unknown file type
+vmlinux.o: warning: objtool: __btrfs_map_block+0x1d77: unreachable instruction
+
+Unverified Error/Warning (likely false positive, please contact us if interested):
+
+drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_bridge.c:202:30: sparse: sparse: symbol 'sun6i_csi_bridge_subdev_ops' was not declared. Should it be static?
+drivers/misc/mei/client.c:1818:3: warning: Value stored to 'next_ext' is never read [clang-analyzer-deadcode.DeadStores]
+
+Error/Warning ids grouped by kconfigs:
+
+gcc_recent_errors
+|-- alpha-allyesconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-irq-dcn201-irq_service_dcn201.c:warning:no-previous-prototype-for-to_dal_irq_source_dcn201
+|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-gf100.c:warning:no-previous-prototype-for-gf100_fifo_nonstall_block
+|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-runl.c:warning:no-previous-prototype-for-nvkm_engn_cgrp_get
+|   |-- drivers-gpu-drm-nouveau-nvkm-engine-gr-tu102.c:warning:no-previous-prototype-for-tu102_gr_load
+|   |-- drivers-gpu-drm-nouveau-nvkm-nvfw-acr.c:warning:no-previous-prototype-for-wpr_generic_header_dump
+|   |-- drivers-gpu-drm-nouveau-nvkm-subdev-acr-lsfw.c:warning:variable-loc-set-but-not-used
+|   |-- drivers-regulator-tps65219-regulator.c:warning:ordered-comparison-of-pointer-with-integer-zero
+|   `-- drivers-regulator-tps65219-regulator.c:warning:parameter-dev-set-but-not-used
+|-- arc-allyesconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-irq-dcn201-irq_service_dcn201.c:warning:no-previous-prototype-for-to_dal_irq_source_dcn201
+|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-gf100.c:warning:no-previous-prototype-for-gf100_fifo_nonstall_block
+|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-runl.c:warning:no-previous-prototype-for-nvkm_engn_cgrp_get
+|   |-- drivers-gpu-drm-nouveau-nvkm-engine-gr-tu102.c:warning:no-previous-prototype-for-tu102_gr_load
+|   |-- drivers-gpu-drm-nouveau-nvkm-nvfw-acr.c:warning:no-previous-prototype-for-wpr_generic_header_dump
+|   |-- drivers-gpu-drm-nouveau-nvkm-subdev-acr-lsfw.c:warning:variable-loc-set-but-not-used
+|   |-- drivers-regulator-tps65219-regulator.c:warning:ordered-comparison-of-pointer-with-integer-zero
+|   `-- drivers-regulator-tps65219-regulator.c:warning:parameter-dev-set-but-not-used
+|-- arc-randconfig-r006-20221128
+|   |-- ERROR:__ld_r13_to_r21_ret-lib-zstd-zstd_decompress.ko-undefined
+|   `-- ERROR:__st_r13_to_r21-lib-zstd-zstd_decompress.ko-undefined
+|-- arc-randconfig-r043-20221201
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-irq-dcn201-irq_service_dcn201.c:warning:no-previous-prototype-for-to_dal_irq_source_dcn201
+|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-gf100.c:warning:no-previous-prototype-for-gf100_fifo_nonstall_block
+|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-runl.c:warning:no-previous-prototype-for-nvkm_engn_cgrp_get
+|   |-- drivers-gpu-drm-nouveau-nvkm-engine-gr-tu102.c:warning:no-previous-prototype-for-tu102_gr_load
+|   |-- drivers-gpu-drm-nouveau-nvkm-nvfw-acr.c:warning:no-previous-prototype-for-wpr_generic_header_dump
+|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-acr-lsfw.c:warning:variable-loc-set-but-not-used
+|-- arm-allyesconfig
+|   |-- arch-arm-mach-s3c-devs.c:fatal-error:linux-platform_data-dma-s3c24xx.h:No-such-file-or-directory
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-irq-dcn201-irq_service_dcn201.c:warning:no-previous-prototype-for-to_dal_irq_source_dcn201
+|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-gf100.c:warning:no-previous-prototype-for-gf100_fifo_nonstall_block
+|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-runl.c:warning:no-previous-prototype-for-nvkm_engn_cgrp_get
+|   |-- drivers-gpu-drm-nouveau-nvkm-engine-gr-tu102.c:warning:no-previous-prototype-for-tu102_gr_load
+|   |-- drivers-gpu-drm-nouveau-nvkm-nvfw-acr.c:warning:no-previous-prototype-for-wpr_generic_header_dump
+|   |-- drivers-gpu-drm-nouveau-nvkm-subdev-acr-lsfw.c:warning:variable-loc-set-but-not-used
+|   |-- drivers-regulator-tps65219-regulator.c:warning:ordered-comparison-of-pointer-with-integer-zero
+|   `-- drivers-regulator-tps65219-regulator.c:warning:parameter-dev-set-but-not-used
+|-- arm-defconfig
+|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-gf100.c:warning:no-previous-prototype-for-gf100_fifo_nonstall_block
+|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-runl.c:warning:no-previous-prototype-for-nvkm_engn_cgrp_get
+|   |-- drivers-gpu-drm-nouveau-nvkm-engine-gr-tu102.c:warning:no-previous-prototype-for-tu102_gr_load
+|   |-- drivers-gpu-drm-nouveau-nvkm-nvfw-acr.c:warning:no-previous-prototype-for-wpr_generic_header_dump
+|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-acr-lsfw.c:warning:variable-loc-set-but-not-used
+|-- arm-randconfig-s053-20221201
+|   `-- drivers-media-platform-sunxi-sun6i-csi-sun6i_csi_bridge.c:sparse:sparse:symbol-sun6i_csi_bridge_subdev_ops-was-not-declared.-Should-it-be-static
+|-- arm64-allyesconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-irq-dcn201-irq_service_dcn201.c:warning:no-previous-prototype-for-to_dal_irq_source_dcn201
+|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-gf100.c:warning:no-previous-prototype-for-gf100_fifo_nonstall_block
+|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-runl.c:warning:no-previous-prototype-for-nvkm_engn_cgrp_get
+clang_recent_errors
+|-- arm64-randconfig-r003-20221201
+|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-gf100.c:warning:no-previous-prototype-for-function-gf100_fifo_nonstall_block
+|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-runl.c:warning:no-previous-prototype-for-function-nvkm_engn_cgrp_get
+|   |-- drivers-gpu-drm-nouveau-nvkm-engine-gr-tu102.c:warning:no-previous-prototype-for-function-tu102_gr_load
+|   |-- drivers-gpu-drm-nouveau-nvkm-nvfw-acr.c:warning:no-previous-prototype-for-function-wpr_generic_header_dump
+|   `-- ld.lld:error:.btf.vmlinux.bin.o:unknown-file-type
+|-- x86_64-randconfig-a016
+|   `-- vmlinux.o:warning:objtool:handle_bug:call-to-kmsan_unpoison_entry_regs()-leaves-.noinstr.text-section
+`-- x86_64-randconfig-c007-20221128
+    `-- drivers-misc-mei-client.c:warning:Value-stored-to-next_ext-is-never-read-clang-analyzer-deadcode.DeadStores
+
+elapsed time: 922m
+
+configs tested: 59
+configs skipped: 2
+
+gcc tested configs:
+um                           x86_64_defconfig
+um                             i386_defconfig
+arc                                 defconfig
+alpha                               defconfig
+i386                          randconfig-a014
+s390                             allmodconfig
+i386                          randconfig-a012
+s390                                defconfig
+x86_64                           rhel-8.3-kvm
+x86_64                           rhel-8.3-syz
+i386                          randconfig-a016
+x86_64                              defconfig
+x86_64                         rhel-8.3-kunit
+x86_64                    rhel-8.3-kselftests
+x86_64                        randconfig-a004
+x86_64                          rhel-8.3-func
+x86_64                        randconfig-a002
+x86_64                               rhel-8.3
+x86_64                           allyesconfig
+x86_64                        randconfig-a013
+x86_64                        randconfig-a011
+x86_64                        randconfig-a006
+i386                                defconfig
+s390                             allyesconfig
+ia64                             allmodconfig
+x86_64                        randconfig-a015
+arm                                 defconfig
+powerpc                           allnoconfig
+arc                  randconfig-r043-20221201
+arm                              allyesconfig
+s390                 randconfig-r044-20221201
+i386                             allyesconfig
+arm64                            allyesconfig
+riscv                randconfig-r042-20221201
+i386                          randconfig-a003
+i386                          randconfig-a001
+i386                          randconfig-a005
+m68k                             allyesconfig
+m68k                             allmodconfig
+arc                              allyesconfig
+alpha                            allyesconfig
+sh                               allmodconfig
+mips                             allyesconfig
+powerpc                          allmodconfig
+
+clang tested configs:
+i386                          randconfig-a013
+i386                          randconfig-a011
+i386                          randconfig-a015
+x86_64                        randconfig-a001
+x86_64                        randconfig-a003
+x86_64                        randconfig-a012
+x86_64                        randconfig-a014
+x86_64                        randconfig-a005
+x86_64                        randconfig-a016
+hexagon              randconfig-r045-20221201
+hexagon              randconfig-r041-20221201
+i386                          randconfig-a002
+i386                          randconfig-a004
+i386                          randconfig-a006
+x86_64                          rhel-8.3-rust
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
