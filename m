@@ -2,149 +2,135 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9CC69640BA6
-	for <lists+linux-media@lfdr.de>; Fri,  2 Dec 2022 18:03:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D35D3640BC9
+	for <lists+linux-media@lfdr.de>; Fri,  2 Dec 2022 18:08:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234385AbiLBRD0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 2 Dec 2022 12:03:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35138 "EHLO
+        id S234218AbiLBRIi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 2 Dec 2022 12:08:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44884 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234283AbiLBRDJ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 2 Dec 2022 12:03:09 -0500
-Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com [IPv6:2a00:1450:4864:20::62b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F53FA80AD
-        for <linux-media@vger.kernel.org>; Fri,  2 Dec 2022 09:03:08 -0800 (PST)
-Received: by mail-ej1-x62b.google.com with SMTP id n21so12938107ejb.9
-        for <linux-media@vger.kernel.org>; Fri, 02 Dec 2022 09:03:08 -0800 (PST)
+        with ESMTP id S234021AbiLBRIe (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 2 Dec 2022 12:08:34 -0500
+Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com [IPv6:2a00:1450:4864:20::632])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73D1EC9349
+        for <linux-media@vger.kernel.org>; Fri,  2 Dec 2022 09:08:30 -0800 (PST)
+Received: by mail-ej1-x632.google.com with SMTP id gu23so12953003ejb.10
+        for <linux-media@vger.kernel.org>; Fri, 02 Dec 2022 09:08:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=/Z0mke9x4z8GIO16lOl+BgRgkcVeUrWg/yLKPpvbpk0=;
-        b=KRuFz2z0S00H+Jjqi+ULpUWR9oqEccGYNJsAXZkGZBhcf65dYLS+1T60tut2/084H9
-         yFv8Ka0pIlw9bYdvYfPfIwQnaIMHbWOkBl+Jq/ice6ApLUxFH2OyJayzcbyfsoSRShMP
-         mPkqZWZDlmcJ9vI5y6DfbmeuD9vPMDD0NZ0Ss=
+        h=cc:to:message-id:date:from:content-transfer-encoding:mime-version
+         :subject:from:to:cc:subject:date:message-id:reply-to;
+        bh=8e6/xEdGfO2q8PFDjOCWiWUmQhOjfRbND0AvATMyTXk=;
+        b=N/vF1ukPZIOeU+nn/grMVfizomwwC+fkYuIUsLLhdbDHhEaWqW378EIfTq0+FPWNeH
+         O3R8JqR+26HP5xyOkIsXOdVPmbdA21xFJQ2MXdHw65ihPH8ZXdB+DAcxT18Mo2cqB8PK
+         cgJBc6sjJQk1YQrQKDmwF3z9wlCJSa04bwLY0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=/Z0mke9x4z8GIO16lOl+BgRgkcVeUrWg/yLKPpvbpk0=;
-        b=eT0eSifYJ36G/RrUt9iwrU0fPV/QVsWQ40PSP3OfbORhLtUY6SmW4+adbOSt0wp8R+
-         65eDoPgE0zq2HGstqdfkg3L1lUgPuvRYp56La8hdf8hh2/Av3pbeZFVcAcfa+Wp5irx8
-         93adszqWYB2cFeSsTpJPPgD1+1+pjzWF34jNtRvIIL4q73aD9TP75q6cS3KlqX76IBfq
-         Tvat6sNG3Sq0tA6nFi12hM6noeLxm/g/MXgM2ok1qoE3mtVFdt74P6gQ45+YKC8oyGb7
-         UhrCdAr4JlKlKS6yScaBajMiNvlAjOoFah8RIz9dsmjpjgHREFg2n9rAjkCnC3LfYYF9
-         rncQ==
-X-Gm-Message-State: ANoB5pmIrM6lxmSImmqiDyw4trMP8fl8FtAOxKFK8WaepI7hjMUOwYsd
-        HtLS1yIa+HDnG5q9SW/AAKcNww==
-X-Google-Smtp-Source: AA0mqf4r6lyjL/nTXmoNE4mmFDtudjSLLgswHdy173L99fa3FCvYicPNl45W4w9oXR2zBxUxINOE7w==
-X-Received: by 2002:a17:906:706:b0:7ac:2e16:eb05 with SMTP id y6-20020a170906070600b007ac2e16eb05mr63176435ejb.26.1670000586670;
-        Fri, 02 Dec 2022 09:03:06 -0800 (PST)
+        h=cc:to:message-id:date:from:content-transfer-encoding:mime-version
+         :subject:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=8e6/xEdGfO2q8PFDjOCWiWUmQhOjfRbND0AvATMyTXk=;
+        b=UpcKCk0NtIXa6zrjSlCWTw6Krfrw9gv1me0x9NtQ4eFf75l8VFHdv78gz5yvIgFvUx
+         hpT2bVH5aRXWnJm8hiw7GFytKB3L2Ea5MXICOE+qA8m2jHyssaz6poe1CEm8JAHZvKLv
+         RywHcdCAPYurBbYWpgzuxOPS13H4J4eIiMxDkFPv6XUCsbzZ60LdjWoLYVzR7C5PPJr5
+         AZjVz7mhZQ42Og4ooad+rDWa7OGucK6Ki53Za3tU78mru3BmF2mhd5S33cUilul/Bksr
+         k8d8myTuvPe5d0lThkteZFmlpdYejMuxK3cIqzatA6C1FhlnrJUBbvQWW53Z2YYYG9zo
+         DpKw==
+X-Gm-Message-State: ANoB5pmcTv2HI4BSi+sksS6mcPseuwbyMEqHvCl/Tfa6x/qCt1LXe6pg
+        FTj7QTSt2JmePGUfQaZ88jhqHg==
+X-Google-Smtp-Source: AA0mqf4Ipyre/1uHT4giSVABOVaYnQh3XWF9QR5AhAZQ8wgv36NZJ1zZtLaCA0FK1qma2Jyxo0RiYQ==
+X-Received: by 2002:a17:906:a0d9:b0:78d:b912:6a6c with SMTP id bh25-20020a170906a0d900b0078db9126a6cmr62026281ejb.124.1670000908639;
+        Fri, 02 Dec 2022 09:08:28 -0800 (PST)
 Received: from alco.roam.corp.google.com (80.71.134.83.ipv4.parknet.dk. [80.71.134.83])
-        by smtp.gmail.com with ESMTPSA id sa22-20020a170906edb600b0073d7ab84375sm3249133ejb.92.2022.12.02.09.03.05
+        by smtp.gmail.com with ESMTPSA id p23-20020aa7d317000000b00461cdda400esm3168080edq.4.2022.12.02.09.08.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 02 Dec 2022 09:03:06 -0800 (PST)
-From:   Ricardo Ribalda <ribalda@chromium.org>
-Date:   Fri, 02 Dec 2022 18:02:48 +0100
-Subject: [PATCH RESEND v2 8/8] media: uvcvideo: Fix hw timestampt handling for
- slow FPS
+        Fri, 02 Dec 2022 09:08:28 -0800 (PST)
+Subject: [PATCH v4 0/3] Add Meta: to Metadata devices
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20220920-resend-hwtimestamp-v2-8-0d7978a817cc@chromium.org>
-References: <20220920-resend-hwtimestamp-v2-0-0d7978a817cc@chromium.org>
-In-Reply-To: <20220920-resend-hwtimestamp-v2-0-0d7978a817cc@chromium.org>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     "hn.chen" <hn.chen@sunplusit.com>, linux-media@vger.kernel.org,
-        Ricardo Ribalda <ribalda@chromium.org>,
-        linux-kernel@vger.kernel.org
+X-B4-Tracking: v=1; b=H4sIAAAximMC/22NwQqDMBBEf0X23C1r1EN76n+UHmJcTUAT2GigSP
+ 692557GubBvDkhswTOcG9OEC4hhxS19JcGnLdxYQyTdjBkDN0MoXDmOOHGu8W+G1xHX94NoIvRZs
+ ZRbHReN/FYV4U+5D3J+/dQWo3nf1lpkXCa3Txa9RnqH85L2sKxXZMs8Kq1fgBwy4oargAAAA==
+From:   Ricardo Ribalda <ribalda@chromium.org>
+Date:   Fri, 02 Dec 2022 18:08:16 +0100
+Message-Id: <20220920-resend-meta-v4-0-3ac355b66723@chromium.org>
+To:     Yunke Cao <yunkec@chromium.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Sergey Senozhatsky <senozhatsky@chromium.org>
+Cc:     linux-media@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        linux-kernel@vger.kernel.org,
+        Ricardo Ribalda <ribalda@chromium.org>
 X-Mailer: b4 0.11.0-dev-696ae
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2142; i=ribalda@chromium.org;
- h=from:subject:message-id; bh=ZqBE4dWRk0InSyAxEr/auCSM1bp+38IChW6qVFv0hng=;
- b=owEBbQKS/ZANAwAKAdE30T7POsSIAcsmYgBjii/Bd0vLNfrMM135jh9PhB+8ydixKJHN5VNmGQ1w
- 6MdQC8WJAjMEAAEKAB0WIQREDzjr+/4oCDLSsx7RN9E+zzrEiAUCY4ovwQAKCRDRN9E+zzrEiGdGD/
- 9DoAVTWVQznsEgzOwpYpRyWMCIQBxtwlwKzaq1BnTIWye0goRJf5CjrA9bRJu+Z6+rx/+lp/RTMufc
- MVg5aMuukcsBzqLmyag5x0oDtpufG/8q8n2V/I+eejUQIFhJ/WgRBeRArQaT9Ib0AKH9ZXcZt/uMTa
- yGrm+vuxIPwgV1SuSPB5rIxtxwyUAfiq7qlxJArP79mrahtKd78OmPqqKX5q0h64kJzurNStsVKwbw
- qigdhxx3mcd8ABG20FwkR2+uV72DJqtQxmTcFtiNkThYx9dAVGxnF+hi70ALb9Dt0KpiB+eXme+mzQ
- xpLSqnfBKJ0kUOikWg+horEpNYRqVMGp5DWgZ6Z0FDz6JfeDzu5/MbrQwUfr8MocQajT2SS5/+S7OI
- PHexHL/gL++hSerdMcUMIX0G3RxG+sAJHjcA6G97N0Qinm/yb6WuYKEDAp/PtldnBNrbFCe9aCEIbJ
- UmRo+SfzDzWrRpf1gxmME/bl68ZyQzBIiZMhajxdBi7VazfWPFNfmNcOKR/94iaIn/S1wmMpFCZUZK
- TG3CY6KD/rbVr64gJDE/XQMagdmzJFdtwG2F0SGjMp621qyhW6nIA3ZFpAhJreZkPAdoKlHaet+tAm
- XP6RlzuWoO5Ab/c4qButbsLioCEdGQd1KqvgIlt3Z0r9bJEbSeajw8QWfEmg==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1479; i=ribalda@chromium.org;
+ h=from:subject:message-id; bh=LW+YCLH6/51gvCjG3C+b0rUFF/hKAINhoJrPn2BRST8=;
+ b=owEBbQKS/ZANAwAKAdE30T7POsSIAcsmYgBjijEEfGkkfeYEtkDGFVlGPk2dZS0LOIYaDm1KKYSB
+ zfA8WuSJAjMEAAEKAB0WIQREDzjr+/4oCDLSsx7RN9E+zzrEiAUCY4oxBAAKCRDRN9E+zzrEiB+cEA
+ CVIAwH1oJV8K/bHdwKL/obk2QagHri47Aq0xk/MYxwpYsY4nJryLoFRLB2m6voNiNfry8kaAGWFVTP
+ srpMEy4FOJVS6Mz+MdjTNim/g/AWcYnniSfm3exWztdOkkglfAEAh9uZ0cdNOHPQ/27kNgDrF3DSuB
+ o6p7o3BVjOtuW2jTdAdD6R+2UK2alVlTu3JSK3WcbKgb323N4QfP6vLZw2eCbYcrruyTrJ8izWRo15
+ r6HTkWfsuqbCwACePalicT7h/uyD8Fyl9mC4HK6Aut8RJno2dMaiSB9UKY+XnxE/PBhYoGX/Jz2n7r
+ y6AylHE/AGNuX+DWvn8i/FcjsyXny3kuYg9KjVXXyec7CuJ9thl5gcJCHLbyDjp4X190YmVlbyFg+C
+ +KFrtyTtU/XI74kCrnb+2GL6pp5I1oXJOftfqLApj96vaIWNhblUpbRYtAEk8BUM3ZG1ou3YR6D+gr
+ YY96jKHTJeiVnnkoQq0NS9AdSpqkLUE8ThHPOc3Pr3zktPEFKqpxSoj0oKTH5HZ+GzVv0ZcC1CSl4A
+ CfyMu4IzWpF74svrWtiKysQPqhUl+9N4e6ASlZfrxzaldWxoA76iw7ypTYU7uiVgQUEEOPcc3mXl4y
+ ecQJe0Zhm/eaG0dcEYJvR8r4vYXAoPDb3pZFnAFlNQLE8wBzEQem/lE4ldEA==
 X-Developer-Key: i=ribalda@chromium.org; a=openpgp;
  fpr=9EC3BB66E2FC129A6F90B39556A0D81F9F782DA9
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-In UVC 1.5, when working with FPS under 32, there is a chance that the
-circular buffer contains two dev_sof overflows, but the clock interpolator
-is only capable of handle a single overflow.
+Metadata devices usually companion "real" devices. In order to
+distinguish them properly, add the Meta: prefix to their names.
 
-Remove all the samples from the circular buffer that are two overflows
-old.
+Also, add a unique suffix to all the uvc devices, to multisensor cameras
+do not show the same names for all their devices (IR, RBG....).
 
-Tested-by: HungNien Chen <hn.chen@sunplusit.com>
+v4:
+- Rebase to latest master
+
+v3:
+
+- Add the meta logic to the core
+
+v2: uvc: Restore old vdev name
+
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Yunke Cao <yunkec@chromium.org>
+To: Sergey Senozhatsky <senozhatsky@chromium.org>
+Cc: linux-media@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+
 ---
- drivers/media/usb/uvc/uvc_video.c | 15 +++++++++++++++
- drivers/media/usb/uvc/uvcvideo.h  |  1 +
- 2 files changed, 16 insertions(+)
+Changes in v4:
+- Link to v3: https://lore.kernel.org/r/20220920-resend-meta-v1-0-dfcfba923204@chromium.org
 
-diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
-index c81a8362d582..6b6bd521d6c2 100644
---- a/drivers/media/usb/uvc/uvc_video.c
-+++ b/drivers/media/usb/uvc/uvc_video.c
-@@ -471,6 +471,20 @@ static void uvc_video_clock_add_sample(struct uvc_clock *clock,
- 
- 	spin_lock_irqsave(&clock->lock, flags);
- 
-+	/* Delete last overflows */
-+	if (clock->head == clock->last_sof_overflow)
-+		clock->last_sof_overflow = -1;
-+
-+	/* Handle overflows */
-+	if (clock->count > 0 && clock->last_sof > sample->dev_sof) {
-+		/* Remove data from the last^2 overflows */
-+		if (clock->last_sof_overflow != -1)
-+			clock->count = (clock->head - clock->last_sof_overflow)
-+								% clock->count;
-+		clock->last_sof_overflow = clock->head;
-+	}
-+
-+	/* Add sample */
- 	memcpy(&clock->samples[clock->head], sample, sizeof(*sample));
- 	clock->last_sof = sample->dev_sof;
- 	clock->head = (clock->head + 1) % clock->size;
-@@ -594,6 +608,7 @@ static void uvc_video_clock_reset(struct uvc_clock *clock)
- 	clock->head = 0;
- 	clock->count = 0;
- 	clock->last_sof = -1;
-+	clock->last_sof_overflow = -1;
- 	clock->sof_offset = -1;
- }
- 
-diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-index 14daa7111953..d8c520ce5a86 100644
---- a/drivers/media/usb/uvc/uvcvideo.h
-+++ b/drivers/media/usb/uvc/uvcvideo.h
-@@ -647,6 +647,7 @@ struct uvc_streaming {
- 		unsigned int head;
- 		unsigned int count;
- 		unsigned int size;
-+		unsigned int last_sof_overflow;
- 
- 		u16 last_sof;
- 		u16 sof_offset;
+---
+Ricardo Ribalda (3):
+      media: v4l2-dev.c: Add Meta: to the name of metadata devices
+      media: Documentation/driver-api: Document device name
+      media: uvcvideo: Add a unique suffix to camera names
 
+ Documentation/driver-api/media/v4l2-dev.rst | 4 +++-
+ drivers/media/usb/uvc/uvc_driver.c          | 3 ++-
+ drivers/media/v4l2-core/v4l2-dev.c          | 9 +++++++++
+ 3 files changed, 14 insertions(+), 2 deletions(-)
+---
+base-commit: a4412fdd49dc011bcc2c0d81ac4cab7457092650
+change-id: 20220920-resend-meta-435c30209235
+
+Best regards,
 -- 
-2.39.0.rc0.267.gcb52ba06e7-goog-b4-0.11.0-dev-696ae
+Ricardo Ribalda <ribalda@chromium.org>
