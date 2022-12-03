@@ -2,75 +2,47 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 18E4F641718
-	for <lists+linux-media@lfdr.de>; Sat,  3 Dec 2022 14:41:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E04F0641932
+	for <lists+linux-media@lfdr.de>; Sat,  3 Dec 2022 22:19:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229642AbiLCNlr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 3 Dec 2022 08:41:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37250 "EHLO
+        id S229829AbiLCVTz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 3 Dec 2022 16:19:55 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58612 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229555AbiLCNlq (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 3 Dec 2022 08:41:46 -0500
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.135])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB1621E3D9;
-        Sat,  3 Dec 2022 05:41:44 -0800 (PST)
-Received: from [192.168.1.139] ([37.4.248.27]) by mrelayeu.kundenserver.de
- (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis) id
- 1N1M4p-1opkaL1MEt-012sgU; Sat, 03 Dec 2022 14:41:26 +0100
-Message-ID: <79cf6cc0-d071-f834-1db9-cb5411c1f356@i2se.com>
-Date:   Sat, 3 Dec 2022 14:41:25 +0100
+        with ESMTP id S229553AbiLCVTy (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 3 Dec 2022 16:19:54 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA1CA1A045;
+        Sat,  3 Dec 2022 13:19:51 -0800 (PST)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 25015993;
+        Sat,  3 Dec 2022 22:19:48 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1670102388;
+        bh=yHBsOSabMP2XgkrW1b/HXYHFtuusFMyBeyDXneX7sBY=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=wo7II+j8xa56y4NTOqKF45evxDLgpE5x51wNYgtED5LGs4jE6vtkTiezn8+TdPYx2
+         jsLfAWlej4TXXFUvHQqx0crblHStxKi1ZmbAp9viyU09MFeTuC00j+AecNAcf6GfX0
+         e0YPNjBXKbZi1tLYyJSgr7tCcSWu+mmeJj90AEwg=
+Date:   Sat, 3 Dec 2022 23:19:46 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Michael Grzeschik <m.grzeschik@pengutronix.de>
+Cc:     linux-usb@vger.kernel.org, linux-media@vger.kernel.org,
+        balbi@kernel.org, paul.elder@ideasonboard.com,
+        kernel@pengutronix.de, nicolas@ndufresne.ca,
+        kieran.bingham@ideasonboard.com,
+        Daniel Scally <dan.scally@ideasonboard.com>
+Subject: Re: [PATCH v2 2/4] media: uvcvideo: move uvc_format_desc to common
+ header
+Message-ID: <Y4u9cg8sEgfIn1Ou@pendragon.ideasonboard.com>
+References: <20220909221335.15033-1-m.grzeschik@pengutronix.de>
+ <20220909221335.15033-3-m.grzeschik@pengutronix.de>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH 00/14] staging: vc04_services: bcm2835-isp support
-To:     Dave Stevenson <dave.stevenson@raspberrypi.com>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Umang Jain <umang.jain@ideasonboard.com>,
-        linux-media@vger.kernel.org, kernel-list@raspberrypi.com,
-        linux-kernel@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-staging@lists.linux.dev,
-        Broadcom internal kernel review list 
-        <bcm-kernel-feedback-list@broadcom.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Naushir Patuck <naush@raspberrypi.com>,
-        David Plowman <david.plowman@raspberrypi.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>
-References: <20221121214722.22563-1-umang.jain@ideasonboard.com>
- <fc2fb888-7742-123c-69c9-cdb156ff2d9f@i2se.com>
- <a56d7687-ee44-629c-1a9d-fa34e65e847f@ideasonboard.com>
- <bb16004f-8d5b-5794-8445-aa7e1a758ffa@i2se.com>
- <c73f7261-ec33-ec88-df3e-a34cf9b8015c@ideasonboard.com>
- <0f683076-43e6-3f65-e5e1-052059ce7c86@i2se.com>
- <910dbd8f-85f2-4979-49ee-6d760e89af84@ideasonboard.com>
- <Y4nCnEwqs69QezPn@pendragon.ideasonboard.com>
- <CAPY8ntAK9yh6ZQkuOrZqUn2GC2=qGaJrcxEjWyGep7KcWvxkhQ@mail.gmail.com>
- <845957f9-46fc-d264-977e-7c3339c4d5c9@i2se.com>
- <CAPY8ntARd+1abU2=5=k4EQOhK+LnHoD7zZk5NzhiQ9_BvxM8Qw@mail.gmail.com>
-Content-Language: en-US
-From:   Stefan Wahren <stefan.wahren@i2se.com>
-In-Reply-To: <CAPY8ntARd+1abU2=5=k4EQOhK+LnHoD7zZk5NzhiQ9_BvxM8Qw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Provags-ID: V03:K1:1P1hi8oTM1z1QCUi+vX/pW+tHMwYLkheomEY85EGIOqoC0DRO0H
- B2fxY9wRa6CYsPX8yHIH+1/5D7IvTNfdiItGiNJDfQp/BPTvWCAORa4prflWzBll1uZOcBa
- bvVsnQPQl1vnPdpGALNwBL7w3GKy8TSudMEE7ou9aw6rNwRGbg+8jO4lhpWbKbd9Gudyrna
- suGuzAfmDWvB3oZHjranw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:PMwMbJB28vg=:WMU6t0ruYaZ4pMTdRJRFpz
- eTzA2D0t+1Aw8BxcsYdlut0DNBGNSBm/110bL6TjVtm4shxocJeURpy65jscb5lzsoTvXmFua
- ndr/EK0HzIe7iucILgouLW46ZztGXb5RobNwiZGCPfrDGqDOvrr2zz9FQKhg/8E6xaVQpTopd
- HaE8UmXIqA6tJgq5FxWKiaMjPWMf4UujsE13AgN/aSfIT1N/KYPEFRU8ckrZPM/EtKMx1zR9Q
- eHIDuecYaTd3S0BF5zZ/yZ2ma0jlX8VMjbBC02ncR1Cwmcg9gytBPpqCqL+X6mGoGqEm8VqtF
- KhZsBKxNUwyBbGMoDoGP6PkTMFTpQPTeLp4LaGamoNHyGFKklQTdyTlv+epmsetf6oQcVekG8
- cSUdDXepLOqXXGCYYD2ZcsT1SRQihSJLxOwnprsZ1LU4UC2HVvXBPTNmXTxD9yS14ySK9cMdm
- mNrllHNRe1hrY/0oDz6Vpt2g5x9NHdnB111x/bxaFZ4+z4rUKxAbw6RAfoOaqtW9+ZB1XBjDD
- yUNFVdN7dnndBdyU/uTsRV3PnsigWUbnc/OC0vyfLrvIjgLbi65oAeWU7hMrUo6TrqN+Kc/9N
- 8AVmIAPfb5WcPHEsSRGjwXKz3K/XMgSdzRASIHIXfBu5P6BtViGlPdnlaUCxyJCJvaxvq6J9r
- +2yukhHA5wXEnk/T2jen/yFFvDxd29/pp8eMI2kKWHnmVGlkkgPd53lPD8jd5Jjm9LknIxa8c
- vUZ1g5+t+4EzvmobqlA1x6YZzE3cn//gb0+SVZVMy5lR13w0MOHHFqoaIxC2ewbpLLSCHWCWY
- NNlW79lYtnMxwIh6lqpAil1O9YXZA==
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20220909221335.15033-3-m.grzeschik@pengutronix.de>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -78,237 +50,814 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Dave,
+Hi Michael,
 
-Am 02.12.22 um 14:42 schrieb Dave Stevenson:
-> Hi Stefan
->
-> On Fri, 2 Dec 2022 at 12:41, Stefan Wahren <stefan.wahren@i2se.com> wrote:
->> Hi Dave,
->>
->> Am 02.12.22 um 12:23 schrieb Dave Stevenson:
->>> Hi Laurent, Umang, and Stefan.
->>>
->>> On Fri, 2 Dec 2022 at 09:17, Laurent Pinchart
->>> <laurent.pinchart@ideasonboard.com> wrote:
->>>> Hi Umang,
->>>>
->>>> On Fri, Dec 02, 2022 at 11:57:18AM +0800, Umang Jain wrote:
->>>>> On 12/2/22 6:45 AM, Stefan Wahren wrote:
->>>>>> Am 30.11.22 um 11:58 schrieb Umang Jain:
->>>>>>> On 11/27/22 6:56 AM, Stefan Wahren wrote:
->>>>>>>> Am 26.11.22 um 17:26 schrieb Umang Jain:
->>>>>>>>> On 11/26/22 8:12 PM, Stefan Wahren wrote:
->>>>>>>>>> Am 21.11.22 um 22:47 schrieb Umang Jain:
->>>>>>>>>>> This series aims to upport bcm2835-isp from the RPi kernel [1] and is a
->>>>>>>>>>> independent subset of earlier series [2] posted to upport CSI-2/CCP2
->>>>>>>>>>> receiver IP core("Unicam) + the ISP driver found in BCM283x and compatible
->>>>>>>>>>> SoCs (namely BCM2711). Unicam is still under active development to work
->>>>>>>>>>> with multistream support to get into mainline. Hence only the ISP driver
->>>>>>>>>>> will remain the primary area of this series.
->>>>>>>>>> thanks for working on this. But honestly i would prefer that vchiq
->>>>>>>>>> comes out of staging before adding more features. As Greg said
->>>>>>>>>> some time ago staging is not a place to "dump code and run away".
->>>>>>>>>> These new files are in the same bad shape as the rest of vc04
->>>>>>>>>> before the clean-up here in staging started.
->>>>>>>>> Certainly, I am not here to do that - but I am still learning the ropes.
->>>>>>>> no problem.
->>>>>>>>
->>>>>>>>> If the staging issue is becoming a blocker for bcm2835-isp going
->>>>>>>>> upstream, I would be happy to help here! Though I must mention that
->>>>>>>>> I still have limited visibility so my aim would be to chart out a
->>>>>>>>> plan of things needed to be done to get vc04_services out of staging!
->>>>>>>> The vchiq driver is in staging since 2016, so every step forwards is
->>>>>>>> good. Unfortunately all of the low hanging fruits has been gathered.
->>>>>>>>
->>>>>>>> For me the most important, but not to tricky steps to get vchiq out
->>>>>>>> of staging would be:
->>>>>>>>
->>>>>>>> * Cleanup logging mechanism
->>>>>>>>
->>>>>>>> * Get rid of custom function return values
->>>>>>>>
->>>>>>>> There was already an attempt for this [1]
->>>>>>>>
->>>>>>>> * Get rid of all non essential global structures and create a proper per
->>>>>>>> device structure
->>>>>>>>
->>>>>>>>>> I agree that VCSM is on the TODO list for vchiq, but this driver
->>>>>>>>>> is not necessary for making bcm2835-audio & bcm2835-camera leave
->>>>>>>>>> staging. It just binds more resources on a new feature.
->>>>>>> bcm2835-camera is the legacy camera stack which probably need to be
->>>>>>> dropped from hereon...
->>>>>> I don't not know if there any users left, so i would be careful here.
->>>>>> Can bcm2835-isp completely replace bcm2835-camera? Sorry, for this
->>>>>> dumb question but i'm not expert here.
->>>>> I am careful too here and probably need Input from RaspberryPi in order
->>>>> to proceed to drop it. But from my perspective - bcm2835-camera is _not_
->>>>> going out of staging - it'll either sit here (or probably dropped) as
->>>>> statied from [1]
->>>>>
->>>>> ```
->>>>> + * There are two camera drivers in the kernel for BCM283x - this one
->>>>> + * and bcm2835-camera (currently in staging).
->>>>> ```
->>>>>
->>>>> The bcm2835-camera is meant to be replaced by unicam [1] , but the ISP
->>>>> (bcm2835-isp) is meant to be worked with unicam [1]. In fact, I have
->>>>> mentioned in my cover the testing of bcm2835-isp happened on top of
->>>>> unicam patches.
->>>> To be accurate, the bcm2835-camera driver supports the VC4
->>>> firmware-based camera stack. In that setup, the camera sensors (OV5647
->>>> or IMX219), CSI-2 receiver (Unicam) and ISP are all controlled by the
->>>> firmware, which provides a high-level interface towards the kernel. This
->>>> architecture has been replaced by Linux-side control of the camera
->>>> sensors (through existing drivers in drivers/media/i2c/), Unicam
->>>> (through the driver from [1]) and ISP (through this driver). Moving
->>>> control to the Linux side requires complex processing in userspace,
->>>> handled by libcamera.
->>>>
->>>> bcm2835-camera is thus replaced by multiple drivers combined with
->>>> libcamera, and that is the camera stack that is shipped by Raspberry Pi
->>>> these days. While this may affect some userspace use cases), we will not
->>>> work on destaging bcm2835-camera, and as far as I'm aware, nobody else
->>>> is planning to do so either. I don't mind much if the driver stays in
->>>> staging for some more time, but I'd rather drop it if possible.
->> Thanks for clarification. Okay, so Unicam + bcm2835-isp are able to
->> handle the old camera (OV5647)?
-> There are kernel drivers in mainline for ov5647 (v1) and imx219 (v2)
-> cameras, with imx477 (HQ camera) due to be done. Connected to
-> bcm2835-unicam that gives you raw images from these sensors.
->
-> However you have to use libcamera to get useful images with these
-> drivers - raw Bayer isn't easy to consume.
-> Libcamera has support for all three (and more) sensors in the RPi IPA
-> (image processing algorithms), and will make use of bcm2835-isp to
-> process the images appropriately.
->
->>> It would be reasonable to drop it at the point that Libcamera can work
->>> to a similar level with at least the following list of applications:
->>> - FFmpeg
->>> - Gstreamer
->>> - Chromium
->>> - Firefox
->>> - Motion
->>> And that still leaves a huge number of existing V4L2 apps out in the cold.
->>>
->>> Do you wish to make any predictions as to when that would be
->>> achievable? Or even when a v1.0 release of libcamera is going to
->>> happen?
->>> Dropping anything prior to those points would be rather premature in my book.
->>>
->>>
->>> The TODOs on bcm2835-camera are:
->>> 1) Zero copy. That comes almost for free as bcm2835-isp already does
->>> this, but it does rely on vcsm-cma.
->>> The main reason I haven't pushed it is that it then requires
->>> reasonable amounts of CMA heap for all the buffers, which until
->>> recently haven't been present in the default configurations. With the
->>> vc4 DRM driver now being default (at least for the vendor kernel) and
->>> also requiring CMA, making the change makes more sense.
->>> AFAIK there is no easy way to have one driver choosing between using
->>> vb2_vmalloc_memops and vb2_dma_contig_memops at runtime, but I may be
->>> wrong.
->>> Actually bcm2835_defconfig appears to only allocate a 32MB CMA heap,
->>> so perhaps we don't get very far.
->> CMA configuration should actually happen in device tree or kernel
->> cmdline. The bcm2835_defconfig is limited to make it work even with the
->> original Pi.
-> It's the original 256MB Pis that are the issue as memory is so tight.
-> Losing a bigger chunk to CMA is a problem there.
->
-> I see that bcm283x.dtsi sets it to 64MB, which is probably sufficient
-> for most bcm2835-camera use cases, but leaves me worried that you'll
-> steal it from other things.
->
->>> 2) This isn't workable within the current V4L2 frameworks. The
->>> multi-planar V4L2 pixel formats are currently allocated as independent
->>> buffers for each plane, whereas the firmware needs a single buffer
->>> with (currently) specific offsets for the chroma planes. The
->>> V4L2/videobuf2 core changes required to implement that are going to be
->>> significant, and have minimal gain.
->>> The specific stride handling is already dealt with (set bytesperline
->>> appropriately), it's the padding of the height to a multiple of 16
->>> before the chroma planes on YUV420 and NV12 formats that require the
->>> firmware to do a small amount of repacking. The performance hit is
->>> actually minimal anyway.
->>>
->>> If bcm2835-camera is the only thing holding back vc04_services, then I
->>> can have a look at it.
->> No, it's the vchiq interface which needs the work.
-> OK, I'll liaise with Umang and may look to deal with a couple of them.
-> Things like documenting the memory barriers probably falls to Phil.
+I've just realized that this patch got merged. There's an issue, please
+see below.
 
-actually this item is already done. I missed to update the TODO file and 
-send a patch soon.
+On Sat, Sep 10, 2022 at 12:13:33AM +0200, Michael Grzeschik wrote:
+> The uvc_format_desc, GUID defines and the uvc_format_by_guid helper is
+> also useful for the uvc gadget stack. This patch moves them to a common
+> header.
+> 
+> Reviewed-by: Daniel Scally <dan.scally@ideasonboard.com>
+> Tested-by: Daniel Scally <dan.scally@ideasonboard.com>
+> Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
+> 
+> ---
+> v13 -> v1:
+>     - added Reviewed-by and Tested-by from Dan
+>     - moved to this smaller patch series
+> v1 -> v2:
+>     -
+> 
+>  drivers/media/usb/uvc/uvc_ctrl.c   |   1 +
+>  drivers/media/usb/uvc/uvc_driver.c | 206 +----------------
+>  drivers/media/usb/uvc/uvcvideo.h   | 144 ------------
+>  include/media/v4l2-uvc.h           | 359 +++++++++++++++++++++++++++++
+>  4 files changed, 361 insertions(+), 349 deletions(-)
+>  create mode 100644 include/media/v4l2-uvc.h
+> 
+> diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
+> index 8c208db9600b46..b8a00a51679f6d 100644
+> --- a/drivers/media/usb/uvc/uvc_ctrl.c
+> +++ b/drivers/media/usb/uvc/uvc_ctrl.c
+> @@ -18,6 +18,7 @@
+>  #include <linux/workqueue.h>
+>  #include <linux/atomic.h>
+>  #include <media/v4l2-ctrls.h>
+> +#include <media/v4l2-uvc.h>
+>  
+>  #include "uvcvideo.h"
+>  
+> diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+> index 0f14dee4b6d794..2891bc9d319280 100644
+> --- a/drivers/media/usb/uvc/uvc_driver.c
+> +++ b/drivers/media/usb/uvc/uvc_driver.c
+> @@ -20,6 +20,7 @@
+>  
+>  #include <media/v4l2-common.h>
+>  #include <media/v4l2-ioctl.h>
+> +#include <media/v4l2-uvc.h>
+>  
+>  #include "uvcvideo.h"
+>  
+> @@ -34,198 +35,6 @@ static unsigned int uvc_quirks_param = -1;
+>  unsigned int uvc_dbg_param;
+>  unsigned int uvc_timeout_param = UVC_CTRL_STREAMING_TIMEOUT;
+>  
+> -/* ------------------------------------------------------------------------
+> - * Video formats
+> - */
+> -
+> -static struct uvc_format_desc uvc_fmts[] = {
+> -	{
+> -		.name		= "YUV 4:2:2 (YUYV)",
+> -		.guid		= UVC_GUID_FORMAT_YUY2,
+> -		.fcc		= V4L2_PIX_FMT_YUYV,
+> -	},
+> -	{
+> -		.name		= "YUV 4:2:2 (YUYV)",
+> -		.guid		= UVC_GUID_FORMAT_YUY2_ISIGHT,
+> -		.fcc		= V4L2_PIX_FMT_YUYV,
+> -	},
+> -	{
+> -		.name		= "YUV 4:2:0 (NV12)",
+> -		.guid		= UVC_GUID_FORMAT_NV12,
+> -		.fcc		= V4L2_PIX_FMT_NV12,
+> -	},
+> -	{
+> -		.name		= "MJPEG",
+> -		.guid		= UVC_GUID_FORMAT_MJPEG,
+> -		.fcc		= V4L2_PIX_FMT_MJPEG,
+> -	},
+> -	{
+> -		.name		= "YVU 4:2:0 (YV12)",
+> -		.guid		= UVC_GUID_FORMAT_YV12,
+> -		.fcc		= V4L2_PIX_FMT_YVU420,
+> -	},
+> -	{
+> -		.name		= "YUV 4:2:0 (I420)",
+> -		.guid		= UVC_GUID_FORMAT_I420,
+> -		.fcc		= V4L2_PIX_FMT_YUV420,
+> -	},
+> -	{
+> -		.name		= "YUV 4:2:0 (M420)",
+> -		.guid		= UVC_GUID_FORMAT_M420,
+> -		.fcc		= V4L2_PIX_FMT_M420,
+> -	},
+> -	{
+> -		.name		= "YUV 4:2:2 (UYVY)",
+> -		.guid		= UVC_GUID_FORMAT_UYVY,
+> -		.fcc		= V4L2_PIX_FMT_UYVY,
+> -	},
+> -	{
+> -		.name		= "Greyscale 8-bit (Y800)",
+> -		.guid		= UVC_GUID_FORMAT_Y800,
+> -		.fcc		= V4L2_PIX_FMT_GREY,
+> -	},
+> -	{
+> -		.name		= "Greyscale 8-bit (Y8  )",
+> -		.guid		= UVC_GUID_FORMAT_Y8,
+> -		.fcc		= V4L2_PIX_FMT_GREY,
+> -	},
+> -	{
+> -		.name		= "Greyscale 8-bit (D3DFMT_L8)",
+> -		.guid		= UVC_GUID_FORMAT_D3DFMT_L8,
+> -		.fcc		= V4L2_PIX_FMT_GREY,
+> -	},
+> -	{
+> -		.name		= "IR 8-bit (L8_IR)",
+> -		.guid		= UVC_GUID_FORMAT_KSMEDIA_L8_IR,
+> -		.fcc		= V4L2_PIX_FMT_GREY,
+> -	},
+> -	{
+> -		.name		= "Greyscale 10-bit (Y10 )",
+> -		.guid		= UVC_GUID_FORMAT_Y10,
+> -		.fcc		= V4L2_PIX_FMT_Y10,
+> -	},
+> -	{
+> -		.name		= "Greyscale 12-bit (Y12 )",
+> -		.guid		= UVC_GUID_FORMAT_Y12,
+> -		.fcc		= V4L2_PIX_FMT_Y12,
+> -	},
+> -	{
+> -		.name		= "Greyscale 16-bit (Y16 )",
+> -		.guid		= UVC_GUID_FORMAT_Y16,
+> -		.fcc		= V4L2_PIX_FMT_Y16,
+> -	},
+> -	{
+> -		.name		= "BGGR Bayer (BY8 )",
+> -		.guid		= UVC_GUID_FORMAT_BY8,
+> -		.fcc		= V4L2_PIX_FMT_SBGGR8,
+> -	},
+> -	{
+> -		.name		= "BGGR Bayer (BA81)",
+> -		.guid		= UVC_GUID_FORMAT_BA81,
+> -		.fcc		= V4L2_PIX_FMT_SBGGR8,
+> -	},
+> -	{
+> -		.name		= "GBRG Bayer (GBRG)",
+> -		.guid		= UVC_GUID_FORMAT_GBRG,
+> -		.fcc		= V4L2_PIX_FMT_SGBRG8,
+> -	},
+> -	{
+> -		.name		= "GRBG Bayer (GRBG)",
+> -		.guid		= UVC_GUID_FORMAT_GRBG,
+> -		.fcc		= V4L2_PIX_FMT_SGRBG8,
+> -	},
+> -	{
+> -		.name		= "RGGB Bayer (RGGB)",
+> -		.guid		= UVC_GUID_FORMAT_RGGB,
+> -		.fcc		= V4L2_PIX_FMT_SRGGB8,
+> -	},
+> -	{
+> -		.name		= "RGB565",
+> -		.guid		= UVC_GUID_FORMAT_RGBP,
+> -		.fcc		= V4L2_PIX_FMT_RGB565,
+> -	},
+> -	{
+> -		.name		= "BGR 8:8:8 (BGR3)",
+> -		.guid		= UVC_GUID_FORMAT_BGR3,
+> -		.fcc		= V4L2_PIX_FMT_BGR24,
+> -	},
+> -	{
+> -		.name		= "H.264",
+> -		.guid		= UVC_GUID_FORMAT_H264,
+> -		.fcc		= V4L2_PIX_FMT_H264,
+> -	},
+> -	{
+> -		.name		= "H.265",
+> -		.guid		= UVC_GUID_FORMAT_H265,
+> -		.fcc		= V4L2_PIX_FMT_HEVC,
+> -	},
+> -	{
+> -		.name		= "Greyscale 8 L/R (Y8I)",
+> -		.guid		= UVC_GUID_FORMAT_Y8I,
+> -		.fcc		= V4L2_PIX_FMT_Y8I,
+> -	},
+> -	{
+> -		.name		= "Greyscale 12 L/R (Y12I)",
+> -		.guid		= UVC_GUID_FORMAT_Y12I,
+> -		.fcc		= V4L2_PIX_FMT_Y12I,
+> -	},
+> -	{
+> -		.name		= "Depth data 16-bit (Z16)",
+> -		.guid		= UVC_GUID_FORMAT_Z16,
+> -		.fcc		= V4L2_PIX_FMT_Z16,
+> -	},
+> -	{
+> -		.name		= "Bayer 10-bit (SRGGB10P)",
+> -		.guid		= UVC_GUID_FORMAT_RW10,
+> -		.fcc		= V4L2_PIX_FMT_SRGGB10P,
+> -	},
+> -	{
+> -		.name		= "Bayer 16-bit (SBGGR16)",
+> -		.guid		= UVC_GUID_FORMAT_BG16,
+> -		.fcc		= V4L2_PIX_FMT_SBGGR16,
+> -	},
+> -	{
+> -		.name		= "Bayer 16-bit (SGBRG16)",
+> -		.guid		= UVC_GUID_FORMAT_GB16,
+> -		.fcc		= V4L2_PIX_FMT_SGBRG16,
+> -	},
+> -	{
+> -		.name		= "Bayer 16-bit (SRGGB16)",
+> -		.guid		= UVC_GUID_FORMAT_RG16,
+> -		.fcc		= V4L2_PIX_FMT_SRGGB16,
+> -	},
+> -	{
+> -		.name		= "Bayer 16-bit (SGRBG16)",
+> -		.guid		= UVC_GUID_FORMAT_GR16,
+> -		.fcc		= V4L2_PIX_FMT_SGRBG16,
+> -	},
+> -	{
+> -		.name		= "Depth data 16-bit (Z16)",
+> -		.guid		= UVC_GUID_FORMAT_INVZ,
+> -		.fcc		= V4L2_PIX_FMT_Z16,
+> -	},
+> -	{
+> -		.name		= "Greyscale 10-bit (Y10 )",
+> -		.guid		= UVC_GUID_FORMAT_INVI,
+> -		.fcc		= V4L2_PIX_FMT_Y10,
+> -	},
+> -	{
+> -		.name		= "IR:Depth 26-bit (INZI)",
+> -		.guid		= UVC_GUID_FORMAT_INZI,
+> -		.fcc		= V4L2_PIX_FMT_INZI,
+> -	},
+> -	{
+> -		.name		= "4-bit Depth Confidence (Packed)",
+> -		.guid		= UVC_GUID_FORMAT_CNF4,
+> -		.fcc		= V4L2_PIX_FMT_CNF4,
+> -	},
+> -	{
+> -		.name		= "HEVC",
+> -		.guid		= UVC_GUID_FORMAT_HEVC,
+> -		.fcc		= V4L2_PIX_FMT_HEVC,
+> -	},
+> -};
+> -
+>  /* ------------------------------------------------------------------------
+>   * Utility functions
+>   */
+> @@ -245,19 +54,6 @@ struct usb_host_endpoint *uvc_find_endpoint(struct usb_host_interface *alts,
+>  	return NULL;
+>  }
+>  
+> -static struct uvc_format_desc *uvc_format_by_guid(const u8 guid[16])
+> -{
+> -	unsigned int len = ARRAY_SIZE(uvc_fmts);
+> -	unsigned int i;
+> -
+> -	for (i = 0; i < len; ++i) {
+> -		if (memcmp(guid, uvc_fmts[i].guid, 16) == 0)
+> -			return &uvc_fmts[i];
+> -	}
+> -
+> -	return NULL;
+> -}
+> -
+>  static enum v4l2_colorspace uvc_colorspace(const u8 primaries)
+>  {
+>  	static const enum v4l2_colorspace colorprimaries[] = {
+> diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
+> index ff710bdd38b3fd..df93db259312e7 100644
+> --- a/drivers/media/usb/uvc/uvcvideo.h
+> +++ b/drivers/media/usb/uvc/uvcvideo.h
+> @@ -41,144 +41,6 @@
+>  #define UVC_EXT_GPIO_UNIT		0x7ffe
+>  #define UVC_EXT_GPIO_UNIT_ID		0x100
+>  
+> -/* ------------------------------------------------------------------------
+> - * GUIDs
+> - */
+> -#define UVC_GUID_UVC_CAMERA \
+> -	{0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, \
+> -	 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01}
+> -#define UVC_GUID_UVC_OUTPUT \
+> -	{0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, \
+> -	 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02}
+> -#define UVC_GUID_UVC_MEDIA_TRANSPORT_INPUT \
+> -	{0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, \
+> -	 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x03}
+> -#define UVC_GUID_UVC_PROCESSING \
+> -	{0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, \
+> -	 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x01}
+> -#define UVC_GUID_UVC_SELECTOR \
+> -	{0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, \
+> -	 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x02}
+> -#define UVC_GUID_EXT_GPIO_CONTROLLER \
+> -	{0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, \
+> -	 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x03}
+> -
+> -#define UVC_GUID_FORMAT_MJPEG \
+> -	{ 'M',  'J',  'P',  'G', 0x00, 0x00, 0x10, 0x00, \
+> -	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
+> -#define UVC_GUID_FORMAT_YUY2 \
+> -	{ 'Y',  'U',  'Y',  '2', 0x00, 0x00, 0x10, 0x00, \
+> -	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
+> -#define UVC_GUID_FORMAT_YUY2_ISIGHT \
+> -	{ 'Y',  'U',  'Y',  '2', 0x00, 0x00, 0x10, 0x00, \
+> -	 0x80, 0x00, 0x00, 0x00, 0x00, 0x38, 0x9b, 0x71}
+> -#define UVC_GUID_FORMAT_NV12 \
+> -	{ 'N',  'V',  '1',  '2', 0x00, 0x00, 0x10, 0x00, \
+> -	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
+> -#define UVC_GUID_FORMAT_YV12 \
+> -	{ 'Y',  'V',  '1',  '2', 0x00, 0x00, 0x10, 0x00, \
+> -	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
+> -#define UVC_GUID_FORMAT_I420 \
+> -	{ 'I',  '4',  '2',  '0', 0x00, 0x00, 0x10, 0x00, \
+> -	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
+> -#define UVC_GUID_FORMAT_UYVY \
+> -	{ 'U',  'Y',  'V',  'Y', 0x00, 0x00, 0x10, 0x00, \
+> -	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
+> -#define UVC_GUID_FORMAT_Y800 \
+> -	{ 'Y',  '8',  '0',  '0', 0x00, 0x00, 0x10, 0x00, \
+> -	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
+> -#define UVC_GUID_FORMAT_Y8 \
+> -	{ 'Y',  '8',  ' ',  ' ', 0x00, 0x00, 0x10, 0x00, \
+> -	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
+> -#define UVC_GUID_FORMAT_Y10 \
+> -	{ 'Y',  '1',  '0',  ' ', 0x00, 0x00, 0x10, 0x00, \
+> -	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
+> -#define UVC_GUID_FORMAT_Y12 \
+> -	{ 'Y',  '1',  '2',  ' ', 0x00, 0x00, 0x10, 0x00, \
+> -	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
+> -#define UVC_GUID_FORMAT_Y16 \
+> -	{ 'Y',  '1',  '6',  ' ', 0x00, 0x00, 0x10, 0x00, \
+> -	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
+> -#define UVC_GUID_FORMAT_BY8 \
+> -	{ 'B',  'Y',  '8',  ' ', 0x00, 0x00, 0x10, 0x00, \
+> -	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
+> -#define UVC_GUID_FORMAT_BA81 \
+> -	{ 'B',  'A',  '8',  '1', 0x00, 0x00, 0x10, 0x00, \
+> -	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
+> -#define UVC_GUID_FORMAT_GBRG \
+> -	{ 'G',  'B',  'R',  'G', 0x00, 0x00, 0x10, 0x00, \
+> -	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
+> -#define UVC_GUID_FORMAT_GRBG \
+> -	{ 'G',  'R',  'B',  'G', 0x00, 0x00, 0x10, 0x00, \
+> -	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
+> -#define UVC_GUID_FORMAT_RGGB \
+> -	{ 'R',  'G',  'G',  'B', 0x00, 0x00, 0x10, 0x00, \
+> -	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
+> -#define UVC_GUID_FORMAT_BG16 \
+> -	{ 'B',  'G',  '1',  '6', 0x00, 0x00, 0x10, 0x00, \
+> -	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
+> -#define UVC_GUID_FORMAT_GB16 \
+> -	{ 'G',  'B',  '1',  '6', 0x00, 0x00, 0x10, 0x00, \
+> -	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
+> -#define UVC_GUID_FORMAT_RG16 \
+> -	{ 'R',  'G',  '1',  '6', 0x00, 0x00, 0x10, 0x00, \
+> -	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
+> -#define UVC_GUID_FORMAT_GR16 \
+> -	{ 'G',  'R',  '1',  '6', 0x00, 0x00, 0x10, 0x00, \
+> -	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
+> -#define UVC_GUID_FORMAT_RGBP \
+> -	{ 'R',  'G',  'B',  'P', 0x00, 0x00, 0x10, 0x00, \
+> -	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
+> -#define UVC_GUID_FORMAT_BGR3 \
+> -	{ 0x7d, 0xeb, 0x36, 0xe4, 0x4f, 0x52, 0xce, 0x11, \
+> -	 0x9f, 0x53, 0x00, 0x20, 0xaf, 0x0b, 0xa7, 0x70}
+> -#define UVC_GUID_FORMAT_M420 \
+> -	{ 'M',  '4',  '2',  '0', 0x00, 0x00, 0x10, 0x00, \
+> -	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
+> -
+> -#define UVC_GUID_FORMAT_H264 \
+> -	{ 'H',  '2',  '6',  '4', 0x00, 0x00, 0x10, 0x00, \
+> -	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
+> -#define UVC_GUID_FORMAT_H265 \
+> -	{ 'H',  '2',  '6',  '5', 0x00, 0x00, 0x10, 0x00, \
+> -	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
+> -#define UVC_GUID_FORMAT_Y8I \
+> -	{ 'Y',  '8',  'I',  ' ', 0x00, 0x00, 0x10, 0x00, \
+> -	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
+> -#define UVC_GUID_FORMAT_Y12I \
+> -	{ 'Y',  '1',  '2',  'I', 0x00, 0x00, 0x10, 0x00, \
+> -	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
+> -#define UVC_GUID_FORMAT_Z16 \
+> -	{ 'Z',  '1',  '6',  ' ', 0x00, 0x00, 0x10, 0x00, \
+> -	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
+> -#define UVC_GUID_FORMAT_RW10 \
+> -	{ 'R',  'W',  '1',  '0', 0x00, 0x00, 0x10, 0x00, \
+> -	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
+> -#define UVC_GUID_FORMAT_INVZ \
+> -	{ 'I',  'N',  'V',  'Z', 0x90, 0x2d, 0x58, 0x4a, \
+> -	 0x92, 0x0b, 0x77, 0x3f, 0x1f, 0x2c, 0x55, 0x6b}
+> -#define UVC_GUID_FORMAT_INZI \
+> -	{ 'I',  'N',  'Z',  'I', 0x66, 0x1a, 0x42, 0xa2, \
+> -	 0x90, 0x65, 0xd0, 0x18, 0x14, 0xa8, 0xef, 0x8a}
+> -#define UVC_GUID_FORMAT_INVI \
+> -	{ 'I',  'N',  'V',  'I', 0xdb, 0x57, 0x49, 0x5e, \
+> -	 0x8e, 0x3f, 0xf4, 0x79, 0x53, 0x2b, 0x94, 0x6f}
+> -#define UVC_GUID_FORMAT_CNF4 \
+> -	{ 'C',  ' ',  ' ',  ' ', 0x00, 0x00, 0x10, 0x00, \
+> -	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
+> -
+> -#define UVC_GUID_FORMAT_D3DFMT_L8 \
+> -	{0x32, 0x00, 0x00, 0x00, 0x00, 0x00, 0x10, 0x00, \
+> -	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
+> -#define UVC_GUID_FORMAT_KSMEDIA_L8_IR \
+> -	{0x32, 0x00, 0x00, 0x00, 0x02, 0x00, 0x10, 0x00, \
+> -	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
+> -
+> -#define UVC_GUID_FORMAT_HEVC \
+> -	{ 'H',  'E',  'V',  'C', 0x00, 0x00, 0x10, 0x00, \
+> -	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
+> -
+> -
+>  /* ------------------------------------------------------------------------
+>   * Driver specific constants.
+>   */
+> @@ -283,12 +145,6 @@ struct uvc_control {
+>  	struct uvc_fh *handle;	/* File handle that last changed the control. */
+>  };
+>  
+> -struct uvc_format_desc {
+> -	char *name;
+> -	u8 guid[16];
+> -	u32 fcc;
+> -};
+> -
+>  /*
+>   * The term 'entity' refers to both UVC units and UVC terminals.
+>   *
+> diff --git a/include/media/v4l2-uvc.h b/include/media/v4l2-uvc.h
+> new file mode 100644
+> index 00000000000000..f83e31661333bb
+> --- /dev/null
+> +++ b/include/media/v4l2-uvc.h
+> @@ -0,0 +1,359 @@
+> +/* SPDX-License-Identifier: GPL-2.0-or-later */
+> +/*
+> + *  v4l2 uvc internal API header
+> + *
+> + *  Some commonly needed functions for uvc drivers
+> + */
+> +
+> +#ifndef __LINUX_V4L2_UVC_H
+> +#define __LINUX_V4L2_UVC_H
+> +
+> +/* ------------------------------------------------------------------------
+> + * GUIDs
+> + */
+> +#define UVC_GUID_UVC_CAMERA \
+> +	{0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, \
+> +	 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01}
+> +#define UVC_GUID_UVC_OUTPUT \
+> +	{0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, \
+> +	 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02}
+> +#define UVC_GUID_UVC_MEDIA_TRANSPORT_INPUT \
+> +	{0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, \
+> +	 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x03}
+> +#define UVC_GUID_UVC_PROCESSING \
+> +	{0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, \
+> +	 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x01}
+> +#define UVC_GUID_UVC_SELECTOR \
+> +	{0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, \
+> +	 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x02}
+> +#define UVC_GUID_EXT_GPIO_CONTROLLER \
+> +	{0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, \
+> +	 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x03}
+> +
+> +#define UVC_GUID_FORMAT_MJPEG \
+> +	{ 'M',  'J',  'P',  'G', 0x00, 0x00, 0x10, 0x00, \
+> +	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
+> +#define UVC_GUID_FORMAT_YUY2 \
+> +	{ 'Y',  'U',  'Y',  '2', 0x00, 0x00, 0x10, 0x00, \
+> +	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
+> +#define UVC_GUID_FORMAT_YUY2_ISIGHT \
+> +	{ 'Y',  'U',  'Y',  '2', 0x00, 0x00, 0x10, 0x00, \
+> +	 0x80, 0x00, 0x00, 0x00, 0x00, 0x38, 0x9b, 0x71}
+> +#define UVC_GUID_FORMAT_NV12 \
+> +	{ 'N',  'V',  '1',  '2', 0x00, 0x00, 0x10, 0x00, \
+> +	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
+> +#define UVC_GUID_FORMAT_YV12 \
+> +	{ 'Y',  'V',  '1',  '2', 0x00, 0x00, 0x10, 0x00, \
+> +	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
+> +#define UVC_GUID_FORMAT_I420 \
+> +	{ 'I',  '4',  '2',  '0', 0x00, 0x00, 0x10, 0x00, \
+> +	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
+> +#define UVC_GUID_FORMAT_UYVY \
+> +	{ 'U',  'Y',  'V',  'Y', 0x00, 0x00, 0x10, 0x00, \
+> +	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
+> +#define UVC_GUID_FORMAT_Y800 \
+> +	{ 'Y',  '8',  '0',  '0', 0x00, 0x00, 0x10, 0x00, \
+> +	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
+> +#define UVC_GUID_FORMAT_Y8 \
+> +	{ 'Y',  '8',  ' ',  ' ', 0x00, 0x00, 0x10, 0x00, \
+> +	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
+> +#define UVC_GUID_FORMAT_Y10 \
+> +	{ 'Y',  '1',  '0',  ' ', 0x00, 0x00, 0x10, 0x00, \
+> +	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
+> +#define UVC_GUID_FORMAT_Y12 \
+> +	{ 'Y',  '1',  '2',  ' ', 0x00, 0x00, 0x10, 0x00, \
+> +	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
+> +#define UVC_GUID_FORMAT_Y16 \
+> +	{ 'Y',  '1',  '6',  ' ', 0x00, 0x00, 0x10, 0x00, \
+> +	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
+> +#define UVC_GUID_FORMAT_BY8 \
+> +	{ 'B',  'Y',  '8',  ' ', 0x00, 0x00, 0x10, 0x00, \
+> +	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
+> +#define UVC_GUID_FORMAT_BA81 \
+> +	{ 'B',  'A',  '8',  '1', 0x00, 0x00, 0x10, 0x00, \
+> +	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
+> +#define UVC_GUID_FORMAT_GBRG \
+> +	{ 'G',  'B',  'R',  'G', 0x00, 0x00, 0x10, 0x00, \
+> +	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
+> +#define UVC_GUID_FORMAT_GRBG \
+> +	{ 'G',  'R',  'B',  'G', 0x00, 0x00, 0x10, 0x00, \
+> +	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
+> +#define UVC_GUID_FORMAT_RGGB \
+> +	{ 'R',  'G',  'G',  'B', 0x00, 0x00, 0x10, 0x00, \
+> +	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
+> +#define UVC_GUID_FORMAT_BG16 \
+> +	{ 'B',  'G',  '1',  '6', 0x00, 0x00, 0x10, 0x00, \
+> +	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
+> +#define UVC_GUID_FORMAT_GB16 \
+> +	{ 'G',  'B',  '1',  '6', 0x00, 0x00, 0x10, 0x00, \
+> +	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
+> +#define UVC_GUID_FORMAT_RG16 \
+> +	{ 'R',  'G',  '1',  '6', 0x00, 0x00, 0x10, 0x00, \
+> +	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
+> +#define UVC_GUID_FORMAT_GR16 \
+> +	{ 'G',  'R',  '1',  '6', 0x00, 0x00, 0x10, 0x00, \
+> +	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
+> +#define UVC_GUID_FORMAT_RGBP \
+> +	{ 'R',  'G',  'B',  'P', 0x00, 0x00, 0x10, 0x00, \
+> +	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
+> +#define UVC_GUID_FORMAT_BGR3 \
+> +	{ 0x7d, 0xeb, 0x36, 0xe4, 0x4f, 0x52, 0xce, 0x11, \
+> +	 0x9f, 0x53, 0x00, 0x20, 0xaf, 0x0b, 0xa7, 0x70}
+> +#define UVC_GUID_FORMAT_M420 \
+> +	{ 'M',  '4',  '2',  '0', 0x00, 0x00, 0x10, 0x00, \
+> +	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
+> +
+> +#define UVC_GUID_FORMAT_H264 \
+> +	{ 'H',  '2',  '6',  '4', 0x00, 0x00, 0x10, 0x00, \
+> +	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
+> +#define UVC_GUID_FORMAT_H265 \
+> +	{ 'H',  '2',  '6',  '5', 0x00, 0x00, 0x10, 0x00, \
+> +	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
+> +#define UVC_GUID_FORMAT_Y8I \
+> +	{ 'Y',  '8',  'I',  ' ', 0x00, 0x00, 0x10, 0x00, \
+> +	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
+> +#define UVC_GUID_FORMAT_Y12I \
+> +	{ 'Y',  '1',  '2',  'I', 0x00, 0x00, 0x10, 0x00, \
+> +	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
+> +#define UVC_GUID_FORMAT_Z16 \
+> +	{ 'Z',  '1',  '6',  ' ', 0x00, 0x00, 0x10, 0x00, \
+> +	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
+> +#define UVC_GUID_FORMAT_RW10 \
+> +	{ 'R',  'W',  '1',  '0', 0x00, 0x00, 0x10, 0x00, \
+> +	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
+> +#define UVC_GUID_FORMAT_INVZ \
+> +	{ 'I',  'N',  'V',  'Z', 0x90, 0x2d, 0x58, 0x4a, \
+> +	 0x92, 0x0b, 0x77, 0x3f, 0x1f, 0x2c, 0x55, 0x6b}
+> +#define UVC_GUID_FORMAT_INZI \
+> +	{ 'I',  'N',  'Z',  'I', 0x66, 0x1a, 0x42, 0xa2, \
+> +	 0x90, 0x65, 0xd0, 0x18, 0x14, 0xa8, 0xef, 0x8a}
+> +#define UVC_GUID_FORMAT_INVI \
+> +	{ 'I',  'N',  'V',  'I', 0xdb, 0x57, 0x49, 0x5e, \
+> +	 0x8e, 0x3f, 0xf4, 0x79, 0x53, 0x2b, 0x94, 0x6f}
+> +#define UVC_GUID_FORMAT_CNF4 \
+> +	{ 'C',  ' ',  ' ',  ' ', 0x00, 0x00, 0x10, 0x00, \
+> +	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
+> +
+> +#define UVC_GUID_FORMAT_D3DFMT_L8 \
+> +	{0x32, 0x00, 0x00, 0x00, 0x00, 0x00, 0x10, 0x00, \
+> +	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
+> +#define UVC_GUID_FORMAT_KSMEDIA_L8_IR \
+> +	{0x32, 0x00, 0x00, 0x00, 0x02, 0x00, 0x10, 0x00, \
+> +	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
+> +
+> +#define UVC_GUID_FORMAT_HEVC \
+> +	{ 'H',  'E',  'V',  'C', 0x00, 0x00, 0x10, 0x00, \
+> +	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
+> +
+> +/* ------------------------------------------------------------------------
+> + * Video formats
+> + */
+> +
+> +struct uvc_format_desc {
+> +	char *name;
+> +	u8 guid[16];
+> +	u32 fcc;
+> +};
+> +
+> +static struct uvc_format_desc uvc_fmts[] = {
+> +	{
+> +		.name		= "YUV 4:2:2 (YUYV)",
+> +		.guid		= UVC_GUID_FORMAT_YUY2,
+> +		.fcc		= V4L2_PIX_FMT_YUYV,
+> +	},
+> +	{
+> +		.name		= "YUV 4:2:2 (YUYV)",
+> +		.guid		= UVC_GUID_FORMAT_YUY2_ISIGHT,
+> +		.fcc		= V4L2_PIX_FMT_YUYV,
+> +	},
+> +	{
+> +		.name		= "YUV 4:2:0 (NV12)",
+> +		.guid		= UVC_GUID_FORMAT_NV12,
+> +		.fcc		= V4L2_PIX_FMT_NV12,
+> +	},
+> +	{
+> +		.name		= "MJPEG",
+> +		.guid		= UVC_GUID_FORMAT_MJPEG,
+> +		.fcc		= V4L2_PIX_FMT_MJPEG,
+> +	},
+> +	{
+> +		.name		= "YVU 4:2:0 (YV12)",
+> +		.guid		= UVC_GUID_FORMAT_YV12,
+> +		.fcc		= V4L2_PIX_FMT_YVU420,
+> +	},
+> +	{
+> +		.name		= "YUV 4:2:0 (I420)",
+> +		.guid		= UVC_GUID_FORMAT_I420,
+> +		.fcc		= V4L2_PIX_FMT_YUV420,
+> +	},
+> +	{
+> +		.name		= "YUV 4:2:0 (M420)",
+> +		.guid		= UVC_GUID_FORMAT_M420,
+> +		.fcc		= V4L2_PIX_FMT_M420,
+> +	},
+> +	{
+> +		.name		= "YUV 4:2:2 (UYVY)",
+> +		.guid		= UVC_GUID_FORMAT_UYVY,
+> +		.fcc		= V4L2_PIX_FMT_UYVY,
+> +	},
+> +	{
+> +		.name		= "Greyscale 8-bit (Y800)",
+> +		.guid		= UVC_GUID_FORMAT_Y800,
+> +		.fcc		= V4L2_PIX_FMT_GREY,
+> +	},
+> +	{
+> +		.name		= "Greyscale 8-bit (Y8  )",
+> +		.guid		= UVC_GUID_FORMAT_Y8,
+> +		.fcc		= V4L2_PIX_FMT_GREY,
+> +	},
+> +	{
+> +		.name		= "Greyscale 8-bit (D3DFMT_L8)",
+> +		.guid		= UVC_GUID_FORMAT_D3DFMT_L8,
+> +		.fcc		= V4L2_PIX_FMT_GREY,
+> +	},
+> +	{
+> +		.name		= "IR 8-bit (L8_IR)",
+> +		.guid		= UVC_GUID_FORMAT_KSMEDIA_L8_IR,
+> +		.fcc		= V4L2_PIX_FMT_GREY,
+> +	},
+> +	{
+> +		.name		= "Greyscale 10-bit (Y10 )",
+> +		.guid		= UVC_GUID_FORMAT_Y10,
+> +		.fcc		= V4L2_PIX_FMT_Y10,
+> +	},
+> +	{
+> +		.name		= "Greyscale 12-bit (Y12 )",
+> +		.guid		= UVC_GUID_FORMAT_Y12,
+> +		.fcc		= V4L2_PIX_FMT_Y12,
+> +	},
+> +	{
+> +		.name		= "Greyscale 16-bit (Y16 )",
+> +		.guid		= UVC_GUID_FORMAT_Y16,
+> +		.fcc		= V4L2_PIX_FMT_Y16,
+> +	},
+> +	{
+> +		.name		= "BGGR Bayer (BY8 )",
+> +		.guid		= UVC_GUID_FORMAT_BY8,
+> +		.fcc		= V4L2_PIX_FMT_SBGGR8,
+> +	},
+> +	{
+> +		.name		= "BGGR Bayer (BA81)",
+> +		.guid		= UVC_GUID_FORMAT_BA81,
+> +		.fcc		= V4L2_PIX_FMT_SBGGR8,
+> +	},
+> +	{
+> +		.name		= "GBRG Bayer (GBRG)",
+> +		.guid		= UVC_GUID_FORMAT_GBRG,
+> +		.fcc		= V4L2_PIX_FMT_SGBRG8,
+> +	},
+> +	{
+> +		.name		= "GRBG Bayer (GRBG)",
+> +		.guid		= UVC_GUID_FORMAT_GRBG,
+> +		.fcc		= V4L2_PIX_FMT_SGRBG8,
+> +	},
+> +	{
+> +		.name		= "RGGB Bayer (RGGB)",
+> +		.guid		= UVC_GUID_FORMAT_RGGB,
+> +		.fcc		= V4L2_PIX_FMT_SRGGB8,
+> +	},
+> +	{
+> +		.name		= "RGB565",
+> +		.guid		= UVC_GUID_FORMAT_RGBP,
+> +		.fcc		= V4L2_PIX_FMT_RGB565,
+> +	},
+> +	{
+> +		.name		= "BGR 8:8:8 (BGR3)",
+> +		.guid		= UVC_GUID_FORMAT_BGR3,
+> +		.fcc		= V4L2_PIX_FMT_BGR24,
+> +	},
+> +	{
+> +		.name		= "H.264",
+> +		.guid		= UVC_GUID_FORMAT_H264,
+> +		.fcc		= V4L2_PIX_FMT_H264,
+> +	},
+> +	{
+> +		.name		= "H.265",
+> +		.guid		= UVC_GUID_FORMAT_H265,
+> +		.fcc		= V4L2_PIX_FMT_HEVC,
+> +	},
+> +	{
+> +		.name		= "Greyscale 8 L/R (Y8I)",
+> +		.guid		= UVC_GUID_FORMAT_Y8I,
+> +		.fcc		= V4L2_PIX_FMT_Y8I,
+> +	},
+> +	{
+> +		.name		= "Greyscale 12 L/R (Y12I)",
+> +		.guid		= UVC_GUID_FORMAT_Y12I,
+> +		.fcc		= V4L2_PIX_FMT_Y12I,
+> +	},
+> +	{
+> +		.name		= "Depth data 16-bit (Z16)",
+> +		.guid		= UVC_GUID_FORMAT_Z16,
+> +		.fcc		= V4L2_PIX_FMT_Z16,
+> +	},
+> +	{
+> +		.name		= "Bayer 10-bit (SRGGB10P)",
+> +		.guid		= UVC_GUID_FORMAT_RW10,
+> +		.fcc		= V4L2_PIX_FMT_SRGGB10P,
+> +	},
+> +	{
+> +		.name		= "Bayer 16-bit (SBGGR16)",
+> +		.guid		= UVC_GUID_FORMAT_BG16,
+> +		.fcc		= V4L2_PIX_FMT_SBGGR16,
+> +	},
+> +	{
+> +		.name		= "Bayer 16-bit (SGBRG16)",
+> +		.guid		= UVC_GUID_FORMAT_GB16,
+> +		.fcc		= V4L2_PIX_FMT_SGBRG16,
+> +	},
+> +	{
+> +		.name		= "Bayer 16-bit (SRGGB16)",
+> +		.guid		= UVC_GUID_FORMAT_RG16,
+> +		.fcc		= V4L2_PIX_FMT_SRGGB16,
+> +	},
+> +	{
+> +		.name		= "Bayer 16-bit (SGRBG16)",
+> +		.guid		= UVC_GUID_FORMAT_GR16,
+> +		.fcc		= V4L2_PIX_FMT_SGRBG16,
+> +	},
+> +	{
+> +		.name		= "Depth data 16-bit (Z16)",
+> +		.guid		= UVC_GUID_FORMAT_INVZ,
+> +		.fcc		= V4L2_PIX_FMT_Z16,
+> +	},
+> +	{
+> +		.name		= "Greyscale 10-bit (Y10 )",
+> +		.guid		= UVC_GUID_FORMAT_INVI,
+> +		.fcc		= V4L2_PIX_FMT_Y10,
+> +	},
+> +	{
+> +		.name		= "IR:Depth 26-bit (INZI)",
+> +		.guid		= UVC_GUID_FORMAT_INZI,
+> +		.fcc		= V4L2_PIX_FMT_INZI,
+> +	},
+> +	{
+> +		.name		= "4-bit Depth Confidence (Packed)",
+> +		.guid		= UVC_GUID_FORMAT_CNF4,
+> +		.fcc		= V4L2_PIX_FMT_CNF4,
+> +	},
+> +	{
+> +		.name		= "HEVC",
+> +		.guid		= UVC_GUID_FORMAT_HEVC,
+> +		.fcc		= V4L2_PIX_FMT_HEVC,
+> +	},
+> +};
 
-Best regards
+This large table is now duplicated in all compilation units in which
+this header is included. That's not good. Could you please send a patch
+to fix that ?
 
->
->    Dave
->
->> Thanks Stefan
->>
->>>     Dave
->>>
->>>>> [1]: https://lore.kernel.org/linux-media/20220208155027.891055-5-jeanmichel.hautbois@ideasonboard.com/
->>>>>
->>>>>>>>> I see two TODO files in vc04_services:
->>>>>>>>>       ./bcm2835-camera/TODO
->>>>>>>>>       ./interface/TODO
->>>>>>>>>
->>>>>>>>> One of the bcm2835-camera TODO points to the vc-sm-cma driver
->>>>>>>>> itself. So that's address in the series. The other remaining one -
->>>>>>>>> I will need to take a deeper look before commenting on it.
->>>>>>>>>
->>>>>>>>> The main chunk of TODO are in vc04_services/interfaces/TODO. Doing
->>>>>>>>> a cursory reading of them suggests that these apply to *all*
->>>>>>>>> vc04_services components? Am I right?
->>>>>>>> Actually these applies just for the interfaces directory. Some of
->>>>>>>> them could apply to the services, but this is no priority.
->>>>>>> By no priority, you mean this doesn't affect the criteria required to
->>>>>>> ful-fill to get these out of staging?
->>>>>> Correct
->>>>>>
->>>>>>>>> Are these are the specific bits of cleanup you are referring to in
->>>>>>>>> your comment?
->>>>>>>> You mean about bcm2835-isp? There were too many changes to vchiq
->>>>>>>> that i don't remember them all. The first that come to my mind was
->>>>>>>> those fancy comment sections which is not kernel coding style. It
->>>>>>>> has been removed.
->>>>>>> No, I don't mean the bcm2835-isp changes (those are upcoming /
->>>>>>> out-of-tree still so...). I mean what are the specific bits / points
->>>>>>> that needs to be addressed to get vc04_services out of the staging.
->>>>>> These were the points which i mentioned in my last email. They came
->>>>>> from interface/TODO.
->>>>>>
->>>>>>> You have mentioned it above now, so I'll follow up on those.
->>>>>> That would be great :)
->>>>>>
->>>>>>> The many vchiq changes you referred to above comment (that you don't
->>>>>>> remember) are from [1] as well or some other series ?
->>>>>> Sorry, for the confusing. The many changes i refer were the dozens of
->>>>>> clean up patches for vc04_interfaces in mainline staging since the
->>>>>> last years. [1] was just a single patch which has been accepted yet.
->>>>> Ah I see. There are many others that I've to dig out then. Thanks for
->>>>> clarifying!
->>>>>
->>>>>>>> [1] -
->>>>>>>> https://lore.kernel.org/linux-staging/20220712181928.17547-1-jslebodn@redhat.com/
->>>>>>>>
->>>>>>>>>> Unfortuntately i hadn't much time to work on vchiq by myself.
->>>>>>>>>>
->>>>>>>>>> Just my two cents
->>>>>>>>>> Stefan
->>>> --
->>>> Regards,
->>>>
->>>> Laurent Pinchart
->>> _______________________________________________
->>> linux-arm-kernel mailing list
->>> linux-arm-kernel@lists.infradead.org
->>> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
-> _______________________________________________
-> linux-arm-kernel mailing list
-> linux-arm-kernel@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
+> +
+> +static inline struct uvc_format_desc *uvc_format_by_guid(const u8 guid[16])
+> +{
+> +	unsigned int len = ARRAY_SIZE(uvc_fmts);
+> +	unsigned int i;
+> +
+> +	for (i = 0; i < len; ++i) {
+> +		if (memcmp(guid, uvc_fmts[i].guid, 16) == 0)
+> +			return &uvc_fmts[i];
+> +	}
+> +
+> +	return NULL;
+> +}
+
+While at it, please also de-duplicate this function.
+
+> +
+> +#endif /* __LINUX_V4L2_UVC_H */
+
+-- 
+Regards,
+
+Laurent Pinchart
