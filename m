@@ -2,77 +2,160 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0CB4D641B90
-	for <lists+linux-media@lfdr.de>; Sun,  4 Dec 2022 09:29:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 56EFF641C5E
+	for <lists+linux-media@lfdr.de>; Sun,  4 Dec 2022 11:43:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229970AbiLDI33 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 4 Dec 2022 03:29:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42432 "EHLO
+        id S230105AbiLDKne (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 4 Dec 2022 05:43:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36112 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229833AbiLDI3Z (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sun, 4 Dec 2022 03:29:25 -0500
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3B711788B;
-        Sun,  4 Dec 2022 00:29:23 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by sin.source.kernel.org (Postfix) with ESMTPS id 6229FCE09FA;
-        Sun,  4 Dec 2022 08:29:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E9B2CC433D6;
-        Sun,  4 Dec 2022 08:29:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1670142560;
-        bh=+a58Xlrk1zPi1XTGswW/fpzCd8HEgPcXN9oAM3qng3s=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=ItYEw8VOEtKMLq/2r6U0ly/j4C2Lidu+tiBqhbnzk+g0Ddmvp36fGOJfNkuA/TbRm
-         bBgciIxRm+ztkjq6ZhkvPIQzB3p2isKI04kyrY+BRWxVNsIi1glQC08jHNazN+Snfp
-         i2aOPaXSsmzOCTj8Yj/tUPcQXMXqVxdLwhjRs6r8=
-Date:   Sun, 4 Dec 2022 09:29:16 +0100
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Michael Grzeschik <m.grzeschik@pengutronix.de>,
-        linux-usb@vger.kernel.org, linux-media@vger.kernel.org,
-        balbi@kernel.org, paul.elder@ideasonboard.com,
-        kernel@pengutronix.de, nicolas@ndufresne.ca,
-        kieran.bingham@ideasonboard.com
-Subject: Re: [PATCH v2 0/4] usb: gadget: uvc: parse configfs entries and
- implement v4l2 enum api calls
-Message-ID: <Y4xaXHLoiPupWM6V@kroah.com>
-References: <20220909221335.15033-1-m.grzeschik@pengutronix.de>
- <Y4u+9g/gIneGZrlZ@pendragon.ideasonboard.com>
+        with ESMTP id S230115AbiLDKnd (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sun, 4 Dec 2022 05:43:33 -0500
+Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com [IPv6:2a00:1450:4864:20::12a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 213D9E0D8
+        for <linux-media@vger.kernel.org>; Sun,  4 Dec 2022 02:43:31 -0800 (PST)
+Received: by mail-lf1-x12a.google.com with SMTP id 1so691138lfz.4
+        for <linux-media@vger.kernel.org>; Sun, 04 Dec 2022 02:43:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=mkpnkgS661CL81tREqROjXb5VEYTJXJHdLfxFTagbbs=;
+        b=eyNqK8ehsyoOUvVJLufQ4cBhyIoGEL8itAxijDj/69skdhojwUO9aEX6194hgAbilG
+         JtUv8ryuYSlmJf79TOm7u+qaJxs4aRRX/zxOfIy3yYhYEokxgv0dLcRA5q75bFrs0NKi
+         cMocSXaPOcjITs7K0srq4EJDfFi9snUEy7IPTe0V2cyuO4LagEwmpiiCOpKBffdCJeDU
+         ObmRoXmP6xF5bA8iGaDaQK83wR9udl5gDBtquqoYSznoz6xMSJmTTWunRtp+/xx/K8ow
+         MceG8sv0IlTallBvAADkCN/Je74E4AZgHL+QFRtcZ33T0UnYUxdR2BnUvjpdv2v+P9eD
+         Jq3Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=mkpnkgS661CL81tREqROjXb5VEYTJXJHdLfxFTagbbs=;
+        b=NQD1epJYz2JpDXFPOu8nYMbZd3oiOe6/juHMt8CsZpsQolyd6ygkug+Dlf8dGlnex/
+         lfpRduk6e7dlPnzQbDWmK3q8yBLrk8yKmiA1MxUaYk6mZYkgyPZBz+SKs9ts7vZikg+S
+         sxFUUG8A9C48VSIvHqu8EEbuBUH6X9fmYMUm97JNCZ6+sZqN2AVo0pppgeZYr0ddptRR
+         Q5QBH5ywEzQmFgvybjEqgQ8wym6/6uvJRMBSPwM+c/tw33nROj14HEeMjtamdmoHdISO
+         qDrCTzqqdJ8U1LuhzzeCTP6lbgohlbGzw+JMH057jMlLXzC59gBDapp7id5UQkQJYWVx
+         hcGg==
+X-Gm-Message-State: ANoB5pmpktdmpC+LTXoWRGRq/BQOhMTXzKJhsqhJxYlxo/010VXn5YOh
+        DrYBcQIfcHELlil31oAr+yeHYg==
+X-Google-Smtp-Source: AA0mqf6aMt0hHEGgulKA17NECqV5/ZqIGJZyzP3de5FpTiPlOrSIXDIMVOxunD7VvSXotiN0a3eqxQ==
+X-Received: by 2002:ac2:5979:0:b0:4b5:7607:3191 with SMTP id h25-20020ac25979000000b004b576073191mr11601lfp.93.1670150609232;
+        Sun, 04 Dec 2022 02:43:29 -0800 (PST)
+Received: from krzk-bin.NAT.warszawa.vectranet.pl (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
+        by smtp.gmail.com with ESMTPSA id w13-20020a05651c118d00b0026c42f67eb8sm893318ljo.7.2022.12.04.02.43.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 04 Dec 2022 02:43:28 -0800 (PST)
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To:     Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Sean Young <sean@mess.org>, linux-leds@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org
+Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH 1/3] dt-bindings: leds: irled: gpio-ir-tx: convert to DT schema
+Date:   Sun,  4 Dec 2022 11:43:21 +0100
+Message-Id: <20221204104323.117974-1-krzysztof.kozlowski@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y4u+9g/gIneGZrlZ@pendragon.ideasonboard.com>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sat, Dec 03, 2022 at 11:26:14PM +0200, Laurent Pinchart wrote:
-> Hi Michael,
-> 
-> On Sat, Sep 10, 2022 at 12:13:31AM +0200, Michael Grzeschik wrote:
-> > This series improves the uvc video gadget by parsing the configfs
-> > entries. With the configfs data, the userspace now is able to use simple
-> > v4l2 api calls like enum and try_format to check for valid configurations
-> > initially set by configfs.
-> 
-> I've realized that this whole series got merged, despite my multiple
-> attempts to explain why I think it's not a good idea. The UVC gadget
-> requires userspace support, and there's no point in trying to move all
-> these things to the kernel side. It only bloats the kernel, makes the
-> code more complex, more difficult to maintain, and will make UVC 1.5
-> support more difficult.
+Convert the GPIO IR LED bindings to DT schema.
 
-I can easily revert them, but I did not see any objections to them
-originally and so I merged them as is the normal method :)
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+---
+ .../bindings/leds/irled/gpio-ir-tx.txt        | 14 --------
+ .../bindings/leds/irled/gpio-ir-tx.yaml       | 36 +++++++++++++++++++
+ MAINTAINERS                                   |  1 +
+ 3 files changed, 37 insertions(+), 14 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/leds/irled/gpio-ir-tx.txt
+ create mode 100644 Documentation/devicetree/bindings/leds/irled/gpio-ir-tx.yaml
 
-thanks,
+diff --git a/Documentation/devicetree/bindings/leds/irled/gpio-ir-tx.txt b/Documentation/devicetree/bindings/leds/irled/gpio-ir-tx.txt
+deleted file mode 100644
+index cbe8dfd29715..000000000000
+--- a/Documentation/devicetree/bindings/leds/irled/gpio-ir-tx.txt
++++ /dev/null
+@@ -1,14 +0,0 @@
+-Device tree bindings for IR LED connected through gpio pin which is used as
+-remote controller transmitter.
+-
+-Required properties:
+-	- compatible: should be "gpio-ir-tx".
+-	- gpios :  Should specify the IR LED GPIO, see "gpios property" in
+-	  Documentation/devicetree/bindings/gpio/gpio.txt.  Active low LEDs
+-	  should be indicated using flags in the GPIO specifier.
+-
+-Example:
+-	irled@0 {
+-		compatible = "gpio-ir-tx";
+-		gpios = <&gpio1 2 GPIO_ACTIVE_HIGH>;
+-	};
+diff --git a/Documentation/devicetree/bindings/leds/irled/gpio-ir-tx.yaml b/Documentation/devicetree/bindings/leds/irled/gpio-ir-tx.yaml
+new file mode 100644
+index 000000000000..5839d00c7089
+--- /dev/null
++++ b/Documentation/devicetree/bindings/leds/irled/gpio-ir-tx.yaml
+@@ -0,0 +1,36 @@
++# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/leds/irled/gpio-ir-tx.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: IR LED connected through GPIO pin
++
++maintainers:
++  - Sean Young <sean@mess.org>
++
++description:
++  IR LED connected through GPIO pin which is used as remote controller
++  transmitter.
++
++properties:
++  compatible:
++    const: gpio-ir-tx
++
++  gpios:
++    maxItems: 1
++
++required:
++  - compatible
++  - gpios
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++
++    irled {
++        compatible = "gpio-ir-tx";
++        gpios = <&gpio1 2 GPIO_ACTIVE_HIGH>;
++    };
+diff --git a/MAINTAINERS b/MAINTAINERS
+index be71999cea73..25b7fbf09e7b 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -8839,6 +8839,7 @@ GPIO IR Transmitter
+ M:	Sean Young <sean@mess.org>
+ L:	linux-media@vger.kernel.org
+ S:	Maintained
++F:	Documentation/devicetree/bindings/leds/irled/gpio-ir-tx.yaml
+ F:	drivers/media/rc/gpio-ir-tx.c
+ 
+ GPIO MOCKUP DRIVER
+-- 
+2.34.1
 
-greg k-h
