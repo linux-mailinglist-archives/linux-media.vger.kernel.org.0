@@ -2,53 +2,53 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0741A641EAD
-	for <lists+linux-media@lfdr.de>; Sun,  4 Dec 2022 19:29:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C511A641EBD
+	for <lists+linux-media@lfdr.de>; Sun,  4 Dec 2022 19:29:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230408AbiLDS32 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 4 Dec 2022 13:29:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37232 "EHLO
+        id S230501AbiLDS3h (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 4 Dec 2022 13:29:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37350 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230320AbiLDS3W (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sun, 4 Dec 2022 13:29:22 -0500
-Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com [IPv6:2a00:1450:4864:20::232])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7114E12AFA
-        for <linux-media@vger.kernel.org>; Sun,  4 Dec 2022 10:29:21 -0800 (PST)
-Received: by mail-lj1-x232.google.com with SMTP id z24so11190947ljn.4
-        for <linux-media@vger.kernel.org>; Sun, 04 Dec 2022 10:29:21 -0800 (PST)
+        with ESMTP id S230359AbiLDS31 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sun, 4 Dec 2022 13:29:27 -0500
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com [IPv6:2a00:1450:4864:20::130])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F375F12D1B
+        for <linux-media@vger.kernel.org>; Sun,  4 Dec 2022 10:29:22 -0800 (PST)
+Received: by mail-lf1-x130.google.com with SMTP id p8so15322805lfu.11
+        for <linux-media@vger.kernel.org>; Sun, 04 Dec 2022 10:29:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=t+PteMG/Ads8tC893Hy13VLmIBDMK2suUNCe/1HZdDs=;
-        b=zP5nnhCXiClJ1DgCHNM3yk7JNqSv02YTEZax4FH6Y0gPcr14cFqylT8Hbkz3SNtRTn
-         MkkF0S/zRYGUQLLy4DbRInPHw2yzVtW7QyTVzI4pU4RpNqkljZEkCcCg/LtaUqR2smha
-         hbhh0k+4K7ONv9Dwd34Xy49ceZftpvWYk8vLjLe/4r/8nB6LiBKf0wYrWO4+eP0fH/jD
-         3L9eUcSGuHBbDzFwLP8nW/QAjNXtSdRxAemSmyqfsEcvdW5FPFWbBwVX038t0+yVF/nA
-         QpcSWxI0MFIR6ADPslPbPPo2k43pYt8w9InuRouSkiNz/hL1UPAbLyX8H8DHD/vrcD1A
-         Zhxw==
+        bh=1gjIuLbuYm9eN5Zaq7wruCJOGXBkxk9TEVxr2ELzNyM=;
+        b=msr4c6dETd0XxzdYTY6W9ZWmBlM+poak3c3oJp5hQc7K1UIwvRlM2VBsa7cprd/zQA
+         jzQ/8PRGd3A+ElhWXkO6twmZZxLFir6zHwGBm8UisZjmvLN4D4jS1AzP+dMMa4+69kHx
+         aX8ktNb/E2zX5YVF1PBWxMsZn2am3+NSy9M4cgd/b621JlEyPONraQ49XsXeTpFGb951
+         PJZEUEDu8HMthVkriHZcZmUTppE/i6Z4FHD9CYiTEJZBX1xZB/wPCMtddQSKOx66r4O/
+         bda7BXQz69llTsbmmjaT9a/tTot1p/pySV6q73ie9U99cpO0jtqXSGEjTo5u95pvaXv3
+         s6Nw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=t+PteMG/Ads8tC893Hy13VLmIBDMK2suUNCe/1HZdDs=;
-        b=AyHJ9n/sIaUtkuSWMWrTtFcCP9nBAD5kfDRpGnCFLTUBAU94FUHGV1op3PqbP2/2in
-         fuj0mewrynjszjm/5XHTq32LRF4Lm8x4aSFt6vrt4a1vtRoubz8eIxtxVLFdniUPZbkD
-         GwL42yOsGYneOeKuEDxxHddiNjCFI9/6nqhJqWUeu43h7dymN3X0Psu4vam1BTsqazjx
-         wKvhnC/mtWE03OBS8VkYIX+3mptwGUEjdv4OY4B+UkcWtMvdrqntCy8aXbmDtEUu6wMX
-         f4FpeFrXGF1PxrYRKHC+MxfN5dYY6M8JfdR81pn6ugBRm10lxnKVUfEgfUF5APUAO5Ik
-         89fQ==
-X-Gm-Message-State: ANoB5pmTBRED2wb+JXs/riwLiqlq0Bf/Q7HAwWbSvEbUkBE8hOU0aLB5
-        A+OG/z27mxj+STlMO7KZJD2i2w==
-X-Google-Smtp-Source: AA0mqf7cT4VZxE40h1S5qRGuAOZwWxzBWZBIYv7ax4dztOW39Zzssoufn9ODgvCoaB+u5NHzZC0IXw==
-X-Received: by 2002:a05:651c:1145:b0:277:8759:bf65 with SMTP id h5-20020a05651c114500b002778759bf65mr23608947ljo.108.1670178559826;
-        Sun, 04 Dec 2022 10:29:19 -0800 (PST)
+        bh=1gjIuLbuYm9eN5Zaq7wruCJOGXBkxk9TEVxr2ELzNyM=;
+        b=HpziCSmLprxCzGhx9hcV7oZnZEmMMzUzbqnlZGNVNfiqV4ZfrXYtpnky0laL/RXeuE
+         rnvUHCzxIMp7D+Js1eRPW/iNCzTlC8TrO1TUbeHAycGqTBoyPKf4aICfJCGKXJekZQa4
+         A55pJgu2Cj9CXPorae+ZCxnUDr4Y1z7MImk4F1o6C1ThqfZnxPCh5lzU78JyPZrZps6z
+         BSm8pPpQlprNQySsvOUdm/Oh1zMOmdgoombpeTociwx57iJvftmMbmkKnL1RzUdJ3P02
+         vNf6z/41pplNAv0QShM/aKW06eOIs9yI044v1W30ZXTuuj4DsBZhoiyopKrkQ06Q5JNz
+         FzQw==
+X-Gm-Message-State: ANoB5pmlDVUqJJBAH1+mB621Ge5J5CZ8Vrl5mB7Q0IeIOPn0mzbjpFX/
+        gT7C+rRLgVQMw+THRGC+O+yx7Q==
+X-Google-Smtp-Source: AA0mqf4UPCxxvMoekZXXvXot8m/zQ+q1fGTUZPaIMlMJIt4kh2HXIM0T5KqpWhb2o21ZZrh+KyfCPg==
+X-Received: by 2002:a05:6512:250f:b0:4b4:abb4:c34d with SMTP id be15-20020a056512250f00b004b4abb4c34dmr24680669lfb.218.1670178561302;
+        Sun, 04 Dec 2022 10:29:21 -0800 (PST)
 Received: from krzk-bin.NAT.warszawa.vectranet.pl (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
-        by smtp.gmail.com with ESMTPSA id i15-20020a056512340f00b004b3b2a9f506sm1838996lfr.4.2022.12.04.10.29.18
+        by smtp.gmail.com with ESMTPSA id i15-20020a056512340f00b004b3b2a9f506sm1838996lfr.4.2022.12.04.10.29.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 04 Dec 2022 10:29:19 -0800 (PST)
+        Sun, 04 Dec 2022 10:29:20 -0800 (PST)
 From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
@@ -72,9 +72,9 @@ To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-tegra@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
         linux-stm32@st-md-mailman.stormreply.com
 Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH 2/9] media: dt-bindings: st,stm32-cec: move to cec subfolder
-Date:   Sun,  4 Dec 2022 19:29:01 +0100
-Message-Id: <20221204182908.138910-2-krzysztof.kozlowski@linaro.org>
+Subject: [PATCH 3/9] media: dt-bindings: cec: convert common CEC properties to DT schema
+Date:   Sun,  4 Dec 2022 19:29:02 +0100
+Message-Id: <20221204182908.138910-3-krzysztof.kozlowski@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221204182908.138910-1-krzysztof.kozlowski@linaro.org>
 References: <20221204182908.138910-1-krzysztof.kozlowski@linaro.org>
@@ -90,35 +90,78 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Move st,stm32-cec.yaml bindings to cec subfolder and drop unneeded
-"bindings" in the title.
+Convert common HDMI CEC adapter bindings to DT schema.
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
- .../devicetree/bindings/media/{ => cec}/st,stm32-cec.yaml     | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename Documentation/devicetree/bindings/media/{ => cec}/st,stm32-cec.yaml (89%)
+ .../devicetree/bindings/media/cec.txt         |  8 ------
+ .../bindings/media/cec/cec-common.yaml        | 28 +++++++++++++++++++
+ MAINTAINERS                                   |  2 +-
+ 3 files changed, 29 insertions(+), 9 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/media/cec.txt
+ create mode 100644 Documentation/devicetree/bindings/media/cec/cec-common.yaml
 
-diff --git a/Documentation/devicetree/bindings/media/st,stm32-cec.yaml b/Documentation/devicetree/bindings/media/cec/st,stm32-cec.yaml
-similarity index 89%
-rename from Documentation/devicetree/bindings/media/st,stm32-cec.yaml
-rename to Documentation/devicetree/bindings/media/cec/st,stm32-cec.yaml
-index 77144cc6f7db..2314a9a14650 100644
---- a/Documentation/devicetree/bindings/media/st,stm32-cec.yaml
-+++ b/Documentation/devicetree/bindings/media/cec/st,stm32-cec.yaml
-@@ -1,10 +1,10 @@
- # SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
- %YAML 1.2
- ---
--$id: http://devicetree.org/schemas/media/st,stm32-cec.yaml#
-+$id: http://devicetree.org/schemas/media/cec/st,stm32-cec.yaml#
- $schema: http://devicetree.org/meta-schemas/core.yaml#
- 
--title: STMicroelectronics STM32 CEC bindings
-+title: STMicroelectronics STM32 CEC
- 
- maintainers:
-   - Yannick Fertre <yannick.fertre@foss.st.com>
+diff --git a/Documentation/devicetree/bindings/media/cec.txt b/Documentation/devicetree/bindings/media/cec.txt
+deleted file mode 100644
+index 22d7aae3d3d7..000000000000
+--- a/Documentation/devicetree/bindings/media/cec.txt
++++ /dev/null
+@@ -1,8 +0,0 @@
+-Common bindings for HDMI CEC adapters
+-
+-- hdmi-phandle: phandle to the HDMI controller.
+-
+-- needs-hpd: if present the CEC support is only available when the HPD
+-  is high. Some boards only let the CEC pin through if the HPD is high,
+-  for example if there is a level converter that uses the HPD to power
+-  up or down.
+diff --git a/Documentation/devicetree/bindings/media/cec/cec-common.yaml b/Documentation/devicetree/bindings/media/cec/cec-common.yaml
+new file mode 100644
+index 000000000000..af6ee5f1c73f
+--- /dev/null
++++ b/Documentation/devicetree/bindings/media/cec/cec-common.yaml
+@@ -0,0 +1,28 @@
++# SPDX-License-Identifier: GPL-2.0 OR BSD-2-Clause
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/media/cec/cec-common.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: HDMI CEC Adapters Common Properties
++
++maintainers:
++  - Hans Verkuil <hverkuil@xs4all.nl>
++
++properties:
++  $nodename:
++    pattern: "^cec(@[0-9a-f]+|-[0-9]+)?$"
++
++  hdmi-phandle:
++    $ref: /schemas/types.yaml#/definitions/phandle
++    description:
++      Phandle to the HDMI controller.
++
++  needs-hpd:
++    type: boolean
++    description:
++      The CEC support is only available when the HPD is high. Some boards only
++      let the CEC pin through if the HPD is high, for example if there is a
++      level converter that uses the HPD to power up or down.
++
++additionalProperties: true
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 07cb85cac4c3..45402e03cda5 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -4832,7 +4832,7 @@ S:	Supported
+ W:	http://linuxtv.org
+ T:	git git://linuxtv.org/media_tree.git
+ F:	Documentation/ABI/testing/debugfs-cec-error-inj
+-F:	Documentation/devicetree/bindings/media/cec.txt
++F:	Documentation/devicetree/bindings/media/cec/cec-common.yaml
+ F:	Documentation/driver-api/media/cec-core.rst
+ F:	Documentation/userspace-api/media/cec
+ F:	drivers/media/cec/
 -- 
 2.34.1
 
