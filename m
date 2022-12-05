@@ -2,223 +2,97 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 59198642B76
-	for <lists+linux-media@lfdr.de>; Mon,  5 Dec 2022 16:19:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7FB3E642B90
+	for <lists+linux-media@lfdr.de>; Mon,  5 Dec 2022 16:25:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232642AbiLEPTy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 5 Dec 2022 10:19:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51782 "EHLO
+        id S232533AbiLEPZP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 5 Dec 2022 10:25:15 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59434 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232149AbiLEPTG (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 5 Dec 2022 10:19:06 -0500
-Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com [IPv6:2a00:1450:4864:20::134])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 201B01D32B
-        for <linux-media@vger.kernel.org>; Mon,  5 Dec 2022 07:19:02 -0800 (PST)
-Received: by mail-lf1-x134.google.com with SMTP id p8so19050312lfu.11
-        for <linux-media@vger.kernel.org>; Mon, 05 Dec 2022 07:19:02 -0800 (PST)
+        with ESMTP id S231848AbiLEPY6 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 5 Dec 2022 10:24:58 -0500
+Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com [IPv6:2a00:1450:4864:20::435])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 16FDE20BD8
+        for <linux-media@vger.kernel.org>; Mon,  5 Dec 2022 07:22:12 -0800 (PST)
+Received: by mail-wr1-x435.google.com with SMTP id h10so9565846wrx.3
+        for <linux-media@vger.kernel.org>; Mon, 05 Dec 2022 07:22:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=9aazsYiCUK+hhkaN7DSb9BXLEifN4Vj66BPeUPEEPTM=;
-        b=ckoG7YLE4dTbKyEPRu6WUdAh9sc6sQyo5v4/rMvhZOfAIgvcJ5/MVrGBrf/DiDf8x4
-         XHYc5us7TZZOzmFOtgLsqPXSqWfxoE6zcD1artGeDOn81+0Jq8a689uNAvPey+6H7HLq
-         w6h/zkl/RjjKWAOa17u7skBBEoJrnXn2wkeA3766gnNbR6kaxqMxWqR21ZN7LsYOxdWL
-         k6JrlVLjcZZF41LwGnOXc2nKZjOSbPVgxRutjviPUIJaqB3kt4FMkHZAwIYKtENCwFc7
-         FOaJPmARm0f6wHeHMj4aj0Z0QQgIlBAF+xFgSaQA7TSFS9vAScvCXifGNieQ4oP0ASxm
-         yOTQ==
+        d=raspberrypi.com; s=google;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Uezy3uu36wBaetI47HqvtIVi3qKjp7ZeDLlnyZoU/m8=;
+        b=ErhLieklrp8q9GHkwjp1EArHaOnGgGRGCObJZF55iuakepSDn0u4kwGrhT+22YDVJh
+         lH2ethEqXftm5tCmYvGaWgbe89Ni3KZuOYP9z+OLAChIxy7dE5eo+ysyfzRhJM8Lxxv1
+         VdOlfs9pJc87H5HO3/oD3t3awQPDB56uJO/J1wZw1uAAWrre72Au3nenNjqP65yodAxx
+         BZIrEAG1u0KUnTXwKzuyXBdR7FGTx0hrqBAWdg9hN2NO98Dwl07Qvt3fU4KuD0Byn3Py
+         jnWKNbeoeDV2gRDpdSPBhWzCUR57E0eMENbrzE3xc5uI4Xn1K9hgRnkq629YvTTYTztu
+         omJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=9aazsYiCUK+hhkaN7DSb9BXLEifN4Vj66BPeUPEEPTM=;
-        b=Mneu0wXObJkX/hOx5jMsaL7wGhVxrNdtQBn3wJpDrOPZDK64RVeQiWlB2VJaiO7J1K
-         yPEbqosocXHxxeuHGthtZ0jydlTVWaLeqjRlwsqNhiniMBUsXVeilrk1rx3CLAKCZtz6
-         DKA7warDmOevxpSerBIEdNGqzvAKt8IHZGFrw8vH7BA/nQLuCj9XifvmPb91wNrnMlgV
-         wayK9Y4n4ogAPu+DFxH94U3jk38bmgUXaS36Cb0b1PeI5+limh7OmpUU718RZNY3VXLP
-         zb90FGAViqUp7n5AS1ao01/+ii6zsqvNoAw9PmtxVqe2wd5NRujFPh3tloSG7Y24jMOd
-         Mrjw==
-X-Gm-Message-State: ANoB5pk400+c5pDO//bCfnP6ZsslKnLy1ohcRGjPMuvQAzN9wsUi50A5
-        E5zupnp3i754RMSWGnNpQC3L+w==
-X-Google-Smtp-Source: AA0mqf5etfZUUwBnmi2OzAxBRb101NGrpAQYXEdDklkcv44ujx+sqOk4y4+zled7jnxr64dMaIx3NA==
-X-Received: by 2002:ac2:5fcc:0:b0:4b0:2675:110d with SMTP id q12-20020ac25fcc000000b004b02675110dmr24041887lfg.295.1670253541635;
-        Mon, 05 Dec 2022 07:19:01 -0800 (PST)
-Received: from krzk-bin.NAT.warszawa.vectranet.pl (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
-        by smtp.gmail.com with ESMTPSA id w26-20020a05651204da00b004b55f60c65asm1012470lfq.284.2022.12.05.07.19.00
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Uezy3uu36wBaetI47HqvtIVi3qKjp7ZeDLlnyZoU/m8=;
+        b=6dIzP6iTa3v7n2+f0L4zdRi4uiBnvCWnuQuwH6RhrLq27A6nfhSMxL6W3W4/tZfNh6
+         5KcVRwl1sUE0UG8BicuT/jeLMRaVdqdW5NDdTWF5a6nBFvsz93HVQC9bbUCoWvXB9Uv8
+         oPqwHPKsQau1boEyRHJbU8M8GdRCHtkBVgkVy5qWsSwtdNOt4l3xLcsEjwPIZ+X67h0V
+         82RZCzYhICOCcxzPMGeH/5GCdpLJYCiy8IdNj8yZ/E9FR07dFNbcq+TM9nmq3TLvKIlN
+         nvz88MSq6LRJiSh7RXXLZSO6RGS2RFprxuwUA/TpdEIwS9A20ZS2sTx4gjdAx2i//4K8
+         7ciA==
+X-Gm-Message-State: ANoB5pl4ECzi/fpWWUZcMJ/yM3y3szdEQw6KJLZFsevv1azc9r8cxnlb
+        SGGAcPalmDJtJtw48+cFbAr/RvdBew9HT5Qo
+X-Google-Smtp-Source: AA0mqf7/Ml5wRwxcrSlgQYp+ov63cZtBziB0CV2I8JMZHmmcpAhysV9hPBHMhxNy/hgHyRVaCD3FIg==
+X-Received: by 2002:a5d:68d0:0:b0:242:6fb:128d with SMTP id p16-20020a5d68d0000000b0024206fb128dmr27962539wrw.422.1670253729849;
+        Mon, 05 Dec 2022 07:22:09 -0800 (PST)
+Received: from dave-Ubuntu2204.pitowers.org ([93.93.133.154])
+        by smtp.googlemail.com with ESMTPSA id fc13-20020a05600c524d00b003d04e4ed873sm25144905wmb.22.2022.12.05.07.22.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 Dec 2022 07:19:01 -0800 (PST)
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Alain Volmat <alain.volmat@foss.st.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Joe Tessler <jrt@google.com>,
-        Yannick Fertre <yannick.fertre@foss.st.com>,
-        Jeff Chase <jnchase@google.com>, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-amlogic@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH v2 9/9] media: dt-bindings: st,stih-cec: convert to DT schema
-Date:   Mon,  5 Dec 2022 16:18:45 +0100
-Message-Id: <20221205151845.21618-10-krzysztof.kozlowski@linaro.org>
+        Mon, 05 Dec 2022 07:22:09 -0800 (PST)
+From:   Dave Stevenson <dave.stevenson@raspberrypi.com>
+To:     Rui Miguel Silva <rmfrfs@gmail.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Bingbu Cao <bingbu.cao@intel.com>,
+        Tianshu Qiu <tian.shu.qiu@intel.com>,
+        Jimmy Su <jimmy.su@intel.com>, linux-media@vger.kernel.org
+Cc:     Dave Stevenson <dave.stevenson@raspberrypi.com>
+Subject: [PATCH V2 0/5] Ensure sensor drivers set V4L2_CTRL_FLAG_MODIFY_LAYOUT for flips
+Date:   Mon,  5 Dec 2022 15:21:44 +0000
+Message-Id: <20221205152149.1364185-1-dave.stevenson@raspberrypi.com>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20221205151845.21618-1-krzysztof.kozlowski@linaro.org>
-References: <20221205151845.21618-1-krzysztof.kozlowski@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Convert ST STIH4xx HDMI CEC bindings to DT schema.
+Hi.
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
----
- .../bindings/media/cec/st,stih-cec.yaml       | 66 +++++++++++++++++++
- .../devicetree/bindings/media/stih-cec.txt    | 27 --------
- MAINTAINERS                                   |  2 +-
- 3 files changed, 67 insertions(+), 28 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/media/cec/st,stih-cec.yaml
- delete mode 100644 Documentation/devicetree/bindings/media/stih-cec.txt
+I was doing a basic sweep of drivers and noted that these 5 drivers change the
+Bayer order based on HFLIP and VFLIP. However they don't set the
+V4L2_CTRL_FLAG_MODIFY_LAYOUT flag on the controls, so userspace has no notion
+that it needs to check for a changed format.
 
-diff --git a/Documentation/devicetree/bindings/media/cec/st,stih-cec.yaml b/Documentation/devicetree/bindings/media/cec/st,stih-cec.yaml
-new file mode 100644
-index 000000000000..aeddf16ed339
---- /dev/null
-+++ b/Documentation/devicetree/bindings/media/cec/st,stih-cec.yaml
-@@ -0,0 +1,66 @@
-+# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/media/cec/st,stih-cec.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: STMicroelectronics STIH4xx HDMI CEC
-+
-+maintainers:
-+  - Alain Volmat <alain.volmat@foss.st.com>
-+
-+allOf:
-+  - $ref: cec-common.yaml#
-+
-+properties:
-+  compatible:
-+    const: st,stih-cec
-+
-+  clocks:
-+    maxItems: 1
-+
-+  clock-names:
-+    items:
-+      - const: cec-clk
-+
-+  interrupts:
-+    maxItems: 1
-+
-+  interrupt-names:
-+    items:
-+      - const: cec-irq
-+
-+  resets:
-+    maxItems: 1
-+
-+  reg:
-+    maxItems: 1
-+
-+required:
-+  - compatible
-+  - clocks
-+  - hdmi-phandle
-+  - interrupts
-+  - resets
-+  - reg
-+
-+unevaluatedProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/interrupt-controller/arm-gic.h>
-+    #include <dt-bindings/reset/stih407-resets.h>
-+
-+    cec@94a087c {
-+        compatible = "st,stih-cec";
-+        reg = <0x94a087c 0x64>;
-+
-+        clocks = <&clk_sysin>;
-+        clock-names = "cec-clk";
-+        hdmi-phandle = <&sti_hdmi>;
-+        interrupts = <GIC_SPI 140 IRQ_TYPE_LEVEL_HIGH>;
-+        interrupt-names = "cec-irq";
-+        pinctrl-names = "default";
-+        pinctrl-0 = <&pinctrl_cec0_default>;
-+        resets = <&softreset STIH407_LPM_SOFTRESET>;
-+    };
-diff --git a/Documentation/devicetree/bindings/media/stih-cec.txt b/Documentation/devicetree/bindings/media/stih-cec.txt
-deleted file mode 100644
-index ece0832fdeaf..000000000000
---- a/Documentation/devicetree/bindings/media/stih-cec.txt
-+++ /dev/null
-@@ -1,27 +0,0 @@
--STMicroelectronics STIH4xx HDMI CEC driver
--
--Required properties:
-- - compatible : value should be "st,stih-cec"
-- - reg : Physical base address of the IP registers and length of memory
--	 mapped region.
-- - clocks : from common clock binding: handle to HDMI CEC clock
-- - interrupts : HDMI CEC interrupt number to the CPU.
-- - pinctrl-names: Contains only one value - "default"
-- - pinctrl-0: Specifies the pin control groups used for CEC hardware.
-- - resets: Reference to a reset controller
-- - hdmi-phandle: Phandle to the HDMI controller, see also cec.txt.
--
--Example for STIH407:
--
--sti-cec@94a087c {
--	compatible = "st,stih-cec";
--	reg = <0x94a087c 0x64>;
--	clocks = <&clk_sysin>;
--	clock-names = "cec-clk";
--	interrupts = <GIC_SPI 140 IRQ_TYPE_NONE>;
--	interrupt-names = "cec-irq";
--	pinctrl-names = "default";
--	pinctrl-0 = <&pinctrl_cec0_default>;
--	resets = <&softreset STIH407_LPM_SOFTRESET>;
--	hdmi-phandle = <&hdmi>;
--};
-diff --git a/MAINTAINERS b/MAINTAINERS
-index dee3f776be32..5bf8879b4a59 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -19924,7 +19924,7 @@ F:	sound/soc/sti/
- STI CEC DRIVER
- M:	Alain Volmat <alain.volmat@foss.st.com>
- S:	Maintained
--F:	Documentation/devicetree/bindings/media/stih-cec.txt
-+F:	Documentation/devicetree/bindings/media/cec/st,stih-cec.yaml
- F:	drivers/media/cec/platform/sti/
- 
- STK1160 USB VIDEO CAPTURE DRIVER
+Add the flag to all the controls.
+
+  Dave
+
+Changes from v1:
+- Corrected typo in imx355
+- Moved setting the flags for ov2680 at Rui's request.
+
+
+ drivers/media/i2c/imx208.c  | 4 ++++
+ drivers/media/i2c/imx319.c  | 4 ++++
+ drivers/media/i2c/imx355.c  | 4 ++++
+ drivers/media/i2c/ov08d10.c | 5 +++++
+ drivers/media/i2c/ov2680.c  | 2 ++
+ 5 files changed, 19 insertions(+)
+
 -- 
 2.34.1
 
