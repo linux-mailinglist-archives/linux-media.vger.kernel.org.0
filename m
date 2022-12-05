@@ -2,53 +2,53 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 582D4642B94
-	for <lists+linux-media@lfdr.de>; Mon,  5 Dec 2022 16:25:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 670ED642B93
+	for <lists+linux-media@lfdr.de>; Mon,  5 Dec 2022 16:25:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232572AbiLEPZ0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 5 Dec 2022 10:25:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59618 "EHLO
+        id S232521AbiLEPZY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 5 Dec 2022 10:25:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59542 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232422AbiLEPZA (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 5 Dec 2022 10:25:00 -0500
-Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com [IPv6:2a00:1450:4864:20::432])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7101A20BFF
+        with ESMTP id S231958AbiLEPY7 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 5 Dec 2022 10:24:59 -0500
+Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com [IPv6:2a00:1450:4864:20::42d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 72EB620F47
         for <linux-media@vger.kernel.org>; Mon,  5 Dec 2022 07:22:14 -0800 (PST)
-Received: by mail-wr1-x432.google.com with SMTP id y16so19125284wrm.2
+Received: by mail-wr1-x42d.google.com with SMTP id d1so19067815wrs.12
         for <linux-media@vger.kernel.org>; Mon, 05 Dec 2022 07:22:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=raspberrypi.com; s=google;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=jW/wraYzdeVh5VN6Plj6mY5qgvxc6yfVXPI0v0RffG8=;
-        b=pxT3QuEFaoyxydtMf1y6iaI+cyLUMfjibZVa4ik2l2fDGq2tqQoiCt68EvrEWGEhYF
-         lZVF+cyG9lY1L9z03QG1IK86BXAbmiGC69f8R9scCn69iK9v5fvD34dQUR7xyA2qxUfa
-         2yM1KBLo62rbmk4boVkcgSqLe3K/eKCdBeWuBE9crJETOvlfUu57x2qYc9P0C0jzHvWw
-         Cx2xyiWsbTz0659TI7l8rAntnJUmElLobmFZ2H0m+mJHFNerXLTC1U7+XbKW1SaQTIDV
-         Jw25hMCKjjOuIQvqpa+gqF6cdb+jQZbVJBPGTuB2XPR17BfGda1zVD6k6SfpL6WMqNx/
-         WEsg==
+        bh=0+jHFMZScyfUNZiOOh7s/dn912ZUyLRMHPvPbt4Ppd0=;
+        b=op5dhnZz5wVG6btVFp7KctZ7K36AsBYcn2FpH+WBS8nDgeMTugq5BycqmRr36/7AGv
+         Pz1VUq+PDWG/b+cibKAhN5xtAjduUHk/fByzapmXaGAugK03HGgZkvMrPGGkPcA6o4GF
+         JTIxilb4lMIzFgwy7N0sNA+3ZTd4Vl9EMP80LjyWq2QcqqVWKqmyFWkJwqBz/hz6tgtW
+         v19RpvRmuSzCa4nzyC1WD1c98Ed1x/g/QttNCgv0XDRKpHZ15FoUwKldwh1UgeZJCxmE
+         /+sDHFfVSI6urbQSQcwZxjhCPsi3gcpsdkhExO7nH9+j5u73/uKDV9z3LwOk/AvmxkgX
+         90jg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=jW/wraYzdeVh5VN6Plj6mY5qgvxc6yfVXPI0v0RffG8=;
-        b=CiUvFJWsybZ3zfe7FbW4hILZs0V5/x8NWljGSpyBHwPO01NmhmJG43w7KS4WPcubB5
-         JDrtouketFCG1wdVZub4gg3kC7/vW4pqgUMeKPUQShragpljgk22GAsSqSCKgidwGPOw
-         1H2KU3jJu47jk9mdRGjpT+mHLXsaYbfTD44Sv4vB6SKxEM1yeVZVy/yT9tjoMpbMUrUa
-         pP770qV+205oijssHG1knx5Kidknw+yq3CyLGDORlHT8RBvLgyIqyRbXukoRouU3pKav
-         vydDyQI5sbJWuE8U36g+a80RfFN8FqdIycp+XjwqvlDQ4tUj7wJTUx5aLK1UP4cLhOLB
-         t5Cw==
-X-Gm-Message-State: ANoB5pnPMJ8xnkx8BfU8hYyg0p0IYUGLeqcq0lwx97FwPfSabFD+MLvP
-        zpefS5g5KvUklbUeDJMdqBk8jA==
-X-Google-Smtp-Source: AA0mqf6U348ZFOAy8ENh041iW1hN7Fiobz6Mc+oenTnGyPpiQbIzcgFolNufEWQZRRH3iR57U/IyQw==
-X-Received: by 2002:adf:de08:0:b0:242:1d2c:9d78 with SMTP id b8-20020adfde08000000b002421d2c9d78mr20515260wrm.490.1670253732168;
+        bh=0+jHFMZScyfUNZiOOh7s/dn912ZUyLRMHPvPbt4Ppd0=;
+        b=arj122dcJ/n+tFVuiqRkAvoCWYcpQr+Me8lEZQvduFRswIaW5RI36SJu1IineezMZ9
+         VTifOJ20nrLwl0pC+pPqQGr+DMdM2zswYYVBom9XNcslOq+uhRy4iKL8FaQ8y/apI/pS
+         BHMzzttg/WWb0h07M8WL3XZboc9v9lilQnI2TAWaK4tr6W8uwEE3w9eE+FSJAbr6oxtA
+         I2oo+esXOWY+e9XC2BRXo8VAuBrIwLGovfbJwLZMyzNI5D79p4FrY1C7QB1nMhhjffof
+         6wxJIel2aOoeoMfJeZb1CwKTMYs6TCZAyn9m9//4z8PlGUTBy6nzzGSwjfa0hBkVKqpU
+         QFjw==
+X-Gm-Message-State: ANoB5plejhJCNRL41I4dp3QKkztMJpDWFZElQ8RSCXWZUNVppOJQK1mP
+        p3gLxoGDlZ65j0uk+loxpW/KAQ==
+X-Google-Smtp-Source: AA0mqf7mngfRA8tqWuKE4iisQQvWROLKrf2EKzkzNtIUTOVlCbifO/S8VcOtOQJ6MuHiCo6e1xgxQg==
+X-Received: by 2002:a5d:510b:0:b0:241:fe9d:fbf4 with SMTP id s11-20020a5d510b000000b00241fe9dfbf4mr32357487wrt.412.1670253732834;
         Mon, 05 Dec 2022 07:22:12 -0800 (PST)
 Received: from dave-Ubuntu2204.pitowers.org ([93.93.133.154])
-        by smtp.googlemail.com with ESMTPSA id fc13-20020a05600c524d00b003d04e4ed873sm25144905wmb.22.2022.12.05.07.22.11
+        by smtp.googlemail.com with ESMTPSA id fc13-20020a05600c524d00b003d04e4ed873sm25144905wmb.22.2022.12.05.07.22.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 Dec 2022 07:22:11 -0800 (PST)
+        Mon, 05 Dec 2022 07:22:12 -0800 (PST)
 From:   Dave Stevenson <dave.stevenson@raspberrypi.com>
 To:     Rui Miguel Silva <rmfrfs@gmail.com>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
@@ -56,9 +56,9 @@ To:     Rui Miguel Silva <rmfrfs@gmail.com>,
         Tianshu Qiu <tian.shu.qiu@intel.com>,
         Jimmy Su <jimmy.su@intel.com>, linux-media@vger.kernel.org
 Cc:     Dave Stevenson <dave.stevenson@raspberrypi.com>
-Subject: [PATCH v2 3/5] media: i2c: imx319: Set V4L2_CTRL_FLAG_MODIFY_LAYOUT on flips
-Date:   Mon,  5 Dec 2022 15:21:47 +0000
-Message-Id: <20221205152149.1364185-4-dave.stevenson@raspberrypi.com>
+Subject: [PATCH v2 4/5] media: i2c: imx355: Set V4L2_CTRL_FLAG_MODIFY_LAYOUT on flips
+Date:   Mon,  5 Dec 2022 15:21:48 +0000
+Message-Id: <20221205152149.1364185-5-dave.stevenson@raspberrypi.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221205152149.1364185-1-dave.stevenson@raspberrypi.com>
 References: <20221205152149.1364185-1-dave.stevenson@raspberrypi.com>
@@ -81,26 +81,26 @@ Add the V4L2_CTRL_FLAG_MODIFY_LAYOUT flag.
 
 Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 ---
- drivers/media/i2c/imx319.c | 4 ++++
+ drivers/media/i2c/imx355.c | 4 ++++
  1 file changed, 4 insertions(+)
 
-diff --git a/drivers/media/i2c/imx319.c b/drivers/media/i2c/imx319.c
-index 245a18fb40ad..45b1b61b2880 100644
---- a/drivers/media/i2c/imx319.c
-+++ b/drivers/media/i2c/imx319.c
-@@ -2328,8 +2328,12 @@ static int imx319_init_controls(struct imx319 *imx319)
+diff --git a/drivers/media/i2c/imx355.c b/drivers/media/i2c/imx355.c
+index b46178681c05..25d4dbb6041e 100644
+--- a/drivers/media/i2c/imx355.c
++++ b/drivers/media/i2c/imx355.c
+@@ -1617,8 +1617,12 @@ static int imx355_init_controls(struct imx355 *imx355)
  
- 	imx319->hflip = v4l2_ctrl_new_std(ctrl_hdlr, &imx319_ctrl_ops,
+ 	imx355->hflip = v4l2_ctrl_new_std(ctrl_hdlr, &imx355_ctrl_ops,
  					  V4L2_CID_HFLIP, 0, 1, 1, 0);
-+	if (imx319->hflip)
-+		imx319->hflip->flags |= V4L2_CTRL_FLAG_MODIFY_LAYOUT;
- 	imx319->vflip = v4l2_ctrl_new_std(ctrl_hdlr, &imx319_ctrl_ops,
++	if (imx355->hflip)
++		imx355->hflip->flags |= V4L2_CTRL_FLAG_MODIFY_LAYOUT;
+ 	imx355->vflip = v4l2_ctrl_new_std(ctrl_hdlr, &imx355_ctrl_ops,
  					  V4L2_CID_VFLIP, 0, 1, 1, 0);
-+	if (imx319->vflip)
-+		imx319->vflip->flags |= V4L2_CTRL_FLAG_MODIFY_LAYOUT;
++	if (imx355->vflip)
++		imx355->vflip->flags |= V4L2_CTRL_FLAG_MODIFY_LAYOUT;
  
- 	v4l2_ctrl_new_std(ctrl_hdlr, &imx319_ctrl_ops, V4L2_CID_ANALOGUE_GAIN,
- 			  IMX319_ANA_GAIN_MIN, IMX319_ANA_GAIN_MAX,
+ 	v4l2_ctrl_new_std(ctrl_hdlr, &imx355_ctrl_ops, V4L2_CID_ANALOGUE_GAIN,
+ 			  IMX355_ANA_GAIN_MIN, IMX355_ANA_GAIN_MAX,
 -- 
 2.34.1
 
