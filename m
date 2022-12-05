@@ -2,130 +2,82 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 64B536422A1
-	for <lists+linux-media@lfdr.de>; Mon,  5 Dec 2022 06:20:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CD7A1642302
+	for <lists+linux-media@lfdr.de>; Mon,  5 Dec 2022 07:28:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231388AbiLEFU5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 5 Dec 2022 00:20:57 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45244 "EHLO
+        id S231600AbiLEG2E (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 5 Dec 2022 01:28:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53468 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231690AbiLEFUa (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 5 Dec 2022 00:20:30 -0500
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3779B13F91;
-        Sun,  4 Dec 2022 21:20:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1670217617; x=1701753617;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=mXhoSw88V/7yBb8oczsmPuNJJvEtejt3CszxH0XbUxo=;
-  b=Pix+f2m3QxHXoRZXM2Pna9AkTv1gjctfmYnRxgJXF77YzBHZsXiYWv98
-   hEyAys1SYP8jwhR+DvFr7Iuett4LZiqbjeTCWqlLyj/kwDLPwHkJsxJRL
-   fXpsq/7bPNbdhu+FAr39wlkJCJgXmwRU3u2pwtQnobW/4fCAsj7M8OHo2
-   oR9BICMKJxkYmeW2FnH1prCq5cceb3nM2vXOPmksvSWAWEf/nSHj4JOvK
-   /9Ava2vHS/8RZU+5j23o2Rydg0uS//L2JIDx3LHXPGDyxE7PWbp84JNG0
-   0i8EkV/qRkndwTJukNzIAzRwX3dxq9oJ13aLVt3tZWp37ADau6MAb2rpB
-   w==;
-X-IronPort-AV: E=Sophos;i="5.96,218,1665471600"; 
-   d="scan'208";a="126455461"
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa6.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 04 Dec 2022 22:20:15 -0700
-Received: from chn-vm-ex01.mchp-main.com (10.10.85.143) by
- chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.12; Sun, 4 Dec 2022 22:20:15 -0700
-Received: from microchip1-OptiPlex-9020.microchip.com (10.10.115.15) by
- chn-vm-ex01.mchp-main.com (10.10.85.143) with Microsoft SMTP Server id
- 15.1.2507.12 via Frontend Transport; Sun, 4 Dec 2022 22:20:13 -0700
-From:   shravan kumar <shravan.chippa@microchip.com>
-To:     <paul.j.murphy@intel.com>, <daniele.alessandrelli@intel.com>,
-        <mchehab@kernel.org>
-CC:     <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        "Shravan Chippa" <shravan.chippa@microchip.com>,
-        Sakari Ailus <sakari.ailus@iki.fi>
-Subject: [PATCH v6 5/5] media: i2c: imx334: update pixel and link frequency
-Date:   Mon, 5 Dec 2022 10:49:37 +0530
-Message-ID: <20221205051937.3897001-7-shravan.chippa@microchip.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20221205051937.3897001-1-shravan.chippa@microchip.com>
-References: <20221205051937.3897001-1-shravan.chippa@microchip.com>
+        with ESMTP id S231362AbiLEG2C (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 5 Dec 2022 01:28:02 -0500
+Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D77476540
+        for <linux-media@vger.kernel.org>; Sun,  4 Dec 2022 22:28:00 -0800 (PST)
+Received: from kwepemm600018.china.huawei.com (unknown [172.30.72.54])
+        by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4NQYVm63jcz15N64;
+        Mon,  5 Dec 2022 14:27:12 +0800 (CST)
+Received: from huawei.com (10.174.176.88) by kwepemm600018.china.huawei.com
+ (7.193.23.140) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.31; Mon, 5 Dec
+ 2022 14:27:58 +0800
+From:   gaochao <gaochao49@huawei.com>
+To:     <mchehab@kernel.org>, <v4l@cerqueira.org>,
+        <linux-media@vger.kernel.org>, <gaochao49@huawei.com>
+Subject: [PATCH] media: pci: cx88: Fix missing pci_disable_device() when cx88_core_get() returns null
+Date:   Mon, 5 Dec 2022 14:27:57 +0800
+Message-ID: <20221205062757.1749-1-gaochao49@huawei.com>
+X-Mailer: git-send-email 2.28.0.windows.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.174.176.88]
+X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
+ kwepemm600018.china.huawei.com (7.193.23.140)
+X-CFilter-Loop: Reflected
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Shravan Chippa <shravan.chippa@microchip.com>
+From: Gao Chao <gaochao49@huawei.com>
 
-Update pixel_rate and link frequency for 1920x1080@30
-while changing mode.
+commit a8782f669c35 ("V4L/DVB (9796): drivers/media/video/cx88/cx88-alsa.c:
+Adjust error-handling code") added fail path. However, when cx88_core_get()
+returns null with chip->pci has not been setted, snd_cx88_dev_free() won't
+call a valid pci_disable_device() due to invalid chip->pci. Move the
+assignment of chip->pci forward to ensure snd_cx88_dev_free() can get
+valid chip->pci.
 
-Add dummy ctrl cases for pixel_rate and link frequency
-to avoid error while changing the modes dynamically
-
-Suggested-by: Sakari Ailus <sakari.ailus@iki.fi>
-Signed-off-by: Shravan Chippa <shravan.chippa@microchip.com>
+Fixes: b7f355d23c34 ("V4L/DVB (3293): Added digital support for cx88 (cx88-alsa)")
+Signed-off-by: Gao Chao <gaochao49@huawei.com>
 ---
- drivers/media/i2c/imx334.c | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
+ drivers/media/pci/cx88/cx88-alsa.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/media/i2c/imx334.c b/drivers/media/i2c/imx334.c
-index d5b566085da9..64ed77c4258c 100644
---- a/drivers/media/i2c/imx334.c
-+++ b/drivers/media/i2c/imx334.c
-@@ -50,6 +50,7 @@
- 
- /* CSI2 HW configuration */
- #define IMX334_LINK_FREQ	1782000000
-+#define IMX334_LINK_FREQ_891M	891000000
- #define IMX334_NUM_DATA_LANES	4
- 
- #define IMX334_REG_MIN		0x00
-@@ -145,6 +146,7 @@ struct imx334 {
- 
- static const s64 link_freq[] = {
- 	IMX334_LINK_FREQ,
-+	IMX334_LINK_FREQ_891M,
- };
- 
- /* Sensor mode registers */
-@@ -468,7 +470,7 @@ static const struct imx334_mode supported_modes[] = {
- 		.vblank_min = 90,
- 		.vblank_max = 132840,
- 		.pclk = 74250000,
--		.link_freq_idx = 0,
-+		.link_freq_idx = 1,
- 		.reg_list = {
- 			.num_of_regs = ARRAY_SIZE(mode_1920x1080_regs),
- 			.regs = mode_1920x1080_regs,
-@@ -598,6 +600,11 @@ static int imx334_update_controls(struct imx334 *imx334,
- 	if (ret)
- 		return ret;
- 
-+	ret = __v4l2_ctrl_modify_range(imx334->pclk_ctrl, mode->pclk,
-+				       mode->pclk, 1, mode->pclk);
-+	if (ret)
-+		return ret;
-+
- 	ret = __v4l2_ctrl_modify_range(imx334->hblank_ctrl, mode->hblank,
- 				       mode->hblank, 1, mode->hblank);
- 	if (ret)
-@@ -698,6 +705,8 @@ static int imx334_set_ctrl(struct v4l2_ctrl *ctrl)
- 		pm_runtime_put(imx334->dev);
- 
- 		break;
-+	case V4L2_CID_PIXEL_RATE:
-+	case V4L2_CID_LINK_FREQ:
- 	case V4L2_CID_HBLANK:
- 		ret = 0;
- 		break;
--- 
-2.34.1
+diff --git a/drivers/media/pci/cx88/cx88-alsa.c b/drivers/media/pci/cx88/cx88-alsa.c
+index 29fb1311e443..b355c168c462 100644
+--- a/drivers/media/pci/cx88/cx88-alsa.c
++++ b/drivers/media/pci/cx88/cx88-alsa.c
+@@ -858,6 +858,7 @@ static int snd_cx88_create(struct snd_card *card, struct pci_dev *pci,
+ 	if (err < 0)
+ 		return err;
+
++	chip->pci = pci;
+ 	pci_set_master(pci);
+
+ 	chip = card->private_data;
+@@ -877,7 +878,6 @@ static int snd_cx88_create(struct snd_card *card, struct pci_dev *pci,
+
+ 	/* pci init */
+ 	chip->card = card;
+-	chip->pci = pci;
+ 	chip->irq = -1;
+ 	spin_lock_init(&chip->reg_lock);
+
+--
+2.17.1
 
