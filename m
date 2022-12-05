@@ -2,123 +2,159 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 240D6641EE9
-	for <lists+linux-media@lfdr.de>; Sun,  4 Dec 2022 19:35:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2492664211C
+	for <lists+linux-media@lfdr.de>; Mon,  5 Dec 2022 02:37:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230187AbiLDSfB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 4 Dec 2022 13:35:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43640 "EHLO
+        id S231272AbiLEBgz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 4 Dec 2022 20:36:55 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60252 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229960AbiLDSfA (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sun, 4 Dec 2022 13:35:00 -0500
-Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com [IPv6:2a00:1450:4864:20::12d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 01959FCFB
-        for <linux-media@vger.kernel.org>; Sun,  4 Dec 2022 10:34:59 -0800 (PST)
-Received: by mail-lf1-x12d.google.com with SMTP id p8so15334787lfu.11
-        for <linux-media@vger.kernel.org>; Sun, 04 Dec 2022 10:34:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZXDIa9UwvSD086fb2VJXxmq1AAaUlSCfibRS/MrNCTA=;
-        b=RVCxVJ/WfAGpijugf/2vENKLmV3+cAqHJAJFJV2gz7ZfmFlahpjgmZuB1Ado17KzwQ
-         XnZ+liQ9ysrI/UErelM8Nt+gRq+zDDh0wkake5dJCg9ouDmHz9DRPThRbBlgQt8vzi6O
-         3wLgPWVvOzpVVt4fcWdu2v1AkFRKno+fdaIhoamT61piYLu2r8W+EeWb+8t7qFSNXS6B
-         udionCKJCsrHoKR7wcuJ63nsyDXr75b4t7DMk/SxXAScvUdgLzWbmh4QSNO2ysIOveuI
-         c899lTcbrNDCAi6VZFbYqPb3+98UR+HQvZNZTFGbXcBTI0OnXO3e4jlu9MkJaOs9BS5+
-         t8+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZXDIa9UwvSD086fb2VJXxmq1AAaUlSCfibRS/MrNCTA=;
-        b=eF2gX+zxDHuWEU19UqvSBrgRg83AtNDTPtsciiGMSar0ezHpA3zuYDtaYWkJw/KjGW
-         8hMCFMhsstNYqPPyGllgpw93SDLIlz55IGrgcezzLWJyKQkvfl/uVgmZ0wgVcTlfDTyi
-         MwuVYYKAIts5ZgLgHSyibSRCRy4TeuLPDOVC1WUxhvTDGkIdCLT7OQ75ZU3fuUQj141v
-         kjCS/PaHPk3P61bytQP+OYK/Hef5vMjyOHuIb4LXki20s342j6l5f7SQfDX0ZrecBCBM
-         VJP2Ox8bZuuqNOIEenuQwV1IwtpY1lcrE46m37M/xCrhrNHErvdwSkHP329MQi0dKL+I
-         Eowg==
-X-Gm-Message-State: ANoB5plve/8JiGqFr7I4Wqr2Cet3e2gYV1WbkzzQXg99RZNoCxtmVznl
-        0EQukb/RjZHPaIZacQ9DUYSWBA==
-X-Google-Smtp-Source: AA0mqf7/2oiaAA24E++y7ORCv8tDZhvGJ2X1DsTKc1u/CeUCOOUSgVvSg0TOI49fHgC4WxlRzC5X/Q==
-X-Received: by 2002:a05:6512:33ce:b0:4b5:ff:4050 with SMTP id d14-20020a05651233ce00b004b500ff4050mr15391733lfg.476.1670178897416;
-        Sun, 04 Dec 2022 10:34:57 -0800 (PST)
-Received: from krzk-bin.NAT.warszawa.vectranet.pl (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
-        by smtp.gmail.com with ESMTPSA id f14-20020a05651c03ce00b0027998486803sm1183079ljp.130.2022.12.04.10.34.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 04 Dec 2022 10:34:57 -0800 (PST)
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To:     Sylwester Nawrocki <s.nawrocki@samsung.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Alim Akhtar <alim.akhtar@samsung.com>,
-        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] media: exynos4-is: drop unused pctrl field and headers
-Date:   Sun,  4 Dec 2022 19:34:55 +0100
-Message-Id: <20221204183455.140337-1-krzysztof.kozlowski@linaro.org>
-X-Mailer: git-send-email 2.34.1
+        with ESMTP id S231276AbiLEBgy (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sun, 4 Dec 2022 20:36:54 -0500
+Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DDBCC10554
+        for <linux-media@vger.kernel.org>; Sun,  4 Dec 2022 17:36:52 -0800 (PST)
+Received: from kwepemi500013.china.huawei.com (unknown [172.30.72.56])
+        by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4NQR2s1GTVz15N5M;
+        Mon,  5 Dec 2022 09:36:05 +0800 (CST)
+Received: from huawei.com (10.175.101.6) by kwepemi500013.china.huawei.com
+ (7.221.188.120) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.31; Mon, 5 Dec
+ 2022 09:36:50 +0800
+From:   Lihong Kou <koulihong@huawei.com>
+To:     <mchehab@kernel.org>
+CC:     <linux-media@vger.kernel.org>
+Subject: [PATCH -next] media: usb: fix a UAF bug in em28xx_v4l2_init
+Date:   Mon, 5 Dec 2022 09:36:46 +0800
+Message-ID: <20221205013646.694271-1-koulihong@huawei.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.175.101.6]
+X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
+ kwepemi500013.china.huawei.com (7.221.188.120)
+X-CFilter-Loop: Reflected
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The field 'pctrl' in 'struct fimc_is' is not used, just like
-linux/pinctrl/consumer.h headers in the headers.
+In the em23xx module init function, we need to unregister video
+device in some error case. There is a concurrent scenario as shown
+below:
+ CPU0                         CPU1
+ em28xx_v4l2_init
+  mutex_lock(&dev->lock))
+ video_register_device
+ --register vdev
+                                 v4l2_open
+                                 em28xx_v4l2_open
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+ v4l2_mc_create_media_graph
+ --failed to create media graph
+ kref_put
+   free v4l2 ptr
+ mutex_unlock(&dev->lock))
+                                  mutex_lock(&dev->lock))
+                                  em28xx_resolution_set
+                                  access v4l2 ptr trigger a UAF problem
+
+Fix the bug by add register status check after grab the mutex in
+v4l2_fh_open.
+general protection fault, probably for non-canonical address 0xdffffc0000000383: 0000 [#1] PREEMPT SMP KASAN
+KASAN: probably user-memory-access in range [0x0000000000001c18-0x0000000000001c1f]
+CPU: 3 PID: 11033 Comm: v4l_id Tainted: G    B   W          6.1.0-rc2-00062-ga970174d7a10-dirty #10
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.15.0-0-g2dd4b9b3f840-prebuilt.qemu.org 04/01/2014
+RIP: 0010:em28xx_resolution_set.isra.0+0xe8/0x730
+Code: 0f 85 cf 05 00 00 44 0f b6 a5 3c 01 00 00 48 8d bb 18 1c 00 00 48 b8 00 00 00 00 00 fc ff df 48 89 fa 48 c1 ea 03 41 83 e4 10 <80> 3c 02 00 0f 85 1b 06 00 00 48 8b 83 18 1c 00 00 31 ff 44 89 e6
+RSP: 0018:ffffc9001c817818 EFLAGS: 00010246
+RAX: dffffc0000000000 RBX: 0000000000000000 RCX: 0000000000000000
+RDX: 0000000000000383 RSI: ffffffff863b628d RDI: 0000000000001c18
+RBP: ffff8880536d8000 R08: 0000000000000005 R09: 0000000000000002
+R10: 0000000000000000 R11: 0000000000000001 R12: 0000000000000000
+R13: ffff8880536d8000 R14: ffff8880536d813c R15: 0000000000000000
+FS:  00007f0809077700(0000) GS:ffff888135d00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f79d74a3d78 CR3: 00000000413c3000 CR4: 00000000001526e0
+Call Trace:
+ <TASK>
+ em28xx_v4l2_open+0x455/0x570
+ v4l2_open+0x21c/0x3f0
+ chrdev_open+0x266/0x770
+ do_dentry_open+0x67f/0x13c0
+ path_openat+0x1bad/0x27c0
+ do_filp_open+0x1c5/0x410
+ do_sys_openat2+0x16d/0x4c0
+ __x64_sys_open+0x119/0x1c0
+ do_syscall_64+0x35/0x80
+ entry_SYSCALL_64_after_hwframe+0x63/0xcd
+RIP: 0033:0x7f0808baf650
+Code: 64 48 8b 14 25 00 00 00 00 c7 04 02 02 00 00 00 83 c8 ff e9 fa fe ff ff 66 90 83 3d ad e2 2a 00 00 75 10 b8 02 00 00 00 0f 05 <48> 3d 01 f0 ff ff 73 31 c3 48 83 ec 08 e8 1e a8 01 00 48 89 04 24
+RSP: 002b:00007ffc9ad7ba88 EFLAGS: 00000246 ORIG_RAX: 0000000000000002
+RAX: ffffffffffffffda RBX: 00007ffc9ad7bc48 RCX: 00007f0808baf650
+RDX: 0000000000000002 RSI: 0000000000000000 RDI: 00007ffc9ad7cf17
+RBP: 0000000000000000 R08: 00007f0808c1c889 R09: 0000000000000000
+R10: 00007ffc9ad7b860 R11: 0000000000000246 R12: 0000000000400700
+R13: 00007ffc9ad7bc40 R14: 0000000000000000 R15: 0000000000000000
+ </TASK>
+Modules linked in:
+---[ end trace 0000000000000000 ]---
+RIP: 0010:em28xx_resolution_set.isra.0+0xe8/0x730
+Code: 0f 85 cf 05 00 00 44 0f b6 a5 3c 01 00 00 48 8d bb 18 1c 00 00 48 b8 00 00 00 00 00 fc ff df 48 89 fa 48 c1 ea 03 41 83 e4 10 <80> 3c 02 00 0f 85 1b 06 00 00 48 8b 83 18 1c 00 00 31 ff 44 89 e6
+RSP: 0018:ffffc9001c817818 EFLAGS: 00010246
+RAX: dffffc0000000000 RBX: 0000000000000000 RCX: 0000000000000000
+RDX: 0000000000000383 RSI: ffffffff863b628d RDI: 0000000000001c18
+RBP: ffff8880536d8000 R08: 0000000000000005 R09: 0000000000000002
+R10: 0000000000000000 R11: 0000000000000001 R12: 0000000000000000
+R13: ffff8880536d8000 R14: ffff8880536d813c R15: 0000000000000000
+FS:  00007f0809077700(0000) GS:ffff888135d00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f79d7482d78 CR3: 00000000413c3000 CR4: 00000000001526e0
+----------------
+Code disassembly (best guess):
+   0:	0f 85 cf 05 00 00    	jne    0x5d5
+   6:	44 0f b6 a5 3c 01 00 	movzbl 0x13c(%rbp),%r12d
+   d:	00
+   e:	48 8d bb 18 1c 00 00 	lea    0x1c18(%rbx),%rdi
+  15:	48 b8 00 00 00 00 00 	movabs $0xdffffc0000000000,%rax
+  1c:	fc ff df
+  1f:	48 89 fa             	mov    %rdi,%rdx
+  22:	48 c1 ea 03          	shr    $0x3,%rdx
+  26:	41 83 e4 10          	and    $0x10,%r12d
+* 2a:	80 3c 02 00          	cmpb   $0x0,(%rdx,%rax,1) <-- trapping instruction
+  2e:	0f 85 1b 06 00 00    	jne    0x64f
+  34:	48 8b 83 18 1c 00 00 	mov    0x1c18(%rbx),%rax
+  3b:	31 ff                	xor    %edi,%edi
+  3d:	44 89 e6             	mov    %r12d,%esi
+Signed-off-by: Lihong Kou <koulihong@huawei.com>
 ---
- drivers/media/platform/samsung/exynos4-is/fimc-is.h   | 3 ---
- drivers/media/platform/samsung/exynos4-is/media-dev.h | 1 -
- 2 files changed, 4 deletions(-)
+ drivers/media/usb/em28xx/em28xx-video.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/drivers/media/platform/samsung/exynos4-is/fimc-is.h b/drivers/media/platform/samsung/exynos4-is/fimc-is.h
-index 06586e455b1d..c126b779aafc 100644
---- a/drivers/media/platform/samsung/exynos4-is/fimc-is.h
-+++ b/drivers/media/platform/samsung/exynos4-is/fimc-is.h
-@@ -14,7 +14,6 @@
- #include <linux/clk.h>
- #include <linux/device.h>
- #include <linux/kernel.h>
--#include <linux/pinctrl/consumer.h>
- #include <linux/platform_device.h>
- #include <linux/sizes.h>
- #include <linux/spinlock.h>
-@@ -231,7 +230,6 @@ struct chain_config {
- /**
-  * struct fimc_is - fimc-is data structure
-  * @pdev: pointer to FIMC-IS platform device
-- * @pctrl: pointer to pinctrl structure for this device
-  * @v4l2_dev: pointer to the top level v4l2_device
-  * @fw: data structure describing the FIMC-IS firmware binary
-  * @memory: memory region assigned for the FIMC-IS (firmware)
-@@ -262,7 +260,6 @@ struct chain_config {
-  */
- struct fimc_is {
- 	struct platform_device		*pdev;
--	struct pinctrl			*pctrl;
- 	struct v4l2_device		*v4l2_dev;
+diff --git a/drivers/media/usb/em28xx/em28xx-video.c b/drivers/media/usb/em28xx/em28xx-video.c
+index 25e0620deff1..b8ab42e46c9b 100644
+--- a/drivers/media/usb/em28xx/em28xx-video.c
++++ b/drivers/media/usb/em28xx/em28xx-video.c
+@@ -2150,6 +2150,15 @@ static int em28xx_v4l2_open(struct file *filp)
+ 	if (mutex_lock_interruptible(&dev->lock))
+ 		return -ERESTARTSYS;
  
- 	struct fimc_is_firmware		fw;
-diff --git a/drivers/media/platform/samsung/exynos4-is/media-dev.h b/drivers/media/platform/samsung/exynos4-is/media-dev.h
-index 62ad5d7e035a..079105d88bab 100644
---- a/drivers/media/platform/samsung/exynos4-is/media-dev.h
-+++ b/drivers/media/platform/samsung/exynos4-is/media-dev.h
-@@ -11,7 +11,6 @@
- #include <linux/platform_device.h>
- #include <linux/mutex.h>
- #include <linux/of.h>
--#include <linux/pinctrl/consumer.h>
- #include <media/media-device.h>
- #include <media/media-entity.h>
- #include <media/v4l2-device.h>
++	if (!video_is_registered(vdev)) {
++		ret = -ENODEV;
++		dev_err(&dev->intf->dev,
++			"%s: v4l2_fh_open() returned error %d\n",
++		       __func__, ret);
++		mutex_unlock(&dev->lock);
++		return ret;
++	}
++
+ 	ret = v4l2_fh_open(filp);
+ 	if (ret) {
+ 		dev_err(&dev->intf->dev,
 -- 
-2.34.1
+2.31.1
 
