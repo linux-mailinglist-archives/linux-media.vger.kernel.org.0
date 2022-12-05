@@ -2,94 +2,77 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BE3AF642D64
-	for <lists+linux-media@lfdr.de>; Mon,  5 Dec 2022 17:45:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7CC4A642DAD
+	for <lists+linux-media@lfdr.de>; Mon,  5 Dec 2022 17:50:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233196AbiLEQpp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 5 Dec 2022 11:45:45 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41672 "EHLO
+        id S232530AbiLEQu0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 5 Dec 2022 11:50:26 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46852 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232621AbiLEQpI (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 5 Dec 2022 11:45:08 -0500
-Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com [IPv6:2a00:1450:4864:20::334])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6DA2C1FCF9
-        for <linux-media@vger.kernel.org>; Mon,  5 Dec 2022 08:43:44 -0800 (PST)
-Received: by mail-wm1-x334.google.com with SMTP id v7so9217962wmn.0
-        for <linux-media@vger.kernel.org>; Mon, 05 Dec 2022 08:43:44 -0800 (PST)
+        with ESMTP id S231890AbiLEQts (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 5 Dec 2022 11:49:48 -0500
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com [IPv6:2a00:1450:4864:20::342])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DBBEE21812
+        for <linux-media@vger.kernel.org>; Mon,  5 Dec 2022 08:49:04 -0800 (PST)
+Received: by mail-wm1-x342.google.com with SMTP id n16-20020a05600c3b9000b003d08febff59so5467827wms.3
+        for <linux-media@vger.kernel.org>; Mon, 05 Dec 2022 08:49:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Tm80V8MxZTxpH8Negzaw9yC6TePaEGAsS6LZXq3Sak8=;
-        b=vZoNeNgFajvPZnk/7PG2S1mOTR2KCGgiBqXs+6/gm5VKOI5/soGghHtC6bwX1jowiI
-         x48gFgtHKB0jT4IO3Yqnd4i1TQCAS2D+2XIPymvA0cg+3qEBhnEjBC9z0XDrYlgd/+as
-         gVCS7BC+H4gZRjctyWMzpOINEsjhp2PcHhyNqHFqHn36A6W2yEIgMR2pE28m6owJcYPS
-         Z6X5e6eIlVeXtXwejAtQ3U8hF4PQlnaBYlJLCECfnNDk/kWYDjJ0FqYXcYXefN8gqpoD
-         6SiGionsU9y565cMM1tIFW+gaaW2hwIbY1eXrgNlkKhBBSLHtnjkeKSpATeGT4xOZ1J0
-         yTTQ==
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:to:subject:message-id:date:from:reply-to
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=O4WPtqOs6pYDke8VCfpzwsIX+8zN33o8tLS2XMy/lFU=;
+        b=Z2wBWagY9UnEZ+M5YPDdGkg6nVUsQfYS1BhjpcwGEao2GhG01+Mm/qvV+1fKOq1lbu
+         EFS78qR+UGfEwXQVt6IRXk6jTGT8mo+KAwwjj0fZxBmjE1jztugOoJP4/rka0x6XFhxu
+         W6iUCvsIDO6eHcdCHFvdIDlIVpJCsES5SD3xSnapoHClZmLcHlXbjXoeix+TX99ab7ry
+         BqOOHDFzUlmJeyU3OvUitATOsPkFA0DOczbi/Afsjm9NHI/YtApk72ny0qjFhFTXO+XP
+         yKXAtBeMHMlIwSKvmuRpEfOfWiK9b959mo8P7Fx64Ot+uHxQXUUrd10S+RG2s/yWLOX2
+         BSUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Tm80V8MxZTxpH8Negzaw9yC6TePaEGAsS6LZXq3Sak8=;
-        b=JIi8qZ6iMWS7e13r9lw+5YLyybNUl9dk9dvOgsyCnsJlnDHKFLtCuRVdKOJo8drlNn
-         PzIC7slPLSVZilfH4OyY9msbvT39rq9ziD6s5NKBcwyjA12ou+70QjfAA9rqeutcHS5h
-         2mMb1PgKqrrW7S98feDqGK40sdDck253d3WFGUM9zbdm14Im60EWCT6Nyfzum+bVSuyv
-         2lB6DSMDiV21R9nzeP4u9WO5I/NABN/ote/Yxq0M+pIs6zNsdgxEJQyK6pa6I6lpoWzu
-         uOPYLZEZ0LKuEbUzr6y6uICFXANoukJT3FhDlI0JbT1qZyZF3z7mvz8cpuy1HLiNPunx
-         wRQA==
-X-Gm-Message-State: ANoB5pklytVcedfmU4ayv6g+kUFxXHdb2UBRUG7VejaG5EIjH7vwer4U
-        M0AyavzLRcyHvZQ6e4CPgurWtA==
-X-Google-Smtp-Source: AA0mqf4VH/8dwNgqHSHIl59AH6n9wu1E2CA23P1jGP7ba2vPGh0J512RFMeyb3Ui7UelM3npGP4lzA==
-X-Received: by 2002:a05:600c:3d10:b0:3cf:8a44:e1eb with SMTP id bh16-20020a05600c3d1000b003cf8a44e1ebmr52440612wmb.189.1670258623035;
-        Mon, 05 Dec 2022 08:43:43 -0800 (PST)
-Received: from [192.168.0.162] (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
-        by smtp.gmail.com with ESMTPSA id w1-20020a5d5441000000b002422b462975sm14052567wrv.34.2022.12.05.08.43.42
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 05 Dec 2022 08:43:42 -0800 (PST)
-Message-ID: <846f56b0-2591-318d-cb37-99cbf6d7bb32@linaro.org>
-Date:   Mon, 5 Dec 2022 16:43:41 +0000
+        h=content-transfer-encoding:to:subject:message-id:date:from:reply-to
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=O4WPtqOs6pYDke8VCfpzwsIX+8zN33o8tLS2XMy/lFU=;
+        b=SQ8RKnRQF+PCzWf2M9PyHnQ1/Q6Qjj5xzL1+QQkvcGXi/gjivXavpPhKJkkEamJRz0
+         yCnSj4CTB+q1YyEoC/D+PtUqLl5OIxvvKxGs6eglVb/Sl4XWhzxmS6v4w/TS3DmeKHuB
+         te35wbCQGjHf1Zly7EGch/TkxMN7pahiQ/3z5F0UbOqkdrFLAQ7JEbSY3eYMy/soX2Vx
+         01Bjn6c0R2dGAcpEBQsceklsYx4EIz3t/nz1CG4/Gbqv/ulHvMMxpmJPQSw51vX5rWfD
+         HR6brBV7TWVcehJQE/5lV8BHsln4kOVeOfmJdE0gb2PWQ9LAeirkNmCvSdePZxmDxP/m
+         folQ==
+X-Gm-Message-State: ANoB5plRnDdhEieUAGgUyWc271TdcEg5+4SOmBMfQdALWQmm5L2fKWRf
+        HcPQTIuIhRTB958hCzynz2l3VbUPar45hVmLW/E=
+X-Google-Smtp-Source: AA0mqf6LlThRqxALxahU+d5CDCL5XgA0Iri4oQFEx6hETTBFBZxUw9iI5CXyM5b3WvWotoaM22oBvK+CwFtVO/zgxX4=
+X-Received: by 2002:a7b:c8d0:0:b0:3cf:ca91:7094 with SMTP id
+ f16-20020a7bc8d0000000b003cfca917094mr60628535wml.24.1670258943314; Mon, 05
+ Dec 2022 08:49:03 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH v6 4/4] media: camss: sm8250: Pipeline starting and
- stopping for multiple virtual channels
-Content-Language: en-US
-To:     quic_mmitkov@quicinc.com, linux-media@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, robert.foss@linaro.org,
-        akapatra@quicinc.com, jzala@quicinc.com, todor.too@gmail.com
-Cc:     agross@kernel.org, konrad.dybcio@somainline.org,
-        mchehab@kernel.org, cgera@qti.qualcomm.com, gchinnab@quicinc.com,
-        ayasan@qti.qualcomm.com, laurent.pinchart@ideasonboard.com
-References: <20221205152450.1099-1-quic_mmitkov@quicinc.com>
- <20221205152450.1099-5-quic_mmitkov@quicinc.com>
-From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <20221205152450.1099-5-quic_mmitkov@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Received: by 2002:a05:6000:5c1:0:0:0:0 with HTTP; Mon, 5 Dec 2022 08:49:02
+ -0800 (PST)
+Reply-To: phmanu14@hotmail.com
+From:   Philip Manul <zagbamdjala@gmail.com>
+Date:   Mon, 5 Dec 2022 08:49:02 -0800
+Message-ID: <CAPCnorG0wZz4L65xmUUzHEvxvuhrsq0nQnSPJqno3Ah89AhSwA@mail.gmail.com>
+Subject: REP:
+To:     in <in@proposal.net>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=1.9 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FREEMAIL_REPLYTO,
+        FREEMAIL_REPLYTO_END_DIGIT,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
+        autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 05/12/2022 15:24, quic_mmitkov@quicinc.com wrote:
-> media-ctl -v -d /dev/media0 -V '"imx577 '22-001a'":0[fmt:SRGGB10/3840x2160 field:none]'
-
-I really like the improved commit log, thank you for that.
-
-SRGGB10/3840x2160 drivers/media/i2c/imx412.c that's not a supported 
-resolution.
-
-media-ctl -v -d /dev/media0 -V '"imx577 
-'22-001a'":0[fmt:SRGGB10/4056x3040 field:none]'
-
-?
-
----
-bod
+--=20
+Guten tag,
+Mein Name ist Philip Manul. Ich bin von Beruf Rechtsanwalt. Ich habe
+einen verstorbenen Kunden, der zuf=C3=A4llig denselben Namen mit Ihnen
+teilt. Ich habe alle Papierdokumente in meinem Besitz. Ihr Verwandter,
+mein verstorbener Kunde, hat hier in meinem Land einen nicht
+beanspruchten Fonds zur=C3=BCckgelassen. Ich warte auf Ihre Antwort zum
+Verfahren.
+Philip Manul.
