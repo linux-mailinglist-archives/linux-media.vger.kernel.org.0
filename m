@@ -2,106 +2,176 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 280B7642B95
-	for <lists+linux-media@lfdr.de>; Mon,  5 Dec 2022 16:25:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BFD26642BAA
+	for <lists+linux-media@lfdr.de>; Mon,  5 Dec 2022 16:27:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232422AbiLEPZ1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 5 Dec 2022 10:25:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59762 "EHLO
+        id S231991AbiLEP1Y (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 5 Dec 2022 10:27:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59550 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231991AbiLEPZC (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 5 Dec 2022 10:25:02 -0500
-Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com [IPv6:2a00:1450:4864:20::332])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 50B6320F51
-        for <linux-media@vger.kernel.org>; Mon,  5 Dec 2022 07:22:16 -0800 (PST)
-Received: by mail-wm1-x332.google.com with SMTP id bg10so9001231wmb.1
-        for <linux-media@vger.kernel.org>; Mon, 05 Dec 2022 07:22:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=CTVIxYEQfLFJxt9tgsgUJTz/t7cytxV6N5857OmJlts=;
-        b=SXA1c2F9YaXaMcnGm6ue1saPcIabZBH1FCgtKGVs64JfVhpQylYKsomj7N9W4t+IVE
-         CE8gyKR0gNlabFNC4vw9iBpVGajDfFpES9ZuT/d5lAYk/kZJPIr4k4KE6Cz8i7MORks+
-         HSoook0Tgmb5gmc8i8h+9GK/9aptNzomTHQDgpQA+ZOu2ROzQ8LVG0W6qcdYV/N/o/y9
-         EWO933VwPbU1QthJtgGElJF7oHa7f77p27wsvY4b93o+8ix9CqCjJ0wTHwn9+9d5QCDo
-         rt7Qf7Nhyh/ZKeaP+2d6jRNbc+sSdPIamQ8fLQtbiOAw8eB8k+ji2wClz9uBuqMNF+dn
-         DqEg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=CTVIxYEQfLFJxt9tgsgUJTz/t7cytxV6N5857OmJlts=;
-        b=dMrWNNEF/HEzBxQQpcObYvPsYGPp5RUM7JT5c6CVKNUIIH8BZzRxTsQDbl2rbG7UgF
-         mr63NuMciPrK9uIx1tdarU0WdYJRlr3a2k6T+neczUKAWssrc5wClJHeNmI9sQw8KzWU
-         9o981Zjkcv/Gv9zNWtzlG0in/FHjXVPGs/t/ORk+RJjGcV/FQoi0Mn+DtIEyumm+XxBw
-         E3nPSg3h93rWjedh5p+wPUxdcaGLz3nIokWRy1zYUpFWPJVvdyj7Sh+7w3GERrV4x8QM
-         hCibn5p2rrCO7tn+tjXeKVmjrcM2Os3WD1ynJqFNzku/qbW/JfqKY8nrqdz2bS+ooemC
-         KWYg==
-X-Gm-Message-State: ANoB5pmdwwoNDqQTu0+O6URXPY6g1Cj2fJ5wX3J43KiUhNjzkVRPg8LZ
-        p0OrH+1q7OtEHFhgml+r5Gyt1w==
-X-Google-Smtp-Source: AA0mqf7kXt8ZkmkgIvQNanWi2m1xBpMEQz7RspYEH7QsffCEpjs++F3lbN/5zFqwI+k9Vumn9aXZYw==
-X-Received: by 2002:a05:600c:5118:b0:3d0:7026:49eb with SMTP id o24-20020a05600c511800b003d0702649ebmr18230074wms.53.1670253733594;
-        Mon, 05 Dec 2022 07:22:13 -0800 (PST)
-Received: from dave-Ubuntu2204.pitowers.org ([93.93.133.154])
-        by smtp.googlemail.com with ESMTPSA id fc13-20020a05600c524d00b003d04e4ed873sm25144905wmb.22.2022.12.05.07.22.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 Dec 2022 07:22:13 -0800 (PST)
-From:   Dave Stevenson <dave.stevenson@raspberrypi.com>
-To:     Rui Miguel Silva <rmfrfs@gmail.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Bingbu Cao <bingbu.cao@intel.com>,
-        Tianshu Qiu <tian.shu.qiu@intel.com>,
-        Jimmy Su <jimmy.su@intel.com>, linux-media@vger.kernel.org
-Cc:     Dave Stevenson <dave.stevenson@raspberrypi.com>
-Subject: [PATCH v2 5/5] media: i2c: ov08d10: Set V4L2_CTRL_FLAG_MODIFY_LAYOUT on flips
-Date:   Mon,  5 Dec 2022 15:21:49 +0000
-Message-Id: <20221205152149.1364185-6-dave.stevenson@raspberrypi.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20221205152149.1364185-1-dave.stevenson@raspberrypi.com>
-References: <20221205152149.1364185-1-dave.stevenson@raspberrypi.com>
+        with ESMTP id S232755AbiLEP06 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 5 Dec 2022 10:26:58 -0500
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C72501CFF2;
+        Mon,  5 Dec 2022 07:25:22 -0800 (PST)
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 2B5DKp8W032050;
+        Mon, 5 Dec 2022 15:25:10 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
+ subject : date : message-id : mime-version : content-transfer-encoding :
+ content-type; s=qcppdkim1;
+ bh=o1RgCldRU5LCONRuJD06PgFPW47ogIApdE1+sCFH2jQ=;
+ b=FZWdCXDERH0LMXaTIho7ShjgniYw/4IAMivY+PZX5mCsq5BefqEI02PlPv1fl5b5SE5R
+ +vqLYFiUV2r3q6teSOThSQ/59X35dSCr9uPhXDz+p49A84zlhg6+X5SvxVchSxxkNQzH
+ x3ArHiF0mdm+UzzY9MpE9LvtMuTI/oT1BUjbqzUGas+JBKpfPkjrcJWH18VZmE7WH9HH
+ piR9BCEoP7ygRUz9u15u3Rx6b2cIOsH808kjt1KF+2OWIwR/dNJPSaaqJnYs4rbcYMeg
+ KceWRcBEUDZYoNf/TpauDaqDAIkfQBG/2Z9wj0AonK7fxZfyCKed+WTKsfG2d8S9imoR 3w== 
+Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3m7wsr45pq-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 05 Dec 2022 15:25:10 +0000
+Received: from nasanex01a.na.qualcomm.com ([10.52.223.231])
+        by NASANPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 2B5FP9FK001607
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 5 Dec 2022 15:25:09 GMT
+Received: from mmitkov.eu.qualcomm.com (10.80.80.8) by
+ nasanex01a.na.qualcomm.com (10.52.223.231) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.36; Mon, 5 Dec 2022 07:25:06 -0800
+From:   <quic_mmitkov@quicinc.com>
+To:     <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <robert.foss@linaro.org>, <akapatra@quicinc.com>,
+        <jzala@quicinc.com>, <todor.too@gmail.com>
+CC:     <agross@kernel.org>, <konrad.dybcio@somainline.org>,
+        <mchehab@kernel.org>, <bryan.odonoghue@linaro.org>,
+        <cgera@qti.qualcomm.com>, <gchinnab@quicinc.com>,
+        <ayasan@qti.qualcomm.com>, <laurent.pinchart@ideasonboard.com>,
+        Milen Mitkov <quic_mmitkov@quicinc.com>
+Subject: [PATCH v6 0/4] media: camss: sm8250: Virtual channels support for SM8250
+Date:   Mon, 5 Dec 2022 17:24:46 +0200
+Message-ID: <20221205152450.1099-1-quic_mmitkov@quicinc.com>
+X-Mailer: git-send-email 2.37.3.windows.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01a.na.qualcomm.com (10.52.223.231)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: DGJc7sakvbei9c4sAM_49NrD7v0Y75Bg
+X-Proofpoint-GUID: DGJc7sakvbei9c4sAM_49NrD7v0Y75Bg
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-12-05_01,2022-12-05_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ adultscore=0 spamscore=0 impostorscore=0 bulkscore=0 mlxlogscore=999
+ priorityscore=1501 suspectscore=0 malwarescore=0 mlxscore=0 phishscore=0
+ clxscore=1011 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2210170000 definitions=main-2212050127
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The driver changes the Bayer order based on the flips, but
-does not define the control correctly with the
-V4L2_CTRL_FLAG_MODIFY_LAYOUT flag.
+From: Milen Mitkov <quic_mmitkov@quicinc.com>
 
-Add the V4L2_CTRL_FLAG_MODIFY_LAYOUT flag.
+For v6:
+- Fix for a potential race condition in csid
+- More detailed description on how to use/test this feature in
+  user-space in the last patch.
 
-Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
----
- drivers/media/i2c/ov08d10.c | 5 +++++
- 1 file changed, 5 insertions(+)
+For v5:
+- Use entity->use_count instead of s_stream subdev call ret code to
+  check if another instance of the pipeline is running. Prevents an
+  error on 6.1 and up, when stopping one of several simultaneous
+  instances.
+- flush buffers instead of just returning if the pipeline didn't start.
 
-diff --git a/drivers/media/i2c/ov08d10.c b/drivers/media/i2c/ov08d10.c
-index c1703596c3dc..a39e086a51c5 100644
---- a/drivers/media/i2c/ov08d10.c
-+++ b/drivers/media/i2c/ov08d10.c
-@@ -990,8 +990,13 @@ static int ov08d10_init_controls(struct ov08d10 *ov08d10)
- 
- 	ov08d10->hflip = v4l2_ctrl_new_std(ctrl_hdlr, &ov08d10_ctrl_ops,
- 					   V4L2_CID_HFLIP, 0, 1, 1, 0);
-+	if (ov08d10->hflip)
-+		ov08d10->hflip->flags |= V4L2_CTRL_FLAG_MODIFY_LAYOUT;
- 	ov08d10->vflip = v4l2_ctrl_new_std(ctrl_hdlr, &ov08d10_ctrl_ops,
- 					   V4L2_CID_VFLIP, 0, 1, 1, 0);
-+	if (ov08d10->vflip)
-+		ov08d10->vflip->flags |= V4L2_CTRL_FLAG_MODIFY_LAYOUT;
-+
- 	if (ctrl_hdlr->error)
- 		return ctrl_hdlr->error;
- 
+For v4:
+- fixes the warning reported by the kernel test robot
+- tiny code change to enable the vc functionality with the partially-applied
+  multistream patches on linux-next (tested on tag:next-20221010)
+
+For v3:
+- setting the sink pad format on the CSID entity will now propagate the
+  format to the source pads to keep the subdev in a valid internal state.
+- code syntax improvements
+
+For v2:
+- code syntax improvements
+- The info print for the enabled VCs was demoted to a dbg print. Can be
+  enabled with dynamic debug, e.g.:
+echo "file drivers/media/platform/qcom/camss/* +p" > /sys/kernel/debug/dynamic_debug/control
+
+NOTE: These changes depend on the multistream series, that as of yet
+is still not merged upstream. However, part of the
+multistream patches are merged in linux-next (tested on
+tag:next-20221010), including the patch that introduces the
+video_device_pipeline_alloc_start() functionality. This allows 
+applying and using this series on linux-next without applying the
+complete multistream set.
+
+The CSID hardware on SM8250 can demux the input data stream into
+maximum of 4 multiple streams depending on virtual channel (vc)
+or data type (dt) configuration.
+
+Situations in which demuxing is useful:
+- HDR sensors that produce a 2-frame HDR output, e.g. a light and a dark frame
+  (the setup we used for testing, with the imx412 sensor),
+  or a 3-frame HDR output - light, medium-lit, dark frame.
+- sensors with additional metadata that is streamed over a different
+  virtual channel/datatype.
+- sensors that produce frames with multiple resolutions in the same pixel
+  data stream
+
+With these changes, the CSID entity has, as it did previously, a single
+sink port (0), and always exposes 4 source ports (1, 2,3, 4). The
+virtual channel configuration is determined by which of the source ports
+are linked to an output VFE line. For example, the link below will
+configure the CSID driver to enable vc 0 and vc 1:
+
+media-ctl -l '"msm_csid0":1->"msm_vfe0_rdi0":0[1]'
+media-ctl -l '"msm_csid0":2->"msm_vfe0_rdi1":0[1]'
+
+which will be demuxed and propagated into /dev/video0
+and /dev/video1 respectively. With this, the userspace can use
+any normal V4L2 client app to start/stop/queue/dequeue from these
+video nodes. Tested with the yavta app.
+
+The format of each RDI channel of the used VFE(s) (msm_vfe0_rdi0,
+msm_vfe0_rdi1,...) must also be configured explicitly.
+
+Note that in order to keep a valid internal subdevice state,
+setting the sink pad format of the CSID subdevice will propagate
+this format to the source pads. However, since the CSID hardware
+can demux the input stream into several streams each of which can 
+be a different format, in that case each source pad's 
+format must be set individually, e.g.:
+
+media-ctl -V '"msm_csid0":1[fmt:SRGGB10/3840x2160]'
+media-ctl -V '"msm_csid0":2[fmt:SRGGB10/960x540]'
+
+Milen Mitkov (4):
+  media: camss: sm8250: Virtual channels for CSID
+  media: camss: vfe: Reserve VFE lines on stream start and link to CSID
+  media: camss: vfe-480: Multiple outputs support for SM8250
+  media: camss: sm8250: Pipeline starting and stopping for multiple
+    virtual channels
+
+ .../platform/qcom/camss/camss-csid-gen2.c     | 54 ++++++++++------
+ .../media/platform/qcom/camss/camss-csid.c    | 44 +++++++++----
+ .../media/platform/qcom/camss/camss-csid.h    | 11 +++-
+ .../media/platform/qcom/camss/camss-vfe-480.c | 61 ++++++++++++-------
+ drivers/media/platform/qcom/camss/camss-vfe.c |  1 +
+ .../media/platform/qcom/camss/camss-video.c   | 21 ++++++-
+ drivers/media/platform/qcom/camss/camss.c     |  2 +-
+ 7 files changed, 134 insertions(+), 60 deletions(-)
+
 -- 
-2.34.1
+2.37.3
 
