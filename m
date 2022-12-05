@@ -2,48 +2,62 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3C734642B08
-	for <lists+linux-media@lfdr.de>; Mon,  5 Dec 2022 16:08:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 505BF642B34
+	for <lists+linux-media@lfdr.de>; Mon,  5 Dec 2022 16:18:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232511AbiLEPIU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 5 Dec 2022 10:08:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38558 "EHLO
+        id S231653AbiLEPSC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 5 Dec 2022 10:18:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49726 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232160AbiLEPIE (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 5 Dec 2022 10:08:04 -0500
-Received: from mail-oa1-f44.google.com (mail-oa1-f44.google.com [209.85.160.44])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 986F81D0EC;
-        Mon,  5 Dec 2022 07:07:52 -0800 (PST)
-Received: by mail-oa1-f44.google.com with SMTP id 586e51a60fabf-1442977d77dso12628994fac.6;
-        Mon, 05 Dec 2022 07:07:52 -0800 (PST)
+        with ESMTP id S230236AbiLEPSA (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 5 Dec 2022 10:18:00 -0500
+Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com [IPv6:2a00:1450:4864:20::231])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2AF77B86A
+        for <linux-media@vger.kernel.org>; Mon,  5 Dec 2022 07:17:58 -0800 (PST)
+Received: by mail-lj1-x231.google.com with SMTP id x11so13889105ljh.7
+        for <linux-media@vger.kernel.org>; Mon, 05 Dec 2022 07:17:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Tubnq3Lb1VVWqLrhjxAXy/EV/eNx6+cm8xh6RrNzzTM=;
+        b=AIqfGwx71gO9vLfBYjXxUMedb1KiG2HcnbySTeVyFNkdrqm8R/q3bAmVtiE5e60CZD
+         XoCsOQnTeTO+JJrXz5TfPqzGSiaCdlVb5BRFShvlZhVsgTpbNmbF6bqv/FP/UPPXFRXU
+         WPydXGV2z2bawxqjAGyoAaQUAdYybDPyf210uMSFDVTf/zOspHXc9GAHCeFhl6r+kNFU
+         +6cWu+DrfJQiUaaUQ3bs7PZeQWf0X4UlhiHKkU15yVojPN6mRWhavScbZCCPAr2DZucN
+         Kct+cf6ygsaSMG2MoCWMSeTNM8QmP/hp/zFZQJbsgmsjCqCOlbHfVpe000NAM6eTbxkk
+         LMPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=date:subject:message-id:references:in-reply-to:cc:to:from
-         :mime-version:content-transfer-encoding:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=un2tfy4ahNo9zjbkY7O4xE/RSkvkF3i02AWzGP/4rig=;
-        b=c32sEX4J51LjwbpWvqQmgfrylQBJbDFBd7LEAK6d4r6Ogq5C91Q09bCAO+qBw/zp5b
-         y5xBq4WWyA7H1AOPEIwLnvHarse0nW7C3fmZnHBP9jbc27qmn6eL3dgj5xNC3pnG8aG5
-         Z4bdCM+Nfd7I5fq8Z7kdWTUzd36h5ZmXAenzzvFZxLpUjt3QkSo6nf9AdxDSeVy+rTj5
-         ib+1k6408KivxnckKxsZwQYA26+MHQpOOPq/c43XyNDtCYseybnKJatK8pL1qWvMKyp+
-         wNifi1TyVFeAx5sGTpCzUclTpycxeIl6xnzwUBfkBV/yHMd2QRZ6s4pTPsUADUQ3usTi
-         o6Pg==
-X-Gm-Message-State: ANoB5pmFCmjrsQIAQG9yA2F4tfRwnWSTXwY5IuHr/vxX0VA2hnpPC+VF
-        oJUbG45rml0MBbVdfdb/gw==
-X-Google-Smtp-Source: AA0mqf4u4kzZ1ZBWoQtzp872W52LKIVRXUvm43N91ZDjaWGZJYwEgFGMaehPuBK+w9wgO1cB9V4ooA==
-X-Received: by 2002:a05:6870:ee16:b0:144:a24c:e1cb with SMTP id ga22-20020a056870ee1600b00144a24ce1cbmr2227077oab.164.1670252870872;
-        Mon, 05 Dec 2022 07:07:50 -0800 (PST)
-Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id y30-20020a9d22a1000000b0066ea9650da8sm3195971ota.20.2022.12.05.07.07.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 Dec 2022 07:07:50 -0800 (PST)
-Received: (nullmailer pid 1794161 invoked by uid 1000);
-        Mon, 05 Dec 2022 15:07:49 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Tubnq3Lb1VVWqLrhjxAXy/EV/eNx6+cm8xh6RrNzzTM=;
+        b=c7PRQwBBPZT/IfYvDLjZTiZMILdFt00U+Dlc26DLoEcOkoyGggG4W6ucLO4+teRX5W
+         MDXzHfhchaCKjQWuj6kHhsQjalhfgPrgi0aye7jl2idCyUUxMBtXbKnIaYlImCH/G0nX
+         UiasJtTU1XJPRm85bZHQioepHvYmrxvOMBNmcg1sdlbBvgmZCaFniGiIQz80YqSR9EB2
+         e//tdjyXtz2sauPyETbv44izlMrMJt/QTOcMJQB9bY1oXbQlwZMalfOf+rtETYPTRk8T
+         pBr/x+WAoMnV5sKoYc3Xmqu/5XDfEPPxQu3jffUtwCxCZdGyLse8LdTinHZUKn7BJ6Rt
+         8UNw==
+X-Gm-Message-State: ANoB5pnEUYcICGGhTT8XsRRfMwwRWTuFCXMZ1qWlpowXMPjsz6CObT9K
+        X1SbyqxwN5/pi2wZslRzPG0ihQ==
+X-Google-Smtp-Source: AA0mqf7AXb6jmtQHyKyaAg541NUdZ6ve9Xm0GWLbAM0+giRLqWCe+D+MTsptwcE1Dlw0gletu1rDVg==
+X-Received: by 2002:a2e:b5d5:0:b0:27a:37c:cd59 with SMTP id g21-20020a2eb5d5000000b0027a037ccd59mr1038330ljn.157.1670253476392;
+        Mon, 05 Dec 2022 07:17:56 -0800 (PST)
+Received: from [192.168.0.20] (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
+        by smtp.gmail.com with ESMTPSA id x3-20020a056512130300b004b551cdfe13sm1350223lfu.279.2022.12.05.07.17.54
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 05 Dec 2022 07:17:55 -0800 (PST)
+Message-ID: <da51f5db-b697-47f1-208f-e710e491299e@linaro.org>
+Date:   Mon, 5 Dec 2022 16:17:54 +0100
 MIME-Version: 1.0
-From:   Rob Herring <robh@kernel.org>
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.1
+Subject: Re: [PATCH 5/9] media: dt-bindings: chrontel,ch7322: reference common
+ CEC properties
+Content-Language: en-US
+To:     Rob Herring <robh@kernel.org>
 Cc:     linux-samsung-soc@vger.kernel.org,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         linux-kernel@vger.kernel.org,
@@ -67,59 +81,45 @@ Cc:     linux-samsung-soc@vger.kernel.org,
         Jerome Brunet <jbrunet@baylibre.com>,
         Marek Szyprowski <m.szyprowski@samsung.com>,
         linux-media@vger.kernel.org, devicetree@vger.kernel.org
-In-Reply-To: <20221204182908.138910-5-krzysztof.kozlowski@linaro.org>
 References: <20221204182908.138910-1-krzysztof.kozlowski@linaro.org>
  <20221204182908.138910-5-krzysztof.kozlowski@linaro.org>
-Message-Id: <167025248440.1785019.8058849269946787324.robh@kernel.org>
-Subject: Re: [PATCH 5/9] media: dt-bindings: chrontel,ch7322: reference common
- CEC properties
-Date:   Mon, 05 Dec 2022 09:07:49 -0600
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+ <167025248440.1785019.8058849269946787324.robh@kernel.org>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <167025248440.1785019.8058849269946787324.robh@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-
-On Sun, 04 Dec 2022 19:29:04 +0100, Krzysztof Kozlowski wrote:
-> Reference common HDMI CEC adapter properties to simplify the binding and
-> have only one place of definition for common properties.
+On 05/12/2022 16:07, Rob Herring wrote:
 > 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> ---
->  .../devicetree/bindings/media/i2c/chrontel,ch7322.yaml   | 9 ++++-----
->  1 file changed, 4 insertions(+), 5 deletions(-)
+> On Sun, 04 Dec 2022 19:29:04 +0100, Krzysztof Kozlowski wrote:
+>> Reference common HDMI CEC adapter properties to simplify the binding and
+>> have only one place of definition for common properties.
+>>
+>> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+>> ---
+>>  .../devicetree/bindings/media/i2c/chrontel,ch7322.yaml   | 9 ++++-----
+>>  1 file changed, 4 insertions(+), 5 deletions(-)
+>>
 > 
+> My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+> on your patch (DT_CHECKER_FLAGS is new in v5.13):
+> 
+> yamllint warnings/errors:
+> 
+> dtschema/dtc warnings/errors:
+> /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/media/i2c/chrontel,ch7322.example.dtb: ch7322@75: $nodename:0: 'ch7322@75' does not match 
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
+I'll fix it.
 
-yamllint warnings/errors:
-
-dtschema/dtc warnings/errors:
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/media/i2c/chrontel,ch7322.example.dtb: ch7322@75: $nodename:0: 'ch7322@75' does not match '^cec(@[0-9a-f]+|-[0-9]+)?$'
-	From schema: /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/media/i2c/chrontel,ch7322.yaml
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/media/i2c/chrontel,ch7322.example.dtb: ch7322@75: Unevaluated properties are not allowed ('hdmi-phandle' was unexpected)
-	From schema: /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/media/i2c/chrontel,ch7322.yaml
-
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20221204182908.138910-5-krzysztof.kozlowski@linaro.org
-
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
+Best regards,
+Krzysztof
 
