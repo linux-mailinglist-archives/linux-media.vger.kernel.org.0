@@ -2,218 +2,139 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 10D86644C53
-	for <lists+linux-media@lfdr.de>; Tue,  6 Dec 2022 20:15:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4BC46644C59
+	for <lists+linux-media@lfdr.de>; Tue,  6 Dec 2022 20:18:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229743AbiLFTPl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 6 Dec 2022 14:15:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52220 "EHLO
+        id S229679AbiLFTSY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 6 Dec 2022 14:18:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54400 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229700AbiLFTPe (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 6 Dec 2022 14:15:34 -0500
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A867040920;
-        Tue,  6 Dec 2022 11:15:32 -0800 (PST)
-Received: from nicolas-tpx395.localdomain (192-222-136-102.qc.cable.ebox.net [192.222.136.102])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: nicolas)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id BA1326602B2C;
-        Tue,  6 Dec 2022 19:15:29 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1670354130;
-        bh=CbpetSjHvQviX156mgDvQrxS6ZNVFJ4ayCXN+Hd15qE=;
-        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-        b=iDe6TZ4x00XduKQhsVWMhOUhifd4fAGQA9W2enB/w5rC3edcQ/UI+OZavlqkN5oVp
-         F+lzQXnH3pwvD7jdJDEJblO+lcAe4GVxCmE2yrCGBZpxKCIOgjpPAawBjwZLfM9Uv0
-         Lwt7F0G7xJ41Enn33lr7MsOvKPJBgDPEQ1rfzvK4+HzJqQkDo+76V1NAyp2FEWfg95
-         AzxfbUBPShVt/5xm31KHmE1oH95UngzsQmuDXSSIM5INSl/BPdKHwlU2tkPE08W0AM
-         J5/WbklRLVxYqwT3boakWqqAVs9tJP/+v0CqNUEKoC0szKgc9p3l2rmbmXKjYT44S1
-         mmW7MXw4jfWHw==
-Message-ID: <6c75bbbf497f9baa5d99f642bd466751e2b0d460.camel@collabora.com>
-Subject: Re: [PATCH] media: cedrus: Convert to MPLANE uAPI
-From:   Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To:     Chen-Yu Tsai <wenst@chromium.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     Jernej =?UTF-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Samuel Holland <samuel@sholland.org>,
-        linux-media@vger.kernel.org, linux-sunxi@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Date:   Tue, 06 Dec 2022 14:15:19 -0500
-In-Reply-To: <CAGXv+5GH==gm533P_sNiFTyaFwQXp-QLXRLWyABdsn+0p_83UQ@mail.gmail.com>
-References: <20221129074530.640251-1-wenst@chromium.org>
-         <45143854.fMDQidcC6G@kista>
-         <5d79ed06-15c0-3564-97b6-5fd4433acabf@xs4all.nl>
-         <CAGXv+5GH==gm533P_sNiFTyaFwQXp-QLXRLWyABdsn+0p_83UQ@mail.gmail.com>
+        with ESMTP id S229562AbiLFTSW (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 6 Dec 2022 14:18:22 -0500
+Received: from mail-qk1-x732.google.com (mail-qk1-x732.google.com [IPv6:2607:f8b0:4864:20::732])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C4BF73722D
+        for <linux-media@vger.kernel.org>; Tue,  6 Dec 2022 11:18:20 -0800 (PST)
+Received: by mail-qk1-x732.google.com with SMTP id j13so6771730qka.3
+        for <linux-media@vger.kernel.org>; Tue, 06 Dec 2022 11:18:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=p7OTI92HE3dIRLmGiEP5wVF6IPA48SqfwAtDwY11Wgk=;
+        b=ShYERSnGwqK/Ft5xBnts+NxM0hnI/UYKhnm1TsT6tgsvvs1JWBrUE69yslSEEP/wlj
+         if7n7kzrI24GO2j0pOF9tWDJywf0xhOl3T8oqle4CiaBfyhxtT5sSe+wpS3dFHyA3i62
+         pwOhNilc/hRnQmm442EuYRjELxdfH/d7M6ws/mEYpP79O5V/K6T0MDJ2dvAwU+sfh924
+         gHCxy0kInWY8xCTomvd8ATSKnZisqX8z5WCFLdS7+tuVaMtxg6euV4bEXitRdKZ1DRAW
+         cAjLC7h+B5pG2IGWY3zr3lvLE6wnfbXVR7Q4YR8sk2iOfRnHQS1GCNkO9AXlxyXigiRJ
+         uCjg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=p7OTI92HE3dIRLmGiEP5wVF6IPA48SqfwAtDwY11Wgk=;
+        b=w4DX8vXH+KMN1OY7rrUSyYCPTcMQKxZUK9DOtHal61LbqSNjZPFgPZWsl5OYEalbeF
+         EMmWW043StB/FaTCIQu4hzUyuJuQ8x8N/Fk6sn5ZZCbp4hnoroOsm4bd8wilUOG0zi7y
+         FxOVzxvoW/xcFLHi1imVTrO2mn34ua92OTVpTIuBiuUQhxlOZdzCttqGg16FyXeSbZas
+         5U1heQt1ar9rXjjX6cIKWA09q496jfzvooPYoOhP4+nKcr8SmTRJeu9R93i7hyXtJfKc
+         4gA2nU8v5JpfG1PGAeYYsLIbsAjudJSWzmYgo/7hjdFmyp0XPD0wdUv1ayYLd5prrupC
+         WQ5A==
+X-Gm-Message-State: ANoB5pkzx5PvqHTGaAAwOpJaMAZY6yJZlR2qmRYkpBb9mmiLBb5dLaXP
+        qyGtjMQskefdSaCu2rS4SF7WQA==
+X-Google-Smtp-Source: AA0mqf6b2bZ2lHgpIImzI3iDccC1JIlx3UQnq6m0rnLsKiZ6UK/8fUEzhWjXnS3xTat+egxGYNcg4g==
+X-Received: by 2002:a37:5885:0:b0:6fa:1ef8:49dc with SMTP id m127-20020a375885000000b006fa1ef849dcmr77214507qkb.314.1670354299931;
+        Tue, 06 Dec 2022 11:18:19 -0800 (PST)
+Received: from nicolas-tpx395.localdomain (192-222-136-102.qc.cable.ebox.net. [192.222.136.102])
+        by smtp.gmail.com with ESMTPSA id bp32-20020a05620a45a000b006fa2cc1b0fbsm15417234qkb.11.2022.12.06.11.18.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 06 Dec 2022 11:18:15 -0800 (PST)
+Message-ID: <d8cdc4c62f83161ee3239b92495fd9623fddfff1.camel@ndufresne.ca>
+Subject: Re: [PATCH] media: amphion: remove redundant check of colorspace in
+ venc_s_fmt
+From:   Nicolas Dufresne <nicolas@ndufresne.ca>
+To:     Ming Qian <ming.qian@nxp.com>, mchehab@kernel.org,
+        hverkuil-cisco@xs4all.nl
+Cc:     shawnguo@kernel.org, robh+dt@kernel.org, s.hauer@pengutronix.de,
+        kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
+        xiahong.bao@nxp.com, ming.zhou@nxp.com,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+Date:   Tue, 06 Dec 2022 14:18:13 -0500
+In-Reply-To: <20221129102217.30710-1-ming.qian@nxp.com>
+References: <20221129102217.30710-1-ming.qian@nxp.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.44.4 (3.44.4-2.fc36) 
 MIME-Version: 1.0
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Le mardi 06 d=C3=A9cembre 2022 =C3=A0 20:23 +0800, Chen-Yu Tsai a =C3=A9cri=
-t=C2=A0:
-> On Tue, Dec 6, 2022 at 4:35 PM Hans Verkuil <hverkuil-cisco@xs4all.nl> wr=
-ote:
-> >=20
-> > On 05/12/2022 22:01, Jernej =C5=A0krabec wrote:
-> > > Hi Chen-Yu!
-> > >=20
-> > > Dne torek, 29. november 2022 ob 08:45:30 CET je Chen-Yu Tsai napisal(=
-a):
-> > > > The majority of the V4L2 stateless video decoder drivers use the MP=
-LANE
-> > > > interface.
-> > > >=20
-> > > > On the userspace side, Gstreamer supports non-MPLANE and MPLANE
-> > > > interfaces. Chromium only supports the MPLANE interface, and is not=
- yet
-> > > > usable with standard desktop Linux. FFmpeg support for either has n=
-ot
-> > > > landed.
-> > >=20
-> > > I don't like fixing userspace issues in kernel, if kernel side works =
-fine.
-> > > Implementing missing non-MPLANE support in Chromium will also allow i=
-t to work
-> > > with older kernels.
-> > >=20
-> > > Hans, what's linux-media politics about such changes?
-> >=20
-> > Not keen on this. Does the cedrus HW even have support for multiple pla=
-nes?
-> > I suspect not, in which case the driver shouldn't suggest that it can d=
-o that.
+Le mardi 29 novembre 2022 =C3=A0 18:22 +0800, Ming Qian a =C3=A9crit=C2=A0:
+> record the colorspace set by user.
+> if it's not supported by h264 vui, then zero will be written to vui,
+> but don't modify the user setting.
+>=20
+> Fixes: 0401e659c1f9 ("media: amphion: add v4l2 m2m vpu encoder stateful d=
+river")
+> Signed-off-by: Ming Qian <ming.qian@nxp.com>
 
-Hi Hans,
+This seems like the right approach to me. The only down side, is that users=
+pace
+will not be aware that the encoder could not store the colorimetry into the
+bitstream. What I totally agree, is that this should not prevent encoding t=
+he
+stream, but the stream should also not lie about it (which this change fixe=
+s).
 
-> >=20
-> > Now, if the hardware *can* support this, then there is an argument to b=
-e made
-> > for the cedrus driver to move to the multiplanar API before moving it o=
-ut
-> > of staging to allow such future enhancements.
->=20
-> AFAIK it can, but has some limitations on how far apart the buffers for
-> the separate planes can be. Nicolas mentioned that I could support the
-> multiplanar API, but only allow the contiguous single planar formats,
-> so NV12 instead of NV12M.
+Acked-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 
-indeed, MPLANE buffer API is not an advertisement for MPLANE support. The p=
-ixel
-formats exposed through ENUM_FMT are the only possible advertisement, and o=
-nly
-single allocation format (NV12) remains exposed.
-
-Putting my userspace hat on, I see see an effort by the author of MPLANE AP=
-I to
-make it so it would completely replaced the older API. The effort have imho=
- very
-bad consequences (duplication of pixel formats), but if we also don't enfor=
-ce
-porting existing drivers to the new API, we add yet another consequence, bu=
-t
-this time on userspace, which must handle both C structures to actually wor=
-k
-generically. I totally understand that from driver maintainer point of view=
-,
-this change have absolutely no value, but we force userspace complexity sim=
-ply
-because we leave it to driver author to pick older or newer (totally equiva=
-lent)
-APIs. To me, the problem is that V4L2 API maintainers didn't adopt the new =
-API
-despite merging it. The adoption should have deprecated usage of the old AP=
-I, at
-least in new drivers (since 2011). This should also have been an unstaging
-requirement.
-
-regards,
-Nicolas
-
+> ---
+>  drivers/media/platform/amphion/venc.c | 18 ++++--------------
+>  1 file changed, 4 insertions(+), 14 deletions(-)
 >=20
-> And I suspect that reference frames have to be contiguous as well.
-> So I guess the overall answer is that it can't. But the same goes for
-> Hantro or rkvdec, which both use the multiplanar API.
->=20
-> This conversion was done so that I could use Cedrus as a testbed for
-> developing new codec support, as I already own an H6 device. Added
-> bonus is trying to get V4L2 decoder support to work for desktop Linux,
-> without the libraries that ChromeOS ships.
->=20
-> > Note that you have to choose whether to support single or multiplanar, =
-you
-> > can't support both at the same time.
-> >=20
-> > So the decision to move to multiplanar should be led by the HW capabili=
-ties.
-> >=20
-> > And Chromium really needs to support non-multiplanar formats as well. I=
-'m
-> > really surprised to hear that it doesn't, to be honest.
->=20
-> Chromium does support non-multiplanar formats, such as NV12. In fact
-> this is the preferred format, unless it's on MediaTek, in which it
-> switches to MM21 as the capture format, and does untiling in software.
-> This support for formats is separate from using the multiplanar API.
->=20
-> Support for video decoders is mostly driven by ChromeOS. Currently all th=
-e
-> hardware ChromeOS supports, be it stateful or stateless, use the multipla=
-nar
-> API, so there hasn't been a real need to support it yet.
->=20
->=20
-> Regards
-> ChenYu
->=20
-> > Regards,
-> >=20
-> >         Hans
-> >=20
-> > >=20
-> > > Best regards,
-> > > Jernej
-> > >=20
-> > > >=20
-> > > > A fallback route using libv4l is also available. The library transl=
-ates
-> > > > MPLANE interface ioctl calls to non-MPLANE ones, provided that the =
-pixel
-> > > > format used is single plane.
-> > > >=20
-> > > > Convert the Cedrus driver to the MPLANE interface, while keeping th=
-e
-> > > > supported formats single plane. Besides backward compatibility thro=
-ugh
-> > > > the plugin, the hardware requires that different planes not be loca=
-ted
-> > > > too far apart in memory. Keeping the single plane pixel format make=
-s
-> > > > this easy to enforce.
-> > > >=20
-> > > > Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
-> > > > ---
-> > > >=20
-> > > > This has been tested with Fluster. The score remained the same with=
- or
-> > > > without the patch. This also helps with getting VP8 decoding workin=
-g
-> > > > with Chromium's in-tree test program "video_decode_accelerator_test=
-s",
-> > > > though Chromium requires other changes regarding buffer allocation =
-and
-> > > > management.
-> > >=20
-> > >=20
-> >=20
+> diff --git a/drivers/media/platform/amphion/venc.c b/drivers/media/platfo=
+rm/amphion/venc.c
+> index 3cbe8ce637e5..e6e8fe45fc7c 100644
+> --- a/drivers/media/platform/amphion/venc.c
+> +++ b/drivers/media/platform/amphion/venc.c
+> @@ -250,19 +250,10 @@ static int venc_s_fmt(struct file *file, void *fh, =
+struct v4l2_format *f)
+>  	}
+> =20
+>  	if (V4L2_TYPE_IS_OUTPUT(f->type)) {
+> -		if (!vpu_color_check_primaries(pix_mp->colorspace)) {
+> -			venc->params.color.primaries =3D pix_mp->colorspace;
+> -			vpu_color_get_default(venc->params.color.primaries,
+> -					      &venc->params.color.transfer,
+> -					      &venc->params.color.matrix,
+> -					      &venc->params.color.full_range);
+> -		}
+> -		if (!vpu_color_check_transfers(pix_mp->xfer_func))
+> -			venc->params.color.transfer =3D pix_mp->xfer_func;
+> -		if (!vpu_color_check_matrix(pix_mp->ycbcr_enc))
+> -			venc->params.color.matrix =3D pix_mp->ycbcr_enc;
+> -		if (!vpu_color_check_full_range(pix_mp->quantization))
+> -			venc->params.color.full_range =3D pix_mp->quantization;
+> +		venc->params.color.primaries =3D pix_mp->colorspace;
+> +		venc->params.color.transfer =3D pix_mp->xfer_func;
+> +		venc->params.color.matrix =3D pix_mp->ycbcr_enc;
+> +		venc->params.color.full_range =3D pix_mp->quantization;
+>  	}
+> =20
+>  	pix_mp->colorspace =3D venc->params.color.primaries;
+> @@ -1281,7 +1272,6 @@ static void venc_init(struct file *file)
+>  	f.fmt.pix_mp.width =3D 1280;
+>  	f.fmt.pix_mp.height =3D 720;
+>  	f.fmt.pix_mp.field =3D V4L2_FIELD_NONE;
+> -	f.fmt.pix_mp.colorspace =3D V4L2_COLORSPACE_REC709;
+>  	venc_s_fmt(file, &inst->fh, &f);
+> =20
+>  	memset(&f, 0, sizeof(f));
 
