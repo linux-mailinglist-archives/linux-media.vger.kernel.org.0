@@ -2,91 +2,57 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0B5FF644976
-	for <lists+linux-media@lfdr.de>; Tue,  6 Dec 2022 17:38:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7C8AB6449ED
+	for <lists+linux-media@lfdr.de>; Tue,  6 Dec 2022 18:08:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231888AbiLFQiS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 6 Dec 2022 11:38:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51974 "EHLO
+        id S234261AbiLFRHi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 6 Dec 2022 12:07:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43012 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235582AbiLFQhd (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 6 Dec 2022 11:37:33 -0500
-Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com [IPv6:2a00:1450:4864:20::532])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DFAC1CE8;
-        Tue,  6 Dec 2022 08:36:47 -0800 (PST)
-Received: by mail-ed1-x532.google.com with SMTP id z92so21127146ede.1;
-        Tue, 06 Dec 2022 08:36:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Cu4l7c7T/KB912u2Bgs9LaIHGYUGD4KvKD2RT7SocLI=;
-        b=PMIsbCZcJUnwlcb85e4se4Lhmnkg5/p3CZ/cDZsAukZ3f3i3tmY4g5sANJgykCYirK
-         mlvGaIPbXgCyzpAmH06sYNk8vCmaADFoE6zZqQHb8hGg4x0/WHv6Z8hYJ0LBIWS+LTtc
-         u+Elv8Ugh2Cba3MU9nJxstXdxBM91J+/NK6gRkjIOK3iiQ+uH5og/9UApeMWkOKnd9cj
-         1HfW0ZgVT20uEcispZUyLDadLhenYxpl6mq5JxMXKgftr+gVs0wv+tsc+y54FBjZx7F/
-         u//HOUZNxymJ9GIObTMD8FDbnCFX9F/nCVNnq/jzUgW6MoBC+f52FSuv+e3PAFbJwBdU
-         tGnQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Cu4l7c7T/KB912u2Bgs9LaIHGYUGD4KvKD2RT7SocLI=;
-        b=QqgvWJFuBx4Dlbq3c2K4BFr3EmtAo1gXs7Sd9pixTs2mMVmgJm5rpnyKyOuk0VBvhx
-         v35X45QzmJLTsm0tTIJ6vLUPqkhCRoPQmPETpEzIwCzHW3vh11ExPn9wJvDbhJ9TazUl
-         6jD/L14lToXbia9j4D0IlzI69fJpDBqjz/izRfhtPed2g2Zn0qpUhA2kDS28X8CXArqW
-         XgivAtJTMLQs4ByUQ5PSubW39xwPDmwq4WpmBw6+UP8hRlgs653/LQq1IKsBjXpXx+s4
-         TTRRWFltKV8RtmMICfxgcGPBB5NMqnSTkgXtzV+58CqJKJN6cSxv9cP6ax1ZM6GI4M6g
-         KTXA==
-X-Gm-Message-State: ANoB5pntnd1xbY5FVipUuD9fid1wW1UiXIMmnOThvcw8AGmdAM44wGBs
-        QzY2jSR9CrnpEqENlvtSdK0=
-X-Google-Smtp-Source: AA0mqf73SzGZEjm/ohEPWqbfiYGIO3rXn2gObtryTw0s7vUBeNfZ9CzBOpFc3oS8A3V5nkWXr1+saw==
-X-Received: by 2002:aa7:d1c5:0:b0:46b:a536:e8d0 with SMTP id g5-20020aa7d1c5000000b0046ba536e8d0mr26626675edp.261.1670344606270;
-        Tue, 06 Dec 2022 08:36:46 -0800 (PST)
-Received: from orome (p200300e41f201d00f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f20:1d00:f22f:74ff:fe1f:3a53])
-        by smtp.gmail.com with ESMTPSA id y20-20020a50eb94000000b004589da5e5cesm1168852edr.41.2022.12.06.08.36.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Dec 2022 08:36:45 -0800 (PST)
-Date:   Tue, 6 Dec 2022 17:36:43 +0100
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Alain Volmat <alain.volmat@foss.st.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Joe Tessler <jrt@google.com>,
-        Yannick Fertre <yannick.fertre@foss.st.com>,
-        Jeff Chase <jnchase@google.com>, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-amlogic@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com
-Subject: Re: [PATCH v2 8/9] media: dt-bindings: nvidia,tegra-cec: convert to
- DT schema
-Message-ID: <Y49vm34cwgilAA33@orome>
-References: <20221205151845.21618-1-krzysztof.kozlowski@linaro.org>
- <20221205151845.21618-9-krzysztof.kozlowski@linaro.org>
+        with ESMTP id S235417AbiLFRHZ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 6 Dec 2022 12:07:25 -0500
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 05AEE2B27A
+        for <linux-media@vger.kernel.org>; Tue,  6 Dec 2022 09:07:25 -0800 (PST)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <mgr@pengutronix.de>)
+        id 1p2bPe-0000Vf-LY; Tue, 06 Dec 2022 18:07:22 +0100
+Received: from mgr by ptx.hi.pengutronix.de with local (Exim 4.92)
+        (envelope-from <mgr@pengutronix.de>)
+        id 1p2bPe-0000fP-0F; Tue, 06 Dec 2022 18:07:22 +0100
+Date:   Tue, 6 Dec 2022 18:07:21 +0100
+From:   Michael Grzeschik <mgr@pengutronix.de>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Greg KH <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
+        linux-media@vger.kernel.org, balbi@kernel.org,
+        paul.elder@ideasonboard.com, kernel@pengutronix.de,
+        nicolas@ndufresne.ca, kieran.bingham@ideasonboard.com
+Subject: Re: [PATCH v2 0/4] usb: gadget: uvc: parse configfs entries and
+ implement v4l2 enum api calls
+Message-ID: <20221206170721.GB15222@pengutronix.de>
+References: <20220909221335.15033-1-m.grzeschik@pengutronix.de>
+ <Y4u+9g/gIneGZrlZ@pendragon.ideasonboard.com>
+ <Y4xaXHLoiPupWM6V@kroah.com>
+ <Y45f272a3aa7KXly@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="Go2Ynh+Vu1nkhJ/W"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="ADZbWkCsHQ7r3kzd"
 Content-Disposition: inline
-In-Reply-To: <20221205151845.21618-9-krzysztof.kozlowski@linaro.org>
-User-Agent: Mutt/2.2.9 (2022-11-12)
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+In-Reply-To: <Y45f272a3aa7KXly@pendragon.ideasonboard.com>
+X-Sent-From: Pengutronix Hildesheim
+X-URL:  http://www.pengutronix.de/
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: mgr@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -94,72 +60,78 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 
---Go2Ynh+Vu1nkhJ/W
-Content-Type: text/plain; charset=us-ascii
+--ADZbWkCsHQ7r3kzd
+Content-Type: text/plain; charset=us-ascii; format=flowed
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Dec 05, 2022 at 04:18:44PM +0100, Krzysztof Kozlowski wrote:
-> Convert Nvidia Tegra HDMI CEC bindings to DT schema.
->=20
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> Acked-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> ---
->  .../bindings/media/cec/nvidia,tegra-cec.yaml  | 58 +++++++++++++++++++
->  .../devicetree/bindings/media/tegra-cec.txt   | 27 ---------
->  MAINTAINERS                                   |  2 +-
->  3 files changed, 59 insertions(+), 28 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/media/cec/nvidia,te=
-gra-cec.yaml
->  delete mode 100644 Documentation/devicetree/bindings/media/tegra-cec.txt
->=20
-> diff --git a/Documentation/devicetree/bindings/media/cec/nvidia,tegra-cec=
-=2Eyaml b/Documentation/devicetree/bindings/media/cec/nvidia,tegra-cec.yaml
-> new file mode 100644
-> index 000000000000..9a4025ff7fad
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/cec/nvidia,tegra-cec.yaml
+On Mon, Dec 05, 2022 at 11:17:15PM +0200, Laurent Pinchart wrote:
+>On Sun, Dec 04, 2022 at 09:29:16AM +0100, Greg KH wrote:
+>> On Sat, Dec 03, 2022 at 11:26:14PM +0200, Laurent Pinchart wrote:
+>> > Hi Michael,
+>> >
+>> > On Sat, Sep 10, 2022 at 12:13:31AM +0200, Michael Grzeschik wrote:
+>> > > This series improves the uvc video gadget by parsing the configfs
+>> > > entries. With the configfs data, the userspace now is able to use si=
+mple
+>> > > v4l2 api calls like enum and try_format to check for valid configura=
+tions
+>> > > initially set by configfs.
+>> >
+>> > I've realized that this whole series got merged, despite my multiple
+>> > attempts to explain why I think it's not a good idea. The UVC gadget
+>> > requires userspace support, and there's no point in trying to move all
+>> > these things to the kernel side. It only bloats the kernel, makes the
+>> > code more complex, more difficult to maintain, and will make UVC 1.5
+>> > support more difficult.
+>>
+>> I can easily revert them, but I did not see any objections to them
+>> originally and so I merged them as is the normal method :)
+>
+>I don't think a revert is needed. The issue I pointed out regarding the
+>duplication of static const data can be solved on top. The API additions
+>from this series are, in my opinion, not a good idea for the reasons I
+>explained, but they don't hurt so much that we need to go nuclear on
+>this.
+>
+>Michael, will you be addressing the static const data issue ?
 
-For consistency with other DT bindings on Tegra, it'd be good to name
-this nvidia,tegra114-cec.yaml since that's the first generation where
-this IP was added. Not a big deal, though.
+Yes. I will also move the uvc_fmts[] array and uvc_format_by_guid to its
+own compile unit.
 
-> @@ -0,0 +1,58 @@
-> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/cec/nvidia,tegra-cec.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Nvidia Tegra HDMI CEC
+I will go with drivers/media/usb/uvc.c
 
-Again, for consistency with other bindings, NVIDIA is the preferred
-spelling. It's not a big deal and could be fixed up in a subsequent
-patch, there are a few other cases where the alternative spelling has
-been used.
+While at it the headerfile will better also be moved from
+include/media/v4l2-uvc.h to linux/usb/uvc.h.
 
-The rest looks okay, so either way:
+Thanks,
+Michael
 
-Acked-by: Thierry Reding <treding@nvidia.com>
 
---Go2Ynh+Vu1nkhJ/W
+--=20
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+
+--ADZbWkCsHQ7r3kzd
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmOPb5sACgkQ3SOs138+
-s6GLkQ/+JBbjUjYZFvRHaZqueKhqQcvpNxzAo/fyN5BnZRl/Dr6r9OkfSNoSVuEm
-io5uqdiYDfXXvkApiv7BbHeNaXH8BX0PxRZ9J+hsE41zpGVHRHE+dmRlcE+rhY54
-/TpkHx0VCMROkD6C1KQShCE4n9CQGRixLL2sHdhIWxmkaC2fLR609+duNNQ4t8Up
-ASXC4hJuo1TaO31lGydUoB6S7SeU+iSO71B68Pc0HZ2cFib1ZnsdLPgK1gMJyO9q
-ooyvj+IZsPX+YMfId0bMq9owxQRdqZhxSx58LOELQPR/5Ac8Cyfll70L9eZ9uw/8
-5PKT6Eb5ilJnjfCDzF/ef8BGMBL1Ko5qoZBAdqE2Pgk01joFuRIclgZBHcujEaMl
-ymMSnEla9I8thLrJ+8grukft6H6FcuKDnqsn4jhCoIm8b7tID+jyKCbmaBxb0AmC
-VBn13BuYlSv6czihQawg9cfUyjnam/f6t/KksETr1Ne6HzC0qN7ZrxXNjcqFVB48
-mrmKcUbT1adE4eq5czWTEExxckY91LIGSBxZVO6JFRp+13qv4HUV6ZfC8bHM+0x+
-g8WACmp+9HsfNHLR53X2ASF7UIzPicMXNMw2SHK2Zx8y2/WF1MdWRkYIj9NpfkhD
-eIbGX2q9nIG7nsmqzH66uQO59Wqdv40FseT6dQM5KPpNNz9Z8eI=
-=2Wsf
+iQIzBAABCgAdFiEElXvEUs6VPX6mDPT8C+njFXoeLGQFAmOPdscACgkQC+njFXoe
+LGSQpRAA0TDhxTBhQP31uBl1apiJQ0ww75RZnj6V+8o/lJKBMpEE3nYNXJnV4SoY
+s0Ta3077KDxSXTQ3euOmBxTXp8kWW85oqtLTMDgF8XNwqNMk8US8K9MqtodajgmM
+Dl0Wffvo/ap1QPLSLUm091f6CLgZfA5BSM6+bXLoS/AjA0xCYkpqYqrtIJ5f2sl6
+yYF+PZ7aZc8r6/tZFQSVEJwjjmBDvY4MvdvEku4PypEgFQLgZyM9/hyWayc3Nmru
+3d3D6ZHNsz85SQZEd2OKf1m75uoijxESQJ/pbJzLLMJ1xOvTx/bARRNscv8vnlI1
+NnnLfkulPK+iLzauIND5e3vrDT5qtsgXTwJYZ7Nl6W8f1hCPAy92v8GtwujTwQhD
+O/baonwjcZMRwoiF1fXQ4sXyHnvTlpqaSHdJA+qLhm/kOb4KVE0ITKSY47s+bEds
+d7vzhLaaFFv6DvlmNld8oqnMOzEeOdTZ7AllF6M0SG0AEv17NHppevwlLrhiR3u5
+ugb1ADgoVNo1+d0n5+ChAUC4YqM/FpXuU00//ht3bHFO1yn51Zy3+4l5qE/Rl44g
+6V+pDie1PDCE0rlghz3shZxoFmufGLULHGSDHGFlNXXkLXAOO+vah3XYLTuCvt+k
+a2+7qmZnC80xPAM7XxZ2iueUk4EXaaEs3AlGN3nI8NSrBxyDK3E=
+=X6hF
 -----END PGP SIGNATURE-----
 
---Go2Ynh+Vu1nkhJ/W--
+--ADZbWkCsHQ7r3kzd--
