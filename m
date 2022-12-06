@@ -2,106 +2,197 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 10C7E6440AD
-	for <lists+linux-media@lfdr.de>; Tue,  6 Dec 2022 10:53:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 16C3B64412D
+	for <lists+linux-media@lfdr.de>; Tue,  6 Dec 2022 11:22:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235499AbiLFJxa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 6 Dec 2022 04:53:30 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57244 "EHLO
+        id S234220AbiLFKWE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 6 Dec 2022 05:22:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59898 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235502AbiLFJwH (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 6 Dec 2022 04:52:07 -0500
-Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com [IPv6:2607:f8b0:4864:20::1029])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 13F2220BDA
-        for <linux-media@vger.kernel.org>; Tue,  6 Dec 2022 01:51:30 -0800 (PST)
-Received: by mail-pj1-x1029.google.com with SMTP id u5so4545416pjy.5
-        for <linux-media@vger.kernel.org>; Tue, 06 Dec 2022 01:51:30 -0800 (PST)
+        with ESMTP id S234098AbiLFKV7 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 6 Dec 2022 05:21:59 -0500
+Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.186])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A2966570
+        for <linux-media@vger.kernel.org>; Tue,  6 Dec 2022 02:21:53 -0800 (PST)
+X-KPN-MessageId: cc728f67-754f-11ed-9c5f-00505699b430
+Received: from smtp.kpnmail.nl (unknown [10.31.155.6])
+        by ewsoutbound.so.kpn.org (Halon) with ESMTPS
+        id cc728f67-754f-11ed-9c5f-00505699b430;
+        Tue, 06 Dec 2022 11:21:51 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=9XFEuEO/uSZit0g9oIHRU2aY3eszS50qubKRuPycWJs=;
-        b=SzO1dYdo4FZNipKusWblICfW51XRb9SaJyS30QqB6xydPzwLRFfgomz64CUIS7p4gy
-         hLjM3PffKNgoSJJWCdfn9SYkufS5XSgXz0EYgm/yQy1AglhRjZ74bx/cJJbzEsYVHfel
-         2Noc6i7tZCkSLn3I13pnVRL898goz8YFkVzPnbic4Tl78Kioo+ztCagru71Dju+z7+X2
-         mekz/+HC/BUp2AsgaJ9Tt2C+gxOzvKE9vR1nmI930IOyFfrKC9Y1IOOIPKMlJnjTLsZv
-         3eghgWsxkeK53uOZP+G5zU1YvbhenLS5k/ABftQ9zTXGxez/RbF1OpHd9yVAXGGVNKd/
-         7ecw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=9XFEuEO/uSZit0g9oIHRU2aY3eszS50qubKRuPycWJs=;
-        b=aJYg8bZQPGMKxVI4WHTOrI9ypoMP6bphQ4LXBJuYPfxUoArynoRCJ/bPVVtB22ByQs
-         hJNqNkEOMjYDi345Shb5i5EjVHcLz8MHTMWAJfCMQg9dMSMoiy6i7L2l8HMUH5gV0zG8
-         DVy1FkRN1NjsuVfptLSYQEOxCIAHgDEALdqx9O8Q8mXhQLHGqlHyo8M2H8FZw27QLMt2
-         p9p/kvvhBFnGzCEEl55DhFGEowbWUjAaU0oMkwHyfnJy2IAtbtFERf27cTDJUliXU1Ck
-         dtJLhejf+nwh0jVDudf7XxOM65XI5m9KbSP6DXzXEixJ+81SPt8gvYq3PfSlYx4kHnNi
-         fJDg==
-X-Gm-Message-State: ANoB5pmERRZ5vjnN/Ve20kMnirA4egjakGR4dzfO4VSuTrAQT/hdq9Ql
-        G8KYfC8elmDc3V+kHvdS3W3QzbA83KQ=
-X-Google-Smtp-Source: AA0mqf4o1iDbcLbVpPwWLY07E2c1JFPW5PyFLZdTxs9MHKJ/YwoO/ESEkz0Qu7qI65v8ACtMm5bCaA==
-X-Received: by 2002:a17:902:f601:b0:186:8431:ece3 with SMTP id n1-20020a170902f60100b001868431ece3mr70883059plg.8.1670320290426;
-        Tue, 06 Dec 2022 01:51:30 -0800 (PST)
-Received: from debian.me (subs02-180-214-232-69.three.co.id. [180.214.232.69])
-        by smtp.gmail.com with ESMTPSA id b15-20020a170902d50f00b00174f61a7d09sm12171161plg.247.2022.12.06.01.51.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Dec 2022 01:51:29 -0800 (PST)
-Received: by debian.me (Postfix, from userid 1000)
-        id 49D20104553; Tue,  6 Dec 2022 16:51:27 +0700 (WIB)
-Date:   Tue, 6 Dec 2022 16:51:27 +0700
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Robert Schlabbach <robert_s@gmx.net>
-Subject: Re: [PATCH] media/frontend.h.rst.exceptions: add exceptions for new
- dvb defines
-Message-ID: <Y48Qn58pF0Gm2evZ@debian.me>
-References: <2bff9dd2-e4ef-1b10-e64e-3c62849eb3b0@xs4all.nl>
+        d=xs4all.nl; s=xs4all01;
+        h=content-type:from:to:subject:mime-version:date:message-id;
+        bh=Q5C4J4yJ4NT7RcsaU7bKoKHnKWo6uSG+/Jm84pAsQP8=;
+        b=mWfbT4Eq7Jtn4yN7Y87SlrJC70KKJ+aLXTecW2NyNjNYzn8b1+gTbo46zadcP22RSQ5JCH0u4GkDH
+         y3fEgHA/eMT1i5JJDqIQfBpjbq/1XanJrZIiyXPvTWTilgI1aWFvXK/Hyv6M+L3mT3MIoNhsoowReM
+         apcpA4rCExg8UpvuJ+vB2VO+4b6PxGDcPRMN5TPuFhq4+4RNJH9KnO4QRF/CELaj6J/JzfV90oejnP
+         gA8iZIxPd5f+d0ZkTk47Qy6oMfCLDHQRq+xjCNYle72DhGJvgMppvDwy/tz+cmEdmvL+8nZUi8Zvj7
+         cEeVaV+Be77okITZg4sErUyfeRM4UCQ==
+X-KPN-MID: 33|H/UNem6sALaJw9xQIoIsL+iAIFOxb7e18vQRBPd5zl7hh2/XW2w/ruMlDM5wCaE
+ oBwjCAfQ/xCXsxAgso/o1uqun0yC5BmU9WtLRSuWKZXI=
+X-KPN-VerifiedSender: Yes
+X-CMASSUN: 33|u34bKvSEF2IckPc/Cryoht1iVRl/cPchUa4igXQaEAXzeMHaqH+OXxQ4fTs+IH1
+ O8v2EXmLur+Utxr3EbBm/lg==
+X-Originating-IP: 173.38.220.42
+Received: from [10.47.77.219] (unknown [173.38.220.42])
+        by smtp.xs4all.nl (Halon) with ESMTPSA
+        id cc02671b-754f-11ed-ad2a-00505699772e;
+        Tue, 06 Dec 2022 11:21:51 +0100 (CET)
+Message-ID: <a2b713de-d5b0-d1de-46fb-9487b06561ec@xs4all.nl>
+Date:   Tue, 6 Dec 2022 11:21:50 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="y79OFSX1vZHU7Ldk"
-Content-Disposition: inline
-In-Reply-To: <2bff9dd2-e4ef-1b10-e64e-3c62849eb3b0@xs4all.nl>
-X-Spam-Status: No, score=-0.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_SORBS_WEB,SPF_HELO_NONE,SPF_PASS
-        autolearn=no autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.0
+Subject: Re: [PATCH v4 0/2] utils: add v4l2-tracer utility
+Content-Language: en-US
+To:     Deborah Brouwer <deborah.brouwer@collabora.com>,
+        linux-media@vger.kernel.org
+Cc:     daniel.almeida@collabora.com, nfraprado@collabora.com,
+        nicolas.dufresne@collabora.com, deborahbrouwer3563@gmail.com
+References: <cover.1669831184.git.deborah.brouwer@collabora.com>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <cover.1669831184.git.deborah.brouwer@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-3.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Deb,
 
---y79OFSX1vZHU7Ldk
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 11/30/22 19:24, Deborah Brouwer wrote:
+> Hi all - thank you very much for your reviews.
+> 
+> This is a patch series now to add Hans' patch
+> for tracing basic controls.
 
-On Mon, Nov 28, 2022 at 02:33:45PM +0100, Hans Verkuil wrote:
-> After some dvb/frontend.h additions, building the documentation
-> gives lots of warnings. Add the missing pieces to
-> frontend.h.rst.exceptions.
->=20
+All merged!
 
-All warnings went away, thanks!
+Thank you very much for this nice utility, I think it will
+be quite useful.
 
-Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+Regards,
 
---=20
-An old man doll... just what I always wanted! - Clara
+	Hans
 
---y79OFSX1vZHU7Ldk
-Content-Type: application/pgp-signature; name="signature.asc"
+> 
+> Changes since v3:
+> - fix clang-tidy warnings
+> - fix memory leaks in auto-generated code
+> - strings: check for nullptr before assignment
+> - remove unnecessary checks for nullptr before free()
+> - polling: check return value
+> - dynamic arrays: check memory allocation
+> - put format-specific info (h264) into a union
+> - add comment to the top of auto-generated files
+> - replace array with std::vector for media topology 
+> - move debug/verbose options to helper functions
+> - fix auto-gen script to include a few extra controls
+> 
+> Changes since v2:
+> - remove duplication in entries for numbers/strings
+> - use media topology to find retrace devices
+> - add specific ioctls to trace
+> - in help msg change 'data' -> 'video frame data'
+> - trace mem_array with space after every byte
+> - add to trace files package version, SHA, date
+> - retracer also generates a JSON retrace file
+> - default trace format is "pretty"
+> - add a "compact" format option
+> - consolidate options for tracer/retracer
+> - remove mutex locks as unnecessary
+> - add more autogenerated functions
+> - add 'clean' command to remove fd/addresses
+> 
+> Changes since v1:
+> - auto-generate code from uAPI headers
+> - generated code adds some ability to trace
+>   VP9/HEVC which compiles but still needs work
+> - generated code adds full support for MPEG2
+> - fix multiplanar decoding for vicodec
+> - change library name to libv4l2tracer
+> - update README
+> - expand help to show options
+> - remove extraneous files from gitignore
+> 
+> Example:
+> 
+> Trace an application decoding VP8:
+> 
+> v4l2-tracer trace gst-launch-1.0 -- filesrc 
+> location=test-25fps.vp8 ! parsebin ! 
+> v4l2slvp8dec ! videocodectestsink
+> 
+> Or trace an application decoding FWHT:
+> 
+> v4l2-tracer trace v4l2-ctl -d3 --stream-mmap
+> --stream-out-mmap --stream-from-hdr
+> test-25fps.fwht --stream-to out.yuv
+> 
+> A trace file is generated: 71827_trace.json
+> 
+> Retrace the trace file:
+> v4l2-tracer retrace 71827_trace.json
+> 
+> Specify nodes if using a different driver:
+> v4l2-tracer -d0 -m0 retrace 71827_trace.json
+> 
+> A retrace file is generated: 71827_trace_retrace.json
+> 
+> Remove irrelevant differences (optional)
+> e.g. file descriptors and addresses:
+> v4l2-tracer clean 71827_trace.json
+> v4l2-tracer clean 71827_trace_retrace.json
+> 
+> Clean files are generated:
+> clean_71827_trace.json
+> clean_71827_trace_retrace.json
+> 
+> Use an application to compare the files:
+> kdiff3 clean_71827_trace.json clean_71827_trace_retrace.json
+> 
+> Deborah Brouwer (1):
+>   utils: add v4l2-tracer utility
+> 
+> Hans Verkuil (1):
+>   v4l2-tracer: add support for most basic controls
+> 
+>  README                                   |    8 +
+>  configure.ac                             |   12 +
+>  utils/Makefile.am                        |    5 +
+>  utils/v4l2-tracer/.gitignore             |    7 +
+>  utils/v4l2-tracer/Makefile.am            |   36 +
+>  utils/v4l2-tracer/libv4l2tracer.cpp      |  303 +++++
+>  utils/v4l2-tracer/retrace-helper.cpp     |  262 +++++
+>  utils/v4l2-tracer/retrace.cpp            | 1373 ++++++++++++++++++++++
+>  utils/v4l2-tracer/retrace.h              |   43 +
+>  utils/v4l2-tracer/trace-helper.cpp       |  500 ++++++++
+>  utils/v4l2-tracer/trace.cpp              |  603 ++++++++++
+>  utils/v4l2-tracer/trace.h                |   75 ++
+>  utils/v4l2-tracer/v4l2-tracer-common.cpp |  476 ++++++++
+>  utils/v4l2-tracer/v4l2-tracer-common.h   |   79 ++
+>  utils/v4l2-tracer/v4l2-tracer-gen.pl     |  879 ++++++++++++++
+>  utils/v4l2-tracer/v4l2-tracer.1.in       |  111 ++
+>  utils/v4l2-tracer/v4l2-tracer.cpp        |  415 +++++++
+>  17 files changed, 5187 insertions(+)
+>  create mode 100644 utils/v4l2-tracer/.gitignore
+>  create mode 100644 utils/v4l2-tracer/Makefile.am
+>  create mode 100644 utils/v4l2-tracer/libv4l2tracer.cpp
+>  create mode 100644 utils/v4l2-tracer/retrace-helper.cpp
+>  create mode 100644 utils/v4l2-tracer/retrace.cpp
+>  create mode 100644 utils/v4l2-tracer/retrace.h
+>  create mode 100644 utils/v4l2-tracer/trace-helper.cpp
+>  create mode 100644 utils/v4l2-tracer/trace.cpp
+>  create mode 100644 utils/v4l2-tracer/trace.h
+>  create mode 100644 utils/v4l2-tracer/v4l2-tracer-common.cpp
+>  create mode 100644 utils/v4l2-tracer/v4l2-tracer-common.h
+>  create mode 100755 utils/v4l2-tracer/v4l2-tracer-gen.pl
+>  create mode 100644 utils/v4l2-tracer/v4l2-tracer.1.in
+>  create mode 100644 utils/v4l2-tracer/v4l2-tracer.cpp
+> 
 
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCY48QnwAKCRD2uYlJVVFO
-o4DHAP4pbGVRVUwKU8f6IyVgYryVXoIKjE92ujGWi/bMWG1lXwEAsEtlI+iuCkDY
-pBG47Mq1cMY4F89SbEHSWZheWjfJ4As=
-=zdvd
------END PGP SIGNATURE-----
-
---y79OFSX1vZHU7Ldk--
