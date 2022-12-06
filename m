@@ -2,56 +2,76 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 84D84644B33
-	for <lists+linux-media@lfdr.de>; Tue,  6 Dec 2022 19:20:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 368C4644B94
+	for <lists+linux-media@lfdr.de>; Tue,  6 Dec 2022 19:22:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229990AbiLFSU0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 6 Dec 2022 13:20:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33934 "EHLO
+        id S230224AbiLFSWr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 6 Dec 2022 13:22:47 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33192 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229848AbiLFSTv (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 6 Dec 2022 13:19:51 -0500
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D312513DE3;
-        Tue,  6 Dec 2022 10:19:50 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by sin.source.kernel.org (Postfix) with ESMTPS id 1F660CE198B;
-        Tue,  6 Dec 2022 18:19:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 28F18C43149;
-        Tue,  6 Dec 2022 18:19:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1670350787;
-        bh=M0wHeZolpHobaLLOhyylwlObJxvye0zC49cllR32lps=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=AstvDeo9PrNKgEK8wRtzezuJp4etUxY2ksi2TDgQfrQtqSthzYUEZifK7pDtu/cU0
-         ZlqBi5tukcYxTryLtYUjOpV1wyNsx1FQqF1GyJ+gaNK2cD8QGP6EfILIeEwdhBIvsE
-         /NjrBx7P0AwAnGqGJ9aFWSk83a2tm1idCY4M+DBVsUQsjQs27+IxFBfWqD6GrBCYkS
-         vzcnyoD8mCzzAlpoFbg97N7BtHoEAimwhBieoULhCI6wO1Qv8qeAGVw6e5JnOG35Z1
-         /uex8aoMlKXEkksq0oxiRFzIVkiYp8ix6zeGwQ42umbGFn1x3VFHOfpzkKeU7T1L5r
-         7zyEQai1t8aPg==
-From:   Bjorn Andersson <andersson@kernel.org>
-To:     robert.foss@linaro.org, vladimir.zapolskiy@linaro.org,
-        robh+dt@kernel.org, konrad.dybcio@somainline.org,
-        bryan.odonoghue@linaro.org, krzysztof.kozlowski+dt@linaro.org,
-        todor.too@gmail.com, dmitry.baryshkov@linaro.org,
-        agross@kernel.org, mchehab@kernel.org
-Cc:     linux-media@vger.kernel.org, hverkuil@xs4all.nl,
-        linux-arm-msm@vger.kernel.org, quic_mmitkov@quicinc.com,
-        devicetree@vger.kernel.org, laurent.pinchart@ideasonboard.com,
-        Sakari Ailus <sakari.ailus@linux.intel.com>
-Subject: Re: [PATCH v7 0/7] CAMSS fixes for rb3, switch on IMX577 for RB5
-Date:   Tue,  6 Dec 2022 12:18:51 -0600
-Message-Id: <167035076341.3155086.4547946796844422301.b4-ty@kernel.org>
-X-Mailer: git-send-email 2.37.1
-In-Reply-To: <20221117003232.589734-1-bryan.odonoghue@linaro.org>
-References: <20221117003232.589734-1-bryan.odonoghue@linaro.org>
+        with ESMTP id S230176AbiLFSWC (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 6 Dec 2022 13:22:02 -0500
+Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com [IPv6:2607:f8b0:4864:20::1033])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E61444047A
+        for <linux-media@vger.kernel.org>; Tue,  6 Dec 2022 10:20:41 -0800 (PST)
+Received: by mail-pj1-x1033.google.com with SMTP id o12so15220388pjo.4
+        for <linux-media@vger.kernel.org>; Tue, 06 Dec 2022 10:20:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=SmfitBybMnS/Wj94vd7x5N2kws71Idrw6YNQ9leOyNo=;
+        b=c9JxTj7LI1SYoC4Oj7rDxpSE78N6jJ5KYh3VUez+tQdf1RUTxU5rfiP3ffvLDrZxHg
+         EOF4Rbv52ML0bxNSicMy1gptxn6dKToWbeYeMDlTYodqslUUHz+3/lQDP9ZuEekcJ8Wm
+         nlW7bIU1TB7dE51RXtBhjdw4OmeoOP2KcQcho=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=SmfitBybMnS/Wj94vd7x5N2kws71Idrw6YNQ9leOyNo=;
+        b=BuytLZWP6f4OlLgw0nfD0T+ZLNfqA4g7UfvCPkGYgrGmpChqFKuUAdsZoJKt9FeeEK
+         6ZLyf4mF96T1R0nTOfrm+W/AQnGR3PpOdu0PphA4ySGBUSta9X/b0QApKO8QZuCw7uDE
+         /G19lj/touHKgk0U2YuFFgSbeOjfTSoofmvwPPTy48k/PVMJpEdplYJRfRXzbc0kOeUJ
+         d7hB1sWQldVJ4FLaDjXIePWTz9X3V69otDWRe1TeqDAWgCYy9NRZvz3t1eAr8MLlsXh6
+         ajCYpeZgBZI2Wk4/u7PgA/XBXUfrhzAozaPfrIRuos/vdyLBNkwtR61Bt+eu+DxUGoin
+         fIqw==
+X-Gm-Message-State: ANoB5pm2silRPix/SzL4kPqNognujI23T+GM5w+5dmPyB2eyQqOaHa7q
+        AnsE7ZG6+FBBvIwG4ugWK2C94mRpCgRtb9wDehI=
+X-Google-Smtp-Source: AA0mqf6T+msIMOeFvqFlp9voHZ94PfoEi6UyiogMp7y+IL0/ExzwWaGdiMhInLff5w7eXG2O499npA==
+X-Received: by 2002:a17:90a:f298:b0:219:a032:1760 with SMTP id fs24-20020a17090af29800b00219a0321760mr18712712pjb.88.1670350825967;
+        Tue, 06 Dec 2022 10:20:25 -0800 (PST)
+Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com. [209.85.215.176])
+        by smtp.gmail.com with ESMTPSA id q2-20020a635c02000000b004768b74f208sm10149425pgb.4.2022.12.06.10.20.25
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 06 Dec 2022 10:20:25 -0800 (PST)
+Received: by mail-pg1-f176.google.com with SMTP id v3so14116102pgh.4
+        for <linux-media@vger.kernel.org>; Tue, 06 Dec 2022 10:20:25 -0800 (PST)
+X-Received: by 2002:a63:1a07:0:b0:477:cb5a:ad48 with SMTP id
+ a7-20020a631a07000000b00477cb5aad48mr52082800pga.63.1670350824464; Tue, 06
+ Dec 2022 10:20:24 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+References: <20220909221335.15033-1-m.grzeschik@pengutronix.de>
+ <Y4u+9g/gIneGZrlZ@pendragon.ideasonboard.com> <Y4xaXHLoiPupWM6V@kroah.com>
+ <Y45f272a3aa7KXly@pendragon.ideasonboard.com> <20221206170721.GB15222@pengutronix.de>
+In-Reply-To: <20221206170721.GB15222@pengutronix.de>
+From:   Ricardo Ribalda <ribalda@chromium.org>
+Date:   Tue, 6 Dec 2022 19:20:13 +0100
+X-Gmail-Original-Message-ID: <CANiDSCtqndz9088oxCv7_CfnkhyN4f=HsuwmjaZL0DznB0=RxQ@mail.gmail.com>
+Message-ID: <CANiDSCtqndz9088oxCv7_CfnkhyN4f=HsuwmjaZL0DznB0=RxQ@mail.gmail.com>
+Subject: Re: [PATCH v2 0/4] usb: gadget: uvc: parse configfs entries and
+ implement v4l2 enum api calls
+To:     Michael Grzeschik <mgr@pengutronix.de>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        linux-usb@vger.kernel.org, linux-media@vger.kernel.org,
+        balbi@kernel.org, paul.elder@ideasonboard.com,
+        kernel@pengutronix.de, nicolas@ndufresne.ca,
+        kieran.bingham@ideasonboard.com
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -59,33 +79,68 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, 17 Nov 2022 00:32:25 +0000, Bryan O'Donoghue wrote:
-> V7:
-> - Adds further RB from Konrad
-> - Moves status="okay" below regulator declarations in qrb5165::camss - Konrad
-> 
-> Previous
-> https://lore.kernel.org/linux-arm-msm/20221116162801.546737-1-bryan.odonoghue@linaro.org/T/#t
-> 
-> [...]
+Hi Michael
 
-Applied, thanks!
+On Tue, 6 Dec 2022 at 18:09, Michael Grzeschik <mgr@pengutronix.de> wrote:
+>
+> On Mon, Dec 05, 2022 at 11:17:15PM +0200, Laurent Pinchart wrote:
+> >On Sun, Dec 04, 2022 at 09:29:16AM +0100, Greg KH wrote:
+> >> On Sat, Dec 03, 2022 at 11:26:14PM +0200, Laurent Pinchart wrote:
+> >> > Hi Michael,
+> >> >
+> >> > On Sat, Sep 10, 2022 at 12:13:31AM +0200, Michael Grzeschik wrote:
+> >> > > This series improves the uvc video gadget by parsing the configfs
+> >> > > entries. With the configfs data, the userspace now is able to use simple
+> >> > > v4l2 api calls like enum and try_format to check for valid configurations
+> >> > > initially set by configfs.
+> >> >
+> >> > I've realized that this whole series got merged, despite my multiple
+> >> > attempts to explain why I think it's not a good idea. The UVC gadget
+> >> > requires userspace support, and there's no point in trying to move all
+> >> > these things to the kernel side. It only bloats the kernel, makes the
+> >> > code more complex, more difficult to maintain, and will make UVC 1.5
+> >> > support more difficult.
+> >>
+> >> I can easily revert them, but I did not see any objections to them
+> >> originally and so I merged them as is the normal method :)
+> >
+> >I don't think a revert is needed. The issue I pointed out regarding the
+> >duplication of static const data can be solved on top. The API additions
+> >from this series are, in my opinion, not a good idea for the reasons I
+> >explained, but they don't hurt so much that we need to go nuclear on
+> >this.
+> >
+> >Michael, will you be addressing the static const data issue ?
+>
+> Yes. I will also move the uvc_fmts[] array and uvc_format_by_guid to its
+> own compile unit.
+>
+> I will go with drivers/media/usb/uvc.c
+>
+> While at it the headerfile will better also be moved from
+> include/media/v4l2-uvc.h to linux/usb/uvc.h.
 
-[1/7] arm64: dts: qcom: sdm845: Define the number of available ports
-      commit: 0ddcea2f7692388f8eb1ce0f6804cb649bc76220
-[2/7] arm64: dts: qcom: sdm845-db845c: Drop redundant address-cells, size-cells declaration
-      commit: dacfbacc882ad3b1ce6ab2974386665db1976a61
-[3/7] arm64: dts: qcom: sdm845-db845c: Drop redundant reg = in port
-      commit: 693c65e2bdbfecedc126904de663334f0f5031f9
-[4/7] arm64: dts: qcom: sdm845-db845c: Use okay not ok, disabled not disable for status
-      commit: 5ceaa402f45c8fd19500c69bd9eb4385a14a5173
-[5/7] arm64: dts: qcom: sdm845-db845c-navigation-mezzanine: Add navigation mezzanine dts
-      commit: 64cb4a44720143a94a261ce2b3098498d6dc84d6
-[6/7] arm64: dts: qcom: sm8250: camss: Define ports and ports address/size cells
-      commit: 3c5aa4c758dd4a41119158dff2ab358b9b5cd520
-[7/7] arm64: dts: qcom: qrb5165-rb5-vision-mezzanine: Add vision mezzanine
-      commit: 16b24fe54f0050843509321094d99f75fba33f59
+And since it is free to ask :P....
 
-Best regards,
+Could you also try to remove the string definition and use the one
+from v4l2-ioctl.c. ?
+
+Or maybe it is not feasible?
+
+Thanks!
+
+>
+> Thanks,
+> Michael
+>
+>
+> --
+> Pengutronix e.K.                           |                             |
+> Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+> 31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+> Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+
+
+
 -- 
-Bjorn Andersson <andersson@kernel.org>
+Ricardo Ribalda
