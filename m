@@ -2,75 +2,77 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E1991644AC2
-	for <lists+linux-media@lfdr.de>; Tue,  6 Dec 2022 19:03:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 18A83644AFB
+	for <lists+linux-media@lfdr.de>; Tue,  6 Dec 2022 19:17:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229489AbiLFSDP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 6 Dec 2022 13:03:15 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51602 "EHLO
+        id S229745AbiLFSRY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 6 Dec 2022 13:17:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59936 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229635AbiLFSDN (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 6 Dec 2022 13:03:13 -0500
-Received: from mail-qv1-xf2b.google.com (mail-qv1-xf2b.google.com [IPv6:2607:f8b0:4864:20::f2b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 30D893AC16
-        for <linux-media@vger.kernel.org>; Tue,  6 Dec 2022 10:03:11 -0800 (PST)
-Received: by mail-qv1-xf2b.google.com with SMTP id mn15so10938632qvb.13
-        for <linux-media@vger.kernel.org>; Tue, 06 Dec 2022 10:03:11 -0800 (PST)
+        with ESMTP id S229731AbiLFSRX (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 6 Dec 2022 13:17:23 -0500
+Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com [IPv6:2a00:1450:4864:20::52d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 05966654C
+        for <linux-media@vger.kernel.org>; Tue,  6 Dec 2022 10:17:22 -0800 (PST)
+Received: by mail-ed1-x52d.google.com with SMTP id i15so13290333edf.2
+        for <linux-media@vger.kernel.org>; Tue, 06 Dec 2022 10:17:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=j8CGxi9vT3T3m40r/08kO6b7RCldpWb7Gl7L7zv8B20=;
-        b=uddkac2avd9QkSI3+vyAzQqDc8nLAmduBLFJZKMvei74VHCOQ4FT2661Uf/r8SG5Hc
-         C2MMZAT2usUgZVglLH3wmSBtIwHUd/uH7Mz+l8P2d9NGNNXIPo8BdG+abTwrpfhbkgqd
-         uXS4KnxsU57IDVTBE0Rf0FVxKlcO+oDYgz/yj1m6wDMhzj12vtq/l2JrxzJza+T2D3Os
-         s8mZafV8ZUQmyDecmzvXHvlGAIxR1vXSip2nue6vPI0ezDX17ZZ4SbYz5VTLJb42/hzR
-         gQHLjqFxGQJy05i5bbh0Iz/GJjJD0Ixrd7N0Lo1+9HM3F1K3kTuGPq/IC9kmFhB2SdWi
-         REaw==
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=7vtB1k1E12/Qe5MgbChmK5o0Viuvz+G0q4nlKw8ldAc=;
+        b=JOt5sl3NlVw3zEko+QR9FYDFsdGhhR1+AZLE+M13jISuMq9oNkTnkFgXbzOhovPuJK
+         JB2JL0L4OMhuLiEgHNnBHjBzy7vQO3Ba4/P7VqZAH1fD5srTl0ou+CbeAr8atTfEC9+Q
+         h/Lv//kEh3iC7qmqQ3sEVqDApiBCh/pwWW3MsYeXMbnVYtz4qeXJR5mO+3znLhN7OWqN
+         BJd3Al3jRq9kgvoFSZU0gDMZBvqAWOn8+ZeUx1xL4CJC4muM/yBjruLF5t7If7d4VraT
+         hpeJtdxkdjdJLxvLaHPWTSoCRYbI5J0KIWW6AS8iRtTa0tMB3CmsqFmT+XKCWR02kTtd
+         7UXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=j8CGxi9vT3T3m40r/08kO6b7RCldpWb7Gl7L7zv8B20=;
-        b=0WShFoVLD2rmr38SWcGx05EzBbmKldeg3Y/QQyiGknQqfTNkVLoBm3fLe7mjzL+EaP
-         5ljJgbUfujzo0uShXrMfB+OfArvW9HxXZKPCEbDAJThLA0+a7DL4+6pw5X96SGapT9xh
-         pIpB6J2f2CyOTyErQ/sff/ScReo55uIdK7B89zmDk7zDvy4eHLgGjJIHx5WsCBC1YV99
-         Pi93LXe2vFL0jI6OomMcH2o/pt/PU9NU4JuxFs4Ctfr+8aOlqAZJENvPwkHIvbMspIt0
-         Mu+EJNlntQZB/2G3/y8L8YP5gzDhZD8bkQ/kezrtbcpUOcfJMeMHuBxosKsauns4/6hf
-         CJ/Q==
-X-Gm-Message-State: ANoB5plWKngWKMDKixhzlNcdM4y4Xo4jyBw1+ZafSnwoxefz6Ru7ZVMe
-        fSlqlZc/BFEiIRpxZOOrlZU/FTk20aRHv4FM3FU=
-X-Google-Smtp-Source: AA0mqf6LCePewbco5sIKje93RwFi2duvu0yK4NuN7X6a+lopnudNGGoVFXmPsV9NQWwrIB4Ef/gNxA==
-X-Received: by 2002:a0c:fa8c:0:b0:4c7:842:c504 with SMTP id o12-20020a0cfa8c000000b004c70842c504mr34015847qvn.55.1670349790219;
-        Tue, 06 Dec 2022 10:03:10 -0800 (PST)
-Received: from nicolas-tpx395.localdomain (192-222-136-102.qc.cable.ebox.net. [192.222.136.102])
-        by smtp.gmail.com with ESMTPSA id bj31-20020a05620a191f00b006ed61f18651sm15362243qkb.16.2022.12.06.10.03.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Dec 2022 10:03:09 -0800 (PST)
-Message-ID: <76febfd703c3eaf312f001a9e952d9cd89449fa7.camel@ndufresne.ca>
-Subject: Re: [PATCH V2] [media] v4l2: Add AV1 pixel format
-From:   Nicolas Dufresne <nicolas@ndufresne.ca>
-To:     Hsia-Jun Li <Randy.Li@synaptics.com>
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        mchehab@kernel.org, hans.verkuil@cisco.com,
-        hverkuil-cisco@xs4all.nl, ezequiel@vanguardiasur.com.ar,
-        sakari.ailus@linux.intel.com, ribalda@chromium.org,
-        stanimir.varbanov@linaro.org, hui.zhang@amlogic.com,
-        lele.xiang@amlogic.com, Shi Hao <hao.shi@amlogic.com>,
-        laurent.pinchart@ideasonboard.com, nanxin.qin@amlogic.com
-Date:   Tue, 06 Dec 2022 13:03:08 -0500
-In-Reply-To: <3c634dc4-1b37-1062-203d-f3466d106ad9@synaptics.com>
-References: <20220830014032.1245359-1-hao.shi@amlogic.com>
-         <b5f4e1cc04ba35d92839932d431726fd42f24320.camel@ndufresne.ca>
-         <3c634dc4-1b37-1062-203d-f3466d106ad9@synaptics.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.4 (3.44.4-2.fc36) 
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=7vtB1k1E12/Qe5MgbChmK5o0Viuvz+G0q4nlKw8ldAc=;
+        b=6fHFdFUC+ImJwXcx+zeXtHrE2ocpMzN7qkL2i4KP6L12ABhLNbdziFqTFSd48/+6E1
+         hepDo6ZJUE/ViZfKzerfjjjm5EZgIvhsYUlvGg+dep5yg6dSBIrsqS0YS1VNONLIAAsM
+         HFiJAtzGH5Q/dxS8lONWCt+QxaYKPqpKCp9VV9GU4KETKDTVbSDHuyT80R11i4TpQg/3
+         ix4Jrkh1XoMkMi2NNnSE+mWV9oT+3UmgtgIJkKDQPOivaqnDId5fff8rVFNS9X9FQfcV
+         xXxtsCc+g5IpAQl4eiRaMp8ZJMT+zku6kXh+rRpsXUyRbHDONNPJ/+fLAqMV7m6g7RGu
+         7+3w==
+X-Gm-Message-State: ANoB5pkYqmeIeYKKJrPImoheT3hXavOITBCmUOV9wf+Jo38Xfu8C232T
+        1lVlwpX1yNLz6vKSMOkia6U=
+X-Google-Smtp-Source: AA0mqf6RdIuR2ZSd6whmHf4DjhAn+d+r9tStiV/oTM2gTheg5zX+OFsnkNnLTSKy3DC6aQW+P01BuQ==
+X-Received: by 2002:a05:6402:5299:b0:461:7291:79c1 with SMTP id en25-20020a056402529900b00461729179c1mr70361891edb.68.1670350640573;
+        Tue, 06 Dec 2022 10:17:20 -0800 (PST)
+Received: from ?IPV6:2a02:908:1256:79a0:f31f:ea10:880e:c031? ([2a02:908:1256:79a0:f31f:ea10:880e:c031])
+        by smtp.gmail.com with ESMTPSA id cn14-20020a0564020cae00b00458b41d9460sm1238631edb.92.2022.12.06.10.17.19
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 06 Dec 2022 10:17:20 -0800 (PST)
+Message-ID: <8c3960e5-ef35-1029-1b37-1029d2b71cc3@gmail.com>
+Date:   Tue, 6 Dec 2022 19:17:19 +0100
 MIME-Version: 1.0
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE autolearn=ham
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH] dma-buf: fix dma_buf_export init order
+Content-Language: en-US
+To:     "Ruhl, Michael J" <michael.j.ruhl@intel.com>,
+        "quic_charante@quicinc.com" <quic_charante@quicinc.com>,
+        "cuigaosheng1@huawei.com" <cuigaosheng1@huawei.com>,
+        "tjmercier@google.com" <tjmercier@google.com>,
+        "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>
+Cc:     "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
+        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+References: <20221206151207.8801-1-christian.koenig@amd.com>
+ <DM5PR11MB1324F5F49A28EFDA67B1C258C11B9@DM5PR11MB1324.namprd11.prod.outlook.com>
+From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+In-Reply-To: <DM5PR11MB1324F5F49A28EFDA67B1C258C11B9@DM5PR11MB1324.namprd11.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -78,167 +80,233 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Le mardi 29 novembre 2022 =C3=A0 18:32 +0800, Hsia-Jun Li a =C3=A9crit=C2=
-=A0:
-> Hello
->=20
-> I think we need to add an extra event for VP9 and AV1 which support=20
-> frame scaling, which means its frame width and height could be different=
-=20
-> to the previous frame or reference frame.
->=20
-> That would be more possible for the VP9 as there is not a sequence=20
-> header for VP9.
+Am 06.12.22 um 17:20 schrieb Ruhl, Michael J:
+>> -----Original Message-----
+>> From: dri-devel <dri-devel-bounces@lists.freedesktop.org> On Behalf Of
+>> Christian König
+>> Sent: Tuesday, December 6, 2022 10:12 AM
+>> To: quic_charante@quicinc.com; cuigaosheng1@huawei.com;
+>> tjmercier@google.com; sumit.semwal@linaro.org
+>> Cc: linaro-mm-sig@lists.linaro.org; dri-devel@lists.freedesktop.org; linux-
+>> media@vger.kernel.org
+>> Subject: [PATCH] dma-buf: fix dma_buf_export init order
+>>
+>> The init order and resulting error handling in dma_buf_export
+>> was pretty messy.
+>>
+>> Subordinate objects like the file and the sysfs kernel objects
+>> were initializing and wiring itself up with the object in the
+>> wrong order resulting not only in complicating and partially
+>> incorrect error handling, but also in publishing only halve
+>> initialized DMA-buf objects.
+>>
+>> Clean this up thoughtfully by allocating the file independent
+>> of the DMA-buf object. Then allocate and initialize the DMA-buf
+>> object itself, before publishing it through sysfs. If everything
+>> works as expected the file is then connected with the DMA-buf
+>> object and publish it through debugfs.
+>>
+>> Also adds the missing dma_resv_fini() into the error handling.
+>>
+>> Signed-off-by: Christian König <christian.koenig@amd.com>
+>> ---
+>> drivers/dma-buf/dma-buf-sysfs-stats.c |  7 +--
+>> drivers/dma-buf/dma-buf-sysfs-stats.h |  4 +-
+>> drivers/dma-buf/dma-buf.c             | 65 +++++++++++++--------------
+>> 3 files changed, 34 insertions(+), 42 deletions(-)
+>>
+>> diff --git a/drivers/dma-buf/dma-buf-sysfs-stats.c b/drivers/dma-buf/dma-
+>> buf-sysfs-stats.c
+>> index 2bba0babcb62..4b680e10c15a 100644
+>> --- a/drivers/dma-buf/dma-buf-sysfs-stats.c
+>> +++ b/drivers/dma-buf/dma-buf-sysfs-stats.c
+>> @@ -168,14 +168,11 @@ void dma_buf_uninit_sysfs_statistics(void)
+>> 	kset_unregister(dma_buf_stats_kset);
+>> }
+>>
+>> -int dma_buf_stats_setup(struct dma_buf *dmabuf)
+>> +int dma_buf_stats_setup(struct dma_buf *dmabuf, struct file *file)
+>> {
+>> 	struct dma_buf_sysfs_entry *sysfs_entry;
+>> 	int ret;
+>>
+>> -	if (!dmabuf || !dmabuf->file)
+>> -		return -EINVAL;
+>> -
+>> 	if (!dmabuf->exp_name) {
+>> 		pr_err("exporter name must not be empty if stats
+>> needed\n");
+>> 		return -EINVAL;
+>> @@ -192,7 +189,7 @@ int dma_buf_stats_setup(struct dma_buf *dmabuf)
+>>
+>> 	/* create the directory for buffer stats */
+>> 	ret = kobject_init_and_add(&sysfs_entry->kobj, &dma_buf_ktype,
+>> NULL,
+>> -				   "%lu", file_inode(dmabuf->file)->i_ino);
+>> +				   "%lu", file_inode(file)->i_ino);
+>> 	if (ret)
+>> 		goto err_sysfs_dmabuf;
+>>
+>> diff --git a/drivers/dma-buf/dma-buf-sysfs-stats.h b/drivers/dma-buf/dma-
+>> buf-sysfs-stats.h
+>> index a49c6e2650cc..7a8a995b75ba 100644
+>> --- a/drivers/dma-buf/dma-buf-sysfs-stats.h
+>> +++ b/drivers/dma-buf/dma-buf-sysfs-stats.h
+>> @@ -13,7 +13,7 @@
+>> int dma_buf_init_sysfs_statistics(void);
+>> void dma_buf_uninit_sysfs_statistics(void);
+>>
+>> -int dma_buf_stats_setup(struct dma_buf *dmabuf);
+>> +int dma_buf_stats_setup(struct dma_buf *dmabuf, struct file *file);
+>>
+>> void dma_buf_stats_teardown(struct dma_buf *dmabuf);
+>> #else
+>> @@ -25,7 +25,7 @@ static inline int dma_buf_init_sysfs_statistics(void)
+>>
+>> static inline void dma_buf_uninit_sysfs_statistics(void) {}
+>>
+>> -static inline int dma_buf_stats_setup(struct dma_buf *dmabuf)
+>> +static inline int dma_buf_stats_setup(struct dma_buf *dmabuf, struct file
+>> *file)
+>> {
+>> 	return 0;
+>> }
+>> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+>> index e6f36c014c4c..ea08049b70ae 100644
+>> --- a/drivers/dma-buf/dma-buf.c
+>> +++ b/drivers/dma-buf/dma-buf.c
+>> @@ -614,19 +614,11 @@ struct dma_buf *dma_buf_export(const struct
+>> dma_buf_export_info *exp_info)
+>> 	size_t alloc_size = sizeof(struct dma_buf);
+>> 	int ret;
+>>
+>> -	if (!exp_info->resv)
+>> -		alloc_size += sizeof(struct dma_resv);
+>> -	else
+>> -		/* prevent &dma_buf[1] == dma_buf->resv */
+>> -		alloc_size += 1;
+>> -
+>> -	if (WARN_ON(!exp_info->priv
+>> -			  || !exp_info->ops
+>> -			  || !exp_info->ops->map_dma_buf
+>> -			  || !exp_info->ops->unmap_dma_buf
+>> -			  || !exp_info->ops->release)) {
+>> +	if (WARN_ON(!exp_info->priv || !exp_info->ops
+>> +		    || !exp_info->ops->map_dma_buf
+>> +		    || !exp_info->ops->unmap_dma_buf
+>> +		    || !exp_info->ops->release))
+>> 		return ERR_PTR(-EINVAL);
+>> -	}
+>>
+>> 	if (WARN_ON(exp_info->ops->cache_sgt_mapping &&
+>> 		    (exp_info->ops->pin || exp_info->ops->unpin)))
+>> @@ -638,10 +630,21 @@ struct dma_buf *dma_buf_export(const struct
+>> dma_buf_export_info *exp_info)
+>> 	if (!try_module_get(exp_info->owner))
+>> 		return ERR_PTR(-ENOENT);
+>>
+>> +	file = dma_buf_getfile(exp_info->size, exp_info->flags);
+> Hi Christian,
+>
+> dma_buf_getfile takes a dmabuf, here you have a size?
+>
+> Did you change this function somewhere?
 
-The solution is unlikely in the form of an event, but yes, to complete VP9
-support (and improve AV1 support) a mechanism need to be designed and speci=
-fied
-to handle inter-frame resolution changes.
+Ups forgot to add that change to the patch. I shouldn't code when I'm in 
+a hurry.
 
-Why I say improve AV1, this is because VP9 bitstream does not signal SVC sp=
-atial
-streams (the most common use of inter-frame resolution changes). With SVC
-streams, the smaller images are alway decode-only (never displayed). This c=
-an be
-at least partially supported as long as the maximum image dimension is sign=
-alled
-by the bitstream. This is the case for AV1, but not VP9.
+Addressed this and Charans comment in v2.
 
-Stateless decoders are not affected, because userspace is aware of frames b=
-eing
-decoded, but not displayed. It is also aware that these frames are referenc=
-e
-frames. While on stateless decoder, userspace usually does not have this
-knowledge. I think one way to solve this, would be for drivers to be able t=
-o
-mark a buffer done, with a flag telling userspace that its not to be displa=
-yed.
-For the SVC case, the dimensions and stride are irrelevant.
+Thanks,
+Christian.
 
-For true inter-resolution changes, like VP9 supports (though rarely used), =
-this
-needs more APIs. It was suggested to extend CREATE_BUFS, which allow alloca=
-tion
-with different FMT, with a DELETE_BUFS ioctl, so that userspace can smoothl=
-y
-handle the allocation transition. For VP9 also, it might be required to sup=
-port
-super-frame, VP9 supper frames are the ancestor of AV1 TU, and only the las=
-t
-frame of a super-frame is every to be displayed. A newly introduced AV1 for=
-mat
-might also requires complete TU, rather then frames, this needs strict
-documentation. Decoding frames would mean that un-display and frame of diff=
-erent
-sizes get delivered, and we don't have a method to communicate these frame
-dimension and strides at the moment.
-
-Nicolas
-
-
-
->=20
-> On 9/12/22 23:45, Nicolas Dufresne wrote:
-> > Hi Shi,
-> >=20
-> > thanks for the patches, check inline for some comments. Generally speak=
-ing, we
-> > don't usually add formats ahead of time unless we have a good rationale=
- to do
-> > so. Should be expect a companion series against the amlogic decoder dri=
-ver that
-> > enables this ?
-> >=20
-> > Le mardi 30 ao=C3=BBt 2022 =C3=A0 09:40 +0800, Shi Hao a =C3=A9crit=C2=
-=A0:
-> > > From: "hao.shi" <hao.shi@amlogic.com>
-> > >=20
-> > > Add AV1 compressed pixel format. It is the more common format.
-> > >=20
-> > > Signed-off-by: Hao Shi <hao.shi@amlogic.com>
-> > > ---
-> > >   .../userspace-api/media/v4l/pixfmt-compressed.rst        | 9 ++++++=
-+++
-> > >   drivers/media/v4l2-core/v4l2-ioctl.c                     | 1 +
-> > >   include/uapi/linux/videodev2.h                           | 1 +
-> > >   3 files changed, 11 insertions(+)
-> > >=20
-> > > diff --git a/Documentation/userspace-api/media/v4l/pixfmt-compressed.=
-rst b/Documentation/userspace-api/media/v4l/pixfmt-compressed.rst
-> > > index 506dd3c98884..5bdeeebdf9f5 100644
-> > > --- a/Documentation/userspace-api/media/v4l/pixfmt-compressed.rst
-> > > +++ b/Documentation/userspace-api/media/v4l/pixfmt-compressed.rst
-> > > @@ -232,6 +232,15 @@ Compressed Formats
-> > >           Metadata associated with the frame to decode is required to=
- be passed
-> > >           through the ``V4L2_CID_STATELESS_FWHT_PARAMS`` control.
-> > >   	See the :ref:`associated Codec Control ID <codec-stateless-fwht>`.
-> > > +    * .. _V4L2-PIX-FMT-AV1:
-> > > +
-> > > +      - ``V4L2_PIX_FMT_AV1``
-> > > +      - 'AV1'
-> > > +      - AV1 Access Unit. The decoder expects one Access Unit per buf=
-fer.
-> >=20
-> > I believe this is using a MPEG LA terminology. Did you mean a Temporal =
-Unit (TU)
-> > ? In AV1 a TU represent 1 displayable picture, just like AU in H.264 (i=
-f you
-> > ignore interlaced video).
-> I think it should be a complete tile group obu. From the spec, we have=
-=20
-> the term 'frame'.
->=20
-> Currently, AV1 doesn't support interlace.
-> >=20
-> > > +        The encoder generates one Access Unit per buffer. This forma=
-t is
-> > > +        adapted for stateful video decoders. AV1 (AOMedia Video 1) i=
-s an
-> > > +        open video coding format. It was developed as a successor to=
- VP9
-> > > +        by the Alliance for Open Media (AOMedia).
-> > >  =20
-> > >   .. raw:: latex
-> > >  =20
-> > > diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l=
-2-core/v4l2-ioctl.c
-> > > index c314025d977e..fc0f43228546 100644
-> > > --- a/drivers/media/v4l2-core/v4l2-ioctl.c
-> > > +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-> > > @@ -1497,6 +1497,7 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdes=
-c *fmt)
-> > >   		case V4L2_PIX_FMT_MT21C:	descr =3D "Mediatek Compressed Format"; =
-break;
-> > >   		case V4L2_PIX_FMT_QC08C:	descr =3D "QCOM Compressed 8-bit Format"=
-; break;
-> > >   		case V4L2_PIX_FMT_QC10C:	descr =3D "QCOM Compressed 10-bit Format=
-"; break;
-> > > +		case V4L2_PIX_FMT_AV1:		descr =3D "AV1"; break;
-> > >   		default:
-> > >   			if (fmt->description[0])
-> > >   				return;
-> > > diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/vide=
-odev2.h
-> > > index 01e630f2ec78..c5ea9f38d807 100644
-> > > --- a/include/uapi/linux/videodev2.h
-> > > +++ b/include/uapi/linux/videodev2.h
-> > > @@ -738,6 +738,7 @@ struct v4l2_pix_format {
-> > >   #define V4L2_PIX_FMT_FWHT_STATELESS     v4l2_fourcc('S', 'F', 'W', =
-'H') /* Stateless FWHT (vicodec) */
-> > >   #define V4L2_PIX_FMT_H264_SLICE v4l2_fourcc('S', '2', '6', '4') /* =
-H264 parsed slices */
-> > >   #define V4L2_PIX_FMT_HEVC_SLICE v4l2_fourcc('S', '2', '6', '5') /* =
-HEVC parsed slices */
-> > > +#define V4L2_PIX_FMT_AV1      v4l2_fourcc('A', 'V', '1', '0') /* AV1=
- */
-> > >  =20
-> > >   /*  Vendor-specific formats   */
-> > >   #define V4L2_PIX_FMT_CPIA1    v4l2_fourcc('C', 'P', 'I', 'A') /* cp=
-ia1 YUV */
-> > >=20
-> > > base-commit: 568035b01cfb107af8d2e4bd2fb9aea22cf5b868
-> >=20
-> >=20
->=20
+>
+> with that addressed....
+>
+> This cleanup makes sense to me.
+>
+> Reviewed-by: Michael J. Ruhl <michael.j.ruhl@intel.com>
+>
+> M
+>
+>> +	if (IS_ERR(file)) {
+>> +		ret = PTR_ERR(file);
+>> +		goto err_module;
+>> +	}
+>> +
+>> +	if (!exp_info->resv)
+>> +		alloc_size += sizeof(struct dma_resv);
+>> +	else
+>> +		/* prevent &dma_buf[1] == dma_buf->resv */
+>> +		alloc_size += 1;
+>> 	dmabuf = kzalloc(alloc_size, GFP_KERNEL);
+>> 	if (!dmabuf) {
+>> 		ret = -ENOMEM;
+>> -		goto err_module;
+>> +		goto err_file;
+>> 	}
+>>
+>> 	dmabuf->priv = exp_info->priv;
+>> @@ -653,44 +656,36 @@ struct dma_buf *dma_buf_export(const struct
+>> dma_buf_export_info *exp_info)
+>> 	init_waitqueue_head(&dmabuf->poll);
+>> 	dmabuf->cb_in.poll = dmabuf->cb_out.poll = &dmabuf->poll;
+>> 	dmabuf->cb_in.active = dmabuf->cb_out.active = 0;
+>> +	mutex_init(&dmabuf->lock);
+>> +	INIT_LIST_HEAD(&dmabuf->attachments);
+>>
+>> 	if (!resv) {
+>> -		resv = (struct dma_resv *)&dmabuf[1];
+>> -		dma_resv_init(resv);
+>> +		dmabuf->resv = (struct dma_resv *)&dmabuf[1];
+>> +		dma_resv_init(dmabuf->resv);
+>> +	} else {
+>> +		dmabuf->resv = resv;
+>> 	}
+>> -	dmabuf->resv = resv;
+>>
+>> -	file = dma_buf_getfile(dmabuf, exp_info->flags);
+>> -	if (IS_ERR(file)) {
+>> -		ret = PTR_ERR(file);
+>> +	ret = dma_buf_stats_setup(dmabuf, file);
+>> +	if (ret)
+>> 		goto err_dmabuf;
+>> -	}
+>>
+>> +	file->private_data = dmabuf;
+>> +	file->f_path.dentry->d_fsdata = dmabuf;
+>> 	dmabuf->file = file;
+>>
+>> -	mutex_init(&dmabuf->lock);
+>> -	INIT_LIST_HEAD(&dmabuf->attachments);
+>> -
+>> 	mutex_lock(&db_list.lock);
+>> 	list_add(&dmabuf->list_node, &db_list.head);
+>> 	mutex_unlock(&db_list.lock);
+>>
+>> -	ret = dma_buf_stats_setup(dmabuf);
+>> -	if (ret)
+>> -		goto err_sysfs;
+>> -
+>> 	return dmabuf;
+>>
+>> -err_sysfs:
+>> -	/*
+>> -	 * Set file->f_path.dentry->d_fsdata to NULL so that when
+>> -	 * dma_buf_release() gets invoked by dentry_ops, it exits
+>> -	 * early before calling the release() dma_buf op.
+>> -	 */
+>> -	file->f_path.dentry->d_fsdata = NULL;
+>> -	fput(file);
+>> err_dmabuf:
+>> +	if (!resv)
+>> +		dma_resv_fini(dmabuf->resv);
+>> 	kfree(dmabuf);
+>> +err_file:
+>> +	fput(file);
+>> err_module:
+>> 	module_put(exp_info->owner);
+>> 	return ERR_PTR(ret);
+>> --
+>> 2.34.1
 
