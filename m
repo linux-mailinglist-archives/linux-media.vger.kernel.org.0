@@ -2,60 +2,67 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 16C3B64412D
-	for <lists+linux-media@lfdr.de>; Tue,  6 Dec 2022 11:22:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2A7BC644247
+	for <lists+linux-media@lfdr.de>; Tue,  6 Dec 2022 12:40:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234220AbiLFKWE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 6 Dec 2022 05:22:04 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59898 "EHLO
+        id S233317AbiLFLkD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 6 Dec 2022 06:40:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41088 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234098AbiLFKV7 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 6 Dec 2022 05:21:59 -0500
-Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.186])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A2966570
-        for <linux-media@vger.kernel.org>; Tue,  6 Dec 2022 02:21:53 -0800 (PST)
-X-KPN-MessageId: cc728f67-754f-11ed-9c5f-00505699b430
-Received: from smtp.kpnmail.nl (unknown [10.31.155.6])
-        by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-        id cc728f67-754f-11ed-9c5f-00505699b430;
-        Tue, 06 Dec 2022 11:21:51 +0100 (CET)
+        with ESMTP id S231474AbiLFLkB (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 6 Dec 2022 06:40:01 -0500
+Received: from mail-vs1-xe2b.google.com (mail-vs1-xe2b.google.com [IPv6:2607:f8b0:4864:20::e2b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F16FCE05
+        for <linux-media@vger.kernel.org>; Tue,  6 Dec 2022 03:40:00 -0800 (PST)
+Received: by mail-vs1-xe2b.google.com with SMTP id f189so9370696vsc.11
+        for <linux-media@vger.kernel.org>; Tue, 06 Dec 2022 03:40:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=xs4all.nl; s=xs4all01;
-        h=content-type:from:to:subject:mime-version:date:message-id;
-        bh=Q5C4J4yJ4NT7RcsaU7bKoKHnKWo6uSG+/Jm84pAsQP8=;
-        b=mWfbT4Eq7Jtn4yN7Y87SlrJC70KKJ+aLXTecW2NyNjNYzn8b1+gTbo46zadcP22RSQ5JCH0u4GkDH
-         y3fEgHA/eMT1i5JJDqIQfBpjbq/1XanJrZIiyXPvTWTilgI1aWFvXK/Hyv6M+L3mT3MIoNhsoowReM
-         apcpA4rCExg8UpvuJ+vB2VO+4b6PxGDcPRMN5TPuFhq4+4RNJH9KnO4QRF/CELaj6J/JzfV90oejnP
-         gA8iZIxPd5f+d0ZkTk47Qy6oMfCLDHQRq+xjCNYle72DhGJvgMppvDwy/tz+cmEdmvL+8nZUi8Zvj7
-         cEeVaV+Be77okITZg4sErUyfeRM4UCQ==
-X-KPN-MID: 33|H/UNem6sALaJw9xQIoIsL+iAIFOxb7e18vQRBPd5zl7hh2/XW2w/ruMlDM5wCaE
- oBwjCAfQ/xCXsxAgso/o1uqun0yC5BmU9WtLRSuWKZXI=
-X-KPN-VerifiedSender: Yes
-X-CMASSUN: 33|u34bKvSEF2IckPc/Cryoht1iVRl/cPchUa4igXQaEAXzeMHaqH+OXxQ4fTs+IH1
- O8v2EXmLur+Utxr3EbBm/lg==
-X-Originating-IP: 173.38.220.42
-Received: from [10.47.77.219] (unknown [173.38.220.42])
-        by smtp.xs4all.nl (Halon) with ESMTPSA
-        id cc02671b-754f-11ed-ad2a-00505699772e;
-        Tue, 06 Dec 2022 11:21:51 +0100 (CET)
-Message-ID: <a2b713de-d5b0-d1de-46fb-9487b06561ec@xs4all.nl>
-Date:   Tue, 6 Dec 2022 11:21:50 +0100
+        d=raspberrypi.com; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=wXkPoKjNu7IZGLInnqBVxRW+ksyVC8afOtfigTuS6eo=;
+        b=DTPlldEK2Mt8U+VuLUaVTowQ9JD0oC7ZG3GdzsEdvX/vmf2wHy+t5ERTdmr1aWMEb9
+         QP8IjkDPWwKUyPjNqNYBNQBdy0rP182aesEwyTbDpXjFy1eZ/ID6enjqOigtHVDuUZu2
+         4+w+IJ0JfRCQvfZIHdvir8i6d42HuBe54YCXqlUDP6mATuHx+7sNhXJVJU2Xwt6+BvqE
+         6Ksa17QrReimXAsUwCpBF2wiTmrbfTX41XGlunefuR3wJgDDWsBME3inLXmIkcBsg8r/
+         OY4iENoBkVGovngmcdyKgYfpzmY0NnUioTQb3+/R11M2GLAQsESv8l/TucZsu1RK2pef
+         zT0A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=wXkPoKjNu7IZGLInnqBVxRW+ksyVC8afOtfigTuS6eo=;
+        b=Y8JosgPZ4zT+BxKoHpD9AnBMBkvb4r0T8sG6uNqwktwVib7v0j+Xt7ewQYPWDU9rxs
+         iom8zrP+dxVb+lSQ8xFfmJEgYLpdtjbZsZXDzPEMKJELEg8pGbdGiXv/+Hul1sR4wnwe
+         0YifgZ6VmXGCaU01B5/kMxL7um5zK7zF+nhzZO6o30914iImlQA1HPFhByT+ZG9yAIdU
+         tkNNjHdwI5uWbSp3c/SFyKZ+AXiwLklGIF4lJSDllEYLh9sX3WGfCBzjQmt6tsmbcf3/
+         WfVJ9UbiDJXcFyTpJnIQOe0MgZedN5owTF+WezaicWQYtkLP0P+3SVfpita9rxVQiP+d
+         iEpA==
+X-Gm-Message-State: ANoB5plE6iav+yf0JXS6cQRkkR+kLqqfmSWY1dY4VahGuJt6/+NA+jK8
+        flQyf369m6xkHT37aF4UaLthQ+FTyaGVvMr5ANw9SA==
+X-Google-Smtp-Source: AA0mqf7h+GXyI1E/jzEHKApomRcEoqpKQe63/FcNQ7s6D3IiKWhAN35cvWaLnreFK4RHwwJL9VEsCaNe3HgsnyxiPJQ=
+X-Received: by 2002:a67:1703:0:b0:3b0:4c2f:354a with SMTP id
+ 3-20020a671703000000b003b04c2f354amr38921334vsx.28.1670326799579; Tue, 06 Dec
+ 2022 03:39:59 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Subject: Re: [PATCH v4 0/2] utils: add v4l2-tracer utility
-Content-Language: en-US
-To:     Deborah Brouwer <deborah.brouwer@collabora.com>,
-        linux-media@vger.kernel.org
-Cc:     daniel.almeida@collabora.com, nfraprado@collabora.com,
-        nicolas.dufresne@collabora.com, deborahbrouwer3563@gmail.com
-References: <cover.1669831184.git.deborah.brouwer@collabora.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <cover.1669831184.git.deborah.brouwer@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_LOW,
+References: <20221205152149.1364185-1-dave.stevenson@raspberrypi.com>
+ <20221205152149.1364185-4-dave.stevenson@raspberrypi.com> <DM8PR11MB56532AC6ED60D4503E5AAB11991B9@DM8PR11MB5653.namprd11.prod.outlook.com>
+In-Reply-To: <DM8PR11MB56532AC6ED60D4503E5AAB11991B9@DM8PR11MB5653.namprd11.prod.outlook.com>
+From:   Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date:   Tue, 6 Dec 2022 11:39:43 +0000
+Message-ID: <CAPY8ntAAAT2JHypD5M61qDVxiR0Ed-6Hv4WWu0V=P+Wkb3B+vA@mail.gmail.com>
+Subject: Re: [PATCH v2 3/5] media: i2c: imx319: Set V4L2_CTRL_FLAG_MODIFY_LAYOUT
+ on flips
+To:     "Cao, Bingbu" <bingbu.cao@intel.com>
+Cc:     Rui Miguel Silva <rmfrfs@gmail.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        "Qiu, Tian Shu" <tian.shu.qiu@intel.com>,
+        "Su, Jimmy" <jimmy.su@intel.com>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -63,136 +70,98 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Deb,
+Hi
 
-On 11/30/22 19:24, Deborah Brouwer wrote:
-> Hi all - thank you very much for your reviews.
-> 
-> This is a patch series now to add Hans' patch
-> for tracing basic controls.
+On Tue, 6 Dec 2022 at 03:42, Cao, Bingbu <bingbu.cao@intel.com> wrote:
+>
+> Stevenson,
+>
+> Thanks for your patch.
+>
+> I am wondering how V4L2_CTRL_FLAG_MODIFY_LAYOUT flag was used in current
+> v4l2 ctrl framework, literally it means the v4l2 ctrl will change the buffer
+> layout. From my understanding, such as 90 degrees rotation apparently change
+> the layout. But I am not sure this is also the case for vflip/hflip, user can
+> notice the bayer order update from get_fmt.
 
-All merged!
+Documentation at [1]
+"3.5.1. Interactions between formats, controls and buffers
+...
+The set of information needed to interpret the content of a buffer
+(e.g. the pixel format, the line stride, the tiling orientation or the
+rotation) is collectively referred to in the rest of this section as
+the buffer layout."
+pixel_format is part of the buffer layout.
 
-Thank you very much for this nice utility, I think it will
-be quite useful.
+V4L2_CTRL_FLAG_MODIFY_LAYOUT is telling the userspace that it must
+call get_fmt after changing the control in order to find out how the
+format has changed. Without it there is no obligation to call get_fmt,
+and userspace can legitimately expect the format/layout to be the
+same.
+Not all sensors change the Bayer order with flips (OnSemi sensors in
+particular tend not to), so you can't make assumptions over the
+behaviour.
 
-Regards,
+> Sakari, what do you think?
 
-	Hans
+Seeing as Sakari has accepted the patches and created a pull request
+to Mauro including them suggests that this is indeed the correct thing
+to do.
 
-> 
-> Changes since v3:
-> - fix clang-tidy warnings
-> - fix memory leaks in auto-generated code
-> - strings: check for nullptr before assignment
-> - remove unnecessary checks for nullptr before free()
-> - polling: check return value
-> - dynamic arrays: check memory allocation
-> - put format-specific info (h264) into a union
-> - add comment to the top of auto-generated files
-> - replace array with std::vector for media topology 
-> - move debug/verbose options to helper functions
-> - fix auto-gen script to include a few extra controls
-> 
-> Changes since v2:
-> - remove duplication in entries for numbers/strings
-> - use media topology to find retrace devices
-> - add specific ioctls to trace
-> - in help msg change 'data' -> 'video frame data'
-> - trace mem_array with space after every byte
-> - add to trace files package version, SHA, date
-> - retracer also generates a JSON retrace file
-> - default trace format is "pretty"
-> - add a "compact" format option
-> - consolidate options for tracer/retracer
-> - remove mutex locks as unnecessary
-> - add more autogenerated functions
-> - add 'clean' command to remove fd/addresses
-> 
-> Changes since v1:
-> - auto-generate code from uAPI headers
-> - generated code adds some ability to trace
->   VP9/HEVC which compiles but still needs work
-> - generated code adds full support for MPEG2
-> - fix multiplanar decoding for vicodec
-> - change library name to libv4l2tracer
-> - update README
-> - expand help to show options
-> - remove extraneous files from gitignore
-> 
-> Example:
-> 
-> Trace an application decoding VP8:
-> 
-> v4l2-tracer trace gst-launch-1.0 -- filesrc 
-> location=test-25fps.vp8 ! parsebin ! 
-> v4l2slvp8dec ! videocodectestsink
-> 
-> Or trace an application decoding FWHT:
-> 
-> v4l2-tracer trace v4l2-ctl -d3 --stream-mmap
-> --stream-out-mmap --stream-from-hdr
-> test-25fps.fwht --stream-to out.yuv
-> 
-> A trace file is generated: 71827_trace.json
-> 
-> Retrace the trace file:
-> v4l2-tracer retrace 71827_trace.json
-> 
-> Specify nodes if using a different driver:
-> v4l2-tracer -d0 -m0 retrace 71827_trace.json
-> 
-> A retrace file is generated: 71827_trace_retrace.json
-> 
-> Remove irrelevant differences (optional)
-> e.g. file descriptors and addresses:
-> v4l2-tracer clean 71827_trace.json
-> v4l2-tracer clean 71827_trace_retrace.json
-> 
-> Clean files are generated:
-> clean_71827_trace.json
-> clean_71827_trace_retrace.json
-> 
-> Use an application to compare the files:
-> kdiff3 clean_71827_trace.json clean_71827_trace_retrace.json
-> 
-> Deborah Brouwer (1):
->   utils: add v4l2-tracer utility
-> 
-> Hans Verkuil (1):
->   v4l2-tracer: add support for most basic controls
-> 
->  README                                   |    8 +
->  configure.ac                             |   12 +
->  utils/Makefile.am                        |    5 +
->  utils/v4l2-tracer/.gitignore             |    7 +
->  utils/v4l2-tracer/Makefile.am            |   36 +
->  utils/v4l2-tracer/libv4l2tracer.cpp      |  303 +++++
->  utils/v4l2-tracer/retrace-helper.cpp     |  262 +++++
->  utils/v4l2-tracer/retrace.cpp            | 1373 ++++++++++++++++++++++
->  utils/v4l2-tracer/retrace.h              |   43 +
->  utils/v4l2-tracer/trace-helper.cpp       |  500 ++++++++
->  utils/v4l2-tracer/trace.cpp              |  603 ++++++++++
->  utils/v4l2-tracer/trace.h                |   75 ++
->  utils/v4l2-tracer/v4l2-tracer-common.cpp |  476 ++++++++
->  utils/v4l2-tracer/v4l2-tracer-common.h   |   79 ++
->  utils/v4l2-tracer/v4l2-tracer-gen.pl     |  879 ++++++++++++++
->  utils/v4l2-tracer/v4l2-tracer.1.in       |  111 ++
->  utils/v4l2-tracer/v4l2-tracer.cpp        |  415 +++++++
->  17 files changed, 5187 insertions(+)
->  create mode 100644 utils/v4l2-tracer/.gitignore
->  create mode 100644 utils/v4l2-tracer/Makefile.am
->  create mode 100644 utils/v4l2-tracer/libv4l2tracer.cpp
->  create mode 100644 utils/v4l2-tracer/retrace-helper.cpp
->  create mode 100644 utils/v4l2-tracer/retrace.cpp
->  create mode 100644 utils/v4l2-tracer/retrace.h
->  create mode 100644 utils/v4l2-tracer/trace-helper.cpp
->  create mode 100644 utils/v4l2-tracer/trace.cpp
->  create mode 100644 utils/v4l2-tracer/trace.h
->  create mode 100644 utils/v4l2-tracer/v4l2-tracer-common.cpp
->  create mode 100644 utils/v4l2-tracer/v4l2-tracer-common.h
->  create mode 100755 utils/v4l2-tracer/v4l2-tracer-gen.pl
->  create mode 100644 utils/v4l2-tracer/v4l2-tracer.1.in
->  create mode 100644 utils/v4l2-tracer/v4l2-tracer.cpp
-> 
+There is now a unified behaviour across all sensor drivers that change
+Bayer order due to flips.
+libcamera is relying on correct behaviour in order to be able to work
+out the native Bayer order of the sensor, and that is why I was
+checking that all mainline drivers were doing the right thing.
 
+Thanks
+  Dave
+
+[1] https://www.kernel.org/doc/html/latest/userspace-api/media/v4l/buffer.html#interactions-between-formats-controls-and-buffers
+
+> ________________________
+> BRs,
+> VTG - Linux&Chrome IPU SW
+> Bingbu Cao
+>
+> > -----Original Message-----
+> > From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> > Sent: Monday, December 5, 2022 23:22
+> > To: Rui Miguel Silva <rmfrfs@gmail.com>; Sakari Ailus
+> > <sakari.ailus@linux.intel.com>; Cao, Bingbu <bingbu.cao@intel.com>; Qiu,
+> > Tian Shu <tian.shu.qiu@intel.com>; Su, Jimmy <jimmy.su@intel.com>; linux-
+> > media@vger.kernel.org
+> > Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> > Subject: [PATCH v2 3/5] media: i2c: imx319: Set V4L2_CTRL_FLAG_MODIFY_LAYOUT
+> > on flips
+> >
+> > The driver changes the Bayer order based on the flips, but does not define
+> > the control correctly with the V4L2_CTRL_FLAG_MODIFY_LAYOUT flag.
+> >
+> > Add the V4L2_CTRL_FLAG_MODIFY_LAYOUT flag.
+> >
+> > Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> > ---
+> >  drivers/media/i2c/imx319.c | 4 ++++
+> >  1 file changed, 4 insertions(+)
+> >
+> > diff --git a/drivers/media/i2c/imx319.c b/drivers/media/i2c/imx319.c index
+> > 245a18fb40ad..45b1b61b2880 100644
+> > --- a/drivers/media/i2c/imx319.c
+> > +++ b/drivers/media/i2c/imx319.c
+> > @@ -2328,8 +2328,12 @@ static int imx319_init_controls(struct imx319 *imx319)
+> >
+> >       imx319->hflip = v4l2_ctrl_new_std(ctrl_hdlr, &imx319_ctrl_ops,
+> >                                         V4L2_CID_HFLIP, 0, 1, 1, 0);
+> > +     if (imx319->hflip)
+> > +             imx319->hflip->flags |= V4L2_CTRL_FLAG_MODIFY_LAYOUT;
+> >       imx319->vflip = v4l2_ctrl_new_std(ctrl_hdlr, &imx319_ctrl_ops,
+> >                                         V4L2_CID_VFLIP, 0, 1, 1, 0);
+> > +     if (imx319->vflip)
+> > +             imx319->vflip->flags |= V4L2_CTRL_FLAG_MODIFY_LAYOUT;
+> >
+> >       v4l2_ctrl_new_std(ctrl_hdlr, &imx319_ctrl_ops, V4L2_CID_ANALOGUE_GAIN,
+> >                         IMX319_ANA_GAIN_MIN, IMX319_ANA_GAIN_MAX,
+> > --
+> > 2.34.1
+>
