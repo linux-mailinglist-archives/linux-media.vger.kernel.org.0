@@ -2,171 +2,137 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8D052644A02
-	for <lists+linux-media@lfdr.de>; Tue,  6 Dec 2022 18:12:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7138B644A81
+	for <lists+linux-media@lfdr.de>; Tue,  6 Dec 2022 18:41:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235483AbiLFRMf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 6 Dec 2022 12:12:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46060 "EHLO
+        id S235563AbiLFRlL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 6 Dec 2022 12:41:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35616 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235417AbiLFRMa (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 6 Dec 2022 12:12:30 -0500
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A56352980A
-        for <linux-media@vger.kernel.org>; Tue,  6 Dec 2022 09:12:29 -0800 (PST)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 2B6EIKMp011077;
-        Tue, 6 Dec 2022 17:12:07 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=gbTI29gU+RaHEPzdX7DpjRFQgHj1oOdJ8MG0Mzj+dW8=;
- b=Luo7gIcfIhx86tRGFEAZISIffml4S0UiBxa/iAiY2imkZeovRUh/CTPLJKEeGhn0slko
- ktcE9sZKie0ogS/X/rfSV4pPgCaBgqHPH2T7lXKdEuoBEgwTnZjJSEYBIN4SnfWg0laH
- Mys9w0hkDiRokNPz4hTVdAsTi6TsodThug8yoKPoqTlxA+kdFxUNIslpRQtxBuwOkAps
- 9fMltYMbQ2LwPRIdSbo10k39CRTXJB3hLfmV0Uo69Q/tmujAO6wGnGKGcSGxaaCVsHr/
- VbbVcLVqipMtEJaGWsoXgq+OG5AS6gsXu7AQg0svThoDWj+QzfaEPchw7YXtrj1AnJL5 0w== 
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3m9eev4arv-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 06 Dec 2022 17:12:07 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-        by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 2B6HC6UH011188
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 6 Dec 2022 17:12:06 GMT
-Received: from [10.216.56.35] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Tue, 6 Dec 2022
- 09:12:04 -0800
-Message-ID: <2d0182b8-c154-e763-bc2a-323e2faa120b@quicinc.com>
-Date:   Tue, 6 Dec 2022 22:42:01 +0530
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH] dma-buf: fix dma_buf_export init order
-Content-Language: en-US
-To:     =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
-        <cuigaosheng1@huawei.com>, <tjmercier@google.com>,
-        <sumit.semwal@linaro.org>
-CC:     <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
-        <linaro-mm-sig@lists.linaro.org>
-References: <20221206151207.8801-1-christian.koenig@amd.com>
-From:   Charan Teja Kalla <quic_charante@quicinc.com>
-In-Reply-To: <20221206151207.8801-1-christian.koenig@amd.com>
+        with ESMTP id S234859AbiLFRk1 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 6 Dec 2022 12:40:27 -0500
+Received: from mail-qv1-xf34.google.com (mail-qv1-xf34.google.com [IPv6:2607:f8b0:4864:20::f34])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B00C2B3
+        for <linux-media@vger.kernel.org>; Tue,  6 Dec 2022 09:39:28 -0800 (PST)
+Received: by mail-qv1-xf34.google.com with SMTP id o12so10916247qvn.3
+        for <linux-media@vger.kernel.org>; Tue, 06 Dec 2022 09:39:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=6vwJXO2yIwIyTaL+wwfhKV21EcpVahkX9Yfn9dWn2Vc=;
+        b=EhNAx5d9kMUIKcYYW+d8SXABmCt5R36tbZqyhF3O/Hazlk/DPLdbQr50v0gLuS5Vs0
+         Kzj+8ci3fMgF2xrUv0YIOeyUEzxtRtnkFWm3KtkxAAWTpTnhJaCkPlAlOZw5lDmMaTZd
+         k8rkow6SokiZAgPltcfwMW/XqMjIMLGhu9qMllZwMf0tPLtuHN70/qj62e1ZHNg/BOiO
+         LwmUhizn8qxhCXgBwi9HPXZAn3+NqiWuhZS5+o9pPHepERFFNXObPgovOF10+zjfbjzB
+         EwiQlTHhcxOjLEmuNRqAFEjfsI0+QyKGev8FPTOzkNqOOR/mDwd2J86j8hToEuaHd9ve
+         nsnw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=6vwJXO2yIwIyTaL+wwfhKV21EcpVahkX9Yfn9dWn2Vc=;
+        b=RiXigjXuZ1Z8iJ2fAllHU/qV6/1Dem2rbM+zmB7+QFWSqPJmXkl9hG+GiEtzIaHy1Q
+         8NrdZb0+2hBlDK+pKIkg46nqxFXmlenMcp1TDA6+L8iD3VCKZbIliOPh/1Y5p/WT92nQ
+         E1f2D3KsUcvDa4l4XDtza3yHkkwDdQ88kQv9y/utpS1H3x52kziNRhiFhFa5PH/VCJdP
+         k6ROM9l2qCBF8J+P+2LywagsAC6KbeIiOXknTH7F1dszCQm46oF3/2wswyD4DiuNfgbm
+         h7u0sgM/hgHQNeHPBgvtFWYa960mZUKsNvGz45qQcG85oWVAubg5DB/8wTbiklUw/cOd
+         gITg==
+X-Gm-Message-State: ANoB5pl9oNCGfMANi0PN1b18Ttg5uoHnYKRbsGp9nvPoMvWT1k8PJfMw
+        NJUWXQbRYnS54RCddMMSyl6ndA==
+X-Google-Smtp-Source: AA0mqf6kleqKRKauKukPH3nwqFrvrvx5HvV2ehp0YH2KTji20rCiwQJvXf/N0MX/9UJD/aYwc2m/8A==
+X-Received: by 2002:a05:6214:3588:b0:4bb:6c92:378c with SMTP id nn8-20020a056214358800b004bb6c92378cmr78735052qvb.117.1670348367676;
+        Tue, 06 Dec 2022 09:39:27 -0800 (PST)
+Received: from nicolas-tpx395.localdomain (192-222-136-102.qc.cable.ebox.net. [192.222.136.102])
+        by smtp.gmail.com with ESMTPSA id dm54-20020a05620a1d7600b006fcc437c2e8sm6749646qkb.44.2022.12.06.09.39.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 06 Dec 2022 09:39:27 -0800 (PST)
+Message-ID: <228a5a9416a891895ce0e108719ba0badbbd0ad8.camel@ndufresne.ca>
+Subject: Re: [PATCH 1/7] media: Add 2-10-10-10 RGB formats
+From:   Nicolas Dufresne <nicolas@ndufresne.ca>
+To:     Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+        linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>
+Date:   Tue, 06 Dec 2022 12:39:24 -0500
+In-Reply-To: <20221206133954.397098-2-tomi.valkeinen+renesas@ideasonboard.com>
+References: <20221206133954.397098-1-tomi.valkeinen+renesas@ideasonboard.com>
+         <20221206133954.397098-2-tomi.valkeinen+renesas@ideasonboard.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: eELwQd6EbxOeYlM3M7c04YJfQbls5CVb
-X-Proofpoint-GUID: eELwQd6EbxOeYlM3M7c04YJfQbls5CVb
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-12-06_11,2022-12-06_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=815 bulkscore=0
- adultscore=0 clxscore=1015 priorityscore=1501 phishscore=0 suspectscore=0
- spamscore=0 lowpriorityscore=0 impostorscore=0 malwarescore=0 mlxscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2210170000
- definitions=main-2212060143
-X-Spam-Status: No, score=-3.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.4 (3.44.4-2.fc36) 
+MIME-Version: 1.0
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Thanks Christian for this nice cleanup!!
+Hi,
 
-On 12/6/2022 8:42 PM, Christian König wrote:
-> @@ -638,10 +630,21 @@ struct dma_buf *dma_buf_export(const struct dma_buf_export_info *exp_info)
->  	if (!try_module_get(exp_info->owner))
->  		return ERR_PTR(-ENOENT);
->  
-> +	file = dma_buf_getfile(exp_info->size, exp_info->flags);
-> +	if (IS_ERR(file)) {
-> +		ret = PTR_ERR(file);
-> +		goto err_module;
-> +	}
-> +
-> +	if (!exp_info->resv)
-> +		alloc_size += sizeof(struct dma_resv);
-> +	else
-> +		/* prevent &dma_buf[1] == dma_buf->resv */
-> +		alloc_size += 1;
->  	dmabuf = kzalloc(alloc_size, GFP_KERNEL);
->  	if (!dmabuf) {
->  		ret = -ENOMEM;
-> -		goto err_module;
-> +		goto err_file;
->  	}
->  
->  	dmabuf->priv = exp_info->priv;
-> @@ -653,44 +656,36 @@ struct dma_buf *dma_buf_export(const struct dma_buf_export_info *exp_info)
->  	init_waitqueue_head(&dmabuf->poll);
->  	dmabuf->cb_in.poll = dmabuf->cb_out.poll = &dmabuf->poll;
->  	dmabuf->cb_in.active = dmabuf->cb_out.active = 0;
-> +	mutex_init(&dmabuf->lock);
-> +	INIT_LIST_HEAD(&dmabuf->attachments);
->  
->  	if (!resv) {
-> -		resv = (struct dma_resv *)&dmabuf[1];
-> -		dma_resv_init(resv);
-> +		dmabuf->resv = (struct dma_resv *)&dmabuf[1];
-> +		dma_resv_init(dmabuf->resv);
-> +	} else {
-> +		dmabuf->resv = resv;
->  	}
-> -	dmabuf->resv = resv;
->  
-> -	file = dma_buf_getfile(dmabuf, exp_info->flags);
-> -	if (IS_ERR(file)) {
-> -		ret = PTR_ERR(file);
-> +	ret = dma_buf_stats_setup(dmabuf, file);
-> +	if (ret)
->  		goto err_dmabuf;
-> -	}
->  
-> +	file->private_data = dmabuf;
-> +	file->f_path.dentry->d_fsdata = dmabuf;
->  	dmabuf->file = file;
->  
-> -	mutex_init(&dmabuf->lock);
-> -	INIT_LIST_HEAD(&dmabuf->attachments);
-> -
->  	mutex_lock(&db_list.lock);
->  	list_add(&dmabuf->list_node, &db_list.head);
->  	mutex_unlock(&db_list.lock);
->  
-> -	ret = dma_buf_stats_setup(dmabuf);
-> -	if (ret)
-> -		goto err_sysfs;
-> -
->  	return dmabuf;
->  
-> -err_sysfs:
-> -	/*
-> -	 * Set file->f_path.dentry->d_fsdata to NULL so that when
-> -	 * dma_buf_release() gets invoked by dentry_ops, it exits
-> -	 * early before calling the release() dma_buf op.
-> -	 */
-> -	file->f_path.dentry->d_fsdata = NULL;
-> -	fput(file);
->  err_dmabuf:
-> +	if (!resv)
-> +		dma_resv_fini(dmabuf->resv);
->  	kfree(dmabuf);
-> +err_file:
-> +	fput(file);
+Le mardi 06 d=C3=A9cembre 2022 =C3=A0 15:39 +0200, Tomi Valkeinen a =C3=A9c=
+rit=C2=A0:
+> Add XBGR2101010, ABGR2101010 and BGRA1010102 formats.
+>=20
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 
-This fput() still endup in calling the dma_buf_file_release() where
-there are no checks before accessing the file->private_data(=dmabuf)
-which can result in null pointer access. Am I missing something trivial?
+This patch is simply missing an update to
 
->  err_module:
->  	module_put(exp_info->owner);
->  	return ERR_PTR(ret);
-> -- 2.34.1
+Documentation/userspace-api/media/v4l/pixfmt-rgb.rst
+
+regards,
+Nicolas
+
+> ---
+>  drivers/media/v4l2-core/v4l2-ioctl.c | 3 +++
+>  include/uapi/linux/videodev2.h       | 3 +++
+>  2 files changed, 6 insertions(+)
+>=20
+> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-co=
+re/v4l2-ioctl.c
+> index fddba75d9074..964300deaf62 100644
+> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
+> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+> @@ -1304,6 +1304,9 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *f=
+mt)
+>  	case V4L2_PIX_FMT_BGRX32:	descr =3D "32-bit XBGR 8-8-8-8"; break;
+>  	case V4L2_PIX_FMT_RGBA32:	descr =3D "32-bit RGBA 8-8-8-8"; break;
+>  	case V4L2_PIX_FMT_RGBX32:	descr =3D "32-bit RGBX 8-8-8-8"; break;
+> +	case V4L2_PIX_FMT_XBGR2101010:	descr =3D "32-bit XBGR 2-10-10-10"; brea=
+k;
+> +	case V4L2_PIX_FMT_ABGR2101010:	descr =3D "32-bit ABGR 2-10-10-10"; brea=
+k;
+> +	case V4L2_PIX_FMT_BGRA1010102:	descr =3D "32-bit BGRA 10-10-10-2"; brea=
+k;
+>  	case V4L2_PIX_FMT_GREY:		descr =3D "8-bit Greyscale"; break;
+>  	case V4L2_PIX_FMT_Y4:		descr =3D "4-bit Greyscale"; break;
+>  	case V4L2_PIX_FMT_Y6:		descr =3D "6-bit Greyscale"; break;
+> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev=
+2.h
+> index 29da1f4b4578..877fd61693b8 100644
+> --- a/include/uapi/linux/videodev2.h
+> +++ b/include/uapi/linux/videodev2.h
+> @@ -576,6 +576,9 @@ struct v4l2_pix_format {
+>  #define V4L2_PIX_FMT_RGBX32  v4l2_fourcc('X', 'B', '2', '4') /* 32  RGBX=
+-8-8-8-8  */
+>  #define V4L2_PIX_FMT_ARGB32  v4l2_fourcc('B', 'A', '2', '4') /* 32  ARGB=
+-8-8-8-8  */
+>  #define V4L2_PIX_FMT_XRGB32  v4l2_fourcc('B', 'X', '2', '4') /* 32  XRGB=
+-8-8-8-8  */
+> +#define V4L2_PIX_FMT_XBGR2101010 v4l2_fourcc('R', 'X', '3', '0') /* 32  =
+XBGR-2-10-10-10  */
+> +#define V4L2_PIX_FMT_ABGR2101010 v4l2_fourcc('R', 'A', '3', '0') /* 32  =
+ABGR-2-10-10-10  */
+> +#define V4L2_PIX_FMT_BGRA1010102 v4l2_fourcc('A', 'R', '3', '0') /* 32  =
+BGRA-10-10-10-2  */
+> =20
+>  /* Grey formats */
+>  #define V4L2_PIX_FMT_GREY    v4l2_fourcc('G', 'R', 'E', 'Y') /*  8  Grey=
+scale     */
+
