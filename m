@@ -2,136 +2,171 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7C8AB6449ED
-	for <lists+linux-media@lfdr.de>; Tue,  6 Dec 2022 18:08:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8D052644A02
+	for <lists+linux-media@lfdr.de>; Tue,  6 Dec 2022 18:12:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234261AbiLFRHi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 6 Dec 2022 12:07:38 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43012 "EHLO
+        id S235483AbiLFRMf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 6 Dec 2022 12:12:35 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46060 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235417AbiLFRHZ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 6 Dec 2022 12:07:25 -0500
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 05AEE2B27A
-        for <linux-media@vger.kernel.org>; Tue,  6 Dec 2022 09:07:25 -0800 (PST)
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <mgr@pengutronix.de>)
-        id 1p2bPe-0000Vf-LY; Tue, 06 Dec 2022 18:07:22 +0100
-Received: from mgr by ptx.hi.pengutronix.de with local (Exim 4.92)
-        (envelope-from <mgr@pengutronix.de>)
-        id 1p2bPe-0000fP-0F; Tue, 06 Dec 2022 18:07:22 +0100
-Date:   Tue, 6 Dec 2022 18:07:21 +0100
-From:   Michael Grzeschik <mgr@pengutronix.de>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Greg KH <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
-        linux-media@vger.kernel.org, balbi@kernel.org,
-        paul.elder@ideasonboard.com, kernel@pengutronix.de,
-        nicolas@ndufresne.ca, kieran.bingham@ideasonboard.com
-Subject: Re: [PATCH v2 0/4] usb: gadget: uvc: parse configfs entries and
- implement v4l2 enum api calls
-Message-ID: <20221206170721.GB15222@pengutronix.de>
-References: <20220909221335.15033-1-m.grzeschik@pengutronix.de>
- <Y4u+9g/gIneGZrlZ@pendragon.ideasonboard.com>
- <Y4xaXHLoiPupWM6V@kroah.com>
- <Y45f272a3aa7KXly@pendragon.ideasonboard.com>
+        with ESMTP id S235417AbiLFRMa (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 6 Dec 2022 12:12:30 -0500
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A56352980A
+        for <linux-media@vger.kernel.org>; Tue,  6 Dec 2022 09:12:29 -0800 (PST)
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 2B6EIKMp011077;
+        Tue, 6 Dec 2022 17:12:07 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=gbTI29gU+RaHEPzdX7DpjRFQgHj1oOdJ8MG0Mzj+dW8=;
+ b=Luo7gIcfIhx86tRGFEAZISIffml4S0UiBxa/iAiY2imkZeovRUh/CTPLJKEeGhn0slko
+ ktcE9sZKie0ogS/X/rfSV4pPgCaBgqHPH2T7lXKdEuoBEgwTnZjJSEYBIN4SnfWg0laH
+ Mys9w0hkDiRokNPz4hTVdAsTi6TsodThug8yoKPoqTlxA+kdFxUNIslpRQtxBuwOkAps
+ 9fMltYMbQ2LwPRIdSbo10k39CRTXJB3hLfmV0Uo69Q/tmujAO6wGnGKGcSGxaaCVsHr/
+ VbbVcLVqipMtEJaGWsoXgq+OG5AS6gsXu7AQg0svThoDWj+QzfaEPchw7YXtrj1AnJL5 0w== 
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3m9eev4arv-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 06 Dec 2022 17:12:07 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+        by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 2B6HC6UH011188
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 6 Dec 2022 17:12:06 GMT
+Received: from [10.216.56.35] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Tue, 6 Dec 2022
+ 09:12:04 -0800
+Message-ID: <2d0182b8-c154-e763-bc2a-323e2faa120b@quicinc.com>
+Date:   Tue, 6 Dec 2022 22:42:01 +0530
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="ADZbWkCsHQ7r3kzd"
-Content-Disposition: inline
-In-Reply-To: <Y45f272a3aa7KXly@pendragon.ideasonboard.com>
-X-Sent-From: Pengutronix Hildesheim
-X-URL:  http://www.pengutronix.de/
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: mgr@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH] dma-buf: fix dma_buf_export init order
+Content-Language: en-US
+To:     =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
+        <cuigaosheng1@huawei.com>, <tjmercier@google.com>,
+        <sumit.semwal@linaro.org>
+CC:     <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+        <linaro-mm-sig@lists.linaro.org>
+References: <20221206151207.8801-1-christian.koenig@amd.com>
+From:   Charan Teja Kalla <quic_charante@quicinc.com>
+In-Reply-To: <20221206151207.8801-1-christian.koenig@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: eELwQd6EbxOeYlM3M7c04YJfQbls5CVb
+X-Proofpoint-GUID: eELwQd6EbxOeYlM3M7c04YJfQbls5CVb
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-12-06_11,2022-12-06_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=815 bulkscore=0
+ adultscore=0 clxscore=1015 priorityscore=1501 phishscore=0 suspectscore=0
+ spamscore=0 lowpriorityscore=0 impostorscore=0 malwarescore=0 mlxscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2210170000
+ definitions=main-2212060143
+X-Spam-Status: No, score=-3.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Thanks Christian for this nice cleanup!!
 
---ADZbWkCsHQ7r3kzd
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 12/6/2022 8:42 PM, Christian König wrote:
+> @@ -638,10 +630,21 @@ struct dma_buf *dma_buf_export(const struct dma_buf_export_info *exp_info)
+>  	if (!try_module_get(exp_info->owner))
+>  		return ERR_PTR(-ENOENT);
+>  
+> +	file = dma_buf_getfile(exp_info->size, exp_info->flags);
+> +	if (IS_ERR(file)) {
+> +		ret = PTR_ERR(file);
+> +		goto err_module;
+> +	}
+> +
+> +	if (!exp_info->resv)
+> +		alloc_size += sizeof(struct dma_resv);
+> +	else
+> +		/* prevent &dma_buf[1] == dma_buf->resv */
+> +		alloc_size += 1;
+>  	dmabuf = kzalloc(alloc_size, GFP_KERNEL);
+>  	if (!dmabuf) {
+>  		ret = -ENOMEM;
+> -		goto err_module;
+> +		goto err_file;
+>  	}
+>  
+>  	dmabuf->priv = exp_info->priv;
+> @@ -653,44 +656,36 @@ struct dma_buf *dma_buf_export(const struct dma_buf_export_info *exp_info)
+>  	init_waitqueue_head(&dmabuf->poll);
+>  	dmabuf->cb_in.poll = dmabuf->cb_out.poll = &dmabuf->poll;
+>  	dmabuf->cb_in.active = dmabuf->cb_out.active = 0;
+> +	mutex_init(&dmabuf->lock);
+> +	INIT_LIST_HEAD(&dmabuf->attachments);
+>  
+>  	if (!resv) {
+> -		resv = (struct dma_resv *)&dmabuf[1];
+> -		dma_resv_init(resv);
+> +		dmabuf->resv = (struct dma_resv *)&dmabuf[1];
+> +		dma_resv_init(dmabuf->resv);
+> +	} else {
+> +		dmabuf->resv = resv;
+>  	}
+> -	dmabuf->resv = resv;
+>  
+> -	file = dma_buf_getfile(dmabuf, exp_info->flags);
+> -	if (IS_ERR(file)) {
+> -		ret = PTR_ERR(file);
+> +	ret = dma_buf_stats_setup(dmabuf, file);
+> +	if (ret)
+>  		goto err_dmabuf;
+> -	}
+>  
+> +	file->private_data = dmabuf;
+> +	file->f_path.dentry->d_fsdata = dmabuf;
+>  	dmabuf->file = file;
+>  
+> -	mutex_init(&dmabuf->lock);
+> -	INIT_LIST_HEAD(&dmabuf->attachments);
+> -
+>  	mutex_lock(&db_list.lock);
+>  	list_add(&dmabuf->list_node, &db_list.head);
+>  	mutex_unlock(&db_list.lock);
+>  
+> -	ret = dma_buf_stats_setup(dmabuf);
+> -	if (ret)
+> -		goto err_sysfs;
+> -
+>  	return dmabuf;
+>  
+> -err_sysfs:
+> -	/*
+> -	 * Set file->f_path.dentry->d_fsdata to NULL so that when
+> -	 * dma_buf_release() gets invoked by dentry_ops, it exits
+> -	 * early before calling the release() dma_buf op.
+> -	 */
+> -	file->f_path.dentry->d_fsdata = NULL;
+> -	fput(file);
+>  err_dmabuf:
+> +	if (!resv)
+> +		dma_resv_fini(dmabuf->resv);
+>  	kfree(dmabuf);
+> +err_file:
+> +	fput(file);
 
-On Mon, Dec 05, 2022 at 11:17:15PM +0200, Laurent Pinchart wrote:
->On Sun, Dec 04, 2022 at 09:29:16AM +0100, Greg KH wrote:
->> On Sat, Dec 03, 2022 at 11:26:14PM +0200, Laurent Pinchart wrote:
->> > Hi Michael,
->> >
->> > On Sat, Sep 10, 2022 at 12:13:31AM +0200, Michael Grzeschik wrote:
->> > > This series improves the uvc video gadget by parsing the configfs
->> > > entries. With the configfs data, the userspace now is able to use si=
-mple
->> > > v4l2 api calls like enum and try_format to check for valid configura=
-tions
->> > > initially set by configfs.
->> >
->> > I've realized that this whole series got merged, despite my multiple
->> > attempts to explain why I think it's not a good idea. The UVC gadget
->> > requires userspace support, and there's no point in trying to move all
->> > these things to the kernel side. It only bloats the kernel, makes the
->> > code more complex, more difficult to maintain, and will make UVC 1.5
->> > support more difficult.
->>
->> I can easily revert them, but I did not see any objections to them
->> originally and so I merged them as is the normal method :)
->
->I don't think a revert is needed. The issue I pointed out regarding the
->duplication of static const data can be solved on top. The API additions
->from this series are, in my opinion, not a good idea for the reasons I
->explained, but they don't hurt so much that we need to go nuclear on
->this.
->
->Michael, will you be addressing the static const data issue ?
+This fput() still endup in calling the dma_buf_file_release() where
+there are no checks before accessing the file->private_data(=dmabuf)
+which can result in null pointer access. Am I missing something trivial?
 
-Yes. I will also move the uvc_fmts[] array and uvc_format_by_guid to its
-own compile unit.
-
-I will go with drivers/media/usb/uvc.c
-
-While at it the headerfile will better also be moved from
-include/media/v4l2-uvc.h to linux/usb/uvc.h.
-
-Thanks,
-Michael
-
-
---=20
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
-
---ADZbWkCsHQ7r3kzd
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEElXvEUs6VPX6mDPT8C+njFXoeLGQFAmOPdscACgkQC+njFXoe
-LGSQpRAA0TDhxTBhQP31uBl1apiJQ0ww75RZnj6V+8o/lJKBMpEE3nYNXJnV4SoY
-s0Ta3077KDxSXTQ3euOmBxTXp8kWW85oqtLTMDgF8XNwqNMk8US8K9MqtodajgmM
-Dl0Wffvo/ap1QPLSLUm091f6CLgZfA5BSM6+bXLoS/AjA0xCYkpqYqrtIJ5f2sl6
-yYF+PZ7aZc8r6/tZFQSVEJwjjmBDvY4MvdvEku4PypEgFQLgZyM9/hyWayc3Nmru
-3d3D6ZHNsz85SQZEd2OKf1m75uoijxESQJ/pbJzLLMJ1xOvTx/bARRNscv8vnlI1
-NnnLfkulPK+iLzauIND5e3vrDT5qtsgXTwJYZ7Nl6W8f1hCPAy92v8GtwujTwQhD
-O/baonwjcZMRwoiF1fXQ4sXyHnvTlpqaSHdJA+qLhm/kOb4KVE0ITKSY47s+bEds
-d7vzhLaaFFv6DvlmNld8oqnMOzEeOdTZ7AllF6M0SG0AEv17NHppevwlLrhiR3u5
-ugb1ADgoVNo1+d0n5+ChAUC4YqM/FpXuU00//ht3bHFO1yn51Zy3+4l5qE/Rl44g
-6V+pDie1PDCE0rlghz3shZxoFmufGLULHGSDHGFlNXXkLXAOO+vah3XYLTuCvt+k
-a2+7qmZnC80xPAM7XxZ2iueUk4EXaaEs3AlGN3nI8NSrBxyDK3E=
-=X6hF
------END PGP SIGNATURE-----
-
---ADZbWkCsHQ7r3kzd--
+>  err_module:
+>  	module_put(exp_info->owner);
+>  	return ERR_PTR(ret);
+> -- 2.34.1
