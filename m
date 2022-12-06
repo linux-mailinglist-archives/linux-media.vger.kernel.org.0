@@ -2,523 +2,139 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3F4AE64454F
-	for <lists+linux-media@lfdr.de>; Tue,  6 Dec 2022 15:07:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C4481644588
+	for <lists+linux-media@lfdr.de>; Tue,  6 Dec 2022 15:23:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232444AbiLFOHl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 6 Dec 2022 09:07:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54536 "EHLO
+        id S234940AbiLFOXE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 6 Dec 2022 09:23:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34778 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234702AbiLFOHe (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 6 Dec 2022 09:07:34 -0500
-Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com [IPv6:2a00:1450:4864:20::62f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 036982C11F
-        for <linux-media@vger.kernel.org>; Tue,  6 Dec 2022 06:07:30 -0800 (PST)
-Received: by mail-ej1-x62f.google.com with SMTP id m18so4903203eji.5
-        for <linux-media@vger.kernel.org>; Tue, 06 Dec 2022 06:07:29 -0800 (PST)
+        with ESMTP id S230230AbiLFOW7 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 6 Dec 2022 09:22:59 -0500
+Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com [IPv6:2a00:1450:4864:20::233])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 76F64F5A7
+        for <linux-media@vger.kernel.org>; Tue,  6 Dec 2022 06:22:56 -0800 (PST)
+Received: by mail-lj1-x233.google.com with SMTP id a7so17340451ljq.12
+        for <linux-media@vger.kernel.org>; Tue, 06 Dec 2022 06:22:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=zYJy/7NuiOmPove/gZ/LuJCrIxp8oUjqtCILM26tCpI=;
-        b=cOunwgIBEgYS8IxoDDCceIQqs6OkMpceiVVxDbwj3iOM0kv872BdVyugcGg3woPwTR
-         2PEnTHX0mgRYlL6aNpx/oThrHG/Rt0t1PDQa/8L7dA9ewziDqQIEbXR5W8Vu28OVL13o
-         mxVCczo5kJ3Mtj9ea/ZmzhcRCN51Jt4zfJvNE=
+        d=ragnatech-se.20210112.gappssmtp.com; s=20210112;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=hHpm3RXlb+iGfAOkUSgzHlGEee+UJIWEtcZK+d2ukTE=;
+        b=HnqSK/XFNv757Uho8kL0bkJFVzdpCUU3sbKkfw/DbnL3WMfEgJPv45ihigaN9v+UhN
+         nB4+1gjKplGjw3R+wuetfe2hsB0dUhuvB4w4QCLA9kfVeYqzPh1CHuatGCKarkodZ5p4
+         xABJ4SCA45FpOPKSM2j8NzEc22RSIXz7/pASjT344zRwiaOp96mzo5f6r8JE7cKXdxf9
+         1l3VBUSFVxstVpbto3agFlgr7CwkVxp5b2XUbKETGkiZNyIkzZX+gbQ8cNc6kGFec3j+
+         RK/MXW63jxEe1BqRLtPJb1Afeo206Y80DcCm/JIYQJpQZ26W1//cd56GMs1+19aIrfUV
+         Y5JA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=zYJy/7NuiOmPove/gZ/LuJCrIxp8oUjqtCILM26tCpI=;
-        b=WeaEuJa8zck3AdXK9UGpP0ndBwXQvf0HkEYFCGko/vnoe9+ngxKCOY9HMDeHx/ylR9
-         EcfWuSJS6RQt4L8Ctf4xBEq3JWaJyI47pkd55Y0YVHsH+csfkxjoWS/NUgIl+4nhAOvl
-         4wEZxJa/hzv2bbcwH4vUtPA/ccIOSxYBd30p/IMJCszcUwFUTgwcRYBAeIt00tZKAEug
-         bZUxDA25DPgVJWGm/3e8FNKgkksAN3Qby7sedxq/EYrORGL8fs/PAr/Wf8AcIayNIfZe
-         zy9n2LVSdOsR8cdIy7VKp11B69xvM8/YVbEtLgz5UaCGIAVs7piq/JB2rosP0Oo+v6iK
-         wD/w==
-X-Gm-Message-State: ANoB5pnoyXnItio47WQNjWVun6I2uFFUvUV10x7AwJP99xgp+axYKNj1
-        Wnmn1BZvKfJXnPS6eZ4o00Hmug==
-X-Google-Smtp-Source: AA0mqf7xf8q1qhQYgDVIPVzwu8g/+Ayklud0L62gqsy4jSdT3kOnnmOC1AuadZRLLOHU2pV81V//5A==
-X-Received: by 2002:a17:906:4a03:b0:7c1:13b6:fc50 with SMTP id w3-20020a1709064a0300b007c113b6fc50mr1122247eju.70.1670335648464;
-        Tue, 06 Dec 2022 06:07:28 -0800 (PST)
-Received: from alco.roam.corp.google.com ([2620:0:1059:10:c82e:c2a2:971e:1766])
-        by smtp.gmail.com with ESMTPSA id d21-20020a170906305500b007838e332d78sm7388027ejd.128.2022.12.06.06.07.27
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=hHpm3RXlb+iGfAOkUSgzHlGEee+UJIWEtcZK+d2ukTE=;
+        b=RLcB8e2X4IHgYTCFbPnMmrBdsRCJXI2a1PuTkCuFK8o7HHzPc2E25BiklMKxHFLLB5
+         BgVRHdCm0VSGPZL6jYhhv4sCqc14Y9N70y+XlV8I+/ekZb6c7uDGBKJhrfMa0LSc5vpg
+         y9mCd1fvl/5B9uZ7CKo/ZnDeJ3ll3sUHG8pOXutWuDTgbvgZahTRKXzZanSk8wpxRRhO
+         8gvneKTFy+M7RQrWrVutaBp9ZGCIMFhRwkJEYLJ73CpsodT1+oSSZUkxLJ650pHen5Lu
+         oDhGuWeTpssOunS2NBdnzUhQ4KiQPUnT0+eKFx60BPLG0hl+9u2MtMSEpL4BXAwwfj55
+         Ufjg==
+X-Gm-Message-State: ANoB5pkl8Bp8Zm6glZy6CT8woBXXnVZ0JKKVpzEPgvmlFfIprPJQckQX
+        b+Ot7dwChGwxsOQkkkuuaVNga7QVOJ5RZROR
+X-Google-Smtp-Source: AA0mqf6iR6c51unUX/l7fPlCH1+jcV7jFNPlWoVl3zLXVCKKJEcYCL1YI2J10tSStsw9xwBqCEjWHQ==
+X-Received: by 2002:a2e:964c:0:b0:279:f197:440d with SMTP id z12-20020a2e964c000000b00279f197440dmr4125055ljh.517.1670336574750;
+        Tue, 06 Dec 2022 06:22:54 -0800 (PST)
+Received: from localhost (h-46-59-89-207.A463.priv.bahnhof.se. [46.59.89.207])
+        by smtp.gmail.com with ESMTPSA id 6-20020ac25f06000000b00498fbec3f8asm2519753lfq.129.2022.12.06.06.22.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Dec 2022 06:07:28 -0800 (PST)
-From:   Ricardo Ribalda <ribalda@chromium.org>
-Date:   Tue, 06 Dec 2022 15:06:56 +0100
-Subject: [PATCH v5 2/2] media: uvcvideo: Do power management granularly
+        Tue, 06 Dec 2022 06:22:54 -0800 (PST)
+Date:   Tue, 6 Dec 2022 15:22:53 +0100
+From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+To:     Shang XiaoJing <shangxiaojing@huawei.com>
+Cc:     jacopo+renesas@jmondi.org, kieran.bingham+renesas@ideasonboard.com,
+        laurent.pinchart+renesas@ideasonboard.com, mchehab@kernel.org,
+        sakari.ailus@linux.intel.com, linux-media@vger.kernel.org
+Subject: Re: [PATCH] media: max9286: Fix memleak in max9286_v4l2_register()
+Message-ID: <Y49QPaYDe2iZjBLu@oden.dyn.berto.se>
+References: <20221206130555.9322-1-shangxiaojing@huawei.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20220920-resend-powersave-v5-2-692e6df6c1e2@chromium.org>
-References: <20220920-resend-powersave-v5-0-692e6df6c1e2@chromium.org>
-In-Reply-To: <20220920-resend-powersave-v5-0-692e6df6c1e2@chromium.org>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Guenter Roeck <linux@roeck-us.net>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        linux-kernel@vger.kernel.org, Max Staudt <mstaudt@chromium.org>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Yunke Cao <yunkec@chromium.org>,
-        Ricardo Ribalda <ribalda@chromium.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-media@vger.kernel.org
-X-Mailer: b4 0.11.0-dev-696ae
-X-Developer-Signature: v=1; a=openpgp-sha256; l=11450; i=ribalda@chromium.org;
- h=from:subject:message-id; bh=v16u9iRE60ht7hVPIL/MQ/QwTUzU267J4r6CTkFMPcU=;
- b=owEBbQKS/ZANAwAKAdE30T7POsSIAcsmYgBjj0yZk4WRUyilMVGojY7L7e+SkelzL4VpBQsyy/7k
- 0km1oD+JAjMEAAEKAB0WIQREDzjr+/4oCDLSsx7RN9E+zzrEiAUCY49MmQAKCRDRN9E+zzrEiKzMD/
- 9sIxj+c74Nym7fjkYdRdesLFOYREpQfnsXc+ItmkiLBgkkeBCbFyQIsBXeCc5TXZ0OTJC69MatgcmB
- 9C4NHsiyhq2eFQmAY2g35RT7kU5IfM9YFiBrjvd/WgyEB95dnurSfLkqkAF1I6K8gH6VmBbefJhGO0
- BIqpYzIgINT7kkhq2zUWCK4fT1e3j4KgRejNPHy9thbWX2Whh+uPrQCsp9MTkRsczr6S/j4k0XZ1m6
- JLuEyAHRY3dYTsgXmG/RO8Z8Z2qcn1t2BvhaxaF0xZR5ZZXA+ZdvYbKvb6VEEejgzD9YIjygTT+Jk+
- to3NiY3kpTsahZjI/x4Krq1FaX56CvhicjQEQno5uXItJRAeM75YxDfB0wxK/dj6bocndWo3x+O3gu
- n9ia1Z5qfRjYqsFSuMkU8IczLiWdhlXdePDkweS9sf6sG6262+pRWEtvdd8r5qTjSngeBMm9DQjA7J
- zQYL1sKuPik7O76q5fHZC9ioTtbydCcZpY1q5BcCc6G55qJr2oO8I2TGxiBQgDEHUYn8HOWcjMP4LO
- 9NrJHDn0vY2gaR+7msvZiD/n8mv6koRQ2h/Ltv/moelFqb7VNq/fYNMqb+Aq+WAu4JCLz/hLrMJISs
- +yBB4xsYKBcsA7grT2+SLnqAfJGz9lAIrG2zDffJkljvgcoYgG1CvsZq7WWA==
-X-Developer-Key: i=ribalda@chromium.org; a=openpgp;
- fpr=9EC3BB66E2FC129A6F90B39556A0D81F9F782DA9
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20221206130555.9322-1-shangxiaojing@huawei.com>
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Instead of suspending/resume the USB device at open()/close(), do it
-when the device is actually used.
+Hi Shang,
 
-This way we can reduce the power consumption when a service is holding
-the video device and leaving it in an idle state.
+Thanks for your work.
 
-Reviewed-by: Tomasz Figa <tfiga@chromium.org>
-Reviewed-by: Max Staudt <mstaudt@chromium.org>
-Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
----
- drivers/media/usb/uvc/uvc_v4l2.c | 198 +++++++++++++++++++++++++++++++--------
- 1 file changed, 161 insertions(+), 37 deletions(-)
+On 2022-12-06 21:05:55 +0800, Shang XiaoJing wrote:
+> There is a kmemleak when testing the media/i2c/max9286.c with bpf mock
+> device:
 
-diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
-index 1389a87b8ae1..2e8f78bd1e4e 100644
---- a/drivers/media/usb/uvc/uvc_v4l2.c
-+++ b/drivers/media/usb/uvc/uvc_v4l2.c
-@@ -25,6 +25,46 @@
- 
- #include "uvcvideo.h"
- 
-+/* ------------------------------------------------------------------------
-+ * UVC power management
-+ */
-+
-+static int uvc_pm_get(struct uvc_streaming *stream)
-+{
-+	int ret;
-+
-+	ret = usb_autopm_get_interface(stream->dev->intf);
-+	if (ret)
-+		return ret;
-+
-+	mutex_lock(&stream->dev->lock);
-+	if (!stream->dev->users)
-+		ret = uvc_status_start(stream->dev, GFP_KERNEL);
-+	if (!ret)
-+		stream->dev->users++;
-+	mutex_unlock(&stream->dev->lock);
-+
-+	if (ret)
-+		usb_autopm_put_interface(stream->dev->intf);
-+
-+	return ret;
-+}
-+
-+static void uvc_pm_put(struct uvc_streaming *stream)
-+{
-+	mutex_lock(&stream->dev->lock);
-+	if (WARN_ON(!stream->dev->users)) {
-+		mutex_unlock(&stream->dev->lock);
-+		return;
-+	}
-+	stream->dev->users--;
-+	if (!stream->dev->users)
-+		uvc_status_stop(stream->dev);
-+	mutex_unlock(&stream->dev->lock);
-+
-+	usb_autopm_put_interface(stream->dev->intf);
-+}
-+
- /* ------------------------------------------------------------------------
-  * UVC ioctls
-  */
-@@ -249,6 +289,9 @@ static int uvc_v4l2_try_format(struct uvc_streaming *stream,
- 	 * developers test their webcams with the Linux driver as well as with
- 	 * the Windows driver).
- 	 */
-+	ret = uvc_pm_get(stream);
-+	if (ret)
-+		return ret;
- 	mutex_lock(&stream->mutex);
- 	if (stream->dev->quirks & UVC_QUIRK_PROBE_EXTRAFIELDS)
- 		probe->dwMaxVideoFrameSize =
-@@ -257,6 +300,7 @@ static int uvc_v4l2_try_format(struct uvc_streaming *stream,
- 	/* Probe the device. */
- 	ret = uvc_probe_video(stream, probe);
- 	mutex_unlock(&stream->mutex);
-+	uvc_pm_put(stream);
- 	if (ret < 0)
- 		return ret;
- 
-@@ -408,8 +452,8 @@ static int uvc_v4l2_get_streamparm(struct uvc_streaming *stream,
- 	return 0;
- }
- 
--static int uvc_v4l2_set_streamparm(struct uvc_streaming *stream,
--		struct v4l2_streamparm *parm)
-+static int __uvc_v4l2_set_streamparm(struct uvc_streaming *stream,
-+				     struct v4l2_streamparm *parm)
- {
- 	struct uvc_streaming_control probe;
- 	struct v4l2_fract timeperframe;
-@@ -419,9 +463,6 @@ static int uvc_v4l2_set_streamparm(struct uvc_streaming *stream,
- 	unsigned int i;
- 	int ret;
- 
--	if (parm->type != stream->type)
--		return -EINVAL;
--
- 	if (parm->type == V4L2_BUF_TYPE_VIDEO_CAPTURE)
- 		timeperframe = parm->parm.capture.timeperframe;
- 	else
-@@ -495,6 +536,25 @@ static int uvc_v4l2_set_streamparm(struct uvc_streaming *stream,
- 	return 0;
- }
- 
-+static int uvc_v4l2_set_streamparm(struct uvc_streaming *stream,
-+				   struct v4l2_streamparm *parm)
-+{
-+	int ret;
-+
-+	if (parm->type != stream->type)
-+		return -EINVAL;
-+
-+	ret = uvc_pm_get(stream);
-+	if (ret)
-+		return ret;
-+
-+	ret = __uvc_v4l2_set_streamparm(stream, parm);
-+
-+	uvc_pm_put(stream);
-+
-+	return ret;
-+}
-+
- /* ------------------------------------------------------------------------
-  * Privilege management
-  */
-@@ -559,36 +619,29 @@ static int uvc_v4l2_open(struct file *file)
- {
- 	struct uvc_streaming *stream;
- 	struct uvc_fh *handle;
--	int ret = 0;
- 
- 	stream = video_drvdata(file);
- 	uvc_dbg(stream->dev, CALLS, "%s\n", __func__);
- 
--	ret = usb_autopm_get_interface(stream->dev->intf);
--	if (ret < 0)
--		return ret;
--
- 	/* Create the device handle. */
- 	handle = kzalloc(sizeof(*handle), GFP_KERNEL);
--	if (handle == NULL) {
--		usb_autopm_put_interface(stream->dev->intf);
-+	if (!handle)
- 		return -ENOMEM;
--	}
- 
--	mutex_lock(&stream->dev->lock);
--	if (stream->dev->users == 0) {
--		ret = uvc_status_start(stream->dev, GFP_KERNEL);
--		if (ret < 0) {
--			mutex_unlock(&stream->dev->lock);
--			usb_autopm_put_interface(stream->dev->intf);
-+	/*
-+	 * If the uvc evdev exists we cannot suspend when the device
-+	 * is idle. Otherwise we will miss button actions.
-+	 */
-+	if (stream->dev->input) {
-+		int ret;
-+
-+		ret = uvc_pm_get(stream);
-+		if (ret) {
- 			kfree(handle);
- 			return ret;
- 		}
- 	}
- 
--	stream->dev->users++;
--	mutex_unlock(&stream->dev->lock);
--
- 	v4l2_fh_init(&handle->vfh, &stream->vdev);
- 	v4l2_fh_add(&handle->vfh);
- 	handle->chain = stream->chain;
-@@ -610,6 +663,16 @@ static int uvc_v4l2_release(struct file *file)
- 	if (uvc_has_privileges(handle))
- 		uvc_queue_release(&stream->queue);
- 
-+	/*
-+	 * Release cannot happen at the same time as streamon/streamoff
-+	 * no need to take the stream->mutex.
-+	 */
-+	if (handle->is_streaming)
-+		uvc_pm_put(stream);
-+
-+	if (stream->dev->input)
-+		uvc_pm_put(stream);
-+
- 	/* Release the file handle. */
- 	uvc_dismiss_privileges(handle);
- 	v4l2_fh_del(&handle->vfh);
-@@ -617,12 +680,6 @@ static int uvc_v4l2_release(struct file *file)
- 	kfree(handle);
- 	file->private_data = NULL;
- 
--	mutex_lock(&stream->dev->lock);
--	if (--stream->dev->users == 0)
--		uvc_status_stop(stream->dev);
--	mutex_unlock(&stream->dev->lock);
--
--	usb_autopm_put_interface(stream->dev->intf);
- 	return 0;
- }
- 
-@@ -849,9 +906,17 @@ static int uvc_ioctl_streamon(struct file *file, void *fh,
- 
- 	if (handle->is_streaming)
- 		goto unlock;
-+
-+	ret = uvc_pm_get(stream);
-+	if (ret)
-+		goto unlock;
-+
- 	ret = uvc_queue_streamon(&stream->queue, type);
- 	handle->is_streaming = !ret;
- 
-+	if (!handle->is_streaming)
-+		uvc_pm_put(stream);
-+
- unlock:
- 	mutex_unlock(&stream->mutex);
- 
-@@ -875,6 +940,9 @@ static int uvc_ioctl_streamoff(struct file *file, void *fh,
- 	ret = uvc_queue_streamoff(&stream->queue, type);
- 	handle->is_streaming = !!ret;
- 
-+	if (!handle->is_streaming)
-+		uvc_pm_put(stream);
-+
- unlock:
- 	mutex_unlock(&stream->mutex);
- 
-@@ -928,6 +996,7 @@ static int uvc_ioctl_g_input(struct file *file, void *fh, unsigned int *input)
- {
- 	struct uvc_fh *handle = fh;
- 	struct uvc_video_chain *chain = handle->chain;
-+	struct uvc_streaming *stream = handle->stream;
- 	u8 *buf;
- 	int ret;
- 
-@@ -941,9 +1010,16 @@ static int uvc_ioctl_g_input(struct file *file, void *fh, unsigned int *input)
- 	if (!buf)
- 		return -ENOMEM;
- 
-+	ret = uvc_pm_get(stream);
-+	if (ret) {
-+		kfree(buf);
-+		return ret;
-+	}
-+
- 	ret = uvc_query_ctrl(chain->dev, UVC_GET_CUR, chain->selector->id,
- 			     chain->dev->intfnum,  UVC_SU_INPUT_SELECT_CONTROL,
- 			     buf, 1);
-+	uvc_pm_put(stream);
- 	if (!ret)
- 		*input = *buf - 1;
- 
-@@ -956,6 +1032,7 @@ static int uvc_ioctl_s_input(struct file *file, void *fh, unsigned int input)
- {
- 	struct uvc_fh *handle = fh;
- 	struct uvc_video_chain *chain = handle->chain;
-+	struct uvc_streaming *stream = handle->stream;
- 	u8 *buf;
- 	int ret;
- 
-@@ -977,10 +1054,17 @@ static int uvc_ioctl_s_input(struct file *file, void *fh, unsigned int input)
- 	if (!buf)
- 		return -ENOMEM;
- 
-+	ret = uvc_pm_get(stream);
-+	if (ret) {
-+		kfree(buf);
-+		return ret;
-+	}
-+
- 	*buf = input + 1;
- 	ret = uvc_query_ctrl(chain->dev, UVC_SET_CUR, chain->selector->id,
- 			     chain->dev->intfnum, UVC_SU_INPUT_SELECT_CONTROL,
- 			     buf, 1);
-+	uvc_pm_put(stream);
- 	kfree(buf);
- 
- 	return ret;
-@@ -991,8 +1075,15 @@ static int uvc_ioctl_queryctrl(struct file *file, void *fh,
- {
- 	struct uvc_fh *handle = fh;
- 	struct uvc_video_chain *chain = handle->chain;
-+	struct uvc_streaming *stream = handle->stream;
-+	int ret;
- 
--	return uvc_query_v4l2_ctrl(chain, qc);
-+	ret = uvc_pm_get(stream);
-+	if (ret)
-+		return ret;
-+	ret = uvc_query_v4l2_ctrl(chain, qc);
-+	uvc_pm_put(stream);
-+	return ret;
- }
- 
- static int uvc_ioctl_query_ext_ctrl(struct file *file, void *fh,
-@@ -1000,10 +1091,15 @@ static int uvc_ioctl_query_ext_ctrl(struct file *file, void *fh,
- {
- 	struct uvc_fh *handle = fh;
- 	struct uvc_video_chain *chain = handle->chain;
-+	struct uvc_streaming *stream = handle->stream;
- 	struct v4l2_queryctrl qc = { qec->id };
- 	int ret;
- 
-+	ret = uvc_pm_get(stream);
-+	if (ret)
-+		return ret;
- 	ret = uvc_query_v4l2_ctrl(chain, &qc);
-+	uvc_pm_put(stream);
- 	if (ret)
- 		return ret;
- 
-@@ -1049,6 +1145,7 @@ static int uvc_ioctl_g_ext_ctrls(struct file *file, void *fh,
- {
- 	struct uvc_fh *handle = fh;
- 	struct uvc_video_chain *chain = handle->chain;
-+	struct uvc_streaming *stream = handle->stream;
- 	struct v4l2_ext_control *ctrl = ctrls->controls;
- 	unsigned int i;
- 	int ret;
-@@ -1073,22 +1170,30 @@ static int uvc_ioctl_g_ext_ctrls(struct file *file, void *fh,
- 		return 0;
- 	}
- 
-+	ret = uvc_pm_get(stream);
-+	if (ret)
-+		return ret;
- 	ret = uvc_ctrl_begin(chain);
--	if (ret < 0)
-+	if (ret < 0) {
-+		uvc_pm_put(stream);
- 		return ret;
-+	}
- 
- 	for (i = 0; i < ctrls->count; ++ctrl, ++i) {
- 		ret = uvc_ctrl_get(chain, ctrl);
- 		if (ret < 0) {
- 			uvc_ctrl_rollback(handle);
- 			ctrls->error_idx = i;
--			return ret;
-+			goto done;
- 		}
- 	}
- 
- 	ctrls->error_idx = 0;
- 
--	return uvc_ctrl_rollback(handle);
-+	ret = uvc_ctrl_rollback(handle);
-+done:
-+	uvc_pm_put(stream);
-+	return ret;
- }
- 
- static int uvc_ioctl_s_try_ext_ctrls(struct uvc_fh *handle,
-@@ -1097,6 +1202,7 @@ static int uvc_ioctl_s_try_ext_ctrls(struct uvc_fh *handle,
- {
- 	struct v4l2_ext_control *ctrl = ctrls->controls;
- 	struct uvc_video_chain *chain = handle->chain;
-+	struct uvc_streaming *stream = handle->stream;
- 	unsigned int i;
- 	int ret;
- 
-@@ -1104,9 +1210,15 @@ static int uvc_ioctl_s_try_ext_ctrls(struct uvc_fh *handle,
- 	if (ret < 0)
- 		return ret;
- 
-+	ret = uvc_pm_get(stream);
-+	if (ret)
-+		return ret;
-+
- 	ret = uvc_ctrl_begin(chain);
--	if (ret < 0)
-+	if (ret < 0) {
-+		uvc_pm_put(stream);
- 		return ret;
-+	}
- 
- 	for (i = 0; i < ctrls->count; ++ctrl, ++i) {
- 		ret = uvc_ctrl_set(handle, ctrl);
-@@ -1114,16 +1226,20 @@ static int uvc_ioctl_s_try_ext_ctrls(struct uvc_fh *handle,
- 			uvc_ctrl_rollback(handle);
- 			ctrls->error_idx = ioctl == VIDIOC_S_EXT_CTRLS ?
- 						    ctrls->count : i;
--			return ret;
-+			goto done;
- 		}
- 	}
- 
- 	ctrls->error_idx = 0;
- 
- 	if (ioctl == VIDIOC_S_EXT_CTRLS)
--		return uvc_ctrl_commit(handle, ctrls);
-+		ret = uvc_ctrl_commit(handle, ctrls);
- 	else
--		return uvc_ctrl_rollback(handle);
-+		ret = uvc_ctrl_rollback(handle);
-+
-+done:
-+	uvc_pm_put(stream);
-+	return ret;
- }
- 
- static int uvc_ioctl_s_ext_ctrls(struct file *file, void *fh,
-@@ -1147,8 +1263,16 @@ static int uvc_ioctl_querymenu(struct file *file, void *fh,
- {
- 	struct uvc_fh *handle = fh;
- 	struct uvc_video_chain *chain = handle->chain;
-+	struct uvc_streaming *stream = handle->stream;
-+	int ret;
- 
--	return uvc_query_v4l2_menu(chain, qm);
-+	ret = uvc_pm_get(stream);
-+	if (ret)
-+		return ret;
-+	ret = uvc_query_v4l2_menu(chain, qm);
-+	uvc_pm_put(stream);
-+
-+	return ret;
- }
- 
- static int uvc_ioctl_g_selection(struct file *file, void *fh,
+Out of curiosity, what exactly is a bpf mock device?
+
+> 
+> kmemleak: 5 new suspected memory leaks (see /sys/kernel/debug/kmemleak)
+> 
+> unreferenced object 0xffff88810defc400 (size 256):
+>   comm "python3", pid 278, jiffies 4294737563 (age 31.978s)
+>   hex dump (first 32 bytes):
+>     28 06 a7 0a 81 88 ff ff 00 fe 22 12 81 88 ff ff  (.........".....
+>     10 c4 ef 0d 81 88 ff ff 10 c4 ef 0d 81 88 ff ff  ................
+>   backtrace:
+>     [<00000000191de6a7>] __kmalloc_node+0x44/0x1b0
+>     [<000000002f4912b7>] kvmalloc_node+0x34/0x180
+>     [<0000000057dc4cae>] v4l2_ctrl_new+0x325/0x10f0 [videodev]
+>     [<0000000026030272>] v4l2_ctrl_new_std+0x16f/0x210 [videodev]
+>     [<00000000f0d9ea2f>] max9286_probe+0x76e/0xbff [max9286]
+>     [<00000000ea8f6455>] i2c_device_probe+0x28d/0x680
+>     [<0000000087529af3>] really_probe+0x17c/0x3f0
+>     [<00000000b08be526>] __driver_probe_device+0xe3/0x170
+>     [<000000004382edea>] driver_probe_device+0x49/0x120
+>     [<000000007bde528a>] __device_attach_driver+0xf7/0x150
+>     [<000000009f9c6ab4>] bus_for_each_drv+0x114/0x180
+>     [<00000000c8aaf588>] __device_attach+0x1e5/0x2d0
+>     [<0000000041cc06b9>] bus_probe_device+0x126/0x140
+>     [<000000002309860d>] device_add+0x810/0x1130
+>     [<000000002827bf98>] i2c_new_client_device+0x359/0x4f0
+>     [<00000000593bdc85>] of_i2c_register_device+0xf1/0x110
+> 
+> max9286_v4l2_register() calls v4l2_ctrl_new_std(), but won't free the
+> created v412_ctrl when fwnode_graph_get_endpoint_by_id() failed, which
+> causes the memleak. Call v4l2_ctrl_handler_free() to free the v412_ctrl.
+> 
+> Fixes: 66d8c9d2422d ("media: i2c: Add MAX9286 driver")
+> Signed-off-by: Shang XiaoJing <shangxiaojing@huawei.com>
+> ---
+>  drivers/media/i2c/max9286.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
+> index 9c083cf14231..d034a67042e3 100644
+> --- a/drivers/media/i2c/max9286.c
+> +++ b/drivers/media/i2c/max9286.c
+> @@ -932,6 +932,7 @@ static int max9286_v4l2_register(struct max9286_priv *priv)
+>  err_put_node:
+>  	fwnode_handle_put(ep);
+>  err_async:
+> +	v4l2_ctrl_handler_free(&priv->ctrls);
+>  	max9286_v4l2_notifier_unregister(priv);
+>  
+>  	return ret;
+> -- 
+> 2.17.1
+> 
 
 -- 
-2.39.0.rc0.267.gcb52ba06e7-goog-b4-0.11.0-dev-696ae
+Kind Regards,
+Niklas Söderlund
