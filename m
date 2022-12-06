@@ -2,228 +2,98 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E0175643F4D
-	for <lists+linux-media@lfdr.de>; Tue,  6 Dec 2022 10:05:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 83F15643F7D
+	for <lists+linux-media@lfdr.de>; Tue,  6 Dec 2022 10:12:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234519AbiLFJFZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 6 Dec 2022 04:05:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53852 "EHLO
+        id S232896AbiLFJL4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 6 Dec 2022 04:11:56 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58192 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234565AbiLFJFQ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 6 Dec 2022 04:05:16 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ADE281DA48;
-        Tue,  6 Dec 2022 01:05:11 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 3EB9F615DB;
-        Tue,  6 Dec 2022 09:05:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4D8BFC433D6;
-        Tue,  6 Dec 2022 09:05:08 +0000 (UTC)
-Message-ID: <34d5c5d7-cedd-a12c-557b-33274f62cf70@xs4all.nl>
-Date:   Tue, 6 Dec 2022 10:05:06 +0100
+        with ESMTP id S233846AbiLFJLt (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 6 Dec 2022 04:11:49 -0500
+Received: from mail-pg1-x532.google.com (mail-pg1-x532.google.com [IPv6:2607:f8b0:4864:20::532])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7EEF61EAF2;
+        Tue,  6 Dec 2022 01:11:47 -0800 (PST)
+Received: by mail-pg1-x532.google.com with SMTP id h193so12812427pgc.10;
+        Tue, 06 Dec 2022 01:11:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=4Em5Y8OZBwtn4KypUVlGKnjpkQTWcKgB+eFzlk3v4zE=;
+        b=NLihRH81YcUPJSrl07naYUHskxaynoAu71OFmEeaRN/usAeC1fgs/VuzUz6S0EE7Cn
+         D6+fr/Nycxlt2/JkIPrPQvSEPoVwTPQ71OWO0kv/IZ0AxWzOJjM13R4qMYHmUHIeA5oj
+         M7x6hjajDi9EaEQTFeoYnF4oXeuD2JdY0gAHh+omB6NILD8e6yKCTcO9XBpsvjJAFND8
+         cbZYAcnogOwHHjxEA7MEQEsp4j+VBSHw8N5fvvUpooHaIB0cpSMq1ZAH7zC5+3XM8ajd
+         13Qqbr0hBdWaJ+lMF8oKWBS+YfTS2j7S49i+1vhlfSlhJgnaybf27CbIZNK+y2nupqLa
+         jHrQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=4Em5Y8OZBwtn4KypUVlGKnjpkQTWcKgB+eFzlk3v4zE=;
+        b=qoV4jrGiT//WlPVbhkewK5kvmPsUAzlzsdvwsO1FR8KYgWvhYC424KeefN8YAHsYK5
+         8dbRhtLouemhnHEKXpXKwWTPeUExZooCKIR0hvwDfCFPQJZsnEsw5MqFnIRvLbK5w52w
+         F7HHxgBiqYAMPiZO00aEgn+Z3Oj6IOPxsyxEOTqgZD/lLK0BEGcwkzNxOTZvFhZxPKTF
+         E+uV8eRfpYHoQLAr6b1nJQ7skb280fq+irw/6vvH2Zv2q/+lDVjTUEXAa0hsYjfD8pS8
+         SejW+ImWCr9mR4/XuSH44yUn5FMxYQDVmEJK6gFaV7sAro/37X3qE9EUh42h0YEmjIlB
+         83eg==
+X-Gm-Message-State: ANoB5pkkryMzDxny4pGO2+zd+Wadhn1Ker0VSfd6DSBWcUnvzL7YcOZ4
+        24WuZDQTjDQ5UZB4wf/obQM7hs++C4A=
+X-Google-Smtp-Source: AA0mqf4ctB6X7GCwPdzARYHq1W09ADefViQe0wKBtNef5PF7+6meLtzwKAzaktResROPasEKS4nZrg==
+X-Received: by 2002:a63:ff20:0:b0:477:a48c:5a7f with SMTP id k32-20020a63ff20000000b00477a48c5a7fmr56939263pgi.62.1670317907028;
+        Tue, 06 Dec 2022 01:11:47 -0800 (PST)
+Received: from [192.168.43.80] (subs03-180-214-233-3.three.co.id. [180.214.233.3])
+        by smtp.gmail.com with ESMTPSA id p9-20020a170902e74900b0018948b0082asm12203300plf.140.2022.12.06.01.11.44
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 06 Dec 2022 01:11:46 -0800 (PST)
+Message-ID: <4a61a875-9ad2-d4d9-ea73-939e7de09d0b@gmail.com>
+Date:   Tue, 6 Dec 2022 16:11:43 +0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Subject: Re: [PATCH] media: videobuf2: add V4L2_BUF_FLAG_HEADERS_ONLY flag
+ Thunderbird/102.5.1
+Subject: Re: [linux-next:master 10545/12617] htmldocs:
+ Documentation/output/frontend.h.rst:6: WARNING: undefined label: fec-1-3 (if
+ the link has no caption the label must precede a section header)
 Content-Language: en-US
-To:     Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Ming Qian <ming.qian@nxp.com>, mchehab@kernel.org
-Cc:     shawnguo@kernel.org, robh+dt@kernel.org, s.hauer@pengutronix.de,
-        kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        Tomasz Figa <tfiga@chromium.org>
-References: <20220712093754.23370-1-ming.qian@nxp.com>
- <15ba9b9e-f3f6-7f30-c200-d7c9593a4735@xs4all.nl>
- <35256805b1ce0b2b7533f53f658c799a37255469.camel@ndufresne.ca>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <35256805b1ce0b2b7533f53f658c799a37255469.camel@ndufresne.ca>
+To:     Akira Yokosawa <akiyks@gmail.com>
+Cc:     oe-kbuild-all@lists.linux.dev,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-doc@vger.kernel.org,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Robert Schlabbach <robert_s@gmx.net>,
+        kernel test robot <lkp@intel.com>
+References: <202212041959.Y2fRgy9r-lkp@intel.com>
+ <97e37f71-7748-114f-ab96-7d29d81a4155@gmail.com>
+ <dfbf1d59-db49-adf8-8b12-bfdaf22af9d2@gmail.com>
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <dfbf1d59-db49-adf8-8b12-bfdaf22af9d2@gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-6.9 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-0.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_SORBS_WEB,SPF_HELO_NONE,SPF_PASS
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Nicolas,
+On 12/5/22 15:24, Akira Yokosawa wrote:
 
-On 25/11/2022 18:07, Nicolas Dufresne wrote:
-> Replying on top, a bit unusual, but I think it makes sense ....
+> JFYI, fixes are queued at:
 > 
-> Le jeudi 24 novembre 2022 à 11:42 +0100, Hans Verkuil a écrit :
->> +CC Nicolas and Tomasz.
->>
->> I would like some feedback for this patch.
->>
->> On 12/07/2022 11:37, Ming Qian wrote:
->>> By setting the V4L2_BUF_FLAG_HEADERS_ONLY flag,
->>> hint the vb2 only contains stream header,
->>> but does not contain any frame data.
->>>
->>> This flag needs to be used when header mode is set to
->>> V4L2_MPEG_VIDEO_HEADER_MODE_SEPARATE.
->>>
->>> Signed-off-by: Ming Qian <ming.qian@nxp.com>
->>> ---
->>>  Documentation/userspace-api/media/v4l/buffer.rst      | 11 +++++++++++
->>>  .../userspace-api/media/v4l/ext-ctrls-codec.rst       | 10 +++++++---
->>>  include/uapi/linux/videodev2.h                        |  2 ++
->>>  3 files changed, 20 insertions(+), 3 deletions(-)
->>>
->>> diff --git a/Documentation/userspace-api/media/v4l/buffer.rst b/Documentation/userspace-api/media/v4l/buffer.rst
->>> index 4638ec64db00..18a6f5fcc822 100644
->>> --- a/Documentation/userspace-api/media/v4l/buffer.rst
->>> +++ b/Documentation/userspace-api/media/v4l/buffer.rst
->>> @@ -607,6 +607,17 @@ Buffer Flags
->>>  	the format. Any subsequent call to the
->>>  	:ref:`VIDIOC_DQBUF <VIDIOC_QBUF>` ioctl will not block anymore,
->>>  	but return an ``EPIPE`` error code.
->>> +    * .. _`V4L2-BUF-FLAG-HEADERS-ONLY`:
->>> +
->>> +      - ``V4L2_BUF_FLAG_HEADERS_ONLY``
->>> +      - 0x00200000
->>> +      - This flag may be set when the buffer only contains codec
->>
->> Set by the driver or userspace? Or either, depending on whether it is
->> an encoder or decoder?
+>   - https://patchwork.linuxtv.org/project/linux-media/patch/20221128054303.3124-1-rdunlap@infradead.org/
+>   - https://patchwork.linuxtv.org/project/linux-media/patch/2bff9dd2-e4ef-1b10-e64e-3c62849eb3b0@xs4all.nl/
 > 
-> I think it should be set by the driver when encoding, and set by user space when
-> decoding. And of course, should be documented as previous review underline.
+>         Thanks, Akira
+> 
 
-Makes sense.
+OK, thanks!
 
-> 
->>
->> codec -> the codec
->>
->>> +	header, but does not contain any frame data. Usually the codec
->>> +	header is merged to the next idr frame, with the flag
->>
->> to -> with
->> idr -> IDR
->>
->>> +	``V4L2_BUF_FLAG_KEYFRAME``, but there is still some scenes that will
->>
->> is -> are
->>
->> scenes: do you mean 'scenarios'?
->>
->>> +	split the header and queue it separately. This flag can set only when
->>
->> "split the header and queue it separately" -> queue the header in a separate buffer
->>
->> can -> can be
->>
->>> +	codec support V4L2_MPEG_VIDEO_HEADER_MODE_SEPARATE,
->>
->> codec -> the codec
->> support -> supports
->>
->>> +	and the header mode is set to V4L2_MPEG_VIDEO_HEADER_MODE_SEPARATE
->>>      * .. _`V4L2-BUF-FLAG-REQUEST-FD`:
->>>  
->>>        - ``V4L2_BUF_FLAG_REQUEST_FD``
->>> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
->>> index 6183f43f4d73..478b6af4205d 100644
->>> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
->>> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
->>> @@ -1386,8 +1386,12 @@ enum v4l2_mpeg_video_intra_refresh_period_type -
->>>      (enum)
->>>  
->>>  enum v4l2_mpeg_video_header_mode -
->>> -    Determines whether the header is returned as the first buffer or is
->>> -    it returned together with the first frame. Applicable to encoders.
->>> +    Determines whether the header is returned as the first buffer
->>> +    with flag V4L2_BUF_FLAG_HEADERS_ONLY or is
->>
->> or is it -> or if it is
->>
->>> +    it returned together with the first frame.
->>> +    Applicable to encoders and decoders.
->>> +    If it's not implemented in a driver,
->>> +    V4L2_MPEG_VIDEO_HEADER_MODE_JOINED_WITH_1ST_FRAME is to be assumed,
->>>      Possible values are:
->>>  
->>>  .. raw:: latex
->>> @@ -1401,7 +1405,7 @@ enum v4l2_mpeg_video_header_mode -
->>>      :stub-columns: 0
->>>  
->>>      * - ``V4L2_MPEG_VIDEO_HEADER_MODE_SEPARATE``
->>> -      - The stream header is returned separately in the first buffer.
->>> +      - The stream header is returned separately in the first buffer with the flag V4L2_BUF_FLAG_HEADERS_ONLY.
->>>      * - ``V4L2_MPEG_VIDEO_HEADER_MODE_JOINED_WITH_1ST_FRAME``
->>>        - The stream header is returned together with the first encoded
->>>  	frame.
->>> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
->>> index 5311ac4fde35..6fd96acd6080 100644
->>> --- a/include/uapi/linux/videodev2.h
->>> +++ b/include/uapi/linux/videodev2.h
->>> @@ -1131,6 +1131,8 @@ static inline __u64 v4l2_timeval_to_ns(const struct timeval *tv)
->>>  #define V4L2_BUF_FLAG_TSTAMP_SRC_SOE		0x00010000
->>>  /* mem2mem encoder/decoder */
->>>  #define V4L2_BUF_FLAG_LAST			0x00100000
->>> +/* Buffer only contains codec header */
->>
->> codec -> the codec
->>
->>> +#define V4L2_BUF_FLAG_HEADERS_ONLY		0x00200000
->>>  /* request_fd is valid */
->>>  #define V4L2_BUF_FLAG_REQUEST_FD		0x00800000
->>>  
->>
->> Of course, there needs to be a driver that uses this as well. And drivers that support
->> V4L2_MPEG_VIDEO_HEADER_MODE_SEPARATE would need to add support for this flag as well,
->> I guess.
->>
->> And what I haven't seen here is *why* you need this flag. There are already drivers that
->> support V4L2_MPEG_VIDEO_HEADER_MODE_SEPARATE, and they managed fine without it.
-> 
-> I think this can make sense, I'm not user of this, since this is OMX/Android
-> specific behaviour, but I think I can make sense of it.
-> 
-> For encoders, in WebRTC (any RTP, or streaming protocol with keyframe request),
-> we often ask the encoder to produce a new keyframe. We don't reset the encoder
-> this point. Some encoder may resend the headers, as the encoder is in "seperate
-> mode" it should send it separately. Userland can then handle resending the last
-> seem header if it wasn't there. It also help locating when the request was
-> actually honoured (I'm guessing there is already a keyframe flag of some sort).
-> So to me this enhancement is valid, it makes everything nicer. I agree it needs
-> a solid adoption, so any driver supporting this should be ported (could be blind
-> ported and tested by their maintainers).
-> 
-> For decoders, if a a decoder is in "separate mode", it seems that sending
-> headers must happen this way. If this uses a separate path internally, the
-> kernel needs also to be aware which buffers are what (and we don't parse in the
-> kernel). In very basic case, the driver assume that the first buffer after
-> streamon is a header, but that prevents resolution changes without a
-> drain+flush, which android and chromeos folks seems to use. (I always drain and
-> flush for what I'm doing).
-
-OK, thank you for the explanation.
-
-So if this is going to be added, then existing drivers that use
-V4L2_MPEG_VIDEO_HEADER_MODE_SEPARATE have to be adapted to use the new flag
-as well.
-
-From what I can tell those are the mediatek vcodec, venus and s5p-mfc encoders.
-I suspect/hope that it won't be too difficult to add this new flag there.
-
-Regards,
-
-	Hans
-
-> 
-> Nicolas
-> 
->>
->> Regards,
->>
->> 	Hans
-> 
+-- 
+An old man doll... just what I always wanted! - Clara
 
