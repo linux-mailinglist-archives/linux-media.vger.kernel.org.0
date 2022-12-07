@@ -2,294 +2,232 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0623B645C82
-	for <lists+linux-media@lfdr.de>; Wed,  7 Dec 2022 15:27:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B05F8645D45
+	for <lists+linux-media@lfdr.de>; Wed,  7 Dec 2022 16:09:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230286AbiLGO1U (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 7 Dec 2022 09:27:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52932 "EHLO
+        id S229821AbiLGPJg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 7 Dec 2022 10:09:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54460 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230270AbiLGO0s (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Dec 2022 09:26:48 -0500
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B805C5FBB6;
-        Wed,  7 Dec 2022 06:26:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-        s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
-        References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
-        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-        Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-        List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=7WCURuc2PPraHWzw6A9eFTozRqyV32p8iHua71/1Pbc=; b=NyKUyEIScREOP4k+T3Trmy1KpY
-        qgYKPKhUb5ZP1zc/7gsVPtPKH0b33zRPpsGaMsSOKMOB8cbadZr3vsAVCjtGmg8OmX35uQjlLnFrO
-        VBV00VjarWPDiGHzLcEwDI/7g7zjHaYSrCukCmzpN+LuhTBfrbp1LzsitDy7i/PEp1qq26gMTdiGS
-        fb3BvvWfOhd3PQaCXBhXO8iojUMjm24MmkNxuTDOVonhtstAmODGPKSPiCDGG0ht80oVjYf8NOm/B
-        JrtgU7vyABHSHwvqOQsV0Ne+NywJZv7PTHzA+G0kl2HY4EI+GX2YeyAO/B3eLhRLTdgsrAPzvUb/u
-        jIV6JyjQ==;
-Received: from [143.107.182.242] (helo=[10.41.75.14])
-        by fanzine2.igalia.com with esmtpsa 
-        (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
-        id 1p2vNN-00GcOE-2j; Wed, 07 Dec 2022 15:26:21 +0100
-Message-ID: <51fb1fdd-edf0-b2a3-0573-76a9101adfb3@igalia.com>
-Date:   Wed, 7 Dec 2022 11:26:13 -0300
+        with ESMTP id S229846AbiLGPJd (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Dec 2022 10:09:33 -0500
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2AC1A5BD63;
+        Wed,  7 Dec 2022 07:09:30 -0800 (PST)
+Received: from localhost (89-26-75-29.goll.dyn.salzburg-online.at [89.26.75.29])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: sebastianfricke)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 7AF116602BB9;
+        Wed,  7 Dec 2022 15:09:28 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1670425768;
+        bh=4ObcAHwRV9dxMiI+YLG4qw8GWaJ1x1aWG49BDYqdCII=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=ZhVypiyiGCAUah9pISXuQOnBvkRc5wJnYPkU1ma0YI4PoRIeQ6GdQG03A76BCpv3D
+         tvEi393RzUtwjyqGe6hAxVjLcF1I+qcHMakeN2hHWQNc0rN3w0fukJYALVAsiX42lE
+         xot0c1btURasXWLlX8BZ5Qm6w+G/E9+psUXnptW1kwguLtEY/2RPI9gtlDVvM8XCs9
+         aGa5X3rN9Pkd3qM/zSXIMb+lU37DHNSMpLR4BW0TFaGU6qctpd5Q3+bTwSJTpwJF8a
+         dWVGYDpiSr4LfOGyh8MFulAX5t3h8DLnLr9xY8zTBawjWLGt7czNph9x35B0PY5u4y
+         w4hGB33sCYHuQ==
+Date:   Wed, 7 Dec 2022 16:09:25 +0100
+From:   Sebastian Fricke <sebastian.fricke@collabora.com>
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc:     linux-media@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        kernel@collabora.com, bob.beckett@collabora.com,
+        hverkuil-cisco@xs4all.nl, nicolas.dufresne@collabora.com,
+        nas.chung@chipsnmedia.com, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v11 5/6] dt-bindings: media: wave5: add yaml devicetree
+ bindings
+Message-ID: <20221207150925.frotwpm3ukwwlnig@basti-XPS-13-9310>
+References: <20221207121350.66217-1-sebastian.fricke@collabora.com>
+ <20221207121350.66217-6-sebastian.fricke@collabora.com>
+ <48d60bd0-4de1-4a5e-eca1-1f8a9303cce0@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Subject: Re: [PATCH v3 18/20] drm/vc4: tests: Fail the current test if we
- access a register
-Content-Language: en-US
-To:     Maxime Ripard <maxime@cerno.tech>,
-        Maxime Ripard <mripard@kernel.org>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@gmail.com>
-Cc:     David Gow <davidgow@google.com>,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Javier Martinez Canillas <javierm@redhat.com>,
-        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-        linaro-mm-sig@lists.linaro.org,
-        Brendan Higgins <brendan.higgins@linux.dev>,
-        linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
-        =?UTF-8?Q?Ma=c3=adra_Canal?= <mairacanal@riseup.net>,
-        linux-media@vger.kernel.org
-References: <20221123-rpi-kunit-tests-v3-0-4615a663a84a@cerno.tech>
- <20221123-rpi-kunit-tests-v3-18-4615a663a84a@cerno.tech>
-From:   =?UTF-8?Q?Ma=c3=adra_Canal?= <mcanal@igalia.com>
-In-Reply-To: <20221123-rpi-kunit-tests-v3-18-4615a663a84a@cerno.tech>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Disposition: inline
+In-Reply-To: <48d60bd0-4de1-4a5e-eca1-1f8a9303cce0@linaro.org>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 12/1/22 12:11, Maxime Ripard wrote:
-> Accessing a register when running under kunit is a bad idea since our
-> device is completely mocked.
-> 
-> Fail the current test if we ever access any of our hardware registers.
-> 
-> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+Hello Krzysztof, 
 
-Reviewed-by: Maíra Canal <mcanal@igalia.com>
+On 07.12.2022 13:31, Krzysztof Kozlowski wrote:
+>On 07/12/2022 13:13, Sebastian Fricke wrote:
+>> From: Robert Beckett <bob.beckett@collabora.com>
+>>
+>> Add bindings for the wave5 chips&media codec driver
+>>
+>> Signed-off-by: Robert Beckett <bob.beckett@collabora.com>
+>> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+>> Signed-off-by: Sebastian Fricke <sebastian.fricke@collabora.com>
+>
+>What's happening with this patch? Where is the changelog?
 
-Just a small nit: I believe that macros with multiple statements should 
-be enclosed in a do-while block [1], even READ macros. I saw that you 
-enclosed the WRITE macros on a do-while block, but not the READ macros.
+The changelog is located in the cover letter.
+https://lore.kernel.org/linux-media/20221207121350.66217-1-sebastian.fricke@collabora.com/
 
-[1] 
-https://www.kernel.org/doc/html/latest/process/coding-style.html#macros-enums-and-rtl
+>Why it is v11 and first time I see it?
 
-Best Regards,
-- Maíra Canal
+You actually replied to V10:
+https://lore.kernel.org/linux-media/20221023085341.s23qinjuw4qls3dn@basti-XPS-13-9310/
 
-> ---
->   drivers/gpu/drm/vc4/vc4_crtc.c      | 13 +++++++++++--
->   drivers/gpu/drm/vc4/vc4_dpi.c       | 13 +++++++++++--
->   drivers/gpu/drm/vc4/vc4_drv.h       | 29 +++++++++++++++++++++++++----
->   drivers/gpu/drm/vc4/vc4_dsi.c       |  9 ++++++++-
->   drivers/gpu/drm/vc4/vc4_hdmi_regs.h |  4 ++++
->   drivers/gpu/drm/vc4/vc4_txp.c       | 13 +++++++++++--
->   drivers/gpu/drm/vc4/vc4_vec.c       | 13 +++++++++++--
->   7 files changed, 81 insertions(+), 13 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/vc4/vc4_crtc.c b/drivers/gpu/drm/vc4/vc4_crtc.c
-> index 7d1a696477ce..a1a3465948c4 100644
-> --- a/drivers/gpu/drm/vc4/vc4_crtc.c
-> +++ b/drivers/gpu/drm/vc4/vc4_crtc.c
-> @@ -50,8 +50,17 @@
->   
->   #define HVS_FIFO_LATENCY_PIX	6
->   
-> -#define CRTC_WRITE(offset, val) writel(val, vc4_crtc->regs + (offset))
-> -#define CRTC_READ(offset) readl(vc4_crtc->regs + (offset))
-> +#define CRTC_WRITE(offset, val)								\
-> +	do {										\
-> +		kunit_fail_current_test("Accessing a register in a unit test!\n");	\
-> +		writel(val, vc4_crtc->regs + (offset));					\
-> +	} while (0)
-> +
-> +#define CRTC_READ(offset)								\
-> +	({										\
-> +		kunit_fail_current_test("Accessing a register in a unit test!\n");	\
-> +		readl(vc4_crtc->regs + (offset));					\
-> +	})
->   
->   static const struct debugfs_reg32 crtc_regs[] = {
->   	VC4_REG32(PV_CONTROL),
-> diff --git a/drivers/gpu/drm/vc4/vc4_dpi.c b/drivers/gpu/drm/vc4/vc4_dpi.c
-> index 1f8f44b7b5a5..0edf3c4c98c8 100644
-> --- a/drivers/gpu/drm/vc4/vc4_dpi.c
-> +++ b/drivers/gpu/drm/vc4/vc4_dpi.c
-> @@ -103,8 +103,17 @@ to_vc4_dpi(struct drm_encoder *encoder)
->   	return container_of(encoder, struct vc4_dpi, encoder.base);
->   }
->   
-> -#define DPI_READ(offset) readl(dpi->regs + (offset))
-> -#define DPI_WRITE(offset, val) writel(val, dpi->regs + (offset))
-> +#define DPI_READ(offset)								\
-> +	({										\
-> +		kunit_fail_current_test("Accessing a register in a unit test!\n");	\
-> +		readl(dpi->regs + (offset));						\
-> +	})
-> +
-> +#define DPI_WRITE(offset, val)								\
-> +	do {										\
-> +		kunit_fail_current_test("Accessing a register in a unit test!\n");	\
-> +		writel(val, dpi->regs + (offset));					\
-> +	} while (0)
->   
->   static const struct debugfs_reg32 dpi_regs[] = {
->   	VC4_REG32(DPI_C),
-> diff --git a/drivers/gpu/drm/vc4/vc4_drv.h b/drivers/gpu/drm/vc4/vc4_drv.h
-> index 418f4f308e36..78fda5332cb3 100644
-> --- a/drivers/gpu/drm/vc4/vc4_drv.h
-> +++ b/drivers/gpu/drm/vc4/vc4_drv.h
-> @@ -19,6 +19,8 @@
->   #include <drm/drm_mm.h>
->   #include <drm/drm_modeset_lock.h>
->   
-> +#include <kunit/test-bug.h>
-> +
->   #include "uapi/drm/vc4_drm.h"
->   
->   struct drm_device;
-> @@ -645,10 +647,29 @@ to_vc4_crtc_state(const struct drm_crtc_state *crtc_state)
->   	return container_of(crtc_state, struct vc4_crtc_state, base);
->   }
->   
-> -#define V3D_READ(offset) readl(vc4->v3d->regs + offset)
-> -#define V3D_WRITE(offset, val) writel(val, vc4->v3d->regs + offset)
-> -#define HVS_READ(offset) readl(hvs->regs + offset)
-> -#define HVS_WRITE(offset, val) writel(val, hvs->regs + offset)
-> +#define V3D_READ(offset)								\
-> +	({										\
-> +		kunit_fail_current_test("Accessing a register in a unit test!\n");	\
-> +		readl(vc4->v3d->regs + (offset));						\
-> +	})
-> +
-> +#define V3D_WRITE(offset, val)								\
-> +	do {										\
-> +		kunit_fail_current_test("Accessing a register in a unit test!\n");	\
-> +		writel(val, vc4->v3d->regs + (offset));					\
-> +	} while (0)
-> +
-> +#define HVS_READ(offset)								\
-> +	({										\
-> +		kunit_fail_current_test("Accessing a register in a unit test!\n");	\
-> +		readl(hvs->regs + (offset));						\
-> +	})
-> +
-> +#define HVS_WRITE(offset, val)								\
-> +	do {										\
-> +		kunit_fail_current_test("Accessing a register in a unit test!\n");	\
-> +		writel(val, hvs->regs + (offset));					\
-> +	} while (0)
->   
->   #define VC4_REG32(reg) { .name = #reg, .offset = reg }
->   
-> diff --git a/drivers/gpu/drm/vc4/vc4_dsi.c b/drivers/gpu/drm/vc4/vc4_dsi.c
-> index 878e05d79e81..2c9cb27903a0 100644
-> --- a/drivers/gpu/drm/vc4/vc4_dsi.c
-> +++ b/drivers/gpu/drm/vc4/vc4_dsi.c
-> @@ -617,6 +617,8 @@ dsi_dma_workaround_write(struct vc4_dsi *dsi, u32 offset, u32 val)
->   	dma_cookie_t cookie;
->   	int ret;
->   
-> +	kunit_fail_current_test("Accessing a register in a unit test!\n");
-> +
->   	/* DSI0 should be able to write normally. */
->   	if (!chan) {
->   		writel(val, dsi->regs + offset);
-> @@ -645,7 +647,12 @@ dsi_dma_workaround_write(struct vc4_dsi *dsi, u32 offset, u32 val)
->   		DRM_ERROR("Failed to wait for DMA: %d\n", ret);
->   }
->   
-> -#define DSI_READ(offset) readl(dsi->regs + (offset))
-> +#define DSI_READ(offset)								\
-> +	({										\
-> +		kunit_fail_current_test("Accessing a register in a unit test!\n");	\
-> +		readl(dsi->regs + (offset));						\
-> +	})
-> +
->   #define DSI_WRITE(offset, val) dsi_dma_workaround_write(dsi, offset, val)
->   #define DSI_PORT_READ(offset) \
->   	DSI_READ(dsi->variant->port ? DSI1_##offset : DSI0_##offset)
-> diff --git a/drivers/gpu/drm/vc4/vc4_hdmi_regs.h b/drivers/gpu/drm/vc4/vc4_hdmi_regs.h
-> index 48db438550b1..b04b2fc8d831 100644
-> --- a/drivers/gpu/drm/vc4/vc4_hdmi_regs.h
-> +++ b/drivers/gpu/drm/vc4/vc4_hdmi_regs.h
-> @@ -456,6 +456,8 @@ static inline u32 vc4_hdmi_read(struct vc4_hdmi *hdmi,
->   
->   	WARN_ON(pm_runtime_status_suspended(&hdmi->pdev->dev));
->   
-> +	kunit_fail_current_test("Accessing an HDMI register in a unit test!\n");
-> +
->   	if (reg >= variant->num_registers) {
->   		dev_warn(&hdmi->pdev->dev,
->   			 "Invalid register ID %u\n", reg);
-> @@ -486,6 +488,8 @@ static inline void vc4_hdmi_write(struct vc4_hdmi *hdmi,
->   
->   	WARN_ON(pm_runtime_status_suspended(&hdmi->pdev->dev));
->   
-> +	kunit_fail_current_test("Accessing an HDMI register in a unit test!\n");
-> +
->   	if (reg >= variant->num_registers) {
->   		dev_warn(&hdmi->pdev->dev,
->   			 "Invalid register ID %u\n", reg);
-> diff --git a/drivers/gpu/drm/vc4/vc4_txp.c b/drivers/gpu/drm/vc4/vc4_txp.c
-> index 2b69454b8534..ef5cab2a3aa9 100644
-> --- a/drivers/gpu/drm/vc4/vc4_txp.c
-> +++ b/drivers/gpu/drm/vc4/vc4_txp.c
-> @@ -145,8 +145,17 @@
->   /* Number of lines received and committed to memory. */
->   #define TXP_PROGRESS		0x10
->   
-> -#define TXP_READ(offset) readl(txp->regs + (offset))
-> -#define TXP_WRITE(offset, val) writel(val, txp->regs + (offset))
-> +#define TXP_READ(offset)								\
-> +	({										\
-> +		kunit_fail_current_test("Accessing a register in a unit test!\n");	\
-> +		readl(txp->regs + (offset));						\
-> +	})
-> +
-> +#define TXP_WRITE(offset, val)								\
-> +	do {										\
-> +		kunit_fail_current_test("Accessing a register in a unit test!\n");	\
-> +		writel(val, txp->regs + (offset));					\
-> +	} while (0)
->   
->   struct vc4_txp {
->   	struct vc4_crtc	base;
-> diff --git a/drivers/gpu/drm/vc4/vc4_vec.c b/drivers/gpu/drm/vc4/vc4_vec.c
-> index e270a4099be3..f589ab918f4d 100644
-> --- a/drivers/gpu/drm/vc4/vc4_vec.c
-> +++ b/drivers/gpu/drm/vc4/vc4_vec.c
-> @@ -207,8 +207,17 @@ struct vc4_vec {
->   	struct debugfs_regset32 regset;
->   };
->   
-> -#define VEC_READ(offset) readl(vec->regs + (offset))
-> -#define VEC_WRITE(offset, val) writel(val, vec->regs + (offset))
-> +#define VEC_READ(offset)								\
-> +	({										\
-> +		kunit_fail_current_test("Accessing a register in a unit test!\n");	\
-> +		readl(vec->regs + (offset));						\
-> +	})
-> +
-> +#define VEC_WRITE(offset, val)								\
-> +	do {										\
-> +		kunit_fail_current_test("Accessing a register in a unit test!\n");	\
-> +		writel(val, vec->regs + (offset));					\
-> +	} while (0)
->   
->   static inline struct vc4_vec *
->   encoder_to_vc4_vec(struct drm_encoder *encoder)
-> 
+>And why it is v11 with basic mistakes and lack of testing?!?
+>I would assume that v11 was already seen and tested...
+
+Sorry I don't have a lot of experience with dt-bindings, thank you for
+highlighting the issues, I will correct them. And I forgot to build the
+documentation during my testing runs.
+I took over the patch set from another contributor and as no one
+complained about the dt-bindings for the last 10 versions, I concentrated
+my energy on other problems.
+
+>
+>
+>> ---
+>>  .../devicetree/bindings/cnm,wave5.yml         | 72 +++++++++++++++++++
+>>  1 file changed, 72 insertions(+)
+>>  create mode 100644 Documentation/devicetree/bindings/cnm,wave5.yml
+>
+>Wrong directory. It wasn't here at all before, so I am really confused
+>how this could happen.
+
+Thanks for the highlight.
+
+I will move it to:
+Documentation/devicetree/bindings/media/cnm,wave5.yml
+
+>
+>Subject: drop redundant pieces: yaml, devicetree and bindings.
+
+I call it:
+
+dt-bindings: media: chips-media: add wave5 bindings
+
+in V12
+
+Sincerely,
+Sebastian Fricke
+
+>
+>
+>>
+>> diff --git a/Documentation/devicetree/bindings/cnm,wave5.yml b/Documentation/devicetree/bindings/cnm,wave5.yml
+>> new file mode 100644
+>> index 000000000000..01dddebb162e
+>> --- /dev/null
+>> +++ b/Documentation/devicetree/bindings/cnm,wave5.yml
+>> @@ -0,0 +1,72 @@
+>> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+>> +%YAML 1.2
+>> +---
+>> +$id: http://devicetree.org/schemas/media/wave5.yaml#
+>
+>You clearly did not test them before sending.
+>
+>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>> +
+>> +title: Chips&Media Wave 5 Series multi-standard codec IP
+>> +
+>> +maintainers:
+>> +  - Nas Chung <nas.chung@chipsnmedia.com>
+>> +  - Robert Beckett <bob.beckett@collabora.com>
+>> +  - Sebastian Fricke <sebastian.fricke@collabora.com>
+>> +
+>> +description: |-
+>> +  The Chips&Media WAVE codec IP is a multi format video encoder/decoder
+>> +
+>> +properties:
+>> +  compatible:
+>> +    anyOf:
+>
+>Please start from example-schema or other recently approved bindings. No
+>anyOf.
+>
+>> +      - items:
+>
+>No items...
+>
+>> +        - enum:
+>> +            - cnm,cm511-vpu
+>> +            - cnm,cm517-vpu
+>> +            - cnm,cm521-vpu
+>> +            - cnm,cm521c-vpu
+>> +            - cnm,cm521c-dual-vpu
+>
+>What's the difference between this and one above?
+>
+>> +            - cnm,cm521e1-vpu
+>> +            - cnm,cm537-vpu
+>> +  reg:
+>> +    maxItems: 1
+>> +
+>> +  clocks:
+>> +    minItems: 1
+>> +    maxItems: 4
+>
+>This has to be specific.
+>
+>> +
+>> +  clock-names:
+>> +    minItems: 1
+>> +    maxItems: 4
+>
+>You need to list the names.
+>
+>> +
+>> +  interrupts:
+>> +    maxItems: 1
+>> +
+>> +  power-domains:
+>> +    maxItems: 1
+>> +
+>> +  resets:
+>> +    maxItems: 1
+>> +
+>> +  sram:
+>
+>Missing vendor prefix.
+>
+>> +    $ref: /schemas/types.yaml#/definitions/phandle
+>> +    description: phandle pointing to the SRAM device node
+>
+>And what is it for? Why do you need SRAM?
+>
+>> +    maxItems: 1
+>
+>Drop
+>
+>> +
+>> +required:
+>> +  - compatible
+>> +  - reg
+>> +  - interrupts
+>> +  - clocks
+>> +  - clock-names
+>> +
+>> +additionalProperties: false
+>> +
+>> +examples:
+>> +  - |
+>> +    vpu: video-codec@12345678 {
+>> +        compatible = "cnm,cm521-vpu";
+>> +        reg = <0x12345678 0x1000>;
+>> +        interrupts = <42>;
+>> +        clocks = <&clks 42>;
+>> +        clock-names = "vcodec";
+>> +        sram = <&sram>;
+>> +    };
+>
+>Best regards,
+>Krzysztof
+>
