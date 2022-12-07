@@ -2,267 +2,147 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A76CF645715
-	for <lists+linux-media@lfdr.de>; Wed,  7 Dec 2022 11:06:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EAB53645781
+	for <lists+linux-media@lfdr.de>; Wed,  7 Dec 2022 11:23:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229804AbiLGKGQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 7 Dec 2022 05:06:16 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36496 "EHLO
+        id S230389AbiLGKXE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 7 Dec 2022 05:23:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49844 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229462AbiLGKGP (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Dec 2022 05:06:15 -0500
-Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 948C93FB80;
-        Wed,  7 Dec 2022 02:06:13 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by sin.source.kernel.org (Postfix) with ESMTPS id 783F3CE1CDD;
-        Wed,  7 Dec 2022 10:06:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AD319C433D6;
-        Wed,  7 Dec 2022 10:06:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1670407568;
-        bh=I1gY2mIrXBgBXY/HorosOyog/+TjHFV37SN8mdEb6AQ=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=ZHYW6WylODu27JffiDxYYocM7Zuqx2Rjexyagh8CmR9wvxZmqPZeU7fhXH24LOPwH
-         sd3sizABtD/uj9smJYPAX2eAupGF3ZtsGrfG9A60k/6TAGfG091sQ/omlGKoYr+38X
-         sJU/Y9/3VyLhpRWAtkmdsX0LDiT02+ckOJBH8aPnl6ZKuNmvaZ2BcFxB5SxqLbdRBF
-         Sib514Cf/tJYMhItNXx2yoLA0VXP6s6VyZaJkv4LZhw7DvhXZQr9K1ksqPnHaI2fDp
-         SBapGPlNCRInJuNM8KrzynMNfy632vkWNUoWoYqXDAbBPMFRC+CM9PlolUNyr5r9WZ
-         vjK5En/nK4zbw==
-Date:   Wed, 7 Dec 2022 10:06:02 +0000
-From:   Conor Dooley <conor@kernel.org>
-To:     Nathan Chancellor <nathan@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-        linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        with ESMTP id S229665AbiLGKXB (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Dec 2022 05:23:01 -0500
+Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com [IPv6:2a00:1450:4864:20::233])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C3F101115D
+        for <linux-media@vger.kernel.org>; Wed,  7 Dec 2022 02:22:58 -0800 (PST)
+Received: by mail-lj1-x233.google.com with SMTP id b9so20365187ljr.5
+        for <linux-media@vger.kernel.org>; Wed, 07 Dec 2022 02:22:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=1sijU5enLkDTq3DQ0nw0PYtfD3Qi+72BKYHiCTRs2ZU=;
+        b=HZxXQqZ3S3FWmVtrocczB6d8HV4sm0tQJeYbpg4VYj1wUZu5In8brBDiGw5LJHzZEh
+         zarVKSoEq5WN7ZOvOL4qZ+QAACHaJ3hZRjtS/u/PWaFnpuj3VJ8YcKj+1YfDTxgmPo4v
+         CErSg8d8YiyQgIZsNb3NVn/ySgblrjRn9kYXtDOdO0YyQn5y255pH16yDlt3sOU5LYG3
+         2TVtzB8YghEkfZ9Y7z6Mscy1fDDgD3OgJmNMr9Dcisba2yyfU2reI8Rny6r/ZqOG1vJr
+         EoUYzUhbmQcy3BRUz7QOLxWbKT2EwWys5YqmirMvHz17JzH11jYwxgkv/wRYjCXu8x8Q
+         jfHg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=1sijU5enLkDTq3DQ0nw0PYtfD3Qi+72BKYHiCTRs2ZU=;
+        b=hTaPwiMDInPmFMmqKHftEKrp/3oHACa33IyobO8jEcpfheinXCdbZCoBrgQgPHMZVR
+         cCwNx4J/CSHP72oMpa3c7QkkexqdBwCRDtPJPmM9+Xp8Wm9bkt5e/v4Vn4oqTjB9vYkj
+         VKbO1s+iIqIY61+S3P0Z2hqABeDIFS2diSr9JtLlUSEHYUD0Uo8e1lINacssQLT9Mg0K
+         NUosIq7VH5SkHgGMDX3gnRCXuwCZacaN+MlOak4u6UR/WuIP8+pk14XjvUpYDNe2g+kR
+         N8yg6xqI0R4F50luuXfqHR3bjmsSHHaYpHv7RMSCGKYAXTL0oQBBU8mHYKFc7bcVdQNc
+         u5tg==
+X-Gm-Message-State: ANoB5pms09tQhsNAkUbC6bMJv+L4daTKVu08/a/Z8i3dBXBVXuQ3OWEl
+        CaHVdk65k9Ow5uYltO1UuacLQg==
+X-Google-Smtp-Source: AA0mqf5h4sxrFTul2bwSrjyQP2HZcpafzgXYhRs9WtHjL8fjJIlDzOVwcLZqY3H4sd1gKZL9bdaOjg==
+X-Received: by 2002:a05:651c:1147:b0:277:4726:bcf2 with SMTP id h7-20020a05651c114700b002774726bcf2mr26270843ljo.107.1670408576811;
+        Wed, 07 Dec 2022 02:22:56 -0800 (PST)
+Received: from krzk-bin.NAT.warszawa.vectranet.pl (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
+        by smtp.gmail.com with ESMTPSA id bu31-20020a056512169f00b00499b27a329esm1953183lfb.300.2022.12.07.02.22.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 07 Dec 2022 02:22:56 -0800 (PST)
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Samuel Holland <samuel@sholland.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        llvm@lists.linux.dev
-Subject: Re: [PATCH v8 3/6] staging: media: Add support for the Allwinner A31
- ISP
-Message-ID: <Y5BlisjV8Zi5fGWC@spud>
-References: <20221103163717.246217-1-paul.kocialkowski@bootlin.com>
- <20221103163717.246217-4-paul.kocialkowski@bootlin.com>
- <Y4RVzSM4FQ/tYQAV@dev-arch.thelio-3990X>
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Jerome Brunet <jbrunet@baylibre.com>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Alain Volmat <alain.volmat@foss.st.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Joe Tessler <jrt@google.com>,
+        Yannick Fertre <yannick.fertre@foss.st.com>,
+        Jeff Chase <jnchase@google.com>, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-amlogic@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com
+Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH v3 0/9] media: dt-bindings: common CEC properties
+Date:   Wed,  7 Dec 2022 11:22:44 +0100
+Message-Id: <20221207102253.26663-1-krzysztof.kozlowski@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="r9hFmAG5+uobH36S"
-Content-Disposition: inline
-In-Reply-To: <Y4RVzSM4FQ/tYQAV@dev-arch.thelio-3990X>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi,
 
---r9hFmAG5+uobH36S
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Changes since v2:
+================
+1. nvidia,tegra114-cec: Rename to nvidia,tegra114-cec.yaml.
+2. nvidia,tegra114-cec: Nvidia->NVIDIA.
+3. Add acks/rb tags.
 
-On Sun, Nov 27, 2022 at 11:31:41PM -0700, Nathan Chancellor wrote:
-> Hi Paul,
->=20
-> On Thu, Nov 03, 2022 at 05:37:14PM +0100, Paul Kocialkowski wrote:
-> > Some Allwinner platforms come with an Image Signal Processor, which
-> > supports various features in order to enhance and transform data
-> > received by image sensors into good-looking pictures. In most cases,
-> > the data is raw bayer, which gets internally converted to RGB and
-> > finally YUV, which is what the hardware produces.
-> >=20
-> > This driver supports ISPs that are similar to the A31 ISP, which was
-> > the first standalone ISP found in Allwinner platforms. Simpler ISP
-> > blocks were found in the A10 and A20, where they are tied to a CSI
-> > controller. Newer generations of Allwinner SoCs (starting with the
-> > H6, H616, etc) come with a new camera subsystem and revised ISP.
-> > Even though these previous and next-generation ISPs are somewhat
-> > similar to the A31 ISP, they have enough significant differences to
-> > be out of the scope of this driver.
-> >=20
-> > While the ISP supports many features, including 3A and many
-> > enhancement blocks, this implementation is limited to the following:
-> > - V3s (V3/S3) platform support;
-> > - Bayer media bus formats as input;
-> > - Semi-planar YUV (NV12/NV21) as output;
-> > - Debayering with per-component gain and offset configuration;
-> > - 2D noise filtering with configurable coefficients.
-> >=20
-> > Since many features are missing from the associated uAPI, the driver
-> > is aimed to integrate staging until all features are properly
-> > described.
-> >=20
-> > On the technical side, it uses the v4l2 and media controller APIs,
-> > with a video node for capture, a processor subdev and a video node
-> > for parameters submission. A specific uAPI structure and associated
-> > v4l2 meta format are used to configure parameters of the supported
-> > modules.
-> >=20
-> > One particular thing about the hardware is that configuration for
-> > module registers needs to be stored in a DMA buffer and gets copied
-> > to actual registers by the hardware at the next vsync, when instructed
-> > by a flag. This is handled by the "state" mechanism in the driver.
-> >=20
-> > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
->=20
-> This patch is now in -next as commit e3185e1d7c14 ("media: staging:
-> media: Add support for the Allwinner A31 ISP"), where it causes the
-> following clang warnings:
+Changes since v1
+================
+1. chrontel,ch7322: fix node name to 'cec'.
+2. Add ack tags.
 
-FWIW, this is (as yet) unfixed & thus breaking allmodconfig w/ clang.
-I had a quick look on lore but could not see a proposed fix other than
-what Nathan has pasted below.
+Best regards,
+Krzysztof
 
-> > +void sun6i_isp_capture_configure(struct sun6i_isp_device *isp_dev)
-> > +{
-> > +	unsigned int width, height;
-> > +	unsigned int stride_luma, stride_chroma =3D 0;
-> > +	unsigned int stride_luma_div4, stride_chroma_div4;
-> > +	const struct sun6i_isp_capture_format *format;
-> > +	const struct v4l2_format_info *info;
-> > +	u32 pixelformat;
-> > +
-> > +	sun6i_isp_capture_dimensions(isp_dev, &width, &height);
-> > +	sun6i_isp_capture_format(isp_dev, &pixelformat);
-> > +
-> > +	format =3D sun6i_isp_capture_format_find(pixelformat);
-> > +	if (WARN_ON(!format))
-> > +		return;
-> > +
-> > +	sun6i_isp_load_write(isp_dev, SUN6I_ISP_MCH_SIZE_CFG_REG,
-> > +			     SUN6I_ISP_MCH_SIZE_CFG_WIDTH(width) |
-> > +			     SUN6I_ISP_MCH_SIZE_CFG_HEIGHT(height));
-> > +
-> > +	info =3D v4l2_format_info(pixelformat);
-> > +	if (WARN_ON(!info))
-> > +		return;
-> > +
-> > +	stride_luma =3D width * info->bpp[0];
-> > +	stride_luma_div4 =3D DIV_ROUND_UP(stride_luma, 4);
-> > +
-> > +	if (info->comp_planes > 1) {
-> > +		stride_chroma =3D width * info->bpp[1] / info->hdiv;
-> > +		stride_chroma_div4 =3D DIV_ROUND_UP(stride_chroma, 4);
-> > +	}
-> > +
-> > +	sun6i_isp_load_write(isp_dev, SUN6I_ISP_MCH_CFG_REG,
-> > +			     SUN6I_ISP_MCH_CFG_EN |
-> > +			     SUN6I_ISP_MCH_CFG_OUTPUT_FMT(format->output_format) |
-> > +			     SUN6I_ISP_MCH_CFG_STRIDE_Y_DIV4(stride_luma_div4) |
-> > +			     SUN6I_ISP_MCH_CFG_STRIDE_UV_DIV4(stride_chroma_div4));
-> > +}
->=20
->=20
->   drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_capture.c:135:6: error:=
- variable 'stride_chroma_div4' is used uninitialized whenever 'if' conditio=
-n is false [-Werror,-Wsometimes-uninitialized]
->           if (info->comp_planes > 1) {
->               ^~~~~~~~~~~~~~~~~~~~~
->   drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_capture.c:144:42: note:=
- uninitialized use occurs here
->                               SUN6I_ISP_MCH_CFG_STRIDE_UV_DIV4(stride_chr=
-oma_div4));
->                                                                 ^~~~~~~~~=
-~~~~~~~~~
->   drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_reg.h:249:48: note: exp=
-anded from macro 'SUN6I_ISP_MCH_CFG_STRIDE_UV_DIV4'
->   #define SUN6I_ISP_MCH_CFG_STRIDE_UV_DIV4(v)     (((v) << 20) & GENMASK(=
-30, 20))
->                                                     ^
->   drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_capture.c:135:2: note: =
-remove the 'if' if its condition is always true
->           if (info->comp_planes > 1) {
->           ^~~~~~~~~~~~~~~~~~~~~~~~~~~
->   drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_capture.c:112:51: note:=
- initialize the variable 'stride_chroma_div4' to silence this warning
->           unsigned int stride_luma_div4, stride_chroma_div4;
->                                                           ^
->                                                             =3D 0
->=20
-> Does stride_chroma_div4 want to just be initialized to zero?
->=20
-> > +static int sun6i_isp_proc_notifier_bound(struct v4l2_async_notifier *n=
-otifier,
-> > +					 struct v4l2_subdev *remote_subdev,
-> > +					 struct v4l2_async_subdev *async_subdev)
-> > +{
-> > +	struct sun6i_isp_device *isp_dev =3D
-> > +		container_of(notifier, struct sun6i_isp_device, proc.notifier);
-> > +	struct sun6i_isp_proc_async_subdev *proc_async_subdev =3D
-> > +		container_of(async_subdev, struct sun6i_isp_proc_async_subdev,
-> > +			     async_subdev);
-> > +	struct sun6i_isp_proc *proc =3D &isp_dev->proc;
-> > +	struct sun6i_isp_proc_source *source =3D proc_async_subdev->source;
-> > +	bool enabled;
-> > +
-> > +	switch (source->endpoint.base.port) {
-> > +	case SUN6I_ISP_PORT_CSI0:
-> > +		source =3D &proc->source_csi0;
-> > +		enabled =3D true;
-> > +		break;
-> > +	case SUN6I_ISP_PORT_CSI1:
-> > +		source =3D &proc->source_csi1;
-> > +		enabled =3D !proc->source_csi0.expected;
-> > +		break;
-> > +	default:
-> > +		break;
-> > +	}
-> > +
-> > +	source->subdev =3D remote_subdev;
-> > +
-> > +	return sun6i_isp_proc_link(isp_dev, SUN6I_ISP_PROC_PAD_SINK_CSI,
-> > +				   remote_subdev, enabled);
-> > +}
->=20
->   drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_proc.c:418:2: error: va=
-riable 'enabled' is used uninitialized whenever switch default is taken [-W=
-error,-Wsometimes-uninitialized]
->           default:
->           ^~~~~~~
->   drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_proc.c:425:23: note: un=
-initialized use occurs here
->                                     remote_subdev, enabled);
->                                                     ^~~~~~~
->   drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_proc.c:407:14: note: in=
-itialize the variable 'enabled' to silence this warning
->           bool enabled;
->                       ^
->                       =3D 0
->=20
-> Should there be an early return in the default case?
->=20
-> I do not mind sending patches if you are unable to, assuming I have the
-> right fixes.
->=20
-> Cheers,
-> Nathan
->=20
+Krzysztof Kozlowski (9):
+  media: dt-bindings: amlogic,meson-gx-ao-cec: move to cec subfolder
+  media: dt-bindings: st,stm32-cec: move to cec subfolder
+  media: dt-bindings: cec: convert common CEC properties to DT schema
+  media: dt-bindings: amlogic,meson-gx-ao-cec: reference common CEC
+    properties
+  media: dt-bindings: chrontel,ch7322: reference common CEC properties
+  media: dt-bindings: samsung,s5p-cec: convert to DT schema
+  media: dt-bindings: cec-gpio: convert to DT schema
+  media: dt-bindings: nvidia,tegra114-cec: convert to DT schema
+  media: dt-bindings: st,stih-cec: convert to DT schema
 
---r9hFmAG5+uobH36S
-Content-Type: application/pgp-signature; name="signature.asc"
+ .../devicetree/bindings/media/cec-gpio.txt    | 42 -----------
+ .../devicetree/bindings/media/cec.txt         |  8 --
+ .../{ => cec}/amlogic,meson-gx-ao-cec.yaml    | 11 +--
+ .../bindings/media/cec/cec-common.yaml        | 28 +++++++
+ .../bindings/media/cec/cec-gpio.yaml          | 73 +++++++++++++++++++
+ .../media/cec/nvidia,tegra114-cec.yaml        | 58 +++++++++++++++
+ .../bindings/media/cec/samsung,s5p-cec.yaml   | 66 +++++++++++++++++
+ .../bindings/media/cec/st,stih-cec.yaml       | 66 +++++++++++++++++
+ .../media/{ => cec}/st,stm32-cec.yaml         |  4 +-
+ .../bindings/media/i2c/chrontel,ch7322.yaml   | 11 ++-
+ .../devicetree/bindings/media/s5p-cec.txt     | 36 ---------
+ .../devicetree/bindings/media/stih-cec.txt    | 27 -------
+ .../devicetree/bindings/media/tegra-cec.txt   | 27 -------
+ MAINTAINERS                                   | 12 +--
+ 14 files changed, 308 insertions(+), 161 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/media/cec-gpio.txt
+ delete mode 100644 Documentation/devicetree/bindings/media/cec.txt
+ rename Documentation/devicetree/bindings/media/{ => cec}/amlogic,meson-gx-ao-cec.yaml (86%)
+ create mode 100644 Documentation/devicetree/bindings/media/cec/cec-common.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/cec/cec-gpio.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/cec/nvidia,tegra114-cec.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/cec/samsung,s5p-cec.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/cec/st,stih-cec.yaml
+ rename Documentation/devicetree/bindings/media/{ => cec}/st,stm32-cec.yaml (89%)
+ delete mode 100644 Documentation/devicetree/bindings/media/s5p-cec.txt
+ delete mode 100644 Documentation/devicetree/bindings/media/stih-cec.txt
+ delete mode 100644 Documentation/devicetree/bindings/media/tegra-cec.txt
 
------BEGIN PGP SIGNATURE-----
+-- 
+2.34.1
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCY5BligAKCRB4tDGHoIJi
-0ukmAQDmVsJKCPxo8VajrEq7HOquWhxFMxVYfhmTx0e4zTVg9AD+JpfzzwtmPBQi
-W7meOLACGLzrk3LhZoDhDll39zPj9wg=
-=hRIk
------END PGP SIGNATURE-----
-
---r9hFmAG5+uobH36S--
