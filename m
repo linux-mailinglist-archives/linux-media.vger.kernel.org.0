@@ -2,162 +2,125 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 98CF6645A89
-	for <lists+linux-media@lfdr.de>; Wed,  7 Dec 2022 14:17:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C0E2A645B91
+	for <lists+linux-media@lfdr.de>; Wed,  7 Dec 2022 14:56:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229879AbiLGNRG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 7 Dec 2022 08:17:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48944 "EHLO
+        id S230186AbiLGN4o (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 7 Dec 2022 08:56:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51256 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229628AbiLGNRF (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Dec 2022 08:17:05 -0500
-Received: from mail-lj1-x229.google.com (mail-lj1-x229.google.com [IPv6:2a00:1450:4864:20::229])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D3F9856D6A
-        for <linux-media@vger.kernel.org>; Wed,  7 Dec 2022 05:17:03 -0800 (PST)
-Received: by mail-lj1-x229.google.com with SMTP id x6so20855532lji.10
-        for <linux-media@vger.kernel.org>; Wed, 07 Dec 2022 05:17:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:references:cc:to:from
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=QJj/BV9+roCYMepXfcW3k2KLwpTwBT5zfzBg+gwa4MQ=;
-        b=ES3NhZSnGtAafBm1DQAH6YLXGhhY48N6b7bC3+1/N+nv8QuwyD3FeAQq/Bu2Juu0sS
-         RIjr0E5Mraz8CsGdDIda4GgJADpbC6yKrn2gbQsDgejeFj93RWHWeXUde8dFL3ufUAUq
-         mvid46rS6Bpx4x2okNLFhLI2mWD8oqQ+aLPb3khf3wmXvznPKjxN8eUqBTN5oQAJ1mBn
-         vh8cToPgY570pI1Z0HUPmEpDeq8hhxj6PMm/KEZiho8/TnV0xoZAT17cTuIY+T/SS4TQ
-         ZvOlP+3v/DoniioqWGMhU9H7J+/R+elTIICQlcfWGqnYhF5eDvHbIprJT0d+NhJ/EEEj
-         8HUg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:references:cc:to:from
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=QJj/BV9+roCYMepXfcW3k2KLwpTwBT5zfzBg+gwa4MQ=;
-        b=Sz8ybH6ePK5assYJLaSeb/iYUCssSz1r713q27QJdRqu5xD97Dknhyve7kbu9V69of
-         Q9ccWfsejsOzN0sp9pD0DOPUzmi+wbiiBwOr6UMjhauRQDi6HUysC0iU6xanAhyLtUcv
-         asKajXM5KOlEwd/CCBzWdhIVjxn35GIN0sxRwtW0AK7kETIM8Qedf+v1FnYcoiBMviPQ
-         fyICcE+qQSWVjOchp4hSi5sNsmKJYuU6u6CZfyBO2JmWQEaFjRr5rfTXTTypZKpG4WQ0
-         mnROmF1CpeCrNvjEY4/UijO9qy4dh9ZWJP+/ro2lQ3NQa5+KWP/vACpMcPRQvAhTFglF
-         Llcw==
-X-Gm-Message-State: ANoB5pnyD51q2A8/pyETvCuOSKk69U4jD0HfwBZ47p5udITcku3rNZn5
-        WdEuwtTCtpxu9T0ZRWD4eFtgZA==
-X-Google-Smtp-Source: AA0mqf6G5pWNd4H5JfUbCf9FsbhhD2sl0e/zzKG2x1U+MEU+OaM+VgE+Xcp0spPgvuprlhTM/6ciXA==
-X-Received: by 2002:a05:651c:1952:b0:26f:dfb2:9b9c with SMTP id bs18-20020a05651c195200b0026fdfb29b9cmr27009629ljb.461.1670419022197;
-        Wed, 07 Dec 2022 05:17:02 -0800 (PST)
-Received: from [192.168.0.20] (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
-        by smtp.gmail.com with ESMTPSA id j19-20020a056512345300b004b549ad99adsm1906986lfr.304.2022.12.07.05.17.00
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 07 Dec 2022 05:17:01 -0800 (PST)
-Message-ID: <94a01bb6-5ef6-2825-0e82-701af46531d7@linaro.org>
-Date:   Wed, 7 Dec 2022 14:17:00 +0100
+        with ESMTP id S230054AbiLGN4Z (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Dec 2022 08:56:25 -0500
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 342954877E;
+        Wed,  7 Dec 2022 05:56:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+        s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+        References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+        Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+        List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=fyA1KqlBkiD4PRKJwfoxMJSb8dR56u0Byrgz69IGCDM=; b=Ah2r+Q8uT2cKvHeYBiKlpjgsLs
+        0B/7BzJgCtAnx/1S/Bl3NjOgzMvCF4pB7RnsaHHNMTaFAKobs19+W3xdVtIK+4KJGQlQJp+9p5+CV
+        ZJt6wuL4V7D/H/Q9oEw0nq8JV9uxe6OtR981NZ2hiTetd1Dk1Ga1rVecQ/gbphFWbOvm6iggz+EKE
+        2AZGszBmFHBzdsK3vh2pl32DMcZlvM2oHb+m8pON91EXhJvicePApSSMDbLEFITWrNZ7er6CrYpv8
+        /4Q2li7STgNWKK2VAAq4Q8OM6XMiy3i0CJjveKUpQAu1MomMzSxV7hsDi8OdCbKUR0NYBBDARwap5
+        eEOjAjLg==;
+Received: from [143.107.182.242] (helo=[10.41.75.14])
+        by fanzine2.igalia.com with esmtpsa 
+        (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+        id 1p2uu1-00GbW6-UQ; Wed, 07 Dec 2022 14:56:02 +0100
+Message-ID: <57f2302f-0e36-7665-37b0-a81a4be8cb7b@igalia.com>
+Date:   Wed, 7 Dec 2022 10:55:30 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.1
-Subject: Re: [PATCH v11 5/6] dt-bindings: media: wave5: add yaml devicetree
- bindings
+ Thunderbird/102.5.0
+Subject: Re: [PATCH v3 20/20] Documentation: gpu: vc4: Add KUnit Tests Section
+To:     Maxime Ripard <maxime@cerno.tech>,
+        Maxime Ripard <mripard@kernel.org>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@gmail.com>
+Cc:     David Gow <davidgow@google.com>,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        =?UTF-8?Q?Ma=c3=adra_Canal?= <mcanal@igalia.com>,
+        Javier Martinez Canillas <javierm@redhat.com>,
+        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        linaro-mm-sig@lists.linaro.org,
+        Brendan Higgins <brendan.higgins@linux.dev>,
+        linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
+        linux-media@vger.kernel.org
+References: <20221123-rpi-kunit-tests-v3-0-4615a663a84a@cerno.tech>
+ <20221123-rpi-kunit-tests-v3-20-4615a663a84a@cerno.tech>
 Content-Language: en-US
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To:     Sebastian Fricke <sebastian.fricke@collabora.com>,
-        linux-media@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Cc:     kernel@collabora.com, bob.beckett@collabora.com,
-        hverkuil-cisco@xs4all.nl, nicolas.dufresne@collabora.com,
-        nas.chung@chipsnmedia.com, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20221207121350.66217-1-sebastian.fricke@collabora.com>
- <20221207121350.66217-6-sebastian.fricke@collabora.com>
- <48d60bd0-4de1-4a5e-eca1-1f8a9303cce0@linaro.org>
-In-Reply-To: <48d60bd0-4de1-4a5e-eca1-1f8a9303cce0@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+From:   =?UTF-8?Q?Ma=c3=adra_Canal?= <mcanal@igalia.com>
+In-Reply-To: <20221123-rpi-kunit-tests-v3-20-4615a663a84a@cerno.tech>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 07/12/2022 13:31, Krzysztof Kozlowski wrote:
-> On 07/12/2022 13:13, Sebastian Fricke wrote:
->> From: Robert Beckett <bob.beckett@collabora.com>
->>
->> Add bindings for the wave5 chips&media codec driver
->>
->> Signed-off-by: Robert Beckett <bob.beckett@collabora.com>
->> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
->> Signed-off-by: Sebastian Fricke <sebastian.fricke@collabora.com>
+On 12/1/22 12:11, Maxime Ripard wrote:
+> Now that we have VC4-specific tests in place, let's document them
+> properly.
 > 
-> What's happening with this patch? Where is the changelog? Why it is v11
-> and first time I see it? And why it is v11 with basic mistakes and lack
-> of testing?!? I would assume that v11 was already seen and tested...
-> 
-> 
->> ---
->>  .../devicetree/bindings/cnm,wave5.yml         | 72 +++++++++++++++++++
->>  1 file changed, 72 insertions(+)
->>  create mode 100644 Documentation/devicetree/bindings/cnm,wave5.yml
-> 
-> Wrong directory. It wasn't here at all before, so I am really confused
-> how this could happen.
-> 
-> Subject: drop redundant pieces: yaml, devicetree and bindings.
-> 
-> 
->>
->> diff --git a/Documentation/devicetree/bindings/cnm,wave5.yml b/Documentation/devicetree/bindings/cnm,wave5.yml
->> new file mode 100644
->> index 000000000000..01dddebb162e
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/cnm,wave5.yml
->> @@ -0,0 +1,72 @@
->> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
->> +%YAML 1.2
->> +---
->> +$id: http://devicetree.org/schemas/media/wave5.yaml#
-> 
-> You clearly did not test them before sending.
-> 
->> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->> +
->> +title: Chips&Media Wave 5 Series multi-standard codec IP
->> +
->> +maintainers:
->> +  - Nas Chung <nas.chung@chipsnmedia.com>
->> +  - Robert Beckett <bob.beckett@collabora.com>
->> +  - Sebastian Fricke <sebastian.fricke@collabora.com>
->> +
->> +description: |-
->> +  The Chips&Media WAVE codec IP is a multi format video encoder/decoder
->> +
->> +properties:
->> +  compatible:
->> +    anyOf:
-> 
-> Please start from example-schema or other recently approved bindings. No
-> anyOf.
-> 
->> +      - items:
-> 
-> No items...
-> 
->> +        - enum:
->> +            - cnm,cm511-vpu
->> +            - cnm,cm517-vpu
->> +            - cnm,cm521-vpu
->> +            - cnm,cm521c-vpu
->> +            - cnm,cm521c-dual-vpu
-> 
-> What's the difference between this and one above?
-> 
->> +            - cnm,cm521e1-vpu
->> +            - cnm,cm537-vpu
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 
-One more question - why "vpu" suffixes?
+Reviewed-by: Maíra Canal <mcanal@igalia.com>
 
-Best regards,
-Krzysztof
+Just a small nit below.
 
+> ---
+>   Documentation/gpu/vc4.rst | 16 ++++++++++++++++
+>   1 file changed, 16 insertions(+)
+> 
+> diff --git a/Documentation/gpu/vc4.rst b/Documentation/gpu/vc4.rst
+> index 5df1d98b9544..a2375f1584e6 100644
+> --- a/Documentation/gpu/vc4.rst
+> +++ b/Documentation/gpu/vc4.rst
+> @@ -54,6 +54,22 @@ VEC (Composite TV out) encoder
+>   .. kernel-doc:: drivers/gpu/drm/vc4/vc4_vec.c
+>      :doc: VC4 SDTV module
+>   
+> +KUnit Tests
+> +===========
+> +
+> +The VC4 Driver uses KUnit to perform driver-specific unit and
+> +integration tests.
+> +
+> +These tests are using a mock driver and can be ran using the
+> +command::
+> +	./tools/testing/kunit/kunit.py run \
+> +		--kunitconfig=drivers/gpu/drm/vc4/tests/.kunitconfig \
+> +		--cross_compile aarch64-linux-gnu- --arch arm64
+
+I believe you could use a code block here, like:
+
+.. code-block:: bash
+	
+	$ ./tools/testing/kunit/kunit.py run \
+		--kunitconfig=drivers/gpu/drm/vc4/tests/.kunitconfig \
+		--cross_compile aarch64-linux-gnu- --arch arm64
+
+You could also mention that you can run the tests with --arch arm.
+
+Best Regards,
+- Maíra Canal
+
+> +
+> +Parts of the driver that are currently covered by tests are:
+> + * The HVS to PixelValve dynamic FIFO assignment, for the BCM2835-7
+> +   and BCM2711.
+> +
+>   Memory Management and 3D Command Submission
+>   ===========================================
+>   
+> 
