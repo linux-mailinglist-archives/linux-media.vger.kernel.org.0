@@ -2,96 +2,141 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D2850646055
-	for <lists+linux-media@lfdr.de>; Wed,  7 Dec 2022 18:37:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1FB1764606B
+	for <lists+linux-media@lfdr.de>; Wed,  7 Dec 2022 18:39:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229643AbiLGRhK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 7 Dec 2022 12:37:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42674 "EHLO
+        id S230092AbiLGRi6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 7 Dec 2022 12:38:58 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43012 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229479AbiLGRhJ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Dec 2022 12:37:09 -0500
-Received: from mail-qt1-x834.google.com (mail-qt1-x834.google.com [IPv6:2607:f8b0:4864:20::834])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA22D5B862;
-        Wed,  7 Dec 2022 09:37:08 -0800 (PST)
-Received: by mail-qt1-x834.google.com with SMTP id r7so4091422qtx.6;
-        Wed, 07 Dec 2022 09:37:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=cg8cGOHAKOtjytB8xOJeq7xlPUtvQQYO8d/5pO+QvYc=;
-        b=Kf9poqOwVlprDsizq7bxhTnRHM7cVuVArAVXvtaU7Eh5fsPxYpH4uCmYIgr+BjZkFL
-         7QJoiiuEb5+WRmu7pPRKvgVYi1IL48HacQzrkw2cRoZOzfFcL5XhsJMtfNx+KeDF4NvD
-         mD1mbol15Ca/8dKF0ecBGigMdP1pgpi2/U5Z46lN3PiX0d9rCpYTdHCmoErSuTJBVFuh
-         I0TxhwNRFDUbL+pzetYD72s6zZfitaTAufJU+pOV0hDEVrQmNxKf6xlk1cIFji3dweX2
-         P6E+OXShyJyqRwjmArFaSHvub3J74Q8ZLLr/X6UlnR4cpeKQFBwteuQvnIX/MlKhHWl+
-         4xmA==
+        with ESMTP id S230095AbiLGRic (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Dec 2022 12:38:32 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 296AD393
+        for <linux-media@vger.kernel.org>; Wed,  7 Dec 2022 09:37:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1670434653;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=IHCZeVT8+tsyQCQ4HzhOkGSB0d3Ym2pm84+wyQjhgMo=;
+        b=Q4tzzzSi8B4DzBVXFBDQHUVJyjh6RXJlUcSNvp883XswRhCBu4Zdc432rcF8zmfRCcw1jB
+        mR45XJgnAnJVFiCgeRbcryIX8PTHXPwhNUuBT0glvGiNIAxDVCnf93QQdrssAMqPvjrXjG
+        6yhR+6jqUHBXWgANr93gd1LFizlaCQQ=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-380-CTPngb-wOdqhjtFIlsYdng-1; Wed, 07 Dec 2022 12:37:32 -0500
+X-MC-Unique: CTPngb-wOdqhjtFIlsYdng-1
+Received: by mail-ed1-f69.google.com with SMTP id f17-20020a056402355100b00466481256f6so10431500edd.19
+        for <linux-media@vger.kernel.org>; Wed, 07 Dec 2022 09:37:31 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=cg8cGOHAKOtjytB8xOJeq7xlPUtvQQYO8d/5pO+QvYc=;
-        b=fC1P1LF0u1FnSy2EYHBVtqpfzNZJB5SlTZqdTDQNqMMf2DzTWT+LFDIiE38GxACh4i
-         3wkAJISYH5UGf7ig47Nu4gTp4rTy3zUXahvRXtELagOFoHWDHTKLr6TbTa/DOVfuhQxL
-         Xhff8L3W1ldvxj/rLbbVZ0TLnnIAOtiXVR8LBoKW+t3h0UNxTn/PSpyUZvGBlFoKZuay
-         dHXEcAupwR39zEwYVskkNF8rMBzEpTgQinA7zVBubUQDMZ1Ypbq9CjUvZEPPaFhm7CyB
-         jfdx0PWLAenEbcPGInyGniJWKULHvzzwlum/T031W9HLIdB9EX3zkW7u7G4I3pNL2WJq
-         oDpQ==
-X-Gm-Message-State: ANoB5pn9rJxSPxGR8z9um5nzhxy54nOScEwTp6xtTMEkMayzzo+3PW4j
-        NlKanoEFUA7abHkvCF/Ml+zeKFUxsuvIA5Ix87w=
-X-Google-Smtp-Source: AA0mqf6fF+VLph3MXoRZ7qyibMFagfJ7YVDFE3WLnS3CP+ChFLzMO/tcPs5SPDZbSnafeZbA/2FS66FRzGRAodiG/x4=
-X-Received: by 2002:ac8:5501:0:b0:3a5:cb82:109b with SMTP id
- j1-20020ac85501000000b003a5cb82109bmr85265636qtq.61.1670434627749; Wed, 07
- Dec 2022 09:37:07 -0800 (PST)
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=IHCZeVT8+tsyQCQ4HzhOkGSB0d3Ym2pm84+wyQjhgMo=;
+        b=q1oRb/Zr45RKtnSH33ZqbuLwgYVhgUc3hsS0GxftodQVoE3oFxAfgZtLlxfBL3o8+f
+         +GR7azJzVV3ba3ppX+ZESI3yx78AaH/QCUYDMzpCT49I4DwQOqxvtCPt5Q+XEQcEIpET
+         CvCzzQqnNUtFpCcNI4XuXKpVplYdEi029RRYX1XhEwRC0bTISD21OywkUImfccxWczUk
+         7TKRIIR7YGavKNuPgeQZ5owX/vmoDNpOrCZwtK4jwfWokXQIRlOALNKKM/yTsIBw6MLM
+         DimTDXb5uh172QqTZ9UBXHQ6BT+jCS782MmKS9CvyNmAODzcJYrYNbSGvWr6dDXIDygp
+         jlAg==
+X-Gm-Message-State: ANoB5pnzqE2FHrjyd6sIsJH4Q6QZ0T40++ZJ7KYaJMnLr3utnYtkrKSD
+        BgNDWEOQ03EPxakDk5dBCjCYhTV8WDo7H04YUuJuYFMQmqN+Taz2uU9HRufmLEn+Eav604LH4Q9
+        pG1esPvYCyKHWnH05Ln72HjA=
+X-Received: by 2002:a17:906:3087:b0:7bd:bb10:b5f8 with SMTP id 7-20020a170906308700b007bdbb10b5f8mr45759205ejv.659.1670434650969;
+        Wed, 07 Dec 2022 09:37:30 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf6PlsUKNSNbCOlaFF0rdvHPTS80VsiKj/692+pl3GkMvCPpogDwKwhNgBi/LzrwvpWAfBbatg==
+X-Received: by 2002:a17:906:3087:b0:7bd:bb10:b5f8 with SMTP id 7-20020a170906308700b007bdbb10b5f8mr45759193ejv.659.1670434650817;
+        Wed, 07 Dec 2022 09:37:30 -0800 (PST)
+Received: from ?IPV6:2001:1c00:c1e:bf00:d69d:5353:dba5:ee81? (2001-1c00-0c1e-bf00-d69d-5353-dba5-ee81.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:d69d:5353:dba5:ee81])
+        by smtp.gmail.com with ESMTPSA id h6-20020aa7de06000000b0046b531fcf9fsm2486222edv.59.2022.12.07.09.37.29
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 07 Dec 2022 09:37:30 -0800 (PST)
+Message-ID: <0e5b2a63-7fa5-43db-6e4c-d58a047aa452@redhat.com>
+Date:   Wed, 7 Dec 2022 18:37:29 +0100
 MIME-Version: 1.0
-References: <20221129231149.697154-1-hdegoede@redhat.com> <145bc531-9f3f-4f80-26e1-25bd281ea791@redhat.com>
-In-Reply-To: <145bc531-9f3f-4f80-26e1-25bd281ea791@redhat.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Wed, 7 Dec 2022 19:36:31 +0200
-Message-ID: <CAHp75Vcbg8TuWvnDmped=JPGz810ahS0dUrG2eTg3VCrW4MLnw@mail.gmail.com>
-Subject: Re: [PATCH 0/6] ov5693/int3472: Privacy LED handling changes + IPU6 compatibility
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Mark Gross <markgross@kernel.org>,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.0
+Subject: Re: [PATCH 0/5] gpio/media/int3472: Add support for tps68470
+ privacy-LED output
+Content-Language: en-US, nl
+To:     Linus Walleij <linus.walleij@linaro.org>
+Cc:     Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Mark Gross <markgross@kernel.org>,
         Andy Shevchenko <andy@kernel.org>,
         Daniel Scally <djrscally@gmail.com>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        platform-driver-x86@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org, linux-gpio@vger.kernel.org,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Kate Hsuan <hpa@redhat.com>,
-        Mark Pearson <markpearson@lenovo.com>,
-        linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        Kate Hsuan <hpa@redhat.com>, linux-media@vger.kernel.org
+References: <20221128214408.165726-1-hdegoede@redhat.com>
+ <CACRpkda+3e6jLq4WkyiCFcvL_rO1tAf_TvO5B9kikkii+6vSnA@mail.gmail.com>
+ <f79b9397-64af-894a-411c-5595fa136008@redhat.com>
+ <e04eaaa0-1a5d-7f8f-9cd9-4a2117f83aab@redhat.com>
+ <CACRpkdZZ01gTeWaU5GybiafDM3EnyEhyuEMTenusfV2s1NdfXQ@mail.gmail.com>
+From:   Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <CACRpkdZZ01gTeWaU5GybiafDM3EnyEhyuEMTenusfV2s1NdfXQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Dec 7, 2022 at 7:34 PM Hans de Goede <hdegoede@redhat.com> wrote:
-> On 11/30/22 00:11, Hans de Goede wrote:
+Hi,
 
-...
+On 12/7/22 01:25, Linus Walleij wrote:
+> On Mon, Dec 5, 2022 at 4:01 PM Hans de Goede <hdegoede@redhat.com> wrote:
+> 
+>> An alternative approach, would be to add support for LED
+>> lookup tables to the LED class code (like we already have
+>> for GPIOs) and use this to allow tying a LED classdev to
+>> a struct device on non devicetree platforms.
+>>
+>> Given the problems with the swnode approach from above
+>> I believe that this would actually be better then
+>> the swnode approach.
+>>
+>> Lookup tables like this use device-names, so we don't need
+>> to have swnode-s ready for both the provider and the consumer
+>> at the time of adding the lookup table entry. Instead all
+>> that is necessary is to know the device-names of both
+>> the provider and the consumer which are both known in
+>> advance.
+> 
+> I think this looks like a good idea.
+> 
+> We attach other resources such as clocks, regulators,
+> DMA channels, GPIOs exactly this way. So why not LEDs?
+> 
+> As GPIO maintainer I every now and then get a suggestion
+> like this to "just let this pass as a GPIO because it makes
+> my life so much easier", but it is the same curse as the
+> input subsystem has: it is versatile and well engineered so
+> it starts to look like a golden hammer (everything start to
+> look like nails).
+> 
+> But we are two GPIO maintainers and right now Bartosz
+> does the majority of the work, and if he thinks it's the best
+> idea ever I will certainly reconsider.
 
-> Andy this also means that I will not be using your new str_high_low()
-> helper function. The code which could use this will likely stay
-> around, but given that I need to do a rewrite and then get ne
-> reviews, it would IMHO be better to just get your series starting with:
->
-> [PATCH v1 1/3] lib/string_helpers: Add missing header files to MAINTAINERS database
->
-> upstream independently and then later my code can be moved over
-> to the helper (or if the helper lands first maybe use it from
-> day one), either way it seems best to decouple the merging
-> of these 2 series from each other.
+Ok, I will give the LED lookup table approach a go and
+post a new series replacing this one when its ready.
 
-Sure, no problem and thank you for the information!
+Feel free to drop this series from your queue.
 
--- 
-With Best Regards,
-Andy Shevchenko
+(Note given that that is going to be a whole new approach
+I plan to start the new series at v1 again).
+
+Regards,
+
+Hans
+
