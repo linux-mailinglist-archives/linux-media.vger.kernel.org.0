@@ -2,259 +2,313 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3449E645EF7
-	for <lists+linux-media@lfdr.de>; Wed,  7 Dec 2022 17:31:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 89139645FE8
+	for <lists+linux-media@lfdr.de>; Wed,  7 Dec 2022 18:17:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229928AbiLGQbr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 7 Dec 2022 11:31:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55248 "EHLO
+        id S229850AbiLGRR5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 7 Dec 2022 12:17:57 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53568 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229938AbiLGQbm (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Dec 2022 11:31:42 -0500
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A9762DABB;
-        Wed,  7 Dec 2022 08:31:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1670430701; x=1701966701;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=vyOIPD1QcdoDOdc894HhvLtkRYWBJmy52hkMb/uhT/U=;
-  b=ZUw871GJFiTuzni1ZUh+Ew20ur/YTy0GVuGJRrRdHBElaNNlZmcZ+OKI
-   UcVpQultQpLApjlZrK/ywDiqDfnX3jhd9rmNIvwzQflo2JeJ+x5daGYmq
-   7NngQNsXV0dX5J/riPQMRU+6rahBF1qyjx8Hz3eIFqBqcT4KHcS3joIYL
-   f71Vy8KQpjJ9KM1nZYUUmwQavKEA8sYNoTVO/B3dPzaHhFXXMNs7xZOT1
-   O32OT8OYfKN28mfZ8bBrt5bzXu2dm/A53r2FemyBTida1AUX71w9qSEvL
-   qq+OKvor++TxM+6SsW7TcrX3MzE1RGReHE39maOuV5Q7F229GmJB2FIE6
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10554"; a="297291826"
-X-IronPort-AV: E=Sophos;i="5.96,225,1665471600"; 
-   d="scan'208";a="297291826"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Dec 2022 08:31:15 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10554"; a="710122690"
-X-IronPort-AV: E=Sophos;i="5.96,225,1665471600"; 
-   d="scan'208";a="710122690"
-Received: from lkp-server01.sh.intel.com (HELO b5d47979f3ad) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 07 Dec 2022 08:31:12 -0800
-Received: from kbuild by b5d47979f3ad with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1p2xKB-0000P9-1J;
-        Wed, 07 Dec 2022 16:31:11 +0000
-Date:   Thu, 08 Dec 2022 00:30:54 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Andrew Morton <akpm@linux-foundation.org>
-Cc:     nouveau@lists.freedesktop.org, netdev@vger.kernel.org,
-        loongarch@lists.linux.dev, linuxppc-dev@lists.ozlabs.org,
-        linux-omap@vger.kernel.org, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
-        Linux Memory Management List <linux-mm@kvack.org>
-Subject: [linux-next:master] BUILD REGRESSION
- 591cd61541b9b95401e17dca24be486e32104cb8
-Message-ID: <6390bfbe.rxwT5v2Rml4m2xt/%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        with ESMTP id S229984AbiLGRRi (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Dec 2022 12:17:38 -0500
+Received: from mail-qv1-xf30.google.com (mail-qv1-xf30.google.com [IPv6:2607:f8b0:4864:20::f30])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4EE369301
+        for <linux-media@vger.kernel.org>; Wed,  7 Dec 2022 09:16:48 -0800 (PST)
+Received: by mail-qv1-xf30.google.com with SMTP id u10so13110630qvp.4
+        for <linux-media@vger.kernel.org>; Wed, 07 Dec 2022 09:16:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=d4iOl7eZqF+ReKmlZZVWGMKifDrqJIOG9ZoU4LUD1YE=;
+        b=7rOlaE+33OMqCi5q/dGXSf/QD0/wWPGt3+CoKBVlVTWbxe8fo0WdYioW40EPjUVK55
+         ngRHEbnUktbfTqPnUZcwDiyKkO30eiBnhrv1rVL7INcyEAsn3wUdoNzoeOPG7iX6M2Nb
+         EpEWXaxf1IEOCsKCGHgCJTZSduN4pJyYxcrae/wqahZUp913K49lMCpWg7wOQgvXpMLi
+         MLu6wNSPxPMg+0tBqD6oveY67U1czYSfVonPSQsNgDs8wWjok1bLbe+MZNN12r6BUcF/
+         qLItyPmCuVjvwvpowGOe/krJg91yTEaDFfHHOpSkDvb9GwUvEboeFmEefWib0DUrSu1d
+         xJJQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=d4iOl7eZqF+ReKmlZZVWGMKifDrqJIOG9ZoU4LUD1YE=;
+        b=IW8mOIKSaAYbtOepHYwBS9Mi28FqIzzFFC4wbyhfjUsD7PDXPiAMCu7YTt8IVxsQZd
+         SeJVpFLubzpWp2SnualEpN+WZX/fzEk7ms2GEVXUCvjwrbj9cdgIdb5JoKcRI0680tuf
+         ZzQwiuJuTMuead95/zelfycXa+SOcar6RY8fw62qToP1DCvY4vTpFdcwEW+fucI5Itkq
+         inGvw2GYYDrsRykv2L6heh/JAH8YKbVXHyoDDECB2MiXYGZOqpL44nLhOsVH5HW1kgs1
+         y45sG4i0oWrT7/yqZgo7GpmCVRUlKOKGA7Oth2xy3tRDpVM/5cqYFokUUi6oB3N4JJGe
+         lZWA==
+X-Gm-Message-State: ANoB5pl+1Ikx+Xd5SFU0LaX7eb5jXyLOrk33c4sIj409VkbKelRotUka
+        SYBzcr7BqVZj7hJwLppXwGsdOA==
+X-Google-Smtp-Source: AA0mqf69fDbQu7o7uUga1xb5uDeW8SOYSCQyyNmk2RPIU1CO+50x9xVsU9hJ9S0VMm9dPI6uIrlEWw==
+X-Received: by 2002:a0c:90c3:0:b0:4c7:e13:6459 with SMTP id p61-20020a0c90c3000000b004c70e136459mr32762993qvp.11.1670433407910;
+        Wed, 07 Dec 2022 09:16:47 -0800 (PST)
+Received: from nicolas-tpx395.localdomain (192-222-136-102.qc.cable.ebox.net. [192.222.136.102])
+        by smtp.gmail.com with ESMTPSA id bt12-20020ac8690c000000b003a51e6b6c95sm13777213qtb.14.2022.12.07.09.16.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 07 Dec 2022 09:16:47 -0800 (PST)
+Message-ID: <a85a5c817cd2a29d6ba592fae75bf9e065d93124.camel@ndufresne.ca>
+Subject: Re: [PATCH V2] [media] v4l2: Add AV1 pixel format
+From:   Nicolas Dufresne <nicolas@ndufresne.ca>
+To:     Hsia-Jun Li <Randy.Li@synaptics.com>
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        mchehab@kernel.org, hans.verkuil@cisco.com,
+        hverkuil-cisco@xs4all.nl, ezequiel@vanguardiasur.com.ar,
+        sakari.ailus@linux.intel.com, ribalda@chromium.org,
+        stanimir.varbanov@linaro.org, hui.zhang@amlogic.com,
+        lele.xiang@amlogic.com, Shi Hao <hao.shi@amlogic.com>,
+        laurent.pinchart@ideasonboard.com, nanxin.qin@amlogic.com
+Date:   Wed, 07 Dec 2022 12:16:45 -0500
+In-Reply-To: <07385baa-9e82-9fc8-5cc1-cc1089e87fdb@synaptics.com>
+References: <20220830014032.1245359-1-hao.shi@amlogic.com>
+         <b5f4e1cc04ba35d92839932d431726fd42f24320.camel@ndufresne.ca>
+         <3c634dc4-1b37-1062-203d-f3466d106ad9@synaptics.com>
+         <76febfd703c3eaf312f001a9e952d9cd89449fa7.camel@ndufresne.ca>
+         <07385baa-9e82-9fc8-5cc1-cc1089e87fdb@synaptics.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.4 (3.44.4-2.fc36) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-branch HEAD: 591cd61541b9b95401e17dca24be486e32104cb8  Add linux-next specific files for 20221207
+Le mercredi 07 d=C3=A9cembre 2022 =C3=A0 15:18 +0800, Hsia-Jun Li a =C3=A9c=
+rit=C2=A0:
+>=20
+> On 12/7/22 02:03, Nicolas Dufresne wrote:
+> > CAUTION: Email originated externally, do not click links or open attach=
+ments unless you recognize the sender and know the content is safe.
+> >=20
+> >=20
+> > Le mardi 29 novembre 2022 =C3=A0 18:32 +0800, Hsia-Jun Li a =C3=A9crit =
+:
+> > > Hello
+> > >=20
+> > > I think we need to add an extra event for VP9 and AV1 which support
+> > > frame scaling, which means its frame width and height could be differ=
+ent
+> > > to the previous frame or reference frame.
+> > >=20
+> > > That would be more possible for the VP9 as there is not a sequence
+> > > header for VP9.
+> >=20
+> > The solution is unlikely in the form of an event, but yes, to complete =
+VP9
+> > support (and improve AV1 support) a mechanism need to be designed and s=
+pecified
+> > to handle inter-frame resolution changes.
+> >=20
+> > Why I say improve AV1, this is because VP9 bitstream does not signal SV=
+C spatial
+> > streams (the most common use of inter-frame resolution changes). With S=
+VC
+> > streams, the smaller images are alway decode-only (never displayed). Th=
+is can be
+> > at least partially supported as long as the maximum image dimension is =
+signalled
+> > by the bitstream. This is the case for AV1, but not VP9.
+> >=20
+> > Stateless decoders are not affected, because userspace is aware of fram=
+es being
+> > decoded, but not displayed. It is also aware that these frames are refe=
+rence
+> > frames. While on stateless decoder, userspace usually does not have thi=
+s
+> > knowledge. I think one way to solve this, would be for drivers to be ab=
+le to
+> > mark a buffer done, with a flag telling userspace that its not to be di=
+splayed.
+> > For the SVC case, the dimensions and stride are irrelevant.
+> >=20
+> > For true inter-resolution changes, like VP9 supports (though rarely use=
+d), this
+> > needs more APIs. It was suggested to extend CREATE_BUFS, which allow al=
+location
+> > with different FMT, with a DELETE_BUFS ioctl, so that userspace can smo=
+othly
+> > handle the allocation transition.=20
+> This could only solve the problem of never display graphics buffers=20
+> likes golden frame or alternative reference frame.
+>=20
+> About the topic timestamp tracking problem in v4l2, maybe we could start=
+=20
+> a new thread or move them to Gstreamer.
+> https://gitlab.freedesktop.org/gstreamer/gstreamer/-/issues/1619
+>=20
+> My idea here is event attached to buffer or just using the new request=
+=20
+> supported in CAPTURE side. I know you worry about the v4l2 event, it is=
+=20
+> out of band, more event could lead to the problem we suffer from=20
+> OpenMAX. If we could have an order between event and buffer, it won't be=
+=20
+> a problem.
+> For VP9 also, it might be required to support
+> > super-frame, VP9 supper frames are the ancestor of AV1 TU, and only the=
+ last
+> > frame of a super-frame is every to be displayed. A newly introduced AV1=
+ format
+> > might also requires complete TU, rather then frames, this needs strict
+> > documentation.
+> I don't think the temporal unit is a good idea here.
+> Most of hardware could only decode a frame once or less likes a=20
+> tile(likes slice in ITU codecs).
+>=20
+> Considering the MPEG-TS case,
+> https://aomediacodec.github.io/av1-mpeg2-ts/
+> Decodable Frame Group could be more a better idea.
+> Temporal Unit would lead to larger delay.
 
-Error/Warning reports:
+This is off topic for the tread, but this one could be fixed by setting a f=
+lag
+on the capture buffer, something like:
 
-https://lore.kernel.org/oe-kbuild-all/202211090634.RyFKK0WS-lkp@intel.com
-https://lore.kernel.org/oe-kbuild-all/202211242120.MzZVGULn-lkp@intel.com
-https://lore.kernel.org/oe-kbuild-all/202211282102.QUr7HHrW-lkp@intel.com
-https://lore.kernel.org/oe-kbuild-all/202211301634.cejLlTJP-lkp@intel.com
-https://lore.kernel.org/oe-kbuild-all/202211301840.y7rROb13-lkp@intel.com
-https://lore.kernel.org/oe-kbuild-all/202212070208.3FsKY80H-lkp@intel.com
+  V4L2_BUF_FLAG_DECODE_ONLY
 
-Error/Warning: (recently discovered and may have been fixed)
+That's similar to how it works with other CODEC API. The down side is that =
+the
+driver needs to remember if this is a reference frame when userspace queue =
+back
+that decode-only frame, so its not overwritten. Userspace is not aware of t=
+he
+reference state, hence can't be made responsible. I suspect a lot of the dr=
+ivers
+out there uses secondary buffer, meaning the reference are not the CAPTURE
+buffer. This use case needs to be thought thought too. Perhaps other driver=
+ uses
+internally allocated memory whenever its about to produce a decode only, bu=
+t
+that seems to require some firmware feature that is likely uncommon. Please=
+,
+make your research, compare various drivers, and propose an API in the form=
+ of
+an RFC so we can discuss that independently from this AV1 pixel format thre=
+ad.
 
-arch/loongarch/kernel/asm-offsets.c:265:6: warning: no previous prototype for 'output_pbe_defines' [-Wmissing-prototypes]
-arch/loongarch/power/hibernate.c:14:6: warning: no previous prototype for 'save_processor_state' [-Wmissing-prototypes]
-arch/loongarch/power/hibernate.c:26:6: warning: no previous prototype for 'restore_processor_state' [-Wmissing-prototypes]
-arch/loongarch/power/hibernate.c:38:5: warning: no previous prototype for 'pfn_is_nosave' [-Wmissing-prototypes]
-arch/loongarch/power/hibernate.c:48:5: warning: no previous prototype for 'swsusp_arch_suspend' [-Wmissing-prototypes]
-arch/loongarch/power/hibernate.c:56:5: warning: no previous prototype for 'swsusp_arch_resume' [-Wmissing-prototypes]
-arch/powerpc/kernel/kvm_emul.o: warning: objtool: kvm_template_end(): can't find starting instruction
-arch/powerpc/kernel/optprobes_head.o: warning: objtool: optprobe_template_end(): can't find starting instruction
-arch/powerpc/lib/qspinlock.c:304:2: error: call to undeclared function 'spin_end'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-arch/powerpc/lib/qspinlock.c:324:3: error: call to undeclared function 'spin_begin'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-arch/powerpc/lib/qspinlock.c:331:2: error: call to undeclared function 'spin_cpu_relax'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-drivers/gpu/drm/amd/amdgpu/../display/dc/irq/dcn201/irq_service_dcn201.c:40:20: warning: no previous prototype for 'to_dal_irq_source_dcn201' [-Wmissing-prototypes]
-drivers/gpu/drm/nouveau/nvkm/engine/fifo/gf100.c:451:1: warning: no previous prototype for 'gf100_fifo_nonstall_block' [-Wmissing-prototypes]
-drivers/gpu/drm/nouveau/nvkm/engine/fifo/gf100.c:451:1: warning: no previous prototype for function 'gf100_fifo_nonstall_block' [-Wmissing-prototypes]
-drivers/gpu/drm/nouveau/nvkm/engine/fifo/runl.c:34:1: warning: no previous prototype for 'nvkm_engn_cgrp_get' [-Wmissing-prototypes]
-drivers/gpu/drm/nouveau/nvkm/engine/fifo/runl.c:34:1: warning: no previous prototype for function 'nvkm_engn_cgrp_get' [-Wmissing-prototypes]
-drivers/gpu/drm/nouveau/nvkm/engine/gr/tu102.c:210:1: warning: no previous prototype for 'tu102_gr_load' [-Wmissing-prototypes]
-drivers/gpu/drm/nouveau/nvkm/engine/gr/tu102.c:210:1: warning: no previous prototype for function 'tu102_gr_load' [-Wmissing-prototypes]
-drivers/gpu/drm/nouveau/nvkm/nvfw/acr.c:49:1: warning: no previous prototype for 'wpr_generic_header_dump' [-Wmissing-prototypes]
-drivers/gpu/drm/nouveau/nvkm/nvfw/acr.c:49:1: warning: no previous prototype for function 'wpr_generic_header_dump' [-Wmissing-prototypes]
-drivers/gpu/drm/nouveau/nvkm/subdev/acr/lsfw.c:221:21: warning: variable 'loc' set but not used [-Wunused-but-set-variable]
-drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c:1474:38: warning: unused variable 'mt8173_jpeg_drvdata' [-Wunused-const-variable]
-drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c:1489:38: warning: unused variable 'mtk_jpeg_drvdata' [-Wunused-const-variable]
-drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c:1859:38: warning: unused variable 'mtk8195_jpegdec_drvdata' [-Wunused-const-variable]
-drivers/regulator/tps65219-regulator.c:310:60: warning: parameter 'dev' set but not used [-Wunused-but-set-parameter]
-drivers/regulator/tps65219-regulator.c:370:26: warning: ordered comparison of pointer with integer zero [-Wextra]
-include/linux/signal.h:113:11: error: array index 3 is past the end of the array (that has type 'const unsigned long[2]') [-Werror,-Warray-bounds]
-include/linux/signal.h:97:11: error: array index 3 is past the end of the array (that has type 'unsigned long[2]') [-Werror,-Warray-bounds]
-vmlinux.o: warning: objtool: __btrfs_map_block+0x1d77: unreachable instruction
+>=20
+>   Decoding frames would mean that un-display and frame of different
+> > sizes get delivered, and we don't have a method to communicate these fr=
+ame
+> > dimension and strides at the moment.
+> >=20
+> > Nicolas
+> >=20
+> >=20
+> >=20
+> > >=20
+> > > On 9/12/22 23:45, Nicolas Dufresne wrote:
+> > > > Hi Shi,
+> > > >=20
+> > > > thanks for the patches, check inline for some comments. Generally s=
+peaking, we
+> > > > don't usually add formats ahead of time unless we have a good ratio=
+nale to do
+> > > > so. Should be expect a companion series against the amlogic decoder=
+ driver that
+> > > > enables this ?
+> > > >=20
+> > > > Le mardi 30 ao=C3=BBt 2022 =C3=A0 09:40 +0800, Shi Hao a =C3=A9crit=
+ :
+> > > > > From: "hao.shi" <hao.shi@amlogic.com>
+> > > > >=20
+> > > > > Add AV1 compressed pixel format. It is the more common format.
+> > > > >=20
+> > > > > Signed-off-by: Hao Shi <hao.shi@amlogic.com>
+> > > > > ---
+> > > > >    .../userspace-api/media/v4l/pixfmt-compressed.rst        | 9 +=
+++++++++
+> > > > >    drivers/media/v4l2-core/v4l2-ioctl.c                     | 1 +
+> > > > >    include/uapi/linux/videodev2.h                           | 1 +
+> > > > >    3 files changed, 11 insertions(+)
+> > > > >=20
+> > > > > diff --git a/Documentation/userspace-api/media/v4l/pixfmt-compres=
+sed.rst b/Documentation/userspace-api/media/v4l/pixfmt-compressed.rst
+> > > > > index 506dd3c98884..5bdeeebdf9f5 100644
+> > > > > --- a/Documentation/userspace-api/media/v4l/pixfmt-compressed.rst
+> > > > > +++ b/Documentation/userspace-api/media/v4l/pixfmt-compressed.rst
+> > > > > @@ -232,6 +232,15 @@ Compressed Formats
+> > > > >            Metadata associated with the frame to decode is requir=
+ed to be passed
+> > > > >            through the ``V4L2_CID_STATELESS_FWHT_PARAMS`` control=
+.
+> > > > >            See the :ref:`associated Codec Control ID <codec-state=
+less-fwht>`.
+> > > > > +    * .. _V4L2-PIX-FMT-AV1:
+> > > > > +
+> > > > > +      - ``V4L2_PIX_FMT_AV1``
+> > > > > +      - 'AV1'
+> > > > > +      - AV1 Access Unit. The decoder expects one Access Unit per=
+ buffer.
+> > > >=20
+> > > > I believe this is using a MPEG LA terminology. Did you mean a Tempo=
+ral Unit (TU)
+> > > > ? In AV1 a TU represent 1 displayable picture, just like AU in H.26=
+4 (if you
+> > > > ignore interlaced video).
+> > > I think it should be a complete tile group obu. From the spec, we hav=
+e
+> > > the term 'frame'.
+> > >=20
+> > > Currently, AV1 doesn't support interlace.
+> > > >=20
+> > > > > +        The encoder generates one Access Unit per buffer. This f=
+ormat is
+> > > > > +        adapted for stateful video decoders. AV1 (AOMedia Video =
+1) is an
+> > > > > +        open video coding format. It was developed as a successo=
+r to VP9
+> > > > > +        by the Alliance for Open Media (AOMedia).
+> > > > >=20
+> > > > >    .. raw:: latex
+> > > > >=20
+> > > > > diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media=
+/v4l2-core/v4l2-ioctl.c
+> > > > > index c314025d977e..fc0f43228546 100644
+> > > > > --- a/drivers/media/v4l2-core/v4l2-ioctl.c
+> > > > > +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+> > > > > @@ -1497,6 +1497,7 @@ static void v4l_fill_fmtdesc(struct v4l2_fm=
+tdesc *fmt)
+> > > > >                    case V4L2_PIX_FMT_MT21C:        descr =3D "Med=
+iatek Compressed Format"; break;
+> > > > >                    case V4L2_PIX_FMT_QC08C:        descr =3D "QCO=
+M Compressed 8-bit Format"; break;
+> > > > >                    case V4L2_PIX_FMT_QC10C:        descr =3D "QCO=
+M Compressed 10-bit Format"; break;
+> > > > > +         case V4L2_PIX_FMT_AV1:          descr =3D "AV1"; break;
+> > > > >                    default:
+> > > > >                            if (fmt->description[0])
+> > > > >                                    return;
+> > > > > diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/=
+videodev2.h
+> > > > > index 01e630f2ec78..c5ea9f38d807 100644
+> > > > > --- a/include/uapi/linux/videodev2.h
+> > > > > +++ b/include/uapi/linux/videodev2.h
+> > > > > @@ -738,6 +738,7 @@ struct v4l2_pix_format {
+> > > > >    #define V4L2_PIX_FMT_FWHT_STATELESS     v4l2_fourcc('S', 'F', =
+'W', 'H') /* Stateless FWHT (vicodec) */
+> > > > >    #define V4L2_PIX_FMT_H264_SLICE v4l2_fourcc('S', '2', '6', '4'=
+) /* H264 parsed slices */
+> > > > >    #define V4L2_PIX_FMT_HEVC_SLICE v4l2_fourcc('S', '2', '6', '5'=
+) /* HEVC parsed slices */
+> > > > > +#define V4L2_PIX_FMT_AV1      v4l2_fourcc('A', 'V', '1', '0') /*=
+ AV1 */
+> > > > >=20
+> > > > >    /*  Vendor-specific formats   */
+> > > > >    #define V4L2_PIX_FMT_CPIA1    v4l2_fourcc('C', 'P', 'I', 'A') =
+/* cpia1 YUV */
+> > > > >=20
+> > > > > base-commit: 568035b01cfb107af8d2e4bd2fb9aea22cf5b868
+> > > >=20
+> > > >=20
+> > >=20
+> >=20
+>=20
 
-Unverified Error/Warning (likely false positive, please contact us if interested):
-
-drivers/net/ipa/ipa_table.c:425 ipa_table_init_add() error: we previously assumed 'hash_mem' could be null (see line 416)
-
-Error/Warning ids grouped by kconfigs:
-
-gcc_recent_errors
-|-- alpha-allyesconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-irq-dcn201-irq_service_dcn201.c:warning:no-previous-prototype-for-to_dal_irq_source_dcn201
-|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-gf100.c:warning:no-previous-prototype-for-gf100_fifo_nonstall_block
-|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-runl.c:warning:no-previous-prototype-for-nvkm_engn_cgrp_get
-|   |-- drivers-gpu-drm-nouveau-nvkm-engine-gr-tu102.c:warning:no-previous-prototype-for-tu102_gr_load
-|   |-- drivers-gpu-drm-nouveau-nvkm-nvfw-acr.c:warning:no-previous-prototype-for-wpr_generic_header_dump
-|   |-- drivers-gpu-drm-nouveau-nvkm-subdev-acr-lsfw.c:warning:variable-loc-set-but-not-used
-|   |-- drivers-regulator-tps65219-regulator.c:warning:ordered-comparison-of-pointer-with-integer-zero
-|   `-- drivers-regulator-tps65219-regulator.c:warning:parameter-dev-set-but-not-used
-|-- alpha-randconfig-r022-20221206
-|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-gf100.c:warning:no-previous-prototype-for-gf100_fifo_nonstall_block
-|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-runl.c:warning:no-previous-prototype-for-nvkm_engn_cgrp_get
-|   |-- drivers-gpu-drm-nouveau-nvkm-engine-gr-tu102.c:warning:no-previous-prototype-for-tu102_gr_load
-|   |-- drivers-gpu-drm-nouveau-nvkm-nvfw-acr.c:warning:no-previous-prototype-for-wpr_generic_header_dump
-|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-acr-lsfw.c:warning:variable-loc-set-but-not-used
-|-- arc-allyesconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-irq-dcn201-irq_service_dcn201.c:warning:no-previous-prototype-for-to_dal_irq_source_dcn201
-|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-gf100.c:warning:no-previous-prototype-for-gf100_fifo_nonstall_block
-|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-runl.c:warning:no-previous-prototype-for-nvkm_engn_cgrp_get
-|   |-- drivers-gpu-drm-nouveau-nvkm-engine-gr-tu102.c:warning:no-previous-prototype-for-tu102_gr_load
-|   |-- drivers-gpu-drm-nouveau-nvkm-nvfw-acr.c:warning:no-previous-prototype-for-wpr_generic_header_dump
-|   |-- drivers-gpu-drm-nouveau-nvkm-subdev-acr-lsfw.c:warning:variable-loc-set-but-not-used
-|   |-- drivers-regulator-tps65219-regulator.c:warning:ordered-comparison-of-pointer-with-integer-zero
-|   `-- drivers-regulator-tps65219-regulator.c:warning:parameter-dev-set-but-not-used
-|-- arm-allyesconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-irq-dcn201-irq_service_dcn201.c:warning:no-previous-prototype-for-to_dal_irq_source_dcn201
-|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-gf100.c:warning:no-previous-prototype-for-gf100_fifo_nonstall_block
-|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-runl.c:warning:no-previous-prototype-for-nvkm_engn_cgrp_get
-|   |-- drivers-gpu-drm-nouveau-nvkm-engine-gr-tu102.c:warning:no-previous-prototype-for-tu102_gr_load
-|   |-- drivers-gpu-drm-nouveau-nvkm-nvfw-acr.c:warning:no-previous-prototype-for-wpr_generic_header_dump
-|   |-- drivers-gpu-drm-nouveau-nvkm-subdev-acr-lsfw.c:warning:variable-loc-set-but-not-used
-|   |-- drivers-regulator-tps65219-regulator.c:warning:ordered-comparison-of-pointer-with-integer-zero
-|   `-- drivers-regulator-tps65219-regulator.c:warning:parameter-dev-set-but-not-used
-|-- arm-defconfig
-|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-gf100.c:warning:no-previous-prototype-for-gf100_fifo_nonstall_block
-|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-runl.c:warning:no-previous-prototype-for-nvkm_engn_cgrp_get
-|   |-- drivers-gpu-drm-nouveau-nvkm-engine-gr-tu102.c:warning:no-previous-prototype-for-tu102_gr_load
-|   |-- drivers-gpu-drm-nouveau-nvkm-nvfw-acr.c:warning:no-previous-prototype-for-wpr_generic_header_dump
-|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-acr-lsfw.c:warning:variable-loc-set-but-not-used
-|-- arm-randconfig-r016-20221206
-|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-gf100.c:warning:no-previous-prototype-for-gf100_fifo_nonstall_block
-|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-runl.c:warning:no-previous-prototype-for-nvkm_engn_cgrp_get
-|   |-- drivers-gpu-drm-nouveau-nvkm-engine-gr-tu102.c:warning:no-previous-prototype-for-tu102_gr_load
-|   |-- drivers-gpu-drm-nouveau-nvkm-nvfw-acr.c:warning:no-previous-prototype-for-wpr_generic_header_dump
-|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-acr-lsfw.c:warning:variable-loc-set-but-not-used
-|-- arm64-allyesconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-irq-dcn201-irq_service_dcn201.c:warning:no-previous-prototype-for-to_dal_irq_source_dcn201
-|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-gf100.c:warning:no-previous-prototype-for-gf100_fifo_nonstall_block
-|   |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-runl.c:warning:no-previous-prototype-for-nvkm_engn_cgrp_get
-|   |-- drivers-gpu-drm-nouveau-nvkm-engine-gr-tu102.c:warning:no-previous-prototype-for-tu102_gr_load
-clang_recent_errors
-|-- powerpc-randconfig-r003-20221207
-|   |-- arch-powerpc-kernel-kvm_emul.o:warning:objtool:kvm_template_end():can-t-find-starting-instruction
-|   |-- arch-powerpc-kernel-prom_init.o:warning:objtool:prom_init:unannotated-intra-function-call
-|   |-- arch-powerpc-lib-qspinlock.c:error:call-to-undeclared-function-spin_begin-ISO-C99-and-later-do-not-support-implicit-function-declarations
-|   |-- arch-powerpc-lib-qspinlock.c:error:call-to-undeclared-function-spin_cpu_relax-ISO-C99-and-later-do-not-support-implicit-function-declarations
-|   |-- arch-powerpc-lib-qspinlock.c:error:call-to-undeclared-function-spin_end-ISO-C99-and-later-do-not-support-implicit-function-declarations
-|   |-- include-linux-signal.h:error:array-index-is-past-the-end-of-the-array-(that-has-type-const-unsigned-long-)-Werror-Warray-bounds
-|   `-- include-linux-signal.h:error:array-index-is-past-the-end-of-the-array-(that-has-type-unsigned-long-)-Werror-Warray-bounds
-|-- s390-randconfig-r014-20221206
-|   |-- drivers-media-platform-mediatek-jpeg-mtk_jpeg_core.c:warning:unused-variable-mt8173_jpeg_drvdata
-|   |-- drivers-media-platform-mediatek-jpeg-mtk_jpeg_core.c:warning:unused-variable-mtk8195_jpegdec_drvdata
-|   `-- drivers-media-platform-mediatek-jpeg-mtk_jpeg_core.c:warning:unused-variable-mtk_jpeg_drvdata
-`-- s390-randconfig-r044-20221206
-    |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-gf100.c:warning:no-previous-prototype-for-function-gf100_fifo_nonstall_block
-    |-- drivers-gpu-drm-nouveau-nvkm-engine-fifo-runl.c:warning:no-previous-prototype-for-function-nvkm_engn_cgrp_get
-    |-- drivers-gpu-drm-nouveau-nvkm-engine-gr-tu102.c:warning:no-previous-prototype-for-function-tu102_gr_load
-    `-- drivers-gpu-drm-nouveau-nvkm-nvfw-acr.c:warning:no-previous-prototype-for-function-wpr_generic_header_dump
-
-elapsed time: 739m
-
-configs tested: 60
-configs skipped: 2
-
-gcc tested configs:
-um                             i386_defconfig
-um                           x86_64_defconfig
-x86_64                              defconfig
-x86_64                          rhel-8.3-rust
-powerpc                           allnoconfig
-x86_64                    rhel-8.3-kselftests
-x86_64                          rhel-8.3-func
-x86_64                               rhel-8.3
-i386                          randconfig-a001
-arc                                 defconfig
-x86_64                           rhel-8.3-syz
-i386                          randconfig-a003
-arm                  randconfig-r046-20221206
-s390                             allmodconfig
-alpha                               defconfig
-arc                  randconfig-r043-20221206
-i386                                defconfig
-i386                          randconfig-a005
-arm                                 defconfig
-x86_64                         rhel-8.3-kunit
-s390                                defconfig
-x86_64                           rhel-8.3-kvm
-ia64                             allmodconfig
-alpha                            allyesconfig
-x86_64                           allyesconfig
-m68k                             allyesconfig
-sh                               allmodconfig
-i386                          randconfig-a014
-x86_64                        randconfig-a013
-m68k                             allmodconfig
-x86_64                        randconfig-a011
-s390                             allyesconfig
-powerpc                          allmodconfig
-arc                              allyesconfig
-i386                          randconfig-a012
-i386                          randconfig-a016
-mips                             allyesconfig
-arm64                            allyesconfig
-arm                              allyesconfig
-x86_64                        randconfig-a015
-x86_64                        randconfig-a004
-x86_64                        randconfig-a002
-i386                             allyesconfig
-x86_64                        randconfig-a006
-
-clang tested configs:
-hexagon              randconfig-r041-20221206
-i386                          randconfig-a002
-hexagon              randconfig-r045-20221206
-i386                          randconfig-a013
-s390                 randconfig-r044-20221206
-i386                          randconfig-a006
-i386                          randconfig-a004
-i386                          randconfig-a015
-riscv                randconfig-r042-20221206
-i386                          randconfig-a011
-x86_64                        randconfig-a012
-x86_64                        randconfig-a014
-x86_64                        randconfig-a016
-x86_64                        randconfig-a001
-x86_64                        randconfig-a003
-x86_64                        randconfig-a005
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
