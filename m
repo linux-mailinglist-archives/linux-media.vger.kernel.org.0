@@ -2,155 +2,143 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AD38C645D9A
-	for <lists+linux-media@lfdr.de>; Wed,  7 Dec 2022 16:28:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 684D7645E79
+	for <lists+linux-media@lfdr.de>; Wed,  7 Dec 2022 17:12:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229717AbiLGP2C (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 7 Dec 2022 10:28:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37250 "EHLO
+        id S229982AbiLGQMC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 7 Dec 2022 11:12:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39882 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229536AbiLGP2A (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Dec 2022 10:28:00 -0500
-Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com [IPv6:2a00:1450:4864:20::12f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7952843849
-        for <linux-media@vger.kernel.org>; Wed,  7 Dec 2022 07:27:59 -0800 (PST)
-Received: by mail-lf1-x12f.google.com with SMTP id y25so7030704lfa.9
-        for <linux-media@vger.kernel.org>; Wed, 07 Dec 2022 07:27:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=TokEjNlXlL75+xEzHHcfrOtvGUeNpxpixbHN6tlln1o=;
-        b=xZoAANYFUthrKrQWZ6Ci6dV24edG9wqHPi6R2TIHnGK70ZBmeBBMtRY+dHTIjC9yLD
-         X22I1hEtbP+dxqo+eq50o/QAuervEYat50fozHnFCVRyS1oqT/Rns4LPv88Z0KUfbj7N
-         dObCogEsL+cq8W1saACmHaxrUAOe+xr8PNLQdNKglVzJEnEbn78Rcr83cWzTK2YMmN85
-         Re3N58OP0QvOZLrtx6jWJByX6X4/gFzNmGlJQfrCAdwBK5Q7jkU3fphWGsIufqCx6VgZ
-         wjFWQZ/cQa8ds9qGRlSqBqxDJctnDgC6seOgWtciLCSeu1z0tjtn7zMx/dSN9V3eYrRn
-         Kxdw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=TokEjNlXlL75+xEzHHcfrOtvGUeNpxpixbHN6tlln1o=;
-        b=0i7o3UK2Lkel/cNSLX0IMSwQV+eqpm2CH1EoXYeR7MoTOLq5iSQwSBISZqAcminm21
-         1l2NsHt60mpWTszCp/yqviq++7gdo8jlthfsBQAuYrwue8jIdKgcSV2Foy2jYh4Syg+L
-         dIysVQkd2cXVOa3fb6awnZvd8K84b83QoctV279S2ORuLaUL4DZXPQROpEVj3OdZfg60
-         +OmIyy2P8oGDKQSUhpoNoUd+Tb9mR7x1Onj75iEcvzwiR83k220ttX7PnrieLN897iTR
-         8NFEtfqPVCCmHExMUsF0Lyv5taWvif3OOybZGm9OeiqYrn0YDrZEE8XI6HXlR9xCWOyV
-         T3uQ==
-X-Gm-Message-State: ANoB5pkddbyQs1uUQL9FCdxDgeim21wezNTMdy6rVtpz8LzUYkh9aMvz
-        SO6tMbN/2unPSDaNqasyQd79+EvMmycFHx6FEmw=
-X-Google-Smtp-Source: AA0mqf5lFASv5Gt8Q+CtjFWyDlLlmnb/Ja3W9mhr64B6BAoDNOVmOlEhVOJQQAAb5p3q+sYnyzLLkw==
-X-Received: by 2002:ac2:4149:0:b0:4a2:217:18bf with SMTP id c9-20020ac24149000000b004a2021718bfmr24820910lfi.146.1670426877825;
-        Wed, 07 Dec 2022 07:27:57 -0800 (PST)
-Received: from [192.168.0.20] (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
-        by smtp.gmail.com with ESMTPSA id b4-20020a056512024400b004a8b9c68735sm215425lfo.102.2022.12.07.07.27.56
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 07 Dec 2022 07:27:57 -0800 (PST)
-Message-ID: <30166f9d-ebfa-ed8b-c08b-ff8e2599161f@linaro.org>
-Date:   Wed, 7 Dec 2022 16:27:56 +0100
+        with ESMTP id S229713AbiLGQL7 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Dec 2022 11:11:59 -0500
+Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com [66.111.4.229])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E3422AC75;
+        Wed,  7 Dec 2022 08:11:58 -0800 (PST)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+        by mailnew.nyi.internal (Postfix) with ESMTP id 5120D5803C1;
+        Wed,  7 Dec 2022 11:11:57 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute5.internal (MEProxy); Wed, 07 Dec 2022 11:11:57 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+        :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+        :message-id:mime-version:references:reply-to:sender:subject
+        :subject:to:to; s=fm2; t=1670429517; x=1670436717; bh=TEYFS/6gZa
+        DWc2dblU5iUytEgOwH+PjKNL3XF1HvRjU=; b=cs53TPq2aKVUc/54sdr6wrQJ6/
+        sTylapB4ECbP99K5rPXD/P+HwtDQTRwedGcP4op1DnSC6/EXWA5w7/AaERO0CqOP
+        bVmzP/ZS6ToEMJ/anbsvNy/WDndoQsVLaZ12ed5n3bY+Vp1GKGiQY4Mp8fxrRw0U
+        8PiGUU1u2kRyPk5zUZNpf4kwK+X9/zDe1bbCDaD/FvtSrsyg6DydyseOLSkFiOzk
+        HWL4TBkjzM9+MA6fN00FAJOLjesJLM9ik2WIu7ogM0vyV0hZEL68A+tyn/O0PUb9
+        W9eUFeqZs6vA0d2RP37Rj/Rxe0R3Q9lGPFmpvl+u3sBA7cy+jaP70pnuhPxg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+        :mime-version:references:reply-to:sender:subject:subject:to:to
+        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+        fm1; t=1670429517; x=1670436717; bh=TEYFS/6gZaDWc2dblU5iUytEgOwH
+        +PjKNL3XF1HvRjU=; b=OZ6xj64jvFJ+ccr2+ELVBBlpfPAaPAY3DphauI71FgMd
+        KxqgrbQurGdB7DNhZx06gw9PKOURZyKFMSMF9ihBZF1QETX4EHhSN+o2hgPRYGq0
+        +3nSyBTQjfkcjWalROC19CHF6Ve8HFI5bRhqI8ITk9OJBDsKvxNycfdvcZyqoeAM
+        wGsTRkSf2oKGsivCa6zJT1DxOqqKXouYztfjWRfkBbVTgyZNSNx5J6DOZtwNfKyv
+        /bvxTElb9cXqilFKgK0+FkadRAog1Wd7HxzWJkg2+SuDV90E1E4w14WksdhLEll/
+        7ZVxokjTOocI9bOk+F3imkbU7O5+lOtlQBd39yewDw==
+X-ME-Sender: <xms:TLuQY6jxrRX76Sfo6zcqdzhjgOx-u-DVuvGRmUvkMcrZ_llLqifB-w>
+    <xme:TLuQY7DwAkHw6ATcYa-tEGkEh6sp9FdZOR1D-UPG3yUq68hi_EfCk9LW7kI_8bvfn
+    fWqwwfPolMLvvS_1ys>
+X-ME-Received: <xmr:TLuQYyHzHsye05U_uFppho6SxxQewvcycEAYbqmhC_QxAryaTAmCAU2GfLsRzNov2wNzR6tXFWa9_WWVEMx8mT5wUQW2sO7AyhXZi_KsTGHMqg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudekgdekgecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpeffhffvvefukfhfgggtuggjsehgtderredttddunecuhfhrohhmpeforgigihhm
+    vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+    htvghrnhepjeevfeehfeekieffgeevleevtefgffefkedtfeeuhfettdegjeehgfegudff
+    ffdunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
+    grgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:TLuQYzSX7LwGPf3qOKl-_mgQdgT8SFnrpSs5UtcJQcIRigDD8S1DvQ>
+    <xmx:TLuQY3zdyLjU321g6mIVtkQEEXOcwGQAMumek5T1lBckGt_GwOVdgQ>
+    <xmx:TLuQYx5SultAK7aZz5U1dKZoDPqCkZPOHvFgZkuFMzsq8-OyplLhLg>
+    <xmx:TbuQYyI8abNlVCW1NSf6kZ8Ur3xaFFtlgmhIKhDvgL78eRjIure5IA>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 7 Dec 2022 11:11:55 -0500 (EST)
+Date:   Wed, 7 Dec 2022 17:11:54 +0100
+From:   Maxime Ripard <maxime@cerno.tech>
+To:     =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>
+Cc:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@gmail.com>,
+        David Gow <davidgow@google.com>,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Javier Martinez Canillas <javierm@redhat.com>,
+        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        linaro-mm-sig@lists.linaro.org,
+        Brendan Higgins <brendan.higgins@linux.dev>,
+        linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
+        =?utf-8?B?TWHDrXJh?= Canal <mairacanal@riseup.net>,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH v3 18/20] drm/vc4: tests: Fail the current test if we
+ access a register
+Message-ID: <20221207161154.clgmuweddljvco5n@houat>
+References: <20221123-rpi-kunit-tests-v3-0-4615a663a84a@cerno.tech>
+ <20221123-rpi-kunit-tests-v3-18-4615a663a84a@cerno.tech>
+ <51fb1fdd-edf0-b2a3-0573-76a9101adfb3@igalia.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.1
-Subject: Re: [PATCH v11 5/6] dt-bindings: media: wave5: add yaml devicetree
- bindings
-Content-Language: en-US
-To:     Sebastian Fricke <sebastian.fricke@collabora.com>
-Cc:     linux-media@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        kernel@collabora.com, bob.beckett@collabora.com,
-        hverkuil-cisco@xs4all.nl, nicolas.dufresne@collabora.com,
-        nas.chung@chipsnmedia.com, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20221207121350.66217-1-sebastian.fricke@collabora.com>
- <20221207121350.66217-6-sebastian.fricke@collabora.com>
- <48d60bd0-4de1-4a5e-eca1-1f8a9303cce0@linaro.org>
- <20221207150925.frotwpm3ukwwlnig@basti-XPS-13-9310>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20221207150925.frotwpm3ukwwlnig@basti-XPS-13-9310>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="zqyddbg4vv7dqu6f"
+Content-Disposition: inline
+In-Reply-To: <51fb1fdd-edf0-b2a3-0573-76a9101adfb3@igalia.com>
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 07/12/2022 16:09, Sebastian Fricke wrote:
-> Hello Krzysztof, 
-> 
-> On 07.12.2022 13:31, Krzysztof Kozlowski wrote:
->> On 07/12/2022 13:13, Sebastian Fricke wrote:
->>> From: Robert Beckett <bob.beckett@collabora.com>
->>>
->>> Add bindings for the wave5 chips&media codec driver
->>>
->>> Signed-off-by: Robert Beckett <bob.beckett@collabora.com>
->>> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
->>> Signed-off-by: Sebastian Fricke <sebastian.fricke@collabora.com>
->>
->> What's happening with this patch? Where is the changelog?
-> 
-> The changelog is located in the cover letter.
-> https://lore.kernel.org/linux-media/20221207121350.66217-1-sebastian.fricke@collabora.com/
 
+--zqyddbg4vv7dqu6f
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Which you did not sent to us... so? How does it help us?
+Hi Ma=EDra,
 
-> 
->> Why it is v11 and first time I see it?
-> 
-> You actually replied to V10:
-> https://lore.kernel.org/linux-media/20221023085341.s23qinjuw4qls3dn@basti-XPS-13-9310/
-> 
->> And why it is v11 with basic mistakes and lack of testing?!?
->> I would assume that v11 was already seen and tested...
-> 
-> Sorry I don't have a lot of experience with dt-bindings, thank you for
-> highlighting the issues, I will correct them. And I forgot to build the
-> documentation during my testing runs.
-> I took over the patch set from another contributor and as no one
-> complained about the dt-bindings for the last 10 versions, I concentrated
-> my energy on other problems.
+Thanks for your review!
 
-Because they were never sent to maintainers...
+On Wed, Dec 07, 2022 at 11:26:13AM -0300, Ma=EDra Canal wrote:
+> On 12/1/22 12:11, Maxime Ripard wrote:
+> > Accessing a register when running under kunit is a bad idea since our
+> > device is completely mocked.
+> >=20
+> > Fail the current test if we ever access any of our hardware registers.
+> >=20
+> > Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+> > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+>=20
+> Reviewed-by: Ma=EDra Canal <mcanal@igalia.com>
+>=20
+> Just a small nit: I believe that macros with multiple statements should be
+> enclosed in a do-while block [1], even READ macros. I saw that you enclos=
+ed
+> the WRITE macros on a do-while block, but not the READ macros.
 
-> 
->>
->>
->>> ---
->>>  .../devicetree/bindings/cnm,wave5.yml         | 72 +++++++++++++++++++
->>>  1 file changed, 72 insertions(+)
->>>  create mode 100644 Documentation/devicetree/bindings/cnm,wave5.yml
->>
->> Wrong directory. It wasn't here at all before, so I am really confused
->> how this could happen.
-> 
-> Thanks for the highlight.
-> 
-> I will move it to:
-> Documentation/devicetree/bindings/media/cnm,wave5.yml
-> 
->>
->> Subject: drop redundant pieces: yaml, devicetree and bindings.
-> 
-> I call it:
-> 
-> dt-bindings: media: chips-media: add wave5 bindings
-> 
-> in V12
-> 
-> Sincerely,
-> Sebastian Fricke
+This is on purpose: do-while blocks don't return a value, but ({ ... })
+blocks do. So we can do a write macros with a do-while, but can't for
+read since we expect to get a value back.
 
-And the rest questions? Lack of response means agreement, which is fine,
-so in v12 questionable parts will be removed?
+Maxime
 
-Best regards,
-Krzysztof
+--zqyddbg4vv7dqu6f
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCY5C7SgAKCRDj7w1vZxhR
+xS7mAP9bKwgLyqEhbFvH4crEyk/rKt4WWQzQ53q0+mdYj8Ke2wEAna4d7Vv87Jfa
+nISBFEINS8khtUTgsX0GgF+ipLJnGQ0=
+=6CdP
+-----END PGP SIGNATURE-----
+
+--zqyddbg4vv7dqu6f--
