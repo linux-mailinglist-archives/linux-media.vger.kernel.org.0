@@ -2,133 +2,133 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 36680646BCD
-	for <lists+linux-media@lfdr.de>; Thu,  8 Dec 2022 10:23:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E8110646C43
+	for <lists+linux-media@lfdr.de>; Thu,  8 Dec 2022 10:53:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230092AbiLHJXu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 8 Dec 2022 04:23:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54574 "EHLO
+        id S230018AbiLHJxG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 8 Dec 2022 04:53:06 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44234 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230048AbiLHJXs (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 8 Dec 2022 04:23:48 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB8875C74E;
-        Thu,  8 Dec 2022 01:23:45 -0800 (PST)
-Received: from [192.168.1.15] (91-154-32-225.elisa-laajakaista.fi [91.154.32.225])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4ADBE25B;
-        Thu,  8 Dec 2022 10:23:42 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1670491423;
-        bh=6e3cUNNKs0Mbc6lRI0WlQoFsDq6mdyEYot1UJAoMES8=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=viWeAjRfAvQDJgnz5ohqc3JZkl7Q+gk/Z3jJt8aK+WmByB4rXDZUkfs2Sg2ZcCA4E
-         fddgUjJkVmLM9By1Lr+REp0CsPRxZDIQxfz+uEvj73auGnCvKWwy6r4mo73JXaMmSm
-         LmAN/hm7+be8HNS8BQ/HlAqrxUToEAWMkxYNCp2o=
-Message-ID: <e2f8d8f2-dd16-fe2a-8413-ba408672801d@ideasonboard.com>
-Date:   Thu, 8 Dec 2022 11:23:39 +0200
+        with ESMTP id S229521AbiLHJxF (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 8 Dec 2022 04:53:05 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A20C61753
+        for <linux-media@vger.kernel.org>; Thu,  8 Dec 2022 01:52:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1670493131;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=kEuioTJJggcz3ajgjP8tAoMmJq8xKsihSebbNKdfIgE=;
+        b=YOYbc36l3g3DXHUBHJv71Bgjb/QWZbf8ncNkjiPElYPKrRE8ZeMQ9RfOLi0sz8nQpiv5fk
+        Xk8PF92kyGFmA78fEoBBMWHEFnGudNPXmnHwl5FeQ2TjrB7jwInsonhbaN7UEVbp6Fyxhl
+        xPrkrE2gUXcXmd4I7RJaSlzAwi/Yw5c=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-505-TojS-IdOP0G9igwNCOU85g-1; Thu, 08 Dec 2022 04:52:09 -0500
+X-MC-Unique: TojS-IdOP0G9igwNCOU85g-1
+Received: by mail-ed1-f72.google.com with SMTP id x20-20020a05640226d400b0046cbe2b85caso708843edd.3
+        for <linux-media@vger.kernel.org>; Thu, 08 Dec 2022 01:52:09 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=kEuioTJJggcz3ajgjP8tAoMmJq8xKsihSebbNKdfIgE=;
+        b=GK2Tp8yVQ4wf/u2v3B1eepqsgUXA6bSjbGYwVy0ZxapOEevDiJeybGXceVfCHrhs1n
+         F0DImxbGJeQt9gxldnEK/wkPV+vbgmnnlNWWKfC/J2VivtYvJ/8OsrKvIoA3jHF8nvxS
+         oMEzjdWUgl2WuNxxz599BQgkJMho1MiqRgsxXFfVG6NEquWn95IqfC44N0QxJWotMKJF
+         MsKTOc7y052RqEtE43y+H0pqzICwsGXNOtNyaeycjFuLKs1Sycug00NHbccthHg4PT0q
+         fhXcfmBaGQKkO5+lbRYtwZSKfTMDRuJxziHOoWyRNE1MBWVD9M1a1aAPfiJtwpDsPoVy
+         AZng==
+X-Gm-Message-State: ANoB5pkbPVoF9+xOhQCbf7DvM76viYWv3vqSH1RgkHEyiEWyYdhcQug/
+        WrwW3Tqc0B3JDfjrGgHREI8Ci8ZEJvobpUFm1q6zu3dAPYyerelyqGaZitRBcQ3gpceTToyEuQ7
+        e4bOEkUJvsRZ3cLhUni/suw8=
+X-Received: by 2002:a05:6402:5011:b0:469:9c84:3bdd with SMTP id p17-20020a056402501100b004699c843bddmr42934490eda.302.1670493128316;
+        Thu, 08 Dec 2022 01:52:08 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf7tRTyfMLRt+bADZXcNKMg1ftbJWVQw2K2td27VopTHo5erHMRoNpZ/toLfUYB61PoWWmuscQ==
+X-Received: by 2002:a05:6402:5011:b0:469:9c84:3bdd with SMTP id p17-20020a056402501100b004699c843bddmr42934484eda.302.1670493128061;
+        Thu, 08 Dec 2022 01:52:08 -0800 (PST)
+Received: from ?IPV6:2001:1c00:c1e:bf00:d69d:5353:dba5:ee81? (2001-1c00-0c1e-bf00-d69d-5353-dba5-ee81.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:d69d:5353:dba5:ee81])
+        by smtp.gmail.com with ESMTPSA id eg18-20020a056402289200b0046267f8150csm3178063edb.19.2022.12.08.01.52.07
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 08 Dec 2022 01:52:07 -0800 (PST)
+Message-ID: <ad8baadf-9140-0226-1129-b5e5497412ff@redhat.com>
+Date:   Thu, 8 Dec 2022 10:52:06 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH v4 3/8] dt-bindings: media: add bindings for TI DS90UB960
-Content-Language: en-US
-To:     Luca Ceresoli <luca.ceresoli@bootlin.com>,
-        "Vaittinen, Matti" <Matti.Vaittinen@fi.rohmeurope.com>,
-        Wolfram Sang <wsa@the-dreams.de>
-Cc:     Rob Herring <robh@kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Luca Ceresoli <luca@lucaceresoli.net>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Peter Rosin <peda@axentia.se>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Vladimir Zapolskiy <vz@mleia.com>,
-        "satish.nagireddy@getcruise.com" <satish.nagireddy@getcruise.com>
-References: <20221101132032.1542416-1-tomi.valkeinen@ideasonboard.com>
- <20221101132032.1542416-4-tomi.valkeinen@ideasonboard.com>
- <20221102172630.GA4140587-robh@kernel.org>
- <6c254d5f-9fa1-b06a-4edb-7e58e4b33101@ideasonboard.com>
- <fb9e9d5e-9c8b-1ce2-5723-efa498d1ba93@fi.rohmeurope.com>
- <8360ac8f-64aa-9edd-a110-903e734739f3@ideasonboard.com>
- <20221111172631.2832ae6c@booty>
-From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-In-Reply-To: <20221111172631.2832ae6c@booty>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+ Thunderbird/102.5.0
+Subject: Re: [PATCH] atomisp: use vb2_start_streaming_called()
+Content-Language: en-US, nl
+To:     Hans Verkuil <hverkuil@xs4all.nl>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
+References: <bc6c24ec-72ea-64a1-9061-311cc7339827@xs4all.nl>
+From:   Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <bc6c24ec-72ea-64a1-9061-311cc7339827@xs4all.nl>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Luca,
+Hi Hans,
 
-On 11/11/2022 18:26, Luca Ceresoli wrote:
-> Hello Tomi, Matti, Wolfram,
+On 12/8/22 09:12, Hans Verkuil wrote:
+> Don't touch q->start_streaming_called directly, use the
+> vb2_start_streaming_called() function instead.
 > 
-> On Thu, 3 Nov 2022 14:32:02 +0200
-> Tomi Valkeinen <tomi.valkeinen@ideasonboard.com> wrote:
+> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+
+Thanks, patch looks good to me:
+
+Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+
+Note I have been doing a lot of work on atomisp cleanups / improvements
+recently. So I'm sending pull-reqs from:
+
+https://git.kernel.org/pub/scm/linux/kernel/git/hansg/linux.git/log/?h=media-atomisp
+
+to Mauro for atomisp changes. And I hope to eventually cleanup this function
+a bit, so I plan to take this upstream through my media-atomisp branch to
+avoid conflicts.
+
+Regards,
+
+Hans
+
+
+
+
+
+> ---
+>  drivers/staging/media/atomisp/pci/atomisp_ioctl.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
 > 
->> On 03/11/2022 14:13, Vaittinen, Matti wrote:
->>> On 11/3/22 13:50, Tomi Valkeinen wrote:
->>>> Hi Rob,
->>>>
->>>> On 02/11/2022 19:26, Rob Herring wrote:
->>>>> On Tue, Nov 01, 2022 at 03:20:27PM +0200, Tomi Valkeinen wrote:
->>>>>> +
->>>>>> +  i2c-alias-pool:
->>>>>
->>>>> Something common or could be? If not, then needs a vendor prefix.
->>>>
->>>> I'll have to think about this. It is related to the i2c-atr, so I think
->>>> it might be a common thing.
->>>
->>> I'd say this should be common. Where the i2c-atr properties should live
->>> is another question though. If the I2C-atr stays as a genericly usable
->>> component - then these bindings should be in a file that can be
->>> referenced by other I2C-atr users (like the UB960 here).
->>
->> Yep. All the links, link, serializer and alias nodes/properties are new
->> things here, and I guess these could be used by other deser-ser systems.
->> That said, I don't have any experience with other systems.
+> diff --git a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
+> index cb01ba65c88f..4f35e8f8250a 100644
+> --- a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
+> +++ b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
+> @@ -636,10 +636,10 @@ static int atomisp_enum_input(struct file *file, void *fh,
+>  static unsigned int
+>  atomisp_subdev_streaming_count(struct atomisp_sub_device *asd)
+>  {
+> -	return asd->video_out_preview.vb_queue.start_streaming_called
+> -	       + asd->video_out_capture.vb_queue.start_streaming_called
+> -	       + asd->video_out_video_capture.vb_queue.start_streaming_called
+> -	       + asd->video_out_vf.vb_queue.start_streaming_called;
+> +	return vb2_start_streaming_called(&asd->video_out_preview.vb_queue) +
+> +	       vb2_start_streaming_called(&asd->video_out_capture.vb_queue) +
+> +	       vb2_start_streaming_called(&asd->video_out_video_capture.vb_queue) +
+> +	       vb2_start_streaming_called(&asd->video_out_vf.vb_queue);
+>  }
 > 
-> The i2c-alias-pool was discussed during the RFC,v2 review [1] and it
-> was agreed that it should be generic. The same principle should apply
-> to the other ATR properties.
-> 
-> That said, at some point it was also decided that the alias pool should
-> just be ditched in favor of an automatic selection of an unused address
-> by the i2c core [2] [3]. Maybe that idea has changed, definitely some
-> i2c core things needed to be omdified for it to happen, but overall I'm
-> still convinced automatic assignment without a pool was a good idea.
-
-Yes, the serializer and the remote peripheral i2c aliases can be 
-dynamically reserved at runtime, so the i2c-alias-pool and the i2c-alias 
-are, in that sense, not needed.
-
-I haven't looked at this in depth yet, but reading the references you 
-gave, it sounds like it's not quite clear what addresses are available 
-and what are not.
-
-On the other hand, is dynamic i2c address reservation something that the 
-users expect to happen? All i2c devices I have used have always had a 
-fixed address in the DT, even if at times the devices may support 
-choosing between a few different addresses.
-
-Keeping with that tradition, would it be best to just use fixed i2c 
-aliases, defined in the DT, for the serializers and the remote 
-peripherals? In the current series this is already the case for 
-serializers (with i2c-alias property), but we could do something similar 
-for the remote peripherals.
-
-  Tomi
+>  unsigned int atomisp_streaming_count(struct atomisp_device *isp)
 
