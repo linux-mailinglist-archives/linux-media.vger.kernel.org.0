@@ -2,107 +2,130 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B2E58646D3B
-	for <lists+linux-media@lfdr.de>; Thu,  8 Dec 2022 11:40:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 26534646D52
+	for <lists+linux-media@lfdr.de>; Thu,  8 Dec 2022 11:43:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230250AbiLHKkh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 8 Dec 2022 05:40:37 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45070 "EHLO
+        id S230241AbiLHKnn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 8 Dec 2022 05:43:43 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50046 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230180AbiLHKkU (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 8 Dec 2022 05:40:20 -0500
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A3065C0C5;
-        Thu,  8 Dec 2022 02:35:37 -0800 (PST)
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-        by smtp-out1.suse.de (Postfix) with ESMTP id 1603A33791;
-        Thu,  8 Dec 2022 10:35:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1670495736; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=m4BtgX7iuUEohIxHVLiyV8sjI0sG1CemLNb9OtXHuyE=;
-        b=sqBMBGxUS2aksX5AHpvvEhCJZ2pjVIua73CcaodAUua2Rs6GLBLoz7AozXIe3auL5QkAMp
-        hduTOwQ81EpFiTxmD2Dq5y5gjoqLfNiRIkKlYpoIPzjLWJklJBDoD/nZynRH35/r3FJicU
-        F0m1zuTpL3d9L52rPbju9b+WR84nkok=
-Received: from suse.cz (unknown [10.100.201.202])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by relay2.suse.de (Postfix) with ESMTPS id 8DAD82C153;
-        Thu,  8 Dec 2022 10:35:33 +0000 (UTC)
-Date:   Thu, 8 Dec 2022 11:35:35 +0100
-From:   Petr Mladek <pmladek@suse.com>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        =?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <clement.leger@bootlin.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Daniel Scally <djrscally@gmail.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Yong Zhi <yong.zhi@intel.com>,
-        Bingbu Cao <bingbu.cao@intel.com>,
-        Tianshu Qiu <tian.shu.qiu@intel.com>,
-        Daniel Scally <dan.scally@ideasonboard.com>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>
-Subject: Re: [PATCH v2 1/4] media: ipu3-cio2: Don't dereference fwnode handle
-Message-ID: <Y5G99yAmflKJpF32@alley>
-References: <20221121152704.30180-1-andriy.shevchenko@linux.intel.com>
- <Y35wQuIbiCxyaOyp@smile.fi.intel.com>
- <Y5BWuXjipZcMXlan@paasikivi.fi.intel.com>
- <Y5BiiAwukaVrIvpF@smile.fi.intel.com>
+        with ESMTP id S229733AbiLHKnT (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 8 Dec 2022 05:43:19 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 89121222;
+        Thu,  8 Dec 2022 02:40:26 -0800 (PST)
+Received: from desky.lan (91-154-32-225.elisa-laajakaista.fi [91.154.32.225])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 893EB25B;
+        Thu,  8 Dec 2022 11:40:22 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1670496023;
+        bh=ab3VDBBlRhkk1OCm+eM9aIt0zkYjaGuasNx+kTETGB4=;
+        h=From:To:Cc:Subject:Date:From;
+        b=NcuWxdUAooti/wS8UrXxku4R8b30Fb+FkevjbueyMSUXpAN4K+05fGzHheelm+naP
+         ZiGKIEIA+cJuJhCdyXA83ZJLDNRWQwEo/soJmAsO9pWSM+WsM/JJ9+e16sRO4uHBhX
+         ghN+fenSpn6jVQ4kJQOaplqDCZRDcFK4JPrR/JYw=
+From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+To:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Wolfram Sang <wsa@kernel.org>,
+        Luca Ceresoli <luca.ceresoli@bootlin.com>,
+        Andy Shevchenko <andriy.shevchenko@intel.com>,
+        Matti Vaittinen <Matti.Vaittinen@fi.rohmeurope.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Peter Rosin <peda@axentia.se>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Michael Tretter <m.tretter@pengutronix.de>,
+        Shawn Tu <shawnx.tu@intel.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Mike Pagano <mpagano@gentoo.org>,
+        =?UTF-8?q?Krzysztof=20Ha=C5=82asa?= <khalasa@piap.pl>,
+        Marek Vasut <marex@denx.de>,
+        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: [PATCH v5 0/8] i2c-atr and FPDLink
+Date:   Thu,  8 Dec 2022 12:39:58 +0200
+Message-Id: <20221208104006.316606-1-tomi.valkeinen@ideasonboard.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y5BiiAwukaVrIvpF@smile.fi.intel.com>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed 2022-12-07 11:53:12, Andy Shevchenko wrote:
-> On Wed, Dec 07, 2022 at 09:02:49AM +0000, Sakari Ailus wrote:
-> > On Wed, Nov 23, 2022 at 09:10:58PM +0200, Andy Shevchenko wrote:
-> > > Dunno what happened to my previous reply to this. Okay, trying again...
-> > > 
-> > > + Cc: Petr, Sergey
-> > > 
-> > > On Mon, Nov 21, 2022 at 05:27:01PM +0200, Andy Shevchenko wrote:
-> > > > Use acpi_fwnode_handle() instead of dereferencing an fwnode handle directly,
-> > > > which is a better coding practice.
-> > > 
-> > > It appears that this series depends on fd070e8ceb90 ("test_printf: Refactor
-> > > fwnode_pointer() to make it more readable") which is in PRINTK tree.
-> > > 
-> > > Sakari, Mauro, if you are okay to route this via that tree, can we get your
-> > > tags for that? Otherwise we need to postpone this till v6.2-rc1 (but I would
-> > > like to decrease the chances to appear a new user of the to be removed API).
-> > > 
-> > > Note, that Greg Acked v1 of the swnode patches (which are the same in v2).
-> > 
-> > Sorry for the late reply. Feel free to do that if it's not too late, with:
-> > 
-> > Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> 
-> Thank you!
-> I think it's a bit late for printk tree to consume this. If it's the case
-> (Petr?) then I will submit a new version after v6.2-rc1 is out.
+Hi,
 
-Yes, I am sorry but it is too late for the printk tree. I am going to
-send the pull request for 6.2 today or tomorrow. Linus explicitly
-asked to send the pull request early this time because the merge
-window will be overlapping with the holidays.
+You can find v4 of the series from:
 
-On the positive side. There is a high chance that the changes from
-the printk tree will be in the mainline early enough so that you
-could manage to send this still during the merge window.
+https://lore.kernel.org/all/20221101132032.1542416-1-tomi.valkeinen@ideasonboard.com/
 
-Best Regards,
-Petr
+You can find a longer introduction of the series in that version's cover
+letter.
+
+There has been a lot of changes to the DT bindings and the i2c-atr code in this
+version, but they are all fixes and cleanups, no architectural changes. The
+FPDLink drivers have not been changed, except to reflect the changes in the
+DT.
+
+I will send a diff between v4 and v5 to give a better idea of the changes.
+
+One thing that was discussed a bit but not handled in this version is the
+i2c-pool/i2c-alias topic. I believe we have three options: 1) use fixed
+addresses, defined in DT, 2) get the addresses from an i2c-pool, 3) dynamically
+reserve the addresses at runtime. The current series uses 2).
+
+ Tomi
+
+Luca Ceresoli (2):
+  i2c: core: let adapters be notified of client attach/detach
+  i2c: add I2C Address Translator (ATR) support
+
+Tomi Valkeinen (6):
+  dt-bindings: media: add bindings for TI DS90UB913
+  dt-bindings: media: add bindings for TI DS90UB953
+  dt-bindings: media: add bindings for TI DS90UB960
+  media: i2c: add DS90UB960 driver
+  media: i2c: add DS90UB913 driver
+  media: i2c: add DS90UB953 driver
+
+ .../bindings/media/i2c/ti,ds90ub913.yaml      |  121 +
+ .../bindings/media/i2c/ti,ds90ub953.yaml      |  112 +
+ .../bindings/media/i2c/ti,ds90ub960.yaml      |  358 ++
+ Documentation/i2c/index.rst                   |    1 +
+ Documentation/i2c/muxes/i2c-atr.rst           |   78 +
+ MAINTAINERS                                   |    8 +
+ drivers/i2c/Kconfig                           |    9 +
+ drivers/i2c/Makefile                          |    1 +
+ drivers/i2c/i2c-atr.c                         |  503 ++
+ drivers/i2c/i2c-core-base.c                   |   18 +-
+ drivers/media/i2c/Kconfig                     |   47 +
+ drivers/media/i2c/Makefile                    |    3 +
+ drivers/media/i2c/ds90ub913.c                 |  892 ++++
+ drivers/media/i2c/ds90ub953.c                 | 1607 +++++++
+ drivers/media/i2c/ds90ub960.c                 | 4195 +++++++++++++++++
+ include/linux/i2c-atr.h                       |   82 +
+ include/linux/i2c.h                           |   16 +
+ include/media/i2c/ds90ub9xx.h                 |   16 +
+ 18 files changed, 8066 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/ti,ds90ub913.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/ti,ds90ub953.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/ti,ds90ub960.yaml
+ create mode 100644 Documentation/i2c/muxes/i2c-atr.rst
+ create mode 100644 drivers/i2c/i2c-atr.c
+ create mode 100644 drivers/media/i2c/ds90ub913.c
+ create mode 100644 drivers/media/i2c/ds90ub953.c
+ create mode 100644 drivers/media/i2c/ds90ub960.c
+ create mode 100644 include/linux/i2c-atr.h
+ create mode 100644 include/media/i2c/ds90ub9xx.h
+
+-- 
+2.34.1
+
