@@ -2,133 +2,152 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E8110646C43
-	for <lists+linux-media@lfdr.de>; Thu,  8 Dec 2022 10:53:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8E42F646CDE
+	for <lists+linux-media@lfdr.de>; Thu,  8 Dec 2022 11:33:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230018AbiLHJxG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 8 Dec 2022 04:53:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44234 "EHLO
+        id S229992AbiLHKdL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 8 Dec 2022 05:33:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38078 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229521AbiLHJxF (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 8 Dec 2022 04:53:05 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A20C61753
-        for <linux-media@vger.kernel.org>; Thu,  8 Dec 2022 01:52:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1670493131;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=kEuioTJJggcz3ajgjP8tAoMmJq8xKsihSebbNKdfIgE=;
-        b=YOYbc36l3g3DXHUBHJv71Bgjb/QWZbf8ncNkjiPElYPKrRE8ZeMQ9RfOLi0sz8nQpiv5fk
-        Xk8PF92kyGFmA78fEoBBMWHEFnGudNPXmnHwl5FeQ2TjrB7jwInsonhbaN7UEVbp6Fyxhl
-        xPrkrE2gUXcXmd4I7RJaSlzAwi/Yw5c=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-505-TojS-IdOP0G9igwNCOU85g-1; Thu, 08 Dec 2022 04:52:09 -0500
-X-MC-Unique: TojS-IdOP0G9igwNCOU85g-1
-Received: by mail-ed1-f72.google.com with SMTP id x20-20020a05640226d400b0046cbe2b85caso708843edd.3
-        for <linux-media@vger.kernel.org>; Thu, 08 Dec 2022 01:52:09 -0800 (PST)
+        with ESMTP id S230000AbiLHKb4 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 8 Dec 2022 05:31:56 -0500
+Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com [IPv6:2a00:1450:4864:20::22c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 65A9F7F890
+        for <linux-media@vger.kernel.org>; Thu,  8 Dec 2022 02:31:27 -0800 (PST)
+Received: by mail-lj1-x22c.google.com with SMTP id b9so1085548ljr.5
+        for <linux-media@vger.kernel.org>; Thu, 08 Dec 2022 02:31:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=hHpfKld4lMu5+ixat6T/4oDADkdqQ2JYTvtcw+gBQks=;
+        b=lYkktDDamxCqSzLug7/jM6W5q3xrwBPVxdKHojjaI+5YLOTvfvjGAF3suKsT7ZOuZj
+         D26pEZy5c+Fgf4U3ZEupe3wBJ8BY7XeWnpxs3oPF00XBwYvgdba0EYWCnniEDOIU25BD
+         d93uf25o+GlAocvZyCKOC1Dqe4dvUAa2PE/zxshL55Jm19Z662tl7kt88IzxeMvx1y9a
+         87haUECX9Ix1B2GJDY6XsflvT1P4JnchaRB2RdQ2gXqG8nb2lU+STpo3VNF0sXHwaS3E
+         6j4IJITO8mGNzCKrnDIZp/65HCYeba7WcjyBptakuOl1p2TLS+yHAn2Js5IEhInO0T8v
+         3lHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=kEuioTJJggcz3ajgjP8tAoMmJq8xKsihSebbNKdfIgE=;
-        b=GK2Tp8yVQ4wf/u2v3B1eepqsgUXA6bSjbGYwVy0ZxapOEevDiJeybGXceVfCHrhs1n
-         F0DImxbGJeQt9gxldnEK/wkPV+vbgmnnlNWWKfC/J2VivtYvJ/8OsrKvIoA3jHF8nvxS
-         oMEzjdWUgl2WuNxxz599BQgkJMho1MiqRgsxXFfVG6NEquWn95IqfC44N0QxJWotMKJF
-         MsKTOc7y052RqEtE43y+H0pqzICwsGXNOtNyaeycjFuLKs1Sycug00NHbccthHg4PT0q
-         fhXcfmBaGQKkO5+lbRYtwZSKfTMDRuJxziHOoWyRNE1MBWVD9M1a1aAPfiJtwpDsPoVy
-         AZng==
-X-Gm-Message-State: ANoB5pkbPVoF9+xOhQCbf7DvM76viYWv3vqSH1RgkHEyiEWyYdhcQug/
-        WrwW3Tqc0B3JDfjrGgHREI8Ci8ZEJvobpUFm1q6zu3dAPYyerelyqGaZitRBcQ3gpceTToyEuQ7
-        e4bOEkUJvsRZ3cLhUni/suw8=
-X-Received: by 2002:a05:6402:5011:b0:469:9c84:3bdd with SMTP id p17-20020a056402501100b004699c843bddmr42934490eda.302.1670493128316;
-        Thu, 08 Dec 2022 01:52:08 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf7tRTyfMLRt+bADZXcNKMg1ftbJWVQw2K2td27VopTHo5erHMRoNpZ/toLfUYB61PoWWmuscQ==
-X-Received: by 2002:a05:6402:5011:b0:469:9c84:3bdd with SMTP id p17-20020a056402501100b004699c843bddmr42934484eda.302.1670493128061;
-        Thu, 08 Dec 2022 01:52:08 -0800 (PST)
-Received: from ?IPV6:2001:1c00:c1e:bf00:d69d:5353:dba5:ee81? (2001-1c00-0c1e-bf00-d69d-5353-dba5-ee81.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:d69d:5353:dba5:ee81])
-        by smtp.gmail.com with ESMTPSA id eg18-20020a056402289200b0046267f8150csm3178063edb.19.2022.12.08.01.52.07
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 08 Dec 2022 01:52:07 -0800 (PST)
-Message-ID: <ad8baadf-9140-0226-1129-b5e5497412ff@redhat.com>
-Date:   Thu, 8 Dec 2022 10:52:06 +0100
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=hHpfKld4lMu5+ixat6T/4oDADkdqQ2JYTvtcw+gBQks=;
+        b=Okv/NPJwAUksVfnqHObFRSZPcbwqtq5DsaHmHmTzja/ZWWzznkoSoOpQLpw7YnxkvH
+         8LbllEE3aClpFBsBTd6m3WOvYrNBhFKok301qya8u8IcpMzoJ/cHTHxifSdSfNnH8GP7
+         8pABx4LBW1EQ5UFSiygzRUXfXj6AHcCsYq/DGutjOeYMcEmjElazSBRW80MHNyIEo9KW
+         sJYcO2WbSlCEOso/op9gyenyK1DWQtvWQoxkA/A2aV1IF05IcsRV2NRnoVOq2G9IWVf2
+         +VuCQLFmylS/uPtlA1q7dPgLOdcv6ekFisaCt2bbNa0LNwblDR+ZhuXkXdtylifUjOr/
+         ic8A==
+X-Gm-Message-State: ANoB5pmbRTvOEyTkllVcz0iLthSNH6AOBmAhLTAms087/5mqHzqC+/4X
+        buU05iISYwiCov5QiqY2gkfeRw==
+X-Google-Smtp-Source: AA0mqf4YQr6Rqh7drzmAs4lwxW/QyZKhfelPGBRvTCbcteoRamNm4E3qRXuBmWRnOH2IoXB0BKMdTg==
+X-Received: by 2002:a05:651c:1592:b0:277:b9f:cdbd with SMTP id h18-20020a05651c159200b002770b9fcdbdmr31733522ljq.0.1670495485712;
+        Thu, 08 Dec 2022 02:31:25 -0800 (PST)
+Received: from krzk-bin.NAT.warszawa.vectranet.pl (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
+        by smtp.gmail.com with ESMTPSA id h18-20020a2eb0f2000000b00279e5247dabsm1699580ljl.18.2022.12.08.02.31.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 08 Dec 2022 02:31:24 -0800 (PST)
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Jerome Brunet <jbrunet@baylibre.com>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Alain Volmat <alain.volmat@foss.st.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Joe Tessler <jrt@google.com>,
+        Yannick Fertre <yannick.fertre@foss.st.com>,
+        Jeff Chase <jnchase@google.com>, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-amlogic@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com
+Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH v4 0/9] media: dt-bindings: common CEC properties
+Date:   Thu,  8 Dec 2022 11:31:06 +0100
+Message-Id: <20221208103115.25512-1-krzysztof.kozlowski@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Subject: Re: [PATCH] atomisp: use vb2_start_streaming_called()
-Content-Language: en-US, nl
-To:     Hans Verkuil <hverkuil@xs4all.nl>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>
-References: <bc6c24ec-72ea-64a1-9061-311cc7339827@xs4all.nl>
-From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <bc6c24ec-72ea-64a1-9061-311cc7339827@xs4all.nl>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans,
+Hi,
 
-On 12/8/22 09:12, Hans Verkuil wrote:
-> Don't touch q->start_streaming_called directly, use the
-> vb2_start_streaming_called() function instead.
-> 
-> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Changes since v3
+================
+1. cec-gpio: Add missing SPDX.
+2. nvidia,tegra114-cec: Correct path in maintainers.
 
-Thanks, patch looks good to me:
+Changes since v2:
+================
+1. nvidia,tegra114-cec: Rename to nvidia,tegra114-cec.yaml.
+2. nvidia,tegra114-cec: Nvidia->NVIDIA.
+3. Add acks/rb tags.
 
-Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+Changes since v1
+================
+1. chrontel,ch7322: fix node name to 'cec'.
+2. Add ack tags.
 
-Note I have been doing a lot of work on atomisp cleanups / improvements
-recently. So I'm sending pull-reqs from:
+Best regards,
+Krzysztof
 
-https://git.kernel.org/pub/scm/linux/kernel/git/hansg/linux.git/log/?h=media-atomisp
+Krzysztof Kozlowski (9):
+  media: dt-bindings: amlogic,meson-gx-ao-cec: move to cec subfolder
+  media: dt-bindings: st,stm32-cec: move to cec subfolder
+  media: dt-bindings: cec: convert common CEC properties to DT schema
+  media: dt-bindings: amlogic,meson-gx-ao-cec: reference common CEC
+    properties
+  media: dt-bindings: chrontel,ch7322: reference common CEC properties
+  media: dt-bindings: samsung,s5p-cec: convert to DT schema
+  media: dt-bindings: cec-gpio: convert to DT schema
+  media: dt-bindings: nvidia,tegra114-cec: convert to DT schema
+  media: dt-bindings: st,stih-cec: convert to DT schema
 
-to Mauro for atomisp changes. And I hope to eventually cleanup this function
-a bit, so I plan to take this upstream through my media-atomisp branch to
-avoid conflicts.
+ .../devicetree/bindings/media/cec-gpio.txt    | 42 -----------
+ .../devicetree/bindings/media/cec.txt         |  8 --
+ .../{ => cec}/amlogic,meson-gx-ao-cec.yaml    | 11 +--
+ .../bindings/media/cec/cec-common.yaml        | 28 +++++++
+ .../bindings/media/cec/cec-gpio.yaml          | 74 +++++++++++++++++++
+ .../media/cec/nvidia,tegra114-cec.yaml        | 58 +++++++++++++++
+ .../bindings/media/cec/samsung,s5p-cec.yaml   | 66 +++++++++++++++++
+ .../bindings/media/cec/st,stih-cec.yaml       | 66 +++++++++++++++++
+ .../media/{ => cec}/st,stm32-cec.yaml         |  4 +-
+ .../bindings/media/i2c/chrontel,ch7322.yaml   | 11 ++-
+ .../devicetree/bindings/media/s5p-cec.txt     | 36 ---------
+ .../devicetree/bindings/media/stih-cec.txt    | 27 -------
+ .../devicetree/bindings/media/tegra-cec.txt   | 27 -------
+ MAINTAINERS                                   | 12 +--
+ 14 files changed, 309 insertions(+), 161 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/media/cec-gpio.txt
+ delete mode 100644 Documentation/devicetree/bindings/media/cec.txt
+ rename Documentation/devicetree/bindings/media/{ => cec}/amlogic,meson-gx-ao-cec.yaml (86%)
+ create mode 100644 Documentation/devicetree/bindings/media/cec/cec-common.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/cec/cec-gpio.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/cec/nvidia,tegra114-cec.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/cec/samsung,s5p-cec.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/cec/st,stih-cec.yaml
+ rename Documentation/devicetree/bindings/media/{ => cec}/st,stm32-cec.yaml (89%)
+ delete mode 100644 Documentation/devicetree/bindings/media/s5p-cec.txt
+ delete mode 100644 Documentation/devicetree/bindings/media/stih-cec.txt
+ delete mode 100644 Documentation/devicetree/bindings/media/tegra-cec.txt
 
-Regards,
-
-Hans
-
-
-
-
-
-> ---
->  drivers/staging/media/atomisp/pci/atomisp_ioctl.c | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-> index cb01ba65c88f..4f35e8f8250a 100644
-> --- a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-> +++ b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-> @@ -636,10 +636,10 @@ static int atomisp_enum_input(struct file *file, void *fh,
->  static unsigned int
->  atomisp_subdev_streaming_count(struct atomisp_sub_device *asd)
->  {
-> -	return asd->video_out_preview.vb_queue.start_streaming_called
-> -	       + asd->video_out_capture.vb_queue.start_streaming_called
-> -	       + asd->video_out_video_capture.vb_queue.start_streaming_called
-> -	       + asd->video_out_vf.vb_queue.start_streaming_called;
-> +	return vb2_start_streaming_called(&asd->video_out_preview.vb_queue) +
-> +	       vb2_start_streaming_called(&asd->video_out_capture.vb_queue) +
-> +	       vb2_start_streaming_called(&asd->video_out_video_capture.vb_queue) +
-> +	       vb2_start_streaming_called(&asd->video_out_vf.vb_queue);
->  }
-> 
->  unsigned int atomisp_streaming_count(struct atomisp_device *isp)
+-- 
+2.34.1
 
