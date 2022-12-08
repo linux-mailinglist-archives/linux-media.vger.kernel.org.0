@@ -2,83 +2,111 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E095D6469EC
-	for <lists+linux-media@lfdr.de>; Thu,  8 Dec 2022 08:52:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 786BE6469F9
+	for <lists+linux-media@lfdr.de>; Thu,  8 Dec 2022 08:56:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229606AbiLHHwN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 8 Dec 2022 02:52:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43772 "EHLO
+        id S229530AbiLHH43 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 8 Dec 2022 02:56:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45628 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229546AbiLHHwL (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 8 Dec 2022 02:52:11 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 022A03E097
-        for <linux-media@vger.kernel.org>; Wed,  7 Dec 2022 23:52:11 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id A2FEDB812A9
-        for <linux-media@vger.kernel.org>; Thu,  8 Dec 2022 07:52:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2B4ECC433C1
-        for <linux-media@vger.kernel.org>; Thu,  8 Dec 2022 07:52:08 +0000 (UTC)
-Message-ID: <7fb9a20a-4b11-89e9-db4f-5973f429d702@xs4all.nl>
-Date:   Thu, 8 Dec 2022 08:52:06 +0100
+        with ESMTP id S229437AbiLHH43 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 8 Dec 2022 02:56:29 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 276772228C;
+        Wed,  7 Dec 2022 23:56:28 -0800 (PST)
+Received: from [192.168.1.15] (91-154-32-225.elisa-laajakaista.fi [91.154.32.225])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2889E25B;
+        Thu,  8 Dec 2022 08:56:24 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1670486185;
+        bh=BcjJ1h797aI+fqI1juhLazjJ1X7XpWhj4GlVjAbTGJs=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=fitqq8LHhlDI0Ku8bMPEjvMGzQCncvxbOdrt0PAhttaQQenhoH4DhHZd8ZT/S/wu3
+         uw+lTCnyCDVXrTJgnkt/pEfTJwCMHYBogX0VnbWECi2yzoF0855mpcMbNJ0gOCoLdm
+         5WJpmNJD7+T4KnBUCfBW0dYmOsCeIrAUC4aNDQuE=
+Message-ID: <11b87742-bb92-7f8f-8939-2e403d2652e5@ideasonboard.com>
+Date:   Thu, 8 Dec 2022 09:56:21 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
+ Thunderbird/102.4.2
+Subject: Re: [PATCH v4 2/8] i2c: add I2C Address Translator (ATR) support
+To:     Luca Ceresoli <luca.ceresoli@bootlin.com>
+Cc:     Andy Shevchenko <andriy.shevchenko@intel.com>,
+        devicetree@vger.kernel.org, linux-i2c@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Luca Ceresoli <luca@lucaceresoli.net>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Matti Vaittinen <Matti.Vaittinen@fi.rohmeurope.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Peter Rosin <peda@axentia.se>,
+        Rob Herring <robh+dt@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Vladimir Zapolskiy <vz@mleia.com>,
+        Wolfram Sang <wsa@the-dreams.de>,
+        satish.nagireddy@getcruise.com
+References: <20221101132032.1542416-1-tomi.valkeinen@ideasonboard.com>
+ <20221101132032.1542416-3-tomi.valkeinen@ideasonboard.com>
+ <Y2EtnSNqBOfGRDMO@smile.fi.intel.com>
+ <cc510516-c961-9efb-bcdf-2abea795433a@ideasonboard.com>
+ <20221107124055.0495031f@booty>
 Content-Language: en-US
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: [PATCH] media: go7007: don't modify q->streaming
-Content-Type: text/plain; charset=UTF-8
+From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+In-Reply-To: <20221107124055.0495031f@booty>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The streaming state is maintained by the vb2 core, so drivers
-must never change it themselves.
+On 07/11/2022 13:40, Luca Ceresoli wrote:
+> On Fri, 4 Nov 2022 13:59:06 +0200
+> Tomi Valkeinen <tomi.valkeinen@ideasonboard.com> wrote:
+> 
+>> Hi Andy,
+>>
+>> On 01/11/2022 16:30, Andy Shevchenko wrote:
+>>> On Tue, Nov 01, 2022 at 03:20:26PM +0200, Tomi Valkeinen wrote:
+>>>> From: Luca Ceresoli <luca@lucaceresoli.net>
+>>>>
+>>>> An ATR is a device that looks similar to an i2c-mux: it has an I2C
+>>>> slave "upstream" port and N master "downstream" ports, and forwards
+>>>> transactions from upstream to the appropriate downstream port. But is
+>>>> is different in that the forwarded transaction has a different slave
+>>>> address. The address used on the upstream bus is called the "alias"
+>>>> and is (potentially) different from the physical slave address of the
+>>>> downstream chip.
+>>>>
+>>>> Add a helper file (just like i2c-mux.c for a mux or switch) to allow
+>>>> implementing ATR features in a device driver. The helper takes care or
+>>>> adapter creation/destruction and translates addresses at each transaction.
+> 
+> First of all, thank you for bringing this work on!
+> 
+>>> ...
+>>>    
+>>>> +I2C ADDRESS TRANSLATOR (ATR)
+>>>> +M:	Luca Ceresoli <luca@lucaceresoli.net>
+>>>
+>>> Hmm... Are you going to maintain this? Or Review? Why not?
+>>
+>> We haven't discussed with Luca if he wants to maintain this (this is
+>> mostly his code). But, indeed, I should add my name there.
+> 
+> I think at this point you are probably in a better position to be the
+> maintainer, but I'm OK with being listed here as reviewer (R:).
+> 
+> Ah, would you please use my bootlin dot com address here?
 
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
----
- drivers/media/usb/go7007/go7007-v4l2.c | 6 +-----
- 1 file changed, 1 insertion(+), 5 deletions(-)
+Ok, I've added your bootlin address as R:
 
-diff --git a/drivers/media/usb/go7007/go7007-v4l2.c b/drivers/media/usb/go7007/go7007-v4l2.c
-index b2edc4deaca3..13256565b034 100644
---- a/drivers/media/usb/go7007/go7007-v4l2.c
-+++ b/drivers/media/usb/go7007/go7007-v4l2.c
-@@ -404,16 +404,13 @@ static int go7007_start_streaming(struct vb2_queue *q, unsigned int count)
- 	go->next_seq = 0;
- 	go->active_buf = NULL;
- 	go->modet_event_status = 0;
--	q->streaming = 1;
- 	if (go7007_start_encoder(go) < 0)
- 		ret = -EIO;
- 	else
- 		ret = 0;
- 	mutex_unlock(&go->hw_lock);
--	if (ret) {
--		q->streaming = 0;
-+	if (ret)
- 		return ret;
--	}
- 	call_all(&go->v4l2_dev, video, s_stream, 1);
- 	v4l2_ctrl_grab(go->mpeg_video_gop_size, true);
- 	v4l2_ctrl_grab(go->mpeg_video_gop_closure, true);
-@@ -430,7 +427,6 @@ static void go7007_stop_streaming(struct vb2_queue *q)
- 	struct go7007 *go = vb2_get_drv_priv(q);
- 	unsigned long flags;
-
--	q->streaming = 0;
- 	go7007_stream_stop(go);
- 	mutex_lock(&go->hw_lock);
- 	go7007_reset_encoder(go);
--- 
-2.35.1
+  Tomi
 
