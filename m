@@ -2,85 +2,111 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id ECD3F646EF9
-	for <lists+linux-media@lfdr.de>; Thu,  8 Dec 2022 12:49:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8D910646F2C
+	for <lists+linux-media@lfdr.de>; Thu,  8 Dec 2022 12:58:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230078AbiLHLtj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 8 Dec 2022 06:49:39 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40238 "EHLO
+        id S229761AbiLHL6w (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 8 Dec 2022 06:58:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51196 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230077AbiLHLsY (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 8 Dec 2022 06:48:24 -0500
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::221])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93128813B8;
-        Thu,  8 Dec 2022 03:48:20 -0800 (PST)
-Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id 5ABB2240003;
-        Thu,  8 Dec 2022 11:48:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1670500099;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=o81YP8iaZF1sop9pwY0IwP4XTu0ePsqSN3S/jSq8oYA=;
-        b=Gyumw+GixaiC3XEvP2m0jiuXtKSMmOoPQYdBHwKffcmJvOD0547GyaPAKmImac3mfSwIgT
-        rew5O9Bu+fpPpLMCElY2ncv9sv0/4g0WIn/FWfnTxvDy5YboXrLrv7D2AXL3tIqBmRK1fl
-        N2nOo+BfLthi2Y5BMhBh7lFwtNcUbtzZLF6zoEj6AoVhCgBwj36p75O/3+rWgKxP2YZJhx
-        8n6PZU0xNSRIvqIH1pBHw+IQgRBW7dLuLDLGnu75DYRyb9emhaznkyirz2pTyahAaV0KiN
-        Ni0Ej24+fgpmFVQPUTvh3FV6H7SJCM4XSyvPVcLTTjxCdYKIsSpu0t6YTFLQuw==
-From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To:     linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
-        linux-staging@lists.linux.dev
-Cc:     Yong Deng <yong.deng@magewell.com>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        with ESMTP id S229479AbiLHL6v (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 8 Dec 2022 06:58:51 -0500
+Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A5684E6B0;
+        Thu,  8 Dec 2022 03:58:50 -0800 (PST)
+Received: by mail-wr1-x429.google.com with SMTP id o5so1359280wrm.1;
+        Thu, 08 Dec 2022 03:58:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=abg1wOX7oBRj4w0zd4B/AxlUTtvdPy8iDRTZot4FPCc=;
+        b=SUZ0TTuTHGr+pTmUrUq9U23zWNby3XOBjqiTuPsT+xUZPcXELpiS6pwoAClkMZ7DCd
+         e3wSoGElTVajsuFoxO17KJi51pD8i+MxwR8J9MZmP2+iP1SnOSVG83ItNuogRN9ZHPxw
+         dL0SNWtANLD2nVsqz3OJKBkZ1kJ6UZQXBTWu4alhVPgfOTe4wgUksQbW1H2oUYaZ267y
+         mxrQ+B07WhfWQN06HK+pvVkzl45+qUksAOE156H9i+mJikBmZTKxJGxdFRqtDqgWUyrv
+         UXYQUGr+0QiSpc7wBowRbjKWPKb0KOSeeV5ho3oFcjMrhnqOx9Vx1u5K3ABxHeFRA3TX
+         ++8A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=abg1wOX7oBRj4w0zd4B/AxlUTtvdPy8iDRTZot4FPCc=;
+        b=cZhwtcYhm9uq6ZjaZV5Y31uJBryJyT4NwIgGTsWXz5UrhfBJPEnpkrdWf4AzFcUnZE
+         gLYua8/uK3Y8KgV95Zjqj//Mt6eP/V2H7D3ZKbDEo0gbXmZaQeNjJCIOz+6BTh9kpabR
+         iCRd7g/AvPvgP0ZG47MgxnDqLpBlKkQtPS5ALOvsNKFZ16K/YDcVGe80GcHBrrjW37Q5
+         pGeJjwoKhlpgzhUnLzLzAKngtEI/ucgSC4pTcW7B6nUC7rUSI8AxCy/LFTOH4SEXW741
+         2OVMQEJsGqNWSOtRPW25lfkVOs3Q9YJy+s/FJWgsPEQqD6TWWaVn8zrNfYIX0GahjvA/
+         fgsA==
+X-Gm-Message-State: ANoB5pnfEaUYLvqaw8IS4fGogAE/qNXlgs3v7Mg0JyVHnC4jU3j9Aw/C
+        gLs0ATIR71WM7r6oWPuRJWs=
+X-Google-Smtp-Source: AA0mqf7c7TjMRGd5RmRUsRQgw5unXjI4LvNEbX8A8YgJASFV9su4ij/6hgyLnIYQG97/vN1C9LG1NA==
+X-Received: by 2002:a05:6000:60c:b0:242:10ac:6ab2 with SMTP id bn12-20020a056000060c00b0024210ac6ab2mr30602872wrb.552.1670500728699;
+        Thu, 08 Dec 2022 03:58:48 -0800 (PST)
+Received: from localhost (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net. [80.193.200.194])
+        by smtp.gmail.com with ESMTPSA id q21-20020a7bce95000000b003d1de805de5sm4674699wmj.16.2022.12.08.03.58.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 08 Dec 2022 03:58:48 -0800 (PST)
+From:   Colin Ian King <colin.i.king@gmail.com>
+To:     Sylwester Nawrocki <s.nawrocki@samsung.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Samuel Holland <samuel@sholland.org>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Sakari Ailus <sakari.ailus@iki.fi>
-Subject: [PATCH 9/9] media: sun6i-isp: params: Fix incorrect indentation
-Date:   Thu,  8 Dec 2022 12:47:42 +0100
-Message-Id: <20221208114742.399461-10-paul.kocialkowski@bootlin.com>
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Alim Akhtar <alim.akhtar@samsung.com>,
+        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org
+Cc:     kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] media: platform: exynos4-is: Fix spelling mistake "palne" -> "plane"
+Date:   Thu,  8 Dec 2022 11:58:47 +0000
+Message-Id: <20221208115847.2433777-1-colin.i.king@gmail.com>
 X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20221208114742.399461-1-paul.kocialkowski@bootlin.com>
-References: <20221208114742.399461-1-paul.kocialkowski@bootlin.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Remove a heading whitespace that results in a smatch warning.
+There are spelling mistakes in a literal string and a comment. Fix them.
 
-Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
 ---
- drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_params.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/media/platform/samsung/exynos4-is/fimc-is-errno.c | 2 +-
+ drivers/media/platform/samsung/exynos4-is/fimc-is-errno.h | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_params.c b/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_params.c
-index 8039e311cb1c..7b41a13162b9 100644
---- a/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_params.c
-+++ b/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_params.c
-@@ -183,8 +183,8 @@ void sun6i_isp_params_configure(struct sun6i_isp_device *isp_dev)
- 	if (state->configured)
- 		goto complete;
+diff --git a/drivers/media/platform/samsung/exynos4-is/fimc-is-errno.c b/drivers/media/platform/samsung/exynos4-is/fimc-is-errno.c
+index 5d9f4c1cdc5e..7a48fad1df16 100644
+--- a/drivers/media/platform/samsung/exynos4-is/fimc-is-errno.c
++++ b/drivers/media/platform/samsung/exynos4-is/fimc-is-errno.c
+@@ -54,7 +54,7 @@ const char *fimc_is_param_strerr(unsigned int error)
+ 	case ERROR_DMA_INPUT_ORDER:
+ 		return "ERROR_DMA_INPUT_ORDER: Invalid order(DRC: YYCbCr,YCbYCr,FD:NO,YYCbCr,YCbYCr,CbCr,CrCb)";
+ 	case ERROR_DMA_INPUT_PLANE:
+-		return "ERROR_DMA_INPUT_PLANE: Invalid palne (DRC: 3, FD: 1, 2, 3)";
++		return "ERROR_DMA_INPUT_PLANE: Invalid plane (DRC: 3, FD: 1, 2, 3)";
+ 	case ERROR_OTF_OUTPUT_WIDTH:
+ 		return "ERROR_OTF_OUTPUT_WIDTH: Invalid width (DRC: 128~8192)";
+ 	case ERROR_OTF_OUTPUT_HEIGHT:
+diff --git a/drivers/media/platform/samsung/exynos4-is/fimc-is-errno.h b/drivers/media/platform/samsung/exynos4-is/fimc-is-errno.h
+index 9dcbb9853ac0..809e117331c0 100644
+--- a/drivers/media/platform/samsung/exynos4-is/fimc-is-errno.h
++++ b/drivers/media/platform/samsung/exynos4-is/fimc-is-errno.h
+@@ -156,7 +156,7 @@ enum fimc_is_error {
+ 	ERROR_DMA_INPUT_BIT_WIDTH	= 34,
+ 	/* invalid order(DRC: YYCbCrorYCbYCr, FD:NO,YYCbCr,YCbYCr,CbCr,CrCb) */
+ 	ERROR_DMA_INPUT_ORDER		= 35,
+-	/* invalid palne (DRC: 3, FD: 1, 2, 3) */
++	/* invalid plane (DRC: 3, FD: 1, 2, 3) */
+ 	ERROR_DMA_INPUT_PLANE		= 36,
  
--	 sun6i_isp_params_configure_modules(isp_dev,
--					    &sun6i_isp_params_config_default);
-+	sun6i_isp_params_configure_modules(isp_dev,
-+					   &sun6i_isp_params_config_default);
- 
- 	state->configured = true;
- 
+ 	ERROR_OTF_OUTPUT_NONE		= ERROR_COMMON_NONE,
 -- 
 2.38.1
 
