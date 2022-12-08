@@ -2,53 +2,53 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5EBFA646CF2
-	for <lists+linux-media@lfdr.de>; Thu,  8 Dec 2022 11:33:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5C196646CF5
+	for <lists+linux-media@lfdr.de>; Thu,  8 Dec 2022 11:33:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230150AbiLHKdq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 8 Dec 2022 05:33:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38044 "EHLO
+        id S230158AbiLHKdr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 8 Dec 2022 05:33:47 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38210 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229939AbiLHKcG (ORCPT
+        with ESMTP id S229943AbiLHKcG (ORCPT
         <rfc822;linux-media@vger.kernel.org>); Thu, 8 Dec 2022 05:32:06 -0500
-Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com [IPv6:2a00:1450:4864:20::12b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2CB9E813AD
-        for <linux-media@vger.kernel.org>; Thu,  8 Dec 2022 02:31:33 -0800 (PST)
-Received: by mail-lf1-x12b.google.com with SMTP id c1so1364599lfi.7
-        for <linux-media@vger.kernel.org>; Thu, 08 Dec 2022 02:31:33 -0800 (PST)
+Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com [IPv6:2a00:1450:4864:20::12f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4B2D813BC
+        for <linux-media@vger.kernel.org>; Thu,  8 Dec 2022 02:31:35 -0800 (PST)
+Received: by mail-lf1-x12f.google.com with SMTP id j4so1423080lfk.0
+        for <linux-media@vger.kernel.org>; Thu, 08 Dec 2022 02:31:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ftjSB9JJ8yBkXE+8vCPq7doIFKzD/Pbisdda5DVy8ec=;
-        b=dbfh3g3XU/oJm/3BLec2LP+qdKfwx3FxgxohCpre6Ghy/mZbm681ARz0qOr+DO9taR
-         9CRIzs33N0WRZuTnzWLQJ3cPZoRfoCnzVkgwHIS/HwZpYdFOw7RlpP2MOBJWgEx8XGIt
-         qDOxAzSs8lOFyeP1vp3kETNwQSg0ZjkvQi+LzXcfh0oiqQ9zZkFz+OaQNVlNjQNckQ/3
-         1P9Z87L/E3KnjRGP9hO612DdRCn4R41dqucH4woOZZr5DiBXaaIxUUb1ClsUkVoxSsp2
-         M8UwR8CrF5sKT6QaMtDTU/3Ecl5SKGcfgg6ZV7uwnZ5l0iP4N5IkLmyPWZYrMMCMvaQ1
-         PGQQ==
+        bh=NxOwaXNbTiEohgYyBqos3ms0rULNHpJBLRwyMfOuuH0=;
+        b=SNdyGSv85VbVAi3pneX2JkKUEzvN0PW4W9IL5g4DRhHvrBMOeni6Z+pOOEUpcInHC4
+         8Oe7zRj7yqve48LHxc9nGSZ8mjyRRCvJpCF3Z+HStSkQrZAQaWw7GQJclRQO/E9VVVfd
+         Buw7kNckTMw6llktH1TFtA8zYKuFyKlQfBHRHR2N0gMd5aCUYKIQZHVTqSpTEg/De5ZJ
+         /7DYMHhSqyEC4K8AQQoiej8iBaSgPHsLttayPnDRwNPyQdAbC6HBdlCjQciE5QjQ2mgc
+         Vx23NFx3NOCox+iJMxdZPi1LNdtRivWrNNhADRl2USslYsznJEGxEtTQac8m8oo5Up8r
+         ayQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ftjSB9JJ8yBkXE+8vCPq7doIFKzD/Pbisdda5DVy8ec=;
-        b=t60FdCkGf2v3LzL/lWL/+yHtihqVol1h39vz9bNGODROoNI1baRmAODx9pBSlu4Wgd
-         H3xVPzL7MYMVFNKA7LcreW2WqsggFIe6gGEvouPDYVVigUrlJ4qxuWZHjx2M9hoqWwLe
-         77i0uYAKwg1H/4Z1KvoCJ4212Uxgwi9L69wMfrWikyIfou66Iz/1AQkrzGAIUusVTCOO
-         giQuqvVrHy7NP+cx+wdke89jgoK4HMLgIZeEjG/rf6MQUvHWOvNOF7ATKm6gVpJ6wp8i
-         o4tgfd4daMQ4oczhK2GRfyIrokbmFZtq1cYC7Ad2QjJ0NWce2cnYn24GMwkgIrF5NIPW
-         NJJQ==
-X-Gm-Message-State: ANoB5plMG3YvbVn+vVdhPa+mCFC7POdgiD9ZOlKIARG+ccOkBPmVCET+
-        grOXylwxIjBT5Bw/mbLEIG7Fng==
-X-Google-Smtp-Source: AA0mqf7mJ7hPTjTyDYOTCN/aOz4Q4Nmpm1b3/sJOmvJy3YMAcQdtmB8QWjRiPE44lHuTnqxw5QeA2A==
-X-Received: by 2002:ac2:4219:0:b0:4a2:2701:7d29 with SMTP id y25-20020ac24219000000b004a227017d29mr33808284lfh.322.1670495492059;
-        Thu, 08 Dec 2022 02:31:32 -0800 (PST)
+        bh=NxOwaXNbTiEohgYyBqos3ms0rULNHpJBLRwyMfOuuH0=;
+        b=obPTh4gJ6o0qVk4F72+GfNO7l907ME9M9gpMedNDpLiR3lNIK/gMU0QJA3BtauQczZ
+         E7FZc20GFd3dhfda3sIqnroV6qLoTMTkYPABFSc+jukmcPDmMQwK6miU5ecKzAtiwV7S
+         nsd7JfTUXVkmx1wsSOWR9xG3sOGXOGWMX/HKvMEfuIjQI3sox8LlVkfw+tiGMi5Qy+3/
+         EBSOFreTM4ZA8WigGqBu0IW2n6RP9rqihLRlw7tIMeihDseH8kEZ/kOl12pI3z8wyMNB
+         /AJwdBlfQSWrdew4qOntpDQeG4dNFZDvFy1LcQKEufkL0XbmYJdDHnHCnTg5+cd6t8u+
+         YZ4Q==
+X-Gm-Message-State: ANoB5pkffS9vIeKUmH+SzqKEL0AhrSkRzUid4QA3Qp2lvqoF95IuH6QB
+        tFkt1WR4Kd3IV0G6oQrfIEy23Q==
+X-Google-Smtp-Source: AA0mqf4diiVxd7W4vZQ0KqLCAk/r4Pm72qA2Aa2aQQA5cwubEv5SXUy9nz5yQdu/ga1nWqYYYtXzrw==
+X-Received: by 2002:a05:6512:3a96:b0:4b4:f5da:fb28 with SMTP id q22-20020a0565123a9600b004b4f5dafb28mr20618283lfu.169.1670495494230;
+        Thu, 08 Dec 2022 02:31:34 -0800 (PST)
 Received: from krzk-bin.NAT.warszawa.vectranet.pl (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
-        by smtp.gmail.com with ESMTPSA id h18-20020a2eb0f2000000b00279e5247dabsm1699580ljl.18.2022.12.08.02.31.30
+        by smtp.gmail.com with ESMTPSA id h18-20020a2eb0f2000000b00279e5247dabsm1699580ljl.18.2022.12.08.02.31.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 Dec 2022 02:31:31 -0800 (PST)
+        Thu, 08 Dec 2022 02:31:33 -0800 (PST)
 From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
@@ -73,9 +73,9 @@ To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-stm32@st-md-mailman.stormreply.com
 Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
         Rob Herring <robh@kernel.org>
-Subject: [PATCH v4 3/9] media: dt-bindings: cec: convert common CEC properties to DT schema
-Date:   Thu,  8 Dec 2022 11:31:09 +0100
-Message-Id: <20221208103115.25512-4-krzysztof.kozlowski@linaro.org>
+Subject: [PATCH v4 4/9] media: dt-bindings: amlogic,meson-gx-ao-cec: reference common CEC properties
+Date:   Thu,  8 Dec 2022 11:31:10 +0100
+Message-Id: <20221208103115.25512-5-krzysztof.kozlowski@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221208103115.25512-1-krzysztof.kozlowski@linaro.org>
 References: <20221208103115.25512-1-krzysztof.kozlowski@linaro.org>
@@ -83,88 +83,49 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Convert common HDMI CEC adapter bindings to DT schema.
+Reference common HDMI CEC adapter properties to simplify the binding and
+have only one place of definition for common properties.
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Acked-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Acked-by: Neil Armstrong <neil.armstrong@linaro.org>
 Reviewed-by: Rob Herring <robh@kernel.org>
 ---
- .../devicetree/bindings/media/cec.txt         |  8 ------
- .../bindings/media/cec/cec-common.yaml        | 28 +++++++++++++++++++
- MAINTAINERS                                   |  2 +-
- 3 files changed, 29 insertions(+), 9 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/media/cec.txt
- create mode 100644 Documentation/devicetree/bindings/media/cec/cec-common.yaml
+ .../bindings/media/cec/amlogic,meson-gx-ao-cec.yaml        | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/media/cec.txt b/Documentation/devicetree/bindings/media/cec.txt
-deleted file mode 100644
-index 22d7aae3d3d7..000000000000
---- a/Documentation/devicetree/bindings/media/cec.txt
-+++ /dev/null
-@@ -1,8 +0,0 @@
--Common bindings for HDMI CEC adapters
+diff --git a/Documentation/devicetree/bindings/media/cec/amlogic,meson-gx-ao-cec.yaml b/Documentation/devicetree/bindings/media/cec/amlogic,meson-gx-ao-cec.yaml
+index f65c9681a9f7..b1fab53418f9 100644
+--- a/Documentation/devicetree/bindings/media/cec/amlogic,meson-gx-ao-cec.yaml
++++ b/Documentation/devicetree/bindings/media/cec/amlogic,meson-gx-ao-cec.yaml
+@@ -33,11 +33,8 @@ properties:
+   interrupts:
+     maxItems: 1
+ 
+-  hdmi-phandle:
+-    description: phandle to the HDMI controller
+-    $ref: /schemas/types.yaml#/definitions/phandle
 -
--- hdmi-phandle: phandle to the HDMI controller.
--
--- needs-hpd: if present the CEC support is only available when the HPD
--  is high. Some boards only let the CEC pin through if the HPD is high,
--  for example if there is a level converter that uses the HPD to power
--  up or down.
-diff --git a/Documentation/devicetree/bindings/media/cec/cec-common.yaml b/Documentation/devicetree/bindings/media/cec/cec-common.yaml
-new file mode 100644
-index 000000000000..af6ee5f1c73f
---- /dev/null
-+++ b/Documentation/devicetree/bindings/media/cec/cec-common.yaml
-@@ -0,0 +1,28 @@
-+# SPDX-License-Identifier: GPL-2.0 OR BSD-2-Clause
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/media/cec/cec-common.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: HDMI CEC Adapters Common Properties
-+
-+maintainers:
-+  - Hans Verkuil <hverkuil@xs4all.nl>
-+
-+properties:
-+  $nodename:
-+    pattern: "^cec(@[0-9a-f]+|-[0-9]+)?$"
-+
-+  hdmi-phandle:
-+    $ref: /schemas/types.yaml#/definitions/phandle
-+    description:
-+      Phandle to the HDMI controller.
-+
-+  needs-hpd:
-+    type: boolean
-+    description:
-+      The CEC support is only available when the HPD is high. Some boards only
-+      let the CEC pin through if the HPD is high, for example if there is a
-+      level converter that uses the HPD to power up or down.
-+
-+additionalProperties: true
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 07cb85cac4c3..45402e03cda5 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -4832,7 +4832,7 @@ S:	Supported
- W:	http://linuxtv.org
- T:	git git://linuxtv.org/media_tree.git
- F:	Documentation/ABI/testing/debugfs-cec-error-inj
--F:	Documentation/devicetree/bindings/media/cec.txt
-+F:	Documentation/devicetree/bindings/media/cec/cec-common.yaml
- F:	Documentation/driver-api/media/cec-core.rst
- F:	Documentation/userspace-api/media/cec
- F:	drivers/media/cec/
+ allOf:
++  - $ref: cec-common.yaml#
+   - if:
+       properties:
+         compatible:
+@@ -81,7 +78,7 @@ required:
+   - clocks
+   - clock-names
+ 
+-additionalProperties: false
++unevaluatedProperties: false
+ 
+ examples:
+   - |
 -- 
 2.34.1
 
