@@ -2,189 +2,133 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 578E6646BCA
-	for <lists+linux-media@lfdr.de>; Thu,  8 Dec 2022 10:23:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 36680646BCD
+	for <lists+linux-media@lfdr.de>; Thu,  8 Dec 2022 10:23:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229650AbiLHJX0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 8 Dec 2022 04:23:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54398 "EHLO
+        id S230092AbiLHJXu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 8 Dec 2022 04:23:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54574 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230124AbiLHJXX (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 8 Dec 2022 04:23:23 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 84E3C58BF8
-        for <linux-media@vger.kernel.org>; Thu,  8 Dec 2022 01:23:19 -0800 (PST)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id C389D25B;
-        Thu,  8 Dec 2022 10:23:16 +0100 (CET)
+        with ESMTP id S230048AbiLHJXs (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 8 Dec 2022 04:23:48 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB8875C74E;
+        Thu,  8 Dec 2022 01:23:45 -0800 (PST)
+Received: from [192.168.1.15] (91-154-32-225.elisa-laajakaista.fi [91.154.32.225])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4ADBE25B;
+        Thu,  8 Dec 2022 10:23:42 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1670491397;
-        bh=+Vg6V5z+VnhbzpPD4SOxsKlcnLC3pUvXkN0M0hWaAqQ=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=aqSnVvjbv7FoDBQweJ2Nc2rtBHi1IwkqLJUA0es7eINh34fhflHC1AFw3ymco5Vsx
-         ZdHMeE3LAGLkHW2kg790tDSm/1VpAhhyVQ01Bo3xo+L12QA+wABKYqaYCn6rBfQEvv
-         fJCd9x+ASlcU3RJyH9RNqc2gnGnTmxCALGE/w3Yg=
-Date:   Thu, 8 Dec 2022 11:23:14 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        linux-media@vger.kernel.org,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        niklas.soderlund+renesas@ragnatech.se,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        satish.nagireddy@getcruise.com, Tomasz Figa <tfiga@chromium.org>
-Subject: Re: [PATCH v2 1/1] media: Documentation: Interaction between routes,
- formats and selections
-Message-ID: <Y5GtAmFjcaxSZ5y/@pendragon.ideasonboard.com>
-References: <20221207105809.911482-1-sakari.ailus@linux.intel.com>
+        s=mail; t=1670491423;
+        bh=6e3cUNNKs0Mbc6lRI0WlQoFsDq6mdyEYot1UJAoMES8=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=viWeAjRfAvQDJgnz5ohqc3JZkl7Q+gk/Z3jJt8aK+WmByB4rXDZUkfs2Sg2ZcCA4E
+         fddgUjJkVmLM9By1Lr+REp0CsPRxZDIQxfz+uEvj73auGnCvKWwy6r4mo73JXaMmSm
+         LmAN/hm7+be8HNS8BQ/HlAqrxUToEAWMkxYNCp2o=
+Message-ID: <e2f8d8f2-dd16-fe2a-8413-ba408672801d@ideasonboard.com>
+Date:   Thu, 8 Dec 2022 11:23:39 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20221207105809.911482-1-sakari.ailus@linux.intel.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH v4 3/8] dt-bindings: media: add bindings for TI DS90UB960
+Content-Language: en-US
+To:     Luca Ceresoli <luca.ceresoli@bootlin.com>,
+        "Vaittinen, Matti" <Matti.Vaittinen@fi.rohmeurope.com>,
+        Wolfram Sang <wsa@the-dreams.de>
+Cc:     Rob Herring <robh@kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Luca Ceresoli <luca@lucaceresoli.net>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Peter Rosin <peda@axentia.se>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Vladimir Zapolskiy <vz@mleia.com>,
+        "satish.nagireddy@getcruise.com" <satish.nagireddy@getcruise.com>
+References: <20221101132032.1542416-1-tomi.valkeinen@ideasonboard.com>
+ <20221101132032.1542416-4-tomi.valkeinen@ideasonboard.com>
+ <20221102172630.GA4140587-robh@kernel.org>
+ <6c254d5f-9fa1-b06a-4edb-7e58e4b33101@ideasonboard.com>
+ <fb9e9d5e-9c8b-1ce2-5723-efa498d1ba93@fi.rohmeurope.com>
+ <8360ac8f-64aa-9edd-a110-903e734739f3@ideasonboard.com>
+ <20221111172631.2832ae6c@booty>
+From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+In-Reply-To: <20221111172631.2832ae6c@booty>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari,
+Hi Luca,
 
-Thank you for the patch.
-
-On Wed, Dec 07, 2022 at 12:58:09PM +0200, Sakari Ailus wrote:
-> Document how setting up routes interacts with formats and selections.
+On 11/11/2022 18:26, Luca Ceresoli wrote:
+> Hello Tomi, Matti, Wolfram,
 > 
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> ---
-> since v1:
+> On Thu, 3 Nov 2022 14:32:02 +0200
+> Tomi Valkeinen <tomi.valkeinen@ideasonboard.com> wrote:
 > 
-> - Rewording changes based on Tomi's comments. In particular stricter
->   separation between "stream" and "stream ID".
+>> On 03/11/2022 14:13, Vaittinen, Matti wrote:
+>>> On 11/3/22 13:50, Tomi Valkeinen wrote:
+>>>> Hi Rob,
+>>>>
+>>>> On 02/11/2022 19:26, Rob Herring wrote:
+>>>>> On Tue, Nov 01, 2022 at 03:20:27PM +0200, Tomi Valkeinen wrote:
+>>>>>> +
+>>>>>> +  i2c-alias-pool:
+>>>>>
+>>>>> Something common or could be? If not, then needs a vendor prefix.
+>>>>
+>>>> I'll have to think about this. It is related to the i2c-atr, so I think
+>>>> it might be a common thing.
+>>>
+>>> I'd say this should be common. Where the i2c-atr properties should live
+>>> is another question though. If the I2C-atr stays as a genericly usable
+>>> component - then these bindings should be in a file that can be
+>>> referenced by other I2C-atr users (like the UB960 here).
+>>
+>> Yep. All the links, link, serializer and alias nodes/properties are new
+>> things here, and I guess these could be used by other deser-ser systems.
+>> That said, I don't have any experience with other systems.
 > 
->  .../userspace-api/media/v4l/dev-subdev.rst    | 50 ++++++++++++++-----
->  1 file changed, 37 insertions(+), 13 deletions(-)
+> The i2c-alias-pool was discussed during the RFC,v2 review [1] and it
+> was agreed that it should be generic. The same principle should apply
+> to the other ATR properties.
 > 
-> diff --git a/Documentation/userspace-api/media/v4l/dev-subdev.rst b/Documentation/userspace-api/media/v4l/dev-subdev.rst
-> index 5075b1828b32d..92710bb9a0caa 100644
-> --- a/Documentation/userspace-api/media/v4l/dev-subdev.rst
-> +++ b/Documentation/userspace-api/media/v4l/dev-subdev.rst
-> @@ -406,6 +406,8 @@ pixel array is not rectangular but cross-shaped or round. The maximum
->  size may also be smaller than the BOUNDS rectangle.
->  
->  
-> +.. _format-propagation:
-> +
->  Order of configuration and format propagation
->  ---------------------------------------------
->  
-> @@ -507,12 +509,12 @@ source pads.
->  Streams, multiplexed media pads and internal routing
->  ----------------------------------------------------
->  
-> -Commonly V4L2 subdevices support only separate video streams, that is, only a
-> -single stream can pass through a media link and a media pad. Thus each pad
-> -contains a format configuration for that single stream. In some cases a subdev
-> -can do stream processing and split a stream into two or compose two streams
-> -into one, but the inputs and outputs for the subdev are still a single stream
-> -per pad.
-> +Simple V4L2 subdevices do not support multiple, unrelated video streams,
-> +and only a single stream can pass through a media link and a media pad.
-> +Thus each pad contains a format and selection configuration for that
-> +single stream. A subdev can do stream processing and split a stream into
-> +two or compose two streams into one, but the inputs and outputs for the
-> +subdev are still a single stream per pad.
->  
->  Some hardware, e.g. MIPI CSI-2, support multiplexed streams, that is, multiple
->  data streams are transmitted on the same bus, which is represented by a media
-> @@ -539,14 +541,33 @@ streams from one end of the link to the other, and subdevices have routing
->  tables which describe how the incoming streams from sink pads are routed to the
->  source pads.
->  
-> -A stream ID (often just "stream") is a media link-local identifier for a stream.
-> +A stream ID is a media link-local identifier for a stream.
->  In other words, a particular stream ID must exist on both sides of a media
->  link, but another stream ID can be used for the same stream at the other side
-> -of the subdevice.
-> +of the subdevice. The same stream ID is used to refer to the stream on
-> +both pads of the link on all ioctls operating on pads.
-> +
-> +A stream at a specific point in the media pipeline is identified by the
-> +sub-devdev and a pad ID-stream ID pair. For subdevices that do not support
-> +multiplexed streams the 'stream' field is always 0.
-> +
-> +Interaction between routes, formats and selections
+> That said, at some point it was also decided that the alias pool should
+> just be ditched in favor of an automatic selection of an unused address
+> by the i2c core [2] [3]. Maybe that idea has changed, definitely some
+> i2c core things needed to be omdified for it to happen, but overall I'm
+> still convinced automatic assignment without a pool was a good idea.
 
-s/selections/selection rectangles/
+Yes, the serializer and the remote peripheral i2c aliases can be 
+dynamically reserved at runtime, so the i2c-alias-pool and the i2c-alias 
+are, in that sense, not needed.
 
-> +^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> +
-> +The addition of routes to the V4L2 sub-device interface moves the
-> +sub-device formats and selections from pads to pad ID-stream ID pairs.
+I haven't looked at this in depth yet, but reading the references you 
+gave, it sounds like it's not quite clear what addresses are available 
+and what are not.
 
-This reads as "pad" "ID-stream" "ID" "pairs". Even knowing how the API
-behaves, I had trouble understanding this.
+On the other hand, is dynamic i2c address reservation something that the 
+users expect to happen? All i2c devices I have used have always had a 
+fixed address in the DT, even if at times the devices may support 
+choosing between a few different addresses.
 
-> +Besides the usual pad ID, also the stream ID needs to be provided for
-> +setting formats and selections.
-> +
-> +Instead of the sub-device wide merging of streams from all source pads
-> +towards all sink pads, data flows for each route are separate from each
-> +other. Any number of routes from streams on sink pads towards streams on
-> +source pads is allowed, to the extent supported by drivers. For every
-> +stream on a sink pad, however, only a single route is allowed.
+Keeping with that tradition, would it be best to just use fixed i2c 
+aliases, defined in the DT, for the serializers and the remote 
+peripherals? In the current series this is already the case for 
+serializers (with i2c-alias property), but we could do something similar 
+for the remote peripherals.
 
-This explains routes, not format and selection rectangles.
+  Tomi
 
-> -A stream at a specific point in the media pipeline is identified with the
-> -subdev and a (pad, stream) pair. For subdevices that do not support
-> -multiplexed streams the 'stream' is always 0.
-> +Stream IDs, part of routes, are configured by using the
-> +:ref:`VIDIOC_SUBDEV_S_ROUTING <VIDIOC_SUBDEV_G_ROUTING>` ioctl. This will
-> +also revert the format and selection configuration to device defaults.
-
-I don't expect someone who doesn't have detailed knowledge of the
-implementation to understand what you mean here :-(
-
->  Configuring streams
->  ^^^^^^^^^^^^^^^^^^^
-> @@ -565,8 +586,11 @@ Controller API <media_controller>`
->  setting the routing table will reset all the stream configurations in a media
->  entity.
->  
-> -3) Configure streams. Each route endpoint must be configured
-> -with :ref:`VIDIOC_SUBDEV_S_FMT <VIDIOC_SUBDEV_G_FMT>`.
-> +3) Configure formats and selections. Each route is configured separately
-
-We don't configure routes but streams, don't we ? Mentioning routes here
-seems confusing to me.
-
-> +as documented plain subdevices in :ref:`<format-propagation>`. The stream
-
-Did you mean "as documented for plain subdevices" ?
-
-This is the part that bothers me. I don't think we can consider the
-configuration of routes to be independent in the general case. How the
-formats and selection rectangle of different streams interact with each
-other is what I'd like to see documented.
-
-As this is an area that has been entirely unexplored until now as far as
-I can tell, I would be fine if we wanted to merge streams support
-without support for selection rectangles to start with, and experiment
-with the selection API later, once we have good use cases that can be
-used for design and development.
-
-> +ID is set to the same stream ID associated with either sink or source pads
-> +of routes configured using the :ref:`VIDIOC_SUBDEV_S_ROUTING
-> +<VIDIOC_SUBDEV_G_ROUTING>` ioctl.
->  
->  Multiplexed streams setup example
->  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
--- 
-Regards,
-
-Laurent Pinchart
