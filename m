@@ -2,52 +2,53 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8E42F646CDE
-	for <lists+linux-media@lfdr.de>; Thu,  8 Dec 2022 11:33:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DB3A4646CE5
+	for <lists+linux-media@lfdr.de>; Thu,  8 Dec 2022 11:33:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229992AbiLHKdL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 8 Dec 2022 05:33:11 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38078 "EHLO
+        id S230077AbiLHKdT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 8 Dec 2022 05:33:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38118 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230000AbiLHKb4 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 8 Dec 2022 05:31:56 -0500
-Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com [IPv6:2a00:1450:4864:20::22c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 65A9F7F890
-        for <linux-media@vger.kernel.org>; Thu,  8 Dec 2022 02:31:27 -0800 (PST)
-Received: by mail-lj1-x22c.google.com with SMTP id b9so1085548ljr.5
-        for <linux-media@vger.kernel.org>; Thu, 08 Dec 2022 02:31:27 -0800 (PST)
+        with ESMTP id S230075AbiLHKb7 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 8 Dec 2022 05:31:59 -0500
+Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com [IPv6:2a00:1450:4864:20::234])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 964917F8A6
+        for <linux-media@vger.kernel.org>; Thu,  8 Dec 2022 02:31:29 -0800 (PST)
+Received: by mail-lj1-x234.google.com with SMTP id a7so1063967ljq.12
+        for <linux-media@vger.kernel.org>; Thu, 08 Dec 2022 02:31:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=hHpfKld4lMu5+ixat6T/4oDADkdqQ2JYTvtcw+gBQks=;
-        b=lYkktDDamxCqSzLug7/jM6W5q3xrwBPVxdKHojjaI+5YLOTvfvjGAF3suKsT7ZOuZj
-         D26pEZy5c+Fgf4U3ZEupe3wBJ8BY7XeWnpxs3oPF00XBwYvgdba0EYWCnniEDOIU25BD
-         d93uf25o+GlAocvZyCKOC1Dqe4dvUAa2PE/zxshL55Jm19Z662tl7kt88IzxeMvx1y9a
-         87haUECX9Ix1B2GJDY6XsflvT1P4JnchaRB2RdQ2gXqG8nb2lU+STpo3VNF0sXHwaS3E
-         6j4IJITO8mGNzCKrnDIZp/65HCYeba7WcjyBptakuOl1p2TLS+yHAn2Js5IEhInO0T8v
-         3lHg==
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/AxgtdSHYHP1YbbzJqlPfT18aEYuRk09InbeSd0JHNg=;
+        b=vRC/imatoHVwHYY/xYn/XxRuhvdx+OB/SREDy14/PgQFlvrcB0EQ4id+Ayn//84QYK
+         arsf1sF22Nuv9HYLsJZwEdrxi758C5vfm5ZOaHEJtq0l7mSlFY73m118j5bw0eEzZpEK
+         7Xp9QuvafRfPFLxYttCVahNoYSTwtOcU9Os+EwRSUZK6QgYONFNQPqmoIef+Gc5FzOsc
+         r2hrYVDys42CmHewFWsn4iF/mp6c9uznU3JcXO2DwcMrSWsM+fELE3+Zlg43ltpAOqxZ
+         8O12HQw3aOU4Pykni54J7as2y1Pkb1ySFTZzA6k4V5WwMbs8gf2/A9CzcxP9jWEnF5gq
+         rHWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=hHpfKld4lMu5+ixat6T/4oDADkdqQ2JYTvtcw+gBQks=;
-        b=Okv/NPJwAUksVfnqHObFRSZPcbwqtq5DsaHmHmTzja/ZWWzznkoSoOpQLpw7YnxkvH
-         8LbllEE3aClpFBsBTd6m3WOvYrNBhFKok301qya8u8IcpMzoJ/cHTHxifSdSfNnH8GP7
-         8pABx4LBW1EQ5UFSiygzRUXfXj6AHcCsYq/DGutjOeYMcEmjElazSBRW80MHNyIEo9KW
-         sJYcO2WbSlCEOso/op9gyenyK1DWQtvWQoxkA/A2aV1IF05IcsRV2NRnoVOq2G9IWVf2
-         +VuCQLFmylS/uPtlA1q7dPgLOdcv6ekFisaCt2bbNa0LNwblDR+ZhuXkXdtylifUjOr/
-         ic8A==
-X-Gm-Message-State: ANoB5pmbRTvOEyTkllVcz0iLthSNH6AOBmAhLTAms087/5mqHzqC+/4X
-        buU05iISYwiCov5QiqY2gkfeRw==
-X-Google-Smtp-Source: AA0mqf4YQr6Rqh7drzmAs4lwxW/QyZKhfelPGBRvTCbcteoRamNm4E3qRXuBmWRnOH2IoXB0BKMdTg==
-X-Received: by 2002:a05:651c:1592:b0:277:b9f:cdbd with SMTP id h18-20020a05651c159200b002770b9fcdbdmr31733522ljq.0.1670495485712;
-        Thu, 08 Dec 2022 02:31:25 -0800 (PST)
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=/AxgtdSHYHP1YbbzJqlPfT18aEYuRk09InbeSd0JHNg=;
+        b=HkVphekCknS7zDkG0J+63ENPzpZfMig4F931Pw4/CCAzysWOdahEmynPJaGuFyyjEQ
+         ZcMQa81RtQpBv/6gyqBCeatVsJSdKvaxwJwdo/8zhZ/5V5kWUHXryvGN19S4y1HtXkA6
+         iOs3QPaMb/1MzB+GJL+ZKOiahigIwB62rvq12CSBFh0NZ1OQUqCzuPCHSjH5KBUgo9A5
+         TF+8H3wX1ajVlLcfp+Ym2qaMiYOlYG8fYDkidbzmwXoCyYAoCsLBhRvAzwu1JafABqKl
+         Bf34jOIHETCWdBPEJ/d5bwh6EBzB9jMkxdx/hXhOsh7r4L7LgBQ2ahy3pyROGujckYTW
+         wWSQ==
+X-Gm-Message-State: ANoB5plxsR4u2KPlPOHsgOltt4arD3Gf9NEelR3OqE1gruyAnVNrccDz
+        Hv/OxjC5+DpBMDTVHqCrtOjR1Q==
+X-Google-Smtp-Source: AA0mqf4r+c/Cu2q8bu68UEJNNYlGepHPtzLV4IoukgbIUFguwupiwwM2w6EmGx8lDIrN2xvRWlHB6w==
+X-Received: by 2002:a2e:2c15:0:b0:27a:773:7054 with SMTP id s21-20020a2e2c15000000b0027a07737054mr3931835ljs.169.1670495487827;
+        Thu, 08 Dec 2022 02:31:27 -0800 (PST)
 Received: from krzk-bin.NAT.warszawa.vectranet.pl (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
-        by smtp.gmail.com with ESMTPSA id h18-20020a2eb0f2000000b00279e5247dabsm1699580ljl.18.2022.12.08.02.31.23
+        by smtp.gmail.com with ESMTPSA id h18-20020a2eb0f2000000b00279e5247dabsm1699580ljl.18.2022.12.08.02.31.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 Dec 2022 02:31:24 -0800 (PST)
+        Thu, 08 Dec 2022 02:31:27 -0800 (PST)
 From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
@@ -70,11 +71,14 @@ To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-amlogic@lists.infradead.org, linux-kernel@vger.kernel.org,
         linux-tegra@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
         linux-stm32@st-md-mailman.stormreply.com
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH v4 0/9] media: dt-bindings: common CEC properties
-Date:   Thu,  8 Dec 2022 11:31:06 +0100
-Message-Id: <20221208103115.25512-1-krzysztof.kozlowski@linaro.org>
+Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Rob Herring <robh@kernel.org>
+Subject: [PATCH v4 1/9] media: dt-bindings: amlogic,meson-gx-ao-cec: move to cec subfolder
+Date:   Thu,  8 Dec 2022 11:31:07 +0100
+Message-Id: <20221208103115.25512-2-krzysztof.kozlowski@linaro.org>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20221208103115.25512-1-krzysztof.kozlowski@linaro.org>
+References: <20221208103115.25512-1-krzysztof.kozlowski@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -87,67 +91,49 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+Move amlogic,meson-gx-ao-cec.yaml bindings to cec subfolder and drop
+unneeded quotes.
 
-Changes since v3
-================
-1. cec-gpio: Add missing SPDX.
-2. nvidia,tegra114-cec: Correct path in maintainers.
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Acked-by: Neil Armstrong <neil.armstrong@linaro.org>
+Acked-by: Rob Herring <robh@kernel.org>
+---
+ .../bindings/media/{ => cec}/amlogic,meson-gx-ao-cec.yaml     | 4 ++--
+ MAINTAINERS                                                   | 2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+ rename Documentation/devicetree/bindings/media/{ => cec}/amlogic,meson-gx-ao-cec.yaml (93%)
 
-Changes since v2:
-================
-1. nvidia,tegra114-cec: Rename to nvidia,tegra114-cec.yaml.
-2. nvidia,tegra114-cec: Nvidia->NVIDIA.
-3. Add acks/rb tags.
-
-Changes since v1
-================
-1. chrontel,ch7322: fix node name to 'cec'.
-2. Add ack tags.
-
-Best regards,
-Krzysztof
-
-Krzysztof Kozlowski (9):
-  media: dt-bindings: amlogic,meson-gx-ao-cec: move to cec subfolder
-  media: dt-bindings: st,stm32-cec: move to cec subfolder
-  media: dt-bindings: cec: convert common CEC properties to DT schema
-  media: dt-bindings: amlogic,meson-gx-ao-cec: reference common CEC
-    properties
-  media: dt-bindings: chrontel,ch7322: reference common CEC properties
-  media: dt-bindings: samsung,s5p-cec: convert to DT schema
-  media: dt-bindings: cec-gpio: convert to DT schema
-  media: dt-bindings: nvidia,tegra114-cec: convert to DT schema
-  media: dt-bindings: st,stih-cec: convert to DT schema
-
- .../devicetree/bindings/media/cec-gpio.txt    | 42 -----------
- .../devicetree/bindings/media/cec.txt         |  8 --
- .../{ => cec}/amlogic,meson-gx-ao-cec.yaml    | 11 +--
- .../bindings/media/cec/cec-common.yaml        | 28 +++++++
- .../bindings/media/cec/cec-gpio.yaml          | 74 +++++++++++++++++++
- .../media/cec/nvidia,tegra114-cec.yaml        | 58 +++++++++++++++
- .../bindings/media/cec/samsung,s5p-cec.yaml   | 66 +++++++++++++++++
- .../bindings/media/cec/st,stih-cec.yaml       | 66 +++++++++++++++++
- .../media/{ => cec}/st,stm32-cec.yaml         |  4 +-
- .../bindings/media/i2c/chrontel,ch7322.yaml   | 11 ++-
- .../devicetree/bindings/media/s5p-cec.txt     | 36 ---------
- .../devicetree/bindings/media/stih-cec.txt    | 27 -------
- .../devicetree/bindings/media/tegra-cec.txt   | 27 -------
- MAINTAINERS                                   | 12 +--
- 14 files changed, 309 insertions(+), 161 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/media/cec-gpio.txt
- delete mode 100644 Documentation/devicetree/bindings/media/cec.txt
- rename Documentation/devicetree/bindings/media/{ => cec}/amlogic,meson-gx-ao-cec.yaml (86%)
- create mode 100644 Documentation/devicetree/bindings/media/cec/cec-common.yaml
- create mode 100644 Documentation/devicetree/bindings/media/cec/cec-gpio.yaml
- create mode 100644 Documentation/devicetree/bindings/media/cec/nvidia,tegra114-cec.yaml
- create mode 100644 Documentation/devicetree/bindings/media/cec/samsung,s5p-cec.yaml
- create mode 100644 Documentation/devicetree/bindings/media/cec/st,stih-cec.yaml
- rename Documentation/devicetree/bindings/media/{ => cec}/st,stm32-cec.yaml (89%)
- delete mode 100644 Documentation/devicetree/bindings/media/s5p-cec.txt
- delete mode 100644 Documentation/devicetree/bindings/media/stih-cec.txt
- delete mode 100644 Documentation/devicetree/bindings/media/tegra-cec.txt
-
+diff --git a/Documentation/devicetree/bindings/media/amlogic,meson-gx-ao-cec.yaml b/Documentation/devicetree/bindings/media/cec/amlogic,meson-gx-ao-cec.yaml
+similarity index 93%
+rename from Documentation/devicetree/bindings/media/amlogic,meson-gx-ao-cec.yaml
+rename to Documentation/devicetree/bindings/media/cec/amlogic,meson-gx-ao-cec.yaml
+index 8d844f4312d1..f65c9681a9f7 100644
+--- a/Documentation/devicetree/bindings/media/amlogic,meson-gx-ao-cec.yaml
++++ b/Documentation/devicetree/bindings/media/cec/amlogic,meson-gx-ao-cec.yaml
+@@ -2,8 +2,8 @@
+ # Copyright 2019 BayLibre, SAS
+ %YAML 1.2
+ ---
+-$id: "http://devicetree.org/schemas/media/amlogic,meson-gx-ao-cec.yaml#"
+-$schema: "http://devicetree.org/meta-schemas/core.yaml#"
++$id: http://devicetree.org/schemas/media/cec/amlogic,meson-gx-ao-cec.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
+ 
+ title: Amlogic Meson AO-CEC Controller
+ 
+diff --git a/MAINTAINERS b/MAINTAINERS
+index e3f3c3e53f77..07cb85cac4c3 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -13553,7 +13553,7 @@ L:	linux-amlogic@lists.infradead.org
+ S:	Supported
+ W:	http://linux-meson.com/
+ T:	git git://linuxtv.org/media_tree.git
+-F:	Documentation/devicetree/bindings/media/amlogic,meson-gx-ao-cec.yaml
++F:	Documentation/devicetree/bindings/media/cec/amlogic,meson-gx-ao-cec.yaml
+ F:	drivers/media/cec/platform/meson/ao-cec-g12a.c
+ F:	drivers/media/cec/platform/meson/ao-cec.c
+ 
 -- 
 2.34.1
 
