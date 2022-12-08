@@ -2,66 +2,121 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C1798647135
-	for <lists+linux-media@lfdr.de>; Thu,  8 Dec 2022 14:58:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D30AB647168
+	for <lists+linux-media@lfdr.de>; Thu,  8 Dec 2022 15:15:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230397AbiLHN6d (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 8 Dec 2022 08:58:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60190 "EHLO
+        id S229792AbiLHOO7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 8 Dec 2022 09:14:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47296 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230374AbiLHN6O (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 8 Dec 2022 08:58:14 -0500
-Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::222])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C539C9950D;
-        Thu,  8 Dec 2022 05:57:27 -0800 (PST)
-Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id 7BE0540009;
-        Thu,  8 Dec 2022 13:57:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1670507845;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=Mr7vzB06ht6izeqsLHAia6JSQyQ1GNVqrccqV8dELgw=;
-        b=DCDRHaqHKOtHFvSe0xYDJk3kFFuNCF608DJmF1Ke49OrphC+kEsbFvOFWPlw3VPNrRZI+1
-        ZU9aKAaF+ZODnViGtoxXxFmr+L+gXshALTNDSWbF91Jm7sOhqzjS+QlBLAzLi2MDuGXKG+
-        nIAl2Ljwd1oSA+IBIU14we++A59VNUDAh5Jw8YcvYy382VRl1GCZi5Flq1tG+5AWai0AGn
-        wKE9Z4jjRN+alZWX/vL//ioFfzRY63K6gpOM/llOvgic6mHbINMMauKybI5u+YQbIRfLWc
-        cM8MCLMGt25iy+iHwLefsjtMnQu/58Jne5S3MJkPooyesnbI/10NsBr6DXz+PA==
-Date:   Thu, 8 Dec 2022 14:57:22 +0100
-From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To:     Conor Dooley <conor@kernel.org>
-Cc:     Nathan Chancellor <nathan@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-        linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Samuel Holland <samuel@sholland.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        llvm@lists.linux.dev
-Subject: Re: [PATCH v8 3/6] staging: media: Add support for the Allwinner A31
- ISP
-Message-ID: <Y5HtQr6G1Ha8ybeX@aptenodytes>
-References: <20221103163717.246217-1-paul.kocialkowski@bootlin.com>
- <20221103163717.246217-4-paul.kocialkowski@bootlin.com>
- <Y4RVzSM4FQ/tYQAV@dev-arch.thelio-3990X>
- <Y5BlisjV8Zi5fGWC@spud>
+        with ESMTP id S229758AbiLHOO5 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 8 Dec 2022 09:14:57 -0500
+Received: from mailout1.samsung.com (mailout1.samsung.com [203.254.224.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F37007F88A
+        for <linux-media@vger.kernel.org>; Thu,  8 Dec 2022 06:14:53 -0800 (PST)
+Received: from epcas5p3.samsung.com (unknown [182.195.41.41])
+        by mailout1.samsung.com (KnoxPortal) with ESMTP id 20221208141449epoutp01942e2b40bb8bd7b0d8e1b91961042e5b~u1vwRIQtY2662126621epoutp01h
+        for <linux-media@vger.kernel.org>; Thu,  8 Dec 2022 14:14:49 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20221208141449epoutp01942e2b40bb8bd7b0d8e1b91961042e5b~u1vwRIQtY2662126621epoutp01h
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+        s=mail20170921; t=1670508889;
+        bh=y9qUn4mXBv4NSRx5v9NuWhOMRw9GaeQfdHzFhonAdg0=;
+        h=From:To:Cc:In-Reply-To:Subject:Date:References:From;
+        b=IIDgzWcfGhPXW+e9yVbjuCqiGs0ytBI1g4dStBAaq/v9isdUsGUKEaGzJteWTE25F
+         6cIjwIeqVa2EEpNld2ihsmXh2Xw0IPGj9HWNifh/+2UlxUmAYxgij0lo39UDiR88Su
+         MxqVmIpWWeRiWWvx40W/rAE+QjtvihPgEFYhqliw=
+Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
+        epcas5p4.samsung.com (KnoxPortal) with ESMTP id
+        20221208141449epcas5p45d35d6ca14aef2e0d906c9ee87d4d958~u1vvyyt340520505205epcas5p4P;
+        Thu,  8 Dec 2022 14:14:49 +0000 (GMT)
+Received: from epsmges5p2new.samsung.com (unknown [182.195.38.175]) by
+        epsnrtp3.localdomain (Postfix) with ESMTP id 4NSbkv5Vbrz4x9Pp; Thu,  8 Dec
+        2022 14:14:47 +0000 (GMT)
+Received: from epcas5p2.samsung.com ( [182.195.41.40]) by
+        epsmges5p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
+        9F.29.39477.751F1936; Thu,  8 Dec 2022 23:14:47 +0900 (KST)
+Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
+        epcas5p4.samsung.com (KnoxPortal) with ESMTPA id
+        20221208141447epcas5p44220ff166d8b4c594274cff4011b339e~u1vt-NmN_0520505205epcas5p4N;
+        Thu,  8 Dec 2022 14:14:47 +0000 (GMT)
+Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
+        epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
+        20221208141447epsmtrp24fa15b13372427ab8710cafb51f29bbd~u1vt9Sv_m2935429354epsmtrp2H;
+        Thu,  8 Dec 2022 14:14:47 +0000 (GMT)
+X-AuditID: b6c32a4a-259fb70000019a35-16-6391f1575356
+Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
+        epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+        38.83.14392.751F1936; Thu,  8 Dec 2022 23:14:47 +0900 (KST)
+Received: from alimakhtar03 (unknown [107.122.12.5]) by epsmtip2.samsung.com
+        (KnoxPortal) with ESMTPA id
+        20221208141445epsmtip2a75fc708e4e957c0b9dd1ca49ad5b82a~u1vsmR-rM1136411364epsmtip2Q;
+        Thu,  8 Dec 2022 14:14:45 +0000 (GMT)
+From:   "Alim Akhtar" <alim.akhtar@samsung.com>
+To:     "'Colin Ian King'" <colin.i.king@gmail.com>,
+        "'Sylwester Nawrocki'" <s.nawrocki@samsung.com>,
+        "'Mauro Carvalho Chehab'" <mchehab@kernel.org>,
+        "'Krzysztof Kozlowski'" <krzysztof.kozlowski@linaro.org>,
+        <linux-media@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-samsung-soc@vger.kernel.org>
+Cc:     <kernel-janitors@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+In-Reply-To: <20221208115847.2433777-1-colin.i.king@gmail.com>
+Subject: RE: [PATCH] media: platform: exynos4-is: Fix spelling mistake
+ "palne" -> "plane"
+Date:   Thu, 8 Dec 2022 19:44:44 +0530
+Message-ID: <000801d90b0f$6d621620$48264260$@samsung.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="Eq1pwegXvM8VevdS"
-Content-Disposition: inline
-In-Reply-To: <Y5BlisjV8Zi5fGWC@spud>
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+X-Mailer: Microsoft Outlook 16.0
+Thread-Index: AQI0vk9RW1iZ4BXMTfsejTy1hxIu1gDaeiQgraXOGYA=
+Content-Language: en-us
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrGJsWRmVeSWpSXmKPExsWy7bCmhm74x4nJBv8maVpMav/CarH1lrTF
+        3tdb2S02Pb7GanF51xw2i54NW1ktZpzfx2SxbNMfJovDb9pZHTg9ds66y+6xaVUnm8eda3vY
+        PDYvqffo27KK0ePzJrkAtqhsm4zUxJTUIoXUvOT8lMy8dFsl7+B453hTMwNDXUNLC3MlhbzE
+        3FRbJRefAF23zBygm5QUyhJzSoFCAYnFxUr6djZF+aUlqQoZ+cUltkqpBSk5BSYFesWJucWl
+        eel6eaklVoYGBkamQIUJ2RkfpvYxF+wVqbhwaC9zA+N/wS5GTg4JAROJU8+esHcxcnEICexm
+        lLh++DsLhPOJUWLVlZtQmW+MEiu3fQFyOMBaHk11BOkWEtjLKPH2TTJEzUtGidPzVrKAJNgE
+        dCV2LG5jA0mICOxjkvg/fQMjSIJZwFXizpl7rCA2p4CdRN/eV0wgtrBAtMTRP4+ZQWwWARWJ
+        Dzfmgg3iFbCUaHp5jRnCFpQ4OfMJC8QcbYllC18zQ/ygIPHz6TKwmSICVhLb1y5hgqgRl3h5
+        9AjYBxICazkkpt7fwA7R4CKxvauDEcIWlnh1fAtUXEri87u9bBBfekgs+iMFEc6QeLt8PVS5
+        vcSBK3NYQEqYBTQl1u/Sh1jFJ9H7+wkTRCevREebEES1qkTzu6ssELa0xMTublYI20Nix7Mf
+        rBMYFWcheWwWksdmIXlgFsKyBYwsqxglUwuKc9NTi00LjPJSy+HRnZyfu4kRnGC1vHYwPnzw
+        Qe8QIxMH4yFGCQ5mJRHeZcsmJgvxpiRWVqUW5ccXleakFh9iNAWG9kRmKdHkfGCKzyuJNzSx
+        NDAxMzMzsTQ2M1QS5106pSNZSCA9sSQ1OzW1ILUIpo+Jg1OqganG+OTytqWspfz5Wb03Fvxb
+        Z31wTUnCnYiA2y+u+gZErY0J/F7XsnZWsG5qjJ3Z9M8mGl9EHVMrktO3XPbnnTT56jGZaQ9e
+        LpotGP+/q3+xUP2l4xUr5q9b3hFhITL5lIqZl8l6O26Fcysm3Pj8PMvidZixQ9afQ5uTOY8t
+        nJ01z0OWzS9+wjmdhEu6get8Wb51aZY6xKavVa2OZXXc+OrGx08as+59r2A66Lapr377pQ23
+        Vx35Gaqw0bD+SBXzu/ncPgXpDuy5re0s4SkTk1OctN99+miukPw52EJiclm40faHz+LMjV7x
+        MLQtvx7pKNdWaZRg8TXLpLxpq27vLe9pf08+Zou9bTBf6ODJciWW4oxEQy3mouJEAMOIhWk5
+        BAAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprIIsWRmVeSWpSXmKPExsWy7bCSvG74x4nJBnv/CVlMav/CarH1lrTF
+        3tdb2S02Pb7GanF51xw2i54NW1ktZpzfx2SxbNMfJovDb9pZHTg9ds66y+6xaVUnm8eda3vY
+        PDYvqffo27KK0ePzJrkAtigum5TUnMyy1CJ9uwSujKXHdrIVvBauuNm8mK2Bca1gFyMHh4SA
+        icSjqY5djFwcQgK7GSV23/7P2MXICRSXlri+cQI7hC0ssfLfc3aIoueMEg8272EBSbAJ6Ers
+        WNzGBpIQETjEJDF52x0mkASzgLvEtKadjBAd/YwST5tnsYIkOAXsJPr2vgIrEhaIlLh3YREz
+        iM0ioCLx4cZcsKm8ApYSTS+vMUPYghInZz5hgRiqLdH7sJURxl628DUzxHkKEj+fLgObLyJg
+        JbF97RKoI8QlXh49wj6BUXgWklGzkIyahWTULCQtCxhZVjFKphYU56bnFhsWGOallusVJ+YW
+        l+al6yXn525iBMealuYOxu2rPugdYmTiYDzEKMHBrCTCu2zZxGQh3pTEyqrUovz4otKc1OJD
+        jNIcLErivBe6TsYLCaQnlqRmp6YWpBbBZJk4OKUamLYlJFq/Tpp0arWTrLrA3EusIa1bNky+
+        07xpT3Zy70Qn8y1haz5zCR9uCvE9r80Swj9bzWHd2Qim6Deziiv4/u77OVPp8Clx7ef1ohbd
+        OUfUkk7kLaxOV+g5OV+Bcd6rFT92TU1z+HLy8fvD8yr2KO090XBtQk+Rps0vnqZn01jbVsXO
+        ai/Q9+K84ij4L2x/us7O+ycaY9ZqBP7ujOlp2vNCr7bq7dXmwHkL0j/mia39ZX4skcX4v1Rk
+        vObTToPH/P/E53nMUlSrddT2Ppw82XyX582ZN5+YJUwUPPQmwvaCCHvICWm5BbM3bao/eFV2
+        d4Od0KK2w3/fbJNjaFhhyb5DRozpz5Fd/A8SD3WG7FViKc5INNRiLipOBAAesAeWJAMAAA==
+X-CMS-MailID: 20221208141447epcas5p44220ff166d8b4c594274cff4011b339e
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+CMS-TYPE: 105P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20221208115852epcas5p476b048a9661b4ac6d11971475968c73e
+References: <CGME20221208115852epcas5p476b048a9661b4ac6d11971475968c73e@epcas5p4.samsung.com>
+        <20221208115847.2433777-1-colin.i.king@gmail.com>
+X-Spam-Status: No, score=-3.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        PDS_BAD_THREAD_QP_64,RCVD_IN_DNSWL_MED,RCVD_IN_MSPIKE_H3,
+        RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -69,221 +124,71 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 
---Eq1pwegXvM8VevdS
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-Hi Conor, Nathan,
+>-----Original Message-----
+>From: Colin Ian King =5Bmailto:colin.i.king=40gmail.com=5D
+>Sent: Thursday, December 8, 2022 5:29 PM
+>To: Sylwester Nawrocki <s.nawrocki=40samsung.com>; Mauro Carvalho
+>Chehab <mchehab=40kernel.org>; Krzysztof Kozlowski
+><krzysztof.kozlowski=40linaro.org>; Alim Akhtar <alim.akhtar=40samsung.com=
+>;
+>linux-media=40vger.kernel.org; linux-arm-kernel=40lists.infradead.org; lin=
+ux-
+>samsung-soc=40vger.kernel.org
+>Cc: kernel-janitors=40vger.kernel.org; linux-kernel=40vger.kernel.org
+>Subject: =5BPATCH=5D media: platform: exynos4-is: Fix spelling mistake =22=
+palne=22 ->
+>=22plane=22
+>
+>There are spelling mistakes in a literal string and a comment. Fix them.
+>
+>Signed-off-by: Colin Ian King <colin.i.king=40gmail.com>
+>---
 
-On Wed 07 Dec 22, 10:06, Conor Dooley wrote:
-> On Sun, Nov 27, 2022 at 11:31:41PM -0700, Nathan Chancellor wrote:
-> > Hi Paul,
-> >=20
-> > On Thu, Nov 03, 2022 at 05:37:14PM +0100, Paul Kocialkowski wrote:
-> > > Some Allwinner platforms come with an Image Signal Processor, which
-> > > supports various features in order to enhance and transform data
-> > > received by image sensors into good-looking pictures. In most cases,
-> > > the data is raw bayer, which gets internally converted to RGB and
-> > > finally YUV, which is what the hardware produces.
-> > >=20
-> > > This driver supports ISPs that are similar to the A31 ISP, which was
-> > > the first standalone ISP found in Allwinner platforms. Simpler ISP
-> > > blocks were found in the A10 and A20, where they are tied to a CSI
-> > > controller. Newer generations of Allwinner SoCs (starting with the
-> > > H6, H616, etc) come with a new camera subsystem and revised ISP.
-> > > Even though these previous and next-generation ISPs are somewhat
-> > > similar to the A31 ISP, they have enough significant differences to
-> > > be out of the scope of this driver.
-> > >=20
-> > > While the ISP supports many features, including 3A and many
-> > > enhancement blocks, this implementation is limited to the following:
-> > > - V3s (V3/S3) platform support;
-> > > - Bayer media bus formats as input;
-> > > - Semi-planar YUV (NV12/NV21) as output;
-> > > - Debayering with per-component gain and offset configuration;
-> > > - 2D noise filtering with configurable coefficients.
-> > >=20
-> > > Since many features are missing from the associated uAPI, the driver
-> > > is aimed to integrate staging until all features are properly
-> > > described.
-> > >=20
-> > > On the technical side, it uses the v4l2 and media controller APIs,
-> > > with a video node for capture, a processor subdev and a video node
-> > > for parameters submission. A specific uAPI structure and associated
-> > > v4l2 meta format are used to configure parameters of the supported
-> > > modules.
-> > >=20
-> > > One particular thing about the hardware is that configuration for
-> > > module registers needs to be stored in a DMA buffer and gets copied
-> > > to actual registers by the hardware at the next vsync, when instructed
-> > > by a flag. This is handled by the "state" mechanism in the driver.
-> > >=20
-> > > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> >=20
-> > This patch is now in -next as commit e3185e1d7c14 ("media: staging:
-> > media: Add support for the Allwinner A31 ISP"), where it causes the
-> > following clang warnings:
->=20
-> FWIW, this is (as yet) unfixed & thus breaking allmodconfig w/ clang.
-> I had a quick look on lore but could not see a proposed fix other than
-> what Nathan has pasted below.
+Thanks=21
 
-Sorry for the inconvenience. I've just sent a fix series which should resol=
-ve
-these issues (and other ones too): "Allwinner A31/A83T CSI/ISP/MIPI CSI-2 m=
-edia
-fixes" (version 2).
-
-Thanks for the report!
-
-Paul
-
-> > > +void sun6i_isp_capture_configure(struct sun6i_isp_device *isp_dev)
-> > > +{
-> > > +	unsigned int width, height;
-> > > +	unsigned int stride_luma, stride_chroma =3D 0;
-> > > +	unsigned int stride_luma_div4, stride_chroma_div4;
-> > > +	const struct sun6i_isp_capture_format *format;
-> > > +	const struct v4l2_format_info *info;
-> > > +	u32 pixelformat;
-> > > +
-> > > +	sun6i_isp_capture_dimensions(isp_dev, &width, &height);
-> > > +	sun6i_isp_capture_format(isp_dev, &pixelformat);
-> > > +
-> > > +	format =3D sun6i_isp_capture_format_find(pixelformat);
-> > > +	if (WARN_ON(!format))
-> > > +		return;
-> > > +
-> > > +	sun6i_isp_load_write(isp_dev, SUN6I_ISP_MCH_SIZE_CFG_REG,
-> > > +			     SUN6I_ISP_MCH_SIZE_CFG_WIDTH(width) |
-> > > +			     SUN6I_ISP_MCH_SIZE_CFG_HEIGHT(height));
-> > > +
-> > > +	info =3D v4l2_format_info(pixelformat);
-> > > +	if (WARN_ON(!info))
-> > > +		return;
-> > > +
-> > > +	stride_luma =3D width * info->bpp[0];
-> > > +	stride_luma_div4 =3D DIV_ROUND_UP(stride_luma, 4);
-> > > +
-> > > +	if (info->comp_planes > 1) {
-> > > +		stride_chroma =3D width * info->bpp[1] / info->hdiv;
-> > > +		stride_chroma_div4 =3D DIV_ROUND_UP(stride_chroma, 4);
-> > > +	}
-> > > +
-> > > +	sun6i_isp_load_write(isp_dev, SUN6I_ISP_MCH_CFG_REG,
-> > > +			     SUN6I_ISP_MCH_CFG_EN |
-> > > +			     SUN6I_ISP_MCH_CFG_OUTPUT_FMT(format->output_format) |
-> > > +			     SUN6I_ISP_MCH_CFG_STRIDE_Y_DIV4(stride_luma_div4) |
-> > > +			     SUN6I_ISP_MCH_CFG_STRIDE_UV_DIV4(stride_chroma_div4));
-> > > +}
-> >=20
-> >=20
-> >   drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_capture.c:135:6: erro=
-r: variable 'stride_chroma_div4' is used uninitialized whenever 'if' condit=
-ion is false [-Werror,-Wsometimes-uninitialized]
-> >           if (info->comp_planes > 1) {
-> >               ^~~~~~~~~~~~~~~~~~~~~
-> >   drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_capture.c:144:42: not=
-e: uninitialized use occurs here
-> >                               SUN6I_ISP_MCH_CFG_STRIDE_UV_DIV4(stride_c=
-hroma_div4));
-> >                                                                 ^~~~~~~=
-~~~~~~~~~~~
-> >   drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_reg.h:249:48: note: e=
-xpanded from macro 'SUN6I_ISP_MCH_CFG_STRIDE_UV_DIV4'
-> >   #define SUN6I_ISP_MCH_CFG_STRIDE_UV_DIV4(v)     (((v) << 20) & GENMAS=
-K(30, 20))
-> >                                                     ^
-> >   drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_capture.c:135:2: note=
-: remove the 'if' if its condition is always true
-> >           if (info->comp_planes > 1) {
-> >           ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-> >   drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_capture.c:112:51: not=
-e: initialize the variable 'stride_chroma_div4' to silence this warning
-> >           unsigned int stride_luma_div4, stride_chroma_div4;
-> >                                                           ^
-> >                                                             =3D 0
-> >=20
-> > Does stride_chroma_div4 want to just be initialized to zero?
-> >=20
-> > > +static int sun6i_isp_proc_notifier_bound(struct v4l2_async_notifier =
-*notifier,
-> > > +					 struct v4l2_subdev *remote_subdev,
-> > > +					 struct v4l2_async_subdev *async_subdev)
-> > > +{
-> > > +	struct sun6i_isp_device *isp_dev =3D
-> > > +		container_of(notifier, struct sun6i_isp_device, proc.notifier);
-> > > +	struct sun6i_isp_proc_async_subdev *proc_async_subdev =3D
-> > > +		container_of(async_subdev, struct sun6i_isp_proc_async_subdev,
-> > > +			     async_subdev);
-> > > +	struct sun6i_isp_proc *proc =3D &isp_dev->proc;
-> > > +	struct sun6i_isp_proc_source *source =3D proc_async_subdev->source;
-> > > +	bool enabled;
-> > > +
-> > > +	switch (source->endpoint.base.port) {
-> > > +	case SUN6I_ISP_PORT_CSI0:
-> > > +		source =3D &proc->source_csi0;
-> > > +		enabled =3D true;
-> > > +		break;
-> > > +	case SUN6I_ISP_PORT_CSI1:
-> > > +		source =3D &proc->source_csi1;
-> > > +		enabled =3D !proc->source_csi0.expected;
-> > > +		break;
-> > > +	default:
-> > > +		break;
-> > > +	}
-> > > +
-> > > +	source->subdev =3D remote_subdev;
-> > > +
-> > > +	return sun6i_isp_proc_link(isp_dev, SUN6I_ISP_PROC_PAD_SINK_CSI,
-> > > +				   remote_subdev, enabled);
-> > > +}
-> >=20
-> >   drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_proc.c:418:2: error: =
-variable 'enabled' is used uninitialized whenever switch default is taken [=
--Werror,-Wsometimes-uninitialized]
-> >           default:
-> >           ^~~~~~~
-> >   drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_proc.c:425:23: note: =
-uninitialized use occurs here
-> >                                     remote_subdev, enabled);
-> >                                                     ^~~~~~~
-> >   drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_proc.c:407:14: note: =
-initialize the variable 'enabled' to silence this warning
-> >           bool enabled;
-> >                       ^
-> >                       =3D 0
-> >=20
-> > Should there be an early return in the default case?
-> >=20
-> > I do not mind sending patches if you are unable to, assuming I have the
-> > right fixes.
-> >=20
-> > Cheers,
-> > Nathan
-> >=20
+Reviewed-by: Alim Akhtar <alim.akhtar=40samsung.com>
 
 
+> drivers/media/platform/samsung/exynos4-is/fimc-is-errno.c =7C 2 +-
+>drivers/media/platform/samsung/exynos4-is/fimc-is-errno.h =7C 2 +-
+> 2 files changed, 2 insertions(+), 2 deletions(-)
+>
+>diff --git a/drivers/media/platform/samsung/exynos4-is/fimc-is-errno.c
+>b/drivers/media/platform/samsung/exynos4-is/fimc-is-errno.c
+>index 5d9f4c1cdc5e..7a48fad1df16 100644
+>--- a/drivers/media/platform/samsung/exynos4-is/fimc-is-errno.c
+>+++ b/drivers/media/platform/samsung/exynos4-is/fimc-is-errno.c
+>=40=40 -54,7 +54,7 =40=40 const char *fimc_is_param_strerr(unsigned int er=
+ror)
+> 	case ERROR_DMA_INPUT_ORDER:
+> 		return =22ERROR_DMA_INPUT_ORDER: Invalid order(DRC:
+>YYCbCr,YCbYCr,FD:NO,YYCbCr,YCbYCr,CbCr,CrCb)=22;
+> 	case ERROR_DMA_INPUT_PLANE:
+>-		return =22ERROR_DMA_INPUT_PLANE: Invalid palne (DRC: 3,
+>FD: 1, 2, 3)=22;
+>+		return =22ERROR_DMA_INPUT_PLANE: Invalid plane (DRC: 3,
+>FD: 1, 2, 3)=22;
+> 	case ERROR_OTF_OUTPUT_WIDTH:
+> 		return =22ERROR_OTF_OUTPUT_WIDTH: Invalid width (DRC:
+>128=7E8192)=22;
+> 	case ERROR_OTF_OUTPUT_HEIGHT:
+>diff --git a/drivers/media/platform/samsung/exynos4-is/fimc-is-errno.h
+>b/drivers/media/platform/samsung/exynos4-is/fimc-is-errno.h
+>index 9dcbb9853ac0..809e117331c0 100644
+>--- a/drivers/media/platform/samsung/exynos4-is/fimc-is-errno.h
+>+++ b/drivers/media/platform/samsung/exynos4-is/fimc-is-errno.h
+>=40=40 -156,7 +156,7 =40=40 enum fimc_is_error =7B
+> 	ERROR_DMA_INPUT_BIT_WIDTH	=3D 34,
+> 	/* invalid order(DRC: YYCbCrorYCbYCr,
+>FD:NO,YYCbCr,YCbYCr,CbCr,CrCb) */
+> 	ERROR_DMA_INPUT_ORDER		=3D 35,
+>-	/* invalid palne (DRC: 3, FD: 1, 2, 3) */
+>+	/* invalid plane (DRC: 3, FD: 1, 2, 3) */
+> 	ERROR_DMA_INPUT_PLANE		=3D 36,
+>
+> 	ERROR_OTF_OUTPUT_NONE		=3D ERROR_COMMON_NONE,
+>--
+>2.38.1
 
---=20
-Paul Kocialkowski, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
 
---Eq1pwegXvM8VevdS
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmOR7UIACgkQ3cLmz3+f
-v9HUhgf+MqWFRHpJteq7pbYqsoMp5NzKApq8Hab85Kt4+jkrdLX2dh6CaKTamgE/
-40oyJ2sy5UkWIMNxPsfOdsDPV4d5K5VE430Rqd8EnA7Vu3uPV6Mwbl7YtMcsIIhh
-QKFpamExdTcvdL3wUE8pUylLl4ivuwXeJYblWp9JdzzqhBQYE0hcuCdryF0hPm0l
-R2h3rc0+jnlq6Lmv38MMTM1WFh8j6Fz9rPz8yEEoKBq4WSRGKn1Tdt6Ksmv7hmKh
-uz3RTdIauzhkUziTluMjhmBgWjI843kki2vXNo6X6pUk05zM6qxF7Iiat2jIgRW2
-iyAWJvWttMBPhfa1UzYG2Rn8BFiiYw==
-=Vl1z
------END PGP SIGNATURE-----
-
---Eq1pwegXvM8VevdS--
