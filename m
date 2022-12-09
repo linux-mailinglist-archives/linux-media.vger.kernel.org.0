@@ -2,311 +2,87 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1213B647E5C
-	for <lists+linux-media@lfdr.de>; Fri,  9 Dec 2022 08:15:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A7574647EA7
+	for <lists+linux-media@lfdr.de>; Fri,  9 Dec 2022 08:36:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229721AbiLIHPn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 9 Dec 2022 02:15:43 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55250 "EHLO
+        id S229661AbiLIHgk convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Fri, 9 Dec 2022 02:36:40 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41780 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229628AbiLIHPl (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 9 Dec 2022 02:15:41 -0500
-Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com [IPv6:2a00:1450:4864:20::42f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C6FEC303E7
-        for <linux-media@vger.kernel.org>; Thu,  8 Dec 2022 23:15:39 -0800 (PST)
-Received: by mail-wr1-x42f.google.com with SMTP id y16so4294899wrm.2
-        for <linux-media@vger.kernel.org>; Thu, 08 Dec 2022 23:15:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=JZBW+cO9UGFrl29m84LMRqN2hvra/9chkI9wZX9NF3k=;
-        b=qxwL6MLkDOInxMds/MY65BcE22uGw4mJW3FGmyuAi5uW3q69S5fdjIwSAh+JIH3Kew
-         530ip8yY01cFMbQj6e0+hx1vsXh/XsD8y5D0DhWPX3l0X4QjeYhoumdzOzwploPqLpTz
-         mY1NWOynbdk/2dk0tH+mL/rpJ57Ow/h5ivW1uIHGIsfDqxSDViq6agVt1E3BI33/cV65
-         8lYaCG6tDLL4WSvmvILz9iGvOLWm4pJAPY3iwe50Xt/3Eb/CLCFYPXWEl5KPOMaEc30M
-         YNt7vn5IWe5T4aTycCQGxyxhWksT5pFOQXOTt6VSIeuMwRPoMxbNNL3UFWHRzHPALWGY
-         6yHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=JZBW+cO9UGFrl29m84LMRqN2hvra/9chkI9wZX9NF3k=;
-        b=FAJZzoNuDTZ/30XGBWbkJDX0wYVUWBSJieRWIQSZPfqvlnMlOSsH649GBSjPcg9cv9
-         vZEvn5oynfV5aQFRf979F4PCASGdxWlHkK8Uw2QauppWEhSDVnvN61G/k6M1P1plfGr1
-         w6Y175y1A69VI2VwOiW6rY6S7baQihkya9DkcxKH6I9qD1xYTbahgm8k4lmm2YAyuAJr
-         nWQqgh6+7mLDB+K8fj+OHYYpOVYaTFo5vqy+fF+//JdapVC8tmTvKcGO5EzBWQvIv9Sd
-         hVzeQQYRdw+clprnfIsaGhVoyU01TIV/N+XFjgiKJq9MX7WG13bCe0Cq+jUN1ThNCTVk
-         4WZg==
-X-Gm-Message-State: ANoB5pktysT4c+t8yooNCHtKlQsex0Nz6gswS8uozX+fF1Z1VQK3+KAx
-        0dMq77qBZ4gt5gP5333o+rA=
-X-Google-Smtp-Source: AA0mqf5wIUpE+N/7s0J20Z9YAg0TXCyj9yFIMFlU0o7EAYSQsNp2assW6lnf0a+bSIcDYvtlLEJP7g==
-X-Received: by 2002:a5d:494a:0:b0:242:4f56:6b0d with SMTP id r10-20020a5d494a000000b002424f566b0dmr2939591wrs.48.1670570138023;
-        Thu, 08 Dec 2022 23:15:38 -0800 (PST)
-Received: from able.fritz.box (p5b0ea229.dip0.t-ipconnect.de. [91.14.162.41])
-        by smtp.gmail.com with ESMTPSA id z9-20020adfec89000000b002364c77bcacsm614909wrn.38.2022.12.08.23.15.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 Dec 2022 23:15:37 -0800 (PST)
-From:   "=?UTF-8?q?Christian=20K=C3=B6nig?=" 
-        <ckoenig.leichtzumerken@gmail.com>
-X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
-To:     quic_charante@quicinc.com, cuigaosheng1@huawei.com,
-        sumit.semwal@linaro.org
-Cc:     linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org
-Subject: [PATCH] dma-buf: fix dma_buf_export init order v2
-Date:   Fri,  9 Dec 2022 08:15:35 +0100
-Message-Id: <20221209071535.933698-1-christian.koenig@amd.com>
-X-Mailer: git-send-email 2.34.1
+        with ESMTP id S229550AbiLIHgi (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 9 Dec 2022 02:36:38 -0500
+X-Greylist: delayed 64 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 08 Dec 2022 23:36:34 PST
+Received: from relay.uni-heidelberg.de (relay.uni-heidelberg.de [129.206.100.212])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4936A2E6A0
+        for <linux-media@vger.kernel.org>; Thu,  8 Dec 2022 23:36:33 -0800 (PST)
+X-IPAS-Result: =?us-ascii?q?A2BoBAC25JJj/67bzoFaHgEBCxIMQIFEC4M0gViETpRGg?=
+ =?us-ascii?q?Q6bAA8BAQEBAQEBAQEJPQcEAQGKESc3Bg4BAgQBAQEBAwIDAQEBAQEBAwEBB?=
+ =?us-ascii?q?gEBAQEBBwSBHYVoDYcAgQsCJgKDcYMiE69SgTKBAYNQAYEgmmaBYQaBFCwBh?=
+ =?us-ascii?q?zcdWIhvAjeBVUSBS4JEgmtlBBiCE4MKgmcEllpygU0zNwNEHUADC20KRTUXT?=
+ =?us-ascii?q?CscGweBDCooFQMEBAMCBhMDIAINKDEUBCkTDSsmawkCAyJmAwMEKCwDCUAHJ?=
+ =?us-ascii?q?iQ8B1Y3BQMCDyA4BgMJAwIfVXMwJgUDCxUlCAVHBAg2BQZQEgIKERIPLEQOQ?=
+ =?us-ascii?q?jw5FgYnaAwOEwNUgU8EgQ+BAgpXmCNgg1oggSWTdK9bNAeCIIFOBYFFBgyCZ?=
+ =?us-ascii?q?4VugSKHdYx7TINmE4xXhi4Ckh6XQI1FlHiFPoF4gX8zGiSDN1EZD1eRO4UUh?=
+ =?us-ascii?q?Ut0AgEBATYCBwEKAQEDCYofAQE?=
+IronPort-Data: A9a23:I98ftaJPCsGUuIWGFE+RCJUlxSXFcZb7ZxGr2PjKsXjdYENSg2cPn
+ zFODTrQM/+DN2KmKY8lOYrk8R8DvZfTmt9nSAsd+CA2RRqmi+KcWIvDfhmsV8+xwm8vaGo9s
+ q3yv/GZdJhcokf0/0vraP64xZVF/fngbqLmD+LZMTxGSwZhSSMw4TpugOdRbrRA2bBVOCvQ/
+ 4KsyyHjEAX9gWQtaDpFs/vrRC5H5ZwehhtJ5jTSWtgW5Dcyp1FNZLoDKKe4KWfPQ4U8NoZWk
+ M6akdlVVkuAl/scIovNfoTTKyXmcZaKVeS6sUe6boD56vR0Soze5Y5gXBYUQR8/ZzxkBLmdw
+ v0V3XC7YV9B0qEhBI3xXjEAexySM5Gq95fLZkD87M6R/3bMekP+ytkpIRo3BIYHr7Mf7WFmr
+ ZT0KRgRYwufwuexx7m4DPR2lII+KsiuPI4etnxkxzzDArAqTPgvQY2Tv44ehm9uwJoXTLCHO
+ JZxhTlHNXwsZzVKM00cD9Q7m+CjhVHiaS8etVSU4Ko64mTeyAZ8yrerPNe9ltmiHJUJxx/J/
+ T6fl4j/KjUYOfWOyguqyS+9prHOtD3BftlOBqLto5aGh3XImjJPUkROPbehmtG9i0ijS5daJ
+ kAV8wIwoqUosk+mVN/wW1u/unHsg/IHc8ZdCPF/7QaKwamS/hyLQHUCT3tBZd0qucs8SCYlk
+ FOE9z/0OdBxmLHScTHA9LWkljm7ATocASgvPi49RhRQtrEPv7oPph7IS99iFou8gdv0BSz8z
+ li2QM4W2+R7YSkji/rTwLzXv96/jsSYElZqv207Skr1sFMmNOZJcqTysTDmAeB8wJGxYnTpU
+ JIsu8Wf4O0KB5yXm0Rhq81TTejwup5p3BX2iFJiGdwe6i6x53Omd41K71lDyKpBLssfZXrsZ
+ 0jYukVM/o0VIX2rKK96Yo68D84n16emGdmNuhHogjhmOMkZmOyvpX8GiausM4bFyxJEfUYXa
+ P+mnT6EVypyNEie5GPeqid0+eZDKtoC7W3SX4vn6B+szKCTYnWYIZ9cbgTWM7pltvnY/1mEm
+ zq6Cyds40sHOAEZSnSHmbP/0XhUcRDX+Lis850KLbDbSuaYMD14U6S5LUwdl3xNxPgLyr2Rp
+ hlRq2dSxV7gmHCPNAOLdH15c7LzTN55oG4kOjYvVWtEKFB8CbtCLc43KfMKQFXQ3LA5nKYuE
+ 6BcJa1twJ1nE1z6xtjUVrGlxKQKSfhhrVjTV8Z5SFDTp6JdejE=
+IronPort-HdrOrdr: A9a23:DkoUeKsS42l2yaoKYwNWDkMj7skDfdV00zEX/kB9WHVpmwKj9/
+ xG785rtyMc6Qx7ZJhOo7290cW7MBbhHNtOkO0s1NSZMDUO2lHDEGgK1+KL/9SjIVycygc378
+ ldmsZFaeEYQWIUsfrH
+X-IronPort-Anti-Spam-Filtered: true
+Received: from test-moock.urz.uni-heidelberg.de ([129.206.219.174])
+  by relay.uni-heidelberg.de with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 09 Dec 2022 08:35:18 +0100
+Received: from localhost (localhost [IPv6:0:0:0:0:0:0:0:1])
+        by test-moock.urz.uni-heidelberg.de (8.17.1.9/8.17.1.9/Debian-1) with ESMTP id 2B97ZHG6095862
+        for <linux-media@vger.kernel.org>; Fri, 9 Dec 2022 08:35:17 +0100
+Date:   Fri, 9 Dec 2022 08:35:17 +0100
+From:   Marco Moock <marco.moock@urz.uni-heidelberg.de>
+To:     linux-media@vger.kernel.org
+Subject: Logitech camera only uses USB 1.1 (Full speed), not enough
+ bandwidth
+Message-ID: <20221209083517.10698645@urz.uni-heidelberg.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-1.5 required=5.0 tests=BAYES_50,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The init order and resulting error handling in dma_buf_export
-was pretty messy.
+Hello,
 
-Subordinate objects like the file and the sysfs kernel objects
-were initializing and wiring itself up with the object in the
-wrong order resulting not only in complicating and partially
-incorrect error handling, but also in publishing only halve
-initialized DMA-buf objects.
+I have a Logtech Webcam and it doesn't use USB 2.0, only 1.1 and
+therefore it has not enough bandwidth for video. It is not a hardware
+issue.
 
-Clean this up thoughtfully by allocating the file independent
-of the DMA-buf object. Then allocate and initialize the DMA-buf
-object itself, before publishing it through sysfs. If everything
-works as expected the file is then connected with the DMA-buf
-object and publish it through debugfs.
+Please see this bug report in English:
+https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1025735
 
-Also adds the missing dma_resv_fini() into the error handling.
+This is the Usenet discussion about that problem in German:
+https://de.comp.os.unix.linux.hardware.narkive.com/YgT3gc2x/usb-kamera-bild-komplett-gestort-bandwidth-not-wide-enough
 
-v2: add some missing changes to dma_bug_getfile() and a missing NULL
-    check in dma_buf_file_release()
+If you need more information, please tell me.
 
-Signed-off-by: Christian König <christian.koenig@amd.com>
----
- drivers/dma-buf/dma-buf-sysfs-stats.c |  7 +--
- drivers/dma-buf/dma-buf-sysfs-stats.h |  4 +-
- drivers/dma-buf/dma-buf.c             | 84 +++++++++++++--------------
- 3 files changed, 43 insertions(+), 52 deletions(-)
-
-diff --git a/drivers/dma-buf/dma-buf-sysfs-stats.c b/drivers/dma-buf/dma-buf-sysfs-stats.c
-index 2bba0babcb62..4b680e10c15a 100644
---- a/drivers/dma-buf/dma-buf-sysfs-stats.c
-+++ b/drivers/dma-buf/dma-buf-sysfs-stats.c
-@@ -168,14 +168,11 @@ void dma_buf_uninit_sysfs_statistics(void)
- 	kset_unregister(dma_buf_stats_kset);
- }
- 
--int dma_buf_stats_setup(struct dma_buf *dmabuf)
-+int dma_buf_stats_setup(struct dma_buf *dmabuf, struct file *file)
- {
- 	struct dma_buf_sysfs_entry *sysfs_entry;
- 	int ret;
- 
--	if (!dmabuf || !dmabuf->file)
--		return -EINVAL;
--
- 	if (!dmabuf->exp_name) {
- 		pr_err("exporter name must not be empty if stats needed\n");
- 		return -EINVAL;
-@@ -192,7 +189,7 @@ int dma_buf_stats_setup(struct dma_buf *dmabuf)
- 
- 	/* create the directory for buffer stats */
- 	ret = kobject_init_and_add(&sysfs_entry->kobj, &dma_buf_ktype, NULL,
--				   "%lu", file_inode(dmabuf->file)->i_ino);
-+				   "%lu", file_inode(file)->i_ino);
- 	if (ret)
- 		goto err_sysfs_dmabuf;
- 
-diff --git a/drivers/dma-buf/dma-buf-sysfs-stats.h b/drivers/dma-buf/dma-buf-sysfs-stats.h
-index a49c6e2650cc..7a8a995b75ba 100644
---- a/drivers/dma-buf/dma-buf-sysfs-stats.h
-+++ b/drivers/dma-buf/dma-buf-sysfs-stats.h
-@@ -13,7 +13,7 @@
- int dma_buf_init_sysfs_statistics(void);
- void dma_buf_uninit_sysfs_statistics(void);
- 
--int dma_buf_stats_setup(struct dma_buf *dmabuf);
-+int dma_buf_stats_setup(struct dma_buf *dmabuf, struct file *file);
- 
- void dma_buf_stats_teardown(struct dma_buf *dmabuf);
- #else
-@@ -25,7 +25,7 @@ static inline int dma_buf_init_sysfs_statistics(void)
- 
- static inline void dma_buf_uninit_sysfs_statistics(void) {}
- 
--static inline int dma_buf_stats_setup(struct dma_buf *dmabuf)
-+static inline int dma_buf_stats_setup(struct dma_buf *dmabuf, struct file *file)
- {
- 	return 0;
- }
-diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-index e6f36c014c4c..eb6b59363c4f 100644
---- a/drivers/dma-buf/dma-buf.c
-+++ b/drivers/dma-buf/dma-buf.c
-@@ -95,10 +95,11 @@ static int dma_buf_file_release(struct inode *inode, struct file *file)
- 		return -EINVAL;
- 
- 	dmabuf = file->private_data;
--
--	mutex_lock(&db_list.lock);
--	list_del(&dmabuf->list_node);
--	mutex_unlock(&db_list.lock);
-+	if (dmabuf) {
-+		mutex_lock(&db_list.lock);
-+		list_del(&dmabuf->list_node);
-+		mutex_unlock(&db_list.lock);
-+	}
- 
- 	return 0;
- }
-@@ -523,17 +524,17 @@ static inline int is_dma_buf_file(struct file *file)
- 	return file->f_op == &dma_buf_fops;
- }
- 
--static struct file *dma_buf_getfile(struct dma_buf *dmabuf, int flags)
-+static struct file *dma_buf_getfile(size_t size, int flags)
- {
- 	static atomic64_t dmabuf_inode = ATOMIC64_INIT(0);
--	struct file *file;
- 	struct inode *inode = alloc_anon_inode(dma_buf_mnt->mnt_sb);
-+	struct file *file;
- 
- 	if (IS_ERR(inode))
- 		return ERR_CAST(inode);
- 
--	inode->i_size = dmabuf->size;
--	inode_set_bytes(inode, dmabuf->size);
-+	inode->i_size = size;
-+	inode_set_bytes(inode, size);
- 
- 	/*
- 	 * The ->i_ino acquired from get_next_ino() is not unique thus
-@@ -547,8 +548,6 @@ static struct file *dma_buf_getfile(struct dma_buf *dmabuf, int flags)
- 				 flags, &dma_buf_fops);
- 	if (IS_ERR(file))
- 		goto err_alloc_file;
--	file->private_data = dmabuf;
--	file->f_path.dentry->d_fsdata = dmabuf;
- 
- 	return file;
- 
-@@ -614,19 +613,11 @@ struct dma_buf *dma_buf_export(const struct dma_buf_export_info *exp_info)
- 	size_t alloc_size = sizeof(struct dma_buf);
- 	int ret;
- 
--	if (!exp_info->resv)
--		alloc_size += sizeof(struct dma_resv);
--	else
--		/* prevent &dma_buf[1] == dma_buf->resv */
--		alloc_size += 1;
--
--	if (WARN_ON(!exp_info->priv
--			  || !exp_info->ops
--			  || !exp_info->ops->map_dma_buf
--			  || !exp_info->ops->unmap_dma_buf
--			  || !exp_info->ops->release)) {
-+	if (WARN_ON(!exp_info->priv || !exp_info->ops
-+		    || !exp_info->ops->map_dma_buf
-+		    || !exp_info->ops->unmap_dma_buf
-+		    || !exp_info->ops->release))
- 		return ERR_PTR(-EINVAL);
--	}
- 
- 	if (WARN_ON(exp_info->ops->cache_sgt_mapping &&
- 		    (exp_info->ops->pin || exp_info->ops->unpin)))
-@@ -638,10 +629,21 @@ struct dma_buf *dma_buf_export(const struct dma_buf_export_info *exp_info)
- 	if (!try_module_get(exp_info->owner))
- 		return ERR_PTR(-ENOENT);
- 
-+	file = dma_buf_getfile(exp_info->size, exp_info->flags);
-+	if (IS_ERR(file)) {
-+		ret = PTR_ERR(file);
-+		goto err_module;
-+	}
-+
-+	if (!exp_info->resv)
-+		alloc_size += sizeof(struct dma_resv);
-+	else
-+		/* prevent &dma_buf[1] == dma_buf->resv */
-+		alloc_size += 1;
- 	dmabuf = kzalloc(alloc_size, GFP_KERNEL);
- 	if (!dmabuf) {
- 		ret = -ENOMEM;
--		goto err_module;
-+		goto err_file;
- 	}
- 
- 	dmabuf->priv = exp_info->priv;
-@@ -653,44 +655,36 @@ struct dma_buf *dma_buf_export(const struct dma_buf_export_info *exp_info)
- 	init_waitqueue_head(&dmabuf->poll);
- 	dmabuf->cb_in.poll = dmabuf->cb_out.poll = &dmabuf->poll;
- 	dmabuf->cb_in.active = dmabuf->cb_out.active = 0;
-+	mutex_init(&dmabuf->lock);
-+	INIT_LIST_HEAD(&dmabuf->attachments);
- 
- 	if (!resv) {
--		resv = (struct dma_resv *)&dmabuf[1];
--		dma_resv_init(resv);
-+		dmabuf->resv = (struct dma_resv *)&dmabuf[1];
-+		dma_resv_init(dmabuf->resv);
-+	} else {
-+		dmabuf->resv = resv;
- 	}
--	dmabuf->resv = resv;
- 
--	file = dma_buf_getfile(dmabuf, exp_info->flags);
--	if (IS_ERR(file)) {
--		ret = PTR_ERR(file);
-+	ret = dma_buf_stats_setup(dmabuf, file);
-+	if (ret)
- 		goto err_dmabuf;
--	}
- 
-+	file->private_data = dmabuf;
-+	file->f_path.dentry->d_fsdata = dmabuf;
- 	dmabuf->file = file;
- 
--	mutex_init(&dmabuf->lock);
--	INIT_LIST_HEAD(&dmabuf->attachments);
--
- 	mutex_lock(&db_list.lock);
- 	list_add(&dmabuf->list_node, &db_list.head);
- 	mutex_unlock(&db_list.lock);
- 
--	ret = dma_buf_stats_setup(dmabuf);
--	if (ret)
--		goto err_sysfs;
--
- 	return dmabuf;
- 
--err_sysfs:
--	/*
--	 * Set file->f_path.dentry->d_fsdata to NULL so that when
--	 * dma_buf_release() gets invoked by dentry_ops, it exits
--	 * early before calling the release() dma_buf op.
--	 */
--	file->f_path.dentry->d_fsdata = NULL;
--	fput(file);
- err_dmabuf:
-+	if (!resv)
-+		dma_resv_fini(dmabuf->resv);
- 	kfree(dmabuf);
-+err_file:
-+	fput(file);
- err_module:
- 	module_put(exp_info->owner);
- 	return ERR_PTR(ret);
 -- 
-2.34.1
-
+Gruß
+Marco Moock
