@@ -2,42 +2,37 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D9A8F648049
-	for <lists+linux-media@lfdr.de>; Fri,  9 Dec 2022 10:41:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 11BED648046
+	for <lists+linux-media@lfdr.de>; Fri,  9 Dec 2022 10:41:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229901AbiLIJl1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 9 Dec 2022 04:41:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53194 "EHLO
+        id S229873AbiLIJlV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 9 Dec 2022 04:41:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53158 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229769AbiLIJl0 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 9 Dec 2022 04:41:26 -0500
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A56254762;
-        Fri,  9 Dec 2022 01:41:25 -0800 (PST)
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 2B99dvui013969;
-        Fri, 9 Dec 2022 09:41:16 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding : content-type; s=qcppdkim1;
- bh=yekuQf9WN+3YB7oiCGodcXmVhT//PoO8mnUgLyWnxww=;
- b=n21NgkX4Gi9QWTS3FQ1qSH0BBpFZ87yxUdysD6aNym+zZw3MfVt1hW9luXBqbwyBCUxe
- Mg/fg4RZbTdnDO05p9Amj55R50P+N9INBGKQj7KZhcbrmltP4waqnG7IhsgFRcUQ4eNs
- E7axEYGcT0S4X6zfhoNiIdTcMlDwDAAD53YoMSJHCiEG4Nf2Csk9wKUFjsPWDKBpCfbY
- 2YmsjCKi4ZPn28URqimnFVMwwX5MG8gZWOY0mgd81nml2K3IraocoMxjjJx1KXyzCUJO
- aQFJDjpK/JuOpC/1YPYnPAMGIgUC704K6kUBT/f5v0zRDSbGgPYJsF8v1slotVmmiegv 9w== 
-Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3mbub5rt6g-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 09 Dec 2022 09:41:16 +0000
-Received: from nasanex01a.na.qualcomm.com (corens_vlan604_snip.qualcomm.com [10.53.140.1])
-        by NASANPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 2B99fFew022702
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 9 Dec 2022 09:41:15 GMT
+        with ESMTP id S229769AbiLIJlU (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 9 Dec 2022 04:41:20 -0500
+Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com [199.106.114.38])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 302543AC32;
+        Fri,  9 Dec 2022 01:41:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+  t=1670578879; x=1702114879;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=0OGvYIDVoE8/zPYv025eBw3EItK/EzTszK8CIBRtD7s=;
+  b=aPDEq/hiIlJvq94w/RTzR+LmN3m8DguxGKJHMwr6KYCEs7acAHOiXBJb
+   +CcoB3BXUh6K35mqwKmPPa/1qaAS6t26/av+5dpSpMtEjbhy/ob0CXMz5
+   /7SEdHJkUsMEiAsyx0o2v7CZJtXOiO1B5VfCQfF8OAETuCFOrVgH+l6gE
+   g=;
+Received: from unknown (HELO ironmsg04-sd.qualcomm.com) ([10.53.140.144])
+  by alexa-out-sd-01.qualcomm.com with ESMTP; 09 Dec 2022 01:41:19 -0800
+X-QCInternal: smtphost
+Received: from unknown (HELO nasanex01a.na.qualcomm.com) ([10.52.223.231])
+  by ironmsg04-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2022 01:41:18 -0800
 Received: from mmitkov.eu.qualcomm.com (10.80.80.8) by
  nasanex01a.na.qualcomm.com (10.52.223.231) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.36; Fri, 9 Dec 2022 01:41:11 -0800
+ 15.2.986.36; Fri, 9 Dec 2022 01:41:15 -0800
 From:   <quic_mmitkov@quicinc.com>
 To:     <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
         <robert.foss@linaro.org>, <akapatra@quicinc.com>,
@@ -47,9 +42,9 @@ CC:     <agross@kernel.org>, <konrad.dybcio@somainline.org>,
         <cgera@qti.qualcomm.com>, <gchinnab@quicinc.com>,
         <ayasan@qti.qualcomm.com>, <laurent.pinchart@ideasonboard.com>,
         Milen Mitkov <quic_mmitkov@quicinc.com>
-Subject: [PATCH v7 2/4] media: camss: vfe: Reserve VFE lines on stream start and link to CSID
-Date:   Fri, 9 Dec 2022 11:40:35 +0200
-Message-ID: <20221209094037.1148-3-quic_mmitkov@quicinc.com>
+Subject: [PATCH v7 3/4] media: camss: vfe-480: Multiple outputs support for SM8250
+Date:   Fri, 9 Dec 2022 11:40:36 +0200
+Message-ID: <20221209094037.1148-4-quic_mmitkov@quicinc.com>
 X-Mailer: git-send-email 2.37.3.windows.1
 In-Reply-To: <20221209094037.1148-1-quic_mmitkov@quicinc.com>
 References: <20221209094037.1148-1-quic_mmitkov@quicinc.com>
@@ -59,21 +54,9 @@ Content-Type: text/plain
 X-Originating-IP: [10.80.80.8]
 X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
  nasanex01a.na.qualcomm.com (10.52.223.231)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: TxTcVX4SvyotTj0HEWqRAELwNPN4tgpK
-X-Proofpoint-GUID: TxTcVX4SvyotTj0HEWqRAELwNPN4tgpK
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-12-09_04,2022-12-08_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- lowpriorityscore=0 mlxlogscore=999 suspectscore=0 impostorscore=0
- spamscore=0 bulkscore=0 adultscore=0 phishscore=0 clxscore=1015 mlxscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2210170000 definitions=main-2212090066
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -82,116 +65,146 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 From: Milen Mitkov <quic_mmitkov@quicinc.com>
 
-For multiple virtual channels support, each VFE line can be in either
-ON, RESERVED or OFF states. This allows the starting and stopping
-of a VFE line independently of other active VFE lines (e.g. already-
-running lines stay in ON state, and newly-added lines are RESERVED)
-
-Also, link the CSID entity's source ports to corresponding VFE lines.
+On SM8250 each VFE supports at least 3 RDI channels, or 4
+in case of VFE-Lite, so add appropriate IRQ setup and handling.
 
 Signed-off-by: Milen Mitkov <quic_mmitkov@quicinc.com>
 Reviewed-by: Robert Foss <robert.foss@linaro.org>
 Tested-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 Acked-by: Robert Foss <robert.foss@linaro.org>
 ---
- drivers/media/platform/qcom/camss/camss-vfe-170.c  | 4 ++--
- drivers/media/platform/qcom/camss/camss-vfe-480.c  | 4 ++--
- drivers/media/platform/qcom/camss/camss-vfe-gen1.c | 4 ++--
- drivers/media/platform/qcom/camss/camss-vfe.c      | 1 +
- drivers/media/platform/qcom/camss/camss.c          | 2 +-
- 5 files changed, 8 insertions(+), 7 deletions(-)
+ .../media/platform/qcom/camss/camss-vfe-480.c | 57 ++++++++++++-------
+ 1 file changed, 38 insertions(+), 19 deletions(-)
 
-diff --git a/drivers/media/platform/qcom/camss/camss-vfe-170.c b/drivers/media/platform/qcom/camss/camss-vfe-170.c
-index 8e506a805d11..02494c89da91 100644
---- a/drivers/media/platform/qcom/camss/camss-vfe-170.c
-+++ b/drivers/media/platform/qcom/camss/camss-vfe-170.c
-@@ -409,7 +409,7 @@ static int vfe_get_output(struct vfe_line *line)
- 	spin_lock_irqsave(&vfe->output_lock, flags);
- 
- 	output = &line->output;
--	if (output->state != VFE_OUTPUT_OFF) {
-+	if (output->state > VFE_OUTPUT_RESERVED) {
- 		dev_err(vfe->camss->dev, "Output is running\n");
- 		goto error;
- 	}
-@@ -462,7 +462,7 @@ static int vfe_enable_output(struct vfe_line *line)
- 
- 	ops->reg_update_clear(vfe, line->id);
- 
--	if (output->state != VFE_OUTPUT_OFF) {
-+	if (output->state > VFE_OUTPUT_RESERVED) {
- 		dev_err(vfe->camss->dev, "Output is not in reserved state %d\n",
- 			output->state);
- 		spin_unlock_irqrestore(&vfe->output_lock, flags);
 diff --git a/drivers/media/platform/qcom/camss/camss-vfe-480.c b/drivers/media/platform/qcom/camss/camss-vfe-480.c
-index 3aa962b5663b..f03a84daafbe 100644
+index f03a84daafbe..f70aad2e8c23 100644
 --- a/drivers/media/platform/qcom/camss/camss-vfe-480.c
 +++ b/drivers/media/platform/qcom/camss/camss-vfe-480.c
-@@ -239,7 +239,7 @@ static int vfe_get_output(struct vfe_line *line)
+@@ -94,6 +94,8 @@ static inline int bus_irq_mask_0_comp_done(struct vfe_device *vfe, int n)
+ #define RDI_WM(n)			((IS_LITE ? 0 : 23) + (n))
+ #define RDI_COMP_GROUP(n)		((IS_LITE ? 0 : 11) + (n))
+ 
++#define MAX_VFE_OUTPUT_LINES	4
++
+ static u32 vfe_hw_version(struct vfe_device *vfe)
+ {
+ 	u32 hw_version = readl_relaxed(vfe->base + VFE_HW_VERSION);
+@@ -171,12 +173,26 @@ static inline void vfe_reg_update_clear(struct vfe_device *vfe,
+ 
+ static void vfe_enable_irq_common(struct vfe_device *vfe)
+ {
+-	/* enable only the IRQs used: rup and comp_done irqs for RDI0 */
++	/* enable reset ack IRQ and top BUS status IRQ */
+ 	writel_relaxed(IRQ_MASK_0_RESET_ACK | IRQ_MASK_0_BUS_TOP_IRQ,
+ 		       vfe->base + VFE_IRQ_MASK(0));
+-	writel_relaxed(BUS_IRQ_MASK_0_RDI_RUP(vfe, 0) |
+-		       BUS_IRQ_MASK_0_COMP_DONE(vfe, RDI_COMP_GROUP(0)),
+-		       vfe->base + VFE_BUS_IRQ_MASK(0));
++}
++
++static void vfe_enable_lines_irq(struct vfe_device *vfe)
++{
++	int i;
++	u32 bus_irq_mask = 0;
++
++	for (i = 0; i < MAX_VFE_OUTPUT_LINES; i++) {
++		/* Enable IRQ for newly added lines, but also keep already running lines's IRQ */
++		if (vfe->line[i].output.state == VFE_OUTPUT_RESERVED ||
++		    vfe->line[i].output.state == VFE_OUTPUT_ON) {
++			bus_irq_mask |= BUS_IRQ_MASK_0_RDI_RUP(vfe, i)
++					| BUS_IRQ_MASK_0_COMP_DONE(vfe, RDI_COMP_GROUP(i));
++			}
++	}
++
++	writel_relaxed(bus_irq_mask, vfe->base + VFE_BUS_IRQ_MASK(0));
+ }
+ 
+ static void vfe_isr_reg_update(struct vfe_device *vfe, enum vfe_line_id line_id);
+@@ -193,6 +209,7 @@ static irqreturn_t vfe_isr(int irq, void *dev)
+ {
+ 	struct vfe_device *vfe = dev;
+ 	u32 status;
++	int i;
+ 
+ 	status = readl_relaxed(vfe->base + VFE_IRQ_STATUS(0));
+ 	writel_relaxed(status, vfe->base + VFE_IRQ_CLEAR(0));
+@@ -207,11 +224,14 @@ static irqreturn_t vfe_isr(int irq, void *dev)
+ 		writel_relaxed(status, vfe->base + VFE_BUS_IRQ_CLEAR(0));
+ 		writel_relaxed(1, vfe->base + VFE_BUS_IRQ_CLEAR_GLOBAL);
+ 
+-		if (status & BUS_IRQ_MASK_0_RDI_RUP(vfe, 0))
+-			vfe_isr_reg_update(vfe, 0);
++		/* Loop through all WMs IRQs */
++		for (i = 0; i < MSM_VFE_IMAGE_MASTERS_NUM; i++) {
++			if (status & BUS_IRQ_MASK_0_RDI_RUP(vfe, i))
++				vfe_isr_reg_update(vfe, i);
+ 
+-		if (status & BUS_IRQ_MASK_0_COMP_DONE(vfe, RDI_COMP_GROUP(0)))
+-			vfe_isr_wm_done(vfe, 0);
++			if (status & BUS_IRQ_MASK_0_COMP_DONE(vfe, RDI_COMP_GROUP(i)))
++				vfe_isr_wm_done(vfe, i);
++		}
+ 	}
+ 
+ 	return IRQ_HANDLED;
+@@ -234,7 +254,6 @@ static int vfe_get_output(struct vfe_line *line)
+ 	struct vfe_device *vfe = to_vfe(line);
+ 	struct vfe_output *output;
+ 	unsigned long flags;
+-	int wm_idx;
+ 
  	spin_lock_irqsave(&vfe->output_lock, flags);
  
- 	output = &line->output;
--	if (output->state != VFE_OUTPUT_OFF) {
-+	if (output->state > VFE_OUTPUT_RESERVED) {
- 		dev_err(vfe->camss->dev, "Output is running\n");
- 		goto error;
- 	}
-@@ -279,7 +279,7 @@ static int vfe_enable_output(struct vfe_line *line)
+@@ -246,12 +265,12 @@ static int vfe_get_output(struct vfe_line *line)
  
- 	vfe_reg_update_clear(vfe, line->id);
+ 	output->wm_num = 1;
  
--	if (output->state != VFE_OUTPUT_OFF) {
-+	if (output->state > VFE_OUTPUT_RESERVED) {
- 		dev_err(vfe->camss->dev, "Output is not in reserved state %d\n",
- 			output->state);
- 		spin_unlock_irqrestore(&vfe->output_lock, flags);
-diff --git a/drivers/media/platform/qcom/camss/camss-vfe-gen1.c b/drivers/media/platform/qcom/camss/camss-vfe-gen1.c
-index 4fd265d01883..239d3d4ac666 100644
---- a/drivers/media/platform/qcom/camss/camss-vfe-gen1.c
-+++ b/drivers/media/platform/qcom/camss/camss-vfe-gen1.c
-@@ -194,7 +194,7 @@ static int vfe_enable_output(struct vfe_line *line)
+-	wm_idx = vfe_reserve_wm(vfe, line->id);
+-	if (wm_idx < 0) {
+-		dev_err(vfe->camss->dev, "Can not reserve wm\n");
+-		goto error_get_wm;
+-	}
+-	output->wm_idx[0] = wm_idx;
++	/* Correspondence between VFE line number and WM number.
++	 * line 0 -> RDI 0, line 1 -> RDI1, line 2 -> RDI2, line 3 -> PIX/RDI3
++	 * Note this 1:1 mapping will not work for PIX streams.
++	 */
++	output->wm_idx[0] = line->id;
++	vfe->wm_output_map[line->id] = line->id;
  
- 	ops->reg_update_clear(vfe, line->id);
+ 	output->drop_update_idx = 0;
  
--	if (output->state != VFE_OUTPUT_RESERVED) {
-+	if (output->state > VFE_OUTPUT_RESERVED) {
- 		dev_err(vfe->camss->dev, "Output is not in reserved state %d\n", output->state);
- 		spin_unlock_irqrestore(&vfe->output_lock, flags);
- 		return -EINVAL;
-@@ -289,7 +289,7 @@ static int vfe_get_output(struct vfe_line *line)
- 	spin_lock_irqsave(&vfe->output_lock, flags);
+@@ -259,11 +278,9 @@ static int vfe_get_output(struct vfe_line *line)
  
- 	output = &line->output;
--	if (output->state != VFE_OUTPUT_OFF) {
-+	if (output->state > VFE_OUTPUT_RESERVED) {
- 		dev_err(vfe->camss->dev, "Output is running\n");
- 		goto error;
- 	}
-diff --git a/drivers/media/platform/qcom/camss/camss-vfe.c b/drivers/media/platform/qcom/camss/camss-vfe.c
-index a26e4a5d87b6..e0832f3f4f25 100644
---- a/drivers/media/platform/qcom/camss/camss-vfe.c
-+++ b/drivers/media/platform/qcom/camss/camss-vfe.c
-@@ -740,6 +740,7 @@ static int vfe_set_stream(struct v4l2_subdev *sd, int enable)
- 	int ret;
+ 	return 0;
  
- 	if (enable) {
-+		line->output.state = VFE_OUTPUT_RESERVED;
- 		ret = vfe->ops->vfe_enable(line);
- 		if (ret < 0)
- 			dev_err(vfe->camss->dev,
-diff --git a/drivers/media/platform/qcom/camss/camss.c b/drivers/media/platform/qcom/camss/camss.c
-index 9cda284f1e71..547099f8ed14 100644
---- a/drivers/media/platform/qcom/camss/camss.c
-+++ b/drivers/media/platform/qcom/camss/camss.c
-@@ -1320,7 +1320,7 @@ static int camss_register_entities(struct camss *camss)
- 					struct v4l2_subdev *vfe = &camss->vfe[k].line[j].subdev;
+-error_get_wm:
+-	vfe_release_wm(vfe, output->wm_idx[0]);
+-	output->state = VFE_OUTPUT_OFF;
+ error:
+ 	spin_unlock_irqrestore(&vfe->output_lock, flags);
++	output->state = VFE_OUTPUT_OFF;
  
- 					ret = media_create_pad_link(&csid->entity,
--								    MSM_CSID_PAD_SRC,
-+								    MSM_CSID_PAD_FIRST_SRC + j,
- 								    &vfe->entity,
- 								    MSM_VFE_PAD_SINK,
- 								    0);
+ 	return -EINVAL;
+ }
+@@ -360,6 +377,8 @@ static int vfe_enable(struct vfe_line *line)
+ 
+ 	vfe->stream_count++;
+ 
++	vfe_enable_lines_irq(vfe);
++
+ 	mutex_unlock(&vfe->stream_lock);
+ 
+ 	ret = vfe_get_output(line);
+@@ -566,7 +585,7 @@ static const struct camss_video_ops vfe_video_ops_480 = {
+ static void vfe_subdev_init(struct device *dev, struct vfe_device *vfe)
+ {
+ 	vfe->video_ops = vfe_video_ops_480;
+-	vfe->line_num = 1;
++	vfe->line_num = MAX_VFE_OUTPUT_LINES;
+ }
+ 
+ const struct vfe_hw_ops vfe_ops_480 = {
 -- 
 2.37.3
 
