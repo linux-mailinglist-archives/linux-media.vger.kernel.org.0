@@ -2,59 +2,41 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 14E86649DF5
-	for <lists+linux-media@lfdr.de>; Mon, 12 Dec 2022 12:34:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 81D1864A078
+	for <lists+linux-media@lfdr.de>; Mon, 12 Dec 2022 14:25:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232224AbiLLLey (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 12 Dec 2022 06:34:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43076 "EHLO
+        id S232793AbiLLNZh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 12 Dec 2022 08:25:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54446 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232037AbiLLLc4 (ORCPT
+        with ESMTP id S232801AbiLLNZQ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 12 Dec 2022 06:32:56 -0500
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E83296465;
-        Mon, 12 Dec 2022 03:32:05 -0800 (PST)
-Received: from localhost (89-26-75-29.goll.dyn.salzburg-online.at [89.26.75.29])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: sebastianfricke)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 57A09660159C;
-        Mon, 12 Dec 2022 11:32:04 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1670844724;
-        bh=aWtV/a5hztwYfZNOagzoZHV/7aXlFJiz7TQAx67yg6c=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=WxWvTwU5Bjp8OxfxVPnSlPtQpUL9vTnj7PD+8/wEFANQ+vVFr+G2nzIkWQCOmMy3r
-         lxsLBtXZfT+VhDj8xCSQn6BR0JTrCDj1TIC0qTJJZ8sVGxI05N8PX02AaiP24FV8wh
-         c0wG4XGF6BafjpXkMwy7fCvf1Arfd0yuJhshfQwy4WsMwRUjxTDChqAMV6Tv6omt3F
-         OfTpnKcfZ277rOVr4WYz4UjIgGfK5meCqnmOPwcUEKvT84sDMAg5PjQxhE9zC7sgYC
-         qVr1pay6JvsXhEOAkaezkncoRuD/CdTSpWvKgfR+gRz25/uvJlB85Et7ZZGtR12Qro
-         wgvvqm1PSp0SQ==
-Date:   Mon, 12 Dec 2022 12:32:01 +0100
-From:   Sebastian Fricke <sebastian.fricke@collabora.com>
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc:     linux-media@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        kernel@collabora.com, bob.beckett@collabora.com,
-        hverkuil-cisco@xs4all.nl, nicolas.dufresne@collabora.com,
-        nas.chung@chipsnmedia.com, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v11 5/6] dt-bindings: media: wave5: add yaml devicetree
- bindings
-Message-ID: <20221212113201.lyn33mzg5ausnh46@basti-XPS-13-9310>
-References: <20221207121350.66217-1-sebastian.fricke@collabora.com>
- <20221207121350.66217-6-sebastian.fricke@collabora.com>
- <48d60bd0-4de1-4a5e-eca1-1f8a9303cce0@linaro.org>
- <20221207150925.frotwpm3ukwwlnig@basti-XPS-13-9310>
- <30166f9d-ebfa-ed8b-c08b-ff8e2599161f@linaro.org>
+        Mon, 12 Dec 2022 08:25:16 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 70AC813E3D
+        for <linux-media@vger.kernel.org>; Mon, 12 Dec 2022 05:25:10 -0800 (PST)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 463896CF;
+        Mon, 12 Dec 2022 14:25:08 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1670851508;
+        bh=LoIlIkcFC6SsobDgsJn6mbdv6c40c0Gs+NQdx8sI8w8=;
+        h=From:To:Cc:Subject:Date:From;
+        b=qrQPJeUUvmiXdxET2Ozz7tHsoOc+3+6yKcqrDHtq8I/OD32HKhkl2RG7t/A6MmoV4
+         kc86yxGRru8+M+27WhVwRwseyUDj7Kcq4e+5AsNG594PeDsaQWI9/06qeUAJ8rhxsR
+         /cTcHKAzmwsrbsOicwDwdyV+UhrVZyVCBFKN14GU=
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     linux-media@vger.kernel.org
+Cc:     Sakari Ailus <sakari.ailus@iki.fi>,
+        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: [PATCH v1 0/2] media: Minor fixes for media pipeline start rework
+Date:   Mon, 12 Dec 2022 15:25:03 +0200
+Message-Id: <20221212132505.9251-1-laurent.pinchart@ideasonboard.com>
+X-Mailer: git-send-email 2.37.4
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Disposition: inline
-In-Reply-To: <30166f9d-ebfa-ed8b-c08b-ff8e2599161f@linaro.org>
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -62,85 +44,24 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hey Krzysztof,
+Hello,
 
-On 07.12.2022 16:27, Krzysztof Kozlowski wrote:
->On 07/12/2022 16:09, Sebastian Fricke wrote:
->> Hello Krzysztof,
->>
->> On 07.12.2022 13:31, Krzysztof Kozlowski wrote:
->>> On 07/12/2022 13:13, Sebastian Fricke wrote:
->>>> From: Robert Beckett <bob.beckett@collabora.com>
->>>>
->>>> Add bindings for the wave5 chips&media codec driver
->>>>
->>>> Signed-off-by: Robert Beckett <bob.beckett@collabora.com>
->>>> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
->>>> Signed-off-by: Sebastian Fricke <sebastian.fricke@collabora.com>
->>>
->>> What's happening with this patch? Where is the changelog?
->>
->> The changelog is located in the cover letter.
->> https://lore.kernel.org/linux-media/20221207121350.66217-1-sebastian.fricke@collabora.com/
->
->
->Which you did not sent to us... so? How does it help us?
+The media pipeline start rework changes merged in v6.1 have introduced a
+few minor issues in comments, documentation and code. These two patches
+fix them.
 
-I completely agree, I simply forgot to add the devicetree@vger.kernel.org mail to the list of receivers.
+Laurent Pinchart (2):
+  media: mc: Get media_device directly from pad
+  media: mc: entity: Fix minor issues in comments and documentation
 
->
->>
->>> Why it is v11 and first time I see it?
->>
->> You actually replied to V10:
->> https://lore.kernel.org/linux-media/20221023085341.s23qinjuw4qls3dn@basti-XPS-13-9310/
->>
->>> And why it is v11 with basic mistakes and lack of testing?!?
->>> I would assume that v11 was already seen and tested...
->>
->> Sorry I don't have a lot of experience with dt-bindings, thank you for
->> highlighting the issues, I will correct them. And I forgot to build the
->> documentation during my testing runs.
->> I took over the patch set from another contributor and as no one
->> complained about the dt-bindings for the last 10 versions, I concentrated
->> my energy on other problems.
->
->Because they were never sent to maintainers...
->
->>
->>>
->>>
->>>> ---
->>>>  .../devicetree/bindings/cnm,wave5.yml         | 72 +++++++++++++++++++
->>>>  1 file changed, 72 insertions(+)
->>>>  create mode 100644 Documentation/devicetree/bindings/cnm,wave5.yml
->>>
->>> Wrong directory. It wasn't here at all before, so I am really confused
->>> how this could happen.
->>
->> Thanks for the highlight.
->>
->> I will move it to:
->> Documentation/devicetree/bindings/media/cnm,wave5.yml
->>
->>>
->>> Subject: drop redundant pieces: yaml, devicetree and bindings.
->>
->> I call it:
->>
->> dt-bindings: media: chips-media: add wave5 bindings
->>
->> in V12
->>
->And the rest questions? Lack of response means agreement, which is fine,
->so in v12 questionable parts will be removed?
+ Documentation/driver-api/media/mc-core.rst | 10 ++++------
+ drivers/media/mc/mc-entity.c               | 14 +++++++-------
+ 2 files changed, 11 insertions(+), 13 deletions(-)
 
-Yes, I will completely rework this part, thus I try to take all of your
-highlights into consideration.
 
->
->Best regards,
->Krzysztof
+base-commit: 830b3c68c1fb1e9176028d02ef86f3cf76aa2476
+-- 
+Regards,
 
-Sincerely,
-Sebastian Fricke
+Laurent Pinchart
+
