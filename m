@@ -2,82 +2,83 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 36DBC64A5A0
-	for <lists+linux-media@lfdr.de>; Mon, 12 Dec 2022 18:13:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AE04264A83A
+	for <lists+linux-media@lfdr.de>; Mon, 12 Dec 2022 20:47:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232746AbiLLRM4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 12 Dec 2022 12:12:56 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34274 "EHLO
+        id S233360AbiLLTrx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 12 Dec 2022 14:47:53 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40136 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232844AbiLLRMy (ORCPT
+        with ESMTP id S233344AbiLLTrv (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 12 Dec 2022 12:12:54 -0500
-Received: from mail-oa1-f44.google.com (mail-oa1-f44.google.com [209.85.160.44])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E433912610;
-        Mon, 12 Dec 2022 09:12:53 -0800 (PST)
-Received: by mail-oa1-f44.google.com with SMTP id 586e51a60fabf-1322d768ba7so9171891fac.5;
-        Mon, 12 Dec 2022 09:12:53 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=SvFA20U6Mkz3QyBDOAMdECYf/B+92PGnyWsHrRN56bM=;
-        b=Ajdw+g76tnd7vfnVcUT5dynukV4yKDiluamQFK7wnDvuUE3FB1VbMYtv7kK3qSvtPX
-         sYceFynAPUk3TroxAI9ufOi4WGKuvrrhuIpSkVIEwo1QEGwfiEhnLlrQgMokmgZ2ak0C
-         YlBWOg+MNYo8Aige0q/AcXFDFHkAxldh6XGi/SMBSDg1+ZGoTqE81NxPp/hAQiDVW+Lk
-         2dE3bbqAscDLthgcWkPZifI6sVK/gnY21EPXj6preQ2cSukaColxzdH9nkQtruvW1wT1
-         VGy0kZlwdSWmPNy7Wn6w83XbYrRhNNxB+Mb716CfseInS3CJK0fJeTeX6xGWeI0kEbUK
-         mkcg==
-X-Gm-Message-State: ANoB5pmBl+MCGJfXp+5SSdfMvseq95YJ9fUNwA6Su26Y9MQVq2biH62h
-        2FNYzFqr9Am7/K6vuPnFkA==
-X-Google-Smtp-Source: AA0mqf6nsnie5WDBxmo74YMu9eXA7ZT9hMxxT11E1vCXQPpQV4RlWJz3ZGoeFZP2o95aGpTZ7Lolzw==
-X-Received: by 2002:a05:6870:3b19:b0:148:2c02:5322 with SMTP id gh25-20020a0568703b1900b001482c025322mr4246505oab.26.1670865173196;
-        Mon, 12 Dec 2022 09:12:53 -0800 (PST)
-Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id w20-20020a4ad034000000b004a0b424f99dsm103772oor.43.2022.12.12.09.12.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Dec 2022 09:12:52 -0800 (PST)
-Received: (nullmailer pid 1146475 invoked by uid 1000);
-        Mon, 12 Dec 2022 17:12:51 -0000
-Date:   Mon, 12 Dec 2022 11:12:51 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc:     =?utf-8?B?77+9?= Chmiel <pawel.mikolaj.chmiel@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        ", Krzysztof Kozlowski" <krzysztof.kozlowski+dt@linaro.org>,
-        linux-media@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: dt-bindings: silabs,si470x: Convert to DT schema
-Message-ID: <167086517001.1146391.18433456059392851926.robh@kernel.org>
-References: <20221209175926.335227-1-krzysztof.kozlowski@linaro.org>
+        Mon, 12 Dec 2022 14:47:51 -0500
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3E8BA12609
+        for <linux-media@vger.kernel.org>; Mon, 12 Dec 2022 11:47:50 -0800 (PST)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <mgr@pengutronix.de>)
+        id 1p4om7-00034p-QO; Mon, 12 Dec 2022 20:47:43 +0100
+Received: from [2a0a:edc0:0:1101:1d::ac] (helo=dude04.red.stw.pengutronix.de)
+        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+        (envelope-from <mgr@pengutronix.de>)
+        id 1p4om6-0045V5-C4; Mon, 12 Dec 2022 20:47:43 +0100
+Received: from mgr by dude04.red.stw.pengutronix.de with local (Exim 4.94.2)
+        (envelope-from <mgr@pengutronix.de>)
+        id 1p4om5-00CZJ5-LT; Mon, 12 Dec 2022 20:47:41 +0100
+From:   Michael Grzeschik <m.grzeschik@pengutronix.de>
+To:     laurent.pinchart@ideasonboard.com
+Cc:     gregkh@linuxfoundation.org, mchehab@kernel.org,
+        hverkuil-cisco@xs4all.nl, linux-usb@vger.kernel.org,
+        linux-media@vger.kernel.org, kernel@pengutronix.de
+Subject: [PATCH 0/5] usb: uvc: improve header files and function use
+Date:   Mon, 12 Dec 2022 20:47:11 +0100
+Message-Id: <20221212194716.2995569-1-m.grzeschik@pengutronix.de>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221209175926.335227-1-krzysztof.kozlowski@linaro.org>
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: mgr@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+This series is improving the use of the uvc_format_desc
+in v4l2-uvc.h and also reuses the declarative strings from
+v4l_fill_fmtdesc.
 
-On Fri, 09 Dec 2022 18:59:26 +0100, Krzysztof Kozlowski wrote:
-> Convert the Silicon Labs Si470x FM Radio Receiver bindings to DT schema.
-> 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> ---
->  .../devicetree/bindings/media/si470x.txt      | 26 ----------
->  .../bindings/media/silabs,si470x.yaml         | 48 +++++++++++++++++++
->  MAINTAINERS                                   |  1 +
->  3 files changed, 49 insertions(+), 26 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/media/si470x.txt
->  create mode 100644 Documentation/devicetree/bindings/media/silabs,si470x.yaml
-> 
+Michael Grzeschik (5):
+  usb: uvc: move media/v4l2-uvc.h to usb/uvc.h
+  usb: uvc: move uvc_fmts and uvc_format_by_guid to own compile unit
+  usb: uvc: make uvc_format_desc table const
+  media: v4l2: move v4l_fill_fmtdesc to common v4l2_fill_fmtdesc
+    function
+  usb: uvc: use v4l2_fill_fmtdesc instead of open coded format name
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+ drivers/media/common/Kconfig                  |   3 +
+ drivers/media/common/Makefile                 |   1 +
+ drivers/media/common/uvc.c                    | 177 ++++++++++++
+ drivers/media/usb/uvc/Kconfig                 |   1 +
+ drivers/media/usb/uvc/uvc_ctrl.c              |   2 +-
+ drivers/media/usb/uvc/uvc_driver.c            |  12 +-
+ drivers/media/v4l2-core/v4l2-common.c         | 263 +++++++++++++++++
+ drivers/media/v4l2-core/v4l2-ioctl.c          | 264 +-----------------
+ drivers/usb/gadget/Kconfig                    |   1 +
+ drivers/usb/gadget/function/uvc_v4l2.c        |  16 +-
+ include/{media/v4l2-uvc.h => linux/usb/uvc.h} | 206 +-------------
+ include/media/v4l2-common.h                   |   2 +
+ 12 files changed, 466 insertions(+), 482 deletions(-)
+ create mode 100644 drivers/media/common/uvc.c
+ rename include/{media/v4l2-uvc.h => linux/usb/uvc.h} (59%)
+
+-- 
+2.30.2
+
