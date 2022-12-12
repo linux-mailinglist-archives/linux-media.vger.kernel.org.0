@@ -2,313 +2,196 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A76C964A83D
-	for <lists+linux-media@lfdr.de>; Mon, 12 Dec 2022 20:47:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3C85964A895
+	for <lists+linux-media@lfdr.de>; Mon, 12 Dec 2022 21:17:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233344AbiLLTry (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 12 Dec 2022 14:47:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40144 "EHLO
+        id S233517AbiLLUPt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 12 Dec 2022 15:15:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51750 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233350AbiLLTrw (ORCPT
+        with ESMTP id S233556AbiLLUPZ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 12 Dec 2022 14:47:52 -0500
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D144212607
-        for <linux-media@vger.kernel.org>; Mon, 12 Dec 2022 11:47:50 -0800 (PST)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <mgr@pengutronix.de>)
-        id 1p4om7-00034m-NK; Mon, 12 Dec 2022 20:47:44 +0100
-Received: from [2a0a:edc0:0:1101:1d::ac] (helo=dude04.red.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-        (envelope-from <mgr@pengutronix.de>)
-        id 1p4om6-0045Uw-1z; Mon, 12 Dec 2022 20:47:42 +0100
-Received: from mgr by dude04.red.stw.pengutronix.de with local (Exim 4.94.2)
-        (envelope-from <mgr@pengutronix.de>)
-        id 1p4om5-00CZJJ-Nt; Mon, 12 Dec 2022 20:47:41 +0100
-From:   Michael Grzeschik <m.grzeschik@pengutronix.de>
-To:     laurent.pinchart@ideasonboard.com
-Cc:     gregkh@linuxfoundation.org, mchehab@kernel.org,
-        hverkuil-cisco@xs4all.nl, linux-usb@vger.kernel.org,
-        linux-media@vger.kernel.org, kernel@pengutronix.de
-Subject: [PATCH 5/5] usb: uvc: use v4l2_fill_fmtdesc instead of open coded format name
-Date:   Mon, 12 Dec 2022 20:47:16 +0100
-Message-Id: <20221212194716.2995569-6-m.grzeschik@pengutronix.de>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20221212194716.2995569-1-m.grzeschik@pengutronix.de>
-References: <20221212194716.2995569-1-m.grzeschik@pengutronix.de>
+        Mon, 12 Dec 2022 15:15:25 -0500
+Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com [IPv6:2a00:1450:4864:20::52e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D3E3D186EB
+        for <linux-media@vger.kernel.org>; Mon, 12 Dec 2022 12:14:39 -0800 (PST)
+Received: by mail-ed1-x52e.google.com with SMTP id d14so14684101edj.11
+        for <linux-media@vger.kernel.org>; Mon, 12 Dec 2022 12:14:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=LNeKedXD0Kl6AcDMF/d3CoGNVEpAGSVGvZ8MSDW0DiU=;
+        b=giTS0tGcE1dz9vIk9sSMU1qvD1UjXbWjbK1JjpLf4V28qjylRFTPrlXj+Fh1QBQJW6
+         646OrtTae+Vpgo1nPBgsyh1yrPbJA4GGJLEBjrFvIKaly3JRasLm67+BA7AL7ui63C4q
+         fHwm36XQy23gFkYw8WrkQFYB81UHk+Mxu5GC8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=LNeKedXD0Kl6AcDMF/d3CoGNVEpAGSVGvZ8MSDW0DiU=;
+        b=BWwBXZLwI3SwwZDMIwxbPEzjRjzMAmxgVsEvC3bki4PzqDivnjWeNnsP+Sy6NPt57Q
+         I3A3gBfinjrO3pvlNm8a1nVHqGnLAwWK/giQOfeGW+IA2aVQiPwYupulpaWPjg5y5NSC
+         M0S5BWjkRMO/K1T9sWrVK8BvVnhh0YqmYnNv+o1iUmNt7EHLmMug1gY0HUCBZpFk0mn0
+         WnkrTHNUEtKdi2Mzy3mw8nbmkbNtqb6sF5mAkABi/XyfzUIEuN0pVzdFTQpdVbhjhFvf
+         hSMEcsrfcrEpjca1s/DRsxL/S5GnQTsN0Tag1p7tDgiqN0bIRreSbwU2LFngHEzPoG5X
+         j/vQ==
+X-Gm-Message-State: ANoB5pla0N3qNeoKHiRyhfMh9GpiT1FshxK/8W4GqPCbAcf+eWA69EAG
+        1vruP4oLl/yzzItVBHfLC3m29Q==
+X-Google-Smtp-Source: AA0mqf6DqXWQXXTXEwffECnnWLyTvOYJyd6gS5iea1EaL3u4xHmIzWc8GFkBEYWgZBYQs9NWOxfdtA==
+X-Received: by 2002:a05:6402:3788:b0:467:481f:df5e with SMTP id et8-20020a056402378800b00467481fdf5emr13491596edb.19.1670876078448;
+        Mon, 12 Dec 2022 12:14:38 -0800 (PST)
+Received: from alco.roam.corp.google.com (80.71.134.83.ipv4.parknet.dk. [80.71.134.83])
+        by smtp.gmail.com with ESMTPSA id s12-20020a056402164c00b0046bada4b121sm4151700edx.54.2022.12.12.12.14.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 12 Dec 2022 12:14:38 -0800 (PST)
+From:   Ricardo Ribalda <ribalda@chromium.org>
+Date:   Mon, 12 Dec 2022 21:14:33 +0100
+Subject: [PATCH] media: uvcvideo: Fix race condition with usb_kill_urb
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: mgr@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20221212-uvc-race-v1-0-c52e1783c31d@chromium.org>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Ricardo Ribalda <ribalda@chromium.org>, stable@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+X-Mailer: b4 0.11.0-dev-696ae
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3645; i=ribalda@chromium.org;
+ h=from:subject:message-id; bh=nam6sSBCZM3trcTWBmQHsG2SGMJaYyZEqH23zO5Yu8A=;
+ b=owEBbQKS/ZANAwAKAdE30T7POsSIAcsmYgBjl4usOILXDyyP76kClnGl6+kvNG6EiBW+UDUMubd8
+ qwP+Xs+JAjMEAAEKAB0WIQREDzjr+/4oCDLSsx7RN9E+zzrEiAUCY5eLrAAKCRDRN9E+zzrEiKwrD/
+ 47voqcNQ2Pn132A4dd8Ad6W1dxQaZLgEQlDGTxBm56m0AtapREvMg0LA5s9BFKEfHDO6a6BARyG/5M
+ +h3+Anjc7uursLTurlnKkDpWlb8OoJ/6p0zB9+PPP6WY34KnsupUG8gyHpUteONVMVVMY1oaYE79oa
+ I9Td/xbkztN102u3lImOY7J87ZFd1iNNJv84xdqByHLIkcx3xkz3SsKKGQIF7Wv3dq/VvG37mEHY9R
+ vfUnplG2i2CKDRGP+jBuuYLCZUnnGtUcGhW7FfIj73oKHe8jKmIILyJYIbpht+eCf51/ak5mGkCoHg
+ gRf9jLFC+0SnSfN1qe+tPsEutWFimIZ3cnp7z/OXMuXZGjUtCUor5Du5BizuVkXL6DX/Ok/0qV9SMF
+ 7+LWYKhG7I0trzNjwGzdxMK+IbHfv4UHDxnuMJSwcJ12cgi2IPzc6Iavzg7ffiDAj66p35bicdFU13
+ a2jWZwr9t9wyUjvSkG9zCvYU4aKqyhNWoJ22qvcmfPRlYYHXkMq3fN2YdjY3cmJ7gh5ImWYZllDzZm
+ bsbIemMwPPMgbR4cTCtB8ucmJd8X0ZxHGenRCfeeUndXiLEct8jPTAH2XKlDXb+sstdE7fla9Plu4l
+ pFsIzYwgjqhwW/TDDjHbirzwfqT9aDFGoZQ98lZga6Tbmq/hLtW8vHpPqzEg==
+X-Developer-Key: i=ribalda@chromium.org; a=openpgp;
+ fpr=9EC3BB66E2FC129A6F90B39556A0D81F9F782DA9
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Since we have the helper function v4l2_fill_fmtdesc, we can use this to
-get the corresponding descriptive string for the pixelformat and set the
-compressed flag. This patch is removing the redundant name field in
-uvc_format_desc and makes use of v4l2_fill_fmtdesc instead.
+usb_kill_urb warranties that all the handlers are finished when it
+returns, but does not protect against threads that might be handling
+asynchronously the urb.
 
-Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
+For UVC, the function uvc_ctrl_status_event_async() takes care of
+control changes. If the code is executed in the following order:
+
+CPU 0					CPU 1
+===== 					=====
+uvc_status_complete()
+					uvc_status_stop()
+uvc_ctrl_status_event_work()
+					uvc_status_start() -> FAIL
+
+Then uvc_status_start will keep failing and this error will be shown:
+
+<4>[    5.540139] URB 0000000000000000 submitted while active
+drivers/usb/core/urb.c:378 usb_submit_urb+0x4c3/0x528
+
+Let's improve the current situation, by not re-submiting the urb if
+there are no users on the system.
+
+Also add a flag that is clear during stop, that will capture this
+situation:
+
+CPU 0					CPU 1
+===== 					=====
+uvc_status_complete()
+					uvc_status_stop()
+					uvc_status_start()
+uvc_ctrl_status_event_work() -> FAIL
+
+Hopefully, with the usb layer protection it should be enough to cover
+all the cases.
+
+Cc: stable@vger.kernel.org
+Fixes: e5225c820c05 ("media: uvcvideo: Send a control event when a Control Change interrupt arrives")
+Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 ---
- drivers/media/common/uvc.c             | 37 --------------------------
- drivers/media/usb/uvc/uvc_driver.c     |  8 +++++-
- drivers/usb/gadget/function/uvc_v4l2.c |  6 +----
- include/linux/usb/uvc.h                |  1 -
- 4 files changed, 8 insertions(+), 44 deletions(-)
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+---
+ drivers/media/usb/uvc/uvc_ctrl.c   | 9 +++++++++
+ drivers/media/usb/uvc/uvc_status.c | 1 +
+ drivers/media/usb/uvc/uvcvideo.h   | 2 ++
+ 3 files changed, 12 insertions(+)
 
-diff --git a/drivers/media/common/uvc.c b/drivers/media/common/uvc.c
-index a6787f1999becd..02de0dcad0f088 100644
---- a/drivers/media/common/uvc.c
-+++ b/drivers/media/common/uvc.c
-@@ -11,187 +11,150 @@
+diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
+index c95a2229f4fa..0634a4baa2e9 100644
+--- a/drivers/media/usb/uvc/uvc_ctrl.c
++++ b/drivers/media/usb/uvc/uvc_ctrl.c
+@@ -1442,12 +1442,20 @@ static void uvc_ctrl_status_event_work(struct work_struct *work)
  
- static const struct uvc_format_desc uvc_fmts[] = {
- 	{
--		.name		= "YUV 4:2:2 (YUYV)",
- 		.guid		= UVC_GUID_FORMAT_YUY2,
- 		.fcc		= V4L2_PIX_FMT_YUYV,
- 	},
- 	{
--		.name		= "YUV 4:2:2 (YUYV)",
- 		.guid		= UVC_GUID_FORMAT_YUY2_ISIGHT,
- 		.fcc		= V4L2_PIX_FMT_YUYV,
- 	},
- 	{
--		.name		= "YUV 4:2:0 (NV12)",
- 		.guid		= UVC_GUID_FORMAT_NV12,
- 		.fcc		= V4L2_PIX_FMT_NV12,
- 	},
- 	{
--		.name		= "MJPEG",
- 		.guid		= UVC_GUID_FORMAT_MJPEG,
- 		.fcc		= V4L2_PIX_FMT_MJPEG,
- 	},
- 	{
--		.name		= "YVU 4:2:0 (YV12)",
- 		.guid		= UVC_GUID_FORMAT_YV12,
- 		.fcc		= V4L2_PIX_FMT_YVU420,
- 	},
- 	{
--		.name		= "YUV 4:2:0 (I420)",
- 		.guid		= UVC_GUID_FORMAT_I420,
- 		.fcc		= V4L2_PIX_FMT_YUV420,
- 	},
- 	{
--		.name		= "YUV 4:2:0 (M420)",
- 		.guid		= UVC_GUID_FORMAT_M420,
- 		.fcc		= V4L2_PIX_FMT_M420,
- 	},
- 	{
--		.name		= "YUV 4:2:2 (UYVY)",
- 		.guid		= UVC_GUID_FORMAT_UYVY,
- 		.fcc		= V4L2_PIX_FMT_UYVY,
- 	},
- 	{
--		.name		= "Greyscale 8-bit (Y800)",
- 		.guid		= UVC_GUID_FORMAT_Y800,
- 		.fcc		= V4L2_PIX_FMT_GREY,
- 	},
- 	{
--		.name		= "Greyscale 8-bit (Y8  )",
- 		.guid		= UVC_GUID_FORMAT_Y8,
- 		.fcc		= V4L2_PIX_FMT_GREY,
- 	},
- 	{
--		.name		= "Greyscale 8-bit (D3DFMT_L8)",
- 		.guid		= UVC_GUID_FORMAT_D3DFMT_L8,
- 		.fcc		= V4L2_PIX_FMT_GREY,
- 	},
- 	{
--		.name		= "IR 8-bit (L8_IR)",
- 		.guid		= UVC_GUID_FORMAT_KSMEDIA_L8_IR,
- 		.fcc		= V4L2_PIX_FMT_GREY,
- 	},
- 	{
--		.name		= "Greyscale 10-bit (Y10 )",
- 		.guid		= UVC_GUID_FORMAT_Y10,
- 		.fcc		= V4L2_PIX_FMT_Y10,
- 	},
- 	{
--		.name		= "Greyscale 12-bit (Y12 )",
- 		.guid		= UVC_GUID_FORMAT_Y12,
- 		.fcc		= V4L2_PIX_FMT_Y12,
- 	},
- 	{
--		.name		= "Greyscale 16-bit (Y16 )",
- 		.guid		= UVC_GUID_FORMAT_Y16,
- 		.fcc		= V4L2_PIX_FMT_Y16,
- 	},
- 	{
--		.name		= "BGGR Bayer (BY8 )",
- 		.guid		= UVC_GUID_FORMAT_BY8,
- 		.fcc		= V4L2_PIX_FMT_SBGGR8,
- 	},
- 	{
--		.name		= "BGGR Bayer (BA81)",
- 		.guid		= UVC_GUID_FORMAT_BA81,
- 		.fcc		= V4L2_PIX_FMT_SBGGR8,
- 	},
- 	{
--		.name		= "GBRG Bayer (GBRG)",
- 		.guid		= UVC_GUID_FORMAT_GBRG,
- 		.fcc		= V4L2_PIX_FMT_SGBRG8,
- 	},
- 	{
--		.name		= "GRBG Bayer (GRBG)",
- 		.guid		= UVC_GUID_FORMAT_GRBG,
- 		.fcc		= V4L2_PIX_FMT_SGRBG8,
- 	},
- 	{
--		.name		= "RGGB Bayer (RGGB)",
- 		.guid		= UVC_GUID_FORMAT_RGGB,
- 		.fcc		= V4L2_PIX_FMT_SRGGB8,
- 	},
- 	{
--		.name		= "RGB565",
- 		.guid		= UVC_GUID_FORMAT_RGBP,
- 		.fcc		= V4L2_PIX_FMT_RGB565,
- 	},
- 	{
--		.name		= "BGR 8:8:8 (BGR3)",
- 		.guid		= UVC_GUID_FORMAT_BGR3,
- 		.fcc		= V4L2_PIX_FMT_BGR24,
- 	},
- 	{
--		.name		= "H.264",
- 		.guid		= UVC_GUID_FORMAT_H264,
- 		.fcc		= V4L2_PIX_FMT_H264,
- 	},
- 	{
--		.name		= "H.265",
- 		.guid		= UVC_GUID_FORMAT_H265,
- 		.fcc		= V4L2_PIX_FMT_HEVC,
- 	},
- 	{
--		.name		= "Greyscale 8 L/R (Y8I)",
- 		.guid		= UVC_GUID_FORMAT_Y8I,
- 		.fcc		= V4L2_PIX_FMT_Y8I,
- 	},
- 	{
--		.name		= "Greyscale 12 L/R (Y12I)",
- 		.guid		= UVC_GUID_FORMAT_Y12I,
- 		.fcc		= V4L2_PIX_FMT_Y12I,
- 	},
- 	{
--		.name		= "Depth data 16-bit (Z16)",
- 		.guid		= UVC_GUID_FORMAT_Z16,
- 		.fcc		= V4L2_PIX_FMT_Z16,
- 	},
- 	{
--		.name		= "Bayer 10-bit (SRGGB10P)",
- 		.guid		= UVC_GUID_FORMAT_RW10,
- 		.fcc		= V4L2_PIX_FMT_SRGGB10P,
- 	},
- 	{
--		.name		= "Bayer 16-bit (SBGGR16)",
- 		.guid		= UVC_GUID_FORMAT_BG16,
- 		.fcc		= V4L2_PIX_FMT_SBGGR16,
- 	},
- 	{
--		.name		= "Bayer 16-bit (SGBRG16)",
- 		.guid		= UVC_GUID_FORMAT_GB16,
- 		.fcc		= V4L2_PIX_FMT_SGBRG16,
- 	},
- 	{
--		.name		= "Bayer 16-bit (SRGGB16)",
- 		.guid		= UVC_GUID_FORMAT_RG16,
- 		.fcc		= V4L2_PIX_FMT_SRGGB16,
- 	},
- 	{
--		.name		= "Bayer 16-bit (SGRBG16)",
- 		.guid		= UVC_GUID_FORMAT_GR16,
- 		.fcc		= V4L2_PIX_FMT_SGRBG16,
- 	},
- 	{
--		.name		= "Depth data 16-bit (Z16)",
- 		.guid		= UVC_GUID_FORMAT_INVZ,
- 		.fcc		= V4L2_PIX_FMT_Z16,
- 	},
- 	{
--		.name		= "Greyscale 10-bit (Y10 )",
- 		.guid		= UVC_GUID_FORMAT_INVI,
- 		.fcc		= V4L2_PIX_FMT_Y10,
- 	},
- 	{
--		.name		= "IR:Depth 26-bit (INZI)",
- 		.guid		= UVC_GUID_FORMAT_INZI,
- 		.fcc		= V4L2_PIX_FMT_INZI,
- 	},
- 	{
--		.name		= "4-bit Depth Confidence (Packed)",
- 		.guid		= UVC_GUID_FORMAT_CNF4,
- 		.fcc		= V4L2_PIX_FMT_CNF4,
- 	},
- 	{
--		.name		= "HEVC",
- 		.guid		= UVC_GUID_FORMAT_HEVC,
- 		.fcc		= V4L2_PIX_FMT_HEVC,
- 	},
-diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-index 12b6ad0966d94a..af92e730bde7c7 100644
---- a/drivers/media/usb/uvc/uvc_driver.c
-+++ b/drivers/media/usb/uvc/uvc_driver.c
-@@ -251,7 +251,13 @@ static int uvc_parse_format(struct uvc_device *dev,
- 		fmtdesc = uvc_format_by_guid(&buffer[5]);
+ 	uvc_ctrl_status_event(w->chain, w->ctrl, w->data);
  
- 		if (fmtdesc != NULL) {
--			strscpy(format->name, fmtdesc->name,
-+			struct v4l2_fmtdesc fmt;
++	mutex_lock(&dev->lock);
++	if (!dev->users || !dev->resubmit_urb) {
++		mutex_unlock(&dev->lock);
++		return;
++	}
 +
-+			fmt.pixelformat = fmtdesc->fcc;
-+
-+			v4l2_fill_fmtdesc(&fmt);
-+
-+			strscpy(format->name, fmt.description,
- 				sizeof(format->name));
- 			format->fcc = fmtdesc->fcc;
- 		} else {
-diff --git a/drivers/usb/gadget/function/uvc_v4l2.c b/drivers/usb/gadget/function/uvc_v4l2.c
-index 21e573e628f4e7..6e46fa1695f212 100644
---- a/drivers/usb/gadget/function/uvc_v4l2.c
-+++ b/drivers/usb/gadget/function/uvc_v4l2.c
-@@ -374,14 +374,10 @@ uvc_v4l2_enum_format(struct file *file, void *fh, struct v4l2_fmtdesc *f)
- 	if (!uformat)
- 		return -EINVAL;
- 
--	if (uformat->type != UVCG_UNCOMPRESSED)
--		f->flags |= V4L2_FMT_FLAG_COMPRESSED;
--
- 	fmtdesc = to_uvc_format(uformat);
- 	f->pixelformat = fmtdesc->fcc;
- 
--	strscpy(f->description, fmtdesc->name, sizeof(f->description));
--	f->description[strlen(fmtdesc->name) - 1] = 0;
-+	v4l2_fill_fmtdesc(f);
- 
- 	return 0;
+ 	/* Resubmit the URB. */
+ 	w->urb->interval = dev->int_ep->desc.bInterval;
+ 	ret = usb_submit_urb(w->urb, GFP_KERNEL);
+ 	if (ret < 0)
+ 		dev_err(&dev->udev->dev,
+ 			"Failed to resubmit status URB (%d).\n", ret);
++	dev->resubmit_urb = false;
++	mutex_unlock(&dev->lock);
  }
-diff --git a/include/linux/usb/uvc.h b/include/linux/usb/uvc.h
-index 227a03f252a5c0..e407a7b8a91c70 100644
---- a/include/linux/usb/uvc.h
-+++ b/include/linux/usb/uvc.h
-@@ -146,7 +146,6 @@
- 	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
  
- struct uvc_format_desc {
--	char *name;
- 	u8 guid[16];
- 	u32 fcc;
- };
--- 
-2.30.2
+ bool uvc_ctrl_status_event_async(struct urb *urb, struct uvc_video_chain *chain,
+@@ -1466,6 +1474,7 @@ bool uvc_ctrl_status_event_async(struct urb *urb, struct uvc_video_chain *chain,
+ 	w->chain = chain;
+ 	w->ctrl = ctrl;
+ 
++	dev->resubmit_urb = true;
+ 	schedule_work(&w->work);
+ 
+ 	return true;
+diff --git a/drivers/media/usb/uvc/uvc_status.c b/drivers/media/usb/uvc/uvc_status.c
+index 7518ffce22ed..3cc6e1dfaf01 100644
+--- a/drivers/media/usb/uvc/uvc_status.c
++++ b/drivers/media/usb/uvc/uvc_status.c
+@@ -310,4 +310,5 @@ int uvc_status_start(struct uvc_device *dev, gfp_t flags)
+ void uvc_status_stop(struct uvc_device *dev)
+ {
+ 	usb_kill_urb(dev->int_urb);
++	dev->resubmit_urb = false;
+ }
+diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
+index df93db259312..9e6a52008ce5 100644
+--- a/drivers/media/usb/uvc/uvcvideo.h
++++ b/drivers/media/usb/uvc/uvcvideo.h
+@@ -539,6 +539,8 @@ struct uvc_device {
+ 
+ 	struct mutex lock;		/* Protects users */
+ 	unsigned int users;
++	bool resubmit_urb;
++
+ 	atomic_t nmappings;
+ 
+ 	/* Video control interface */
 
+---
+base-commit: 0ec5a38bf8499f403f81cb81a0e3a60887d1993c
+change-id: 20221212-uvc-race-09276ea68bf8
+
+Best regards,
+-- 
+Ricardo Ribalda <ribalda@chromium.org>
