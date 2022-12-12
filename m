@@ -2,129 +2,82 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4B2A764A50B
-	for <lists+linux-media@lfdr.de>; Mon, 12 Dec 2022 17:39:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 36DBC64A5A0
+	for <lists+linux-media@lfdr.de>; Mon, 12 Dec 2022 18:13:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232878AbiLLQjJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 12 Dec 2022 11:39:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39880 "EHLO
+        id S232746AbiLLRM4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 12 Dec 2022 12:12:56 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34274 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232613AbiLLQig (ORCPT
+        with ESMTP id S232844AbiLLRMy (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 12 Dec 2022 11:38:36 -0500
-Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com [IPv6:2a00:1450:4864:20::52d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C4B78140FB
-        for <linux-media@vger.kernel.org>; Mon, 12 Dec 2022 08:37:03 -0800 (PST)
-Received: by mail-ed1-x52d.google.com with SMTP id e13so13671754edj.7
-        for <linux-media@vger.kernel.org>; Mon, 12 Dec 2022 08:37:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=lvYON1Uq6UT3Qph7OPPr0NH47G6rUYR8O1BO9MFwJow=;
-        b=lIFXcScE+1mmzH1SBNLfPzmU2yyZ22FDa7zo6/O0Bw9aIOxDeXxYkEVfus52JWuhda
-         4ouELocZnEhmnwFppolEYq4c3c7RHYAqD4pax4M3unQDLONiM/9+ejXSM9E2FE+Z0v02
-         plxbNMhSLCExfq6g58BwEJLatQLzpt/xLWOhKWfMwSgaHbhPuPfGnoShEU2Q/8V0GhBe
-         I8mO/6POKEHTvHhiQrSmT3i/DlcfyH1o4pAMtSuNXvNoHj+mOy3GKKCsRTSQGVPFd3Z7
-         AQYI0FN6wamo3RnZf0VXDCwVvMRjPWjYDkKYXDeP5o/vQIFIn9FanCQzU/XNFNQHrfWF
-         2geA==
+        Mon, 12 Dec 2022 12:12:54 -0500
+Received: from mail-oa1-f44.google.com (mail-oa1-f44.google.com [209.85.160.44])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E433912610;
+        Mon, 12 Dec 2022 09:12:53 -0800 (PST)
+Received: by mail-oa1-f44.google.com with SMTP id 586e51a60fabf-1322d768ba7so9171891fac.5;
+        Mon, 12 Dec 2022 09:12:53 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=lvYON1Uq6UT3Qph7OPPr0NH47G6rUYR8O1BO9MFwJow=;
-        b=VIDgj1cy2CsjVb2di+DaNKRPt6COKVzTsCOTCfAJgKiSz8cYPu2ETcBPulwsS/fzS5
-         mkYR67ecJpSFFtxpvJ4QOjhEci5elQZM1gAHmCK5tB12wEZJ8v3GyMoNl3YPPvavMuOv
-         6DYZdxPceqaA21hh7kfffUdLIGZzZoroAGizz1YtDdnH/F6/CYOUV2Tsp7MUtLgQoqTl
-         vwnL2ETrSJf2KbfN+U1Fhmcc5/coX2rAyOkzqk0SRmFWXqcyfOunGpMhE8ym7Gs+wukW
-         dpACw0prBjryugTuJ04HGFXNhI0Y2QJEMA9W5ajdPJlW/tRkxmZDZEgIHV0ILTjttYra
-         lA0A==
-X-Gm-Message-State: ANoB5pk+r82mz2JIX8YYak65j0TUk/9btzionaFqzPTLIheil4xhwkLd
-        u+Qtr1/tDdMjPwZF2sitIoIgwFUyDvZtNqt8
-X-Google-Smtp-Source: AA0mqf5ppTTyM6N0bPOAfBX//eKXVRPakyRimeYdkY/8NocUbAvjnOSiYLmQOcD2W7tmhBu2XO410g==
-X-Received: by 2002:a05:6402:702:b0:46f:68d0:76 with SMTP id w2-20020a056402070200b0046f68d00076mr10093614edx.34.1670863020790;
-        Mon, 12 Dec 2022 08:37:00 -0800 (PST)
-Received: from prec5560.. ([2001:bf7:830:a7a8:ff97:7d8d:1f2e:ffaa])
-        by smtp.gmail.com with ESMTPSA id m15-20020a50930f000000b00463597d2c25sm4051979eda.74.2022.12.12.08.36.58
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=SvFA20U6Mkz3QyBDOAMdECYf/B+92PGnyWsHrRN56bM=;
+        b=Ajdw+g76tnd7vfnVcUT5dynukV4yKDiluamQFK7wnDvuUE3FB1VbMYtv7kK3qSvtPX
+         sYceFynAPUk3TroxAI9ufOi4WGKuvrrhuIpSkVIEwo1QEGwfiEhnLlrQgMokmgZ2ak0C
+         YlBWOg+MNYo8Aige0q/AcXFDFHkAxldh6XGi/SMBSDg1+ZGoTqE81NxPp/hAQiDVW+Lk
+         2dE3bbqAscDLthgcWkPZifI6sVK/gnY21EPXj6preQ2cSukaColxzdH9nkQtruvW1wT1
+         VGy0kZlwdSWmPNy7Wn6w83XbYrRhNNxB+Mb716CfseInS3CJK0fJeTeX6xGWeI0kEbUK
+         mkcg==
+X-Gm-Message-State: ANoB5pmBl+MCGJfXp+5SSdfMvseq95YJ9fUNwA6Su26Y9MQVq2biH62h
+        2FNYzFqr9Am7/K6vuPnFkA==
+X-Google-Smtp-Source: AA0mqf6nsnie5WDBxmo74YMu9eXA7ZT9hMxxT11E1vCXQPpQV4RlWJz3ZGoeFZP2o95aGpTZ7Lolzw==
+X-Received: by 2002:a05:6870:3b19:b0:148:2c02:5322 with SMTP id gh25-20020a0568703b1900b001482c025322mr4246505oab.26.1670865173196;
+        Mon, 12 Dec 2022 09:12:53 -0800 (PST)
+Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id w20-20020a4ad034000000b004a0b424f99dsm103772oor.43.2022.12.12.09.12.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Dec 2022 08:37:00 -0800 (PST)
-From:   Robert Foss <robert.foss@linaro.org>
-To:     Lee Jones <lee.jones@linaro.org>,
-        =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <uwe@kleine-koenig.org>,
-        Angel Iglesias <ang.iglesiasg@gmail.com>,
-        Wolfram Sang <wsa@kernel.org>,
-        Grant Likely <grant.likely@linaro.org>
-Cc:     Robert Foss <robert.foss@linaro.org>,
-        linuxppc-dev@lists.ozlabs.org, linux-actions@lists.infradead.org,
-        linux-spi@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-media@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-crypto@vger.kernel.org, chrome-platform@lists.linux.dev,
-        Broadcom internal kernel review list 
-        <bcm-kernel-feedback-list@broadcom.com>,
-        linux-input@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
-        linux-integrity@vger.kernel.org, linux-omap@vger.kernel.org,
-        linux-serial@vger.kernel.org, Purism Kernel Team <kernel@puri.sm>,
-        linux-staging@lists.linux.dev, alsa-devel@alsa-project.org,
-        linux-watchdog@vger.kernel.org, linux-gpio@vger.kernel.org,
-        linux-rtc@vger.kernel.org, linux-leds@vger.kernel.org,
-        linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-usb@vger.kernel.org, linux-pm@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org, patches@opensource.cirrus.com,
-        linux-mtd@lists.infradead.org, linux-renesas-soc@vger.kernel.org,
-        linux-amlogic@lists.infradead.org, linux-pwm@vger.kernel.org,
-        linux-samsung-soc@vger.kernel.org, linux-i2c@vger.kernel.org,
-        kernel@pengutronix.de, netdev@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        openipmi-developer@lists.sourceforge.net,
-        linux-fbdev@vger.kernel.org
-Subject: Re: (subset) [PATCH 000/606] i2c: Complete conversion to i2c_probe_new
-Date:   Mon, 12 Dec 2022 17:36:51 +0100
-Message-Id: <167086288411.3041259.17824406556561546642.b4-ty@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20221118224540.619276-1-uwe@kleine-koenig.org>
-References: <20221118224540.619276-1-uwe@kleine-koenig.org>
+        Mon, 12 Dec 2022 09:12:52 -0800 (PST)
+Received: (nullmailer pid 1146475 invoked by uid 1000);
+        Mon, 12 Dec 2022 17:12:51 -0000
+Date:   Mon, 12 Dec 2022 11:12:51 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc:     =?utf-8?B?77+9?= Chmiel <pawel.mikolaj.chmiel@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        ", Krzysztof Kozlowski" <krzysztof.kozlowski+dt@linaro.org>,
+        linux-media@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: dt-bindings: silabs,si470x: Convert to DT schema
+Message-ID: <167086517001.1146391.18433456059392851926.robh@kernel.org>
+References: <20221209175926.335227-1-krzysztof.kozlowski@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221209175926.335227-1-krzysztof.kozlowski@linaro.org>
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, 18 Nov 2022 23:35:34 +0100, Uwe Kleine-König wrote:
-> since commit b8a1a4cd5a98 ("i2c: Provide a temporary .probe_new()
-> call-back type") from 2016 there is a "temporary" alternative probe
-> callback for i2c drivers.
+
+On Fri, 09 Dec 2022 18:59:26 +0100, Krzysztof Kozlowski wrote:
+> Convert the Silicon Labs Si470x FM Radio Receiver bindings to DT schema.
 > 
-> This series completes all drivers to this new callback (unless I missed
-> something). It's based on current next/master.
-> A part of the patches depend on commit 662233731d66 ("i2c: core:
-> Introduce i2c_client_get_device_id helper function"), there is a branch that
-> you can pull into your tree to get it:
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> ---
+>  .../devicetree/bindings/media/si470x.txt      | 26 ----------
+>  .../bindings/media/silabs,si470x.yaml         | 48 +++++++++++++++++++
+>  MAINTAINERS                                   |  1 +
+>  3 files changed, 49 insertions(+), 26 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/media/si470x.txt
+>  create mode 100644 Documentation/devicetree/bindings/media/silabs,si470x.yaml
 > 
-> [...]
 
-Applied, thanks!
-
-Repo: https://cgit.freedesktop.org/drm/drm-misc/
-
-
-[014/606] drm/bridge: adv7511: Convert to i2c's .probe_new()
-          commit: 1c546894ff82f8b7c070998c03f9b15a3499f326
-[028/606] drm/bridge: parade-ps8622: Convert to i2c's .probe_new()
-          commit: d6b522e9bbb0cca1aeae4ef6188800534794836f
-[035/606] drm/bridge: ti-sn65dsi83: Convert to i2c's .probe_new()
-          commit: 0f6548807fa77e87bbc37964c6b1ed9ba6e1155d
-
-
-
-rob
-
+Reviewed-by: Rob Herring <robh@kernel.org>
