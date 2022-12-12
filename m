@@ -2,196 +2,149 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3C85964A895
-	for <lists+linux-media@lfdr.de>; Mon, 12 Dec 2022 21:17:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 25B1C64A8E6
+	for <lists+linux-media@lfdr.de>; Mon, 12 Dec 2022 21:53:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233517AbiLLUPt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 12 Dec 2022 15:15:49 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51750 "EHLO
+        id S232895AbiLLUxk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 12 Dec 2022 15:53:40 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39672 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233556AbiLLUPZ (ORCPT
+        with ESMTP id S232815AbiLLUxj (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 12 Dec 2022 15:15:25 -0500
-Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com [IPv6:2a00:1450:4864:20::52e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D3E3D186EB
-        for <linux-media@vger.kernel.org>; Mon, 12 Dec 2022 12:14:39 -0800 (PST)
-Received: by mail-ed1-x52e.google.com with SMTP id d14so14684101edj.11
-        for <linux-media@vger.kernel.org>; Mon, 12 Dec 2022 12:14:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=LNeKedXD0Kl6AcDMF/d3CoGNVEpAGSVGvZ8MSDW0DiU=;
-        b=giTS0tGcE1dz9vIk9sSMU1qvD1UjXbWjbK1JjpLf4V28qjylRFTPrlXj+Fh1QBQJW6
-         646OrtTae+Vpgo1nPBgsyh1yrPbJA4GGJLEBjrFvIKaly3JRasLm67+BA7AL7ui63C4q
-         fHwm36XQy23gFkYw8WrkQFYB81UHk+Mxu5GC8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=LNeKedXD0Kl6AcDMF/d3CoGNVEpAGSVGvZ8MSDW0DiU=;
-        b=BWwBXZLwI3SwwZDMIwxbPEzjRjzMAmxgVsEvC3bki4PzqDivnjWeNnsP+Sy6NPt57Q
-         I3A3gBfinjrO3pvlNm8a1nVHqGnLAwWK/giQOfeGW+IA2aVQiPwYupulpaWPjg5y5NSC
-         M0S5BWjkRMO/K1T9sWrVK8BvVnhh0YqmYnNv+o1iUmNt7EHLmMug1gY0HUCBZpFk0mn0
-         WnkrTHNUEtKdi2Mzy3mw8nbmkbNtqb6sF5mAkABi/XyfzUIEuN0pVzdFTQpdVbhjhFvf
-         hSMEcsrfcrEpjca1s/DRsxL/S5GnQTsN0Tag1p7tDgiqN0bIRreSbwU2LFngHEzPoG5X
-         j/vQ==
-X-Gm-Message-State: ANoB5pla0N3qNeoKHiRyhfMh9GpiT1FshxK/8W4GqPCbAcf+eWA69EAG
-        1vruP4oLl/yzzItVBHfLC3m29Q==
-X-Google-Smtp-Source: AA0mqf6DqXWQXXTXEwffECnnWLyTvOYJyd6gS5iea1EaL3u4xHmIzWc8GFkBEYWgZBYQs9NWOxfdtA==
-X-Received: by 2002:a05:6402:3788:b0:467:481f:df5e with SMTP id et8-20020a056402378800b00467481fdf5emr13491596edb.19.1670876078448;
-        Mon, 12 Dec 2022 12:14:38 -0800 (PST)
-Received: from alco.roam.corp.google.com (80.71.134.83.ipv4.parknet.dk. [80.71.134.83])
-        by smtp.gmail.com with ESMTPSA id s12-20020a056402164c00b0046bada4b121sm4151700edx.54.2022.12.12.12.14.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Dec 2022 12:14:38 -0800 (PST)
-From:   Ricardo Ribalda <ribalda@chromium.org>
-Date:   Mon, 12 Dec 2022 21:14:33 +0100
-Subject: [PATCH] media: uvcvideo: Fix race condition with usb_kill_urb
+        Mon, 12 Dec 2022 15:53:39 -0500
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3068960C6
+        for <linux-media@vger.kernel.org>; Mon, 12 Dec 2022 12:53:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1670878418; x=1702414418;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=7KLk9CvXwlu6hX23HnSfj9sQHLmfVGxZyJT2u/WO8WA=;
+  b=FH7Sd8XXOLsbXrxXD0s8naL1zlB5PtUOAWbme692ivU9fMUOQxto/XJT
+   PaVpY4UDbTp/g5G0ZTYGdFarcnveolUhxiy0hkhHPx6lo1saBsbNtP2Ao
+   2Jp837gOutoQuCIBV1TU39LzsukVNSTllAiVOiUhovQLbmY6R0g++eCPo
+   +tYy78W/58t66aLvKnp5BpbTRUmgqIK+eccY/8571zBvOh3+DxPtDMqq7
+   OHRNTj5qcI2GeLQo/MYwCLP72v4lRPIQ8Si7WO/3LMYi5swYFagiM/9bW
+   3WatcQdzE2yFfUHYFxel21K3mUVHAuAJ2GVByC2MCU5/Pwiq//DfMEwSz
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10559"; a="317993667"
+X-IronPort-AV: E=Sophos;i="5.96,239,1665471600"; 
+   d="scan'208";a="317993667"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2022 12:53:37 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10559"; a="626039485"
+X-IronPort-AV: E=Sophos;i="5.96,239,1665471600"; 
+   d="scan'208";a="626039485"
+Received: from lkp-server01.sh.intel.com (HELO b5d47979f3ad) ([10.239.97.150])
+  by orsmga006.jf.intel.com with ESMTP; 12 Dec 2022 12:53:36 -0800
+Received: from kbuild by b5d47979f3ad with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1p4pnr-0003uH-2M;
+        Mon, 12 Dec 2022 20:53:35 +0000
+Date:   Tue, 13 Dec 2022 04:53:32 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     linux-media@vger.kernel.org
+Subject: [sailus-media-tree:master] BUILD SUCCESS
+ fb45d26a921dd11580c404a8f6b13eb8d229b4e2
+Message-ID: <639794cc.l4w1qLwoj8hCgwgB%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: 7bit
-Message-Id: <20221212-uvc-race-v1-0-c52e1783c31d@chromium.org>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Ricardo Ribalda <ribalda@chromium.org>, stable@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-X-Mailer: b4 0.11.0-dev-696ae
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3645; i=ribalda@chromium.org;
- h=from:subject:message-id; bh=nam6sSBCZM3trcTWBmQHsG2SGMJaYyZEqH23zO5Yu8A=;
- b=owEBbQKS/ZANAwAKAdE30T7POsSIAcsmYgBjl4usOILXDyyP76kClnGl6+kvNG6EiBW+UDUMubd8
- qwP+Xs+JAjMEAAEKAB0WIQREDzjr+/4oCDLSsx7RN9E+zzrEiAUCY5eLrAAKCRDRN9E+zzrEiKwrD/
- 47voqcNQ2Pn132A4dd8Ad6W1dxQaZLgEQlDGTxBm56m0AtapREvMg0LA5s9BFKEfHDO6a6BARyG/5M
- +h3+Anjc7uursLTurlnKkDpWlb8OoJ/6p0zB9+PPP6WY34KnsupUG8gyHpUteONVMVVMY1oaYE79oa
- I9Td/xbkztN102u3lImOY7J87ZFd1iNNJv84xdqByHLIkcx3xkz3SsKKGQIF7Wv3dq/VvG37mEHY9R
- vfUnplG2i2CKDRGP+jBuuYLCZUnnGtUcGhW7FfIj73oKHe8jKmIILyJYIbpht+eCf51/ak5mGkCoHg
- gRf9jLFC+0SnSfN1qe+tPsEutWFimIZ3cnp7z/OXMuXZGjUtCUor5Du5BizuVkXL6DX/Ok/0qV9SMF
- 7+LWYKhG7I0trzNjwGzdxMK+IbHfv4UHDxnuMJSwcJ12cgi2IPzc6Iavzg7ffiDAj66p35bicdFU13
- a2jWZwr9t9wyUjvSkG9zCvYU4aKqyhNWoJ22qvcmfPRlYYHXkMq3fN2YdjY3cmJ7gh5ImWYZllDzZm
- bsbIemMwPPMgbR4cTCtB8ucmJd8X0ZxHGenRCfeeUndXiLEct8jPTAH2XKlDXb+sstdE7fla9Plu4l
- pFsIzYwgjqhwW/TDDjHbirzwfqT9aDFGoZQ98lZga6Tbmq/hLtW8vHpPqzEg==
-X-Developer-Key: i=ribalda@chromium.org; a=openpgp;
- fpr=9EC3BB66E2FC129A6F90B39556A0D81F9F782DA9
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-usb_kill_urb warranties that all the handlers are finished when it
-returns, but does not protect against threads that might be handling
-asynchronously the urb.
+tree/branch: git://linuxtv.org/sailus/media_tree.git master
+branch HEAD: fb45d26a921dd11580c404a8f6b13eb8d229b4e2  media: ov5675: Fix memleak in ov5675_init_controls()
 
-For UVC, the function uvc_ctrl_status_event_async() takes care of
-control changes. If the code is executed in the following order:
+elapsed time: 726m
 
-CPU 0					CPU 1
-===== 					=====
-uvc_status_complete()
-					uvc_status_stop()
-uvc_ctrl_status_event_work()
-					uvc_status_start() -> FAIL
+configs tested: 67
+configs skipped: 2
 
-Then uvc_status_start will keep failing and this error will be shown:
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-<4>[    5.540139] URB 0000000000000000 submitted while active
-drivers/usb/core/urb.c:378 usb_submit_urb+0x4c3/0x528
+gcc tested configs:
+arc                                 defconfig
+alpha                               defconfig
+powerpc                           allnoconfig
+um                             i386_defconfig
+um                           x86_64_defconfig
+s390                             allmodconfig
+s390                                defconfig
+x86_64                          rhel-8.3-func
+sh                               allmodconfig
+x86_64                          rhel-8.3-rust
+x86_64                           rhel-8.3-kvm
+x86_64                           rhel-8.3-bpf
+x86_64                    rhel-8.3-kselftests
+x86_64                         rhel-8.3-kunit
+x86_64                           rhel-8.3-syz
+x86_64                              defconfig
+powerpc                          allmodconfig
+mips                             allyesconfig
+x86_64               randconfig-a013-20221212
+x86_64               randconfig-a015-20221212
+x86_64               randconfig-a012-20221212
+i386                 randconfig-a013-20221212
+x86_64               randconfig-a014-20221212
+i386                 randconfig-a012-20221212
+x86_64               randconfig-a011-20221212
+i386                 randconfig-a011-20221212
+x86_64               randconfig-a016-20221212
+x86_64                               rhel-8.3
+i386                 randconfig-a014-20221212
+i386                 randconfig-a016-20221212
+x86_64                           allyesconfig
+s390                             allyesconfig
+i386                 randconfig-a015-20221212
+arm                                 defconfig
+m68k                             allyesconfig
+m68k                             allmodconfig
+arc                              allyesconfig
+alpha                            allyesconfig
+i386                                defconfig
+riscv                randconfig-r042-20221212
+arm64                            allyesconfig
+arm                              allyesconfig
+arc                  randconfig-r043-20221211
+arc                  randconfig-r043-20221212
+arm                  randconfig-r046-20221211
+s390                 randconfig-r044-20221212
+ia64                             allmodconfig
+i386                             allyesconfig
 
-Let's improve the current situation, by not re-submiting the urb if
-there are no users on the system.
+clang tested configs:
+x86_64               randconfig-a002-20221212
+x86_64               randconfig-a001-20221212
+x86_64               randconfig-a004-20221212
+x86_64               randconfig-a003-20221212
+x86_64               randconfig-a006-20221212
+x86_64               randconfig-a005-20221212
+i386                 randconfig-a002-20221212
+i386                 randconfig-a003-20221212
+i386                 randconfig-a001-20221212
+i386                 randconfig-a004-20221212
+i386                 randconfig-a006-20221212
+i386                 randconfig-a005-20221212
+arm                  randconfig-r046-20221212
+riscv                randconfig-r042-20221211
+hexagon              randconfig-r045-20221211
+hexagon              randconfig-r041-20221211
+hexagon              randconfig-r045-20221212
+s390                 randconfig-r044-20221211
+hexagon              randconfig-r041-20221212
 
-Also add a flag that is clear during stop, that will capture this
-situation:
-
-CPU 0					CPU 1
-===== 					=====
-uvc_status_complete()
-					uvc_status_stop()
-					uvc_status_start()
-uvc_ctrl_status_event_work() -> FAIL
-
-Hopefully, with the usb layer protection it should be enough to cover
-all the cases.
-
-Cc: stable@vger.kernel.org
-Fixes: e5225c820c05 ("media: uvcvideo: Send a control event when a Control Change interrupt arrives")
-Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
----
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-media@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
----
- drivers/media/usb/uvc/uvc_ctrl.c   | 9 +++++++++
- drivers/media/usb/uvc/uvc_status.c | 1 +
- drivers/media/usb/uvc/uvcvideo.h   | 2 ++
- 3 files changed, 12 insertions(+)
-
-diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
-index c95a2229f4fa..0634a4baa2e9 100644
---- a/drivers/media/usb/uvc/uvc_ctrl.c
-+++ b/drivers/media/usb/uvc/uvc_ctrl.c
-@@ -1442,12 +1442,20 @@ static void uvc_ctrl_status_event_work(struct work_struct *work)
- 
- 	uvc_ctrl_status_event(w->chain, w->ctrl, w->data);
- 
-+	mutex_lock(&dev->lock);
-+	if (!dev->users || !dev->resubmit_urb) {
-+		mutex_unlock(&dev->lock);
-+		return;
-+	}
-+
- 	/* Resubmit the URB. */
- 	w->urb->interval = dev->int_ep->desc.bInterval;
- 	ret = usb_submit_urb(w->urb, GFP_KERNEL);
- 	if (ret < 0)
- 		dev_err(&dev->udev->dev,
- 			"Failed to resubmit status URB (%d).\n", ret);
-+	dev->resubmit_urb = false;
-+	mutex_unlock(&dev->lock);
- }
- 
- bool uvc_ctrl_status_event_async(struct urb *urb, struct uvc_video_chain *chain,
-@@ -1466,6 +1474,7 @@ bool uvc_ctrl_status_event_async(struct urb *urb, struct uvc_video_chain *chain,
- 	w->chain = chain;
- 	w->ctrl = ctrl;
- 
-+	dev->resubmit_urb = true;
- 	schedule_work(&w->work);
- 
- 	return true;
-diff --git a/drivers/media/usb/uvc/uvc_status.c b/drivers/media/usb/uvc/uvc_status.c
-index 7518ffce22ed..3cc6e1dfaf01 100644
---- a/drivers/media/usb/uvc/uvc_status.c
-+++ b/drivers/media/usb/uvc/uvc_status.c
-@@ -310,4 +310,5 @@ int uvc_status_start(struct uvc_device *dev, gfp_t flags)
- void uvc_status_stop(struct uvc_device *dev)
- {
- 	usb_kill_urb(dev->int_urb);
-+	dev->resubmit_urb = false;
- }
-diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-index df93db259312..9e6a52008ce5 100644
---- a/drivers/media/usb/uvc/uvcvideo.h
-+++ b/drivers/media/usb/uvc/uvcvideo.h
-@@ -539,6 +539,8 @@ struct uvc_device {
- 
- 	struct mutex lock;		/* Protects users */
- 	unsigned int users;
-+	bool resubmit_urb;
-+
- 	atomic_t nmappings;
- 
- 	/* Video control interface */
-
----
-base-commit: 0ec5a38bf8499f403f81cb81a0e3a60887d1993c
-change-id: 20221212-uvc-race-09276ea68bf8
-
-Best regards,
 -- 
-Ricardo Ribalda <ribalda@chromium.org>
+0-DAY CI Kernel Test Service
+https://01.org/lkp
