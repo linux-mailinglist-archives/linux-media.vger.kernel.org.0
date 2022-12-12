@@ -2,38 +2,38 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AF10964A2FD
-	for <lists+linux-media@lfdr.de>; Mon, 12 Dec 2022 15:16:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D080D64A2FE
+	for <lists+linux-media@lfdr.de>; Mon, 12 Dec 2022 15:16:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232082AbiLLOQa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 12 Dec 2022 09:16:30 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41874 "EHLO
+        id S231757AbiLLOQb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 12 Dec 2022 09:16:31 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41884 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231467AbiLLOQ2 (ORCPT
+        with ESMTP id S231481AbiLLOQ2 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Mon, 12 Dec 2022 09:16:28 -0500
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A5493DF65
-        for <linux-media@vger.kernel.org>; Mon, 12 Dec 2022 06:16:26 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E9CF9E0B2
+        for <linux-media@vger.kernel.org>; Mon, 12 Dec 2022 06:16:27 -0800 (PST)
 Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 05E078A9;
-        Mon, 12 Dec 2022 15:16:24 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 68C008BF;
+        Mon, 12 Dec 2022 15:16:26 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1670854585;
-        bh=j5f0IG+PJIhceiA/3r8lRcq2vcxoloztWn9ZsRHa8+E=;
+        s=mail; t=1670854586;
+        bh=7PJRMNtMFkJrtnsCe4Ur2P7Qkk0KI24YTXleEFZJR50=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=nxJw64cYgVMDs0ZR0KL0JZB3YLrhoC7XMFFrIJIKlhd9Z1J4eNGP0R5j4q9PihjNp
-         VPuD4tZeSxf9iMGL5ncPGAtvoo/7NNB/OEqJZQz4a0DuFLvY0R0s30aUmyz+5pum7W
-         qpMiXOq9Ek5KLwAHkNdRpUayOAFwksUHoCKgn7b0=
+        b=I/3/kGUHhGXUzwTrmMdLzuU/HtW9LhTe0VhR9F5Y6Q5zT0UrfHxTI7xA+nQIt/C36
+         jls7Ec/OsjjCJG8syPIs0PGnSfACT+ICD1HZ/S1I+rxdS5mPzzQQDt1hC5P9+eTdoE
+         dU1WlYXXGhozZRyYTJRwhWZoCyD9FoDMskCNdGrE=
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     linux-media@vger.kernel.org
 Cc:     Sakari Ailus <sakari.ailus@iki.fi>,
         Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
         Michal Simek <michal.simek@xilinx.com>,
         Sylwester Nawrocki <s.nawrocki@samsung.com>
-Subject: [PATCH v1 1/5] media: mc: entity: Add pad iterator for media_pipeline
-Date:   Mon, 12 Dec 2022 16:16:17 +0200
-Message-Id: <20221212141621.724-2-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v1 2/5] media: mc: entity: Add entity iterator for media_pipeline
+Date:   Mon, 12 Dec 2022 16:16:18 +0200
+Message-Id: <20221212141621.724-3-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.37.4
 In-Reply-To: <20221212141621.724-1-laurent.pinchart@ideasonboard.com>
 References: <20221212141621.724-1-laurent.pinchart@ideasonboard.com>
@@ -48,89 +48,179 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add a media_pipeline_for_each_pad() macro to iterate over pads in a
-pipeline. This should be used by driver as a replacement of the
+Add a media_pipeline_for_each_entity() macro to iterate over entities in
+a pipeline. This should be used by driver as a replacement of the
 media_graph_walk API, as iterating over the media_pipeline uses the
 cached list of pads and is thus more efficient.
 
+Deprecate the media_graph_walk API to indicate it shouldn't be used in
+new drivers.
+
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- drivers/media/mc/mc-entity.c | 18 ++++++++++++++++++
- include/media/media-entity.h | 29 +++++++++++++++++++++++++++++
- 2 files changed, 47 insertions(+)
+ drivers/media/mc/mc-entity.c | 37 +++++++++++++++++++
+ include/media/media-entity.h | 69 ++++++++++++++++++++++++++++++++++++
+ 2 files changed, 106 insertions(+)
 
 diff --git a/drivers/media/mc/mc-entity.c b/drivers/media/mc/mc-entity.c
-index b8bcbc734eaf..70df2050951c 100644
+index 70df2050951c..f19bb98071b2 100644
 --- a/drivers/media/mc/mc-entity.c
 +++ b/drivers/media/mc/mc-entity.c
-@@ -932,6 +932,24 @@ __must_check int media_pipeline_alloc_start(struct media_pad *pad)
+@@ -950,6 +950,43 @@ __media_pipeline_pad_iter_next(struct media_pipeline *pipe,
  }
- EXPORT_SYMBOL_GPL(media_pipeline_alloc_start);
+ EXPORT_SYMBOL_GPL(__media_pipeline_pad_iter_next);
  
-+struct media_pad *
-+__media_pipeline_pad_iter_next(struct media_pipeline *pipe,
-+			       struct media_pipeline_pad_iter *iter,
-+			       struct media_pad *pad)
++int media_pipeline_entity_iter_init(struct media_pipeline *pipe,
++				    struct media_pipeline_entity_iter *iter)
 +{
-+	if (!pad)
++	return media_entity_enum_init(&iter->ent_enum, pipe->mdev);
++}
++EXPORT_SYMBOL_GPL(media_pipeline_entity_iter_init);
++
++void media_pipeline_entity_iter_cleanup(struct media_pipeline_entity_iter *iter)
++{
++	media_entity_enum_cleanup(&iter->ent_enum);
++}
++EXPORT_SYMBOL_GPL(media_pipeline_entity_iter_cleanup);
++
++struct media_entity *
++__media_pipeline_entity_iter_next(struct media_pipeline *pipe,
++				  struct media_pipeline_entity_iter *iter,
++				  struct media_entity *entity)
++{
++	if (!entity)
 +		iter->cursor = pipe->pads.next;
 +
-+	if (iter->cursor == &pipe->pads)
-+		return NULL;
++	while (iter->cursor != &pipe->pads) {
++		struct media_pipeline_pad *ppad;
++		struct media_entity *entity;
 +
-+	pad = list_entry(iter->cursor, struct media_pipeline_pad, list)->pad;
-+	iter->cursor = iter->cursor->next;
++		ppad = list_entry(iter->cursor, struct media_pipeline_pad, list);
++		entity = ppad->pad->entity;
++		iter->cursor = iter->cursor->next;
 +
-+	return pad;
++		if (media_entity_enum_test_and_set(&iter->ent_enum, entity))
++			return entity;
++	}
++
++	return NULL;
 +}
-+EXPORT_SYMBOL_GPL(__media_pipeline_pad_iter_next);
++EXPORT_SYMBOL_GPL(__media_pipeline_entity_iter_next);
 +
  /* -----------------------------------------------------------------------------
   * Links management
   */
 diff --git a/include/media/media-entity.h b/include/media/media-entity.h
-index 85ed08ddee9d..e881e483b550 100644
+index e881e483b550..1b820cb6fed1 100644
 --- a/include/media/media-entity.h
 +++ b/include/media/media-entity.h
-@@ -130,6 +130,15 @@ struct media_pipeline_pad {
- 	struct media_pad *pad;
+@@ -139,6 +139,17 @@ struct media_pipeline_pad_iter {
+ 	struct list_head *cursor;
  };
  
 +/**
-+ * struct media_pipeline_pad_iter - Iterator for media_pipeline_for_each_pad
++ * struct media_pipeline_entity_iter - Iterator for media_pipeline_for_each_entity
 + *
++ * @ent_enum: The entity enumeration tracker
 + * @cursor: The current element
 + */
-+struct media_pipeline_pad_iter {
++struct media_pipeline_entity_iter {
++	struct media_entity_enum ent_enum;
 +	struct list_head *cursor;
 +};
 +
  /**
   * struct media_link - A link object part of a media graph.
   *
-@@ -1163,6 +1172,26 @@ void media_pipeline_stop(struct media_pad *pad);
+@@ -1075,6 +1086,8 @@ int media_entity_get_fwnode_pad(struct media_entity *entity,
+  * @graph: Media graph structure that will be used to walk the graph
+  * @mdev: Pointer to the &media_device that contains the object
+  *
++ * This function is deprecated, use media_pipeline_for_each_pad() instead.
++ *
+  * The caller is required to hold the media_device graph_mutex during the graph
+  * walk until the graph state is released.
+  *
+@@ -1087,6 +1100,8 @@ __must_check int media_graph_walk_init(
+  * media_graph_walk_cleanup - Release resources used by graph walk.
+  *
+  * @graph: Media graph structure that will be used to walk the graph
++ *
++ * This function is deprecated, use media_pipeline_for_each_pad() instead.
   */
- void __media_pipeline_stop(struct media_pad *pad);
+ void media_graph_walk_cleanup(struct media_graph *graph);
  
-+struct media_pad *
-+__media_pipeline_pad_iter_next(struct media_pipeline *pipe,
-+			       struct media_pipeline_pad_iter *iter,
-+			       struct media_pad *pad);
+@@ -1097,6 +1112,8 @@ void media_graph_walk_cleanup(struct media_graph *graph);
+  * @graph: Media graph structure that will be used to walk the graph
+  * @entity: Starting entity
+  *
++ * This function is deprecated, use media_pipeline_for_each_pad() instead.
++ *
+  * Before using this function, media_graph_walk_init() must be
+  * used to allocate resources used for walking the graph. This
+  * function initializes the graph traversal structure to walk the
+@@ -1112,6 +1129,8 @@ void media_graph_walk_start(struct media_graph *graph,
+  * media_graph_walk_next - Get the next entity in the graph
+  * @graph: Media graph structure
+  *
++ * This function is deprecated, use media_pipeline_for_each_pad() instead.
++ *
+  * Perform a depth-first traversal of the given media entities graph.
+  *
+  * The graph structure must have been previously initialized with a call to
+@@ -1192,6 +1211,56 @@ __media_pipeline_pad_iter_next(struct media_pipeline *pipe,
+ 	     pad != NULL;						\
+ 	     pad = __media_pipeline_pad_iter_next((pipe), iter, pad))
+ 
++/**
++ * media_pipeline_entity_iter_init - Initialize a pipeline entity iterator
++ * @pipe: The pipeline
++ * @iter: The iterator
++ *
++ * This function must be called to initialize the iterator before using it in a
++ * media_pipeline_for_each_entity() loop. The iterator must be destroyed by a
++ * call to media_pipeline_entity_iter_cleanup after the loop (including in code
++ * paths that break from the loop).
++ *
++ * The same iterator can be used in multiple consecutive loops without being
++ * destroyed and reinitialized.
++ *
++ * Return: 0 on success or a negative error code otherwise.
++ */
++int media_pipeline_entity_iter_init(struct media_pipeline *pipe,
++				    struct media_pipeline_entity_iter *iter);
 +
 +/**
-+ * media_pipeline_for_each_pad - Iterate on all pads in a media pipeline
-+ * @pipe: The pipeline
-+ * @iter: The iterator (struct media_pipeline_pad_iter)
-+ * @pad: The iterator pad
++ * media_pipeline_entity_iter_cleanup - Destroy a pipeline entity iterator
++ * @iter: The iterator
 + *
-+ * Iterate on all pads in a media pipeline. This is only valid after the
-+ * pipeline has been built with media_pipeline_start() and before it gets
-+ * destroyed with media_pipeline_stop().
++ * This function must be called to destroy iterators initialized with
++ * media_pipeline_entity_iter_init().
 + */
-+#define media_pipeline_for_each_pad(pipe, iter, pad)			\
-+	for (pad = __media_pipeline_pad_iter_next((pipe), iter, NULL);	\
-+	     pad != NULL;						\
-+	     pad = __media_pipeline_pad_iter_next((pipe), iter, pad))
++void media_pipeline_entity_iter_cleanup(struct media_pipeline_entity_iter *iter);
++
++struct media_entity *
++__media_pipeline_entity_iter_next(struct media_pipeline *pipe,
++				  struct media_pipeline_entity_iter *iter,
++				  struct media_entity *entity);
++
++/**
++ * media_pipeline_for_each_entity - Iterate on all entities in a media pipeline
++ * @pipe: The pipeline
++ * @iter: The iterator (struct media_pipeline_entity_iter)
++ * @entity: The iterator entity
++ *
++ * Iterate on all entities in a media pipeline. This is only valid after the
++ * pipeline has been built with media_pipeline_start() and before it gets
++ * destroyed with media_pipeline_stop(). The iterator must be initialized with
++ * media_pipeline_entity_iter_init() before iteration, and destroyed with
++ * media_pipeline_entity_iter_cleanup() after (including in code paths that
++ * break from the loop).
++ */
++#define media_pipeline_for_each_entity(pipe, iter, entity)			\
++	for (entity = __media_pipeline_entity_iter_next((pipe), iter, NULL);	\
++	     entity != NULL;							\
++	     entity = __media_pipeline_entity_iter_next((pipe), iter, entity))
 +
  /**
   * media_pipeline_alloc_start - Mark a pipeline as streaming
