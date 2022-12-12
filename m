@@ -2,72 +2,98 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0821F649A25
-	for <lists+linux-media@lfdr.de>; Mon, 12 Dec 2022 09:37:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5C00C649A35
+	for <lists+linux-media@lfdr.de>; Mon, 12 Dec 2022 09:42:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231575AbiLLIh4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 12 Dec 2022 03:37:56 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51064 "EHLO
+        id S231612AbiLLImE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 12 Dec 2022 03:42:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52586 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231537AbiLLIhz (ORCPT
+        with ESMTP id S231526AbiLLImC (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 12 Dec 2022 03:37:55 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B6B77BEF
-        for <linux-media@vger.kernel.org>; Mon, 12 Dec 2022 00:37:53 -0800 (PST)
+        Mon, 12 Dec 2022 03:42:02 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A015EC779;
+        Mon, 12 Dec 2022 00:42:01 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 2F71160F1E
-        for <linux-media@vger.kernel.org>; Mon, 12 Dec 2022 08:37:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3894C433EF;
-        Mon, 12 Dec 2022 08:37:51 +0000 (UTC)
-Message-ID: <5719e87b-4af9-4a4d-223d-f8cdbf3e6a2f@xs4all.nl>
-Date:   Mon, 12 Dec 2022 09:37:49 +0100
+        by ams.source.kernel.org (Postfix) with ESMTPS id 558D1B80BA7;
+        Mon, 12 Dec 2022 08:42:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 38D89C433EF;
+        Mon, 12 Dec 2022 08:41:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1670834519;
+        bh=bp9hj0RVByKQktcC0dW/qzUFrg5xq9JprWMyU7tTG14=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=iQcLCJ7aZQwe9+6zjZl79n61zWOtEzrvlyRFS1IxQ0qOhRvjjHH4mhH5YEbUQqiPB
+         WT4Y1hJABUHLJW2mUZ7fSej1hdbKx4jtK++PEaBOUoMIvedc/WJ/FavPwfaInmpgDa
+         lKwGagt0HpwSXYINnsdB7CP4dhu48s8V0BaS8KKTLckjse2E1WCS28BTsVZ6f2MH6g
+         xU7+bfVfkWm57KxjxqX94YqiU2GmN8zJGy8rkV9b17a7baqd8Ob1ON5Adh/zsweIno
+         k78qYH/dihM4JAKwwh+aWTPbNKd3HbE043YdYhVoK3PPR9Q5LC4JmXIqnk48/vkSmU
+         R57tb+YXlX7lg==
+Date:   Mon, 12 Dec 2022 10:41:54 +0200
+From:   Leon Romanovsky <leon@kernel.org>
+To:     Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+Cc:     davem@davemloft.net, kuba@kernel.org, pabeni@redhat.com,
+        sumit.semwal@linaro.org, christian.koenig@amd.com,
+        netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org,
+        Abaci Robot <abaci@linux.alibaba.com>
+Subject: Re: [PATCH] net: ksz884x: Remove the unused function
+ port_cfg_force_flow_ctrl()
+Message-ID: <Y5bpUnqOij8HduWh@unreal>
+References: <20221212035309.33507-1-jiapeng.chong@linux.alibaba.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Content-Language: en-US
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     Alice Yuan <alice.yuan@nxp.com>, Robby Cai <robby.cai@nxp.com>,
-        Aisheng Dong <aisheng.dong@nxp.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: [PATCH for v6.1] media: v4l2-ctrls-api.c: add back dropped
- ctrl->is_new = 1
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221212035309.33507-1-jiapeng.chong@linux.alibaba.com>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The patch adding support for dynamically allocated arrays accidentally
-dropped the line setting ctrl->is_new to 1, thus new string values were
-always ignored.
+On Mon, Dec 12, 2022 at 11:53:09AM +0800, Jiapeng Chong wrote:
+> The function port_cfg_force_flow_ctrl() is defined in the ksz884x.c file,
+> but not called elsewhere, so remove this unused function.
+> 
+> drivers/net/ethernet/micrel/ksz884x.c:2212:20: warning: unused function 'port_cfg_force_flow_ctrl'.
+> 
+> Link: https://bugzilla.openanolis.cn/show_bug.cgi?id=3418
+> Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+> Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+> ---
+>  drivers/net/ethernet/micrel/ksz884x.c | 6 ------
+>  1 file changed, 6 deletions(-)
+> 
+> diff --git a/drivers/net/ethernet/micrel/ksz884x.c b/drivers/net/ethernet/micrel/ksz884x.c
+> index e6acd1e7b263..46f1fbf58b5a 100644
+> --- a/drivers/net/ethernet/micrel/ksz884x.c
+> +++ b/drivers/net/ethernet/micrel/ksz884x.c
+> @@ -2209,12 +2209,6 @@ static inline void port_cfg_back_pressure(struct ksz_hw *hw, int p, int set)
+>  		KS8842_PORT_CTRL_2_OFFSET, PORT_BACK_PRESSURE, set);
+>  }
+>  
+> -static inline void port_cfg_force_flow_ctrl(struct ksz_hw *hw, int p, int set)
+> -{
+> -	port_cfg(hw, p,
+> -		KS8842_PORT_CTRL_2_OFFSET, PORT_FORCE_FLOW_CTRL, set);
+> -}
+> -
+>  static inline int port_chk_back_pressure(struct ksz_hw *hw, int p)
 
-Fixes: fb582cba4492 ("media: v4l2-ctrls: add support for dynamically allocated arrays.")
-Reported-by: Alice Yuan <alice.yuan@nxp.com>
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
----
- drivers/media/v4l2-core/v4l2-ctrls-api.c | 1 +
- 1 file changed, 1 insertion(+)
+This function is not called too. Many functions in that file can be
+removed. Please do it in one patch.
 
-diff --git a/drivers/media/v4l2-core/v4l2-ctrls-api.c b/drivers/media/v4l2-core/v4l2-ctrls-api.c
-index d0a3aa3806fb..002ea6588edf 100644
---- a/drivers/media/v4l2-core/v4l2-ctrls-api.c
-+++ b/drivers/media/v4l2-core/v4l2-ctrls-api.c
-@@ -151,6 +151,7 @@ static int user_to_new(struct v4l2_ext_control *c, struct v4l2_ctrl *ctrl)
- 			 */
- 			if (strlen(ctrl->p_new.p_char) == ctrl->maximum && last)
- 				return -ERANGE;
-+			ctrl->is_new = 1;
- 		}
- 		return ret;
- 	default:
--- 
-2.35.1
+Thanks
 
+>  {
+>  	return port_chk(hw, p,
+> -- 
+> 2.20.1.7.g153144c
+> 
