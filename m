@@ -2,87 +2,115 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 86934649ACA
-	for <lists+linux-media@lfdr.de>; Mon, 12 Dec 2022 10:12:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B2148649B0C
+	for <lists+linux-media@lfdr.de>; Mon, 12 Dec 2022 10:24:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231776AbiLLJMW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 12 Dec 2022 04:12:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43282 "EHLO
+        id S231674AbiLLJYb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 12 Dec 2022 04:24:31 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50074 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231805AbiLLJMI (ORCPT
+        with ESMTP id S231157AbiLLJYL (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 12 Dec 2022 04:12:08 -0500
-Received: from cstnet.cn (smtp84.cstnet.cn [159.226.251.84])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 6D773658A;
-        Mon, 12 Dec 2022 01:11:56 -0800 (PST)
-Received: from localhost.localdomain (unknown [124.16.138.125])
-        by APP-05 (Coremail) with SMTP id zQCowADH58w38JZjwpKsBg--.61751S2;
-        Mon, 12 Dec 2022 17:11:20 +0800 (CST)
-From:   Jiasheng Jiang <jiasheng@iscas.ac.cn>
-To:     robdclark@gmail.com, quic_abhinavk@quicinc.com,
-        dmitry.baryshkov@linaro.org, sean@poorly.run, airlied@gmail.com,
-        daniel@ffwll.ch, sumit.semwal@linaro.org, christian.koenig@amd.com
-Cc:     linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
-        Jiasheng Jiang <jiasheng@iscas.ac.cn>
-Subject: [PATCH] drm/msm/gem: Add check for kmalloc
-Date:   Mon, 12 Dec 2022 17:11:17 +0800
-Message-Id: <20221212091117.43511-1-jiasheng@iscas.ac.cn>
-X-Mailer: git-send-email 2.25.1
+        Mon, 12 Dec 2022 04:24:11 -0500
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 610E7F53;
+        Mon, 12 Dec 2022 01:24:10 -0800 (PST)
+X-IronPort-AV: E=McAfee;i="6500,9779,10558"; a="319665590"
+X-IronPort-AV: E=Sophos;i="5.96,237,1665471600"; 
+   d="scan'208";a="319665590"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2022 01:24:09 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10558"; a="736903233"
+X-IronPort-AV: E=Sophos;i="5.96,237,1665471600"; 
+   d="scan'208";a="736903233"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by FMSMGA003.fm.intel.com with ESMTP; 12 Dec 2022 01:24:07 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+        (envelope-from <andy@kernel.org>)
+        id 1p4f2b-008Oim-0a;
+        Mon, 12 Dec 2022 11:24:05 +0200
+Date:   Mon, 12 Dec 2022 11:24:04 +0200
+From:   Andy Shevchenko <andy@kernel.org>
+To:     Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
+        <u.kleine-koenig@pengutronix.de>
+Cc:     Jean Delvare <jdelvare@suse.de>, Sean Young <sean@mess.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-pwm@vger.kernel.org, "Rafael J. Wysocki" <rafael@kernel.org>,
+        Len Brown <lenb@kernel.org>, linux-acpi@vger.kernel.org
+Subject: Re: [PATCH] media: rc: Drop obsolete dependencies on COMPILE_TEST
+Message-ID: <Y5bzNH2tYeFUIGnI@smile.fi.intel.com>
+References: <20221121170911.7cd72bfc@endymion.delvare>
+ <20221211205648.hdv5haufqwfoxzu2@pengutronix.de>
+ <20221211231435.43c4f361@endymion.delvare>
+ <20221212075907.4iwjsib5nrk7eqr2@pengutronix.de>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: zQCowADH58w38JZjwpKsBg--.61751S2
-X-Coremail-Antispam: 1UD129KBjvdXoWrKr48KF15AFWxJr4DAr47Jwb_yoWfAFXE93
-        WaqFnrAry2kF9Ik3W7A34SvrWSyr1S9FWF9wn8Ka43JasxAw1Iq34jyr98Xr1UZFWUXF1D
-        C3WkAry5JrnrXjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-        9fnUUIcSsGvfJTRUUUbx8FF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
-        6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
-        A2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_
-        Cr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v26F4UJV
-        W0owAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
-        I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r1j6r
-        4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628v
-        n2kIc2xKxwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F4
-        0E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFyl
-        IxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxV
-        AFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r4j
-        6F4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUq38
-        nUUUUU=
-X-Originating-IP: [124.16.138.125]
-X-CM-SenderInfo: pmld2xxhqjqxpvfd2hldfou0/
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_PASS,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <20221212075907.4iwjsib5nrk7eqr2@pengutronix.de>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-Spam-Status: No, score=-3.5 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_SOFTFAIL autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add the check for the return value of kmalloc in order to avoid
-NULL pointer dereference in copy_from_user.
+On Mon, Dec 12, 2022 at 08:59:07AM +0100, Uwe Kleine-König wrote:
+> On Sun, Dec 11, 2022 at 11:14:35PM +0100, Jean Delvare wrote:
+> > On Sun, 11 Dec 2022 21:56:48 +0100, Uwe Kleine-König wrote:
+> > > On Mon, Nov 21, 2022 at 05:09:11PM +0100, Jean Delvare wrote:
 
-Fixes: 20224d715a88 ("drm/msm/submit: Move copy_from_user ahead of locking bos")
-Signed-off-by: Jiasheng Jiang <jiasheng@iscas.ac.cn>
----
- drivers/gpu/drm/msm/msm_gem_submit.c | 4 ++++
- 1 file changed, 4 insertions(+)
+...
 
-diff --git a/drivers/gpu/drm/msm/msm_gem_submit.c b/drivers/gpu/drm/msm/msm_gem_submit.c
-index 45a3e5cadc7d..7c2cc1262c05 100644
---- a/drivers/gpu/drm/msm/msm_gem_submit.c
-+++ b/drivers/gpu/drm/msm/msm_gem_submit.c
-@@ -209,6 +209,10 @@ static int submit_lookup_cmds(struct msm_gem_submit *submit,
- 			goto out;
- 		}
- 		submit->cmd[i].relocs = kmalloc(sz, GFP_KERNEL);
-+		if (!submit->cmd[i].relocs) {
-+			ret = -ENOMEM;
-+			goto out;
-+		}
- 		ret = copy_from_user(submit->cmd[i].relocs, userptr, sz);
- 		if (ret) {
- 			ret = -EFAULT;
+> > > > -		.of_match_table = of_match_ptr(pwm_ir_of_match),
+> > > > +		.of_match_table = pwm_ir_of_match,
+
+> > > That hunk makes sense even without the Kconfig change. ACPI makes use of
+> > > .of_match_table, so
+> > > 
+> > > 	.of_match_table = of_match_ptr(pwm_ir_of_match),
+> > > 
+> > > is (almost?) always wrong.
+> > 
+> > Should we just get rid of this macro altogether then?
+> > 
+> > (Somehow I have a strange feeling that we already had this
+> > discussion...)
+> 
+> Might be. But for me this is only second hand knowledge, too. Maybe
+> someone of the new recipents in this thread feels competent to comment
+> here?!
+
+Pros of of_match_ptr() / ACPI_PTR():
+- saves a few dozens of bytes in the module ID tables
+- doesn't show ACPI ID for non-ACPI platform or OF ID on non-OF platforms
+
+Cons:
+- prevents from using OF IDs on ACPI platforms
+- doesn't show ACPI ID for non-ACPI platform or OF ID on non-OF platforms
+- makes error prone for the compiler to have the variable unused
+- makes code uglier
+
+(I left the second in the both because I find useful to have all supported IDs
+ to be listed even if the system is compiled with OF/ACPI opted-out.)
+
+Personally I remove the of_match_ptr()/ACPI_PTR() from drivers that can be used
+on OF or ACPI platforms, which leaves us only with the drivers we are 100% sure
+that they won't ever be used on non-OF platforms. BUT, I do not see any sense
+to have of_match_ptr() that either in use, because the driver in question is
+100% for OF platform, or not when it's compile tested, which means it reduces
+test coverage anyway. All the same for ACPI_PTR().
+
+TL;DR: I don't see any [big] usefulness of keeping those macros.
+
 -- 
-2.25.1
+With Best Regards,
+Andy Shevchenko
+
 
