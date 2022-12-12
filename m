@@ -2,149 +2,110 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 25B1C64A8E6
-	for <lists+linux-media@lfdr.de>; Mon, 12 Dec 2022 21:53:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8A8A364AA13
+	for <lists+linux-media@lfdr.de>; Mon, 12 Dec 2022 23:17:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232895AbiLLUxk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 12 Dec 2022 15:53:40 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39672 "EHLO
+        id S233250AbiLLWR1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 12 Dec 2022 17:17:27 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57440 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232815AbiLLUxj (ORCPT
+        with ESMTP id S231770AbiLLWRZ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 12 Dec 2022 15:53:39 -0500
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3068960C6
-        for <linux-media@vger.kernel.org>; Mon, 12 Dec 2022 12:53:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1670878418; x=1702414418;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=7KLk9CvXwlu6hX23HnSfj9sQHLmfVGxZyJT2u/WO8WA=;
-  b=FH7Sd8XXOLsbXrxXD0s8naL1zlB5PtUOAWbme692ivU9fMUOQxto/XJT
-   PaVpY4UDbTp/g5G0ZTYGdFarcnveolUhxiy0hkhHPx6lo1saBsbNtP2Ao
-   2Jp837gOutoQuCIBV1TU39LzsukVNSTllAiVOiUhovQLbmY6R0g++eCPo
-   +tYy78W/58t66aLvKnp5BpbTRUmgqIK+eccY/8571zBvOh3+DxPtDMqq7
-   OHRNTj5qcI2GeLQo/MYwCLP72v4lRPIQ8Si7WO/3LMYi5swYFagiM/9bW
-   3WatcQdzE2yFfUHYFxel21K3mUVHAuAJ2GVByC2MCU5/Pwiq//DfMEwSz
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10559"; a="317993667"
-X-IronPort-AV: E=Sophos;i="5.96,239,1665471600"; 
-   d="scan'208";a="317993667"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2022 12:53:37 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10559"; a="626039485"
-X-IronPort-AV: E=Sophos;i="5.96,239,1665471600"; 
-   d="scan'208";a="626039485"
-Received: from lkp-server01.sh.intel.com (HELO b5d47979f3ad) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 12 Dec 2022 12:53:36 -0800
-Received: from kbuild by b5d47979f3ad with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1p4pnr-0003uH-2M;
-        Mon, 12 Dec 2022 20:53:35 +0000
-Date:   Tue, 13 Dec 2022 04:53:32 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     linux-media@vger.kernel.org
-Subject: [sailus-media-tree:master] BUILD SUCCESS
- fb45d26a921dd11580c404a8f6b13eb8d229b4e2
-Message-ID: <639794cc.l4w1qLwoj8hCgwgB%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        Mon, 12 Dec 2022 17:17:25 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E53C81706B
+        for <linux-media@vger.kernel.org>; Mon, 12 Dec 2022 14:17:24 -0800 (PST)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 60D1C6CF;
+        Mon, 12 Dec 2022 23:17:22 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1670883442;
+        bh=H4LTNCrpavcWbIFuxWDeXh0hqlrmWCNbZddmcI86LZ0=;
+        h=From:To:Cc:Subject:Date:From;
+        b=BGu/aJiJz01q0AIzGWfB1m2f/eRYpnWsepxLoDOuHMlglcSUhbeJsxVOfr/7nuslx
+         0PwcNnMx1/AlN8Z7yMz2zRJVFHyPIdBzj66D/yXMDnuT/a2/f5jnctNHi47MsQfanf
+         V5oCTSIFBNX62OmuuJorifMGBwh0XsV49ongBAaI=
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     linux-media@vger.kernel.org
+Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        Sakari Ailus <sakari.ailus@iki.fi>
+Subject: [PATCH] media: mc: Improve the media_entity_has_pad_interdep() documentation
+Date:   Tue, 13 Dec 2022 00:17:19 +0200
+Message-Id: <20221212221719.18053-1-laurent.pinchart@ideasonboard.com>
+X-Mailer: git-send-email 2.37.4
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-tree/branch: git://linuxtv.org/sailus/media_tree.git master
-branch HEAD: fb45d26a921dd11580c404a8f6b13eb8d229b4e2  media: ov5675: Fix memleak in ov5675_init_controls()
+Document the function parameters, the requirements on the pad0 and pad1
+arguments, the locking requirements and the return value. Also improve
+the documentation of the corresponding .has_pad_interdep() operation,
+stating clearly that the operation must be called through the
+media_entity_has_pad_interdep() function only.
 
-elapsed time: 726m
+Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+---
+ drivers/media/mc/mc-entity.c | 15 ++++++++++++++-
+ include/media/media-entity.h |  4 +++-
+ 2 files changed, 17 insertions(+), 2 deletions(-)
 
-configs tested: 67
-configs skipped: 2
-
-The following configs have been built successfully.
-More configs may be tested in the coming days.
-
-gcc tested configs:
-arc                                 defconfig
-alpha                               defconfig
-powerpc                           allnoconfig
-um                             i386_defconfig
-um                           x86_64_defconfig
-s390                             allmodconfig
-s390                                defconfig
-x86_64                          rhel-8.3-func
-sh                               allmodconfig
-x86_64                          rhel-8.3-rust
-x86_64                           rhel-8.3-kvm
-x86_64                           rhel-8.3-bpf
-x86_64                    rhel-8.3-kselftests
-x86_64                         rhel-8.3-kunit
-x86_64                           rhel-8.3-syz
-x86_64                              defconfig
-powerpc                          allmodconfig
-mips                             allyesconfig
-x86_64               randconfig-a013-20221212
-x86_64               randconfig-a015-20221212
-x86_64               randconfig-a012-20221212
-i386                 randconfig-a013-20221212
-x86_64               randconfig-a014-20221212
-i386                 randconfig-a012-20221212
-x86_64               randconfig-a011-20221212
-i386                 randconfig-a011-20221212
-x86_64               randconfig-a016-20221212
-x86_64                               rhel-8.3
-i386                 randconfig-a014-20221212
-i386                 randconfig-a016-20221212
-x86_64                           allyesconfig
-s390                             allyesconfig
-i386                 randconfig-a015-20221212
-arm                                 defconfig
-m68k                             allyesconfig
-m68k                             allmodconfig
-arc                              allyesconfig
-alpha                            allyesconfig
-i386                                defconfig
-riscv                randconfig-r042-20221212
-arm64                            allyesconfig
-arm                              allyesconfig
-arc                  randconfig-r043-20221211
-arc                  randconfig-r043-20221212
-arm                  randconfig-r046-20221211
-s390                 randconfig-r044-20221212
-ia64                             allmodconfig
-i386                             allyesconfig
-
-clang tested configs:
-x86_64               randconfig-a002-20221212
-x86_64               randconfig-a001-20221212
-x86_64               randconfig-a004-20221212
-x86_64               randconfig-a003-20221212
-x86_64               randconfig-a006-20221212
-x86_64               randconfig-a005-20221212
-i386                 randconfig-a002-20221212
-i386                 randconfig-a003-20221212
-i386                 randconfig-a001-20221212
-i386                 randconfig-a004-20221212
-i386                 randconfig-a006-20221212
-i386                 randconfig-a005-20221212
-arm                  randconfig-r046-20221212
-riscv                randconfig-r042-20221211
-hexagon              randconfig-r045-20221211
-hexagon              randconfig-r041-20221211
-hexagon              randconfig-r045-20221212
-s390                 randconfig-r044-20221211
-hexagon              randconfig-r041-20221212
-
+diff --git a/drivers/media/mc/mc-entity.c b/drivers/media/mc/mc-entity.c
+index f19bb98071b2..e9b71b895f98 100644
+--- a/drivers/media/mc/mc-entity.c
++++ b/drivers/media/mc/mc-entity.c
+@@ -226,7 +226,13 @@ EXPORT_SYMBOL_GPL(media_entity_pads_init);
+  * Graph traversal
+  */
+ 
+-/*
++/**
++ * media_entity_has_pad_interdep - Check interdependency between two pads
++ *
++ * @entity: The entity
++ * @pad0: The first pad index
++ * @pad1: The second pad index
++ *
+  * This function checks the interdependency inside the entity between @pad0
+  * and @pad1. If two pads are interdependent they are part of the same pipeline
+  * and enabling one of the pads means that the other pad will become "locked"
+@@ -236,6 +242,13 @@ EXPORT_SYMBOL_GPL(media_entity_pads_init);
+  * to check the dependency inside the entity between @pad0 and @pad1. If the
+  * has_pad_interdep operation is not implemented, all pads of the entity are
+  * considered to be interdependent.
++ *
++ * One of @pad0 and @pad1 must be a sink pad and the other one a source pad.
++ * The function returns false if both pads are sinks or sources.
++ *
++ * The caller must hold entity->graph_obj.mdev->mutex.
++ *
++ * Return: true if the pads are connected internally and false otherwise.
+  */
+ static bool media_entity_has_pad_interdep(struct media_entity *entity,
+ 					  unsigned int pad0, unsigned int pad1)
+diff --git a/include/media/media-entity.h b/include/media/media-entity.h
+index 1b820cb6fed1..741f9c629c6f 100644
+--- a/include/media/media-entity.h
++++ b/include/media/media-entity.h
+@@ -262,7 +262,9 @@ struct media_pad {
+  *			part of the same pipeline and enabling one of the pads
+  *			means that the other pad will become "locked" and
+  *			doesn't allow configuration changes. pad0 and pad1 are
+- *			guaranteed to not both be sinks or sources.
++ *			guaranteed to not both be sinks or sources. Never call
++ *			the .has_pad_interdep() operation directly, always use
++ *			media_entity_has_pad_interdep().
+  *			Optional: If the operation isn't implemented all pads
+  *			will be considered as interdependent.
+  *
 -- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+Regards,
+
+Laurent Pinchart
+
