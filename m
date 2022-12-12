@@ -2,97 +2,86 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1E1A264A20B
-	for <lists+linux-media@lfdr.de>; Mon, 12 Dec 2022 14:49:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 636B664A2FC
+	for <lists+linux-media@lfdr.de>; Mon, 12 Dec 2022 15:16:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232728AbiLLNtQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 12 Dec 2022 08:49:16 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45034 "EHLO
+        id S231766AbiLLOQ3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 12 Dec 2022 09:16:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41868 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233147AbiLLNss (ORCPT
-        <rfc822;groupwise-linux-media@vger.kernel.org:1:1>);
-        Mon, 12 Dec 2022 08:48:48 -0500
-X-Greylist: delayed 320 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 12 Dec 2022 05:48:16 PST
-Received: from pamir.pedago.fi (pamir.pedago.fi [194.112.9.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C0A751581D
-        for <linux-media@vger.kernel.org>; Mon, 12 Dec 2022 05:48:16 -0800 (PST)
-Received: from GW6DOM-MTA by pamir.pedago.fi
-        with Novell_GroupWise; Mon, 12 Dec 2022 15:42:43 +0200
-Message-Id: <63972FC90200002800123ADC@pamir.pedago.fi>
-X-Mailer: Novell GroupWise Internet Agent 18.2.1 
-Date:   Mon, 12 Dec 2022 15:42:33 +0200
-From:   "Anders Gustafsson" <Anders.Gustafsson@pedago.fi>
-To:     <linux-media@vger.kernel.org>
-Subject: Developing a driver for the Terratec Cinergy T/A USB stick?
-Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+        with ESMTP id S231335AbiLLOQ0 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 12 Dec 2022 09:16:26 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A679E0C4
+        for <linux-media@vger.kernel.org>; Mon, 12 Dec 2022 06:16:25 -0800 (PST)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9531D6CF;
+        Mon, 12 Dec 2022 15:16:23 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1670854583;
+        bh=rMCQDDqJ29D7fduNOR4Yry3uOYhyWUf5tF2b5M0aRoE=;
+        h=From:To:Cc:Subject:Date:From;
+        b=nQcIxBTa7f77sVuf2P2iOOKj2wui8hEds2WemLAZg65H0m+xL0jxLJFjP41qvTYYI
+         95yi1fb7w/asx832nM779nf8AQGPuwbSRA3lVdX1Tt63SMnsQQledpeqtHYk9gLr0n
+         lGUthxK9IW8kHbskvs5MLjtZ+A1Yk1V+mDkMEOtI=
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     linux-media@vger.kernel.org
+Cc:     Sakari Ailus <sakari.ailus@iki.fi>,
+        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        Michal Simek <michal.simek@xilinx.com>,
+        Sylwester Nawrocki <s.nawrocki@samsung.com>
+Subject: [PATCH v1 0/5] media: Replace media graph walk in several drivers
+Date:   Mon, 12 Dec 2022 16:16:16 +0200
+Message-Id: <20221212141621.724-1-laurent.pinchart@ideasonboard.com>
+X-Mailer: git-send-email 2.37.4
+MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Disposition: inline
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi!
+Hello,
 
-Note that this stick is NOT identical to the old Cinergy T
+This patch series replaces the media graph walk API usage in several
+drivers with iteration over entities or pads stored in the
+media_pipeline object. Iteration over the constructed pipeline is more
+efficient, and will support the V4L2 stream API correctly.
 
-Dec 07 16:21:24 tvburk kernel: usb 2-2.3: SerialNumber: CNXT000000000001
-Dec 07 16:21:24 tvburk kernel: usb 2-2.3: Manufacturer: Conexant Systems Inc.
-Dec 07 16:21:24 tvburk kernel: usb 2-2.3: Product: Polaris AV Capture
-Dec 07 16:21:24 tvburk kernel: usb 2-2.3: New USB device strings: Mfr=1, Product=2, SerialNumber=3
-Dec 07 16:21:24 tvburk kernel: usb 2-2.3: New USB device found, idVendor=0ccd, idProduct=5509,
-bcdDevice=40.01
-Dec 07 16:21:24 tvburk kernel: usb 2-2.3: new high-speed USB device number 7 using xhci_hcd
+Patches 1/5 and 2/5 start by adding two macros to iterate over pads and
+entities in a pipeline. Patch 2/5 also marks the media graph walk API as
+deprecated as a result. Patches 3/5 to 5/5 then use the new iterators in
+three drivers (omap3isp, omap4iss and xilinx).
 
-Chips:
-RTL2832
-TDA18273 - A tuner from NXP
-CX23102 - USB video and broadcast-audio decoder family from Conexant.
+With this series applied, only two drivers still use the media graph
+walk API: exynos4-is and vsp1. Those are more difficult to address. I
+plan to work on the vsp1 driver, but not on exynos4-is as I miss
+knowledge of the code base and have no hardware to test changes on.
+Volunteers would be appreciated :-)
 
-Naturally have I tried myself, before asking here. I had to hack dvb drivers in the past, but not as complex
-as this.
+Laurent Pinchart (5):
+  media: mc: entity: Add pad iterator for media_pipeline
+  media: mc: entity: Add entity iterator for media_pipeline
+  media: ti: omap3isp: Use media_pipeline_for_each_entity()
+  media: ti: omap4iss: Use media_pipeline_for_each_entity()
+  media: xilinx: dma: Use media_pipeline_for_each_pad()
 
-The firmware is shipped with the windows software. Neatly hidden inside a Windows installer :) The file there
-ie merlind.rom, but it is identical to the fw file that linuxtv has v4l-cx231xx-avcore-01.fw
+ drivers/media/mc/mc-entity.c                  | 55 +++++++++++
+ drivers/media/platform/ti/omap3isp/ispvideo.c | 21 +---
+ drivers/media/platform/xilinx/xilinx-dma.c    | 28 ++----
+ drivers/staging/media/omap4iss/iss_video.c    | 56 +++--------
+ include/media/media-entity.h                  | 98 +++++++++++++++++++
+ 5 files changed, 177 insertions(+), 81 deletions(-)
 
-I found a driver for 18273 by CrazyCat, but it is for an older version of Linux, so what I have done so far
-is to take all the files from the TDA18271 driver and renamed them to 18273. I will then use the docs for the
-two tuners and the code from CrazyCat to make a new driver. I have gotten as far as the driver loading, but I
-need to figure out whether the tuner is on address C0 (or 60 if you shift out the write bit) or C6. The 18273
-address can be selected through a voltage on a pin.
 
-So this is how far I have gotten:
-2022-12-11T19:06:39.492051+02:00 localhost kernel: [ 1005.466637] cx231xx 6-2:1.1: XX Identified as Terratec
-TA (card=28)
-2022-12-11T19:06:39.492054+02:00 localhost kernel: [ 1005.467195] i2c i2c-11: Added multiplexed i2c bus 13
-2022-12-11T19:06:39.492062+02:00 localhost kernel: [ 1005.467235] i2c i2c-11: Added multiplexed i2c bus 14
-2022-12-11T19:06:39.620074+02:00 localhost kernel: [ 1005.593790] cx25840 10-0044: cx23102 A/V decoder found
-@ 0x88 (cx231xx #0-0)
-2022-12-11T19:06:41.692044+02:00 localhost kernel: [ 1007.666691] cx25840 10-0044: loaded
-v4l-cx231xx-avcore-01.fw firmware (16382 bytes)
-2022-12-11T19:06:41.736033+02:00 localhost kernel: [ 1007.709539] tea5767: Chip ID is not zero. It is not a
-TEA5767
-2022-12-11T19:06:41.736061+02:00 localhost kernel: [ 1007.709554] tuner: 10-0060: Tuner -1 found with type(s)
-Radio TV.
-2022-12-11T19:06:41.748042+02:00 localhost kernel: [ 1007.721833] tda18273 10-0060: creating new instance
-2022-12-11T19:06:41.752072+02:00 localhost kernel: [ 1007.723810] tda18273: Unknown device (255) detected @
-10-0060, device not supported.
-2022-12-11T19:06:41.752088+02:00 localhost kernel: [ 1007.723814] tda18273_attach: [10-0060|M] error -22 on
-line 1272
-
-I am asking here in case anyone else har battled with TDA18273. Right now I am getting 255 when I try to
-read, which I assume is because I am reading the wrong adress?
-
+base-commit: 3178804c64ef7c8c87a53cd5bba0b2942dd64fec
 -- 
-Med vänlig hälsning
+Regards,
 
-Anders Gustafsson, ingenjör
-anders.gustafsson@pedago.fi  |  Support +358 18 12060  |  Direkt +358 9 315 45 121  |  Mobil +358 40506 7099
-
-Pedago interaktiv ab, Nygatan 7 B , AX-22100 MARIEHAMN, ÅLAND, FINLAND
-
+Laurent Pinchart
 
