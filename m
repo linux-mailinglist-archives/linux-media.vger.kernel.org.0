@@ -2,109 +2,87 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 248F06496A4
-	for <lists+linux-media@lfdr.de>; Sun, 11 Dec 2022 23:14:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1AF4E6497A0
+	for <lists+linux-media@lfdr.de>; Mon, 12 Dec 2022 02:15:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229852AbiLKWOl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 11 Dec 2022 17:14:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49562 "EHLO
+        id S230452AbiLLBPd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 11 Dec 2022 20:15:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53170 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229471AbiLKWOj (ORCPT
+        with ESMTP id S229642AbiLLBPb (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 11 Dec 2022 17:14:39 -0500
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E44CB7F8;
-        Sun, 11 Dec 2022 14:14:38 -0800 (PST)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out2.suse.de (Postfix) with ESMTPS id 3547B1FDA4;
-        Sun, 11 Dec 2022 22:14:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-        t=1670796877; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=YgvfcpkbCq4GYFPGOmXVdg4BoSQzJj/XPDHwUVl1KlQ=;
-        b=UKGrC+Svz8/OgfghDC8TzrArmtw/xZAh6sP+xnmlUza72BVU2iO6ScVY4SBRrncFtxxJSC
-        0uylGhceXf9s0X3Siec2KwEbKmzdOjIV0F0te671WiihCyEc8sVZhX6MIY0YP5peHhBKZe
-        VOB73Dg06VbbPydZEP7ADJvASfxJVf0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-        s=susede2_ed25519; t=1670796877;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=YgvfcpkbCq4GYFPGOmXVdg4BoSQzJj/XPDHwUVl1KlQ=;
-        b=7tBBer7S9vvr9r3sMg1cCqbti6oYS+89r/fB7OIwbga9Jw7DAU1yBRjn0J2wT7K98khNKb
-        pQ5J3rrr9nIz4kCg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id E518113413;
-        Sun, 11 Dec 2022 22:14:36 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id SCVGNkxWlmMpQwAAMHmgww
-        (envelope-from <jdelvare@suse.de>); Sun, 11 Dec 2022 22:14:36 +0000
-Date:   Sun, 11 Dec 2022 23:14:35 +0100
-From:   Jean Delvare <jdelvare@suse.de>
-To:     Uwe =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?= 
-        <u.kleine-koenig@pengutronix.de>
-Cc:     Sean Young <sean@mess.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-pwm@vger.kernel.org
-Subject: Re: [PATCH] media: rc: Drop obsolete dependencies on COMPILE_TEST
-Message-ID: <20221211231435.43c4f361@endymion.delvare>
-In-Reply-To: <20221211205648.hdv5haufqwfoxzu2@pengutronix.de>
-References: <20221121170911.7cd72bfc@endymion.delvare>
-        <20221211205648.hdv5haufqwfoxzu2@pengutronix.de>
-Organization: SUSE Linux
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; x86_64-suse-linux-gnu)
+        Sun, 11 Dec 2022 20:15:31 -0500
+Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 935FB655C
+        for <linux-media@vger.kernel.org>; Sun, 11 Dec 2022 17:15:28 -0800 (PST)
+Received: by mail-pl1-x632.google.com with SMTP id 17so3050144pll.0
+        for <linux-media@vger.kernel.org>; Sun, 11 Dec 2022 17:15:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=1Q7NSdDI+cBRdy4U2cxwXIHknLHBniGJjnQ4NlM7GlA=;
+        b=De9WLIphv5+3yWxA5tUU1WZgh3st56qrLPCXkw4JhpG+RGUVKdvLDKsAWRw7x3qGXb
+         h6xKw7/6YFfa9teZUNgqVZ7uvtBIYd6X+/txleT6RyDSuePCiqDr5PlZ0yWlWCVQZvzB
+         itirQSTfw6nMpSLevMu8s98RKR2qYzwUd92xg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=1Q7NSdDI+cBRdy4U2cxwXIHknLHBniGJjnQ4NlM7GlA=;
+        b=xlC4AAAuELwXaD8wnMNnqNFMZvmRNljJi68VL8PteL0lAOCM4+c0puAilf9X1wZde0
+         zBRcd9MydnIr+2jdGZFI16D8EaHfIucmpjmBpartlU2zj5IbrogX1l0KCkW08sISqMo6
+         5htOetqDJRpbNX1AFQAALZOGfOX+8XkVlfqRxxDDAItoUIh3ZVK08NAatIEKo8IX1Wn1
+         XE0fAHJY5rt2OS1laO9vwQABwhHXdHpn1tpIAHI2bNdx6xAJXrG1r6IT++kNmItmgIiY
+         NWfdOOu6zVTTg3jZPSJlvXLfGkwTs0ViAkjIDE/XoJHLO5X5JLcdwonY1CTkQvgHp6Jv
+         VlEg==
+X-Gm-Message-State: ANoB5pmULtDkv/3ZiMNqIlEwyHufPLmxroPNfgothS4VTIrVXXN94UjM
+        L84t5czKFUsl3TybboEF8THAQg==
+X-Google-Smtp-Source: AA0mqf6PdYEmDNqQaaRQp40o28ze+5hq9qWZnsCRqCLB6ZUMLH3jEZASyPCOIICmh3K2JHQdz2em8A==
+X-Received: by 2002:a17:903:4094:b0:189:7548:20a7 with SMTP id z20-20020a170903409400b00189754820a7mr12235364plc.56.1670807728100;
+        Sun, 11 Dec 2022 17:15:28 -0800 (PST)
+Received: from google.com (KD124209188001.ppp-bb.dion.ne.jp. [124.209.188.1])
+        by smtp.gmail.com with ESMTPSA id i133-20020a639d8b000000b004792ff8ab61sm2544334pgd.80.2022.12.11.17.15.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 11 Dec 2022 17:15:27 -0800 (PST)
+Date:   Mon, 12 Dec 2022 10:15:22 +0900
+From:   Sergey Senozhatsky <senozhatsky@chromium.org>
+To:     Ricardo Ribalda <ribalda@chromium.org>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        linux-kernel@vger.kernel.org, Max Staudt <mstaudt@chromium.org>,
+        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        Yunke Cao <yunkec@chromium.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH v5 1/2] media: uvcvideo: Refactor streamon/streamoff
+Message-ID: <Y5aAqoNQeUuwSlQd@google.com>
+References: <20220920-resend-powersave-v5-0-692e6df6c1e2@chromium.org>
+ <20220920-resend-powersave-v5-1-692e6df6c1e2@chromium.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220920-resend-powersave-v5-1-692e6df6c1e2@chromium.org>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hallo Uwe,
+On (22/12/06 15:06), Ricardo Ribalda wrote:
+> 
+> Add a new variable to handle the streaming state and handle the
+> streamoff errors, that were not handled before.
+> 
+> Suggested-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Reviewed-by: Max Staudt <mstaudt@chromium.org>
+> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 
-On Sun, 11 Dec 2022 21:56:48 +0100, Uwe Kleine-K=C3=B6nig wrote:
-> On Mon, Nov 21, 2022 at 05:09:11PM +0100, Jean Delvare wrote:
-> > --- linux-6.0.orig/drivers/media/rc/pwm-ir-tx.c
-> > +++ linux-6.0/drivers/media/rc/pwm-ir-tx.c
-> > @@ -120,7 +120,7 @@ static struct platform_driver pwm_ir_dri
-> >  	.probe =3D pwm_ir_probe,
-> >  	.driver =3D {
-> >  		.name	=3D DRIVER_NAME,
-> > -		.of_match_table =3D of_match_ptr(pwm_ir_of_match),
-> > +		.of_match_table =3D pwm_ir_of_match,
-> >  	},
-> >  };
-> >  module_platform_driver(pwm_ir_driver); =20
->=20
-> That hunk makes sense even without the Kconfig change. ACPI makes use of
-> .of_match_table, so
->=20
-> 	.of_match_table =3D of_match_ptr(pwm_ir_of_match),
->=20
-> is (almost?) always wrong.
-
-Should we just get rid of this macro altogether then?
-
-(Somehow I have a strange feeling that we already had this
-discussion...)
-
---=20
-Jean Delvare
-SUSE L3 Support
+Reviewed-by: Sergey Senozhatsky <senozhatsky@chromium.org>
