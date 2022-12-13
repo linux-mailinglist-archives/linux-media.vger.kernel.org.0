@@ -2,110 +2,86 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8A8A364AA13
-	for <lists+linux-media@lfdr.de>; Mon, 12 Dec 2022 23:17:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CD54C64ADEB
+	for <lists+linux-media@lfdr.de>; Tue, 13 Dec 2022 03:52:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233250AbiLLWR1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 12 Dec 2022 17:17:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57440 "EHLO
+        id S234312AbiLMCwI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 12 Dec 2022 21:52:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55140 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231770AbiLLWRZ (ORCPT
+        with ESMTP id S233798AbiLMCwH (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 12 Dec 2022 17:17:25 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E53C81706B
-        for <linux-media@vger.kernel.org>; Mon, 12 Dec 2022 14:17:24 -0800 (PST)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 60D1C6CF;
-        Mon, 12 Dec 2022 23:17:22 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1670883442;
-        bh=H4LTNCrpavcWbIFuxWDeXh0hqlrmWCNbZddmcI86LZ0=;
-        h=From:To:Cc:Subject:Date:From;
-        b=BGu/aJiJz01q0AIzGWfB1m2f/eRYpnWsepxLoDOuHMlglcSUhbeJsxVOfr/7nuslx
-         0PwcNnMx1/AlN8Z7yMz2zRJVFHyPIdBzj66D/yXMDnuT/a2/f5jnctNHi47MsQfanf
-         V5oCTSIFBNX62OmuuJorifMGBwh0XsV49ongBAaI=
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     linux-media@vger.kernel.org
-Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        Sakari Ailus <sakari.ailus@iki.fi>
-Subject: [PATCH] media: mc: Improve the media_entity_has_pad_interdep() documentation
-Date:   Tue, 13 Dec 2022 00:17:19 +0200
-Message-Id: <20221212221719.18053-1-laurent.pinchart@ideasonboard.com>
-X-Mailer: git-send-email 2.37.4
+        Mon, 12 Dec 2022 21:52:07 -0500
+Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 9B4BF1DA48;
+        Mon, 12 Dec 2022 18:52:05 -0800 (PST)
+Received: from localhost.localdomain (unknown [124.16.138.125])
+        by APP-01 (Coremail) with SMTP id qwCowAAHDlqo6JdjLrnGBg--.55749S2;
+        Tue, 13 Dec 2022 10:51:21 +0800 (CST)
+From:   Jiasheng Jiang <jiasheng@iscas.ac.cn>
+To:     neal_liu@aspeedtech.com, gregkh@linuxfoundation.org,
+        joel@jms.id.au, andrew@aj.id.au, sumit.semwal@linaro.org,
+        christian.koenig@amd.com
+Cc:     linux-aspeed@lists.ozlabs.org, linux-usb@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org,
+        Jiasheng Jiang <jiasheng@iscas.ac.cn>
+Subject: [PATCH] usb: gadget: aspeed_udc: Add check for dma_alloc_coherent
+Date:   Tue, 13 Dec 2022 10:51:19 +0800
+Message-Id: <20221213025120.23149-1-jiasheng@iscas.ac.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+X-CM-TRANSID: qwCowAAHDlqo6JdjLrnGBg--.55749S2
+X-Coremail-Antispam: 1UD129KBjvdXoWrKw4fKF45Zw17AF4UCFyfZwb_yoWfGFcEkr
+        4UWF1rW343Z393Kr1UZ343CryY934ku34kWFn2kF13Aay5Ga47XryUJFWkJa13ZFWxCFn8
+        Cwn8KrW7ZrW8WjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+        9fnUUIcSsGvfJTRUUUbVAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+        6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
+        A2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_
+        Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AKxVW8Jr
+        0_Cr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj
+        6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr
+        0_Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E
+        8cxan2IY04v7MxkIecxEwVAFwVW8JwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbV
+        WUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF
+        67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42
+        IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF
+        0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxh
+        VjvjDU0xZFpf9x0JUHWlkUUUUU=
+X-Originating-IP: [124.16.138.125]
+X-CM-SenderInfo: pmld2xxhqjqxpvfd2hldfou0/
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Document the function parameters, the requirements on the pad0 and pad1
-arguments, the locking requirements and the return value. Also improve
-the documentation of the corresponding .has_pad_interdep() operation,
-stating clearly that the operation must be called through the
-media_entity_has_pad_interdep() function only.
+Add the check for the return value of dma_alloc_coherent
+in order to avoid NULL pointer dereference.
 
-Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Fixes: 055276c13205 ("usb: gadget: add Aspeed ast2600 udc driver")
+Signed-off-by: Jiasheng Jiang <jiasheng@iscas.ac.cn>
 ---
- drivers/media/mc/mc-entity.c | 15 ++++++++++++++-
- include/media/media-entity.h |  4 +++-
- 2 files changed, 17 insertions(+), 2 deletions(-)
+ drivers/usb/gadget/udc/aspeed_udc.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/media/mc/mc-entity.c b/drivers/media/mc/mc-entity.c
-index f19bb98071b2..e9b71b895f98 100644
---- a/drivers/media/mc/mc-entity.c
-+++ b/drivers/media/mc/mc-entity.c
-@@ -226,7 +226,13 @@ EXPORT_SYMBOL_GPL(media_entity_pads_init);
-  * Graph traversal
-  */
+diff --git a/drivers/usb/gadget/udc/aspeed_udc.c b/drivers/usb/gadget/udc/aspeed_udc.c
+index 01968e2167f9..6cf46562bb25 100644
+--- a/drivers/usb/gadget/udc/aspeed_udc.c
++++ b/drivers/usb/gadget/udc/aspeed_udc.c
+@@ -1516,6 +1516,8 @@ static int ast_udc_probe(struct platform_device *pdev)
+ 					  AST_UDC_EP_DMA_SIZE *
+ 					  AST_UDC_NUM_ENDPOINTS,
+ 					  &udc->ep0_buf_dma, GFP_KERNEL);
++	if (!udc->ep0_buf)
++		return -ENOMEM;
  
--/*
-+/**
-+ * media_entity_has_pad_interdep - Check interdependency between two pads
-+ *
-+ * @entity: The entity
-+ * @pad0: The first pad index
-+ * @pad1: The second pad index
-+ *
-  * This function checks the interdependency inside the entity between @pad0
-  * and @pad1. If two pads are interdependent they are part of the same pipeline
-  * and enabling one of the pads means that the other pad will become "locked"
-@@ -236,6 +242,13 @@ EXPORT_SYMBOL_GPL(media_entity_pads_init);
-  * to check the dependency inside the entity between @pad0 and @pad1. If the
-  * has_pad_interdep operation is not implemented, all pads of the entity are
-  * considered to be interdependent.
-+ *
-+ * One of @pad0 and @pad1 must be a sink pad and the other one a source pad.
-+ * The function returns false if both pads are sinks or sources.
-+ *
-+ * The caller must hold entity->graph_obj.mdev->mutex.
-+ *
-+ * Return: true if the pads are connected internally and false otherwise.
-  */
- static bool media_entity_has_pad_interdep(struct media_entity *entity,
- 					  unsigned int pad0, unsigned int pad1)
-diff --git a/include/media/media-entity.h b/include/media/media-entity.h
-index 1b820cb6fed1..741f9c629c6f 100644
---- a/include/media/media-entity.h
-+++ b/include/media/media-entity.h
-@@ -262,7 +262,9 @@ struct media_pad {
-  *			part of the same pipeline and enabling one of the pads
-  *			means that the other pad will become "locked" and
-  *			doesn't allow configuration changes. pad0 and pad1 are
-- *			guaranteed to not both be sinks or sources.
-+ *			guaranteed to not both be sinks or sources. Never call
-+ *			the .has_pad_interdep() operation directly, always use
-+ *			media_entity_has_pad_interdep().
-  *			Optional: If the operation isn't implemented all pads
-  *			will be considered as interdependent.
-  *
+ 	udc->gadget.speed = USB_SPEED_UNKNOWN;
+ 	udc->gadget.max_speed = USB_SPEED_HIGH;
 -- 
-Regards,
-
-Laurent Pinchart
+2.25.1
 
