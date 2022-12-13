@@ -2,234 +2,112 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5E1BA64B6C9
-	for <lists+linux-media@lfdr.de>; Tue, 13 Dec 2022 15:06:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E810264B6CE
+	for <lists+linux-media@lfdr.de>; Tue, 13 Dec 2022 15:07:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234987AbiLMOGa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 13 Dec 2022 09:06:30 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34630 "EHLO
+        id S235267AbiLMOHl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 13 Dec 2022 09:07:41 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35670 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235834AbiLMOGT (ORCPT
+        with ESMTP id S235311AbiLMOHj (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 13 Dec 2022 09:06:19 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A39F31FCFE;
-        Tue, 13 Dec 2022 06:06:17 -0800 (PST)
-Received: from [192.168.1.15] (91-154-32-225.elisa-laajakaista.fi [91.154.32.225])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 15CB67C5;
-        Tue, 13 Dec 2022 15:06:13 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1670940375;
-        bh=ZX6f3ElcUf5tnDJBnNmvyXVrtUifiBOjqC4Kt3PZk1Q=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=BgKTPzIEzNi3CEgzHZUdT5nrX5t+Mxh88UaPzGNFwczdRUPp+mWzvTkkCsGiv+13O
-         deCFyAJ84R7x1lZDzPRU+1MRvpaE4G1mzlZJ43B5mFoUhZGxXwbntWe08h1kTjrr6N
-         aki9bUYSlLnOvoaX1nLCDY4MefETpqrnmyI4PBTc=
-Message-ID: <c22ff1c6-704f-affc-93a7-e2080c58c53d@ideasonboard.com>
-Date:   Tue, 13 Dec 2022 16:06:11 +0200
+        Tue, 13 Dec 2022 09:07:39 -0500
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A356AA47D
+        for <linux-media@vger.kernel.org>; Tue, 13 Dec 2022 06:07:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1670940455; x=1702476455;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=oC3Ksikt5vAf8s4ZGCjTauJgtTnUtb129cwT9cD2DSY=;
+  b=Ugw2jtNuPcH7b1WRrk0ew7dBlxaXhtZjcYeRBggeWeIQSJuwxkbajkS1
+   IdKELtj4P42LAnpdHCzl5UJrE5zpsqh8VU6bc+QbTg2hF2el+krBnTPDV
+   wG+Qj6ZiCY0vFjUI1a5TxLY66XVj5pwI7T4as1mFjly03wJoWI+/Hbx6u
+   Q/hGHUDEMwfNlooZ1DGnSf3JhmBudCuVXyJm+vpqGjQv5pNEb1AbMntCU
+   4Hhy+wHo2iAWutSX1K7eZ3mqPwRNgHrf3y5W9nc2AebTipeDOLduDoHC7
+   yFnbxQTwB7O1kABZO9aXNJhGPnGmoGYBixB4S78dFOpfvZMxTJsJroP7Y
+   w==;
+X-IronPort-AV: E=Sophos;i="5.96,241,1665439200"; 
+   d="scan'208";a="27925180"
+Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
+  by mx1-pgp.tq-group.com with ESMTP; 13 Dec 2022 15:07:33 +0100
+Received: from mx1.tq-group.com ([192.168.6.7])
+  by tq-pgp-pr1.tq-net.de (PGP Universal service);
+  Tue, 13 Dec 2022 15:07:33 +0100
+X-PGP-Universal: processed;
+        by tq-pgp-pr1.tq-net.de on Tue, 13 Dec 2022 15:07:33 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1670940453; x=1702476453;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=oC3Ksikt5vAf8s4ZGCjTauJgtTnUtb129cwT9cD2DSY=;
+  b=eV4023/xK1/r9iB8m9RKxPFXXuH1F1tUTIwO1VSlGJnH5pxXXV0ROE1F
+   KsjP6E51koi01o2fdNUqEYrqjQwtzYjk9dGLRLeDyKCJoQ785Q5dRb8Ci
+   iBwY9BVhooh+2dUTFDAqFhin69589qbaqnnb6gPi2Gk5uYw41AbDfG+f0
+   MzW8Ri9ghKMHwykLVq8yp9kOCL03EvPQXYQofYRgivdd2lCuJ+rYACkZa
+   mPVzXwZTxZQu0va3OJocexiT9g80G2ZCXBAbSzhbPI7jUf8Pyyfr8Uvf0
+   tBZaPI2uqSqU8LKAAdvs31TRMwBQEsn2GgArXuvDxeMpdV5X/bB9mOt0i
+   Q==;
+X-IronPort-AV: E=Sophos;i="5.96,241,1665439200"; 
+   d="scan'208";a="27925179"
+Received: from vtuxmail01.tq-net.de ([10.115.0.20])
+  by mx1.tq-group.com with ESMTP; 13 Dec 2022 15:07:33 +0100
+Received: from steina-w.tq-net.de (unknown [10.123.53.21])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+        (No client certificate requested)
+        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 9EAB6280071;
+        Tue, 13 Dec 2022 15:07:33 +0100 (CET)
+From:   Alexander Stein <alexander.stein@ew.tq-group.com>
+To:     "Paul J . Murphy" <paul.j.murphy@intel.com>,
+        Daniele Alessandrelli <daniele.alessandrelli@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Alexander Stein <alexander.stein@ew.tq-group.com>,
+        linux-media@vger.kernel.org
+Subject: [PATCH 1/2] media: i2c: ov9282: remove unused and unset i2c_client member
+Date:   Tue, 13 Dec 2022 15:07:26 +0100
+Message-Id: <20221213140727.414976-1-alexander.stein@ew.tq-group.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH v5 4/8] dt-bindings: media: add bindings for TI DS90UB953
-Content-Language: en-US
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Wolfram Sang <wsa@kernel.org>,
-        Luca Ceresoli <luca.ceresoli@bootlin.com>,
-        Andy Shevchenko <andriy.shevchenko@intel.com>,
-        Matti Vaittinen <Matti.Vaittinen@fi.rohmeurope.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Peter Rosin <peda@axentia.se>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Michael Tretter <m.tretter@pengutronix.de>,
-        Shawn Tu <shawnx.tu@intel.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Mike Pagano <mpagano@gentoo.org>,
-        =?UTF-8?Q?Krzysztof_Ha=c5=82asa?= <khalasa@piap.pl>,
-        Marek Vasut <marex@denx.de>
-References: <20221208104006.316606-1-tomi.valkeinen@ideasonboard.com>
- <20221208104006.316606-5-tomi.valkeinen@ideasonboard.com>
- <Y5YUoEWmHsUT8zgf@pendragon.ideasonboard.com>
-From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-In-Reply-To: <Y5YUoEWmHsUT8zgf@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 11/12/2022 19:34, Laurent Pinchart wrote:
-> Hi Tomi,
-> 
-> Thank you for the patch.
-> 
-> On Thu, Dec 08, 2022 at 12:40:02PM +0200, Tomi Valkeinen wrote:
->> Add DT bindings for TI DS90UB953 FPDLink-3 Serializer.
->>
->> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
->> ---
->>   .../bindings/media/i2c/ti,ds90ub953.yaml      | 112 ++++++++++++++++++
->>   1 file changed, 112 insertions(+)
->>   create mode 100644 Documentation/devicetree/bindings/media/i2c/ti,ds90ub953.yaml
->>
->> diff --git a/Documentation/devicetree/bindings/media/i2c/ti,ds90ub953.yaml b/Documentation/devicetree/bindings/media/i2c/ti,ds90ub953.yaml
->> new file mode 100644
->> index 000000000000..fd7d25d93e2c
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/media/i2c/ti,ds90ub953.yaml
->> @@ -0,0 +1,112 @@
->> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
->> +%YAML 1.2
->> +---
->> +$id: http://devicetree.org/schemas/media/i2c/ti,ds90ub953.yaml#
->> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->> +
->> +title: Texas Instruments DS90UB953 FPD-Link 3 Serializer
->> +
->> +maintainers:
->> +  - Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
->> +
->> +description:
->> +  The TI DS90UB953 is an FPD-Link 3 video serializer for MIPI CSI-2.
->> +
->> +properties:
->> +  compatible:
->> +    enum:
->> +      - ti,ds90ub953-q1
->> +      - ti,ds90ub971-q1
->> +
->> +  '#gpio-cells':
->> +    const: 2
-> 
-> I would add a description here, to tell what the cells correspond to. In
-> particular, the first cell selects the GPIO_* pin number, it would be
-> nice to document that its value should be in the range [0, 3].
-> 
-> Same comment for patch 3/8 (DS90UB913 bindings). There you could also
-> mention that GPO2 and the output clock are mutually exclusive.
+This is not need anyway as the i2c_client is stored in v4l2_subdev.
 
-Yep. I have added this for ub913:
-       First cell is the GPO pin number, second cell is the flags. The 
-GPO pin
-       number must be in range of [0, 3]. Note that GPOs 2 and 3 are not
-       available in external oscillator mode.
+Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+Acked-by: Daniele Alessandrelli <daniele.alessandrelli@intel.com>
+---
+ drivers/media/i2c/ov9282.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-and this for ub953:
-       First cell is the GPIO pin number, second cell is the flags. The 
-GPIO pin
-       number must be in range of [0, 3].
-
->> +
->> +  gpio-controller: true
->> +
-> 
-> No need for clocks and clock-names for the reference input clock ? Or is
-> this because you support sync mode only for now ?
-
-Right, I don't have the clock on my hw, but it's probably better to add 
-it to the binding already.
-
->> +  '#clock-cells':
->> +    const: 0
->> +
->> +  ports:
->> +    $ref: /schemas/graph.yaml#/properties/ports
->> +
->> +    properties:
->> +      port@0:
->> +        $ref: /schemas/graph.yaml#/$defs/port-base
->> +        unevaluatedProperties: false
->> +        description: CSI-2 input port
->> +
->> +        properties:
->> +          endpoint:
->> +            $ref: /schemas/media/video-interfaces.yaml#
->> +            unevaluatedProperties: false
-> 
-> Should the data-lanes property be required for the CSI-2 input ?
-
-Yes.
-
->> +
->> +      port@1:
->> +        $ref: /schemas/graph.yaml#/properties/port
->> +        unevaluatedProperties: false
->> +        description: FPD-Link 3 output port
->> +
->> +  i2c:
->> +    $ref: /schemas/i2c/i2c-controller.yaml#
->> +    unevaluatedProperties: false
->> +
->> +required:
->> +  - compatible
->> +  - '#gpio-cells'
->> +  - gpio-controller
->> +  - '#clock-cells'
->> +  - ports
->> +
->> +additionalProperties: false
->> +
->> +examples:
->> +  - |
->> +    #include <dt-bindings/gpio/gpio.h>
->> +
->> +    serializer {
->> +      compatible = "ti,ds90ub953-q1";
->> +
->> +      gpio-controller;
->> +      #gpio-cells = <2>;
->> +
->> +      #clock-cells = <0>;
->> +
->> +      ports {
->> +        #address-cells = <1>;
->> +        #size-cells = <0>;
->> +
->> +        port@0 {
->> +          reg = <0>;
->> +          ub953_in: endpoint {
->> +            clock-lanes = <0>;
->> +            data-lanes = <1 2 3 4>;
->> +            remote-endpoint = <&sensor_out>;
->> +          };
->> +        };
->> +
->> +        port@1 {
->> +          reg = <1>;
->> +          endpoint {
->> +            remote-endpoint = <&deser_fpd_in>;
->> +          };
->> +        };
->> +      };
->> +
->> +      i2c {
->> +        #address-cells = <1>;
->> +        #size-cells = <0>;
->> +
->> +        sensor@1a {
->> +          compatible = "sony,imx274";
->> +          reg = <0x1a>;
->> +
->> +          reset-gpios = <&serializer 0 GPIO_ACTIVE_LOW>;
-> 
-> Maybe add
-> 
->            clocks = <&serializer>;
-> 	  clock-names = "inck";
-> 
-> to showcase the clock connection ?
-
-Yes, that's a good idea.
-
-  Tomi
+diff --git a/drivers/media/i2c/ov9282.c b/drivers/media/i2c/ov9282.c
+index 37a55d53af56..8216644494bb 100644
+--- a/drivers/media/i2c/ov9282.c
++++ b/drivers/media/i2c/ov9282.c
+@@ -148,7 +148,6 @@ struct ov9282_mode {
+ /**
+  * struct ov9282 - ov9282 sensor device structure
+  * @dev: Pointer to generic device
+- * @client: Pointer to i2c client
+  * @sd: V4L2 sub-device
+  * @pad: Media pad. Only one pad supported
+  * @reset_gpio: Sensor reset gpio
+@@ -170,7 +169,6 @@ struct ov9282_mode {
+  */
+ struct ov9282 {
+ 	struct device *dev;
+-	struct i2c_client *client;
+ 	struct v4l2_subdev sd;
+ 	struct media_pad pad;
+ 	struct gpio_desc *reset_gpio;
+-- 
+2.34.1
 
