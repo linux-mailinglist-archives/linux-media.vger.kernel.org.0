@@ -2,118 +2,128 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4A40064CE37
-	for <lists+linux-media@lfdr.de>; Wed, 14 Dec 2022 17:39:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C9E9064CFC1
+	for <lists+linux-media@lfdr.de>; Wed, 14 Dec 2022 19:54:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239051AbiLNQjS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 14 Dec 2022 11:39:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55170 "EHLO
+        id S239026AbiLNSyG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 14 Dec 2022 13:54:06 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59218 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238629AbiLNQjN (ORCPT
+        with ESMTP id S238978AbiLNSxr (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 14 Dec 2022 11:39:13 -0500
-Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com [209.85.219.176])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 19D225FD4;
-        Wed, 14 Dec 2022 08:39:11 -0800 (PST)
-Received: by mail-yb1-f176.google.com with SMTP id o127so370396yba.5;
-        Wed, 14 Dec 2022 08:39:11 -0800 (PST)
+        Wed, 14 Dec 2022 13:53:47 -0500
+Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com [IPv6:2a00:1450:4864:20::129])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C6862A941
+        for <linux-media@vger.kernel.org>; Wed, 14 Dec 2022 10:53:47 -0800 (PST)
+Received: by mail-lf1-x129.google.com with SMTP id c1so12008259lfi.7
+        for <linux-media@vger.kernel.org>; Wed, 14 Dec 2022 10:53:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:to:subject:message-id:date:from:reply-to
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=BRQm+z5zZvqAspvybGyHhPMRJtHnBkC47At9BzYrF4Y=;
+        b=VQicnXHkKxh9SbUWqMZ4WHxNSe8rxbf93HtaPFml1YvHxTelcP71rwWxNoKHV838xo
+         PBk7Ft/hTmXtZ+Yvgu7VNJYq4P1coeS/DO/OD3QDnpjQkAkilRTA4Wfie6H6LGBcpiKo
+         Q/VIqAzeCq3cgEuITU272Dg36hiEfSLXYVMtfvIabL/hJ7Li8TZ5nb0AdCqYhH3EdoFy
+         MT/jvv8w4UMaV+Lzk+oeMEdJso5j5mFLYxjUFo8gs7prFOK7Vf2WuAMsgxK7any75vIj
+         JRhWbZN4VLdh/1RlUyen81ARvdriTDOXTjRLRpYZc75WyF49uMfR2bZTJE1rBdYzRJAH
+         nhqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=rucNSLUsydWgfk/P8pUCnWpatC2o+4115FIoshrngFc=;
-        b=CZTuvD9Dyj0DMxl/nxGYoaeOU1cFsARxlgi82QVVa26dnVoTZvvRM4MX4HKqA4gzrK
-         0ueg2J04svT+fMBmoOen9p2H7x9icRhLh8xV8p/+L/TvazZjvJg980MPAFpoGoy6G0Sy
-         9VM0LbX44qSfFjHBpHUnHo+ngeFvju3rbTJi53hAnpwEjMNO6ovDALkEAg//yY8Dajbx
-         RCJ8j9ePvcv4JnxkSTPhhl0gHz79j6c/wzpJa9xl2pJpEqgHsMbcKU3LCa9e44hUq13Q
-         mIRpQahgGrIRgZsjd5z58gKnHen/2yiSMqsTBSh7FiETrz8a2QF4AlJu4336XNhcOMQg
-         YYCQ==
-X-Gm-Message-State: ANoB5pmE8IMjBsxXrTG56dW1EKw780NKz75knlmEYt7crBd8Q0rx0MYz
-        Pk0y4SKqGZ0Ym9E8nJGW8PnKNN6RbqBCkA==
-X-Google-Smtp-Source: AA0mqf7VPTWBaHcttjYxRxqaNMd/24mmAEzw/R0+Ax4d1dlss3jJbdGri+G8eyTpsT3e9jiCW364ZQ==
-X-Received: by 2002:a25:2681:0:b0:724:2eb3:2 with SMTP id m123-20020a252681000000b007242eb30002mr13598245ybm.1.1671035949963;
-        Wed, 14 Dec 2022 08:39:09 -0800 (PST)
-Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com. [209.85.128.180])
-        by smtp.gmail.com with ESMTPSA id i8-20020a05620a404800b006feea093006sm10329318qko.124.2022.12.14.08.39.09
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 14 Dec 2022 08:39:09 -0800 (PST)
-Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-3b48b139b46so4006837b3.12;
-        Wed, 14 Dec 2022 08:39:09 -0800 (PST)
-X-Received: by 2002:a81:a8a:0:b0:37e:6806:a5f9 with SMTP id
- 132-20020a810a8a000000b0037e6806a5f9mr12549148ywk.47.1671035949256; Wed, 14
- Dec 2022 08:39:09 -0800 (PST)
+        h=content-transfer-encoding:to:subject:message-id:date:from:reply-to
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=BRQm+z5zZvqAspvybGyHhPMRJtHnBkC47At9BzYrF4Y=;
+        b=IO3M3wckSqja9RwD4h4H6iV+uN3Z1fsW5H/kQDl9m9mh0wj9p2eevpRDFqRIB+RRXB
+         Anag4zIk7aOFcn6Pd60H6Yf9PkBYLDsCf/CjlZuyc6QSVSGpaNnM0jic8ztJn5zzfEmL
+         d8z3U7CkQ7b/UIDIwE7jfcUuGpz5g31SmZ4ibkn5WgrochKbzjBiN81ImGS9VHH+vaM9
+         QlVmIMLbooZQiZltj18vUPXGww0s4AJ80QN9ThPPURq8/A/ZW9ZoEYCM49kOe/uXA50w
+         7XEkQabrPzymeQ7LZNSBop/tHoT/b3lWjdmOcwmxa2St1xrZ5+HM1CQX6r0xZK2MFDtg
+         nSzg==
+X-Gm-Message-State: ANoB5pmHMdDtOT56hnL30nt3GXd3lFXcT/C/C+Iqr6HMs6wPYdN+gTgE
+        DOJPTwYPmIdAWd6jamWfGs8EjhblFWx5tk8dwy0=
+X-Google-Smtp-Source: AA0mqf75UsVbvEgx3jZinmJyAph63wQgbX7FPAevsygjL6jkSOIfIcxecVnEVAqKCVmWqFMPQEeb8XbVRCIxfn44zvw=
+X-Received: by 2002:ac2:41c6:0:b0:4b0:4b08:6873 with SMTP id
+ d6-20020ac241c6000000b004b04b086873mr36091848lfi.329.1671044025470; Wed, 14
+ Dec 2022 10:53:45 -0800 (PST)
 MIME-Version: 1.0
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 14 Dec 2022 17:38:58 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdWpPX2mpqFEWjjbjsQvDBQOXyjjdpKnQu9qURAuVZXmMw@mail.gmail.com>
-Message-ID: <CAMuHMdWpPX2mpqFEWjjbjsQvDBQOXyjjdpKnQu9qURAuVZXmMw@mail.gmail.com>
-Subject: media: imx-jpeg: array subscript 2 is above array bounds (was: Re:
- kisskb: FAILED linus/m68k-allmodconfig/m68k-gcc8 Wed Dec 14, 11:09)
-To:     Michael Ellerman <mpe@ellerman.id.au>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>
+Received: by 2002:a05:6022:411:b0:33:613c:e973 with HTTP; Wed, 14 Dec 2022
+ 10:53:45 -0800 (PST)
+Reply-To: illuminatilord1945@gmail.com
+From:   Illuminati Invitation <musarabiuinusa123@gmail.com>
+Date:   Wed, 14 Dec 2022 19:53:45 +0100
+Message-ID: <CALQYZvDS++nn5GRHo1aQDHFVfhQPQ1dCOFnmmht2+t+KZr-pDA@mail.gmail.com>
+Subject: WILLKOMMEN BEI DER ILLUMINATI-GESELLSCHAFT
+To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: Yes, score=5.3 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,FREEMAIL_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,SUBJ_ALL_CAPS,UNDISC_FREEM
         autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+        *      https://www.dnswl.org/, no trust
+        *      [2a00:1450:4864:20:0:0:0:129 listed in]
+        [list.dnswl.org]
+        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.5000]
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        *  0.2 FREEMAIL_ENVFROM_END_DIGIT Envelope-from freemail username ends
+        *       in digit
+        *      [musarabiuinusa123[at]gmail.com]
+        *  0.2 FREEMAIL_REPLYTO_END_DIGIT Reply-To freemail username ends in
+        *      digit
+        *      [illuminatilord1945[at]gmail.com]
+        *  0.5 SUBJ_ALL_CAPS Subject is all capitals
+        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
+        *      provider
+        *      [musarabiuinusa123[at]gmail.com]
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        *  2.7 UNDISC_FREEM Undisclosed recipients + freemail reply-to
+        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
+        *      different freemails
+X-Spam-Level: *****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Dec 14, 2022 at 1:16 AM <noreply@ellerman.id.au> wrote:
-> FAILED linus/m68k-allmodconfig/m68k-gcc8 Wed Dec 14, 11:09
->
-> http://kisskb.ellerman.id.au/kisskb/buildresult/14846569/
->
-> Commit:   Merge tag 'drm-next-2022-12-13' of git://anongit.freedesktop.org/drm/drm
->           a594533df0f6ca391da003f43d53b336a2d23ffa
-> Compiler: m68k-linux-gcc (GCC) 8.5.0 / GNU ld (GNU Binutils) 2.36.1
->
-> Possible errors
-> ---------------
->
-> drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:641:28: error: array subscript 2 is above array bounds of 'u32[2]' {aka 'unsigned int[2]'} [-Werror=array-bounds]
-> drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:641:28: error: array subscript 3 is above array bounds of 'u32[2]' {aka 'unsigned int[2]'} [-Werror=array-bounds]
-> cc1: all warnings being treated as errors
-> make[7]: *** [scripts/Makefile.build:250: drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.o] Error 1
-> make[6]: *** [scripts/Makefile.build:502: drivers/media/platform/nxp/imx-jpeg] Error 2
-> make[5]: *** [scripts/Makefile.build:502: drivers/media/platform/nxp] Error 2
-> make[4]: *** [scripts/Makefile.build:502: drivers/media/platform] Error 2
-> make[3]: *** [scripts/Makefile.build:502: drivers/media] Error 2
-> make[2]: *** [scripts/Makefile.build:502: drivers] Error 2
-> make[1]: *** [Makefile:1994: .] Error 2
-> make: *** [Makefile:231: __sub-make] Error 2
->
-> No warnings found in log.
+--=20
+EINLADUNG ZUR GRO=C3=9FEN ILLUMINATI-GESELLSCHAFT
 
-I am seeing the same with m68k/allmodconfig and gcc version 9.4.0
-(Ubuntu 9.4.0-1ubuntu1~20.04).
+GL=C3=9CCKWUNSCH AN SIE....
+Du wurdest unter den Menschen ausgew=C3=A4hlt, denen diesen November die
+M=C3=B6glichkeit gegeben wurde, reich und beliebt zu werden, indem du dich
+den Gro=C3=9Fen ILLUMINATI anschlie=C3=9Ft.
 
-It is triggered by the second call to mxc_jpeg_get_plane_size()
-in mxc_jpeg_dec_irq():
+Treten Sie uns noch heute bei und verwirklichen Sie Ihre Tr=C3=A4ume und
+leben Sie ein besseres Leben. Es ist wichtig zu wissen, dass Sie daf=C3=BCr
+bezahlt werden, Mitglied zu werden. Sie verdienen monatlich ein
+Mitgliedsgehalt. Es sind keine Menschenopfer erforderlich, nur Ihre
+Loyalit=C3=A4t und Ihr Engagement. Nutzen Sie diese "GOLDENEN
+GELEGENHEITEN". Die Organisation macht Sie reich und ber=C3=BChmt in der
+Welt ...
 
-                if (q_data->fmt->mem_planes == 2) {
-                        payload = mxc_jpeg_get_plane_size(q_data, 1);
-                        vb2_set_plane_payload(&dst_buf->vb2_buf, 1, payload);
-                }
+F=C3=9CLLEN SIE BITTE DIE FOLGENDEN DETAILS AUS UND SENDEN SIE JETZT ZUR=C3=
+=9CCK.....
 
-However, I am not seeing the issue with x86-64/allmodconfig and gcc
-version 9.4.0 (Ubuntu 9.4.0-1ubuntu1~20.04.1).
+Ganze Namen:
+Land:
+Das Alter:
+Familienstand:
+Beruf:
+Monatliches Einkommen:
+Telefonnummer:
 
-Bisected to commit ccc9f1db9c6b0620 ("media: imx-jpeg: Support
-contiguous and non contiguous format").
+Bitte senden Sie diese Informationen jetzt an die ILLUMINATI-E-Mail unten.
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+E-Mail: illuminatilord1945@gmail.com
