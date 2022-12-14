@@ -2,318 +2,204 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EB0D364C941
-	for <lists+linux-media@lfdr.de>; Wed, 14 Dec 2022 13:50:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DB64264C955
+	for <lists+linux-media@lfdr.de>; Wed, 14 Dec 2022 13:55:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238122AbiLNMut (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 14 Dec 2022 07:50:49 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52428 "EHLO
+        id S238318AbiLNMzq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 14 Dec 2022 07:55:46 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56680 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237486AbiLNMu1 (ORCPT
+        with ESMTP id S238305AbiLNMzh (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 14 Dec 2022 07:50:27 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0F6CD7;
-        Wed, 14 Dec 2022 04:50:05 -0800 (PST)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1498C49C;
-        Wed, 14 Dec 2022 13:50:03 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1671022204;
-        bh=21z1klVWBkEfF+vnCtLJrcfaLH8zgkSZh3i3gNhl+HY=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=nEPE4EGqcyOqLg4d30lBLiGwzVShX4EaVX3AMuhuy04J5L36Y4JNtuum5YNcAN3qS
-         cAMyP3DqvO3lccZ3wJlZSv2qjgkq1ortHYM8UX/lrLzOegAGolMmAt7uqS7mtcNBDf
-         btu1sECMtJzlxC4VdsDoinxDA7/r+zdHRLAGJecM=
-Date:   Wed, 14 Dec 2022 14:50:00 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Ricardo Ribalda <ribalda@chromium.org>
-Cc:     Yunke Cao <yunkec@chromium.org>, Max Staudt <mstaudt@google.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-Subject: Re: [PATCH] media: uvcvideo: Do not alloc dev->status
-Message-ID: <Y5nGeEdvNL3EYCxP@pendragon.ideasonboard.com>
-References: <20221214-uvc-status-alloc-v1-0-a0098ddc7c93@chromium.org>
- <Y5nFap/r4OgqgmeK@pendragon.ideasonboard.com>
+        Wed, 14 Dec 2022 07:55:37 -0500
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 279FB2615;
+        Wed, 14 Dec 2022 04:55:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+  t=1671022528; x=1702558528;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-id:content-transfer-encoding:
+   mime-version;
+  bh=M4450M7nvPRhLV/NCk1uT7OSwVw6dip3lxK1yCrrXiY=;
+  b=bUezGY1mQjJ+5Ahf4e6Rm4TZo33HEmvLNxHQxinMedia6IjC56R4a0fv
+   8YxrovReBc/QufKWHjgjh2h4S65KvTxK6IV8UnHq7idldveiXUqDP43Ya
+   iTOVQQGV/V5LSdeIyoOzE+sGp7FKMaHk8wfir279Kg5NXOTJSHgs4u/Rd
+   wREdwoPC7SnX7CGAhwJCQQki108OM8TArxYR9G8thDoSdhSz0PPZFR2/T
+   2nVMtkDLc+6mlTWH7XNHfaPSyYogMqiifaC+Fb6ovv+99cq42vKo7jEVV
+   JjspYxJndkmdvt7vtQYRSHzSWxDcog+S8TSQKLQ+owfINtKBEhydT5KB7
+   A==;
+X-IronPort-AV: E=Sophos;i="5.96,244,1665471600"; 
+   d="scan'208";a="128102732"
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+  by esa6.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 14 Dec 2022 05:55:08 -0700
+Received: from chn-vm-ex03.mchp-main.com (10.10.85.151) by
+ chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16; Wed, 14 Dec 2022 05:55:08 -0700
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (10.10.215.89) by
+ email.microchip.com (10.10.87.152) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16 via Frontend Transport; Wed, 14 Dec 2022 05:55:08 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Ex+EyqcNknGWcOewwPmNh8jWhrLzJ2KROuO+s5p7htfjQPYRHtibWG62PHfW+B8bX98GnZZJgDBm05+ncQhjV873hxmlhbRnm/wIwU7CPX8tPnr/AUk5ZjY+ERWls8BCf6lc2cW6nCQUPcB5x/bB4SrtdQkAQUyU5MQmeSEmYvc3KzDozgPewdm7d2VDh3vxaQwzfoGo2YjB3NBLMoowe5zIgm6XqxoHEJWkrNbBw23zy+m16zPelDUlqhOHYkNnB98CpDWlmCbVU5xTRniYtq5170SdtSSoTOE2vup/HKu5553yAxN188POF4kr8drvY7nbUjTV7GGK5D9Fnh8mew==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=M4450M7nvPRhLV/NCk1uT7OSwVw6dip3lxK1yCrrXiY=;
+ b=dkD9vjbt5PTHjEAFM0iJEMK2UqCnSOGn0DujmLAJq44kG20a9X2pQtZV6vPNS76lfCiThxDHrM1JKjB1MDYp4UVvy7wpSJt5ZfCyp61WgTSZYoA+VTVWZZX/7Tw/OP8TfJTQmsghqGiMq8u1KmXCXYHSKF4VWZTaSxvXDtTgsQsNf32ZpaCeaZkkPiHL8YAXGPqgyhyKAq52TpyqVSR0XgnBuEX2p331vPfd/NKY3gftypjyQ2XAdAjPjgifANw9atE8F/5IGkTH8OyGpDY5NPiclKndkFP9CxJH9fOJPHz9Dfy4S7cksxzIjgFxLOfCRM1bX43c01bqsCt5pkEJIQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=microchip.com; dmarc=pass action=none
+ header.from=microchip.com; dkim=pass header.d=microchip.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=microchiptechnology.onmicrosoft.com;
+ s=selector2-microchiptechnology-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=M4450M7nvPRhLV/NCk1uT7OSwVw6dip3lxK1yCrrXiY=;
+ b=dgmnRrNQbn0mKo7MW5ehTy4WArHgyVozRVWrLXU1ayaqR2llhdxEyL8qIEJtMzXfl4rS1vrAdPgaTkmTVBUGPgqUJrRBEsUL4iTdyTaqkt87e36NmKL2VyBUpK14BbRyl/W6AkluupvPS4eMA1qyW+4w44L71VaLcRCrTq/1ZRA=
+Received: from BL1PR11MB5384.namprd11.prod.outlook.com (2603:10b6:208:311::14)
+ by DM6PR11MB4625.namprd11.prod.outlook.com (2603:10b6:5:2a8::24) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5924.11; Wed, 14 Dec
+ 2022 12:55:06 +0000
+Received: from BL1PR11MB5384.namprd11.prod.outlook.com
+ ([fe80::775:3af1:d96f:ef6e]) by BL1PR11MB5384.namprd11.prod.outlook.com
+ ([fe80::775:3af1:d96f:ef6e%9]) with mapi id 15.20.5880.019; Wed, 14 Dec 2022
+ 12:55:06 +0000
+From:   <Eugen.Hristev@microchip.com>
+To:     <Claudiu.Beznea@microchip.com>, <Nicolas.Ferre@microchip.com>
+CC:     <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <jacopo@jmondi.org>, <hverkuil@xs4all.nl>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-media@vger.kernel.org>
+Subject: Re: [PATCH v10 3/5] ARM: dts: at91: sama7g5: add nodes for video
+ capture
+Thread-Topic: [PATCH v10 3/5] ARM: dts: at91: sama7g5: add nodes for video
+ capture
+Thread-Index: AQHYXtOFLMdFbrhp9U+PmUo7kDl4W65uuOMA
+Date:   Wed, 14 Dec 2022 12:55:06 +0000
+Message-ID: <323a98c7-85f1-a21c-d655-7b510481adc0@microchip.com>
+References: <20220503095127.48710-1-eugen.hristev@microchip.com>
+ <20220503095127.48710-4-eugen.hristev@microchip.com>
+In-Reply-To: <20220503095127.48710-4-eugen.hristev@microchip.com>
+Accept-Language: en-US, ro-RO
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=microchip.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: BL1PR11MB5384:EE_|DM6PR11MB4625:EE_
+x-ms-office365-filtering-correlation-id: a364b9d2-af30-4f6b-d4aa-08daddd26cdf
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: u7HGgr7G1dRq/61m6WlPPffLOUSOcCMdHTPvNJ/g6kumIb9xbP/63jelkr/pvNmjwPAl+nEJa3j7LcTjDcm2AwMO02iNBnwxV6PbpdH6KxZd+ErtHjvb591BugeXeiPZ1EHwYmMDPb8yxF6Z6iFdSs9jiTGUpXxZUqS5U2zUcsz75ymNLmQFmf13noOFFwoYGARZpjd9Mmln6vwpXK3LWiN14w+J4NnJpqfzzXOcM4VRyzVd//uPOPVOhE/sU+wdihZRIxyMCkZI17Q2ozzsw+F3B7DpLDorzvHP6hGMJSTvAFkzn7xQQPUfKGxTq5MTLZXoQqOeXBvl7Oy1d53WEs8GXC6L4C8cxQRxFbsNasQ4RQf4qzUROrSGY+SQ+Yvxlck8tw1Ma5iQHDIYEicvqyCACavu2tcMF9lxTgBWD5Ijd9vOR5lQfnltLP7zzLsgxepqcNGx/7osaYZFXwgRRiiglOAHbqt2o/cyT3SUfkm7uXcsLq4euO3PHFQGaqNBj9bwfGTdYRwtcA+TXp20fABUNLvxi6HYus5gSdNV4LFKqVVvxNqT3QwQVr1cwUuGSjQMSc/2kz9z5CQfXj2CjDx7dQdfzxtRmsYIoVf2Md6DiJwd6GbyGu+1N9GBcWrBFrOqyb2QZXkBR8xeKKoC5H//b3Aw8QYIgFVz0CHTwuS8/W93s9fmOjSY7PrgxI1W8mNrjJ1LDFInZsU0dAM3eiVieWYKS40kAM6SEx4IeJL8TXacHHEZdoYdhraBCU0QduyrqFM7+P1gIT85252ooA==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL1PR11MB5384.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(396003)(136003)(346002)(376002)(366004)(39860400002)(451199015)(54906003)(110136005)(6636002)(8936002)(2906002)(41300700001)(91956017)(4326008)(8676002)(76116006)(66946007)(66476007)(66556008)(64756008)(66446008)(5660300002)(2616005)(316002)(36756003)(83380400001)(38070700005)(31686004)(31696002)(86362001)(478600001)(186003)(6512007)(26005)(122000001)(38100700002)(6486002)(6506007)(53546011)(71200400001)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?bWRXMHhxZnpteVFZQnc4SGhtWmg5aXk1ekxzR0JSY2hRdkZhK0ZrS0lxd2xJ?=
+ =?utf-8?B?OUVHMmVERzUvbmxaeFNjU2t5dUhkY3QyQUhKTFFibGlYcUlHNHAyb0w4dWla?=
+ =?utf-8?B?dVRFNHgxVlNYZ3AzRncvL0JJaFhWMndwLzRSNDUzeTl2VE9idkVRZEhXbE1o?=
+ =?utf-8?B?ZmtlR3hJLzhUajNVcWtxNExzQXczV240djkzZXE5dm1BWDhEdW9QcklnakxN?=
+ =?utf-8?B?UDg0dC8yTkg3ai83djV0WXlBbWNIOFh1SmtMOGNybGlPYzVRSlZIMHNtaVYv?=
+ =?utf-8?B?TmdSYlpscEZtWCtYcnk4aWEvRDI0UFJFVTloRVlnejJSUy9UUVE3YTFldW1I?=
+ =?utf-8?B?RGRnUEtmWTd3ZDRQdXQwcjhBUlBBL2YvRnUrZWRXMnIybmRyTjFpSExRVVp1?=
+ =?utf-8?B?cjhzT3RZbG5vWVZZdGVCSmFWc3FIMFRjYTQva09kdWVqVkQxQlFCczhIR2Er?=
+ =?utf-8?B?UlV3STkwVzRGczNZeFdnR3ZNM1JieWdNUVRqdml5a2t5ck0wbnYxalpxbFRj?=
+ =?utf-8?B?TXVMcWRIYVlRbVJxR203VGJwR0U0TDlSS2NIa29QUGVkNE5uUDk3a1VHUTNq?=
+ =?utf-8?B?RDhuMlRGbDZselhMcXN0ZXQyQ0tDNklQQzFrcjN5SXhnVEhwanpTRTRhVU9s?=
+ =?utf-8?B?WEtseStLVE9IVGtnVmhlNTlnNUJ3NmJ4SWpsSUtYajBveGJuUFJwZmFtRkhJ?=
+ =?utf-8?B?S2dXVTJCMlVXM2NGaGgyMEpvK0ZuL2VKQ25rU2xibDkrRml1WmlDZlhlL1ND?=
+ =?utf-8?B?cXYvU2lnQ1dCQ2hVUDZQc0M1S3piK2ErQUhNcWVkWDdhWXdZQ2JXMFpoN0lU?=
+ =?utf-8?B?YlY0dzhzVm5CYWlJZTBJQUV5N21wNVJJVm5tTFBwUUJKOEFLNU5hRVZCMWFz?=
+ =?utf-8?B?N1ljVkFRMDVUSXRvTHNqWVpucWF0d29mOEJZZmlxdm9vWEhudlBkek94c213?=
+ =?utf-8?B?TW5VVTlkNzdWZEVaMTY4VTdBMTkvNVVkUSszQTVBQnY0V3V1eVcrY3V1SS9j?=
+ =?utf-8?B?c0xGNVA1K3NEeFhMYXQ1WWR0bnVhOUdQVlFvamtEQk95c0lJSnlJSFZCVmsy?=
+ =?utf-8?B?OWtaNk4vSithZjllSmpYREVtY1ZESUVDOWVwOGVqcjl1K0ovRXpsYjhQMEJr?=
+ =?utf-8?B?VWtzZWZMdGtveGlRdS9WOC9DQmpiODE5YzFsSTllYWpUMjlKQi9TVC9ENU51?=
+ =?utf-8?B?cS8vbG1uUTRZUmFGK0lhTHZlM3Zxa1l4emRFbFgyck9RVGcxMm5KWGVtaUlY?=
+ =?utf-8?B?MDJ2Q216WGlNQU9RaEFuRVJPZnZJN0JoTnpDRzRCNU1Da25mUnhTM2VpYk54?=
+ =?utf-8?B?M0VITkdxNVFXQ0xXUVlyS2pqWE1NU2Rkd1JCWU5OLzN4MGVaQXhYN0JiM3hU?=
+ =?utf-8?B?cFJWOU1HUTVDSUFwclpPbkVSbFUvWmVzdUZUMVVUazF6UEJleE85aDNIUEpG?=
+ =?utf-8?B?QWIzZXdMZmtYWFNWUkg3VkRzSVUzRUIrWW9XaXdsUFBQWENiaXFJdFBvT1lO?=
+ =?utf-8?B?aTdNeS9xV200SmxkYklXdnJRMUxiSHpZSVRpUTFwVUM0UkM5R290enNSMWp5?=
+ =?utf-8?B?V05SNnZhZW5iOUhLMjlyQlJtMFlkSmdiTnpLWVpia0RmYzJLMWlneHV6UDFH?=
+ =?utf-8?B?UVJrMElOZVJWK0RraThScmdtbkFUNWRaTnNmcXdMWlg4eFY3OXZGNXZYSGUw?=
+ =?utf-8?B?TEJkUG5aSWYwQTdrOUJQd3JrdGJwS09uUlBDN0VkSG9HWmdza3lYQnZTRlhS?=
+ =?utf-8?B?R25OVGVlL3hzYWQ0TUVPN0dHM2VObHdDS2xVN0Y2ZEdVUGVlSkliMW1UbE5V?=
+ =?utf-8?B?dmJQeVFRekRHMHV2Z29lWEhLZWsvbWZhZ0Rkem01R3VXcm9QcG5xSHQ0aUNt?=
+ =?utf-8?B?K3FQcHJad3FiK3FkaEU1YlRhVjR5SDhLT3Z4bXAzVlVxSnlrQnZJdUxlY0oz?=
+ =?utf-8?B?cUpSZml2bGFTWCsvSitOUGwrSnd5UHRvay9GcldYUC9BcTZqbS9tWm81OUs0?=
+ =?utf-8?B?V3paZkw4N2xOSW00KzBwNU43cStpS2g0SWVYRkJ6YTlabnJSY0l4Rjg4WHhE?=
+ =?utf-8?B?QkNYOUs4ZFVJM2JiMXVHeWgwL1lBYzhVMVJwOEhmaENDTHd6VEhGaTJOb3l2?=
+ =?utf-8?B?VDF5UE5BUnBWOTZkcUpQZ3BZRVRHdGZOUFFvWGFiZm5ZUWJ6UkRFRTVxcXpr?=
+ =?utf-8?B?YUE9PQ==?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <6241052F8307FA488DBD2E5ABD56E599@namprd11.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <Y5nFap/r4OgqgmeK@pendragon.ideasonboard.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BL1PR11MB5384.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a364b9d2-af30-4f6b-d4aa-08daddd26cdf
+X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Dec 2022 12:55:06.5260
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3f4057f3-b418-4d4e-ba84-d55b4e897d88
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 4K3q96qHiGL1JiagLbfcSz8NJyb/HumhIVnCuMArFG/SW5CVuPEBxSdGPmRVbKkdWserJ/R85NrFcdwPdU0jT0//W5bQoS5HTyOiWhentqI=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB4625
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Dec 14, 2022 at 02:45:31PM +0200, Laurent Pinchart wrote:
-> Hi Ricardo,
-> 
-> Thank you for the patch.
-> 
-> On Wed, Dec 14, 2022 at 12:23:41PM +0100, Ricardo Ribalda wrote:
-> > UVC_MAX_STATUS_SIZE is 16, simplify the code by inlining dev->status.
-> 
-> The reason why uvc_status is allocated dynamically is to ensure cache
-> line alignment, as the USB host controller may DMA to the buffer.
-
-See
-
-commit a31a4055473bf0a7b2b06cb2262347200d0711e1
-Author: Ming Lei <tom.leiming@gmail.com>
-Date:   Tue Sep 16 03:32:20 2008 -0300
-
-    V4L/DVB:usbvideo:don't use part of buffer for USB transfer #4
-
-    The status[] is part of  uvc_device structure. We can't make sure
-    the address of status is at a cache-line boundary in all archs,so
-    status[] might share a cache-line with some fields in uvc_structure.
-    This can lead to some cache coherence issues(http://lwn.net/Articles/2265/).
-    Use dynamically allocated buffer instead.
-
-    Signed-off-by: Ming Lei <tom.leiming@gmail.com>
-    Acked-by: Laurent Pinchart <laurent.pinchart@skynet.be>
-    Signed-off-by: Mauro Carvalho Chehab <mchehab@redhat.com>
-
-> > Now that we are at it, remove all the castings.
-> > 
-> > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> > ---
-> > To: Yunke Cao <yunkec@chromium.org>
-> > To: Sergey Senozhatsky <senozhatsky@chromium.org>
-> > To: Max Staudt <mstaudt@google.com>
-> > To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > To: Mauro Carvalho Chehab <mchehab@kernel.org>
-> > Cc: linux-media@vger.kernel.org
-> > Cc: linux-kernel@vger.kernel.org
-> > ---
-> >  drivers/media/usb/uvc/uvc_status.c | 69 ++++++++++++--------------------------
-> >  drivers/media/usb/uvc/uvcvideo.h   | 22 +++++++++++-
-> >  2 files changed, 42 insertions(+), 49 deletions(-)
-> > 
-> > diff --git a/drivers/media/usb/uvc/uvc_status.c b/drivers/media/usb/uvc/uvc_status.c
-> > index 7518ffce22ed..adf63e7616c9 100644
-> > --- a/drivers/media/usb/uvc/uvc_status.c
-> > +++ b/drivers/media/usb/uvc/uvc_status.c
-> > @@ -73,38 +73,24 @@ static void uvc_input_report_key(struct uvc_device *dev, unsigned int code,
-> >  /* --------------------------------------------------------------------------
-> >   * Status interrupt endpoint
-> >   */
-> > -struct uvc_streaming_status {
-> > -	u8	bStatusType;
-> > -	u8	bOriginator;
-> > -	u8	bEvent;
-> > -	u8	bValue[];
-> > -} __packed;
-> > -
-> > -struct uvc_control_status {
-> > -	u8	bStatusType;
-> > -	u8	bOriginator;
-> > -	u8	bEvent;
-> > -	u8	bSelector;
-> > -	u8	bAttribute;
-> > -	u8	bValue[];
-> > -} __packed;
-> > -
-> >  static void uvc_event_streaming(struct uvc_device *dev,
-> > -				struct uvc_streaming_status *status, int len)
-> > +				struct uvc_status *status, int len)
-> >  {
-> > -	if (len < 3) {
-> > +	if (len <= offsetof(struct uvc_status, bEvent)) {
-> >  		uvc_dbg(dev, STATUS,
-> >  			"Invalid streaming status event received\n");
-> >  		return;
-> >  	}
-> >  
-> >  	if (status->bEvent == 0) {
-> > -		if (len < 4)
-> > +		if (len <= offsetof(struct uvc_status, streaming))
-> >  			return;
-> > +
-> >  		uvc_dbg(dev, STATUS, "Button (intf %u) %s len %d\n",
-> >  			status->bOriginator,
-> > -			status->bValue[0] ? "pressed" : "released", len);
-> > -		uvc_input_report_key(dev, KEY_CAMERA, status->bValue[0]);
-> > +			status->streaming.button ? "pressed" : "released", len);
-> > +		uvc_input_report_key(dev, KEY_CAMERA,
-> > +				     status->streaming.button);
-> >  	} else {
-> >  		uvc_dbg(dev, STATUS, "Stream %u error event %02x len %d\n",
-> >  			status->bOriginator, status->bEvent, len);
-> > @@ -131,7 +117,7 @@ static struct uvc_control *uvc_event_entity_find_ctrl(struct uvc_entity *entity,
-> >  }
-> >  
-> >  static struct uvc_control *uvc_event_find_ctrl(struct uvc_device *dev,
-> > -					const struct uvc_control_status *status,
-> > +					const struct uvc_status *status,
-> >  					struct uvc_video_chain **chain)
-> >  {
-> >  	list_for_each_entry((*chain), &dev->chains, list) {
-> > @@ -143,7 +129,7 @@ static struct uvc_control *uvc_event_find_ctrl(struct uvc_device *dev,
-> >  				continue;
-> >  
-> >  			ctrl = uvc_event_entity_find_ctrl(entity,
-> > -							  status->bSelector);
-> > +						     status->control.bSelector);
-> >  			if (ctrl)
-> >  				return ctrl;
-> >  		}
-> > @@ -153,7 +139,7 @@ static struct uvc_control *uvc_event_find_ctrl(struct uvc_device *dev,
-> >  }
-> >  
-> >  static bool uvc_event_control(struct urb *urb,
-> > -			      const struct uvc_control_status *status, int len)
-> > +			      const struct uvc_status *status, int len)
-> >  {
-> >  	static const char *attrs[] = { "value", "info", "failure", "min", "max" };
-> >  	struct uvc_device *dev = urb->context;
-> > @@ -161,24 +147,24 @@ static bool uvc_event_control(struct urb *urb,
-> >  	struct uvc_control *ctrl;
-> >  
-> >  	if (len < 6 || status->bEvent != 0 ||
-> > -	    status->bAttribute >= ARRAY_SIZE(attrs)) {
-> > +	    status->control.bAttribute >= ARRAY_SIZE(attrs)) {
-> >  		uvc_dbg(dev, STATUS, "Invalid control status event received\n");
-> >  		return false;
-> >  	}
-> >  
-> >  	uvc_dbg(dev, STATUS, "Control %u/%u %s change len %d\n",
-> > -		status->bOriginator, status->bSelector,
-> > -		attrs[status->bAttribute], len);
-> > +		status->bOriginator, status->control.bSelector,
-> > +		attrs[status->control.bAttribute], len);
-> >  
-> >  	/* Find the control. */
-> >  	ctrl = uvc_event_find_ctrl(dev, status, &chain);
-> >  	if (!ctrl)
-> >  		return false;
-> >  
-> > -	switch (status->bAttribute) {
-> > +	switch (status->control.bAttribute) {
-> >  	case UVC_CTRL_VALUE_CHANGE:
-> >  		return uvc_ctrl_status_event_async(urb, chain, ctrl,
-> > -						   status->bValue);
-> > +						   status->control.bValue);
-> >  
-> >  	case UVC_CTRL_INFO_CHANGE:
-> >  	case UVC_CTRL_FAILURE_CHANGE:
-> > @@ -214,28 +200,22 @@ static void uvc_status_complete(struct urb *urb)
-> >  
-> >  	len = urb->actual_length;
-> >  	if (len > 0) {
-> > -		switch (dev->status[0] & 0x0f) {
-> > +		switch (dev->status.bStatusType & 0x0f) {
-> >  		case UVC_STATUS_TYPE_CONTROL: {
-> > -			struct uvc_control_status *status =
-> > -				(struct uvc_control_status *)dev->status;
-> > -
-> > -			if (uvc_event_control(urb, status, len))
-> > +			if (uvc_event_control(urb, &dev->status, len))
-> >  				/* The URB will be resubmitted in work context. */
-> >  				return;
-> >  			break;
-> >  		}
-> >  
-> >  		case UVC_STATUS_TYPE_STREAMING: {
-> > -			struct uvc_streaming_status *status =
-> > -				(struct uvc_streaming_status *)dev->status;
-> > -
-> > -			uvc_event_streaming(dev, status, len);
-> > +			uvc_event_streaming(dev, &dev->status, len);
-> >  			break;
-> >  		}
-> >  
-> >  		default:
-> >  			uvc_dbg(dev, STATUS, "Unknown status event type %u\n",
-> > -				dev->status[0]);
-> > +				dev->status.bStatusType);
-> >  			break;
-> >  		}
-> >  	}
-> > @@ -259,15 +239,9 @@ int uvc_status_init(struct uvc_device *dev)
-> >  
-> >  	uvc_input_init(dev);
-> >  
-> > -	dev->status = kzalloc(UVC_MAX_STATUS_SIZE, GFP_KERNEL);
-> > -	if (dev->status == NULL)
-> > -		return -ENOMEM;
-> > -
-> >  	dev->int_urb = usb_alloc_urb(0, GFP_KERNEL);
-> > -	if (dev->int_urb == NULL) {
-> > -		kfree(dev->status);
-> > +	if (!dev->int_urb)
-> >  		return -ENOMEM;
-> > -	}
-> >  
-> >  	pipe = usb_rcvintpipe(dev->udev, ep->desc.bEndpointAddress);
-> >  
-> > @@ -281,7 +255,7 @@ int uvc_status_init(struct uvc_device *dev)
-> >  		interval = fls(interval) - 1;
-> >  
-> >  	usb_fill_int_urb(dev->int_urb, dev->udev, pipe,
-> > -		dev->status, UVC_MAX_STATUS_SIZE, uvc_status_complete,
-> > +		&dev->status, sizeof(dev->status), uvc_status_complete,
-> >  		dev, interval);
-> >  
-> >  	return 0;
-> > @@ -296,7 +270,6 @@ void uvc_status_unregister(struct uvc_device *dev)
-> >  void uvc_status_cleanup(struct uvc_device *dev)
-> >  {
-> >  	usb_free_urb(dev->int_urb);
-> > -	kfree(dev->status);
-> >  }
-> >  
-> >  int uvc_status_start(struct uvc_device *dev, gfp_t flags)
-> > diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-> > index df93db259312..cdd2e328acc2 100644
-> > --- a/drivers/media/usb/uvc/uvcvideo.h
-> > +++ b/drivers/media/usb/uvc/uvcvideo.h
-> > @@ -527,6 +527,26 @@ struct uvc_device_info {
-> >  	const struct uvc_control_mapping **mappings;
-> >  };
-> >  
-> > +struct uvc_status_streaming {
-> > +	u8	button;
-> > +} __packed;
-> > +
-> > +struct uvc_status_control {
-> > +	u8	bSelector;
-> > +	u8	bAttribute;
-> > +	u8	bValue[11];
-> > +} __packed;
-> > +
-> > +struct uvc_status {
-> > +	u8	bStatusType;
-> > +	u8	bOriginator;
-> > +	u8	bEvent;
-> > +	union {
-> > +		struct uvc_status_control control;
-> > +		struct uvc_status_streaming streaming;
-> > +	};
-> > +} __packed;
-> > +
-> >  struct uvc_device {
-> >  	struct usb_device *udev;
-> >  	struct usb_interface *intf;
-> > @@ -559,7 +579,7 @@ struct uvc_device {
-> >  	/* Status Interrupt Endpoint */
-> >  	struct usb_host_endpoint *int_ep;
-> >  	struct urb *int_urb;
-> > -	u8 *status;
-> > +	struct uvc_status status;
-> >  	struct input_dev *input;
-> >  	char input_phys[64];
-> >  
-> > 
-> > ---
-> > base-commit: 0ec5a38bf8499f403f81cb81a0e3a60887d1993c
-> > change-id: 20221214-uvc-status-alloc-93becb783898
-
--- 
-Regards,
-
-Laurent Pinchart
+T24gNS8zLzIyIDEyOjUxLCBFdWdlbiBIcmlzdGV2IHdyb3RlOg0KPiBBZGQgbm9kZSBmb3IgdGhl
+IFhJU0MgKGVYdGVuZGVkIEltYWdlIFNlbnNvciBDb250cm9sbGVyKSBhbmQgQ1NJMkRDDQo+IChj
+c2kyIGRlbXV4IGNvbnRyb2xsZXIpLg0KPiBUaGVzZSBub2RlcyByZXByZXNlbnQgdGhlIHRvcCBs
+ZXZlbCBvZiB0aGUgdmlkZW8gY2FwdHVyZSBoYXJkd2FyZSBwaXBlbGluZQ0KPiBhbmQgYXJlIGRp
+cmVjdGx5IGNvbm5lY3RlZCBpbiBoYXJkd2FyZS4NCj4gDQo+IFNpZ25lZC1vZmYtYnk6IEV1Z2Vu
+IEhyaXN0ZXYgPGV1Z2VuLmhyaXN0ZXZAbWljcm9jaGlwLmNvbT4NCj4gLS0tDQo+IENoYW5nZXMg
+aW4gdjEwOg0KPiAtIG5vZGVzIGRpc2FibGVkIGJ5IGRlZmF1bHQNCj4gDQo+ICAgYXJjaC9hcm0v
+Ym9vdC9kdHMvc2FtYTdnNS5kdHNpIHwgNTEgKysrKysrKysrKysrKysrKysrKysrKysrKysrKysr
+KysrKw0KPiAgIDEgZmlsZSBjaGFuZ2VkLCA1MSBpbnNlcnRpb25zKCspDQo+IA0KPiBkaWZmIC0t
+Z2l0IGEvYXJjaC9hcm0vYm9vdC9kdHMvc2FtYTdnNS5kdHNpIGIvYXJjaC9hcm0vYm9vdC9kdHMv
+c2FtYTdnNS5kdHNpDQo+IGluZGV4IDRkZWNkM2E5MWE3Ni4uZmU5YzZkZjk4MTliIDEwMDY0NA0K
+PiAtLS0gYS9hcmNoL2FybS9ib290L2R0cy9zYW1hN2c1LmR0c2kNCj4gKysrIGIvYXJjaC9hcm0v
+Ym9vdC9kdHMvc2FtYTdnNS5kdHNpDQo+IEBAIC00NTQsNiArNDU0LDU3IEBAIHNkbW1jMjogbW1j
+QGUxMjBjMDAwIHsNCj4gICAJCQlzdGF0dXMgPSAiZGlzYWJsZWQiOw0KPiAgIAkJfTsNCj4gICAN
+Cj4gKwkJY3NpMmRjOiBjc2kyZGNAZTE0MDQwMDAgew0KPiArCQkJY29tcGF0aWJsZSA9ICJtaWNy
+b2NoaXAsc2FtYTdnNS1jc2kyZGMiOw0KPiArCQkJcmVnID0gPDB4ZTE0MDQwMDAgMHg1MDA+Ow0K
+PiArCQkJY2xvY2tzID0gPCZwbWMgUE1DX1RZUEVfUEVSSVBIRVJBTCAzND4sIDwmeGlzYz47DQo+
+ICsJCQljbG9jay1uYW1lcyA9ICJwY2xrIiwgInNjY2siOw0KPiArCQkJYXNzaWduZWQtY2xvY2tz
+ID0gPCZ4aXNjPjsNCj4gKwkJCWFzc2lnbmVkLWNsb2NrLXJhdGVzID0gPDI2NjAwMDAwMD47DQo+
+ICsJCQlzdGF0dXMgPSAiZGlzYWJsZWQiOw0KPiArDQo+ICsJCQlwb3J0cyB7DQo+ICsJCQkJI2Fk
+ZHJlc3MtY2VsbHMgPSA8MT47DQo+ICsJCQkJI3NpemUtY2VsbHMgPSA8MD47DQo+ICsJCQkJcG9y
+dEAwIHsNCj4gKwkJCQkJcmVnID0gPDA+Ow0KPiArCQkJCQljc2kyZGNfaW46IGVuZHBvaW50IHsN
+Cj4gKwkJCQkJfTsNCj4gKwkJCQl9Ow0KPiArDQo+ICsJCQkJcG9ydEAxIHsNCj4gKwkJCQkJcmVn
+ID0gPDE+Ow0KPiArCQkJCQljc2kyZGNfb3V0OiBlbmRwb2ludCB7DQo+ICsJCQkJCQlidXMtd2lk
+dGggPSA8MTQ+Ow0KPiArCQkJCQkJaHN5bmMtYWN0aXZlID0gPDE+Ow0KPiArCQkJCQkJdnN5bmMt
+YWN0aXZlID0gPDE+Ow0KPiArCQkJCQkJcmVtb3RlLWVuZHBvaW50ID0gPCZ4aXNjX2luPjsNCj4g
+KwkJCQkJfTsNCj4gKwkJCQl9Ow0KPiArCQkJfTsNCj4gKwkJfTsNCj4gKw0KPiArCQl4aXNjOiB4
+aXNjQGUxNDA4MDAwIHsNCj4gKwkJCWNvbXBhdGlibGUgPSAibWljcm9jaGlwLHNhbWE3ZzUtaXNj
+IjsNCj4gKwkJCXJlZyA9IDwweGUxNDA4MDAwIDB4MjAwMD47DQo+ICsJCQlpbnRlcnJ1cHRzID0g
+PEdJQ19TUEkgNTYgSVJRX1RZUEVfTEVWRUxfSElHSD47DQo+ICsJCQljbG9ja3MgPSA8JnBtYyBQ
+TUNfVFlQRV9QRVJJUEhFUkFMIDU2PjsNCj4gKwkJCWNsb2NrLW5hbWVzID0gImhjbG9jayI7DQo+
+ICsJCQkjY2xvY2stY2VsbHMgPSA8MD47DQo+ICsJCQljbG9jay1vdXRwdXQtbmFtZXMgPSAiaXNj
+LW1jayI7DQo+ICsJCQlzdGF0dXMgPSAiZGlzYWJsZWQiOw0KPiArDQo+ICsJCQlwb3J0IHsNCj4g
+KwkJCQl4aXNjX2luOiBlbmRwb2ludCB7DQo+ICsJCQkJCWJ1cy10eXBlID0gPDU+OyAvKiBQYXJh
+bGxlbCAqLw0KPiArCQkJCQlidXMtd2lkdGggPSA8MTQ+Ow0KPiArCQkJCQloc3luYy1hY3RpdmUg
+PSA8MT47DQo+ICsJCQkJCXZzeW5jLWFjdGl2ZSA9IDwxPjsNCj4gKwkJCQkJcmVtb3RlLWVuZHBv
+aW50ID0gPCZjc2kyZGNfb3V0PjsNCj4gKwkJCQl9Ow0KPiArCQkJfTsNCj4gKwkJfTsNCj4gKw0K
+PiAgIAkJcHdtOiBwd21AZTE2MDQwMDAgew0KPiAgIAkJCWNvbXBhdGlibGUgPSAibWljcm9jaGlw
+LHNhbWE3ZzUtcHdtIiwgImF0bWVsLHNhbWE1ZDItcHdtIjsNCj4gICAJCQlyZWcgPSA8MHhlMTYw
+NDAwMCAweDQwMDA+Ow0KDQpIZWxsbyBDbGF1ZGl1LCBOaWNvbGFzLA0KDQpUaGlzIHBhdGNoIGlz
+IHJlYWR5IHRvIGdvIG5vdyAsIGFzIHRoZSBtZWRpYSBjb250cm9sbGVyIHN1cHBvcnQgZm9yIFhJ
+U0MgDQpkcml2ZXIgaXMgaW4gdHJlZS4NCg0KTGV0IG1lIGtub3cgaWYgeW91IG5lZWQgdGhpcyB0
+byBiZSByZXNlbnQuDQoNClRoYW5rcywNCkV1Z2VuDQoNCg==
