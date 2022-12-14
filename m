@@ -2,128 +2,98 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C9E9064CFC1
-	for <lists+linux-media@lfdr.de>; Wed, 14 Dec 2022 19:54:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id ECA0B64D382
+	for <lists+linux-media@lfdr.de>; Thu, 15 Dec 2022 00:38:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239026AbiLNSyG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 14 Dec 2022 13:54:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59218 "EHLO
+        id S229484AbiLNXif (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 14 Dec 2022 18:38:35 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36854 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238978AbiLNSxr (ORCPT
+        with ESMTP id S229451AbiLNXie (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 14 Dec 2022 13:53:47 -0500
-Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com [IPv6:2a00:1450:4864:20::129])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C6862A941
-        for <linux-media@vger.kernel.org>; Wed, 14 Dec 2022 10:53:47 -0800 (PST)
-Received: by mail-lf1-x129.google.com with SMTP id c1so12008259lfi.7
-        for <linux-media@vger.kernel.org>; Wed, 14 Dec 2022 10:53:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:to:subject:message-id:date:from:reply-to
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=BRQm+z5zZvqAspvybGyHhPMRJtHnBkC47At9BzYrF4Y=;
-        b=VQicnXHkKxh9SbUWqMZ4WHxNSe8rxbf93HtaPFml1YvHxTelcP71rwWxNoKHV838xo
-         PBk7Ft/hTmXtZ+Yvgu7VNJYq4P1coeS/DO/OD3QDnpjQkAkilRTA4Wfie6H6LGBcpiKo
-         Q/VIqAzeCq3cgEuITU272Dg36hiEfSLXYVMtfvIabL/hJ7Li8TZ5nb0AdCqYhH3EdoFy
-         MT/jvv8w4UMaV+Lzk+oeMEdJso5j5mFLYxjUFo8gs7prFOK7Vf2WuAMsgxK7any75vIj
-         JRhWbZN4VLdh/1RlUyen81ARvdriTDOXTjRLRpYZc75WyF49uMfR2bZTJE1rBdYzRJAH
-         nhqw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:to:subject:message-id:date:from:reply-to
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=BRQm+z5zZvqAspvybGyHhPMRJtHnBkC47At9BzYrF4Y=;
-        b=IO3M3wckSqja9RwD4h4H6iV+uN3Z1fsW5H/kQDl9m9mh0wj9p2eevpRDFqRIB+RRXB
-         Anag4zIk7aOFcn6Pd60H6Yf9PkBYLDsCf/CjlZuyc6QSVSGpaNnM0jic8ztJn5zzfEmL
-         d8z3U7CkQ7b/UIDIwE7jfcUuGpz5g31SmZ4ibkn5WgrochKbzjBiN81ImGS9VHH+vaM9
-         QlVmIMLbooZQiZltj18vUPXGww0s4AJ80QN9ThPPURq8/A/ZW9ZoEYCM49kOe/uXA50w
-         7XEkQabrPzymeQ7LZNSBop/tHoT/b3lWjdmOcwmxa2St1xrZ5+HM1CQX6r0xZK2MFDtg
-         nSzg==
-X-Gm-Message-State: ANoB5pmHMdDtOT56hnL30nt3GXd3lFXcT/C/C+Iqr6HMs6wPYdN+gTgE
-        DOJPTwYPmIdAWd6jamWfGs8EjhblFWx5tk8dwy0=
-X-Google-Smtp-Source: AA0mqf75UsVbvEgx3jZinmJyAph63wQgbX7FPAevsygjL6jkSOIfIcxecVnEVAqKCVmWqFMPQEeb8XbVRCIxfn44zvw=
-X-Received: by 2002:ac2:41c6:0:b0:4b0:4b08:6873 with SMTP id
- d6-20020ac241c6000000b004b04b086873mr36091848lfi.329.1671044025470; Wed, 14
- Dec 2022 10:53:45 -0800 (PST)
+        Wed, 14 Dec 2022 18:38:34 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3405A31ECC;
+        Wed, 14 Dec 2022 15:38:32 -0800 (PST)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 582264D5;
+        Thu, 15 Dec 2022 00:38:29 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1671061109;
+        bh=FGvXeOKlDMtcdEXSasykJvxaikk7DjxWUQGtyiheXDc=;
+        h=From:To:Cc:Subject:Date:From;
+        b=bwn+vh0TiP8odDCkYWNVmy/jL13TuwGENSBuekw5EgyzzC3CxuC8+cDRDPnLu4SGU
+         0yPsqjMB60Xy5VWhpIYbMC8BEMAk1uwrZnc3thSveZKyQBbHVfpDWVgMu7a7QiWraz
+         kDDp6sWd9vu4+2Spypt13nTzKLP7sXx2BEHzDXYI=
+From:   Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+To:     linux-media@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Thomas Nizan <tnizan@witekio.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>, devicetree@vger.kernel.org
+Subject: [PATCH v3 00/12] media: i2c: max9286: Small new features
+Date:   Thu, 15 Dec 2022 01:38:13 +0200
+Message-Id: <20221214233825.13050-1-laurent.pinchart+renesas@ideasonboard.com>
+X-Mailer: git-send-email 2.37.4
 MIME-Version: 1.0
-Received: by 2002:a05:6022:411:b0:33:613c:e973 with HTTP; Wed, 14 Dec 2022
- 10:53:45 -0800 (PST)
-Reply-To: illuminatilord1945@gmail.com
-From:   Illuminati Invitation <musarabiuinusa123@gmail.com>
-Date:   Wed, 14 Dec 2022 19:53:45 +0100
-Message-ID: <CALQYZvDS++nn5GRHo1aQDHFVfhQPQ1dCOFnmmht2+t+KZr-pDA@mail.gmail.com>
-Subject: WILLKOMMEN BEI DER ILLUMINATI-GESELLSCHAFT
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: Yes, score=5.3 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,FREEMAIL_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,SUBJ_ALL_CAPS,UNDISC_FREEM
-        autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-        *      https://www.dnswl.org/, no trust
-        *      [2a00:1450:4864:20:0:0:0:129 listed in]
-        [list.dnswl.org]
-        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.5000]
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        *  0.2 FREEMAIL_ENVFROM_END_DIGIT Envelope-from freemail username ends
-        *       in digit
-        *      [musarabiuinusa123[at]gmail.com]
-        *  0.2 FREEMAIL_REPLYTO_END_DIGIT Reply-To freemail username ends in
-        *      digit
-        *      [illuminatilord1945[at]gmail.com]
-        *  0.5 SUBJ_ALL_CAPS Subject is all capitals
-        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-        *      provider
-        *      [musarabiuinusa123[at]gmail.com]
-        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-        *       valid
-        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
-        *      envelope-from domain
-        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-        *      author's domain
-        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-        *  2.7 UNDISC_FREEM Undisclosed recipients + freemail reply-to
-        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
-        *      different freemails
-X-Spam-Level: *****
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
---=20
-EINLADUNG ZUR GRO=C3=9FEN ILLUMINATI-GESELLSCHAFT
+Hello,
 
-GL=C3=9CCKWUNSCH AN SIE....
-Du wurdest unter den Menschen ausgew=C3=A4hlt, denen diesen November die
-M=C3=B6glichkeit gegeben wurde, reich und beliebt zu werden, indem du dich
-den Gro=C3=9Fen ILLUMINATI anschlie=C3=9Ft.
+This small patch series adds a few new features to the max9286 driver:
 
-Treten Sie uns noch heute bei und verwirklichen Sie Ihre Tr=C3=A4ume und
-leben Sie ein besseres Leben. Es ist wichtig zu wissen, dass Sie daf=C3=BCr
-bezahlt werden, Mitglied zu werden. Sie verdienen monatlich ein
-Mitgliedsgehalt. Es sind keine Menschenopfer erforderlich, nur Ihre
-Loyalit=C3=A4t und Ihr Engagement. Nutzen Sie diese "GOLDENEN
-GELEGENHEITEN". Die Organisation macht Sie reich und ber=C3=BChmt in der
-Welt ...
+- Support for per-port supplies (01/12 and 04/12)
+- Remote I2C bus speed selection (02/12 and 09/12)
+- GMSL bus width selection (03/12 and 10/12)
+- Manual framesync operation (05/12)
+- RAW12 support (06/12 and 07/12)
 
-F=C3=9CLLEN SIE BITTE DIE FOLGENDEN DETAILS AUS UND SENDEN SIE JETZT ZUR=C3=
-=9CCK.....
+The remaining patches are small cleanups. Please see individual patches
+for details.
 
-Ganze Namen:
-Land:
-Das Alter:
-Familienstand:
-Beruf:
-Monatliches Einkommen:
-Telefonnummer:
+Compared to v2, I've incorporated all review comments and rebased the
+series on top of the latest media tree (with a notable conflict due to
+the PoC GPIO support that has been merged in the mainline kernel). Most
+of v2 has received Reviewed-by tags, only a few patches are missing
+them, so I have good hopes to land this in v6.3.
 
-Bitte senden Sie diese Informationen jetzt an die ILLUMINATI-E-Mail unten.
+Laurent Pinchart (11):
+  dt-bindings: media: i2c: max9286: Add support for per-port supplies
+  dt-bindings: media: i2c: max9286: Add property to select I2C speed
+  dt-bindings: media: i2c: max9286: Add property to select bus width
+  media: i2c: max9286: Support manual framesync operation
+  media: i2c: max9286: Rename MAX9286_DATATYPE_RAW11 to RAW12
+  media: i2c: max9286: Support 12-bit raw bayer formats
+  media: i2c: max9286: Define macros for all bits of register 0x15
+  media: i2c: max9286: Configure remote I2C speed from device tree
+  media: i2c: max9286: Configure bus width from device tree
+  media: i2c: max9286: Select HS as data enable signal
+  media: i2c: max9286: Print power-up GMSL link configuration
 
-E-Mail: illuminatilord1945@gmail.com
+Thomas Nizan (1):
+  media: i2c: max9286: Add support for port regulators
+
+ .../bindings/media/i2c/maxim,max9286.yaml     |  51 +-
+ drivers/media/i2c/max9286.c                   | 465 +++++++++++++++---
+ 2 files changed, 430 insertions(+), 86 deletions(-)
+
+
+base-commit: 3178804c64ef7c8c87a53cd5bba0b2942dd64fec
+-- 
+Regards,
+
+Laurent Pinchart
+
