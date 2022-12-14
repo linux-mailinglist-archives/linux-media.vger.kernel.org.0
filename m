@@ -2,339 +2,155 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 20A0A64C719
-	for <lists+linux-media@lfdr.de>; Wed, 14 Dec 2022 11:31:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E8B6964C742
+	for <lists+linux-media@lfdr.de>; Wed, 14 Dec 2022 11:37:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237804AbiLNKa6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 14 Dec 2022 05:30:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47590 "EHLO
+        id S237643AbiLNKh3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 14 Dec 2022 05:37:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50708 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237658AbiLNKaz (ORCPT
+        with ESMTP id S229463AbiLNKh2 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 14 Dec 2022 05:30:55 -0500
+        Wed, 14 Dec 2022 05:37:28 -0500
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DDCC41D647;
-        Wed, 14 Dec 2022 02:30:53 -0800 (PST)
-Received: from [192.168.0.43] (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net [86.13.91.161])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2704B499;
-        Wed, 14 Dec 2022 11:30:52 +0100 (CET)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E3DD31EAE9;
+        Wed, 14 Dec 2022 02:37:27 -0800 (PST)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3969649C;
+        Wed, 14 Dec 2022 11:37:26 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1671013852;
-        bh=6Qf9+wHh/yzOoyIJxcUbs4V0sQR/1JTj2USQhvDKDAM=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=BdVQz+GPibAdhwCXPg7xUzGQMZQXr+A6hYkPGxVcEG3W40mkge7/xjOIx1N7xJMLF
-         U8XxmDrPoecgWsB/kaK+iLdj+ATxNhjBeORlrwFMvaaBCp0w/PHbVoqfQspM8Y2Mc2
-         J5Vi5o0HPqJQDPZrugA9bSo8SoGN4hnymLNUHKh8=
-Message-ID: <1777ed7b-b5a2-ef38-de71-e6d75353ff68@ideasonboard.com>
-Date:   Wed, 14 Dec 2022 10:30:49 +0000
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH 5/5] usb: uvc: use v4l2_fill_fmtdesc instead of open coded
- format name
-Content-Language: en-US
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Ricardo Ribalda <ribalda@chromium.org>
-Cc:     Michael Grzeschik <m.grzeschik@pengutronix.de>,
-        gregkh@linuxfoundation.org, mchehab@kernel.org,
+        s=mail; t=1671014246;
+        bh=gpZ8PSh2qbdy6b1RvdK4BKYFwUJsFMuYAD9CQjY1N7c=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=uy1s04SR7EPT1t0AYTwulyMePJG4TYdHe5ZqbZlKEnrVfBtTkzeO+3mvJi4zzogo/
+         dAo/PumUoxouMLjRoiyB2y8/89TTnPGRE1g8w//43Ocy2X6Lh8EsfKz5z/uq2BlIiA
+         UsR48DTfEejUZD9ZzT+VQhGn0+y6tP+RF/xVcosM=
+Date:   Wed, 14 Dec 2022 12:37:23 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Michael Grzeschik <m.grzeschik@pengutronix.de>
+Cc:     gregkh@linuxfoundation.org, mchehab@kernel.org,
         hverkuil-cisco@xs4all.nl, linux-usb@vger.kernel.org,
         linux-media@vger.kernel.org, kernel@pengutronix.de
+Subject: Re: [PATCH 3/5] usb: uvc: make uvc_format_desc table const
+Message-ID: <Y5mnYzBBQ6cuZN+V@pendragon.ideasonboard.com>
 References: <20221212194716.2995569-1-m.grzeschik@pengutronix.de>
- <20221212194716.2995569-6-m.grzeschik@pengutronix.de>
- <6286e69b-4882-c75a-d3bd-44c88f421bfc@ideasonboard.com>
- <CANiDSCvtULbNWY2AeZtHO2vP297uAZPAhFWvxuc0pXX89ArVxw@mail.gmail.com>
- <Y5mkrdkgPbrHpodX@pendragon.ideasonboard.com>
-From:   Dan Scally <dan.scally@ideasonboard.com>
-In-Reply-To: <Y5mkrdkgPbrHpodX@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+ <20221212194716.2995569-4-m.grzeschik@pengutronix.de>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20221212194716.2995569-4-m.grzeschik@pengutronix.de>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi all
+Hi Michael,
 
-On 14/12/2022 10:25, Laurent Pinchart wrote:
-> On Wed, Dec 14, 2022 at 11:20:20AM +0100, Ricardo Ribalda wrote:
->> On Wed, 14 Dec 2022 at 10:48, Dan Scally wrote:
->>> On 12/12/2022 19:47, Michael Grzeschik wrote:
->>>> Since we have the helper function v4l2_fill_fmtdesc, we can use this to
->>>> get the corresponding descriptive string for the pixelformat and set the
->>>> compressed flag. This patch is removing the redundant name field in
->>>> uvc_format_desc and makes use of v4l2_fill_fmtdesc instead.
->>>>
->>>> Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
->>>> ---
->>> The only thing that makes me wary about this one is that it will change
->>> the format names reported by the uvcvideo driver to userspace, since
->>> those returned by v4l2_fill_fmtdesc() are not the same as the ones being
->>> dropped from uvc_format_desc[]...are we sure that's not going to matter?
->> I would expect apps using the fourcc, not the string to select one
->> format or the other.
-> I also believe it shouldn't be an issue. The format description is
-> likely used only for the purpose of displaying it directly to the user,
-> if used at all (we shouldn't have a format description in the kernel API
-> in the first place, but that's another issue). It should thus be fine.
+Thank you for the patch.
 
+On Mon, Dec 12, 2022 at 08:47:14PM +0100, Michael Grzeschik wrote:
+> Since the uvc_fmts array can not be modified we declare it const and
+> change every user of the uvc_format_by_guid function aswell.
+> 
+> Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
 
-OK - sounds like we're confident then; worries calmed :)
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
->
->>>>    drivers/media/common/uvc.c             | 37 --------------------------
->>>>    drivers/media/usb/uvc/uvc_driver.c     |  8 +++++-
->>>>    drivers/usb/gadget/function/uvc_v4l2.c |  6 +----
->>>>    include/linux/usb/uvc.h                |  1 -
->>>>    4 files changed, 8 insertions(+), 44 deletions(-)
->>>>
->>>> diff --git a/drivers/media/common/uvc.c b/drivers/media/common/uvc.c
->>>> index a6787f1999becd..02de0dcad0f088 100644
->>>> --- a/drivers/media/common/uvc.c
->>>> +++ b/drivers/media/common/uvc.c
->>>> @@ -11,187 +11,150 @@
->>>>
->>>>    static const struct uvc_format_desc uvc_fmts[] = {
->>>>        {
->>>> -             .name           = "YUV 4:2:2 (YUYV)",
->>>>                .guid           = UVC_GUID_FORMAT_YUY2,
->>>>                .fcc            = V4L2_PIX_FMT_YUYV,
->>>>        },
->>>>        {
->>>> -             .name           = "YUV 4:2:2 (YUYV)",
->>>>                .guid           = UVC_GUID_FORMAT_YUY2_ISIGHT,
->>>>                .fcc            = V4L2_PIX_FMT_YUYV,
->>>>        },
->>>>        {
->>>> -             .name           = "YUV 4:2:0 (NV12)",
->>>>                .guid           = UVC_GUID_FORMAT_NV12,
->>>>                .fcc            = V4L2_PIX_FMT_NV12,
->>>>        },
->>>>        {
->>>> -             .name           = "MJPEG",
->>>>                .guid           = UVC_GUID_FORMAT_MJPEG,
->>>>                .fcc            = V4L2_PIX_FMT_MJPEG,
->>>>        },
->>>>        {
->>>> -             .name           = "YVU 4:2:0 (YV12)",
->>>>                .guid           = UVC_GUID_FORMAT_YV12,
->>>>                .fcc            = V4L2_PIX_FMT_YVU420,
->>>>        },
->>>>        {
->>>> -             .name           = "YUV 4:2:0 (I420)",
->>>>                .guid           = UVC_GUID_FORMAT_I420,
->>>>                .fcc            = V4L2_PIX_FMT_YUV420,
->>>>        },
->>>>        {
->>>> -             .name           = "YUV 4:2:0 (M420)",
->>>>                .guid           = UVC_GUID_FORMAT_M420,
->>>>                .fcc            = V4L2_PIX_FMT_M420,
->>>>        },
->>>>        {
->>>> -             .name           = "YUV 4:2:2 (UYVY)",
->>>>                .guid           = UVC_GUID_FORMAT_UYVY,
->>>>                .fcc            = V4L2_PIX_FMT_UYVY,
->>>>        },
->>>>        {
->>>> -             .name           = "Greyscale 8-bit (Y800)",
->>>>                .guid           = UVC_GUID_FORMAT_Y800,
->>>>                .fcc            = V4L2_PIX_FMT_GREY,
->>>>        },
->>>>        {
->>>> -             .name           = "Greyscale 8-bit (Y8  )",
->>>>                .guid           = UVC_GUID_FORMAT_Y8,
->>>>                .fcc            = V4L2_PIX_FMT_GREY,
->>>>        },
->>>>        {
->>>> -             .name           = "Greyscale 8-bit (D3DFMT_L8)",
->>>>                .guid           = UVC_GUID_FORMAT_D3DFMT_L8,
->>>>                .fcc            = V4L2_PIX_FMT_GREY,
->>>>        },
->>>>        {
->>>> -             .name           = "IR 8-bit (L8_IR)",
->>>>                .guid           = UVC_GUID_FORMAT_KSMEDIA_L8_IR,
->>>>                .fcc            = V4L2_PIX_FMT_GREY,
->>>>        },
->>>>        {
->>>> -             .name           = "Greyscale 10-bit (Y10 )",
->>>>                .guid           = UVC_GUID_FORMAT_Y10,
->>>>                .fcc            = V4L2_PIX_FMT_Y10,
->>>>        },
->>>>        {
->>>> -             .name           = "Greyscale 12-bit (Y12 )",
->>>>                .guid           = UVC_GUID_FORMAT_Y12,
->>>>                .fcc            = V4L2_PIX_FMT_Y12,
->>>>        },
->>>>        {
->>>> -             .name           = "Greyscale 16-bit (Y16 )",
->>>>                .guid           = UVC_GUID_FORMAT_Y16,
->>>>                .fcc            = V4L2_PIX_FMT_Y16,
->>>>        },
->>>>        {
->>>> -             .name           = "BGGR Bayer (BY8 )",
->>>>                .guid           = UVC_GUID_FORMAT_BY8,
->>>>                .fcc            = V4L2_PIX_FMT_SBGGR8,
->>>>        },
->>>>        {
->>>> -             .name           = "BGGR Bayer (BA81)",
->>>>                .guid           = UVC_GUID_FORMAT_BA81,
->>>>                .fcc            = V4L2_PIX_FMT_SBGGR8,
->>>>        },
->>>>        {
->>>> -             .name           = "GBRG Bayer (GBRG)",
->>>>                .guid           = UVC_GUID_FORMAT_GBRG,
->>>>                .fcc            = V4L2_PIX_FMT_SGBRG8,
->>>>        },
->>>>        {
->>>> -             .name           = "GRBG Bayer (GRBG)",
->>>>                .guid           = UVC_GUID_FORMAT_GRBG,
->>>>                .fcc            = V4L2_PIX_FMT_SGRBG8,
->>>>        },
->>>>        {
->>>> -             .name           = "RGGB Bayer (RGGB)",
->>>>                .guid           = UVC_GUID_FORMAT_RGGB,
->>>>                .fcc            = V4L2_PIX_FMT_SRGGB8,
->>>>        },
->>>>        {
->>>> -             .name           = "RGB565",
->>>>                .guid           = UVC_GUID_FORMAT_RGBP,
->>>>                .fcc            = V4L2_PIX_FMT_RGB565,
->>>>        },
->>>>        {
->>>> -             .name           = "BGR 8:8:8 (BGR3)",
->>>>                .guid           = UVC_GUID_FORMAT_BGR3,
->>>>                .fcc            = V4L2_PIX_FMT_BGR24,
->>>>        },
->>>>        {
->>>> -             .name           = "H.264",
->>>>                .guid           = UVC_GUID_FORMAT_H264,
->>>>                .fcc            = V4L2_PIX_FMT_H264,
->>>>        },
->>>>        {
->>>> -             .name           = "H.265",
->>>>                .guid           = UVC_GUID_FORMAT_H265,
->>>>                .fcc            = V4L2_PIX_FMT_HEVC,
->>>>        },
->>>>        {
->>>> -             .name           = "Greyscale 8 L/R (Y8I)",
->>>>                .guid           = UVC_GUID_FORMAT_Y8I,
->>>>                .fcc            = V4L2_PIX_FMT_Y8I,
->>>>        },
->>>>        {
->>>> -             .name           = "Greyscale 12 L/R (Y12I)",
->>>>                .guid           = UVC_GUID_FORMAT_Y12I,
->>>>                .fcc            = V4L2_PIX_FMT_Y12I,
->>>>        },
->>>>        {
->>>> -             .name           = "Depth data 16-bit (Z16)",
->>>>                .guid           = UVC_GUID_FORMAT_Z16,
->>>>                .fcc            = V4L2_PIX_FMT_Z16,
->>>>        },
->>>>        {
->>>> -             .name           = "Bayer 10-bit (SRGGB10P)",
->>>>                .guid           = UVC_GUID_FORMAT_RW10,
->>>>                .fcc            = V4L2_PIX_FMT_SRGGB10P,
->>>>        },
->>>>        {
->>>> -             .name           = "Bayer 16-bit (SBGGR16)",
->>>>                .guid           = UVC_GUID_FORMAT_BG16,
->>>>                .fcc            = V4L2_PIX_FMT_SBGGR16,
->>>>        },
->>>>        {
->>>> -             .name           = "Bayer 16-bit (SGBRG16)",
->>>>                .guid           = UVC_GUID_FORMAT_GB16,
->>>>                .fcc            = V4L2_PIX_FMT_SGBRG16,
->>>>        },
->>>>        {
->>>> -             .name           = "Bayer 16-bit (SRGGB16)",
->>>>                .guid           = UVC_GUID_FORMAT_RG16,
->>>>                .fcc            = V4L2_PIX_FMT_SRGGB16,
->>>>        },
->>>>        {
->>>> -             .name           = "Bayer 16-bit (SGRBG16)",
->>>>                .guid           = UVC_GUID_FORMAT_GR16,
->>>>                .fcc            = V4L2_PIX_FMT_SGRBG16,
->>>>        },
->>>>        {
->>>> -             .name           = "Depth data 16-bit (Z16)",
->>>>                .guid           = UVC_GUID_FORMAT_INVZ,
->>>>                .fcc            = V4L2_PIX_FMT_Z16,
->>>>        },
->>>>        {
->>>> -             .name           = "Greyscale 10-bit (Y10 )",
->>>>                .guid           = UVC_GUID_FORMAT_INVI,
->>>>                .fcc            = V4L2_PIX_FMT_Y10,
->>>>        },
->>>>        {
->>>> -             .name           = "IR:Depth 26-bit (INZI)",
->>>>                .guid           = UVC_GUID_FORMAT_INZI,
->>>>                .fcc            = V4L2_PIX_FMT_INZI,
->>>>        },
->>>>        {
->>>> -             .name           = "4-bit Depth Confidence (Packed)",
->>>>                .guid           = UVC_GUID_FORMAT_CNF4,
->>>>                .fcc            = V4L2_PIX_FMT_CNF4,
->>>>        },
->>>>        {
->>>> -             .name           = "HEVC",
->>>>                .guid           = UVC_GUID_FORMAT_HEVC,
->>>>                .fcc            = V4L2_PIX_FMT_HEVC,
->>>>        },
->>>> diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
->>>> index 12b6ad0966d94a..af92e730bde7c7 100644
->>>> --- a/drivers/media/usb/uvc/uvc_driver.c
->>>> +++ b/drivers/media/usb/uvc/uvc_driver.c
->>>> @@ -251,7 +251,13 @@ static int uvc_parse_format(struct uvc_device *dev,
->>>>                fmtdesc = uvc_format_by_guid(&buffer[5]);
->>>>
->>>>                if (fmtdesc != NULL) {
->>>> -                     strscpy(format->name, fmtdesc->name,
->>>> +                     struct v4l2_fmtdesc fmt;
->>>> +
->>>> +                     fmt.pixelformat = fmtdesc->fcc;
->>>> +
->>>> +                     v4l2_fill_fmtdesc(&fmt);
->>>> +
->>>> +                     strscpy(format->name, fmt.description,
->>>>                                sizeof(format->name));
->>>>                        format->fcc = fmtdesc->fcc;
->>>>                } else {
->>>> diff --git a/drivers/usb/gadget/function/uvc_v4l2.c b/drivers/usb/gadget/function/uvc_v4l2.c
->>>> index 21e573e628f4e7..6e46fa1695f212 100644
->>>> --- a/drivers/usb/gadget/function/uvc_v4l2.c
->>>> +++ b/drivers/usb/gadget/function/uvc_v4l2.c
->>>> @@ -374,14 +374,10 @@ uvc_v4l2_enum_format(struct file *file, void *fh, struct v4l2_fmtdesc *f)
->>>>        if (!uformat)
->>>>                return -EINVAL;
->>>>
->>>> -     if (uformat->type != UVCG_UNCOMPRESSED)
->>>> -             f->flags |= V4L2_FMT_FLAG_COMPRESSED;
->>>> -
->>>>        fmtdesc = to_uvc_format(uformat);
->>>>        f->pixelformat = fmtdesc->fcc;
->>>>
->>>> -     strscpy(f->description, fmtdesc->name, sizeof(f->description));
->>>> -     f->description[strlen(fmtdesc->name) - 1] = 0;
->>>> +     v4l2_fill_fmtdesc(f);
->>>>
->>>>        return 0;
->>>>    }
->>>> diff --git a/include/linux/usb/uvc.h b/include/linux/usb/uvc.h
->>>> index 227a03f252a5c0..e407a7b8a91c70 100644
->>>> --- a/include/linux/usb/uvc.h
->>>> +++ b/include/linux/usb/uvc.h
->>>> @@ -146,7 +146,6 @@
->>>>         0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
->>>>
->>>>    struct uvc_format_desc {
->>>> -     char *name;
->>>>        u8 guid[16];
->>>>        u32 fcc;
->>>>    };
->>
->>
->> -- 
->> Ricardo Ribalda
+> ---
+>  drivers/media/common/uvc.c             | 4 ++--
+>  drivers/media/usb/uvc/uvc_driver.c     | 2 +-
+>  drivers/usb/gadget/function/uvc_v4l2.c | 8 ++++----
+>  include/linux/usb/uvc.h                | 2 +-
+>  4 files changed, 8 insertions(+), 8 deletions(-)
+> 
+> diff --git a/drivers/media/common/uvc.c b/drivers/media/common/uvc.c
+> index a3cf40215a0754..a6787f1999becd 100644
+> --- a/drivers/media/common/uvc.c
+> +++ b/drivers/media/common/uvc.c
+> @@ -9,7 +9,7 @@
+>   * Video formats
+>   */
+>  
+> -static struct uvc_format_desc uvc_fmts[] = {
+> +static const struct uvc_format_desc uvc_fmts[] = {
+>  	{
+>  		.name		= "YUV 4:2:2 (YUYV)",
+>  		.guid		= UVC_GUID_FORMAT_YUY2,
+> @@ -197,7 +197,7 @@ static struct uvc_format_desc uvc_fmts[] = {
+>  	},
+>  };
+>  
+> -struct uvc_format_desc *uvc_format_by_guid(const u8 guid[16])
+> +const struct uvc_format_desc *uvc_format_by_guid(const u8 guid[16])
+>  {
+>  	unsigned int len = ARRAY_SIZE(uvc_fmts);
+>  	unsigned int i;
+> diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+> index 13023cdd37e50b..12b6ad0966d94a 100644
+> --- a/drivers/media/usb/uvc/uvc_driver.c
+> +++ b/drivers/media/usb/uvc/uvc_driver.c
+> @@ -224,7 +224,7 @@ static int uvc_parse_format(struct uvc_device *dev,
+>  {
+>  	struct usb_interface *intf = streaming->intf;
+>  	struct usb_host_interface *alts = intf->cur_altsetting;
+> -	struct uvc_format_desc *fmtdesc;
+> +	const struct uvc_format_desc *fmtdesc;
+>  	struct uvc_frame *frame;
+>  	const unsigned char *start = buffer;
+>  	unsigned int width_multiplier = 1;
+> diff --git a/drivers/usb/gadget/function/uvc_v4l2.c b/drivers/usb/gadget/function/uvc_v4l2.c
+> index 7435df0cf2a847..21e573e628f4e7 100644
+> --- a/drivers/usb/gadget/function/uvc_v4l2.c
+> +++ b/drivers/usb/gadget/function/uvc_v4l2.c
+> @@ -27,10 +27,10 @@
+>  #include "uvc_v4l2.h"
+>  #include "uvc_configfs.h"
+>  
+> -static struct uvc_format_desc *to_uvc_format(struct uvcg_format *uformat)
+> +static const struct uvc_format_desc *to_uvc_format(struct uvcg_format *uformat)
+>  {
+>  	char guid[16] = UVC_GUID_FORMAT_MJPEG;
+> -	struct uvc_format_desc *format;
+> +	const struct uvc_format_desc *format;
+>  	struct uvcg_uncompressed *unc;
+>  
+>  	if (uformat->type == UVCG_UNCOMPRESSED) {
+> @@ -119,7 +119,7 @@ static struct uvcg_format *find_format_by_pix(struct uvc_device *uvc,
+>  	struct uvcg_format *uformat = NULL;
+>  
+>  	list_for_each_entry(format, &uvc->header->formats, entry) {
+> -		struct uvc_format_desc *fmtdesc = to_uvc_format(format->fmt);
+> +		const struct uvc_format_desc *fmtdesc = to_uvc_format(format->fmt);
+>  
+>  		if (fmtdesc->fcc == pixelformat) {
+>  			uformat = format->fmt;
+> @@ -364,7 +364,7 @@ uvc_v4l2_enum_format(struct file *file, void *fh, struct v4l2_fmtdesc *f)
+>  {
+>  	struct video_device *vdev = video_devdata(file);
+>  	struct uvc_device *uvc = video_get_drvdata(vdev);
+> -	struct uvc_format_desc *fmtdesc;
+> +	const struct uvc_format_desc *fmtdesc;
+>  	struct uvcg_format *uformat;
+>  
+>  	if (f->index >= uvc->header->num_fmt)
+> diff --git a/include/linux/usb/uvc.h b/include/linux/usb/uvc.h
+> index a2dae2b40a2318..227a03f252a5c0 100644
+> --- a/include/linux/usb/uvc.h
+> +++ b/include/linux/usb/uvc.h
+> @@ -151,6 +151,6 @@ struct uvc_format_desc {
+>  	u32 fcc;
+>  };
+>  
+> -struct uvc_format_desc *uvc_format_by_guid(const u8 guid[16]);
+> +const struct uvc_format_desc *uvc_format_by_guid(const u8 guid[16]);
+>  
+>  #endif /* __LINUX_V4L2_UVC_H */
+
+-- 
+Regards,
+
+Laurent Pinchart
