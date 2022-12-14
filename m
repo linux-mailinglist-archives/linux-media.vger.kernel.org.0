@@ -2,146 +2,210 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9CEA764C7BE
-	for <lists+linux-media@lfdr.de>; Wed, 14 Dec 2022 12:09:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C8CA264C7CB
+	for <lists+linux-media@lfdr.de>; Wed, 14 Dec 2022 12:19:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238217AbiLNLJu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 14 Dec 2022 06:09:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37902 "EHLO
+        id S238219AbiLNLTh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 14 Dec 2022 06:19:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40832 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237778AbiLNLJs (ORCPT
+        with ESMTP id S237675AbiLNLTf (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 14 Dec 2022 06:09:48 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 231D724091
-        for <linux-media@vger.kernel.org>; Wed, 14 Dec 2022 03:09:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1671016141;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=mRg78ZkhOQVpDZ+QaAFV8935UrX4bn0uxcF9aGCrixQ=;
-        b=XWq7iqz5ruTwt1TZE233znnhPYjaLYIiKzeqdkPrr9qwSLXVeaYqqnWGZGxjvcOo0lklV/
-        d61XKkP1SwCs02DkyGoU2yJ+RIB59zy4+4Iw+EEjgmAdjxdUBblpm/SkgblDiO1yh91TWd
-        +cN+R/f3Od3TrvItLO4ctMI3Q/pUQfQ=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-612-A0kklTsTNTOMXHrK28f2MQ-1; Wed, 14 Dec 2022 06:08:40 -0500
-X-MC-Unique: A0kklTsTNTOMXHrK28f2MQ-1
-Received: by mail-wm1-f72.google.com with SMTP id t24-20020a1c7718000000b003d1fd0b866fso4037435wmi.3
-        for <linux-media@vger.kernel.org>; Wed, 14 Dec 2022 03:08:40 -0800 (PST)
+        Wed, 14 Dec 2022 06:19:35 -0500
+Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com [IPv6:2a00:1450:4864:20::52c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F6EDBF73
+        for <linux-media@vger.kernel.org>; Wed, 14 Dec 2022 03:19:34 -0800 (PST)
+Received: by mail-ed1-x52c.google.com with SMTP id i15so22030446edf.2
+        for <linux-media@vger.kernel.org>; Wed, 14 Dec 2022 03:19:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=lqYgjYCLtE2L72f2b146yyEU5fSX4l3ikwaqnULXRG0=;
+        b=f0EYB+ywMq2SM6zO7j7oZ3uOvWkhNO4jlumBwyFoHjwuVUSsiJiXoa2TpbC17+nkYK
+         uxzBotuSY+bHUWkswz6FAWFxsSXjyX8sh+taY7Uml8nFUQ55m9mDmgVVIYz1WMiIKxJL
+         jPbtAId/bcj7ajzqmOGP3vyenyn7bwLudb84A=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:organization:from:references
-         :cc:to:content-language:subject:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=mRg78ZkhOQVpDZ+QaAFV8935UrX4bn0uxcF9aGCrixQ=;
-        b=04SwT42RpEzOntWYW+iXEVKjxYr4AltmVkLdc+OO6Slp26ppp07IRb/MeA3COxg60W
-         X7Az/KERHFE9vu4IMD+rHT15LTzpMIc4soq51UuXSmQjsl51H9TrgVvVIuatlunM1cdJ
-         xpk/UH5BF2LeEkrAZJnRWDmPU82+gJNWA9f9hQ4OvamJ/w/TUUO/cVBhI5a3hWrnBKPc
-         jXHeNkzl0KL1DUuZLpV/sBLAy5lpZ8Z9yd4uSYmUxOdNpfBqveyjf9kUKDEe1kj+qvZD
-         jGyJvvIBJA5whoOSHPSyBB85hGg3NNZCAlr2+NzDZWife6vPmsdaRgnAj2D6iLf/SehX
-         UYew==
-X-Gm-Message-State: ANoB5plZeQpY34JFYUIO2KgLZfs7qi/Bib+BtVNoG4tG3KK/LuAfJ42I
-        RLcADhtrUlquwoRJXpooZgiO1zhwTDUdpcnA5uUDTVYoHBgE3jwvmv+h7JanJckKfXCst+UdQ69
-        CPBfHYclwgAY2XfzKCfor7v4=
-X-Received: by 2002:a5d:5c07:0:b0:242:3cb6:36b8 with SMTP id cc7-20020a5d5c07000000b002423cb636b8mr16926032wrb.44.1671016119849;
-        Wed, 14 Dec 2022 03:08:39 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf7YaluWfcNEp1VN5Y2E817u3e6PoWeueB6XHpyPeLl4uSHVpqKkrOM9cLd6B29BFrCorjwjTQ==
-X-Received: by 2002:a5d:5c07:0:b0:242:3cb6:36b8 with SMTP id cc7-20020a5d5c07000000b002423cb636b8mr16926016wrb.44.1671016119585;
-        Wed, 14 Dec 2022 03:08:39 -0800 (PST)
-Received: from ?IPV6:2003:cb:c703:7700:dd7c:92f8:481f:b96b? (p200300cbc7037700dd7c92f8481fb96b.dip0.t-ipconnect.de. [2003:cb:c703:7700:dd7c:92f8:481f:b96b])
-        by smtp.gmail.com with ESMTPSA id z13-20020a5d44cd000000b0023c8026841csm2586564wrr.23.2022.12.14.03.08.38
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 14 Dec 2022 03:08:39 -0800 (PST)
-Message-ID: <ccc02e28-638f-2429-42ec-94d48e3f6756@redhat.com>
-Date:   Wed, 14 Dec 2022 12:08:38 +0100
+        bh=lqYgjYCLtE2L72f2b146yyEU5fSX4l3ikwaqnULXRG0=;
+        b=tXsaH90UaH3ZUBXDwnjHSt+zRTGNAbm4yJMcIK0vPrwrAunaCm/mwLWMPcB6RoT59k
+         tylsEDJeYfoQlHbfRn07fOvaFWXDVTsL4gBXTW8zX0kEtGc4KTCpSX+N9X+lYHoX7WHa
+         8opmdhFvX+/zpJs+78YmMcjZJSH1pRccoQQxtpxRwwHIqQq47f9XEFkWKSHpgzOWDX/+
+         odAW+rqamo542c95/uHcYg6T70devmqjvmTbItCLmsEx4cMkfMl6fKRV1F7t/ZxszLPl
+         pjj34ZivCjrkgW3ASGdLerTvucFF2tGDlHrTCGu4z+uDmM6004lsGooHe1+RGV0/uHYD
+         Q1+Q==
+X-Gm-Message-State: ANoB5pnzGLKNcTXhk5aG13GoDFV9m8CZd6q2GbK6msBS12VqPoReynFy
+        5GnPQGMrbO2AGfAaJVsDxOBltjUHfSDonxegA38=
+X-Google-Smtp-Source: AA0mqf5ZsE4ye8IFy5V1nxAjAHZzcR5UfBV/Jg6PsG+u4ZnFKrdEodZe44omLfRObw6S9EdXIk/IlQ==
+X-Received: by 2002:a05:6402:294f:b0:46c:e226:7717 with SMTP id ed15-20020a056402294f00b0046ce2267717mr22592544edb.31.1671016772906;
+        Wed, 14 Dec 2022 03:19:32 -0800 (PST)
+Received: from alco.roam.corp.google.com ([100.104.168.209])
+        by smtp.gmail.com with ESMTPSA id s9-20020a508d09000000b00462e1d8e914sm6147842eds.68.2022.12.14.03.19.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 14 Dec 2022 03:19:32 -0800 (PST)
+From:   Ricardo Ribalda <ribalda@chromium.org>
+Date:   Wed, 14 Dec 2022 12:18:52 +0100
+Subject: [PATCH v3] media: uvcvideo: Fix race condition with usb_kill_urb
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.1
-Subject: Re: Dubious usage of VM_SHARED in atomisp_fops.c
-Content-Language: en-US
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     "linux-mm@kvack.org" <linux-mm@kvack.org>,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20221212-uvc-race-v3-0-954efc752c9a@chromium.org>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-References: <fbefc16e-84d3-8afc-8c8e-4229bded0c8a@redhat.com>
- <cbc45885-3224-6c61-7058-9b6e99029695@redhat.com>
-From:   David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-In-Reply-To: <cbc45885-3224-6c61-7058-9b6e99029695@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        Max Staudt <mstaudt@google.com>
+Cc:     Ricardo Ribalda <ribalda@chromium.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Yunke Cao <yunkec@chromium.org>, stable@vger.kernel.org
+X-Mailer: b4 0.11.0-dev-696ae
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4125; i=ribalda@chromium.org;
+ h=from:subject:message-id; bh=fAcZ3Rb/oLvmz2WVeJpX5Jp809XzJo8lwMwPsv9AhLw=;
+ b=owEBbQKS/ZANAwAKAdE30T7POsSIAcsmYgBjmbE38/EjSW7pYSQWBBTtxFS+gGqtW8i6Pd+83n94
+ 5dsMscmJAjMEAAEKAB0WIQREDzjr+/4oCDLSsx7RN9E+zzrEiAUCY5mxNwAKCRDRN9E+zzrEiBzgD/
+ 91H1p8xDaegLuUzI3YejSZMVxB9xUPubBopI2ndm40hTN4UF3Z6F5uHCW0BokHZO59L6TcM8yOzGP9
+ xnPSd6ufmc48vZ78quyJuyKsSwMHOKaALfD8N88pJ16zP+Tcy/AD8Vo82zUxsjGiDzL6aVbNflfhG0
+ uGRd9k3w9qizGwKIvwcCtk6DgoO1oygIJGsRs4Mfg6QxeJ65kfsCA9mgpSl+2+sr3wnuUL1QnPbrNn
+ BMSi81wxFc2sNoPX8xgbzpHbMR87R5/ydLqet+mFYEccvPIB67ubOHFrZPDnOUGngw4NCHKI+fVr9Y
+ MNSjDt3ZHtuiWo8JWpSrYj4uBz5j+Jf5ChjJGdietXSTjGgXmI1G5Pi82C3EM4Y1U0QafnNvQsKi+Z
+ L7iqDZmk2IfVwibvNEk7Lb8z8BDZoyiAzxBOaie1xpZ2+S3lUREoXL4DJMz+foGYrqk8R5H9rPOUZx
+ py0u/3SEJOYdfxj/+fK6rvQPqtOgJMiApiOPDtODmi39hpokdJJdoDrS+DYQdF1du7HEl6bpbddPOs
+ 981YY8r3d9TIxjqhs97sLeyt9xw3J9HmiufcFhP6AnWVeEy5c7NhAIP0eduO41p2EtP26fjKp2KxzY
+ QyzkJkEru0PaSHQAZ8/dYdp24ijeEyzngqVzyaewnzRjOymGgsi7Ru3JLDPA==
+X-Developer-Key: i=ribalda@chromium.org; a=openpgp;
+ fpr=9EC3BB66E2FC129A6F90B39556A0D81F9F782DA9
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE
-        autolearn=unavailable autolearn_force=no version=3.4.6
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 14.12.22 12:07, Hans de Goede wrote:
-> Hi David,
-> 
-> On 12/14/22 11:22, David Hildenbrand wrote:
->> Hi,
->>
->> going over all VM_SHARED and VM_MAYSHARE user in the kernel, I stumbled over the following dubious code in drivers/staging/media/atomisp/pci/atomisp_fops.c:
->>
->>
->> if (!(vma->vm_flags & (VM_WRITE | VM_READ)))
->>      return -EACCES;
->>
->> ...
->>
->> if (!(vma->vm_flags & VM_SHARED)) {
->>      /* Map private buffer.
->>       * Set VM_SHARED to the flags since we need
->>       * to map the buffer page by page.
->>       * Without VM_SHARED, remap_pfn_range() treats
->>       * this kind of mapping as invalid.
->>       */
->>      vma->vm_flags |= VM_SHARED;
->>      ret = hmm_mmap(vma, vma->vm_pgoff << PAGE_SHIFT);
->>      ...
->> }
->>
->>
->> We're converting a writable MAP_PRIVATE mapping ("COW mapping") into a writable MAP_SHARED mapping, to hack around the is_cow_mapping() check in remap_pfn_range_notrack().
->>
->> We're not even setting VM_MAYSHARE and turn the mapping silently into something with completely different semantics.
->>
->>
->> That code has to go.
->>
->>
->> One approach would be to reject such mappings (no idea if user space relies on private mappings), the other one would be to remove this driver. Judging that the driver already was marked broken in 2020 (ad85094b293e ("Revert "media: staging: atomisp: Remove driver"")), maybe it's time for the driver to go.
-> 
-> There is still quite a lot of hw out there (and being used
-> with Linux) which has camera sensors connected to the atomisp2.
-> 
-> Recently a community member finally managed to actually make
-> the driver work and I have been working on cleaning it up since.
-> 
-> For 6.2 I set of patches converting the driver to the videobuf2
-> framework will land and as part of that all the problematic code
-> you point to above has been removed.
-> 
-> If you grep for VM_SHARED under drivers/staging/media/atomisp
-> in linux-next you will find no hits :)
+usb_kill_urb warranties that all the handlers are finished when it
+returns, but does not protect against threads that might be handling
+asynchronously the urb.
 
-Hurray, thanks Hans :)
+For UVC, the function uvc_ctrl_status_event_async() takes care of
+control changes asynchronously.
 
+ If the code is executed in the following order:
+
+CPU 0					CPU 1
+===== 					=====
+uvc_status_complete()
+					uvc_status_stop()
+uvc_ctrl_status_event_work()
+					uvc_status_start() -> FAIL
+
+Then uvc_status_start will keep failing and this error will be shown:
+
+<4>[    5.540139] URB 0000000000000000 submitted while active
+drivers/usb/core/urb.c:378 usb_submit_urb+0x4c3/0x528
+
+Let's improve the current situation, by not re-submiting the urb if
+we are stopping the status event. Also process the queued work
+(if any) during stop.
+
+CPU 0					CPU 1
+===== 					=====
+uvc_status_complete()
+					uvc_status_stop()
+					uvc_status_start()
+uvc_ctrl_status_event_work() -> FAIL
+
+Hopefully, with the usb layer protection this should be enough to cover
+all the cases.
+
+Cc: stable@vger.kernel.org
+Fixes: e5225c820c05 ("media: uvcvideo: Send a control event when a Control Change interrupt arrives")
+Reviewed-by: Yunke Cao <yunkec@chromium.org>
+Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+---
+uvc: Fix race condition on uvc
+
+Make sure that all the async work is finished when we stop the status urb.
+
+To: Yunke Cao <yunkec@chromium.org>
+To: Sergey Senozhatsky <senozhatsky@chromium.org>
+To: Max Staudt <mstaudt@google.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+---
+Changes in v3:
+- Remove the patch for dev->status, makes more sense in another series, and makes
+  the zero day less nervous.
+- Update reviewed-by (thanks Yunke!).
+- Link to v2: https://lore.kernel.org/r/20221212-uvc-race-v2-0-54496cc3b8ab@chromium.org
+
+Changes in v2:
+- Add a patch for not kalloc dev->status
+- Redo the logic mechanism, so it also works with suspend (Thanks Yunke!)
+- Link to v1: https://lore.kernel.org/r/20221212-uvc-race-v1-0-c52e1783c31d@chromium.org
+---
+ drivers/media/usb/uvc/uvc_ctrl.c   | 3 +++
+ drivers/media/usb/uvc/uvc_status.c | 6 ++++++
+ drivers/media/usb/uvc/uvcvideo.h   | 1 +
+ 3 files changed, 10 insertions(+)
+
+diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
+index c95a2229f4fa..5160facc8e20 100644
+--- a/drivers/media/usb/uvc/uvc_ctrl.c
++++ b/drivers/media/usb/uvc/uvc_ctrl.c
+@@ -1442,6 +1442,9 @@ static void uvc_ctrl_status_event_work(struct work_struct *work)
+ 
+ 	uvc_ctrl_status_event(w->chain, w->ctrl, w->data);
+ 
++	if (dev->flush_status)
++		return;
++
+ 	/* Resubmit the URB. */
+ 	w->urb->interval = dev->int_ep->desc.bInterval;
+ 	ret = usb_submit_urb(w->urb, GFP_KERNEL);
+diff --git a/drivers/media/usb/uvc/uvc_status.c b/drivers/media/usb/uvc/uvc_status.c
+index 7518ffce22ed..09a5802dc974 100644
+--- a/drivers/media/usb/uvc/uvc_status.c
++++ b/drivers/media/usb/uvc/uvc_status.c
+@@ -304,10 +304,16 @@ int uvc_status_start(struct uvc_device *dev, gfp_t flags)
+ 	if (dev->int_urb == NULL)
+ 		return 0;
+ 
++	dev->flush_status = false;
+ 	return usb_submit_urb(dev->int_urb, flags);
+ }
+ 
+ void uvc_status_stop(struct uvc_device *dev)
+ {
++	struct uvc_ctrl_work *w = &dev->async_ctrl;
++
++	dev->flush_status = true;
+ 	usb_kill_urb(dev->int_urb);
++	if (cancel_work_sync(&w->work))
++		uvc_ctrl_status_event(w->chain, w->ctrl, w->data);
+ }
+diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
+index df93db259312..6a9b72d6789e 100644
+--- a/drivers/media/usb/uvc/uvcvideo.h
++++ b/drivers/media/usb/uvc/uvcvideo.h
+@@ -560,6 +560,7 @@ struct uvc_device {
+ 	struct usb_host_endpoint *int_ep;
+ 	struct urb *int_urb;
+ 	u8 *status;
++	bool flush_status;
+ 	struct input_dev *input;
+ 	char input_phys[64];
+ 
+
+---
+base-commit: 0ec5a38bf8499f403f81cb81a0e3a60887d1993c
+change-id: 20221212-uvc-race-09276ea68bf8
+
+Best regards,
 -- 
-Thanks,
-
-David / dhildenb
-
+Ricardo Ribalda <ribalda@chromium.org>
