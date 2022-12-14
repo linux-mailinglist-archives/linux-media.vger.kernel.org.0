@@ -2,575 +2,140 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0D52C64C789
-	for <lists+linux-media@lfdr.de>; Wed, 14 Dec 2022 11:59:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3395964C7BA
+	for <lists+linux-media@lfdr.de>; Wed, 14 Dec 2022 12:08:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237866AbiLNK73 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 14 Dec 2022 05:59:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59638 "EHLO
+        id S238201AbiLNLIY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 14 Dec 2022 06:08:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37312 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237426AbiLNK71 (ORCPT
+        with ESMTP id S237788AbiLNLIX (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 14 Dec 2022 05:59:27 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC27E1A826;
-        Wed, 14 Dec 2022 02:59:25 -0800 (PST)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 55C7949C;
-        Wed, 14 Dec 2022 11:59:24 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1671015564;
-        bh=5nVxi6cjw0nlDlf6oIIyBmDhM1wCybsMpaqMgHUZwbo=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=NxD/bLqA5PHT3RgxXq5OYkdZEIz6+3iIYAm5AxRHsAgCJYyLLjo4tzvnsMg2og2Ci
-         JfdsQ+yP6keZiZFwH/pV7HsLautjSm27blpQ5HR0jSbDD4WSuob9BUMji6Ti1bo+uG
-         iSQfn0OXlKy9wmPEQNqZ5cjhtahPb4il9uST9LF4=
-Date:   Wed, 14 Dec 2022 12:59:21 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Michael Grzeschik <m.grzeschik@pengutronix.de>
-Cc:     gregkh@linuxfoundation.org, mchehab@kernel.org,
-        hverkuil-cisco@xs4all.nl, linux-usb@vger.kernel.org,
-        linux-media@vger.kernel.org, kernel@pengutronix.de
-Subject: Re: [PATCH 2/5] usb: uvc: move uvc_fmts and uvc_format_by_guid to
- own compile unit
-Message-ID: <Y5msifc+ckO7PfwH@pendragon.ideasonboard.com>
-References: <20221212194716.2995569-1-m.grzeschik@pengutronix.de>
- <20221212194716.2995569-3-m.grzeschik@pengutronix.de>
+        Wed, 14 Dec 2022 06:08:23 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0AE50C08
+        for <linux-media@vger.kernel.org>; Wed, 14 Dec 2022 03:07:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1671016058;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=2NMzT5WxxanwVRj3ltZhzzgNHC+/kTxBdOPUCNNU8Ak=;
+        b=TwKaFh7RCX8AcHA9aFQ8uk6/2ZQfOMJGUMbIIsVscOdCs1jV66mR7XHLSFgRzq4TXVcY3N
+        WM9jtk99FyF5xk/2A9ixHX8nSfo62vyot8fg24AGaYJcl7+GN/oEjgpsWPTkoYHiMZRXGv
+        Yng4B8DEkZvjU1i9sSOU1RfMa1sjCPk=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-610-gCn_4UM8OB6xF2grKxlSZQ-1; Wed, 14 Dec 2022 06:07:37 -0500
+X-MC-Unique: gCn_4UM8OB6xF2grKxlSZQ-1
+Received: by mail-ej1-f71.google.com with SMTP id gn28-20020a1709070d1c00b007c177fee5faso5344293ejc.23
+        for <linux-media@vger.kernel.org>; Wed, 14 Dec 2022 03:07:36 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=2NMzT5WxxanwVRj3ltZhzzgNHC+/kTxBdOPUCNNU8Ak=;
+        b=Y64ShTpiGZupbilGjLR0fa8Okn0KOPPDZ1pJiAbIBx63l2ep4+i79CuwWZJnhKr9ek
+         O+oEBzNIE8qikKh6Z+GXqYxmfXI1dqklLTqLhvhD97b4PtGjm48JVCWC1GhRjBAIy44C
+         0u/azkS+9iOmDHgdaDtWXeUcGoTefVF4lAHJebGnVTBIeIvkUaf73mjR4r8yxYbDeBEi
+         1Q6G/nXKHrRgxp/6r9NLwIS/J/q5F22Q895oJw/IYhCzEEgj7HN4ZY6nxXmokLaVpBrK
+         4yLGXbdfO91M0afI7CABjHpuYuLU3RuvjXXxG0WyEavnfTcGGasMQZW7hzr+5HcLSjJs
+         xGNw==
+X-Gm-Message-State: ANoB5pnpJIo/HbYLtaE3T8i1lh6Kpe5e1N9bk47TkuXMXVCzq+aCMVGk
+        8wm/3eOpHQjbIDAvjX+jPlbX1O/WeZydembHqGAsTV+SlKZjqbN0r0Uus+WplYy1COMePHTiz+C
+        Dc2f/TW38fSSZGINsm6cike0=
+X-Received: by 2002:a05:6402:2408:b0:461:f0a7:156 with SMTP id t8-20020a056402240800b00461f0a70156mr21772631eda.36.1671016055975;
+        Wed, 14 Dec 2022 03:07:35 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf5Bzrmu8+Hyf8yFzKSh6TtL86SENQgPWgmQXPgzi7Krk9g7uVytmQSovpkSDJk4Qms/oW9dQQ==
+X-Received: by 2002:a05:6402:2408:b0:461:f0a7:156 with SMTP id t8-20020a056402240800b00461f0a70156mr21772623eda.36.1671016055802;
+        Wed, 14 Dec 2022 03:07:35 -0800 (PST)
+Received: from ?IPV6:2001:1c00:c1e:bf00:d69d:5353:dba5:ee81? (2001-1c00-0c1e-bf00-d69d-5353-dba5-ee81.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:d69d:5353:dba5:ee81])
+        by smtp.gmail.com with ESMTPSA id w14-20020a056402070e00b00463a83ce063sm5991090edx.96.2022.12.14.03.07.34
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 14 Dec 2022 03:07:35 -0800 (PST)
+Message-ID: <cbc45885-3224-6c61-7058-9b6e99029695@redhat.com>
+Date:   Wed, 14 Dec 2022 12:07:34 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20221212194716.2995569-3-m.grzeschik@pengutronix.de>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.1
+Subject: Re: Dubious usage of VM_SHARED in atomisp_fops.c
+Content-Language: en-US, nl
+To:     David Hildenbrand <david@redhat.com>
+Cc:     "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+References: <fbefc16e-84d3-8afc-8c8e-4229bded0c8a@redhat.com>
+From:   Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <fbefc16e-84d3-8afc-8c8e-4229bded0c8a@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Michael,
+Hi David,
 
-Thank you for the patch.
-
-On Mon, Dec 12, 2022 at 08:47:13PM +0100, Michael Grzeschik wrote:
-> The media driver USB_VIDEO_CLASS and USB_F_UVC are using the same
-> function uvc_format_by_guid. Since the function is inline, every user
-> will get a copy of the used uvc_fmts array and the function. This patch
-> moves the code to an own compile unit and add this dependency as
-> UVC_COMMON to both users.
+On 12/14/22 11:22, David Hildenbrand wrote:
+> Hi,
 > 
-> Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
-> ---
->  drivers/media/common/Kconfig  |   3 +
->  drivers/media/common/Makefile |   1 +
->  drivers/media/common/uvc.c    | 214 ++++++++++++++++++++++++++++++++++
->  drivers/media/usb/uvc/Kconfig |   1 +
->  drivers/usb/gadget/Kconfig    |   1 +
->  include/linux/usb/uvc.h       | 205 +-------------------------------
->  6 files changed, 221 insertions(+), 204 deletions(-)
->  create mode 100644 drivers/media/common/uvc.c
+> going over all VM_SHARED and VM_MAYSHARE user in the kernel, I stumbled over the following dubious code in drivers/staging/media/atomisp/pci/atomisp_fops.c:
 > 
-> diff --git a/drivers/media/common/Kconfig b/drivers/media/common/Kconfig
-> index 852b7d92fbdd93..b1bc58da27fcdd 100644
-> --- a/drivers/media/common/Kconfig
-> +++ b/drivers/media/common/Kconfig
-> @@ -14,6 +14,9 @@ config TTPCI_EEPROM
->          tristate
->          depends on I2C
->  
-> +config UVC_COMMON
-> +	tristate
-> +
->  config VIDEO_CX2341X
->  	tristate
->  
-> diff --git a/drivers/media/common/Makefile b/drivers/media/common/Makefile
-> index d78a0df154783a..3f17d696feb24c 100644
-> --- a/drivers/media/common/Makefile
-> +++ b/drivers/media/common/Makefile
-> @@ -5,5 +5,6 @@ obj-y += b2c2/ siano/ v4l2-tpg/ videobuf2/
->  # (e. g. LC_ALL=C sort Makefile)
->  obj-$(CONFIG_CYPRESS_FIRMWARE) += cypress_firmware.o
->  obj-$(CONFIG_TTPCI_EEPROM) += ttpci-eeprom.o
-> +obj-$(CONFIG_UVC_COMMON) += uvc.o
->  obj-$(CONFIG_VIDEO_CX2341X) += cx2341x.o
->  obj-$(CONFIG_VIDEO_TVEEPROM) += tveeprom.o
-> diff --git a/drivers/media/common/uvc.c b/drivers/media/common/uvc.c
-> new file mode 100644
-> index 00000000000000..a3cf40215a0754
-> --- /dev/null
-> +++ b/drivers/media/common/uvc.c
-> @@ -0,0 +1,214 @@
-> +// SPDX-License-Identifier: GPL-2.0-or-later
-> +
-> +#include <linux/module.h>
+> 
+> if (!(vma->vm_flags & (VM_WRITE | VM_READ)))
+>     return -EACCES;
+> 
+> ...
+> 
+> if (!(vma->vm_flags & VM_SHARED)) {
+>     /* Map private buffer.
+>      * Set VM_SHARED to the flags since we need
+>      * to map the buffer page by page.
+>      * Without VM_SHARED, remap_pfn_range() treats
+>      * this kind of mapping as invalid.
+>      */
+>     vma->vm_flags |= VM_SHARED;
+>     ret = hmm_mmap(vma, vma->vm_pgoff << PAGE_SHIFT);
+>     ...
+> }
+> 
+> 
+> We're converting a writable MAP_PRIVATE mapping ("COW mapping") into a writable MAP_SHARED mapping, to hack around the is_cow_mapping() check in remap_pfn_range_notrack().
+> 
+> We're not even setting VM_MAYSHARE and turn the mapping silently into something with completely different semantics.
+> 
+> 
+> That code has to go.
+> 
+> 
+> One approach would be to reject such mappings (no idea if user space relies on private mappings), the other one would be to remove this driver. Judging that the driver already was marked broken in 2020 (ad85094b293e ("Revert "media: staging: atomisp: Remove driver"")), maybe it's time for the driver to go.
 
-You should also include string.h for memcmp(), and kernel.h for
-ARRAY_SIZE().
+There is still quite a lot of hw out there (and being used
+with Linux) which has camera sensors connected to the atomisp2.
 
-Conditionally-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Recently a community member finally managed to actually make
+the driver work and I have been working on cleaning it up since.
 
-(which means you can add my Rb tag in the next version with this fixed)
+For 6.2 I set of patches converting the driver to the videobuf2
+framework will land and as part of that all the problematic code
+you point to above has been removed.
 
-> +#include <linux/types.h>
-> +#include <linux/usb/uvc.h>
-> +#include <linux/videodev2.h>
-> +
-> +/* ------------------------------------------------------------------------
-> + * Video formats
-> + */
-> +
-> +static struct uvc_format_desc uvc_fmts[] = {
-> +	{
-> +		.name		= "YUV 4:2:2 (YUYV)",
-> +		.guid		= UVC_GUID_FORMAT_YUY2,
-> +		.fcc		= V4L2_PIX_FMT_YUYV,
-> +	},
-> +	{
-> +		.name		= "YUV 4:2:2 (YUYV)",
-> +		.guid		= UVC_GUID_FORMAT_YUY2_ISIGHT,
-> +		.fcc		= V4L2_PIX_FMT_YUYV,
-> +	},
-> +	{
-> +		.name		= "YUV 4:2:0 (NV12)",
-> +		.guid		= UVC_GUID_FORMAT_NV12,
-> +		.fcc		= V4L2_PIX_FMT_NV12,
-> +	},
-> +	{
-> +		.name		= "MJPEG",
-> +		.guid		= UVC_GUID_FORMAT_MJPEG,
-> +		.fcc		= V4L2_PIX_FMT_MJPEG,
-> +	},
-> +	{
-> +		.name		= "YVU 4:2:0 (YV12)",
-> +		.guid		= UVC_GUID_FORMAT_YV12,
-> +		.fcc		= V4L2_PIX_FMT_YVU420,
-> +	},
-> +	{
-> +		.name		= "YUV 4:2:0 (I420)",
-> +		.guid		= UVC_GUID_FORMAT_I420,
-> +		.fcc		= V4L2_PIX_FMT_YUV420,
-> +	},
-> +	{
-> +		.name		= "YUV 4:2:0 (M420)",
-> +		.guid		= UVC_GUID_FORMAT_M420,
-> +		.fcc		= V4L2_PIX_FMT_M420,
-> +	},
-> +	{
-> +		.name		= "YUV 4:2:2 (UYVY)",
-> +		.guid		= UVC_GUID_FORMAT_UYVY,
-> +		.fcc		= V4L2_PIX_FMT_UYVY,
-> +	},
-> +	{
-> +		.name		= "Greyscale 8-bit (Y800)",
-> +		.guid		= UVC_GUID_FORMAT_Y800,
-> +		.fcc		= V4L2_PIX_FMT_GREY,
-> +	},
-> +	{
-> +		.name		= "Greyscale 8-bit (Y8  )",
-> +		.guid		= UVC_GUID_FORMAT_Y8,
-> +		.fcc		= V4L2_PIX_FMT_GREY,
-> +	},
-> +	{
-> +		.name		= "Greyscale 8-bit (D3DFMT_L8)",
-> +		.guid		= UVC_GUID_FORMAT_D3DFMT_L8,
-> +		.fcc		= V4L2_PIX_FMT_GREY,
-> +	},
-> +	{
-> +		.name		= "IR 8-bit (L8_IR)",
-> +		.guid		= UVC_GUID_FORMAT_KSMEDIA_L8_IR,
-> +		.fcc		= V4L2_PIX_FMT_GREY,
-> +	},
-> +	{
-> +		.name		= "Greyscale 10-bit (Y10 )",
-> +		.guid		= UVC_GUID_FORMAT_Y10,
-> +		.fcc		= V4L2_PIX_FMT_Y10,
-> +	},
-> +	{
-> +		.name		= "Greyscale 12-bit (Y12 )",
-> +		.guid		= UVC_GUID_FORMAT_Y12,
-> +		.fcc		= V4L2_PIX_FMT_Y12,
-> +	},
-> +	{
-> +		.name		= "Greyscale 16-bit (Y16 )",
-> +		.guid		= UVC_GUID_FORMAT_Y16,
-> +		.fcc		= V4L2_PIX_FMT_Y16,
-> +	},
-> +	{
-> +		.name		= "BGGR Bayer (BY8 )",
-> +		.guid		= UVC_GUID_FORMAT_BY8,
-> +		.fcc		= V4L2_PIX_FMT_SBGGR8,
-> +	},
-> +	{
-> +		.name		= "BGGR Bayer (BA81)",
-> +		.guid		= UVC_GUID_FORMAT_BA81,
-> +		.fcc		= V4L2_PIX_FMT_SBGGR8,
-> +	},
-> +	{
-> +		.name		= "GBRG Bayer (GBRG)",
-> +		.guid		= UVC_GUID_FORMAT_GBRG,
-> +		.fcc		= V4L2_PIX_FMT_SGBRG8,
-> +	},
-> +	{
-> +		.name		= "GRBG Bayer (GRBG)",
-> +		.guid		= UVC_GUID_FORMAT_GRBG,
-> +		.fcc		= V4L2_PIX_FMT_SGRBG8,
-> +	},
-> +	{
-> +		.name		= "RGGB Bayer (RGGB)",
-> +		.guid		= UVC_GUID_FORMAT_RGGB,
-> +		.fcc		= V4L2_PIX_FMT_SRGGB8,
-> +	},
-> +	{
-> +		.name		= "RGB565",
-> +		.guid		= UVC_GUID_FORMAT_RGBP,
-> +		.fcc		= V4L2_PIX_FMT_RGB565,
-> +	},
-> +	{
-> +		.name		= "BGR 8:8:8 (BGR3)",
-> +		.guid		= UVC_GUID_FORMAT_BGR3,
-> +		.fcc		= V4L2_PIX_FMT_BGR24,
-> +	},
-> +	{
-> +		.name		= "H.264",
-> +		.guid		= UVC_GUID_FORMAT_H264,
-> +		.fcc		= V4L2_PIX_FMT_H264,
-> +	},
-> +	{
-> +		.name		= "H.265",
-> +		.guid		= UVC_GUID_FORMAT_H265,
-> +		.fcc		= V4L2_PIX_FMT_HEVC,
-> +	},
-> +	{
-> +		.name		= "Greyscale 8 L/R (Y8I)",
-> +		.guid		= UVC_GUID_FORMAT_Y8I,
-> +		.fcc		= V4L2_PIX_FMT_Y8I,
-> +	},
-> +	{
-> +		.name		= "Greyscale 12 L/R (Y12I)",
-> +		.guid		= UVC_GUID_FORMAT_Y12I,
-> +		.fcc		= V4L2_PIX_FMT_Y12I,
-> +	},
-> +	{
-> +		.name		= "Depth data 16-bit (Z16)",
-> +		.guid		= UVC_GUID_FORMAT_Z16,
-> +		.fcc		= V4L2_PIX_FMT_Z16,
-> +	},
-> +	{
-> +		.name		= "Bayer 10-bit (SRGGB10P)",
-> +		.guid		= UVC_GUID_FORMAT_RW10,
-> +		.fcc		= V4L2_PIX_FMT_SRGGB10P,
-> +	},
-> +	{
-> +		.name		= "Bayer 16-bit (SBGGR16)",
-> +		.guid		= UVC_GUID_FORMAT_BG16,
-> +		.fcc		= V4L2_PIX_FMT_SBGGR16,
-> +	},
-> +	{
-> +		.name		= "Bayer 16-bit (SGBRG16)",
-> +		.guid		= UVC_GUID_FORMAT_GB16,
-> +		.fcc		= V4L2_PIX_FMT_SGBRG16,
-> +	},
-> +	{
-> +		.name		= "Bayer 16-bit (SRGGB16)",
-> +		.guid		= UVC_GUID_FORMAT_RG16,
-> +		.fcc		= V4L2_PIX_FMT_SRGGB16,
-> +	},
-> +	{
-> +		.name		= "Bayer 16-bit (SGRBG16)",
-> +		.guid		= UVC_GUID_FORMAT_GR16,
-> +		.fcc		= V4L2_PIX_FMT_SGRBG16,
-> +	},
-> +	{
-> +		.name		= "Depth data 16-bit (Z16)",
-> +		.guid		= UVC_GUID_FORMAT_INVZ,
-> +		.fcc		= V4L2_PIX_FMT_Z16,
-> +	},
-> +	{
-> +		.name		= "Greyscale 10-bit (Y10 )",
-> +		.guid		= UVC_GUID_FORMAT_INVI,
-> +		.fcc		= V4L2_PIX_FMT_Y10,
-> +	},
-> +	{
-> +		.name		= "IR:Depth 26-bit (INZI)",
-> +		.guid		= UVC_GUID_FORMAT_INZI,
-> +		.fcc		= V4L2_PIX_FMT_INZI,
-> +	},
-> +	{
-> +		.name		= "4-bit Depth Confidence (Packed)",
-> +		.guid		= UVC_GUID_FORMAT_CNF4,
-> +		.fcc		= V4L2_PIX_FMT_CNF4,
-> +	},
-> +	{
-> +		.name		= "HEVC",
-> +		.guid		= UVC_GUID_FORMAT_HEVC,
-> +		.fcc		= V4L2_PIX_FMT_HEVC,
-> +	},
-> +};
-> +
-> +struct uvc_format_desc *uvc_format_by_guid(const u8 guid[16])
-> +{
-> +	unsigned int len = ARRAY_SIZE(uvc_fmts);
-> +	unsigned int i;
-> +
-> +	for (i = 0; i < len; ++i) {
-> +		if (memcmp(guid, uvc_fmts[i].guid, 16) == 0)
-> +			return &uvc_fmts[i];
-> +	}
-> +
-> +	return NULL;
-> +}
-> +EXPORT_SYMBOL_GPL(uvc_format_by_guid);
-> +
-> +MODULE_LICENSE("GPL");
-> diff --git a/drivers/media/usb/uvc/Kconfig b/drivers/media/usb/uvc/Kconfig
-> index ca51ee8e45f39c..579532272fd6d7 100644
-> --- a/drivers/media/usb/uvc/Kconfig
-> +++ b/drivers/media/usb/uvc/Kconfig
-> @@ -3,6 +3,7 @@ config USB_VIDEO_CLASS
->  	tristate "USB Video Class (UVC)"
->  	depends on VIDEO_DEV
->  	select VIDEOBUF2_VMALLOC
-> +	select UVC_COMMON
->  	help
->  	  Support for the USB Video Class (UVC).  Currently only video
->  	  input devices, such as webcams, are supported.
-> diff --git a/drivers/usb/gadget/Kconfig b/drivers/usb/gadget/Kconfig
-> index 4fa2ddf322b48d..336db8f92afa6a 100644
-> --- a/drivers/usb/gadget/Kconfig
-> +++ b/drivers/usb/gadget/Kconfig
-> @@ -203,6 +203,7 @@ config USB_F_UAC2
->  
->  config USB_F_UVC
->  	tristate
-> +	select UVC_COMMON
->  
->  config USB_F_MIDI
->  	tristate
-> diff --git a/include/linux/usb/uvc.h b/include/linux/usb/uvc.h
-> index f83e31661333bb..a2dae2b40a2318 100644
-> --- a/include/linux/usb/uvc.h
-> +++ b/include/linux/usb/uvc.h
-> @@ -145,215 +145,12 @@
->  	{ 'H',  'E',  'V',  'C', 0x00, 0x00, 0x10, 0x00, \
->  	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
->  
-> -/* ------------------------------------------------------------------------
-> - * Video formats
-> - */
-> -
->  struct uvc_format_desc {
->  	char *name;
->  	u8 guid[16];
->  	u32 fcc;
->  };
->  
-> -static struct uvc_format_desc uvc_fmts[] = {
-> -	{
-> -		.name		= "YUV 4:2:2 (YUYV)",
-> -		.guid		= UVC_GUID_FORMAT_YUY2,
-> -		.fcc		= V4L2_PIX_FMT_YUYV,
-> -	},
-> -	{
-> -		.name		= "YUV 4:2:2 (YUYV)",
-> -		.guid		= UVC_GUID_FORMAT_YUY2_ISIGHT,
-> -		.fcc		= V4L2_PIX_FMT_YUYV,
-> -	},
-> -	{
-> -		.name		= "YUV 4:2:0 (NV12)",
-> -		.guid		= UVC_GUID_FORMAT_NV12,
-> -		.fcc		= V4L2_PIX_FMT_NV12,
-> -	},
-> -	{
-> -		.name		= "MJPEG",
-> -		.guid		= UVC_GUID_FORMAT_MJPEG,
-> -		.fcc		= V4L2_PIX_FMT_MJPEG,
-> -	},
-> -	{
-> -		.name		= "YVU 4:2:0 (YV12)",
-> -		.guid		= UVC_GUID_FORMAT_YV12,
-> -		.fcc		= V4L2_PIX_FMT_YVU420,
-> -	},
-> -	{
-> -		.name		= "YUV 4:2:0 (I420)",
-> -		.guid		= UVC_GUID_FORMAT_I420,
-> -		.fcc		= V4L2_PIX_FMT_YUV420,
-> -	},
-> -	{
-> -		.name		= "YUV 4:2:0 (M420)",
-> -		.guid		= UVC_GUID_FORMAT_M420,
-> -		.fcc		= V4L2_PIX_FMT_M420,
-> -	},
-> -	{
-> -		.name		= "YUV 4:2:2 (UYVY)",
-> -		.guid		= UVC_GUID_FORMAT_UYVY,
-> -		.fcc		= V4L2_PIX_FMT_UYVY,
-> -	},
-> -	{
-> -		.name		= "Greyscale 8-bit (Y800)",
-> -		.guid		= UVC_GUID_FORMAT_Y800,
-> -		.fcc		= V4L2_PIX_FMT_GREY,
-> -	},
-> -	{
-> -		.name		= "Greyscale 8-bit (Y8  )",
-> -		.guid		= UVC_GUID_FORMAT_Y8,
-> -		.fcc		= V4L2_PIX_FMT_GREY,
-> -	},
-> -	{
-> -		.name		= "Greyscale 8-bit (D3DFMT_L8)",
-> -		.guid		= UVC_GUID_FORMAT_D3DFMT_L8,
-> -		.fcc		= V4L2_PIX_FMT_GREY,
-> -	},
-> -	{
-> -		.name		= "IR 8-bit (L8_IR)",
-> -		.guid		= UVC_GUID_FORMAT_KSMEDIA_L8_IR,
-> -		.fcc		= V4L2_PIX_FMT_GREY,
-> -	},
-> -	{
-> -		.name		= "Greyscale 10-bit (Y10 )",
-> -		.guid		= UVC_GUID_FORMAT_Y10,
-> -		.fcc		= V4L2_PIX_FMT_Y10,
-> -	},
-> -	{
-> -		.name		= "Greyscale 12-bit (Y12 )",
-> -		.guid		= UVC_GUID_FORMAT_Y12,
-> -		.fcc		= V4L2_PIX_FMT_Y12,
-> -	},
-> -	{
-> -		.name		= "Greyscale 16-bit (Y16 )",
-> -		.guid		= UVC_GUID_FORMAT_Y16,
-> -		.fcc		= V4L2_PIX_FMT_Y16,
-> -	},
-> -	{
-> -		.name		= "BGGR Bayer (BY8 )",
-> -		.guid		= UVC_GUID_FORMAT_BY8,
-> -		.fcc		= V4L2_PIX_FMT_SBGGR8,
-> -	},
-> -	{
-> -		.name		= "BGGR Bayer (BA81)",
-> -		.guid		= UVC_GUID_FORMAT_BA81,
-> -		.fcc		= V4L2_PIX_FMT_SBGGR8,
-> -	},
-> -	{
-> -		.name		= "GBRG Bayer (GBRG)",
-> -		.guid		= UVC_GUID_FORMAT_GBRG,
-> -		.fcc		= V4L2_PIX_FMT_SGBRG8,
-> -	},
-> -	{
-> -		.name		= "GRBG Bayer (GRBG)",
-> -		.guid		= UVC_GUID_FORMAT_GRBG,
-> -		.fcc		= V4L2_PIX_FMT_SGRBG8,
-> -	},
-> -	{
-> -		.name		= "RGGB Bayer (RGGB)",
-> -		.guid		= UVC_GUID_FORMAT_RGGB,
-> -		.fcc		= V4L2_PIX_FMT_SRGGB8,
-> -	},
-> -	{
-> -		.name		= "RGB565",
-> -		.guid		= UVC_GUID_FORMAT_RGBP,
-> -		.fcc		= V4L2_PIX_FMT_RGB565,
-> -	},
-> -	{
-> -		.name		= "BGR 8:8:8 (BGR3)",
-> -		.guid		= UVC_GUID_FORMAT_BGR3,
-> -		.fcc		= V4L2_PIX_FMT_BGR24,
-> -	},
-> -	{
-> -		.name		= "H.264",
-> -		.guid		= UVC_GUID_FORMAT_H264,
-> -		.fcc		= V4L2_PIX_FMT_H264,
-> -	},
-> -	{
-> -		.name		= "H.265",
-> -		.guid		= UVC_GUID_FORMAT_H265,
-> -		.fcc		= V4L2_PIX_FMT_HEVC,
-> -	},
-> -	{
-> -		.name		= "Greyscale 8 L/R (Y8I)",
-> -		.guid		= UVC_GUID_FORMAT_Y8I,
-> -		.fcc		= V4L2_PIX_FMT_Y8I,
-> -	},
-> -	{
-> -		.name		= "Greyscale 12 L/R (Y12I)",
-> -		.guid		= UVC_GUID_FORMAT_Y12I,
-> -		.fcc		= V4L2_PIX_FMT_Y12I,
-> -	},
-> -	{
-> -		.name		= "Depth data 16-bit (Z16)",
-> -		.guid		= UVC_GUID_FORMAT_Z16,
-> -		.fcc		= V4L2_PIX_FMT_Z16,
-> -	},
-> -	{
-> -		.name		= "Bayer 10-bit (SRGGB10P)",
-> -		.guid		= UVC_GUID_FORMAT_RW10,
-> -		.fcc		= V4L2_PIX_FMT_SRGGB10P,
-> -	},
-> -	{
-> -		.name		= "Bayer 16-bit (SBGGR16)",
-> -		.guid		= UVC_GUID_FORMAT_BG16,
-> -		.fcc		= V4L2_PIX_FMT_SBGGR16,
-> -	},
-> -	{
-> -		.name		= "Bayer 16-bit (SGBRG16)",
-> -		.guid		= UVC_GUID_FORMAT_GB16,
-> -		.fcc		= V4L2_PIX_FMT_SGBRG16,
-> -	},
-> -	{
-> -		.name		= "Bayer 16-bit (SRGGB16)",
-> -		.guid		= UVC_GUID_FORMAT_RG16,
-> -		.fcc		= V4L2_PIX_FMT_SRGGB16,
-> -	},
-> -	{
-> -		.name		= "Bayer 16-bit (SGRBG16)",
-> -		.guid		= UVC_GUID_FORMAT_GR16,
-> -		.fcc		= V4L2_PIX_FMT_SGRBG16,
-> -	},
-> -	{
-> -		.name		= "Depth data 16-bit (Z16)",
-> -		.guid		= UVC_GUID_FORMAT_INVZ,
-> -		.fcc		= V4L2_PIX_FMT_Z16,
-> -	},
-> -	{
-> -		.name		= "Greyscale 10-bit (Y10 )",
-> -		.guid		= UVC_GUID_FORMAT_INVI,
-> -		.fcc		= V4L2_PIX_FMT_Y10,
-> -	},
-> -	{
-> -		.name		= "IR:Depth 26-bit (INZI)",
-> -		.guid		= UVC_GUID_FORMAT_INZI,
-> -		.fcc		= V4L2_PIX_FMT_INZI,
-> -	},
-> -	{
-> -		.name		= "4-bit Depth Confidence (Packed)",
-> -		.guid		= UVC_GUID_FORMAT_CNF4,
-> -		.fcc		= V4L2_PIX_FMT_CNF4,
-> -	},
-> -	{
-> -		.name		= "HEVC",
-> -		.guid		= UVC_GUID_FORMAT_HEVC,
-> -		.fcc		= V4L2_PIX_FMT_HEVC,
-> -	},
-> -};
-> -
-> -static inline struct uvc_format_desc *uvc_format_by_guid(const u8 guid[16])
-> -{
-> -	unsigned int len = ARRAY_SIZE(uvc_fmts);
-> -	unsigned int i;
-> -
-> -	for (i = 0; i < len; ++i) {
-> -		if (memcmp(guid, uvc_fmts[i].guid, 16) == 0)
-> -			return &uvc_fmts[i];
-> -	}
-> -
-> -	return NULL;
-> -}
-> +struct uvc_format_desc *uvc_format_by_guid(const u8 guid[16]);
->  
->  #endif /* __LINUX_V4L2_UVC_H */
+If you grep for VM_SHARED under drivers/staging/media/atomisp
+in linux-next you will find no hits :)
 
--- 
 Regards,
 
-Laurent Pinchart
+Hans
+
+
