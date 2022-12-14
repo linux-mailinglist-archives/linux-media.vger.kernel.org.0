@@ -2,60 +2,70 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0D9FF64BDE5
-	for <lists+linux-media@lfdr.de>; Tue, 13 Dec 2022 21:25:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BCBA764C171
+	for <lists+linux-media@lfdr.de>; Wed, 14 Dec 2022 01:42:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237900AbiLMUZG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 13 Dec 2022 15:25:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42748 "EHLO
+        id S237271AbiLNAlu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 13 Dec 2022 19:41:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58560 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236937AbiLMUYe (ORCPT
+        with ESMTP id S237353AbiLNAl0 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 13 Dec 2022 15:24:34 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7416226EF;
-        Tue, 13 Dec 2022 12:20:22 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 2FAA9B815CF;
-        Tue, 13 Dec 2022 20:20:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id E5B0AC433F1;
-        Tue, 13 Dec 2022 20:20:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1670962819;
-        bh=XIxVIV4u854tpmsqvmSQs8SsH2ntM3l9ZaoZEX0zemk=;
-        h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-        b=kFOApZURHBOXYDb/r4DopxmyzIgOtpAMseoWudU3BH2mkHzoVQtO9jL1+DqMU2cen
-         t+SXRlcWbhhm+ZP9XNJ7WDMbGjBt5H3FElzargJdusvbE5Yj4zMUBajlmkYPyHlScz
-         IQV4nS98Hd+c1nT+ie88VNmXT8I6dxNM1j4v9Ca313PKoPvyZIBXR/oSTP4TPWDDG7
-         985BhpIfa1NIBEoQbnesbbaxMBIVKPDzJ9sdPJMf6Mdf01rHRp8rtiW9NjUhisNuGv
-         Sdq0m6pWcpWl4Ci8FXm74WhmT3c9gcQVEMnNggHXEtgwCPXyZxgjBKtjojBlG4VX5/
-         PHCwmNexnXReA==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id BD693C00445;
-        Tue, 13 Dec 2022 20:20:19 +0000 (UTC)
-Subject: Re: [GIT PULL for v6.2-rc1] media updates
-From:   pr-tracker-bot@kernel.org
-In-Reply-To: <20221212084920.756bfd7b@sal.lan>
-References: <20221212084920.756bfd7b@sal.lan>
-X-PR-Tracked-List-Id: <linux-media.vger.kernel.org>
-X-PR-Tracked-Message-Id: <20221212084920.756bfd7b@sal.lan>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/mchehab/linux-media tags/media/v6.2-1
-X-PR-Tracked-Commit-Id: 3178804c64ef7c8c87a53cd5bba0b2942dd64fec
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: cdb9d3537711939e4d8fd0de2889c966f88346eb
-Message-Id: <167096281976.13378.4746124475282302008.pr-tracker-bot@kernel.org>
-Date:   Tue, 13 Dec 2022 20:20:19 +0000
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        Tue, 13 Dec 2022 19:41:26 -0500
+Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com [IPv6:2607:f8b0:4864:20::1034])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D24B62612C
+        for <linux-media@vger.kernel.org>; Tue, 13 Dec 2022 16:40:04 -0800 (PST)
+Received: by mail-pj1-x1034.google.com with SMTP id js9so5210989pjb.2
+        for <linux-media@vger.kernel.org>; Tue, 13 Dec 2022 16:40:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=nMXSUhRQOxy7tEuvDry5hNPWkTeD3FTVDObnfkaZoqo=;
+        b=BH7DsjF/MqmaFEQUpJolgTrbi5A6L62CZdhE1oKhBHXLTPvRwujfy44Po3BKotOOtC
+         m/lc9V7LvPlO9oA27wvnJECyKmNVMhwkDkhRN8zaqNeFKRxXQasvUHU7Hpifj4SkNsFB
+         T0zfj6yx9b7+7tQuqogJAof91yqJxBGMRoCLE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=nMXSUhRQOxy7tEuvDry5hNPWkTeD3FTVDObnfkaZoqo=;
+        b=HtQYQ0QkWeRo6K8AmIngQYtLVz0BuqddYUcl2h/cybP4yca68Y9+jKYK8luDDyvPq5
+         dpjvSB2+zN2e9G8V9rPfxmROUi+YrbTusUPhnoB+J5UpUG5qSEzV1JYp0lTPzgCQt+Vs
+         wD37he0OzP47VC0FV/1s0vjtKlhnCCzX1LWIo5fPoMjoiY+DeSxhZaWdw4q947m1U8v2
+         spXtpV/uptkbGr/YYRC8ZCwmIhzjco3s+UFp8VJoJVeGHIUtrJll5SncRM8a1WxWjKhg
+         QuN18E7vncxv5ZbfVspYkslIG8TUYp597NkSsxe8a4K01BCze7OQN7b6QFH7tB9mA0Gv
+         j1Gw==
+X-Gm-Message-State: ANoB5pm5rtCqe5HhZ9/JXgwNjrAL/LU8rIYJ4F+lz1p7RuFIZB1Q0Vx6
+        6WIEPUXiqXSAcHxlfzHx248+Vw==
+X-Google-Smtp-Source: AA0mqf4kSqVg4gnsl8RkfCPeORprvNaEXNUCBQeC70AsH6pnDWedTQ4tO9+n5cA43Z/m7cZ/ZT23ug==
+X-Received: by 2002:a17:902:d483:b0:189:ced9:a5ea with SMTP id c3-20020a170902d48300b00189ced9a5eamr29138799plg.27.1670978404367;
+        Tue, 13 Dec 2022 16:40:04 -0800 (PST)
+Received: from google.com (KD124209188001.ppp-bb.dion.ne.jp. [124.209.188.1])
+        by smtp.gmail.com with ESMTPSA id w1-20020a170902e88100b00186a2444a43sm510077plg.27.2022.12.13.16.40.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 13 Dec 2022 16:40:03 -0800 (PST)
+Date:   Wed, 14 Dec 2022 09:39:58 +0900
+From:   Sergey Senozhatsky <senozhatsky@chromium.org>
+To:     Ricardo Ribalda <ribalda@chromium.org>
+Cc:     Max Staudt <mstaudt@google.com>,
+        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        Yunke Cao <yunkec@chromium.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, stable@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 2/2] media: uvcvideo: Do not alloc dev->status
+Message-ID: <Y5kbXt5lUqUiCmCi@google.com>
+References: <20221212-uvc-race-v2-0-54496cc3b8ab@chromium.org>
+ <20221212-uvc-race-v2-2-54496cc3b8ab@chromium.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221212-uvc-race-v2-2-54496cc3b8ab@chromium.org>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -63,15 +73,20 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The pull request you sent on Mon, 12 Dec 2022 08:49:20 +0000:
+On (22/12/13 15:35), Ricardo Ribalda wrote:
+[..]
+> +++ b/drivers/media/usb/uvc/uvcvideo.h
+> @@ -559,7 +559,7 @@ struct uvc_device {
+>  	/* Status Interrupt Endpoint */
+>  	struct usb_host_endpoint *int_ep;
+>  	struct urb *int_urb;
+> -	u8 *status;
+> +	u8 status[UVC_MAX_STATUS_SIZE];
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/mchehab/linux-media tags/media/v6.2-1
+Can we use `struct uvc_control_status status;` instead of open-coding it?
+Seems that this is what the code wants anyway:
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/cdb9d3537711939e4d8fd0de2889c966f88346eb
+	struct uvc_control_status *status =
+				(struct uvc_control_status *)dev->status;
 
-Thank you!
-
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+And then we can drop casts in uvc_status_complete().
