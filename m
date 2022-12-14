@@ -2,209 +2,216 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 71E3A64CCA0
-	for <lists+linux-media@lfdr.de>; Wed, 14 Dec 2022 15:47:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CA8FD64CE1F
+	for <lists+linux-media@lfdr.de>; Wed, 14 Dec 2022 17:34:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238650AbiLNOrs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 14 Dec 2022 09:47:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56688 "EHLO
+        id S239036AbiLNQeK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 14 Dec 2022 11:34:10 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48864 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238525AbiLNOrr (ORCPT
+        with ESMTP id S239065AbiLNQdl (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 14 Dec 2022 09:47:47 -0500
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F00106261;
-        Wed, 14 Dec 2022 06:47:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1671029265; x=1702565265;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-id:content-transfer-encoding:
-   mime-version;
-  bh=MWlauJblWbc7Qijo7WybDdMPPpDz3BCJHLmOMcNeuzI=;
-  b=c7ED5tXVcDqIRCBlY0yFApmsUTGv0RsewgXKvNv0LazWSLeWwO74NlaU
-   szJxuFnEmTztkHvgb5OAY3m5oeSMXdy3sBf0cU0/yLWggTR6lwzy0CioX
-   VNRMHl3V/RISMwaSFECs0KHUukCAR/PxR1xf0TD+UsEH7rv9EJYepv2My
-   GzHSX8VEWTtHwvBbw8dgdqT0qvLLmgEaMlMJavOYlVFj79aq/hrBKk0dY
-   q2y+G6BLZW88bF3irGCD73GrmboMaG7GXcOjdfylsUL8wy/Nw+/8jMijU
-   oy1DtOeQbtyEdF2jWan3JazBLKynqiH37iDdHb1W7vKvp7W9VLLxDYutv
-   w==;
-X-IronPort-AV: E=Sophos;i="5.96,244,1665471600"; 
-   d="scan'208";a="203998206"
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa1.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 14 Dec 2022 07:47:44 -0700
-Received: from chn-vm-ex04.mchp-main.com (10.10.85.152) by
- chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16; Wed, 14 Dec 2022 07:47:44 -0700
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (10.10.215.89) by
- email.microchip.com (10.10.87.151) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16 via Frontend Transport; Wed, 14 Dec 2022 07:47:44 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=DCtRLhuG6EoBkOG/wds4I2osQordWa3xU/j2mWab5Qx5dZn9b0whceMW6y8KAamKXPdGHYGY9bc2Qptn0M0z2R+QnpWfGsyQ7+hUe0b8aj0G5/iTpBDnjaCis/pFkqWjQgKDAJ4VC0pD7YkYmRlV42J9VK4ItuOhUpogdrKmRlq2Gzysy0Fg7iaKqZIIWBUt8DPudzXECFrzPVLhVNy4dYudICz1jGlZ11NnrMIqo5UmKtpjkUkoxi88EGqoaxIvmoH/cX4gv85awsv9rugAGK6ugGYQKcR3uXmfhCrFn46lM5ND35LacfT6jOGm51gqG0YijxxAxI8oksZ2b1D6zA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=MWlauJblWbc7Qijo7WybDdMPPpDz3BCJHLmOMcNeuzI=;
- b=CSfWexUGLyogovh6ckRghx5ir/RCxLwUsVYDL6aJkclBdZ0rufDOMPU/7V8yllNECidI+fUATA5J23kAU7HI+dQcKHhM1HKxkGBLIIvqE2nd6Wa5A1m87nEieTluz0esjZ6fTD/Ho8XTQ+lraisCdGXjf5EmqF2S1lllnted1+vYiPlZJe4Mw/HRKN4LONNx1WFx7114cgaSoFUTOYxYlE8ox5zvT37qZgc7Jxx3N6jgTVI5opsSYQEeqyJbLl5iD/kI3KrsuH7h3JelfS5R9CaU1b86kfJnGHb0J4jd9ClbRBDfU7HZII6ixP8YOvhWKJHTLJmIa42MG6qpXyDyBQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=microchip.com; dmarc=pass action=none
- header.from=microchip.com; dkim=pass header.d=microchip.com; arc=none
+        Wed, 14 Dec 2022 11:33:41 -0500
+Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7CA5E2A26D
+        for <linux-media@vger.kernel.org>; Wed, 14 Dec 2022 08:32:22 -0800 (PST)
+Received: by mail-ed1-x52f.google.com with SMTP id m19so23285366edj.8
+        for <linux-media@vger.kernel.org>; Wed, 14 Dec 2022 08:32:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=microchiptechnology.onmicrosoft.com;
- s=selector2-microchiptechnology-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=MWlauJblWbc7Qijo7WybDdMPPpDz3BCJHLmOMcNeuzI=;
- b=tPADkzv1zFqCmWDEWr1KUUUstN8DIhsgwnFR3sMMSkS6JzP8U/8/QHozZhkifqyrBc+m/9pEt/hp4yoCyu8o9Ydd+Lf/EQgs8xIB/6oEIvcqmvQFfGjAebhkh+Pl690o/Ht2seeSS6n2R2bf9FpJ1oy6RhOL1jIwWhvNxBCZYTQ=
-Received: from BN6PR11MB1953.namprd11.prod.outlook.com (2603:10b6:404:105::14)
- by SA1PR11MB5898.namprd11.prod.outlook.com (2603:10b6:806:229::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5924.11; Wed, 14 Dec
- 2022 14:47:42 +0000
-Received: from BN6PR11MB1953.namprd11.prod.outlook.com
- ([fe80::98f6:c9d1:bb68:1c15]) by BN6PR11MB1953.namprd11.prod.outlook.com
- ([fe80::98f6:c9d1:bb68:1c15%10]) with mapi id 15.20.5924.011; Wed, 14 Dec
- 2022 14:47:42 +0000
-From:   <Claudiu.Beznea@microchip.com>
-To:     <Eugen.Hristev@microchip.com>, <Nicolas.Ferre@microchip.com>
-CC:     <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <jacopo@jmondi.org>, <hverkuil@xs4all.nl>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-media@vger.kernel.org>
-Subject: Re: [PATCH v10 3/5] ARM: dts: at91: sama7g5: add nodes for video
- capture
-Thread-Topic: [PATCH v10 3/5] ARM: dts: at91: sama7g5: add nodes for video
- capture
-Thread-Index: AQHZD8sFgKOKAjdaEUWNhaEIa0xf7Q==
-Date:   Wed, 14 Dec 2022 14:47:42 +0000
-Message-ID: <146462fb-6afd-1b88-ed7b-fc9b8b76477b@microchip.com>
-References: <20220503095127.48710-1-eugen.hristev@microchip.com>
- <20220503095127.48710-4-eugen.hristev@microchip.com>
- <323a98c7-85f1-a21c-d655-7b510481adc0@microchip.com>
-In-Reply-To: <323a98c7-85f1-a21c-d655-7b510481adc0@microchip.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=microchip.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: BN6PR11MB1953:EE_|SA1PR11MB5898:EE_
-x-ms-office365-filtering-correlation-id: 3e92f7df-d5b5-4d52-f336-08dadde2279f
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: AbuvU7IN7exShXtEroxnNb1jmXPpfBJfFqiCI6YLA3ARHSLr8M7NlfKCgV5eVevwKTnfhXUJWIE5hYgu2+YxL+X/WQxidQeblxo8lAhsTNWjU3ael1MM6xka9HiaaxZnuI/6BhMG/7wsq7Tp9avlA3fmcKw4/0/wtjZh2ue8z0rQ2PHqlRACb3u3PLhhEkZggZDGLluejmK3Tk3/VQ+mkdu4eOzo4ZaocJbXgTHju0Ja0JKf9fkYUdPAnQ0dAKiD7g/s4O6lBjinumw6A7LPAytdmI99jIfHH+hpzIz6O9E5b1vBqT/kwxZjQpQktiFbYhDseeUGOfSTnVKwf4Qy7a9xr2VHj0rDTNmvTz7rXzh+1tkwSSSYvqpH9SL2jpTkrvHSHyZvswTqamqbNxywEqt9HCvMiDFwmifsZv6Zg25/pZqM4HI41pd7fX7p9BjEdyGctPwop8nL4PkQyVt8qgqOlOPOzzyA2344MOqJi5/evFGsTbpRxR1mqmgPu0M0FMAFC0kADv1saiTCEphukE7HDwpMVPmM0BJObRYnSwYX+PZ+l/K1S5SiabyOnC8Uxp4d32naCJtNOL4ncY8i55LmUNIAMnZQWdBYk2Xsz/T1vdzNl/SGCvlGc8OLLsmOFs/+CGdxuMM75jdjWKE8dA4GxO1rkX/P/EvkKzK5CBkdS63l7S6nQHwUUGievYuZdof7aIa6cQJWdhfo+dazV80YfDyuIWfmU5ypRVmqbN5spVLoM3/I8ZeRg1VNB/mWHWW61QfUk9jEWco/s8ZvuA==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN6PR11MB1953.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(346002)(39860400002)(136003)(366004)(396003)(376002)(451199015)(71200400001)(41300700001)(86362001)(76116006)(31696002)(66946007)(66556008)(66476007)(66446008)(6512007)(8676002)(64756008)(91956017)(186003)(26005)(4326008)(2616005)(478600001)(6486002)(53546011)(54906003)(6506007)(6636002)(110136005)(316002)(122000001)(38070700005)(38100700002)(5660300002)(8936002)(83380400001)(2906002)(31686004)(36756003)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?VS8wOUVkUWhpVG54WDREb0gwQjFZN2hiajZuWkNFckEwRk5CWkpUdXM5WWdl?=
- =?utf-8?B?VWRYdmkzWFJiTm0xN0VRT0I3bnNxWnZNZWhTbFl3WFlPVjRsVFZCK2dZcFNp?=
- =?utf-8?B?UEZIRU9jTklmZVFuUE5sRzROenpsTTFtOTVvbXF1WlZiZks1aHJCWitnN3Vy?=
- =?utf-8?B?WDVTWmY4WVZxMkpFamp4K2FSZzM0VTN1ZkdveGpIZkxmckhucm9JeDJya0hC?=
- =?utf-8?B?dWoyWms1YmQ2SXA4Vng4ajZYOGRXTkRMSXFxdDdKMC9aMnFQZ0daVUpjQ2RC?=
- =?utf-8?B?VnhEcTN2VXhIWnllb2cybS9PdS9SUHlDbm9VdisrWkQ1Nk05MnFGTzc3Vis0?=
- =?utf-8?B?bXQzams2L3EzZW8yZCtQSG4wakNCUGp3N1RTY0psMlhCeiszQmJkc2Z6UE9T?=
- =?utf-8?B?RzJabXZmL2hDUHpSdXZZQnZTK3hzV2lZUlUwT2xuRFB4THk0SUlFRnNkRlVZ?=
- =?utf-8?B?cUdXcE52N3Z3MEg1Rnk3TThxSGFldzM2cGFwZmZFRGg5RUcyNEI2MGM2NFRo?=
- =?utf-8?B?MG9wdmtvVFdRdU5iSnNuK1hKRm5vN0NxRy9HSXdUQitYbUdkeUp6R2lCRXZG?=
- =?utf-8?B?SkRubnowWlA0aUpuRWJDRkE1QVEvemUrSEVOQW5RTXA5SURjL3VPQkMybzVO?=
- =?utf-8?B?YlVMQjk1R2xDcEVOT2tWSmlDa0Q2OWlNbWpjVW91Um5RVEVBUytYTk5kUkFu?=
- =?utf-8?B?MUJxa0xsUitkbmwrNyt1VjIwNW1EWDNOdEp0OTJCd3RxbnRJQVJTdTNQZlVk?=
- =?utf-8?B?RG8zTnVkeDhtNmtYWHBLdnpEZjRaRVdlZ2ZWQ2lHNUt6MjdxQzBnVHZ6aVhu?=
- =?utf-8?B?bzdYcWZnSE8xNVI2b3B4d0hUNURtLzdyREdJUHo3N0NTUG4vYTF1c01TK01y?=
- =?utf-8?B?N2t6cW5VNGJDK2RTZFBSblNhMkR5bDQzTnowU2NsR3lRNzYwRGJLTTdGZU1V?=
- =?utf-8?B?ZFZLdDVEd21SYXlzZkgxQm9pSUMzYUdycFlXczRkV0hlaWgyUFZwVlQ1SCt6?=
- =?utf-8?B?ZVJqcmxUYnZhNmhWck5CZ3lKNXNWTGVDeDJWMW8zSGhEZTdydU5VVmpWWjZ0?=
- =?utf-8?B?MnRtTGtIOEc1VHRQclRCNlZXZ2gveXRYQ3dKUlBWcFY3SGlwNC9CdEJXcFRX?=
- =?utf-8?B?dGJGMUw1TmVhZFl3VmlSaFJQWmZjTytEa25SUGNqNnZwdStjMHJ1L0hpWU5w?=
- =?utf-8?B?QTFPZDVXU1dialpLc3dMOW9zOUd5VjVBaU1HL294Sk9iczF0Szl1NXA1WkIx?=
- =?utf-8?B?R09pTFBzWFBGRXlTclliY3loTWdOaWk1cXFSUjNwRTVoY2lsRThXVExhSktx?=
- =?utf-8?B?YVBab2RWbXNBbWZxVkVEK2VLQzJHV3RCRzZOOTNaRGdhd01yMFY4cFNSMi9a?=
- =?utf-8?B?ZUV4K3lENGMxVHRqcHFndnJ3Wk5GQ2RiMW1uRTQvUys0Z2tVMmRMRzEyVlQ1?=
- =?utf-8?B?NGs4ZVZsdWIxOVFJejQxbm90MVUzT1phNVJ1UzdIQUtNWmRkMnN3aFlzcHB1?=
- =?utf-8?B?Q3dWZXlQSjhCWFN0ck14b3R1dXhlc05RbnlHV2w2bFYxWk96cmhxYU5ybzR1?=
- =?utf-8?B?VGpHeTNKM0JkaGE2Uk1lMUFzeFpxS3dPM1BZTmpGa2s0WjJha3dXd2QvT0JZ?=
- =?utf-8?B?YlFrcmZZMXdoL1dUNWJjL3oxNHlJWWFDOFBrbUpJME1rRm9MNzNOdDZ5OS93?=
- =?utf-8?B?aXZHUlJZVTBPTkprdk0rUzJYL1YyMFlocVNXeXpLcUphL3VzQ3pxS1o4cW1t?=
- =?utf-8?B?S2FXTGpMMGxEU08rU0JRK2toNGMwRS80WThSZzVOOUtVa09uL3QzWFNpek1n?=
- =?utf-8?B?ekdvSkhwNWxKR1F2L1o4T2o2R1lWVmdqWDRsbHJiZ2RhOGJRZzBCQm5MZTRs?=
- =?utf-8?B?ZlV1c1hqY3JTN0lNWmJNMkhQcDBBQU9HVXZYdzcvTm9kU2hmN214aU5XekE3?=
- =?utf-8?B?N3dhOTk1S1ZXTzMvZE5lNXFhcEo4ekYyK2d6UW1vZ1hxVmhBMlV5eFNFRE8v?=
- =?utf-8?B?L1h6ZXRnY2dQNXRwNERHMzFMZGNPdFExbTFLcW5nVkkxNSttRHZ5OFlVR1Za?=
- =?utf-8?B?Sml3QU5Ub21RYnJCWTFIZ2JtT3Vzb29vU01URkFPaEYzaGpmT250OHovNWNs?=
- =?utf-8?B?cUQwUVRpUDROUlhuWTNaSjd6LzU2SGlQdysxVVplaWhoVUxPL3RlTUxnOGR2?=
- =?utf-8?B?ZUE9PQ==?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <70945910E0A7F74A90395CD71A9A8FBF@namprd11.prod.outlook.com>
-Content-Transfer-Encoding: base64
+        d=chromium.org; s=google;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=MVrlltRx17nfXTGhP7yPJwRU3y4M8/9HTbuxEEs49iU=;
+        b=aXv6T3ty9OZD4OYRcWL5+4mKME8v/e1WDdI9AA+KQJzPhv03AdE8drDDUqdiblA3yP
+         s3/zhNBDtfTEYSkUNDB0AoiAz16cuPGibNxtKMzRSH9ilTXaJbDoVQ2FCuMzaGR2CKlx
+         ERlbbfHgFDDGKgxdZXQ7Jy8oTG0/idZ4EWhqs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=MVrlltRx17nfXTGhP7yPJwRU3y4M8/9HTbuxEEs49iU=;
+        b=cxsr52M/D20NPDmhjVsh5EhUhKf6ExwC5MoGuOq3wwPzqtWkVe6K0NtGuzykcOMrfM
+         Pq4T8MfNZQOogNEMWp9XULxc8N95FV52CD98lV8cMQuqv/+427inGKGHZkF35tBvA914
+         +EB6T5NI6EDjz8UQie6ta2Ve6+8UXo60nsT7tk/lIEbfJvwlq3DzFtQImtXn3T1UWC9q
+         nbdeHnhJ2TKeGoRIM0Hn8eeY17qHuJ5W++6dpmd2XOp1WuPkLqyGs1aUfjxvQsZqlerK
+         Nd/Uz2Fqhwl5f5k/8gjp8DgV1mpDJ8f6jUpc1qh9q81NgLq/oAq/mFWYn1yHtAR/bmGS
+         +eow==
+X-Gm-Message-State: ANoB5pnO+u0F5pWx5G0V00COpiSPVIVmOTm+ff7hkRBXHgZefjXnUQiK
+        BCpEeeWOV3NKQ13T1nlAq749qA==
+X-Google-Smtp-Source: AA0mqf41+3D5Js+uQP1l7WfEZEbOf6NiTJkGvwte5sA62Fzt/SILgjAyev/3jho0mOvjeKhWFRtVfA==
+X-Received: by 2002:aa7:cd46:0:b0:46d:e3f8:4ed4 with SMTP id v6-20020aa7cd46000000b0046de3f84ed4mr17653967edw.21.1671035541045;
+        Wed, 14 Dec 2022 08:32:21 -0800 (PST)
+Received: from alco.roam.corp.google.com ([100.104.168.209])
+        by smtp.gmail.com with ESMTPSA id ee48-20020a056402293000b004615f7495e0sm6395908edb.8.2022.12.14.08.32.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 14 Dec 2022 08:32:20 -0800 (PST)
+From:   Ricardo Ribalda <ribalda@chromium.org>
+Date:   Wed, 14 Dec 2022 17:31:55 +0100
+Subject: [PATCH v4] media: uvcvideo: Fix race condition with usb_kill_urb
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BN6PR11MB1953.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3e92f7df-d5b5-4d52-f336-08dadde2279f
-X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Dec 2022 14:47:42.3331
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3f4057f3-b418-4d4e-ba84-d55b4e897d88
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: iq/zRsvep9YBcT2zp21K/ONO43R1yScBY8CNEIjY/kAWrb4JD/2x5dJBPaY5BJgZTQ4RU+Y1cYEW203coZcq7nOEJtfu1glwNmJ5Au0BgPM=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR11MB5898
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20221212-uvc-race-v4-0-38d7075b03f5@chromium.org>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Max Staudt <mstaudt@google.com>
+Cc:     linux-media@vger.kernel.org, stable@vger.kernel.org,
+        Yunke Cao <yunkec@chromium.org>,
+        Ricardo Ribalda <ribalda@chromium.org>,
+        linux-kernel@vger.kernel.org
+X-Mailer: b4 0.11.0-dev-696ae
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4414; i=ribalda@chromium.org;
+ h=from:subject:message-id; bh=ogVdjybS9LEoywx0YwN/okaYfuH/y03AYQsWkydp3kQ=;
+ b=owEBbQKS/ZANAwAKAdE30T7POsSIAcsmYgBjmfqNKqeDuIPruv3HRUGHzLrKhw0xXerfWXVR/oWJ
+ Mh7m06eJAjMEAAEKAB0WIQREDzjr+/4oCDLSsx7RN9E+zzrEiAUCY5n6jQAKCRDRN9E+zzrEiGEBD/
+ 9paXuRWZxtIqzclORW4HCZGYi73FtH4rtSGo1FNlEq1R7vGpC1gQ796/GNRy0vTNoPO+QxaG6poI5J
+ 8vAFLwLc3YCxAUXzcN/QuRqSznplWWU+TiGxWm/I2x+dlNbE0tk30rBktBkJ0rYvQev/gODgWCgghN
+ JKnkI1XV3lxO9nCa/7WllWLHsNpjcGE0reWbaPRdpmwgQxUZyQsn0v1UjsGkI2EPfhhCBA9pLym2ie
+ qJguxwajBM0LmK/ds6p5rVXdEmdz1BoOTa91s5QN89Qfu2n9gPljroekcxObhSEAR7A+TH4JCenRYJ
+ zfstu4W4xhtU5LdCrdBumpkkOmxjw4mDZR4yYtH/asavDzAMEM98ceXIkSRT4ipCkbcQCeDfcD3339
+ e7BLYFB+fh7dO0R2dEZdw/i0vmr0gxk79TPbMbp/21RZutJPl/Ht2JMQfGOLfv/tojT7MT35xsEjqi
+ ZTlGsBuRhEjLFLnjSEmAKs+AITV2Js6CV0xeCPwkwVkyyS/D4qhsv3NNxGuKjqvutOAcTKVaKNx7OD
+ M75UhkjEUu9w2EF9WyCuIrjRO3YLkRQUrDrN9vqCGLuElX71HVPqqCTn9zxpYlYwQ2RnzYpt+fQe7k
+ 4LxOvbbN2nLIE8NqmuMp9hiq5+moqyLr+SNq2O3Nlg0YoGQiXc424GQnJdlA==
+X-Developer-Key: i=ribalda@chromium.org; a=openpgp;
+ fpr=9EC3BB66E2FC129A6F90B39556A0D81F9F782DA9
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-T24gMTQuMTIuMjAyMiAxNDo1NSwgRXVnZW4gSHJpc3RldiAtIE0xODI4MiB3cm90ZToNCj4gT24g
-NS8zLzIyIDEyOjUxLCBFdWdlbiBIcmlzdGV2IHdyb3RlOg0KPj4gQWRkIG5vZGUgZm9yIHRoZSBY
-SVNDIChlWHRlbmRlZCBJbWFnZSBTZW5zb3IgQ29udHJvbGxlcikgYW5kIENTSTJEQw0KPj4gKGNz
-aTIgZGVtdXggY29udHJvbGxlcikuDQo+PiBUaGVzZSBub2RlcyByZXByZXNlbnQgdGhlIHRvcCBs
-ZXZlbCBvZiB0aGUgdmlkZW8gY2FwdHVyZSBoYXJkd2FyZSBwaXBlbGluZQ0KPj4gYW5kIGFyZSBk
-aXJlY3RseSBjb25uZWN0ZWQgaW4gaGFyZHdhcmUuDQo+Pg0KPj4gU2lnbmVkLW9mZi1ieTogRXVn
-ZW4gSHJpc3RldiA8ZXVnZW4uaHJpc3RldkBtaWNyb2NoaXAuY29tPg0KPj4gLS0tDQo+PiBDaGFu
-Z2VzIGluIHYxMDoNCj4+IC0gbm9kZXMgZGlzYWJsZWQgYnkgZGVmYXVsdA0KPj4NCj4+ICAgYXJj
-aC9hcm0vYm9vdC9kdHMvc2FtYTdnNS5kdHNpIHwgNTEgKysrKysrKysrKysrKysrKysrKysrKysr
-KysrKysrKysrKw0KPj4gICAxIGZpbGUgY2hhbmdlZCwgNTEgaW5zZXJ0aW9ucygrKQ0KPj4NCj4+
-IGRpZmYgLS1naXQgYS9hcmNoL2FybS9ib290L2R0cy9zYW1hN2c1LmR0c2kgYi9hcmNoL2FybS9i
-b290L2R0cy9zYW1hN2c1LmR0c2kNCj4+IGluZGV4IDRkZWNkM2E5MWE3Ni4uZmU5YzZkZjk4MTli
-IDEwMDY0NA0KPj4gLS0tIGEvYXJjaC9hcm0vYm9vdC9kdHMvc2FtYTdnNS5kdHNpDQo+PiArKysg
-Yi9hcmNoL2FybS9ib290L2R0cy9zYW1hN2c1LmR0c2kNCj4+IEBAIC00NTQsNiArNDU0LDU3IEBA
-IHNkbW1jMjogbW1jQGUxMjBjMDAwIHsNCj4+ICAgCQkJc3RhdHVzID0gImRpc2FibGVkIjsNCj4+
-ICAgCQl9Ow0KPj4gICANCj4+ICsJCWNzaTJkYzogY3NpMmRjQGUxNDA0MDAwIHsNCj4+ICsJCQlj
-b21wYXRpYmxlID0gIm1pY3JvY2hpcCxzYW1hN2c1LWNzaTJkYyI7DQo+PiArCQkJcmVnID0gPDB4
-ZTE0MDQwMDAgMHg1MDA+Ow0KPj4gKwkJCWNsb2NrcyA9IDwmcG1jIFBNQ19UWVBFX1BFUklQSEVS
-QUwgMzQ+LCA8Jnhpc2M+Ow0KPj4gKwkJCWNsb2NrLW5hbWVzID0gInBjbGsiLCAic2NjayI7DQo+
-PiArCQkJYXNzaWduZWQtY2xvY2tzID0gPCZ4aXNjPjsNCj4+ICsJCQlhc3NpZ25lZC1jbG9jay1y
-YXRlcyA9IDwyNjYwMDAwMDA+Ow0KPj4gKwkJCXN0YXR1cyA9ICJkaXNhYmxlZCI7DQo+PiArDQo+
-PiArCQkJcG9ydHMgew0KPj4gKwkJCQkjYWRkcmVzcy1jZWxscyA9IDwxPjsNCj4+ICsJCQkJI3Np
-emUtY2VsbHMgPSA8MD47DQo+PiArCQkJCXBvcnRAMCB7DQo+PiArCQkJCQlyZWcgPSA8MD47DQo+
-PiArCQkJCQljc2kyZGNfaW46IGVuZHBvaW50IHsNCj4+ICsJCQkJCX07DQo+PiArCQkJCX07DQo+
-PiArDQo+PiArCQkJCXBvcnRAMSB7DQo+PiArCQkJCQlyZWcgPSA8MT47DQo+PiArCQkJCQljc2ky
-ZGNfb3V0OiBlbmRwb2ludCB7DQo+PiArCQkJCQkJYnVzLXdpZHRoID0gPDE0PjsNCj4+ICsJCQkJ
-CQloc3luYy1hY3RpdmUgPSA8MT47DQo+PiArCQkJCQkJdnN5bmMtYWN0aXZlID0gPDE+Ow0KPj4g
-KwkJCQkJCXJlbW90ZS1lbmRwb2ludCA9IDwmeGlzY19pbj47DQo+PiArCQkJCQl9Ow0KPj4gKwkJ
-CQl9Ow0KPj4gKwkJCX07DQo+PiArCQl9Ow0KPj4gKw0KPj4gKwkJeGlzYzogeGlzY0BlMTQwODAw
-MCB7DQo+PiArCQkJY29tcGF0aWJsZSA9ICJtaWNyb2NoaXAsc2FtYTdnNS1pc2MiOw0KPj4gKwkJ
-CXJlZyA9IDwweGUxNDA4MDAwIDB4MjAwMD47DQo+PiArCQkJaW50ZXJydXB0cyA9IDxHSUNfU1BJ
-IDU2IElSUV9UWVBFX0xFVkVMX0hJR0g+Ow0KPj4gKwkJCWNsb2NrcyA9IDwmcG1jIFBNQ19UWVBF
-X1BFUklQSEVSQUwgNTY+Ow0KPj4gKwkJCWNsb2NrLW5hbWVzID0gImhjbG9jayI7DQo+PiArCQkJ
-I2Nsb2NrLWNlbGxzID0gPDA+Ow0KPj4gKwkJCWNsb2NrLW91dHB1dC1uYW1lcyA9ICJpc2MtbWNr
-IjsNCj4+ICsJCQlzdGF0dXMgPSAiZGlzYWJsZWQiOw0KPj4gKw0KPj4gKwkJCXBvcnQgew0KPj4g
-KwkJCQl4aXNjX2luOiBlbmRwb2ludCB7DQo+PiArCQkJCQlidXMtdHlwZSA9IDw1PjsgLyogUGFy
-YWxsZWwgKi8NCj4+ICsJCQkJCWJ1cy13aWR0aCA9IDwxND47DQo+PiArCQkJCQloc3luYy1hY3Rp
-dmUgPSA8MT47DQo+PiArCQkJCQl2c3luYy1hY3RpdmUgPSA8MT47DQo+PiArCQkJCQlyZW1vdGUt
-ZW5kcG9pbnQgPSA8JmNzaTJkY19vdXQ+Ow0KPj4gKwkJCQl9Ow0KPj4gKwkJCX07DQo+PiArCQl9
-Ow0KPj4gKw0KPj4gICAJCXB3bTogcHdtQGUxNjA0MDAwIHsNCj4+ICAgCQkJY29tcGF0aWJsZSA9
-ICJtaWNyb2NoaXAsc2FtYTdnNS1wd20iLCAiYXRtZWwsc2FtYTVkMi1wd20iOw0KPj4gICAJCQly
-ZWcgPSA8MHhlMTYwNDAwMCAweDQwMDA+Ow0KPiANCj4gSGVsbG8gQ2xhdWRpdSwgTmljb2xhcywN
-Cg0KSGksIEV1Z2VuLA0KDQo+IA0KPiBUaGlzIHBhdGNoIGlzIHJlYWR5IHRvIGdvIG5vdyAsIGFz
-IHRoZSBtZWRpYSBjb250cm9sbGVyIHN1cHBvcnQgZm9yIFhJU0MgDQo+IGRyaXZlciBpcyBpbiB0
-cmVlLg0KPiANCj4gTGV0IG1lIGtub3cgaWYgeW91IG5lZWQgdGhpcyB0byBiZSByZXNlbnQuDQoN
-Ck5vIG5lZWQuIEknbGwgdGFrZSB0aGlzIG9uZSBmb3IgdGhlIG5leHQgUFIuDQoNClRoYW5rIHlv
-dSwNCkNsYXVkaXUgQmV6bmVhDQoNCj4gDQo+IFRoYW5rcywNCj4gRXVnZW4NCj4gDQoNCg==
+usb_kill_urb warranties that all the handlers are finished when it
+returns, but does not protect against threads that might be handling
+asynchronously the urb.
+
+For UVC, the function uvc_ctrl_status_event_async() takes care of
+control changes asynchronously.
+
+ If the code is executed in the following order:
+
+CPU 0					CPU 1
+===== 					=====
+uvc_status_complete()
+					uvc_status_stop()
+uvc_ctrl_status_event_work()
+					uvc_status_start() -> FAIL
+
+Then uvc_status_start will keep failing and this error will be shown:
+
+<4>[    5.540139] URB 0000000000000000 submitted while active
+drivers/usb/core/urb.c:378 usb_submit_urb+0x4c3/0x528
+
+Let's improve the current situation, by not re-submiting the urb if
+we are stopping the status event. Also process the queued work
+(if any) during stop.
+
+CPU 0					CPU 1
+===== 					=====
+uvc_status_complete()
+					uvc_status_stop()
+					uvc_status_start()
+uvc_ctrl_status_event_work() -> FAIL
+
+Hopefully, with the usb layer protection this should be enough to cover
+all the cases.
+
+Cc: stable@vger.kernel.org
+Fixes: e5225c820c05 ("media: uvcvideo: Send a control event when a Control Change interrupt arrives")
+Reviewed-by: Yunke Cao <yunkec@chromium.org>
+Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+---
+uvc: Fix race condition on uvc
+
+Make sure that all the async work is finished when we stop the status urb.
+
+To: Yunke Cao <yunkec@chromium.org>
+To: Sergey Senozhatsky <senozhatsky@chromium.org>
+To: Max Staudt <mstaudt@google.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+---
+Changes in v4:
+- Replace bool with atomic_t to avoid compiler reordering
+- First complete the async work and then kill the urb to avoid race (Thanks Laurent!)
+- Link to v3: https://lore.kernel.org/r/20221212-uvc-race-v3-0-954efc752c9a@chromium.org
+
+Changes in v3:
+- Remove the patch for dev->status, makes more sense in another series, and makes
+  the zero day less nervous.
+- Update reviewed-by (thanks Yunke!).
+- Link to v2: https://lore.kernel.org/r/20221212-uvc-race-v2-0-54496cc3b8ab@chromium.org
+
+Changes in v2:
+- Add a patch for not kalloc dev->status
+- Redo the logic mechanism, so it also works with suspend (Thanks Yunke!)
+- Link to v1: https://lore.kernel.org/r/20221212-uvc-race-v1-0-c52e1783c31d@chromium.org
+---
+ drivers/media/usb/uvc/uvc_ctrl.c   | 3 +++
+ drivers/media/usb/uvc/uvc_status.c | 6 ++++++
+ drivers/media/usb/uvc/uvcvideo.h   | 1 +
+ 3 files changed, 10 insertions(+)
+
+diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
+index c95a2229f4fa..1be6897a7d6d 100644
+--- a/drivers/media/usb/uvc/uvc_ctrl.c
++++ b/drivers/media/usb/uvc/uvc_ctrl.c
+@@ -1442,6 +1442,9 @@ static void uvc_ctrl_status_event_work(struct work_struct *work)
+ 
+ 	uvc_ctrl_status_event(w->chain, w->ctrl, w->data);
+ 
++	if (atomic_read(&dev->flush_status))
++		return;
++
+ 	/* Resubmit the URB. */
+ 	w->urb->interval = dev->int_ep->desc.bInterval;
+ 	ret = usb_submit_urb(w->urb, GFP_KERNEL);
+diff --git a/drivers/media/usb/uvc/uvc_status.c b/drivers/media/usb/uvc/uvc_status.c
+index 7518ffce22ed..4a95850cdc1b 100644
+--- a/drivers/media/usb/uvc/uvc_status.c
++++ b/drivers/media/usb/uvc/uvc_status.c
+@@ -304,10 +304,16 @@ int uvc_status_start(struct uvc_device *dev, gfp_t flags)
+ 	if (dev->int_urb == NULL)
+ 		return 0;
+ 
++	atomic_set(&dev->flush_status, 0);
+ 	return usb_submit_urb(dev->int_urb, flags);
+ }
+ 
+ void uvc_status_stop(struct uvc_device *dev)
+ {
++	struct uvc_ctrl_work *w = &dev->async_ctrl;
++
++	atomic_set(&dev->flush_status, 1);
++	if (cancel_work_sync(&w->work))
++		uvc_ctrl_status_event(w->chain, w->ctrl, w->data);
+ 	usb_kill_urb(dev->int_urb);
+ }
+diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
+index df93db259312..1274691f157f 100644
+--- a/drivers/media/usb/uvc/uvcvideo.h
++++ b/drivers/media/usb/uvc/uvcvideo.h
+@@ -560,6 +560,7 @@ struct uvc_device {
+ 	struct usb_host_endpoint *int_ep;
+ 	struct urb *int_urb;
+ 	u8 *status;
++	atomic_t flush_status;
+ 	struct input_dev *input;
+ 	char input_phys[64];
+ 
+
+---
+base-commit: 0ec5a38bf8499f403f81cb81a0e3a60887d1993c
+change-id: 20221212-uvc-race-09276ea68bf8
+
+Best regards,
+-- 
+Ricardo Ribalda <ribalda@chromium.org>
