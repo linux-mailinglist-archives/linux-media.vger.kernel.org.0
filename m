@@ -2,70 +2,54 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BCBA764C171
-	for <lists+linux-media@lfdr.de>; Wed, 14 Dec 2022 01:42:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4FD2C64C211
+	for <lists+linux-media@lfdr.de>; Wed, 14 Dec 2022 03:02:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237271AbiLNAlu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 13 Dec 2022 19:41:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58560 "EHLO
+        id S236739AbiLNCCY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 13 Dec 2022 21:02:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59298 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237353AbiLNAl0 (ORCPT
+        with ESMTP id S229967AbiLNCCX (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 13 Dec 2022 19:41:26 -0500
-Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com [IPv6:2607:f8b0:4864:20::1034])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D24B62612C
-        for <linux-media@vger.kernel.org>; Tue, 13 Dec 2022 16:40:04 -0800 (PST)
-Received: by mail-pj1-x1034.google.com with SMTP id js9so5210989pjb.2
-        for <linux-media@vger.kernel.org>; Tue, 13 Dec 2022 16:40:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=nMXSUhRQOxy7tEuvDry5hNPWkTeD3FTVDObnfkaZoqo=;
-        b=BH7DsjF/MqmaFEQUpJolgTrbi5A6L62CZdhE1oKhBHXLTPvRwujfy44Po3BKotOOtC
-         m/lc9V7LvPlO9oA27wvnJECyKmNVMhwkDkhRN8zaqNeFKRxXQasvUHU7Hpifj4SkNsFB
-         T0zfj6yx9b7+7tQuqogJAof91yqJxBGMRoCLE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=nMXSUhRQOxy7tEuvDry5hNPWkTeD3FTVDObnfkaZoqo=;
-        b=HtQYQ0QkWeRo6K8AmIngQYtLVz0BuqddYUcl2h/cybP4yca68Y9+jKYK8luDDyvPq5
-         dpjvSB2+zN2e9G8V9rPfxmROUi+YrbTusUPhnoB+J5UpUG5qSEzV1JYp0lTPzgCQt+Vs
-         wD37he0OzP47VC0FV/1s0vjtKlhnCCzX1LWIo5fPoMjoiY+DeSxhZaWdw4q947m1U8v2
-         spXtpV/uptkbGr/YYRC8ZCwmIhzjco3s+UFp8VJoJVeGHIUtrJll5SncRM8a1WxWjKhg
-         QuN18E7vncxv5ZbfVspYkslIG8TUYp597NkSsxe8a4K01BCze7OQN7b6QFH7tB9mA0Gv
-         j1Gw==
-X-Gm-Message-State: ANoB5pm5rtCqe5HhZ9/JXgwNjrAL/LU8rIYJ4F+lz1p7RuFIZB1Q0Vx6
-        6WIEPUXiqXSAcHxlfzHx248+Vw==
-X-Google-Smtp-Source: AA0mqf4kSqVg4gnsl8RkfCPeORprvNaEXNUCBQeC70AsH6pnDWedTQ4tO9+n5cA43Z/m7cZ/ZT23ug==
-X-Received: by 2002:a17:902:d483:b0:189:ced9:a5ea with SMTP id c3-20020a170902d48300b00189ced9a5eamr29138799plg.27.1670978404367;
-        Tue, 13 Dec 2022 16:40:04 -0800 (PST)
-Received: from google.com (KD124209188001.ppp-bb.dion.ne.jp. [124.209.188.1])
-        by smtp.gmail.com with ESMTPSA id w1-20020a170902e88100b00186a2444a43sm510077plg.27.2022.12.13.16.40.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Dec 2022 16:40:03 -0800 (PST)
-Date:   Wed, 14 Dec 2022 09:39:58 +0900
-From:   Sergey Senozhatsky <senozhatsky@chromium.org>
-To:     Ricardo Ribalda <ribalda@chromium.org>
-Cc:     Max Staudt <mstaudt@google.com>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Yunke Cao <yunkec@chromium.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, stable@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] media: uvcvideo: Do not alloc dev->status
-Message-ID: <Y5kbXt5lUqUiCmCi@google.com>
-References: <20221212-uvc-race-v2-0-54496cc3b8ab@chromium.org>
- <20221212-uvc-race-v2-2-54496cc3b8ab@chromium.org>
+        Tue, 13 Dec 2022 21:02:23 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA4B913D41;
+        Tue, 13 Dec 2022 18:02:21 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id B2A7EB815FC;
+        Wed, 14 Dec 2022 02:02:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C203EC433D2;
+        Wed, 14 Dec 2022 02:02:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1670983338;
+        bh=83ob3N1he1MIOrIIbkVJFs5buErAmrdJMCOKfKXHqb0=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=bDLXc0RuV61tWZ2TmhA1zZ/K9nn8vhh9b8wz9mlGGOgLzL72MNBrv3mH5M0aHf5I3
+         hYs6hOT0gCeh5AF+RryYv8T3742g9igNINX2g//Q0TC+McJ349jyIEVzFAxIZPfX4E
+         N1Ms8QVMLpeyMvw3A726E4yHJiEUK7ovU2FeXBOiFb6EcuxkjSe2oj3T7gyQfQB65W
+         ihdnMMbu247K8HnVN4q4MpH7jWLJ/OHVUsz/8nMUgIWNMVcXMMGXDkb0I18prIFwR2
+         XONm4gCX+VRwbHTKJW+zbxU6oFygYoN5Fou0uk2HBKR4zgxK7mI9PN+4YcjW2MZ5LE
+         +IzwIELTfXT8g==
+Date:   Tue, 13 Dec 2022 18:02:16 -0800
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+Cc:     davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
+        sumit.semwal@linaro.org, christian.koenig@amd.com,
+        netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org,
+        Abaci Robot <abaci@linux.alibaba.com>
+Subject: Re: [PATCH v2] net: ksz884x: Remove some unused functions
+Message-ID: <20221213180216.34f1826f@kernel.org>
+In-Reply-To: <20221213035707.118309-1-jiapeng.chong@linux.alibaba.com>
+References: <20221213035707.118309-1-jiapeng.chong@linux.alibaba.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221212-uvc-race-v2-2-54496cc3b8ab@chromium.org>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -73,20 +57,23 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On (22/12/13 15:35), Ricardo Ribalda wrote:
-[..]
-> +++ b/drivers/media/usb/uvc/uvcvideo.h
-> @@ -559,7 +559,7 @@ struct uvc_device {
->  	/* Status Interrupt Endpoint */
->  	struct usb_host_endpoint *int_ep;
->  	struct urb *int_urb;
-> -	u8 *status;
-> +	u8 status[UVC_MAX_STATUS_SIZE];
+On Tue, 13 Dec 2022 11:57:07 +0800 Jiapeng Chong wrote:
+> These functions are defined in the ksz884x.c file, but not called
+> elsewhere, so delete these unused functions.
+> 
+> drivers/net/ethernet/micrel/ksz884x.c:2212:20: warning: unused function 'port_cfg_force_flow_ctrl'.
+> 
+> Link: https://bugzilla.openanolis.cn/show_bug.cgi?id=3418
+> Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+> Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
 
-Can we use `struct uvc_control_status status;` instead of open-coding it?
-Seems that this is what the code wants anyway:
+# Form letter - net-next is closed
 
-	struct uvc_control_status *status =
-				(struct uvc_control_status *)dev->status;
+We have already submitted the networking pull request to Linus
+for v6.2 and therefore net-next is closed for new drivers, features,
+code refactoring and optimizations. We are currently accepting
+bug fixes only.
 
-And then we can drop casts in uvc_status_complete().
+Please repost when net-next reopens after 6.2-rc1 is cut.
+
+RFC patches sent for review only are obviously welcome at any time.
