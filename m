@@ -2,29 +2,29 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B6FBA64D394
-	for <lists+linux-media@lfdr.de>; Thu, 15 Dec 2022 00:38:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BF1D664D398
+	for <lists+linux-media@lfdr.de>; Thu, 15 Dec 2022 00:39:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229614AbiLNXiv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 14 Dec 2022 18:38:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37050 "EHLO
+        id S229749AbiLNXjA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 14 Dec 2022 18:39:00 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37132 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229670AbiLNXip (ORCPT
+        with ESMTP id S229620AbiLNXis (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 14 Dec 2022 18:38:45 -0500
+        Wed, 14 Dec 2022 18:38:48 -0500
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B21230F73;
-        Wed, 14 Dec 2022 15:38:44 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6FAAD36D53;
+        Wed, 14 Dec 2022 15:38:45 -0800 (PST)
 Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id B76D1987;
-        Thu, 15 Dec 2022 00:38:42 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3F40D1837;
+        Thu, 15 Dec 2022 00:38:44 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1671061123;
-        bh=T0k0OU30oxgswY849gI53lLRju/KMWo/RRIugD6j1w8=;
+        s=mail; t=1671061124;
+        bh=mywXsr2SJsM5CqnmsoIiP/jc4A/TXZldwm+c0iXKt3c=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=VAuT8uauWxxbcv47H9msn6YtKqW7kPAVtLaCguaJyffvUcG0hs/DbPejo+VzdW70i
-         0fvH6unli37fGAzf6TSuMsR/2h63lnofSp6QvmycgIOKzN1v9MPlqs/uDlQ2gv/LYR
-         TfxtrGIih6CSG5Bv5BQCe6DF0D7+b97p7A6/6IYk=
+        b=I6d+jeIt6eZF8N3Uigwn+S9FjUC6VYKOLzqfgOZI91FcOIhweKG3JVm/CQ/hQ104/
+         nJWstC2KpLIUzxSu/A3CKqvBBIPpGs2/oNLRjPgQ3oRfnFyEdU7CAyzvdmkygmVlmq
+         s2UG7RXdyS5bIwqng71GQsT07aKq2Sl3J3Y2LwQg=
 From:   Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 To:     linux-media@vger.kernel.org
 Cc:     linux-renesas-soc@vger.kernel.org,
@@ -32,9 +32,9 @@ Cc:     linux-renesas-soc@vger.kernel.org,
         Kieran Bingham <kieran.bingham@ideasonboard.com>,
         =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
         Thomas Nizan <tnizan@witekio.com>
-Subject: [PATCH v3 09/12] media: i2c: max9286: Configure remote I2C speed from device tree
-Date:   Thu, 15 Dec 2022 01:38:22 +0200
-Message-Id: <20221214233825.13050-10-laurent.pinchart+renesas@ideasonboard.com>
+Subject: [PATCH v3 10/12] media: i2c: max9286: Configure bus width from device tree
+Date:   Thu, 15 Dec 2022 01:38:23 +0200
+Message-Id: <20221214233825.13050-11-laurent.pinchart+renesas@ideasonboard.com>
 X-Mailer: git-send-email 2.37.4
 In-Reply-To: <20221214233825.13050-1-laurent.pinchart+renesas@ideasonboard.com>
 References: <20221214233825.13050-1-laurent.pinchart+renesas@ideasonboard.com>
@@ -49,146 +49,93 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Read the maxim,i2c-clock-frequency DT property that specifies the speed
-of the remote I2C bus, and configure the MAX9286 accordingly. The remote
-serializers must all have a matching configuration.
+The GMSL serial data bus width is normally selected through the BWS pin.
+On some systems, the pin may not be wired to the correct value. Support
+overriding the bus width by software, using the value specified in the
+device tree.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
 ---
-Changes since v2:
+Changes since v1:
 
-- Rename DT property to "maxim,i2c-remote-bus-hz"
+- Add comment about the bus_width == 0 case
 ---
- drivers/media/i2c/max9286.c | 56 +++++++++++++++++++++++++++++++------
- 1 file changed, 47 insertions(+), 9 deletions(-)
+ drivers/media/i2c/max9286.c | 40 +++++++++++++++++++++++++++++++++++++
+ 1 file changed, 40 insertions(+)
 
 diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
-index e78456c8d24c..fffb0d2da416 100644
+index fffb0d2da416..125b4d434f57 100644
 --- a/drivers/media/i2c/max9286.c
 +++ b/drivers/media/i2c/max9286.c
-@@ -144,6 +144,11 @@ struct max9286_format_info {
- 	u8 datatype;
- };
- 
-+struct max9286_i2c_speed {
-+	u32 rate;
-+	u8 mstbt;
-+};
-+
- struct max9286_source {
- 	struct v4l2_subdev *sd;
- 	struct fwnode_handle *fwnode;
-@@ -177,6 +182,7 @@ struct max9286_priv {
- 	/* The initial reverse control channel amplitude. */
+@@ -91,6 +91,11 @@
+ /* Register 0x1b */
+ #define MAX9286_SWITCHIN(n)		(1 << ((n) + 4))
+ #define MAX9286_ENEQ(n)			(1 << (n))
++/* Register 0x1c */
++#define MAX9286_HIGHIMM(n)		BIT((n) + 4)
++#define MAX9286_I2CSEL			BIT(2)
++#define MAX9286_HIBW			BIT(1)
++#define MAX9286_BWS			BIT(0)
+ /* Register 0x27 */
+ #define MAX9286_LOCKED			BIT(7)
+ /* Register 0x31 */
+@@ -183,6 +188,7 @@ struct max9286_priv {
  	u32 init_rev_chan_mv;
  	u32 rev_chan_mv;
-+	u8 i2c_mstbt;
+ 	u8 i2c_mstbt;
++	u32 bus_width;
  
  	bool use_gpio_poc;
  	u32 gpio_poc[2];
-@@ -254,6 +260,17 @@ static const struct max9286_format_info max9286_formats[] = {
- 	},
- };
+@@ -1168,6 +1174,23 @@ static int max9286_setup(struct max9286_priv *priv)
+ 	max9286_set_video_format(priv, &max9286_default_format);
+ 	max9286_set_fsync_period(priv);
  
-+static const struct max9286_i2c_speed max9286_i2c_speeds[] = {
-+	{ .rate =   8470, .mstbt = MAX9286_I2CMSTBT_8KBPS },
-+	{ .rate =  28300, .mstbt = MAX9286_I2CMSTBT_28KBPS },
-+	{ .rate =  84700, .mstbt = MAX9286_I2CMSTBT_84KBPS },
-+	{ .rate = 105000, .mstbt = MAX9286_I2CMSTBT_105KBPS },
-+	{ .rate = 173000, .mstbt = MAX9286_I2CMSTBT_173KBPS },
-+	{ .rate = 339000, .mstbt = MAX9286_I2CMSTBT_339KBPS },
-+	{ .rate = 533000, .mstbt = MAX9286_I2CMSTBT_533KBPS },
-+	{ .rate = 837000, .mstbt = MAX9286_I2CMSTBT_837KBPS },
-+};
++	if (priv->bus_width) {
++		int val;
 +
- /* -----------------------------------------------------------------------------
-  * I2C IO
-  */
-@@ -374,7 +391,7 @@ static int max9286_i2c_mux_init(struct max9286_priv *priv)
- static void max9286_configure_i2c(struct max9286_priv *priv, bool localack)
- {
- 	u8 config = MAX9286_I2CSLVSH_469NS_234NS | MAX9286_I2CSLVTO_1024US |
--		    MAX9286_I2CMSTBT_105KBPS;
-+		    priv->i2c_mstbt;
- 
- 	if (localack)
- 		config |= MAX9286_I2CLOCACK;
-@@ -1387,6 +1404,8 @@ static int max9286_parse_dt(struct max9286_priv *priv)
- 	struct device_node *node = NULL;
- 	unsigned int i2c_mux_mask = 0;
- 	u32 reverse_channel_microvolt;
-+	u32 i2c_clk_freq = 105000;
-+	unsigned int i;
- 
- 	/* Balance the of_node_put() performed by of_find_node_by_name(). */
- 	of_node_get(dev->of_node);
-@@ -1477,6 +1496,23 @@ static int max9286_parse_dt(struct max9286_priv *priv)
- 	}
- 	of_node_put(node);
- 
-+	of_property_read_u32(dev->of_node, "maxim,i2c-remote-bus-hz",
-+			     &i2c_clk_freq);
-+	for (i = 0; i < ARRAY_SIZE(max9286_i2c_speeds); ++i) {
-+		const struct max9286_i2c_speed *speed = &max9286_i2c_speeds[i];
++		val = max9286_read(priv, 0x1c);
++		if (val < 0)
++			return val;
 +
-+		if (speed->rate == i2c_clk_freq) {
-+			priv->i2c_mstbt = speed->mstbt;
-+			break;
-+		}
-+	}
++		val &= ~(MAX9286_HIBW | MAX9286_BWS);
 +
-+	if (i == ARRAY_SIZE(max9286_i2c_speeds)) {
-+		dev_err(dev, "Invalid %s value %u\n", "maxim,i2c-remote-bus-hz",
-+			i2c_clk_freq);
-+		return -EINVAL;
++		if (priv->bus_width == 27)
++			val |= MAX9286_HIBW;
++		else if (priv->bus_width == 32)
++			val |= MAX9286_BWS;
++
++		max9286_write(priv, 0x1c, val);
 +	}
 +
  	/*
- 	 * Parse the initial value of the reverse channel amplitude from
- 	 * the firmware interface and convert it to millivolts.
-@@ -1553,10 +1589,16 @@ static int max9286_probe(struct i2c_client *client)
- 	/* GPIO values default to high */
- 	priv->gpio_state = BIT(0) | BIT(1);
+ 	 * The overlap window seems to provide additional validation by tracking
+ 	 * the delay between vsync and frame sync, generating an error if the
+@@ -1496,6 +1519,23 @@ static int max9286_parse_dt(struct max9286_priv *priv)
+ 	}
+ 	of_node_put(node);
  
-+	ret = max9286_parse_dt(priv);
-+	if (ret)
-+		goto err_cleanup_dt;
-+
- 	priv->gpiod_pwdn = devm_gpiod_get_optional(&client->dev, "enable",
- 						   GPIOD_OUT_HIGH);
--	if (IS_ERR(priv->gpiod_pwdn))
--		return PTR_ERR(priv->gpiod_pwdn);
-+	if (IS_ERR(priv->gpiod_pwdn)) {
-+		ret = PTR_ERR(priv->gpiod_pwdn);
-+		goto err_cleanup_dt;
++	of_property_read_u32(dev->of_node, "maxim,bus-width", &priv->bus_width);
++	switch (priv->bus_width) {
++	case 0:
++		/*
++		 * The property isn't specified in the device tree, the driver
++		 * will keep the default value selected by the BWS pin.
++		 */
++	case 24:
++	case 27:
++	case 32:
++		break;
++	default:
++		dev_err(dev, "Invalid %s value %u\n", "maxim,bus-width",
++			priv->bus_width);
++		return -EINVAL;
 +	}
- 
- 	gpiod_set_consumer_name(priv->gpiod_pwdn, "max9286-pwdn");
- 	gpiod_set_value_cansleep(priv->gpiod_pwdn, 1);
-@@ -1583,10 +1625,6 @@ static int max9286_probe(struct i2c_client *client)
- 	if (ret)
- 		goto err_powerdown;
- 
--	ret = max9286_parse_dt(priv);
--	if (ret)
--		goto err_cleanup_dt;
--
- 	if (!priv->use_gpio_poc) {
- 		ret = max9286_get_poc_supplies(priv);
- 		if (ret)
-@@ -1599,10 +1637,10 @@ static int max9286_probe(struct i2c_client *client)
- 
- 	return 0;
- 
--err_cleanup_dt:
--	max9286_cleanup_dt(priv);
- err_powerdown:
- 	gpiod_set_value_cansleep(priv->gpiod_pwdn, 0);
-+err_cleanup_dt:
-+	max9286_cleanup_dt(priv);
- 
- 	return ret;
- }
++
+ 	of_property_read_u32(dev->of_node, "maxim,i2c-remote-bus-hz",
+ 			     &i2c_clk_freq);
+ 	for (i = 0; i < ARRAY_SIZE(max9286_i2c_speeds); ++i) {
 -- 
 Regards,
 
