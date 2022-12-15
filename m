@@ -2,338 +2,120 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A44C264DE1E
-	for <lists+linux-media@lfdr.de>; Thu, 15 Dec 2022 16:55:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B1EB164DE8A
+	for <lists+linux-media@lfdr.de>; Thu, 15 Dec 2022 17:24:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229624AbiLOPze (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 15 Dec 2022 10:55:34 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36052 "EHLO
+        id S229865AbiLOQYI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 15 Dec 2022 11:24:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48994 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229480AbiLOPzc (ORCPT
+        with ESMTP id S230113AbiLOQXf (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 15 Dec 2022 10:55:32 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12B892EF06
-        for <linux-media@vger.kernel.org>; Thu, 15 Dec 2022 07:55:31 -0800 (PST)
-Received: from [192.168.0.43] (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net [86.13.91.161])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id A6FF9327;
-        Thu, 15 Dec 2022 16:55:28 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1671119729;
-        bh=9RWaMZXBa6TE6U7VoQVNk7fiEOBYsC1HvIMxhGJrF4I=;
-        h=Date:To:Cc:References:From:Subject:In-Reply-To:From;
-        b=Mne2y4Jsqhg+K6WjENc/S2LDOe+nU5/OmnTUtMIOTgxKsVbKveDhNFeB3GZfz4Hfu
-         Td1syqvSxPDnt3g5lvFgXyIlENwIc5rlEyI/wZyBv2Yyk2g6u7EhsfiofxoT2F8lpY
-         AwxqvO6k++YpTPodXiM1ndd4e4jYIW/F0p5SwnhI=
-Message-ID: <72782fc9-ebe6-bab5-78b5-a66b226b4d74@ideasonboard.com>
-Date:   Thu, 15 Dec 2022 15:55:25 +0000
+        Thu, 15 Dec 2022 11:23:35 -0500
+Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com [209.85.210.54])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E85FF396D3;
+        Thu, 15 Dec 2022 08:22:17 -0800 (PST)
+Received: by mail-ot1-f54.google.com with SMTP id m7-20020a9d6447000000b0066da0504b5eso3856000otl.13;
+        Thu, 15 Dec 2022 08:22:17 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=5lvp+Rra/J+0wVWurvbgG0Bk7qShU+6ZOVAk+JE7aHs=;
+        b=xWml9QbxpMOa2ekPwryWxLXpaSuCWrhupKpu4VuYFpMkhSpBY+egWUFKy/s1BpAd9m
+         +xKyVJin2Y1QoOUQjiVZWFNG34t9twUEcnluDcVscs2neDJliUs20JhD4GOKTPPXX3Cv
+         YUZhonSPUMYk3jD6xvqxHiScsdBJ3n9CMrV7nFUZ1byHSeYEy4Z9DEO+ts056YYkXHB0
+         xFkSPkA7uiX7slhS0+oEjVKexllRBRjGVGXi5nTyz4HTJZQHvmF8UZd5Lou3+OhpfAjO
+         HGQ4dDu2F9Q7G8VC4gIFsUNYCMAB3Ksobm4F5Oq2KszVRjkJGpb0yCDNNVPFZUtFyk7u
+         xALQ==
+X-Gm-Message-State: ANoB5pncLq8ts+YT4trDNHS4JEQ2aqlym8TWY6gjfHSZOZsCMx4B5nbk
+        wwLSur+3sxN/JiMPWcyoGA==
+X-Google-Smtp-Source: AA0mqf7X/PFzmParAODHOyFtTJjq+Nk9hxsJMAGA3If31IqPxkC3c3wsbOlFneYtyPmQ2EVOqVfozw==
+X-Received: by 2002:a05:6830:2098:b0:670:6976:a864 with SMTP id y24-20020a056830209800b006706976a864mr14501417otq.29.1671121337113;
+        Thu, 15 Dec 2022 08:22:17 -0800 (PST)
+Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id d21-20020a056830139500b0066ec7ace428sm3698309otq.10.2022.12.15.08.22.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 15 Dec 2022 08:22:16 -0800 (PST)
+Received: (nullmailer pid 145631 invoked by uid 1000);
+        Thu, 15 Dec 2022 16:22:16 -0000
+Date:   Thu, 15 Dec 2022 10:22:16 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        devicetree@vger.kernel.org, linux-media@vger.kernel.org,
+        Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+        Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Thomas Nizan <tnizan@witekio.com>,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v3 02/12] dt-bindings: media: i2c: max9286: Add property
+ to select I2C speed
+Message-ID: <20221215162216.GA141183-robh@kernel.org>
+References: <20221214233825.13050-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20221214233825.13050-3-laurent.pinchart+renesas@ideasonboard.com>
+ <167111060968.3140791.14917058235505688958.robh@kernel.org>
+ <Y5skgJqitZRKHqyY@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Content-Language: en-US
-To:     Yunke Cao <yunkec@google.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Tomasz Figa <tfiga@chromium.org>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Ricardo Ribalda <ribalda@chromium.org>,
-        linux-media@vger.kernel.org
-References: <20221109060621.704531-1-yunkec@google.com>
- <20221109060621.704531-7-yunkec@google.com>
-From:   Dan Scally <dan.scally@ideasonboard.com>
-Subject: Re: [PATCH v10 06/11] media: uvcvideo: implement UVC v1.5 ROI
-In-Reply-To: <20221109060621.704531-7-yunkec@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y5skgJqitZRKHqyY@pendragon.ideasonboard.com>
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
+        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Yunke
+On Thu, Dec 15, 2022 at 03:43:28PM +0200, Laurent Pinchart wrote:
+> Hi Rob,
+> 
+> On Thu, Dec 15, 2022 at 07:24:38AM -0600, Rob Herring wrote:
+> > On Thu, 15 Dec 2022 01:38:15 +0200, Laurent Pinchart wrote:
+> > > The I2C speed on the remote side (the I2C master bus of the connected
+> > > serializers) is configurable, and doesn't need to match the speed of the
+> > > local bus (the slave bus of the MAX9286). All remote buses must use the
+> > > same speed, and the MAX9286 needs to be programmed accordingly. Add a
+> > > new DT property to select the speed to make it configurable.
+> > > 
+> > > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> > > Reviewed-by: Rob Herring <robh@kernel.org>
+> > > ---
+> > > Changes since v2:
+> > > 
+> > > - Rename property to maxim,i2c-remote-bus-hz
+> > > - Specify the property type
+> > > ---
+> > >  .../devicetree/bindings/media/i2c/maxim,max9286.yaml      | 8 ++++++++
+> > >  1 file changed, 8 insertions(+)
+> > > 
+> > 
+> > My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+> > on your patch (DT_CHECKER_FLAGS is new in v5.13):
+> > 
+> > yamllint warnings/errors:
+> > 
+> > dtschema/dtc warnings/errors:
+> > /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml: properties:maxim,i2c-remote-bus-hz: '$ref' should not be valid under {'const': '$ref'}
+> > 	hint: Standard unit suffix properties don't need a type $ref
+> > 	from schema $id: http://devicetree.org/meta-schemas/core.yaml#
+> 
+> I wonder how I missed that, as I've run dt_binding_check before
+> submitting. I'll fix it.
+> 
+> I'm a bit surprised though, all unit-suffixed properties use 32-bit
+> integers in the DT schema, while I can imagine that some may need a
+> 64-bit integer. What's the recommendation in that case ?
 
-On 09/11/2022 06:06, Yunke Cao wrote:
-> Implement support for ROI as described in UVC 1.5:
-> 4.2.2.1.20 Digital Region of Interest (ROI) Control
->
-> ROI control is implemented using V4L2 control API as
-> two UVC-specific controls:
-> V4L2_CID_UVC_REGION_OF_INTEREST_RECT and
-> V4L2_CID_UVC_REGION_OF_INTEREST_AUTO.
->
-> Signed-off-by: Yunke Cao <yunkec@google.com>
-> Reviewed-by: Ricardo Ribalda <ribalda@chromium.org>
-> ---
-> Changelog since v9:
-> - No change.
-> Changelog since v8:
-> - No change.
-> Changelog since v7:
-> - Fix a few style issues.
-> - Only allow 4-byte aligned data.
-> - Add control names.
-> - Move initialization to 7/10.
->
-> Question:
-> - Is V4L2_CID_CAMERA_UVC_BASE defined correctly?
->    Should we use V4L2_CID_PRIVATE_BASE?
->
->   drivers/media/usb/uvc/uvc_ctrl.c   | 111 +++++++++++++++++++++++++++--
->   drivers/media/usb/uvc/uvc_v4l2.c   |   5 +-
->   drivers/media/usb/uvc/uvcvideo.h   |   7 ++
->   include/uapi/linux/usb/video.h     |   1 +
->   include/uapi/linux/uvcvideo.h      |  13 ++++
->   include/uapi/linux/v4l2-controls.h |   9 +++
->   6 files changed, 140 insertions(+), 6 deletions(-)
->
-> diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
-> index 7d86aa695b34..6279a3edf944 100644
-> --- a/drivers/media/usb/uvc/uvc_ctrl.c
-> +++ b/drivers/media/usb/uvc/uvc_ctrl.c
-> @@ -356,6 +356,24 @@ static const struct uvc_control_info uvc_ctrls[] = {
->   		.flags		= UVC_CTRL_FLAG_GET_CUR
->   				| UVC_CTRL_FLAG_AUTO_UPDATE,
->   	},
-> +	/*
-> +	 * UVC_CTRL_FLAG_AUTO_UPDATE is needed because the RoI may get updated
-> +	 * by sensors.
-> +	 * "This RoI should be the same as specified in most recent SET_CUR
-> +	 * except in the case where the ‘Auto Detect and Track’ and/or
-> +	 * ‘Image Stabilization’ bit have been set."
-> +	 * 4.2.2.1.20 Digital Region of Interest (ROI) Control
-> +	 */
-> +	{
-> +		.entity		= UVC_GUID_UVC_CAMERA,
-> +		.selector	= UVC_CT_REGION_OF_INTEREST_CONTROL,
-> +		.index		= 21,
-> +		.size		= 10,
-> +		.flags		= UVC_CTRL_FLAG_SET_CUR | UVC_CTRL_FLAG_GET_CUR
-> +				| UVC_CTRL_FLAG_GET_MIN | UVC_CTRL_FLAG_GET_MAX
-> +				| UVC_CTRL_FLAG_GET_DEF
-> +				| UVC_CTRL_FLAG_AUTO_UPDATE,
-> +	},
->   };
->   
->   static const u32 uvc_control_classes[] = {
-> @@ -431,6 +449,57 @@ static void uvc_ctrl_set_rel_speed(struct uvc_control_mapping *mapping,
->   	data[first+1] = min_t(int, abs(value), 0xff);
->   }
->   
-> +static int uvc_to_v4l2_rect(struct v4l2_rect *v4l2_rect,
-> +			    const struct uvc_rect *uvc_rect)
-> +{
-> +	if (uvc_rect->top < uvc_rect->bottom ||
-> +	    uvc_rect->right < uvc_rect->left)
-> +		return -EINVAL;
-> +
-> +	v4l2_rect->top = uvc_rect->top;
-> +	v4l2_rect->left = uvc_rect->left;
-> +	v4l2_rect->height = uvc_rect->bottom - uvc_rect->top + 1;
-> +	v4l2_rect->width = uvc_rect->right - uvc_rect->left + 1;
-> +	return 0;
-> +}
-> +
-> +static int v4l2_to_uvc_rect(struct uvc_rect *uvc_rect,
-> +			    const struct v4l2_rect *v4l2_rect)
-> +{
-> +	/* Safely converts s32 and u32 to u16. */
-> +	if (v4l2_rect->top > U16_MAX || v4l2_rect->top < 0 ||
-> +	    v4l2_rect->left > U16_MAX || v4l2_rect->left < 0 ||
-> +	    v4l2_rect->height > U16_MAX || v4l2_rect->height == 0 ||
-> +	    v4l2_rect->width > U16_MAX || v4l2_rect->width == 0 ||
-> +	    v4l2_rect->height + v4l2_rect->top - 1 > U16_MAX ||
-> +	    v4l2_rect->width + v4l2_rect->left - 1 > U16_MAX)
-> +		return -ERANGE;
-> +
-> +	uvc_rect->top = v4l2_rect->top;
-> +	uvc_rect->left = v4l2_rect->left;
-> +	uvc_rect->bottom = v4l2_rect->height + v4l2_rect->top - 1;
-> +	uvc_rect->right = v4l2_rect->width + v4l2_rect->left - 1;
-> +	return 0;
-> +}
+Use -mhz.
 
+Anything outside the norm we have to special case in 
+property-units.yaml.
 
-uvc_ctrl_set() clamps out of range values...which is of course hard to 
-do at that point with the compound controls, but I think it would be ok 
-to simplify this function by clamping the values from v4l2_rect.
-
-> +
-> +static int uvc_get_compound_rect(struct uvc_control_mapping *mapping,
-> +				 const u8 *data,  u8 *data_out)
-> +{
-> +	struct uvc_rect *uvc_rect;
-> +
-> +	uvc_rect = (struct uvc_rect *)(data + mapping->offset / 8);
-> +	return uvc_to_v4l2_rect((struct v4l2_rect *)data_out, uvc_rect);
-> +}
-> +
-> +static int uvc_set_compound_rect(struct uvc_control_mapping *mapping,
-> +				 const u8 *data_in, u8 *data)
-> +{
-> +	struct uvc_rect *uvc_rect;
-> +
-> +	uvc_rect = (struct uvc_rect *)(data + mapping->offset / 8);
-> +	return v4l2_to_uvc_rect(uvc_rect, (struct v4l2_rect *)data_in);
-> +}
-> +
->   static const struct uvc_control_mapping uvc_ctrl_mappings[] = {
->   	{
->   		.id		= V4L2_CID_BRIGHTNESS,
-> @@ -719,6 +788,29 @@ static const struct uvc_control_mapping uvc_ctrl_mappings[] = {
->   		.v4l2_type	= V4L2_CTRL_TYPE_BOOLEAN,
->   		.data_type	= UVC_CTRL_DATA_TYPE_BOOLEAN,
->   	},
-> +	{
-> +		.id		= V4L2_CID_UVC_REGION_OF_INTEREST_RECT,
-> +		.entity		= UVC_GUID_UVC_CAMERA,
-> +		.selector	= UVC_CT_REGION_OF_INTEREST_CONTROL,
-> +		.v4l2_size	= sizeof(struct v4l2_rect) * 8,
-> +		.data_size	= sizeof(struct uvc_rect) * 8,
-> +		.offset		= 0,
-> +		.v4l2_type	= V4L2_CTRL_TYPE_RECT,
-> +		.data_type	= UVC_CTRL_DATA_TYPE_RECT,
-> +		.get_compound	= uvc_get_compound_rect,
-> +		.set_compound	= uvc_set_compound_rect,
-> +		.name		= "Region Of Interest Rectangle",
-> +	},
-> +	{
-> +		.id		= V4L2_CID_UVC_REGION_OF_INTEREST_AUTO,
-> +		.entity		= UVC_GUID_UVC_CAMERA,
-> +		.selector	= UVC_CT_REGION_OF_INTEREST_CONTROL,
-> +		.data_size	= 16,
-> +		.offset		= 64,
-> +		.v4l2_type	= V4L2_CTRL_TYPE_BITMASK,
-> +		.data_type	= UVC_CTRL_DATA_TYPE_BITMASK,
-> +		.name		= "Region Of Interest Auto Controls",
-> +	},
->   };
->   
->   static const struct uvc_control_mapping uvc_ctrl_mappings_uvc11[] = {
-> @@ -2444,12 +2536,21 @@ static int __uvc_ctrl_add_mapping(struct uvc_video_chain *chain,
->   	}
->   
->   	if (uvc_ctrl_mapping_is_compound(map)) {
-> -		if (map->data_size != map->v4l2_size)
-> -			return -EINVAL;
-> +		switch (map->v4l2_type) {
-> +		case V4L2_CTRL_TYPE_RECT:
-> +			/* Only supports 4 bytes-aligned data. */
-> +			if (WARN_ON(map->offset % 32))
-> +				return -EINVAL;
-> +			break;
-> +		default:
-> +			if (WARN_ON(map->data_size != map->v4l2_size))
-> +				return -EINVAL;
-> +
-> +			/* Only supports byte-aligned data. */
-> +			if (WARN_ON(map->offset % 8 || map->data_size % 8))
-> +				return -EINVAL;
-> +		}
->   
-> -		/* Only supports byte-aligned data. */
-> -		if (WARN_ON(map->offset % 8 || map->data_size % 8))
-> -			return -EINVAL;
->   	}
->   
->   	if (!map->get && !uvc_ctrl_mapping_is_compound(map))
-> diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
-> index 36ff1d0d6edb..52a7dc9ad4b9 100644
-> --- a/drivers/media/usb/uvc/uvc_v4l2.c
-> +++ b/drivers/media/usb/uvc/uvc_v4l2.c
-> @@ -1002,7 +1002,10 @@ static int uvc_ioctl_query_ext_ctrl(struct file *file, void *fh,
->   	qec->step = qc.step;
->   	qec->default_value = qc.default_value;
->   	qec->flags = qc.flags;
-> -	qec->elem_size = 4;
-> +	if (qc.type == V4L2_CTRL_TYPE_RECT)
-> +		qec->elem_size = sizeof(struct v4l2_rect);
-> +	else
-> +		qec->elem_size = 4;
->   	qec->elems = 1;
->   	qec->nr_of_dims = 0;
->   	memset(qec->dims, 0, sizeof(qec->dims));
-> diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-> index 1e1bccd3b2e5..c47304a63a7d 100644
-> --- a/drivers/media/usb/uvc/uvcvideo.h
-> +++ b/drivers/media/usb/uvc/uvcvideo.h
-> @@ -291,6 +291,13 @@ struct uvc_streaming_header {
->   	u8 bTriggerUsage;
->   };
->   
-> +struct uvc_rect {
-> +	u16 top;
-> +	u16 left;
-> +	u16 bottom;
-> +	u16 right;
-> +} __packed;
-> +
->   enum uvc_buffer_state {
->   	UVC_BUF_STATE_IDLE	= 0,
->   	UVC_BUF_STATE_QUEUED	= 1,
-> diff --git a/include/uapi/linux/usb/video.h b/include/uapi/linux/usb/video.h
-> index bfdae12cdacf..9076a444758a 100644
-> --- a/include/uapi/linux/usb/video.h
-> +++ b/include/uapi/linux/usb/video.h
-> @@ -104,6 +104,7 @@
->   #define UVC_CT_ROLL_ABSOLUTE_CONTROL			0x0f
->   #define UVC_CT_ROLL_RELATIVE_CONTROL			0x10
->   #define UVC_CT_PRIVACY_CONTROL				0x11
-> +#define UVC_CT_REGION_OF_INTEREST_CONTROL		0x14
->   
->   /* A.9.5. Processing Unit Control Selectors */
->   #define UVC_PU_CONTROL_UNDEFINED			0x00
-> diff --git a/include/uapi/linux/uvcvideo.h b/include/uapi/linux/uvcvideo.h
-> index 8288137387c0..ae5eaa14eca2 100644
-> --- a/include/uapi/linux/uvcvideo.h
-> +++ b/include/uapi/linux/uvcvideo.h
-> @@ -16,6 +16,7 @@
->   #define UVC_CTRL_DATA_TYPE_BOOLEAN	3
->   #define UVC_CTRL_DATA_TYPE_ENUM		4
->   #define UVC_CTRL_DATA_TYPE_BITMASK	5
-> +#define UVC_CTRL_DATA_TYPE_RECT		6
->   
->   /* Control flags */
->   #define UVC_CTRL_FLAG_SET_CUR		(1 << 0)
-> @@ -36,6 +37,18 @@
->   	 UVC_CTRL_FLAG_GET_MAX | UVC_CTRL_FLAG_GET_RES | \
->   	 UVC_CTRL_FLAG_GET_DEF)
->   
-> +/* V4L2 driver-specific controls */
-> +#define V4L2_CID_UVC_REGION_OF_INTEREST_RECT	(V4L2_CID_CAMERA_UVC_BASE + 1)
-> +#define V4L2_CID_UVC_REGION_OF_INTEREST_AUTO	(V4L2_CID_CAMERA_UVC_BASE + 2)
-> +#define V4L2_UVC_REGION_OF_INTEREST_AUTO_EXPOSURE		(1 << 0)
-> +#define V4L2_UVC_REGION_OF_INTEREST_AUTO_IRIS			(1 << 1)
-> +#define V4L2_UVC_REGION_OF_INTEREST_AUTO_WHITE_BALANCE		(1 << 2)
-> +#define V4L2_UVC_REGION_OF_INTEREST_AUTO_FOCUS			(1 << 3)
-> +#define V4L2_UVC_REGION_OF_INTEREST_AUTO_FACE_DETECT		(1 << 4)
-> +#define V4L2_UVC_REGION_OF_INTEREST_AUTO_DETECT_AND_TRACK	(1 << 5)
-> +#define V4L2_UVC_REGION_OF_INTEREST_AUTO_IMAGE_STABILIZATION	(1 << 6)
-> +#define V4L2_UVC_REGION_OF_INTEREST_AUTO_HIGHER_QUALITY		(1 << 7)
-> +
->   struct uvc_menu_info {
->   	__u32 value;
->   	__u8 name[32];
-> diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
-> index b5e7d082b8ad..b3544355be8f 100644
-> --- a/include/uapi/linux/v4l2-controls.h
-> +++ b/include/uapi/linux/v4l2-controls.h
-> @@ -1019,6 +1019,15 @@ enum v4l2_auto_focus_range {
->   
->   #define V4L2_CID_CAMERA_SENSOR_ROTATION		(V4L2_CID_CAMERA_CLASS_BASE+35)
->   
-> +/* CAMERA-class private control IDs */
-> +
-> +/*
-> + * The base for the uvc driver controls.
-> + * See linux/uvcvideo.h for the list of controls.
-> + * We reserve 64 controls for this driver.
-> + */
-> +#define V4L2_CID_CAMERA_UVC_BASE		(V4L2_CID_CAMERA_CLASS_BASE + 0x1000)
-> +
->   /* FM Modulator class control IDs */
->   
->   #define V4L2_CID_FM_TX_CLASS_BASE		(V4L2_CTRL_CLASS_FM_TX | 0x900)
+Rob
