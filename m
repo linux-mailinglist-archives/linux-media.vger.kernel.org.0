@@ -2,31 +2,31 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E18D564D926
-	for <lists+linux-media@lfdr.de>; Thu, 15 Dec 2022 10:59:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6C96964D9BA
+	for <lists+linux-media@lfdr.de>; Thu, 15 Dec 2022 11:49:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229808AbiLOJ74 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 15 Dec 2022 04:59:56 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54792 "EHLO
+        id S230152AbiLOKtD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 15 Dec 2022 05:49:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52182 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230178AbiLOJ7r (ORCPT
+        with ESMTP id S229462AbiLOKtA (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 15 Dec 2022 04:59:47 -0500
+        Thu, 15 Dec 2022 05:49:00 -0500
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB041537F8
-        for <linux-media@vger.kernel.org>; Thu, 15 Dec 2022 01:59:42 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 389462BB0F
+        for <linux-media@vger.kernel.org>; Thu, 15 Dec 2022 02:48:58 -0800 (PST)
 Received: from [192.168.0.43] (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net [86.13.91.161])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0A515327;
-        Thu, 15 Dec 2022 10:59:40 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id F0834327;
+        Thu, 15 Dec 2022 11:48:55 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1671098381;
-        bh=OaNP2DgXtuIToN2BOOsYajVXd4wdPfiXwG+0qLGmJq4=;
+        s=mail; t=1671101336;
+        bh=nmS9750fU+m5rMVPA4j0k3ADhTY/MC0xZxg+dR3DX34=;
         h=Date:To:Cc:References:From:Subject:In-Reply-To:From;
-        b=kh2T/+X4HDAPPXS1YcMIAIXDGh2CIYWCQMQ/XJGMxwYreqoxDRBhsO6VZ+RliTdbi
-         LQp+8WQVGdcoK3vKxydmXIrS/sdhG4CrS7TLOEG4XWr1DHU1wB/A6DP47sElHLNnMb
-         tLHStEtm/HorDY9jbQmzNCp9fIz2YleklxCaF7AM=
-Message-ID: <7a3e8519-a45d-7d01-4108-b99e3ab3e640@ideasonboard.com>
-Date:   Thu, 15 Dec 2022 09:59:38 +0000
+        b=eJAVotw4exKovk5no9Dy7F9vYILzsu5aH9g1DA+2czPQvRGFIOfE85XAG003U4USt
+         G/xCaaWFKNc5tWX9/YGE5n7BDS4W60pa9/u5i0G2LlkFZOVf8xHxGWMyLgyMg3GiWP
+         z3//2YLEJ9g6/yHYB906DpXv5g3RySNvXj1ErMfI=
+Message-ID: <f1e6c073-6fca-658c-0060-aa4f9c4ec72f@ideasonboard.com>
+Date:   Thu, 15 Dec 2022 10:48:53 +0000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.2
@@ -39,10 +39,10 @@ Cc:     Tomasz Figa <tfiga@chromium.org>,
         Ricardo Ribalda <ribalda@chromium.org>,
         linux-media@vger.kernel.org
 References: <20221109060621.704531-1-yunkec@google.com>
- <20221109060621.704531-4-yunkec@google.com>
+ <20221109060621.704531-2-yunkec@google.com>
 From:   Dan Scally <dan.scally@ideasonboard.com>
-Subject: Re: [PATCH v10 03/11] media: uvcvideo: introduce __uvc_ctrl_get_std()
-In-Reply-To: <20221109060621.704531-4-yunkec@google.com>
+Subject: Re: [PATCH v10 01/11] media: v4l2_ctrl: Add V4L2_CTRL_TYPE_RECT
+In-Reply-To: <20221109060621.704531-2-yunkec@google.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -54,122 +54,166 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Yunke - thanks for the patches
+Hi Yunke
 
 On 09/11/2022 06:06, Yunke Cao wrote:
-> Refactor uvc_ctrl to make adding compound control easier.
+> Add p_rect to struct v4l2_ext_control with basic support in
+> v4l2-ctrls.
 >
-> Currently uvc_ctrl_get() only work for non-compound controls.
-> Move the logic into uvc_ctrl_std(), return error for compound
-> controls.
-
-
-s/uvc_ctrl_std/__uvc_ctrl_std/. This patch does a bit more than the 
-commit message outlines, so I think it could do with some fleshing out.
-
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Reviewed-by: Ricardo Ribalda <ribalda@chromium.org>
 > Signed-off-by: Yunke Cao <yunkec@google.com>
 > ---
+
+
+Reviewed-by: Daniel Scally <dan.scally@ideasonboard.com>
+
 > Changelog since v9:
-> - No change.
+> - No Change.
 > Changelog since v8:
 > - No change.
 > Changelog since v7:
-> - Newly added patch. Split the refactoring of uvc_ctrl_get from v7 3/7.
+> - Document V4L2_CTRL_TYPE_RECT in vidioc-queryctrl.rst.
+> - Rebased to media-stage master.
+> - Do not assign each field in std_equal.
 >
->   drivers/media/usb/uvc/uvc_ctrl.c | 40 +++++++++++++++++++++-----------
->   1 file changed, 27 insertions(+), 13 deletions(-)
+>   .../media/v4l/vidioc-g-ext-ctrls.rst              |  4 ++++
+>   .../userspace-api/media/v4l/vidioc-queryctrl.rst  |  7 +++++++
+>   .../media/videodev2.h.rst.exceptions              |  1 +
+>   drivers/media/v4l2-core/v4l2-ctrls-core.c         | 15 +++++++++++++++
+>   include/media/v4l2-ctrls.h                        |  2 ++
+>   include/uapi/linux/videodev2.h                    |  2 ++
+>   6 files changed, 31 insertions(+)
 >
-> diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
-> index dfb9d1daece6..93ae7ba5d0cc 100644
-> --- a/drivers/media/usb/uvc/uvc_ctrl.c
-> +++ b/drivers/media/usb/uvc/uvc_ctrl.c
-> @@ -1028,15 +1028,15 @@ static int __uvc_ctrl_load_cur(struct uvc_video_chain *chain,
->   	return ret;
->   }
+> diff --git a/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst b/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
+> index 892cfeb8b988..927ef397f1ce 100644
+> --- a/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
+> +++ b/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
+> @@ -189,6 +189,10 @@ still cause this situation.
+>         - ``p_area``
+>         - A pointer to a struct :c:type:`v4l2_area`. Valid if this control is
+>           of type ``V4L2_CTRL_TYPE_AREA``.
+> +    * - struct :c:type:`v4l2_rect` *
+> +      - ``p_rect``
+> +      - A pointer to a struct :c:type:`v4l2_rect`. Valid if this control is
+> +        of type ``V4L2_CTRL_TYPE_RECT``.
+>       * - struct :c:type:`v4l2_ctrl_h264_sps` *
+>         - ``p_h264_sps``
+>         - A pointer to a struct :c:type:`v4l2_ctrl_h264_sps`. Valid if this control is
+> diff --git a/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst b/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst
+> index a20dfa2a933b..58982cd382e3 100644
+> --- a/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst
+> +++ b/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst
+> @@ -441,6 +441,13 @@ See also the examples in :ref:`control`.
+>         - n/a
+>         - A struct :c:type:`v4l2_area`, containing the width and the height
+>           of a rectangular area. Units depend on the use case.
+> +    * - ``V4L2_CTRL_TYPE_RECT``
+> +      - n/a
+> +      - n/a
+> +      - n/a
+> +      - A struct :c:type:`v4l2_rect`, containing a rectangle described by
+> +	the position of its top-left corner, the width and the height. Units
+> +	depend on the use case.
+>       * - ``V4L2_CTRL_TYPE_H264_SPS``
+>         - n/a
+>         - n/a
+> diff --git a/Documentation/userspace-api/media/videodev2.h.rst.exceptions b/Documentation/userspace-api/media/videodev2.h.rst.exceptions
+> index 2a589d34b80e..828cca8e2daa 100644
+> --- a/Documentation/userspace-api/media/videodev2.h.rst.exceptions
+> +++ b/Documentation/userspace-api/media/videodev2.h.rst.exceptions
+> @@ -150,6 +150,7 @@ replace symbol V4L2_CTRL_TYPE_HEVC_SPS :c:type:`v4l2_ctrl_type`
+>   replace symbol V4L2_CTRL_TYPE_HEVC_PPS :c:type:`v4l2_ctrl_type`
+>   replace symbol V4L2_CTRL_TYPE_HEVC_SLICE_PARAMS :c:type:`v4l2_ctrl_type`
+>   replace symbol V4L2_CTRL_TYPE_AREA :c:type:`v4l2_ctrl_type`
+> +replace symbol V4L2_CTRL_TYPE_RECT :c:type:`v4l2_ctrl_type`
+>   replace symbol V4L2_CTRL_TYPE_FWHT_PARAMS :c:type:`v4l2_ctrl_type`
+>   replace symbol V4L2_CTRL_TYPE_VP8_FRAME :c:type:`v4l2_ctrl_type`
+>   replace symbol V4L2_CTRL_TYPE_VP9_COMPRESSED_HDR :c:type:`v4l2_ctrl_type`
+> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-core.c b/drivers/media/v4l2-core/v4l2-ctrls-core.c
+> index 0dab1d7b90f0..0ac36ebc45dd 100644
+> --- a/drivers/media/v4l2-core/v4l2-ctrls-core.c
+> +++ b/drivers/media/v4l2-core/v4l2-ctrls-core.c
+> @@ -350,6 +350,11 @@ void v4l2_ctrl_type_op_log(const struct v4l2_ctrl *ctrl)
+>   	case V4L2_CTRL_TYPE_HEVC_DECODE_PARAMS:
+>   		pr_cont("HEVC_DECODE_PARAMS");
+>   		break;
+> +	case V4L2_CTRL_TYPE_RECT:
+> +		pr_cont("%ux%u@%dx%d",
+> +			ptr.p_rect->width, ptr.p_rect->height,
+> +			ptr.p_rect->left, ptr.p_rect->top);
+> +		break;
+>   	default:
+>   		pr_cont("unknown type %d", ctrl->type);
+>   		break;
+> @@ -569,6 +574,7 @@ static int std_validate_compound(const struct v4l2_ctrl *ctrl, u32 idx,
+>   	struct v4l2_ctrl_hdr10_mastering_display *p_hdr10_mastering;
+>   	struct v4l2_ctrl_hevc_decode_params *p_hevc_decode_params;
+>   	struct v4l2_area *area;
+> +	struct v4l2_rect *rect;
+>   	void *p = ptr.p + idx * ctrl->elem_size;
+>   	unsigned int i;
 >   
-> -static int __uvc_ctrl_get(struct uvc_video_chain *chain,
-> -			  struct uvc_control *ctrl,
-> -			  struct uvc_control_mapping *mapping,
-> -			  s32 *value)
-> +static int __uvc_ctrl_get_std(struct uvc_video_chain *chain,
-> +			      struct uvc_control *ctrl,
-> +			      struct uvc_control_mapping *mapping,
-> +			      s32 *value)
->   {
->   	int ret;
+> @@ -918,6 +924,12 @@ static int std_validate_compound(const struct v4l2_ctrl *ctrl, u32 idx,
+>   			return -EINVAL;
+>   		break;
 >   
-> -	if ((ctrl->info.flags & UVC_CTRL_FLAG_GET_CUR) == 0)
-> -		return -EACCES;
-
-
-Why is this check being dropped here? Won't it still be needed when the 
-function's called for non-compound controls?
-
-> +	if (uvc_ctrl_mapping_is_compound(mapping))
-> +		return -EINVAL;
->   
->   	ret = __uvc_ctrl_load_cur(chain, ctrl);
->   	if (ret < 0)
-> @@ -1153,8 +1153,13 @@ static int __uvc_query_v4l2_ctrl(struct uvc_video_chain *chain,
->   		__uvc_find_control(ctrl->entity, mapping->master_id,
->   				   &master_map, &master_ctrl, 0);
->   	if (master_ctrl && (master_ctrl->info.flags & UVC_CTRL_FLAG_GET_CUR)) {
-> -		s32 val;
-> -		int ret = __uvc_ctrl_get(chain, master_ctrl, master_map, &val);
-> +		s32 val = 0;
-> +		int ret;
-> +
-> +		if (uvc_ctrl_mapping_is_compound(master_map))
+> +	case V4L2_CTRL_TYPE_RECT:
+> +		rect = p;
+> +		if (!rect->width || !rect->height)
 > +			return -EINVAL;
+> +		break;
 > +
-> +		ret = __uvc_ctrl_get_std(chain, master_ctrl, master_map, &val);
->   		if (ret < 0)
->   			return ret;
->   
-> @@ -1399,7 +1404,8 @@ static void uvc_ctrl_send_slave_event(struct uvc_video_chain *chain,
->   	if (ctrl == NULL)
->   		return;
->   
-> -	if (__uvc_ctrl_get(chain, ctrl, mapping, &val) == 0)
-> +	if (uvc_ctrl_mapping_is_compound(mapping) ||
-> +	    __uvc_ctrl_get_std(chain, ctrl, mapping, &val) == 0)
->   		changes |= V4L2_EVENT_CTRL_CH_VALUE;
->   
->   	uvc_ctrl_send_event(chain, handle, ctrl, mapping, val, changes);
-> @@ -1566,7 +1572,8 @@ static int uvc_ctrl_add_event(struct v4l2_subscribed_event *sev, unsigned elems)
->   		u32 changes = V4L2_EVENT_CTRL_CH_FLAGS;
->   		s32 val = 0;
->   
-> -		if (__uvc_ctrl_get(handle->chain, ctrl, mapping, &val) == 0)
-> +		if (uvc_ctrl_mapping_is_compound(mapping) ||
-> +		    __uvc_ctrl_get_std(handle->chain, ctrl, mapping, &val) == 0)
->   			changes |= V4L2_EVENT_CTRL_CH_VALUE;
->   
->   		uvc_ctrl_fill_event(handle->chain, &ev, ctrl, mapping, val,
-> @@ -1746,7 +1753,10 @@ int uvc_ctrl_get(struct uvc_video_chain *chain,
->   	if (ctrl == NULL)
+>   	default:
 >   		return -EINVAL;
->   
-> -	return __uvc_ctrl_get(chain, ctrl, mapping, &xctrl->value);
-> +	if (uvc_ctrl_mapping_is_compound(mapping))
-> +		return -EINVAL;
-> +	else
-> +		return __uvc_ctrl_get_std(chain, ctrl, mapping, &xctrl->value);
->   }
->   
->   static int __uvc_ctrl_get_boundary_std(struct uvc_video_chain *chain,
-> @@ -1893,8 +1903,12 @@ int uvc_ctrl_set(struct uvc_fh *handle,
->   		       ctrl->info.size);
 >   	}
+> @@ -1605,6 +1617,9 @@ static struct v4l2_ctrl *v4l2_ctrl_new(struct v4l2_ctrl_handler *hdl,
+>   	case V4L2_CTRL_TYPE_AREA:
+>   		elem_size = sizeof(struct v4l2_area);
+>   		break;
+> +	case V4L2_CTRL_TYPE_RECT:
+> +		elem_size = sizeof(struct v4l2_rect);
+> +		break;
+>   	default:
+>   		if (type < V4L2_CTRL_COMPOUND_TYPES)
+>   			elem_size = sizeof(s32);
+> diff --git a/include/media/v4l2-ctrls.h b/include/media/v4l2-ctrls.h
+> index e59d9a234631..1846caf9dd53 100644
+> --- a/include/media/v4l2-ctrls.h
+> +++ b/include/media/v4l2-ctrls.h
+> @@ -52,6 +52,7 @@ struct video_device;
+>    * @p_hdr10_cll:		Pointer to an HDR10 Content Light Level structure.
+>    * @p_hdr10_mastering:		Pointer to an HDR10 Mastering Display structure.
+>    * @p_area:			Pointer to an area.
+> + * @p_rect:			Pointer to a rectangle.
+>    * @p:				Pointer to a compound value.
+>    * @p_const:			Pointer to a constant compound value.
+>    */
+> @@ -81,6 +82,7 @@ union v4l2_ctrl_ptr {
+>   	struct v4l2_ctrl_hdr10_cll_info *p_hdr10_cll;
+>   	struct v4l2_ctrl_hdr10_mastering_display *p_hdr10_mastering;
+>   	struct v4l2_area *p_area;
+> +	struct v4l2_rect *p_rect;
+>   	void *p;
+>   	const void *p_const;
+>   };
+> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+> index 29da1f4b4578..be04a7e28836 100644
+> --- a/include/uapi/linux/videodev2.h
+> +++ b/include/uapi/linux/videodev2.h
+> @@ -1781,6 +1781,7 @@ struct v4l2_ext_control {
+>   		__u16 __user *p_u16;
+>   		__u32 __user *p_u32;
+>   		struct v4l2_area __user *p_area;
+> +		struct v4l2_rect __user *p_rect;
+>   		struct v4l2_ctrl_h264_sps __user *p_h264_sps;
+>   		struct v4l2_ctrl_h264_pps *p_h264_pps;
+>   		struct v4l2_ctrl_h264_scaling_matrix __user *p_h264_scaling_matrix;
+> @@ -1845,6 +1846,7 @@ enum v4l2_ctrl_type {
+>   	V4L2_CTRL_TYPE_U16	     = 0x0101,
+>   	V4L2_CTRL_TYPE_U32	     = 0x0102,
+>   	V4L2_CTRL_TYPE_AREA          = 0x0106,
+> +	V4L2_CTRL_TYPE_RECT	     = 0x0107,
 >   
-> -	mapping->set(mapping, value,
-> -		uvc_ctrl_data(ctrl, UVC_CTRL_DATA_CURRENT));
-> +	if (!uvc_ctrl_mapping_is_compound(mapping))
-> +		mapping->set(mapping, value,
-> +			     uvc_ctrl_data(ctrl, UVC_CTRL_DATA_CURRENT));
-> +	else
-> +		return -EINVAL;
-> +
->   
->   	if (ctrl->info.flags & UVC_CTRL_FLAG_ASYNCHRONOUS)
->   		ctrl->handle = handle;
+>   	V4L2_CTRL_TYPE_HDR10_CLL_INFO		= 0x0110,
+>   	V4L2_CTRL_TYPE_HDR10_MASTERING_DISPLAY	= 0x0111,
