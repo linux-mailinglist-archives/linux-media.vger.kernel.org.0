@@ -2,104 +2,156 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C894164DB33
-	for <lists+linux-media@lfdr.de>; Thu, 15 Dec 2022 13:32:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6A33464DB36
+	for <lists+linux-media@lfdr.de>; Thu, 15 Dec 2022 13:33:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229566AbiLOMcJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 15 Dec 2022 07:32:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50592 "EHLO
+        id S229544AbiLOMdu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 15 Dec 2022 07:33:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51210 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229496AbiLOMb7 (ORCPT
+        with ESMTP id S229536AbiLOMdt (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 15 Dec 2022 07:31:59 -0500
-Received: from cstnet.cn (smtp25.cstnet.cn [159.226.251.25])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 8C639140FF;
-        Thu, 15 Dec 2022 04:31:56 -0800 (PST)
-Received: from localhost.localdomain (unknown [124.16.138.125])
-        by APP-05 (Coremail) with SMTP id zQCowABXXfGSE5tjPQddBw--.8722S2;
-        Thu, 15 Dec 2022 20:31:15 +0800 (CST)
-From:   Jiasheng Jiang <jiasheng@iscas.ac.cn>
-To:     gregkh@linuxfoundation.org
-Cc:     neal_liu@aspeedtech.com, joel@jms.id.au, andrew@aj.id.au,
-        sumit.semwal@linaro.org, christian.koenig@amd.com,
-        linux-aspeed@lists.ozlabs.org, linux-usb@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org,
-        Jiasheng Jiang <jiasheng@iscas.ac.cn>
-Subject: [PATCH v3] usb: gadget: aspeed_udc: Add check for dma_alloc_coherent
-Date:   Thu, 15 Dec 2022 20:31:12 +0800
-Message-Id: <20221215123112.20553-1-jiasheng@iscas.ac.cn>
-X-Mailer: git-send-email 2.25.1
+        Thu, 15 Dec 2022 07:33:49 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 408781C925
+        for <linux-media@vger.kernel.org>; Thu, 15 Dec 2022 04:33:48 -0800 (PST)
+Received: from [192.168.1.15] (91-154-32-225.elisa-laajakaista.fi [91.154.32.225])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 817C4FB;
+        Thu, 15 Dec 2022 13:33:46 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1671107626;
+        bh=R5OqsBqqhjyv5aqVGY+lKMzrIg0aQZMTME6Rq4SWWaU=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=Cs7itYg74y+gVYkAcWWqSJ6zC19LlN2Jjzk9VHaJQlwQ+rUJN90/2r4dO6pM377HV
+         qa2V3kprV2LlKA3u6SLSQEIe4XUTAzla9/QUrfsuyFYBKHSXA1XFq/kVl8acpaZmZZ
+         gebguh7DmAEjD1pV4h5AyVz3p+XRHovE3cm5SCOE=
+Message-ID: <fea9c172-65b6-8067-3957-13fbf77de6ff@ideasonboard.com>
+Date:   Thu, 15 Dec 2022 14:33:43 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: zQCowABXXfGSE5tjPQddBw--.8722S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7GrWfGw4fZF4Uur1rZry8Grg_yoW8Jr4Upa
-        17JrW7XrW5ZasYy3yUJa4DZF15Xa98GFZ0grZrta1UZFnxZrZxAry5t34YgFW8CFy3AFW2
-        vFnIgr4rArykArJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUUv014x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-        rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
-        1l84ACjcxK6xIIjxv20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
-        6F4UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Cr
-        1j6rxdM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj
-        6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr
-        0_Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E
-        8cxan2IY04v7MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I
-        8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8
-        ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x
-        0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_
-        Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUb
-        0D73UUUUU==
-X-Originating-IP: [124.16.138.125]
-X-CM-SenderInfo: pmld2xxhqjqxpvfd2hldfou0/
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH v1 1/5] media: mc: entity: Add pad iterator for
+ media_pipeline
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-media@vger.kernel.org
+Cc:     Sakari Ailus <sakari.ailus@iki.fi>,
+        Michal Simek <michal.simek@xilinx.com>,
+        Sylwester Nawrocki <s.nawrocki@samsung.com>
+References: <20221212141621.724-1-laurent.pinchart@ideasonboard.com>
+ <20221212141621.724-2-laurent.pinchart@ideasonboard.com>
+Content-Language: en-US
+From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+In-Reply-To: <20221212141621.724-2-laurent.pinchart@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add the check for the return value of dma_alloc_coherent in order to
-avoid NULL pointer dereference.
+On 12/12/2022 16:16, Laurent Pinchart wrote:
+> Add a media_pipeline_for_each_pad() macro to iterate over pads in a
+> pipeline. This should be used by driver as a replacement of the
+> media_graph_walk API, as iterating over the media_pipeline uses the
+> cached list of pads and is thus more efficient.
+> 
+> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> ---
+>   drivers/media/mc/mc-entity.c | 18 ++++++++++++++++++
+>   include/media/media-entity.h | 29 +++++++++++++++++++++++++++++
+>   2 files changed, 47 insertions(+)
+> 
+> diff --git a/drivers/media/mc/mc-entity.c b/drivers/media/mc/mc-entity.c
+> index b8bcbc734eaf..70df2050951c 100644
+> --- a/drivers/media/mc/mc-entity.c
+> +++ b/drivers/media/mc/mc-entity.c
+> @@ -932,6 +932,24 @@ __must_check int media_pipeline_alloc_start(struct media_pad *pad)
+>   }
+>   EXPORT_SYMBOL_GPL(media_pipeline_alloc_start);
+>   
+> +struct media_pad *
+> +__media_pipeline_pad_iter_next(struct media_pipeline *pipe,
+> +			       struct media_pipeline_pad_iter *iter,
+> +			       struct media_pad *pad)
+> +{
+> +	if (!pad)
+> +		iter->cursor = pipe->pads.next;
+> +
+> +	if (iter->cursor == &pipe->pads)
+> +		return NULL;
+> +
+> +	pad = list_entry(iter->cursor, struct media_pipeline_pad, list)->pad;
+> +	iter->cursor = iter->cursor->next;
+> +
+> +	return pad;
+> +}
+> +EXPORT_SYMBOL_GPL(__media_pipeline_pad_iter_next);
+> +
+>   /* -----------------------------------------------------------------------------
+>    * Links management
+>    */
+> diff --git a/include/media/media-entity.h b/include/media/media-entity.h
+> index 85ed08ddee9d..e881e483b550 100644
+> --- a/include/media/media-entity.h
+> +++ b/include/media/media-entity.h
+> @@ -130,6 +130,15 @@ struct media_pipeline_pad {
+>   	struct media_pad *pad;
+>   };
+>   
+> +/**
+> + * struct media_pipeline_pad_iter - Iterator for media_pipeline_for_each_pad
+> + *
+> + * @cursor: The current element
+> + */
+> +struct media_pipeline_pad_iter {
+> +	struct list_head *cursor;
+> +};
+> +
 
-This flaw was found using an experimental static analysis tool we are
-developing, APP-Miner, which has not been disclosed.
+Is there any reason to have this iter struct in a public header, vs. 
+having it in mc-entity.c?
 
-The allyesconfig build using GCC 9.3.0 shows no new warning. As we
-don't have a UDC device to test with, no runtime testing was able to
-be performed.
+>   /**
+>    * struct media_link - A link object part of a media graph.
+>    *
+> @@ -1163,6 +1172,26 @@ void media_pipeline_stop(struct media_pad *pad);
+>    */
+>   void __media_pipeline_stop(struct media_pad *pad);
+>   
+> +struct media_pad *
+> +__media_pipeline_pad_iter_next(struct media_pipeline *pipe,
+> +			       struct media_pipeline_pad_iter *iter,
+> +			       struct media_pad *pad);
+> +
+> +/**
+> + * media_pipeline_for_each_pad - Iterate on all pads in a media pipeline
+> + * @pipe: The pipeline
+> + * @iter: The iterator (struct media_pipeline_pad_iter)
+> + * @pad: The iterator pad
 
-Signed-off-by: Jiasheng Jiang <jiasheng@iscas.ac.cn>
----
-Changelog:
+If I understand this correctly, both iter and pad are just variables the 
+macro will use. In other words, they are not used to pass any values.
 
-v2 -> v3:
+Would it be better to declare those variables in the macro itself? Well, 
+that has its downsides. But perhaps at least clarify in the doc that 
+they are only variables used by the loop, and do not need to be initialized.
 
-1. Add information of finding tool and tests to commit message.
+> + * Iterate on all pads in a media pipeline. This is only valid after the
+> + * pipeline has been built with media_pipeline_start() and before it gets
+> + * destroyed with media_pipeline_stop().
+> + */
+> +#define media_pipeline_for_each_pad(pipe, iter, pad)			\
+> +	for (pad = __media_pipeline_pad_iter_next((pipe), iter, NULL);	\
+> +	     pad != NULL;						\
+> +	     pad = __media_pipeline_pad_iter_next((pipe), iter, pad))
+> +
+>   /**
+>    * media_pipeline_alloc_start - Mark a pipeline as streaming
+>    * @pad: Starting pad
 
-v1 -> v2:
-
-1. Add "goto err;" when allocation fails.
----
- drivers/usb/gadget/udc/aspeed_udc.c | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/drivers/usb/gadget/udc/aspeed_udc.c b/drivers/usb/gadget/udc/aspeed_udc.c
-index 01968e2167f9..7dc2457c7460 100644
---- a/drivers/usb/gadget/udc/aspeed_udc.c
-+++ b/drivers/usb/gadget/udc/aspeed_udc.c
-@@ -1516,6 +1516,10 @@ static int ast_udc_probe(struct platform_device *pdev)
- 					  AST_UDC_EP_DMA_SIZE *
- 					  AST_UDC_NUM_ENDPOINTS,
- 					  &udc->ep0_buf_dma, GFP_KERNEL);
-+	if (!udc->ep0_buf) {
-+		rc = -ENOMEM;
-+		goto err;
-+	}
- 
- 	udc->gadget.speed = USB_SPEED_UNKNOWN;
- 	udc->gadget.max_speed = USB_SPEED_HIGH;
--- 
-2.25.1
+  Tomi
 
