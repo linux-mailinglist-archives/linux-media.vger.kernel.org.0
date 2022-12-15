@@ -2,52 +2,64 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 73BA964DC6A
-	for <lists+linux-media@lfdr.de>; Thu, 15 Dec 2022 14:43:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0375164DCF3
+	for <lists+linux-media@lfdr.de>; Thu, 15 Dec 2022 15:37:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229683AbiLONng (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 15 Dec 2022 08:43:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58764 "EHLO
+        id S229964AbiLOOhr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 15 Dec 2022 09:37:47 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51948 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229524AbiLONne (ORCPT
+        with ESMTP id S229954AbiLOOhq (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 15 Dec 2022 08:43:34 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B8BF101EE;
-        Thu, 15 Dec 2022 05:43:33 -0800 (PST)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 67D89327;
-        Thu, 15 Dec 2022 14:43:31 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1671111811;
-        bh=IkdbOkNfizeZc+JQCY7rk80M3K1s0tFyYkGTX0I5Now=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Log1XbtFBzhd9Xx404T/x3NxSrbXGo4IPnmuhQeZYrw6vncNcTivRQ3LjYVn/wB7Z
-         dUWXYZLgGqlgHf4c6JLm3H6JmFNouq6P5iBBimRnykVQJgNr3k+W2YGztFu1Pk+VSH
-         IWI3mWXenO0jUyhonoTVOuPZqy6RSAk6zsHNnNPw=
-Date:   Thu, 15 Dec 2022 15:43:28 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Rob Herring <robh@kernel.org>
-Cc:     Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
-        linux-media@vger.kernel.org,
-        Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Thomas Nizan <tnizan@witekio.com>,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v3 02/12] dt-bindings: media: i2c: max9286: Add property
- to select I2C speed
-Message-ID: <Y5skgJqitZRKHqyY@pendragon.ideasonboard.com>
-References: <20221214233825.13050-1-laurent.pinchart+renesas@ideasonboard.com>
- <20221214233825.13050-3-laurent.pinchart+renesas@ideasonboard.com>
- <167111060968.3140791.14917058235505688958.robh@kernel.org>
+        Thu, 15 Dec 2022 09:37:46 -0500
+Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com [91.207.212.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 016E52E683
+        for <linux-media@vger.kernel.org>; Thu, 15 Dec 2022 06:37:43 -0800 (PST)
+Received: from pps.filterd (m0046660.ppops.net [127.0.0.1])
+        by mx07-00178001.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 2BFDrVH5022651;
+        Thu, 15 Dec 2022 15:37:40 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=from : to : cc :
+ subject : date : message-id : mime-version : content-transfer-encoding :
+ content-type; s=selector1;
+ bh=NPc17h2EiCR66RSOZuX4Dr3AW+IgxG3gAf/QaZbOlq4=;
+ b=E5ZqIL28SadG6ycb3gG7StV0Q9Ah8ZHez71TbDjANwZ4FlQaKhAnb2ty+tih52mWAEYv
+ 5s2/M4k5/M64L9cKxMNJHEeOI0qZ2KK3AlhMhdRFaiDtOzeJmyaMPqfNOHLq20yvLaDb
+ BCOogyrFA0l5Dcl7DY581gX2p6CY5zqQ3kRfBHxHmyYRfYd+x66XPnJZU0yf9T3sNGnb
+ z+HChR0W/P/AA0r9pzalzASUBbQrKz4j1ksN1tmsULCEqPGGpr7by+wrYGTSsxEJqvSi
+ CV3GIYFgG//SrIYkjwffEBEOtDH5B2GISzHrlhw/6ozZWoWYlCsG7ajSxMK0egXRF1TC xg== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+        by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3mf6v6kvyy-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 15 Dec 2022 15:37:40 +0100
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id CBDC310002A;
+        Thu, 15 Dec 2022 15:37:36 +0100 (CET)
+Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
+        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id C19512291C3;
+        Thu, 15 Dec 2022 15:37:36 +0100 (CET)
+Received: from localhost (10.252.10.60) by SHFDAG1NODE1.st.com (10.75.129.69)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.13; Thu, 15 Dec
+ 2022 15:37:36 +0100
+From:   Benjamin Mugnier <benjamin.mugnier@foss.st.com>
+To:     <hverkuil@xs4all.nl>, <linux-media@vger.kernel.org>
+CC:     <dave.stevenson@raspberrypi.com>,
+        Benjamin Mugnier <benjamin.mugnier@foss.st.com>
+Subject: [PATCH v4l-utils] libv4lconvert: Fix v4lconvert_grey_to_rgb24 not taking stride into account
+Date:   Thu, 15 Dec 2022 15:37:26 +0100
+Message-ID: <20221215143726.59781-1-benjamin.mugnier@foss.st.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <167111060968.3140791.14917058235505688958.robh@kernel.org>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.252.10.60]
+X-ClientProxiedBy: SHFCAS1NODE1.st.com (10.75.129.72) To SHFDAG1NODE1.st.com
+ (10.75.129.69)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-12-15_08,2022-12-15_02,2022-06-22_01
+X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_PASS
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -55,63 +67,69 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Rob,
+Drivers are allowed to generate buffers where stride != width. Where as
+v4lconvert_grey_to_rgb24() assumed that stride == width is always true.
+This resulted in wrong frames for monochrome sensors, with padding bytes
+being visible diagonally and messing up the image alignment.
 
-On Thu, Dec 15, 2022 at 07:24:38AM -0600, Rob Herring wrote:
-> On Thu, 15 Dec 2022 01:38:15 +0200, Laurent Pinchart wrote:
-> > The I2C speed on the remote side (the I2C master bus of the connected
-> > serializers) is configurable, and doesn't need to match the speed of the
-> > local bus (the slave bus of the MAX9286). All remote buses must use the
-> > same speed, and the MAX9286 needs to be programmed accordingly. Add a
-> > new DT property to select the speed to make it configurable.
-> > 
-> > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> > Reviewed-by: Rob Herring <robh@kernel.org>
-> > ---
-> > Changes since v2:
-> > 
-> > - Rename property to maxim,i2c-remote-bus-hz
-> > - Specify the property type
-> > ---
-> >  .../devicetree/bindings/media/i2c/maxim,max9286.yaml      | 8 ++++++++
-> >  1 file changed, 8 insertions(+)
-> > 
-> 
-> My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-> on your patch (DT_CHECKER_FLAGS is new in v5.13):
-> 
-> yamllint warnings/errors:
-> 
-> dtschema/dtc warnings/errors:
-> /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml: properties:maxim,i2c-remote-bus-hz: '$ref' should not be valid under {'const': '$ref'}
-> 	hint: Standard unit suffix properties don't need a type $ref
-> 	from schema $id: http://devicetree.org/meta-schemas/core.yaml#
+Tested with rasbperry pi unicam driver using strides of 32 paired with
+the st-vgxy61 driver, which native resolution is 1944x1204, producing a
+frame of 1952x1204.
 
-I wonder how I missed that, as I've run dt_binding_check before
-submitting. I'll fix it.
+Signed-off-by: Benjamin Mugnier <benjamin.mugnier@foss.st.com>
+---
+ lib/libv4lconvert/libv4lconvert-priv.h | 2 +-
+ lib/libv4lconvert/libv4lconvert.c      | 2 +-
+ lib/libv4lconvert/rgbyuv.c             | 3 ++-
+ 3 files changed, 4 insertions(+), 3 deletions(-)
 
-I'm a bit surprised though, all unit-suffixed properties use 32-bit
-integers in the DT schema, while I can imagine that some may need a
-64-bit integer. What's the recommendation in that case ?
-
-> doc reference errors (make refcheckdocs):
-> 
-> See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20221214233825.13050-3-laurent.pinchart+renesas@ideasonboard.com
-> 
-> The base for the series is generally the latest rc1. A different dependency
-> should be noted in *this* patch.
-> 
-> If you already ran 'make dt_binding_check' and didn't see the above
-> error(s), then make sure 'yamllint' is installed and dt-schema is up to
-> date:
-> 
-> pip3 install dtschema --upgrade
-> 
-> Please check and re-submit after running the above command yourself. Note
-> that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-> your schema. However, it must be unset to test all examples with your schema.
-
+diff --git a/lib/libv4lconvert/libv4lconvert-priv.h b/lib/libv4lconvert/libv4lconvert-priv.h
+index 00a03f9e..0fd6a102 100644
+--- a/lib/libv4lconvert/libv4lconvert-priv.h
++++ b/lib/libv4lconvert/libv4lconvert-priv.h
+@@ -157,7 +157,7 @@ void v4lconvert_swap_uv(const unsigned char *src, unsigned char *dst,
+ 		const struct v4l2_format *src_fmt);
+ 
+ void v4lconvert_grey_to_rgb24(const unsigned char *src, unsigned char *dest,
+-		int width, int height);
++		int width, int height, int stride);
+ 
+ void v4lconvert_grey_to_yuv420(const unsigned char *src, unsigned char *dest,
+ 		const struct v4l2_format *src_fmt);
+diff --git a/lib/libv4lconvert/libv4lconvert.c b/lib/libv4lconvert/libv4lconvert.c
+index b07bf3ba..201dcf45 100644
+--- a/lib/libv4lconvert/libv4lconvert.c
++++ b/lib/libv4lconvert/libv4lconvert.c
+@@ -1245,7 +1245,7 @@ static int v4lconvert_convert_pixfmt(struct v4lconvert_data *data,
+ 		switch (dest_pix_fmt) {
+ 		case V4L2_PIX_FMT_RGB24:
+ 	        case V4L2_PIX_FMT_BGR24:
+-			v4lconvert_grey_to_rgb24(src, dest, width, height);
++			v4lconvert_grey_to_rgb24(src, dest, width, height, bytesperline);
+ 			break;
+ 		case V4L2_PIX_FMT_YUV420:
+ 		case V4L2_PIX_FMT_YVU420:
+diff --git a/lib/libv4lconvert/rgbyuv.c b/lib/libv4lconvert/rgbyuv.c
+index ce31a1ba..e2dceb3a 100644
+--- a/lib/libv4lconvert/rgbyuv.c
++++ b/lib/libv4lconvert/rgbyuv.c
+@@ -654,7 +654,7 @@ void v4lconvert_y16_to_yuv420(const unsigned char *src, unsigned char *dest,
+ }
+ 
+ void v4lconvert_grey_to_rgb24(const unsigned char *src, unsigned char *dest,
+-		int width, int height)
++		int width, int height, int stride)
+ {
+ 	int j;
+ 	while (--height >= 0) {
+@@ -664,6 +664,7 @@ void v4lconvert_grey_to_rgb24(const unsigned char *src, unsigned char *dest,
+ 			*dest++ = *src;
+ 			src++;
+ 		}
++		src += stride - width;
+ 	}
+ }
+ 
 -- 
-Regards,
+2.25.1
 
-Laurent Pinchart
