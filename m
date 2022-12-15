@@ -2,53 +2,52 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 659CC64DEA1
-	for <lists+linux-media@lfdr.de>; Thu, 15 Dec 2022 17:29:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8C53764DECF
+	for <lists+linux-media@lfdr.de>; Thu, 15 Dec 2022 17:40:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229798AbiLOQ3u (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 15 Dec 2022 11:29:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54888 "EHLO
+        id S230197AbiLOQkf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 15 Dec 2022 11:40:35 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36276 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230000AbiLOQ31 (ORCPT
+        with ESMTP id S229844AbiLOQk3 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 15 Dec 2022 11:29:27 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 40D3232B84;
-        Thu, 15 Dec 2022 08:29:13 -0800 (PST)
+        Thu, 15 Dec 2022 11:40:29 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2EDFE2AE07;
+        Thu, 15 Dec 2022 08:40:29 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id CD69861E62;
-        Thu, 15 Dec 2022 16:29:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 18432C433D2;
-        Thu, 15 Dec 2022 16:29:08 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id C02A161E61;
+        Thu, 15 Dec 2022 16:40:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 83905C433D2;
+        Thu, 15 Dec 2022 16:40:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1671121752;
-        bh=hTVlrLLNPPrnPwLwZn/P6XxxNEQh61wi48u/i/H+3Fk=;
+        s=k20201202; t=1671122428;
+        bh=vM3CUj4GDE5CqX99A6tmi97aIvyuGUgE2Z3VCaT0Z+I=;
         h=From:To:Cc:Subject:Date:From;
-        b=sMsCqgJjCYkzb8omjFTfh4gJjfPdKVca1gyUvNd+kGHH2Catybh3ApOuNimtbNH5M
-         WpFGmqWe2JnVK4HAJ9xt+ydJm1FkNeDwlX5w1c7ODEOVgxpmO2QDbWH6Z1m3W7hYX8
-         cQJ8Xi3DUs88KozktfLLO+cHB4MEPeQlmyO6WO82RwNzMfCsG3O1rDhEICcCWYbP8P
-         B/BdfesiqAZDfiLF54HDkICKCyI+XLUcAXQ7YLEzeJPzJ2pIuYBocpBMgDljBvpYYf
-         pN6UdnmV0KSsLbq2Qy/2z2zwwjlYV7GySiFPy7kYXbIwO1GtB9ZywIpRxdLA+XTx1P
-         1bnxVt5LBn6NQ==
+        b=OKeIwSrwxWpFiXDfoywHNKECTEwF2U3EqtQss0QWLiHb5jQByez8MJOwDB7pqrSyx
+         TJPayJrHeVZnhLzQHlz6BhvhmDyWTAu2qyZgo811xQrb8qLp0ha0d3k8DfBko2L4uR
+         agwVLPmNojdMe8aMrEiJ4fAotsx1pZxpuaFZ++J4daDKb7d/SyLRgpQJ5BHI2+GnFR
+         +dbGm0pM7DwNttwngEd2qmZkVOZp3oBVh7vzEhnhsewE5DGM8OaQCCtbH/sr9oV6uK
+         5kcTPehvme2Wmt2pc3/Az+vadb8TUwKkbBQbPHiXikTIjg7DyNjDcA36H76dz+dOBx
+         ahVijGzINeMPQ==
 From:   Arnd Bergmann <arnd@kernel.org>
-To:     Robert Foss <robert.foss@linaro.org>,
-        Todor Tomov <todor.too@gmail.com>
-Cc:     Josh Poimboeuf <jpoimboe@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Arnd Bergmann <arnd@arndb.de>, Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>
+Cc:     Arnd Bergmann <arnd@arndb.de>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Jonathan Marek <jonathan@marek.ca>,
-        "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>,
-        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] media: camss: csiphy-3ph: avoid undefined behavior
-Date:   Thu, 15 Dec 2022 17:28:46 +0100
-Message-Id: <20221215162905.3960806-1-arnd@kernel.org>
+        Moudy Ho <moudy.ho@mediatek.com>,
+        Ping-Hsun Wu <ping-hsun.wu@mediatek.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        daoyuan huang <daoyuan.huang@mediatek.com>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org
+Subject: [PATCH] media: platform: mtk-mdp3: fix Kconfig dependencies
+Date:   Thu, 15 Dec 2022 17:40:08 +0100
+Message-Id: <20221215164021.694343-1-arnd@kernel.org>
 X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -63,37 +62,49 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 From: Arnd Bergmann <arnd@arndb.de>
 
-Marking a case of the switch statement as unreachable means the
-compiler treats it as undefined behavior, which is then caught by
-an objtool warning:
+The new mdp3 driver uses 'select' to force-enable a couple of drivers
+it depends on. This is error-prone and likely to cause dependency
+loops as well as warnings like:
 
-drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.o: warning: objtool: csiphy_lanes_enable() falls through to next function csiphy_lanes_disable()
+WARNING: unmet direct dependencies detected for VIDEO_MEDIATEK_VPU
+  Depends on [n]: MEDIA_SUPPORT [=m] && MEDIA_PLATFORM_SUPPORT [=y] && MEDIA_PLATFORM_DRIVERS [=y] && V4L_MEM2MEM_DRIVERS [=n] && VIDEO_DEV [=m] && (ARCH_MEDIATEK [=y] || COMPILE_TEST [=y])
+  Selected by [m]:
+  - VIDEO_MEDIATEK_MDP3 [=m] && MEDIA_SUPPORT [=m] && MEDIA_PLATFORM_SUPPORT [=y] && MEDIA_PLATFORM_DRIVERS [=y] && (MTK_IOMMU [=m] || COMPILE_TEST [=y]) && VIDEO_DEV [=m] && (ARCH_MEDIATEK [=y] || COMPILE_TEST [=y]) && HAS_DMA [=y] && REMOTEPROC [=y]
 
-Instead of simply continuing execution at a random place of the
-driver, print a warning and return from to the caller, which
-makes it possible to understand what happens and avoids the
-warning.
+This specific warning was already addressed in a previous patch,
+but there are similar unnecessary 'select' statements, so turn those
+into 'depends on'. This also means the dependency on ARCH_MEDIATEK
+is redundant and can be dropped.
 
-Fixes: 53655d2a0ff2 ("media: camss: csiphy-3ph: add support for SM8250 CSI DPHY")
+Fixes: 61890ccaefaf ("media: platform: mtk-mdp3: add MediaTek MDP3 driver")
+Fixes: 9195a860ef0a ("media: platform: mtk-mdp3: remove unused VIDEO_MEDIATEK_VPU config")
 Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
- drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/media/platform/mediatek/mdp3/Kconfig | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c b/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
-index 451a4c9b3d30..04baa80494c6 100644
---- a/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
-+++ b/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
-@@ -429,7 +429,8 @@ static void csiphy_gen2_config_lanes(struct csiphy_device *csiphy,
- 		array_size = ARRAY_SIZE(lane_regs_sm8250[0]);
- 		break;
- 	default:
--		unreachable();
-+		WARN(1, "unknown cspi version\n");
-+		return;
- 	}
- 
- 	for (l = 0; l < 5; l++) {
+diff --git a/drivers/media/platform/mediatek/mdp3/Kconfig b/drivers/media/platform/mediatek/mdp3/Kconfig
+index 846e759a8f6a..602329c44750 100644
+--- a/drivers/media/platform/mediatek/mdp3/Kconfig
++++ b/drivers/media/platform/mediatek/mdp3/Kconfig
+@@ -3,14 +3,13 @@ config VIDEO_MEDIATEK_MDP3
+ 	tristate "MediaTek MDP v3 driver"
+ 	depends on MTK_IOMMU || COMPILE_TEST
+ 	depends on VIDEO_DEV
+-	depends on ARCH_MEDIATEK || COMPILE_TEST
+ 	depends on HAS_DMA
+ 	depends on REMOTEPROC
++	depends on MTK_MMSYS
++	depends on MTK_CMDQ
++	depends on MTK_SCP
+ 	select VIDEOBUF2_DMA_CONTIG
+ 	select V4L2_MEM2MEM_DEV
+-	select MTK_MMSYS
+-	select MTK_CMDQ
+-	select MTK_SCP
+ 	default n
+ 	help
+ 	    It is a v4l2 driver and present in MediaTek MT8183 SoC.
 -- 
 2.35.1
 
