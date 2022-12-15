@@ -2,229 +2,134 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E1A1B64D836
-	for <lists+linux-media@lfdr.de>; Thu, 15 Dec 2022 10:04:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7F7F064D83F
+	for <lists+linux-media@lfdr.de>; Thu, 15 Dec 2022 10:08:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229819AbiLOJEH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 15 Dec 2022 04:04:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48562 "EHLO
+        id S229566AbiLOJIM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 15 Dec 2022 04:08:12 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50530 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229808AbiLOJEA (ORCPT
+        with ESMTP id S229448AbiLOJIK (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 15 Dec 2022 04:04:00 -0500
-Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com [IPv6:2a00:1450:4864:20::132])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59A583D931
-        for <linux-media@vger.kernel.org>; Thu, 15 Dec 2022 01:03:59 -0800 (PST)
-Received: by mail-lf1-x132.google.com with SMTP id b3so14649193lfv.2
-        for <linux-media@vger.kernel.org>; Thu, 15 Dec 2022 01:03:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=jqxdj5fkQ9n2cYs252oV4AVXARcQ/xHiN+6tj2DwePk=;
-        b=Qk6ae4zTc3LXGtko9Wztdy21PIr2TF55TvkJJ7Yq2vFKuMnXlzlsHZ4ObXzy2MENUO
-         vEWI7NKfeyMu+uDrlMUqmFEUnBg1vyu76gcXRhEcjwwQzN1rQCSyXRmfYMUq6NZSPgbn
-         Q6FyFhhVcI5RbvVd3dPpamm9fFhexIkFvHBTz1OjswAYYYLcrHca/mCgL3KHWSkT0LDc
-         5gwLhc9IzB2bUA0AC4W+znO5y+fMKjBoY/BSz1x1wjx7LJIXbLqNBdxPk+M8JtAKIuB1
-         k62kTUNR58WPULlvIE2Js+BjVhOoERKnM/qRZITcFJO7/A52IuewBjCBwvwTOwdGLcT0
-         Nwjw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=jqxdj5fkQ9n2cYs252oV4AVXARcQ/xHiN+6tj2DwePk=;
-        b=lEDbaP+KrjOxP5eqXaGrKmnzVzfYfGs6r2AW7BPnJtLHAuJlUPWsV2EO4TvyRrs/+b
-         7Z2zO8V8Y2t6OSTdjD9bfh8Ili3mOKAEUbodqnEsMrzzdhoBd6WguemLLui39bpBfn0f
-         l/zrqbZVVQUywGwSTK/BUiLvoi6JnI6EaepD2JYWFhdwqDkSDS1ggrnHEzJJhsjJcaZn
-         FoENHX33oznYv7qN5z9OSej7/E+Eev4dnmlJdW/W8iirg8ZpdTYdtfPGjrUws+wmbD2A
-         vdvsCAPvZ/Qcv2ao38q82AthPsEIqQ1W72nna7JBG28JxplXdKGAEFQLRcxzBY6Yy9CG
-         h6mA==
-X-Gm-Message-State: ANoB5pnqD6z98u1cGb/XESwtB15tX/tmZddtfRtDhc1ZXhgtCqHaUEol
-        LRKQ7RhtadccbF+STZWjGmTFsQ==
-X-Google-Smtp-Source: AA0mqf6+hgKCqvG8MOaHrXDFYxCb6yCspua/Y4A0lxEvIcU/Em2K/ShTHloB+t+iJXrw3dU95EEFPg==
-X-Received: by 2002:ac2:5148:0:b0:4b5:830d:12ba with SMTP id q8-20020ac25148000000b004b5830d12bamr7119720lfd.14.1671095037655;
-        Thu, 15 Dec 2022 01:03:57 -0800 (PST)
-Received: from [192.168.0.20] (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
-        by smtp.gmail.com with ESMTPSA id k10-20020ac257ca000000b004b55075f813sm1095847lfo.227.2022.12.15.01.03.56
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 15 Dec 2022 01:03:57 -0800 (PST)
-Message-ID: <7e67b2d1-394e-2353-df37-5ae3cac64b9c@linaro.org>
-Date:   Thu, 15 Dec 2022 10:03:56 +0100
+        Thu, 15 Dec 2022 04:08:10 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6404193D6;
+        Thu, 15 Dec 2022 01:08:09 -0800 (PST)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7ED23327;
+        Thu, 15 Dec 2022 10:08:07 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1671095287;
+        bh=bJa/unMKm/nUIxwQN3u2ip2UOt3TmdZbeRjwwhAM9jU=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=pwaunFcF3S715eWo7DL2jFmi4gVoett40YiqWvTKTvbOyZ+ZiMy0njEdu3Fr1ztbv
+         4E9r519LoDm72PjXfwQJS2dcUpO5rUwaqbnORDUS/nH+SM0oy52FtgBSdP2ESQJCOl
+         tJc0H8yjLM96Eu+eU04oL5gGc6GlBQkgybs6Jum0=
+Date:   Thu, 15 Dec 2022 11:08:04 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Ricardo Ribalda <ribalda@chromium.org>
+Cc:     Sergey Senozhatsky <senozhatsky@chromium.org>,
+        Yunke Cao <yunkec@chromium.org>,
+        Ming Lei <tom.leiming@gmail.com>,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Max Staudt <mstaudt@google.com>, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH v2] media: uvcvideo: Do not alloc dev->status
+Message-ID: <Y5rj9GhQuyNbNnDw@pendragon.ideasonboard.com>
+References: <20221214-uvc-status-alloc-v2-0-3f1cba6fc734@chromium.org>
+ <Y5p1DVWXuYSzkRO4@google.com>
+ <CANiDSCtQFR-CPNXu-hqM_11DogMTvdhK9xWy7cZyd7vwZAMBSQ@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.1
-Subject: Re: [PATCH v8 2/7] media: dt-binding: nuvoton: Add bindings for NPCM
- VCD and ECE engine
-Content-Language: en-US
-To:     Marvin Lin <milkfafa@gmail.com>, mchehab@kernel.org,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org
-Cc:     openbmc@lists.ozlabs.org, avifishman70@gmail.com,
-        tmaimon77@gmail.com, tali.perry1@gmail.com, venture@google.com,
-        yuenn@google.com, benjaminfair@google.com, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, kwliu@nuvoton.com,
-        kflin@nuvoton.com
-References: <20221214092636.810883-1-milkfafa@gmail.com>
- <20221214092636.810883-3-milkfafa@gmail.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20221214092636.810883-3-milkfafa@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CANiDSCtQFR-CPNXu-hqM_11DogMTvdhK9xWy7cZyd7vwZAMBSQ@mail.gmail.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 14/12/2022 10:26, Marvin Lin wrote:
-> Add dt-binding document for Video Capture/Differentiation Engine (VCD)
-> and Encoding Compression Engine (ECE) present on Nuvoton NPCM SoCs.
+Hi Ricardo,
 
-Subject: drop second, redundant "bindings for".
-
+On Thu, Dec 15, 2022 at 08:59:14AM +0100, Ricardo Ribalda wrote:
+> Hi Sergey
 > 
-> Signed-off-by: Marvin Lin <milkfafa@gmail.com>
-> ---
->  .../bindings/media/nuvoton,npcm-ece.yaml      | 44 ++++++++++++
->  .../bindings/media/nuvoton,npcm-vcd.yaml      | 72 +++++++++++++++++++
->  2 files changed, 116 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/nuvoton,npcm-ece.yaml
->  create mode 100644 Documentation/devicetree/bindings/media/nuvoton,npcm-vcd.yaml
+> Thanks for looking into this
 > 
-> diff --git a/Documentation/devicetree/bindings/media/nuvoton,npcm-ece.yaml b/Documentation/devicetree/bindings/media/nuvoton,npcm-ece.yaml
-> new file mode 100644
-> index 000000000000..d12b76d137d9
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/nuvoton,npcm-ece.yaml
-> @@ -0,0 +1,44 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +
-
-Drop blank line.
-
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/nuvoton,npcm-ece.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Nuvoton NPCM Encoding Compression Engine
-> +
-> +maintainers:
-> +  - Joseph Liu <kwliu@nuvoton.com>
-> +  - Marvin Lin <kflin@nuvoton.com>
-> +
-> +description: |
-> +  Video Encoding Compression Engine (ECE) present on Nuvoton NPCM SoCs.
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - nuvoton,npcm750-ece
-> +      - nuvoton,npcm845-ece
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  resets:
-> +    maxItems: 1
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - resets
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/reset/nuvoton,npcm7xx-reset.h>
-> +
-> +    ece: ece@f0820000 {
-
-If this is video codec, then generic node name: "video-codec". "ece" is
-specific, not generic.
-
-> +        compatible = "nuvoton,npcm750-ece";
-> +        reg = <0xf0820000 0x2000>;
-> +        resets = <&rstc NPCM7XX_RESET_IPSRST2 NPCM7XX_RESET_ECE>;
-> +    };
-> diff --git a/Documentation/devicetree/bindings/media/nuvoton,npcm-vcd.yaml b/Documentation/devicetree/bindings/media/nuvoton,npcm-vcd.yaml
-> new file mode 100644
-> index 000000000000..2d8da8f36506
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/nuvoton,npcm-vcd.yaml
-> @@ -0,0 +1,72 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +
-
-Drop blank line.
-
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/nuvoton,npcm-vcd.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Nuvoton NPCM Video Capture/Differentiation Engine
-> +
-> +maintainers:
-> +  - Joseph Liu <kwliu@nuvoton.com>
-> +  - Marvin Lin <kflin@nuvoton.com>
-> +
-> +description: |
-> +  Video Capture/Differentiation Engine (VCD) present on Nuvoton NPCM SoCs.
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - nuvoton,npcm750-vcd
-> +      - nuvoton,npcm845-vcd
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  resets:
-> +    maxItems: 1
-> +
-> +  nuvoton,sysgcr:
-> +    $ref: /schemas/types.yaml#/definitions/phandle
-> +    description: phandle to access GCR (Global Control Register) registers.
-> +
-> +  nuvoton,sysgfxi:
-> +    $ref: /schemas/types.yaml#/definitions/phandle
-> +    description: phandle to access GFXI (Graphics Core Information) registers.
-> +
-> +  nuvoton,ece:
-> +    $ref: /schemas/types.yaml#/definitions/phandle
-> +    description: phandle to access ECE (Encoding Compression Engine) registers.
-> +
-> +  memory-region:
-> +    description:
-> +      CMA pool to use for buffers allocation instead of the default CMA pool.
-
-maxItems: 1
-
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - interrupts
-> +  - resets
-> +  - nuvoton,sysgcr
-> +  - nuvoton,sysgfxi
-> +  - nuvoton,ece
-> +
-> +additionalProperties: false
-> +
+> On Thu, 15 Dec 2022 at 02:15, Sergey Senozhatsky wrote:
+> >
+> > On (22/12/14 14:37), Ricardo Ribalda wrote:
+> > [..]
+> > > +struct uvc_status_streaming {
+> > > +     u8      button;
+> > > +} __packed;
+> > > +
+> > > +struct uvc_status_control {
+> > > +     u8      bSelector;
+> > > +     u8      bAttribute;
+> > > +     u8      bValue[11];
+> > > +} __packed;
+> > > +
+> > > +struct uvc_status {
+> > > +     u8      bStatusType;
+> > > +     u8      bOriginator;
+> > > +     u8      bEvent;
+> > > +     union {
+> > > +             struct uvc_status_control control;
+> > > +             struct uvc_status_streaming streaming;
+> > > +     };
+> > > +} __packed;
+> > > +
+> > >  struct uvc_device {
+> > >       struct usb_device *udev;
+> > >       struct usb_interface *intf;
+> > > @@ -559,7 +579,7 @@ struct uvc_device {
+> > >       /* Status Interrupt Endpoint */
+> > >       struct usb_host_endpoint *int_ep;
+> > >       struct urb *int_urb;
+> > > -     u8 *status;
+> > > +
+> > >       struct input_dev *input;
+> > >       char input_phys[64];
+> > >
+> > > @@ -572,6 +592,12 @@ struct uvc_device {
+> > >       } async_ctrl;
+> > >
+> > >       struct uvc_entity *gpio_unit;
+> > > +
+> > > +     /*
+> > > +      * Ensure that status is aligned, making it safe to use with
+> > > +      * non-coherent DMA.
+> > > +      */
+> > > +     struct uvc_status status __aligned(ARCH_KMALLOC_MINALIGN);
+> >
+> >         ____cacheline_aligned ?
+> >
+> > I don't see anyone using ARCH_KMALLOC_MINALIGN except for slab.h
 > 
+> Seems like cacheline is not good enough:
+> 
+> https://github.com/torvalds/linux/commit/12c4efe3509b8018e76ea3ebda8227cb53bf5887
+> https://lore.kernel.org/all/20220405135758.774016-1-catalin.marinas@arm.com/
+> 
+> and ARCH_KMALLOC_MINALIGN is what we have today and is working...
+> 
+> But yeah, the name for that define is not the nicest :)
+> 
+> I added Jonathan Cameron, on cc, as he had to deal with something
+> similar for iio in case we are missing something
 
-Best regards,
-Krzysztof
+I'd like to get feedback on this from DMA and USB experts. Expanding the
+CC list of the original patch would help (especially including the
+linux-usb mailing list).
 
+> ps: and I thought this was an easy change :P
+
+-- 
+Regards,
+
+Laurent Pinchart
