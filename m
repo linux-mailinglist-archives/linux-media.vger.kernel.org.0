@@ -2,111 +2,118 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0BB4464D39C
-	for <lists+linux-media@lfdr.de>; Thu, 15 Dec 2022 00:39:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B709864D4EF
+	for <lists+linux-media@lfdr.de>; Thu, 15 Dec 2022 02:10:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229791AbiLNXjG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 14 Dec 2022 18:39:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37060 "EHLO
+        id S229704AbiLOBKe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 14 Dec 2022 20:10:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33166 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229575AbiLNXiv (ORCPT
+        with ESMTP id S229471AbiLOBKd (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 14 Dec 2022 18:38:51 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D6E831EEA;
-        Wed, 14 Dec 2022 15:38:49 -0800 (PST)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 27D4751E;
-        Thu, 15 Dec 2022 00:38:47 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1671061127;
-        bh=HfH023P9iYH/yvUdmpHAUXCQ/uSzg7GNNthgLdl1Cfg=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=ragdCsYs+zUvceXhhM1GWBLhYl1V+hrlOuvOLPmi/mna0JQjzjAAsAR8hvC02EXS/
-         YVX3kJc0VZx4cQoE9Le6hcLoxVV3Yzl7ThyVOVdRdwpor3FQHWPcxC0iU71uSXmorz
-         X540mcCA9QNv42AU2gQ3IZlrkvp5j5q1btVmZNAE=
-From:   Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-To:     linux-media@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Thomas Nizan <tnizan@witekio.com>
-Subject: [PATCH v3 12/12] media: i2c: max9286: Print power-up GMSL link configuration
-Date:   Thu, 15 Dec 2022 01:38:25 +0200
-Message-Id: <20221214233825.13050-13-laurent.pinchart+renesas@ideasonboard.com>
-X-Mailer: git-send-email 2.37.4
-In-Reply-To: <20221214233825.13050-1-laurent.pinchart+renesas@ideasonboard.com>
-References: <20221214233825.13050-1-laurent.pinchart+renesas@ideasonboard.com>
+        Wed, 14 Dec 2022 20:10:33 -0500
+Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 78DD753EC4
+        for <linux-media@vger.kernel.org>; Wed, 14 Dec 2022 17:10:32 -0800 (PST)
+Received: by mail-pj1-x102d.google.com with SMTP id t17so8813849pjo.3
+        for <linux-media@vger.kernel.org>; Wed, 14 Dec 2022 17:10:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=/Edze/qa0HPXemZjwOHvXFl0b/Mnz/IUyV30XlIwDVo=;
+        b=lFO+uYcyTJOGOFVWWo1AmpohM/b0XXwNxnIoV25OB6s/a8yHFgvTRKPDtsiZXn77l4
+         EUiiKDhu+Nz70hAj9TqK2GzGtEhIzLCF8QdUqZ0Y8raDlUSbEEiLaXy63pHxOzaoXtTO
+         SbfTs/IVESASf61A/v+uTCwc7s2hy2ev41GGM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/Edze/qa0HPXemZjwOHvXFl0b/Mnz/IUyV30XlIwDVo=;
+        b=kK1rZ12CCDNs9V/JUAZ0EyGoSOCttC1bF+gvyEue9x277ayvnTNwIA2SL9RiUydH6Z
+         UXlkG+dgMkwhy7uia6n1sZPGq2Kmk3WPMNd5ZWL8nTK265rOHNtuTkKapsyO8Pgw1P/o
+         czGhjGaRkdOqChkDc1srUgyvHMjDorsjqESd9HtNq7NlRKKw7OCL3ctT6NIhJAPJX542
+         Ds1DQqVC2350N5v5x7siK77SQRKqzUfhYlM71h1Z0Obo+F17aPJ1FtA8zdy6exO2cA6t
+         8TZ04aqbJuzqoZV9JauffZsO22M+elnzqqEpHDkTH32qj+yTiujjjSZPa8HDviR8iWxp
+         EDZg==
+X-Gm-Message-State: ANoB5plDrL0hU42qpGUlKz6G6PGwbVAS9iiPcOf1x2QNrDlqePwnNk1Q
+        EeByfJ4alC3v0HCL04Tn57Jp/A==
+X-Google-Smtp-Source: AA0mqf5+6gKAHAMUtzClUJvvgj+BHiKJYtgUrqGdmygUsqSr9SFaOC3MiyoheA3VlqwrOxqZt7t6dg==
+X-Received: by 2002:a17:903:22c3:b0:189:d92b:86e4 with SMTP id y3-20020a17090322c300b00189d92b86e4mr38669978plg.52.1671066632042;
+        Wed, 14 Dec 2022 17:10:32 -0800 (PST)
+Received: from google.com (KD124209188001.ppp-bb.dion.ne.jp. [124.209.188.1])
+        by smtp.gmail.com with ESMTPSA id q3-20020a170902e30300b00178143a728esm2416735plc.275.2022.12.14.17.10.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 14 Dec 2022 17:10:30 -0800 (PST)
+Date:   Thu, 15 Dec 2022 10:10:25 +0900
+From:   Sergey Senozhatsky <senozhatsky@chromium.org>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Ricardo Ribalda <ribalda@chromium.org>,
+        Yunke Cao <yunkec@chromium.org>,
+        Max Staudt <mstaudt@google.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+Subject: Re: [PATCH] media: uvcvideo: Do not alloc dev->status
+Message-ID: <Y5p0AfcKaHWxEjGV@google.com>
+References: <20221214-uvc-status-alloc-v1-0-a0098ddc7c93@chromium.org>
+ <Y5nFap/r4OgqgmeK@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y5nFap/r4OgqgmeK@pendragon.ideasonboard.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The power-up GMSL link configuration is controlled by the HIM and BWS
-pins, whose state is reflected in register 0x1c. Print the detected
-power-up config in a debug message to help debugging.
+On (22/12/14 14:45), Laurent Pinchart wrote:
+> On Wed, Dec 14, 2022 at 12:23:41PM +0100, Ricardo Ribalda wrote:
+> > UVC_MAX_STATUS_SIZE is 16, simplify the code by inlining dev->status.
+> 
+> The reason why uvc_status is allocated dynamically is to ensure cache
+> line alignment, as the USB host controller may DMA to the buffer.
 
-Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
----
- drivers/media/i2c/max9286.c | 23 +++++++++++++----------
- 1 file changed, 13 insertions(+), 10 deletions(-)
+Oh, that's a very subtle detail.
 
-diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
-index 58cd2ff49e08..34a59a7d3ab4 100644
---- a/drivers/media/i2c/max9286.c
-+++ b/drivers/media/i2c/max9286.c
-@@ -1156,6 +1156,7 @@ static int max9286_setup(struct max9286_priv *priv)
- 		(2 << 6) | (1 << 4) | (0 << 2) | (3 << 0), /* 210x */
- 		(3 << 6) | (2 << 4) | (1 << 2) | (0 << 0), /* 3210 */
- 	};
-+	int cfg;
- 
- 	/*
- 	 * Set the I2C bus speed.
-@@ -1177,21 +1178,23 @@ static int max9286_setup(struct max9286_priv *priv)
- 	max9286_set_video_format(priv, &max9286_default_format);
- 	max9286_set_fsync_period(priv);
- 
-+	cfg = max9286_read(priv, 0x1c);
-+	if (cfg < 0)
-+		return cfg;
-+
-+	dev_dbg(&priv->client->dev, "power-up config: %s immunity, %u-bit bus\n",
-+		cfg & MAX9286_HIGHIMM(0) ? "high" : "legacy",
-+		cfg & MAX9286_BWS ? 32 : cfg & MAX9286_HIBW ? 27 : 24);
-+
- 	if (priv->bus_width) {
--		int val;
--
--		val = max9286_read(priv, 0x1c);
--		if (val < 0)
--			return val;
--
--		val &= ~(MAX9286_HIBW | MAX9286_BWS);
-+		cfg &= ~(MAX9286_HIBW | MAX9286_BWS);
- 
- 		if (priv->bus_width == 27)
--			val |= MAX9286_HIBW;
-+			cfg |= MAX9286_HIBW;
- 		else if (priv->bus_width == 32)
--			val |= MAX9286_BWS;
-+			cfg |= MAX9286_BWS;
- 
--		max9286_write(priv, 0x1c, val);
-+		max9286_write(priv, 0x1c, cfg);
- 	}
- 
- 	/*
--- 
-Regards,
+> > +struct uvc_status_streaming {
+> > +	u8	button;
+> > +} __packed;
+> > +
+> > +struct uvc_status_control {
+> > +	u8	bSelector;
+> > +	u8	bAttribute;
+> > +	u8	bValue[11];
+> > +} __packed;
+> > +
+> > +struct uvc_status {
+> > +	u8	bStatusType;
+> > +	u8	bOriginator;
+> > +	u8	bEvent;
+> > +	union {
+> > +		struct uvc_status_control control;
+> > +		struct uvc_status_streaming streaming;
+> > +	};
+> > +} __packed;
+> > +
+> >  struct uvc_device {
+> >  	struct usb_device *udev;
+> >  	struct usb_interface *intf;
+> > @@ -559,7 +579,7 @@ struct uvc_device {
+> >  	/* Status Interrupt Endpoint */
+> >  	struct usb_host_endpoint *int_ep;
+> >  	struct urb *int_urb;
+> > -	u8 *status;
+> > +	struct uvc_status status;
 
-Laurent Pinchart
+So we can do something like this maybe?
 
++	struct uvc_status status ____cacheline_aligned;
+
+And this actually even improves code readability, IMHO, in a
+sense that we explicitly say that it has to be cache aligned.
