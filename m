@@ -2,102 +2,96 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 53C7064D778
-	for <lists+linux-media@lfdr.de>; Thu, 15 Dec 2022 08:59:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B64C164D81C
+	for <lists+linux-media@lfdr.de>; Thu, 15 Dec 2022 09:58:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229889AbiLOH7z (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 15 Dec 2022 02:59:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52508 "EHLO
+        id S229619AbiLOI6d (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 15 Dec 2022 03:58:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46280 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229808AbiLOH7t (ORCPT
+        with ESMTP id S229451AbiLOI6b (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 15 Dec 2022 02:59:49 -0500
-Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com [IPv6:2a00:1450:4864:20::42d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B0A072E9FA;
-        Wed, 14 Dec 2022 23:59:44 -0800 (PST)
-Received: by mail-wr1-x42d.google.com with SMTP id f18so2177910wrj.5;
-        Wed, 14 Dec 2022 23:59:44 -0800 (PST)
+        Thu, 15 Dec 2022 03:58:31 -0500
+Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com [IPv6:2a00:1450:4864:20::136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A0452DAB6
+        for <linux-media@vger.kernel.org>; Thu, 15 Dec 2022 00:58:30 -0800 (PST)
+Received: by mail-lf1-x136.google.com with SMTP id y25so14591424lfa.9
+        for <linux-media@vger.kernel.org>; Thu, 15 Dec 2022 00:58:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=KX0PWE2xH1wSf/y+zwbZJi36dKHohqN+VlC//8Gj03Y=;
-        b=CRXXChB9RPUbelebK5Wi627ibXjWXRYZrVQK9fV7JL2upp00d1sz8VO5aqxykceunt
-         z6Waxut3u1vjPaKhvIs5yya2XbkvBN+azS6J1pViAiWoSwz21h7DqKd520x/txMPZ2o8
-         seoMqz/JKzPxzKyooayFzlm03v1REqNISxqHdRCZg+2JTyjzVAKy2TBrAgafuwPjnobL
-         3GLWti82hybD3IhVMxbQP7b0IJ2BSvsBrd2OAuRTIklJncrocTtiBv3TMV+Wa8NBGsZV
-         xNX1p2t6WdXMyvg6LpMbSatM8M78rT9ZvbCLr6De19ezXIpPVukdRzNWm+YaJnydIPsN
-         UV2g==
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=yWdeRDSeYB3DzBxHS75d7a4c1oXHvEh623J0a+DwoFQ=;
+        b=w5zNFWuw4gd9gdJ7FdYaOucaCP8gGImeCTeXbA6hFRZH6OoJ40t/pCO4M7VlG/1sqE
+         OkKIQDrWWa5GxkzlrawvdPD/Tik4n9ODuX6i48/hArZ5K3YSeG9qPNHn+SvpOuDIM/cz
+         Y/2mn4XiJIeU41rrEOCfWteOe1xbVdFa+PgSGrkAAKmiG4+wN9A8We3I7+LZjj539WiP
+         9YpU9aMRXGYjGhQ1nJiYiP4cpK2AJJsDSGA5N0Qi5+qeeqyG9Q1Ccs9OdMuHTE8S+HJN
+         uCpBW+KMHDGvcx64/YE+MJ5PupCon4HH/k5TKgmkU8c8Drh/rDBGZbqNBRKDwxtdxysP
+         uVLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=KX0PWE2xH1wSf/y+zwbZJi36dKHohqN+VlC//8Gj03Y=;
-        b=1K5M3LP8vLXS94/Ir5Q3WIR0CijYdK+rfgQNuNZGVPFqaw9HDz4YRTzlpE1l/1R1ph
-         Z82zmipesPjR1+hHsTk0sjbYS5mg7xi6/tcqKTLbXjF8xnFZQn2M+GNwqaNZPPLBHv8+
-         RGaZOZasq1FteUOKJlBsRoBjMpyADySbodkNF5mJgXebDObliS+YATFBX1vj109LXEV1
-         ul7b5I1mHbeIwGxG+QEU1rdSx0weoI7Nyb8TTlV6h9NPjmDJau0XTFiaik8qkjrSdZ+/
-         fpRhORpdLKWoNoynOJnOMTwp6GnOUfnU7Hnvs0uc0PoprmtCTXMjgDtWt6jyS4NlUCYg
-         u+5A==
-X-Gm-Message-State: ANoB5pl/UOShhHfJarRu+Mc+aZJWK2Mhr9sStpR7I65Vxxaa+P/9WBT6
-        bCYH5Gr9FoNNmAAbafCCTEo=
-X-Google-Smtp-Source: AA0mqf64n9wNAGf4SoZErGss2bZlF+akwx2ZmjXfqJnjEXlBPkfi6KoVksXeh4Nx+Kjh9mK3UgjFxg==
-X-Received: by 2002:a5d:4e82:0:b0:242:7139:601a with SMTP id e2-20020a5d4e82000000b002427139601amr16180937wru.28.1671091183130;
-        Wed, 14 Dec 2022 23:59:43 -0800 (PST)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id h9-20020a5d5489000000b00242109cf587sm5134961wrv.28.2022.12.14.23.59.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Dec 2022 23:59:42 -0800 (PST)
-Date:   Thu, 15 Dec 2022 10:59:30 +0300
-From:   Dan Carpenter <error27@gmail.com>
-To:     Umang Jain <umang.jain@ideasonboard.com>
-Cc:     linux-staging@lists.linux.dev,
-        linux-rpi-kernel@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Kees Cook <keescook@chromium.org>,
-        Stefan Wahren <stefan.wahren@i2se.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Adrien Thierry <athierry@redhat.com>,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [PATCH 5/7] vc04_services: vchiq_arm: Drop VCHIQ_RETRY usage on
- disconnect
-Message-ID: <Y5rT4qNDTCiVoHnu@kadam>
-References: <20221215065853.34477-1-umang.jain@ideasonboard.com>
- <20221215065853.34477-6-umang.jain@ideasonboard.com>
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=yWdeRDSeYB3DzBxHS75d7a4c1oXHvEh623J0a+DwoFQ=;
+        b=hexd5vfJoODDvVRVRD0ewp6ny5WmsjYKL2TvwNwMMllrwZ4sGf0+FZBjJs/bAedOCw
+         E+L4YfXM0KrnjFnxeCm4LsSA3kvffTbkUSsR3zBHqqgwSZdqL7BY6voU5GF3w8mHcs6F
+         KOhccTncepdPcfxgCtdAqmUrCefbuSvu4VF51yZpuSQJ3rCc4cm3Ijy1n+AFpBpYh2sZ
+         cPhwzPUcrckrK6USVFVfGbISpCFWzx6oYAnmHvanIkNrsFsel5HqSSnR+fzJ9KITjLXJ
+         wEhtEJmR+jBBYmvI+Ov1ZKNO487wAeXa7P+NDFCXAeOoxyV8opaMv7cd1UggvlxB4BYq
+         r6SA==
+X-Gm-Message-State: ANoB5pl4I+rjagMZE7jWqhdafvvaoaxhbf1DjjkHxqJmWuLswPCSd32w
+        ECUdGMOnpkbONTiIoZuJlz9QUQ==
+X-Google-Smtp-Source: AA0mqf5sup5h7VOVNlFqUdpxDsVaIkiJTuZWoo0xwOCFodsR5FjlJidzSFra/9u60kPjMJWBHmnYwQ==
+X-Received: by 2002:a05:6512:3b8d:b0:4b5:b76e:3669 with SMTP id g13-20020a0565123b8d00b004b5b76e3669mr8227146lfv.27.1671094708867;
+        Thu, 15 Dec 2022 00:58:28 -0800 (PST)
+Received: from [192.168.0.20] (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
+        by smtp.gmail.com with ESMTPSA id d4-20020ac25444000000b004b55f60c65asm1100252lfn.284.2022.12.15.00.58.27
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 15 Dec 2022 00:58:28 -0800 (PST)
+Message-ID: <505acb6e-24c4-45c7-7a54-1a77e3718fec@linaro.org>
+Date:   Thu, 15 Dec 2022 09:58:27 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221215065853.34477-6-umang.jain@ideasonboard.com>
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.1
+Subject: Re: [PATCH v8 3/7] dt-bindings: arm: nuvoton: Add bindings for NPCM
+ GFXI
+Content-Language: en-US
+To:     Marvin Lin <milkfafa@gmail.com>, mchehab@kernel.org,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org
+Cc:     openbmc@lists.ozlabs.org, avifishman70@gmail.com,
+        tmaimon77@gmail.com, tali.perry1@gmail.com, venture@google.com,
+        yuenn@google.com, benjaminfair@google.com, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, kwliu@nuvoton.com,
+        kflin@nuvoton.com
+References: <20221214092636.810883-1-milkfafa@gmail.com>
+ <20221214092636.810883-4-milkfafa@gmail.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20221214092636.810883-4-milkfafa@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Dec 15, 2022 at 12:28:51PM +0530, Umang Jain wrote:
-> Drop the usage of VCHIQ_RETRY when the vchiq has connection status
-> VCHIQ_CONNSTATE_DISCONNECTED. Disconnected is will not be valid to
-> carry on a retry, replace the VCHIQ_RETRY with -EINVAL.
+On 14/12/2022 10:26, Marvin Lin wrote:
+> Add dt-bindings document for Graphics Core Information (GFXI) node. It
+> is used by NPCM video driver to retrieve Graphics core information.
 > 
-> This patch removes the usage of vCHIQ_RETRY completely and act as
-> intermediatory to address the TODO item:
-> 	* Get rid of custom function return values
-> for vc04_services/interface.
-> 
-> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
+> Signed-off-by: Marvin Lin <milkfafa@gmail.com>
 > ---
 
-It sounds like this should have a Fixes tag because the original
-behavior was wrong.
 
-regards,
-dan carpenter
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+
+Best regards,
+Krzysztof
 
