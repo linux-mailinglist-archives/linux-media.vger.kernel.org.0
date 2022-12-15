@@ -2,122 +2,95 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C636C64D4FC
-	for <lists+linux-media@lfdr.de>; Thu, 15 Dec 2022 02:15:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F2B7F64D5D7
+	for <lists+linux-media@lfdr.de>; Thu, 15 Dec 2022 05:26:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229661AbiLOBPB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 14 Dec 2022 20:15:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35210 "EHLO
+        id S229536AbiLOEW2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 14 Dec 2022 23:22:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59982 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229588AbiLOBO7 (ORCPT
+        with ESMTP id S229448AbiLOEWW (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 14 Dec 2022 20:14:59 -0500
-Received: from mail-pl1-x62f.google.com (mail-pl1-x62f.google.com [IPv6:2607:f8b0:4864:20::62f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 992E6554F3
-        for <linux-media@vger.kernel.org>; Wed, 14 Dec 2022 17:14:58 -0800 (PST)
-Received: by mail-pl1-x62f.google.com with SMTP id 17so5318909pll.0
-        for <linux-media@vger.kernel.org>; Wed, 14 Dec 2022 17:14:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=zL+Tdk+zCs8TNT7g6HIaDXRKNhigXeKBHzTFkpkj2gI=;
-        b=UapGBTztJgPfjtfzXdgNAR9cPneWdf2FVDpFiB7Ypqb05B/VgDq/V/llETgCRqnXWE
-         zIgINj2kFsj4glPxOBDilt3SXxhzkEsbyKJNDAkTEmJ0OSHqfjMEeO5mc6uv16xCf8EC
-         vAuEHiWTdh8X4XdRNCQrfRzZ3o0XwAtRBgL/o=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=zL+Tdk+zCs8TNT7g6HIaDXRKNhigXeKBHzTFkpkj2gI=;
-        b=vUk33qPUMgBcyIcIeXlUVSXfqJNd6BeCwxmGKgxGRXZPYMc0rQmR3XzdJAmKDDsITI
-         c6+SYqtElDOWIg6x7X9i7uC89rPs6j0kH2pJCMeQmu9C/zvJGXVDqkddP/AHr8GUN7OF
-         V3G09K9c68UuEb0Yo0z3wuu+W8B4TteafV3ImhKI4+/mN0adASBf04h5dX5RAoMHdIJg
-         G6aJ/AmqpRj6jQOPw/dAHAiUqRTxYoLjc+ii6jGXjBIhAY5nzkGNL8YBxMVrUwJbEepU
-         wm3qG/rWv+SgihGnN7J9XAWjB0iZNZciuxmt4zyHlPe3WLjdDM6/kqM6aLPdSzvNB1uB
-         VJtA==
-X-Gm-Message-State: ANoB5pl3mgZi3mij5P9mvRPaGp/5vnt3YDOi12vqx1TW5wLKxjd6C9ex
-        tazMAnujEpOXEAfFlaETplHcbg==
-X-Google-Smtp-Source: AA0mqf4dzoANwHiq9DDjTNy8sJ66CZ8Ke5Yjs7gvMynAYN7lBFOtJ+6+OdroCuy2+6wLko9U2Hdq/A==
-X-Received: by 2002:a05:6a20:9c89:b0:9d:efbf:7876 with SMTP id mj9-20020a056a209c8900b0009defbf7876mr31924066pzb.43.1671066898121;
-        Wed, 14 Dec 2022 17:14:58 -0800 (PST)
-Received: from google.com (KD124209188001.ppp-bb.dion.ne.jp. [124.209.188.1])
-        by smtp.gmail.com with ESMTPSA id a10-20020aa794aa000000b00576df4543d4sm429133pfl.166.2022.12.14.17.14.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Dec 2022 17:14:57 -0800 (PST)
-Date:   Thu, 15 Dec 2022 10:14:53 +0900
-From:   Sergey Senozhatsky <senozhatsky@chromium.org>
-To:     Ricardo Ribalda <ribalda@chromium.org>
-Cc:     Yunke Cao <yunkec@chromium.org>, Ming Lei <tom.leiming@gmail.com>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Max Staudt <mstaudt@google.com>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-Subject: Re: [PATCH v2] media: uvcvideo: Do not alloc dev->status
-Message-ID: <Y5p1DVWXuYSzkRO4@google.com>
-References: <20221214-uvc-status-alloc-v2-0-3f1cba6fc734@chromium.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221214-uvc-status-alloc-v2-0-3f1cba6fc734@chromium.org>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+        Wed, 14 Dec 2022 23:22:22 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4CE722B1BD
+        for <linux-media@vger.kernel.org>; Wed, 14 Dec 2022 20:22:20 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 00A68B81A21
+        for <linux-media@vger.kernel.org>; Thu, 15 Dec 2022 04:22:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 24B66C433D2
+        for <linux-media@vger.kernel.org>; Thu, 15 Dec 2022 04:22:16 +0000 (UTC)
+Date:   Thu, 15 Dec 2022 05:22:15 +0100
+Message-ID: <634486fc3478eda08569563917a2e163.hverkuil@xs4all.nl>
+From:   "Hans Verkuil" <hverkuil-cisco@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
+X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On (22/12/14 14:37), Ricardo Ribalda wrote:
-[..]
-> +struct uvc_status_streaming {
-> +	u8	button;
-> +} __packed;
-> +
-> +struct uvc_status_control {
-> +	u8	bSelector;
-> +	u8	bAttribute;
-> +	u8	bValue[11];
-> +} __packed;
-> +
-> +struct uvc_status {
-> +	u8	bStatusType;
-> +	u8	bOriginator;
-> +	u8	bEvent;
-> +	union {
-> +		struct uvc_status_control control;
-> +		struct uvc_status_streaming streaming;
-> +	};
-> +} __packed;
-> +
->  struct uvc_device {
->  	struct usb_device *udev;
->  	struct usb_interface *intf;
-> @@ -559,7 +579,7 @@ struct uvc_device {
->  	/* Status Interrupt Endpoint */
->  	struct usb_host_endpoint *int_ep;
->  	struct urb *int_urb;
-> -	u8 *status;
-> +
->  	struct input_dev *input;
->  	char input_phys[64];
->  
-> @@ -572,6 +592,12 @@ struct uvc_device {
->  	} async_ctrl;
->  
->  	struct uvc_entity *gpio_unit;
-> +
-> +	/*
-> +	 * Ensure that status is aligned, making it safe to use with
-> +	 * non-coherent DMA.
-> +	 */
-> +	struct uvc_status status __aligned(ARCH_KMALLOC_MINALIGN);
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-	____cacheline_aligned ?
+Results of the daily build of media_tree:
 
-I don't see anyone using ARCH_KMALLOC_MINALIGN except for slab.h
+date:			Thu Dec 15 03:00:28 CET 2022
+media-tree git hash:	d4acfa22b634347be33d5906744366742fccd151
+media_build git hash:	0fe857b86addf382f6fd383948bd7736a3201403
+v4l-utils git hash:	ef064edb994f397ecebf8b4be8947ab5e98d9b6c
+edid-decode git hash:	e052f5f9fdf74ca11aa1a8edfa62eff8d0aa3d0d
+gcc version:		i686-linux-gcc (GCC) 12.2.0
+sparse repo:            git://git.kernel.org/pub/scm/devel/sparse/sparse.git
+sparse version:		v0.6.4-39-gce1a6720-dirty
+smatch repo:            git://repo.or.cz/smatch.git
+smatch version:		v0.5.0-8217-g40351132-dirty
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: dc83e185adb0d7fab1e388ade12feccc5c9d39f7
+host hardware:		x86_64
+host os:		6.0.0-5-amd64
+
+linux-git-sh: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-powerpc64: OK
+linux-git-mips: OK
+linux-git-arm-multi: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+apps: OK
+spec-git: OK
+virtme: WARNINGS: Final Summary: 3080, Succeeded: 3080, Failed: 0, Warnings: 1
+virtme-32: WARNINGS: Final Summary: 3193, Succeeded: 3193, Failed: 0, Warnings: 2
+sparse: WARNINGS
+smatch: WARNINGS
+kerneldoc: OK
+
+Detailed results are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Thursday.log
+
+Detailed regression test results are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Thursday-test-media.log
+https://hverkuil.home.xs4all.nl/logs/Thursday-test-media-32.log
+https://hverkuil.home.xs4all.nl/logs/Thursday-test-media-dmesg.log
+
+Full logs are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Thursday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+https://hverkuil.home.xs4all.nl/spec/index.html
