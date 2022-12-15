@@ -2,33 +2,52 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F2B7F64D5D7
-	for <lists+linux-media@lfdr.de>; Thu, 15 Dec 2022 05:26:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7951B64D6EB
+	for <lists+linux-media@lfdr.de>; Thu, 15 Dec 2022 08:05:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229536AbiLOEW2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 14 Dec 2022 23:22:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59982 "EHLO
+        id S229996AbiLOHFR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 15 Dec 2022 02:05:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57458 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229448AbiLOEWW (ORCPT
+        with ESMTP id S229695AbiLOHEf (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 14 Dec 2022 23:22:22 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4CE722B1BD
-        for <linux-media@vger.kernel.org>; Wed, 14 Dec 2022 20:22:20 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 00A68B81A21
-        for <linux-media@vger.kernel.org>; Thu, 15 Dec 2022 04:22:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 24B66C433D2
-        for <linux-media@vger.kernel.org>; Thu, 15 Dec 2022 04:22:16 +0000 (UTC)
-Date:   Thu, 15 Dec 2022 05:22:15 +0100
-Message-ID: <634486fc3478eda08569563917a2e163.hverkuil@xs4all.nl>
-From:   "Hans Verkuil" <hverkuil-cisco@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS
+        Thu, 15 Dec 2022 02:04:35 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C69575FB9A;
+        Wed, 14 Dec 2022 22:59:10 -0800 (PST)
+Received: from umang.jainideasonboard.com (unknown [IPv6:2401:4900:1f3e:7d24:3f0:3e81:fb16:ab4d])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 312A44D5;
+        Thu, 15 Dec 2022 07:59:00 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1671087548;
+        bh=RngX/iK1q3MPQdqSLGAYLK2c1bMLyu75yAOqBHRU8M4=;
+        h=From:To:Cc:Subject:Date:From;
+        b=Cp1vE3QHXqJpFku2pW2wJl4PZN985abL3hJ1u4/MM5RgsalktePX1s2v/xcGl8Rfq
+         E4YQXklqSG/fKt/w0+EbqkGsSzDfOxTXpj/Jsyxdbk+Ra4nA3RMGJ238RlJK98+tmQ
+         jsrpwEOiUghhHgL5t0nD9Ym9X7z37fC+1/glC4Bg=
+From:   Umang Jain <umang.jain@ideasonboard.com>
+To:     linux-staging@lists.linux.dev,
+        linux-rpi-kernel@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     Kees Cook <keescook@chromium.org>,
+        Stefan Wahren <stefan.wahren@i2se.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Adrien Thierry <athierry@redhat.com>,
+        Dan Carpenter <error27@gmail.com>,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Umang Jain <umang.jain@ideasonboard.com>
+Subject: [PATCH 0/7] staging: vc04_services: Remove custom return values
+Date:   Thu, 15 Dec 2022 12:28:46 +0530
+Message-Id: <20221215065853.34477-1-umang.jain@ideasonboard.com>
+X-Mailer: git-send-email 2.38.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -36,61 +55,32 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+The series removes the custom return values from functions
+and replaces them with linux error codes. This address the TODO
+ vchiq interface:
+* Get rid of custom function return values
 
-Results of the daily build of media_tree:
+Umang Jain (7):
+  staging: vc04_services: Replace vchiq_status return type to int
+  staging: vc04_services: Drop VCHIQ_SUCCESS usage
+  staging: vc04_services: Drop VCHIQ_ERROR usage
+  staging: vc04_services: Drop VCHIQ_RETRY usage
+  vc04_services: vchiq_arm: Drop VCHIQ_RETRY usage on disconnect
+  staging: vc04_services: Drop enum vchiq_status remnants
+  staging: vc04_services: vchiq: Drop custom return values from TODO
 
-date:			Thu Dec 15 03:00:28 CET 2022
-media-tree git hash:	d4acfa22b634347be33d5906744366742fccd151
-media_build git hash:	0fe857b86addf382f6fd383948bd7736a3201403
-v4l-utils git hash:	ef064edb994f397ecebf8b4be8947ab5e98d9b6c
-edid-decode git hash:	e052f5f9fdf74ca11aa1a8edfa62eff8d0aa3d0d
-gcc version:		i686-linux-gcc (GCC) 12.2.0
-sparse repo:            git://git.kernel.org/pub/scm/devel/sparse/sparse.git
-sparse version:		v0.6.4-39-gce1a6720-dirty
-smatch repo:            git://repo.or.cz/smatch.git
-smatch version:		v0.5.0-8217-g40351132-dirty
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: dc83e185adb0d7fab1e388ade12feccc5c9d39f7
-host hardware:		x86_64
-host os:		6.0.0-5-amd64
+ .../bcm2835-audio/bcm2835-vchiq.c             |  12 +-
+ .../include/linux/raspberrypi/vchiq.h         |  65 +++---
+ drivers/staging/vc04_services/interface/TODO  |   5 -
+ .../interface/vchiq_arm/vchiq_arm.c           | 122 +++++-----
+ .../interface/vchiq_arm/vchiq_arm.h           |  12 +-
+ .../interface/vchiq_arm/vchiq_core.c          | 216 +++++++++---------
+ .../interface/vchiq_arm/vchiq_core.h          |  18 +-
+ .../interface/vchiq_arm/vchiq_dev.c           |  36 +--
+ .../interface/vchiq_arm/vchiq_ioctl.h         |   8 +-
+ .../vc04_services/vchiq-mmal/mmal-vchiq.c     |  11 +-
+ 10 files changed, 245 insertions(+), 260 deletions(-)
 
-linux-git-sh: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-powerpc64: OK
-linux-git-mips: OK
-linux-git-arm-multi: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-apps: OK
-spec-git: OK
-virtme: WARNINGS: Final Summary: 3080, Succeeded: 3080, Failed: 0, Warnings: 1
-virtme-32: WARNINGS: Final Summary: 3193, Succeeded: 3193, Failed: 0, Warnings: 2
-sparse: WARNINGS
-smatch: WARNINGS
-kerneldoc: OK
+-- 
+2.38.1
 
-Detailed results are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Thursday.log
-
-Detailed regression test results are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Thursday-test-media.log
-https://hverkuil.home.xs4all.nl/logs/Thursday-test-media-32.log
-https://hverkuil.home.xs4all.nl/logs/Thursday-test-media-dmesg.log
-
-Full logs are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Thursday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-https://hverkuil.home.xs4all.nl/spec/index.html
