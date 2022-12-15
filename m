@@ -2,47 +2,46 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BFF3B64DBBC
-	for <lists+linux-media@lfdr.de>; Thu, 15 Dec 2022 13:55:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E086F64DC12
+	for <lists+linux-media@lfdr.de>; Thu, 15 Dec 2022 14:16:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229558AbiLOMzf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 15 Dec 2022 07:55:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39428 "EHLO
+        id S229745AbiLONQe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 15 Dec 2022 08:16:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48380 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229506AbiLOMze (ORCPT
+        with ESMTP id S229460AbiLONQe (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 15 Dec 2022 07:55:34 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 681B22AE31
-        for <linux-media@vger.kernel.org>; Thu, 15 Dec 2022 04:55:32 -0800 (PST)
+        Thu, 15 Dec 2022 08:16:34 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A2452BB2F
+        for <linux-media@vger.kernel.org>; Thu, 15 Dec 2022 05:16:32 -0800 (PST)
 Received: from [192.168.1.15] (91-154-32-225.elisa-laajakaista.fi [91.154.32.225])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id B5AF3FB;
-        Thu, 15 Dec 2022 13:55:30 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 289B7327;
+        Thu, 15 Dec 2022 14:16:30 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1671108931;
-        bh=wrQRxylTQHwduWKubzS0Ev1x+RazL4sOM2FbGxYWWvo=;
+        s=mail; t=1671110190;
+        bh=veZ2Rj6IyY/Pwk2ziYRC+sG0XLoae7438dwuNLO7KKw=;
         h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=WbywI+NuPxqOgTxLTyshMd3RnyLqgN+ATOo8By7zx1jlrseopLELfCSMR/LgsMLb0
-         58WKNyvD9EkfJNQ7WsbnChk8GNDIG4ZFgIfvwQqsbkRbUKkHw61j8/TQdgpOAYNBLG
-         q0zmyE9Rwr/1U379vbeweRFkPOFVO3sd3Pe4aJCE=
-Message-ID: <528db496-45ea-e695-16a1-0d332b9f3997@ideasonboard.com>
-Date:   Thu, 15 Dec 2022 14:55:28 +0200
+        b=RLsc7/6NT2S1JNTFwL51t9y0ehuB+O17GGr39cELQWpB05S5NuHks6QIClsdOHS0E
+         EAPR1EG3/oUXgNfOGfgIcYL/iYjhiDFEQGm/R3nLHR0WSvhOgYE5r4IW1A/9TFBlCY
+         zJ2esWATkGBR/afRhuOSAnx6P35UyPzCp25lmMOU=
+Message-ID: <ca33baab-3827-dcb6-2b5c-c49992c4597a@ideasonboard.com>
+Date:   Thu, 15 Dec 2022 15:16:26 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.2
-Subject: Re: [PATCH v1 1/5] media: mc: entity: Add pad iterator for
- media_pipeline
+Subject: Re: [PATCH v1 3/5] media: ti: omap3isp: Use
+ media_pipeline_for_each_entity()
 Content-Language: en-US
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, Sakari Ailus <sakari.ailus@iki.fi>,
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-media@vger.kernel.org
+Cc:     Sakari Ailus <sakari.ailus@iki.fi>,
         Michal Simek <michal.simek@xilinx.com>,
         Sylwester Nawrocki <s.nawrocki@samsung.com>
 References: <20221212141621.724-1-laurent.pinchart@ideasonboard.com>
- <20221212141621.724-2-laurent.pinchart@ideasonboard.com>
- <fea9c172-65b6-8067-3957-13fbf77de6ff@ideasonboard.com>
- <Y5sXus6z6h1tf18b@pendragon.ideasonboard.com>
+ <20221212141621.724-4-laurent.pinchart@ideasonboard.com>
 From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-In-Reply-To: <Y5sXus6z6h1tf18b@pendragon.ideasonboard.com>
+In-Reply-To: <20221212141621.724-4-laurent.pinchart@ideasonboard.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -54,128 +53,58 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 15/12/2022 14:48, Laurent Pinchart wrote:
-> Hi Tomi,
+On 12/12/2022 16:16, Laurent Pinchart wrote:
+> Replace usage of the deprecated media graph walk API with the new
+> media_pipeline_for_each_entity() macro.
 > 
-> On Thu, Dec 15, 2022 at 02:33:43PM +0200, Tomi Valkeinen wrote:
->> On 12/12/2022 16:16, Laurent Pinchart wrote:
->>> Add a media_pipeline_for_each_pad() macro to iterate over pads in a
->>> pipeline. This should be used by driver as a replacement of the
->>> media_graph_walk API, as iterating over the media_pipeline uses the
->>> cached list of pads and is thus more efficient.
->>>
->>> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
->>> ---
->>>    drivers/media/mc/mc-entity.c | 18 ++++++++++++++++++
->>>    include/media/media-entity.h | 29 +++++++++++++++++++++++++++++
->>>    2 files changed, 47 insertions(+)
->>>
->>> diff --git a/drivers/media/mc/mc-entity.c b/drivers/media/mc/mc-entity.c
->>> index b8bcbc734eaf..70df2050951c 100644
->>> --- a/drivers/media/mc/mc-entity.c
->>> +++ b/drivers/media/mc/mc-entity.c
->>> @@ -932,6 +932,24 @@ __must_check int media_pipeline_alloc_start(struct media_pad *pad)
->>>    }
->>>    EXPORT_SYMBOL_GPL(media_pipeline_alloc_start);
->>>    
->>> +struct media_pad *
->>> +__media_pipeline_pad_iter_next(struct media_pipeline *pipe,
->>> +			       struct media_pipeline_pad_iter *iter,
->>> +			       struct media_pad *pad)
->>> +{
->>> +	if (!pad)
->>> +		iter->cursor = pipe->pads.next;
->>> +
->>> +	if (iter->cursor == &pipe->pads)
->>> +		return NULL;
->>> +
->>> +	pad = list_entry(iter->cursor, struct media_pipeline_pad, list)->pad;
->>> +	iter->cursor = iter->cursor->next;
->>> +
->>> +	return pad;
->>> +}
->>> +EXPORT_SYMBOL_GPL(__media_pipeline_pad_iter_next);
->>> +
->>>    /* -----------------------------------------------------------------------------
->>>     * Links management
->>>     */
->>> diff --git a/include/media/media-entity.h b/include/media/media-entity.h
->>> index 85ed08ddee9d..e881e483b550 100644
->>> --- a/include/media/media-entity.h
->>> +++ b/include/media/media-entity.h
->>> @@ -130,6 +130,15 @@ struct media_pipeline_pad {
->>>    	struct media_pad *pad;
->>>    };
->>>    
->>> +/**
->>> + * struct media_pipeline_pad_iter - Iterator for media_pipeline_for_each_pad
->>> + *
->>> + * @cursor: The current element
->>> + */
->>> +struct media_pipeline_pad_iter {
->>> +	struct list_head *cursor;
->>> +};
->>> +
->>
->> Is there any reason to have this iter struct in a public header, vs.
->> having it in mc-entity.c?
+> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> ---
+>   drivers/media/platform/ti/omap3isp/ispvideo.c | 21 +++----------------
+>   1 file changed, 3 insertions(+), 18 deletions(-)
 > 
-> It has to be instantiated on the stack by the user of the
-> media_pipeline_for_each_pad() macro. A typical usage is
-> 
-> 	struct media_pipeline_pad_iter iter;
-> 	struct media_pad *pad
-> 
-> 	media_pipeline_for_each_pad(pipe, &iter, pad) {
-> 		...
-> 	};
-> 
-> Note how iter is not a pointer.
+> diff --git a/drivers/media/platform/ti/omap3isp/ispvideo.c b/drivers/media/platform/ti/omap3isp/ispvideo.c
+> index 3e5348c63773..aa81b5564b4f 100644
+> --- a/drivers/media/platform/ti/omap3isp/ispvideo.c
+> +++ b/drivers/media/platform/ti/omap3isp/ispvideo.c
+> @@ -221,22 +221,11 @@ isp_video_remote_subdev(struct isp_video *video, u32 *pad)
+>   static int isp_video_get_graph_data(struct isp_video *video,
+>   				    struct isp_pipeline *pipe)
+>   {
+> -	struct media_graph graph;
+> -	struct media_entity *entity = &video->video.entity;
+> -	struct media_device *mdev = entity->graph_obj.mdev;
+> +	struct media_pipeline_entity_iter iter;
+> +	struct media_entity *entity;
+>   	struct isp_video *far_end = NULL;
+> -	int ret;
+>   
+> -	mutex_lock(&mdev->graph_mutex);
+> -	ret = media_graph_walk_init(&graph, mdev);
+> -	if (ret) {
+> -		mutex_unlock(&mdev->graph_mutex);
+> -		return ret;
+> -	}
+> -
+> -	media_graph_walk_start(&graph, entity);
+> -
+> -	while ((entity = media_graph_walk_next(&graph))) {
+> +	media_pipeline_for_each_entity(&pipe->pipe, &iter, entity) {
+>   		struct isp_video *__video;
+>   
+>   		media_entity_enum_set(&pipe->ent_enum, entity);
+> @@ -255,10 +244,6 @@ static int isp_video_get_graph_data(struct isp_video *video,
+>   			far_end = __video;
+>   	}
+>   
+> -	mutex_unlock(&mdev->graph_mutex);
+> -
+> -	media_graph_walk_cleanup(&graph);
+> -
+>   	if (video->type == V4L2_BUF_TYPE_VIDEO_CAPTURE) {
+>   		pipe->input = far_end;
+>   		pipe->output = video;
 
-Ah, right.
-
->>>    /**
->>>     * struct media_link - A link object part of a media graph.
->>>     *
->>> @@ -1163,6 +1172,26 @@ void media_pipeline_stop(struct media_pad *pad);
->>>     */
->>>    void __media_pipeline_stop(struct media_pad *pad);
->>>    
->>> +struct media_pad *
->>> +__media_pipeline_pad_iter_next(struct media_pipeline *pipe,
->>> +			       struct media_pipeline_pad_iter *iter,
->>> +			       struct media_pad *pad);
->>> +
->>> +/**
->>> + * media_pipeline_for_each_pad - Iterate on all pads in a media pipeline
->>> + * @pipe: The pipeline
->>> + * @iter: The iterator (struct media_pipeline_pad_iter)
->>> + * @pad: The iterator pad
->>
->> If I understand this correctly, both iter and pad are just variables the
->> macro will use. In other words, they are not used to pass any values.
->>
->> Would it be better to declare those variables in the macro itself? Well,
->> that has its downsides. But perhaps at least clarify in the doc that
->> they are only variables used by the loop, and do not need to be initialized.
-> 
-> Now that the kernel uses C99, I suppose we could make the pad variable
-> locally declared within the loop:
-> 
-> #define media_pipeline_for_each_pad(pipe, pad)				\
-> 	for (struct media_pipeline_pad *pad = __media_pipeline_pad_iter_next((pipe), iter, NULL);	\
-> 	     pad != NULL;						\
-> 	     pad = __media_pipeline_pad_iter_next((pipe), iter, pad))
-> 
-> Hiding the iter variable would be more difficult, as I don't think you
-> can declare multiple variables of different types.
-> 
-> I'm a bit concerned about backporting though, so I'd rather not do this
-> in this patch, but on top.
-
-I was thinking about using a do {} while(0) around the for loop to 
-declare the variables, but.. of course that can't be used here. One 
-shouldn't do reviews when one has a cold =).
+media_pipeline_entity_iter_init() and media_pipeline_entity_iter_cleanup()?
 
   Tomi
 
