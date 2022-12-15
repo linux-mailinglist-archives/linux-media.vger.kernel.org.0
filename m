@@ -2,141 +2,154 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D1F0D64D851
-	for <lists+linux-media@lfdr.de>; Thu, 15 Dec 2022 10:12:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A67ED64D89B
+	for <lists+linux-media@lfdr.de>; Thu, 15 Dec 2022 10:30:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229835AbiLOJML (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 15 Dec 2022 04:12:11 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53440 "EHLO
+        id S230002AbiLOJap (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 15 Dec 2022 04:30:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36046 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229910AbiLOJMA (ORCPT
+        with ESMTP id S230011AbiLOJak (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 15 Dec 2022 04:12:00 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EEEB64AF3D;
-        Thu, 15 Dec 2022 01:11:45 -0800 (PST)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id E14C0327;
-        Thu, 15 Dec 2022 10:11:43 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1671095504;
-        bh=B/rAE2EtDJgW0316vF1iS61fsZXVN3PrYw9k9T3QMFI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=g++Av88WSNYfP3Gon2rpgfKy1Hhfa/KgyJ1fElf3c1/+xUOKhfH8Qleb6swT5+I/5
-         p4Dhl4H50I33+x9j55QK1eGDDQtMNaW1s3o1ZE5/+VswPCVySw7Mdq4UNizV1yOdu4
-         LbAQkWq0KWhis1Lcv+Br9aQYflYjZXTRutn7h2tg=
-Date:   Thu, 15 Dec 2022 11:11:40 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Ricardo Ribalda <ribalda@chromium.org>
-Cc:     Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Yunke Cao <yunkec@chromium.org>,
-        Ming Lei <tom.leiming@gmail.com>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        Thu, 15 Dec 2022 04:30:40 -0500
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64A6A47330;
+        Thu, 15 Dec 2022 01:30:34 -0800 (PST)
+X-UUID: 946220893ddb4fe6b9e803e59dae0231-20221215
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+        h=Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=iUpXfVshjq64D/vPuflrKozWJV+i90PR4zI/zWYnb50=;
+        b=jyqgkHECrFtZvDyXc2sL0d9YgXcv2zMYyDqajCW/7BFuK7HPqvfdlf4MmlP1G29Jpa0QnJch8Aex+4octvRsK9FI0W/UTMBo9p3+FmUJS/IBI9UK0hUrozNGqPDZ2iYKJ/OLcv+8rRNzLqig8ow1dKw4U1jz1RS53F+xIZ75GK8=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.14,REQID:296c8b89-7f5f-41d0-9922-3e8ec0ba17fd,IP:0,U
+        RL:0,TC:0,Content:-25,EDM:0,RT:0,SF:95,FILE:0,BULK:0,RULE:Release_Ham,ACTI
+        ON:release,TS:70
+X-CID-INFO: VERSION:1.1.14,REQID:296c8b89-7f5f-41d0-9922-3e8ec0ba17fd,IP:0,URL
+        :0,TC:0,Content:-25,EDM:0,RT:0,SF:95,FILE:0,BULK:0,RULE:Spam_GS981B3D,ACTI
+        ON:quarantine,TS:70
+X-CID-META: VersionHash:dcaaed0,CLOUDID:9a84adb4-d2e2-434d-b6d3-aeae88dfcc78,B
+        ulkID:221215173031H616DXAG,BulkQuantity:0,Recheck:0,SF:38|28|17|19|48,TC:n
+        il,Content:0,EDM:-3,IP:nil,URL:11|1,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0
+X-UUID: 946220893ddb4fe6b9e803e59dae0231-20221215
+Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by mailgw01.mediatek.com
+        (envelope-from <irui.wang@mediatek.com>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+        with ESMTP id 478658547; Thu, 15 Dec 2022 17:30:31 +0800
+Received: from mtkcas11.mediatek.inc (172.21.101.40) by
+ mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.2.792.15; Thu, 15 Dec 2022 17:30:29 +0800
+Received: from localhost.localdomain (10.17.3.154) by mtkcas11.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Thu, 15 Dec 2022 17:30:28 +0800
+From:   Irui Wang <irui.wang@mediatek.com>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Max Staudt <mstaudt@google.com>, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH v2] media: uvcvideo: Do not alloc dev->status
-Message-ID: <Y5rkzAESkLt/u6kP@pendragon.ideasonboard.com>
-References: <20221214-uvc-status-alloc-v2-0-3f1cba6fc734@chromium.org>
- <Y5p1DVWXuYSzkRO4@google.com>
- <CANiDSCtQFR-CPNXu-hqM_11DogMTvdhK9xWy7cZyd7vwZAMBSQ@mail.gmail.com>
- <Y5rj9GhQuyNbNnDw@pendragon.ideasonboard.com>
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        <angelogioacchino.delregno@collabora.com>,
+        <nicolas.dufresne@collabora.com>, kyrie wu <kyrie.wu@mediatek.com>
+CC:     <Project_Global_Chrome_Upstream_Group@mediatek.com>,
+        <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-mediatek@lists.infradead.org>,
+        Tomasz Figa <tfiga@chromium.org>, <xia.jiang@mediatek.com>,
+        <maoguang.meng@mediatek.com>, Irui Wang <irui.wang@mediatek.com>
+Subject: [PATCH] media: jpeg: refactor multi-hw judgement
+Date:   Thu, 15 Dec 2022 17:30:26 +0800
+Message-ID: <20221215093026.12322-1-irui.wang@mediatek.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <Y5rj9GhQuyNbNnDw@pendragon.ideasonboard.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-MTK:  N
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,
+        SPF_PASS,UNPARSEABLE_RELAY autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Ricardo,
+From: kyrie wu <kyrie.wu@mediatek.com>
 
-On Thu, Dec 15, 2022 at 11:08:05AM +0200, Laurent Pinchart wrote:
-> On Thu, Dec 15, 2022 at 08:59:14AM +0100, Ricardo Ribalda wrote:
-> > On Thu, 15 Dec 2022 at 02:15, Sergey Senozhatsky wrote:
-> > >
-> > > On (22/12/14 14:37), Ricardo Ribalda wrote:
-> > > [..]
-> > > > +struct uvc_status_streaming {
-> > > > +     u8      button;
-> > > > +} __packed;
-> > > > +
-> > > > +struct uvc_status_control {
-> > > > +     u8      bSelector;
-> > > > +     u8      bAttribute;
-> > > > +     u8      bValue[11];
-> > > > +} __packed;
-> > > > +
-> > > > +struct uvc_status {
-> > > > +     u8      bStatusType;
-> > > > +     u8      bOriginator;
-> > > > +     u8      bEvent;
-> > > > +     union {
-> > > > +             struct uvc_status_control control;
-> > > > +             struct uvc_status_streaming streaming;
-> > > > +     };
-> > > > +} __packed;
-> > > > +
-> > > >  struct uvc_device {
-> > > >       struct usb_device *udev;
-> > > >       struct usb_interface *intf;
-> > > > @@ -559,7 +579,7 @@ struct uvc_device {
-> > > >       /* Status Interrupt Endpoint */
-> > > >       struct usb_host_endpoint *int_ep;
-> > > >       struct urb *int_urb;
-> > > > -     u8 *status;
-> > > > +
-> > > >       struct input_dev *input;
-> > > >       char input_phys[64];
-> > > >
-> > > > @@ -572,6 +592,12 @@ struct uvc_device {
-> > > >       } async_ctrl;
-> > > >
-> > > >       struct uvc_entity *gpio_unit;
-> > > > +
-> > > > +     /*
-> > > > +      * Ensure that status is aligned, making it safe to use with
-> > > > +      * non-coherent DMA.
-> > > > +      */
-> > > > +     struct uvc_status status __aligned(ARCH_KMALLOC_MINALIGN);
-> > >
-> > >         ____cacheline_aligned ?
-> > >
-> > > I don't see anyone using ARCH_KMALLOC_MINALIGN except for slab.h
-> > 
-> > Seems like cacheline is not good enough:
-> > 
-> > https://github.com/torvalds/linux/commit/12c4efe3509b8018e76ea3ebda8227cb53bf5887
-> > https://lore.kernel.org/all/20220405135758.774016-1-catalin.marinas@arm.com/
-> > 
-> > and ARCH_KMALLOC_MINALIGN is what we have today and is working...
-> > 
-> > But yeah, the name for that define is not the nicest :)
-> > 
-> > I added Jonathan Cameron, on cc, as he had to deal with something
-> > similar for iio in case we are missing something
-> 
-> I'd like to get feedback on this from DMA and USB experts. Expanding the
-> CC list of the original patch would help (especially including the
-> linux-usb mailing list).
+some chips have multi-hw, but others have only one,
+modify the condition of multi-hw judgement
 
-Also, do we need the allocation change ? It doesn't seem to simplify the
-code that much, neither in terms of lines of code
+Signed-off-by: kyrie wu <kyrie.wu@mediatek.com>
+Signed-off-by: irui wang <irui.wang@mediatek.com>
+---
+ drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c |  5 +++--
+ drivers/media/platform/mtk-jpeg/mtk_jpeg_core.h | 12 ++++++++++++
+ 2 files changed, 15 insertions(+), 2 deletions(-)
 
->  2 files changed, 48 insertions(+), 49 deletions(-)
-
-nor in terms of complexity. Maybe we could keep the union and offsetof
-changes, and drop the allocation change ? In any case, those are two
-different changes, so I'd split them in two patches at least.
-
-> > ps: and I thought this was an easy change :P
-
+diff --git a/drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c b/drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c
+index 4a5c6415ad08..37db8b81a935 100644
+--- a/drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c
++++ b/drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c
+@@ -1695,8 +1695,7 @@ static int mtk_jpeg_probe(struct platform_device *pdev)
+ 		return -EINVAL;
+  	}
+ 
+-
+-	if (list_empty(&pdev->dev.devres_head)) {
++	if (!jpeg->variant->hw_arch) {
+ 		INIT_DELAYED_WORK(&jpeg->job_timeout_work,
+ 				  mtk_jpeg_job_timeout_work);
+ 
+@@ -1890,6 +1889,7 @@ static struct mtk_jpeg_variant mtk8195_jpegenc_drvdata = {
+ 	.ioctl_ops = &mtk_jpeg_enc_ioctl_ops,
+ 	.out_q_default_fourcc = V4L2_PIX_FMT_YUYV,
+ 	.cap_q_default_fourcc = V4L2_PIX_FMT_JPEG,
++	.hw_arch = MTK_JPEG_HW_MULTI_CORE,
+ };
+ 
+ static const struct mtk_jpeg_variant mtk8195_jpegdec_drvdata = {
+@@ -1901,6 +1901,7 @@ static const struct mtk_jpeg_variant mtk8195_jpegdec_drvdata = {
+ 	.ioctl_ops = &mtk_jpeg_dec_ioctl_ops,
+ 	.out_q_default_fourcc = V4L2_PIX_FMT_JPEG,
+ 	.cap_q_default_fourcc = V4L2_PIX_FMT_YUV420M,
++	.hw_arch = MTK_JPEG_HW_MULTI_CORE,
+ };
+ 
+ #if defined(CONFIG_OF)
+diff --git a/drivers/media/platform/mtk-jpeg/mtk_jpeg_core.h b/drivers/media/platform/mtk-jpeg/mtk_jpeg_core.h
+index b9126476be8f..ec04a8ce73cf 100644
+--- a/drivers/media/platform/mtk-jpeg/mtk_jpeg_core.h
++++ b/drivers/media/platform/mtk-jpeg/mtk_jpeg_core.h
+@@ -46,6 +46,16 @@ enum mtk_jpeg_ctx_state {
+ 	MTK_JPEG_SOURCE_CHANGE,
+ };
+ 
++/**
++ * enum mtk_jpeg_hw_arch - arch of the jpeg hw
++ * @MTK_JPEG_HW_SINGLE_CORE:	jpeg hw is single core
++ * @MTK_JPEG_HW_MULTI_CORE:		jpeg hw is mluti-core
++ */
++enum mtk_jpeg_hw_arch {
++	MTK_JPEG_HW_SINGLE_CORE = 0,
++	MTK_JPEG_HW_MULTI_CORE = 1,
++};
++
+ /**
+  * struct mtk_jpeg_variant - mtk jpeg driver variant
+  * @clks:			clock names
+@@ -60,6 +70,7 @@ enum mtk_jpeg_ctx_state {
+  * @ioctl_ops:			the callback of jpeg v4l2_ioctl_ops
+  * @out_q_default_fourcc:	output queue default fourcc
+  * @cap_q_default_fourcc:	capture queue default fourcc
++ * @hw_arch:            mark jpeg hw arch
+  */
+ struct mtk_jpeg_variant {
+ 	struct clk_bulk_data *clks;
+@@ -74,6 +85,7 @@ struct mtk_jpeg_variant {
+ 	const struct v4l2_ioctl_ops *ioctl_ops;
+ 	u32 out_q_default_fourcc;
+ 	u32 cap_q_default_fourcc;
++	enum mtk_jpeg_hw_arch hw_arch;
+ };
+ 
+ struct mtk_jpeg_src_buf {
 -- 
-Regards,
+2.18.0
 
-Laurent Pinchart
