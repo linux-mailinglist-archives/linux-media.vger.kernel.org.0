@@ -2,66 +2,67 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4539B64EEBE
-	for <lists+linux-media@lfdr.de>; Fri, 16 Dec 2022 17:14:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2BCB164EEC0
+	for <lists+linux-media@lfdr.de>; Fri, 16 Dec 2022 17:14:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232164AbiLPQO2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 16 Dec 2022 11:14:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45672 "EHLO
+        id S232029AbiLPQOa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 16 Dec 2022 11:14:30 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47734 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232009AbiLPQNu (ORCPT
+        with ESMTP id S232010AbiLPQNv (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 16 Dec 2022 11:13:50 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CFE5012ACB
-        for <linux-media@vger.kernel.org>; Fri, 16 Dec 2022 08:12:37 -0800 (PST)
+        Fri, 16 Dec 2022 11:13:51 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 95955E88
+        for <linux-media@vger.kernel.org>; Fri, 16 Dec 2022 08:13:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1671207157;
+        s=mimecast20190719; t=1671207179;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=zFkMxUWLdwGHIAixRcJsjatehdV3JvWTV1e5ITjujjY=;
-        b=cFJ5S5kZT6YYxMoNYCmYQ3EHHRz9mHOWUi0zSxWMTKGuFCbrX4SBxG0YKgueSlfjLVQ1lk
-        N+82Rvf/qCwWGC1D3AjAKxzK5ORxeAFqwqKtilWEz1GSLYjTSWgdnNyyVpJTsFJGykWTWz
-        Q5XfMPaM46wFBA0EdU0nmoPa5jZWJd8=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=wURGvGbeXFElQK+1JoCJWdzCOYSxxIx6OSpE5tUptwQ=;
+        b=hy+PGfvhcn+aIJDQHtIiaykQ33Q415T5nMj74OlErM9zF2xprkVRkRJLUWyEtpMjv9vBDW
+        oMa/UbeLlsAOe6CJQyHCMumqW7s4LXZMZZ973fbMSB7rwjNWlDaF5TWth9qdM2p7gqv2QL
+        AuNzQOPcTsC9tUw7v56AWvuLSRFFi/E=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-516-q8M5Mbo_OIuTuKIfpus-Fg-1; Fri, 16 Dec 2022 11:12:35 -0500
-X-MC-Unique: q8M5Mbo_OIuTuKIfpus-Fg-1
-Received: by mail-ej1-f72.google.com with SMTP id nb4-20020a1709071c8400b007c18ba778e9so2124881ejc.16
-        for <linux-media@vger.kernel.org>; Fri, 16 Dec 2022 08:12:35 -0800 (PST)
+ us-mta-441-lz7yb6KrO62PLJHnpvRsxw-1; Fri, 16 Dec 2022 11:12:58 -0500
+X-MC-Unique: lz7yb6KrO62PLJHnpvRsxw-1
+Received: by mail-ed1-f71.google.com with SMTP id y20-20020a056402271400b0046c9a6ec30fso2207585edd.14
+        for <linux-media@vger.kernel.org>; Fri, 16 Dec 2022 08:12:57 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=zFkMxUWLdwGHIAixRcJsjatehdV3JvWTV1e5ITjujjY=;
-        b=M+Dg2VVvfv5cNi08F+VNaXfVk3Y9r4T3dquWT6zo+6WfCUSy6M0k419+JkfuALtxt2
-         fMbDHDQYT31aWE9nWN3N5w4fXB8z+2BSf8FtQUeuBG9tqIlYQmSsks4iHS/vLIQ+eQu3
-         W6aJGYoENHdDljuZG2YZWG8Ud2ax0LgnJRa4zFYSxLzrKlUezkBSFC2LH79NubJB+9Xm
-         pEboGSbX4oJRscpJCbRpYk8xjn5s1+3zv0TvoDJYU5sSj19iaz71tTXvqsUfNMK56xvh
-         BB1MOomx8aUZyt807mltnhTnhMCcFI0TIIUqaN79Eb9ZlW5307wkjn+hNe7hMRCTZDsC
-         +E5A==
-X-Gm-Message-State: AFqh2kqIh7bkBe5trxIhlWyD44OZXFQ+k2tI5M/3yocTf4yLaVeCXrnQ
-        i1gKGsVbGxxbcbRPTVkmHnSenoMBBq/9itRFAulhLG92M1uo/Qn78q3C2wKjXvVXJerkPpkxQYx
-        IwTkuTEWnlRwIbyfh6Pknj5U=
-X-Received: by 2002:a17:906:1f4d:b0:7e0:eed0:8beb with SMTP id d13-20020a1709061f4d00b007e0eed08bebmr2658445ejk.41.1671207154443;
-        Fri, 16 Dec 2022 08:12:34 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXuGHAW3XAtvRofwJ5XrWPr4dqsyehv9s53hIQDwCoVun5ID0UVhjYDByv0SmlRBlovLVvwUjw==
-X-Received: by 2002:a17:906:1f4d:b0:7e0:eed0:8beb with SMTP id d13-20020a1709061f4d00b007e0eed08bebmr2658424ejk.41.1671207154296;
-        Fri, 16 Dec 2022 08:12:34 -0800 (PST)
+        bh=wURGvGbeXFElQK+1JoCJWdzCOYSxxIx6OSpE5tUptwQ=;
+        b=6AKzky9yFGCa0lYde7uckC419ewu9m7enYJR5J6VhKCMuV/mHFjqc8sppb2kTn5XKo
+         m6mKpF4DTggBrnn0YfzKflRYibjOcX2KKY6NARHuInh3DyP8152J63DncJoUH7cjv6dD
+         xFWnAozJ24A4nlg9nnZ+3PH2lOlKyYATmX4iRtGSpU/T88WVa3nTX3DqQFsj0qA9HYOO
+         M76s3N+9S+QmB34PKwT3ACHzG668E6MqtkET269GQgSROCn/oSqA2p5NnpKzp64+Nt4I
+         td0ae0ZriG+x1LR19xOYJvQwkCSil66o0u9Sxap20cJpL07YGMbhq4/mG2qD+7DWmynX
+         eI+g==
+X-Gm-Message-State: ANoB5pmLWZ6lgqgqmbjb0pc4augtisEBq9cvhi8at57wu3YEZUfNxOSp
+        fGY9F1Cya/IIogOCuPgClj+RSCFvztfwfpWC//Euj1/1Mypz2RwN8fjSsLNilJt1HqjCxKAu6Oz
+        EtdOvFXwPjs2I0RHEhw4aLdg=
+X-Received: by 2002:a17:907:d092:b0:7c1:766e:e09 with SMTP id vc18-20020a170907d09200b007c1766e0e09mr17459146ejc.29.1671207177124;
+        Fri, 16 Dec 2022 08:12:57 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf50iqeefJRduXX2rwzez9VdVVpN5fpmMgPeScO7DIs4zfQlUWkH2nwxx+hx/Hf6EtQCQOtCxw==
+X-Received: by 2002:a17:907:d092:b0:7c1:766e:e09 with SMTP id vc18-20020a170907d09200b007c1766e0e09mr17459133ejc.29.1671207177009;
+        Fri, 16 Dec 2022 08:12:57 -0800 (PST)
 Received: from ?IPV6:2001:1c00:2a07:3a01:67e5:daf9:cec0:df6? (2001-1c00-2a07-3a01-67e5-daf9-cec0-0df6.cable.dynamic.v6.ziggo.nl. [2001:1c00:2a07:3a01:67e5:daf9:cec0:df6])
-        by smtp.gmail.com with ESMTPSA id g17-20020a17090604d100b007c0e23b5615sm997680eja.34.2022.12.16.08.12.33
+        by smtp.gmail.com with ESMTPSA id co18-20020a0564020c1200b004611c230bd0sm1034983edb.37.2022.12.16.08.12.55
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 16 Dec 2022 08:12:33 -0800 (PST)
-Message-ID: <38ee7caa-d028-9cc4-7e13-e3642a0bcf77@redhat.com>
-Date:   Fri, 16 Dec 2022 17:12:32 +0100
+        Fri, 16 Dec 2022 08:12:56 -0800 (PST)
+Message-ID: <ad2a8bb6-9acf-d3ca-b48f-5f12d45a16eb@redhat.com>
+Date:   Fri, 16 Dec 2022 17:12:55 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.5.0
-Subject: Re: [PATCH v3 05/11] leds: led-class: Add generic [devm_]led_get()
+Subject: Re: [PATCH v3 06/11] v4l: subdev: Make the v4l2-subdev core code
+ enable/disable the privacy LED if present
 Content-Language: en-US
 To:     Andy Shevchenko <andy@kernel.org>
 Cc:     Mark Gross <markgross@kernel.org>, Pavel Machek <pavel@ucw.cz>,
@@ -77,18 +78,16 @@ Cc:     Mark Gross <markgross@kernel.org>, Pavel Machek <pavel@ucw.cz>,
         Andy Yeh <andy.yeh@intel.com>, Yao Hao <yao.hao@intel.com>,
         linux-media@vger.kernel.org
 References: <20221216113013.126881-1-hdegoede@redhat.com>
- <20221216113013.126881-6-hdegoede@redhat.com>
- <Y5x17PKiPnMLMfMg@smile.fi.intel.com>
- <d329fa91-a913-a0ab-a7a9-50069c1c834c@redhat.com>
- <Y5yXtIhhMTkPLpeA@smile.fi.intel.com>
+ <20221216113013.126881-7-hdegoede@redhat.com>
+ <Y5x6iHdMj6Dx0Buf@smile.fi.intel.com>
 From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <Y5yXtIhhMTkPLpeA@smile.fi.intel.com>
+In-Reply-To: <Y5x6iHdMj6Dx0Buf@smile.fi.intel.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
         RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE
-        autolearn=unavailable autolearn_force=no version=3.4.6
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -97,32 +96,62 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Hi,
 
-On 12/16/22 17:07, Andy Shevchenko wrote:
-> On Fri, Dec 16, 2022 at 04:54:59PM +0100, Hans de Goede wrote:
->> On 12/16/22 14:43, Andy Shevchenko wrote:
->>> On Fri, Dec 16, 2022 at 12:30:07PM +0100, Hans de Goede wrote:
+On 12/16/22 15:02, Andy Shevchenko wrote:
+> On Fri, Dec 16, 2022 at 12:30:08PM +0100, Hans de Goede wrote:
+>> Extend the call_s_stream() wrapper to enable/disable sensor privacy LEDs
+>> for sensors with a privacy LED, rather then having to duplicate this code
+>> in all the sensor drivers.
 > 
 > ...
 > 
->>>> +EXPORT_SYMBOL_GPL(led_add_lookup);
->>>
->>>> +EXPORT_SYMBOL_GPL(led_remove_lookup);
->>>
->>> Wondering why we can't make at least those two to be namespaced from day 1,
->>
->> switching the LED subsystem code to use module namespaces is
->> a RFE which is independent of / orthogonal to this patchset.
+>> +static void call_s_stream_update_pled(struct v4l2_subdev *sd, int enable)
+>> +{
+>> +	if (!sd->dev)
+>> +		return;
+>> +
+>> +	/* Try to get privacy-led once, at first s_stream() */
+>> +	if (!sd->privacy_led)
+>> +		sd->privacy_led = led_get(sd->dev, "privacy-led");
 > 
-> Adding new unnamespaced APIs only delays and increases a burden of the work.
-> We can start already for the logically separated subset of API, no? That's why
-> I asked about this.
+>> +
+> 
+> Redundant blank line?
 
-Sorry, but I really see this as an independent changes and there is
-enough discussion around these changes as is without throwing this
-into the mix.
+I find this more readable with the blank line between the 2 ifs.
+> 
+>> +	if (IS_ERR(sd->privacy_led))
+>> +		return;
+> 
+> I'm not sure I have got the logic right. Let's assume we call it with
+> _led == NULL. Then in case of error, we feel it with the error pointer.
+> If we call again, we check for NULL, and return error pointer.
+> 
+> So, we won't try the second time. Is it by design? Or should it be
+
+It is by design, there even is a comment which says so:
+
+/* Try to get privacy-led once, at first s_stream() */
+
+
 
 Regards,
 
 Hans
 
+
+
+> 
+> 	struct ... *led;
+> 
+> 	if (!privacy_led) {
+> 		led = ...
+> 		if (IS_ERR())
+> 			return;
+> 		privacy_led = led;
+> 	}
+> 
+> ?
+> 
+>> +}
+> 
 
