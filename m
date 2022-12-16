@@ -2,98 +2,86 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 857E564EC3B
-	for <lists+linux-media@lfdr.de>; Fri, 16 Dec 2022 14:44:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5858E64EC50
+	for <lists+linux-media@lfdr.de>; Fri, 16 Dec 2022 14:51:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230020AbiLPNof (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 16 Dec 2022 08:44:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33400 "EHLO
+        id S230461AbiLPNvH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 16 Dec 2022 08:51:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35864 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229627AbiLPNod (ORCPT
+        with ESMTP id S229710AbiLPNvA (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 16 Dec 2022 08:44:33 -0500
-Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 87E0B15822
-        for <linux-media@vger.kernel.org>; Fri, 16 Dec 2022 05:44:31 -0800 (PST)
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
-        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 2BGDiPKD117784;
-        Fri, 16 Dec 2022 07:44:25 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1671198265;
-        bh=Bj1fZQNN5IprYVjl0f6bzyscJXjpQtaZ88sTePrrqNI=;
-        h=From:To:CC:Subject:Date:In-Reply-To:References;
-        b=D1vutf/gJ+VHGIvSnWEH2Y2nZrSBgDOAMW/T4fohberV2edoZunlc+8vSliVpKJSY
-         u1/dpASeSVd9CvARi18g09WLU2yVyYKDCh1Wz9mriPOL9XXPjk1r+4iRT+V2bXGdZ7
-         tjm6Rc1TxSACN3jBisDv5cRT8e1MFLKkxK3dw9zM=
-Received: from DLEE102.ent.ti.com (dlee102.ent.ti.com [157.170.170.32])
-        by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 2BGDiPqZ131043
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Fri, 16 Dec 2022 07:44:25 -0600
-Received: from DLEE112.ent.ti.com (157.170.170.23) by DLEE102.ent.ti.com
- (157.170.170.32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.16; Fri, 16
- Dec 2022 07:44:25 -0600
-Received: from fllv0039.itg.ti.com (10.64.41.19) by DLEE112.ent.ti.com
- (157.170.170.23) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.16 via
- Frontend Transport; Fri, 16 Dec 2022 07:44:25 -0600
-Received: from localhost (ileaxei01-snat.itg.ti.com [10.180.69.5])
-        by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 2BGDiOlC071235;
-        Fri, 16 Dec 2022 07:44:24 -0600
-From:   Jai Luthra <j-luthra@ti.com>
-To:     Steve Longerbeam <slongerbeam@gmail.com>,
+        Fri, 16 Dec 2022 08:51:00 -0500
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6FDDCF5A3;
+        Fri, 16 Dec 2022 05:50:50 -0800 (PST)
+X-IronPort-AV: E=McAfee;i="6500,9779,10563"; a="346051642"
+X-IronPort-AV: E=Sophos;i="5.96,249,1665471600"; 
+   d="scan'208";a="346051642"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Dec 2022 05:50:49 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10563"; a="682296386"
+X-IronPort-AV: E=Sophos;i="5.96,249,1665471600"; 
+   d="scan'208";a="682296386"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by orsmga001.jf.intel.com with ESMTP; 16 Dec 2022 05:50:45 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+        (envelope-from <andy@kernel.org>)
+        id 1p6B6p-00Asa8-0B;
+        Fri, 16 Dec 2022 15:50:43 +0200
+Date:   Fri, 16 Dec 2022 15:50:42 +0200
+From:   Andy Shevchenko <andy@kernel.org>
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Mark Gross <markgross@kernel.org>, Pavel Machek <pavel@ucw.cz>,
+        Lee Jones <lee@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Daniel Scally <djrscally@gmail.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>
-CC:     <linux-media@vger.kernel.org>, Nishanth Menon <nm@ti.com>
-Subject: [PATCH 3/3] media: ov5640: Honor power on time in init_setting
-Date:   Fri, 16 Dec 2022 19:14:09 +0530
-Message-ID: <20221216134409.6868-4-j-luthra@ti.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20221216134409.6868-1-j-luthra@ti.com>
-References: <20221216134409.6868-1-j-luthra@ti.com>
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        platform-driver-x86@vger.kernel.org, linux-leds@vger.kernel.org,
+        linux-gpio@vger.kernel.org, Kate Hsuan <hpa@redhat.com>,
+        Mark Pearson <markpearson@lenovo.com>,
+        Andy Yeh <andy.yeh@intel.com>, Yao Hao <yao.hao@intel.com>,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH v3 03/11] leds: led-class: Add __of_led_get() helper
+Message-ID: <Y5x3smYGNoIOkc+o@smile.fi.intel.com>
+References: <20221216113013.126881-1-hdegoede@redhat.com>
+ <20221216113013.126881-4-hdegoede@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221216113013.126881-4-hdegoede@redhat.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-Spam-Status: No, score=-6.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_HI,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_SOFTFAIL
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Nishanth Menon <nm@ti.com>
+On Fri, Dec 16, 2022 at 12:30:05PM +0100, Hans de Goede wrote:
+> Turn of_led_get() into a more generic __of_led_get() helper function,
+> which can lookup LEDs in devicetree by either name or index.
 
-OV5640 Datasheet[1] Figures 2-3 and 2-4 indicate the timing sequences
-that is expected during various initialization steps. Note the power
-on time includes t0 + t1 + t2 >= 5ms, delay for poweron.
+...
 
-As indicated in section 2.8, the PWDN assertion can either be via
-external pin control OR via the register 0x3008 bit 6 (see table 7-1 in
-[1])
+> +	/*
+> +	 * For named LEDs, first look up the name in the "leds-names" property.
+> +	 * If it cannot be found, then of_parse_phandle() will propagate the error.
+> +	 */
+> +	if (name)
+> +		index = of_property_match_string(np, "leds-names", name);
 
-[1] https://cdn.sparkfun.com/datasheets/Sensors/LightImaging/OV5640_datasheet.pdf
+I can't find this property anywhere in the kernel. Is it new?
+If so, where is the bindings? And why entire code can't be converted
+to use fwnode for this case?
 
-Fixes: 19a81c1426c1 ("[media] add Omnivision OV5640 sensor driver")
-Signed-off-by: Nishanth Menon <nm@ti.com>
----
- drivers/media/i2c/ov5640.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
-index fa84e60de0db..ff2a2c9358e7 100644
---- a/drivers/media/i2c/ov5640.c
-+++ b/drivers/media/i2c/ov5640.c
-@@ -608,7 +608,7 @@ static const struct reg_value ov5640_init_setting[] = {
- 	{0x583b, 0x28, 0, 0}, {0x583c, 0x42, 0, 0}, {0x583d, 0xce, 0, 0},
- 	{0x5025, 0x00, 0, 0}, {0x3a0f, 0x30, 0, 0}, {0x3a10, 0x28, 0, 0},
- 	{0x3a1b, 0x30, 0, 0}, {0x3a1e, 0x26, 0, 0}, {0x3a11, 0x60, 0, 0},
--	{0x3a1f, 0x14, 0, 0}, {0x3008, 0x02, 0, 0}, {0x3c00, 0x04, 0, 300},
-+	{0x3a1f, 0x14, 0, 0}, {0x3008, 0x02, 0, 5}, {0x3c00, 0x04, 0, 300},
- };
- 
- static const struct reg_value ov5640_setting_low_res[] = {
 -- 
-2.17.1
+With Best Regards,
+Andy Shevchenko
+
 
