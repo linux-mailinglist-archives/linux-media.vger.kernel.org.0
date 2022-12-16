@@ -2,68 +2,58 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9D3BC64ECD8
-	for <lists+linux-media@lfdr.de>; Fri, 16 Dec 2022 15:25:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8D4E864ECFE
+	for <lists+linux-media@lfdr.de>; Fri, 16 Dec 2022 15:38:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230289AbiLPOZb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 16 Dec 2022 09:25:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50332 "EHLO
+        id S230339AbiLPOiY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 16 Dec 2022 09:38:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54866 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229981AbiLPOZa (ORCPT
+        with ESMTP id S231251AbiLPOhz (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 16 Dec 2022 09:25:30 -0500
-Received: from mail-io1-xd33.google.com (mail-io1-xd33.google.com [IPv6:2607:f8b0:4864:20::d33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96DE01402D;
-        Fri, 16 Dec 2022 06:25:29 -0800 (PST)
-Received: by mail-io1-xd33.google.com with SMTP id y4so1331058iof.0;
-        Fri, 16 Dec 2022 06:25:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=ur+Q94W+tlLvcOe4ht4yOK0w75RNLrh3v8/58jGnyVs=;
-        b=l8XJEbOyRSCwIEQM31P6iLpIZxA6v71R/BMtlVq6CRFC+LTBG23nspEIf72pcMxiol
-         OhSGPHkJqTw1d+8uLRvv0vmXyvh32qRKegtsKctjbAXqtoNAJnrKakCf3lo0epaet1xz
-         dRTsuKoEEAhhAcWS4uJq59f+g8s5V9BoZnq3WH13jUTafN8Ubk+vPNpnXPVh6Wh/ONPa
-         IEp6cQNjNhJ2lhGlh9GQ6xkx3+7gQ9juT5SgqlNW4zijcfV5TlWWJgssSYYQatHXgFhZ
-         R546UPf7Pf7Eejx6P113C/tneRVjpgVHcj9JQ/bndxBWgnEc7LU9jXmUZQ4+4SGQkUii
-         E+qg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ur+Q94W+tlLvcOe4ht4yOK0w75RNLrh3v8/58jGnyVs=;
-        b=bwUm2YYys55NPUWUxZm9hsBPnwNYa7Q9Fml3rSTFD8FYHO6oGm6arY6rHrMowaqi1P
-         0Xj0nG02O+rysCWyupepLPvxLgHkAGaqK8pzmgkyePuULUhL8kMtuAeUMsGsLHg5jCAc
-         p5cz5UZH13ZFTXVAi2+fzvO6sTUUTizHaDvVTVBvBa90GzJs5vS0fa5NsMqLVtz32KDX
-         cX0TB1zxAUL+kx64iCnDVuOX8wtMeUKVUismieRVSSzdlg+lU6kI/aODr1MdJY6Onk8Y
-         uroQtPi1Ket6g5OMlD7rHzI0YUc2ocVjjE0n9grWkEETaWAk0QIx9KFVS1GlrSN2XG1y
-         3swg==
-X-Gm-Message-State: ANoB5pmUyEktfm6uMuDFqkHB4XKpaOU3L8McXv9Hmi48K4Ov9Xk1L5UT
-        jrVW197f3kAmBF1c/xd17YPcbarxHpyZoufO/S8=
-X-Google-Smtp-Source: AA0mqf7aNeS1+ly25P/SG8wXsV+a2d7JwnPtwKx+uPm+IxqCX8Nh0RJG+ZY2r/HqsmKpHHYpclyDOWku4O+eekL8G2s=
-X-Received: by 2002:a05:6602:42c2:b0:6e0:117f:f0a7 with SMTP id
- ce2-20020a05660242c200b006e0117ff0a7mr8609833iob.127.1671200728384; Fri, 16
- Dec 2022 06:25:28 -0800 (PST)
+        Fri, 16 Dec 2022 09:37:55 -0500
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6005B5E09B;
+        Fri, 16 Dec 2022 06:37:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+  t=1671201449; x=1702737449;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=wMHFw5uiriRq1CxOroTGwEkfbMo+ViwT/l1yTeHdqjE=;
+  b=P04BaM4a73XLi5Q7RqvGc1KleZJUmJU+w5RRynnF63nArZZCzF3BBhXe
+   B8LVLsr+rfBMnwtujHl8poGxidXZQeKl1OmptcoApwVwFz44DS0sPUi8K
+   27IHuxM6UsduG4dnRo/Em5IyzriV+bpXqL5/BhvH0NrZap8v3VU6MJxhO
+   C8+a7D9GxL8yubRHVxFG6+jFCA1A65fl8Pd4bWQcqN7sKr5UL95GYGav1
+   Yc4uOvf9cw24K4FOnCqiKTcRv8TCIA+qxcf3iiYkdsNwv/PUAvWD21AU1
+   Zqpov/3/kKjT1u+cexOjQpVwK16Ju2vbl2ahMAEcihorlwR/SuhfcWjDp
+   w==;
+X-IronPort-AV: E=Sophos;i="5.96,249,1665471600"; 
+   d="scan'208";a="128506510"
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+  by esa6.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 16 Dec 2022 07:37:27 -0700
+Received: from chn-vm-ex03.mchp-main.com (10.10.85.151) by
+ chn-vm-ex01.mchp-main.com (10.10.85.143) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16; Fri, 16 Dec 2022 07:37:24 -0700
+Received: from ROB-ULT-M18282.microchip.com (10.10.115.15) by
+ chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server id
+ 15.1.2507.16 via Frontend Transport; Fri, 16 Dec 2022 07:37:22 -0700
+From:   Eugen Hristev <eugen.hristev@microchip.com>
+To:     <linux-media@vger.kernel.org>
+CC:     <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-phy@lists.infradead.org>, <luis.oliveira@synopsys.com>,
+        Eugen Hristev <eugen.hristev@microchip.com>
+Subject: [PATCH v5 0/4] media: dwc: add csi2host driver
+Date:   Fri, 16 Dec 2022 16:37:13 +0200
+Message-ID: <20221216143717.1002015-1-eugen.hristev@microchip.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20221216134409.6868-1-j-luthra@ti.com> <20221216134409.6868-2-j-luthra@ti.com>
- <Y5x5UbtLFDpFIoEp@paasikivi.fi.intel.com>
-In-Reply-To: <Y5x5UbtLFDpFIoEp@paasikivi.fi.intel.com>
-From:   Adam Ford <aford173@gmail.com>
-Date:   Fri, 16 Dec 2022 08:25:17 -0600
-Message-ID: <CAHCN7xK370ddjYjd1nMnb2rSOVvKOr7HTq+D-pAea4bVj_RqBw@mail.gmail.com>
-Subject: Re: [PATCH 1/3] media: ov5640: Handle delays when no reset_gpio set
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     Jai Luthra <j-luthra@ti.com>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,T_SPF_TEMPERROR autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -71,63 +61,83 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Dec 16, 2022 at 8:09 AM Sakari Ailus
-<sakari.ailus@linux.intel.com> wrote:
->
-> Hi Jai,
->
-> Thanks for the set.
->
-> On Fri, Dec 16, 2022 at 07:14:07PM +0530, Jai Luthra wrote:
-> > Some module manufacturers [1][2] don't expose the RESETB gpio of the
-> > sensor directly through the 15-pin FFC connector. Instead wiring ~PWDN
-> > as a proxy reset with appropriate delays.
-> >
-> > In such cases, reset_gpio will not be available to the driver, but it
-> > will still be toggled when the sensor is powered on, and thus we should
-> > still honor the wait time of >= 5ms + 1ms + 20ms (see figure 2-3 in [3])
-> > before attempting any i/o operations over SCCB.
-> >
-> > [1] https://digilent.com/reference/_media/reference/add-ons/pcam-5c/pcam_5c_sch.pdf
-> > [2] https://www.alinx.com/public/upload/file/AN5641_User_Manual.pdf
-> > [3] https://cdn.sparkfun.com/datasheets/Sensors/LightImaging/OV5640_datasheet.pdf
-> >
-> > Fixes: 19a81c1426c1 ("[media] add Omnivision OV5640 sensor driver")
-> > Signed-off-by: Jai Luthra <j-luthra@ti.com>
-> > ---
-> >  drivers/media/i2c/ov5640.c | 1 +
-> >  1 file changed, 1 insertion(+)
-> >
-> > diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
-> > index e0f908af581b..4bb7bf557cfa 100644
-> > --- a/drivers/media/i2c/ov5640.c
-> > +++ b/drivers/media/i2c/ov5640.c
-> > @@ -2466,6 +2466,7 @@ static int ov5640_set_power_on(struct ov5640_dev *sensor)
-> >
-> >       ov5640_reset(sensor);
-> >       ov5640_power(sensor, true);
-> > +     usleep_range(26000, 30000);
->
-> I think you should only do this if you don't have RESETB pin.
->
-> I'm not sure how to best describe this in DT. It's not the same as if you
-> didn't have RESETB GPIO.
+Hi,
+
+This is a respin of this abandoned series of patches here:
+https://lore.kernel.org/lkml/1560280855-18085-1-git-send-email-luis.oliveira@synopsys.com/
+
+I have been using this driver for the past few years, and I have reworked
+much of it to cope with latest kernel changes.
+The series is surely not perfect, and there is still plenty of room for
+improvement.
+I did not implement all the required changes from v4.
+I fixed several bugs in the driver, and implemented few things that were
+needed to run in our system (required clocks, etc.)
+The CSI2HOST block is present in at91 product named sama7g5 , and we have been
+testing it with the sama7g5 Evaluation Kit board.
+
+I do not think I will have the time to implement further changes to this driver.
+I am sharing this with the community to try to help others, and maybe
+someone will pick up this work and continue the upstreaming process.
+
+One of the big reworks is the binding document which I converted to yaml
+and added the properties that were needed in our product.
+The PHY binding is still in txt format as originally sent by Luis.
+Since I reworked most of the binding, I added myself as author to it.
+The rest of the driver keeps Luis as author and I added myself as
+Co-developer on the driver which I mostly improved. The commit log
+will contain information about everything that I have added to it.
+
+P.S. I have not kept the history change log. Sorry
+
+Eugen
 
 
- Can that function check if (!sensor->reset_gpio) and do the delay
-only if reset_gpio is not present?
+Eugen Hristev (1):
+  dt-bindings: media: Document bindings for DW MIPI CSI-2 Host
 
-adam
+Luis Oliveira (3):
+  dt-bindings: phy: Document the Synopsys MIPI DPHY Rx bindings
+  media: platform: dwc: Add MIPI CSI-2 controller driver
+  media: platform: dwc: Add DW MIPI DPHY Rx driver
 
+ .../bindings/media/snps,dw-csi.yaml           | 149 ++++
+ .../bindings/phy/snps,dw-dphy-rx.txt          |  29 +
+ MAINTAINERS                                   |  11 +
+ drivers/media/platform/Kconfig                |   1 +
+ drivers/media/platform/Makefile               |   1 +
+ drivers/media/platform/dwc/Kconfig            |  41 ++
+ drivers/media/platform/dwc/Makefile           |  15 +
+ drivers/media/platform/dwc/dw-csi-plat.c      | 667 ++++++++++++++++++
+ drivers/media/platform/dwc/dw-csi-plat.h      | 102 +++
+ drivers/media/platform/dwc/dw-csi-sysfs.c     | 623 ++++++++++++++++
+ drivers/media/platform/dwc/dw-dphy-plat.c     | 224 ++++++
+ drivers/media/platform/dwc/dw-dphy-rx.c       | 625 ++++++++++++++++
+ drivers/media/platform/dwc/dw-dphy-rx.h       | 212 ++++++
+ drivers/media/platform/dwc/dw-dphy-sysfs.c    | 232 ++++++
+ drivers/media/platform/dwc/dw-mipi-csi.c      | 570 +++++++++++++++
+ drivers/media/platform/dwc/dw-mipi-csi.h      | 294 ++++++++
+ include/media/dwc/dw-csi-data.h               |  26 +
+ include/media/dwc/dw-dphy-data.h              |  32 +
+ include/media/dwc/dw-mipi-csi-pltfrm.h        | 104 +++
+ 19 files changed, 3958 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/snps,dw-csi.yaml
+ create mode 100644 Documentation/devicetree/bindings/phy/snps,dw-dphy-rx.txt
+ create mode 100644 drivers/media/platform/dwc/Kconfig
+ create mode 100644 drivers/media/platform/dwc/Makefile
+ create mode 100644 drivers/media/platform/dwc/dw-csi-plat.c
+ create mode 100644 drivers/media/platform/dwc/dw-csi-plat.h
+ create mode 100644 drivers/media/platform/dwc/dw-csi-sysfs.c
+ create mode 100644 drivers/media/platform/dwc/dw-dphy-plat.c
+ create mode 100644 drivers/media/platform/dwc/dw-dphy-rx.c
+ create mode 100644 drivers/media/platform/dwc/dw-dphy-rx.h
+ create mode 100644 drivers/media/platform/dwc/dw-dphy-sysfs.c
+ create mode 100644 drivers/media/platform/dwc/dw-mipi-csi.c
+ create mode 100644 drivers/media/platform/dwc/dw-mipi-csi.h
+ create mode 100644 include/media/dwc/dw-csi-data.h
+ create mode 100644 include/media/dwc/dw-dphy-data.h
+ create mode 100644 include/media/dwc/dw-mipi-csi-pltfrm.h
 
->
-> Cc the devicetree list and Krzysztof.
->
-> >
-> >       ret = ov5640_init_slave_id(sensor);
-> >       if (ret)
->
-> --
-> Kind regards,
->
-> Sakari Ailus
+-- 
+2.25.1
+
