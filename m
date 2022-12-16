@@ -2,67 +2,65 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4083464F1BD
-	for <lists+linux-media@lfdr.de>; Fri, 16 Dec 2022 20:25:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8AD7664F3D7
+	for <lists+linux-media@lfdr.de>; Fri, 16 Dec 2022 23:17:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231816AbiLPTY7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 16 Dec 2022 14:24:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36810 "EHLO
+        id S229911AbiLPWQz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 16 Dec 2022 17:16:55 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49052 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231790AbiLPTYx (ORCPT
+        with ESMTP id S229453AbiLPWQx (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 16 Dec 2022 14:24:53 -0500
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A1585D69F;
-        Fri, 16 Dec 2022 11:24:49 -0800 (PST)
+        Fri, 16 Dec 2022 17:16:53 -0500
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C311326A8D;
+        Fri, 16 Dec 2022 14:16:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1671218689; x=1702754689;
+  t=1671229008; x=1702765008;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=O2uLTlFyS9bqr/AYTV++1SpjuL06feZ8EObSGffFg7s=;
-  b=TjtYy+3Z9Haix7ysxXke6qP8pPUiuhxNvBCsIYs0tclsrkqb4zo1BZuH
-   LAWqAKb3+pF0QExKyB8W0vvx1qgNFFjiIEN/d7W9M5cs3nGywcDdA+IgB
-   oHXxDyKC99QNuB8BLuBBY5R3zjAy+snGQDktlX67wRLPG18clqj1OSb6M
-   c3qB5qfIYQ6+48GhGA2CsYOa5FlEvK2zW0E3m3jR585TujvCHkakcUVcL
-   qx46bBqzDuf9M9o479NbgEgKd/oRctN2lArjjwECPUoysdj8f1dFULCIU
-   qB3CRFe0lFNfnjfGOZeafbptTR3fqGm90+MbvzWVTyIRW7JizbBIroUVI
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10563"; a="298710625"
+  bh=T8tOtAyJ6m7g1EH/VJ77VdOb9gCFy7B1nuGc0D1z2WE=;
+  b=ET1VjEWVoZaWIJKZEGEhWXClnFczFVlGzFD3jXx71DQ7FzftzlaUZJSc
+   QBaxkJycf3r5dSeWIQGarbs/uymyvzC5BkFXCt5iJKTKi+8LYhEYzEb0I
+   qOJBKr10Lb9Sx5LrBvWK8zEr4H9yzBEeAY4Hwlav4RWlcdRAnFGP5HrGt
+   hDqyvWvdN2Uy9uyYDGE7YJ52QaDKQf0UaRsvDVPh4V118sr4KOoBjVfJD
+   msEgpQ6ndctRCboIHBwSITZsc7beSYxFIjx9Sl8NZ47I934BLzFQnX0Js
+   8yPPPzZvv8hDZGt21HxyZwnyzsOhaA7cO4W0iS4xUvlYPk5i/K9bGoTOB
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10563"; a="383406535"
 X-IronPort-AV: E=Sophos;i="5.96,251,1665471600"; 
-   d="scan'208";a="298710625"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Dec 2022 11:24:44 -0800
+   d="scan'208";a="383406535"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Dec 2022 14:16:46 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10563"; a="680584147"
+X-IronPort-AV: E=McAfee;i="6500,9779,10563"; a="824249116"
 X-IronPort-AV: E=Sophos;i="5.96,251,1665471600"; 
-   d="scan'208";a="680584147"
+   d="scan'208";a="824249116"
 Received: from lkp-server01.sh.intel.com (HELO b5d47979f3ad) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 16 Dec 2022 11:24:40 -0800
+  by orsmga005.jf.intel.com with ESMTP; 16 Dec 2022 14:16:43 -0800
 Received: from kbuild by b5d47979f3ad with local (Exim 4.96)
         (envelope-from <lkp@intel.com>)
-        id 1p6GJz-0007Mg-1T;
-        Fri, 16 Dec 2022 19:24:39 +0000
-Date:   Sat, 17 Dec 2022 03:24:12 +0800
+        id 1p6J0U-0007R4-0h;
+        Fri, 16 Dec 2022 22:16:42 +0000
+Date:   Sat, 17 Dec 2022 06:16:06 +0800
 From:   kernel test robot <lkp@intel.com>
 To:     Eugen Hristev <eugen.hristev@microchip.com>,
         linux-media@vger.kernel.org
 Cc:     oe-kbuild-all@lists.linux.dev, devicetree@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
         luis.oliveira@synopsys.com,
-        Eugen Hristev <eugen.hristev@microchip.com>,
-        Conor Dooley <conor.dooley@microchip.com>
-Subject: Re: [PATCH v5 3/4] media: platform: dwc: Add MIPI CSI-2 controller
- driver
-Message-ID: <202212170251.mGG0G9oz-lkp@intel.com>
-References: <20221216143717.1002015-4-eugen.hristev@microchip.com>
+        Eugen Hristev <eugen.hristev@microchip.com>
+Subject: Re: [PATCH v5 4/4] media: platform: dwc: Add DW MIPI DPHY Rx driver
+Message-ID: <202212170530.3gQzueyl-lkp@intel.com>
+References: <20221216143717.1002015-5-eugen.hristev@microchip.com>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="wlyHbPoeewkz01qA"
+Content-Type: multipart/mixed; boundary="VpxupEbIaOY82CNz"
 Content-Disposition: inline
-In-Reply-To: <20221216143717.1002015-4-eugen.hristev@microchip.com>
+In-Reply-To: <20221216143717.1002015-5-eugen.hristev@microchip.com>
 X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_PASS,SPF_NONE,UPPERCASE_75_100 autolearn=ham
+        SPF_HELO_NONE,SPF_NONE,UPPERCASE_75_100 autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -71,7 +69,7 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 
---wlyHbPoeewkz01qA
+--VpxupEbIaOY82CNz
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
@@ -87,56 +85,149 @@ https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
 url:    https://github.com/intel-lab-lkp/linux/commits/Eugen-Hristev/media-dwc-add-csi2host-driver/20221216-224024
 base:   git://linuxtv.org/media_tree.git master
-patch link:    https://lore.kernel.org/r/20221216143717.1002015-4-eugen.hristev%40microchip.com
-patch subject: [PATCH v5 3/4] media: platform: dwc: Add MIPI CSI-2 controller driver
+patch link:    https://lore.kernel.org/r/20221216143717.1002015-5-eugen.hristev%40microchip.com
+patch subject: [PATCH v5 4/4] media: platform: dwc: Add DW MIPI DPHY Rx driver
 config: sh-allmodconfig
 compiler: sh4-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/4724a2dd0be3d56efe12a8e617404c2880dd3c85
+        # https://github.com/intel-lab-lkp/linux/commit/35c9955340fd6d88770ab7d142b7a1d2b5b0d156
         git remote add linux-review https://github.com/intel-lab-lkp/linux
         git fetch --no-tags linux-review Eugen-Hristev/media-dwc-add-csi2host-driver/20221216-224024
-        git checkout 4724a2dd0be3d56efe12a8e617404c2880dd3c85
+        git checkout 35c9955340fd6d88770ab7d142b7a1d2b5b0d156
         # save the config file
         mkdir build_dir && cp config build_dir/.config
         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sh olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sh SHELL=/bin/bash drivers/media/platform/dwc/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sh SHELL=/bin/bash drivers/media/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
 All warnings (new ones prefixed by >>):
 
->> drivers/media/platform/dwc/dw-mipi-csi.c:61:6: warning: no previous prototype for 'dw_mipi_csi_write_part' [-Wmissing-prototypes]
-      61 | void dw_mipi_csi_write_part(struct dw_csi *dev, u32 address, u32 data,
-         |      ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/dwc/dw-csi-plat.c: In function 'dw_csi_probe':
+>> drivers/media/platform/dwc/dw-csi-plat.c:541:9: warning: this 'else' clause does not guard... [-Wmisleading-indentation]
+     541 |         else
+         |         ^~~~
+   drivers/media/platform/dwc/dw-csi-plat.c:544:17: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the 'else'
+     544 |                 goto end;
+         |                 ^~~~
+   In file included from drivers/media/platform/dwc/dw-csi-plat.c:11:
+   include/media/dwc/dw-csi-data.h: At top level:
+   include/media/dwc/dw-csi-data.h:23:33: warning: 'csis' defined but not used [-Wunused-const-variable=]
+      23 | static const struct pdata_names csis[] = {
+         |                                 ^~~~
+--
+>> drivers/media/platform/dwc/dw-dphy-rx.c:97:6: warning: no previous prototype for 'dw_dphy_if_write' [-Wmissing-prototypes]
+      97 | void dw_dphy_if_write(struct dw_dphy_rx *dphy, u32 address, u32 data)
+         |      ^~~~~~~~~~~~~~~~
+   drivers/media/platform/dwc/dw-dphy-rx.c: In function 'dw_dphy_read':
+>> drivers/media/platform/dwc/dw-dphy-rx.c:144:24: warning: variable 'dphy2' set but not used [-Wunused-but-set-variable]
+     144 |         int dphy1 = 0, dphy2 = 0;
+         |                        ^~~~~
+   drivers/media/platform/dwc/dw-dphy-rx.c: At top level:
+>> drivers/media/platform/dwc/dw-dphy-rx.c:161:6: warning: no previous prototype for 'dw_dphy_write_msk' [-Wmissing-prototypes]
+     161 | void dw_dphy_write_msk(struct dw_dphy_rx *dev, u32 address, u32 data, u8 shift,
+         |      ^~~~~~~~~~~~~~~~~
+>> drivers/media/platform/dwc/dw-dphy-rx.c:353:5: warning: no previous prototype for 'dw_dphy_g118_settle' [-Wmissing-prototypes]
+     353 | int dw_dphy_g118_settle(struct dw_dphy_rx *dphy)
+         |     ^~~~~~~~~~~~~~~~~~~
+>> drivers/media/platform/dwc/dw-dphy-rx.c:500:5: warning: no previous prototype for 'dw_dphy_if_set_idelay' [-Wmissing-prototypes]
+     500 | int dw_dphy_if_set_idelay(struct dw_dphy_rx *dphy, u8 dly, u8 cells)
+         |     ^~~~~~~~~~~~~~~~~~~~~
+--
+   drivers/media/platform/dwc/dw-dphy-sysfs.c: In function 'dphy_addr_store':
+>> drivers/media/platform/dwc/dw-dphy-sysfs.c:79:18: warning: variable 'payload' set but not used [-Wunused-but-set-variable]
+      79 |         u8 addr, payload;
+         |                  ^~~~~~~
 
 
-vim +/dw_mipi_csi_write_part +61 drivers/media/platform/dwc/dw-mipi-csi.c
+vim +/dw_dphy_if_write +97 drivers/media/platform/dwc/dw-dphy-rx.c
 
-    56	
-    57	#define dw_print(VAR) \
-    58		dev_info(csi_dev->dev, "%s: 0x%x: %X\n", "#VAR#",\
-    59		VAR, dw_mipi_csi_read(csi_dev, VAR))
-    60	
-  > 61	void dw_mipi_csi_write_part(struct dw_csi *dev, u32 address, u32 data,
-    62				    u8 shift, u8 width)
-    63	{
-    64		u32 mask = (1 << width) - 1;
-    65		u32 temp = dw_mipi_csi_read(dev, address);
-    66	
-    67		temp &= ~(mask << shift);
-    68		temp |= (data & mask) << shift;
-    69		dw_mipi_csi_write(dev, address, temp);
-    70	}
-    71	
+    95	
+    96	#if IS_ENABLED(CONFIG_DWC_MIPI_TC_DPHY_GEN3)
+  > 97	void dw_dphy_if_write(struct dw_dphy_rx *dphy, u32 address, u32 data)
+    98	{
+    99		writel(data, dphy->dphy1_if_addr + address);
+   100	
+   101		if (dphy->lanes_config == CTRL_4_LANES)
+   102			return;
+   103	
+   104		iowrite32(data, dphy->dphy2_if_addr + address);
+   105	}
+   106	
+   107	u32 dw_dphy_if_read(struct dw_dphy_rx *dphy, u32 address)
+   108	{
+   109		u32 if1 = 0, if2 = 0;
+   110	
+   111		if1 = readl(dphy->dphy1_if_addr + address);
+   112	
+   113		if (dphy->lanes_config == CTRL_4_LANES)
+   114			goto end;
+   115	
+   116		if (dphy->lanes_config == DPHYID)
+   117			goto end;
+   118	
+   119		if2 = readl(dphy->dphy2_if_addr + address);
+   120	
+   121		if (if1 != if2)
+   122			dev_vdbg(&dphy->phy->dev,
+   123				 "Values read different for each interface\n");
+   124	end:
+   125		return if1;
+   126	}
+   127	#endif
+   128	
+   129	void dw_dphy_write(struct dw_dphy_rx *dphy, u32 address, u32 data)
+   130	{
+   131		iowrite32(data, dphy->base_address + address);
+   132	
+   133		if (dphy->lanes_config == CTRL_4_LANES)
+   134			return;
+   135	
+   136		if (address == R_CSI2_DPHY_TST_CTRL0)
+   137			iowrite32(data, dphy->base_address + R_CSI2_DPHY2_TST_CTRL0);
+   138		else if (address == R_CSI2_DPHY_TST_CTRL1)
+   139			iowrite32(data, dphy->base_address + R_CSI2_DPHY2_TST_CTRL1);
+   140	}
+   141	
+   142	u32 dw_dphy_read(struct dw_dphy_rx *dphy, u32 address)
+   143	{
+ > 144		int dphy1 = 0, dphy2 = 0;
+   145	
+   146		dphy1 = ioread32(dphy->base_address + address);
+   147	
+   148		if (dphy->lanes_config == CTRL_4_LANES)
+   149			goto end;
+   150	
+   151		if (address == R_CSI2_DPHY_TST_CTRL0)
+   152			dphy2 = ioread32(dphy->base_address + R_CSI2_DPHY2_TST_CTRL0);
+   153		else if (address == R_CSI2_DPHY_TST_CTRL1)
+   154			dphy2 = ioread32(dphy->base_address + R_CSI2_DPHY2_TST_CTRL1);
+   155		else
+   156			return -ENODEV;
+   157	end:
+   158		return dphy1;
+   159	}
+   160	
+ > 161	void dw_dphy_write_msk(struct dw_dphy_rx *dev, u32 address, u32 data, u8 shift,
+   162			       u8 width)
+   163	{
+   164		u32 temp = dw_dphy_read(dev, address);
+   165		u32 mask = (1 << width) - 1;
+   166	
+   167		temp &= ~(mask << shift);
+   168		temp |= (data & mask) << shift;
+   169		dw_dphy_write(dev, address, temp);
+   170	}
+   171	
 
 -- 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
 
---wlyHbPoeewkz01qA
+--VpxupEbIaOY82CNz
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: attachment; filename=config
 
@@ -5592,6 +5683,8 @@ CONFIG_VIDEO_CADENCE_CSI2TX=m
 CONFIG_VIDEO_CODA=m
 CONFIG_VIDEO_IMX_VDOA=m
 CONFIG_DWC_MIPI_CSI2_HOST=m
+CONFIG_DWC_MIPI_DPHY_GEN3=m
+CONFIG_DWC_MIPI_TC_DPHY_GEN3=y
 
 #
 # Intel media platform drivers
@@ -11055,4 +11148,4 @@ CONFIG_WARN_MISSING_DOCUMENTS=y
 CONFIG_WARN_ABI_ERRORS=y
 # end of Kernel hacking
 
---wlyHbPoeewkz01qA--
+--VpxupEbIaOY82CNz--
