@@ -2,146 +2,128 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5444364E824
-	for <lists+linux-media@lfdr.de>; Fri, 16 Dec 2022 09:31:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0640B64E855
+	for <lists+linux-media@lfdr.de>; Fri, 16 Dec 2022 09:55:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229863AbiLPIbB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 16 Dec 2022 03:31:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39126 "EHLO
+        id S229974AbiLPIz1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 16 Dec 2022 03:55:27 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48220 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229453AbiLPIa7 (ORCPT
+        with ESMTP id S229583AbiLPIzZ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 16 Dec 2022 03:30:59 -0500
-Received: from EUR04-DB3-obe.outbound.protection.outlook.com (mail-db3eur04on2045.outbound.protection.outlook.com [40.107.6.45])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 993F91571C;
-        Fri, 16 Dec 2022 00:30:52 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=oIz69qFszSBFOlQ+AnM4br5QUK/ikJjStKvZGPp0FgGOycUDbwn6uSRQJBeB1NskhyICDqehRUBkh3ASWQRoqsBBX4ZTUtWkllJZNZo/qZMXozJbWPLdSKnKF6YL2JZuJMPH2EIJmtmZD41y2bkMVN87hF79biow+tSXOOQUNJr3eJc/J/IJz7BWwi2XpY+jg3SZGZ+0UmFIXoF0cEl1bi/P0mSxElOMBGeZGVJTPUyfUBVdPiQbQchJkbsmumIes7UD3Ov4Ipl6fFtoEfP9XuqiAe0TAvouypSS22JaYWsbPOUECh7Gy100Awf/CY2hZOoB3MJBZxCWeUUmbuG6vw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=RTAhBtLju44lgS78VMzrvhKzMYc8udsQPn5ib+YzXkw=;
- b=JWm4KaCJfwyYSS4voqpAjBYHgn0QiakPGdz6DkqvmTbEVWJOMVRo144dI5VfYkuPjEwnzBwOdkDASOVefCRAXyuVABnCUnOkwIcoObhGK50xdGxccZWvtrH32MMMzOH+qzVGkkwzvU6KHI0BP2NdY4JQ4PMssx2w1PKd1ht3D+0KN8UBa6r0bcLpriqYGANT+wfTPDayEm5wiq1w2DiKI90L4eCo9cnIZ0wZqK77c/G5u7W2uiQ3wpTx0qGHEPS6XEB+NnmHlPxetdzm1i8jm7AFLANGyxrPPJLMmkhiLbt1EgAjiQ52/hDYcF0gQITjuNpwLNDHjQlA72FkTqyHaw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=RTAhBtLju44lgS78VMzrvhKzMYc8udsQPn5ib+YzXkw=;
- b=r6TKzdMYLh7kUyLxQBgbcVc2OA4auuU45Q5knntvNZzA4/x1V3zaNGe59YXP6mpstdJ64nyh51vof+vPi5BgJyz1JAyQ6+nZUSiIDNLi5iwK6gD1gJLxfNcnpNiwpKuT4XaOMDzBs3m6bbmjX8LC+rd0mcgQ3Pfge4ShdrZ9q7M=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from AM6PR04MB6341.eurprd04.prod.outlook.com (2603:10a6:20b:d8::14)
- by PAXPR04MB9154.eurprd04.prod.outlook.com (2603:10a6:102:22d::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5924.15; Fri, 16 Dec
- 2022 08:30:50 +0000
-Received: from AM6PR04MB6341.eurprd04.prod.outlook.com
- ([fe80::4e64:fadc:30cf:4b86]) by AM6PR04MB6341.eurprd04.prod.outlook.com
- ([fe80::4e64:fadc:30cf:4b86%5]) with mapi id 15.20.5880.021; Fri, 16 Dec 2022
- 08:30:50 +0000
-From:   Ming Qian <ming.qian@nxp.com>
-To:     mchehab@kernel.org, mirela.rabulea@oss.nxp.com,
-        hverkuil-cisco@xs4all.nl
-Cc:     shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
-        festevam@gmail.com, xiahong.bao@nxp.com, linux-imx@nxp.com,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Subject: [PATCH] media: v4l2-jpeg: correct the skip count in jpeg_parse_app14_data
-Date:   Fri, 16 Dec 2022 16:30:33 +0800
-Message-Id: <20221216083033.7446-1-ming.qian@nxp.com>
-X-Mailer: git-send-email 2.38.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SG2P153CA0024.APCP153.PROD.OUTLOOK.COM (2603:1096:4:c7::11)
- To AM6PR04MB6341.eurprd04.prod.outlook.com (2603:10a6:20b:d8::14)
+        Fri, 16 Dec 2022 03:55:25 -0500
+Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A54B33C3E
+        for <linux-media@vger.kernel.org>; Fri, 16 Dec 2022 00:55:25 -0800 (PST)
+Received: by mail-pj1-x102a.google.com with SMTP id z8-20020a17090abd8800b00219ed30ce47so5380939pjr.3
+        for <linux-media@vger.kernel.org>; Fri, 16 Dec 2022 00:55:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=KIfEz81U3HVJ4JhGoBJFjs00sIawE7R6JvvebcBdLcA=;
+        b=b3xVmZlRg/35qPV3zrDnmMxZkqYqnSqQ92eIj7WqDRIoee+cdDAs4Ul/3HBALrIqqK
+         ubUyl/4ZMRICi20VLa/qyvnIhVeNsUPHmnSesSDprBIlo+BBr5vWDWITYMiGY9Au1vCQ
+         HSSzbuGh0EU0goHPY7eXRo96OHIB0DXuXTeNE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=KIfEz81U3HVJ4JhGoBJFjs00sIawE7R6JvvebcBdLcA=;
+        b=Pmr/4G+tVzdWva4YykuCE86PnxvLiffE1ZyonQ+nUQq+FX/UERXEDWTjVu2/JNXMda
+         tVEUNK2YtZxSA86sd/MvmcCayej217CxiniC+4UIJ5aSa9MDcPflWdjhZlVZOhmTlzrx
+         hDtxTYv61/wtKvi2zUxUYJGTPLr1P0lguxWuRPyVAkkCLGYNvaslc5YphdQL3t+5aqtV
+         KSGNNDePObClZld8jeR0tRY1czsBcP2UV3pu7qIpMhC4wEWSQy8FC5x7RKhanrS4BJaN
+         C6LmzujXnSuWyp/85MSR3S5ovnzsmwgwd3q5m1hpDDP4IYKViTpFzrRcVwgI2MGAwKQ1
+         7tLg==
+X-Gm-Message-State: AFqh2kqZOXBmk8whKgETl/XiLLNtx2Kj0V4EM+Um7ecw8XkOLhzHUiZJ
+        8KqcLWwh+nWrLQgfmTMniDoDrnQITuecGoeoxC0=
+X-Google-Smtp-Source: AMrXdXvs3iIQcgwjj9YOyV3Bz+fZrWPOTd1QS8Zm3u/v4GPprz/8tOAekT9qq+AbBrk31f00z/ZRJw==
+X-Received: by 2002:a17:902:dccc:b0:190:f82e:8a21 with SMTP id t12-20020a170902dccc00b00190f82e8a21mr4478418pll.4.1671180924332;
+        Fri, 16 Dec 2022 00:55:24 -0800 (PST)
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com. [209.85.216.48])
+        by smtp.gmail.com with ESMTPSA id p6-20020a170902e74600b00189bf5dc96dsm1041256plf.230.2022.12.16.00.55.21
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 16 Dec 2022 00:55:22 -0800 (PST)
+Received: by mail-pj1-f48.google.com with SMTP id fa4-20020a17090af0c400b002198d1328a0so8273221pjb.0
+        for <linux-media@vger.kernel.org>; Fri, 16 Dec 2022 00:55:21 -0800 (PST)
+X-Received: by 2002:a17:90b:1489:b0:219:8132:70db with SMTP id
+ js9-20020a17090b148900b00219813270dbmr697624pjb.183.1671180920433; Fri, 16
+ Dec 2022 00:55:20 -0800 (PST)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM6PR04MB6341:EE_|PAXPR04MB9154:EE_
-X-MS-Office365-Filtering-Correlation-Id: 43c7ff79-dd8b-450b-4d11-08dadf3fd652
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: dvuM6pff9NOcZiq+NGOcYCLuxnOV3+mgvTB2vQ5IcmhX+3f3C/2otArJpgCa8ZJpbVWj6f3sFW9PCGZ2QSMLeOiQOSFegRLQESVWhufbpXz7VeFtoxGAm96BAkC1jikCVDPMEj87eS0rIATe+Dfii2gS7ZyeqcwSeOpoweJEb5EXk0pdVHmVhb/Wn/pGZQOnVOOZ9noDS9tDNp8qHYQ/oEn0P58kChS0tjo1S8omOIUfCUo5IkMcHkQTHmvOdyc+1B5dOYuR1bzwPNYlLh+zdP9PiX063EO3hTAuEsh9/rdqhuiUjRxnkcLPWi8oZVdTiSv13MI+umxlTE7RtOMP9Ih6KneKWpI+v4Oqv6YjT3WOao1InF0VRiQh91nRmSVtRKIJaRE+u0Gl9/bhSrK+36duO4DTBqKjq4IDa2gk+3fzIefR6CUvsMER7WLIeRlm+Whn6ZcwwdSQKlqsdcYezSC2lIeC11Dkfly2b6Y07R3Wr4RzV2LUzH1n4IrtjttqKbo5Ojg0ILW3CaBEfv1WwmViSfg5PWnbf0mGk8ZgxbBQFp1XDKHgBEDpQHWk1xoiyFJbSHNOHqMQwCPWv4eO6HwKczsl8q+yw1Z7EGJJjuauG9kGQWY+kfcX5+edV2PH/yw1LQ36E+gRWvrgBjOUf5jbX5LaifpaY7uEGkgbNelRK72GabdE7mtCrcDhJFQzYq5nQPX3qrrtY5OtF40Uaw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6PR04MB6341.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(346002)(396003)(366004)(39860400002)(376002)(136003)(451199015)(26005)(5660300002)(44832011)(6506007)(6486002)(6512007)(478600001)(6666004)(52116002)(316002)(186003)(2616005)(4326008)(8676002)(1076003)(83380400001)(8936002)(41300700001)(66946007)(66556008)(66476007)(36756003)(38350700002)(7416002)(38100700002)(2906002)(86362001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?8edhVkx5fuXiiTd3pgqJTo8SZExolszD/zNnpJ3AoFm+L3Qh8IY3LKBKGZGh?=
- =?us-ascii?Q?9IjmEG1t5xvjC8fDdEghn4hbzoBdAK+YGCdfPhY8NUs11HLc0zl23kl/oMnQ?=
- =?us-ascii?Q?eMHimVawu488O/oXJ/afzLbErKdoItr2ulS5tYKTDQR+h3YAIzIRd4hSuz9q?=
- =?us-ascii?Q?dAs6UYMWsyKiLs1cMy9OZb04jK+U6cOcrEADkTF5cPzkDnDoJRflU3rlAxx6?=
- =?us-ascii?Q?1JD3rttyOpXWPjlf/BgUqGuGz1YqbHWwFEzQ5OfCsuPq/w8svJ0gTrBBfx7/?=
- =?us-ascii?Q?ptPIWqqkr4cO+GEIlwsrNldQw5wq+Mzagilr6giHvXn8t7aNNsZmwn8fczLR?=
- =?us-ascii?Q?tKeNgpbprNiHqXDN8GBgsckSCOOM7qKbp4JFHwmiBi3Lex9DhbVCRcq3zWMf?=
- =?us-ascii?Q?X3i0qjEyax13cMeBFSL47c16LQ6Iiu9yNv1A9QfSQQErCWPU+bzSyJ6yrGlu?=
- =?us-ascii?Q?lt+SqlEfB4mikUE7YGtutYQlPNZuH5JJi/P/WcRbQSaRoHIPqGvj+ba4Mtwh?=
- =?us-ascii?Q?WMEbv2DRMPFaESFhRJAJ+lEMwXr6j3S8r8jRlPQLkBeRT4vQ3P5DeddjZgoZ?=
- =?us-ascii?Q?uDOgPFbG/PEG1jln2hxziMVPZaPP9rxdPMidQXdNMarcv79fm4xmmzja4QVC?=
- =?us-ascii?Q?0Ae+rb3Yc6Mgc7TAZEs5Eum0VLnNgQHF+P6m5o2I+hfFzTdbcGmjgepjZsap?=
- =?us-ascii?Q?bVdhb9haC8W+tRr8rJYnkJZX1u4nkiJiHiPAW2KB2eWBqNLNxprTrh7ZMo3h?=
- =?us-ascii?Q?+Bv0oFyjeEnzHnud0qMbNkzoN5LYVM8wfsCuDIQBLsGPYYCYHKKmjTZ7VciK?=
- =?us-ascii?Q?ey5ZuUZn2IwA+n6JrSlSowO0L+UsLU8lGv8gLBZd85mNtalIcrPLk6nKb9Vm?=
- =?us-ascii?Q?E3W3BtFgKqalennAqfbagUoob07uKsLqBRmix4Jii5t4dxHvwzCm6zn3nPgN?=
- =?us-ascii?Q?f6x6kR16BgdS7HAgWeRokqnEP2ncO+JlOxo1mk4E4styd3lhqMfC7GLu8xtF?=
- =?us-ascii?Q?/bTMEEy2Y1/B+uyuqT2+w/A3TapVt59ijRPgGWrQsLuG8LACmDgcYk97QvlL?=
- =?us-ascii?Q?YuhumZ83GfLfbgTQZxaUG2+8aWFA6sv/m3sEFcHhzYtH8UHyB8hldv+qex/p?=
- =?us-ascii?Q?3gMyFTVkz/z3dzH9GcA0qp6LPPc6+V/Nh2KCFaTcYV6maONPSw59ywnlxlSK?=
- =?us-ascii?Q?3D5AI8lXdPCI3d0kE4oxmsttSrpkCLmh2et6iIiDsQ6AwrzQaPzGBEgiM40K?=
- =?us-ascii?Q?lUKH3x24l2fTfCS50VhUCVtVizk/ROXdK7vuOKENYrhBPDiH18thXLx4N0mb?=
- =?us-ascii?Q?9Qu7ZQzvVKkqHdbC6ZDSQ9pdDdduQgfbRXD43C4hMI7d4pvNjrz4feZiFbzp?=
- =?us-ascii?Q?qrmKEtHaDPIcXs2jIlK7IxLYB6PZ4cNyz5iqWxq12yAin9WOR/sUCtDASs/D?=
- =?us-ascii?Q?01Q28puBNVcEILqqwyzKDP6YHqrHD4tb8xeIEDy3zNi9TQbfDvR9i9pLjxih?=
- =?us-ascii?Q?ie5zv9jqhhOhV9wt49z84LeautEIgJZC9C7utW4jXQndFCDgT7RBkNB4zSq7?=
- =?us-ascii?Q?Ass45ouc/A2JSpnUIxp3TRcapjG4FlQavASbcCBQ?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 43c7ff79-dd8b-450b-4d11-08dadf3fd652
-X-MS-Exchange-CrossTenant-AuthSource: AM6PR04MB6341.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Dec 2022 08:30:50.1279
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: wMW4+2UDO1frr5OyNXsj0qi0NRGQBg4OfEowlXzRgCNrIBDrEnrMErFGp8FVNME5W+GKVWwyVONU50yAz8jVfQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR04MB9154
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+References: <20221214-uvc-status-alloc-v3-0-9a67616cc549@chromium.org> <Y5s+kuxCAtS8Eixj@rowland.harvard.edu>
+In-Reply-To: <Y5s+kuxCAtS8Eixj@rowland.harvard.edu>
+From:   Ricardo Ribalda <ribalda@chromium.org>
+Date:   Fri, 16 Dec 2022 09:55:09 +0100
+X-Gmail-Original-Message-ID: <CANiDSCudMRATbHU4=hyjiVhwLr6zQubXPzzpYtXCxdMPsZFcuw@mail.gmail.com>
+Message-ID: <CANiDSCudMRATbHU4=hyjiVhwLr6zQubXPzzpYtXCxdMPsZFcuw@mail.gmail.com>
+Subject: Re: [PATCH v3 0/2] media: uvcvideo: Code cleanup for dev->status
+To:     Alan Stern <stern@rowland.harvard.edu>
+Cc:     Max Staudt <mstaudt@chromium.org>,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        Ming Lei <tom.leiming@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Yunke Cao <yunkec@chromium.org>,
+        Christoph Hellwig <hch@lst.de>, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The curr pointer has advanced 14 bytes in jpeg_parse_app14_data.
-1. jpeg_get_word_be(stream), it goes forward 2 bytes.
-2. jpeg_skip(stream, 11), it goes forward 11 bytes.
-3. jpeg_get_byte(stream), it goes forward 1 bytes.
+Hi Alan
 
-so the remain bytes of this segment should be (lp - 2 - 11 - 1),
-but not (lp - 2 - 11).
+On Thu, 15 Dec 2022 at 16:34, Alan Stern <stern@rowland.harvard.edu> wrote:
+>
+> On Thu, Dec 15, 2022 at 11:57:17AM +0100, Ricardo Ribalda wrote:
+> > There is no need to make a kzalloc just for 16 bytes. Let's embed the data
+> > into the main data structure.
+> >
+> > Now that we are at it, lets remove all the castings and open coding of
+> > offsets for it.
+> >
+> > [Christoph, do you think dma wise we are violating any non written rules? :) thanks]
+>
+> There _is_ a rule, and it is not exactly unwritten.  The kerneldoc for
+> the transfer_buffer member of struct urb says:
+>
+>         This buffer must be suitable for DMA; allocate it with
+>         kmalloc() or equivalent.
+>
+> Which in general means that the buffer must not be part of a larger
+> structure -- not unless the driver can guarantee that the structure will
+> _never_ be accessed while a USB transfer to/from the buffer is taking
+> place.
+>
 
-if driver skip 1 extra bytes, the following parsing may go wrong.
+Thanks a lot for the clarification. I was mainly looking at the kerneldoc from:
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/include/linux/usb.h#n1687
 
-Fixes: b8035f7988a8 ("media: Add parsing for APP14 data segment in jpeg helpers")
-Signed-off-by: Ming Qian <ming.qian@nxp.com>
----
- drivers/media/v4l2-core/v4l2-jpeg.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+and I could not see any reference to the DMA requirements.
 
-diff --git a/drivers/media/v4l2-core/v4l2-jpeg.c b/drivers/media/v4l2-core/v4l2-jpeg.c
-index c2513b775f6a..75c2af763d55 100644
---- a/drivers/media/v4l2-core/v4l2-jpeg.c
-+++ b/drivers/media/v4l2-core/v4l2-jpeg.c
-@@ -474,7 +474,7 @@ static int jpeg_parse_app14_data(struct jpeg_stream *stream,
- 	*tf = ret;
- 
- 	/* skip the rest of the segment, this ensures at least it is complete */
--	skip = lp - 2 - 11;
-+	skip = lp - 2 - 11 - 1;
- 	return jpeg_skip(stream, skip);
- }
- 
+Mind if I send a patch to add a reference there?
+
+
+> There are examples all over the USB subsystem where buffers as small as
+> one or two bytes get kmalloc'ed in order to obey this rule.  16 bytes is
+> certainly big enough that you shouldn't worry about it being allocated
+> separately.
+>
+Yep, we should keep it malloced. Thanks a lot for looking into this :)
+
+
+> Alan Stern
+
+
+
 -- 
-2.38.1
-
+Ricardo Ribalda
