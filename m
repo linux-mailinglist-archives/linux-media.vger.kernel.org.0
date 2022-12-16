@@ -2,119 +2,82 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D122064EC37
-	for <lists+linux-media@lfdr.de>; Fri, 16 Dec 2022 14:43:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5E58764EC3A
+	for <lists+linux-media@lfdr.de>; Fri, 16 Dec 2022 14:44:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230304AbiLPNnR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 16 Dec 2022 08:43:17 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33020 "EHLO
+        id S229928AbiLPNoe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 16 Dec 2022 08:44:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33402 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229627AbiLPNnQ (ORCPT
+        with ESMTP id S229665AbiLPNod (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 16 Dec 2022 08:43:16 -0500
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 964D715822;
-        Fri, 16 Dec 2022 05:43:15 -0800 (PST)
-X-IronPort-AV: E=McAfee;i="6500,9779,10563"; a="298638701"
-X-IronPort-AV: E=Sophos;i="5.96,249,1665471600"; 
-   d="scan'208";a="298638701"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Dec 2022 05:43:15 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10563"; a="978613460"
-X-IronPort-AV: E=Sophos;i="5.96,249,1665471600"; 
-   d="scan'208";a="978613460"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by fmsmga005.fm.intel.com with ESMTP; 16 Dec 2022 05:43:11 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-        (envelope-from <andy@kernel.org>)
-        id 1p6AzU-00AsQs-35;
-        Fri, 16 Dec 2022 15:43:08 +0200
-Date:   Fri, 16 Dec 2022 15:43:08 +0200
-From:   Andy Shevchenko <andy@kernel.org>
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Mark Gross <markgross@kernel.org>, Pavel Machek <pavel@ucw.cz>,
-        Lee Jones <lee@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Daniel Scally <djrscally@gmail.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Fri, 16 Dec 2022 08:44:33 -0500
+Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2F6420BED
+        for <linux-media@vger.kernel.org>; Fri, 16 Dec 2022 05:44:31 -0800 (PST)
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 2BGDiL4K068584;
+        Fri, 16 Dec 2022 07:44:21 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1671198261;
+        bh=VlX+ee264CEIvgo1d5SM5o+No5aD46wE4Bqixt/lWLA=;
+        h=From:To:CC:Subject:Date;
+        b=mSGNC/XzlQv1NCns+IUL+jZ4eQA+w4O7Nw3b3Uzqu9MQGDYOJw8EANFgnbIeMDHbm
+         S3X2dDvhl8azGvK70kObUwu/5lmRCkGBVlV7lGPgnuh9rhye7RHDuKSpqfJ07vCoFr
+         llVn99psEkKJWbkYgqfSzDJfcezRwKDYnrHZ/fEA=
+Received: from DLEE104.ent.ti.com (dlee104.ent.ti.com [157.170.170.34])
+        by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 2BGDiLFx131019
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Fri, 16 Dec 2022 07:44:21 -0600
+Received: from DLEE104.ent.ti.com (157.170.170.34) by DLEE104.ent.ti.com
+ (157.170.170.34) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.16; Fri, 16
+ Dec 2022 07:44:20 -0600
+Received: from fllv0039.itg.ti.com (10.64.41.19) by DLEE104.ent.ti.com
+ (157.170.170.34) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.16 via
+ Frontend Transport; Fri, 16 Dec 2022 07:44:20 -0600
+Received: from localhost (ileaxei01-snat2.itg.ti.com [10.180.69.6])
+        by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 2BGDiJKB071211;
+        Fri, 16 Dec 2022 07:44:20 -0600
+From:   Jai Luthra <j-luthra@ti.com>
+To:     Steve Longerbeam <slongerbeam@gmail.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        platform-driver-x86@vger.kernel.org, linux-leds@vger.kernel.org,
-        linux-gpio@vger.kernel.org, Kate Hsuan <hpa@redhat.com>,
-        Mark Pearson <markpearson@lenovo.com>,
-        Andy Yeh <andy.yeh@intel.com>, Yao Hao <yao.hao@intel.com>,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH v3 05/11] leds: led-class: Add generic [devm_]led_get()
-Message-ID: <Y5x17PKiPnMLMfMg@smile.fi.intel.com>
-References: <20221216113013.126881-1-hdegoede@redhat.com>
- <20221216113013.126881-6-hdegoede@redhat.com>
+        Sakari Ailus <sakari.ailus@linux.intel.com>
+CC:     <linux-media@vger.kernel.org>, Jai Luthra <j-luthra@ti.com>
+Subject: [PATCH 0/3] media: ov5640: Fix power up sequence delays
+Date:   Fri, 16 Dec 2022 19:14:06 +0530
+Message-ID: <20221216134409.6868-1-j-luthra@ti.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221216113013.126881-6-hdegoede@redhat.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-X-Spam-Status: No, score=-3.5 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_PASS,SPF_SOFTFAIL autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Dec 16, 2022 at 12:30:07PM +0100, Hans de Goede wrote:
-> Add a generic [devm_]led_get() method which can be used on both devicetree
-> and non devicetree platforms to get a LED classdev associated with
-> a specific function on a specific device, e.g. the privacy LED associated
-> with a specific camera sensor.
-> 
-> Note unlike of_led_get() this takes a string describing the function
-> rather then an index. This is done because e.g. camera sensors might
-> have a privacy LED, or a flash LED, or both and using an index
-> approach leaves it unclear what the function of index 0 is if there is
-> only 1 LED. The existing of support is extended to also support
-> getting a LED by function-name using the standard devicetree pattern
-> of adding a -names string array to map names to the indexes.
-> 
-> For non devicetree platforms a lookup-table mechanism is added to
-> allow the platform code to map specific LED class_dev-s to specific
-> device,function combinations this way.
+This series fixes the power-up sequence delays to support some 15-pin FFC 
+compatible OV5640 modules.
 
-...
+Without appropriate delays after both gpio and register-based powerdown and 
+reset the sensor SCCB was not very stable, and probe would sometimes fail 
+at check_chip_id.
 
-> +	list_for_each_entry(lookup, &leds_lookup_list, list) {
-> +		if (!strcmp(lookup->consumer_dev_name, dev_name(dev)) &&
-> +		    !strcmp(lookup->consumer_function, function)) {
-> +			led_name = kstrdup(lookup->led_name, GFP_KERNEL);
+Jai Luthra (1):
+  media: ov5640: Handle delays when no reset_gpio set
 
-kstrdup_const() ?
+Nishanth Menon (2):
+  media: ov5640: Honor RESETB to SMBUS time t4 in init_setting
+  media: ov5640: Honor power on time in init_setting
 
-> +			break;
-> +		}
-> +	}
-
-> +	if (!led_name)
-> +		return ERR_PTR(-ENOENT);
-> +
-> +	led_dev = class_find_device_by_name(leds_class, led_name);
-> +	kfree(led_name);
-
-kfree_const() ?
-
-> +	return __led_get(led_dev);
-> +}
-
-...
-
-> +EXPORT_SYMBOL_GPL(led_add_lookup);
-
-> +EXPORT_SYMBOL_GPL(led_remove_lookup);
-
-Wondering why we can't make at least those two to be namespaced from day 1,
+ drivers/media/i2c/ov5640.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.17.1
 
