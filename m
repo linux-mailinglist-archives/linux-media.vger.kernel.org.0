@@ -2,104 +2,151 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8EE9B64EA3A
-	for <lists+linux-media@lfdr.de>; Fri, 16 Dec 2022 12:23:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7AFFC64EA7A
+	for <lists+linux-media@lfdr.de>; Fri, 16 Dec 2022 12:31:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230507AbiLPLX2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 16 Dec 2022 06:23:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59822 "EHLO
+        id S231196AbiLPLbQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 16 Dec 2022 06:31:16 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37614 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231131AbiLPLXU (ORCPT
+        with ESMTP id S230204AbiLPLbM (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 16 Dec 2022 06:23:20 -0500
-Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 243F525F6;
-        Fri, 16 Dec 2022 03:23:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=7uUzUe05b7rr2RFoVxzKl8oM+JPXRAqmcWlIXshXf6k=; b=aga5oUqtu32MOEtQdA/9l8SgYw
-        eqK6h6wN132DVT+oU0J1vAaAqnDD9XVidOHg/mfgKt/l/NNxUEKYmN87y75crq7LwwGSN5uc4Tc28
-        LYhn+wq2JNxB9tcorqMrSKjTFx4mLCntL1j2kK16eSjrmZhZ6D/GzC3RXxMXJ3Lwf6Xxtcxrtwzan
-        uk7dbMJsjiNaaBQxysHX/awOSdIIxqAIkqaOjc5sgYID/MPPhRVZp+ZjTQ6+wnitR7qIQ0MjkY0eK
-        voyqKYu+AJCZBYN91XImzkkURLZtTL+QidKTG6/Ds3aRvOlUVBrICeXyXjIa718NB8LZwntbhghTt
-        2g8BSGDw==;
-Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
-        by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1p68o3-00B973-GA; Fri, 16 Dec 2022 11:23:11 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits))
-        (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 0A374300652;
-        Fri, 16 Dec 2022 12:23:10 +0100 (CET)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id E5E6F209E6740; Fri, 16 Dec 2022 12:23:09 +0100 (CET)
-Date:   Fri, 16 Dec 2022 12:23:09 +0100
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Arnd Bergmann <arnd@kernel.org>
-Cc:     Robert Foss <robert.foss@linaro.org>,
-        Todor Tomov <todor.too@gmail.com>,
-        Josh Poimboeuf <jpoimboe@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>, Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Fri, 16 Dec 2022 06:31:12 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F6E15C771
+        for <linux-media@vger.kernel.org>; Fri, 16 Dec 2022 03:30:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1671190223;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=us2r/Cka/DVYppZUWMqDY3fKam1bvS45Ua8aIbvfMVA=;
+        b=LTOTmuV6yjH+jNiTp4/8XVG1MlJuhoxia49CXmK1fe1fG6IbbBJTZ/E7yHuGJAf+baCcKP
+        Umx0a9I8U8Z8C0Ucphrznv0nEGgBGWcga3+XWbpiAqkfBd3SHQ3DFQMVnw0kzeoujc0h+s
+        XdA+gG1AngCNtbwZ+e3NZR/6z8Uwzu8=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-341-RgHZAHtvNzyjKwP8I_HhQg-1; Fri, 16 Dec 2022 06:30:19 -0500
+X-MC-Unique: RgHZAHtvNzyjKwP8I_HhQg-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com [10.11.54.10])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 488C8101A52E;
+        Fri, 16 Dec 2022 11:30:18 +0000 (UTC)
+Received: from shalem.redhat.com (unknown [10.39.194.205])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id C1CB7400F58;
+        Fri, 16 Dec 2022 11:30:14 +0000 (UTC)
+From:   Hans de Goede <hdegoede@redhat.com>
+To:     Mark Gross <markgross@kernel.org>,
+        Andy Shevchenko <andy@kernel.org>, Pavel Machek <pavel@ucw.cz>,
+        Lee Jones <lee@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Daniel Scally <djrscally@gmail.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Jonathan Marek <jonathan@marek.ca>,
-        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: camss: csiphy-3ph: avoid undefined behavior
-Message-ID: <Y5xVHU5FBr5qzAOs@hirez.programming.kicks-ass.net>
-References: <20221215162905.3960806-1-arnd@kernel.org>
+        Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     Hans de Goede <hdegoede@redhat.com>,
+        platform-driver-x86@vger.kernel.org, linux-leds@vger.kernel.org,
+        linux-gpio@vger.kernel.org, Kate Hsuan <hpa@redhat.com>,
+        Mark Pearson <markpearson@lenovo.com>,
+        Andy Yeh <andy.yeh@intel.com>, Yao Hao <yao.hao@intel.com>,
+        linux-media@vger.kernel.org
+Subject: [PATCH v3 00/11] leds: lookup-table support + int3472/media privacy LED support
+Date:   Fri, 16 Dec 2022 12:30:02 +0100
+Message-Id: <20221216113013.126881-1-hdegoede@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221215162905.3960806-1-arnd@kernel.org>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Dec 15, 2022 at 05:28:46PM +0100, Arnd Bergmann wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
-> 
-> Marking a case of the switch statement as unreachable means the
-> compiler treats it as undefined behavior, which is then caught by
-> an objtool warning:
-> 
-> drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.o: warning: objtool: csiphy_lanes_enable() falls through to next function csiphy_lanes_disable()
-> 
-> Instead of simply continuing execution at a random place of the
-> driver, print a warning and return from to the caller, which
-> makes it possible to understand what happens and avoids the
-> warning.
-> 
-> Fixes: 53655d2a0ff2 ("media: camss: csiphy-3ph: add support for SM8250 CSI DPHY")
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-> ---
->  drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c b/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
-> index 451a4c9b3d30..04baa80494c6 100644
-> --- a/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
-> +++ b/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
-> @@ -429,7 +429,8 @@ static void csiphy_gen2_config_lanes(struct csiphy_device *csiphy,
->  		array_size = ARRAY_SIZE(lane_regs_sm8250[0]);
->  		break;
->  	default:
-> -		unreachable();
-> +		WARN(1, "unknown cspi version\n");
-> +		return;
->  	}
+Hi All,
 
-So no real objection here; but unreachable() does have an objtool
-annotation inside, so clearly the compiler managed to defeat that --
-perhaps we should look at that too.
+Here is my 3th attempt at adjusting the INT3472 code's handling of
+the privacy LED on x86 laptops with MIPI camera(s) so that it will also
+work on devices which have a privacy-LED GPIO but not a clk-enable GPIO
+(so that we cannot just tie the LED state to the clk-enable state).
+
+Due to popular request by multiple people this new version now models
+the privacy LED as a LED class device. This requires being able to
+"tie" the LED class device to a specific camera sensor (some devices
+have multiple sensors + privacy-LEDs).
+
+Patches 1-5 are LED subsystem patches for this. 1 is a bug fix, 2-4
+is a bit of refactoring in preparation for patch 5 which adds
+generic (non devicetree specific) led_get() and devm_led_get() function
+(which will also work with devicetree) and lookup table support to
+allow platform code to add LED class-device <-> consumer-dev,function
+lookups for non devicetree platforms.
+
+Patch 6 adds generic privacy-LED support to the v4l2-core/v4l2-subdev.c
+code automatically enabling the privacy-LED when s_stream(subdev, 1)
+is called. So that we don't need to privacy-LED code to all the
+camera sensor drivers separately (as requested by Sakari).
+
+These are all new patches in version 3. Patches 7-11 are patches
+to the platform specific INT3472 code to register privacy-LED class
+devices + lookup table entries for privacy-LEDs described in
+the special INT3472 ACPI nodes found on x86 devices with MIPI
+cameras (+ prep work + some other INT3472 fixes).
+
+Assuming the LED and media maintainers are happy with the approach
+suggested here (if you are please give your Ack / Reviewed-by) we
+need to talk about how to merge this since patches 6 and 7-11
+depend on the LED subsystem changes. I think it would be best if
+the LED subsystem can provide an immutable branch with patches 1-5
+(on top of 6.2-rc1 once it is out) and then the media folks and I
+can merge that branch and then apply the other patches on top.
+
+This series has been tested on:
+
+- Lenovo ThinkPad X1 Yoga gen 7, IPU6, front: ov2740 with privacy LED
+- Dell Latitude 9420, IPU 6, front: ov01a1s with privacy LED
+- Mirosoft Surface Go, IPU3, front: ov5693 with privacy LED
+                              back: ov8865 with privacy LED (pled not yet supported)
+
+Regards,
+
+Hans
+
+
+Hans de Goede (11):
+  leds: led-class: Add missing put_device() to led_put()
+  leds: led-class: Add __led_get() helper function
+  leds: led-class: Add __of_led_get() helper
+  leds: led-class: Add __devm_led_get() helper
+  leds: led-class: Add generic [devm_]led_get()
+  v4l: subdev: Make the v4l2-subdev core code enable/disable the privacy
+    LED if present
+  platform/x86: int3472/discrete: Refactor GPIO to sensor mapping
+  platform/x86: int3472/discrete: Create a LED class device for the
+    privacy LED
+  platform/x86: int3472/discrete: Move GPIO request to
+    skl_int3472_register_clock()
+  platform/x86: int3472/discrete: Ensure the clk/power enable pins are
+    in output mode
+  platform/x86: int3472/discrete: Get the polarity from the _DSM entry
+
+ drivers/leds/led-class.c                      | 174 +++++++++++++++---
+ drivers/media/v4l2-core/v4l2-subdev.c         |  40 ++++
+ drivers/platform/x86/intel/int3472/Makefile   |   2 +-
+ .../x86/intel/int3472/clk_and_regulator.c     |  35 +++-
+ drivers/platform/x86/intel/int3472/common.h   |  18 +-
+ drivers/platform/x86/intel/int3472/discrete.c |  96 +++++-----
+ drivers/platform/x86/intel/int3472/led.c      |  75 ++++++++
+ include/linux/leds.h                          |  18 ++
+ include/media/v4l2-subdev.h                   |   3 +
+ 9 files changed, 371 insertions(+), 90 deletions(-)
+ create mode 100644 drivers/platform/x86/intel/int3472/led.c
+
+-- 
+2.38.1
+
