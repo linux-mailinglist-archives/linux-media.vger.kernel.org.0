@@ -2,105 +2,416 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 030EE64F042
-	for <lists+linux-media@lfdr.de>; Fri, 16 Dec 2022 18:20:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0054E64F045
+	for <lists+linux-media@lfdr.de>; Fri, 16 Dec 2022 18:21:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231367AbiLPRUL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 16 Dec 2022 12:20:11 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38766 "EHLO
+        id S231766AbiLPRV1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 16 Dec 2022 12:21:27 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39658 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231765AbiLPRUJ (ORCPT
+        with ESMTP id S230478AbiLPRVZ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 16 Dec 2022 12:20:09 -0500
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 701126F4B7;
-        Fri, 16 Dec 2022 09:20:08 -0800 (PST)
-X-IronPort-AV: E=McAfee;i="6500,9779,10563"; a="320899548"
-X-IronPort-AV: E=Sophos;i="5.96,249,1665471600"; 
-   d="scan'208";a="320899548"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Dec 2022 09:20:07 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10563"; a="649897867"
-X-IronPort-AV: E=Sophos;i="5.96,249,1665471600"; 
-   d="scan'208";a="649897867"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by orsmga002.jf.intel.com with ESMTP; 16 Dec 2022 09:20:02 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-        (envelope-from <andy@kernel.org>)
-        id 1p6ENM-00AwrZ-1n;
-        Fri, 16 Dec 2022 19:20:00 +0200
-Date:   Fri, 16 Dec 2022 19:20:00 +0200
-From:   Andy Shevchenko <andy@kernel.org>
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Mark Gross <markgross@kernel.org>, Pavel Machek <pavel@ucw.cz>,
-        Lee Jones <lee@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Daniel Scally <djrscally@gmail.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        platform-driver-x86@vger.kernel.org, linux-leds@vger.kernel.org,
-        linux-gpio@vger.kernel.org, Kate Hsuan <hpa@redhat.com>,
-        Mark Pearson <markpearson@lenovo.com>,
-        Andy Yeh <andy.yeh@intel.com>, Yao Hao <yao.hao@intel.com>,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH v3 11/11] platform/x86: int3472/discrete: Get the
- polarity from the _DSM entry
-Message-ID: <Y5yowBsDmgTX1nYO@smile.fi.intel.com>
-References: <20221216113013.126881-1-hdegoede@redhat.com>
- <20221216113013.126881-12-hdegoede@redhat.com>
- <Y5yHPvXG/4pWivEG@smile.fi.intel.com>
- <ce764e02-0832-9b2b-c787-0e1c73748fe0@redhat.com>
+        Fri, 16 Dec 2022 12:21:25 -0500
+Received: from mail-vs1-xe35.google.com (mail-vs1-xe35.google.com [IPv6:2607:f8b0:4864:20::e35])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04CE14730B
+        for <linux-media@vger.kernel.org>; Fri, 16 Dec 2022 09:21:23 -0800 (PST)
+Received: by mail-vs1-xe35.google.com with SMTP id i2so2943403vsc.1
+        for <linux-media@vger.kernel.org>; Fri, 16 Dec 2022 09:21:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=2FBdM4o1a+ti6VZvKdo29XWcFolLLNxcu/qJZdBQUc8=;
+        b=KGRQ6N0/BQYIgsGICHE/WL8GuBYtTEBuGVmpZUiNWuAYTHt9PuLyuCVWL+MEOj1KCt
+         MLGwq+YYuFBm6XXKPh07Ej3MTs/yiET/FoNmzWB8mXIqOUQKC51aocD/Dub0wK/RvCGw
+         wEphBRLBJLsriGS4z6tqS/0MU5T+AAZJx21m+sQFUQwdQGQTuxWPHa8X5M6xGp/DJLW/
+         hBj8lcIuFZ938UzVgNq/tHgHPW7ghHsxOMCWGdDneWtBOhA5lDt5yqvfVPmt0f73jKDu
+         xxGV6FoPMGRKf/84NdavZJcVD/cynwhL/lOnYZ3O8HRPddLdkqUZjZtm+c0joDJO0lIj
+         FaZg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=2FBdM4o1a+ti6VZvKdo29XWcFolLLNxcu/qJZdBQUc8=;
+        b=U1h0CnavaiejjrW7MqipnvdLQZYW6i54OvfR3ZHBoH1tJebUg89KY4zDlIJ3v+AwEV
+         9WK+Lfplh32cG2zIHY2EVpmg9jELbQoFx04Aigzkxf4OGMQgEmroyErgwLDsCS+tlfVu
+         aCJvhndgrPDlW5WOFZ3enhUWh03ltgy+BBaCv33REPKUHHgR/1AGr1jXz29gvURH99Fg
+         HEfc0lSyTOfdFQNa9rZqWTW9PJVjv2L2SLFYpwpq8f9h3hqXT7n4+3S2uOW1gk0ed2Dw
+         H7zCMpRHaxX9OwuMQcn43KqKvTXnxXecyGdsDNiuGStVfdNHWKv6y78DxZao10rSWe8R
+         S+8w==
+X-Gm-Message-State: ANoB5pmPINwbJb3Cd6/ecLCntmtAK6ghxFNIVynSRA830kQyLATjd1Ve
+        68zOCFivS88+ZO7XzS2jmy/WJw==
+X-Google-Smtp-Source: AA0mqf48u5sX8/OYx/qesecfTP54psXqEUJ6N7JWv9oQObEy9DjAxCb1RFoaPmkrZDm7OehIqNnW6A==
+X-Received: by 2002:a67:6d01:0:b0:3aa:8a33:ce9f with SMTP id i1-20020a676d01000000b003aa8a33ce9fmr19391926vsc.3.1671211282051;
+        Fri, 16 Dec 2022 09:21:22 -0800 (PST)
+Received: from nicolas-tpx395.localdomain (192-222-136-102.qc.cable.ebox.net. [192.222.136.102])
+        by smtp.gmail.com with ESMTPSA id d16-20020a05620a241000b006ec62032d3dsm1926735qkn.30.2022.12.16.09.21.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 16 Dec 2022 09:21:21 -0800 (PST)
+Message-ID: <238edc4adf7e795b48cb9de98ba6f1efc67f3bfd.camel@ndufresne.ca>
+Subject: Re: [Patch v3 05/15] Documention: v4l: Documentation for VP9 CIDs.
+From:   Nicolas Dufresne <nicolas@ndufresne.ca>
+To:     Aakarsh Jain <aakarsh.jain@samsung.com>,
+        'Hans Verkuil' <hverkuil-cisco@xs4all.nl>,
+        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
+Cc:     m.szyprowski@samsung.com, andrzej.hajda@intel.com,
+        mchehab@kernel.org, ezequiel@vanguardiasur.com.ar,
+        jernej.skrabec@gmail.com, benjamin.gaignard@collabora.com,
+        stanimir.varbanov@linaro.org, dillon.minfei@gmail.com,
+        david.plowman@raspberrypi.com, mark.rutland@arm.com,
+        robh+dt@kernel.org, krzk+dt@kernel.org, andi@etezian.org,
+        alim.akhtar@samsung.com, aswani.reddy@samsung.com,
+        pankaj.dubey@samsung.com, linux-fsd@tesla.com, smitha.t@samsung.com
+Date:   Fri, 16 Dec 2022 12:21:19 -0500
+In-Reply-To: <000001d90fa6$0ff91470$2feb3d50$@samsung.com>
+References: <20221011122516.32135-1-aakarsh.jain@samsung.com>
+         <CGME20221011125155epcas5p1e47309b4dd767e81817c316aa0e8b7ca@epcas5p1.samsung.com>
+         <20221011122516.32135-6-aakarsh.jain@samsung.com>
+         <3b85e6ad-e734-8b36-37bf-06b9c560ca92@xs4all.nl>
+         <000001d90fa6$0ff91470$2feb3d50$@samsung.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.2 (3.46.2-1.fc37) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ce764e02-0832-9b2b-c787-0e1c73748fe0@redhat.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-X-Spam-Status: No, score=-3.5 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_SOFTFAIL autolearn=ham autolearn_force=no
-        version=3.4.6
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Dec 16, 2022 at 05:42:08PM +0100, Hans de Goede wrote:
-> On 12/16/22 15:57, Andy Shevchenko wrote:
-> > On Fri, Dec 16, 2022 at 12:30:13PM +0100, Hans de Goede wrote:
+Le mercredi 14 d=C3=A9cembre 2022 =C3=A0 15:52 +0530, Aakarsh Jain a =C3=A9=
+crit=C2=A0:
+>=20
+> > -----Original Message-----
+> > From: Hans Verkuil [mailto:hverkuil-cisco@xs4all.nl]
+> > Sent: 24 November 2022 16:54
+> > To: aakarsh jain <aakarsh.jain@samsung.com>; linux-arm-
+> > kernel@lists.infradead.org; linux-media@vger.kernel.org; linux-
+> > kernel@vger.kernel.org; devicetree@vger.kernel.org
+> > Cc: m.szyprowski@samsung.com; andrzej.hajda@intel.com;
+> > mchehab@kernel.org; ezequiel@vanguardiasur.com.ar;
+> > jernej.skrabec@gmail.com; benjamin.gaignard@collabora.com;
+> > stanimir.varbanov@linaro.org; dillon.minfei@gmail.com;
+> > david.plowman@raspberrypi.com; mark.rutland@arm.com;
+> > robh+dt@kernel.org; krzk+dt@kernel.org; andi@etezian.org;
+> > alim.akhtar@samsung.com; aswani.reddy@samsung.com;
+> > pankaj.dubey@samsung.com; linux-fsd@tesla.com; smitha.t@samsung.com
+> > Subject: Re: [Patch v3 05/15] Documention: v4l: Documentation for VP9 C=
+IDs.
+> >=20
+> > On 11/10/2022 14:25, aakarsh jain wrote:
+> > > From: Smitha T Murthy <smitha.t@samsung.com>
+> > >=20
+> > > Adds V4l2 controls for VP9 encoder documention.
+> > >=20
+> > > Cc: linux-fsd@tesla.com
+> > > Signed-off-by: Smitha T Murthy <smitha.t@samsung.com>
+> > > Signed-off-by: Aakarsh Jain <aakarsh.jain@samsung.com>
+> > > ---
+> > >  .../media/v4l/ext-ctrls-codec.rst             | 167 ++++++++++++++++=
+++
+> > >  1 file changed, 167 insertions(+)
+> > >=20
+> > > diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rs=
+t
+> > > b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> > > index 2a165ae063fb..2277d83a7cf0 100644
+> > > --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> > > +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> > > @@ -2187,6 +2187,16 @@ enum v4l2_mpeg_video_vp8_profile -
+> > >      * - ``V4L2_MPEG_VIDEO_VP8_PROFILE_3``
+> > >        - Profile 3
+> > >=20
+> > > +VP9 Control Reference
+> >=20
+> > This is wrong. There is a VPX Control Reference section for both VP8 an=
+d VP9
+> > controls. That's where this should be added. I suspect several of the c=
+ontrols
+> > you are adding here already exist, e.g.
+> > V4L2_CID_MPEG_VIDEO_VPX_MIN_QP. The documentation may have to be
+> > updated to specify that it is for both VP8 and VP9.
+> >=20
+> Since MFC has different profiles, different quantization parameter ranges=
+ for both VP8 and VP9. So we can't use same control ID's for both.
+> So for example in VP8 with control ID (V4L2_CID_MPEG_VIDEO_VPX_MIN_QP), Q=
+P ranges from 0-11 and in VP9 with control ID  (V4L2_CID_CODEC_VP9_MIN_QP) =
+QP ranges from 1-24. So we can't club together into single control.
+>=20
 
-...
+V4L2_CID_MPEG_VIDEO_VPX_PROFILE has been deprecated, and replace with menu
+controls. So we now have a V4L2_CID_MPEG_VIDEO_VP8_PROFILE and a
+V4L2_CID_MPEG_VIDEO_VP9_PROFILE as menues. Newly written drivers should use
+these. I see that GStreamer notably has never been ported, I'll fix it.
 
-> >> +	/* If bits 31-24 of the _DSM entry are all 0 then the signal is inverted */
-> > 
-> >> +	active_value = obj->integer.value >> 24;
-> >> +	if (!active_value)
-> > 
-> > Not sure why you need a temporary variable for this. Just use
-> > GENMASK()/GENMASK_ULL()?
-> > 
-> > 	if (obj->integer.value & GENMASK(31, 24));
-> > 
-> > In this case you even don't need to repeat bit numbers in the comment.
-> 
-> These bits contain the value to which the pin should be set when the
-> sensor is active (on), the active_value helper variable IMHO makes this
-> a lot more clear then directly checking the mask.
+When you implement a driver, the generic uAPI will cover all possible items=
+, as
+menus (a integer was an API mistake made in 2011, hence the deprecation). Y=
+ou
+driver can then select which menu items it support, and its server at telli=
+ng
+userspace what this HW supports. Though, this should be no problem if you w=
+ant
+to keep the old CID for backward compat, since the range is just totally
+undefined there.
 
-Mask makes much more clear to understand what bits you are really use without
-looking at the type of a temporary variable. (IIUC the value is u64.)
+For V4L2_CID_MPEG_VIDEO_VPX_MIN_QP (and friends), the doc says "Minimum
+quantization parameter for VP8.". A bit strange for a supposedly VPX parame=
+ter.
+But its defines in the code as "VPX Minimum QP Value". Clearly something to=
+ be
+fixed. There is no VP9 encoder drivers yet in mainline.
 
-Maybe
+Though, the range for these controls is driver defined. In Venus, for VP8:
 
-	active_value = (obj->integer.value & GENMASK(31, 24)) >> 24;
 
-But yes, this is on the edge of bikeshedding.
+        v4l2_ctrl_new_std(&inst->ctrl_handler, &venc_ctrl_ops,
+                V4L2_CID_MPEG_VIDEO_VPX_MIN_QP, 1, 128, 1, 1);
 
-> >> +		polarity ^= GPIO_ACTIVE_LOW;
+It seems to be 1 to 128. While in MFC, it oddly 1 to 11:
 
--- 
-With Best Regards,
-Andy Shevchenko
 
+        {
+                .id =3D V4L2_CID_MPEG_VIDEO_VPX_MIN_QP,
+                .type =3D V4L2_CTRL_TYPE_INTEGER,
+                .minimum =3D 0,
+                .maximum =3D 11,
+                .step =3D 1,
+                .default_value =3D 0,
+        },
+
+While I'm not a huge fan of this, since we all know QP does not scale linea=
+rly,
+this is how it is, and this is kind of part of the kernel API now. So users=
+pace
+must ask the driver what is the QP range, and adapt. And in your case, you
+should have no issue adding VP9 encoder with a 1 to 24 range (even if this =
+is a
+bit odd and hw specific).
+
+Nicolas
+
+
+> > > +---------------------
+> > > +
+> > > +The VP9 controls include controls for encoding parameters of VP9
+> > > +video codec.
+> > > +
+> > > +.. _vp9-control-id:
+> > > +
+> > > +VP9 Control IDs
+> > > +
+> > >  .. _v4l2-mpeg-video-vp9-profile:
+> > >=20
+> > >  ``V4L2_CID_MPEG_VIDEO_VP9_PROFILE``
+> > > @@ -2253,6 +2263,163 @@ enum v4l2_mpeg_video_vp9_level -
+> > >      * - ``V4L2_MPEG_VIDEO_VP9_LEVEL_6_2``
+> > >        - Level 6.2
+> > >=20
+> > > +``V4L2_CID_CODEC_VP9_I_FRAME_QP``
+> >=20
+> > If you do need to add new controls, then please use the same
+> > MPEG_VIDEO_ prefix.
+> > It's a bit ugly and historical, but let's keep it consistent with the o=
+thers.
+> >=20
+> > Regards,
+> >=20
+> > 	Hans
+> >=20
+> > > +    Quantization parameter for an I frame for VP9. Valid range: from=
+ 1 to
+> > 255.
+> > > +
+> > > +``V4L2_CID_CODEC_VP9_P_FRAME_QP``
+> > > +    Quantization parameter for an P frame for VP9. Valid range: from=
+ 1 to
+> > 255.
+> > > +
+> > > +``V4L2_CID_CODEC_VP9_MAX_QP``
+> > > +    Maximum quantization parameter for VP9. Valid range: from 1 to 2=
+55.
+> > > +    Recommended range for MFC is from 230 to 255.
+> > > +
+> > > +``V4L2_CID_CODEC_VP9_MIN_QP``
+> > > +    Minimum quantization parameter for VP9. Valid range: from 1 to 2=
+55.
+> > > +    Recommended range for MFC is from 1 to 24.
+> > > +
+> > > +``V4L2_CID_CODEC_VP9_RC_FRAME_RATE``
+> > > +    Indicates the number of evenly spaced subintervals, called ticks=
+, within
+> > > +    one second. This is a 16 bit unsigned integer and has a maximum =
+value
+> > up to
+> > > +    0xffff and a minimum value of 1.
+> > > +
+> > > +``V4L2_CID_CODEC_VP9_GF_REFRESH_PERIOD``
+> > > +    Indicates the refresh period of the golden frame for VP9 encoder=
+.
+> > > +
+> > > +.. _v4l2-vp9-golden-frame-sel:
+> > > +
+> > > +``V4L2_CID_CODEC_VP9_GOLDEN_FRAMESEL``
+> > > +    (enum)
+> > > +
+> > > +enum v4l2_mpeg_vp9_golden_framesel -
+> > > +    Selects the golden frame for encoding. Valid when NUM_OF_REF is =
+2.
+> > > +    Possible values are:
+> > > +
+> > > +.. raw:: latex
+> > > +
+> > > +    \footnotesize
+> > > +
+> > > +.. tabularcolumns:: |p{9.0cm}|p{8.0cm}|
+> > > +
+> > > +.. flat-table::
+> > > +    :header-rows:  0
+> > > +    :stub-columns: 0
+> > > +
+> > > +    * - ``V4L2_CID_CODEC_VP9_GOLDEN_FRAME_USE_PREV``
+> > > +      - Use the (n-2)th frame as a golden frame, current frame index=
+ being
+> > > +        'n'.
+> > > +    * - ``V4L2_CID_CODEC_VP9_GOLDEN_FRAME_USE_REF_PERIOD``
+> > > +      - Use the previous specific frame indicated by
+> > > +        ``V4L2_CID_CODEC_VP9_GF_REFRESH_PERIOD`` as a
+> > > +        golden frame.
+> > > +
+> > > +.. raw:: latex
+> > > +
+> > > +    \normalsize
+> > > +
+> > > +
+> > > +``V4L2_CID_CODEC_VP9_HIERARCHY_QP_ENABLE``
+> > > +    Allows host to specify the quantization parameter values for eac=
+h
+> > > +    temporal layer through HIERARCHICAL_QP_LAYER. This is valid only
+> > > +    if HIERARCHICAL_CODING_LAYER is greater than 1. Setting the cont=
+rol
+> > > +    value to 1 enables setting of the QP values for the layers.
+> > > +
+> > > +.. _v4l2-vp9-ref-number-of-pframes:
+> > > +
+> > > +``V4L2_CID_CODEC_VP9_REF_NUMBER_FOR_PFRAMES``
+> > > +    (enum)
+> > > +
+> > > +enum v4l2_mpeg_vp9_ref_num_for_pframes -
+> > > +    Number of reference pictures for encoding P frames.
+> > > +
+> > > +.. raw:: latex
+> > > +
+> > > +    \footnotesize
+> > > +
+> > > +.. tabularcolumns:: |p{9.0cm}|p{8.0cm}|
+> > > +
+> > > +.. flat-table::
+> > > +    :header-rows:  0
+> > > +    :stub-columns: 0
+> > > +
+> > > +    * - ``V4L2_CID_CODEC_VP9_1_REF_PFRAME``
+> > > +      - Indicates one reference frame, last encoded frame will be se=
+arched.
+> > > +    * - ``V4L2_CID_CODEC_VP9_GOLDEN_FRAME_USE_REF_PERIOD``
+> > > +      - Indicates 2 reference frames, last encoded frame and golden =
+frame
+> > > +        will be searched.
+> > > +
+> > > +.. raw:: latex
+> > > +
+> > > +    \normalsize
+> > > +
+> > > +
+> > > +``V4L2_CID_CODEC_VP9_HIERARCHICAL_CODING_LAYER``
+> > > +    Indicates the number of hierarchial coding layer.
+> > > +    In normal encoding (non-hierarchial coding), it should be zero.
+> > > +    VP9 has upto 3 layer of encoder.
+> > > +
+> > > +``V4L2_CID_CODEC_VP9_HIERARCHY_RC_ENABLE``
+> > > +    Indicates enabling of bit rate for hierarchical coding layers VP=
+9 encoder.
+> > > +
+> > > +``V4L2_CID_CODEC_VP9_HIER_CODING_L0_BR``
+> > > +    Indicates bit rate for hierarchical coding layer 0 for VP9 encod=
+er.
+> > > +
+> > > +``V4L2_CID_CODEC_VP9_HIER_CODING_L1_BR``
+> > > +    Indicates bit rate for hierarchical coding layer 1 for VP9 encod=
+er.
+> > > +
+> > > +``V4L2_CID_CODEC_VP9_HIER_CODING_L2_BR``
+> > > +    Indicates bit rate for hierarchical coding layer 2 for VP9 encod=
+er.
+> > > +
+> > > +``V4L2_CID_CODEC_VP9_HIER_CODING_L0_QP``
+> > > +    Indicates quantization parameter for hierarchical coding layer 0=
+.
+> > > +    Valid range: [V4L2_CID_CODEC_VP9_MIN_QP,
+> > > +    V4L2_CID_CODEC_VP9_MAX_QP].
+> > > +
+> > > +``V4L2_CID_CODEC_VP9_HIER_CODING_L1_QP``
+> > > +    Indicates quantization parameter for hierarchical coding layer 1=
+.
+> > > +    Valid range: [V4L2_CID_CODEC_VP9_MIN_QP,
+> > > +    V4L2_CID_CODEC_VP9_MAX_QP].
+> > > +
+> > > +``V4L2_CID_CODEC_VP9_HIER_CODING_L2_QP``
+> > > +    Indicates quantization parameter for hierarchical coding layer 2=
+.
+> > > +    Valid range: [V4L2_CID_CODEC_VP9_MIN_QP,
+> > > +    V4L2_CID_CODEC_VP9_MAX_QP].
+> > > +
+> > > +.. _v4l2-vp9-max-partition-depth:
+> > > +
+> > > +``V4L2_CID_CODEC_VP9_MAX_PARTITION_DEPTH``
+> > > +    (enum)
+> > > +
+> > > +enum v4l2_mpeg_vp9_num_partitions -
+> > > +    Indicate maximum coding unit depth.
+> > > +
+> > > +.. raw:: latex
+> > > +
+> > > +    \footnotesize
+> > > +
+> > > +.. tabularcolumns:: |p{9.0cm}|p{8.0cm}|
+> > > +
+> > > +.. flat-table::
+> > > +    :header-rows:  0
+> > > +    :stub-columns: 0
+> > > +
+> > > +    * - ``V4L2_CID_CODEC_VP9_0_PARTITION``
+> > > +      - No coding unit partition depth.
+> > > +    * - ``V4L2_CID_CODEC_VP9_1_PARTITION``
+> > > +      - Allows one coding unit partition depth.
+> > > +
+> > > +.. raw:: latex
+> > > +
+> > > +    \normalsize
+> > > +
+> > > +
+> > > +``V4L2_CID_CODEC_VP9_DISABLE_INTRA_PU_SPLIT``
+> > > +    Zero indicates enable intra NxN PU split.
+> > > +    One indicates disable intra NxN PU split.
+> > > +
+> > > +``V4L2_CID_CODEC_VP9_DISABLE_IVF_HEADER``
+> > > +    Indicates IVF header generation. Zero indicates enable IVF forma=
+t.
+> > > +    One indicates disable IVF format.
+> > > +
+> > >=20
+> > >  High Efficiency Video Coding (HEVC/H.265) Control Reference
+> > >=20
+> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > =3D
+>=20
+>=20
 
