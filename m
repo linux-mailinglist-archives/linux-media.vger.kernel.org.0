@@ -2,43 +2,49 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 83FC964E8E8
-	for <lists+linux-media@lfdr.de>; Fri, 16 Dec 2022 10:53:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4D15664E8F8
+	for <lists+linux-media@lfdr.de>; Fri, 16 Dec 2022 10:58:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230309AbiLPJxM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 16 Dec 2022 04:53:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40996 "EHLO
+        id S230178AbiLPJ6N (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 16 Dec 2022 04:58:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44148 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230271AbiLPJw5 (ORCPT
+        with ESMTP id S229453AbiLPJ6L (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 16 Dec 2022 04:52:57 -0500
-Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::222])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 72D274A062;
-        Fri, 16 Dec 2022 01:52:55 -0800 (PST)
-Received: (Authenticated sender: jacopo@jmondi.org)
-        by mail.gandi.net (Postfix) with ESMTPSA id 2338B4000F;
-        Fri, 16 Dec 2022 09:52:51 +0000 (UTC)
-Date:   Fri, 16 Dec 2022 10:52:51 +0100
-From:   Jacopo Mondi <jacopo@jmondi.org>
+        Fri, 16 Dec 2022 04:58:11 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF39B442DD;
+        Fri, 16 Dec 2022 01:58:10 -0800 (PST)
+Received: from ideasonboard.com (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 90766570;
+        Fri, 16 Dec 2022 10:58:08 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1671184688;
+        bh=uzFjLtHv1EtYK/vI4xCoiIDcOji7yHfS04egTZQ6lpY=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=k7CS+ZM0iIeRx8Bs0SRi0B3gFJbNNvkH8QerCxfRTvQOv/58DzO4ipnKNMLPNLriR
+         uXaTtJ8jDZJ+G6xsm228tnQdyWbza2KsP/jOSkWp6KxYxuYQH9HX7ZKFikpUfqzbPJ
+         8eJpAhbQA3o+z52pbG1RNfZk4rcOx+McQ03qQgiw=
+Date:   Fri, 16 Dec 2022 10:58:03 +0100
+From:   Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
         Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
         Kieran Bingham <kieran.bingham@ideasonboard.com>,
         Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Thomas Nizan <tnizan@witekio.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>
-Subject: Re: [PATCH v3 04/12] media: i2c: max9286: Add support for port
- regulators
-Message-ID: <20221216095251.o5jirlbgfl5ye7qi@uno.localdomain>
+        Thomas Nizan <tnizan@witekio.com>
+Subject: Re: [PATCH v3 07/12] media: i2c: max9286: Support 12-bit raw bayer
+ formats
+Message-ID: <20221216095803.fit6oe3u5xclrgfm@uno.localdomain>
 References: <20221214233825.13050-1-laurent.pinchart+renesas@ideasonboard.com>
- <20221214233825.13050-5-laurent.pinchart+renesas@ideasonboard.com>
+ <20221214233825.13050-8-laurent.pinchart+renesas@ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20221214233825.13050-5-laurent.pinchart+renesas@ideasonboard.com>
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <20221214233825.13050-8-laurent.pinchart+renesas@ideasonboard.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -47,263 +53,213 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Hi Laurent
 
-On Thu, Dec 15, 2022 at 01:38:17AM +0200, Laurent Pinchart wrote:
-> From: Thomas Nizan <tnizan@witekio.com>
+On Thu, Dec 15, 2022 at 01:38:20AM +0200, Laurent Pinchart wrote:
+> Add support for 12-bit raw bayer formats to the driver, configuring the
+> GMSL format accordingly.
 >
-> Allow users to use one PoC regulator per port, instead of a global
-> regulator.
->
-> The properties '^port[0-3]-poc-supply$' in the DT node are used to
-> indicate the regulators for individual ports.
->
-> Signed-off-by: Thomas Nizan <tnizan@witekio.com>
 > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+
+Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+
 > ---
-> Changes since v2:
->
-> - Adapt to the poc-gpio support
->
 > Changes since v1:
 >
-> - Use to_index()
-> - Use dev_err_probe()
-> - Fix error path in probe()
-> - Use devm_regulator_get_optional() instead of
->   devm_regulator_get_exclusive()
+> - Fix incorrect array index when media bus code isn't found
 > ---
->  drivers/media/i2c/max9286.c | 138 ++++++++++++++++++++++++++++++------
->  1 file changed, 115 insertions(+), 23 deletions(-)
+>  drivers/media/i2c/max9286.c | 128 ++++++++++++++++++++++++++----------
+>  1 file changed, 95 insertions(+), 33 deletions(-)
 >
 > diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
-> index 9c083cf14231..d79077939847 100644
+> index 028fa3547282..3f1228c5053b 100644
 > --- a/drivers/media/i2c/max9286.c
 > +++ b/drivers/media/i2c/max9286.c
-> @@ -139,6 +139,7 @@
+> @@ -136,6 +136,11 @@
+>  #define MAX9286_N_PADS			5
+>  #define MAX9286_SRC_PAD			4
+>
+> +struct max9286_format_info {
+> +	u32 code;
+> +	u8 datatype;
+> +};
+> +
 >  struct max9286_source {
 >  	struct v4l2_subdev *sd;
 >  	struct fwnode_handle *fwnode;
-> +	struct regulator *regulator;
->  };
+> @@ -218,6 +223,34 @@ static inline struct max9286_priv *sd_to_max9286(struct v4l2_subdev *sd)
+>  	return container_of(sd, struct max9286_priv, sd);
+>  }
 >
->  struct max9286_asd {
-> @@ -169,6 +170,7 @@ struct max9286_priv {
->  	u32 init_rev_chan_mv;
->  	u32 rev_chan_mv;
->
-> +	bool use_gpio_poc;
->  	u32 gpio_poc[2];
->
->  	struct v4l2_ctrl_handler ctrls;
-> @@ -1088,9 +1090,6 @@ static int max9286_parse_gpios(struct max9286_priv *priv)
->  	struct device *dev = &priv->client->dev;
->  	int ret;
->
-> -	/* GPIO values default to high */
-> -	priv->gpio_state = BIT(0) | BIT(1);
-> -
->  	/*
->  	 * Parse the "gpio-poc" vendor property. If the property is not
->  	 * specified the camera power is controlled by a regulator.
-> @@ -1102,18 +1101,7 @@ static int max9286_parse_gpios(struct max9286_priv *priv)
->  		 * If gpio lines are not used for the camera power, register
->  		 * a gpio controller for consumers.
->  		 */
-> -		ret = max9286_register_gpio(priv);
-> -		if (ret)
-> -			return ret;
-> -
-> -		priv->regulator = devm_regulator_get(dev, "poc");
-> -		if (IS_ERR(priv->regulator)) {
-> -			return dev_err_probe(dev, PTR_ERR(priv->regulator),
-> -					     "Unable to get PoC regulator (%ld)\n",
-> -					     PTR_ERR(priv->regulator));
-> -		}
-> -
-> -		return 0;
-> +		return max9286_register_gpio(priv);
->  	}
->
->  	/* If the property is specified make sure it is well formed. */
-> @@ -1124,21 +1112,75 @@ static int max9286_parse_gpios(struct max9286_priv *priv)
->  		return -EINVAL;
->  	}
->
-> +	priv->use_gpio_poc = true;
+> +static const struct max9286_format_info max9286_formats[] = {
+> +	{
+> +		.code = MEDIA_BUS_FMT_UYVY8_1X16,
+> +		.datatype = MAX9286_DATATYPE_YUV422_8BIT,
+> +	}, {
+> +		.code = MEDIA_BUS_FMT_VYUY8_1X16,
+> +		.datatype = MAX9286_DATATYPE_YUV422_8BIT,
+> +	}, {
+> +		.code = MEDIA_BUS_FMT_YUYV8_1X16,
+> +		.datatype = MAX9286_DATATYPE_YUV422_8BIT,
+> +	}, {
+> +		.code = MEDIA_BUS_FMT_YVYU8_1X16,
+> +		.datatype = MAX9286_DATATYPE_YUV422_8BIT,
+> +	}, {
+> +		.code = MEDIA_BUS_FMT_SBGGR12_1X12,
+> +		.datatype = MAX9286_DATATYPE_RAW12,
+> +	}, {
+> +		.code = MEDIA_BUS_FMT_SGBRG12_1X12,
+> +		.datatype = MAX9286_DATATYPE_RAW12,
+> +	}, {
+> +		.code = MEDIA_BUS_FMT_SGRBG12_1X12,
+> +		.datatype = MAX9286_DATATYPE_RAW12,
+> +	}, {
+> +		.code = MEDIA_BUS_FMT_SRGGB12_1X12,
+> +		.datatype = MAX9286_DATATYPE_RAW12,
+> +	},
+> +};
+> +
+>  /* -----------------------------------------------------------------------------
+>   * I2C IO
+>   */
+> @@ -479,6 +512,38 @@ static int max9286_check_config_link(struct max9286_priv *priv,
 >  	return 0;
 >  }
 >
-> +static int max9286_poc_power_on(struct max9286_priv *priv)
+> +static void max9286_set_video_format(struct max9286_priv *priv,
+> +				     const struct v4l2_mbus_framefmt *format)
 > +{
-> +	struct max9286_source *source;
-> +	unsigned int enabled = 0;
-> +	int ret;
+> +	const struct max9286_format_info *info = NULL;
+> +	unsigned int i;
 > +
-> +	/* Enable the global regulator if available. */
-> +	if (priv->regulator)
-> +		return regulator_enable(priv->regulator);
-> +
-> +	if (priv->use_gpio_poc)
-> +		return max9286_gpio_set(priv, priv->gpio_poc[0],
-> +					!priv->gpio_poc[1]);
-
-#define GPIO_ACTIVE_HIGH 0
-#define GPIO_ACTIVE_LOW 1
-
-So negating it is correct
-
-> +
-> +	/* Otherwise use the per-port regulators. */
-> +	for_each_source(priv, source) {
-> +		ret = regulator_enable(source->regulator);
-> +		if (ret < 0)
-> +			goto error;
-> +
-> +		enabled |= BIT(to_index(priv, source));
-> +	}
-> +
-> +	return 0;
-> +
-> +error:
-> +	for_each_source(priv, source) {
-> +		if (enabled & BIT(to_index(priv, source)))
-> +			regulator_disable(source->regulator);
-> +	}
-> +
-> +	return ret;
-> +}
-> +
-> +static int max9286_poc_power_off(struct max9286_priv *priv)
-> +{
-> +	struct max9286_source *source;
-> +	int ret = 0;
-> +
-> +	if (priv->regulator)
-> +		return regulator_disable(priv->regulator);
-> +
-> +	if (priv->use_gpio_poc)
-> +		return max9286_gpio_set(priv, priv->gpio_poc[0],
-> +					priv->gpio_poc[1]);
-> +
-> +	for_each_source(priv, source) {
-> +		int err;
-> +
-> +		err = regulator_disable(source->regulator);
-> +		if (!ret)
-
-Should this be err ?
-
-And I wonder if
-                ret |= regulator_disable(..)
-
-isn't enough
-
-> +			ret = err;
-> +	}
-> +
-> +	return ret;
-> +}
-> +
->  static int max9286_poc_enable(struct max9286_priv *priv, bool enable)
->  {
->  	int ret;
->
-> -	/* If the regulator is not available, use gpio to control power. */
-> -	if (!priv->regulator)
-> -		ret = max9286_gpio_set(priv, priv->gpio_poc[0],
-> -				       enable ^ priv->gpio_poc[1]);
-> -	else if (enable)
-> -		ret = regulator_enable(priv->regulator);
-> +	if (enable)
-> +		ret = max9286_poc_power_on(priv);
->  	else
-> -		ret = regulator_disable(priv->regulator);
-> +		ret = max9286_poc_power_off(priv);
->
->  	if (ret < 0)
->  		dev_err(&priv->client->dev, "Unable to turn power %s\n",
-> @@ -1317,6 +1359,47 @@ static int max9286_parse_dt(struct max9286_priv *priv)
->  	return 0;
->  }
->
-> +static int max9286_get_poc_supplies(struct max9286_priv *priv)
-> +{
-> +	struct device *dev = &priv->client->dev;
-> +	struct max9286_source *source;
-> +	int ret;
-> +
-> +	/* Start by getting the global regulator. */
-> +	priv->regulator = devm_regulator_get_optional(dev, "poc");
-> +	if (!IS_ERR(priv->regulator))
-> +		return 0;
-> +
-> +	if (PTR_ERR(priv->regulator) != -ENODEV) {
-> +		if (PTR_ERR(priv->regulator) != -EPROBE_DEFER)
-> +			dev_err(dev, "Unable to get PoC regulator: %ld\n",
-> +				PTR_ERR(priv->regulator));
-> +		return PTR_ERR(priv->regulator);
-
-Could this be dev_err_probe ? Or you want to avoid the dev_dbg message ?
-
-> +	}
-> +
-> +	/* If there's no global regulator, get per-port regulators. */
-> +	dev_dbg(dev,
-> +		"No global PoC regulator, looking for per-port regulators\n");
-> +	priv->regulator = NULL;
-> +
-> +	for_each_source(priv, source) {
-> +		unsigned int index = to_index(priv, source);
-> +		char name[10];
-
-Will overflow with index > 9 ? But I don't think we can have more than
-9 ports ?
-
-> +
-> +		snprintf(name, sizeof(name), "port%u-poc", index);
-> +		source->regulator = devm_regulator_get(dev, name);
-> +		if (IS_ERR(source->regulator)) {
-> +			ret = PTR_ERR(source->regulator);
-> +			dev_err_probe(dev, ret,
-> +				      "Unable to get port %u PoC regulator\n",
-> +				      index);
-> +			return ret;
+> +	for (i = 0; i < ARRAY_SIZE(max9286_formats); ++i) {
+> +		if (max9286_formats[i].code == format->code) {
+> +			info = &max9286_formats[i];
+> +			break;
 > +		}
 > +	}
 > +
-> +	return 0;
+> +	if (WARN_ON(!info))
+> +		return;
+> +
+> +	/*
+> +	 * Video format setup:
+> +	 * Disable CSI output, VC is set according to Link number.
+> +	 */
+> +	max9286_write(priv, 0x15, MAX9286_VCTYPE | MAX9286_0X15_RESV);
+> +
+> +	/* Enable CSI-2 Lane D0-D3 only, DBL mode. */
+> +	max9286_write(priv, 0x12, MAX9286_CSIDBL | MAX9286_DBL |
+> +		      MAX9286_CSILANECNT(priv->csi2_data_lanes) |
+> +		      info->datatype);
+> +
+> +	/* Enable HS/VS encoding, use D14/15 for HS/VS, invert VS. */
+> +	max9286_write(priv, 0x0c, MAX9286_HVEN | MAX9286_INVVS |
+> +		      MAX9286_HVSRC_D14);
 > +}
 > +
->  static int max9286_probe(struct i2c_client *client)
+>  static void max9286_set_fsync_period(struct max9286_priv *priv)
 >  {
->  	struct max9286_priv *priv;
-> @@ -1330,6 +1413,9 @@ static int max9286_probe(struct i2c_client *client)
+>  	u32 fsync;
+> @@ -697,6 +762,15 @@ static int max9286_s_stream(struct v4l2_subdev *sd, int enable)
+>  	int ret;
 >
->  	priv->client = client;
->
-> +	/* GPIO values default to high */
-> +	priv->gpio_state = BIT(0) | BIT(1);
+>  	if (enable) {
+> +		const struct v4l2_mbus_framefmt *format;
 > +
->  	priv->gpiod_pwdn = devm_gpiod_get_optional(&client->dev, "enable",
->  						   GPIOD_OUT_HIGH);
->  	if (IS_ERR(priv->gpiod_pwdn))
-> @@ -1362,7 +1448,13 @@ static int max9286_probe(struct i2c_client *client)
->
->  	ret = max9286_parse_dt(priv);
->  	if (ret)
-> -		goto err_powerdown;
-> +		goto err_cleanup_dt;
+> +		/*
+> +		 * Get the format from the first used sink pad, as all sink
+> +		 * formats must be identical.
+> +		 */
+> +		format = &priv->fmt[__ffs(priv->bound_sources)];
 > +
-> +	if (!priv->use_gpio_poc) {
-> +		ret = max9286_get_poc_supplies(priv);
-> +		if (ret)
-> +			goto err_cleanup_dt;
-> +	}
+> +		max9286_set_video_format(priv, format);
+>  		max9286_set_fsync_period(priv);
 >
->  	ret = max9286_init(priv);
->  	if (ret < 0)
-
-Do you need to powerdown here ?
-
+>  		/*
+> @@ -817,22 +891,20 @@ static int max9286_set_fmt(struct v4l2_subdev *sd,
+>  {
+>  	struct max9286_priv *priv = sd_to_max9286(sd);
+>  	struct v4l2_mbus_framefmt *cfg_fmt;
+> +	unsigned int i;
+>
+>  	if (format->pad == MAX9286_SRC_PAD)
+>  		return -EINVAL;
+>
+> -	/* Refuse non YUV422 formats as we hardcode DT to 8 bit YUV422 */
+> -	switch (format->format.code) {
+> -	case MEDIA_BUS_FMT_UYVY8_1X16:
+> -	case MEDIA_BUS_FMT_VYUY8_1X16:
+> -	case MEDIA_BUS_FMT_YUYV8_1X16:
+> -	case MEDIA_BUS_FMT_YVYU8_1X16:
+> -		break;
+> -	default:
+> -		format->format.code = MEDIA_BUS_FMT_UYVY8_1X16;
+> -		break;
+> +	/* Validate the format. */
+> +	for (i = 0; i < ARRAY_SIZE(max9286_formats); ++i) {
+> +		if (max9286_formats[i].code == format->format.code)
+> +			break;
+>  	}
+>
+> +	if (i == ARRAY_SIZE(max9286_formats))
+> +		format->format.code = max9286_formats[0].code;
+> +
+>  	cfg_fmt = max9286_get_pad_format(priv, sd_state, format->pad,
+>  					 format->which);
+>  	if (!cfg_fmt)
+> @@ -890,16 +962,20 @@ static const struct v4l2_subdev_ops max9286_subdev_ops = {
+>  	.pad		= &max9286_pad_ops,
+>  };
+>
+> +static const struct v4l2_mbus_framefmt max9286_default_format = {
+> +	.width		= 1280,
+> +	.height		= 800,
+> +	.code		= MEDIA_BUS_FMT_UYVY8_1X16,
+> +	.colorspace	= V4L2_COLORSPACE_SRGB,
+> +	.field		= V4L2_FIELD_NONE,
+> +	.ycbcr_enc	= V4L2_YCBCR_ENC_DEFAULT,
+> +	.quantization	= V4L2_QUANTIZATION_DEFAULT,
+> +	.xfer_func	= V4L2_XFER_FUNC_DEFAULT,
+> +};
+> +
+>  static void max9286_init_format(struct v4l2_mbus_framefmt *fmt)
+>  {
+> -	fmt->width		= 1280;
+> -	fmt->height		= 800;
+> -	fmt->code		= MEDIA_BUS_FMT_UYVY8_1X16;
+> -	fmt->colorspace		= V4L2_COLORSPACE_SRGB;
+> -	fmt->field		= V4L2_FIELD_NONE;
+> -	fmt->ycbcr_enc		= V4L2_YCBCR_ENC_DEFAULT;
+> -	fmt->quantization	= V4L2_QUANTIZATION_DEFAULT;
+> -	fmt->xfer_func		= V4L2_XFER_FUNC_DEFAULT;
+> +	*fmt = max9286_default_format;
+>  }
+>
+>  static int max9286_open(struct v4l2_subdev *subdev, struct v4l2_subdev_fh *fh)
+> @@ -1063,23 +1139,9 @@ static int max9286_setup(struct max9286_priv *priv)
+>  	max9286_write(priv, 0x0b, link_order[priv->route_mask]);
+>  	max9286_write(priv, 0x69, (0xf & ~priv->route_mask));
+>
+> -	/*
+> -	 * Video format setup:
+> -	 * Disable CSI output, VC is set according to Link number.
+> -	 */
+> -	max9286_write(priv, 0x15, MAX9286_VCTYPE | MAX9286_0X15_RESV);
+> -
+> -	/* Enable CSI-2 Lane D0-D3 only, DBL mode, YUV422 8-bit. */
+> -	max9286_write(priv, 0x12, MAX9286_CSIDBL | MAX9286_DBL |
+> -		      MAX9286_CSILANECNT(priv->csi2_data_lanes) |
+> -		      MAX9286_DATATYPE_YUV422_8BIT);
+> -
+> +	max9286_set_video_format(priv, &max9286_default_format);
+>  	max9286_set_fsync_period(priv);
+>
+> -	/* Enable HS/VS encoding, use D14/15 for HS/VS, invert VS. */
+> -	max9286_write(priv, 0x0c, MAX9286_HVEN | MAX9286_INVVS |
+> -		      MAX9286_HVSRC_D14);
+> -
+>  	/*
+>  	 * The overlap window seems to provide additional validation by tracking
+>  	 * the delay between vsync and frame sync, generating an error if the
 > --
 > Regards,
 >
