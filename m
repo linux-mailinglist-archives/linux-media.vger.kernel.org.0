@@ -2,59 +2,59 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8A9AA64E760
-	for <lists+linux-media@lfdr.de>; Fri, 16 Dec 2022 07:47:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D09A164E766
+	for <lists+linux-media@lfdr.de>; Fri, 16 Dec 2022 07:49:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229923AbiLPGrs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 16 Dec 2022 01:47:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56920 "EHLO
+        id S229667AbiLPGtm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 16 Dec 2022 01:49:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58288 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229471AbiLPGra (ORCPT
+        with ESMTP id S229471AbiLPGtl (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 16 Dec 2022 01:47:30 -0500
-Received: from mail-vs1-xe31.google.com (mail-vs1-xe31.google.com [IPv6:2607:f8b0:4864:20::e31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A62E10B6E;
-        Thu, 15 Dec 2022 22:47:29 -0800 (PST)
-Received: by mail-vs1-xe31.google.com with SMTP id q128so1411010vsa.13;
-        Thu, 15 Dec 2022 22:47:29 -0800 (PST)
+        Fri, 16 Dec 2022 01:49:41 -0500
+Received: from mail-vk1-xa2a.google.com (mail-vk1-xa2a.google.com [IPv6:2607:f8b0:4864:20::a2a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BFA7A55A82;
+        Thu, 15 Dec 2022 22:49:40 -0800 (PST)
+Received: by mail-vk1-xa2a.google.com with SMTP id r204so725662vkf.8;
+        Thu, 15 Dec 2022 22:49:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=txLtQDvzTpy5ap+f5S1nqMLqOhcer94Y5wQ0WtwOPcA=;
-        b=aX+2wM9qNl8cgOihVMVDxoi/JUNSm+jjxtY3aRcpQK2IGUcfkb1fw+TYCfI1PCdknU
-         G/J+VsW8T2CsBzfpO9AVUHn19PHHjZ6wCU/Jm+dGw0MxwQcZCYej5yS8IemHMrP7iXxP
-         CDCWbh1FWMNj+bhGix4v0PXWR5/Av+Feq2vyQdGSja3OHT9ja3N6pVNAAZEu3ZklQ8KE
-         Q4Qul0GMb24/XZEb5ng/+1ojoUbjxPO05dQ8BmGyICVC5QSBonqYFUX2a18cXz2MJ7Gr
-         BHhRgsUni2hSUsQiVY/iPt2M5NIGBHcwDMun7n8ZpR9a9RWrsioyphjxYISwEwlOO86d
-         LRAw==
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=9q4hNAhFX5TgKEHkZZjHQgWEJZiBDgjlX0UodJD6O5o=;
+        b=qOktYSYrC5bTpZcPM0UPPRZ5QRrj7Apa55cFwDsqMG3d07ElVuL9lmmykstsib2DSm
+         4teUj67sEcjvGnu4l3ujj1kd+TFYACgj8+o/Aieapxd0jAqxXtKDQx9SOIToLPYmsjhq
+         F331XcTy2SGbj8S83cIDTG20xvvMrfMblPmPtc6vvWPg5H99VxznHk97B8bwijfI1eiD
+         Wc2rGM74cKpLasvd3EMHBBcEPvliUBTUhgijY1IZjXHLmE9Co3iRNIii9h+MGkiddS7K
+         2x4v0dJe7N1yULmDIb9IXvQRDp0CspmmUtT6x9wYz253qKKvOUuZvwPLKylMhixITVZe
+         1tmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=txLtQDvzTpy5ap+f5S1nqMLqOhcer94Y5wQ0WtwOPcA=;
-        b=tfgmQpAi9OwuuukFJEhLHspDxXpcIy1P1DKMw/qlIN+KEGQy1bQMChc+qJQXXwTSri
-         CSR5eZLVhmCNwlxEbVXvQjtG7bb3hM5aG9JEEQkhGshC+RgIdPP8eszhOop8/Y2NN7KZ
-         r88xxA2yoCHmIF8VdSxfQh9VbM9OZ44CQGI3fjZpshNkjwzl3IioJ+WrVqlHiZmzq4Z2
-         P+0XWhI3Kv7k8cZYHe9+P+1GvpS2TXJ7hLPbBbqLwXiHGQT2IYHJbdModgaYprjHgis5
-         z089mAE5rplZcGv/q2ctYSy9SUJkDubTb07r9QXAuqLmEGlO9JDU7npDcIFI5Hg3I+Rv
-         8lIA==
-X-Gm-Message-State: ANoB5pnk/4upcnWncD3anJmzxGVi2PBcydIJ/tuY0tTK+qiVM9pj5njC
-        Fs/z9tsytVsERmeb47oHO9qHwOTeNGeW6Vc6pbN7wXggmUfzGw==
-X-Google-Smtp-Source: AA0mqf5Lxb04LUZqGw52cDrLLG0QVwDsfAEI0ScpPVmAEmKbL3q3P5lS5AGexica45gS2sX1dPMDDpONO6iB+KCxBHQ=
-X-Received: by 2002:a05:6102:f09:b0:3a6:eec3:b246 with SMTP id
- v9-20020a0561020f0900b003a6eec3b246mr53598501vss.64.1671173248564; Thu, 15
- Dec 2022 22:47:28 -0800 (PST)
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=9q4hNAhFX5TgKEHkZZjHQgWEJZiBDgjlX0UodJD6O5o=;
+        b=tP70oaVAcT1PqQvIckuj/ZuNSI/ZIDAXOGb2nkmH3t5PQap7qDZvLnN/EyByrrV95N
+         kMB1n0Ryov5G0OkBYzq93ptwL6ShDRYFTB5QGfiA3mlOvHSPeo89vjI4hmHvFj/5v6Zr
+         B4byhTX+M5vebGPH5YsQkqRHOwhEtjbiR9sE704LDvJmflgYVItShsYOqUnMHUEQxwCB
+         o80dQ+GFszfpJI5z+Xe18C3V8SZUMn2yTXhzPkLqs1xrpszWSBVw50N2tygunLlgbyZv
+         eTyA58N1iZjmhihrrFpYEfIAbMPtm78uHCVaL2S2mZKIG635NQCGARo5IrHN3z+5Z5ya
+         xd+Q==
+X-Gm-Message-State: ANoB5pnuX5ktuE0Qi9UNSO7xM5SkiSxG3Qcduo96n15onzipkx5t3Rol
+        H7R6h4mx4N9II5r36jGIdx05VXZ4kXHYUveB6Ao=
+X-Google-Smtp-Source: AA0mqf6HfpclnQaKxpSrvKyq1P3aMZh0188ZBlj8B6v1RDg4dTiOwh+APqu68QIhLcVfwQg6sE86qO2mRxKE/xUhZfg=
+X-Received: by 2002:a05:6122:50f:b0:3ab:820:316f with SMTP id
+ x15-20020a056122050f00b003ab0820316fmr60023855vko.15.1671173379765; Thu, 15
+ Dec 2022 22:49:39 -0800 (PST)
 MIME-Version: 1.0
-References: <20221214092636.810883-1-milkfafa@gmail.com> <20221214092636.810883-3-milkfafa@gmail.com>
- <7e67b2d1-394e-2353-df37-5ae3cac64b9c@linaro.org>
-In-Reply-To: <7e67b2d1-394e-2353-df37-5ae3cac64b9c@linaro.org>
+References: <20221214092636.810883-1-milkfafa@gmail.com> <20221214092636.810883-4-milkfafa@gmail.com>
+ <505acb6e-24c4-45c7-7a54-1a77e3718fec@linaro.org>
+In-Reply-To: <505acb6e-24c4-45c7-7a54-1a77e3718fec@linaro.org>
 From:   Kun-Fa Lin <milkfafa@gmail.com>
-Date:   Fri, 16 Dec 2022 14:47:17 +0800
-Message-ID: <CADnNmFptyu_kCdVeFbYUO0vEfLaSniSuz3UmJFiLfv3yF6Gvfw@mail.gmail.com>
-Subject: Re: [PATCH v8 2/7] media: dt-binding: nuvoton: Add bindings for NPCM
- VCD and ECE engine
+Date:   Fri, 16 Dec 2022 14:49:28 +0800
+Message-ID: <CADnNmFp9ajB2cPy4rFw6CWiMfbjxp=eS3zk3kV0+U1QWuAgfyQ@mail.gmail.com>
+Subject: Re: [PATCH v8 3/7] dt-bindings: arm: nuvoton: Add bindings for NPCM GFXI
 To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Cc:     mchehab@kernel.org, linux-media@vger.kernel.org,
         linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
@@ -64,6 +64,7 @@ Cc:     mchehab@kernel.org, linux-media@vger.kernel.org,
         krzysztof.kozlowski+dt@linaro.org, kwliu@nuvoton.com,
         kflin@nuvoton.com
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
@@ -76,47 +77,25 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Hi Krzysztof,
 
-Thanks for the review.
-
-> > Add dt-binding document for Video Capture/Differentiation Engine (VCD)
-> > and Encoding Compression Engine (ECE) present on Nuvoton NPCM SoCs.
+Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> =E6=96=BC 2022=E5=B9=
+=B412=E6=9C=8815=E6=97=A5 =E9=80=B1=E5=9B=9B =E4=B8=8B=E5=8D=884:58=E5=AF=
+=AB=E9=81=93=EF=BC=9A
 >
-> Subject: drop second, redundant "bindings for".
-
-OK.
-
-> > +++ b/Documentation/devicetree/bindings/media/nuvoton,npcm-ece.yaml
-> > @@ -0,0 +1,44 @@
-> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > +
+> On 14/12/2022 10:26, Marvin Lin wrote:
+> > Add dt-bindings document for Graphics Core Information (GFXI) node. It
+> > is used by NPCM video driver to retrieve Graphics core information.
+> >
+> > Signed-off-by: Marvin Lin <milkfafa@gmail.com>
+> > ---
 >
-> Drop blank line.
-
-OK.
-
-> > +    ece: ece@f0820000 {
 >
-> If this is video codec, then generic node name: "video-codec". "ece" is
-> specific, not generic.
-
-OK, will change to "ece: video-codec@f0820000".
-
-> > +++ b/Documentation/devicetree/bindings/media/nuvoton,npcm-vcd.yaml
-> > @@ -0,0 +1,72 @@
-> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > +
+> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 >
-> Drop blank line.
-
-OK.
-
-> > +  memory-region:
-> > +    description:
-> > +      CMA pool to use for buffers allocation instead of the default CMA pool.
+> Best regards,
+> Krzysztof
 >
-> maxItems: 1
 
-OK.
+Thank you for your review!
 
 Regards,
 Marvin
