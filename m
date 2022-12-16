@@ -2,197 +2,160 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 18B0464EAD2
-	for <lists+linux-media@lfdr.de>; Fri, 16 Dec 2022 12:49:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7799864EB28
+	for <lists+linux-media@lfdr.de>; Fri, 16 Dec 2022 13:03:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231171AbiLPLtG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 16 Dec 2022 06:49:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46438 "EHLO
+        id S231231AbiLPMDV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 16 Dec 2022 07:03:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53808 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229495AbiLPLtB (ORCPT
+        with ESMTP id S230284AbiLPMDM (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 16 Dec 2022 06:49:01 -0500
-Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com [64.147.123.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 50A692CCA0;
-        Fri, 16 Dec 2022 03:49:00 -0800 (PST)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
-        by mailout.west.internal (Postfix) with ESMTP id 0F9DE3200708;
-        Fri, 16 Dec 2022 06:48:56 -0500 (EST)
-Received: from imap51 ([10.202.2.101])
-  by compute6.internal (MEProxy); Fri, 16 Dec 2022 06:48:58 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-        :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
-        :message-id:mime-version:references:reply-to:sender:subject
-        :subject:to:to; s=fm1; t=1671191336; x=1671277736; bh=kU35CPgp3n
-        vA6LdQKqXJPSk0/v+oA3trIRauG4K8Ze0=; b=bcxr5jnvgRjNAFsqIBEUVIt+AM
-        i+MXSxqI3uaAXNLpW6x7DxeBtlw5PepzNy9d8k9oY74QONmfqLlBJKAr5MC5Uixy
-        r7lMONGsst2KWE3OMMcLFLU9zRKCLk1uM9WcZWjVtUlbqcRxcc/RJ8WRhIorSbwT
-        FXVfnXGHrq07mMlG3tkFoylttAanLPuhZUjqp0pzokUKu4JE4aXyptENgzcbk5Z0
-        mrJhFK71CS4qTkPzbxABHuIWmyoEdZ/FnIDpluuEcokB5jhX69gK9rnTt4kOlw/h
-        2r7hlk5gWVBGYayJBppElHT7/IhilkH0dKj43oP61t6ey8nRwVBl0MJm4eWw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
-        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
-        :mime-version:references:reply-to:sender:subject:subject:to:to
-        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm2; t=1671191336; x=1671277736; bh=kU35CPgp3nvA6LdQKqXJPSk0/v+o
-        A3trIRauG4K8Ze0=; b=GtuKxE2Fsy1VJWC9GQp1T6cVuRJdx/SLgWoWsrRKMvmS
-        sfEMV20HBaeSCe46xNZI3MuEcg07PHqNVOnthQUse3Ozj3BFpV5WGl4TVjeCRKpO
-        IvANQ2eJGgVRHcMxipykj2xP7frSZiKHiTyk6ruubW50n44h1+zGE20tMiqK05bt
-        VZmr9A4zT19v+VH4xbdMlpBgZYBqrGpBISj1M6dKorf+9icgkFcaS8lF1JBeupvM
-        5M+XJcRUKv1N4aWFtOZxdarUNYoz+ytKn+/R7x8kbLhYpbFXgFi0Mi6mmG1N7WTT
-        RuSWUkHZ1qY3YzbxPBXkFHuKRkQtS0xyJaK5zcXZKQ==
-X-ME-Sender: <xms:J1ucY1rESxiX0OHiXDQUlWcF5SxiWbkeif3nDFiOhFeH1bdSahhfnw>
-    <xme:J1ucY3qSmcH4nOlvasc7udse7hQztflWUuoOVBe3oBBnx6tBxY50Y49t3t0ZaAjdn
-    Rp9L1g5IcQ4ROInGPc>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrfeejgdefudcutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefofgggkfgjfhffhffvvefutgesmhdtreerreertdenucfhrhhomhepfdetrhhn
-    ugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrghtth
-    gvrhhnpeekledvieevudeltefghefggffgtdelveetieejhfelteevieehteeljedtkefg
-    ueenucffohhmrghinhepphgrshhtvggsihhnrdgtohhmnecuvehluhhsthgvrhfuihiivg
-    eptdenucfrrghrrghmpehmrghilhhfrhhomheprghrnhgusegrrhhnuggsrdguvg
-X-ME-Proxy: <xmx:J1ucYyNS1TP6Hp1o-4ji_qxbcWyhYoAO_ZZrHt5ate5FSRUhe3Uh0A>
-    <xmx:J1ucYw7XxhC3HtwokQFaHoihPuuUQfFfokF-p3GrfQt4hy1jL8aVqA>
-    <xmx:J1ucY07pC2ugwLoYZIHNc5Fr1AikuPwcosLAm8j9CT6iZxo3-sJm9g>
-    <xmx:KFucY_IQvnnkR0sXZAd3mx--HVxiNrRyuU7IRuujQueCerfBcGqcQQ>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-        id 9135EB60086; Fri, 16 Dec 2022 06:48:55 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.7.0-alpha0-1185-g841157300a-fm-20221208.002-g84115730
-Mime-Version: 1.0
-Message-Id: <7528ccc8-7337-4e7f-9474-0d94ed6152ed@app.fastmail.com>
-In-Reply-To: <Y5xVHU5FBr5qzAOs@hirez.programming.kicks-ass.net>
-References: <20221215162905.3960806-1-arnd@kernel.org>
- <Y5xVHU5FBr5qzAOs@hirez.programming.kicks-ass.net>
-Date:   Fri, 16 Dec 2022 12:46:18 +0100
-From:   "Arnd Bergmann" <arnd@arndb.de>
-To:     "Peter Zijlstra" <peterz@infradead.org>,
-        "Arnd Bergmann" <arnd@kernel.org>
-Cc:     "Robert Foss" <robert.foss@linaro.org>,
-        "Todor Tomov" <todor.too@gmail.com>,
-        "Josh Poimboeuf" <jpoimboe@kernel.org>,
-        "Andy Gross" <agross@kernel.org>,
-        "Bjorn Andersson" <andersson@kernel.org>,
-        "Konrad Dybcio" <konrad.dybcio@linaro.org>,
-        "Mauro Carvalho Chehab" <mchehab@kernel.org>,
-        "Hans Verkuil" <hverkuil-cisco@xs4all.nl>,
-        "Jonathan Marek" <jonathan@marek.ca>,
-        "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>,
-        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        "Nick Desaulniers" <ndesaulniers@google.com>
-Subject: Re: [PATCH] media: camss: csiphy-3ph: avoid undefined behavior
-Content-Type: multipart/mixed;
- boundary=2a2f36a5189a4026b84f150ff64abf18
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        Fri, 16 Dec 2022 07:03:12 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C6EDFEBD
+        for <linux-media@vger.kernel.org>; Fri, 16 Dec 2022 04:02:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1671192143;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=n0onGUwho42Lk/2Xvrk5LwW7Uvmn5kP1MKjLYRvtQAc=;
+        b=YfkboM0nrji9h+OdnuVYJnxrgDmATNw5RBc2d1pEN5qn8+RjBsohTiYmRi5GMv7MdEBDyR
+        kAMdDe1us3K2/KLKk+utnfXR6BE14VS+CS0PAd7eJOBuTvz5NJavuo1uI4A0rp4p/ey2Xq
+        NRRjke+SFbecEGmhgeOt0SSpCksJuWo=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-408-1wLk1IgvP6-KvVsiN6visA-1; Fri, 16 Dec 2022 07:02:22 -0500
+X-MC-Unique: 1wLk1IgvP6-KvVsiN6visA-1
+Received: by mail-ed1-f70.google.com with SMTP id h18-20020a05640250d200b004758e655ebeso1392508edb.11
+        for <linux-media@vger.kernel.org>; Fri, 16 Dec 2022 04:02:22 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=n0onGUwho42Lk/2Xvrk5LwW7Uvmn5kP1MKjLYRvtQAc=;
+        b=bVUWLh4vGA90ZqaloZdpbd4lw16jJ24Epb3WsAfVWgz5UUb4jfKUFNYLLTn+yxHsgZ
+         uBX5I1uMM/Pt7BCN1XqLGN5WMY+JSs+ymojyvM1ZscN0wyXdFEQmwfWj45OYIyL2RF9u
+         Lu5M2MrLV+u3vGD2LgTjkRB3nRcMSYRMYiRW09mxT/ZhzA8/DNq3iBIVb99XrVI+dst4
+         dRZufxIGs8DoJpyAn+rA8M+U82lMI2SlZZyAZSClakW71VnNLIz5JYp0bTAAtqt6zeVC
+         qi8aFYEgGqFhT3odT/1vqi3d8IUIKsYgv9edvaj/r06ix8819YZrzeV6ihOtzVGVQTEv
+         wQww==
+X-Gm-Message-State: ANoB5plcityBVKzcKxznlBtSSK7fJFtU4C4afXK9iO74FBjfvGFVji5V
+        KIZCwooKT4OTSCmrjYzwLkq/0bNWB6cXzZ0CSQ6uwpc3RXzF0Eav/N3H/RyqMy7/CvvJZ82gOOr
+        g5vvbgiFokdx32rT8LdYiPPc=
+X-Received: by 2002:a05:6402:3987:b0:467:e9a5:77c4 with SMTP id fk7-20020a056402398700b00467e9a577c4mr27286762edb.14.1671192141124;
+        Fri, 16 Dec 2022 04:02:21 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf4xS5GY2N7ApHCruZzxYhR/KCijYVIin7KMr5Sjan0LxTro5Ol3BiPdKrXUHFjiH/21a3awSg==
+X-Received: by 2002:a05:6402:3987:b0:467:e9a5:77c4 with SMTP id fk7-20020a056402398700b00467e9a577c4mr27286737edb.14.1671192140853;
+        Fri, 16 Dec 2022 04:02:20 -0800 (PST)
+Received: from ?IPV6:2001:1c00:c1e:bf00:d69d:5353:dba5:ee81? (2001-1c00-0c1e-bf00-d69d-5353-dba5-ee81.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:d69d:5353:dba5:ee81])
+        by smtp.gmail.com with ESMTPSA id cy28-20020a0564021c9c00b00463597d2c25sm784672edb.74.2022.12.16.04.02.19
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 16 Dec 2022 04:02:20 -0800 (PST)
+Message-ID: <6c5867ed-a78e-8919-b34f-560c0773727e@redhat.com>
+Date:   Fri, 16 Dec 2022 13:02:19 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.1
+Subject: Re: [PATCH v3 00/11] leds: lookup-table support + int3472/media
+ privacy LED support
+Content-Language: en-US, nl
+To:     Mark Gross <markgross@kernel.org>,
+        Andy Shevchenko <andy@kernel.org>, Pavel Machek <pavel@ucw.cz>,
+        Lee Jones <lee@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Daniel Scally <djrscally@gmail.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     platform-driver-x86@vger.kernel.org, linux-leds@vger.kernel.org,
+        linux-gpio@vger.kernel.org, Kate Hsuan <hpa@redhat.com>,
+        Mark Pearson <markpearson@lenovo.com>,
+        Andy Yeh <andy.yeh@intel.com>, Yao Hao <yao.hao@intel.com>,
+        linux-media@vger.kernel.org
+References: <20221216113013.126881-1-hdegoede@redhat.com>
+From:   Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <20221216113013.126881-1-hdegoede@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
---2a2f36a5189a4026b84f150ff64abf18
-Content-Type: text/plain
+Hi,
 
-On Fri, Dec 16, 2022, at 12:23, Peter Zijlstra wrote:
-> On Thu, Dec 15, 2022 at 05:28:46PM +0100, Arnd Bergmann wrote:
->> diff --git a/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c b/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
->> index 451a4c9b3d30..04baa80494c6 100644
->> --- a/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
->> +++ b/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
->> @@ -429,7 +429,8 @@ static void csiphy_gen2_config_lanes(struct csiphy_device *csiphy,
->>  		array_size = ARRAY_SIZE(lane_regs_sm8250[0]);
->>  		break;
->>  	default:
->> -		unreachable();
->> +		WARN(1, "unknown cspi version\n");
->> +		return;
->>  	}
->
-> So no real objection here; but unreachable() does have an objtool
-> annotation inside, so clearly the compiler managed to defeat that --
-> perhaps we should look at that too.
+On 12/16/22 12:30, Hans de Goede wrote:
+> Hi All,
+> 
+> Here is my 3th attempt at adjusting the INT3472 code's handling of
+> the privacy LED on x86 laptops with MIPI camera(s) so that it will also
+> work on devices which have a privacy-LED GPIO but not a clk-enable GPIO
+> (so that we cannot just tie the LED state to the clk-enable state).
+> 
+> Due to popular request by multiple people this new version now models
+> the privacy LED as a LED class device. This requires being able to
+> "tie" the LED class device to a specific camera sensor (some devices
+> have multiple sensors + privacy-LEDs).
+> 
+> Patches 1-5 are LED subsystem patches for this. 1 is a bug fix, 2-4
+> is a bit of refactoring in preparation for patch 5 which adds
+> generic (non devicetree specific) led_get() and devm_led_get() function
+> (which will also work with devicetree) and lookup table support to
+> allow platform code to add LED class-device <-> consumer-dev,function
+> lookups for non devicetree platforms.
+> 
+> Patch 6 adds generic privacy-LED support to the v4l2-core/v4l2-subdev.c
+> code automatically enabling the privacy-LED when s_stream(subdev, 1)
+> is called. So that we don't need to privacy-LED code to all the
+> camera sensor drivers separately (as requested by Sakari).
+> 
+> These are all new patches in version 3. Patches 7-11 are patches
+> to the platform specific INT3472 code to register privacy-LED class
+> devices + lookup table entries for privacy-LEDs described in
+> the special INT3472 ACPI nodes found on x86 devices with MIPI
+> cameras (+ prep work + some other INT3472 fixes).
+> 
+> Assuming the LED and media maintainers are happy with the approach
+> suggested here (if you are please give your Ack / Reviewed-by) we
+> need to talk about how to merge this since patches 6 and 7-11
+> depend on the LED subsystem changes. I think it would be best if
+> the LED subsystem can provide an immutable branch with patches 1-5
+> (on top of 6.2-rc1 once it is out) and then the media folks and I
+> can merge that branch and then apply the other patches on top.
+> 
+> This series has been tested on:
+> 
+> - Lenovo ThinkPad X1 Yoga gen 7, IPU6, front: ov2740 with privacy LED
+> - Dell Latitude 9420, IPU 6, front: ov01a1s with privacy LED
+> - Mirosoft Surface Go, IPU3, front: ov5693 with privacy LED
+>                               back: ov8865 with privacy LED (pled not yet supported)
+> 
+> Regards,
+> 
+> Hans
 
-Ah, I forgot this annotation existed. I see that this
-particular objtool warning only happens with clang (I used
-version 14.0.6), but it does not happen with gcc-12.2.
+p.s.
 
-I see the function ends in
+I have matching out of tree IPU6 driver changes here:
 
-	jmp	.LBB3_45
-.LBB3_54:
-	#APP
-.Ltmp0:
-	.section	.discard.unreachable,"",@progbits
-.Ltmp1:
-	.long	.Ltmp0-.Ltmp1
-	.text
- 	#NO_APP
-.Lfunc_end3:
-	.size	csiphy_lanes_enable, .Lfunc_end3-csiphy_lanes_enable
-                                        # -- End function
+https://github.com/jwrdegoede/ipu6-drivers/commits/master
+
+once this series has landed these changes will allow using
+the out of tree IPU6 driver with an unmodified upstream kernel.
+
+Regards,
+
+Hans
 
 
-full assembler output at https://pastebin.com/F8HGCUvk, object file
-attached.
 
-    Arnd
---2a2f36a5189a4026b84f150ff64abf18
-Content-Disposition: attachment; filename="camss-csiphy-3ph-1-0.o.xz"
-Content-Type: application/x-xz; name="camss-csiphy-3ph-1-0.o.xz"
-Content-Transfer-Encoding: BASE64
-
-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
-Z/sCAAAAAARZWg==
-
---2a2f36a5189a4026b84f150ff64abf18--
