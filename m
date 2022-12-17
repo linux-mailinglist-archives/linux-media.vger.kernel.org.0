@@ -2,96 +2,105 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CC5D764F963
-	for <lists+linux-media@lfdr.de>; Sat, 17 Dec 2022 15:31:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C660164F983
+	for <lists+linux-media@lfdr.de>; Sat, 17 Dec 2022 15:55:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229471AbiLQObZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 17 Dec 2022 09:31:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46036 "EHLO
+        id S229865AbiLQOzd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 17 Dec 2022 09:55:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52568 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229763AbiLQObX (ORCPT
+        with ESMTP id S229737AbiLQOza (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 17 Dec 2022 09:31:23 -0500
-Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com [IPv6:2607:f8b0:4864:20::629])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A819210F3;
-        Sat, 17 Dec 2022 06:31:22 -0800 (PST)
-Received: by mail-pl1-x629.google.com with SMTP id s7so4998581plk.5;
-        Sat, 17 Dec 2022 06:31:22 -0800 (PST)
+        Sat, 17 Dec 2022 09:55:30 -0500
+Received: from mail-ot1-x341.google.com (mail-ot1-x341.google.com [IPv6:2607:f8b0:4864:20::341])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DBF2D1402E
+        for <linux-media@vger.kernel.org>; Sat, 17 Dec 2022 06:55:29 -0800 (PST)
+Received: by mail-ot1-x341.google.com with SMTP id x25-20020a056830115900b00670932eff32so3040607otq.3
+        for <linux-media@vger.kernel.org>; Sat, 17 Dec 2022 06:55:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=q+7z7G254vlB30dxaX0Fo49gLNLsS7YJkR6iYNb6Fv0=;
-        b=jvKehRiQgyKNh+iZ6HY/I2oEgNq6qt40AhQ2jM/Y+rqzjAHIOXlTqvFfVR6mMnSKBe
-         g+3jV0bE1trLAS5HzhOIn3fss/Gaq/oe8RqAx2gFE9Opvj3mueiQUpkXEZAajeDViw8g
-         uJbOdK7pSMRmSM7O8VwSpdCfu3NiOcZSfhTEP2Lwt8GTGkixZcx+N0Jg8W8j6SLz82w3
-         5+9RtPUTBfxRVfpzyN5GGh65zVcKYc436J9IQsYbcaRN2hfq4IvH+bfK/jI27jtegKpG
-         XoqKkQ/NNZaiUdKLxybsDD/KSBIESlxpoErfdLKF9JDp7z7jV/usnSm21v/QNv8Q3APy
-         35Ow==
+        h=content-transfer-encoding:to:subject:message-id:date:from:reply-to
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=kxYdS7HXFgPwD0CbUOPTSoYIdNu/3BBiNK57EJjVBfg=;
+        b=BzYY+K73IEppIH9vs+0kHKJI4dPNPL+EndYT6fxgGnA4NHnhAfnGVZoWgrc3XhgKlI
+         SzhSJfetZ0x+41SZ6kzyDqTL51qNKj95q30NjTsccG3/8buip/MGLyNTmDeVyJE6v895
+         2T2ZxVMuKej6BvUJwoudemEmgRnN7uq3ECbyQ0cW+IzUkycGLviLPl10n6aV6TOAR27y
+         4RwG1JtmBxsMHTLpLGob6xVVhTE/L4YYN9jjqtHWK2nrwwoBujXG5iTmxwoOOsb0EJtV
+         dtSkVo4d9fDWhqfMmr58pJJrD1fO4Xpa25cg7l9jVYDN7xnOhKeJEm0mpoAd2IZ0syQT
+         jYeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        h=content-transfer-encoding:to:subject:message-id:date:from:reply-to
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=q+7z7G254vlB30dxaX0Fo49gLNLsS7YJkR6iYNb6Fv0=;
-        b=q0pSD/VwlY3U09gM+3UDZuM0k7T8KAy0iE4gP3TPEW1mcWVc8V4mt3dHLrt9k4770b
-         0K3PzZDORCTXy+dUbV1DWsmjGeTnGj2Gvy8rBG/QPClNKPTkN+uRAEoOsRIkXYsoe5Pv
-         2yAVySqzu8WlvbPPMICZH3v2s/xeq8HqH0Y3VoUNRcysgtLu3CPp+R6DFPIrW/YzQqyy
-         eE4HKZO3Q3EEV79eBYsLpeX0GILE8CIsAmjE4eifgOI32aKCLFrsTDUgDA0/dJD3HhQ+
-         sFVzvKdsg8l3RIB9bUBhYUuTEP85hHh13HKy8IlPhbZ/8iff6goBP8B24VY3I99m7/lS
-         JWhg==
-X-Gm-Message-State: ANoB5pktOou/Ft4Rl5Y2Jm9UhSv7u7s0MZPOVvsbatwVq2b9Tf7HNub2
-        pk9t8Ype7WW9ci8XAEq4rJ9jkrKe95PhzQqB
-X-Google-Smtp-Source: AA0mqf7WuudQT1xddyeqQk434g8azUldw7NaCX+6Q4guEXQQLo3/7D/ckgw31nmL76Sgsl3BamUJKg==
-X-Received: by 2002:a17:90b:198e:b0:219:cb6d:7b0b with SMTP id mv14-20020a17090b198e00b00219cb6d7b0bmr36174776pjb.44.1671287482118;
-        Sat, 17 Dec 2022 06:31:22 -0800 (PST)
-Received: from localhost.localdomain ([202.120.234.246])
-        by smtp.googlemail.com with ESMTPSA id fy16-20020a17090b021000b00218b47be793sm2999708pjb.3.2022.12.17.06.31.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 17 Dec 2022 06:31:21 -0800 (PST)
-From:   Miaoqian Lin <linmq006@gmail.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     linmq006@gmail.com
-Subject: [PATCH] media: mc: entity: Fix doc for media_graph_walk_init
-Date:   Sat, 17 Dec 2022 18:31:13 +0400
-Message-Id: <20221217143113.3219104-1-linmq006@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        bh=kxYdS7HXFgPwD0CbUOPTSoYIdNu/3BBiNK57EJjVBfg=;
+        b=Q2D5SoJqCookgkxkqV36ZnMbwTeCi+sRRxHoxN/xAW8ya7/XGJu34atT0jMpXFSXGD
+         CfRG0NScuCaUe35YMaRkJgd0w/ipTE0QBBGe3ECQtxqAhy4MnQlb6TGdGZIoT63AaIa9
+         I/pvxjoEYXJBmw6bcPaRpkDV19p0pHC65XYSXA0G54+Wt7sl7BOWYe9bEKK0wy777xZ5
+         agWKyFWLRBf5ByjqKEt+WNyOHTywji2AjgRZxxe7rO6PqyanswaevziI0DBatOvr1i+o
+         XGSjgxIMGq+LorTOonO8R1yTnxT58uu9zvTCbR7Z6NrmDks6Vf6SkfEm8EnbXvzqrGV4
+         6d+g==
+X-Gm-Message-State: ANoB5plv+E4FeZCH+MO33idlyvPnuk/hS84lPCW891xLk1SrPLixfTUX
+        Ja6MEE0p1j3vmhcV//Fjd/sN4lFQygYVbg9MaYs=
+X-Google-Smtp-Source: AA0mqf7SC1GYReDnfk97aC/SZ6myZqHORw5BS4WUzsMP7w8iT3JcbS1zwpU5pj3xo2I1O5e+Nvu1pwQ/Kmqe8sUm4ZU=
+X-Received: by 2002:a05:6830:6408:b0:66e:6b6b:f7a5 with SMTP id
+ cj8-20020a056830640800b0066e6b6bf7a5mr20244264otb.153.1671288929224; Sat, 17
+ Dec 2022 06:55:29 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+Received: by 2002:a05:6840:6697:b0:faf:e552:8c5b with HTTP; Sat, 17 Dec 2022
+ 06:55:28 -0800 (PST)
+Reply-To: ab8111977@gmail.com
+From:   MS NADAGE LASSOU <hunhdd123@gmail.com>
+Date:   Sat, 17 Dec 2022 15:55:28 +0100
+Message-ID: <CA+9ouuqMTT-8GiLsJEyfCam0BUQpa665D2wCnuXNZ=MeqcfP4Q@mail.gmail.com>
+Subject: REPLY TO HAVE DETAILS.
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: Yes, score=5.3 required=5.0 tests=BAYES_50,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        FREEMAIL_FROM,FREEMAIL_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,SUBJ_ALL_CAPS,UNDISC_FREEM
+        autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+        *      https://www.dnswl.org/, no trust
+        *      [2607:f8b0:4864:20:0:0:0:341 listed in]
+        [list.dnswl.org]
+        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.4999]
+        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
+        *      provider
+        *      [hunhdd123[at]gmail.com]
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        *  0.2 FREEMAIL_REPLYTO_END_DIGIT Reply-To freemail username ends in
+        *      digit
+        *      [ab8111977[at]gmail.com]
+        *  0.5 SUBJ_ALL_CAPS Subject is all capitals
+        *  0.2 FREEMAIL_ENVFROM_END_DIGIT Envelope-from freemail username ends
+        *       in digit
+        *      [hunhdd123[at]gmail.com]
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        *  2.7 UNDISC_FREEM Undisclosed recipients + freemail reply-to
+        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
+        *      different freemails
+X-Spam-Level: *****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-There is no media_graph_walk_free(). media_graph_walk_cleanup() is used
-to release the resources.
+Greetings.
 
-Signed-off-by: Miaoqian Lin <linmq006@gmail.com>
----
- drivers/media/mc/mc-entity.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/media/mc/mc-entity.c b/drivers/media/mc/mc-entity.c
-index b8bcbc734eaf..de25de328fbe 100644
---- a/drivers/media/mc/mc-entity.c
-+++ b/drivers/media/mc/mc-entity.c
-@@ -295,7 +295,7 @@ static struct media_entity *stack_pop(struct media_graph *graph)
-  *
-  * Reserve resources for graph walk in media device's current
-  * state. The memory must be released using
-- * media_graph_walk_free().
-+ * media_graph_walk_cleanup().
-  *
-  * Returns error on failure, zero on success.
-  */
--- 
-2.25.1
-
+I am Ms Nadage Lassou,I have important discussIon with you for your
+benefit and others.
+Thanks for your time and =C2=A0Attention.
+Regards.
+Ms Nadage Lassou
