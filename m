@@ -2,11498 +2,5141 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C2A8765145E
-	for <lists+linux-media@lfdr.de>; Mon, 19 Dec 2022 21:50:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 441CF65146B
+	for <lists+linux-media@lfdr.de>; Mon, 19 Dec 2022 21:52:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231511AbiLSUuy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 19 Dec 2022 15:50:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58646 "EHLO
+        id S232651AbiLSUwU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 19 Dec 2022 15:52:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59170 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232679AbiLSUuX (ORCPT
+        with ESMTP id S232792AbiLSUvr (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 19 Dec 2022 15:50:23 -0500
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D85D11707E;
-        Mon, 19 Dec 2022 12:48:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1671482899; x=1703018899;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=K0Vb1G6rnZGmcmAUQNpYFM54cBYNxSIY/lGm47Y+BHQ=;
-  b=lih0z8ER19yLhSonT//POP8Z4dnrxiNYqcAawrkY6erSguB0fcn6F8fy
-   yAg1lOaPK47rzPx30LQO8sFxWLK0ShSiNDQVgJ+qlMqmB38MIyQCRg8uj
-   f3hacXYm5c/uw6AlCVqwAXmQ/7cZIbj/XA9i1BUpNyZ2cw1+mGOOD4uxX
-   Ryq9biefrX02eTDDEng12oc1aAMeAYIYmF5p9sCnjHDr94SGxAQWqGFP3
-   dwHo4v9ySHdJxNJUdHtAn1q70UFfrzul6Feqmc/WXzyzEBH5zEOfJJkVY
-   JWJfUaF6qQJ5KLblwkWXTuhuKuoYJeEc+JGWlhjujHHjWaPe0RfRVhtG5
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10566"; a="302873694"
-X-IronPort-AV: E=Sophos;i="5.96,257,1665471600"; 
-   d="scan'208";a="302873694"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Dec 2022 12:47:51 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10566"; a="650652480"
-X-IronPort-AV: E=Sophos;i="5.96,257,1665471600"; 
-   d="scan'208";a="650652480"
-Received: from lkp-server01.sh.intel.com (HELO b5d47979f3ad) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 19 Dec 2022 12:47:45 -0800
-Received: from kbuild by b5d47979f3ad with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1p7N33-0008w0-05;
-        Mon, 19 Dec 2022 20:47:45 +0000
-Date:   Tue, 20 Dec 2022 04:47:12 +0800
-From:   kernel test robot <lkp@intel.com>
+        Mon, 19 Dec 2022 15:51:47 -0500
+Received: from mail-qv1-xf32.google.com (mail-qv1-xf32.google.com [IPv6:2607:f8b0:4864:20::f32])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E6CDF12AA3
+        for <linux-media@vger.kernel.org>; Mon, 19 Dec 2022 12:51:35 -0800 (PST)
+Received: by mail-qv1-xf32.google.com with SMTP id q10so7010360qvt.10
+        for <linux-media@vger.kernel.org>; Mon, 19 Dec 2022 12:51:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=g1QJPjApU/2q2nLc0/1DnvKMjxRkod8eqDEJRwFdHNI=;
+        b=HK7ljdIzOTRC9zCTOuCZK7wNgK4asc12Zc4a0rD2pW8/7pL7EYv+oAd2K8ZShDhxrH
+         WCrVBV47VjQlMb1/RqrAEfe+T/TXgc/Bg5PxxY5hbmsMUZwn2hHMFK+iPcEp3nqUbVHE
+         T6Ag0/VWZtFRrnxgvky9RdVdhCybTSHjSha+oalL8E8sONR9nXfvwqFxXjqmtjCt3hrE
+         sqh6Bu2Q/DEz1RPnkZmf4jDHrra1/1g23tdOkmhPoUhFWfoE4F3HR1mt9b408nEpvt9Y
+         D7k4Ilv1SOYkcebUmbaKXREa+7vsiSdRjXk6mCgfgsuooClMJQfMkFczwi5OTp4ThToL
+         gW+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=g1QJPjApU/2q2nLc0/1DnvKMjxRkod8eqDEJRwFdHNI=;
+        b=DRA8SvyMQgr0p8xAqK9FJXXLjlmfOXIeIeMycKjg8EoPrp+bNTv9fbALo2CjUmSI89
+         DW7KFQMVGLH8OnwCr1hXOS6JaYOq0fKwzfRmxoUi6MOYcykQDMy6gixaaGNFhxAV8pLE
+         cMMqQzx0GJx6NAH5TRdfF8WWcLqlKOA1a+kANyycvE+6/KGgkDWVa3+9Y+HyrxD2T42D
+         OnOmVCcV/z3aPlX/68s6JCe801GTIgvAdfyuj7YHfSuuME6Ia/iMOmD2nAs1tG40AHRa
+         JKSl0gyGmJympQclLew2yEDVOSTULwJEW+ssmnR23WT8vSPky0bzsxeraYc47tUKl032
+         ArXQ==
+X-Gm-Message-State: ANoB5pnCRI9hYdceTqCoFfLo2eBB9xmS91bXOTEw5Flvr9fyL4qE9Dbh
+        YS9jbx9IIszSrZHiU+7RjCUYLQ==
+X-Google-Smtp-Source: AA0mqf7kKxA/1h/IX2fao8dtGSxdNvF/2EoW8Hu6sw4qmj3wI62qzT7ytKep8m7d0aMofGGrJOvjKA==
+X-Received: by 2002:a05:6214:451f:b0:4db:920a:fe51 with SMTP id oo31-20020a056214451f00b004db920afe51mr55251302qvb.23.1671483093985;
+        Mon, 19 Dec 2022 12:51:33 -0800 (PST)
+Received: from nicolas-tpx395.localdomain (192-222-136-102.qc.cable.ebox.net. [192.222.136.102])
+        by smtp.gmail.com with ESMTPSA id de36-20020a05620a372400b006cf19068261sm7699081qkb.116.2022.12.19.12.51.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 19 Dec 2022 12:51:33 -0800 (PST)
+Message-ID: <913a8d6135a52bfc29d72d14455cc1bd069dd6c9.camel@ndufresne.ca>
+Subject: Re: [PATCH v1 6/9] media: verisilicon: Add AV1 entropy helpers
+From:   Nicolas Dufresne <nicolas@ndufresne.ca>
 To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
         ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
         mchehab@kernel.org, robh+dt@kernel.org,
         krzysztof.kozlowski+dt@linaro.org, heiko@sntech.de,
         daniel.almeida@collabora.com, nicolas.dufresne@collabora.co.uk
-Cc:     oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-        linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        kernel@collabora.com,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: Re: [PATCH v1 8/9] media: verisilicon: Add film grain feature to AV1
- driver
-Message-ID: <202212200426.f80D0BZG-lkp@intel.com>
-References: <20221219155616.848690-9-benjamin.gaignard@collabora.com>
+Cc:     linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, kernel@collabora.com
+Date:   Mon, 19 Dec 2022 15:51:31 -0500
+In-Reply-To: <20221219155616.848690-7-benjamin.gaignard@collabora.com>
+References: <20221219155616.848690-1-benjamin.gaignard@collabora.com>
+         <20221219155616.848690-7-benjamin.gaignard@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.2 (3.46.2-1.fc37) 
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="fhpo8hEKiKmCHMeF"
-Content-Disposition: inline
-In-Reply-To: <20221219155616.848690-9-benjamin.gaignard@collabora.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,
-        SPF_NONE,UPPERCASE_50_75 autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+	Le lundi 19 d=C3=A9cembre 2022 =C3=A0 16:56 +0100, Benjamin Gaignard a =C3=
+=A9crit=C2=A0:
+> AV1 hardware decoder needs entropy parameters to decode encode frames.
+
+Missing a *d* in encoded, but just to "decode frames." should do.
+
+> They are computed from various arrays defined in AV1 section
+> "9.4. Default CDF tables".
+>=20
+> Add helpers functions to init, store and get these parameters.
+>=20
+> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> ---
+>  drivers/media/platform/verisilicon/Makefile   |    1 +
+>  drivers/media/platform/verisilicon/hantro.h   |    2 +
+>  .../media/platform/verisilicon/hantro_hw.h    |   20 +
+>  .../verisilicon/rockchip_av1_entropymode.c    | 4536 +++++++++++++++++
+>  .../verisilicon/rockchip_av1_entropymode.h    |  272 +
+>  5 files changed, 4831 insertions(+)
+>  create mode 100644 drivers/media/platform/verisilicon/rockchip_av1_entro=
+pymode.c
+>  create mode 100644 drivers/media/platform/verisilicon/rockchip_av1_entro=
+pymode.h
+>=20
+> diff --git a/drivers/media/platform/verisilicon/Makefile b/drivers/media/=
+platform/verisilicon/Makefile
+> index ebd5ede7bef7..d2b2679c00eb 100644
+> --- a/drivers/media/platform/verisilicon/Makefile
+> +++ b/drivers/media/platform/verisilicon/Makefile
+> @@ -18,6 +18,7 @@ hantro-vpu-y +=3D \
+>  		rockchip_vpu2_hw_h264_dec.o \
+>  		rockchip_vpu2_hw_mpeg2_dec.o \
+>  		rockchip_vpu2_hw_vp8_dec.o \
+> +		rockchip_av1_entropymode.o \
+>  		hantro_jpeg.o \
+>  		hantro_h264.o \
+>  		hantro_hevc.o \
+> diff --git a/drivers/media/platform/verisilicon/hantro.h b/drivers/media/=
+platform/verisilicon/hantro.h
+> index 61480825b856..a98cb40a8d3b 100644
+> --- a/drivers/media/platform/verisilicon/hantro.h
+> +++ b/drivers/media/platform/verisilicon/hantro.h
+> @@ -240,6 +240,7 @@ struct hantro_dev {
+>   * @vp8_dec:		VP8-decoding context.
+>   * @hevc_dec:		HEVC-decoding context.
+>   * @vp9_dec:		VP9-decoding context.
+> + * @av1_dec:		AV1-decoding context.
+>   */
+>  struct hantro_ctx {
+>  	struct hantro_dev *dev;
+> @@ -268,6 +269,7 @@ struct hantro_ctx {
+>  		struct hantro_vp8_dec_hw_ctx vp8_dec;
+>  		struct hantro_hevc_dec_hw_ctx hevc_dec;
+>  		struct hantro_vp9_dec_hw_ctx vp9_dec;
+> +		struct hantro_av1_dec_hw_ctx av1_dec;
+>  	};
+>  };
+> =20
+> diff --git a/drivers/media/platform/verisilicon/hantro_hw.h b/drivers/med=
+ia/platform/verisilicon/hantro_hw.h
+> index 8b3bc7e31395..e395aeeae2f4 100644
+> --- a/drivers/media/platform/verisilicon/hantro_hw.h
+> +++ b/drivers/media/platform/verisilicon/hantro_hw.h
+> @@ -15,6 +15,8 @@
+>  #include <media/v4l2-vp9.h>
+>  #include <media/videobuf2-core.h>
+> =20
+> +#include "rockchip_av1_entropymode.h"
+> +
+>  #define DEC_8190_ALIGN_MASK	0x07U
+> =20
+>  #define MB_DIM			16
+> @@ -247,6 +249,24 @@ struct hantro_vp9_dec_hw_ctx {
+>  	s16 feature_data[8][4];
+>  };
+> =20
+> +/**
+> + * hantro_av1_dec_hw_ctx
+> + * @cdfs:		current probabilities structure
+> + * @cdfs_ndvc:		current mv probabilities structure
+> + * @default_cdfs:	default probabilities structure
+> + * @default_cdfs_ndvc:	default mv probabilties structure
+> + * @cdfs_last:		stored probabilities structures
+> + * @cdfs_last_ndvc:	stored mv probabilities structures
+> + */
+> +struct hantro_av1_dec_hw_ctx {
+> +	struct av1cdfs *cdfs;
+> +	struct mvcdfs  *cdfs_ndvc;
+> +	struct av1cdfs default_cdfs;
+> +	struct mvcdfs  default_cdfs_ndvc;
+> +	struct av1cdfs cdfs_last[NUM_REF_FRAMES];
+> +	struct mvcdfs  cdfs_last_ndvc[NUM_REF_FRAMES];
+> +};
+> +
+>  /**
+>   * struct hantro_postproc_ctx
+>   *
+> diff --git a/drivers/media/platform/verisilicon/rockchip_av1_entropymode.=
+c b/drivers/media/platform/verisilicon/rockchip_av1_entropymode.c
+> new file mode 100644
+> index 000000000000..cc8541de17fb
+> --- /dev/null
+> +++ b/drivers/media/platform/verisilicon/rockchip_av1_entropymode.c
+> @@ -0,0 +1,4536 @@
+> +// SPDX-License-Identifier: GPL-2.0-only or Apache-2.0
+
+You don't seem to be the original author of this code. I'm not sure how we
+normally handle that, licence should be compatible, but the original copyri=
+ght
+needs to be there. This is the copyright notice from aom/aom_dsp/prob.h whi=
+ch
+this is copied from.
+
+/*
+ * Copyright (c) 2016, Alliance for Open Media. All rights reserved
+ *
+ * This source code is subject to the terms of the BSD 2 Clause License and
+ * the Alliance for Open Media Patent License 1.0. If the BSD 2 Clause Lice=
+nse
+ * was not distributed with this source code in the LICENSE file, you can
+ * obtain it at www.aomedia.org/license/software. If the Alliance for Open
+ * Media Patent License 1.0 was not distributed with this source code in th=
+e
+ * PATENTS file, you can obtain it at www.aomedia.org/license/patent.
+ */
+
+
+> +
+> +#include "hantro.h"
+> +#include "rockchip_av1_entropymode.h"
+> +
+> +#define AOM_ICDF ICDF
+> +#define AOM_CDF2(a0) AOM_ICDF(a0)
+> +#define AOM_CDF3(a0, a1) \
+> +	AOM_ICDF(a0), AOM_ICDF(a1)
+> +#define AOM_CDF4(a0, a1, a2) \
+> +	AOM_ICDF(a0), AOM_ICDF(a1), AOM_ICDF(a2)
+> +#define AOM_CDF5(a0, a1, a2, a3) \
+> +	AOM_ICDF(a0), AOM_ICDF(a1), AOM_ICDF(a2), AOM_ICDF(a3)
+> +#define AOM_CDF6(a0, a1, a2, a3, a4) \
+> +	AOM_ICDF(a0), AOM_ICDF(a1), AOM_ICDF(a2), AOM_ICDF(a3), AOM_ICDF(a4)
+> +#define AOM_CDF7(a0, a1, a2, a3, a4, a5) \
+> +	AOM_ICDF(a0), AOM_ICDF(a1), AOM_ICDF(a2), \
+> +	AOM_ICDF(a3), AOM_ICDF(a4), AOM_ICDF(a5)
+> +#define AOM_CDF8(a0, a1, a2, a3, a4, a5, a6) \
+> +	AOM_ICDF(a0), AOM_ICDF(a1), AOM_ICDF(a2), \
+> +	AOM_ICDF(a3), AOM_ICDF(a4), AOM_ICDF(a5), AOM_ICDF(a6)
+> +#define AOM_CDF9(a0, a1, a2, a3, a4, a5, a6, a7) \
+> +	AOM_ICDF(a0), AOM_ICDF(a1), AOM_ICDF(a2), AOM_ICDF(a3), \
+> +	AOM_ICDF(a4), AOM_ICDF(a5), AOM_ICDF(a6), AOM_ICDF(a7)
+> +#define AOM_CDF10(a0, a1, a2, a3, a4, a5, a6, a7, a8) \
+> +	AOM_ICDF(a0), AOM_ICDF(a1), AOM_ICDF(a2), AOM_ICDF(a3), \
+> +	AOM_ICDF(a4), AOM_ICDF(a5), AOM_ICDF(a6), AOM_ICDF(a7), AOM_ICDF(a8)
+> +#define AOM_CDF11(a0, a1, a2, a3, a4, a5, a6, a7, a8, a9) \
+> +	AOM_ICDF(a0), AOM_ICDF(a1), AOM_ICDF(a2), AOM_ICDF(a3), AOM_ICDF(a4), \
+> +	AOM_ICDF(a5), AOM_ICDF(a6), AOM_ICDF(a7), AOM_ICDF(a8), AOM_ICDF(a9)
+> +#define AOM_CDF12(a0, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10) \
+> +	AOM_ICDF(a0), AOM_ICDF(a1), AOM_ICDF(a2), AOM_ICDF(a3), AOM_ICDF(a4), A=
+OM_ICDF(a5), \
+> +	AOM_ICDF(a6), AOM_ICDF(a7), AOM_ICDF(a8), AOM_ICDF(a9), AOM_ICDF(a10)
+> +#define AOM_CDF13(a0, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11) \
+> +	AOM_ICDF(a0), AOM_ICDF(a1), AOM_ICDF(a2), AOM_ICDF(a3), AOM_ICDF(a4), A=
+OM_ICDF(a5), \
+> +	AOM_ICDF(a6), AOM_ICDF(a7), AOM_ICDF(a8), AOM_ICDF(a9), AOM_ICDF(a10), =
+AOM_ICDF(a11)
+> +#define AOM_CDF14(a0, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12)=
+ \
+> +	AOM_ICDF(a0), AOM_ICDF(a1), AOM_ICDF(a2), AOM_ICDF(a3), AOM_ICDF(a4), \
+> +	AOM_ICDF(a5), AOM_ICDF(a6), AOM_ICDF(a7), AOM_ICDF(a8), AOM_ICDF(a9), \
+> +	AOM_ICDF(a10), AOM_ICDF(a11), AOM_ICDF(a12)
+> +#define AOM_CDF15(a0, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12,=
+ a13) \
+> +	AOM_ICDF(a0), AOM_ICDF(a1), AOM_ICDF(a2), AOM_ICDF(a3), AOM_ICDF(a4), \
+> +	AOM_ICDF(a5), AOM_ICDF(a6), AOM_ICDF(a7), AOM_ICDF(a8), AOM_ICDF(a9), \
+> +	AOM_ICDF(a10), AOM_ICDF(a11), AOM_ICDF(a12), AOM_ICDF(a13)
+> +#define AOM_CDF16(a0, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12,=
+ a13, a14) \
+> +	AOM_ICDF(a0), AOM_ICDF(a1), AOM_ICDF(a2), AOM_ICDF(a3), AOM_ICDF(a4), \
+> +	AOM_ICDF(a5), AOM_ICDF(a6), AOM_ICDF(a7), AOM_ICDF(a8), AOM_ICDF(a9), \
+> +	AOM_ICDF(a10), AOM_ICDF(a11), AOM_ICDF(a12), AOM_ICDF(a13), AOM_ICDF(a1=
+4)
+
+> +
+> +const uint8_t av1_partition_probs[NUM_FRAME_TYPES][NUM_PARTITION_CONTEXT=
+S][PARTITION_TYPES] =3D {
+> +	/* 1 byte padding */
+> +	{
+> +		/* frame_type =3D keyframe */
+> +		/* 8x8 -> 4x4 */
+> +		{ 158, 97, 94, 0} /* a/l both not split */,
+> +		{ 93, 24, 99, 0} /* a split, l not split */,
+> +		{ 85, 119, 44, 0} /* l split, a not split */,
+> +		{ 62, 59, 67, 0} /* a/l both split */,
+> +		/* 16x16 -> 8x8 */
+> +		{ 149, 53, 53, 0} /* a/l both not split */,
+> +		{ 94, 20, 48, 0} /* a split, l not split */,
+> +		{ 83, 53, 24, 0} /* l split, a not split */,
+> +		{ 52, 18, 18, 0} /* a/l both split */,
+> +		/* 32x32 -> 16x16 */
+> +		{ 150, 40, 39, 0} /* a/l both not split */,
+> +		{ 78, 12, 26, 0} /* a split, l not split */,
+> +		{ 67, 33, 11, 0} /* l split, a not split */,
+> +		{ 24, 7, 5, 0} /* a/l both split */,
+> +		/* 64x64 -> 32x32 */
+> +		{ 174, 35, 49, 0} /* a/l both not split */,
+> +		{ 68, 11, 27, 0} /* a split, l not split */,
+> +		{ 57, 15, 9, 0} /* l split, a not split */,
+> +		{ 12, 3, 3, 0} /* a/l both split */
+> +	},
+> +	{
+> +		/* frame_type =3D interframe */
+> +		/* 8x8 -> 4x4 */
+> +		{ 199, 122, 141, 0} /* a/l both not split */,
+> +		{ 147, 63, 159, 0} /* a split, l not split */,
+> +		{ 148, 133, 118, 0} /* l split, a not split */,
+> +		{ 121, 104, 114, 0} /* a/l both split */,
+> +		/* 16x16 -> 8x8 */
+> +		{ 174, 73, 87, 0} /* a/l both not split */,
+> +		{ 92, 41, 83, 0} /* a split, l not split */,
+> +		{ 82, 99, 50, 0} /* l split, a not split */,
+> +		{ 53, 39, 39, 0} /* a/l both split */,
+> +		/* 32x32 -> 16x16 */
+> +		{ 177, 58, 59, 0} /* a/l both not split */,
+> +		{ 68, 26, 63, 0} /* a split, l not split */,
+> +		{ 52, 79, 25, 0} /* l split, a not split */,
+> +		{ 17, 14, 12, 0} /* a/l both split */,
+> +		/* 64x64 -> 32x32 */
+> +		{ 222, 34, 30, 0} /* a/l both not split */,
+> +		{ 72, 16, 44, 0} /* a split, l not split */,
+> +		{ 58, 32, 12, 0} /* l split, a not split */,
+> +		{ 10, 7, 6, 0} /* a/l both split */
+> +	}
+> +};
+> +
+> +/* Array indices are identical to previously-existing INTRAMODECONTEXTNO=
+DES. */
+> +const int8_t av1hwd_intra_mode_tree[] =3D {
+> +	-DC_PRED,
+> +	2,			/* 0 =3D DC_NODE */
+> +	-TM_PRED_AV1,
+> +	4,			/* 1 =3D TM_NODE */
+> +	-V_PRED,
+> +	6,			/* 2 =3D V_NODE */
+> +	8,
+> +	12,			/* 3 =3D COM_NODE */
+> +	-H_PRED,
+> +	10,			/* 4 =3D H_NODE */
+> +	-D135_PRED,
+> +	-D117_PRED,		/* 5 =3D D135_NODE */
+> +	-D45_PRED,
+> +	14,			/* 6 =3D D45_NODE */
+> +	-D63_PRED,
+> +	16,			/* 7 =3D D63_NODE */
+> +	-D153_PRED,
+> +	-D27_PRED		/* 8 =3D D153_NODE */
+> +};
+> +
+> +const int8_t av1_sb_mv_ref_tree[6] =3D {
+> +	-ZEROMV, 2, -NEARESTMV,
+> +	4, -NEARMV, -NEWMV
+> +};
+> +
+> +const int8_t av1hwd_partition_tree[6] =3D {
+> +	-PARTITION_NONE, 2, -PARTITION_HORZ,
+> +	4, -PARTITION_VERT, -PARTITION_SPLIT
+> +};
+> +
+> +const int8_t av1_segment_tree[2 * MAX_MB_SEGMENTS - 2] =3D {
+> +	2, 4, 6, 8, 10, 12, 0, -1, -2, -3, -4, -5, -6, -7
+> +};
+> +
+> +const uint8_t av1_default_tx_probs_32x32p[TX_SIZE_CONTEXTS][TX_SIZE_MAX_=
+SB - 1] =3D {
+> +	{ 3, 136, 37, },
+> +	{ 5, 52, 13, },
+> +};
+> +
+> +const uint8_t av1_default_tx_probs_16x16p[TX_SIZE_CONTEXTS][TX_SIZE_MAX_=
+SB - 2] =3D {
+> +	{ 20, 152, },
+> +	{ 15, 101, },
+> +};
+> +
+> +const uint8_t av1_default_tx_probs_8x8p[TX_SIZE_CONTEXTS][TX_SIZE_MAX_SB=
+ - 3] =3D {
+> +	{ 100, },
+> +	{ 66, },
+> +};
+> +
+> +const uint8_t av1_default_mbskip_probs[MBSKIP_CONTEXTS] =3D { 192, 128, =
+64};
+> +
+> +const uint8_t av1_default_intra_ext_tx_prob[EXT_TX_SIZES][TX_TYPES][TX_T=
+YPES - 1] =3D {
+> +	{ { 240, 85, 128}, { 4, 1, 248}, { 4, 1, 8}, { 4, 248, 128} },
+> +	{ { 244, 85, 128}, { 8, 2, 248}, { 8, 2, 8}, { 8, 248, 128} },
+> +	{ { 248, 85, 128}, { 16, 4, 248}, { 16, 4, 8}, { 16, 248, 128} },
+> +};
+> +
+> +const uint8_t av1_default_inter_ext_tx_prob[EXT_TX_SIZES][TX_TYPES - 1] =
+=3D {
+> +	{ 160, 85, 128 },
+> +	{ 176, 85, 128 },
+> +	{ 192, 85, 128 },
+> +};
+> +
+> +const uint8_t av1_default_motion_mode_prob[MOTION_MODE_CONTEXTS][MOTION_=
+MODE_COUNT - 1] =3D {
+> +	{ 151 }, { 153 }, { 144 }, { 178 },
+> +	{ 165 }, { 160 }, { 207 }, { 195 },
+> +	{ 168 }, { 244 }
+> +};
+> +
+> +static const uint16_t default_kf_y_mode_cdf
+> +	[KF_MODE_CONTEXTS][KF_MODE_CONTEXTS][CDF_SIZE(AV1_INTRA_MODES)] =3D {
+> +	{
+> +		{
+> +			AOM_CDF13(15588, 17027, 19338, 20218, 20682, 21110,
+> +				  21825, 23244, 24189, 28165, 29093, 30466)
+> +		},
+> +		{
+> +			AOM_CDF13(12016, 18066, 19516, 20303, 20719, 21444,
+> +				  21888, 23032, 24434, 28658, 30172, 31409)
+> +		},
+> +		{
+> +			AOM_CDF13(10052, 10771, 22296, 22788, 23055, 23239,
+> +				  24133, 25620, 26160, 29336, 29929, 31567)
+> +		},
+> +		{
+> +			AOM_CDF13(14091, 15406, 16442, 18808, 19136, 19546,
+> +				  19998, 22096, 24746, 29585, 30958, 32462)
+> +		},
+> +		{
+> +			AOM_CDF13(12122, 13265, 15603, 16501, 18609, 20033,
+> +				  22391, 25583, 26437, 30261, 31073, 32475)
+> +		}
+> +	},
+> +	{
+> +		{
+> +			AOM_CDF13(10023, 19585, 20848, 21440, 21832, 22760,
+> +				  23089, 24023, 25381, 29014, 30482, 31436)
+> +		},
+> +		{
+> +			AOM_CDF13(5983, 24099, 24560, 24886, 25066, 25795,
+> +				  25913, 26423, 27610, 29905, 31276, 31794)
+> +		},
+> +		{
+> +			AOM_CDF13(7444, 12781, 20177, 20728, 21077, 21607,
+> +				  22170, 23405, 24469, 27915, 29090, 30492)
+> +		},
+> +		{
+> +			AOM_CDF13(8537, 14689, 15432, 17087, 17408, 18172,
+> +				  18408, 19825, 24649, 29153, 31096, 32210)
+> +		},
+> +		{
+> +			AOM_CDF13(7543, 14231, 15496, 16195, 17905, 20717,
+> +				  21984, 24516, 26001, 29675, 30981, 31994)
+> +		}
+> +	},
+> +	{
+> +		{
+> +			AOM_CDF13(12613, 13591, 21383, 22004, 22312, 22577,
+> +				  23401, 25055, 25729, 29538, 30305, 32077)
+> +		},
+> +		{
+> +			AOM_CDF13(9687, 13470, 18506, 19230, 19604, 20147,
+> +				  20695, 22062, 23219, 27743, 29211, 30907)
+> +		},
+> +		{
+> +			AOM_CDF13(6183, 6505, 26024, 26252, 26366, 26434,
+> +				  27082, 28354, 28555, 30467, 30794, 32086)
+> +		},
+> +		{
+> +			AOM_CDF13(10718, 11734, 14954, 17224, 17565, 17924,
+> +				  18561, 21523, 23878, 28975, 30287, 32252)
+> +		},
+> +		{
+> +			AOM_CDF13(9194, 9858, 16501, 17263, 18424, 19171,
+> +				  21563, 25961, 26561, 30072, 30737, 32463)
+> +		}
+> +	},
+> +	{
+> +		{
+> +			AOM_CDF13(12602, 14399, 15488, 18381, 18778, 19315,
+> +				  19724, 21419, 25060, 29696, 30917, 32409)
+> +		},
+> +		{
+> +			AOM_CDF13(8203, 13821, 14524, 17105, 17439, 18131,
+> +				  18404, 19468, 25225, 29485, 31158, 32342)
+> +		},
+> +		{
+> +			AOM_CDF13(8451, 9731, 15004, 17643, 18012, 18425,
+> +				  19070, 21538, 24605, 29118, 30078, 32018)
+> +		},
+> +		{
+> +			AOM_CDF13(7714, 9048, 9516, 16667, 16817, 16994,
+> +				  17153, 18767, 26743, 30389, 31536, 32528)
+> +		},
+> +		{
+> +			AOM_CDF13(8843, 10280, 11496, 15317, 16652, 17943,
+> +				  19108, 22718, 25769, 29953, 30983, 32485)
+> +		}
+> +	},
+> +	{
+> +		{
+> +			AOM_CDF13(12578, 13671, 15979, 16834, 19075, 20913,
+> +				  22989, 25449, 26219, 30214, 31150, 32477)
+> +		},
+> +		{
+> +			AOM_CDF13(9563, 13626, 15080, 15892, 17756, 20863,
+> +				  22207, 24236, 25380, 29653, 31143, 32277)
+> +		},
+> +		{
+> +			AOM_CDF13(8356, 8901, 17616, 18256, 19350, 20106,
+> +				  22598, 25947, 26466, 29900, 30523, 32261)
+> +		},
+> +		{
+> +			AOM_CDF13(10835, 11815, 13124, 16042, 17018, 18039,
+> +				  18947, 22753, 24615, 29489, 30883, 32482)
+> +		},
+> +		{
+> +			AOM_CDF13(7618, 8288, 9859, 10509, 15386, 18657,
+> +				  22903, 28776, 29180, 31355, 31802, 32593)
+> +		}
+> +	}
+> +};
+> +
+> +static const uint16_t default_angle_delta_cdf[DIRECTIONAL_MODES]
+> +	[CDF_SIZE(2 * MAX_ANGLE_DELTA + 1)] =3D {
+> +	{ AOM_CDF7(2180, 5032, 7567, 22776, 26989, 30217) },
+> +	{ AOM_CDF7(2301, 5608, 8801, 23487, 26974, 30330) },
+> +	{ AOM_CDF7(3780, 11018, 13699, 19354, 23083, 31286) },
+> +	{ AOM_CDF7(4581, 11226, 15147, 17138, 21834, 28397) },
+> +	{ AOM_CDF7(1737, 10927, 14509, 19588, 22745, 28823) },
+> +	{ AOM_CDF7(2664, 10176, 12485, 17650, 21600, 30495) },
+> +	{ AOM_CDF7(2240, 11096, 15453, 20341, 22561, 28917) },
+> +	{ AOM_CDF7(3605, 10428, 12459, 17676, 21244, 30655) }
+> +};
+> +
+> +static const uint16_t default_if_y_mode_cdf[BLOCK_SIZE_GROUPS][CDF_SIZE(=
+AV1_INTRA_MODES)] =3D {
+> +	{
+> +		AOM_CDF13(22801, 23489, 24293, 24756, 25601, 26123,
+> +			  26606, 27418, 27945, 29228, 29685, 30349)
+> +	},
+> +	{
+> +		AOM_CDF13(18673, 19845, 22631, 23318, 23950, 24649,
+> +			  25527, 27364, 28152, 29701, 29984, 30852)
+> +	},
+> +	{
+> +		AOM_CDF13(19770, 20979, 23396, 23939, 24241, 24654,
+> +			  25136, 27073, 27830, 29360, 29730, 30659)
+> +	},
+> +	{
+> +		AOM_CDF13(20155, 21301, 22838, 23178, 23261, 23533,
+> +			  23703, 24804, 25352, 26575, 27016, 28049)
+> +	}
+> +};
+> +
+> +static const uint16_t default_uv_mode_cdf[CFL_ALLOWED_TYPES]
+> +	[AV1_INTRA_MODES][CDF_SIZE(UV_INTRA_MODES)] =3D {
+> +	{
+> +		{
+> +			AOM_CDF13(22631, 24152, 25378, 25661, 25986, 26520,
+> +				  27055, 27923, 28244, 30059, 30941, 31961)
+> +		},
+> +		{
+> +			AOM_CDF13(9513, 26881, 26973, 27046, 27118, 27664,
+> +				  27739, 27824, 28359, 29505, 29800, 31796)
+> +		},
+> +		{
+> +			AOM_CDF13(9845, 9915, 28663, 28704, 28757, 28780,
+> +				  29198, 29822, 29854, 30764, 31777, 32029)
+> +		},
+> +		{
+> +			AOM_CDF13(13639, 13897, 14171, 25331, 25606, 25727,
+> +				  25953, 27148, 28577, 30612, 31355, 32493)
+> +		},
+> +		{
+> +			AOM_CDF13(9764, 9835, 9930, 9954, 25386, 27053,
+> +				  27958, 28148, 28243, 31101, 31744, 32363)
+> +		},
+> +		{
+> +			AOM_CDF13(11825, 13589, 13677, 13720, 15048, 29213,
+> +				  29301, 29458, 29711, 31161, 31441, 32550)
+> +		},
+> +		{
+> +			AOM_CDF13(14175, 14399, 16608, 16821, 17718, 17775,
+> +				  28551, 30200, 30245, 31837, 32342, 32667)
+> +		},
+> +		{
+> +			AOM_CDF13(12885, 13038, 14978, 15590, 15673, 15748,
+> +				  16176, 29128, 29267, 30643, 31961, 32461)
+> +		},
+> +		{
+> +			AOM_CDF13(12026, 13661, 13874, 15305, 15490, 15726,
+> +				  15995, 16273, 28443, 30388, 30767, 32416)
+> +		},
+> +		{
+> +			AOM_CDF13(19052, 19840, 20579, 20916, 21150, 21467,
+> +				  21885, 22719, 23174, 28861, 30379, 32175)
+> +		},
+> +		{
+> +			AOM_CDF13(18627, 19649, 20974, 21219, 21492, 21816,
+> +				  22199, 23119, 23527, 27053, 31397, 32148)
+> +		},
+> +		{
+> +			AOM_CDF13(17026, 19004, 19997, 20339, 20586, 21103,
+> +				  21349, 21907, 22482, 25896, 26541, 31819)
+> +		},
+> +		{
+> +			AOM_CDF13(12124, 13759, 14959, 14992, 15007, 15051,
+> +				  15078, 15166, 15255, 15753, 16039, 16606)
+> +		}
+> +	},
+> +	{
+> +		{
+> +			AOM_CDF14(10407, 11208, 12900, 13181, 13823, 14175,
+> +				  14899, 15656, 15986, 20086, 20995, 22455,
+> +				  24212)
+> +		},
+> +		{
+> +			AOM_CDF14(4532, 19780, 20057, 20215, 20428, 21071,
+> +				  21199, 21451, 22099, 24228, 24693, 27032,
+> +				  29472)
+> +		},
+> +		{
+> +			AOM_CDF14(5273, 5379, 20177, 20270, 20385, 20439,
+> +				  20949, 21695, 21774, 23138, 24256, 24703,
+> +				  26679)
+> +		},
+> +		{
+> +			AOM_CDF14(6740, 7167, 7662, 14152, 14536, 14785,
+> +				  15034, 16741, 18371, 21520, 22206, 23389,
+> +				  24182)
+> +		},
+> +		{
+> +			AOM_CDF14(4987, 5368, 5928, 6068, 19114, 20315, 21857,
+> +				  22253, 22411, 24911, 25380, 26027, 26376)
+> +		},
+> +		{
+> +			AOM_CDF14(5370, 6889, 7247, 7393, 9498, 21114, 21402,
+> +				  21753, 21981, 24780, 25386, 26517, 27176)
+> +		},
+> +		{
+> +			AOM_CDF14(4816, 4961, 7204, 7326, 8765, 8930, 20169,
+> +				  20682, 20803, 23188, 23763, 24455, 24940)
+> +		},
+> +		{
+> +			AOM_CDF14(6608, 6740, 8529, 9049, 9257, 9356, 9735,
+> +				  18827, 19059, 22336, 23204, 23964, 24793)
+> +		},
+> +		{
+> +			AOM_CDF14(5998, 7419, 7781, 8933, 9255, 9549, 9753,
+> +				  10417, 18898, 22494, 23139, 24764, 25989)
+> +		},
+> +		{
+> +			AOM_CDF14(10660, 11298, 12550, 12957, 13322, 13624,
+> +				  14040, 15004, 15534, 20714, 21789, 23443,
+> +				  24861)
+> +		},
+> +		{
+> +			AOM_CDF14(10522, 11530, 12552, 12963, 13378, 13779,
+> +				  14245, 15235, 15902, 20102, 22696, 23774,
+> +				  25838)
+> +		},
+> +		{
+> +			AOM_CDF14(10099, 10691, 12639, 13049, 13386, 13665,
+> +				  14125, 15163, 15636, 19676, 20474, 23519,
+> +				  25208)
+> +		},
+> +		{
+> +			AOM_CDF14(3144, 5087, 7382, 7504, 7593, 7690, 7801,
+> +				  8064, 8232, 9248, 9875, 10521, 29048)
+> +		}
+> +	}
+> +};
+> +
+> +static const uint16_t default_partition_cdf[13][16] =3D {
+> +	{
+> +		AOM_CDF4(19132, 25510, 30392), AOM_CDF4(13928, 19855, 28540),
+> +		AOM_CDF4(12522, 23679, 28629), AOM_CDF4(9896, 18783, 25853),
+> +		AOM_CDF2(11570), AOM_CDF2(16855), AOM_CDF3(9413, 22581)
+> +	},
+> +	{
+> +		AOM_CDF10(15597, 20929, 24571, 26706, 27664, 28821, 29601, 30571, 3190=
+2)
+> +	},
+> +	{
+> +		AOM_CDF10(7925, 11043, 16785, 22470, 23971, 25043, 26651, 28701, 29834=
+)
+> +	},
+> +	{
+> +		AOM_CDF10(5414, 13269, 15111, 20488, 22360, 24500, 25537, 26336, 32117=
+)
+> +	},
+> +	{
+> +		AOM_CDF10(2662, 6362, 8614, 20860, 23053, 24778, 26436, 27829, 31171)
+> +	},
+> +	{
+> +		AOM_CDF10(18462, 20920, 23124, 27647, 28227, 29049, 29519, 30178, 3154=
+4)
+> +	},
+> +	{
+> +		AOM_CDF10(7689, 9060, 12056, 24992, 25660, 26182, 26951, 28041, 29052)
+> +	},
+> +	{
+> +		AOM_CDF10(6015, 9009, 10062, 24544, 25409, 26545, 27071, 27526, 32047)
+> +	},
+> +	{
+> +		AOM_CDF10(1394, 2208, 2796, 28614, 29061, 29466, 29840, 30185, 31899)
+> +	},
+> +	{
+> +		AOM_CDF10(20137, 21547, 23078, 29566, 29837, 30261, 30524, 30892, 3172=
+4),
+> +		AOM_CDF8(27899, 28219, 28529, 32484, 32539, 32619, 32639)
+> +	},
+> +	{
+> +		AOM_CDF10(6732, 7490, 9497, 27944, 28250, 28515, 28969, 29630, 30104),
+> +		AOM_CDF8(6607, 6990, 8268, 32060, 32219, 32338, 32371)
+> +	},
+> +	{
+> +		AOM_CDF10(5945, 7663, 8348, 28683, 29117, 29749, 30064, 30298, 32238),
+> +		AOM_CDF8(5429, 6676, 7122, 32027, 32227, 32531, 32582)
+> +	},
+> +	{
+> +		AOM_CDF10(870, 1212, 1487, 31198, 31394, 31574, 31743, 31881, 32332),
+> +		AOM_CDF8(711, 966, 1172, 32448, 32538, 32617, 32664)
+> +	},
+> +};
+> +
+> +static const uint16_t default_intra_ext_tx0_cdf[EXTTX_SIZES][AV1_INTRA_M=
+ODES][8] =3D {
+> +	{
+> +		{ AOM_CDF7(1535, 8035, 9461, 12751, 23467, 27825)},
+> +		{ AOM_CDF7(564, 3335, 9709, 10870, 18143, 28094)},
+> +		{ AOM_CDF7(672, 3247, 3676, 11982, 19415, 23127)},
+> +		{ AOM_CDF7(5279, 13885, 15487, 18044, 23527, 30252)},
+> +		{ AOM_CDF7(4423, 6074, 7985, 10416, 25693, 29298)},
+> +		{ AOM_CDF7(1486, 4241, 9460, 10662, 16456, 27694)},
+> +		{ AOM_CDF7(439, 2838, 3522, 6737, 18058, 23754)},
+> +		{ AOM_CDF7(1190, 4233, 4855, 11670, 20281, 24377)},
+> +		{ AOM_CDF7(1045, 4312, 8647, 10159, 18644, 29335)},
+> +		{ AOM_CDF7(202, 3734, 4747, 7298, 17127, 24016)},
+> +		{ AOM_CDF7(447, 4312, 6819, 8884, 16010, 23858)},
+> +		{ AOM_CDF7(277, 4369, 5255, 8905, 16465, 22271)},
+> +		{ AOM_CDF7(3409, 5436, 10599, 15599, 19687, 24040)},
+> +	},
+> +	{
+> +		{ AOM_CDF7(1870, 13742, 14530, 16498, 23770, 27698)},
+> +		{ AOM_CDF7(326, 8796, 14632, 15079, 19272, 27486)},
+> +		{ AOM_CDF7(484, 7576, 7712, 14443, 19159, 22591)},
+> +		{ AOM_CDF7(1126, 15340, 15895, 17023, 20896, 30279)},
+> +		{ AOM_CDF7(655, 4854, 5249, 5913, 22099, 27138)},
+> +		{ AOM_CDF7(1299, 6458, 8885, 9290, 14851, 25497)},
+> +		{ AOM_CDF7(311, 5295, 5552, 6885, 16107, 22672)},
+> +		{ AOM_CDF7(883, 8059, 8270, 11258, 17289, 21549)},
+> +		{ AOM_CDF7(741, 7580, 9318, 10345, 16688, 29046)},
+> +		{ AOM_CDF7(110, 7406, 7915, 9195, 16041, 23329)},
+> +		{ AOM_CDF7(363, 7974, 9357, 10673, 15629, 24474)},
+> +		{ AOM_CDF7(153, 7647, 8112, 9936, 15307, 19996)},
+> +		{ AOM_CDF7(3511, 6332, 11165, 15335, 19323, 23594)},
+> +	},
+> +	{
+> +		{ AOM_CDF7(4681, 9362, 14043, 18725, 23406, 28087)},
+> +		{ AOM_CDF7(4681, 9362, 14043, 18725, 23406, 28087)},
+> +		{ AOM_CDF7(4681, 9362, 14043, 18725, 23406, 28087)},
+> +		{ AOM_CDF7(4681, 9362, 14043, 18725, 23406, 28087)},
+> +		{ AOM_CDF7(4681, 9362, 14043, 18725, 23406, 28087)},
+> +		{ AOM_CDF7(4681, 9362, 14043, 18725, 23406, 28087)},
+> +		{ AOM_CDF7(4681, 9362, 14043, 18725, 23406, 28087)},
+> +		{ AOM_CDF7(4681, 9362, 14043, 18725, 23406, 28087)},
+> +		{ AOM_CDF7(4681, 9362, 14043, 18725, 23406, 28087)},
+> +		{ AOM_CDF7(4681, 9362, 14043, 18725, 23406, 28087)},
+> +		{ AOM_CDF7(4681, 9362, 14043, 18725, 23406, 28087)},
+> +		{ AOM_CDF7(4681, 9362, 14043, 18725, 23406, 28087)},
+> +		{ AOM_CDF7(4681, 9362, 14043, 18725, 23406, 28087)},
+> +	},
+> +	{
+> +		{ AOM_CDF7(4681, 9362, 14043, 18725, 23406, 28087)},
+> +		{ AOM_CDF7(4681, 9362, 14043, 18725, 23406, 28087)},
+> +		{ AOM_CDF7(4681, 9362, 14043, 18725, 23406, 28087)},
+> +		{ AOM_CDF7(4681, 9362, 14043, 18725, 23406, 28087)},
+> +		{ AOM_CDF7(4681, 9362, 14043, 18725, 23406, 28087)},
+> +		{ AOM_CDF7(4681, 9362, 14043, 18725, 23406, 28087)},
+> +		{ AOM_CDF7(4681, 9362, 14043, 18725, 23406, 28087)},
+> +		{ AOM_CDF7(4681, 9362, 14043, 18725, 23406, 28087)},
+> +		{ AOM_CDF7(4681, 9362, 14043, 18725, 23406, 28087)},
+> +		{ AOM_CDF7(4681, 9362, 14043, 18725, 23406, 28087)},
+> +		{ AOM_CDF7(4681, 9362, 14043, 18725, 23406, 28087)},
+> +		{ AOM_CDF7(4681, 9362, 14043, 18725, 23406, 28087)},
+> +		{ AOM_CDF7(4681, 9362, 14043, 18725, 23406, 28087)},
+> +	},
+> +};
+> +
+> +static const uint16_t default_intra_ext_tx1_cdf[EXTTX_SIZES][AV1_INTRA_M=
+ODES][4] =3D {
+> +	{
+> +		{ AOM_CDF5(6554, 13107, 19661, 26214)},
+> +		{ AOM_CDF5(6554, 13107, 19661, 26214)},
+> +		{ AOM_CDF5(6554, 13107, 19661, 26214)},
+> +		{ AOM_CDF5(6554, 13107, 19661, 26214)},
+> +		{ AOM_CDF5(6554, 13107, 19661, 26214)},
+> +		{ AOM_CDF5(6554, 13107, 19661, 26214)},
+> +		{ AOM_CDF5(6554, 13107, 19661, 26214)},
+> +		{ AOM_CDF5(6554, 13107, 19661, 26214)},
+> +		{ AOM_CDF5(6554, 13107, 19661, 26214)},
+> +		{ AOM_CDF5(6554, 13107, 19661, 26214)},
+> +		{ AOM_CDF5(6554, 13107, 19661, 26214)},
+> +		{ AOM_CDF5(6554, 13107, 19661, 26214)},
+> +		{ AOM_CDF5(6554, 13107, 19661, 26214)},
+> +	},
+> +	{
+> +		{ AOM_CDF5(6554, 13107, 19661, 26214)},
+> +		{ AOM_CDF5(6554, 13107, 19661, 26214)},
+> +		{ AOM_CDF5(6554, 13107, 19661, 26214)},
+> +		{ AOM_CDF5(6554, 13107, 19661, 26214)},
+> +		{ AOM_CDF5(6554, 13107, 19661, 26214)},
+> +		{ AOM_CDF5(6554, 13107, 19661, 26214)},
+> +		{ AOM_CDF5(6554, 13107, 19661, 26214)},
+> +		{ AOM_CDF5(6554, 13107, 19661, 26214)},
+> +		{ AOM_CDF5(6554, 13107, 19661, 26214)},
+> +		{ AOM_CDF5(6554, 13107, 19661, 26214)},
+> +		{ AOM_CDF5(6554, 13107, 19661, 26214)},
+> +		{ AOM_CDF5(6554, 13107, 19661, 26214)},
+> +		{ AOM_CDF5(6554, 13107, 19661, 26214)},
+> +	},
+> +	{
+> +		{ AOM_CDF5(1127, 12814, 22772, 27483)},
+> +		{ AOM_CDF5(145, 6761, 11980, 26667)},
+> +		{ AOM_CDF5(362, 5887, 11678, 16725)},
+> +		{ AOM_CDF5(385, 15213, 18587, 30693)},
+> +		{ AOM_CDF5(25, 2914, 23134, 27903)},
+> +		{ AOM_CDF5(60, 4470, 11749, 23991)},
+> +		{ AOM_CDF5(37, 3332, 14511, 21448)},
+> +		{ AOM_CDF5(157, 6320, 13036, 17439)},
+> +		{ AOM_CDF5(119, 6719, 12906, 29396)},
+> +		{ AOM_CDF5(47, 5537, 12576, 21499)},
+> +		{ AOM_CDF5(269, 6076, 11258, 23115)},
+> +		{ AOM_CDF5(83, 5615, 12001, 17228)},
+> +		{ AOM_CDF5(1968, 5556, 12023, 18547)},
+> +	},
+> +	{
+> +		{ AOM_CDF5(6554, 13107, 19661, 26214)},
+> +		{ AOM_CDF5(6554, 13107, 19661, 26214)},
+> +		{ AOM_CDF5(6554, 13107, 19661, 26214)},
+> +		{ AOM_CDF5(6554, 13107, 19661, 26214)},
+> +		{ AOM_CDF5(6554, 13107, 19661, 26214)},
+> +		{ AOM_CDF5(6554, 13107, 19661, 26214)},
+> +		{ AOM_CDF5(6554, 13107, 19661, 26214)},
+> +		{ AOM_CDF5(6554, 13107, 19661, 26214)},
+> +		{ AOM_CDF5(6554, 13107, 19661, 26214)},
+> +		{ AOM_CDF5(6554, 13107, 19661, 26214)},
+> +		{ AOM_CDF5(6554, 13107, 19661, 26214)},
+> +		{ AOM_CDF5(6554, 13107, 19661, 26214)},
+> +		{ AOM_CDF5(6554, 13107, 19661, 26214)},
+> +	},
+> +};
+> +
+> +static const uint16_t default_inter_ext_tx_cdf[2][EXTTX_SIZES][EXT_TX_TY=
+PES] =3D {
+> +	{
+> +		{
+> +			AOM_CDF16(4458, 5560, 7695, 9709, 13330, 14789, 17537, 20266,
+> +				  21504, 22848, 23934, 25474, 27727, 28915, 30631)
+> +		},
+> +		{
+> +			AOM_CDF16(1645, 2573, 4778, 5711, 7807, 8622, 10522, 15357, 17674,
+> +				  20408, 22517, 25010, 27116, 28856, 30749)
+> +		},
+> +		{
+> +			AOM_CDF16(2048, 4096, 6144, 8192, 10240, 12288, 14336, 16384,
+> +				  18432, 20480, 22528, 24576, 26624, 28672, 30720)
+> +		},
+> +		{
+> +			AOM_CDF16(2048, 4096, 6144, 8192, 10240, 12288, 14336, 16384,
+> +				  18432, 20480, 22528, 24576, 26624, 28672, 30720)
+> +		},
+> +	},
+> +	{
+> +		{
+> +			AOM_CDF12(2731, 5461, 8192, 10923, 13653, 16384, 19115, 21845,
+> +				 24576, 27307, 30037),
+> +			AOM_CDF2(16384)
+> +		},
+> +		{
+> +			AOM_CDF12(2731, 5461, 8192, 10923, 13653, 16384, 19115, 21845,
+> +				  24576, 27307, 30037),
+> +			AOM_CDF2(4167)
+> +		},
+> +		{
+> +			AOM_CDF12(770, 2421, 5225, 12907, 15819, 18927, 21561, 24089,
+> +				  26595, 28526, 30529),
+> +			AOM_CDF2(1998)
+> +		},
+> +		{
+> +			AOM_CDF12(2731, 5461, 8192, 10923, 13653, 16384, 19115, 21845,
+> +				  24576, 27307, 30037),
+> +			AOM_CDF2(748)
+> +		},
+> +	}
+> +};
+> +
+> +static const uint16_t default_cfl_sign_cdf[CDF_SIZE(CFL_JOINT_SIGNS)] =
+=3D {
+> +	AOM_CDF8(1418, 2123, 13340, 18405, 26972, 28343, 32294)
+> +};
+> +
+> +static const uint16_t default_cfl_alpha_cdf[CFL_ALPHA_CONTEXTS][CDF_SIZE=
+(CFL_ALPHABET_SIZE)] =3D {
+> +	{
+> +		AOM_CDF16(7637, 20719, 31401, 32481, 32657, 32688, 32692, 32696, 32700=
+,
+> +			  32704, 32708, 32712, 32716, 32720, 32724)
+> +	},
+> +	{
+> +		AOM_CDF16(14365, 23603, 28135, 31168, 32167, 32395, 32487, 32573,
+> +			  32620, 32647, 32668, 32672, 32676, 32680, 32684)
+> +	},
+> +	{
+> +		AOM_CDF16(11532, 22380, 28445, 31360, 32349, 32523, 32584, 32649,
+> +			 32673, 32677, 32681, 32685, 32689, 32693, 32697)
+> +	},
+> +	{
+> +		AOM_CDF16(26990, 31402, 32282, 32571, 32692, 32696, 32700, 32704,
+> +			  32708, 32712, 32716, 32720, 32724, 32728, 32732)
+> +	},
+> +	{
+> +		AOM_CDF16(17248, 26058, 28904, 30608, 31305, 31877, 32126, 32321,
+> +			  32394, 32464, 32516, 32560, 32576, 32593, 32622)
+> +	},
+> +	{
+> +		AOM_CDF16(14738, 21678, 25779, 27901, 29024, 30302, 30980, 31843,
+> +			  32144, 32413, 32520, 32594, 32622, 32656, 32660)
+> +	}
+> +};
+> +
+> +static const uint16_t default_switchable_interp_cdf[SWITCHABLE_FILTER_CO=
+NTEXTS]
+> +	[CDF_SIZE(AV1_SWITCHABLE_FILTERS)] =3D {
+> +		{ AOM_CDF3(31935, 32720) }, { AOM_CDF3(5568, 32719) },
+> +		{ AOM_CDF3(422, 2938) }, { AOM_CDF3(28244, 32608) },
+> +		{ AOM_CDF3(31206, 31953) }, { AOM_CDF3(4862, 32121) },
+> +		{ AOM_CDF3(770, 1152) }, { AOM_CDF3(20889, 25637) },
+> +		{ AOM_CDF3(31910, 32724) }, { AOM_CDF3(4120, 32712) },
+> +		{ AOM_CDF3(305, 2247) }, { AOM_CDF3(27403, 32636) },
+> +		{ AOM_CDF3(31022, 32009) }, { AOM_CDF3(2963, 32093) },
+> +		{ AOM_CDF3(601, 943) }, { AOM_CDF3(14969, 21398) }
+> +};
+> +
+> +static const uint16_t default_newmv_cdf[NEWMV_MODE_CONTEXTS][CDF_SIZE(2)=
+] =3D {
+> +	{ AOM_CDF2(24035) }, { AOM_CDF2(16630) }, { AOM_CDF2(15339) },
+> +	{ AOM_CDF2(8386) }, { AOM_CDF2(12222) }, { AOM_CDF2(4676) }
+> +};
+> +
+> +static const uint16_t default_zeromv_cdf[GLOBALMV_MODE_CONTEXTS][CDF_SIZ=
+E(2)] =3D {
+> +	{ AOM_CDF2(2175) }, { AOM_CDF2(1054) }
+> +};
+> +
+> +static const uint16_t default_refmv_cdf[REFMV_MODE_CONTEXTS][CDF_SIZE(2)=
+] =3D {
+> +	{ AOM_CDF2(23974) }, { AOM_CDF2(24188) }, { AOM_CDF2(17848) },
+> +	{ AOM_CDF2(28622) }, { AOM_CDF2(24312) }, { AOM_CDF2(19923) }
+> +};
+> +
+> +static const uint16_t default_drl_cdf[DRL_MODE_CONTEXTS][CDF_SIZE(2)] =
+=3D {
+> +	{ AOM_CDF2(13104) }, { AOM_CDF2(24560) }, { AOM_CDF2(18945) }
+> +};
+> +
+> +static const uint16_t default_inter_compound_mode_cdf[AV1_INTER_MODE_CON=
+TEXTS]
+> +	[CDF_SIZE(INTER_COMPOUND_MODES)] =3D {
+> +		{ AOM_CDF8(7760, 13823, 15808, 17641, 19156, 20666, 26891) },
+> +		{ AOM_CDF8(10730, 19452, 21145, 22749, 24039, 25131, 28724) },
+> +		{ AOM_CDF8(10664, 20221, 21588, 22906, 24295, 25387, 28436) },
+> +		{ AOM_CDF8(13298, 16984, 20471, 24182, 25067, 25736, 26422) },
+> +		{ AOM_CDF8(18904, 23325, 25242, 27432, 27898, 28258, 30758) },
+> +		{ AOM_CDF8(10725, 17454, 20124, 22820, 24195, 25168, 26046) },
+> +		{ AOM_CDF8(17125, 24273, 25814, 27492, 28214, 28704, 30592) },
+> +		{ AOM_CDF8(13046, 23214, 24505, 25942, 27435, 28442, 29330) }
+> +};
+> +
+> +static const uint16_t default_interintra_cdf[BLOCK_SIZE_GROUPS][CDF_SIZE=
+(2)] =3D {
+> +	{ AOM_CDF2(16384) }, { AOM_CDF2(26887) }, { AOM_CDF2(27597) },
+> +	{ AOM_CDF2(30237) }
+> +};
+> +
+> +static const uint16_t default_interintra_mode_cdf[BLOCK_SIZE_GROUPS][CDF=
+_SIZE(INTERINTRA_MODES)] =3D {
+> +	{ AOM_CDF4(8192, 16384, 24576) },
+> +	{ AOM_CDF4(1875, 11082, 27332) },
+> +	{ AOM_CDF4(2473, 9996, 26388) },
+> +	{ AOM_CDF4(4238, 11537, 25926) }
+> +};
+> +
+> +static const uint16_t default_wedge_interintra_cdf[BLOCK_SIZES_ALL][CDF_=
+SIZE(2)] =3D {
+> +	{ AOM_CDF2(16384) }, { AOM_CDF2(16384) }, { AOM_CDF2(16384) },
+> +	{ AOM_CDF2(20036) }, { AOM_CDF2(24957) }, { AOM_CDF2(26704) },
+> +	{ AOM_CDF2(27530) }, { AOM_CDF2(29564) }, { AOM_CDF2(29444) },
+> +	{ AOM_CDF2(26872) }, { AOM_CDF2(16384) }, { AOM_CDF2(16384) },
+> +	{ AOM_CDF2(16384) }, { AOM_CDF2(16384) }, { AOM_CDF2(16384) },
+> +	{ AOM_CDF2(16384) }, { AOM_CDF2(16384) }, { AOM_CDF2(16384) },
+> +	{ AOM_CDF2(16384) }, { AOM_CDF2(16384) }, { AOM_CDF2(16384) },
+> +	{ AOM_CDF2(16384) }
+> +};
+> +
+> +static const uint16_t default_compound_type_cdf[BLOCK_SIZES_ALL][CDF_SIZ=
+E(COMPOUND_TYPES - 1)] =3D {
+> +	{ AOM_CDF2(16384) }, { AOM_CDF2(16384) }, { AOM_CDF2(16384) },
+> +	{ AOM_CDF2(23431) },
+> +	{ AOM_CDF2(13171) }, { AOM_CDF2(11470) }, { AOM_CDF2(9770) },
+> +	{ AOM_CDF2(9100) },
+> +	{ AOM_CDF2(8233) }, { AOM_CDF2(6172) }, { AOM_CDF2(16384) },
+> +	{ AOM_CDF2(16384) },
+> +	{ AOM_CDF2(16384) }, { AOM_CDF2(16384) }, { AOM_CDF2(16384) },
+> +	{ AOM_CDF2(16384) },
+> +	{ AOM_CDF2(16384) }, { AOM_CDF2(16384) }, { AOM_CDF2(11820) },
+> +	{ AOM_CDF2(7701) },
+> +	{ AOM_CDF2(16384) }, { AOM_CDF2(16384) }
+> +};
+> +
+> +static const uint16_t default_wedge_idx_cdf[BLOCK_SIZES_ALL][CDF_SIZE(16=
+)] =3D {
+> +	{
+> +		AOM_CDF16(2048, 4096, 6144, 8192, 10240, 12288, 14336, 16384,
+> +			  18432, 20480, 22528, 24576, 26624, 28672, 30720)
+> +	},
+> +	{
+> +		AOM_CDF16(2048, 4096, 6144, 8192, 10240, 12288, 14336, 16384,
+> +			  18432, 20480, 22528, 24576, 26624, 28672, 30720)
+> +	},
+> +	{
+> +		AOM_CDF16(2048, 4096, 6144, 8192, 10240, 12288, 14336, 16384,
+> +			  18432, 20480, 22528, 24576, 26624, 28672, 30720)
+> +	},
+> +	{
+> +		AOM_CDF16(2438, 4440, 6599, 8663, 11005, 12874, 15751, 18094,
+> +			  20359, 22362, 24127, 25702, 27752, 29450, 31171)
+> +	},
+> +	{
+> +		AOM_CDF16(806, 3266, 6005, 6738, 7218, 7367, 7771, 14588, 16323,
+> +			  17367, 18452, 19422, 22839, 26127, 29629)
+> +	},
+> +	{
+> +		AOM_CDF16(2779, 3738, 4683, 7213, 7775, 8017, 8655, 14357, 17939,
+> +			  21332, 24520, 27470, 29456, 30529, 31656)
+> +	},
+> +	{
+> +		AOM_CDF16(1684, 3625, 5675, 7108, 9302, 11274, 14429, 17144, 19163,
+> +			  20961, 22884, 24471, 26719, 28714, 30877)
+> +	},
+> +	{
+> +		AOM_CDF16(1142, 3491, 6277, 7314, 8089, 8355, 9023, 13624, 15369,
+> +			  16730, 18114, 19313, 22521, 26012, 29550)
+> +	},
+> +	{
+> +		AOM_CDF16(2742, 4195, 5727, 8035, 8980, 9336, 10146, 14124, 17270,
+> +			  20533, 23434, 25972, 27944, 29570, 31416)
+> +	},
+> +	{
+> +		AOM_CDF16(1727, 3948, 6101, 7796, 9841, 12344, 15766, 18944, 20638,
+> +			  22038, 23963, 25311, 26988, 28766, 31012)
+> +	},
+> +	{
+> +		AOM_CDF16(2048, 4096, 6144, 8192, 10240, 12288, 14336, 16384, 18432,
+> +			  20480, 22528, 24576, 26624, 28672, 30720)
+> +	},
+> +	{
+> +		AOM_CDF16(2048, 4096, 6144, 8192, 10240, 12288, 14336, 16384, 18432,
+> +			  20480, 22528, 24576, 26624, 28672, 30720)
+> +	},
+> +	{
+> +		AOM_CDF16(2048, 4096, 6144, 8192, 10240, 12288, 14336, 16384, 18432,
+> +			  20480, 22528, 24576, 26624, 28672, 30720)
+> +	},
+> +	{
+> +		AOM_CDF16(2048, 4096, 6144, 8192, 10240, 12288, 14336, 16384, 18432,
+> +			  20480, 22528, 24576, 26624, 28672, 30720)
+> +	},
+> +	{
+> +		AOM_CDF16(2048, 4096, 6144, 8192, 10240, 12288, 14336, 16384, 18432,
+> +			  20480, 22528, 24576, 26624, 28672, 30720)
+> +	},
+> +	{
+> +		AOM_CDF16(2048, 4096, 6144, 8192, 10240, 12288, 14336, 16384, 18432,
+> +			  20480, 22528, 24576, 26624, 28672, 30720)
+> +	},
+> +	{
+> +		AOM_CDF16(2048, 4096, 6144, 8192, 10240, 12288, 14336, 16384, 18432,
+> +			  20480, 22528, 24576, 26624, 28672, 30720)
+> +	},
+> +	{
+> +		AOM_CDF16(2048, 4096, 6144, 8192, 10240, 12288, 14336, 16384, 18432,
+> +			  20480, 22528, 24576, 26624, 28672, 30720)
+> +	},
+> +	{
+> +		AOM_CDF16(154, 987, 1925, 2051, 2088, 2111, 2151, 23033, 23703, 24284,
+> +			  24985, 25684, 27259, 28883, 30911)
+> +	},
+> +	{
+> +		AOM_CDF16(1135, 1322, 1493, 2635, 2696, 2737, 2770, 21016, 22935,
+> +			  25057, 27251, 29173, 30089, 30960, 31933)
+> +	},
+> +	{
+> +		AOM_CDF16(2048, 4096, 6144, 8192, 10240, 12288, 14336, 16384, 18432,
+> +			  20480, 22528, 24576, 26624, 28672, 30720)
+> +	},
+> +	{
+> +		AOM_CDF16(2048, 4096, 6144, 8192, 10240, 12288, 14336, 16384, 18432,
+> +			  20480, 22528, 24576, 26624, 28672, 30720)
+> +	}
+> +};
+> +
+> +static const uint16_t default_motion_mode_cdf[BLOCK_SIZES_ALL][CDF_SIZE(=
+MOTION_MODES)] =3D {
+> +	{ AOM_CDF3(10923, 21845) }, { AOM_CDF3(10923, 21845) },
+> +	{ AOM_CDF3(10923, 21845) }, { AOM_CDF3(7651, 24760) },
+> +	{ AOM_CDF3(4738, 24765) }, { AOM_CDF3(5391, 25528) },
+> +	{ AOM_CDF3(19419, 26810) }, { AOM_CDF3(5123, 23606) },
+> +	{ AOM_CDF3(11606, 24308) }, { AOM_CDF3(26260, 29116) },
+> +	{ AOM_CDF3(20360, 28062) }, { AOM_CDF3(21679, 26830) },
+> +	{ AOM_CDF3(29516, 30701) }, { AOM_CDF3(28898, 30397) },
+> +	{ AOM_CDF3(30878, 31335) }, { AOM_CDF3(32507, 32558) },
+> +	{ AOM_CDF3(10923, 21845) }, { AOM_CDF3(10923, 21845) },
+> +	{ AOM_CDF3(28799, 31390) }, { AOM_CDF3(26431, 30774) },
+> +	{ AOM_CDF3(28973, 31594) }, { AOM_CDF3(29742, 31203) }
+> +};
+> +
+> +static const uint16_t default_obmc_cdf[BLOCK_SIZES_ALL][CDF_SIZE(2)] =3D=
+ {
+> +	{ AOM_CDF2(16384) }, { AOM_CDF2(16384) }, { AOM_CDF2(16384) },
+> +	{ AOM_CDF2(10437) },
+> +	{ AOM_CDF2(9371) }, { AOM_CDF2(9301) }, { AOM_CDF2(17432) },
+> +	{ AOM_CDF2(14423) },
+> +	{ AOM_CDF2(15142) }, { AOM_CDF2(25817) }, { AOM_CDF2(22823) },
+> +	{ AOM_CDF2(22083) },
+> +	{ AOM_CDF2(30128) }, { AOM_CDF2(31014) }, { AOM_CDF2(31560) },
+> +	{ AOM_CDF2(32638) },
+> +	{ AOM_CDF2(16384) }, { AOM_CDF2(16384) }, { AOM_CDF2(23664) },
+> +	{ AOM_CDF2(20901) },
+> +	{ AOM_CDF2(24008) }, { AOM_CDF2(26879) }
+> +};
+> +
+> +static const uint16_t default_intra_inter_cdf[INTRA_INTER_CONTEXTS][CDF_=
+SIZE(2)] =3D {
+> +	{ AOM_CDF2(806) },
+> +	{ AOM_CDF2(16662) },
+> +	{ AOM_CDF2(20186) },
+> +	{ AOM_CDF2(26538) }
+> +};
+> +
+> +static const uint16_t default_comp_inter_cdf[COMP_INTER_CONTEXTS][CDF_SI=
+ZE(2)] =3D {
+> +	{ AOM_CDF2(26828) },
+> +	{ AOM_CDF2(24035) },
+> +	{ AOM_CDF2(12031) },
+> +	{ AOM_CDF2(10640) },
+> +	{ AOM_CDF2(2901) }
+> +};
+> +
+> +static const uint16_t default_comp_ref_type_cdf[COMP_REF_TYPE_CONTEXTS][=
+CDF_SIZE(2)] =3D {
+> +	{ AOM_CDF2(1198) },
+> +	{ AOM_CDF2(2070) },
+> +	{ AOM_CDF2(9166) },
+> +	{ AOM_CDF2(7499) },
+> +	{ AOM_CDF2(22475) }
+> +};
+> +
+> +static const uint16_t default_uni_comp_ref_cdf[UNI_COMP_REF_CONTEXTS]
+> +	[UNIDIR_COMP_REFS - 1][CDF_SIZE(2)] =3D {
+> +	{ { AOM_CDF2(5284)}, { AOM_CDF2(3865)}, { AOM_CDF2(3128)} },
+> +	{ { AOM_CDF2(23152)}, { AOM_CDF2(14173)}, { AOM_CDF2(15270)} },
+> +	{ { AOM_CDF2(31774)}, { AOM_CDF2(25120)}, { AOM_CDF2(26710)} }
+> +};
+> +
+> +static const uint16_t default_single_ref_cdf[REF_CONTEXTS][SINGLE_REFS -=
+ 1][CDF_SIZE(2)] =3D {
+> +	{
+> +		{ AOM_CDF2(4897)},
+> +		{ AOM_CDF2(1555)},
+> +		{ AOM_CDF2(4236)},
+> +		{ AOM_CDF2(8650)},
+> +		{ AOM_CDF2(904)},
+> +		{ AOM_CDF2(1444)}
+> +	},
+> +	{
+> +		{ AOM_CDF2(16973)},
+> +		{ AOM_CDF2(16751)},
+> +		{ AOM_CDF2(19647)},
+> +		{ AOM_CDF2(24773)},
+> +		{ AOM_CDF2(11014)},
+> +		{ AOM_CDF2(15087)}
+> +	},
+> +	{
+> +		{ AOM_CDF2(29744)},
+> +		{ AOM_CDF2(30279)},
+> +		{ AOM_CDF2(31194)},
+> +		{ AOM_CDF2(31895)},
+> +		{ AOM_CDF2(26875)},
+> +		{ AOM_CDF2(30304)}
+> +	}
+> +};
+> +
+> +static const uint16_t default_comp_ref_cdf[REF_CONTEXTS][FWD_REFS - 1][C=
+DF_SIZE(2)] =3D {
+> +	{ { AOM_CDF2(4946)}, { AOM_CDF2(9468)}, { AOM_CDF2(1503)} },
+> +	{ { AOM_CDF2(19891)}, { AOM_CDF2(22441)}, { AOM_CDF2(15160)} },
+> +	{ { AOM_CDF2(30731)}, { AOM_CDF2(31059)}, { AOM_CDF2(27544)} }
+> +};
+> +
+> +static const uint16_t default_comp_bwdref_cdf[REF_CONTEXTS][BWD_REFS - 1=
+][CDF_SIZE(2)] =3D {
+> +	{ { AOM_CDF2(2235)}, { AOM_CDF2(1423)} },
+> +	{ { AOM_CDF2(17182)}, { AOM_CDF2(15175)} },
+> +	{ { AOM_CDF2(30606)}, { AOM_CDF2(30489)} }
+> +};
+> +
+> +static const uint16_t default_palette_y_size_cdf[PALETTE_BLOCK_SIZES][CD=
+F_SIZE(PALETTE_SIZES)] =3D {
+> +	{ AOM_CDF7(7952, 13000, 18149, 21478, 25527, 29241) },
+> +	{ AOM_CDF7(7139, 11421, 16195, 19544, 23666, 28073) },
+> +	{ AOM_CDF7(7788, 12741, 17325, 20500, 24315, 28530) },
+> +	{ AOM_CDF7(8271, 14064, 18246, 21564, 25071, 28533) },
+> +	{ AOM_CDF7(12725, 19180, 21863, 24839, 27535, 30120) },
+> +	{ AOM_CDF7(9711, 14888, 16923, 21052, 25661, 27875) },
+> +	{ AOM_CDF7(14940, 20797, 21678, 24186, 27033, 28999) }
+> +};
+> +
+> +static const uint16_t default_palette_uv_size_cdf[PALETTE_BLOCK_SIZES][C=
+DF_SIZE(PALETTE_SIZES)] =3D {
+> +	{ AOM_CDF7(8713, 19979, 27128, 29609, 31331, 32272) },
+> +	{ AOM_CDF7(5839, 15573, 23581, 26947, 29848, 31700) },
+> +	{ AOM_CDF7(4426, 11260, 17999, 21483, 25863, 29430) },
+> +	{ AOM_CDF7(3228, 9464, 14993, 18089, 22523, 27420) },
+> +	{ AOM_CDF7(3768, 8886, 13091, 17852, 22495, 27207) },
+> +	{ AOM_CDF7(2464, 8451, 12861, 21632, 25525, 28555) },
+> +	{ AOM_CDF7(1269, 5435, 10433, 18963, 21700, 25865) }
+> +};
+> +
+> +static const uint16_t default_palette_y_mode_cdf[PALETTE_BLOCK_SIZES]
+> +	[PALETTE_Y_MODE_CONTEXTS][CDF_SIZE(2)] =3D {
+> +	{ { AOM_CDF2(31676)}, { AOM_CDF2(3419)}, { AOM_CDF2(1261)} },
+> +	{ { AOM_CDF2(31912)}, { AOM_CDF2(2859)}, { AOM_CDF2(980)} },
+> +	{ { AOM_CDF2(31823)}, { AOM_CDF2(3400)}, { AOM_CDF2(781)} },
+> +	{ { AOM_CDF2(32030)}, { AOM_CDF2(3561)}, { AOM_CDF2(904)} },
+> +	{ { AOM_CDF2(32309)}, { AOM_CDF2(7337)}, { AOM_CDF2(1462)} },
+> +	{ { AOM_CDF2(32265)}, { AOM_CDF2(4015)}, { AOM_CDF2(1521)} },
+> +	{ { AOM_CDF2(32450)}, { AOM_CDF2(7946)}, { AOM_CDF2(129)} }
+> +};
+> +
+> +static const uint16_t default_palette_uv_mode_cdf[PALETTE_UV_MODE_CONTEX=
+TS][CDF_SIZE(2)] =3D {
+> +	{ AOM_CDF2(32461) }, { AOM_CDF2(21488) }
+> +};
+> +
+> +static const uint16_t default_palette_y_color_index_cdf[PALETTE_IDX_CONT=
+EXTS][8] =3D {
+> +	// Palette sizes 2 & 8
+> +	{
+> +		AOM_CDF2(28710),
+> +		AOM_CDF8(21689, 23883, 25163, 26352, 27506, 28827, 30195)
+> +	},
+> +	{
+> +		AOM_CDF2(16384),
+> +		AOM_CDF8(6892, 15385, 17840, 21606, 24287, 26753, 29204)
+> +	},
+> +	{
+> +		AOM_CDF2(10553),
+> +		AOM_CDF8(5651, 23182, 25042, 26518, 27982, 29392, 30900)
+> +	},
+> +	{
+> +		AOM_CDF2(27036),
+> +		AOM_CDF8(19349, 22578, 24418, 25994, 27524, 29031, 30448)
+> +	},
+> +	{
+> +		AOM_CDF2(31603),
+> +		AOM_CDF8(31028, 31270, 31504, 31705, 31927, 32153, 32392)
+> +	},
+> +	// Palette sizes 3 & 7
+> +	{
+> +		AOM_CDF3(27877, 30490),
+> +		AOM_CDF7(23105, 25199, 26464, 27684, 28931, 30318)
+> +	},
+> +	{
+> +		AOM_CDF3(11532, 25697),
+> +		AOM_CDF7(6950, 15447, 18952, 22681, 25567, 28563)
+> +	},
+> +	{
+> +		AOM_CDF3(6544, 30234),
+> +		AOM_CDF7(7560, 23474, 25490, 27203, 28921, 30708)
+> +	},
+> +	{
+> +		AOM_CDF3(23018, 28072),
+> +		AOM_CDF7(18544, 22373, 24457, 26195, 28119, 30045)
+> +	},
+> +	{
+> +		AOM_CDF3(31915, 32385),
+> +		AOM_CDF7(31198, 31451, 31670, 31882, 32123, 32391)
+> +	},
+> +	// Palette sizes 4 & 6
+> +	{
+> +		AOM_CDF4(25572, 28046, 30045),
+> +		AOM_CDF6(23132, 25407, 26970, 28435, 30073)
+> +	},
+> +	{
+> +		AOM_CDF4(9478, 21590, 27256),
+> +		AOM_CDF6(7443, 17242, 20717, 24762, 27982)
+> +	},
+> +	{
+> +		AOM_CDF4(7248, 26837, 29824),
+> +		AOM_CDF6(6300, 24862, 26944, 28784, 30671)
+> +	},
+> +	{
+> +		AOM_CDF4(19167, 24486, 28349),
+> +		AOM_CDF6(18916, 22895, 25267, 27435, 29652)
+> +	},
+> +	{
+> +		AOM_CDF4(31400, 31825, 32250),
+> +		AOM_CDF6(31270, 31550, 31808, 32059, 32353)
+> +	},
+> +	// Palette size 5
+> +	{
+> +		AOM_CDF5(24779, 26955, 28576, 30282),
+> +		AOM_CDF5(8669, 20364, 24073, 28093)
+> +	},
+> +	{
+> +		AOM_CDF5(4255, 27565, 29377, 31067),
+> +		AOM_CDF5(19864, 23674, 26716, 29530)
+> +	},
+> +	{
+> +		AOM_CDF5(31646, 31893, 32147, 32426),
+> +		0, 0, 0, 0
+> +	}
+> +};
+> +
+> +static const uint16_t default_palette_uv_color_index_cdf[PALETTE_IDX_CON=
+TEXTS][8] =3D {
+> +	// Palette sizes 2 & 8
+> +	{
+> +		AOM_CDF2(29089),
+> +		AOM_CDF8(21442, 23288, 24758, 26246, 27649, 28980, 30563)
+> +	},
+> +	{
+> +		AOM_CDF2(16384),
+> +		AOM_CDF8(5863, 14933, 17552, 20668, 23683, 26411, 29273)
+> +	},
+> +	{
+> +		AOM_CDF2(8713),
+> +		AOM_CDF8(3415, 25810, 26877, 27990, 29223, 30394, 31618)
+> +	},
+> +	{
+> +		AOM_CDF2(29257),
+> +		AOM_CDF8(17965, 20084, 22232, 23974, 26274, 28402, 30390)
+> +	},
+> +	{
+> +		AOM_CDF2(31610),
+> +		AOM_CDF8(31190, 31329, 31516, 31679, 31825, 32026, 32322)
+> +	},
+> +	// Palette sizes 3 & 7
+> +	{
+> +		AOM_CDF3(25257, 29145),
+> +		AOM_CDF7(21239, 23168, 25044, 26962, 28705, 30506)
+> +	},
+> +	{
+> +		AOM_CDF3(12287, 27293),
+> +		AOM_CDF7(6545, 15012, 18004, 21817, 25503, 28701)
+> +	},
+> +	{
+> +		AOM_CDF3(7033, 27960),
+> +		AOM_CDF7(3448, 26295, 27437, 28704, 30126, 31442)
+> +	},
+> +	{
+> +		AOM_CDF3(20145, 25405),
+> +		AOM_CDF7(15889, 18323, 21704, 24698, 26976, 29690)
+> +	},
+> +	{
+> +		AOM_CDF3(30608, 31639),
+> +		AOM_CDF7(30988, 31204, 31479, 31734, 31983, 32325)
+> +	},
+> +	// Palette sizes 4 & 6
+> +	{
+> +		AOM_CDF4(24210, 27175, 29903),
+> +		AOM_CDF6(22217, 24567, 26637, 28683, 30548)
+> +	},
+> +	{
+> +		AOM_CDF4(9888, 22386, 27214),
+> +		AOM_CDF6(7307, 16406, 19636, 24632, 28424)
+> +	},
+> +	{
+> +		AOM_CDF4(5901, 26053, 29293),
+> +		AOM_CDF6(4441, 25064, 26879, 28942, 30919)
+> +	},
+> +	{
+> +		AOM_CDF4(18318, 22152, 28333),
+> +		AOM_CDF6(17210, 20528, 23319, 26750, 29582)
+> +	},
+> +	{
+> +		AOM_CDF4(30459, 31136, 31926),
+> +		AOM_CDF6(30674, 30953, 31396, 31735, 32207)
+> +	},
+> +	// Palette size 5
+> +	{
+> +		AOM_CDF5(22980, 25479, 27781, 29986),
+> +		AOM_CDF5(8413, 21408, 24859, 28874)
+> +	},
+> +	{
+> +		AOM_CDF5(2257, 29449, 30594, 31598),
+> +		AOM_CDF5(19189, 21202, 25915, 28620)
+> +	},
+> +	{
+> +		AOM_CDF5(31844, 32044, 32281, 32518),
+> +		0, 0, 0, 0
+> +	}
+> +};
+> +
+> +static const uint16_t default_txfm_partition_cdf[TXFM_PARTITION_CONTEXTS=
+][CDF_SIZE(2)] =3D {
+> +	{ AOM_CDF2(28581) }, { AOM_CDF2(23846) }, { AOM_CDF2(20847) },
+> +	{ AOM_CDF2(24315) }, { AOM_CDF2(18196) }, { AOM_CDF2(12133) },
+> +	{ AOM_CDF2(18791) }, { AOM_CDF2(10887) }, { AOM_CDF2(11005) },
+> +	{ AOM_CDF2(27179) }, { AOM_CDF2(20004) }, { AOM_CDF2(11281) },
+> +	{ AOM_CDF2(26549) }, { AOM_CDF2(19308) }, { AOM_CDF2(14224) },
+> +	{ AOM_CDF2(28015) }, { AOM_CDF2(21546) }, { AOM_CDF2(14400) },
+> +	{ AOM_CDF2(28165) }, { AOM_CDF2(22401) }, { AOM_CDF2(16088) }
+> +};
+> +
+> +static const uint16_t default_skip_cdfs[SKIP_CONTEXTS][CDF_SIZE(2)] =3D =
+{
+> +	{ AOM_CDF2(31671) }, { AOM_CDF2(16515) }, { AOM_CDF2(4576) }
+> +};
+> +
+> +static const uint16_t default_skip_mode_cdfs[SKIP_MODE_CONTEXTS][CDF_SIZ=
+E(2)] =3D {
+> +	{ AOM_CDF2(32621) }, { AOM_CDF2(20708) }, { AOM_CDF2(8127) }
+> +};
+> +
+> +static const uint16_t default_compound_idx_cdfs[COMP_INDEX_CONTEXTS][CDF=
+_SIZE(2)] =3D {
+> +	{ AOM_CDF2(18244) }, { AOM_CDF2(12865) }, { AOM_CDF2(7053) },
+> +	{ AOM_CDF2(13259) }, { AOM_CDF2(9334) }, { AOM_CDF2(4644) }
+> +};
+> +
+> +static const uint16_t default_comp_group_idx_cdfs[COMP_GROUP_IDX_CONTEXT=
+S][CDF_SIZE(2)] =3D {
+> +	{ AOM_CDF2(26607) }, { AOM_CDF2(22891) }, { AOM_CDF2(18840) },
+> +	{ AOM_CDF2(24594) }, { AOM_CDF2(19934) }, { AOM_CDF2(22674) }
+> +};
+> +
+> +static const uint16_t default_intrabc_cdf[CDF_SIZE(2)] =3D { AOM_CDF2(30=
+531) };
+> +
+> +static const uint16_t default_filter_intra_mode_cdf[CDF_SIZE(FILTER_INTR=
+A_MODES)] =3D {
+> +	AOM_CDF5(8949, 12776, 17211, 29558)
+> +};
+> +
+> +static const uint16_t default_filter_intra_cdfs[BLOCK_SIZES_ALL][CDF_SIZ=
+E(2)] =3D {
+> +	{ AOM_CDF2(4621) }, { AOM_CDF2(6743) }, { AOM_CDF2(5893) }, { AOM_CDF2(=
+7866) },
+> +	{ AOM_CDF2(12551) }, { AOM_CDF2(9394) }, { AOM_CDF2(12408) }, { AOM_CDF=
+2(14301) },
+> +	{ AOM_CDF2(12756) }, { AOM_CDF2(22343) }, { AOM_CDF2(16384) }, { AOM_CD=
+F2(16384) },
+> +	{ AOM_CDF2(16384) }, { AOM_CDF2(16384) }, { AOM_CDF2(16384) }, { AOM_CD=
+F2(16384) },
+> +	{ AOM_CDF2(12770) }, { AOM_CDF2(10368) }, { AOM_CDF2(20229) }, { AOM_CD=
+F2(18101) },
+> +	{ AOM_CDF2(16384) }, { AOM_CDF2(16384) }
+> +};
+> +
+> +static const uint16_t default_delta_q_cdf[CDF_SIZE(DELTA_Q_PROBS + 1)] =
+=3D {
+> +	AOM_CDF4(28160, 32120, 32677)
+> +};
+> +
+> +static const uint16_t default_delta_lf_multi_cdf[FRAME_LF_COUNT][CDF_SIZ=
+E(DELTA_LF_PROBS + 1)] =3D {
+> +	{ AOM_CDF4(28160, 32120, 32677) },
+> +	{ AOM_CDF4(28160, 32120, 32677) },
+> +	{ AOM_CDF4(28160, 32120, 32677) },
+> +	{ AOM_CDF4(28160, 32120, 32677) }
+> +};
+> +
+> +static const uint16_t default_delta_lf_cdf[CDF_SIZE(DELTA_LF_PROBS + 1)]=
+ =3D {
+> +	AOM_CDF4(28160, 32120, 32677)
+> +};
+> +
+> +static const uint16_t default_segment_pred_cdf[SEG_TEMPORAL_PRED_CTXS][C=
+DF_SIZE(2)] =3D {
+> +	{ AOM_CDF2(128 * 128) },
+> +	{ AOM_CDF2(128 * 128) },
+> +	{ AOM_CDF2(128 * 128) }
+> +};
+> +
+> +static const uint16_t default_spatial_pred_seg_tree_cdf[SPATIAL_PREDICTI=
+ON_PROBS]
+> +	[CDF_SIZE(MAX_SEGMENTS)] =3D {
+> +	{
+> +		AOM_CDF8(5622, 7893, 16093, 18233, 27809, 28373, 32533),
+> +	},
+> +	{
+> +		AOM_CDF8(14274, 18230, 22557, 24935, 29980, 30851, 32344),
+> +	},
+> +	{
+> +		AOM_CDF8(27527, 28487, 28723, 28890, 32397, 32647, 32679),
+> +	},
+> +};
+> +
+> +static const uint16_t default_tx_size_cdf[MAX_TX_CATS]
+> +	[AV1_TX_SIZE_CONTEXTS][CDF_SIZE(MAX_TX_DEPTH + 1)] =3D {
+> +	{
+> +		{ AOM_CDF2(19968)},
+> +		{ AOM_CDF2(19968)},
+> +		{ AOM_CDF2(24320)}
+> +	},
+> +	{
+> +		{ AOM_CDF3(12272, 30172)},
+> +		{ AOM_CDF3(12272, 30172)},
+> +		{ AOM_CDF3(18677, 30848)}
+> +	},
+> +	{
+> +		{ AOM_CDF3(12986, 15180)},
+> +		{ AOM_CDF3(12986, 15180)},
+> +		{ AOM_CDF3(24302, 25602)}
+> +	},
+> +	{
+> +		{ AOM_CDF3(5782, 11475)},
+> +		{ AOM_CDF3(5782, 11475)},
+> +		{ AOM_CDF3(16803, 22759)}
+> +	},
+> +};
+> +
+> +static const uint16_t av1_default_dc_sign_cdfs[TOKEN_CDF_Q_CTXS]
+> +	[PLANE_TYPES][DC_SIGN_CONTEXTS][CDF_SIZE(2)] =3D {
+> +	{
+> +		{
+> +			{ AOM_CDF2(128 * 125)},
+> +			{ AOM_CDF2(128 * 102)},
+> +			{ AOM_CDF2(128 * 147)},
+> +		},
+> +		{
+> +			{ AOM_CDF2(128 * 119)},
+> +			{ AOM_CDF2(128 * 101)},
+> +			{ AOM_CDF2(128 * 135)},
+> +		}
+> +	},
+> +	{
+> +		{
+> +			{ AOM_CDF2(128 * 125)},
+> +			{ AOM_CDF2(128 * 102)},
+> +			{ AOM_CDF2(128 * 147)},
+> +		},
+> +		{
+> +			{ AOM_CDF2(128 * 119)},
+> +			{ AOM_CDF2(128 * 101)},
+> +			{ AOM_CDF2(128 * 135)},
+> +		}
+> +	},
+> +	{
+> +		{
+> +			{ AOM_CDF2(128 * 125)},
+> +			{ AOM_CDF2(128 * 102)},
+> +			{ AOM_CDF2(128 * 147)},
+> +		},
+> +		{
+> +			{ AOM_CDF2(128 * 119)},
+> +			{ AOM_CDF2(128 * 101)},
+> +			{ AOM_CDF2(128 * 135)},
+> +		}
+> +	},
+> +	{
+> +		{
+> +			{ AOM_CDF2(128 * 125)},
+> +			{ AOM_CDF2(128 * 102)},
+> +			{ AOM_CDF2(128 * 147)},
+> +		},
+> +		{
+> +			{ AOM_CDF2(128 * 119)},
+> +			{ AOM_CDF2(128 * 101)},
+> +			{ AOM_CDF2(128 * 135)},
+> +		}
+> +	},
+> +};
+> +
+> +static const uint16_t av1_default_txb_skip_cdfs[TOKEN_CDF_Q_CTXS]
+> +	[TX_SIZES][TXB_SKIP_CONTEXTS][CDF_SIZE(2)] =3D {
+> +	{
+> +		{
+> +			{ AOM_CDF2(31849)},
+> +			{ AOM_CDF2(5892)},
+> +			{ AOM_CDF2(12112)},
+> +			{ AOM_CDF2(21935)},
+> +			{ AOM_CDF2(20289)},
+> +			{ AOM_CDF2(27473)},
+> +			{ AOM_CDF2(32487)},
+> +			{ AOM_CDF2(7654)},
+> +			{ AOM_CDF2(19473)},
+> +			{ AOM_CDF2(29984)},
+> +			{ AOM_CDF2(9961)},
+> +			{ AOM_CDF2(30242)},
+> +			{ AOM_CDF2(32117)}
+> +		},
+> +		{
+> +			{ AOM_CDF2(31548)},
+> +			{ AOM_CDF2(1549)},
+> +			{ AOM_CDF2(10130)},
+> +			{ AOM_CDF2(16656)},
+> +			{ AOM_CDF2(18591)},
+> +			{ AOM_CDF2(26308)},
+> +			{ AOM_CDF2(32537)},
+> +			{ AOM_CDF2(5403)},
+> +			{ AOM_CDF2(18096)},
+> +			{ AOM_CDF2(30003)},
+> +			{ AOM_CDF2(16384)},
+> +			{ AOM_CDF2(16384)},
+> +			{ AOM_CDF2(16384)}
+> +		},
+> +		{
+> +			{ AOM_CDF2(29957)},
+> +			{ AOM_CDF2(5391)},
+> +			{ AOM_CDF2(18039)},
+> +			{ AOM_CDF2(23566)},
+> +			{ AOM_CDF2(22431)},
+> +			{ AOM_CDF2(25822)},
+> +			{ AOM_CDF2(32197)},
+> +			{ AOM_CDF2(3778)},
+> +			{ AOM_CDF2(15336)},
+> +			{ AOM_CDF2(28981)},
+> +			{ AOM_CDF2(16384)},
+> +			{ AOM_CDF2(16384)},
+> +			{ AOM_CDF2(16384)}
+> +		},
+> +		{
+> +			{ AOM_CDF2(17920)},
+> +			{ AOM_CDF2(1818)},
+> +			{ AOM_CDF2(7282)},
+> +			{ AOM_CDF2(25273)},
+> +			{ AOM_CDF2(10923)},
+> +			{ AOM_CDF2(31554)},
+> +			{ AOM_CDF2(32624)},
+> +			{ AOM_CDF2(1366)},
+> +			{ AOM_CDF2(15628)},
+> +			{ AOM_CDF2(30462)},
+> +			{ AOM_CDF2(146)},
+> +			{ AOM_CDF2(5132)},
+> +			{ AOM_CDF2(31657)}
+> +		},
+> +		{
+> +			{ AOM_CDF2(6308)},
+> +			{ AOM_CDF2(117)},
+> +			{ AOM_CDF2(1638)},
+> +			{ AOM_CDF2(2161)},
+> +			{ AOM_CDF2(16384)},
+> +			{ AOM_CDF2(10923)},
+> +			{ AOM_CDF2(30247)},
+> +			{ AOM_CDF2(16384)},
+> +			{ AOM_CDF2(16384)},
+> +			{ AOM_CDF2(16384)},
+> +			{ AOM_CDF2(16384)},
+> +			{ AOM_CDF2(16384)},
+> +			{ AOM_CDF2(16384)}
+> +		}
+> +	},
+> +	{
+> +		{
+> +			{ AOM_CDF2(30371)},
+> +			{ AOM_CDF2(7570)},
+> +			{ AOM_CDF2(13155)},
+> +			{ AOM_CDF2(20751)},
+> +			{ AOM_CDF2(20969)},
+> +			{ AOM_CDF2(27067)},
+> +			{ AOM_CDF2(32013)},
+> +			{ AOM_CDF2(5495)},
+> +			{ AOM_CDF2(17942)},
+> +			{ AOM_CDF2(28280)},
+> +			{ AOM_CDF2(16384)},
+> +			{ AOM_CDF2(16384)},
+> +			{ AOM_CDF2(16384)}
+> +		},
+> +		{
+> +			{ AOM_CDF2(31782)},
+> +			{ AOM_CDF2(1836)},
+> +			{ AOM_CDF2(10689)},
+> +			{ AOM_CDF2(17604)},
+> +			{ AOM_CDF2(21622)},
+> +			{ AOM_CDF2(27518)},
+> +			{ AOM_CDF2(32399)},
+> +			{ AOM_CDF2(4419)},
+> +			{ AOM_CDF2(16294)},
+> +			{ AOM_CDF2(28345)},
+> +			{ AOM_CDF2(16384)},
+> +			{ AOM_CDF2(16384)},
+> +			{ AOM_CDF2(16384)}
+> +		},
+> +		{
+> +			{ AOM_CDF2(31901)},
+> +			{ AOM_CDF2(10311)},
+> +			{ AOM_CDF2(18047)},
+> +			{ AOM_CDF2(24806)},
+> +			{ AOM_CDF2(23288)},
+> +			{ AOM_CDF2(27914)},
+> +			{ AOM_CDF2(32296)},
+> +			{ AOM_CDF2(4215)},
+> +			{ AOM_CDF2(15756)},
+> +			{ AOM_CDF2(28341)},
+> +			{ AOM_CDF2(16384)},
+> +			{ AOM_CDF2(16384)},
+> +			{ AOM_CDF2(16384)}
+> +		},
+> +		{
+> +			{ AOM_CDF2(26726)},
+> +			{ AOM_CDF2(1045)},
+> +			{ AOM_CDF2(11703)},
+> +			{ AOM_CDF2(20590)},
+> +			{ AOM_CDF2(18554)},
+> +			{ AOM_CDF2(25970)},
+> +			{ AOM_CDF2(31938)},
+> +			{ AOM_CDF2(5583)},
+> +			{ AOM_CDF2(21313)},
+> +			{ AOM_CDF2(29390)},
+> +			{ AOM_CDF2(641)},
+> +			{ AOM_CDF2(22265)},
+> +			{ AOM_CDF2(31452)}
+> +		},
+> +		{
+> +			{ AOM_CDF2(26584)},
+> +			{ AOM_CDF2(188)},
+> +			{ AOM_CDF2(8847)},
+> +			{ AOM_CDF2(24519)},
+> +			{ AOM_CDF2(22938)},
+> +			{ AOM_CDF2(30583)},
+> +			{ AOM_CDF2(32608)},
+> +			{ AOM_CDF2(16384)},
+> +			{ AOM_CDF2(16384)},
+> +			{ AOM_CDF2(16384)},
+> +			{ AOM_CDF2(16384)},
+> +			{ AOM_CDF2(16384)},
+> +			{ AOM_CDF2(16384)}
+> +		}
+> +	},
+> +	{
+> +		{
+> +			{ AOM_CDF2(29614)},
+> +			{ AOM_CDF2(9068)},
+> +			{ AOM_CDF2(12924)},
+> +			{ AOM_CDF2(19538)},
+> +			{ AOM_CDF2(17737)},
+> +			{ AOM_CDF2(24619)},
+> +			{ AOM_CDF2(30642)},
+> +			{ AOM_CDF2(4119)},
+> +			{ AOM_CDF2(16026)},
+> +			{ AOM_CDF2(25657)},
+> +			{ AOM_CDF2(16384)},
+> +			{ AOM_CDF2(16384)},
+> +			{ AOM_CDF2(16384)}
+> +		},
+> +		{
+> +			{ AOM_CDF2(31957)},
+> +			{ AOM_CDF2(3230)},
+> +			{ AOM_CDF2(11153)},
+> +			{ AOM_CDF2(18123)},
+> +			{ AOM_CDF2(20143)},
+> +			{ AOM_CDF2(26536)},
+> +			{ AOM_CDF2(31986)},
+> +			{ AOM_CDF2(3050)},
+> +			{ AOM_CDF2(14603)},
+> +			{ AOM_CDF2(25155)},
+> +			{ AOM_CDF2(16384)},
+> +			{ AOM_CDF2(16384)},
+> +			{ AOM_CDF2(16384)}
+> +		},
+> +		{
+> +			{ AOM_CDF2(32363)},
+> +			{ AOM_CDF2(10692)},
+> +			{ AOM_CDF2(19090)},
+> +			{ AOM_CDF2(24357)},
+> +			{ AOM_CDF2(24442)},
+> +			{ AOM_CDF2(28312)},
+> +			{ AOM_CDF2(32169)},
+> +			{ AOM_CDF2(3648)},
+> +			{ AOM_CDF2(15690)},
+> +			{ AOM_CDF2(26815)},
+> +			{ AOM_CDF2(16384)},
+> +			{ AOM_CDF2(16384)},
+> +			{ AOM_CDF2(16384)}
+> +		},
+> +		{
+> +			{ AOM_CDF2(30669)},
+> +			{ AOM_CDF2(3832)},
+> +			{ AOM_CDF2(11663)},
+> +			{ AOM_CDF2(18889)},
+> +			{ AOM_CDF2(19782)},
+> +			{ AOM_CDF2(23313)},
+> +			{ AOM_CDF2(31330)},
+> +			{ AOM_CDF2(5124)},
+> +			{ AOM_CDF2(18719)},
+> +			{ AOM_CDF2(28468)},
+> +			{ AOM_CDF2(3082)},
+> +			{ AOM_CDF2(20982)},
+> +			{ AOM_CDF2(29443)}
+> +		},
+> +		{
+> +			{ AOM_CDF2(28573)},
+> +			{ AOM_CDF2(3183)},
+> +			{ AOM_CDF2(17802)},
+> +			{ AOM_CDF2(25977)},
+> +			{ AOM_CDF2(26677)},
+> +			{ AOM_CDF2(27832)},
+> +			{ AOM_CDF2(32387)},
+> +			{ AOM_CDF2(16384)},
+> +			{ AOM_CDF2(16384)},
+> +			{ AOM_CDF2(16384)},
+> +			{ AOM_CDF2(16384)},
+> +			{ AOM_CDF2(16384)},
+> +			{ AOM_CDF2(16384)}
+> +		}
+> +	},
+> +	{
+> +		{
+> +			{ AOM_CDF2(26887)},
+> +			{ AOM_CDF2(6729)},
+> +			{ AOM_CDF2(10361)},
+> +			{ AOM_CDF2(17442)},
+> +			{ AOM_CDF2(15045)},
+> +			{ AOM_CDF2(22478)},
+> +			{ AOM_CDF2(29072)},
+> +			{ AOM_CDF2(2713)},
+> +			{ AOM_CDF2(11861)},
+> +			{ AOM_CDF2(20773)},
+> +			{ AOM_CDF2(16384)},
+> +			{ AOM_CDF2(16384)},
+> +			{ AOM_CDF2(16384)}
+> +		},
+> +		{
+> +			{ AOM_CDF2(31903)},
+> +			{ AOM_CDF2(2044)},
+> +			{ AOM_CDF2(7528)},
+> +			{ AOM_CDF2(14618)},
+> +			{ AOM_CDF2(16182)},
+> +			{ AOM_CDF2(24168)},
+> +			{ AOM_CDF2(31037)},
+> +			{ AOM_CDF2(2786)},
+> +			{ AOM_CDF2(11194)},
+> +			{ AOM_CDF2(20155)},
+> +			{ AOM_CDF2(16384)},
+> +			{ AOM_CDF2(16384)},
+> +			{ AOM_CDF2(16384)}
+> +		},
+> +		{
+> +			{ AOM_CDF2(32510)},
+> +			{ AOM_CDF2(8430)},
+> +			{ AOM_CDF2(17318)},
+> +			{ AOM_CDF2(24154)},
+> +			{ AOM_CDF2(23674)},
+> +			{ AOM_CDF2(28789)},
+> +			{ AOM_CDF2(32139)},
+> +			{ AOM_CDF2(3440)},
+> +			{ AOM_CDF2(13117)},
+> +			{ AOM_CDF2(22702)},
+> +			{ AOM_CDF2(16384)},
+> +			{ AOM_CDF2(16384)},
+> +			{ AOM_CDF2(16384)}
+> +		},
+> +		{
+> +			{ AOM_CDF2(31671)},
+> +			{ AOM_CDF2(2056)},
+> +			{ AOM_CDF2(11746)},
+> +			{ AOM_CDF2(16852)},
+> +			{ AOM_CDF2(18635)},
+> +			{ AOM_CDF2(24715)},
+> +			{ AOM_CDF2(31484)},
+> +			{ AOM_CDF2(4656)},
+> +			{ AOM_CDF2(16074)},
+> +			{ AOM_CDF2(24704)},
+> +			{ AOM_CDF2(1806)},
+> +			{ AOM_CDF2(14645)},
+> +			{ AOM_CDF2(25336)}
+> +		},
+> +		{
+> +			{ AOM_CDF2(31539)},
+> +			{ AOM_CDF2(8433)},
+> +			{ AOM_CDF2(20576)},
+> +			{ AOM_CDF2(27904)},
+> +			{ AOM_CDF2(27852)},
+> +			{ AOM_CDF2(30026)},
+> +			{ AOM_CDF2(32441)},
+> +			{ AOM_CDF2(16384)},
+> +			{ AOM_CDF2(16384)},
+> +			{ AOM_CDF2(16384)},
+> +			{ AOM_CDF2(16384)},
+> +			{ AOM_CDF2(16384)},
+> +			{ AOM_CDF2(16384)}
+> +		}
+> +	}
+> +};
+> +
+> +static const uint16_t av1_default_eob_extra_cdfs[TOKEN_CDF_Q_CTXS][TX_SI=
+ZES][PLANE_TYPES]
+> +	[EOB_COEF_CONTEXTS][CDF_SIZE(2)] =3D {
+> +	{
+> +		{
+> +			{
+> +				{ AOM_CDF2(16961)},
+> +				{ AOM_CDF2(17223)},
+> +				{ AOM_CDF2(7621)},
+> +				{ AOM_CDF2(16384)},
+> +				{ AOM_CDF2(16384)},
+> +				{ AOM_CDF2(16384)},
+> +				{ AOM_CDF2(16384)},
+> +				{ AOM_CDF2(16384)},
+> +				{ AOM_CDF2(16384)},
+> +			},
+> +			{
+> +				{ AOM_CDF2(19069)},
+> +				{ AOM_CDF2(22525)},
+> +				{ AOM_CDF2(13377)},
+> +				{ AOM_CDF2(16384)},
+> +				{ AOM_CDF2(16384)},
+> +				{ AOM_CDF2(16384)},
+> +				{ AOM_CDF2(16384)},
+> +				{ AOM_CDF2(16384)},
+> +				{ AOM_CDF2(16384)},
+> +			}
+> +		},
+> +		{
+> +			{
+> +				{ AOM_CDF2(20401)},
+> +				{ AOM_CDF2(17025)},
+> +				{ AOM_CDF2(12845)},
+> +				{ AOM_CDF2(12873)},
+> +				{ AOM_CDF2(14094)},
+> +				{ AOM_CDF2(16384)},
+> +				{ AOM_CDF2(16384)},
+> +				{ AOM_CDF2(16384)},
+> +				{ AOM_CDF2(16384)},
+> +			},
+> +			{
+> +				{ AOM_CDF2(20681)},
+> +				{ AOM_CDF2(20701)},
+> +				{ AOM_CDF2(15250)},
+> +				{ AOM_CDF2(15017)},
+> +				{ AOM_CDF2(14928)},
+> +				{ AOM_CDF2(16384)},
+> +				{ AOM_CDF2(16384)},
+> +				{ AOM_CDF2(16384)},
+> +				{ AOM_CDF2(16384)},
+> +			}
+> +		},
+> +		{
+> +			{
+> +				{ AOM_CDF2(23905)},
+> +				{ AOM_CDF2(17194)},
+> +				{ AOM_CDF2(16170)},
+> +				{ AOM_CDF2(17695)},
+> +				{ AOM_CDF2(13826)},
+> +				{ AOM_CDF2(15810)},
+> +				{ AOM_CDF2(12036)},
+> +				{ AOM_CDF2(16384)},
+> +				{ AOM_CDF2(16384)},
+> +			},
+> +			{
+> +				{ AOM_CDF2(23959)},
+> +				{ AOM_CDF2(20799)},
+> +				{ AOM_CDF2(19021)},
+> +				{ AOM_CDF2(16203)},
+> +				{ AOM_CDF2(17886)},
+> +				{ AOM_CDF2(14144)},
+> +				{ AOM_CDF2(12010)},
+> +				{ AOM_CDF2(16384)},
+> +				{ AOM_CDF2(16384)},
+> +			}
+> +		},
+> +		{
+> +			{
+> +				{ AOM_CDF2(27399)},
+> +				{ AOM_CDF2(16327)},
+> +				{ AOM_CDF2(18071)},
+> +				{ AOM_CDF2(19584)},
+> +				{ AOM_CDF2(20721)},
+> +				{ AOM_CDF2(18432)},
+> +				{ AOM_CDF2(19560)},
+> +				{ AOM_CDF2(10150)},
+> +				{ AOM_CDF2(8805)},
+> +			},
+> +			{
+> +				{ AOM_CDF2(24932)},
+> +				{ AOM_CDF2(20833)},
+> +				{ AOM_CDF2(12027)},
+> +				{ AOM_CDF2(16670)},
+> +				{ AOM_CDF2(19914)},
+> +				{ AOM_CDF2(15106)},
+> +				{ AOM_CDF2(17662)},
+> +				{ AOM_CDF2(13783)},
+> +				{ AOM_CDF2(28756)},
+> +			}
+> +		},
+> +		{
+> +			{
+> +				{ AOM_CDF2(23406)},
+> +				{ AOM_CDF2(21845)},
+> +				{ AOM_CDF2(18432)},
+> +				{ AOM_CDF2(16384)},
+> +				{ AOM_CDF2(17096)},
+> +				{ AOM_CDF2(12561)},
+> +				{ AOM_CDF2(17320)},
+> +				{ AOM_CDF2(22395)},
+> +				{ AOM_CDF2(21370)},
+> +			},
+> +			{
+> +				{ AOM_CDF2(16384)},
+> +				{ AOM_CDF2(16384)},
+> +				{ AOM_CDF2(16384)},
+> +				{ AOM_CDF2(16384)},
+> +				{ AOM_CDF2(16384)},
+> +				{ AOM_CDF2(16384)},
+> +				{ AOM_CDF2(16384)},
+> +				{ AOM_CDF2(16384)},
+> +				{ AOM_CDF2(16384)},
+> +			}
+> +		}
+> +	},
+> +	{
+> +		{
+> +			{
+> +				{ AOM_CDF2(17471)},
+> +				{ AOM_CDF2(20223)},
+> +				{ AOM_CDF2(11357)},
+> +				{ AOM_CDF2(16384)},
+> +				{ AOM_CDF2(16384)},
+> +				{ AOM_CDF2(16384)},
+> +				{ AOM_CDF2(16384)},
+> +				{ AOM_CDF2(16384)},
+> +				{ AOM_CDF2(16384)},
+> +			},
+> +			{
+> +				{ AOM_CDF2(20335)},
+> +				{ AOM_CDF2(21667)},
+> +				{ AOM_CDF2(14818)},
+> +				{ AOM_CDF2(16384)},
+> +				{ AOM_CDF2(16384)},
+> +				{ AOM_CDF2(16384)},
+> +				{ AOM_CDF2(16384)},
+> +				{ AOM_CDF2(16384)},
+> +				{ AOM_CDF2(16384)},
+> +			}
+> +		},
+> +		{
+> +			{
+> +				{ AOM_CDF2(20430)},
+> +				{ AOM_CDF2(20662)},
+> +				{ AOM_CDF2(15367)},
+> +				{ AOM_CDF2(16970)},
+> +				{ AOM_CDF2(14657)},
+> +				{ AOM_CDF2(16384)},
+> +				{ AOM_CDF2(16384)},
+> +				{ AOM_CDF2(16384)},
+> +				{ AOM_CDF2(16384)},
+> +			},
+> +			{
+> +				{ AOM_CDF2(22117)},
+> +				{ AOM_CDF2(22028)},
+> +				{ AOM_CDF2(18650)},
+> +				{ AOM_CDF2(16042)},
+> +				{ AOM_CDF2(15885)},
+> +				{ AOM_CDF2(16384)},
+> +				{ AOM_CDF2(16384)},
+> +				{ AOM_CDF2(16384)},
+> +				{ AOM_CDF2(16384)},
+> +			}
+> +		},
+> +		{
+> +			{
+> +				{ AOM_CDF2(22409)},
+> +				{ AOM_CDF2(21012)},
+> +				{ AOM_CDF2(15650)},
+> +				{ AOM_CDF2(17395)},
+> +				{ AOM_CDF2(15469)},
+> +				{ AOM_CDF2(20205)},
+> +				{ AOM_CDF2(19511)},
+> +				{ AOM_CDF2(16384)},
+> +				{ AOM_CDF2(16384)},
+> +			},
+> +			{
+> +				{ AOM_CDF2(24220)},
+> +				{ AOM_CDF2(22480)},
+> +				{ AOM_CDF2(17737)},
+> +				{ AOM_CDF2(18916)},
+> +				{ AOM_CDF2(19268)},
+> +				{ AOM_CDF2(18412)},
+> +				{ AOM_CDF2(18844)},
+> +				{ AOM_CDF2(16384)},
+> +				{ AOM_CDF2(16384)},
+> +			}
+> +		},
+> +		{
+> +			{
+> +				{ AOM_CDF2(25991)},
+> +				{ AOM_CDF2(20314)},
+> +				{ AOM_CDF2(17731)},
+> +				{ AOM_CDF2(19678)},
+> +				{ AOM_CDF2(18649)},
+> +				{ AOM_CDF2(17307)},
+> +				{ AOM_CDF2(21798)},
+> +				{ AOM_CDF2(17549)},
+> +				{ AOM_CDF2(15630)},
+> +			},
+> +			{
+> +				{ AOM_CDF2(26585)},
+> +				{ AOM_CDF2(21469)},
+> +				{ AOM_CDF2(20432)},
+> +				{ AOM_CDF2(17735)},
+> +				{ AOM_CDF2(19280)},
+> +				{ AOM_CDF2(15235)},
+> +				{ AOM_CDF2(20297)},
+> +				{ AOM_CDF2(22471)},
+> +				{ AOM_CDF2(28997)},
+> +			}
+> +		},
+> +		{
+> +			{
+> +				{ AOM_CDF2(26605)},
+> +				{ AOM_CDF2(11304)},
+> +				{ AOM_CDF2(16726)},
+> +				{ AOM_CDF2(16560)},
+> +				{ AOM_CDF2(20866)},
+> +				{ AOM_CDF2(23524)},
+> +				{ AOM_CDF2(19878)},
+> +				{ AOM_CDF2(13469)},
+> +				{ AOM_CDF2(23084)},
+> +			},
+> +			{
+> +				{ AOM_CDF2(16384)},
+> +				{ AOM_CDF2(16384)},
+> +				{ AOM_CDF2(16384)},
+> +				{ AOM_CDF2(16384)},
+> +				{ AOM_CDF2(16384)},
+> +				{ AOM_CDF2(16384)},
+> +				{ AOM_CDF2(16384)},
+> +				{ AOM_CDF2(16384)},
+> +				{ AOM_CDF2(16384)},
+> +			}
+> +		}
+> +	},
+> +	{
+> +		{
+> +			{
+> +				{ AOM_CDF2(18983)},
+> +				{ AOM_CDF2(20512)},
+> +				{ AOM_CDF2(14885)},
+> +				{ AOM_CDF2(16384)},
+> +				{ AOM_CDF2(16384)},
+> +				{ AOM_CDF2(16384)},
+> +				{ AOM_CDF2(16384)},
+> +				{ AOM_CDF2(16384)},
+> +				{ AOM_CDF2(16384)},
+> +			},
+> +			{
+> +				{ AOM_CDF2(20090)},
+> +				{ AOM_CDF2(19444)},
+> +				{ AOM_CDF2(17286)},
+> +				{ AOM_CDF2(16384)},
+> +				{ AOM_CDF2(16384)},
+> +				{ AOM_CDF2(16384)},
+> +				{ AOM_CDF2(16384)},
+> +				{ AOM_CDF2(16384)},
+> +				{ AOM_CDF2(16384)},
+> +			}
+> +		},
+> +		{
+> +			{
+> +				{ AOM_CDF2(19139)},
+> +				{ AOM_CDF2(21487)},
+> +				{ AOM_CDF2(18959)},
+> +				{ AOM_CDF2(20910)},
+> +				{ AOM_CDF2(19089)},
+> +				{ AOM_CDF2(16384)},
+> +				{ AOM_CDF2(16384)},
+> +				{ AOM_CDF2(16384)},
+> +				{ AOM_CDF2(16384)},
+> +			},
+> +			{
+> +				{ AOM_CDF2(20536)},
+> +				{ AOM_CDF2(20664)},
+> +				{ AOM_CDF2(20625)},
+> +				{ AOM_CDF2(19123)},
+> +				{ AOM_CDF2(14862)},
+> +				{ AOM_CDF2(16384)},
+> +				{ AOM_CDF2(16384)},
+> +				{ AOM_CDF2(16384)},
+> +				{ AOM_CDF2(16384)},
+> +			}
+> +		},
+> +		{
+> +			{
+> +				{ AOM_CDF2(19833)},
+> +				{ AOM_CDF2(21502)},
+> +				{ AOM_CDF2(17485)},
+> +				{ AOM_CDF2(20267)},
+> +				{ AOM_CDF2(18353)},
+> +				{ AOM_CDF2(23329)},
+> +				{ AOM_CDF2(21478)},
+> +				{ AOM_CDF2(16384)},
+> +				{ AOM_CDF2(16384)},
+> +			},
+> +			{
+> +				{ AOM_CDF2(22041)},
+> +				{ AOM_CDF2(23434)},
+> +				{ AOM_CDF2(20001)},
+> +				{ AOM_CDF2(20554)},
+> +				{ AOM_CDF2(20951)},
+> +				{ AOM_CDF2(20145)},
+> +				{ AOM_CDF2(15562)},
+> +				{ AOM_CDF2(16384)},
+> +				{ AOM_CDF2(16384)},
+> +			}
+> +		},
+> +		{
+> +			{
+> +				{ AOM_CDF2(23312)},
+> +				{ AOM_CDF2(21607)},
+> +				{ AOM_CDF2(16526)},
+> +				{ AOM_CDF2(18957)},
+> +				{ AOM_CDF2(18034)},
+> +				{ AOM_CDF2(18934)},
+> +				{ AOM_CDF2(24247)},
+> +				{ AOM_CDF2(16921)},
+> +				{ AOM_CDF2(17080)},
+> +			},
+> +			{
+> +				{ AOM_CDF2(26579)},
+> +				{ AOM_CDF2(24910)},
+> +				{ AOM_CDF2(18637)},
+> +				{ AOM_CDF2(19800)},
+> +				{ AOM_CDF2(20388)},
+> +				{ AOM_CDF2(9887)},
+> +				{ AOM_CDF2(15642)},
+> +				{ AOM_CDF2(30198)},
+> +				{ AOM_CDF2(24721)},
+> +			}
+> +		},
+> +		{
+> +			{
+> +				{ AOM_CDF2(26998)},
+> +				{ AOM_CDF2(16737)},
+> +				{ AOM_CDF2(17838)},
+> +				{ AOM_CDF2(18922)},
+> +				{ AOM_CDF2(19515)},
+> +				{ AOM_CDF2(18636)},
+> +				{ AOM_CDF2(17333)},
+> +				{ AOM_CDF2(15776)},
+> +				{ AOM_CDF2(22658)},
+> +			},
+> +			{
+> +				{ AOM_CDF2(16384)},
+> +				{ AOM_CDF2(16384)},
+> +				{ AOM_CDF2(16384)},
+> +				{ AOM_CDF2(16384)},
+> +				{ AOM_CDF2(16384)},
+> +				{ AOM_CDF2(16384)},
+> +				{ AOM_CDF2(16384)},
+> +				{ AOM_CDF2(16384)},
+> +				{ AOM_CDF2(16384)},
+> +			}
+> +		}
+> +	},
+> +	{
+> +		{
+> +			{
+> +				{ AOM_CDF2(20177)},
+> +				{ AOM_CDF2(20789)},
+> +				{ AOM_CDF2(20262)},
+> +				{ AOM_CDF2(16384)},
+> +				{ AOM_CDF2(16384)},
+> +				{ AOM_CDF2(16384)},
+> +				{ AOM_CDF2(16384)},
+> +				{ AOM_CDF2(16384)},
+> +				{ AOM_CDF2(16384)},
+> +			},
+> +			{
+> +				{ AOM_CDF2(21416)},
+> +				{ AOM_CDF2(20855)},
+> +				{ AOM_CDF2(23410)},
+> +				{ AOM_CDF2(16384)},
+> +				{ AOM_CDF2(16384)},
+> +				{ AOM_CDF2(16384)},
+> +				{ AOM_CDF2(16384)},
+> +				{ AOM_CDF2(16384)},
+> +				{ AOM_CDF2(16384)},
+> +			}
+> +		},
+> +		{
+> +			{
+> +				{ AOM_CDF2(20238)},
+> +				{ AOM_CDF2(21057)},
+> +				{ AOM_CDF2(19159)},
+> +				{ AOM_CDF2(22337)},
+> +				{ AOM_CDF2(20159)},
+> +				{ AOM_CDF2(16384)},
+> +				{ AOM_CDF2(16384)},
+> +				{ AOM_CDF2(16384)},
+> +				{ AOM_CDF2(16384)},
+> +			},
+> +			{
+> +				{ AOM_CDF2(20125)},
+> +				{ AOM_CDF2(20559)},
+> +				{ AOM_CDF2(21707)},
+> +				{ AOM_CDF2(22296)},
+> +				{ AOM_CDF2(17333)},
+> +				{ AOM_CDF2(16384)},
+> +				{ AOM_CDF2(16384)},
+> +				{ AOM_CDF2(16384)},
+> +				{ AOM_CDF2(16384)},
+> +			}
+> +		},
+> +		{
+> +			{
+> +				{ AOM_CDF2(19941)},
+> +				{ AOM_CDF2(20527)},
+> +				{ AOM_CDF2(21470)},
+> +				{ AOM_CDF2(22487)},
+> +				{ AOM_CDF2(19558)},
+> +				{ AOM_CDF2(22354)},
+> +				{ AOM_CDF2(20331)},
+> +				{ AOM_CDF2(16384)},
+> +				{ AOM_CDF2(16384)},
+> +			},
+> +			{
+> +				{ AOM_CDF2(22752)},
+> +				{ AOM_CDF2(25006)},
+> +				{ AOM_CDF2(22075)},
+> +				{ AOM_CDF2(21576)},
+> +				{ AOM_CDF2(17740)},
+> +				{ AOM_CDF2(21690)},
+> +				{ AOM_CDF2(19211)},
+> +				{ AOM_CDF2(16384)},
+> +				{ AOM_CDF2(16384)},
+> +			}
+> +		},
+> +		{
+> +			{
+> +				{ AOM_CDF2(21442)},
+> +				{ AOM_CDF2(22358)},
+> +				{ AOM_CDF2(18503)},
+> +				{ AOM_CDF2(20291)},
+> +				{ AOM_CDF2(19945)},
+> +				{ AOM_CDF2(21294)},
+> +				{ AOM_CDF2(21178)},
+> +				{ AOM_CDF2(19400)},
+> +				{ AOM_CDF2(10556)},
+> +			},
+> +			{
+> +				{ AOM_CDF2(24648)},
+> +				{ AOM_CDF2(24949)},
+> +				{ AOM_CDF2(20708)},
+> +				{ AOM_CDF2(23905)},
+> +				{ AOM_CDF2(20501)},
+> +				{ AOM_CDF2(9558)},
+> +				{ AOM_CDF2(9423)},
+> +				{ AOM_CDF2(30365)},
+> +				{ AOM_CDF2(19253)},
+> +			}
+> +		},
+> +		{
+> +			{
+> +				{ AOM_CDF2(26064)},
+> +				{ AOM_CDF2(22098)},
+> +				{ AOM_CDF2(19613)},
+> +				{ AOM_CDF2(20525)},
+> +				{ AOM_CDF2(17595)},
+> +				{ AOM_CDF2(16618)},
+> +				{ AOM_CDF2(20497)},
+> +				{ AOM_CDF2(18989)},
+> +				{ AOM_CDF2(15513)},
+> +			},
+> +			{
+> +				{ AOM_CDF2(16384)},
+> +				{ AOM_CDF2(16384)},
+> +				{ AOM_CDF2(16384)},
+> +				{ AOM_CDF2(16384)},
+> +				{ AOM_CDF2(16384)},
+> +				{ AOM_CDF2(16384)},
+> +				{ AOM_CDF2(16384)},
+> +				{ AOM_CDF2(16384)},
+> +				{ AOM_CDF2(16384)},
+> +			}
+> +		}
+> +	}
+> +};
+> +
+> +static const uint16_t av1_default_eob_multi16_cdfs[TOKEN_CDF_Q_CTXS][PLA=
+NE_TYPES][2][4] =3D {
+> +	{
+> +		{
+> +			{ AOM_CDF5(840, 1039, 1980, 4895)},
+> +			{ AOM_CDF5(370, 671, 1883, 4471)}
+> +		},
+> +		{
+> +			{ AOM_CDF5(3247, 4950, 9688, 14563)},
+> +			{ AOM_CDF5(1904, 3354, 7763, 14647)}
+> +		}
+> +	},
+> +	{
+> +		{
+> +			{ AOM_CDF5(2125, 2551, 5165, 8946)},
+> +			{ AOM_CDF5(513, 765, 1859, 6339)}
+> +		},
+> +		{
+> +			{ AOM_CDF5(7637, 9498, 14259, 19108)},
+> +			{ AOM_CDF5(2497, 4096, 8866, 16993)}
+> +		}
+> +	},
+> +	{
+> +		{
+> +			{ AOM_CDF5(4016, 4897, 8881, 14968)},
+> +			{ AOM_CDF5(716, 1105, 2646, 10056)}
+> +		},
+> +		{
+> +			{ AOM_CDF5(11139, 13270, 18241, 23566)},
+> +			{ AOM_CDF5(3192, 5032, 10297, 19755)}
+> +		}
+> +	},
+> +	{
+> +		{
+> +			{ AOM_CDF5(6708, 8958, 14746, 22133)},
+> +			{ AOM_CDF5(1222, 2074, 4783, 15410)}
+> +		},
+> +		{
+> +			{ AOM_CDF5(19575, 21766, 26044, 29709)},
+> +			{ AOM_CDF5(7297, 10767, 19273, 28194)}
+> +		}
+> +	}
+> +};
+> +
+> +static const uint16_t av1_default_eob_multi32_cdfs[TOKEN_CDF_Q_CTXS][PLA=
+NE_TYPES][2][8] =3D {
+> +	{
+> +		{
+> +			{ AOM_CDF6(400, 520, 977, 2102, 6542)},
+> +			{ AOM_CDF6(210, 405, 1315, 3326, 7537)}
+> +		},
+> +		{
+> +			{ AOM_CDF6(2636, 4273, 7588, 11794, 20401)},
+> +			{ AOM_CDF6(1786, 3179, 6902, 11357, 19054)}
+> +		}
+> +	},
+> +	{
+> +		{
+> +			{ AOM_CDF6(989, 1249, 2019, 4151, 10785)},
+> +			{ AOM_CDF6(313, 441, 1099, 2917, 8562)}
+> +		},
+> +		{
+> +			{ AOM_CDF6(8394, 10352, 13932, 18855, 26014)},
+> +			{ AOM_CDF6(2578, 4124, 8181, 13670, 24234)}
+> +		}
+> +	},
+> +	{
+> +		{
+> +			{ AOM_CDF6(2515, 3003, 4452, 8162, 16041)},
+> +			{ AOM_CDF6(574, 821, 1836, 5089, 13128)}
+> +		},
+> +		{
+> +			{ AOM_CDF6(13468, 16303, 20361, 25105, 29281)},
+> +			{ AOM_CDF6(3542, 5502, 10415, 16760, 25644)}
+> +		}
+> +	},
+> +	{
+> +		{
+> +			{ AOM_CDF6(4617, 5709, 8446, 13584, 23135)},
+> +			{ AOM_CDF6(1156, 1702, 3675, 9274, 20539)}
+> +		},
+> +		{
+> +			{ AOM_CDF6(22086, 24282, 27010, 29770, 31743)},
+> +			{ AOM_CDF6(7699, 10897, 20891, 26926, 31628)}
+> +		}
+> +	}
+> +};
+> +
+> +static const uint16_t av1_default_eob_multi64_cdfs[TOKEN_CDF_Q_CTXS][PLA=
+NE_TYPES][2][8] =3D {
+> +	{
+> +		{
+> +			{ AOM_CDF7(329, 498, 1101, 1784, 3265, 7758)},
+> +			{ AOM_CDF7(335, 730, 1459, 5494, 8755, 12997)}
+> +		},
+> +		{
+> +			{ AOM_CDF7(3505, 5304, 10086, 13814, 17684, 23370)},
+> +			{ AOM_CDF7(1563, 2700, 4876, 10911, 14706, 22480)}
+> +		}
+> +	},
+> +	{
+> +		{
+> +			{ AOM_CDF7(1260, 1446, 2253, 3712, 6652, 13369)},
+> +			{ AOM_CDF7(401, 605, 1029, 2563, 5845, 12626)}
+> +		},
+> +		{
+> +			{ AOM_CDF7(8609, 10612, 14624, 18714, 22614, 29024)},
+> +			{ AOM_CDF7(1923, 3127, 5867, 9703, 14277, 27100)}
+> +		}
+> +	},
+> +	{
+> +		{
+> +			{ AOM_CDF7(2374, 2772, 4583, 7276, 12288, 19706)},
+> +			{ AOM_CDF7(497, 810, 1315, 3000, 7004, 15641)}
+> +		},
+> +		{
+> +			{ AOM_CDF7(15050, 17126, 21410, 24886, 28156, 30726)},
+> +			{ AOM_CDF7(4034, 6290, 10235, 14982, 21214, 28491)}
+> +		}
+> +	},
+> +	{
+> +		{
+> +			{ AOM_CDF7(6307, 7541, 12060, 16358, 22553, 27865)},
+> +			{ AOM_CDF7(1289, 2320, 3971, 7926, 14153, 24291)}
+> +		},
+> +		{
+> +			{ AOM_CDF7(24212, 25708, 28268, 30035, 31307, 32049)},
+> +			{ AOM_CDF7(8726, 12378, 19409, 26450, 30038, 32462)}
+> +		}
+> +	}
+> +};
+> +
+> +static const uint16_t av1_default_eob_multi128_cdfs[TOKEN_CDF_Q_CTXS][PL=
+ANE_TYPES][2][8] =3D {
+> +	{
+> +		{
+> +			{ AOM_CDF8(219, 482, 1140, 2091, 3680, 6028, 12586)},
+> +			{ AOM_CDF8(371, 699, 1254, 4830, 9479, 12562, 17497)}
+> +		},
+> +		{
+> +			{ AOM_CDF8(5245, 7456, 12880, 15852, 20033, 23932, 27608)},
+> +			{ AOM_CDF8(2054, 3472, 5869, 14232, 18242, 20590, 26752)}
+> +		}
+> +	},
+> +	{
+> +		{
+> +			{ AOM_CDF8(685, 933, 1488, 2714, 4766, 8562, 19254)},
+> +			{ AOM_CDF8(217, 352, 618, 2303, 5261, 9969, 17472)}
+> +		},
+> +		{
+> +			{ AOM_CDF8(8045, 11200, 15497, 19595, 23948, 27408, 30938)},
+> +			{ AOM_CDF8(2310, 4160, 7471, 14997, 17931, 20768, 30240)}
+> +		}
+> +	},
+> +	{
+> +		{
+> +			{ AOM_CDF8(1366, 1738, 2527, 5016, 9355, 15797, 24643)},
+> +			{ AOM_CDF8(354, 558, 944, 2760, 7287, 14037, 21779)}
+> +		},
+> +		{
+> +			{ AOM_CDF8(13627, 16246, 20173, 24429, 27948, 30415, 31863)},
+> +			{ AOM_CDF8(6275, 9889, 14769, 23164, 27988, 30493, 32272)}
+> +		}
+> +	},
+> +	{
+> +		{
+> +			{ AOM_CDF8(3472, 4885, 7489, 12481, 18517, 24536, 29635)},
+> +			{ AOM_CDF8(886, 1731, 3271, 8469, 15569, 22126, 28383)}
+> +		},
+> +		{
+> +			{ AOM_CDF8(24313, 26062, 28385, 30107, 31217, 31898, 32345)},
+> +			{ AOM_CDF8(9165, 13282, 21150, 30286, 31894, 32571, 32712)}
+> +		}
+> +	}
+> +};
+> +
+> +static const uint16_t av1_default_eob_multi256_cdfs[TOKEN_CDF_Q_CTXS][PL=
+ANE_TYPES][2][8] =3D {
+> +	{
+> +		{
+> +			{ AOM_CDF9(310, 584, 1887, 3589, 6168, 8611, 11352, 15652)},
+> +			{ AOM_CDF9(998, 1850, 2998, 5604, 17341, 19888, 22899, 25583)}
+> +		},
+> +		{
+> +			{ AOM_CDF9(2520, 3240, 5952, 8870, 12577, 17558, 19954, 24168)},
+> +			{ AOM_CDF9(2203, 4130, 7435, 10739, 20652, 23681, 25609, 27261)}
+> +		}
+> +	},
+> +	{
+> +		{
+> +			{ AOM_CDF9(1448, 2109, 4151, 6263, 9329, 13260, 17944, 23300)},
+> +			{ AOM_CDF9(399, 1019, 1749, 3038, 10444, 15546, 22739, 27294)}
+> +		},
+> +		{
+> +			{ AOM_CDF9(6402, 8148, 12623, 15072, 18728, 22847, 26447, 29377)},
+> +			{ AOM_CDF9(1674, 3252, 5734, 10159, 22397, 23802, 24821, 30940)}
+> +		}
+> +	},
+> +	{
+> +		{
+> +			{ AOM_CDF9(3089, 3920, 6038, 9460, 14266, 19881, 25766, 29176)},
+> +			{ AOM_CDF9(1084, 2358, 3488, 5122, 11483, 18103, 26023, 29799)}
+> +		},
+> +		{
+> +			{ AOM_CDF9(11514, 13794, 17480, 20754, 24361, 27378, 29492, 31277)},
+> +			{ AOM_CDF9(6571, 9610, 15516, 21826, 29092, 30829, 31842, 32708)}
+> +		}
+> +	},
+> +	{
+> +		{
+> +			{ AOM_CDF9(5348, 7113, 11820, 15924, 22106, 26777, 30334, 31757)},
+> +			{ AOM_CDF9(2453, 4474, 6307, 8777, 16474, 22975, 29000, 31547)}
+> +		},
+> +		{
+> +			{ AOM_CDF9(23110, 24597, 27140, 28894, 30167, 30927, 31392, 32094)},
+> +			{ AOM_CDF9(9998, 17661, 25178, 28097, 31308, 32038, 32403, 32695)}
+> +		}
+> +	}
+> +};
+> +
+> +static const uint16_t av1_default_eob_multi512_cdfs[TOKEN_CDF_Q_CTXS][PL=
+ANE_TYPES][2][16] =3D {
+> +	{
+> +		{
+> +			{ AOM_CDF10(641, 983, 3707, 5430, 10234, 14958, 18788, 23412, 26061)}=
+,
+> +			{ AOM_CDF10(3277, 6554, 9830, 13107, 16384, 19661, 22938, 26214, 2949=
+1)}
+> +		},
+> +		{
+> +			{ AOM_CDF10(5095, 6446, 9996, 13354, 16017, 17986, 20919, 26129, 2914=
+0)},
+> +			{ AOM_CDF10(3277, 6554, 9830, 13107, 16384, 19661, 22938, 26214, 2949=
+1)}
+> +		}
+> +	},
+> +	{
+> +		{
+> +			{ AOM_CDF10(1230, 2278, 5035, 7776, 11871, 15346, 19590, 24584, 28749=
+)},
+> +			{ AOM_CDF10(3277, 6554, 9830, 13107, 16384, 19661, 22938, 26214, 2949=
+1)}
+> +		},
+> +		{
+> +			{ AOM_CDF10(7265, 9979, 15819, 19250, 21780, 23846, 26478, 28396, 318=
+11)},
+> +			{ AOM_CDF10(3277, 6554, 9830, 13107, 16384, 19661, 22938, 26214, 2949=
+1)}
+> +		}
+> +	},
+> +	{
+> +		{
+> +			{ AOM_CDF10(2624, 3936, 6480, 9686, 13979, 17726, 23267, 28410, 31078=
+)},
+> +			{ AOM_CDF10(3277, 6554, 9830, 13107, 16384, 19661, 22938, 26214, 2949=
+1)}
+> +		},
+> +		{
+> +			{ AOM_CDF10(12015, 14769, 19588, 22052, 24222, 25812, 27300, 29219, 3=
+2114)},
+> +			{ AOM_CDF10(3277, 6554, 9830, 13107, 16384, 19661, 22938, 26214, 2949=
+1)}
+> +		}
+> +	},
+> +	{
+> +		{
+> +			{ AOM_CDF10(5927, 7809, 10923, 14597, 19439, 24135, 28456, 31142, 320=
+60)},
+> +			{ AOM_CDF10(3277, 6554, 9830, 13107, 16384, 19661, 22938, 26214, 2949=
+1)}
+> +		},
+> +		{
+> +			{ AOM_CDF10(21093, 23043, 25742, 27658, 29097, 29716, 30073, 30820, 3=
+1956)},
+> +			{ AOM_CDF10(3277, 6554, 9830, 13107, 16384, 19661, 22938, 26214, 2949=
+1)}
+> +		}
+> +	}
+> +};
+> +
+> +static const uint16_t av1_default_eob_multi1024_cdfs[TOKEN_CDF_Q_CTXS][P=
+LANE_TYPES][2][16] =3D {
+> +	{
+> +		{
+> +			{ AOM_CDF11(393, 421, 751, 1623, 3160,
+> +				    6352, 13345, 18047, 22571, 25830)},
+> +			{ AOM_CDF11(2979, 5958, 8937, 11916, 14895,
+> +				    17873, 20852, 23831, 26810, 29789)}
+> +		},
+> +		{
+> +			{ AOM_CDF11(1865, 1988, 2930, 4242, 10533,
+> +				    16538, 21354, 27255, 28546, 31784)},
+> +			{ AOM_CDF11(2979, 5958, 8937, 11916, 14895,
+> +				    17873, 20852, 23831, 26810, 29789)}
+> +		}
+> +	},
+> +	{
+> +		{
+> +			{ AOM_CDF11(696, 948, 3145, 5702, 9706,
+> +				    13217, 17851, 21856, 25692, 28034)},
+> +			{ AOM_CDF11(2979, 5958, 8937, 11916, 14895,
+> +				    17873, 20852, 23831, 26810, 29789)}
+> +		},
+> +		{
+> +			{ AOM_CDF11(2672, 3591, 9330, 17084, 22725,
+> +				    24284, 26527, 28027, 28377, 30876)},
+> +			{ AOM_CDF11(2979, 5958, 8937, 11916, 14895,
+> +				    17873, 20852, 23831, 26810, 29789)}
+> +		}
+> +	},
+> +	{
+> +		{
+> +			{ AOM_CDF11(2784, 3831, 7041, 10521, 14847,
+> +				    18844, 23155, 26682, 29229, 31045)},
+> +			{ AOM_CDF11(2979, 5958, 8937, 11916, 14895,
+> +				    17873, 20852, 23831, 26810, 29789)}
+> +		},
+> +		{
+> +			{ AOM_CDF11(9577, 12466, 17739, 20750, 22061,
+> +				    23215, 24601, 25483, 25843, 32056)},
+> +			{ AOM_CDF11(2979, 5958, 8937, 11916, 14895,
+> +				    17873, 20852, 23831, 26810, 29789)}
+> +		}
+> +	},
+> +	{
+> +		{
+> +			{ AOM_CDF11(6698, 8334, 11961, 15762, 20186,
+> +				    23862, 27434, 29326, 31082, 32050)},
+> +			{ AOM_CDF11(2979, 5958, 8937, 11916, 14895,
+> +				    17873, 20852, 23831, 26810, 29789)}
+> +		},
+> +		{
+> +			{ AOM_CDF11(20569, 22426, 25569, 26859, 28053,
+> +				    28913, 29486, 29724, 29807, 32570)},
+> +			{ AOM_CDF11(2979, 5958, 8937, 11916, 14895,
+> +				    17873, 20852, 23831, 26810, 29789)}
+> +		}
+> +	}
+> +};
+> +
+> +static const uint16_t av1_default_coeff_lps_multi_cdfs[TOKEN_CDF_Q_CTXS]
+> +	[TX_SIZES][PLANE_TYPES][LEVEL_CONTEXTS][CDF_SIZE(BR_CDF_SIZE) + 1] =3D =
+{
+> +	{
+> +		{
+> +			{
+> +				{ AOM_CDF4(14298, 20718, 24174)}, { AOM_CDF4(12536, 19601, 23789)},
+> +				{ AOM_CDF4(8712, 15051, 19503)}, { AOM_CDF4(6170, 11327, 15434)},
+> +				{ AOM_CDF4(4742, 8926, 12538)}, { AOM_CDF4(3803, 7317, 10546)},
+> +				{ AOM_CDF4(1696, 3317, 4871)}, { AOM_CDF4(14392, 19951, 22756)},
+> +				{ AOM_CDF4(15978, 23218, 26818)}, { AOM_CDF4(12187, 19474, 23889)},
+> +				{ AOM_CDF4(9176, 15640, 20259)}, { AOM_CDF4(7068, 12655, 17028)},
+> +				{ AOM_CDF4(5656, 10442, 14472)}, { AOM_CDF4(2580, 4992, 7244)},
+> +				{ AOM_CDF4(12136, 18049, 21426)}, { AOM_CDF4(13784, 20721, 24481)},
+> +				{ AOM_CDF4(10836, 17621, 21900)}, { AOM_CDF4(8372, 14444, 18847)},
+> +				{ AOM_CDF4(6523, 11779, 16000)}, { AOM_CDF4(5337, 9898, 13760)},
+> +				{ AOM_CDF4(3034, 5860, 8462)}
+> +			},
+> +			{
+> +				{ AOM_CDF4(15967, 22905, 26286)}, { AOM_CDF4(13534, 20654, 24579)},
+> +				{ AOM_CDF4(9504, 16092, 20535)}, { AOM_CDF4(6975, 12568, 16903)},
+> +				{ AOM_CDF4(5364, 10091, 14020)}, { AOM_CDF4(4357, 8370, 11857)},
+> +				{ AOM_CDF4(2506, 4934, 7218)}, { AOM_CDF4(23032, 28815, 30936)},
+> +				{ AOM_CDF4(19540, 26704, 29719)}, { AOM_CDF4(15158, 22969, 27097)},
+> +				{ AOM_CDF4(11408, 18865, 23650)}, { AOM_CDF4(8885, 15448, 20250)},
+> +				{ AOM_CDF4(7108, 12853, 17416)}, { AOM_CDF4(4231, 8041, 11480)},
+> +				{ AOM_CDF4(19823, 26490, 29156)}, { AOM_CDF4(18890, 25929, 28932)},
+> +				{ AOM_CDF4(15660, 23491, 27433)}, { AOM_CDF4(12147, 19776, 24488)},
+> +				{ AOM_CDF4(9728, 16774, 21649)}, { AOM_CDF4(7919, 14277, 19066)},
+> +				{ AOM_CDF4(5440, 10170, 14185)}
+> +			}
+> +		},
+> +		{
+> +			{
+> +				{ AOM_CDF4(14406, 20862, 24414)}, { AOM_CDF4(11824, 18907, 23109)},
+> +				{ AOM_CDF4(8257, 14393, 18803)}, { AOM_CDF4(5860, 10747, 14778)},
+> +				{ AOM_CDF4(4475, 8486, 11984)}, { AOM_CDF4(3606, 6954, 10043)},
+> +				{ AOM_CDF4(1736, 3410, 5048)}, { AOM_CDF4(14430, 20046, 22882)},
+> +				{ AOM_CDF4(15593, 22899, 26709)}, { AOM_CDF4(12102, 19368, 23811)},
+> +				{ AOM_CDF4(9059, 15584, 20262)}, { AOM_CDF4(6999, 12603, 17048)},
+> +				{ AOM_CDF4(5684, 10497, 14553)}, { AOM_CDF4(2822, 5438, 7862)},
+> +				{ AOM_CDF4(15785, 21585, 24359)}, { AOM_CDF4(18347, 25229, 28266)},
+> +				{ AOM_CDF4(14974, 22487, 26389)}, { AOM_CDF4(11423, 18681, 23271)},
+> +				{ AOM_CDF4(8863, 15350, 20008)}, { AOM_CDF4(7153, 12852, 17278)},
+> +				{ AOM_CDF4(3707, 7036, 9982)}
+> +			},
+> +			{
+> +				{ AOM_CDF4(15460, 21696, 25469)}, { AOM_CDF4(12170, 19249, 23191)},
+> +				{ AOM_CDF4(8723, 15027, 19332)}, { AOM_CDF4(6428, 11704, 15874)},
+> +				{ AOM_CDF4(4922, 9292, 13052)}, { AOM_CDF4(4139, 7695, 11010)},
+> +				{ AOM_CDF4(2291, 4508, 6598)}, { AOM_CDF4(19856, 26920, 29828)},
+> +				{ AOM_CDF4(17923, 25289, 28792)}, { AOM_CDF4(14278, 21968, 26297)},
+> +				{ AOM_CDF4(10910, 18136, 22950)}, { AOM_CDF4(8423, 14815, 19627)},
+> +				{ AOM_CDF4(6771, 12283, 16774)}, { AOM_CDF4(4074, 7750, 11081)},
+> +				{ AOM_CDF4(19852, 26074, 28672)}, { AOM_CDF4(19371, 26110, 28989)},
+> +				{ AOM_CDF4(16265, 23873, 27663)}, { AOM_CDF4(12758, 20378, 24952)},
+> +				{ AOM_CDF4(10095, 17098, 21961)}, { AOM_CDF4(8250, 14628, 19451)},
+> +				{ AOM_CDF4(5205, 9745, 13622)}
+> +			}
+> +		},
+> +		{
+> +			{
+> +				{ AOM_CDF4(10563, 16233, 19763)}, { AOM_CDF4(9794, 16022, 19804)},
+> +				{ AOM_CDF4(6750, 11945, 15759)}, { AOM_CDF4(4963, 9186, 12752)},
+> +				{ AOM_CDF4(3845, 7435, 10627)}, { AOM_CDF4(3051, 6085, 8834)},
+> +				{ AOM_CDF4(1311, 2596, 3830)}, { AOM_CDF4(11246, 16404, 19689)},
+> +				{ AOM_CDF4(12315, 18911, 22731)}, { AOM_CDF4(10557, 17095, 21289)},
+> +				{ AOM_CDF4(8136, 14006, 18249)}, { AOM_CDF4(6348, 11474, 15565)},
+> +				{ AOM_CDF4(5196, 9655, 13400)}, { AOM_CDF4(2349, 4526, 6587)},
+> +				{ AOM_CDF4(13337, 18730, 21569)}, { AOM_CDF4(19306, 26071, 28882)},
+> +				{ AOM_CDF4(15952, 23540, 27254)}, { AOM_CDF4(12409, 19934, 24430)},
+> +				{ AOM_CDF4(9760, 16706, 21389)}, { AOM_CDF4(8004, 14220, 18818)},
+> +				{ AOM_CDF4(4138, 7794, 10961)}
+> +			},
+> +			{
+> +				{ AOM_CDF4(10870, 16684, 20949)}, { AOM_CDF4(9664, 15230, 18680)},
+> +				{ AOM_CDF4(6886, 12109, 15408)}, { AOM_CDF4(4825, 8900, 12305)},
+> +				{ AOM_CDF4(3630, 7162, 10314)}, { AOM_CDF4(3036, 6429, 9387)},
+> +				{ AOM_CDF4(1671, 3296, 4940)}, { AOM_CDF4(13819, 19159, 23026)},
+> +				{ AOM_CDF4(11984, 19108, 23120)}, { AOM_CDF4(10690, 17210, 21663)},
+> +				{ AOM_CDF4(7984, 14154, 18333)}, { AOM_CDF4(6868, 12294, 16124)},
+> +				{ AOM_CDF4(5274, 8994, 12868)}, { AOM_CDF4(2988, 5771, 8424)},
+> +				{ AOM_CDF4(19736, 26647, 29141)}, { AOM_CDF4(18933, 26070, 28984)},
+> +				{ AOM_CDF4(15779, 23048, 27200)}, { AOM_CDF4(12638, 20061, 24532)},
+> +				{ AOM_CDF4(10692, 17545, 22220)}, { AOM_CDF4(9217, 15251, 20054)},
+> +				{ AOM_CDF4(5078, 9284, 12594)}
+> +			}
+> +		},
+> +		{
+> +			{
+> +				{ AOM_CDF4(2331, 3662, 5244)}, { AOM_CDF4(2891, 4771, 6145)},
+> +				{ AOM_CDF4(4598, 7623, 9729)}, { AOM_CDF4(3520, 6845, 9199)},
+> +				{ AOM_CDF4(3417, 6119, 9324)}, { AOM_CDF4(2601, 5412, 7385)},
+> +				{ AOM_CDF4(600, 1173, 1744)}, { AOM_CDF4(7672, 13286, 17469)},
+> +				{ AOM_CDF4(4232, 7792, 10793)}, { AOM_CDF4(2915, 5317, 7397)},
+> +				{ AOM_CDF4(2318, 4356, 6152)}, { AOM_CDF4(2127, 4000, 5554)},
+> +				{ AOM_CDF4(1850, 3478, 5275)}, { AOM_CDF4(977, 1933, 2843)},
+> +				{ AOM_CDF4(18280, 24387, 27989)}, { AOM_CDF4(15852, 22671, 26185)},
+> +				{ AOM_CDF4(13845, 20951, 24789)}, { AOM_CDF4(11055, 17966, 22129)},
+> +				{ AOM_CDF4(9138, 15422, 19801)}, { AOM_CDF4(7454, 13145, 17456)},
+> +				{ AOM_CDF4(3370, 6393, 9013)}
+> +			},
+> +			{
+> +				{ AOM_CDF4(5842, 9229, 10838)}, { AOM_CDF4(2313, 3491, 4276)},
+> +				{ AOM_CDF4(2998, 6104, 7496)}, { AOM_CDF4(2420, 7447, 9868)},
+> +				{ AOM_CDF4(3034, 8495, 10923)}, { AOM_CDF4(4076, 8937, 10975)},
+> +				{ AOM_CDF4(1086, 2370, 3299)}, { AOM_CDF4(9714, 17254, 20444)},
+> +				{ AOM_CDF4(8543, 13698, 17123)}, { AOM_CDF4(4918, 9007, 11910)},
+> +				{ AOM_CDF4(4129, 7532, 10553)}, { AOM_CDF4(2364, 5533, 8058)},
+> +				{ AOM_CDF4(1834, 3546, 5563)}, { AOM_CDF4(1473, 2908, 4133)},
+> +				{ AOM_CDF4(15405, 21193, 25619)}, { AOM_CDF4(15691, 21952, 26561)},
+> +				{ AOM_CDF4(12962, 19194, 24165)}, { AOM_CDF4(10272, 17855, 22129)},
+> +				{ AOM_CDF4(8588, 15270, 20718)}, { AOM_CDF4(8682, 14669, 19500)},
+> +				{ AOM_CDF4(4870, 9636, 13205)}
+> +			}
+> +		},
+> +		{
+> +			{
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}
+> +			},
+> +			{
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}
+> +			}
+> +		}
+> +	},
+> +	{
+> +		{
+> +			{
+> +				{ AOM_CDF4(14995, 21341, 24749)}, { AOM_CDF4(13158, 20289, 24601)},
+> +				{ AOM_CDF4(8941, 15326, 19876)}, { AOM_CDF4(6297, 11541, 15807)},
+> +				{ AOM_CDF4(4817, 9029, 12776)}, { AOM_CDF4(3731, 7273, 10627)},
+> +				{ AOM_CDF4(1847, 3617, 5354)}, { AOM_CDF4(14472, 19659, 22343)},
+> +				{ AOM_CDF4(16806, 24162, 27533)}, { AOM_CDF4(12900, 20404, 24713)},
+> +				{ AOM_CDF4(9411, 16112, 20797)}, { AOM_CDF4(7056, 12697, 17148)},
+> +				{ AOM_CDF4(5544, 10339, 14460)}, { AOM_CDF4(2954, 5704, 8319)},
+> +				{ AOM_CDF4(12464, 18071, 21354)}, { AOM_CDF4(15482, 22528, 26034)},
+> +				{ AOM_CDF4(12070, 19269, 23624)}, { AOM_CDF4(8953, 15406, 20106)},
+> +				{ AOM_CDF4(7027, 12730, 17220)}, { AOM_CDF4(5887, 10913, 15140)},
+> +				{ AOM_CDF4(3793, 7278, 10447)}
+> +			},
+> +			{
+> +				{ AOM_CDF4(15571, 22232, 25749)}, { AOM_CDF4(14506, 21575, 25374)},
+> +				{ AOM_CDF4(10189, 17089, 21569)}, { AOM_CDF4(7316, 13301, 17915)},
+> +				{ AOM_CDF4(5783, 10912, 15190)}, { AOM_CDF4(4760, 9155, 13088)},
+> +				{ AOM_CDF4(2993, 5966, 8774)}, { AOM_CDF4(23424, 28903, 30778)},
+> +				{ AOM_CDF4(20775, 27666, 30290)}, { AOM_CDF4(16474, 24410, 28299)},
+> +				{ AOM_CDF4(12471, 20180, 24987)}, { AOM_CDF4(9410, 16487, 21439)},
+> +				{ AOM_CDF4(7536, 13614, 18529)}, { AOM_CDF4(5048, 9586, 13549)},
+> +				{ AOM_CDF4(21090, 27290, 29756)}, { AOM_CDF4(20796, 27402, 30026)},
+> +				{ AOM_CDF4(17819, 25485, 28969)}, { AOM_CDF4(13860, 21909, 26462)},
+> +				{ AOM_CDF4(11002, 18494, 23529)}, { AOM_CDF4(8953, 15929, 20897)},
+> +				{ AOM_CDF4(6448, 11918, 16454)}
+> +			}
+> +		},
+> +		{
+> +			{
+> +				{ AOM_CDF4(15999, 22208, 25449)}, { AOM_CDF4(13050, 19988, 24122)},
+> +				{ AOM_CDF4(8594, 14864, 19378)}, { AOM_CDF4(6033, 11079, 15238)},
+> +				{ AOM_CDF4(4554, 8683, 12347)}, { AOM_CDF4(3672, 7139, 10337)},
+> +				{ AOM_CDF4(1900, 3771, 5576)}, { AOM_CDF4(15788, 21340, 23949)},
+> +				{ AOM_CDF4(16825, 24235, 27758)}, { AOM_CDF4(12873, 20402, 24810)},
+> +				{ AOM_CDF4(9590, 16363, 21094)}, { AOM_CDF4(7352, 13209, 17733)},
+> +				{ AOM_CDF4(5960, 10989, 15184)}, { AOM_CDF4(3232, 6234, 9007)},
+> +				{ AOM_CDF4(15761, 20716, 23224)}, { AOM_CDF4(19318, 25989, 28759)},
+> +				{ AOM_CDF4(15529, 23094, 26929)}, { AOM_CDF4(11662, 18989, 23641)},
+> +				{ AOM_CDF4(8955, 15568, 20366)}, { AOM_CDF4(7281, 13106, 17708)},
+> +				{ AOM_CDF4(4248, 8059, 11440)}
+> +			},
+> +			{
+> +				{ AOM_CDF4(14899, 21217, 24503)}, { AOM_CDF4(13519, 20283, 24047)},
+> +				{ AOM_CDF4(9429, 15966, 20365)}, { AOM_CDF4(6700, 12355, 16652)},
+> +				{ AOM_CDF4(5088, 9704, 13716)}, { AOM_CDF4(4243, 8154, 11731)},
+> +				{ AOM_CDF4(2702, 5364, 7861)}, { AOM_CDF4(22745, 28388, 30454)},
+> +				{ AOM_CDF4(20235, 27146, 29922)}, { AOM_CDF4(15896, 23715, 27637)},
+> +				{ AOM_CDF4(11840, 19350, 24131)}, { AOM_CDF4(9122, 15932, 20880)},
+> +				{ AOM_CDF4(7488, 13581, 18362)}, { AOM_CDF4(5114, 9568, 13370)},
+> +				{ AOM_CDF4(20845, 26553, 28932)}, { AOM_CDF4(20981, 27372, 29884)},
+> +				{ AOM_CDF4(17781, 25335, 28785)}, { AOM_CDF4(13760, 21708, 26297)},
+> +				{ AOM_CDF4(10975, 18415, 23365)}, { AOM_CDF4(9045, 15789, 20686)},
+> +				{ AOM_CDF4(6130, 11199, 15423)}
+> +			}
+> +		},
+> +		{
+> +			{
+> +				{ AOM_CDF4(13549, 19724, 23158)}, { AOM_CDF4(11844, 18382, 22246)},
+> +				{ AOM_CDF4(7919, 13619, 17773)}, { AOM_CDF4(5486, 10143, 13946)},
+> +				{ AOM_CDF4(4166, 7983, 11324)}, { AOM_CDF4(3364, 6506, 9427)},
+> +				{ AOM_CDF4(1598, 3160, 4674)}, { AOM_CDF4(15281, 20979, 23781)},
+> +				{ AOM_CDF4(14939, 22119, 25952)}, { AOM_CDF4(11363, 18407, 22812)},
+> +				{ AOM_CDF4(8609, 14857, 19370)}, { AOM_CDF4(6737, 12184, 16480)},
+> +				{ AOM_CDF4(5506, 10263, 14262)}, { AOM_CDF4(2990, 5786, 8380)},
+> +				{ AOM_CDF4(20249, 25253, 27417)}, { AOM_CDF4(21070, 27518, 30001)},
+> +				{ AOM_CDF4(16854, 24469, 28074)}, { AOM_CDF4(12864, 20486, 25000)},
+> +				{ AOM_CDF4(9962, 16978, 21778)}, { AOM_CDF4(8074, 14338, 19048)},
+> +				{ AOM_CDF4(4494, 8479, 11906)}
+> +			},
+> +			{
+> +				{ AOM_CDF4(13960, 19617, 22829)}, { AOM_CDF4(11150, 17341, 21228)},
+> +				{ AOM_CDF4(7150, 12964, 17190)}, { AOM_CDF4(5331, 10002, 13867)},
+> +				{ AOM_CDF4(4167, 7744, 11057)}, { AOM_CDF4(3480, 6629, 9646)},
+> +				{ AOM_CDF4(1883, 3784, 5686)}, { AOM_CDF4(18752, 25660, 28912)},
+> +				{ AOM_CDF4(16968, 24586, 28030)}, { AOM_CDF4(13520, 21055, 25313)},
+> +				{ AOM_CDF4(10453, 17626, 22280)}, { AOM_CDF4(8386, 14505, 19116)},
+> +				{ AOM_CDF4(6742, 12595, 17008)}, { AOM_CDF4(4273, 8140, 11499)},
+> +				{ AOM_CDF4(22120, 27827, 30233)}, { AOM_CDF4(20563, 27358, 29895)},
+> +				{ AOM_CDF4(17076, 24644, 28153)}, { AOM_CDF4(13362, 20942, 25309)},
+> +				{ AOM_CDF4(10794, 17965, 22695)}, { AOM_CDF4(9014, 15652, 20319)},
+> +				{ AOM_CDF4(5708, 10512, 14497)}
+> +			}
+> +		},
+> +		{
+> +			{
+> +				{ AOM_CDF4(5705, 10930, 15725)}, { AOM_CDF4(7946, 12765, 16115)},
+> +				{ AOM_CDF4(6801, 12123, 16226)}, { AOM_CDF4(5462, 10135, 14200)},
+> +				{ AOM_CDF4(4189, 8011, 11507)}, { AOM_CDF4(3191, 6229, 9408)},
+> +				{ AOM_CDF4(1057, 2137, 3212)}, { AOM_CDF4(10018, 17067, 21491)},
+> +				{ AOM_CDF4(7380, 12582, 16453)}, { AOM_CDF4(6068, 10845, 14339)},
+> +				{ AOM_CDF4(5098, 9198, 12555)}, { AOM_CDF4(4312, 8010, 11119)},
+> +				{ AOM_CDF4(3700, 6966, 9781)}, { AOM_CDF4(1693, 3326, 4887)},
+> +				{ AOM_CDF4(18757, 24930, 27774)}, { AOM_CDF4(17648, 24596, 27817)},
+> +				{ AOM_CDF4(14707, 22052, 26026)}, { AOM_CDF4(11720, 18852, 23292)},
+> +				{ AOM_CDF4(9357, 15952, 20525)}, { AOM_CDF4(7810, 13753, 18210)},
+> +				{ AOM_CDF4(3879, 7333, 10328)}
+> +			},
+> +			{
+> +				{ AOM_CDF4(8278, 13242, 15922)}, { AOM_CDF4(10547, 15867, 18919)},
+> +				{ AOM_CDF4(9106, 15842, 20609)}, { AOM_CDF4(6833, 13007, 17218)},
+> +				{ AOM_CDF4(4811, 9712, 13923)}, { AOM_CDF4(3985, 7352, 11128)},
+> +				{ AOM_CDF4(1688, 3458, 5262)}, { AOM_CDF4(12951, 21861, 26510)},
+> +				{ AOM_CDF4(9788, 16044, 20276)}, { AOM_CDF4(6309, 11244, 14870)},
+> +				{ AOM_CDF4(5183, 9349, 12566)}, { AOM_CDF4(4389, 8229, 11492)},
+> +				{ AOM_CDF4(3633, 6945, 10620)}, { AOM_CDF4(3600, 6847, 9907)},
+> +				{ AOM_CDF4(21748, 28137, 30255)}, { AOM_CDF4(19436, 26581, 29560)},
+> +				{ AOM_CDF4(16359, 24201, 27953)}, { AOM_CDF4(13961, 21693, 25871)},
+> +				{ AOM_CDF4(11544, 18686, 23322)}, { AOM_CDF4(9372, 16462, 20952)},
+> +				{ AOM_CDF4(6138, 11210, 15390)}
+> +			}
+> +		},
+> +		{
+> +			{
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}
+> +			},
+> +			{
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}
+> +			}
+> +		}
+> +	},
+> +	{
+> +		{
+> +			{
+> +				{ AOM_CDF4(16138, 22223, 25509)}, { AOM_CDF4(15347, 22430, 26332)},
+> +				{ AOM_CDF4(9614, 16736, 21332)}, { AOM_CDF4(6600, 12275, 16907)},
+> +				{ AOM_CDF4(4811, 9424, 13547)}, { AOM_CDF4(3748, 7809, 11420)},
+> +				{ AOM_CDF4(2254, 4587, 6890)}, { AOM_CDF4(15196, 20284, 23177)},
+> +				{ AOM_CDF4(18317, 25469, 28451)}, { AOM_CDF4(13918, 21651, 25842)},
+> +				{ AOM_CDF4(10052, 17150, 21995)}, { AOM_CDF4(7499, 13630, 18587)},
+> +				{ AOM_CDF4(6158, 11417, 16003)}, { AOM_CDF4(4014, 7785, 11252)},
+> +				{ AOM_CDF4(15048, 21067, 24384)}, { AOM_CDF4(18202, 25346, 28553)},
+> +				{ AOM_CDF4(14302, 22019, 26356)}, { AOM_CDF4(10839, 18139, 23166)},
+> +				{ AOM_CDF4(8715, 15744, 20806)}, { AOM_CDF4(7536, 13576, 18544)},
+> +				{ AOM_CDF4(5413, 10335, 14498)}
+> +			},
+> +			{
+> +				{ AOM_CDF4(17394, 24501, 27895)}, { AOM_CDF4(15889, 23420, 27185)},
+> +				{ AOM_CDF4(11561, 19133, 23870)}, { AOM_CDF4(8285, 14812, 19844)},
+> +				{ AOM_CDF4(6496, 12043, 16550)}, { AOM_CDF4(4771, 9574, 13677)},
+> +				{ AOM_CDF4(3603, 6830, 10144)}, { AOM_CDF4(21656, 27704, 30200)},
+> +				{ AOM_CDF4(21324, 27915, 30511)}, { AOM_CDF4(17327, 25336, 28997)},
+> +				{ AOM_CDF4(13417, 21381, 26033)}, { AOM_CDF4(10132, 17425, 22338)},
+> +				{ AOM_CDF4(8580, 15016, 19633)}, { AOM_CDF4(5694, 11477, 16411)},
+> +				{ AOM_CDF4(24116, 29780, 31450)}, { AOM_CDF4(23853, 29695, 31591)},
+> +				{ AOM_CDF4(20085, 27614, 30428)}, { AOM_CDF4(15326, 24335, 28575)},
+> +				{ AOM_CDF4(11814, 19472, 24810)}, { AOM_CDF4(10221, 18611, 24767)},
+> +				{ AOM_CDF4(7689, 14558, 20321)}
+> +			}
+> +		},
+> +		{
+> +			{
+> +				{ AOM_CDF4(16214, 22380, 25770)}, { AOM_CDF4(14213, 21304, 25295)},
+> +				{ AOM_CDF4(9213, 15823, 20455)}, { AOM_CDF4(6395, 11758, 16139)},
+> +				{ AOM_CDF4(4779, 9187, 13066)}, { AOM_CDF4(3821, 7501, 10953)},
+> +				{ AOM_CDF4(2293, 4567, 6795)}, { AOM_CDF4(15859, 21283, 23820)},
+> +				{ AOM_CDF4(18404, 25602, 28726)}, { AOM_CDF4(14325, 21980, 26206)},
+> +				{ AOM_CDF4(10669, 17937, 22720)}, { AOM_CDF4(8297, 14642, 19447)},
+> +				{ AOM_CDF4(6746, 12389, 16893)}, { AOM_CDF4(4324, 8251, 11770)},
+> +				{ AOM_CDF4(16532, 21631, 24475)}, { AOM_CDF4(20667, 27150, 29668)},
+> +				{ AOM_CDF4(16728, 24510, 28175)}, { AOM_CDF4(12861, 20645, 25332)},
+> +				{ AOM_CDF4(10076, 17361, 22417)}, { AOM_CDF4(8395, 14940, 19963)},
+> +				{ AOM_CDF4(5731, 10683, 14912)}
+> +			},
+> +			{
+> +				{ AOM_CDF4(14433, 21155, 24938)}, { AOM_CDF4(14658, 21716, 25545)},
+> +				{ AOM_CDF4(9923, 16824, 21557)}, { AOM_CDF4(6982, 13052, 17721)},
+> +				{ AOM_CDF4(5419, 10503, 15050)}, { AOM_CDF4(4852, 9162, 13014)},
+> +				{ AOM_CDF4(3271, 6395, 9630)}, { AOM_CDF4(22210, 27833, 30109)},
+> +				{ AOM_CDF4(20750, 27368, 29821)}, { AOM_CDF4(16894, 24828, 28573)},
+> +				{ AOM_CDF4(13247, 21276, 25757)}, { AOM_CDF4(10038, 17265, 22563)},
+> +				{ AOM_CDF4(8587, 14947, 20327)}, { AOM_CDF4(5645, 11371, 15252)},
+> +				{ AOM_CDF4(22027, 27526, 29714)}, { AOM_CDF4(23098, 29146, 31221)},
+> +				{ AOM_CDF4(19886, 27341, 30272)}, { AOM_CDF4(15609, 23747, 28046)},
+> +				{ AOM_CDF4(11993, 20065, 24939)}, { AOM_CDF4(9637, 18267, 23671)},
+> +				{ AOM_CDF4(7625, 13801, 19144)}
+> +			}
+> +		},
+> +		{
+> +			{
+> +				{ AOM_CDF4(14438, 20798, 24089)}, { AOM_CDF4(12621, 19203, 23097)},
+> +				{ AOM_CDF4(8177, 14125, 18402)}, { AOM_CDF4(5674, 10501, 14456)},
+> +				{ AOM_CDF4(4236, 8239, 11733)}, { AOM_CDF4(3447, 6750, 9806)},
+> +				{ AOM_CDF4(1986, 3950, 5864)}, { AOM_CDF4(16208, 22099, 24930)},
+> +				{ AOM_CDF4(16537, 24025, 27585)}, { AOM_CDF4(12780, 20381, 24867)},
+> +				{ AOM_CDF4(9767, 16612, 21416)}, { AOM_CDF4(7686, 13738, 18398)},
+> +				{ AOM_CDF4(6333, 11614, 15964)}, { AOM_CDF4(3941, 7571, 10836)},
+> +				{ AOM_CDF4(22819, 27422, 29202)}, { AOM_CDF4(22224, 28514, 30721)},
+> +				{ AOM_CDF4(17660, 25433, 28913)}, { AOM_CDF4(13574, 21482, 26002)},
+> +				{ AOM_CDF4(10629, 17977, 22938)}, { AOM_CDF4(8612, 15298, 20265)},
+> +				{ AOM_CDF4(5607, 10491, 14596)}
+> +			},
+> +			{
+> +				{ AOM_CDF4(13569, 19800, 23206)}, { AOM_CDF4(13128, 19924, 23869)},
+> +				{ AOM_CDF4(8329, 14841, 19403)}, { AOM_CDF4(6130, 10976, 15057)},
+> +				{ AOM_CDF4(4682, 8839, 12518)}, { AOM_CDF4(3656, 7409, 10588)},
+> +				{ AOM_CDF4(2577, 5099, 7412)}, { AOM_CDF4(22427, 28684, 30585)},
+> +				{ AOM_CDF4(20913, 27750, 30139)}, { AOM_CDF4(15840, 24109, 27834)},
+> +				{ AOM_CDF4(12308, 20029, 24569)}, { AOM_CDF4(10216, 16785, 21458)},
+> +				{ AOM_CDF4(8309, 14203, 19113)}, { AOM_CDF4(6043, 11168, 15307)},
+> +				{ AOM_CDF4(23166, 28901, 30998)}, { AOM_CDF4(21899, 28405, 30751)},
+> +				{ AOM_CDF4(18413, 26091, 29443)}, { AOM_CDF4(15233, 23114, 27352)},
+> +				{ AOM_CDF4(12683, 20472, 25288)}, { AOM_CDF4(10702, 18259, 23409)},
+> +				{ AOM_CDF4(8125, 14464, 19226)}
+> +			}
+> +		},
+> +		{
+> +			{
+> +				{ AOM_CDF4(9040, 14786, 18360)}, { AOM_CDF4(9979, 15718, 19415)},
+> +				{ AOM_CDF4(7913, 13918, 18311)}, { AOM_CDF4(5859, 10889, 15184)},
+> +				{ AOM_CDF4(4593, 8677, 12510)}, { AOM_CDF4(3820, 7396, 10791)},
+> +				{ AOM_CDF4(1730, 3471, 5192)}, { AOM_CDF4(11803, 18365, 22709)},
+> +				{ AOM_CDF4(11419, 18058, 22225)}, { AOM_CDF4(9418, 15774, 20243)},
+> +				{ AOM_CDF4(7539, 13325, 17657)}, { AOM_CDF4(6233, 11317, 15384)},
+> +				{ AOM_CDF4(5137, 9656, 13545)}, { AOM_CDF4(2977, 5774, 8349)},
+> +				{ AOM_CDF4(21207, 27246, 29640)}, { AOM_CDF4(19547, 26578, 29497)},
+> +				{ AOM_CDF4(16169, 23871, 27690)}, { AOM_CDF4(12820, 20458, 25018)},
+> +				{ AOM_CDF4(10224, 17332, 22214)}, { AOM_CDF4(8526, 15048, 19884)},
+> +				{ AOM_CDF4(5037, 9410, 13118)}
+> +			},
+> +			{
+> +				{ AOM_CDF4(12339, 17329, 20140)}, { AOM_CDF4(13505, 19895, 23225)},
+> +				{ AOM_CDF4(9847, 16944, 21564)}, { AOM_CDF4(7280, 13256, 18348)},
+> +				{ AOM_CDF4(4712, 10009, 14454)}, { AOM_CDF4(4361, 7914, 12477)},
+> +				{ AOM_CDF4(2870, 5628, 7995)}, { AOM_CDF4(20061, 25504, 28526)},
+> +				{ AOM_CDF4(15235, 22878, 26145)}, { AOM_CDF4(12985, 19958, 24155)},
+> +				{ AOM_CDF4(9782, 16641, 21403)}, { AOM_CDF4(9456, 16360, 20760)},
+> +				{ AOM_CDF4(6855, 12940, 18557)}, { AOM_CDF4(5661, 10564, 15002)},
+> +				{ AOM_CDF4(25656, 30602, 31894)}, { AOM_CDF4(22570, 29107, 31092)},
+> +				{ AOM_CDF4(18917, 26423, 29541)}, { AOM_CDF4(15940, 23649, 27754)},
+> +				{ AOM_CDF4(12803, 20581, 25219)}, { AOM_CDF4(11082, 18695, 23376)},
+> +				{ AOM_CDF4(7939, 14373, 19005)}
+> +			}
+> +		},
+> +		{
+> +			{
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}
+> +			},
+> +			{
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}
+> +			}
+> +		}
+> +	},
+> +	{
+> +		{
+> +			{
+> +				{ AOM_CDF4(18315, 24289, 27551)}, { AOM_CDF4(16854, 24068, 27835)},
+> +				{ AOM_CDF4(10140, 17927, 23173)}, { AOM_CDF4(6722, 12982, 18267)},
+> +				{ AOM_CDF4(4661, 9826, 14706)}, { AOM_CDF4(3832, 8165, 12294)},
+> +				{ AOM_CDF4(2795, 6098, 9245)}, { AOM_CDF4(17145, 23326, 26672)},
+> +				{ AOM_CDF4(20733, 27680, 30308)}, { AOM_CDF4(16032, 24461, 28546)},
+> +				{ AOM_CDF4(11653, 20093, 25081)}, { AOM_CDF4(9290, 16429, 22086)},
+> +				{ AOM_CDF4(7796, 14598, 19982)}, { AOM_CDF4(6502, 12378, 17441)},
+> +				{ AOM_CDF4(21681, 27732, 30320)}, { AOM_CDF4(22389, 29044, 31261)},
+> +				{ AOM_CDF4(19027, 26731, 30087)}, { AOM_CDF4(14739, 23755, 28624)},
+> +				{ AOM_CDF4(11358, 20778, 25511)}, { AOM_CDF4(10995, 18073, 24190)},
+> +				{ AOM_CDF4(9162, 14990, 20617)}
+> +			},
+> +			{
+> +				{ AOM_CDF4(21425, 27952, 30388)}, { AOM_CDF4(18062, 25838, 29034)},
+> +				{ AOM_CDF4(11956, 19881, 24808)}, { AOM_CDF4(7718, 15000, 20980)},
+> +				{ AOM_CDF4(5702, 11254, 16143)}, { AOM_CDF4(4898, 9088, 16864)},
+> +				{ AOM_CDF4(3679, 6776, 11907)}, { AOM_CDF4(23294, 30160, 31663)},
+> +				{ AOM_CDF4(24397, 29896, 31836)}, { AOM_CDF4(19245, 27128, 30593)},
+> +				{ AOM_CDF4(13202, 19825, 26404)}, { AOM_CDF4(11578, 19297, 23957)},
+> +				{ AOM_CDF4(8073, 13297, 21370)}, { AOM_CDF4(5461, 10923, 19745)},
+> +				{ AOM_CDF4(27367, 30521, 31934)}, { AOM_CDF4(24904, 30671, 31940)},
+> +				{ AOM_CDF4(23075, 28460, 31299)}, { AOM_CDF4(14400, 23658, 30417)},
+> +				{ AOM_CDF4(13885, 23882, 28325)}, { AOM_CDF4(14746, 22938, 27853)},
+> +				{ AOM_CDF4(5461, 16384, 27307)}
+> +			}
+> +		},
+> +		{
+> +			{
+> +				{ AOM_CDF4(18274, 24813, 27890)}, { AOM_CDF4(15537, 23149, 27003)},
+> +				{ AOM_CDF4(9449, 16740, 21827)}, { AOM_CDF4(6700, 12498, 17261)},
+> +				{ AOM_CDF4(4988, 9866, 14198)}, { AOM_CDF4(4236, 8147, 11902)},
+> +				{ AOM_CDF4(2867, 5860, 8654)}, { AOM_CDF4(17124, 23171, 26101)},
+> +				{ AOM_CDF4(20396, 27477, 30148)}, { AOM_CDF4(16573, 24629, 28492)},
+> +				{ AOM_CDF4(12749, 20846, 25674)}, { AOM_CDF4(10233, 17878, 22818)},
+> +				{ AOM_CDF4(8525, 15332, 20363)}, { AOM_CDF4(6283, 11632, 16255)},
+> +				{ AOM_CDF4(20466, 26511, 29286)}, { AOM_CDF4(23059, 29174, 31191)},
+> +				{ AOM_CDF4(19481, 27263, 30241)}, { AOM_CDF4(15458, 23631, 28137)},
+> +				{ AOM_CDF4(12416, 20608, 25693)}, { AOM_CDF4(10261, 18011, 23261)},
+> +				{ AOM_CDF4(8016, 14655, 19666)}
+> +			},
+> +			{
+> +				{ AOM_CDF4(17616, 24586, 28112)}, { AOM_CDF4(15809, 23299, 27155)},
+> +				{ AOM_CDF4(10767, 18890, 23793)}, { AOM_CDF4(7727, 14255, 18865)},
+> +				{ AOM_CDF4(6129, 11926, 16882)}, { AOM_CDF4(4482, 9704, 14861)},
+> +				{ AOM_CDF4(3277, 7452, 11522)}, { AOM_CDF4(22956, 28551, 30730)},
+> +				{ AOM_CDF4(22724, 28937, 30961)}, { AOM_CDF4(18467, 26324, 29580)},
+> +				{ AOM_CDF4(13234, 20713, 25649)}, { AOM_CDF4(11181, 17592, 22481)},
+> +				{ AOM_CDF4(8291, 18358, 24576)}, { AOM_CDF4(7568, 11881, 14984)},
+> +				{ AOM_CDF4(24948, 29001, 31147)}, { AOM_CDF4(25674, 30619, 32151)},
+> +				{ AOM_CDF4(20841, 26793, 29603)}, { AOM_CDF4(14669, 24356, 28666)},
+> +				{ AOM_CDF4(11334, 23593, 28219)}, { AOM_CDF4(8922, 14762, 22873)},
+> +				{ AOM_CDF4(8301, 13544, 20535)}
+> +			}
+> +		},
+> +		{
+> +			{
+> +				{ AOM_CDF4(17113, 23733, 27081)}, { AOM_CDF4(14139, 21406, 25452)},
+> +				{ AOM_CDF4(8552, 15002, 19776)}, { AOM_CDF4(5871, 11120, 15378)},
+> +				{ AOM_CDF4(4455, 8616, 12253)}, { AOM_CDF4(3469, 6910, 10386)},
+> +				{ AOM_CDF4(2255, 4553, 6782)}, { AOM_CDF4(18224, 24376, 27053)},
+> +				{ AOM_CDF4(19290, 26710, 29614)}, { AOM_CDF4(14936, 22991, 27184)},
+> +				{ AOM_CDF4(11238, 18951, 23762)}, { AOM_CDF4(8786, 15617, 20588)},
+> +				{ AOM_CDF4(7317, 13228, 18003)}, { AOM_CDF4(5101, 9512, 13493)},
+> +				{ AOM_CDF4(22639, 28222, 30210)}, { AOM_CDF4(23216, 29331, 31307)},
+> +				{ AOM_CDF4(19075, 26762, 29895)}, { AOM_CDF4(15014, 23113, 27457)},
+> +				{ AOM_CDF4(11938, 19857, 24752)}, { AOM_CDF4(9942, 17280, 22282)},
+> +				{ AOM_CDF4(7167, 13144, 17752)}
+> +			},
+> +			{
+> +				{ AOM_CDF4(15820, 22738, 26488)}, { AOM_CDF4(13530, 20885, 25216)},
+> +				{ AOM_CDF4(8395, 15530, 20452)}, { AOM_CDF4(6574, 12321, 16380)},
+> +				{ AOM_CDF4(5353, 10419, 14568)}, { AOM_CDF4(4613, 8446, 12381)},
+> +				{ AOM_CDF4(3440, 7158, 9903)}, { AOM_CDF4(24247, 29051, 31224)},
+> +				{ AOM_CDF4(22118, 28058, 30369)}, { AOM_CDF4(16498, 24768, 28389)},
+> +				{ AOM_CDF4(12920, 21175, 26137)}, { AOM_CDF4(10730, 18619, 25352)},
+> +				{ AOM_CDF4(10187, 16279, 22791)}, { AOM_CDF4(9310, 14631, 22127)},
+> +				{ AOM_CDF4(24970, 30558, 32057)}, { AOM_CDF4(24801, 29942, 31698)},
+> +				{ AOM_CDF4(22432, 28453, 30855)}, { AOM_CDF4(19054, 25680, 29580)},
+> +				{ AOM_CDF4(14392, 23036, 28109)}, { AOM_CDF4(12495, 20947, 26650)},
+> +				{ AOM_CDF4(12442, 20326, 26214)}
+> +			}
+> +		},
+> +		{
+> +			{
+> +				{ AOM_CDF4(12162, 18785, 22648)}, { AOM_CDF4(12749, 19697, 23806)},
+> +				{ AOM_CDF4(8580, 15297, 20346)}, { AOM_CDF4(6169, 11749, 16543)},
+> +				{ AOM_CDF4(4836, 9391, 13448)}, { AOM_CDF4(3821, 7711, 11613)},
+> +				{ AOM_CDF4(2228, 4601, 7070)}, { AOM_CDF4(16319, 24725, 28280)},
+> +				{ AOM_CDF4(15698, 23277, 27168)}, { AOM_CDF4(12726, 20368, 25047)},
+> +				{ AOM_CDF4(9912, 17015, 21976)}, { AOM_CDF4(7888, 14220, 19179)},
+> +				{ AOM_CDF4(6777, 12284, 17018)}, { AOM_CDF4(4492, 8590, 12252)},
+> +				{ AOM_CDF4(23249, 28904, 30947)}, { AOM_CDF4(21050, 27908, 30512)},
+> +				{ AOM_CDF4(17440, 25340, 28949)}, { AOM_CDF4(14059, 22018, 26541)},
+> +				{ AOM_CDF4(11288, 18903, 23898)}, { AOM_CDF4(9411, 16342, 21428)},
+> +				{ AOM_CDF4(6278, 11588, 15944)}
+> +			},
+> +			{
+> +				{ AOM_CDF4(13981, 20067, 23226)}, { AOM_CDF4(16922, 23580, 26783)},
+> +				{ AOM_CDF4(11005, 19039, 24487)}, { AOM_CDF4(7389, 14218, 19798)},
+> +				{ AOM_CDF4(5598, 11505, 17206)}, { AOM_CDF4(6090, 11213, 15659)},
+> +				{ AOM_CDF4(3820, 7371, 10119)}, { AOM_CDF4(21082, 26925, 29675)},
+> +				{ AOM_CDF4(21262, 28627, 31128)}, { AOM_CDF4(18392, 26454, 30437)},
+> +				{ AOM_CDF4(14870, 22910, 27096)}, { AOM_CDF4(12620, 19484, 24908)},
+> +				{ AOM_CDF4(9290, 16553, 22802)}, { AOM_CDF4(6668, 14288, 20004)},
+> +				{ AOM_CDF4(27704, 31055, 31949)}, { AOM_CDF4(24709, 29978, 31788)},
+> +				{ AOM_CDF4(21668, 29264, 31657)}, { AOM_CDF4(18295, 26968, 30074)},
+> +				{ AOM_CDF4(16399, 24422, 29313)}, { AOM_CDF4(14347, 23026, 28104)},
+> +				{ AOM_CDF4(12370, 19806, 24477)}
+> +			}
+> +		},
+> +		{
+> +			{
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}
+> +			},
+> +			{
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}
+> +			}
+> +		}
+> +	}
+> +};
+> +
+> +static const uint16_t av1_default_coeff_base_multi_cdfs
+> +	[TOKEN_CDF_Q_CTXS][TX_SIZES][PLANE_TYPES]
+> +	[SIG_COEF_CONTEXTS][CDF_SIZE(NUM_BASE_LEVELS + 2) + 1] =3D {
+> +	{
+> +		{
+> +			{
+> +				{ AOM_CDF4(4034, 8930, 12727)}, { AOM_CDF4(18082, 29741, 31877)},
+> +				{ AOM_CDF4(12596, 26124, 30493)}, { AOM_CDF4(9446, 21118, 27005)},
+> +				{ AOM_CDF4(6308, 15141, 21279)}, { AOM_CDF4(2463, 6357, 9783)},
+> +				{ AOM_CDF4(20667, 30546, 31929)}, { AOM_CDF4(13043, 26123, 30134)},
+> +				{ AOM_CDF4(8151, 18757, 24778)}, { AOM_CDF4(5255, 12839, 18632)},
+> +				{ AOM_CDF4(2820, 7206, 11161)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(15736, 27553, 30604)},
+> +				{ AOM_CDF4(11210, 23794, 28787)}, { AOM_CDF4(5947, 13874, 19701)},
+> +				{ AOM_CDF4(4215, 9323, 13891)}, { AOM_CDF4(2833, 6462, 10059)},
+> +				{ AOM_CDF4(19605, 30393, 31582)}, { AOM_CDF4(13523, 26252, 30248)},
+> +				{ AOM_CDF4(8446, 18622, 24512)}, { AOM_CDF4(3818, 10343, 15974)},
+> +				{ AOM_CDF4(1481, 4117, 6796)}, { AOM_CDF4(22649, 31302, 32190)},
+> +				{ AOM_CDF4(14829, 27127, 30449)}, { AOM_CDF4(8313, 17702, 23304)},
+> +				{ AOM_CDF4(3022, 8301, 12786)}, { AOM_CDF4(1536, 4412, 7184)},
+> +				{ AOM_CDF4(22354, 29774, 31372)}, { AOM_CDF4(14723, 25472, 29214)},
+> +				{ AOM_CDF4(6673, 13745, 18662)}, { AOM_CDF4(2068, 5766, 9322)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)}
+> +			},
+> +			{
+> +				{ AOM_CDF4(6302, 16444, 21761)}, { AOM_CDF4(23040, 31538, 32475)},
+> +				{ AOM_CDF4(15196, 28452, 31496)}, { AOM_CDF4(10020, 22946, 28514)},
+> +				{ AOM_CDF4(6533, 16862, 23501)}, { AOM_CDF4(3538, 9816, 15076)},
+> +				{ AOM_CDF4(24444, 31875, 32525)}, { AOM_CDF4(15881, 28924, 31635)},
+> +				{ AOM_CDF4(9922, 22873, 28466)}, { AOM_CDF4(6527, 16966, 23691)},
+> +				{ AOM_CDF4(4114, 11303, 17220)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(20201, 30770, 32209)},
+> +				{ AOM_CDF4(14754, 28071, 31258)}, { AOM_CDF4(8378, 20186, 26517)},
+> +				{ AOM_CDF4(5916, 15299, 21978)}, { AOM_CDF4(4268, 11583, 17901)},
+> +				{ AOM_CDF4(24361, 32025, 32581)}, { AOM_CDF4(18673, 30105, 31943)},
+> +				{ AOM_CDF4(10196, 22244, 27576)}, { AOM_CDF4(5495, 14349, 20417)},
+> +				{ AOM_CDF4(2676, 7415, 11498)}, { AOM_CDF4(24678, 31958, 32585)},
+> +				{ AOM_CDF4(18629, 29906, 31831)}, { AOM_CDF4(9364, 20724, 26315)},
+> +				{ AOM_CDF4(4641, 12318, 18094)}, { AOM_CDF4(2758, 7387, 11579)},
+> +				{ AOM_CDF4(25433, 31842, 32469)}, { AOM_CDF4(18795, 29289, 31411)},
+> +				{ AOM_CDF4(7644, 17584, 23592)}, { AOM_CDF4(3408, 9014, 15047)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)}
+> +			}
+> +		},
+> +		{
+> +			{
+> +				{ AOM_CDF4(4536, 10072, 14001)}, { AOM_CDF4(25459, 31416, 32206)},
+> +				{ AOM_CDF4(16605, 28048, 30818)}, { AOM_CDF4(11008, 22857, 27719)},
+> +				{ AOM_CDF4(6915, 16268, 22315)}, { AOM_CDF4(2625, 6812, 10537)},
+> +				{ AOM_CDF4(24257, 31788, 32499)}, { AOM_CDF4(16880, 29454, 31879)},
+> +				{ AOM_CDF4(11958, 25054, 29778)}, { AOM_CDF4(7916, 18718, 25084)},
+> +				{ AOM_CDF4(3383, 8777, 13446)}, { AOM_CDF4(22720, 31603, 32393)},
+> +				{ AOM_CDF4(14960, 28125, 31335)}, { AOM_CDF4(9731, 22210, 27928)},
+> +				{ AOM_CDF4(6304, 15832, 22277)}, { AOM_CDF4(2910, 7818, 12166)},
+> +				{ AOM_CDF4(20375, 30627, 32131)}, { AOM_CDF4(13904, 27284, 30887)},
+> +				{ AOM_CDF4(9368, 21558, 27144)}, { AOM_CDF4(5937, 14966, 21119)},
+> +				{ AOM_CDF4(2667, 7225, 11319)}, { AOM_CDF4(23970, 31470, 32378)},
+> +				{ AOM_CDF4(17173, 29734, 32018)}, { AOM_CDF4(12795, 25441, 29965)},
+> +				{ AOM_CDF4(8981, 19680, 25893)}, { AOM_CDF4(4728, 11372, 16902)},
+> +				{ AOM_CDF4(24287, 31797, 32439)}, { AOM_CDF4(16703, 29145, 31696)},
+> +				{ AOM_CDF4(10833, 23554, 28725)}, { AOM_CDF4(6468, 16566, 23057)},
+> +				{ AOM_CDF4(2415, 6562, 10278)}, { AOM_CDF4(26610, 32395, 32659)},
+> +				{ AOM_CDF4(18590, 30498, 32117)}, { AOM_CDF4(12420, 25756, 29950)},
+> +				{ AOM_CDF4(7639, 18746, 24710)}, { AOM_CDF4(3001, 8086, 12347)},
+> +				{ AOM_CDF4(25076, 32064, 32580)}, { AOM_CDF4(17946, 30128, 32028)},
+> +				{ AOM_CDF4(12024, 24985, 29378)}, { AOM_CDF4(7517, 18390, 24304)},
+> +				{ AOM_CDF4(3243, 8781, 13331)}, { AOM_CDF4(8192, 16384, 24576)}
+> +			},
+> +			{
+> +				{ AOM_CDF4(6037, 16771, 21957)}, { AOM_CDF4(24774, 31704, 32426)},
+> +				{ AOM_CDF4(16830, 28589, 31056)}, { AOM_CDF4(10602, 22828, 27760)},
+> +				{ AOM_CDF4(6733, 16829, 23071)}, { AOM_CDF4(3250, 8914, 13556)},
+> +				{ AOM_CDF4(25582, 32220, 32668)}, { AOM_CDF4(18659, 30342, 32223)},
+> +				{ AOM_CDF4(12546, 26149, 30515)}, { AOM_CDF4(8420, 20451, 26801)},
+> +				{ AOM_CDF4(4636, 12420, 18344)}, { AOM_CDF4(27581, 32362, 32639)},
+> +				{ AOM_CDF4(18987, 30083, 31978)}, { AOM_CDF4(11327, 24248, 29084)},
+> +				{ AOM_CDF4(7264, 17719, 24120)}, { AOM_CDF4(3995, 10768, 16169)},
+> +				{ AOM_CDF4(25893, 31831, 32487)}, { AOM_CDF4(16577, 28587, 31379)},
+> +				{ AOM_CDF4(10189, 22748, 28182)}, { AOM_CDF4(6832, 17094, 23556)},
+> +				{ AOM_CDF4(3708, 10110, 15334)}, { AOM_CDF4(25904, 32282, 32656)},
+> +				{ AOM_CDF4(19721, 30792, 32276)}, { AOM_CDF4(12819, 26243, 30411)},
+> +				{ AOM_CDF4(8572, 20614, 26891)}, { AOM_CDF4(5364, 14059, 20467)},
+> +				{ AOM_CDF4(26580, 32438, 32677)}, { AOM_CDF4(20852, 31225, 32340)},
+> +				{ AOM_CDF4(12435, 25700, 29967)}, { AOM_CDF4(8691, 20825, 26976)},
+> +				{ AOM_CDF4(4446, 12209, 17269)}, { AOM_CDF4(27350, 32429, 32696)},
+> +				{ AOM_CDF4(21372, 30977, 32272)}, { AOM_CDF4(12673, 25270, 29853)},
+> +				{ AOM_CDF4(9208, 20925, 26640)}, { AOM_CDF4(5018, 13351, 18732)},
+> +				{ AOM_CDF4(27351, 32479, 32713)}, { AOM_CDF4(21398, 31209, 32387)},
+> +				{ AOM_CDF4(12162, 25047, 29842)}, { AOM_CDF4(7896, 18691, 25319)},
+> +				{ AOM_CDF4(4670, 12882, 18881)}, { AOM_CDF4(8192, 16384, 24576)}
+> +			}
+> +		},
+> +		{
+> +			{
+> +				{ AOM_CDF4(5487, 10460, 13708)}, { AOM_CDF4(21597, 28303, 30674)},
+> +				{ AOM_CDF4(11037, 21953, 26476)}, { AOM_CDF4(8147, 17962, 22952)},
+> +				{ AOM_CDF4(5242, 13061, 18532)}, { AOM_CDF4(1889, 5208, 8182)},
+> +				{ AOM_CDF4(26774, 32133, 32590)}, { AOM_CDF4(17844, 29564, 31767)},
+> +				{ AOM_CDF4(11690, 24438, 29171)}, { AOM_CDF4(7542, 18215, 24459)},
+> +				{ AOM_CDF4(2993, 8050, 12319)}, { AOM_CDF4(28023, 32328, 32591)},
+> +				{ AOM_CDF4(18651, 30126, 31954)}, { AOM_CDF4(12164, 25146, 29589)},
+> +				{ AOM_CDF4(7762, 18530, 24771)}, { AOM_CDF4(3492, 9183, 13920)},
+> +				{ AOM_CDF4(27591, 32008, 32491)}, { AOM_CDF4(17149, 28853, 31510)},
+> +				{ AOM_CDF4(11485, 24003, 28860)}, { AOM_CDF4(7697, 18086, 24210)},
+> +				{ AOM_CDF4(3075, 7999, 12218)}, { AOM_CDF4(28268, 32482, 32654)},
+> +				{ AOM_CDF4(19631, 31051, 32404)}, { AOM_CDF4(13860, 27260, 31020)},
+> +				{ AOM_CDF4(9605, 21613, 27594)}, { AOM_CDF4(4876, 12162, 17908)},
+> +				{ AOM_CDF4(27248, 32316, 32576)}, { AOM_CDF4(18955, 30457, 32075)},
+> +				{ AOM_CDF4(11824, 23997, 28795)}, { AOM_CDF4(7346, 18196, 24647)},
+> +				{ AOM_CDF4(3403, 9247, 14111)}, { AOM_CDF4(29711, 32655, 32735)},
+> +				{ AOM_CDF4(21169, 31394, 32417)}, { AOM_CDF4(13487, 27198, 30957)},
+> +				{ AOM_CDF4(8828, 21683, 27614)}, { AOM_CDF4(4270, 11451, 17038)},
+> +				{ AOM_CDF4(28708, 32578, 32731)}, { AOM_CDF4(20120, 31241, 32482)},
+> +				{ AOM_CDF4(13692, 27550, 31321)}, { AOM_CDF4(9418, 22514, 28439)},
+> +				{ AOM_CDF4(4999, 13283, 19462)}, { AOM_CDF4(8192, 16384, 24576)}
+> +			},
+> +			{
+> +				{ AOM_CDF4(5673, 14302, 19711)}, { AOM_CDF4(26251, 30701, 31834)},
+> +				{ AOM_CDF4(12782, 23783, 27803)}, { AOM_CDF4(9127, 20657, 25808)},
+> +				{ AOM_CDF4(6368, 16208, 21462)}, { AOM_CDF4(2465, 7177, 10822)},
+> +				{ AOM_CDF4(29961, 32563, 32719)}, { AOM_CDF4(18318, 29891, 31949)},
+> +				{ AOM_CDF4(11361, 24514, 29357)}, { AOM_CDF4(7900, 19603, 25607)},
+> +				{ AOM_CDF4(4002, 10590, 15546)}, { AOM_CDF4(29637, 32310, 32595)},
+> +				{ AOM_CDF4(18296, 29913, 31809)}, { AOM_CDF4(10144, 21515, 26871)},
+> +				{ AOM_CDF4(5358, 14322, 20394)}, { AOM_CDF4(3067, 8362, 13346)},
+> +				{ AOM_CDF4(28652, 32470, 32676)}, { AOM_CDF4(17538, 30771, 32209)},
+> +				{ AOM_CDF4(13924, 26882, 30494)}, { AOM_CDF4(10496, 22837, 27869)},
+> +				{ AOM_CDF4(7236, 16396, 21621)}, { AOM_CDF4(30743, 32687, 32746)},
+> +				{ AOM_CDF4(23006, 31676, 32489)}, { AOM_CDF4(14494, 27828, 31120)},
+> +				{ AOM_CDF4(10174, 22801, 28352)}, { AOM_CDF4(6242, 15281, 21043)},
+> +				{ AOM_CDF4(25817, 32243, 32720)}, { AOM_CDF4(18618, 31367, 32325)},
+> +				{ AOM_CDF4(13997, 28318, 31878)}, { AOM_CDF4(12255, 26534, 31383)},
+> +				{ AOM_CDF4(9561, 21588, 28450)}, { AOM_CDF4(28188, 32635, 32724)},
+> +				{ AOM_CDF4(22060, 32365, 32728)}, { AOM_CDF4(18102, 30690, 32528)},
+> +				{ AOM_CDF4(14196, 28864, 31999)}, { AOM_CDF4(12262, 25792, 30865)},
+> +				{ AOM_CDF4(24176, 32109, 32628)}, { AOM_CDF4(18280, 29681, 31963)},
+> +				{ AOM_CDF4(10205, 23703, 29664)}, { AOM_CDF4(7889, 20025, 27676)},
+> +				{ AOM_CDF4(6060, 16743, 23970)}, { AOM_CDF4(8192, 16384, 24576)}
+> +			}
+> +		},
+> +		{
+> +			{
+> +				{ AOM_CDF4(5141, 7096, 8260)}, { AOM_CDF4(27186, 29022, 29789)},
+> +				{ AOM_CDF4(6668, 12568, 15682)}, { AOM_CDF4(2172, 6181, 8638)},
+> +				{ AOM_CDF4(1126, 3379, 4531)}, { AOM_CDF4(443, 1361, 2254)},
+> +				{ AOM_CDF4(26083, 31153, 32436)}, { AOM_CDF4(13486, 24603, 28483)},
+> +				{ AOM_CDF4(6508, 14840, 19910)}, { AOM_CDF4(3386, 8800, 13286)},
+> +				{ AOM_CDF4(1530, 4322, 7054)}, { AOM_CDF4(29639, 32080, 32548)},
+> +				{ AOM_CDF4(15897, 27552, 30290)}, { AOM_CDF4(8588, 20047, 25383)},
+> +				{ AOM_CDF4(4889, 13339, 19269)}, { AOM_CDF4(2240, 6871, 10498)},
+> +				{ AOM_CDF4(28165, 32197, 32517)}, { AOM_CDF4(20735, 30427, 31568)},
+> +				{ AOM_CDF4(14325, 24671, 27692)}, { AOM_CDF4(5119, 12554, 17805)},
+> +				{ AOM_CDF4(1810, 5441, 8261)}, { AOM_CDF4(31212, 32724, 32748)},
+> +				{ AOM_CDF4(23352, 31766, 32545)}, { AOM_CDF4(14669, 27570, 31059)},
+> +				{ AOM_CDF4(8492, 20894, 27272)}, { AOM_CDF4(3644, 10194, 15204)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)}
+> +			},
+> +			{
+> +				{ AOM_CDF4(2461, 7013, 9371)}, { AOM_CDF4(24749, 29600, 30986)},
+> +				{ AOM_CDF4(9466, 19037, 22417)}, { AOM_CDF4(3584, 9280, 14400)},
+> +				{ AOM_CDF4(1505, 3929, 5433)}, { AOM_CDF4(677, 1500, 2736)},
+> +				{ AOM_CDF4(23987, 30702, 32117)}, { AOM_CDF4(13554, 24571, 29263)},
+> +				{ AOM_CDF4(6211, 14556, 21155)}, { AOM_CDF4(3135, 10972, 15625)},
+> +				{ AOM_CDF4(2435, 7127, 11427)}, { AOM_CDF4(31300, 32532, 32550)},
+> +				{ AOM_CDF4(14757, 30365, 31954)}, { AOM_CDF4(4405, 11612, 18553)},
+> +				{ AOM_CDF4(580, 4132, 7322)}, { AOM_CDF4(1695, 10169, 14124)},
+> +				{ AOM_CDF4(30008, 32282, 32591)}, { AOM_CDF4(19244, 30108, 31748)},
+> +				{ AOM_CDF4(11180, 24158, 29555)}, { AOM_CDF4(5650, 14972, 19209)},
+> +				{ AOM_CDF4(2114, 5109, 8456)}, { AOM_CDF4(31856, 32716, 32748)},
+> +				{ AOM_CDF4(23012, 31664, 32572)}, { AOM_CDF4(13694, 26656, 30636)},
+> +				{ AOM_CDF4(8142, 19508, 26093)}, { AOM_CDF4(4253, 10955, 16724)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)}
+> +			}
+> +		},
+> +		{
+> +			{
+> +				{ AOM_CDF4(601, 983, 1311)}, { AOM_CDF4(18725, 23406, 28087)},
+> +				{ AOM_CDF4(5461, 8192, 10923)}, { AOM_CDF4(3781, 15124, 21425)},
+> +				{ AOM_CDF4(2587, 7761, 12072)}, { AOM_CDF4(106, 458, 810)},
+> +				{ AOM_CDF4(22282, 29710, 31894)}, { AOM_CDF4(8508, 20926, 25984)},
+> +				{ AOM_CDF4(3726, 12713, 18083)}, { AOM_CDF4(1620, 7112, 10893)},
+> +				{ AOM_CDF4(729, 2236, 3495)}, { AOM_CDF4(30163, 32474, 32684)},
+> +				{ AOM_CDF4(18304, 30464, 32000)}, { AOM_CDF4(11443, 26526, 29647)},
+> +				{ AOM_CDF4(6007, 15292, 21299)}, { AOM_CDF4(2234, 6703, 8937)},
+> +				{ AOM_CDF4(30954, 32177, 32571)}, { AOM_CDF4(17363, 29562, 31076)},
+> +				{ AOM_CDF4(9686, 22464, 27410)}, { AOM_CDF4(8192, 16384, 21390)},
+> +				{ AOM_CDF4(1755, 8046, 11264)}, { AOM_CDF4(31168, 32734, 32748)},
+> +				{ AOM_CDF4(22486, 31441, 32471)}, { AOM_CDF4(12833, 25627, 29738)},
+> +				{ AOM_CDF4(6980, 17379, 23122)}, { AOM_CDF4(3111, 8887, 13479)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)}
+> +			},
+> +			{
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)}
+> +			}
+> +		}
+> +	},
+> +	{
+> +		{
+> +			{
+> +				{ AOM_CDF4(6041, 11854, 15927)}, { AOM_CDF4(20326, 30905, 32251)},
+> +				{ AOM_CDF4(14164, 26831, 30725)}, { AOM_CDF4(9760, 20647, 26585)},
+> +				{ AOM_CDF4(6416, 14953, 21219)}, { AOM_CDF4(2966, 7151, 10891)},
+> +				{ AOM_CDF4(23567, 31374, 32254)}, { AOM_CDF4(14978, 27416, 30946)},
+> +				{ AOM_CDF4(9434, 20225, 26254)}, { AOM_CDF4(6658, 14558, 20535)},
+> +				{ AOM_CDF4(3916, 8677, 12989)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(18088, 29545, 31587)},
+> +				{ AOM_CDF4(13062, 25843, 30073)}, { AOM_CDF4(8940, 16827, 22251)},
+> +				{ AOM_CDF4(7654, 13220, 17973)}, { AOM_CDF4(5733, 10316, 14456)},
+> +				{ AOM_CDF4(22879, 31388, 32114)}, { AOM_CDF4(15215, 27993, 30955)},
+> +				{ AOM_CDF4(9397, 19445, 24978)}, { AOM_CDF4(3442, 9813, 15344)},
+> +				{ AOM_CDF4(1368, 3936, 6532)}, { AOM_CDF4(25494, 32033, 32406)},
+> +				{ AOM_CDF4(16772, 27963, 30718)}, { AOM_CDF4(9419, 18165, 23260)},
+> +				{ AOM_CDF4(2677, 7501, 11797)}, { AOM_CDF4(1516, 4344, 7170)},
+> +				{ AOM_CDF4(26556, 31454, 32101)}, { AOM_CDF4(17128, 27035, 30108)},
+> +				{ AOM_CDF4(8324, 15344, 20249)}, { AOM_CDF4(1903, 5696, 9469)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)}
+> +			},
+> +			{
+> +				{ AOM_CDF4(8455, 19003, 24368)}, { AOM_CDF4(23563, 32021, 32604)},
+> +				{ AOM_CDF4(16237, 29446, 31935)}, { AOM_CDF4(10724, 23999, 29358)},
+> +				{ AOM_CDF4(6725, 17528, 24416)}, { AOM_CDF4(3927, 10927, 16825)},
+> +				{ AOM_CDF4(26313, 32288, 32634)}, { AOM_CDF4(17430, 30095, 32095)},
+> +				{ AOM_CDF4(11116, 24606, 29679)}, { AOM_CDF4(7195, 18384, 25269)},
+> +				{ AOM_CDF4(4726, 12852, 19315)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(22822, 31648, 32483)},
+> +				{ AOM_CDF4(16724, 29633, 31929)}, { AOM_CDF4(10261, 23033, 28725)},
+> +				{ AOM_CDF4(7029, 17840, 24528)}, { AOM_CDF4(4867, 13886, 21502)},
+> +				{ AOM_CDF4(25298, 31892, 32491)}, { AOM_CDF4(17809, 29330, 31512)},
+> +				{ AOM_CDF4(9668, 21329, 26579)}, { AOM_CDF4(4774, 12956, 18976)},
+> +				{ AOM_CDF4(2322, 7030, 11540)}, { AOM_CDF4(25472, 31920, 32543)},
+> +				{ AOM_CDF4(17957, 29387, 31632)}, { AOM_CDF4(9196, 20593, 26400)},
+> +				{ AOM_CDF4(4680, 12705, 19202)}, { AOM_CDF4(2917, 8456, 13436)},
+> +				{ AOM_CDF4(26471, 32059, 32574)}, { AOM_CDF4(18458, 29783, 31909)},
+> +				{ AOM_CDF4(8400, 19464, 25956)}, { AOM_CDF4(3812, 10973, 17206)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)}
+> +			}
+> +		},
+> +		{
+> +			{
+> +				{ AOM_CDF4(6779, 13743, 17678)}, { AOM_CDF4(24806, 31797, 32457)},
+> +				{ AOM_CDF4(17616, 29047, 31372)}, { AOM_CDF4(11063, 23175, 28003)},
+> +				{ AOM_CDF4(6521, 16110, 22324)}, { AOM_CDF4(2764, 7504, 11654)},
+> +				{ AOM_CDF4(25266, 32367, 32637)}, { AOM_CDF4(19054, 30553, 32175)},
+> +				{ AOM_CDF4(12139, 25212, 29807)}, { AOM_CDF4(7311, 18162, 24704)},
+> +				{ AOM_CDF4(3397, 9164, 14074)}, { AOM_CDF4(25988, 32208, 32522)},
+> +				{ AOM_CDF4(16253, 28912, 31526)}, { AOM_CDF4(9151, 21387, 27372)},
+> +				{ AOM_CDF4(5688, 14915, 21496)}, { AOM_CDF4(2717, 7627, 12004)},
+> +				{ AOM_CDF4(23144, 31855, 32443)}, { AOM_CDF4(16070, 28491, 31325)},
+> +				{ AOM_CDF4(8702, 20467, 26517)}, { AOM_CDF4(5243, 13956, 20367)},
+> +				{ AOM_CDF4(2621, 7335, 11567)}, { AOM_CDF4(26636, 32340, 32630)},
+> +				{ AOM_CDF4(19990, 31050, 32341)}, { AOM_CDF4(13243, 26105, 30315)},
+> +				{ AOM_CDF4(8588, 19521, 25918)}, { AOM_CDF4(4717, 11585, 17304)},
+> +				{ AOM_CDF4(25844, 32292, 32582)}, { AOM_CDF4(19090, 30635, 32097)},
+> +				{ AOM_CDF4(11963, 24546, 28939)}, { AOM_CDF4(6218, 16087, 22354)},
+> +				{ AOM_CDF4(2340, 6608, 10426)}, { AOM_CDF4(28046, 32576, 32694)},
+> +				{ AOM_CDF4(21178, 31313, 32296)}, { AOM_CDF4(13486, 26184, 29870)},
+> +				{ AOM_CDF4(7149, 17871, 23723)}, { AOM_CDF4(2833, 7958, 12259)},
+> +				{ AOM_CDF4(27710, 32528, 32686)}, { AOM_CDF4(20674, 31076, 32268)},
+> +				{ AOM_CDF4(12413, 24955, 29243)}, { AOM_CDF4(6676, 16927, 23097)},
+> +				{ AOM_CDF4(2966, 8333, 12919)}, { AOM_CDF4(8192, 16384, 24576)}
+> +			},
+> +			{
+> +				{ AOM_CDF4(8639, 19339, 24429)}, { AOM_CDF4(24404, 31837, 32525)},
+> +				{ AOM_CDF4(16997, 29425, 31784)}, { AOM_CDF4(11253, 24234, 29149)},
+> +				{ AOM_CDF4(6751, 17394, 24028)}, { AOM_CDF4(3490, 9830, 15191)},
+> +				{ AOM_CDF4(26283, 32471, 32714)}, { AOM_CDF4(19599, 31168, 32442)},
+> +				{ AOM_CDF4(13146, 26954, 30893)}, { AOM_CDF4(8214, 20588, 26890)},
+> +				{ AOM_CDF4(4699, 13081, 19300)}, { AOM_CDF4(28212, 32458, 32669)},
+> +				{ AOM_CDF4(18594, 30316, 32100)}, { AOM_CDF4(11219, 24408, 29234)},
+> +				{ AOM_CDF4(6865, 17656, 24149)}, { AOM_CDF4(3678, 10362, 16006)},
+> +				{ AOM_CDF4(25825, 32136, 32616)}, { AOM_CDF4(17313, 29853, 32021)},
+> +				{ AOM_CDF4(11197, 24471, 29472)}, { AOM_CDF4(6947, 17781, 24405)},
+> +				{ AOM_CDF4(3768, 10660, 16261)}, { AOM_CDF4(27352, 32500, 32706)},
+> +				{ AOM_CDF4(20850, 31468, 32469)}, { AOM_CDF4(14021, 27707, 31133)},
+> +				{ AOM_CDF4(8964, 21748, 27838)}, { AOM_CDF4(5437, 14665, 21187)},
+> +				{ AOM_CDF4(26304, 32492, 32698)}, { AOM_CDF4(20409, 31380, 32385)},
+> +				{ AOM_CDF4(13682, 27222, 30632)}, { AOM_CDF4(8974, 21236, 26685)},
+> +				{ AOM_CDF4(4234, 11665, 16934)}, { AOM_CDF4(26273, 32357, 32711)},
+> +				{ AOM_CDF4(20672, 31242, 32441)}, { AOM_CDF4(14172, 27254, 30902)},
+> +				{ AOM_CDF4(9870, 21898, 27275)}, { AOM_CDF4(5164, 13506, 19270)},
+> +				{ AOM_CDF4(26725, 32459, 32728)}, { AOM_CDF4(20991, 31442, 32527)},
+> +				{ AOM_CDF4(13071, 26434, 30811)}, { AOM_CDF4(8184, 20090, 26742)},
+> +				{ AOM_CDF4(4803, 13255, 19895)}, { AOM_CDF4(8192, 16384, 24576)}
+> +			}
+> +		},
+> +		{
+> +			{
+> +				{ AOM_CDF4(7555, 14942, 18501)}, { AOM_CDF4(24410, 31178, 32287)},
+> +				{ AOM_CDF4(14394, 26738, 30253)}, { AOM_CDF4(8413, 19554, 25195)},
+> +				{ AOM_CDF4(4766, 12924, 18785)}, { AOM_CDF4(2029, 5806, 9207)},
+> +				{ AOM_CDF4(26776, 32364, 32663)}, { AOM_CDF4(18732, 29967, 31931)},
+> +				{ AOM_CDF4(11005, 23786, 28852)}, { AOM_CDF4(6466, 16909, 23510)},
+> +				{ AOM_CDF4(3044, 8638, 13419)}, { AOM_CDF4(29208, 32582, 32704)},
+> +				{ AOM_CDF4(20068, 30857, 32208)}, { AOM_CDF4(12003, 25085, 29595)},
+> +				{ AOM_CDF4(6947, 17750, 24189)}, { AOM_CDF4(3245, 9103, 14007)},
+> +				{ AOM_CDF4(27359, 32465, 32669)}, { AOM_CDF4(19421, 30614, 32174)},
+> +				{ AOM_CDF4(11915, 25010, 29579)}, { AOM_CDF4(6950, 17676, 24074)},
+> +				{ AOM_CDF4(3007, 8473, 13096)}, { AOM_CDF4(29002, 32676, 32735)},
+> +				{ AOM_CDF4(22102, 31849, 32576)}, { AOM_CDF4(14408, 28009, 31405)},
+> +				{ AOM_CDF4(9027, 21679, 27931)}, { AOM_CDF4(4694, 12678, 18748)},
+> +				{ AOM_CDF4(28216, 32528, 32682)}, { AOM_CDF4(20849, 31264, 32318)},
+> +				{ AOM_CDF4(12756, 25815, 29751)}, { AOM_CDF4(7565, 18801, 24923)},
+> +				{ AOM_CDF4(3509, 9533, 14477)}, { AOM_CDF4(30133, 32687, 32739)},
+> +				{ AOM_CDF4(23063, 31910, 32515)}, { AOM_CDF4(14588, 28051, 31132)},
+> +				{ AOM_CDF4(9085, 21649, 27457)}, { AOM_CDF4(4261, 11654, 17264)},
+> +				{ AOM_CDF4(29518, 32691, 32748)}, { AOM_CDF4(22451, 31959, 32613)},
+> +				{ AOM_CDF4(14864, 28722, 31700)}, { AOM_CDF4(9695, 22964, 28716)},
+> +				{ AOM_CDF4(4932, 13358, 19502)}, { AOM_CDF4(8192, 16384, 24576)}
+> +			},
+> +			{
+> +				{ AOM_CDF4(6465, 16958, 21688)}, { AOM_CDF4(25199, 31514, 32360)},
+> +				{ AOM_CDF4(14774, 27149, 30607)}, { AOM_CDF4(9257, 21438, 26972)},
+> +				{ AOM_CDF4(5723, 15183, 21882)}, { AOM_CDF4(3150, 8879, 13731)},
+> +				{ AOM_CDF4(26989, 32262, 32682)}, { AOM_CDF4(17396, 29937, 32085)},
+> +				{ AOM_CDF4(11387, 24901, 29784)}, { AOM_CDF4(7289, 18821, 25548)},
+> +				{ AOM_CDF4(3734, 10577, 16086)}, { AOM_CDF4(29728, 32501, 32695)},
+> +				{ AOM_CDF4(17431, 29701, 31903)}, { AOM_CDF4(9921, 22826, 28300)},
+> +				{ AOM_CDF4(5896, 15434, 22068)}, { AOM_CDF4(3430, 9646, 14757)},
+> +				{ AOM_CDF4(28614, 32511, 32705)}, { AOM_CDF4(19364, 30638, 32263)},
+> +				{ AOM_CDF4(13129, 26254, 30402)}, { AOM_CDF4(8754, 20484, 26440)},
+> +				{ AOM_CDF4(4378, 11607, 17110)}, { AOM_CDF4(30292, 32671, 32744)},
+> +				{ AOM_CDF4(21780, 31603, 32501)}, { AOM_CDF4(14314, 27829, 31291)},
+> +				{ AOM_CDF4(9611, 22327, 28263)}, { AOM_CDF4(4890, 13087, 19065)},
+> +				{ AOM_CDF4(25862, 32567, 32733)}, { AOM_CDF4(20794, 32050, 32567)},
+> +				{ AOM_CDF4(17243, 30625, 32254)}, { AOM_CDF4(13283, 27628, 31474)},
+> +				{ AOM_CDF4(9669, 22532, 28918)}, { AOM_CDF4(27435, 32697, 32748)},
+> +				{ AOM_CDF4(24922, 32390, 32714)}, { AOM_CDF4(21449, 31504, 32536)},
+> +				{ AOM_CDF4(16392, 29729, 31832)}, { AOM_CDF4(11692, 24884, 29076)},
+> +				{ AOM_CDF4(24193, 32290, 32735)}, { AOM_CDF4(18909, 31104, 32563)},
+> +				{ AOM_CDF4(12236, 26841, 31403)}, { AOM_CDF4(8171, 21840, 29082)},
+> +				{ AOM_CDF4(7224, 17280, 25275)}, { AOM_CDF4(8192, 16384, 24576)}
+> +			}
+> +		},
+> +		{
+> +			{
+> +				{ AOM_CDF4(3078, 6839, 9890)}, { AOM_CDF4(13837, 20450, 24479)},
+> +				{ AOM_CDF4(5914, 14222, 19328)}, { AOM_CDF4(3866, 10267, 14762)},
+> +				{ AOM_CDF4(2612, 7208, 11042)}, { AOM_CDF4(1067, 2991, 4776)},
+> +				{ AOM_CDF4(25817, 31646, 32529)}, { AOM_CDF4(13708, 26338, 30385)},
+> +				{ AOM_CDF4(7328, 18585, 24870)}, { AOM_CDF4(4691, 13080, 19276)},
+> +				{ AOM_CDF4(1825, 5253, 8352)}, { AOM_CDF4(29386, 32315, 32624)},
+> +				{ AOM_CDF4(17160, 29001, 31360)}, { AOM_CDF4(9602, 21862, 27396)},
+> +				{ AOM_CDF4(5915, 15772, 22148)}, { AOM_CDF4(2786, 7779, 12047)},
+> +				{ AOM_CDF4(29246, 32450, 32663)}, { AOM_CDF4(18696, 29929, 31818)},
+> +				{ AOM_CDF4(10510, 23369, 28560)}, { AOM_CDF4(6229, 16499, 23125)},
+> +				{ AOM_CDF4(2608, 7448, 11705)}, { AOM_CDF4(30753, 32710, 32748)},
+> +				{ AOM_CDF4(21638, 31487, 32503)}, { AOM_CDF4(12937, 26854, 30870)},
+> +				{ AOM_CDF4(8182, 20596, 26970)}, { AOM_CDF4(3637, 10269, 15497)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)}
+> +			},
+> +			{
+> +				{ AOM_CDF4(5244, 12150, 16906)}, { AOM_CDF4(20486, 26858, 29701)},
+> +				{ AOM_CDF4(7756, 18317, 23735)}, { AOM_CDF4(3452, 9256, 13146)},
+> +				{ AOM_CDF4(2020, 5206, 8229)}, { AOM_CDF4(1801, 4993, 7903)},
+> +				{ AOM_CDF4(27051, 31858, 32531)}, { AOM_CDF4(15988, 27531, 30619)},
+> +				{ AOM_CDF4(9188, 21484, 26719)}, { AOM_CDF4(6273, 17186, 23800)},
+> +				{ AOM_CDF4(3108, 9355, 14764)}, { AOM_CDF4(31076, 32520, 32680)},
+> +				{ AOM_CDF4(18119, 30037, 31850)}, { AOM_CDF4(10244, 22969, 27472)},
+> +				{ AOM_CDF4(4692, 14077, 19273)}, { AOM_CDF4(3694, 11677, 17556)},
+> +				{ AOM_CDF4(30060, 32581, 32720)}, { AOM_CDF4(21011, 30775, 32120)},
+> +				{ AOM_CDF4(11931, 24820, 29289)}, { AOM_CDF4(7119, 17662, 24356)},
+> +				{ AOM_CDF4(3833, 10706, 16304)}, { AOM_CDF4(31954, 32731, 32748)},
+> +				{ AOM_CDF4(23913, 31724, 32489)}, { AOM_CDF4(15520, 28060, 31286)},
+> +				{ AOM_CDF4(11517, 23008, 28571)}, { AOM_CDF4(6193, 14508, 20629)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)}
+> +			}
+> +		},
+> +		{
+> +			{
+> +				{ AOM_CDF4(1035, 2807, 4156)}, { AOM_CDF4(13162, 18138, 20939)},
+> +				{ AOM_CDF4(2696, 6633, 8755)}, { AOM_CDF4(1373, 4161, 6853)},
+> +				{ AOM_CDF4(1099, 2746, 4716)}, { AOM_CDF4(340, 1021, 1599)},
+> +				{ AOM_CDF4(22826, 30419, 32135)}, { AOM_CDF4(10395, 21762, 26942)},
+> +				{ AOM_CDF4(4726, 12407, 17361)}, { AOM_CDF4(2447, 7080, 10593)},
+> +				{ AOM_CDF4(1227, 3717, 6011)}, { AOM_CDF4(28156, 31424, 31934)},
+> +				{ AOM_CDF4(16915, 27754, 30373)}, { AOM_CDF4(9148, 20990, 26431)},
+> +				{ AOM_CDF4(5950, 15515, 21148)}, { AOM_CDF4(2492, 7327, 11526)},
+> +				{ AOM_CDF4(30602, 32477, 32670)}, { AOM_CDF4(20026, 29955, 31568)},
+> +				{ AOM_CDF4(11220, 23628, 28105)}, { AOM_CDF4(6652, 17019, 22973)},
+> +				{ AOM_CDF4(3064, 8536, 13043)}, { AOM_CDF4(31769, 32724, 32748)},
+> +				{ AOM_CDF4(22230, 30887, 32373)}, { AOM_CDF4(12234, 25079, 29731)},
+> +				{ AOM_CDF4(7326, 18816, 25353)}, { AOM_CDF4(3933, 10907, 16616)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)}
+> +			},
+> +			{
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)}
+> +			}
+> +		}
+> +	},
+> +	{
+> +		{
+> +			{
+> +				{ AOM_CDF4(8896, 16227, 20630)}, { AOM_CDF4(23629, 31782, 32527)},
+> +				{ AOM_CDF4(15173, 27755, 31321)}, { AOM_CDF4(10158, 21233, 27382)},
+> +				{ AOM_CDF4(6420, 14857, 21558)}, { AOM_CDF4(3269, 8155, 12646)},
+> +				{ AOM_CDF4(24835, 32009, 32496)}, { AOM_CDF4(16509, 28421, 31579)},
+> +				{ AOM_CDF4(10957, 21514, 27418)}, { AOM_CDF4(7881, 15930, 22096)},
+> +				{ AOM_CDF4(5388, 10960, 15918)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(20745, 30773, 32093)},
+> +				{ AOM_CDF4(15200, 27221, 30861)}, { AOM_CDF4(13032, 20873, 25667)},
+> +				{ AOM_CDF4(12285, 18663, 23494)}, { AOM_CDF4(11563, 17481, 21489)},
+> +				{ AOM_CDF4(26260, 31982, 32320)}, { AOM_CDF4(15397, 28083, 31100)},
+> +				{ AOM_CDF4(9742, 19217, 24824)}, { AOM_CDF4(3261, 9629, 15362)},
+> +				{ AOM_CDF4(1480, 4322, 7499)}, { AOM_CDF4(27599, 32256, 32460)},
+> +				{ AOM_CDF4(16857, 27659, 30774)}, { AOM_CDF4(9551, 18290, 23748)},
+> +				{ AOM_CDF4(3052, 8933, 14103)}, { AOM_CDF4(2021, 5910, 9787)},
+> +				{ AOM_CDF4(29005, 32015, 32392)}, { AOM_CDF4(17677, 27694, 30863)},
+> +				{ AOM_CDF4(9204, 17356, 23219)}, { AOM_CDF4(2403, 7516, 12814)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)}
+> +			},
+> +			{
+> +				{ AOM_CDF4(10808, 22056, 26896)}, { AOM_CDF4(25739, 32313, 32676)},
+> +				{ AOM_CDF4(17288, 30203, 32221)}, { AOM_CDF4(11359, 24878, 29896)},
+> +				{ AOM_CDF4(6949, 17767, 24893)}, { AOM_CDF4(4287, 11796, 18071)},
+> +				{ AOM_CDF4(27880, 32521, 32705)}, { AOM_CDF4(19038, 31004, 32414)},
+> +				{ AOM_CDF4(12564, 26345, 30768)}, { AOM_CDF4(8269, 19947, 26779)},
+> +				{ AOM_CDF4(5674, 14657, 21674)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(25742, 32319, 32671)},
+> +				{ AOM_CDF4(19557, 31164, 32454)}, { AOM_CDF4(13381, 26381, 30755)},
+> +				{ AOM_CDF4(10101, 21466, 26722)}, { AOM_CDF4(9209, 19650, 26825)},
+> +				{ AOM_CDF4(27107, 31917, 32432)}, { AOM_CDF4(18056, 28893, 31203)},
+> +				{ AOM_CDF4(10200, 21434, 26764)}, { AOM_CDF4(4660, 12913, 19502)},
+> +				{ AOM_CDF4(2368, 6930, 12504)}, { AOM_CDF4(26960, 32158, 32613)},
+> +				{ AOM_CDF4(18628, 30005, 32031)}, { AOM_CDF4(10233, 22442, 28232)},
+> +				{ AOM_CDF4(5471, 14630, 21516)}, { AOM_CDF4(3235, 10767, 17109)},
+> +				{ AOM_CDF4(27696, 32440, 32692)}, { AOM_CDF4(20032, 31167, 32438)},
+> +				{ AOM_CDF4(8700, 21341, 28442)}, { AOM_CDF4(5662, 14831, 21795)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)}
+> +			}
+> +		},
+> +		{
+> +			{
+> +				{ AOM_CDF4(9704, 17294, 21132)}, { AOM_CDF4(26762, 32278, 32633)},
+> +				{ AOM_CDF4(18382, 29620, 31819)}, { AOM_CDF4(10891, 23475, 28723)},
+> +				{ AOM_CDF4(6358, 16583, 23309)}, { AOM_CDF4(3248, 9118, 14141)},
+> +				{ AOM_CDF4(27204, 32573, 32699)}, { AOM_CDF4(19818, 30824, 32329)},
+> +				{ AOM_CDF4(11772, 25120, 30041)}, { AOM_CDF4(6995, 18033, 25039)},
+> +				{ AOM_CDF4(3752, 10442, 16098)}, { AOM_CDF4(27222, 32256, 32559)},
+> +				{ AOM_CDF4(15356, 28399, 31475)}, { AOM_CDF4(8821, 20635, 27057)},
+> +				{ AOM_CDF4(5511, 14404, 21239)}, { AOM_CDF4(2935, 8222, 13051)},
+> +				{ AOM_CDF4(24875, 32120, 32529)}, { AOM_CDF4(15233, 28265, 31445)},
+> +				{ AOM_CDF4(8605, 20570, 26932)}, { AOM_CDF4(5431, 14413, 21196)},
+> +				{ AOM_CDF4(2994, 8341, 13223)}, { AOM_CDF4(28201, 32604, 32700)},
+> +				{ AOM_CDF4(21041, 31446, 32456)}, { AOM_CDF4(13221, 26213, 30475)},
+> +				{ AOM_CDF4(8255, 19385, 26037)}, { AOM_CDF4(4930, 12585, 18830)},
+> +				{ AOM_CDF4(28768, 32448, 32627)}, { AOM_CDF4(19705, 30561, 32021)},
+> +				{ AOM_CDF4(11572, 23589, 28220)}, { AOM_CDF4(5532, 15034, 21446)},
+> +				{ AOM_CDF4(2460, 7150, 11456)}, { AOM_CDF4(29874, 32619, 32699)},
+> +				{ AOM_CDF4(21621, 31071, 32201)}, { AOM_CDF4(12511, 24747, 28992)},
+> +				{ AOM_CDF4(6281, 16395, 22748)}, { AOM_CDF4(3246, 9278, 14497)},
+> +				{ AOM_CDF4(29715, 32625, 32712)}, { AOM_CDF4(20958, 31011, 32283)},
+> +				{ AOM_CDF4(11233, 23671, 28806)}, { AOM_CDF4(6012, 16128, 22868)},
+> +				{ AOM_CDF4(3427, 9851, 15414)}, { AOM_CDF4(8192, 16384, 24576)}
+> +			},
+> +			{
+> +				{ AOM_CDF4(11016, 22111, 26794)}, { AOM_CDF4(25946, 32357, 32677)},
+> +				{ AOM_CDF4(17890, 30452, 32252)}, { AOM_CDF4(11678, 25142, 29816)},
+> +				{ AOM_CDF4(6720, 17534, 24584)}, { AOM_CDF4(4230, 11665, 17820)},
+> +				{ AOM_CDF4(28400, 32623, 32747)}, { AOM_CDF4(21164, 31668, 32575)},
+> +				{ AOM_CDF4(13572, 27388, 31182)}, { AOM_CDF4(8234, 20750, 27358)},
+> +				{ AOM_CDF4(5065, 14055, 20897)}, { AOM_CDF4(28981, 32547, 32705)},
+> +				{ AOM_CDF4(18681, 30543, 32239)}, { AOM_CDF4(10919, 24075, 29286)},
+> +				{ AOM_CDF4(6431, 17199, 24077)}, { AOM_CDF4(3819, 10464, 16618)},
+> +				{ AOM_CDF4(26870, 32467, 32693)}, { AOM_CDF4(19041, 30831, 32347)},
+> +				{ AOM_CDF4(11794, 25211, 30016)}, { AOM_CDF4(6888, 18019, 24970)},
+> +				{ AOM_CDF4(4370, 12363, 18992)}, { AOM_CDF4(29578, 32670, 32744)},
+> +				{ AOM_CDF4(23159, 32007, 32613)}, { AOM_CDF4(15315, 28669, 31676)},
+> +				{ AOM_CDF4(9298, 22607, 28782)}, { AOM_CDF4(6144, 15913, 22968)},
+> +				{ AOM_CDF4(28110, 32499, 32669)}, { AOM_CDF4(21574, 30937, 32015)},
+> +				{ AOM_CDF4(12759, 24818, 28727)}, { AOM_CDF4(6545, 16761, 23042)},
+> +				{ AOM_CDF4(3649, 10597, 16833)}, { AOM_CDF4(28163, 32552, 32728)},
+> +				{ AOM_CDF4(22101, 31469, 32464)}, { AOM_CDF4(13160, 25472, 30143)},
+> +				{ AOM_CDF4(7303, 18684, 25468)}, { AOM_CDF4(5241, 13975, 20955)},
+> +				{ AOM_CDF4(28400, 32631, 32744)}, { AOM_CDF4(22104, 31793, 32603)},
+> +				{ AOM_CDF4(13557, 26571, 30846)}, { AOM_CDF4(7749, 19861, 26675)},
+> +				{ AOM_CDF4(4873, 14030, 21234)}, { AOM_CDF4(8192, 16384, 24576)}
+> +			}
+> +		},
+> +		{
+> +			{
+> +				{ AOM_CDF4(9800, 17635, 21073)}, { AOM_CDF4(26153, 31885, 32527)},
+> +				{ AOM_CDF4(15038, 27852, 31006)}, { AOM_CDF4(8718, 20564, 26486)},
+> +				{ AOM_CDF4(5128, 14076, 20514)}, { AOM_CDF4(2636, 7566, 11925)},
+> +				{ AOM_CDF4(27551, 32504, 32701)}, { AOM_CDF4(18310, 30054, 32100)},
+> +				{ AOM_CDF4(10211, 23420, 29082)}, { AOM_CDF4(6222, 16876, 23916)},
+> +				{ AOM_CDF4(3462, 9954, 15498)}, { AOM_CDF4(29991, 32633, 32721)},
+> +				{ AOM_CDF4(19883, 30751, 32201)}, { AOM_CDF4(11141, 24184, 29285)},
+> +				{ AOM_CDF4(6420, 16940, 23774)}, { AOM_CDF4(3392, 9753, 15118)},
+> +				{ AOM_CDF4(28465, 32616, 32712)}, { AOM_CDF4(19850, 30702, 32244)},
+> +				{ AOM_CDF4(10983, 24024, 29223)}, { AOM_CDF4(6294, 16770, 23582)},
+> +				{ AOM_CDF4(3244, 9283, 14509)}, { AOM_CDF4(30023, 32717, 32748)},
+> +				{ AOM_CDF4(22940, 32032, 32626)}, { AOM_CDF4(14282, 27928, 31473)},
+> +				{ AOM_CDF4(8562, 21327, 27914)}, { AOM_CDF4(4846, 13393, 19919)},
+> +				{ AOM_CDF4(29981, 32590, 32695)}, { AOM_CDF4(20465, 30963, 32166)},
+> +				{ AOM_CDF4(11479, 23579, 28195)}, { AOM_CDF4(5916, 15648, 22073)},
+> +				{ AOM_CDF4(3031, 8605, 13398)}, { AOM_CDF4(31146, 32691, 32739)},
+> +				{ AOM_CDF4(23106, 31724, 32444)}, { AOM_CDF4(13783, 26738, 30439)},
+> +				{ AOM_CDF4(7852, 19468, 25807)}, { AOM_CDF4(3860, 11124, 16853)},
+> +				{ AOM_CDF4(31014, 32724, 32748)}, { AOM_CDF4(23629, 32109, 32628)},
+> +				{ AOM_CDF4(14747, 28115, 31403)}, { AOM_CDF4(8545, 21242, 27478)},
+> +				{ AOM_CDF4(4574, 12781, 19067)}, { AOM_CDF4(8192, 16384, 24576)}
+> +			},
+> +			{
+> +				{ AOM_CDF4(9185, 19694, 24688)}, { AOM_CDF4(26081, 31985, 32621)},
+> +				{ AOM_CDF4(16015, 29000, 31787)}, { AOM_CDF4(10542, 23690, 29206)},
+> +				{ AOM_CDF4(6732, 17945, 24677)}, { AOM_CDF4(3916, 11039, 16722)},
+> +				{ AOM_CDF4(28224, 32566, 32744)}, { AOM_CDF4(19100, 31138, 32485)},
+> +				{ AOM_CDF4(12528, 26620, 30879)}, { AOM_CDF4(7741, 20277, 26885)},
+> +				{ AOM_CDF4(4566, 12845, 18990)}, { AOM_CDF4(29933, 32593, 32718)},
+> +				{ AOM_CDF4(17670, 30333, 32155)}, { AOM_CDF4(10385, 23600, 28909)},
+> +				{ AOM_CDF4(6243, 16236, 22407)}, { AOM_CDF4(3976, 10389, 16017)},
+> +				{ AOM_CDF4(28377, 32561, 32738)}, { AOM_CDF4(19366, 31175, 32482)},
+> +				{ AOM_CDF4(13327, 27175, 31094)}, { AOM_CDF4(8258, 20769, 27143)},
+> +				{ AOM_CDF4(4703, 13198, 19527)}, { AOM_CDF4(31086, 32706, 32748)},
+> +				{ AOM_CDF4(22853, 31902, 32583)}, { AOM_CDF4(14759, 28186, 31419)},
+> +				{ AOM_CDF4(9284, 22382, 28348)}, { AOM_CDF4(5585, 15192, 21868)},
+> +				{ AOM_CDF4(28291, 32652, 32746)}, { AOM_CDF4(19849, 32107, 32571)},
+> +				{ AOM_CDF4(14834, 26818, 29214)}, { AOM_CDF4(10306, 22594, 28672)},
+> +				{ AOM_CDF4(6615, 17384, 23384)}, { AOM_CDF4(28947, 32604, 32745)},
+> +				{ AOM_CDF4(25625, 32289, 32646)}, { AOM_CDF4(18758, 28672, 31403)},
+> +				{ AOM_CDF4(10017, 23430, 28523)}, { AOM_CDF4(6862, 15269, 22131)},
+> +				{ AOM_CDF4(23933, 32509, 32739)}, { AOM_CDF4(19927, 31495, 32631)},
+> +				{ AOM_CDF4(11903, 26023, 30621)}, { AOM_CDF4(7026, 20094, 27252)},
+> +				{ AOM_CDF4(5998, 18106, 24437)}, { AOM_CDF4(8192, 16384, 24576)}
+> +			}
+> +		},
+> +		{
+> +			{
+> +				{ AOM_CDF4(4456, 11274, 15533)}, { AOM_CDF4(21219, 29079, 31616)},
+> +				{ AOM_CDF4(11173, 23774, 28567)}, { AOM_CDF4(7282, 18293, 24263)},
+> +				{ AOM_CDF4(4890, 13286, 19115)}, { AOM_CDF4(1890, 5508, 8659)},
+> +				{ AOM_CDF4(26651, 32136, 32647)}, { AOM_CDF4(14630, 28254, 31455)},
+> +				{ AOM_CDF4(8716, 21287, 27395)}, { AOM_CDF4(5615, 15331, 22008)},
+> +				{ AOM_CDF4(2675, 7700, 12150)}, { AOM_CDF4(29954, 32526, 32690)},
+> +				{ AOM_CDF4(16126, 28982, 31633)}, { AOM_CDF4(9030, 21361, 27352)},
+> +				{ AOM_CDF4(5411, 14793, 21271)}, { AOM_CDF4(2943, 8422, 13163)},
+> +				{ AOM_CDF4(29539, 32601, 32730)}, { AOM_CDF4(18125, 30385, 32201)},
+> +				{ AOM_CDF4(10422, 24090, 29468)}, { AOM_CDF4(6468, 17487, 24438)},
+> +				{ AOM_CDF4(2970, 8653, 13531)}, { AOM_CDF4(30912, 32715, 32748)},
+> +				{ AOM_CDF4(20666, 31373, 32497)}, { AOM_CDF4(12509, 26640, 30917)},
+> +				{ AOM_CDF4(8058, 20629, 27290)}, { AOM_CDF4(4231, 12006, 18052)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)}
+> +			},
+> +			{
+> +				{ AOM_CDF4(10202, 20633, 25484)}, { AOM_CDF4(27336, 31445, 32352)},
+> +				{ AOM_CDF4(12420, 24384, 28552)}, { AOM_CDF4(7648, 18115, 23856)},
+> +				{ AOM_CDF4(5662, 14341, 19902)}, { AOM_CDF4(3611, 10328, 15390)},
+> +				{ AOM_CDF4(30945, 32616, 32736)}, { AOM_CDF4(18682, 30505, 32253)},
+> +				{ AOM_CDF4(11513, 25336, 30203)}, { AOM_CDF4(7449, 19452, 26148)},
+> +				{ AOM_CDF4(4482, 13051, 18886)}, { AOM_CDF4(32022, 32690, 32747)},
+> +				{ AOM_CDF4(18578, 30501, 32146)}, { AOM_CDF4(11249, 23368, 28631)},
+> +				{ AOM_CDF4(5645, 16958, 22158)}, { AOM_CDF4(5009, 11444, 16637)},
+> +				{ AOM_CDF4(31357, 32710, 32748)}, { AOM_CDF4(21552, 31494, 32504)},
+> +				{ AOM_CDF4(13891, 27677, 31340)}, { AOM_CDF4(9051, 22098, 28172)},
+> +				{ AOM_CDF4(5190, 13377, 19486)}, { AOM_CDF4(32364, 32740, 32748)},
+> +				{ AOM_CDF4(24839, 31907, 32551)}, { AOM_CDF4(17160, 28779, 31696)},
+> +				{ AOM_CDF4(12452, 24137, 29602)}, { AOM_CDF4(6165, 15389, 22477)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)}
+> +			}
+> +		},
+> +		{
+> +			{
+> +				{ AOM_CDF4(2575, 7281, 11077)}, { AOM_CDF4(14002, 20866, 25402)},
+> +				{ AOM_CDF4(6343, 15056, 19658)}, { AOM_CDF4(4474, 11858, 17041)},
+> +				{ AOM_CDF4(2865, 8299, 12534)}, { AOM_CDF4(1344, 3949, 6391)},
+> +				{ AOM_CDF4(24720, 31239, 32459)}, { AOM_CDF4(12585, 25356, 29968)},
+> +				{ AOM_CDF4(7181, 18246, 24444)}, { AOM_CDF4(5025, 13667, 19885)},
+> +				{ AOM_CDF4(2521, 7304, 11605)}, { AOM_CDF4(29908, 32252, 32584)},
+> +				{ AOM_CDF4(17421, 29156, 31575)}, { AOM_CDF4(9889, 22188, 27782)},
+> +				{ AOM_CDF4(5878, 15647, 22123)}, { AOM_CDF4(2814, 8665, 13323)},
+> +				{ AOM_CDF4(30183, 32568, 32713)}, { AOM_CDF4(18528, 30195, 32049)},
+> +				{ AOM_CDF4(10982, 24606, 29657)}, { AOM_CDF4(6957, 18165, 25231)},
+> +				{ AOM_CDF4(3508, 10118, 15468)}, { AOM_CDF4(31761, 32736, 32748)},
+> +				{ AOM_CDF4(21041, 31328, 32546)}, { AOM_CDF4(12568, 26732, 31166)},
+> +				{ AOM_CDF4(8052, 20720, 27733)}, { AOM_CDF4(4336, 12192, 18396)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)}
+> +			},
+> +			{
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)}
+> +			}
+> +		}
+> +	},
+> +	{
+> +		{
+> +			{
+> +				{ AOM_CDF4(7062, 16472, 22319)}, { AOM_CDF4(24538, 32261, 32674)},
+> +				{ AOM_CDF4(13675, 28041, 31779)}, { AOM_CDF4(8590, 20674, 27631)},
+> +				{ AOM_CDF4(5685, 14675, 22013)}, { AOM_CDF4(3655, 9898, 15731)},
+> +				{ AOM_CDF4(26493, 32418, 32658)}, { AOM_CDF4(16376, 29342, 32090)},
+> +				{ AOM_CDF4(10594, 22649, 28970)}, { AOM_CDF4(8176, 17170, 24303)},
+> +				{ AOM_CDF4(5605, 12694, 19139)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(23888, 31902, 32542)},
+> +				{ AOM_CDF4(18612, 29687, 31987)}, { AOM_CDF4(16245, 24852, 29249)},
+> +				{ AOM_CDF4(15765, 22608, 27559)}, { AOM_CDF4(19895, 24699, 27510)},
+> +				{ AOM_CDF4(28401, 32212, 32457)}, { AOM_CDF4(15274, 27825, 30980)},
+> +				{ AOM_CDF4(9364, 18128, 24332)}, { AOM_CDF4(2283, 8193, 15082)},
+> +				{ AOM_CDF4(1228, 3972, 7881)}, { AOM_CDF4(29455, 32469, 32620)},
+> +				{ AOM_CDF4(17981, 28245, 31388)}, { AOM_CDF4(10921, 20098, 26240)},
+> +				{ AOM_CDF4(3743, 11829, 18657)}, { AOM_CDF4(2374, 9593, 15715)},
+> +				{ AOM_CDF4(31068, 32466, 32635)}, { AOM_CDF4(20321, 29572, 31971)},
+> +				{ AOM_CDF4(10771, 20255, 27119)}, { AOM_CDF4(2795, 10410, 17361)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)}
+> +			},
+> +			{
+> +				{ AOM_CDF4(9320, 22102, 27840)}, { AOM_CDF4(27057, 32464, 32724)},
+> +				{ AOM_CDF4(16331, 30268, 32309)}, { AOM_CDF4(10319, 23935, 29720)},
+> +				{ AOM_CDF4(6189, 16448, 24106)}, { AOM_CDF4(3589, 10884, 18808)},
+> +				{ AOM_CDF4(29026, 32624, 32748)}, { AOM_CDF4(19226, 31507, 32587)},
+> +				{ AOM_CDF4(12692, 26921, 31203)}, { AOM_CDF4(7049, 19532, 27635)},
+> +				{ AOM_CDF4(7727, 15669, 23252)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(28056, 32625, 32748)},
+> +				{ AOM_CDF4(22383, 32075, 32669)}, { AOM_CDF4(15417, 27098, 31749)},
+> +				{ AOM_CDF4(18127, 26493, 27190)}, { AOM_CDF4(5461, 16384, 21845)},
+> +				{ AOM_CDF4(27982, 32091, 32584)}, { AOM_CDF4(19045, 29868, 31972)},
+> +				{ AOM_CDF4(10397, 22266, 27932)}, { AOM_CDF4(5990, 13697, 21500)},
+> +				{ AOM_CDF4(1792, 6912, 15104)}, { AOM_CDF4(28198, 32501, 32718)},
+> +				{ AOM_CDF4(21534, 31521, 32569)}, { AOM_CDF4(11109, 25217, 30017)},
+> +				{ AOM_CDF4(5671, 15124, 26151)}, { AOM_CDF4(4681, 14043, 18725)},
+> +				{ AOM_CDF4(28688, 32580, 32741)}, { AOM_CDF4(22576, 32079, 32661)},
+> +				{ AOM_CDF4(10627, 22141, 28340)}, { AOM_CDF4(9362, 14043, 28087)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)}
+> +			}
+> +		},
+> +		{
+> +			{
+> +				{ AOM_CDF4(7754, 16948, 22142)}, { AOM_CDF4(25670, 32330, 32691)},
+> +				{ AOM_CDF4(15663, 29225, 31994)}, { AOM_CDF4(9878, 23288, 29158)},
+> +				{ AOM_CDF4(6419, 17088, 24336)}, { AOM_CDF4(3859, 11003, 17039)},
+> +				{ AOM_CDF4(27562, 32595, 32725)}, { AOM_CDF4(17575, 30588, 32399)},
+> +				{ AOM_CDF4(10819, 24838, 30309)}, { AOM_CDF4(7124, 18686, 25916)},
+> +				{ AOM_CDF4(4479, 12688, 19340)}, { AOM_CDF4(28385, 32476, 32673)},
+> +				{ AOM_CDF4(15306, 29005, 31938)}, { AOM_CDF4(8937, 21615, 28322)},
+> +				{ AOM_CDF4(5982, 15603, 22786)}, { AOM_CDF4(3620, 10267, 16136)},
+> +				{ AOM_CDF4(27280, 32464, 32667)}, { AOM_CDF4(15607, 29160, 32004)},
+> +				{ AOM_CDF4(9091, 22135, 28740)}, { AOM_CDF4(6232, 16632, 24020)},
+> +				{ AOM_CDF4(4047, 11377, 17672)}, { AOM_CDF4(29220, 32630, 32718)},
+> +				{ AOM_CDF4(19650, 31220, 32462)}, { AOM_CDF4(13050, 26312, 30827)},
+> +				{ AOM_CDF4(9228, 20870, 27468)}, { AOM_CDF4(6146, 15149, 21971)},
+> +				{ AOM_CDF4(30169, 32481, 32623)}, { AOM_CDF4(17212, 29311, 31554)},
+> +				{ AOM_CDF4(9911, 21311, 26882)}, { AOM_CDF4(4487, 13314, 20372)},
+> +				{ AOM_CDF4(2570, 7772, 12889)}, { AOM_CDF4(30924, 32613, 32708)},
+> +				{ AOM_CDF4(19490, 30206, 32107)}, { AOM_CDF4(11232, 23998, 29276)},
+> +				{ AOM_CDF4(6769, 17955, 25035)}, { AOM_CDF4(4398, 12623, 19214)},
+> +				{ AOM_CDF4(30609, 32627, 32722)}, { AOM_CDF4(19370, 30582, 32287)},
+> +				{ AOM_CDF4(10457, 23619, 29409)}, { AOM_CDF4(6443, 17637, 24834)},
+> +				{ AOM_CDF4(4645, 13236, 20106)}, { AOM_CDF4(8192, 16384, 24576)}
+> +			},
+> +			{
+> +				{ AOM_CDF4(8626, 20271, 26216)}, { AOM_CDF4(26707, 32406, 32711)},
+> +				{ AOM_CDF4(16999, 30329, 32286)}, { AOM_CDF4(11445, 25123, 30286)},
+> +				{ AOM_CDF4(6411, 18828, 25601)}, { AOM_CDF4(6801, 12458, 20248)},
+> +				{ AOM_CDF4(29918, 32682, 32748)}, { AOM_CDF4(20649, 31739, 32618)},
+> +				{ AOM_CDF4(12879, 27773, 31581)}, { AOM_CDF4(7896, 21751, 28244)},
+> +				{ AOM_CDF4(5260, 14870, 23698)}, { AOM_CDF4(29252, 32593, 32731)},
+> +				{ AOM_CDF4(17072, 30460, 32294)}, { AOM_CDF4(10653, 24143, 29365)},
+> +				{ AOM_CDF4(6536, 17490, 23983)}, { AOM_CDF4(4929, 13170, 20085)},
+> +				{ AOM_CDF4(28137, 32518, 32715)}, { AOM_CDF4(18171, 30784, 32407)},
+> +				{ AOM_CDF4(11437, 25436, 30459)}, { AOM_CDF4(7252, 18534, 26176)},
+> +				{ AOM_CDF4(4126, 13353, 20978)}, { AOM_CDF4(31162, 32726, 32748)},
+> +				{ AOM_CDF4(23017, 32222, 32701)}, { AOM_CDF4(15629, 29233, 32046)},
+> +				{ AOM_CDF4(9387, 22621, 29480)}, { AOM_CDF4(6922, 17616, 25010)},
+> +				{ AOM_CDF4(28838, 32265, 32614)}, { AOM_CDF4(19701, 30206, 31920)},
+> +				{ AOM_CDF4(11214, 22410, 27933)}, { AOM_CDF4(5320, 14177, 23034)},
+> +				{ AOM_CDF4(5049, 12881, 17827)}, { AOM_CDF4(27484, 32471, 32734)},
+> +				{ AOM_CDF4(21076, 31526, 32561)}, { AOM_CDF4(12707, 26303, 31211)},
+> +				{ AOM_CDF4(8169, 21722, 28219)}, { AOM_CDF4(6045, 19406, 27042)},
+> +				{ AOM_CDF4(27753, 32572, 32745)}, { AOM_CDF4(20832, 31878, 32653)},
+> +				{ AOM_CDF4(13250, 27356, 31674)}, { AOM_CDF4(7718, 21508, 29858)},
+> +				{ AOM_CDF4(7209, 18350, 25559)}, { AOM_CDF4(8192, 16384, 24576)}
+> +			}
+> +		},
+> +		{
+> +			{
+> +				{ AOM_CDF4(7876, 16901, 21741)}, { AOM_CDF4(24001, 31898, 32625)},
+> +				{ AOM_CDF4(14529, 27959, 31451)}, { AOM_CDF4(8273, 20818, 27258)},
+> +				{ AOM_CDF4(5278, 14673, 21510)}, { AOM_CDF4(2983, 8843, 14039)},
+> +				{ AOM_CDF4(28016, 32574, 32732)}, { AOM_CDF4(17471, 30306, 32301)},
+> +				{ AOM_CDF4(10224, 24063, 29728)}, { AOM_CDF4(6602, 17954, 25052)},
+> +				{ AOM_CDF4(4002, 11585, 17759)}, { AOM_CDF4(30190, 32634, 32739)},
+> +				{ AOM_CDF4(17497, 30282, 32270)}, { AOM_CDF4(10229, 23729, 29538)},
+> +				{ AOM_CDF4(6344, 17211, 24440)}, { AOM_CDF4(3849, 11189, 17108)},
+> +				{ AOM_CDF4(28570, 32583, 32726)}, { AOM_CDF4(17521, 30161, 32238)},
+> +				{ AOM_CDF4(10153, 23565, 29378)}, { AOM_CDF4(6455, 17341, 24443)},
+> +				{ AOM_CDF4(3907, 11042, 17024)}, { AOM_CDF4(30689, 32715, 32748)},
+> +				{ AOM_CDF4(21546, 31840, 32610)}, { AOM_CDF4(13547, 27581, 31459)},
+> +				{ AOM_CDF4(8912, 21757, 28309)}, { AOM_CDF4(5548, 15080, 22046)},
+> +				{ AOM_CDF4(30783, 32540, 32685)}, { AOM_CDF4(17540, 29528, 31668)},
+> +				{ AOM_CDF4(10160, 21468, 26783)}, { AOM_CDF4(4724, 13393, 20054)},
+> +				{ AOM_CDF4(2702, 8174, 13102)}, { AOM_CDF4(31648, 32686, 32742)},
+> +				{ AOM_CDF4(20954, 31094, 32337)}, { AOM_CDF4(12420, 25698, 30179)},
+> +				{ AOM_CDF4(7304, 19320, 26248)}, { AOM_CDF4(4366, 12261, 18864)},
+> +				{ AOM_CDF4(31581, 32723, 32748)}, { AOM_CDF4(21373, 31586, 32525)},
+> +				{ AOM_CDF4(12744, 26625, 30885)}, { AOM_CDF4(7431, 20322, 26950)},
+> +				{ AOM_CDF4(4692, 13323, 20111)}, { AOM_CDF4(8192, 16384, 24576)}
+> +			},
+> +			{
+> +				{ AOM_CDF4(7833, 18369, 24095)}, { AOM_CDF4(26650, 32273, 32702)},
+> +				{ AOM_CDF4(16371, 29961, 32191)}, { AOM_CDF4(11055, 24082, 29629)},
+> +				{ AOM_CDF4(6892, 18644, 25400)}, { AOM_CDF4(5006, 13057, 19240)},
+> +				{ AOM_CDF4(29834, 32666, 32748)}, { AOM_CDF4(19577, 31335, 32570)},
+> +				{ AOM_CDF4(12253, 26509, 31122)}, { AOM_CDF4(7991, 20772, 27711)},
+> +				{ AOM_CDF4(5677, 15910, 23059)}, { AOM_CDF4(30109, 32532, 32720)},
+> +				{ AOM_CDF4(16747, 30166, 32252)}, { AOM_CDF4(10134, 23542, 29184)},
+> +				{ AOM_CDF4(5791, 16176, 23556)}, { AOM_CDF4(4362, 10414, 17284)},
+> +				{ AOM_CDF4(29492, 32626, 32748)}, { AOM_CDF4(19894, 31402, 32525)},
+> +				{ AOM_CDF4(12942, 27071, 30869)}, { AOM_CDF4(8346, 21216, 27405)},
+> +				{ AOM_CDF4(6572, 17087, 23859)}, { AOM_CDF4(32035, 32735, 32748)},
+> +				{ AOM_CDF4(22957, 31838, 32618)}, { AOM_CDF4(14724, 28572, 31772)},
+> +				{ AOM_CDF4(10364, 23999, 29553)}, { AOM_CDF4(7004, 18433, 25655)},
+> +				{ AOM_CDF4(27528, 32277, 32681)}, { AOM_CDF4(16959, 31171, 32096)},
+> +				{ AOM_CDF4(10486, 23593, 27962)}, { AOM_CDF4(8192, 16384, 23211)},
+> +				{ AOM_CDF4(8937, 17873, 20852)}, { AOM_CDF4(27715, 32002, 32615)},
+> +				{ AOM_CDF4(15073, 29491, 31676)}, { AOM_CDF4(11264, 24576, 28672)},
+> +				{ AOM_CDF4(2341, 18725, 23406)}, { AOM_CDF4(7282, 18204, 25486)},
+> +				{ AOM_CDF4(28547, 32213, 32657)}, { AOM_CDF4(20788, 29773, 32239)},
+> +				{ AOM_CDF4(6780, 21469, 30508)}, { AOM_CDF4(5958, 14895, 23831)},
+> +				{ AOM_CDF4(16384, 21845, 27307)}, { AOM_CDF4(8192, 16384, 24576)}
+> +			}
+> +		},
+> +		{
+> +			{
+> +				{ AOM_CDF4(5992, 14304, 19765)}, { AOM_CDF4(22612, 31238, 32456)},
+> +				{ AOM_CDF4(13456, 27162, 31087)}, { AOM_CDF4(8001, 20062, 26504)},
+> +				{ AOM_CDF4(5168, 14105, 20764)}, { AOM_CDF4(2632, 7771, 12385)},
+> +				{ AOM_CDF4(27034, 32344, 32709)}, { AOM_CDF4(15850, 29415, 31997)},
+> +				{ AOM_CDF4(9494, 22776, 28841)}, { AOM_CDF4(6151, 16830, 23969)},
+> +				{ AOM_CDF4(3461, 10039, 15722)}, { AOM_CDF4(30134, 32569, 32731)},
+> +				{ AOM_CDF4(15638, 29422, 31945)}, { AOM_CDF4(9150, 21865, 28218)},
+> +				{ AOM_CDF4(5647, 15719, 22676)}, { AOM_CDF4(3402, 9772, 15477)},
+> +				{ AOM_CDF4(28530, 32586, 32735)}, { AOM_CDF4(17139, 30298, 32292)},
+> +				{ AOM_CDF4(10200, 24039, 29685)}, { AOM_CDF4(6419, 17674, 24786)},
+> +				{ AOM_CDF4(3544, 10225, 15824)}, { AOM_CDF4(31333, 32726, 32748)},
+> +				{ AOM_CDF4(20618, 31487, 32544)}, { AOM_CDF4(12901, 27217, 31232)},
+> +				{ AOM_CDF4(8624, 21734, 28171)}, { AOM_CDF4(5104, 14191, 20748)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)}
+> +			},
+> +			{
+> +				{ AOM_CDF4(11206, 21090, 26561)}, { AOM_CDF4(28759, 32279, 32671)},
+> +				{ AOM_CDF4(14171, 27952, 31569)}, { AOM_CDF4(9743, 22907, 29141)},
+> +				{ AOM_CDF4(6871, 17886, 24868)}, { AOM_CDF4(4960, 13152, 19315)},
+> +				{ AOM_CDF4(31077, 32661, 32748)}, { AOM_CDF4(19400, 31195, 32515)},
+> +				{ AOM_CDF4(12752, 26858, 31040)}, { AOM_CDF4(8370, 22098, 28591)},
+> +				{ AOM_CDF4(5457, 15373, 22298)}, { AOM_CDF4(31697, 32706, 32748)},
+> +				{ AOM_CDF4(17860, 30657, 32333)}, { AOM_CDF4(12510, 24812, 29261)},
+> +				{ AOM_CDF4(6180, 19124, 24722)}, { AOM_CDF4(5041, 13548, 17959)},
+> +				{ AOM_CDF4(31552, 32716, 32748)}, { AOM_CDF4(21908, 31769, 32623)},
+> +				{ AOM_CDF4(14470, 28201, 31565)}, { AOM_CDF4(9493, 22982, 28608)},
+> +				{ AOM_CDF4(6858, 17240, 24137)}, { AOM_CDF4(32543, 32752, 32756)},
+> +				{ AOM_CDF4(24286, 32097, 32666)}, { AOM_CDF4(15958, 29217, 32024)},
+> +				{ AOM_CDF4(10207, 24234, 29958)}, { AOM_CDF4(6929, 18305, 25652)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)}
+> +			}
+> +		},
+> +		{
+> +			{
+> +				{ AOM_CDF4(4137, 10847, 15682)}, { AOM_CDF4(17824, 27001, 30058)},
+> +				{ AOM_CDF4(10204, 22796, 28291)}, { AOM_CDF4(6076, 15935, 22125)},
+> +				{ AOM_CDF4(3852, 10937, 16816)}, { AOM_CDF4(2252, 6324, 10131)},
+> +				{ AOM_CDF4(25840, 32016, 32662)}, { AOM_CDF4(15109, 28268, 31531)},
+> +				{ AOM_CDF4(9385, 22231, 28340)}, { AOM_CDF4(6082, 16672, 23479)},
+> +				{ AOM_CDF4(3318, 9427, 14681)}, { AOM_CDF4(30594, 32574, 32718)},
+> +				{ AOM_CDF4(16836, 29552, 31859)}, { AOM_CDF4(9556, 22542, 28356)},
+> +				{ AOM_CDF4(6305, 16725, 23540)}, { AOM_CDF4(3376, 9895, 15184)},
+> +				{ AOM_CDF4(29383, 32617, 32745)}, { AOM_CDF4(18891, 30809, 32401)},
+> +				{ AOM_CDF4(11688, 25942, 30687)}, { AOM_CDF4(7468, 19469, 26651)},
+> +				{ AOM_CDF4(3909, 11358, 17012)}, { AOM_CDF4(31564, 32736, 32748)},
+> +				{ AOM_CDF4(20906, 31611, 32600)}, { AOM_CDF4(13191, 27621, 31537)},
+> +				{ AOM_CDF4(8768, 22029, 28676)}, { AOM_CDF4(5079, 14109, 20906)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)}
+> +			},
+> +			{
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)},
+> +				{ AOM_CDF4(8192, 16384, 24576)}, { AOM_CDF4(8192, 16384, 24576)}
+> +			}
+> +		}
+> +	}
+> +};
+> +
+> +static const uint16_t av1_default_coeff_base_eob_multi_cdfs[TOKEN_CDF_Q_=
+CTXS][TX_SIZES]
+> +	[PLANE_TYPES][SIG_COEF_CONTEXTS_EOB][CDF_SIZE(NUM_BASE_LEVELS + 1)] =3D=
+ {
+> +	{
+> +		{
+> +			{
+> +				{ AOM_CDF3(17837, 29055)},
+> +				{ AOM_CDF3(29600, 31446)},
+> +				{ AOM_CDF3(30844, 31878)},
+> +				{ AOM_CDF3(24926, 28948)}
+> +			},
+> +			{
+> +				{ AOM_CDF3(21365, 30026)},
+> +				{ AOM_CDF3(30512, 32423)},
+> +				{ AOM_CDF3(31658, 32621)},
+> +				{ AOM_CDF3(29630, 31881)}
+> +			}
+> +		},
+> +		{
+> +			{
+> +				{ AOM_CDF3(5717, 26477)},
+> +				{ AOM_CDF3(30491, 31703)},
+> +				{ AOM_CDF3(31550, 32158)},
+> +				{ AOM_CDF3(29648, 31491)}
+> +			},
+> +			{
+> +				{ AOM_CDF3(12608, 27820)},
+> +				{ AOM_CDF3(30680, 32225)},
+> +				{ AOM_CDF3(30809, 32335)},
+> +				{ AOM_CDF3(31299, 32423)}
+> +			}
+> +		},
+> +		{
+> +			{
+> +				{ AOM_CDF3(1786, 12612)},
+> +				{ AOM_CDF3(30663, 31625)},
+> +				{ AOM_CDF3(32339, 32468)},
+> +				{ AOM_CDF3(31148, 31833)}
+> +			},
+> +			{
+> +				{ AOM_CDF3(18857, 23865)},
+> +				{ AOM_CDF3(31428, 32428)},
+> +				{ AOM_CDF3(31744, 32373)},
+> +				{ AOM_CDF3(31775, 32526)}
+> +			}
+> +		},
+> +		{
+> +			{
+> +				{ AOM_CDF3(1787, 2532)},
+> +				{ AOM_CDF3(30832, 31662)},
+> +				{ AOM_CDF3(31824, 32682)},
+> +				{ AOM_CDF3(32133, 32569)}
+> +			},
+> +			{
+> +				{ AOM_CDF3(13751, 22235)},
+> +				{ AOM_CDF3(32089, 32409)},
+> +				{ AOM_CDF3(27084, 27920)},
+> +				{ AOM_CDF3(29291, 32594)}
+> +			}
+> +		},
+> +		{
+> +			{
+> +				{ AOM_CDF3(1725, 3449)},
+> +				{ AOM_CDF3(31102, 31935)},
+> +				{ AOM_CDF3(32457, 32613)},
+> +				{ AOM_CDF3(32412, 32649)}
+> +			},
+> +			{
+> +				{ AOM_CDF3(10923, 21845)},
+> +				{ AOM_CDF3(10923, 21845)},
+> +				{ AOM_CDF3(10923, 21845)},
+> +				{ AOM_CDF3(10923, 21845)}
+> +			}
+> +		}
+> +	},
+> +	{
+> +		{
+> +			{
+> +				{ AOM_CDF3(17560, 29888)},
+> +				{ AOM_CDF3(29671, 31549)},
+> +				{ AOM_CDF3(31007, 32056)},
+> +				{ AOM_CDF3(27286, 30006)}
+> +			},
+> +			{
+> +				{ AOM_CDF3(26594, 31212)},
+> +				{ AOM_CDF3(31208, 32582)},
+> +				{ AOM_CDF3(31835, 32637)},
+> +				{ AOM_CDF3(30595, 32206)}
+> +			}
+> +		},
+> +		{
+> +			{
+> +				{ AOM_CDF3(15239, 29932)},
+> +				{ AOM_CDF3(31315, 32095)},
+> +				{ AOM_CDF3(32130, 32434)},
+> +				{ AOM_CDF3(30864, 31996)}
+> +			},
+> +			{
+> +				{ AOM_CDF3(26279, 30968)},
+> +				{ AOM_CDF3(31142, 32495)},
+> +				{ AOM_CDF3(31713, 32540)},
+> +				{ AOM_CDF3(31929, 32594)}
+> +			}
+> +		},
+> +		{
+> +			{
+> +				{ AOM_CDF3(2644, 25198)},
+> +				{ AOM_CDF3(32038, 32451)},
+> +				{ AOM_CDF3(32639, 32695)},
+> +				{ AOM_CDF3(32166, 32518)}
+> +			},
+> +			{
+> +				{ AOM_CDF3(17187, 27668)},
+> +				{ AOM_CDF3(31714, 32550)},
+> +				{ AOM_CDF3(32283, 32678)},
+> +				{ AOM_CDF3(31930, 32563)}
+> +			}
+> +		},
+> +		{
+> +			{
+> +				{ AOM_CDF3(1044, 2257)},
+> +				{ AOM_CDF3(30755, 31923)},
+> +				{ AOM_CDF3(32208, 32693)},
+> +				{ AOM_CDF3(32244, 32615)}
+> +			},
+> +			{
+> +				{ AOM_CDF3(21317, 26207)},
+> +				{ AOM_CDF3(29133, 30868)},
+> +				{ AOM_CDF3(29311, 31231)},
+> +				{ AOM_CDF3(29657, 31087)}
+> +			}
+> +		},
+> +		{
+> +			{
+> +				{ AOM_CDF3(478, 1834)},
+> +				{ AOM_CDF3(31005, 31987)},
+> +				{ AOM_CDF3(32317, 32724)},
+> +				{ AOM_CDF3(30865, 32648)}
+> +			},
+> +			{
+> +				{ AOM_CDF3(10923, 21845)},
+> +				{ AOM_CDF3(10923, 21845)},
+> +				{ AOM_CDF3(10923, 21845)},
+> +				{ AOM_CDF3(10923, 21845)}
+> +			}
+> +		}
+> +	},
+> +	{
+> +		{
+> +			{
+> +				{ AOM_CDF3(20092, 30774)},
+> +				{ AOM_CDF3(30695, 32020)},
+> +				{ AOM_CDF3(31131, 32103)},
+> +				{ AOM_CDF3(28666, 30870)}
+> +			},
+> +			{
+> +				{ AOM_CDF3(27258, 31095)},
+> +				{ AOM_CDF3(31804, 32623)},
+> +				{ AOM_CDF3(31763, 32528)},
+> +				{ AOM_CDF3(31438, 32506)}
+> +			}
+> +		},
+> +		{
+> +			{
+> +				{ AOM_CDF3(18049, 30489)},
+> +				{ AOM_CDF3(31706, 32286)},
+> +				{ AOM_CDF3(32163, 32473)},
+> +				{ AOM_CDF3(31550, 32184)}
+> +			},
+> +			{
+> +				{ AOM_CDF3(27116, 30842)},
+> +				{ AOM_CDF3(31971, 32598)},
+> +				{ AOM_CDF3(32088, 32576)},
+> +				{ AOM_CDF3(32067, 32664)}
+> +			}
+> +		},
+> +		{
+> +			{
+> +				{ AOM_CDF3(12854, 29093)},
+> +				{ AOM_CDF3(32272, 32558)},
+> +				{ AOM_CDF3(32667, 32729)},
+> +				{ AOM_CDF3(32306, 32585)}
+> +			},
+> +			{
+> +				{ AOM_CDF3(25476, 30366)},
+> +				{ AOM_CDF3(32169, 32687)},
+> +				{ AOM_CDF3(32479, 32689)},
+> +				{ AOM_CDF3(31673, 32634)}
+> +			}
+> +		},
+> +		{
+> +			{
+> +				{ AOM_CDF3(2809, 19301)},
+> +				{ AOM_CDF3(32205, 32622)},
+> +				{ AOM_CDF3(32338, 32730)},
+> +				{ AOM_CDF3(31786, 32616)}
+> +			},
+> +			{
+> +				{ AOM_CDF3(22737, 29105)},
+> +				{ AOM_CDF3(30810, 32362)},
+> +				{ AOM_CDF3(30014, 32627)},
+> +				{ AOM_CDF3(30528, 32574)}
+> +			}
+> +		},
+> +		{
+> +			{
+> +				{ AOM_CDF3(935, 3382)},
+> +				{ AOM_CDF3(30789, 31909)},
+> +				{ AOM_CDF3(32466, 32756)},
+> +				{ AOM_CDF3(30860, 32513)}
+> +			},
+> +			{
+> +				{ AOM_CDF3(10923, 21845)},
+> +				{ AOM_CDF3(10923, 21845)},
+> +				{ AOM_CDF3(10923, 21845)},
+> +				{ AOM_CDF3(10923, 21845)}
+> +			}
+> +		}
+> +	},
+> +	{
+> +		{
+> +			{
+> +				{ AOM_CDF3(22497, 31198)},
+> +				{ AOM_CDF3(31715, 32495)},
+> +				{ AOM_CDF3(31606, 32337)},
+> +				{ AOM_CDF3(30388, 31990)}
+> +			},
+> +			{
+> +				{ AOM_CDF3(27877, 31584)},
+> +				{ AOM_CDF3(32170, 32728)},
+> +				{ AOM_CDF3(32155, 32688)},
+> +				{ AOM_CDF3(32219, 32702)}
+> +			}
+> +		},
+> +		{
+> +			{
+> +				{ AOM_CDF3(21457, 31043)},
+> +				{ AOM_CDF3(31951, 32483)},
+> +				{ AOM_CDF3(32153, 32562)},
+> +				{ AOM_CDF3(31473, 32215)}
+> +			},
+> +			{
+> +				{ AOM_CDF3(27558, 31151)},
+> +				{ AOM_CDF3(32020, 32640)},
+> +				{ AOM_CDF3(32097, 32575)},
+> +				{ AOM_CDF3(32242, 32719)}
+> +			}
+> +		},
+> +		{
+> +			{
+> +				{ AOM_CDF3(19980, 30591)},
+> +				{ AOM_CDF3(32219, 32597)},
+> +				{ AOM_CDF3(32581, 32706)},
+> +				{ AOM_CDF3(31803, 32287)}
+> +			},
+> +			{
+> +				{ AOM_CDF3(26473, 30507)},
+> +				{ AOM_CDF3(32431, 32723)},
+> +				{ AOM_CDF3(32196, 32611)},
+> +				{ AOM_CDF3(31588, 32528)}
+> +			}
+> +		},
+> +		{
+> +			{
+> +				{ AOM_CDF3(24647, 30463)},
+> +				{ AOM_CDF3(32412, 32695)},
+> +				{ AOM_CDF3(32468, 32720)},
+> +				{ AOM_CDF3(31269, 32523)}
+> +			},
+> +			{
+> +				{ AOM_CDF3(28482, 31505)},
+> +				{ AOM_CDF3(32152, 32701)},
+> +				{ AOM_CDF3(31732, 32598)},
+> +				{ AOM_CDF3(31767, 32712)}
+> +			}
+> +		},
+> +		{
+> +			{
+> +				{ AOM_CDF3(12358, 24977)},
+> +				{ AOM_CDF3(31331, 32385)},
+> +				{ AOM_CDF3(32634, 32756)},
+> +				{ AOM_CDF3(30411, 32548)}
+> +			},
+> +			{
+> +				{ AOM_CDF3(10923, 21845)},
+> +				{ AOM_CDF3(10923, 21845)},
+> +				{ AOM_CDF3(10923, 21845)},
+> +				{ AOM_CDF3(10923, 21845)}
+> +			}
+> +		}
+> +	}
+> +};
+> +
+> +static const uint16_t default_joint_cdf[] =3D { ICDF(4096), ICDF(11264),=
+ ICDF(19328)};
+> +static const uint16_t default_clsss_cdf[][10] =3D {
+> +	// Vertical component
+> +	{
+> +		ICDF(28672), ICDF(30976), ICDF(31858), ICDF(32320), ICDF(32551),
+> +		ICDF(32656), ICDF(32740), ICDF(32757), ICDF(32762), ICDF(32767)
+> +	},
+> +	// Horizontal component
+> +	{
+> +		ICDF(28672), ICDF(30976), ICDF(31858), ICDF(32320), ICDF(32551),
+> +		ICDF(32656), ICDF(32740), ICDF(32757), ICDF(32762), ICDF(32767)
+> +	}
+> +};
+> +
+> +static const uint16_t default_clsss0_fp_cdf[][2][3] =3D {
+> +	// Vertical component
+> +	{
+> +		{ ICDF(16384), ICDF(24576), ICDF(26624)},
+> +		{ ICDF(12288), ICDF(21248), ICDF(24128)}
+> +	},
+> +	// Horizontal component
+> +	{
+> +		{ ICDF(16384), ICDF(24576), ICDF(26624)},
+> +		{ ICDF(12288), ICDF(21248), ICDF(24128)}
+> +	}
+> +};
+> +
+> +static const uint16_t default_fp_cdf[][3] =3D {
+> +	// Vertical component
+> +	{
+> +		ICDF(8192), ICDF(17408), ICDF(21248)
+> +	},
+> +	// Horizontal component
+> +	{
+> +		ICDF(8192), ICDF(17408), ICDF(21248)
+> +	}
+> +};
+> +
+> +static const uint16_t default_sign_cdf[] =3D { ICDF(128 * 128), ICDF(128=
+ * 128)};
+> +static const uint16_t default_class0_hp_cdf[] =3D { ICDF(160 * 128), ICD=
+F(160 * 128)};
+> +static const uint16_t default_hp_cdf[] =3D { ICDF(128 * 128), ICDF(128 *=
+ 128)};
+> +static const uint16_t default_class0_cdf[] =3D { ICDF(216 * 128), ICDF(2=
+16 * 128)};
+> +static const uint16_t default_bits_cdf[][10] =3D {
+> +	{
+> +		ICDF(128 * 136), ICDF(128 * 140), ICDF(128 * 148), ICDF(128 * 160),
+> +		ICDF(128 * 176), ICDF(128 * 192), ICDF(128 * 224), ICDF(128 * 234),
+> +		ICDF(128 * 234), ICDF(128 * 240)
+> +	},
+> +	{
+> +		ICDF(128 * 136), ICDF(128 * 140), ICDF(128 * 148), ICDF(128 * 160),
+> +		ICDF(128 * 176), ICDF(128 * 192), ICDF(128 * 224), ICDF(128 * 234),
+> +		ICDF(128 * 234), ICDF(128 * 240)
+> +	}
+> +};
+> +
+> +static int rockchip_av1_get_q_ctx(int q)
+> +{
+> +	if (q <=3D 20)
+> +		return 0;
+> +	if (q <=3D 60)
+> +		return 1;
+> +	if (q <=3D 120)
+> +		return 2;
+> +	return 3;
+> +}
+> +
+> +void rockchip_av1_default_coeff_probs(uint32_t base_qindex, void *ptr)
+> +{
+> +
+> +	struct av1cdfs *cdfs =3D (struct av1cdfs *)ptr;
+> +	const int index =3D rockchip_av1_get_q_ctx(base_qindex);
+> +
+> +	memcpy(cdfs->txb_skip_cdf, av1_default_txb_skip_cdfs[index],
+> +	       sizeof(av1_default_txb_skip_cdfs[0]));
+> +	memcpy(cdfs->eob_extra_cdf, av1_default_eob_extra_cdfs[index],
+> +	       sizeof(av1_default_eob_extra_cdfs[0]));
+> +	memcpy(cdfs->dc_sign_cdf, av1_default_dc_sign_cdfs[index],
+> +	       sizeof(av1_default_dc_sign_cdfs[0]));
+> +	memcpy(cdfs->coeff_br_cdf, av1_default_coeff_lps_multi_cdfs[index],
+> +	       sizeof(av1_default_coeff_lps_multi_cdfs[0]));
+> +	memcpy(cdfs->coeff_base_cdf, av1_default_coeff_base_multi_cdfs[index],
+> +	       sizeof(av1_default_coeff_base_multi_cdfs[0]));
+> +	memcpy(cdfs->coeff_base_eob_cdf,
+> +	       av1_default_coeff_base_eob_multi_cdfs[index],
+> +	       sizeof(av1_default_coeff_base_eob_multi_cdfs[0]));
+> +	memcpy(cdfs->eob_flag_cdf16, av1_default_eob_multi16_cdfs[index],
+> +	       sizeof(av1_default_eob_multi16_cdfs[0]));
+> +	memcpy(cdfs->eob_flag_cdf32, av1_default_eob_multi32_cdfs[index],
+> +	       sizeof(av1_default_eob_multi32_cdfs[0]));
+> +	memcpy(cdfs->eob_flag_cdf64, av1_default_eob_multi64_cdfs[index],
+> +	       sizeof(av1_default_eob_multi64_cdfs[0]));
+> +	memcpy(cdfs->eob_flag_cdf128, av1_default_eob_multi128_cdfs[index],
+> +	       sizeof(av1_default_eob_multi128_cdfs[0]));
+> +	memcpy(cdfs->eob_flag_cdf256, av1_default_eob_multi256_cdfs[index],
+> +	       sizeof(av1_default_eob_multi256_cdfs[0]));
+> +	memcpy(cdfs->eob_flag_cdf512, av1_default_eob_multi512_cdfs[index],
+> +	       sizeof(av1_default_eob_multi512_cdfs[0]));
+> +	memcpy(cdfs->eob_flag_cdf1024, av1_default_eob_multi1024_cdfs[index],
+> +	       sizeof(av1_default_eob_multi1024_cdfs[0]));
+> +}
+> +
+> +void rockchip_av1_set_default_cdfs(struct av1cdfs *cdfs,
+> +				   struct mvcdfs *cdfs_ndvc)
+> +{
+> +	memcpy(cdfs->partition_cdf, default_partition_cdf,
+> +	       sizeof(cdfs->partition_cdf));
+> +
+> +	memcpy(cdfs->tx_type_intra0_cdf, default_intra_ext_tx0_cdf,
+> +	       sizeof(cdfs->tx_type_intra0_cdf));
+> +	memcpy(cdfs->tx_type_intra1_cdf, default_intra_ext_tx1_cdf,
+> +	       sizeof(cdfs->tx_type_intra1_cdf));
+> +	memcpy(cdfs->tx_type_inter_cdf, default_inter_ext_tx_cdf,
+> +	       sizeof(cdfs->tx_type_inter_cdf));
+> +
+> +	memcpy(cdfs->vartx_part_cdf, default_txfm_partition_cdf,
+> +	       sizeof(cdfs->vartx_part_cdf));
+> +	memcpy(cdfs->mbskip_cdf, default_skip_cdfs, sizeof(cdfs->mbskip_cdf));
+> +	memcpy(cdfs->delta_q_cdf, default_delta_q_cdf,
+> +	       sizeof(cdfs->delta_q_cdf));
+> +	memcpy(cdfs->delta_lf_multi_cdf, default_delta_lf_multi_cdf,
+> +	       sizeof(cdfs->delta_lf_multi_cdf));
+> +	memcpy(cdfs->delta_lf_cdf, default_delta_lf_cdf,
+> +	       sizeof(cdfs->delta_lf_cdf));
+> +
+> +	memcpy(cdfs->segment_pred_cdf, default_segment_pred_cdf,
+> +	       sizeof(cdfs->segment_pred_cdf));
+> +
+> +	memcpy(cdfs->spatial_pred_seg_tree_cdf,
+> +	       default_spatial_pred_seg_tree_cdf,
+> +	       sizeof(cdfs->spatial_pred_seg_tree_cdf));
+> +
+> +	memcpy(cdfs->skip_mode_cdf, default_skip_mode_cdfs,
+> +	       sizeof(cdfs->skip_mode_cdf));
+> +
+> +	memcpy(cdfs->tx_size_cdf, default_tx_size_cdf,
+> +	       sizeof(cdfs->tx_size_cdf));
+> +
+> +	memcpy(cdfs->kf_ymode_cdf, default_kf_y_mode_cdf,
+> +	       sizeof(cdfs->kf_ymode_cdf));
+> +	memcpy(cdfs->uv_mode_cdf, default_uv_mode_cdf,
+> +	       sizeof(cdfs->uv_mode_cdf));
+> +	memcpy(cdfs->if_ymode_cdf, default_if_y_mode_cdf,
+> +	       sizeof(cdfs->if_ymode_cdf));
+> +
+> +	memcpy(cdfs->intra_inter_cdf, default_intra_inter_cdf,
+> +	       sizeof(cdfs->intra_inter_cdf));
+> +
+> +	memcpy(cdfs->comp_ref_cdf, default_comp_ref_cdf,
+> +	       sizeof(cdfs->comp_ref_cdf));
+> +	memcpy(cdfs->comp_bwdref_cdf, default_comp_bwdref_cdf,
+> +	       sizeof(cdfs->comp_bwdref_cdf));
+> +
+> +	memcpy(cdfs->comp_inter_cdf, default_comp_inter_cdf,
+> +	       sizeof(cdfs->comp_inter_cdf));
+> +
+> +	memcpy(cdfs->single_ref_cdf, default_single_ref_cdf,
+> +	       sizeof(cdfs->single_ref_cdf));
+> +	memcpy(cdfs->comp_ref_type_cdf, default_comp_ref_type_cdf,
+> +	       sizeof(cdfs->comp_ref_type_cdf));
+> +	memcpy(cdfs->uni_comp_ref_cdf, default_uni_comp_ref_cdf,
+> +	       sizeof(cdfs->uni_comp_ref_cdf));
+> +
+> +	memcpy(cdfs->newmv_cdf, default_newmv_cdf, sizeof(cdfs->newmv_cdf));
+> +	memcpy(cdfs->zeromv_cdf, default_zeromv_cdf, sizeof(cdfs->zeromv_cdf));
+> +	memcpy(cdfs->refmv_cdf, default_refmv_cdf, sizeof(cdfs->refmv_cdf));
+> +	memcpy(cdfs->drl_cdf, default_drl_cdf, sizeof(cdfs->drl_cdf));
+> +
+> +	memcpy(cdfs->interp_filter_cdf, default_switchable_interp_cdf,
+> +	       sizeof(cdfs->interp_filter_cdf));
+> +
+> +	// Regular MV cdfs
+> +	memcpy(cdfs->mv_cdf.joint_cdf, default_joint_cdf,
+> +	       sizeof(cdfs->mv_cdf.joint_cdf));
+> +	memcpy(cdfs->mv_cdf.sign_cdf, default_sign_cdf,
+> +	       sizeof(cdfs->mv_cdf.sign_cdf));
+> +	memcpy(cdfs->mv_cdf.clsss_cdf, default_clsss_cdf,
+> +	       sizeof(cdfs->mv_cdf.clsss_cdf));
+> +	memcpy(cdfs->mv_cdf.clsss0_fp_cdf, default_clsss0_fp_cdf,
+> +	       sizeof(cdfs->mv_cdf.clsss0_fp_cdf));
+> +	memcpy(cdfs->mv_cdf.fp_cdf, default_fp_cdf,
+> +	       sizeof(cdfs->mv_cdf.fp_cdf));
+> +	memcpy(cdfs->mv_cdf.class0_hp_cdf, default_class0_hp_cdf,
+> +	       sizeof(cdfs->mv_cdf.class0_hp_cdf));
+> +	memcpy(cdfs->mv_cdf.hp_cdf, default_hp_cdf,
+> +	       sizeof(cdfs->mv_cdf.hp_cdf));
+> +	memcpy(cdfs->mv_cdf.class0_cdf, default_class0_cdf,
+> +	       sizeof(cdfs->mv_cdf.class0_cdf));
+> +	memcpy(cdfs->mv_cdf.bits_cdf, default_bits_cdf,
+> +	       sizeof(cdfs->mv_cdf.bits_cdf));
+> +
+> +	// Intrabc cdfs
+> +	memcpy(cdfs_ndvc->joint_cdf, default_joint_cdf,
+> +	       sizeof(cdfs_ndvc->joint_cdf));
+> +	memcpy(cdfs_ndvc->sign_cdf, default_sign_cdf,
+> +	       sizeof(cdfs_ndvc->sign_cdf));
+> +	memcpy(cdfs_ndvc->clsss_cdf, default_clsss_cdf,
+> +	       sizeof(cdfs_ndvc->clsss_cdf));
+> +	memcpy(cdfs_ndvc->clsss0_fp_cdf, default_clsss0_fp_cdf,
+> +	       sizeof(cdfs_ndvc->clsss0_fp_cdf));
+> +	memcpy(cdfs_ndvc->fp_cdf, default_fp_cdf, sizeof(cdfs_ndvc->fp_cdf));
+> +	memcpy(cdfs_ndvc->class0_hp_cdf, default_class0_hp_cdf,
+> +	       sizeof(cdfs_ndvc->class0_hp_cdf));
+> +	memcpy(cdfs_ndvc->hp_cdf, default_hp_cdf, sizeof(cdfs_ndvc->hp_cdf));
+> +	memcpy(cdfs_ndvc->class0_cdf, default_class0_cdf,
+> +	       sizeof(cdfs_ndvc->class0_cdf));
+> +	memcpy(cdfs_ndvc->bits_cdf, default_bits_cdf,
+> +	       sizeof(cdfs_ndvc->bits_cdf));
+> +
+> +	memcpy(cdfs->obmc_cdf, default_obmc_cdf, sizeof(cdfs->obmc_cdf));
+> +	memcpy(cdfs->motion_mode_cdf, default_motion_mode_cdf,
+> +	       sizeof(cdfs->motion_mode_cdf));
+> +
+> +	memcpy(cdfs->inter_compound_mode_cdf, default_inter_compound_mode_cdf,
+> +	       sizeof(cdfs->inter_compound_mode_cdf));
+> +	memcpy(cdfs->compound_type_cdf, default_compound_type_cdf,
+> +	       sizeof(cdfs->compound_type_cdf));
+> +	memcpy(cdfs->interintra_cdf, default_interintra_cdf,
+> +	       sizeof(cdfs->interintra_cdf));
+> +	memcpy(cdfs->interintra_mode_cdf, default_interintra_mode_cdf,
+> +	       sizeof(cdfs->interintra_mode_cdf));
+> +	memcpy(cdfs->wedge_interintra_cdf, default_wedge_interintra_cdf,
+> +	       sizeof(cdfs->wedge_interintra_cdf));
+> +	memcpy(cdfs->wedge_idx_cdf, default_wedge_idx_cdf,
+> +	       sizeof(cdfs->wedge_idx_cdf));
+> +
+> +	memcpy(cdfs->palette_y_mode_cdf, default_palette_y_mode_cdf,
+> +	       sizeof(cdfs->palette_y_mode_cdf));
+> +	memcpy(cdfs->palette_uv_mode_cdf, default_palette_uv_mode_cdf,
+> +	       sizeof(cdfs->palette_uv_mode_cdf));
+> +	memcpy(cdfs->palette_y_size_cdf, default_palette_y_size_cdf,
+> +	       sizeof(cdfs->palette_y_size_cdf));
+> +	memcpy(cdfs->palette_uv_size_cdf, default_palette_uv_size_cdf,
+> +	       sizeof(cdfs->palette_uv_size_cdf));
+> +	memcpy(cdfs->palette_y_color_index_cdf,
+> +	       default_palette_y_color_index_cdf,
+> +	       sizeof(cdfs->palette_y_color_index_cdf));
+> +	memcpy(cdfs->palette_uv_color_index_cdf,
+> +	       default_palette_uv_color_index_cdf,
+> +	       sizeof(cdfs->palette_uv_color_index_cdf));
+> +
+> +	memcpy(cdfs->cfl_sign_cdf, default_cfl_sign_cdf,
+> +	       sizeof(cdfs->cfl_sign_cdf));
+> +	memcpy(cdfs->cfl_alpha_cdf, default_cfl_alpha_cdf,
+> +	       sizeof(cdfs->cfl_alpha_cdf));
+> +
+> +	memcpy(cdfs->intrabc_cdf, default_intrabc_cdf,
+> +	       sizeof(cdfs->intrabc_cdf));
+> +	memcpy(cdfs->angle_delta_cdf, default_angle_delta_cdf,
+> +	       sizeof(cdfs->angle_delta_cdf));
+> +	memcpy(cdfs->filter_intra_mode_cdf, default_filter_intra_mode_cdf,
+> +	       sizeof(cdfs->filter_intra_mode_cdf));
+> +	memcpy(cdfs->filter_intra_cdf, default_filter_intra_cdfs,
+> +	       sizeof(cdfs->filter_intra_cdf));
+> +	memcpy(cdfs->comp_group_idx_cdf, default_comp_group_idx_cdfs,
+> +	       sizeof(cdfs->comp_group_idx_cdf));
+> +	memcpy(cdfs->compound_idx_cdf, default_compound_idx_cdfs,
+> +	       sizeof(cdfs->compound_idx_cdf));
+> +}
+> +
+> +void rockchip_av1_get_cdfs(struct hantro_ctx *ctx, uint32_t ref_idx)
+> +{
+> +	struct hantro_av1_dec_hw_ctx *av1_dec =3D &ctx->av1_dec;
+> +
+> +	av1_dec->cdfs =3D &av1_dec->cdfs_last[ref_idx];
+> +	av1_dec->cdfs_ndvc =3D &av1_dec->cdfs_last_ndvc[ref_idx];
+> +}
+> +
+> +void rockchip_av1_store_cdfs(struct hantro_ctx *ctx,
+> +			     uint32_t refresh_frame_flags)
+> +{
+> +	struct hantro_av1_dec_hw_ctx *av1_dec =3D &ctx->av1_dec;
+> +	int i;
+> +
+> +	for (i =3D 0; i < NUM_REF_FRAMES; i++) {
+> +		if (refresh_frame_flags & (1 << i)) {
+> +			if (&av1_dec->cdfs_last[i] !=3D av1_dec->cdfs) {
+> +				av1_dec->cdfs_last[i] =3D *av1_dec->cdfs;
+> +				av1_dec->cdfs_last_ndvc[i] =3D
+> +				    *av1_dec->cdfs_ndvc;
+> +			}
+> +		}
+> +	}
+> +}
+> diff --git a/drivers/media/platform/verisilicon/rockchip_av1_entropymode.=
+h b/drivers/media/platform/verisilicon/rockchip_av1_entropymode.h
+> new file mode 100644
+> index 000000000000..946009559999
+> --- /dev/null
+> +++ b/drivers/media/platform/verisilicon/rockchip_av1_entropymode.h
+> @@ -0,0 +1,272 @@
+> +/* SPDX-License-Identifier: GPL-2.0-only */
+> +
+> +#ifndef _ROCKCHIP_AV1_ENTROPYMODE_H_
+> +#define _ROCKCHIP_AV1_ENTROPYMODE_H_
+> +
+> +#include <linux/types.h>
+> +
+> +struct hantro_ctx;
+> +
+> +#define AV1_INTER_MODE_CONTEXTS 15
+> +#define AV1_INTRA_MODES 13
+> +#define AV1_REF_CONTEXTS 3
+> +#define AV1_SWITCHABLE_FILTERS 3	/* number of switchable filters */
+> +#define AV1_TX_SIZE_CONTEXTS 3
+> +#define BLOCK_SIZE_GROUPS 4
+> +#define BR_CDF_SIZE 4
+> +#define BWD_REFS 3
+> +#define CFL_ALLOWED_TYPES 2
+> +#define CFL_ALPHA_CONTEXTS 6
+> +#define CFL_ALPHABET_SIZE 16
+> +#define CFL_JOINT_SIGNS 8
+> +#define CDF_SIZE(x) ((x)-1)
+> +#define COMP_GROUP_IDX_CONTEXTS 7
+> +#define COMP_INDEX_CONTEXTS 6
+> +#define COMP_INTER_CONTEXTS 5
+> +#define COMP_REF_TYPE_CONTEXTS 5
+> +#define COMPOUND_TYPES 3
+> +#define DC_SIGN_CONTEXTS 3
+> +#define DELTA_LF_PROBS 3
+> +#define DELTA_Q_PROBS 3
+> +#define DIRECTIONAL_MODES 8
+> +#define DRL_MODE_CONTEXTS 3
+> +#define EOB_COEF_CONTEXTS 9
+> +#define EXT_TX_SIZES 3
+> +#define EXT_TX_TYPES 16
+> +#define EXTTX_SIZES 4
+> +#define FRAME_LF_COUNT 4
+> +#define FWD_REFS 4
+> +#define GLOBALMV_MODE_CONTEXTS 2
+> +#define ICDF(x) (32768U - (x))
+> +#define INTER_COMPOUND_MODES 8
+> +#define INTERINTRA_MODES 4
+> +#define INTRA_INTER_CONTEXTS 4
+> +#define KF_MODE_CONTEXTS 5
+> +#define LEVEL_CONTEXTS 21
+> +#define MAX_ANGLE_DELTA 3
+> +#define MAX_MB_SEGMENTS 8
+> +#define MAX_SEGMENTS 8
+> +#define MAX_TX_CATS 4
+> +#define MAX_TX_DEPTH 2
+> +#define MBSKIP_CONTEXTS 3
+> +#define MOTION_MODES 3
+> +#define MOTION_MODE_CONTEXTS 10
+> +#define NEWMV_MODE_CONTEXTS 6
+> +#define NUM_BASE_LEVELS 2
+> +#define NUM_REF_FRAMES 8
+> +#define PALETTE_BLOCK_SIZES 7
+> +#define PALETTE_IDX_CONTEXTS 18
+> +#define PALETTE_SIZES 7
+> +#define PALETTE_UV_MODE_CONTEXTS 2
+> +#define PALETTE_Y_MODE_CONTEXTS 3
+> +#define PARTITION_PLOFFSET 4
+> +#define NUM_PARTITION_CONTEXTS (4 * PARTITION_PLOFFSET)
+> +#define PLANE_TYPES 2
+> +#define PREDICTION_PROBS 3
+> +#define REF_CONTEXTS 5
+> +#define REFMV_MODE_CONTEXTS 9
+> +#define SEG_TEMPORAL_PRED_CTXS 3
+> +#define SIG_COEF_CONTEXTS 42
+> +#define SIG_COEF_CONTEXTS_EOB 4
+> +#define SINGLE_REFS 7
+> +#define SKIP_CONTEXTS 3
+> +#define SKIP_MODE_CONTEXTS 3
+> +#define SPATIAL_PREDICTION_PROBS 3
+> +#define SWITCHABLE_FILTER_CONTEXTS ((AV1_SWITCHABLE_FILTERS + 1) * 4)
+> +#define TOKEN_CDF_Q_CTXS 4
+> +#define TX_SIZES 5
+> +#define TX_SIZE_CONTEXTS 2
+> +#define TX_TYPES 4
+> +#define TXB_SKIP_CONTEXTS 13
+> +#define TXFM_PARTITION_CONTEXTS 22
+> +#define UNI_COMP_REF_CONTEXTS 3
+> +#define UNIDIR_COMP_REFS 4
+> +#define UV_INTRA_MODES 14
+> +#define VARTX_PART_CONTEXTS 22
+> +#define ZEROMV_MODE_CONTEXTS 2
+> +
+> +enum blocksizetype {
+> +	BLOCK_SIZE_AB4X4,
+> +	BLOCK_SIZE_SB4X8,
+> +	BLOCK_SIZE_SB8X4,
+> +	BLOCK_SIZE_SB8X8,
+> +	BLOCK_SIZE_SB8X16,
+> +	BLOCK_SIZE_SB16X8,
+> +	BLOCK_SIZE_MB16X16,
+> +	BLOCK_SIZE_SB16X32,
+> +	BLOCK_SIZE_SB32X16,
+> +	BLOCK_SIZE_SB32X32,
+> +	BLOCK_SIZE_SB32X64,
+> +	BLOCK_SIZE_SB64X32,
+> +	BLOCK_SIZE_SB64X64,
+> +	BLOCK_SIZE_SB64X128,
+> +	BLOCK_SIZE_SB128X64,
+> +	BLOCK_SIZE_SB128X128,
+> +	BLOCK_SIZE_SB4X16,
+> +	BLOCK_SIZE_SB16X4,
+> +	BLOCK_SIZE_SB8X32,
+> +	BLOCK_SIZE_SB32X8,
+> +	BLOCK_SIZE_SB16X64,
+> +	BLOCK_SIZE_SB64X16,
+> +	BLOCK_SIZE_TYPES,
+> +	BLOCK_SIZES_ALL =3D BLOCK_SIZE_TYPES
+> +};
+> +
+> +enum filterintramodetype {
+> +	FILTER_DC_PRED,
+> +	FILTER_V_PRED,
+> +	FILTER_H_PRED,
+> +	FILTER_D153_PRED,
+> +	FILTER_PAETH_PRED,
+> +	FILTER_INTRA_MODES,
+> +	FILTER_INTRA_UNUSED =3D 7
+> +};
+> +
+> +enum frametype {
+> +	KEY_FRAME =3D 0,
+> +	INTER_FRAME =3D 1,
+> +	NUM_FRAME_TYPES,
+> +};
+> +
+> +enum txsize {
+> +	TX_4X4 =3D 0,
+> +	TX_8X8 =3D 1,
+> +	TX_16X16 =3D 2,
+> +	TX_32X32 =3D 3,
+> +	TX_SIZE_MAX_SB,
+> +};
+> +
+> +enum { SIMPLE_TRANSLATION, OBMC_CAUSAL, MOTION_MODE_COUNT };
+> +
+> +enum mb_prediction_mode {
+> +	DC_PRED,		/* average of above and left pixels */
+> +	V_PRED,			/* vertical prediction */
+> +	H_PRED,			/* horizontal prediction */
+> +	D45_PRED,		/* Directional 45 deg prediction  [anti-clockwise from 0 deg=
+ hor] */
+> +	D135_PRED,		/* Directional 135 deg prediction [anti-clockwise from 0 de=
+g hor] */
+> +	D117_PRED,		/* Directional 112 deg prediction [anti-clockwise from 0 de=
+g hor] */
+> +	D153_PRED,		/* Directional 157 deg prediction [anti-clockwise from 0 de=
+g hor] */
+> +	D27_PRED,		/* Directional 22 deg prediction  [anti-clockwise from 0 deg=
+ hor] */
+> +	D63_PRED,		/* Directional 67 deg prediction  [anti-clockwise from 0 deg=
+ hor] */
+> +	SMOOTH_PRED,
+> +	TM_PRED_AV1 =3D SMOOTH_PRED,
+> +	SMOOTH_V_PRED,		// Vertical interpolation
+> +	SMOOTH_H_PRED,		// Horizontal interpolation
+> +	TM_PRED,		/* Truemotion prediction */
+> +	PAETH_PRED =3D TM_PRED,
+> +	NEARESTMV,
+> +	NEARMV,
+> +	ZEROMV,
+> +	NEWMV,
+> +	NEAREST_NEARESTMV,
+> +	NEAR_NEARMV,
+> +	NEAREST_NEWMV,
+> +	NEW_NEARESTMV,
+> +	NEAR_NEWMV,
+> +	NEW_NEARMV,
+> +	ZERO_ZEROMV,
+> +	NEW_NEWMV,
+> +	SPLITMV,
+> +	MB_MODE_COUNT
+> +};
+> +
+> +enum partitiontype {
+> +	PARTITION_NONE,
+> +	PARTITION_HORZ,
+> +	PARTITION_VERT,
+> +	PARTITION_SPLIT,
+> +	PARTITION_TYPES
+> +};
+> +
+> +struct mvcdfs {
+> +	uint16_t joint_cdf[3];
+> +	uint16_t sign_cdf[2];
+> +	uint16_t clsss_cdf[2][10];
+> +	uint16_t clsss0_fp_cdf[2][2][3];
+> +	uint16_t fp_cdf[2][3];
+> +	uint16_t class0_hp_cdf[2];
+> +	uint16_t hp_cdf[2];
+> +	uint16_t class0_cdf[2];
+> +	uint16_t bits_cdf[2][10];
+> +};
+> +
+> +struct av1cdfs {
+> +	uint16_t partition_cdf[13][16];
+> +	uint16_t kf_ymode_cdf[KF_MODE_CONTEXTS][KF_MODE_CONTEXTS][AV1_INTRA_MOD=
+ES - 1];
+> +	uint16_t segment_pred_cdf[PREDICTION_PROBS];
+> +	uint16_t spatial_pred_seg_tree_cdf[SPATIAL_PREDICTION_PROBS][MAX_MB_SEG=
+MENTS - 1];
+> +	uint16_t mbskip_cdf[MBSKIP_CONTEXTS];
+> +	uint16_t delta_q_cdf[DELTA_Q_PROBS];
+> +	uint16_t delta_lf_multi_cdf[FRAME_LF_COUNT][DELTA_LF_PROBS];
+> +	uint16_t delta_lf_cdf[DELTA_LF_PROBS];
+> +	uint16_t skip_mode_cdf[SKIP_MODE_CONTEXTS];
+> +	uint16_t vartx_part_cdf[VARTX_PART_CONTEXTS][1];
+> +	uint16_t tx_size_cdf[MAX_TX_CATS][AV1_TX_SIZE_CONTEXTS][MAX_TX_DEPTH];
+> +	uint16_t if_ymode_cdf[BLOCK_SIZE_GROUPS][AV1_INTRA_MODES - 1];
+> +	uint16_t uv_mode_cdf[2][AV1_INTRA_MODES][AV1_INTRA_MODES - 1 + 1];
+> +	uint16_t intra_inter_cdf[INTRA_INTER_CONTEXTS];
+> +	uint16_t comp_inter_cdf[COMP_INTER_CONTEXTS];
+> +	uint16_t single_ref_cdf[AV1_REF_CONTEXTS][SINGLE_REFS - 1];
+> +	uint16_t comp_ref_type_cdf[COMP_REF_TYPE_CONTEXTS][1];
+> +	uint16_t uni_comp_ref_cdf[UNI_COMP_REF_CONTEXTS][UNIDIR_COMP_REFS - 1][=
+1];
+> +	uint16_t comp_ref_cdf[AV1_REF_CONTEXTS][FWD_REFS - 1];
+> +	uint16_t comp_bwdref_cdf[AV1_REF_CONTEXTS][BWD_REFS - 1];
+> +	uint16_t newmv_cdf[NEWMV_MODE_CONTEXTS];
+> +	uint16_t zeromv_cdf[ZEROMV_MODE_CONTEXTS];
+> +	uint16_t refmv_cdf[REFMV_MODE_CONTEXTS];
+> +	uint16_t drl_cdf[DRL_MODE_CONTEXTS];
+> +	uint16_t interp_filter_cdf[SWITCHABLE_FILTER_CONTEXTS][AV1_SWITCHABLE_F=
+ILTERS - 1];
+> +	struct mvcdfs mv_cdf;
+> +	uint16_t obmc_cdf[BLOCK_SIZE_TYPES];
+> +	uint16_t motion_mode_cdf[BLOCK_SIZE_TYPES][2];
+> +	uint16_t inter_compound_mode_cdf[AV1_INTER_MODE_CONTEXTS][INTER_COMPOUN=
+D_MODES - 1];
+> +	uint16_t compound_type_cdf[BLOCK_SIZE_TYPES][CDF_SIZE(COMPOUND_TYPES - =
+1)];
+> +	uint16_t interintra_cdf[BLOCK_SIZE_GROUPS];
+> +	uint16_t interintra_mode_cdf[BLOCK_SIZE_GROUPS][INTERINTRA_MODES - 1];
+> +	uint16_t wedge_interintra_cdf[BLOCK_SIZE_TYPES];
+> +	uint16_t wedge_idx_cdf[BLOCK_SIZE_TYPES][CDF_SIZE(16)];
+> +	uint16_t palette_y_mode_cdf[PALETTE_BLOCK_SIZES][PALETTE_Y_MODE_CONTEXT=
+S][1];
+> +	uint16_t palette_uv_mode_cdf[PALETTE_UV_MODE_CONTEXTS][1];
+> +	uint16_t palette_y_size_cdf[PALETTE_BLOCK_SIZES][PALETTE_SIZES - 1];
+> +	uint16_t palette_uv_size_cdf[PALETTE_BLOCK_SIZES][PALETTE_SIZES - 1];
+> +	uint16_t cfl_sign_cdf[CFL_JOINT_SIGNS - 1];
+> +	uint16_t cfl_alpha_cdf[CFL_ALPHA_CONTEXTS][CFL_ALPHABET_SIZE - 1];
+> +	uint16_t intrabc_cdf[1];
+> +	uint16_t angle_delta_cdf[DIRECTIONAL_MODES][6];
+> +	uint16_t filter_intra_mode_cdf[FILTER_INTRA_MODES - 1];
+> +	uint16_t filter_intra_cdf[BLOCK_SIZES_ALL];
+> +	uint16_t comp_group_idx_cdf[COMP_GROUP_IDX_CONTEXTS][CDF_SIZE(2)];
+> +	uint16_t compound_idx_cdf[COMP_INDEX_CONTEXTS][CDF_SIZE(2)];
+> +	uint16_t dummy0[14];
+> +	// Palette index contexts; sizes 1/7, 2/6, 3/5 packed together
+> +	uint16_t palette_y_color_index_cdf[PALETTE_IDX_CONTEXTS][8];
+> +	uint16_t palette_uv_color_index_cdf[PALETTE_IDX_CONTEXTS][8];
+> +	uint16_t tx_type_intra0_cdf[EXTTX_SIZES][AV1_INTRA_MODES][8];
+> +	uint16_t tx_type_intra1_cdf[EXTTX_SIZES][AV1_INTRA_MODES][4];
+> +	uint16_t tx_type_inter_cdf[2][EXTTX_SIZES][EXT_TX_TYPES];
+> +	uint16_t txb_skip_cdf[TX_SIZES][TXB_SKIP_CONTEXTS][CDF_SIZE(2)];
+> +	uint16_t eob_extra_cdf[TX_SIZES][PLANE_TYPES][EOB_COEF_CONTEXTS][CDF_SI=
+ZE(2)];
+> +	uint16_t dummy1[5];
+> +	uint16_t eob_flag_cdf16[PLANE_TYPES][2][4];
+> +	uint16_t eob_flag_cdf32[PLANE_TYPES][2][8];
+> +	uint16_t eob_flag_cdf64[PLANE_TYPES][2][8];
+> +	uint16_t eob_flag_cdf128[PLANE_TYPES][2][8];
+> +	uint16_t eob_flag_cdf256[PLANE_TYPES][2][8];
+> +	uint16_t eob_flag_cdf512[PLANE_TYPES][2][16];
+> +	uint16_t eob_flag_cdf1024[PLANE_TYPES][2][16];
+> +	uint16_t coeff_base_eob_cdf[TX_SIZES][PLANE_TYPES][SIG_COEF_CONTEXTS_EO=
+B][CDF_SIZE(3)];
+> +	uint16_t coeff_base_cdf[TX_SIZES][PLANE_TYPES][SIG_COEF_CONTEXTS][CDF_S=
+IZE(4) + 1];
+> +	uint16_t dc_sign_cdf[PLANE_TYPES][DC_SIGN_CONTEXTS][CDF_SIZE(2)];
+> +	uint16_t dummy2[2];
+> +	uint16_t coeff_br_cdf[TX_SIZES][PLANE_TYPES][LEVEL_CONTEXTS][CDF_SIZE(B=
+R_CDF_SIZE) + 1];
+> +	uint16_t dummy3[16];
+> +};
+> +
+> +void rockchip_av1_store_cdfs(struct hantro_ctx *ctx,
+> +			     uint32_t refresh_frame_flags);
+> +void rockchip_av1_get_cdfs(struct hantro_ctx *ctx, uint32_t ref_idx);
+> +void rockchip_av1_set_default_cdfs(struct av1cdfs *cdfs,
+> +				   struct mvcdfs *cdfs_ndvc);
+> +void rockchip_av1_default_coeff_probs(uint32_t base_qindex, void *ptr);
+> +
+> +#endif /* _ROCKCHIP_AV1_ENTROPYMODE_H_ */
 
---fhpo8hEKiKmCHMeF
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-Hi Benjamin,
-
-I love your patch! Yet something to improve:
-
-[auto build test ERROR on media-tree/master]
-[also build test ERROR on rockchip/for-next linus/master v6.1 next-20221219]
-[cannot apply to pza/reset/next pza/imx-drm/next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Benjamin-Gaignard/AV1-stateless-decoder-for-RK3588/20221220-000013
-base:   git://linuxtv.org/media_tree.git master
-patch link:    https://lore.kernel.org/r/20221219155616.848690-9-benjamin.gaignard%40collabora.com
-patch subject: [PATCH v1 8/9] media: verisilicon: Add film grain feature to AV1 driver
-config: sh-allmodconfig
-compiler: sh4-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/1b1eef6495c773e2dc6d46bd255d81b43ede61df
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Benjamin-Gaignard/AV1-stateless-decoder-for-RK3588/20221220-000013
-        git checkout 1b1eef6495c773e2dc6d46bd255d81b43ede61df
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sh olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sh SHELL=/bin/bash drivers/media/platform/verisilicon/
-
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-
-All errors (new ones prefixed by >>):
-
-    1103 |                                  loop_filter->ref_deltas[7]);
-         |                                             ^~
-   drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:1105:45: error: invalid use of undefined type 'const struct v4l2_av1_loop_filter'
-    1105 |                                  loop_filter->mode_deltas[0]);
-         |                                             ^~
-   drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:1107:45: error: invalid use of undefined type 'const struct v4l2_av1_loop_filter'
-    1107 |                                  loop_filter->mode_deltas[1]);
-         |                                             ^~
-   drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c: In function 'rockchip_vpu981_av1_dec_update_prob':
-   drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:1130:45: error: invalid use of undefined type 'const struct v4l2_ctrl_av1_frame'
-    1130 |         bool frame_is_intra = IS_INTRA(frame->frame_type);
-         |                                             ^~
-   drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:46:26: note: in definition of macro 'IS_INTRA'
-      46 | #define IS_INTRA(type) ((type == V4L2_AV1_KEY_FRAME) || (type == V4L2_AV1_INTRA_ONLY_FRAME))
-         |                          ^~~~
-   drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:46:34: error: 'V4L2_AV1_KEY_FRAME' undeclared (first use in this function)
-      46 | #define IS_INTRA(type) ((type == V4L2_AV1_KEY_FRAME) || (type == V4L2_AV1_INTRA_ONLY_FRAME))
-         |                                  ^~~~~~~~~~~~~~~~~~
-   drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:1130:31: note: in expansion of macro 'IS_INTRA'
-    1130 |         bool frame_is_intra = IS_INTRA(frame->frame_type);
-         |                               ^~~~~~~~
-   drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:1130:45: error: invalid use of undefined type 'const struct v4l2_ctrl_av1_frame'
-    1130 |         bool frame_is_intra = IS_INTRA(frame->frame_type);
-         |                                             ^~
-   drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:46:58: note: in definition of macro 'IS_INTRA'
-      46 | #define IS_INTRA(type) ((type == V4L2_AV1_KEY_FRAME) || (type == V4L2_AV1_INTRA_ONLY_FRAME))
-         |                                                          ^~~~
-   drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:46:66: error: 'V4L2_AV1_INTRA_ONLY_FRAME' undeclared (first use in this function)
-      46 | #define IS_INTRA(type) ((type == V4L2_AV1_KEY_FRAME) || (type == V4L2_AV1_INTRA_ONLY_FRAME))
-         |                                                                  ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:1130:31: note: in expansion of macro 'IS_INTRA'
-    1130 |         bool frame_is_intra = IS_INTRA(frame->frame_type);
-         |                               ^~~~~~~~
-   drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:1134:18: error: invalid use of undefined type 'const struct v4l2_ctrl_av1_frame'
-    1134 |         if (frame->flags & V4L2_AV1_FRAME_FLAG_DISABLE_FRAME_END_UPDATE_CDF)
-         |                  ^~
-   drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:1134:28: error: 'V4L2_AV1_FRAME_FLAG_DISABLE_FRAME_END_UPDATE_CDF' undeclared (first use in this function)
-    1134 |         if (frame->flags & V4L2_AV1_FRAME_FLAG_DISABLE_FRAME_END_UPDATE_CDF)
-         |                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:1138:26: error: invalid use of undefined type 'const struct v4l2_ctrl_av1_frame'
-    1138 |                 if (frame->refresh_frame_flags & (1 << i)) {
-         |                          ^~
-   drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:1149:54: error: invalid use of undefined type 'const struct v4l2_ctrl_av1_frame'
-    1149 |                                                 frame->refresh_frame_flags);
-         |                                                      ^~
-   drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c: At top level:
-   drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:1155:6: warning: no previous prototype for 'rockchip_vpu981_av1_dec_done' [-Wmissing-prototypes]
-    1155 | void rockchip_vpu981_av1_dec_done(struct hantro_ctx *ctx)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c: In function 'rockchip_vpu981_av1_dec_set_prob':
-   drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:1165:66: error: invalid use of undefined type 'const struct v4l2_ctrl_av1_frame'
-    1165 |         const struct v4l2_av1_quantization *quantization = &frame->quantization;
-         |                                                                  ^~
-   drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:1168:21: error: invalid use of undefined type 'const struct v4l2_ctrl_av1_frame'
-    1168 |             !!(frame->flags & V4L2_AV1_FRAME_FLAG_ERROR_RESILIENT_MODE);
-         |                     ^~
-   drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:1168:31: error: 'V4L2_AV1_FRAME_FLAG_ERROR_RESILIENT_MODE' undeclared (first use in this function); did you mean 'V4L2_VP9_FRAME_FLAG_ERROR_RESILIENT'?
-    1168 |             !!(frame->flags & V4L2_AV1_FRAME_FLAG_ERROR_RESILIENT_MODE);
-         |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                               V4L2_VP9_FRAME_FLAG_ERROR_RESILIENT
-   drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:1169:45: error: invalid use of undefined type 'const struct v4l2_ctrl_av1_frame'
-    1169 |         bool frame_is_intra = IS_INTRA(frame->frame_type);
-         |                                             ^~
-   drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:46:26: note: in definition of macro 'IS_INTRA'
-      46 | #define IS_INTRA(type) ((type == V4L2_AV1_KEY_FRAME) || (type == V4L2_AV1_INTRA_ONLY_FRAME))
-         |                          ^~~~
-   drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:46:34: error: 'V4L2_AV1_KEY_FRAME' undeclared (first use in this function)
-      46 | #define IS_INTRA(type) ((type == V4L2_AV1_KEY_FRAME) || (type == V4L2_AV1_INTRA_ONLY_FRAME))
-         |                                  ^~~~~~~~~~~~~~~~~~
-   drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:1169:31: note: in expansion of macro 'IS_INTRA'
-    1169 |         bool frame_is_intra = IS_INTRA(frame->frame_type);
-         |                               ^~~~~~~~
-   drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:1169:45: error: invalid use of undefined type 'const struct v4l2_ctrl_av1_frame'
-    1169 |         bool frame_is_intra = IS_INTRA(frame->frame_type);
-         |                                             ^~
-   drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:46:58: note: in definition of macro 'IS_INTRA'
-      46 | #define IS_INTRA(type) ((type == V4L2_AV1_KEY_FRAME) || (type == V4L2_AV1_INTRA_ONLY_FRAME))
-         |                                                          ^~~~
-   drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:46:66: error: 'V4L2_AV1_INTRA_ONLY_FRAME' undeclared (first use in this function)
-      46 | #define IS_INTRA(type) ((type == V4L2_AV1_KEY_FRAME) || (type == V4L2_AV1_INTRA_ONLY_FRAME))
-         |                                                                  ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:1169:31: note: in expansion of macro 'IS_INTRA'
-    1169 |         bool frame_is_intra = IS_INTRA(frame->frame_type);
-         |                               ^~~~~~~~
-   drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:1172:21: error: invalid use of undefined type 'const struct v4l2_ctrl_av1_frame'
-    1172 |             || frame->primary_ref_frame == AV1_PRIMARY_REF_NONE) {
-         |                     ^~
-   drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:1175:62: error: invalid use of undefined type 'const struct v4l2_av1_quantization'
-    1175 |                 rockchip_av1_default_coeff_probs(quantization->base_q_idx,
-         |                                                              ^~
-   drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:1178:49: error: invalid use of undefined type 'const struct v4l2_ctrl_av1_frame'
-    1178 |                 rockchip_av1_get_cdfs(ctx, frame->ref_frame_idx[frame->primary_ref_frame]);
-         |                                                 ^~
-   drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:1178:70: error: invalid use of undefined type 'const struct v4l2_ctrl_av1_frame'
-    1178 |                 rockchip_av1_get_cdfs(ctx, frame->ref_frame_idx[frame->primary_ref_frame]);
-         |                                                                      ^~
-   drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:1180:43: error: invalid use of undefined type 'const struct v4l2_ctrl_av1_frame'
-    1180 |         rockchip_av1_store_cdfs(ctx, frame->refresh_frame_flags);
-         |                                           ^~
-   drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c: In function 'rockchip_vpu981_av1_dec_set_fgs':
->> drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:1247:25: error: invalid use of undefined type 'const struct v4l2_ctrl_av1_film_grain'
-    1247 |         if (!(film_grain->flags & V4L2_AV1_FILM_GRAIN_FLAG_APPLY_GRAIN)) {
-         |                         ^~
->> drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:1247:35: error: 'V4L2_AV1_FILM_GRAIN_FLAG_APPLY_GRAIN' undeclared (first use in this function)
-    1247 |         if (!(film_grain->flags & V4L2_AV1_FILM_GRAIN_FLAG_APPLY_GRAIN)) {
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:1282:36: error: invalid use of undefined type 'const struct v4l2_ctrl_av1_film_grain'
-    1282 |                          film_grain->num_y_points > 0);
-         |                                    ^~
-   drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:1284:36: error: invalid use of undefined type 'const struct v4l2_ctrl_av1_film_grain'
-    1284 |                          film_grain->num_cb_points > 0);
-         |                                    ^~
-   drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:1286:36: error: invalid use of undefined type 'const struct v4l2_ctrl_av1_film_grain'
-    1286 |                          film_grain->num_cr_points > 0);
-         |                                    ^~
-   drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:1288:36: error: invalid use of undefined type 'const struct v4l2_ctrl_av1_film_grain'
-    1288 |                          film_grain->grain_scaling_minus_8 + 8);
-         |                                    ^~
-   drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:1290:25: error: invalid use of undefined type 'const struct v4l2_ctrl_av1_film_grain'
-    1290 |         if (!(film_grain->flags & V4L2_AV1_FILM_GRAIN_FLAG_CHROMA_SCALING_FROM_LUMA)) {
-         |                         ^~
->> drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:1290:35: error: 'V4L2_AV1_FILM_GRAIN_FLAG_CHROMA_SCALING_FROM_LUMA' undeclared (first use in this function)
-    1290 |         if (!(film_grain->flags & V4L2_AV1_FILM_GRAIN_FLAG_CHROMA_SCALING_FROM_LUMA)) {
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:1291:63: error: invalid use of undefined type 'const struct v4l2_ctrl_av1_film_grain'
-    1291 |                 hantro_reg_write(vpu, &av1_cb_mult, film_grain->cb_mult - 128);
-         |                                                               ^~
-   drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:1292:68: error: invalid use of undefined type 'const struct v4l2_ctrl_av1_film_grain'
-    1292 |                 hantro_reg_write(vpu, &av1_cb_luma_mult, film_grain->cb_luma_mult - 128);
-         |                                                                    ^~
-   drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:1293:65: error: invalid use of undefined type 'const struct v4l2_ctrl_av1_film_grain'
-    1293 |                 hantro_reg_write(vpu, &av1_cb_offset, film_grain->cb_offset - 256);
-         |                                                                 ^~
-   drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:1294:63: error: invalid use of undefined type 'const struct v4l2_ctrl_av1_film_grain'
-    1294 |                 hantro_reg_write(vpu, &av1_cr_mult, film_grain->cr_mult - 128);
-         |                                                               ^~
-   drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:1295:68: error: invalid use of undefined type 'const struct v4l2_ctrl_av1_film_grain'
-    1295 |                 hantro_reg_write(vpu, &av1_cr_luma_mult, film_grain->cr_luma_mult - 128);
-         |                                                                    ^~
-   drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:1296:65: error: invalid use of undefined type 'const struct v4l2_ctrl_av1_film_grain'
-    1296 |                 hantro_reg_write(vpu, &av1_cr_offset, film_grain->cr_offset - 256);
-         |                                                                 ^~
-   drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:1307:39: error: invalid use of undefined type 'const struct v4l2_ctrl_av1_film_grain'
-    1307 |                          !!(film_grain->flags & V4L2_AV1_FILM_GRAIN_FLAG_OVERLAP));
-         |                                       ^~
->> drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:1307:49: error: 'V4L2_AV1_FILM_GRAIN_FLAG_OVERLAP' undeclared (first use in this function)
-    1307 |                          !!(film_grain->flags & V4L2_AV1_FILM_GRAIN_FLAG_OVERLAP));
-         |                                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:1309:39: error: invalid use of undefined type 'const struct v4l2_ctrl_av1_film_grain'
-    1309 |                          !!(film_grain->flags & V4L2_AV1_FILM_GRAIN_FLAG_CLIP_TO_RESTRICTED_RANGE));
-         |                                       ^~
->> drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:1309:49: error: 'V4L2_AV1_FILM_GRAIN_FLAG_CLIP_TO_RESTRICTED_RANGE' undeclared (first use in this function)
-    1309 |                          !!(film_grain->flags & V4L2_AV1_FILM_GRAIN_FLAG_CLIP_TO_RESTRICTED_RANGE));
-         |                                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:1311:39: error: invalid use of undefined type 'const struct v4l2_ctrl_av1_film_grain'
-    1311 |                          !!(film_grain->flags & V4L2_AV1_FILM_GRAIN_FLAG_CHROMA_SCALING_FROM_LUMA));
-         |                                       ^~
-   drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:1312:59: error: invalid use of undefined type 'const struct v4l2_ctrl_av1_film_grain'
-    1312 |         hantro_reg_write(vpu, &av1_random_seed, film_grain->grain_seed);
-         |                                                           ^~
-   drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:1314:65: error: invalid use of undefined type 'const struct v4l2_ctrl_av1_film_grain'
-    1314 |         rockchip_vpu981_av1_dec_init_scaling_function(film_grain->point_y_value,
-         |                                                                 ^~
-   drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:1315:65: error: invalid use of undefined type 'const struct v4l2_ctrl_av1_film_grain'
-    1315 |                                                       film_grain->point_y_scaling,
-         |                                                                 ^~
-   drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:1316:65: error: invalid use of undefined type 'const struct v4l2_ctrl_av1_film_grain'
-    1316 |                                                       film_grain->num_y_points,
-         |                                                                 ^~
-   drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:1319:23: error: invalid use of undefined type 'const struct v4l2_ctrl_av1_film_grain'
-    1319 |         if (film_grain->flags &
-         |                       ^~
-   drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:1327:32: error: invalid use of undefined type 'const struct v4l2_ctrl_av1_film_grain'
-    1327 |                     (film_grain->point_cb_value, film_grain->point_cb_scaling,
-         |                                ^~
-   drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:1327:60: error: invalid use of undefined type 'const struct v4l2_ctrl_av1_film_grain'
-    1327 |                     (film_grain->point_cb_value, film_grain->point_cb_scaling,
-         |                                                            ^~
-   drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:1328:32: error: invalid use of undefined type 'const struct v4l2_ctrl_av1_film_grain'
-    1328 |                      film_grain->num_cb_points, fgmem->scaling_lut_cb);
-         |                                ^~
-   drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:1330:32: error: invalid use of undefined type 'const struct v4l2_ctrl_av1_film_grain'
-    1330 |                     (film_grain->point_cr_value, film_grain->point_cr_scaling,
-         |                                ^~
-   drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:1330:60: error: invalid use of undefined type 'const struct v4l2_ctrl_av1_film_grain'
-    1330 |                     (film_grain->point_cr_value, film_grain->point_cr_scaling,
-         |                                                            ^~
-   drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:1331:32: error: invalid use of undefined type 'const struct v4l2_ctrl_av1_film_grain'
-    1331 |                      film_grain->num_cr_points, fgmem->scaling_lut_cr);
-         |                                ^~
->> drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:1334:25: error: 'V4L2_AV1_MAX_NUM_POS_LUMA' undeclared (first use in this function)
-    1334 |         for (i = 0; i < V4L2_AV1_MAX_NUM_POS_LUMA; i++) {
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:1336:55: error: invalid use of undefined type 'const struct v4l2_ctrl_av1_film_grain'
-    1336 |                         (*ar_coeffs_y)[i] = film_grain->ar_coeffs_y_plus_128[i] - 128;
-         |                                                       ^~
-   drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:1337:48: error: invalid use of undefined type 'const struct v4l2_ctrl_av1_film_grain'
-    1337 |                 (*ar_coeffs_cb)[i] = film_grain->ar_coeffs_cb_plus_128[i] - 128;
-         |                                                ^~
-   drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:1338:48: error: invalid use of undefined type 'const struct v4l2_ctrl_av1_film_grain'
-    1338 |                 (*ar_coeffs_cr)[i] = film_grain->ar_coeffs_cr_plus_128[i] - 128;
-         |                                                ^~
-   drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:1341:34: error: invalid use of undefined type 'const struct v4l2_ctrl_av1_film_grain'
-    1341 |         ar_coeff_lag = film_grain->ar_coeff_lag;
-         |                                  ^~
-   drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:1342:36: error: invalid use of undefined type 'const struct v4l2_ctrl_av1_film_grain'
-    1342 |         ar_coeff_shift = film_grain->ar_coeff_shift_minus_6 + 6;
-         |                                    ^~
-   drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:1343:39: error: invalid use of undefined type 'const struct v4l2_ctrl_av1_film_grain'
-    1343 |         grain_scale_shift = film_grain->grain_scale_shift;
-         |                                       ^~
-   drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:1350:42: error: invalid use of undefined type 'const struct v4l2_ctrl_av1_film_grain'
-    1350 |                                film_grain->num_y_points, grain_scale_shift,
-         |                                          ^~
-   drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:1353:42: error: invalid use of undefined type 'const struct v4l2_ctrl_av1_film_grain'
-    1353 |                                film_grain->grain_seed);
-         |                                          ^~
-   drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:1357:44: error: invalid use of undefined type 'const struct v4l2_ctrl_av1_film_grain'
-    1357 |                                  film_grain->num_y_points,
-         |                                            ^~
-   drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:1358:44: error: invalid use of undefined type 'const struct v4l2_ctrl_av1_film_grain'
-    1358 |                                  film_grain->num_cb_points,
-         |                                            ^~
-   drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:1359:44: error: invalid use of undefined type 'const struct v4l2_ctrl_av1_film_grain'
-    1359 |                                  film_grain->num_cr_points,
-         |                                            ^~
-   drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:1363:47: error: invalid use of undefined type 'const struct v4l2_ctrl_av1_film_grain'
-    1363 |                                  !!(film_grain->flags
-         |                                               ^~
-   drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:1365:44: error: invalid use of undefined type 'const struct v4l2_ctrl_av1_film_grain'
-    1365 |                                  film_grain->grain_seed);
-         |                                            ^~
-   drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c: In function 'rockchip_vpu981_av1_dec_set_cdef':
-   drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:1398:50: error: invalid use of undefined type 'const struct v4l2_ctrl_av1_frame'
-    1398 |         const struct v4l2_av1_cdef *cdef = &frame->cdef;
-         |                                                  ^~
-   drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:1406:51: error: invalid use of undefined type 'const struct v4l2_av1_cdef'
-    1406 |         hantro_reg_write(vpu, &av1_cdef_bits, cdef->bits);
-         |                                                   ^~
-   drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:1407:54: error: invalid use of undefined type 'const struct v4l2_av1_cdef'
-    1407 |         hantro_reg_write(vpu, &av1_cdef_damping, cdef->damping_minus_3);
-         |                                                      ^~
-   drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:1409:35: error: invalid use of undefined type 'const struct v4l2_av1_cdef'
-    1409 |         for (i = 0; i < (1 << cdef->bits); i++) {
-         |                                   ^~
-   drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:1410:42: error: invalid use of undefined type 'const struct v4l2_av1_cdef'
-    1410 |                 luma_pri_strength |= cdef->y_pri_strength[i] << (i * 4);
-         |                                          ^~
-   drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:1411:25: error: invalid use of undefined type 'const struct v4l2_av1_cdef'
-    1411 |                 if (cdef->y_sec_strength[i] == 4)
-         |                         ^~
-   drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:1414:50: error: invalid use of undefined type 'const struct v4l2_av1_cdef'
-    1414 |                         luma_sec_strength |= cdef->y_sec_strength[i] << (i * 2);
-         |                                                  ^~
-   drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:1416:44: error: invalid use of undefined type 'const struct v4l2_av1_cdef'
-    1416 |                 chroma_pri_strength |= cdef->uv_pri_strength[i] << (i * 4);
-         |                                            ^~
-   drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:1417:25: error: invalid use of undefined type 'const struct v4l2_av1_cdef'
-    1417 |                 if (cdef->uv_sec_strength[i] == 4)
-         |                         ^~
-   drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:1420:52: error: invalid use of undefined type 'const struct v4l2_av1_cdef'
-    1420 |                         chroma_sec_strength |= cdef->uv_sec_strength[i] << (i * 2);
-         |                                                    ^~
-   drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c: In function 'rockchip_vpu981_av1_dec_set_lr':
-   drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:1441:19: error: invalid use of undefined type 'const struct v4l2_ctrl_av1_frame'
-    1441 |             &frame->loop_restoration;
-         |                   ^~
-   drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:1444:39: error: 'V4L2_AV1_NUM_PLANES_MAX' undeclared (first use in this function)
-    1444 |         uint8_t restoration_unit_size[V4L2_AV1_NUM_PLANES_MAX] = { 3, 3, 3 };
-         |                                       ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:1447:29: error: invalid use of undefined type 'const struct v4l2_av1_loop_restoration'
-    1447 |         if (loop_restoration->flags & V4L2_AV1_LOOP_RESTORATION_FLAG_USES_LR) {
-         |                             ^~
-   drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:1447:39: error: 'V4L2_AV1_LOOP_RESTORATION_FLAG_USES_LR' undeclared (first use in this function)
-    1447 |         if (loop_restoration->flags & V4L2_AV1_LOOP_RESTORATION_FLAG_USES_LR) {
-         |                                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:1448:64: error: invalid use of undefined type 'const struct v4l2_av1_loop_restoration'
-    1448 |                 restoration_unit_size[0] = 1 + loop_restoration->lr_unit_shift;
-         |                                                                ^~
-   drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:1450:41: error: invalid use of undefined type 'const struct v4l2_av1_loop_restoration'
-    1450 |                     1 + loop_restoration->lr_unit_shift - loop_restoration->lr_uv_shift;
-         |                                         ^~
-   drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:1450:75: error: invalid use of undefined type 'const struct v4l2_av1_loop_restoration'
-    1450 |                     1 + loop_restoration->lr_unit_shift - loop_restoration->lr_uv_shift;
-         |                                                                           ^~
-   drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:1452:41: error: invalid use of undefined type 'const struct v4l2_av1_loop_restoration'
-    1452 |                     1 + loop_restoration->lr_unit_shift - loop_restoration->lr_uv_shift;
-         |                                         ^~
-   drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:1452:75: error: invalid use of undefined type 'const struct v4l2_av1_loop_restoration'
-    1452 |                     1 + loop_restoration->lr_unit_shift - loop_restoration->lr_uv_shift;
-         |                                                                           ^~
-
-
-vim +1247 drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c
-
-  1226	
-  1227	static void rockchip_vpu981_av1_dec_set_fgs(struct hantro_ctx *ctx)
-  1228	{
-  1229		struct hantro_av1_dec_hw_ctx *av1_dec = &ctx->av1_dec;
-  1230		struct hantro_av1_dec_ctrls *ctrls = &av1_dec->ctrls;
-  1231		const struct v4l2_ctrl_av1_film_grain *film_grain = ctrls->film_grain;
-  1232		struct rockchip_av1_film_grain *fgmem = av1_dec->film_grain.cpu;
-  1233		struct hantro_dev *vpu = ctx->dev;
-  1234		int32_t (*ar_coeffs_y)[24];
-  1235		int32_t (*ar_coeffs_cb)[25];
-  1236		int32_t (*ar_coeffs_cr)[25];
-  1237		int32_t (*luma_grain_block)[73][82];
-  1238		int32_t (*cb_grain_block)[38][44];
-  1239		int32_t (*cr_grain_block)[38][44];
-  1240		int32_t ar_coeff_lag, ar_coeff_shift;
-  1241		int32_t grain_scale_shift, bitdepth;
-  1242		int32_t grain_center, grain_min, grain_max;
-  1243		int i, j;
-  1244	
-  1245		hantro_reg_write(vpu, &av1_apply_grain, 0);
-  1246	
-> 1247		if (!(film_grain->flags & V4L2_AV1_FILM_GRAIN_FLAG_APPLY_GRAIN)) {
-  1248			hantro_reg_write(vpu, &av1_num_y_points_b, 0);
-  1249			hantro_reg_write(vpu, &av1_num_cb_points_b, 0);
-  1250			hantro_reg_write(vpu, &av1_num_cr_points_b, 0);
-  1251			hantro_reg_write(vpu, &av1_scaling_shift, 0);
-  1252			hantro_reg_write(vpu, &av1_cb_mult, 0);
-  1253			hantro_reg_write(vpu, &av1_cb_luma_mult, 0);
-  1254			hantro_reg_write(vpu, &av1_cb_offset, 0);
-  1255			hantro_reg_write(vpu, &av1_cr_mult, 0);
-  1256			hantro_reg_write(vpu, &av1_cr_luma_mult, 0);
-  1257			hantro_reg_write(vpu, &av1_cr_offset, 0);
-  1258			hantro_reg_write(vpu, &av1_overlap_flag, 0);
-  1259			hantro_reg_write(vpu, &av1_clip_to_restricted_range, 0);
-  1260			hantro_reg_write(vpu, &av1_chroma_scaling_from_luma, 0);
-  1261			hantro_reg_write(vpu, &av1_random_seed, 0);
-  1262			hantro_write_addr(vpu, AV1_FILM_GRAIN, 0);
-  1263			return;
-  1264		}
-  1265	
-  1266		ar_coeffs_y = kzalloc(sizeof(int32_t) * 24, GFP_KERNEL);
-  1267		ar_coeffs_cb = kzalloc(sizeof(int32_t) * 25, GFP_KERNEL);
-  1268		ar_coeffs_cr = kzalloc(sizeof(int32_t) * 25, GFP_KERNEL);
-  1269		luma_grain_block = kzalloc(sizeof(int32_t) * 73 * 82, GFP_KERNEL);
-  1270		cb_grain_block = kzalloc(sizeof(int32_t) * 38 * 44, GFP_KERNEL);
-  1271		cr_grain_block = kzalloc(sizeof(int32_t) * 38 * 44, GFP_KERNEL);
-  1272	
-  1273		if (!ar_coeffs_y || !ar_coeffs_cb || !ar_coeffs_cr
-  1274		    || !luma_grain_block || !cb_grain_block || !cr_grain_block) {
-  1275			pr_warn("Fail allocating memory for film grain parameters\n");
-  1276			goto alloc_fail;
-  1277		}
-  1278	
-  1279		hantro_reg_write(vpu, &av1_apply_grain, 1);
-  1280	
-  1281		hantro_reg_write(vpu, &av1_num_y_points_b,
-  1282				 film_grain->num_y_points > 0);
-  1283		hantro_reg_write(vpu, &av1_num_cb_points_b,
-  1284				 film_grain->num_cb_points > 0);
-  1285		hantro_reg_write(vpu, &av1_num_cr_points_b,
-  1286				 film_grain->num_cr_points > 0);
-  1287		hantro_reg_write(vpu, &av1_scaling_shift,
-  1288				 film_grain->grain_scaling_minus_8 + 8);
-  1289	
-> 1290		if (!(film_grain->flags & V4L2_AV1_FILM_GRAIN_FLAG_CHROMA_SCALING_FROM_LUMA)) {
-  1291			hantro_reg_write(vpu, &av1_cb_mult, film_grain->cb_mult - 128);
-  1292			hantro_reg_write(vpu, &av1_cb_luma_mult, film_grain->cb_luma_mult - 128);
-  1293			hantro_reg_write(vpu, &av1_cb_offset, film_grain->cb_offset - 256);
-  1294			hantro_reg_write(vpu, &av1_cr_mult, film_grain->cr_mult - 128);
-  1295			hantro_reg_write(vpu, &av1_cr_luma_mult, film_grain->cr_luma_mult - 128);
-  1296			hantro_reg_write(vpu, &av1_cr_offset, film_grain->cr_offset - 256);
-  1297		} else {
-  1298			hantro_reg_write(vpu, &av1_cb_mult, 0);
-  1299			hantro_reg_write(vpu, &av1_cb_luma_mult, 0);
-  1300			hantro_reg_write(vpu, &av1_cb_offset, 0);
-  1301			hantro_reg_write(vpu, &av1_cr_mult, 0);
-  1302			hantro_reg_write(vpu, &av1_cr_luma_mult, 0);
-  1303			hantro_reg_write(vpu, &av1_cr_offset, 0);
-  1304		}
-  1305	
-  1306		hantro_reg_write(vpu, &av1_overlap_flag,
-> 1307				 !!(film_grain->flags & V4L2_AV1_FILM_GRAIN_FLAG_OVERLAP));
-  1308		hantro_reg_write(vpu, &av1_clip_to_restricted_range,
-> 1309				 !!(film_grain->flags & V4L2_AV1_FILM_GRAIN_FLAG_CLIP_TO_RESTRICTED_RANGE));
-  1310		hantro_reg_write(vpu, &av1_chroma_scaling_from_luma,
-  1311				 !!(film_grain->flags & V4L2_AV1_FILM_GRAIN_FLAG_CHROMA_SCALING_FROM_LUMA));
-  1312		hantro_reg_write(vpu, &av1_random_seed, film_grain->grain_seed);
-  1313	
-  1314		rockchip_vpu981_av1_dec_init_scaling_function(film_grain->point_y_value,
-  1315							      film_grain->point_y_scaling,
-  1316							      film_grain->num_y_points,
-  1317							      fgmem->scaling_lut_y);
-  1318	
-  1319		if (film_grain->flags &
-  1320		    V4L2_AV1_FILM_GRAIN_FLAG_CHROMA_SCALING_FROM_LUMA) {
-  1321			memcpy(fgmem->scaling_lut_cb, fgmem->scaling_lut_y,
-  1322			       sizeof(*fgmem->scaling_lut_y) * 256);
-  1323			memcpy(fgmem->scaling_lut_cr, fgmem->scaling_lut_y,
-  1324			       sizeof(*fgmem->scaling_lut_y) * 256);
-  1325		} else {
-  1326			rockchip_vpu981_av1_dec_init_scaling_function
-  1327			    (film_grain->point_cb_value, film_grain->point_cb_scaling,
-  1328			     film_grain->num_cb_points, fgmem->scaling_lut_cb);
-  1329			rockchip_vpu981_av1_dec_init_scaling_function
-  1330			    (film_grain->point_cr_value, film_grain->point_cr_scaling,
-  1331			     film_grain->num_cr_points, fgmem->scaling_lut_cr);
-  1332		}
-  1333	
-> 1334		for (i = 0; i < V4L2_AV1_MAX_NUM_POS_LUMA; i++) {
-  1335			if (i < 24)
-  1336				(*ar_coeffs_y)[i] = film_grain->ar_coeffs_y_plus_128[i] - 128;
-  1337			(*ar_coeffs_cb)[i] = film_grain->ar_coeffs_cb_plus_128[i] - 128;
-  1338			(*ar_coeffs_cr)[i] = film_grain->ar_coeffs_cr_plus_128[i] - 128;
-  1339		}
-  1340	
-  1341		ar_coeff_lag = film_grain->ar_coeff_lag;
-  1342		ar_coeff_shift = film_grain->ar_coeff_shift_minus_6 + 6;
-  1343		grain_scale_shift = film_grain->grain_scale_shift;
-  1344		bitdepth = ctx->bit_depth;
-  1345		grain_center = 128 << (bitdepth - 8);
-  1346		grain_min = 0 - grain_center;
-  1347		grain_max = (256 << (bitdepth - 8)) - 1 - grain_center;
-  1348	
-  1349		rockchip_av1_generate_luma_grain_block(luma_grain_block, bitdepth,
-  1350				       film_grain->num_y_points, grain_scale_shift,
-  1351				       ar_coeff_lag, ar_coeffs_y, ar_coeff_shift,
-  1352				       grain_min, grain_max,
-  1353				       film_grain->grain_seed);
-  1354	
-  1355		rockchip_av1_generate_chroma_grain_block(luma_grain_block, cb_grain_block,
-  1356					 cr_grain_block, bitdepth,
-  1357					 film_grain->num_y_points,
-  1358					 film_grain->num_cb_points,
-  1359					 film_grain->num_cr_points,
-  1360					 grain_scale_shift, ar_coeff_lag, ar_coeffs_cb,
-  1361					 ar_coeffs_cr, ar_coeff_shift, grain_min,
-  1362					 grain_max,
-  1363					 !!(film_grain->flags
-  1364					    & V4L2_AV1_FILM_GRAIN_FLAG_CHROMA_SCALING_FROM_LUMA),
-  1365					 film_grain->grain_seed);
-  1366	
-  1367		for (i = 0; i < 64; i++) {
-  1368			for (j = 0; j < 64; j++)
-  1369				fgmem->cropped_luma_grain_block[i * 64 + j] =
-  1370					(*luma_grain_block)[i + 9][j + 9];
-  1371		}
-  1372	
-  1373		for (i = 0; i < 32; i++) {
-  1374			for (j = 0; j < 32; j++) {
-  1375				fgmem->cropped_chroma_grain_block[i * 64 + 2 * j] =
-  1376					(*cb_grain_block)[i + 6][j + 6];
-  1377				fgmem->cropped_chroma_grain_block[i * 64 + 2 * j + 1] =
-  1378					(*cr_grain_block)[i + 6][j + 6];
-  1379			}
-  1380		}
-  1381	
-  1382		hantro_write_addr(vpu, AV1_FILM_GRAIN, av1_dec->film_grain.dma);
-  1383	
-  1384	alloc_fail:
-  1385		kfree(ar_coeffs_y);
-  1386		kfree(ar_coeffs_cb);
-  1387		kfree(ar_coeffs_cr);
-  1388		kfree(luma_grain_block);
-  1389		kfree(cb_grain_block);
-  1390		kfree(cr_grain_block);
-  1391	}
-  1392	
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
-
---fhpo8hEKiKmCHMeF
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: attachment; filename=config
-
-#
-# Automatically generated file; DO NOT EDIT.
-# Linux/sh 6.1.0-rc4 Kernel Configuration
-#
-CONFIG_CC_VERSION_TEXT="sh4-linux-gcc (GCC) 12.1.0"
-CONFIG_CC_IS_GCC=y
-CONFIG_GCC_VERSION=120100
-CONFIG_CLANG_VERSION=0
-CONFIG_AS_IS_GNU=y
-CONFIG_AS_VERSION=23800
-CONFIG_LD_IS_BFD=y
-CONFIG_LD_VERSION=23800
-CONFIG_LLD_VERSION=0
-CONFIG_CC_HAS_ASM_INLINE=y
-CONFIG_CC_HAS_NO_PROFILE_FN_ATTR=y
-CONFIG_PAHOLE_VERSION=123
-CONFIG_CONSTRUCTORS=y
-CONFIG_IRQ_WORK=y
-
-#
-# General setup
-#
-CONFIG_BROKEN_ON_SMP=y
-CONFIG_INIT_ENV_ARG_LIMIT=32
-CONFIG_COMPILE_TEST=y
-# CONFIG_WERROR is not set
-CONFIG_LOCALVERSION=""
-CONFIG_BUILD_SALT=""
-CONFIG_HAVE_KERNEL_GZIP=y
-CONFIG_HAVE_KERNEL_BZIP2=y
-CONFIG_HAVE_KERNEL_LZMA=y
-CONFIG_HAVE_KERNEL_XZ=y
-CONFIG_HAVE_KERNEL_LZO=y
-CONFIG_KERNEL_GZIP=y
-# CONFIG_KERNEL_BZIP2 is not set
-# CONFIG_KERNEL_LZMA is not set
-# CONFIG_KERNEL_XZ is not set
-# CONFIG_KERNEL_LZO is not set
-CONFIG_DEFAULT_INIT=""
-CONFIG_DEFAULT_HOSTNAME="(none)"
-CONFIG_SYSVIPC=y
-CONFIG_SYSVIPC_SYSCTL=y
-CONFIG_POSIX_MQUEUE=y
-CONFIG_POSIX_MQUEUE_SYSCTL=y
-CONFIG_WATCH_QUEUE=y
-CONFIG_USELIB=y
-CONFIG_AUDIT=y
-CONFIG_HAVE_ARCH_AUDITSYSCALL=y
-CONFIG_AUDITSYSCALL=y
-
-#
-# IRQ subsystem
-#
-CONFIG_GENERIC_IRQ_SHOW=y
-CONFIG_GENERIC_IRQ_INJECTION=y
-CONFIG_GENERIC_IRQ_CHIP=y
-CONFIG_IRQ_DOMAIN=y
-CONFIG_IRQ_SIM=y
-CONFIG_IRQ_DOMAIN_HIERARCHY=y
-CONFIG_IRQ_FASTEOI_HIERARCHY_HANDLERS=y
-CONFIG_GENERIC_MSI_IRQ=y
-CONFIG_GENERIC_MSI_IRQ_DOMAIN=y
-CONFIG_IRQ_FORCED_THREADING=y
-CONFIG_SPARSE_IRQ=y
-CONFIG_GENERIC_IRQ_DEBUGFS=y
-# end of IRQ subsystem
-
-CONFIG_GENERIC_CLOCKEVENTS=y
-CONFIG_TIME_KUNIT_TEST=m
-
-#
-# Timers subsystem
-#
-CONFIG_TICK_ONESHOT=y
-CONFIG_NO_HZ_COMMON=y
-# CONFIG_HZ_PERIODIC is not set
-CONFIG_NO_HZ_IDLE=y
-CONFIG_NO_HZ=y
-CONFIG_HIGH_RES_TIMERS=y
-# end of Timers subsystem
-
-CONFIG_BPF=y
-
-#
-# BPF subsystem
-#
-CONFIG_BPF_SYSCALL=y
-CONFIG_BPF_UNPRIV_DEFAULT_OFF=y
-CONFIG_USERMODE_DRIVER=y
-# end of BPF subsystem
-
-CONFIG_PREEMPT_NONE_BUILD=y
-CONFIG_PREEMPT_NONE=y
-# CONFIG_PREEMPT_VOLUNTARY is not set
-# CONFIG_PREEMPT is not set
-CONFIG_PREEMPT_COUNT=y
-
-#
-# CPU/Task time and stats accounting
-#
-CONFIG_TICK_CPU_ACCOUNTING=y
-CONFIG_BSD_PROCESS_ACCT=y
-CONFIG_BSD_PROCESS_ACCT_V3=y
-CONFIG_TASKSTATS=y
-CONFIG_TASK_DELAY_ACCT=y
-CONFIG_TASK_XACCT=y
-CONFIG_TASK_IO_ACCOUNTING=y
-CONFIG_PSI=y
-CONFIG_PSI_DEFAULT_DISABLED=y
-# end of CPU/Task time and stats accounting
-
-CONFIG_CPU_ISOLATION=y
-
-#
-# RCU Subsystem
-#
-CONFIG_TINY_RCU=y
-CONFIG_RCU_EXPERT=y
-CONFIG_SRCU=y
-CONFIG_TINY_SRCU=y
-CONFIG_TASKS_RCU_GENERIC=y
-CONFIG_FORCE_TASKS_RCU=y
-CONFIG_TASKS_RCU=y
-CONFIG_FORCE_TASKS_RUDE_RCU=y
-CONFIG_TASKS_RUDE_RCU=y
-CONFIG_FORCE_TASKS_TRACE_RCU=y
-CONFIG_TASKS_TRACE_RCU=y
-CONFIG_RCU_NEED_SEGCBLIST=y
-CONFIG_TASKS_TRACE_RCU_READ_MB=y
-# end of RCU Subsystem
-
-CONFIG_BUILD_BIN2C=y
-CONFIG_IKCONFIG=m
-CONFIG_IKCONFIG_PROC=y
-CONFIG_IKHEADERS=m
-CONFIG_LOG_BUF_SHIFT=17
-CONFIG_PRINTK_SAFE_LOG_BUF_SHIFT=13
-CONFIG_PRINTK_INDEX=y
-CONFIG_GENERIC_SCHED_CLOCK=y
-
-#
-# Scheduler features
-#
-# end of Scheduler features
-
-CONFIG_CC_IMPLICIT_FALLTHROUGH="-Wimplicit-fallthrough=5"
-CONFIG_GCC12_NO_ARRAY_BOUNDS=y
-CONFIG_CC_NO_ARRAY_BOUNDS=y
-CONFIG_CGROUPS=y
-CONFIG_PAGE_COUNTER=y
-CONFIG_CGROUP_FAVOR_DYNMODS=y
-CONFIG_MEMCG=y
-CONFIG_MEMCG_KMEM=y
-CONFIG_BLK_CGROUP=y
-CONFIG_CGROUP_WRITEBACK=y
-CONFIG_CGROUP_SCHED=y
-CONFIG_FAIR_GROUP_SCHED=y
-CONFIG_CFS_BANDWIDTH=y
-CONFIG_RT_GROUP_SCHED=y
-CONFIG_CGROUP_PIDS=y
-CONFIG_CGROUP_RDMA=y
-CONFIG_CGROUP_FREEZER=y
-CONFIG_CGROUP_DEVICE=y
-CONFIG_CGROUP_CPUACCT=y
-CONFIG_CGROUP_PERF=y
-CONFIG_CGROUP_BPF=y
-CONFIG_CGROUP_MISC=y
-CONFIG_CGROUP_DEBUG=y
-CONFIG_SOCK_CGROUP_DATA=y
-CONFIG_NAMESPACES=y
-CONFIG_UTS_NS=y
-CONFIG_IPC_NS=y
-CONFIG_USER_NS=y
-CONFIG_PID_NS=y
-CONFIG_NET_NS=y
-CONFIG_CHECKPOINT_RESTORE=y
-CONFIG_SCHED_AUTOGROUP=y
-CONFIG_SYSFS_DEPRECATED=y
-CONFIG_SYSFS_DEPRECATED_V2=y
-CONFIG_RELAY=y
-CONFIG_BLK_DEV_INITRD=y
-CONFIG_INITRAMFS_SOURCE=""
-CONFIG_RD_GZIP=y
-CONFIG_RD_BZIP2=y
-CONFIG_RD_LZMA=y
-CONFIG_RD_XZ=y
-CONFIG_RD_LZO=y
-CONFIG_RD_LZ4=y
-CONFIG_RD_ZSTD=y
-CONFIG_BOOT_CONFIG=y
-CONFIG_BOOT_CONFIG_EMBED=y
-CONFIG_BOOT_CONFIG_EMBED_FILE=""
-CONFIG_INITRAMFS_PRESERVE_MTIME=y
-CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE=y
-# CONFIG_CC_OPTIMIZE_FOR_SIZE is not set
-CONFIG_SYSCTL=y
-CONFIG_HAVE_UID16=y
-CONFIG_EXPERT=y
-CONFIG_UID16=y
-CONFIG_MULTIUSER=y
-CONFIG_SGETMASK_SYSCALL=y
-CONFIG_SYSFS_SYSCALL=y
-CONFIG_FHANDLE=y
-CONFIG_POSIX_TIMERS=y
-CONFIG_PRINTK=y
-CONFIG_BUG=y
-CONFIG_ELF_CORE=y
-CONFIG_BASE_FULL=y
-CONFIG_FUTEX=y
-CONFIG_FUTEX_PI=y
-CONFIG_EPOLL=y
-CONFIG_SIGNALFD=y
-CONFIG_TIMERFD=y
-CONFIG_EVENTFD=y
-CONFIG_AIO=y
-CONFIG_IO_URING=y
-CONFIG_ADVISE_SYSCALLS=y
-CONFIG_MEMBARRIER=y
-CONFIG_KALLSYMS=y
-CONFIG_KALLSYMS_ALL=y
-CONFIG_KALLSYMS_BASE_RELATIVE=y
-CONFIG_KCMP=y
-CONFIG_EMBEDDED=y
-CONFIG_HAVE_PERF_EVENTS=y
-CONFIG_PERF_USE_VMALLOC=y
-CONFIG_PC104=y
-
-#
-# Kernel Performance Events And Counters
-#
-CONFIG_PERF_EVENTS=y
-CONFIG_DEBUG_PERF_USE_VMALLOC=y
-# end of Kernel Performance Events And Counters
-
-CONFIG_SYSTEM_DATA_VERIFICATION=y
-CONFIG_PROFILING=y
-CONFIG_TRACEPOINTS=y
-# end of General setup
-
-CONFIG_SUPERH=y
-CONFIG_GENERIC_BUG=y
-CONFIG_GENERIC_HWEIGHT=y
-CONFIG_STACKTRACE_SUPPORT=y
-CONFIG_LOCKDEP_SUPPORT=y
-CONFIG_NO_IOPORT_MAP=y
-CONFIG_PGTABLE_LEVELS=2
-
-#
-# System type
-#
-CONFIG_CPU_SH2=y
-CONFIG_CPU_SUBTYPE_SH7619=y
-# CONFIG_CPU_SUBTYPE_J2 is not set
-# CONFIG_CPU_SUBTYPE_SH7201 is not set
-# CONFIG_CPU_SUBTYPE_SH7203 is not set
-# CONFIG_CPU_SUBTYPE_SH7206 is not set
-# CONFIG_CPU_SUBTYPE_SH7263 is not set
-# CONFIG_CPU_SUBTYPE_SH7264 is not set
-# CONFIG_CPU_SUBTYPE_SH7269 is not set
-# CONFIG_CPU_SUBTYPE_MXG is not set
-# CONFIG_CPU_SUBTYPE_SH7705 is not set
-# CONFIG_CPU_SUBTYPE_SH7706 is not set
-# CONFIG_CPU_SUBTYPE_SH7707 is not set
-# CONFIG_CPU_SUBTYPE_SH7708 is not set
-# CONFIG_CPU_SUBTYPE_SH7709 is not set
-# CONFIG_CPU_SUBTYPE_SH7710 is not set
-# CONFIG_CPU_SUBTYPE_SH7712 is not set
-# CONFIG_CPU_SUBTYPE_SH7720 is not set
-# CONFIG_CPU_SUBTYPE_SH7721 is not set
-# CONFIG_CPU_SUBTYPE_SH7750 is not set
-# CONFIG_CPU_SUBTYPE_SH7091 is not set
-# CONFIG_CPU_SUBTYPE_SH7750R is not set
-# CONFIG_CPU_SUBTYPE_SH7750S is not set
-# CONFIG_CPU_SUBTYPE_SH7751 is not set
-# CONFIG_CPU_SUBTYPE_SH7751R is not set
-# CONFIG_CPU_SUBTYPE_SH7760 is not set
-# CONFIG_CPU_SUBTYPE_SH4_202 is not set
-# CONFIG_CPU_SUBTYPE_SH7723 is not set
-# CONFIG_CPU_SUBTYPE_SH7724 is not set
-# CONFIG_CPU_SUBTYPE_SH7734 is not set
-# CONFIG_CPU_SUBTYPE_SH7757 is not set
-# CONFIG_CPU_SUBTYPE_SH7763 is not set
-# CONFIG_CPU_SUBTYPE_SH7770 is not set
-# CONFIG_CPU_SUBTYPE_SH7780 is not set
-# CONFIG_CPU_SUBTYPE_SH7785 is not set
-# CONFIG_CPU_SUBTYPE_SH7786 is not set
-# CONFIG_CPU_SUBTYPE_SHX3 is not set
-# CONFIG_CPU_SUBTYPE_SH7343 is not set
-# CONFIG_CPU_SUBTYPE_SH7722 is not set
-# CONFIG_CPU_SUBTYPE_SH7366 is not set
-
-#
-# Memory management options
-#
-CONFIG_PAGE_OFFSET=0x00000000
-CONFIG_ARCH_FORCE_MAX_ORDER=14
-CONFIG_MEMORY_START=0x08000000
-CONFIG_MEMORY_SIZE=0x04000000
-CONFIG_32BIT=y
-CONFIG_ARCH_FLATMEM_ENABLE=y
-CONFIG_ARCH_SPARSEMEM_ENABLE=y
-CONFIG_ARCH_SPARSEMEM_DEFAULT=y
-CONFIG_ARCH_SELECT_MEMORY_MODEL=y
-CONFIG_PAGE_SIZE_4KB=y
-# CONFIG_PAGE_SIZE_8KB is not set
-# CONFIG_PAGE_SIZE_16KB is not set
-# CONFIG_PAGE_SIZE_64KB is not set
-# end of Memory management options
-
-#
-# Cache configuration
-#
-# CONFIG_CACHE_WRITEBACK is not set
-CONFIG_CACHE_WRITETHROUGH=y
-# CONFIG_CACHE_OFF is not set
-# end of Cache configuration
-
-#
-# Processor features
-#
-CONFIG_CPU_LITTLE_ENDIAN=y
-# CONFIG_CPU_BIG_ENDIAN is not set
-CONFIG_SH_FPU_EMU=y
-# end of Processor features
-
-#
-# Board support
-#
-CONFIG_SOLUTION_ENGINE=y
-CONFIG_SH_CUSTOM_CLK=y
-CONFIG_SH_7619_SOLUTION_ENGINE=y
-# end of Board support
-
-#
-# Timer and clock configuration
-#
-CONFIG_SH_PCLK_FREQ=31250000
-CONFIG_SH_CLK_CPG=y
-CONFIG_SH_CLK_CPG_LEGACY=y
-# end of Timer and clock configuration
-
-#
-# CPU Frequency scaling
-#
-
-#
-# CPU Frequency scaling
-#
-CONFIG_CPU_FREQ=y
-CONFIG_CPU_FREQ_GOV_ATTR_SET=y
-CONFIG_CPU_FREQ_GOV_COMMON=y
-CONFIG_CPU_FREQ_STAT=y
-CONFIG_CPU_FREQ_DEFAULT_GOV_PERFORMANCE=y
-# CONFIG_CPU_FREQ_DEFAULT_GOV_POWERSAVE is not set
-# CONFIG_CPU_FREQ_DEFAULT_GOV_USERSPACE is not set
-# CONFIG_CPU_FREQ_DEFAULT_GOV_ONDEMAND is not set
-# CONFIG_CPU_FREQ_DEFAULT_GOV_CONSERVATIVE is not set
-CONFIG_CPU_FREQ_GOV_PERFORMANCE=y
-CONFIG_CPU_FREQ_GOV_POWERSAVE=m
-CONFIG_CPU_FREQ_GOV_USERSPACE=m
-CONFIG_CPU_FREQ_GOV_ONDEMAND=m
-CONFIG_CPU_FREQ_GOV_CONSERVATIVE=m
-
-#
-# CPU frequency scaling drivers
-#
-CONFIG_CPUFREQ_DT=m
-CONFIG_CPUFREQ_DT_PLATDEV=y
-CONFIG_SH_CPU_FREQ=m
-# end of CPU Frequency scaling
-# end of CPU Frequency scaling
-
-#
-# DMA support
-#
-# end of DMA support
-
-#
-# Companion Chips
-#
-# end of Companion Chips
-
-#
-# Additional SuperH Device Drivers
-#
-CONFIG_HEARTBEAT=y
-CONFIG_PUSH_SWITCH=m
-# end of Additional SuperH Device Drivers
-# end of System type
-
-#
-# Kernel features
-#
-# CONFIG_HZ_100 is not set
-CONFIG_HZ_250=y
-# CONFIG_HZ_300 is not set
-# CONFIG_HZ_1000 is not set
-CONFIG_HZ=250
-CONFIG_SCHED_HRTICK=y
-CONFIG_CRASH_DUMP=y
-CONFIG_PHYSICAL_START=0x08000000
-CONFIG_GUSA=y
-
-#
-# SuperH / SH-Mobile Driver Options
-#
-CONFIG_SH_INTC=y
-
-#
-# Interrupt controller options
-#
-CONFIG_INTC_USERIMASK=y
-CONFIG_INTC_MAPPING_DEBUG=y
-# end of SuperH / SH-Mobile Driver Options
-# end of Kernel features
-
-#
-# Boot options
-#
-CONFIG_ZERO_PAGE_OFFSET=0x00001000
-CONFIG_BOOT_LINK_OFFSET=0x00800000
-CONFIG_ENTRY_OFFSET=0x00001000
-CONFIG_CMDLINE_OVERWRITE=y
-# CONFIG_CMDLINE_EXTEND is not set
-CONFIG_CMDLINE="console=ttySC1,115200"
-# end of Boot options
-
-#
-# Bus options
-#
-# end of Bus options
-
-#
-# Power management options (EXPERIMENTAL)
-#
-CONFIG_PM=y
-CONFIG_PM_DEBUG=y
-CONFIG_PM_ADVANCED_DEBUG=y
-CONFIG_DPM_WATCHDOG=y
-CONFIG_DPM_WATCHDOG_TIMEOUT=120
-CONFIG_PM_CLK=y
-CONFIG_PM_GENERIC_DOMAINS=y
-CONFIG_WQ_POWER_EFFICIENT_DEFAULT=y
-CONFIG_PM_GENERIC_DOMAINS_OF=y
-
-#
-# CPU Idle
-#
-CONFIG_CPU_IDLE=y
-CONFIG_CPU_IDLE_GOV_LADDER=y
-CONFIG_CPU_IDLE_GOV_MENU=y
-CONFIG_CPU_IDLE_GOV_TEO=y
-# end of CPU Idle
-# end of Power management options (EXPERIMENTAL)
-
-#
-# General architecture-dependent options
-#
-CONFIG_KPROBES=y
-CONFIG_KRETPROBES=y
-CONFIG_HAVE_KPROBES=y
-CONFIG_HAVE_KRETPROBES=y
-CONFIG_HAVE_NMI=y
-CONFIG_TRACE_IRQFLAGS_SUPPORT=y
-CONFIG_HAVE_ARCH_TRACEHOOK=y
-CONFIG_GENERIC_SMP_IDLE_THREAD=y
-CONFIG_GENERIC_IDLE_POLL_SETUP=y
-CONFIG_ARCH_32BIT_OFF_T=y
-CONFIG_HAVE_REGS_AND_STACK_ACCESS_API=y
-CONFIG_HAVE_HW_BREAKPOINT=y
-CONFIG_HAVE_MIXED_BREAKPOINTS_REGS=y
-CONFIG_ARCH_WANT_IPC_PARSE_VERSION=y
-CONFIG_HAVE_ARCH_SECCOMP=y
-CONFIG_HAVE_ARCH_SECCOMP_FILTER=y
-CONFIG_SECCOMP=y
-CONFIG_SECCOMP_FILTER=y
-CONFIG_SECCOMP_CACHE_DEBUG=y
-CONFIG_HAVE_STACKPROTECTOR=y
-CONFIG_STACKPROTECTOR=y
-CONFIG_STACKPROTECTOR_STRONG=y
-CONFIG_LTO_NONE=y
-CONFIG_HAVE_MOD_ARCH_SPECIFIC=y
-CONFIG_MODULES_USE_ELF_RELA=y
-CONFIG_PAGE_SIZE_LESS_THAN_64KB=y
-CONFIG_PAGE_SIZE_LESS_THAN_256KB=y
-CONFIG_ISA_BUS_API=y
-CONFIG_OLD_SIGSUSPEND=y
-CONFIG_OLD_SIGACTION=y
-CONFIG_COMPAT_32BIT_TIME=y
-CONFIG_CPU_NO_EFFICIENT_FFS=y
-CONFIG_LOCK_EVENT_COUNTS=y
-
-#
-# GCOV-based kernel profiling
-#
-CONFIG_GCOV_KERNEL=y
-CONFIG_ARCH_HAS_GCOV_PROFILE_ALL=y
-# end of GCOV-based kernel profiling
-# end of General architecture-dependent options
-
-CONFIG_RT_MUTEXES=y
-CONFIG_BASE_SMALL=0
-CONFIG_MODULE_SIG_FORMAT=y
-CONFIG_MODULES=y
-CONFIG_MODULE_FORCE_LOAD=y
-CONFIG_MODULE_UNLOAD=y
-CONFIG_MODULE_FORCE_UNLOAD=y
-CONFIG_MODULE_UNLOAD_TAINT_TRACKING=y
-CONFIG_MODVERSIONS=y
-CONFIG_MODULE_SRCVERSION_ALL=y
-CONFIG_MODULE_SIG=y
-CONFIG_MODULE_SIG_FORCE=y
-CONFIG_MODULE_SIG_ALL=y
-CONFIG_MODULE_SIG_SHA1=y
-# CONFIG_MODULE_SIG_SHA224 is not set
-# CONFIG_MODULE_SIG_SHA256 is not set
-# CONFIG_MODULE_SIG_SHA384 is not set
-# CONFIG_MODULE_SIG_SHA512 is not set
-CONFIG_MODULE_SIG_HASH="sha1"
-CONFIG_MODULE_COMPRESS_NONE=y
-# CONFIG_MODULE_COMPRESS_GZIP is not set
-# CONFIG_MODULE_COMPRESS_XZ is not set
-# CONFIG_MODULE_COMPRESS_ZSTD is not set
-CONFIG_MODULE_ALLOW_MISSING_NAMESPACE_IMPORTS=y
-CONFIG_MODPROBE_PATH="/sbin/modprobe"
-CONFIG_MODULES_TREE_LOOKUP=y
-CONFIG_BLOCK=y
-CONFIG_BLOCK_LEGACY_AUTOLOAD=y
-CONFIG_BLK_RQ_ALLOC_TIME=y
-CONFIG_BLK_CGROUP_RWSTAT=y
-CONFIG_BLK_DEV_BSG_COMMON=y
-CONFIG_BLK_ICQ=y
-CONFIG_BLK_DEV_BSGLIB=y
-CONFIG_BLK_DEV_INTEGRITY=y
-CONFIG_BLK_DEV_INTEGRITY_T10=m
-CONFIG_BLK_DEV_ZONED=y
-CONFIG_BLK_DEV_THROTTLING=y
-CONFIG_BLK_DEV_THROTTLING_LOW=y
-CONFIG_BLK_WBT=y
-CONFIG_BLK_WBT_MQ=y
-CONFIG_BLK_CGROUP_IOLATENCY=y
-CONFIG_BLK_CGROUP_IOCOST=y
-CONFIG_BLK_CGROUP_IOPRIO=y
-CONFIG_BLK_DEBUG_FS=y
-CONFIG_BLK_DEBUG_FS_ZONED=y
-CONFIG_BLK_SED_OPAL=y
-CONFIG_BLK_INLINE_ENCRYPTION=y
-CONFIG_BLK_INLINE_ENCRYPTION_FALLBACK=y
-
-#
-# Partition Types
-#
-CONFIG_PARTITION_ADVANCED=y
-CONFIG_ACORN_PARTITION=y
-CONFIG_ACORN_PARTITION_CUMANA=y
-CONFIG_ACORN_PARTITION_EESOX=y
-CONFIG_ACORN_PARTITION_ICS=y
-CONFIG_ACORN_PARTITION_ADFS=y
-CONFIG_ACORN_PARTITION_POWERTEC=y
-CONFIG_ACORN_PARTITION_RISCIX=y
-CONFIG_AIX_PARTITION=y
-CONFIG_OSF_PARTITION=y
-CONFIG_AMIGA_PARTITION=y
-CONFIG_ATARI_PARTITION=y
-CONFIG_MAC_PARTITION=y
-CONFIG_MSDOS_PARTITION=y
-CONFIG_BSD_DISKLABEL=y
-CONFIG_MINIX_SUBPARTITION=y
-CONFIG_SOLARIS_X86_PARTITION=y
-CONFIG_UNIXWARE_DISKLABEL=y
-CONFIG_LDM_PARTITION=y
-CONFIG_LDM_DEBUG=y
-CONFIG_SGI_PARTITION=y
-CONFIG_ULTRIX_PARTITION=y
-CONFIG_SUN_PARTITION=y
-CONFIG_KARMA_PARTITION=y
-CONFIG_EFI_PARTITION=y
-CONFIG_SYSV68_PARTITION=y
-CONFIG_CMDLINE_PARTITION=y
-# end of Partition Types
-
-CONFIG_BLK_MQ_VIRTIO=y
-CONFIG_BLK_PM=y
-CONFIG_BLOCK_HOLDER_DEPRECATED=y
-CONFIG_BLK_MQ_STACKING=y
-
-#
-# IO Schedulers
-#
-CONFIG_MQ_IOSCHED_DEADLINE=y
-CONFIG_MQ_IOSCHED_KYBER=m
-CONFIG_IOSCHED_BFQ=m
-CONFIG_BFQ_GROUP_IOSCHED=y
-CONFIG_BFQ_CGROUP_DEBUG=y
-# end of IO Schedulers
-
-CONFIG_ASN1=y
-CONFIG_UNINLINE_SPIN_UNLOCK=y
-CONFIG_FREEZER=y
-
-#
-# Executable file formats
-#
-CONFIG_BINFMT_ELF_FDPIC=y
-CONFIG_ELFCORE=y
-CONFIG_BINFMT_SCRIPT=m
-CONFIG_ARCH_HAS_BINFMT_FLAT=y
-CONFIG_BINFMT_FLAT=y
-CONFIG_BINFMT_FLAT_OLD=y
-CONFIG_BINFMT_ZFLAT=y
-CONFIG_BINFMT_MISC=m
-CONFIG_COREDUMP=y
-# end of Executable file formats
-
-#
-# Memory Management options
-#
-
-#
-# SLAB allocator options
-#
-# CONFIG_SLAB is not set
-CONFIG_SLUB=y
-# CONFIG_SLOB is not set
-CONFIG_SLAB_MERGE_DEFAULT=y
-CONFIG_SLAB_FREELIST_RANDOM=y
-CONFIG_SLAB_FREELIST_HARDENED=y
-CONFIG_SLUB_STATS=y
-# end of SLAB allocator options
-
-CONFIG_SHUFFLE_PAGE_ALLOCATOR=y
-CONFIG_COMPAT_BRK=y
-CONFIG_MMAP_ALLOW_UNINITIALIZED=y
-CONFIG_SELECT_MEMORY_MODEL=y
-# CONFIG_FLATMEM_MANUAL is not set
-CONFIG_SPARSEMEM_MANUAL=y
-CONFIG_SPARSEMEM=y
-CONFIG_SPARSEMEM_STATIC=y
-CONFIG_SPLIT_PTLOCK_CPUS=999999
-CONFIG_MEMORY_BALLOON=y
-CONFIG_PAGE_REPORTING=y
-CONFIG_NOMMU_INITIAL_TRIM_EXCESS=1
-CONFIG_NEED_PER_CPU_KM=y
-CONFIG_ARCH_HAS_CURRENT_STACK_POINTER=y
-CONFIG_VM_EVENT_COUNTERS=y
-CONFIG_PERCPU_STATS=y
-CONFIG_GUP_TEST=y
-CONFIG_ARCH_HAS_PTE_SPECIAL=y
-
-#
-# Data Access Monitoring
-#
-CONFIG_DAMON=y
-CONFIG_DAMON_SYSFS=y
-# end of Data Access Monitoring
-# end of Memory Management options
-
-CONFIG_NET=y
-CONFIG_NET_INGRESS=y
-CONFIG_NET_EGRESS=y
-CONFIG_NET_REDIRECT=y
-CONFIG_SKB_EXTENSIONS=y
-
-#
-# Networking options
-#
-CONFIG_PACKET=m
-CONFIG_PACKET_DIAG=m
-CONFIG_UNIX=m
-CONFIG_UNIX_SCM=y
-CONFIG_AF_UNIX_OOB=y
-CONFIG_UNIX_DIAG=m
-CONFIG_TLS=m
-CONFIG_TLS_DEVICE=y
-CONFIG_TLS_TOE=y
-CONFIG_XFRM=y
-CONFIG_XFRM_OFFLOAD=y
-CONFIG_XFRM_ALGO=m
-CONFIG_XFRM_USER=m
-CONFIG_XFRM_INTERFACE=m
-CONFIG_XFRM_SUB_POLICY=y
-CONFIG_XFRM_MIGRATE=y
-CONFIG_XFRM_STATISTICS=y
-CONFIG_XFRM_AH=m
-CONFIG_XFRM_ESP=m
-CONFIG_XFRM_IPCOMP=m
-CONFIG_NET_KEY=m
-CONFIG_NET_KEY_MIGRATE=y
-CONFIG_XFRM_ESPINTCP=y
-CONFIG_XDP_SOCKETS=y
-CONFIG_XDP_SOCKETS_DIAG=m
-CONFIG_INET=y
-CONFIG_IP_MULTICAST=y
-CONFIG_IP_ADVANCED_ROUTER=y
-CONFIG_IP_FIB_TRIE_STATS=y
-CONFIG_IP_MULTIPLE_TABLES=y
-CONFIG_IP_ROUTE_MULTIPATH=y
-CONFIG_IP_ROUTE_VERBOSE=y
-CONFIG_IP_ROUTE_CLASSID=y
-CONFIG_IP_PNP=y
-CONFIG_IP_PNP_DHCP=y
-CONFIG_IP_PNP_BOOTP=y
-CONFIG_IP_PNP_RARP=y
-CONFIG_NET_IPIP=m
-CONFIG_NET_IPGRE_DEMUX=m
-CONFIG_NET_IP_TUNNEL=m
-CONFIG_NET_IPGRE=m
-CONFIG_NET_IPGRE_BROADCAST=y
-CONFIG_IP_MROUTE_COMMON=y
-CONFIG_IP_MROUTE=y
-CONFIG_IP_MROUTE_MULTIPLE_TABLES=y
-CONFIG_IP_PIMSM_V1=y
-CONFIG_IP_PIMSM_V2=y
-CONFIG_SYN_COOKIES=y
-CONFIG_NET_IPVTI=m
-CONFIG_NET_UDP_TUNNEL=m
-CONFIG_NET_FOU=m
-CONFIG_NET_FOU_IP_TUNNELS=y
-CONFIG_INET_AH=m
-CONFIG_INET_ESP=m
-CONFIG_INET_ESP_OFFLOAD=m
-CONFIG_INET_ESPINTCP=y
-CONFIG_INET_IPCOMP=m
-CONFIG_INET_XFRM_TUNNEL=m
-CONFIG_INET_TUNNEL=m
-CONFIG_INET_DIAG=m
-CONFIG_INET_TCP_DIAG=m
-CONFIG_INET_UDP_DIAG=m
-CONFIG_INET_RAW_DIAG=m
-CONFIG_INET_DIAG_DESTROY=y
-CONFIG_TCP_CONG_ADVANCED=y
-CONFIG_TCP_CONG_BIC=m
-CONFIG_TCP_CONG_CUBIC=m
-CONFIG_TCP_CONG_WESTWOOD=m
-CONFIG_TCP_CONG_HTCP=m
-CONFIG_TCP_CONG_HSTCP=m
-CONFIG_TCP_CONG_HYBLA=m
-CONFIG_TCP_CONG_VEGAS=m
-CONFIG_TCP_CONG_NV=m
-CONFIG_TCP_CONG_SCALABLE=m
-CONFIG_TCP_CONG_LP=m
-CONFIG_TCP_CONG_VENO=m
-CONFIG_TCP_CONG_YEAH=m
-CONFIG_TCP_CONG_ILLINOIS=m
-CONFIG_TCP_CONG_DCTCP=m
-CONFIG_TCP_CONG_CDG=m
-CONFIG_TCP_CONG_BBR=m
-CONFIG_DEFAULT_RENO=y
-CONFIG_DEFAULT_TCP_CONG="reno"
-CONFIG_TCP_MD5SIG=y
-CONFIG_IPV6=m
-CONFIG_IPV6_ROUTER_PREF=y
-CONFIG_IPV6_ROUTE_INFO=y
-CONFIG_IPV6_OPTIMISTIC_DAD=y
-CONFIG_INET6_AH=m
-CONFIG_INET6_ESP=m
-CONFIG_INET6_ESP_OFFLOAD=m
-CONFIG_INET6_ESPINTCP=y
-CONFIG_INET6_IPCOMP=m
-CONFIG_IPV6_MIP6=m
-CONFIG_IPV6_ILA=m
-CONFIG_INET6_XFRM_TUNNEL=m
-CONFIG_INET6_TUNNEL=m
-CONFIG_IPV6_VTI=m
-CONFIG_IPV6_SIT=m
-CONFIG_IPV6_SIT_6RD=y
-CONFIG_IPV6_NDISC_NODETYPE=y
-CONFIG_IPV6_TUNNEL=m
-CONFIG_IPV6_GRE=m
-CONFIG_IPV6_FOU=m
-CONFIG_IPV6_FOU_TUNNEL=m
-CONFIG_IPV6_MULTIPLE_TABLES=y
-CONFIG_IPV6_SUBTREES=y
-CONFIG_IPV6_MROUTE=y
-CONFIG_IPV6_MROUTE_MULTIPLE_TABLES=y
-CONFIG_IPV6_PIMSM_V2=y
-CONFIG_IPV6_SEG6_LWTUNNEL=y
-CONFIG_IPV6_SEG6_HMAC=y
-CONFIG_IPV6_RPL_LWTUNNEL=y
-CONFIG_IPV6_IOAM6_LWTUNNEL=y
-CONFIG_NETLABEL=y
-CONFIG_MPTCP=y
-CONFIG_INET_MPTCP_DIAG=m
-CONFIG_MPTCP_KUNIT_TEST=m
-CONFIG_NETWORK_SECMARK=y
-CONFIG_NET_PTP_CLASSIFY=y
-CONFIG_NETWORK_PHY_TIMESTAMPING=y
-CONFIG_NETFILTER=y
-CONFIG_NETFILTER_ADVANCED=y
-CONFIG_BRIDGE_NETFILTER=m
-
-#
-# Core Netfilter Configuration
-#
-CONFIG_NETFILTER_INGRESS=y
-CONFIG_NETFILTER_EGRESS=y
-CONFIG_NETFILTER_SKIP_EGRESS=y
-CONFIG_NETFILTER_NETLINK=m
-CONFIG_NETFILTER_FAMILY_BRIDGE=y
-CONFIG_NETFILTER_FAMILY_ARP=y
-CONFIG_NETFILTER_NETLINK_HOOK=m
-CONFIG_NETFILTER_NETLINK_ACCT=m
-CONFIG_NETFILTER_NETLINK_QUEUE=m
-CONFIG_NETFILTER_NETLINK_LOG=m
-CONFIG_NETFILTER_NETLINK_OSF=m
-CONFIG_NF_CONNTRACK=m
-CONFIG_NF_LOG_SYSLOG=m
-CONFIG_NETFILTER_CONNCOUNT=m
-CONFIG_NF_CONNTRACK_MARK=y
-CONFIG_NF_CONNTRACK_SECMARK=y
-CONFIG_NF_CONNTRACK_ZONES=y
-CONFIG_NF_CONNTRACK_PROCFS=y
-CONFIG_NF_CONNTRACK_EVENTS=y
-CONFIG_NF_CONNTRACK_TIMEOUT=y
-CONFIG_NF_CONNTRACK_TIMESTAMP=y
-CONFIG_NF_CONNTRACK_LABELS=y
-CONFIG_NF_CT_PROTO_DCCP=y
-CONFIG_NF_CT_PROTO_GRE=y
-CONFIG_NF_CT_PROTO_SCTP=y
-CONFIG_NF_CT_PROTO_UDPLITE=y
-CONFIG_NF_CONNTRACK_AMANDA=m
-CONFIG_NF_CONNTRACK_FTP=m
-CONFIG_NF_CONNTRACK_H323=m
-CONFIG_NF_CONNTRACK_IRC=m
-CONFIG_NF_CONNTRACK_BROADCAST=m
-CONFIG_NF_CONNTRACK_NETBIOS_NS=m
-CONFIG_NF_CONNTRACK_SNMP=m
-CONFIG_NF_CONNTRACK_PPTP=m
-CONFIG_NF_CONNTRACK_SANE=m
-CONFIG_NF_CONNTRACK_SIP=m
-CONFIG_NF_CONNTRACK_TFTP=m
-CONFIG_NF_CT_NETLINK=m
-CONFIG_NF_CT_NETLINK_TIMEOUT=m
-CONFIG_NF_CT_NETLINK_HELPER=m
-CONFIG_NETFILTER_NETLINK_GLUE_CT=y
-CONFIG_NF_NAT=m
-CONFIG_NF_NAT_AMANDA=m
-CONFIG_NF_NAT_FTP=m
-CONFIG_NF_NAT_IRC=m
-CONFIG_NF_NAT_SIP=m
-CONFIG_NF_NAT_TFTP=m
-CONFIG_NF_NAT_REDIRECT=y
-CONFIG_NF_NAT_MASQUERADE=y
-CONFIG_NETFILTER_SYNPROXY=m
-CONFIG_NF_TABLES=m
-CONFIG_NF_TABLES_INET=y
-CONFIG_NF_TABLES_NETDEV=y
-CONFIG_NFT_NUMGEN=m
-CONFIG_NFT_CT=m
-CONFIG_NFT_FLOW_OFFLOAD=m
-CONFIG_NFT_CONNLIMIT=m
-CONFIG_NFT_LOG=m
-CONFIG_NFT_LIMIT=m
-CONFIG_NFT_MASQ=m
-CONFIG_NFT_REDIR=m
-CONFIG_NFT_NAT=m
-CONFIG_NFT_TUNNEL=m
-CONFIG_NFT_OBJREF=m
-CONFIG_NFT_QUEUE=m
-CONFIG_NFT_QUOTA=m
-CONFIG_NFT_REJECT=m
-CONFIG_NFT_REJECT_INET=m
-CONFIG_NFT_COMPAT=m
-CONFIG_NFT_HASH=m
-CONFIG_NFT_FIB=m
-CONFIG_NFT_FIB_INET=m
-CONFIG_NFT_XFRM=m
-CONFIG_NFT_SOCKET=m
-CONFIG_NFT_OSF=m
-CONFIG_NFT_TPROXY=m
-CONFIG_NFT_SYNPROXY=m
-CONFIG_NF_DUP_NETDEV=m
-CONFIG_NFT_DUP_NETDEV=m
-CONFIG_NFT_FWD_NETDEV=m
-CONFIG_NFT_FIB_NETDEV=m
-CONFIG_NFT_REJECT_NETDEV=m
-CONFIG_NF_FLOW_TABLE_INET=m
-CONFIG_NF_FLOW_TABLE=m
-CONFIG_NF_FLOW_TABLE_PROCFS=y
-CONFIG_NETFILTER_XTABLES=m
-
-#
-# Xtables combined modules
-#
-CONFIG_NETFILTER_XT_MARK=m
-CONFIG_NETFILTER_XT_CONNMARK=m
-CONFIG_NETFILTER_XT_SET=m
-
-#
-# Xtables targets
-#
-CONFIG_NETFILTER_XT_TARGET_AUDIT=m
-CONFIG_NETFILTER_XT_TARGET_CHECKSUM=m
-CONFIG_NETFILTER_XT_TARGET_CLASSIFY=m
-CONFIG_NETFILTER_XT_TARGET_CONNMARK=m
-CONFIG_NETFILTER_XT_TARGET_CONNSECMARK=m
-CONFIG_NETFILTER_XT_TARGET_CT=m
-CONFIG_NETFILTER_XT_TARGET_DSCP=m
-CONFIG_NETFILTER_XT_TARGET_HL=m
-CONFIG_NETFILTER_XT_TARGET_HMARK=m
-CONFIG_NETFILTER_XT_TARGET_IDLETIMER=m
-CONFIG_NETFILTER_XT_TARGET_LED=m
-CONFIG_NETFILTER_XT_TARGET_LOG=m
-CONFIG_NETFILTER_XT_TARGET_MARK=m
-CONFIG_NETFILTER_XT_NAT=m
-CONFIG_NETFILTER_XT_TARGET_NETMAP=m
-CONFIG_NETFILTER_XT_TARGET_NFLOG=m
-CONFIG_NETFILTER_XT_TARGET_NFQUEUE=m
-CONFIG_NETFILTER_XT_TARGET_NOTRACK=m
-CONFIG_NETFILTER_XT_TARGET_RATEEST=m
-CONFIG_NETFILTER_XT_TARGET_REDIRECT=m
-CONFIG_NETFILTER_XT_TARGET_MASQUERADE=m
-CONFIG_NETFILTER_XT_TARGET_TEE=m
-CONFIG_NETFILTER_XT_TARGET_TPROXY=m
-CONFIG_NETFILTER_XT_TARGET_TRACE=m
-CONFIG_NETFILTER_XT_TARGET_SECMARK=m
-CONFIG_NETFILTER_XT_TARGET_TCPMSS=m
-CONFIG_NETFILTER_XT_TARGET_TCPOPTSTRIP=m
-
-#
-# Xtables matches
-#
-CONFIG_NETFILTER_XT_MATCH_ADDRTYPE=m
-CONFIG_NETFILTER_XT_MATCH_BPF=m
-CONFIG_NETFILTER_XT_MATCH_CGROUP=m
-CONFIG_NETFILTER_XT_MATCH_CLUSTER=m
-CONFIG_NETFILTER_XT_MATCH_COMMENT=m
-CONFIG_NETFILTER_XT_MATCH_CONNBYTES=m
-CONFIG_NETFILTER_XT_MATCH_CONNLABEL=m
-CONFIG_NETFILTER_XT_MATCH_CONNLIMIT=m
-CONFIG_NETFILTER_XT_MATCH_CONNMARK=m
-CONFIG_NETFILTER_XT_MATCH_CONNTRACK=m
-CONFIG_NETFILTER_XT_MATCH_CPU=m
-CONFIG_NETFILTER_XT_MATCH_DCCP=m
-CONFIG_NETFILTER_XT_MATCH_DEVGROUP=m
-CONFIG_NETFILTER_XT_MATCH_DSCP=m
-CONFIG_NETFILTER_XT_MATCH_ECN=m
-CONFIG_NETFILTER_XT_MATCH_ESP=m
-CONFIG_NETFILTER_XT_MATCH_HASHLIMIT=m
-CONFIG_NETFILTER_XT_MATCH_HELPER=m
-CONFIG_NETFILTER_XT_MATCH_HL=m
-CONFIG_NETFILTER_XT_MATCH_IPCOMP=m
-CONFIG_NETFILTER_XT_MATCH_IPRANGE=m
-CONFIG_NETFILTER_XT_MATCH_IPVS=m
-CONFIG_NETFILTER_XT_MATCH_L2TP=m
-CONFIG_NETFILTER_XT_MATCH_LENGTH=m
-CONFIG_NETFILTER_XT_MATCH_LIMIT=m
-CONFIG_NETFILTER_XT_MATCH_MAC=m
-CONFIG_NETFILTER_XT_MATCH_MARK=m
-CONFIG_NETFILTER_XT_MATCH_MULTIPORT=m
-CONFIG_NETFILTER_XT_MATCH_NFACCT=m
-CONFIG_NETFILTER_XT_MATCH_OSF=m
-CONFIG_NETFILTER_XT_MATCH_OWNER=m
-CONFIG_NETFILTER_XT_MATCH_POLICY=m
-CONFIG_NETFILTER_XT_MATCH_PHYSDEV=m
-CONFIG_NETFILTER_XT_MATCH_PKTTYPE=m
-CONFIG_NETFILTER_XT_MATCH_QUOTA=m
-CONFIG_NETFILTER_XT_MATCH_RATEEST=m
-CONFIG_NETFILTER_XT_MATCH_REALM=m
-CONFIG_NETFILTER_XT_MATCH_RECENT=m
-CONFIG_NETFILTER_XT_MATCH_SCTP=m
-CONFIG_NETFILTER_XT_MATCH_SOCKET=m
-CONFIG_NETFILTER_XT_MATCH_STATE=m
-CONFIG_NETFILTER_XT_MATCH_STATISTIC=m
-CONFIG_NETFILTER_XT_MATCH_STRING=m
-CONFIG_NETFILTER_XT_MATCH_TCPMSS=m
-CONFIG_NETFILTER_XT_MATCH_TIME=m
-CONFIG_NETFILTER_XT_MATCH_U32=m
-# end of Core Netfilter Configuration
-
-CONFIG_IP_SET=m
-CONFIG_IP_SET_MAX=256
-CONFIG_IP_SET_BITMAP_IP=m
-CONFIG_IP_SET_BITMAP_IPMAC=m
-CONFIG_IP_SET_BITMAP_PORT=m
-CONFIG_IP_SET_HASH_IP=m
-CONFIG_IP_SET_HASH_IPMARK=m
-CONFIG_IP_SET_HASH_IPPORT=m
-CONFIG_IP_SET_HASH_IPPORTIP=m
-CONFIG_IP_SET_HASH_IPPORTNET=m
-CONFIG_IP_SET_HASH_IPMAC=m
-CONFIG_IP_SET_HASH_MAC=m
-CONFIG_IP_SET_HASH_NETPORTNET=m
-CONFIG_IP_SET_HASH_NET=m
-CONFIG_IP_SET_HASH_NETNET=m
-CONFIG_IP_SET_HASH_NETPORT=m
-CONFIG_IP_SET_HASH_NETIFACE=m
-CONFIG_IP_SET_LIST_SET=m
-CONFIG_IP_VS=m
-CONFIG_IP_VS_IPV6=y
-CONFIG_IP_VS_DEBUG=y
-CONFIG_IP_VS_TAB_BITS=12
-
-#
-# IPVS transport protocol load balancing support
-#
-CONFIG_IP_VS_PROTO_TCP=y
-CONFIG_IP_VS_PROTO_UDP=y
-CONFIG_IP_VS_PROTO_AH_ESP=y
-CONFIG_IP_VS_PROTO_ESP=y
-CONFIG_IP_VS_PROTO_AH=y
-CONFIG_IP_VS_PROTO_SCTP=y
-
-#
-# IPVS scheduler
-#
-CONFIG_IP_VS_RR=m
-CONFIG_IP_VS_WRR=m
-CONFIG_IP_VS_LC=m
-CONFIG_IP_VS_WLC=m
-CONFIG_IP_VS_FO=m
-CONFIG_IP_VS_OVF=m
-CONFIG_IP_VS_LBLC=m
-CONFIG_IP_VS_LBLCR=m
-CONFIG_IP_VS_DH=m
-CONFIG_IP_VS_SH=m
-CONFIG_IP_VS_MH=m
-CONFIG_IP_VS_SED=m
-CONFIG_IP_VS_NQ=m
-CONFIG_IP_VS_TWOS=m
-
-#
-# IPVS SH scheduler
-#
-CONFIG_IP_VS_SH_TAB_BITS=8
-
-#
-# IPVS MH scheduler
-#
-CONFIG_IP_VS_MH_TAB_INDEX=12
-
-#
-# IPVS application helper
-#
-CONFIG_IP_VS_FTP=m
-CONFIG_IP_VS_NFCT=y
-CONFIG_IP_VS_PE_SIP=m
-
-#
-# IP: Netfilter Configuration
-#
-CONFIG_NF_DEFRAG_IPV4=m
-CONFIG_NF_SOCKET_IPV4=m
-CONFIG_NF_TPROXY_IPV4=m
-CONFIG_NF_TABLES_IPV4=y
-CONFIG_NFT_REJECT_IPV4=m
-CONFIG_NFT_DUP_IPV4=m
-CONFIG_NFT_FIB_IPV4=m
-CONFIG_NF_TABLES_ARP=y
-CONFIG_NF_DUP_IPV4=m
-CONFIG_NF_LOG_ARP=m
-CONFIG_NF_LOG_IPV4=m
-CONFIG_NF_REJECT_IPV4=m
-CONFIG_NF_NAT_SNMP_BASIC=m
-CONFIG_NF_NAT_PPTP=m
-CONFIG_NF_NAT_H323=m
-CONFIG_IP_NF_IPTABLES=m
-CONFIG_IP_NF_MATCH_AH=m
-CONFIG_IP_NF_MATCH_ECN=m
-CONFIG_IP_NF_MATCH_RPFILTER=m
-CONFIG_IP_NF_MATCH_TTL=m
-CONFIG_IP_NF_FILTER=m
-CONFIG_IP_NF_TARGET_REJECT=m
-CONFIG_IP_NF_TARGET_SYNPROXY=m
-CONFIG_IP_NF_NAT=m
-CONFIG_IP_NF_TARGET_MASQUERADE=m
-CONFIG_IP_NF_TARGET_NETMAP=m
-CONFIG_IP_NF_TARGET_REDIRECT=m
-CONFIG_IP_NF_MANGLE=m
-CONFIG_IP_NF_TARGET_CLUSTERIP=m
-CONFIG_IP_NF_TARGET_ECN=m
-CONFIG_IP_NF_TARGET_TTL=m
-CONFIG_IP_NF_RAW=m
-CONFIG_IP_NF_SECURITY=m
-CONFIG_IP_NF_ARPTABLES=m
-CONFIG_IP_NF_ARPFILTER=m
-CONFIG_IP_NF_ARP_MANGLE=m
-# end of IP: Netfilter Configuration
-
-#
-# IPv6: Netfilter Configuration
-#
-CONFIG_NF_SOCKET_IPV6=m
-CONFIG_NF_TPROXY_IPV6=m
-CONFIG_NF_TABLES_IPV6=y
-CONFIG_NFT_REJECT_IPV6=m
-CONFIG_NFT_DUP_IPV6=m
-CONFIG_NFT_FIB_IPV6=m
-CONFIG_NF_DUP_IPV6=m
-CONFIG_NF_REJECT_IPV6=m
-CONFIG_NF_LOG_IPV6=m
-CONFIG_IP6_NF_IPTABLES=m
-CONFIG_IP6_NF_MATCH_AH=m
-CONFIG_IP6_NF_MATCH_EUI64=m
-CONFIG_IP6_NF_MATCH_FRAG=m
-CONFIG_IP6_NF_MATCH_OPTS=m
-CONFIG_IP6_NF_MATCH_HL=m
-CONFIG_IP6_NF_MATCH_IPV6HEADER=m
-CONFIG_IP6_NF_MATCH_MH=m
-CONFIG_IP6_NF_MATCH_RPFILTER=m
-CONFIG_IP6_NF_MATCH_RT=m
-CONFIG_IP6_NF_MATCH_SRH=m
-CONFIG_IP6_NF_TARGET_HL=m
-CONFIG_IP6_NF_FILTER=m
-CONFIG_IP6_NF_TARGET_REJECT=m
-CONFIG_IP6_NF_TARGET_SYNPROXY=m
-CONFIG_IP6_NF_MANGLE=m
-CONFIG_IP6_NF_RAW=m
-CONFIG_IP6_NF_SECURITY=m
-CONFIG_IP6_NF_NAT=m
-CONFIG_IP6_NF_TARGET_MASQUERADE=m
-CONFIG_IP6_NF_TARGET_NPT=m
-# end of IPv6: Netfilter Configuration
-
-CONFIG_NF_DEFRAG_IPV6=m
-CONFIG_NF_TABLES_BRIDGE=m
-CONFIG_NFT_BRIDGE_META=m
-CONFIG_NFT_BRIDGE_REJECT=m
-CONFIG_NF_CONNTRACK_BRIDGE=m
-CONFIG_BRIDGE_NF_EBTABLES=m
-CONFIG_BRIDGE_EBT_BROUTE=m
-CONFIG_BRIDGE_EBT_T_FILTER=m
-CONFIG_BRIDGE_EBT_T_NAT=m
-CONFIG_BRIDGE_EBT_802_3=m
-CONFIG_BRIDGE_EBT_AMONG=m
-CONFIG_BRIDGE_EBT_ARP=m
-CONFIG_BRIDGE_EBT_IP=m
-CONFIG_BRIDGE_EBT_IP6=m
-CONFIG_BRIDGE_EBT_LIMIT=m
-CONFIG_BRIDGE_EBT_MARK=m
-CONFIG_BRIDGE_EBT_PKTTYPE=m
-CONFIG_BRIDGE_EBT_STP=m
-CONFIG_BRIDGE_EBT_VLAN=m
-CONFIG_BRIDGE_EBT_ARPREPLY=m
-CONFIG_BRIDGE_EBT_DNAT=m
-CONFIG_BRIDGE_EBT_MARK_T=m
-CONFIG_BRIDGE_EBT_REDIRECT=m
-CONFIG_BRIDGE_EBT_SNAT=m
-CONFIG_BRIDGE_EBT_LOG=m
-CONFIG_BRIDGE_EBT_NFLOG=m
-CONFIG_BPFILTER=y
-CONFIG_IP_DCCP=m
-CONFIG_INET_DCCP_DIAG=m
-
-#
-# DCCP CCIDs Configuration
-#
-CONFIG_IP_DCCP_CCID2_DEBUG=y
-CONFIG_IP_DCCP_CCID3=y
-CONFIG_IP_DCCP_CCID3_DEBUG=y
-CONFIG_IP_DCCP_TFRC_LIB=y
-CONFIG_IP_DCCP_TFRC_DEBUG=y
-# end of DCCP CCIDs Configuration
-
-#
-# DCCP Kernel Hacking
-#
-CONFIG_IP_DCCP_DEBUG=y
-# end of DCCP Kernel Hacking
-
-CONFIG_IP_SCTP=m
-CONFIG_SCTP_DBG_OBJCNT=y
-CONFIG_SCTP_DEFAULT_COOKIE_HMAC_MD5=y
-# CONFIG_SCTP_DEFAULT_COOKIE_HMAC_SHA1 is not set
-# CONFIG_SCTP_DEFAULT_COOKIE_HMAC_NONE is not set
-CONFIG_SCTP_COOKIE_HMAC_MD5=y
-CONFIG_SCTP_COOKIE_HMAC_SHA1=y
-CONFIG_INET_SCTP_DIAG=m
-CONFIG_RDS=m
-CONFIG_RDS_TCP=m
-CONFIG_RDS_DEBUG=y
-CONFIG_TIPC=m
-CONFIG_TIPC_MEDIA_UDP=y
-CONFIG_TIPC_CRYPTO=y
-CONFIG_TIPC_DIAG=m
-CONFIG_ATM=m
-CONFIG_ATM_CLIP=m
-CONFIG_ATM_CLIP_NO_ICMP=y
-CONFIG_ATM_LANE=m
-CONFIG_ATM_MPOA=m
-CONFIG_ATM_BR2684=m
-CONFIG_ATM_BR2684_IPFILTER=y
-CONFIG_L2TP=m
-CONFIG_L2TP_DEBUGFS=m
-CONFIG_L2TP_V3=y
-CONFIG_L2TP_IP=m
-CONFIG_L2TP_ETH=m
-CONFIG_STP=m
-CONFIG_GARP=m
-CONFIG_MRP=m
-CONFIG_BRIDGE=m
-CONFIG_BRIDGE_IGMP_SNOOPING=y
-CONFIG_BRIDGE_VLAN_FILTERING=y
-CONFIG_BRIDGE_MRP=y
-CONFIG_BRIDGE_CFM=y
-CONFIG_NET_DSA=m
-CONFIG_NET_DSA_TAG_AR9331=m
-CONFIG_NET_DSA_TAG_BRCM_COMMON=m
-CONFIG_NET_DSA_TAG_BRCM=m
-CONFIG_NET_DSA_TAG_BRCM_LEGACY=m
-CONFIG_NET_DSA_TAG_BRCM_PREPEND=m
-CONFIG_NET_DSA_TAG_HELLCREEK=m
-CONFIG_NET_DSA_TAG_GSWIP=m
-CONFIG_NET_DSA_TAG_DSA_COMMON=m
-CONFIG_NET_DSA_TAG_DSA=m
-CONFIG_NET_DSA_TAG_EDSA=m
-CONFIG_NET_DSA_TAG_MTK=m
-CONFIG_NET_DSA_TAG_KSZ=m
-CONFIG_NET_DSA_TAG_OCELOT=m
-CONFIG_NET_DSA_TAG_OCELOT_8021Q=m
-CONFIG_NET_DSA_TAG_QCA=m
-CONFIG_NET_DSA_TAG_RTL4_A=m
-CONFIG_NET_DSA_TAG_RTL8_4=m
-CONFIG_NET_DSA_TAG_RZN1_A5PSW=m
-CONFIG_NET_DSA_TAG_LAN9303=m
-CONFIG_NET_DSA_TAG_SJA1105=m
-CONFIG_NET_DSA_TAG_TRAILER=m
-CONFIG_NET_DSA_TAG_XRS700X=m
-CONFIG_VLAN_8021Q=m
-CONFIG_VLAN_8021Q_GVRP=y
-CONFIG_VLAN_8021Q_MVRP=y
-CONFIG_LLC=m
-CONFIG_LLC2=m
-CONFIG_ATALK=m
-CONFIG_DEV_APPLETALK=m
-CONFIG_IPDDP=m
-CONFIG_IPDDP_ENCAP=y
-CONFIG_X25=m
-CONFIG_LAPB=m
-CONFIG_PHONET=m
-CONFIG_6LOWPAN=m
-CONFIG_6LOWPAN_DEBUGFS=y
-CONFIG_6LOWPAN_NHC=m
-CONFIG_6LOWPAN_NHC_DEST=m
-CONFIG_6LOWPAN_NHC_FRAGMENT=m
-CONFIG_6LOWPAN_NHC_HOP=m
-CONFIG_6LOWPAN_NHC_IPV6=m
-CONFIG_6LOWPAN_NHC_MOBILITY=m
-CONFIG_6LOWPAN_NHC_ROUTING=m
-CONFIG_6LOWPAN_NHC_UDP=m
-CONFIG_6LOWPAN_GHC_EXT_HDR_HOP=m
-CONFIG_6LOWPAN_GHC_UDP=m
-CONFIG_6LOWPAN_GHC_ICMPV6=m
-CONFIG_6LOWPAN_GHC_EXT_HDR_DEST=m
-CONFIG_6LOWPAN_GHC_EXT_HDR_FRAG=m
-CONFIG_6LOWPAN_GHC_EXT_HDR_ROUTE=m
-CONFIG_IEEE802154=m
-CONFIG_IEEE802154_NL802154_EXPERIMENTAL=y
-CONFIG_IEEE802154_SOCKET=m
-CONFIG_IEEE802154_6LOWPAN=m
-CONFIG_MAC802154=m
-CONFIG_NET_SCHED=y
-
-#
-# Queueing/Scheduling
-#
-CONFIG_NET_SCH_CBQ=m
-CONFIG_NET_SCH_HTB=m
-CONFIG_NET_SCH_HFSC=m
-CONFIG_NET_SCH_ATM=m
-CONFIG_NET_SCH_PRIO=m
-CONFIG_NET_SCH_MULTIQ=m
-CONFIG_NET_SCH_RED=m
-CONFIG_NET_SCH_SFB=m
-CONFIG_NET_SCH_SFQ=m
-CONFIG_NET_SCH_TEQL=m
-CONFIG_NET_SCH_TBF=m
-CONFIG_NET_SCH_CBS=m
-CONFIG_NET_SCH_ETF=m
-CONFIG_NET_SCH_TAPRIO=m
-CONFIG_NET_SCH_GRED=m
-CONFIG_NET_SCH_DSMARK=m
-CONFIG_NET_SCH_NETEM=m
-CONFIG_NET_SCH_DRR=m
-CONFIG_NET_SCH_MQPRIO=m
-CONFIG_NET_SCH_SKBPRIO=m
-CONFIG_NET_SCH_CHOKE=m
-CONFIG_NET_SCH_QFQ=m
-CONFIG_NET_SCH_CODEL=m
-CONFIG_NET_SCH_FQ_CODEL=m
-CONFIG_NET_SCH_CAKE=m
-CONFIG_NET_SCH_FQ=m
-CONFIG_NET_SCH_HHF=m
-CONFIG_NET_SCH_PIE=m
-CONFIG_NET_SCH_FQ_PIE=m
-CONFIG_NET_SCH_INGRESS=m
-CONFIG_NET_SCH_PLUG=m
-CONFIG_NET_SCH_ETS=m
-CONFIG_NET_SCH_DEFAULT=y
-# CONFIG_DEFAULT_FQ is not set
-# CONFIG_DEFAULT_CODEL is not set
-# CONFIG_DEFAULT_FQ_CODEL is not set
-# CONFIG_DEFAULT_FQ_PIE is not set
-# CONFIG_DEFAULT_SFQ is not set
-CONFIG_DEFAULT_PFIFO_FAST=y
-CONFIG_DEFAULT_NET_SCH="pfifo_fast"
-
-#
-# Classification
-#
-CONFIG_NET_CLS=y
-CONFIG_NET_CLS_BASIC=m
-CONFIG_NET_CLS_TCINDEX=m
-CONFIG_NET_CLS_ROUTE4=m
-CONFIG_NET_CLS_FW=m
-CONFIG_NET_CLS_U32=m
-CONFIG_CLS_U32_PERF=y
-CONFIG_CLS_U32_MARK=y
-CONFIG_NET_CLS_RSVP=m
-CONFIG_NET_CLS_RSVP6=m
-CONFIG_NET_CLS_FLOW=m
-CONFIG_NET_CLS_CGROUP=m
-CONFIG_NET_CLS_BPF=m
-CONFIG_NET_CLS_FLOWER=m
-CONFIG_NET_CLS_MATCHALL=m
-CONFIG_NET_EMATCH=y
-CONFIG_NET_EMATCH_STACK=32
-CONFIG_NET_EMATCH_CMP=m
-CONFIG_NET_EMATCH_NBYTE=m
-CONFIG_NET_EMATCH_U32=m
-CONFIG_NET_EMATCH_META=m
-CONFIG_NET_EMATCH_TEXT=m
-CONFIG_NET_EMATCH_CANID=m
-CONFIG_NET_EMATCH_IPSET=m
-CONFIG_NET_EMATCH_IPT=m
-CONFIG_NET_CLS_ACT=y
-CONFIG_NET_ACT_POLICE=m
-CONFIG_NET_ACT_GACT=m
-CONFIG_GACT_PROB=y
-CONFIG_NET_ACT_MIRRED=m
-CONFIG_NET_ACT_SAMPLE=m
-CONFIG_NET_ACT_IPT=m
-CONFIG_NET_ACT_NAT=m
-CONFIG_NET_ACT_PEDIT=m
-CONFIG_NET_ACT_SIMP=m
-CONFIG_NET_ACT_SKBEDIT=m
-CONFIG_NET_ACT_CSUM=m
-CONFIG_NET_ACT_MPLS=m
-CONFIG_NET_ACT_VLAN=m
-CONFIG_NET_ACT_BPF=m
-CONFIG_NET_ACT_CONNMARK=m
-CONFIG_NET_ACT_CTINFO=m
-CONFIG_NET_ACT_SKBMOD=m
-CONFIG_NET_ACT_IFE=m
-CONFIG_NET_ACT_TUNNEL_KEY=m
-CONFIG_NET_ACT_CT=m
-CONFIG_NET_ACT_GATE=m
-CONFIG_NET_IFE_SKBMARK=m
-CONFIG_NET_IFE_SKBPRIO=m
-CONFIG_NET_IFE_SKBTCINDEX=m
-CONFIG_NET_TC_SKB_EXT=y
-CONFIG_NET_SCH_FIFO=y
-CONFIG_DCB=y
-CONFIG_DNS_RESOLVER=m
-CONFIG_BATMAN_ADV=m
-CONFIG_BATMAN_ADV_BATMAN_V=y
-CONFIG_BATMAN_ADV_BLA=y
-CONFIG_BATMAN_ADV_DAT=y
-CONFIG_BATMAN_ADV_NC=y
-CONFIG_BATMAN_ADV_MCAST=y
-CONFIG_BATMAN_ADV_DEBUG=y
-CONFIG_BATMAN_ADV_TRACING=y
-CONFIG_OPENVSWITCH=m
-CONFIG_OPENVSWITCH_GRE=m
-CONFIG_OPENVSWITCH_VXLAN=m
-CONFIG_OPENVSWITCH_GENEVE=m
-CONFIG_VSOCKETS=m
-CONFIG_VSOCKETS_DIAG=m
-CONFIG_VSOCKETS_LOOPBACK=m
-CONFIG_VIRTIO_VSOCKETS=m
-CONFIG_VIRTIO_VSOCKETS_COMMON=m
-CONFIG_NETLINK_DIAG=m
-CONFIG_MPLS=y
-CONFIG_NET_MPLS_GSO=m
-CONFIG_MPLS_ROUTING=m
-CONFIG_MPLS_IPTUNNEL=m
-CONFIG_NET_NSH=m
-CONFIG_HSR=m
-CONFIG_NET_SWITCHDEV=y
-CONFIG_NET_L3_MASTER_DEV=y
-CONFIG_QRTR=m
-CONFIG_QRTR_SMD=m
-CONFIG_QRTR_TUN=m
-CONFIG_QRTR_MHI=m
-CONFIG_NET_NCSI=y
-CONFIG_NCSI_OEM_CMD_GET_MAC=y
-CONFIG_NCSI_OEM_CMD_KEEP_PHY=y
-CONFIG_SOCK_RX_QUEUE_MAPPING=y
-CONFIG_HWBM=y
-CONFIG_CGROUP_NET_PRIO=y
-CONFIG_CGROUP_NET_CLASSID=y
-CONFIG_NET_RX_BUSY_POLL=y
-CONFIG_BQL=y
-CONFIG_BPF_STREAM_PARSER=y
-
-#
-# Network testing
-#
-CONFIG_NET_PKTGEN=m
-CONFIG_NET_DROP_MONITOR=m
-# end of Network testing
-# end of Networking options
-
-CONFIG_HAMRADIO=y
-
-#
-# Packet Radio protocols
-#
-CONFIG_AX25=m
-CONFIG_AX25_DAMA_SLAVE=y
-CONFIG_NETROM=m
-CONFIG_ROSE=m
-
-#
-# AX.25 network device drivers
-#
-CONFIG_MKISS=m
-CONFIG_6PACK=m
-CONFIG_BPQETHER=m
-CONFIG_BAYCOM_SER_FDX=m
-CONFIG_BAYCOM_SER_HDX=m
-CONFIG_BAYCOM_PAR=m
-CONFIG_BAYCOM_EPP=m
-CONFIG_YAM=m
-# end of AX.25 network device drivers
-
-CONFIG_CAN=m
-CONFIG_CAN_RAW=m
-CONFIG_CAN_BCM=m
-CONFIG_CAN_GW=m
-CONFIG_CAN_J1939=m
-CONFIG_CAN_ISOTP=m
-CONFIG_BT=m
-CONFIG_BT_BREDR=y
-CONFIG_BT_RFCOMM=m
-CONFIG_BT_RFCOMM_TTY=y
-CONFIG_BT_BNEP=m
-CONFIG_BT_BNEP_MC_FILTER=y
-CONFIG_BT_BNEP_PROTO_FILTER=y
-CONFIG_BT_CMTP=m
-CONFIG_BT_HIDP=m
-CONFIG_BT_HS=y
-CONFIG_BT_LE=y
-CONFIG_BT_6LOWPAN=m
-CONFIG_BT_LEDS=y
-CONFIG_BT_MSFTEXT=y
-CONFIG_BT_AOSPEXT=y
-CONFIG_BT_DEBUGFS=y
-CONFIG_BT_SELFTEST=y
-CONFIG_BT_SELFTEST_ECDH=y
-CONFIG_BT_SELFTEST_SMP=y
-
-#
-# Bluetooth device drivers
-#
-CONFIG_BT_INTEL=m
-CONFIG_BT_BCM=m
-CONFIG_BT_RTL=m
-CONFIG_BT_QCA=m
-CONFIG_BT_MTK=m
-CONFIG_BT_HCIBTUSB=m
-CONFIG_BT_HCIBTUSB_AUTOSUSPEND=y
-CONFIG_BT_HCIBTUSB_BCM=y
-CONFIG_BT_HCIBTUSB_MTK=y
-CONFIG_BT_HCIBTUSB_RTL=y
-CONFIG_BT_HCIBTSDIO=m
-CONFIG_BT_HCIUART=m
-CONFIG_BT_HCIUART_SERDEV=y
-CONFIG_BT_HCIUART_H4=y
-CONFIG_BT_HCIUART_NOKIA=m
-CONFIG_BT_HCIUART_BCSP=y
-CONFIG_BT_HCIUART_ATH3K=y
-CONFIG_BT_HCIUART_LL=y
-CONFIG_BT_HCIUART_3WIRE=y
-CONFIG_BT_HCIUART_INTEL=y
-CONFIG_BT_HCIUART_BCM=y
-CONFIG_BT_HCIUART_QCA=y
-CONFIG_BT_HCIUART_AG6XX=y
-CONFIG_BT_HCIUART_MRVL=y
-CONFIG_BT_HCIBCM203X=m
-CONFIG_BT_HCIBPA10X=m
-CONFIG_BT_HCIBFUSB=m
-CONFIG_BT_HCIDTL1=m
-CONFIG_BT_HCIBT3C=m
-CONFIG_BT_HCIBLUECARD=m
-CONFIG_BT_HCIVHCI=m
-CONFIG_BT_MRVL=m
-CONFIG_BT_MRVL_SDIO=m
-CONFIG_BT_ATH3K=m
-CONFIG_BT_MTKSDIO=m
-CONFIG_BT_MTKUART=m
-CONFIG_BT_QCOMSMD=m
-CONFIG_BT_HCIRSI=m
-CONFIG_BT_VIRTIO=m
-# end of Bluetooth device drivers
-
-CONFIG_AF_RXRPC=m
-CONFIG_AF_RXRPC_IPV6=y
-CONFIG_AF_RXRPC_INJECT_LOSS=y
-CONFIG_AF_RXRPC_DEBUG=y
-CONFIG_RXKAD=y
-CONFIG_AF_KCM=m
-CONFIG_STREAM_PARSER=y
-CONFIG_MCTP=y
-CONFIG_MCTP_FLOWS=y
-CONFIG_FIB_RULES=y
-CONFIG_WIRELESS=y
-CONFIG_WIRELESS_EXT=y
-CONFIG_WEXT_CORE=y
-CONFIG_WEXT_PROC=y
-CONFIG_WEXT_SPY=y
-CONFIG_WEXT_PRIV=y
-CONFIG_CFG80211=m
-CONFIG_NL80211_TESTMODE=y
-CONFIG_CFG80211_DEVELOPER_WARNINGS=y
-CONFIG_CFG80211_CERTIFICATION_ONUS=y
-CONFIG_CFG80211_REQUIRE_SIGNED_REGDB=y
-CONFIG_CFG80211_USE_KERNEL_REGDB_KEYS=y
-CONFIG_CFG80211_EXTRA_REGDB_KEYDIR=""
-CONFIG_CFG80211_REG_CELLULAR_HINTS=y
-CONFIG_CFG80211_REG_RELAX_NO_IR=y
-CONFIG_CFG80211_DEFAULT_PS=y
-CONFIG_CFG80211_DEBUGFS=y
-CONFIG_CFG80211_CRDA_SUPPORT=y
-CONFIG_CFG80211_WEXT=y
-CONFIG_CFG80211_WEXT_EXPORT=y
-CONFIG_LIB80211=m
-CONFIG_LIB80211_CRYPT_WEP=m
-CONFIG_LIB80211_CRYPT_CCMP=m
-CONFIG_LIB80211_CRYPT_TKIP=m
-CONFIG_LIB80211_DEBUG=y
-CONFIG_MAC80211=m
-CONFIG_MAC80211_HAS_RC=y
-CONFIG_MAC80211_RC_MINSTREL=y
-CONFIG_MAC80211_RC_DEFAULT_MINSTREL=y
-CONFIG_MAC80211_RC_DEFAULT="minstrel_ht"
-CONFIG_MAC80211_MESH=y
-CONFIG_MAC80211_LEDS=y
-CONFIG_MAC80211_DEBUGFS=y
-CONFIG_MAC80211_MESSAGE_TRACING=y
-CONFIG_MAC80211_DEBUG_MENU=y
-CONFIG_MAC80211_NOINLINE=y
-CONFIG_MAC80211_VERBOSE_DEBUG=y
-CONFIG_MAC80211_MLME_DEBUG=y
-CONFIG_MAC80211_STA_DEBUG=y
-CONFIG_MAC80211_HT_DEBUG=y
-CONFIG_MAC80211_OCB_DEBUG=y
-CONFIG_MAC80211_IBSS_DEBUG=y
-CONFIG_MAC80211_PS_DEBUG=y
-CONFIG_MAC80211_MPL_DEBUG=y
-CONFIG_MAC80211_MPATH_DEBUG=y
-CONFIG_MAC80211_MHWMP_DEBUG=y
-CONFIG_MAC80211_MESH_SYNC_DEBUG=y
-CONFIG_MAC80211_MESH_CSA_DEBUG=y
-CONFIG_MAC80211_MESH_PS_DEBUG=y
-CONFIG_MAC80211_TDLS_DEBUG=y
-CONFIG_MAC80211_DEBUG_COUNTERS=y
-CONFIG_MAC80211_STA_HASH_MAX_SIZE=0
-CONFIG_RFKILL=m
-CONFIG_RFKILL_LEDS=y
-CONFIG_RFKILL_INPUT=y
-CONFIG_RFKILL_GPIO=m
-CONFIG_NET_9P=m
-CONFIG_NET_9P_FD=m
-CONFIG_NET_9P_VIRTIO=m
-CONFIG_NET_9P_DEBUG=y
-CONFIG_CAIF=m
-CONFIG_CAIF_DEBUG=y
-CONFIG_CAIF_NETDEV=m
-CONFIG_CAIF_USB=m
-CONFIG_CEPH_LIB=m
-CONFIG_CEPH_LIB_PRETTYDEBUG=y
-CONFIG_CEPH_LIB_USE_DNS_RESOLVER=y
-CONFIG_NFC=m
-CONFIG_NFC_DIGITAL=m
-CONFIG_NFC_NCI=m
-CONFIG_NFC_NCI_SPI=m
-CONFIG_NFC_NCI_UART=m
-CONFIG_NFC_HCI=m
-CONFIG_NFC_SHDLC=y
-
-#
-# Near Field Communication (NFC) devices
-#
-CONFIG_NFC_TRF7970A=m
-CONFIG_NFC_SIM=m
-CONFIG_NFC_PORT100=m
-CONFIG_NFC_VIRTUAL_NCI=m
-CONFIG_NFC_FDP=m
-CONFIG_NFC_FDP_I2C=m
-CONFIG_NFC_PN544=m
-CONFIG_NFC_PN544_I2C=m
-CONFIG_NFC_PN533=m
-CONFIG_NFC_PN533_USB=m
-CONFIG_NFC_PN533_I2C=m
-CONFIG_NFC_PN532_UART=m
-CONFIG_NFC_MICROREAD=m
-CONFIG_NFC_MICROREAD_I2C=m
-CONFIG_NFC_MRVL=m
-CONFIG_NFC_MRVL_USB=m
-CONFIG_NFC_MRVL_UART=m
-CONFIG_NFC_MRVL_I2C=m
-CONFIG_NFC_MRVL_SPI=m
-CONFIG_NFC_ST21NFCA=m
-CONFIG_NFC_ST21NFCA_I2C=m
-CONFIG_NFC_ST_NCI=m
-CONFIG_NFC_ST_NCI_I2C=m
-CONFIG_NFC_ST_NCI_SPI=m
-CONFIG_NFC_NXP_NCI=m
-CONFIG_NFC_NXP_NCI_I2C=m
-CONFIG_NFC_S3FWRN5=m
-CONFIG_NFC_S3FWRN5_I2C=m
-CONFIG_NFC_S3FWRN82_UART=m
-CONFIG_NFC_ST95HF=m
-# end of Near Field Communication (NFC) devices
-
-CONFIG_PSAMPLE=m
-CONFIG_NET_IFE=m
-CONFIG_LWTUNNEL=y
-CONFIG_LWTUNNEL_BPF=y
-CONFIG_DST_CACHE=y
-CONFIG_GRO_CELLS=y
-CONFIG_SOCK_VALIDATE_XMIT=y
-CONFIG_NET_SELFTESTS=m
-CONFIG_NET_SOCK_MSG=y
-CONFIG_NET_DEVLINK=y
-CONFIG_PAGE_POOL=y
-CONFIG_PAGE_POOL_STATS=y
-CONFIG_FAILOVER=m
-CONFIG_ETHTOOL_NETLINK=y
-CONFIG_NETDEV_ADDR_LIST_TEST=m
-
-#
-# Device Drivers
-#
-CONFIG_PCCARD=m
-CONFIG_PCMCIA=m
-CONFIG_PCMCIA_LOAD_CIS=y
-
-#
-# PC-card bridges
-#
-
-#
-# Generic Driver Options
-#
-CONFIG_AUXILIARY_BUS=y
-CONFIG_UEVENT_HELPER=y
-CONFIG_UEVENT_HELPER_PATH=""
-CONFIG_DEVTMPFS=y
-CONFIG_DEVTMPFS_MOUNT=y
-CONFIG_DEVTMPFS_SAFE=y
-CONFIG_STANDALONE=y
-CONFIG_PREVENT_FIRMWARE_BUILD=y
-
-#
-# Firmware loader
-#
-CONFIG_FW_LOADER=m
-CONFIG_FW_LOADER_PAGED_BUF=y
-CONFIG_FW_LOADER_SYSFS=y
-CONFIG_EXTRA_FIRMWARE=""
-CONFIG_FW_LOADER_USER_HELPER=y
-CONFIG_FW_LOADER_USER_HELPER_FALLBACK=y
-CONFIG_FW_LOADER_COMPRESS=y
-CONFIG_FW_LOADER_COMPRESS_XZ=y
-CONFIG_FW_LOADER_COMPRESS_ZSTD=y
-CONFIG_FW_UPLOAD=y
-# end of Firmware loader
-
-CONFIG_WANT_DEV_COREDUMP=y
-CONFIG_ALLOW_DEV_COREDUMP=y
-CONFIG_DEV_COREDUMP=y
-CONFIG_DEBUG_DRIVER=y
-CONFIG_DEBUG_DEVRES=y
-CONFIG_DEBUG_TEST_DRIVER_REMOVE=y
-CONFIG_TEST_ASYNC_DRIVER_PROBE=m
-CONFIG_SOC_BUS=y
-CONFIG_REGMAP=y
-CONFIG_REGMAP_AC97=m
-CONFIG_REGMAP_I2C=m
-CONFIG_REGMAP_SLIMBUS=m
-CONFIG_REGMAP_SPI=y
-CONFIG_REGMAP_SPMI=m
-CONFIG_REGMAP_W1=m
-CONFIG_REGMAP_MMIO=y
-CONFIG_REGMAP_IRQ=y
-CONFIG_REGMAP_SOUNDWIRE=m
-CONFIG_REGMAP_SOUNDWIRE_MBQ=m
-CONFIG_REGMAP_SCCB=m
-CONFIG_REGMAP_I3C=m
-CONFIG_REGMAP_SPI_AVMM=m
-CONFIG_DMA_SHARED_BUFFER=y
-CONFIG_DMA_FENCE_TRACE=y
-# end of Generic Driver Options
-
-#
-# Bus devices
-#
-CONFIG_ARM_INTEGRATOR_LM=y
-CONFIG_BT1_APB=y
-CONFIG_BT1_AXI=y
-CONFIG_MOXTET=m
-CONFIG_HISILICON_LPC=y
-CONFIG_INTEL_IXP4XX_EB=y
-CONFIG_QCOM_EBI2=y
-CONFIG_MHI_BUS=m
-CONFIG_MHI_BUS_DEBUG=y
-CONFIG_MHI_BUS_EP=m
-# end of Bus devices
-
-CONFIG_CONNECTOR=m
-
-#
-# Firmware Drivers
-#
-
-#
-# ARM System Control and Management Interface Protocol
-#
-CONFIG_ARM_SCMI_PROTOCOL=m
-CONFIG_ARM_SCMI_HAVE_TRANSPORT=y
-CONFIG_ARM_SCMI_HAVE_SHMEM=y
-CONFIG_ARM_SCMI_HAVE_MSG=y
-CONFIG_ARM_SCMI_TRANSPORT_MAILBOX=y
-CONFIG_ARM_SCMI_TRANSPORT_VIRTIO=y
-CONFIG_ARM_SCMI_TRANSPORT_VIRTIO_VERSION1_COMPLIANCE=y
-CONFIG_ARM_SCMI_TRANSPORT_VIRTIO_ATOMIC_ENABLE=y
-CONFIG_ARM_SCMI_POWER_DOMAIN=m
-CONFIG_ARM_SCMI_POWER_CONTROL=m
-# end of ARM System Control and Management Interface Protocol
-
-CONFIG_ARM_SCPI_PROTOCOL=m
-CONFIG_ARM_SCPI_POWER_DOMAIN=m
-CONFIG_FIRMWARE_MEMMAP=y
-CONFIG_MTK_ADSP_IPC=m
-CONFIG_QCOM_SCM=m
-CONFIG_QCOM_SCM_DOWNLOAD_MODE_DEFAULT=y
-CONFIG_BCM47XX_NVRAM=y
-CONFIG_BCM47XX_SPROM=y
-CONFIG_TEE_BNXT_FW=m
-CONFIG_CS_DSP=m
-CONFIG_GOOGLE_FIRMWARE=y
-CONFIG_GOOGLE_COREBOOT_TABLE=m
-CONFIG_GOOGLE_MEMCONSOLE=m
-CONFIG_GOOGLE_FRAMEBUFFER_COREBOOT=m
-CONFIG_GOOGLE_MEMCONSOLE_COREBOOT=m
-CONFIG_GOOGLE_VPD=m
-CONFIG_IMX_DSP=m
-CONFIG_IMX_SCU=y
-CONFIG_IMX_SCU_PD=y
-
-#
-# Tegra firmware driver
-#
-# end of Tegra firmware driver
-# end of Firmware Drivers
-
-CONFIG_GNSS=m
-CONFIG_GNSS_SERIAL=m
-CONFIG_GNSS_MTK_SERIAL=m
-CONFIG_GNSS_SIRF_SERIAL=m
-CONFIG_GNSS_UBX_SERIAL=m
-CONFIG_GNSS_USB=m
-CONFIG_MTD=m
-CONFIG_MTD_TESTS=m
-
-#
-# Partition parsers
-#
-CONFIG_MTD_AR7_PARTS=m
-CONFIG_MTD_BCM63XX_PARTS=y
-CONFIG_MTD_BRCM_U_BOOT=m
-CONFIG_MTD_CMDLINE_PARTS=m
-CONFIG_MTD_OF_PARTS=m
-CONFIG_MTD_OF_PARTS_BCM4908=y
-CONFIG_MTD_OF_PARTS_LINKSYS_NS=y
-CONFIG_MTD_PARSER_IMAGETAG=m
-CONFIG_MTD_PARSER_TRX=m
-CONFIG_MTD_SHARPSL_PARTS=m
-CONFIG_MTD_REDBOOT_PARTS=m
-CONFIG_MTD_REDBOOT_DIRECTORY_BLOCK=-1
-CONFIG_MTD_REDBOOT_PARTS_UNALLOCATED=y
-CONFIG_MTD_REDBOOT_PARTS_READONLY=y
-CONFIG_MTD_QCOMSMEM_PARTS=m
-# end of Partition parsers
-
-#
-# User Modules And Translation Layers
-#
-CONFIG_MTD_BLKDEVS=m
-CONFIG_MTD_BLOCK=m
-CONFIG_MTD_BLOCK_RO=m
-
-#
-# Note that in some cases UBI block is preferred. See MTD_UBI_BLOCK.
-#
-CONFIG_FTL=m
-CONFIG_NFTL=m
-CONFIG_NFTL_RW=y
-CONFIG_INFTL=m
-CONFIG_RFD_FTL=m
-CONFIG_SSFDC=m
-CONFIG_SM_FTL=m
-CONFIG_MTD_OOPS=m
-CONFIG_MTD_PSTORE=m
-CONFIG_MTD_PARTITIONED_MASTER=y
-
-#
-# RAM/ROM/Flash chip drivers
-#
-CONFIG_MTD_CFI=m
-CONFIG_MTD_JEDECPROBE=m
-CONFIG_MTD_GEN_PROBE=m
-CONFIG_MTD_CFI_ADV_OPTIONS=y
-CONFIG_MTD_CFI_NOSWAP=y
-# CONFIG_MTD_CFI_BE_BYTE_SWAP is not set
-# CONFIG_MTD_CFI_LE_BYTE_SWAP is not set
-CONFIG_MTD_CFI_GEOMETRY=y
-CONFIG_MTD_MAP_BANK_WIDTH_1=y
-CONFIG_MTD_MAP_BANK_WIDTH_2=y
-CONFIG_MTD_MAP_BANK_WIDTH_4=y
-CONFIG_MTD_MAP_BANK_WIDTH_8=y
-CONFIG_MTD_MAP_BANK_WIDTH_16=y
-CONFIG_MTD_MAP_BANK_WIDTH_32=y
-CONFIG_MTD_CFI_I1=y
-CONFIG_MTD_CFI_I2=y
-CONFIG_MTD_CFI_I4=y
-CONFIG_MTD_CFI_I8=y
-CONFIG_MTD_OTP=y
-CONFIG_MTD_CFI_INTELEXT=m
-CONFIG_MTD_CFI_AMDSTD=m
-CONFIG_MTD_CFI_STAA=m
-CONFIG_MTD_CFI_UTIL=m
-CONFIG_MTD_RAM=m
-CONFIG_MTD_ROM=m
-CONFIG_MTD_ABSENT=m
-# end of RAM/ROM/Flash chip drivers
-
-#
-# Mapping drivers for chip access
-#
-CONFIG_MTD_COMPLEX_MAPPINGS=y
-CONFIG_MTD_PHYSMAP=m
-CONFIG_MTD_PHYSMAP_COMPAT=y
-CONFIG_MTD_PHYSMAP_START=0x8000000
-CONFIG_MTD_PHYSMAP_LEN=0
-CONFIG_MTD_PHYSMAP_BANKWIDTH=2
-CONFIG_MTD_PHYSMAP_OF=y
-CONFIG_MTD_PHYSMAP_BT1_ROM=y
-CONFIG_MTD_PHYSMAP_VERSATILE=y
-CONFIG_MTD_PHYSMAP_GEMINI=y
-CONFIG_MTD_PHYSMAP_GPIO_ADDR=y
-CONFIG_MTD_SC520CDP=m
-CONFIG_MTD_NETSC520=m
-CONFIG_MTD_TS5500=m
-CONFIG_MTD_SOLUTIONENGINE=m
-CONFIG_MTD_PCMCIA=m
-CONFIG_MTD_PCMCIA_ANONYMOUS=y
-CONFIG_MTD_PLATRAM=m
-# end of Mapping drivers for chip access
-
-#
-# Self-contained MTD device drivers
-#
-CONFIG_MTD_DATAFLASH=m
-CONFIG_MTD_DATAFLASH_WRITE_VERIFY=y
-CONFIG_MTD_DATAFLASH_OTP=y
-CONFIG_MTD_MCHP23K256=m
-CONFIG_MTD_MCHP48L640=m
-CONFIG_MTD_SPEAR_SMI=m
-CONFIG_MTD_SST25L=m
-CONFIG_MTD_SLRAM=m
-CONFIG_MTD_PHRAM=m
-CONFIG_MTD_MTDRAM=m
-CONFIG_MTDRAM_TOTAL_SIZE=4096
-CONFIG_MTDRAM_ERASE_SIZE=128
-CONFIG_MTD_BLOCK2MTD=m
-
-#
-# Disk-On-Chip Device Drivers
-#
-CONFIG_MTD_DOCG3=m
-CONFIG_BCH_CONST_M=14
-CONFIG_BCH_CONST_T=4
-# end of Self-contained MTD device drivers
-
-#
-# NAND
-#
-CONFIG_MTD_NAND_CORE=m
-CONFIG_MTD_ONENAND=m
-CONFIG_MTD_ONENAND_VERIFY_WRITE=y
-CONFIG_MTD_ONENAND_GENERIC=m
-CONFIG_MTD_ONENAND_SAMSUNG=m
-CONFIG_MTD_ONENAND_OTP=y
-CONFIG_MTD_ONENAND_2X_PROGRAM=y
-CONFIG_MTD_RAW_NAND=m
-
-#
-# Raw/parallel NAND flash controllers
-#
-CONFIG_MTD_NAND_AMS_DELTA=m
-CONFIG_MTD_NAND_OMAP2=m
-CONFIG_MTD_NAND_OMAP_BCH=y
-CONFIG_MTD_NAND_OMAP_BCH_BUILD=m
-CONFIG_MTD_NAND_SHARPSL=m
-CONFIG_MTD_NAND_ATMEL=m
-CONFIG_MTD_NAND_MARVELL=m
-CONFIG_MTD_NAND_SLC_LPC32XX=m
-CONFIG_MTD_NAND_MLC_LPC32XX=m
-CONFIG_MTD_NAND_BRCMNAND=m
-CONFIG_MTD_NAND_BRCMNAND_BCM63XX=m
-CONFIG_MTD_NAND_BRCMNAND_BCMBCA=m
-CONFIG_MTD_NAND_BRCMNAND_BRCMSTB=m
-CONFIG_MTD_NAND_BRCMNAND_IPROC=m
-CONFIG_MTD_NAND_OXNAS=m
-CONFIG_MTD_NAND_FSL_IFC=m
-CONFIG_MTD_NAND_VF610_NFC=m
-CONFIG_MTD_NAND_MXC=m
-CONFIG_MTD_NAND_SH_FLCTL=m
-CONFIG_MTD_NAND_DAVINCI=m
-CONFIG_MTD_NAND_TXX9NDFMC=m
-CONFIG_MTD_NAND_JZ4780=m
-CONFIG_MTD_NAND_INGENIC_ECC=y
-CONFIG_MTD_NAND_JZ4740_ECC=m
-CONFIG_MTD_NAND_JZ4725B_BCH=m
-CONFIG_MTD_NAND_JZ4780_BCH=m
-CONFIG_MTD_NAND_FSMC=m
-CONFIG_MTD_NAND_SUNXI=m
-CONFIG_MTD_NAND_HISI504=m
-CONFIG_MTD_NAND_QCOM=m
-CONFIG_MTD_NAND_MTK=m
-CONFIG_MTD_NAND_MXIC=m
-CONFIG_MTD_NAND_TEGRA=m
-CONFIG_MTD_NAND_STM32_FMC2=m
-CONFIG_MTD_NAND_GPIO=m
-CONFIG_MTD_NAND_PLATFORM=m
-CONFIG_MTD_NAND_CADENCE=m
-CONFIG_MTD_NAND_INTEL_LGM=m
-CONFIG_MTD_NAND_RENESAS=m
-
-#
-# Misc
-#
-CONFIG_MTD_NAND_NANDSIM=m
-CONFIG_MTD_NAND_DISKONCHIP=m
-CONFIG_MTD_NAND_DISKONCHIP_PROBE_ADVANCED=y
-CONFIG_MTD_NAND_DISKONCHIP_PROBE_ADDRESS=0
-CONFIG_MTD_NAND_DISKONCHIP_PROBE_HIGH=y
-CONFIG_MTD_NAND_DISKONCHIP_BBTWRITE=y
-CONFIG_MTD_SPI_NAND=m
-
-#
-# ECC engine support
-#
-CONFIG_MTD_NAND_ECC=y
-CONFIG_MTD_NAND_ECC_SW_HAMMING=y
-CONFIG_MTD_NAND_ECC_SW_HAMMING_SMC=y
-CONFIG_MTD_NAND_ECC_SW_BCH=y
-CONFIG_MTD_NAND_ECC_MXIC=y
-CONFIG_MTD_NAND_ECC_MEDIATEK=m
-# end of ECC engine support
-# end of NAND
-
-#
-# LPDDR & LPDDR2 PCM memory drivers
-#
-CONFIG_MTD_LPDDR=m
-CONFIG_MTD_QINFO_PROBE=m
-# end of LPDDR & LPDDR2 PCM memory drivers
-
-CONFIG_MTD_SPI_NOR=m
-CONFIG_MTD_SPI_NOR_USE_4K_SECTORS=y
-# CONFIG_MTD_SPI_NOR_SWP_DISABLE is not set
-CONFIG_MTD_SPI_NOR_SWP_DISABLE_ON_VOLATILE=y
-# CONFIG_MTD_SPI_NOR_SWP_KEEP is not set
-CONFIG_SPI_HISI_SFC=m
-CONFIG_SPI_NXP_SPIFI=m
-CONFIG_MTD_UBI=m
-CONFIG_MTD_UBI_WL_THRESHOLD=4096
-CONFIG_MTD_UBI_BEB_LIMIT=20
-CONFIG_MTD_UBI_FASTMAP=y
-CONFIG_MTD_UBI_GLUEBI=m
-CONFIG_MTD_UBI_BLOCK=y
-CONFIG_MTD_HYPERBUS=m
-CONFIG_HBMC_AM654=m
-CONFIG_DTC=y
-CONFIG_OF=y
-CONFIG_OF_UNITTEST=y
-CONFIG_OF_ALL_DTBS=y
-CONFIG_OF_FLATTREE=y
-CONFIG_OF_EARLY_FLATTREE=y
-CONFIG_OF_KOBJ=y
-CONFIG_OF_DYNAMIC=y
-CONFIG_OF_ADDRESS=y
-CONFIG_OF_IRQ=y
-CONFIG_OF_RESERVED_MEM=y
-CONFIG_OF_RESOLVE=y
-CONFIG_OF_OVERLAY=y
-CONFIG_ARCH_MIGHT_HAVE_PC_PARPORT=y
-CONFIG_PARPORT=m
-CONFIG_PARPORT_PC=m
-CONFIG_PARPORT_PC_FIFO=y
-CONFIG_PARPORT_PC_SUPERIO=y
-CONFIG_PARPORT_PC_PCMCIA=m
-CONFIG_PARPORT_AX88796=m
-CONFIG_PARPORT_1284=y
-CONFIG_PARPORT_NOT_PC=y
-CONFIG_BLK_DEV=y
-CONFIG_BLK_DEV_NULL_BLK=m
-CONFIG_BLK_DEV_NULL_BLK_FAULT_INJECTION=y
-CONFIG_CDROM=m
-CONFIG_PARIDE=m
-
-#
-# Parallel IDE high-level drivers
-#
-CONFIG_PARIDE_PD=m
-CONFIG_PARIDE_PCD=m
-CONFIG_PARIDE_PF=m
-CONFIG_PARIDE_PT=m
-CONFIG_PARIDE_PG=m
-
-#
-# Parallel IDE protocol modules
-#
-CONFIG_PARIDE_ATEN=m
-CONFIG_PARIDE_BPCK=m
-CONFIG_PARIDE_BPCK6=m
-CONFIG_PARIDE_COMM=m
-CONFIG_PARIDE_DSTR=m
-CONFIG_PARIDE_FIT2=m
-CONFIG_PARIDE_FIT3=m
-CONFIG_PARIDE_EPAT=m
-CONFIG_PARIDE_EPATC8=y
-CONFIG_PARIDE_EPIA=m
-CONFIG_PARIDE_FRIQ=m
-CONFIG_PARIDE_FRPW=m
-CONFIG_PARIDE_KBIC=m
-CONFIG_PARIDE_KTTI=m
-CONFIG_PARIDE_ON20=m
-CONFIG_PARIDE_ON26=m
-CONFIG_BLK_DEV_LOOP=m
-CONFIG_BLK_DEV_LOOP_MIN_COUNT=8
-CONFIG_BLK_DEV_DRBD=m
-CONFIG_DRBD_FAULT_INJECTION=y
-CONFIG_BLK_DEV_NBD=m
-CONFIG_BLK_DEV_RAM=m
-CONFIG_BLK_DEV_RAM_COUNT=16
-CONFIG_BLK_DEV_RAM_SIZE=4096
-CONFIG_CDROM_PKTCDVD=m
-CONFIG_CDROM_PKTCDVD_BUFFERS=8
-CONFIG_CDROM_PKTCDVD_WCACHE=y
-CONFIG_ATA_OVER_ETH=m
-CONFIG_VIRTIO_BLK=m
-CONFIG_BLK_DEV_RBD=m
-CONFIG_BLK_DEV_UBLK=m
-
-#
-# NVME Support
-#
-CONFIG_NVME_COMMON=m
-CONFIG_NVME_CORE=m
-CONFIG_NVME_MULTIPATH=y
-CONFIG_NVME_VERBOSE_ERRORS=y
-CONFIG_NVME_HWMON=y
-CONFIG_NVME_FABRICS=m
-CONFIG_NVME_TCP=m
-CONFIG_NVME_AUTH=y
-CONFIG_NVME_APPLE=m
-CONFIG_NVME_TARGET=m
-CONFIG_NVME_TARGET_PASSTHRU=y
-CONFIG_NVME_TARGET_LOOP=m
-CONFIG_NVME_TARGET_TCP=m
-CONFIG_NVME_TARGET_AUTH=y
-# end of NVME Support
-
-#
-# Misc devices
-#
-CONFIG_SENSORS_LIS3LV02D=m
-CONFIG_AD525X_DPOT=m
-CONFIG_AD525X_DPOT_I2C=m
-CONFIG_AD525X_DPOT_SPI=m
-CONFIG_DUMMY_IRQ=m
-CONFIG_ICS932S401=m
-CONFIG_ATMEL_SSC=m
-CONFIG_ENCLOSURE_SERVICES=m
-CONFIG_GEHC_ACHC=m
-CONFIG_HI6421V600_IRQ=m
-CONFIG_QCOM_COINCELL=m
-CONFIG_QCOM_FASTRPC=m
-CONFIG_APDS9802ALS=m
-CONFIG_ISL29003=m
-CONFIG_ISL29020=m
-CONFIG_SENSORS_TSL2550=m
-CONFIG_SENSORS_BH1770=m
-CONFIG_SENSORS_APDS990X=m
-CONFIG_HMC6352=m
-CONFIG_DS1682=m
-CONFIG_LATTICE_ECP3_CONFIG=m
-CONFIG_SRAM=y
-CONFIG_XILINX_SDFEC=m
-CONFIG_MISC_RTSX=m
-CONFIG_HISI_HIKEY_USB=m
-CONFIG_OPEN_DICE=m
-CONFIG_VCPU_STALL_DETECTOR=m
-CONFIG_C2PORT=m
-
-#
-# EEPROM support
-#
-CONFIG_EEPROM_AT24=m
-CONFIG_EEPROM_AT25=m
-CONFIG_EEPROM_LEGACY=m
-CONFIG_EEPROM_MAX6875=m
-CONFIG_EEPROM_93CX6=m
-CONFIG_EEPROM_93XX46=m
-CONFIG_EEPROM_IDT_89HPESX=m
-CONFIG_EEPROM_EE1004=m
-# end of EEPROM support
-
-#
-# Texas Instruments shared transport line discipline
-#
-CONFIG_TI_ST=m
-# end of Texas Instruments shared transport line discipline
-
-CONFIG_SENSORS_LIS3_SPI=m
-CONFIG_SENSORS_LIS3_I2C=m
-
-#
-# Altera FPGA firmware download module (requires I2C)
-#
-CONFIG_ALTERA_STAPL=m
-CONFIG_ECHO=m
-CONFIG_MISC_RTSX_USB=m
-CONFIG_UACCE=m
-CONFIG_PVPANIC=y
-CONFIG_PVPANIC_MMIO=m
-# end of Misc devices
-
-#
-# SCSI device support
-#
-CONFIG_SCSI_MOD=m
-CONFIG_RAID_ATTRS=m
-CONFIG_SCSI_COMMON=m
-CONFIG_SCSI=m
-CONFIG_SCSI_NETLINK=y
-CONFIG_SCSI_PROC_FS=y
-
-#
-# SCSI support type (disk, tape, CD-ROM)
-#
-CONFIG_BLK_DEV_SD=m
-CONFIG_CHR_DEV_ST=m
-CONFIG_BLK_DEV_SR=m
-CONFIG_CHR_DEV_SG=m
-CONFIG_BLK_DEV_BSG=y
-CONFIG_CHR_DEV_SCH=m
-CONFIG_SCSI_ENCLOSURE=m
-CONFIG_SCSI_CONSTANTS=y
-CONFIG_SCSI_LOGGING=y
-CONFIG_SCSI_SCAN_ASYNC=y
-
-#
-# SCSI Transports
-#
-CONFIG_SCSI_SPI_ATTRS=m
-CONFIG_SCSI_FC_ATTRS=m
-CONFIG_SCSI_ISCSI_ATTRS=m
-CONFIG_SCSI_SAS_ATTRS=m
-CONFIG_SCSI_SAS_LIBSAS=m
-CONFIG_SCSI_SAS_ATA=y
-CONFIG_SCSI_SAS_HOST_SMP=y
-CONFIG_SCSI_SRP_ATTRS=m
-# end of SCSI Transports
-
-CONFIG_SCSI_LOWLEVEL=y
-CONFIG_ISCSI_TCP=m
-CONFIG_ISCSI_BOOT_SYSFS=m
-CONFIG_SCSI_HISI_SAS=m
-CONFIG_SCSI_HISI_SAS_DEBUGFS_DEFAULT_ENABLE=y
-CONFIG_LIBFC=m
-CONFIG_LIBFCOE=m
-CONFIG_SCSI_FDOMAIN=m
-CONFIG_SCSI_PPA=m
-CONFIG_SCSI_IMM=m
-CONFIG_SCSI_IZIP_EPP16=y
-CONFIG_SCSI_IZIP_SLOW_CTR=y
-CONFIG_SCSI_DEBUG=m
-CONFIG_SCSI_VIRTIO=m
-CONFIG_SCSI_LOWLEVEL_PCMCIA=y
-CONFIG_PCMCIA_AHA152X=m
-CONFIG_PCMCIA_FDOMAIN=m
-CONFIG_PCMCIA_NINJA_SCSI=m
-CONFIG_PCMCIA_QLOGIC=m
-CONFIG_PCMCIA_SYM53C500=m
-CONFIG_SCSI_DH=y
-CONFIG_SCSI_DH_RDAC=m
-CONFIG_SCSI_DH_HP_SW=m
-CONFIG_SCSI_DH_EMC=m
-CONFIG_SCSI_DH_ALUA=m
-# end of SCSI device support
-
-CONFIG_HAVE_PATA_PLATFORM=y
-CONFIG_ATA=m
-CONFIG_SATA_HOST=y
-CONFIG_PATA_TIMINGS=y
-CONFIG_ATA_VERBOSE_ERROR=y
-CONFIG_ATA_FORCE=y
-CONFIG_SATA_PMP=y
-CONFIG_ATA_SFF=y
-
-#
-# SFF controllers with custom DMA interface
-#
-
-#
-# PIO-only SFF controllers
-#
-CONFIG_PATA_IXP4XX_CF=m
-CONFIG_PATA_PCMCIA=m
-CONFIG_PATA_PLATFORM=m
-CONFIG_PATA_OF_PLATFORM=m
-CONFIG_PATA_SAMSUNG_CF=m
-
-#
-# Generic fallback / legacy drivers
-#
-CONFIG_MD=y
-CONFIG_BLK_DEV_MD=m
-CONFIG_MD_LINEAR=m
-CONFIG_MD_RAID0=m
-CONFIG_MD_RAID1=m
-CONFIG_MD_RAID10=m
-CONFIG_MD_RAID456=m
-CONFIG_MD_MULTIPATH=m
-CONFIG_MD_FAULTY=m
-CONFIG_MD_CLUSTER=m
-CONFIG_BCACHE=m
-CONFIG_BCACHE_DEBUG=y
-CONFIG_BCACHE_CLOSURES_DEBUG=y
-CONFIG_BCACHE_ASYNC_REGISTRATION=y
-CONFIG_BLK_DEV_DM_BUILTIN=y
-CONFIG_BLK_DEV_DM=m
-CONFIG_DM_DEBUG=y
-CONFIG_DM_BUFIO=m
-CONFIG_DM_DEBUG_BLOCK_MANAGER_LOCKING=y
-CONFIG_DM_DEBUG_BLOCK_STACK_TRACING=y
-CONFIG_DM_BIO_PRISON=m
-CONFIG_DM_PERSISTENT_DATA=m
-CONFIG_DM_UNSTRIPED=m
-CONFIG_DM_CRYPT=m
-CONFIG_DM_SNAPSHOT=m
-CONFIG_DM_THIN_PROVISIONING=m
-CONFIG_DM_CACHE=m
-CONFIG_DM_CACHE_SMQ=m
-CONFIG_DM_WRITECACHE=m
-CONFIG_DM_EBS=m
-CONFIG_DM_ERA=m
-CONFIG_DM_CLONE=m
-CONFIG_DM_MIRROR=m
-CONFIG_DM_LOG_USERSPACE=m
-CONFIG_DM_RAID=m
-CONFIG_DM_ZERO=m
-CONFIG_DM_MULTIPATH=m
-CONFIG_DM_MULTIPATH_QL=m
-CONFIG_DM_MULTIPATH_ST=m
-CONFIG_DM_MULTIPATH_HST=m
-CONFIG_DM_MULTIPATH_IOA=m
-CONFIG_DM_DELAY=m
-CONFIG_DM_DUST=m
-CONFIG_DM_UEVENT=y
-CONFIG_DM_FLAKEY=m
-CONFIG_DM_VERITY=m
-CONFIG_DM_VERITY_VERIFY_ROOTHASH_SIG=y
-CONFIG_DM_VERITY_VERIFY_ROOTHASH_SIG_SECONDARY_KEYRING=y
-CONFIG_DM_VERITY_FEC=y
-CONFIG_DM_SWITCH=m
-CONFIG_DM_LOG_WRITES=m
-CONFIG_DM_INTEGRITY=m
-CONFIG_DM_ZONED=m
-CONFIG_DM_AUDIT=y
-CONFIG_TARGET_CORE=m
-CONFIG_TCM_IBLOCK=m
-CONFIG_TCM_FILEIO=m
-CONFIG_TCM_PSCSI=m
-CONFIG_LOOPBACK_TARGET=m
-CONFIG_TCM_FC=m
-CONFIG_ISCSI_TARGET=m
-CONFIG_SBP_TARGET=m
-
-#
-# IEEE 1394 (FireWire) support
-#
-CONFIG_FIREWIRE=m
-CONFIG_FIREWIRE_SBP2=m
-CONFIG_FIREWIRE_NET=m
-# end of IEEE 1394 (FireWire) support
-
-CONFIG_NETDEVICES=y
-CONFIG_MII=m
-CONFIG_NET_CORE=y
-CONFIG_BONDING=m
-CONFIG_DUMMY=m
-CONFIG_WIREGUARD=m
-CONFIG_WIREGUARD_DEBUG=y
-CONFIG_EQUALIZER=m
-CONFIG_IFB=m
-CONFIG_NET_TEAM=m
-CONFIG_NET_TEAM_MODE_BROADCAST=m
-CONFIG_NET_TEAM_MODE_ROUNDROBIN=m
-CONFIG_NET_TEAM_MODE_RANDOM=m
-CONFIG_NET_TEAM_MODE_ACTIVEBACKUP=m
-CONFIG_NET_TEAM_MODE_LOADBALANCE=m
-CONFIG_MACVLAN=m
-CONFIG_MACVTAP=m
-CONFIG_IPVLAN_L3S=y
-CONFIG_IPVLAN=m
-CONFIG_IPVTAP=m
-CONFIG_VXLAN=m
-CONFIG_GENEVE=m
-CONFIG_BAREUDP=m
-CONFIG_GTP=m
-CONFIG_AMT=m
-CONFIG_MACSEC=m
-CONFIG_NETCONSOLE=m
-CONFIG_NETCONSOLE_DYNAMIC=y
-CONFIG_NETPOLL=y
-CONFIG_NET_POLL_CONTROLLER=y
-CONFIG_TUN=m
-CONFIG_TAP=m
-CONFIG_TUN_VNET_CROSS_LE=y
-CONFIG_VETH=m
-CONFIG_VIRTIO_NET=m
-CONFIG_NLMON=m
-CONFIG_NET_VRF=m
-CONFIG_VSOCKMON=m
-CONFIG_MHI_NET=m
-CONFIG_ARCNET=m
-CONFIG_ARCNET_1201=m
-CONFIG_ARCNET_1051=m
-CONFIG_ARCNET_RAW=m
-CONFIG_ARCNET_CAP=m
-CONFIG_ARCNET_COM90xx=m
-CONFIG_ARCNET_COM90xxIO=m
-CONFIG_ARCNET_RIM_I=m
-CONFIG_ARCNET_COM20020=m
-CONFIG_ARCNET_COM20020_CS=m
-CONFIG_ATM_DRIVERS=y
-CONFIG_ATM_DUMMY=m
-CONFIG_ATM_TCP=m
-CONFIG_CAIF_DRIVERS=y
-CONFIG_CAIF_TTY=m
-
-#
-# Distributed Switch Architecture drivers
-#
-CONFIG_B53=m
-CONFIG_B53_SPI_DRIVER=m
-CONFIG_B53_MDIO_DRIVER=m
-CONFIG_B53_MMAP_DRIVER=m
-CONFIG_B53_SRAB_DRIVER=m
-CONFIG_B53_SERDES=m
-CONFIG_NET_DSA_BCM_SF2=m
-CONFIG_NET_DSA_LOOP=m
-CONFIG_NET_DSA_HIRSCHMANN_HELLCREEK=m
-CONFIG_NET_DSA_LANTIQ_GSWIP=m
-CONFIG_NET_DSA_MT7530=m
-CONFIG_NET_DSA_MV88E6060=m
-CONFIG_NET_DSA_MICROCHIP_KSZ_COMMON=m
-CONFIG_NET_DSA_MICROCHIP_KSZ9477_I2C=m
-CONFIG_NET_DSA_MICROCHIP_KSZ_SPI=m
-CONFIG_NET_DSA_MICROCHIP_KSZ8863_SMI=m
-CONFIG_NET_DSA_MV88E6XXX=m
-CONFIG_NET_DSA_MV88E6XXX_PTP=y
-CONFIG_NET_DSA_MSCC_SEVILLE=m
-CONFIG_NET_DSA_AR9331=m
-CONFIG_NET_DSA_QCA8K=m
-CONFIG_NET_DSA_SJA1105=m
-CONFIG_NET_DSA_SJA1105_PTP=y
-CONFIG_NET_DSA_SJA1105_TAS=y
-CONFIG_NET_DSA_SJA1105_VL=y
-CONFIG_NET_DSA_XRS700X=m
-CONFIG_NET_DSA_XRS700X_I2C=m
-CONFIG_NET_DSA_XRS700X_MDIO=m
-CONFIG_NET_DSA_REALTEK=m
-CONFIG_NET_DSA_REALTEK_MDIO=m
-CONFIG_NET_DSA_REALTEK_SMI=m
-CONFIG_NET_DSA_REALTEK_RTL8365MB=m
-CONFIG_NET_DSA_REALTEK_RTL8366RB=m
-CONFIG_NET_DSA_SMSC_LAN9303=m
-CONFIG_NET_DSA_SMSC_LAN9303_I2C=m
-CONFIG_NET_DSA_SMSC_LAN9303_MDIO=m
-CONFIG_NET_DSA_VITESSE_VSC73XX=m
-CONFIG_NET_DSA_VITESSE_VSC73XX_SPI=m
-CONFIG_NET_DSA_VITESSE_VSC73XX_PLATFORM=m
-# end of Distributed Switch Architecture drivers
-
-CONFIG_ETHERNET=y
-CONFIG_MDIO=m
-CONFIG_NET_VENDOR_3COM=y
-CONFIG_PCMCIA_3C574=m
-CONFIG_PCMCIA_3C589=m
-CONFIG_NET_VENDOR_ACTIONS=y
-CONFIG_OWL_EMAC=m
-CONFIG_NET_VENDOR_ALACRITECH=y
-CONFIG_NET_VENDOR_AMAZON=y
-CONFIG_NET_VENDOR_AMD=y
-CONFIG_PCMCIA_NMCLAN=m
-CONFIG_AMD_XGBE=m
-CONFIG_AMD_XGBE_DCB=y
-CONFIG_NET_XGENE=m
-CONFIG_NET_XGENE_V2=m
-CONFIG_NET_VENDOR_AQUANTIA=y
-CONFIG_NET_VENDOR_ARC=y
-CONFIG_ARC_EMAC_CORE=m
-CONFIG_ARC_EMAC=m
-CONFIG_EMAC_ROCKCHIP=m
-CONFIG_NET_VENDOR_ASIX=y
-CONFIG_SPI_AX88796C=m
-CONFIG_SPI_AX88796C_COMPRESSION=y
-CONFIG_NET_VENDOR_CADENCE=y
-CONFIG_NET_CALXEDA_XGMAC=m
-CONFIG_NET_VENDOR_CAVIUM=y
-CONFIG_NET_VENDOR_CIRRUS=y
-CONFIG_CS89x0=m
-CONFIG_CS89x0_PLATFORM=m
-CONFIG_EP93XX_ETH=m
-CONFIG_NET_VENDOR_CORTINA=y
-CONFIG_GEMINI_ETHERNET=m
-CONFIG_NET_VENDOR_DAVICOM=y
-CONFIG_DM9000=m
-CONFIG_DM9000_FORCE_SIMPLE_PHY_POLL=y
-CONFIG_DM9051=m
-CONFIG_DNET=m
-CONFIG_NET_VENDOR_ENGLEDER=y
-CONFIG_NET_VENDOR_EZCHIP=y
-CONFIG_EZCHIP_NPS_MANAGEMENT_ENET=m
-CONFIG_NET_VENDOR_FARADAY=y
-CONFIG_FTMAC100=m
-CONFIG_FTGMAC100=m
-CONFIG_NET_VENDOR_FREESCALE=y
-CONFIG_FEC=m
-CONFIG_FSL_FMAN=m
-CONFIG_FSL_PQ_MDIO=m
-CONFIG_FSL_XGMAC_MDIO=m
-CONFIG_FSL_DPAA2_SWITCH=m
-CONFIG_FSL_ENETC_IERB=m
-CONFIG_NET_VENDOR_FUJITSU=y
-CONFIG_PCMCIA_FMVJ18X=m
-CONFIG_NET_VENDOR_FUNGIBLE=y
-CONFIG_NET_VENDOR_GOOGLE=y
-CONFIG_NET_VENDOR_HISILICON=y
-CONFIG_HIX5HD2_GMAC=m
-CONFIG_HISI_FEMAC=m
-CONFIG_HIP04_ETH=m
-CONFIG_HI13X1_GMAC=y
-CONFIG_HNS_MDIO=m
-CONFIG_HNS=m
-CONFIG_HNS_DSAF=m
-CONFIG_HNS_ENET=m
-CONFIG_NET_VENDOR_HUAWEI=y
-CONFIG_NET_VENDOR_I825XX=y
-CONFIG_NET_VENDOR_INTEL=y
-CONFIG_NET_VENDOR_WANGXUN=y
-CONFIG_KORINA=m
-CONFIG_NET_VENDOR_ADI=y
-CONFIG_ADIN1110=m
-CONFIG_NET_VENDOR_LITEX=y
-CONFIG_LITEX_LITEETH=m
-CONFIG_NET_VENDOR_MARVELL=y
-CONFIG_MV643XX_ETH=m
-CONFIG_MVMDIO=m
-CONFIG_MVNETA_BM_ENABLE=m
-CONFIG_MVNETA=m
-CONFIG_MVNETA_BM=m
-CONFIG_MVPP2=m
-CONFIG_MVPP2_PTP=y
-CONFIG_PXA168_ETH=m
-CONFIG_PRESTERA=m
-CONFIG_NET_VENDOR_MEDIATEK=y
-CONFIG_NET_MEDIATEK_SOC_WED=y
-CONFIG_NET_MEDIATEK_SOC=m
-CONFIG_NET_MEDIATEK_STAR_EMAC=m
-CONFIG_NET_VENDOR_MELLANOX=y
-CONFIG_MLXSW_CORE=m
-CONFIG_MLXSW_CORE_HWMON=y
-CONFIG_MLXSW_CORE_THERMAL=y
-CONFIG_MLXSW_I2C=m
-CONFIG_MLXSW_MINIMAL=m
-CONFIG_MLXFW=m
-CONFIG_MLXBF_GIGE=m
-CONFIG_NET_VENDOR_MICREL=y
-CONFIG_KS8851=m
-CONFIG_KS8851_MLL=m
-CONFIG_NET_VENDOR_MICROCHIP=y
-CONFIG_ENC28J60=m
-CONFIG_ENC28J60_WRITEVERIFY=y
-CONFIG_ENCX24J600=m
-CONFIG_LAN966X_SWITCH=m
-CONFIG_SPARX5_SWITCH=m
-CONFIG_NET_VENDOR_MICROSEMI=y
-CONFIG_MSCC_OCELOT_SWITCH_LIB=m
-CONFIG_MSCC_OCELOT_SWITCH=m
-CONFIG_NET_VENDOR_MICROSOFT=y
-CONFIG_NET_VENDOR_NI=y
-CONFIG_NET_VENDOR_NATSEMI=y
-CONFIG_NET_VENDOR_NETRONOME=y
-CONFIG_NET_VENDOR_8390=y
-CONFIG_PCMCIA_AXNET=m
-CONFIG_AX88796=m
-CONFIG_AX88796_93CX6=y
-CONFIG_PCMCIA_PCNET=m
-CONFIG_STNIC=m
-CONFIG_LPC_ENET=m
-CONFIG_NET_VENDOR_PENSANDO=y
-CONFIG_NET_VENDOR_QUALCOMM=y
-CONFIG_QCA7000=m
-CONFIG_QCA7000_SPI=m
-CONFIG_QCA7000_UART=m
-CONFIG_RMNET=m
-CONFIG_NET_VENDOR_RENESAS=y
-CONFIG_SH_ETH=m
-CONFIG_RAVB=m
-CONFIG_NET_VENDOR_ROCKER=y
-CONFIG_NET_VENDOR_SAMSUNG=y
-CONFIG_NET_VENDOR_SEEQ=y
-CONFIG_NET_VENDOR_SOLARFLARE=y
-CONFIG_NET_VENDOR_SMSC=y
-CONFIG_SMC91X=m
-CONFIG_PCMCIA_SMC91C92=m
-CONFIG_SMC911X=m
-CONFIG_SMSC911X=m
-CONFIG_NET_VENDOR_SOCIONEXT=y
-CONFIG_SNI_AVE=m
-CONFIG_SNI_NETSEC=m
-CONFIG_NET_VENDOR_STMICRO=y
-CONFIG_NET_VENDOR_SUNPLUS=y
-CONFIG_SP7021_EMAC=m
-CONFIG_NET_VENDOR_SYNOPSYS=y
-CONFIG_NET_VENDOR_VERTEXCOM=y
-CONFIG_MSE102X=m
-CONFIG_NET_VENDOR_VIA=y
-CONFIG_NET_VENDOR_WIZNET=y
-CONFIG_WIZNET_W5100=m
-CONFIG_WIZNET_W5300=m
-# CONFIG_WIZNET_BUS_DIRECT is not set
-# CONFIG_WIZNET_BUS_INDIRECT is not set
-CONFIG_WIZNET_BUS_ANY=y
-CONFIG_WIZNET_W5100_SPI=m
-CONFIG_NET_VENDOR_XILINX=y
-CONFIG_XILINX_EMACLITE=m
-CONFIG_XILINX_AXI_EMAC=m
-CONFIG_XILINX_LL_TEMAC=m
-CONFIG_NET_VENDOR_XIRCOM=y
-CONFIG_PCMCIA_XIRC2PS=m
-CONFIG_QCOM_IPA=m
-CONFIG_PHYLINK=m
-CONFIG_PHYLIB=m
-CONFIG_SWPHY=y
-CONFIG_LED_TRIGGER_PHY=y
-CONFIG_FIXED_PHY=m
-CONFIG_SFP=m
-
-#
-# MII PHY device drivers
-#
-CONFIG_AMD_PHY=m
-CONFIG_MESON_GXL_PHY=m
-CONFIG_ADIN_PHY=m
-CONFIG_ADIN1100_PHY=m
-CONFIG_AQUANTIA_PHY=m
-CONFIG_AX88796B_PHY=m
-CONFIG_BROADCOM_PHY=m
-CONFIG_BCM54140_PHY=m
-CONFIG_BCM63XX_PHY=m
-CONFIG_BCM7XXX_PHY=m
-CONFIG_BCM84881_PHY=m
-CONFIG_BCM87XX_PHY=m
-CONFIG_BCM_CYGNUS_PHY=m
-CONFIG_BCM_NET_PHYLIB=m
-CONFIG_BCM_NET_PHYPTP=m
-CONFIG_CICADA_PHY=m
-CONFIG_CORTINA_PHY=m
-CONFIG_DAVICOM_PHY=m
-CONFIG_ICPLUS_PHY=m
-CONFIG_LXT_PHY=m
-CONFIG_INTEL_XWAY_PHY=m
-CONFIG_LSI_ET1011C_PHY=m
-CONFIG_MARVELL_PHY=m
-CONFIG_MARVELL_10G_PHY=m
-CONFIG_MARVELL_88X2222_PHY=m
-CONFIG_MAXLINEAR_GPHY=m
-CONFIG_MEDIATEK_GE_PHY=m
-CONFIG_MICREL_PHY=m
-CONFIG_MICROCHIP_PHY=m
-CONFIG_MICROCHIP_T1_PHY=m
-CONFIG_MICROSEMI_PHY=m
-CONFIG_MOTORCOMM_PHY=m
-CONFIG_NATIONAL_PHY=m
-CONFIG_NXP_C45_TJA11XX_PHY=m
-CONFIG_NXP_TJA11XX_PHY=m
-CONFIG_AT803X_PHY=m
-CONFIG_QSEMI_PHY=m
-CONFIG_REALTEK_PHY=m
-CONFIG_RENESAS_PHY=m
-CONFIG_ROCKCHIP_PHY=m
-CONFIG_SMSC_PHY=m
-CONFIG_STE10XP=m
-CONFIG_TERANETICS_PHY=m
-CONFIG_DP83822_PHY=m
-CONFIG_DP83TC811_PHY=m
-CONFIG_DP83848_PHY=m
-CONFIG_DP83867_PHY=m
-CONFIG_DP83869_PHY=m
-CONFIG_DP83TD510_PHY=m
-CONFIG_VITESSE_PHY=m
-CONFIG_XILINX_GMII2RGMII=m
-CONFIG_MICREL_KS8995MA=m
-CONFIG_PSE_CONTROLLER=y
-CONFIG_PSE_REGULATOR=m
-CONFIG_CAN_DEV=m
-CONFIG_CAN_VCAN=m
-CONFIG_CAN_VXCAN=m
-CONFIG_CAN_NETLINK=y
-CONFIG_CAN_CALC_BITTIMING=y
-CONFIG_CAN_RX_OFFLOAD=y
-CONFIG_CAN_AT91=m
-CONFIG_CAN_CAN327=m
-CONFIG_CAN_FLEXCAN=m
-CONFIG_CAN_SLCAN=m
-CONFIG_CAN_SUN4I=m
-CONFIG_CAN_C_CAN=m
-CONFIG_CAN_C_CAN_PLATFORM=m
-CONFIG_CAN_CC770=m
-CONFIG_CAN_CC770_ISA=m
-CONFIG_CAN_CC770_PLATFORM=m
-CONFIG_CAN_CTUCANFD=m
-CONFIG_CAN_CTUCANFD_PLATFORM=m
-CONFIG_CAN_IFI_CANFD=m
-CONFIG_CAN_M_CAN=m
-CONFIG_CAN_M_CAN_PLATFORM=m
-CONFIG_CAN_M_CAN_TCAN4X5X=m
-CONFIG_CAN_RCAR=m
-CONFIG_CAN_RCAR_CANFD=m
-CONFIG_CAN_SJA1000=m
-CONFIG_CAN_EMS_PCMCIA=m
-CONFIG_CAN_SJA1000_ISA=m
-CONFIG_CAN_SJA1000_PLATFORM=m
-CONFIG_CAN_SOFTING=m
-CONFIG_CAN_SOFTING_CS=m
-
-#
-# CAN SPI interfaces
-#
-CONFIG_CAN_HI311X=m
-CONFIG_CAN_MCP251X=m
-CONFIG_CAN_MCP251XFD=m
-CONFIG_CAN_MCP251XFD_SANITY=y
-# end of CAN SPI interfaces
-
-#
-# CAN USB interfaces
-#
-CONFIG_CAN_8DEV_USB=m
-CONFIG_CAN_EMS_USB=m
-CONFIG_CAN_ESD_USB=m
-CONFIG_CAN_ETAS_ES58X=m
-CONFIG_CAN_GS_USB=m
-CONFIG_CAN_KVASER_USB=m
-CONFIG_CAN_MCBA_USB=m
-CONFIG_CAN_PEAK_USB=m
-CONFIG_CAN_UCAN=m
-# end of CAN USB interfaces
-
-CONFIG_CAN_DEBUG_DEVICES=y
-
-#
-# MCTP Device Drivers
-#
-CONFIG_MCTP_SERIAL=m
-CONFIG_MCTP_TRANSPORT_I2C=m
-# end of MCTP Device Drivers
-
-CONFIG_MDIO_DEVICE=m
-CONFIG_MDIO_BUS=m
-CONFIG_FWNODE_MDIO=m
-CONFIG_OF_MDIO=m
-CONFIG_MDIO_DEVRES=m
-CONFIG_MDIO_SUN4I=m
-CONFIG_MDIO_XGENE=m
-CONFIG_MDIO_ASPEED=m
-CONFIG_MDIO_BITBANG=m
-CONFIG_MDIO_BCM_IPROC=m
-CONFIG_MDIO_BCM_UNIMAC=m
-CONFIG_MDIO_CAVIUM=m
-CONFIG_MDIO_GPIO=m
-CONFIG_MDIO_HISI_FEMAC=m
-CONFIG_MDIO_I2C=m
-CONFIG_MDIO_MVUSB=m
-CONFIG_MDIO_MSCC_MIIM=m
-CONFIG_MDIO_MOXART=m
-CONFIG_MDIO_OCTEON=m
-CONFIG_MDIO_IPQ8064=m
-
-#
-# MDIO Multiplexers
-#
-CONFIG_MDIO_BUS_MUX=m
-CONFIG_MDIO_BUS_MUX_BCM6368=m
-CONFIG_MDIO_BUS_MUX_BCM_IPROC=m
-CONFIG_MDIO_BUS_MUX_GPIO=m
-CONFIG_MDIO_BUS_MUX_MULTIPLEXER=m
-CONFIG_MDIO_BUS_MUX_MMIOREG=m
-
-#
-# PCS device drivers
-#
-CONFIG_PCS_XPCS=m
-CONFIG_PCS_LYNX=m
-CONFIG_PCS_RZN1_MIIC=m
-# end of PCS device drivers
-
-CONFIG_PLIP=m
-CONFIG_PPP=m
-CONFIG_PPP_BSDCOMP=m
-CONFIG_PPP_DEFLATE=m
-CONFIG_PPP_FILTER=y
-CONFIG_PPP_MPPE=m
-CONFIG_PPP_MULTILINK=y
-CONFIG_PPPOATM=m
-CONFIG_PPPOE=m
-CONFIG_PPTP=m
-CONFIG_PPPOL2TP=m
-CONFIG_PPP_ASYNC=m
-CONFIG_PPP_SYNC_TTY=m
-CONFIG_SLIP=m
-CONFIG_SLHC=m
-CONFIG_SLIP_COMPRESSED=y
-CONFIG_SLIP_SMART=y
-CONFIG_SLIP_MODE_SLIP6=y
-
-#
-# Host-side USB support is needed for USB Network Adapter support
-#
-CONFIG_USB_NET_DRIVERS=m
-CONFIG_USB_CATC=m
-CONFIG_USB_KAWETH=m
-CONFIG_USB_PEGASUS=m
-CONFIG_USB_RTL8150=m
-CONFIG_USB_RTL8152=m
-CONFIG_USB_LAN78XX=m
-CONFIG_USB_USBNET=m
-CONFIG_USB_NET_AX8817X=m
-CONFIG_USB_NET_AX88179_178A=m
-CONFIG_USB_NET_CDCETHER=m
-CONFIG_USB_NET_CDC_EEM=m
-CONFIG_USB_NET_CDC_NCM=m
-CONFIG_USB_NET_HUAWEI_CDC_NCM=m
-CONFIG_USB_NET_CDC_MBIM=m
-CONFIG_USB_NET_DM9601=m
-CONFIG_USB_NET_SR9700=m
-CONFIG_USB_NET_SR9800=m
-CONFIG_USB_NET_SMSC75XX=m
-CONFIG_USB_NET_SMSC95XX=m
-CONFIG_USB_NET_GL620A=m
-CONFIG_USB_NET_NET1080=m
-CONFIG_USB_NET_PLUSB=m
-CONFIG_USB_NET_MCS7830=m
-CONFIG_USB_NET_RNDIS_HOST=m
-CONFIG_USB_NET_CDC_SUBSET_ENABLE=m
-CONFIG_USB_NET_CDC_SUBSET=m
-CONFIG_USB_ALI_M5632=y
-CONFIG_USB_AN2720=y
-CONFIG_USB_BELKIN=y
-CONFIG_USB_ARMLINUX=y
-CONFIG_USB_EPSON2888=y
-CONFIG_USB_KC2190=y
-CONFIG_USB_NET_ZAURUS=m
-CONFIG_USB_NET_CX82310_ETH=m
-CONFIG_USB_NET_KALMIA=m
-CONFIG_USB_NET_QMI_WWAN=m
-CONFIG_USB_HSO=m
-CONFIG_USB_NET_INT51X1=m
-CONFIG_USB_CDC_PHONET=m
-CONFIG_USB_IPHETH=m
-CONFIG_USB_SIERRA_NET=m
-CONFIG_USB_VL600=m
-CONFIG_USB_NET_CH9200=m
-CONFIG_USB_NET_AQC111=m
-CONFIG_USB_RTL8153_ECM=m
-CONFIG_WLAN=y
-CONFIG_WLAN_VENDOR_ADMTEK=y
-CONFIG_ATH_COMMON=m
-CONFIG_WLAN_VENDOR_ATH=y
-CONFIG_ATH_DEBUG=y
-CONFIG_ATH_TRACEPOINTS=y
-CONFIG_ATH_REG_DYNAMIC_USER_REG_HINTS=y
-CONFIG_ATH_REG_DYNAMIC_USER_CERT_TESTING=y
-CONFIG_ATH9K_HW=m
-CONFIG_ATH9K_COMMON=m
-CONFIG_ATH9K_COMMON_DEBUG=y
-CONFIG_ATH9K_BTCOEX_SUPPORT=y
-CONFIG_ATH9K_HTC=m
-CONFIG_ATH9K_HTC_DEBUGFS=y
-CONFIG_ATH9K_COMMON_SPECTRAL=y
-CONFIG_CARL9170=m
-CONFIG_CARL9170_LEDS=y
-CONFIG_CARL9170_DEBUGFS=y
-CONFIG_CARL9170_WPC=y
-CONFIG_CARL9170_HWRNG=y
-CONFIG_ATH6KL=m
-CONFIG_ATH6KL_SDIO=m
-CONFIG_ATH6KL_USB=m
-CONFIG_ATH6KL_DEBUG=y
-CONFIG_ATH6KL_TRACING=y
-CONFIG_ATH6KL_REGDOMAIN=y
-CONFIG_AR5523=m
-CONFIG_WLAN_VENDOR_ATMEL=y
-CONFIG_ATMEL=m
-CONFIG_PCMCIA_ATMEL=m
-CONFIG_AT76C50X_USB=m
-CONFIG_WLAN_VENDOR_BROADCOM=y
-CONFIG_BRCMUTIL=m
-CONFIG_BRCMFMAC=m
-CONFIG_BRCMFMAC_PROTO_BCDC=y
-CONFIG_BRCMFMAC_SDIO=y
-CONFIG_BRCMFMAC_USB=y
-CONFIG_BRCM_TRACING=y
-CONFIG_BRCMDBG=y
-CONFIG_WLAN_VENDOR_CISCO=y
-CONFIG_AIRO_CS=m
-CONFIG_WLAN_VENDOR_INTEL=y
-CONFIG_WLAN_VENDOR_INTERSIL=y
-CONFIG_HOSTAP=m
-CONFIG_HOSTAP_FIRMWARE=y
-CONFIG_HOSTAP_FIRMWARE_NVRAM=y
-CONFIG_HOSTAP_CS=m
-CONFIG_HERMES=m
-CONFIG_HERMES_PRISM=y
-CONFIG_HERMES_CACHE_FW_ON_INIT=y
-CONFIG_ORINOCO_USB=m
-CONFIG_P54_COMMON=m
-CONFIG_P54_USB=m
-CONFIG_P54_SPI=m
-CONFIG_P54_SPI_DEFAULT_EEPROM=y
-CONFIG_P54_LEDS=y
-CONFIG_WLAN_VENDOR_MARVELL=y
-CONFIG_LIBERTAS=m
-CONFIG_LIBERTAS_USB=m
-CONFIG_LIBERTAS_SDIO=m
-CONFIG_LIBERTAS_SPI=m
-CONFIG_LIBERTAS_DEBUG=y
-CONFIG_LIBERTAS_MESH=y
-CONFIG_LIBERTAS_THINFIRM=m
-CONFIG_LIBERTAS_THINFIRM_DEBUG=y
-CONFIG_LIBERTAS_THINFIRM_USB=m
-CONFIG_MWIFIEX=m
-CONFIG_MWIFIEX_SDIO=m
-CONFIG_MWIFIEX_USB=m
-CONFIG_WLAN_VENDOR_MEDIATEK=y
-CONFIG_MT7601U=m
-CONFIG_MT76_CORE=m
-CONFIG_MT76_LEDS=y
-CONFIG_MT76_USB=m
-CONFIG_MT76_SDIO=m
-CONFIG_MT76x02_LIB=m
-CONFIG_MT76x02_USB=m
-CONFIG_MT76_CONNAC_LIB=m
-CONFIG_MT76x0_COMMON=m
-CONFIG_MT76x0U=m
-CONFIG_MT76x2_COMMON=m
-CONFIG_MT76x2U=m
-CONFIG_MT7615_COMMON=m
-CONFIG_MT7663_USB_SDIO_COMMON=m
-CONFIG_MT7663U=m
-CONFIG_MT7663S=m
-CONFIG_MT7921_COMMON=m
-CONFIG_MT7921S=m
-CONFIG_MT7921U=m
-CONFIG_WLAN_VENDOR_MICROCHIP=y
-CONFIG_WILC1000=m
-CONFIG_WILC1000_SDIO=m
-CONFIG_WILC1000_SPI=m
-CONFIG_WILC1000_HW_OOB_INTR=y
-CONFIG_WLAN_VENDOR_PURELIFI=y
-CONFIG_PLFXLC=m
-CONFIG_WLAN_VENDOR_RALINK=y
-CONFIG_WLAN_VENDOR_REALTEK=y
-CONFIG_RTL8187=m
-CONFIG_RTL8187_LEDS=y
-CONFIG_RTL_CARDS=m
-CONFIG_RTL8192CU=m
-CONFIG_RTLWIFI=m
-CONFIG_RTLWIFI_USB=m
-CONFIG_RTLWIFI_DEBUG=y
-CONFIG_RTL8192C_COMMON=m
-CONFIG_RTL8XXXU=m
-CONFIG_RTL8XXXU_UNTESTED=y
-CONFIG_RTW88=m
-CONFIG_RTW89=m
-CONFIG_WLAN_VENDOR_RSI=y
-CONFIG_RSI_91X=m
-CONFIG_RSI_DEBUGFS=y
-CONFIG_RSI_SDIO=m
-CONFIG_RSI_USB=m
-CONFIG_RSI_COEX=y
-CONFIG_WLAN_VENDOR_SILABS=y
-CONFIG_WFX=m
-CONFIG_WLAN_VENDOR_ST=y
-CONFIG_CW1200=m
-CONFIG_CW1200_WLAN_SDIO=m
-CONFIG_CW1200_WLAN_SPI=m
-CONFIG_WLAN_VENDOR_TI=y
-CONFIG_WL1251=m
-CONFIG_WL1251_SPI=m
-CONFIG_WL1251_SDIO=m
-CONFIG_WL12XX=m
-CONFIG_WL18XX=m
-CONFIG_WLCORE=m
-CONFIG_WLCORE_SPI=m
-CONFIG_WLCORE_SDIO=m
-CONFIG_WILINK_PLATFORM_DATA=y
-CONFIG_WLAN_VENDOR_ZYDAS=y
-CONFIG_USB_ZD1201=m
-CONFIG_ZD1211RW=m
-CONFIG_ZD1211RW_DEBUG=y
-CONFIG_WLAN_VENDOR_QUANTENNA=y
-CONFIG_PCMCIA_RAYCS=m
-CONFIG_PCMCIA_WL3501=m
-CONFIG_MAC80211_HWSIM=m
-CONFIG_USB_NET_RNDIS_WLAN=m
-CONFIG_VIRT_WIFI=m
-CONFIG_WAN=y
-CONFIG_HDLC=m
-CONFIG_HDLC_RAW=m
-CONFIG_HDLC_RAW_ETH=m
-CONFIG_HDLC_CISCO=m
-CONFIG_HDLC_FR=m
-CONFIG_HDLC_PPP=m
-CONFIG_HDLC_X25=m
-CONFIG_FSL_UCC_HDLC=m
-CONFIG_SLIC_DS26522=m
-CONFIG_LAPBETHER=m
-CONFIG_IEEE802154_DRIVERS=m
-CONFIG_IEEE802154_FAKELB=m
-CONFIG_IEEE802154_AT86RF230=m
-CONFIG_IEEE802154_MRF24J40=m
-CONFIG_IEEE802154_CC2520=m
-CONFIG_IEEE802154_ATUSB=m
-CONFIG_IEEE802154_ADF7242=m
-CONFIG_IEEE802154_MCR20A=m
-CONFIG_IEEE802154_HWSIM=m
-
-#
-# Wireless WAN
-#
-CONFIG_WWAN=m
-CONFIG_WWAN_DEBUGFS=y
-CONFIG_WWAN_HWSIM=m
-CONFIG_MHI_WWAN_CTRL=m
-CONFIG_MHI_WWAN_MBIM=m
-CONFIG_QCOM_BAM_DMUX=m
-CONFIG_RPMSG_WWAN_CTRL=m
-# end of Wireless WAN
-
-CONFIG_NETDEVSIM=m
-CONFIG_NET_FAILOVER=m
-CONFIG_ISDN=y
-CONFIG_ISDN_CAPI=y
-CONFIG_CAPI_TRACE=y
-CONFIG_ISDN_CAPI_MIDDLEWARE=y
-CONFIG_MISDN=m
-CONFIG_MISDN_DSP=m
-CONFIG_MISDN_L1OIP=m
-
-#
-# mISDN hardware drivers
-#
-CONFIG_MISDN_HFCUSB=m
-
-#
-# Input device support
-#
-CONFIG_INPUT=y
-CONFIG_INPUT_LEDS=m
-CONFIG_INPUT_FF_MEMLESS=m
-CONFIG_INPUT_SPARSEKMAP=m
-CONFIG_INPUT_MATRIXKMAP=m
-CONFIG_INPUT_VIVALDIFMAP=m
-
-#
-# Userland interfaces
-#
-CONFIG_INPUT_MOUSEDEV=m
-CONFIG_INPUT_MOUSEDEV_PSAUX=y
-CONFIG_INPUT_MOUSEDEV_SCREEN_X=1024
-CONFIG_INPUT_MOUSEDEV_SCREEN_Y=768
-CONFIG_INPUT_JOYDEV=m
-CONFIG_INPUT_EVDEV=m
-CONFIG_INPUT_EVBUG=m
-
-#
-# Input Device Drivers
-#
-CONFIG_INPUT_KEYBOARD=y
-CONFIG_KEYBOARD_ADC=m
-CONFIG_KEYBOARD_ADP5588=m
-CONFIG_KEYBOARD_ADP5589=m
-CONFIG_KEYBOARD_ATKBD=m
-CONFIG_KEYBOARD_QT1050=m
-CONFIG_KEYBOARD_QT1070=m
-CONFIG_KEYBOARD_QT2160=m
-CONFIG_KEYBOARD_CLPS711X=m
-CONFIG_KEYBOARD_DLINK_DIR685=m
-CONFIG_KEYBOARD_LKKBD=m
-CONFIG_KEYBOARD_EP93XX=m
-CONFIG_KEYBOARD_GPIO=m
-CONFIG_KEYBOARD_GPIO_POLLED=m
-CONFIG_KEYBOARD_TCA6416=m
-CONFIG_KEYBOARD_TCA8418=m
-CONFIG_KEYBOARD_MATRIX=m
-CONFIG_KEYBOARD_LM8323=m
-CONFIG_KEYBOARD_LM8333=m
-CONFIG_KEYBOARD_MAX7359=m
-CONFIG_KEYBOARD_MCS=m
-CONFIG_KEYBOARD_MPR121=m
-CONFIG_KEYBOARD_SNVS_PWRKEY=m
-CONFIG_KEYBOARD_IMX=m
-CONFIG_KEYBOARD_IMX_SC_KEY=m
-CONFIG_KEYBOARD_NEWTON=m
-CONFIG_KEYBOARD_OPENCORES=m
-CONFIG_KEYBOARD_PINEPHONE=m
-CONFIG_KEYBOARD_PMIC8XXX=m
-CONFIG_KEYBOARD_SAMSUNG=m
-CONFIG_KEYBOARD_GOLDFISH_EVENTS=m
-CONFIG_KEYBOARD_STOWAWAY=m
-CONFIG_KEYBOARD_ST_KEYSCAN=m
-CONFIG_KEYBOARD_SUNKBD=m
-CONFIG_KEYBOARD_SH_KEYSC=m
-CONFIG_KEYBOARD_STMPE=m
-CONFIG_KEYBOARD_IQS62X=m
-CONFIG_KEYBOARD_OMAP4=m
-CONFIG_KEYBOARD_TM2_TOUCHKEY=m
-CONFIG_KEYBOARD_XTKBD=m
-CONFIG_KEYBOARD_CROS_EC=m
-CONFIG_KEYBOARD_CAP11XX=m
-CONFIG_KEYBOARD_BCM=m
-CONFIG_KEYBOARD_MT6779=m
-CONFIG_KEYBOARD_MTK_PMIC=m
-CONFIG_KEYBOARD_CYPRESS_SF=m
-CONFIG_INPUT_MOUSE=y
-CONFIG_MOUSE_PS2=m
-CONFIG_MOUSE_PS2_ALPS=y
-CONFIG_MOUSE_PS2_BYD=y
-CONFIG_MOUSE_PS2_LOGIPS2PP=y
-CONFIG_MOUSE_PS2_SYNAPTICS=y
-CONFIG_MOUSE_PS2_SYNAPTICS_SMBUS=y
-CONFIG_MOUSE_PS2_CYPRESS=y
-CONFIG_MOUSE_PS2_TRACKPOINT=y
-CONFIG_MOUSE_PS2_ELANTECH=y
-CONFIG_MOUSE_PS2_ELANTECH_SMBUS=y
-CONFIG_MOUSE_PS2_SENTELIC=y
-CONFIG_MOUSE_PS2_TOUCHKIT=y
-CONFIG_MOUSE_PS2_FOCALTECH=y
-CONFIG_MOUSE_PS2_SMBUS=y
-CONFIG_MOUSE_SERIAL=m
-CONFIG_MOUSE_APPLETOUCH=m
-CONFIG_MOUSE_BCM5974=m
-CONFIG_MOUSE_CYAPA=m
-CONFIG_MOUSE_ELAN_I2C=m
-CONFIG_MOUSE_ELAN_I2C_I2C=y
-CONFIG_MOUSE_ELAN_I2C_SMBUS=y
-CONFIG_MOUSE_VSXXXAA=m
-CONFIG_MOUSE_GPIO=m
-CONFIG_MOUSE_SYNAPTICS_I2C=m
-CONFIG_MOUSE_SYNAPTICS_USB=m
-CONFIG_INPUT_JOYSTICK=y
-CONFIG_JOYSTICK_ANALOG=m
-CONFIG_JOYSTICK_A3D=m
-CONFIG_JOYSTICK_ADC=m
-CONFIG_JOYSTICK_ADI=m
-CONFIG_JOYSTICK_COBRA=m
-CONFIG_JOYSTICK_GF2K=m
-CONFIG_JOYSTICK_GRIP=m
-CONFIG_JOYSTICK_GRIP_MP=m
-CONFIG_JOYSTICK_GUILLEMOT=m
-CONFIG_JOYSTICK_INTERACT=m
-CONFIG_JOYSTICK_SIDEWINDER=m
-CONFIG_JOYSTICK_TMDC=m
-CONFIG_JOYSTICK_IFORCE=m
-CONFIG_JOYSTICK_IFORCE_USB=m
-CONFIG_JOYSTICK_IFORCE_232=m
-CONFIG_JOYSTICK_WARRIOR=m
-CONFIG_JOYSTICK_MAGELLAN=m
-CONFIG_JOYSTICK_SPACEORB=m
-CONFIG_JOYSTICK_SPACEBALL=m
-CONFIG_JOYSTICK_STINGER=m
-CONFIG_JOYSTICK_TWIDJOY=m
-CONFIG_JOYSTICK_ZHENHUA=m
-CONFIG_JOYSTICK_DB9=m
-CONFIG_JOYSTICK_GAMECON=m
-CONFIG_JOYSTICK_TURBOGRAFX=m
-CONFIG_JOYSTICK_AS5011=m
-CONFIG_JOYSTICK_JOYDUMP=m
-CONFIG_JOYSTICK_XPAD=m
-CONFIG_JOYSTICK_XPAD_FF=y
-CONFIG_JOYSTICK_XPAD_LEDS=y
-CONFIG_JOYSTICK_WALKERA0701=m
-CONFIG_JOYSTICK_PSXPAD_SPI=m
-CONFIG_JOYSTICK_PSXPAD_SPI_FF=y
-CONFIG_JOYSTICK_PXRC=m
-CONFIG_JOYSTICK_QWIIC=m
-CONFIG_JOYSTICK_FSIA6B=m
-CONFIG_JOYSTICK_SENSEHAT=m
-CONFIG_INPUT_TABLET=y
-CONFIG_TABLET_USB_ACECAD=m
-CONFIG_TABLET_USB_AIPTEK=m
-CONFIG_TABLET_USB_HANWANG=m
-CONFIG_TABLET_USB_KBTAB=m
-CONFIG_TABLET_USB_PEGASUS=m
-CONFIG_TABLET_SERIAL_WACOM4=m
-CONFIG_INPUT_TOUCHSCREEN=y
-CONFIG_TOUCHSCREEN_ADS7846=m
-CONFIG_TOUCHSCREEN_AD7877=m
-CONFIG_TOUCHSCREEN_AD7879=m
-CONFIG_TOUCHSCREEN_AD7879_I2C=m
-CONFIG_TOUCHSCREEN_AD7879_SPI=m
-CONFIG_TOUCHSCREEN_ADC=m
-CONFIG_TOUCHSCREEN_AR1021_I2C=m
-CONFIG_TOUCHSCREEN_ATMEL_MXT=m
-CONFIG_TOUCHSCREEN_ATMEL_MXT_T37=y
-CONFIG_TOUCHSCREEN_AUO_PIXCIR=m
-CONFIG_TOUCHSCREEN_BU21013=m
-CONFIG_TOUCHSCREEN_BU21029=m
-CONFIG_TOUCHSCREEN_CHIPONE_ICN8318=m
-CONFIG_TOUCHSCREEN_CY8CTMA140=m
-CONFIG_TOUCHSCREEN_CY8CTMG110=m
-CONFIG_TOUCHSCREEN_CYTTSP_CORE=m
-CONFIG_TOUCHSCREEN_CYTTSP_I2C=m
-CONFIG_TOUCHSCREEN_CYTTSP_SPI=m
-CONFIG_TOUCHSCREEN_CYTTSP4_CORE=m
-CONFIG_TOUCHSCREEN_CYTTSP4_I2C=m
-CONFIG_TOUCHSCREEN_CYTTSP4_SPI=m
-CONFIG_TOUCHSCREEN_DA9052=m
-CONFIG_TOUCHSCREEN_DYNAPRO=m
-CONFIG_TOUCHSCREEN_HAMPSHIRE=m
-CONFIG_TOUCHSCREEN_EETI=m
-CONFIG_TOUCHSCREEN_EGALAX=m
-CONFIG_TOUCHSCREEN_EGALAX_SERIAL=m
-CONFIG_TOUCHSCREEN_EXC3000=m
-CONFIG_TOUCHSCREEN_FUJITSU=m
-CONFIG_TOUCHSCREEN_GOODIX=m
-CONFIG_TOUCHSCREEN_HIDEEP=m
-CONFIG_TOUCHSCREEN_HYCON_HY46XX=m
-CONFIG_TOUCHSCREEN_ILI210X=m
-CONFIG_TOUCHSCREEN_ILITEK=m
-CONFIG_TOUCHSCREEN_IPROC=m
-CONFIG_TOUCHSCREEN_S6SY761=m
-CONFIG_TOUCHSCREEN_GUNZE=m
-CONFIG_TOUCHSCREEN_EKTF2127=m
-CONFIG_TOUCHSCREEN_ELAN=m
-CONFIG_TOUCHSCREEN_ELO=m
-CONFIG_TOUCHSCREEN_WACOM_W8001=m
-CONFIG_TOUCHSCREEN_WACOM_I2C=m
-CONFIG_TOUCHSCREEN_MAX11801=m
-CONFIG_TOUCHSCREEN_MCS5000=m
-CONFIG_TOUCHSCREEN_MMS114=m
-CONFIG_TOUCHSCREEN_MELFAS_MIP4=m
-CONFIG_TOUCHSCREEN_MSG2638=m
-CONFIG_TOUCHSCREEN_MTOUCH=m
-CONFIG_TOUCHSCREEN_IMAGIS=m
-CONFIG_TOUCHSCREEN_IMX6UL_TSC=m
-CONFIG_TOUCHSCREEN_INEXIO=m
-CONFIG_TOUCHSCREEN_MK712=m
-CONFIG_TOUCHSCREEN_PENMOUNT=m
-CONFIG_TOUCHSCREEN_EDT_FT5X06=m
-CONFIG_TOUCHSCREEN_RASPBERRYPI_FW=m
-CONFIG_TOUCHSCREEN_MIGOR=m
-CONFIG_TOUCHSCREEN_TOUCHRIGHT=m
-CONFIG_TOUCHSCREEN_TOUCHWIN=m
-CONFIG_TOUCHSCREEN_TI_AM335X_TSC=m
-CONFIG_TOUCHSCREEN_UCB1400=m
-CONFIG_TOUCHSCREEN_PIXCIR=m
-CONFIG_TOUCHSCREEN_WDT87XX_I2C=m
-CONFIG_TOUCHSCREEN_WM831X=m
-CONFIG_TOUCHSCREEN_WM97XX=m
-CONFIG_TOUCHSCREEN_WM9705=y
-CONFIG_TOUCHSCREEN_WM9712=y
-CONFIG_TOUCHSCREEN_WM9713=y
-CONFIG_TOUCHSCREEN_USB_COMPOSITE=m
-CONFIG_TOUCHSCREEN_MXS_LRADC=m
-CONFIG_TOUCHSCREEN_MX25=m
-CONFIG_TOUCHSCREEN_MC13783=m
-CONFIG_TOUCHSCREEN_USB_EGALAX=y
-CONFIG_TOUCHSCREEN_USB_PANJIT=y
-CONFIG_TOUCHSCREEN_USB_3M=y
-CONFIG_TOUCHSCREEN_USB_ITM=y
-CONFIG_TOUCHSCREEN_USB_ETURBO=y
-CONFIG_TOUCHSCREEN_USB_GUNZE=y
-CONFIG_TOUCHSCREEN_USB_DMC_TSC10=y
-CONFIG_TOUCHSCREEN_USB_IRTOUCH=y
-CONFIG_TOUCHSCREEN_USB_IDEALTEK=y
-CONFIG_TOUCHSCREEN_USB_GENERAL_TOUCH=y
-CONFIG_TOUCHSCREEN_USB_GOTOP=y
-CONFIG_TOUCHSCREEN_USB_JASTEC=y
-CONFIG_TOUCHSCREEN_USB_ELO=y
-CONFIG_TOUCHSCREEN_USB_E2I=y
-CONFIG_TOUCHSCREEN_USB_ZYTRONIC=y
-CONFIG_TOUCHSCREEN_USB_ETT_TC45USB=y
-CONFIG_TOUCHSCREEN_USB_NEXIO=y
-CONFIG_TOUCHSCREEN_USB_EASYTOUCH=y
-CONFIG_TOUCHSCREEN_TOUCHIT213=m
-CONFIG_TOUCHSCREEN_TS4800=m
-CONFIG_TOUCHSCREEN_TSC_SERIO=m
-CONFIG_TOUCHSCREEN_TSC200X_CORE=m
-CONFIG_TOUCHSCREEN_TSC2004=m
-CONFIG_TOUCHSCREEN_TSC2005=m
-CONFIG_TOUCHSCREEN_TSC2007=m
-CONFIG_TOUCHSCREEN_TSC2007_IIO=y
-CONFIG_TOUCHSCREEN_PCAP=m
-CONFIG_TOUCHSCREEN_RM_TS=m
-CONFIG_TOUCHSCREEN_SILEAD=m
-CONFIG_TOUCHSCREEN_SIS_I2C=m
-CONFIG_TOUCHSCREEN_ST1232=m
-CONFIG_TOUCHSCREEN_STMFTS=m
-CONFIG_TOUCHSCREEN_STMPE=m
-CONFIG_TOUCHSCREEN_SUN4I=m
-CONFIG_TOUCHSCREEN_SURFACE3_SPI=m
-CONFIG_TOUCHSCREEN_SX8654=m
-CONFIG_TOUCHSCREEN_TPS6507X=m
-CONFIG_TOUCHSCREEN_ZET6223=m
-CONFIG_TOUCHSCREEN_ZFORCE=m
-CONFIG_TOUCHSCREEN_COLIBRI_VF50=m
-CONFIG_TOUCHSCREEN_ROHM_BU21023=m
-CONFIG_TOUCHSCREEN_IQS5XX=m
-CONFIG_TOUCHSCREEN_ZINITIX=m
-CONFIG_INPUT_MISC=y
-CONFIG_INPUT_88PM80X_ONKEY=m
-CONFIG_INPUT_AD714X=m
-CONFIG_INPUT_AD714X_I2C=m
-CONFIG_INPUT_AD714X_SPI=m
-CONFIG_INPUT_ARIEL_PWRBUTTON=m
-CONFIG_INPUT_ARIZONA_HAPTICS=m
-CONFIG_INPUT_ATC260X_ONKEY=m
-CONFIG_INPUT_ATMEL_CAPTOUCH=m
-CONFIG_INPUT_BMA150=m
-CONFIG_INPUT_E3X0_BUTTON=m
-CONFIG_INPUT_PM8941_PWRKEY=m
-CONFIG_INPUT_PM8XXX_VIBRATOR=m
-CONFIG_INPUT_PMIC8XXX_PWRKEY=m
-CONFIG_INPUT_MAX77650_ONKEY=m
-CONFIG_INPUT_MAX77693_HAPTIC=m
-CONFIG_INPUT_MC13783_PWRBUTTON=m
-CONFIG_INPUT_MMA8450=m
-CONFIG_INPUT_GPIO_BEEPER=m
-CONFIG_INPUT_GPIO_DECODER=m
-CONFIG_INPUT_GPIO_VIBRA=m
-CONFIG_INPUT_CPCAP_PWRBUTTON=m
-CONFIG_INPUT_ATI_REMOTE2=m
-CONFIG_INPUT_KEYSPAN_REMOTE=m
-CONFIG_INPUT_KXTJ9=m
-CONFIG_INPUT_POWERMATE=m
-CONFIG_INPUT_YEALINK=m
-CONFIG_INPUT_CM109=m
-CONFIG_INPUT_REGULATOR_HAPTIC=m
-CONFIG_INPUT_RETU_PWRBUTTON=m
-CONFIG_INPUT_TPS65218_PWRBUTTON=m
-CONFIG_INPUT_AXP20X_PEK=m
-CONFIG_INPUT_UINPUT=m
-CONFIG_INPUT_PCF50633_PMU=m
-CONFIG_INPUT_PCF8574=m
-CONFIG_INPUT_PWM_BEEPER=m
-CONFIG_INPUT_PWM_VIBRA=m
-CONFIG_INPUT_RK805_PWRKEY=m
-CONFIG_INPUT_GPIO_ROTARY_ENCODER=m
-CONFIG_INPUT_DA7280_HAPTICS=m
-CONFIG_INPUT_DA9052_ONKEY=m
-CONFIG_INPUT_DA9063_ONKEY=m
-CONFIG_INPUT_WM831X_ON=m
-CONFIG_INPUT_PCAP=m
-CONFIG_INPUT_ADXL34X=m
-CONFIG_INPUT_ADXL34X_I2C=m
-CONFIG_INPUT_ADXL34X_SPI=m
-CONFIG_INPUT_IBM_PANEL=m
-CONFIG_INPUT_IMS_PCU=m
-CONFIG_INPUT_IQS269A=m
-CONFIG_INPUT_IQS626A=m
-CONFIG_INPUT_IQS7222=m
-CONFIG_INPUT_CMA3000=m
-CONFIG_INPUT_CMA3000_I2C=m
-CONFIG_INPUT_DRV260X_HAPTICS=m
-CONFIG_INPUT_DRV2665_HAPTICS=m
-CONFIG_INPUT_DRV2667_HAPTICS=m
-CONFIG_INPUT_HISI_POWERKEY=m
-CONFIG_INPUT_RAVE_SP_PWRBUTTON=m
-CONFIG_INPUT_SC27XX_VIBRA=m
-CONFIG_INPUT_RT5120_PWRKEY=m
-CONFIG_RMI4_CORE=m
-CONFIG_RMI4_I2C=m
-CONFIG_RMI4_SPI=m
-CONFIG_RMI4_SMB=m
-CONFIG_RMI4_F03=y
-CONFIG_RMI4_F03_SERIO=m
-CONFIG_RMI4_2D_SENSOR=y
-CONFIG_RMI4_F11=y
-CONFIG_RMI4_F12=y
-CONFIG_RMI4_F30=y
-CONFIG_RMI4_F34=y
-CONFIG_RMI4_F3A=y
-CONFIG_RMI4_F54=y
-CONFIG_RMI4_F55=y
-
-#
-# Hardware I/O ports
-#
-CONFIG_SERIO=m
-CONFIG_SERIO_SERPORT=m
-CONFIG_SERIO_PARKBD=m
-CONFIG_SERIO_LIBPS2=m
-CONFIG_SERIO_RAW=m
-CONFIG_SERIO_ALTERA_PS2=m
-CONFIG_SERIO_PS2MULT=m
-CONFIG_SERIO_ARC_PS2=m
-CONFIG_SERIO_APBPS2=m
-CONFIG_SERIO_OLPC_APSP=m
-CONFIG_SERIO_SUN4I_PS2=m
-CONFIG_SERIO_GPIO_PS2=m
-CONFIG_USERIO=m
-CONFIG_GAMEPORT=m
-CONFIG_GAMEPORT_NS558=m
-CONFIG_GAMEPORT_L4=m
-# end of Hardware I/O ports
-# end of Input device support
-
-#
-# Character devices
-#
-CONFIG_TTY=y
-CONFIG_VT=y
-CONFIG_CONSOLE_TRANSLATIONS=y
-CONFIG_VT_CONSOLE=y
-CONFIG_HW_CONSOLE=y
-CONFIG_VT_HW_CONSOLE_BINDING=y
-CONFIG_UNIX98_PTYS=y
-CONFIG_LEGACY_PTYS=y
-CONFIG_LEGACY_PTY_COUNT=256
-CONFIG_LDISC_AUTOLOAD=y
-
-#
-# Serial drivers
-#
-CONFIG_SERIAL_EARLYCON=y
-CONFIG_SERIAL_8250=m
-CONFIG_SERIAL_8250_DEPRECATED_OPTIONS=y
-CONFIG_SERIAL_8250_16550A_VARIANTS=y
-CONFIG_SERIAL_8250_FINTEK=y
-CONFIG_SERIAL_8250_CS=m
-CONFIG_SERIAL_8250_MEN_MCB=m
-CONFIG_SERIAL_8250_NR_UARTS=4
-CONFIG_SERIAL_8250_RUNTIME_UARTS=4
-CONFIG_SERIAL_8250_EXTENDED=y
-CONFIG_SERIAL_8250_MANY_PORTS=y
-CONFIG_SERIAL_8250_ASPEED_VUART=m
-CONFIG_SERIAL_8250_SHARE_IRQ=y
-CONFIG_SERIAL_8250_DETECT_IRQ=y
-CONFIG_SERIAL_8250_RSA=y
-CONFIG_SERIAL_8250_DWLIB=y
-CONFIG_SERIAL_8250_BCM2835AUX=m
-CONFIG_SERIAL_8250_DW=m
-CONFIG_SERIAL_8250_EM=m
-CONFIG_SERIAL_8250_IOC3=m
-CONFIG_SERIAL_8250_RT288X=y
-CONFIG_SERIAL_8250_OMAP=m
-CONFIG_SERIAL_8250_LPC18XX=m
-CONFIG_SERIAL_8250_MT6577=m
-CONFIG_SERIAL_8250_UNIPHIER=m
-CONFIG_SERIAL_8250_INGENIC=m
-CONFIG_SERIAL_8250_PXA=m
-CONFIG_SERIAL_8250_TEGRA=m
-CONFIG_SERIAL_8250_BCM7271=m
-CONFIG_SERIAL_OF_PLATFORM=m
-
-#
-# Non-8250 serial port support
-#
-CONFIG_SERIAL_AMBA_PL010=m
-CONFIG_SERIAL_KGDB_NMI=y
-CONFIG_SERIAL_MESON=m
-CONFIG_SERIAL_MESON_CONSOLE=y
-CONFIG_SERIAL_CLPS711X=m
-CONFIG_SERIAL_SAMSUNG=m
-CONFIG_SERIAL_SAMSUNG_UARTS_4=y
-CONFIG_SERIAL_SAMSUNG_UARTS=4
-CONFIG_SERIAL_SAMSUNG_CONSOLE=y
-CONFIG_SERIAL_TEGRA=m
-CONFIG_SERIAL_TEGRA_TCU=m
-CONFIG_SERIAL_MAX3100=m
-CONFIG_SERIAL_MAX310X=m
-CONFIG_SERIAL_IMX=m
-CONFIG_SERIAL_IMX_CONSOLE=m
-CONFIG_SERIAL_IMX_EARLYCON=y
-CONFIG_SERIAL_UARTLITE=m
-CONFIG_SERIAL_UARTLITE_NR_UARTS=1
-CONFIG_SERIAL_SH_SCI=m
-CONFIG_SERIAL_SH_SCI_NR_UARTS=10
-CONFIG_SERIAL_HS_LPC32XX=m
-CONFIG_SERIAL_CORE=y
-CONFIG_SERIAL_CORE_CONSOLE=y
-CONFIG_CONSOLE_POLL=y
-CONFIG_SERIAL_MSM=m
-CONFIG_SERIAL_QCOM_GENI=m
-CONFIG_SERIAL_QCOM_GENI_CONSOLE=y
-CONFIG_SERIAL_VT8500=y
-CONFIG_SERIAL_VT8500_CONSOLE=y
-CONFIG_SERIAL_OMAP=m
-CONFIG_SERIAL_SIFIVE=m
-CONFIG_SERIAL_LANTIQ=m
-CONFIG_SERIAL_QE=m
-CONFIG_SERIAL_SCCNXP=m
-CONFIG_SERIAL_SC16IS7XX_CORE=m
-CONFIG_SERIAL_SC16IS7XX=m
-CONFIG_SERIAL_SC16IS7XX_I2C=y
-CONFIG_SERIAL_SC16IS7XX_SPI=y
-CONFIG_SERIAL_TIMBERDALE=m
-CONFIG_SERIAL_BCM63XX=m
-CONFIG_SERIAL_ALTERA_JTAGUART=m
-CONFIG_SERIAL_ALTERA_UART=m
-CONFIG_SERIAL_ALTERA_UART_MAXPORTS=4
-CONFIG_SERIAL_ALTERA_UART_BAUDRATE=115200
-CONFIG_SERIAL_MXS_AUART=m
-CONFIG_SERIAL_XILINX_PS_UART=m
-CONFIG_SERIAL_MPS2_UART_CONSOLE=y
-CONFIG_SERIAL_MPS2_UART=y
-CONFIG_SERIAL_ARC=m
-CONFIG_SERIAL_ARC_NR_PORTS=1
-CONFIG_SERIAL_FSL_LINFLEXUART=m
-CONFIG_SERIAL_CONEXANT_DIGICOLOR=m
-CONFIG_SERIAL_ST_ASC=m
-CONFIG_SERIAL_MEN_Z135=m
-CONFIG_SERIAL_STM32=m
-CONFIG_SERIAL_OWL=m
-CONFIG_SERIAL_RDA=y
-CONFIG_SERIAL_RDA_CONSOLE=y
-CONFIG_SERIAL_MILBEAUT_USIO=m
-CONFIG_SERIAL_MILBEAUT_USIO_PORTS=4
-CONFIG_SERIAL_LITEUART=m
-CONFIG_SERIAL_LITEUART_MAX_PORTS=1
-CONFIG_SERIAL_SUNPLUS=m
-CONFIG_SERIAL_SUNPLUS_CONSOLE=y
-# end of Serial drivers
-
-CONFIG_SERIAL_MCTRL_GPIO=m
-CONFIG_SERIAL_NONSTANDARD=y
-CONFIG_N_HDLC=m
-CONFIG_N_GSM=m
-CONFIG_NULL_TTY=m
-CONFIG_HVC_DRIVER=y
-CONFIG_RPMSG_TTY=m
-CONFIG_SERIAL_DEV_BUS=m
-CONFIG_TTY_PRINTK=m
-CONFIG_TTY_PRINTK_LEVEL=6
-CONFIG_PRINTER=m
-CONFIG_LP_CONSOLE=y
-CONFIG_PPDEV=m
-CONFIG_VIRTIO_CONSOLE=m
-CONFIG_IPMI_HANDLER=m
-CONFIG_IPMI_PLAT_DATA=y
-CONFIG_IPMI_PANIC_EVENT=y
-CONFIG_IPMI_PANIC_STRING=y
-CONFIG_IPMI_DEVICE_INTERFACE=m
-CONFIG_IPMI_SI=m
-CONFIG_IPMI_SSIF=m
-CONFIG_IPMI_IPMB=m
-CONFIG_IPMI_WATCHDOG=m
-CONFIG_IPMI_POWEROFF=m
-CONFIG_IPMI_KCS_BMC=m
-CONFIG_ASPEED_KCS_IPMI_BMC=m
-CONFIG_NPCM7XX_KCS_IPMI_BMC=m
-CONFIG_IPMI_KCS_BMC_CDEV_IPMI=m
-CONFIG_IPMI_KCS_BMC_SERIO=m
-CONFIG_ASPEED_BT_IPMI_BMC=m
-CONFIG_IPMB_DEVICE_INTERFACE=m
-CONFIG_HW_RANDOM=m
-CONFIG_HW_RANDOM_TIMERIOMEM=m
-CONFIG_HW_RANDOM_ATMEL=m
-CONFIG_HW_RANDOM_BA431=m
-CONFIG_HW_RANDOM_BCM2835=m
-CONFIG_HW_RANDOM_IPROC_RNG200=m
-CONFIG_HW_RANDOM_IXP4XX=m
-CONFIG_HW_RANDOM_OMAP=m
-CONFIG_HW_RANDOM_OMAP3_ROM=m
-CONFIG_HW_RANDOM_VIRTIO=m
-CONFIG_HW_RANDOM_IMX_RNGC=m
-CONFIG_HW_RANDOM_NOMADIK=m
-CONFIG_HW_RANDOM_STM32=m
-CONFIG_HW_RANDOM_POLARFIRE_SOC=m
-CONFIG_HW_RANDOM_MESON=m
-CONFIG_HW_RANDOM_MTK=m
-CONFIG_HW_RANDOM_EXYNOS=m
-CONFIG_HW_RANDOM_NPCM=m
-CONFIG_HW_RANDOM_KEYSTONE=m
-CONFIG_HW_RANDOM_CCTRNG=m
-CONFIG_HW_RANDOM_XIPHERA=m
-
-#
-# PCMCIA character devices
-#
-CONFIG_SYNCLINK_CS=m
-CONFIG_CARDMAN_4000=m
-CONFIG_CARDMAN_4040=m
-CONFIG_SCR24X=m
-CONFIG_IPWIRELESS=m
-# end of PCMCIA character devices
-
-CONFIG_DEVMEM=y
-CONFIG_TCG_TPM=y
-CONFIG_TCG_TIS_CORE=m
-CONFIG_TCG_TIS=m
-CONFIG_TCG_TIS_SPI=m
-CONFIG_TCG_TIS_SPI_CR50=y
-CONFIG_TCG_TIS_I2C=m
-CONFIG_TCG_TIS_SYNQUACER=m
-CONFIG_TCG_TIS_I2C_CR50=m
-CONFIG_TCG_TIS_I2C_ATMEL=m
-CONFIG_TCG_TIS_I2C_INFINEON=m
-CONFIG_TCG_TIS_I2C_NUVOTON=m
-CONFIG_TCG_VTPM_PROXY=m
-CONFIG_TCG_TIS_ST33ZP24=m
-CONFIG_TCG_TIS_ST33ZP24_I2C=m
-CONFIG_TCG_TIS_ST33ZP24_SPI=m
-CONFIG_XILLYBUS_CLASS=m
-CONFIG_XILLYBUS=m
-CONFIG_XILLYUSB=m
-CONFIG_RANDOM_TRUST_CPU=y
-CONFIG_RANDOM_TRUST_BOOTLOADER=y
-# end of Character devices
-
-#
-# I2C support
-#
-CONFIG_I2C=m
-CONFIG_I2C_BOARDINFO=y
-CONFIG_I2C_COMPAT=y
-CONFIG_I2C_CHARDEV=m
-CONFIG_I2C_MUX=m
-
-#
-# Multiplexer I2C Chip support
-#
-CONFIG_I2C_ARB_GPIO_CHALLENGE=m
-CONFIG_I2C_MUX_GPIO=m
-CONFIG_I2C_MUX_GPMUX=m
-CONFIG_I2C_MUX_LTC4306=m
-CONFIG_I2C_MUX_PCA9541=m
-CONFIG_I2C_MUX_PCA954x=m
-CONFIG_I2C_MUX_PINCTRL=m
-CONFIG_I2C_MUX_REG=m
-CONFIG_I2C_DEMUX_PINCTRL=m
-CONFIG_I2C_MUX_MLXCPLD=m
-# end of Multiplexer I2C Chip support
-
-CONFIG_I2C_HELPER_AUTO=y
-CONFIG_I2C_SMBUS=m
-CONFIG_I2C_ALGOBIT=m
-CONFIG_I2C_ALGOPCA=m
-
-#
-# I2C Hardware Bus support
-#
-CONFIG_I2C_HIX5HD2=m
-
-#
-# I2C system bus drivers (mostly embedded / system-on-chip)
-#
-CONFIG_I2C_ALTERA=m
-CONFIG_I2C_ASPEED=m
-CONFIG_I2C_AT91=m
-CONFIG_I2C_AT91_SLAVE_EXPERIMENTAL=m
-CONFIG_I2C_AXXIA=m
-CONFIG_I2C_BCM_IPROC=m
-CONFIG_I2C_BCM_KONA=m
-CONFIG_I2C_BRCMSTB=m
-CONFIG_I2C_CADENCE=m
-CONFIG_I2C_CBUS_GPIO=m
-CONFIG_I2C_DAVINCI=m
-CONFIG_I2C_DESIGNWARE_CORE=m
-CONFIG_I2C_DESIGNWARE_SLAVE=y
-CONFIG_I2C_DESIGNWARE_PLATFORM=m
-CONFIG_I2C_DIGICOLOR=m
-CONFIG_I2C_EMEV2=m
-CONFIG_I2C_EXYNOS5=m
-CONFIG_I2C_GPIO=m
-CONFIG_I2C_GPIO_FAULT_INJECTOR=y
-CONFIG_I2C_HIGHLANDER=m
-CONFIG_I2C_HISI=m
-CONFIG_I2C_IMG=m
-CONFIG_I2C_IMX=m
-CONFIG_I2C_IMX_LPI2C=m
-CONFIG_I2C_IOP3XX=m
-CONFIG_I2C_JZ4780=m
-CONFIG_I2C_KEMPLD=m
-CONFIG_I2C_LPC2K=m
-CONFIG_I2C_MICROCHIP_CORE=m
-CONFIG_I2C_MT65XX=m
-CONFIG_I2C_MT7621=m
-CONFIG_I2C_MV64XXX=m
-CONFIG_I2C_MXS=m
-CONFIG_I2C_NPCM=m
-CONFIG_I2C_OCORES=m
-CONFIG_I2C_OMAP=m
-CONFIG_I2C_OWL=m
-CONFIG_I2C_APPLE=m
-CONFIG_I2C_PCA_PLATFORM=m
-CONFIG_I2C_PNX=m
-CONFIG_I2C_PXA=m
-CONFIG_I2C_PXA_SLAVE=y
-CONFIG_I2C_QCOM_CCI=m
-CONFIG_I2C_QCOM_GENI=m
-CONFIG_I2C_QUP=m
-CONFIG_I2C_RIIC=m
-CONFIG_I2C_RZV2M=m
-CONFIG_I2C_S3C2410=m
-CONFIG_I2C_SH_MOBILE=m
-CONFIG_I2C_SIMTEC=m
-CONFIG_I2C_ST=m
-CONFIG_I2C_STM32F4=m
-CONFIG_I2C_STM32F7=m
-CONFIG_I2C_SUN6I_P2WI=m
-CONFIG_I2C_SYNQUACER=m
-CONFIG_I2C_TEGRA=m
-CONFIG_I2C_TEGRA_BPMP=m
-CONFIG_I2C_UNIPHIER=m
-CONFIG_I2C_UNIPHIER_F=m
-CONFIG_I2C_VERSATILE=m
-CONFIG_I2C_WMT=m
-CONFIG_I2C_XILINX=m
-CONFIG_I2C_XLP9XX=m
-CONFIG_I2C_RCAR=m
-
-#
-# External I2C/SMBus adapter drivers
-#
-CONFIG_I2C_DIOLAN_U2C=m
-CONFIG_I2C_DLN2=m
-CONFIG_I2C_CP2615=m
-CONFIG_I2C_PARPORT=m
-CONFIG_I2C_ROBOTFUZZ_OSIF=m
-CONFIG_I2C_TAOS_EVM=m
-CONFIG_I2C_TINY_USB=m
-CONFIG_I2C_VIPERBOARD=m
-
-#
-# Other I2C/SMBus bus drivers
-#
-CONFIG_I2C_MLXCPLD=m
-CONFIG_I2C_CROS_EC_TUNNEL=m
-CONFIG_I2C_FSI=m
-CONFIG_I2C_VIRTIO=m
-# end of I2C Hardware Bus support
-
-CONFIG_I2C_STUB=m
-CONFIG_I2C_SLAVE=y
-CONFIG_I2C_SLAVE_EEPROM=m
-CONFIG_I2C_SLAVE_TESTUNIT=m
-CONFIG_I2C_DEBUG_CORE=y
-CONFIG_I2C_DEBUG_ALGO=y
-CONFIG_I2C_DEBUG_BUS=y
-# end of I2C support
-
-CONFIG_I3C=m
-CONFIG_CDNS_I3C_MASTER=m
-CONFIG_DW_I3C_MASTER=m
-CONFIG_SVC_I3C_MASTER=m
-CONFIG_MIPI_I3C_HCI=m
-CONFIG_SPI=y
-CONFIG_SPI_DEBUG=y
-CONFIG_SPI_MASTER=y
-CONFIG_SPI_MEM=y
-
-#
-# SPI Master Controller Drivers
-#
-CONFIG_SPI_ALTERA=m
-CONFIG_SPI_ALTERA_CORE=m
-CONFIG_SPI_ALTERA_DFL=m
-CONFIG_SPI_AR934X=m
-CONFIG_SPI_ATH79=m
-CONFIG_SPI_ARMADA_3700=m
-CONFIG_SPI_ASPEED_SMC=m
-CONFIG_SPI_ATMEL=m
-CONFIG_SPI_AT91_USART=m
-CONFIG_SPI_ATMEL_QUADSPI=m
-CONFIG_SPI_AXI_SPI_ENGINE=m
-CONFIG_SPI_BCM2835=m
-CONFIG_SPI_BCM2835AUX=m
-CONFIG_SPI_BCM63XX=m
-CONFIG_SPI_BCM63XX_HSSPI=m
-CONFIG_SPI_BCM_QSPI=m
-CONFIG_SPI_BITBANG=m
-CONFIG_SPI_BUTTERFLY=m
-CONFIG_SPI_CADENCE=m
-CONFIG_SPI_CADENCE_QUADSPI=m
-CONFIG_SPI_CADENCE_XSPI=m
-CONFIG_SPI_CLPS711X=m
-CONFIG_SPI_DESIGNWARE=m
-CONFIG_SPI_DW_DMA=y
-CONFIG_SPI_DW_MMIO=m
-CONFIG_SPI_DW_BT1=m
-CONFIG_SPI_DW_BT1_DIRMAP=y
-CONFIG_SPI_DLN2=m
-CONFIG_SPI_EP93XX=m
-CONFIG_SPI_FSI=m
-CONFIG_SPI_FSL_LPSPI=m
-CONFIG_SPI_FSL_QUADSPI=m
-CONFIG_SPI_GXP=m
-CONFIG_SPI_HISI_KUNPENG=m
-CONFIG_SPI_HISI_SFC_V3XX=m
-CONFIG_SPI_NXP_FLEXSPI=m
-CONFIG_SPI_GPIO=m
-CONFIG_SPI_IMG_SPFI=m
-CONFIG_SPI_IMX=m
-CONFIG_SPI_INGENIC=m
-CONFIG_SPI_INTEL=m
-CONFIG_SPI_INTEL_PLATFORM=m
-CONFIG_SPI_JCORE=m
-CONFIG_SPI_LM70_LLP=m
-CONFIG_SPI_LP8841_RTC=m
-CONFIG_SPI_FSL_LIB=m
-CONFIG_SPI_FSL_SPI=m
-CONFIG_SPI_FSL_DSPI=m
-CONFIG_SPI_MESON_SPIFC=m
-CONFIG_SPI_MICROCHIP_CORE=m
-CONFIG_SPI_MICROCHIP_CORE_QSPI=m
-CONFIG_SPI_MT65XX=m
-CONFIG_SPI_MT7621=m
-CONFIG_SPI_MTK_NOR=m
-CONFIG_SPI_MTK_SNFI=m
-CONFIG_SPI_NPCM_FIU=m
-CONFIG_SPI_NPCM_PSPI=m
-CONFIG_SPI_LANTIQ_SSC=m
-CONFIG_SPI_OC_TINY=m
-CONFIG_SPI_OMAP24XX=m
-CONFIG_SPI_TI_QSPI=m
-CONFIG_SPI_OMAP_100K=m
-CONFIG_SPI_ORION=m
-CONFIG_SPI_PIC32=m
-CONFIG_SPI_PIC32_SQI=m
-CONFIG_SPI_PXA2XX=m
-CONFIG_SPI_ROCKCHIP=m
-CONFIG_SPI_RPCIF=m
-CONFIG_SPI_RSPI=m
-CONFIG_SPI_QUP=m
-CONFIG_SPI_QCOM_GENI=m
-CONFIG_SPI_S3C64XX=m
-CONFIG_SPI_SC18IS602=m
-CONFIG_SPI_SH_MSIOF=m
-CONFIG_SPI_SH=m
-CONFIG_SPI_SH_SCI=m
-CONFIG_SPI_SH_HSPI=m
-CONFIG_SPI_SIFIVE=m
-CONFIG_SPI_SLAVE_MT27XX=m
-CONFIG_SPI_SPRD=m
-CONFIG_SPI_SPRD_ADI=m
-CONFIG_SPI_STM32=m
-CONFIG_SPI_STM32_QSPI=m
-CONFIG_SPI_ST_SSC4=m
-CONFIG_SPI_SUN4I=m
-CONFIG_SPI_SUN6I=m
-CONFIG_SPI_SUNPLUS_SP7021=m
-CONFIG_SPI_SYNQUACER=m
-CONFIG_SPI_MXIC=m
-CONFIG_SPI_TEGRA210_QUAD=m
-CONFIG_SPI_TEGRA114=m
-CONFIG_SPI_TEGRA20_SFLASH=m
-CONFIG_SPI_TEGRA20_SLINK=m
-CONFIG_SPI_UNIPHIER=m
-CONFIG_SPI_XCOMM=m
-CONFIG_SPI_XILINX=m
-CONFIG_SPI_XLP=m
-CONFIG_SPI_XTENSA_XTFPGA=m
-CONFIG_SPI_ZYNQ_QSPI=m
-CONFIG_SPI_ZYNQMP_GQSPI=m
-CONFIG_SPI_AMD=m
-
-#
-# SPI Multiplexer support
-#
-CONFIG_SPI_MUX=m
-
-#
-# SPI Protocol Masters
-#
-CONFIG_SPI_SPIDEV=m
-CONFIG_SPI_LOOPBACK_TEST=m
-CONFIG_SPI_TLE62X0=m
-CONFIG_SPI_SLAVE=y
-CONFIG_SPI_SLAVE_TIME=m
-CONFIG_SPI_SLAVE_SYSTEM_CONTROL=m
-CONFIG_SPI_DYNAMIC=y
-CONFIG_SPMI=m
-CONFIG_SPMI_HISI3670=m
-CONFIG_SPMI_MSM_PMIC_ARB=m
-CONFIG_SPMI_MTK_PMIF=m
-CONFIG_HSI=m
-CONFIG_HSI_BOARDINFO=y
-
-#
-# HSI controllers
-#
-
-#
-# HSI clients
-#
-CONFIG_HSI_CHAR=m
-CONFIG_PPS=m
-CONFIG_PPS_DEBUG=y
-
-#
-# PPS clients support
-#
-CONFIG_PPS_CLIENT_KTIMER=m
-CONFIG_PPS_CLIENT_LDISC=m
-CONFIG_PPS_CLIENT_PARPORT=m
-CONFIG_PPS_CLIENT_GPIO=m
-
-#
-# PPS generators support
-#
-
-#
-# PTP clock support
-#
-CONFIG_PTP_1588_CLOCK=m
-CONFIG_PTP_1588_CLOCK_OPTIONAL=m
-CONFIG_PTP_1588_CLOCK_DTE=m
-CONFIG_PTP_1588_CLOCK_QORIQ=m
-CONFIG_DP83640_PHY=m
-CONFIG_PTP_1588_CLOCK_INES=m
-CONFIG_PTP_1588_CLOCK_IDT82P33=m
-CONFIG_PTP_1588_CLOCK_IDTCM=m
-# end of PTP clock support
-
-CONFIG_PINCTRL=y
-CONFIG_GENERIC_PINCTRL_GROUPS=y
-CONFIG_PINMUX=y
-CONFIG_GENERIC_PINMUX_FUNCTIONS=y
-CONFIG_PINCONF=y
-CONFIG_GENERIC_PINCONF=y
-CONFIG_DEBUG_PINCTRL=y
-CONFIG_PINCTRL_AMD=y
-CONFIG_PINCTRL_AT91PIO4=y
-CONFIG_PINCTRL_AXP209=m
-CONFIG_PINCTRL_BM1880=y
-CONFIG_PINCTRL_CY8C95X0=m
-CONFIG_PINCTRL_DA850_PUPD=m
-CONFIG_PINCTRL_DA9062=m
-CONFIG_PINCTRL_EQUILIBRIUM=m
-CONFIG_PINCTRL_INGENIC=y
-CONFIG_PINCTRL_LPC18XX=y
-CONFIG_PINCTRL_MCP23S08_I2C=m
-CONFIG_PINCTRL_MCP23S08_SPI=m
-CONFIG_PINCTRL_MCP23S08=m
-CONFIG_PINCTRL_MICROCHIP_SGPIO=m
-CONFIG_PINCTRL_OCELOT=m
-CONFIG_PINCTRL_PISTACHIO=y
-CONFIG_PINCTRL_RK805=m
-CONFIG_PINCTRL_ROCKCHIP=m
-CONFIG_PINCTRL_SINGLE=m
-CONFIG_PINCTRL_STMFX=m
-CONFIG_PINCTRL_OWL=y
-CONFIG_PINCTRL_S500=y
-CONFIG_PINCTRL_S700=y
-CONFIG_PINCTRL_S900=y
-CONFIG_PINCTRL_ASPEED=y
-CONFIG_PINCTRL_ASPEED_G4=y
-CONFIG_PINCTRL_ASPEED_G5=y
-CONFIG_PINCTRL_ASPEED_G6=y
-CONFIG_PINCTRL_BCM281XX=y
-CONFIG_PINCTRL_BCM2835=m
-CONFIG_PINCTRL_BCM4908=m
-CONFIG_PINCTRL_BCM63XX=y
-CONFIG_PINCTRL_BCM6318=y
-CONFIG_PINCTRL_BCM6328=y
-CONFIG_PINCTRL_BCM6358=y
-CONFIG_PINCTRL_BCM6362=y
-CONFIG_PINCTRL_BCM6368=y
-CONFIG_PINCTRL_BCM63268=y
-CONFIG_PINCTRL_IPROC_GPIO=y
-CONFIG_PINCTRL_CYGNUS_MUX=y
-CONFIG_PINCTRL_NS=y
-CONFIG_PINCTRL_NSP_GPIO=y
-CONFIG_PINCTRL_NS2_MUX=y
-CONFIG_PINCTRL_NSP_MUX=y
-CONFIG_PINCTRL_BERLIN=y
-CONFIG_PINCTRL_AS370=y
-CONFIG_PINCTRL_BERLIN_BG4CT=y
-CONFIG_PINCTRL_MADERA=m
-CONFIG_PINCTRL_CS47L15=y
-CONFIG_PINCTRL_CS47L35=y
-CONFIG_PINCTRL_CS47L85=y
-CONFIG_PINCTRL_CS47L90=y
-CONFIG_PINCTRL_CS47L92=y
-CONFIG_PINCTRL_IMX=m
-CONFIG_PINCTRL_IMX8MM=m
-CONFIG_PINCTRL_IMX8MN=m
-CONFIG_PINCTRL_IMX8MP=m
-CONFIG_PINCTRL_IMX8MQ=m
-
-#
-# Intel pinctrl drivers
-#
-# end of Intel pinctrl drivers
-
-#
-# MediaTek pinctrl drivers
-#
-CONFIG_EINT_MTK=y
-CONFIG_PINCTRL_MTK=y
-CONFIG_PINCTRL_MTK_V2=y
-CONFIG_PINCTRL_MTK_MOORE=y
-CONFIG_PINCTRL_MTK_PARIS=y
-CONFIG_PINCTRL_MT2701=y
-CONFIG_PINCTRL_MT7623=y
-CONFIG_PINCTRL_MT7629=y
-CONFIG_PINCTRL_MT8135=y
-CONFIG_PINCTRL_MT8127=y
-CONFIG_PINCTRL_MT2712=y
-CONFIG_PINCTRL_MT6765=m
-CONFIG_PINCTRL_MT6779=m
-CONFIG_PINCTRL_MT6795=y
-CONFIG_PINCTRL_MT6797=y
-CONFIG_PINCTRL_MT7622=y
-CONFIG_PINCTRL_MT7986=y
-CONFIG_PINCTRL_MT8167=y
-CONFIG_PINCTRL_MT8173=y
-CONFIG_PINCTRL_MT8183=y
-CONFIG_PINCTRL_MT8186=y
-CONFIG_PINCTRL_MT8188=y
-CONFIG_PINCTRL_MT8192=y
-CONFIG_PINCTRL_MT8195=y
-CONFIG_PINCTRL_MT8365=y
-CONFIG_PINCTRL_MT8516=y
-CONFIG_PINCTRL_MT6397=y
-# end of MediaTek pinctrl drivers
-
-CONFIG_PINCTRL_MESON=m
-CONFIG_PINCTRL_WPCM450=m
-CONFIG_PINCTRL_NPCM7XX=y
-CONFIG_PINCTRL_PXA=y
-CONFIG_PINCTRL_PXA25X=m
-CONFIG_PINCTRL_PXA27X=m
-CONFIG_PINCTRL_MSM=m
-CONFIG_PINCTRL_APQ8064=m
-CONFIG_PINCTRL_APQ8084=m
-CONFIG_PINCTRL_IPQ4019=m
-CONFIG_PINCTRL_IPQ8064=m
-CONFIG_PINCTRL_IPQ8074=m
-CONFIG_PINCTRL_IPQ6018=m
-CONFIG_PINCTRL_MSM8226=m
-CONFIG_PINCTRL_MSM8660=m
-CONFIG_PINCTRL_MSM8960=m
-CONFIG_PINCTRL_MDM9607=m
-CONFIG_PINCTRL_MDM9615=m
-CONFIG_PINCTRL_MSM8X74=m
-CONFIG_PINCTRL_MSM8909=m
-CONFIG_PINCTRL_MSM8916=m
-CONFIG_PINCTRL_MSM8953=m
-CONFIG_PINCTRL_MSM8976=m
-CONFIG_PINCTRL_MSM8994=m
-CONFIG_PINCTRL_MSM8996=m
-CONFIG_PINCTRL_MSM8998=m
-CONFIG_PINCTRL_QCM2290=m
-CONFIG_PINCTRL_QCS404=m
-CONFIG_PINCTRL_QCOM_SPMI_PMIC=m
-CONFIG_PINCTRL_QCOM_SSBI_PMIC=m
-CONFIG_PINCTRL_SC7180=m
-CONFIG_PINCTRL_SC7280=m
-CONFIG_PINCTRL_SC7280_LPASS_LPI=m
-CONFIG_PINCTRL_SC8180X=m
-CONFIG_PINCTRL_SC8280XP=m
-CONFIG_PINCTRL_SDM660=m
-CONFIG_PINCTRL_SDM845=m
-CONFIG_PINCTRL_SDX55=m
-CONFIG_PINCTRL_SM6115=m
-CONFIG_PINCTRL_SM6125=m
-CONFIG_PINCTRL_SM6350=m
-CONFIG_PINCTRL_SM6375=m
-CONFIG_PINCTRL_SDX65=m
-CONFIG_PINCTRL_SM8150=m
-CONFIG_PINCTRL_SM8250=m
-CONFIG_PINCTRL_SM8250_LPASS_LPI=m
-CONFIG_PINCTRL_SM8350=m
-CONFIG_PINCTRL_SM8450=m
-CONFIG_PINCTRL_SM8450_LPASS_LPI=m
-CONFIG_PINCTRL_SC8280XP_LPASS_LPI=m
-CONFIG_PINCTRL_LPASS_LPI=m
-
-#
-# Renesas pinctrl drivers
-#
-CONFIG_PINCTRL_RENESAS=y
-CONFIG_PINCTRL_SH_PFC=y
-CONFIG_PINCTRL_SH_PFC_GPIO=y
-CONFIG_PINCTRL_SH_FUNC_GPIO=y
-CONFIG_PINCTRL_PFC_EMEV2=y
-CONFIG_PINCTRL_PFC_R8A77995=y
-CONFIG_PINCTRL_PFC_R8A7794=y
-CONFIG_PINCTRL_PFC_R8A77990=y
-CONFIG_PINCTRL_PFC_R8A7779=y
-CONFIG_PINCTRL_PFC_R8A7790=y
-CONFIG_PINCTRL_PFC_R8A77950=y
-CONFIG_PINCTRL_PFC_R8A77951=y
-CONFIG_PINCTRL_PFC_R8A7778=y
-CONFIG_PINCTRL_PFC_R8A7793=y
-CONFIG_PINCTRL_PFC_R8A7791=y
-CONFIG_PINCTRL_PFC_R8A77965=y
-CONFIG_PINCTRL_PFC_R8A77960=y
-CONFIG_PINCTRL_PFC_R8A77961=y
-CONFIG_PINCTRL_PFC_R8A779F0=y
-CONFIG_PINCTRL_PFC_R8A7792=y
-CONFIG_PINCTRL_PFC_R8A77980=y
-CONFIG_PINCTRL_PFC_R8A77970=y
-CONFIG_PINCTRL_PFC_R8A779A0=y
-CONFIG_PINCTRL_PFC_R8A779G0=y
-CONFIG_PINCTRL_PFC_R8A7740=y
-CONFIG_PINCTRL_PFC_R8A73A4=y
-CONFIG_PINCTRL_RZA1=y
-CONFIG_PINCTRL_RZA2=y
-CONFIG_PINCTRL_RZG2L=y
-CONFIG_PINCTRL_PFC_R8A77470=y
-CONFIG_PINCTRL_PFC_R8A7745=y
-CONFIG_PINCTRL_PFC_R8A7742=y
-CONFIG_PINCTRL_PFC_R8A7743=y
-CONFIG_PINCTRL_PFC_R8A7744=y
-CONFIG_PINCTRL_PFC_R8A774C0=y
-CONFIG_PINCTRL_PFC_R8A774E1=y
-CONFIG_PINCTRL_PFC_R8A774A1=y
-CONFIG_PINCTRL_PFC_R8A774B1=y
-CONFIG_PINCTRL_RZN1=y
-CONFIG_PINCTRL_RZV2M=y
-CONFIG_PINCTRL_PFC_SH7203=y
-CONFIG_PINCTRL_PFC_SH7264=y
-CONFIG_PINCTRL_PFC_SH7269=y
-CONFIG_PINCTRL_PFC_SH7720=y
-CONFIG_PINCTRL_PFC_SH7722=y
-CONFIG_PINCTRL_PFC_SH7734=y
-CONFIG_PINCTRL_PFC_SH7757=y
-CONFIG_PINCTRL_PFC_SH7785=y
-CONFIG_PINCTRL_PFC_SH7786=y
-CONFIG_PINCTRL_PFC_SH73A0=y
-CONFIG_PINCTRL_PFC_SH7723=y
-CONFIG_PINCTRL_PFC_SH7724=y
-CONFIG_PINCTRL_PFC_SHX3=y
-# end of Renesas pinctrl drivers
-
-CONFIG_PINCTRL_SAMSUNG=y
-CONFIG_PINCTRL_EXYNOS=y
-CONFIG_PINCTRL_EXYNOS_ARM=y
-CONFIG_PINCTRL_EXYNOS_ARM64=y
-CONFIG_PINCTRL_S3C24XX=y
-CONFIG_PINCTRL_S3C64XX=y
-CONFIG_PINCTRL_SPRD=m
-CONFIG_PINCTRL_SPRD_SC9860=m
-CONFIG_PINCTRL_STARFIVE_JH7100=m
-CONFIG_PINCTRL_STM32=y
-CONFIG_PINCTRL_STM32F429=y
-CONFIG_PINCTRL_STM32F469=y
-CONFIG_PINCTRL_STM32F746=y
-CONFIG_PINCTRL_STM32F769=y
-CONFIG_PINCTRL_STM32H743=y
-CONFIG_PINCTRL_STM32MP135=y
-CONFIG_PINCTRL_STM32MP157=y
-CONFIG_PINCTRL_TI_IODELAY=m
-CONFIG_PINCTRL_UNIPHIER=y
-CONFIG_PINCTRL_UNIPHIER_LD4=y
-CONFIG_PINCTRL_UNIPHIER_PRO4=y
-CONFIG_PINCTRL_UNIPHIER_SLD8=y
-CONFIG_PINCTRL_UNIPHIER_PRO5=y
-CONFIG_PINCTRL_UNIPHIER_PXS2=y
-CONFIG_PINCTRL_UNIPHIER_LD6B=y
-CONFIG_PINCTRL_UNIPHIER_LD11=y
-CONFIG_PINCTRL_UNIPHIER_LD20=y
-CONFIG_PINCTRL_UNIPHIER_PXS3=y
-CONFIG_PINCTRL_UNIPHIER_NX1=y
-CONFIG_PINCTRL_VISCONTI=y
-CONFIG_PINCTRL_TMPV7700=y
-CONFIG_ARCH_HAVE_CUSTOM_GPIO_H=y
-CONFIG_GPIOLIB=y
-CONFIG_GPIOLIB_FASTPATH_LIMIT=512
-CONFIG_OF_GPIO=y
-CONFIG_GPIOLIB_IRQCHIP=y
-CONFIG_DEBUG_GPIO=y
-CONFIG_GPIO_SYSFS=y
-CONFIG_GPIO_CDEV=y
-CONFIG_GPIO_CDEV_V1=y
-CONFIG_GPIO_GENERIC=y
-CONFIG_GPIO_REGMAP=y
-CONFIG_GPIO_MAX730X=m
-
-#
-# Memory mapped GPIO drivers
-#
-CONFIG_GPIO_74XX_MMIO=m
-CONFIG_GPIO_ALTERA=m
-CONFIG_GPIO_ASPEED=m
-CONFIG_GPIO_ASPEED_SGPIO=y
-CONFIG_GPIO_ATH79=m
-CONFIG_GPIO_RASPBERRYPI_EXP=m
-CONFIG_GPIO_BCM_KONA=y
-CONFIG_GPIO_BCM_XGS_IPROC=m
-CONFIG_GPIO_BRCMSTB=m
-CONFIG_GPIO_CADENCE=m
-CONFIG_GPIO_CLPS711X=m
-CONFIG_GPIO_DWAPB=m
-CONFIG_GPIO_EIC_SPRD=m
-CONFIG_GPIO_EM=m
-CONFIG_GPIO_FTGPIO010=y
-CONFIG_GPIO_GENERIC_PLATFORM=m
-CONFIG_GPIO_GRGPIO=m
-CONFIG_GPIO_HISI=m
-CONFIG_GPIO_HLWD=m
-CONFIG_GPIO_IMX_SCU=y
-CONFIG_GPIO_IOP=m
-CONFIG_GPIO_LOGICVC=m
-CONFIG_GPIO_LPC18XX=m
-CONFIG_GPIO_LPC32XX=m
-CONFIG_GPIO_MB86S7X=m
-CONFIG_GPIO_MENZ127=m
-CONFIG_GPIO_MPC8XXX=y
-CONFIG_GPIO_MT7621=y
-CONFIG_GPIO_MXC=m
-CONFIG_GPIO_MXS=y
-CONFIG_GPIO_PMIC_EIC_SPRD=m
-CONFIG_GPIO_PXA=y
-CONFIG_GPIO_RCAR=m
-CONFIG_GPIO_RDA=y
-CONFIG_GPIO_ROCKCHIP=m
-CONFIG_GPIO_SAMA5D2_PIOBU=m
-CONFIG_GPIO_SIFIVE=y
-CONFIG_GPIO_SIOX=m
-CONFIG_GPIO_SNPS_CREG=y
-CONFIG_GPIO_SPRD=m
-CONFIG_GPIO_STP_XWAY=y
-CONFIG_GPIO_SYSCON=m
-CONFIG_GPIO_TEGRA=m
-CONFIG_GPIO_TEGRA186=m
-CONFIG_GPIO_TS4800=m
-CONFIG_GPIO_UNIPHIER=m
-CONFIG_GPIO_VISCONTI=m
-CONFIG_GPIO_WCD934X=m
-CONFIG_GPIO_XGENE_SB=m
-CONFIG_GPIO_XILINX=m
-CONFIG_GPIO_XLP=m
-CONFIG_GPIO_AMD_FCH=m
-CONFIG_GPIO_IDT3243X=m
-# end of Memory mapped GPIO drivers
-
-#
-# I2C GPIO expanders
-#
-CONFIG_GPIO_ADNP=m
-CONFIG_GPIO_GW_PLD=m
-CONFIG_GPIO_MAX7300=m
-CONFIG_GPIO_MAX732X=m
-CONFIG_GPIO_PCA953X=m
-CONFIG_GPIO_PCA953X_IRQ=y
-CONFIG_GPIO_PCA9570=m
-CONFIG_GPIO_PCF857X=m
-CONFIG_GPIO_TPIC2810=m
-CONFIG_GPIO_TS4900=m
-# end of I2C GPIO expanders
-
-#
-# MFD GPIO expanders
-#
-CONFIG_GPIO_ARIZONA=m
-CONFIG_GPIO_BD9571MWV=m
-CONFIG_GPIO_DA9052=m
-CONFIG_GPIO_DLN2=m
-CONFIG_GPIO_KEMPLD=m
-CONFIG_GPIO_LP3943=m
-CONFIG_GPIO_LP873X=m
-CONFIG_GPIO_LP87565=m
-CONFIG_GPIO_MADERA=m
-CONFIG_GPIO_MAX77650=m
-CONFIG_GPIO_SL28CPLD=m
-CONFIG_GPIO_STMPE=y
-CONFIG_GPIO_TPS65086=m
-CONFIG_GPIO_TPS65218=m
-CONFIG_GPIO_TPS65912=m
-CONFIG_GPIO_UCB1400=m
-CONFIG_GPIO_WM831X=m
-CONFIG_GPIO_WM8994=m
-# end of MFD GPIO expanders
-
-#
-# SPI GPIO expanders
-#
-CONFIG_GPIO_74X164=m
-CONFIG_GPIO_MAX3191X=m
-CONFIG_GPIO_MAX7301=m
-CONFIG_GPIO_MC33880=m
-CONFIG_GPIO_PISOSR=m
-CONFIG_GPIO_XRA1403=m
-CONFIG_GPIO_MOXTET=m
-# end of SPI GPIO expanders
-
-#
-# USB GPIO expanders
-#
-CONFIG_GPIO_VIPERBOARD=m
-# end of USB GPIO expanders
-
-#
-# Virtual GPIO drivers
-#
-CONFIG_GPIO_AGGREGATOR=m
-CONFIG_GPIO_MOCKUP=m
-CONFIG_GPIO_VIRTIO=m
-CONFIG_GPIO_SIM=m
-# end of Virtual GPIO drivers
-
-CONFIG_W1=m
-CONFIG_W1_CON=y
-
-#
-# 1-wire Bus Masters
-#
-CONFIG_W1_MASTER_DS2490=m
-CONFIG_W1_MASTER_DS2482=m
-CONFIG_W1_MASTER_MXC=m
-CONFIG_W1_MASTER_DS1WM=m
-CONFIG_W1_MASTER_GPIO=m
-CONFIG_W1_MASTER_SGI=m
-# end of 1-wire Bus Masters
-
-#
-# 1-wire Slaves
-#
-CONFIG_W1_SLAVE_THERM=m
-CONFIG_W1_SLAVE_SMEM=m
-CONFIG_W1_SLAVE_DS2405=m
-CONFIG_W1_SLAVE_DS2408=m
-CONFIG_W1_SLAVE_DS2408_READBACK=y
-CONFIG_W1_SLAVE_DS2413=m
-CONFIG_W1_SLAVE_DS2406=m
-CONFIG_W1_SLAVE_DS2423=m
-CONFIG_W1_SLAVE_DS2805=m
-CONFIG_W1_SLAVE_DS2430=m
-CONFIG_W1_SLAVE_DS2431=m
-CONFIG_W1_SLAVE_DS2433=m
-CONFIG_W1_SLAVE_DS2433_CRC=y
-CONFIG_W1_SLAVE_DS2438=m
-CONFIG_W1_SLAVE_DS250X=m
-CONFIG_W1_SLAVE_DS2780=m
-CONFIG_W1_SLAVE_DS2781=m
-CONFIG_W1_SLAVE_DS28E04=m
-CONFIG_W1_SLAVE_DS28E17=m
-# end of 1-wire Slaves
-
-CONFIG_POWER_RESET=y
-CONFIG_POWER_RESET_ATC260X=m
-CONFIG_POWER_RESET_BRCMKONA=y
-CONFIG_POWER_RESET_BRCMSTB=y
-CONFIG_POWER_RESET_GEMINI_POWEROFF=y
-CONFIG_POWER_RESET_GPIO=y
-CONFIG_POWER_RESET_GPIO_RESTART=y
-CONFIG_POWER_RESET_LINKSTATION=m
-CONFIG_POWER_RESET_OCELOT_RESET=y
-CONFIG_POWER_RESET_LTC2952=y
-CONFIG_POWER_RESET_MT6323=y
-CONFIG_POWER_RESET_REGULATOR=y
-CONFIG_POWER_RESET_RESTART=y
-CONFIG_POWER_RESET_TPS65086=y
-CONFIG_POWER_RESET_KEYSTONE=y
-CONFIG_POWER_RESET_SYSCON=y
-CONFIG_POWER_RESET_SYSCON_POWEROFF=y
-CONFIG_POWER_RESET_RMOBILE=m
-CONFIG_REBOOT_MODE=m
-CONFIG_SYSCON_REBOOT_MODE=m
-CONFIG_POWER_RESET_SC27XX=m
-CONFIG_NVMEM_REBOOT_MODE=m
-CONFIG_POWER_SUPPLY=y
-CONFIG_POWER_SUPPLY_DEBUG=y
-CONFIG_PDA_POWER=m
-CONFIG_GENERIC_ADC_BATTERY=m
-CONFIG_IP5XXX_POWER=m
-CONFIG_WM831X_BACKUP=m
-CONFIG_WM831X_POWER=m
-CONFIG_TEST_POWER=m
-CONFIG_CHARGER_ADP5061=m
-CONFIG_BATTERY_ACT8945A=m
-CONFIG_BATTERY_CPCAP=m
-CONFIG_BATTERY_CW2015=m
-CONFIG_BATTERY_DS2760=m
-CONFIG_BATTERY_DS2780=m
-CONFIG_BATTERY_DS2781=m
-CONFIG_BATTERY_DS2782=m
-CONFIG_BATTERY_LEGO_EV3=m
-CONFIG_BATTERY_OLPC=m
-CONFIG_BATTERY_SAMSUNG_SDI=y
-CONFIG_BATTERY_INGENIC=m
-CONFIG_BATTERY_SBS=m
-CONFIG_CHARGER_SBS=m
-CONFIG_MANAGER_SBS=m
-CONFIG_BATTERY_BQ27XXX=m
-CONFIG_BATTERY_BQ27XXX_I2C=m
-CONFIG_BATTERY_BQ27XXX_HDQ=m
-CONFIG_BATTERY_BQ27XXX_DT_UPDATES_NVM=y
-CONFIG_BATTERY_DA9052=m
-CONFIG_CHARGER_DA9150=m
-CONFIG_BATTERY_DA9150=m
-CONFIG_CHARGER_AXP20X=m
-CONFIG_BATTERY_AXP20X=m
-CONFIG_AXP20X_POWER=m
-CONFIG_BATTERY_MAX17040=m
-CONFIG_BATTERY_MAX17042=m
-CONFIG_BATTERY_MAX1721X=m
-CONFIG_CHARGER_PCF50633=m
-CONFIG_CHARGER_CPCAP=m
-CONFIG_CHARGER_ISP1704=m
-CONFIG_CHARGER_MAX8903=m
-CONFIG_CHARGER_LP8727=m
-CONFIG_CHARGER_GPIO=m
-CONFIG_CHARGER_MANAGER=m
-CONFIG_CHARGER_LT3651=m
-CONFIG_CHARGER_LTC4162L=m
-CONFIG_CHARGER_MAX14577=m
-CONFIG_CHARGER_DETECTOR_MAX14656=m
-CONFIG_CHARGER_MAX77650=m
-CONFIG_CHARGER_MAX77693=m
-CONFIG_CHARGER_MAX77976=m
-CONFIG_CHARGER_MP2629=m
-CONFIG_CHARGER_MT6360=m
-CONFIG_CHARGER_MT6370=m
-CONFIG_CHARGER_QCOM_SMBB=m
-CONFIG_CHARGER_BQ2415X=m
-CONFIG_CHARGER_BQ24190=m
-CONFIG_CHARGER_BQ24257=m
-CONFIG_CHARGER_BQ24735=m
-CONFIG_CHARGER_BQ2515X=m
-CONFIG_CHARGER_BQ25890=m
-CONFIG_CHARGER_BQ25980=m
-CONFIG_CHARGER_BQ256XX=m
-CONFIG_CHARGER_RK817=m
-CONFIG_CHARGER_SMB347=m
-CONFIG_CHARGER_TPS65217=m
-CONFIG_BATTERY_GAUGE_LTC2941=m
-CONFIG_BATTERY_GOLDFISH=m
-CONFIG_BATTERY_RT5033=m
-CONFIG_CHARGER_RT9455=m
-CONFIG_CHARGER_CROS_USBPD=m
-CONFIG_CHARGER_CROS_PCHG=m
-CONFIG_CHARGER_SC2731=m
-CONFIG_FUEL_GAUGE_SC27XX=m
-CONFIG_CHARGER_UCS1002=m
-CONFIG_CHARGER_BD99954=m
-CONFIG_RN5T618_POWER=m
-CONFIG_BATTERY_ACER_A500=m
-CONFIG_BATTERY_UG3105=m
-CONFIG_HWMON=m
-CONFIG_HWMON_VID=m
-CONFIG_HWMON_DEBUG_CHIP=y
-
-#
-# Native drivers
-#
-CONFIG_SENSORS_AD7314=m
-CONFIG_SENSORS_AD7414=m
-CONFIG_SENSORS_AD7418=m
-CONFIG_SENSORS_ADM1025=m
-CONFIG_SENSORS_ADM1026=m
-CONFIG_SENSORS_ADM1029=m
-CONFIG_SENSORS_ADM1031=m
-CONFIG_SENSORS_ADM1177=m
-CONFIG_SENSORS_ADM9240=m
-CONFIG_SENSORS_ADT7X10=m
-CONFIG_SENSORS_ADT7310=m
-CONFIG_SENSORS_ADT7410=m
-CONFIG_SENSORS_ADT7411=m
-CONFIG_SENSORS_ADT7462=m
-CONFIG_SENSORS_ADT7470=m
-CONFIG_SENSORS_ADT7475=m
-CONFIG_SENSORS_AHT10=m
-CONFIG_SENSORS_AQUACOMPUTER_D5NEXT=m
-CONFIG_SENSORS_AS370=m
-CONFIG_SENSORS_ASC7621=m
-CONFIG_SENSORS_AXI_FAN_CONTROL=m
-CONFIG_SENSORS_ARM_SCMI=m
-CONFIG_SENSORS_ARM_SCPI=m
-CONFIG_SENSORS_ASB100=m
-CONFIG_SENSORS_ASPEED=m
-CONFIG_SENSORS_ATXP1=m
-CONFIG_SENSORS_BT1_PVT=m
-CONFIG_SENSORS_BT1_PVT_ALARMS=y
-CONFIG_SENSORS_CORSAIR_CPRO=m
-CONFIG_SENSORS_CORSAIR_PSU=m
-CONFIG_SENSORS_DRIVETEMP=m
-CONFIG_SENSORS_DS620=m
-CONFIG_SENSORS_DS1621=m
-CONFIG_SENSORS_DA9052_ADC=m
-CONFIG_SENSORS_SPARX5=m
-CONFIG_SENSORS_F71805F=m
-CONFIG_SENSORS_F71882FG=m
-CONFIG_SENSORS_F75375S=m
-CONFIG_SENSORS_GSC=m
-CONFIG_SENSORS_MC13783_ADC=m
-CONFIG_SENSORS_FSCHMD=m
-CONFIG_SENSORS_FTSTEUTATES=m
-CONFIG_SENSORS_GL518SM=m
-CONFIG_SENSORS_GL520SM=m
-CONFIG_SENSORS_G760A=m
-CONFIG_SENSORS_G762=m
-CONFIG_SENSORS_GPIO_FAN=m
-CONFIG_SENSORS_HIH6130=m
-CONFIG_SENSORS_IBMAEM=m
-CONFIG_SENSORS_IBMPEX=m
-CONFIG_SENSORS_IIO_HWMON=m
-CONFIG_SENSORS_IT87=m
-CONFIG_SENSORS_JC42=m
-CONFIG_SENSORS_POWR1220=m
-CONFIG_SENSORS_LAN966X=m
-CONFIG_SENSORS_LINEAGE=m
-CONFIG_SENSORS_LTC2945=m
-CONFIG_SENSORS_LTC2947=m
-CONFIG_SENSORS_LTC2947_I2C=m
-CONFIG_SENSORS_LTC2947_SPI=m
-CONFIG_SENSORS_LTC2990=m
-CONFIG_SENSORS_LTC2992=m
-CONFIG_SENSORS_LTC4151=m
-CONFIG_SENSORS_LTC4215=m
-CONFIG_SENSORS_LTC4222=m
-CONFIG_SENSORS_LTC4245=m
-CONFIG_SENSORS_LTC4260=m
-CONFIG_SENSORS_LTC4261=m
-CONFIG_SENSORS_MAX1111=m
-CONFIG_SENSORS_MAX127=m
-CONFIG_SENSORS_MAX16065=m
-CONFIG_SENSORS_MAX1619=m
-CONFIG_SENSORS_MAX1668=m
-CONFIG_SENSORS_MAX197=m
-CONFIG_SENSORS_MAX31722=m
-CONFIG_SENSORS_MAX31730=m
-CONFIG_SENSORS_MAX31760=m
-CONFIG_SENSORS_MAX6620=m
-CONFIG_SENSORS_MAX6621=m
-CONFIG_SENSORS_MAX6639=m
-CONFIG_SENSORS_MAX6650=m
-CONFIG_SENSORS_MAX6697=m
-CONFIG_SENSORS_MAX31790=m
-CONFIG_SENSORS_MCP3021=m
-CONFIG_SENSORS_MLXREG_FAN=m
-CONFIG_SENSORS_TC654=m
-CONFIG_SENSORS_TPS23861=m
-CONFIG_SENSORS_MENF21BMC_HWMON=m
-CONFIG_SENSORS_MR75203=m
-CONFIG_SENSORS_ADCXX=m
-CONFIG_SENSORS_LM63=m
-CONFIG_SENSORS_LM70=m
-CONFIG_SENSORS_LM73=m
-CONFIG_SENSORS_LM75=m
-CONFIG_SENSORS_LM77=m
-CONFIG_SENSORS_LM78=m
-CONFIG_SENSORS_LM80=m
-CONFIG_SENSORS_LM83=m
-CONFIG_SENSORS_LM85=m
-CONFIG_SENSORS_LM87=m
-CONFIG_SENSORS_LM90=m
-CONFIG_SENSORS_LM92=m
-CONFIG_SENSORS_LM93=m
-CONFIG_SENSORS_LM95234=m
-CONFIG_SENSORS_LM95241=m
-CONFIG_SENSORS_LM95245=m
-CONFIG_SENSORS_PC87360=m
-CONFIG_SENSORS_PC87427=m
-CONFIG_SENSORS_NTC_THERMISTOR=m
-CONFIG_SENSORS_NCT6683=m
-CONFIG_SENSORS_NCT6775_CORE=m
-CONFIG_SENSORS_NCT6775=m
-CONFIG_SENSORS_NCT6775_I2C=m
-CONFIG_SENSORS_NCT7802=m
-CONFIG_SENSORS_NCT7904=m
-CONFIG_SENSORS_NPCM7XX=m
-CONFIG_SENSORS_NSA320=m
-CONFIG_SENSORS_NZXT_KRAKEN2=m
-CONFIG_SENSORS_NZXT_SMART2=m
-CONFIG_SENSORS_OCC_P8_I2C=m
-CONFIG_SENSORS_OCC_P9_SBE=m
-CONFIG_SENSORS_OCC=m
-CONFIG_SENSORS_PCF8591=m
-CONFIG_SENSORS_PECI_CPUTEMP=m
-CONFIG_SENSORS_PECI_DIMMTEMP=m
-CONFIG_SENSORS_PECI=m
-CONFIG_PMBUS=m
-CONFIG_SENSORS_PMBUS=m
-CONFIG_SENSORS_ADM1266=m
-CONFIG_SENSORS_ADM1275=m
-CONFIG_SENSORS_BEL_PFE=m
-CONFIG_SENSORS_BPA_RS600=m
-CONFIG_SENSORS_DELTA_AHE50DC_FAN=m
-CONFIG_SENSORS_FSP_3Y=m
-CONFIG_SENSORS_IBM_CFFPS=m
-CONFIG_SENSORS_DPS920AB=m
-CONFIG_SENSORS_INSPUR_IPSPS=m
-CONFIG_SENSORS_IR35221=m
-CONFIG_SENSORS_IR36021=m
-CONFIG_SENSORS_IR38064=m
-CONFIG_SENSORS_IR38064_REGULATOR=y
-CONFIG_SENSORS_IRPS5401=m
-CONFIG_SENSORS_ISL68137=m
-CONFIG_SENSORS_LM25066=m
-CONFIG_SENSORS_LM25066_REGULATOR=y
-CONFIG_SENSORS_LT7182S=m
-CONFIG_SENSORS_LTC2978=m
-CONFIG_SENSORS_LTC2978_REGULATOR=y
-CONFIG_SENSORS_LTC3815=m
-CONFIG_SENSORS_MAX15301=m
-CONFIG_SENSORS_MAX16064=m
-CONFIG_SENSORS_MAX16601=m
-CONFIG_SENSORS_MAX20730=m
-CONFIG_SENSORS_MAX20751=m
-CONFIG_SENSORS_MAX31785=m
-CONFIG_SENSORS_MAX34440=m
-CONFIG_SENSORS_MAX8688=m
-CONFIG_SENSORS_MP2888=m
-CONFIG_SENSORS_MP2975=m
-CONFIG_SENSORS_MP5023=m
-CONFIG_SENSORS_PIM4328=m
-CONFIG_SENSORS_PLI1209BC=m
-CONFIG_SENSORS_PLI1209BC_REGULATOR=y
-CONFIG_SENSORS_PM6764TR=m
-CONFIG_SENSORS_PXE1610=m
-CONFIG_SENSORS_Q54SJ108A2=m
-CONFIG_SENSORS_STPDDC60=m
-CONFIG_SENSORS_TPS40422=m
-CONFIG_SENSORS_TPS53679=m
-CONFIG_SENSORS_TPS546D24=m
-CONFIG_SENSORS_UCD9000=m
-CONFIG_SENSORS_UCD9200=m
-CONFIG_SENSORS_XDPE152=m
-CONFIG_SENSORS_XDPE122=m
-CONFIG_SENSORS_XDPE122_REGULATOR=y
-CONFIG_SENSORS_ZL6100=m
-CONFIG_SENSORS_PWM_FAN=m
-CONFIG_SENSORS_RASPBERRYPI_HWMON=m
-CONFIG_SENSORS_SL28CPLD=m
-CONFIG_SENSORS_SBTSI=m
-CONFIG_SENSORS_SBRMI=m
-CONFIG_SENSORS_SHT15=m
-CONFIG_SENSORS_SHT21=m
-CONFIG_SENSORS_SHT3x=m
-CONFIG_SENSORS_SHT4x=m
-CONFIG_SENSORS_SHTC1=m
-CONFIG_SENSORS_SY7636A=m
-CONFIG_SENSORS_DME1737=m
-CONFIG_SENSORS_EMC1403=m
-CONFIG_SENSORS_EMC2103=m
-CONFIG_SENSORS_EMC2305=m
-CONFIG_SENSORS_EMC6W201=m
-CONFIG_SENSORS_SMSC47M1=m
-CONFIG_SENSORS_SMSC47M192=m
-CONFIG_SENSORS_SMSC47B397=m
-CONFIG_SENSORS_SCH56XX_COMMON=m
-CONFIG_SENSORS_SCH5627=m
-CONFIG_SENSORS_SCH5636=m
-CONFIG_SENSORS_STTS751=m
-CONFIG_SENSORS_SMM665=m
-CONFIG_SENSORS_ADC128D818=m
-CONFIG_SENSORS_ADS7828=m
-CONFIG_SENSORS_ADS7871=m
-CONFIG_SENSORS_AMC6821=m
-CONFIG_SENSORS_INA209=m
-CONFIG_SENSORS_INA2XX=m
-CONFIG_SENSORS_INA238=m
-CONFIG_SENSORS_INA3221=m
-CONFIG_SENSORS_TC74=m
-CONFIG_SENSORS_THMC50=m
-CONFIG_SENSORS_TMP102=m
-CONFIG_SENSORS_TMP103=m
-CONFIG_SENSORS_TMP108=m
-CONFIG_SENSORS_TMP401=m
-CONFIG_SENSORS_TMP421=m
-CONFIG_SENSORS_TMP464=m
-CONFIG_SENSORS_TMP513=m
-CONFIG_SENSORS_VT1211=m
-CONFIG_SENSORS_W83773G=m
-CONFIG_SENSORS_W83781D=m
-CONFIG_SENSORS_W83791D=m
-CONFIG_SENSORS_W83792D=m
-CONFIG_SENSORS_W83793=m
-CONFIG_SENSORS_W83795=m
-CONFIG_SENSORS_W83795_FANCTRL=y
-CONFIG_SENSORS_W83L785TS=m
-CONFIG_SENSORS_W83L786NG=m
-CONFIG_SENSORS_W83627HF=m
-CONFIG_SENSORS_W83627EHF=m
-CONFIG_SENSORS_WM831X=m
-CONFIG_SENSORS_INTEL_M10_BMC_HWMON=m
-CONFIG_THERMAL=y
-CONFIG_THERMAL_NETLINK=y
-CONFIG_THERMAL_STATISTICS=y
-CONFIG_THERMAL_EMERGENCY_POWEROFF_DELAY_MS=0
-CONFIG_THERMAL_OF=y
-CONFIG_THERMAL_WRITABLE_TRIPS=y
-CONFIG_THERMAL_DEFAULT_GOV_STEP_WISE=y
-# CONFIG_THERMAL_DEFAULT_GOV_FAIR_SHARE is not set
-# CONFIG_THERMAL_DEFAULT_GOV_USER_SPACE is not set
-CONFIG_THERMAL_GOV_FAIR_SHARE=y
-CONFIG_THERMAL_GOV_STEP_WISE=y
-CONFIG_THERMAL_GOV_BANG_BANG=y
-CONFIG_THERMAL_GOV_USER_SPACE=y
-CONFIG_CPU_THERMAL=y
-CONFIG_CPU_FREQ_THERMAL=y
-CONFIG_CPU_IDLE_THERMAL=y
-CONFIG_DEVFREQ_THERMAL=y
-CONFIG_THERMAL_EMULATION=y
-CONFIG_THERMAL_MMIO=m
-CONFIG_HISI_THERMAL=m
-CONFIG_IMX_THERMAL=m
-CONFIG_IMX_SC_THERMAL=m
-CONFIG_IMX8MM_THERMAL=m
-CONFIG_K3_THERMAL=m
-CONFIG_QORIQ_THERMAL=m
-CONFIG_SPEAR_THERMAL=m
-CONFIG_SUN8I_THERMAL=m
-CONFIG_ROCKCHIP_THERMAL=m
-CONFIG_RCAR_THERMAL=m
-CONFIG_RCAR_GEN3_THERMAL=m
-CONFIG_RZG2L_THERMAL=m
-CONFIG_KIRKWOOD_THERMAL=m
-CONFIG_DOVE_THERMAL=m
-CONFIG_ARMADA_THERMAL=m
-CONFIG_DA9062_THERMAL=m
-CONFIG_MTK_THERMAL=m
-
-#
-# Intel thermal drivers
-#
-
-#
-# ACPI INT340X thermal drivers
-#
-# end of ACPI INT340X thermal drivers
-# end of Intel thermal drivers
-
-#
-# Broadcom thermal drivers
-#
-CONFIG_BCM2711_THERMAL=m
-CONFIG_BCM2835_THERMAL=m
-CONFIG_BRCMSTB_THERMAL=m
-CONFIG_BCM_NS_THERMAL=m
-CONFIG_BCM_SR_THERMAL=m
-# end of Broadcom thermal drivers
-
-#
-# Texas Instruments thermal drivers
-#
-CONFIG_TI_SOC_THERMAL=m
-CONFIG_TI_THERMAL=y
-CONFIG_OMAP3_THERMAL=y
-CONFIG_OMAP4_THERMAL=y
-CONFIG_OMAP5_THERMAL=y
-CONFIG_DRA752_THERMAL=y
-# end of Texas Instruments thermal drivers
-
-#
-# Samsung thermal drivers
-#
-CONFIG_EXYNOS_THERMAL=m
-# end of Samsung thermal drivers
-
-#
-# NVIDIA Tegra thermal drivers
-#
-CONFIG_TEGRA_SOCTHERM=m
-CONFIG_TEGRA_BPMP_THERMAL=m
-CONFIG_TEGRA30_TSENSOR=m
-# end of NVIDIA Tegra thermal drivers
-
-CONFIG_GENERIC_ADC_THERMAL=m
-
-#
-# Qualcomm thermal drivers
-#
-CONFIG_QCOM_TSENS=m
-CONFIG_QCOM_SPMI_ADC_TM5=m
-CONFIG_QCOM_SPMI_TEMP_ALARM=m
-# end of Qualcomm thermal drivers
-
-CONFIG_UNIPHIER_THERMAL=m
-CONFIG_SPRD_THERMAL=m
-CONFIG_KHADAS_MCU_FAN_THERMAL=m
-CONFIG_WATCHDOG=y
-CONFIG_WATCHDOG_CORE=y
-CONFIG_WATCHDOG_NOWAYOUT=y
-CONFIG_WATCHDOG_HANDLE_BOOT_ENABLED=y
-CONFIG_WATCHDOG_OPEN_TIMEOUT=0
-CONFIG_WATCHDOG_SYSFS=y
-CONFIG_WATCHDOG_HRTIMER_PRETIMEOUT=y
-
-#
-# Watchdog Pretimeout Governors
-#
-CONFIG_WATCHDOG_PRETIMEOUT_GOV=y
-CONFIG_WATCHDOG_PRETIMEOUT_GOV_SEL=m
-CONFIG_WATCHDOG_PRETIMEOUT_GOV_NOOP=m
-CONFIG_WATCHDOG_PRETIMEOUT_GOV_PANIC=m
-# CONFIG_WATCHDOG_PRETIMEOUT_DEFAULT_GOV_NOOP is not set
-CONFIG_WATCHDOG_PRETIMEOUT_DEFAULT_GOV_PANIC=y
-
-#
-# Watchdog Device Drivers
-#
-CONFIG_SOFT_WATCHDOG=m
-CONFIG_SOFT_WATCHDOG_PRETIMEOUT=y
-CONFIG_DA9052_WATCHDOG=m
-CONFIG_DA9055_WATCHDOG=m
-CONFIG_DA9063_WATCHDOG=m
-CONFIG_DA9062_WATCHDOG=m
-CONFIG_GPIO_WATCHDOG=m
-CONFIG_MENF21BMC_WATCHDOG=m
-CONFIG_MENZ069_WATCHDOG=m
-CONFIG_WM831X_WATCHDOG=m
-CONFIG_XILINX_WATCHDOG=m
-CONFIG_ZIIRAVE_WATCHDOG=m
-CONFIG_RAVE_SP_WATCHDOG=m
-CONFIG_MLX_WDT=m
-CONFIG_SL28CPLD_WATCHDOG=m
-CONFIG_ARMADA_37XX_WATCHDOG=m
-CONFIG_ASM9260_WATCHDOG=m
-CONFIG_AT91RM9200_WATCHDOG=m
-CONFIG_AT91SAM9X_WATCHDOG=m
-CONFIG_SAMA5D4_WATCHDOG=m
-CONFIG_CADENCE_WATCHDOG=m
-CONFIG_FTWDT010_WATCHDOG=m
-CONFIG_S3C2410_WATCHDOG=m
-CONFIG_DW_WATCHDOG=m
-CONFIG_EP93XX_WATCHDOG=m
-CONFIG_OMAP_WATCHDOG=m
-CONFIG_PNX4008_WATCHDOG=m
-CONFIG_DAVINCI_WATCHDOG=m
-CONFIG_K3_RTI_WATCHDOG=m
-CONFIG_RN5T618_WATCHDOG=m
-CONFIG_SUNXI_WATCHDOG=m
-CONFIG_NPCM7XX_WATCHDOG=m
-CONFIG_STMP3XXX_RTC_WATCHDOG=m
-CONFIG_TS4800_WATCHDOG=m
-CONFIG_TS72XX_WATCHDOG=m
-CONFIG_MAX63XX_WATCHDOG=m
-CONFIG_MAX77620_WATCHDOG=m
-CONFIG_IMX2_WDT=m
-CONFIG_IMX7ULP_WDT=m
-CONFIG_RETU_WATCHDOG=m
-CONFIG_MOXART_WDT=m
-CONFIG_ST_LPC_WATCHDOG=m
-CONFIG_TEGRA_WATCHDOG=m
-CONFIG_QCOM_WDT=m
-CONFIG_MESON_GXBB_WATCHDOG=m
-CONFIG_MESON_WATCHDOG=m
-CONFIG_MEDIATEK_WATCHDOG=m
-CONFIG_DIGICOLOR_WATCHDOG=m
-CONFIG_LPC18XX_WATCHDOG=m
-CONFIG_RENESAS_WDT=m
-CONFIG_RENESAS_RZAWDT=m
-CONFIG_RENESAS_RZN1WDT=m
-CONFIG_RENESAS_RZG2LWDT=m
-CONFIG_ASPEED_WATCHDOG=m
-CONFIG_UNIPHIER_WATCHDOG=m
-CONFIG_RTD119X_WATCHDOG=y
-CONFIG_SPRD_WATCHDOG=m
-CONFIG_PM8916_WATCHDOG=m
-CONFIG_VISCONTI_WATCHDOG=m
-CONFIG_MSC313E_WATCHDOG=m
-CONFIG_APPLE_WATCHDOG=m
-CONFIG_SUNPLUS_WATCHDOG=m
-CONFIG_SC520_WDT=m
-CONFIG_KEMPLD_WDT=m
-CONFIG_BCM47XX_WDT=m
-CONFIG_BCM2835_WDT=m
-CONFIG_BCM_KONA_WDT=m
-CONFIG_BCM_KONA_WDT_DEBUG=y
-CONFIG_BCM7038_WDT=m
-CONFIG_IMGPDC_WDT=m
-CONFIG_MPC5200_WDT=y
-CONFIG_MEN_A21_WDT=m
-CONFIG_SH_WDT=m
-CONFIG_UML_WATCHDOG=m
-
-#
-# USB-based Watchdog Cards
-#
-CONFIG_USBPCWATCHDOG=m
-
-#
-# Multifunction device drivers
-#
-CONFIG_MFD_CORE=y
-CONFIG_MFD_ACT8945A=m
-CONFIG_MFD_SUN4I_GPADC=m
-CONFIG_MFD_AT91_USART=m
-CONFIG_MFD_ATMEL_FLEXCOM=m
-CONFIG_MFD_ATMEL_HLCDC=m
-CONFIG_MFD_ATMEL_SMC=y
-CONFIG_MFD_BCM590XX=m
-CONFIG_MFD_BD9571MWV=m
-CONFIG_MFD_AXP20X=m
-CONFIG_MFD_AXP20X_I2C=m
-CONFIG_MFD_CROS_EC_DEV=m
-CONFIG_MFD_MADERA=m
-CONFIG_MFD_MADERA_I2C=m
-CONFIG_MFD_MADERA_SPI=m
-CONFIG_MFD_CS47L15=y
-CONFIG_MFD_CS47L35=y
-CONFIG_MFD_CS47L85=y
-CONFIG_MFD_CS47L90=y
-CONFIG_MFD_CS47L92=y
-CONFIG_MFD_ASIC3=y
-CONFIG_PMIC_DA9052=y
-CONFIG_MFD_DA9052_SPI=y
-CONFIG_MFD_DA9062=m
-CONFIG_MFD_DA9063=m
-CONFIG_MFD_DA9150=m
-CONFIG_MFD_DLN2=m
-CONFIG_MFD_ENE_KB3930=m
-CONFIG_MFD_EXYNOS_LPASS=m
-CONFIG_MFD_GATEWORKS_GSC=m
-CONFIG_MFD_MC13XXX=m
-CONFIG_MFD_MC13XXX_SPI=m
-CONFIG_MFD_MC13XXX_I2C=m
-CONFIG_MFD_MP2629=m
-CONFIG_MFD_MXS_LRADC=m
-CONFIG_MFD_MX25_TSADC=m
-CONFIG_MFD_HI6421_PMIC=m
-CONFIG_MFD_HI6421_SPMI=m
-CONFIG_MFD_HI655X_PMIC=m
-CONFIG_HTC_PASIC3=m
-CONFIG_MFD_IQS62X=m
-CONFIG_MFD_KEMPLD=m
-CONFIG_MFD_88PM800=m
-CONFIG_MFD_88PM805=m
-CONFIG_MFD_MAX14577=m
-CONFIG_MFD_MAX77650=m
-CONFIG_MFD_MAX77686=m
-CONFIG_MFD_MAX77693=m
-CONFIG_MFD_MAX77714=m
-CONFIG_MFD_MAX8907=m
-CONFIG_MFD_MT6360=m
-CONFIG_MFD_MT6370=m
-CONFIG_MFD_MT6397=m
-CONFIG_MFD_MENF21BMC=m
-CONFIG_MFD_OCELOT=m
-CONFIG_EZX_PCAP=y
-CONFIG_MFD_CPCAP=m
-CONFIG_MFD_VIPERBOARD=m
-CONFIG_MFD_NTXEC=m
-CONFIG_MFD_RETU=m
-CONFIG_MFD_PCF50633=m
-CONFIG_PCF50633_ADC=m
-CONFIG_PCF50633_GPIO=m
-CONFIG_UCB1400_CORE=m
-CONFIG_MFD_PM8XXX=m
-CONFIG_MFD_SPMI_PMIC=m
-CONFIG_MFD_SY7636A=m
-CONFIG_MFD_RT4831=m
-CONFIG_MFD_RT5033=m
-CONFIG_MFD_RT5120=m
-CONFIG_MFD_RK808=m
-CONFIG_MFD_RN5T618=m
-CONFIG_MFD_SI476X_CORE=m
-CONFIG_MFD_SIMPLE_MFD_I2C=m
-CONFIG_MFD_SL28CPLD=m
-CONFIG_MFD_SKY81452=m
-CONFIG_MFD_SC27XX_PMIC=m
-CONFIG_ABX500_CORE=y
-CONFIG_MFD_STMPE=y
-
-#
-# STMicroelectronics STMPE Interface Drivers
-#
-CONFIG_STMPE_SPI=y
-# end of STMicroelectronics STMPE Interface Drivers
-
-CONFIG_MFD_SUN6I_PRCM=y
-CONFIG_MFD_SYSCON=y
-CONFIG_MFD_TI_AM335X_TSCADC=m
-CONFIG_MFD_LP3943=m
-CONFIG_MFD_TI_LMU=m
-CONFIG_TPS6105X=m
-CONFIG_TPS65010=m
-CONFIG_TPS6507X=m
-CONFIG_MFD_TPS65086=m
-CONFIG_MFD_TPS65217=m
-CONFIG_MFD_TI_LP873X=m
-CONFIG_MFD_TI_LP87565=m
-CONFIG_MFD_TPS65218=m
-CONFIG_MFD_TPS65912=m
-CONFIG_MFD_TPS65912_I2C=m
-CONFIG_MFD_TPS65912_SPI=m
-CONFIG_MFD_WL1273_CORE=m
-CONFIG_MFD_LM3533=m
-CONFIG_MFD_TQMX86=m
-CONFIG_MFD_ARIZONA=m
-CONFIG_MFD_ARIZONA_I2C=m
-CONFIG_MFD_ARIZONA_SPI=m
-CONFIG_MFD_CS47L24=y
-CONFIG_MFD_WM5102=y
-CONFIG_MFD_WM5110=y
-CONFIG_MFD_WM8997=y
-CONFIG_MFD_WM8998=y
-CONFIG_MFD_WM831X=y
-CONFIG_MFD_WM831X_SPI=y
-CONFIG_MFD_WM8994=m
-CONFIG_MFD_STW481X=m
-CONFIG_MFD_STM32_LPTIMER=m
-CONFIG_MFD_STM32_TIMERS=m
-CONFIG_MFD_STMFX=m
-CONFIG_MFD_WCD934X=m
-CONFIG_MFD_ATC260X=m
-CONFIG_MFD_ATC260X_I2C=m
-CONFIG_MFD_KHADAS_MCU=m
-CONFIG_MFD_ACER_A500_EC=m
-CONFIG_MFD_QCOM_PM8008=m
-CONFIG_RAVE_SP_CORE=m
-CONFIG_MFD_INTEL_M10_BMC=m
-CONFIG_MFD_RSMU_I2C=m
-CONFIG_MFD_RSMU_SPI=m
-# end of Multifunction device drivers
-
-CONFIG_REGULATOR=y
-CONFIG_REGULATOR_DEBUG=y
-CONFIG_REGULATOR_FIXED_VOLTAGE=m
-CONFIG_REGULATOR_VIRTUAL_CONSUMER=m
-CONFIG_REGULATOR_USERSPACE_CONSUMER=m
-CONFIG_REGULATOR_88PG86X=m
-CONFIG_REGULATOR_88PM800=m
-CONFIG_REGULATOR_ACT8865=m
-CONFIG_REGULATOR_ACT8945A=m
-CONFIG_REGULATOR_AD5398=m
-CONFIG_REGULATOR_ANATOP=m
-CONFIG_REGULATOR_ARIZONA_LDO1=m
-CONFIG_REGULATOR_ARIZONA_MICSUPP=m
-CONFIG_REGULATOR_ARM_SCMI=m
-CONFIG_REGULATOR_ATC260X=m
-CONFIG_REGULATOR_AXP20X=m
-CONFIG_REGULATOR_BCM590XX=m
-CONFIG_REGULATOR_BD9571MWV=m
-CONFIG_REGULATOR_CPCAP=m
-CONFIG_REGULATOR_CROS_EC=m
-CONFIG_REGULATOR_DA9052=m
-CONFIG_REGULATOR_DA9062=m
-CONFIG_REGULATOR_DA9063=m
-CONFIG_REGULATOR_DA9121=m
-CONFIG_REGULATOR_DA9210=m
-CONFIG_REGULATOR_DA9211=m
-CONFIG_REGULATOR_FAN53555=m
-CONFIG_REGULATOR_FAN53880=m
-CONFIG_REGULATOR_GPIO=m
-CONFIG_REGULATOR_HI6421=m
-CONFIG_REGULATOR_HI6421V530=m
-CONFIG_REGULATOR_HI655X=m
-CONFIG_REGULATOR_HI6421V600=m
-CONFIG_REGULATOR_ISL9305=m
-CONFIG_REGULATOR_ISL6271A=m
-CONFIG_REGULATOR_LM363X=m
-CONFIG_REGULATOR_LP3971=m
-CONFIG_REGULATOR_LP3972=m
-CONFIG_REGULATOR_LP872X=m
-CONFIG_REGULATOR_LP873X=m
-CONFIG_REGULATOR_LP8755=m
-CONFIG_REGULATOR_LP87565=m
-CONFIG_REGULATOR_LTC3589=m
-CONFIG_REGULATOR_LTC3676=m
-CONFIG_REGULATOR_MAX14577=m
-CONFIG_REGULATOR_MAX1586=m
-CONFIG_REGULATOR_MAX77620=m
-CONFIG_REGULATOR_MAX77650=m
-CONFIG_REGULATOR_MAX8649=m
-CONFIG_REGULATOR_MAX8660=m
-CONFIG_REGULATOR_MAX8893=m
-CONFIG_REGULATOR_MAX8907=m
-CONFIG_REGULATOR_MAX8952=m
-CONFIG_REGULATOR_MAX8973=m
-CONFIG_REGULATOR_MAX20086=m
-CONFIG_REGULATOR_MAX77686=m
-CONFIG_REGULATOR_MAX77693=m
-CONFIG_REGULATOR_MAX77802=m
-CONFIG_REGULATOR_MAX77826=m
-CONFIG_REGULATOR_MC13XXX_CORE=m
-CONFIG_REGULATOR_MC13783=m
-CONFIG_REGULATOR_MC13892=m
-CONFIG_REGULATOR_MCP16502=m
-CONFIG_REGULATOR_MP5416=m
-CONFIG_REGULATOR_MP8859=m
-CONFIG_REGULATOR_MP886X=m
-CONFIG_REGULATOR_MPQ7920=m
-CONFIG_REGULATOR_MT6311=m
-CONFIG_REGULATOR_MT6315=m
-CONFIG_REGULATOR_MT6323=m
-CONFIG_REGULATOR_MT6331=m
-CONFIG_REGULATOR_MT6332=m
-CONFIG_REGULATOR_MT6358=m
-CONFIG_REGULATOR_MT6359=m
-CONFIG_REGULATOR_MT6360=m
-CONFIG_REGULATOR_MT6370=m
-CONFIG_REGULATOR_MT6380=m
-CONFIG_REGULATOR_MT6397=m
-CONFIG_REGULATOR_PBIAS=m
-CONFIG_REGULATOR_PCA9450=m
-CONFIG_REGULATOR_PCAP=m
-CONFIG_REGULATOR_PCF50633=m
-CONFIG_REGULATOR_PF8X00=m
-CONFIG_REGULATOR_PFUZE100=m
-CONFIG_REGULATOR_PV88060=m
-CONFIG_REGULATOR_PV88080=m
-CONFIG_REGULATOR_PV88090=m
-CONFIG_REGULATOR_PWM=m
-CONFIG_REGULATOR_QCOM_RPMH=m
-CONFIG_REGULATOR_QCOM_SMD_RPM=m
-CONFIG_REGULATOR_QCOM_SPMI=m
-CONFIG_REGULATOR_QCOM_USB_VBUS=m
-CONFIG_REGULATOR_RASPBERRYPI_TOUCHSCREEN_ATTINY=m
-CONFIG_REGULATOR_RK808=m
-CONFIG_REGULATOR_RN5T618=m
-CONFIG_REGULATOR_RT4801=m
-CONFIG_REGULATOR_RT4831=m
-CONFIG_REGULATOR_RT5033=m
-CONFIG_REGULATOR_RT5120=m
-CONFIG_REGULATOR_RT5190A=m
-CONFIG_REGULATOR_RT5759=m
-CONFIG_REGULATOR_RT6160=m
-CONFIG_REGULATOR_RT6245=m
-CONFIG_REGULATOR_RTQ2134=m
-CONFIG_REGULATOR_RTMV20=m
-CONFIG_REGULATOR_RTQ6752=m
-CONFIG_REGULATOR_S2MPA01=m
-CONFIG_REGULATOR_S2MPS11=m
-CONFIG_REGULATOR_S5M8767=m
-CONFIG_REGULATOR_SC2731=m
-CONFIG_REGULATOR_SKY81452=m
-CONFIG_REGULATOR_SLG51000=m
-CONFIG_REGULATOR_STM32_BOOSTER=m
-CONFIG_REGULATOR_STM32_VREFBUF=m
-CONFIG_REGULATOR_STM32_PWR=y
-CONFIG_REGULATOR_TI_ABB=m
-CONFIG_REGULATOR_STW481X_VMMC=y
-CONFIG_REGULATOR_SY7636A=m
-CONFIG_REGULATOR_SY8106A=m
-CONFIG_REGULATOR_SY8824X=m
-CONFIG_REGULATOR_SY8827N=m
-CONFIG_REGULATOR_TPS51632=m
-CONFIG_REGULATOR_TPS6105X=m
-CONFIG_REGULATOR_TPS62360=m
-CONFIG_REGULATOR_TPS6286X=m
-CONFIG_REGULATOR_TPS65023=m
-CONFIG_REGULATOR_TPS6507X=m
-CONFIG_REGULATOR_TPS65086=m
-CONFIG_REGULATOR_TPS65132=m
-CONFIG_REGULATOR_TPS65217=m
-CONFIG_REGULATOR_TPS65218=m
-CONFIG_REGULATOR_TPS6524X=m
-CONFIG_REGULATOR_TPS65912=m
-CONFIG_REGULATOR_TPS68470=m
-CONFIG_REGULATOR_UNIPHIER=m
-CONFIG_REGULATOR_VCTRL=m
-CONFIG_REGULATOR_WM831X=m
-CONFIG_REGULATOR_WM8994=m
-CONFIG_REGULATOR_QCOM_LABIBB=m
-CONFIG_RC_CORE=m
-CONFIG_LIRC=y
-CONFIG_RC_MAP=m
-CONFIG_RC_DECODERS=y
-CONFIG_IR_IMON_DECODER=m
-CONFIG_IR_JVC_DECODER=m
-CONFIG_IR_MCE_KBD_DECODER=m
-CONFIG_IR_NEC_DECODER=m
-CONFIG_IR_RC5_DECODER=m
-CONFIG_IR_RC6_DECODER=m
-CONFIG_IR_RCMM_DECODER=m
-CONFIG_IR_SANYO_DECODER=m
-CONFIG_IR_SHARP_DECODER=m
-CONFIG_IR_SONY_DECODER=m
-CONFIG_IR_XMP_DECODER=m
-CONFIG_RC_DEVICES=y
-CONFIG_IR_ENE=m
-CONFIG_IR_FINTEK=m
-CONFIG_IR_GPIO_CIR=m
-CONFIG_IR_GPIO_TX=m
-CONFIG_IR_HIX5HD2=m
-CONFIG_IR_IGORPLUGUSB=m
-CONFIG_IR_IGUANA=m
-CONFIG_IR_IMON=m
-CONFIG_IR_IMON_RAW=m
-CONFIG_IR_ITE_CIR=m
-CONFIG_IR_MCEUSB=m
-CONFIG_IR_MESON=m
-CONFIG_IR_MESON_TX=m
-CONFIG_IR_MTK=m
-CONFIG_IR_NUVOTON=m
-CONFIG_IR_PWM_TX=m
-CONFIG_IR_REDRAT3=m
-CONFIG_IR_RX51=m
-CONFIG_IR_SERIAL=m
-CONFIG_IR_SERIAL_TRANSMITTER=y
-CONFIG_IR_SPI=m
-CONFIG_IR_STREAMZAP=m
-CONFIG_IR_SUNXI=m
-CONFIG_IR_TOY=m
-CONFIG_IR_TTUSBIR=m
-CONFIG_IR_WINBOND_CIR=m
-CONFIG_RC_ATI_REMOTE=m
-CONFIG_RC_LOOPBACK=m
-CONFIG_RC_ST=m
-CONFIG_RC_XBOX_DVD=m
-CONFIG_IR_IMG=m
-CONFIG_IR_IMG_RAW=y
-CONFIG_IR_IMG_HW=y
-CONFIG_IR_IMG_NEC=y
-CONFIG_IR_IMG_JVC=y
-CONFIG_IR_IMG_SONY=y
-CONFIG_IR_IMG_SHARP=y
-CONFIG_IR_IMG_SANYO=y
-CONFIG_IR_IMG_RC5=y
-CONFIG_IR_IMG_RC6=y
-CONFIG_CEC_CORE=m
-CONFIG_CEC_NOTIFIER=y
-CONFIG_CEC_PIN=y
-
-#
-# CEC support
-#
-CONFIG_MEDIA_CEC_RC=y
-CONFIG_CEC_PIN_ERROR_INJ=y
-CONFIG_MEDIA_CEC_SUPPORT=y
-CONFIG_CEC_CH7322=m
-CONFIG_CEC_CROS_EC=m
-CONFIG_CEC_MESON_AO=m
-CONFIG_CEC_GPIO=m
-CONFIG_CEC_SAMSUNG_S5P=m
-CONFIG_CEC_STI=m
-CONFIG_CEC_STM32=m
-CONFIG_CEC_TEGRA=m
-CONFIG_USB_PULSE8_CEC=m
-CONFIG_USB_RAINSHADOW_CEC=m
-# end of CEC support
-
-CONFIG_MEDIA_SUPPORT=m
-CONFIG_MEDIA_SUPPORT_FILTER=y
-CONFIG_MEDIA_SUBDRV_AUTOSELECT=y
-
-#
-# Media device types
-#
-CONFIG_MEDIA_CAMERA_SUPPORT=y
-CONFIG_MEDIA_ANALOG_TV_SUPPORT=y
-CONFIG_MEDIA_DIGITAL_TV_SUPPORT=y
-CONFIG_MEDIA_RADIO_SUPPORT=y
-CONFIG_MEDIA_SDR_SUPPORT=y
-CONFIG_MEDIA_PLATFORM_SUPPORT=y
-CONFIG_MEDIA_TEST_SUPPORT=y
-# end of Media device types
-
-CONFIG_VIDEO_DEV=m
-CONFIG_MEDIA_CONTROLLER=y
-CONFIG_DVB_CORE=m
-
-#
-# Video4Linux options
-#
-CONFIG_VIDEO_V4L2_I2C=y
-CONFIG_VIDEO_V4L2_SUBDEV_API=y
-CONFIG_VIDEO_ADV_DEBUG=y
-CONFIG_VIDEO_FIXED_MINOR_RANGES=y
-CONFIG_VIDEO_TUNER=m
-CONFIG_V4L2_JPEG_HELPER=m
-CONFIG_V4L2_H264=m
-CONFIG_V4L2_VP9=m
-CONFIG_V4L2_MEM2MEM_DEV=m
-CONFIG_V4L2_FLASH_LED_CLASS=m
-CONFIG_V4L2_FWNODE=m
-CONFIG_V4L2_ASYNC=m
-CONFIG_VIDEOBUF_GEN=m
-CONFIG_VIDEOBUF_VMALLOC=m
-CONFIG_VIDEOBUF_DMA_CONTIG=m
-# end of Video4Linux options
-
-#
-# Media controller options
-#
-CONFIG_MEDIA_CONTROLLER_DVB=y
-CONFIG_MEDIA_CONTROLLER_REQUEST_API=y
-# end of Media controller options
-
-#
-# Digital TV options
-#
-CONFIG_DVB_MMAP=y
-CONFIG_DVB_NET=y
-CONFIG_DVB_MAX_ADAPTERS=16
-CONFIG_DVB_DYNAMIC_MINORS=y
-CONFIG_DVB_DEMUX_SECTION_LOSS_LOG=y
-CONFIG_DVB_ULE_DEBUG=y
-# end of Digital TV options
-
-#
-# Media drivers
-#
-
-#
-# Drivers filtered as selected at 'Filter media drivers'
-#
-
-#
-# Media drivers
-#
-CONFIG_MEDIA_USB_SUPPORT=y
-
-#
-# Webcam devices
-#
-CONFIG_USB_GSPCA=m
-CONFIG_USB_GSPCA_BENQ=m
-CONFIG_USB_GSPCA_CONEX=m
-CONFIG_USB_GSPCA_CPIA1=m
-CONFIG_USB_GSPCA_DTCS033=m
-CONFIG_USB_GSPCA_ETOMS=m
-CONFIG_USB_GSPCA_FINEPIX=m
-CONFIG_USB_GSPCA_JEILINJ=m
-CONFIG_USB_GSPCA_JL2005BCD=m
-CONFIG_USB_GSPCA_KINECT=m
-CONFIG_USB_GSPCA_KONICA=m
-CONFIG_USB_GSPCA_MARS=m
-CONFIG_USB_GSPCA_MR97310A=m
-CONFIG_USB_GSPCA_NW80X=m
-CONFIG_USB_GSPCA_OV519=m
-CONFIG_USB_GSPCA_OV534=m
-CONFIG_USB_GSPCA_OV534_9=m
-CONFIG_USB_GSPCA_PAC207=m
-CONFIG_USB_GSPCA_PAC7302=m
-CONFIG_USB_GSPCA_PAC7311=m
-CONFIG_USB_GSPCA_SE401=m
-CONFIG_USB_GSPCA_SN9C2028=m
-CONFIG_USB_GSPCA_SN9C20X=m
-CONFIG_USB_GSPCA_SONIXB=m
-CONFIG_USB_GSPCA_SONIXJ=m
-CONFIG_USB_GSPCA_SPCA1528=m
-CONFIG_USB_GSPCA_SPCA500=m
-CONFIG_USB_GSPCA_SPCA501=m
-CONFIG_USB_GSPCA_SPCA505=m
-CONFIG_USB_GSPCA_SPCA506=m
-CONFIG_USB_GSPCA_SPCA508=m
-CONFIG_USB_GSPCA_SPCA561=m
-CONFIG_USB_GSPCA_SQ905=m
-CONFIG_USB_GSPCA_SQ905C=m
-CONFIG_USB_GSPCA_SQ930X=m
-CONFIG_USB_GSPCA_STK014=m
-CONFIG_USB_GSPCA_STK1135=m
-CONFIG_USB_GSPCA_STV0680=m
-CONFIG_USB_GSPCA_SUNPLUS=m
-CONFIG_USB_GSPCA_T613=m
-CONFIG_USB_GSPCA_TOPRO=m
-CONFIG_USB_GSPCA_TOUPTEK=m
-CONFIG_USB_GSPCA_TV8532=m
-CONFIG_USB_GSPCA_VC032X=m
-CONFIG_USB_GSPCA_VICAM=m
-CONFIG_USB_GSPCA_XIRLINK_CIT=m
-CONFIG_USB_GSPCA_ZC3XX=m
-CONFIG_USB_GL860=m
-CONFIG_USB_M5602=m
-CONFIG_USB_STV06XX=m
-CONFIG_USB_PWC=m
-CONFIG_USB_PWC_DEBUG=y
-CONFIG_USB_PWC_INPUT_EVDEV=y
-CONFIG_USB_S2255=m
-CONFIG_VIDEO_USBTV=m
-CONFIG_USB_VIDEO_CLASS=m
-CONFIG_USB_VIDEO_CLASS_INPUT_EVDEV=y
-
-#
-# Analog TV USB devices
-#
-CONFIG_VIDEO_GO7007=m
-CONFIG_VIDEO_GO7007_USB=m
-CONFIG_VIDEO_GO7007_LOADER=m
-CONFIG_VIDEO_GO7007_USB_S2250_BOARD=m
-CONFIG_VIDEO_HDPVR=m
-CONFIG_VIDEO_PVRUSB2=m
-CONFIG_VIDEO_PVRUSB2_SYSFS=y
-CONFIG_VIDEO_PVRUSB2_DVB=y
-CONFIG_VIDEO_PVRUSB2_DEBUGIFC=y
-CONFIG_VIDEO_STK1160_COMMON=m
-CONFIG_VIDEO_STK1160=m
-
-#
-# Analog/digital TV USB devices
-#
-CONFIG_VIDEO_AU0828=m
-CONFIG_VIDEO_AU0828_V4L2=y
-CONFIG_VIDEO_AU0828_RC=y
-CONFIG_VIDEO_CX231XX=m
-CONFIG_VIDEO_CX231XX_RC=y
-CONFIG_VIDEO_CX231XX_ALSA=m
-CONFIG_VIDEO_CX231XX_DVB=m
-
-#
-# Digital TV USB devices
-#
-CONFIG_DVB_AS102=m
-CONFIG_DVB_B2C2_FLEXCOP_USB=m
-CONFIG_DVB_B2C2_FLEXCOP_USB_DEBUG=y
-CONFIG_DVB_USB_V2=m
-CONFIG_DVB_USB_AF9015=m
-CONFIG_DVB_USB_AF9035=m
-CONFIG_DVB_USB_ANYSEE=m
-CONFIG_DVB_USB_AU6610=m
-CONFIG_DVB_USB_AZ6007=m
-CONFIG_DVB_USB_CE6230=m
-CONFIG_DVB_USB_DVBSKY=m
-CONFIG_DVB_USB_EC168=m
-CONFIG_DVB_USB_GL861=m
-CONFIG_DVB_USB_LME2510=m
-CONFIG_DVB_USB_MXL111SF=m
-CONFIG_DVB_USB_RTL28XXU=m
-CONFIG_DVB_USB_ZD1301=m
-CONFIG_DVB_USB=m
-CONFIG_DVB_USB_DEBUG=y
-CONFIG_DVB_USB_A800=m
-CONFIG_DVB_USB_AF9005=m
-CONFIG_DVB_USB_AF9005_REMOTE=m
-CONFIG_DVB_USB_AZ6027=m
-CONFIG_DVB_USB_CINERGY_T2=m
-CONFIG_DVB_USB_CXUSB=m
-CONFIG_DVB_USB_CXUSB_ANALOG=y
-CONFIG_DVB_USB_DIB0700=m
-CONFIG_DVB_USB_DIB3000MC=m
-CONFIG_DVB_USB_DIBUSB_MB=m
-CONFIG_DVB_USB_DIBUSB_MB_FAULTY=y
-CONFIG_DVB_USB_DIBUSB_MC=m
-CONFIG_DVB_USB_DIGITV=m
-CONFIG_DVB_USB_DTT200U=m
-CONFIG_DVB_USB_DTV5100=m
-CONFIG_DVB_USB_DW2102=m
-CONFIG_DVB_USB_GP8PSK=m
-CONFIG_DVB_USB_M920X=m
-CONFIG_DVB_USB_NOVA_T_USB2=m
-CONFIG_DVB_USB_OPERA1=m
-CONFIG_DVB_USB_PCTV452E=m
-CONFIG_DVB_USB_TECHNISAT_USB2=m
-CONFIG_DVB_USB_TTUSB2=m
-CONFIG_DVB_USB_UMT_010=m
-CONFIG_DVB_USB_VP702X=m
-CONFIG_DVB_USB_VP7045=m
-
-#
-# Webcam, TV (analog/digital) USB devices
-#
-CONFIG_VIDEO_EM28XX=m
-CONFIG_VIDEO_EM28XX_V4L2=m
-CONFIG_VIDEO_EM28XX_ALSA=m
-CONFIG_VIDEO_EM28XX_DVB=m
-CONFIG_VIDEO_EM28XX_RC=m
-
-#
-# Software defined radio USB devices
-#
-CONFIG_USB_AIRSPY=m
-CONFIG_USB_HACKRF=m
-CONFIG_USB_MSI2500=m
-CONFIG_RADIO_ADAPTERS=m
-CONFIG_RADIO_SAA7706H=m
-CONFIG_RADIO_SHARK=m
-CONFIG_RADIO_SHARK2=m
-CONFIG_RADIO_SI4713=m
-CONFIG_RADIO_SI476X=m
-CONFIG_RADIO_TEA575X=m
-CONFIG_RADIO_TEA5764=m
-CONFIG_RADIO_TEF6862=m
-CONFIG_RADIO_WL1273=m
-CONFIG_USB_DSBR=m
-CONFIG_USB_KEENE=m
-CONFIG_USB_MA901=m
-CONFIG_USB_MR800=m
-CONFIG_USB_RAREMONO=m
-CONFIG_RADIO_SI470X=m
-CONFIG_USB_SI470X=m
-CONFIG_I2C_SI470X=m
-CONFIG_USB_SI4713=m
-CONFIG_PLATFORM_SI4713=m
-CONFIG_I2C_SI4713=m
-CONFIG_RADIO_WL128X=m
-CONFIG_V4L_RADIO_ISA_DRIVERS=y
-CONFIG_RADIO_AZTECH=m
-CONFIG_RADIO_CADET=m
-CONFIG_RADIO_GEMTEK=m
-CONFIG_RADIO_ISA=m
-CONFIG_RADIO_RTRACK=m
-CONFIG_RADIO_RTRACK2=m
-CONFIG_RADIO_SF16FMI=m
-CONFIG_RADIO_SF16FMR2=m
-CONFIG_RADIO_TERRATEC=m
-CONFIG_RADIO_TRUST=m
-CONFIG_RADIO_TYPHOON=m
-CONFIG_RADIO_ZOLTRIX=m
-CONFIG_MEDIA_PLATFORM_DRIVERS=y
-CONFIG_V4L_PLATFORM_DRIVERS=y
-CONFIG_SDR_PLATFORM_DRIVERS=y
-CONFIG_DVB_PLATFORM_DRIVERS=y
-CONFIG_V4L_MEM2MEM_DRIVERS=y
-CONFIG_VIDEO_MUX=m
-
-#
-# Allegro DVT media platform drivers
-#
-CONFIG_VIDEO_ALLEGRO_DVT=m
-
-#
-# Amlogic media platform drivers
-#
-CONFIG_VIDEO_MESON_GE2D=m
-
-#
-# Amphion drivers
-#
-CONFIG_VIDEO_AMPHION_VPU=m
-
-#
-# Aspeed media platform drivers
-#
-CONFIG_VIDEO_ASPEED=m
-
-#
-# Atmel media platform drivers
-#
-CONFIG_VIDEO_ATMEL_ISI=m
-
-#
-# Cadence media platform drivers
-#
-CONFIG_VIDEO_CADENCE_CSI2RX=m
-CONFIG_VIDEO_CADENCE_CSI2TX=m
-
-#
-# Chips&Media media platform drivers
-#
-CONFIG_VIDEO_CODA=m
-CONFIG_VIDEO_IMX_VDOA=m
-
-#
-# Intel media platform drivers
-#
-CONFIG_VIDEO_PXA27x=m
-
-#
-# Marvell media platform drivers
-#
-
-#
-# Mediatek media platform drivers
-#
-CONFIG_VIDEO_MEDIATEK_JPEG=m
-CONFIG_VIDEO_MEDIATEK_MDP=m
-CONFIG_VIDEO_MEDIATEK_VCODEC_VPU=y
-CONFIG_VIDEO_MEDIATEK_VCODEC=m
-CONFIG_VIDEO_MEDIATEK_VPU=m
-
-#
-# Microchip Technology, Inc. media platform drivers
-#
-
-#
-# NVidia media platform drivers
-#
-CONFIG_VIDEO_TEGRA_VDE=m
-
-#
-# NXP media platform drivers
-#
-CONFIG_VIDEO_IMX_MIPI_CSIS=m
-CONFIG_VIDEO_IMX_PXP=m
-CONFIG_VIDEO_MX2_EMMAPRP=m
-CONFIG_VIDEO_DW100=m
-CONFIG_VIDEO_IMX8_JPEG=m
-
-#
-# Qualcomm media platform drivers
-#
-CONFIG_VIDEO_QCOM_CAMSS=m
-CONFIG_VIDEO_QCOM_VENUS=m
-
-#
-# Renesas media platform drivers
-#
-CONFIG_VIDEO_RENESAS_CEU=m
-CONFIG_VIDEO_RCAR_ISP=m
-CONFIG_VIDEO_SH_VOU=m
-CONFIG_VIDEO_RCAR_CSI2=m
-CONFIG_VIDEO_RCAR_VIN=m
-CONFIG_VIDEO_RZG2L_CSI2=m
-CONFIG_VIDEO_RZG2L_CRU=m
-CONFIG_VIDEO_RENESAS_FCP=m
-CONFIG_VIDEO_RENESAS_FDP1=m
-CONFIG_VIDEO_RENESAS_JPU=m
-CONFIG_VIDEO_RENESAS_VSP1=m
-CONFIG_VIDEO_RCAR_DRIF=m
-
-#
-# Rockchip media platform drivers
-#
-CONFIG_VIDEO_ROCKCHIP_RGA=m
-CONFIG_VIDEO_ROCKCHIP_ISP1=m
-
-#
-# Samsung media platform drivers
-#
-CONFIG_VIDEO_SAMSUNG_EXYNOS_GSC=m
-CONFIG_VIDEO_S3C_CAMIF=m
-CONFIG_VIDEO_SAMSUNG_S5P_G2D=m
-CONFIG_VIDEO_SAMSUNG_S5P_JPEG=m
-CONFIG_VIDEO_SAMSUNG_S5P_MFC=m
-
-#
-# STMicroelectronics media platform drivers
-#
-CONFIG_VIDEO_STI_BDISP=m
-CONFIG_DVB_C8SECTPFE=m
-CONFIG_VIDEO_STI_DELTA=m
-CONFIG_VIDEO_STI_DELTA_MJPEG=y
-CONFIG_VIDEO_STI_DELTA_DRIVER=m
-CONFIG_VIDEO_STI_HVA=m
-CONFIG_VIDEO_STI_HVA_DEBUGFS=y
-CONFIG_VIDEO_STM32_DCMI=m
-CONFIG_VIDEO_STM32_DMA2D=m
-
-#
-# Sunxi media platform drivers
-#
-
-#
-# Texas Instruments drivers
-#
-CONFIG_VIDEO_TI_VPDMA=m
-CONFIG_VIDEO_TI_SC=m
-CONFIG_VIDEO_TI_CSC=m
-CONFIG_VIDEO_TI_CAL=m
-CONFIG_VIDEO_TI_CAL_MC=y
-CONFIG_VIDEO_TI_VPE=m
-CONFIG_VIDEO_TI_VPE_DEBUG=y
-CONFIG_VIDEO_AM437X_VPFE=m
-CONFIG_VIDEO_DAVINCI_VPIF_DISPLAY=m
-CONFIG_VIDEO_DAVINCI_VPIF_CAPTURE=m
-CONFIG_VIDEO_DAVINCI_VPBE_DISPLAY=m
-
-#
-# Verisilicon media platform drivers
-#
-CONFIG_VIDEO_HANTRO=m
-CONFIG_VIDEO_HANTRO_IMX8M=y
-CONFIG_VIDEO_HANTRO_SAMA5D4=y
-CONFIG_VIDEO_HANTRO_ROCKCHIP=y
-CONFIG_VIDEO_HANTRO_SUNXI=y
-
-#
-# VIA media platform drivers
-#
-
-#
-# Xilinx media platform drivers
-#
-CONFIG_V4L_TEST_DRIVERS=y
-CONFIG_VIDEO_VIM2M=m
-CONFIG_VIDEO_VICODEC=m
-CONFIG_VIDEO_VIMC=m
-CONFIG_VIDEO_VISL=m
-CONFIG_VISL_DEBUGFS=y
-CONFIG_DVB_TEST_DRIVERS=y
-CONFIG_DVB_VIDTV=m
-
-#
-# FireWire (IEEE 1394) Adapters
-#
-CONFIG_DVB_FIREDTV=m
-CONFIG_DVB_FIREDTV_INPUT=y
-CONFIG_CYPRESS_FIRMWARE=m
-CONFIG_TTPCI_EEPROM=m
-CONFIG_VIDEO_CX2341X=m
-CONFIG_VIDEO_TVEEPROM=m
-CONFIG_DVB_B2C2_FLEXCOP=m
-CONFIG_DVB_B2C2_FLEXCOP_DEBUG=y
-CONFIG_VIDEO_V4L2_TPG=m
-CONFIG_VIDEOBUF2_CORE=m
-CONFIG_VIDEOBUF2_V4L2=m
-CONFIG_VIDEOBUF2_MEMOPS=m
-CONFIG_VIDEOBUF2_DMA_CONTIG=m
-CONFIG_VIDEOBUF2_VMALLOC=m
-CONFIG_VIDEOBUF2_DMA_SG=m
-# end of Media drivers
-
-#
-# Media ancillary drivers
-#
-CONFIG_MEDIA_ATTACH=y
-
-#
-# IR I2C driver auto-selected by 'Autoselect ancillary drivers'
-#
-CONFIG_VIDEO_IR_I2C=m
-
-#
-# Camera sensor devices
-#
-CONFIG_VIDEO_APTINA_PLL=m
-CONFIG_VIDEO_CCS_PLL=m
-CONFIG_VIDEO_AR0521=m
-CONFIG_VIDEO_HI556=m
-CONFIG_VIDEO_HI846=m
-CONFIG_VIDEO_HI847=m
-CONFIG_VIDEO_IMX208=m
-CONFIG_VIDEO_IMX214=m
-CONFIG_VIDEO_IMX219=m
-CONFIG_VIDEO_IMX258=m
-CONFIG_VIDEO_IMX274=m
-CONFIG_VIDEO_IMX290=m
-CONFIG_VIDEO_IMX319=m
-CONFIG_VIDEO_IMX334=m
-CONFIG_VIDEO_IMX335=m
-CONFIG_VIDEO_IMX355=m
-CONFIG_VIDEO_IMX412=m
-CONFIG_VIDEO_MAX9271_LIB=m
-CONFIG_VIDEO_MT9M001=m
-CONFIG_VIDEO_MT9M032=m
-CONFIG_VIDEO_MT9M111=m
-CONFIG_VIDEO_MT9P031=m
-CONFIG_VIDEO_MT9T001=m
-CONFIG_VIDEO_MT9T112=m
-CONFIG_VIDEO_MT9V011=m
-CONFIG_VIDEO_MT9V032=m
-CONFIG_VIDEO_MT9V111=m
-CONFIG_VIDEO_NOON010PC30=m
-CONFIG_VIDEO_OG01A1B=m
-CONFIG_VIDEO_OV02A10=m
-CONFIG_VIDEO_OV08D10=m
-CONFIG_VIDEO_OV08X40=m
-CONFIG_VIDEO_OV13858=m
-CONFIG_VIDEO_OV13B10=m
-CONFIG_VIDEO_OV2640=m
-CONFIG_VIDEO_OV2659=m
-CONFIG_VIDEO_OV2680=m
-CONFIG_VIDEO_OV2685=m
-CONFIG_VIDEO_OV2740=m
-CONFIG_VIDEO_OV4689=m
-CONFIG_VIDEO_OV5640=m
-CONFIG_VIDEO_OV5645=m
-CONFIG_VIDEO_OV5647=m
-CONFIG_VIDEO_OV5648=m
-CONFIG_VIDEO_OV5670=m
-CONFIG_VIDEO_OV5675=m
-CONFIG_VIDEO_OV5693=m
-CONFIG_VIDEO_OV5695=m
-CONFIG_VIDEO_OV6650=m
-CONFIG_VIDEO_OV7251=m
-CONFIG_VIDEO_OV7640=m
-CONFIG_VIDEO_OV7670=m
-CONFIG_VIDEO_OV772X=m
-CONFIG_VIDEO_OV7740=m
-CONFIG_VIDEO_OV8856=m
-CONFIG_VIDEO_OV8865=m
-CONFIG_VIDEO_OV9282=m
-CONFIG_VIDEO_OV9640=m
-CONFIG_VIDEO_OV9650=m
-CONFIG_VIDEO_OV9734=m
-CONFIG_VIDEO_RDACM20=m
-CONFIG_VIDEO_RDACM21=m
-CONFIG_VIDEO_RJ54N1=m
-CONFIG_VIDEO_S5C73M3=m
-CONFIG_VIDEO_S5K5BAF=m
-CONFIG_VIDEO_S5K6A3=m
-CONFIG_VIDEO_S5K6AA=m
-CONFIG_VIDEO_SR030PC30=m
-CONFIG_VIDEO_ST_VGXY61=m
-CONFIG_VIDEO_VS6624=m
-CONFIG_VIDEO_CCS=m
-CONFIG_VIDEO_ET8EK8=m
-CONFIG_VIDEO_M5MOLS=m
-# end of Camera sensor devices
-
-#
-# Lens drivers
-#
-CONFIG_VIDEO_AD5820=m
-CONFIG_VIDEO_AK7375=m
-CONFIG_VIDEO_DW9714=m
-CONFIG_VIDEO_DW9768=m
-CONFIG_VIDEO_DW9807_VCM=m
-# end of Lens drivers
-
-#
-# Flash devices
-#
-CONFIG_VIDEO_ADP1653=m
-CONFIG_VIDEO_LM3560=m
-CONFIG_VIDEO_LM3646=m
-# end of Flash devices
-
-#
-# Audio decoders, processors and mixers
-#
-CONFIG_VIDEO_CS3308=m
-CONFIG_VIDEO_CS5345=m
-CONFIG_VIDEO_CS53L32A=m
-CONFIG_VIDEO_MSP3400=m
-CONFIG_VIDEO_SONY_BTF_MPX=m
-CONFIG_VIDEO_TDA1997X=m
-CONFIG_VIDEO_TDA7432=m
-CONFIG_VIDEO_TDA9840=m
-CONFIG_VIDEO_TEA6415C=m
-CONFIG_VIDEO_TEA6420=m
-CONFIG_VIDEO_TLV320AIC23B=m
-CONFIG_VIDEO_TVAUDIO=m
-CONFIG_VIDEO_UDA1342=m
-CONFIG_VIDEO_VP27SMPX=m
-CONFIG_VIDEO_WM8739=m
-CONFIG_VIDEO_WM8775=m
-# end of Audio decoders, processors and mixers
-
-#
-# RDS decoders
-#
-CONFIG_VIDEO_SAA6588=m
-# end of RDS decoders
-
-#
-# Video decoders
-#
-CONFIG_VIDEO_ADV7180=m
-CONFIG_VIDEO_ADV7183=m
-CONFIG_VIDEO_ADV748X=m
-CONFIG_VIDEO_ADV7604=m
-CONFIG_VIDEO_ADV7604_CEC=y
-CONFIG_VIDEO_ADV7842=m
-CONFIG_VIDEO_ADV7842_CEC=y
-CONFIG_VIDEO_BT819=m
-CONFIG_VIDEO_BT856=m
-CONFIG_VIDEO_BT866=m
-CONFIG_VIDEO_ISL7998X=m
-CONFIG_VIDEO_KS0127=m
-CONFIG_VIDEO_MAX9286=m
-CONFIG_VIDEO_ML86V7667=m
-CONFIG_VIDEO_SAA7110=m
-CONFIG_VIDEO_SAA711X=m
-CONFIG_VIDEO_TC358743=m
-CONFIG_VIDEO_TC358743_CEC=y
-CONFIG_VIDEO_TC358746=m
-CONFIG_VIDEO_TVP514X=m
-CONFIG_VIDEO_TVP5150=m
-CONFIG_VIDEO_TVP7002=m
-CONFIG_VIDEO_TW2804=m
-CONFIG_VIDEO_TW9903=m
-CONFIG_VIDEO_TW9906=m
-CONFIG_VIDEO_TW9910=m
-CONFIG_VIDEO_VPX3220=m
-
-#
-# Video and audio decoders
-#
-CONFIG_VIDEO_SAA717X=m
-CONFIG_VIDEO_CX25840=m
-# end of Video decoders
-
-#
-# Video encoders
-#
-CONFIG_VIDEO_AD9389B=m
-CONFIG_VIDEO_ADV7170=m
-CONFIG_VIDEO_ADV7175=m
-CONFIG_VIDEO_ADV7343=m
-CONFIG_VIDEO_ADV7393=m
-CONFIG_VIDEO_ADV7511=m
-CONFIG_VIDEO_ADV7511_CEC=y
-CONFIG_VIDEO_AK881X=m
-CONFIG_VIDEO_SAA7127=m
-CONFIG_VIDEO_SAA7185=m
-CONFIG_VIDEO_THS8200=m
-# end of Video encoders
-
-#
-# Video improvement chips
-#
-CONFIG_VIDEO_UPD64031A=m
-CONFIG_VIDEO_UPD64083=m
-# end of Video improvement chips
-
-#
-# Audio/Video compression chips
-#
-CONFIG_VIDEO_SAA6752HS=m
-# end of Audio/Video compression chips
-
-#
-# SDR tuner chips
-#
-CONFIG_SDR_MAX2175=m
-# end of SDR tuner chips
-
-#
-# Miscellaneous helper chips
-#
-CONFIG_VIDEO_I2C=m
-CONFIG_VIDEO_M52790=m
-CONFIG_VIDEO_ST_MIPID02=m
-CONFIG_VIDEO_THS7303=m
-# end of Miscellaneous helper chips
-
-#
-# Media SPI Adapters
-#
-CONFIG_CXD2880_SPI_DRV=m
-CONFIG_VIDEO_GS1662=m
-# end of Media SPI Adapters
-
-CONFIG_MEDIA_TUNER=m
-
-#
-# Customize TV tuners
-#
-CONFIG_MEDIA_TUNER_E4000=m
-CONFIG_MEDIA_TUNER_FC0011=m
-CONFIG_MEDIA_TUNER_FC0012=m
-CONFIG_MEDIA_TUNER_FC0013=m
-CONFIG_MEDIA_TUNER_FC2580=m
-CONFIG_MEDIA_TUNER_IT913X=m
-CONFIG_MEDIA_TUNER_M88RS6000T=m
-CONFIG_MEDIA_TUNER_MAX2165=m
-CONFIG_MEDIA_TUNER_MC44S803=m
-CONFIG_MEDIA_TUNER_MSI001=m
-CONFIG_MEDIA_TUNER_MT2060=m
-CONFIG_MEDIA_TUNER_MT2063=m
-CONFIG_MEDIA_TUNER_MT20XX=m
-CONFIG_MEDIA_TUNER_MT2131=m
-CONFIG_MEDIA_TUNER_MT2266=m
-CONFIG_MEDIA_TUNER_MXL301RF=m
-CONFIG_MEDIA_TUNER_MXL5005S=m
-CONFIG_MEDIA_TUNER_MXL5007T=m
-CONFIG_MEDIA_TUNER_QM1D1B0004=m
-CONFIG_MEDIA_TUNER_QM1D1C0042=m
-CONFIG_MEDIA_TUNER_QT1010=m
-CONFIG_MEDIA_TUNER_R820T=m
-CONFIG_MEDIA_TUNER_SI2157=m
-CONFIG_MEDIA_TUNER_SIMPLE=m
-CONFIG_MEDIA_TUNER_TDA18212=m
-CONFIG_MEDIA_TUNER_TDA18218=m
-CONFIG_MEDIA_TUNER_TDA18250=m
-CONFIG_MEDIA_TUNER_TDA18271=m
-CONFIG_MEDIA_TUNER_TDA827X=m
-CONFIG_MEDIA_TUNER_TDA8290=m
-CONFIG_MEDIA_TUNER_TDA9887=m
-CONFIG_MEDIA_TUNER_TEA5761=m
-CONFIG_MEDIA_TUNER_TEA5767=m
-CONFIG_MEDIA_TUNER_TUA9001=m
-CONFIG_MEDIA_TUNER_XC2028=m
-CONFIG_MEDIA_TUNER_XC4000=m
-CONFIG_MEDIA_TUNER_XC5000=m
-# end of Customize TV tuners
-
-#
-# Customise DVB Frontends
-#
-
-#
-# Multistandard (satellite) frontends
-#
-CONFIG_DVB_M88DS3103=m
-CONFIG_DVB_MXL5XX=m
-CONFIG_DVB_STB0899=m
-CONFIG_DVB_STB6100=m
-CONFIG_DVB_STV090x=m
-CONFIG_DVB_STV0910=m
-CONFIG_DVB_STV6110x=m
-CONFIG_DVB_STV6111=m
-
-#
-# Multistandard (cable + terrestrial) frontends
-#
-CONFIG_DVB_DRXK=m
-CONFIG_DVB_MN88472=m
-CONFIG_DVB_MN88473=m
-CONFIG_DVB_SI2165=m
-CONFIG_DVB_TDA18271C2DD=m
-
-#
-# DVB-S (satellite) frontends
-#
-CONFIG_DVB_CX24110=m
-CONFIG_DVB_CX24116=m
-CONFIG_DVB_CX24117=m
-CONFIG_DVB_CX24120=m
-CONFIG_DVB_CX24123=m
-CONFIG_DVB_DS3000=m
-CONFIG_DVB_MB86A16=m
-CONFIG_DVB_MT312=m
-CONFIG_DVB_S5H1420=m
-CONFIG_DVB_SI21XX=m
-CONFIG_DVB_STB6000=m
-CONFIG_DVB_STV0288=m
-CONFIG_DVB_STV0299=m
-CONFIG_DVB_STV0900=m
-CONFIG_DVB_STV6110=m
-CONFIG_DVB_TDA10071=m
-CONFIG_DVB_TDA10086=m
-CONFIG_DVB_TDA8083=m
-CONFIG_DVB_TDA8261=m
-CONFIG_DVB_TDA826X=m
-CONFIG_DVB_TS2020=m
-CONFIG_DVB_TUA6100=m
-CONFIG_DVB_TUNER_CX24113=m
-CONFIG_DVB_TUNER_ITD1000=m
-CONFIG_DVB_VES1X93=m
-CONFIG_DVB_ZL10036=m
-CONFIG_DVB_ZL10039=m
-
-#
-# DVB-T (terrestrial) frontends
-#
-CONFIG_DVB_AF9013=m
-CONFIG_DVB_AS102_FE=m
-CONFIG_DVB_CX22700=m
-CONFIG_DVB_CX22702=m
-CONFIG_DVB_CXD2820R=m
-CONFIG_DVB_CXD2841ER=m
-CONFIG_DVB_DIB3000MB=m
-CONFIG_DVB_DIB3000MC=m
-CONFIG_DVB_DIB7000M=m
-CONFIG_DVB_DIB7000P=m
-CONFIG_DVB_DIB9000=m
-CONFIG_DVB_DRXD=m
-CONFIG_DVB_EC100=m
-CONFIG_DVB_GP8PSK_FE=m
-CONFIG_DVB_L64781=m
-CONFIG_DVB_MT352=m
-CONFIG_DVB_NXT6000=m
-CONFIG_DVB_RTL2830=m
-CONFIG_DVB_RTL2832=m
-CONFIG_DVB_RTL2832_SDR=m
-CONFIG_DVB_S5H1432=m
-CONFIG_DVB_SI2168=m
-CONFIG_DVB_SP887X=m
-CONFIG_DVB_STV0367=m
-CONFIG_DVB_TDA10048=m
-CONFIG_DVB_TDA1004X=m
-CONFIG_DVB_ZD1301_DEMOD=m
-CONFIG_DVB_ZL10353=m
-CONFIG_DVB_CXD2880=m
-
-#
-# DVB-C (cable) frontends
-#
-CONFIG_DVB_STV0297=m
-CONFIG_DVB_TDA10021=m
-CONFIG_DVB_TDA10023=m
-CONFIG_DVB_VES1820=m
-
-#
-# ATSC (North American/Korean Terrestrial/Cable DTV) frontends
-#
-CONFIG_DVB_AU8522=m
-CONFIG_DVB_AU8522_DTV=m
-CONFIG_DVB_AU8522_V4L=m
-CONFIG_DVB_BCM3510=m
-CONFIG_DVB_LG2160=m
-CONFIG_DVB_LGDT3305=m
-CONFIG_DVB_LGDT3306A=m
-CONFIG_DVB_LGDT330X=m
-CONFIG_DVB_MXL692=m
-CONFIG_DVB_NXT200X=m
-CONFIG_DVB_OR51132=m
-CONFIG_DVB_OR51211=m
-CONFIG_DVB_S5H1409=m
-CONFIG_DVB_S5H1411=m
-
-#
-# ISDB-T (terrestrial) frontends
-#
-CONFIG_DVB_DIB8000=m
-CONFIG_DVB_MB86A20S=m
-CONFIG_DVB_S921=m
-
-#
-# ISDB-S (satellite) & ISDB-T (terrestrial) frontends
-#
-CONFIG_DVB_MN88443X=m
-CONFIG_DVB_TC90522=m
-
-#
-# Digital terrestrial only tuners/PLL
-#
-CONFIG_DVB_PLL=m
-CONFIG_DVB_TUNER_DIB0070=m
-CONFIG_DVB_TUNER_DIB0090=m
-
-#
-# SEC control devices for DVB-S
-#
-CONFIG_DVB_A8293=m
-CONFIG_DVB_AF9033=m
-CONFIG_DVB_ASCOT2E=m
-CONFIG_DVB_ATBM8830=m
-CONFIG_DVB_HELENE=m
-CONFIG_DVB_HORUS3A=m
-CONFIG_DVB_ISL6405=m
-CONFIG_DVB_ISL6421=m
-CONFIG_DVB_ISL6423=m
-CONFIG_DVB_IX2505V=m
-CONFIG_DVB_LGS8GL5=m
-CONFIG_DVB_LGS8GXX=m
-CONFIG_DVB_LNBH25=m
-CONFIG_DVB_LNBH29=m
-CONFIG_DVB_LNBP21=m
-CONFIG_DVB_LNBP22=m
-CONFIG_DVB_M88RS2000=m
-CONFIG_DVB_TDA665x=m
-CONFIG_DVB_DRX39XYJ=m
-
-#
-# Common Interface (EN50221) controller drivers
-#
-CONFIG_DVB_CXD2099=m
-CONFIG_DVB_SP2=m
-# end of Customise DVB Frontends
-
-#
-# Tools to develop new frontends
-#
-CONFIG_DVB_DUMMY_FE=m
-# end of Media ancillary drivers
-
-#
-# Graphics support
-#
-CONFIG_APERTURE_HELPERS=y
-CONFIG_IMX_IPUV3_CORE=m
-CONFIG_DRM_DEBUG_MODESET_LOCK=y
-
-#
-# ARM devices
-#
-# end of ARM devices
-
-#
-# Frame buffer Devices
-#
-CONFIG_FB_CMDLINE=y
-CONFIG_FB_NOTIFY=y
-CONFIG_FB=m
-CONFIG_FIRMWARE_EDID=y
-CONFIG_FB_CFB_FILLRECT=m
-CONFIG_FB_CFB_COPYAREA=m
-CONFIG_FB_CFB_IMAGEBLIT=m
-CONFIG_FB_CFB_REV_PIXELS_IN_BYTE=y
-CONFIG_FB_SYS_FILLRECT=m
-CONFIG_FB_SYS_COPYAREA=m
-CONFIG_FB_SYS_IMAGEBLIT=m
-CONFIG_FB_FOREIGN_ENDIAN=y
-CONFIG_FB_BOTH_ENDIAN=y
-# CONFIG_FB_BIG_ENDIAN is not set
-# CONFIG_FB_LITTLE_ENDIAN is not set
-CONFIG_FB_SYS_FOPS=m
-CONFIG_FB_DEFERRED_IO=y
-CONFIG_FB_BACKLIGHT=m
-CONFIG_FB_MODE_HELPERS=y
-CONFIG_FB_TILEBLITTING=y
-
-#
-# Frame buffer hardware drivers
-#
-CONFIG_FB_CLPS711X=m
-CONFIG_FB_IMX=m
-CONFIG_FB_ARC=m
-CONFIG_FB_UVESA=m
-CONFIG_FB_PVR2=m
-CONFIG_FB_S1D13XXX=m
-CONFIG_FB_ATMEL=m
-CONFIG_FB_PXA168=m
-CONFIG_FB_W100=m
-CONFIG_FB_SH_MOBILE_LCDC=m
-CONFIG_FB_TMIO=m
-CONFIG_FB_TMIO_ACCELL=y
-CONFIG_FB_S3C=m
-CONFIG_FB_S3C_DEBUG_REGWRITE=y
-CONFIG_FB_SMSCUFX=m
-CONFIG_FB_UDL=m
-CONFIG_FB_IBM_GXT4500=m
-CONFIG_FB_GOLDFISH=m
-CONFIG_FB_DA8XX=m
-CONFIG_FB_VIRTUAL=m
-CONFIG_FB_METRONOME=m
-CONFIG_FB_BROADSHEET=m
-CONFIG_FB_SIMPLE=m
-CONFIG_FB_SSD1307=m
-CONFIG_FB_OMAP2=m
-CONFIG_FB_OMAP2_DEBUG_SUPPORT=y
-CONFIG_FB_OMAP2_NUM_FBS=3
-CONFIG_FB_OMAP2_DSS_INIT=y
-CONFIG_FB_OMAP2_DSS=m
-CONFIG_FB_OMAP2_DSS_DEBUG=y
-CONFIG_FB_OMAP2_DSS_DEBUGFS=y
-CONFIG_FB_OMAP2_DSS_COLLECT_IRQ_STATS=y
-CONFIG_FB_OMAP2_DSS_DPI=y
-CONFIG_FB_OMAP2_DSS_VENC=y
-CONFIG_FB_OMAP2_DSS_HDMI_COMMON=y
-CONFIG_FB_OMAP4_DSS_HDMI=y
-CONFIG_FB_OMAP5_DSS_HDMI=y
-CONFIG_FB_OMAP2_DSS_SDI=y
-CONFIG_FB_OMAP2_DSS_DSI=y
-CONFIG_FB_OMAP2_DSS_MIN_FCK_PER_PCK=0
-CONFIG_FB_OMAP2_DSS_SLEEP_AFTER_VENC_RESET=y
-
-#
-# OMAPFB Panel and Encoder Drivers
-#
-CONFIG_FB_OMAP2_ENCODER_OPA362=m
-CONFIG_FB_OMAP2_ENCODER_TFP410=m
-CONFIG_FB_OMAP2_ENCODER_TPD12S015=m
-CONFIG_FB_OMAP2_CONNECTOR_DVI=m
-CONFIG_FB_OMAP2_CONNECTOR_HDMI=m
-CONFIG_FB_OMAP2_CONNECTOR_ANALOG_TV=m
-CONFIG_FB_OMAP2_PANEL_DPI=m
-CONFIG_FB_OMAP2_PANEL_DSI_CM=m
-CONFIG_FB_OMAP2_PANEL_SONY_ACX565AKM=m
-CONFIG_FB_OMAP2_PANEL_LGPHILIPS_LB035Q02=m
-CONFIG_FB_OMAP2_PANEL_SHARP_LS037V7DW01=m
-CONFIG_FB_OMAP2_PANEL_TPO_TD028TTEC1=m
-CONFIG_FB_OMAP2_PANEL_TPO_TD043MTEA1=m
-CONFIG_FB_OMAP2_PANEL_NEC_NL8048HL11=m
-# end of OMAPFB Panel and Encoder Drivers
-
-CONFIG_MMP_DISP=m
-CONFIG_MMP_DISP_CONTROLLER=y
-CONFIG_MMP_DISP_SPI=y
-CONFIG_MMP_PANEL_TPOHVGA=y
-CONFIG_MMP_FB=m
-# end of Frame buffer Devices
-
-#
-# Backlight & LCD device support
-#
-CONFIG_LCD_CLASS_DEVICE=m
-CONFIG_LCD_L4F00242T03=m
-CONFIG_LCD_LMS283GF05=m
-CONFIG_LCD_LTV350QV=m
-CONFIG_LCD_ILI922X=m
-CONFIG_LCD_ILI9320=m
-CONFIG_LCD_TDO24M=m
-CONFIG_LCD_VGG2432A4=m
-CONFIG_LCD_PLATFORM=m
-CONFIG_LCD_AMS369FG06=m
-CONFIG_LCD_LMS501KF03=m
-CONFIG_LCD_HX8357=m
-CONFIG_LCD_OTM3225A=m
-CONFIG_BACKLIGHT_CLASS_DEVICE=m
-CONFIG_BACKLIGHT_ATMEL_LCDC=y
-CONFIG_BACKLIGHT_KTD253=m
-CONFIG_BACKLIGHT_LM3533=m
-CONFIG_BACKLIGHT_OMAP1=m
-CONFIG_BACKLIGHT_PWM=m
-CONFIG_BACKLIGHT_DA9052=m
-CONFIG_BACKLIGHT_MT6370=m
-CONFIG_BACKLIGHT_QCOM_WLED=m
-CONFIG_BACKLIGHT_RT4831=m
-CONFIG_BACKLIGHT_WM831X=m
-CONFIG_BACKLIGHT_ADP8860=m
-CONFIG_BACKLIGHT_ADP8870=m
-CONFIG_BACKLIGHT_PCF50633=m
-CONFIG_BACKLIGHT_LM3630A=m
-CONFIG_BACKLIGHT_LM3639=m
-CONFIG_BACKLIGHT_LP855X=m
-CONFIG_BACKLIGHT_SKY81452=m
-CONFIG_BACKLIGHT_TPS65217=m
-CONFIG_BACKLIGHT_GPIO=m
-CONFIG_BACKLIGHT_LV5207LP=m
-CONFIG_BACKLIGHT_BD6107=m
-CONFIG_BACKLIGHT_ARCXCNN=m
-CONFIG_BACKLIGHT_RAVE_SP=m
-CONFIG_BACKLIGHT_LED=m
-# end of Backlight & LCD device support
-
-CONFIG_VIDEOMODE_HELPERS=y
-CONFIG_HDMI=y
-
-#
-# Console display driver support
-#
-CONFIG_DUMMY_CONSOLE=y
-CONFIG_DUMMY_CONSOLE_COLUMNS=80
-CONFIG_DUMMY_CONSOLE_ROWS=25
-CONFIG_FRAMEBUFFER_CONSOLE=y
-CONFIG_FRAMEBUFFER_CONSOLE_LEGACY_ACCELERATION=y
-CONFIG_FRAMEBUFFER_CONSOLE_DETECT_PRIMARY=y
-CONFIG_FRAMEBUFFER_CONSOLE_ROTATION=y
-# end of Console display driver support
-
-CONFIG_LOGO=y
-CONFIG_LOGO_LINUX_MONO=y
-CONFIG_LOGO_LINUX_VGA16=y
-CONFIG_LOGO_LINUX_CLUT224=y
-CONFIG_LOGO_SUPERH_MONO=y
-CONFIG_LOGO_SUPERH_VGA16=y
-CONFIG_LOGO_SUPERH_CLUT224=y
-# end of Graphics support
-
-CONFIG_SOUND=m
-CONFIG_SOUND_OSS_CORE=y
-CONFIG_SOUND_OSS_CORE_PRECLAIM=y
-CONFIG_SND=m
-CONFIG_SND_TIMER=m
-CONFIG_SND_PCM=m
-CONFIG_SND_PCM_ELD=y
-CONFIG_SND_PCM_IEC958=y
-CONFIG_SND_DMAENGINE_PCM=m
-CONFIG_SND_HWDEP=m
-CONFIG_SND_SEQ_DEVICE=m
-CONFIG_SND_RAWMIDI=m
-CONFIG_SND_COMPRESS_OFFLOAD=m
-CONFIG_SND_JACK=y
-CONFIG_SND_JACK_INPUT_DEV=y
-CONFIG_SND_OSSEMUL=y
-CONFIG_SND_MIXER_OSS=m
-CONFIG_SND_PCM_OSS=m
-CONFIG_SND_PCM_OSS_PLUGINS=y
-CONFIG_SND_PCM_TIMER=y
-CONFIG_SND_HRTIMER=m
-CONFIG_SND_DYNAMIC_MINORS=y
-CONFIG_SND_MAX_CARDS=32
-CONFIG_SND_SUPPORT_OLD_API=y
-CONFIG_SND_PROC_FS=y
-CONFIG_SND_VERBOSE_PROCFS=y
-CONFIG_SND_VERBOSE_PRINTK=y
-CONFIG_SND_CTL_FAST_LOOKUP=y
-CONFIG_SND_DEBUG=y
-CONFIG_SND_DEBUG_VERBOSE=y
-CONFIG_SND_PCM_XRUN_DEBUG=y
-CONFIG_SND_CTL_INPUT_VALIDATION=y
-CONFIG_SND_CTL_DEBUG=y
-CONFIG_SND_JACK_INJECTION_DEBUG=y
-CONFIG_SND_VMASTER=y
-CONFIG_SND_CTL_LED=m
-CONFIG_SND_SEQUENCER=m
-CONFIG_SND_SEQ_DUMMY=m
-CONFIG_SND_SEQUENCER_OSS=m
-CONFIG_SND_SEQ_HRTIMER_DEFAULT=y
-CONFIG_SND_SEQ_MIDI_EVENT=m
-CONFIG_SND_SEQ_MIDI=m
-CONFIG_SND_SEQ_VIRMIDI=m
-CONFIG_SND_MPU401_UART=m
-CONFIG_SND_VX_LIB=m
-CONFIG_SND_AC97_CODEC=m
-CONFIG_SND_DRIVERS=y
-CONFIG_SND_DUMMY=m
-CONFIG_SND_ALOOP=m
-CONFIG_SND_VIRMIDI=m
-CONFIG_SND_MTPAV=m
-CONFIG_SND_MTS64=m
-CONFIG_SND_SERIAL_U16550=m
-CONFIG_SND_SERIAL_GENERIC=m
-CONFIG_SND_MPU401=m
-CONFIG_SND_PORTMAN2X4=m
-CONFIG_SND_AC97_POWER_SAVE=y
-CONFIG_SND_AC97_POWER_SAVE_DEFAULT=0
-
-#
-# HD-Audio
-#
-CONFIG_SND_HDA=m
-CONFIG_SND_HDA_GENERIC_LEDS=y
-CONFIG_SND_HDA_HWDEP=y
-CONFIG_SND_HDA_RECONFIG=y
-CONFIG_SND_HDA_INPUT_BEEP=y
-CONFIG_SND_HDA_INPUT_BEEP_MODE=1
-CONFIG_SND_HDA_PATCH_LOADER=y
-CONFIG_SND_HDA_CODEC_REALTEK=m
-CONFIG_SND_HDA_CODEC_ANALOG=m
-CONFIG_SND_HDA_CODEC_SIGMATEL=m
-CONFIG_SND_HDA_CODEC_VIA=m
-CONFIG_SND_HDA_CODEC_HDMI=m
-CONFIG_SND_HDA_CODEC_CIRRUS=m
-CONFIG_SND_HDA_CODEC_CS8409=m
-CONFIG_SND_HDA_CODEC_CONEXANT=m
-CONFIG_SND_HDA_CODEC_CA0110=m
-CONFIG_SND_HDA_CODEC_CA0132=m
-CONFIG_SND_HDA_CODEC_CA0132_DSP=y
-CONFIG_SND_HDA_CODEC_CMEDIA=m
-CONFIG_SND_HDA_CODEC_SI3054=m
-CONFIG_SND_HDA_GENERIC=m
-CONFIG_SND_HDA_POWER_SAVE_DEFAULT=0
-# end of HD-Audio
-
-CONFIG_SND_HDA_CORE=m
-CONFIG_SND_HDA_DSP_LOADER=y
-CONFIG_SND_HDA_EXT_CORE=m
-CONFIG_SND_HDA_PREALLOC_SIZE=64
-CONFIG_SND_INTEL_DSP_CONFIG=m
-CONFIG_SND_PXA2XX_LIB=m
-CONFIG_SND_SPI=y
-CONFIG_SND_AT73C213=m
-CONFIG_SND_AT73C213_TARGET_BITRATE=48000
-CONFIG_SND_SUPERH=y
-CONFIG_SND_USB=y
-CONFIG_SND_USB_AUDIO=m
-CONFIG_SND_USB_AUDIO_USE_MEDIA_CONTROLLER=y
-CONFIG_SND_USB_UA101=m
-CONFIG_SND_USB_CAIAQ=m
-CONFIG_SND_USB_CAIAQ_INPUT=y
-CONFIG_SND_USB_US122L=m
-CONFIG_SND_USB_6FIRE=m
-CONFIG_SND_USB_HIFACE=m
-CONFIG_SND_BCD2000=m
-CONFIG_SND_USB_LINE6=m
-CONFIG_SND_USB_POD=m
-CONFIG_SND_USB_PODHD=m
-CONFIG_SND_USB_TONEPORT=m
-CONFIG_SND_USB_VARIAX=m
-CONFIG_SND_FIREWIRE=y
-CONFIG_SND_FIREWIRE_LIB=m
-CONFIG_SND_DICE=m
-CONFIG_SND_OXFW=m
-CONFIG_SND_ISIGHT=m
-CONFIG_SND_FIREWORKS=m
-CONFIG_SND_BEBOB=m
-CONFIG_SND_FIREWIRE_DIGI00X=m
-CONFIG_SND_FIREWIRE_TASCAM=m
-CONFIG_SND_FIREWIRE_MOTU=m
-CONFIG_SND_FIREFACE=m
-CONFIG_SND_PCMCIA=y
-CONFIG_SND_VXPOCKET=m
-CONFIG_SND_PDAUDIOCF=m
-CONFIG_SND_SOC=m
-CONFIG_SND_SOC_AC97_BUS=y
-CONFIG_SND_SOC_GENERIC_DMAENGINE_PCM=y
-CONFIG_SND_SOC_COMPRESS=y
-CONFIG_SND_SOC_TOPOLOGY=y
-CONFIG_SND_SOC_TOPOLOGY_KUNIT_TEST=m
-CONFIG_SND_SOC_UTILS_KUNIT_TEST=m
-CONFIG_SND_SOC_ADI=m
-CONFIG_SND_SOC_ADI_AXI_I2S=m
-CONFIG_SND_SOC_ADI_AXI_SPDIF=m
-CONFIG_SND_SOC_AMD_ACP=m
-CONFIG_SND_SOC_AMD_CZ_RT5645_MACH=m
-CONFIG_SND_AMD_ACP_CONFIG=m
-CONFIG_SND_SOC_APPLE_MCA=m
-CONFIG_SND_ATMEL_SOC=m
-CONFIG_SND_ATMEL_SOC_PDC=y
-CONFIG_SND_ATMEL_SOC_DMA=y
-CONFIG_SND_ATMEL_SOC_SSC=m
-CONFIG_SND_ATMEL_SOC_SSC_PDC=m
-CONFIG_SND_ATMEL_SOC_SSC_DMA=m
-CONFIG_SND_AT91_SOC_SAM9G20_WM8731=m
-CONFIG_SND_ATMEL_SOC_WM8904=m
-CONFIG_SND_AT91_SOC_SAM9X5_WM8731=m
-CONFIG_SND_ATMEL_SOC_CLASSD=m
-CONFIG_SND_ATMEL_SOC_PDMIC=m
-CONFIG_SND_ATMEL_SOC_I2S=m
-CONFIG_SND_SOC_MIKROE_PROTO=m
-CONFIG_SND_MCHP_SOC_I2S_MCC=m
-CONFIG_SND_MCHP_SOC_SPDIFTX=m
-CONFIG_SND_MCHP_SOC_PDMC=m
-CONFIG_SND_BCM2835_SOC_I2S=m
-CONFIG_SND_SOC_CYGNUS=m
-CONFIG_SND_BCM63XX_I2S_WHISTLER=m
-CONFIG_SND_EP93XX_SOC=m
-CONFIG_SND_DESIGNWARE_I2S=m
-CONFIG_SND_DESIGNWARE_PCM=y
-
-#
-# SoC Audio for Freescale CPUs
-#
-
-#
-# Common SoC Audio options for Freescale CPUs:
-#
-CONFIG_SND_SOC_FSL_SAI=m
-CONFIG_SND_SOC_FSL_MQS=m
-CONFIG_SND_SOC_FSL_AUDMIX=m
-CONFIG_SND_SOC_FSL_SSI=m
-CONFIG_SND_SOC_FSL_SPDIF=m
-CONFIG_SND_SOC_FSL_ESAI=m
-CONFIG_SND_SOC_FSL_MICFIL=m
-CONFIG_SND_SOC_FSL_XCVR=m
-CONFIG_SND_SOC_FSL_AUD2HTX=m
-CONFIG_SND_SOC_FSL_UTILS=m
-CONFIG_SND_SOC_IMX_PCM_DMA=m
-CONFIG_SND_SOC_IMX_AUDIO_RPMSG=m
-CONFIG_SND_SOC_IMX_PCM_RPMSG=m
-CONFIG_SND_SOC_IMX_AUDMUX=m
-CONFIG_SND_IMX_SOC=m
-
-#
-# SoC Audio support for Freescale i.MX boards:
-#
-CONFIG_SND_SOC_IMX_ES8328=m
-CONFIG_SND_SOC_IMX_SGTL5000=m
-CONFIG_SND_SOC_IMX_SPDIF=m
-CONFIG_SND_SOC_FSL_ASOC_CARD=m
-CONFIG_SND_SOC_IMX_AUDMIX=m
-CONFIG_SND_SOC_IMX_HDMI=m
-CONFIG_SND_SOC_IMX_RPMSG=m
-CONFIG_SND_SOC_IMX_CARD=m
-# end of SoC Audio for Freescale CPUs
-
-CONFIG_SND_I2S_HI6210_I2S=m
-CONFIG_SND_JZ4740_SOC_I2S=m
-CONFIG_SND_KIRKWOOD_SOC=m
-CONFIG_SND_KIRKWOOD_SOC_ARMADA370_DB=m
-CONFIG_SND_SOC_IMG=y
-CONFIG_SND_SOC_IMG_I2S_IN=m
-CONFIG_SND_SOC_IMG_I2S_OUT=m
-CONFIG_SND_SOC_IMG_PARALLEL_OUT=m
-CONFIG_SND_SOC_IMG_SPDIF_IN=m
-CONFIG_SND_SOC_IMG_SPDIF_OUT=m
-CONFIG_SND_SOC_IMG_PISTACHIO_INTERNAL_DAC=m
-CONFIG_SND_SOC_INTEL_SST_TOPLEVEL=y
-CONFIG_SND_SOC_ACPI_INTEL_MATCH=m
-CONFIG_SND_SOC_INTEL_MACH=y
-CONFIG_SND_SOC_INTEL_USER_FRIENDLY_LONG_NAMES=y
-CONFIG_SND_SOC_INTEL_BDW_RT5650_MACH=m
-CONFIG_SND_SOC_INTEL_BDW_RT5677_MACH=m
-CONFIG_SND_SOC_INTEL_BROADWELL_MACH=m
-CONFIG_SND_SOC_MTK_BTCVSD=m
-CONFIG_SND_PXA2XX_SOC=m
-CONFIG_SND_SOC_QCOM=m
-CONFIG_SND_SOC_LPASS_CPU=m
-CONFIG_SND_SOC_LPASS_HDMI=m
-CONFIG_SND_SOC_LPASS_PLATFORM=m
-CONFIG_SND_SOC_LPASS_CDC_DMA=m
-CONFIG_SND_SOC_LPASS_IPQ806X=m
-CONFIG_SND_SOC_LPASS_APQ8016=m
-CONFIG_SND_SOC_LPASS_SC7180=m
-CONFIG_SND_SOC_LPASS_SC7280=m
-CONFIG_SND_SOC_STORM=m
-CONFIG_SND_SOC_APQ8016_SBC=m
-CONFIG_SND_SOC_QCOM_COMMON=m
-CONFIG_SND_SOC_SC7180=m
-CONFIG_SND_SOC_SC7280=m
-CONFIG_SND_SOC_ROCKCHIP=m
-CONFIG_SND_SOC_ROCKCHIP_I2S=m
-CONFIG_SND_SOC_ROCKCHIP_I2S_TDM=m
-CONFIG_SND_SOC_ROCKCHIP_PDM=m
-CONFIG_SND_SOC_ROCKCHIP_SPDIF=m
-CONFIG_SND_SOC_ROCKCHIP_MAX98090=m
-CONFIG_SND_SOC_ROCKCHIP_RT5645=m
-CONFIG_SND_SOC_RK3288_HDMI_ANALOG=m
-CONFIG_SND_SOC_RK3399_GRU_SOUND=m
-
-#
-# SoC Audio support for Renesas SoCs
-#
-CONFIG_SND_SOC_SH4_FSI=m
-CONFIG_SND_SOC_RZ=m
-# end of SoC Audio support for Renesas SoCs
-
-CONFIG_SND_SOC_SOF_TOPLEVEL=y
-CONFIG_SND_SOC_SOF_ACPI=m
-CONFIG_SND_SOC_SOF_ACPI_DEV=m
-CONFIG_SND_SOC_SOF_OF=m
-CONFIG_SND_SOC_SOF_OF_DEV=m
-CONFIG_SND_SOC_SOF_COMPRESS=y
-CONFIG_SND_SOC_SOF_CLIENT=m
-CONFIG_SND_SOC_SOF_DEVELOPER_SUPPORT=y
-CONFIG_SND_SOC_SOF_FORCE_PROBE_WORKQUEUE=y
-CONFIG_SND_SOC_SOF_NOCODEC=m
-CONFIG_SND_SOC_SOF_NOCODEC_SUPPORT=y
-CONFIG_SND_SOC_SOF_STRICT_ABI_CHECKS=y
-CONFIG_SND_SOC_SOF_DEBUG=y
-CONFIG_SND_SOC_SOF_FORCE_NOCODEC_MODE=y
-CONFIG_SND_SOC_SOF_DEBUG_XRUN_STOP=y
-CONFIG_SND_SOC_SOF_DEBUG_VERBOSE_IPC=y
-CONFIG_SND_SOC_SOF_DEBUG_FORCE_IPC_POSITION=y
-CONFIG_SND_SOC_SOF_DEBUG_ENABLE_DEBUGFS_CACHE=y
-CONFIG_SND_SOC_SOF_DEBUG_ENABLE_FIRMWARE_TRACE=y
-CONFIG_SND_SOC_SOF_DEBUG_IPC_FLOOD_TEST=m
-CONFIG_SND_SOC_SOF_DEBUG_IPC_FLOOD_TEST_NUM=2
-CONFIG_SND_SOC_SOF_DEBUG_IPC_MSG_INJECTOR=m
-CONFIG_SND_SOC_SOF_DEBUG_RETAIN_DSP_CONTEXT=y
-CONFIG_SND_SOC_SOF=m
-CONFIG_SND_SOC_SOF_PROBE_WORK_QUEUE=y
-CONFIG_SND_SOC_SOF_IPC3=y
-CONFIG_SND_SOC_SOF_AMD_TOPLEVEL=m
-CONFIG_SND_SOC_SOF_IMX_TOPLEVEL=y
-CONFIG_SND_SOC_SOF_IMX_COMMON=m
-CONFIG_SND_SOC_SOF_IMX8=m
-CONFIG_SND_SOC_SOF_IMX8M=m
-CONFIG_SND_SOC_SOF_IMX8ULP=m
-CONFIG_SND_SOC_SOF_INTEL_TOPLEVEL=y
-CONFIG_SND_SOC_SOF_INTEL_HIFI_EP_IPC=m
-CONFIG_SND_SOC_SOF_INTEL_ATOM_HIFI_EP=m
-CONFIG_SND_SOC_SOF_INTEL_COMMON=m
-CONFIG_SND_SOC_SOF_BAYTRAIL=m
-CONFIG_SND_SOC_SOF_BROADWELL=m
-CONFIG_SND_SOC_SOF_MTK_TOPLEVEL=y
-CONFIG_SND_SOC_SOF_MTK_COMMON=m
-CONFIG_SND_SOC_SOF_MT8186=m
-CONFIG_SND_SOC_SOF_MT8195=m
-CONFIG_SND_SOC_SOF_XTENSA=m
-CONFIG_SND_SOC_SPRD=m
-CONFIG_SND_SOC_SPRD_MCDT=m
-CONFIG_SND_SOC_STI=m
-
-#
-# STMicroelectronics STM32 SOC audio support
-#
-CONFIG_SND_SOC_STM32_SPDIFRX=m
-CONFIG_SND_SOC_STM32_DFSDM=m
-# end of STMicroelectronics STM32 SOC audio support
-
-#
-# Allwinner SoC Audio support
-#
-CONFIG_SND_SUN4I_CODEC=m
-CONFIG_SND_SUN8I_CODEC_ANALOG=m
-CONFIG_SND_SUN50I_CODEC_ANALOG=m
-CONFIG_SND_SUN4I_I2S=m
-CONFIG_SND_SUN4I_SPDIF=m
-CONFIG_SND_SUN50I_DMIC=m
-CONFIG_SND_SUN8I_ADDA_PR_REGMAP=m
-# end of Allwinner SoC Audio support
-
-#
-# Audio support for Texas Instruments SoCs
-#
-CONFIG_SND_SOC_TI_EDMA_PCM=m
-CONFIG_SND_SOC_TI_SDMA_PCM=m
-
-#
-# Texas Instruments DAI support for:
-#
-CONFIG_SND_SOC_DAVINCI_ASP=m
-CONFIG_SND_SOC_DAVINCI_VCIF=m
-CONFIG_SND_SOC_OMAP_MCPDM=m
-
-#
-# Audio support for boards with Texas Instruments SoCs
-#
-CONFIG_SND_SOC_OMAP_HDMI=m
-# end of Audio support for Texas Instruments SoCs
-
-CONFIG_SND_SOC_UNIPHIER=m
-CONFIG_SND_SOC_UNIPHIER_AIO=m
-CONFIG_SND_SOC_UNIPHIER_LD11=m
-CONFIG_SND_SOC_UNIPHIER_PXS2=m
-CONFIG_SND_SOC_UNIPHIER_EVEA_CODEC=m
-CONFIG_SND_SOC_XILINX_I2S=m
-CONFIG_SND_SOC_XILINX_AUDIO_FORMATTER=m
-CONFIG_SND_SOC_XILINX_SPDIF=m
-CONFIG_SND_SOC_XTFPGA_I2S=m
-CONFIG_SND_SOC_I2C_AND_SPI=m
-
-#
-# CODEC drivers
-#
-CONFIG_SND_SOC_ALL_CODECS=m
-# CONFIG_SND_SOC_88PM860X is not set
-CONFIG_SND_SOC_ARIZONA=m
-CONFIG_SND_SOC_WM_HUBS=m
-CONFIG_SND_SOC_WM_ADSP=m
-CONFIG_SND_SOC_AB8500_CODEC=m
-CONFIG_SND_SOC_AC97_CODEC=m
-CONFIG_SND_SOC_AD1836=m
-CONFIG_SND_SOC_AD193X=m
-CONFIG_SND_SOC_AD193X_SPI=m
-CONFIG_SND_SOC_AD193X_I2C=m
-CONFIG_SND_SOC_AD1980=m
-CONFIG_SND_SOC_AD73311=m
-CONFIG_SND_SOC_ADAU_UTILS=m
-CONFIG_SND_SOC_ADAU1372=m
-CONFIG_SND_SOC_ADAU1372_I2C=m
-CONFIG_SND_SOC_ADAU1372_SPI=m
-CONFIG_SND_SOC_ADAU1373=m
-CONFIG_SND_SOC_ADAU1701=m
-CONFIG_SND_SOC_ADAU17X1=m
-CONFIG_SND_SOC_ADAU1761=m
-CONFIG_SND_SOC_ADAU1761_I2C=m
-CONFIG_SND_SOC_ADAU1761_SPI=m
-CONFIG_SND_SOC_ADAU1781=m
-CONFIG_SND_SOC_ADAU1781_I2C=m
-CONFIG_SND_SOC_ADAU1781_SPI=m
-CONFIG_SND_SOC_ADAU1977=m
-CONFIG_SND_SOC_ADAU1977_SPI=m
-CONFIG_SND_SOC_ADAU1977_I2C=m
-CONFIG_SND_SOC_ADAU7002=m
-CONFIG_SND_SOC_ADAU7118=m
-CONFIG_SND_SOC_ADAU7118_HW=m
-CONFIG_SND_SOC_ADAU7118_I2C=m
-CONFIG_SND_SOC_ADAV80X=m
-CONFIG_SND_SOC_ADAV801=m
-CONFIG_SND_SOC_ADAV803=m
-CONFIG_SND_SOC_ADS117X=m
-CONFIG_SND_SOC_AK4104=m
-CONFIG_SND_SOC_AK4118=m
-CONFIG_SND_SOC_AK4375=m
-CONFIG_SND_SOC_AK4458=m
-CONFIG_SND_SOC_AK4535=m
-CONFIG_SND_SOC_AK4554=m
-CONFIG_SND_SOC_AK4613=m
-CONFIG_SND_SOC_AK4641=m
-CONFIG_SND_SOC_AK4642=m
-CONFIG_SND_SOC_AK4671=m
-CONFIG_SND_SOC_AK5386=m
-CONFIG_SND_SOC_AK5558=m
-CONFIG_SND_SOC_ALC5623=m
-CONFIG_SND_SOC_ALC5632=m
-CONFIG_SND_SOC_AW8738=m
-CONFIG_SND_SOC_BD28623=m
-CONFIG_SND_SOC_BT_SCO=m
-CONFIG_SND_SOC_CPCAP=m
-CONFIG_SND_SOC_CQ0093VC=m
-CONFIG_SND_SOC_CROS_EC_CODEC=m
-CONFIG_SND_SOC_CS35L32=m
-CONFIG_SND_SOC_CS35L33=m
-CONFIG_SND_SOC_CS35L34=m
-CONFIG_SND_SOC_CS35L35=m
-CONFIG_SND_SOC_CS35L36=m
-CONFIG_SND_SOC_CS35L41_LIB=m
-CONFIG_SND_SOC_CS35L41=m
-CONFIG_SND_SOC_CS35L41_SPI=m
-CONFIG_SND_SOC_CS35L41_I2C=m
-CONFIG_SND_SOC_CS35L45_TABLES=m
-CONFIG_SND_SOC_CS35L45=m
-CONFIG_SND_SOC_CS35L45_SPI=m
-CONFIG_SND_SOC_CS35L45_I2C=m
-CONFIG_SND_SOC_CS42L42_CORE=m
-CONFIG_SND_SOC_CS42L42=m
-CONFIG_SND_SOC_CS42L51=m
-CONFIG_SND_SOC_CS42L51_I2C=m
-CONFIG_SND_SOC_CS42L52=m
-CONFIG_SND_SOC_CS42L56=m
-CONFIG_SND_SOC_CS42L73=m
-CONFIG_SND_SOC_CS42L83=m
-CONFIG_SND_SOC_CS4234=m
-CONFIG_SND_SOC_CS4265=m
-CONFIG_SND_SOC_CS4270=m
-CONFIG_SND_SOC_CS4271=m
-CONFIG_SND_SOC_CS4271_I2C=m
-CONFIG_SND_SOC_CS4271_SPI=m
-CONFIG_SND_SOC_CS42XX8=m
-CONFIG_SND_SOC_CS42XX8_I2C=m
-CONFIG_SND_SOC_CS43130=m
-CONFIG_SND_SOC_CS4341=m
-CONFIG_SND_SOC_CS4349=m
-CONFIG_SND_SOC_CS47L15=m
-CONFIG_SND_SOC_CS47L24=m
-CONFIG_SND_SOC_CS47L35=m
-CONFIG_SND_SOC_CS47L85=m
-CONFIG_SND_SOC_CS47L90=m
-CONFIG_SND_SOC_CS47L92=m
-CONFIG_SND_SOC_CS53L30=m
-CONFIG_SND_SOC_CX20442=m
-CONFIG_SND_SOC_CX2072X=m
-CONFIG_SND_SOC_JZ4740_CODEC=m
-CONFIG_SND_SOC_JZ4725B_CODEC=m
-CONFIG_SND_SOC_JZ4760_CODEC=m
-CONFIG_SND_SOC_JZ4770_CODEC=m
-CONFIG_SND_SOC_L3=m
-CONFIG_SND_SOC_DA7210=m
-CONFIG_SND_SOC_DA7213=m
-CONFIG_SND_SOC_DA7218=m
-CONFIG_SND_SOC_DA7219=m
-CONFIG_SND_SOC_DA732X=m
-CONFIG_SND_SOC_DA9055=m
-CONFIG_SND_SOC_DMIC=m
-CONFIG_SND_SOC_HDMI_CODEC=m
-CONFIG_SND_SOC_ES7134=m
-CONFIG_SND_SOC_ES7241=m
-CONFIG_SND_SOC_ES8316=m
-CONFIG_SND_SOC_ES8326=m
-CONFIG_SND_SOC_ES8328=m
-CONFIG_SND_SOC_ES8328_I2C=m
-CONFIG_SND_SOC_ES8328_SPI=m
-CONFIG_SND_SOC_GTM601=m
-CONFIG_SND_SOC_HDAC_HDMI=m
-CONFIG_SND_SOC_HDAC_HDA=m
-CONFIG_SND_SOC_HDA=m
-CONFIG_SND_SOC_ICS43432=m
-CONFIG_SND_SOC_INNO_RK3036=m
-CONFIG_SND_SOC_ISABELLE=m
-CONFIG_SND_SOC_LM49453=m
-CONFIG_SND_SOC_LOCHNAGAR_SC=m
-CONFIG_SND_SOC_MADERA=m
-CONFIG_SND_SOC_MAX98088=m
-CONFIG_SND_SOC_MAX98090=m
-CONFIG_SND_SOC_MAX98095=m
-CONFIG_SND_SOC_MAX98357A=m
-CONFIG_SND_SOC_MAX98371=m
-CONFIG_SND_SOC_MAX98504=m
-CONFIG_SND_SOC_MAX9867=m
-CONFIG_SND_SOC_MAX98925=m
-CONFIG_SND_SOC_MAX98926=m
-CONFIG_SND_SOC_MAX98927=m
-CONFIG_SND_SOC_MAX98520=m
-CONFIG_SND_SOC_MAX98373=m
-CONFIG_SND_SOC_MAX98373_I2C=m
-CONFIG_SND_SOC_MAX98373_SDW=m
-CONFIG_SND_SOC_MAX98390=m
-CONFIG_SND_SOC_MAX98396=m
-CONFIG_SND_SOC_MAX9850=m
-CONFIG_SND_SOC_MAX9860=m
-CONFIG_SND_SOC_MSM8916_WCD_ANALOG=m
-CONFIG_SND_SOC_MSM8916_WCD_DIGITAL=m
-CONFIG_SND_SOC_PCM1681=m
-CONFIG_SND_SOC_PCM1789=m
-CONFIG_SND_SOC_PCM1789_I2C=m
-CONFIG_SND_SOC_PCM179X=m
-CONFIG_SND_SOC_PCM179X_I2C=m
-CONFIG_SND_SOC_PCM179X_SPI=m
-CONFIG_SND_SOC_PCM186X=m
-CONFIG_SND_SOC_PCM186X_I2C=m
-CONFIG_SND_SOC_PCM186X_SPI=m
-CONFIG_SND_SOC_PCM3008=m
-CONFIG_SND_SOC_PCM3060=m
-CONFIG_SND_SOC_PCM3060_I2C=m
-CONFIG_SND_SOC_PCM3060_SPI=m
-CONFIG_SND_SOC_PCM3168A=m
-CONFIG_SND_SOC_PCM3168A_I2C=m
-CONFIG_SND_SOC_PCM3168A_SPI=m
-CONFIG_SND_SOC_PCM5102A=m
-CONFIG_SND_SOC_PCM512x=m
-CONFIG_SND_SOC_PCM512x_I2C=m
-CONFIG_SND_SOC_PCM512x_SPI=m
-CONFIG_SND_SOC_RK3328=m
-CONFIG_SND_SOC_RK817=m
-CONFIG_SND_SOC_RL6231=m
-CONFIG_SND_SOC_RL6347A=m
-CONFIG_SND_SOC_RT274=m
-CONFIG_SND_SOC_RT286=m
-CONFIG_SND_SOC_RT298=m
-CONFIG_SND_SOC_RT1011=m
-CONFIG_SND_SOC_RT1015=m
-CONFIG_SND_SOC_RT1015P=m
-CONFIG_SND_SOC_RT1016=m
-CONFIG_SND_SOC_RT1019=m
-CONFIG_SND_SOC_RT1305=m
-CONFIG_SND_SOC_RT1308=m
-CONFIG_SND_SOC_RT1308_SDW=m
-CONFIG_SND_SOC_RT1316_SDW=m
-CONFIG_SND_SOC_RT5514=m
-CONFIG_SND_SOC_RT5514_SPI=m
-CONFIG_SND_SOC_RT5616=m
-CONFIG_SND_SOC_RT5631=m
-CONFIG_SND_SOC_RT5640=m
-CONFIG_SND_SOC_RT5645=m
-CONFIG_SND_SOC_RT5651=m
-CONFIG_SND_SOC_RT5659=m
-CONFIG_SND_SOC_RT5660=m
-CONFIG_SND_SOC_RT5663=m
-CONFIG_SND_SOC_RT5665=m
-CONFIG_SND_SOC_RT5668=m
-CONFIG_SND_SOC_RT5670=m
-CONFIG_SND_SOC_RT5677=m
-CONFIG_SND_SOC_RT5677_SPI=m
-CONFIG_SND_SOC_RT5682=m
-CONFIG_SND_SOC_RT5682_I2C=m
-CONFIG_SND_SOC_RT5682_SDW=m
-CONFIG_SND_SOC_RT5682S=m
-CONFIG_SND_SOC_RT700=m
-CONFIG_SND_SOC_RT700_SDW=m
-CONFIG_SND_SOC_RT711=m
-CONFIG_SND_SOC_RT711_SDW=m
-CONFIG_SND_SOC_RT711_SDCA_SDW=m
-CONFIG_SND_SOC_RT715=m
-CONFIG_SND_SOC_RT715_SDW=m
-CONFIG_SND_SOC_RT715_SDCA_SDW=m
-CONFIG_SND_SOC_RT9120=m
-CONFIG_SND_SOC_SDW_MOCKUP=m
-CONFIG_SND_SOC_SGTL5000=m
-CONFIG_SND_SOC_SI476X=m
-CONFIG_SND_SOC_SIGMADSP=m
-CONFIG_SND_SOC_SIGMADSP_I2C=m
-CONFIG_SND_SOC_SIGMADSP_REGMAP=m
-CONFIG_SND_SOC_SIMPLE_AMPLIFIER=m
-CONFIG_SND_SOC_SIMPLE_MUX=m
-CONFIG_SND_SOC_SPDIF=m
-CONFIG_SND_SOC_SRC4XXX_I2C=m
-CONFIG_SND_SOC_SRC4XXX=m
-CONFIG_SND_SOC_SSM2305=m
-CONFIG_SND_SOC_SSM2518=m
-CONFIG_SND_SOC_SSM2602=m
-CONFIG_SND_SOC_SSM2602_SPI=m
-CONFIG_SND_SOC_SSM2602_I2C=m
-CONFIG_SND_SOC_SSM4567=m
-CONFIG_SND_SOC_STA32X=m
-CONFIG_SND_SOC_STA350=m
-CONFIG_SND_SOC_STA529=m
-CONFIG_SND_SOC_STAC9766=m
-CONFIG_SND_SOC_STI_SAS=m
-CONFIG_SND_SOC_TAS2552=m
-CONFIG_SND_SOC_TAS2562=m
-CONFIG_SND_SOC_TAS2764=m
-CONFIG_SND_SOC_TAS2770=m
-CONFIG_SND_SOC_TAS2780=m
-CONFIG_SND_SOC_TAS5086=m
-CONFIG_SND_SOC_TAS571X=m
-CONFIG_SND_SOC_TAS5720=m
-CONFIG_SND_SOC_TAS5805M=m
-CONFIG_SND_SOC_TAS6424=m
-CONFIG_SND_SOC_TDA7419=m
-CONFIG_SND_SOC_TFA9879=m
-CONFIG_SND_SOC_TFA989X=m
-CONFIG_SND_SOC_TLV320ADC3XXX=m
-CONFIG_SND_SOC_TLV320AIC23=m
-CONFIG_SND_SOC_TLV320AIC23_I2C=m
-CONFIG_SND_SOC_TLV320AIC23_SPI=m
-CONFIG_SND_SOC_TLV320AIC26=m
-CONFIG_SND_SOC_TLV320AIC31XX=m
-# CONFIG_SND_SOC_TLV320AIC32X4_I2C is not set
-# CONFIG_SND_SOC_TLV320AIC32X4_SPI is not set
-CONFIG_SND_SOC_TLV320AIC3X=m
-CONFIG_SND_SOC_TLV320AIC3X_I2C=m
-CONFIG_SND_SOC_TLV320AIC3X_SPI=m
-CONFIG_SND_SOC_TLV320DAC33=m
-CONFIG_SND_SOC_TLV320ADCX140=m
-CONFIG_SND_SOC_TS3A227E=m
-CONFIG_SND_SOC_TSCS42XX=m
-CONFIG_SND_SOC_TSCS454=m
-# CONFIG_SND_SOC_TWL4030 is not set
-# CONFIG_SND_SOC_TWL6040 is not set
-CONFIG_SND_SOC_UDA1334=m
-CONFIG_SND_SOC_UDA134X=m
-CONFIG_SND_SOC_UDA1380=m
-CONFIG_SND_SOC_WCD9335=m
-CONFIG_SND_SOC_WCD_MBHC=m
-# CONFIG_SND_SOC_WCD934X is not set
-CONFIG_SND_SOC_WCD938X=m
-CONFIG_SND_SOC_WCD938X_SDW=m
-CONFIG_SND_SOC_WL1273=m
-CONFIG_SND_SOC_WM0010=m
-CONFIG_SND_SOC_WM1250_EV1=m
-CONFIG_SND_SOC_WM2000=m
-CONFIG_SND_SOC_WM2200=m
-CONFIG_SND_SOC_WM5100=m
-CONFIG_SND_SOC_WM5102=m
-CONFIG_SND_SOC_WM5110=m
-# CONFIG_SND_SOC_WM8350 is not set
-# CONFIG_SND_SOC_WM8400 is not set
-CONFIG_SND_SOC_WM8510=m
-CONFIG_SND_SOC_WM8523=m
-CONFIG_SND_SOC_WM8524=m
-CONFIG_SND_SOC_WM8580=m
-CONFIG_SND_SOC_WM8711=m
-CONFIG_SND_SOC_WM8727=m
-CONFIG_SND_SOC_WM8728=m
-CONFIG_SND_SOC_WM8731=m
-CONFIG_SND_SOC_WM8731_I2C=m
-CONFIG_SND_SOC_WM8731_SPI=m
-CONFIG_SND_SOC_WM8737=m
-CONFIG_SND_SOC_WM8741=m
-CONFIG_SND_SOC_WM8750=m
-CONFIG_SND_SOC_WM8753=m
-CONFIG_SND_SOC_WM8770=m
-CONFIG_SND_SOC_WM8776=m
-CONFIG_SND_SOC_WM8782=m
-CONFIG_SND_SOC_WM8804=m
-CONFIG_SND_SOC_WM8804_I2C=m
-CONFIG_SND_SOC_WM8804_SPI=m
-CONFIG_SND_SOC_WM8900=m
-CONFIG_SND_SOC_WM8903=m
-CONFIG_SND_SOC_WM8904=m
-CONFIG_SND_SOC_WM8940=m
-CONFIG_SND_SOC_WM8955=m
-CONFIG_SND_SOC_WM8960=m
-CONFIG_SND_SOC_WM8961=m
-CONFIG_SND_SOC_WM8962=m
-CONFIG_SND_SOC_WM8971=m
-CONFIG_SND_SOC_WM8974=m
-CONFIG_SND_SOC_WM8978=m
-CONFIG_SND_SOC_WM8983=m
-CONFIG_SND_SOC_WM8985=m
-CONFIG_SND_SOC_WM8988=m
-CONFIG_SND_SOC_WM8990=m
-CONFIG_SND_SOC_WM8991=m
-CONFIG_SND_SOC_WM8993=m
-CONFIG_SND_SOC_WM8994=m
-CONFIG_SND_SOC_WM8995=m
-CONFIG_SND_SOC_WM8996=m
-CONFIG_SND_SOC_WM8997=m
-CONFIG_SND_SOC_WM8998=m
-CONFIG_SND_SOC_WM9081=m
-CONFIG_SND_SOC_WM9090=m
-CONFIG_SND_SOC_WM9705=m
-CONFIG_SND_SOC_WM9712=m
-CONFIG_SND_SOC_WM9713=m
-CONFIG_SND_SOC_WSA881X=m
-CONFIG_SND_SOC_WSA883X=m
-CONFIG_SND_SOC_ZL38060=m
-CONFIG_SND_SOC_LM4857=m
-CONFIG_SND_SOC_MAX9759=m
-CONFIG_SND_SOC_MAX9768=m
-CONFIG_SND_SOC_MAX9877=m
-CONFIG_SND_SOC_MC13783=m
-CONFIG_SND_SOC_ML26124=m
-CONFIG_SND_SOC_MT6351=m
-CONFIG_SND_SOC_MT6358=m
-CONFIG_SND_SOC_MT6359=m
-CONFIG_SND_SOC_MT6359_ACCDET=m
-CONFIG_SND_SOC_MT6660=m
-CONFIG_SND_SOC_NAU8315=m
-CONFIG_SND_SOC_NAU8540=m
-CONFIG_SND_SOC_NAU8810=m
-CONFIG_SND_SOC_NAU8821=m
-CONFIG_SND_SOC_NAU8822=m
-CONFIG_SND_SOC_NAU8824=m
-CONFIG_SND_SOC_NAU8825=m
-CONFIG_SND_SOC_TPA6130A2=m
-CONFIG_SND_SOC_LPASS_MACRO_COMMON=m
-# CONFIG_SND_SOC_LPASS_RX_MACRO is not set
-# CONFIG_SND_SOC_LPASS_TX_MACRO is not set
-# end of CODEC drivers
-
-CONFIG_SND_SIMPLE_CARD_UTILS=m
-CONFIG_SND_SIMPLE_CARD=m
-CONFIG_SND_AUDIO_GRAPH_CARD=m
-CONFIG_SND_AUDIO_GRAPH_CARD2=m
-CONFIG_SND_AUDIO_GRAPH_CARD2_CUSTOM_SAMPLE=m
-CONFIG_SND_TEST_COMPONENT=m
-CONFIG_SND_VIRTIO=m
-CONFIG_AC97_BUS=m
-
-#
-# HID support
-#
-CONFIG_HID=m
-CONFIG_HID_BATTERY_STRENGTH=y
-CONFIG_HIDRAW=y
-CONFIG_UHID=m
-CONFIG_HID_GENERIC=m
-
-#
-# Special HID drivers
-#
-CONFIG_HID_A4TECH=m
-CONFIG_HID_ACCUTOUCH=m
-CONFIG_HID_ACRUX=m
-CONFIG_HID_ACRUX_FF=y
-CONFIG_HID_APPLE=m
-CONFIG_HID_APPLEIR=m
-CONFIG_HID_ASUS=m
-CONFIG_HID_AUREAL=m
-CONFIG_HID_BELKIN=m
-CONFIG_HID_BETOP_FF=m
-CONFIG_HID_BIGBEN_FF=m
-CONFIG_HID_CHERRY=m
-CONFIG_HID_CHICONY=m
-CONFIG_HID_CORSAIR=m
-CONFIG_HID_COUGAR=m
-CONFIG_HID_MACALLY=m
-CONFIG_HID_PRODIKEYS=m
-CONFIG_HID_CMEDIA=m
-CONFIG_HID_CP2112=m
-CONFIG_HID_CREATIVE_SB0540=m
-CONFIG_HID_CYPRESS=m
-CONFIG_HID_DRAGONRISE=m
-CONFIG_DRAGONRISE_FF=y
-CONFIG_HID_EMS_FF=m
-CONFIG_HID_ELAN=m
-CONFIG_HID_ELECOM=m
-CONFIG_HID_ELO=m
-CONFIG_HID_EZKEY=m
-CONFIG_HID_FT260=m
-CONFIG_HID_GEMBIRD=m
-CONFIG_HID_GFRM=m
-CONFIG_HID_GLORIOUS=m
-CONFIG_HID_HOLTEK=m
-CONFIG_HOLTEK_FF=y
-CONFIG_HID_VIVALDI_COMMON=m
-CONFIG_HID_GOOGLE_HAMMER=m
-CONFIG_HID_VIVALDI=m
-CONFIG_HID_GT683R=m
-CONFIG_HID_KEYTOUCH=m
-CONFIG_HID_KYE=m
-CONFIG_HID_UCLOGIC=m
-CONFIG_HID_WALTOP=m
-CONFIG_HID_VIEWSONIC=m
-CONFIG_HID_VRC2=m
-CONFIG_HID_XIAOMI=m
-CONFIG_HID_GYRATION=m
-CONFIG_HID_ICADE=m
-CONFIG_HID_ITE=m
-CONFIG_HID_JABRA=m
-CONFIG_HID_TWINHAN=m
-CONFIG_HID_KENSINGTON=m
-CONFIG_HID_LCPOWER=m
-CONFIG_HID_LED=m
-CONFIG_HID_LENOVO=m
-CONFIG_HID_LETSKETCH=m
-CONFIG_HID_LOGITECH=m
-CONFIG_HID_LOGITECH_DJ=m
-CONFIG_HID_LOGITECH_HIDPP=m
-CONFIG_LOGITECH_FF=y
-CONFIG_LOGIRUMBLEPAD2_FF=y
-CONFIG_LOGIG940_FF=y
-CONFIG_LOGIWHEELS_FF=y
-CONFIG_HID_MAGICMOUSE=m
-CONFIG_HID_MALTRON=m
-CONFIG_HID_MAYFLASH=m
-CONFIG_HID_MEGAWORLD_FF=m
-CONFIG_HID_REDRAGON=m
-CONFIG_HID_MICROSOFT=m
-CONFIG_HID_MONTEREY=m
-CONFIG_HID_MULTITOUCH=m
-CONFIG_HID_NINTENDO=m
-CONFIG_NINTENDO_FF=y
-CONFIG_HID_NTI=m
-CONFIG_HID_NTRIG=m
-CONFIG_HID_ORTEK=m
-CONFIG_HID_PANTHERLORD=m
-CONFIG_PANTHERLORD_FF=y
-CONFIG_HID_PENMOUNT=m
-CONFIG_HID_PETALYNX=m
-CONFIG_HID_PICOLCD=m
-CONFIG_HID_PICOLCD_FB=y
-CONFIG_HID_PICOLCD_BACKLIGHT=y
-CONFIG_HID_PICOLCD_LCD=y
-CONFIG_HID_PICOLCD_LEDS=y
-CONFIG_HID_PICOLCD_CIR=y
-CONFIG_HID_PLANTRONICS=m
-CONFIG_HID_PLAYSTATION=m
-CONFIG_PLAYSTATION_FF=y
-CONFIG_HID_PXRC=m
-CONFIG_HID_RAZER=m
-CONFIG_HID_PRIMAX=m
-CONFIG_HID_RETRODE=m
-CONFIG_HID_ROCCAT=m
-CONFIG_HID_SAITEK=m
-CONFIG_HID_SAMSUNG=m
-CONFIG_HID_SEMITEK=m
-CONFIG_HID_SIGMAMICRO=m
-CONFIG_HID_SONY=m
-CONFIG_SONY_FF=y
-CONFIG_HID_SPEEDLINK=m
-CONFIG_HID_STEAM=m
-CONFIG_HID_STEELSERIES=m
-CONFIG_HID_SUNPLUS=m
-CONFIG_HID_RMI=m
-CONFIG_HID_GREENASIA=m
-CONFIG_GREENASIA_FF=y
-CONFIG_HID_SMARTJOYPLUS=m
-CONFIG_SMARTJOYPLUS_FF=y
-CONFIG_HID_TIVO=m
-CONFIG_HID_TOPSEED=m
-CONFIG_HID_TOPRE=m
-CONFIG_HID_THINGM=m
-CONFIG_HID_THRUSTMASTER=m
-CONFIG_THRUSTMASTER_FF=y
-CONFIG_HID_UDRAW_PS3=m
-CONFIG_HID_U2FZERO=m
-CONFIG_HID_WACOM=m
-CONFIG_HID_WIIMOTE=m
-CONFIG_HID_XINMO=m
-CONFIG_HID_ZEROPLUS=m
-CONFIG_ZEROPLUS_FF=y
-CONFIG_HID_ZYDACRON=m
-CONFIG_HID_SENSOR_HUB=m
-CONFIG_HID_SENSOR_CUSTOM_SENSOR=m
-CONFIG_HID_ALPS=m
-CONFIG_HID_MCP2221=m
-# end of Special HID drivers
-
-#
-# USB HID support
-#
-CONFIG_USB_HID=m
-CONFIG_HID_PID=y
-CONFIG_USB_HIDDEV=y
-
-#
-# USB HID Boot Protocol drivers
-#
-CONFIG_USB_KBD=m
-CONFIG_USB_MOUSE=m
-# end of USB HID Boot Protocol drivers
-# end of USB HID support
-
-#
-# I2C HID support
-#
-CONFIG_I2C_HID_OF=m
-CONFIG_I2C_HID_OF_ELAN=m
-CONFIG_I2C_HID_OF_GOODIX=m
-# end of I2C HID support
-
-CONFIG_I2C_HID_CORE=m
-# end of HID support
-
-CONFIG_USB_OHCI_LITTLE_ENDIAN=y
-CONFIG_USB_SUPPORT=y
-CONFIG_USB_COMMON=m
-CONFIG_USB_LED_TRIG=y
-CONFIG_USB_ULPI_BUS=m
-CONFIG_USB_CONN_GPIO=m
-CONFIG_USB_ARCH_HAS_HCD=y
-CONFIG_USB=m
-CONFIG_USB_ANNOUNCE_NEW_DEVICES=y
-
-#
-# Miscellaneous USB options
-#
-CONFIG_USB_DEFAULT_PERSIST=y
-CONFIG_USB_FEW_INIT_RETRIES=y
-CONFIG_USB_DYNAMIC_MINORS=y
-CONFIG_USB_OTG=y
-CONFIG_USB_OTG_PRODUCTLIST=y
-CONFIG_USB_OTG_DISABLE_EXTERNAL_HUB=y
-CONFIG_USB_OTG_FSM=m
-CONFIG_USB_LEDS_TRIGGER_USBPORT=m
-CONFIG_USB_AUTOSUSPEND_DELAY=2
-CONFIG_USB_MON=m
-
-#
-# USB Host Controller Drivers
-#
-CONFIG_USB_C67X00_HCD=m
-CONFIG_USB_BRCMSTB=m
-CONFIG_USB_OXU210HP_HCD=m
-CONFIG_USB_ISP116X_HCD=m
-CONFIG_USB_ISP1362_HCD=m
-CONFIG_USB_MAX3421_HCD=m
-CONFIG_USB_U132_HCD=m
-CONFIG_USB_SL811_HCD=m
-CONFIG_USB_SL811_HCD_ISO=y
-CONFIG_USB_SL811_CS=m
-CONFIG_USB_R8A66597_HCD=m
-CONFIG_USB_RENESAS_USBHS_HCD=m
-CONFIG_USB_HCD_TEST_MODE=y
-CONFIG_USB_RENESAS_USBHS=m
-
-#
-# USB Device Class drivers
-#
-CONFIG_USB_ACM=m
-CONFIG_USB_PRINTER=m
-CONFIG_USB_WDM=m
-CONFIG_USB_TMC=m
-
-#
-# NOTE: USB_STORAGE depends on SCSI but BLK_DEV_SD may
-#
-
-#
-# also be needed; see USB_STORAGE Help for more info
-#
-CONFIG_USB_STORAGE=m
-CONFIG_USB_STORAGE_DEBUG=y
-CONFIG_USB_STORAGE_REALTEK=m
-CONFIG_REALTEK_AUTOPM=y
-CONFIG_USB_STORAGE_DATAFAB=m
-CONFIG_USB_STORAGE_FREECOM=m
-CONFIG_USB_STORAGE_ISD200=m
-CONFIG_USB_STORAGE_USBAT=m
-CONFIG_USB_STORAGE_SDDR09=m
-CONFIG_USB_STORAGE_SDDR55=m
-CONFIG_USB_STORAGE_JUMPSHOT=m
-CONFIG_USB_STORAGE_ALAUDA=m
-CONFIG_USB_STORAGE_ONETOUCH=m
-CONFIG_USB_STORAGE_KARMA=m
-CONFIG_USB_STORAGE_CYPRESS_ATACB=m
-CONFIG_USB_STORAGE_ENE_UB6250=m
-CONFIG_USB_UAS=m
-
-#
-# USB Imaging devices
-#
-CONFIG_USB_MDC800=m
-CONFIG_USB_MICROTEK=m
-CONFIG_USBIP_CORE=m
-CONFIG_USBIP_VHCI_HCD=m
-CONFIG_USBIP_VHCI_HC_PORTS=8
-CONFIG_USBIP_VHCI_NR_HCS=1
-CONFIG_USBIP_HOST=m
-CONFIG_USBIP_VUDC=m
-CONFIG_USBIP_DEBUG=y
-CONFIG_USB_MTU3=m
-# CONFIG_USB_MTU3_HOST is not set
-# CONFIG_USB_MTU3_GADGET is not set
-CONFIG_USB_MTU3_DUAL_ROLE=y
-CONFIG_USB_MTU3_DEBUG=y
-CONFIG_USB_MUSB_HDRC=m
-CONFIG_USB_MUSB_HOST=y
-
-#
-# Platform Glue Layer
-#
-CONFIG_USB_MUSB_TUSB6010=m
-CONFIG_USB_MUSB_DSPS=m
-CONFIG_USB_MUSB_UX500=m
-CONFIG_USB_MUSB_MEDIATEK=m
-CONFIG_USB_MUSB_POLARFIRE_SOC=m
-
-#
-# MUSB DMA mode
-#
-CONFIG_MUSB_PIO_ONLY=y
-CONFIG_USB_ISP1760=m
-CONFIG_USB_ISP1760_HCD=y
-CONFIG_USB_ISP1761_UDC=y
-# CONFIG_USB_ISP1760_HOST_ROLE is not set
-# CONFIG_USB_ISP1760_GADGET_ROLE is not set
-CONFIG_USB_ISP1760_DUAL_ROLE=y
-
-#
-# USB port drivers
-#
-CONFIG_USB_USS720=m
-CONFIG_USB_SERIAL=m
-CONFIG_USB_SERIAL_GENERIC=y
-CONFIG_USB_SERIAL_SIMPLE=m
-CONFIG_USB_SERIAL_AIRCABLE=m
-CONFIG_USB_SERIAL_ARK3116=m
-CONFIG_USB_SERIAL_BELKIN=m
-CONFIG_USB_SERIAL_CH341=m
-CONFIG_USB_SERIAL_WHITEHEAT=m
-CONFIG_USB_SERIAL_DIGI_ACCELEPORT=m
-CONFIG_USB_SERIAL_CP210X=m
-CONFIG_USB_SERIAL_CYPRESS_M8=m
-CONFIG_USB_SERIAL_EMPEG=m
-CONFIG_USB_SERIAL_FTDI_SIO=m
-CONFIG_USB_SERIAL_VISOR=m
-CONFIG_USB_SERIAL_IPAQ=m
-CONFIG_USB_SERIAL_IR=m
-CONFIG_USB_SERIAL_EDGEPORT=m
-CONFIG_USB_SERIAL_EDGEPORT_TI=m
-CONFIG_USB_SERIAL_F81232=m
-CONFIG_USB_SERIAL_F8153X=m
-CONFIG_USB_SERIAL_GARMIN=m
-CONFIG_USB_SERIAL_IPW=m
-CONFIG_USB_SERIAL_IUU=m
-CONFIG_USB_SERIAL_KEYSPAN_PDA=m
-CONFIG_USB_SERIAL_KEYSPAN=m
-CONFIG_USB_SERIAL_KLSI=m
-CONFIG_USB_SERIAL_KOBIL_SCT=m
-CONFIG_USB_SERIAL_MCT_U232=m
-CONFIG_USB_SERIAL_METRO=m
-CONFIG_USB_SERIAL_MOS7720=m
-CONFIG_USB_SERIAL_MOS7715_PARPORT=y
-CONFIG_USB_SERIAL_MOS7840=m
-CONFIG_USB_SERIAL_MXUPORT=m
-CONFIG_USB_SERIAL_NAVMAN=m
-CONFIG_USB_SERIAL_PL2303=m
-CONFIG_USB_SERIAL_OTI6858=m
-CONFIG_USB_SERIAL_QCAUX=m
-CONFIG_USB_SERIAL_QUALCOMM=m
-CONFIG_USB_SERIAL_SPCP8X5=m
-CONFIG_USB_SERIAL_SAFE=m
-CONFIG_USB_SERIAL_SAFE_PADDED=y
-CONFIG_USB_SERIAL_SIERRAWIRELESS=m
-CONFIG_USB_SERIAL_SYMBOL=m
-CONFIG_USB_SERIAL_TI=m
-CONFIG_USB_SERIAL_CYBERJACK=m
-CONFIG_USB_SERIAL_WWAN=m
-CONFIG_USB_SERIAL_OPTION=m
-CONFIG_USB_SERIAL_OMNINET=m
-CONFIG_USB_SERIAL_OPTICON=m
-CONFIG_USB_SERIAL_XSENS_MT=m
-CONFIG_USB_SERIAL_WISHBONE=m
-CONFIG_USB_SERIAL_SSU100=m
-CONFIG_USB_SERIAL_QT2=m
-CONFIG_USB_SERIAL_UPD78F0730=m
-CONFIG_USB_SERIAL_XR=m
-CONFIG_USB_SERIAL_DEBUG=m
-
-#
-# USB Miscellaneous drivers
-#
-CONFIG_USB_EMI62=m
-CONFIG_USB_EMI26=m
-CONFIG_USB_ADUTUX=m
-CONFIG_USB_SEVSEG=m
-CONFIG_USB_LEGOTOWER=m
-CONFIG_USB_LCD=m
-CONFIG_USB_CYPRESS_CY7C63=m
-CONFIG_USB_CYTHERM=m
-CONFIG_USB_IDMOUSE=m
-CONFIG_USB_FTDI_ELAN=m
-CONFIG_USB_APPLEDISPLAY=m
-CONFIG_USB_QCOM_EUD=m
-CONFIG_APPLE_MFI_FASTCHARGE=m
-CONFIG_USB_SISUSBVGA=m
-CONFIG_USB_LD=m
-CONFIG_USB_TRANCEVIBRATOR=m
-CONFIG_USB_IOWARRIOR=m
-CONFIG_USB_TEST=m
-CONFIG_USB_EHSET_TEST_FIXTURE=m
-CONFIG_USB_ISIGHTFW=m
-CONFIG_USB_YUREX=m
-CONFIG_USB_EZUSB_FX2=m
-CONFIG_USB_HUB_USB251XB=m
-CONFIG_USB_HSIC_USB3503=m
-CONFIG_USB_HSIC_USB4604=m
-CONFIG_USB_LINK_LAYER_TEST=m
-CONFIG_USB_CHAOSKEY=m
-CONFIG_BRCM_USB_PINMAP=m
-CONFIG_USB_ONBOARD_HUB=m
-CONFIG_USB_ATM=m
-CONFIG_USB_SPEEDTOUCH=m
-CONFIG_USB_CXACRU=m
-CONFIG_USB_UEAGLEATM=m
-CONFIG_USB_XUSBATM=m
-
-#
-# USB Physical Layer drivers
-#
-CONFIG_USB_PHY=y
-CONFIG_KEYSTONE_USB_PHY=m
-CONFIG_NOP_USB_XCEIV=m
-CONFIG_AM335X_CONTROL_USB=m
-CONFIG_AM335X_PHY_USB=m
-CONFIG_USB_GPIO_VBUS=m
-CONFIG_TAHVO_USB=m
-CONFIG_TAHVO_USB_HOST_BY_DEFAULT=y
-CONFIG_USB_ISP1301=m
-CONFIG_USB_TEGRA_PHY=m
-CONFIG_USB_ULPI=y
-CONFIG_USB_ULPI_VIEWPORT=y
-CONFIG_JZ4770_PHY=m
-# end of USB Physical Layer drivers
-
-CONFIG_USB_GADGET=m
-CONFIG_USB_GADGET_DEBUG=y
-CONFIG_USB_GADGET_VERBOSE=y
-CONFIG_USB_GADGET_DEBUG_FILES=y
-CONFIG_USB_GADGET_DEBUG_FS=y
-CONFIG_USB_GADGET_VBUS_DRAW=2
-CONFIG_USB_GADGET_STORAGE_NUM_BUFFERS=2
-CONFIG_U_SERIAL_CONSOLE=y
-
-#
-# USB Peripheral Controller
-#
-CONFIG_USB_LPC32XX=m
-CONFIG_USB_RENESAS_USBHS_UDC=m
-CONFIG_USB_RENESAS_USB3=m
-CONFIG_USB_PXA27X=m
-CONFIG_USB_M66592=m
-CONFIG_USB_NET2272=m
-CONFIG_USB_MAX3420_UDC=m
-CONFIG_USB_ASPEED_UDC=m
-CONFIG_USB_ASPEED_VHUB=m
-CONFIG_USB_DUMMY_HCD=m
-# end of USB Peripheral Controller
-
-CONFIG_USB_LIBCOMPOSITE=m
-CONFIG_USB_F_ACM=m
-CONFIG_USB_F_SS_LB=m
-CONFIG_USB_U_SERIAL=m
-CONFIG_USB_U_ETHER=m
-CONFIG_USB_U_AUDIO=m
-CONFIG_USB_F_SERIAL=m
-CONFIG_USB_F_OBEX=m
-CONFIG_USB_F_NCM=m
-CONFIG_USB_F_ECM=m
-CONFIG_USB_F_PHONET=m
-CONFIG_USB_F_EEM=m
-CONFIG_USB_F_SUBSET=m
-CONFIG_USB_F_RNDIS=m
-CONFIG_USB_F_MASS_STORAGE=m
-CONFIG_USB_F_FS=m
-CONFIG_USB_F_UAC1=m
-CONFIG_USB_F_UAC1_LEGACY=m
-CONFIG_USB_F_UAC2=m
-CONFIG_USB_F_UVC=m
-CONFIG_USB_F_MIDI=m
-CONFIG_USB_F_HID=m
-CONFIG_USB_F_PRINTER=m
-CONFIG_USB_F_TCM=m
-CONFIG_USB_CONFIGFS=m
-CONFIG_USB_CONFIGFS_SERIAL=y
-CONFIG_USB_CONFIGFS_ACM=y
-CONFIG_USB_CONFIGFS_OBEX=y
-CONFIG_USB_CONFIGFS_NCM=y
-CONFIG_USB_CONFIGFS_ECM=y
-CONFIG_USB_CONFIGFS_ECM_SUBSET=y
-CONFIG_USB_CONFIGFS_RNDIS=y
-CONFIG_USB_CONFIGFS_EEM=y
-CONFIG_USB_CONFIGFS_PHONET=y
-CONFIG_USB_CONFIGFS_MASS_STORAGE=y
-CONFIG_USB_CONFIGFS_F_LB_SS=y
-CONFIG_USB_CONFIGFS_F_FS=y
-CONFIG_USB_CONFIGFS_F_UAC1=y
-CONFIG_USB_CONFIGFS_F_UAC1_LEGACY=y
-CONFIG_USB_CONFIGFS_F_UAC2=y
-CONFIG_USB_CONFIGFS_F_MIDI=y
-CONFIG_USB_CONFIGFS_F_HID=y
-CONFIG_USB_CONFIGFS_F_UVC=y
-CONFIG_USB_CONFIGFS_F_PRINTER=y
-CONFIG_USB_CONFIGFS_F_TCM=y
-
-#
-# USB Gadget precomposed configurations
-#
-CONFIG_USB_ZERO=m
-CONFIG_USB_ZERO_HNPTEST=y
-CONFIG_USB_AUDIO=m
-CONFIG_GADGET_UAC1=y
-CONFIG_GADGET_UAC1_LEGACY=y
-CONFIG_USB_ETH=m
-CONFIG_USB_ETH_RNDIS=y
-CONFIG_USB_ETH_EEM=y
-CONFIG_USB_G_NCM=m
-CONFIG_USB_GADGETFS=m
-CONFIG_USB_FUNCTIONFS=m
-CONFIG_USB_FUNCTIONFS_ETH=y
-CONFIG_USB_FUNCTIONFS_RNDIS=y
-CONFIG_USB_FUNCTIONFS_GENERIC=y
-CONFIG_USB_MASS_STORAGE=m
-CONFIG_USB_GADGET_TARGET=m
-CONFIG_USB_G_SERIAL=m
-CONFIG_USB_MIDI_GADGET=m
-CONFIG_USB_G_PRINTER=m
-CONFIG_USB_CDC_COMPOSITE=m
-CONFIG_USB_G_NOKIA=m
-CONFIG_USB_G_ACM_MS=m
-CONFIG_USB_G_MULTI=m
-CONFIG_USB_G_MULTI_RNDIS=y
-CONFIG_USB_G_MULTI_CDC=y
-CONFIG_USB_G_HID=m
-CONFIG_USB_G_DBGP=m
-# CONFIG_USB_G_DBGP_PRINTK is not set
-CONFIG_USB_G_DBGP_SERIAL=y
-CONFIG_USB_G_WEBCAM=m
-CONFIG_USB_RAW_GADGET=m
-# end of USB Gadget precomposed configurations
-
-CONFIG_TYPEC=m
-CONFIG_TYPEC_TCPM=m
-CONFIG_TYPEC_TCPCI=m
-CONFIG_TYPEC_RT1711H=m
-CONFIG_TYPEC_MT6360=m
-CONFIG_TYPEC_TCPCI_MT6370=m
-CONFIG_TYPEC_TCPCI_MAXIM=m
-CONFIG_TYPEC_FUSB302=m
-CONFIG_TYPEC_UCSI=m
-CONFIG_UCSI_CCG=m
-CONFIG_UCSI_STM32G0=m
-CONFIG_TYPEC_TPS6598X=m
-CONFIG_TYPEC_ANX7411=m
-CONFIG_TYPEC_RT1719=m
-CONFIG_TYPEC_HD3SS3220=m
-CONFIG_TYPEC_STUSB160X=m
-CONFIG_TYPEC_QCOM_PMIC=m
-CONFIG_TYPEC_WUSB3801=m
-
-#
-# USB Type-C Multiplexer/DeMultiplexer Switch support
-#
-CONFIG_TYPEC_MUX_FSA4480=m
-CONFIG_TYPEC_MUX_PI3USB30532=m
-# end of USB Type-C Multiplexer/DeMultiplexer Switch support
-
-#
-# USB Type-C Alternate Mode drivers
-#
-# end of USB Type-C Alternate Mode drivers
-
-CONFIG_USB_ROLE_SWITCH=y
-CONFIG_MMC=m
-CONFIG_PWRSEQ_EMMC=m
-CONFIG_PWRSEQ_SD8787=m
-CONFIG_PWRSEQ_SIMPLE=m
-CONFIG_MMC_BLOCK=m
-CONFIG_MMC_BLOCK_MINORS=8
-CONFIG_SDIO_UART=m
-CONFIG_MMC_TEST=m
-CONFIG_MMC_CRYPTO=y
-
-#
-# MMC/SD/SDIO Host Controller Drivers
-#
-CONFIG_MMC_DEBUG=y
-CONFIG_MMC_MOXART=m
-CONFIG_MMC_OMAP_HS=m
-CONFIG_MMC_DAVINCI=m
-CONFIG_MMC_SPI=m
-CONFIG_MMC_S3C=m
-CONFIG_MMC_S3C_HW_SDIO_IRQ=y
-CONFIG_MMC_S3C_PIO=y
-# CONFIG_MMC_S3C_DMA is not set
-CONFIG_MMC_TMIO_CORE=m
-CONFIG_MMC_TMIO=m
-CONFIG_MMC_SDHI=m
-CONFIG_MMC_SDHI_SYS_DMAC=m
-CONFIG_MMC_SDHI_INTERNAL_DMAC=m
-CONFIG_MMC_UNIPHIER=m
-CONFIG_MMC_DW=m
-CONFIG_MMC_DW_PLTFM=m
-CONFIG_MMC_DW_BLUEFIELD=m
-CONFIG_MMC_DW_EXYNOS=m
-CONFIG_MMC_DW_HI3798CV200=m
-CONFIG_MMC_DW_K3=m
-CONFIG_MMC_SH_MMCIF=m
-CONFIG_MMC_VUB300=m
-CONFIG_MMC_USHC=m
-CONFIG_MMC_REALTEK_USB=m
-CONFIG_MMC_HSQ=m
-CONFIG_MMC_BCM2835=m
-CONFIG_MMC_LITEX=m
-CONFIG_MEMSTICK=m
-CONFIG_MEMSTICK_DEBUG=y
-
-#
-# MemoryStick drivers
-#
-CONFIG_MEMSTICK_UNSAFE_RESUME=y
-CONFIG_MSPRO_BLOCK=m
-CONFIG_MS_BLOCK=m
-
-#
-# MemoryStick Host Controller Drivers
-#
-CONFIG_MEMSTICK_REALTEK_USB=m
-CONFIG_NEW_LEDS=y
-CONFIG_LEDS_CLASS=m
-CONFIG_LEDS_CLASS_FLASH=m
-CONFIG_LEDS_CLASS_MULTICOLOR=m
-CONFIG_LEDS_BRIGHTNESS_HW_CHANGED=y
-
-#
-# LED drivers
-#
-CONFIG_LEDS_AN30259A=m
-CONFIG_LEDS_ARIEL=m
-CONFIG_LEDS_AW2013=m
-CONFIG_LEDS_BCM6328=m
-CONFIG_LEDS_BCM6358=m
-CONFIG_LEDS_CPCAP=m
-CONFIG_LEDS_CR0014114=m
-CONFIG_LEDS_EL15203000=m
-CONFIG_LEDS_TURRIS_OMNIA=m
-CONFIG_LEDS_LM3530=m
-CONFIG_LEDS_LM3532=m
-CONFIG_LEDS_LM3533=m
-CONFIG_LEDS_LM3642=m
-CONFIG_LEDS_LM3692X=m
-CONFIG_LEDS_MT6323=m
-CONFIG_LEDS_S3C24XX=m
-CONFIG_LEDS_COBALT_QUBE=m
-CONFIG_LEDS_PCA9532=m
-CONFIG_LEDS_PCA9532_GPIO=y
-CONFIG_LEDS_GPIO=m
-CONFIG_LEDS_LP3944=m
-CONFIG_LEDS_LP3952=m
-CONFIG_LEDS_LP50XX=m
-CONFIG_LEDS_LP55XX_COMMON=m
-CONFIG_LEDS_LP5521=m
-CONFIG_LEDS_LP5523=m
-CONFIG_LEDS_LP5562=m
-CONFIG_LEDS_LP8501=m
-CONFIG_LEDS_LP8860=m
-CONFIG_LEDS_PCA955X=m
-CONFIG_LEDS_PCA955X_GPIO=y
-CONFIG_LEDS_PCA963X=m
-CONFIG_LEDS_WM831X_STATUS=m
-CONFIG_LEDS_DA9052=m
-CONFIG_LEDS_DAC124S085=m
-CONFIG_LEDS_PWM=m
-CONFIG_LEDS_REGULATOR=m
-CONFIG_LEDS_BD2802=m
-CONFIG_LEDS_LT3593=m
-CONFIG_LEDS_MC13783=m
-CONFIG_LEDS_NS2=m
-CONFIG_LEDS_NETXBIG=m
-CONFIG_LEDS_TCA6507=m
-CONFIG_LEDS_TLC591XX=m
-CONFIG_LEDS_MAX77650=m
-CONFIG_LEDS_LM355x=m
-CONFIG_LEDS_OT200=m
-CONFIG_LEDS_MENF21BMC=m
-CONFIG_LEDS_IS31FL319X=m
-CONFIG_LEDS_IS31FL32XX=m
-CONFIG_LEDS_SC27XX_BLTC=m
-
-#
-# LED driver for blink(1) USB RGB LED is under Special HID drivers (HID_THINGM)
-#
-CONFIG_LEDS_BLINKM=m
-CONFIG_LEDS_PM8058=m
-CONFIG_LEDS_MLXREG=m
-CONFIG_LEDS_USER=m
-CONFIG_LEDS_SPI_BYTE=m
-CONFIG_LEDS_TI_LMU_COMMON=m
-CONFIG_LEDS_LM3697=m
-CONFIG_LEDS_LM36274=m
-CONFIG_LEDS_TPS6105X=m
-CONFIG_LEDS_IP30=m
-CONFIG_LEDS_ACER_A500=m
-CONFIG_LEDS_BCM63138=m
-CONFIG_LEDS_LGM=m
-
-#
-# Flash and Torch LED drivers
-#
-CONFIG_LEDS_AAT1290=m
-CONFIG_LEDS_AS3645A=m
-CONFIG_LEDS_KTD2692=m
-CONFIG_LEDS_LM3601X=m
-CONFIG_LEDS_MAX77693=m
-CONFIG_LEDS_MT6360=m
-CONFIG_LEDS_RT4505=m
-CONFIG_LEDS_RT8515=m
-CONFIG_LEDS_SGM3140=m
-
-#
-# RGB LED drivers
-#
-CONFIG_LEDS_PWM_MULTICOLOR=m
-CONFIG_LEDS_QCOM_LPG=m
-
-#
-# LED Triggers
-#
-CONFIG_LEDS_TRIGGERS=y
-CONFIG_LEDS_TRIGGER_TIMER=m
-CONFIG_LEDS_TRIGGER_ONESHOT=m
-CONFIG_LEDS_TRIGGER_DISK=y
-CONFIG_LEDS_TRIGGER_MTD=y
-CONFIG_LEDS_TRIGGER_HEARTBEAT=m
-CONFIG_LEDS_TRIGGER_BACKLIGHT=m
-CONFIG_LEDS_TRIGGER_CPU=y
-CONFIG_LEDS_TRIGGER_ACTIVITY=m
-CONFIG_LEDS_TRIGGER_GPIO=m
-CONFIG_LEDS_TRIGGER_DEFAULT_ON=m
-
-#
-# iptables trigger is under Netfilter config (LED target)
-#
-CONFIG_LEDS_TRIGGER_TRANSIENT=m
-CONFIG_LEDS_TRIGGER_CAMERA=m
-CONFIG_LEDS_TRIGGER_PANIC=y
-CONFIG_LEDS_TRIGGER_NETDEV=m
-CONFIG_LEDS_TRIGGER_PATTERN=m
-CONFIG_LEDS_TRIGGER_AUDIO=m
-CONFIG_LEDS_TRIGGER_TTY=m
-
-#
-# Simple LED drivers
-#
-CONFIG_ACCESSIBILITY=y
-CONFIG_A11Y_BRAILLE_CONSOLE=y
-
-#
-# Speakup console speech
-#
-CONFIG_SPEAKUP=m
-CONFIG_SPEAKUP_SERIALIO=y
-CONFIG_SPEAKUP_SYNTH_ACNTSA=m
-CONFIG_SPEAKUP_SYNTH_ACNTPC=m
-CONFIG_SPEAKUP_SYNTH_APOLLO=m
-CONFIG_SPEAKUP_SYNTH_AUDPTR=m
-CONFIG_SPEAKUP_SYNTH_BNS=m
-CONFIG_SPEAKUP_SYNTH_DECTLK=m
-CONFIG_SPEAKUP_SYNTH_DECEXT=m
-CONFIG_SPEAKUP_SYNTH_DECPC=m
-CONFIG_SPEAKUP_SYNTH_DTLK=m
-CONFIG_SPEAKUP_SYNTH_KEYPC=m
-CONFIG_SPEAKUP_SYNTH_LTLK=m
-CONFIG_SPEAKUP_SYNTH_SOFT=m
-CONFIG_SPEAKUP_SYNTH_SPKOUT=m
-CONFIG_SPEAKUP_SYNTH_TXPRT=m
-CONFIG_SPEAKUP_SYNTH_DUMMY=m
-# end of Speakup console speech
-
-CONFIG_RTC_LIB=y
-CONFIG_RTC_CLASS=y
-CONFIG_RTC_HCTOSYS=y
-CONFIG_RTC_HCTOSYS_DEVICE="rtc0"
-CONFIG_RTC_SYSTOHC=y
-CONFIG_RTC_SYSTOHC_DEVICE="rtc0"
-CONFIG_RTC_DEBUG=y
-CONFIG_RTC_LIB_KUNIT_TEST=m
-CONFIG_RTC_NVMEM=y
-
-#
-# RTC interfaces
-#
-CONFIG_RTC_INTF_SYSFS=y
-CONFIG_RTC_INTF_PROC=y
-CONFIG_RTC_INTF_DEV=y
-CONFIG_RTC_INTF_DEV_UIE_EMUL=y
-CONFIG_RTC_DRV_TEST=m
-
-#
-# I2C RTC drivers
-#
-CONFIG_RTC_DRV_88PM80X=m
-CONFIG_RTC_DRV_ABB5ZES3=m
-CONFIG_RTC_DRV_ABEOZ9=m
-CONFIG_RTC_DRV_ABX80X=m
-CONFIG_RTC_DRV_BRCMSTB=m
-CONFIG_RTC_DRV_DS1307=m
-CONFIG_RTC_DRV_DS1307_CENTURY=y
-CONFIG_RTC_DRV_DS1374=m
-CONFIG_RTC_DRV_DS1374_WDT=y
-CONFIG_RTC_DRV_DS1672=m
-CONFIG_RTC_DRV_HYM8563=m
-CONFIG_RTC_DRV_MAX6900=m
-CONFIG_RTC_DRV_MAX8907=m
-CONFIG_RTC_DRV_MAX77686=m
-CONFIG_RTC_DRV_NCT3018Y=m
-CONFIG_RTC_DRV_RK808=m
-CONFIG_RTC_DRV_RS5C372=m
-CONFIG_RTC_DRV_ISL1208=m
-CONFIG_RTC_DRV_ISL12022=m
-CONFIG_RTC_DRV_ISL12026=m
-CONFIG_RTC_DRV_X1205=m
-CONFIG_RTC_DRV_PCF8523=m
-CONFIG_RTC_DRV_PCF85063=m
-CONFIG_RTC_DRV_PCF85363=m
-CONFIG_RTC_DRV_PCF8563=m
-CONFIG_RTC_DRV_PCF8583=m
-CONFIG_RTC_DRV_M41T80=m
-CONFIG_RTC_DRV_M41T80_WDT=y
-CONFIG_RTC_DRV_BQ32K=m
-CONFIG_RTC_DRV_RC5T619=m
-CONFIG_RTC_DRV_S35390A=m
-CONFIG_RTC_DRV_FM3130=m
-CONFIG_RTC_DRV_RX8010=m
-CONFIG_RTC_DRV_RX8581=m
-CONFIG_RTC_DRV_RX8025=m
-CONFIG_RTC_DRV_EM3027=m
-CONFIG_RTC_DRV_RV3028=m
-CONFIG_RTC_DRV_RV3032=m
-CONFIG_RTC_DRV_RV8803=m
-CONFIG_RTC_DRV_S5M=m
-CONFIG_RTC_DRV_SD3078=m
-
-#
-# SPI RTC drivers
-#
-CONFIG_RTC_DRV_M41T93=m
-CONFIG_RTC_DRV_M41T94=m
-CONFIG_RTC_DRV_DS1302=m
-CONFIG_RTC_DRV_DS1305=m
-CONFIG_RTC_DRV_DS1343=m
-CONFIG_RTC_DRV_DS1347=m
-CONFIG_RTC_DRV_DS1390=m
-CONFIG_RTC_DRV_MAX6916=m
-CONFIG_RTC_DRV_R9701=m
-CONFIG_RTC_DRV_RX4581=m
-CONFIG_RTC_DRV_RS5C348=m
-CONFIG_RTC_DRV_MAX6902=m
-CONFIG_RTC_DRV_PCF2123=m
-CONFIG_RTC_DRV_MCP795=m
-CONFIG_RTC_I2C_AND_SPI=m
-
-#
-# SPI and I2C RTC drivers
-#
-CONFIG_RTC_DRV_DS3232=m
-CONFIG_RTC_DRV_DS3232_HWMON=y
-CONFIG_RTC_DRV_PCF2127=m
-CONFIG_RTC_DRV_RV3029C2=m
-CONFIG_RTC_DRV_RV3029_HWMON=y
-CONFIG_RTC_DRV_RX6110=m
-
-#
-# Platform RTC drivers
-#
-CONFIG_RTC_DRV_DS1286=m
-CONFIG_RTC_DRV_DS1511=m
-CONFIG_RTC_DRV_DS1553=m
-CONFIG_RTC_DRV_DS1685_FAMILY=m
-CONFIG_RTC_DRV_DS1685=y
-# CONFIG_RTC_DRV_DS1689 is not set
-# CONFIG_RTC_DRV_DS17285 is not set
-# CONFIG_RTC_DRV_DS17485 is not set
-# CONFIG_RTC_DRV_DS17885 is not set
-CONFIG_RTC_DRV_DS1742=m
-CONFIG_RTC_DRV_DS2404=m
-CONFIG_RTC_DRV_DA9052=m
-CONFIG_RTC_DRV_DA9063=m
-CONFIG_RTC_DRV_STK17TA8=m
-CONFIG_RTC_DRV_M48T86=m
-CONFIG_RTC_DRV_M48T35=m
-CONFIG_RTC_DRV_M48T59=m
-CONFIG_RTC_DRV_MSM6242=m
-CONFIG_RTC_DRV_BQ4802=m
-CONFIG_RTC_DRV_RP5C01=m
-CONFIG_RTC_DRV_V3020=m
-CONFIG_RTC_DRV_GAMECUBE=m
-CONFIG_RTC_DRV_WM831X=m
-CONFIG_RTC_DRV_SC27XX=m
-CONFIG_RTC_DRV_SPEAR=m
-CONFIG_RTC_DRV_PCF50633=m
-CONFIG_RTC_DRV_ZYNQMP=m
-CONFIG_RTC_DRV_CROS_EC=m
-CONFIG_RTC_DRV_NTXEC=m
-
-#
-# on-CPU RTC drivers
-#
-CONFIG_RTC_DRV_ASM9260=m
-CONFIG_RTC_DRV_DAVINCI=m
-CONFIG_RTC_DRV_DIGICOLOR=m
-CONFIG_RTC_DRV_FSL_FTM_ALARM=m
-CONFIG_RTC_DRV_MESON=m
-CONFIG_RTC_DRV_MESON_VRTC=m
-CONFIG_RTC_DRV_OMAP=m
-CONFIG_RTC_DRV_S3C=m
-CONFIG_RTC_DRV_EP93XX=m
-CONFIG_RTC_DRV_SH=m
-CONFIG_RTC_DRV_AT91RM9200=m
-CONFIG_RTC_DRV_AT91SAM9=m
-CONFIG_RTC_DRV_RZN1=m
-CONFIG_RTC_DRV_GENERIC=m
-CONFIG_RTC_DRV_VT8500=m
-CONFIG_RTC_DRV_SUNXI=m
-CONFIG_RTC_DRV_MV=m
-CONFIG_RTC_DRV_ARMADA38X=m
-CONFIG_RTC_DRV_CADENCE=m
-CONFIG_RTC_DRV_FTRTC010=m
-CONFIG_RTC_DRV_STMP=m
-CONFIG_RTC_DRV_PCAP=m
-CONFIG_RTC_DRV_MC13XXX=m
-CONFIG_RTC_DRV_JZ4740=m
-CONFIG_RTC_DRV_LPC24XX=m
-CONFIG_RTC_DRV_LPC32XX=m
-CONFIG_RTC_DRV_PM8XXX=m
-CONFIG_RTC_DRV_TEGRA=m
-CONFIG_RTC_DRV_MXC=m
-CONFIG_RTC_DRV_MXC_V2=m
-CONFIG_RTC_DRV_SNVS=m
-CONFIG_RTC_DRV_MOXART=m
-CONFIG_RTC_DRV_MT2712=m
-CONFIG_RTC_DRV_MT6397=m
-CONFIG_RTC_DRV_MT7622=m
-CONFIG_RTC_DRV_XGENE=m
-CONFIG_RTC_DRV_R7301=m
-CONFIG_RTC_DRV_STM32=m
-CONFIG_RTC_DRV_CPCAP=m
-CONFIG_RTC_DRV_RTD119X=y
-CONFIG_RTC_DRV_ASPEED=m
-CONFIG_RTC_DRV_TI_K3=m
-
-#
-# HID Sensor RTC drivers
-#
-CONFIG_RTC_DRV_HID_SENSOR_TIME=m
-CONFIG_RTC_DRV_GOLDFISH=m
-CONFIG_RTC_DRV_MSC313=m
-
-#
-# DMABUF options
-#
-CONFIG_SYNC_FILE=y
-CONFIG_SW_SYNC=y
-CONFIG_UDMABUF=y
-CONFIG_DMABUF_MOVE_NOTIFY=y
-CONFIG_DMABUF_DEBUG=y
-CONFIG_DMABUF_SELFTESTS=m
-CONFIG_DMABUF_HEAPS=y
-CONFIG_DMABUF_SYSFS_STATS=y
-CONFIG_DMABUF_HEAPS_SYSTEM=y
-# end of DMABUF options
-
-CONFIG_AUXDISPLAY=y
-CONFIG_CHARLCD=m
-CONFIG_LINEDISP=m
-CONFIG_HD44780_COMMON=m
-CONFIG_HD44780=m
-CONFIG_KS0108=m
-CONFIG_KS0108_PORT=0x378
-CONFIG_KS0108_DELAY=2
-CONFIG_IMG_ASCII_LCD=m
-CONFIG_HT16K33=m
-CONFIG_LCD2S=m
-CONFIG_PARPORT_PANEL=m
-CONFIG_PANEL_PARPORT=0
-CONFIG_PANEL_PROFILE=5
-CONFIG_PANEL_CHANGE_MESSAGE=y
-CONFIG_PANEL_BOOT_MESSAGE=""
-# CONFIG_CHARLCD_BL_OFF is not set
-# CONFIG_CHARLCD_BL_ON is not set
-CONFIG_CHARLCD_BL_FLASH=y
-CONFIG_PANEL=m
-CONFIG_VFIO=m
-CONFIG_VFIO_VIRQFD=m
-CONFIG_VFIO_NOIOMMU=y
-CONFIG_VFIO_PLATFORM=m
-CONFIG_VFIO_AMBA=m
-CONFIG_VFIO_PLATFORM_CALXEDAXGMAC_RESET=m
-CONFIG_VFIO_PLATFORM_AMDXGBE_RESET=m
-CONFIG_VFIO_PLATFORM_BCMFLEXRM_RESET=m
-CONFIG_VFIO_MDEV=m
-CONFIG_IRQ_BYPASS_MANAGER=m
-CONFIG_VIRT_DRIVERS=y
-CONFIG_VIRTIO_ANCHOR=y
-CONFIG_VIRTIO=m
-CONFIG_VIRTIO_MENU=y
-CONFIG_VIRTIO_VDPA=m
-CONFIG_VIRTIO_BALLOON=m
-CONFIG_VIRTIO_INPUT=m
-CONFIG_VDPA=m
-CONFIG_VHOST_IOTLB=m
-CONFIG_VHOST=m
-CONFIG_VHOST_MENU=y
-CONFIG_VHOST_NET=m
-CONFIG_VHOST_SCSI=m
-CONFIG_VHOST_VSOCK=m
-CONFIG_VHOST_VDPA=m
-CONFIG_VHOST_CROSS_ENDIAN_LEGACY=y
-
-#
-# Microsoft Hyper-V guest support
-#
-# end of Microsoft Hyper-V guest support
-
-CONFIG_GREYBUS=m
-CONFIG_GREYBUS_ES2=m
-CONFIG_COMEDI=m
-CONFIG_COMEDI_DEBUG=y
-CONFIG_COMEDI_DEFAULT_BUF_SIZE_KB=2048
-CONFIG_COMEDI_DEFAULT_BUF_MAXSIZE_KB=20480
-CONFIG_COMEDI_MISC_DRIVERS=y
-CONFIG_COMEDI_BOND=m
-CONFIG_COMEDI_TEST=m
-CONFIG_COMEDI_PARPORT=m
-CONFIG_COMEDI_SSV_DNP=m
-CONFIG_COMEDI_ISA_DRIVERS=y
-CONFIG_COMEDI_PCL711=m
-CONFIG_COMEDI_PCL724=m
-CONFIG_COMEDI_PCL726=m
-CONFIG_COMEDI_PCL730=m
-CONFIG_COMEDI_PCL812=m
-CONFIG_COMEDI_PCL816=m
-CONFIG_COMEDI_PCL818=m
-CONFIG_COMEDI_PCM3724=m
-CONFIG_COMEDI_AMPLC_DIO200_ISA=m
-CONFIG_COMEDI_AMPLC_PC236_ISA=m
-CONFIG_COMEDI_AMPLC_PC263_ISA=m
-CONFIG_COMEDI_RTI800=m
-CONFIG_COMEDI_RTI802=m
-CONFIG_COMEDI_DAC02=m
-CONFIG_COMEDI_DAS16M1=m
-CONFIG_COMEDI_DAS08_ISA=m
-CONFIG_COMEDI_DAS16=m
-CONFIG_COMEDI_DAS800=m
-CONFIG_COMEDI_DAS1800=m
-CONFIG_COMEDI_DAS6402=m
-CONFIG_COMEDI_DT2801=m
-CONFIG_COMEDI_DT2811=m
-CONFIG_COMEDI_DT2814=m
-CONFIG_COMEDI_DT2815=m
-CONFIG_COMEDI_DT2817=m
-CONFIG_COMEDI_DT282X=m
-CONFIG_COMEDI_DMM32AT=m
-CONFIG_COMEDI_FL512=m
-CONFIG_COMEDI_AIO_AIO12_8=m
-CONFIG_COMEDI_AIO_IIRO_16=m
-CONFIG_COMEDI_II_PCI20KC=m
-CONFIG_COMEDI_C6XDIGIO=m
-CONFIG_COMEDI_MPC624=m
-CONFIG_COMEDI_ADQ12B=m
-CONFIG_COMEDI_NI_AT_A2150=m
-CONFIG_COMEDI_NI_AT_AO=m
-CONFIG_COMEDI_NI_ATMIO=m
-CONFIG_COMEDI_NI_ATMIO16D=m
-CONFIG_COMEDI_NI_LABPC_ISA=m
-CONFIG_COMEDI_PCMAD=m
-CONFIG_COMEDI_PCMDA12=m
-CONFIG_COMEDI_PCMMIO=m
-CONFIG_COMEDI_PCMUIO=m
-CONFIG_COMEDI_MULTIQ3=m
-CONFIG_COMEDI_S526=m
-CONFIG_COMEDI_PCMCIA_DRIVERS=m
-CONFIG_COMEDI_CB_DAS16_CS=m
-CONFIG_COMEDI_DAS08_CS=m
-CONFIG_COMEDI_NI_DAQ_700_CS=m
-CONFIG_COMEDI_NI_DAQ_DIO24_CS=m
-CONFIG_COMEDI_NI_LABPC_CS=m
-CONFIG_COMEDI_NI_MIO_CS=m
-CONFIG_COMEDI_QUATECH_DAQP_CS=m
-CONFIG_COMEDI_USB_DRIVERS=m
-CONFIG_COMEDI_DT9812=m
-CONFIG_COMEDI_NI_USB6501=m
-CONFIG_COMEDI_USBDUX=m
-CONFIG_COMEDI_USBDUXFAST=m
-CONFIG_COMEDI_USBDUXSIGMA=m
-CONFIG_COMEDI_VMK80XX=m
-CONFIG_COMEDI_8254=m
-CONFIG_COMEDI_8255=m
-CONFIG_COMEDI_8255_SA=m
-CONFIG_COMEDI_KCOMEDILIB=m
-CONFIG_COMEDI_AMPLC_DIO200=m
-CONFIG_COMEDI_AMPLC_PC236=m
-CONFIG_COMEDI_DAS08=m
-CONFIG_COMEDI_NI_LABPC=m
-CONFIG_COMEDI_NI_TIO=m
-CONFIG_COMEDI_NI_ROUTING=m
-CONFIG_COMEDI_TESTS=m
-CONFIG_COMEDI_TESTS_EXAMPLE=m
-CONFIG_COMEDI_TESTS_NI_ROUTES=m
-CONFIG_STAGING=y
-CONFIG_PRISM2_USB=m
-CONFIG_RTLLIB=m
-CONFIG_RTLLIB_CRYPTO_CCMP=m
-CONFIG_RTLLIB_CRYPTO_TKIP=m
-CONFIG_RTLLIB_CRYPTO_WEP=m
-CONFIG_RTL8723BS=m
-CONFIG_R8712U=m
-CONFIG_R8188EU=m
-CONFIG_OCTEON_ETHERNET=m
-CONFIG_VT6656=m
-
-#
-# IIO staging drivers
-#
-
-#
-# Accelerometers
-#
-CONFIG_ADIS16203=m
-CONFIG_ADIS16240=m
-# end of Accelerometers
-
-#
-# Analog to digital converters
-#
-CONFIG_AD7816=m
-# end of Analog to digital converters
-
-#
-# Analog digital bi-direction converters
-#
-CONFIG_ADT7316=m
-CONFIG_ADT7316_SPI=m
-CONFIG_ADT7316_I2C=m
-# end of Analog digital bi-direction converters
-
-#
-# Direct Digital Synthesis
-#
-CONFIG_AD9832=m
-CONFIG_AD9834=m
-# end of Direct Digital Synthesis
-
-#
-# Network Analyzer, Impedance Converters
-#
-CONFIG_AD5933=m
-# end of Network Analyzer, Impedance Converters
-
-#
-# Active energy metering IC
-#
-CONFIG_ADE7854=m
-CONFIG_ADE7854_I2C=m
-CONFIG_ADE7854_SPI=m
-# end of Active energy metering IC
-
-#
-# Resolver to digital converters
-#
-CONFIG_AD2S1210=m
-# end of Resolver to digital converters
-# end of IIO staging drivers
-
-CONFIG_USB_EMXX=m
-CONFIG_STAGING_MEDIA=y
-CONFIG_VIDEO_IMX8MQ_MIPI_CSI2=m
-CONFIG_VIDEO_MAX96712=m
-CONFIG_VIDEO_OMAP4=m
-CONFIG_VIDEO_ROCKCHIP_VDEC=m
-CONFIG_VIDEO_SUNXI=y
-CONFIG_STAGING_MEDIA_DEPRECATED=y
-
-#
-# Atmel media platform drivers
-#
-CONFIG_VIDEO_CPIA2=m
-CONFIG_VIDEO_VIU=m
-CONFIG_VIDEO_STKWEBCAM=m
-CONFIG_VIDEO_TM6000=m
-CONFIG_VIDEO_TM6000_ALSA=m
-CONFIG_VIDEO_TM6000_DVB=m
-CONFIG_VIDEO_DM6446_CCDC=m
-CONFIG_VIDEO_DM355_CCDC=m
-CONFIG_VIDEO_DM365_ISIF=m
-CONFIG_USB_ZR364XX=m
-CONFIG_STAGING_BOARD=y
-CONFIG_LTE_GDM724X=m
-CONFIG_FB_TFT=m
-CONFIG_FB_TFT_AGM1264K_FL=m
-CONFIG_FB_TFT_BD663474=m
-CONFIG_FB_TFT_HX8340BN=m
-CONFIG_FB_TFT_HX8347D=m
-CONFIG_FB_TFT_HX8353D=m
-CONFIG_FB_TFT_HX8357D=m
-CONFIG_FB_TFT_ILI9163=m
-CONFIG_FB_TFT_ILI9320=m
-CONFIG_FB_TFT_ILI9325=m
-CONFIG_FB_TFT_ILI9340=m
-CONFIG_FB_TFT_ILI9341=m
-CONFIG_FB_TFT_ILI9481=m
-CONFIG_FB_TFT_ILI9486=m
-CONFIG_FB_TFT_PCD8544=m
-CONFIG_FB_TFT_RA8875=m
-CONFIG_FB_TFT_S6D02A1=m
-CONFIG_FB_TFT_S6D1121=m
-CONFIG_FB_TFT_SEPS525=m
-CONFIG_FB_TFT_SH1106=m
-CONFIG_FB_TFT_SSD1289=m
-CONFIG_FB_TFT_SSD1305=m
-CONFIG_FB_TFT_SSD1306=m
-CONFIG_FB_TFT_SSD1331=m
-CONFIG_FB_TFT_SSD1351=m
-CONFIG_FB_TFT_ST7735R=m
-CONFIG_FB_TFT_ST7789V=m
-CONFIG_FB_TFT_TINYLCD=m
-CONFIG_FB_TFT_TLS8204=m
-CONFIG_FB_TFT_UC1611=m
-CONFIG_FB_TFT_UC1701=m
-CONFIG_FB_TFT_UPD161704=m
-CONFIG_KS7010=m
-CONFIG_GREYBUS_AUDIO=m
-CONFIG_GREYBUS_AUDIO_APB_CODEC=m
-CONFIG_GREYBUS_BOOTROM=m
-CONFIG_GREYBUS_FIRMWARE=m
-CONFIG_GREYBUS_HID=m
-CONFIG_GREYBUS_LIGHT=m
-CONFIG_GREYBUS_LOG=m
-CONFIG_GREYBUS_LOOPBACK=m
-CONFIG_GREYBUS_POWER=m
-CONFIG_GREYBUS_RAW=m
-CONFIG_GREYBUS_VIBRATOR=m
-CONFIG_GREYBUS_BRIDGED_PHY=m
-CONFIG_GREYBUS_GPIO=m
-CONFIG_GREYBUS_I2C=m
-CONFIG_GREYBUS_PWM=m
-CONFIG_GREYBUS_SDIO=m
-CONFIG_GREYBUS_SPI=m
-CONFIG_GREYBUS_UART=m
-CONFIG_GREYBUS_USB=m
-CONFIG_GREYBUS_ARCHE=m
-CONFIG_BCM_VIDEOCORE=m
-CONFIG_SND_BCM2835=m
-CONFIG_VIDEO_BCM2835=m
-CONFIG_PI433=m
-CONFIG_XIL_AXIS_FIFO=m
-CONFIG_FIELDBUS_DEV=m
-CONFIG_HMS_ANYBUSS_BUS=m
-CONFIG_ARCX_ANYBUS_CONTROLLER=m
-CONFIG_HMS_PROFINET=m
-CONFIG_CHROME_PLATFORMS=y
-CONFIG_CROS_EC=m
-CONFIG_CROS_EC_I2C=m
-CONFIG_CROS_EC_RPMSG=m
-CONFIG_CROS_EC_SPI=m
-CONFIG_CROS_EC_PROTO=y
-CONFIG_CROS_KBD_LED_BACKLIGHT=m
-CONFIG_CROS_EC_CHARDEV=m
-CONFIG_CROS_EC_LIGHTBAR=m
-CONFIG_CROS_EC_VBC=m
-CONFIG_CROS_EC_DEBUGFS=m
-CONFIG_CROS_EC_SENSORHUB=m
-CONFIG_CROS_EC_SYSFS=m
-CONFIG_CROS_EC_TYPEC=m
-CONFIG_CROS_USBPD_LOGGER=m
-CONFIG_CROS_USBPD_NOTIFY=m
-CONFIG_CROS_KUNIT=m
-CONFIG_MELLANOX_PLATFORM=y
-CONFIG_MLXREG_HOTPLUG=m
-CONFIG_MLXREG_IO=m
-CONFIG_MLXREG_LC=m
-CONFIG_NVSW_SN2201=m
-CONFIG_OLPC_EC=y
-CONFIG_OLPC_XO175=y
-CONFIG_OLPC_XO175_EC=m
-CONFIG_SURFACE_PLATFORMS=y
-CONFIG_HAVE_CLK=y
-CONFIG_HAVE_LEGACY_CLK=y
-CONFIG_HWSPINLOCK=y
-CONFIG_HWSPINLOCK_OMAP=m
-CONFIG_HWSPINLOCK_QCOM=m
-CONFIG_HWSPINLOCK_SPRD=m
-CONFIG_HWSPINLOCK_STM32=m
-CONFIG_HWSPINLOCK_SUN6I=m
-CONFIG_HSEM_U8500=m
-
-#
-# Clock Source drivers
-#
-CONFIG_TIMER_OF=y
-CONFIG_TIMER_PROBE=y
-CONFIG_CLKSRC_MMIO=y
-CONFIG_BCM2835_TIMER=y
-CONFIG_BCM_KONA_TIMER=y
-CONFIG_DAVINCI_TIMER=y
-CONFIG_DIGICOLOR_TIMER=y
-CONFIG_OMAP_DM_TIMER=y
-CONFIG_DW_APB_TIMER=y
-CONFIG_FTTMR010_TIMER=y
-CONFIG_IXP4XX_TIMER=y
-CONFIG_MESON6_TIMER=y
-CONFIG_OWL_TIMER=y
-CONFIG_RDA_TIMER=y
-CONFIG_SUN4I_TIMER=y
-CONFIG_TEGRA_TIMER=y
-CONFIG_TEGRA186_TIMER=y
-CONFIG_VT8500_TIMER=y
-CONFIG_NPCM7XX_TIMER=y
-CONFIG_ASM9260_TIMER=y
-CONFIG_CLKSRC_DBX500_PRCMU=y
-CONFIG_CLPS711X_TIMER=y
-CONFIG_MXS_TIMER=y
-CONFIG_NSPIRE_TIMER=y
-CONFIG_INTEGRATOR_AP_TIMER=y
-CONFIG_CLKSRC_PISTACHIO=y
-CONFIG_CLKSRC_TI_32K=y
-CONFIG_CLKSRC_STM32_LP=y
-CONFIG_CLKSRC_MPS2=y
-CONFIG_ARC_TIMERS=y
-CONFIG_ARC_TIMERS_64BIT=y
-CONFIG_ARM_TIMER_SP804=y
-CONFIG_ARMV7M_SYSTICK=y
-CONFIG_ATMEL_PIT=y
-CONFIG_ATMEL_ST=y
-CONFIG_CLKSRC_SAMSUNG_PWM=y
-CONFIG_FSL_FTM_TIMER=y
-CONFIG_OXNAS_RPS_TIMER=y
-CONFIG_SYS_SUPPORTS_SH_CMT=y
-CONFIG_MTK_TIMER=y
-CONFIG_SPRD_TIMER=y
-CONFIG_CLKSRC_JCORE_PIT=y
-CONFIG_SH_TIMER_CMT=y
-CONFIG_SH_TIMER_MTU2=y
-CONFIG_RENESAS_OSTM=y
-CONFIG_SH_TIMER_TMU=y
-CONFIG_EM_TIMER_STI=y
-CONFIG_CLKSRC_VERSATILE=y
-CONFIG_CLKSRC_PXA=y
-CONFIG_TIMER_IMX_SYS_CTR=y
-CONFIG_CLKSRC_ST_LPC=y
-CONFIG_GXP_TIMER=y
-CONFIG_MSC313E_TIMER=y
-CONFIG_MICROCHIP_PIT64B=y
-CONFIG_GOLDFISH_TIMER=y
-# end of Clock Source drivers
-
-CONFIG_MAILBOX=y
-CONFIG_IMX_MBOX=m
-CONFIG_PLATFORM_MHU=m
-CONFIG_ARMADA_37XX_RWTM_MBOX=m
-CONFIG_ROCKCHIP_MBOX=y
-CONFIG_ALTERA_MBOX=m
-CONFIG_HI3660_MBOX=m
-CONFIG_HI6220_MBOX=m
-CONFIG_MAILBOX_TEST=m
-CONFIG_POLARFIRE_SOC_MAILBOX=m
-CONFIG_QCOM_APCS_IPC=m
-CONFIG_BCM_PDC_MBOX=m
-CONFIG_STM32_IPCC=m
-CONFIG_MTK_ADSP_MBOX=m
-CONFIG_MTK_CMDQ_MBOX=m
-CONFIG_SUN6I_MSGBOX=m
-CONFIG_SPRD_MBOX=m
-CONFIG_QCOM_IPCC=m
-CONFIG_IOMMU_IOVA=m
-CONFIG_IOMMU_API=y
-
-#
-# Remoteproc drivers
-#
-# end of Remoteproc drivers
-
-#
-# Rpmsg drivers
-#
-CONFIG_RPMSG=m
-CONFIG_RPMSG_CHAR=m
-CONFIG_RPMSG_CTRL=m
-CONFIG_RPMSG_NS=m
-CONFIG_RPMSG_QCOM_GLINK=m
-CONFIG_RPMSG_QCOM_GLINK_RPM=m
-CONFIG_RPMSG_QCOM_GLINK_SMEM=m
-CONFIG_RPMSG_QCOM_SMD=m
-# end of Rpmsg drivers
-
-CONFIG_SOUNDWIRE=m
-
-#
-# SoundWire Devices
-#
-CONFIG_SOUNDWIRE_QCOM=m
-
-#
-# SOC (System On Chip) specific Drivers
-#
-CONFIG_OWL_PM_DOMAINS_HELPER=y
-CONFIG_OWL_PM_DOMAINS=y
-
-#
-# Amlogic SoC drivers
-#
-CONFIG_MESON_CANVAS=m
-CONFIG_MESON_CLK_MEASURE=m
-CONFIG_MESON_GX_SOCINFO=y
-CONFIG_MESON_GX_PM_DOMAINS=m
-CONFIG_MESON_EE_PM_DOMAINS=m
-CONFIG_MESON_MX_SOCINFO=y
-# end of Amlogic SoC drivers
-
-#
-# Apple SoC drivers
-#
-CONFIG_APPLE_PMGR_PWRSTATE=y
-CONFIG_APPLE_RTKIT=m
-CONFIG_APPLE_SART=m
-# end of Apple SoC drivers
-
-#
-# ASPEED SoC drivers
-#
-CONFIG_ASPEED_LPC_CTRL=m
-CONFIG_ASPEED_LPC_SNOOP=m
-CONFIG_ASPEED_UART_ROUTING=m
-CONFIG_ASPEED_P2A_CTRL=m
-CONFIG_ASPEED_SOCINFO=y
-# end of ASPEED SoC drivers
-
-CONFIG_AT91_SOC_ID=y
-CONFIG_AT91_SOC_SFR=m
-
-#
-# Broadcom SoC drivers
-#
-CONFIG_BCM2835_POWER=y
-CONFIG_SOC_BCM63XX=y
-CONFIG_SOC_BRCMSTB=y
-CONFIG_BCM63XX_POWER=y
-CONFIG_BCM_PMB=y
-# end of Broadcom SoC drivers
-
-#
-# NXP/Freescale QorIQ SoC drivers
-#
-CONFIG_QUICC_ENGINE=y
-CONFIG_UCC_SLOW=y
-CONFIG_UCC_FAST=y
-CONFIG_UCC=y
-CONFIG_QE_TDM=y
-CONFIG_DPAA2_CONSOLE=m
-# end of NXP/Freescale QorIQ SoC drivers
-
-#
-# fujitsu SoC drivers
-#
-# end of fujitsu SoC drivers
-
-#
-# i.MX SoC drivers
-#
-CONFIG_IMX_GPCV2_PM_DOMAINS=y
-CONFIG_SOC_IMX8M=y
-CONFIG_SOC_IMX9=m
-# end of i.MX SoC drivers
-
-#
-# IXP4xx SoC drivers
-#
-CONFIG_IXP4XX_QMGR=m
-CONFIG_IXP4XX_NPE=m
-# end of IXP4xx SoC drivers
-
-#
-# Enable LiteX SoC Builder specific drivers
-#
-CONFIG_LITEX=y
-CONFIG_LITEX_SOC_CONTROLLER=m
-# end of Enable LiteX SoC Builder specific drivers
-
-#
-# MediaTek SoC drivers
-#
-CONFIG_MTK_CMDQ=m
-CONFIG_MTK_DEVAPC=m
-CONFIG_MTK_INFRACFG=y
-CONFIG_MTK_PMIC_WRAP=m
-CONFIG_MTK_SCPSYS=y
-CONFIG_MTK_SCPSYS_PM_DOMAINS=y
-CONFIG_MTK_MMSYS=y
-CONFIG_MTK_SVS=m
-# end of MediaTek SoC drivers
-
-CONFIG_POLARFIRE_SOC_SYS_CTRL=m
-
-#
-# Qualcomm SoC drivers
-#
-CONFIG_QCOM_COMMAND_DB=m
-CONFIG_QCOM_GENI_SE=m
-CONFIG_QCOM_GSBI=m
-CONFIG_QCOM_LLCC=m
-CONFIG_QCOM_PDR_HELPERS=m
-CONFIG_QCOM_QMI_HELPERS=m
-CONFIG_QCOM_RPMH=m
-CONFIG_QCOM_RPMHPD=m
-CONFIG_QCOM_RPMPD=m
-CONFIG_QCOM_SMEM=m
-CONFIG_QCOM_SMD_RPM=m
-CONFIG_QCOM_SMEM_STATE=y
-CONFIG_QCOM_SMP2P=m
-CONFIG_QCOM_SMSM=m
-CONFIG_QCOM_SOCINFO=m
-CONFIG_QCOM_SPM=m
-CONFIG_QCOM_STATS=m
-CONFIG_QCOM_WCNSS_CTRL=m
-CONFIG_QCOM_APR=m
-CONFIG_QCOM_ICC_BWMON=m
-# end of Qualcomm SoC drivers
-
-CONFIG_SOC_RENESAS=y
-CONFIG_RST_RCAR=y
-CONFIG_SYSC_RCAR=y
-CONFIG_SYSC_RCAR_GEN4=y
-CONFIG_SYSC_R8A77995=y
-CONFIG_SYSC_R8A7794=y
-CONFIG_SYSC_R8A77990=y
-CONFIG_SYSC_R8A7779=y
-CONFIG_SYSC_R8A7790=y
-CONFIG_SYSC_R8A7795=y
-CONFIG_SYSC_R8A7791=y
-CONFIG_SYSC_R8A77965=y
-CONFIG_SYSC_R8A77960=y
-CONFIG_SYSC_R8A77961=y
-CONFIG_SYSC_R8A779F0=y
-CONFIG_SYSC_R8A7792=y
-CONFIG_SYSC_R8A77980=y
-CONFIG_SYSC_R8A77970=y
-CONFIG_SYSC_R8A779A0=y
-CONFIG_SYSC_R8A779G0=y
-CONFIG_SYSC_RMOBILE=y
-CONFIG_SYSC_R8A77470=y
-CONFIG_SYSC_R8A7745=y
-CONFIG_SYSC_R8A7742=y
-CONFIG_SYSC_R8A7743=y
-CONFIG_SYSC_R8A774C0=y
-CONFIG_SYSC_R8A774E1=y
-CONFIG_SYSC_R8A774A1=y
-CONFIG_SYSC_R8A774B1=y
-CONFIG_ROCKCHIP_GRF=y
-CONFIG_ROCKCHIP_IODOMAIN=m
-CONFIG_ROCKCHIP_PM_DOMAINS=y
-CONFIG_ROCKCHIP_DTPM=m
-CONFIG_SOC_SAMSUNG=y
-CONFIG_EXYNOS_ASV_ARM=y
-CONFIG_EXYNOS_CHIPID=m
-CONFIG_EXYNOS_USI=m
-CONFIG_EXYNOS_PM_DOMAINS=y
-CONFIG_EXYNOS_REGULATOR_COUPLER=y
-CONFIG_SOC_TEGRA20_VOLTAGE_COUPLER=y
-CONFIG_SOC_TEGRA30_VOLTAGE_COUPLER=y
-CONFIG_SOC_TI=y
-CONFIG_UX500_SOC_ID=y
-
-#
-# Xilinx SoC drivers
-#
-# end of Xilinx SoC drivers
-# end of SOC (System On Chip) specific Drivers
-
-CONFIG_PM_DEVFREQ=y
-
-#
-# DEVFREQ Governors
-#
-CONFIG_DEVFREQ_GOV_SIMPLE_ONDEMAND=m
-CONFIG_DEVFREQ_GOV_PERFORMANCE=m
-CONFIG_DEVFREQ_GOV_POWERSAVE=m
-CONFIG_DEVFREQ_GOV_USERSPACE=m
-CONFIG_DEVFREQ_GOV_PASSIVE=m
-
-#
-# DEVFREQ Drivers
-#
-CONFIG_ARM_EXYNOS_BUS_DEVFREQ=m
-CONFIG_ARM_IMX_BUS_DEVFREQ=m
-CONFIG_ARM_MEDIATEK_CCI_DEVFREQ=m
-CONFIG_PM_DEVFREQ_EVENT=y
-CONFIG_DEVFREQ_EVENT_EXYNOS_NOCP=m
-CONFIG_DEVFREQ_EVENT_EXYNOS_PPMU=m
-CONFIG_DEVFREQ_EVENT_ROCKCHIP_DFI=m
-CONFIG_EXTCON=y
-
-#
-# Extcon Device Drivers
-#
-CONFIG_EXTCON_ADC_JACK=m
-CONFIG_EXTCON_FSA9480=m
-CONFIG_EXTCON_GPIO=m
-CONFIG_EXTCON_MAX14577=m
-CONFIG_EXTCON_MAX3355=m
-CONFIG_EXTCON_MAX77693=m
-CONFIG_EXTCON_PTN5150=m
-CONFIG_EXTCON_QCOM_SPMI_MISC=m
-CONFIG_EXTCON_RT8973A=m
-CONFIG_EXTCON_SM5502=m
-CONFIG_EXTCON_USB_GPIO=m
-CONFIG_EXTCON_USBC_CROS_EC=m
-CONFIG_EXTCON_USBC_TUSB320=m
-CONFIG_MEMORY=y
-CONFIG_DDR=y
-CONFIG_ATMEL_SDRAMC=y
-CONFIG_ATMEL_EBI=y
-CONFIG_BRCMSTB_DPFE=m
-CONFIG_BRCMSTB_MEMC=m
-CONFIG_BT1_L2_CTL=y
-CONFIG_TI_AEMIF=m
-CONFIG_TI_EMIF=m
-CONFIG_OMAP_GPMC=m
-CONFIG_OMAP_GPMC_DEBUG=y
-CONFIG_FPGA_DFL_EMIF=m
-CONFIG_MVEBU_DEVBUS=y
-CONFIG_FSL_CORENET_CF=m
-CONFIG_FSL_IFC=y
-CONFIG_JZ4780_NEMC=y
-CONFIG_MTK_SMI=m
-CONFIG_DA8XX_DDRCTL=y
-CONFIG_RENESAS_RPCIF=m
-CONFIG_STM32_FMC2_EBI=m
-CONFIG_SAMSUNG_MC=y
-CONFIG_EXYNOS5422_DMC=m
-CONFIG_EXYNOS_SROM=y
-CONFIG_IIO=m
-CONFIG_IIO_BUFFER=y
-CONFIG_IIO_BUFFER_CB=m
-CONFIG_IIO_BUFFER_DMA=m
-CONFIG_IIO_BUFFER_DMAENGINE=m
-CONFIG_IIO_BUFFER_HW_CONSUMER=m
-CONFIG_IIO_KFIFO_BUF=m
-CONFIG_IIO_TRIGGERED_BUFFER=m
-CONFIG_IIO_CONFIGFS=m
-CONFIG_IIO_TRIGGER=y
-CONFIG_IIO_CONSUMERS_PER_TRIGGER=2
-CONFIG_IIO_SW_DEVICE=m
-CONFIG_IIO_SW_TRIGGER=m
-CONFIG_IIO_TRIGGERED_EVENT=m
-
-#
-# Accelerometers
-#
-CONFIG_ADIS16201=m
-CONFIG_ADIS16209=m
-CONFIG_ADXL313=m
-CONFIG_ADXL313_I2C=m
-CONFIG_ADXL313_SPI=m
-CONFIG_ADXL355=m
-CONFIG_ADXL355_I2C=m
-CONFIG_ADXL355_SPI=m
-CONFIG_ADXL367=m
-CONFIG_ADXL367_SPI=m
-CONFIG_ADXL367_I2C=m
-CONFIG_ADXL372=m
-CONFIG_ADXL372_SPI=m
-CONFIG_ADXL372_I2C=m
-CONFIG_BMA220=m
-CONFIG_BMA400=m
-CONFIG_BMA400_I2C=m
-CONFIG_BMA400_SPI=m
-CONFIG_BMC150_ACCEL=m
-CONFIG_BMC150_ACCEL_I2C=m
-CONFIG_BMC150_ACCEL_SPI=m
-CONFIG_BMI088_ACCEL=m
-CONFIG_BMI088_ACCEL_SPI=m
-CONFIG_DA280=m
-CONFIG_DA311=m
-CONFIG_DMARD06=m
-CONFIG_DMARD09=m
-CONFIG_DMARD10=m
-CONFIG_FXLS8962AF=m
-CONFIG_FXLS8962AF_I2C=m
-CONFIG_FXLS8962AF_SPI=m
-CONFIG_HID_SENSOR_ACCEL_3D=m
-CONFIG_IIO_CROS_EC_ACCEL_LEGACY=m
-CONFIG_IIO_ST_ACCEL_3AXIS=m
-CONFIG_IIO_ST_ACCEL_I2C_3AXIS=m
-CONFIG_IIO_ST_ACCEL_SPI_3AXIS=m
-CONFIG_KXSD9=m
-CONFIG_KXSD9_SPI=m
-CONFIG_KXSD9_I2C=m
-CONFIG_KXCJK1013=m
-CONFIG_MC3230=m
-CONFIG_MMA7455=m
-CONFIG_MMA7455_I2C=m
-CONFIG_MMA7455_SPI=m
-CONFIG_MMA7660=m
-CONFIG_MMA8452=m
-CONFIG_MMA9551_CORE=m
-CONFIG_MMA9551=m
-CONFIG_MMA9553=m
-CONFIG_MSA311=m
-CONFIG_MXC4005=m
-CONFIG_MXC6255=m
-CONFIG_SCA3000=m
-CONFIG_SCA3300=m
-CONFIG_STK8312=m
-CONFIG_STK8BA50=m
-# end of Accelerometers
-
-#
-# Analog to digital converters
-#
-CONFIG_AD_SIGMA_DELTA=m
-CONFIG_AD7091R5=m
-CONFIG_AD7124=m
-CONFIG_AD7192=m
-CONFIG_AD7266=m
-CONFIG_AD7280=m
-CONFIG_AD7291=m
-CONFIG_AD7292=m
-CONFIG_AD7298=m
-CONFIG_AD7476=m
-CONFIG_AD7606=m
-CONFIG_AD7606_IFACE_PARALLEL=m
-CONFIG_AD7606_IFACE_SPI=m
-CONFIG_AD7766=m
-CONFIG_AD7768_1=m
-CONFIG_AD7780=m
-CONFIG_AD7791=m
-CONFIG_AD7793=m
-CONFIG_AD7887=m
-CONFIG_AD7923=m
-CONFIG_AD7949=m
-CONFIG_AD799X=m
-CONFIG_AD9467=m
-CONFIG_ADI_AXI_ADC=m
-CONFIG_AT91_ADC=m
-CONFIG_AT91_SAMA5D2_ADC=m
-CONFIG_AXP20X_ADC=m
-CONFIG_AXP288_ADC=m
-CONFIG_BCM_IPROC_ADC=m
-CONFIG_BERLIN2_ADC=m
-CONFIG_CC10001_ADC=m
-CONFIG_CPCAP_ADC=m
-CONFIG_DA9150_GPADC=m
-CONFIG_DLN2_ADC=m
-CONFIG_ENVELOPE_DETECTOR=m
-CONFIG_EXYNOS_ADC=m
-CONFIG_MXS_LRADC_ADC=m
-CONFIG_FSL_MX25_ADC=m
-CONFIG_HI8435=m
-CONFIG_HX711=m
-CONFIG_INA2XX_ADC=m
-CONFIG_INGENIC_ADC=m
-CONFIG_IMX7D_ADC=m
-CONFIG_IMX8QXP_ADC=m
-CONFIG_LPC18XX_ADC=m
-CONFIG_LPC32XX_ADC=m
-CONFIG_LTC2471=m
-CONFIG_LTC2485=m
-CONFIG_LTC2496=m
-CONFIG_LTC2497=m
-CONFIG_MAX1027=m
-CONFIG_MAX11100=m
-CONFIG_MAX1118=m
-CONFIG_MAX11205=m
-CONFIG_MAX1241=m
-CONFIG_MAX1363=m
-CONFIG_MAX9611=m
-CONFIG_MCP320X=m
-CONFIG_MCP3422=m
-CONFIG_MCP3911=m
-CONFIG_MEDIATEK_MT6360_ADC=m
-CONFIG_MEDIATEK_MT6577_AUXADC=m
-CONFIG_MEN_Z188_ADC=m
-CONFIG_MP2629_ADC=m
-CONFIG_NAU7802=m
-CONFIG_NPCM_ADC=m
-CONFIG_QCOM_VADC_COMMON=m
-CONFIG_QCOM_PM8XXX_XOADC=m
-CONFIG_QCOM_SPMI_RRADC=m
-CONFIG_QCOM_SPMI_IADC=m
-CONFIG_QCOM_SPMI_VADC=m
-CONFIG_QCOM_SPMI_ADC5=m
-CONFIG_RCAR_GYRO_ADC=m
-CONFIG_RN5T618_ADC=m
-CONFIG_ROCKCHIP_SARADC=m
-CONFIG_RICHTEK_RTQ6056=m
-CONFIG_RZG2L_ADC=m
-CONFIG_SC27XX_ADC=m
-CONFIG_SPEAR_ADC=m
-CONFIG_SD_ADC_MODULATOR=m
-CONFIG_STM32_ADC_CORE=m
-CONFIG_STM32_ADC=m
-CONFIG_STM32_DFSDM_CORE=m
-CONFIG_STM32_DFSDM_ADC=m
-CONFIG_STMPE_ADC=m
-CONFIG_SUN4I_GPADC=m
-CONFIG_TI_ADC081C=m
-CONFIG_TI_ADC0832=m
-CONFIG_TI_ADC084S021=m
-CONFIG_TI_ADC12138=m
-CONFIG_TI_ADC108S102=m
-CONFIG_TI_ADC128S052=m
-CONFIG_TI_ADC161S626=m
-CONFIG_TI_ADS1015=m
-CONFIG_TI_ADS7950=m
-CONFIG_TI_ADS8344=m
-CONFIG_TI_ADS8688=m
-CONFIG_TI_ADS124S08=m
-CONFIG_TI_ADS131E08=m
-CONFIG_TI_TLC4541=m
-CONFIG_TI_TSC2046=m
-CONFIG_VF610_ADC=m
-CONFIG_VIPERBOARD_ADC=m
-CONFIG_XILINX_XADC=m
-CONFIG_XILINX_AMS=m
-# end of Analog to digital converters
-
-#
-# Analog to digital and digital to analog converters
-#
-CONFIG_AD74413R=m
-# end of Analog to digital and digital to analog converters
-
-#
-# Analog Front Ends
-#
-CONFIG_IIO_RESCALE=m
-# end of Analog Front Ends
-
-#
-# Amplifiers
-#
-CONFIG_AD8366=m
-CONFIG_ADA4250=m
-CONFIG_HMC425=m
-# end of Amplifiers
-
-#
-# Capacitance to digital converters
-#
-CONFIG_AD7150=m
-CONFIG_AD7746=m
-# end of Capacitance to digital converters
-
-#
-# Chemical Sensors
-#
-CONFIG_ATLAS_PH_SENSOR=m
-CONFIG_ATLAS_EZO_SENSOR=m
-CONFIG_BME680=m
-CONFIG_BME680_I2C=m
-CONFIG_BME680_SPI=m
-CONFIG_CCS811=m
-CONFIG_IAQCORE=m
-CONFIG_PMS7003=m
-CONFIG_SCD30_CORE=m
-CONFIG_SCD30_I2C=m
-CONFIG_SCD30_SERIAL=m
-CONFIG_SCD4X=m
-CONFIG_SENSIRION_SGP30=m
-CONFIG_SENSIRION_SGP40=m
-CONFIG_SPS30=m
-CONFIG_SPS30_I2C=m
-CONFIG_SPS30_SERIAL=m
-CONFIG_SENSEAIR_SUNRISE_CO2=m
-CONFIG_VZ89X=m
-# end of Chemical Sensors
-
-CONFIG_IIO_CROS_EC_SENSORS_CORE=m
-CONFIG_IIO_CROS_EC_SENSORS=m
-CONFIG_IIO_CROS_EC_SENSORS_LID_ANGLE=m
-
-#
-# Hid Sensor IIO Common
-#
-CONFIG_HID_SENSOR_IIO_COMMON=m
-CONFIG_HID_SENSOR_IIO_TRIGGER=m
-# end of Hid Sensor IIO Common
-
-CONFIG_IIO_MS_SENSORS_I2C=m
-
-#
-# IIO SCMI Sensors
-#
-CONFIG_IIO_SCMI=m
-# end of IIO SCMI Sensors
-
-#
-# SSP Sensor Common
-#
-CONFIG_IIO_SSP_SENSORS_COMMONS=m
-CONFIG_IIO_SSP_SENSORHUB=m
-# end of SSP Sensor Common
-
-CONFIG_IIO_ST_SENSORS_I2C=m
-CONFIG_IIO_ST_SENSORS_SPI=m
-CONFIG_IIO_ST_SENSORS_CORE=m
-
-#
-# Digital to analog converters
-#
-CONFIG_AD3552R=m
-CONFIG_AD5064=m
-CONFIG_AD5360=m
-CONFIG_AD5380=m
-CONFIG_AD5421=m
-CONFIG_AD5446=m
-CONFIG_AD5449=m
-CONFIG_AD5592R_BASE=m
-CONFIG_AD5592R=m
-CONFIG_AD5593R=m
-CONFIG_AD5504=m
-CONFIG_AD5624R_SPI=m
-CONFIG_LTC2688=m
-CONFIG_AD5686=m
-CONFIG_AD5686_SPI=m
-CONFIG_AD5696_I2C=m
-CONFIG_AD5755=m
-CONFIG_AD5758=m
-CONFIG_AD5761=m
-CONFIG_AD5764=m
-CONFIG_AD5766=m
-CONFIG_AD5770R=m
-CONFIG_AD5791=m
-CONFIG_AD7293=m
-CONFIG_AD7303=m
-CONFIG_AD8801=m
-CONFIG_DPOT_DAC=m
-CONFIG_DS4424=m
-CONFIG_LPC18XX_DAC=m
-CONFIG_LTC1660=m
-CONFIG_LTC2632=m
-CONFIG_M62332=m
-CONFIG_MAX517=m
-CONFIG_MAX5821=m
-CONFIG_MCP4725=m
-CONFIG_MCP4922=m
-CONFIG_STM32_DAC=m
-CONFIG_STM32_DAC_CORE=m
-CONFIG_TI_DAC082S085=m
-CONFIG_TI_DAC5571=m
-CONFIG_TI_DAC7311=m
-CONFIG_TI_DAC7612=m
-CONFIG_VF610_DAC=m
-# end of Digital to analog converters
-
-#
-# IIO dummy driver
-#
-CONFIG_IIO_DUMMY_EVGEN=m
-CONFIG_IIO_SIMPLE_DUMMY=m
-CONFIG_IIO_SIMPLE_DUMMY_EVENTS=y
-CONFIG_IIO_SIMPLE_DUMMY_BUFFER=y
-# end of IIO dummy driver
-
-#
-# Filters
-#
-# end of Filters
-
-#
-# Frequency Synthesizers DDS/PLL
-#
-
-#
-# Clock Generator/Distribution
-#
-CONFIG_AD9523=m
-# end of Clock Generator/Distribution
-
-#
-# Phase-Locked Loop (PLL) frequency synthesizers
-#
-CONFIG_ADF4350=m
-CONFIG_ADF4371=m
-CONFIG_ADMV4420=m
-# end of Phase-Locked Loop (PLL) frequency synthesizers
-# end of Frequency Synthesizers DDS/PLL
-
-#
-# Digital gyroscope sensors
-#
-CONFIG_ADIS16080=m
-CONFIG_ADIS16130=m
-CONFIG_ADIS16136=m
-CONFIG_ADIS16260=m
-CONFIG_ADXRS290=m
-CONFIG_ADXRS450=m
-CONFIG_BMG160=m
-CONFIG_BMG160_I2C=m
-CONFIG_BMG160_SPI=m
-CONFIG_FXAS21002C=m
-CONFIG_FXAS21002C_I2C=m
-CONFIG_FXAS21002C_SPI=m
-CONFIG_HID_SENSOR_GYRO_3D=m
-CONFIG_MPU3050=m
-CONFIG_MPU3050_I2C=m
-CONFIG_IIO_ST_GYRO_3AXIS=m
-CONFIG_IIO_ST_GYRO_I2C_3AXIS=m
-CONFIG_IIO_ST_GYRO_SPI_3AXIS=m
-CONFIG_ITG3200=m
-# end of Digital gyroscope sensors
-
-#
-# Health Sensors
-#
-
-#
-# Heart Rate Monitors
-#
-CONFIG_AFE4403=m
-CONFIG_AFE4404=m
-CONFIG_MAX30100=m
-CONFIG_MAX30102=m
-# end of Heart Rate Monitors
-# end of Health Sensors
-
-#
-# Humidity sensors
-#
-CONFIG_AM2315=m
-CONFIG_DHT11=m
-CONFIG_HDC100X=m
-CONFIG_HDC2010=m
-CONFIG_HID_SENSOR_HUMIDITY=m
-CONFIG_HTS221=m
-CONFIG_HTS221_I2C=m
-CONFIG_HTS221_SPI=m
-CONFIG_HTU21=m
-CONFIG_SI7005=m
-CONFIG_SI7020=m
-# end of Humidity sensors
-
-#
-# Inertial measurement units
-#
-CONFIG_ADIS16400=m
-CONFIG_ADIS16460=m
-CONFIG_ADIS16475=m
-CONFIG_ADIS16480=m
-CONFIG_BMI160=m
-CONFIG_BMI160_I2C=m
-CONFIG_BMI160_SPI=m
-CONFIG_BOSCH_BNO055=m
-CONFIG_BOSCH_BNO055_SERIAL=m
-CONFIG_BOSCH_BNO055_I2C=m
-CONFIG_FXOS8700=m
-CONFIG_FXOS8700_I2C=m
-CONFIG_FXOS8700_SPI=m
-CONFIG_KMX61=m
-CONFIG_INV_ICM42600=m
-CONFIG_INV_ICM42600_I2C=m
-CONFIG_INV_ICM42600_SPI=m
-CONFIG_INV_MPU6050_IIO=m
-CONFIG_INV_MPU6050_I2C=m
-CONFIG_INV_MPU6050_SPI=m
-CONFIG_IIO_ST_LSM6DSX=m
-CONFIG_IIO_ST_LSM6DSX_I2C=m
-CONFIG_IIO_ST_LSM6DSX_SPI=m
-CONFIG_IIO_ST_LSM6DSX_I3C=m
-CONFIG_IIO_ST_LSM9DS0=m
-CONFIG_IIO_ST_LSM9DS0_I2C=m
-CONFIG_IIO_ST_LSM9DS0_SPI=m
-# end of Inertial measurement units
-
-CONFIG_IIO_ADIS_LIB=m
-CONFIG_IIO_ADIS_LIB_BUFFER=y
-
-#
-# Light sensors
-#
-CONFIG_ADJD_S311=m
-CONFIG_ADUX1020=m
-CONFIG_AL3010=m
-CONFIG_AL3320A=m
-CONFIG_APDS9300=m
-CONFIG_APDS9960=m
-CONFIG_AS73211=m
-CONFIG_BH1750=m
-CONFIG_BH1780=m
-CONFIG_CM32181=m
-CONFIG_CM3232=m
-CONFIG_CM3323=m
-CONFIG_CM3605=m
-CONFIG_CM36651=m
-CONFIG_IIO_CROS_EC_LIGHT_PROX=m
-CONFIG_GP2AP002=m
-CONFIG_GP2AP020A00F=m
-CONFIG_IQS621_ALS=m
-CONFIG_SENSORS_ISL29018=m
-CONFIG_SENSORS_ISL29028=m
-CONFIG_ISL29125=m
-CONFIG_HID_SENSOR_ALS=m
-CONFIG_HID_SENSOR_PROX=m
-CONFIG_JSA1212=m
-CONFIG_RPR0521=m
-CONFIG_SENSORS_LM3533=m
-CONFIG_LTR501=m
-CONFIG_LTRF216A=m
-CONFIG_LV0104CS=m
-CONFIG_MAX44000=m
-CONFIG_MAX44009=m
-CONFIG_NOA1305=m
-CONFIG_OPT3001=m
-CONFIG_PA12203001=m
-CONFIG_SI1133=m
-CONFIG_SI1145=m
-CONFIG_STK3310=m
-CONFIG_ST_UVIS25=m
-CONFIG_ST_UVIS25_I2C=m
-CONFIG_ST_UVIS25_SPI=m
-CONFIG_TCS3414=m
-CONFIG_TCS3472=m
-CONFIG_SENSORS_TSL2563=m
-CONFIG_TSL2583=m
-CONFIG_TSL2591=m
-CONFIG_TSL2772=m
-CONFIG_TSL4531=m
-CONFIG_US5182D=m
-CONFIG_VCNL4000=m
-CONFIG_VCNL4035=m
-CONFIG_VEML6030=m
-CONFIG_VEML6070=m
-CONFIG_VL6180=m
-CONFIG_ZOPT2201=m
-# end of Light sensors
-
-#
-# Magnetometer sensors
-#
-CONFIG_AK8974=m
-CONFIG_AK8975=m
-CONFIG_AK09911=m
-CONFIG_BMC150_MAGN=m
-CONFIG_BMC150_MAGN_I2C=m
-CONFIG_BMC150_MAGN_SPI=m
-CONFIG_MAG3110=m
-CONFIG_HID_SENSOR_MAGNETOMETER_3D=m
-CONFIG_MMC35240=m
-CONFIG_IIO_ST_MAGN_3AXIS=m
-CONFIG_IIO_ST_MAGN_I2C_3AXIS=m
-CONFIG_IIO_ST_MAGN_SPI_3AXIS=m
-CONFIG_SENSORS_HMC5843=m
-CONFIG_SENSORS_HMC5843_I2C=m
-CONFIG_SENSORS_HMC5843_SPI=m
-CONFIG_SENSORS_RM3100=m
-CONFIG_SENSORS_RM3100_I2C=m
-CONFIG_SENSORS_RM3100_SPI=m
-CONFIG_YAMAHA_YAS530=m
-# end of Magnetometer sensors
-
-#
-# Multiplexers
-#
-CONFIG_IIO_MUX=m
-# end of Multiplexers
-
-#
-# Inclinometer sensors
-#
-CONFIG_HID_SENSOR_INCLINOMETER_3D=m
-CONFIG_HID_SENSOR_DEVICE_ROTATION=m
-# end of Inclinometer sensors
-
-CONFIG_IIO_RESCALE_KUNIT_TEST=m
-CONFIG_IIO_FORMAT_KUNIT_TEST=m
-
-#
-# Triggers - standalone
-#
-CONFIG_IIO_HRTIMER_TRIGGER=m
-CONFIG_IIO_INTERRUPT_TRIGGER=m
-CONFIG_IIO_STM32_LPTIMER_TRIGGER=m
-CONFIG_IIO_STM32_TIMER_TRIGGER=m
-CONFIG_IIO_TIGHTLOOP_TRIGGER=m
-CONFIG_IIO_SYSFS_TRIGGER=m
-# end of Triggers - standalone
-
-#
-# Linear and angular position sensors
-#
-CONFIG_IQS624_POS=m
-CONFIG_HID_SENSOR_CUSTOM_INTEL_HINGE=m
-# end of Linear and angular position sensors
-
-#
-# Digital potentiometers
-#
-CONFIG_AD5110=m
-CONFIG_AD5272=m
-CONFIG_DS1803=m
-CONFIG_MAX5432=m
-CONFIG_MAX5481=m
-CONFIG_MAX5487=m
-CONFIG_MCP4018=m
-CONFIG_MCP4131=m
-CONFIG_MCP4531=m
-CONFIG_MCP41010=m
-CONFIG_TPL0102=m
-# end of Digital potentiometers
-
-#
-# Digital potentiostats
-#
-CONFIG_LMP91000=m
-# end of Digital potentiostats
-
-#
-# Pressure sensors
-#
-CONFIG_ABP060MG=m
-CONFIG_BMP280=m
-CONFIG_BMP280_I2C=m
-CONFIG_BMP280_SPI=m
-CONFIG_IIO_CROS_EC_BARO=m
-CONFIG_DLHL60D=m
-CONFIG_DPS310=m
-CONFIG_HID_SENSOR_PRESS=m
-CONFIG_HP03=m
-CONFIG_ICP10100=m
-CONFIG_MPL115=m
-CONFIG_MPL115_I2C=m
-CONFIG_MPL115_SPI=m
-CONFIG_MPL3115=m
-CONFIG_MS5611=m
-CONFIG_MS5611_I2C=m
-CONFIG_MS5611_SPI=m
-CONFIG_MS5637=m
-CONFIG_IIO_ST_PRESS=m
-CONFIG_IIO_ST_PRESS_I2C=m
-CONFIG_IIO_ST_PRESS_SPI=m
-CONFIG_T5403=m
-CONFIG_HP206C=m
-CONFIG_ZPA2326=m
-CONFIG_ZPA2326_I2C=m
-CONFIG_ZPA2326_SPI=m
-# end of Pressure sensors
-
-#
-# Lightning sensors
-#
-CONFIG_AS3935=m
-# end of Lightning sensors
-
-#
-# Proximity and distance sensors
-#
-CONFIG_CROS_EC_MKBP_PROXIMITY=m
-CONFIG_ISL29501=m
-CONFIG_LIDAR_LITE_V2=m
-CONFIG_MB1232=m
-CONFIG_PING=m
-CONFIG_RFD77402=m
-CONFIG_SRF04=m
-CONFIG_SX_COMMON=m
-CONFIG_SX9310=m
-CONFIG_SX9324=m
-CONFIG_SX9360=m
-CONFIG_SX9500=m
-CONFIG_SRF08=m
-CONFIG_VCNL3020=m
-CONFIG_VL53L0X_I2C=m
-# end of Proximity and distance sensors
-
-#
-# Resolver to digital converters
-#
-CONFIG_AD2S90=m
-CONFIG_AD2S1200=m
-# end of Resolver to digital converters
-
-#
-# Temperature sensors
-#
-CONFIG_IQS620AT_TEMP=m
-CONFIG_LTC2983=m
-CONFIG_MAXIM_THERMOCOUPLE=m
-CONFIG_HID_SENSOR_TEMP=m
-CONFIG_MLX90614=m
-CONFIG_MLX90632=m
-CONFIG_TMP006=m
-CONFIG_TMP007=m
-CONFIG_TMP117=m
-CONFIG_TSYS01=m
-CONFIG_TSYS02D=m
-CONFIG_MAX31856=m
-CONFIG_MAX31865=m
-# end of Temperature sensors
-
-CONFIG_PWM=y
-CONFIG_PWM_SYSFS=y
-CONFIG_PWM_DEBUG=y
-CONFIG_PWM_ATMEL=m
-CONFIG_PWM_ATMEL_HLCDC_PWM=m
-CONFIG_PWM_ATMEL_TCB=m
-CONFIG_PWM_BCM_KONA=m
-CONFIG_PWM_BCM2835=m
-CONFIG_PWM_BERLIN=m
-CONFIG_PWM_BRCMSTB=m
-CONFIG_PWM_CLK=m
-CONFIG_PWM_CLPS711X=m
-CONFIG_PWM_CROS_EC=m
-CONFIG_PWM_EP93XX=m
-CONFIG_PWM_FSL_FTM=m
-CONFIG_PWM_HIBVT=m
-CONFIG_PWM_IMX1=m
-CONFIG_PWM_IMX27=m
-CONFIG_PWM_IMX_TPM=m
-CONFIG_PWM_INTEL_LGM=m
-CONFIG_PWM_IQS620A=m
-CONFIG_PWM_LP3943=m
-CONFIG_PWM_LPC18XX_SCT=m
-CONFIG_PWM_LPC32XX=m
-CONFIG_PWM_LPSS=m
-CONFIG_PWM_LPSS_PLATFORM=m
-CONFIG_PWM_MTK_DISP=m
-CONFIG_PWM_MEDIATEK=m
-CONFIG_PWM_MXS=m
-CONFIG_PWM_NTXEC=m
-CONFIG_PWM_OMAP_DMTIMER=m
-CONFIG_PWM_PCA9685=m
-CONFIG_PWM_PXA=m
-CONFIG_PWM_RASPBERRYPI_POE=m
-CONFIG_PWM_RCAR=m
-CONFIG_PWM_RENESAS_TPU=m
-CONFIG_PWM_ROCKCHIP=m
-CONFIG_PWM_SAMSUNG=m
-CONFIG_PWM_SL28CPLD=m
-CONFIG_PWM_SPEAR=m
-CONFIG_PWM_SPRD=m
-CONFIG_PWM_STI=m
-CONFIG_PWM_STM32=m
-CONFIG_PWM_STM32_LP=m
-CONFIG_PWM_STMPE=y
-CONFIG_PWM_SUNPLUS=m
-CONFIG_PWM_TEGRA=m
-CONFIG_PWM_TIECAP=m
-CONFIG_PWM_TIEHRPWM=m
-CONFIG_PWM_VISCONTI=m
-CONFIG_PWM_VT8500=m
-
-#
-# IRQ chip support
-#
-CONFIG_IRQCHIP=y
-CONFIG_AL_FIC=y
-CONFIG_MADERA_IRQ=m
-CONFIG_JCORE_AIC=y
-CONFIG_RENESAS_INTC_IRQPIN=y
-CONFIG_RENESAS_IRQC=y
-CONFIG_RENESAS_RZA1_IRQC=y
-CONFIG_RENESAS_RZG2L_IRQC=y
-CONFIG_SL28CPLD_INTC=y
-CONFIG_TS4800_IRQ=m
-CONFIG_XILINX_INTC=y
-CONFIG_INGENIC_TCU_IRQ=y
-CONFIG_IRQ_UNIPHIER_AIDET=y
-CONFIG_MESON_IRQ_GPIO=m
-CONFIG_IMX_IRQSTEER=y
-CONFIG_IMX_INTMUX=y
-CONFIG_IMX_MU_MSI=m
-CONFIG_EXYNOS_IRQ_COMBINER=y
-CONFIG_MST_IRQ=y
-CONFIG_MCHP_EIC=y
-CONFIG_SUNPLUS_SP7021_INTC=y
-# end of IRQ chip support
-
-CONFIG_IPACK_BUS=m
-CONFIG_SERIAL_IPOCTAL=m
-CONFIG_RESET_CONTROLLER=y
-CONFIG_RESET_A10SR=m
-CONFIG_RESET_ATH79=y
-CONFIG_RESET_AXS10X=y
-CONFIG_RESET_BCM6345=y
-CONFIG_RESET_BERLIN=m
-CONFIG_RESET_BRCMSTB=m
-CONFIG_RESET_BRCMSTB_RESCAL=m
-CONFIG_RESET_HSDK=y
-CONFIG_RESET_IMX7=m
-CONFIG_RESET_INTEL_GW=y
-CONFIG_RESET_K210=y
-CONFIG_RESET_LANTIQ=y
-CONFIG_RESET_LPC18XX=y
-CONFIG_RESET_MCHP_SPARX5=y
-CONFIG_RESET_MESON=m
-CONFIG_RESET_MESON_AUDIO_ARB=m
-CONFIG_RESET_NPCM=y
-CONFIG_RESET_PISTACHIO=y
-CONFIG_RESET_QCOM_AOSS=m
-CONFIG_RESET_QCOM_PDC=m
-CONFIG_RESET_RASPBERRYPI=m
-CONFIG_RESET_RZG2L_USBPHY_CTRL=m
-CONFIG_RESET_SCMI=m
-CONFIG_RESET_SIMPLE=y
-CONFIG_RESET_SOCFPGA=y
-CONFIG_RESET_STARFIVE_JH7100=y
-CONFIG_RESET_SUNPLUS=y
-CONFIG_RESET_SUNXI=y
-CONFIG_RESET_TI_SCI=m
-CONFIG_RESET_TI_SYSCON=m
-CONFIG_RESET_TI_TPS380X=m
-CONFIG_RESET_TN48M_CPLD=m
-CONFIG_RESET_UNIPHIER=m
-CONFIG_RESET_UNIPHIER_GLUE=m
-CONFIG_RESET_ZYNQ=y
-CONFIG_COMMON_RESET_HI3660=m
-CONFIG_COMMON_RESET_HI6220=m
-
-#
-# PHY Subsystem
-#
-CONFIG_GENERIC_PHY=y
-CONFIG_GENERIC_PHY_MIPI_DPHY=y
-CONFIG_PHY_LPC18XX_USB_OTG=m
-CONFIG_PHY_PISTACHIO_USB=m
-CONFIG_PHY_XGENE=m
-CONFIG_USB_LGM_PHY=m
-CONFIG_PHY_CAN_TRANSCEIVER=m
-CONFIG_PHY_SUN4I_USB=m
-CONFIG_PHY_SUN9I_USB=m
-CONFIG_PHY_SUN50I_USB3=m
-CONFIG_PHY_MESON8_HDMI_TX=m
-CONFIG_PHY_MESON8B_USB2=m
-CONFIG_PHY_MESON_GXL_USB2=m
-CONFIG_PHY_MESON_G12A_MIPI_DPHY_ANALOG=m
-CONFIG_PHY_MESON_G12A_USB2=m
-CONFIG_PHY_MESON_G12A_USB3_PCIE=m
-CONFIG_PHY_MESON_AXG_PCIE=m
-CONFIG_PHY_MESON_AXG_MIPI_PCIE_ANALOG=m
-CONFIG_PHY_MESON_AXG_MIPI_DPHY=m
-
-#
-# PHY drivers for Broadcom platforms
-#
-CONFIG_PHY_BCM63XX_USBH=m
-CONFIG_PHY_CYGNUS_PCIE=m
-CONFIG_PHY_BCM_SR_USB=m
-CONFIG_BCM_KONA_USB2_PHY=m
-CONFIG_PHY_BCM_NS_USB2=m
-CONFIG_PHY_BCM_NS_USB3=m
-CONFIG_PHY_NS2_PCIE=m
-CONFIG_PHY_NS2_USB_DRD=m
-CONFIG_PHY_BRCM_SATA=m
-CONFIG_PHY_BRCM_USB=m
-CONFIG_PHY_BCM_SR_PCIE=m
-# end of PHY drivers for Broadcom platforms
-
-CONFIG_PHY_CADENCE_DPHY=m
-CONFIG_PHY_CADENCE_DPHY_RX=m
-CONFIG_PHY_CADENCE_SALVO=m
-CONFIG_PHY_FSL_IMX8MQ_USB=m
-CONFIG_PHY_MIXEL_LVDS_PHY=m
-CONFIG_PHY_MIXEL_MIPI_DPHY=m
-CONFIG_PHY_FSL_IMX8M_PCIE=m
-CONFIG_PHY_FSL_LYNX_28G=m
-CONFIG_PHY_HI6220_USB=m
-CONFIG_PHY_HI3660_USB=m
-CONFIG_PHY_HI3670_USB=m
-CONFIG_PHY_HI3670_PCIE=m
-CONFIG_PHY_HISTB_COMBPHY=m
-CONFIG_PHY_HISI_INNO_USB2=m
-CONFIG_PHY_INGENIC_USB=m
-CONFIG_PHY_LANTIQ_VRX200_PCIE=m
-CONFIG_PHY_LANTIQ_RCU_USB2=m
-CONFIG_ARMADA375_USBCLUSTER_PHY=y
-CONFIG_PHY_BERLIN_SATA=m
-CONFIG_PHY_BERLIN_USB=m
-CONFIG_PHY_MVEBU_A3700_UTMI=m
-CONFIG_PHY_MVEBU_A38X_COMPHY=m
-CONFIG_PHY_MVEBU_CP110_UTMI=m
-CONFIG_PHY_PXA_28NM_HSIC=m
-CONFIG_PHY_PXA_28NM_USB2=m
-CONFIG_PHY_PXA_USB=m
-CONFIG_PHY_MMP3_USB=m
-CONFIG_PHY_MMP3_HSIC=m
-CONFIG_PHY_MTK_PCIE=m
-CONFIG_PHY_MTK_TPHY=m
-CONFIG_PHY_MTK_UFS=m
-CONFIG_PHY_MTK_XSPHY=m
-CONFIG_PHY_MTK_DP=m
-CONFIG_PHY_SPARX5_SERDES=m
-CONFIG_PHY_LAN966X_SERDES=m
-CONFIG_PHY_CPCAP_USB=m
-CONFIG_PHY_MAPPHONE_MDM6600=m
-CONFIG_PHY_OCELOT_SERDES=m
-CONFIG_PHY_ATH79_USB=m
-CONFIG_PHY_QCOM_IPQ4019_USB=m
-CONFIG_PHY_QCOM_QUSB2=m
-CONFIG_PHY_QCOM_USB_HS=m
-CONFIG_PHY_QCOM_USB_SNPS_FEMTO_V2=m
-CONFIG_PHY_QCOM_USB_HSIC=m
-CONFIG_PHY_QCOM_USB_HS_28NM=m
-CONFIG_PHY_QCOM_USB_SS=m
-CONFIG_PHY_QCOM_IPQ806X_USB=m
-CONFIG_PHY_MT7621_PCI=m
-CONFIG_PHY_RALINK_USB=m
-CONFIG_PHY_RCAR_GEN3_USB3=m
-CONFIG_PHY_ROCKCHIP_DPHY_RX0=m
-CONFIG_PHY_ROCKCHIP_INNO_CSIDPHY=m
-CONFIG_PHY_ROCKCHIP_INNO_DSIDPHY=m
-CONFIG_PHY_ROCKCHIP_PCIE=m
-CONFIG_PHY_ROCKCHIP_SNPS_PCIE3=m
-CONFIG_PHY_ROCKCHIP_TYPEC=m
-CONFIG_PHY_EXYNOS_DP_VIDEO=m
-CONFIG_PHY_EXYNOS_MIPI_VIDEO=m
-CONFIG_PHY_EXYNOS_PCIE=y
-CONFIG_PHY_SAMSUNG_UFS=m
-CONFIG_PHY_SAMSUNG_USB2=m
-CONFIG_PHY_S5PV210_USB2=y
-CONFIG_PHY_UNIPHIER_USB2=m
-CONFIG_PHY_UNIPHIER_USB3=m
-CONFIG_PHY_UNIPHIER_PCIE=m
-CONFIG_PHY_UNIPHIER_AHCI=m
-CONFIG_PHY_ST_SPEAR1310_MIPHY=m
-CONFIG_PHY_ST_SPEAR1340_MIPHY=m
-CONFIG_PHY_STIH407_USB=m
-CONFIG_PHY_SUNPLUS_USB=m
-CONFIG_PHY_TEGRA194_P2U=m
-CONFIG_PHY_DA8XX_USB=m
-CONFIG_PHY_DM816X_USB=m
-CONFIG_OMAP_CONTROL_PHY=m
-CONFIG_TI_PIPE3=m
-CONFIG_PHY_TUSB1210=m
-CONFIG_PHY_INTEL_KEEMBAY_EMMC=m
-CONFIG_PHY_INTEL_KEEMBAY_USB=m
-CONFIG_PHY_INTEL_LGM_COMBO=y
-CONFIG_PHY_INTEL_LGM_EMMC=m
-CONFIG_PHY_INTEL_THUNDERBAY_EMMC=m
-CONFIG_PHY_XILINX_ZYNQMP=m
-# end of PHY Subsystem
-
-CONFIG_POWERCAP=y
-CONFIG_IDLE_INJECT=y
-CONFIG_DTPM=y
-CONFIG_MCB=m
-CONFIG_MCB_LPC=m
-
-#
-# Performance monitor support
-#
-CONFIG_ARM_CCN=m
-CONFIG_ARM_CMN=m
-CONFIG_FSL_IMX8_DDR_PMU=m
-CONFIG_ARM_DMC620_PMU=m
-CONFIG_ALIBABA_UNCORE_DRW_PMU=m
-# end of Performance monitor support
-
-CONFIG_RAS=y
-
-#
-# Android
-#
-# end of Android
-
-CONFIG_DAX=m
-CONFIG_NVMEM=y
-CONFIG_NVMEM_SYSFS=y
-CONFIG_NVMEM_APPLE_EFUSES=m
-CONFIG_NVMEM_BCM_OCOTP=m
-CONFIG_NVMEM_BRCM_NVRAM=m
-CONFIG_NVMEM_IMX_IIM=m
-CONFIG_NVMEM_IMX_OCOTP=m
-CONFIG_NVMEM_JZ4780_EFUSE=m
-CONFIG_NVMEM_LAN9662_OTPC=m
-CONFIG_NVMEM_LAYERSCAPE_SFP=m
-CONFIG_NVMEM_LPC18XX_EEPROM=m
-CONFIG_NVMEM_LPC18XX_OTP=m
-CONFIG_NVMEM_MESON_MX_EFUSE=m
-CONFIG_NVMEM_MICROCHIP_OTPC=m
-CONFIG_NVMEM_MTK_EFUSE=m
-CONFIG_NVMEM_MXS_OCOTP=m
-CONFIG_NVMEM_NINTENDO_OTP=m
-CONFIG_NVMEM_QCOM_QFPROM=m
-CONFIG_NVMEM_RAVE_SP_EEPROM=m
-CONFIG_NVMEM_RMEM=m
-CONFIG_NVMEM_ROCKCHIP_EFUSE=m
-CONFIG_NVMEM_ROCKCHIP_OTP=m
-CONFIG_NVMEM_SC27XX_EFUSE=m
-CONFIG_NVMEM_SNVS_LPGPR=m
-CONFIG_NVMEM_SPMI_SDAM=m
-CONFIG_NVMEM_SPRD_EFUSE=m
-CONFIG_NVMEM_STM32_ROMEM=m
-CONFIG_NVMEM_SUNPLUS_OCOTP=m
-CONFIG_NVMEM_U_BOOT_ENV=m
-CONFIG_NVMEM_UNIPHIER_EFUSE=m
-CONFIG_NVMEM_VF610_OCOTP=m
-
-#
-# HW tracing support
-#
-CONFIG_STM=m
-CONFIG_STM_PROTO_BASIC=m
-CONFIG_STM_PROTO_SYS_T=m
-CONFIG_STM_DUMMY=m
-CONFIG_STM_SOURCE_CONSOLE=m
-CONFIG_STM_SOURCE_HEARTBEAT=m
-CONFIG_STM_SOURCE_FTRACE=m
-# end of HW tracing support
-
-CONFIG_FPGA=m
-CONFIG_FPGA_MGR_SOCFPGA=m
-CONFIG_FPGA_MGR_SOCFPGA_A10=m
-CONFIG_ALTERA_PR_IP_CORE=m
-CONFIG_ALTERA_PR_IP_CORE_PLAT=m
-CONFIG_FPGA_MGR_ALTERA_PS_SPI=m
-CONFIG_FPGA_MGR_ZYNQ_FPGA=m
-CONFIG_FPGA_MGR_XILINX_SPI=m
-CONFIG_FPGA_MGR_ICE40_SPI=m
-CONFIG_FPGA_MGR_MACHXO2_SPI=m
-CONFIG_FPGA_BRIDGE=m
-CONFIG_ALTERA_FREEZE_BRIDGE=m
-CONFIG_XILINX_PR_DECOUPLER=m
-CONFIG_FPGA_REGION=m
-CONFIG_OF_FPGA_REGION=m
-CONFIG_FPGA_DFL=m
-CONFIG_FPGA_DFL_FME=m
-CONFIG_FPGA_DFL_FME_MGR=m
-CONFIG_FPGA_DFL_FME_BRIDGE=m
-CONFIG_FPGA_DFL_FME_REGION=m
-CONFIG_FPGA_DFL_AFU=m
-CONFIG_FPGA_DFL_NIOS_INTEL_PAC_N3000=m
-CONFIG_FPGA_MGR_ZYNQMP_FPGA=m
-CONFIG_FPGA_MGR_VERSAL_FPGA=m
-CONFIG_FPGA_M10_BMC_SEC_UPDATE=m
-CONFIG_FPGA_MGR_MICROCHIP_SPI=m
-CONFIG_FSI=m
-CONFIG_FSI_NEW_DEV_NODE=y
-CONFIG_FSI_MASTER_GPIO=m
-CONFIG_FSI_MASTER_HUB=m
-CONFIG_FSI_MASTER_AST_CF=m
-CONFIG_FSI_MASTER_ASPEED=m
-CONFIG_FSI_SCOM=m
-CONFIG_FSI_SBEFIFO=m
-CONFIG_FSI_OCC=m
-CONFIG_TEE=m
-CONFIG_MULTIPLEXER=m
-
-#
-# Multiplexer drivers
-#
-CONFIG_MUX_ADG792A=m
-CONFIG_MUX_ADGS1408=m
-CONFIG_MUX_GPIO=m
-CONFIG_MUX_MMIO=m
-# end of Multiplexer drivers
-
-CONFIG_PM_OPP=y
-CONFIG_SIOX=m
-CONFIG_SIOX_BUS_GPIO=m
-CONFIG_SLIMBUS=m
-CONFIG_SLIM_QCOM_CTRL=m
-CONFIG_INTERCONNECT=y
-CONFIG_INTERCONNECT_IMX=m
-CONFIG_INTERCONNECT_IMX8MM=m
-CONFIG_INTERCONNECT_IMX8MN=m
-CONFIG_INTERCONNECT_IMX8MQ=m
-CONFIG_INTERCONNECT_IMX8MP=m
-CONFIG_INTERCONNECT_QCOM_OSM_L3=m
-CONFIG_INTERCONNECT_SAMSUNG=y
-CONFIG_INTERCONNECT_EXYNOS=m
-CONFIG_COUNTER=m
-CONFIG_104_QUAD_8=m
-CONFIG_INTERRUPT_CNT=m
-CONFIG_STM32_TIMER_CNT=m
-CONFIG_STM32_LPTIMER_CNT=m
-CONFIG_TI_EQEP=m
-CONFIG_FTM_QUADDEC=m
-CONFIG_MICROCHIP_TCB_CAPTURE=m
-CONFIG_TI_ECAP_CAPTURE=m
-CONFIG_PECI=m
-CONFIG_PECI_CPU=m
-CONFIG_HTE=y
-# end of Device Drivers
-
-#
-# File systems
-#
-CONFIG_VALIDATE_FS_PARSER=y
-CONFIG_FS_IOMAP=y
-CONFIG_EXT2_FS=m
-CONFIG_EXT2_FS_XATTR=y
-CONFIG_EXT2_FS_POSIX_ACL=y
-CONFIG_EXT2_FS_SECURITY=y
-CONFIG_EXT3_FS=m
-CONFIG_EXT3_FS_POSIX_ACL=y
-CONFIG_EXT3_FS_SECURITY=y
-CONFIG_EXT4_FS=m
-CONFIG_EXT4_FS_POSIX_ACL=y
-CONFIG_EXT4_FS_SECURITY=y
-CONFIG_EXT4_DEBUG=y
-CONFIG_EXT4_KUNIT_TESTS=m
-CONFIG_JBD2=m
-CONFIG_JBD2_DEBUG=y
-CONFIG_FS_MBCACHE=m
-CONFIG_REISERFS_FS=m
-CONFIG_REISERFS_CHECK=y
-CONFIG_REISERFS_PROC_INFO=y
-CONFIG_REISERFS_FS_XATTR=y
-CONFIG_REISERFS_FS_POSIX_ACL=y
-CONFIG_REISERFS_FS_SECURITY=y
-CONFIG_JFS_FS=m
-CONFIG_JFS_POSIX_ACL=y
-CONFIG_JFS_SECURITY=y
-CONFIG_JFS_DEBUG=y
-CONFIG_JFS_STATISTICS=y
-CONFIG_XFS_FS=m
-CONFIG_XFS_SUPPORT_V4=y
-CONFIG_XFS_QUOTA=y
-CONFIG_XFS_POSIX_ACL=y
-CONFIG_XFS_RT=y
-CONFIG_XFS_ONLINE_SCRUB=y
-CONFIG_XFS_ONLINE_REPAIR=y
-CONFIG_XFS_DEBUG=y
-CONFIG_XFS_ASSERT_FATAL=y
-CONFIG_GFS2_FS=m
-CONFIG_GFS2_FS_LOCKING_DLM=y
-CONFIG_OCFS2_FS=m
-CONFIG_OCFS2_FS_O2CB=m
-CONFIG_OCFS2_FS_USERSPACE_CLUSTER=m
-CONFIG_OCFS2_FS_STATS=y
-CONFIG_OCFS2_DEBUG_MASKLOG=y
-CONFIG_OCFS2_DEBUG_FS=y
-CONFIG_BTRFS_FS=m
-CONFIG_BTRFS_FS_POSIX_ACL=y
-CONFIG_BTRFS_FS_CHECK_INTEGRITY=y
-CONFIG_BTRFS_FS_RUN_SANITY_TESTS=y
-CONFIG_BTRFS_DEBUG=y
-CONFIG_BTRFS_ASSERT=y
-CONFIG_BTRFS_FS_REF_VERIFY=y
-CONFIG_NILFS2_FS=m
-CONFIG_F2FS_FS=m
-CONFIG_F2FS_STAT_FS=y
-CONFIG_F2FS_FS_XATTR=y
-CONFIG_F2FS_FS_POSIX_ACL=y
-CONFIG_F2FS_FS_SECURITY=y
-CONFIG_F2FS_CHECK_FS=y
-CONFIG_F2FS_FAULT_INJECTION=y
-CONFIG_F2FS_FS_COMPRESSION=y
-CONFIG_F2FS_FS_LZO=y
-CONFIG_F2FS_FS_LZORLE=y
-CONFIG_F2FS_FS_LZ4=y
-CONFIG_F2FS_FS_LZ4HC=y
-CONFIG_F2FS_FS_ZSTD=y
-CONFIG_F2FS_IOSTAT=y
-CONFIG_F2FS_UNFAIR_RWSEM=y
-CONFIG_ZONEFS_FS=m
-CONFIG_FS_POSIX_ACL=y
-CONFIG_EXPORTFS=y
-CONFIG_EXPORTFS_BLOCK_OPS=y
-CONFIG_FILE_LOCKING=y
-CONFIG_FS_ENCRYPTION=y
-CONFIG_FS_ENCRYPTION_ALGS=m
-CONFIG_FS_ENCRYPTION_INLINE_CRYPT=y
-CONFIG_FS_VERITY=y
-CONFIG_FS_VERITY_DEBUG=y
-CONFIG_FS_VERITY_BUILTIN_SIGNATURES=y
-CONFIG_FSNOTIFY=y
-CONFIG_DNOTIFY=y
-CONFIG_INOTIFY_USER=y
-CONFIG_FANOTIFY=y
-CONFIG_FANOTIFY_ACCESS_PERMISSIONS=y
-CONFIG_QUOTA=y
-CONFIG_QUOTA_NETLINK_INTERFACE=y
-CONFIG_PRINT_QUOTA_WARNING=y
-CONFIG_QUOTA_DEBUG=y
-CONFIG_QUOTA_TREE=m
-CONFIG_QFMT_V1=m
-CONFIG_QFMT_V2=m
-CONFIG_QUOTACTL=y
-CONFIG_AUTOFS4_FS=m
-CONFIG_AUTOFS_FS=m
-CONFIG_FUSE_FS=m
-CONFIG_CUSE=m
-CONFIG_VIRTIO_FS=m
-CONFIG_OVERLAY_FS=m
-CONFIG_OVERLAY_FS_REDIRECT_DIR=y
-CONFIG_OVERLAY_FS_REDIRECT_ALWAYS_FOLLOW=y
-CONFIG_OVERLAY_FS_INDEX=y
-CONFIG_OVERLAY_FS_METACOPY=y
-
-#
-# Caches
-#
-CONFIG_NETFS_SUPPORT=m
-CONFIG_NETFS_STATS=y
-CONFIG_FSCACHE=m
-CONFIG_FSCACHE_STATS=y
-CONFIG_FSCACHE_DEBUG=y
-CONFIG_CACHEFILES=m
-CONFIG_CACHEFILES_DEBUG=y
-CONFIG_CACHEFILES_ERROR_INJECTION=y
-CONFIG_CACHEFILES_ONDEMAND=y
-# end of Caches
-
-#
-# CD-ROM/DVD Filesystems
-#
-CONFIG_ISO9660_FS=m
-CONFIG_JOLIET=y
-CONFIG_ZISOFS=y
-CONFIG_UDF_FS=m
-# end of CD-ROM/DVD Filesystems
-
-#
-# DOS/FAT/EXFAT/NT Filesystems
-#
-CONFIG_FAT_FS=m
-CONFIG_MSDOS_FS=m
-CONFIG_VFAT_FS=m
-CONFIG_FAT_DEFAULT_CODEPAGE=437
-CONFIG_FAT_DEFAULT_IOCHARSET="iso8859-1"
-CONFIG_FAT_DEFAULT_UTF8=y
-CONFIG_FAT_KUNIT_TEST=m
-CONFIG_EXFAT_FS=m
-CONFIG_EXFAT_DEFAULT_IOCHARSET="utf8"
-CONFIG_NTFS_FS=m
-CONFIG_NTFS_DEBUG=y
-CONFIG_NTFS_RW=y
-CONFIG_NTFS3_FS=m
-CONFIG_NTFS3_LZX_XPRESS=y
-CONFIG_NTFS3_FS_POSIX_ACL=y
-# end of DOS/FAT/EXFAT/NT Filesystems
-
-#
-# Pseudo filesystems
-#
-CONFIG_PROC_FS=y
-CONFIG_PROC_VMCORE=y
-CONFIG_PROC_VMCORE_DEVICE_DUMP=y
-CONFIG_PROC_SYSCTL=y
-CONFIG_PROC_CHILDREN=y
-CONFIG_KERNFS=y
-CONFIG_SYSFS=y
-CONFIG_ARCH_HAS_GIGANTIC_PAGE=y
-CONFIG_CONFIGFS_FS=m
-# end of Pseudo filesystems
-
-CONFIG_MISC_FILESYSTEMS=y
-CONFIG_ORANGEFS_FS=m
-CONFIG_ADFS_FS=m
-CONFIG_ADFS_FS_RW=y
-CONFIG_AFFS_FS=m
-CONFIG_ECRYPT_FS=m
-CONFIG_ECRYPT_FS_MESSAGING=y
-CONFIG_HFS_FS=m
-CONFIG_HFSPLUS_FS=m
-CONFIG_BEFS_FS=m
-CONFIG_BEFS_DEBUG=y
-CONFIG_BFS_FS=m
-CONFIG_EFS_FS=m
-CONFIG_JFFS2_FS=m
-CONFIG_JFFS2_FS_DEBUG=0
-CONFIG_JFFS2_FS_WRITEBUFFER=y
-CONFIG_JFFS2_FS_WBUF_VERIFY=y
-CONFIG_JFFS2_SUMMARY=y
-CONFIG_JFFS2_FS_XATTR=y
-CONFIG_JFFS2_FS_POSIX_ACL=y
-CONFIG_JFFS2_FS_SECURITY=y
-CONFIG_JFFS2_COMPRESSION_OPTIONS=y
-CONFIG_JFFS2_ZLIB=y
-CONFIG_JFFS2_LZO=y
-CONFIG_JFFS2_RTIME=y
-CONFIG_JFFS2_RUBIN=y
-# CONFIG_JFFS2_CMODE_NONE is not set
-CONFIG_JFFS2_CMODE_PRIORITY=y
-# CONFIG_JFFS2_CMODE_SIZE is not set
-# CONFIG_JFFS2_CMODE_FAVOURLZO is not set
-CONFIG_UBIFS_FS=m
-CONFIG_UBIFS_FS_ADVANCED_COMPR=y
-CONFIG_UBIFS_FS_LZO=y
-CONFIG_UBIFS_FS_ZLIB=y
-CONFIG_UBIFS_FS_ZSTD=y
-CONFIG_UBIFS_ATIME_SUPPORT=y
-CONFIG_UBIFS_FS_XATTR=y
-CONFIG_UBIFS_FS_SECURITY=y
-CONFIG_UBIFS_FS_AUTHENTICATION=y
-CONFIG_CRAMFS=m
-CONFIG_CRAMFS_BLOCKDEV=y
-CONFIG_CRAMFS_MTD=y
-CONFIG_SQUASHFS=m
-CONFIG_SQUASHFS_FILE_CACHE=y
-# CONFIG_SQUASHFS_FILE_DIRECT is not set
-CONFIG_SQUASHFS_DECOMP_SINGLE=y
-# CONFIG_SQUASHFS_DECOMP_MULTI is not set
-# CONFIG_SQUASHFS_DECOMP_MULTI_PERCPU is not set
-CONFIG_SQUASHFS_XATTR=y
-CONFIG_SQUASHFS_ZLIB=y
-CONFIG_SQUASHFS_LZ4=y
-CONFIG_SQUASHFS_LZO=y
-CONFIG_SQUASHFS_XZ=y
-CONFIG_SQUASHFS_ZSTD=y
-CONFIG_SQUASHFS_4K_DEVBLK_SIZE=y
-CONFIG_SQUASHFS_EMBEDDED=y
-CONFIG_SQUASHFS_FRAGMENT_CACHE_SIZE=3
-CONFIG_VXFS_FS=m
-CONFIG_MINIX_FS=m
-CONFIG_MINIX_FS_NATIVE_ENDIAN=y
-CONFIG_OMFS_FS=m
-CONFIG_HPFS_FS=m
-CONFIG_QNX4FS_FS=m
-CONFIG_QNX6FS_FS=m
-CONFIG_QNX6FS_DEBUG=y
-CONFIG_ROMFS_FS=m
-CONFIG_ROMFS_BACKED_BY_BLOCK=y
-# CONFIG_ROMFS_BACKED_BY_MTD is not set
-# CONFIG_ROMFS_BACKED_BY_BOTH is not set
-CONFIG_ROMFS_ON_BLOCK=y
-CONFIG_PSTORE=m
-CONFIG_PSTORE_DEFAULT_KMSG_BYTES=10240
-CONFIG_PSTORE_DEFLATE_COMPRESS=m
-CONFIG_PSTORE_LZO_COMPRESS=m
-CONFIG_PSTORE_LZ4_COMPRESS=m
-CONFIG_PSTORE_LZ4HC_COMPRESS=m
-CONFIG_PSTORE_842_COMPRESS=y
-CONFIG_PSTORE_ZSTD_COMPRESS=y
-CONFIG_PSTORE_COMPRESS=y
-CONFIG_PSTORE_DEFLATE_COMPRESS_DEFAULT=y
-# CONFIG_PSTORE_LZO_COMPRESS_DEFAULT is not set
-# CONFIG_PSTORE_LZ4_COMPRESS_DEFAULT is not set
-# CONFIG_PSTORE_LZ4HC_COMPRESS_DEFAULT is not set
-# CONFIG_PSTORE_842_COMPRESS_DEFAULT is not set
-# CONFIG_PSTORE_ZSTD_COMPRESS_DEFAULT is not set
-CONFIG_PSTORE_COMPRESS_DEFAULT="deflate"
-CONFIG_PSTORE_CONSOLE=y
-CONFIG_PSTORE_PMSG=y
-CONFIG_PSTORE_FTRACE=y
-CONFIG_PSTORE_RAM=m
-CONFIG_PSTORE_ZONE=m
-CONFIG_PSTORE_BLK=m
-CONFIG_PSTORE_BLK_BLKDEV=""
-CONFIG_PSTORE_BLK_KMSG_SIZE=64
-CONFIG_PSTORE_BLK_MAX_REASON=2
-CONFIG_PSTORE_BLK_PMSG_SIZE=64
-CONFIG_PSTORE_BLK_CONSOLE_SIZE=64
-CONFIG_PSTORE_BLK_FTRACE_SIZE=64
-CONFIG_SYSV_FS=m
-CONFIG_UFS_FS=m
-CONFIG_UFS_FS_WRITE=y
-CONFIG_UFS_DEBUG=y
-CONFIG_EROFS_FS=m
-CONFIG_EROFS_FS_DEBUG=y
-CONFIG_EROFS_FS_XATTR=y
-CONFIG_EROFS_FS_POSIX_ACL=y
-CONFIG_EROFS_FS_SECURITY=y
-CONFIG_EROFS_FS_ZIP=y
-CONFIG_EROFS_FS_ZIP_LZMA=y
-CONFIG_EROFS_FS_ONDEMAND=y
-CONFIG_NETWORK_FILESYSTEMS=y
-CONFIG_NFS_FS=m
-CONFIG_NFS_V2=m
-CONFIG_NFS_V3=m
-CONFIG_NFS_V3_ACL=y
-CONFIG_NFS_V4=m
-CONFIG_NFS_V4_1=y
-CONFIG_NFS_V4_2=y
-CONFIG_PNFS_FILE_LAYOUT=m
-CONFIG_PNFS_BLOCK=m
-CONFIG_PNFS_FLEXFILE_LAYOUT=m
-CONFIG_NFS_V4_1_IMPLEMENTATION_ID_DOMAIN="kernel.org"
-CONFIG_NFS_V4_1_MIGRATION=y
-CONFIG_NFS_V4_SECURITY_LABEL=y
-CONFIG_NFS_FSCACHE=y
-CONFIG_NFS_USE_LEGACY_DNS=y
-CONFIG_NFS_DEBUG=y
-CONFIG_NFS_DISABLE_UDP_SUPPORT=y
-CONFIG_NFS_V4_2_READ_PLUS=y
-CONFIG_NFSD=m
-CONFIG_NFSD_V2_ACL=y
-CONFIG_NFSD_V3_ACL=y
-CONFIG_NFSD_V4=y
-CONFIG_NFSD_PNFS=y
-CONFIG_NFSD_BLOCKLAYOUT=y
-CONFIG_NFSD_SCSILAYOUT=y
-CONFIG_NFSD_FLEXFILELAYOUT=y
-CONFIG_NFSD_V4_2_INTER_SSC=y
-CONFIG_NFSD_V4_SECURITY_LABEL=y
-CONFIG_GRACE_PERIOD=m
-CONFIG_LOCKD=m
-CONFIG_LOCKD_V4=y
-CONFIG_NFS_ACL_SUPPORT=m
-CONFIG_NFS_COMMON=y
-CONFIG_NFS_V4_2_SSC_HELPER=y
-CONFIG_SUNRPC=m
-CONFIG_SUNRPC_GSS=m
-CONFIG_SUNRPC_BACKCHANNEL=y
-CONFIG_RPCSEC_GSS_KRB5=m
-CONFIG_SUNRPC_DISABLE_INSECURE_ENCTYPES=y
-CONFIG_SUNRPC_DEBUG=y
-CONFIG_CEPH_FS=m
-CONFIG_CEPH_FSCACHE=y
-CONFIG_CEPH_FS_POSIX_ACL=y
-CONFIG_CEPH_FS_SECURITY_LABEL=y
-CONFIG_CIFS=m
-CONFIG_CIFS_STATS2=y
-CONFIG_CIFS_ALLOW_INSECURE_LEGACY=y
-CONFIG_CIFS_UPCALL=y
-CONFIG_CIFS_XATTR=y
-CONFIG_CIFS_POSIX=y
-CONFIG_CIFS_DEBUG=y
-CONFIG_CIFS_DEBUG2=y
-CONFIG_CIFS_DEBUG_DUMP_KEYS=y
-CONFIG_CIFS_DFS_UPCALL=y
-CONFIG_CIFS_SWN_UPCALL=y
-CONFIG_CIFS_FSCACHE=y
-CONFIG_SMB_SERVER=m
-CONFIG_SMB_SERVER_CHECK_CAP_NET_ADMIN=y
-CONFIG_SMB_SERVER_KERBEROS5=y
-CONFIG_SMBFS_COMMON=m
-CONFIG_CODA_FS=m
-CONFIG_AFS_FS=m
-CONFIG_AFS_DEBUG=y
-CONFIG_AFS_FSCACHE=y
-CONFIG_AFS_DEBUG_CURSOR=y
-CONFIG_9P_FS=m
-CONFIG_9P_FSCACHE=y
-CONFIG_9P_FS_POSIX_ACL=y
-CONFIG_9P_FS_SECURITY=y
-CONFIG_NLS=m
-CONFIG_NLS_DEFAULT="iso8859-1"
-CONFIG_NLS_CODEPAGE_437=m
-CONFIG_NLS_CODEPAGE_737=m
-CONFIG_NLS_CODEPAGE_775=m
-CONFIG_NLS_CODEPAGE_850=m
-CONFIG_NLS_CODEPAGE_852=m
-CONFIG_NLS_CODEPAGE_855=m
-CONFIG_NLS_CODEPAGE_857=m
-CONFIG_NLS_CODEPAGE_860=m
-CONFIG_NLS_CODEPAGE_861=m
-CONFIG_NLS_CODEPAGE_862=m
-CONFIG_NLS_CODEPAGE_863=m
-CONFIG_NLS_CODEPAGE_864=m
-CONFIG_NLS_CODEPAGE_865=m
-CONFIG_NLS_CODEPAGE_866=m
-CONFIG_NLS_CODEPAGE_869=m
-CONFIG_NLS_CODEPAGE_936=m
-CONFIG_NLS_CODEPAGE_950=m
-CONFIG_NLS_CODEPAGE_932=m
-CONFIG_NLS_CODEPAGE_949=m
-CONFIG_NLS_CODEPAGE_874=m
-CONFIG_NLS_ISO8859_8=m
-CONFIG_NLS_CODEPAGE_1250=m
-CONFIG_NLS_CODEPAGE_1251=m
-CONFIG_NLS_ASCII=m
-CONFIG_NLS_ISO8859_1=m
-CONFIG_NLS_ISO8859_2=m
-CONFIG_NLS_ISO8859_3=m
-CONFIG_NLS_ISO8859_4=m
-CONFIG_NLS_ISO8859_5=m
-CONFIG_NLS_ISO8859_6=m
-CONFIG_NLS_ISO8859_7=m
-CONFIG_NLS_ISO8859_9=m
-CONFIG_NLS_ISO8859_13=m
-CONFIG_NLS_ISO8859_14=m
-CONFIG_NLS_ISO8859_15=m
-CONFIG_NLS_KOI8_R=m
-CONFIG_NLS_KOI8_U=m
-CONFIG_NLS_MAC_ROMAN=m
-CONFIG_NLS_MAC_CELTIC=m
-CONFIG_NLS_MAC_CENTEURO=m
-CONFIG_NLS_MAC_CROATIAN=m
-CONFIG_NLS_MAC_CYRILLIC=m
-CONFIG_NLS_MAC_GAELIC=m
-CONFIG_NLS_MAC_GREEK=m
-CONFIG_NLS_MAC_ICELAND=m
-CONFIG_NLS_MAC_INUIT=m
-CONFIG_NLS_MAC_ROMANIAN=m
-CONFIG_NLS_MAC_TURKISH=m
-CONFIG_NLS_UTF8=m
-CONFIG_DLM=m
-CONFIG_DLM_DEPRECATED_API=y
-CONFIG_DLM_DEBUG=y
-CONFIG_UNICODE=m
-CONFIG_UNICODE_NORMALIZATION_SELFTEST=m
-CONFIG_IO_WQ=y
-# end of File systems
-
-#
-# Security options
-#
-CONFIG_KEYS=y
-CONFIG_KEYS_REQUEST_CACHE=y
-CONFIG_PERSISTENT_KEYRINGS=y
-CONFIG_TRUSTED_KEYS=m
-CONFIG_TRUSTED_KEYS_TPM=y
-CONFIG_TRUSTED_KEYS_TEE=y
-CONFIG_ENCRYPTED_KEYS=y
-CONFIG_USER_DECRYPTED_DATA=y
-CONFIG_KEY_DH_OPERATIONS=y
-CONFIG_KEY_NOTIFICATIONS=y
-CONFIG_SECURITY_DMESG_RESTRICT=y
-CONFIG_SECURITY=y
-CONFIG_SECURITY_WRITABLE_HOOKS=y
-CONFIG_SECURITYFS=y
-CONFIG_SECURITY_NETWORK=y
-CONFIG_SECURITY_NETWORK_XFRM=y
-CONFIG_SECURITY_PATH=y
-CONFIG_LSM_MMAP_MIN_ADDR=65536
-CONFIG_HAVE_HARDENED_USERCOPY_ALLOCATOR=y
-CONFIG_HARDENED_USERCOPY=y
-CONFIG_STATIC_USERMODEHELPER=y
-CONFIG_STATIC_USERMODEHELPER_PATH="/sbin/usermode-helper"
-CONFIG_SECURITY_SELINUX=y
-CONFIG_SECURITY_SELINUX_BOOTPARAM=y
-CONFIG_SECURITY_SELINUX_DISABLE=y
-CONFIG_SECURITY_SELINUX_DEVELOP=y
-CONFIG_SECURITY_SELINUX_AVC_STATS=y
-CONFIG_SECURITY_SELINUX_CHECKREQPROT_VALUE=0
-CONFIG_SECURITY_SELINUX_SIDTAB_HASH_BITS=9
-CONFIG_SECURITY_SELINUX_SID2STR_CACHE_SIZE=256
-CONFIG_SECURITY_SMACK=y
-CONFIG_SECURITY_SMACK_BRINGUP=y
-CONFIG_SECURITY_SMACK_NETFILTER=y
-CONFIG_SECURITY_SMACK_APPEND_SIGNALS=y
-CONFIG_SECURITY_TOMOYO=y
-CONFIG_SECURITY_TOMOYO_MAX_ACCEPT_ENTRY=2048
-CONFIG_SECURITY_TOMOYO_MAX_AUDIT_LOG=1024
-CONFIG_SECURITY_TOMOYO_OMIT_USERSPACE_LOADER=y
-CONFIG_SECURITY_TOMOYO_INSECURE_BUILTIN_SETTING=y
-CONFIG_SECURITY_APPARMOR=y
-CONFIG_SECURITY_APPARMOR_DEBUG=y
-CONFIG_SECURITY_APPARMOR_DEBUG_ASSERTS=y
-CONFIG_SECURITY_APPARMOR_DEBUG_MESSAGES=y
-CONFIG_SECURITY_APPARMOR_INTROSPECT_POLICY=y
-CONFIG_SECURITY_APPARMOR_HASH=y
-CONFIG_SECURITY_APPARMOR_HASH_DEFAULT=y
-CONFIG_SECURITY_APPARMOR_EXPORT_BINARY=y
-CONFIG_SECURITY_APPARMOR_PARANOID_LOAD=y
-CONFIG_SECURITY_LOADPIN=y
-CONFIG_SECURITY_LOADPIN_ENFORCE=y
-CONFIG_SECURITY_YAMA=y
-CONFIG_SECURITY_SAFESETID=y
-CONFIG_SECURITY_LOCKDOWN_LSM=y
-CONFIG_SECURITY_LOCKDOWN_LSM_EARLY=y
-CONFIG_LOCK_DOWN_KERNEL_FORCE_NONE=y
-# CONFIG_LOCK_DOWN_KERNEL_FORCE_INTEGRITY is not set
-# CONFIG_LOCK_DOWN_KERNEL_FORCE_CONFIDENTIALITY is not set
-CONFIG_SECURITY_LANDLOCK=y
-CONFIG_INTEGRITY=y
-CONFIG_INTEGRITY_SIGNATURE=y
-CONFIG_INTEGRITY_ASYMMETRIC_KEYS=y
-CONFIG_INTEGRITY_TRUSTED_KEYRING=y
-CONFIG_INTEGRITY_PLATFORM_KEYRING=y
-CONFIG_INTEGRITY_AUDIT=y
-CONFIG_IMA=y
-CONFIG_IMA_MEASURE_PCR_IDX=10
-CONFIG_IMA_LSM_RULES=y
-CONFIG_IMA_NG_TEMPLATE=y
-# CONFIG_IMA_SIG_TEMPLATE is not set
-CONFIG_IMA_DEFAULT_TEMPLATE="ima-ng"
-CONFIG_IMA_DEFAULT_HASH_SHA1=y
-# CONFIG_IMA_DEFAULT_HASH_SHA256 is not set
-# CONFIG_IMA_DEFAULT_HASH_SHA512 is not set
-CONFIG_IMA_DEFAULT_HASH="sha1"
-CONFIG_IMA_WRITE_POLICY=y
-CONFIG_IMA_READ_POLICY=y
-CONFIG_IMA_APPRAISE=y
-CONFIG_IMA_ARCH_POLICY=y
-CONFIG_IMA_APPRAISE_BUILD_POLICY=y
-CONFIG_IMA_APPRAISE_REQUIRE_FIRMWARE_SIGS=y
-CONFIG_IMA_APPRAISE_REQUIRE_KEXEC_SIGS=y
-CONFIG_IMA_APPRAISE_REQUIRE_MODULE_SIGS=y
-CONFIG_IMA_APPRAISE_REQUIRE_POLICY_SIGS=y
-CONFIG_IMA_APPRAISE_BOOTPARAM=y
-CONFIG_IMA_APPRAISE_MODSIG=y
-CONFIG_IMA_TRUSTED_KEYRING=y
-CONFIG_IMA_KEYRINGS_PERMIT_SIGNED_BY_BUILTIN_OR_SECONDARY=y
-CONFIG_IMA_BLACKLIST_KEYRING=y
-CONFIG_IMA_LOAD_X509=y
-CONFIG_IMA_X509_PATH="/etc/keys/x509_ima.der"
-CONFIG_IMA_APPRAISE_SIGNED_INIT=y
-CONFIG_IMA_MEASURE_ASYMMETRIC_KEYS=y
-CONFIG_IMA_QUEUE_EARLY_BOOT_KEYS=y
-CONFIG_IMA_DISABLE_HTABLE=y
-CONFIG_EVM=y
-CONFIG_EVM_ATTR_FSUUID=y
-CONFIG_EVM_EXTRA_SMACK_XATTRS=y
-CONFIG_EVM_ADD_XATTRS=y
-CONFIG_EVM_LOAD_X509=y
-CONFIG_EVM_X509_PATH="/etc/keys/x509_evm.der"
-CONFIG_DEFAULT_SECURITY_SELINUX=y
-# CONFIG_DEFAULT_SECURITY_SMACK is not set
-# CONFIG_DEFAULT_SECURITY_TOMOYO is not set
-# CONFIG_DEFAULT_SECURITY_APPARMOR is not set
-# CONFIG_DEFAULT_SECURITY_DAC is not set
-CONFIG_LSM="landlock,lockdown,yama,loadpin,safesetid,integrity,selinux,smack,tomoyo,apparmor,bpf"
-
-#
-# Kernel hardening options
-#
-
-#
-# Memory initialization
-#
-CONFIG_CC_HAS_AUTO_VAR_INIT_PATTERN=y
-CONFIG_CC_HAS_AUTO_VAR_INIT_ZERO_BARE=y
-CONFIG_CC_HAS_AUTO_VAR_INIT_ZERO=y
-# CONFIG_INIT_STACK_NONE is not set
-CONFIG_INIT_STACK_ALL_PATTERN=y
-# CONFIG_INIT_STACK_ALL_ZERO is not set
-CONFIG_INIT_ON_ALLOC_DEFAULT_ON=y
-CONFIG_INIT_ON_FREE_DEFAULT_ON=y
-CONFIG_CC_HAS_ZERO_CALL_USED_REGS=y
-CONFIG_ZERO_CALL_USED_REGS=y
-# end of Memory initialization
-
-CONFIG_RANDSTRUCT_NONE=y
-# end of Kernel hardening options
-# end of Security options
-
-CONFIG_XOR_BLOCKS=m
-CONFIG_ASYNC_CORE=m
-CONFIG_ASYNC_MEMCPY=m
-CONFIG_ASYNC_XOR=m
-CONFIG_ASYNC_PQ=m
-CONFIG_ASYNC_RAID6_RECOV=m
-CONFIG_CRYPTO=y
-
-#
-# Crypto core or helper
-#
-CONFIG_CRYPTO_ALGAPI=y
-CONFIG_CRYPTO_ALGAPI2=y
-CONFIG_CRYPTO_AEAD=m
-CONFIG_CRYPTO_AEAD2=y
-CONFIG_CRYPTO_SKCIPHER=y
-CONFIG_CRYPTO_SKCIPHER2=y
-CONFIG_CRYPTO_HASH=y
-CONFIG_CRYPTO_HASH2=y
-CONFIG_CRYPTO_RNG=y
-CONFIG_CRYPTO_RNG2=y
-CONFIG_CRYPTO_RNG_DEFAULT=y
-CONFIG_CRYPTO_AKCIPHER2=y
-CONFIG_CRYPTO_AKCIPHER=y
-CONFIG_CRYPTO_KPP2=y
-CONFIG_CRYPTO_KPP=y
-CONFIG_CRYPTO_ACOMP2=y
-CONFIG_CRYPTO_MANAGER=y
-CONFIG_CRYPTO_MANAGER2=y
-CONFIG_CRYPTO_USER=m
-CONFIG_CRYPTO_MANAGER_DISABLE_TESTS=y
-CONFIG_CRYPTO_GF128MUL=m
-CONFIG_CRYPTO_NULL=m
-CONFIG_CRYPTO_NULL2=y
-CONFIG_CRYPTO_CRYPTD=m
-CONFIG_CRYPTO_AUTHENC=m
-CONFIG_CRYPTO_TEST=m
-CONFIG_CRYPTO_ENGINE=m
-# end of Crypto core or helper
-
-#
-# Public-key cryptography
-#
-CONFIG_CRYPTO_RSA=y
-CONFIG_CRYPTO_DH=y
-CONFIG_CRYPTO_DH_RFC7919_GROUPS=y
-CONFIG_CRYPTO_ECC=m
-CONFIG_CRYPTO_ECDH=m
-CONFIG_CRYPTO_ECDSA=m
-CONFIG_CRYPTO_ECRDSA=m
-CONFIG_CRYPTO_SM2=m
-CONFIG_CRYPTO_CURVE25519=m
-# end of Public-key cryptography
-
-#
-# Block ciphers
-#
-CONFIG_CRYPTO_AES=y
-CONFIG_CRYPTO_AES_TI=m
-CONFIG_CRYPTO_ANUBIS=m
-CONFIG_CRYPTO_ARIA=m
-CONFIG_CRYPTO_BLOWFISH=m
-CONFIG_CRYPTO_BLOWFISH_COMMON=m
-CONFIG_CRYPTO_CAMELLIA=m
-CONFIG_CRYPTO_CAST_COMMON=m
-CONFIG_CRYPTO_CAST5=m
-CONFIG_CRYPTO_CAST6=m
-CONFIG_CRYPTO_DES=m
-CONFIG_CRYPTO_FCRYPT=m
-CONFIG_CRYPTO_KHAZAD=m
-CONFIG_CRYPTO_SEED=m
-CONFIG_CRYPTO_SERPENT=m
-CONFIG_CRYPTO_SM4=m
-CONFIG_CRYPTO_SM4_GENERIC=m
-CONFIG_CRYPTO_TEA=m
-CONFIG_CRYPTO_TWOFISH=m
-CONFIG_CRYPTO_TWOFISH_COMMON=m
-# end of Block ciphers
-
-#
-# Length-preserving ciphers and modes
-#
-CONFIG_CRYPTO_ADIANTUM=m
-CONFIG_CRYPTO_ARC4=m
-CONFIG_CRYPTO_CHACHA20=m
-CONFIG_CRYPTO_CBC=y
-CONFIG_CRYPTO_CFB=m
-CONFIG_CRYPTO_CTR=y
-CONFIG_CRYPTO_CTS=m
-CONFIG_CRYPTO_ECB=m
-CONFIG_CRYPTO_HCTR2=m
-CONFIG_CRYPTO_KEYWRAP=m
-CONFIG_CRYPTO_LRW=m
-CONFIG_CRYPTO_OFB=m
-CONFIG_CRYPTO_PCBC=m
-CONFIG_CRYPTO_XCTR=m
-CONFIG_CRYPTO_XTS=m
-CONFIG_CRYPTO_NHPOLY1305=m
-# end of Length-preserving ciphers and modes
-
-#
-# AEAD (authenticated encryption with associated data) ciphers
-#
-CONFIG_CRYPTO_AEGIS128=m
-CONFIG_CRYPTO_CHACHA20POLY1305=m
-CONFIG_CRYPTO_CCM=m
-CONFIG_CRYPTO_GCM=m
-CONFIG_CRYPTO_SEQIV=m
-CONFIG_CRYPTO_ECHAINIV=m
-CONFIG_CRYPTO_ESSIV=m
-# end of AEAD (authenticated encryption with associated data) ciphers
-
-#
-# Hashes, digests, and MACs
-#
-CONFIG_CRYPTO_BLAKE2B=m
-CONFIG_CRYPTO_CMAC=m
-CONFIG_CRYPTO_GHASH=m
-CONFIG_CRYPTO_HMAC=y
-CONFIG_CRYPTO_MD4=m
-CONFIG_CRYPTO_MD5=y
-CONFIG_CRYPTO_MICHAEL_MIC=m
-CONFIG_CRYPTO_POLYVAL=m
-CONFIG_CRYPTO_POLY1305=m
-CONFIG_CRYPTO_RMD160=m
-CONFIG_CRYPTO_SHA1=y
-CONFIG_CRYPTO_SHA256=y
-CONFIG_CRYPTO_SHA512=y
-CONFIG_CRYPTO_SHA3=m
-CONFIG_CRYPTO_SM3=m
-CONFIG_CRYPTO_SM3_GENERIC=m
-CONFIG_CRYPTO_STREEBOG=m
-CONFIG_CRYPTO_VMAC=m
-CONFIG_CRYPTO_WP512=m
-CONFIG_CRYPTO_XCBC=m
-CONFIG_CRYPTO_XXHASH=m
-# end of Hashes, digests, and MACs
-
-#
-# CRCs (cyclic redundancy checks)
-#
-CONFIG_CRYPTO_CRC32C=m
-CONFIG_CRYPTO_CRC32=m
-CONFIG_CRYPTO_CRCT10DIF=m
-CONFIG_CRYPTO_CRC64_ROCKSOFT=m
-# end of CRCs (cyclic redundancy checks)
-
-#
-# Compression
-#
-CONFIG_CRYPTO_DEFLATE=m
-CONFIG_CRYPTO_LZO=m
-CONFIG_CRYPTO_842=m
-CONFIG_CRYPTO_LZ4=m
-CONFIG_CRYPTO_LZ4HC=m
-CONFIG_CRYPTO_ZSTD=m
-# end of Compression
-
-#
-# Random number generation
-#
-CONFIG_CRYPTO_ANSI_CPRNG=m
-CONFIG_CRYPTO_DRBG_MENU=y
-CONFIG_CRYPTO_DRBG_HMAC=y
-CONFIG_CRYPTO_DRBG_HASH=y
-CONFIG_CRYPTO_DRBG_CTR=y
-CONFIG_CRYPTO_DRBG=y
-CONFIG_CRYPTO_JITTERENTROPY=y
-CONFIG_CRYPTO_KDF800108_CTR=y
-# end of Random number generation
-
-#
-# Userspace interface
-#
-CONFIG_CRYPTO_USER_API=m
-CONFIG_CRYPTO_USER_API_HASH=m
-CONFIG_CRYPTO_USER_API_SKCIPHER=m
-CONFIG_CRYPTO_USER_API_RNG=m
-CONFIG_CRYPTO_USER_API_RNG_CAVP=y
-CONFIG_CRYPTO_USER_API_AEAD=m
-CONFIG_CRYPTO_USER_API_ENABLE_OBSOLETE=y
-CONFIG_CRYPTO_STATS=y
-# end of Userspace interface
-
-CONFIG_CRYPTO_HASH_INFO=y
-CONFIG_CRYPTO_HW=y
-CONFIG_CRYPTO_DEV_ALLWINNER=y
-CONFIG_CRYPTO_DEV_SUN8I_CE=m
-CONFIG_CRYPTO_DEV_SUN8I_CE_DEBUG=y
-CONFIG_CRYPTO_DEV_SUN8I_CE_HASH=y
-CONFIG_CRYPTO_DEV_SUN8I_CE_PRNG=y
-CONFIG_CRYPTO_DEV_SUN8I_CE_TRNG=y
-CONFIG_CRYPTO_DEV_SUN8I_SS=m
-CONFIG_CRYPTO_DEV_SUN8I_SS_DEBUG=y
-CONFIG_CRYPTO_DEV_SUN8I_SS_PRNG=y
-CONFIG_CRYPTO_DEV_SUN8I_SS_HASH=y
-CONFIG_CRYPTO_DEV_SL3516=m
-CONFIG_CRYPTO_DEV_SL3516_DEBUG=y
-CONFIG_CRYPTO_DEV_EXYNOS_RNG=m
-CONFIG_CRYPTO_DEV_S5P=m
-CONFIG_CRYPTO_DEV_ATMEL_AUTHENC=y
-CONFIG_CRYPTO_DEV_ATMEL_AES=m
-CONFIG_CRYPTO_DEV_ATMEL_TDES=m
-CONFIG_CRYPTO_DEV_ATMEL_SHA=m
-CONFIG_CRYPTO_DEV_ATMEL_I2C=m
-CONFIG_CRYPTO_DEV_ATMEL_ECC=m
-CONFIG_CRYPTO_DEV_ATMEL_SHA204A=m
-CONFIG_CRYPTO_DEV_QCE=m
-CONFIG_CRYPTO_DEV_QCE_SKCIPHER=y
-CONFIG_CRYPTO_DEV_QCE_SHA=y
-CONFIG_CRYPTO_DEV_QCE_AEAD=y
-CONFIG_CRYPTO_DEV_QCE_ENABLE_ALL=y
-# CONFIG_CRYPTO_DEV_QCE_ENABLE_SKCIPHER is not set
-# CONFIG_CRYPTO_DEV_QCE_ENABLE_SHA is not set
-# CONFIG_CRYPTO_DEV_QCE_ENABLE_AEAD is not set
-CONFIG_CRYPTO_DEV_QCE_SW_MAX_LEN=512
-CONFIG_CRYPTO_DEV_QCOM_RNG=m
-CONFIG_CRYPTO_DEV_IMGTEC_HASH=m
-CONFIG_CRYPTO_DEV_ZYNQMP_AES=m
-CONFIG_CRYPTO_DEV_ZYNQMP_SHA3=m
-CONFIG_CRYPTO_DEV_VIRTIO=m
-CONFIG_CRYPTO_DEV_SAFEXCEL=m
-CONFIG_CRYPTO_DEV_HISI_SEC=m
-CONFIG_CRYPTO_DEV_AMLOGIC_GXL=m
-CONFIG_CRYPTO_DEV_AMLOGIC_GXL_DEBUG=y
-CONFIG_CRYPTO_DEV_SA2UL=m
-CONFIG_CRYPTO_DEV_KEEMBAY_OCS_AES_SM4=m
-CONFIG_CRYPTO_DEV_KEEMBAY_OCS_AES_SM4_ECB=y
-CONFIG_CRYPTO_DEV_KEEMBAY_OCS_AES_SM4_CTS=y
-CONFIG_CRYPTO_DEV_KEEMBAY_OCS_ECC=m
-CONFIG_CRYPTO_DEV_KEEMBAY_OCS_HCU=m
-CONFIG_CRYPTO_DEV_KEEMBAY_OCS_HCU_HMAC_SHA224=y
-CONFIG_CRYPTO_DEV_ASPEED=m
-CONFIG_CRYPTO_DEV_ASPEED_DEBUG=y
-CONFIG_CRYPTO_DEV_ASPEED_HACE_HASH=y
-CONFIG_CRYPTO_DEV_ASPEED_HACE_CRYPTO=y
-CONFIG_ASYMMETRIC_KEY_TYPE=y
-CONFIG_ASYMMETRIC_PUBLIC_KEY_SUBTYPE=y
-CONFIG_X509_CERTIFICATE_PARSER=y
-CONFIG_PKCS8_PRIVATE_KEY_PARSER=m
-CONFIG_PKCS7_MESSAGE_PARSER=y
-CONFIG_PKCS7_TEST_KEY=m
-CONFIG_SIGNED_PE_FILE_VERIFICATION=y
-CONFIG_FIPS_SIGNATURE_SELFTEST=y
-
-#
-# Certificates for signature checking
-#
-CONFIG_MODULE_SIG_KEY="certs/signing_key.pem"
-CONFIG_MODULE_SIG_KEY_TYPE_RSA=y
-# CONFIG_MODULE_SIG_KEY_TYPE_ECDSA is not set
-CONFIG_SYSTEM_TRUSTED_KEYRING=y
-CONFIG_SYSTEM_TRUSTED_KEYS=""
-CONFIG_SYSTEM_EXTRA_CERTIFICATE=y
-CONFIG_SYSTEM_EXTRA_CERTIFICATE_SIZE=4096
-CONFIG_SECONDARY_TRUSTED_KEYRING=y
-CONFIG_SYSTEM_BLACKLIST_KEYRING=y
-CONFIG_SYSTEM_BLACKLIST_HASH_LIST=""
-CONFIG_SYSTEM_REVOCATION_LIST=y
-CONFIG_SYSTEM_REVOCATION_KEYS=""
-CONFIG_SYSTEM_BLACKLIST_AUTH_UPDATE=y
-# end of Certificates for signature checking
-
-CONFIG_BINARY_PRINTF=y
-
-#
-# Library routines
-#
-CONFIG_RAID6_PQ=m
-CONFIG_RAID6_PQ_BENCHMARK=y
-CONFIG_LINEAR_RANGES=y
-CONFIG_PACKING=y
-CONFIG_BITREVERSE=y
-CONFIG_GENERIC_STRNCPY_FROM_USER=y
-CONFIG_GENERIC_STRNLEN_USER=y
-CONFIG_GENERIC_NET_UTILS=y
-CONFIG_CORDIC=m
-CONFIG_PRIME_NUMBERS=m
-CONFIG_RATIONAL=m
-CONFIG_STMP_DEVICE=y
-
-#
-# Crypto library routines
-#
-CONFIG_CRYPTO_LIB_UTILS=y
-CONFIG_CRYPTO_LIB_AES=y
-CONFIG_CRYPTO_LIB_ARC4=m
-CONFIG_CRYPTO_LIB_BLAKE2S_GENERIC=y
-CONFIG_CRYPTO_LIB_CHACHA_GENERIC=m
-CONFIG_CRYPTO_LIB_CHACHA=m
-CONFIG_CRYPTO_LIB_CURVE25519_GENERIC=m
-CONFIG_CRYPTO_LIB_CURVE25519=m
-CONFIG_CRYPTO_LIB_DES=m
-CONFIG_CRYPTO_LIB_POLY1305_RSIZE=1
-CONFIG_CRYPTO_LIB_POLY1305_GENERIC=m
-CONFIG_CRYPTO_LIB_POLY1305=m
-CONFIG_CRYPTO_LIB_CHACHA20POLY1305=m
-CONFIG_CRYPTO_LIB_SHA1=y
-CONFIG_CRYPTO_LIB_SHA256=y
-# end of Crypto library routines
-
-CONFIG_CRC_CCITT=m
-CONFIG_CRC16=m
-CONFIG_CRC_T10DIF=m
-CONFIG_CRC64_ROCKSOFT=m
-CONFIG_CRC_ITU_T=m
-CONFIG_CRC32=y
-CONFIG_CRC32_SELFTEST=m
-CONFIG_CRC32_SLICEBY8=y
-# CONFIG_CRC32_SLICEBY4 is not set
-# CONFIG_CRC32_SARWATE is not set
-# CONFIG_CRC32_BIT is not set
-CONFIG_CRC64=m
-CONFIG_CRC4=m
-CONFIG_CRC7=m
-CONFIG_LIBCRC32C=m
-CONFIG_CRC8=m
-CONFIG_XXHASH=y
-CONFIG_AUDIT_GENERIC=y
-CONFIG_RANDOM32_SELFTEST=y
-CONFIG_842_COMPRESS=m
-CONFIG_842_DECOMPRESS=m
-CONFIG_ZLIB_INFLATE=y
-CONFIG_ZLIB_DEFLATE=y
-CONFIG_LZO_COMPRESS=m
-CONFIG_LZO_DECOMPRESS=y
-CONFIG_LZ4_COMPRESS=m
-CONFIG_LZ4HC_COMPRESS=m
-CONFIG_LZ4_DECOMPRESS=y
-CONFIG_ZSTD_COMMON=y
-CONFIG_ZSTD_COMPRESS=m
-CONFIG_ZSTD_DECOMPRESS=y
-CONFIG_XZ_DEC=y
-CONFIG_XZ_DEC_X86=y
-CONFIG_XZ_DEC_POWERPC=y
-CONFIG_XZ_DEC_IA64=y
-CONFIG_XZ_DEC_ARM=y
-CONFIG_XZ_DEC_ARMTHUMB=y
-CONFIG_XZ_DEC_SPARC=y
-CONFIG_XZ_DEC_MICROLZMA=y
-CONFIG_XZ_DEC_BCJ=y
-CONFIG_XZ_DEC_TEST=m
-CONFIG_DECOMPRESS_GZIP=y
-CONFIG_DECOMPRESS_BZIP2=y
-CONFIG_DECOMPRESS_LZMA=y
-CONFIG_DECOMPRESS_XZ=y
-CONFIG_DECOMPRESS_LZO=y
-CONFIG_DECOMPRESS_LZ4=y
-CONFIG_DECOMPRESS_ZSTD=y
-CONFIG_GENERIC_ALLOCATOR=y
-CONFIG_REED_SOLOMON=m
-CONFIG_REED_SOLOMON_ENC8=y
-CONFIG_REED_SOLOMON_DEC8=y
-CONFIG_REED_SOLOMON_ENC16=y
-CONFIG_REED_SOLOMON_DEC16=y
-CONFIG_BCH=m
-CONFIG_TEXTSEARCH=y
-CONFIG_TEXTSEARCH_KMP=m
-CONFIG_TEXTSEARCH_BM=m
-CONFIG_TEXTSEARCH_FSM=m
-CONFIG_BTREE=y
-CONFIG_INTERVAL_TREE=y
-CONFIG_XARRAY_MULTI=y
-CONFIG_ASSOCIATIVE_ARRAY=y
-CONFIG_HAS_IOMEM=y
-CONFIG_NO_DMA=y
-CONFIG_NEED_SG_DMA_LENGTH=y
-CONFIG_NEED_DMA_MAP_STATE=y
-CONFIG_DMA_DECLARE_COHERENT=y
-CONFIG_DMA_NONCOHERENT_MMAP=y
-CONFIG_DMA_API_DEBUG=y
-CONFIG_DMA_API_DEBUG_SG=y
-CONFIG_DMA_MAP_BENCHMARK=y
-CONFIG_SGL_ALLOC=y
-CONFIG_DQL=y
-CONFIG_GLOB=y
-CONFIG_GLOB_SELFTEST=m
-CONFIG_NLATTR=y
-CONFIG_GENERIC_ATOMIC64=y
-CONFIG_LRU_CACHE=m
-CONFIG_CLZ_TAB=y
-CONFIG_IRQ_POLL=y
-CONFIG_MPILIB=y
-CONFIG_SIGNATURE=y
-CONFIG_DIMLIB=y
-CONFIG_LIBFDT=y
-CONFIG_OID_REGISTRY=y
-CONFIG_FONT_SUPPORT=m
-CONFIG_FONTS=y
-CONFIG_FONT_8x8=y
-CONFIG_FONT_8x16=y
-CONFIG_FONT_6x11=y
-CONFIG_FONT_7x14=y
-CONFIG_FONT_PEARL_8x8=y
-CONFIG_FONT_ACORN_8x8=y
-CONFIG_FONT_MINI_4x6=y
-CONFIG_FONT_6x10=y
-CONFIG_FONT_10x18=y
-CONFIG_FONT_SUN8x16=y
-CONFIG_FONT_SUN12x22=y
-CONFIG_FONT_TER16x32=y
-CONFIG_FONT_6x8=y
-CONFIG_SG_SPLIT=y
-CONFIG_SG_POOL=y
-CONFIG_STACKDEPOT=y
-CONFIG_STACKDEPOT_ALWAYS_INIT=y
-CONFIG_REF_TRACKER=y
-CONFIG_SBITMAP=y
-CONFIG_PARMAN=m
-CONFIG_OBJAGG=m
-# end of Library routines
-
-CONFIG_ASN1_ENCODER=m
-CONFIG_POLYNOMIAL=m
-
-#
-# Kernel hacking
-#
-
-#
-# printk and dmesg options
-#
-CONFIG_PRINTK_TIME=y
-CONFIG_PRINTK_CALLER=y
-CONFIG_STACKTRACE_BUILD_ID=y
-CONFIG_CONSOLE_LOGLEVEL_DEFAULT=7
-CONFIG_CONSOLE_LOGLEVEL_QUIET=4
-CONFIG_MESSAGE_LOGLEVEL_DEFAULT=4
-CONFIG_DYNAMIC_DEBUG=y
-CONFIG_DYNAMIC_DEBUG_CORE=y
-CONFIG_SYMBOLIC_ERRNAME=y
-CONFIG_DEBUG_BUGVERBOSE=y
-# end of printk and dmesg options
-
-CONFIG_DEBUG_KERNEL=y
-CONFIG_DEBUG_MISC=y
-
-#
-# Compile-time checks and compiler options
-#
-CONFIG_AS_HAS_NON_CONST_LEB128=y
-CONFIG_DEBUG_INFO_NONE=y
-# CONFIG_DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT is not set
-# CONFIG_DEBUG_INFO_DWARF4 is not set
-# CONFIG_DEBUG_INFO_DWARF5 is not set
-CONFIG_FRAME_WARN=1024
-CONFIG_STRIP_ASM_SYMS=y
-CONFIG_READABLE_ASM=y
-CONFIG_HEADERS_INSTALL=y
-CONFIG_DEBUG_SECTION_MISMATCH=y
-CONFIG_SECTION_MISMATCH_WARN_ONLY=y
-CONFIG_FRAME_POINTER=y
-CONFIG_VMLINUX_MAP=y
-CONFIG_DEBUG_FORCE_WEAK_PER_CPU=y
-# end of Compile-time checks and compiler options
-
-#
-# Generic Kernel Debugging Instruments
-#
-CONFIG_MAGIC_SYSRQ=y
-CONFIG_MAGIC_SYSRQ_DEFAULT_ENABLE=0x1
-CONFIG_MAGIC_SYSRQ_SERIAL=y
-CONFIG_MAGIC_SYSRQ_SERIAL_SEQUENCE=""
-CONFIG_DEBUG_FS=y
-CONFIG_DEBUG_FS_ALLOW_ALL=y
-# CONFIG_DEBUG_FS_DISALLOW_MOUNT is not set
-# CONFIG_DEBUG_FS_ALLOW_NONE is not set
-CONFIG_HAVE_ARCH_KGDB=y
-CONFIG_KGDB=y
-CONFIG_KGDB_HONOUR_BLOCKLIST=y
-CONFIG_KGDB_SERIAL_CONSOLE=m
-CONFIG_KGDB_TESTS=y
-CONFIG_KGDB_TESTS_ON_BOOT=y
-CONFIG_KGDB_TESTS_BOOT_STRING="V1F100"
-CONFIG_KGDB_KDB=y
-CONFIG_KDB_DEFAULT_ENABLE=0x1
-CONFIG_KDB_KEYBOARD=y
-CONFIG_KDB_CONTINUE_CATASTROPHIC=0
-CONFIG_UBSAN=y
-CONFIG_CC_HAS_UBSAN_BOUNDS=y
-CONFIG_UBSAN_BOUNDS=y
-CONFIG_UBSAN_ONLY_BOUNDS=y
-CONFIG_UBSAN_SHIFT=y
-CONFIG_UBSAN_DIV_ZERO=y
-CONFIG_UBSAN_UNREACHABLE=y
-CONFIG_UBSAN_BOOL=y
-CONFIG_UBSAN_ENUM=y
-CONFIG_TEST_UBSAN=m
-CONFIG_HAVE_KCSAN_COMPILER=y
-# end of Generic Kernel Debugging Instruments
-
-#
-# Networking Debugging
-#
-CONFIG_NET_DEV_REFCNT_TRACKER=y
-CONFIG_NET_NS_REFCNT_TRACKER=y
-CONFIG_DEBUG_NET=y
-# end of Networking Debugging
-
-#
-# Memory Debugging
-#
-CONFIG_PAGE_EXTENSION=y
-CONFIG_DEBUG_PAGEALLOC=y
-CONFIG_DEBUG_PAGEALLOC_ENABLE_DEFAULT=y
-CONFIG_SLUB_DEBUG=y
-CONFIG_SLUB_DEBUG_ON=y
-CONFIG_PAGE_OWNER=y
-CONFIG_PAGE_POISONING=y
-CONFIG_DEBUG_PAGE_REF=y
-CONFIG_DEBUG_OBJECTS=y
-CONFIG_DEBUG_OBJECTS_SELFTEST=y
-CONFIG_DEBUG_OBJECTS_FREE=y
-CONFIG_DEBUG_OBJECTS_TIMERS=y
-CONFIG_DEBUG_OBJECTS_WORK=y
-CONFIG_DEBUG_OBJECTS_RCU_HEAD=y
-CONFIG_DEBUG_OBJECTS_PERCPU_COUNTER=y
-CONFIG_DEBUG_OBJECTS_ENABLE_DEFAULT=1
-CONFIG_SHRINKER_DEBUG=y
-CONFIG_HAVE_DEBUG_KMEMLEAK=y
-CONFIG_DEBUG_KMEMLEAK=y
-CONFIG_DEBUG_KMEMLEAK_MEM_POOL_SIZE=16000
-CONFIG_DEBUG_KMEMLEAK_TEST=m
-CONFIG_DEBUG_KMEMLEAK_DEFAULT_OFF=y
-CONFIG_DEBUG_KMEMLEAK_AUTO_SCAN=y
-CONFIG_DEBUG_STACK_USAGE=y
-CONFIG_SCHED_STACK_END_CHECK=y
-CONFIG_DEBUG_VM_IRQSOFF=y
-CONFIG_DEBUG_VM=y
-CONFIG_DEBUG_VM_MAPLE_TREE=y
-CONFIG_DEBUG_VM_RB=y
-CONFIG_DEBUG_VM_PGFLAGS=y
-CONFIG_DEBUG_NOMMU_REGIONS=y
-CONFIG_DEBUG_MEMORY_INIT=y
-CONFIG_CC_HAS_WORKING_NOSANITIZE_ADDRESS=y
-# end of Memory Debugging
-
-CONFIG_DEBUG_SHIRQ=y
-
-#
-# Debug Oops, Lockups and Hangs
-#
-CONFIG_PANIC_ON_OOPS=y
-CONFIG_PANIC_ON_OOPS_VALUE=1
-CONFIG_PANIC_TIMEOUT=0
-CONFIG_LOCKUP_DETECTOR=y
-CONFIG_SOFTLOCKUP_DETECTOR=y
-CONFIG_BOOTPARAM_SOFTLOCKUP_PANIC=y
-CONFIG_DETECT_HUNG_TASK=y
-CONFIG_DEFAULT_HUNG_TASK_TIMEOUT=120
-CONFIG_BOOTPARAM_HUNG_TASK_PANIC=y
-CONFIG_WQ_WATCHDOG=y
-CONFIG_TEST_LOCKUP=m
-# end of Debug Oops, Lockups and Hangs
-
-#
-# Scheduler Debugging
-#
-CONFIG_SCHED_DEBUG=y
-CONFIG_SCHED_INFO=y
-CONFIG_SCHEDSTATS=y
-# end of Scheduler Debugging
-
-CONFIG_DEBUG_TIMEKEEPING=y
-
-#
-# Lock Debugging (spinlocks, mutexes, etc...)
-#
-CONFIG_LOCK_DEBUGGING_SUPPORT=y
-CONFIG_PROVE_LOCKING=y
-CONFIG_PROVE_RAW_LOCK_NESTING=y
-CONFIG_LOCK_STAT=y
-CONFIG_DEBUG_RT_MUTEXES=y
-CONFIG_DEBUG_SPINLOCK=y
-CONFIG_DEBUG_MUTEXES=y
-CONFIG_DEBUG_WW_MUTEX_SLOWPATH=y
-CONFIG_DEBUG_RWSEMS=y
-CONFIG_DEBUG_LOCK_ALLOC=y
-CONFIG_LOCKDEP=y
-CONFIG_LOCKDEP_BITS=15
-CONFIG_LOCKDEP_CHAINS_BITS=16
-CONFIG_LOCKDEP_STACK_TRACE_BITS=19
-CONFIG_LOCKDEP_STACK_TRACE_HASH_BITS=14
-CONFIG_LOCKDEP_CIRCULAR_QUEUE_BITS=12
-CONFIG_DEBUG_LOCKDEP=y
-CONFIG_DEBUG_ATOMIC_SLEEP=y
-CONFIG_DEBUG_LOCKING_API_SELFTESTS=y
-CONFIG_LOCK_TORTURE_TEST=m
-CONFIG_WW_MUTEX_SELFTEST=m
-CONFIG_SCF_TORTURE_TEST=m
-# end of Lock Debugging (spinlocks, mutexes, etc...)
-
-CONFIG_TRACE_IRQFLAGS=y
-CONFIG_DEBUG_IRQFLAGS=y
-CONFIG_STACKTRACE=y
-CONFIG_WARN_ALL_UNSEEDED_RANDOM=y
-CONFIG_DEBUG_KOBJECT=y
-CONFIG_DEBUG_KOBJECT_RELEASE=y
-CONFIG_HAVE_DEBUG_BUGVERBOSE=y
-
-#
-# Debug kernel data structures
-#
-CONFIG_DEBUG_LIST=y
-CONFIG_DEBUG_PLIST=y
-CONFIG_DEBUG_SG=y
-CONFIG_DEBUG_NOTIFIERS=y
-CONFIG_BUG_ON_DATA_CORRUPTION=y
-CONFIG_DEBUG_MAPLE_TREE=y
-# end of Debug kernel data structures
-
-CONFIG_DEBUG_CREDENTIALS=y
-
-#
-# RCU Debugging
-#
-CONFIG_PROVE_RCU=y
-CONFIG_PROVE_RCU_LIST=y
-CONFIG_TORTURE_TEST=m
-CONFIG_RCU_SCALE_TEST=m
-CONFIG_RCU_TORTURE_TEST=m
-CONFIG_RCU_REF_SCALE_TEST=m
-CONFIG_RCU_TRACE=y
-CONFIG_RCU_EQS_DEBUG=y
-# end of RCU Debugging
-
-CONFIG_DEBUG_WQ_FORCE_RR_CPU=y
-CONFIG_LATENCYTOP=y
-CONFIG_NOP_TRACER=y
-CONFIG_HAVE_FUNCTION_TRACER=y
-CONFIG_HAVE_FUNCTION_GRAPH_TRACER=y
-CONFIG_HAVE_DYNAMIC_FTRACE=y
-CONFIG_HAVE_FTRACE_MCOUNT_RECORD=y
-CONFIG_HAVE_SYSCALL_TRACEPOINTS=y
-CONFIG_TRACER_MAX_TRACE=y
-CONFIG_TRACE_CLOCK=y
-CONFIG_RING_BUFFER=y
-CONFIG_EVENT_TRACING=y
-CONFIG_CONTEXT_SWITCH_TRACER=y
-CONFIG_RING_BUFFER_ALLOW_SWAP=y
-CONFIG_PREEMPTIRQ_TRACEPOINTS=y
-CONFIG_TRACING=y
-CONFIG_GENERIC_TRACER=y
-CONFIG_TRACING_SUPPORT=y
-CONFIG_FTRACE=y
-CONFIG_BOOTTIME_TRACING=y
-CONFIG_FUNCTION_TRACER=y
-CONFIG_FUNCTION_GRAPH_TRACER=y
-CONFIG_DYNAMIC_FTRACE=y
-CONFIG_FUNCTION_PROFILER=y
-CONFIG_STACK_TRACER=y
-CONFIG_IRQSOFF_TRACER=y
-CONFIG_SCHED_TRACER=y
-CONFIG_HWLAT_TRACER=y
-CONFIG_OSNOISE_TRACER=y
-CONFIG_TIMERLAT_TRACER=y
-CONFIG_FTRACE_SYSCALLS=y
-CONFIG_TRACER_SNAPSHOT=y
-CONFIG_TRACER_SNAPSHOT_PER_CPU_SWAP=y
-CONFIG_BRANCH_PROFILE_NONE=y
-# CONFIG_PROFILE_ANNOTATED_BRANCHES is not set
-# CONFIG_PROFILE_ALL_BRANCHES is not set
-CONFIG_BLK_DEV_IO_TRACE=y
-CONFIG_KPROBE_EVENTS=y
-CONFIG_KPROBE_EVENTS_ON_NOTRACE=y
-CONFIG_BPF_EVENTS=y
-CONFIG_DYNAMIC_EVENTS=y
-CONFIG_PROBE_EVENTS=y
-CONFIG_FTRACE_MCOUNT_RECORD=y
-CONFIG_FTRACE_MCOUNT_USE_RECORDMCOUNT=y
-CONFIG_SYNTH_EVENTS=y
-CONFIG_USER_EVENTS=y
-CONFIG_TRACE_EVENT_INJECT=y
-CONFIG_TRACEPOINT_BENCHMARK=y
-CONFIG_RING_BUFFER_BENCHMARK=m
-CONFIG_TRACE_EVAL_MAP_FILE=y
-CONFIG_FTRACE_RECORD_RECURSION=y
-CONFIG_FTRACE_RECORD_RECURSION_SIZE=128
-CONFIG_RING_BUFFER_RECORD_RECURSION=y
-CONFIG_GCOV_PROFILE_FTRACE=y
-CONFIG_FTRACE_SELFTEST=y
-CONFIG_FTRACE_STARTUP_TEST=y
-CONFIG_EVENT_TRACE_STARTUP_TEST=y
-CONFIG_EVENT_TRACE_TEST_SYSCALLS=y
-CONFIG_RING_BUFFER_STARTUP_TEST=y
-CONFIG_RING_BUFFER_VALIDATE_TIME_DELTAS=y
-CONFIG_PREEMPTIRQ_DELAY_TEST=m
-CONFIG_SYNTH_EVENT_GEN_TEST=m
-CONFIG_KPROBE_EVENT_GEN_TEST=m
-CONFIG_DA_MON_EVENTS=y
-CONFIG_DA_MON_EVENTS_ID=y
-CONFIG_RV=y
-CONFIG_RV_MON_WWNR=y
-CONFIG_RV_REACTORS=y
-CONFIG_RV_REACT_PRINTK=y
-CONFIG_RV_REACT_PANIC=y
-# CONFIG_SAMPLES is not set
-# CONFIG_STRICT_DEVMEM is not set
-
-#
-# sh Debugging
-#
-CONFIG_SH_STANDARD_BIOS=y
-CONFIG_STACK_DEBUG=y
-CONFIG_DUMP_CODE=y
-CONFIG_DWARF_UNWINDER=y
-CONFIG_SH_NO_BSS_INIT=y
-CONFIG_MCOUNT=y
-# end of sh Debugging
-
-#
-# Kernel Testing and Coverage
-#
-CONFIG_KUNIT=m
-CONFIG_KUNIT_DEBUGFS=y
-CONFIG_KUNIT_TEST=m
-CONFIG_KUNIT_EXAMPLE_TEST=m
-CONFIG_KUNIT_ALL_TESTS=m
-CONFIG_KUNIT_DEFAULT_ENABLED=y
-CONFIG_NOTIFIER_ERROR_INJECTION=m
-CONFIG_PM_NOTIFIER_ERROR_INJECT=m
-CONFIG_OF_RECONFIG_NOTIFIER_ERROR_INJECT=m
-CONFIG_NETDEV_NOTIFIER_ERROR_INJECT=m
-CONFIG_FAULT_INJECTION=y
-CONFIG_FAILSLAB=y
-CONFIG_FAIL_PAGE_ALLOC=y
-CONFIG_FAULT_INJECTION_USERCOPY=y
-CONFIG_FAIL_MAKE_REQUEST=y
-CONFIG_FAIL_IO_TIMEOUT=y
-CONFIG_FAIL_FUTEX=y
-CONFIG_FAULT_INJECTION_DEBUG_FS=y
-CONFIG_FAIL_MMC_REQUEST=y
-CONFIG_FAIL_SUNRPC=y
-CONFIG_FAULT_INJECTION_STACKTRACE_FILTER=y
-CONFIG_CC_HAS_SANCOV_TRACE_PC=y
-CONFIG_RUNTIME_TESTING_MENU=y
-CONFIG_LKDTM=m
-CONFIG_CPUMASK_KUNIT_TEST=m
-CONFIG_TEST_LIST_SORT=m
-CONFIG_TEST_MIN_HEAP=m
-CONFIG_TEST_SORT=m
-CONFIG_TEST_DIV64=m
-CONFIG_KPROBES_SANITY_TEST=m
-CONFIG_BACKTRACE_SELF_TEST=m
-CONFIG_TEST_REF_TRACKER=m
-CONFIG_RBTREE_TEST=m
-CONFIG_REED_SOLOMON_TEST=m
-CONFIG_INTERVAL_TREE_TEST=m
-CONFIG_PERCPU_TEST=m
-CONFIG_ATOMIC64_SELFTEST=m
-CONFIG_ASYNC_RAID6_TEST=m
-CONFIG_TEST_HEXDUMP=m
-CONFIG_STRING_SELFTEST=m
-CONFIG_TEST_STRING_HELPERS=m
-CONFIG_TEST_STRSCPY=m
-CONFIG_TEST_KSTRTOX=m
-CONFIG_TEST_PRINTF=m
-CONFIG_TEST_SCANF=m
-CONFIG_TEST_BITMAP=m
-CONFIG_TEST_UUID=m
-CONFIG_TEST_XARRAY=m
-CONFIG_TEST_RHASHTABLE=m
-CONFIG_TEST_SIPHASH=m
-CONFIG_TEST_IDA=m
-CONFIG_TEST_PARMAN=m
-CONFIG_TEST_LKM=m
-CONFIG_TEST_BITOPS=m
-CONFIG_TEST_USER_COPY=m
-CONFIG_TEST_BPF=m
-CONFIG_TEST_BLACKHOLE_DEV=m
-CONFIG_FIND_BIT_BENCHMARK=m
-CONFIG_TEST_FIRMWARE=m
-CONFIG_TEST_SYSCTL=m
-CONFIG_BITFIELD_KUNIT=m
-CONFIG_HASH_KUNIT_TEST=m
-CONFIG_RESOURCE_KUNIT_TEST=m
-CONFIG_SYSCTL_KUNIT_TEST=m
-CONFIG_LIST_KUNIT_TEST=m
-CONFIG_LINEAR_RANGES_TEST=m
-CONFIG_CMDLINE_KUNIT_TEST=m
-CONFIG_BITS_TEST=m
-CONFIG_SLUB_KUNIT_TEST=m
-CONFIG_RATIONAL_KUNIT_TEST=m
-CONFIG_MEMCPY_KUNIT_TEST=m
-CONFIG_IS_SIGNED_TYPE_KUNIT_TEST=m
-CONFIG_OVERFLOW_KUNIT_TEST=m
-CONFIG_STACKINIT_KUNIT_TEST=m
-CONFIG_TEST_UDELAY=m
-CONFIG_TEST_STATIC_KEYS=m
-CONFIG_TEST_DYNAMIC_DEBUG=m
-CONFIG_TEST_KMOD=m
-CONFIG_TEST_MEMCAT_P=m
-CONFIG_TEST_OBJAGG=m
-CONFIG_TEST_MEMINIT=m
-CONFIG_TEST_FREE_PAGES=m
-# end of Kernel Testing and Coverage
-
-#
-# Rust hacking
-#
-# end of Rust hacking
-
-CONFIG_WARN_MISSING_DOCUMENTS=y
-CONFIG_WARN_ABI_ERRORS=y
-# end of Kernel hacking
-
---fhpo8hEKiKmCHMeF--
