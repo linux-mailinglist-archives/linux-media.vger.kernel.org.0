@@ -2,57 +2,57 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6082F651415
-	for <lists+linux-media@lfdr.de>; Mon, 19 Dec 2022 21:39:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3A64B651424
+	for <lists+linux-media@lfdr.de>; Mon, 19 Dec 2022 21:42:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232400AbiLSUjJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 19 Dec 2022 15:39:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52976 "EHLO
+        id S232323AbiLSUmj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 19 Dec 2022 15:42:39 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56150 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232635AbiLSUiy (ORCPT
+        with ESMTP id S229712AbiLSUmh (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 19 Dec 2022 15:38:54 -0500
-Received: from mail-qt1-x836.google.com (mail-qt1-x836.google.com [IPv6:2607:f8b0:4864:20::836])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1EF0611A10
-        for <linux-media@vger.kernel.org>; Mon, 19 Dec 2022 12:38:29 -0800 (PST)
-Received: by mail-qt1-x836.google.com with SMTP id h26so5491083qtu.2
-        for <linux-media@vger.kernel.org>; Mon, 19 Dec 2022 12:38:29 -0800 (PST)
+        Mon, 19 Dec 2022 15:42:37 -0500
+Received: from mail-qv1-xf2d.google.com (mail-qv1-xf2d.google.com [IPv6:2607:f8b0:4864:20::f2d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 294E6D13F
+        for <linux-media@vger.kernel.org>; Mon, 19 Dec 2022 12:42:36 -0800 (PST)
+Received: by mail-qv1-xf2d.google.com with SMTP id a17so7000584qvt.9
+        for <linux-media@vger.kernel.org>; Mon, 19 Dec 2022 12:42:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=31vbTCJ1FQ88+HdPn1SShRJyYwZ+oGDNLQOaB4qvNNE=;
-        b=Kyk28UvNHJ3WQw7Y/VpDQu+2aC8AudzzBO83Zr9Gidt0t+KRAi/CLxxrlP59GNPcuy
-         1VcHPLxDHkj3BpzGE/71h0fHb/oiQrXedbzTAUo21W9FtH1Z6hDNMkiR4dUGHkv1XZRX
-         wO26I+UOEqxvIt9i9RDg/gQAxMP3wixPvv9lem0A3POU5MmrFa1HJJieAKHGm3b+Ec/3
-         hu6Qi6Bw9XDvqCHg4D9HReFM6RdOLugPN0ZMlVN3Q+BS3DbixX51efJRmWbICqISPpXE
-         FE6/5GZj5GmYpp6ewjcXwIfAWWZXCRTq2gLUBrTrDIm9hvnkBw5baNveltdi72yKST3X
-         m2Xg==
+        bh=inRemP8l8T0lJzsgX9r8VHvv2ljO5+mNrIR9f4Y4KPY=;
+        b=blzh/78hYWyfNH0CYRrQGM5NaXRbBZ8BvRLLmkz0fd7CiS8LQGWiZ4lDnwecxgSFw8
+         46GzvEvVtZ/CvJPEa3V0fxlh9pj+5JVOgcL/HZqP1dCsE1RVbUFyps+E482HuaNqe3X9
+         nn4kuotIA9bR6tfy8Tj3/6DodRscd9ErPYWTmqeaJfcf7owU2qkX43W9aaN7NKcaTCmH
+         HNX1tXEhoiW64LJkBQOwef5CLKMoxUrtG3enHmiikuHTBUlZA/4WOeh7Voz/L1jP4ulc
+         vQkLTopFUKy/6v1WA/TUp9+KjHAd8ltaJ1/UOot3S0nzJ/pXDl3zSDoQNzM+VyJ/iHzB
+         9Tmw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=31vbTCJ1FQ88+HdPn1SShRJyYwZ+oGDNLQOaB4qvNNE=;
-        b=czHCYSLXKoPy4YCQXFxwlKrWmH1asCz0Zt/geS99N8uhb7gY8p+FF/RQZQjGzJ6kMs
-         AGEIUXw5q/nsjtbuhDZa8VafDluwJ7yY3CoEoYrAIFvlB5fJPOm2XM5HH1CYRTFGRj0G
-         qeIIvtBBiyiDYbiUcK+CVniUsrQ+mNvFTR3W9z/S/l71vrMbhUhB4nrDHw+5QI3UtuGp
-         PcXK29HMcl3oSKhHAk/PtvJpZHjaGBFhlOS8MmIx2yTfXaujHL5anfnY9OIoD5lkD05a
-         vjbVsl/M0jIN9rhx/lhqFOshuPcHD1S4fPYYyQzyEaYtVoXVFn+sOB78w0TQWWoioFD4
-         N5Pg==
-X-Gm-Message-State: ANoB5pnCAPISos96rIVSEgpLa8L1c5Y9LBALt8aDa59UivjI2dkcE9X0
-        ur6KTpse49e3mj2BHd0pRucyDQ==
-X-Google-Smtp-Source: AA0mqf4Vb8phNbzN6HOEYP2ewvTSUBFN6wLEe8bPdtAoynvoW6bPty3w7YRsCBqndO+1K9AFPO8+XA==
-X-Received: by 2002:ac8:75d0:0:b0:3a8:2b87:9fd8 with SMTP id z16-20020ac875d0000000b003a82b879fd8mr36696351qtq.48.1671482305620;
-        Mon, 19 Dec 2022 12:38:25 -0800 (PST)
+        bh=inRemP8l8T0lJzsgX9r8VHvv2ljO5+mNrIR9f4Y4KPY=;
+        b=in8cr2LDQYUhAMN1ABtGRAdL2E9I0RmR+fG+vK+y+NddlpE2OEfyLPBvB9v0YNuV6s
+         nfhhR4zn7jndZSBW2NWIF4V8moELr2BefeiWNvUtdl0LlLfmnaaeRyrvUEOck2ewKeX/
+         5bhJxvfwYGzs9l2FJqeHse8fpwdss1ydS7dnsVKIr5gt3VgO6HFv4FERGCJW/Pnqkd4f
+         uqKZqWZGgHzwm/4ajCMVPyRW32j/k97yKUWOuG/Fv2Snoaaa4wgsds/Iyfb8YmDnUUqT
+         N5MJTP1+ijG0UORdIrGjVI4i4/MWg/v2mvL9Al1ZMWiVgwz2Im4p2b3Ck3hpHZrvpICz
+         KDUQ==
+X-Gm-Message-State: ANoB5pk5fQK58ReQBdiLX/jrS+bD+ALPsMHuOW3EKd6DEQ5d/igwl2yA
+        /srgMpwZMG6JVW/2ZiBu98QxMg==
+X-Google-Smtp-Source: AA0mqf4SYwFIwGR65cN1wMfvs0LEu1yaJxKFNyFY9MUJ6uxERA72MHixsFX26tdJqFk6F/3XlTn39Q==
+X-Received: by 2002:a05:6214:3c8e:b0:4c6:e0d0:6f51 with SMTP id ok14-20020a0562143c8e00b004c6e0d06f51mr63004918qvb.43.1671482555087;
+        Mon, 19 Dec 2022 12:42:35 -0800 (PST)
 Received: from nicolas-tpx395.localdomain (192-222-136-102.qc.cable.ebox.net. [192.222.136.102])
-        by smtp.gmail.com with ESMTPSA id v9-20020a05622a188900b003a826e25bc4sm6683526qtc.64.2022.12.19.12.38.24
+        by smtp.gmail.com with ESMTPSA id bi4-20020a05620a318400b006fb0e638f12sm7632463qkb.4.2022.12.19.12.42.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Dec 2022 12:38:25 -0800 (PST)
-Message-ID: <e3663c85c75d09259a3135cb6ccfe7d6231bd752.camel@ndufresne.ca>
-Subject: Re: [PATCH v1 4/9] media: verisilicon: Check AV1 bitstreams bit
- depth
+        Mon, 19 Dec 2022 12:42:34 -0800 (PST)
+Message-ID: <44b06c15410e184e8e856a4a882d1b42a02fa8d2.camel@ndufresne.ca>
+Subject: Re: [PATCH v1 5/9] media: verisilicon: Compute motion vectors size
+ for AV1 frames
 From:   Nicolas Dufresne <nicolas@ndufresne.ca>
 To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
         ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
@@ -62,17 +62,17 @@ To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
 Cc:     linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
         devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         linux-kernel@vger.kernel.org, kernel@collabora.com
-Date:   Mon, 19 Dec 2022 15:38:23 -0500
-In-Reply-To: <20221219155616.848690-5-benjamin.gaignard@collabora.com>
+Date:   Mon, 19 Dec 2022 15:42:33 -0500
+In-Reply-To: <20221219155616.848690-6-benjamin.gaignard@collabora.com>
 References: <20221219155616.848690-1-benjamin.gaignard@collabora.com>
-         <20221219155616.848690-5-benjamin.gaignard@collabora.com>
+         <20221219155616.848690-6-benjamin.gaignard@collabora.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.46.2 (3.46.2-1.fc37) 
 MIME-Version: 1.0
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE autolearn=ham
-        autolearn_force=no version=3.4.6
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -81,40 +81,92 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Le lundi 19 d=C3=A9cembre 2022 =C3=A0 16:56 +0100, Benjamin Gaignard a =C3=
 =A9crit=C2=A0:
-> The driver supports 8 and 10 bits bitstreams, make sure to discard
-> other cases.
+> Compute the additional required to store motion vectors at
+
+requires *space*, requires *buffer* ? I think this is missing a word.
+
+> the end of the frames buffers.
+>=20
 >=20
 > Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 > ---
->  drivers/media/platform/verisilicon/hantro_drv.c | 6 ++++++
->  1 file changed, 6 insertions(+)
+>  drivers/media/platform/verisilicon/hantro_hw.h      | 13 +++++++++++++
+>  .../media/platform/verisilicon/hantro_postproc.c    |  3 +++
+>  drivers/media/platform/verisilicon/hantro_v4l2.c    |  5 +++++
+>  3 files changed, 21 insertions(+)
 >=20
-> diff --git a/drivers/media/platform/verisilicon/hantro_drv.c b/drivers/me=
-dia/platform/verisilicon/hantro_drv.c
-> index 8e93710dcfed..e10fc59634dd 100644
-> --- a/drivers/media/platform/verisilicon/hantro_drv.c
-> +++ b/drivers/media/platform/verisilicon/hantro_drv.c
-> @@ -282,7 +282,13 @@ static int hantro_try_ctrl(struct v4l2_ctrl *ctrl)
->  		/* We only support profile 0 */
->  		if (dec_params->profile !=3D 0)
->  			return -EINVAL;
-> +	} else if (ctrl->id =3D=3D V4L2_CID_STATELESS_AV1_SEQUENCE) {
-> +		const struct v4l2_ctrl_av1_sequence *sequence =3D ctrl->p_new.p_av1_se=
-quence;
-> +
-> +		if (sequence->bit_depth !=3D 8 && sequence->bit_depth !=3D 10)
-> +			return -EINVAL;
-
-As you state in the cover letter, should this just be this for now ?
-
-
-> +		if (sequence->bit_depth !=3D 8)
-> +			return -EINVAL;
-
-
->  	}
-> +
->  	return 0;
+> diff --git a/drivers/media/platform/verisilicon/hantro_hw.h b/drivers/med=
+ia/platform/verisilicon/hantro_hw.h
+> index e83f0c523a30..8b3bc7e31395 100644
+> --- a/drivers/media/platform/verisilicon/hantro_hw.h
+> +++ b/drivers/media/platform/verisilicon/hantro_hw.h
+> @@ -417,6 +417,19 @@ hantro_hevc_mv_size(unsigned int width, unsigned int=
+ height)
+>  	return width * height / 16;
 >  }
 > =20
+> +static inline unsigned short hantro_av1_num_sbs(unsigned short dimension=
+)
+> +{
+> +	return DIV_ROUND_UP(dimension, 64) + 1;
+
+Why plus one ? I've tested locally with the logical DIV_ROUND_UP(dimension,=
+ 64),
+and didn't see any difference. It then match hantro_vp_num_sbs(), so can't =
+this
+be shared ?
+
+> +}
+> +
+> +static inline size_t
+> +hantro_av1_mv_size(unsigned int width, unsigned int height)
+> +{
+> +	size_t num_sbs =3D hantro_av1_num_sbs(width) * hantro_av1_num_sbs(heigh=
+t);
+> +
+> +	return ALIGN(num_sbs * 384, 16) + 512;
+
+Shall the magic numbers be turned into defines ?
+
+> +}
+> +
+>  int hantro_g1_mpeg2_dec_run(struct hantro_ctx *ctx);
+>  int rockchip_vpu2_mpeg2_dec_run(struct hantro_ctx *ctx);
+>  void hantro_mpeg2_dec_copy_qtable(u8 *qtable,
+> diff --git a/drivers/media/platform/verisilicon/hantro_postproc.c b/drive=
+rs/media/platform/verisilicon/hantro_postproc.c
+> index 09d8cf942689..7dc39519a2ee 100644
+> --- a/drivers/media/platform/verisilicon/hantro_postproc.c
+> +++ b/drivers/media/platform/verisilicon/hantro_postproc.c
+> @@ -213,6 +213,9 @@ int hantro_postproc_alloc(struct hantro_ctx *ctx)
+>  	else if (ctx->vpu_src_fmt->fourcc =3D=3D V4L2_PIX_FMT_HEVC_SLICE)
+>  		buf_size +=3D hantro_hevc_mv_size(pix_mp.width,
+>  						pix_mp.height);
+> +	else if (ctx->vpu_src_fmt->fourcc =3D=3D V4L2_PIX_FMT_AV1_FRAME)
+> +		buf_size +=3D hantro_av1_mv_size(pix_mp.width,
+> +					       pix_mp.height);
+
+nit: Time to turn into a switch or use an ops ?
+
+> =20
+>  	for (i =3D 0; i < num_buffers; ++i) {
+>  		struct hantro_aux_buf *priv =3D &ctx->postproc.dec_q[i];
+> diff --git a/drivers/media/platform/verisilicon/hantro_v4l2.c b/drivers/m=
+edia/platform/verisilicon/hantro_v4l2.c
+> index 2c7a805289e7..d41dcb108a6d 100644
+> --- a/drivers/media/platform/verisilicon/hantro_v4l2.c
+> +++ b/drivers/media/platform/verisilicon/hantro_v4l2.c
+> @@ -334,6 +334,11 @@ static int hantro_try_fmt(const struct hantro_ctx *c=
+tx,
+>  			pix_mp->plane_fmt[0].sizeimage +=3D
+>  				hantro_hevc_mv_size(pix_mp->width,
+>  						    pix_mp->height);
+> +		else if (ctx->vpu_src_fmt->fourcc =3D=3D V4L2_PIX_FMT_AV1_FRAME &&
+> +			 !hantro_needs_postproc(ctx, fmt))
+> +			pix_mp->plane_fmt[0].sizeimage +=3D
+> +				hantro_av1_mv_size(pix_mp->width,
+> +						   pix_mp->height);
+>  	} else if (!pix_mp->plane_fmt[0].sizeimage) {
+>  		/*
+>  		 * For coded formats the application can specify
 
