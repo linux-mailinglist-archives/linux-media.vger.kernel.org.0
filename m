@@ -2,36 +2,36 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 21AB9650F7B
-	for <lists+linux-media@lfdr.de>; Mon, 19 Dec 2022 16:56:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7A8BC650F72
+	for <lists+linux-media@lfdr.de>; Mon, 19 Dec 2022 16:56:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232513AbiLSP4h (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 19 Dec 2022 10:56:37 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41544 "EHLO
+        id S232454AbiLSP4d (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 19 Dec 2022 10:56:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41572 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232268AbiLSP43 (ORCPT
+        with ESMTP id S232012AbiLSP42 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 19 Dec 2022 10:56:29 -0500
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC6CA65E4;
-        Mon, 19 Dec 2022 07:56:26 -0800 (PST)
+        Mon, 19 Dec 2022 10:56:28 -0500
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC4BE656A;
+        Mon, 19 Dec 2022 07:56:27 -0800 (PST)
 Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:f69c:5603:d4ce:7aa2])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
         (No client certificate requested)
         (Authenticated sender: benjamin.gaignard)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 16E876602C51;
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 855BC6602C9B;
         Mon, 19 Dec 2022 15:56:25 +0000 (GMT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
         s=mail; t=1671465385;
-        bh=WKnUc4065UFAP8ex+HL2CHU0GCNHlvHhtIo5+EmiUnM=;
+        bh=clrb85uBLZrtq/eiKowGtGKaTSUfChoOlR8wUbgxMps=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=gv/CtYTKPpRno7W9iePoA/tVBB01PPhcSkj3Av1aX/MRnENraKw8IJFuwOP5jcmQJ
-         iBXgMqX3pe2+ZhTOna8ITfVdMqWeZa7nBB673QG5eAAbQN4jSVWH9mqLSslmmqDQlH
-         uePkfM2INX8y45vPOiQKJTdP8gkYcarVz6OS4k+7+UcQbn4AeY8cT0V9VRhVZ6hPkq
-         ibyLQG6dnly9Vg5svXvGE2mVq7x2diTRNP4JKXSGmZCao8H7c879G29pJ+rJv1LSxz
-         dBMelhXjkr7pij8N458GPYXkkSrBidR69h+hbEezr6S03HFKl3kf6tiUqZpM1X7Gtf
-         kZOWkbjIn7fnQ==
+        b=ERhshhQa3OMjKETsx63bhrPVufqu1a3ezfVAAB8P6RuiUzaxA8pn03ZeycG5zrbae
+         aA/oBkgg59k52dHVxUPbY2+YMHJXbK+chjaHiFdwXcs5q3/yzWowWzFp2Pt3lB1C4h
+         qiH6hJ4JXgtbgH/CW81R3VLedEORdBC2perbghUSFF6gZvmBGgeYN1aF7/FyP17ItB
+         q+boacas9RyIUOv3FlXt15AFLX1/Pf9cbB2if6Ki4jCVw97wVldmCCCTP19Z5+IEfW
+         Jq7WNilJSP2NlSx32Nr7mpg+QzhQpVLatzDTHIckfGrhvm31+8zSyF7jI5fezTIJgF
+         xIaqrF64LnLrQ==
 From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
 To:     ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
         mchehab@kernel.org, robh+dt@kernel.org,
@@ -41,9 +41,9 @@ Cc:     linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
         devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         linux-kernel@vger.kernel.org, kernel@collabora.com,
         Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: [PATCH v1 3/9] media: verisilicon: Save bit depth for AV1 decoder
-Date:   Mon, 19 Dec 2022 16:56:10 +0100
-Message-Id: <20221219155616.848690-4-benjamin.gaignard@collabora.com>
+Subject: [PATCH v1 4/9] media: verisilicon: Check AV1 bitstreams bit depth
+Date:   Mon, 19 Dec 2022 16:56:11 +0100
+Message-Id: <20221219155616.848690-5-benjamin.gaignard@collabora.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221219155616.848690-1-benjamin.gaignard@collabora.com>
 References: <20221219155616.848690-1-benjamin.gaignard@collabora.com>
@@ -58,64 +58,32 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Store bit depth information from AV1 sequence control.
+The driver supports 8 and 10 bits bitstreams, make sure to discard
+other cases.
 
 Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 ---
- .../media/platform/verisilicon/hantro_drv.c   | 26 +++++++++++++++++++
- 1 file changed, 26 insertions(+)
+ drivers/media/platform/verisilicon/hantro_drv.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
 diff --git a/drivers/media/platform/verisilicon/hantro_drv.c b/drivers/media/platform/verisilicon/hantro_drv.c
-index 4500e1fc0f2c..8e93710dcfed 100644
+index 8e93710dcfed..e10fc59634dd 100644
 --- a/drivers/media/platform/verisilicon/hantro_drv.c
 +++ b/drivers/media/platform/verisilicon/hantro_drv.c
-@@ -324,6 +324,25 @@ static int hantro_vp9_s_ctrl(struct v4l2_ctrl *ctrl)
+@@ -282,7 +282,13 @@ static int hantro_try_ctrl(struct v4l2_ctrl *ctrl)
+ 		/* We only support profile 0 */
+ 		if (dec_params->profile != 0)
+ 			return -EINVAL;
++	} else if (ctrl->id == V4L2_CID_STATELESS_AV1_SEQUENCE) {
++		const struct v4l2_ctrl_av1_sequence *sequence = ctrl->p_new.p_av1_sequence;
++
++		if (sequence->bit_depth != 8 && sequence->bit_depth != 10)
++			return -EINVAL;
+ 	}
++
  	return 0;
  }
  
-+static int hantro_av1_s_ctrl(struct v4l2_ctrl *ctrl)
-+{
-+	struct hantro_ctx *ctx;
-+
-+	ctx = container_of(ctrl->handler,
-+			   struct hantro_ctx, ctrl_handler);
-+
-+	switch (ctrl->id) {
-+	case V4L2_CID_STATELESS_AV1_SEQUENCE:
-+		ctx->bit_depth = ctrl->p_new.p_av1_sequence->bit_depth;
-+		break;
-+	default:
-+		return -EINVAL;
-+	}
-+
-+	return 0;
-+}
-+
-+
- static const struct v4l2_ctrl_ops hantro_ctrl_ops = {
- 	.try_ctrl = hantro_try_ctrl,
- };
-@@ -336,6 +355,12 @@ static const struct v4l2_ctrl_ops hantro_vp9_ctrl_ops = {
- 	.s_ctrl = hantro_vp9_s_ctrl,
- };
- 
-+static const struct v4l2_ctrl_ops hantro_av1_ctrl_ops = {
-+	.try_ctrl = hantro_try_ctrl,
-+	.s_ctrl = hantro_av1_s_ctrl,
-+};
-+
-+
- #define HANTRO_JPEG_ACTIVE_MARKERS	(V4L2_JPEG_ACTIVE_MARKER_APP0 | \
- 					 V4L2_JPEG_ACTIVE_MARKER_COM | \
- 					 V4L2_JPEG_ACTIVE_MARKER_DQT | \
-@@ -513,6 +538,7 @@ static const struct hantro_ctrl controls[] = {
- 		.codec = HANTRO_AV1_DECODER,
- 		.cfg = {
- 			.id = V4L2_CID_STATELESS_AV1_SEQUENCE,
-+			.ops = &hantro_av1_ctrl_ops,
- 		},
- 	}, {
- 		.codec = HANTRO_AV1_DECODER,
 -- 
 2.34.1
 
