@@ -2,65 +2,69 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2592165149F
-	for <lists+linux-media@lfdr.de>; Mon, 19 Dec 2022 22:08:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D6DC56514E8
+	for <lists+linux-media@lfdr.de>; Mon, 19 Dec 2022 22:29:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232606AbiLSVH6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 19 Dec 2022 16:07:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41536 "EHLO
+        id S232779AbiLSV3h (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 19 Dec 2022 16:29:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50588 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232584AbiLSVHy (ORCPT
+        with ESMTP id S232758AbiLSV3g (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 19 Dec 2022 16:07:54 -0500
-Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com [IPv6:2a00:1450:4864:20::230])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 56D72DF70
-        for <linux-media@vger.kernel.org>; Mon, 19 Dec 2022 13:07:51 -0800 (PST)
-Received: by mail-lj1-x230.google.com with SMTP id q2so1209409ljp.6
-        for <linux-media@vger.kernel.org>; Mon, 19 Dec 2022 13:07:51 -0800 (PST)
+        Mon, 19 Dec 2022 16:29:36 -0500
+Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com [IPv6:2a00:1450:4864:20::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C8C5913F4C
+        for <linux-media@vger.kernel.org>; Mon, 19 Dec 2022 13:29:33 -0800 (PST)
+Received: by mail-lf1-x133.google.com with SMTP id y25so15654640lfa.9
+        for <linux-media@vger.kernel.org>; Mon, 19 Dec 2022 13:29:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=DvDFRM+cIsRIk+HqgujcIiOfyICxAxZ5sfBT0wH/F0w=;
-        b=hpybuwdtfx5Ig/p4JwDOF5ggHdKpWlXU5aP/RV04mEmmy3DqzGUiI3+9gHNzeTDm9L
-         GqypwiESMeD44/3G78iWvyJQPpDlCg08IMLmFAMyPuLs6FgDoDilntwlc4AEeI37Cszm
-         bYKmGKEKFLlLBR7FTCbCI4Wch61JbEbrGgmXyGbK9MGObrhJLy6PR1kfHe2CrP5A6g1Q
-         Rf1uCtE4q7Mfzwjnn2kqE6H2ny2GFTWenxke03HJ6pdHaCYEMRM5BI4l0m/b8hJ4rgup
-         54awbrrDz8GYEYZoEH+ZX905D5jHFWzE6Nq3uz3zWINYUZYf5ZhoeNL81OO2mpav/37L
-         83Mw==
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=bUcJbVxMOaJY/dHHh8xvsq+/igbf7VEloWZtT9T4IzU=;
+        b=rzxTEULuNPC0Sk1BptH9+AxtBNYpQ4FvyVS+RZXbKY2D7sBHJ+hvBHwrVH0tDi7Rvz
+         h4OqVfIgl0PXf8Ovl/2qSyZ/KoyDOz9b003uMNhVpm1J9JtBDCAKWeuWE15pPZW2gIIv
+         h2chuLEfXiovnqiNG9l6ZAuMR5mFNmzXxnQB4SVLDVxbGW409nYMSJQ8Jmpb0JuRijyo
+         okvz2kocRJ8wM8Iz2aai0aQ9EMHjWfEAQzNAt/EigCOd9aZW5+sIKW1ofP+jf5VWzLqc
+         ANlZC/28G3mnTqMXI1dTNeDbeSi+5h4yy7kRA41V1CQcQkqDfSx4HNK+10KuUXPbxWgi
+         7jYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=DvDFRM+cIsRIk+HqgujcIiOfyICxAxZ5sfBT0wH/F0w=;
-        b=nNXBr3FkIMPB3H1jfpLE1GE+7uylOScfl+LCW9zkPFy2h1e5ERFg6QRsGU5xpNSohE
-         y2ikAbOUbr+gXavHULrITTHwCxc4bw8isRypEdM5APiVMENByLauf3ljOePSUZxs+yX7
-         m0CgZ0DnhfHW/fPoClj+g4upjOLgNTrfsYLfQU/0i9MHND8m24ylJrUpH6CbkH7ZibEA
-         gFso/rPlzxwu59bpLS46VZG2UES0pId/5rxzrhSl5o34bMCsIKX6jUnuPpwptT6ExTss
-         R6dtHfuhgFcOAkxQ4wZzQmsF0pfyM2cMOnZ0CtwFv0Qs2j6wNoHFmAHWoCT+k9oo4clG
-         7sMw==
-X-Gm-Message-State: ANoB5pmWEh9M88O2omTvRsaP1SzrMbUjubBYjER3cAostK1jAfi8G60H
-        Q+8e99T5i+GrR6r0uDZ8FZ8RDzbYs0+EE9i9rhVZXQ==
-X-Google-Smtp-Source: AA0mqf7yh+36itgm76QOQNXUPNSIh1XAiQ1h3fas3L7sHK0kevEvJn+HhC5t4DANokXbaBLR76Kk/IEFhKA2q7XG/jE=
-X-Received: by 2002:a05:651c:c87:b0:27b:afc1:da9 with SMTP id
- bz7-20020a05651c0c8700b0027bafc10da9mr1862896ljb.218.1671484069613; Mon, 19
- Dec 2022 13:07:49 -0800 (PST)
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=bUcJbVxMOaJY/dHHh8xvsq+/igbf7VEloWZtT9T4IzU=;
+        b=sN658x1D3JIxwddZs1yot82Gr9ThocJxbukwT2hAE0XiAS7KQbXeMJ+W6PLQlF40Xa
+         iOmBYpNHTaWDxtYZN3+oAzdMdwpcuFkR/gV81je+Q/+JxVg4Z+wqWLzg/Oq+y6Tt0B+q
+         GGGzyEXEWzv8mLGKR1WINUambQNdw+gIWGhndTezhbqXjl/Xs7duSckgj1kdLlabxAve
+         e8Sxvw0bRNQeLZEZfChCQnJnEspGIQXWomTSoF0crlfRIFPDu/O5d/QHK163qonAvbDK
+         cgJqBbCYLbGMTJxSVayKZ3MFflMFV5qdKgEe3MY0lIq2rJXhNIMkje/gJO5jtL6lSYRJ
+         GQPw==
+X-Gm-Message-State: AFqh2krYndKV5b5Bd/4k9XJMtNWEcFgHemvRp+vFA0glDLjN06B1s5fL
+        3/kr1MDFhihM9f30UbyXvOx9Mw/lhRwMEaxPoXudXgPqGrDoBab5
+X-Google-Smtp-Source: AMrXdXuizsuNjhFyKkOnbtLJwUqaBbpBBlxoGkLKHoZC+MtkShGjXM8bjGIdWmzqC9sIRApRvAJrUe+gsXpQ2zhJRfc=
+X-Received: by 2002:a05:6512:3f1e:b0:4c8:a047:8833 with SMTP id
+ y30-20020a0565123f1e00b004c8a0478833mr206178lfa.653.1671485371730; Mon, 19
+ Dec 2022 13:29:31 -0800 (PST)
 MIME-Version: 1.0
 References: <20221219155616.848690-1-benjamin.gaignard@collabora.com>
-In-Reply-To: <20221219155616.848690-1-benjamin.gaignard@collabora.com>
+ <20221219155616.848690-4-benjamin.gaignard@collabora.com> <07747babe7f83a496f9cd82849c6c2386550ac28.camel@ndufresne.ca>
+In-Reply-To: <07747babe7f83a496f9cd82849c6c2386550ac28.camel@ndufresne.ca>
 From:   Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-Date:   Mon, 19 Dec 2022 18:07:38 -0300
-Message-ID: <CAAEAJfBP_D65kjHbwYP+LWfWKfzFtHtWo+3bDcbdO8tPtBurUA@mail.gmail.com>
-Subject: Re: [PATCH v1 0/9] AV1 stateless decoder for RK3588
-To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Cc:     p.zabel@pengutronix.de, mchehab@kernel.org, robh+dt@kernel.org,
+Date:   Mon, 19 Dec 2022 18:29:20 -0300
+Message-ID: <CAAEAJfDoX_aSTg1TO8F21iSriYeTXtRbHPo8wxx5br2v6eCt7Q@mail.gmail.com>
+Subject: Re: [PATCH v1 3/9] media: verisilicon: Save bit depth for AV1 decoder
+To:     Nicolas Dufresne <nicolas@ndufresne.ca>
+Cc:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        p.zabel@pengutronix.de, mchehab@kernel.org, robh+dt@kernel.org,
         krzysztof.kozlowski+dt@linaro.org, heiko@sntech.de,
         daniel.almeida@collabora.com, nicolas.dufresne@collabora.co.uk,
         linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
         devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         linux-kernel@vger.kernel.org, kernel@collabora.com
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
         autolearn=unavailable autolearn_force=no version=3.4.6
@@ -70,74 +74,103 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Benjamin,
+Bonjour Nicolas,
 
-On Mon, Dec 19, 2022 at 12:56 PM Benjamin Gaignard
-<benjamin.gaignard@collabora.com> wrote:
+On Mon, Dec 19, 2022 at 5:37 PM Nicolas Dufresne <nicolas@ndufresne.ca> wro=
+te:
 >
-> This series implement AV1 stateless decoder for RK3588 SoC.
-> The harware support 8 and 10 bits bitstreams up to 7680x4320.
-> AV1 feature like film grain or scaling are done by the postprocessor.
-> The driver can produce NV12_4L4 and NV12 pixel formats.
-> A native 10bits NV12_4L4 format is possible but need more investigation
-> to be completly documented and enabled.
+> Le lundi 19 d=C3=A9cembre 2022 =C3=A0 16:56 +0100, Benjamin Gaignard a =
+=C3=A9crit :
+> > Store bit depth information from AV1 sequence control.
+> >
+> > Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> > ---
+> >  .../media/platform/verisilicon/hantro_drv.c   | 26 +++++++++++++++++++
+> >  1 file changed, 26 insertions(+)
+> >
+> > diff --git a/drivers/media/platform/verisilicon/hantro_drv.c b/drivers/=
+media/platform/verisilicon/hantro_drv.c
+> > index 4500e1fc0f2c..8e93710dcfed 100644
+> > --- a/drivers/media/platform/verisilicon/hantro_drv.c
+> > +++ b/drivers/media/platform/verisilicon/hantro_drv.c
+> > @@ -324,6 +324,25 @@ static int hantro_vp9_s_ctrl(struct v4l2_ctrl *ctr=
+l)
+> >       return 0;
+> >  }
+> >
+> > +static int hantro_av1_s_ctrl(struct v4l2_ctrl *ctrl)
+> > +{
+> > +     struct hantro_ctx *ctx;
+> > +
+> > +     ctx =3D container_of(ctrl->handler,
+> > +                        struct hantro_ctx, ctrl_handler);
+> > +
+> > +     switch (ctrl->id) {
+> > +     case V4L2_CID_STATELESS_AV1_SEQUENCE:
+> > +             ctx->bit_depth =3D ctrl->p_new.p_av1_sequence->bit_depth;
 >
-> It is based on Daniel's "[RFC,v3] media: Add AV1 uAPI" [1] patches and
-> Sebastian's device-tree patches for RK3588.
+> That seems a little be weak, what happens if you change the bit_depth wit=
+h a
+> non-request s_ctrl while its decoding ? To be this deserve a little bit o=
+f
+> protection, a something that validate and copy it at the start of the dec=
+oding.
 >
 
-I thought the AV1 decoder in RK3588 was really a separate hardware
-from the Hantro G1/G2.
+Oh, nice catch. We need to return EBUSY, see
+https://www.kernel.org/doc/html/v5.0/media/uapi/v4l/buffer.html#interaction=
+s-between-formats-controls-and-buffers.
 
-Shouldn't this need a new driver for this new hardware?
+There's already an API in the V4L2 control framework for drivers to use,
+see v4l2_ctrl_grab in
+https://www.kernel.org/doc/html/v5.0/media/kapi/v4l2-controls.html#active-a=
+nd-grabbed-controls.
+
+> p.s. I know, VP9 seems similar, though arguably that was copied from jpeg=
+, for
+> which it seems totally save to change the quality at run-time.
+>
+
+No, wasn't copied from JPEG :-) I just didn't realize this was an
+issue, but it is
+given the bit_depth affects the buffers so you are correct, it needs
+to be fixed for VP9 too.
 
 Thanks!
 Ezequiel
 
-> The full branch can be found here:
-> https://gitlab.collabora.com/linux/for-upstream/-/commits/rk3588_av1_decoder_v1
->
-> Fluster score is: 151/239 while testing AV1-TEST-VECTORS with GStreamer-AV1-V4L2SL-Gst1.0.
-> The failing tests are:
-> - 10bits bitstream because 10bits output formats aren't yet implemented.
-> - the 2 tests with 2 spatial layers: few errors in luma/chroma values
-> - tests with resolution < hardware limit (64x64)
->
-> Benjamin
->
-> Benjamin Gaignard (9):
->   dt-bindings: media: rockchip-vpu: Add rk3588 vpu compatible
->   media: verisilicon: Add AV1 decoder mode and controls
->   media: verisilicon: Save bit depth for AV1 decoder
->   media: verisilicon: Check AV1 bitstreams bit depth
->   media: verisilicon: Compute motion vectors size for AV1 frames
->   media: verisilicon: Add AV1 entropy helpers
->   media: verisilicon: Add Rockchip AV1 decoder
->   media: verisilicon: Add film grain feature to AV1 driver
->   media: verisilicon: Enable AV1 decoder on rk3588
->
->  .../bindings/media/rockchip-vpu.yaml          |    1 +
->  drivers/media/platform/verisilicon/Makefile   |    3 +
->  drivers/media/platform/verisilicon/hantro.h   |    5 +
->  .../media/platform/verisilicon/hantro_drv.c   |   54 +
->  .../media/platform/verisilicon/hantro_hw.h    |  102 +
->  .../platform/verisilicon/hantro_postproc.c    |    3 +
->  .../media/platform/verisilicon/hantro_v4l2.c  |    5 +
->  .../verisilicon/rockchip_av1_entropymode.c    | 4536 +++++++++++++++++
->  .../verisilicon/rockchip_av1_entropymode.h    |  272 +
->  .../verisilicon/rockchip_av1_filmgrain.c      |  401 ++
->  .../verisilicon/rockchip_av1_filmgrain.h      |   36 +
->  .../verisilicon/rockchip_vpu981_hw_av1_dec.c  | 2280 +++++++++
->  .../verisilicon/rockchip_vpu981_regs.h        |  477 ++
->  .../platform/verisilicon/rockchip_vpu_hw.c    |  116 +
->  14 files changed, 8291 insertions(+)
->  create mode 100644 drivers/media/platform/verisilicon/rockchip_av1_entropymode.c
->  create mode 100644 drivers/media/platform/verisilicon/rockchip_av1_entropymode.h
->  create mode 100644 drivers/media/platform/verisilicon/rockchip_av1_filmgrain.c
->  create mode 100644 drivers/media/platform/verisilicon/rockchip_av1_filmgrain.h
->  create mode 100644 drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c
->  create mode 100644 drivers/media/platform/verisilicon/rockchip_vpu981_regs.h
->
-> --
-> 2.34.1
+> > +             break;
+> > +     default:
+> > +             return -EINVAL;
+> > +     }
+> > +
+> > +     return 0;
+> > +}
+> > +
+> > +
+> >  static const struct v4l2_ctrl_ops hantro_ctrl_ops =3D {
+> >       .try_ctrl =3D hantro_try_ctrl,
+> >  };
+> > @@ -336,6 +355,12 @@ static const struct v4l2_ctrl_ops hantro_vp9_ctrl_=
+ops =3D {
+> >       .s_ctrl =3D hantro_vp9_s_ctrl,
+> >  };
+> >
+> > +static const struct v4l2_ctrl_ops hantro_av1_ctrl_ops =3D {
+> > +     .try_ctrl =3D hantro_try_ctrl,
+> > +     .s_ctrl =3D hantro_av1_s_ctrl,
+> > +};
+> > +
+> > +
+> >  #define HANTRO_JPEG_ACTIVE_MARKERS   (V4L2_JPEG_ACTIVE_MARKER_APP0 | \
+> >                                        V4L2_JPEG_ACTIVE_MARKER_COM | \
+> >                                        V4L2_JPEG_ACTIVE_MARKER_DQT | \
+> > @@ -513,6 +538,7 @@ static const struct hantro_ctrl controls[] =3D {
+> >               .codec =3D HANTRO_AV1_DECODER,
+> >               .cfg =3D {
+> >                       .id =3D V4L2_CID_STATELESS_AV1_SEQUENCE,
+> > +                     .ops =3D &hantro_av1_ctrl_ops,
+> >               },
+> >       }, {
+> >               .codec =3D HANTRO_AV1_DECODER,
 >
