@@ -2,57 +2,57 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0DC296513E8
-	for <lists+linux-media@lfdr.de>; Mon, 19 Dec 2022 21:29:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DA07E651409
+	for <lists+linux-media@lfdr.de>; Mon, 19 Dec 2022 21:37:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232288AbiLSU3Q (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 19 Dec 2022 15:29:16 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48780 "EHLO
+        id S232471AbiLSUhi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 19 Dec 2022 15:37:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52726 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232341AbiLSU2w (ORCPT
+        with ESMTP id S232037AbiLSUhd (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 19 Dec 2022 15:28:52 -0500
-Received: from mail-qt1-x82a.google.com (mail-qt1-x82a.google.com [IPv6:2607:f8b0:4864:20::82a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1413B8FDE
-        for <linux-media@vger.kernel.org>; Mon, 19 Dec 2022 12:28:51 -0800 (PST)
-Received: by mail-qt1-x82a.google.com with SMTP id s9so9296994qtx.6
-        for <linux-media@vger.kernel.org>; Mon, 19 Dec 2022 12:28:51 -0800 (PST)
+        Mon, 19 Dec 2022 15:37:33 -0500
+Received: from mail-qt1-x829.google.com (mail-qt1-x829.google.com [IPv6:2607:f8b0:4864:20::829])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF14F8FDA
+        for <linux-media@vger.kernel.org>; Mon, 19 Dec 2022 12:37:32 -0800 (PST)
+Received: by mail-qt1-x829.google.com with SMTP id c11so1460856qtn.11
+        for <linux-media@vger.kernel.org>; Mon, 19 Dec 2022 12:37:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=PECBBcrgpKAeHwq8TDeEP5JS5G3rnettIaoWdcM7j1Y=;
-        b=W1blpq5+a9QGCDuj+ebjQo6UJdZOn1UG0Be52m8UmMOlWV4eArUHbQrV4nAvUDk3uK
-         18Hd+tT1f90ljLLwwdiOXB/JrVt5gydloMRTRgFVzWBZYCrnIzZUQQME1rnbNYnmV3U+
-         wKEJPFpa8x7FhOjyGiPqa7l6pNJqQMNyIWU+4WF56yCJvAR86MYf/XlzeUKaAAZQJ4xG
-         lnjJJW/qdGxtKxk2QSd/tRh+foWvzkpNEC+XRtPkD4NrcjRVaq/apzufNhPgoREKu08a
-         D42j5OURe9wKigUsFZBsQhrbkB1DNeTkFbLWtjvHQT2jhHLvlAa7KfPCiNqN02EYqckP
-         tjiA==
+        bh=D121soTYfgdsSiMhqDo8vXYbl/2/UB4vZ7pkm+XbiQI=;
+        b=KAx+X75c2L8IRTwtnT6HXVcOR3BXZjT7XpmjTK8mxw+h17ed9ekmlGtYac4lRZznaz
+         w5eaXCjP8zJCDz4NgPFI3L6sVD7Y/tzL42HHbi80o1REoVsOiYssHbc+M2EMMiscGncU
+         BU9jIjgMZfDUd/KvhAg+6+y4UyOoRM7qAjvqJRdNT41YJ9HbWoSJJW7/6S06EWjJvvnl
+         Z1Y+cOVNZ3vlCib2fCy3+pxcID1wxbEnIi29E6cpM+NUBDIvAOaYSQYNl1Q3JkPuNBQg
+         jDQe/bkLJWIGVDBxkls+AkK5YJL8VyhT3fIi+dmV3iogxvoKJAX9HIhbQ50e1xiH1QJL
+         SRPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=PECBBcrgpKAeHwq8TDeEP5JS5G3rnettIaoWdcM7j1Y=;
-        b=LnltY8BxMeE4y6Bvsg+aQ/5ZYrufTDyl0eYPgW7nR6CCxgR6rzSBIeGkN7W1EDTggN
-         89ZDnqc00LHTs5mDN3MP5e48w0kQtgtdEImhrGDTruLyH6YP8djAE+j7JPdMXaNtMJSf
-         PqXw4S5L4MKyCNcZkNHzUn1b1L6ts8i9ACaIdzeaYKAjHCTpBEFQca2TxCOm0MxTQQ8K
-         qpM+tIJmUt3WInY3+yy1it/nu31CSF2Nrt6Yt5+JlVzfohQWh55zL0DhUMDrLkn5VF0x
-         XTbM0HZlVoPXNgVFVC14lD89F5BqvmVLvGMWhmGRLmBGuheCzMUZIaqjM929aNej9by3
-         EoKg==
-X-Gm-Message-State: ANoB5pkaM3NgONHWQ7MlpYc7WuNAmO86573pa4IL98gO3Sz2wigyCIEJ
-        cgITVGcLFVentYEIpiuTN/Z3TQ==
-X-Google-Smtp-Source: AA0mqf6aOuki7WAAYbi0dAxo2ur7bA3i9IwDBkMk78Jl1dEcj+6GgwyewWvr3HhJZnhoPSQ/KnGKMA==
-X-Received: by 2002:a05:622a:5085:b0:3a7:e110:81e5 with SMTP id fp5-20020a05622a508500b003a7e11081e5mr54094898qtb.53.1671481730077;
-        Mon, 19 Dec 2022 12:28:50 -0800 (PST)
+        bh=D121soTYfgdsSiMhqDo8vXYbl/2/UB4vZ7pkm+XbiQI=;
+        b=gGVVR0knf9Ly+jfrL9wcBG6O42/fJDcrwbYfUKV/abFTDfqQU/d0Zg/60Gn0zclCjm
+         4XqSxQjirX/TgtTQG2bLK5dQyjJiE/qO9YzQ74qXIWCXfVcaxh7jeAMG0nTdyStjf3MI
+         NeZsTHwruWHYZUzF2hpwo3gjLU0mnCp2/Lyv0nF3gOrYq9dVy3V+u0MLQm5Ue3kAK4IR
+         Bi8wOylKwMYerNuotbT6fySBtZJySRAc9F0k0tPWEqkAMbYsjRIZ6xA4xAjjIEMtrK6h
+         KjOCg3gmcMyf2LPVumhTFWWR3SMykdrhYXqLKa3LuWDMCUhsnvACDiF32FFPptDRq2MG
+         3YEQ==
+X-Gm-Message-State: ANoB5pnFh9HcWH7BIv1AukNC344cKIu7tRzj+Y7e/fVdgUQdNLZ/4Gbe
+        L8xNH4UbZAD2D1nUDseAxI7ZYw==
+X-Google-Smtp-Source: AA0mqf4PjjR5YuPxd2C/7IlPqSW9LZaOvKOAJv5OLtKXoi+ebxjd5U92/z0usQVACJUbXl0WNxlbLA==
+X-Received: by 2002:ac8:4b58:0:b0:3a7:f3c4:dcd1 with SMTP id e24-20020ac84b58000000b003a7f3c4dcd1mr55927556qts.23.1671482251893;
+        Mon, 19 Dec 2022 12:37:31 -0800 (PST)
 Received: from nicolas-tpx395.localdomain (192-222-136-102.qc.cable.ebox.net. [192.222.136.102])
-        by smtp.gmail.com with ESMTPSA id r3-20020ac85e83000000b0039953dcc480sm6478803qtx.88.2022.12.19.12.28.48
+        by smtp.gmail.com with ESMTPSA id c3-20020ac80543000000b003a6a7a20575sm6580988qth.73.2022.12.19.12.37.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Dec 2022 12:28:49 -0800 (PST)
-Message-ID: <ab54d584ce30b99ace048da9b9c9ee317df1a5c5.camel@ndufresne.ca>
-Subject: Re: [PATCH v1 2/9] media: verisilicon: Add AV1 decoder mode and
- controls
+        Mon, 19 Dec 2022 12:37:31 -0800 (PST)
+Message-ID: <07747babe7f83a496f9cd82849c6c2386550ac28.camel@ndufresne.ca>
+Subject: Re: [PATCH v1 3/9] media: verisilicon: Save bit depth for AV1
+ decoder
 From:   Nicolas Dufresne <nicolas@ndufresne.ca>
 To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
         ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
@@ -62,10 +62,10 @@ To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
 Cc:     linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
         devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         linux-kernel@vger.kernel.org, kernel@collabora.com
-Date:   Mon, 19 Dec 2022 15:28:48 -0500
-In-Reply-To: <20221219155616.848690-3-benjamin.gaignard@collabora.com>
+Date:   Mon, 19 Dec 2022 15:37:30 -0500
+In-Reply-To: <20221219155616.848690-4-benjamin.gaignard@collabora.com>
 References: <20221219155616.848690-1-benjamin.gaignard@collabora.com>
-         <20221219155616.848690-3-benjamin.gaignard@collabora.com>
+         <20221219155616.848690-4-benjamin.gaignard@collabora.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.46.2 (3.46.2-1.fc37) 
@@ -81,78 +81,75 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Le lundi 19 d=C3=A9cembre 2022 =C3=A0 16:56 +0100, Benjamin Gaignard a =C3=
 =A9crit=C2=A0:
-> Add AV1 decoder as new decoder mode to Hantro driver.
-> Register needed AV1 controls for the decoder.
+> Store bit depth information from AV1 sequence control.
 >=20
 > Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-
-Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-
 > ---
->  drivers/media/platform/verisilicon/hantro.h   |  3 +++
->  .../media/platform/verisilicon/hantro_drv.c   | 21 +++++++++++++++++++
->  2 files changed, 24 insertions(+)
+>  .../media/platform/verisilicon/hantro_drv.c   | 26 +++++++++++++++++++
+>  1 file changed, 26 insertions(+)
 >=20
-> diff --git a/drivers/media/platform/verisilicon/hantro.h b/drivers/media/=
-platform/verisilicon/hantro.h
-> index 2989ebc631cc..61480825b856 100644
-> --- a/drivers/media/platform/verisilicon/hantro.h
-> +++ b/drivers/media/platform/verisilicon/hantro.h
-> @@ -38,6 +38,7 @@ struct hantro_postproc_ops;
->  #define HANTRO_H264_DECODER	BIT(18)
->  #define HANTRO_HEVC_DECODER	BIT(19)
->  #define HANTRO_VP9_DECODER	BIT(20)
-> +#define HANTRO_AV1_DECODER	BIT(21)
->  #define HANTRO_DECODERS		0xffff0000
-> =20
->  /**
-> @@ -111,6 +112,7 @@ struct hantro_variant {
->   * @HANTRO_MODE_VP8_DEC: VP8 decoder.
->   * @HANTRO_MODE_HEVC_DEC: HEVC decoder.
->   * @HANTRO_MODE_VP9_DEC: VP9 decoder.
-> + * @HANTRO_MODE_AV1_DEC: AV1 decoder
->   */
->  enum hantro_codec_mode {
->  	HANTRO_MODE_NONE =3D -1,
-> @@ -120,6 +122,7 @@ enum hantro_codec_mode {
->  	HANTRO_MODE_VP8_DEC,
->  	HANTRO_MODE_HEVC_DEC,
->  	HANTRO_MODE_VP9_DEC,
-> +	HANTRO_MODE_AV1_DEC,
->  };
-> =20
->  /*
 > diff --git a/drivers/media/platform/verisilicon/hantro_drv.c b/drivers/me=
 dia/platform/verisilicon/hantro_drv.c
-> index 8cb4a68c9119..4500e1fc0f2c 100644
+> index 4500e1fc0f2c..8e93710dcfed 100644
 > --- a/drivers/media/platform/verisilicon/hantro_drv.c
 > +++ b/drivers/media/platform/verisilicon/hantro_drv.c
-> @@ -498,6 +498,27 @@ static const struct hantro_ctrl controls[] =3D {
->  		.cfg =3D {
->  			.id =3D V4L2_CID_STATELESS_VP9_COMPRESSED_HDR,
->  		},
-> +	}, {
-> +		.codec =3D HANTRO_AV1_DECODER,
-> +		.cfg =3D {
-> +			.id =3D V4L2_CID_STATELESS_AV1_FRAME,
-> +		},
-> +	}, {
-> +		.codec =3D HANTRO_AV1_DECODER,
-> +		.cfg =3D {
-> +			.id =3D V4L2_CID_STATELESS_AV1_TILE_GROUP_ENTRY,
-> +			.dims =3D { V4L2_AV1_MAX_TILE_COUNT },
-> +		},
-> +	}, {
-> +		.codec =3D HANTRO_AV1_DECODER,
-> +		.cfg =3D {
-> +			.id =3D V4L2_CID_STATELESS_AV1_SEQUENCE,
-> +		},
-> +	}, {
-> +		.codec =3D HANTRO_AV1_DECODER,
-> +		.cfg =3D {
-> +			.id =3D V4L2_CID_STATELESS_AV1_FILM_GRAIN,
-> +		},
->  	},
+> @@ -324,6 +324,25 @@ static int hantro_vp9_s_ctrl(struct v4l2_ctrl *ctrl)
+>  	return 0;
+>  }
+> =20
+> +static int hantro_av1_s_ctrl(struct v4l2_ctrl *ctrl)
+> +{
+> +	struct hantro_ctx *ctx;
+> +
+> +	ctx =3D container_of(ctrl->handler,
+> +			   struct hantro_ctx, ctrl_handler);
+> +
+> +	switch (ctrl->id) {
+> +	case V4L2_CID_STATELESS_AV1_SEQUENCE:
+> +		ctx->bit_depth =3D ctrl->p_new.p_av1_sequence->bit_depth;
+
+That seems a little be weak, what happens if you change the bit_depth with =
+a
+non-request s_ctrl while its decoding ? To be this deserve a little bit of
+protection, a something that validate and copy it at the start of the decod=
+ing.
+
+p.s. I know, VP9 seems similar, though arguably that was copied from jpeg, =
+for
+which it seems totally save to change the quality at run-time.
+
+> +		break;
+> +	default:
+> +		return -EINVAL;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +
+>  static const struct v4l2_ctrl_ops hantro_ctrl_ops =3D {
+>  	.try_ctrl =3D hantro_try_ctrl,
+>  };
+> @@ -336,6 +355,12 @@ static const struct v4l2_ctrl_ops hantro_vp9_ctrl_op=
+s =3D {
+>  	.s_ctrl =3D hantro_vp9_s_ctrl,
 >  };
 > =20
+> +static const struct v4l2_ctrl_ops hantro_av1_ctrl_ops =3D {
+> +	.try_ctrl =3D hantro_try_ctrl,
+> +	.s_ctrl =3D hantro_av1_s_ctrl,
+> +};
+> +
+> +
+>  #define HANTRO_JPEG_ACTIVE_MARKERS	(V4L2_JPEG_ACTIVE_MARKER_APP0 | \
+>  					 V4L2_JPEG_ACTIVE_MARKER_COM | \
+>  					 V4L2_JPEG_ACTIVE_MARKER_DQT | \
+> @@ -513,6 +538,7 @@ static const struct hantro_ctrl controls[] =3D {
+>  		.codec =3D HANTRO_AV1_DECODER,
+>  		.cfg =3D {
+>  			.id =3D V4L2_CID_STATELESS_AV1_SEQUENCE,
+> +			.ops =3D &hantro_av1_ctrl_ops,
+>  		},
+>  	}, {
+>  		.codec =3D HANTRO_AV1_DECODER,
 
