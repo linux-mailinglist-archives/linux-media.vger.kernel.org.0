@@ -2,122 +2,149 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B4AFB650985
-	for <lists+linux-media@lfdr.de>; Mon, 19 Dec 2022 10:49:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6DA646509C7
+	for <lists+linux-media@lfdr.de>; Mon, 19 Dec 2022 11:10:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231652AbiLSJtD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 19 Dec 2022 04:49:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53196 "EHLO
+        id S231224AbiLSKK3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 19 Dec 2022 05:10:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33310 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230346AbiLSJtC (ORCPT
+        with ESMTP id S229499AbiLSKK2 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 19 Dec 2022 04:49:02 -0500
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 28CACA198;
-        Mon, 19 Dec 2022 01:49:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1671443341; x=1702979341;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=tgB/eer+Nn8UbItkoP+8n6tFDvBmvw2POlYQ41/VwAc=;
-  b=SPqQaMoo2xMlIlH8npgQlyZdjQ4IeGIe4kaSeOTuLzFqbjNNG5csTSpL
-   hF3PiXuvdIYfvSF55h+KnahCpsIz7E+2hCBKfTC+/5wsmiVrr2gCRJTE7
-   hNAD2gANyT0u28QPHw6zub78LS5QTgWEbq3QKEhnCfUr3VDxEDLHwRxga
-   4Uyz2bGuF2ARvXinq7vLqshpmaKaarn18JqV85HLPCtG2T4lSwoin4HCO
-   m/AgVWO+CXkk3xeoHzKZdxO7OpaEAOY7bOpzz0v0ddjnz+eDhjmgEcdQY
-   DBm7ggmqKUbFRZWSg+8Bfa8f3n1sHYcIBADiImgZ0OgxhCi4KZ/mjO5Ac
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10565"; a="298986885"
-X-IronPort-AV: E=Sophos;i="5.96,255,1665471600"; 
-   d="scan'208";a="298986885"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Dec 2022 01:49:00 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10565"; a="681165056"
-X-IronPort-AV: E=Sophos;i="5.96,255,1665471600"; 
-   d="scan'208";a="681165056"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by orsmga008.jf.intel.com with ESMTP; 19 Dec 2022 01:48:54 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-        (envelope-from <andriy.shevchenko@intel.com>)
-        id 1p7ClP-00CE3g-1S;
-        Mon, 19 Dec 2022 11:48:51 +0200
-Date:   Mon, 19 Dec 2022 11:48:51 +0200
-From:   Andy Shevchenko <andriy.shevchenko@intel.com>
-To:     Luca Ceresoli <luca.ceresoli@bootlin.com>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Wolfram Sang <wsa@kernel.org>,
-        Matti Vaittinen <Matti.Vaittinen@fi.rohmeurope.com>,
+        Mon, 19 Dec 2022 05:10:28 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E84875FCB
+        for <linux-media@vger.kernel.org>; Mon, 19 Dec 2022 02:10:27 -0800 (PST)
+Received: from ideasonboard.com (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 21592825;
+        Mon, 19 Dec 2022 11:10:26 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1671444626;
+        bh=hOq8Pkztqg5oE/x9LbX/sSre5kgLt2bOOF5V59w5uWY=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=VM3ScZFyIqCnpdhpHXx5P1AaYR+elQTAZCaoDZ51G/fygPEu656T9PyeDqM00cqwk
+         FZ5nUC16AvcIAewdU9wyLHmXwlGTReH6IlDZbx17lKlVwmbt8tPOrEiKoH9XZKlAhE
+         5vANWS8XqwddRzRHpmXtLj8fDo7yt78bDBlWGa/I=
+Date:   Mon, 19 Dec 2022 11:10:23 +0100
+From:   Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To:     Jai Luthra <j-luthra@ti.com>
+Cc:     Steve Longerbeam <slongerbeam@gmail.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Peter Rosin <peda@axentia.se>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Michael Tretter <m.tretter@pengutronix.de>,
-        Shawn Tu <shawnx.tu@intel.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Mike Pagano <mpagano@gentoo.org>,
-        Krzysztof =?utf-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>,
-        Marek Vasut <marex@denx.de>,
-        Luca Ceresoli <luca@lucaceresoli.net>
-Subject: Re: [PATCH v5 1/8] i2c: core: let adapters be notified of client
- attach/detach
-Message-ID: <Y6Azg9GJ/ntUlS+P@smile.fi.intel.com>
-References: <20221208104006.316606-1-tomi.valkeinen@ideasonboard.com>
- <20221208104006.316606-2-tomi.valkeinen@ideasonboard.com>
- <Y5YLi2md2571NQrY@pendragon.ideasonboard.com>
- <20221219095143.4b49b447@booty>
+        linux-media@vger.kernel.org, Nishanth Menon <nm@ti.com>
+Subject: Re: [PATCH 3/3] media: ov5640: Honor power on time in init_setting
+Message-ID: <20221219101023.kgctbtqbuq6ajjmo@uno.localdomain>
+References: <20221216134409.6868-1-j-luthra@ti.com>
+ <20221216134409.6868-4-j-luthra@ti.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20221219095143.4b49b447@booty>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_PASS,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20221216134409.6868-4-j-luthra@ti.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Dec 19, 2022 at 09:51:43AM +0100, Luca Ceresoli wrote:
-> On Sun, 11 Dec 2022 18:55:39 +0200
-> Laurent Pinchart <laurent.pinchart@ideasonboard.com> wrote:
-> > On Thu, Dec 08, 2022 at 12:39:59PM +0200, Tomi Valkeinen wrote:
+Hi Jai
 
-...
+On Fri, Dec 16, 2022 at 07:14:09PM +0530, Jai Luthra wrote:
+> From: Nishanth Menon <nm@ti.com>
+>
+> OV5640 Datasheet[1] Figures 2-3 and 2-4 indicate the timing sequences
+> that is expected during various initialization steps. Note the power
+> on time includes t0 + t1 + t2 >= 5ms, delay for poweron.
+>
+> As indicated in section 2.8, the PWDN assertion can either be via
+> external pin control OR via the register 0x3008 bit 6 (see table 7-1 in
+> [1])
+>
+> [1] https://cdn.sparkfun.com/datasheets/Sensors/LightImaging/OV5640_datasheet.pdf
+>
+> Fixes: 19a81c1426c1 ("[media] add Omnivision OV5640 sensor driver")
+> Signed-off-by: Nishanth Menon <nm@ti.com>
+> ---
+>  drivers/media/i2c/ov5640.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
+> index fa84e60de0db..ff2a2c9358e7 100644
+> --- a/drivers/media/i2c/ov5640.c
+> +++ b/drivers/media/i2c/ov5640.c
+> @@ -608,7 +608,7 @@ static const struct reg_value ov5640_init_setting[] = {
+>  	{0x583b, 0x28, 0, 0}, {0x583c, 0x42, 0, 0}, {0x583d, 0xce, 0, 0},
+>  	{0x5025, 0x00, 0, 0}, {0x3a0f, 0x30, 0, 0}, {0x3a10, 0x28, 0, 0},
+>  	{0x3a1b, 0x30, 0, 0}, {0x3a1e, 0x26, 0, 0}, {0x3a11, 0x60, 0, 0},
+> -	{0x3a1f, 0x14, 0, 0}, {0x3008, 0x02, 0, 0}, {0x3c00, 0x04, 0, 300},
+> +	{0x3a1f, 0x14, 0, 0}, {0x3008, 0x02, 0, 5}, {0x3c00, 0x04, 0, 300},
 
-> > This may be a stupid question, but couldn't you instead use the
-> > BUS_NOTIFY_ADD_DEVICE and BUS_NOTIFY_DEL_DEVICE bus notifiers ?
-> 
-> I'm not sure they would be the correct tool for this task. Bus
-> notifiers inform about new events on the 'struct bus_type, i.e. any
-> event on the global i2c bus type. In the i2c world this means being
-> notified about new _adapters_, which is exactly what
-> drivers/i2c/i2c-dev.c does.
-> 
-> Here, however, we need to be informed about new _clients_ being added
-> under a specific adapter.
+Two observations:
 
-This is for example exactly what ACPI integration in I2C framework does. But...
+as per the description of register 0x3008
 
-> I'm not sure whether the bus notifiers can
-> inform about new clients in addition of new adapters, but they at least
-> seem unable to provide per-adapter notification.
+3008 default value = 0x02
+3008[7] = Software Reset
+3008[6] = Software Power Down
 
-...personally I don't like notifiers, they looks like overkill for this task.
+The init_settings[] register table has these entries at the very
+beginning
 
-> Does that seem correct?
+	{0x3008, 0x82, 0, 5}, {0x3008, 0x42, 0, 0},
 
--- 
-With Best Regards,
-Andy Shevchenko
+and ends with the entry you have modified
 
+        {0x3008, 0x02, 0, 5}
 
+As I read from the 2.8 section of the datasheet
+
+A reset can also be initiated through the SCCB interface by setting
+register 0x3008[7] to high.
+
+So I presume the first two registers entries:
+
+	{0x3008, 0x82, 0, 5} -> Start a SW reset and wait 5 msec
+                                for the chip to resume
+	{0x3008, 0x42, 0, 0} -> SW standby mode
+
+SW standby mode is described as:
+
+        Executing a software standby through the SCCB interface
+        suspends internal circuit activity but does not halt the
+        device clock. All register content is maintained in standby
+        mode.
+
+I presume that the first
+
+	{0x3008, 0x42, 0, 0}
+
+ exists from SW standby mode to program the chip and the last
+
+        {0x3008, 0x02, 0, 5}
+
+puts the chip in sw standby at the end of init_settings[].
+Software standby is then exited by ov5640_set_stream_dvp() for DVP and
+by clearing 0x300e[4:3] in MIPI mode, as the datasheet reports:
+
+        To initiate hardware standby mode, the PWDN pin must be tied to high
+        (while in MIPI mode, set register 0x300E[4:3] to 2’b11 before the PWDN
+        pin is set to high)
+
+My second observation is that those entries in the init_settings[]
+table performs SW reset/standby regardless if there's a GPIO or not
+installed to control the reset and pwdn lines.
+
+Would it be worth in your opinion trying to modify ov5640_power()
+and ov5640_reset() to use either SW or HW standby/reset conditionally
+on the avialability of sensor->reset_gpio and sensor->pwdn_gpio and
+remove the initial SW standby/reset from init_setting[] ?
+
+>  };
+>
+>  static const struct reg_value ov5640_setting_low_res[] = {
+> --
+> 2.17.1
+>
