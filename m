@@ -2,175 +2,246 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D6DC56514E8
-	for <lists+linux-media@lfdr.de>; Mon, 19 Dec 2022 22:29:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 48D8A651501
+	for <lists+linux-media@lfdr.de>; Mon, 19 Dec 2022 22:37:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232779AbiLSV3h (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 19 Dec 2022 16:29:37 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50588 "EHLO
+        id S231305AbiLSVhi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 19 Dec 2022 16:37:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55036 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232758AbiLSV3g (ORCPT
+        with ESMTP id S231726AbiLSVhf (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 19 Dec 2022 16:29:36 -0500
-Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com [IPv6:2a00:1450:4864:20::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C8C5913F4C
-        for <linux-media@vger.kernel.org>; Mon, 19 Dec 2022 13:29:33 -0800 (PST)
-Received: by mail-lf1-x133.google.com with SMTP id y25so15654640lfa.9
-        for <linux-media@vger.kernel.org>; Mon, 19 Dec 2022 13:29:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=bUcJbVxMOaJY/dHHh8xvsq+/igbf7VEloWZtT9T4IzU=;
-        b=rzxTEULuNPC0Sk1BptH9+AxtBNYpQ4FvyVS+RZXbKY2D7sBHJ+hvBHwrVH0tDi7Rvz
-         h4OqVfIgl0PXf8Ovl/2qSyZ/KoyDOz9b003uMNhVpm1J9JtBDCAKWeuWE15pPZW2gIIv
-         h2chuLEfXiovnqiNG9l6ZAuMR5mFNmzXxnQB4SVLDVxbGW409nYMSJQ8Jmpb0JuRijyo
-         okvz2kocRJ8wM8Iz2aai0aQ9EMHjWfEAQzNAt/EigCOd9aZW5+sIKW1ofP+jf5VWzLqc
-         ANlZC/28G3mnTqMXI1dTNeDbeSi+5h4yy7kRA41V1CQcQkqDfSx4HNK+10KuUXPbxWgi
-         7jYA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=bUcJbVxMOaJY/dHHh8xvsq+/igbf7VEloWZtT9T4IzU=;
-        b=sN658x1D3JIxwddZs1yot82Gr9ThocJxbukwT2hAE0XiAS7KQbXeMJ+W6PLQlF40Xa
-         iOmBYpNHTaWDxtYZN3+oAzdMdwpcuFkR/gV81je+Q/+JxVg4Z+wqWLzg/Oq+y6Tt0B+q
-         GGGzyEXEWzv8mLGKR1WINUambQNdw+gIWGhndTezhbqXjl/Xs7duSckgj1kdLlabxAve
-         e8Sxvw0bRNQeLZEZfChCQnJnEspGIQXWomTSoF0crlfRIFPDu/O5d/QHK163qonAvbDK
-         cgJqBbCYLbGMTJxSVayKZ3MFflMFV5qdKgEe3MY0lIq2rJXhNIMkje/gJO5jtL6lSYRJ
-         GQPw==
-X-Gm-Message-State: AFqh2krYndKV5b5Bd/4k9XJMtNWEcFgHemvRp+vFA0glDLjN06B1s5fL
-        3/kr1MDFhihM9f30UbyXvOx9Mw/lhRwMEaxPoXudXgPqGrDoBab5
-X-Google-Smtp-Source: AMrXdXuizsuNjhFyKkOnbtLJwUqaBbpBBlxoGkLKHoZC+MtkShGjXM8bjGIdWmzqC9sIRApRvAJrUe+gsXpQ2zhJRfc=
-X-Received: by 2002:a05:6512:3f1e:b0:4c8:a047:8833 with SMTP id
- y30-20020a0565123f1e00b004c8a0478833mr206178lfa.653.1671485371730; Mon, 19
- Dec 2022 13:29:31 -0800 (PST)
+        Mon, 19 Dec 2022 16:37:35 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA6D4DFB5;
+        Mon, 19 Dec 2022 13:37:34 -0800 (PST)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9FB56825;
+        Mon, 19 Dec 2022 22:37:32 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1671485852;
+        bh=u+B9570Rpp6TN+Rdv1uEDa/bkGvDMyqBdhLUNIZC0H4=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=K/kxZqtn59ZsTyRSl6G2ZnyaD7n8rH+e/BL4w/bFU3yQsRXDYkuafhGgdZJfFx2yC
+         WIUYjR2N7VhanaYz52RNYkv0t7ipdPUDQ5dbXTyRj6gfRQJCHmfqGm5nA3efQxPY7T
+         y6BOllAeITuVgRpAnR5vTYB7AGbQU4hQB4MZ/+rQ=
+Date:   Mon, 19 Dec 2022 23:37:28 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+Cc:     linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Geert Uytterhoeven <geert@linux-m68k.org>
+Subject: Re: [PATCH v2 5/7] media: renesas: vsp1: Add new formats (2-10-10-10
+ ARGB, Y210)
+Message-ID: <Y6DZmBxW4Wr7Wssw@pendragon.ideasonboard.com>
+References: <20221219140139.294245-1-tomi.valkeinen+renesas@ideasonboard.com>
+ <20221219140139.294245-6-tomi.valkeinen+renesas@ideasonboard.com>
 MIME-Version: 1.0
-References: <20221219155616.848690-1-benjamin.gaignard@collabora.com>
- <20221219155616.848690-4-benjamin.gaignard@collabora.com> <07747babe7f83a496f9cd82849c6c2386550ac28.camel@ndufresne.ca>
-In-Reply-To: <07747babe7f83a496f9cd82849c6c2386550ac28.camel@ndufresne.ca>
-From:   Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-Date:   Mon, 19 Dec 2022 18:29:20 -0300
-Message-ID: <CAAEAJfDoX_aSTg1TO8F21iSriYeTXtRbHPo8wxx5br2v6eCt7Q@mail.gmail.com>
-Subject: Re: [PATCH v1 3/9] media: verisilicon: Save bit depth for AV1 decoder
-To:     Nicolas Dufresne <nicolas@ndufresne.ca>
-Cc:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        p.zabel@pengutronix.de, mchehab@kernel.org, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, heiko@sntech.de,
-        daniel.almeida@collabora.com, nicolas.dufresne@collabora.co.uk,
-        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, kernel@collabora.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
-        autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20221219140139.294245-6-tomi.valkeinen+renesas@ideasonboard.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Bonjour Nicolas,
+Hi Tomi,
 
-On Mon, Dec 19, 2022 at 5:37 PM Nicolas Dufresne <nicolas@ndufresne.ca> wro=
-te:
->
-> Le lundi 19 d=C3=A9cembre 2022 =C3=A0 16:56 +0100, Benjamin Gaignard a =
-=C3=A9crit :
-> > Store bit depth information from AV1 sequence control.
-> >
-> > Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-> > ---
-> >  .../media/platform/verisilicon/hantro_drv.c   | 26 +++++++++++++++++++
-> >  1 file changed, 26 insertions(+)
-> >
-> > diff --git a/drivers/media/platform/verisilicon/hantro_drv.c b/drivers/=
-media/platform/verisilicon/hantro_drv.c
-> > index 4500e1fc0f2c..8e93710dcfed 100644
-> > --- a/drivers/media/platform/verisilicon/hantro_drv.c
-> > +++ b/drivers/media/platform/verisilicon/hantro_drv.c
-> > @@ -324,6 +324,25 @@ static int hantro_vp9_s_ctrl(struct v4l2_ctrl *ctr=
-l)
-> >       return 0;
-> >  }
-> >
-> > +static int hantro_av1_s_ctrl(struct v4l2_ctrl *ctrl)
-> > +{
-> > +     struct hantro_ctx *ctx;
-> > +
-> > +     ctx =3D container_of(ctrl->handler,
-> > +                        struct hantro_ctx, ctrl_handler);
-> > +
-> > +     switch (ctrl->id) {
-> > +     case V4L2_CID_STATELESS_AV1_SEQUENCE:
-> > +             ctx->bit_depth =3D ctrl->p_new.p_av1_sequence->bit_depth;
->
-> That seems a little be weak, what happens if you change the bit_depth wit=
-h a
-> non-request s_ctrl while its decoding ? To be this deserve a little bit o=
-f
-> protection, a something that validate and copy it at the start of the dec=
-oding.
->
+Thank you for the patch.
 
-Oh, nice catch. We need to return EBUSY, see
-https://www.kernel.org/doc/html/v5.0/media/uapi/v4l/buffer.html#interaction=
-s-between-formats-controls-and-buffers.
+On Mon, Dec 19, 2022 at 04:01:37PM +0200, Tomi Valkeinen wrote:
+> Add new pixel formats: XBGR2101010, ABGR2101010, BGRA1010102 and Y210.
+> 
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+> ---
+>  .../media/platform/renesas/vsp1/vsp1_pipe.c   | 15 ++++++
+>  .../media/platform/renesas/vsp1/vsp1_regs.h   | 22 +++++++++
+>  .../media/platform/renesas/vsp1/vsp1_rpf.c    | 49 +++++++++++++++++++
+>  3 files changed, 86 insertions(+)
+> 
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_pipe.c b/drivers/media/platform/renesas/vsp1/vsp1_pipe.c
+> index f72ac01c21ea..2867b3de06fa 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_pipe.c
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_pipe.c
+> @@ -146,6 +146,18 @@ static const struct vsp1_format_info vsp1_video_formats[] = {
+>  	  VI6_FMT_ARGB_8888, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
+>  	  VI6_RPF_DSWAP_P_WDS | VI6_RPF_DSWAP_P_BTS,
+>  	  1, { 32, 0, 0 }, false, false, 1, 1, false },
+> +	{ V4L2_PIX_FMT_XBGR2101010, MEDIA_BUS_FMT_ARGB8888_1X32,
+> +	  VI6_FMT_RGB10_RGB10A2_A2RGB10,
+> +	  VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS,
+> +	  1, { 32, 0, 0 }, false, false, 1, 1, false },
+> +	{ V4L2_PIX_FMT_ABGR2101010, MEDIA_BUS_FMT_ARGB8888_1X32,
+> +	  VI6_FMT_RGB10_RGB10A2_A2RGB10,
+> +	  VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS,
+> +	  1, { 32, 0, 0 }, false, false, 1, 1, false },
+> +	{ V4L2_PIX_FMT_BGRA1010102, MEDIA_BUS_FMT_ARGB8888_1X32,
+> +	  VI6_FMT_RGB10_RGB10A2_A2RGB10,
+> +	  VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS,
+> +	  1, { 32, 0, 0 }, false, false, 1, 1, false },
+>  	{ V4L2_PIX_FMT_UYVY, MEDIA_BUS_FMT_AYUV8_1X32,
+>  	  VI6_FMT_YUYV_422, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
+>  	  VI6_RPF_DSWAP_P_WDS | VI6_RPF_DSWAP_P_BTS,
+> @@ -202,6 +214,9 @@ static const struct vsp1_format_info vsp1_video_formats[] = {
+>  	  VI6_FMT_Y_U_V_444, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
+>  	  VI6_RPF_DSWAP_P_WDS | VI6_RPF_DSWAP_P_BTS,
+>  	  3, { 8, 8, 8 }, false, true, 1, 1, false },
+> +	{ V4L2_PIX_FMT_Y210, MEDIA_BUS_FMT_AYUV8_1X32,
+> +	  VI6_FMT_YUYV_422, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS,
+> +	  1, { 32, 0, 0 }, false, false, 2, 1, false },
+>  };
+>  
+>  /**
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_regs.h b/drivers/media/platform/renesas/vsp1/vsp1_regs.h
+> index c61e8dafeecf..8947ea05f95e 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_regs.h
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_regs.h
+> @@ -228,6 +228,27 @@
+>  #define VI6_RPF_MULT_ALPHA_RATIO_MASK	(0xff << 0)
+>  #define VI6_RPF_MULT_ALPHA_RATIO_SHIFT	0
+>  
+> +#define VI6_RPF_EXT_INFMT0		0x0370
+> +#define VI6_RPF_EXT_INFMT0_F2B_LSB		(0 << 12)
+> +#define VI6_RPF_EXT_INFMT0_F2B_MSB		(1 << 12)
 
-There's already an API in the V4L2 control framework for drivers to use,
-see v4l2_ctrl_grab in
-https://www.kernel.org/doc/html/v5.0/media/kapi/v4l2-controls.html#active-a=
-nd-grabbed-controls.
+We don't normally define two macros for each bit. You can drop the
+F2B_LSB macro, rename F2B_MSB to F2B, and use BIT(12).
 
-> p.s. I know, VP9 seems similar, though arguably that was copied from jpeg=
-, for
-> which it seems totally save to change the quality at run-time.
->
+> +#define VI6_RPF_EXT_INFMT0_IPBD_Y_8		(0 << 8)
+> +#define VI6_RPF_EXT_INFMT0_IPBD_Y_10		(1 << 8)
+> +#define VI6_RPF_EXT_INFMT0_IPBD_Y_12		(2 << 8)
+> +#define VI6_RPF_EXT_INFMT0_IPBD_C_8		(0 << 4)
+> +#define VI6_RPF_EXT_INFMT0_IPBD_C_10		(1 << 4)
+> +#define VI6_RPF_EXT_INFMT0_IPBD_C_12		(2 << 4)
+> +#define VI6_RPF_EXT_INFMT0_BYPP_M1_RGB10	(3 << 0)
+> +#define VI6_RPF_EXT_INFMT0_BYPP_M1_N_RGB10	(0 << 0)
 
-No, wasn't copied from JPEG :-) I just didn't realize this was an
-issue, but it is
-given the bit_depth affects the buffers so you are correct, it needs
-to be fixed for VP9 too.
+I would drop the last one as you don't use it.
 
-Thanks!
-Ezequiel
+> +
+> +#define VI6_RPF_EXT_INFMT1		0x0374
+> +#define VI6_RPF_EXT_INFMT2		0x0378
+> +
+> +#define VI6_RPF_BRDITH_CTRL		0x03e0
+> +#define VI6_RPF_BRDITH_CTRL_ODE_EN	(1 << 8)
+> +#define VI6_RPF_BRDITH_CTRL_ODE_DIS	(0 << 8)
+> +#define VI6_RPF_BRDITH_CTRL_CBRM_RO	(1 << 0)
+> +#define VI6_RPF_BRDITH_CTRL_CBRM_TR	(0 << 0)
 
-> > +             break;
-> > +     default:
-> > +             return -EINVAL;
-> > +     }
-> > +
-> > +     return 0;
-> > +}
-> > +
-> > +
-> >  static const struct v4l2_ctrl_ops hantro_ctrl_ops =3D {
-> >       .try_ctrl =3D hantro_try_ctrl,
-> >  };
-> > @@ -336,6 +355,12 @@ static const struct v4l2_ctrl_ops hantro_vp9_ctrl_=
-ops =3D {
-> >       .s_ctrl =3D hantro_vp9_s_ctrl,
-> >  };
-> >
-> > +static const struct v4l2_ctrl_ops hantro_av1_ctrl_ops =3D {
-> > +     .try_ctrl =3D hantro_try_ctrl,
-> > +     .s_ctrl =3D hantro_av1_s_ctrl,
-> > +};
-> > +
-> > +
-> >  #define HANTRO_JPEG_ACTIVE_MARKERS   (V4L2_JPEG_ACTIVE_MARKER_APP0 | \
-> >                                        V4L2_JPEG_ACTIVE_MARKER_COM | \
-> >                                        V4L2_JPEG_ACTIVE_MARKER_DQT | \
-> > @@ -513,6 +538,7 @@ static const struct hantro_ctrl controls[] =3D {
-> >               .codec =3D HANTRO_AV1_DECODER,
-> >               .cfg =3D {
-> >                       .id =3D V4L2_CID_STATELESS_AV1_SEQUENCE,
-> > +                     .ops =3D &hantro_av1_ctrl_ops,
-> >               },
-> >       }, {
-> >               .codec =3D HANTRO_AV1_DECODER,
->
+Same here, one macro per bit.
+
+The BRDITH_CTRL registers doesn't seem to be used. I don't mind adding
+it though.
+
+> +
+>  /* -----------------------------------------------------------------------------
+>   * WPF Control Registers
+>   */
+> @@ -846,6 +867,7 @@
+>  #define VI6_FMT_XBXGXR_262626		0x21
+>  #define VI6_FMT_ABGR_8888		0x22
+>  #define VI6_FMT_XXRGB_88565		0x23
+> +#define VI6_FMT_RGB10_RGB10A2_A2RGB10	0x30
+>  
+>  #define VI6_FMT_Y_UV_444		0x40
+>  #define VI6_FMT_Y_UV_422		0x41
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_rpf.c b/drivers/media/platform/renesas/vsp1/vsp1_rpf.c
+> index 045aa54f7998..60ba3c62e86c 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_rpf.c
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_rpf.c
+> @@ -55,6 +55,11 @@ static const struct v4l2_subdev_ops rpf_ops = {
+>   * VSP1 Entity Operations
+>   */
+>  
+> +#define PACK_CPOS(a, b, c, d) \
+> +	(((a) << 24) | ((b) << 16) | ((c) << 8) | ((d) << 0))
+> +#define PACK_CLEN(a, b, c, d) \
+> +	(((a) << 24) | ((b) << 16) | ((c) << 8) | ((d) << 0))
+> +
+
+Please move this to vsp1_regs.h, just below the corresponding registers.
+I would also prefer giving the macros names that related to the
+registers.
+
+>  static void rpf_configure_stream(struct vsp1_entity *entity,
+>  				 struct vsp1_pipeline *pipe,
+>  				 struct vsp1_dl_list *dl,
+> @@ -109,6 +114,50 @@ static void rpf_configure_stream(struct vsp1_entity *entity,
+>  	vsp1_rpf_write(rpf, dlb, VI6_RPF_INFMT, infmt);
+>  	vsp1_rpf_write(rpf, dlb, VI6_RPF_DSWAP, fmtinfo->swap);
+>  
+> +	if ((entity->vsp1->version & VI6_IP_VERSION_MODEL_MASK) == VI6_IP_VERSION_MODEL_VSPD_GEN4) {
+
+Please wrap this as
+
+	if ((entity->vsp1->version & VI6_IP_VERSION_MODEL_MASK) ==
+	    VI6_IP_VERSION_MODEL_VSPD_GEN4) {
+
+You could also test entity->vsp1->gen == 4, up to you.
+
+> +		u32 ext_infmt0;
+> +		u32 ext_infmt1;
+> +		u32 ext_infmt2;
+> +
+> +		switch (fmtinfo->fourcc) {
+> +		case V4L2_PIX_FMT_XBGR2101010:
+> +			ext_infmt0 = VI6_RPF_EXT_INFMT0_BYPP_M1_RGB10;
+> +			ext_infmt1 = PACK_CPOS(0, 10, 20, 0);
+> +			ext_infmt2 = PACK_CLEN(10, 10, 10, 0);
+
+While this matches the detailed bit order of the V4L2 format as defined
+in patch 1/7, it doesn't match the XBGR2101010 name, at least if
+interpreted the same way as DRM_FORMAT_XBGR2101010. I think this should
+be DRM_FORMAT_RGBX1010102 instead.
+
+Same for the nex two formats, they should be RGBA1010102 and
+ARGB2101010.
+
+> +			break;
+> +
+> +		case V4L2_PIX_FMT_ABGR2101010:
+> +			ext_infmt0 = VI6_RPF_EXT_INFMT0_BYPP_M1_RGB10;
+> +			ext_infmt1 = PACK_CPOS(0, 10, 20, 30);
+> +			ext_infmt2 = PACK_CLEN(10, 10, 10, 2);
+> +			break;
+> +
+> +		case V4L2_PIX_FMT_BGRA1010102:
+> +			ext_infmt0 = VI6_RPF_EXT_INFMT0_BYPP_M1_RGB10;
+> +			ext_infmt1 = PACK_CPOS(2, 12, 22, 0);
+> +			ext_infmt2 = PACK_CLEN(10, 10, 10, 2);
+> +			break;
+> +
+> +		case V4L2_PIX_FMT_Y210:
+> +			ext_infmt0 = VI6_RPF_EXT_INFMT0_F2B_MSB |
+> +				     VI6_RPF_EXT_INFMT0_IPBD_Y_10 |
+> +				     VI6_RPF_EXT_INFMT0_IPBD_C_10;
+> +			ext_infmt1 = 0x0;
+> +			ext_infmt2 = 0x0;
+> +			break;
+> +
+> +		default:
+> +			ext_infmt0 = 0;
+> +			ext_infmt1 = 0;
+> +			ext_infmt2 = 0;
+> +			break;
+> +		}
+> +
+> +		vsp1_rpf_write(rpf, dlb, VI6_RPF_EXT_INFMT0, ext_infmt0);
+> +		vsp1_rpf_write(rpf, dlb, VI6_RPF_EXT_INFMT1, ext_infmt1);
+> +		vsp1_rpf_write(rpf, dlb, VI6_RPF_EXT_INFMT2, ext_infmt2);
+> +	}
+> +
+>  	/* Output location. */
+>  	if (pipe->brx) {
+>  		const struct v4l2_rect *compose;
+
+-- 
+Regards,
+
+Laurent Pinchart
