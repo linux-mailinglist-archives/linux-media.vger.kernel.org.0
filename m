@@ -2,86 +2,89 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B0C19650A99
-	for <lists+linux-media@lfdr.de>; Mon, 19 Dec 2022 12:11:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 21E32650AFB
+	for <lists+linux-media@lfdr.de>; Mon, 19 Dec 2022 12:57:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231899AbiLSLLE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 19 Dec 2022 06:11:04 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60898 "EHLO
+        id S231752AbiLSL5r (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 19 Dec 2022 06:57:47 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48538 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229957AbiLSLLA (ORCPT
+        with ESMTP id S231248AbiLSL5q (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 19 Dec 2022 06:11:00 -0500
-Received: from mx.gpxsee.org (mx.gpxsee.org [37.205.14.76])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 7DB7A5F73;
-        Mon, 19 Dec 2022 03:10:52 -0800 (PST)
-Received: from [192.168.4.25] (unknown [62.77.71.229])
-        by mx.gpxsee.org (Postfix) with ESMTPSA id 65E0B2EE4C;
-        Mon, 19 Dec 2022 12:10:50 +0100 (CET)
-Message-ID: <a858367d-5953-1fba-0cb6-20ea917194e0@gpxsee.org>
-Date:   Mon, 19 Dec 2022 12:10:49 +0100
+        Mon, 19 Dec 2022 06:57:46 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF0868FFC;
+        Mon, 19 Dec 2022 03:57:45 -0800 (PST)
+Received: from umang.jainideasonboard.com (unknown [IPv6:2401:4900:1f3e:7d24:3f0:3e81:fb16:ab4d])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5ECF1825;
+        Mon, 19 Dec 2022 12:57:35 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1671451062;
+        bh=Go7MiR3dYCV2jmv6BwP/3GC/SWENkVqsP5a91fdMktY=;
+        h=From:To:Cc:Subject:Date:From;
+        b=Vh4K3fIeW5NVh9gjKZnW8nIBvVQFqGp5+Iw5qgdIjcWeMoiW2dn8Jx/IN7HkVCoIM
+         CgiCVA1k03nvVCCJtPkQPBsDXAcYUMpJlHLv6/okdpCMhXIap9nAlFK3/s43D1CGTn
+         4ihvtNBgeOSWoni+UGaOdjMbrDHN3WIeDI10YuJI=
+From:   Umang Jain <umang.jain@ideasonboard.com>
+To:     linux-staging@lists.linux.dev,
+        linux-rpi-kernel@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     Kees Cook <keescook@chromium.org>,
+        Stefan Wahren <stefan.wahren@i2se.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Adrien Thierry <athierry@redhat.com>,
+        Dan Carpenter <error27@gmail.com>,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Umang Jain <umang.jain@ideasonboard.com>
+Subject: [PATCH v2 0/7] staging: vc04_services: Remove custom return values
+Date:   Mon, 19 Dec 2022 17:27:18 +0530
+Message-Id: <20221219115725.11992-1-umang.jain@ideasonboard.com>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH v4 0/1] Digiteq Automotive MGB4 driver
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Lizhi Hou <lizhi.hou@amd.com>,
-        =?UTF-8?Q?Martin_T=c5=afma?= <martin.tuma@digiteqautomotive.com>
-References: <20221123140431.4730-1-tumic@gpxsee.org>
- <Y59iurFF9CM21p7o@duo.ucw.cz>
-Content-Language: en-US
-From:   =?UTF-8?Q?Martin_T=c5=afma?= <tumic@gpxsee.org>
-In-Reply-To: <Y59iurFF9CM21p7o@duo.ucw.cz>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-3.0 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 18. 12. 22 19:58, Pavel Machek wrote:
-> Hi!
-> 
->> From: Martin Tůma <martin.tuma@digiteqautomotive.com>
->>
->> Hi,
->> This patch adds a driver for the Digiteq Automotive MGB4 grabber card.
->> MGB4 is a modular frame grabber PCIe card for automotive video interfaces
->> (FPD-Link and GMSL for now). It is based on a Xilinx FPGA and uses their
->> XDMA IP core for DMA transfers. Additionally, Xilinx I2C and SPI IP cores
->> which already have drivers in linux are used in the design.
->>
->> The driver is a quite standard v4l2 driver, with one exception - there are
->> a lot of sysfs options that may/must be set before opening the v4l2 device
->> to adapt the card on a specific signal (see mgb4.rst for details)
->> as the card must be able to work with various signal sources (or displays)
->> that can not be auto-detected.
-> 
-> Uff, that's "interesting". What kind of platform does this run on? You
-> should be getting non-probeable parameters from deice tree (or APCI).
-> 
-> Best regards,
-> 								Pavel
-> 								
+The series removes the custom return values from functions
+and replaces them with linux error codes. This address the TODO
+ vchiq interface:
+* Get rid of custom function return values
 
-Hi,
-It is a PCIe card, so it runs on any platform that supports PCIe cards. 
-We do use the HW on x86_64 and arm platforms.
+Changes in V2:
+- Patch 3/7 now reports for specific errors like -ENOMEM, -EHOSTDOWN
+- Patch 5/7 reports -ENOTCONN instead of -EINVAL and adds a "Fixes" tag
 
-The parameters are in no way connected to the platform where the card is 
-used, they are properties of the video signal that can change arbitrary 
-as you can connect different car infotainments (the signal source) to 
-the card (the same applies to the outputs - the car displays). Usually, 
-there is no auto-configuration on the signal level, that's why you have 
-to provide the various properties externally according to the 
-infotainment that you have at the moment connected to the card.
+Umang Jain (7):
+  staging: vc04_services: Replace vchiq_status return type to int
+  staging: vc04_services: Drop VCHIQ_SUCCESS usage
+  staging: vc04_services: Drop VCHIQ_ERROR usage
+  staging: vc04_services: Drop VCHIQ_RETRY usage
+  vc04_services: vchiq_arm: Drop VCHIQ_RETRY usage on disconnect
+  staging: vc04_services: Drop enum vchiq_status remnants
+  staging: vc04_services: vchiq: Drop custom return values from TODO
 
-Any kind of device tree or ACPI parameters make no sense for the HW/the 
-intended usage.
+ .../bcm2835-audio/bcm2835-vchiq.c             |  12 +-
+ .../include/linux/raspberrypi/vchiq.h         |  65 +++---
+ drivers/staging/vc04_services/interface/TODO  |   5 -
+ .../interface/vchiq_arm/vchiq_arm.c           | 124 +++++-----
+ .../interface/vchiq_arm/vchiq_arm.h           |  12 +-
+ .../interface/vchiq_arm/vchiq_core.c          | 216 +++++++++---------
+ .../interface/vchiq_arm/vchiq_core.h          |  18 +-
+ .../interface/vchiq_arm/vchiq_dev.c           |  36 +--
+ .../interface/vchiq_arm/vchiq_ioctl.h         |   8 +-
+ .../vc04_services/vchiq-mmal/mmal-vchiq.c     |  11 +-
+ 10 files changed, 246 insertions(+), 261 deletions(-)
 
-M.
+-- 
+2.38.1
+
