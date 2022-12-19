@@ -2,121 +2,130 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F35566508E5
-	for <lists+linux-media@lfdr.de>; Mon, 19 Dec 2022 09:52:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B0B646508FB
+	for <lists+linux-media@lfdr.de>; Mon, 19 Dec 2022 10:00:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231688AbiLSIwl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 19 Dec 2022 03:52:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58498 "EHLO
+        id S231379AbiLSJAs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 19 Dec 2022 04:00:48 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36252 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231720AbiLSIwJ (ORCPT
+        with ESMTP id S229615AbiLSJAp (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 19 Dec 2022 03:52:09 -0500
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::224])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F5A45F84;
-        Mon, 19 Dec 2022 00:51:50 -0800 (PST)
-Received: from booty (unknown [77.244.183.192])
-        (Authenticated sender: luca.ceresoli@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id 41C87E0006;
-        Mon, 19 Dec 2022 08:51:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1671439909;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=HbRyta7URVFiHZkQ/3wT16z3vuZ6whKW9FlU4BbMDDs=;
-        b=Garjuv8YQgSzRLR+nl4hAfxM3mUnwUz65bqUZmZQteWlNsp/AJcLSpLtlEuYXgXRGpuuOO
-        pjG8EFlnBx2ePJ5AImzmHVRpOwbzy9Ipveh0tAr3iAvxfi3Sq2rnNZxioDOJTp/hUeRWNq
-        sCekKS2kNX3+Ue0yyz4OI1jmUA/4QJ2Z/ekqVImD+97YI2yzLMND3eK32IiqWttX0bZzd1
-        x1NV2xJm43wA3wmTCx3CATWVC6PdBW5cWNZW+qwLRdUyE8O8JLBs7nxb0LFCdpD2bpela7
-        ARhl/+2hXlqNfbWPiVT4FjDuipOBNOCVpPBOjCDac257kkerVlcZmp1tleYZ7w==
-Date:   Mon, 19 Dec 2022 09:51:43 +0100
-From:   Luca Ceresoli <luca.ceresoli@bootlin.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Wolfram Sang <wsa@kernel.org>,
-        Andy Shevchenko <andriy.shevchenko@intel.com>,
-        Matti Vaittinen <Matti.Vaittinen@fi.rohmeurope.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Peter Rosin <peda@axentia.se>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Michael Tretter <m.tretter@pengutronix.de>,
-        Shawn Tu <shawnx.tu@intel.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Mike Pagano <mpagano@gentoo.org>,
-        Krzysztof =?UTF-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>,
-        Marek Vasut <marex@denx.de>,
-        Luca Ceresoli <luca@lucaceresoli.net>
-Subject: Re: [PATCH v5 1/8] i2c: core: let adapters be notified of client
- attach/detach
-Message-ID: <20221219095143.4b49b447@booty>
-In-Reply-To: <Y5YLi2md2571NQrY@pendragon.ideasonboard.com>
-References: <20221208104006.316606-1-tomi.valkeinen@ideasonboard.com>
-        <20221208104006.316606-2-tomi.valkeinen@ideasonboard.com>
-        <Y5YLi2md2571NQrY@pendragon.ideasonboard.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+        Mon, 19 Dec 2022 04:00:45 -0500
+Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA3B3387;
+        Mon, 19 Dec 2022 01:00:43 -0800 (PST)
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 2BJ90RIk058132;
+        Mon, 19 Dec 2022 03:00:27 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1671440427;
+        bh=LVn4h1XmlZlzF5JubIgwsCY0ky3E6LAchf1girvLoAE=;
+        h=Date:Subject:To:CC:References:From:In-Reply-To;
+        b=YqGoIwaU74ci5OdEZMBhBhBaXle1DxSu6Da6Fr5duCN6DsIO8h27pFz4AshCrIt6T
+         kAYQxQuFoUjTZcKQlVcGu6QBrsUsrvB2ckM+l0jw3ly9EGbvxjst6cJMWkWpOr6xgJ
+         Yc0JQWk6LtLcvjoWr7SPZtN6IGBTa8KnT/0Asl+c=
+Received: from DFLE108.ent.ti.com (dfle108.ent.ti.com [10.64.6.29])
+        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 2BJ90Qdv028979
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Mon, 19 Dec 2022 03:00:26 -0600
+Received: from DFLE100.ent.ti.com (10.64.6.21) by DFLE108.ent.ti.com
+ (10.64.6.29) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.16; Mon, 19
+ Dec 2022 03:00:26 -0600
+Received: from lelv0326.itg.ti.com (10.180.67.84) by DFLE100.ent.ti.com
+ (10.64.6.21) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.16 via
+ Frontend Transport; Mon, 19 Dec 2022 03:00:26 -0600
+Received: from [172.24.145.60] (ileaxei01-snat.itg.ti.com [10.180.69.5])
+        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 2BJ90Nm9003280;
+        Mon, 19 Dec 2022 03:00:24 -0600
+Message-ID: <a4615170-f5b2-e748-8c76-5b125240229f@ti.com>
+Date:   Mon, 19 Dec 2022 14:30:23 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [PATCH 1/3] media: ov5640: Handle delays when no reset_gpio set
+Content-Language: en-US
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>
+CC:     Steve Longerbeam <slongerbeam@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>
+References: <20221216134409.6868-1-j-luthra@ti.com>
+ <20221216134409.6868-2-j-luthra@ti.com>
+ <Y5x5UbtLFDpFIoEp@paasikivi.fi.intel.com>
+ <51ef1ff4-db3d-64aa-aa9d-82f604a314c1@linaro.org>
+From:   Jai Luthra <j-luthra@ti.com>
+In-Reply-To: <51ef1ff4-db3d-64aa-aa9d-82f604a314c1@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+X-Spam-Status: No, score=-5.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello Laurent,
+Hi Sakari, Krzysztof,
 
-thanks for the feedback and apologies for the delayed reply.
-
-On Sun, 11 Dec 2022 18:55:39 +0200
-Laurent Pinchart <laurent.pinchart@ideasonboard.com> wrote:
-
-> Hi Tomi and Luca,
+On 16/12/22 19:40, Krzysztof Kozlowski wrote:
+> On 16/12/2022 14:57, Sakari Ailus wrote:
+>> Hi Jai,
+>>
+>> Thanks for the set.
+>>
+>> On Fri, Dec 16, 2022 at 07:14:07PM +0530, Jai Luthra wrote:
+>>> Some module manufacturers [1][2] don't expose the RESETB gpio of the
+>>> sensor directly through the 15-pin FFC connector. Instead wiring ~PWDN
+>>> as a proxy reset with appropriate delays.
+>>>
+>>> In such cases, reset_gpio will not be available to the driver, but it
+>>> will still be toggled when the sensor is powered on, and thus we should
+>>> still honor the wait time of >= 5ms + 1ms + 20ms (see figure 2-3 in [3])
+>>> before attempting any i/o operations over SCCB.
+>>>
+>>> [1] https://digilent.com/reference/_media/reference/add-ons/pcam-5c/pcam_5c_sch.pdf
+>>> [2] https://www.alinx.com/public/upload/file/AN5641_User_Manual.pdf
+>>> [3] https://cdn.sparkfun.com/datasheets/Sensors/LightImaging/OV5640_datasheet.pdf
+>>>
+>>> Fixes: 19a81c1426c1 ("[media] add Omnivision OV5640 sensor driver")
+>>> Signed-off-by: Jai Luthra <j-luthra@ti.com>
+>>> ---
+>>>   drivers/media/i2c/ov5640.c | 1 +
+>>>   1 file changed, 1 insertion(+)
+>>>
+>>> diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
+>>> index e0f908af581b..4bb7bf557cfa 100644
+>>> --- a/drivers/media/i2c/ov5640.c
+>>> +++ b/drivers/media/i2c/ov5640.c
+>>> @@ -2466,6 +2466,7 @@ static int ov5640_set_power_on(struct ov5640_dev *sensor)
+>>>   
+>>>   	ov5640_reset(sensor);
+>>>   	ov5640_power(sensor, true);
+>>> +	usleep_range(26000, 30000);
+>>
+>> I think you should only do this if you don't have RESETB pin.
+>>
+>> I'm not sure how to best describe this in DT. It's not the same as if you
+>> didn't have RESETB GPIO.
 > 
-> Thank you for the patch.
+> Why it's not the same? I understand the RESETB pin is always there just
+> sometimes going to GPIO and sometimes to some other line.
+
+Thanks for the quick review.
+
+I agree, will send v2 where we check if reset-gpio is missing in the DT 
+and in that case just toggle powerdown-gpio and wait for 26ms.
+
 > 
-> On Thu, Dec 08, 2022 at 12:39:59PM +0200, Tomi Valkeinen wrote:
-> > From: Luca Ceresoli <luca@lucaceresoli.net>
-> > 
-> > An adapter might need to know when a new device is about to be
-> > added. This will soon bee needed to implement an "I2C address
-> > translator" (ATR for short), a device that propagates I2C transactions
-> > with a different slave address (an "alias" address). An ATR driver
-> > needs to know when a slave is being added to find a suitable alias and
-> > program the device translation map.
-> > 
-> > Add an attach/detach callback pair to allow adapter drivers to be
-> > notified of clients being added and removed.  
+> Best regards,
+> Krzysztof
 > 
-> This may be a stupid question, but couldn't you instead use the
-> BUS_NOTIFY_ADD_DEVICE and BUS_NOTIFY_DEL_DEVICE bus notifiers ?
 
-I'm not sure they would be the correct tool for this task. Bus
-notifiers inform about new events on the 'struct bus_type, i.e. any
-event on the global i2c bus type. In the i2c world this means being
-notified about new _adapters_, which is exactly what
-drivers/i2c/i2c-dev.c does.
-
-Here, however, we need to be informed about new _clients_ being added
-under a specific adapter. I'm not sure whether the bus notifiers can
-inform about new clients in addition of new adapters, but they at least
-seem unable to provide per-adapter notification.
-
-Does that seem correct?
-
-Best regards,
--- 
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+Thanks,
+Jai
