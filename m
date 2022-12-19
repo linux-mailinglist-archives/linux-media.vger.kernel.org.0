@@ -2,106 +2,298 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C840F6507EF
-	for <lists+linux-media@lfdr.de>; Mon, 19 Dec 2022 08:00:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9BB32650821
+	for <lists+linux-media@lfdr.de>; Mon, 19 Dec 2022 08:40:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231440AbiLSHAy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 19 Dec 2022 02:00:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59490 "EHLO
+        id S231650AbiLSHky (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 19 Dec 2022 02:40:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39442 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231307AbiLSHAx (ORCPT
+        with ESMTP id S231612AbiLSHks (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 19 Dec 2022 02:00:53 -0500
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6ACE1C6E;
-        Sun, 18 Dec 2022 23:00:50 -0800 (PST)
-X-UUID: c5f9fcf1178c4b258e2e7ef65893e511-20221219
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-        h=Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=BROO9oR3Wy6uXyXdf6VAMOjT4WTHQrLO8YJEyXD5pf0=;
-        b=s8omwKzTGbwrTQIrRO8nvuguexXc2HqgFnpsHWE438TXr0fmU1QFjLcixggC3zWlLQqAgUawG+UwruAmRWj499j64gpDrRkgTZmwsgNMgzpbzaG/t904LoHG7Pamp103Tu4ADYC3T9XWj6VYP8OzuFJmTw49UgnzTVSriij59Bg=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.14,REQID:7eef0291-34b7-477d-8601-0d00fe1fd3b4,IP:0,U
-        RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-        release,TS:0
-X-CID-META: VersionHash:dcaaed0,CLOUDID:f27a2252-dd49-462e-a4be-2143a3ddc739,B
-        ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
-        RL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0
-X-UUID: c5f9fcf1178c4b258e2e7ef65893e511-20221219
-Received: from mtkmbs11n1.mediatek.inc [(172.21.101.185)] by mailgw01.mediatek.com
-        (envelope-from <yunfei.dong@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-        with ESMTP id 1754787933; Mon, 19 Dec 2022 15:00:44 +0800
-Received: from mtkmbs11n1.mediatek.inc (172.21.101.186) by
- mtkmbs13n1.mediatek.inc (172.21.101.193) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.792.15; Mon, 19 Dec 2022 15:00:42 +0800
-Received: from localhost.localdomain (10.17.3.154) by mtkmbs11n1.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.2.792.15 via Frontend
- Transport; Mon, 19 Dec 2022 15:00:41 +0800
-From:   Yunfei Dong <yunfei.dong@mediatek.com>
-To:     Yunfei Dong <yunfei.dong@mediatek.com>,
-        Chen-Yu Tsai <wenst@chromium.org>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Tiffany Lin <tiffany.lin@mediatek.com>
-CC:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Hsin-Yi Wang <hsinyi@chromium.org>,
-        Fritz Koenig <frkoenig@chromium.org>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Steve Cho <stevecho@chromium.org>,
-        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-mediatek@lists.infradead.org>,
-        <Project_Global_Chrome_Upstream_Group@mediatek.com>
-Subject: [PATCH] media: mediatek: vcodec: Using pm_runtime_put instead of pm_runtime_put_sync
-Date:   Mon, 19 Dec 2022 15:00:40 +0800
-Message-ID: <20221219070040.2434-1-yunfei.dong@mediatek.com>
-X-Mailer: git-send-email 2.25.1
+        Mon, 19 Dec 2022 02:40:48 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E24F4EBB;
+        Sun, 18 Dec 2022 23:40:46 -0800 (PST)
+Received: from ideasonboard.com (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id AF512825;
+        Mon, 19 Dec 2022 08:40:44 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1671435644;
+        bh=kvESATrmNPNFlqNyRzFr5rArFSPmIhueH5cO3lk/IUk=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=OhKNNwW8g5ZbRq1Hjhi21lkU4GGWM/uXYReCy2UVLv8N58XBpJ6vxA6wdpZOWmrqh
+         zQT1DCj4WKKVY/dMTvOAuRHKQPNg+sAYq3jMg9wfh+yKyaB1NJWCeR94sXiwwU8uFj
+         WxqingCdRJ008GaX6cv5lIh6J2x7oap5fxJJnW+o=
+Date:   Mon, 19 Dec 2022 08:40:42 +0100
+From:   Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Thomas Nizan <tnizan@witekio.com>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>
+Subject: Re: [PATCH v3.1 04/12] media: i2c: max9286: Add support for port
+ regulators
+Message-ID: <20221219074042.3bwmfuscrckqdutg@uno.localdomain>
+References: <20221214233825.13050-5-laurent.pinchart+renesas@ideasonboard.com>
+ <20221219021820.24596-1-laurent.pinchart@ideasonboard.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-MTK:  N
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20221219021820.24596-1-laurent.pinchart@ideasonboard.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,
-        SPF_PASS,UNPARSEABLE_RELAY autolearn=ham autolearn_force=no
-        version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-pm_runtime_put will set RPM_ASYNC flag then queue an idle-notification
-request again, won't return error immediately until current request is
-scheduled. But pm_runtime_put_sync run the ->runtime_idle() callback
-directly, will return error immediately.
+Hi Laurent
 
-Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
----
- drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_pm.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+On Mon, Dec 19, 2022 at 04:18:20AM +0200, Laurent Pinchart wrote:
+> From: Thomas Nizan <tnizan@witekio.com>
+>
+> Allow users to use one PoC regulator per port, instead of a global
+> regulator.
+>
+> The properties '^port[0-3]-poc-supply$' in the DT node are used to
+> indicate the regulators for individual ports.
+>
+> Signed-off-by: Thomas Nizan <tnizan@witekio.com>
+> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 
-diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_pm.c b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_pm.c
-index 4305e4eb9900..341b406f5272 100644
---- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_pm.c
-+++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_pm.c
-@@ -72,9 +72,9 @@ static void mtk_vcodec_dec_pw_off(struct mtk_vcodec_pm *pm)
- {
- 	int ret;
- 
--	ret = pm_runtime_put_sync(pm->dev);
-+	ret = pm_runtime_put(pm->dev);
- 	if (ret)
--		mtk_v4l2_err("pm_runtime_put_sync fail %d", ret);
-+		mtk_v4l2_err("pm_runtime_put fail %d", ret);
- }
- 
- static void mtk_vcodec_dec_clock_on(struct mtk_vcodec_pm *pm)
--- 
-2.25.1
+Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 
+> ---
+> Changes since v3:
+>
+> - Use dev_err_probe() everywhere
+>
+> Changes since v2:
+>
+> - Adapt to the poc-gpio support
+>
+> Changes since v1:
+>
+> - Use to_index()
+> - Use dev_err_probe()
+> - Fix error path in probe()
+> - Use devm_regulator_get_optional() instead of
+>   devm_regulator_get_exclusive()
+> ---
+>  drivers/media/i2c/max9286.c | 135 ++++++++++++++++++++++++++++++------
+>  1 file changed, 112 insertions(+), 23 deletions(-)
+>
+> diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
+> index 9c083cf14231..a65457b1e7e0 100644
+> --- a/drivers/media/i2c/max9286.c
+> +++ b/drivers/media/i2c/max9286.c
+> @@ -139,6 +139,7 @@
+>  struct max9286_source {
+>  	struct v4l2_subdev *sd;
+>  	struct fwnode_handle *fwnode;
+> +	struct regulator *regulator;
+>  };
+>
+>  struct max9286_asd {
+> @@ -169,6 +170,7 @@ struct max9286_priv {
+>  	u32 init_rev_chan_mv;
+>  	u32 rev_chan_mv;
+>
+> +	bool use_gpio_poc;
+>  	u32 gpio_poc[2];
+>
+>  	struct v4l2_ctrl_handler ctrls;
+> @@ -1088,9 +1090,6 @@ static int max9286_parse_gpios(struct max9286_priv *priv)
+>  	struct device *dev = &priv->client->dev;
+>  	int ret;
+>
+> -	/* GPIO values default to high */
+> -	priv->gpio_state = BIT(0) | BIT(1);
+> -
+>  	/*
+>  	 * Parse the "gpio-poc" vendor property. If the property is not
+>  	 * specified the camera power is controlled by a regulator.
+> @@ -1102,18 +1101,7 @@ static int max9286_parse_gpios(struct max9286_priv *priv)
+>  		 * If gpio lines are not used for the camera power, register
+>  		 * a gpio controller for consumers.
+>  		 */
+> -		ret = max9286_register_gpio(priv);
+> -		if (ret)
+> -			return ret;
+> -
+> -		priv->regulator = devm_regulator_get(dev, "poc");
+> -		if (IS_ERR(priv->regulator)) {
+> -			return dev_err_probe(dev, PTR_ERR(priv->regulator),
+> -					     "Unable to get PoC regulator (%ld)\n",
+> -					     PTR_ERR(priv->regulator));
+> -		}
+> -
+> -		return 0;
+> +		return max9286_register_gpio(priv);
+>  	}
+>
+>  	/* If the property is specified make sure it is well formed. */
+> @@ -1124,21 +1112,75 @@ static int max9286_parse_gpios(struct max9286_priv *priv)
+>  		return -EINVAL;
+>  	}
+>
+> +	priv->use_gpio_poc = true;
+>  	return 0;
+>  }
+>
+> +static int max9286_poc_power_on(struct max9286_priv *priv)
+> +{
+> +	struct max9286_source *source;
+> +	unsigned int enabled = 0;
+> +	int ret;
+> +
+> +	/* Enable the global regulator if available. */
+> +	if (priv->regulator)
+> +		return regulator_enable(priv->regulator);
+> +
+> +	if (priv->use_gpio_poc)
+> +		return max9286_gpio_set(priv, priv->gpio_poc[0],
+> +					!priv->gpio_poc[1]);
+> +
+> +	/* Otherwise use the per-port regulators. */
+> +	for_each_source(priv, source) {
+> +		ret = regulator_enable(source->regulator);
+> +		if (ret < 0)
+> +			goto error;
+> +
+> +		enabled |= BIT(to_index(priv, source));
+> +	}
+> +
+> +	return 0;
+> +
+> +error:
+> +	for_each_source(priv, source) {
+> +		if (enabled & BIT(to_index(priv, source)))
+> +			regulator_disable(source->regulator);
+> +	}
+> +
+> +	return ret;
+> +}
+> +
+> +static int max9286_poc_power_off(struct max9286_priv *priv)
+> +{
+> +	struct max9286_source *source;
+> +	int ret = 0;
+> +
+> +	if (priv->regulator)
+> +		return regulator_disable(priv->regulator);
+> +
+> +	if (priv->use_gpio_poc)
+> +		return max9286_gpio_set(priv, priv->gpio_poc[0],
+> +					priv->gpio_poc[1]);
+> +
+> +	for_each_source(priv, source) {
+> +		int err;
+> +
+> +		err = regulator_disable(source->regulator);
+> +		if (!ret)
+> +			ret = err;
+> +	}
+> +
+> +	return ret;
+> +}
+> +
+>  static int max9286_poc_enable(struct max9286_priv *priv, bool enable)
+>  {
+>  	int ret;
+>
+> -	/* If the regulator is not available, use gpio to control power. */
+> -	if (!priv->regulator)
+> -		ret = max9286_gpio_set(priv, priv->gpio_poc[0],
+> -				       enable ^ priv->gpio_poc[1]);
+> -	else if (enable)
+> -		ret = regulator_enable(priv->regulator);
+> +	if (enable)
+> +		ret = max9286_poc_power_on(priv);
+>  	else
+> -		ret = regulator_disable(priv->regulator);
+> +		ret = max9286_poc_power_off(priv);
+>
+>  	if (ret < 0)
+>  		dev_err(&priv->client->dev, "Unable to turn power %s\n",
+> @@ -1317,6 +1359,44 @@ static int max9286_parse_dt(struct max9286_priv *priv)
+>  	return 0;
+>  }
+>
+> +static int max9286_get_poc_supplies(struct max9286_priv *priv)
+> +{
+> +	struct device *dev = &priv->client->dev;
+> +	struct max9286_source *source;
+> +	int ret;
+> +
+> +	/* Start by getting the global regulator. */
+> +	priv->regulator = devm_regulator_get_optional(dev, "poc");
+> +	if (!IS_ERR(priv->regulator))
+> +		return 0;
+> +
+> +	if (PTR_ERR(priv->regulator) != -ENODEV)
+> +		return dev_err_probe(dev, PTR_ERR(priv->regulator),
+> +				     "Unable to get PoC regulator\n");
+> +
+> +	/* If there's no global regulator, get per-port regulators. */
+> +	dev_dbg(dev,
+> +		"No global PoC regulator, looking for per-port regulators\n");
+> +	priv->regulator = NULL;
+> +
+> +	for_each_source(priv, source) {
+> +		unsigned int index = to_index(priv, source);
+> +		char name[10];
+> +
+> +		snprintf(name, sizeof(name), "port%u-poc", index);
+> +		source->regulator = devm_regulator_get(dev, name);
+> +		if (IS_ERR(source->regulator)) {
+> +			ret = PTR_ERR(source->regulator);
+> +			dev_err_probe(dev, ret,
+> +				      "Unable to get port %u PoC regulator\n",
+> +				      index);
+> +			return ret;
+> +		}
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+>  static int max9286_probe(struct i2c_client *client)
+>  {
+>  	struct max9286_priv *priv;
+> @@ -1330,6 +1410,9 @@ static int max9286_probe(struct i2c_client *client)
+>
+>  	priv->client = client;
+>
+> +	/* GPIO values default to high */
+> +	priv->gpio_state = BIT(0) | BIT(1);
+> +
+>  	priv->gpiod_pwdn = devm_gpiod_get_optional(&client->dev, "enable",
+>  						   GPIOD_OUT_HIGH);
+>  	if (IS_ERR(priv->gpiod_pwdn))
+> @@ -1362,7 +1445,13 @@ static int max9286_probe(struct i2c_client *client)
+>
+>  	ret = max9286_parse_dt(priv);
+>  	if (ret)
+> -		goto err_powerdown;
+> +		goto err_cleanup_dt;
+> +
+> +	if (!priv->use_gpio_poc) {
+> +		ret = max9286_get_poc_supplies(priv);
+> +		if (ret)
+> +			goto err_cleanup_dt;
+> +	}
+>
+>  	ret = max9286_init(priv);
+>  	if (ret < 0)
+> --
+> Regards,
+>
+> Laurent Pinchart
+>
