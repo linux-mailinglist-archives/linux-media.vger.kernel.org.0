@@ -2,114 +2,349 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CD84465287E
-	for <lists+linux-media@lfdr.de>; Tue, 20 Dec 2022 22:40:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 81D4965293B
+	for <lists+linux-media@lfdr.de>; Tue, 20 Dec 2022 23:57:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229757AbiLTVke (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 20 Dec 2022 16:40:34 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54192 "EHLO
+        id S234068AbiLTW5D (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 20 Dec 2022 17:57:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50950 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229727AbiLTVkc (ORCPT
+        with ESMTP id S233999AbiLTW5A (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 20 Dec 2022 16:40:32 -0500
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com [IPv6:2a00:1450:4864:20::135])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0153113CEF;
-        Tue, 20 Dec 2022 13:40:31 -0800 (PST)
-Received: by mail-lf1-x135.google.com with SMTP id j4so20691558lfk.0;
-        Tue, 20 Dec 2022 13:40:30 -0800 (PST)
+        Tue, 20 Dec 2022 17:57:00 -0500
+Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 47EA2B492
+        for <linux-media@vger.kernel.org>; Tue, 20 Dec 2022 14:56:59 -0800 (PST)
+Received: by mail-ej1-x62e.google.com with SMTP id bj12so32690825ejb.13
+        for <linux-media@vger.kernel.org>; Tue, 20 Dec 2022 14:56:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=i0QJJAJHs8AlHPv1GFzIrByGID5+G91GQ7RiYN+XzJE=;
-        b=AGyI0rZkXfrzcC3mDk9Ocmgo5FfL5qYohqfDty0IGt1mIpDzR+ADBd/5jdkkEIYucf
-         fdivCrsy66dXu745ocmIYzzv726M4VbxrH+iIX98exDpvwE0xg0fP4LZOwEN0HUN1RQB
-         P1pknZ7u3+ZZ47CmR+Fbci/fvn882uWfnawSIfdeRnSUef2f1hCQ0NToip4Q74f6wx1G
-         Aqq+XY15pMIbZZjJhBKOtQ+ZQSKrEhTvriuEkJTg+IeY6KQgvKgW/Pqfm/+SoxkLNBaw
-         KuwrecRR7kMH8ZwKcLOUWdX+L+1jY78K9zgg50J94by/ZZt0CXnKc12dTO49GFIgErx0
-         h34A==
+        d=chromium.org; s=google;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=yxqcWft59OCWANRJjSvyfqsF4e3tYjtaN8mGnqPFcrM=;
+        b=HwKksefmkXM1Z0jtxl0KaOpO1Y00sA/hkiAIB8Wpd6CjmUrozXs7vT/NXfy31uZYde
+         1FCcoj9YELckVnNjL240yzzcTbzFgL2L+NEGdzEvlFZ3vb1cQKK4tkvGyBoZRcFnn/60
+         /ywhFDj9xRGFGQGWgl2p51VerCzEBXnXN8ygo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=i0QJJAJHs8AlHPv1GFzIrByGID5+G91GQ7RiYN+XzJE=;
-        b=ZKNtiRg1Wkj7gRkP17+AIzhebiQfIgVuViR1nVIMM0r1BKd50oKutbO7A6lBWtb8Uv
-         klDrxRYWfuoWHfw8PoaWQ1h+LzI6rFc8qo+2jpfRcHF1xdKVn0i7nrW7m6gIRJuJ1zp/
-         0Din3UGuo90iSXr3lksEN/c+ePQpzWssQdNTh+9x+7jXvkQ0ROSHkTae+qjzI4kDj4KS
-         crJEyQQOWD4Nu0Of5ShX18HUzrn8rH8D6XCLRZzM8/OnZZrrbtUcRx+a067APJhXamCU
-         xJc+gbpk6MVxEQz6KX+HupKbXy3eCJ9opop2OU5agUj4Wwty5GTzrN5/lV/o+LppmpFQ
-         wxyw==
-X-Gm-Message-State: ANoB5pmWemCm5X2v20hJzrmNzjebZCYZY8MPUuy3xvacYiHTMgzkRBBD
-        tR3KnWgi5kATFiQZadu5M4c=
-X-Google-Smtp-Source: AA0mqf7UCX9LfU9mAdsWfz+Q/qhvUuQxl0BkWSutbWvnPYHqlJ49tXMn0MPeBrgSGHjYxfib5jXyig==
-X-Received: by 2002:a05:6512:682:b0:4a4:68b8:f4db with SMTP id t2-20020a056512068200b004a468b8f4dbmr19035562lfe.33.1671572429262;
-        Tue, 20 Dec 2022 13:40:29 -0800 (PST)
-Received: from [192.168.2.145] (109-252-113-89.nat.spd-mgts.ru. [109.252.113.89])
-        by smtp.googlemail.com with ESMTPSA id v24-20020ac25618000000b004b549ad99adsm1598785lfd.304.2022.12.20.13.40.27
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 20 Dec 2022 13:40:28 -0800 (PST)
-Message-ID: <30e6b040-aa82-f6a3-1ff6-baa2c0dcb0e2@gmail.com>
-Date:   Wed, 21 Dec 2022 00:40:20 +0300
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=yxqcWft59OCWANRJjSvyfqsF4e3tYjtaN8mGnqPFcrM=;
+        b=fwwi214WKN/+7IMVaR2cU4WCIMiQHwrpt7F0BiDi8letAds0PQ/shG4TewSJ+imSZq
+         QnOojvAbjZUB5VG3/Bs3ska1EogtGWeoYFQSbHgbsqXQgPBNqCw0ZHh0oybQyUYlvFS3
+         uHhrSsvFXY1C6Ew7Ess5ii6X2cH4O16K5MiJ2wcisGluUP9HnTr5Igi5GlcCII1Vd2Bj
+         EZ4UEcha8qGj72ejH7AbBs3dmirfTFpysjNg3PHlZN0ZQ6LdibaLlB332g5121e1svCE
+         UOOQcmz/umjjCcK/ttPqt7w+eO7rzFMTuTai5REDf9iPXeGHxMu+isNmO5ekf0vpt/TT
+         pcCQ==
+X-Gm-Message-State: AFqh2kpOJONnJZkLdl1In62kPa34M+l1n8K5xjG4vk08Lo+1ZwkUFvMv
+        xL+jwNSIDOpzo1THXWYNNO09DuF6RohkMEA2dtA=
+X-Google-Smtp-Source: AMrXdXt7nJbqWOjvERSz/X2De5muQiPY8l6Cv4NcDW8mCWLM6bENx7erv5Ztp8N+ogBJb5te6PChKA==
+X-Received: by 2002:a17:906:bcd1:b0:7c0:e4b6:601d with SMTP id lw17-20020a170906bcd100b007c0e4b6601dmr3762377ejb.7.1671577017707;
+        Tue, 20 Dec 2022 14:56:57 -0800 (PST)
+Received: from alco.roam.corp.google.com (80.71.134.83.ipv4.parknet.dk. [80.71.134.83])
+        by smtp.gmail.com with ESMTPSA id v18-20020a170906293200b0078e0973d1f5sm6219658ejd.0.2022.12.20.14.56.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 20 Dec 2022 14:56:57 -0800 (PST)
+From:   Ricardo Ribalda <ribalda@chromium.org>
+Date:   Tue, 20 Dec 2022 23:56:44 +0100
+Subject: [PATCH v4] media: uvcvideo: Remove void casting for the status endpoint
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH v2 21/21] staging: media: tegra-video: add tegra20 variant
-Content-Language: en-US
-To:     Luca Ceresoli <luca.ceresoli@bootlin.com>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Sowjanya Komatineni <skomatineni@nvidia.com>,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20221214-uvc-status-alloc-v4-0-f8e3e2994ebd@chromium.org>
+To:     Yunke Cao <yunkec@chromium.org>, Max Staudt <mstaudt@chromium.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Richard Leitner <richard.leitner@skidata.com>
-References: <20221128152336.133953-1-luca.ceresoli@bootlin.com>
- <20221128152336.133953-22-luca.ceresoli@bootlin.com>
-From:   Dmitry Osipenko <digetx@gmail.com>
-In-Reply-To: <20221128152336.133953-22-luca.ceresoli@bootlin.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-3.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org,
+        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        Ricardo Ribalda <ribalda@chromium.org>,
+        linux-kernel@vger.kernel.org
+X-Mailer: b4 0.11.0-dev-696ae
+X-Developer-Signature: v=1; a=openpgp-sha256; l=8364; i=ribalda@chromium.org;
+ h=from:subject:message-id; bh=GLzZxhMplXLe8qPa6WyRPuVdAJ3PPq3ffZj4Q/FP2SA=;
+ b=owEBbQKS/ZANAwAKAdE30T7POsSIAcsmYgBjoj21qRQBOkeRbT2hKyyen551oMXpQehjq6rAKSQn
+ aI9oE4yJAjMEAAEKAB0WIQREDzjr+/4oCDLSsx7RN9E+zzrEiAUCY6I9tQAKCRDRN9E+zzrEiNcSD/
+ 9jl03axlJkkvj4ZUNN3zGLW2+ELC1r705TtJ07PMqy/KYzc2SHiZQh3p9CVNQZkPRXx6Hu1SAJoXAS
+ mFHmovwsB6NFJl6onobaLNsbRb3l8fnyuzgSs0bfn1NYmXIVAweSimsIp8XcPqI1wzmvY4v6WJjwW+
+ NGOyxjWOGA/N76Fssruv3QwT1mQapdZVK5CtUDDJGKdJjnrrjXm78Ff7rokSaAXuRcRrgKidiYmuZH
+ R0+4fNfG2D9UJVoZGJ7rmd0ySBY5ewu+ZzF+a+GLftqCJ6WBpxZEcOrWBZt+DekIxch1U8SRret7KP
+ +cGq0MQd1DyKKafOa/2k33UgfHGBKnTPuKDpEk+mbByB8cFLZhQash2as9ei+DITKdCFOQiraSjw/w
+ FIdWaNiEn9WLgHxp7zxeB+2nqke/Ci1nMicuhsNW51zA4xXyOWtBqCpuEBpBhx/RjB9J8sxHLG84zh
+ 5r4r4NIT5G0OL4iYMh8awwjb7rYOg/KBP0xFjZt0SD4j6LYbHhscZFhZOUUJzmZunzcRGZ+A5HhW8X
+ PYNuMHYhjC96RP+/Lqp7cJGUoN4dnTYj2oXHcfJUGYT/7zI1Z+XN6dx3va9uTmQOLF8cBJnop/pBil
+ EbajJhB+N9TRUXmzqtD9bjO+0D2dniJO3QDk/ciiL6mlWuBuOWK1UXijCnkg==
+X-Developer-Key: i=ribalda@chromium.org; a=openpgp;
+ fpr=9EC3BB66E2FC129A6F90B39556A0D81F9F782DA9
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-28.11.2022 18:23, Luca Ceresoli пишет:
-> +static int tegra20_channel_capture_frame(struct tegra_vi_channel *chan,
-> +					 struct tegra_channel_buffer *buf)
-> +{
-> +	u32 value;
-> +	int err;
-> +
-> +	chan->next_out_sp_idx++;
-> +
-> +	tegra20_channel_vi_buffer_setup(chan, buf);
-> +
-> +	tegra20_vi_write(chan, TEGRA_VI_CAMERA_CONTROL, VI_CAMERA_CONTROL_VIP_ENABLE);
-> +
-> +	/* Wait for syncpt counter to reach frame start event threshold */
-> +	err = host1x_syncpt_wait(chan->out_sp, chan->next_out_sp_idx,
-> +				 TEGRA_VI_SYNCPT_WAIT_TIMEOUT, &value);
+Make the code more resiliant, by replacing the castings with proper
+structure definitions and using offsetof() instead of open coding the
+location of the data.
 
-You're not using the "value" variable, it should be NULL.
+Suggested-by: Sergey Senozhatsky <senozhatsky@chromium.org>
+Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+---
+media: uvcvideo: Code cleanup for dev->status
 
-The "chan->out_sp" looks redundant, it duplicates the chan->mw_ack_sp.
-AFAICS from the doc, T20 has two VI channels, and thus, two mw_ack_sp,
-like T210.
+Lets remove all the castings and open coding of offsets for it.
 
+To: Yunke Cao <yunkec@chromium.org>
+To: Sergey Senozhatsky <senozhatsky@chromium.org>
+To: Max Staudt <mstaudt@chromium.org>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+---
+Changes in v4:
+- Fix sizeof() error.
+- Keep kzalloc(). Thanks Alan, Christoph and Jonathan
+- Reducing the cc: to:
+- Link to v3: https://lore.kernel.org/r/20221214-uvc-status-alloc-v3-0-9a67616cc549@chromium.org
+
+Changes in v3:
+- Split the patch in two
+- Add linux-usb, Alan and Christoph for the allocation change.
+- Link to v2: https://lore.kernel.org/r/20221214-uvc-status-alloc-v2-0-3f1cba6fc734@chromium.org
+
+Changes in v2:
+- using __aligned(), to keep the old alignment
+- Adding Johnathan Cameron to:, as he has some similar experience with iio
+- Adding Ming Lei, as this patch kind of revert his patch.
+- Link to v1: https://lore.kernel.org/r/20221214-uvc-status-alloc-v1-0-a0098ddc7c93@chromium.org
+---
+ drivers/media/usb/uvc/uvc_status.c | 66 +++++++++++++-------------------------
+ drivers/media/usb/uvc/uvcvideo.h   | 25 +++++++++++++--
+ 2 files changed, 45 insertions(+), 46 deletions(-)
+
+diff --git a/drivers/media/usb/uvc/uvc_status.c b/drivers/media/usb/uvc/uvc_status.c
+index 7518ffce22ed..00f4036d0683 100644
+--- a/drivers/media/usb/uvc/uvc_status.c
++++ b/drivers/media/usb/uvc/uvc_status.c
+@@ -73,38 +73,24 @@ static void uvc_input_report_key(struct uvc_device *dev, unsigned int code,
+ /* --------------------------------------------------------------------------
+  * Status interrupt endpoint
+  */
+-struct uvc_streaming_status {
+-	u8	bStatusType;
+-	u8	bOriginator;
+-	u8	bEvent;
+-	u8	bValue[];
+-} __packed;
+-
+-struct uvc_control_status {
+-	u8	bStatusType;
+-	u8	bOriginator;
+-	u8	bEvent;
+-	u8	bSelector;
+-	u8	bAttribute;
+-	u8	bValue[];
+-} __packed;
+-
+ static void uvc_event_streaming(struct uvc_device *dev,
+-				struct uvc_streaming_status *status, int len)
++				struct uvc_status *status, int len)
+ {
+-	if (len < 3) {
++	if (len <= offsetof(struct uvc_status, bEvent)) {
+ 		uvc_dbg(dev, STATUS,
+ 			"Invalid streaming status event received\n");
+ 		return;
+ 	}
+ 
+ 	if (status->bEvent == 0) {
+-		if (len < 4)
++		if (len <= offsetof(struct uvc_status, streaming))
+ 			return;
++
+ 		uvc_dbg(dev, STATUS, "Button (intf %u) %s len %d\n",
+ 			status->bOriginator,
+-			status->bValue[0] ? "pressed" : "released", len);
+-		uvc_input_report_key(dev, KEY_CAMERA, status->bValue[0]);
++			status->streaming.button ? "pressed" : "released", len);
++		uvc_input_report_key(dev, KEY_CAMERA,
++				     status->streaming.button);
+ 	} else {
+ 		uvc_dbg(dev, STATUS, "Stream %u error event %02x len %d\n",
+ 			status->bOriginator, status->bEvent, len);
+@@ -131,7 +117,7 @@ static struct uvc_control *uvc_event_entity_find_ctrl(struct uvc_entity *entity,
+ }
+ 
+ static struct uvc_control *uvc_event_find_ctrl(struct uvc_device *dev,
+-					const struct uvc_control_status *status,
++					const struct uvc_status *status,
+ 					struct uvc_video_chain **chain)
+ {
+ 	list_for_each_entry((*chain), &dev->chains, list) {
+@@ -143,7 +129,7 @@ static struct uvc_control *uvc_event_find_ctrl(struct uvc_device *dev,
+ 				continue;
+ 
+ 			ctrl = uvc_event_entity_find_ctrl(entity,
+-							  status->bSelector);
++						     status->control.bSelector);
+ 			if (ctrl)
+ 				return ctrl;
+ 		}
+@@ -153,7 +139,7 @@ static struct uvc_control *uvc_event_find_ctrl(struct uvc_device *dev,
+ }
+ 
+ static bool uvc_event_control(struct urb *urb,
+-			      const struct uvc_control_status *status, int len)
++			      const struct uvc_status *status, int len)
+ {
+ 	static const char *attrs[] = { "value", "info", "failure", "min", "max" };
+ 	struct uvc_device *dev = urb->context;
+@@ -161,24 +147,24 @@ static bool uvc_event_control(struct urb *urb,
+ 	struct uvc_control *ctrl;
+ 
+ 	if (len < 6 || status->bEvent != 0 ||
+-	    status->bAttribute >= ARRAY_SIZE(attrs)) {
++	    status->control.bAttribute >= ARRAY_SIZE(attrs)) {
+ 		uvc_dbg(dev, STATUS, "Invalid control status event received\n");
+ 		return false;
+ 	}
+ 
+ 	uvc_dbg(dev, STATUS, "Control %u/%u %s change len %d\n",
+-		status->bOriginator, status->bSelector,
+-		attrs[status->bAttribute], len);
++		status->bOriginator, status->control.bSelector,
++		attrs[status->control.bAttribute], len);
+ 
+ 	/* Find the control. */
+ 	ctrl = uvc_event_find_ctrl(dev, status, &chain);
+ 	if (!ctrl)
+ 		return false;
+ 
+-	switch (status->bAttribute) {
++	switch (status->control.bAttribute) {
+ 	case UVC_CTRL_VALUE_CHANGE:
+ 		return uvc_ctrl_status_event_async(urb, chain, ctrl,
+-						   status->bValue);
++						   status->control.bValue);
+ 
+ 	case UVC_CTRL_INFO_CHANGE:
+ 	case UVC_CTRL_FAILURE_CHANGE:
+@@ -214,28 +200,22 @@ static void uvc_status_complete(struct urb *urb)
+ 
+ 	len = urb->actual_length;
+ 	if (len > 0) {
+-		switch (dev->status[0] & 0x0f) {
++		switch (dev->status->bStatusType & 0x0f) {
+ 		case UVC_STATUS_TYPE_CONTROL: {
+-			struct uvc_control_status *status =
+-				(struct uvc_control_status *)dev->status;
+-
+-			if (uvc_event_control(urb, status, len))
++			if (uvc_event_control(urb, dev->status, len))
+ 				/* The URB will be resubmitted in work context. */
+ 				return;
+ 			break;
+ 		}
+ 
+ 		case UVC_STATUS_TYPE_STREAMING: {
+-			struct uvc_streaming_status *status =
+-				(struct uvc_streaming_status *)dev->status;
+-
+-			uvc_event_streaming(dev, status, len);
++			uvc_event_streaming(dev, dev->status, len);
+ 			break;
+ 		}
+ 
+ 		default:
+ 			uvc_dbg(dev, STATUS, "Unknown status event type %u\n",
+-				dev->status[0]);
++				dev->status->bStatusType);
+ 			break;
+ 		}
+ 	}
+@@ -259,12 +239,12 @@ int uvc_status_init(struct uvc_device *dev)
+ 
+ 	uvc_input_init(dev);
+ 
+-	dev->status = kzalloc(UVC_MAX_STATUS_SIZE, GFP_KERNEL);
+-	if (dev->status == NULL)
++	dev->status = kzalloc(sizeof(*dev->status), GFP_KERNEL);
++	if (!dev->status)
+ 		return -ENOMEM;
+ 
+ 	dev->int_urb = usb_alloc_urb(0, GFP_KERNEL);
+-	if (dev->int_urb == NULL) {
++	if (!dev->int_urb) {
+ 		kfree(dev->status);
+ 		return -ENOMEM;
+ 	}
+@@ -281,7 +261,7 @@ int uvc_status_init(struct uvc_device *dev)
+ 		interval = fls(interval) - 1;
+ 
+ 	usb_fill_int_urb(dev->int_urb, dev->udev, pipe,
+-		dev->status, UVC_MAX_STATUS_SIZE, uvc_status_complete,
++		dev->status, sizeof(*dev->status), uvc_status_complete,
+ 		dev, interval);
+ 
+ 	return 0;
+diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
+index df93db259312..84326991ec36 100644
+--- a/drivers/media/usb/uvc/uvcvideo.h
++++ b/drivers/media/usb/uvc/uvcvideo.h
+@@ -51,8 +51,6 @@
+ #define UVC_URBS		5
+ /* Maximum number of packets per URB. */
+ #define UVC_MAX_PACKETS		32
+-/* Maximum status buffer size in bytes of interrupt URB. */
+-#define UVC_MAX_STATUS_SIZE	16
+ 
+ #define UVC_CTRL_CONTROL_TIMEOUT	5000
+ #define UVC_CTRL_STREAMING_TIMEOUT	5000
+@@ -527,6 +525,26 @@ struct uvc_device_info {
+ 	const struct uvc_control_mapping **mappings;
+ };
+ 
++struct uvc_status_streaming {
++	u8	button;
++} __packed;
++
++struct uvc_status_control {
++	u8	bSelector;
++	u8	bAttribute;
++	u8	bValue[11];
++} __packed;
++
++struct uvc_status {
++	u8	bStatusType;
++	u8	bOriginator;
++	u8	bEvent;
++	union {
++		struct uvc_status_control control;
++		struct uvc_status_streaming streaming;
++	};
++} __packed;
++
+ struct uvc_device {
+ 	struct usb_device *udev;
+ 	struct usb_interface *intf;
+@@ -559,7 +577,8 @@ struct uvc_device {
+ 	/* Status Interrupt Endpoint */
+ 	struct usb_host_endpoint *int_ep;
+ 	struct urb *int_urb;
+-	u8 *status;
++	struct uvc_status *status;
++
+ 	struct input_dev *input;
+ 	char input_phys[64];
+ 
+
+---
+base-commit: 0ec5a38bf8499f403f81cb81a0e3a60887d1993c
+change-id: 20221214-uvc-status-alloc-93becb783898
+
+Best regards,
+-- 
+Ricardo Ribalda <ribalda@chromium.org>
