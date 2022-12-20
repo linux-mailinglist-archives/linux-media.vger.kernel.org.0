@@ -2,176 +2,142 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 60429651D77
-	for <lists+linux-media@lfdr.de>; Tue, 20 Dec 2022 10:34:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 85EA6651D8B
+	for <lists+linux-media@lfdr.de>; Tue, 20 Dec 2022 10:36:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233329AbiLTJei (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 20 Dec 2022 04:34:38 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40546 "EHLO
+        id S233253AbiLTJgm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 20 Dec 2022 04:36:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43480 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233453AbiLTJeM (ORCPT
+        with ESMTP id S230058AbiLTJgk (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 20 Dec 2022 04:34:12 -0500
-Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com [209.85.219.41])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EF8C6186A5;
-        Tue, 20 Dec 2022 01:33:59 -0800 (PST)
-Received: by mail-qv1-f41.google.com with SMTP id q10so7913070qvt.10;
-        Tue, 20 Dec 2022 01:33:59 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=WpdfPBP970vLU8Qrw/EG17JgG4XDBxab8NOfDbJupFY=;
-        b=XXzuzFhc21SmukSlrPRXTTXaXbWecesRICEvGQi1M24PoCRPteA89rz7BI3nFgcE8s
-         D/wmVBMPF1m/lbyP7gqeXphhGzkDd5QXiO1hSbMnfOgUY3fyuRn4a6AdAw2EbcYwgIfz
-         l2RHcm5dikNF1N1ihoPUUxMrIxoloqa/4g09xrv0Q3prnW2b0UqnTb39/f6l85S0iXvU
-         +1Fp6skjUMyYaHHFVAFialu99vp03O7u8TraWMXN6Bt6Trs9wQe414q8vs9nBSyuN2q+
-         +l2Q1GNwxBu8mtY8t66OPVKWme89jg9UcD1wgqsbbJazrervai3WEv7QUIYdeVzbPV43
-         iUmQ==
-X-Gm-Message-State: ANoB5pnB29U/jB0VUI7+Eu/3x06QKQp9QpvEotQNCHWc1x+DfISFagpJ
-        KC2+0AWa3mG0c3sscTLAbnLs/ahb/pEgnA==
-X-Google-Smtp-Source: AA0mqf5e755f7K6LsHtDF+2TvPguguEg640GTYG+QUTqnKez29W4B6NohvOq44e1nmjIFsKYQVUusA==
-X-Received: by 2002:a0c:a951:0:b0:4c7:32b8:c5ba with SMTP id z17-20020a0ca951000000b004c732b8c5bamr63571944qva.45.1671528838889;
-        Tue, 20 Dec 2022 01:33:58 -0800 (PST)
-Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com. [209.85.219.179])
-        by smtp.gmail.com with ESMTPSA id c25-20020a05620a269900b006fc447eebe5sm8689507qkp.27.2022.12.20.01.33.58
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 20 Dec 2022 01:33:58 -0800 (PST)
-Received: by mail-yb1-f179.google.com with SMTP id e141so12322523ybh.3;
-        Tue, 20 Dec 2022 01:33:58 -0800 (PST)
-X-Received: by 2002:a25:9:0:b0:6f9:29ef:a5ee with SMTP id 9-20020a250009000000b006f929efa5eemr40430651yba.380.1671528837883;
- Tue, 20 Dec 2022 01:33:57 -0800 (PST)
-MIME-Version: 1.0
-References: <20221219140139.294245-1-tomi.valkeinen+renesas@ideasonboard.com>
- <20221219140139.294245-8-tomi.valkeinen+renesas@ideasonboard.com>
- <Y6Db2C+JehUPYSQp@pendragon.ideasonboard.com> <2f252958-1bb1-006a-b450-1315be8a3c9f@xs4all.nl>
- <CAMuHMdXd7Q1WWdo-rwfad1-BwuuH5vxt9Kx2Zv2Ok2rQLvh_wA@mail.gmail.com> <b503589a-7b82-3335-8ea3-598d467f5d40@xs4all.nl>
-In-Reply-To: <b503589a-7b82-3335-8ea3-598d467f5d40@xs4all.nl>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 20 Dec 2022 10:33:45 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdWS+jOeFcHU=gQcaYdOMCk9oruSWiuCX-voXAbx61yYuA@mail.gmail.com>
-Message-ID: <CAMuHMdWS+jOeFcHU=gQcaYdOMCk9oruSWiuCX-voXAbx61yYuA@mail.gmail.com>
-Subject: Re: [PATCH v2 7/7] drm: rcar-du: Add new formats (2-10-10-10 ARGB, Y210)
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+        Tue, 20 Dec 2022 04:36:40 -0500
+Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [IPv6:2a0b:5c81:1c1::37])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3AF361123;
+        Tue, 20 Dec 2022 01:36:39 -0800 (PST)
+Received: from hillosipuli.retiisi.eu (dkv67ytyxtq-05sj69vvy-3.rev.dnainternet.fi [IPv6:2001:14ba:4475:b040:1383:7fec:bcfa:ec62])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: sailus)
+        by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 3D8CC1B001B6;
+        Tue, 20 Dec 2022 11:36:36 +0200 (EET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
+        t=1671528996;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=83o3+NNaC/IgbT55ZoIsDuRVomAnlgiNTgekNRp8Oe4=;
+        b=N/estAzXDOLwJ/ZgEDSd5fUkF9asqAQZoDXq7Dxv+kNjokoUKgxMp/2fRmo06bO+1zIS9N
+        M54qcPjz1GPwIGlq6twaXCCQz5TpuU0fhNY5fBNer5xxD4F6LIetJ1KO0ktSPr2nbk2ktd
+        GA1BmXTiZQO2ETEU57u4+kKCFPXhUKgMm+TiagDFXG9yl2AYdh0nrbVImtANyBDWZN0YWy
+        FvxgBxk2wUaHGzNgysOrAcn0apaDd/rYHvGsQ6TvXqt/yi5/Fh1Llj/CozBl79wWnkmHZh
+        lQIblgZ1wMtbgVXjSMXXxpD3i+zCqPXe2sLD9oHxKCobgUGDz99Mw+vfIfIcyA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+        s=lahtoruutu; t=1671528996;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=83o3+NNaC/IgbT55ZoIsDuRVomAnlgiNTgekNRp8Oe4=;
+        b=PNbx2Hbg9paDq7amLvz6wBqL7uRPv1ZhD8LA9Gd0O/MFnPBNtDmhvk4/Hsz5lDMDle+whj
+        F8CqNKBFpVxiX4lRlz7Hz88BoPhmNg0KybZiyG1gIORRv713z3eoqI1BpIeR1uHJEUn45e
+        IrX+t6gNCamFQ+BsC0V86P8x1axoltmr6erG8XADhH22RGRiqR92BhFSMyQQCbzf8dJWZj
+        oU1Hm50fL2KB0FR5e1eDrck3YGXdwmEhNrRjIxZ5n+i6Itc7+JS/KPwp61Q9UwUQ+HRNs+
+        a3ly0rm3TuBUANdo39KQtFv+ep22B6Ax0OtKmbO7MpWovbn1ixdu+JMVVD4D2Q==
+ARC-Authentication-Results: i=1;
+        ORIGINATING;
+        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1671528996; a=rsa-sha256;
+        cv=none;
+        b=ZHaNfD4cQR0HwvJFj8seG1y4wTYjzRdUGR4HytEMS8GbF6CaNeF9PZQutfopf8+xucYCsT
+        cypEOVhaZVG5myIpVeGrx40kvqGScHnfbqRQigtyQl/qDQ0XDnS2p5hn7dU5CyLJArftT1
+        RNvn4OnGNvNqe8Le9TYdkaKvMmkvqDL3/L96/BzIBX0z3yht4OaeQis/WbG88xdkpjmTyj
+        PKg0L2naxtM/677oJU7lyQH15PGJPoB5e+r4v8H7bosBT6xbtS81meklx3ZQ555uOqZFNq
+        q4nX5pFOkAGtReZJokAKCCBYIc/s0cYLrKIrTrllQd/4aYUj28NTvOk6x4q87g==
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id C667C634C92;
+        Tue, 20 Dec 2022 11:36:35 +0200 (EET)
+Date:   Tue, 20 Dec 2022 11:36:35 +0200
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
         linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org,
         dri-devel@lists.freedesktop.org,
         Kieran Bingham <kieran.bingham@ideasonboard.com>,
         Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Sakari Ailus <sakari.ailus@iki.fi>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=no autolearn_force=no version=3.4.6
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Subject: Re: [PATCH v2 7/7] drm: rcar-du: Add new formats (2-10-10-10 ARGB,
+ Y210)
+Message-ID: <Y6GCI3PV3/WhyZBR@valkosipuli.retiisi.eu>
+References: <20221219140139.294245-1-tomi.valkeinen+renesas@ideasonboard.com>
+ <20221219140139.294245-8-tomi.valkeinen+renesas@ideasonboard.com>
+ <Y6Db2C+JehUPYSQp@pendragon.ideasonboard.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y6Db2C+JehUPYSQp@pendragon.ideasonboard.com>
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans,
+Hi Laurent,
 
-On Tue, Dec 20, 2022 at 10:22 AM Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
-> On 20/12/2022 10:09, Geert Uytterhoeven wrote:
-> > On Tue, Dec 20, 2022 at 10:01 AM Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
-> >> On 19/12/2022 22:47, Laurent Pinchart wrote:
-> >>> (CC'ing Sakari and Hans)
-> >>>
-> >>> Thank you for the patch.
-> >>>
-> >>> On Mon, Dec 19, 2022 at 04:01:39PM +0200, Tomi Valkeinen wrote:
-> >>>> Add new pixel formats: RGBX1010102, RGBA1010102, ARGB2101010 and Y210.
-> >>>>
-> >>>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-> >>>> ---
-> >>>>  drivers/gpu/drm/rcar-du/rcar_du_kms.c | 24 +++++++++++++
-> >>>>  drivers/gpu/drm/rcar-du/rcar_du_vsp.c | 49 +++++++++++++++++++++++++--
-> >>>>  2 files changed, 71 insertions(+), 2 deletions(-)
-> >>>>
-> >>>> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_kms.c b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-> >>>> index 8c2719efda2a..8ccabf5a30c4 100644
-> >>>> --- a/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-> >>>> +++ b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-> >>>> @@ -259,6 +259,24 @@ static const struct rcar_du_format_info rcar_du_format_infos[] = {
-> >>>>              .bpp = 32,
-> >>>>              .planes = 1,
-> >>>>              .hsub = 1,
-> >>>> +    }, {
-> >>>> +            .fourcc = DRM_FORMAT_RGBX1010102,
-> >>>
-> >>> Ah, here the format makes sense.
-> >>>
-> >>>> +            .v4l2 = V4L2_PIX_FMT_XBGR2101010,
-> >>>
-> >>> But this is horrible :-( Could we use the same names as DRM for new
-> >>> formats, when there is no conflict with existing V4L2 formats ?
-> >>>
-> >>> Sakari, Hans, what do you think ? Please see patch 1/7 in the series for
-> >>> the format definitions.
-> >>
-> >> V4L2 describes pixel formats based on how they appear in memory from the
-> >> lowest to highest memory address.
-> >
-> > So that means big endian?
->
-> Yes.
->
-> >> If I am not mistaken, DRM uses the CPU order. So that explains the difference
-> >> in naming. I don't think we should hide that difference. And V4L2 has been
-> >> quite consistent in following memory ordering in the naming (except possibly
-> >> for some of the really old pixelformats).
-> >
-> > DRM uses little endian.
->
-> So not CPU order, but always little endian order? I.e., on a big endian system
-> a given DRM_FORMAT_ would have the same memory layout as on a little endian
-> system?
+On Mon, Dec 19, 2022 at 11:47:04PM +0200, Laurent Pinchart wrote:
+> Hi Tomi,
+> 
+> (CC'ing Sakari and Hans)
+> 
+> Thank you for the patch.
+> 
+> On Mon, Dec 19, 2022 at 04:01:39PM +0200, Tomi Valkeinen wrote:
+> > Add new pixel formats: RGBX1010102, RGBA1010102, ARGB2101010 and Y210.
+> > 
+> > Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+> > ---
+> >  drivers/gpu/drm/rcar-du/rcar_du_kms.c | 24 +++++++++++++
+> >  drivers/gpu/drm/rcar-du/rcar_du_vsp.c | 49 +++++++++++++++++++++++++--
+> >  2 files changed, 71 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/rcar-du/rcar_du_kms.c b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
+> > index 8c2719efda2a..8ccabf5a30c4 100644
+> > --- a/drivers/gpu/drm/rcar-du/rcar_du_kms.c
+> > +++ b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
+> > @@ -259,6 +259,24 @@ static const struct rcar_du_format_info rcar_du_format_infos[] = {
+> >  		.bpp = 32,
+> >  		.planes = 1,
+> >  		.hsub = 1,
+> > +	}, {
+> > +		.fourcc = DRM_FORMAT_RGBX1010102,
+> 
+> Ah, here the format makes sense.
+> 
+> > +		.v4l2 = V4L2_PIX_FMT_XBGR2101010,
+> 
+> But this is horrible :-( Could we use the same names as DRM for new
+> formats, when there is no conflict with existing V4L2 formats ?
+> 
+> Sakari, Hans, what do you think ? Please see patch 1/7 in the series for
+> the format definitions.
 
-Indeed. Big-endian formats must set the DRM_FORMAT_BIG_ENDIAN flag:
+I think it'd be good to have only one set of definitions.
 
-    #define DRM_FORMAT_BIG_ENDIAN (1U<<31) /* format is big endian
-instead of little endian */
+Can we can sort the endianness question in a reasonable way?
 
-unless the big-endian format has a standard (little-endian) equivalent:
+Also new Bayer formats will probably be still needed on V4L2 side but will
+they be relevant for DRM? I suppose that would mean new DRM format for
+each pixel order, too? Or can we think of something smarter that would
+still work reasonably with existing formats?
 
-Old PPC drivers may violate that, so there is some quirk handling...
+-- 
+Kind regards,
 
-/*
- * DRM formats are little endian.  Define host endian variants for the
- * most common formats here, to reduce the #ifdefs needed in drivers.
- *
- * Note that the DRM_FORMAT_BIG_ENDIAN flag should only be used in
- * case the format can't be specified otherwise, so we don't end up
- * with two values describing the same format.
- */
-#ifdef __BIG_ENDIAN
-# define DRM_FORMAT_HOST_XRGB1555     (DRM_FORMAT_XRGB1555         |    \
-                                       DRM_FORMAT_BIG_ENDIAN)
-# define DRM_FORMAT_HOST_RGB565       (DRM_FORMAT_RGB565           |    \
-                                       DRM_FORMAT_BIG_ENDIAN)
-# define DRM_FORMAT_HOST_XRGB8888     DRM_FORMAT_BGRX8888
-# define DRM_FORMAT_HOST_ARGB8888     DRM_FORMAT_BGRA8888
-#else
-# define DRM_FORMAT_HOST_XRGB1555     DRM_FORMAT_XRGB1555
-# define DRM_FORMAT_HOST_RGB565       DRM_FORMAT_RGB565
-# define DRM_FORMAT_HOST_XRGB8888     DRM_FORMAT_XRGB8888
-# define DRM_FORMAT_HOST_ARGB8888     DRM_FORMAT_ARGB8888
-#endif
-
-However, given the number of bugs related to big-endian formats,
-I doubt DRM has any real use on big-endian hardware (i.e. not
-counting hobbyists trying to migrate from fbdev to DRM ;-)
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Sakari Ailus
