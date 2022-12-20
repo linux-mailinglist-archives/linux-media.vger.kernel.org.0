@@ -2,249 +2,194 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4491F6521B7
-	for <lists+linux-media@lfdr.de>; Tue, 20 Dec 2022 14:49:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 420FA65221E
+	for <lists+linux-media@lfdr.de>; Tue, 20 Dec 2022 15:12:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233681AbiLTNtm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 20 Dec 2022 08:49:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58964 "EHLO
+        id S229713AbiLTOMj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 20 Dec 2022 09:12:39 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42158 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229563AbiLTNtj (ORCPT
+        with ESMTP id S229551AbiLTOMh (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 20 Dec 2022 08:49:39 -0500
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D962E65F1;
-        Tue, 20 Dec 2022 05:49:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1671544178; x=1703080178;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=ILvH76aAgDaS9txxLdxKFTa4pafrJSu2zimzPO8hm0o=;
-  b=Q0KdwWehjyjPhPBo94tVDzcQdGxR0PM9AgDg0duQCGWm7jRZnZS+iuBe
-   qp4lNm7X3MYVznxy0Ui+Apl5th/L0h2dYj5cSB4LGhy+pUPBvW7bgYnAQ
-   jBI+81JULyi5bWE1yTdL8A1lnPaT3775wNAVAIeR9POnz5mnOQriY1fzU
-   poe3kSOQBhkGFfzTmWs4pnhm1hqch0Z8a3AnOQkofuUmDwpQpI5Ud077E
-   42EMkbFohsiDsHSTg7uNlYiNV43K+zbzrDRMqeUqon4NCHDk11P/jpYAo
-   R1t4oVTVcfwFK+i41u8eFgkDUsX0sawJ3AmBtW7/UIHGxqewZAvtbYWs7
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10567"; a="299956961"
-X-IronPort-AV: E=Sophos;i="5.96,259,1665471600"; 
-   d="scan'208";a="299956961"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2022 05:49:38 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10567"; a="714435955"
-X-IronPort-AV: E=Sophos;i="5.96,259,1665471600"; 
-   d="scan'208";a="714435955"
-Received: from lkp-server01.sh.intel.com (HELO b5d47979f3ad) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 20 Dec 2022 05:49:34 -0800
-Received: from kbuild by b5d47979f3ad with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1p7czu-0009XY-00;
-        Tue, 20 Dec 2022 13:49:34 +0000
-Date:   Tue, 20 Dec 2022 21:49:08 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Andrew Morton <akpm@linux-foundation.org>
-Cc:     virtualization@lists.linux-foundation.org,
-        speakup@linux-speakup.org, netdev@vger.kernel.org,
-        loongarch@lists.linux.dev, linuxppc-dev@lists.ozlabs.org,
-        linux-xfs@vger.kernel.org, linux-omap@vger.kernel.org,
-        linux-mm@kvack.org, linux-media@vger.kernel.org,
-        linux-cxl@vger.kernel.org, linux-can@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        Linux Memory Management List <linux-mm@kvack.org>
-Subject: [linux-next:master] BUILD REGRESSION
- e45fb347b630ee76482fe938ba76cf8eab811290
-Message-ID: <63a1bd54.a88xtgO0grxGBbe+%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        Tue, 20 Dec 2022 09:12:37 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AE215231;
+        Tue, 20 Dec 2022 06:12:35 -0800 (PST)
+Received: from [192.168.1.15] (91-154-32-225.elisa-laajakaista.fi [91.154.32.225])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3FF574F8;
+        Tue, 20 Dec 2022 15:12:32 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1671545552;
+        bh=W3CNN0EoFtbYs0L51Qb2b+vhpXJV+YhgsV8a+AvPrYQ=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=HpcsKjC9YX4Nc680qg+o6DaemBrD6XhOmqe52vqiu+fYHGfyJIuASG8pj2uL0z+bm
+         k3MKNP9MJ+M8ZWqCsCd2hShOYDQVt6/3Y+gkjj9e2+6zpTlvoYbUHPiU+esscip+Pm
+         kQPWVt8D0+wZpKIpXIYWMS9Zt4D7NNKEgaPgmKns=
+Message-ID: <cfbb8f85-2bf9-4623-96bd-c05390a57a10@ideasonboard.com>
+Date:   Tue, 20 Dec 2022 16:12:29 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH v2 1/7] media: Add 2-10-10-10 RGB formats
+Content-Language: en-US
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Geert Uytterhoeven <geert@linux-m68k.org>
+References: <20221219140139.294245-1-tomi.valkeinen+renesas@ideasonboard.com>
+ <20221219140139.294245-2-tomi.valkeinen+renesas@ideasonboard.com>
+ <Y6C3PtnjAdv/seMy@pendragon.ideasonboard.com>
+From:   Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+In-Reply-To: <Y6C3PtnjAdv/seMy@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-3.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-branch HEAD: e45fb347b630ee76482fe938ba76cf8eab811290  Add linux-next specific files for 20221220
+On 19/12/2022 21:10, Laurent Pinchart wrote:
+> Hi Tomi,
+> 
+> Thank you for the patch.
+> 
+> On Mon, Dec 19, 2022 at 04:01:33PM +0200, Tomi Valkeinen wrote:
+>> Add XBGR2101010, ABGR2101010 and BGRA1010102 formats.
+>>
+>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+>> ---
+>>   .../userspace-api/media/v4l/pixfmt-rgb.rst    | 194 ++++++++++++++++++
+>>   drivers/media/v4l2-core/v4l2-ioctl.c          |   3 +
+>>   include/uapi/linux/videodev2.h                |   3 +
+>>   3 files changed, 200 insertions(+)
+>>
+>> diff --git a/Documentation/userspace-api/media/v4l/pixfmt-rgb.rst b/Documentation/userspace-api/media/v4l/pixfmt-rgb.rst
+>> index 30f51cd33f99..de78cd2dcd73 100644
+>> --- a/Documentation/userspace-api/media/v4l/pixfmt-rgb.rst
+>> +++ b/Documentation/userspace-api/media/v4l/pixfmt-rgb.rst
+>> @@ -763,6 +763,200 @@ nomenclature that instead use the order of components as seen in a 24- or
+>>       \normalsize
+>>   
+>>   
+>> +10 Bits Per Component
+>> +=====================
+>> +
+>> +These formats store a 30-bit RGB triplet with an optional 2 bit alpha in four
+>> +bytes. They are named based on the order of the RGB components as seen in a
+>> +32-bit word, which is then stored in memory in little endian byte order
+>> +(unless otherwise noted by the presence of bit 31 in the 4CC value), and on the
+>> +number of bits for each component.
+>> +
+>> +.. raw:: latex
+>> +
+>> +    \begingroup
+>> +    \tiny
+>> +    \setlength{\tabcolsep}{2pt}
+>> +
+>> +.. tabularcolumns:: |p{2.8cm}|p{2.0cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|
+>> +
+>> +
+>> +.. flat-table:: RGB Formats 10 Bits Per Color Component
+>> +    :header-rows:  2
+>> +    :stub-columns: 0
+>> +
+>> +    * - Identifier
+>> +      - Code
+>> +      - :cspan:`7` Byte 0 in memory
+>> +      - :cspan:`7` Byte 1
+>> +      - :cspan:`7` Byte 2
+>> +      - :cspan:`7` Byte 3
+>> +    * -
+>> +      -
+>> +      - 7
+>> +      - 6
+>> +      - 5
+>> +      - 4
+>> +      - 3
+>> +      - 2
+>> +      - 1
+>> +      - 0
+>> +
+>> +      - 7
+>> +      - 6
+>> +      - 5
+>> +      - 4
+>> +      - 3
+>> +      - 2
+>> +      - 1
+>> +      - 0
+>> +
+>> +      - 7
+>> +      - 6
+>> +      - 5
+>> +      - 4
+>> +      - 3
+>> +      - 2
+>> +      - 1
+>> +      - 0
+>> +
+>> +      - 7
+>> +      - 6
+>> +      - 5
+>> +      - 4
+>> +      - 3
+>> +      - 2
+>> +      - 1
+>> +      - 0
+>> +    * .. _V4L2-PIX-FMT-XBGR2101010:
+>> +
+>> +      - ``V4L2_PIX_FMT_XBGR2101010``
+>> +      - 'RX30'
+>> +
+>> +      - b\ :sub:`5`
+>> +      - b\ :sub:`4`
+>> +      - b\ :sub:`3`
+>> +      - b\ :sub:`2`
+>> +      - b\ :sub:`1`
+>> +      - b\ :sub:`0`
+>> +      - x
+>> +      - x
+>> +
+>> +      - g\ :sub:`3`
+>> +      - g\ :sub:`2`
+>> +      - g\ :sub:`1`
+>> +      - g\ :sub:`0`
+>> +      - b\ :sub:`9`
+>> +      - b\ :sub:`8`
+>> +      - b\ :sub:`7`
+>> +      - b\ :sub:`6`
+>> +
+>> +      - r\ :sub:`1`
+>> +      - r\ :sub:`0`
+>> +      - g\ :sub:`9`
+>> +      - g\ :sub:`8`
+>> +      - g\ :sub:`7`
+>> +      - g\ :sub:`6`
+>> +      - g\ :sub:`5`
+>> +      - g\ :sub:`4`
+>> +
+>> +      - r\ :sub:`9`
+>> +      - r\ :sub:`8`
+>> +      - r\ :sub:`7`
+>> +      - r\ :sub:`6`
+>> +      - r\ :sub:`5`
+>> +      - r\ :sub:`4`
+>> +      - r\ :sub:`3`
+>> +      - r\ :sub:`2`
+>> +      -
+> 
+> This doesn't match the text above. This would be RGBX2101010. I'm not
+> sure which format you want, so I don't know if it's the documentation or
+> the format name that is incorrect. The next two formats also seem
+> incorrect to me.
 
-Error/Warning reports:
+Right, the text should say big endian instead of little endian.
 
-https://lore.kernel.org/oe-kbuild-all/202211242120.MzZVGULn-lkp@intel.com
-https://lore.kernel.org/oe-kbuild-all/202212020520.0OkMIno3-lkp@intel.com
-https://lore.kernel.org/oe-kbuild-all/202212040713.rVney9e8-lkp@intel.com
-https://lore.kernel.org/oe-kbuild-all/202212061455.6GE7y0jg-lkp@intel.com
-https://lore.kernel.org/oe-kbuild-all/202212090509.NjAl9tbo-lkp@intel.com
-https://lore.kernel.org/oe-kbuild-all/202212191708.Xk9yBj52-lkp@intel.com
-https://lore.kernel.org/oe-kbuild-all/202212201859.qUGugK1F-lkp@intel.com
-https://lore.kernel.org/oe-kbuild-all/202212202020.qL8Aaqu0-lkp@intel.com
+  Tomi
 
-Error/Warning: (recently discovered and may have been fixed)
-
-Documentation/gpu/drm-internals:179: ./include/drm/drm_file.h:411: WARNING: undefined label: drm_accel_node (if the link has no caption the label must precede a section header)
-Documentation/networking/devlink/etas_es58x.rst: WARNING: document isn't included in any toctree
-Warning: tools/power/cpupower/man/cpupower-powercap-info.1 references a file that doesn't exist: Documentation/power/powercap/powercap.txt
-arch/arm/kernel/entry-armv.S:485:5: warning: "CONFIG_ARM_THUMB" is not defined, evaluates to 0 [-Wundef]
-arch/loongarch/kernel/asm-offsets.c:265:6: warning: no previous prototype for 'output_pbe_defines' [-Wmissing-prototypes]
-arch/powerpc/kernel/kvm_emul.o: warning: objtool: kvm_template_end(): can't find starting instruction
-arch/powerpc/kernel/optprobes_head.o: warning: objtool: optprobe_template_end(): can't find starting instruction
-drivers/regulator/tps65219-regulator.c:310:32: warning: parameter 'dev' set but not used [-Wunused-but-set-parameter]
-drivers/regulator/tps65219-regulator.c:310:60: warning: parameter 'dev' set but not used [-Wunused-but-set-parameter]
-drivers/regulator/tps65219-regulator.c:370:26: warning: ordered comparison of pointer with integer zero [-Wextra]
-lib/dhry_run.c:61:6: warning: variable 'ret' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
-mm/memfd.c:274:31: warning: unused variable 'ns' [-Wunused-variable]
-
-Unverified Error/Warning (likely false positive, please contact us if interested):
-
-drivers/accessibility/speakup/main.c:1290:26: sparse: sparse: obsolete array initializer, use C99 syntax
-drivers/cxl/core/mbox.c:832:18: sparse: sparse: cast from non-scalar
-drivers/cxl/core/mbox.c:832:18: sparse: sparse: cast to non-scalar
-drivers/i2c/busses/i2c-qcom-geni.c:1028:28: sparse: sparse: symbol 'i2c_master_hub' was not declared. Should it be static?
-drivers/media/platform/ti/davinci/vpif.c:483:20: sparse: sparse: cast from non-scalar
-drivers/media/platform/ti/davinci/vpif.c:483:20: sparse: sparse: cast to non-scalar
-fs/xfs/xfs_iomap.c:86:29: sparse: sparse: symbol 'xfs_iomap_page_ops' was not declared. Should it be static?
-
-Error/Warning ids grouped by kconfigs:
-
-gcc_recent_errors
-|-- alpha-allyesconfig
-|   |-- drivers-regulator-tps65219-regulator.c:warning:ordered-comparison-of-pointer-with-integer-zero
-|   `-- drivers-regulator-tps65219-regulator.c:warning:parameter-dev-set-but-not-used
-|-- arc-allyesconfig
-|   |-- drivers-regulator-tps65219-regulator.c:warning:ordered-comparison-of-pointer-with-integer-zero
-|   `-- drivers-regulator-tps65219-regulator.c:warning:parameter-dev-set-but-not-used
-|-- arm-allyesconfig
-|   |-- drivers-regulator-tps65219-regulator.c:warning:ordered-comparison-of-pointer-with-integer-zero
-|   `-- drivers-regulator-tps65219-regulator.c:warning:parameter-dev-set-but-not-used
-|-- arm-buildonly-randconfig-r005-20221219
-|   `-- arch-arm-kernel-entry-armv.S:warning:CONFIG_ARM_THUMB-is-not-defined-evaluates-to
-|-- arm64-allyesconfig
-|   |-- drivers-regulator-tps65219-regulator.c:warning:ordered-comparison-of-pointer-with-integer-zero
-|   `-- drivers-regulator-tps65219-regulator.c:warning:parameter-dev-set-but-not-used
-|-- i386-allyesconfig
-|   |-- drivers-regulator-tps65219-regulator.c:warning:ordered-comparison-of-pointer-with-integer-zero
-|   `-- drivers-regulator-tps65219-regulator.c:warning:parameter-dev-set-but-not-used
-|-- i386-buildonly-randconfig-r001-20221219
-|   `-- mm-memfd.c:warning:unused-variable-ns
-|-- ia64-allmodconfig
-|   |-- drivers-regulator-tps65219-regulator.c:warning:ordered-comparison-of-pointer-with-integer-zero
-|   `-- drivers-regulator-tps65219-regulator.c:warning:parameter-dev-set-but-not-used
-|-- loongarch-allyesconfig
-|   `-- arch-loongarch-kernel-asm-offsets.c:warning:no-previous-prototype-for-output_pbe_defines
-|-- loongarch-randconfig-s051-20221218
-|   |-- drivers-i2c-busses-i2c-qcom-geni.c:sparse:sparse:symbol-i2c_master_hub-was-not-declared.-Should-it-be-static
-|   `-- fs-xfs-xfs_iomap.c:sparse:sparse:symbol-xfs_iomap_page_ops-was-not-declared.-Should-it-be-static
-|-- m68k-allmodconfig
-|   |-- drivers-regulator-tps65219-regulator.c:warning:ordered-comparison-of-pointer-with-integer-zero
-|   `-- drivers-regulator-tps65219-regulator.c:warning:parameter-dev-set-but-not-used
-|-- m68k-allyesconfig
-|   |-- drivers-regulator-tps65219-regulator.c:warning:ordered-comparison-of-pointer-with-integer-zero
-|   `-- drivers-regulator-tps65219-regulator.c:warning:parameter-dev-set-but-not-used
-|-- mips-allyesconfig
-|   |-- drivers-regulator-tps65219-regulator.c:warning:ordered-comparison-of-pointer-with-integer-zero
-|   `-- drivers-regulator-tps65219-regulator.c:warning:parameter-dev-set-but-not-used
-|-- powerpc-allmodconfig
-|   |-- arch-powerpc-kernel-kvm_emul.o:warning:objtool:kvm_template_end():can-t-find-starting-instruction
-|   |-- arch-powerpc-kernel-optprobes_head.o:warning:objtool:optprobe_template_end():can-t-find-starting-instruction
-|   |-- drivers-regulator-tps65219-regulator.c:warning:ordered-comparison-of-pointer-with-integer-zero
-|   `-- drivers-regulator-tps65219-regulator.c:warning:parameter-dev-set-but-not-used
-|-- riscv-randconfig-s041-20221218
-|   |-- drivers-accessibility-speakup-main.c:sparse:sparse:obsolete-array-initializer-use-C99-syntax
-|   `-- fs-xfs-xfs_iomap.c:sparse:sparse:symbol-xfs_iomap_page_ops-was-not-declared.-Should-it-be-static
-|-- riscv-randconfig-s042-20221218
-|   |-- drivers-cxl-core-mbox.c:sparse:sparse:cast-from-non-scalar
-|   |-- drivers-cxl-core-mbox.c:sparse:sparse:cast-to-non-scalar
-|   |-- drivers-net-thunderbolt.c:sparse:sparse:incorrect-type-in-assignment-(different-base-types)-expected-restricted-__le16-usertype-frame_id-got-unsigned-short-usertype
-|   |-- drivers-net-thunderbolt.c:sparse:sparse:incorrect-type-in-assignment-(different-base-types)-expected-restricted-__le16-usertype-frame_index-got-unsigned-short-usertype
-|   |-- drivers-net-thunderbolt.c:sparse:sparse:incorrect-type-in-assignment-(different-base-types)-expected-restricted-__le32-usertype-frame_count-got-unsigned-int-usertype
-clang_recent_errors
-|-- hexagon-allmodconfig
-|   |-- drivers-regulator-tps65219-regulator.c:warning:parameter-dev-set-but-not-used
-|   `-- lib-dhry_run.c:warning:variable-ret-is-used-uninitialized-whenever-if-condition-is-false
-`-- x86_64-rhel-8.3-rust
-    `-- vmlinux.o:warning:objtool:___ksymtab_gpl-_RNvNtCsfATHBUcknU9_6kernel5print16call_printk_cont:data-relocation-to-ENDBR:_RNvNtCsfATHBUcknU9_6kernel5print16call_printk_cont
-
-elapsed time: 726m
-
-configs tested: 66
-configs skipped: 2
-
-gcc tested configs:
-um                             i386_defconfig
-um                           x86_64_defconfig
-powerpc                           allnoconfig
-arc                                 defconfig
-x86_64                    rhel-8.3-kselftests
-s390                             allmodconfig
-x86_64                          rhel-8.3-func
-alpha                               defconfig
-i386                                defconfig
-s390                                defconfig
-arm                                 defconfig
-sh                               allmodconfig
-s390                             allyesconfig
-x86_64               randconfig-a002-20221219
-x86_64               randconfig-a003-20221219
-alpha                            allyesconfig
-x86_64               randconfig-a001-20221219
-m68k                             allyesconfig
-x86_64               randconfig-a004-20221219
-mips                             allyesconfig
-m68k                             allmodconfig
-powerpc                          allmodconfig
-arc                              allyesconfig
-x86_64               randconfig-a005-20221219
-arc                  randconfig-r043-20221220
-x86_64                           rhel-8.3-bpf
-x86_64               randconfig-a006-20221219
-x86_64                           rhel-8.3-syz
-riscv                randconfig-r042-20221220
-x86_64                         rhel-8.3-kunit
-ia64                             allmodconfig
-x86_64                            allnoconfig
-arm                              allyesconfig
-x86_64                           rhel-8.3-kvm
-arm64                            allyesconfig
-s390                 randconfig-r044-20221220
-i386                             allyesconfig
-i386                 randconfig-a001-20221219
-i386                 randconfig-a003-20221219
-i386                 randconfig-a002-20221219
-i386                 randconfig-a006-20221219
-i386                 randconfig-a005-20221219
-i386                 randconfig-a004-20221219
-powerpc                     ep8248e_defconfig
-powerpc                     rainier_defconfig
-x86_64                              defconfig
-x86_64                               rhel-8.3
-x86_64                           allyesconfig
-
-clang tested configs:
-x86_64                          rhel-8.3-rust
-hexagon              randconfig-r041-20221220
-arm                  randconfig-r046-20221220
-i386                 randconfig-a011-20221219
-i386                 randconfig-a014-20221219
-hexagon              randconfig-r045-20221220
-i386                 randconfig-a012-20221219
-i386                 randconfig-a013-20221219
-i386                 randconfig-a015-20221219
-i386                 randconfig-a016-20221219
-x86_64               randconfig-a014-20221219
-x86_64               randconfig-a015-20221219
-x86_64               randconfig-a012-20221219
-x86_64               randconfig-a011-20221219
-arm                             mxs_defconfig
-x86_64               randconfig-a016-20221219
-powerpc                     ppa8548_defconfig
-x86_64               randconfig-a013-20221219
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
