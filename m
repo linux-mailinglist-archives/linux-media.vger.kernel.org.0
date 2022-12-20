@@ -2,99 +2,258 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 50F50652458
-	for <lists+linux-media@lfdr.de>; Tue, 20 Dec 2022 17:11:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C244E652514
+	for <lists+linux-media@lfdr.de>; Tue, 20 Dec 2022 18:00:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232097AbiLTQLi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 20 Dec 2022 11:11:38 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55970 "EHLO
+        id S234017AbiLTRAL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 20 Dec 2022 12:00:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48652 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233028AbiLTQLg (ORCPT
+        with ESMTP id S233899AbiLTRAI (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 20 Dec 2022 11:11:36 -0500
-Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com [IPv6:2a00:1450:4864:20::131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 17EB72DF9
-        for <linux-media@vger.kernel.org>; Tue, 20 Dec 2022 08:11:35 -0800 (PST)
-Received: by mail-lf1-x131.google.com with SMTP id y25so19293804lfa.9
-        for <linux-media@vger.kernel.org>; Tue, 20 Dec 2022 08:11:35 -0800 (PST)
+        Tue, 20 Dec 2022 12:00:08 -0500
+Received: from mail-qv1-xf36.google.com (mail-qv1-xf36.google.com [IPv6:2607:f8b0:4864:20::f36])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 41A15186A9
+        for <linux-media@vger.kernel.org>; Tue, 20 Dec 2022 09:00:05 -0800 (PST)
+Received: by mail-qv1-xf36.google.com with SMTP id c14so8619192qvq.0
+        for <linux-media@vger.kernel.org>; Tue, 20 Dec 2022 09:00:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=4OPu185Q0+akxyPV8Q2zM2VcNp2VyoX7hjbTkMDLjNA=;
-        b=MLr0HIKRQZqoRZ78fC/VihpPBV8UTSHsUHNZoeJiDyKbp8xpDzVFUz5wAMjhGwTD5J
-         QpUW3E/lJJ/YzE/FVbv0CGDl4uFyt+nymKPo2zhgLinE2Lc8L3FiAP0bILUUe2GKb4uo
-         JueXkX6I8F7NyUo73gGMyUa2I45HSthxUjbZo2zTyXeKeZAzu5DXHUNBS6Gctd1+T8Q4
-         qwMyWzd3fa8uNahKQFQS8LECl16xw6kaLt/y+QafLf6WUnaC6GnHm8eJpPq5MGdyQlzn
-         F6XiVOp6BcG74A8cq3u8s5MrsO0RqCXRO8ynhkcPlMr5ZkREeLX7GcS4h2tydCTZ+Q1K
-         9iMg==
+        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=+eNtJleCoyZ+rnpiQgOt/w5NmObbO6G26kWA+/nOGUg=;
+        b=PXRNJruI4QH3avlJjKJcGvsE+EsMPLIJraLY7fTB+owDI5ZxGS55eJ3jz+eBCn97gb
+         5mjKHNs+2CrTU8JLSJsOGISFT/dcqGvSLGQCYmMh62Q6ufRzwfKbkclHZtTSnDlC8ZMO
+         pBCC6dQRQa55Ud/SLbYoWDRDD6g58+UPoNzI8kstddrU3feBsD1GmopdsR89m0FSqhtn
+         6NynIUJ5q+MFJE+AfrNvHNwdPe0PLcx8H/gxG9LZquvBJOHGLp+idtI7sTiDswYgG9ex
+         N1mOlEnK7ChJe/Y2z/iFvinl8FjoJ3C0Asp5hUyk/AOdcqcD+63hLDtTvD4r0fUNXMx1
+         CMxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=4OPu185Q0+akxyPV8Q2zM2VcNp2VyoX7hjbTkMDLjNA=;
-        b=L01W7WrC7z9dnfx9aqWNju8T35IaOHzsROQcnfIEuDzrAImQ0wZ/FsSWQx/NQMqGTA
-         AhSllReHaD5O758NwtyxGzFL6Is2iytD525r6jSE7b5ZP2GMr5+ejFKGW3hUCN0NwdMZ
-         K+JVRMoDYnGTtwVVD65v1Wt1cBeQTQezn9B4wUIBPUmmjMthmcKbHZRLcNWxKJK3tPPb
-         fHjAn3Y7HdoydTCoFNzYjYX8xqyFYDSazmKmoUNrRvyQLT5Y7ULizGC+7SsBuC+wb9Yi
-         xB2X8rWNgfYJR2XAozashdup8UruAkVMC/FDabSK0KVDd5254v6uUjEUrXGOe3hDofda
-         4oSw==
-X-Gm-Message-State: AFqh2kp+p4f1c/7xR0+4YjbgNOTLk02SsISU+3vZmqAsVUgzx1ezT7UW
-        6axbsckbxbXUvggGO85lMRsh6qU0L7z4ruMJ
-X-Google-Smtp-Source: AMrXdXslAPY7XyfhFtimUpegXKFxo4fzvFsxFhl4uTujqL2DLM10DmkgXmu8w7QZbjikyIW034Cqcg==
-X-Received: by 2002:ac2:4e90:0:b0:4c3:7634:234c with SMTP id o16-20020ac24e90000000b004c37634234cmr3780393lfr.57.1671552693487;
-        Tue, 20 Dec 2022 08:11:33 -0800 (PST)
-Received: from [192.168.0.20] (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
-        by smtp.gmail.com with ESMTPSA id a5-20020a056512390500b004b5ab5e904esm1519306lfu.306.2022.12.20.08.11.32
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 20 Dec 2022 08:11:32 -0800 (PST)
-Message-ID: <44a62c49-1894-aee2-63fd-05b2e70a8aef@linaro.org>
-Date:   Tue, 20 Dec 2022 17:11:31 +0100
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=+eNtJleCoyZ+rnpiQgOt/w5NmObbO6G26kWA+/nOGUg=;
+        b=P95MDSk/FPgjHvA+yBJ2Eh3WMwaeM1wYKldLJAXn6HqpS0pA/USD1TYyZqCQSeGAr/
+         5tDhBwDRvinfA64AMz3ZKBtreWF5d447HKLtsykHUx6Kg072kojE9hwviw/rwcf/HuFX
+         S1wz7hq4a4biaawSjgi0I338nmWnu37wzLCt81UkVuVDR8IkmueuTFCd3Y0njdLYYAsg
+         RrncXYbF8N6XTUomwsVXu5jDAmsf1QcRCmlbOrU6CqC4Io0te1zJorIwgX/12lvbqt5i
+         oQtC9CaXT8lwT/EirCpKDYHnn88aDdFj5LQeeJlng2jvpUJgkySi+4Bv1eH3OmLmKx4R
+         d43A==
+X-Gm-Message-State: ANoB5pngbS+XURk3Rzi/LYEgCuTFdzNVkDc337gWnkwKVY9SMQZNK3Uk
+        V+fMw380f1zjzEXAEb6evT8+K+0bGTEdxhya7Mw=
+X-Google-Smtp-Source: AA0mqf7AJbYijJupMP4GW/Qkb0ZvvXqfYmCTrUF/82gvjy1X451bMmQPVjtNikol69Xn7HaIxHu91g==
+X-Received: by 2002:ad4:4811:0:b0:4d1:e110:1621 with SMTP id qd17-20020ad44811000000b004d1e1101621mr66524292qvb.0.1671555604153;
+        Tue, 20 Dec 2022 09:00:04 -0800 (PST)
+Received: from nicolas-tpx395.localdomain (192-222-136-102.qc.cable.ebox.net. [192.222.136.102])
+        by smtp.gmail.com with ESMTPSA id c7-20020a05620a268700b006f87d28ea3asm9214224qkp.54.2022.12.20.09.00.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 20 Dec 2022 09:00:03 -0800 (PST)
+Message-ID: <939ce9a0f7f73c0b9f0cf5590f2d8b02e0825fa5.camel@ndufresne.ca>
+Subject: Re: [PATCH v1 0/9] AV1 stateless decoder for RK3588
+From:   Nicolas Dufresne <nicolas@ndufresne.ca>
+To:     Michael Grzeschik <mgr@pengutronix.de>,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Cc:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        p.zabel@pengutronix.de, mchehab@kernel.org, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, heiko@sntech.de,
+        daniel.almeida@collabora.com, nicolas.dufresne@collabora.co.uk,
+        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, kernel@collabora.com
+Date:   Tue, 20 Dec 2022 12:00:01 -0500
+In-Reply-To: <20221219215431.GB26315@pengutronix.de>
+References: <20221219155616.848690-1-benjamin.gaignard@collabora.com>
+         <CAAEAJfBP_D65kjHbwYP+LWfWKfzFtHtWo+3bDcbdO8tPtBurUA@mail.gmail.com>
+         <20221219215431.GB26315@pengutronix.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.2 (3.46.2-1.fc37) 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH v9 2/7] media: dt-binding: nuvoton: Add NPCM VCD and ECE
- engine
-Content-Language: en-US
-To:     Marvin Lin <milkfafa@gmail.com>, mchehab@kernel.org,
-        hverkuil-cisco@xs4all.nl, avifishman70@gmail.com,
-        tmaimon77@gmail.com, tali.perry1@gmail.com, venture@google.com,
-        yuenn@google.com, benjaminfair@google.com, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, andrzej.p@collabora.com
-Cc:     devicetree@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, openbmc@lists.ozlabs.org,
-        kwliu@nuvoton.com, kflin@nuvoton.com
-References: <20221220094055.3011916-1-milkfafa@gmail.com>
- <20221220094055.3011916-3-milkfafa@gmail.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20221220094055.3011916-3-milkfafa@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 20/12/2022 10:40, Marvin Lin wrote:
-> Add dt-binding document for Video Capture/Differentiation Engine (VCD)
-> and Encoding Compression Engine (ECE) present on Nuvoton NPCM SoCs.
-> 
-> Signed-off-by: Marvin Lin <milkfafa@gmail.com>
+Le lundi 19 d=C3=A9cembre 2022 =C3=A0 22:54 +0100, Michael Grzeschik a =C3=
+=A9crit=C2=A0:
+> Hi Benjamin,
+> Hi Ezequiel,
+>=20
+> On Mon, Dec 19, 2022 at 06:07:38PM -0300, Ezequiel Garcia wrote:
+> > On Mon, Dec 19, 2022 at 12:56 PM Benjamin Gaignard
+> > <benjamin.gaignard@collabora.com> wrote:
+> > >=20
+> > > This series implement AV1 stateless decoder for RK3588 SoC.
+> > > The harware support 8 and 10 bits bitstreams up to 7680x4320.
+> > > AV1 feature like film grain or scaling are done by the postprocessor.
+> > > The driver can produce NV12_4L4 and NV12 pixel formats.
+> > > A native 10bits NV12_4L4 format is possible but need more investigati=
+on
+> > > to be completly documented and enabled.
+> > >=20
+> > > It is based on Daniel's "[RFC,v3] media: Add AV1 uAPI" [1] patches an=
+d
+> > > Sebastian's device-tree patches for RK3588.
+> > >=20
+> >=20
+> > I thought the AV1 decoder in RK3588 was really a separate hardware
+> > from the Hantro G1/G2.
+> >=20
+> > Shouldn't this need a new driver for this new hardware?
+>=20
+> Just jumping into this discussion as I am currently working on the rkvenc=
+ driver.
+>=20
+> In my case I am extending the rkvdec driver to become more generic for
+> other rockchip specific enc/decoders.
+>=20
+> My first change looks like this:
 > ---
->  .../bindings/media/nuvoton,npcm-ece.yaml      | 43 +++++++++++
->  .../bindings/media/nuvoton,npcm-vcd.yaml      | 72 +++++++++++++++++++
->  2 files changed, 115 insertions(+)
+>  drivers/staging/media/rkvdec/Makefile              |   4 +-
+>  drivers/staging/media/rkvdec/rkvdec-h264.c         | 100 ++++-----
+>  drivers/staging/media/rkvdec/rkvdec-vp9.c          | 142 ++++++-------
+>  drivers/staging/media/rkvdec/{rkvdec.c =3D> rkvpu.c} | 510 +++++++++++++=
+++++++++++-----------------------
+>  drivers/staging/media/rkvdec/{rkvdec.h =3D> rkvpu.h} |  66 +++---
+> ---
+>=20
+> While working on other parts of the encoder I found many places in the
+> rkvdec driver (e.g. v4l2 and vb2 callbacks) that looked familiar to the h=
+antro
+> functions but where limited to the decoder case.
+>=20
+> I think there are two options for the av1 codec.
+>=20
+> 1) If the vpu981 is a driver that has nothing to do with verisilicon but
+> works with this driver framework, then we should integrate vepu981 into i=
+t
+> but consider rename the verisilicon unrelated parts to something generic.
 
+I've raised in my review the the naming is sub-optimal. This is an unmodifi=
+ed
+VC9000D AV1 decoder. No other codecs have been included in the package, eve=
+n
+though VC9000D cores can support more.
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Stating this driver have no place here seems a bit strange to me, but with
+proper arguments, maybe we can make a case and start a VC9000D dedicated dr=
+iver
+(that will be a lot of copy paste, VC9000D post processor notably is identi=
+cal
+to VC8000 post processor, but one could argue we should make a VCX000 drive=
+r ?
 
-Best regards,
-Krzysztof
+>=20
+> 2) Move the vepu981 av1 driver into the rkvdec instead.
+
+That make no sense, its not a Rockchip HW design, and will likely start
+appearing on non-RK SoC in the future.
+
+>=20
+> If 1) is the way to go, we can even think of moving the staging code part=
+s from
+> rkvdec to the verisilicon code. Likewise to the vepu981-av1.
+
+Again, I think using RK naming is unfortunate choice. This AV1 decoder is j=
+ust
+like the G1/H1 combo you will find on RK3288. And that same combo is found =
+on
+many older SoC (actually even newer SoC un the VC8000Nano brand).
+
+Like all generation of Hantro chips, there is an optional dependency that c=
+an
+exist between encoder and decoders. The question is if this requires a sing=
+le
+driver to maintain a valid state or not. So far, it seems devs have assume =
+that
+is it needed.
+
+p.s. fun fact, on most HW, the decoder rate is cut in half with running
+concurrently with the encoder
+
+>=20
+> I could also keep on integrating the rkvenc on that base instead.
+
+Do you know if there is any interaction between the encoder and decoder ? S=
+hared
+registers, shared internal cache ? That's basically what differentiate Hant=
+ro
+here. Also, be aware that some folks are considering starting on RKVDEC2 dr=
+iver,
+are you looking at RK32/33 series ? or more RK35 ?
+
+>=20
+> Regards,
+> Michael
+>=20
+> > > The full branch can be found here:
+> > > https://gitlab.collabora.com/linux/for-upstream/-/commits/rk3588_av1_=
+decoder_v1
+> > >=20
+> > > Fluster score is: 151/239 while testing AV1-TEST-VECTORS with GStream=
+er-AV1-V4L2SL-Gst1.0.
+> > > The failing tests are:
+> > > - 10bits bitstream because 10bits output formats aren't yet implement=
+ed.
+> > > - the 2 tests with 2 spatial layers: few errors in luma/chroma values
+> > > - tests with resolution < hardware limit (64x64)
+> > >=20
+> > > Benjamin
+> > >=20
+> > > Benjamin Gaignard (9):
+> > >   dt-bindings: media: rockchip-vpu: Add rk3588 vpu compatible
+> > >   media: verisilicon: Add AV1 decoder mode and controls
+> > >   media: verisilicon: Save bit depth for AV1 decoder
+> > >   media: verisilicon: Check AV1 bitstreams bit depth
+> > >   media: verisilicon: Compute motion vectors size for AV1 frames
+> > >   media: verisilicon: Add AV1 entropy helpers
+> > >   media: verisilicon: Add Rockchip AV1 decoder
+> > >   media: verisilicon: Add film grain feature to AV1 driver
+> > >   media: verisilicon: Enable AV1 decoder on rk3588
+> > >=20
+> > >  .../bindings/media/rockchip-vpu.yaml          |    1 +
+> > >  drivers/media/platform/verisilicon/Makefile   |    3 +
+> > >  drivers/media/platform/verisilicon/hantro.h   |    5 +
+> > >  .../media/platform/verisilicon/hantro_drv.c   |   54 +
+> > >  .../media/platform/verisilicon/hantro_hw.h    |  102 +
+> > >  .../platform/verisilicon/hantro_postproc.c    |    3 +
+> > >  .../media/platform/verisilicon/hantro_v4l2.c  |    5 +
+> > >  .../verisilicon/rockchip_av1_entropymode.c    | 4536 +++++++++++++++=
+++
+> > >  .../verisilicon/rockchip_av1_entropymode.h    |  272 +
+> > >  .../verisilicon/rockchip_av1_filmgrain.c      |  401 ++
+> > >  .../verisilicon/rockchip_av1_filmgrain.h      |   36 +
+> > >  .../verisilicon/rockchip_vpu981_hw_av1_dec.c  | 2280 +++++++++
+> > >  .../verisilicon/rockchip_vpu981_regs.h        |  477 ++
+> > >  .../platform/verisilicon/rockchip_vpu_hw.c    |  116 +
+> > >  14 files changed, 8291 insertions(+)
+> > >  create mode 100644 drivers/media/platform/verisilicon/rockchip_av1_e=
+ntropymode.c
+> > >  create mode 100644 drivers/media/platform/verisilicon/rockchip_av1_e=
+ntropymode.h
+> > >  create mode 100644 drivers/media/platform/verisilicon/rockchip_av1_f=
+ilmgrain.c
+> > >  create mode 100644 drivers/media/platform/verisilicon/rockchip_av1_f=
+ilmgrain.h
+> > >  create mode 100644 drivers/media/platform/verisilicon/rockchip_vpu98=
+1_hw_av1_dec.c
+> > >  create mode 100644 drivers/media/platform/verisilicon/rockchip_vpu98=
+1_regs.h
+> > >=20
+> > > --
+> > > 2.34.1
+> > >=20
+> >=20
+> > _______________________________________________
+> > linux-arm-kernel mailing list
+> > linux-arm-kernel@lists.infradead.org
+> > http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
+> >=20
+>=20
 
