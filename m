@@ -2,84 +2,69 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C28DC651CE1
-	for <lists+linux-media@lfdr.de>; Tue, 20 Dec 2022 10:10:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B2CAC651D09
+	for <lists+linux-media@lfdr.de>; Tue, 20 Dec 2022 10:19:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229612AbiLTJKF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 20 Dec 2022 04:10:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58488 "EHLO
+        id S233318AbiLTJTC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 20 Dec 2022 04:19:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33284 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229513AbiLTJKD (ORCPT
+        with ESMTP id S233153AbiLTJTA (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 20 Dec 2022 04:10:03 -0500
-Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CDD1E7661;
-        Tue, 20 Dec 2022 01:10:01 -0800 (PST)
-Received: by mail-qt1-f178.google.com with SMTP id h26so6616330qtu.2;
-        Tue, 20 Dec 2022 01:10:01 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=2ZhjR6xVXhmmNThDy/2WcduVvAA5lIhOxqbWgZts2YU=;
-        b=Rj5XEgBFaayNCRV8iVcUilP3bw29poWSldD4/kIGm8QZjIebr/ICuiTBU3ZagKTX4y
-         uaTgWx4tuQiYN1N2MCNNbssrZRPBeyaXKY1XGhFp6d2Zsj+I5z5feXxabjqDUM7ro9Tp
-         iKHtkIalEs8gy0uh9kQZ1AeWf/jU8OqF2FnZqwZiMbNI8lV7kDM2mKW8CdLs/2o+cd7s
-         bTLi6UyaduDwZ2HFvkD3xq+BGr9PR4lLyX1+lYq5N/rp4ycITzL+AyxcWP1beGwjOjls
-         NRrr6YpyKb/u2b3/R3/5KmiTrPwp9inyVetBT3NENnb2uuh67z8DFtwW+/2T2MWxBPIW
-         mXKQ==
-X-Gm-Message-State: ANoB5pkSRkXG59fsMvEhzQgGM1+uPdmpZEIAR4TK5kUiQjuA5DajppPF
-        1jDJbQg3ysdXaCgYeSjEPw3sObUyW1r4lg==
-X-Google-Smtp-Source: AA0mqf7/hLjQxcR2P72YxLZ0jbRxmGG9W/iccVyBzEhS9K/5vtWA65li+sWCU2Jd7G2akWyZ2t6CrA==
-X-Received: by 2002:ac8:4a17:0:b0:3a7:e2df:e868 with SMTP id x23-20020ac84a17000000b003a7e2dfe868mr55479215qtq.41.1671527400747;
-        Tue, 20 Dec 2022 01:10:00 -0800 (PST)
-Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com. [209.85.219.176])
-        by smtp.gmail.com with ESMTPSA id u5-20020a05620a430500b006ff8ac9acfdsm8707091qko.49.2022.12.20.01.09.59
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 20 Dec 2022 01:10:00 -0800 (PST)
-Received: by mail-yb1-f176.google.com with SMTP id 203so7707476yby.10;
-        Tue, 20 Dec 2022 01:09:59 -0800 (PST)
-X-Received: by 2002:a25:7a02:0:b0:6f7:952d:b145 with SMTP id
- v2-20020a257a02000000b006f7952db145mr45769325ybc.604.1671527399695; Tue, 20
- Dec 2022 01:09:59 -0800 (PST)
-MIME-Version: 1.0
-References: <20221219140139.294245-1-tomi.valkeinen+renesas@ideasonboard.com>
- <20221219140139.294245-8-tomi.valkeinen+renesas@ideasonboard.com>
- <Y6Db2C+JehUPYSQp@pendragon.ideasonboard.com> <2f252958-1bb1-006a-b450-1315be8a3c9f@xs4all.nl>
-In-Reply-To: <2f252958-1bb1-006a-b450-1315be8a3c9f@xs4all.nl>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 20 Dec 2022 10:09:46 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXd7Q1WWdo-rwfad1-BwuuH5vxt9Kx2Zv2Ok2rQLvh_wA@mail.gmail.com>
-Message-ID: <CAMuHMdXd7Q1WWdo-rwfad1-BwuuH5vxt9Kx2Zv2Ok2rQLvh_wA@mail.gmail.com>
-Subject: Re: [PATCH v2 7/7] drm: rcar-du: Add new formats (2-10-10-10 ARGB, Y210)
+        Tue, 20 Dec 2022 04:19:00 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA5649FF1;
+        Tue, 20 Dec 2022 01:18:59 -0800 (PST)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9D914706;
+        Tue, 20 Dec 2022 10:18:57 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1671527937;
+        bh=vp/jLlgHTMyhkMCI5iKwinCuCAtB54xr6If3QGfXVPA=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Ak0rRTAUcA2soV9TB4Hdh+8OGgP9hQClDUHGOhmlQg9KjpALRlt5QhnEwjK1kwA6P
+         CLBmEZf+sC+/H/s4cozZHFXfkLHgd4AUvRbSTXpp6dgkTIy2RVGnFIBOcQZjvX+9m5
+         tta1NulLeJAO1v7ci2E0qE1AnWAHDWY9J0tbdyFw=
+Date:   Tue, 20 Dec 2022 11:18:51 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+Cc:     Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
         linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org,
         dri-devel@lists.freedesktop.org,
         Kieran Bingham <kieran.bingham@ideasonboard.com>,
         Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
         Sakari Ailus <sakari.ailus@iki.fi>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+Subject: Re: [PATCH v2 7/7] drm: rcar-du: Add new formats (2-10-10-10 ARGB,
+ Y210)
+Message-ID: <Y6F9+73YZOJX3tht@pendragon.ideasonboard.com>
+References: <20221219140139.294245-1-tomi.valkeinen+renesas@ideasonboard.com>
+ <20221219140139.294245-8-tomi.valkeinen+renesas@ideasonboard.com>
+ <Y6Db2C+JehUPYSQp@pendragon.ideasonboard.com>
+ <2f252958-1bb1-006a-b450-1315be8a3c9f@xs4all.nl>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <2f252958-1bb1-006a-b450-1315be8a3c9f@xs4all.nl>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans,
+Hello,
 
-On Tue, Dec 20, 2022 at 10:01 AM Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
+On Tue, Dec 20, 2022 at 10:01:04AM +0100, Hans Verkuil wrote:
 > On 19/12/2022 22:47, Laurent Pinchart wrote:
+> > Hi Tomi,
+> > 
 > > (CC'ing Sakari and Hans)
-> >
+> > 
 > > Thank you for the patch.
-> >
+> > 
 > > On Mon, Dec 19, 2022 at 04:01:39PM +0200, Tomi Valkeinen wrote:
 > >> Add new pixel formats: RGBX1010102, RGBA1010102, ARGB2101010 and Y210.
 > >>
@@ -94,43 +79,186 @@ On Tue, Dec 20, 2022 at 10:01 AM Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
 > >> --- a/drivers/gpu/drm/rcar-du/rcar_du_kms.c
 > >> +++ b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
 > >> @@ -259,6 +259,24 @@ static const struct rcar_du_format_info rcar_du_format_infos[] = {
-> >>              .bpp = 32,
-> >>              .planes = 1,
-> >>              .hsub = 1,
-> >> +    }, {
-> >> +            .fourcc = DRM_FORMAT_RGBX1010102,
-> >
+> >>  		.bpp = 32,
+> >>  		.planes = 1,
+> >>  		.hsub = 1,
+> >> +	}, {
+> >> +		.fourcc = DRM_FORMAT_RGBX1010102,
+> > 
 > > Ah, here the format makes sense.
-> >
-> >> +            .v4l2 = V4L2_PIX_FMT_XBGR2101010,
-> >
+> > 
+> >> +		.v4l2 = V4L2_PIX_FMT_XBGR2101010,
+> > 
 > > But this is horrible :-( Could we use the same names as DRM for new
 > > formats, when there is no conflict with existing V4L2 formats ?
-> >
+> > 
 > > Sakari, Hans, what do you think ? Please see patch 1/7 in the series for
 > > the format definitions.
->
+> 
 > V4L2 describes pixel formats based on how they appear in memory from the
 > lowest to highest memory address.
-
-So that means big endian?
-
+> 
 > If I am not mistaken, DRM uses the CPU order. So that explains the difference
 > in naming. I don't think we should hide that difference. And V4L2 has been
 > quite consistent in following memory ordering in the naming (except possibly
 > for some of the really old pixelformats).
 
-DRM uses little endian.
+We depart from that rule with at least the following RGB formats:
+
+V4L2_PIX_FMT_XBGR32
+V4L2_PIX_FMT_BGRX32
+V4L2_PIX_FMT_ABGR32
+V4L2_PIX_FMT_BGRA32
+
+While the following formats follow the rule:
+
+V4L2_PIX_FMT_RGB24
+V4L2_PIX_FMT_BGR24
+V4L2_PIX_FMT_XRGB32
+V4L2_PIX_FMT_RGBX32
+V4L2_PIX_FMT_RGBA32
+V4L2_PIX_FMT_ARGB32
+
+For 16-bit RGB formats, we name them based on the order in a 16-bit word
+which is then stored in memory in little endian (except for the formats
+explicitly defined as big-endian):
+
+#define V4L2_PIX_FMT_RGB444  v4l2_fourcc('R', '4', '4', '4') /* 16  xxxxrrrr ggggbbbb */
+#define V4L2_PIX_FMT_ARGB444 v4l2_fourcc('A', 'R', '1', '2') /* 16  aaaarrrr ggggbbbb */
+#define V4L2_PIX_FMT_XRGB444 v4l2_fourcc('X', 'R', '1', '2') /* 16  xxxxrrrr ggggbbbb */
+#define V4L2_PIX_FMT_RGBA444 v4l2_fourcc('R', 'A', '1', '2') /* 16  rrrrgggg bbbbaaaa */
+#define V4L2_PIX_FMT_RGBX444 v4l2_fourcc('R', 'X', '1', '2') /* 16  rrrrgggg bbbbxxxx */
+#define V4L2_PIX_FMT_ABGR444 v4l2_fourcc('A', 'B', '1', '2') /* 16  aaaabbbb ggggrrrr */
+#define V4L2_PIX_FMT_XBGR444 v4l2_fourcc('X', 'B', '1', '2') /* 16  xxxxbbbb ggggrrrr */
+#define V4L2_PIX_FMT_BGRA444 v4l2_fourcc('G', 'A', '1', '2') /* 16  bbbbgggg rrrraaaa */
+#define V4L2_PIX_FMT_BGRX444 v4l2_fourcc('B', 'X', '1', '2') /* 16  bbbbgggg rrrrxxxx */
+#define V4L2_PIX_FMT_RGB555  v4l2_fourcc('R', 'G', 'B', 'O') /* 16  RGB-5-5-5     */
+#define V4L2_PIX_FMT_ARGB555 v4l2_fourcc('A', 'R', '1', '5') /* 16  ARGB-1-5-5-5  */
+#define V4L2_PIX_FMT_XRGB555 v4l2_fourcc('X', 'R', '1', '5') /* 16  XRGB-1-5-5-5  */
+#define V4L2_PIX_FMT_RGBA555 v4l2_fourcc('R', 'A', '1', '5') /* 16  RGBA-5-5-5-1  */
+#define V4L2_PIX_FMT_RGBX555 v4l2_fourcc('R', 'X', '1', '5') /* 16  RGBX-5-5-5-1  */
+#define V4L2_PIX_FMT_ABGR555 v4l2_fourcc('A', 'B', '1', '5') /* 16  ABGR-1-5-5-5  */
+#define V4L2_PIX_FMT_XBGR555 v4l2_fourcc('X', 'B', '1', '5') /* 16  XBGR-1-5-5-5  */
+#define V4L2_PIX_FMT_BGRA555 v4l2_fourcc('B', 'A', '1', '5') /* 16  BGRA-5-5-5-1  */
+#define V4L2_PIX_FMT_BGRX555 v4l2_fourcc('B', 'X', '1', '5') /* 16  BGRX-5-5-5-1  */
+#define V4L2_PIX_FMT_RGB565  v4l2_fourcc('R', 'G', 'B', 'P') /* 16  RGB-5-6-5     */
+
+I would thus argue that, at least for RGB formats, naming them based on
+the byte order in memory isn't such a clear cut rule. 
 
 > Departing from that would be more of a hindrance than a help, IMHO.
+>
+> >> +		.bpp = 32,
+> >> +		.planes = 1,
+> >> +		.hsub = 1,
+> >> +	}, {
+> >> +		.fourcc = DRM_FORMAT_RGBA1010102,
+> >> +		.v4l2 = V4L2_PIX_FMT_ABGR2101010,
+> >> +		.bpp = 32,
+> >> +		.planes = 1,
+> >> +		.hsub = 1,
+> >> +	}, {
+> >> +		.fourcc = DRM_FORMAT_ARGB2101010,
+> >> +		.v4l2 = V4L2_PIX_FMT_BGRA1010102,
+> >> +		.bpp = 32,
+> >> +		.planes = 1,
+> >> +		.hsub = 1,
+> >>  	}, {
+> >>  		.fourcc = DRM_FORMAT_YVYU,
+> >>  		.v4l2 = V4L2_PIX_FMT_YVYU,
+> >> @@ -307,6 +325,12 @@ static const struct rcar_du_format_info rcar_du_format_infos[] = {
+> >>  		.bpp = 24,
+> >>  		.planes = 3,
+> >>  		.hsub = 1,
+> >> +	}, {
+> >> +		.fourcc = DRM_FORMAT_Y210,
+> >> +		.v4l2 = V4L2_PIX_FMT_Y210,
+> >> +		.bpp = 32,
+> >> +		.planes = 1,
+> >> +		.hsub = 2,
+> >>  	},
+> > 
+> > Any reason why you'd not adding Y212 support already ?
+> > 
+> >>  };
+> >>  
+> >> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c b/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
+> >> index e465aef41585..6f3e109a4f80 100644
+> >> --- a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
+> >> +++ b/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
+> >> @@ -139,6 +139,42 @@ static const u32 rcar_du_vsp_formats[] = {
+> >>  	DRM_FORMAT_YVU444,
+> >>  };
+> >>  
+> >> +/*
+> >> + * Gen4 supports the same formats as above, and additionally 2-10-10-10 RGB
+> >> + * formats and Y210 format.
+> >> + */
+> >> +static const u32 rcar_du_vsp_formats_gen4[] = {
+> >> +	DRM_FORMAT_RGB332,
+> >> +	DRM_FORMAT_ARGB4444,
+> >> +	DRM_FORMAT_XRGB4444,
+> >> +	DRM_FORMAT_ARGB1555,
+> >> +	DRM_FORMAT_XRGB1555,
+> >> +	DRM_FORMAT_RGB565,
+> >> +	DRM_FORMAT_BGR888,
+> >> +	DRM_FORMAT_RGB888,
+> >> +	DRM_FORMAT_BGRA8888,
+> >> +	DRM_FORMAT_BGRX8888,
+> >> +	DRM_FORMAT_ARGB8888,
+> >> +	DRM_FORMAT_XRGB8888,
+> >> +	DRM_FORMAT_RGBX1010102,
+> >> +	DRM_FORMAT_RGBA1010102,
+> >> +	DRM_FORMAT_ARGB2101010,
+> >> +	DRM_FORMAT_UYVY,
+> >> +	DRM_FORMAT_YUYV,
+> >> +	DRM_FORMAT_YVYU,
+> >> +	DRM_FORMAT_NV12,
+> >> +	DRM_FORMAT_NV21,
+> >> +	DRM_FORMAT_NV16,
+> >> +	DRM_FORMAT_NV61,
+> >> +	DRM_FORMAT_YUV420,
+> >> +	DRM_FORMAT_YVU420,
+> >> +	DRM_FORMAT_YUV422,
+> >> +	DRM_FORMAT_YVU422,
+> >> +	DRM_FORMAT_YUV444,
+> >> +	DRM_FORMAT_YVU444,
+> >> +	DRM_FORMAT_Y210,
+> >> +};
+> >> +
+> >>  static void rcar_du_vsp_plane_setup(struct rcar_du_vsp_plane *plane)
+> >>  {
+> >>  	struct rcar_du_vsp_plane_state *state =
+> >> @@ -436,14 +472,23 @@ int rcar_du_vsp_init(struct rcar_du_vsp *vsp, struct device_node *np,
+> >>  					 ? DRM_PLANE_TYPE_PRIMARY
+> >>  					 : DRM_PLANE_TYPE_OVERLAY;
+> >>  		struct rcar_du_vsp_plane *plane = &vsp->planes[i];
+> >> +		unsigned int num_formats;
+> >> +		const u32 *formats;
+> >> +
+> >> +		if (rcdu->info->gen < 4) {
+> >> +			num_formats = ARRAY_SIZE(rcar_du_vsp_formats);
+> >> +			formats = rcar_du_vsp_formats;
+> >> +		} else {
+> >> +			num_formats = ARRAY_SIZE(rcar_du_vsp_formats_gen4);
+> >> +			formats = rcar_du_vsp_formats_gen4;
+> >> +		}
+> >>  
+> >>  		plane->vsp = vsp;
+> >>  		plane->index = i;
+> >>  
+> >>  		ret = drm_universal_plane_init(&rcdu->ddev, &plane->plane,
+> >>  					       crtcs, &rcar_du_vsp_plane_funcs,
+> >> -					       rcar_du_vsp_formats,
+> >> -					       ARRAY_SIZE(rcar_du_vsp_formats),
+> >> +					       formats, num_formats,
+> >>  					       NULL, type, NULL);
+> >>  		if (ret < 0)
+> >>  			return ret;
+> > 
+> 
 
-Gr{oetje,eeting}s,
+-- 
+Regards,
 
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Laurent Pinchart
