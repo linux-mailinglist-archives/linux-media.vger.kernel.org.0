@@ -2,62 +2,59 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 10CBC65214A
-	for <lists+linux-media@lfdr.de>; Tue, 20 Dec 2022 14:13:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 21DC66521A0
+	for <lists+linux-media@lfdr.de>; Tue, 20 Dec 2022 14:40:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233195AbiLTNNu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 20 Dec 2022 08:13:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42090 "EHLO
+        id S233605AbiLTNkX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 20 Dec 2022 08:40:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55152 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229551AbiLTNNs (ORCPT
+        with ESMTP id S233569AbiLTNkU (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 20 Dec 2022 08:13:48 -0500
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E4AA192B0;
-        Tue, 20 Dec 2022 05:13:47 -0800 (PST)
-Received: from [IPV6:2a01:e0a:120:3210:bf7d:b502:d93b:e4e3] (unknown [IPv6:2a01:e0a:120:3210:bf7d:b502:d93b:e4e3])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits))
-        (No client certificate requested)
-        (Authenticated sender: benjamin.gaignard)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 0AD3A6602CA4;
-        Tue, 20 Dec 2022 13:13:46 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1671542026;
-        bh=B49queDa5Hv1Scgi/pvOGhJ49f7aCFvsnQ7cCCmDOM8=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=kK/eCDrCNcfH/VAKEXOHroHL8DWwcOSHQ8YBBOlmEqheVCDSHhe0ZWUVFtnGQk0vi
-         tpS/i/rkULzAwNYwrP01Xr/EGVXP4f9feDpqwzHs4X8/tjnKxdfxtArJ1i6YlAgY24
-         Y+B6CRMmJQ+xk8qvOx1ViEsOkNACgloJ6r8NWq8bpJSy9QOSWJrfsCGCfSijg3gET4
-         YhsK9GVR9qnZG6jyM45CDY07ad/aHTXWccGoc+8AV7errJNmDeAwj3TqS5uAoIduoE
-         YNbhEVirYrHC8v58kW5nfuJ9ja1Ese9TFIOk/cQf0zYDFpOH8PqjTeyZSfrP1GzTT9
-         4RF0zMs4UV/6Q==
-Message-ID: <56054a90-4c1e-fa08-ad2c-43109d68f599@collabora.com>
-Date:   Tue, 20 Dec 2022 14:13:43 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH v1 5/9] media: verisilicon: Compute motion vectors size
- for AV1 frames
-Content-Language: en-US
-To:     Nicolas Dufresne <nicolas@ndufresne.ca>,
-        ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
-        mchehab@kernel.org, robh+dt@kernel.org,
+        Tue, 20 Dec 2022 08:40:20 -0500
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 899D419001
+        for <linux-media@vger.kernel.org>; Tue, 20 Dec 2022 05:40:18 -0800 (PST)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <mgr@pengutronix.de>)
+        id 1p7cqk-00074A-6D; Tue, 20 Dec 2022 14:40:06 +0100
+Received: from mgr by ptx.hi.pengutronix.de with local (Exim 4.92)
+        (envelope-from <mgr@pengutronix.de>)
+        id 1p7cqh-0005jm-Qg; Tue, 20 Dec 2022 14:40:03 +0100
+Date:   Tue, 20 Dec 2022 14:40:03 +0100
+From:   Michael Grzeschik <mgr@pengutronix.de>
+To:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Cc:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        p.zabel@pengutronix.de, mchehab@kernel.org, robh+dt@kernel.org,
         krzysztof.kozlowski+dt@linaro.org, heiko@sntech.de,
-        daniel.almeida@collabora.com, nicolas.dufresne@collabora.co.uk
-Cc:     linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        daniel.almeida@collabora.com, nicolas.dufresne@collabora.co.uk,
+        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
         devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         linux-kernel@vger.kernel.org, kernel@collabora.com
+Subject: Re: [PATCH v1 0/9] AV1 stateless decoder for RK3588
+Message-ID: <20221220134003.GC26315@pengutronix.de>
 References: <20221219155616.848690-1-benjamin.gaignard@collabora.com>
- <20221219155616.848690-6-benjamin.gaignard@collabora.com>
- <44b06c15410e184e8e856a4a882d1b42a02fa8d2.camel@ndufresne.ca>
-From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
-In-Reply-To: <44b06c15410e184e8e856a4a882d1b42a02fa8d2.camel@ndufresne.ca>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-3.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+ <CAAEAJfBP_D65kjHbwYP+LWfWKfzFtHtWo+3bDcbdO8tPtBurUA@mail.gmail.com>
+ <20221219215431.GB26315@pengutronix.de>
+ <CAAEAJfBzZWHu9YE38HzRUQ2xRZohYa19JaK7EOaQDqz5K1sz_g@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="UPT3ojh+0CqEDtpF"
+Content-Disposition: inline
+In-Reply-To: <CAAEAJfBzZWHu9YE38HzRUQ2xRZohYa19JaK7EOaQDqz5K1sz_g@mail.gmail.com>
+X-Sent-From: Pengutronix Hildesheim
+X-URL:  http://www.pengutronix.de/
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: mgr@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -65,90 +62,265 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 
-Le 19/12/2022 à 21:42, Nicolas Dufresne a écrit :
-> Le lundi 19 décembre 2022 à 16:56 +0100, Benjamin Gaignard a écrit :
->> Compute the additional required to store motion vectors at
-> requires *space*, requires *buffer* ? I think this is missing a word.
+--UPT3ojh+0CqEDtpF
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hi Ezequiel,
+
+On Mon, Dec 19, 2022 at 10:52:02PM -0300, Ezequiel Garcia wrote:
+>On Mon, Dec 19, 2022 at 6:54 PM Michael Grzeschik <mgr@pengutronix.de> wro=
+te:
+>> On Mon, Dec 19, 2022 at 06:07:38PM -0300, Ezequiel Garcia wrote:
+>> >On Mon, Dec 19, 2022 at 12:56 PM Benjamin Gaignard
+>> ><benjamin.gaignard@collabora.com> wrote:
+>> >>
+>> >> This series implement AV1 stateless decoder for RK3588 SoC.
+>> >> The harware support 8 and 10 bits bitstreams up to 7680x4320.
+>> >> AV1 feature like film grain or scaling are done by the postprocessor.
+>> >> The driver can produce NV12_4L4 and NV12 pixel formats.
+>> >> A native 10bits NV12_4L4 format is possible but need more investigati=
+on
+>> >> to be completly documented and enabled.
+>> >>
+>> >> It is based on Daniel's "[RFC,v3] media: Add AV1 uAPI" [1] patches and
+>> >> Sebastian's device-tree patches for RK3588.
+>> >>
+>> >
+>> >I thought the AV1 decoder in RK3588 was really a separate hardware
+>> >from the Hantro G1/G2.
+>> >
+>> >Shouldn't this need a new driver for this new hardware?
+>>
+>> Just jumping into this discussion as I am currently working on the rkven=
+c driver.
+>>
 >
->> the end of the frames buffers.
+>The more the merrier, there's always room for developers :-)
+>
+>> In my case I am extending the rkvdec driver to become more generic for
+>> other rockchip specific enc/decoders.
 >>
->>
->> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+>> My first change looks like this:
 >> ---
->>   drivers/media/platform/verisilicon/hantro_hw.h      | 13 +++++++++++++
->>   .../media/platform/verisilicon/hantro_postproc.c    |  3 +++
->>   drivers/media/platform/verisilicon/hantro_v4l2.c    |  5 +++++
->>   3 files changed, 21 insertions(+)
+>>  drivers/staging/media/rkvdec/Makefile              |   4 +-
+>>  drivers/staging/media/rkvdec/rkvdec-h264.c         | 100 ++++-----
+>>  drivers/staging/media/rkvdec/rkvdec-vp9.c          | 142 ++++++-------
+>>  drivers/staging/media/rkvdec/{rkvdec.c =3D> rkvpu.c} | 510 ++++++++++++=
++++++++++++-----------------------
+>>  drivers/staging/media/rkvdec/{rkvdec.h =3D> rkvpu.h} |  66 +++---
+>> ---
 >>
->> diff --git a/drivers/media/platform/verisilicon/hantro_hw.h b/drivers/media/platform/verisilicon/hantro_hw.h
->> index e83f0c523a30..8b3bc7e31395 100644
->> --- a/drivers/media/platform/verisilicon/hantro_hw.h
->> +++ b/drivers/media/platform/verisilicon/hantro_hw.h
->> @@ -417,6 +417,19 @@ hantro_hevc_mv_size(unsigned int width, unsigned int height)
->>   	return width * height / 16;
->>   }
->>   
->> +static inline unsigned short hantro_av1_num_sbs(unsigned short dimension)
->> +{
->> +	return DIV_ROUND_UP(dimension, 64) + 1;
-> Why plus one ? I've tested locally with the logical DIV_ROUND_UP(dimension, 64),
-> and didn't see any difference. It then match hantro_vp_num_sbs(), so can't this
-> be shared ?
-
-MPP code use plus one so I keep it like that.
-
+>> While working on other parts of the encoder I found many places in the
+>> rkvdec driver (e.g. v4l2 and vb2 callbacks) that looked familiar to the =
+hantro
+>> functions but where limited to the decoder case.
+>>
 >
->> +}
->> +
->> +static inline size_t
->> +hantro_av1_mv_size(unsigned int width, unsigned int height)
->> +{
->> +	size_t num_sbs = hantro_av1_num_sbs(width) * hantro_av1_num_sbs(height);
->> +
->> +	return ALIGN(num_sbs * 384, 16) + 512;
-> Shall the magic numbers be turned into defines ?
-
-MPP code is:
-dir_mvs_size = MPP_ALIGN(num_sbs * 24 * 128 / 8, 16);
-and 512 is added later by another piece of code.
-
-I have no clue about the meaning of those values, sorry.
-
+>Because stateless decoders devices are very similar in their general behav=
+ior,
+>their drivers could be very similar.
 >
->> +}
->> +
->>   int hantro_g1_mpeg2_dec_run(struct hantro_ctx *ctx);
->>   int rockchip_vpu2_mpeg2_dec_run(struct hantro_ctx *ctx);
->>   void hantro_mpeg2_dec_copy_qtable(u8 *qtable,
->> diff --git a/drivers/media/platform/verisilicon/hantro_postproc.c b/drivers/media/platform/verisilicon/hantro_postproc.c
->> index 09d8cf942689..7dc39519a2ee 100644
->> --- a/drivers/media/platform/verisilicon/hantro_postproc.c
->> +++ b/drivers/media/platform/verisilicon/hantro_postproc.c
->> @@ -213,6 +213,9 @@ int hantro_postproc_alloc(struct hantro_ctx *ctx)
->>   	else if (ctx->vpu_src_fmt->fourcc == V4L2_PIX_FMT_HEVC_SLICE)
->>   		buf_size += hantro_hevc_mv_size(pix_mp.width,
->>   						pix_mp.height);
->> +	else if (ctx->vpu_src_fmt->fourcc == V4L2_PIX_FMT_AV1_FRAME)
->> +		buf_size += hantro_av1_mv_size(pix_mp.width,
->> +					       pix_mp.height);
-> nit: Time to turn into a switch or use an ops ?
+>Hantro and Rkvdec could look similar because the same humans worked on the=
+m.
 >
->>   
->>   	for (i = 0; i < num_buffers; ++i) {
->>   		struct hantro_aux_buf *priv = &ctx->postproc.dec_q[i];
->> diff --git a/drivers/media/platform/verisilicon/hantro_v4l2.c b/drivers/media/platform/verisilicon/hantro_v4l2.c
->> index 2c7a805289e7..d41dcb108a6d 100644
->> --- a/drivers/media/platform/verisilicon/hantro_v4l2.c
->> +++ b/drivers/media/platform/verisilicon/hantro_v4l2.c
->> @@ -334,6 +334,11 @@ static int hantro_try_fmt(const struct hantro_ctx *ctx,
->>   			pix_mp->plane_fmt[0].sizeimage +=
->>   				hantro_hevc_mv_size(pix_mp->width,
->>   						    pix_mp->height);
->> +		else if (ctx->vpu_src_fmt->fourcc == V4L2_PIX_FMT_AV1_FRAME &&
->> +			 !hantro_needs_postproc(ctx, fmt))
->> +			pix_mp->plane_fmt[0].sizeimage +=
->> +				hantro_av1_mv_size(pix_mp->width,
->> +						   pix_mp->height);
->>   	} else if (!pix_mp->plane_fmt[0].sizeimage) {
->>   		/*
->>   		 * For coded formats the application can specify
+>Most boilerplate code, as well as V4L2 format negotiation, VB2 buffer hand=
+ling
+>could be shared among all stateless decoder drivers. I think even at one p=
+oint
+>we experimented with having a shared/common code base for all stateless co=
+decs.
+>
+>In other words, it's entirely possible to support Hantro devices in
+>the Cedrus driver
+>and vice-versa, you would only have to write the hardware-specific bits.
+>
+>However, there is consensus to have a separate driver for each
+>different hardware,
+>even when the hardware is a bit similar. This may lead to some code duplic=
+ation,
+>but it's less fragile / more flexible. Maintaining drivers this way allows
+>developers to evolve, testing on a small family of devices, without
+>breaking support
+>for other devices.
+>
+>This is important as sometimes it's hard to get the hardware,
+>but we still don't want to break the support!
+>
+>> I think there are two options for the av1 codec.
+>>
+>> 1) If the vpu981 is a driver that has nothing to do with verisilicon but
+>> works with this driver framework, then we should integrate vepu981 into =
+it
+>> but consider rename the verisilicon unrelated parts to something generic.
+>>
+>> 2) Move the vepu981 av1 driver into the rkvdec instead.
+>>
+>> If 1) is the way to go, we can even think of moving the staging code par=
+ts from
+>> rkvdec to the verisilicon code. Likewise to the vepu981-av1.
+>>
+>
+>The Hantro driver should only support G1, G2, and VC8000D;
+>which can be said to belong to the same family.
+>
+>The RKVDEC driver supports Rockchip vdpu34x core. I have to admit
+>I'm not exactly sure if we support anything else than vdpu34x.
+
+Currently the rkvdec is only supporting vdpu34x. My work would integrate
+vepu54x into the rkvdec boilerplate and so it would support encode as decod=
+e.
+
+>I'm not familiar with the AV1 support provided by this patch,
+>but looking at the mpp code:
+>
+>...
+>        "rk3588",
+>        ROCKCHIP_SOC_RK3588,
+>        HAVE_VDPU2 | HAVE_VDPU2_PP | HAVE_VEPU2 | HAVE_RKVDEC | HAVE_RKVEN=
+C |
+>        HAVE_JPEG_DEC | HAVE_AV1DEC | HAVE_AVSDEC | HAVE_VEPU2_JPEG,
+>        {   &vdpu38x, &rkjpegd, &vdpu2, &vdpu2_jpeg_pp, &av1d, &avspd},
+>        {   &vepu58x, &vepu2, &vepu2_jpeg, NULL, },
+>
+>Seems RK3588 supports a Hantro core (VDPU2), a vdpu38x core and this AV1 c=
+ore,
+>which according to this patchset is vdpu981 (?)
+>
+>If the vdpu38x device interface, configuration, buffer handling and
+>registers are
+>similar enough with vdpu34x, adding vdpu38x to the Rkvdec driver
+>should be straightforward.
+>If the vdpu38x core differs, it may be reason enough to consider a new dri=
+ver.
+>
+>As for vdpu981 (AV1), I'm inclined to think it deserves its own driver.
+>
+>Again, I'm far less worried for a little code duplication in the
+>boilerplate (which can be solved
+>with helpers, etc.) and more worried about making sure we can evolve
+>drivers easily,
+>while minimizing regressions.
+
+Thanks for the explanation.
+
+As I agree that not breaking current drivers is a strong argument. Also
+rkvdec is still in staging, which makes it less harmful for the
+integration of the encoder path.
+
+Since we can not ensure that the rkvenc/rkvdec is not another unknown
+verisilicon core, going the way of working on a common rkvpu driver is
+probably the best for now.
+
+Also, since I have already done some work into that direction, it sounds
+good for me. :)
+
+
+>> I could also keep on integrating the rkvenc on that base instead.
+>>
+>> Regards,
+>> Michael
+>>
+>> >> The full branch can be found here:
+>> >> https://gitlab.collabora.com/linux/for-upstream/-/commits/rk3588_av1_=
+decoder_v1
+>> >>
+>> >> Fluster score is: 151/239 while testing AV1-TEST-VECTORS with GStream=
+er-AV1-V4L2SL-Gst1.0.
+>> >> The failing tests are:
+>> >> - 10bits bitstream because 10bits output formats aren't yet implement=
+ed.
+>> >> - the 2 tests with 2 spatial layers: few errors in luma/chroma values
+>> >> - tests with resolution < hardware limit (64x64)
+>> >>
+>> >> Benjamin
+>> >>
+>> >> Benjamin Gaignard (9):
+>> >>   dt-bindings: media: rockchip-vpu: Add rk3588 vpu compatible
+>> >>   media: verisilicon: Add AV1 decoder mode and controls
+>> >>   media: verisilicon: Save bit depth for AV1 decoder
+>> >>   media: verisilicon: Check AV1 bitstreams bit depth
+>> >>   media: verisilicon: Compute motion vectors size for AV1 frames
+>> >>   media: verisilicon: Add AV1 entropy helpers
+>> >>   media: verisilicon: Add Rockchip AV1 decoder
+>> >>   media: verisilicon: Add film grain feature to AV1 driver
+>> >>   media: verisilicon: Enable AV1 decoder on rk3588
+>> >>
+>> >>  .../bindings/media/rockchip-vpu.yaml          |    1 +
+>> >>  drivers/media/platform/verisilicon/Makefile   |    3 +
+>> >>  drivers/media/platform/verisilicon/hantro.h   |    5 +
+>> >>  .../media/platform/verisilicon/hantro_drv.c   |   54 +
+>> >>  .../media/platform/verisilicon/hantro_hw.h    |  102 +
+>> >>  .../platform/verisilicon/hantro_postproc.c    |    3 +
+>> >>  .../media/platform/verisilicon/hantro_v4l2.c  |    5 +
+>> >>  .../verisilicon/rockchip_av1_entropymode.c    | 4536 +++++++++++++++=
+++
+>> >>  .../verisilicon/rockchip_av1_entropymode.h    |  272 +
+>> >>  .../verisilicon/rockchip_av1_filmgrain.c      |  401 ++
+>> >>  .../verisilicon/rockchip_av1_filmgrain.h      |   36 +
+>> >>  .../verisilicon/rockchip_vpu981_hw_av1_dec.c  | 2280 +++++++++
+>> >>  .../verisilicon/rockchip_vpu981_regs.h        |  477 ++
+>> >>  .../platform/verisilicon/rockchip_vpu_hw.c    |  116 +
+>> >>  14 files changed, 8291 insertions(+)
+>> >>  create mode 100644 drivers/media/platform/verisilicon/rockchip_av1_e=
+ntropymode.c
+>> >>  create mode 100644 drivers/media/platform/verisilicon/rockchip_av1_e=
+ntropymode.h
+>> >>  create mode 100644 drivers/media/platform/verisilicon/rockchip_av1_f=
+ilmgrain.c
+>> >>  create mode 100644 drivers/media/platform/verisilicon/rockchip_av1_f=
+ilmgrain.h
+>> >>  create mode 100644 drivers/media/platform/verisilicon/rockchip_vpu98=
+1_hw_av1_dec.c
+>> >>  create mode 100644 drivers/media/platform/verisilicon/rockchip_vpu98=
+1_regs.h
+>> >>
+>> >> --
+>> >> 2.34.1
+>> >>
+>> >
+>> >_______________________________________________
+>> >linux-arm-kernel mailing list
+>> >linux-arm-kernel@lists.infradead.org
+>> >http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
+>> >
+>>
+>> --
+>> Pengutronix e.K.                           |                            =
+ |
+>> Steuerwalder Str. 21                       | http://www.pengutronix.de/ =
+ |
+>> 31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0   =
+ |
+>> Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555=
+ |
+>
+
+--=20
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+
+--UPT3ojh+0CqEDtpF
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEElXvEUs6VPX6mDPT8C+njFXoeLGQFAmOhuzEACgkQC+njFXoe
+LGQkNBAAodpx1wtHCvWZ8qXy5GQhh7jyT4QhcQiQuBgXjFTokznsI0gWqZBbS2cI
+Ye2mIZNmDO5i6+pq81k1PQbuPJPIiPpZmV6vJSBSOm5pWQ3vDKpl+58uhQ4GHPcj
+VBw7HQsGdnxDfcA4YGcY2uXmOukgr1ScJeuHEJOtwS1y/cyJds5s9np7IbVYn3Qe
+z0jhzKKQi+Ga+Z2GdMXw1jjaxDQW93aEQjFe2HPzFJ8OF3VvAAX9DgEuHCpb2uLY
+o/euN8ECdzrpSq8tCCnIFpiNHLjqx4uKFdI4rvhc3CTMDvKx/gaaiuvNRKgzYbsA
+4j9f0IiwayT2C9s3vtrB0QtwRH1QWrej43cKNeGldkKmNvXMVoT0vRNpp4jWi+IH
+ecPfoqFo/EkAHgea3AL9YX59OuSnmcvdD2cZxabTnW/OSv2+cjML4FORL7eQaiUe
+xSC7jgFwBgKGEn3wmPXTtIZpHjF/aiD2uSlxn0E7A0uEWtd3VP/b25GAWhcaaOB3
+hCmPTei/jh3HRnrW1ABf1M+XwRs3+YTY4elqkd3PoxF2q8tZWXEvMQexZtspk3s5
+PrKp7I0ZUJg2YSGdQVIlvkA+2GqPBqsY7TiOMzMbgW0VKLWOp/a68lTwdhu7dn0F
+HGDuS0nB+yADJeQ1Kknufew1iE2+Bgu/vcAcR0r5ey8mh0L5JKY=
+=unC0
+-----END PGP SIGNATURE-----
+
+--UPT3ojh+0CqEDtpF--
