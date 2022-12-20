@@ -2,142 +2,262 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 85EA6651D8B
-	for <lists+linux-media@lfdr.de>; Tue, 20 Dec 2022 10:36:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C3144651DB4
+	for <lists+linux-media@lfdr.de>; Tue, 20 Dec 2022 10:42:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233253AbiLTJgm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 20 Dec 2022 04:36:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43480 "EHLO
+        id S233243AbiLTJmN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 20 Dec 2022 04:42:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45132 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230058AbiLTJgk (ORCPT
+        with ESMTP id S233220AbiLTJln (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 20 Dec 2022 04:36:40 -0500
-Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [IPv6:2a0b:5c81:1c1::37])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3AF361123;
-        Tue, 20 Dec 2022 01:36:39 -0800 (PST)
-Received: from hillosipuli.retiisi.eu (dkv67ytyxtq-05sj69vvy-3.rev.dnainternet.fi [IPv6:2001:14ba:4475:b040:1383:7fec:bcfa:ec62])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: sailus)
-        by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 3D8CC1B001B6;
-        Tue, 20 Dec 2022 11:36:36 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
-        t=1671528996;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=83o3+NNaC/IgbT55ZoIsDuRVomAnlgiNTgekNRp8Oe4=;
-        b=N/estAzXDOLwJ/ZgEDSd5fUkF9asqAQZoDXq7Dxv+kNjokoUKgxMp/2fRmo06bO+1zIS9N
-        M54qcPjz1GPwIGlq6twaXCCQz5TpuU0fhNY5fBNer5xxD4F6LIetJ1KO0ktSPr2nbk2ktd
-        GA1BmXTiZQO2ETEU57u4+kKCFPXhUKgMm+TiagDFXG9yl2AYdh0nrbVImtANyBDWZN0YWy
-        FvxgBxk2wUaHGzNgysOrAcn0apaDd/rYHvGsQ6TvXqt/yi5/Fh1Llj/CozBl79wWnkmHZh
-        lQIblgZ1wMtbgVXjSMXXxpD3i+zCqPXe2sLD9oHxKCobgUGDz99Mw+vfIfIcyA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-        s=lahtoruutu; t=1671528996;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=83o3+NNaC/IgbT55ZoIsDuRVomAnlgiNTgekNRp8Oe4=;
-        b=PNbx2Hbg9paDq7amLvz6wBqL7uRPv1ZhD8LA9Gd0O/MFnPBNtDmhvk4/Hsz5lDMDle+whj
-        F8CqNKBFpVxiX4lRlz7Hz88BoPhmNg0KybZiyG1gIORRv713z3eoqI1BpIeR1uHJEUn45e
-        IrX+t6gNCamFQ+BsC0V86P8x1axoltmr6erG8XADhH22RGRiqR92BhFSMyQQCbzf8dJWZj
-        oU1Hm50fL2KB0FR5e1eDrck3YGXdwmEhNrRjIxZ5n+i6Itc7+JS/KPwp61Q9UwUQ+HRNs+
-        a3ly0rm3TuBUANdo39KQtFv+ep22B6Ax0OtKmbO7MpWovbn1ixdu+JMVVD4D2Q==
-ARC-Authentication-Results: i=1;
-        ORIGINATING;
-        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1671528996; a=rsa-sha256;
-        cv=none;
-        b=ZHaNfD4cQR0HwvJFj8seG1y4wTYjzRdUGR4HytEMS8GbF6CaNeF9PZQutfopf8+xucYCsT
-        cypEOVhaZVG5myIpVeGrx40kvqGScHnfbqRQigtyQl/qDQ0XDnS2p5hn7dU5CyLJArftT1
-        RNvn4OnGNvNqe8Le9TYdkaKvMmkvqDL3/L96/BzIBX0z3yht4OaeQis/WbG88xdkpjmTyj
-        PKg0L2naxtM/677oJU7lyQH15PGJPoB5e+r4v8H7bosBT6xbtS81meklx3ZQ555uOqZFNq
-        q4nX5pFOkAGtReZJokAKCCBYIc/s0cYLrKIrTrllQd/4aYUj28NTvOk6x4q87g==
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id C667C634C92;
-        Tue, 20 Dec 2022 11:36:35 +0200 (EET)
-Date:   Tue, 20 Dec 2022 11:36:35 +0200
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
-        linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: Re: [PATCH v2 7/7] drm: rcar-du: Add new formats (2-10-10-10 ARGB,
- Y210)
-Message-ID: <Y6GCI3PV3/WhyZBR@valkosipuli.retiisi.eu>
-References: <20221219140139.294245-1-tomi.valkeinen+renesas@ideasonboard.com>
- <20221219140139.294245-8-tomi.valkeinen+renesas@ideasonboard.com>
- <Y6Db2C+JehUPYSQp@pendragon.ideasonboard.com>
+        Tue, 20 Dec 2022 04:41:43 -0500
+Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com [IPv6:2607:f8b0:4864:20::432])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E0177FCED;
+        Tue, 20 Dec 2022 01:41:39 -0800 (PST)
+Received: by mail-pf1-x432.google.com with SMTP id 21so8133180pfw.4;
+        Tue, 20 Dec 2022 01:41:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=xtcni4zL9udO1S1uEK/8gX1ILHpQ+oX/DJS82ogAcMk=;
+        b=DILbQ6+16hFsfPucdcVvbtcfBhfIp47i1kxtUV0hLfbFftuT1/eWSndEsYSFsqlBdI
+         EdFhL6KMkiQwd1qQzk1ti6tV2nf8dkxVlxyx06sPUoPP9VqMez3npAQrZwuAIcrpwTvz
+         3IOGV9Qak9y6xgqxysatKxDGTEeFeYsT4R7snv7zKie9npB90+RoIsehsfs8xv4mfny4
+         eo24p78pRRplZhm2A26esNmIwiDhtPAC9B/NraqbHQ6FEmyRtIG5A1Ic5Brjv3oO5Wkr
+         nV305X15e7GKCWDE4uFXgDHCjy8cQ9lSOV7o5qkCQvkzO0O3lzPvW1g9XCk7O3+AAA8A
+         pkSg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=xtcni4zL9udO1S1uEK/8gX1ILHpQ+oX/DJS82ogAcMk=;
+        b=V/y3CuYpfctL7FXlq+f9AgAEgwP3PtGb0tdD2UJDolSjryLCru24tawQPH0VFnN3rl
+         wWexdD0iCmBXnr7UgyKQiAdsBNNYdGihDG2qew5JbUcZFw/QnPnhJJXXte4VhaEAdCCr
+         PLYpZ3+PdG1czYT3N9/f+VRc2hIRTEO4HstvmKUUy3J9TINhaMrgfMcgxXYjGLcOuKFz
+         s6fDGk7r4ZXmu3TjePVtvoov6KYc0aEUVkpvYU393mUorjZ1LWbwGDYpAgGGNN1A7NHN
+         X2O/50BXWXjDRcyXYwYWO9k6HCnlCpSvyvdfW45pcXN6ryR3SyAImiIMkgCjJcL2jo2A
+         POJw==
+X-Gm-Message-State: ANoB5pkMJAmJetIpsilefbDHFeYt9ta8ICCk4cgw2ZbpULcs5NI5P797
+        Z3D0qYA+lyfm2ancpfuGNQo=
+X-Google-Smtp-Source: AA0mqf7fhGEKPc1SjL3fdWIX57OF9R+OVXg8ihR6K3lSQmGYmUQQXXiIerVVkHBlizzLa408gr/VVg==
+X-Received: by 2002:a62:1b95:0:b0:577:b42:85a4 with SMTP id b143-20020a621b95000000b005770b4285a4mr44948233pfb.25.1671529299215;
+        Tue, 20 Dec 2022 01:41:39 -0800 (PST)
+Received: from hcdev-d520mt2.. (60-250-192-107.hinet-ip.hinet.net. [60.250.192.107])
+        by smtp.gmail.com with ESMTPSA id b17-20020a621b11000000b00576a89978e5sm8210230pfb.63.2022.12.20.01.41.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 20 Dec 2022 01:41:38 -0800 (PST)
+From:   Marvin Lin <milkfafa@gmail.com>
+To:     mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
+        avifishman70@gmail.com, tmaimon77@gmail.com, tali.perry1@gmail.com,
+        venture@google.com, yuenn@google.com, benjaminfair@google.com,
+        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        andrzej.p@collabora.com
+Cc:     devicetree@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, openbmc@lists.ozlabs.org,
+        kwliu@nuvoton.com, kflin@nuvoton.com,
+        Marvin Lin <milkfafa@gmail.com>
+Subject: [PATCH v9 0/7] Support Nuvoton NPCM Video Capture/Encode Engine
+Date:   Tue, 20 Dec 2022 17:40:48 +0800
+Message-Id: <20221220094055.3011916-1-milkfafa@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y6Db2C+JehUPYSQp@pendragon.ideasonboard.com>
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
+This patch series add DTS node, dt-bindings document and drivers for Video
+Capture/Differentiation Engine (VCD) and Encoding Compression Engine (ECE)
+present on Nuvoton NPCM SoCs.
 
-On Mon, Dec 19, 2022 at 11:47:04PM +0200, Laurent Pinchart wrote:
-> Hi Tomi,
-> 
-> (CC'ing Sakari and Hans)
-> 
-> Thank you for the patch.
-> 
-> On Mon, Dec 19, 2022 at 04:01:39PM +0200, Tomi Valkeinen wrote:
-> > Add new pixel formats: RGBX1010102, RGBA1010102, ARGB2101010 and Y210.
-> > 
-> > Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-> > ---
-> >  drivers/gpu/drm/rcar-du/rcar_du_kms.c | 24 +++++++++++++
-> >  drivers/gpu/drm/rcar-du/rcar_du_vsp.c | 49 +++++++++++++++++++++++++--
-> >  2 files changed, 71 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/rcar-du/rcar_du_kms.c b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-> > index 8c2719efda2a..8ccabf5a30c4 100644
-> > --- a/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-> > +++ b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-> > @@ -259,6 +259,24 @@ static const struct rcar_du_format_info rcar_du_format_infos[] = {
-> >  		.bpp = 32,
-> >  		.planes = 1,
-> >  		.hsub = 1,
-> > +	}, {
-> > +		.fourcc = DRM_FORMAT_RGBX1010102,
-> 
-> Ah, here the format makes sense.
-> 
-> > +		.v4l2 = V4L2_PIX_FMT_XBGR2101010,
-> 
-> But this is horrible :-( Could we use the same names as DRM for new
-> formats, when there is no conflict with existing V4L2 formats ?
-> 
-> Sakari, Hans, what do you think ? Please see patch 1/7 in the series for
-> the format definitions.
+VCD can capture/differentiate video data from digital or analog sources,
+then the ECE will compress the data into HEXTILE format which is defined in
+Remote Framebuffer Protocol (RFC 6143, chapter 7.7.4. Hextile Encoding).
 
-I think it'd be good to have only one set of definitions.
+The output of v4l2-compliance:
+v4l2-compliance 1.23.0-4965, 64 bits, 64-bit time_t
+v4l2-compliance SHA: d0964d133053 2022-11-06 14:46:45
 
-Can we can sort the endianness question in a reasonable way?
+Compliance test for npcm-video device /dev/video0:
 
-Also new Bayer formats will probably be still needed on V4L2 side but will
-they be relevant for DRM? I suppose that would mean new DRM format for
-each pixel order, too? Or can we think of something smarter that would
-still work reasonably with existing formats?
+Driver Info:
+        Driver name      : npcm-video
+        Card type        : NPCM Video Engine
+        Bus info         : platform:npcm-video
+        Driver version   : 5.15.50
+        Capabilities     : 0x85200001
+                Video Capture
+                Read/Write
+                Streaming
+                Extended Pix Format
+                Device Capabilities
+        Device Caps      : 0x05200001
+                Video Capture
+                Read/Write
+                Streaming
+                Extended Pix Format
+
+Required ioctls:
+        test VIDIOC_QUERYCAP: OK
+        test invalid ioctls: OK
+
+Allow for multiple opens:
+        test second /dev/video0 open: OK
+        test VIDIOC_QUERYCAP: OK
+        test VIDIOC_G/S_PRIORITY: OK
+        test for unlimited opens: OK
+
+Debug ioctls:
+        test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
+        test VIDIOC_LOG_STATUS: OK (Not Supported)
+
+Input ioctls:
+        test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+        test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+        test VIDIOC_ENUMAUDIO: OK (Not Supported)
+        test VIDIOC_G/S/ENUMINPUT: OK
+        test VIDIOC_G/S_AUDIO: OK (Not Supported)
+        Inputs: 1 Audio Inputs: 0 Tuners: 0
+
+Output ioctls:
+        test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+        test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+        test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+        test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+        Outputs: 0 Audio Outputs: 0 Modulators: 0
+
+Input/Output configuration ioctls:
+        test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+        test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK
+        test VIDIOC_DV_TIMINGS_CAP: OK
+        test VIDIOC_G/S_EDID: OK (Not Supported)
+
+Control ioctls (Input 0):
+        test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
+        test VIDIOC_QUERYCTRL: OK
+        test VIDIOC_G/S_CTRL: OK
+        test VIDIOC_G/S/TRY_EXT_CTRLS: OK
+                warn: /usr/src/debug/v4l-utils/1.22.1-r0/utils/v4l2-compliance/v4l2-test-controls.cpp(1070): V4L2_CID_DV_RX_POWER_PRESENT not found for input 0
+        test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
+        test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+        Standard Controls: 1 Private Controls: 2
+
+Format ioctls (Input 0):
+        test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+                warn: /usr/src/debug/v4l-utils/1.22.1-r0/utils/v4l2-compliance/v4l2-test-formats.cpp(1411): S_PARM is supported for buftype 1, but not for ENUM_FRAMEINTERVALS
+        test VIDIOC_G/S_PARM: OK
+        test VIDIOC_G_FBUF: OK (Not Supported)
+        test VIDIOC_G_FMT: OK
+        test VIDIOC_TRY_FMT: OK
+        test VIDIOC_S_FMT: OK
+        test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+        test Cropping: OK (Not Supported)
+        test Composing: OK (Not Supported)
+        test Scaling: OK (Not Supported)
+
+Codec ioctls (Input 0):
+        test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+        test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+        test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+
+Buffer ioctls (Input 0):
+        test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+        test VIDIOC_EXPBUF: OK
+        test Requests: OK (Not Supported)
+
+Total for npcm-video device /dev/video0: 45, Succeeded: 45, Failed: 0, Warnings: 2
+
+Changes in v9:
+  - Change ECE node name to "video-codec".
+  - Drop redundant "bindings for" in commit subject of patch 2/7.
+  - Refine the format of VCD/ECE dt-binding document.
+
+Changes in v8:
+  - Let VCD/ECE to be 2 separate nodes and update dt-binding documents.
+  - Move register definitions out to a local header file.
+  - Driver refinements (add error handling for memory allocation, remove
+    unnecessary condition check and introduce "goto"s to handle similar
+    error recovery paths).
+  - Correct properties and typo in GFXI dt-binding document.
+
+Changes in v7:
+  - Add uapi documents for driver-specific controls.
+  - Implement driver-specific controls for switching capture mode and
+    getting the count of compressed HEXTILE rectangles.
+  - Drop unnecessary "enum_framesizes" and "enum_frameintervals" functions.
+  - Include the output of v4l2-compliance in cover letter.
+
+Changes in v6:
+  - Support NPCM845 and add compatible "nuvoton,npcm845-video".
+  - Correct pixel format to V4L2_PIX_FMT_HEXTILE which is newly added in
+    this patch series.
+
+Changes in v5:
+  - Simplify function prefix "nuvoton_" to "npcm_".
+  - Increase VCD_BUSY_TIMEOUT_US and ECE_POLL_TIMEOUT_US to 300ms to
+    prevent polling timeout when ECC is enabled or system is busy.
+
+Changes in v4:
+  - Fix compile warning reported by kernel test robot.
+
+Changes in v3:
+  - Add video driver entry in MAINTAINERS.
+  - Change config name to CONFIG_VIDEO_NPCM_VCD_ECE.
+  - Reduce the waiting time after resetting the VCD/ECE module.
+  - Correct data types of some variables.
+
+Changes in v2:
+  - Add Hextile document and locate with vendor formats.
+
+Marvin Lin (7):
+  ARM: dts: nuvoton: Add node for NPCM VCD and ECE engine
+  media: dt-binding: nuvoton: Add NPCM VCD and ECE engine
+  dt-bindings: arm: nuvoton: Add bindings for NPCM GFXI
+  media: v4l: Add HEXTILE compressed format
+  media: v4l2-ctrls: Reserve user control base for NPCM video controls
+  media: uapi: Add controls for NPCM video driver
+  media: nuvoton: Add driver for NPCM video capture and encode engine
+
+ .../bindings/arm/npcm/nuvoton,gfxi.yaml       |   39 +
+ .../bindings/media/nuvoton,npcm-ece.yaml      |   43 +
+ .../bindings/media/nuvoton,npcm-vcd.yaml      |   72 +
+ .../userspace-api/media/drivers/index.rst     |    1 +
+ .../media/drivers/npcm-video.rst              |   67 +
+ .../media/v4l/pixfmt-reserved.rst             |    7 +
+ MAINTAINERS                                   |   12 +
+ arch/arm/boot/dts/nuvoton-common-npcm7xx.dtsi |   23 +
+ drivers/media/platform/Kconfig                |    1 +
+ drivers/media/platform/Makefile               |    1 +
+ drivers/media/platform/nuvoton/Kconfig        |   15 +
+ drivers/media/platform/nuvoton/Makefile       |    2 +
+ drivers/media/platform/nuvoton/npcm-regs.h    |  171 ++
+ drivers/media/platform/nuvoton/npcm-video.c   | 1924 +++++++++++++++++
+ drivers/media/v4l2-core/v4l2-ioctl.c          |    1 +
+ include/uapi/linux/npcm-video.h               |   41 +
+ include/uapi/linux/v4l2-controls.h            |    6 +
+ include/uapi/linux/videodev2.h                |    1 +
+ 18 files changed, 2427 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/arm/npcm/nuvoton,gfxi.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/nuvoton,npcm-ece.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/nuvoton,npcm-vcd.yaml
+ create mode 100644 Documentation/userspace-api/media/drivers/npcm-video.rst
+ create mode 100644 drivers/media/platform/nuvoton/Kconfig
+ create mode 100644 drivers/media/platform/nuvoton/Makefile
+ create mode 100644 drivers/media/platform/nuvoton/npcm-regs.h
+ create mode 100644 drivers/media/platform/nuvoton/npcm-video.c
+ create mode 100644 include/uapi/linux/npcm-video.h
 
 -- 
-Kind regards,
+2.34.1
 
-Sakari Ailus
