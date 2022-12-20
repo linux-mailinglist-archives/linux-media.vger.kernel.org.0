@@ -2,194 +2,228 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 420FA65221E
-	for <lists+linux-media@lfdr.de>; Tue, 20 Dec 2022 15:12:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 11D54652249
+	for <lists+linux-media@lfdr.de>; Tue, 20 Dec 2022 15:17:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229713AbiLTOMj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 20 Dec 2022 09:12:39 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42158 "EHLO
+        id S230138AbiLTORs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 20 Dec 2022 09:17:48 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44512 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229551AbiLTOMh (ORCPT
+        with ESMTP id S233914AbiLTORZ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 20 Dec 2022 09:12:37 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AE215231;
-        Tue, 20 Dec 2022 06:12:35 -0800 (PST)
-Received: from [192.168.1.15] (91-154-32-225.elisa-laajakaista.fi [91.154.32.225])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3FF574F8;
-        Tue, 20 Dec 2022 15:12:32 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1671545552;
-        bh=W3CNN0EoFtbYs0L51Qb2b+vhpXJV+YhgsV8a+AvPrYQ=;
+        Tue, 20 Dec 2022 09:17:25 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ABAE31CB05;
+        Tue, 20 Dec 2022 06:16:43 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 53487B812A5;
+        Tue, 20 Dec 2022 14:16:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7AB36C433EF;
+        Tue, 20 Dec 2022 14:16:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1671545801;
+        bh=aR9QMgocYSz4U3/eJjLNgSMrMPwutNnlewjFdmIWMQI=;
         h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=HpcsKjC9YX4Nc680qg+o6DaemBrD6XhOmqe52vqiu+fYHGfyJIuASG8pj2uL0z+bm
-         k3MKNP9MJ+M8ZWqCsCd2hShOYDQVt6/3Y+gkjj9e2+6zpTlvoYbUHPiU+esscip+Pm
-         kQPWVt8D0+wZpKIpXIYWMS9Zt4D7NNKEgaPgmKns=
-Message-ID: <cfbb8f85-2bf9-4623-96bd-c05390a57a10@ideasonboard.com>
-Date:   Tue, 20 Dec 2022 16:12:29 +0200
+        b=E+g1heNbk3hVgPX/xsLcnO+qMA1B/n7mMRO7BFY23RHjFVf5Jt2vgcAXq1NPSpYw/
+         jZswuIsc6hoUfipvCtbCkH1LI/iRTGN5C4B6XbF97TLDCbze6Sk9TCd2eTXFLnXOr1
+         cJhOg6U8Pkno1VWGThe35ikbnJ/mHFuBWb6NEMku/2t39bU1PvN2w37kcOLP6HRgyT
+         KcTo0cyE7XLjzCGDK5vSnkCqu9RThBwPAplSIYLSKYtGu0nTZNCw3t/nEUGpS/WiMS
+         vsMTNJE5hvJP6e8Cg8t1EbaXEIEGrh32XXDJrff1r1BF2fSQsvu9aTgVH8pPgCCJUP
+         nGfnycrL2zf8w==
+Message-ID: <3a0980ef-7128-1153-7016-6bb44760bf3b@kernel.org>
+Date:   Tue, 20 Dec 2022 15:16:37 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH v2 1/7] media: Add 2-10-10-10 RGB formats
+ Thunderbird/102.6.0
+Subject: Re: [PATCH v5 1/4] dt-bindings: media: Document bindings for DW MIPI
+ CSI-2 Host
 Content-Language: en-US
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Geert Uytterhoeven <geert@linux-m68k.org>
-References: <20221219140139.294245-1-tomi.valkeinen+renesas@ideasonboard.com>
- <20221219140139.294245-2-tomi.valkeinen+renesas@ideasonboard.com>
- <Y6C3PtnjAdv/seMy@pendragon.ideasonboard.com>
-From:   Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-In-Reply-To: <Y6C3PtnjAdv/seMy@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To:     Eugen Hristev <eugen.hristev@microchip.com>,
+        linux-media@vger.kernel.org
+Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-phy@lists.infradead.org, luis.oliveira@synopsys.com,
+        Luis Oliveira <lolivei@synopsys.com>
+References: <20221216143717.1002015-1-eugen.hristev@microchip.com>
+ <20221216143717.1002015-2-eugen.hristev@microchip.com>
+From:   Krzysztof Kozlowski <krzk@kernel.org>
+In-Reply-To: <20221216143717.1002015-2-eugen.hristev@microchip.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-8.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 19/12/2022 21:10, Laurent Pinchart wrote:
-> Hi Tomi,
+On 16/12/2022 15:37, Eugen Hristev wrote:
+> Add bindings for Synopsys DesignWare MIPI CSI-2 host.
 > 
-> Thank you for the patch.
-> 
-> On Mon, Dec 19, 2022 at 04:01:33PM +0200, Tomi Valkeinen wrote:
->> Add XBGR2101010, ABGR2101010 and BGRA1010102 formats.
->>
->> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
->> ---
->>   .../userspace-api/media/v4l/pixfmt-rgb.rst    | 194 ++++++++++++++++++
->>   drivers/media/v4l2-core/v4l2-ioctl.c          |   3 +
->>   include/uapi/linux/videodev2.h                |   3 +
->>   3 files changed, 200 insertions(+)
->>
->> diff --git a/Documentation/userspace-api/media/v4l/pixfmt-rgb.rst b/Documentation/userspace-api/media/v4l/pixfmt-rgb.rst
->> index 30f51cd33f99..de78cd2dcd73 100644
->> --- a/Documentation/userspace-api/media/v4l/pixfmt-rgb.rst
->> +++ b/Documentation/userspace-api/media/v4l/pixfmt-rgb.rst
->> @@ -763,6 +763,200 @@ nomenclature that instead use the order of components as seen in a 24- or
->>       \normalsize
->>   
->>   
->> +10 Bits Per Component
->> +=====================
->> +
->> +These formats store a 30-bit RGB triplet with an optional 2 bit alpha in four
->> +bytes. They are named based on the order of the RGB components as seen in a
->> +32-bit word, which is then stored in memory in little endian byte order
->> +(unless otherwise noted by the presence of bit 31 in the 4CC value), and on the
->> +number of bits for each component.
->> +
->> +.. raw:: latex
->> +
->> +    \begingroup
->> +    \tiny
->> +    \setlength{\tabcolsep}{2pt}
->> +
->> +.. tabularcolumns:: |p{2.8cm}|p{2.0cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|
->> +
->> +
->> +.. flat-table:: RGB Formats 10 Bits Per Color Component
->> +    :header-rows:  2
->> +    :stub-columns: 0
->> +
->> +    * - Identifier
->> +      - Code
->> +      - :cspan:`7` Byte 0 in memory
->> +      - :cspan:`7` Byte 1
->> +      - :cspan:`7` Byte 2
->> +      - :cspan:`7` Byte 3
->> +    * -
->> +      -
->> +      - 7
->> +      - 6
->> +      - 5
->> +      - 4
->> +      - 3
->> +      - 2
->> +      - 1
->> +      - 0
->> +
->> +      - 7
->> +      - 6
->> +      - 5
->> +      - 4
->> +      - 3
->> +      - 2
->> +      - 1
->> +      - 0
->> +
->> +      - 7
->> +      - 6
->> +      - 5
->> +      - 4
->> +      - 3
->> +      - 2
->> +      - 1
->> +      - 0
->> +
->> +      - 7
->> +      - 6
->> +      - 5
->> +      - 4
->> +      - 3
->> +      - 2
->> +      - 1
->> +      - 0
->> +    * .. _V4L2-PIX-FMT-XBGR2101010:
->> +
->> +      - ``V4L2_PIX_FMT_XBGR2101010``
->> +      - 'RX30'
->> +
->> +      - b\ :sub:`5`
->> +      - b\ :sub:`4`
->> +      - b\ :sub:`3`
->> +      - b\ :sub:`2`
->> +      - b\ :sub:`1`
->> +      - b\ :sub:`0`
->> +      - x
->> +      - x
->> +
->> +      - g\ :sub:`3`
->> +      - g\ :sub:`2`
->> +      - g\ :sub:`1`
->> +      - g\ :sub:`0`
->> +      - b\ :sub:`9`
->> +      - b\ :sub:`8`
->> +      - b\ :sub:`7`
->> +      - b\ :sub:`6`
->> +
->> +      - r\ :sub:`1`
->> +      - r\ :sub:`0`
->> +      - g\ :sub:`9`
->> +      - g\ :sub:`8`
->> +      - g\ :sub:`7`
->> +      - g\ :sub:`6`
->> +      - g\ :sub:`5`
->> +      - g\ :sub:`4`
->> +
->> +      - r\ :sub:`9`
->> +      - r\ :sub:`8`
->> +      - r\ :sub:`7`
->> +      - r\ :sub:`6`
->> +      - r\ :sub:`5`
->> +      - r\ :sub:`4`
->> +      - r\ :sub:`3`
->> +      - r\ :sub:`2`
->> +      -
-> 
-> This doesn't match the text above. This would be RGBX2101010. I'm not
-> sure which format you want, so I don't know if it's the documentation or
-> the format name that is incorrect. The next two formats also seem
-> incorrect to me.
+> Signed-off-by: Luis Oliveira <lolivei@synopsys.com>
+> [eugen.hristev@microchip.com: reworked binding, converted to yaml]
+> Signed-off-by: Eugen Hristev <eugen.hristev@microchip.com>
+> ---
 
-Right, the text should say big endian instead of little endian.
+1. Please use scripts/get_maintainers.pl to get a list of necessary
+people and lists to CC.  It might happen, that command when run on an
+older kernel, gives you outdated entries.  Therefore please be sure you
+base your patches on recent Linux kernel.
 
-  Tomi
+You did not CC anyone, so who is supposed to take this patch?
+
+2. Subject: drop second, redundant "bindings for".
+
+>  .../bindings/media/snps,dw-csi.yaml           | 149 ++++++++++++++++++
+>  1 file changed, 149 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/snps,dw-csi.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/media/snps,dw-csi.yaml b/Documentation/devicetree/bindings/media/snps,dw-csi.yaml
+> new file mode 100644
+> index 000000000000..439eadc8e517
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/snps,dw-csi.yaml
+> @@ -0,0 +1,149 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/snps,dw-csi.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Synopsys DesignWare CSI-2 Host controller (csi2host)
+> +
+> +maintainers:
+> +  - Eugen Hristev <eugen.hristev@microchip.com>
+> +
+> +description:
+> +  CSI2HOST is used to receive image coming from an MIPI CSI-2 compatible
+> +  camera. It will convert the incoming CSI-2 stream into a dedicated
+> +  interface called the Synopsys IDI (Image Data Interface).
+> +  This interface is a 32-bit SoC internal only, and can be assimilated
+> +  with a CSI-2 interface.
+> +
+> +properties:
+> +  compatible:
+> +    const: snps,dw-csi
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    maxItems: 2
+> +
+> +  clock-names:
+> +    description:
+> +      CSI2HOST can have two clocks connected. One clock is the
+> +      peripheral clock for the inside functionality of the hardware block.
+> +      This is named 'perclk'. The second clock can be the phy clock,
+> +      which is used to clock the phy via an internal link.
+> +      This clock is named 'phyclk', phy clock.
+> +    items:
+> +      - const: perclk
+> +      - const: phyclk
+
+Drop "clk" from both
+
+
+> +
+> +  phys:
+> +    maxItems: 1
+> +    description: MIPI D-PHY
+> +
+> +  phy-names:
+> +    items:
+> +      - const: dphy
+> +
+> +  resets:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  ports:
+> +    $ref: /schemas/graph.yaml#/properties/ports
+> +
+> +    properties:
+> +      port@0:
+> +        $ref: /schemas/graph.yaml#/$defs/port-base
+> +        unevaluatedProperties: false
+> +        description:
+> +          Input port node, single endpoint describing the input port.
+> +
+> +        properties:
+> +          endpoint:
+> +            $ref: video-interfaces.yaml#
+> +            unevaluatedProperties: false
+> +            description: Endpoint connected to input device
+> +
+> +            properties:
+> +              bus-type:
+> +                const: 4
+> +
+> +              data-lanes:
+> +                minItems: 1
+> +                maxItems: 4
+> +                items:
+> +                  maximum: 4
+> +
+> +              clock-lanes:
+> +                maxItems: 1
+> +
+> +              remote-endpoint: true
+> +
+> +      port@1:
+> +        $ref: /schemas/graph.yaml#/$defs/port-base
+> +        unevaluatedProperties: false
+> +        description:
+> +          Output port node, single endpoint describing the output port.
+> +
+> +        properties:
+> +          endpoint:
+> +            unevaluatedProperties: false
+> +            $ref: video-interfaces.yaml#
+> +            description: Endpoint connected to output device
+> +
+> +            properties:
+> +              bus-type:
+> +                const: 4
+> +
+> +              remote-endpoint: true
+> +
+> +    required:
+> +      - port@0
+> +      - port@1
+> +
+> +additionalProperties: false
+> +
+> +required:
+> +  - compatible
+> +  - ports
+
+reg? phys? interrupts? All others?
+
+> +
+> +examples:
+> +  - |
+> +    csi2: csi2@3000 {
+
+Generic node names, so "csi"
+
+> +        compatible = "snps,dw-csi";
+> +        reg = <0x03000 0x7FF>;
+
+lowercase hex
+
+> +        phys = <&mipi_dphy_rx>;
+> +        phy-names = "dphy";
+> +        resets = <&dw_rst 1>;
+> +        interrupts = <2>;
+> +
+
+Best regards,
+Krzysztof
 
