@@ -2,325 +2,249 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 21DC66521A0
-	for <lists+linux-media@lfdr.de>; Tue, 20 Dec 2022 14:40:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4491F6521B7
+	for <lists+linux-media@lfdr.de>; Tue, 20 Dec 2022 14:49:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233605AbiLTNkX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 20 Dec 2022 08:40:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55152 "EHLO
+        id S233681AbiLTNtm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 20 Dec 2022 08:49:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58964 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233569AbiLTNkU (ORCPT
+        with ESMTP id S229563AbiLTNtj (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 20 Dec 2022 08:40:20 -0500
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 899D419001
-        for <linux-media@vger.kernel.org>; Tue, 20 Dec 2022 05:40:18 -0800 (PST)
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <mgr@pengutronix.de>)
-        id 1p7cqk-00074A-6D; Tue, 20 Dec 2022 14:40:06 +0100
-Received: from mgr by ptx.hi.pengutronix.de with local (Exim 4.92)
-        (envelope-from <mgr@pengutronix.de>)
-        id 1p7cqh-0005jm-Qg; Tue, 20 Dec 2022 14:40:03 +0100
-Date:   Tue, 20 Dec 2022 14:40:03 +0100
-From:   Michael Grzeschik <mgr@pengutronix.de>
-To:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-Cc:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        p.zabel@pengutronix.de, mchehab@kernel.org, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, heiko@sntech.de,
-        daniel.almeida@collabora.com, nicolas.dufresne@collabora.co.uk,
-        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, kernel@collabora.com
-Subject: Re: [PATCH v1 0/9] AV1 stateless decoder for RK3588
-Message-ID: <20221220134003.GC26315@pengutronix.de>
-References: <20221219155616.848690-1-benjamin.gaignard@collabora.com>
- <CAAEAJfBP_D65kjHbwYP+LWfWKfzFtHtWo+3bDcbdO8tPtBurUA@mail.gmail.com>
- <20221219215431.GB26315@pengutronix.de>
- <CAAEAJfBzZWHu9YE38HzRUQ2xRZohYa19JaK7EOaQDqz5K1sz_g@mail.gmail.com>
+        Tue, 20 Dec 2022 08:49:39 -0500
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D962E65F1;
+        Tue, 20 Dec 2022 05:49:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1671544178; x=1703080178;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=ILvH76aAgDaS9txxLdxKFTa4pafrJSu2zimzPO8hm0o=;
+  b=Q0KdwWehjyjPhPBo94tVDzcQdGxR0PM9AgDg0duQCGWm7jRZnZS+iuBe
+   qp4lNm7X3MYVznxy0Ui+Apl5th/L0h2dYj5cSB4LGhy+pUPBvW7bgYnAQ
+   jBI+81JULyi5bWE1yTdL8A1lnPaT3775wNAVAIeR9POnz5mnOQriY1fzU
+   poe3kSOQBhkGFfzTmWs4pnhm1hqch0Z8a3AnOQkofuUmDwpQpI5Ud077E
+   42EMkbFohsiDsHSTg7uNlYiNV43K+zbzrDRMqeUqon4NCHDk11P/jpYAo
+   R1t4oVTVcfwFK+i41u8eFgkDUsX0sawJ3AmBtW7/UIHGxqewZAvtbYWs7
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10567"; a="299956961"
+X-IronPort-AV: E=Sophos;i="5.96,259,1665471600"; 
+   d="scan'208";a="299956961"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2022 05:49:38 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10567"; a="714435955"
+X-IronPort-AV: E=Sophos;i="5.96,259,1665471600"; 
+   d="scan'208";a="714435955"
+Received: from lkp-server01.sh.intel.com (HELO b5d47979f3ad) ([10.239.97.150])
+  by fmsmga008.fm.intel.com with ESMTP; 20 Dec 2022 05:49:34 -0800
+Received: from kbuild by b5d47979f3ad with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1p7czu-0009XY-00;
+        Tue, 20 Dec 2022 13:49:34 +0000
+Date:   Tue, 20 Dec 2022 21:49:08 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     virtualization@lists.linux-foundation.org,
+        speakup@linux-speakup.org, netdev@vger.kernel.org,
+        loongarch@lists.linux.dev, linuxppc-dev@lists.ozlabs.org,
+        linux-xfs@vger.kernel.org, linux-omap@vger.kernel.org,
+        linux-mm@kvack.org, linux-media@vger.kernel.org,
+        linux-cxl@vger.kernel.org, linux-can@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        Linux Memory Management List <linux-mm@kvack.org>
+Subject: [linux-next:master] BUILD REGRESSION
+ e45fb347b630ee76482fe938ba76cf8eab811290
+Message-ID: <63a1bd54.a88xtgO0grxGBbe+%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="UPT3ojh+0CqEDtpF"
-Content-Disposition: inline
-In-Reply-To: <CAAEAJfBzZWHu9YE38HzRUQ2xRZohYa19JaK7EOaQDqz5K1sz_g@mail.gmail.com>
-X-Sent-From: Pengutronix Hildesheim
-X-URL:  http://www.pengutronix.de/
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: mgr@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+branch HEAD: e45fb347b630ee76482fe938ba76cf8eab811290  Add linux-next specific files for 20221220
 
---UPT3ojh+0CqEDtpF
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Error/Warning reports:
 
-Hi Ezequiel,
+https://lore.kernel.org/oe-kbuild-all/202211242120.MzZVGULn-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202212020520.0OkMIno3-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202212040713.rVney9e8-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202212061455.6GE7y0jg-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202212090509.NjAl9tbo-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202212191708.Xk9yBj52-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202212201859.qUGugK1F-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202212202020.qL8Aaqu0-lkp@intel.com
 
-On Mon, Dec 19, 2022 at 10:52:02PM -0300, Ezequiel Garcia wrote:
->On Mon, Dec 19, 2022 at 6:54 PM Michael Grzeschik <mgr@pengutronix.de> wro=
-te:
->> On Mon, Dec 19, 2022 at 06:07:38PM -0300, Ezequiel Garcia wrote:
->> >On Mon, Dec 19, 2022 at 12:56 PM Benjamin Gaignard
->> ><benjamin.gaignard@collabora.com> wrote:
->> >>
->> >> This series implement AV1 stateless decoder for RK3588 SoC.
->> >> The harware support 8 and 10 bits bitstreams up to 7680x4320.
->> >> AV1 feature like film grain or scaling are done by the postprocessor.
->> >> The driver can produce NV12_4L4 and NV12 pixel formats.
->> >> A native 10bits NV12_4L4 format is possible but need more investigati=
-on
->> >> to be completly documented and enabled.
->> >>
->> >> It is based on Daniel's "[RFC,v3] media: Add AV1 uAPI" [1] patches and
->> >> Sebastian's device-tree patches for RK3588.
->> >>
->> >
->> >I thought the AV1 decoder in RK3588 was really a separate hardware
->> >from the Hantro G1/G2.
->> >
->> >Shouldn't this need a new driver for this new hardware?
->>
->> Just jumping into this discussion as I am currently working on the rkven=
-c driver.
->>
->
->The more the merrier, there's always room for developers :-)
->
->> In my case I am extending the rkvdec driver to become more generic for
->> other rockchip specific enc/decoders.
->>
->> My first change looks like this:
->> ---
->>  drivers/staging/media/rkvdec/Makefile              |   4 +-
->>  drivers/staging/media/rkvdec/rkvdec-h264.c         | 100 ++++-----
->>  drivers/staging/media/rkvdec/rkvdec-vp9.c          | 142 ++++++-------
->>  drivers/staging/media/rkvdec/{rkvdec.c =3D> rkvpu.c} | 510 ++++++++++++=
-+++++++++++-----------------------
->>  drivers/staging/media/rkvdec/{rkvdec.h =3D> rkvpu.h} |  66 +++---
->> ---
->>
->> While working on other parts of the encoder I found many places in the
->> rkvdec driver (e.g. v4l2 and vb2 callbacks) that looked familiar to the =
-hantro
->> functions but where limited to the decoder case.
->>
->
->Because stateless decoders devices are very similar in their general behav=
-ior,
->their drivers could be very similar.
->
->Hantro and Rkvdec could look similar because the same humans worked on the=
-m.
->
->Most boilerplate code, as well as V4L2 format negotiation, VB2 buffer hand=
-ling
->could be shared among all stateless decoder drivers. I think even at one p=
-oint
->we experimented with having a shared/common code base for all stateless co=
-decs.
->
->In other words, it's entirely possible to support Hantro devices in
->the Cedrus driver
->and vice-versa, you would only have to write the hardware-specific bits.
->
->However, there is consensus to have a separate driver for each
->different hardware,
->even when the hardware is a bit similar. This may lead to some code duplic=
-ation,
->but it's less fragile / more flexible. Maintaining drivers this way allows
->developers to evolve, testing on a small family of devices, without
->breaking support
->for other devices.
->
->This is important as sometimes it's hard to get the hardware,
->but we still don't want to break the support!
->
->> I think there are two options for the av1 codec.
->>
->> 1) If the vpu981 is a driver that has nothing to do with verisilicon but
->> works with this driver framework, then we should integrate vepu981 into =
-it
->> but consider rename the verisilicon unrelated parts to something generic.
->>
->> 2) Move the vepu981 av1 driver into the rkvdec instead.
->>
->> If 1) is the way to go, we can even think of moving the staging code par=
-ts from
->> rkvdec to the verisilicon code. Likewise to the vepu981-av1.
->>
->
->The Hantro driver should only support G1, G2, and VC8000D;
->which can be said to belong to the same family.
->
->The RKVDEC driver supports Rockchip vdpu34x core. I have to admit
->I'm not exactly sure if we support anything else than vdpu34x.
+Error/Warning: (recently discovered and may have been fixed)
 
-Currently the rkvdec is only supporting vdpu34x. My work would integrate
-vepu54x into the rkvdec boilerplate and so it would support encode as decod=
-e.
+Documentation/gpu/drm-internals:179: ./include/drm/drm_file.h:411: WARNING: undefined label: drm_accel_node (if the link has no caption the label must precede a section header)
+Documentation/networking/devlink/etas_es58x.rst: WARNING: document isn't included in any toctree
+Warning: tools/power/cpupower/man/cpupower-powercap-info.1 references a file that doesn't exist: Documentation/power/powercap/powercap.txt
+arch/arm/kernel/entry-armv.S:485:5: warning: "CONFIG_ARM_THUMB" is not defined, evaluates to 0 [-Wundef]
+arch/loongarch/kernel/asm-offsets.c:265:6: warning: no previous prototype for 'output_pbe_defines' [-Wmissing-prototypes]
+arch/powerpc/kernel/kvm_emul.o: warning: objtool: kvm_template_end(): can't find starting instruction
+arch/powerpc/kernel/optprobes_head.o: warning: objtool: optprobe_template_end(): can't find starting instruction
+drivers/regulator/tps65219-regulator.c:310:32: warning: parameter 'dev' set but not used [-Wunused-but-set-parameter]
+drivers/regulator/tps65219-regulator.c:310:60: warning: parameter 'dev' set but not used [-Wunused-but-set-parameter]
+drivers/regulator/tps65219-regulator.c:370:26: warning: ordered comparison of pointer with integer zero [-Wextra]
+lib/dhry_run.c:61:6: warning: variable 'ret' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
+mm/memfd.c:274:31: warning: unused variable 'ns' [-Wunused-variable]
 
->I'm not familiar with the AV1 support provided by this patch,
->but looking at the mpp code:
->
->...
->        "rk3588",
->        ROCKCHIP_SOC_RK3588,
->        HAVE_VDPU2 | HAVE_VDPU2_PP | HAVE_VEPU2 | HAVE_RKVDEC | HAVE_RKVEN=
-C |
->        HAVE_JPEG_DEC | HAVE_AV1DEC | HAVE_AVSDEC | HAVE_VEPU2_JPEG,
->        {   &vdpu38x, &rkjpegd, &vdpu2, &vdpu2_jpeg_pp, &av1d, &avspd},
->        {   &vepu58x, &vepu2, &vepu2_jpeg, NULL, },
->
->Seems RK3588 supports a Hantro core (VDPU2), a vdpu38x core and this AV1 c=
-ore,
->which according to this patchset is vdpu981 (?)
->
->If the vdpu38x device interface, configuration, buffer handling and
->registers are
->similar enough with vdpu34x, adding vdpu38x to the Rkvdec driver
->should be straightforward.
->If the vdpu38x core differs, it may be reason enough to consider a new dri=
-ver.
->
->As for vdpu981 (AV1), I'm inclined to think it deserves its own driver.
->
->Again, I'm far less worried for a little code duplication in the
->boilerplate (which can be solved
->with helpers, etc.) and more worried about making sure we can evolve
->drivers easily,
->while minimizing regressions.
+Unverified Error/Warning (likely false positive, please contact us if interested):
 
-Thanks for the explanation.
+drivers/accessibility/speakup/main.c:1290:26: sparse: sparse: obsolete array initializer, use C99 syntax
+drivers/cxl/core/mbox.c:832:18: sparse: sparse: cast from non-scalar
+drivers/cxl/core/mbox.c:832:18: sparse: sparse: cast to non-scalar
+drivers/i2c/busses/i2c-qcom-geni.c:1028:28: sparse: sparse: symbol 'i2c_master_hub' was not declared. Should it be static?
+drivers/media/platform/ti/davinci/vpif.c:483:20: sparse: sparse: cast from non-scalar
+drivers/media/platform/ti/davinci/vpif.c:483:20: sparse: sparse: cast to non-scalar
+fs/xfs/xfs_iomap.c:86:29: sparse: sparse: symbol 'xfs_iomap_page_ops' was not declared. Should it be static?
 
-As I agree that not breaking current drivers is a strong argument. Also
-rkvdec is still in staging, which makes it less harmful for the
-integration of the encoder path.
+Error/Warning ids grouped by kconfigs:
 
-Since we can not ensure that the rkvenc/rkvdec is not another unknown
-verisilicon core, going the way of working on a common rkvpu driver is
-probably the best for now.
+gcc_recent_errors
+|-- alpha-allyesconfig
+|   |-- drivers-regulator-tps65219-regulator.c:warning:ordered-comparison-of-pointer-with-integer-zero
+|   `-- drivers-regulator-tps65219-regulator.c:warning:parameter-dev-set-but-not-used
+|-- arc-allyesconfig
+|   |-- drivers-regulator-tps65219-regulator.c:warning:ordered-comparison-of-pointer-with-integer-zero
+|   `-- drivers-regulator-tps65219-regulator.c:warning:parameter-dev-set-but-not-used
+|-- arm-allyesconfig
+|   |-- drivers-regulator-tps65219-regulator.c:warning:ordered-comparison-of-pointer-with-integer-zero
+|   `-- drivers-regulator-tps65219-regulator.c:warning:parameter-dev-set-but-not-used
+|-- arm-buildonly-randconfig-r005-20221219
+|   `-- arch-arm-kernel-entry-armv.S:warning:CONFIG_ARM_THUMB-is-not-defined-evaluates-to
+|-- arm64-allyesconfig
+|   |-- drivers-regulator-tps65219-regulator.c:warning:ordered-comparison-of-pointer-with-integer-zero
+|   `-- drivers-regulator-tps65219-regulator.c:warning:parameter-dev-set-but-not-used
+|-- i386-allyesconfig
+|   |-- drivers-regulator-tps65219-regulator.c:warning:ordered-comparison-of-pointer-with-integer-zero
+|   `-- drivers-regulator-tps65219-regulator.c:warning:parameter-dev-set-but-not-used
+|-- i386-buildonly-randconfig-r001-20221219
+|   `-- mm-memfd.c:warning:unused-variable-ns
+|-- ia64-allmodconfig
+|   |-- drivers-regulator-tps65219-regulator.c:warning:ordered-comparison-of-pointer-with-integer-zero
+|   `-- drivers-regulator-tps65219-regulator.c:warning:parameter-dev-set-but-not-used
+|-- loongarch-allyesconfig
+|   `-- arch-loongarch-kernel-asm-offsets.c:warning:no-previous-prototype-for-output_pbe_defines
+|-- loongarch-randconfig-s051-20221218
+|   |-- drivers-i2c-busses-i2c-qcom-geni.c:sparse:sparse:symbol-i2c_master_hub-was-not-declared.-Should-it-be-static
+|   `-- fs-xfs-xfs_iomap.c:sparse:sparse:symbol-xfs_iomap_page_ops-was-not-declared.-Should-it-be-static
+|-- m68k-allmodconfig
+|   |-- drivers-regulator-tps65219-regulator.c:warning:ordered-comparison-of-pointer-with-integer-zero
+|   `-- drivers-regulator-tps65219-regulator.c:warning:parameter-dev-set-but-not-used
+|-- m68k-allyesconfig
+|   |-- drivers-regulator-tps65219-regulator.c:warning:ordered-comparison-of-pointer-with-integer-zero
+|   `-- drivers-regulator-tps65219-regulator.c:warning:parameter-dev-set-but-not-used
+|-- mips-allyesconfig
+|   |-- drivers-regulator-tps65219-regulator.c:warning:ordered-comparison-of-pointer-with-integer-zero
+|   `-- drivers-regulator-tps65219-regulator.c:warning:parameter-dev-set-but-not-used
+|-- powerpc-allmodconfig
+|   |-- arch-powerpc-kernel-kvm_emul.o:warning:objtool:kvm_template_end():can-t-find-starting-instruction
+|   |-- arch-powerpc-kernel-optprobes_head.o:warning:objtool:optprobe_template_end():can-t-find-starting-instruction
+|   |-- drivers-regulator-tps65219-regulator.c:warning:ordered-comparison-of-pointer-with-integer-zero
+|   `-- drivers-regulator-tps65219-regulator.c:warning:parameter-dev-set-but-not-used
+|-- riscv-randconfig-s041-20221218
+|   |-- drivers-accessibility-speakup-main.c:sparse:sparse:obsolete-array-initializer-use-C99-syntax
+|   `-- fs-xfs-xfs_iomap.c:sparse:sparse:symbol-xfs_iomap_page_ops-was-not-declared.-Should-it-be-static
+|-- riscv-randconfig-s042-20221218
+|   |-- drivers-cxl-core-mbox.c:sparse:sparse:cast-from-non-scalar
+|   |-- drivers-cxl-core-mbox.c:sparse:sparse:cast-to-non-scalar
+|   |-- drivers-net-thunderbolt.c:sparse:sparse:incorrect-type-in-assignment-(different-base-types)-expected-restricted-__le16-usertype-frame_id-got-unsigned-short-usertype
+|   |-- drivers-net-thunderbolt.c:sparse:sparse:incorrect-type-in-assignment-(different-base-types)-expected-restricted-__le16-usertype-frame_index-got-unsigned-short-usertype
+|   |-- drivers-net-thunderbolt.c:sparse:sparse:incorrect-type-in-assignment-(different-base-types)-expected-restricted-__le32-usertype-frame_count-got-unsigned-int-usertype
+clang_recent_errors
+|-- hexagon-allmodconfig
+|   |-- drivers-regulator-tps65219-regulator.c:warning:parameter-dev-set-but-not-used
+|   `-- lib-dhry_run.c:warning:variable-ret-is-used-uninitialized-whenever-if-condition-is-false
+`-- x86_64-rhel-8.3-rust
+    `-- vmlinux.o:warning:objtool:___ksymtab_gpl-_RNvNtCsfATHBUcknU9_6kernel5print16call_printk_cont:data-relocation-to-ENDBR:_RNvNtCsfATHBUcknU9_6kernel5print16call_printk_cont
 
-Also, since I have already done some work into that direction, it sounds
-good for me. :)
+elapsed time: 726m
 
+configs tested: 66
+configs skipped: 2
 
->> I could also keep on integrating the rkvenc on that base instead.
->>
->> Regards,
->> Michael
->>
->> >> The full branch can be found here:
->> >> https://gitlab.collabora.com/linux/for-upstream/-/commits/rk3588_av1_=
-decoder_v1
->> >>
->> >> Fluster score is: 151/239 while testing AV1-TEST-VECTORS with GStream=
-er-AV1-V4L2SL-Gst1.0.
->> >> The failing tests are:
->> >> - 10bits bitstream because 10bits output formats aren't yet implement=
-ed.
->> >> - the 2 tests with 2 spatial layers: few errors in luma/chroma values
->> >> - tests with resolution < hardware limit (64x64)
->> >>
->> >> Benjamin
->> >>
->> >> Benjamin Gaignard (9):
->> >>   dt-bindings: media: rockchip-vpu: Add rk3588 vpu compatible
->> >>   media: verisilicon: Add AV1 decoder mode and controls
->> >>   media: verisilicon: Save bit depth for AV1 decoder
->> >>   media: verisilicon: Check AV1 bitstreams bit depth
->> >>   media: verisilicon: Compute motion vectors size for AV1 frames
->> >>   media: verisilicon: Add AV1 entropy helpers
->> >>   media: verisilicon: Add Rockchip AV1 decoder
->> >>   media: verisilicon: Add film grain feature to AV1 driver
->> >>   media: verisilicon: Enable AV1 decoder on rk3588
->> >>
->> >>  .../bindings/media/rockchip-vpu.yaml          |    1 +
->> >>  drivers/media/platform/verisilicon/Makefile   |    3 +
->> >>  drivers/media/platform/verisilicon/hantro.h   |    5 +
->> >>  .../media/platform/verisilicon/hantro_drv.c   |   54 +
->> >>  .../media/platform/verisilicon/hantro_hw.h    |  102 +
->> >>  .../platform/verisilicon/hantro_postproc.c    |    3 +
->> >>  .../media/platform/verisilicon/hantro_v4l2.c  |    5 +
->> >>  .../verisilicon/rockchip_av1_entropymode.c    | 4536 +++++++++++++++=
-++
->> >>  .../verisilicon/rockchip_av1_entropymode.h    |  272 +
->> >>  .../verisilicon/rockchip_av1_filmgrain.c      |  401 ++
->> >>  .../verisilicon/rockchip_av1_filmgrain.h      |   36 +
->> >>  .../verisilicon/rockchip_vpu981_hw_av1_dec.c  | 2280 +++++++++
->> >>  .../verisilicon/rockchip_vpu981_regs.h        |  477 ++
->> >>  .../platform/verisilicon/rockchip_vpu_hw.c    |  116 +
->> >>  14 files changed, 8291 insertions(+)
->> >>  create mode 100644 drivers/media/platform/verisilicon/rockchip_av1_e=
-ntropymode.c
->> >>  create mode 100644 drivers/media/platform/verisilicon/rockchip_av1_e=
-ntropymode.h
->> >>  create mode 100644 drivers/media/platform/verisilicon/rockchip_av1_f=
-ilmgrain.c
->> >>  create mode 100644 drivers/media/platform/verisilicon/rockchip_av1_f=
-ilmgrain.h
->> >>  create mode 100644 drivers/media/platform/verisilicon/rockchip_vpu98=
-1_hw_av1_dec.c
->> >>  create mode 100644 drivers/media/platform/verisilicon/rockchip_vpu98=
-1_regs.h
->> >>
->> >> --
->> >> 2.34.1
->> >>
->> >
->> >_______________________________________________
->> >linux-arm-kernel mailing list
->> >linux-arm-kernel@lists.infradead.org
->> >http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
->> >
->>
->> --
->> Pengutronix e.K.                           |                            =
- |
->> Steuerwalder Str. 21                       | http://www.pengutronix.de/ =
- |
->> 31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0   =
- |
->> Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555=
- |
->
+gcc tested configs:
+um                             i386_defconfig
+um                           x86_64_defconfig
+powerpc                           allnoconfig
+arc                                 defconfig
+x86_64                    rhel-8.3-kselftests
+s390                             allmodconfig
+x86_64                          rhel-8.3-func
+alpha                               defconfig
+i386                                defconfig
+s390                                defconfig
+arm                                 defconfig
+sh                               allmodconfig
+s390                             allyesconfig
+x86_64               randconfig-a002-20221219
+x86_64               randconfig-a003-20221219
+alpha                            allyesconfig
+x86_64               randconfig-a001-20221219
+m68k                             allyesconfig
+x86_64               randconfig-a004-20221219
+mips                             allyesconfig
+m68k                             allmodconfig
+powerpc                          allmodconfig
+arc                              allyesconfig
+x86_64               randconfig-a005-20221219
+arc                  randconfig-r043-20221220
+x86_64                           rhel-8.3-bpf
+x86_64               randconfig-a006-20221219
+x86_64                           rhel-8.3-syz
+riscv                randconfig-r042-20221220
+x86_64                         rhel-8.3-kunit
+ia64                             allmodconfig
+x86_64                            allnoconfig
+arm                              allyesconfig
+x86_64                           rhel-8.3-kvm
+arm64                            allyesconfig
+s390                 randconfig-r044-20221220
+i386                             allyesconfig
+i386                 randconfig-a001-20221219
+i386                 randconfig-a003-20221219
+i386                 randconfig-a002-20221219
+i386                 randconfig-a006-20221219
+i386                 randconfig-a005-20221219
+i386                 randconfig-a004-20221219
+powerpc                     ep8248e_defconfig
+powerpc                     rainier_defconfig
+x86_64                              defconfig
+x86_64                               rhel-8.3
+x86_64                           allyesconfig
 
---=20
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+clang tested configs:
+x86_64                          rhel-8.3-rust
+hexagon              randconfig-r041-20221220
+arm                  randconfig-r046-20221220
+i386                 randconfig-a011-20221219
+i386                 randconfig-a014-20221219
+hexagon              randconfig-r045-20221220
+i386                 randconfig-a012-20221219
+i386                 randconfig-a013-20221219
+i386                 randconfig-a015-20221219
+i386                 randconfig-a016-20221219
+x86_64               randconfig-a014-20221219
+x86_64               randconfig-a015-20221219
+x86_64               randconfig-a012-20221219
+x86_64               randconfig-a011-20221219
+arm                             mxs_defconfig
+x86_64               randconfig-a016-20221219
+powerpc                     ppa8548_defconfig
+x86_64               randconfig-a013-20221219
 
---UPT3ojh+0CqEDtpF
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEElXvEUs6VPX6mDPT8C+njFXoeLGQFAmOhuzEACgkQC+njFXoe
-LGQkNBAAodpx1wtHCvWZ8qXy5GQhh7jyT4QhcQiQuBgXjFTokznsI0gWqZBbS2cI
-Ye2mIZNmDO5i6+pq81k1PQbuPJPIiPpZmV6vJSBSOm5pWQ3vDKpl+58uhQ4GHPcj
-VBw7HQsGdnxDfcA4YGcY2uXmOukgr1ScJeuHEJOtwS1y/cyJds5s9np7IbVYn3Qe
-z0jhzKKQi+Ga+Z2GdMXw1jjaxDQW93aEQjFe2HPzFJ8OF3VvAAX9DgEuHCpb2uLY
-o/euN8ECdzrpSq8tCCnIFpiNHLjqx4uKFdI4rvhc3CTMDvKx/gaaiuvNRKgzYbsA
-4j9f0IiwayT2C9s3vtrB0QtwRH1QWrej43cKNeGldkKmNvXMVoT0vRNpp4jWi+IH
-ecPfoqFo/EkAHgea3AL9YX59OuSnmcvdD2cZxabTnW/OSv2+cjML4FORL7eQaiUe
-xSC7jgFwBgKGEn3wmPXTtIZpHjF/aiD2uSlxn0E7A0uEWtd3VP/b25GAWhcaaOB3
-hCmPTei/jh3HRnrW1ABf1M+XwRs3+YTY4elqkd3PoxF2q8tZWXEvMQexZtspk3s5
-PrKp7I0ZUJg2YSGdQVIlvkA+2GqPBqsY7TiOMzMbgW0VKLWOp/a68lTwdhu7dn0F
-HGDuS0nB+yADJeQ1Kknufew1iE2+Bgu/vcAcR0r5ey8mh0L5JKY=
-=unC0
------END PGP SIGNATURE-----
-
---UPT3ojh+0CqEDtpF--
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
