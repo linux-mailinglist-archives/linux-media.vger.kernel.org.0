@@ -2,190 +2,237 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 437DE65298E
-	for <lists+linux-media@lfdr.de>; Wed, 21 Dec 2022 00:01:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D79C5652D6E
+	for <lists+linux-media@lfdr.de>; Wed, 21 Dec 2022 08:48:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234145AbiLTXBP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 20 Dec 2022 18:01:15 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54036 "EHLO
+        id S232312AbiLUHsR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 21 Dec 2022 02:48:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37056 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234052AbiLTXBN (ORCPT
+        with ESMTP id S229491AbiLUHsQ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 20 Dec 2022 18:01:13 -0500
-Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F28E01F2D3
-        for <linux-media@vger.kernel.org>; Tue, 20 Dec 2022 15:01:12 -0800 (PST)
-Received: by mail-pj1-x102c.google.com with SMTP id w4-20020a17090ac98400b002186f5d7a4cso344429pjt.0
-        for <linux-media@vger.kernel.org>; Tue, 20 Dec 2022 15:01:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=KkiJ1ANycOXXcLUSQunU9hEFpqvc/70bYGXZQhbyeNg=;
-        b=Ar3IxXrjO3+TRdtQqazvIuXU9c0ET//xY/lBbKAynjrFCGSMq0S0raOICgiIBgfMHk
-         Ls1drrCWCUgsW30MOqT17Stk/RSeQMMMhw5pAjaJ70VNxzDplCKkMrO6GNHUYQNuEydV
-         /uuVMSIB8Fg8u60HXSBg9llVzl1QDNbUgF1kg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=KkiJ1ANycOXXcLUSQunU9hEFpqvc/70bYGXZQhbyeNg=;
-        b=HOOOnBFNKs1OuPgUNTUEvA7xcOxMVvCsjYV7zag54x0AjXXMMM98J+8oHUIdKHtFzV
-         h06PTabTp9Jduh2hZpwQwGIfAdeLpyItPRbjbudZBdhSUv4ZT6K8tV27J8jH/HD0ilCj
-         PK2NKtoyqNOHSr1/+vL9qyP02GzM5u49nOAUaz5wFfVpNP6rWeXjMb6QVPDwuvBj532J
-         QJwaKLwgFaY60/i7QDsg8l7BS7Gk0ZvzYVSVpwH9zEhndImkkZZ/+YwV4rVSrumRqB2d
-         JNYrqlFHIGI+vQUNj2YurW9RmEYv+/KbsAMg3mbgbPGZDC8989SOufLc2fJF8c56Bjii
-         IKOw==
-X-Gm-Message-State: AFqh2kowHynhrw7IbAEn5I0lhu2aB8XEfdWKLS5gzEXyEE8f36Z+Rq/V
-        X23pLQy/4wDSgfeZbkm/H2LHWdu7XuUgYAGtr7Q=
-X-Google-Smtp-Source: AMrXdXtKinAAAX0vvdy6JdLT0Ah/0jkcqqG5sTl5vWDMiuOcZG05T61WMMoWJCG6vJjNe877/6O5aA==
-X-Received: by 2002:a17:902:dad0:b0:191:3b7b:3c2c with SMTP id q16-20020a170902dad000b001913b7b3c2cmr3888707plx.22.1671577272259;
-        Tue, 20 Dec 2022 15:01:12 -0800 (PST)
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com. [209.85.214.174])
-        by smtp.gmail.com with ESMTPSA id y2-20020a17090264c200b00189667acf19sm9896885pli.95.2022.12.20.15.01.10
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 20 Dec 2022 15:01:11 -0800 (PST)
-Received: by mail-pl1-f174.google.com with SMTP id 4so13791778plj.3
-        for <linux-media@vger.kernel.org>; Tue, 20 Dec 2022 15:01:10 -0800 (PST)
-X-Received: by 2002:a17:90b:1489:b0:219:8132:70db with SMTP id
- js9-20020a17090b148900b00219813270dbmr2555154pjb.183.1671577269523; Tue, 20
- Dec 2022 15:01:09 -0800 (PST)
+        Wed, 21 Dec 2022 02:48:16 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 693E51EED2;
+        Tue, 20 Dec 2022 23:48:15 -0800 (PST)
+Received: from [192.168.1.15] (91-154-32-225.elisa-laajakaista.fi [91.154.32.225])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 382CAFB;
+        Wed, 21 Dec 2022 08:48:13 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1671608893;
+        bh=xLGlmJ49yv1Q7TGAuFHXvIL5L5W0I+c0N9yg7y5HAGI=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=i+SksLExuZQ+nKV8M1hQ/OZC7SoBg82CbU65wxRBttIa6Q2K3r/8CpalPPhPxAypG
+         kp/FgliNXjnjy4VvLu0xLvBiIeyd9CFeUe3N68AO3dvyNU+uReijEHViOYvLYYcW4a
+         2IoBdxEfIV2lfI3odbI2mQBtTdW7KHJeONvUufZ0=
+Message-ID: <ab2ee8d2-a775-0854-6012-dfe7cc13d24a@ideasonboard.com>
+Date:   Wed, 21 Dec 2022 09:48:10 +0200
 MIME-Version: 1.0
-References: <20220920-resend-meta-v4-0-3ac355b66723@chromium.org>
- <20220920-resend-meta-v4-3-3ac355b66723@chromium.org> <Y45tnp0naosOrYCY@pendragon.ideasonboard.com>
- <CANiDSCtRoVQ2+asPmOacarvC2VrJYTbU67+wKJq1ciuMrwguPg@mail.gmail.com>
-In-Reply-To: <CANiDSCtRoVQ2+asPmOacarvC2VrJYTbU67+wKJq1ciuMrwguPg@mail.gmail.com>
-From:   Ricardo Ribalda <ribalda@chromium.org>
-Date:   Wed, 21 Dec 2022 00:00:58 +0100
-X-Gmail-Original-Message-ID: <CANiDSCtav5U6759tvt7Hm0nR+8Hz22qfWft3OEFOotSeHpxnAA@mail.gmail.com>
-Message-ID: <CANiDSCtav5U6759tvt7Hm0nR+8Hz22qfWft3OEFOotSeHpxnAA@mail.gmail.com>
-Subject: Re: [PATCH v4 3/3] media: uvcvideo: Add a unique suffix to camera names
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH v2 3/7] media: renesas: vsp1: Change V3U to be gen4
+Content-Language: en-US
 To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Yunke Cao <yunkec@chromium.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        linux-media@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Cc:     linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Geert Uytterhoeven <geert@linux-m68k.org>
+References: <20221219140139.294245-1-tomi.valkeinen+renesas@ideasonboard.com>
+ <20221219140139.294245-4-tomi.valkeinen+renesas@ideasonboard.com>
+ <Y6DRNijZ243JWzUo@pendragon.ideasonboard.com>
+From:   Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+In-Reply-To: <Y6DRNijZ243JWzUo@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-3.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi
+On 19/12/2022 23:01, Laurent Pinchart wrote:
+> Hi Tomi,
+> 
+> Thank you for the patch.
+> 
+> On Mon, Dec 19, 2022 at 04:01:35PM +0200, Tomi Valkeinen wrote:
+>> V3U is actually gen4, not gen3. The same IP is also used in the
+>> (not-yet-supported) V4H.
+>>
+>> Change VI6_IP_VERSION_MODEL_VSPD_V3U to VI6_IP_VERSION_MODEL_VSPD_GEN4,
+>> to represent the model correctly. V3U and V4H can still be
+>> differentiated, if needed, with the VI6_IP_VERSION_SOC_xxx.
+>>
+>> Also mark VI6_IP_VERSION_MODEL_VSPD_GEN4 as gen 4 in vsp1_device_info,
+>> and update the code to correcly match for gen 4.
+>>
+>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+>> ---
+>>   drivers/media/platform/renesas/vsp1/vsp1_drv.c   |  4 ++--
+>>   drivers/media/platform/renesas/vsp1/vsp1_hgo.c   |  4 ++--
+>>   drivers/media/platform/renesas/vsp1/vsp1_lif.c   |  1 +
+>>   drivers/media/platform/renesas/vsp1/vsp1_regs.h  |  2 +-
+>>   drivers/media/platform/renesas/vsp1/vsp1_rpf.c   | 12 ++++++------
+>>   drivers/media/platform/renesas/vsp1/vsp1_video.c |  4 ++--
+>>   drivers/media/platform/renesas/vsp1/vsp1_wpf.c   |  4 ++--
+>>   7 files changed, 16 insertions(+), 15 deletions(-)
+>>
+>> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_drv.c b/drivers/media/platform/renesas/vsp1/vsp1_drv.c
+>> index c260d318d298..5710152d6511 100644
+>> --- a/drivers/media/platform/renesas/vsp1/vsp1_drv.c
+>> +++ b/drivers/media/platform/renesas/vsp1/vsp1_drv.c
+>> @@ -818,9 +818,9 @@ static const struct vsp1_device_info vsp1_device_infos[] = {
+>>   		.wpf_count = 2,
+>>   		.num_bru_inputs = 5,
+>>   	}, {
+>> -		.version = VI6_IP_VERSION_MODEL_VSPD_V3U,
+>> +		.version = VI6_IP_VERSION_MODEL_VSPD_GEN4,
+>>   		.model = "VSP2-D",
+>> -		.gen = 3,
+>> +		.gen = 4,
+>>   		.features = VSP1_HAS_BRU | VSP1_HAS_EXT_DL,
+>>   		.lif_count = 1,
+>>   		.rpf_count = 5,
+>> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_hgo.c b/drivers/media/platform/renesas/vsp1/vsp1_hgo.c
+>> index bf3f981f93a1..e6492deb0a64 100644
+>> --- a/drivers/media/platform/renesas/vsp1/vsp1_hgo.c
+>> +++ b/drivers/media/platform/renesas/vsp1/vsp1_hgo.c
+>> @@ -196,10 +196,10 @@ struct vsp1_hgo *vsp1_hgo_create(struct vsp1_device *vsp1)
+>>   
+>>   	/* Initialize the control handler. */
+>>   	v4l2_ctrl_handler_init(&hgo->ctrls.handler,
+>> -			       vsp1->info->gen == 3 ? 2 : 1);
+>> +			       vsp1->info->gen >= 3 ? 2 : 1);
+>>   	hgo->ctrls.max_rgb = v4l2_ctrl_new_custom(&hgo->ctrls.handler,
+>>   						  &hgo_max_rgb_control, NULL);
+>> -	if (vsp1->info->gen == 3)
+>> +	if (vsp1->info->gen >= 3)
+>>   		hgo->ctrls.num_bins =
+>>   			v4l2_ctrl_new_custom(&hgo->ctrls.handler,
+>>   					     &hgo_num_bins_control, NULL);
+>> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_lif.c b/drivers/media/platform/renesas/vsp1/vsp1_lif.c
+>> index 186a5730e1e3..0ab2e0c70474 100644
+>> --- a/drivers/media/platform/renesas/vsp1/vsp1_lif.c
+>> +++ b/drivers/media/platform/renesas/vsp1/vsp1_lif.c
+>> @@ -114,6 +114,7 @@ static void lif_configure_stream(struct vsp1_entity *entity,
+>>   		break;
+>>   
+>>   	case VI6_IP_VERSION_MODEL_VSPD_GEN3:
+>> +	case VI6_IP_VERSION_MODEL_VSPD_GEN4:
+> 
+> While this doesn't cause any functional change, it doesn't fall into the
+> renaming explained in the commit message. I'd make a mention of it
+> there.
 
-On Tue, 6 Dec 2022 at 00:02, Ricardo Ribalda <ribalda@chromium.org> wrote:
->
-> Hi Laurent
->
-> On Mon, 5 Dec 2022 at 23:16, Laurent Pinchart
-> <laurent.pinchart@ideasonboard.com> wrote:
-> >
-> > Hi Ricardo,
-> >
-> > Thank you for the patch.
-> >
-> > On Fri, Dec 02, 2022 at 06:08:19PM +0100, Ricardo Ribalda wrote:
-> > > Some cameras have multiple data inputs (i.e. IR sensor and RGB sensor),
-> > > append a unique number to the device name.
-> > >
-> > > Fixes v4l2-compliance:
-> > >     Media Controller ioctls:
-> > >          fail: v4l2-test-media.cpp(205): v2_entity_names_set.find(key) != v2_entity_names_set.end()
-> > >        test MEDIA_IOC_G_TOPOLOGY: FAIL
-> > >          fail: v4l2-test-media.cpp(394): num_data_links != num_links
-> > >        test MEDIA_IOC_ENUM_ENTITIES/LINKS: FAIL
-> > >
-> > > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> > > ---
-> > >  drivers/media/usb/uvc/uvc_driver.c | 3 ++-
-> > >  1 file changed, 2 insertions(+), 1 deletion(-)
-> > >
-> > > diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-> > > index 215fb483efb0..f4032ebb3689 100644
-> > > --- a/drivers/media/usb/uvc/uvc_driver.c
-> > > +++ b/drivers/media/usb/uvc/uvc_driver.c
-> > > @@ -1963,7 +1963,8 @@ int uvc_register_video_device(struct uvc_device *dev,
-> > >               break;
-> > >       }
-> > >
-> > > -     strscpy(vdev->name, dev->name, sizeof(vdev->name));
-> > > +     snprintf(vdev->name, sizeof(vdev->name), "%s %u", dev->name,
-> > > +              stream->header.bTerminalLink);
-> >
-> > This won't be perfect as the string is not guaranteed to fit in
-> > vdev->name, but I suppose it will help as a quick fix for some devices.
-> > How about the other devices ? Won't they still exhibit the above
-> > v4l2-compliance failure ? Isn't that something that will still affect
-> > Chrome OS devices ?
->
-> We could place the id first... but that will look bad: Eg:
->
-> 1- My favorite camera
->
-> Another option is to remove the last chars to fit the id. Eg:
->
-> My favorite came-1
->
-> If you prefer any of those options or have a better idea I can implement that.
+The message says "update the code to correcly match for gen 4". (I see a 
+typo there =)). Doesn't that cover this change? It's similar to the if() 
+changes, where we now check for >= 3.
 
-@Laurent
+  Tomi
 
-Any preference here?
+> Conditional-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> 
+>>   	default:
+>>   		hbth = 0;
+>>   		obth = 3000;
+>> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_regs.h b/drivers/media/platform/renesas/vsp1/vsp1_regs.h
+>> index 8928f4c6bb55..8c9333f76858 100644
+>> --- a/drivers/media/platform/renesas/vsp1/vsp1_regs.h
+>> +++ b/drivers/media/platform/renesas/vsp1/vsp1_regs.h
+>> @@ -766,7 +766,7 @@
+>>   #define VI6_IP_VERSION_MODEL_VSPD_V3	(0x18 << 8)
+>>   #define VI6_IP_VERSION_MODEL_VSPDL_GEN3	(0x19 << 8)
+>>   #define VI6_IP_VERSION_MODEL_VSPBS_GEN3	(0x1a << 8)
+>> -#define VI6_IP_VERSION_MODEL_VSPD_V3U	(0x1c << 8)
+>> +#define VI6_IP_VERSION_MODEL_VSPD_GEN4	(0x1c << 8)
+>>   /* RZ/G2L SoCs have no version register, So use 0x80 as the model version */
+>>   #define VI6_IP_VERSION_MODEL_VSPD_RZG2L	(0x80 << 8)
+>>   
+>> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_rpf.c b/drivers/media/platform/renesas/vsp1/vsp1_rpf.c
+>> index 75083cb234fe..045aa54f7998 100644
+>> --- a/drivers/media/platform/renesas/vsp1/vsp1_rpf.c
+>> +++ b/drivers/media/platform/renesas/vsp1/vsp1_rpf.c
+>> @@ -133,18 +133,18 @@ static void rpf_configure_stream(struct vsp1_entity *entity,
+>>   	 * a fixed alpha value set through the V4L2_CID_ALPHA_COMPONENT control
+>>   	 * otherwise.
+>>   	 *
+>> -	 * The Gen3 RPF has extended alpha capability and can both multiply the
+>> +	 * The Gen3+ RPF has extended alpha capability and can both multiply the
+>>   	 * alpha channel by a fixed global alpha value, and multiply the pixel
+>>   	 * components to convert the input to premultiplied alpha.
+>>   	 *
+>>   	 * As alpha premultiplication is available in the BRx for both Gen2 and
+>> -	 * Gen3 we handle it there and use the Gen3 alpha multiplier for global
+>> +	 * Gen3+ we handle it there and use the Gen3 alpha multiplier for global
+>>   	 * alpha multiplication only. This however prevents conversion to
+>>   	 * premultiplied alpha if no BRx is present in the pipeline. If that use
+>>   	 * case turns out to be useful we will revisit the implementation (for
+>>   	 * Gen3 only).
+>>   	 *
+>> -	 * We enable alpha multiplication on Gen3 using the fixed alpha value
+>> +	 * We enable alpha multiplication on Gen3+ using the fixed alpha value
+>>   	 * set through the V4L2_CID_ALPHA_COMPONENT control when the input
+>>   	 * contains an alpha channel. On Gen2 the global alpha is ignored in
+>>   	 * that case.
+>> @@ -155,7 +155,7 @@ static void rpf_configure_stream(struct vsp1_entity *entity,
+>>   		       (fmtinfo->alpha ? VI6_RPF_ALPH_SEL_ASEL_PACKED
+>>   				       : VI6_RPF_ALPH_SEL_ASEL_FIXED));
+>>   
+>> -	if (entity->vsp1->info->gen == 3) {
+>> +	if (entity->vsp1->info->gen >= 3) {
+>>   		u32 mult;
+>>   
+>>   		if (fmtinfo->alpha) {
+>> @@ -301,10 +301,10 @@ static void rpf_configure_partition(struct vsp1_entity *entity,
+>>   	}
+>>   
+>>   	/*
+>> -	 * On Gen3 hardware the SPUVS bit has no effect on 3-planar
+>> +	 * On Gen3+ hardware the SPUVS bit has no effect on 3-planar
+>>   	 * formats. Swap the U and V planes manually in that case.
+>>   	 */
+>> -	if (vsp1->info->gen == 3 && format->num_planes == 3 &&
+>> +	if (vsp1->info->gen >= 3 && format->num_planes == 3 &&
+>>   	    fmtinfo->swap_uv)
+>>   		swap(mem.addr[1], mem.addr[2]);
+>>   
+>> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_video.c b/drivers/media/platform/renesas/vsp1/vsp1_video.c
+>> index 9d24647c8f32..544012fd1fe9 100644
+>> --- a/drivers/media/platform/renesas/vsp1/vsp1_video.c
+>> +++ b/drivers/media/platform/renesas/vsp1/vsp1_video.c
+>> @@ -267,10 +267,10 @@ static int vsp1_video_pipeline_setup_partitions(struct vsp1_pipeline *pipe)
+>>   	div_size = format->width;
+>>   
+>>   	/*
+>> -	 * Only Gen3 hardware requires image partitioning, Gen2 will operate
+>> +	 * Only Gen3+ hardware requires image partitioning, Gen2 will operate
+>>   	 * with a single partition that covers the whole output.
+>>   	 */
+>> -	if (vsp1->info->gen == 3) {
+>> +	if (vsp1->info->gen >= 3) {
+>>   		list_for_each_entry(entity, &pipe->entities, list_pipe) {
+>>   			unsigned int entity_max;
+>>   
+>> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_wpf.c b/drivers/media/platform/renesas/vsp1/vsp1_wpf.c
+>> index 94e91d7bb56c..d0074ca00920 100644
+>> --- a/drivers/media/platform/renesas/vsp1/vsp1_wpf.c
+>> +++ b/drivers/media/platform/renesas/vsp1/vsp1_wpf.c
+>> @@ -512,10 +512,10 @@ static void wpf_configure_partition(struct vsp1_entity *entity,
+>>   	}
+>>   
+>>   	/*
+>> -	 * On Gen3 hardware the SPUVS bit has no effect on 3-planar
+>> +	 * On Gen3+ hardware the SPUVS bit has no effect on 3-planar
+>>   	 * formats. Swap the U and V planes manually in that case.
+>>   	 */
+>> -	if (vsp1->info->gen == 3 && format->num_planes == 3 &&
+>> +	if (vsp1->info->gen >= 3 && format->num_planes == 3 &&
+>>   	    fmtinfo->swap_uv)
+>>   		swap(mem.addr[1], mem.addr[2]);
+>>   
+> 
 
-Thanks!
-
->
->
-> >
-> > The change should not cause any regression as big as in patch 1/3.
-> > However, unless I'm mistaken users will notice a device name change,
-> > especially when selecting a device in their web browser. Could that be a
-> > problem ?
->
-> I think the only side effect is that the first time that the kernel
-> changes the naming convention, if there are more than one camera on
-> the system, the video conference might pick a different camera.
-> The good news is that the user will be presented with cameras with
-> different names. Now some cameras show very confusing names:
->
-> ribalda@alco:~/work/linux$ for a in /dev/video* ; do yavta -l $a| grep
-> "Dell Webcam"; done
-> Device `Dell Webcam WB7022' on `usb-0000:2d:00.0-1.2.3.1' (driver
-> 'uvcvideo') supports video, capture, without mplanes.
-> Device `Dell Webcam WB7022' on `usb-0000:2d:00.0-1.2.3.1' (driver
-> 'uvcvideo') supports meta-data, capture, without mplanes.
-> Device `Dell Webcam WB7022' on `usb-0000:2d:00.0-1.2.3.1' (driver
-> 'uvcvideo') supports video, capture, without mplanes.
-> Device `Dell Webcam WB7022' on `usb-0000:2d:00.0-1.2.3.1' (driver
-> 'uvcvideo') supports meta-data, capture, without mplanes.
->
->
->
-> >
-> > >       /*
-> > >        * Set the driver data before calling video_register_device, otherwise
-> > >
-> >
-> > --
-> > Regards,
-> >
-> > Laurent Pinchart
->
->
->
-> --
-> Ricardo Ribalda
-
-
-
--- 
-Ricardo Ribalda
