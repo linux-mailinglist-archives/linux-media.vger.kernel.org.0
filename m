@@ -2,76 +2,144 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C0BEE653396
-	for <lists+linux-media@lfdr.de>; Wed, 21 Dec 2022 16:44:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 41A7B6533D6
+	for <lists+linux-media@lfdr.de>; Wed, 21 Dec 2022 17:16:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229652AbiLUPo1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 21 Dec 2022 10:44:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44100 "EHLO
+        id S232013AbiLUQQZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 21 Dec 2022 11:16:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54960 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229591AbiLUPo0 (ORCPT
+        with ESMTP id S229591AbiLUQQU (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 21 Dec 2022 10:44:26 -0500
-Received: from mail-oo1-xc36.google.com (mail-oo1-xc36.google.com [IPv6:2607:f8b0:4864:20::c36])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D34E4E08
-        for <linux-media@vger.kernel.org>; Wed, 21 Dec 2022 07:44:25 -0800 (PST)
-Received: by mail-oo1-xc36.google.com with SMTP id t15-20020a4a96cf000000b0049f7e18db0dso2457359ooi.10
-        for <linux-media@vger.kernel.org>; Wed, 21 Dec 2022 07:44:25 -0800 (PST)
+        Wed, 21 Dec 2022 11:16:20 -0500
+Received: from mail-vs1-xe34.google.com (mail-vs1-xe34.google.com [IPv6:2607:f8b0:4864:20::e34])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC55B220EB
+        for <linux-media@vger.kernel.org>; Wed, 21 Dec 2022 08:16:18 -0800 (PST)
+Received: by mail-vs1-xe34.google.com with SMTP id a66so15179583vsa.6
+        for <linux-media@vger.kernel.org>; Wed, 21 Dec 2022 08:16:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rothemail-net.20210112.gappssmtp.com; s=20210112;
-        h=to:in-reply-to:cc:references:message-id:date:subject:mime-version
-         :from:content-transfer-encoding:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=W7ljQ0PRVNsaQzBnhK+//xxNHtXSz0AiB9uFMAVKWRg=;
-        b=yCHcokme/s2LkoaTFgBkfcaIjFKfLcsFIRuEXnMwA56i4tOtHVfNj9BBkogdpMPADF
-         K/QDh7tYC17XJaVuwYnz8yOYl8JvuUVWA+uJE3GfvD0Mei5mhLtcpIEsLikz2hRX766V
-         oMnhRwfu/SvL4MBdrynq9ah+8EzaNoCrn1QwG2oBkwLazLaEiR4KEeDq7+lgfadcMtbs
-         cd07FaDhsOf3Ssyj3dEkF0ZB234L5tb3iD6Trk0zLrRd9apqHXpJcvbHidQ9hKsW1qUs
-         dyv+pWv6P/h8TGwoQCJCNW//WqE2mqSdeL6pRhjfMtg3j3IRxcQaQiwUBLL16ETKKcHf
-         WCEw==
+        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=V0Jr0ncaFatQ1llU1BzfDYX0DgcfVDK5RFBuq4i0i/I=;
+        b=cIEeX/c30k4UKyOj4eR0nz6PRiwIs1u/WY+Y/KZnMgS1n898SM4jfwvbYDeHBD6CP+
+         1yh7dxh7J44S9bInD6Wc7znYCP8AFqjsuXW6wbpBgPoBcCDCP+D5aPDlchtW1tskqth0
+         JDrPXLgkL3+R8WYxhpjRlwLNeCbjex7oY7GkjIXJY7ss6zRbrgM150WYsaIGhIfM/fZM
+         d3K7kg+xL4COP5+w3lgfACkztRVqpnbGcP1373A/lt5EIkP6g95+l/KvupNu/ParlyLD
+         d2alslZ88NZsl9wMWzzdqMG0pOFIyz6iLPU5nBOCkS5GxORX8oFmIeCr4CMEAMT84oSA
+         8CVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=to:in-reply-to:cc:references:message-id:date:subject:mime-version
-         :from:content-transfer-encoding:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=W7ljQ0PRVNsaQzBnhK+//xxNHtXSz0AiB9uFMAVKWRg=;
-        b=BDt2snT2LMm0cJEAVioT69IzdEyvWCM2F7um1cSmcNah8p0MSfCm6WiwX9H4LCcG1h
-         oRKyVCDUZeX1ivbOrpU9AxVydLUWgBa3jNf4ojz0/rdzf2eZRbijR+BGYy3K/Iuz2rjg
-         CB4cfmy6bnm/chmjq7qa6Cyv1HoFw4jKwqxWTmZZs8aSXzoI+7woGHtsLUMf83X8YGS/
-         hk6UZ+eLN6157pmXPA5yYLZGASWFh4tCb4gPGxlfWeF7E8ExQUpLU4NdBK5fpD/4iwNM
-         i8KPsNtDy3JjV4y13WvHILEZcDXj7tbkYTCeIcqdy5ZyXaCCWIb1AOzzZEHx/biWR+2U
-         texA==
-X-Gm-Message-State: AFqh2krDUbW/jIuW/62SQ2hEGFbLK2+mYRrxA3wJdk5jmGkqbJNzikcc
-        81tcWe8wAWGHLNtPzmGulhRD1w==
-X-Google-Smtp-Source: AMrXdXtqL6EIgkoGV25G45lkT2UHwoxZ96RhB8ltMMRqQQX0o+Y+qI1OSENiinTQSWAwCRGbcSn06Q==
-X-Received: by 2002:a4a:edce:0:b0:4a0:b7b5:8f8a with SMTP id m14-20020a4aedce000000b004a0b7b58f8amr966751ooh.1.1671637465059;
-        Wed, 21 Dec 2022 07:44:25 -0800 (PST)
-Received: from smtpclient.apple ([2600:1700:20:20c0:2cfc:bb00:cd38:4d57])
-        by smtp.gmail.com with ESMTPSA id k14-20020a4ad10e000000b004a8eb1d8f1bsm6144751oor.39.2022.12.21.07.44.24
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 21 Dec 2022 07:44:24 -0800 (PST)
-Content-Type: text/plain; charset=us-ascii
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=V0Jr0ncaFatQ1llU1BzfDYX0DgcfVDK5RFBuq4i0i/I=;
+        b=a1WXXtVAgTey3tOYwpfi1kME7Rz+/FisaNMa06qIbhZ0+X0CsWCRr0p7Nenowz+qBw
+         mpSnBnHPsXB5iRJ+GbWZaITOidcytiotviHmqcCZGNxM8GIxb1Z+R2fpkvjWQrK4RNuc
+         4ITFPO95FQvZzff/DSLRNo7OYLCJkfnV1QgcYdej897n5oKIle8t0CE0vb8gVJyLm879
+         3ZerWKuBEO9q1ehaEo4Fbvt/3N3Yl6udTgvMoWfq/4H6wgIPS15lzGJCg2PQAsKCce8G
+         +Kd64Jq/b5mnWxkIQY4PIWS71YsNPI3dmTFbEh8WrE53LLsHEBU+jAaN9DXd87igvSB0
+         DMTw==
+X-Gm-Message-State: AFqh2kqvocjQGkK+dtxWEbQb8Tw6XFv3OpJTMKYAbgj0NiuoiUvdra4v
+        rTX7zpbkFk9keRi0drA3s3qnuuGapmgyohrAbhE=
+X-Google-Smtp-Source: AMrXdXus2f0EloCt7a3u9bTW2ujIpOXjtqLhrlnsSr1Wm1BTZtnm2QKIoG59T4IHC7fJp76J6j25yA==
+X-Received: by 2002:a05:6102:356c:b0:3b1:3719:f2cf with SMTP id bh12-20020a056102356c00b003b13719f2cfmr972540vsb.24.1671639376650;
+        Wed, 21 Dec 2022 08:16:16 -0800 (PST)
+Received: from nicolas-tpx395.localdomain ([192.222.136.102])
+        by smtp.gmail.com with ESMTPSA id dt20-20020a05620a479400b006fbf88667bcsm10926041qkb.77.2022.12.21.08.16.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 21 Dec 2022 08:16:15 -0800 (PST)
+Message-ID: <0417e11649150202f717646809e7db5c55f7ac83.camel@ndufresne.ca>
+Subject: Re: [PATCH v1 4/9] media: verisilicon: Check AV1 bitstreams bit
+ depth
+From:   Nicolas Dufresne <nicolas@ndufresne.ca>
+To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
+        mchehab@kernel.org, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, heiko@sntech.de,
+        daniel.almeida@collabora.com, nicolas.dufresne@collabora.co.uk
+Cc:     linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, kernel@collabora.com
+Date:   Wed, 21 Dec 2022 11:16:12 -0500
+In-Reply-To: <4aae8684-5ab4-c5a6-cc73-5dc61309b745@collabora.com>
+References: <20221219155616.848690-1-benjamin.gaignard@collabora.com>
+         <20221219155616.848690-5-benjamin.gaignard@collabora.com>
+         <e3663c85c75d09259a3135cb6ccfe7d6231bd752.camel@ndufresne.ca>
+         <4aae8684-5ab4-c5a6-cc73-5dc61309b745@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-From:   Nicholas Roth <nicholas@rothemail.net>
-Mime-Version: 1.0 (1.0)
-Subject: Re: [PATCH v2] media: i2c: ov8858 Add driver for ov8858
-Date:   Wed, 21 Dec 2022 09:44:14 -0600
-Message-Id: <2F561648-4537-4B7E-A9BD-52EBAAC4772D@rothemail.net>
-References: <c0f6b7d3-78ea-4337-f350-c9020c81f901@posteo.de>
-Cc:     Jacopo Mondi <jacopo@jmondi.org>, linux-media@vger.kernel.org,
-        libcamera-devel@lists.libcamera.org
-In-Reply-To: <c0f6b7d3-78ea-4337-f350-c9020c81f901@posteo.de>
-To:     Robert Mader <robert.mader@posteo.de>
-X-Mailer: iPhone Mail (20B101)
+User-Agent: Evolution 3.46.2 (3.46.2-1.fc37) 
+MIME-Version: 1.0
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE autolearn=ham
-        autolearn_force=no version=3.4.6
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Thank you for the input. I will look into this and see if I can reproduce an=
-d subsequently fix it.
+Le mardi 20 d=C3=A9cembre 2022 =C3=A0 14:02 +0100, Benjamin Gaignard a =C3=
+=A9crit=C2=A0:
+> Le 19/12/2022 =C3=A0 21:38, Nicolas Dufresne a =C3=A9crit=C2=A0:
+> > Le lundi 19 d=C3=A9cembre 2022 =C3=A0 16:56 +0100, Benjamin Gaignard a =
+=C3=A9crit=C2=A0:
+> > > The driver supports 8 and 10 bits bitstreams, make sure to discard
+> > > other cases.
+> > >=20
+> > > Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> > > ---
+> > >   drivers/media/platform/verisilicon/hantro_drv.c | 6 ++++++
+> > >   1 file changed, 6 insertions(+)
+> > >=20
+> > > diff --git a/drivers/media/platform/verisilicon/hantro_drv.c b/driver=
+s/media/platform/verisilicon/hantro_drv.c
+> > > index 8e93710dcfed..e10fc59634dd 100644
+> > > --- a/drivers/media/platform/verisilicon/hantro_drv.c
+> > > +++ b/drivers/media/platform/verisilicon/hantro_drv.c
+> > > @@ -282,7 +282,13 @@ static int hantro_try_ctrl(struct v4l2_ctrl *ctr=
+l)
+> > >   		/* We only support profile 0 */
+> > >   		if (dec_params->profile !=3D 0)
+> > >   			return -EINVAL;
+> > > +	} else if (ctrl->id =3D=3D V4L2_CID_STATELESS_AV1_SEQUENCE) {
+> > > +		const struct v4l2_ctrl_av1_sequence *sequence =3D ctrl->p_new.p_av=
+1_sequence;
+> > > +
+> > > +		if (sequence->bit_depth !=3D 8 && sequence->bit_depth !=3D 10)
+> > > +			return -EINVAL;
+> > As you state in the cover letter, should this just be this for now ?
+>=20
+> The driver can decode 8 or 10 bits bitstreams but will on produce 8bits (=
+NV12_4L4 or NV12)
+> frames. The hardware is able to truncate 10bits bitstreams to 8 bits outp=
+ut.
+
+I tested that, and NV12 works, picking NV12_4L4 though leads to corrupted
+buffers. I think the PP is not being activated. G2/VC8000 and likely VC9000=
+ can
+only produce tile reference in the original depth chosen (hence why it goes=
+ not
+have a format register like G1 does).
+
+As you are aware, the driver didn't pick NV12_10LE40_4L4 automatically, and
+that's what broke fluster 10bit test in tiled mode for 10bit. I suspect in =
+v2,
+we'll have all this fixed and 10bit will be activated, so this comment will=
+ be
+ignored.
+
+>=20
+> >=20
+> >=20
+> > > +		if (sequence->bit_depth !=3D 8)
+> > > +			return -EINVAL;
+> >=20
+> > >   	}
+> > > +
+> > >   	return 0;
+> > >   }
+> > >  =20
 
