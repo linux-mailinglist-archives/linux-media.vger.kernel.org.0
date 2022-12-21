@@ -2,218 +2,286 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 67F5265378A
-	for <lists+linux-media@lfdr.de>; Wed, 21 Dec 2022 21:22:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 364AA653854
+	for <lists+linux-media@lfdr.de>; Wed, 21 Dec 2022 23:01:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234755AbiLUUWQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 21 Dec 2022 15:22:16 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57084 "EHLO
+        id S234763AbiLUWBy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 21 Dec 2022 17:01:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58814 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234843AbiLUUWN (ORCPT
+        with ESMTP id S229968AbiLUWBw (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 21 Dec 2022 15:22:13 -0500
-Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com [IPv6:2607:f8b0:4864:20::634])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F0B3211
-        for <linux-media@vger.kernel.org>; Wed, 21 Dec 2022 12:22:12 -0800 (PST)
-Received: by mail-pl1-x634.google.com with SMTP id t2so16674614ply.2
-        for <linux-media@vger.kernel.org>; Wed, 21 Dec 2022 12:22:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=7JQzBuqQyM2bTW0pqa4hSElcl3luIuOaQMKiXDLdBn8=;
-        b=hKQh81V+MzFiymVWz6rtZlab7Cr9d+sBbn/n1QH16YEoI7deFojOt5BVHc3B3ERSWc
-         IsVZFyZevXFSERzuv/av+ZXimR7obxCopHzQyM6SMDU1+L82400Pt5qCNl4d+6Os5DqC
-         K5LYrW3YApou3fcA2Uyy2WGfWbyHPSzQVqwhI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=7JQzBuqQyM2bTW0pqa4hSElcl3luIuOaQMKiXDLdBn8=;
-        b=AogvU3OjHVlxp+hTcfuoBK5IODin3zDPDqpzgT5YZCQxT8GNHpCV1ITPvpQuwBwkr8
-         dkr8axsVwh7je1VZkOMyFPg36VuFs1lJQWXf5zQBh3bvpoT0RCdeQWJIhvtY8GL4XPoM
-         KwLj69LX4SlpDS3WKJcpmTGGjkq5ee+LxSVDRzybK6ZqX4vFICsnZCgxdDUwV0mi+moR
-         uMiU5bKaE2eH+3l8uAym/LOjDAg5V7GuKt2vzIF/lk2LaYVRKyP1t6dIy3raAzJF21Dn
-         LK7BE9l8BpfCEtosAYdj16ykmAlAjMuVJMZJjp2pDaCqAkL/9x8V2ZzGgyYBlSkkamaB
-         HUvg==
-X-Gm-Message-State: AFqh2koe9z6O+UWrbAnhaH7FD0kgtaGbVHTrW6yF8jIxtHdClgEp8G2g
-        piZtIfr1d9rJaBVJHSbqDnSX5W9vi4Ea9CvQjbA=
-X-Google-Smtp-Source: AMrXdXsYiBsuuSVACZhLRgTqo6dQL//WIRtRw+aZlxSJLDRS2M3NfBsYiJfYBhvBv+xEMdu7qZNE/A==
-X-Received: by 2002:a05:6a20:9589:b0:9d:efbf:785f with SMTP id iu9-20020a056a20958900b0009defbf785fmr4233517pzb.20.1671654131461;
-        Wed, 21 Dec 2022 12:22:11 -0800 (PST)
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com. [209.85.216.41])
-        by smtp.gmail.com with ESMTPSA id h5-20020a656385000000b0045ff216a0casm10327937pgv.3.2022.12.21.12.22.09
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 21 Dec 2022 12:22:09 -0800 (PST)
-Received: by mail-pj1-f41.google.com with SMTP id o1-20020a17090a678100b00219cf69e5f0so3562871pjj.2
-        for <linux-media@vger.kernel.org>; Wed, 21 Dec 2022 12:22:09 -0800 (PST)
-X-Received: by 2002:a17:902:934b:b0:191:2a9b:ec94 with SMTP id
- g11-20020a170902934b00b001912a9bec94mr218738plp.8.1671654128657; Wed, 21 Dec
- 2022 12:22:08 -0800 (PST)
+        Wed, 21 Dec 2022 17:01:52 -0500
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 67DDA240AD
+        for <linux-media@vger.kernel.org>; Wed, 21 Dec 2022 14:01:51 -0800 (PST)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <mgr@pengutronix.de>)
+        id 1p879W-0007O0-Gd; Wed, 21 Dec 2022 23:01:30 +0100
+Received: from mgr by ptx.hi.pengutronix.de with local (Exim 4.92)
+        (envelope-from <mgr@pengutronix.de>)
+        id 1p879T-0000tt-JL; Wed, 21 Dec 2022 23:01:27 +0100
+Date:   Wed, 21 Dec 2022 23:01:27 +0100
+From:   Michael Grzeschik <mgr@pengutronix.de>
+To:     Nicolas Dufresne <nicolas@ndufresne.ca>
+Cc:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        p.zabel@pengutronix.de, mchehab@kernel.org, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, heiko@sntech.de,
+        daniel.almeida@collabora.com, nicolas.dufresne@collabora.co.uk,
+        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, kernel@collabora.com
+Subject: Re: [PATCH v1 0/9] AV1 stateless decoder for RK3588
+Message-ID: <20221221220127.GE26315@pengutronix.de>
+References: <20221219155616.848690-1-benjamin.gaignard@collabora.com>
+ <CAAEAJfBP_D65kjHbwYP+LWfWKfzFtHtWo+3bDcbdO8tPtBurUA@mail.gmail.com>
+ <20221219215431.GB26315@pengutronix.de>
+ <939ce9a0f7f73c0b9f0cf5590f2d8b02e0825fa5.camel@ndufresne.ca>
 MIME-Version: 1.0
-References: <20220920-resend-meta-v4-0-3ac355b66723@chromium.org>
- <20220920-resend-meta-v4-3-3ac355b66723@chromium.org> <Y45tnp0naosOrYCY@pendragon.ideasonboard.com>
- <CANiDSCtRoVQ2+asPmOacarvC2VrJYTbU67+wKJq1ciuMrwguPg@mail.gmail.com>
- <CANiDSCtav5U6759tvt7Hm0nR+8Hz22qfWft3OEFOotSeHpxnAA@mail.gmail.com>
- <Y6LmJGgBYfSMBsj+@pendragon.ideasonboard.com> <CANiDSCs3dd7uzts6jgAd-G9pkH5mszxNm2-61T_yAeXBWj6LNw@mail.gmail.com>
- <Y6LsrH9pOVqt6ZXr@pendragon.ideasonboard.com>
-In-Reply-To: <Y6LsrH9pOVqt6ZXr@pendragon.ideasonboard.com>
-From:   Ricardo Ribalda <ribalda@chromium.org>
-Date:   Wed, 21 Dec 2022 21:21:57 +0100
-X-Gmail-Original-Message-ID: <CANiDSCumQ3a-vYKGpEYYLxUSL55M4BxqFJRfN=dNdUELhhknEw@mail.gmail.com>
-Message-ID: <CANiDSCumQ3a-vYKGpEYYLxUSL55M4BxqFJRfN=dNdUELhhknEw@mail.gmail.com>
-Subject: Re: [PATCH v4 3/3] media: uvcvideo: Add a unique suffix to camera names
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Yunke Cao <yunkec@chromium.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        linux-media@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="idY8LE8SD6/8DnRI"
+Content-Disposition: inline
+In-Reply-To: <939ce9a0f7f73c0b9f0cf5590f2d8b02e0825fa5.camel@ndufresne.ca>
+X-Sent-From: Pengutronix Hildesheim
+X-URL:  http://www.pengutronix.de/
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: mgr@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent
 
-On Wed, 21 Dec 2022 at 12:23, Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
+--idY8LE8SD6/8DnRI
+Content-Type: text/plain; charset=iso-8859-15; format=flowed
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Tue, Dec 20, 2022 at 12:00:01PM -0500, Nicolas Dufresne wrote:
+>Le lundi 19 d=E9cembre 2022 =E0 22:54 +0100, Michael Grzeschik a =E9crit=
+=A0:
+>> Hi Benjamin,
+>> Hi Ezequiel,
+>>
+>> On Mon, Dec 19, 2022 at 06:07:38PM -0300, Ezequiel Garcia wrote:
+>> > On Mon, Dec 19, 2022 at 12:56 PM Benjamin Gaignard
+>> > <benjamin.gaignard@collabora.com> wrote:
+>> > >
+>> > > This series implement AV1 stateless decoder for RK3588 SoC.
+>> > > The harware support 8 and 10 bits bitstreams up to 7680x4320.
+>> > > AV1 feature like film grain or scaling are done by the postprocessor.
+>> > > The driver can produce NV12_4L4 and NV12 pixel formats.
+>> > > A native 10bits NV12_4L4 format is possible but need more investigat=
+ion
+>> > > to be completly documented and enabled.
+>> > >
+>> > > It is based on Daniel's "[RFC,v3] media: Add AV1 uAPI" [1] patches a=
+nd
+>> > > Sebastian's device-tree patches for RK3588.
+>> > >
+>> >
+>> > I thought the AV1 decoder in RK3588 was really a separate hardware
+>> > from the Hantro G1/G2.
+>> >
+>> > Shouldn't this need a new driver for this new hardware?
+>>
+>> Just jumping into this discussion as I am currently working on the rkven=
+c driver.
+>>
+>> In my case I am extending the rkvdec driver to become more generic for
+>> other rockchip specific enc/decoders.
+>>
+>> My first change looks like this:
+>> ---
+>>  drivers/staging/media/rkvdec/Makefile              |   4 +-
+>>  drivers/staging/media/rkvdec/rkvdec-h264.c         | 100 ++++-----
+>>  drivers/staging/media/rkvdec/rkvdec-vp9.c          | 142 ++++++-------
+>>  drivers/staging/media/rkvdec/{rkvdec.c =3D> rkvpu.c} | 510 ++++++++++++=
++++++++++++-----------------------
+>>  drivers/staging/media/rkvdec/{rkvdec.h =3D> rkvpu.h} |  66 +++---
+>> ---
+>>
+>> While working on other parts of the encoder I found many places in the
+>> rkvdec driver (e.g. v4l2 and vb2 callbacks) that looked familiar to the =
+hantro
+>> functions but where limited to the decoder case.
+>>
+>> I think there are two options for the av1 codec.
+>>
+>> 1) If the vpu981 is a driver that has nothing to do with verisilicon but
+>> works with this driver framework, then we should integrate vepu981 into =
+it
+>> but consider rename the verisilicon unrelated parts to something generic.
 >
-> Hi Ricardo,
+>I've raised in my review the the naming is sub-optimal. This is an unmodif=
+ied
+>VC9000D AV1 decoder. No other codecs have been included in the package, ev=
+en
+>though VC9000D cores can support more.
 >
-> On Wed, Dec 21, 2022 at 11:57:48AM +0100, Ricardo Ribalda wrote:
-> > On Wed, 21 Dec 2022 at 11:55, Laurent Pinchart wrote:
-> > > On Wed, Dec 21, 2022 at 12:00:58AM +0100, Ricardo Ribalda wrote:
-> > > > On Tue, 6 Dec 2022 at 00:02, Ricardo Ribalda wrote:
-> > > > > On Mon, 5 Dec 2022 at 23:16, Laurent Pinchart wrote:
-> > > > > > On Fri, Dec 02, 2022 at 06:08:19PM +0100, Ricardo Ribalda wrote:
-> > > > > > > Some cameras have multiple data inputs (i.e. IR sensor and RGB sensor),
-> > >
-> > > Did you mean "data outputs" by the way ?
-> > >
-> > > > > > > append a unique number to the device name.
-> > > > > > >
-> > > > > > > Fixes v4l2-compliance:
-> > > > > > >     Media Controller ioctls:
-> > > > > > >          fail: v4l2-test-media.cpp(205): v2_entity_names_set.find(key) != v2_entity_names_set.end()
-> > > > > > >        test MEDIA_IOC_G_TOPOLOGY: FAIL
-> > > > > > >          fail: v4l2-test-media.cpp(394): num_data_links != num_links
-> > > > > > >        test MEDIA_IOC_ENUM_ENTITIES/LINKS: FAIL
-> > > > > > >
-> > > > > > > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> > > > > > > ---
-> > > > > > >  drivers/media/usb/uvc/uvc_driver.c | 3 ++-
-> > > > > > >  1 file changed, 2 insertions(+), 1 deletion(-)
-> > > > > > >
-> > > > > > > diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-> > > > > > > index 215fb483efb0..f4032ebb3689 100644
-> > > > > > > --- a/drivers/media/usb/uvc/uvc_driver.c
-> > > > > > > +++ b/drivers/media/usb/uvc/uvc_driver.c
-> > > > > > > @@ -1963,7 +1963,8 @@ int uvc_register_video_device(struct uvc_device *dev,
-> > > > > > >               break;
-> > > > > > >       }
-> > > > > > >
-> > > > > > > -     strscpy(vdev->name, dev->name, sizeof(vdev->name));
-> > > > > > > +     snprintf(vdev->name, sizeof(vdev->name), "%s %u", dev->name,
-> > > > > > > +              stream->header.bTerminalLink);
-> > > > > >
-> > > > > > This won't be perfect as the string is not guaranteed to fit in
-> > > > > > vdev->name, but I suppose it will help as a quick fix for some devices.
-> > > > > > How about the other devices ? Won't they still exhibit the above
-> > > > > > v4l2-compliance failure ? Isn't that something that will still affect
-> > > > > > Chrome OS devices ?
-> > > > >
-> > > > > We could place the id first... but that will look bad: Eg:
-> > > > >
-> > > > > 1- My favorite camera
-> > > > >
-> > > > > Another option is to remove the last chars to fit the id. Eg:
-> > > > >
-> > > > > My favorite came-1
-> > > > >
-> > > > > If you prefer any of those options or have a better idea I can implement that.
-> > > >
-> > > > @Laurent
-> > > >
-> > > > Any preference here?
-> > >
-> > > I think the latter is better. Could we do so only when there are
-> > > multiple video capture devices (excluding the metadata device) though ?
-> > > That way we won't have a weird "-n" suffix in the majority of use cases.
-> > >
-> > > > > > The change should not cause any regression as big as in patch 1/3.
-> > > > > > However, unless I'm mistaken users will notice a device name change,
-> > > > > > especially when selecting a device in their web browser. Could that be a
-> > > > > > problem ?
-> > > > >
-> > > > > I think the only side effect is that the first time that the kernel
-> > > > > changes the naming convention, if there are more than one camera on
-> > > > > the system, the video conference might pick a different camera.
-> > > > > The good news is that the user will be presented with cameras with
-> > > > > different names. Now some cameras show very confusing names:
-> > > > >
-> > > > > ribalda@alco:~/work/linux$ for a in /dev/video* ; do yavta -l $a| grep
-> > > > > "Dell Webcam"; done
-> > > > > Device `Dell Webcam WB7022' on `usb-0000:2d:00.0-1.2.3.1' (driver
-> > > > > 'uvcvideo') supports video, capture, without mplanes.
-> > > > > Device `Dell Webcam WB7022' on `usb-0000:2d:00.0-1.2.3.1' (driver
-> > > > > 'uvcvideo') supports meta-data, capture, without mplanes.
-> > > > > Device `Dell Webcam WB7022' on `usb-0000:2d:00.0-1.2.3.1' (driver
-> > > > > 'uvcvideo') supports video, capture, without mplanes.
-> > > > > Device `Dell Webcam WB7022' on `usb-0000:2d:00.0-1.2.3.1' (driver
-> > > > > 'uvcvideo') supports meta-data, capture, without mplanes.
-> > >
-> > > I'm tempted to add a new model read-only string control to overcome the
-> > > length limitation. It could then be combined with other information
-> > > (such as the location and supported pixel formats) to create a
-> > > user-friendly camera name by applications.
-> >
-> > Adding the vid:pid would be really useful! Mapping a /dev/videoX to
-> > vid:pid is kind of complicated now.
+>Stating this driver have no place here seems a bit strange to me, but with
+>proper arguments, maybe we can make a case and start a VC9000D dedicated d=
+river
+>(that will be a lot of copy paste, VC9000D post processor notably is ident=
+ical
+>to VC8000 post processor, but one could argue we should make a VCX000 driv=
+er ?
 >
-> libcamera can help there ;-) We already extract the vendor and product
-> ID. They are only used to create the camera ID at the moment, they are
-> not exposed to applications independently. That would be a good
-> addition.
+>>
+>> 2) Move the vepu981 av1 driver into the rkvdec instead.
 >
-> Overall, device naming is something that we have decided *not* to handle
-> in libcamera. We provide information to applications to help them
-> construct a meaningful name, but don't create the name ourselves. This
-> was decided because naming schemes are dependent on application use
-> cases, and in many cases should be localized (e.g. "Front camera" and
-> "Back camera" vs. "Etukamera" and "Takakamera").
+>That make no sense, its not a Rockchip HW design, and will likely start
+>appearing on non-RK SoC in the future.
 
-Thanks for the explanation!
+Sure. I did not know that it actually is an VC9000.
 
-My use case is: vendor apps for doing provisioning or low level
-testing. Libcamera would be a bit too much for that ;)
-
-Most of the time they do not get an image, but set fancy controls.
-
-
-Regards!
-
-
+>> If 1) is the way to go, we can even think of moving the staging code par=
+ts from
+>> rkvdec to the verisilicon code. Likewise to the vepu981-av1.
 >
-> > > > > > >       /*
-> > > > > > >        * Set the driver data before calling video_register_device, otherwise
-> > > > > > >
+>Again, I think using RK naming is unfortunate choice. This AV1 decoder is =
+just
+>like the G1/H1 combo you will find on RK3288. And that same combo is found=
+ on
+>many older SoC (actually even newer SoC un the VC8000Nano brand).
 >
-> --
-> Regards,
+>Like all generation of Hantro chips, there is an optional dependency that =
+can
+>exist between encoder and decoders. The question is if this requires a sin=
+gle
+>driver to maintain a valid state or not. So far, it seems devs have assume=
+ that
+>is it needed.
 >
-> Laurent Pinchart
+>p.s. fun fact, on most HW, the decoder rate is cut in half with running
+>concurrently with the encoder
+>
+>>
+>> I could also keep on integrating the rkvenc on that base instead.
+>
+>Do you know if there is any interaction between the encoder and decoder ? =
+Shared
+>registers, shared internal cache ? That's basically what differentiate Han=
+tro
+>here. Also, be aware that some folks are considering starting on RKVDEC2 d=
+river,
+>are you looking at RK32/33 series ? or more RK35 ?
 
+I don't know of any limitations or interactions between the encoder and
+decoder. I know that the rkvdec is implementing the register space of
+the mpp called vdpu34x. My work would adress the vepu54x encoder
+registers. Which can be found on rk3588 (vepu541) and rk3568/r3566
+(vepu540).
 
+AFAIK the vepu541 and vepu540 are very similar. The vepu540 is limited
+by 4k and vepu541 can handle 8k h264.
 
--- 
-Ricardo Ribalda
+However how the vepu541 is interacting with the vdpu34x needs to be
+found out. Also I did not find any common parts in the mpp
+implementation yet.
+
+>> > > The full branch can be found here:
+>> > > https://gitlab.collabora.com/linux/for-upstream/-/commits/rk3588_av1=
+_decoder_v1
+>> > >
+>> > > Fluster score is: 151/239 while testing AV1-TEST-VECTORS with GStrea=
+mer-AV1-V4L2SL-Gst1.0.
+>> > > The failing tests are:
+>> > > - 10bits bitstream because 10bits output formats aren't yet implemen=
+ted.
+>> > > - the 2 tests with 2 spatial layers: few errors in luma/chroma values
+>> > > - tests with resolution < hardware limit (64x64)
+>> > >
+>> > > Benjamin
+>> > >
+>> > > Benjamin Gaignard (9):
+>> > >   dt-bindings: media: rockchip-vpu: Add rk3588 vpu compatible
+>> > >   media: verisilicon: Add AV1 decoder mode and controls
+>> > >   media: verisilicon: Save bit depth for AV1 decoder
+>> > >   media: verisilicon: Check AV1 bitstreams bit depth
+>> > >   media: verisilicon: Compute motion vectors size for AV1 frames
+>> > >   media: verisilicon: Add AV1 entropy helpers
+>> > >   media: verisilicon: Add Rockchip AV1 decoder
+>> > >   media: verisilicon: Add film grain feature to AV1 driver
+>> > >   media: verisilicon: Enable AV1 decoder on rk3588
+>> > >
+>> > >  .../bindings/media/rockchip-vpu.yaml          |    1 +
+>> > >  drivers/media/platform/verisilicon/Makefile   |    3 +
+>> > >  drivers/media/platform/verisilicon/hantro.h   |    5 +
+>> > >  .../media/platform/verisilicon/hantro_drv.c   |   54 +
+>> > >  .../media/platform/verisilicon/hantro_hw.h    |  102 +
+>> > >  .../platform/verisilicon/hantro_postproc.c    |    3 +
+>> > >  .../media/platform/verisilicon/hantro_v4l2.c  |    5 +
+>> > >  .../verisilicon/rockchip_av1_entropymode.c    | 4536 ++++++++++++++=
++++
+>> > >  .../verisilicon/rockchip_av1_entropymode.h    |  272 +
+>> > >  .../verisilicon/rockchip_av1_filmgrain.c      |  401 ++
+>> > >  .../verisilicon/rockchip_av1_filmgrain.h      |   36 +
+>> > >  .../verisilicon/rockchip_vpu981_hw_av1_dec.c  | 2280 +++++++++
+>> > >  .../verisilicon/rockchip_vpu981_regs.h        |  477 ++
+>> > >  .../platform/verisilicon/rockchip_vpu_hw.c    |  116 +
+>> > >  14 files changed, 8291 insertions(+)
+>> > >  create mode 100644 drivers/media/platform/verisilicon/rockchip_av1_=
+entropymode.c
+>> > >  create mode 100644 drivers/media/platform/verisilicon/rockchip_av1_=
+entropymode.h
+>> > >  create mode 100644 drivers/media/platform/verisilicon/rockchip_av1_=
+filmgrain.c
+>> > >  create mode 100644 drivers/media/platform/verisilicon/rockchip_av1_=
+filmgrain.h
+>> > >  create mode 100644 drivers/media/platform/verisilicon/rockchip_vpu9=
+81_hw_av1_dec.c
+>> > >  create mode 100644 drivers/media/platform/verisilicon/rockchip_vpu9=
+81_regs.h
+>> > >
+>> > > --
+>> > > 2.34.1
+>> > >
+>> >
+>> > _______________________________________________
+>> > linux-arm-kernel mailing list
+>> > linux-arm-kernel@lists.infradead.org
+>> > http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
+>> >
+>>
+>
+>
+
+--=20
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+
+--idY8LE8SD6/8DnRI
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEElXvEUs6VPX6mDPT8C+njFXoeLGQFAmOjgjQACgkQC+njFXoe
+LGTK7BAAt3FUR0RWx0YAUVvBDf1l8hsMXoWe2MJySuvNOrWtk1PSSQqzLHwnqgyy
+08fdR4TrXPP2t3yFi9JBNniMSB2CJLDyFlZWAaZJe/j1IuZtTUevd+D4o3IT7efm
+pMsiCsu5jOfdjJluuypoa9QWjUiXWL3yztt3apY5KY5oBc3+GZtSnMyoYqOBJY9s
+mTaPSIQGf3yo6bU0qMQqIOxzlpdOa9V9+3QVW4NIoJFPKMuOQsHEx7A7inYIHLFQ
++8p0UXwZIUBcV+UmTWvYmF11mKJbFkvts8PcP2Wk98YYimnrpRoxTKw2rKo9R8PB
+X3loylKkhYijbFHxMYdq63D6agf1AfpCzOQziiQqWAeqksby2z+AcTKfedTliZzU
+cLc8mETmdM+CK131FcOI9n8GNUPX97JkvuNYt1K01XWaZv413yGyzG67lhidu8DL
+4p2aAdJeIBdMDNZZcny3TTgfQfRKgvBDNQOa2zyf2vQDLZbz4nYptq+/ijycyg9+
+C89UNi8EqgiCjReOIyxXCE9dLJ0V+XV1dx+Cp7XuhUCJtE1hvaXPSZ0PXY/ie6rg
+Sxpmx8s2Od6qK6jplvhoGd37fEXjS/nLMUUdMZOc0wEZR9YKpQqK+eklQbGv0HgE
+muFjgT4hvhWjn0JoIMni1sEkOh+A9hoooQ0nM32BjTHzDmhD7/I=
+=/6GU
+-----END PGP SIGNATURE-----
+
+--idY8LE8SD6/8DnRI--
