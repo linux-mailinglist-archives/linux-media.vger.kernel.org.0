@@ -2,162 +2,98 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 40776652E0E
-	for <lists+linux-media@lfdr.de>; Wed, 21 Dec 2022 09:44:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6F69D652E67
+	for <lists+linux-media@lfdr.de>; Wed, 21 Dec 2022 10:25:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229713AbiLUIn5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 21 Dec 2022 03:43:57 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58616 "EHLO
+        id S234553AbiLUJZO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 21 Dec 2022 04:25:14 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42362 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229436AbiLUIn4 (ORCPT
+        with ESMTP id S234548AbiLUJZL (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 21 Dec 2022 03:43:56 -0500
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::228])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8793A18E17;
-        Wed, 21 Dec 2022 00:43:52 -0800 (PST)
-Received: (Authenticated sender: jacopo@jmondi.org)
-        by mail.gandi.net (Postfix) with ESMTPSA id 4FE021BF203;
-        Wed, 21 Dec 2022 08:43:47 +0000 (UTC)
-Date:   Wed, 21 Dec 2022 09:43:47 +0100
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Shravan.Chippa@microchip.com
-Cc:     paul.j.murphy@intel.com, daniele.alessandrelli@intel.com,
-        mchehab@kernel.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v7 1/5] media: i2c: imx334: modify link frequency as for
- the configureation
-Message-ID: <20221221084347.3d4f73txlcgiisvz@uno.localdomain>
-References: <20221219061526.3169369-1-shravan.chippa@microchip.com>
- <20221219061526.3169369-2-shravan.chippa@microchip.com>
- <20221219144414.lfusj67ojjk2phkv@uno.localdomain>
- <PH0PR11MB5611CA9634C1A7A66434703C81EA9@PH0PR11MB5611.namprd11.prod.outlook.com>
+        Wed, 21 Dec 2022 04:25:11 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BBEEB1C12E;
+        Wed, 21 Dec 2022 01:25:09 -0800 (PST)
+Received: from desky.lan (91-154-32-225.elisa-laajakaista.fi [91.154.32.225])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id BCA0EFB;
+        Wed, 21 Dec 2022 10:25:06 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1671614707;
+        bh=mkDJ6wzQr0V0kQPZuFwuUndLXoJtOm1F+MlvhCynM4c=;
+        h=From:To:Cc:Subject:Date:From;
+        b=k9Jxi0JyOlrWFw7qjvdLUVyuHWOXSAvgIS66j2w5zmCvdnkGPOqB+ddjkGuI7NyR2
+         2lWSjP9scxpmIkj4d5g2sbggfHknc/WcdhYyxm53rdbR92PJqESc2PeUhhKXuWeCjS
+         h60r+dGmG2hSLHvrKQZ+CkC4J4hBPduwysxO0wbw=
+From:   Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+To:     linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: [PATCH v3 0/7] media/drm: renesas: Add new pixel formats
+Date:   Wed, 21 Dec 2022 11:24:41 +0200
+Message-Id: <20221221092448.741294-1-tomi.valkeinen+renesas@ideasonboard.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <PH0PR11MB5611CA9634C1A7A66434703C81EA9@PH0PR11MB5611.namprd11.prod.outlook.com>
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Shravan
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 
-On Tue, Dec 20, 2022 at 11:11:15AM +0000, Shravan.Chippa@microchip.com wrote:
->
->
-> > -----Original Message-----
-> > From: Jacopo Mondi <jacopo@jmondi.org>
-> > Sent: 19 December 2022 08:14 PM
-> > To: shravan Chippa - I35088 <Shravan.Chippa@microchip.com>
-> > Cc: paul.j.murphy@intel.com; daniele.alessandrelli@intel.com;
-> > mchehab@kernel.org; linux-media@vger.kernel.org; linux-
-> > kernel@vger.kernel.org
-> > Subject: Re: [PATCH v7 1/5] media: i2c: imx334: modify link frequency as for
-> > the configureation
-> >
-> > EXTERNAL EMAIL: Do not click links or open attachments unless you know the
-> > content is safe
-> >
-> > Hi Shravan
-> >
-> > On Mon, Dec 19, 2022 at 11:45:22AM +0530, shravan kumar wrote:
-> > > From: Shravan Chippa <shravan.chippa@microchip.com>
-> > >
-> > > Currently imx334 sensor driver is configured for 1782Mbps/lane for
-> > > 3840x2160@60 resolution with reqired reg mode values but if we run the
-> > > command "v4l2-ctl --all -d /dev/v4l-subdevX" it is showing incorrect
-> > > link frequeny, This is because of the incorrect value of
-> > > IMX334_LINK_FREQ witch is 891000000. it should be 1782000000.
-> > >
-> > > In general with the value of 891000000 link frequency it is not
-> > > possible to configure 3840x2160@60 resolution.
-> > >
-> > > Fixes: 9746b11715c3 ("media: i2c: Add imx334 camera sensor driver")
-> > >
-> > > Signed-off-by: Shravan Chippa <shravan.chippa@microchip.com>
-> > > ---
-> > >  drivers/media/i2c/imx334.c | 2 +-
-> > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > >
-> > > diff --git a/drivers/media/i2c/imx334.c b/drivers/media/i2c/imx334.c
-> > > index 7b0a9086447d..acc9f9f15e47 100644
-> > > --- a/drivers/media/i2c/imx334.c
-> > > +++ b/drivers/media/i2c/imx334.c
-> > > @@ -49,7 +49,7 @@
-> > >  #define IMX334_INCLK_RATE    24000000
-> > >
-> > >  /* CSI2 HW configuration */
-> > > -#define IMX334_LINK_FREQ     891000000
-> > > +#define IMX334_LINK_FREQ     1782000000
-> >
-> > Is this your reasoning ?
-> >
-> > width: 3840
-> > hblank: 560
-> > height: 2160
-> > vblank: 2340
-> > bpp: 12
-> > fps: 60
-> > lanes: 4
-> >
-> > Total bandwidth: (3840 + 560) * (2160 + 2340) * 60 * 12 = 14.256.000.000
-> > Bandwidth per lane = Total / 4 = 3.564.000.000 mipi clock =
-> > Bandwidth_per_lane / 2 = 1.782.000.000
-> >
-> > Two questions:
-> >
-> > - Should you update the pixel clock as well ? It is currently set to
-> >   594000000 while as per the above reasoning it should be doubled too.
-> >
-> > - Where is the sensor's clock tree programmed in the driver ?
-> >   It's kind of weird that the pixel_clock and link_freq in the driver
-> >   are half of what they theoretically should be...
-> >
-> >
-> As per my understanding.
-> the mode_3840x2160_regs[] array value which is written through the i2c bus is 4k resolution, 60fps,  link frequency 1782Mbps per lane
-> but the vblank value is dynamic from user space.
-> Min-90 to Max-130000, default value is 2340. With the default value, we will get 30fps.
+Hi,
 
-Ah, it's 30, not 60. So my calculations above should be halved
+These add new pixel formats for Renesas V3U and V4H SoCs.
 
->
-> if we set vblank value from user space it will change FPS.
->
+As the display pipeline is split between DRM and V4L2 components, this
+series touches both subsystems. I'm sending all these together to
+simplify review. If needed, I can later split this to V4L2 and DRM
+parts, of which the V4L2 part needs to be merged first.
 
-Sure, but the link frequency stays the same, and it should be computed
-with the FPS resulting from the current blankings
+Changes in v3:
+- Addressed all the review comments
+- Added Y212
+- Updated the kernel docs for the new formats
+- Changed the RGB format names to match the DRM's format names
+- Updated RPF register field macros according to the comments
 
-> Total bandwidth: (3840 + 560) * (2160 + 2340) * 30 * 12 = 7.128.000.000
+ Tomi
 
-Correct
+Tomi Valkeinen (7):
+  media: Add 2-10-10-10 RGB formats
+  media: Add Y210, Y212 and Y216 formats
+  media: renesas: vsp1: Change V3U to be gen4
+  media: renesas: vsp1: Add V4H SoC version
+  media: renesas: vsp1: Add new formats (2-10-10-10 ARGB, Y210, Y212)
+  drm: rcar-du: Bump V3U to gen 4
+  drm: rcar-du: Add new formats (2-10-10-10 ARGB, Y210)
 
-> Bandwidth per lane = Total / 4 = 1.782.000.000
+ .../media/v4l/pixfmt-packed-yuv.rst           |  49 ++++-
+ .../userspace-api/media/v4l/pixfmt-rgb.rst    | 194 ++++++++++++++++++
+ drivers/gpu/drm/rcar-du/rcar_du_drv.c         |   2 +-
+ drivers/gpu/drm/rcar-du/rcar_du_kms.c         |  30 +++
+ drivers/gpu/drm/rcar-du/rcar_du_vsp.c         |  50 ++++-
+ .../media/platform/renesas/vsp1/vsp1_drv.c    |   4 +-
+ .../media/platform/renesas/vsp1/vsp1_hgo.c    |   4 +-
+ .../media/platform/renesas/vsp1/vsp1_lif.c    |   1 +
+ .../media/platform/renesas/vsp1/vsp1_pipe.c   |  18 ++
+ .../media/platform/renesas/vsp1/vsp1_regs.h   |  26 ++-
+ .../media/platform/renesas/vsp1/vsp1_rpf.c    |  64 +++++-
+ .../media/platform/renesas/vsp1/vsp1_video.c  |   4 +-
+ .../media/platform/renesas/vsp1/vsp1_wpf.c    |   4 +-
+ drivers/media/v4l2-core/v4l2-ioctl.c          |   6 +
+ include/uapi/linux/videodev2.h                |  11 +
+ 15 files changed, 447 insertions(+), 20 deletions(-)
 
-Correct.
+-- 
+2.34.1
 
-But with CID_LINK_FREQ you're reporting the bus link frequency, not
-the lane bandwidth. As MIPI CSI-2 uses DDR read mode, two bits per
-clock cycle are transmitted, hence the bus frequency is half of the lane
-bandwidth.
-
-TL;DR you don't need this patch, the current value is correct as it is in my
-understanding.
-
-Thanks
-  j
-
->
-> Thanks,
-> Shravan
->
-> >
-> > >  #define IMX334_NUM_DATA_LANES        4
-> > >
-> > >  #define IMX334_REG_MIN               0x00
-> > > --
-> > > 2.34.1
-> > >
