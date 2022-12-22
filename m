@@ -2,228 +2,242 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B0495654535
-	for <lists+linux-media@lfdr.de>; Thu, 22 Dec 2022 17:35:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5096E6545A4
+	for <lists+linux-media@lfdr.de>; Thu, 22 Dec 2022 18:36:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229665AbiLVQfc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 22 Dec 2022 11:35:32 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48406 "EHLO
+        id S230032AbiLVRgH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 22 Dec 2022 12:36:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37196 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229707AbiLVQfa (ORCPT
+        with ESMTP id S229952AbiLVRgG (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 22 Dec 2022 11:35:30 -0500
-Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6EC5C27CF8
-        for <linux-media@vger.kernel.org>; Thu, 22 Dec 2022 08:35:29 -0800 (PST)
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
-        by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 2BMGZJaE114192;
-        Thu, 22 Dec 2022 10:35:19 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1671726919;
-        bh=lTeA8L7388JXOcyVlZaXw3Mxyq5LrsaQjwugmZXtleI=;
-        h=From:To:CC:Subject:Date;
-        b=EuNQX0cAeVwVCKtvKA4GGRPun1xul7D/QLslUXZidcKSla5um5vWZihCajX5yTXNv
-         /Lm+TSVaBdCRwmyMBaCAGxxCSulW4WEyqYMiU3JXP+7Dd2tYjjZGHqdvlnSMTX0PRB
-         /+ITtvo8IbOuiClSMQjhf7ePBo8ZWkmHQWqvCtOo=
-Received: from DLEE100.ent.ti.com (dlee100.ent.ti.com [157.170.170.30])
-        by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 2BMGZJKj107000
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Thu, 22 Dec 2022 10:35:19 -0600
-Received: from DLEE115.ent.ti.com (157.170.170.26) by DLEE100.ent.ti.com
- (157.170.170.30) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.16; Thu, 22
- Dec 2022 10:35:19 -0600
-Received: from fllv0039.itg.ti.com (10.64.41.19) by DLEE115.ent.ti.com
- (157.170.170.26) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.16 via
- Frontend Transport; Thu, 22 Dec 2022 10:35:19 -0600
-Received: from localhost (ileaxei01-snat.itg.ti.com [10.180.69.5])
-        by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 2BMGZIwG076715;
-        Thu, 22 Dec 2022 10:35:19 -0600
-From:   Jai Luthra <j-luthra@ti.com>
-To:     Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-CC:     <linux-media@vger.kernel.org>, Jai Luthra <j-luthra@ti.com>
-Subject: [PATCH] media: i2c: imx219: Fix binning for RAW8 capture
-Date:   Thu, 22 Dec 2022 22:05:16 +0530
-Message-ID: <20221222163516.20076-1-j-luthra@ti.com>
-X-Mailer: git-send-email 2.17.1
+        Thu, 22 Dec 2022 12:36:06 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9C1E1A227;
+        Thu, 22 Dec 2022 09:36:02 -0800 (PST)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 84DCC471;
+        Thu, 22 Dec 2022 18:35:59 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1671730559;
+        bh=hijU5pTXB9YZuj+LHk38stTpLiPyJVSZ9fnlhqOpl6U=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=ZfjxJDyvMexcyKmDO90zNzxc5PBx4obzRRTCt0NCsODTJtAA4ePHWp1NSQLNf8qS0
+         8HKCuBYz31mwT0gpEzW+q/n2izA0iLxyad05Vc2aUyqd/EWNz9Ks/5Yn3G9/j4cueX
+         JEc6+v3RGhX+ImnYDq9VHb8xqWMJNWe+KSpwTdUg=
+Date:   Thu, 22 Dec 2022 19:35:54 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Umang Jain <umang.jain@ideasonboard.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-staging@lists.linux.dev,
+        linux-rpi-kernel@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Stefan Wahren <stefan.wahren@i2se.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Adrien Thierry <athierry@redhat.com>,
+        Dan Carpenter <error27@gmail.com>,
+        Nicolas Saenz Julienne <nsaenz@kernel.org>,
+        Phil Elwell <phil@raspberrypi.com>,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>
+Subject: Re: [PATCH] staging: vc04_services: vchiq_arm: Create
+ platform_device per device
+Message-ID: <Y6SVegtHvwQ3p+3K@pendragon.ideasonboard.com>
+References: <20221220084404.19280-1-umang.jain@ideasonboard.com>
+ <Y6Lqs8RUiyi452gM@pendragon.ideasonboard.com>
+ <Y6MF3l40WM3onmyO@kroah.com>
+ <d48462f6-de4c-2816-0a7a-b3b13993604c@ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <d48462f6-de4c-2816-0a7a-b3b13993604c@ideasonboard.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-2x2 binning worked fine for RAW10 capture, but for RAW8 capture it would
-lead to corrupted frames [1][2] when using 1232p for capture.
+Hi Umang,
 
-Using the special 2x2 analog binning mode fixes RAW8 1232p capture, but
-breaks RAW10 1232p capture. So now we choose the binning mode depending
-upon the frame format selected.
+On Thu, Dec 22, 2022 at 01:59:28PM +0530, Umang Jain wrote:
+> On 12/21/22 6:40 PM, Greg Kroah-Hartman wrote:
+> > On Wed, Dec 21, 2022 at 01:14:59PM +0200, Laurent Pinchart wrote:
+> >> On Tue, Dec 20, 2022 at 02:14:04PM +0530, Umang Jain wrote:
+> >>> Create a proper per device platorm_device structure for all the child
+> >>> devices that needs to be registered by vchiq platform driver. Replace
+> >>> the vchiq_register_child() with platform_add_devices() to register the
+> >>> child devices.
+> >>
+> >> This explains what the patch does, but not why.
+> >>
+> >>> This is part of an effort to address TODO item "Get rid of all non
+> >>> essential global structures and create a proper per device structure"
+> >>
+> >> And this explains part of the reason only. Could you please expand the
+> >> commit message with the reasoning behind this change ? It's not clear
+> >> from the change below why this is needed and good.
+> 
+> Ok, I thought the TODO reference was sufficient but I'll expand on it.
+>
+> >>> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
+> >>> ---
+> >>>   .../interface/vchiq_arm/vchiq_arm.c           | 59 ++++++++++---------
+> >>>   1 file changed, 31 insertions(+), 28 deletions(-)
+> >>>
+> >>> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> >>> index 22de23f3af02..fa42ea3791a7 100644
+> >>> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> >>> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> >>> @@ -65,8 +65,29 @@ int vchiq_susp_log_level = VCHIQ_LOG_ERROR;
+> >>>   DEFINE_SPINLOCK(msg_queue_spinlock);
+> >>>   struct vchiq_state g_state;
+> >>>   
+> >>> -static struct platform_device *bcm2835_camera;
+> >>> -static struct platform_device *bcm2835_audio;
+> >>> +static u64 vchiq_device_dmamask = DMA_BIT_MASK(32);
+> >>
+> >> The fact that this isn't const and is used by two different
+> >> platform_device instances is worrying. Either it can be made const, or
+> >> it's wrong.
+> 
+> ack.
+>
+> >>> +
+> >>> +static struct platform_device bcm2835_camera = {
+> >>> +	.name		= "bcm2835-camera",
+> >>> +	.id		= PLATFORM_DEVID_NONE,
+> >>> +	.dev		= {
+> >>> +		.dma_mask	= &vchiq_device_dmamask,
+> >>> +	}
+> >>> +};
+> >>> +
+> >>> +static struct platform_device bcm2835_audio = {
+> >>> +	.name		= "bcm2835_audio",
+> >>> +	.id		= PLATFORM_DEVID_NONE,
+> >>> +	.dev		= {
+> >>> +		.dma_mask	= &vchiq_device_dmamask,
+> >>> +	}
+> >>> +
+> >>
+> >> Extra blank line.
+> 
+> oops, checkpatch.pl didn't catch this :-/
+>
+> >>> +};
+> >>> +
+> >>> +static struct platform_device *vchiq_devices[] __initdata = {
+> >> Make it const.
+> >>
+> >>> +	&bcm2835_camera,
+> >>> +	&bcm2835_audio,
+> >>> +};
+> >>>   
+> >>>   struct vchiq_drvdata {
+> >>>   	const unsigned int cache_line_size;
+> >>> @@ -1763,28 +1784,6 @@ static const struct of_device_id vchiq_of_match[] = {
+> >>>   };
+> >>>   MODULE_DEVICE_TABLE(of, vchiq_of_match);
+> >>>   
+> >>> -static struct platform_device *
+> >>> -vchiq_register_child(struct platform_device *pdev, const char *name)
+> >>> -{
+> >>> -	struct platform_device_info pdevinfo;
+> >>> -	struct platform_device *child;
+> >>> -
+> >>> -	memset(&pdevinfo, 0, sizeof(pdevinfo));
+> >>> -
+> >>> -	pdevinfo.parent = &pdev->dev;
+> >>> -	pdevinfo.name = name;
+> >>> -	pdevinfo.id = PLATFORM_DEVID_NONE;
+> >>> -	pdevinfo.dma_mask = DMA_BIT_MASK(32);
+> >>> -
+> >>> -	child = platform_device_register_full(&pdevinfo);
+> >>> -	if (IS_ERR(child)) {
+> >>> -		dev_warn(&pdev->dev, "%s not registered\n", name);
+> >>> -		child = NULL;
+> >>> -	}
+> >>> -
+> >>> -	return child;
+> >>> -}
+> >>> -
+> >>>   static int vchiq_probe(struct platform_device *pdev)
+> >>>   {
+> >>>   	struct device_node *fw_node;
+> >>> @@ -1832,8 +1831,11 @@ static int vchiq_probe(struct platform_device *pdev)
+> >>>   		goto error_exit;
+> >>>   	}
+> >>>   
+> >>> -	bcm2835_camera = vchiq_register_child(pdev, "bcm2835-camera");
+> >>> -	bcm2835_audio = vchiq_register_child(pdev, "bcm2835_audio");
+> >>> +	err = platform_add_devices(vchiq_devices, ARRAY_SIZE(vchiq_devices));
+> >>> +	if (err) {
+> >>> +		dev_warn(&pdev->dev, "Failed to add vchiq child devices");
+> >>> +		goto error_exit;
+> >>> +	}
+> >>
+> >> If you unbind and rebind this driver, the platform_device instances
+> >> defined as global variables will be reused, and I'm pretty sure that
+> >> will cause issues, for instance with the kobj->state_initialized check
+> >> in kobject_init() (called from device_initialize(), itself called from
+> >> platform_device_register(), from platform_add_devices()). I'm not sure
+> >> static instances of platform_device are a very good idea in general.
+> >
+> > static instances of any device are a horrible idea, but it seems that
+> > many drivers do this and abuse platform devices this way :(
+> 
+> It seems  I have been a victim of the abuse usage while looking for 
+> platform_device references in the codebase. I'm working on a new 
+> approach for this.
+> 
+> Currently (as per the linux-next branch), the vchiq driver will happily 
+> carry on if any of the child  platform device registration fails. That 
+> means if bcm2835-audio fails to register, bcm2835-camera will  still 
+> kept registered I suppose.
+> 
+> However with usage of platform_add_devices() in this patch, I introduced 
+> a functionality change (I'm realizing this now) - any failure of child 
+> platform device registeration will -unregister- all the other platform 
+> devices i.e. if bcm2835-audio fails, bcm2835-camera will also get 
+> unregistered.
+> 
+> Should I be working towards the status-quo behavior ? Or it's sane to 
+> unregistered other platform devices if one of the fails like 
+> platform_add_devices() does ? (This affects my new approach as well, 
+> hence the question)
 
-As 480p RAW8/RAW10 capture works fine with both binning modes, it can
-share the same code path as 1232p for selecting binning mode.
+If it doesn't cause too much extra complexity, it would be nice to skip
+devices that can't be registered successfully, and still support the
+other ones. I don't expect registration failures to be a occuring
+normally, so if this causes too much completely, I think it would still
+be fine to fail more harshly.
 
-[1] https://forums.raspberrypi.com/viewtopic.php?t=332103
-[2] https://github.com/raspberrypi/libcamera-apps/issues/281
+> > Ideally this should be done properly, with the correct devices created
+> > automatically based on the device tree structure, NOT hard-coded into a
+> > .c file like this.
+> >
+> > So I too really do not like this change, why are these not being created
+> > by the firware layer automatically?
+> 
+> Not sure if this is a helpful comment, but as far I know, there can be 
+> vchiq child platform devices which probably don't have a Device tree 
+> entry. like the bcm2835-isp [1] I posted earlier.
+> 
+> [1] https://lore.kernel.org/lkml/20221121214722.22563-1-umang.jain@ideasonboard.com/
 
-Signed-off-by: Jai Luthra <j-luthra@ti.com>
----
- drivers/media/i2c/imx219.c | 58 ++++++++++++++++++++++++++++++++------
- 1 file changed, 50 insertions(+), 8 deletions(-)
+Those devices are implemented and exposed by the firmware running on the
+VC4. The device tree describes the VC4 itself with the resources
+required to communicate with it through a mailbox interface. I was going
+to say that the platform devices are then created based on what the
+firmware exposes, but that's not right, they're indeed hardcoded in the
+vchiq driver. Adding corresponding DT nodes (as children of the vchiq DT
+node) could make sense. Dave, do you have any opinion on this ?
 
-diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
-index 77bd79a5954e..a7afd914214e 100644
---- a/drivers/media/i2c/imx219.c
-+++ b/drivers/media/i2c/imx219.c
-@@ -89,6 +89,12 @@
- 
- #define IMX219_REG_ORIENTATION		0x0172
- 
-+/* Binning  Mode */
-+#define IMX219_REG_BINNING_MODE		0x0174
-+#define IMX219_BINNING_NONE		0x0000
-+#define IMX219_BINNING_2X2		0x0101
-+#define IMX219_BINNING_2X2_ANALOG	0x0303
-+
- /* Test Pattern Control */
- #define IMX219_REG_TEST_PATTERN		0x0600
- #define IMX219_TEST_PATTERN_DISABLE	0
-@@ -143,6 +149,9 @@ struct imx219_mode {
- 
- 	/* Default register values */
- 	struct imx219_reg_list reg_list;
-+
-+	/* 2x2 binning is used */
-+	bool binning;
- };
- 
- /*
-@@ -176,8 +185,6 @@ static const struct imx219_reg mode_3280x2464_regs[] = {
- 	{0x016f, 0xa0},
- 	{0x0170, 0x01},
- 	{0x0171, 0x01},
--	{0x0174, 0x00},
--	{0x0175, 0x00},
- 	{0x0301, 0x05},
- 	{0x0303, 0x01},
- 	{0x0304, 0x03},
-@@ -235,8 +242,6 @@ static const struct imx219_reg mode_1920_1080_regs[] = {
- 	{0x016f, 0x38},
- 	{0x0170, 0x01},
- 	{0x0171, 0x01},
--	{0x0174, 0x00},
--	{0x0175, 0x00},
- 	{0x0301, 0x05},
- 	{0x0303, 0x01},
- 	{0x0304, 0x03},
-@@ -290,8 +295,6 @@ static const struct imx219_reg mode_1640_1232_regs[] = {
- 	{0x016f, 0xd0},
- 	{0x0170, 0x01},
- 	{0x0171, 0x01},
--	{0x0174, 0x01},
--	{0x0175, 0x01},
- 	{0x0301, 0x05},
- 	{0x0303, 0x01},
- 	{0x0304, 0x03},
-@@ -349,8 +352,6 @@ static const struct imx219_reg mode_640_480_regs[] = {
- 	{0x016f, 0xe0},
- 	{0x0170, 0x01},
- 	{0x0171, 0x01},
--	{0x0174, 0x03},
--	{0x0175, 0x03},
- 	{0x0301, 0x05},
- 	{0x0303, 0x01},
- 	{0x0304, 0x03},
-@@ -485,6 +486,7 @@ static const struct imx219_mode supported_modes[] = {
- 			.num_of_regs = ARRAY_SIZE(mode_3280x2464_regs),
- 			.regs = mode_3280x2464_regs,
- 		},
-+		.binning = false,
- 	},
- 	{
- 		/* 1080P 30fps cropped */
-@@ -501,6 +503,7 @@ static const struct imx219_mode supported_modes[] = {
- 			.num_of_regs = ARRAY_SIZE(mode_1920_1080_regs),
- 			.regs = mode_1920_1080_regs,
- 		},
-+		.binning = false,
- 	},
- 	{
- 		/* 2x2 binned 30fps mode */
-@@ -517,6 +520,7 @@ static const struct imx219_mode supported_modes[] = {
- 			.num_of_regs = ARRAY_SIZE(mode_1640_1232_regs),
- 			.regs = mode_1640_1232_regs,
- 		},
-+		.binning = true,
- 	},
- 	{
- 		/* 640x480 30fps mode */
-@@ -533,6 +537,7 @@ static const struct imx219_mode supported_modes[] = {
- 			.num_of_regs = ARRAY_SIZE(mode_640_480_regs),
- 			.regs = mode_640_480_regs,
- 		},
-+		.binning = true,
- 	},
- };
- 
-@@ -979,6 +984,35 @@ static int imx219_set_framefmt(struct imx219 *imx219)
- 	return -EINVAL;
- }
- 
-+static int imx219_set_binning(struct imx219 *imx219)
-+{
-+	if (!imx219->mode->binning) {
-+		return imx219_write_reg(imx219, IMX219_REG_BINNING_MODE,
-+					IMX219_REG_VALUE_16BIT,
-+					IMX219_BINNING_NONE);
-+	}
-+
-+	switch (imx219->fmt.code) {
-+	case MEDIA_BUS_FMT_SRGGB8_1X8:
-+	case MEDIA_BUS_FMT_SGRBG8_1X8:
-+	case MEDIA_BUS_FMT_SGBRG8_1X8:
-+	case MEDIA_BUS_FMT_SBGGR8_1X8:
-+		return imx219_write_reg(imx219, IMX219_REG_BINNING_MODE,
-+					IMX219_REG_VALUE_16BIT,
-+					IMX219_BINNING_2X2_ANALOG);
-+
-+	case MEDIA_BUS_FMT_SRGGB10_1X10:
-+	case MEDIA_BUS_FMT_SGRBG10_1X10:
-+	case MEDIA_BUS_FMT_SGBRG10_1X10:
-+	case MEDIA_BUS_FMT_SBGGR10_1X10:
-+		return imx219_write_reg(imx219, IMX219_REG_BINNING_MODE,
-+					IMX219_REG_VALUE_16BIT,
-+					IMX219_BINNING_2X2);
-+	}
-+
-+	return -EINVAL;
-+}
-+
- static const struct v4l2_rect *
- __imx219_get_pad_crop(struct imx219 *imx219,
- 		      struct v4l2_subdev_state *sd_state,
-@@ -1056,6 +1090,14 @@ static int imx219_start_streaming(struct imx219 *imx219)
- 		goto err_rpm_put;
- 	}
- 
-+	ret = imx219_set_binning(imx219);
-+	if (ret) {
-+		dev_err(&client->dev, "%s failed to set binning: %d\n",
-+			__func__, ret);
-+		goto err_rpm_put;
-+	}
-+
-+
- 	/* Apply customized values from user */
- 	ret =  __v4l2_ctrl_handler_setup(imx219->sd.ctrl_handler);
- 	if (ret)
 -- 
-2.17.1
+Regards,
 
+Laurent Pinchart
