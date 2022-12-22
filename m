@@ -2,172 +2,227 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1440B653982
-	for <lists+linux-media@lfdr.de>; Thu, 22 Dec 2022 00:00:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 91DB0653A8E
+	for <lists+linux-media@lfdr.de>; Thu, 22 Dec 2022 03:23:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232605AbiLUXAY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 21 Dec 2022 18:00:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58358 "EHLO
+        id S234937AbiLVCXq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 21 Dec 2022 21:23:46 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42864 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229647AbiLUXAW (ORCPT
+        with ESMTP id S229726AbiLVCXp (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 21 Dec 2022 18:00:22 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B985BCA8;
-        Wed, 21 Dec 2022 15:00:21 -0800 (PST)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9916D13FA;
-        Thu, 22 Dec 2022 00:00:19 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1671663619;
-        bh=d8r+TGwKz45eLMUClR+IITxE3oPFLBRWIRAlr2ioc3c=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=EVwvT8OB/J666L5i1lwNLzJHfly/yun9wpMDqdyWrdECiWhvsPdoz3Clp5Rm2Fie1
-         Uf4Dl/Z9/4Fumj6fCFl2HkCUYY9MoE8f2n2zcoTq/ehRj9bHY4L6xw/IEEAhGVLmvB
-         mq347/ZCv0mZZADXyX5PcsRpWynVWDs7CIJORwKc=
-Date:   Thu, 22 Dec 2022 01:00:14 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Ricardo Ribalda <ribalda@chromium.org>,
-        Yunke Cao <yunkec@chromium.org>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        linux-media@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 3/3] media: uvcvideo: Add a unique suffix to camera
- names
-Message-ID: <Y6OP/qz9R4BgXi4o@pendragon.ideasonboard.com>
-References: <20220920-resend-meta-v4-0-3ac355b66723@chromium.org>
- <20220920-resend-meta-v4-3-3ac355b66723@chromium.org>
- <Y45tnp0naosOrYCY@pendragon.ideasonboard.com>
- <CANiDSCtRoVQ2+asPmOacarvC2VrJYTbU67+wKJq1ciuMrwguPg@mail.gmail.com>
- <20221221220248.12395efb@sal.lan>
- <Y6OHrDw8p4qPWBqz@pendragon.ideasonboard.com>
- <20221221225450.448c58ea@sal.lan>
+        Wed, 21 Dec 2022 21:23:45 -0500
+Received: from mail-vs1-xe30.google.com (mail-vs1-xe30.google.com [IPv6:2607:f8b0:4864:20::e30])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A72E412D31;
+        Wed, 21 Dec 2022 18:23:44 -0800 (PST)
+Received: by mail-vs1-xe30.google.com with SMTP id a66so511852vsa.6;
+        Wed, 21 Dec 2022 18:23:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=VFTDHnDll88TPaYL7KvtdsNvFq8ZgzXZIlFN1ok/uLs=;
+        b=KsDKiECBrS56TPmqiIUDPte07tYoYqXGw4oyNgupkaTeF10bKGqWZCQjJuhu4+lO38
+         84vAlBc3LmdWvvnSHh0Dr7mcoTD7NWJmR4K2SeQwhaP0dUMrfe+Um/p7KYjlaH4Tn514
+         u1s5HfcXBjMFbloTUXP3Xfb5V+nMkvXMBuwhrHEpbyj9Xbu1Rm6yIpuspfng+9rneHtn
+         LdcReBjgck5EQDqBYw0q5WkZoeQBZN9Oi56ERWA7jqIodUjdnpucUdmtiIghlRCXlx6S
+         dxaHJssKGDeqQVPdGRxiiae+Xp4gKtvS6uYCYX1dO0JctffNJDdX8WduyelfG906B9c4
+         BhcA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=VFTDHnDll88TPaYL7KvtdsNvFq8ZgzXZIlFN1ok/uLs=;
+        b=ITFLZLvn6vxQhDxwMdswlKNkcH0cYPecCJeXEy3QWBUyYOrbcCQ/E4pKKUiFiBP/oq
+         F3UsxwKIBruzvU5i5IlZM/pKz/NLs3wqGuykWVZ86bftwZnxsz6nGHjYJk9Q5fpYlesr
+         VwnKaPDbEOdxDn7JFpKoIglBWb9lyR62C+oFtIM/rxwvXw0TPHyomD/D5pxSxp8VBeTQ
+         eXt7ae6X3Y4nKoikn3b31G3+jC0XqsnlCWQ3qic3CPMpirCwGaMoXnBN5kAflW/2rS0q
+         wlei/Gi3wHAkQc16JBtrdkemK6Lgi6cWbeNvSncP1xteKaUfl65P/aDuTv9Tq8Hrs47f
+         m4qQ==
+X-Gm-Message-State: AFqh2kqx6NRCX3Q4I4fCggBXzWP2sEalLiUTUDCirofbF/bBdUWImJ7g
+        k/ipwLo7uqNxrFrzyyzMlej0scQhv+VS58STnXU=
+X-Google-Smtp-Source: AMrXdXu485GKY0plvl7WKqc853dOIB+mUZa+WCeJDChwDEPLzOiTiuVy1grv9+2X/WaCczrEUdfD4Rdc6OnYT6f3IQY=
+X-Received: by 2002:a05:6102:105:b0:3b1:4aad:9c47 with SMTP id
+ z5-20020a056102010500b003b14aad9c47mr497116vsq.73.1671675823724; Wed, 21 Dec
+ 2022 18:23:43 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20221221225450.448c58ea@sal.lan>
+References: <20221220094055.3011916-1-milkfafa@gmail.com> <20221220094055.3011916-8-milkfafa@gmail.com>
+ <078aa497-e441-ef3d-c206-de23ca2658c9@collabora.com>
+In-Reply-To: <078aa497-e441-ef3d-c206-de23ca2658c9@collabora.com>
+From:   Kun-Fa Lin <milkfafa@gmail.com>
+Date:   Thu, 22 Dec 2022 10:23:32 +0800
+Message-ID: <CADnNmFpjrRy2J5mrFnp6JRiY5W=Xot83PV_JMuBWMP-uf63Rig@mail.gmail.com>
+Subject: Re: [PATCH v9 7/7] media: nuvoton: Add driver for NPCM video capture
+ and encode engine
+To:     Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+Cc:     mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
+        avifishman70@gmail.com, tmaimon77@gmail.com, tali.perry1@gmail.com,
+        venture@google.com, yuenn@google.com, benjaminfair@google.com,
+        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        devicetree@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, openbmc@lists.ozlabs.org,
+        kwliu@nuvoton.com, kflin@nuvoton.com
+Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Dec 21, 2022 at 10:54:50PM +0000, Mauro Carvalho Chehab wrote:
-> Em Thu, 22 Dec 2022 00:24:44 +0200
-> Laurent Pinchart <laurent.pinchart@ideasonboard.com> escreveu:
-> 
-> > Hi Mauro,
-> > 
-> > On Wed, Dec 21, 2022 at 10:02:48PM +0000, Mauro Carvalho Chehab wrote:
-> > > Em Tue, 6 Dec 2022 00:02:22 +0100 Ricardo Ribalda escreveu:  
-> > > > On Mon, 5 Dec 2022 at 23:16, Laurent Pinchart wrote:  
-> > > > > On Fri, Dec 02, 2022 at 06:08:19PM +0100, Ricardo Ribalda wrote:    
-> > > > > > Some cameras have multiple data inputs (i.e. IR sensor and RGB sensor),
-> > > > > > append a unique number to the device name.
-> > > > > >
-> > > > > > Fixes v4l2-compliance:
-> > > > > >     Media Controller ioctls:
-> > > > > >          fail: v4l2-test-media.cpp(205): v2_entity_names_set.find(key) != v2_entity_names_set.end()
-> > > > > >        test MEDIA_IOC_G_TOPOLOGY: FAIL
-> > > > > >          fail: v4l2-test-media.cpp(394): num_data_links != num_links
-> > > > > >        test MEDIA_IOC_ENUM_ENTITIES/LINKS: FAIL
-> > > > > >
-> > > > > > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> > > > > > ---
-> > > > > >  drivers/media/usb/uvc/uvc_driver.c | 3 ++-
-> > > > > >  1 file changed, 2 insertions(+), 1 deletion(-)
-> > > > > >
-> > > > > > diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-> > > > > > index 215fb483efb0..f4032ebb3689 100644
-> > > > > > --- a/drivers/media/usb/uvc/uvc_driver.c
-> > > > > > +++ b/drivers/media/usb/uvc/uvc_driver.c
-> > > > > > @@ -1963,7 +1963,8 @@ int uvc_register_video_device(struct uvc_device *dev,
-> > > > > >               break;
-> > > > > >       }
-> > > > > >
-> > > > > > -     strscpy(vdev->name, dev->name, sizeof(vdev->name));
-> > > > > > +     snprintf(vdev->name, sizeof(vdev->name), "%s %u", dev->name,
-> > > > > > +              stream->header.bTerminalLink);    
-> > > > >
-> > > > > This won't be perfect as the string is not guaranteed to fit in
-> > > > > vdev->name, but I suppose it will help as a quick fix for some devices.
-> > > > > How about the other devices ? Won't they still exhibit the above
-> > > > > v4l2-compliance failure ? Isn't that something that will still affect
-> > > > > Chrome OS devices ?    
-> > > > 
-> > > > We could place the id first... but that will look bad: Eg:
-> > > > 
-> > > > 1- My favorite camera
-> > > > 
-> > > > Another option is to remove the last chars to fit the id. Eg:
-> > > > 
-> > > > My favorite came-1
-> > > > 
-> > > > If you prefer any of those options or have a better idea I can implement that.
-> > > >   
-> > > > > The change should not cause any regression as big as in patch 1/3.
-> > > > > However, unless I'm mistaken users will notice a device name change,
-> > > > > especially when selecting a device in their web browser. Could that be a
-> > > > > problem ?    
-> > > > 
-> > > > I think the only side effect is that the first time that the kernel
-> > > > changes the naming convention, if there are more than one camera on
-> > > > the system, the video conference might pick a different camera.
-> > > > The good news is that the user will be presented with cameras with
-> > > > different names. Now some cameras show very confusing names:
-> > > > 
-> > > > ribalda@alco:~/work/linux$ for a in /dev/video* ; do yavta -l $a| grep
-> > > > "Dell Webcam"; done
-> > > > Device `Dell Webcam WB7022' on `usb-0000:2d:00.0-1.2.3.1' (driver
-> > > > 'uvcvideo') supports video, capture, without mplanes.
-> > > > Device `Dell Webcam WB7022' on `usb-0000:2d:00.0-1.2.3.1' (driver
-> > > > 'uvcvideo') supports meta-data, capture, without mplanes.
-> > > > Device `Dell Webcam WB7022' on `usb-0000:2d:00.0-1.2.3.1' (driver
-> > > > 'uvcvideo') supports video, capture, without mplanes.
-> > > > Device `Dell Webcam WB7022' on `usb-0000:2d:00.0-1.2.3.1' (driver
-> > > > 'uvcvideo') supports meta-data, capture, without mplanes.  
-> > > 
-> > > That is bad, as some apps like camorama actually store the user
-> > > preferences (last used resolution and fps), preserving them the next
-> > > time the camera with the same name is used.
-> > > 
-> > > In the specific case of camorama, it uses the by-id filename, which is
-> > > derived from the name, as stored at:
-> > > 
-> > > 	$ ls -la /dev/v4l/by-id/usb-Quanta_HD_Camera_0001-video-index*
-> > > 	lrwxrwxrwx 1 root root 12 dez 21 09:59 /dev/v4l/by-id/usb-Quanta_HD_Camera_0001-video-index0 -> ../../video0
-> > > 	lrwxrwxrwx 1 root root 12 dez 21 09:59 /dev/v4l/by-id/usb-Quanta_HD_Camera_0001-video-index1 -> ../../video1
-> > > 
-> > > With this change, not only the camera name will become bigger (and may
-> > > end losing the index0/index1 data), but it will also lost the stored 
-> > > preferences on apps like camorama, causing regressions.
-> > > 
-> > > It sounds a lot easier to teach udev to change the name on an unique
-> > > way, on machines where you need it.  
-> > 
-> > It's not a udev issue, it's an API compliance problem, entity names in a
-> > media controller graph must be unique, and they are not.
-> 
-> Then the right fix would be inside the media controller naming
-> logic, in a way that it will ensure unique names. It sounds to me
-> that mc core should then check, at device's register time, if the
-> name was already used. If so, change it to be unique.
+Hi Andrzej,
 
-The entity name and video device name are one and the same.
+Thanks for the review.
 
-> > Losing the stored preference is possibly inconvenient in some cases, but
-> > I don't think it's a real blocker.
-> 
-> If it causes userspace regressions, then it is a blocker.
+> > +static void npcm_video_ece_set_fb_addr(struct npcm_video *video, u32 buffer)
+>
+> static inline void?
+>
 
-I wouldn't necessarily call this a regression.
+> > +static void npcm_video_ece_set_enc_dba(struct npcm_video *video, u32 addr)
+>
+> ditto
 
--- 
+> > +static void npcm_video_ece_clear_rect_offset(struct npcm_video *video)
+>
+> ditto
+
+> > +static int npcm_video_ece_init(struct npcm_video *video)
+>
+> static inline int? But...
+>
+> > +{
+> > +     npcm_video_ece_ip_reset(video);
+> > +     npcm_video_ece_ctrl_reset(video);
+> > +
+> > +     return 0;
+>
+> ...the return value is not inspected by the only caller anyway, so why not
+>
+> static inline void?
+
+OK, I'll declare these functions as static inline void.
+
+> > +static int npcm_video_ece_stop(struct npcm_video *video)
+> > +{
+> > +     struct regmap *ece = video->ece.regmap;
+> > +
+> > +     regmap_update_bits(ece, ECE_DDA_CTRL, ECE_DDA_CTRL_ECEEN, 0);
+> > +     regmap_update_bits(ece, ECE_DDA_CTRL, ECE_DDA_CTRL_INTEN, 0);
+> > +     regmap_update_bits(ece, ECE_HEX_CTRL, ECE_HEX_CTRL_ENCDIS,
+> > +                        ECE_HEX_CTRL_ENCDIS);
+> > +     npcm_video_ece_clear_rect_offset(video);
+> > +
+> > +     return 0;
+>
+> Nobody inspects this return value. Either void, or check the return value
+> at call site and handle a non-zero failure.
+
+OK, will change to void.
+
+> > +static unsigned int npcm_video_get_rect_count(struct npcm_video *video)
+> > +{
+> > +     struct list_head *head, *pos, *nx;
+> > +     struct rect_list *tmp;
+> > +     unsigned int count;
+>
+>         unsigned int count = 0;
+>
+> otherwise if the below condition is not met, ...
+> > +
+> > +     if (video->list && video->rect) {
+> > +             count = video->rect[video->vb_index];
+> > +             head = &video->list[video->vb_index];
+> > +
+> > +             list_for_each_safe(pos, nx, head) {
+> > +                     tmp = list_entry(pos, struct rect_list, list);
+> > +                     list_del(&tmp->list);
+> > +                     kfree(tmp);
+> > +             }
+>
+> why does a function whose name implies merely getting a number actually
+> remove all elements from some list? count equals video->rect[video->vb_index];
+> and everthing else looks like a(n indented?) side effect. This should be
+> somehow commented in the code.
+>
+> > +     }
+> > +
+> > +     return count;
+>
+> ... an undefined number is returned
+>
+> Which makes me wonder if the compiler is not warning about using a possibly
+> uninitialized value.
+
+You are right, this is not the right place to remove the rect_list.
+It makes more sense to remove the list right after the associated
+video buffer gets dequeued.
+I'll do that change.
+
+> > +static int npcm_video_capres(struct npcm_video *video, u32 hor_res,
+> > +                          u32 vert_res)
+> > +{
+> > +     struct regmap *vcd = video->vcd_regmap;
+> > +     u32 res, cap_res;
+> > +
+> > +     if (hor_res > MAX_WIDTH || vert_res > MAX_HEIGHT)
+> > +             return -EINVAL;
+> > +
+> > +     res = FIELD_PREP(VCD_CAP_RES_VERT_RES, vert_res) |
+> > +           FIELD_PREP(VCD_CAP_RES_HOR_RES, hor_res);
+> > +
+> > +     regmap_write(vcd, VCD_CAP_RES, res);
+> > +     regmap_read(vcd, VCD_CAP_RES, &cap_res);
+> > +
+> > +     if (cap_res != res)
+> > +             return -EINVAL;
+> > +
+> > +     return 0;
+>
+> The return value is not handled by the caller
+
+> > +static int npcm_video_gfx_reset(struct npcm_video *video)
+> > +{
+> > +     struct regmap *gcr = video->gcr_regmap;
+> > +
+> > +     regmap_update_bits(gcr, INTCR2, INTCR2_GIRST2, INTCR2_GIRST2);
+> > +
+> > +     npcm_video_vcd_state_machine_reset(video);
+> > +
+> > +     regmap_update_bits(gcr, INTCR2, INTCR2_GIRST2, 0);
+> > +
+> > +     return 0;
+>
+> Never inspected by callers
+
+> > +static int npcm_video_command(struct npcm_video *video, u32 value)
+> > +{
+> > +     struct regmap *vcd = video->vcd_regmap;
+> > +     u32 cmd;
+> > +
+> > +     regmap_write(vcd, VCD_STAT, VCD_STAT_CLEAR);
+> > +
+> > +     regmap_read(vcd, VCD_CMD, &cmd);
+> > +     cmd |= FIELD_PREP(VCD_CMD_OPERATION, value);
+> > +
+> > +     regmap_write(vcd, VCD_CMD, cmd);
+> > +     regmap_update_bits(vcd, VCD_CMD, VCD_CMD_GO, VCD_CMD_GO);
+> > +     video->op_cmd = value;
+> > +
+> > +     return 0;
+>
+> Never inspected by caller
+
+> > +static int npcm_video_start_frame(struct npcm_video *video)
+> > +{
+>
+> One of the callers ignores the return value, but not the other. Why?
+
+These problems will be addressed in the next patch. Thank you.
+
 Regards,
-
-Laurent Pinchart
+Marvin
