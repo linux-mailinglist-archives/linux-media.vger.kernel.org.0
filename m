@@ -2,98 +2,112 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0247A654724
-	for <lists+linux-media@lfdr.de>; Thu, 22 Dec 2022 21:31:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 719926547C6
+	for <lists+linux-media@lfdr.de>; Thu, 22 Dec 2022 22:21:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229704AbiLVUa7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 22 Dec 2022 15:30:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52276 "EHLO
+        id S229660AbiLVVVu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 22 Dec 2022 16:21:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44772 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229583AbiLVUa6 (ORCPT
+        with ESMTP id S229603AbiLVVVt (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 22 Dec 2022 15:30:58 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 85270101CE;
-        Thu, 22 Dec 2022 12:30:56 -0800 (PST)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 54CF3471;
-        Thu, 22 Dec 2022 21:30:52 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1671741052;
-        bh=+1jkARAbTLLjLgzzWLH5WqP65CFDkpPXBUpu0s8gVDM=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=D+IuuP+uoj0/dvs3mNCGmKnxDEXKxLnS0YEjNJ21Mqtqq6QKzpgViEEMo3Z04rtt0
-         PkeuUOEOX56quXb0jEBcshXwyy3o1JX6l9m+Fu3Sw9gDx4f723VI4PDHKnREbvO/hV
-         sKnaT1kvpBrHfe550vSjHRhP/ZXFaUWmAqR+a5kc=
-Date:   Thu, 22 Dec 2022 22:30:47 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Umang Jain <umang.jain@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-staging@lists.linux.dev,
-        linux-rpi-kernel@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Adrien Thierry <athierry@redhat.com>,
-        Stefan Wahren <stefan.wahren@i2se.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Dan Carpenter <error27@gmail.com>,
-        Nicolas Saenz Julienne <nsaenz@kernel.org>,
-        Phil Elwell <phil@raspberrypi.com>,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>
-Subject: Re: [PATCH v2 1/4] staging: vc04_services: Stop leaking platform
- device on error path
-Message-ID: <Y6S+d512bYo2BF0O@pendragon.ideasonboard.com>
-References: <20221222191500.515795-1-umang.jain@ideasonboard.com>
- <20221222191500.515795-2-umang.jain@ideasonboard.com>
+        Thu, 22 Dec 2022 16:21:49 -0500
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B2C1F5BB
+        for <linux-media@vger.kernel.org>; Thu, 22 Dec 2022 13:21:48 -0800 (PST)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1p8T0a-0005AL-1C; Thu, 22 Dec 2022 22:21:44 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1p8T0Z-0015fM-0S; Thu, 22 Dec 2022 22:21:43 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1p8T0X-007DDs-R7; Thu, 22 Dec 2022 22:21:41 +0100
+Date:   Thu, 22 Dec 2022 22:21:41 +0100
+From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To:     Jean Delvare <jdelvare@suse.de>
+Cc:     Sean Young <sean@mess.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-pwm@vger.kernel.org
+Subject: Re: [PATCH] media: rc: Drop obsolete dependencies on COMPILE_TEST
+Message-ID: <20221222212141.yhn7xazsphtmiint@pengutronix.de>
+References: <20221121170911.7cd72bfc@endymion.delvare>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="y5vizb7n5hvnx3ao"
 Content-Disposition: inline
-In-Reply-To: <20221222191500.515795-2-umang.jain@ideasonboard.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <20221121170911.7cd72bfc@endymion.delvare>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Umang,
 
-Thank you for the patch.
+--y5vizb7n5hvnx3ao
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Dec 23, 2022 at 12:44:57AM +0530, Umang Jain wrote:
-> vchiq driver registers the child platform devices in
-> vchiq_register_child(). However, in the registration error code path,
-> currently the driver is leaking platform devices by not destroying the
-> return platform device. Plug this leak using platform_device_put() as
-> mentioned in the documentation for platform_device_register().
-> 
-> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
-> ---
->  drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-> index dc33490ba7fb..fc7ea7ba97b2 100644
-> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-> @@ -1779,6 +1779,7 @@ vchiq_register_child(struct platform_device *pdev, const char *name)
->  	child = platform_device_register_full(&pdevinfo);
->  	if (IS_ERR(child)) {
->  		dev_warn(&pdev->dev, "%s not registered\n", name);
-> +		platform_device_put(child);
+Hello,
 
-If IS_ERR(child), what do you expect platform_device_put(child) to do ?
-And have you read the implementation of platform_device_register_full()
-?
+On Mon, Nov 21, 2022 at 05:09:11PM +0100, Jean Delvare wrote:
+> Since commit 0166dc11be91 ("of: make CONFIG_OF user selectable"), it
+> is possible to test-build any driver which depends on OF on any
+> architecture by explicitly selecting OF. Therefore depending on
+> COMPILE_TEST as an alternative is no longer needed.
+>=20
+> It is actually better to always build such drivers with OF enabled,
+> so that the test builds are closer to how each driver will actually be
+> built on its intended target. Building them without OF may not test
+> much as the compiler will optimize out potentially large parts of the
+> code. In the worst case, this could even pop false positive warnings.
+> Dropping COMPILE_TEST here improves the quality of our testing and
+> avoids wasting time on non-existent issues.
+>=20
+> As a minor optimization, this also lets us drop of_match_ptr(), as we
+> now know what it will resolve to, we might as well save cpp some work.
+>=20
+> Signed-off-by: Jean Delvare <jdelvare@suse.de>
+> Cc: Sean Young <sean@mess.org>
+> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+> Cc: Thierry Reding <thierry.reding@gmail.com>
+> Cc: "Uwe Kleine-K=F6nig" <u.kleine-koenig@pengutronix.de>
 
->  		child = NULL;
->  	}
->  
+FTR: I discard this patch from the PWM patchwork as "handled elsewhere".
 
--- 
-Regards,
+Best regards
+Uwe
 
-Laurent Pinchart
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--y5vizb7n5hvnx3ao
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmOkymIACgkQwfwUeK3K
+7An8NAf/Z6B3fRFOKcJStjrDLjG8JX6fW3yclViwo4hKEHsODYu5PiEMkd+vo9Q5
+EAHYY3k5hHJO3RBvhZ9Pz9srXZhVazyskV/0OToryX9GOiYxYd4VzB8/1+AoPN1D
+gqF35c0idYMwf9oiU9Wer9alm89Sy7I0+V/QsFZpN/DH8cdpx5AISP0Q2OhKmc9T
+UerviITyf387X+Gxy/xLiZ7ayuu+OWolFaB9i215sIoa81vUOdqv5bgeeNE9YoP6
+YlQ8fzJvEiJzczZ8NUnBTcxduXWLpye9TD1qxBEwOetWYVKfxZ7fluksg5L5053q
+8nMMy6cBt+c0XLwck9fno1ukKw1QiA==
+=rGaE
+-----END PGP SIGNATURE-----
+
+--y5vizb7n5hvnx3ao--
