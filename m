@@ -2,94 +2,120 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 76F1C6540A9
-	for <lists+linux-media@lfdr.de>; Thu, 22 Dec 2022 13:05:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1026D6540C7
+	for <lists+linux-media@lfdr.de>; Thu, 22 Dec 2022 13:12:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235780AbiLVMFV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 22 Dec 2022 07:05:21 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39734 "EHLO
+        id S235875AbiLVMMg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 22 Dec 2022 07:12:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42742 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235756AbiLVME7 (ORCPT
+        with ESMTP id S235915AbiLVMMD (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 22 Dec 2022 07:04:59 -0500
-Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A9D1E2CC98;
-        Thu, 22 Dec 2022 03:57:01 -0800 (PST)
-Received: by mail-pj1-x1030.google.com with SMTP id fy4so1716470pjb.0;
-        Thu, 22 Dec 2022 03:57:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=NMORqLHaJNiKFpIU708RV2HeHLpSanu3/u3B3wpsHh4=;
-        b=Ww3yzlXRTqHEfX8Cx1nfzdbTxcThOFZiKmyx1nHB2jRMe553cgt5oN0G+OH+yyLQQL
-         nZ2pv1ubZBTYde02ycOWEApMkxWdsotrh3STOy1UrGguz/Et6KuyJtzvnhmWKA8DGZgR
-         Zti01iAYu5StoPb/JHEFJw1kRU1/dsse8sjMxsnZlAAuqgKBOf7A05zCwxswFOqhFpqR
-         euaFH8Ige5AtUMDzGKcm6kAyZNe/csTicmxMWZVealZ09PDWxZD+HBrRH6U3gOFj5yqc
-         Jpk0ecTZ2Sx1iUtyNG3QJhmzhqE45oExF1vvCpzdis57qDNjHFZR4UTG04S8lNmfu465
-         fmmA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=NMORqLHaJNiKFpIU708RV2HeHLpSanu3/u3B3wpsHh4=;
-        b=KlbWt/KNT/CczCsc9hl566RAv0iPlOdJqi275NuVKqwgudBMP2DIOAaMk1pm7YHxOx
-         r1vs3TmuGNt0IUONaasZgZ/USOeMPp9HEe9N5wN0XV51795iCvxYc2hn/tO46Mh9HUEZ
-         8icVbBkRmRsoEUeq7zWk8mkmawqe7lNYhx82l5B2yH2G7UQHB8uXHLufiSqa2mWhNCtu
-         CxyA7OhHcCg4Lz0M/q5kUnSyWYGtzUPBYhXlIs7lV3EYKJiF8YZXGgVRyWfO9PRKs+2b
-         duyhu2s4QyjAShmlFAgKZKWbp1Jtrv+BWVcv5fmAzdiRerCO/fPsHlSTBNiMIiFJMsKV
-         NZbA==
-X-Gm-Message-State: AFqh2kr5IeOoYvUus+0EDQu4tYDzHzDqrYz9E81pk0lHOTE/TimTUJZy
-        p4VrKzC1DacoorabZVpDLpPhHDRNIb0EryZy
-X-Google-Smtp-Source: AMrXdXutogHqURsgfBye5j0pBDC9z0eykgBW24cmq1jxTm+DB3swrvOFRlaqRc4i1cOwfE07j+n3/g==
-X-Received: by 2002:a17:902:b7ca:b0:192:4904:af98 with SMTP id v10-20020a170902b7ca00b001924904af98mr4690375plz.58.1671710206122;
-        Thu, 22 Dec 2022 03:56:46 -0800 (PST)
-Received: from localhost.localdomain ([202.120.234.246])
-        by smtp.googlemail.com with ESMTPSA id m11-20020a170902d18b00b00172951ddb12sm401694plb.42.2022.12.22.03.56.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Dec 2022 03:56:45 -0800 (PST)
-From:   Miaoqian Lin <linmq006@gmail.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     linmq006@gmail.com
-Subject: [PATCH] media: v4l2-ctrls: Fix doc for v4l2_ctrl_request_hdl_find
-Date:   Thu, 22 Dec 2022 15:56:37 +0400
-Message-Id: <20221222115638.768143-1-linmq006@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        Thu, 22 Dec 2022 07:12:03 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B45726C5;
+        Thu, 22 Dec 2022 04:05:01 -0800 (PST)
+Received: from [IPV6:2401:4900:1f3f:d076:4da6:b729:f032:ed0a] (unknown [IPv6:2401:4900:1f3f:d076:4da6:b729:f032:ed0a])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id D1201471;
+        Thu, 22 Dec 2022 13:04:53 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1671710698;
+        bh=o97tTGiyRJiqtRawzNrOFqtwVzXfZ20MOnFXnWX8hhA=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=bjTfWMggUYqu+kG1g0r+BHK2n4Ys/PUqqer9M+ZWYc7TwbrH/2vlw7RnK7vJy2HJm
+         R3Q3i5rr1JoaO+9jAjn1Quh8To21YsuWEFzUDJb6FlQ0u20K95USQxYrJWaNaFk9d0
+         bSb/U8+8gVxLqefFkG/zM4GqlRmZ/4NgKSlG7xHc=
+Message-ID: <6baffa7c-ea7c-aaa6-361a-1a043b065f29@ideasonboard.com>
+Date:   Thu, 22 Dec 2022 17:34:48 +0530
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.1
+Subject: Re: [PATCH v2 5/7] vc04_services: vchiq_arm: Drop VCHIQ_RETRY usage
+ on disconnect
+To:     Stefan Wahren <stefan.wahren@i2se.com>,
+        linux-staging@lists.linux.dev,
+        linux-rpi-kernel@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     Kees Cook <keescook@chromium.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Adrien Thierry <athierry@redhat.com>,
+        Dan Carpenter <error27@gmail.com>,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+References: <20221219115725.11992-1-umang.jain@ideasonboard.com>
+ <20221219115725.11992-6-umang.jain@ideasonboard.com>
+ <8fcbdf54-98ae-6a06-ecaf-591a43b863a1@i2se.com>
+Content-Language: en-US
+From:   Umang Jain <umang.jain@ideasonboard.com>
+In-Reply-To: <8fcbdf54-98ae-6a06-ecaf-591a43b863a1@i2se.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-3.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-We should call v4l2_ctrl_request_hdl_put() instead of
-v4l2_ctrl_request_put_hdl(). Fix the typo.
+Hi Stefan,
 
-Signed-off-by: Miaoqian Lin <linmq006@gmail.com>
----
- include/media/v4l2-ctrls.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On 12/22/22 4:37 PM, Stefan Wahren wrote:
+> Hi Umang,
+>
+> Am 19.12.22 um 12:57 schrieb Umang Jain:
+>> Drop the usage of VCHIQ_RETRY when the vchiq has connection status
+>> VCHIQ_CONNSTATE_DISCONNECTED. Disconnected status will not be valid to
+>> carry on a retry, replace the VCHIQ_RETRY with -ENOTCONN.
+>>
+>> This patch removes the usage of vCHIQ_RETRY completely and act as
+>> intermediatory to address the TODO item:
+>>     * Get rid of custom function return values
+>> for vc04_services/interface.
+>>
+>> Fixes: 71bad7f08641 ("staging: add bcm2708 vchiq driver")
+> please drop this fixes tag since this commit doesn't fix a real issue 
+> and also shouldn't be applied to stable.
 
-diff --git a/include/media/v4l2-ctrls.h b/include/media/v4l2-ctrls.h
-index e59d9a234631..7788eeb3e2bb 100644
---- a/include/media/v4l2-ctrls.h
-+++ b/include/media/v4l2-ctrls.h
-@@ -1343,7 +1343,7 @@ void v4l2_ctrl_request_complete(struct media_request *req,
-  * @parent: The parent control handler ('priv' in media_request_object_find())
-  *
-  * This function finds the control handler in the request. It may return
-- * NULL if not found. When done, you must call v4l2_ctrl_request_put_hdl()
-+ * NULL if not found. When done, you must call v4l2_ctrl_request_hdl_put()
-  * with the returned handler pointer.
-  *
-  * If the request is not in state VALIDATING or QUEUED, then this function
--- 
-2.25.1
+Should I send a v3 of the series with updated commit message or can you 
+drop the tag while applying?
+
+Other option would be to send v2.1  --in-reply-to this patch. I am fine 
+with anything as long as it aligns with the merging workflow.
+
+Thanks,
+Umang
+>> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
+>> ---
+>>   .../staging/vc04_services/interface/vchiq_arm/vchiq_core.c | 4 ++--
+>>   1 file changed, 2 insertions(+), 2 deletions(-)
+>>
+>> diff --git 
+>> a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c 
+>> b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
+>> index 9c64d5de810e..ddb6d0f4daed 100644
+>> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
+>> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
+>> @@ -3641,7 +3641,7 @@ vchiq_loud_error_footer(void)
+>>   int vchiq_send_remote_use(struct vchiq_state *state)
+>>   {
+>>       if (state->conn_state == VCHIQ_CONNSTATE_DISCONNECTED)
+>> -        return VCHIQ_RETRY;
+>> +        return -ENOTCONN;
+>>         return queue_message(state, NULL, MAKE_REMOTE_USE, NULL, 
+>> NULL, 0, 0);
+>>   }
+>> @@ -3649,7 +3649,7 @@ int vchiq_send_remote_use(struct vchiq_state 
+>> *state)
+>>   int vchiq_send_remote_use_active(struct vchiq_state *state)
+>>   {
+>>       if (state->conn_state == VCHIQ_CONNSTATE_DISCONNECTED)
+>> -        return VCHIQ_RETRY;
+>> +        return -ENOTCONN;
+>>         return queue_message(state, NULL, MAKE_REMOTE_USE_ACTIVE,
+>>                    NULL, NULL, 0, 0);
 
