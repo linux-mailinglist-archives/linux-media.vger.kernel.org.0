@@ -2,224 +2,298 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B824F6541D3
-	for <lists+linux-media@lfdr.de>; Thu, 22 Dec 2022 14:24:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 754926541D7
+	for <lists+linux-media@lfdr.de>; Thu, 22 Dec 2022 14:28:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230285AbiLVNYe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 22 Dec 2022 08:24:34 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55074 "EHLO
+        id S229962AbiLVN2h (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 22 Dec 2022 08:28:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56138 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229526AbiLVNYd (ORCPT
+        with ESMTP id S229698AbiLVN2g (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 22 Dec 2022 08:24:33 -0500
-Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com [IPv6:2a00:1450:4864:20::22b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED2F713E
-        for <linux-media@vger.kernel.org>; Thu, 22 Dec 2022 05:24:28 -0800 (PST)
-Received: by mail-lj1-x22b.google.com with SMTP id l8so1845707ljh.13
-        for <linux-media@vger.kernel.org>; Thu, 22 Dec 2022 05:24:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=yNFKcj1qpbmt/ipOHNu4Y7YMRQo6qwIPI6XtcYqqxxk=;
-        b=h+4khsq2a+yHcK26zB7P+5KylxOjG9Hpm44ZDNteZ29sI9ZPAstX1ADFnbyLDJ1zFf
-         WuoZLuEQkAwtUgBcQjLM5FsxSVGZ18DNUGMtyc0bP4UyQf8JjxCAE/uv7t66mr+Eeyiv
-         wBMhWondgDZ/b08quadOY72zYaLdfRuEpBGDVpaxC7mKCT/O/5u7LnoG7KTqSLU/oUzN
-         UjJ6HBTjK3ANi5+QEvavijJXInuUJA+PG8SlTCjKF6zAO1Q+NV6SvCKYvAUg8BYN/kil
-         RQpiquKkN/+M40TFrHFu94o49M5gRvczN7SVuKM8JS97xLHnla4HRyw3y8JX4cxIg4it
-         Z2lA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=yNFKcj1qpbmt/ipOHNu4Y7YMRQo6qwIPI6XtcYqqxxk=;
-        b=GEfi6pzAxmY58+RaLYkzJaaWu266mNs9zMWQP4n6Yb8ZLeJ7qanS7JNQcPftUZfyV2
-         Qmu1Ov90Tw3XjxBjmFhKCGbPB+UAiMxQTwijc4eWw3Ns3vPCAqCb0muHXEK0twyFff+Z
-         6KDkhO5CCdt3Evn3LuNSNEJNEiqkzkWHh0cTXpAA9qZX6469EkPofK1h4utf101chP0w
-         NPDk3SZZ/DcnzVktm1OecgaFpA3yAUnTixuOXXTY8V/GiLXt60LvQTVxWUmjt/bHJsEG
-         BCmZXliYf/HCZHFrpSt6pv8Z5ViGkFysdCBxcrwKrF++PmewqvvtbfyhjJLbWwn05GDn
-         kJ9A==
-X-Gm-Message-State: AFqh2kqxvud1bzD/jHwQP5HaS7L20spNXXGTZ15RwcKnyR9+fRkmgIzB
-        1zXAbxUG3zE/40qFOHLmcma7itR+GuIgi8qjrtGxpQ==
-X-Google-Smtp-Source: AMrXdXv1eTdWh0CylvfGguRVxWq3NHfKHqZBjTAlyC6Jdqa95eu4fD1BQxZQuAqdAgXlBAlSl3TUQ57MpVVZmWIIQIA=
-X-Received: by 2002:a2e:9bcd:0:b0:27e:8a84:6c33 with SMTP id
- w13-20020a2e9bcd000000b0027e8a846c33mr486132ljj.404.1671715467262; Thu, 22
- Dec 2022 05:24:27 -0800 (PST)
+        Thu, 22 Dec 2022 08:28:36 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E9F25DEBD
+        for <linux-media@vger.kernel.org>; Thu, 22 Dec 2022 05:28:34 -0800 (PST)
+Received: from ideasonboard.com (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7F560471;
+        Thu, 22 Dec 2022 14:28:32 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1671715712;
+        bh=OP1J84PQuhFENSKhoftZNSgekyacRSVGy1u8cFbaba4=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=FAoHE9gHS+c6xGtfrCQBKC62L0MSovBYz7qDVDhKx22kYU8vQ2xVXiXhqe+zpe5Vp
+         kOBNnNflkFKe1icnDpTtpLmAmoJ0uxWN5FE/pfM9xHQEjO/ztLPMzMBQz+MUphc0aZ
+         qIJ/xL7bFj04ua8ebBVl44XrjkBcRu14uRwgdzOI=
+Date:   Thu, 22 Dec 2022 14:28:28 +0100
+From:   Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To:     Aishwarya Kothari <aishwaryakothari75@gmail.com>
+Cc:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-media@vger.kernel.org, francesco.dolcini@toradex.com,
+        marcel.ziswiler@toradex.com, Sakari Ailus <sakari.ailus@iki.fi>
+Subject: Re: Issue with ov5640 camera sensor on apalis imx6
+Message-ID: <20221222132828.pyfgjl57ntwfe4xl@uno.localdomain>
+References: <081cc2d3-1f3a-6c14-6dc7-53f976be7b2b@gmail.com>
+ <Y5De/R956xERjjP/@pendragon.ideasonboard.com>
+ <20221207190529.tkphzyuf7w56t43g@uno.localdomain>
+ <1f316bda-5bc7-009c-ee22-a1e72653d58c@gmail.com>
 MIME-Version: 1.0
-References: <20221219155616.848690-1-benjamin.gaignard@collabora.com>
- <CAAEAJfBP_D65kjHbwYP+LWfWKfzFtHtWo+3bDcbdO8tPtBurUA@mail.gmail.com>
- <20221219215431.GB26315@pengutronix.de> <939ce9a0f7f73c0b9f0cf5590f2d8b02e0825fa5.camel@ndufresne.ca>
- <20221221220127.GE26315@pengutronix.de>
-In-Reply-To: <20221221220127.GE26315@pengutronix.de>
-From:   Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-Date:   Thu, 22 Dec 2022 10:24:14 -0300
-Message-ID: <CAAEAJfAMogQzU_etD2m8vOrkQJxd3jKuFtVU9mewzCsDP-GEQQ@mail.gmail.com>
-Subject: Re: [PATCH v1 0/9] AV1 stateless decoder for RK3588
-To:     Michael Grzeschik <mgr@pengutronix.de>
-Cc:     Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Daniel Almeida <daniel.almeida@collabora.com>,
-        nicolas.dufresne@collabora.co.uk,
-        linux-media <linux-media@vger.kernel.org>,
-        "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
-        devicetree <devicetree@vger.kernel.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Collabora Kernel ML <kernel@collabora.com>,
-        Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <1f316bda-5bc7-009c-ee22-a1e72653d58c@gmail.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Nicolas, Michael,
+Hello Aishwarya
 
-(+Andrzej)
-
-El mi=C3=A9, 21 dic. 2022 19:01, Michael Grzeschik <mgr@pengutronix.de> esc=
-ribi=C3=B3:
+On Thu, Dec 22, 2022 at 02:19:21PM +0100, Aishwarya Kothari wrote:
+> Hello,
 >
-> On Tue, Dec 20, 2022 at 12:00:01PM -0500, Nicolas Dufresne wrote:
-> >Le lundi 19 d=C3=A9cembre 2022 =C3=A0 22:54 +0100, Michael Grzeschik a =
-=C3=A9crit :
-> >> Hi Benjamin,
-> >> Hi Ezequiel,
-> >>
-> >> On Mon, Dec 19, 2022 at 06:07:38PM -0300, Ezequiel Garcia wrote:
-> >> > On Mon, Dec 19, 2022 at 12:56 PM Benjamin Gaignard
-> >> > <benjamin.gaignard@collabora.com> wrote:
-> >> > >
-> >> > > This series implement AV1 stateless decoder for RK3588 SoC.
-> >> > > The harware support 8 and 10 bits bitstreams up to 7680x4320.
-> >> > > AV1 feature like film grain or scaling are done by the postprocess=
-or.
-> >> > > The driver can produce NV12_4L4 and NV12 pixel formats.
-> >> > > A native 10bits NV12_4L4 format is possible but need more investig=
-ation
-> >> > > to be completly documented and enabled.
-> >> > >
-> >> > > It is based on Daniel's "[RFC,v3] media: Add AV1 uAPI" [1] patches=
- and
-> >> > > Sebastian's device-tree patches for RK3588.
-> >> > >
-> >> >
-> >> > I thought the AV1 decoder in RK3588 was really a separate hardware
-> >> > from the Hantro G1/G2.
-> >> >
-> >> > Shouldn't this need a new driver for this new hardware?
-> >>
-> >> Just jumping into this discussion as I am currently working on the rkv=
-enc driver.
-> >>
-> >> In my case I am extending the rkvdec driver to become more generic for
-> >> other rockchip specific enc/decoders.
-> >>
-> >> My first change looks like this:
-> >> ---
-> >>  drivers/staging/media/rkvdec/Makefile              |   4 +-
-> >>  drivers/staging/media/rkvdec/rkvdec-h264.c         | 100 ++++-----
-> >>  drivers/staging/media/rkvdec/rkvdec-vp9.c          | 142 ++++++------=
--
-> >>  drivers/staging/media/rkvdec/{rkvdec.c =3D> rkvpu.c} | 510 ++++++++++=
-+++++++++++++-----------------------
-> >>  drivers/staging/media/rkvdec/{rkvdec.h =3D> rkvpu.h} |  66 +++---
-> >> ---
-> >>
-> >> While working on other parts of the encoder I found many places in the
-> >> rkvdec driver (e.g. v4l2 and vb2 callbacks) that looked familiar to th=
-e hantro
-> >> functions but where limited to the decoder case.
-> >>
-> >> I think there are two options for the av1 codec.
-> >>
-> >> 1) If the vpu981 is a driver that has nothing to do with verisilicon b=
-ut
-> >> works with this driver framework, then we should integrate vepu981 int=
-o it
-> >> but consider rename the verisilicon unrelated parts to something gener=
-ic.
+> On 07.12.22 20:05, Jacopo Mondi wrote:
+> > Hello Aishwarya,
 > >
-> >I've raised in my review the the naming is sub-optimal. This is an unmod=
-ified
-> >VC9000D AV1 decoder. No other codecs have been included in the package, =
-even
-> >though VC9000D cores can support more.
-> >
-> >Stating this driver have no place here seems a bit strange to me, but wi=
-th
-> >proper arguments, maybe we can make a case and start a VC9000D dedicated=
- driver
-> >(that will be a lot of copy paste, VC9000D post processor notably is ide=
-ntical
-> >to VC8000 post processor, but one could argue we should make a VCX000 dr=
-iver ?
-> >
-> >>
-> >> 2) Move the vepu981 av1 driver into the rkvdec instead.
-> >
-> >That make no sense, its not a Rockchip HW design, and will likely start
-> >appearing on non-RK SoC in the future.
+> > On Wed, Dec 07, 2022 at 08:44:13PM +0200, Laurent Pinchart wrote:
+> > > Hi Aishwarya,
+> > >
+> > > (CC'ing Jacopo and Sakari)
+> > >
+> > > On Wed, Dec 07, 2022 at 12:14:29PM +0100, Aishwarya Kothari wrote:
+> > > > Hi,
+> > > >
+> > > > I was trying ov5640 camera sensor with the mainline BSP 6.0.0-rc3 kernel
+> > > > and it fails to works, while it works quiet well on v5.18. When I
+> > > > bisect, it points out to this commit 1f391df4 (media: v4l2-async: Use
+> > > > endpoints in __v4l2_async_nf_add_fwnode_remote()) by Laurent Pinchart
+> > > > and this is what it says in the logs :
+> > > >
+> > > > [    4.291355] imx-ipuv3-csi imx-ipuv3-csi.0: Registered ipu1_csi0 capture as /dev/video0
+> > > > [    4.305228] imx-ipuv3 2400000.ipu: Registered ipu1_ic_prpenc capture as /dev/video1
+> > > > [    4.317974] imx-ipuv3 2400000.ipu: Registered ipu1_ic_prpvf capture as /dev/video2
+> > > > [    4.331039] imx-ipuv3-csi imx-ipuv3-csi.1: Registered ipu1_csi1 capture as /dev/video3
+> > > > [    4.344255] imx-ipuv3-csi imx-ipuv3-csi.4: Registered ipu2_csi0 capture as /dev/video4
+> > > > [    4.356940] imx-ipuv3 2800000.ipu: Registered ipu2_ic_prpenc capture as /dev/video5
+> > > > [    4.369322] imx-ipuv3 2800000.ipu: Registered ipu2_ic_prpvf capture as /dev/video6
+> > > > [    4.382119] imx-ipuv3-csi imx-ipuv3-csi.5: Registered ipu2_csi1 capture as /dev/video7
+> > > > [    4.395455] imx6-mipi-csi2 21dc000.mipi: Consider updating driver imx6-mipi-csi2 to match on endpoints
+> > > > [    4.414971] stmpe-adc stmpe-adc: DMA mask not set
+> > > >
+> > > > So, now when I try to revert the change done by this commit, it still
+> > > > fails. I assume there are a lot more changes following the commit that
+> > > > could lead to this failure. Below are the logs.
+> > > > Is there a way to get it to work without reverting any changes? Or Is
+> > > > there something I'm missing or have to do any changes in the
+> > > > corresponding files to get it to work?
+> > >
+> > > The commit you reference wasn't meant to break anything, so there's
+> > > clearly something I've overlooked. Jacopo, have you noticed anything
+> > > similar when working on the ov5640 driver ?
+> > >
+> > > > TDX Wayland with XWayland Upstream 6.1.0-devel-20221109+build.104
+> > > > (kirkstone) apalis-imx6-10774951 ttymxc0
+> > > > Apalis-iMX6_Reference-Multimedia-Image-upstream
+> > > >
+> > > > apalis-imx6-10774951 login: root
+> > > > root@apalis-imx6-10774951:~# cat ov5640.sh
+> > > > media-ctl -l "'ov5640 1-003c':0 -> 'imx6-mipi-csi2':0[1]"
+> > > > media-ctl -l "'imx6-mipi-csi2':2 -> 'ipu1_csi1':0[1]"
+> > > > media-ctl -l "'ipu1_csi1':2 -> 'ipu1_csi1 capture':0[1]"
+> > > > # Configure pads
+> > > > media-ctl -V "'ov5640 1-003c':0 [fmt:UYVY2X8/1920x1080 field:none]"
+> > > > media-ctl -V "'imx6-mipi-csi2':2 [fmt:UYVY2X8/1920x1080 field:none]"
+> > > > media-ctl -V "'ipu1_csi1':2 [fmt:AYUV32/1920x1080 field:none]"
+> > > > root@apalis-imx6-10774951:~# sh ov5640.sh
+> > > > root@apalis-imx6-10774951:~# gst-launch-1.0 v4l2src device='/dev/video3'
+> > > > ! videoconvert ! waylandsink
+> > > > [   56.031510] ov5640 1-003c: ov5640_write_reg: error: reg=3008, val=2
+> > > > [   56.649032] ov5640 1-003c: ov5640_write_reg: error: reg=3008, val=2
+> > >
+> > > This surprises me. I would have expected an issue with commit
+> > > 1f391df44607 ("media: v4l2-async: Use endpoints in
+> > > __v4l2_async_nf_add_fwnode_remote()") to prevent the ov5640 from being
+> > > detected at all. Could you double-check the bisection, to verify that
+> > > commit 229fac6c44dc works and commit 1f391df44607 doesn't ? What
+> > > difference does it make in the full kernel log ?
+> > >
+> Yes, the commit 229fac6c44dc works. This is the first commit 1f391df44607
+> ("media: v4l2-async: Use endpoints in __v4l2_async_nf_add_fwnode_remote()")
+> that fails. The ov5640 driver is not detected and the /dev/media is not
+> present.
 >
-> Sure. I did not know that it actually is an VC9000.
+> This is the difference in dmesg:
+> --- dmesg_229fac6c44dc_nt	2022-12-22 13:37:31.901276466 +0100
+> +++ dmesg_1f391df44607_nt	2022-12-21 11:27:08.374139972 +0100
+> @@ -1,5 +1,5 @@
+>  Booting Linux on physical CPU 0x0
+> -Linux version 5.18.0-rc3-00051-g229fac6c44dc (aishwarya@aishwarya-nb)
+> (arm-none-linux-gnueabihf-gcc (Arm GNU Toolchain 11.3.Rel1) 11.3.1 20220712,
+> GNU ld (Arm GNU Toolchain 11.3.Rel1) 2.38.20220708) #28 SMP Wed Dec 21
+> 11:13:19 CET 2022
+> +Linux version 5.18.0-rc3-00052-g1f391df44607 (aishwarya@aishwarya-nb)
+> (arm-none-linux-gnueabihf-gcc (Arm GNU Toolchain 11.3.Rel1) 11.3.1 20220712,
+> GNU ld (Arm GNU Toolchain 11.3.Rel1) 2.38.20220708) #29 SMP Wed Dec 21
+> 11:21:31 CET 2022
+>  CPU: ARMv7 Processor [412fc09a] revision 10 (ARMv7), cr=10c5387d
+>  CPU: PIPT / VIPT nonaliasing data cache, VIPT aliasing instruction cache
+>  OF: fdt: Machine model: Toradex Apalis iMX6Q/D Module on Apalis Evaluation
+> Board
+> @@ -228,7 +228,7 @@
+>  SPI driver ads7846 has no spi_device_id for ti,ads7845
+>  SPI driver ads7846 has no spi_device_id for ti,ads7873
+>  rtc-ds1307 0-0068: registered as rtc0
+> -rtc-ds1307 0-0068: setting system clock to 2022-12-21T10:14:44 UTC
+> (1671617684)
+> +rtc-ds1307 0-0068: setting system clock to 2022-12-21T10:22:46 UTC
+> (1671618166)
+>  snvs_rtc 20cc000.snvs:snvs-rtc-lp: registered as rtc1
+>  i2c_dev: i2c /dev entries driver
+>  Bluetooth: HCI UART driver ver 2.3
+> @@ -269,6 +269,7 @@
+>  imx-ipuv3 2800000.ipu: Registered ipu2_ic_prpenc capture as /dev/video5
+>  imx-ipuv3 2800000.ipu: Registered ipu2_ic_prpvf capture as /dev/video6
+>  imx-ipuv3-csi imx-ipuv3-csi.5: Registered ipu2_csi1 capture as /dev/video7
+> +imx6-mipi-csi2 21dc000.mipi: Consider updating driver imx6-mipi-csi2 to
+> match on endpoints
+>  sgtl5000 2-000a: sgtl5000 revision 0x11
+>  random: crng init done
+>  imx6q-pcie 1ffc000.pcie: Phy link never came up
+> @@ -318,10 +319,12 @@
+>  usb usb1: New USB device found, idVendor=1d6b, idProduct=0002, bcdDevice=
+> 5.18
+>  usb usb1: New USB device strings: Mfr=3, Product=2, SerialNumber=1
+>  usb usb1: Product: EHCI Host Controller
+> -usb usb1: Manufacturer: Linux 5.18.0-rc3-00051-g229fac6c44dc ehci_hcd
+> +usb usb1: Manufacturer: Linux 5.18.0-rc3-00052-g1f391df44607 ehci_hcd
+>  usb usb1: SerialNumber: ci_hdrc.1
+>  hub 1-0:1.0: USB hub found
+>  hub 1-0:1.0: 1 port detected
+> +video-mux 20e0000.iomuxc-gpr:ipu1_csi0_mux: Consider updating driver
+> video-mux to match on endpoints
+> +video-mux 20e0000.iomuxc-gpr:ipu2_csi1_mux: Consider updating driver
+> video-mux to match on endpoints
+>  imx_thermal 20c8000.anatop:tempmon: Extended Commercial CPU temperature
+> grade - max:105C critical:100C passive:95C
+>  fsl-ssi-dai 2028000.ssi: No cache defaults, reading back from HW
+>  fsl-ssi-dai 2028000.ssi: No cache defaults, reading back from HW
+> @@ -384,7 +387,7 @@
+>  systemd[1]: Mounting Kernel Debug File System...
+>  systemd[1]: Mounting Kernel Trace File System...
+>  systemd[1]: Mounting Temporary Directory /tmp...
+> -systemd[1]: Create List of Static Device Nodes was skipped because of a
+> failed condition check (ConditionFileNotEmpty=/lib/modules/5.18.0-rc3-00051-g229fac6c44dc/modules.devname).
+> +systemd[1]: Create List of Static Device Nodes was skipped because of a
+> failed condition check (ConditionFileNotEmpty=/lib/modules/5.18.0-rc3-00052-g1f391df44607/modules.devname).
+>  systemd[1]: Starting Load Kernel Module configfs...
+>  systemd[1]: Starting Load Kernel Module drm...
+>  systemd[1]: Starting Load Kernel Module fuse...
+> @@ -413,7 +416,7 @@
+>  systemd[1]: Starting Remount Root and Kernel File Systems...
+>  systemd[1]: Started Journal Service.
+>  EXT4-fs (mmcblk2p2): re-mounted. Quota mode: none.
+> -systemd-journald[217]: Received client request to flush runtime journal.
+> +systemd-journald[216]: Received client request to flush runtime journal.
+>  evbug: Connected device: input0 (gpio-keys at gpio-keys/input0)
+>  coda 2040000.vpu: Firmware code revision: 46076
+>  coda 2040000.vpu: Initialized CODA960.
+> @@ -426,19 +429,15 @@
+>  ov5640 1-003c: supply DOVDD not found, using dummy regulator
+>  ov5640 1-003c: supply AVDD not found, using dummy regulator
+>  ov5640 1-003c: supply DVDD not found, using dummy regulator
+> -imx-media: Registered ipu_ic_pp csc/scaler as /dev/video12
+> +ov5640 1-003c: Consider updating driver ov5640 to match on endpoints
+>  fsl-ssi-dai 2028000.ssi: No cache defaults, reading back from HW
+>  using random self ethernet address
+>  using random host ethernet address
+> -usb0: HOST MAC 26:b4:a4:fa:fe:15
+> -usb0: MAC 8e:e0:94:47:d3:6a
+> +usb0: HOST MAC 26:4d:ee:18:a3:b6
+> +usb0: MAC ce:ea:96:16:e2:a9
+>  Micrel KSZ9031 Gigabit PHY 2188000.ethernet-1:07: attached PHY driver
+> (mii_bus:phy_addr=2188000.ethernet-1:07, irq=123)
+> -systemd-journald[217]: Data hash table of
+> /run/log/journal/6126bf14c3ea4128a506478d46ca2b38/system.journal has a fill
+> level at 75.2 (2737 of 3640 items, 2097152 file size, 766 bytes per hash
+> table item), suggesting rotation.
+> -systemd-journald[217]:
+> /run/log/journal/6126bf14c3ea4128a506478d46ca2b38/system.journal: Journal
+> header limits reached or header out-of-date, rotating.
+> +systemd-journald[216]: Data hash table of
+> /run/log/journal/6126bf14c3ea4128a506478d46ca2b38/system.journal has a fill
+> level at 75.1 (2733 of 3640 items, 2097152 file size, 767 bytes per hash
+> table item), suggesting rotation.
+> +systemd-journald[216]:
+> /run/log/journal/6126bf14c3ea4128a506478d46ca2b38/system.journal: Journal
+> header limits reached or header out-of-date, rotating.
+>  IPv6: ADDRCONF(NETDEV_CHANGE): usb0: link becomes ready
+>  fec 2188000.ethernet eth0: Link is Up - 1Gbps/Full - flow control rx/tx
+>  IPv6: ADDRCONF(NETDEV_CHANGE): eth0: link becomes ready
+> -ov5640 1-003c: ov5640_write_reg: error: reg=3008, val=2
+> -ov5640 1-003c: ov5640_write_reg: error: reg=3008, val=2
+> -ov5640 1-003c: ov5640_write_reg: error: reg=3008, val=2
+> -cfg80211: failed to load regulatory.db
 >
-> >> If 1) is the way to go, we can even think of moving the staging code p=
-arts from
-> >> rkvdec to the verisilicon code. Likewise to the vepu981-av1.
 > >
-> >Again, I think using RK naming is unfortunate choice. This AV1 decoder i=
-s just
-> >like the G1/H1 combo you will find on RK3288. And that same combo is fou=
-nd on
-> >many older SoC (actually even newer SoC un the VC8000Nano brand).
+> > If my understanding is correct, 1f391df44607 is unrelated as Aishwarya
+> > reports " So, now when I try to revert the change done by this commit, it still
+> > fails".
 > >
-> >Like all generation of Hantro chips, there is an optional dependency tha=
-t can
-> >exist between encoder and decoders. The question is if this requires a s=
-ingle
-> >driver to maintain a valid state or not. So far, it seems devs have assu=
-me that
-> >is it needed.
+> > There is a long list of changes that went in with recent kernels for
+> > ov5640 but I'm afraid I'm now sure how many of them have landed on
+> > your BSP. Try to diff with a recent mainline, and then maybe bisect from
+> > there ?
 > >
-> >p.s. fun fact, on most HW, the decoder rate is cut in half with running
-> >concurrently with the encoder
-> >
-> >>
-> >> I could also keep on integrating the rkvenc on that base instead.
-> >
-> >Do you know if there is any interaction between the encoder and decoder =
-? Shared
-> >registers, shared internal cache ? That's basically what differentiate H=
-antro
-> >here. Also, be aware that some folks are considering starting on RKVDEC2=
- driver,
-> >are you looking at RK32/33 series ? or more RK35 ?
+> We use the the recent mainline kernel without any changes.
+> It stops working at 1f391df44607. With 1f391df44607 reverted, bisecting
+> reveals that a89f14bbcfa5 ("media: ov5640: Split DVP and CSI-2 formats")
+> introduces another regression. I'm still investigating what could be the
+> problem. The format used below, it no longer being recognised:
+> media-ctl -V "'ov5640 1-003c':0 [fmt:UYVY2X8/1920x1080 field:none]"
+> media-ctl -V "'imx6-mipi-csi2':2 [fmt:UYVY2X8/1920x1080 field:none]"
 >
-> I don't know of any limitations or interactions between the encoder and
-> decoder.
 
-I believe we should explore separate drivers, and if there is any interacti=
-on,
-try to model the shared piece through a shared block in the device tree.
+That should be easy. Just lookg at the a89f14bbcfa5 commit and you'll
+see that the 2X8 media bus variants are not supported anymore in MIPI
+mode. Just use UYVY1X16 everywhere and you should be good.
 
-In most cases, the decoder and encoder are separate blocks.
-Also, the V4L2 stateless decoder interface covers only decoding.
+Thanks
+  j
 
-Supporting both in the same driver has been painful, especially
-the V4L2 negotiation, is hard to support for both encoders and decoders,
-and has led to many bugs (and even worse, regressions) in the drivers.
-
-Thanks,
-Ezequiel
+> > > > Setting pipeline to PAUSED ...
+> > > > [   57.082630] ov5640 1-003c: ov5640_write_reg: error: reg=3008, val=2
+> > > > Pipeline is live and does not need PREROLL ...
+> > > > Pipeline is PREROLLED ...
+> > > > Setting pipeline to PLAYING ...
+> > > > New clock: GstSystemClock
+> > > > ERROR: from element /GstPipeline:pipeline0/GstV4l2Src:v4l2src0: Failed to allocate required memory.
+> > > > Additional debug info:
+> > > > ../gst-plugins-good-1.20.3/sys/v4l2/gstv4l2src.c(759):
+> > > > gst_v4l2src_decide_allocation ():
+> > > > /GstPipeline:pipeline0/GstV4l2Src:v4l2src0:
+> > > > Buffer pool activation failed
+> > > > Execution ended after 0:00:00.119459642
+> > > > ERROR: from element /GstPipeline:pipeline0/GstV4l2Src:v4l2src0: Internal data stream error.
+> > > > Setting pipeline to NULL ...
+> > > > Additional debug info:
+> > > > ../gstreamer-1.20.3/libs/gst/base/gstbasesrc.c(3127): gst_base_src_loop(): /GstPipeline:pipeline0/GstV4l2Src:v4l2src0:
+> > > > streaming stopped, reason not-negotiated (-4)
+> > > > Freeing pipeline ...
+> > > > root@apalis-imx6-10774951:~# v4l2-ctl --device /dev/video3 --stream-mmap
+> > > > --stream-to=x.raw --stream-count=1
+> > > > [ 1124.339793] ov5640 1-003c: ov5640_write_reg: error: reg=3008, val=2
+> > > >             VIDIOC_STREAMON returned -1 (Broken pipe)
+> > > >> --
+> > > Regards,
+> > >
+> > > Laurent Pinchart
+> >
+> I'm grateful for any hints or comments?
+> Regards,
+> Aishwarya Kothari
+>
