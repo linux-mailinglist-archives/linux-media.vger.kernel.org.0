@@ -2,112 +2,82 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 719926547C6
-	for <lists+linux-media@lfdr.de>; Thu, 22 Dec 2022 22:21:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6ACBD65480E
+	for <lists+linux-media@lfdr.de>; Thu, 22 Dec 2022 22:54:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229660AbiLVVVu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 22 Dec 2022 16:21:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44772 "EHLO
+        id S235304AbiLVVyl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 22 Dec 2022 16:54:41 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54886 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229603AbiLVVVt (ORCPT
+        with ESMTP id S229743AbiLVVyk (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 22 Dec 2022 16:21:49 -0500
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B2C1F5BB
-        for <linux-media@vger.kernel.org>; Thu, 22 Dec 2022 13:21:48 -0800 (PST)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1p8T0a-0005AL-1C; Thu, 22 Dec 2022 22:21:44 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1p8T0Z-0015fM-0S; Thu, 22 Dec 2022 22:21:43 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1p8T0X-007DDs-R7; Thu, 22 Dec 2022 22:21:41 +0100
-Date:   Thu, 22 Dec 2022 22:21:41 +0100
-From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To:     Jean Delvare <jdelvare@suse.de>
-Cc:     Sean Young <sean@mess.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
+        Thu, 22 Dec 2022 16:54:40 -0500
+X-Greylist: delayed 503 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 22 Dec 2022 13:54:39 PST
+Received: from gw.red-soft.ru (red-soft.ru [188.246.186.2])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 7D37426100
+        for <linux-media@vger.kernel.org>; Thu, 22 Dec 2022 13:54:38 -0800 (PST)
+Received: from localhost.biz (unknown [10.81.81.211])
+        by gw.red-soft.ru (Postfix) with ESMTPA id 5B6473E00DC;
+        Fri, 23 Dec 2022 00:46:14 +0300 (MSK)
+From:   Artem Chernyshev <artem.chernyshev@red-soft.ru>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Artem Chernyshev <artem.chernyshev@red-soft.ru>,
+        Michael Krufky <mkrufky@linuxtv.org>,
         linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-pwm@vger.kernel.org
-Subject: Re: [PATCH] media: rc: Drop obsolete dependencies on COMPILE_TEST
-Message-ID: <20221222212141.yhn7xazsphtmiint@pengutronix.de>
-References: <20221121170911.7cd72bfc@endymion.delvare>
+        lvc-project@linuxtesting.org
+Subject: [PATCH] [media] mxl111sf: Check return value in mxl111sf_config_mpeg_in
+Date:   Fri, 23 Dec 2022 00:46:07 +0300
+Message-Id: <20221222214607.39737-1-artem.chernyshev@red-soft.ru>
+X-Mailer: git-send-email 2.30.3
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="y5vizb7n5hvnx3ao"
-Content-Disposition: inline
-In-Reply-To: <20221121170911.7cd72bfc@endymion.delvare>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-KLMS-Rule-ID: 1
+X-KLMS-Message-Action: clean
+X-KLMS-AntiSpam-Lua-Profiles: 174354 [Dec 22 2022]
+X-KLMS-AntiSpam-Version: 5.9.59.0
+X-KLMS-AntiSpam-Envelope-From: artem.chernyshev@red-soft.ru
+X-KLMS-AntiSpam-Rate: 0
+X-KLMS-AntiSpam-Status: not_detected
+X-KLMS-AntiSpam-Method: none
+X-KLMS-AntiSpam-Auth: dkim=none
+X-KLMS-AntiSpam-Info: LuaCore: 502 502 69dee8ef46717dd3cb3eeb129cb7cc8dab9e30f6, {Tracking_from_domain_doesnt_match_to}, 127.0.0.199:7.1.2;localhost.biz:7.1.1;red-soft.ru:7.1.1;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1
+X-MS-Exchange-Organization-SCL: -1
+X-KLMS-AntiSpam-Interceptor-Info: scan successful
+X-KLMS-AntiPhishing: Clean, bases: 2022/12/22 20:41:00
+X-KLMS-AntiVirus: Kaspersky Security for Linux Mail Server, version 8.0.3.30, bases: 2022/12/22 19:14:00 #20697826
+X-KLMS-AntiVirus-Status: Clean, skipped
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
+        SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Error check after mxl111sf_read_reg
 
---y5vizb7n5hvnx3ao
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Found by Linux Verification Center (linuxtesting.org) with SVACE.
 
-Hello,
+Fixes: 4c66c9205c07 ("[media] dvb-usb: add ATSC support for the Hauppauge WinTV-Aero-M")
+Signed-off-by: Artem Chernyshev <artem.chernyshev@red-soft.ru>
+---
+ drivers/media/usb/dvb-usb-v2/mxl111sf-phy.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-On Mon, Nov 21, 2022 at 05:09:11PM +0100, Jean Delvare wrote:
-> Since commit 0166dc11be91 ("of: make CONFIG_OF user selectable"), it
-> is possible to test-build any driver which depends on OF on any
-> architecture by explicitly selecting OF. Therefore depending on
-> COMPILE_TEST as an alternative is no longer needed.
->=20
-> It is actually better to always build such drivers with OF enabled,
-> so that the test builds are closer to how each driver will actually be
-> built on its intended target. Building them without OF may not test
-> much as the compiler will optimize out potentially large parts of the
-> code. In the worst case, this could even pop false positive warnings.
-> Dropping COMPILE_TEST here improves the quality of our testing and
-> avoids wasting time on non-existent issues.
->=20
-> As a minor optimization, this also lets us drop of_match_ptr(), as we
-> now know what it will resolve to, we might as well save cpp some work.
->=20
-> Signed-off-by: Jean Delvare <jdelvare@suse.de>
-> Cc: Sean Young <sean@mess.org>
-> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-> Cc: Thierry Reding <thierry.reding@gmail.com>
-> Cc: "Uwe Kleine-K=F6nig" <u.kleine-koenig@pengutronix.de>
+diff --git a/drivers/media/usb/dvb-usb-v2/mxl111sf-phy.c b/drivers/media/usb/dvb-usb-v2/mxl111sf-phy.c
+index 40b26712ba4c..ad1888514bd0 100644
+--- a/drivers/media/usb/dvb-usb-v2/mxl111sf-phy.c
++++ b/drivers/media/usb/dvb-usb-v2/mxl111sf-phy.c
+@@ -121,7 +121,8 @@ int mxl111sf_config_mpeg_in(struct mxl111sf_state *state,
+ 	mxl_fail(ret);
+ 
+ 	/* Configure MPEG Clock phase */
+-	mxl111sf_read_reg(state, V6_MPEG_IN_CLK_INV_REG, &mode);
++	ret = mxl111sf_read_reg(state, V6_MPEG_IN_CLK_INV_REG, &mode);
++	mxl_fail(ret);
+ 
+ 	if (clock_phase == TSIF_NORMAL)
+ 		mode &= ~V6_INVERTED_CLK_PHASE;
+-- 
+2.30.3
 
-FTR: I discard this patch from the PWM patchwork as "handled elsewhere".
-
-Best regards
-Uwe
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---y5vizb7n5hvnx3ao
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmOkymIACgkQwfwUeK3K
-7An8NAf/Z6B3fRFOKcJStjrDLjG8JX6fW3yclViwo4hKEHsODYu5PiEMkd+vo9Q5
-EAHYY3k5hHJO3RBvhZ9Pz9srXZhVazyskV/0OToryX9GOiYxYd4VzB8/1+AoPN1D
-gqF35c0idYMwf9oiU9Wer9alm89Sy7I0+V/QsFZpN/DH8cdpx5AISP0Q2OhKmc9T
-UerviITyf387X+Gxy/xLiZ7ayuu+OWolFaB9i215sIoa81vUOdqv5bgeeNE9YoP6
-YlQ8fzJvEiJzczZ8NUnBTcxduXWLpye9TD1qxBEwOetWYVKfxZ7fluksg5L5053q
-8nMMy6cBt+c0XLwck9fno1ukKw1QiA==
-=rGaE
------END PGP SIGNATURE-----
-
---y5vizb7n5hvnx3ao--
