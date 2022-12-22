@@ -2,116 +2,141 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3A7CE654827
-	for <lists+linux-media@lfdr.de>; Thu, 22 Dec 2022 23:03:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BE1426548AA
+	for <lists+linux-media@lfdr.de>; Thu, 22 Dec 2022 23:42:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235604AbiLVWD3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 22 Dec 2022 17:03:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57936 "EHLO
+        id S229525AbiLVWmz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 22 Dec 2022 17:42:55 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42870 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229966AbiLVWD2 (ORCPT
+        with ESMTP id S229475AbiLVWmy (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 22 Dec 2022 17:03:28 -0500
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C51BF25C49
-        for <linux-media@vger.kernel.org>; Thu, 22 Dec 2022 14:03:27 -0800 (PST)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1p8Ten-0000SO-8j; Thu, 22 Dec 2022 23:03:17 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1p8Tel-0015md-46; Thu, 22 Dec 2022 23:03:15 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1p8Tek-007DlZ-By; Thu, 22 Dec 2022 23:03:14 +0100
-Date:   Thu, 22 Dec 2022 23:03:14 +0100
-From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     Angel Iglesias <ang.iglesiasg@gmail.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        Grant Likely <grant.likely@linaro.org>,
-        Wolfram Sang <wsa@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sebastian Reichel <sebastian.reichel@collabora.com>,
-        Corey Minyard <cminyard@mvista.com>,
-        Petr Machata <petrm@nvidia.com>,
-        Vladimir Oltean <olteanv@gmail.com>,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-i2c@vger.kernel.org, kernel@pengutronix.de
-Subject: Re: [PATCH 304/606] media: dvb-frontends/dvb-pll: Convert to i2c's
- .probe_new()
-Message-ID: <20221222220314.lygfdyawowbwsudv@pengutronix.de>
-References: <20221118224540.619276-1-uwe@kleine-koenig.org>
- <20221118224540.619276-305-uwe@kleine-koenig.org>
+        Thu, 22 Dec 2022 17:42:54 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 91A632FD
+        for <linux-media@vger.kernel.org>; Thu, 22 Dec 2022 14:42:53 -0800 (PST)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id CDE04471;
+        Thu, 22 Dec 2022 23:42:50 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1671748971;
+        bh=Zg3mx3NmQcWS5qKx7hrVloAwURxB8/MAFWONtrDqfPA=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=c2iNG0ViZyuRv3qjkLYcimzb0qGk8HksQlLHzl/m26EsQbBK09bsTDSJanF+VrVls
+         fgypvJCSN8b+rq9kx8Hvx9lnLXz11LOK9lFr+0aRoav8H0uVKWeeqASg3rHUta7U95
+         XfboENzOqc8SabpVibFXwWuwPjuuunNYBFJhfFRc=
+Date:   Fri, 23 Dec 2022 00:42:46 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     linux-media@vger.kernel.org
+Cc:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+        Sakari Ailus <sakari.ailus@iki.fi>,
+        Paul Elder <paul.elder@ideasonboard.com>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        hugues.fruchet@st.com, prabhakar.mahadev-lad.rj@bp.renesas.com,
+        aford173@gmail.com, festevam@gmail.com, eddy.khan@vergesense.com,
+        paul.kocialkowski@bootlin.com, eugen.hristev@microchip.com
+Subject: Re: [PATCH v2] media: ov5640: Fix analogue gain control
+Message-ID: <Y6TdZvwlxRcpHZ0w@pendragon.ideasonboard.com>
+References: <20221128080201.15104-1-laurent.pinchart@ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="tpwvpvzahlnwe6nl"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20221118224540.619276-305-uwe@kleine-koenig.org>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+In-Reply-To: <20221128080201.15104-1-laurent.pinchart@ideasonboard.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-
---tpwvpvzahlnwe6nl
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
 Hello,
 
-On Fri, Nov 18, 2022 at 11:40:38PM +0100, Uwe Kleine-K=F6nig wrote:
-> .probe_new() doesn't get the i2c_device_id * parameter, so determine
-> that explicitly in the probe function.
->=20
-> Signed-off-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
+Gentle ping for review.
 
-A part of the media patches in this series were applied by Hans in the
-current merge window. I think it's the part of the patches that don't
-depend on i2c_client_get_device_id().
+On Mon, Nov 28, 2022 at 10:02:01AM +0200, Laurent Pinchart wrote:
+> From: Paul Elder <paul.elder@ideasonboard.com>
+> 
+> Gain control is badly documented in publicly available (including
+> leaked) documentation.
+> 
+> There is an AGC pre-gain in register 0x3a13, expressed as a 6-bit value
+> (plus an enable bit in bit 6). The driver hardcodes it to 0x43, which
+> one application note states is equal to x1.047. The documentation also
+> states that 0x40 is equel to x1.000. The pre-gain thus seems to be
+> expressed as in 1/64 increments, and thus ranges from x1.00 to x1.984.
+> What the pre-gain does is however unspecified.
+> 
+> There is then an AGC gain limit, in registers 0x3a18 and 0x3a19,
+> expressed as a 10-bit "real gain format" value. One application note
+> sets it to 0x00f8 and states it is equal to x15.5, so it appears to be
+> expressed in 1/16 increments, up to x63.9375.
+> 
+> The manual gain is stored in registers 0x350a and 0x350b, also as a
+> 10-bit "real gain format" value. It is documented in the application
+> note as a Q6.4 values, up to x63.9375.
+> 
+> One version of the datasheet indicates that the sensor supports a
+> digital gain:
+> 
+>   The OV5640 supports 1/2/4 digital gain. Normally, the gain is
+>   controlled automatically by the automatic gain control (AGC) block.
+> 
+> It isn't clear how that would be controlled manually.
+> 
+> There appears to be no indication regarding whether the gain controlled
+> through registers 0x350a and 0x350b is an analogue gain only or also
+> includes digital gain. The words "real gain" don't necessarily mean
+> "combined analogue and digital gains". Some OmniVision sensors (such as
+> the OV8858) are documented as supoprting different formats for the gain
+> values, selectable through a register bit, and they are called "real
+> gain format" and "sensor gain format". For that sensor, we have (one of)
+> the gain registers documented as
+> 
+>   0x3503[2]=0, gain[7:0] is real gain format, where low 4 bits are
+>   fraction bits, for example, 0x10 is 1x gain, 0x28 is 2.5x gain
+> 
+>   If 0x3503[2]=1, gain[7:0] is sensor gain format, gain[7:4] is coarse
+>   gain, 00000: 1x, 00001: 2x, 00011: 4x, 00111: 8x, gain[7] is 1,
+>   gain[3:0] is fine gain. For example, 0x10 is 1x gain, 0x30 is 2x gain,
+>   0x70 is 4x gain
+> 
+> (The second part of the text makes little sense)
+> 
+> "Real gain" may thus refer to the combination of the coarse and fine
+> analogue gains as a single value.
+> 
+> The OV5640 0x350a and 0x350b registers thus appear to control analogue
+> gain. The driver incorrectly uses V4L2_CID_GAIN as V4L2 has a specific
+> control for analogue gain, V4L2_CID_ANALOGUE_GAIN. Use it.
+> 
+> If registers 0x350a and 0x350b are later found to control digital gain
+> as well, the driver could then restrict the range of the analogue gain
+> control value to lower than x64 and add a separate digital gain control.
+> 
+> Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
+> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> ---
+>  drivers/media/i2c/ov5640.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
+> index 2d740397a5d4..c65c391bc1eb 100644
+> --- a/drivers/media/i2c/ov5640.c
+> +++ b/drivers/media/i2c/ov5640.c
+> @@ -3458,7 +3458,7 @@ static int ov5640_init_controls(struct ov5640_dev *sensor)
+>  	/* Auto/manual gain */
+>  	ctrls->auto_gain = v4l2_ctrl_new_std(hdl, ops, V4L2_CID_AUTOGAIN,
+>  					     0, 1, 1, 1);
+> -	ctrls->gain = v4l2_ctrl_new_std(hdl, ops, V4L2_CID_GAIN,
+> +	ctrls->gain = v4l2_ctrl_new_std(hdl, ops, V4L2_CID_ANALOGUE_GAIN,
+>  					0, 1023, 1, 0);
+>  
+>  	ctrls->saturation = v4l2_ctrl_new_std(hdl, ops, V4L2_CID_SATURATION,
 
-Now that the function is available in Linus' tree (commit 662233731d66
-("i2c: core: Introduce i2c_client_get_device_id helper function")), it
-would be great if you picked the remaining patches for the next merge
-window. You can use e.g.
+-- 
+Regards,
 
-	b4 am -l -P 304,308,309,320,328,332,340,342,349,351,355,360,368,369,374,38=
-1,382,390,407 20221118224540.619276-1-uwe@kleine-koenig.org
-
-to achieve that.
-
-Best regards and thanks,
-Uwe
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---tpwvpvzahlnwe6nl
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmOk1BwACgkQwfwUeK3K
-7AnpFQgAisk75FImzX10EQmVXYIt+nPqwvJDZOg+he2D35o3p4wPPTtf4ldA0k2F
-CJaI2giKRG+c8EcspeI04/YXGJdMw1MQBVHFZn1pE4ogeLyuekojZy+2ysKBkvhi
-UBT9yoN4k5WCbE5V7raazIBO0hBM2z2O50oPCXfjqOisnVrRLhEwGD7wFsIFVPQ9
-EOFz9Ay92W2plb33NUxUhd3Kam4coiXBz90oraIWlRJA5u0klQGJRB1+l7Uf93gL
-sDKBgO7nRP7uOZQSwRnqcpWKgfJsXge4Tp4d/XIl7uFsejjjQ5NaMZsrNGQ0HJD2
-rD1nDwmjLwsWHRYXuX1VjmftKWSP3w==
-=62Jw
------END PGP SIGNATURE-----
-
---tpwvpvzahlnwe6nl--
+Laurent Pinchart
