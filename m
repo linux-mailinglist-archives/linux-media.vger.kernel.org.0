@@ -2,62 +2,68 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 833F065506B
-	for <lists+linux-media@lfdr.de>; Fri, 23 Dec 2022 13:36:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C903B6550A5
+	for <lists+linux-media@lfdr.de>; Fri, 23 Dec 2022 14:02:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236171AbiLWMgE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 23 Dec 2022 07:36:04 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50200 "EHLO
+        id S236145AbiLWNCP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 23 Dec 2022 08:02:15 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59170 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230513AbiLWMgD (ORCPT
+        with ESMTP id S229625AbiLWNCN (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 23 Dec 2022 07:36:03 -0500
-Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com [IPv6:2a00:1450:4864:20::22c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA28FBC9B;
-        Fri, 23 Dec 2022 04:36:01 -0800 (PST)
-Received: by mail-lj1-x22c.google.com with SMTP id s10so4903814ljg.1;
-        Fri, 23 Dec 2022 04:36:01 -0800 (PST)
+        Fri, 23 Dec 2022 08:02:13 -0500
+Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com [IPv6:2a00:1450:4864:20::22e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CCA4011C1D;
+        Fri, 23 Dec 2022 05:02:12 -0800 (PST)
+Received: by mail-lj1-x22e.google.com with SMTP id u12so1252404ljj.11;
+        Fri, 23 Dec 2022 05:02:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=r3UKnhEZQUn5GYS/RbUjSz4ZcQWY1ixwYwswiqDVqN4=;
-        b=ZMj8Y/j8X8EoTO+KuKX8colZn+dhXdx8X1p3IZfbkZGh1LneEu7csBHwCLpu/89mdh
-         VA57l0Ls/nQDnDIcDSTcQRx6mVOsUT4YNgY/E2Up3vxOxjW0xgk1pF1JRe4hI8WEhPwa
-         dOYkY6OJZuJLGrNkxJzC7Y0CoGnozi6s6k8fafoQ80XGnbDOHlHLGIb8LsQKPXCpqt3Q
-         mr9P0WahGP8y0eaQkkPbzgGvBQoUJgINgUufJ6Z94cu/nOSHLJHa8edCHdEXz+kzJi9l
-         d9VUpbqTfEhP7dfmPKXBtpnVGfeZfoZPEVDQY/u5X9sinrM+4dKtk+fR6JyIaUAY+DbJ
-         U/ag==
+        bh=TLiFI914zOkzkXTvAaxanO8GrrOqer4JEh858HAzIlc=;
+        b=BcpfHL28XyAeo4JzL+ywLyxs+m/MC0a1vTSl/B7ufeEQIEuRAAroEZRbbIG9zDvUs8
+         hEyMntDh6xroFZPksJAJnmCCWf5J9R/M8DgSzJSgvo11YVpedlee58evTVbCu+pLOin9
+         ZjEbLbBjxADGy8LiOzDo4bL+WSvi+7Zm29gorb1PxLpDNI424kIot9ZCOIYSReHxIp9z
+         ILslevOVoA2AOWiQbhYCHizq++A9L7HDtqmj1EqSOB2ux5AuVI3oij4W8DZhSAVndUcz
+         TmxS3JXBM93DIigfgQsy4S4fWC+6fIsrnuaGo9N8VC/l0d6aO2Zm0wKb1+eOqAZkdSmK
+         VY3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=r3UKnhEZQUn5GYS/RbUjSz4ZcQWY1ixwYwswiqDVqN4=;
-        b=HNbTJ5LtJYQW/73/87TtJZdPydo4mlZ31JcRDmfrTPemGC4eipnZGdmCqeD57EN8y+
-         wNr1WjLqlur4bTIzIyQssYPHXStI6YX8QMXyaVpUMMsnCCr0iQrofBySTzaA5SvTDfCE
-         NjdY0nKHkur6K3rfirNgrnejVyvkKw+BWfnaP5VH3PDVxF8PJiZx2SIF6WcdRIoBy/AM
-         bmBsYBp0T/+5P3di8YmN3hWKmgyTR4TVYb/PV5zWMikg2N96zmwo83qXNV6GwB7XCgt2
-         Unz2zQtjxmTTCxqlvUu90sdb8Hj5zYI+6/IRpTeVbAkhuct8xuvtosDG/PoC5pcdyI4k
-         y7vA==
-X-Gm-Message-State: AFqh2krpVxOzuBXGBuOGo3X52CZlrbwZBGRehcL85hUhDuKYQBepH3AN
-        XO7vHvQv8kIB1X73vaSI/9s=
-X-Google-Smtp-Source: AMrXdXvhITzwpOd2W35sRsxL4USYcqWShDT+nWnLh4NFjRnjHAGbmI41tTpVVmFbTBCc3uqKHwW4TQ==
-X-Received: by 2002:a2e:8197:0:b0:27d:e218:a528 with SMTP id e23-20020a2e8197000000b0027de218a528mr3813756ljg.12.1671798960143;
-        Fri, 23 Dec 2022 04:36:00 -0800 (PST)
+        bh=TLiFI914zOkzkXTvAaxanO8GrrOqer4JEh858HAzIlc=;
+        b=AKLSYbvxW+MonN90dMNI/HhyEbDHSqQmNYUxWrR9CEPR7LQLexFrTYNhVKidd9ccOc
+         lo59leg1RnB7Md89qHGPr/4wY+DWaP5czbEuBN8fedvJasYCxOesLI+PVlr9SfLDZfRn
+         fln4ZM89NwU8/5k6W8WjksoaUQhWVl9rAaM9pQUilnULiwFJHH/FmQweKm3/0HTO7gKo
+         +SPWeL+5q3vRIsMaTi88DwOvmvCBR9MkIVrZJzvn3cFJ+NAtcJuTCEH7NAazXK8FFaI2
+         NT+0Ga2m3rIR8RGbkxfOi5U3hnRiNgRVmEuBnPSHGLrtS29i4PW8JIZWNhB9Uwft7cIf
+         mXGQ==
+X-Gm-Message-State: AFqh2kpL/tJ4hRk1MUWexKOH70bPxAvIXYnAJeofOkdA6bitB7au6YeG
+        MlNnitkPBmvGOsbyslgJ/fI=
+X-Google-Smtp-Source: AMrXdXsLOcTQ7NeTc/m34oj7a54PTtRcr1le6l/G1tmgK7dt/eeLaYYh3A8S8t5fFlJpdEveEY5v6Q==
+X-Received: by 2002:a2e:98c3:0:b0:27f:1bd1:7c7a with SMTP id s3-20020a2e98c3000000b0027f1bd17c7amr2510045ljj.23.1671800531097;
+        Fri, 23 Dec 2022 05:02:11 -0800 (PST)
 Received: from [192.168.2.145] ([109.252.113.89])
-        by smtp.googlemail.com with ESMTPSA id z8-20020a2eb528000000b0027a026088b6sm405599ljm.95.2022.12.23.04.35.58
+        by smtp.googlemail.com with ESMTPSA id z25-20020a2eb539000000b0027710117ebdsm421426ljm.121.2022.12.23.05.02.09
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 23 Dec 2022 04:35:59 -0800 (PST)
-Message-ID: <44d2d972-1cdf-fdb2-5dc0-cc493f79b3da@gmail.com>
-Date:   Fri, 23 Dec 2022 15:35:58 +0300
+        Fri, 23 Dec 2022 05:02:10 -0800 (PST)
+Message-ID: <3c32ee42-2b75-ba16-dcd0-d12acd87b47f@gmail.com>
+Date:   Fri, 23 Dec 2022 16:02:09 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.6.0
 Subject: Re: [PATCH v2 21/21] staging: media: tegra-video: add tegra20 variant
 Content-Language: en-US
-To:     Luca Ceresoli <luca.ceresoli@bootlin.com>,
+To:     Luca Ceresoli <luca.ceresoli@bootlin.com>
+Cc:     linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Richard Leitner <richard.leitner@skidata.com>,
         David Airlie <airlied@gmail.com>,
         Daniel Vetter <daniel@ffwll.ch>,
         Rob Herring <robh+dt@kernel.org>,
@@ -68,12 +74,6 @@ To:     Luca Ceresoli <luca.ceresoli@bootlin.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Richard Leitner <richard.leitner@skidata.com>
 References: <20221128152336.133953-1-luca.ceresoli@bootlin.com>
  <20221128152336.133953-22-luca.ceresoli@bootlin.com>
 From:   Dmitry Osipenko <digetx@gmail.com>
@@ -91,16 +91,6 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 28.11.2022 18:23, Luca Ceresoli пишет:
-> +/* --------------------------------------------------------------------------
-> + * VIP
-> + */
-> +
-> +/*
-> + * VIP-specific configuration for stream start.
-> + *
-> + * Whatever is common among VIP and CSI is done by the VI component (see
-> + * tegra20_vi_start_streaming()). Here we do what is VIP-specific.
-> + */
 > +static int tegra20_vip_start_streaming(struct tegra_vip_channel *vip_chan)
 > +{
 > +	struct tegra_vi_channel *vi_chan = v4l2_get_subdev_hostdata(&vip_chan->subdev);
@@ -139,19 +129,7 @@ X-Mailing-List: linux-media@vger.kernel.org
 > +	tegra20_vi_write(vi_chan, TEGRA_VI_CONT_SYNCPT_OUT_1,
 > +			 VI_CONT_SYNCPT_OUT_1_CONTINUOUS_SYNCPT |
 > +			 host1x_syncpt_id(vi_chan->out_sp) << VI_CONT_SYNCPT_OUT_1_SYNCPT_IDX_SFT);
-> +
-> +	tegra20_vi_write(vi_chan, TEGRA_VI_CAMERA_CONTROL, VI_CAMERA_CONTROL_STOP_CAPTURE);
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct tegra_vip_ops tegra20_vip_ops = {
-> +	.vip_start_streaming = tegra20_vip_start_streaming,
-> +};
-> +
-> +const struct tegra_vip_soc tegra20_vip_soc = {
-> +	.ops = &tegra20_vip_ops,
-> +};
 
-Shouldn't this be placed in vip.c? Also looks like patch #20 won't link
-because tegra20_vip_soc is defined in patch #21.
+Wondering whether you also need to set up the sypct_incr condition to
+op_done, it should be immediate by default. I see that T210 VI code sets
+up the incr condition.
