@@ -2,238 +2,262 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7A2A0654F07
-	for <lists+linux-media@lfdr.de>; Fri, 23 Dec 2022 11:16:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 82052654FA4
+	for <lists+linux-media@lfdr.de>; Fri, 23 Dec 2022 12:24:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230297AbiLWKQf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 23 Dec 2022 05:16:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48574 "EHLO
+        id S236019AbiLWLY5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 23 Dec 2022 06:24:57 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44326 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229680AbiLWKQa (ORCPT
+        with ESMTP id S235884AbiLWLY4 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 23 Dec 2022 05:16:30 -0500
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E3A61BEB1;
-        Fri, 23 Dec 2022 02:16:29 -0800 (PST)
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 2BNA1Wcn021709;
-        Fri, 23 Dec 2022 10:16:28 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
- subject : date : message-id; s=qcppdkim1;
- bh=4r5hLgxakUU17RWBCFGD+ncHlZjhDEmePTaBGoXGBmg=;
- b=ElVQRflvkAwNQ8hF+uAWHV9FkOkjt3dsKbKerHw/ASK2uAspcE0FKHhr203Cd3AZdlMu
- 7G+Jqf6fXV4ycoBTCJhKyToivSeEXHWhVyk36FOu3/VX2fiaEYwz2TFr6hLI/7sM9ktV
- iaoWu/nZ3qhjWe7Bcl2ZJjCpqAbbSWaFyYWMNyK3ITNH/0XxNTJ6qzUX+bJMl212I9lC
- 3+1uLGjGxuYoSy7lmDSV68Xt+UuWp/EIqQN3G7dXg8CTvOv66DtMlkDoyL7CXG8u6Uwn
- nRuTK22zoS1DVSAR+ZFPCX3oqDlTYC2lPUe4JFdzSVA+7YnBcOBsx/9P6in515G/asVb gg== 
-Received: from apblrppmta01.qualcomm.com (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3mm3cjvsp7-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 23 Dec 2022 10:16:27 +0000
-Received: from pps.filterd (APBLRPPMTA01.qualcomm.com [127.0.0.1])
-        by APBLRPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 2BNABZ2o017142;
-        Fri, 23 Dec 2022 10:16:23 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-        by APBLRPPMTA01.qualcomm.com (PPS) with ESMTPS id 3mh6ukxpqk-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
-        Fri, 23 Dec 2022 10:16:23 +0000
-Received: from APBLRPPMTA01.qualcomm.com (APBLRPPMTA01.qualcomm.com [127.0.0.1])
-        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2BNAGMgP022302;
-        Fri, 23 Dec 2022 10:16:22 GMT
-Received: from hu-sgudaval-hyd.qualcomm.com (hu-dikshita-hyd.qualcomm.com [10.213.110.13])
-        by APBLRPPMTA01.qualcomm.com (PPS) with ESMTP id 2BNAGMlN022301;
-        Fri, 23 Dec 2022 10:16:22 +0000
-Received: by hu-sgudaval-hyd.qualcomm.com (Postfix, from userid 347544)
-        id 1BACE4972; Fri, 23 Dec 2022 15:46:22 +0530 (+0530)
-From:   Dikshita Agarwal <quic_dikshita@quicinc.com>
-To:     linux-media@vger.kernel.org, stanimir.k.varbanov@gmail.com,
-        quic_vgarodia@quicinc.com
-Cc:     linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        Dikshita Agarwal <quic_dikshita@quicinc.com>
-Subject: [PATCH v2] venus: venc: add handling for VIDIOC_ENCODER_CMD
-Date:   Fri, 23 Dec 2022 15:46:13 +0530
-Message-Id: <1671790573-6432-1-git-send-email-quic_dikshita@quicinc.com>
-X-Mailer: git-send-email 2.7.4
-X-QCInternal: smtphost
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: zdRAQe6udSvg-TxVfbJq5y_gp_DCB9cM
-X-Proofpoint-ORIG-GUID: zdRAQe6udSvg-TxVfbJq5y_gp_DCB9cM
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-12-23_04,2022-12-22_03,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 mlxlogscore=999
- impostorscore=0 spamscore=0 phishscore=0 clxscore=1011 priorityscore=1501
- suspectscore=0 malwarescore=0 lowpriorityscore=0 adultscore=0 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2212070000
- definitions=main-2212230087
-X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,SPF_HELO_NONE,
-        SPF_NONE autolearn=no autolearn_force=no version=3.4.6
+        Fri, 23 Dec 2022 06:24:56 -0500
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.135])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 98DF84083C;
+        Fri, 23 Dec 2022 03:24:53 -0800 (PST)
+Received: from [192.168.1.139] ([37.4.248.22]) by mrelayeu.kundenserver.de
+ (mreue010 [212.227.15.167]) with ESMTPSA (Nemesis) id
+ 1N2Unv-1ojbWK1i19-013x31; Fri, 23 Dec 2022 12:24:31 +0100
+Message-ID: <629b3f63-74e4-5cb5-29d1-6d2846bc24c7@i2se.com>
+Date:   Fri, 23 Dec 2022 12:24:22 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH] staging: vc04_services: vchiq_arm: Create platform_device
+ per device
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Umang Jain <umang.jain@ideasonboard.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-staging@lists.linux.dev,
+        linux-rpi-kernel@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Adrien Thierry <athierry@redhat.com>,
+        Dan Carpenter <error27@gmail.com>,
+        Nicolas Saenz Julienne <nsaenz@kernel.org>,
+        Phil Elwell <phil@raspberrypi.com>,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>
+References: <20221220084404.19280-1-umang.jain@ideasonboard.com>
+ <Y6Lqs8RUiyi452gM@pendragon.ideasonboard.com> <Y6MF3l40WM3onmyO@kroah.com>
+ <d48462f6-de4c-2816-0a7a-b3b13993604c@ideasonboard.com>
+ <Y6SVegtHvwQ3p+3K@pendragon.ideasonboard.com>
+Content-Language: en-US
+From:   Stefan Wahren <stefan.wahren@i2se.com>
+In-Reply-To: <Y6SVegtHvwQ3p+3K@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:5/IewrfwXtk/j85Fq2Ox0OuZvUU0b4wFBaVQ57vJt0+ATm7usZc
+ MiDsThNLAs5ZqFSedxRDKXRPFON+l56M0GnH0QMx3grEzcV7jdTqZk4AsZMDL3wPXUC7Y6S
+ GCQcLce58l7AEnSq1aobqtY/EnkcR71WIlYs98dkz2IAUBlSGPFkWKoMiqmrB20Qi5IZvOT
+ mM17/vj1BAtqbivnIrWUg==
+UI-OutboundReport: notjunk:1;M01:P0:CBgWySE112E=;kRuv5R7OLdLLhW+soww8Xgsl7y2
+ mKoEvGY4a0/tjFa5NtQTmINEU7RZBqF3rCDzLsDBe8+deY4WUYxmSk6ADtPylN6j7u39GFORQ
+ SisPrBnlnRp0wu3UzNKz37NrhrMqrr0gYLUkCJurdaRkryHMCkDH1KcHUjt/OA6yRw3KF5WYt
+ Ne2FB2OAdTjJ2gxUkC5U6lsYWygwkD1lUzFg697TuUZUpLuPoej0LEVTYvbDIQ4A5zj6T0dMt
+ 5BDb9Coc4HArTQDDf0D2rX5hTbHFke+Js00PRp8cgpwnHGsFVMNG1je2G7KB5M/Fnt8WtZCAn
+ qK1RekOtMZWcdZHmBXWZXMypzntyMrWcGgV99WVC+7DuDQe8FpEZ2zkAnneklVdEjhJOaNPcx
+ rWbguT4GqJjFCMQc7B0OT8zTGltBrrj7d/Mk5gmPOVT4K5Cv8rdyL1Zu3tNax8mSgchYpjwD/
+ sEtkQyZ4YcpbalhrkZ7TdTF0gFyLRxL4FePwgR82p+DLUFUjtCH3YFsoJL3pb8gyxAMb5Xhqd
+ XmrMnGE5cyvBlDabbRkA1swmkweYZ5oz6Dt/Bl0aH/PbnRovxJS1ZQKczFR3txQnzOW2QY2Em
+ vSWSWBXgGpdN260SF3gQgexpoOnyvlArfEI3tuRgVORdYkVP0UmmUso30/EaeUAlAHKpbbmYf
+ 8JggzRnYMzFiHhDgQRF6HMHr1fSWejrD4xVStcJJqw==
+X-Spam-Status: No, score=-3.0 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add handling for below commands in encoder:
-1. V4L2_ENC_CMD_STOP
-2. V4L2_ENC_CMD_START
+Hi Laurent,
+hi Umang,
 
-Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
----
- drivers/media/platform/qcom/venus/core.h |  9 +++++
- drivers/media/platform/qcom/venus/venc.c | 63 ++++++++++++++++++++++++++++++++
- 2 files changed, 72 insertions(+)
+Am 22.12.22 um 18:35 schrieb Laurent Pinchart:
+> Hi Umang,
+>
+> On Thu, Dec 22, 2022 at 01:59:28PM +0530, Umang Jain wrote:
+>> On 12/21/22 6:40 PM, Greg Kroah-Hartman wrote:
+>>> On Wed, Dec 21, 2022 at 01:14:59PM +0200, Laurent Pinchart wrote:
+>>>> On Tue, Dec 20, 2022 at 02:14:04PM +0530, Umang Jain wrote:
+>>>>> Create a proper per device platorm_device structure for all the child
+>>>>> devices that needs to be registered by vchiq platform driver. Replace
+>>>>> the vchiq_register_child() with platform_add_devices() to register the
+>>>>> child devices.
+>>>> This explains what the patch does, but not why.
+>>>>
+>>>>> This is part of an effort to address TODO item "Get rid of all non
+>>>>> essential global structures and create a proper per device structure"
+>>>> And this explains part of the reason only. Could you please expand the
+>>>> commit message with the reasoning behind this change ? It's not clear
+>>>> from the change below why this is needed and good.
+>> Ok, I thought the TODO reference was sufficient but I'll expand on it.
+>>
+>>>>> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
+>>>>> ---
+>>>>>    .../interface/vchiq_arm/vchiq_arm.c           | 59 ++++++++++---------
+>>>>>    1 file changed, 31 insertions(+), 28 deletions(-)
+>>>>>
+>>>>> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+>>>>> index 22de23f3af02..fa42ea3791a7 100644
+>>>>> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+>>>>> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+>>>>> @@ -65,8 +65,29 @@ int vchiq_susp_log_level = VCHIQ_LOG_ERROR;
+>>>>>    DEFINE_SPINLOCK(msg_queue_spinlock);
+>>>>>    struct vchiq_state g_state;
+>>>>>    
+>>>>> -static struct platform_device *bcm2835_camera;
+>>>>> -static struct platform_device *bcm2835_audio;
+>>>>> +static u64 vchiq_device_dmamask = DMA_BIT_MASK(32);
+>>>> The fact that this isn't const and is used by two different
+>>>> platform_device instances is worrying. Either it can be made const, or
+>>>> it's wrong.
+>> ack.
+>>
+>>>>> +
+>>>>> +static struct platform_device bcm2835_camera = {
+>>>>> +	.name		= "bcm2835-camera",
+>>>>> +	.id		= PLATFORM_DEVID_NONE,
+>>>>> +	.dev		= {
+>>>>> +		.dma_mask	= &vchiq_device_dmamask,
+>>>>> +	}
+>>>>> +};
+>>>>> +
+>>>>> +static struct platform_device bcm2835_audio = {
+>>>>> +	.name		= "bcm2835_audio",
+>>>>> +	.id		= PLATFORM_DEVID_NONE,
+>>>>> +	.dev		= {
+>>>>> +		.dma_mask	= &vchiq_device_dmamask,
+>>>>> +	}
+>>>>> +
+>>>> Extra blank line.
+>> oops, checkpatch.pl didn't catch this :-/
+>>
+>>>>> +};
+>>>>> +
+>>>>> +static struct platform_device *vchiq_devices[] __initdata = {
+>>>> Make it const.
+>>>>
+>>>>> +	&bcm2835_camera,
+>>>>> +	&bcm2835_audio,
+>>>>> +};
+>>>>>    
+>>>>>    struct vchiq_drvdata {
+>>>>>    	const unsigned int cache_line_size;
+>>>>> @@ -1763,28 +1784,6 @@ static const struct of_device_id vchiq_of_match[] = {
+>>>>>    };
+>>>>>    MODULE_DEVICE_TABLE(of, vchiq_of_match);
+>>>>>    
+>>>>> -static struct platform_device *
+>>>>> -vchiq_register_child(struct platform_device *pdev, const char *name)
+>>>>> -{
+>>>>> -	struct platform_device_info pdevinfo;
+>>>>> -	struct platform_device *child;
+>>>>> -
+>>>>> -	memset(&pdevinfo, 0, sizeof(pdevinfo));
+>>>>> -
+>>>>> -	pdevinfo.parent = &pdev->dev;
+>>>>> -	pdevinfo.name = name;
+>>>>> -	pdevinfo.id = PLATFORM_DEVID_NONE;
+>>>>> -	pdevinfo.dma_mask = DMA_BIT_MASK(32);
+>>>>> -
+>>>>> -	child = platform_device_register_full(&pdevinfo);
+>>>>> -	if (IS_ERR(child)) {
+>>>>> -		dev_warn(&pdev->dev, "%s not registered\n", name);
+>>>>> -		child = NULL;
+>>>>> -	}
+>>>>> -
+>>>>> -	return child;
+>>>>> -}
+>>>>> -
+>>>>>    static int vchiq_probe(struct platform_device *pdev)
+>>>>>    {
+>>>>>    	struct device_node *fw_node;
+>>>>> @@ -1832,8 +1831,11 @@ static int vchiq_probe(struct platform_device *pdev)
+>>>>>    		goto error_exit;
+>>>>>    	}
+>>>>>    
+>>>>> -	bcm2835_camera = vchiq_register_child(pdev, "bcm2835-camera");
+>>>>> -	bcm2835_audio = vchiq_register_child(pdev, "bcm2835_audio");
+>>>>> +	err = platform_add_devices(vchiq_devices, ARRAY_SIZE(vchiq_devices));
+>>>>> +	if (err) {
+>>>>> +		dev_warn(&pdev->dev, "Failed to add vchiq child devices");
+>>>>> +		goto error_exit;
+>>>>> +	}
+>>>> If you unbind and rebind this driver, the platform_device instances
+>>>> defined as global variables will be reused, and I'm pretty sure that
+>>>> will cause issues, for instance with the kobj->state_initialized check
+>>>> in kobject_init() (called from device_initialize(), itself called from
+>>>> platform_device_register(), from platform_add_devices()). I'm not sure
+>>>> static instances of platform_device are a very good idea in general.
+>>> static instances of any device are a horrible idea, but it seems that
+>>> many drivers do this and abuse platform devices this way :(
+>> It seems  I have been a victim of the abuse usage while looking for
+>> platform_device references in the codebase. I'm working on a new
+>> approach for this.
+>>
+>> Currently (as per the linux-next branch), the vchiq driver will happily
+>> carry on if any of the child  platform device registration fails. That
+>> means if bcm2835-audio fails to register, bcm2835-camera will  still
+>> kept registered I suppose.
+>>
+>> However with usage of platform_add_devices() in this patch, I introduced
+>> a functionality change (I'm realizing this now) - any failure of child
+>> platform device registeration will -unregister- all the other platform
+>> devices i.e. if bcm2835-audio fails, bcm2835-camera will also get
+>> unregistered.
+>>
+>> Should I be working towards the status-quo behavior ? Or it's sane to
+>> unregistered other platform devices if one of the fails like
+>> platform_add_devices() does ? (This affects my new approach as well,
+>> hence the question)
+> If it doesn't cause too much extra complexity, it would be nice to skip
+> devices that can't be registered successfully, and still support the
+> other ones. I don't expect registration failures to be a occuring
+> normally, so if this causes too much completely, I think it would still
+> be fine to fail more harshly.
+>
+>>> Ideally this should be done properly, with the correct devices created
+>>> automatically based on the device tree structure, NOT hard-coded into a
+>>> .c file like this.
+>>>
+>>> So I too really do not like this change, why are these not being created
+>>> by the firware layer automatically?
+>> Not sure if this is a helpful comment, but as far I know, there can be
+>> vchiq child platform devices which probably don't have a Device tree
+>> entry. like the bcm2835-isp [1] I posted earlier.
+>>
+>> [1] https://lore.kernel.org/lkml/20221121214722.22563-1-umang.jain@ideasonboard.com/
+> Those devices are implemented and exposed by the firmware running on the
+> VC4. The device tree describes the VC4 itself with the resources
+> required to communicate with it through a mailbox interface. I was going
+> to say that the platform devices are then created based on what the
+> firmware exposes, but that's not right, they're indeed hardcoded in the
+> vchiq driver. Adding corresponding DT nodes (as children of the vchiq DT
+> node) could make sense. Dave, do you have any opinion on this ?
 
-diff --git a/drivers/media/platform/qcom/venus/core.h b/drivers/media/platform/qcom/venus/core.h
-index 32551c2..d147154 100644
---- a/drivers/media/platform/qcom/venus/core.h
-+++ b/drivers/media/platform/qcom/venus/core.h
-@@ -317,6 +317,14 @@ enum venus_dec_state {
- 	VENUS_DEC_STATE_DRC		= 7,
- };
- 
-+enum venus_enc_state {
-+	VENUS_ENC_STATE_DEINIT		= 0,
-+	VENUS_ENC_STATE_INIT		= 1,
-+	VENUS_ENC_STATE_ENCODING	= 2,
-+	VENUS_ENC_STATE_STOPPED		= 3,
-+	VENUS_ENC_STATE_DRAIN		= 4,
-+};
-+
- struct venus_ts_metadata {
- 	bool used;
- 	u64 ts_ns;
-@@ -428,6 +436,7 @@ struct venus_inst {
- 	u8 quantization;
- 	u8 xfer_func;
- 	enum venus_dec_state codec_state;
-+	enum venus_enc_state enc_state;
- 	wait_queue_head_t reconf_wait;
- 	unsigned int subscriptions;
- 	int buf_count;
-diff --git a/drivers/media/platform/qcom/venus/venc.c b/drivers/media/platform/qcom/venus/venc.c
-index cdb1254..a7804b0 100644
---- a/drivers/media/platform/qcom/venus/venc.c
-+++ b/drivers/media/platform/qcom/venus/venc.c
-@@ -520,6 +520,46 @@ static int venc_subscribe_event(struct v4l2_fh *fh,
- 	}
- }
- 
-+static int
-+venc_encoder_cmd(struct file *file, void *fh, struct v4l2_encoder_cmd *cmd)
-+{
-+	struct venus_inst *inst = to_inst(file);
-+	struct hfi_frame_data fdata = {0};
-+	int ret = 0;
-+
-+	ret = v4l2_m2m_ioctl_try_encoder_cmd(file, fh, cmd);
-+	if (ret)
-+		return ret;
-+
-+	mutex_lock(&inst->lock);
-+
-+	if (cmd->cmd == V4L2_ENC_CMD_STOP &&
-+	    inst->enc_state == VENUS_ENC_STATE_ENCODING) {
-+		/*
-+		 * Implement V4L2_ENC_CMD_STOP by enqueue an empty buffer on
-+		 * encoder input to signal EOS.
-+		 */
-+		if (!(inst->streamon_out && inst->streamon_cap))
-+			goto unlock;
-+
-+		fdata.buffer_type = HFI_BUFFER_INPUT;
-+		fdata.flags |= HFI_BUFFERFLAG_EOS;
-+		fdata.device_addr = 0xdeadb000;
-+
-+		ret = hfi_session_process_buf(inst, &fdata);
-+
-+		inst->enc_state = VENUS_ENC_STATE_DRAIN;
-+	} else if (cmd->cmd == V4L2_ENC_CMD_START &&
-+		inst->enc_state == VENUS_ENC_STATE_STOPPED) {
-+		vb2_clear_last_buffer_dequeued(&inst->fh.m2m_ctx->cap_q_ctx.q);
-+		inst->enc_state = VENUS_ENC_STATE_ENCODING;
-+	}
-+
-+unlock:
-+	mutex_unlock(&inst->lock);
-+	return ret;
-+}
-+
- static const struct v4l2_ioctl_ops venc_ioctl_ops = {
- 	.vidioc_querycap = venc_querycap,
- 	.vidioc_enum_fmt_vid_cap = venc_enum_fmt,
-@@ -548,6 +588,7 @@ static const struct v4l2_ioctl_ops venc_ioctl_ops = {
- 	.vidioc_subscribe_event = venc_subscribe_event,
- 	.vidioc_unsubscribe_event = v4l2_event_unsubscribe,
- 	.vidioc_try_encoder_cmd = v4l2_m2m_ioctl_try_encoder_cmd,
-+	.vidioc_encoder_cmd = venc_encoder_cmd,
- };
- 
- static int venc_pm_get(struct venus_inst *inst)
-@@ -1196,6 +1237,8 @@ static int venc_start_streaming(struct vb2_queue *q, unsigned int count)
- 	if (ret)
- 		goto error;
- 
-+	inst->enc_state = VENUS_ENC_STATE_ENCODING;
-+
- 	mutex_unlock(&inst->lock);
- 
- 	return 0;
-@@ -1215,10 +1258,21 @@ static int venc_start_streaming(struct vb2_queue *q, unsigned int count)
- static void venc_vb2_buf_queue(struct vb2_buffer *vb)
- {
- 	struct venus_inst *inst = vb2_get_drv_priv(vb->vb2_queue);
-+	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
- 
- 	venc_pm_get_put(inst);
- 
- 	mutex_lock(&inst->lock);
-+
-+	if (inst->enc_state == VENUS_ENC_STATE_STOPPED) {
-+		vbuf->sequence = inst->sequence_cap++;
-+		vbuf->field = V4L2_FIELD_NONE;
-+		vb2_set_plane_payload(vb, 0, 0);
-+		v4l2_m2m_buf_done(vbuf, VB2_BUF_STATE_DONE);
-+		mutex_unlock(&inst->lock);
-+		return;
-+	}
-+
- 	venus_helper_vb2_buf_queue(vb);
- 	mutex_unlock(&inst->lock);
- }
-@@ -1260,6 +1314,10 @@ static void venc_buf_done(struct venus_inst *inst, unsigned int buf_type,
- 		vb->planes[0].data_offset = data_offset;
- 		vb->timestamp = timestamp_us * NSEC_PER_USEC;
- 		vbuf->sequence = inst->sequence_cap++;
-+		if ((vbuf->flags & V4L2_BUF_FLAG_LAST) &&
-+		    inst->enc_state == VENUS_ENC_STATE_DRAIN) {
-+			inst->enc_state = VENUS_ENC_STATE_STOPPED;
-+		}
- 	} else {
- 		vbuf->sequence = inst->sequence_out++;
- 	}
-@@ -1362,6 +1420,9 @@ static int venc_open(struct file *file)
- 	inst->core_acquired = false;
- 	inst->nonblock = file->f_flags & O_NONBLOCK;
- 
-+	if (inst->enc_state == VENUS_ENC_STATE_DEINIT)
-+		inst->enc_state = VENUS_ENC_STATE_INIT;
-+
- 	venus_helper_init_instance(inst);
- 
- 	ret = venc_ctrl_init(inst);
-@@ -1424,6 +1485,8 @@ static int venc_close(struct file *file)
- 	v4l2_fh_del(&inst->fh);
- 	v4l2_fh_exit(&inst->fh);
- 
-+	inst->enc_state = VENUS_ENC_STATE_DEINIT;
-+
- 	venc_pm_put(inst, false);
- 
- 	kfree(inst);
--- 
-2.7.4
+i vaguely remember the discussion how to represent audio and camera 
+interface in the device tree. Representing as child nodes of the VC4 has 
+been rejected on the device tree mailing some years ago, because this 
+doesn't represent the physical (hardware) wiring. It's still possible to 
+access e.g. the camera interface from the ARM.
 
+The whole approach with using a separate binding for all the firmware 
+stuff lead to a lot of trouble on the Raspberry Pi platform (ugly 
+dependencies between firmware, DT and kernel). So i would like to avoid 
+this here. In case the current implementation is a no go, how about 
+letting the ARM core discover the available interfaces e.g. via mailbox 
+interface?
+
+For more inspiration take a look at this old thread [1]
+
+But i agree DT binding for vchiq itself is also a TODO
+
+and any help is appreciated.
+
+[1] - 
+http://lists.infradead.org/pipermail/linux-rpi-kernel/2017-February/005541.html
+
+>
