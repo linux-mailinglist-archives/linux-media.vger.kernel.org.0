@@ -2,141 +2,104 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BE1426548AA
-	for <lists+linux-media@lfdr.de>; Thu, 22 Dec 2022 23:42:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C6E9C654C36
+	for <lists+linux-media@lfdr.de>; Fri, 23 Dec 2022 06:28:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229525AbiLVWmz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 22 Dec 2022 17:42:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42870 "EHLO
+        id S229659AbiLWF2s (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 23 Dec 2022 00:28:48 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60482 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229475AbiLVWmy (ORCPT
+        with ESMTP id S229524AbiLWF2r (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 22 Dec 2022 17:42:54 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 91A632FD
-        for <linux-media@vger.kernel.org>; Thu, 22 Dec 2022 14:42:53 -0800 (PST)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id CDE04471;
-        Thu, 22 Dec 2022 23:42:50 +0100 (CET)
+        Fri, 23 Dec 2022 00:28:47 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 729281CB30;
+        Thu, 22 Dec 2022 21:28:45 -0800 (PST)
+Received: from [IPV6:2401:4900:1f3f:d076:4da6:b729:f032:ed0a] (unknown [IPv6:2401:4900:1f3f:d076:4da6:b729:f032:ed0a])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id C736F93;
+        Fri, 23 Dec 2022 06:28:37 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1671748971;
-        bh=Zg3mx3NmQcWS5qKx7hrVloAwURxB8/MAFWONtrDqfPA=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=c2iNG0ViZyuRv3qjkLYcimzb0qGk8HksQlLHzl/m26EsQbBK09bsTDSJanF+VrVls
-         fgypvJCSN8b+rq9kx8Hvx9lnLXz11LOK9lFr+0aRoav8H0uVKWeeqASg3rHUta7U95
-         XfboENzOqc8SabpVibFXwWuwPjuuunNYBFJhfFRc=
-Date:   Fri, 23 Dec 2022 00:42:46 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     linux-media@vger.kernel.org
-Cc:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-        Sakari Ailus <sakari.ailus@iki.fi>,
-        Paul Elder <paul.elder@ideasonboard.com>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        hugues.fruchet@st.com, prabhakar.mahadev-lad.rj@bp.renesas.com,
-        aford173@gmail.com, festevam@gmail.com, eddy.khan@vergesense.com,
-        paul.kocialkowski@bootlin.com, eugen.hristev@microchip.com
-Subject: Re: [PATCH v2] media: ov5640: Fix analogue gain control
-Message-ID: <Y6TdZvwlxRcpHZ0w@pendragon.ideasonboard.com>
-References: <20221128080201.15104-1-laurent.pinchart@ideasonboard.com>
+        s=mail; t=1671773322;
+        bh=Lew3jrQRHjRkccU+AQDJAFQBxkdZnuSTUagLXbMqiIk=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=pnQNdZrdaRnxHqDRXI7NV3hu+0Ab9FozDptohx38HkRCag0hE1WY//6HScF5/p8CA
+         1+lj5CkbuJGybjA1Ll+W2tK3wl1bNa+pjZMkLHzpAaMQsh+UVGZ9J0WbgxWv85h74B
+         ww4AbXvhY0REUucqOCdF4JDquO76LzbCcOTlno9Y=
+Message-ID: <3c864c60-91a6-9ef4-367e-3c8d453b765b@ideasonboard.com>
+Date:   Fri, 23 Dec 2022 10:58:31 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20221128080201.15104-1-laurent.pinchart@ideasonboard.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.1
+Subject: Re: [PATCH v2 1/4] staging: vc04_services: Stop leaking platform
+ device on error path
+Content-Language: en-US
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-staging@lists.linux.dev,
+        linux-rpi-kernel@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Adrien Thierry <athierry@redhat.com>,
+        Stefan Wahren <stefan.wahren@i2se.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Dan Carpenter <error27@gmail.com>,
+        Nicolas Saenz Julienne <nsaenz@kernel.org>,
+        Phil Elwell <phil@raspberrypi.com>,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>
+References: <20221222191500.515795-1-umang.jain@ideasonboard.com>
+ <20221222191500.515795-2-umang.jain@ideasonboard.com>
+ <Y6S+d512bYo2BF0O@pendragon.ideasonboard.com>
+From:   Umang Jain <umang.jain@ideasonboard.com>
+In-Reply-To: <Y6S+d512bYo2BF0O@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-3.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello,
+Hi,
 
-Gentle ping for review.
+On 12/23/22 2:00 AM, Laurent Pinchart wrote:
+> Hi Umang,
+>
+> Thank you for the patch.
+>
+> On Fri, Dec 23, 2022 at 12:44:57AM +0530, Umang Jain wrote:
+>> vchiq driver registers the child platform devices in
+>> vchiq_register_child(). However, in the registration error code path,
+>> currently the driver is leaking platform devices by not destroying the
+>> return platform device. Plug this leak using platform_device_put() as
+>> mentioned in the documentation for platform_device_register().
+>>
+>> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
+>> ---
+>>   drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c | 1 +
+>>   1 file changed, 1 insertion(+)
+>>
+>> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+>> index dc33490ba7fb..fc7ea7ba97b2 100644
+>> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+>> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+>> @@ -1779,6 +1779,7 @@ vchiq_register_child(struct platform_device *pdev, const char *name)
+>>   	child = platform_device_register_full(&pdevinfo);
+>>   	if (IS_ERR(child)) {
+>>   		dev_warn(&pdev->dev, "%s not registered\n", name);
+>> +		platform_device_put(child);
+> If IS_ERR(child), what do you expect platform_device_put(child) to do ?
+> And have you read the implementation of platform_device_register_full()
+> ?
 
-On Mon, Nov 28, 2022 at 10:02:01AM +0200, Laurent Pinchart wrote:
-> From: Paul Elder <paul.elder@ideasonboard.com>
-> 
-> Gain control is badly documented in publicly available (including
-> leaked) documentation.
-> 
-> There is an AGC pre-gain in register 0x3a13, expressed as a 6-bit value
-> (plus an enable bit in bit 6). The driver hardcodes it to 0x43, which
-> one application note states is equal to x1.047. The documentation also
-> states that 0x40 is equel to x1.000. The pre-gain thus seems to be
-> expressed as in 1/64 increments, and thus ranges from x1.00 to x1.984.
-> What the pre-gain does is however unspecified.
-> 
-> There is then an AGC gain limit, in registers 0x3a18 and 0x3a19,
-> expressed as a 10-bit "real gain format" value. One application note
-> sets it to 0x00f8 and states it is equal to x15.5, so it appears to be
-> expressed in 1/16 increments, up to x63.9375.
-> 
-> The manual gain is stored in registers 0x350a and 0x350b, also as a
-> 10-bit "real gain format" value. It is documented in the application
-> note as a Q6.4 values, up to x63.9375.
-> 
-> One version of the datasheet indicates that the sensor supports a
-> digital gain:
-> 
->   The OV5640 supports 1/2/4 digital gain. Normally, the gain is
->   controlled automatically by the automatic gain control (AGC) block.
-> 
-> It isn't clear how that would be controlled manually.
-> 
-> There appears to be no indication regarding whether the gain controlled
-> through registers 0x350a and 0x350b is an analogue gain only or also
-> includes digital gain. The words "real gain" don't necessarily mean
-> "combined analogue and digital gains". Some OmniVision sensors (such as
-> the OV8858) are documented as supoprting different formats for the gain
-> values, selectable through a register bit, and they are called "real
-> gain format" and "sensor gain format". For that sensor, we have (one of)
-> the gain registers documented as
-> 
->   0x3503[2]=0, gain[7:0] is real gain format, where low 4 bits are
->   fraction bits, for example, 0x10 is 1x gain, 0x28 is 2.5x gain
-> 
->   If 0x3503[2]=1, gain[7:0] is sensor gain format, gain[7:4] is coarse
->   gain, 00000: 1x, 00001: 2x, 00011: 4x, 00111: 8x, gain[7] is 1,
->   gain[3:0] is fine gain. For example, 0x10 is 1x gain, 0x30 is 2x gain,
->   0x70 is 4x gain
-> 
-> (The second part of the text makes little sense)
-> 
-> "Real gain" may thus refer to the combination of the coarse and fine
-> analogue gains as a single value.
-> 
-> The OV5640 0x350a and 0x350b registers thus appear to control analogue
-> gain. The driver incorrectly uses V4L2_CID_GAIN as V4L2 has a specific
-> control for analogue gain, V4L2_CID_ANALOGUE_GAIN. Use it.
-> 
-> If registers 0x350a and 0x350b are later found to control digital gain
-> as well, the driver could then restrict the range of the analogue gain
-> control value to lower than x64 and add a separate digital gain control.
-> 
-> Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
-> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-> ---
->  drivers/media/i2c/ov5640.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
-> index 2d740397a5d4..c65c391bc1eb 100644
-> --- a/drivers/media/i2c/ov5640.c
-> +++ b/drivers/media/i2c/ov5640.c
-> @@ -3458,7 +3458,7 @@ static int ov5640_init_controls(struct ov5640_dev *sensor)
->  	/* Auto/manual gain */
->  	ctrls->auto_gain = v4l2_ctrl_new_std(hdl, ops, V4L2_CID_AUTOGAIN,
->  					     0, 1, 1, 1);
-> -	ctrls->gain = v4l2_ctrl_new_std(hdl, ops, V4L2_CID_GAIN,
-> +	ctrls->gain = v4l2_ctrl_new_std(hdl, ops, V4L2_CID_ANALOGUE_GAIN,
->  					0, 1023, 1, 0);
->  
->  	ctrls->saturation = v4l2_ctrl_new_std(hdl, ops, V4L2_CID_SATURATION,
+Errr, yeah - it is handling the platform_device_put() as well. Stupid me!
 
--- 
-Regards,
+(dropping this patch for v3)
+>
+>>   		child = NULL;
+>>   	}
+>>   
 
-Laurent Pinchart
