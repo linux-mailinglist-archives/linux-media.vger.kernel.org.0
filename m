@@ -2,70 +2,87 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 08752655062
-	for <lists+linux-media@lfdr.de>; Fri, 23 Dec 2022 13:32:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 833F065506B
+	for <lists+linux-media@lfdr.de>; Fri, 23 Dec 2022 13:36:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236136AbiLWMcJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 23 Dec 2022 07:32:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49042 "EHLO
+        id S236171AbiLWMgE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 23 Dec 2022 07:36:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50200 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230405AbiLWMcI (ORCPT
+        with ESMTP id S230513AbiLWMgD (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 23 Dec 2022 07:32:08 -0500
-Received: from mail-yw1-x1134.google.com (mail-yw1-x1134.google.com [IPv6:2607:f8b0:4864:20::1134])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1DB24B29
-        for <linux-media@vger.kernel.org>; Fri, 23 Dec 2022 04:32:07 -0800 (PST)
-Received: by mail-yw1-x1134.google.com with SMTP id 00721157ae682-45f4aef92daso65415427b3.0
-        for <linux-media@vger.kernel.org>; Fri, 23 Dec 2022 04:32:07 -0800 (PST)
+        Fri, 23 Dec 2022 07:36:03 -0500
+Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com [IPv6:2a00:1450:4864:20::22c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA28FBC9B;
+        Fri, 23 Dec 2022 04:36:01 -0800 (PST)
+Received: by mail-lj1-x22c.google.com with SMTP id s10so4903814ljg.1;
+        Fri, 23 Dec 2022 04:36:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=KtHScANyAZHZYw+qOTo+vcgx2fpdVnVrJrjhKa+73As=;
-        b=mVRdmXQmaPWk77MvfIMd2Gzy5pYNLII5LzpaQQOv297nqzJmPTpViKOBU6lw4/K2x6
-         zZXn8u1PFdRSV+6zR8Q1Osuw5kq2eDFG7mrtS3ZUAUHnqNqq5hUwzH0/1A+LXoPuwwyj
-         rN0j7lBwlYSl/yxoKuCwVOQkeXpConY45N74xkDe3XRPLMs5so07Y6H21I+IBQvkCbpX
-         yNQBjPhpd9kLq8PTAQN9QqD/6FVm50knYIr2U1zVE5wkD/qC72PSuLlB1+I3UcKKrymG
-         IxnBH7n3xQgFw1IGiRaWu5RFuitSrMW34C8ncaxwjviHWsaGG7zdshmuIpDVHWfGz7ro
-         GTRA==
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=r3UKnhEZQUn5GYS/RbUjSz4ZcQWY1ixwYwswiqDVqN4=;
+        b=ZMj8Y/j8X8EoTO+KuKX8colZn+dhXdx8X1p3IZfbkZGh1LneEu7csBHwCLpu/89mdh
+         VA57l0Ls/nQDnDIcDSTcQRx6mVOsUT4YNgY/E2Up3vxOxjW0xgk1pF1JRe4hI8WEhPwa
+         dOYkY6OJZuJLGrNkxJzC7Y0CoGnozi6s6k8fafoQ80XGnbDOHlHLGIb8LsQKPXCpqt3Q
+         mr9P0WahGP8y0eaQkkPbzgGvBQoUJgINgUufJ6Z94cu/nOSHLJHa8edCHdEXz+kzJi9l
+         d9VUpbqTfEhP7dfmPKXBtpnVGfeZfoZPEVDQY/u5X9sinrM+4dKtk+fR6JyIaUAY+DbJ
+         U/ag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=KtHScANyAZHZYw+qOTo+vcgx2fpdVnVrJrjhKa+73As=;
-        b=pXfW8SIenBq5x29NJ/RJpmgQaT3UCcedA9RcJ+mHLmCBEDGVWG8ldygtzblkVIhXy7
-         BkTgBdIKUt3AyGdzCHAmmPMCIi5XTSPdyH8mXSbdILfdHguyEFH1khb/8Taixwaorg5G
-         WHReXfLFJGjxt/f7RZLG7jaVsStzXHRf1NNd8O4EyB9M/f43fajFHBKADZpg2JxTtF55
-         AAxpY3EL+24AWfVEpSMp1mO7pdyiDNPPb6ZyS2QRA7hLSaIVprkaiczJnglJFdVY6XlZ
-         8XSUC8iAnwH8YGqo4pU2qAW6GTzpwnOaIkNgLO8NGRLm8sK9P+BiRw95RZJWFdEl5xbu
-         4Rzw==
-X-Gm-Message-State: AFqh2krT6Ah+TCQwq1uBlm1MMpZdbzbCJKVZNohh8QO+qcBlhbkigFjq
-        kDzrQ31wFOYxWmjMs10DhKukRSbmyTMw8LFZ04c=
-X-Google-Smtp-Source: AMrXdXuaG6N4MhNXHs1n1XYL2frXr1/MtnDAVX/AjUzM4CIMuJ5zj6cKRRnwRNHoSRBvffGXcEE3qQ==
-X-Received: by 2002:a05:7500:f8e:b0:ee:223b:ee71 with SMTP id km14-20020a0575000f8e00b000ee223bee71mr642072gab.5.1671798726128;
-        Fri, 23 Dec 2022 04:32:06 -0800 (PST)
-Received: from nicolas-tpx395.localdomain (192-222-136-102.qc.cable.ebox.net. [192.222.136.102])
-        by smtp.gmail.com with ESMTPSA id t1-20020a37ea01000000b006fefa5f7fcesm2229444qkj.10.2022.12.23.04.32.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 Dec 2022 04:32:05 -0800 (PST)
-Message-ID: <be925c7e05dcb9935301243e24e4b79c8f6f58b4.camel@ndufresne.ca>
-Subject: Re: [PATCH v2] venus: venc: add handling for VIDIOC_ENCODER_CMD
-From:   Nicolas Dufresne <nicolas@ndufresne.ca>
-To:     Dikshita Agarwal <quic_dikshita@quicinc.com>,
-        linux-media@vger.kernel.org, stanimir.k.varbanov@gmail.com,
-        quic_vgarodia@quicinc.com
-Cc:     linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org
-Date:   Fri, 23 Dec 2022 07:32:04 -0500
-In-Reply-To: <1671790573-6432-1-git-send-email-quic_dikshita@quicinc.com>
-References: <1671790573-6432-1-git-send-email-quic_dikshita@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.2 (3.46.2-1.fc37) 
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=r3UKnhEZQUn5GYS/RbUjSz4ZcQWY1ixwYwswiqDVqN4=;
+        b=HNbTJ5LtJYQW/73/87TtJZdPydo4mlZ31JcRDmfrTPemGC4eipnZGdmCqeD57EN8y+
+         wNr1WjLqlur4bTIzIyQssYPHXStI6YX8QMXyaVpUMMsnCCr0iQrofBySTzaA5SvTDfCE
+         NjdY0nKHkur6K3rfirNgrnejVyvkKw+BWfnaP5VH3PDVxF8PJiZx2SIF6WcdRIoBy/AM
+         bmBsYBp0T/+5P3di8YmN3hWKmgyTR4TVYb/PV5zWMikg2N96zmwo83qXNV6GwB7XCgt2
+         Unz2zQtjxmTTCxqlvUu90sdb8Hj5zYI+6/IRpTeVbAkhuct8xuvtosDG/PoC5pcdyI4k
+         y7vA==
+X-Gm-Message-State: AFqh2krpVxOzuBXGBuOGo3X52CZlrbwZBGRehcL85hUhDuKYQBepH3AN
+        XO7vHvQv8kIB1X73vaSI/9s=
+X-Google-Smtp-Source: AMrXdXvhITzwpOd2W35sRsxL4USYcqWShDT+nWnLh4NFjRnjHAGbmI41tTpVVmFbTBCc3uqKHwW4TQ==
+X-Received: by 2002:a2e:8197:0:b0:27d:e218:a528 with SMTP id e23-20020a2e8197000000b0027de218a528mr3813756ljg.12.1671798960143;
+        Fri, 23 Dec 2022 04:36:00 -0800 (PST)
+Received: from [192.168.2.145] ([109.252.113.89])
+        by smtp.googlemail.com with ESMTPSA id z8-20020a2eb528000000b0027a026088b6sm405599ljm.95.2022.12.23.04.35.58
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 23 Dec 2022 04:35:59 -0800 (PST)
+Message-ID: <44d2d972-1cdf-fdb2-5dc0-cc493f79b3da@gmail.com>
+Date:   Fri, 23 Dec 2022 15:35:58 +0300
 MIME-Version: 1.0
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE autolearn=ham
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH v2 21/21] staging: media: tegra-video: add tegra20 variant
+Content-Language: en-US
+To:     Luca Ceresoli <luca.ceresoli@bootlin.com>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Sowjanya Komatineni <skomatineni@nvidia.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Richard Leitner <richard.leitner@skidata.com>
+References: <20221128152336.133953-1-luca.ceresoli@bootlin.com>
+ <20221128152336.133953-22-luca.ceresoli@bootlin.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+In-Reply-To: <20221128152336.133953-22-luca.ceresoli@bootlin.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-3.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -73,185 +90,68 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Dikshita,
-
-Le vendredi 23 d=C3=A9cembre 2022 =C3=A0 15:46 +0530, Dikshita Agarwal a =
-=C3=A9crit=C2=A0:
-> Add handling for below commands in encoder:
-> 1. V4L2_ENC_CMD_STOP
-> 2. V4L2_ENC_CMD_START
->=20
-> Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
-> ---
->  drivers/media/platform/qcom/venus/core.h |  9 +++++
->  drivers/media/platform/qcom/venus/venc.c | 63 ++++++++++++++++++++++++++=
-++++++
->  2 files changed, 72 insertions(+)
->=20
-> diff --git a/drivers/media/platform/qcom/venus/core.h b/drivers/media/pla=
-tform/qcom/venus/core.h
-> index 32551c2..d147154 100644
-> --- a/drivers/media/platform/qcom/venus/core.h
-> +++ b/drivers/media/platform/qcom/venus/core.h
-> @@ -317,6 +317,14 @@ enum venus_dec_state {
->  	VENUS_DEC_STATE_DRC		=3D 7,
->  };
-> =20
-> +enum venus_enc_state {
-> +	VENUS_ENC_STATE_DEINIT		=3D 0,
-> +	VENUS_ENC_STATE_INIT		=3D 1,
-> +	VENUS_ENC_STATE_ENCODING	=3D 2,
-> +	VENUS_ENC_STATE_STOPPED		=3D 3,
-> +	VENUS_ENC_STATE_DRAIN		=3D 4,
-> +};
+28.11.2022 18:23, Luca Ceresoli пишет:
+> +/* --------------------------------------------------------------------------
+> + * VIP
+> + */
 > +
->  struct venus_ts_metadata {
->  	bool used;
->  	u64 ts_ns;
-> @@ -428,6 +436,7 @@ struct venus_inst {
->  	u8 quantization;
->  	u8 xfer_func;
->  	enum venus_dec_state codec_state;
-> +	enum venus_enc_state enc_state;
->  	wait_queue_head_t reconf_wait;
->  	unsigned int subscriptions;
->  	int buf_count;
-> diff --git a/drivers/media/platform/qcom/venus/venc.c b/drivers/media/pla=
-tform/qcom/venus/venc.c
-> index cdb1254..a7804b0 100644
-> --- a/drivers/media/platform/qcom/venus/venc.c
-> +++ b/drivers/media/platform/qcom/venus/venc.c
-> @@ -520,6 +520,46 @@ static int venc_subscribe_event(struct v4l2_fh *fh,
->  	}
->  }
-> =20
-> +static int
-> +venc_encoder_cmd(struct file *file, void *fh, struct v4l2_encoder_cmd *c=
-md)
+> +/*
+> + * VIP-specific configuration for stream start.
+> + *
+> + * Whatever is common among VIP and CSI is done by the VI component (see
+> + * tegra20_vi_start_streaming()). Here we do what is VIP-specific.
+> + */
+> +static int tegra20_vip_start_streaming(struct tegra_vip_channel *vip_chan)
 > +{
-> +	struct venus_inst *inst =3D to_inst(file);
-> +	struct hfi_frame_data fdata =3D {0};
-> +	int ret =3D 0;
+> +	struct tegra_vi_channel *vi_chan = v4l2_get_subdev_hostdata(&vip_chan->subdev);
+> +	int width  = vi_chan->format.width;
+> +	int height = vi_chan->format.height;
 > +
-> +	ret =3D v4l2_m2m_ioctl_try_encoder_cmd(file, fh, cmd);
-> +	if (ret)
-> +		return ret;
+> +	unsigned int main_input_format;
+> +	unsigned int yuv_input_format;
 > +
-> +	mutex_lock(&inst->lock);
+> +	tegra20_vi_get_input_formats(vi_chan, &main_input_format, &yuv_input_format);
 > +
-> +	if (cmd->cmd =3D=3D V4L2_ENC_CMD_STOP &&
-> +	    inst->enc_state =3D=3D VENUS_ENC_STATE_ENCODING) {
-> +		/*
-> +		 * Implement V4L2_ENC_CMD_STOP by enqueue an empty buffer on
-> +		 * encoder input to signal EOS.
-> +		 */
-> +		if (!(inst->streamon_out && inst->streamon_cap))
-> +			goto unlock;
+> +	tegra20_vi_write(vi_chan, TEGRA_VI_VI_CORE_CONTROL, 0);
 > +
-> +		fdata.buffer_type =3D HFI_BUFFER_INPUT;
-> +		fdata.flags |=3D HFI_BUFFERFLAG_EOS;
-> +		fdata.device_addr =3D 0xdeadb000;
+> +	tegra20_vi_write(vi_chan, TEGRA_VI_VI_INPUT_CONTROL,
+> +			 VI_INPUT_VIP_INPUT_ENABLE | main_input_format | yuv_input_format);
 > +
-> +		ret =3D hfi_session_process_buf(inst, &fdata);
+> +	tegra20_vi_write(vi_chan, TEGRA_VI_V_DOWNSCALE_CONTROL, 0);
+> +	tegra20_vi_write(vi_chan, TEGRA_VI_H_DOWNSCALE_CONTROL, 0);
 > +
-> +		inst->enc_state =3D VENUS_ENC_STATE_DRAIN;
-> +	} else if (cmd->cmd =3D=3D V4L2_ENC_CMD_START &&
-> +		inst->enc_state =3D=3D VENUS_ENC_STATE_STOPPED) {
-> +		vb2_clear_last_buffer_dequeued(&inst->fh.m2m_ctx->cap_q_ctx.q);
-> +		inst->enc_state =3D VENUS_ENC_STATE_ENCODING;
-> +	}
+> +	tegra20_vi_write(vi_chan, TEGRA_VI_VIP_V_ACTIVE, height << VI_VIP_V_ACTIVE_PERIOD_SFT);
+> +	tegra20_vi_write(vi_chan, TEGRA_VI_VIP_H_ACTIVE,
+> +			 roundup(width, 2) << VI_VIP_H_ACTIVE_PERIOD_SFT);
 > +
-> +unlock:
-> +	mutex_unlock(&inst->lock);
-> +	return ret;
-
-I think you are missing a return value case. I would expect the driver to r=
-eturn
-EBUSY (or something similar) if we call START while in VENUS_ENC_STATE_DRAI=
-N
-here. I suspect the case of calling STOP while in DRAIN or STOPPED state is=
- fine
-though, I'll leave it to you to analyse further.
-
-regards,
-Nicolas
-
+> +	/*
+> +	 * For VIP, D9..D2 is mapped to the video decoder's P7..P0.
+> +	 * Disable/mask out the other Dn wires. When not in BT656
+> +	 * mode we also need the V/H sync.
+> +	 */
+> +	tegra20_vi_write(vi_chan, TEGRA_VI_PIN_INPUT_ENABLE,
+> +			 GENMASK(9, 2) << VI_PIN_INPUT_VD_SFT |
+> +			 VI_PIN_INPUT_HSYNC | VI_PIN_INPUT_VSYNC);
+> +	tegra20_vi_write(vi_chan, TEGRA_VI_VI_DATA_INPUT_CONTROL,
+> +			 GENMASK(9, 2) << VI_DATA_INPUT_SFT);
+> +	tegra20_vi_write(vi_chan, TEGRA_VI_PIN_INVERSION, 0);
+> +
+> +	tegra20_vi_write(vi_chan, TEGRA_VI_CONT_SYNCPT_OUT_1,
+> +			 VI_CONT_SYNCPT_OUT_1_CONTINUOUS_SYNCPT |
+> +			 host1x_syncpt_id(vi_chan->out_sp) << VI_CONT_SYNCPT_OUT_1_SYNCPT_IDX_SFT);
+> +
+> +	tegra20_vi_write(vi_chan, TEGRA_VI_CAMERA_CONTROL, VI_CAMERA_CONTROL_STOP_CAPTURE);
+> +
+> +	return 0;
 > +}
 > +
->  static const struct v4l2_ioctl_ops venc_ioctl_ops =3D {
->  	.vidioc_querycap =3D venc_querycap,
->  	.vidioc_enum_fmt_vid_cap =3D venc_enum_fmt,
-> @@ -548,6 +588,7 @@ static const struct v4l2_ioctl_ops venc_ioctl_ops =3D=
- {
->  	.vidioc_subscribe_event =3D venc_subscribe_event,
->  	.vidioc_unsubscribe_event =3D v4l2_event_unsubscribe,
->  	.vidioc_try_encoder_cmd =3D v4l2_m2m_ioctl_try_encoder_cmd,
-> +	.vidioc_encoder_cmd =3D venc_encoder_cmd,
->  };
-> =20
->  static int venc_pm_get(struct venus_inst *inst)
-> @@ -1196,6 +1237,8 @@ static int venc_start_streaming(struct vb2_queue *q=
-, unsigned int count)
->  	if (ret)
->  		goto error;
-> =20
-> +	inst->enc_state =3D VENUS_ENC_STATE_ENCODING;
+> +static const struct tegra_vip_ops tegra20_vip_ops = {
+> +	.vip_start_streaming = tegra20_vip_start_streaming,
+> +};
 > +
->  	mutex_unlock(&inst->lock);
-> =20
->  	return 0;
-> @@ -1215,10 +1258,21 @@ static int venc_start_streaming(struct vb2_queue =
-*q, unsigned int count)
->  static void venc_vb2_buf_queue(struct vb2_buffer *vb)
->  {
->  	struct venus_inst *inst =3D vb2_get_drv_priv(vb->vb2_queue);
-> +	struct vb2_v4l2_buffer *vbuf =3D to_vb2_v4l2_buffer(vb);
-> =20
->  	venc_pm_get_put(inst);
-> =20
->  	mutex_lock(&inst->lock);
-> +
-> +	if (inst->enc_state =3D=3D VENUS_ENC_STATE_STOPPED) {
-> +		vbuf->sequence =3D inst->sequence_cap++;
-> +		vbuf->field =3D V4L2_FIELD_NONE;
-> +		vb2_set_plane_payload(vb, 0, 0);
-> +		v4l2_m2m_buf_done(vbuf, VB2_BUF_STATE_DONE);
-> +		mutex_unlock(&inst->lock);
-> +		return;
-> +	}
-> +
->  	venus_helper_vb2_buf_queue(vb);
->  	mutex_unlock(&inst->lock);
->  }
-> @@ -1260,6 +1314,10 @@ static void venc_buf_done(struct venus_inst *inst,=
- unsigned int buf_type,
->  		vb->planes[0].data_offset =3D data_offset;
->  		vb->timestamp =3D timestamp_us * NSEC_PER_USEC;
->  		vbuf->sequence =3D inst->sequence_cap++;
-> +		if ((vbuf->flags & V4L2_BUF_FLAG_LAST) &&
-> +		    inst->enc_state =3D=3D VENUS_ENC_STATE_DRAIN) {
-> +			inst->enc_state =3D VENUS_ENC_STATE_STOPPED;
-> +		}
->  	} else {
->  		vbuf->sequence =3D inst->sequence_out++;
->  	}
-> @@ -1362,6 +1420,9 @@ static int venc_open(struct file *file)
->  	inst->core_acquired =3D false;
->  	inst->nonblock =3D file->f_flags & O_NONBLOCK;
-> =20
-> +	if (inst->enc_state =3D=3D VENUS_ENC_STATE_DEINIT)
-> +		inst->enc_state =3D VENUS_ENC_STATE_INIT;
-> +
->  	venus_helper_init_instance(inst);
-> =20
->  	ret =3D venc_ctrl_init(inst);
-> @@ -1424,6 +1485,8 @@ static int venc_close(struct file *file)
->  	v4l2_fh_del(&inst->fh);
->  	v4l2_fh_exit(&inst->fh);
-> =20
-> +	inst->enc_state =3D VENUS_ENC_STATE_DEINIT;
-> +
->  	venc_pm_put(inst, false);
-> =20
->  	kfree(inst);
+> +const struct tegra_vip_soc tegra20_vip_soc = {
+> +	.ops = &tegra20_vip_ops,
+> +};
 
+Shouldn't this be placed in vip.c? Also looks like patch #20 won't link
+because tegra20_vip_soc is defined in patch #21.
