@@ -2,50 +2,43 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C2AE565538D
-	for <lists+linux-media@lfdr.de>; Fri, 23 Dec 2022 19:17:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E2E5E6553EC
+	for <lists+linux-media@lfdr.de>; Fri, 23 Dec 2022 20:38:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231607AbiLWSRM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 23 Dec 2022 13:17:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51090 "EHLO
+        id S231373AbiLWTic (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 23 Dec 2022 14:38:32 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41704 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231338AbiLWSRK (ORCPT
+        with ESMTP id S231228AbiLWTia (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 23 Dec 2022 13:17:10 -0500
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0855B1EEDE;
-        Fri, 23 Dec 2022 10:17:07 -0800 (PST)
+        Fri, 23 Dec 2022 14:38:30 -0500
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 75AE91DA76
+        for <linux-media@vger.kernel.org>; Fri, 23 Dec 2022 11:38:29 -0800 (PST)
 Received: from whitebuilder.lan (192-222-136-102.qc.cable.ebox.net [192.222.136.102])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
         (No client certificate requested)
         (Authenticated sender: nicolas)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 3045D6602CDF;
-        Fri, 23 Dec 2022 18:17:04 +0000 (GMT)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 639836602CDF;
+        Fri, 23 Dec 2022 19:38:27 +0000 (GMT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1671819425;
-        bh=WtkH3zd/DfeHPZ0Re8eGGq82FSkjo7m3N6d2l6hBATE=;
+        s=mail; t=1671824307;
+        bh=ReMnwqnWdZXeSRi4RVXJsleHBbiR/n5EHZB1WdNlCXc=;
         h=From:To:Cc:Subject:Date:From;
-        b=dII6bpvdM6HM6sNU54FfXTO4/cp04kUdbmAG9Ts3HYVnzAJJVe1yPWSg4KhclwCP/
-         AN+tcSg2VzuAXtxQwt+S7is5T+FMi161WvIRGgU2HtwDBMrfpZPCUZQ4ATlfcKM97J
-         BA7Y8+ojbBSsHHwInjNQVy2i2XjRLoLMMPHYUqQJ9RRP+iTwSmS+bt0gThlPS5XC8B
-         0bKPRZrKtgs8ocu9L5rLg01IZiTyvx38+pTn4BIigb32TkcIlEXUHjWIKUIz00CmRQ
-         cPJWTeBkhH3mJj4+wD8hzFZXfKPdM8KMSMadYjXUQhtz5XkuoUK5Zs/U++DCDl6dKr
-         M3D0sKG4/3nKA==
+        b=YIlWWsOSqcejxGjdVcM0lvhYGo0bYZWIIPckOJS9vRMSti17dHLTfEUIgACNX+00M
+         Vjr9pVyWA+Cv/ywyMRtE6YWQg5atCWh3w5GRRr81SnsJGbvWe+LUrFO6FKqdZIor+4
+         H8HG36OicnHFIurKxsdREnXJEpGI0ap7WS+cYu6Dwo3Oiccfytg4lxZ38NN4d+b2jZ
+         SRiQ/9lxkc9MLVNWKzEtKwZ9hv3g6/1uiOR3WRQJGz6QRSLnHpZLFlP0g3K9/TzTHo
+         jhC66WWdAzH/jfkvAFh3PDsxaniQnB003RV8adzrLTjzz8jOpD3omFLOCZhaIGma8l
+         KvOyfR7zs6d3g==
 From:   Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>
+To:     linux-media@vger.kernel.org
 Cc:     kernel@collabora.com,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        Robert Mader <robert.mader@collabora.com>,
-        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v2] hantro: Fix JPEG encoder ENUM_FRMSIZE on RK3399
-Date:   Fri, 23 Dec 2022 13:16:47 -0500
-Message-Id: <20221223181647.720918-1-nicolas.dufresne@collabora.com>
+        Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Subject: [PATCH v1 0/4] media: rkvdec: Fix H.264 error resilience
+Date:   Fri, 23 Dec 2022 14:38:02 -0500
+Message-Id: <20221223193807.914935-1-nicolas.dufresne@collabora.com>
 X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -58,44 +51,34 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Since 79c987de8b354, enumerating framesize on format set with "MODE_NONE"
-(any raw formats) is reporting an invalid frmsize.
+This patch serie changes the decoding mode from "exit on error"
+to "keep decoding". Using this mode and re-enabling error detection
+allow getting error resilience without loosing the ability to report
+errors to userland. This have showed great results, but might be a
+little more risky since this is not the mode that the reference code
+uses and the documentation is very brief. With this in place,
+userspace can chose to skip or display corrupted frames depending
+on its application requirement. Previsouly, applicaiton would have
+had no choice but to present the corrupted frames.
 
-  Size: Stepwise 0x0 - 0x0 with step 0/0
+Changes since V1:
+	- Removed merged patch
+	- Changed usage of pr_debug into v4l2_dbg
+	- Fix typos in commit messages and comments
 
-Before this change, the driver would return EINVAL, which is also invalid but
-worked in GStreamer. The original intent was not to implement it, hence the
--ENOTTY return in this change. While drivers should implement ENUM_FRMSIZE for
-all formats and queues, this change is limited in scope to fix the regression.
+Nicolas Dufresne (5):
+  media: rkvdec: Disable H.264 error detection
+  media: rkvdec: Add an ops to check for decode errors
+  media: rkvdec: Fix RKVDEC_ERR_PKT_NUM macro
+  media: rkvdec: Re-enable H.264 error detection
+  rkvdec: Improve error handling
 
-This fixes taking picture in Gnome Cheese software, or any software using
-GSteamer to encode JPEG with hardware acceleration.
+ drivers/staging/media/rkvdec/rkvdec-h264.c | 23 +++++++++++++--
+ drivers/staging/media/rkvdec/rkvdec-regs.h |  2 +-
+ drivers/staging/media/rkvdec/rkvdec.c      | 34 ++++++++++++++++++----
+ drivers/staging/media/rkvdec/rkvdec.h      |  2 ++
+ 4 files changed, 51 insertions(+), 10 deletions(-)
 
-Fixes: 79c987de8b354 ("media: hantro: Use post processor scaling capacities")
-Reported-by: Robert Mader <robert.mader@collabora.com>
-Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
----
- drivers/media/platform/verisilicon/hantro_v4l2.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/media/platform/verisilicon/hantro_v4l2.c b/drivers/media/platform/verisilicon/hantro_v4l2.c
-index 2c7a805289e7b..30e650edaea8a 100644
---- a/drivers/media/platform/verisilicon/hantro_v4l2.c
-+++ b/drivers/media/platform/verisilicon/hantro_v4l2.c
-@@ -161,8 +161,11 @@ static int vidioc_enum_framesizes(struct file *file, void *priv,
- 	}
- 
- 	/* For non-coded formats check if postprocessing scaling is possible */
--	if (fmt->codec_mode == HANTRO_MODE_NONE && hantro_needs_postproc(ctx, fmt)) {
--		return hanto_postproc_enum_framesizes(ctx, fsize);
-+	if (fmt->codec_mode == HANTRO_MODE_NONE) {
-+		if (hantro_needs_postproc(ctx, fmt))
-+			return hanto_postproc_enum_framesizes(ctx, fsize);
-+		else
-+			return -ENOTTY;
- 	} else if (fsize->index != 0) {
- 		vpu_debug(0, "invalid frame size index (expected 0, got %d)\n",
- 			  fsize->index);
 -- 
 2.38.1
 
