@@ -2,107 +2,119 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2E3B26551A9
-	for <lists+linux-media@lfdr.de>; Fri, 23 Dec 2022 15:54:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0E438655201
+	for <lists+linux-media@lfdr.de>; Fri, 23 Dec 2022 16:25:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236394AbiLWOyo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 23 Dec 2022 09:54:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39938 "EHLO
+        id S236482AbiLWPZ0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 23 Dec 2022 10:25:26 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48868 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230469AbiLWOym (ORCPT
+        with ESMTP id S236477AbiLWPZZ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 23 Dec 2022 09:54:42 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 238C331DC7;
-        Fri, 23 Dec 2022 06:54:41 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id AB4F461215;
-        Fri, 23 Dec 2022 14:54:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70414C433EF;
-        Fri, 23 Dec 2022 14:54:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1671807280;
-        bh=cSy0mW+JcTGb7wHmP//5AEf5hO9OkLMlS2Uwg9AqFDc=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=gX5Y35IKQGdNunDgzb61X+D8dOY93c74L5LknWjdD5pCpgadFrpFyVtU4rvB0RlrQ
-         ZnZNwY2E1QprEiZCKqBLfE5KtLSI+rfB2HzIreroor7O2mDD4qFaXHOcvIMDqJGRwL
-         FErdqywfeKrilpUbIcjoopCPLFlOle5jGZXefO5s=
-Date:   Fri, 23 Dec 2022 15:54:37 +0100
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Jiasheng Jiang <jiasheng@iscas.ac.cn>
-Cc:     neal_liu@aspeedtech.com, joel@jms.id.au, andrew@aj.id.au,
-        sumit.semwal@linaro.org, christian.koenig@amd.com,
-        linux-aspeed@lists.ozlabs.org, linux-usb@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH v3] usb: gadget: aspeed_udc: Add check for
- dma_alloc_coherent
-Message-ID: <Y6XBLcTGUp/2ta9i@kroah.com>
-References: <20221215123112.20553-1-jiasheng@iscas.ac.cn>
+        Fri, 23 Dec 2022 10:25:25 -0500
+Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EFF3FBC04;
+        Fri, 23 Dec 2022 07:25:23 -0800 (PST)
+Received: by mail-wr1-x431.google.com with SMTP id co23so4875047wrb.4;
+        Fri, 23 Dec 2022 07:25:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=I02zLCc3L9Vr4Pgf+3/wKwOrK6n4hccBX4ktlYit2UY=;
+        b=c4m4X9M/xPPNj/v8+Kkf5y5+5BSX4GZSZ2151sK2+8N+AEWubxmGRYPTrRLPrHKElv
+         e3720UnRSAhwxH7PGsgPDAqmEm+A8uZcvWt19GfXhy0ZCjkZyG5V834cyKAL/EyMSiwn
+         FRShKo9mDwO2MF/lxe6pUFP8z8QpE5mZfjXidStD8FXbA//Wsm9XHewUxgfOFso9EJ01
+         7o7LXeAuxs5ClqlWHoKIEKEDgAMf/QZekAHdn0vh4XMjbY0+LKrpDBq/FqZbH45YCTZd
+         /N4X9FuPGcF6vKF+tWQ5xCsy5RrVKS7S72SrHz0f07vUuWTe9uOZMcisYIX4w2vgTylq
+         V7pQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=I02zLCc3L9Vr4Pgf+3/wKwOrK6n4hccBX4ktlYit2UY=;
+        b=BMoM0cSKvgMAZZGiqo8r35yCi1PkRY2ExncNPmIsjetQ7HM4EwRhSIXZfm3cveVqHk
+         0ZIFxJVZVwjk60wqDyG0+1E4ga1By65loqQu5vddRINRBtLC3IGJ2Hh17rTvVJwI1VkD
+         HORwwSF93D/J0kCSgDd7voK08X5PlJHQv3TUFFALNjUXXIRIn7PT8aHAiHCmz2OTvMHS
+         JVsOHEmC9nohVvRjwAdlW6CDsN52YVYN2t38JnKO0qvpk4ZXPy4tzgZKit7FjLzDmSc2
+         7XmrU3ghlgYAtp/I+mFxBQzuY1RI305Bzl+sumFEHBuNf9beL/q+k1VStzGJ1OcyXWAe
+         RjFQ==
+X-Gm-Message-State: AFqh2kqxS8sgiY7s2/ImASIfvzBBknaquNaIerBrz6n8hbmVSuLWQl5C
+        AgGrQBfnALR4Nly5BrUwC14=
+X-Google-Smtp-Source: AMrXdXtuhXBuZ5KqjB11un5Uda/BfZM3z+g/fpqt+KxkiSy1KgNZR1aeMy4s9hQ0phETTkGG2JhVBQ==
+X-Received: by 2002:adf:f04d:0:b0:268:2ab2:baa4 with SMTP id t13-20020adff04d000000b002682ab2baa4mr6416249wro.54.1671809122439;
+        Fri, 23 Dec 2022 07:25:22 -0800 (PST)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id i13-20020a5d558d000000b00241e5b917d0sm4013973wrv.36.2022.12.23.07.25.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 23 Dec 2022 07:25:21 -0800 (PST)
+Date:   Fri, 23 Dec 2022 18:25:18 +0300
+From:   Dan Carpenter <error27@gmail.com>
+To:     Stefan Wahren <stefan.wahren@i2se.com>
+Cc:     Umang Jain <umang.jain@ideasonboard.com>,
+        linux-staging@lists.linux.dev,
+        linux-rpi-kernel@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Kees Cook <keescook@chromium.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Adrien Thierry <athierry@redhat.com>,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: Re: [PATCH v2 5/7] vc04_services: vchiq_arm: Drop VCHIQ_RETRY usage
+ on disconnect
+Message-ID: <Y6XIXuccQD1RuBty@kadam>
+References: <20221219115725.11992-1-umang.jain@ideasonboard.com>
+ <20221219115725.11992-6-umang.jain@ideasonboard.com>
+ <8fcbdf54-98ae-6a06-ecaf-591a43b863a1@i2se.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221215123112.20553-1-jiasheng@iscas.ac.cn>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <8fcbdf54-98ae-6a06-ecaf-591a43b863a1@i2se.com>
+X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Dec 15, 2022 at 08:31:12PM +0800, Jiasheng Jiang wrote:
-> Add the check for the return value of dma_alloc_coherent in order to
-> avoid NULL pointer dereference.
+On Thu, Dec 22, 2022 at 12:07:56PM +0100, Stefan Wahren wrote:
+> Hi Umang,
 > 
-> This flaw was found using an experimental static analysis tool we are
-> developing, APP-Miner, which has not been disclosed.
-> 
-> The allyesconfig build using GCC 9.3.0 shows no new warning. As we
-> don't have a UDC device to test with, no runtime testing was able to
-> be performed.
-> 
-> Signed-off-by: Jiasheng Jiang <jiasheng@iscas.ac.cn>
-> ---
-> Changelog:
-> 
-> v2 -> v3:
-> 
-> 1. Add information of finding tool and tests to commit message.
-> 
-> v1 -> v2:
-> 
-> 1. Add "goto err;" when allocation fails.
-> ---
->  drivers/usb/gadget/udc/aspeed_udc.c | 4 ++++
->  1 file changed, 4 insertions(+)
-> 
-> diff --git a/drivers/usb/gadget/udc/aspeed_udc.c b/drivers/usb/gadget/udc/aspeed_udc.c
-> index 01968e2167f9..7dc2457c7460 100644
-> --- a/drivers/usb/gadget/udc/aspeed_udc.c
-> +++ b/drivers/usb/gadget/udc/aspeed_udc.c
-> @@ -1516,6 +1516,10 @@ static int ast_udc_probe(struct platform_device *pdev)
->  					  AST_UDC_EP_DMA_SIZE *
->  					  AST_UDC_NUM_ENDPOINTS,
->  					  &udc->ep0_buf_dma, GFP_KERNEL);
-> +	if (!udc->ep0_buf) {
-> +		rc = -ENOMEM;
-> +		goto err;
-> +	}
->  
->  	udc->gadget.speed = USB_SPEED_UNKNOWN;
->  	udc->gadget.max_speed = USB_SPEED_HIGH;
-> -- 
-> 2.25.1
-> 
+> Am 19.12.22 um 12:57 schrieb Umang Jain:
+> > Drop the usage of VCHIQ_RETRY when the vchiq has connection status
+> > VCHIQ_CONNSTATE_DISCONNECTED. Disconnected status will not be valid to
+> > carry on a retry, replace the VCHIQ_RETRY with -ENOTCONN.
+> > 
+> > This patch removes the usage of vCHIQ_RETRY completely and act as
+> > intermediatory to address the TODO item:
+> > 	* Get rid of custom function return values
+> > for vc04_services/interface.
+> > 
+> > Fixes: 71bad7f08641 ("staging: add bcm2708 vchiq driver")
+> please drop this fixes tag since this commit doesn't fix a real issue and
+> also shouldn't be applied to stable.
 
-Why is this just a duplicate of the patch previously submitted here:
-	https://lore.kernel.org/r/20221125092833.74822-1-yuancan@huawei.com
+I asked Umang to add the Fixes tag based on the patch description and
+based on that it seemed like a behavior change just from looking at
+the patch.
 
-confused,
+But actually you are right that the fixes tag is not required.
 
-greg k-h
+The vchiq_send_remote_use() function is never called (dead code).  The
+vchiq_send_remote_use_active() function now returns a mix of custom
+error codes and negative error codes.  (Ugly).  The caller only tests
+for VCHIQ_SUCCESS so this code does not change behavior.  I really feel
+like the commit description needs to be clearer on this.
+
+The fixes tag is not really about stable.  Stable uses the tag, but the
+fixes tag is appropriate whenever there is a bug fix.
+
+regards,
+dan carpenter
+
