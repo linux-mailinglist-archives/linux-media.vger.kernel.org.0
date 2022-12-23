@@ -2,56 +2,59 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 440556552D0
-	for <lists+linux-media@lfdr.de>; Fri, 23 Dec 2022 17:28:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 996CB65530F
+	for <lists+linux-media@lfdr.de>; Fri, 23 Dec 2022 18:05:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231758AbiLWQ2O (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 23 Dec 2022 11:28:14 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44430 "EHLO
+        id S232313AbiLWRFg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 23 Dec 2022 12:05:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58172 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231699AbiLWQ2N (ORCPT
+        with ESMTP id S229658AbiLWRFf (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 23 Dec 2022 11:28:13 -0500
-Received: from gw.red-soft.ru (red-soft.ru [188.246.186.2])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 6E1F05FFF;
-        Fri, 23 Dec 2022 08:28:11 -0800 (PST)
-Received: from localhost.localdomain (unknown [10.81.81.211])
-        (using TLSv1.2 with cipher AES256-GCM-SHA384 (256/256 bits))
+        Fri, 23 Dec 2022 12:05:35 -0500
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 08A8718345;
+        Fri, 23 Dec 2022 09:05:33 -0800 (PST)
+Received: from nicolas-tpx395.localdomain (192-222-136-102.qc.cable.ebox.net [192.222.136.102])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
         (No client certificate requested)
-        by gw.red-soft.ru (Postfix) with ESMTPSA id E02CA3E1BC4;
-        Fri, 23 Dec 2022 19:28:08 +0300 (MSK)
-Date:   Fri, 23 Dec 2022 19:28:07 +0300
-From:   Artem Chernyshev <artem.chernyshev@red-soft.ru>
-To:     Michael Ira Krufky <mkrufky@linuxtv.org>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media <linux-media@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>, lvc-project@linuxtesting.org
-Subject: Re: [PATCH] [media] mxl111sf: Check return value in
- mxl111sf_config_mpeg_in
-Message-ID: <Y6XXF6gffL9aHTuw@localhost.localdomain>
-References: <20221222214607.39737-1-artem.chernyshev@red-soft.ru>
- <CAOcJUby8i=vRu5-cSe6iBKrnLG8ucmatpiPT=VaMS9etwHH_uw@mail.gmail.com>
+        (Authenticated sender: nicolas)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 05A0A6602CDF;
+        Fri, 23 Dec 2022 17:05:30 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1671815132;
+        bh=DilnnI7vRaCXcahELlHtM/5jZDRYaD/HhEUVFXz7hWo=;
+        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+        b=AozgfGUBs7euhdMl7UmO4pz9LJ8Iyx0U7Nu8qcQhw2Y4bpNw8roJ2d8f6lTGWVu13
+         oXIx6dTkzcMqNGb6lj9x887/uj8CcZ+z4e/Mho0R8FdLumxopwN066s2Q9LJgkNVs0
+         FgvDlOYcNngeVjDKiF1T+9PoaNSUKq7RQ1vWDbjCLVGMr4rVeDbzrSMaFHUYLQkMp7
+         dztTC5CFVglT/+TeZX8hb7SESVRFGnpHoRIT9CZ79ljb1brmVqcl7ydr57zkCE7gxQ
+         0Wl10NEAKdJ1CR3vxjRegH5Yg+W8/KDtLMkZRwq9Pd+T9r+n5hoVX8/dJVLHLXzl0g
+         vq4t3OVFzsG9w==
+Message-ID: <6449640fcfbbfd4b72e619f03704b7e9031a8a17.camel@collabora.com>
+Subject: Re: [PATCH] hantro: Fix JPEG encoder ENUM_FRAMESIZE on RK3399
+From:   Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Cc:     Philipp Zabel <p.zabel@pengutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>, kernel@collabora.com,
+        Robert Mader <robert.mader@collabora.com>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Date:   Fri, 23 Dec 2022 12:05:21 -0500
+In-Reply-To: <CAAEAJfATk+jOq3qt-m2CZEbCVumHHWDFfuEXKA7k0NZQXajCRg@mail.gmail.com>
+References: <20221223141644.703088-1-nicolas.dufresne@collabora.com>
+         <CAAEAJfATk+jOq3qt-m2CZEbCVumHHWDFfuEXKA7k0NZQXajCRg@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.2 (3.46.2-1.fc37) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAOcJUby8i=vRu5-cSe6iBKrnLG8ucmatpiPT=VaMS9etwHH_uw@mail.gmail.com>
-X-KLMS-Rule-ID: 1
-X-KLMS-Message-Action: clean
-X-KLMS-AntiSpam-Lua-Profiles: 174378 [Dec 23 2022]
-X-KLMS-AntiSpam-Version: 5.9.59.0
-X-KLMS-AntiSpam-Envelope-From: artem.chernyshev@red-soft.ru
-X-KLMS-AntiSpam-Rate: 0
-X-KLMS-AntiSpam-Status: not_detected
-X-KLMS-AntiSpam-Method: none
-X-KLMS-AntiSpam-Auth: dkim=none
-X-KLMS-AntiSpam-Info: LuaCore: 502 502 69dee8ef46717dd3cb3eeb129cb7cc8dab9e30f6, {Tracking_from_domain_doesnt_match_to}, d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;red-soft.ru:7.1.1;127.0.0.199:7.1.2
-X-MS-Exchange-Organization-SCL: -1
-X-KLMS-AntiSpam-Interceptor-Info: scan successful
-X-KLMS-AntiPhishing: Clean, bases: 2022/12/23 14:48:00
-X-KLMS-AntiVirus: Kaspersky Security for Linux Mail Server, version 8.0.3.30, bases: 2022/12/23 12:54:00 #20700750
-X-KLMS-AntiVirus-Status: Clean, skipped
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -59,57 +62,115 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 Hi,
-On Fri, Dec 23, 2022 at 07:28:47AM -0500, Michael Ira Krufky wrote:
-> On Thu, Dec 22, 2022, 4:46 PM Artem Chernyshev <artem.chernyshev@red-soft.ru>
-> wrote:
-> 
-> > Error check after mxl111sf_read_reg
-> >
-> > Found by Linux Verification Center (linuxtesting.org) with SVACE.
-> >
-> > Fixes: 4c66c9205c07 ("[media] dvb-usb: add ATSC support for the Hauppauge
-> > WinTV-Aero-M")
-> > Signed-off-by: Artem Chernyshev <artem.chernyshev@red-soft.ru>
-> > ---
-> >  drivers/media/usb/dvb-usb-v2/mxl111sf-phy.c | 3 ++-
-> >  1 file changed, 2 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/media/usb/dvb-usb-v2/mxl111sf-phy.c
-> > b/drivers/media/usb/dvb-usb-v2/mxl111sf-phy.c
-> > index 40b26712ba4c..ad1888514bd0 100644
-> > --- a/drivers/media/usb/dvb-usb-v2/mxl111sf-phy.c
-> > +++ b/drivers/media/usb/dvb-usb-v2/mxl111sf-phy.c
-> > @@ -121,7 +121,8 @@ int mxl111sf_config_mpeg_in(struct mxl111sf_state
-> > *state,
-> >         mxl_fail(ret);
-> >
-> >         /* Configure MPEG Clock phase */
-> > -       mxl111sf_read_reg(state, V6_MPEG_IN_CLK_INV_REG, &mode);
-> > +       ret = mxl111sf_read_reg(state, V6_MPEG_IN_CLK_INV_REG, &mode);
-> > +       mxl_fail(ret);
-> >
-> >         if (clock_phase == TSIF_NORMAL)
-> >                 mode &= ~V6_INVERTED_CLK_PHASE;
-> > --
-> > 2.30.3
-> >
-> 
-> Artem,
-> 
-> Thank you for this.  If I recall correctly, the read from that particular
-> register often returns a failure despite the correct value being read into
-> memory. This needs to be tested before being merged, and if my memory is
-> correct about this we should add a comment about it. Unfortunately, I'm out
-> of town at the moment, I won't be able to test this for some time. Can we
-> hold off on this one for a bit? If you don't hear from me after a few
-> weeks, please feel free to ping me again. Thanks.
-> 
-> Best,
-> Michael Krufky
-> 
-> >
 
-Thanks for reply. I'll be waiting for your decision
+Le vendredi 23 d=C3=A9cembre 2022 =C3=A0 13:28 -0300, Ezequiel Garcia a =C3=
+=A9crit=C2=A0:
+> Hi everyone,
+>=20
+> On Fri, Dec 23, 2022 at 11:17 AM Nicolas Dufresne
+> <nicolas.dufresne@collabora.com> wrote:
+> >=20
+> > The frmsize structure was left initialize to 0, as side effect, the dri=
+ver was
+> > reporting an invalid frmsize.
+> >=20
+> >   Size: Stepwise 0x0 - 0x0 with step 0/0
+> >=20
+> > Fix this by replicating the constraints in the raw formats too. This fi=
+xes
+> > taking picture in Gnome Cheese Software, or any software using GSteamer
+> > encodebin feature.
+> >=20
+> > Fixes: 775fec69008d30 ("media: add Rockchip VPU JPEG encoder driver")
+>=20
+> The frmsize is only for bitstream formats (see comment in struct hantro_f=
+mt).
+> If I can read code correctly, this was broken by this commit:
+>=20
+> commit 79c987de8b35421a2a975982929f150dd415f8f7
+> Author: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> Date:   Mon Apr 4 18:06:40 2022 +0200
+>=20
+>     media: hantro: Use post processor scaling capacities
+>=20
+> Before that commit we used to return EINVAL for enum_framesizes
+> in RAW formats. I guess we missed that :-)
 
-Best regards,
-Artem
+I see, and gstreamer had a quirk for such a bogus response. Let me explain =
+why
+its bogus, for the general knowlege. A driver that supports ENUM_FRAMESIZE =
+but
+does not return any sizes, is in theory a driver that does not support anyt=
+hing.
+Fortunaly, GStreamer considered not having a single framesize bogus, and wo=
+uld
+fallback to the old school try_fmt() dance to find the supported sizes.
+
+So yes, it used to work in gstreamer, and its indeed
+79c987de8b35421a2a975982929f150dd415f8f7 that broke it. I'll correct his in=
+ V2.
+
+>=20
+> To be completely honest, I'm not sure if we used to support encodebin,
+> and I'm not too sure how to approach this issue, but I would really
+> love to start with something super simple like:
+>=20
+> diff --git a/drivers/media/platform/verisilicon/hantro_v4l2.c
+> b/drivers/media/platform/verisilicon/hantro_v4l2.c
+> index 2c7a805289e7..0b28f86b7463 100644
+> --- a/drivers/media/platform/verisilicon/hantro_v4l2.c
+> +++ b/drivers/media/platform/verisilicon/hantro_v4l2.c
+> @@ -161,8 +161,11 @@ static int vidioc_enum_framesizes(struct file
+> *file, void *priv,
+>         }
+>=20
+>         /* For non-coded formats check if postprocessing scaling is possi=
+ble */
+> -       if (fmt->codec_mode =3D=3D HANTRO_MODE_NONE &&
+> hantro_needs_postproc(ctx, fmt)) {
+> -               return hanto_postproc_enum_framesizes(ctx, fsize);
+> +       if (fmt->codec_mode =3D=3D HANTRO_MODE_NONE)
+> +        if (hantro_needs_postproc(ctx, fmt))
+> +            return hanto_postproc_enum_framesizes(ctx, fsize);
+> +        else
+> +            return -ENOTTY;
+>         } else if (fsize->index !=3D 0) {
+>                 vpu_debug(0, "invalid frame size index (expected 0, got %=
+d)\n",
+>                           fsize->index);
+>=20
+> (ENOTTY was suggested by Nicolas on IRC)
+>=20
+> Nicolas also pointed out that our current handling of frmsize is not corr=
+ect,
+> as we cannot express different constraints on combinations of RAW
+> and bitstream formats.
+>=20
+> This seems to call for a rework of enum_framesizes, so frmsize
+> is not static but somehow obtained per-codec.
+
+So I'll respin along these line to we more or less "revert back" to working
+state. Though having a framesize enumeration on encoder raw (OUTPUT queue) =
+is
+what makes most sense so that will have to be revisited with a corrected
+mechanism, as whenever we add VP8 and H.264 encoding, we'll need different =
+range
+per codec. I'll check in January with my colleague, we might do that inside=
+ the
+VP8 encoder branch (that is nearly ready and will be sent after the holiday=
+s),
+or could be an intermediate set.
+
+regards,
+Nicolas
+
+>=20
+> Thanks,
+> Ezequiel
+>=20
+> > Reported-by: Robert Mader <robert.mader@collabora.com>
+> > Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+>=20
+> And thanks a lot for the report and the patch!
+>=20
+
