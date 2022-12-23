@@ -2,262 +2,321 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 82052654FA4
-	for <lists+linux-media@lfdr.de>; Fri, 23 Dec 2022 12:24:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 36BDD655037
+	for <lists+linux-media@lfdr.de>; Fri, 23 Dec 2022 13:15:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236019AbiLWLY5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 23 Dec 2022 06:24:57 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44326 "EHLO
+        id S236066AbiLWMPw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 23 Dec 2022 07:15:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41710 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235884AbiLWLY4 (ORCPT
+        with ESMTP id S236010AbiLWMPs (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 23 Dec 2022 06:24:56 -0500
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.135])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 98DF84083C;
-        Fri, 23 Dec 2022 03:24:53 -0800 (PST)
-Received: from [192.168.1.139] ([37.4.248.22]) by mrelayeu.kundenserver.de
- (mreue010 [212.227.15.167]) with ESMTPSA (Nemesis) id
- 1N2Unv-1ojbWK1i19-013x31; Fri, 23 Dec 2022 12:24:31 +0100
-Message-ID: <629b3f63-74e4-5cb5-29d1-6d2846bc24c7@i2se.com>
-Date:   Fri, 23 Dec 2022 12:24:22 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH] staging: vc04_services: vchiq_arm: Create platform_device
- per device
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Umang Jain <umang.jain@ideasonboard.com>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-staging@lists.linux.dev,
-        linux-rpi-kernel@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Adrien Thierry <athierry@redhat.com>,
-        Dan Carpenter <error27@gmail.com>,
-        Nicolas Saenz Julienne <nsaenz@kernel.org>,
-        Phil Elwell <phil@raspberrypi.com>,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>
-References: <20221220084404.19280-1-umang.jain@ideasonboard.com>
- <Y6Lqs8RUiyi452gM@pendragon.ideasonboard.com> <Y6MF3l40WM3onmyO@kroah.com>
- <d48462f6-de4c-2816-0a7a-b3b13993604c@ideasonboard.com>
- <Y6SVegtHvwQ3p+3K@pendragon.ideasonboard.com>
+        Fri, 23 Dec 2022 07:15:48 -0500
+Received: from NAM04-BN8-obe.outbound.protection.outlook.com (mail-bn8nam04on2040.outbound.protection.outlook.com [40.107.100.40])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92082C6C;
+        Fri, 23 Dec 2022 04:15:41 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Kwiijt7itVYy2SrNG6lWm0xu3LmtO1SOH/0vI5j4XQJM54pRNDrXD0crsaajma8em4XYj7Z7c77uwKW4h2SZV8c5GF8igV4CxcY7dYI2BrUoSEZH6J45GSGutEspMFSOtZjq46Gczz7i5fx7PnGzaJKTCG0cXCifRws+Dl3iYEG8yS5uT70XvFaG5zwISLgMWoI2LrPceKG/JKpqfPv51RJ+317yBlRcAxzd+NFWJAOafIDp8w5ewwfrdxnnCTd9hSEvMrC5wY39Q3yFZxeAigp7JBxe2r+SU3cV9gL5upGs0U0aglXzzKP6gj5SM7rrDA6YXdC3rktxc9EYSov1fg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=9QEOCsM1mB5wZ0e+pisJrx/smqF/Do8t92VIQ2cXv+0=;
+ b=kLILnYAcNaBKyjkPm3jUpsQXMQTatVrJa4IjqF4wHkjAoZhK/Oa+5oFTxixeFm2hjHITxA0hIr6Y9JNrkkV4xKH8+vJS9uCReP0UfEncDRXE5B0aJz1RFpFai4j4sUtTZXPLjNn1sV0/aTERAVvPB4ffDZLHrB3XjvHKTtvg6NxnbXdN2+Kx/hLDA0+mM89gAGeWaSdP95fuQY9Ff0NQEmrkAHikYZkikV0D/ks5xX0A0TJBpwoTHoAfSYRuplIP79q5WmJSTi7h1rEsUh9sHdBCY59+fJ5mG2Ii8YOG/560RxbIpB+xuS4PVo5GqfFI6kMJFzuLJh/j1l1pSb0wvg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=9QEOCsM1mB5wZ0e+pisJrx/smqF/Do8t92VIQ2cXv+0=;
+ b=scv2TkTIVZ2FCd0oqtt5CD+URetfkdSIUz8j3lojtnYRpdXOdu5QZ5oZ3RcD6HMiV5y65vGCLPJl5R8AVj8NPL4cJbpchyJY+yhLIXx5HgCMIL0/HPdyJ6imajAOtNm12slfMUZQ+k1srDx56dZX5MbVt2eD1H+qDQwVtI4Tl9E=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from CH0PR12MB5346.namprd12.prod.outlook.com (2603:10b6:610:d5::24)
+ by SA1PR12MB7150.namprd12.prod.outlook.com (2603:10b6:806:2b4::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5944.12; Fri, 23 Dec
+ 2022 12:15:38 +0000
+Received: from CH0PR12MB5346.namprd12.prod.outlook.com
+ ([fe80::90bb:a277:ad67:6881]) by CH0PR12MB5346.namprd12.prod.outlook.com
+ ([fe80::90bb:a277:ad67:6881%5]) with mapi id 15.20.5924.016; Fri, 23 Dec 2022
+ 12:15:38 +0000
+Message-ID: <5771ea99-eef7-7321-dd67-4c42c0cbb721@amd.com>
+Date:   Fri, 23 Dec 2022 17:45:24 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.0
+Subject: Re: [PATCH v2] crypto: ccp - Allocate TEE ring and cmd buffer using
+ DMA APIs
+To:     Jeremi Piotrowski <jpiotrowski@linux.microsoft.com>
+Cc:     Tom Lendacky <thomas.lendacky@amd.com>,
+        John Allen <john.allen@amd.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        "David S . Miller" <davem@davemloft.net>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+        linux-kernel@vger.kernel.org, linux-crypto@vger.kernel.org,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org,
+        Mythri PK <Mythri.Pandeshwarakrishna@amd.com>,
+        Jeshwanth <JESHWANTHKUMAR.NK@amd.com>,
+        Devaraj Rangasamy <Devaraj.Rangasamy@amd.com>,
+        stable@vger.kernel.org, Jens Wiklander <jens.wiklander@linaro.org>
+References: <651349f55060767a9a51316c966c1e5daa57a644.1670919979.git.Rijo-john.Thomas@amd.com>
+ <20221215132917.GA11061@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
 Content-Language: en-US
-From:   Stefan Wahren <stefan.wahren@i2se.com>
-In-Reply-To: <Y6SVegtHvwQ3p+3K@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:5/IewrfwXtk/j85Fq2Ox0OuZvUU0b4wFBaVQ57vJt0+ATm7usZc
- MiDsThNLAs5ZqFSedxRDKXRPFON+l56M0GnH0QMx3grEzcV7jdTqZk4AsZMDL3wPXUC7Y6S
- GCQcLce58l7AEnSq1aobqtY/EnkcR71WIlYs98dkz2IAUBlSGPFkWKoMiqmrB20Qi5IZvOT
- mM17/vj1BAtqbivnIrWUg==
-UI-OutboundReport: notjunk:1;M01:P0:CBgWySE112E=;kRuv5R7OLdLLhW+soww8Xgsl7y2
- mKoEvGY4a0/tjFa5NtQTmINEU7RZBqF3rCDzLsDBe8+deY4WUYxmSk6ADtPylN6j7u39GFORQ
- SisPrBnlnRp0wu3UzNKz37NrhrMqrr0gYLUkCJurdaRkryHMCkDH1KcHUjt/OA6yRw3KF5WYt
- Ne2FB2OAdTjJ2gxUkC5U6lsYWygwkD1lUzFg697TuUZUpLuPoej0LEVTYvbDIQ4A5zj6T0dMt
- 5BDb9Coc4HArTQDDf0D2rX5hTbHFke+Js00PRp8cgpwnHGsFVMNG1je2G7KB5M/Fnt8WtZCAn
- qK1RekOtMZWcdZHmBXWZXMypzntyMrWcGgV99WVC+7DuDQe8FpEZ2zkAnneklVdEjhJOaNPcx
- rWbguT4GqJjFCMQc7B0OT8zTGltBrrj7d/Mk5gmPOVT4K5Cv8rdyL1Zu3tNax8mSgchYpjwD/
- sEtkQyZ4YcpbalhrkZ7TdTF0gFyLRxL4FePwgR82p+DLUFUjtCH3YFsoJL3pb8gyxAMb5Xhqd
- XmrMnGE5cyvBlDabbRkA1swmkweYZ5oz6Dt/Bl0aH/PbnRovxJS1ZQKczFR3txQnzOW2QY2Em
- vSWSWBXgGpdN260SF3gQgexpoOnyvlArfEI3tuRgVORdYkVP0UmmUso30/EaeUAlAHKpbbmYf
- 8JggzRnYMzFiHhDgQRF6HMHr1fSWejrD4xVStcJJqw==
-X-Spam-Status: No, score=-3.0 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+From:   Rijo Thomas <Rijo-john.Thomas@amd.com>
+In-Reply-To: <20221215132917.GA11061@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: PN2PR01CA0139.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c01:6::24) To CH0PR12MB5346.namprd12.prod.outlook.com
+ (2603:10b6:610:d5::24)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH0PR12MB5346:EE_|SA1PR12MB7150:EE_
+X-MS-Office365-Filtering-Correlation-Id: 24867849-0cad-4b78-00e8-08dae4df66c8
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: zW//ikBFuSmOKjnnfeNyfx1CCWPIv12OkX6M0l0IBKPwYEOTrhUndGOFUlPmwEG/xtscnty3+5/L1GbXVFfz/C6m1m3v2UT4iNouqzK5bngWWstGzVXYpJhZ8MLMM67Vw86DunHBSWHhTz0vA08XaSxb/Oam5UDRdWvZ1SlVZ0/SqubCR7M0caZMglX7bJzGJ5mwQtVQ7NS7uZlPYbElyhnVllcQsEKLd+tViB2o/TILQ9xgZiHgahWXDrKnevAkYjRiRp091Z68DrT+kEymVNRraMX5uoO7v3SuaoegtNJ+bwfynL35TQYdj3pmx/UntRqXn05Qzha/Mc4opXAHZ6u+zQv2A0yctQSrwwJE6Gj9gk9S/rbtmMsXAAt7YLqw0Hzr+iCHFFeiCMBlwHlcAlVCCt7ZXPOpn9dlaX0FXBe0FUrSd4MrM+p7uLZ5xH64I5x+VbLLMlR4IbMY/tLlC7PieIlsmgZi+AEqpHdAjTQvS9cAfoa1qE5oOyf5jODETn/LNJnMb0Zzcg4216I+nzd6aPPkYlvSROTiaNSBSoUmhTwW5huRjULung4hN+M1tAJsaTc3z9QVvMGATyA5FLJj5eIQUJJflwmCuiZ10yMwELOmneax7zET5rvcLYJf4EODLe39YAXqFa0G6LC5HmmT82mN8rroGCuVZBWox37Uj/PIhlKoNOBh9AXZ3K3yu+v8zrgdDnicjU5U8O1cFTmKPLHOQ2C+oYU54fNLTWc=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH0PR12MB5346.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(346002)(136003)(366004)(396003)(376002)(39860400002)(451199015)(36756003)(6486002)(2616005)(478600001)(8936002)(5660300002)(7416002)(38100700002)(2906002)(316002)(83380400001)(54906003)(41300700001)(31696002)(6916009)(86362001)(66946007)(66556008)(66476007)(4326008)(8676002)(53546011)(6506007)(26005)(186003)(6512007)(31686004)(6666004)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?R3k3eHF5K2N3Nmgvb29xWlJFMUlDZ1JoVEZXei9CNTlPWXdtYWdyRnAwRE0z?=
+ =?utf-8?B?U0FISTgwdEJKMjNpOWhsSFJrMWViNElxQ3N1d2UwbzhEanVhV2xiSytzTGlx?=
+ =?utf-8?B?Y3JTYm9RS0Z0bldUVjNBcEZBcFNNUmtZcU1BUGxpZGFhbkJXV0FLMHlhOEFx?=
+ =?utf-8?B?ME8yZkNPbWQ2anJWWTFwaVBaNVRGalVWWTJYeDF3Nmg5VnMvaEFOMzd2VW02?=
+ =?utf-8?B?ZkRzWXJxSVpQeFlNdW5ta0RMVG43QTZLcE8wamsxcWxmUlFYNHFaRjNzRHV1?=
+ =?utf-8?B?NjVYdHpwclZTQmo1MDNpRmUyVkFqeGNqVXcwKzdUZ0EyT1VLUkRoTHczaEpn?=
+ =?utf-8?B?R0JpdEM1QS9IbTRyc29FQitoUXRiQy82bXhPWDlkSSt5NWNUa3NVMVJlcE40?=
+ =?utf-8?B?cFd4bDBHYTJ2SXF1VmlTa3hCOUM1MnhnclYvZEhWNDY4azlHRTZWcHhjOTI1?=
+ =?utf-8?B?TzhmRmZoL1BubVRkZUdQVW95MytmYllpbWJYeTM0Y2J4U2trbDIrcTgxWUZu?=
+ =?utf-8?B?d0NtMUp6NnBUSDdhd2ZGZUJxSGUyaVlyL0VwSjkwYVliNDY5Y0Q3TGNXeGM2?=
+ =?utf-8?B?Zkkyek5JUzJ6TVViNHY0MW1PSjQ0SFN2eXVZSTg4eVV1UFJlK3YrSGFRRzhC?=
+ =?utf-8?B?Vno5VThIQ0x3WDZYYk84K1lUcGg0OGdLRGQ1eEh3cTJDemRGNTVXKzlmWVFT?=
+ =?utf-8?B?aW10WW1YOFBsN0UrVFgreTVqTEZVVi9lRmJ0bzAxZndmMFZNQjdLMzVJQnF6?=
+ =?utf-8?B?SUVraC83aGdtenQyRi9EcjRYbjRmMGRySHVzUHlRdWlVOWpFd0xjay9xcklt?=
+ =?utf-8?B?dFlBaHBkbUNwY1MweE4zWDIxWUt0ejVsblJ1QTFJSXpxUjZoUy9DWnFOckZK?=
+ =?utf-8?B?OWVpYU1HendEcmNxbGQ1VVMvMEdnaU94emhvWnQ1cm5veUlJQStqMmtTRG1n?=
+ =?utf-8?B?VXR5QTJKMVV3SlZsdEpVb1cxZEFJK0svQnFGME1XcERiaktMZFEvR2hiSDZL?=
+ =?utf-8?B?MXZ0TEwzS0RDOERJODdiYUtmcVU3WFJtb1VNM1RORVQ0K2ZwUmhoSmlPTjZw?=
+ =?utf-8?B?a2VHNWJEdDh4RVMzaHI5L1VnRml2N0pnSWFmVHVvMVYyYU5ZdGF0cktYR1VK?=
+ =?utf-8?B?ajZqUkZiYjhEMGFwYkVtOWVNQXAvc2xVTUZkM1piSzJQeGRTNXpUV09kS1lu?=
+ =?utf-8?B?ekw0amRvb0VMWHF3cDNLR1R6Z01ucHd0ZDc1UVpGWmlIVTRnbmNwOEZHNDh3?=
+ =?utf-8?B?NE1RdEtvT2lLR2xXVEdZWWpFaVJnc1F5SzhieGs4K2pLcmpEY2MvN2NFaHVD?=
+ =?utf-8?B?QnhCRUxxKzRWTFJCMlcwWVRvQmszZkNxeTVhQ1dsWHVrOStndWZaaXNwK1RF?=
+ =?utf-8?B?RkttVTl4cnFES2dEd3pOektSUXQrM1YzNjZMR29uR2FtSExXejdOR1ZWMlRx?=
+ =?utf-8?B?ckdHSExkL0JnYnFIdElCNW9TcjVESTQvdTQ2TjJNb3VsT3hJRzlCeXU3UXRN?=
+ =?utf-8?B?QzNkZWRNcW1ON014Z210WEZrSWJxbUwydjVpSXdNV1Z1V3BVaWFScWplZjBy?=
+ =?utf-8?B?VzJTQnZieDFxQThqM0I2aFZZK1lGNTNCanREcHQxWEFXR2l0dnJrQStKSWJn?=
+ =?utf-8?B?K2JYMG1qclo1c211WW1IdmVPakxiVUJJNlBDRll0ZVhZV3FSaWV0SW9XVGtx?=
+ =?utf-8?B?ZmtVak1Pci93elVtZ090elZ1alFXa1NUVnBFWGVjVTFBeHdWWTFzRDFmbEZB?=
+ =?utf-8?B?TndJWnUrVVluWkdKTkp6Sm1kN094YTJEZ0VjdmxQRm9vblRORUYzSUlKc25N?=
+ =?utf-8?B?aGkvdTlIZXVqWjd4dHVjV083MVVmQmJNMFZmQ3piU2FBMnRTcUh5R0kxWkdH?=
+ =?utf-8?B?TmR2Wkl0cjRENlFkakhUc3hMUS9OLzl4dDBWd3Q5TGRoc1djOTcvYkQ2TTdi?=
+ =?utf-8?B?Sy9QbWlxN1lrZllyQWkrRDB2MTB3S0QzbHdKTVd4TjhTcXhEa2NRYjEyZmhE?=
+ =?utf-8?B?N1pZclpaUS95LzhrVFpXamE4Qk40elBrR3g2VTYveFZBaStLQXRsSTJ4WmQx?=
+ =?utf-8?B?OXJzUTdpZ2xZTUdzazlaNjUraS9VNDJ6cWUzcTFibUQ3TWo2N0N5SXY3QjJI?=
+ =?utf-8?Q?qhLAIG9C56ZDHGMt6ULD+KEM2?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 24867849-0cad-4b78-00e8-08dae4df66c8
+X-MS-Exchange-CrossTenant-AuthSource: CH0PR12MB5346.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Dec 2022 12:15:38.4256
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: nqAa8Ib5d8VxlUU64jhrdTWvSbnmNtTyhlVzBM187JlcXlGPJacPSoUotbx8W+w1URJ8nJavwZE6npYhCkwBdQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB7150
+X-Spam-Status: No, score=-3.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
-hi Umang,
 
-Am 22.12.22 um 18:35 schrieb Laurent Pinchart:
-> Hi Umang,
->
-> On Thu, Dec 22, 2022 at 01:59:28PM +0530, Umang Jain wrote:
->> On 12/21/22 6:40 PM, Greg Kroah-Hartman wrote:
->>> On Wed, Dec 21, 2022 at 01:14:59PM +0200, Laurent Pinchart wrote:
->>>> On Tue, Dec 20, 2022 at 02:14:04PM +0530, Umang Jain wrote:
->>>>> Create a proper per device platorm_device structure for all the child
->>>>> devices that needs to be registered by vchiq platform driver. Replace
->>>>> the vchiq_register_child() with platform_add_devices() to register the
->>>>> child devices.
->>>> This explains what the patch does, but not why.
->>>>
->>>>> This is part of an effort to address TODO item "Get rid of all non
->>>>> essential global structures and create a proper per device structure"
->>>> And this explains part of the reason only. Could you please expand the
->>>> commit message with the reasoning behind this change ? It's not clear
->>>> from the change below why this is needed and good.
->> Ok, I thought the TODO reference was sufficient but I'll expand on it.
+
+On 12/15/2022 6:59 PM, Jeremi Piotrowski wrote:
+> On Tue, Dec 13, 2022 at 04:40:27PM +0530, Rijo Thomas wrote:
+>> For AMD Secure Processor (ASP) to map and access TEE ring buffer, the
+>> ring buffer address sent by host to ASP must be a real physical
+>> address and the pages must be physically contiguous.
 >>
->>>>> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
->>>>> ---
->>>>>    .../interface/vchiq_arm/vchiq_arm.c           | 59 ++++++++++---------
->>>>>    1 file changed, 31 insertions(+), 28 deletions(-)
->>>>>
->>>>> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
->>>>> index 22de23f3af02..fa42ea3791a7 100644
->>>>> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
->>>>> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
->>>>> @@ -65,8 +65,29 @@ int vchiq_susp_log_level = VCHIQ_LOG_ERROR;
->>>>>    DEFINE_SPINLOCK(msg_queue_spinlock);
->>>>>    struct vchiq_state g_state;
->>>>>    
->>>>> -static struct platform_device *bcm2835_camera;
->>>>> -static struct platform_device *bcm2835_audio;
->>>>> +static u64 vchiq_device_dmamask = DMA_BIT_MASK(32);
->>>> The fact that this isn't const and is used by two different
->>>> platform_device instances is worrying. Either it can be made const, or
->>>> it's wrong.
->> ack.
+>> In a virtualized environment though, when the driver is running in a
+>> guest VM, the pages allocated by __get_free_pages() may not be
+>> contiguous in the host (or machine) physical address space. Guests
+>> will see a guest (or pseudo) physical address and not the actual host
+>> (or machine) physical address. The TEE running on ASP cannot decipher
+>> pseudo physical addresses. It needs host or machine physical address.
 >>
->>>>> +
->>>>> +static struct platform_device bcm2835_camera = {
->>>>> +	.name		= "bcm2835-camera",
->>>>> +	.id		= PLATFORM_DEVID_NONE,
->>>>> +	.dev		= {
->>>>> +		.dma_mask	= &vchiq_device_dmamask,
->>>>> +	}
->>>>> +};
->>>>> +
->>>>> +static struct platform_device bcm2835_audio = {
->>>>> +	.name		= "bcm2835_audio",
->>>>> +	.id		= PLATFORM_DEVID_NONE,
->>>>> +	.dev		= {
->>>>> +		.dma_mask	= &vchiq_device_dmamask,
->>>>> +	}
->>>>> +
->>>> Extra blank line.
->> oops, checkpatch.pl didn't catch this :-/
+>> To resolve this problem, use DMA APIs for allocating buffers that must
+>> be shared with TEE. This will ensure that the pages are contiguous in
+>> host (or machine) address space. If the DMA handle is an IOVA,
+>> translate it into a physical address before sending it to ASP.
 >>
->>>>> +};
->>>>> +
->>>>> +static struct platform_device *vchiq_devices[] __initdata = {
->>>> Make it const.
->>>>
->>>>> +	&bcm2835_camera,
->>>>> +	&bcm2835_audio,
->>>>> +};
->>>>>    
->>>>>    struct vchiq_drvdata {
->>>>>    	const unsigned int cache_line_size;
->>>>> @@ -1763,28 +1784,6 @@ static const struct of_device_id vchiq_of_match[] = {
->>>>>    };
->>>>>    MODULE_DEVICE_TABLE(of, vchiq_of_match);
->>>>>    
->>>>> -static struct platform_device *
->>>>> -vchiq_register_child(struct platform_device *pdev, const char *name)
->>>>> -{
->>>>> -	struct platform_device_info pdevinfo;
->>>>> -	struct platform_device *child;
->>>>> -
->>>>> -	memset(&pdevinfo, 0, sizeof(pdevinfo));
->>>>> -
->>>>> -	pdevinfo.parent = &pdev->dev;
->>>>> -	pdevinfo.name = name;
->>>>> -	pdevinfo.id = PLATFORM_DEVID_NONE;
->>>>> -	pdevinfo.dma_mask = DMA_BIT_MASK(32);
->>>>> -
->>>>> -	child = platform_device_register_full(&pdevinfo);
->>>>> -	if (IS_ERR(child)) {
->>>>> -		dev_warn(&pdev->dev, "%s not registered\n", name);
->>>>> -		child = NULL;
->>>>> -	}
->>>>> -
->>>>> -	return child;
->>>>> -}
->>>>> -
->>>>>    static int vchiq_probe(struct platform_device *pdev)
->>>>>    {
->>>>>    	struct device_node *fw_node;
->>>>> @@ -1832,8 +1831,11 @@ static int vchiq_probe(struct platform_device *pdev)
->>>>>    		goto error_exit;
->>>>>    	}
->>>>>    
->>>>> -	bcm2835_camera = vchiq_register_child(pdev, "bcm2835-camera");
->>>>> -	bcm2835_audio = vchiq_register_child(pdev, "bcm2835_audio");
->>>>> +	err = platform_add_devices(vchiq_devices, ARRAY_SIZE(vchiq_devices));
->>>>> +	if (err) {
->>>>> +		dev_warn(&pdev->dev, "Failed to add vchiq child devices");
->>>>> +		goto error_exit;
->>>>> +	}
->>>> If you unbind and rebind this driver, the platform_device instances
->>>> defined as global variables will be reused, and I'm pretty sure that
->>>> will cause issues, for instance with the kobj->state_initialized check
->>>> in kobject_init() (called from device_initialize(), itself called from
->>>> platform_device_register(), from platform_add_devices()). I'm not sure
->>>> static instances of platform_device are a very good idea in general.
->>> static instances of any device are a horrible idea, but it seems that
->>> many drivers do this and abuse platform devices this way :(
->> It seems  I have been a victim of the abuse usage while looking for
->> platform_device references in the codebase. I'm working on a new
->> approach for this.
+>> This patch also exports two APIs (one for buffer allocation and
+>> another to free the buffer). This API can be used by AMD-TEE driver to
+>> share buffers with TEE.
 >>
->> Currently (as per the linux-next branch), the vchiq driver will happily
->> carry on if any of the child  platform device registration fails. That
->> means if bcm2835-audio fails to register, bcm2835-camera will  still
->> kept registered I suppose.
+>> Fixes: 33960acccfbd ("crypto: ccp - add TEE support for Raven Ridge")
+>> Cc: Tom Lendacky <thomas.lendacky@amd.com>
+>> Cc: stable@vger.kernel.org
+>> Signed-off-by: Rijo Thomas <Rijo-john.Thomas@amd.com>
+>> Co-developed-by: Jeshwanth <JESHWANTHKUMAR.NK@amd.com>
+>> Signed-off-by: Jeshwanth <JESHWANTHKUMAR.NK@amd.com>
+>> Reviewed-by: Devaraj Rangasamy <Devaraj.Rangasamy@amd.com>
+>> ---
+>> v2:
+>>  * Removed references to dma_buffer.
+>>  * If psp_init() fails, clear reference to master device.
+>>  * Handle gfp flags within psp_tee_alloc_buffer() instead of passing it as
+>>    a function argument.
+>>  * Added comments within psp_tee_alloc_buffer() to serve as future
+>>    documentation.
 >>
->> However with usage of platform_add_devices() in this patch, I introduced
->> a functionality change (I'm realizing this now) - any failure of child
->> platform device registeration will -unregister- all the other platform
->> devices i.e. if bcm2835-audio fails, bcm2835-camera will also get
->> unregistered.
+>>  drivers/crypto/ccp/psp-dev.c |  13 ++--
+>>  drivers/crypto/ccp/tee-dev.c | 124 +++++++++++++++++++++++------------
+>>  drivers/crypto/ccp/tee-dev.h |   9 +--
+>>  include/linux/psp-tee.h      |  49 ++++++++++++++
+>>  4 files changed, 142 insertions(+), 53 deletions(-)
 >>
->> Should I be working towards the status-quo behavior ? Or it's sane to
->> unregistered other platform devices if one of the fails like
->> platform_add_devices() does ? (This affects my new approach as well,
->> hence the question)
-> If it doesn't cause too much extra complexity, it would be nice to skip
-> devices that can't be registered successfully, and still support the
-> other ones. I don't expect registration failures to be a occuring
-> normally, so if this causes too much completely, I think it would still
-> be fine to fail more harshly.
->
->>> Ideally this should be done properly, with the correct devices created
->>> automatically based on the device tree structure, NOT hard-coded into a
->>> .c file like this.
->>>
->>> So I too really do not like this change, why are these not being created
->>> by the firware layer automatically?
->> Not sure if this is a helpful comment, but as far I know, there can be
->> vchiq child platform devices which probably don't have a Device tree
->> entry. like the bcm2835-isp [1] I posted earlier.
+>> diff --git a/drivers/crypto/ccp/psp-dev.c b/drivers/crypto/ccp/psp-dev.c
+>> index c9c741ac8442..380f5caaa550 100644
+>> --- a/drivers/crypto/ccp/psp-dev.c
+>> +++ b/drivers/crypto/ccp/psp-dev.c
+>> @@ -161,13 +161,13 @@ int psp_dev_init(struct sp_device *sp)
+>>  		goto e_err;
+>>  	}
 >>
->> [1] https://lore.kernel.org/lkml/20221121214722.22563-1-umang.jain@ideasonboard.com/
-> Those devices are implemented and exposed by the firmware running on the
-> VC4. The device tree describes the VC4 itself with the resources
-> required to communicate with it through a mailbox interface. I was going
-> to say that the platform devices are then created based on what the
-> firmware exposes, but that's not right, they're indeed hardcoded in the
-> vchiq driver. Adding corresponding DT nodes (as children of the vchiq DT
-> node) could make sense. Dave, do you have any opinion on this ?
+>> -	ret = psp_init(psp);
+>> -	if (ret)
+>> -		goto e_irq;
+>> -
+>>  	if (sp->set_psp_master_device)
+>>  		sp->set_psp_master_device(sp);
+>>
+>> +	ret = psp_init(psp);
+>> +	if (ret)
+>> +		goto e_clear;
+>> +
+>>  	/* Enable interrupt */
+>>  	iowrite32(-1, psp->io_regs + psp->vdata->inten_reg);
+>>
+>> @@ -175,7 +175,10 @@ int psp_dev_init(struct sp_device *sp)
+>>
+>>  	return 0;
+>>
+>> -e_irq:
+>> +e_clear:
+>> +	if (sp->clear_psp_master_device)
+>> +		sp->clear_psp_master_device(sp);
+>> +
+>>  	sp_free_psp_irq(psp->sp, psp);
+>>  e_err:
+>>  	sp->psp_data = NULL;
+>> diff --git a/drivers/crypto/ccp/tee-dev.c b/drivers/crypto/ccp/tee-dev.c
+>> index 5c9d47f3be37..5c43e6e166f1 100644
+>> --- a/drivers/crypto/ccp/tee-dev.c
+>> +++ b/drivers/crypto/ccp/tee-dev.c
+>> @@ -12,8 +12,9 @@
+>>  #include <linux/mutex.h>
+>>  #include <linux/delay.h>
+>>  #include <linux/slab.h>
+>> +#include <linux/dma-direct.h>
+>> +#include <linux/iommu.h>
+>>  #include <linux/gfp.h>
+>> -#include <linux/psp-sev.h>
+>>  #include <linux/psp-tee.h>
+>>
+>>  #include "psp-dev.h"
+>> @@ -21,25 +22,73 @@
+>>
+>>  static bool psp_dead;
+>>
+>> +struct psp_tee_buffer *psp_tee_alloc_buffer(unsigned long size)
+>> +{
+>> +	struct psp_device *psp = psp_get_master_device();
+>> +	struct psp_tee_buffer *buf;
+>> +	struct iommu_domain *dom;
+>> +
+>> +	if (!psp || !size)
+>> +		return NULL;
+>> +
+>> +	buf = kzalloc(sizeof(*buf), GFP_KERNEL);
+>> +	if (!buf)
+>> +		return NULL;
+>> +
+>> +	/* The pages allocated for PSP Trusted OS must be physically
+>> +	 * contiguous in host (or machine) address space. Therefore,
+>> +	 * use DMA API to allocate memory.
+>> +	 */
+>> +
+>> +	buf->vaddr = dma_alloc_coherent(psp->dev, size, &buf->dma,
+>> +					GFP_KERNEL | __GFP_ZERO);
+> 
+> dma_alloc_coherent memory is just as contiguous as __get_free_pages, and
+> calling dma_alloc_coherent from a guest does not guarantee that the memory is
+> contiguous in host memory either. The memory would look contiguous from the
+> device point of view thanks to the IOMMU though (in both cases). So this is not
+> about being contiguous but other properties that you might rely on (dma mask
+> most likely, or coherent if you're not running this on x86?).
+> 
+> Can you confirm why this fixes things and update the comment to reflect that.
+> 
 
-i vaguely remember the discussion how to represent audio and camera 
-interface in the device tree. Representing as child nodes of the VC4 has 
-been rejected on the device tree mailing some years ago, because this 
-doesn't represent the physical (hardware) wiring. It's still possible to 
-access e.g. the camera interface from the ARM.
+I see what you are saying.
 
-The whole approach with using a separate binding for all the firmware 
-stuff lead to a lot of trouble on the Raspberry Pi platform (ugly 
-dependencies between firmware, DT and kernel). So i would like to avoid 
-this here. In case the current implementation is a no go, how about 
-letting the ARM core discover the available interfaces e.g. via mailbox 
-interface?
+We verified this in Xen Dom0 PV guest, where dma_alloc_coherent() returned a memory
+that is contiguous in machine address space, and the machine address was returned
+in the dma handle (buf->dma).
 
-For more inspiration take a look at this old thread [1]
+>> +	if (!buf->vaddr || !buf->dma) {
+>> +		kfree(buf);
+>> +		return NULL;
+>> +	}
+>> +
+>> +	buf->size = size;
+>> +
+>> +	/* Check whether IOMMU is present. If present, convert IOVA to
+>> +	 * physical address. In the absence of IOMMU, the DMA address
+>> +	 * is actually the physical address.
+>> +	 */
+>> +
+>> +	dom = iommu_get_domain_for_dev(psp->dev);
+>> +	if (dom)
+>> +		buf->paddr = iommu_iova_to_phys(dom, buf->dma);
+>> +	else
+>> +		buf->paddr = buf->dma;
+> 
+> This is confusing: you're storing GPA for the guest and HPA in case of the
+> host, to pass to the device. Let's talk about the host case.
+> 
+> a) the device is behind an IOMMU. The DMA API gives you an IOVA, and the device
+> should be using the IOVA to access memory (because it's behind an IOMMU).
+> b) the device is not behind an IOMMU. The DMA API gives you a PA, the device
+> uses a PA.
+> 
+> But in case a) you're extracting the PA, which means your device can bypass the
+> IOMMU, in which case the system should not think that it is behind an IOMMU. So
+> how does this work?
+> 
 
-But i agree DT binding for vchiq itself is also a TODO
+PSP Trusted OS maps memory without using IOMMU (it bypasses IOMMU). Hence, we need to pass system
+physical address to PSP. That's why we cannot pass IOVA or GPA to PSP.
 
-and any help is appreciated.
+We are re-evaluating our solution to handle other scenarios as well (not just Xen Dom0 PV).
 
-[1] - 
-http://lists.infradead.org/pipermail/linux-rpi-kernel/2017-February/005541.html
+Thanks,
+Rijo
 
->
+> Jeremi
+> 
+>> +
+>> +	return buf;
+>> +}
+>> +EXPORT_SYMBOL(psp_tee_alloc_buffer);
+>> +
+> 
