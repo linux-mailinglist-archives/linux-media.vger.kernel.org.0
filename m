@@ -2,97 +2,105 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7D2016558F5
-	for <lists+linux-media@lfdr.de>; Sat, 24 Dec 2022 08:36:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1FD4D65590E
+	for <lists+linux-media@lfdr.de>; Sat, 24 Dec 2022 09:04:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230244AbiLXHgC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 24 Dec 2022 02:36:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49868 "EHLO
+        id S229930AbiLXIEG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 24 Dec 2022 03:04:06 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54676 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230237AbiLXHgB (ORCPT
+        with ESMTP id S229445AbiLXIEF (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 24 Dec 2022 02:36:01 -0500
-Received: from cstnet.cn (smtp23.cstnet.cn [159.226.251.23])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 02E9938A1;
-        Fri, 23 Dec 2022 23:35:54 -0800 (PST)
-Received: from localhost.localdomain (unknown [124.16.138.125])
-        by APP-03 (Coremail) with SMTP id rQCowADn7JTJq6Zj1ihdCA--.4680S2;
-        Sat, 24 Dec 2022 15:35:37 +0800 (CST)
-From:   Jiasheng Jiang <jiasheng@iscas.ac.cn>
-To:     gregkh@linuxfoundation.org
-Cc:     neal_liu@aspeedtech.com, joel@jms.id.au, andrew@aj.id.au,
-        sumit.semwal@linaro.org, christian.koenig@amd.com,
-        linux-aspeed@lists.ozlabs.org, linux-usb@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org,
-        Jiasheng Jiang <jiasheng@iscas.ac.cn>
-Subject: Re: [PATCH v3] usb: gadget: aspeed_udc: Add check for dma_alloc_coherent
-Date:   Sat, 24 Dec 2022 15:35:36 +0800
-Message-Id: <20221224073536.24889-1-jiasheng@iscas.ac.cn>
-X-Mailer: git-send-email 2.25.1
+        Sat, 24 Dec 2022 03:04:05 -0500
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C30CF2606;
+        Sat, 24 Dec 2022 00:04:03 -0800 (PST)
+Received: from [IPV6:2a01:e0a:120:3210:9071:5495:b8e6:e417] (unknown [IPv6:2a01:e0a:120:3210:9071:5495:b8e6:e417])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits))
+        (No client certificate requested)
+        (Authenticated sender: benjamin.gaignard)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 116216602CE4;
+        Sat, 24 Dec 2022 08:04:01 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1671869041;
+        bh=gwiI8vPLAipPEAg6suP/Gdgsidzj+89aU3MlnmFb6CI=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=fudwGN1x/TMpFiYZC3wdz3auwHOAy9z/AbFYWiGILCgmSIFO6lQOvhTqFGHu54D2B
+         h84fruUR8owRI43OQx6xmLr4ss9+Me0O0gZvTrdMzrCffz4E9BSk7O/oqC4NcrfqUl
+         9g6EtkBgY8cDBaBhQFtXdElBNrb7GgV7jjEdK3UsJb5ttPf/WMmOwNlZ29swZIgSVC
+         wQyz25uUHNahL5Ov0ONvcQ+4ESsyaR5R9HyHvme7OC5PLS9XT/Lu5MsN9iw+Ec6quZ
+         z3gBAL+AZtV8DAuaXhH7HLL8yjag6NxFPdVST6ntOkMUEEN8NWDsFCAjDMcdq846hM
+         5qEtr/gIrZjtA==
+Message-ID: <8d13ffb9-74cb-00f9-072a-0614e341e1ef@collabora.com>
+Date:   Sat, 24 Dec 2022 09:03:59 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH v2] hantro: Fix JPEG encoder ENUM_FRMSIZE on RK3399
+Content-Language: en-US
+To:     Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     kernel@collabora.com, Robert Mader <robert.mader@collabora.com>,
+        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        linux-kernel@vger.kernel.org
+References: <20221223181647.720918-1-nicolas.dufresne@collabora.com>
+From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
+In-Reply-To: <20221223181647.720918-1-nicolas.dufresne@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: rQCowADn7JTJq6Zj1ihdCA--.4680S2
-X-Coremail-Antispam: 1UD129KBjvdXoWrur4UGF4UXr1UZFW3Wry3Arb_yoWDKrgEkr
-        4UuFW7C34UZF98tF17J34ayrWDKF95Z3s5WF1q9FnxZa43JayxXr4Uuryv9a13ZF1xCFs3
-        Cw15JanrXa4FgjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-        9fnUUIcSsGvfJTRUUUbVAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
-        6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
-        A2z4x0Y4vE2Ix0cI8IcVAFwI0_JFI_Gr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_
-        Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AKxVW8Jr
-        0_Cr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj
-        6xIIjxv20xvE14v26r126r1DMcIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr
-        0_Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E
-        8cxan2IY04v7MxkIecxEwVAFwVW8CwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbV
-        WUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF
-        67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42
-        IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF
-        0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxh
-        VjvjDU0xZFpf9x0JUm-eOUUUUU=
-X-Originating-IP: [124.16.138.125]
-X-CM-SenderInfo: pmld2xxhqjqxpvfd2hldfou0/
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-3.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Dec 23, 2022 at 10:54:37PM +0800, Greg KH wrote:
->> diff --git a/drivers/usb/gadget/udc/aspeed_udc.c b/drivers/usb/gadget/udc/aspeed_udc.c
->> index 01968e2167f9..7dc2457c7460 100644
->> --- a/drivers/usb/gadget/udc/aspeed_udc.c
->> +++ b/drivers/usb/gadget/udc/aspeed_udc.c
->> @@ -1516,6 +1516,10 @@ static int ast_udc_probe(struct platform_device *pdev)
->>  					  AST_UDC_EP_DMA_SIZE *
->>  					  AST_UDC_NUM_ENDPOINTS,
->>  					  &udc->ep0_buf_dma, GFP_KERNEL);
->> +	if (!udc->ep0_buf) {
->> +		rc = -ENOMEM;
->> +		goto err;
->> +	}
->>  
->>  	udc->gadget.speed = USB_SPEED_UNKNOWN;
->>  	udc->gadget.max_speed = USB_SPEED_HIGH;
->> -- 
->> 2.25.1
->> 
-> 
-> Why is this just a duplicate of the patch previously submitted here:
-> 	https://lore.kernel.org/r/20221125092833.74822-1-yuancan@huawei.com
-> 
-> confused,
-> 
-> greg k-h
 
-Yes, it is the same as mine.
-As the previous patch had not been merged into the Linux kernel,
-my tool found the same error and report it.
-And both of us chose the most concise way to fix the error.
-That is why the patches are the same.
+Le 23/12/2022 à 19:16, Nicolas Dufresne a écrit :
+> Since 79c987de8b354, enumerating framesize on format set with "MODE_NONE"
+> (any raw formats) is reporting an invalid frmsize.
+>
+>    Size: Stepwise 0x0 - 0x0 with step 0/0
+>
+> Before this change, the driver would return EINVAL, which is also invalid but
+> worked in GStreamer. The original intent was not to implement it, hence the
+> -ENOTTY return in this change. While drivers should implement ENUM_FRMSIZE for
+> all formats and queues, this change is limited in scope to fix the regression.
+>
+> This fixes taking picture in Gnome Cheese software, or any software using
+> GSteamer to encode JPEG with hardware acceleration.
+>
+> Fixes: 79c987de8b354 ("media: hantro: Use post processor scaling capacities")
+> Reported-by: Robert Mader <robert.mader@collabora.com>
+> Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 
-Thanks,
-Jiang
+Reviewed-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 
+> ---
+>   drivers/media/platform/verisilicon/hantro_v4l2.c | 7 +++++--
+>   1 file changed, 5 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/media/platform/verisilicon/hantro_v4l2.c b/drivers/media/platform/verisilicon/hantro_v4l2.c
+> index 2c7a805289e7b..30e650edaea8a 100644
+> --- a/drivers/media/platform/verisilicon/hantro_v4l2.c
+> +++ b/drivers/media/platform/verisilicon/hantro_v4l2.c
+> @@ -161,8 +161,11 @@ static int vidioc_enum_framesizes(struct file *file, void *priv,
+>   	}
+>   
+>   	/* For non-coded formats check if postprocessing scaling is possible */
+> -	if (fmt->codec_mode == HANTRO_MODE_NONE && hantro_needs_postproc(ctx, fmt)) {
+> -		return hanto_postproc_enum_framesizes(ctx, fsize);
+> +	if (fmt->codec_mode == HANTRO_MODE_NONE) {
+> +		if (hantro_needs_postproc(ctx, fmt))
+> +			return hanto_postproc_enum_framesizes(ctx, fsize);
+> +		else
+> +			return -ENOTTY;
+>   	} else if (fsize->index != 0) {
+>   		vpu_debug(0, "invalid frame size index (expected 0, got %d)\n",
+>   			  fsize->index);
