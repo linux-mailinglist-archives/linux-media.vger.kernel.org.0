@@ -2,126 +2,113 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4B815655BFB
-	for <lists+linux-media@lfdr.de>; Sun, 25 Dec 2022 01:15:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BC536655D8F
+	for <lists+linux-media@lfdr.de>; Sun, 25 Dec 2022 16:44:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229672AbiLYAPC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 24 Dec 2022 19:15:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42016 "EHLO
+        id S231136AbiLYPo3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 25 Dec 2022 10:44:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47508 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229445AbiLYAPB (ORCPT
+        with ESMTP id S229563AbiLYPoW (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 24 Dec 2022 19:15:01 -0500
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10B393899;
-        Sat, 24 Dec 2022 16:14:59 -0800 (PST)
-Received: from [IPV6:2003:c7:df11:b00:fc6d:91a:a11d:a091] (p200300c7df110b00fc6d091aa11da091.dip0.t-ipconnect.de [IPv6:2003:c7:df11:b00:fc6d:91a:a11d:a091])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+        Sun, 25 Dec 2022 10:44:22 -0500
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1BBA6262B;
+        Sun, 25 Dec 2022 07:44:21 -0800 (PST)
+Received: from thinkpad-t460p.fritz.box (p200300c7df110b00fc6d091aa11da091.dip0.t-ipconnect.de [IPv6:2003:c7:df11:b00:fc6d:91a:a11d:a091])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
         (No client certificate requested)
         (Authenticated sender: rmader)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 8100B6601B06;
-        Sun, 25 Dec 2022 00:14:56 +0000 (GMT)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 08D726601811;
+        Sun, 25 Dec 2022 15:44:18 +0000 (GMT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1671927297;
-        bh=Ssm3igtjYoF1mqISjvcxMuDfQYYSzbscwC6hQ4FM+xM=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=eLpvf+vxIZZrECDM65IenJkrV8/2zA+B/WEGfgbHXf58IX96XfZIXxwfOKd5IYkXL
-         sSmbnoqVHGNK0eQajyJ/S4Rd8yeUjOIgHN+b0E2j5HbcBPDxmk6mkJT0TfP9LTdiUC
-         jebC1NnO42xOE2JlcVQ/8QaRdlsEU7dvdmyj7qybSsI4GZVSHRARYxVq4ABkY8f9DR
-         elSvubXQO352g3sOB3JYaLQffWbYQKyGqiC+J749vmMe02vFE/YBjn9LHB6DBpFpW2
-         t865uwz+IZ0pfhB+LgDYS6VoiIXDxR6SL5kv51956jkCJRkC+Chgvd1kkN/0SXc38n
-         fzK5fRRjRENbQ==
-Message-ID: <9cb9a6dc-1bc6-ce32-0948-8f87014aae87@collabora.com>
-Date:   Sun, 25 Dec 2022 01:14:53 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH v2] hantro: Fix JPEG encoder ENUM_FRMSIZE on RK3399
-To:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Cc:     Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>, kernel@collabora.com,
-        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        linux-kernel@vger.kernel.org
-References: <20221223181647.720918-1-nicolas.dufresne@collabora.com>
- <8d13ffb9-74cb-00f9-072a-0614e341e1ef@collabora.com>
- <Y6cw3dU8Ku2+aL9y@eze-laptop>
-Content-Language: en-US
+        s=mail; t=1671983059;
+        bh=YapcUwwPQt6Jen4c90jptEXYFz5PEE8azyvlgG7AcJY=;
+        h=From:To:Cc:Subject:Date:From;
+        b=lJsxPSH197CJQYBWl/149mJ+QiSt+J7nGtamzxZvmpdoqhNyQlloOMNRcNd/mjLiD
+         LicM2zDNTL9+y46HxvJYaflVSrxl4jrR0HTrlN89T0qV5o1nQNMTuJNvsFzaZBO+Pa
+         mCzlrGRi9XF0WKwD2vSleKIhsSP45pwsXvf1osq+KtgkryMYmme2xnWpPMM5iJD3Tc
+         PR9OIj9QglZApaozrYS1wFTjsxfmjIF6jA/qJ9cCPHMSJrDYfEC2jxq/ECNLtZZmwT
+         MGjw33JLH53TavXgvsrwEG8oMRQAhRmq0bGi7CVnuarM8JdmWTGQL7w0tMI31ac6G5
+         9OAeUVlfiMFxQ==
 From:   Robert Mader <robert.mader@collabora.com>
-In-Reply-To: <Y6cw3dU8Ku2+aL9y@eze-laptop>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To:     linux-kernel@vger.kernel.org
+Cc:     nicholas@rothemail.net, javierm@redhat.com, jacopo@jmondi.org,
+        Robert Mader <robert.mader@collabora.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org
+Subject: [PATCH] media: i2c: imx258: Parse and register properties
+Date:   Sun, 25 Dec 2022 16:42:34 +0100
+Message-Id: <20221225154234.378555-1-robert.mader@collabora.com>
+X-Mailer: git-send-email 2.39.0
+MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-3.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 24.12.22 18:03, Ezequiel Garcia wrote:
-> On Sat, Dec 24, 2022 at 09:03:59AM +0100, Benjamin Gaignard wrote:
->> Le 23/12/2022 à 19:16, Nicolas Dufresne a écrit :
->>> Since 79c987de8b354, enumerating framesize on format set with "MODE_NONE"
->>> (any raw formats) is reporting an invalid frmsize.
->>>
->>>     Size: Stepwise 0x0 - 0x0 with step 0/0
->>>
->>> Before this change, the driver would return EINVAL, which is also invalid but
->>> worked in GStreamer. The original intent was not to implement it, hence the
->>> -ENOTTY return in this change. While drivers should implement ENUM_FRMSIZE for
->>> all formats and queues, this change is limited in scope to fix the regression.
->>>
->>> This fixes taking picture in Gnome Cheese software, or any software using
->>> GSteamer to encode JPEG with hardware acceleration.
->>>
->>> Fixes: 79c987de8b354 ("media: hantro: Use post processor scaling capacities")
->>> Reported-by: Robert Mader <robert.mader@collabora.com>
->>> Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
->> Reviewed-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
->>
-> Reviewed-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
->
-> Thanks,
-> Ezequiel
+Analogous to e.g. the imx219. This enables propagating
+V4L2_CID_CAMERA_SENSOR_ROTATION values so that libcamera
+can detect the correct rotation from the device tree
+and propagate it further to e.g. Pipewire.
 
-Tested-by: Robert Mader <robert.mader@collabora.com>
+Signed-off-by: Robert Mader <robert.mader@collabora.com>
+---
+ drivers/media/i2c/imx258.c | 13 ++++++++++++-
+ 1 file changed, 12 insertions(+), 1 deletion(-)
 
-Thanks a lot for this Christmas present, confirmed that it fixes the 
-affected apps / use-cases for me :)
-
->
->>> ---
->>>    drivers/media/platform/verisilicon/hantro_v4l2.c | 7 +++++--
->>>    1 file changed, 5 insertions(+), 2 deletions(-)
->>>
->>> diff --git a/drivers/media/platform/verisilicon/hantro_v4l2.c b/drivers/media/platform/verisilicon/hantro_v4l2.c
->>> index 2c7a805289e7b..30e650edaea8a 100644
->>> --- a/drivers/media/platform/verisilicon/hantro_v4l2.c
->>> +++ b/drivers/media/platform/verisilicon/hantro_v4l2.c
->>> @@ -161,8 +161,11 @@ static int vidioc_enum_framesizes(struct file *file, void *priv,
->>>    	}
->>>    	/* For non-coded formats check if postprocessing scaling is possible */
->>> -	if (fmt->codec_mode == HANTRO_MODE_NONE && hantro_needs_postproc(ctx, fmt)) {
->>> -		return hanto_postproc_enum_framesizes(ctx, fsize);
->>> +	if (fmt->codec_mode == HANTRO_MODE_NONE) {
->>> +		if (hantro_needs_postproc(ctx, fmt))
->>> +			return hanto_postproc_enum_framesizes(ctx, fsize);
->>> +		else
->>> +			return -ENOTTY;
->>>    	} else if (fsize->index != 0) {
->>>    		vpu_debug(0, "invalid frame size index (expected 0, got %d)\n",
->>>    			  fsize->index);
-
+diff --git a/drivers/media/i2c/imx258.c b/drivers/media/i2c/imx258.c
+index eab5fc1ee2f7..85819043d1e3 100644
+--- a/drivers/media/i2c/imx258.c
++++ b/drivers/media/i2c/imx258.c
+@@ -9,6 +9,7 @@
+ #include <linux/pm_runtime.h>
+ #include <media/v4l2-ctrls.h>
+ #include <media/v4l2-device.h>
++#include <media/v4l2-fwnode.h>
+ #include <asm/unaligned.h>
+ 
+ #define IMX258_REG_VALUE_08BIT		1
+@@ -1149,6 +1150,7 @@ static int imx258_init_controls(struct imx258 *imx258)
+ {
+ 	struct i2c_client *client = v4l2_get_subdevdata(&imx258->sd);
+ 	struct v4l2_ctrl_handler *ctrl_hdlr;
++	struct v4l2_fwnode_device_properties props;
+ 	s64 vblank_def;
+ 	s64 vblank_min;
+ 	s64 pixel_rate_min;
+@@ -1156,7 +1158,7 @@ static int imx258_init_controls(struct imx258 *imx258)
+ 	int ret;
+ 
+ 	ctrl_hdlr = &imx258->ctrl_handler;
+-	ret = v4l2_ctrl_handler_init(ctrl_hdlr, 8);
++	ret = v4l2_ctrl_handler_init(ctrl_hdlr, 10);
+ 	if (ret)
+ 		return ret;
+ 
+@@ -1232,6 +1234,15 @@ static int imx258_init_controls(struct imx258 *imx258)
+ 		goto error;
+ 	}
+ 
++	ret = v4l2_fwnode_device_parse(&client->dev, &props);
++	if (ret)
++		goto error;
++
++	ret = v4l2_ctrl_new_fwnode_properties(ctrl_hdlr, &imx258_ctrl_ops,
++					      &props);
++	if (ret)
++		goto error;
++
+ 	imx258->sd.ctrl_handler = ctrl_hdlr;
+ 
+ 	return 0;
 -- 
-Robert Mader
-Consultant Software Developer
-
-Collabora Ltd.
-Platinum Building, St John's Innovation Park, Cambridge CB4 0DS, UK
-Registered in England & Wales, no. 5513718
+2.39.0
 
