@@ -2,104 +2,113 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 605546564CD
-	for <lists+linux-media@lfdr.de>; Mon, 26 Dec 2022 20:25:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5F30365651E
+	for <lists+linux-media@lfdr.de>; Mon, 26 Dec 2022 22:22:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232277AbiLZTZq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 26 Dec 2022 14:25:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48982 "EHLO
+        id S232278AbiLZVWS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 26 Dec 2022 16:22:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59828 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229568AbiLZTZn (ORCPT
+        with ESMTP id S232252AbiLZVWQ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 26 Dec 2022 14:25:43 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA0751E5;
-        Mon, 26 Dec 2022 11:25:41 -0800 (PST)
-Received: from [192.168.1.15] (91-154-32-225.elisa-laajakaista.fi [91.154.32.225])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5F2ED904;
-        Mon, 26 Dec 2022 20:25:37 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1672082738;
-        bh=WYeeL1tFF+mdzsb2TM6BHvYLKX8R50jHZODrjsruKHs=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=S5NzcHdiEbMPUSAbbGRYD0sJQJohu7zh7qlHjj4J4nygU8l8lGEqOWMXM9JENVvsH
-         DlRd5+/ID9CoXxxVbq+lFdZT7WLhYmboH976MgMqdeDFrjAA1ySbKtcoO8rTNmXw7b
-         9Jk79VqgYYnyKVGE8OuDSPHFpVKNjsnDE0An1EEM=
-Message-ID: <61729020-0977-521a-6137-3bd89f300652@ideasonboard.com>
-Date:   Mon, 26 Dec 2022 21:25:34 +0200
+        Mon, 26 Dec 2022 16:22:16 -0500
+Received: from mail-oa1-x2f.google.com (mail-oa1-x2f.google.com [IPv6:2001:4860:4864:20::2f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F50BEA2
+        for <linux-media@vger.kernel.org>; Mon, 26 Dec 2022 13:22:15 -0800 (PST)
+Received: by mail-oa1-x2f.google.com with SMTP id 586e51a60fabf-1443a16b71cso13587135fac.13
+        for <linux-media@vger.kernel.org>; Mon, 26 Dec 2022 13:22:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=IzUGFWhYGid1zgVhwB/XIueDra1sXjXvzIRCEZpwkrI=;
+        b=euSaQ0XZbdVgujB6+taA3Zgr8jQskPDutHMzIZNA97WokX6Z7EO9/xYaUx1D2kNVwK
+         lSSDEUrhxrNtWSyxlVVSvoSOcOx1lYSPzLQN+qOpSqeAU+DmFmW4R15QyFeBEi/S57GO
+         QUIni6rbE57chLdwQAr7uYRa53EzabofO/DQvW80dqdqpmYApHJnlo9I7oqR6amoe3Zq
+         XdiTuJRYGyLHuzvTgeaSAJVoZD2tXqFmnyTTOily2nt3sTRGFKjpHQ4ehjLyoS6/MOMv
+         oAScbZlj16EjFOup0DCzWAMHKtWkwDe9P/B6kvGOEz2lo7g+y6VyGxHgGlgNJBdFC2ZP
+         JJIg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=IzUGFWhYGid1zgVhwB/XIueDra1sXjXvzIRCEZpwkrI=;
+        b=aTRy+slv5vIqKfldoOuaEhltboab/6rOJGKLs0sTKMZUHFeYVoLNWA7PZoxxLE3sbr
+         6DSxYFbtZnL1bqTkYl1nmRMvKOgtPFBoyLH1+LDnvjwVEmRmo7t4r3I20n8Ovr/o0cHg
+         MzE/FV7SthdY1+NiPevIHswws1xTIVAjSJYfJvhSK6rbyr+xz3qFMu/zC3KR/IqWYxCD
+         8C+aptWsUwsGoQfey35f3C6HiN76cH2I+xHYX0HxeF8yBMyooLr8G8iPvy8+i8cE83cj
+         +Kcq/Pbxrbm02xGaKZOBzqXq6g4eEHnyBh3B4Cnp/MHGYVZh+sfNfA30So5lk9nQGXea
+         ds4g==
+X-Gm-Message-State: AFqh2koVfZYZQBSON8rmBSPubZVP8D6eU8NkUOy4dUi/dRcEBHf9vKXx
+        0jOCXQZ47fWZ88qqFVYvOOIlLuoTNNYdGjTL
+X-Google-Smtp-Source: AMrXdXsAu/E66CTpcFrq33v8Ys59KpOEu206OI9d1YunRN+n5o3EIqhvqNnmX1gFUU7v828zAuPOuA==
+X-Received: by 2002:a05:6870:4b88:b0:148:a7b:15ea with SMTP id lx8-20020a0568704b8800b001480a7b15eamr18066347oab.40.1672089731946;
+        Mon, 26 Dec 2022 13:22:11 -0800 (PST)
+Received: from eze-laptop ([190.11.62.130])
+        by smtp.gmail.com with ESMTPSA id x6-20020a4a97c6000000b004a085ddc771sm4738159ooi.6.2022.12.26.13.22.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 26 Dec 2022 13:22:10 -0800 (PST)
+Date:   Mon, 26 Dec 2022 18:22:05 -0300
+From:   Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+To:     Dong Chuanjian <chuanjian@nfschina.com>
+Cc:     mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
+        nicolas.dufresne@collabora.com, sebastian.fricke@collabora.com,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] drivers/media/v4l2-core/v4l2-h264 : add detection of
+ null pointers
+Message-ID: <Y6oQfdveBCZ/EWwI@eze-laptop>
+References: <20221226070236.4450-1-chuanjian@nfschina.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH v5 7/8] media: i2c: add DS90UB913 driver
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Wolfram Sang <wsa@kernel.org>,
-        Luca Ceresoli <luca.ceresoli@bootlin.com>,
-        Andy Shevchenko <andriy.shevchenko@intel.com>,
-        Matti Vaittinen <Matti.Vaittinen@fi.rohmeurope.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Peter Rosin <peda@axentia.se>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Michael Tretter <m.tretter@pengutronix.de>,
-        Shawn Tu <shawnx.tu@intel.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Mike Pagano <mpagano@gentoo.org>,
-        =?UTF-8?Q?Krzysztof_Ha=c5=82asa?= <khalasa@piap.pl>,
-        Marek Vasut <marex@denx.de>
-References: <20221208104006.316606-1-tomi.valkeinen@ideasonboard.com>
- <20221208104006.316606-8-tomi.valkeinen@ideasonboard.com>
- <Y5YiazDtaxtLJyL0@pendragon.ideasonboard.com>
- <4d349785-ca37-d930-db3c-2581bba9fde0@ideasonboard.com>
- <7ddd576f-6e8a-7581-178c-2e8575227811@ideasonboard.com>
- <Y6nSVlmlweUuUwJf@pendragon.ideasonboard.com>
-Content-Language: en-US
-From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-In-Reply-To: <Y6nSVlmlweUuUwJf@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221226070236.4450-1-chuanjian@nfschina.com>
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 26/12/2022 18:56, Laurent Pinchart wrote:
-> Hi Tomi,
+Hi,
+
+On Mon, Dec 26, 2022 at 03:02:36PM +0800, Dong Chuanjian wrote:
+> When the pointer variable is judged to be null, null is returned
+> directly.
 > 
-> On Wed, Dec 14, 2022 at 08:36:47AM +0200, Tomi Valkeinen wrote:
->> On 14/12/2022 08:29, Tomi Valkeinen wrote:
->>
->>>> wondering if the struct device of the DS90UB913 could be passed instead
->>>> of the port, to avoid passing the port throught
->>>> ds90ub9xx_platform_data.
->>>
->>> Interesting thought. That would limit the number of remote i2c busses to
->>> one, though. Not a problem for FPD-Link, but I wonder if that's assuming
->>> too much for the future users. Then again, this is an in-kernel API so
->>> we could extend it later if needed. So I'll try this out and see if I
->>> hit any issues.
->>
->> Right, so the issue with this one would be that it would prevent a
->> single device uses. E.g. a single chip which acts as an ATR (similar to
->> i2c-mux chips), i.e. it contains both the main and the remote i2c busses.
+> Signed-off-by: Dong Chuanjian <chuanjian@nfschina.com>
+> ---
+>  v2: Directly return when pointer allocation fails.
 > 
-> I don't think I understand this, sorry.
+> diff --git a/drivers/media/v4l2-core/v4l2-h264.c b/drivers/media/v4l2-core/v4l2-h264.c
+> index 72bd64f65198..0e7b35ae3e94 100644
+> --- a/drivers/media/v4l2-core/v4l2-h264.c
+> +++ b/drivers/media/v4l2-core/v4l2-h264.c
+> @@ -343,6 +343,8 @@ static const char *format_ref_list_b(const struct v4l2_h264_reflist_builder *bui
+>  	int n = 0, i;
+>  
+>  	*out_str = kmalloc(tmp_str_size, GFP_KERNEL);
+> +	if (*out_str == NULL)
+> +		return NULL;
+>  
 
-What you are suggesting above means that we'd have a separate device for 
-each port of the ATR. Which is fine in our current case, as the i2c 
-master busses are behind separate remote devices.
+format_ref_list_p has the same issue.
 
-But if you consider a case similar to i2c-mux, where we have a single 
-chip with the slave bus and, say, 4 master busses. We would probably 
-have only a single device for that.
+>  	n += snprintf(*out_str + n, tmp_str_size - n, "|");
+>  
+> @@ -356,7 +358,6 @@ static const char *format_ref_list_b(const struct v4l2_h264_reflist_builder *bui
+>  			       longterm ? 'l' : 's',
+>  			       ref_type_to_char(reflist[i].fields));
+>  	}
+> -
 
-  Tomi
+Avoid spurious changes.
 
+>  	return *out_str;
+>  }
+>  
+> -- 
+> 2.18.2
+> 
