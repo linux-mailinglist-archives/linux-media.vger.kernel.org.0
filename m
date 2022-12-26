@@ -2,54 +2,54 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2B2D2656529
-	for <lists+linux-media@lfdr.de>; Mon, 26 Dec 2022 22:33:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7C487656546
+	for <lists+linux-media@lfdr.de>; Mon, 26 Dec 2022 23:16:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232316AbiLZVdV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 26 Dec 2022 16:33:21 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33234 "EHLO
+        id S232279AbiLZWP5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 26 Dec 2022 17:15:57 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37840 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232357AbiLZVdN (ORCPT
+        with ESMTP id S229614AbiLZWPz (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 26 Dec 2022 16:33:13 -0500
-Received: from mail-ot1-x331.google.com (mail-ot1-x331.google.com [IPv6:2607:f8b0:4864:20::331])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E72B2ADB
-        for <linux-media@vger.kernel.org>; Mon, 26 Dec 2022 13:33:13 -0800 (PST)
-Received: by mail-ot1-x331.google.com with SMTP id j16-20020a056830271000b0067202045ee9so7220036otu.7
-        for <linux-media@vger.kernel.org>; Mon, 26 Dec 2022 13:33:13 -0800 (PST)
+        Mon, 26 Dec 2022 17:15:55 -0500
+Received: from mail-oo1-xc34.google.com (mail-oo1-xc34.google.com [IPv6:2607:f8b0:4864:20::c34])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D2134E2F
+        for <linux-media@vger.kernel.org>; Mon, 26 Dec 2022 14:15:48 -0800 (PST)
+Received: by mail-oo1-xc34.google.com with SMTP id d2-20020a4ab202000000b004ae3035538bso1967184ooo.12
+        for <linux-media@vger.kernel.org>; Mon, 26 Dec 2022 14:15:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=WPYczn0YGxyfNylm4RLYqULvGhb7tE5TBnYQ9n6+TQ4=;
-        b=AksfF9rvGEGSGLbDaaP6t5xxNTpfhEGpVd3JMBSIRegbAz/dfcVugjaH2mjpHCpZ2i
-         9w7FouGC76y4iCb26O4IHP0MfsorGXNYHVbAcPz7spQ3tdOZjpUWMWfNbjHaR6cNDTr2
-         SCJtmr1RMUwrTcxHwq7/h1dpd7IV+K5ej3d5lxF1EYatDtcPrPcauzxLHX/FkYXNNo2R
-         1UACmCr90iFk2SV6A2cQivaLkcYldkvBD34FOsweQzB013L5S5ytJsytmreV0mra4CJD
-         aKklfo53h/HNjFNBGGrjhvvlqunfRk+BLrXAHW7j/UtB7TVy3xdWevKtIxdJLvBHQPdC
-         nYEg==
+        bh=XUckakhK2YDfWvKB+vPGRiFS4B95mA3CWPNKe4m32vE=;
+        b=mfqi0fGyCtEcfB2h/+lOc7iZKAzfGRM38qDX4ixBx6F+WRrpMGqbVFFDKlrbhU/n43
+         NLCfgWYoW6Qgfzk2FEQ5k685jM2noRs/BsYV7FvZ+wBZQUlgO+3dI6lfc1QlPVYbTqsF
+         CS2Vt3u0VNjHymZwJUKr3B3h5khXO90bTSLjjSiG+Kk+CMdH/FWEk/0zL3Gn1rDTrEsS
+         7cOTgNtjJumF1jQ7Fjnno9E15UP3FXmhjqoYqOagnTv1f6wB1eGmMUR1Ikak+ohiCnpe
+         HlxnRQPbIGXd82AdCL7A1dSg3l603RFIpwz/h2qseFzJbZ+FDy0O3TCnlRQzOJlVDHA8
+         vcQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=WPYczn0YGxyfNylm4RLYqULvGhb7tE5TBnYQ9n6+TQ4=;
-        b=y3oN/zgFIXYwthKTzHOS90LCiikRJL4JTMj4Kw9Bkg4Jvq759vTyLcPoudGXvENafh
-         JYZiDzJtY2/eWSwCdgt9JGyb6I45ihapeeZkQsnY8RSZmD4ZIOzkCGltfg4hM3m7QfKn
-         WHBBz8j4O1GCVYPvX0QyhCMuYrjdbXqDkmxfWF1EC+OnBj5PofI3b1HZdwQjZq294D0/
-         /9hf0EdhzQalLr9Eqat6cRzyDPMymIvC+UhyIHMASYuf6T/Lz1DZGKJcMvzuLTk5UU1y
-         B/8XkjvJpd6noGPlJiypGp4NDuR9UbDsL6y/AnWfORpbfNlNZKu40M2her4eWEm+qk4c
-         RhVg==
-X-Gm-Message-State: AFqh2kpmTMiUbmxPJQS5SZS5N/8iRmxX+sT0tDKOw8/CwF1iuC5cN1i2
-        pqeP9Zv0JyaGkEhHa48mxqhTLg==
-X-Google-Smtp-Source: AMrXdXtbaYC6Pk3YNeTADhvjliJr+F/irr0Zz4Tu6hOtJpg+1rzAw3f3gGvqqvdT8BmFU1k7BUXTJA==
-X-Received: by 2002:a05:6830:1b66:b0:670:51ea:f267 with SMTP id d6-20020a0568301b6600b0067051eaf267mr12068785ote.37.1672090392387;
-        Mon, 26 Dec 2022 13:33:12 -0800 (PST)
+        bh=XUckakhK2YDfWvKB+vPGRiFS4B95mA3CWPNKe4m32vE=;
+        b=VajI4P0zGkpB1X3vB1GG9MRafPiWajpgDaBTBYo3vjCVK5pgzWpcz83wSionMF0wpa
+         LoWuZdrWsOgXX9v0Fh5qjRhCYh8uW+7DIq9FLzAoVkRM3cyoxllaf8ev6UQkhBYt/ZWN
+         u6sCy3TBqip5eCW2GKbmUtuuV4qFDslg7wddH4gLzj5S2FzTb1/JsXLL7nf/x9StfMIx
+         hNiEU/XD3AKiRUFsp0sZrVUSQOjT/+oXZ0kimsNGqGnTn92XkwplxElSZqpBua5M7/Km
+         97tPOV/jLdueg9VVhRtZcc62hEM5hDvR0bGuJu7epK6aAqsfyf85irZJvCyroUrtLCAT
+         bx3A==
+X-Gm-Message-State: AFqh2kqVYuVRB86pukDFeNs7LazI+Z7fZvclmuvGUgu9PslKkRp+LnEW
+        ol9eslrC78GOrxIMCJKDjpGH/w==
+X-Google-Smtp-Source: AMrXdXvn3BXZiNw7vAUdU4u5D7tsVvCvwRwrfcrB5MW9EP+EYLbjcbtJMMSMuvpr0Oy+Z35K7WzUOQ==
+X-Received: by 2002:a4a:98f1:0:b0:4a5:e527:77f8 with SMTP id b46-20020a4a98f1000000b004a5e52777f8mr8283003ooj.3.1672092948116;
+        Mon, 26 Dec 2022 14:15:48 -0800 (PST)
 Received: from eze-laptop ([190.11.62.130])
-        by smtp.gmail.com with ESMTPSA id bi15-20020a056830378f00b00683e80b5ca7sm1627159otb.38.2022.12.26.13.33.09
+        by smtp.gmail.com with ESMTPSA id y12-20020a4a9c0c000000b004a09df5a1dbsm4776600ooj.8.2022.12.26.14.15.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Dec 2022 13:33:11 -0800 (PST)
-Date:   Mon, 26 Dec 2022 18:33:06 -0300
+        Mon, 26 Dec 2022 14:15:47 -0800 (PST)
+Date:   Mon, 26 Dec 2022 19:15:41 -0300
 From:   Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
 To:     Nicolas Dufresne <nicolas.dufresne@collabora.com>
 Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -57,14 +57,15 @@ Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         kernel@collabora.com, linux-media@vger.kernel.org,
         linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 3/4] media: rkvdec: Re-enable H.264 error detection
-Message-ID: <Y6oTEkEwuGISwr+z@eze-laptop>
+Subject: Re: [PATCH v2 1/4] media: rkvdec: Add an ops to check for decode
+ errors
+Message-ID: <Y6odDbRNY7g+eKag@eze-laptop>
 References: <20221223193807.914935-1-nicolas.dufresne@collabora.com>
- <20221223193807.914935-4-nicolas.dufresne@collabora.com>
+ <20221223193807.914935-2-nicolas.dufresne@collabora.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221223193807.914935-4-nicolas.dufresne@collabora.com>
+In-Reply-To: <20221223193807.914935-2-nicolas.dufresne@collabora.com>
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
@@ -76,81 +77,73 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Hi Nicolas,
 
-I'm still unsure about this patchset.
-It sounds like a good approach and a nice
-improvement, but I want to make sure I think through it.
+Thanks for the patch.
 
-Meanwhile, a small comment...
-
-On Fri, Dec 23, 2022 at 02:38:05PM -0500, Nicolas Dufresne wrote:
-> This re-enable H.264 error detection, but using the other error mode.
-> In that mode, the decoder will skip over the error macro-block or
-> slices and complete the decoding. As a side effect, the error status
-> is not set in the interrupt status register, and instead errors are
-> detected per format. Using this mode workaround the issue that the
-> HW get stuck in error state, and allow reporting that some corruption
-> may be present in the buffer to userland.
+On Fri, Dec 23, 2022 at 02:38:03PM -0500, Nicolas Dufresne wrote:
+> This optional internal ops allow each codec to do their own
+> error status checking. The presence of an error is reported
+> using the ERROR buffer state. This patch have no functional
+> changes.
 > 
 > Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 > ---
->  drivers/staging/media/rkvdec/rkvdec-h264.c | 23 +++++++++++++++++++---
->  1 file changed, 20 insertions(+), 3 deletions(-)
+>  drivers/staging/media/rkvdec/rkvdec.c | 10 ++++++----
+>  drivers/staging/media/rkvdec/rkvdec.h |  2 ++
+>  2 files changed, 8 insertions(+), 4 deletions(-)
 > 
-> diff --git a/drivers/staging/media/rkvdec/rkvdec-h264.c b/drivers/staging/media/rkvdec/rkvdec-h264.c
-> index 4fc167b42cf0c..dfe3e235f099a 100644
-> --- a/drivers/staging/media/rkvdec/rkvdec-h264.c
-> +++ b/drivers/staging/media/rkvdec/rkvdec-h264.c
-> @@ -1162,14 +1162,15 @@ static int rkvdec_h264_run(struct rkvdec_ctx *ctx)
+> diff --git a/drivers/staging/media/rkvdec/rkvdec.c b/drivers/staging/media/rkvdec/rkvdec.c
+> index 7bab7586918c1..7e76f8b728854 100644
+> --- a/drivers/staging/media/rkvdec/rkvdec.c
+> +++ b/drivers/staging/media/rkvdec/rkvdec.c
+> @@ -950,6 +950,7 @@ static void rkvdec_v4l2_cleanup(struct rkvdec_dev *rkvdec)
+>  static irqreturn_t rkvdec_irq_handler(int irq, void *priv)
+>  {
+>  	struct rkvdec_dev *rkvdec = priv;
+> +	struct rkvdec_ctx *ctx;
+>  	enum vb2_buffer_state state;
+>  	u32 status;
 >  
->  	schedule_delayed_work(&rkvdec->watchdog_work, msecs_to_jiffies(2000));
+> @@ -958,12 +959,13 @@ static irqreturn_t rkvdec_irq_handler(int irq, void *priv)
+>  		VB2_BUF_STATE_DONE : VB2_BUF_STATE_ERROR;
 >  
-> -	writel(0, rkvdec->regs + RKVDEC_REG_STRMD_ERR_EN);
-> -	writel(0, rkvdec->regs + RKVDEC_REG_H264_ERR_E);
-> +	writel(0xffffffff, rkvdec->regs + RKVDEC_REG_STRMD_ERR_EN);
-> +	writel(0xffffffff, rkvdec->regs + RKVDEC_REG_H264_ERR_E);
->  	writel(1, rkvdec->regs + RKVDEC_REG_PREF_LUMA_CACHE_COMMAND);
->  	writel(1, rkvdec->regs + RKVDEC_REG_PREF_CHR_CACHE_COMMAND);
+>  	writel(0, rkvdec->regs + RKVDEC_REG_INTERRUPT);
+> -	if (cancel_delayed_work(&rkvdec->watchdog_work)) {
+> -		struct rkvdec_ctx *ctx;
+> +	ctx = v4l2_m2m_get_curr_priv(rkvdec->m2m_dev);
 >  
->  	/* Start decoding! */
->  	writel(RKVDEC_INTERRUPT_DEC_E | RKVDEC_CONFIG_DEC_CLK_GATE_E |
-> -	       RKVDEC_TIMEOUT_E | RKVDEC_BUF_EMPTY_E,
-> +	       RKVDEC_TIMEOUT_E | RKVDEC_BUF_EMPTY_E |
-> +	       RKVDEC_H264ORVP9_ERR_MODE,
->  	       rkvdec->regs + RKVDEC_REG_INTERRUPT);
+> -		ctx = v4l2_m2m_get_curr_priv(rkvdec->m2m_dev);
+> +	if (ctx->coded_fmt_desc->ops->check_error_info)
+> +		state = ctx->coded_fmt_desc->ops->check_error_info(ctx);
+> +
+> +	if (cancel_delayed_work(&rkvdec->watchdog_work))
+>  		rkvdec_job_finish(ctx, state);
+> -	}
 >  
->  	return 0;
-> @@ -1183,10 +1184,26 @@ static int rkvdec_h264_try_ctrl(struct rkvdec_ctx *ctx, struct v4l2_ctrl *ctrl)
->  	return 0;
+>  	return IRQ_HANDLED;
 >  }
->  
-> +static int rkvdec_h264_check_error_info(struct rkvdec_ctx *ctx)
-> +{
-> +	struct rkvdec_dev *rkvdec = ctx->dev;
-> +	int err;
-> +
-> +	err = readl(rkvdec->regs + RKVDEC_REG_H264_ERRINFO_NUM);
-> +	if (err & RKVDEC_STRMD_DECT_ERR_FLAG) {
-> +		pr_debug("Decoded picture have %i/%i slices with errors.\n",
+> diff --git a/drivers/staging/media/rkvdec/rkvdec.h b/drivers/staging/media/rkvdec/rkvdec.h
+> index 633335ebb9c49..4ae8e6c6b03c9 100644
+> --- a/drivers/staging/media/rkvdec/rkvdec.h
+> +++ b/drivers/staging/media/rkvdec/rkvdec.h
+> @@ -73,6 +73,8 @@ struct rkvdec_coded_fmt_ops {
+>  		     struct vb2_v4l2_buffer *dst_buf,
+>  		     enum vb2_buffer_state result);
+>  	int (*try_ctrl)(struct rkvdec_ctx *ctx, struct v4l2_ctrl *ctrl);
+> +	/* called from IRQ handler */
+> +	int (*check_error_info)(struct rkvdec_ctx *ctx);
 
-... still uses pr_debug. I would change it so it uses v4l2_dbg,
-and can be controlled using the same debug parameter
-as you use in patch 4/4.
+I don't think it's a good idea to mix the return of this internal API
+with enum vb2_buffer_state.
 
-> +			 RKVDEC_ERR_PKT_NUM(err), RKVDEC_SLICEDEC_NUM(err));
-> +		return VB2_BUF_STATE_ERROR;
-> +	}
-> +
-> +	return VB2_BUF_STATE_DONE;
-> +}
-> +
->  const struct rkvdec_coded_fmt_ops rkvdec_h264_fmt_ops = {
->  	.adjust_fmt = rkvdec_h264_adjust_fmt,
->  	.start = rkvdec_h264_start,
->  	.stop = rkvdec_h264_stop,
->  	.run = rkvdec_h264_run,
->  	.try_ctrl = rkvdec_h264_try_ctrl,
-> +	.check_error_info = rkvdec_h264_check_error_info,
+Please make the return type of this function a boolean or an integer
+type that is decoupled from the VB2 buffer state.
+
+Thanks!
+Ezequiel
+
 >  };
+>  
+>  struct rkvdec_coded_fmt_desc {
 > -- 
 > 2.38.1
 > 
