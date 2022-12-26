@@ -2,102 +2,196 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D518D6561D3
-	for <lists+linux-media@lfdr.de>; Mon, 26 Dec 2022 11:27:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 02865656384
+	for <lists+linux-media@lfdr.de>; Mon, 26 Dec 2022 15:44:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231771AbiLZK13 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 26 Dec 2022 05:27:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45330 "EHLO
+        id S232091AbiLZOoQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 26 Dec 2022 09:44:16 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52492 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229500AbiLZK11 (ORCPT
+        with ESMTP id S232102AbiLZOoK (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 26 Dec 2022 05:27:27 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 189235FD1;
-        Mon, 26 Dec 2022 02:27:25 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id A96D8B80D11;
-        Mon, 26 Dec 2022 10:27:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D6701C433EF;
-        Mon, 26 Dec 2022 10:27:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1672050442;
-        bh=hVha1FGsr/BmeLaghWhC0c48RTyAxF2U24ZFLUAgVy8=;
+        Mon, 26 Dec 2022 09:44:10 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 20C512AC2;
+        Mon, 26 Dec 2022 06:44:07 -0800 (PST)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id BC5D274C;
+        Mon, 26 Dec 2022 15:44:04 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1672065845;
+        bh=x45efJkHdX774QhOdMx2WJnNQWd/OifM0OuRHlTg0VE=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=LEzCXCcvjH80vck2xNc8lJwSRl7Ssq363WQs0RJehi4p1GOTP1f3BS8lvw3BgFB21
-         MKx65XskwpIedzprYHvmYoTx/LzR5U1KQn3c/6hzl4qqH8IUNWW1HsBbzWAUAlMYz+
-         HRLQVPVTvfpav5RLlt8Ta57YCl03wnAseVeuM1KQ=
-Date:   Mon, 26 Dec 2022 11:27:19 +0100
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Stefan Wahren <stefan.wahren@i2se.com>,
-        Umang Jain <umang.jain@ideasonboard.com>,
-        linux-staging@lists.linux.dev,
-        linux-rpi-kernel@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Adrien Thierry <athierry@redhat.com>,
-        Dan Carpenter <error27@gmail.com>,
-        Nicolas Saenz Julienne <nsaenz@kernel.org>,
-        Phil Elwell <phil@raspberrypi.com>,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>
-Subject: Re: [PATCH] staging: vc04_services: vchiq_arm: Create
- platform_device per device
-Message-ID: <Y6l3B8QOdkY9adLh@kroah.com>
-References: <20221220084404.19280-1-umang.jain@ideasonboard.com>
- <Y6Lqs8RUiyi452gM@pendragon.ideasonboard.com>
- <Y6MF3l40WM3onmyO@kroah.com>
- <d48462f6-de4c-2816-0a7a-b3b13993604c@ideasonboard.com>
- <Y6SVegtHvwQ3p+3K@pendragon.ideasonboard.com>
- <629b3f63-74e4-5cb5-29d1-6d2846bc24c7@i2se.com>
- <Y6W/q7v0KdYNy81+@kroah.com>
- <Y6lyPS6XWhACIF5j@pendragon.ideasonboard.com>
+        b=KA5xXhlAddgxb6aI7FgrUy+ytEwm6RZTTTuNcXI5I0YBThTMEP1WxQGJbjY22nZqq
+         sjzB/adLXAItlK6fxkTjRUm13/PPt7xI29b5nqrxzBQpQePEvM1tqkcjCgZhjIDR+5
+         UE4Gp6Z2DotSeEoOJmKsAKmshV6eN79yvN1mM70c=
+Date:   Mon, 26 Dec 2022 16:44:00 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+Cc:     linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Geert Uytterhoeven <geert@linux-m68k.org>
+Subject: Re: [PATCH v3 7/7] drm: rcar-du: Add new formats (2-10-10-10 ARGB,
+ Y210)
+Message-ID: <Y6mzMHdEFdSxUMaJ@pendragon.ideasonboard.com>
+References: <20221221092448.741294-1-tomi.valkeinen+renesas@ideasonboard.com>
+ <20221221092448.741294-8-tomi.valkeinen+renesas@ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <Y6lyPS6XWhACIF5j@pendragon.ideasonboard.com>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <20221221092448.741294-8-tomi.valkeinen+renesas@ideasonboard.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Dec 26, 2022 at 12:06:53PM +0200, Laurent Pinchart wrote:
-> On Fri, Dec 23, 2022 at 03:48:11PM +0100, Greg Kroah-Hartman wrote:
-> > On Fri, Dec 23, 2022 at 12:24:22PM +0100, Stefan Wahren wrote:
-> > > i vaguely remember the discussion how to represent audio and camera
-> > > interface in the device tree. Representing as child nodes of the VC4 has
-> > > been rejected on the device tree mailing some years ago, because this
-> > > doesn't represent the physical (hardware) wiring. It's still possible to
-> > > access e.g. the camera interface from the ARM.
-> > > 
-> > > The whole approach with using a separate binding for all the firmware stuff
-> > > lead to a lot of trouble on the Raspberry Pi platform (ugly dependencies
-> > > between firmware, DT and kernel). So i would like to avoid this here. In
-> > > case the current implementation is a no go, how about letting the ARM core
-> > > discover the available interfaces e.g. via mailbox interface?
-> > > 
-> > > For more inspiration take a look at this old thread [1]
-> > 
-> > Yes, that's the proper way to do this please!  This should be a bus and
-> > dynamically add the devices when found, it is NOT a platform device
-> > anymore.
+Hi Tomi,
+
+Thank you for the patch.
+
+On Wed, Dec 21, 2022 at 11:24:48AM +0200, Tomi Valkeinen wrote:
+> Add new pixel formats: RGBX1010102, RGBA1010102, ARGB2101010, Y210 and
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+> Y212.
 > 
-> I'm fine with making this a bus, but when it comes to dynamically adding
-> devices, that depends on the firmware exposing an interface to enumerate
-> those devices. If that's not possible, are you fine with a custom bus
-> and hardcoded children device instantiation in the VCHIQ driver ?
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+> ---
+>  drivers/gpu/drm/rcar-du/rcar_du_kms.c | 30 ++++++++++++++++
+>  drivers/gpu/drm/rcar-du/rcar_du_vsp.c | 50 +++++++++++++++++++++++++--
+>  2 files changed, 78 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_kms.c b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
+> index 8c2719efda2a..adfb36b0e815 100644
+> --- a/drivers/gpu/drm/rcar-du/rcar_du_kms.c
+> +++ b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
+> @@ -259,6 +259,24 @@ static const struct rcar_du_format_info rcar_du_format_infos[] = {
+>  		.bpp = 32,
+>  		.planes = 1,
+>  		.hsub = 1,
+> +	}, {
+> +		.fourcc = DRM_FORMAT_RGBX1010102,
+> +		.v4l2 = V4L2_PIX_FMT_RGBX1010102,
+> +		.bpp = 32,
+> +		.planes = 1,
+> +		.hsub = 1,
+> +	}, {
+> +		.fourcc = DRM_FORMAT_RGBA1010102,
+> +		.v4l2 = V4L2_PIX_FMT_RGBA1010102,
+> +		.bpp = 32,
+> +		.planes = 1,
+> +		.hsub = 1,
+> +	}, {
+> +		.fourcc = DRM_FORMAT_ARGB2101010,
+> +		.v4l2 = V4L2_PIX_FMT_ARGB2101010,
+> +		.bpp = 32,
+> +		.planes = 1,
+> +		.hsub = 1,
+>  	}, {
+>  		.fourcc = DRM_FORMAT_YVYU,
+>  		.v4l2 = V4L2_PIX_FMT_YVYU,
+> @@ -307,6 +325,18 @@ static const struct rcar_du_format_info rcar_du_format_infos[] = {
+>  		.bpp = 24,
+>  		.planes = 3,
+>  		.hsub = 1,
+> +	}, {
+> +		.fourcc = DRM_FORMAT_Y210,
+> +		.v4l2 = V4L2_PIX_FMT_Y210,
+> +		.bpp = 32,
+> +		.planes = 1,
+> +		.hsub = 2,
+> +	}, {
+> +		.fourcc = DRM_FORMAT_Y212,
+> +		.v4l2 = V4L2_PIX_FMT_Y212,
+> +		.bpp = 32,
+> +		.planes = 1,
+> +		.hsub = 2,
+>  	},
+>  };
+>  
+> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c b/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
+> index e465aef41585..fe90be51d64e 100644
+> --- a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
+> +++ b/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
+> @@ -139,6 +139,43 @@ static const u32 rcar_du_vsp_formats[] = {
+>  	DRM_FORMAT_YVU444,
+>  };
+>  
+> +/*
+> + * Gen4 supports the same formats as above, and additionally 2-10-10-10 RGB
+> + * formats and Y210 & Y212 formats.
+> + */
+> +static const u32 rcar_du_vsp_formats_gen4[] = {
+> +	DRM_FORMAT_RGB332,
+> +	DRM_FORMAT_ARGB4444,
+> +	DRM_FORMAT_XRGB4444,
+> +	DRM_FORMAT_ARGB1555,
+> +	DRM_FORMAT_XRGB1555,
+> +	DRM_FORMAT_RGB565,
+> +	DRM_FORMAT_BGR888,
+> +	DRM_FORMAT_RGB888,
+> +	DRM_FORMAT_BGRA8888,
+> +	DRM_FORMAT_BGRX8888,
+> +	DRM_FORMAT_ARGB8888,
+> +	DRM_FORMAT_XRGB8888,
+> +	DRM_FORMAT_RGBX1010102,
+> +	DRM_FORMAT_RGBA1010102,
+> +	DRM_FORMAT_ARGB2101010,
+> +	DRM_FORMAT_UYVY,
+> +	DRM_FORMAT_YUYV,
+> +	DRM_FORMAT_YVYU,
+> +	DRM_FORMAT_NV12,
+> +	DRM_FORMAT_NV21,
+> +	DRM_FORMAT_NV16,
+> +	DRM_FORMAT_NV61,
+> +	DRM_FORMAT_YUV420,
+> +	DRM_FORMAT_YVU420,
+> +	DRM_FORMAT_YUV422,
+> +	DRM_FORMAT_YVU422,
+> +	DRM_FORMAT_YUV444,
+> +	DRM_FORMAT_YVU444,
+> +	DRM_FORMAT_Y210,
+> +	DRM_FORMAT_Y212,
+> +};
+> +
+>  static void rcar_du_vsp_plane_setup(struct rcar_du_vsp_plane *plane)
+>  {
+>  	struct rcar_du_vsp_plane_state *state =
+> @@ -436,14 +473,23 @@ int rcar_du_vsp_init(struct rcar_du_vsp *vsp, struct device_node *np,
+>  					 ? DRM_PLANE_TYPE_PRIMARY
+>  					 : DRM_PLANE_TYPE_OVERLAY;
+>  		struct rcar_du_vsp_plane *plane = &vsp->planes[i];
+> +		unsigned int num_formats;
+> +		const u32 *formats;
+> +
+> +		if (rcdu->info->gen < 4) {
+> +			num_formats = ARRAY_SIZE(rcar_du_vsp_formats);
+> +			formats = rcar_du_vsp_formats;
+> +		} else {
+> +			num_formats = ARRAY_SIZE(rcar_du_vsp_formats_gen4);
+> +			formats = rcar_du_vsp_formats_gen4;
+> +		}
+>  
+>  		plane->vsp = vsp;
+>  		plane->index = i;
+>  
+>  		ret = drm_universal_plane_init(&rcdu->ddev, &plane->plane,
+>  					       crtcs, &rcar_du_vsp_plane_funcs,
+> -					       rcar_du_vsp_formats,
+> -					       ARRAY_SIZE(rcar_du_vsp_formats),
+> +					       formats, num_formats,
+>  					       NULL, type, NULL);
+>  		if (ret < 0)
+>  			return ret;
 
-Yes, that is at least a step forward and is not abusing the platform
-device/driver code.
+-- 
+Regards,
 
-thanks,
-
-greg k-h
+Laurent Pinchart
