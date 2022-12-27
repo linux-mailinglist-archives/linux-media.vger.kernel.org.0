@@ -2,54 +2,54 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A7E08656C14
-	for <lists+linux-media@lfdr.de>; Tue, 27 Dec 2022 15:41:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 477C4656C1C
+	for <lists+linux-media@lfdr.de>; Tue, 27 Dec 2022 15:41:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231918AbiL0OlX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 27 Dec 2022 09:41:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52016 "EHLO
+        id S232190AbiL0Oli (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 27 Dec 2022 09:41:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52086 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232060AbiL0OlP (ORCPT
+        with ESMTP id S232070AbiL0OlP (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Tue, 27 Dec 2022 09:41:15 -0500
-Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com [IPv6:2a00:1450:4864:20::130])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B242CC0
+Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com [IPv6:2a00:1450:4864:20::132])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A88FE1014
         for <linux-media@vger.kernel.org>; Tue, 27 Dec 2022 06:41:13 -0800 (PST)
-Received: by mail-lf1-x130.google.com with SMTP id g13so19847037lfv.7
+Received: by mail-lf1-x132.google.com with SMTP id f34so19844336lfv.10
         for <linux-media@vger.kernel.org>; Tue, 27 Dec 2022 06:41:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=lrBufiZn12apVd74EI4F9Sr/fFC/dV5wnBICQesdpA8=;
-        b=U+XBF7EH5YqVgUikSD0knmchw8ONlmRIxqxD4So8PTKozqMkQfkMVfGXpvUo6h+E/7
-         Rzxi64YHO9pFezpzdIjiWHaa+Esj9doX7B8Tc/mL5/XWVeiKcgzlbcOl1/jJoN6IEhvt
-         hIisDQYTK74mryb85ywmBvZvKDG1pSgN1ZoMkFUOAi+2vE1ygLPpy+RwN9N1aHMrKBqc
-         ILZPiL0LsrzrpKkkWYfK0/WuZzkDKnLkj45DxHA9BaQ+sehkyNcR+LM0THyl/AUF0xbm
-         SDaq/DwuzgW+n/TLfXh8ENzX/Zn182I+AFjQ8jniGuxhqKTBNFD3jjTkP+jphewc98un
-         Ft9w==
+        bh=KjyjRmy5puUpAtPf+wBK5e8kuBWUmUhZYIEd38wFUkg=;
+        b=iqt9Q+ASROGcthdWWwR1bPD+878wxS0YbGiLwBal2Sjg64M9Sbj6ymHdk5IVGimNbq
+         cnerpYMtnDFuMhGVZL85sWlplz8cOKfUUyTDpSSCr9FE1/TD8KjEtIi545iauQlBYXi3
+         o49/0L4/4F8TcuHw/T1se3pSlJ0AIqzS+KwRb7RTFIrd062EFAlocDWEZ27VaKwdix5V
+         l/SYtZO7cjdPzt2FKsbCpfEpKBP0BjrQHQ/1QKT3kzPv5Jzf6QhaQ9kboLgyDsU6HV49
+         i6cS9xYYP5Jl4OUhkdF2eTzruTQL1O7fyDkGad8FQ/N4iWCwm7npxkjwqu1Q0GPeHXir
+         bxrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=lrBufiZn12apVd74EI4F9Sr/fFC/dV5wnBICQesdpA8=;
-        b=SH/WxZ44MBLgCYzmYZCPb2DfHStDAc7kBSA84FJTP7XqZH2MAGtu1OwEuUDh5QM2QC
-         n8wq6/UPuCiAJHLckOer9oyE5hTwR7SXVxgOzIwZ6szebOPPQm6b0QJb5T7aszzNaGFp
-         eKvrYQ8U1oLHylDGZh9WjcO0S1UP5VPpUjDOj8lTtVNSMuqZEJHQldTkfYZeaQq4BujN
-         HZXzKoQWBmWgu+N97w0t9SF9DH3c9Vg5maluz7nuHl3icP1DrHVrH6stKwgSrZlxGcA9
-         tgkNbJbRSB4iQIEY2neZ0wwJ9wBLM3trUAApriuth7+VQXrGlAziFn9ptSlRvnmmZ1Eg
-         0Qxg==
-X-Gm-Message-State: AFqh2kqIPQEDl0T7BEA44pBAx81+5zRs/1NZUFwryGBUvGiZYo3LlgKo
-        6fqllqttIDE/tTeSTW41gO4hcQ==
-X-Google-Smtp-Source: AMrXdXuXEqCJxfK8sKlagKcbKAzPtQXsg0xWu42M1eBnEoNNNCrMeXT7K9zfjhMZAht2p/Vg5fKQLg==
-X-Received: by 2002:a05:6512:52a:b0:4b5:7988:9146 with SMTP id o10-20020a056512052a00b004b579889146mr7103480lfc.16.1672152071849;
-        Tue, 27 Dec 2022 06:41:11 -0800 (PST)
+        bh=KjyjRmy5puUpAtPf+wBK5e8kuBWUmUhZYIEd38wFUkg=;
+        b=UFtT4dYP0lYYpdfjSqHRCCZzLQlptLmeIowJtLmzi3pQAuhQHA0IIEy/8MjoN3RJ/f
+         ulpVVCdzqLblCchJl+IGmIFp3PKATq87LsptuE/5hFMD7untZY9l4MpXL8EsR3pyiQW9
+         OCeE619DJoNkhptaD3oCYoDtfRbNBQ4IPli3MkDrD1mjOtNKw+2Zpcg8Zm7nihVQ6FT/
+         ZGAeXn/RtWiHotlcSOXmX/7LDGuRm4HuDZ2RTIemnKEuJliHnH7vzVVwaEGFInyGBXB2
+         7HY71PM0WoYjIx74SyYI87SBoWGgAN9z7Oc4uMbaFPoqPbP1wbBqMXMB0E8vkuZWIvrZ
+         OMRw==
+X-Gm-Message-State: AFqh2krGciyU0caJfcjjtAV6BMM1SfYfGoZ4mIuIUPtMSNkzU5wpVyFJ
+        Q8SFC/C8ckRU8u2LAOXq/QsuWQ==
+X-Google-Smtp-Source: AMrXdXsN7VYeo+NLz+OBGeJ/ih1X9X3rq66Kh6o9M+PbOedlYzXTZHk713zzkBLV6AwEia2Mpi60RQ==
+X-Received: by 2002:a05:6512:159b:b0:4b5:9138:145b with SMTP id bp27-20020a056512159b00b004b59138145bmr6909852lfb.14.1672152073208;
+        Tue, 27 Dec 2022 06:41:13 -0800 (PST)
 Received: from krzk-bin.NAT.warszawa.vectranet.pl (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
-        by smtp.gmail.com with ESMTPSA id s1-20020a056512214100b004b5853f0fc6sm2261126lfr.246.2022.12.27.06.41.10
+        by smtp.gmail.com with ESMTPSA id s1-20020a056512214100b004b5853f0fc6sm2261126lfr.246.2022.12.27.06.41.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Dec 2022 06:41:11 -0800 (PST)
+        Tue, 27 Dec 2022 06:41:12 -0800 (PST)
 From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 To:     Andy Gross <agross@kernel.org>,
         Bjorn Andersson <andersson@kernel.org>,
@@ -63,9 +63,9 @@ To:     Andy Gross <agross@kernel.org>,
         linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
         devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
 Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH 7/8] media: dt-bindings: qcom,sm8250-venus: document OPP table
-Date:   Tue, 27 Dec 2022 15:41:01 +0100
-Message-Id: <20221227144102.79391-7-krzysztof.kozlowski@linaro.org>
+Subject: [PATCH 8/8] media: dt-bindings: qcom,venus: document firmware-name
+Date:   Tue, 27 Dec 2022 15:41:02 +0100
+Message-Id: <20221227144102.79391-8-krzysztof.kozlowski@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221227144102.79391-1-krzysztof.kozlowski@linaro.org>
 References: <20221227144102.79391-1-krzysztof.kozlowski@linaro.org>
@@ -81,30 +81,29 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Venus on Qualcomm SM8250 uses Operating Performance Points (both in DTS
-and driver):
+Venus Linux driver loads firmware based on firmware-name property and
+some DTS already have it:
 
-  sm8250-hdk.dtb: video-codec@aa00000: 'operating-points-v2', 'opp-table' do not match any of the regexes: 'pinctrl-[0-9]+'
+  msm8996-oneplus3.dtb: video-codec@c00000: Unevaluated properties are not allowed ('firmware-name', 'interconnect-names', 'interconnects' were unexpected)
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
- .../devicetree/bindings/media/qcom,sm8250-venus.yaml          | 4 ++++
- 1 file changed, 4 insertions(+)
+ Documentation/devicetree/bindings/media/qcom,venus-common.yaml | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/media/qcom,sm8250-venus.yaml b/Documentation/devicetree/bindings/media/qcom,sm8250-venus.yaml
-index 1cfeb136a5ca..7915dcd2d99f 100644
---- a/Documentation/devicetree/bindings/media/qcom,sm8250-venus.yaml
-+++ b/Documentation/devicetree/bindings/media/qcom,sm8250-venus.yaml
-@@ -51,6 +51,10 @@ properties:
-       - const: cpu-cfg
-       - const: video-mem
+diff --git a/Documentation/devicetree/bindings/media/qcom,venus-common.yaml b/Documentation/devicetree/bindings/media/qcom,venus-common.yaml
+index 4a5c1d55c202..3153d91f9d18 100644
+--- a/Documentation/devicetree/bindings/media/qcom,venus-common.yaml
++++ b/Documentation/devicetree/bindings/media/qcom,venus-common.yaml
+@@ -26,6 +26,9 @@ properties:
+     minItems: 3
+     maxItems: 7
  
-+  operating-points-v2: true
-+  opp-table:
-+    type: object
++  firmware-name:
++    maxItems: 1
 +
-   resets:
-     maxItems: 2
+   interrupts:
+     maxItems: 1
  
 -- 
 2.34.1
