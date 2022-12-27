@@ -2,165 +2,90 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C5B39656C32
-	for <lists+linux-media@lfdr.de>; Tue, 27 Dec 2022 15:49:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3EAB4656D73
+	for <lists+linux-media@lfdr.de>; Tue, 27 Dec 2022 18:37:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230097AbiL0OtP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 27 Dec 2022 09:49:15 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57232 "EHLO
+        id S231220AbiL0Rg7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 27 Dec 2022 12:36:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45854 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229801AbiL0OtO (ORCPT
+        with ESMTP id S229488AbiL0Rg6 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 27 Dec 2022 09:49:14 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DBE0AA47F;
-        Tue, 27 Dec 2022 06:49:12 -0800 (PST)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 488BA514;
-        Tue, 27 Dec 2022 15:49:10 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1672152550;
-        bh=9ZvmkU/4cxUqi48AgkHlsUf9hyTs2Mm20J/FBJPHAbE=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Udn5qiBjHbu3757jVq8Zm/fAx2wQMAWYl4HQY8nQv+AsiAQe7jQ0+b6wyI/luJxKe
-         Hd7pxWwkRI/e1pb1wOK6JbJx/NX5cOjYKP4W2krCRCuHvmkyqERlWpe9/wsKrleR2C
-         YFbGF/QArSjTOKVIA7YbPAR1JvFgVuJvxevkNaCg=
-Date:   Tue, 27 Dec 2022 16:49:07 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Ricardo Ribalda <ribalda@chromium.org>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        linux-kernel@vger.kernel.org, Max Staudt <mstaudt@chromium.org>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Yunke Cao <yunkec@chromium.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH v5 1/2] media: uvcvideo: Refactor streamon/streamoff
-Message-ID: <Y6sF40Nx6RPIaFcQ@pendragon.ideasonboard.com>
-References: <20220920-resend-powersave-v5-0-692e6df6c1e2@chromium.org>
- <20220920-resend-powersave-v5-1-692e6df6c1e2@chromium.org>
+        Tue, 27 Dec 2022 12:36:58 -0500
+Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 016132652
+        for <linux-media@vger.kernel.org>; Tue, 27 Dec 2022 09:36:56 -0800 (PST)
+Received: from fllv0034.itg.ti.com ([10.64.40.246])
+        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 2BRHakCT120155;
+        Tue, 27 Dec 2022 11:36:46 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1672162606;
+        bh=Ksv2Y7JWzYcpvzpatK53HMBKmCjn7ejdmg7Y9165404=;
+        h=From:To:CC:Subject:Date;
+        b=eA9rzp2uCuLzd3bQii/B21GZFO4HGp+q4r+ZyRSjN1jOOsOFveyNJ36t6KfKlf7xf
+         pGNYap5XBj8jizjR/SUyNSREqGBxwroHzQJpVpPK7QE06alVS4HrQ/9YsaVTlC/C2Y
+         tdt/F9NG9g2L4goygPkvO2sZ7ldpfW0nJCbI3Hco=
+Received: from DFLE106.ent.ti.com (dfle106.ent.ti.com [10.64.6.27])
+        by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 2BRHakO8007909
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Tue, 27 Dec 2022 11:36:46 -0600
+Received: from DFLE107.ent.ti.com (10.64.6.28) by DFLE106.ent.ti.com
+ (10.64.6.27) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.16; Tue, 27
+ Dec 2022 11:36:45 -0600
+Received: from fllv0039.itg.ti.com (10.64.41.19) by DFLE107.ent.ti.com
+ (10.64.6.28) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.16 via
+ Frontend Transport; Tue, 27 Dec 2022 11:36:45 -0600
+Received: from localhost (ileaxei01-snat.itg.ti.com [10.180.69.5])
+        by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 2BRHaiE8086662;
+        Tue, 27 Dec 2022 11:36:45 -0600
+From:   Jai Luthra <j-luthra@ti.com>
+To:     Steve Longerbeam <slongerbeam@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+CC:     <linux-media@vger.kernel.org>, Nishanth Menon <nm@ti.com>,
+        Jai Luthra <j-luthra@ti.com>
+Subject: [PATCH v3 0/3] media: ov5640: Fix power up sequence delays
+Date:   Tue, 27 Dec 2022 23:06:31 +0530
+Message-ID: <20221227173634.5752-1-j-luthra@ti.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220920-resend-powersave-v5-1-692e6df6c1e2@chromium.org>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Ricardo,
+This series fixes the power-up sequence delays to support some 15-pin 
+FFC compatible OV5640 modules.
 
-Thank you for the patch.
+Without appropriate delays after both gpio and register-based powerdown 
+and reset the sensor SCCB was not very stable, and probe would sometimes 
+fail at check_chip_id.
 
-On Tue, Dec 06, 2022 at 03:06:55PM +0100, Ricardo Ribalda wrote:
-> Add a new variable to handle the streaming state and handle the
-> streamoff errors, that were not handled before.
-> 
-> Suggested-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Reviewed-by: Max Staudt <mstaudt@chromium.org>
-> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> ---
->  drivers/media/usb/uvc/uvc_v4l2.c | 19 ++++++++++++++++---
->  drivers/media/usb/uvc/uvcvideo.h |  1 +
->  2 files changed, 17 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
-> index f4d4c33b6dfb..1389a87b8ae1 100644
-> --- a/drivers/media/usb/uvc/uvc_v4l2.c
-> +++ b/drivers/media/usb/uvc/uvc_v4l2.c
-> @@ -840,13 +840,19 @@ static int uvc_ioctl_streamon(struct file *file, void *fh,
->  {
->  	struct uvc_fh *handle = fh;
->  	struct uvc_streaming *stream = handle->stream;
-> -	int ret;
-> +	int ret = -EBUSY;
->  
->  	if (!uvc_has_privileges(handle))
->  		return -EBUSY;
->  
->  	mutex_lock(&stream->mutex);
-> +
-> +	if (handle->is_streaming)
-> +		goto unlock;
+Changes in v3:
+- Move register-based reset to the common powerup_sequence function
+- Only add 5ms delay for PWUP not for PWDN in ov5640_set_stream_dvp
 
-This isn't needed, uvc_queue_streamon() calls vb2_streamon(), which
-returns an error if the queue is already streaming.
+v2: https://lore.kernel.org/all/20221219143056.4070-1-j-luthra@ti.com/
 
->  	ret = uvc_queue_streamon(&stream->queue, type);
-> +	handle->is_streaming = !ret;
+Jai Luthra (2):
+  media: ov5640: Handle delays when no reset_gpio set
+  media: ov5640: Fix soft reset sequence and timings
 
-You can just turn this into
+Nishanth Menon (1):
+  media: ov5640: Honor power on time in init_setting
 
-	if (!ret)
-		handle->is_streaming = true;
-
-and drop all other changes to this function.
-
-> +
-> +unlock:
->  	mutex_unlock(&stream->mutex);
->  
->  	return ret;
-> @@ -857,15 +863,22 @@ static int uvc_ioctl_streamoff(struct file *file, void *fh,
->  {
->  	struct uvc_fh *handle = fh;
->  	struct uvc_streaming *stream = handle->stream;
-> +	int ret = 0;
->  
->  	if (!uvc_has_privileges(handle))
->  		return -EBUSY;
->  
->  	mutex_lock(&stream->mutex);
-> -	uvc_queue_streamoff(&stream->queue, type);
-> +
-> +	if (!handle->is_streaming)
-> +		goto unlock;
-
-More than unneeded, this is wrong. Calling VIDIOC_STREAMOFF on a queue
-that is not streaming is a valid use case, it's the only way to release
-buffers that have been queued to the device. vb2_core_streamoff()
-handles this correctly. You should drop this check.
-
-> +	ret = uvc_queue_streamoff(&stream->queue, type);
-> +	handle->is_streaming = !!ret;
-
-And turn this into
-
-	if (!ret)
-		handle->is_streaming = false;
-
-and drop all other changes to this function.
-
-> +
-> +unlock:
->  	mutex_unlock(&stream->mutex);
->  
-> -	return 0;
-> +	return ret;
->  }
->  
->  static int uvc_ioctl_enum_input(struct file *file, void *fh,
-> diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-> index df93db259312..0d9f335053b8 100644
-> --- a/drivers/media/usb/uvc/uvcvideo.h
-> +++ b/drivers/media/usb/uvc/uvcvideo.h
-> @@ -584,6 +584,7 @@ struct uvc_fh {
->  	struct uvc_video_chain *chain;
->  	struct uvc_streaming *stream;
->  	enum uvc_handle_state state;
-> +	bool is_streaming;
->  };
->  
->  struct uvc_driver {
-> 
+ drivers/media/i2c/ov5640.c | 68 +++++++++++++++++++++++++++-----------
+ 1 file changed, 48 insertions(+), 20 deletions(-)
 
 -- 
-Regards,
+2.17.1
 
-Laurent Pinchart
