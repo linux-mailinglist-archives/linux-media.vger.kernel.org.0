@@ -2,97 +2,235 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4E897656941
-	for <lists+linux-media@lfdr.de>; Tue, 27 Dec 2022 10:56:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7A87F656BB7
+	for <lists+linux-media@lfdr.de>; Tue, 27 Dec 2022 15:25:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230492AbiL0J4z (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 27 Dec 2022 04:56:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59252 "EHLO
+        id S230188AbiL0OZM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 27 Dec 2022 09:25:12 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43638 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230266AbiL0J42 (ORCPT
+        with ESMTP id S229452AbiL0OZK (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 27 Dec 2022 04:56:28 -0500
-Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com [IPv6:2a00:1450:4864:20::130])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C5DBB4A1
-        for <linux-media@vger.kernel.org>; Tue, 27 Dec 2022 01:55:18 -0800 (PST)
-Received: by mail-lf1-x130.google.com with SMTP id y25so18946527lfa.9
-        for <linux-media@vger.kernel.org>; Tue, 27 Dec 2022 01:55:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=IPELBybm3OZnPzS1qLb2eKjz0NHNGczcyBgATwq2AJ8=;
-        b=a3UtnFcbLnbcl0VpqfiGS+3wdLVd8cVaF6vWs6Z73JN9u8GKOcwuHvZ7PeFo2Fz8Gb
-         Dg33aK8GsX9rXOk5JHLN+UFwwLtUGge2vDJcLxDgKQBj0UlrAwxvRdTyIlqjOBxb6uL2
-         3r8wy+ifXw9wMu+5ohSWs57+ivuQsve9TeeIsGrOCr3I2UKbfLcVTzYjnN3o5GN79Z8V
-         4aixJ758qbUSfUaK04lAaM+3z/IdBQ94CY7xifFwzdw5ESD37q6+CFXOjjzRg1KEvOb9
-         bx3izGa6470MaOEzPMLBZD6oRxIvl+pgygrs7v2swp3COdc38cNfCwdd7rXSjYmxbKqi
-         A25Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=IPELBybm3OZnPzS1qLb2eKjz0NHNGczcyBgATwq2AJ8=;
-        b=SPVhd8kf8hJze93Ohir4n3i2AVgOe8Pm84ulM/VMkpKW7nb5tIn8OEFTyQbUj/JTnp
-         F8H9ksGDxX4MItGSWe2ff6/wE7Zc6loWNiJpvh18WlBwyRVT7RApg08PTnOBUB2S9on2
-         1IwNrwvkJjmUDURB52n24kiGcz9hQFM0wYdMpyw+IiLatCPgiaT5pXdnKAHYdDorzNH7
-         09lOD0zund87PYKEs1r8hwidqJU8LRVsL0KqD6rxsycKtDM73Bykrov6+nBWePAww52a
-         bdidE0rzPUtiLkb86mcgUGRH80OP/x/GoU9sEmcQL7zEyhcXkaaO8hawkf9XbJ98MWWo
-         a7Dw==
-X-Gm-Message-State: AFqh2kp/dqr6SSHRmr/KRgfO/gWvw+hCAx/RTYgBsy86Gfqkxm3gT9di
-        YLdRvmmLoSJKdcd/iFdv5lVRkQ==
-X-Google-Smtp-Source: AMrXdXtltf4vB2TNQasjCgOUGdVW5TjMPZt530L9JnGeaOu3jfGKIVxewdonxiUQ0BeVA82qYm+DzA==
-X-Received: by 2002:a19:f514:0:b0:4b5:61e8:8934 with SMTP id j20-20020a19f514000000b004b561e88934mr5295350lfb.64.1672134916572;
-        Tue, 27 Dec 2022 01:55:16 -0800 (PST)
-Received: from [192.168.0.20] (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
-        by smtp.gmail.com with ESMTPSA id o17-20020a05651205d100b00498f77cfa63sm2211382lfo.280.2022.12.27.01.55.15
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 27 Dec 2022 01:55:16 -0800 (PST)
-Message-ID: <1cc66b84-fcf3-2801-57ad-94430fa38055@linaro.org>
-Date:   Tue, 27 Dec 2022 10:55:14 +0100
+        Tue, 27 Dec 2022 09:25:10 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C7F9C65CA;
+        Tue, 27 Dec 2022 06:25:04 -0800 (PST)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 74B76514;
+        Tue, 27 Dec 2022 15:25:02 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1672151102;
+        bh=wVffXrSrfpVZx+CPuE+hZ4szBkA23nWWv1euDjeYaRc=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=iUSkEaWu8o4GhaqlHTB4TxhSud5iJF2DkGCFPH/pB/JnitMA26jZcur7ILtnd9xB4
+         4+puwHZsMRKUf3U7seHOrnoKQez0OJ32DCYGqVm/I1OS/Dy3rn/WwCH3bETGSbfsJe
+         0bujjS+Gc7ZVer1fybXiiEVY5vRO7mwL3PlvtD3Y=
+Date:   Tue, 27 Dec 2022 16:24:59 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Ricardo Ribalda <ribalda@chromium.org>
+Cc:     Sergey Senozhatsky <senozhatsky@chromium.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Max Staudt <mstaudt@google.com>, linux-media@vger.kernel.org,
+        stable@vger.kernel.org, Yunke Cao <yunkec@chromium.org>,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4] media: uvcvideo: Fix race condition with usb_kill_urb
+Message-ID: <Y6sAO7URJpSIulye@pendragon.ideasonboard.com>
+References: <20221212-uvc-race-v4-0-38d7075b03f5@chromium.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH v10 3/7] dt-bindings: arm: nuvoton: Add bindings for NPCM
- GFXI
-Content-Language: en-US
-To:     Marvin Lin <milkfafa@gmail.com>, mchehab@kernel.org,
-        hverkuil-cisco@xs4all.nl, avifishman70@gmail.com,
-        tmaimon77@gmail.com, tali.perry1@gmail.com, venture@google.com,
-        yuenn@google.com, benjaminfair@google.com, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, andrzej.p@collabora.com
-Cc:     devicetree@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, openbmc@lists.ozlabs.org,
-        kwliu@nuvoton.com, kflin@nuvoton.com
-References: <20221227095123.2447948-1-milkfafa@gmail.com>
- <20221227095123.2447948-4-milkfafa@gmail.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20221227095123.2447948-4-milkfafa@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20221212-uvc-race-v4-0-38d7075b03f5@chromium.org>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 27/12/2022 10:51, Marvin Lin wrote:
-> Add dt-bindings document for Graphics Core Information (GFXI) node. It
-> is used by NPCM video driver to retrieve Graphics core information.
+Hi Ricardo,
+
+Thank you for the patch.
+
+On Wed, Dec 14, 2022 at 05:31:55PM +0100, Ricardo Ribalda wrote:
+> usb_kill_urb warranties that all the handlers are finished when it
+> returns, but does not protect against threads that might be handling
+> asynchronously the urb.
 > 
-> Signed-off-by: Marvin Lin <milkfafa@gmail.com>
-> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> For UVC, the function uvc_ctrl_status_event_async() takes care of
+> control changes asynchronously.
+> 
+>  If the code is executed in the following order:
+> 
+> CPU 0					CPU 1
+> ===== 					=====
+> uvc_status_complete()
+> 					uvc_status_stop()
+> uvc_ctrl_status_event_work()
+> 					uvc_status_start() -> FAIL
+> 
+> Then uvc_status_start will keep failing and this error will be shown:
+> 
+> <4>[    5.540139] URB 0000000000000000 submitted while active
+> drivers/usb/core/urb.c:378 usb_submit_urb+0x4c3/0x528
+> 
+> Let's improve the current situation, by not re-submiting the urb if
+> we are stopping the status event. Also process the queued work
+> (if any) during stop.
+> 
+> CPU 0					CPU 1
+> ===== 					=====
+> uvc_status_complete()
+> 					uvc_status_stop()
+> 					uvc_status_start()
+> uvc_ctrl_status_event_work() -> FAIL
+> 
+> Hopefully, with the usb layer protection this should be enough to cover
+> all the cases.
+> 
+> Cc: stable@vger.kernel.org
+> Fixes: e5225c820c05 ("media: uvcvideo: Send a control event when a Control Change interrupt arrives")
+> Reviewed-by: Yunke Cao <yunkec@chromium.org>
+> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> ---
+> uvc: Fix race condition on uvc
+> 
+> Make sure that all the async work is finished when we stop the status urb.
+> 
+> To: Yunke Cao <yunkec@chromium.org>
+> To: Sergey Senozhatsky <senozhatsky@chromium.org>
+> To: Max Staudt <mstaudt@google.com>
+> To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> To: Mauro Carvalho Chehab <mchehab@kernel.org>
+> Cc: linux-media@vger.kernel.org
+> Cc: linux-kernel@vger.kernel.org
+> ---
+> Changes in v4:
+> - Replace bool with atomic_t to avoid compiler reordering
+> - First complete the async work and then kill the urb to avoid race (Thanks Laurent!)
+> - Link to v3: https://lore.kernel.org/r/20221212-uvc-race-v3-0-954efc752c9a@chromium.org
+> 
+> Changes in v3:
+> - Remove the patch for dev->status, makes more sense in another series, and makes
+>   the zero day less nervous.
+> - Update reviewed-by (thanks Yunke!).
+> - Link to v2: https://lore.kernel.org/r/20221212-uvc-race-v2-0-54496cc3b8ab@chromium.org
+> 
+> Changes in v2:
+> - Add a patch for not kalloc dev->status
+> - Redo the logic mechanism, so it also works with suspend (Thanks Yunke!)
+> - Link to v1: https://lore.kernel.org/r/20221212-uvc-race-v1-0-c52e1783c31d@chromium.org
+> ---
+>  drivers/media/usb/uvc/uvc_ctrl.c   | 3 +++
+>  drivers/media/usb/uvc/uvc_status.c | 6 ++++++
+>  drivers/media/usb/uvc/uvcvideo.h   | 1 +
+>  3 files changed, 10 insertions(+)
+> 
+> diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
+> index c95a2229f4fa..1be6897a7d6d 100644
+> --- a/drivers/media/usb/uvc/uvc_ctrl.c
+> +++ b/drivers/media/usb/uvc/uvc_ctrl.c
+> @@ -1442,6 +1442,9 @@ static void uvc_ctrl_status_event_work(struct work_struct *work)
+>  
+>  	uvc_ctrl_status_event(w->chain, w->ctrl, w->data);
+>  
+> +	if (atomic_read(&dev->flush_status))
+> +		return;
+> +
+>  	/* Resubmit the URB. */
+>  	w->urb->interval = dev->int_ep->desc.bInterval;
+>  	ret = usb_submit_urb(w->urb, GFP_KERNEL);
+> diff --git a/drivers/media/usb/uvc/uvc_status.c b/drivers/media/usb/uvc/uvc_status.c
+> index 7518ffce22ed..4a95850cdc1b 100644
+> --- a/drivers/media/usb/uvc/uvc_status.c
+> +++ b/drivers/media/usb/uvc/uvc_status.c
+> @@ -304,10 +304,16 @@ int uvc_status_start(struct uvc_device *dev, gfp_t flags)
+>  	if (dev->int_urb == NULL)
+>  		return 0;
+>  
+> +	atomic_set(&dev->flush_status, 0);
+>  	return usb_submit_urb(dev->int_urb, flags);
+>  }
+>  
+>  void uvc_status_stop(struct uvc_device *dev)
+>  {
+> +	struct uvc_ctrl_work *w = &dev->async_ctrl;
+> +
+> +	atomic_set(&dev->flush_status, 1);
 
-The comment about subject from v8 applies here as well. Once you receive
-a comment apply it everywhere, fix all the issues, not only one.
+Note that atomic_read() and atomic_set() do no imply any memory barrier
+on most architectures, as far as I can tell. They essentially become
+READ_ONCE() and WRITE_ONCE() calls, which guarantee that the compiler
+will not merge or split loads or stores, or reorder them with respect to
+load and stores to the *same* memory location, but nothing else. I think
+you need to add proper barriers, and you can then probably also drop
+usage of atomic_t.
 
+> +	if (cancel_work_sync(&w->work))
+> +		uvc_ctrl_status_event(w->chain, w->ctrl, w->data);
+>  	usb_kill_urb(dev->int_urb);
 
-Best regards,
-Krzysztof
+This should get rid of the main race (possibly save the barrier issue),
+but it's not the most efficient option, and can still be problematic.
+Consider the following case:
 
+CPU0							CPU1
+----							----
+
+void uvc_status_stop(struct uvc_device *dev)		uvc_ctrl_status_event_async()
+{							{
+	...
+	atomic_set(&dev->flush_status, 1);			...
+	if (cancel_work_sync())
+		...
+								schedule_work();
+	usb_kill_urb();					}
+}
+
+The usb_kill_urb() call ensures that uvc_ctrl_status_event_async()
+completes before uvc_status_stop() returns, but there will still be work
+scheduled in that case. uvc_ctrl_status_event_work() will be run later,
+and as flush_status is set to 1, the function will not resubmit the URB.
+That fixes the main race, but leaves the asynchronous control status
+event handling for after uvc_status_stop() returns, which isn't great.
+
+Now, if we consider that uvc_status_start() could be called shortly
+after uvc_status_stop(), we may get in a situation where
+uvc_status_start() will reset flush_status to 0 before
+uvc_ctrl_status_event_async() runs. Both uvc_ctrl_status_event_async()
+and uvc_status_start() will thus submit the same URB.
+
+You can't fix this by first killing the URB and then cancelling the
+work, as there would then be a risk that uvc_ctrl_status_event_work()
+would be running in parallel, going past the flush_status check before
+flush_status gets set to 1 in uvc_status_stop(), and submitting the URB
+after usb_kill_urb() is called.
+
+I think a good fix would be to check flush_status in
+uvc_ctrl_status_event_async() and avoid the schedule_work() call in that
+case. You could then also move the atomic_set(..., 0) call from
+uvc_status_start() to the end of uvc_status_stop() (again with proper
+barriers).
+
+Could you please check the memory barriers and test the above proposal
+(after double-checking it of course, I may have missed something) ?
+
+>  }
+> diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
+> index df93db259312..1274691f157f 100644
+> --- a/drivers/media/usb/uvc/uvcvideo.h
+> +++ b/drivers/media/usb/uvc/uvcvideo.h
+> @@ -560,6 +560,7 @@ struct uvc_device {
+>  	struct usb_host_endpoint *int_ep;
+>  	struct urb *int_urb;
+>  	u8 *status;
+> +	atomic_t flush_status;
+>  	struct input_dev *input;
+>  	char input_phys[64];
+>  
+
+-- 
+Regards,
+
+Laurent Pinchart
