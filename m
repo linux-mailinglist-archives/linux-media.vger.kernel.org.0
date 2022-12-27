@@ -2,44 +2,44 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3EAB4656D73
+	by mail.lfdr.de (Postfix) with ESMTP id 911D5656D74
 	for <lists+linux-media@lfdr.de>; Tue, 27 Dec 2022 18:37:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231220AbiL0Rg7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 27 Dec 2022 12:36:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45854 "EHLO
+        id S231394AbiL0RhA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 27 Dec 2022 12:37:00 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45856 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229488AbiL0Rg6 (ORCPT
+        with ESMTP id S229936AbiL0Rg6 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Tue, 27 Dec 2022 12:36:58 -0500
 Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 016132652
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 01C882673
         for <linux-media@vger.kernel.org>; Tue, 27 Dec 2022 09:36:56 -0800 (PST)
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
-        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 2BRHakCT120155;
-        Tue, 27 Dec 2022 11:36:46 -0600
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 2BRHalGi120160;
+        Tue, 27 Dec 2022 11:36:47 -0600
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1672162606;
-        bh=Ksv2Y7JWzYcpvzpatK53HMBKmCjn7ejdmg7Y9165404=;
-        h=From:To:CC:Subject:Date;
-        b=eA9rzp2uCuLzd3bQii/B21GZFO4HGp+q4r+ZyRSjN1jOOsOFveyNJ36t6KfKlf7xf
-         pGNYap5XBj8jizjR/SUyNSREqGBxwroHzQJpVpPK7QE06alVS4HrQ/9YsaVTlC/C2Y
-         tdt/F9NG9g2L4goygPkvO2sZ7ldpfW0nJCbI3Hco=
-Received: from DFLE106.ent.ti.com (dfle106.ent.ti.com [10.64.6.27])
-        by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 2BRHakO8007909
+        s=ti-com-17Q1; t=1672162607;
+        bh=TKFpgCwaGk51ZryVFVD/+9Qqr5/MslTxPOL/w2d4LTA=;
+        h=From:To:CC:Subject:Date:In-Reply-To:References;
+        b=VszLB4zH7tSS9pfUlfFZppI5KJsYlqEVovLg3ZNIh/gY62jAmSpQXL/qiFFdvb8JB
+         ox5m5Q2BUY96IvUvbtNHBxEDMu2DP6u0jBqLgUZ45VmPMa1Kr9eG6AufrJyTQNMWZA
+         bBQUdJMKuRkZIER6X2kxlISYG6BNIs+fNYsJKEds=
+Received: from DFLE102.ent.ti.com (dfle102.ent.ti.com [10.64.6.23])
+        by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 2BRHalFj086411
         (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Tue, 27 Dec 2022 11:36:46 -0600
-Received: from DFLE107.ent.ti.com (10.64.6.28) by DFLE106.ent.ti.com
- (10.64.6.27) with Microsoft SMTP Server (version=TLS1_2,
+        Tue, 27 Dec 2022 11:36:47 -0600
+Received: from DFLE112.ent.ti.com (10.64.6.33) by DFLE102.ent.ti.com
+ (10.64.6.23) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.16; Tue, 27
- Dec 2022 11:36:45 -0600
-Received: from fllv0039.itg.ti.com (10.64.41.19) by DFLE107.ent.ti.com
- (10.64.6.28) with Microsoft SMTP Server (version=TLS1_2,
+ Dec 2022 11:36:47 -0600
+Received: from lelv0326.itg.ti.com (10.180.67.84) by DFLE112.ent.ti.com
+ (10.64.6.33) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.16 via
- Frontend Transport; Tue, 27 Dec 2022 11:36:45 -0600
-Received: from localhost (ileaxei01-snat.itg.ti.com [10.180.69.5])
-        by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 2BRHaiE8086662;
-        Tue, 27 Dec 2022 11:36:45 -0600
+ Frontend Transport; Tue, 27 Dec 2022 11:36:47 -0600
+Received: from localhost (ileaxei01-snat2.itg.ti.com [10.180.69.6])
+        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 2BRHakZq028507;
+        Tue, 27 Dec 2022 11:36:47 -0600
 From:   Jai Luthra <j-luthra@ti.com>
 To:     Steve Longerbeam <slongerbeam@gmail.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -47,10 +47,12 @@ To:     Steve Longerbeam <slongerbeam@gmail.com>,
         Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 CC:     <linux-media@vger.kernel.org>, Nishanth Menon <nm@ti.com>,
         Jai Luthra <j-luthra@ti.com>
-Subject: [PATCH v3 0/3] media: ov5640: Fix power up sequence delays
-Date:   Tue, 27 Dec 2022 23:06:31 +0530
-Message-ID: <20221227173634.5752-1-j-luthra@ti.com>
+Subject: [PATCH v3 1/3] media: ov5640: Handle delays when no reset_gpio set
+Date:   Tue, 27 Dec 2022 23:06:32 +0530
+Message-ID: <20221227173634.5752-2-j-luthra@ti.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20221227173634.5752-1-j-luthra@ti.com>
+References: <20221227173634.5752-1-j-luthra@ti.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
@@ -63,29 +65,70 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This series fixes the power-up sequence delays to support some 15-pin 
-FFC compatible OV5640 modules.
+Some module manufacturers [1][2] don't expose the RESETB and PWDN pins
+of the sensor directly through the 15-pin FFC connector. Instead wiring
+~PWDN gpio to the sensor pins with appropriate delays.
 
-Without appropriate delays after both gpio and register-based powerdown 
-and reset the sensor SCCB was not very stable, and probe would sometimes 
-fail at check_chip_id.
+In such cases, reset_gpio will not be available to the driver, but it
+will still be toggled when the sensor is powered on, and thus we should
+still honor the wait time of >= 5ms + 1ms + 20ms (see figure 2-3 in [3])
+before attempting any i/o operations over SCCB.
 
-Changes in v3:
-- Move register-based reset to the common powerup_sequence function
-- Only add 5ms delay for PWUP not for PWDN in ov5640_set_stream_dvp
+Also, rename the function to ov5640_powerup_sequence to better match the
+datasheet (section 2.7).
 
-v2: https://lore.kernel.org/all/20221219143056.4070-1-j-luthra@ti.com/
+[1] https://digilent.com/reference/_media/reference/add-ons/pcam-5c/pcam_5c_sch.pdf
+[2] https://www.alinx.com/public/upload/file/AN5641_User_Manual.pdf
+[3] https://cdn.sparkfun.com/datasheets/Sensors/LightImaging/OV5640_datasheet.pdf
 
-Jai Luthra (2):
-  media: ov5640: Handle delays when no reset_gpio set
-  media: ov5640: Fix soft reset sequence and timings
+Fixes: 19a81c1426c1 ("[media] add Omnivision OV5640 sensor driver")
+Signed-off-by: Jai Luthra <j-luthra@ti.com>
+Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+---
+ drivers/media/i2c/ov5640.c | 22 ++++++++++++++++------
+ 1 file changed, 16 insertions(+), 6 deletions(-)
 
-Nishanth Menon (1):
-  media: ov5640: Honor power on time in init_setting
-
- drivers/media/i2c/ov5640.c | 68 +++++++++++++++++++++++++++-----------
- 1 file changed, 48 insertions(+), 20 deletions(-)
-
+diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
+index e0f908af581b..e6525caa9b8c 100644
+--- a/drivers/media/i2c/ov5640.c
++++ b/drivers/media/i2c/ov5640.c
+@@ -2424,11 +2424,22 @@ static void ov5640_power(struct ov5640_dev *sensor, bool enable)
+ 	gpiod_set_value_cansleep(sensor->pwdn_gpio, enable ? 0 : 1);
+ }
+ 
+-static void ov5640_reset(struct ov5640_dev *sensor)
++/*
++ * From section 2.7 power up sequence:
++ * t0 + t1 + t2 >= 5ms	Delay from DOVDD stable to PWDN pull down
++ * t3 >= 1ms		Delay from PWDN pull down to RESETB pull up
++ * t4 >= 20ms		Delay from RESETB pull up to SCCB (i2c) stable
++ *
++ * Some modules don't expose RESETB/PWDN pins directly, instead providing a
++ * "PWUP" GPIO which is wired through appropriate delays and inverters to the
++ * pins.
++ *
++ * In such cases, this gpio should be mapped to pwdn_gpio in the driver, and we
++ * should still toggle the pwdn_gpio below with the appropriate delays, while
++ * the calls to reset_gpio will be ignored.
++ */
++static void ov5640_powerup_sequence(struct ov5640_dev *sensor)
+ {
+-	if (!sensor->reset_gpio)
+-		return;
+-
+ 	gpiod_set_value_cansleep(sensor->reset_gpio, 0);
+ 
+ 	/* camera power cycle */
+@@ -2464,8 +2475,7 @@ static int ov5640_set_power_on(struct ov5640_dev *sensor)
+ 		goto xclk_off;
+ 	}
+ 
+-	ov5640_reset(sensor);
+-	ov5640_power(sensor, true);
++	ov5640_powerup_sequence(sensor);
+ 
+ 	ret = ov5640_init_slave_id(sensor);
+ 	if (ret)
 -- 
 2.17.1
 
