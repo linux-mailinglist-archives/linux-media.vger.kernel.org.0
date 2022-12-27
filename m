@@ -2,109 +2,165 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 477C4656C1C
-	for <lists+linux-media@lfdr.de>; Tue, 27 Dec 2022 15:41:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C5B39656C32
+	for <lists+linux-media@lfdr.de>; Tue, 27 Dec 2022 15:49:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232190AbiL0Oli (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 27 Dec 2022 09:41:38 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52086 "EHLO
+        id S230097AbiL0OtP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 27 Dec 2022 09:49:15 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57232 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232070AbiL0OlP (ORCPT
+        with ESMTP id S229801AbiL0OtO (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 27 Dec 2022 09:41:15 -0500
-Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com [IPv6:2a00:1450:4864:20::132])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A88FE1014
-        for <linux-media@vger.kernel.org>; Tue, 27 Dec 2022 06:41:13 -0800 (PST)
-Received: by mail-lf1-x132.google.com with SMTP id f34so19844336lfv.10
-        for <linux-media@vger.kernel.org>; Tue, 27 Dec 2022 06:41:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=KjyjRmy5puUpAtPf+wBK5e8kuBWUmUhZYIEd38wFUkg=;
-        b=iqt9Q+ASROGcthdWWwR1bPD+878wxS0YbGiLwBal2Sjg64M9Sbj6ymHdk5IVGimNbq
-         cnerpYMtnDFuMhGVZL85sWlplz8cOKfUUyTDpSSCr9FE1/TD8KjEtIi545iauQlBYXi3
-         o49/0L4/4F8TcuHw/T1se3pSlJ0AIqzS+KwRb7RTFIrd062EFAlocDWEZ27VaKwdix5V
-         l/SYtZO7cjdPzt2FKsbCpfEpKBP0BjrQHQ/1QKT3kzPv5Jzf6QhaQ9kboLgyDsU6HV49
-         i6cS9xYYP5Jl4OUhkdF2eTzruTQL1O7fyDkGad8FQ/N4iWCwm7npxkjwqu1Q0GPeHXir
-         bxrg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=KjyjRmy5puUpAtPf+wBK5e8kuBWUmUhZYIEd38wFUkg=;
-        b=UFtT4dYP0lYYpdfjSqHRCCZzLQlptLmeIowJtLmzi3pQAuhQHA0IIEy/8MjoN3RJ/f
-         ulpVVCdzqLblCchJl+IGmIFp3PKATq87LsptuE/5hFMD7untZY9l4MpXL8EsR3pyiQW9
-         OCeE619DJoNkhptaD3oCYoDtfRbNBQ4IPli3MkDrD1mjOtNKw+2Zpcg8Zm7nihVQ6FT/
-         ZGAeXn/RtWiHotlcSOXmX/7LDGuRm4HuDZ2RTIemnKEuJliHnH7vzVVwaEGFInyGBXB2
-         7HY71PM0WoYjIx74SyYI87SBoWGgAN9z7Oc4uMbaFPoqPbP1wbBqMXMB0E8vkuZWIvrZ
-         OMRw==
-X-Gm-Message-State: AFqh2krGciyU0caJfcjjtAV6BMM1SfYfGoZ4mIuIUPtMSNkzU5wpVyFJ
-        Q8SFC/C8ckRU8u2LAOXq/QsuWQ==
-X-Google-Smtp-Source: AMrXdXsN7VYeo+NLz+OBGeJ/ih1X9X3rq66Kh6o9M+PbOedlYzXTZHk713zzkBLV6AwEia2Mpi60RQ==
-X-Received: by 2002:a05:6512:159b:b0:4b5:9138:145b with SMTP id bp27-20020a056512159b00b004b59138145bmr6909852lfb.14.1672152073208;
-        Tue, 27 Dec 2022 06:41:13 -0800 (PST)
-Received: from krzk-bin.NAT.warszawa.vectranet.pl (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
-        by smtp.gmail.com with ESMTPSA id s1-20020a056512214100b004b5853f0fc6sm2261126lfr.246.2022.12.27.06.41.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Dec 2022 06:41:12 -0800 (PST)
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To:     Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
-        Vikash Garodia <quic_vgarodia@quicinc.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Del Regno <angelogioacchino.delregno@collabora.com>,
-        linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH 8/8] media: dt-bindings: qcom,venus: document firmware-name
-Date:   Tue, 27 Dec 2022 15:41:02 +0100
-Message-Id: <20221227144102.79391-8-krzysztof.kozlowski@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20221227144102.79391-1-krzysztof.kozlowski@linaro.org>
-References: <20221227144102.79391-1-krzysztof.kozlowski@linaro.org>
+        Tue, 27 Dec 2022 09:49:14 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DBE0AA47F;
+        Tue, 27 Dec 2022 06:49:12 -0800 (PST)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 488BA514;
+        Tue, 27 Dec 2022 15:49:10 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1672152550;
+        bh=9ZvmkU/4cxUqi48AgkHlsUf9hyTs2Mm20J/FBJPHAbE=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Udn5qiBjHbu3757jVq8Zm/fAx2wQMAWYl4HQY8nQv+AsiAQe7jQ0+b6wyI/luJxKe
+         Hd7pxWwkRI/e1pb1wOK6JbJx/NX5cOjYKP4W2krCRCuHvmkyqERlWpe9/wsKrleR2C
+         YFbGF/QArSjTOKVIA7YbPAR1JvFgVuJvxevkNaCg=
+Date:   Tue, 27 Dec 2022 16:49:07 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Ricardo Ribalda <ribalda@chromium.org>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        linux-kernel@vger.kernel.org, Max Staudt <mstaudt@chromium.org>,
+        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        Yunke Cao <yunkec@chromium.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH v5 1/2] media: uvcvideo: Refactor streamon/streamoff
+Message-ID: <Y6sF40Nx6RPIaFcQ@pendragon.ideasonboard.com>
+References: <20220920-resend-powersave-v5-0-692e6df6c1e2@chromium.org>
+ <20220920-resend-powersave-v5-1-692e6df6c1e2@chromium.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20220920-resend-powersave-v5-1-692e6df6c1e2@chromium.org>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Venus Linux driver loads firmware based on firmware-name property and
-some DTS already have it:
+Hi Ricardo,
 
-  msm8996-oneplus3.dtb: video-codec@c00000: Unevaluated properties are not allowed ('firmware-name', 'interconnect-names', 'interconnects' were unexpected)
+Thank you for the patch.
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
----
- Documentation/devicetree/bindings/media/qcom,venus-common.yaml | 3 +++
- 1 file changed, 3 insertions(+)
+On Tue, Dec 06, 2022 at 03:06:55PM +0100, Ricardo Ribalda wrote:
+> Add a new variable to handle the streaming state and handle the
+> streamoff errors, that were not handled before.
+> 
+> Suggested-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Reviewed-by: Max Staudt <mstaudt@chromium.org>
+> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> ---
+>  drivers/media/usb/uvc/uvc_v4l2.c | 19 ++++++++++++++++---
+>  drivers/media/usb/uvc/uvcvideo.h |  1 +
+>  2 files changed, 17 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
+> index f4d4c33b6dfb..1389a87b8ae1 100644
+> --- a/drivers/media/usb/uvc/uvc_v4l2.c
+> +++ b/drivers/media/usb/uvc/uvc_v4l2.c
+> @@ -840,13 +840,19 @@ static int uvc_ioctl_streamon(struct file *file, void *fh,
+>  {
+>  	struct uvc_fh *handle = fh;
+>  	struct uvc_streaming *stream = handle->stream;
+> -	int ret;
+> +	int ret = -EBUSY;
+>  
+>  	if (!uvc_has_privileges(handle))
+>  		return -EBUSY;
+>  
+>  	mutex_lock(&stream->mutex);
+> +
+> +	if (handle->is_streaming)
+> +		goto unlock;
 
-diff --git a/Documentation/devicetree/bindings/media/qcom,venus-common.yaml b/Documentation/devicetree/bindings/media/qcom,venus-common.yaml
-index 4a5c1d55c202..3153d91f9d18 100644
---- a/Documentation/devicetree/bindings/media/qcom,venus-common.yaml
-+++ b/Documentation/devicetree/bindings/media/qcom,venus-common.yaml
-@@ -26,6 +26,9 @@ properties:
-     minItems: 3
-     maxItems: 7
- 
-+  firmware-name:
-+    maxItems: 1
-+
-   interrupts:
-     maxItems: 1
- 
+This isn't needed, uvc_queue_streamon() calls vb2_streamon(), which
+returns an error if the queue is already streaming.
+
+>  	ret = uvc_queue_streamon(&stream->queue, type);
+> +	handle->is_streaming = !ret;
+
+You can just turn this into
+
+	if (!ret)
+		handle->is_streaming = true;
+
+and drop all other changes to this function.
+
+> +
+> +unlock:
+>  	mutex_unlock(&stream->mutex);
+>  
+>  	return ret;
+> @@ -857,15 +863,22 @@ static int uvc_ioctl_streamoff(struct file *file, void *fh,
+>  {
+>  	struct uvc_fh *handle = fh;
+>  	struct uvc_streaming *stream = handle->stream;
+> +	int ret = 0;
+>  
+>  	if (!uvc_has_privileges(handle))
+>  		return -EBUSY;
+>  
+>  	mutex_lock(&stream->mutex);
+> -	uvc_queue_streamoff(&stream->queue, type);
+> +
+> +	if (!handle->is_streaming)
+> +		goto unlock;
+
+More than unneeded, this is wrong. Calling VIDIOC_STREAMOFF on a queue
+that is not streaming is a valid use case, it's the only way to release
+buffers that have been queued to the device. vb2_core_streamoff()
+handles this correctly. You should drop this check.
+
+> +	ret = uvc_queue_streamoff(&stream->queue, type);
+> +	handle->is_streaming = !!ret;
+
+And turn this into
+
+	if (!ret)
+		handle->is_streaming = false;
+
+and drop all other changes to this function.
+
+> +
+> +unlock:
+>  	mutex_unlock(&stream->mutex);
+>  
+> -	return 0;
+> +	return ret;
+>  }
+>  
+>  static int uvc_ioctl_enum_input(struct file *file, void *fh,
+> diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
+> index df93db259312..0d9f335053b8 100644
+> --- a/drivers/media/usb/uvc/uvcvideo.h
+> +++ b/drivers/media/usb/uvc/uvcvideo.h
+> @@ -584,6 +584,7 @@ struct uvc_fh {
+>  	struct uvc_video_chain *chain;
+>  	struct uvc_streaming *stream;
+>  	enum uvc_handle_state state;
+> +	bool is_streaming;
+>  };
+>  
+>  struct uvc_driver {
+> 
+
 -- 
-2.34.1
+Regards,
 
+Laurent Pinchart
