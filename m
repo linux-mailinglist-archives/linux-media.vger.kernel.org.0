@@ -2,99 +2,138 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 04A9C656E4C
-	for <lists+linux-media@lfdr.de>; Tue, 27 Dec 2022 20:26:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F3B5E656E84
+	for <lists+linux-media@lfdr.de>; Tue, 27 Dec 2022 21:08:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232246AbiL0T0A (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 27 Dec 2022 14:26:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45986 "EHLO
+        id S230118AbiL0UIA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 27 Dec 2022 15:08:00 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59240 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232347AbiL0TZj (ORCPT
+        with ESMTP id S229488AbiL0UH7 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 27 Dec 2022 14:25:39 -0500
-Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 78017DF95;
-        Tue, 27 Dec 2022 11:24:50 -0800 (PST)
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id 23C611C09DB; Tue, 27 Dec 2022 20:24:48 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
-        t=1672169088;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=dRdFPAZ2x1cj1DjHYXyX9E2GgRFTovoAriXBGfubkg4=;
-        b=in1gHuA+v2uM45+1ROOvdmMWqmypiE2BXaMWhDraIlZkrgfEPm+f70T2b+4H7zfmp7ue/l
-        dX7itYr2Eb91NBCDUFx/RwZ+tuqxNmvtJ3PY6ZcaUrYDV+Onn/JkYnuWGS8+2lvATgWqVr
-        vih7/K529QrLrGV0wzzhM/PlBbHvcN8=
-Date:   Tue, 27 Dec 2022 20:24:47 +0100
-From:   Pavel Machek <pavel@ucw.cz>
-To:     icenowy@aosc.xyz, martijn@brixit.nl, megous@megous.com,
-        kernel list <linux-kernel@vger.kernel.org>,
-        phone-devel@vger.kernel.org, mchehab@kernel.org,
-        linux-media@vger.kernel.org, megi@xff.cz
-Subject: Re: gc2145 camera driver (front camera on PinePhone)
-Message-ID: <Y6tGfxrq/Mh1JoA9@duo.ucw.cz>
-References: <20220822180531.GA27226@duo.ucw.cz>
- <20220908073634.GA1761437@gnbcxd0016.gnb.st.com>
+        Tue, 27 Dec 2022 15:07:59 -0500
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC1301C9;
+        Tue, 27 Dec 2022 12:07:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1672171677; x=1703707677;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Gg2AQb1KnbSVrP3AF/cIh3eWxSHnE8y345OXW+33f/0=;
+  b=Qnex1ckGBdan6R00P2dpC/RYhUbf9fYqUabwtCW57jAW8wg94ECiz2ST
+   i6eUY/yvJezNlPIJMcEs2OgcvULgDENpvdDZrYbks4F3JdWrcGK5qqihv
+   9SfwjzWsV+fsUkTUhqTarnh2Zo2KCym4wj+0NkLPXidpnXHka2Phfk8BO
+   pvWt/dFG2gTU1xgxJD+tfBrKkfKZjyScb2hhKl/9PxcJw8DxcCFDdMG2S
+   qnfnOP0V0Cbo77ZtwB3ZoXIG4xrwAVtAmrTT40e2o2aRr/tOcI/dvpkto
+   hherbKXZYYZbDkzJjN435QXVdTOmsKPSVsTGVW/Is2hyJyuPZaTZqX82Y
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10573"; a="318428778"
+X-IronPort-AV: E=Sophos;i="5.96,279,1665471600"; 
+   d="scan'208";a="318428778"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Dec 2022 12:07:57 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10573"; a="683713877"
+X-IronPort-AV: E=Sophos;i="5.96,279,1665471600"; 
+   d="scan'208";a="683713877"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by orsmga008.jf.intel.com with ESMTP; 27 Dec 2022 12:07:52 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+        (envelope-from <andriy.shevchenko@intel.com>)
+        id 1pAGEm-000DfF-2L;
+        Tue, 27 Dec 2022 22:07:48 +0200
+Date:   Tue, 27 Dec 2022 22:07:48 +0200
+From:   Andy Shevchenko <andriy.shevchenko@intel.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Luca Ceresoli <luca.ceresoli@bootlin.com>,
+        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Wolfram Sang <wsa@kernel.org>,
+        Matti Vaittinen <Matti.Vaittinen@fi.rohmeurope.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Peter Rosin <peda@axentia.se>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Michael Tretter <m.tretter@pengutronix.de>,
+        Shawn Tu <shawnx.tu@intel.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Mike Pagano <mpagano@gentoo.org>,
+        Krzysztof =?utf-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>,
+        Marek Vasut <marex@denx.de>,
+        Luca Ceresoli <luca@lucaceresoli.net>
+Subject: Re: [PATCH v5 1/8] i2c: core: let adapters be notified of client
+ attach/detach
+Message-ID: <Y6tQlDZ//8xhwfNu@smile.fi.intel.com>
+References: <20221208104006.316606-1-tomi.valkeinen@ideasonboard.com>
+ <20221208104006.316606-2-tomi.valkeinen@ideasonboard.com>
+ <Y5YLi2md2571NQrY@pendragon.ideasonboard.com>
+ <20221219095143.4b49b447@booty>
+ <Y6Azg9GJ/ntUlS+P@smile.fi.intel.com>
+ <Y6nRzXGm6ccvE6VM@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="pRRYJmJLH5z0bIH6"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220908073634.GA1761437@gnbcxd0016.gnb.st.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE
-        autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <Y6nRzXGm6ccvE6VM@pendragon.ideasonboard.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+On Mon, Dec 26, 2022 at 06:54:37PM +0200, Laurent Pinchart wrote:
+> On Mon, Dec 19, 2022 at 11:48:51AM +0200, Andy Shevchenko wrote:
+> > On Mon, Dec 19, 2022 at 09:51:43AM +0100, Luca Ceresoli wrote:
+> > > On Sun, 11 Dec 2022 18:55:39 +0200 Laurent Pinchart wrote:
+> > > > On Thu, Dec 08, 2022 at 12:39:59PM +0200, Tomi Valkeinen wrote:
 
---pRRYJmJLH5z0bIH6
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+...
 
-Hi!
+> > > > This may be a stupid question, but couldn't you instead use the
+> > > > BUS_NOTIFY_ADD_DEVICE and BUS_NOTIFY_DEL_DEVICE bus notifiers ?
+> > > 
+> > > I'm not sure they would be the correct tool for this task. Bus
+> > > notifiers inform about new events on the 'struct bus_type, i.e. any
+> > > event on the global i2c bus type. In the i2c world this means being
+> > > notified about new _adapters_, which is exactly what
+> > > drivers/i2c/i2c-dev.c does.
+> > > 
+> > > Here, however, we need to be informed about new _clients_ being added
+> > > under a specific adapter.
+> > 
+> > This is for example exactly what ACPI integration in I2C framework does. But...
+> > 
+> > > I'm not sure whether the bus notifiers can
+> > > inform about new clients in addition of new adapters, but they at least
+> > > seem unable to provide per-adapter notification.
+> > 
+> > ...personally I don't like notifiers, they looks like overkill for this task.
+> 
+> But isn't this patch essentially implementing a custom notification
+> system ? If we need notifiers, why would it be better to add an ad-hoc
+> API for I2C instead of using bus notifiers ?
 
-> we are also using the GC2145 sensor but in a CSI based environment.
->=20
-> We are in contact with GalaxyCore and following discussions we had with t=
-hem
-> and data they provided us with, we've made a driver for that, supporting =
-for
-> the time being 3 different resolutions via the CSI interface.
->=20
-> The driver is available on the STMicroelectronics STM32 github [1].
->=20
-> If you are ok with that, we could go further upstreaming it while testing=
-/adding
-> features necessary for the PinePhone.
->=20
-> [1]
-> https://github.com/STMicroelectronics/linux/blob/v5.15-stm32mp/drivers/me=
-dia/i2c/gc2145.c
+Notifiers (as implemented in the Linux kernel) have some drawbacks IIUC.
+For example, it's not easy to pass the data over it. Another example is
+the context (you wouldn't know when the notifier be called and if it can
+hold some locks or not).
 
-Ok, so it looks like I'm quite busy with other projects. If you have a
-time, anything in the upstream is likely better than nothing at all.
+That said, each case should be discussed individually despite the generic
+approach being present (i.o.w. do not consider notifiers as a silver
+bullet in _any_ notification scheme).
 
-But you may still want to take a look at my submission (which is
-Megi's code), it seemed it had less magic numbers..
+> > > Does that seem correct?
 
-Best regards,
-								Pavel
---=20
-People of Russia, stop Putin before his war on Ukraine escalates.
+-- 
+With Best Regards,
+Andy Shevchenko
 
---pRRYJmJLH5z0bIH6
-Content-Type: application/pgp-signature; name="signature.asc"
 
------BEGIN PGP SIGNATURE-----
-
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCY6tGfwAKCRAw5/Bqldv6
-8nfzAKCGsA99cekbMlkR+fZ7e7R59/rOqQCfXgXkW7SYeVTWXfUAWd0NNuLGRac=
-=H+fL
------END PGP SIGNATURE-----
-
---pRRYJmJLH5z0bIH6--
