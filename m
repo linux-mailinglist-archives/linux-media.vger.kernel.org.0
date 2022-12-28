@@ -2,234 +2,120 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EEABD6575B4
-	for <lists+linux-media@lfdr.de>; Wed, 28 Dec 2022 12:15:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 804FD65766C
+	for <lists+linux-media@lfdr.de>; Wed, 28 Dec 2022 13:30:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229708AbiL1LPa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 28 Dec 2022 06:15:30 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54696 "EHLO
+        id S232763AbiL1MaG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 28 Dec 2022 07:30:06 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51110 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229627AbiL1LPR (ORCPT
+        with ESMTP id S232873AbiL1M37 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 28 Dec 2022 06:15:17 -0500
-Received: from lelv0142.ext.ti.com (lelv0142.ext.ti.com [198.47.23.249])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 45FCDB66
-        for <linux-media@vger.kernel.org>; Wed, 28 Dec 2022 03:15:15 -0800 (PST)
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
-        by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 2BSBF49V030910;
-        Wed, 28 Dec 2022 05:15:04 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1672226104;
-        bh=KxP9LDSORTUzSfjZ8B98Fb5IQXkaVqQjDSjDEeZ67Wg=;
-        h=From:To:CC:Subject:Date;
-        b=kBR1iU1rfM2kMBVic58YCDd30RY7S5Bcfkb5w79+dwou9Dlp/MGKpAjF5Hd9nzW2c
-         Ps6lGiisV0FMOJZhs0DfMTQycjXXHBKKYZ4H8aj0HlgA65Pjj6YD8hIVg2KVY97n7b
-         rG3Rikv2QHy+FVoHz9qTO8uBGGE1VZpqUjGfp9OY=
-Received: from DLEE100.ent.ti.com (dlee100.ent.ti.com [157.170.170.30])
-        by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 2BSBF3RX043966
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Wed, 28 Dec 2022 05:15:04 -0600
-Received: from DLEE103.ent.ti.com (157.170.170.33) by DLEE100.ent.ti.com
- (157.170.170.30) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.16; Wed, 28
- Dec 2022 05:15:03 -0600
-Received: from lelv0327.itg.ti.com (10.180.67.183) by DLEE103.ent.ti.com
- (157.170.170.33) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.16 via
- Frontend Transport; Wed, 28 Dec 2022 05:15:03 -0600
-Received: from localhost (ileaxei01-snat2.itg.ti.com [10.180.69.6])
-        by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 2BSBF3a2067738;
-        Wed, 28 Dec 2022 05:15:03 -0600
-From:   Jai Luthra <j-luthra@ti.com>
-To:     Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-CC:     <linux-media@vger.kernel.org>, Jai Luthra <j-luthra@ti.com>
-Subject: [PATCH v2] media: i2c: imx219: Fix binning for RAW8 capture
-Date:   Wed, 28 Dec 2022 16:44:57 +0530
-Message-ID: <20221228111457.25516-1-j-luthra@ti.com>
-X-Mailer: git-send-email 2.17.1
+        Wed, 28 Dec 2022 07:29:59 -0500
+Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CBE60EA3;
+        Wed, 28 Dec 2022 04:29:58 -0800 (PST)
+Received: by mail-pj1-x102e.google.com with SMTP id j8-20020a17090a3e0800b00225fdd5007fso6324524pjc.2;
+        Wed, 28 Dec 2022 04:29:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=xva4+JODa1CXmxrrNEoeJGKgbbb6AVhHbz9b3pDdu3Y=;
+        b=LSTQpTjJPDYXXfQgBFygaBnBXhiDHGw8nySZOPSt8FTS+JN/iPOuTa+aHzokSyIjeA
+         yETYvBEjlaQbziFflOlzDKih6/eoiSRb7U97HPJvLGKWiOV8mLGHZ7xRopYi+jf1uuXy
+         NnyL2BYLrVt14Z4lkVj8vslSwKGDRrvc0Q5uBHMLMvyHBoexl0OdlMeWKPOGitxeSweO
+         SbwtmkMSLFy1tLTNj69xQegSyxxU+jLXOWzoA/u5Ku3nxguClAR6rtWleX1FH7awXDTn
+         +kj22wptp8k2w390UzXBmcErwlOyyF2xn2Aa0spFG6WKv8+WJ3y9HD/VdwBP3r2UD3vI
+         V4VA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=xva4+JODa1CXmxrrNEoeJGKgbbb6AVhHbz9b3pDdu3Y=;
+        b=AEf9N5/XC7kjU/BEL/Z5UoNuI+94PMl+FYn4t4NgGR0dIKLzr5gd3QUeIQXg4dDbG8
+         tIntDuzy0N0UIyVN3xZqm5kmTGIyCEh+CKxGBovadKCIP9yFHbQS+old8h0Edu1hxg1i
+         xJOBdr6vCH35RilOSKE1zeFAtxyu3En//GkmLkhkyfm03VbocON8KINT0BHPiN0U8HQJ
+         rzJfjecO6I36V9XtHX0ogjXcy4U2X5TGuea1Yb5a1yPMjk7qwMWIiGR2AKNfV6u2R3WY
+         jkH2nW+xnmFCA5omra4rP1X2ctNNE5hlNt5Db+vOG5depnRDbHhJkV9P16oy1qGJgQXH
+         iOAw==
+X-Gm-Message-State: AFqh2krpwL1Nsk5Zc21mfNzEaDZoba/GiQO/mjGtncPa25anQiKE+7zc
+        hIN9UegJBEOWYP4/7b6YStWxVnderK8=
+X-Google-Smtp-Source: AMrXdXtsBi80DY9iwPR5JpBM2gQ0nTOt8eV/7FcOW3HG2JFpwq9o0rV1ylg2c4EWuyxfXExCDG7uBg==
+X-Received: by 2002:a17:902:b402:b0:188:d434:9c67 with SMTP id x2-20020a170902b40200b00188d4349c67mr24625787plr.32.1672230598294;
+        Wed, 28 Dec 2022 04:29:58 -0800 (PST)
+Received: from debian.me (subs03-180-214-233-21.three.co.id. [180.214.233.21])
+        by smtp.gmail.com with ESMTPSA id o9-20020a170903210900b001782398648dsm10932255ple.8.2022.12.28.04.29.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 28 Dec 2022 04:29:57 -0800 (PST)
+Received: by debian.me (Postfix, from userid 1000)
+        id 6EBF8100504; Wed, 28 Dec 2022 19:29:52 +0700 (WIB)
+Date:   Wed, 28 Dec 2022 19:29:52 +0700
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     Irui Wang <irui.wang@mediatek.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        angelogioacchino.delregno@collabora.com,
+        nicolas.dufresne@collabora.com, kyrie wu <kyrie.wu@mediatek.com>
+Cc:     Project_Global_Chrome_Upstream_Group@mediatek.com,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org,
+        Tomasz Figa <tfiga@chromium.org>, xia.jiang@mediatek.com,
+        maoguang.meng@mediatek.com
+Subject: Re: [V2] media: jpeg: Fix multi-hw judgement
+Message-ID: <Y6w2wG2MlIiHlkr/@debian.me>
+References: <20221216035247.18816-1-irui.wang@mediatek.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="KTfqalsCkhxWe9vh"
+Content-Disposition: inline
+In-Reply-To: <20221216035247.18816-1-irui.wang@mediatek.com>
+X-Spam-Status: No, score=-0.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_SORBS_WEB,SPF_HELO_NONE,SPF_PASS
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-2x2 binning works fine for RAW10 capture, but for RAW8 1232p mode it
-leads to corrupted frames [1][2].
 
-Using the special 2x2 analog binning mode fixes the issue, but causes
-artefacts for RAW10 1232p capture. So here we choose the binning mode
-depending upon the frame format selected.
+--KTfqalsCkhxWe9vh
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-As both binning modes work fine for 480p RAW8 and RAW10 capture, it can
-share the same code path as 1232p for selecting binning mode.
+On Fri, Dec 16, 2022 at 11:52:47AM +0800, Irui Wang wrote:
+> From: kyrie wu <kyrie.wu@mediatek.com>
+>=20
+> some chips have multi-hw, but others have only one,
+> modify the condition of multi-hw judgement
 
-[1] https://forums.raspberrypi.com/viewtopic.php?t=332103
-[2] https://github.com/raspberrypi/libcamera-apps/issues/281
+nit: s/judgement/conditional block/ ...
 
-Fixes: 22da1d56e982 ("media: i2c: imx219: Add support for RAW8 bit bayer format")
-Signed-off-by: Jai Luthra <j-luthra@ti.com>
----
+> -	if (list_empty(&pdev->dev.devres_head)) {
+> +	if (!jpeg->variant->hw_arch) {
 
-v2:
-- Removed extra newline found by checkpatch.pl --strict
-- Add Fixes tag with the commit introducing RAW8 support
-- Reword the commit description
+=2E.. like here (if block).
 
- drivers/media/i2c/imx219.c | 57 ++++++++++++++++++++++++++++++++------
- 1 file changed, 49 insertions(+), 8 deletions(-)
+Thanks.
 
-diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
-index 77bd79a5954e..4d358da25af2 100644
---- a/drivers/media/i2c/imx219.c
-+++ b/drivers/media/i2c/imx219.c
-@@ -89,6 +89,12 @@
- 
- #define IMX219_REG_ORIENTATION		0x0172
- 
-+/* Binning  Mode */
-+#define IMX219_REG_BINNING_MODE		0x0174
-+#define IMX219_BINNING_NONE		0x0000
-+#define IMX219_BINNING_2X2		0x0101
-+#define IMX219_BINNING_2X2_ANALOG	0x0303
-+
- /* Test Pattern Control */
- #define IMX219_REG_TEST_PATTERN		0x0600
- #define IMX219_TEST_PATTERN_DISABLE	0
-@@ -143,6 +149,9 @@ struct imx219_mode {
- 
- 	/* Default register values */
- 	struct imx219_reg_list reg_list;
-+
-+	/* 2x2 binning is used */
-+	bool binning;
- };
- 
- /*
-@@ -176,8 +185,6 @@ static const struct imx219_reg mode_3280x2464_regs[] = {
- 	{0x016f, 0xa0},
- 	{0x0170, 0x01},
- 	{0x0171, 0x01},
--	{0x0174, 0x00},
--	{0x0175, 0x00},
- 	{0x0301, 0x05},
- 	{0x0303, 0x01},
- 	{0x0304, 0x03},
-@@ -235,8 +242,6 @@ static const struct imx219_reg mode_1920_1080_regs[] = {
- 	{0x016f, 0x38},
- 	{0x0170, 0x01},
- 	{0x0171, 0x01},
--	{0x0174, 0x00},
--	{0x0175, 0x00},
- 	{0x0301, 0x05},
- 	{0x0303, 0x01},
- 	{0x0304, 0x03},
-@@ -290,8 +295,6 @@ static const struct imx219_reg mode_1640_1232_regs[] = {
- 	{0x016f, 0xd0},
- 	{0x0170, 0x01},
- 	{0x0171, 0x01},
--	{0x0174, 0x01},
--	{0x0175, 0x01},
- 	{0x0301, 0x05},
- 	{0x0303, 0x01},
- 	{0x0304, 0x03},
-@@ -349,8 +352,6 @@ static const struct imx219_reg mode_640_480_regs[] = {
- 	{0x016f, 0xe0},
- 	{0x0170, 0x01},
- 	{0x0171, 0x01},
--	{0x0174, 0x03},
--	{0x0175, 0x03},
- 	{0x0301, 0x05},
- 	{0x0303, 0x01},
- 	{0x0304, 0x03},
-@@ -485,6 +486,7 @@ static const struct imx219_mode supported_modes[] = {
- 			.num_of_regs = ARRAY_SIZE(mode_3280x2464_regs),
- 			.regs = mode_3280x2464_regs,
- 		},
-+		.binning = false,
- 	},
- 	{
- 		/* 1080P 30fps cropped */
-@@ -501,6 +503,7 @@ static const struct imx219_mode supported_modes[] = {
- 			.num_of_regs = ARRAY_SIZE(mode_1920_1080_regs),
- 			.regs = mode_1920_1080_regs,
- 		},
-+		.binning = false,
- 	},
- 	{
- 		/* 2x2 binned 30fps mode */
-@@ -517,6 +520,7 @@ static const struct imx219_mode supported_modes[] = {
- 			.num_of_regs = ARRAY_SIZE(mode_1640_1232_regs),
- 			.regs = mode_1640_1232_regs,
- 		},
-+		.binning = true,
- 	},
- 	{
- 		/* 640x480 30fps mode */
-@@ -533,6 +537,7 @@ static const struct imx219_mode supported_modes[] = {
- 			.num_of_regs = ARRAY_SIZE(mode_640_480_regs),
- 			.regs = mode_640_480_regs,
- 		},
-+		.binning = true,
- 	},
- };
- 
-@@ -979,6 +984,35 @@ static int imx219_set_framefmt(struct imx219 *imx219)
- 	return -EINVAL;
- }
- 
-+static int imx219_set_binning(struct imx219 *imx219)
-+{
-+	if (!imx219->mode->binning) {
-+		return imx219_write_reg(imx219, IMX219_REG_BINNING_MODE,
-+					IMX219_REG_VALUE_16BIT,
-+					IMX219_BINNING_NONE);
-+	}
-+
-+	switch (imx219->fmt.code) {
-+	case MEDIA_BUS_FMT_SRGGB8_1X8:
-+	case MEDIA_BUS_FMT_SGRBG8_1X8:
-+	case MEDIA_BUS_FMT_SGBRG8_1X8:
-+	case MEDIA_BUS_FMT_SBGGR8_1X8:
-+		return imx219_write_reg(imx219, IMX219_REG_BINNING_MODE,
-+					IMX219_REG_VALUE_16BIT,
-+					IMX219_BINNING_2X2_ANALOG);
-+
-+	case MEDIA_BUS_FMT_SRGGB10_1X10:
-+	case MEDIA_BUS_FMT_SGRBG10_1X10:
-+	case MEDIA_BUS_FMT_SGBRG10_1X10:
-+	case MEDIA_BUS_FMT_SBGGR10_1X10:
-+		return imx219_write_reg(imx219, IMX219_REG_BINNING_MODE,
-+					IMX219_REG_VALUE_16BIT,
-+					IMX219_BINNING_2X2);
-+	}
-+
-+	return -EINVAL;
-+}
-+
- static const struct v4l2_rect *
- __imx219_get_pad_crop(struct imx219 *imx219,
- 		      struct v4l2_subdev_state *sd_state,
-@@ -1056,6 +1090,13 @@ static int imx219_start_streaming(struct imx219 *imx219)
- 		goto err_rpm_put;
- 	}
- 
-+	ret = imx219_set_binning(imx219);
-+	if (ret) {
-+		dev_err(&client->dev, "%s failed to set binning: %d\n",
-+			__func__, ret);
-+		goto err_rpm_put;
-+	}
-+
- 	/* Apply customized values from user */
- 	ret =  __v4l2_ctrl_handler_setup(imx219->sd.ctrl_handler);
- 	if (ret)
--- 
-2.17.1
+--=20
+An old man doll... just what I always wanted! - Clara
 
+--KTfqalsCkhxWe9vh
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEARYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCY6w2ugAKCRD2uYlJVVFO
+oxnoAQDF4eixtonmpeiSzrrnq0P464jpGvONKLB03PJ+hcYvmgEAkL0nfkqyljuU
+uDlPj3WP1suLVtrYWPvRsjvpYhBOvws=
+=vr87
+-----END PGP SIGNATURE-----
+
+--KTfqalsCkhxWe9vh--
