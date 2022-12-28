@@ -2,356 +2,234 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3D8F2657579
-	for <lists+linux-media@lfdr.de>; Wed, 28 Dec 2022 11:50:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EEABD6575B4
+	for <lists+linux-media@lfdr.de>; Wed, 28 Dec 2022 12:15:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232700AbiL1Kuc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 28 Dec 2022 05:50:32 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44386 "EHLO
+        id S229708AbiL1LPa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 28 Dec 2022 06:15:30 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54696 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232565AbiL1Kub (ORCPT
+        with ESMTP id S229627AbiL1LPR (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 28 Dec 2022 05:50:31 -0500
-Received: from mx1.molgen.mpg.de (mx3.molgen.mpg.de [141.14.17.11])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B932A1135;
-        Wed, 28 Dec 2022 02:50:28 -0800 (PST)
-Received: from [192.168.0.2] (ip5f5aeff1.dynamic.kabel-deutschland.de [95.90.239.241])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        (Authenticated sender: pmenzel)
-        by mx.molgen.mpg.de (Postfix) with ESMTPSA id 0965C60027FC2;
-        Wed, 28 Dec 2022 11:50:25 +0100 (CET)
-Message-ID: <b8f173c0-6d40-d6aa-543e-fa8b06557f4f@molgen.mpg.de>
-Date:   Wed, 28 Dec 2022 11:50:24 +0100
+        Wed, 28 Dec 2022 06:15:17 -0500
+Received: from lelv0142.ext.ti.com (lelv0142.ext.ti.com [198.47.23.249])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 45FCDB66
+        for <linux-media@vger.kernel.org>; Wed, 28 Dec 2022 03:15:15 -0800 (PST)
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+        by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 2BSBF49V030910;
+        Wed, 28 Dec 2022 05:15:04 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1672226104;
+        bh=KxP9LDSORTUzSfjZ8B98Fb5IQXkaVqQjDSjDEeZ67Wg=;
+        h=From:To:CC:Subject:Date;
+        b=kBR1iU1rfM2kMBVic58YCDd30RY7S5Bcfkb5w79+dwou9Dlp/MGKpAjF5Hd9nzW2c
+         Ps6lGiisV0FMOJZhs0DfMTQycjXXHBKKYZ4H8aj0HlgA65Pjj6YD8hIVg2KVY97n7b
+         rG3Rikv2QHy+FVoHz9qTO8uBGGE1VZpqUjGfp9OY=
+Received: from DLEE100.ent.ti.com (dlee100.ent.ti.com [157.170.170.30])
+        by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 2BSBF3RX043966
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Wed, 28 Dec 2022 05:15:04 -0600
+Received: from DLEE103.ent.ti.com (157.170.170.33) by DLEE100.ent.ti.com
+ (157.170.170.30) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.16; Wed, 28
+ Dec 2022 05:15:03 -0600
+Received: from lelv0327.itg.ti.com (10.180.67.183) by DLEE103.ent.ti.com
+ (157.170.170.33) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.16 via
+ Frontend Transport; Wed, 28 Dec 2022 05:15:03 -0600
+Received: from localhost (ileaxei01-snat2.itg.ti.com [10.180.69.6])
+        by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 2BSBF3a2067738;
+        Wed, 28 Dec 2022 05:15:03 -0600
+From:   Jai Luthra <j-luthra@ti.com>
+To:     Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+CC:     <linux-media@vger.kernel.org>, Jai Luthra <j-luthra@ti.com>
+Subject: [PATCH v2] media: i2c: imx219: Fix binning for RAW8 capture
+Date:   Wed, 28 Dec 2022 16:44:57 +0530
+Message-ID: <20221228111457.25516-1-j-luthra@ti.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH v10 7/7] media: nuvoton: Add driver for NPCM video capture
- and encode engine
-Content-Language: en-US
-To:     Marvin Lin <milkfafa@gmail.com>
-Cc:     mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
-        avifishman70@gmail.com, tmaimon77@gmail.com, tali.perry1@gmail.com,
-        venture@google.com, yuenn@google.com, benjaminfair@google.com,
-        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-        andrzej.p@collabora.com, kwliu@nuvoton.com,
-        devicetree@vger.kernel.org, openbmc@lists.ozlabs.org,
-        linux-kernel@vger.kernel.org, kflin@nuvoton.com,
-        linux-media@vger.kernel.org
-References: <20221227095123.2447948-1-milkfafa@gmail.com>
- <20221227095123.2447948-8-milkfafa@gmail.com>
-From:   Paul Menzel <pmenzel@molgen.mpg.de>
-In-Reply-To: <20221227095123.2447948-8-milkfafa@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-5.3 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Dear Lin,
+2x2 binning works fine for RAW10 capture, but for RAW8 1232p mode it
+leads to corrupted frames [1][2].
 
+Using the special 2x2 analog binning mode fixes the issue, but causes
+artefacts for RAW10 1232p capture. So here we choose the binning mode
+depending upon the frame format selected.
 
-Thank you for the patches.
+As both binning modes work fine for 480p RAW8 and RAW10 capture, it can
+share the same code path as 1232p for selecting binning mode.
 
-Am 27.12.22 um 10:51 schrieb Marvin Lin:
-> Add driver for Video Capture/Differentiation Engine (VCD) and Encoding
-> Compression Engine (ECE) present on Nuvoton NPCM SoCs. The VCD can
-> capture and differentiate video data from digital or analog sources,
+[1] https://forums.raspberrypi.com/viewtopic.php?t=332103
+[2] https://github.com/raspberrypi/libcamera-apps/issues/281
 
-“differentiate video data” sounds uncommon to me. Am I just ignorant or 
-is there a better term?
+Fixes: 22da1d56e982 ("media: i2c: imx219: Add support for RAW8 bit bayer format")
+Signed-off-by: Jai Luthra <j-luthra@ti.com>
+---
 
-> then the ECE will compress the data into HEXTILE format. This driver
-> implements V4L2 interfaces and provides user controls to support KVM
-> feature, also tested with VNC Viewer and openbmc/obmc-ikvm.
+v2:
+- Removed extra newline found by checkpatch.pl --strict
+- Add Fixes tag with the commit introducing RAW8 support
+- Reword the commit description
 
-Wich VNC viewer and version? Maybe also paste the new dev_ log messages 
-you get from one boot.
+ drivers/media/i2c/imx219.c | 57 ++++++++++++++++++++++++++++++++------
+ 1 file changed, 49 insertions(+), 8 deletions(-)
 
-It’d be great if you noted the datasheet name and revision.
+diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
+index 77bd79a5954e..4d358da25af2 100644
+--- a/drivers/media/i2c/imx219.c
++++ b/drivers/media/i2c/imx219.c
+@@ -89,6 +89,12 @@
+ 
+ #define IMX219_REG_ORIENTATION		0x0172
+ 
++/* Binning  Mode */
++#define IMX219_REG_BINNING_MODE		0x0174
++#define IMX219_BINNING_NONE		0x0000
++#define IMX219_BINNING_2X2		0x0101
++#define IMX219_BINNING_2X2_ANALOG	0x0303
++
+ /* Test Pattern Control */
+ #define IMX219_REG_TEST_PATTERN		0x0600
+ #define IMX219_TEST_PATTERN_DISABLE	0
+@@ -143,6 +149,9 @@ struct imx219_mode {
+ 
+ 	/* Default register values */
+ 	struct imx219_reg_list reg_list;
++
++	/* 2x2 binning is used */
++	bool binning;
+ };
+ 
+ /*
+@@ -176,8 +185,6 @@ static const struct imx219_reg mode_3280x2464_regs[] = {
+ 	{0x016f, 0xa0},
+ 	{0x0170, 0x01},
+ 	{0x0171, 0x01},
+-	{0x0174, 0x00},
+-	{0x0175, 0x00},
+ 	{0x0301, 0x05},
+ 	{0x0303, 0x01},
+ 	{0x0304, 0x03},
+@@ -235,8 +242,6 @@ static const struct imx219_reg mode_1920_1080_regs[] = {
+ 	{0x016f, 0x38},
+ 	{0x0170, 0x01},
+ 	{0x0171, 0x01},
+-	{0x0174, 0x00},
+-	{0x0175, 0x00},
+ 	{0x0301, 0x05},
+ 	{0x0303, 0x01},
+ 	{0x0304, 0x03},
+@@ -290,8 +295,6 @@ static const struct imx219_reg mode_1640_1232_regs[] = {
+ 	{0x016f, 0xd0},
+ 	{0x0170, 0x01},
+ 	{0x0171, 0x01},
+-	{0x0174, 0x01},
+-	{0x0175, 0x01},
+ 	{0x0301, 0x05},
+ 	{0x0303, 0x01},
+ 	{0x0304, 0x03},
+@@ -349,8 +352,6 @@ static const struct imx219_reg mode_640_480_regs[] = {
+ 	{0x016f, 0xe0},
+ 	{0x0170, 0x01},
+ 	{0x0171, 0x01},
+-	{0x0174, 0x03},
+-	{0x0175, 0x03},
+ 	{0x0301, 0x05},
+ 	{0x0303, 0x01},
+ 	{0x0304, 0x03},
+@@ -485,6 +486,7 @@ static const struct imx219_mode supported_modes[] = {
+ 			.num_of_regs = ARRAY_SIZE(mode_3280x2464_regs),
+ 			.regs = mode_3280x2464_regs,
+ 		},
++		.binning = false,
+ 	},
+ 	{
+ 		/* 1080P 30fps cropped */
+@@ -501,6 +503,7 @@ static const struct imx219_mode supported_modes[] = {
+ 			.num_of_regs = ARRAY_SIZE(mode_1920_1080_regs),
+ 			.regs = mode_1920_1080_regs,
+ 		},
++		.binning = false,
+ 	},
+ 	{
+ 		/* 2x2 binned 30fps mode */
+@@ -517,6 +520,7 @@ static const struct imx219_mode supported_modes[] = {
+ 			.num_of_regs = ARRAY_SIZE(mode_1640_1232_regs),
+ 			.regs = mode_1640_1232_regs,
+ 		},
++		.binning = true,
+ 	},
+ 	{
+ 		/* 640x480 30fps mode */
+@@ -533,6 +537,7 @@ static const struct imx219_mode supported_modes[] = {
+ 			.num_of_regs = ARRAY_SIZE(mode_640_480_regs),
+ 			.regs = mode_640_480_regs,
+ 		},
++		.binning = true,
+ 	},
+ };
+ 
+@@ -979,6 +984,35 @@ static int imx219_set_framefmt(struct imx219 *imx219)
+ 	return -EINVAL;
+ }
+ 
++static int imx219_set_binning(struct imx219 *imx219)
++{
++	if (!imx219->mode->binning) {
++		return imx219_write_reg(imx219, IMX219_REG_BINNING_MODE,
++					IMX219_REG_VALUE_16BIT,
++					IMX219_BINNING_NONE);
++	}
++
++	switch (imx219->fmt.code) {
++	case MEDIA_BUS_FMT_SRGGB8_1X8:
++	case MEDIA_BUS_FMT_SGRBG8_1X8:
++	case MEDIA_BUS_FMT_SGBRG8_1X8:
++	case MEDIA_BUS_FMT_SBGGR8_1X8:
++		return imx219_write_reg(imx219, IMX219_REG_BINNING_MODE,
++					IMX219_REG_VALUE_16BIT,
++					IMX219_BINNING_2X2_ANALOG);
++
++	case MEDIA_BUS_FMT_SRGGB10_1X10:
++	case MEDIA_BUS_FMT_SGRBG10_1X10:
++	case MEDIA_BUS_FMT_SGBRG10_1X10:
++	case MEDIA_BUS_FMT_SBGGR10_1X10:
++		return imx219_write_reg(imx219, IMX219_REG_BINNING_MODE,
++					IMX219_REG_VALUE_16BIT,
++					IMX219_BINNING_2X2);
++	}
++
++	return -EINVAL;
++}
++
+ static const struct v4l2_rect *
+ __imx219_get_pad_crop(struct imx219 *imx219,
+ 		      struct v4l2_subdev_state *sd_state,
+@@ -1056,6 +1090,13 @@ static int imx219_start_streaming(struct imx219 *imx219)
+ 		goto err_rpm_put;
+ 	}
+ 
++	ret = imx219_set_binning(imx219);
++	if (ret) {
++		dev_err(&client->dev, "%s failed to set binning: %d\n",
++			__func__, ret);
++		goto err_rpm_put;
++	}
++
+ 	/* Apply customized values from user */
+ 	ret =  __v4l2_ctrl_handler_setup(imx219->sd.ctrl_handler);
+ 	if (ret)
+-- 
+2.17.1
 
-> Signed-off-by: Marvin Lin <milkfafa@gmail.com>
-> ---
->   MAINTAINERS                                 |   12 +
->   drivers/media/platform/Kconfig              |    1 +
->   drivers/media/platform/Makefile             |    1 +
->   drivers/media/platform/nuvoton/Kconfig      |   15 +
->   drivers/media/platform/nuvoton/Makefile     |    2 +
->   drivers/media/platform/nuvoton/npcm-regs.h  |  171 ++
->   drivers/media/platform/nuvoton/npcm-video.c | 1814 +++++++++++++++++++
->   7 files changed, 2016 insertions(+)
->   create mode 100644 drivers/media/platform/nuvoton/Kconfig
->   create mode 100644 drivers/media/platform/nuvoton/Makefile
->   create mode 100644 drivers/media/platform/nuvoton/npcm-regs.h
->   create mode 100644 drivers/media/platform/nuvoton/npcm-video.c
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index f61eb221415b..1b56042d1dc3 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -2603,6 +2603,18 @@ F:	drivers/rtc/rtc-nct3018y.c
->   F:	include/dt-bindings/clock/nuvoton,npcm7xx-clock.h
->   F:	include/dt-bindings/clock/nuvoton,npcm845-clk.h
->   
-> +ARM/NUVOTON NPCM VIDEO ENGINE DRIVER
-> +M:	Joseph Liu <kwliu@nuvoton.com>
-> +M:	Marvin Lin <kflin@nuvoton.com>
-> +L:	linux-media@vger.kernel.org
-> +L:	openbmc@lists.ozlabs.org (moderated for non-subscribers)
-> +S:	Maintained
-> +F:	Documentation/devicetree/bindings/media/nuvoton,npcm-ece.yaml
-> +F:	Documentation/devicetree/bindings/media/nuvoton,npcm-vcd.yaml
-> +F:	Documentation/userspace-api/media/drivers/npcm-video.rst
-> +F:	drivers/media/platform/nuvoton/
-> +F:	include/uapi/linux/npcm-video.h
-> +
->   ARM/NUVOTON WPCM450 ARCHITECTURE
->   M:	Jonathan Neuschäfer <j.neuschaefer@gmx.net>
->   L:	openbmc@lists.ozlabs.org (moderated for non-subscribers)
-> diff --git a/drivers/media/platform/Kconfig b/drivers/media/platform/Kconfig
-> index ee579916f874..91e54215de3a 100644
-> --- a/drivers/media/platform/Kconfig
-> +++ b/drivers/media/platform/Kconfig
-> @@ -73,6 +73,7 @@ source "drivers/media/platform/intel/Kconfig"
->   source "drivers/media/platform/marvell/Kconfig"
->   source "drivers/media/platform/mediatek/Kconfig"
->   source "drivers/media/platform/microchip/Kconfig"
-> +source "drivers/media/platform/nuvoton/Kconfig"
->   source "drivers/media/platform/nvidia/Kconfig"
->   source "drivers/media/platform/nxp/Kconfig"
->   source "drivers/media/platform/qcom/Kconfig"
-> diff --git a/drivers/media/platform/Makefile b/drivers/media/platform/Makefile
-> index 5453bb868e67..3296ec1ebe16 100644
-> --- a/drivers/media/platform/Makefile
-> +++ b/drivers/media/platform/Makefile
-> @@ -16,6 +16,7 @@ obj-y += intel/
->   obj-y += marvell/
->   obj-y += mediatek/
->   obj-y += microchip/
-> +obj-y += nuvoton/
->   obj-y += nvidia/
->   obj-y += nxp/
->   obj-y += qcom/
-> diff --git a/drivers/media/platform/nuvoton/Kconfig b/drivers/media/platform/nuvoton/Kconfig
-> new file mode 100644
-> index 000000000000..5047d1ba3de5
-> --- /dev/null
-> +++ b/drivers/media/platform/nuvoton/Kconfig
-> @@ -0,0 +1,15 @@
-> +# SPDX-License-Identifier: GPL-2.0-only
-> +
-> +comment "Nuvoton media platform drivers"
-> +
-> +config VIDEO_NPCM_VCD_ECE
-> +	tristate "Nuvoton NPCM Video Capture/Encode Engine driver"
-> +	depends on V4L_PLATFORM_DRIVERS
-> +	depends on VIDEO_DEV
-> +	select VIDEOBUF2_DMA_CONTIG
-> +	help
-> +	  Support for the Video Capture/Differentiation Engine (VCD) and
-> +	  Encoding Compression Engine (ECE) present on Nuvoton NPCM SoCs.
-> +	  The VCD can capture and differentiate video data from digital or
-> +	  analog sources, then the ECE will compress the data into HEXTILE
-> +	  format.
-> diff --git a/drivers/media/platform/nuvoton/Makefile b/drivers/media/platform/nuvoton/Makefile
-> new file mode 100644
-> index 000000000000..74a4e3fc8555
-> --- /dev/null
-> +++ b/drivers/media/platform/nuvoton/Makefile
-> @@ -0,0 +1,2 @@
-> +# SPDX-License-Identifier: GPL-2.0-only
-> +obj-$(CONFIG_VIDEO_NPCM_VCD_ECE) += npcm-video.o
-> diff --git a/drivers/media/platform/nuvoton/npcm-regs.h b/drivers/media/platform/nuvoton/npcm-regs.h
-> new file mode 100644
-> index 000000000000..f528f5726307
-> --- /dev/null
-> +++ b/drivers/media/platform/nuvoton/npcm-regs.h
-> @@ -0,0 +1,171 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +/*
-> + * Register definition header for NPCM video driver
-> + *
-> + * Copyright (C) 2022 Nuvoton Technologies
-> + */
-> +
-> +#ifndef _NPCM_REGS_H
-> +#define _NPCM_REGS_H
-
-[…]
-
-> +struct npcm_video_addr {
-> +	size_t size;
-> +	dma_addr_t dma;
-> +	void *virt;
-> +};
-> +
-> +struct npcm_video_buffer {
-> +	struct vb2_v4l2_buffer vb;
-> +	struct list_head link;
-> +};
-> +
-> +#define to_npcm_video_buffer(x) \
-> +	container_of((x), struct npcm_video_buffer, vb)
-> +
-> +enum {
-> +	VIDEO_STREAMING,
-> +	VIDEO_FRAME_INPRG,
-> +	VIDEO_STOPPED,
-> +};
-> +
-> +struct rect_list {
-> +	struct v4l2_clip clip;
-> +	struct list_head list;
-> +};
-> +
-> +struct rect_list_info {
-> +	struct rect_list *list;
-> +	struct rect_list *first;
-> +	struct list_head *head;
-> +	unsigned int index;
-> +	unsigned int tile_perline;
-> +	unsigned int tile_perrow;
-> +	unsigned int offset_perline;
-> +	unsigned int tile_size;
-> +	unsigned int tile_cnt;
-> +};
-> +
-> +struct npcm_ece {
-> +	struct regmap *regmap;
-> +	atomic_t clients;
-> +	struct reset_control *reset;
-> +};
-> +
-> +struct npcm_video {
-> +	struct regmap *gcr_regmap;
-> +	struct regmap *gfx_regmap;
-> +	struct regmap *vcd_regmap;
-> +
-> +	struct device *dev;
-> +	struct v4l2_ctrl_handler ctrl_handler;
-> +	struct v4l2_device v4l2_dev;
-> +	struct v4l2_pix_format pix_fmt;
-> +	struct v4l2_bt_timings active_timings;
-> +	struct v4l2_bt_timings detected_timings;
-> +	u32 v4l2_input_status;
-> +	struct vb2_queue queue;
-> +	struct video_device vdev;
-> +	struct mutex video_lock; /* v4l2 and videobuf2 lock */
-> +
-> +	struct list_head buffers;
-> +	spinlock_t lock; /* buffer list lock */
-> +	unsigned long flags;
-> +	unsigned int sequence;
-> +
-> +	size_t max_buffer_size;
-> +	struct npcm_video_addr src;
-> +	struct reset_control *reset;
-> +	struct npcm_ece ece;
-> +
-> +	unsigned int frame_rate;
-> +	unsigned int vb_index;
-> +	u32 bytesperline;
-> +	u8 bytesperpixel;
-> +	u32 rect_cnt;
-> +	u8 num_buffers;
-> +	struct list_head *list;
-> +	u32 *rect;
-> +	int ctrl_cmd;
-> +	int op_cmd;
-> +};
-> +
-> +#define to_npcm_video(x) container_of((x), struct npcm_video, v4l2_dev)
-> +
-> +static const struct v4l2_dv_timings_cap npcm_video_timings_cap = {
-> +	.type = V4L2_DV_BT_656_1120,
-> +	.bt = {
-> +		.min_width = MIN_WIDTH,
-> +		.max_width = MAX_WIDTH,
-> +		.min_height = MIN_HEIGHT,
-> +		.max_height = MAX_HEIGHT,
-> +		.min_pixelclock = 6574080, /* 640 x 480 x 24Hz */
-> +		.max_pixelclock = 138240000, /* 1920 x 1200 x 60Hz */
-> +		.standards = V4L2_DV_BT_STD_CEA861 | V4L2_DV_BT_STD_DMT |
-> +			     V4L2_DV_BT_STD_CVT | V4L2_DV_BT_STD_GTF,
-> +		.capabilities = V4L2_DV_BT_CAP_PROGRESSIVE |
-> +				V4L2_DV_BT_CAP_REDUCED_BLANKING |
-> +				V4L2_DV_BT_CAP_CUSTOM,
-> +	},
-> +};
-> +
-> +static DECLARE_BITMAP(bitmap, BITMAP_SIZE);
-> +
-> +static void npcm_video_ece_prepend_rect_header(u8 *addr, u16 x, u16 y, u16 w, u16 h)
-> +{
-> +	__be16 x_pos = cpu_to_be16(x);
-> +	__be16 y_pos = cpu_to_be16(y);
-> +	__be16 width = cpu_to_be16(w);
-> +	__be16 height = cpu_to_be16(h);
-> +	__be32 encoding = cpu_to_be32(5); /* Hextile encoding */
-> +
-> +	memcpy(addr, &x_pos, 2);
-> +	memcpy(addr + 2, &y_pos, 2);
-> +	memcpy(addr + 4, &width, 2);
-> +	memcpy(addr + 6, &height, 2);
-> +	memcpy(addr + 8, &encoding, 4);
-> +}
-> +
-> +static unsigned int npcm_video_ece_get_ed_size(struct npcm_video *video,
-> +					       u32 offset, u8 *addr)
-> +{
-> +	struct regmap *ece = video->ece.regmap;
-> +	u32 size, gap, val;
-
-Using a fixed size type for variables not needing is, is actually not an 
-optimization [1]. It’d be great, if you went over the whole change-set 
-to use the non-fixed types, where possible. (You can also check the 
-difference with `scripts/bloat-o-meter`.
-
-> +	int ret;
-> +
-> +	ret = regmap_read_poll_timeout(ece, ECE_DDA_STS, val,
-> +				       (val & ECE_DDA_STS_CDREADY), 0,
-> +				       ECE_POLL_TIMEOUT_US);
-> +
-> +	if (ret) {
-> +		dev_warn(video->dev, "Wait for ECE_DDA_STS_CDREADY timeout\n");
-> +		return 0;
-> +	}
-> +
-> +	size = readl(addr + offset);
-> +	regmap_read(ece, ECE_HEX_CTRL, &val);
-> +	gap = FIELD_GET(ECE_HEX_CTRL_ENC_GAP, val);
-> +
-> +	dev_dbg(video->dev, "offset = %u, ed_size = %u, gap = %u\n", offset,
-> +		size, gap);
-> +
-> +	return size + gap;
-> +}
-
-[…]
-
-> +module_platform_driver(npcm_video_driver);
-> +
-> +MODULE_AUTHOR("Joseph Liu<kwliu@nuvoton.com>");
-> +MODULE_AUTHOR("Marvin Lin<kflin@nuvoton.com>");
-
-Please add a space before the <.
-
-> +MODULE_DESCRIPTION("Driver for Nuvoton NPCM Video Capture/Encode Engine");
-> +MODULE_LICENSE("GPL");
-
-Not GPL v2?
-
-
-Kind regards,
-
-Paul
-
-
-[1]: https://notabs.org/coding/smallIntsBigPenalty.htm
