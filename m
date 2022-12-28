@@ -2,65 +2,70 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BC1476573CE
-	for <lists+linux-media@lfdr.de>; Wed, 28 Dec 2022 09:05:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6220A6574D4
+	for <lists+linux-media@lfdr.de>; Wed, 28 Dec 2022 10:42:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230037AbiL1IFq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 28 Dec 2022 03:05:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38162 "EHLO
+        id S232543AbiL1JmW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 28 Dec 2022 04:42:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43532 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230080AbiL1IFp (ORCPT
+        with ESMTP id S232799AbiL1JmJ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 28 Dec 2022 03:05:45 -0500
-Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D449A13C
-        for <linux-media@vger.kernel.org>; Wed, 28 Dec 2022 00:05:43 -0800 (PST)
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
-        by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 2BS85UjC024253;
-        Wed, 28 Dec 2022 02:05:30 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1672214730;
-        bh=yqg0MADtJ83H48ewMmt3eE90PMwwCztium11RnUKCaw=;
-        h=Date:Subject:To:CC:References:From:In-Reply-To;
-        b=rFDYbsreEK9iPCdgcZPuFvdl4gZm9LJcXTf4lq1Eg+Su2v8krpM8NeQHPQOlQah8+
-         kpIL97+lgLN217QSbNBVjjVtMGBZUUPnuplXPar83builvq6nV+2NSkqvux7lRSF6b
-         LxFbIMFJpHWrEyQd+c01iXn5t2T2klDgjiEGU6/U=
-Received: from DFLE100.ent.ti.com (dfle100.ent.ti.com [10.64.6.21])
-        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 2BS85Uf3016746
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Wed, 28 Dec 2022 02:05:30 -0600
-Received: from DFLE101.ent.ti.com (10.64.6.22) by DFLE100.ent.ti.com
- (10.64.6.21) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.16; Wed, 28
- Dec 2022 02:05:30 -0600
-Received: from lelv0326.itg.ti.com (10.180.67.84) by DFLE101.ent.ti.com
- (10.64.6.22) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.16 via
- Frontend Transport; Wed, 28 Dec 2022 02:05:30 -0600
-Received: from [10.250.234.199] (ileaxei01-snat2.itg.ti.com [10.180.69.6])
-        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 2BS85QEf007384;
-        Wed, 28 Dec 2022 02:05:27 -0600
-Message-ID: <bb5def23-23fc-2a94-d2e1-527caa48e68c@ti.com>
-Date:   Wed, 28 Dec 2022 13:35:25 +0530
+        Wed, 28 Dec 2022 04:42:09 -0500
+Received: from mail-vk1-xa2b.google.com (mail-vk1-xa2b.google.com [IPv6:2607:f8b0:4864:20::a2b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D2FAE6456;
+        Wed, 28 Dec 2022 01:42:06 -0800 (PST)
+Received: by mail-vk1-xa2b.google.com with SMTP id b81so7207897vkf.1;
+        Wed, 28 Dec 2022 01:42:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=fwLk0wjxGIvhAq7dgs3jTc6JAPT5yAloCtLTEegt4xo=;
+        b=Rj3269mP+Zl4qhDW7MsDPLmDP6tF+49SIZwkN+VgicWg0Lh+MM6wfzfed8Yevd11Ca
+         IXyS/nw13+lolANzO+oXGSYaN0xQEv2Mx1ioSVy5ptMu1e1Pbc+2VAThBj0lsbhse7Su
+         fqfFjpkPCyS0FRZ3NorPCwDa1AVLENVVNGVkae8Dp32EJNnQKP5SZI+bVNX4IChMwlqX
+         AzDABDnLY7gtuzKSCBNcJkBFSiTVnq/Yz3F0XqyXhoKzHzcQ9uOLLJeMh6pfHw5Hlpp0
+         n2nSwjObsMi9NuCQDWCA/zsGxwsBswa1D2NdCFScnjJJurb3Si0pz9n+TNrrZFva3FoP
+         tJqg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=fwLk0wjxGIvhAq7dgs3jTc6JAPT5yAloCtLTEegt4xo=;
+        b=1JDZ+NH0OgenhagGrtqq1G+7JfI/6saeSKnjC6YTP7Ye0z98mLoxsnmhfhFO7/z9/N
+         6/pewt3hZ9oVti1+4Tk/KtMnpVpmWomKZFMYX3iviYJqz6wAReoFcRpekAGUJfb97wZM
+         tUt+sFuStSqOJgA6tWvhafQQFGQF/th+H5PHGMcnyvdX+gU0qyjq6lbenPogEjYcp/MA
+         EB8oB5WbTohs4y9gUVjatb+Ga/6tmjzKn9IHlK5h9uBJvtMAQpYpUi49RDEdcqBStEfs
+         p7nxp1/xBl/Byw2OWFABIKwkrRcCRRhnpyW1Dru7yHpyD8OdGj+36xtmKSf5jPNy1+FR
+         ctnA==
+X-Gm-Message-State: AFqh2kpFfE5HppD5uQQ8YH6Tdz2tNtFeUcft2lcDvznZy7xuBJlmX+3Y
+        SlL/iNNo+c8yj/47ZZH0T8HKrx096nCAlTE9wv8=
+X-Google-Smtp-Source: AMrXdXuiO15bKKKO/sD+d/YsDkXXMmVgtIh2UUu6LekwHNnzWeW8s6XUBfaregIYgxtO4eVYcere42BjzWOrSO+I02A=
+X-Received: by 2002:ac5:c382:0:b0:3bd:e0b8:e350 with SMTP id
+ s2-20020ac5c382000000b003bde0b8e350mr2671281vkk.25.1672220525745; Wed, 28 Dec
+ 2022 01:42:05 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH] media: ov5640: set correct default format for CSI-2 mode
-Content-Language: en-US
-To:     "G.N. Zhou (OSS)" <guoniu.zhou@oss.nxp.com>,
-        <linux-media@vger.kernel.org>
-CC:     <mchehab@kernel.org>, <slongerbeam@gmail.com>,
-        <laurent.pinchart@ideasonboard.com>, <jacopo@jmondi.org>,
-        <sakari.ailus@linux.intel.com>
-References: <20221212040526.3549644-1-guoniu.zhou@oss.nxp.com>
-From:   "Luthra, Jai" <j-luthra@ti.com>
-In-Reply-To: <20221212040526.3549644-1-guoniu.zhou@oss.nxp.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
-X-Spam-Status: No, score=-5.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+References: <20221227095123.2447948-1-milkfafa@gmail.com> <20221227095123.2447948-3-milkfafa@gmail.com>
+ <0a3ece05-c94f-3d7e-2f90-b72b777617e5@linaro.org>
+In-Reply-To: <0a3ece05-c94f-3d7e-2f90-b72b777617e5@linaro.org>
+From:   Kun-Fa Lin <milkfafa@gmail.com>
+Date:   Wed, 28 Dec 2022 17:41:54 +0800
+Message-ID: <CADnNmFp-RD6-6PUOJzF4GNW4zBoD+Zk6v0dGnmofLBxMWMEaow@mail.gmail.com>
+Subject: Re: [PATCH v10 2/7] media: dt-binding: nuvoton: Add NPCM VCD and ECE engine
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc:     mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
+        avifishman70@gmail.com, tmaimon77@gmail.com, tali.perry1@gmail.com,
+        venture@google.com, yuenn@google.com, benjaminfair@google.com,
+        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        andrzej.p@collabora.com, devicetree@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        openbmc@lists.ozlabs.org, kwliu@nuvoton.com, kflin@nuvoton.com
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -68,24 +73,13 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+> Subject - it is "dt-bindings", not "dt-bindings".
+>
+> Use subject prefixes matching the subsystem (which you can get for
+> example with `git log --oneline -- DIRECTORY_OR_FILE` on the directory
+> your patch is touching).
 
-Thanks for the patch.
+I'll correct it in the next patch. Thanks for the remind.
 
-On 12/12/22 09:35, G.N. Zhou (OSS) wrote:
-> From: "Guoniu.zhou" <guoniu.zhou@nxp.com>
-> 
-> In commit a89f14bbcfa5 ("media: ov5640: Split DVP and CSI-2 formats"),
-> it splits format list for DVP and CSI-2 mode, but the default format
-> defined in commit 90b0f355c5a3 ("media: ov5640: Implement init_cfg")
-> is only supported by DVP mode, so define a new default format for
-> CSI-2 mode.
-> 
-> Signed-off-by: Guoniu.zhou <guoniu.zhou@nxp.com>
-
-Reviewed-by: Jai Luthra <j-luthra@ti.com>
-
-> ---
->   drivers/media/i2c/ov5640.c | 21 ++++++++++++++++++---
->   1 file changed, 18 insertions(+), 3 deletions(-)
-> ...snip...
+Regards,
+Marvin
