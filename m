@@ -2,104 +2,356 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7042065756E
-	for <lists+linux-media@lfdr.de>; Wed, 28 Dec 2022 11:46:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3D8F2657579
+	for <lists+linux-media@lfdr.de>; Wed, 28 Dec 2022 11:50:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232565AbiL1Kq1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 28 Dec 2022 05:46:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43228 "EHLO
+        id S232700AbiL1Kuc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 28 Dec 2022 05:50:32 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44386 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229632AbiL1KqZ (ORCPT
+        with ESMTP id S232565AbiL1Kub (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 28 Dec 2022 05:46:25 -0500
-Received: from relay11.mail.gandi.net (relay11.mail.gandi.net [IPv6:2001:4b98:dc4:8::231])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 15518DA3;
-        Wed, 28 Dec 2022 02:46:23 -0800 (PST)
-Received: from booty (unknown [77.244.183.192])
-        (Authenticated sender: luca.ceresoli@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id 256A0100008;
-        Wed, 28 Dec 2022 10:46:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1672224381;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=tPhB9YD5mKOaUrJH3XDFS7rFqV5FxdGCchYtk5MvfdE=;
-        b=gk9JkWgOOMenYieQG9suTpj/sWfHBXPuyGHmqeqY66hups8+Neu2LVN43A1VAhCQHUFofk
-        uG9AqJCE4tB2g/X4CTP2BakPuvtGnG90jIICszUiepR1pcbSK2l582jTUYM61zasFqULXV
-        zYOo9SX57Dc1RL5jh5uhU2CaimRU3J5nmXG0c14i58oQ3mNKoROPWc21ACoS/+Uz/0jbte
-        xJUe/GIimcX6tRPn1V7yHIjb65w1zpMpOHfAjXVft0iQS17PaWZ2bfCbUUB7sGSGECoyG9
-        ms+XQ4sf8ntTeSWqBkLByj+VMb31nU0U/CbaVhvrR6Mq5NHcKId4Vituw1OFeQ==
-Date:   Wed, 28 Dec 2022 11:46:17 +0100
-From:   Luca Ceresoli <luca.ceresoli@bootlin.com>
-To:     Dmitry Osipenko <digetx@gmail.com>
-Cc:     David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Sowjanya Komatineni <skomatineni@nvidia.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Richard Leitner <richard.leitner@skidata.com>
-Subject: Re: [PATCH v2 21/21] staging: media: tegra-video: add tegra20
- variant
-Message-ID: <20221228114617.397cba35@booty>
-In-Reply-To: <44d2d972-1cdf-fdb2-5dc0-cc493f79b3da@gmail.com>
-References: <20221128152336.133953-1-luca.ceresoli@bootlin.com>
-        <20221128152336.133953-22-luca.ceresoli@bootlin.com>
-        <44d2d972-1cdf-fdb2-5dc0-cc493f79b3da@gmail.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+        Wed, 28 Dec 2022 05:50:31 -0500
+Received: from mx1.molgen.mpg.de (mx3.molgen.mpg.de [141.14.17.11])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B932A1135;
+        Wed, 28 Dec 2022 02:50:28 -0800 (PST)
+Received: from [192.168.0.2] (ip5f5aeff1.dynamic.kabel-deutschland.de [95.90.239.241])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        (Authenticated sender: pmenzel)
+        by mx.molgen.mpg.de (Postfix) with ESMTPSA id 0965C60027FC2;
+        Wed, 28 Dec 2022 11:50:25 +0100 (CET)
+Message-ID: <b8f173c0-6d40-d6aa-543e-fa8b06557f4f@molgen.mpg.de>
+Date:   Wed, 28 Dec 2022 11:50:24 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH v10 7/7] media: nuvoton: Add driver for NPCM video capture
+ and encode engine
+Content-Language: en-US
+To:     Marvin Lin <milkfafa@gmail.com>
+Cc:     mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
+        avifishman70@gmail.com, tmaimon77@gmail.com, tali.perry1@gmail.com,
+        venture@google.com, yuenn@google.com, benjaminfair@google.com,
+        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        andrzej.p@collabora.com, kwliu@nuvoton.com,
+        devicetree@vger.kernel.org, openbmc@lists.ozlabs.org,
+        linux-kernel@vger.kernel.org, kflin@nuvoton.com,
+        linux-media@vger.kernel.org
+References: <20221227095123.2447948-1-milkfafa@gmail.com>
+ <20221227095123.2447948-8-milkfafa@gmail.com>
+From:   Paul Menzel <pmenzel@molgen.mpg.de>
+In-Reply-To: <20221227095123.2447948-8-milkfafa@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-5.3 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, 23 Dec 2022 15:35:58 +0300
-Dmitry Osipenko <digetx@gmail.com> wrote:
+Dear Lin,
 
-> 28.11.2022 18:23, Luca Ceresoli =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
 
-...
+Thank you for the patches.
 
-> > +static const struct tegra_vip_ops tegra20_vip_ops =3D {
-> > +	.vip_start_streaming =3D tegra20_vip_start_streaming,
-> > +};
-> > +
-> > +const struct tegra_vip_soc tegra20_vip_soc =3D {
-> > +	.ops =3D &tegra20_vip_ops,
-> > +}; =20
->=20
-> Shouldn't this be placed in vip.c?
+Am 27.12.22 um 10:51 schrieb Marvin Lin:
+> Add driver for Video Capture/Differentiation Engine (VCD) and Encoding
+> Compression Engine (ECE) present on Nuvoton NPCM SoCs. The VCD can
+> capture and differentiate video data from digital or analog sources,
 
-Indeed. Which means tegra210_csi_soc can be moved as well, so I'm adding
-a small patch to the series to do that.
+“differentiate video data” sounds uncommon to me. Am I just ignorant or 
+is there a better term?
 
-> Also looks like patch #20 won't link
-> because tegra20_vip_soc is defined in patch #21.
+> then the ECE will compress the data into HEXTILE format. This driver
+> implements V4L2 interfaces and provides user controls to support KVM
+> feature, also tested with VNC Viewer and openbmc/obmc-ikvm.
 
-You're right, we have a chicken-egg problem here. One solution would be
-leaving tegra_vip_of_id_table empty in patch 20 and fill it only in
-patch 21, but that would not be bisectable as patch 20 would introduce
-code that nobody uses until patch 21. So I think it's better to squash
-together patches 20+21.
+Wich VNC viewer and version? Maybe also paste the new dev_ log messages 
+you get from one boot.
 
---=20
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+It’d be great if you noted the datasheet name and revision.
+
+> Signed-off-by: Marvin Lin <milkfafa@gmail.com>
+> ---
+>   MAINTAINERS                                 |   12 +
+>   drivers/media/platform/Kconfig              |    1 +
+>   drivers/media/platform/Makefile             |    1 +
+>   drivers/media/platform/nuvoton/Kconfig      |   15 +
+>   drivers/media/platform/nuvoton/Makefile     |    2 +
+>   drivers/media/platform/nuvoton/npcm-regs.h  |  171 ++
+>   drivers/media/platform/nuvoton/npcm-video.c | 1814 +++++++++++++++++++
+>   7 files changed, 2016 insertions(+)
+>   create mode 100644 drivers/media/platform/nuvoton/Kconfig
+>   create mode 100644 drivers/media/platform/nuvoton/Makefile
+>   create mode 100644 drivers/media/platform/nuvoton/npcm-regs.h
+>   create mode 100644 drivers/media/platform/nuvoton/npcm-video.c
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index f61eb221415b..1b56042d1dc3 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -2603,6 +2603,18 @@ F:	drivers/rtc/rtc-nct3018y.c
+>   F:	include/dt-bindings/clock/nuvoton,npcm7xx-clock.h
+>   F:	include/dt-bindings/clock/nuvoton,npcm845-clk.h
+>   
+> +ARM/NUVOTON NPCM VIDEO ENGINE DRIVER
+> +M:	Joseph Liu <kwliu@nuvoton.com>
+> +M:	Marvin Lin <kflin@nuvoton.com>
+> +L:	linux-media@vger.kernel.org
+> +L:	openbmc@lists.ozlabs.org (moderated for non-subscribers)
+> +S:	Maintained
+> +F:	Documentation/devicetree/bindings/media/nuvoton,npcm-ece.yaml
+> +F:	Documentation/devicetree/bindings/media/nuvoton,npcm-vcd.yaml
+> +F:	Documentation/userspace-api/media/drivers/npcm-video.rst
+> +F:	drivers/media/platform/nuvoton/
+> +F:	include/uapi/linux/npcm-video.h
+> +
+>   ARM/NUVOTON WPCM450 ARCHITECTURE
+>   M:	Jonathan Neuschäfer <j.neuschaefer@gmx.net>
+>   L:	openbmc@lists.ozlabs.org (moderated for non-subscribers)
+> diff --git a/drivers/media/platform/Kconfig b/drivers/media/platform/Kconfig
+> index ee579916f874..91e54215de3a 100644
+> --- a/drivers/media/platform/Kconfig
+> +++ b/drivers/media/platform/Kconfig
+> @@ -73,6 +73,7 @@ source "drivers/media/platform/intel/Kconfig"
+>   source "drivers/media/platform/marvell/Kconfig"
+>   source "drivers/media/platform/mediatek/Kconfig"
+>   source "drivers/media/platform/microchip/Kconfig"
+> +source "drivers/media/platform/nuvoton/Kconfig"
+>   source "drivers/media/platform/nvidia/Kconfig"
+>   source "drivers/media/platform/nxp/Kconfig"
+>   source "drivers/media/platform/qcom/Kconfig"
+> diff --git a/drivers/media/platform/Makefile b/drivers/media/platform/Makefile
+> index 5453bb868e67..3296ec1ebe16 100644
+> --- a/drivers/media/platform/Makefile
+> +++ b/drivers/media/platform/Makefile
+> @@ -16,6 +16,7 @@ obj-y += intel/
+>   obj-y += marvell/
+>   obj-y += mediatek/
+>   obj-y += microchip/
+> +obj-y += nuvoton/
+>   obj-y += nvidia/
+>   obj-y += nxp/
+>   obj-y += qcom/
+> diff --git a/drivers/media/platform/nuvoton/Kconfig b/drivers/media/platform/nuvoton/Kconfig
+> new file mode 100644
+> index 000000000000..5047d1ba3de5
+> --- /dev/null
+> +++ b/drivers/media/platform/nuvoton/Kconfig
+> @@ -0,0 +1,15 @@
+> +# SPDX-License-Identifier: GPL-2.0-only
+> +
+> +comment "Nuvoton media platform drivers"
+> +
+> +config VIDEO_NPCM_VCD_ECE
+> +	tristate "Nuvoton NPCM Video Capture/Encode Engine driver"
+> +	depends on V4L_PLATFORM_DRIVERS
+> +	depends on VIDEO_DEV
+> +	select VIDEOBUF2_DMA_CONTIG
+> +	help
+> +	  Support for the Video Capture/Differentiation Engine (VCD) and
+> +	  Encoding Compression Engine (ECE) present on Nuvoton NPCM SoCs.
+> +	  The VCD can capture and differentiate video data from digital or
+> +	  analog sources, then the ECE will compress the data into HEXTILE
+> +	  format.
+> diff --git a/drivers/media/platform/nuvoton/Makefile b/drivers/media/platform/nuvoton/Makefile
+> new file mode 100644
+> index 000000000000..74a4e3fc8555
+> --- /dev/null
+> +++ b/drivers/media/platform/nuvoton/Makefile
+> @@ -0,0 +1,2 @@
+> +# SPDX-License-Identifier: GPL-2.0-only
+> +obj-$(CONFIG_VIDEO_NPCM_VCD_ECE) += npcm-video.o
+> diff --git a/drivers/media/platform/nuvoton/npcm-regs.h b/drivers/media/platform/nuvoton/npcm-regs.h
+> new file mode 100644
+> index 000000000000..f528f5726307
+> --- /dev/null
+> +++ b/drivers/media/platform/nuvoton/npcm-regs.h
+> @@ -0,0 +1,171 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/*
+> + * Register definition header for NPCM video driver
+> + *
+> + * Copyright (C) 2022 Nuvoton Technologies
+> + */
+> +
+> +#ifndef _NPCM_REGS_H
+> +#define _NPCM_REGS_H
+
+[…]
+
+> +struct npcm_video_addr {
+> +	size_t size;
+> +	dma_addr_t dma;
+> +	void *virt;
+> +};
+> +
+> +struct npcm_video_buffer {
+> +	struct vb2_v4l2_buffer vb;
+> +	struct list_head link;
+> +};
+> +
+> +#define to_npcm_video_buffer(x) \
+> +	container_of((x), struct npcm_video_buffer, vb)
+> +
+> +enum {
+> +	VIDEO_STREAMING,
+> +	VIDEO_FRAME_INPRG,
+> +	VIDEO_STOPPED,
+> +};
+> +
+> +struct rect_list {
+> +	struct v4l2_clip clip;
+> +	struct list_head list;
+> +};
+> +
+> +struct rect_list_info {
+> +	struct rect_list *list;
+> +	struct rect_list *first;
+> +	struct list_head *head;
+> +	unsigned int index;
+> +	unsigned int tile_perline;
+> +	unsigned int tile_perrow;
+> +	unsigned int offset_perline;
+> +	unsigned int tile_size;
+> +	unsigned int tile_cnt;
+> +};
+> +
+> +struct npcm_ece {
+> +	struct regmap *regmap;
+> +	atomic_t clients;
+> +	struct reset_control *reset;
+> +};
+> +
+> +struct npcm_video {
+> +	struct regmap *gcr_regmap;
+> +	struct regmap *gfx_regmap;
+> +	struct regmap *vcd_regmap;
+> +
+> +	struct device *dev;
+> +	struct v4l2_ctrl_handler ctrl_handler;
+> +	struct v4l2_device v4l2_dev;
+> +	struct v4l2_pix_format pix_fmt;
+> +	struct v4l2_bt_timings active_timings;
+> +	struct v4l2_bt_timings detected_timings;
+> +	u32 v4l2_input_status;
+> +	struct vb2_queue queue;
+> +	struct video_device vdev;
+> +	struct mutex video_lock; /* v4l2 and videobuf2 lock */
+> +
+> +	struct list_head buffers;
+> +	spinlock_t lock; /* buffer list lock */
+> +	unsigned long flags;
+> +	unsigned int sequence;
+> +
+> +	size_t max_buffer_size;
+> +	struct npcm_video_addr src;
+> +	struct reset_control *reset;
+> +	struct npcm_ece ece;
+> +
+> +	unsigned int frame_rate;
+> +	unsigned int vb_index;
+> +	u32 bytesperline;
+> +	u8 bytesperpixel;
+> +	u32 rect_cnt;
+> +	u8 num_buffers;
+> +	struct list_head *list;
+> +	u32 *rect;
+> +	int ctrl_cmd;
+> +	int op_cmd;
+> +};
+> +
+> +#define to_npcm_video(x) container_of((x), struct npcm_video, v4l2_dev)
+> +
+> +static const struct v4l2_dv_timings_cap npcm_video_timings_cap = {
+> +	.type = V4L2_DV_BT_656_1120,
+> +	.bt = {
+> +		.min_width = MIN_WIDTH,
+> +		.max_width = MAX_WIDTH,
+> +		.min_height = MIN_HEIGHT,
+> +		.max_height = MAX_HEIGHT,
+> +		.min_pixelclock = 6574080, /* 640 x 480 x 24Hz */
+> +		.max_pixelclock = 138240000, /* 1920 x 1200 x 60Hz */
+> +		.standards = V4L2_DV_BT_STD_CEA861 | V4L2_DV_BT_STD_DMT |
+> +			     V4L2_DV_BT_STD_CVT | V4L2_DV_BT_STD_GTF,
+> +		.capabilities = V4L2_DV_BT_CAP_PROGRESSIVE |
+> +				V4L2_DV_BT_CAP_REDUCED_BLANKING |
+> +				V4L2_DV_BT_CAP_CUSTOM,
+> +	},
+> +};
+> +
+> +static DECLARE_BITMAP(bitmap, BITMAP_SIZE);
+> +
+> +static void npcm_video_ece_prepend_rect_header(u8 *addr, u16 x, u16 y, u16 w, u16 h)
+> +{
+> +	__be16 x_pos = cpu_to_be16(x);
+> +	__be16 y_pos = cpu_to_be16(y);
+> +	__be16 width = cpu_to_be16(w);
+> +	__be16 height = cpu_to_be16(h);
+> +	__be32 encoding = cpu_to_be32(5); /* Hextile encoding */
+> +
+> +	memcpy(addr, &x_pos, 2);
+> +	memcpy(addr + 2, &y_pos, 2);
+> +	memcpy(addr + 4, &width, 2);
+> +	memcpy(addr + 6, &height, 2);
+> +	memcpy(addr + 8, &encoding, 4);
+> +}
+> +
+> +static unsigned int npcm_video_ece_get_ed_size(struct npcm_video *video,
+> +					       u32 offset, u8 *addr)
+> +{
+> +	struct regmap *ece = video->ece.regmap;
+> +	u32 size, gap, val;
+
+Using a fixed size type for variables not needing is, is actually not an 
+optimization [1]. It’d be great, if you went over the whole change-set 
+to use the non-fixed types, where possible. (You can also check the 
+difference with `scripts/bloat-o-meter`.
+
+> +	int ret;
+> +
+> +	ret = regmap_read_poll_timeout(ece, ECE_DDA_STS, val,
+> +				       (val & ECE_DDA_STS_CDREADY), 0,
+> +				       ECE_POLL_TIMEOUT_US);
+> +
+> +	if (ret) {
+> +		dev_warn(video->dev, "Wait for ECE_DDA_STS_CDREADY timeout\n");
+> +		return 0;
+> +	}
+> +
+> +	size = readl(addr + offset);
+> +	regmap_read(ece, ECE_HEX_CTRL, &val);
+> +	gap = FIELD_GET(ECE_HEX_CTRL_ENC_GAP, val);
+> +
+> +	dev_dbg(video->dev, "offset = %u, ed_size = %u, gap = %u\n", offset,
+> +		size, gap);
+> +
+> +	return size + gap;
+> +}
+
+[…]
+
+> +module_platform_driver(npcm_video_driver);
+> +
+> +MODULE_AUTHOR("Joseph Liu<kwliu@nuvoton.com>");
+> +MODULE_AUTHOR("Marvin Lin<kflin@nuvoton.com>");
+
+Please add a space before the <.
+
+> +MODULE_DESCRIPTION("Driver for Nuvoton NPCM Video Capture/Encode Engine");
+> +MODULE_LICENSE("GPL");
+
+Not GPL v2?
+
+
+Kind regards,
+
+Paul
+
+
+[1]: https://notabs.org/coding/smallIntsBigPenalty.htm
