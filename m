@@ -2,38 +2,35 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 13865658516
-	for <lists+linux-media@lfdr.de>; Wed, 28 Dec 2022 18:07:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0B9FC65854B
+	for <lists+linux-media@lfdr.de>; Wed, 28 Dec 2022 18:33:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233342AbiL1RHL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 28 Dec 2022 12:07:11 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59334 "EHLO
+        id S232958AbiL1RdY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 28 Dec 2022 12:33:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40352 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235351AbiL1RGa (ORCPT
+        with ESMTP id S230443AbiL1RdW (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 28 Dec 2022 12:06:30 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC07FF71
-        for <linux-media@vger.kernel.org>; Wed, 28 Dec 2022 09:02:30 -0800 (PST)
+        Wed, 28 Dec 2022 12:33:22 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33ED626A
+        for <linux-media@vger.kernel.org>; Wed, 28 Dec 2022 09:33:22 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 56BEA61562
-        for <linux-media@vger.kernel.org>; Wed, 28 Dec 2022 17:02:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C9F63C433D2;
-        Wed, 28 Dec 2022 17:02:28 +0000 (UTC)
-Message-ID: <69624c54-7cbd-7362-c468-f8ffea9614be@xs4all.nl>
-Date:   Wed, 28 Dec 2022 18:02:27 +0100
+        by dfw.source.kernel.org (Postfix) with ESMTPS id B288F6159A
+        for <linux-media@vger.kernel.org>; Wed, 28 Dec 2022 17:33:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF82FC433EF
+        for <linux-media@vger.kernel.org>; Wed, 28 Dec 2022 17:33:20 +0000 (UTC)
+Message-ID: <93b15c71-2a95-f3f0-3326-0daaf191f6ce@xs4all.nl>
+Date:   Wed, 28 Dec 2022 18:33:19 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.5.1
 Content-Language: en-US
 To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     Alice Yuan <alice.yuan@nxp.com>, Robby Cai <robby.cai@nxp.com>,
-        Aisheng Dong <aisheng.dong@nxp.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [PATCH for 6.2] media: v4l2-ctrls-api.c: move ctrl->is_new = 1 to the
+Subject: [GIT FIXES FOR v6.2] v4l2-ctrls-api.c: move ctrl->is_new = 1 to the
  correct line
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
@@ -46,25 +43,24 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The patch that fixed string control support somehow got mangled when it was
-merged in mainline: the added line ended up in the wrong place.
+The following changes since commit 6599e683db1bf22fee74302c47e31b9a42a1c3d2:
 
-Fix this.
+  Merge tag 'v6.2-rc1' into media_tree (2022-12-28 16:07:44 +0000)
 
-Fixes: 73278d483378 ("media: v4l2-ctrls-api.c: add back dropped ctrl->is_new = 1")
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
----
-diff --git a/drivers/media/v4l2-core/v4l2-ctrls-api.c b/drivers/media/v4l2-core/v4l2-ctrls-api.c
-index 3d3b6dc24ca6..002ea6588edf 100644
---- a/drivers/media/v4l2-core/v4l2-ctrls-api.c
-+++ b/drivers/media/v4l2-core/v4l2-ctrls-api.c
-@@ -150,8 +150,8 @@ static int user_to_new(struct v4l2_ext_control *c, struct v4l2_ctrl *ctrl)
- 			 * then return an error.
- 			 */
- 			if (strlen(ctrl->p_new.p_char) == ctrl->maximum && last)
--			ctrl->is_new = 1;
- 				return -ERANGE;
-+			ctrl->is_new = 1;
- 		}
- 		return ret;
- 	default:
+are available in the Git repository at:
+
+  git://linuxtv.org/hverkuil/media_tree.git tags/br-v6.2a
+
+for you to fetch changes up to 7342d4abe741fa5c5d6865ea5afe777e06c87d78:
+
+  media: v4l2-ctrls-api.c: move ctrl->is_new = 1 to the correct line (2022-12-28 18:09:26 +0100)
+
+----------------------------------------------------------------
+Tag branch
+
+----------------------------------------------------------------
+Hans Verkuil (1):
+      media: v4l2-ctrls-api.c: move ctrl->is_new = 1 to the correct line
+
+ drivers/media/v4l2-core/v4l2-ctrls-api.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
