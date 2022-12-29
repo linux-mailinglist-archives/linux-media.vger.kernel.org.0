@@ -2,74 +2,62 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 02978658ABA
-	for <lists+linux-media@lfdr.de>; Thu, 29 Dec 2022 09:56:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8639A658D20
+	for <lists+linux-media@lfdr.de>; Thu, 29 Dec 2022 14:32:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230425AbiL2I4F (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 29 Dec 2022 03:56:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53422 "EHLO
+        id S233287AbiL2NcT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 29 Dec 2022 08:32:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51714 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229483AbiL2I4D (ORCPT
+        with ESMTP id S229535AbiL2NcR (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 29 Dec 2022 03:56:03 -0500
-Received: from mail-vs1-xe33.google.com (mail-vs1-xe33.google.com [IPv6:2607:f8b0:4864:20::e33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 54CD41EF;
-        Thu, 29 Dec 2022 00:56:02 -0800 (PST)
-Received: by mail-vs1-xe33.google.com with SMTP id h27so4142708vsq.3;
-        Thu, 29 Dec 2022 00:56:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Zdi5JNQLgXGQ66qKu+yMeeWn88rw9Bky4W1XebdlBEw=;
-        b=D56q6hHZtVDkrih3nWz96tO0tf1ETJTioa9UJmFtlGOcgLwyVcG0N4bT7abG4iHyTK
-         taiOmgzI3/MFU25z/6eACBHBsm0ZUcykUQVJedq9U4CbMYzDxArIv72uYbCo95e4/iK0
-         SLxlYWW6Ouq817lvgU6TGpvSl58TdyfDCYYw5vweZ9+y8yHvhRA0JpOCyYo3NedDFKG9
-         dx/8A2MIwQqYB4pFcohP8C9/DnmuhH7rjBBMQERFgYCgqkcAf3dnPuNii/PSvymQVGi7
-         LCIrQE0ZUI0cygqCW74rY1+eIjvRnYWR5H73K5ndrQNTj46Lj6x4hT8v6ObhbgQddN//
-         DMTA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Zdi5JNQLgXGQ66qKu+yMeeWn88rw9Bky4W1XebdlBEw=;
-        b=DHQvaqil6DBjCIgQ5dZmR3RPbGUZKxxW7UaM34vz2o9DZ6mpm2vGoCoI7ou9PeH/SF
-         U2GtRqMVej5YmAZydmrEkm0acd+T4m1cI12jBr7mq37lppw0KmJodLhzpgaXwOEmqgID
-         bD6+XQsJgIPxlSH+ojAPfEibKsR1+8y5wiTJJDKMYReNIHPeskLql4MoZFX8n09oS+tR
-         ajwzG0f7PXRwimImkJ7XNRyUz647vTatQThtl40FOhz5HItrPG9fOrw7Gf2TgG0Odw1o
-         sJh5O+XVBTgnKLZ/2W95FW/9GBALhG2vZTWeao1XvEn33LGa1w5pz6ls0Hu6PhMODcgX
-         gOog==
-X-Gm-Message-State: AFqh2kq/RxtYMAESKlMiHe4O5EnHrqtuvNvscawFPEP/37q0gMy3kD6v
-        4q/WUHY1EE5I2eW3rswO6OIKlboEWrmFie78FAvqUH1gqjZL8A==
-X-Google-Smtp-Source: AMrXdXvNrWrqy7ubjkhG7TGAHD6J4jDrQchAzhwTRpmi1zRv9eF8yToeWNw3Uhq9nGQovgVQ2fqq8ofaBMYifzcDReM=
-X-Received: by 2002:a05:6102:f8c:b0:3c9:8cc2:dd04 with SMTP id
- e12-20020a0561020f8c00b003c98cc2dd04mr1182236vsv.73.1672304161401; Thu, 29
- Dec 2022 00:56:01 -0800 (PST)
+        Thu, 29 Dec 2022 08:32:17 -0500
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3185711156;
+        Thu, 29 Dec 2022 05:32:14 -0800 (PST)
+Received: from booty.fritz.box (unknown [77.244.183.192])
+        (Authenticated sender: luca.ceresoli@bootlin.com)
+        by mail.gandi.net (Postfix) with ESMTPA id 717F1FF807;
+        Thu, 29 Dec 2022 13:32:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1672320733;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=jKTmICtgS5CE15mgXypcbICDTCnPat9jm5uLCXEeSv8=;
+        b=R8b59MnDxsb9rbaru0h1PgKK2ZDdCxXKz63dZF8YIzLJZjTTkqnR06fVirDyejBgyNkmFM
+        gSUfbjUpS4QORukiC84rwyECuySp80jHZnrcgLtnPVpQwRUpvJSM1t5lyDtP4cepJDDwn1
+        Wxc0xEok6MgqHsj0N7LX/SlCYFCdRX0SeWPTekoPmEazrorBlMJuGLsNeCGsro9Y8S16UE
+        roqGLHs7Mh4bHj16IxxGHfqqDLz5GbAK0A0/fc8plbpPHQnfANr/ygne5WtfTMlRwNeMYX
+        D1Nm8jNt+h3bBjN1/dQ/tw1UXK6ZTrsjJk63Qy71R3lbsi45f/zP1dij0GfoYA==
+From:   Luca Ceresoli <luca.ceresoli@bootlin.com>
+To:     Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Sowjanya Komatineni <skomatineni@nvidia.com>,
+        Luca Ceresoli <luca.ceresoli@bootlin.com>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Dmitry Osipenko <digetx@gmail.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Richard Leitner <richard.leitner@skidata.com>
+Subject: [PATCH v3 00/21] Add Tegra20 parallel video input capture
+Date:   Thu, 29 Dec 2022 14:31:44 +0100
+Message-Id: <20221229133205.981397-1-luca.ceresoli@bootlin.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20221227095123.2447948-1-milkfafa@gmail.com> <20221227095123.2447948-8-milkfafa@gmail.com>
- <b8f173c0-6d40-d6aa-543e-fa8b06557f4f@molgen.mpg.de>
-In-Reply-To: <b8f173c0-6d40-d6aa-543e-fa8b06557f4f@molgen.mpg.de>
-From:   Kun-Fa Lin <milkfafa@gmail.com>
-Date:   Thu, 29 Dec 2022 16:55:50 +0800
-Message-ID: <CADnNmFr1naRfam=z0p-4hEugSDJy_HCK8XZyQJ0eFirnmwuH4A@mail.gmail.com>
-Subject: Re: [PATCH v10 7/7] media: nuvoton: Add driver for NPCM video capture
- and encode engine
-To:     Paul Menzel <pmenzel@molgen.mpg.de>
-Cc:     mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
-        avifishman70@gmail.com, tmaimon77@gmail.com, tali.perry1@gmail.com,
-        venture@google.com, yuenn@google.com, benjaminfair@google.com,
-        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-        andrzej.p@collabora.com, kwliu@nuvoton.com,
-        devicetree@vger.kernel.org, openbmc@lists.ozlabs.org,
-        linux-kernel@vger.kernel.org, kflin@nuvoton.com,
-        linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -77,73 +65,128 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Paul,
+Tegra20 and other Tegra SoCs have a video input (VI) peripheral that can
+receive from either MIPI CSI-2 or parallel video (called respectively "CSI"
+and "VIP" in the documentation). The kernel currently has a staging driver
+for Tegra210 CSI capture. This patch set adds support for Tegra20 VIP
+capture.
 
-Thanks for the review.
+Unfortunately I had no real documentation available to base this work on.
+I only had a working downstream 3.1 kernel, so I started with the driver
+found there and heavily reworked it to fit into the mainline tegra-video
+driver structure. The existing code appears written with the intent of
+being modular and allow adding new input mechanisms and new SoCs while
+keeping a unique VI core module. However its modularity and extensibility
+was not enough to add Tegra20 VIP support, so I added some hooks to turn
+hard-coded behaviour into per-SoC or per-bus customizable code. There are
+also a fix, some generic cleanups and DT bindings.
 
-> > Add driver for Video Capture/Differentiation Engine (VCD) and Encoding
-> > Compression Engine (ECE) present on Nuvoton NPCM SoCs. The VCD can
-> > capture and differentiate video data from digital or analog sources,
->
-> =E2=80=9Cdifferentiate video data=E2=80=9D sounds uncommon to me. Am I ju=
-st ignorant or
-> is there a better term?
+Quick tour of the patches:
 
-How about "The VCD can capture a frame from digital video input and
-compare two frames in memory, then the ECE will compress the frame
-data into HEXTITLE format", is it better?
+ * Device tree bindings and minor DTS improvements
 
-> Wich VNC viewer and version?
+   01. dt-bindings: display: tegra: add Tegra20 VIP
+   02. dt-bindings: display: tegra: vi: add 'vip' property and example
 
-I used RealVNC version 6.21.1109 to test.
-Do I have to add this information in the commit message?
+ * A fix
 
-> Maybe also paste the new dev_ log messages
-> you get from one boot.
+   03. staging: media: tegra-video: fix .vidioc_enum_fmt_vid_cap to return all formats
 
-Do you mean dev_info/dev_debug messages of the driver?
-If yes, I get these messages from one boot (only dev_info will be
-printed in default):
+ * Minor improvements to logging, comments, cleanups
 
-npcm-video f0810000.video: assigned reserved memory node framebuffer@0x3300=
-0000
-npcm-video f0810000.video: NPCM video driver probed
+   04. staging: media: tegra-video: improve documentation of tegra_video_format fields
+   05. staging: media: tegra-video: document tegra_channel_get_remote_source_subdev
+   06. staging: media: tegra-video: fix typos in comment
+   07. staging: media: tegra-video: improve error messages
+   08. staging: media: tegra-video: slightly simplify cleanup on errors
+   09. staging: media: tegra-video: move private struct declaration to C file
+   10. staging: media: tegra-video: move tegra210_csi_soc to C file
+   11. staging: media: tegra-video: remove unneeded include
 
-> It=E2=80=99d be great if you noted the datasheet name and revision.
+ * Preparation to make the VI module generic enough to host Tegra20 and VIP
 
-I can note the datasheet name and revision in the commit message but
-can't provide the file link because it is not public.
-Is it ok with you?
+   12. staging: media: tegra-video: Kconfig: allow TPG only on Tegra210
+   13. staging: media: tegra-video: move tegra_channel_fmt_align to a per-soc op
+   14. staging: media: tegra-video: move default format to soc-specific data
+   15. staging: media: tegra-video: move MIPI calibration calls from VI to CSI
+   16. staging: media: tegra-video: add a per-soc enable/disable op
+   17. staging: media: tegra-video: move syncpt init/free to a per-soc op
+   18. staging: media: tegra-video: add syncpts for Tegra20 to struct tegra_vi
+   19. staging: media: tegra-video: add hooks for planar YUV and H/V flip
+   20. staging: media: tegra-video: add H/V flip controls
 
-> > +static unsigned int npcm_video_ece_get_ed_size(struct npcm_video *vide=
-o,
-> > +                                            u32 offset, u8 *addr)
-> > +{
-> > +     struct regmap *ece =3D video->ece.regmap;
-> > +     u32 size, gap, val;
->
-> Using a fixed size type for variables not needing is, is actually not an
-> optimization [1]. It=E2=80=99d be great, if you went over the whole chang=
-e-set
-> to use the non-fixed types, where possible. (You can also check the
-> difference with `scripts/bloat-o-meter`.
+ * Implementation of VIP and Tegra20
 
-So what I have to do is replace "u8/u16/u32" with "unsigned int" for
-generic local variables as much as possible.
-Is my understanding correct?
+   21. staging: media: tegra-video: add support for Tegra20 parallel input
 
-> > +MODULE_AUTHOR("Joseph Liu<kwliu@nuvoton.com>");
-> > +MODULE_AUTHOR("Marvin Lin<kflin@nuvoton.com>");
->
-> Please add a space before the <.
->
-> > +MODULE_DESCRIPTION("Driver for Nuvoton NPCM Video Capture/Encode Engin=
-e");
-> > +MODULE_LICENSE("GPL");
->
-> Not GPL v2?
+Enjoy!
 
-I'll correct them in the next patch.
+Changed in v3:
+- removed the 'channel@0' node from the device tree representation of vip
+- squashed the last two patches (VIP + T20) into one
+- small cleanups
+- rebase on v6.2-rc1
 
-Regards,
-Marvin
+Changed in v2:
+- improved dt-bindings patches based on reviews
+- removed patches 3 and 4 adding DT labels without a mainline user
+- two small fixes to the last patch
+
+[v2] https://lore.kernel.org/linux-tegra/20221222100328.6e341874@booty/T/#t
+[v1] https://lore.kernel.org/linux-tegra/20221124155634.5bc2a423@booty/T/#t
+
+Luca
+
+Luca Ceresoli (21):
+  dt-bindings: display: tegra: add Tegra20 VIP
+  dt-bindings: display: tegra: vi: add 'vip' property and example
+  staging: media: tegra-video: fix .vidioc_enum_fmt_vid_cap to return
+    all formats
+  staging: media: tegra-video: improve documentation of
+    tegra_video_format fields
+  staging: media: tegra-video: document
+    tegra_channel_get_remote_source_subdev
+  staging: media: tegra-video: fix typos in comment
+  staging: media: tegra-video: improve error messages
+  staging: media: tegra-video: slightly simplify cleanup on errors
+  staging: media: tegra-video: move private struct declaration to C file
+  staging: media: tegra-video: move tegra210_csi_soc to C file
+  staging: media: tegra-video: remove unneeded include
+  staging: media: tegra-video: Kconfig: allow TPG only on Tegra210
+  staging: media: tegra-video: move tegra_channel_fmt_align to a per-soc
+    op
+  staging: media: tegra-video: move default format to soc-specific data
+  staging: media: tegra-video: move MIPI calibration calls from VI to
+    CSI
+  staging: media: tegra-video: add a per-soc enable/disable op
+  staging: media: tegra-video: move syncpt init/free to a per-soc op
+  staging: media: tegra-video: add syncpts for Tegra20 to struct
+    tegra_vi
+  staging: media: tegra-video: add hooks for planar YUV and H/V flip
+  staging: media: tegra-video: add H/V flip controls
+  staging: media: tegra-video: add support for Tegra20 parallel input
+
+ .../display/tegra/nvidia,tegra20-vi.yaml      |  64 ++
+ .../display/tegra/nvidia,tegra20-vip.yaml     |  49 ++
+ MAINTAINERS                                   |   3 +
+ drivers/staging/media/tegra-video/Kconfig     |   1 +
+ drivers/staging/media/tegra-video/Makefile    |   2 +
+ drivers/staging/media/tegra-video/csi.c       |  48 ++
+ drivers/staging/media/tegra-video/csi.h       |   4 -
+ drivers/staging/media/tegra-video/tegra20.c   | 661 ++++++++++++++++++
+ drivers/staging/media/tegra-video/tegra210.c  |  97 ++-
+ drivers/staging/media/tegra-video/vi.c        | 321 ++-------
+ drivers/staging/media/tegra-video/vi.h        |  75 +-
+ drivers/staging/media/tegra-video/video.c     |   5 +
+ drivers/staging/media/tegra-video/video.h     |   2 +-
+ drivers/staging/media/tegra-video/vip.c       | 290 ++++++++
+ drivers/staging/media/tegra-video/vip.h       |  68 ++
+ 15 files changed, 1400 insertions(+), 290 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vip.yaml
+ create mode 100644 drivers/staging/media/tegra-video/tegra20.c
+ create mode 100644 drivers/staging/media/tegra-video/vip.c
+ create mode 100644 drivers/staging/media/tegra-video/vip.h
+
+-- 
+2.34.1
+
