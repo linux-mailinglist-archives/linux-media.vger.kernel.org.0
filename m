@@ -2,147 +2,83 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9156C6588A7
-	for <lists+linux-media@lfdr.de>; Thu, 29 Dec 2022 03:31:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B5CBB6588B2
+	for <lists+linux-media@lfdr.de>; Thu, 29 Dec 2022 03:46:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232838AbiL2Cbq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 28 Dec 2022 21:31:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50646 "EHLO
+        id S232887AbiL2CqP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 28 Dec 2022 21:46:15 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52368 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230078AbiL2Cbo (ORCPT
+        with ESMTP id S230421AbiL2CqN (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 28 Dec 2022 21:31:44 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6101813D47;
-        Wed, 28 Dec 2022 18:31:43 -0800 (PST)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id C8B3D109;
-        Thu, 29 Dec 2022 03:31:41 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1672281102;
-        bh=dH8oWD18PnHqBJzdW67bOpes0o1O+bRiZKBgAZ4gzJw=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=rsTS9aEBpL2yHQtmZeLWgqFxYM+F8pvNzSUgbFdmf0M/mEZJo9NMjlIccPiKN4nL2
-         ILMkomfv/+64WoOYEkVqt8OKrbN41rYNQXLbnUOkeFLHd5DgaxePs76m3OIcYR97Iw
-         oE3vZAIs0ulPkjUkWcoGwDDK/BOAu7BBTeadpuyc=
-Date:   Thu, 29 Dec 2022 04:31:37 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+        Wed, 28 Dec 2022 21:46:13 -0500
+Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 00144CE0B
+        for <linux-media@vger.kernel.org>; Wed, 28 Dec 2022 18:46:10 -0800 (PST)
+Received: by mail-pj1-x1032.google.com with SMTP id n12so5025522pjp.1
+        for <linux-media@vger.kernel.org>; Wed, 28 Dec 2022 18:46:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=mmvRXkVVtaqaYs2yoaTeEYQ9ctHUESJNG5qerNoqkcI=;
+        b=Ix5ubWHKT4dV/qTkpacuNERdaV/pX2Lv0NSwf2hKn2h50Uafq1sCp8pa7hTFkb0rDY
+         MPN8DXuZlTc5LCMp72LnzbnXg++UeykvHnCrDI1pyW/oAhGr6pyoeuZuzJ10o/XDQtF/
+         LEFK/9LadKv341M6apxIw7uRxGePY5e4mT/Hg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=mmvRXkVVtaqaYs2yoaTeEYQ9ctHUESJNG5qerNoqkcI=;
+        b=SScVZuuvy6lGDBdRgU9RGQtzfzys3oPJakdPtQN9hFIasv5mIm90/nUQDj2wqIpX3w
+         kiDYfBEujhRZCjJKsTufwnbKUu8yfIQSGmEy4mlP741umrd47jqjuaskjr2zUpgTzFcK
+         Tyl0k/VxiZyP9g8hVXhgvT+yhm+tl8Unpz24g6OA0nca1yfl9Ja+zPurbm/MkEg11VWR
+         OE/WlKqL55nLNHs6Gn5Ru642F2jtZSfQNs3NC7/CQERlRy254EuAta32i/U2a2HAqQ6T
+         lz3j2PgUZt5hDI/MWtFfXiz/gpKIMc6JkCmwJHQ8ev96duAIMO8lLFPFf2zQyWYkTjaY
+         Yvlw==
+X-Gm-Message-State: AFqh2kqVlndsx5UUePfZt9BbMyRITcZfb0nywKUzTzu0A0ZvoHo/B4TL
+        2WMqVeUTxnIbqq2rtiFDrnX/WA==
+X-Google-Smtp-Source: AMrXdXtnWdSyX0JgddpSXsDrcnaiUKWgj7lNBDws8U+1KJnJnXqzlQypQYWru2VMcWZWMAQxWFLCXg==
+X-Received: by 2002:a17:90a:7443:b0:226:1cd3:163a with SMTP id o3-20020a17090a744300b002261cd3163amr4181143pjk.10.1672281970480;
+        Wed, 28 Dec 2022 18:46:10 -0800 (PST)
+Received: from google.com (KD124209188001.ppp-bb.dion.ne.jp. [124.209.188.1])
+        by smtp.gmail.com with ESMTPSA id z15-20020a17090a66cf00b00223ed94759csm12806439pjl.39.2022.12.28.18.46.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 28 Dec 2022 18:46:09 -0800 (PST)
+Date:   Thu, 29 Dec 2022 11:46:05 +0900
+From:   Sergey Senozhatsky <senozhatsky@chromium.org>
 To:     Ricardo Ribalda <ribalda@chromium.org>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+Cc:     Yunke Cao <yunkec@chromium.org>, Max Staudt <mstaudt@chromium.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-media@vger.kernel.org,
         Sergey Senozhatsky <senozhatsky@chromium.org>,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-Subject: Re: [PATCH RESEND v2 2/2] media: uvcvideo: Limit power line control
- for Lenovo Integrated Camera
-Message-ID: <Y6z8Cc9LWa3Nyin3@pendragon.ideasonboard.com>
-References: <20221101-easycam-v2-0-ffe3e3a152df@chromium.org>
- <20221101-easycam-v2-2-ffe3e3a152df@chromium.org>
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4] media: uvcvideo: Remove void casting for the status
+ endpoint
+Message-ID: <Y6z/bXckwqvyB5Tv@google.com>
+References: <20221214-uvc-status-alloc-v4-0-f8e3e2994ebd@chromium.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221101-easycam-v2-2-ffe3e3a152df@chromium.org>
-X-Spam-Status: No, score=-0.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        SUBJECT_DRUG_GAP_L autolearn=no autolearn_force=no version=3.4.6
+In-Reply-To: <20221214-uvc-status-alloc-v4-0-f8e3e2994ebd@chromium.org>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Ricardo,
-
-Thank you for the patch.
-
-On Fri, Dec 02, 2022 at 05:45:07PM +0100, Ricardo Ribalda wrote:
-> The device does not implement the power line control correctly. Add a
-> corresponding control mapping override.
-
-Do I understand correctly that this device advertises UVC 1.5 support
-buth implements the power line frequency control as if it was a UVC 1.1
-device ? Could you record this in the commit message ?
-
-I wonder how all these cameras can pass the UVC conformance test suite.
-Either they don't even bother trying, or the test suite is useless.
-
-> Bus 003 Device 002: ID 30c9:0093 Lenovo Integrated Camera
-> Device Descriptor:
->   bLength                18
->   bDescriptorType         1
->   bcdUSB               2.01
->   bDeviceClass          239 Miscellaneous Device
->   bDeviceSubClass         2
->   bDeviceProtocol         1 Interface Association
->   bMaxPacketSize0        64
->   idVendor           0x30c9
->   idProduct          0x0093
->   bcdDevice            0.07
->   iManufacturer           3 Lenovo
->   iProduct                1 Integrated Camera
->   iSerial                 2 8SSC21J75356V1SR2830069
->   bNumConfigurations      1
+On (22/12/20 23:56), Ricardo Ribalda wrote:
+> Make the code more resiliant, by replacing the castings with proper
+> structure definitions and using offsetof() instead of open coding the
+> location of the data.
 > 
+> Suggested-by: Sergey Senozhatsky <senozhatsky@chromium.org>
 > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> ---
->  drivers/media/usb/uvc/uvc_driver.c | 33 +++++++++++++++++++++++++++++++++
->  1 file changed, 33 insertions(+)
-> 
-> diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-> index cca3012c8912..e0bb21f2e133 100644
-> --- a/drivers/media/usb/uvc/uvc_driver.c
-> +++ b/drivers/media/usb/uvc/uvc_driver.c
-> @@ -2373,6 +2373,30 @@ MODULE_PARM_DESC(timeout, "Streaming control requests timeout");
->   * Driver initialization and cleanup
->   */
->  
-> +static const struct uvc_menu_info power_line_frequency_controls_uvc11[] = {
-> +	{ 0, "Disabled" },
-> +	{ 1, "50 Hz" },
-> +	{ 2, "60 Hz" },
-> +};
-> +
-> +static const struct uvc_control_mapping uvc_ctrl_power_line_mapping_uvc11 = {
-> +	.id		= V4L2_CID_POWER_LINE_FREQUENCY,
-> +	.entity		= UVC_GUID_UVC_PROCESSING,
-> +	.selector	= UVC_PU_POWER_LINE_FREQUENCY_CONTROL,
-> +	.size		= 2,
-> +	.offset		= 0,
-> +	.v4l2_type	= V4L2_CTRL_TYPE_MENU,
-> +	.data_type	= UVC_CTRL_DATA_TYPE_ENUM,
-> +	.menu_info	= power_line_frequency_controls_uvc11,
-> +	.menu_count	= ARRAY_SIZE(power_line_frequency_controls_uvc11),
-> +};
 
-It would be nice to avoid duplicating the data, do you think we could
-reference uvc_ctrl_mappings_uvc11 from uvc_ctrl.c instead ?
-
-> +
-> +static const struct uvc_device_info uvc_ctrl_power_line_uvc11 = {
-> +	.mappings = (const struct uvc_control_mapping *[]) {
-> +		&uvc_ctrl_power_line_mapping_uvc11,
-> +		NULL, /* Sentinel */
-> +	},
-> +};
->  static const struct uvc_menu_info power_line_frequency_controls_limited[] = {
->  	{ 1, "50 Hz" },
->  	{ 2, "60 Hz" },
-> @@ -2976,6 +3000,15 @@ static const struct usb_device_id uvc_ids[] = {
->  	  .bInterfaceSubClass	= 1,
->  	  .bInterfaceProtocol	= 0,
->  	  .driver_info		= UVC_INFO_QUIRK(UVC_QUIRK_FORCE_BPP) },
-> +	/* Lenovo Integrated Camera */
-> +	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
-> +				| USB_DEVICE_ID_MATCH_INT_INFO,
-> +	  .idVendor		= 0x30c9,
-> +	  .idProduct		= 0x0093,
-> +	  .bInterfaceClass	= USB_CLASS_VIDEO,
-> +	  .bInterfaceSubClass	= 1,
-> +	  .bInterfaceProtocol	= UVC_PC_PROTOCOL_15,
-> +	  .driver_info		= (kernel_ulong_t)&uvc_ctrl_power_line_uvc11 },
->  	/* Sonix Technology USB 2.0 Camera */
->  	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
->  				| USB_DEVICE_ID_MATCH_INT_INFO,
-
--- 
-Regards,
-
-Laurent Pinchart
+Reviewed-by: Sergey Senozhatsky <senozhatsky@chromium.org>
