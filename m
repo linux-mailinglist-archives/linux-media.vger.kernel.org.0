@@ -2,44 +2,43 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E7141658704
-	for <lists+linux-media@lfdr.de>; Wed, 28 Dec 2022 22:27:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 98ACA658895
+	for <lists+linux-media@lfdr.de>; Thu, 29 Dec 2022 03:16:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231229AbiL1V1V (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 28 Dec 2022 16:27:21 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39638 "EHLO
+        id S232883AbiL2CQK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 28 Dec 2022 21:16:10 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45756 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229716AbiL1V1U (ORCPT
+        with ESMTP id S232613AbiL2CQI (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 28 Dec 2022 16:27:20 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B543C140B4;
-        Wed, 28 Dec 2022 13:27:18 -0800 (PST)
+        Wed, 28 Dec 2022 21:16:08 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B4D40C7F;
+        Wed, 28 Dec 2022 18:16:06 -0800 (PST)
 Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 00D65109;
-        Wed, 28 Dec 2022 22:27:15 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0C4FA109;
+        Thu, 29 Dec 2022 03:16:04 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1672262836;
-        bh=sp2ZBB6P279b00k8+UwmXpA6Hm9xy8NUgh+Jr/+0/uc=;
+        s=mail; t=1672280165;
+        bh=WwQBvzpgnzReaGkHUuiGxWOEOKrQl4LCceXe70mDN5s=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=dQ2+f64EH8lFWaBxwtHVGK154e2FTIKrvuMvgSb5Z2okoo5DPwieKwZFzSs70IXiO
-         /sShwWs/jk2Md1WsZCkIa5X9bHoZMMpa/kRMazfVX5MQEgA1klbMK/U6TvatttHkdl
-         dgHp2q+KRh/Bpd86b0GUdNwMTks+jxqaeageqkyY=
-Date:   Wed, 28 Dec 2022 23:27:11 +0200
+        b=db2jTVpFWVtUT9APhhGLZPnKGK5eI3/AadbyMWqMAX1ATXfDqpgB3LlbgDV7BWdBA
+         8hMERqtgaKwH0qjtbjZgdB2hI8vPHww95XrEXr77a9h3i4vvMBEa6szxI3wnMliLv3
+         4eKiQMboQpUwj+2Yn9DNmc+/PRdR3v2eYcdnybfc=
+Date:   Thu, 29 Dec 2022 04:16:01 +0200
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Tanmay Bhushan <007047221b@gmail.com>
+To:     Ricardo Ribalda <ribalda@chromium.org>
 Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: staging: media: omap4iss: Fix null dereference
- for iss
-Message-ID: <Y6y0r9fPnfWvwlua@pendragon.ideasonboard.com>
-References: <7f4fe87ef8a9995bc2c64bf2e5a03ef6948b8692.camel@gmail.com>
+        linux-media@vger.kernel.org,
+        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        linux-kernel@vger.kernel.org, Yunke Cao <yunkec@chromium.org>
+Subject: Re: [PATCH v4] media: uvcvideo: Recover stalled ElGato devices
+Message-ID: <Y6z4YViQk/e2w6BR@pendragon.ideasonboard.com>
+References: <20220920-resend-elgato-v4-0-f9555e13e458@chromium.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <7f4fe87ef8a9995bc2c64bf2e5a03ef6948b8692.camel@gmail.com>
+In-Reply-To: <20220920-resend-elgato-v4-0-f9555e13e458@chromium.org>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
         autolearn=ham autolearn_force=no version=3.4.6
@@ -49,82 +48,125 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Tanmay,
+Hi Ricardo,
 
-Thank you for the patch.
-
-On Wed, Dec 28, 2022 at 09:58:31PM +0100, Tanmay Bhushan wrote:
-> From 7aa39c0d02bddf9cfa14762f115303b79bfa0ae3 Mon Sep 17 00:00:00 2001
-> From: Tanmay Bhushan <007047221b@gmail.com>
-> Date: Wed, 28 Dec 2022 21:01:16 +0100
-> Subject: [PATCH] media: staging: media: omap4iss: Fix null dereference
-> for iss
+On Tue, Dec 06, 2022 at 12:15:04AM +0100, Ricardo Ribalda wrote:
+> Elgato Cam Link 4k can be in a stalled state if the resolution of
+> the external source has changed while the firmware initializes.
+> Once in this state, the device is useless until it receives a
+> USB reset. It has even been observed that the stalled state will
+> continue even after unplugging the device.
 > 
-> media_pad_remote_pad_first returns NULL in some cases but while using
-> the return value was used without NULL check which will lead to panic
-> in case of NULL return. iss_pipeline_is_last returns value check so
-> have returned 0 in case of NULL and csi2_configure is not documented
-> for such cases so returned EINVAL for it. Code is not tested
-> as it is only for NULL dereference verification.
+> lsusb -v
 > 
-> Signed-off-by: Tanmay Bhushan <007047221b@gmail.com>
+> Bus 002 Device 002: ID 0fd9:0066 Elgato Systems GmbH Cam Link 4K
+> Device Descriptor:
+>   bLength                18
+>   bDescriptorType         1
+>   bcdUSB               3.00
+>   bDeviceClass          239 Miscellaneous Device
+>   bDeviceSubClass         2
+>   bDeviceProtocol         1 Interface Association
+>   bMaxPacketSize0         9
+>   idVendor           0x0fd9 Elgato Systems GmbH
+>   idProduct          0x0066
+>   bcdDevice            0.00
+>   iManufacturer           1 Elgato
+>   iProduct                2 Cam Link 4K
+>   iSerial                 4 0005AC52FE000
+>   bNumConfigurations      1
+> 
+> Reviewed-by: Sergey Senozhatsky <senozhatsky@chromium.org>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 > ---
->  drivers/staging/media/omap4iss/iss.c      | 6 +++++-
->  drivers/staging/media/omap4iss/iss_csi2.c | 4 ++++
->  2 files changed, 9 insertions(+), 1 deletion(-)
+> Recover stalled ElGato devices
 > 
-> diff --git a/drivers/staging/media/omap4iss/iss.c
-> b/drivers/staging/media/omap4iss/iss.c
-> index fa2a36d829d3..3f01eeff40e7 100644
-> --- a/drivers/staging/media/omap4iss/iss.c
-> +++ b/drivers/staging/media/omap4iss/iss.c
-> @@ -552,7 +552,11 @@ static int iss_pipeline_is_last(struct
-> media_entity *me)
+> Just a resend of this hw fix.
 
-Your mail client wrapped lines, which prevents the patch from being
-applied with git-am. I recommend using git-send-email to send patches.
-https://git-send-email.io/ provides clear and detailed instructions on
-how to set it up (especially when using gmail).
+Taken in my tree, thanks.
 
->  	if (!pipe || pipe->stream_state ==
-> ISS_PIPELINE_STREAM_STOPPED)
->  		return 0;
->  	pad = media_pad_remote_pad_first(&pipe->output->pad);
-> -	return pad->entity == me;
-
-Have you seen this actually crashing, or are you only speculating ? The
-video node at the output of the pipeline should always be connected, so
-I don't think media_pad_remote_pad_first() can ever return NULL here.
-
-> +
-> +	if (pad)
-> +		return pad->entity == me;
-> +
-> +	return 0;
+> To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> To: Mauro Carvalho Chehab <mchehab@kernel.org>
+> Cc: linux-media@vger.kernel.org
+> Cc: linux-kernel@vger.kernel.org
+> Cc: Sergey Senozhatsky <senozhatsky@chromium.org>
+> Cc: Yunke Cao <yunkec@chromium.org>
+> ---
+> Changes in v4:
+> - Add Reviewed-by: Laurent
+> - Update error messages (Thanks Laurent!)
+> - Swap checks on if (Thanks Laurent)
+> - Link to v3: https://lore.kernel.org/r/20220920-resend-elgato-v3-0-57668054127f@chromium.org
+> 
+> Changes in v3:
+> - Add Reviewed-by: Sergey
+> - Improve identation (Thanks Sergey!)
+> - Link to v2: https://lore.kernel.org/r/20220920-resend-elgato-v2-0-06b48b3b486a@chromium.org
+> 
+> Changes in v2:
+> - Remove info from lsusb 
+> - Link to v1: https://lore.kernel.org/r/20220920-resend-elgato-v1-0-8672a2380e3d@chromium.org
+> ---
+>  drivers/media/usb/uvc/uvc_video.c | 24 ++++++++++++++++++++----
+>  1 file changed, 20 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
+> index 170a008f4006..ba7c159cb2a6 100644
+> --- a/drivers/media/usb/uvc/uvc_video.c
+> +++ b/drivers/media/usb/uvc/uvc_video.c
+> @@ -129,12 +129,13 @@ int uvc_query_ctrl(struct uvc_device *dev, u8 query, u8 unit,
+>  	return -EPIPE;
 >  }
 >  
->  static int iss_reset(struct iss_device *iss)
-> diff --git a/drivers/staging/media/omap4iss/iss_csi2.c
-> b/drivers/staging/media/omap4iss/iss_csi2.c
-> index 04ce0e7eb557..ab2c2ad64464 100644
-> --- a/drivers/staging/media/omap4iss/iss_csi2.c
-> +++ b/drivers/staging/media/omap4iss/iss_csi2.c
-> @@ -539,6 +539,10 @@ static int csi2_configure(struct iss_csi2_device
-> *csi2)
->  		return -EBUSY;
+> +static const struct usb_device_id elgato_cam_link_4k = {
+> +	USB_DEVICE(0x0fd9, 0x0066)
+> +};
+> +
+>  static void uvc_fixup_video_ctrl(struct uvc_streaming *stream,
+>  	struct uvc_streaming_control *ctrl)
+>  {
+> -	static const struct usb_device_id elgato_cam_link_4k = {
+> -		USB_DEVICE(0x0fd9, 0x0066)
+> -	};
+>  	struct uvc_format *format = NULL;
+>  	struct uvc_frame *frame = NULL;
+>  	unsigned int i;
+> @@ -297,7 +298,7 @@ static int uvc_get_video_ctrl(struct uvc_streaming *stream,
+>  		dev_err(&stream->intf->dev,
+>  			"Failed to query (%u) UVC %s control : %d (exp. %u).\n",
+>  			query, probe ? "probe" : "commit", ret, size);
+> -		ret = -EIO;
+> +		ret = (ret == -EPROTO) ? -EPROTO : -EIO;
+>  		goto out;
+>  	}
 >  
->  	pad = media_pad_remote_pad_first(&csi2->pads[CSI2_PAD_SINK]);
+> @@ -2121,6 +2122,21 @@ int uvc_video_init(struct uvc_streaming *stream)
+>  	 * request on the probe control, as required by the UVC specification.
+>  	 */
+>  	ret = uvc_get_video_ctrl(stream, probe, 1, UVC_GET_CUR);
 > +
-> +	if (!pad)
-> +		return -EINVAL;
-
-Same here, what makes you think this is possible ?
-
+> +	/*
+> +	 * Elgato Cam Link 4k can be in a stalled state if the resolution of
+> +	 * the external source has changed while the firmware initializes.
+> +	 * Once in this state, the device is useless until it receives a
+> +	 * USB reset. It has even been observed that the stalled state will
+> +	 * continue even after unplugging the device.
+> +	 */
+> +	if (ret == -EPROTO &&
+> +	    usb_match_one_id(stream->dev->intf, &elgato_cam_link_4k)) {
+> +		dev_err(&stream->intf->dev, "Elgato Cam Link 4K firmware crash detected\n");
+> +		dev_err(&stream->intf->dev, "Resetting the device, unplug and replug to recover\n");
+> +		usb_reset_device(stream->dev->udev);
+> +	}
 > +
->  	sensor = media_entity_to_v4l2_subdev(pad->entity);
->  	pdata = sensor->host_priv;
+>  	if (ret < 0)
+>  		return ret;
 >  
 > 
+> ---
+> base-commit: 521a547ced6477c54b4b0cc206000406c221b4d6
+> change-id: 20220920-resend-elgato-a845482bdd02
 
 -- 
 Regards,
