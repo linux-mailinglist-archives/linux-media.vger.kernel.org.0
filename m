@@ -2,47 +2,47 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F0EF965889D
-	for <lists+linux-media@lfdr.de>; Thu, 29 Dec 2022 03:26:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9156C6588A7
+	for <lists+linux-media@lfdr.de>; Thu, 29 Dec 2022 03:31:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231183AbiL2C0D (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 28 Dec 2022 21:26:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48396 "EHLO
+        id S232838AbiL2Cbq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 28 Dec 2022 21:31:46 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50646 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230050AbiL2C0C (ORCPT
+        with ESMTP id S230078AbiL2Cbo (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 28 Dec 2022 21:26:02 -0500
+        Wed, 28 Dec 2022 21:31:44 -0500
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3867212084;
-        Wed, 28 Dec 2022 18:26:01 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6101813D47;
+        Wed, 28 Dec 2022 18:31:43 -0800 (PST)
 Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 991E3109;
-        Thu, 29 Dec 2022 03:25:59 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id C8B3D109;
+        Thu, 29 Dec 2022 03:31:41 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1672280759;
-        bh=XTqSHYRuQBdAXTVZrTC7Vc59CCgx05BlnkgUtqb6mwU=;
+        s=mail; t=1672281102;
+        bh=dH8oWD18PnHqBJzdW67bOpes0o1O+bRiZKBgAZ4gzJw=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=vXMUGhPCpN4DAw/XzpO47FFatkw9u4o2LS9AhOWP7Mb3kLAskhiRDSHdoIk7WmQZW
-         /H+hT2QXVCLsYVJz3TonUyBYbBH2Lazz9yX3MSXte7AOzX21KGE/6b8yLh8nmrR4v5
-         YWcGbscjip3T++HgQZWbJVtPIgK8vJi6OR3036iw=
-Date:   Thu, 29 Dec 2022 04:25:55 +0200
+        b=rsTS9aEBpL2yHQtmZeLWgqFxYM+F8pvNzSUgbFdmf0M/mEZJo9NMjlIccPiKN4nL2
+         ILMkomfv/+64WoOYEkVqt8OKrbN41rYNQXLbnUOkeFLHd5DgaxePs76m3OIcYR97Iw
+         oE3vZAIs0ulPkjUkWcoGwDDK/BOAu7BBTeadpuyc=
+Date:   Thu, 29 Dec 2022 04:31:37 +0200
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Ricardo Ribalda <ribalda@chromium.org>
 Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Sergey Senozhatsky <senozhatsky@chromium.org>,
         linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-Subject: Re: [PATCH RESEND v2 1/2] media: uvcvideo: Limit power line control
- for Acer EasyCamera
-Message-ID: <Y6z6swFLQuS2z2oq@pendragon.ideasonboard.com>
+Subject: Re: [PATCH RESEND v2 2/2] media: uvcvideo: Limit power line control
+ for Lenovo Integrated Camera
+Message-ID: <Y6z8Cc9LWa3Nyin3@pendragon.ideasonboard.com>
 References: <20221101-easycam-v2-0-ffe3e3a152df@chromium.org>
- <20221101-easycam-v2-1-ffe3e3a152df@chromium.org>
+ <20221101-easycam-v2-2-ffe3e3a152df@chromium.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20221101-easycam-v2-1-ffe3e3a152df@chromium.org>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <20221101-easycam-v2-2-ffe3e3a152df@chromium.org>
+X-Spam-Status: No, score=-0.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        SUBJECT_DRUG_GAP_L autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -53,60 +53,94 @@ Hi Ricardo,
 
 Thank you for the patch.
 
-On Fri, Dec 02, 2022 at 05:45:06PM +0100, Ricardo Ribalda wrote:
+On Fri, Dec 02, 2022 at 05:45:07PM +0100, Ricardo Ribalda wrote:
 > The device does not implement the power line control correctly. Add a
 > corresponding control mapping override.
-> 
-> Bus 003 Device 002: ID 5986:1180 Acer, Inc EasyCamera
+
+Do I understand correctly that this device advertises UVC 1.5 support
+buth implements the power line frequency control as if it was a UVC 1.1
+device ? Could you record this in the commit message ?
+
+I wonder how all these cameras can pass the UVC conformance test suite.
+Either they don't even bother trying, or the test suite is useless.
+
+> Bus 003 Device 002: ID 30c9:0093 Lenovo Integrated Camera
 > Device Descriptor:
 >   bLength                18
 >   bDescriptorType         1
->   bcdUSB               2.00
+>   bcdUSB               2.01
 >   bDeviceClass          239 Miscellaneous Device
 >   bDeviceSubClass         2
 >   bDeviceProtocol         1 Interface Association
 >   bMaxPacketSize0        64
->   idVendor           0x5986 Acer, Inc
->   idProduct          0x1180
->   bcdDevice           56.04
->   iManufacturer           3 Bison
->   iProduct                1 EasyCamera
->   iSerial                 2
+>   idVendor           0x30c9
+>   idProduct          0x0093
+>   bcdDevice            0.07
+>   iManufacturer           3 Lenovo
+>   iProduct                1 Integrated Camera
+>   iSerial                 2 8SSC21J75356V1SR2830069
 >   bNumConfigurations      1
-
-If you have the full descriptors for this device, could you send them to
-me ?
-
+> 
 > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> Reviewed-by: Sergey Senozhatsky <senozhatsky@chromium.org>
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
 > ---
->  drivers/media/usb/uvc/uvc_driver.c | 9 +++++++++
->  1 file changed, 9 insertions(+)
+>  drivers/media/usb/uvc/uvc_driver.c | 33 +++++++++++++++++++++++++++++++++
+>  1 file changed, 33 insertions(+)
 > 
 > diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-> index 215fb483efb0..cca3012c8912 100644
+> index cca3012c8912..e0bb21f2e133 100644
 > --- a/drivers/media/usb/uvc/uvc_driver.c
 > +++ b/drivers/media/usb/uvc/uvc_driver.c
-> @@ -2994,6 +2994,15 @@ static const struct usb_device_id uvc_ids[] = {
+> @@ -2373,6 +2373,30 @@ MODULE_PARM_DESC(timeout, "Streaming control requests timeout");
+>   * Driver initialization and cleanup
+>   */
+>  
+> +static const struct uvc_menu_info power_line_frequency_controls_uvc11[] = {
+> +	{ 0, "Disabled" },
+> +	{ 1, "50 Hz" },
+> +	{ 2, "60 Hz" },
+> +};
+> +
+> +static const struct uvc_control_mapping uvc_ctrl_power_line_mapping_uvc11 = {
+> +	.id		= V4L2_CID_POWER_LINE_FREQUENCY,
+> +	.entity		= UVC_GUID_UVC_PROCESSING,
+> +	.selector	= UVC_PU_POWER_LINE_FREQUENCY_CONTROL,
+> +	.size		= 2,
+> +	.offset		= 0,
+> +	.v4l2_type	= V4L2_CTRL_TYPE_MENU,
+> +	.data_type	= UVC_CTRL_DATA_TYPE_ENUM,
+> +	.menu_info	= power_line_frequency_controls_uvc11,
+> +	.menu_count	= ARRAY_SIZE(power_line_frequency_controls_uvc11),
+> +};
+
+It would be nice to avoid duplicating the data, do you think we could
+reference uvc_ctrl_mappings_uvc11 from uvc_ctrl.c instead ?
+
+> +
+> +static const struct uvc_device_info uvc_ctrl_power_line_uvc11 = {
+> +	.mappings = (const struct uvc_control_mapping *[]) {
+> +		&uvc_ctrl_power_line_mapping_uvc11,
+> +		NULL, /* Sentinel */
+> +	},
+> +};
+>  static const struct uvc_menu_info power_line_frequency_controls_limited[] = {
+>  	{ 1, "50 Hz" },
+>  	{ 2, "60 Hz" },
+> @@ -2976,6 +3000,15 @@ static const struct usb_device_id uvc_ids[] = {
 >  	  .bInterfaceSubClass	= 1,
 >  	  .bInterfaceProtocol	= 0,
->  	  .driver_info		= (kernel_ulong_t)&uvc_ctrl_power_line_limited },
-> +	/* Acer EasyCamera */
+>  	  .driver_info		= UVC_INFO_QUIRK(UVC_QUIRK_FORCE_BPP) },
+> +	/* Lenovo Integrated Camera */
 > +	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
 > +				| USB_DEVICE_ID_MATCH_INT_INFO,
-> +	  .idVendor		= 0x5986,
-> +	  .idProduct		= 0x1180,
+> +	  .idVendor		= 0x30c9,
+> +	  .idProduct		= 0x0093,
 > +	  .bInterfaceClass	= USB_CLASS_VIDEO,
 > +	  .bInterfaceSubClass	= 1,
-> +	  .bInterfaceProtocol	= 0,
-> +	  .driver_info		= (kernel_ulong_t)&uvc_ctrl_power_line_limited },
->  	/* Intel RealSense D4M */
+> +	  .bInterfaceProtocol	= UVC_PC_PROTOCOL_15,
+> +	  .driver_info		= (kernel_ulong_t)&uvc_ctrl_power_line_uvc11 },
+>  	/* Sonix Technology USB 2.0 Camera */
 >  	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
 >  				| USB_DEVICE_ID_MATCH_INT_INFO,
-> 
 
 -- 
 Regards,
