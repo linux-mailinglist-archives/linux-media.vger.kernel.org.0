@@ -2,48 +2,33 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7F16F658926
-	for <lists+linux-media@lfdr.de>; Thu, 29 Dec 2022 04:28:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A3BD5658966
+	for <lists+linux-media@lfdr.de>; Thu, 29 Dec 2022 05:25:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230327AbiL2D2j (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 28 Dec 2022 22:28:39 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35254 "EHLO
+        id S232875AbiL2EZy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 28 Dec 2022 23:25:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47466 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230050AbiL2D2i (ORCPT
+        with ESMTP id S232868AbiL2EZu (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 28 Dec 2022 22:28:38 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B53A113D59;
-        Wed, 28 Dec 2022 19:28:37 -0800 (PST)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1AF0B109;
-        Thu, 29 Dec 2022 04:28:36 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1672284516;
-        bh=IdUNGMBGY8cIigGTuFXoxeut6tWYUHexeWDammMcYhc=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=fC0EiT6hRTDtsbUvO9eiN9Eg2f0+rzvE+Vnra9L85atHg51pqnnoownETLqeCQW6w
-         9VRHXUXLVR/st5bybsLo0OHQzNnvkItIwjMRrSvWtLJ7QZ1IhAUA3BFpBWsxVqjbxR
-         kFcvTfRLSGixLsN7TQTY647bMZ/1wannkN2nbvCY=
-Date:   Thu, 29 Dec 2022 05:28:32 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Ricardo Ribalda <ribalda@chromium.org>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Hans Verkuil <hans.verkuil@cisco.com>
-Subject: Re: [PATCH RESEND v2 4/7] media: uvcvideo: Do not return positive
- errors in uvc_query_ctrl()
-Message-ID: <Y60JYIErl74yX6xO@pendragon.ideasonboard.com>
-References: <20220920-resend-v4l2-compliance-v2-0-b0ceb15353ac@chromium.org>
- <20220920-resend-v4l2-compliance-v2-4-b0ceb15353ac@chromium.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220920-resend-v4l2-compliance-v2-4-b0ceb15353ac@chromium.org>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        Wed, 28 Dec 2022 23:25:50 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3656F1E0
+        for <linux-media@vger.kernel.org>; Wed, 28 Dec 2022 20:25:44 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 2F7F4B81889
+        for <linux-media@vger.kernel.org>; Thu, 29 Dec 2022 04:25:43 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6CD3DC433D2
+        for <linux-media@vger.kernel.org>; Thu, 29 Dec 2022 04:25:41 +0000 (UTC)
+Date:   Thu, 29 Dec 2022 05:25:39 +0100
+Message-ID: <50072b271171a025bdaf659b24c5c03c.hverkuil@xs4all.nl>
+From:   "Hans Verkuil" <hverkuil-cisco@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -51,45 +36,61 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Ricardo,
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-Thank you for the patch.
+Results of the daily build of media_tree:
 
-On Fri, Dec 02, 2022 at 06:21:38PM +0100, Ricardo Ribalda wrote:
-> If the returned size of the query does not match the expected size or it
-> is zero, return -EPIPE instead of 0 or a positive value.
+date:			Thu Dec 29 03:00:12 CET 2022
+media-tree git hash:	6599e683db1bf22fee74302c47e31b9a42a1c3d2
+media_build git hash:	0fe857b86addf382f6fd383948bd7736a3201403
+v4l-utils git hash:	2a982f825cb772419a7fe122c277d461cef346f8
+edid-decode git hash:	e052f5f9fdf74ca11aa1a8edfa62eff8d0aa3d0d
+gcc version:		i686-linux-gcc (GCC) 12.2.0
+sparse repo:            git://git.kernel.org/pub/scm/devel/sparse/sparse.git
+sparse version:		v0.6.4-39-gce1a6720-dirty
+smatch repo:            git://repo.or.cz/smatch.git
+smatch version:		v0.5.0-8217-g40351132-dirty
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: dc83e185adb0d7fab1e388ade12feccc5c9d39f7
+host hardware:		x86_64
+host os:		6.0.0-5-amd64
 
-The commit message should explain why: this will avoid confusing the
-caller (and ultimately userspace) that doesn't expect a positive or zero
-value.
+linux-git-sh: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-powerpc64: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-mips: OK
+linux-git-arm64: OK
+linux-git-arm-multi: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+apps: OK
+spec-git: OK
+virtme: ERRORS: Final Summary: 3080, Succeeded: 3036, Failed: 44, Warnings: 3
+virtme-32: ERRORS: Final Summary: 3193, Succeeded: 3145, Failed: 48, Warnings: 2
+sparse: WARNINGS
+smatch: WARNINGS
+kerneldoc: OK
 
-> Suggested-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+Detailed results are available here:
 
-I'll update the commit message locally.
+https://hverkuil.home.xs4all.nl/logs/Thursday.log
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Detailed regression test results are available here:
 
-> ---
->  drivers/media/usb/uvc/uvc_video.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
-> index 497073a50194..902f2817a743 100644
-> --- a/drivers/media/usb/uvc/uvc_video.c
-> +++ b/drivers/media/usb/uvc/uvc_video.c
-> @@ -83,7 +83,7 @@ int uvc_query_ctrl(struct uvc_device *dev, u8 query, u8 unit,
->  		dev_err(&dev->udev->dev,
->  			"Failed to query (%s) UVC control %u on unit %u: %d (exp. %u).\n",
->  			uvc_query_name(query), cs, unit, ret, size);
-> -		return ret;
-> +		return ret < 0 ? ret : -EPIPE;
->  	}
->  
->  	/* reuse data[0] to request the error code. */
-> 
+https://hverkuil.home.xs4all.nl/logs/Thursday-test-media.log
+https://hverkuil.home.xs4all.nl/logs/Thursday-test-media-32.log
+https://hverkuil.home.xs4all.nl/logs/Thursday-test-media-dmesg.log
 
--- 
-Regards,
+Full logs are available here:
 
-Laurent Pinchart
+https://hverkuil.home.xs4all.nl/logs/Thursday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+https://hverkuil.home.xs4all.nl/spec/index.html
