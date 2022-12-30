@@ -2,79 +2,196 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1BA80659649
-	for <lists+linux-media@lfdr.de>; Fri, 30 Dec 2022 09:25:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B9E39659682
+	for <lists+linux-media@lfdr.de>; Fri, 30 Dec 2022 10:03:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234802AbiL3IY7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 30 Dec 2022 03:24:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46622 "EHLO
+        id S234410AbiL3JD6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 30 Dec 2022 04:03:58 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53782 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234427AbiL3IY5 (ORCPT
+        with ESMTP id S229519AbiL3JD4 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 30 Dec 2022 03:24:57 -0500
-Received: from formenos.hmeau.com (helcar.hmeau.com [216.24.177.18])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C931D101DA;
-        Fri, 30 Dec 2022 00:24:55 -0800 (PST)
-Received: from loth.rohan.me.apana.org.au ([192.168.167.2])
-        by formenos.hmeau.com with smtp (Exim 4.94.2 #2 (Debian))
-        id 1pBAh4-00CHKd-2Z; Fri, 30 Dec 2022 16:24:47 +0800
-Received: by loth.rohan.me.apana.org.au (sSMTP sendmail emulation); Fri, 30 Dec 2022 16:24:46 +0800
-Date:   Fri, 30 Dec 2022 16:24:46 +0800
-From:   Herbert Xu <herbert@gondor.apana.org.au>
-To:     Rijo Thomas <Rijo-john.Thomas@amd.com>
-Cc:     Jeremi Piotrowski <jpiotrowski@linux.microsoft.com>,
-        Tom Lendacky <thomas.lendacky@amd.com>,
-        John Allen <john.allen@amd.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-        linux-kernel@vger.kernel.org, linux-crypto@vger.kernel.org,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org,
-        Mythri PK <Mythri.Pandeshwarakrishna@amd.com>,
-        Jeshwanth <JESHWANTHKUMAR.NK@amd.com>,
-        Devaraj Rangasamy <Devaraj.Rangasamy@amd.com>,
-        stable@vger.kernel.org, Jens Wiklander <jens.wiklander@linaro.org>
-Subject: Re: [PATCH v2] crypto: ccp - Allocate TEE ring and cmd buffer using
- DMA APIs
-Message-ID: <Y66gTtjZf5ZT0lP0@gondor.apana.org.au>
-References: <651349f55060767a9a51316c966c1e5daa57a644.1670919979.git.Rijo-john.Thomas@amd.com>
- <20221215132917.GA11061@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
- <5771ea99-eef7-7321-dd67-4c42c0cbb721@amd.com>
+        Fri, 30 Dec 2022 04:03:56 -0500
+Received: from lelv0142.ext.ti.com (lelv0142.ext.ti.com [198.47.23.249])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9067F12614
+        for <linux-media@vger.kernel.org>; Fri, 30 Dec 2022 01:03:54 -0800 (PST)
+Received: from fllv0034.itg.ti.com ([10.64.40.246])
+        by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 2BU93ksK051314;
+        Fri, 30 Dec 2022 03:03:46 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1672391026;
+        bh=j/EnSPlWYWh/+NoPBWrYS58mV1HiFQSdhmgy5ksfn8M=;
+        h=Date:Subject:To:CC:References:From:In-Reply-To;
+        b=wQr3iE+vFqORllNDkt64hB5el0RuQUBxXzzmDmF4nwjgt0mw6y+xwwBda5I6f7JU+
+         1uzh9eLVuOaIsNzRQesIDllX2EiCqCekY1wCgu4QZTW5RI1MUFGXINWNzVJWAAREU3
+         8LI3h7yVz5C0zcANnoXwjFmobjR4vr6KT/86vB/Y=
+Received: from DLEE104.ent.ti.com (dlee104.ent.ti.com [157.170.170.34])
+        by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 2BU93kBQ028615
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Fri, 30 Dec 2022 03:03:46 -0600
+Received: from DLEE107.ent.ti.com (157.170.170.37) by DLEE104.ent.ti.com
+ (157.170.170.34) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.16; Fri, 30
+ Dec 2022 03:03:46 -0600
+Received: from fllv0039.itg.ti.com (10.64.41.19) by DLEE107.ent.ti.com
+ (157.170.170.37) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.16 via
+ Frontend Transport; Fri, 30 Dec 2022 03:03:46 -0600
+Received: from [10.250.234.252] (ileaxei01-snat.itg.ti.com [10.180.69.5])
+        by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 2BU93grS096928;
+        Fri, 30 Dec 2022 03:03:43 -0600
+Message-ID: <0a4f4d74-3f9e-2305-b627-5ce3bd3d1d22@ti.com>
+Date:   Fri, 30 Dec 2022 14:33:41 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <5771ea99-eef7-7321-dd67-4c42c0cbb721@amd.com>
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH v3 2/3] media: ov5640: Fix soft reset sequence and timings
+Content-Language: en-US
+To:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+CC:     Steve Longerbeam <slongerbeam@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        <linux-media@vger.kernel.org>, Nishanth Menon <nm@ti.com>
+References: <20221227173634.5752-1-j-luthra@ti.com>
+ <20221227173634.5752-3-j-luthra@ti.com>
+ <20221229180748.xjb2cpiehzlvbv7f@uno.localdomain>
+From:   "Luthra, Jai" <j-luthra@ti.com>
+In-Reply-To: <20221229180748.xjb2cpiehzlvbv7f@uno.localdomain>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+X-Spam-Status: No, score=-5.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Dec 23, 2022 at 05:45:24PM +0530, Rijo Thomas wrote:
->
-> > dma_alloc_coherent memory is just as contiguous as __get_free_pages, and
-> > calling dma_alloc_coherent from a guest does not guarantee that the memory is
-> > contiguous in host memory either. The memory would look contiguous from the
-> > device point of view thanks to the IOMMU though (in both cases). So this is not
-> > about being contiguous but other properties that you might rely on (dma mask
-> > most likely, or coherent if you're not running this on x86?).
-> > 
-> > Can you confirm why this fixes things and update the comment to reflect that.
-> 
-> I see what you are saying.
-> 
-> We verified this in Xen Dom0 PV guest, where dma_alloc_coherent() returned a memory
-> that is contiguous in machine address space, and the machine address was returned
-> in the dma handle (buf->dma).
+Hi Jacopo,
 
-So is this even relevant to the mainstream kernel or is this patch
-only needed for Xen Dom0?
+Thank you for the comments.
+
+On 29/12/22 23:37, Jacopo Mondi wrote:
+> Hi Jai
+> 
+> On Tue, Dec 27, 2022 at 11:06:33PM +0530, Jai Luthra wrote:
+>> Move the register-based reset out of the init_setting[] and into the
+>> powerup_sequence function. The sensor is power cycled and reset using
+>> the gpio pins so the soft reset is not always necessary.
+>>
+>> This also ensures that soft reset honors the timing sequence
+>> from the datasheet [1].
+>>
+>> [1] https://cdn.sparkfun.com/datasheets/Sensors/LightImaging/OV5640_datasheet.pdf
+>>
+>> Fixes: 19a81c1426c1 ("[media] add Omnivision OV5640 sensor driver")
+>> Suggested-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+>> Signed-off-by: Jai Luthra <j-luthra@ti.com>
+>> ---
+>>   drivers/media/i2c/ov5640.c | 30 ++++++++++++++++++++----------
+>>   1 file changed, 20 insertions(+), 10 deletions(-)
+>>
+>> diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
+>> index e6525caa9b8c..5df16fb6f0a0 100644
+>> --- a/drivers/media/i2c/ov5640.c
+>> +++ b/drivers/media/i2c/ov5640.c
+>> @@ -50,6 +50,7 @@
+>>   #define OV5640_REG_SYS_CTRL0		0x3008
+>>   #define OV5640_REG_SYS_CTRL0_SW_PWDN	0x42
+>>   #define OV5640_REG_SYS_CTRL0_SW_PWUP	0x02
+>> +#define OV5640_REG_SYS_CTRL0_SW_RST	0x82
+>>   #define OV5640_REG_CHIP_ID		0x300a
+>>   #define OV5640_REG_IO_MIPI_CTRL00	0x300e
+>>   #define OV5640_REG_PAD_OUTPUT_ENABLE01	0x3017
+>> @@ -532,7 +533,7 @@ static const struct v4l2_mbus_framefmt ov5640_default_fmt = {
+>>   };
+>>
+>>   static const struct reg_value ov5640_init_setting[] = {
+>> -	{0x3103, 0x11, 0, 0}, {0x3008, 0x82, 0, 5}, {0x3008, 0x42, 0, 0},
+>> +	{0x3103, 0x11, 0, 0}, {0x3008, 0x42, 0, 0},
+> 
+> have you tried removing the second entry
+>          {0x3008, 0x42, 0, 0},
+> 
+> as well ?
+> 
+> The SW_PWDN state allows programming registers (how can you exit with
+> SW_PWUP otherwise?), so it's probably right to have it there.
+
+Yes, I initially removed it from here and kept it in the 
+powerup_sequence() but logic to set SW_PWDN became in that function 
+became a bit complicated:
+
+When we are using HW pins, we want to wait 20ms after de-asserting RESET 
+before doing any SCCB register writes. But when we are using SW reset, 
+we were using this register write to de-assert RESET, and then wait 20ms.
+
+I found it cleaner to just keep it here where the registers are being 
+programmed for both the cases. But I don't have a strong opinion either way.
+
+> 
+> 
+> 
+>>   	{0x3103, 0x03, 0, 0}, {0x3630, 0x36, 0, 0},
+>>   	{0x3631, 0x0e, 0, 0}, {0x3632, 0xe2, 0, 0}, {0x3633, 0x12, 0, 0},
+>>   	{0x3621, 0xe0, 0, 0}, {0x3704, 0xa0, 0, 0}, {0x3703, 0x5a, 0, 0},
+>> @@ -2440,18 +2441,27 @@ static void ov5640_power(struct ov5640_dev *sensor, bool enable)
+>>    */
+>>   static void ov5640_powerup_sequence(struct ov5640_dev *sensor)
+>>   {
+>> -	gpiod_set_value_cansleep(sensor->reset_gpio, 0);
+>> +	if (sensor->pwdn_gpio) {
+>> +		gpiod_set_value_cansleep(sensor->reset_gpio, 0);
+>>
+>> -	/* camera power cycle */
+>> -	ov5640_power(sensor, false);
+>> -	usleep_range(5000, 10000);
+>> -	ov5640_power(sensor, true);
+>> -	usleep_range(5000, 10000);
+>> +		/* camera power cycle */
+>> +		ov5640_power(sensor, false);
+>> +		usleep_range(5000, 10000);
+>> +		ov5640_power(sensor, true);
+>> +		usleep_range(5000, 10000);
+>>
+>> -	gpiod_set_value_cansleep(sensor->reset_gpio, 1);
+>> -	usleep_range(1000, 2000);
+>> +		gpiod_set_value_cansleep(sensor->reset_gpio, 1);
+>> +		usleep_range(1000, 2000);
+>>
+>> -	gpiod_set_value_cansleep(sensor->reset_gpio, 0);
+>> +		gpiod_set_value_cansleep(sensor->reset_gpio, 0);
+>> +	} else {
+>> +		/* software reset */
+>> +		ov5640_write_reg(sensor, OV5640_REG_SYS_CTRL0,
+>> +				 OV5640_REG_SYS_CTRL0_SW_RST);
+>> +		usleep_range(5000, 10000);
+>> +		ov5640_write_reg(sensor, OV5640_REG_SYS_CTRL0,
+>> +				 OV5640_REG_SYS_CTRL0_SW_PWUP);
+> 
+> But now I wonder if this last PWUP is necessary, since init_settings[]
+> (which programs PWDN) is programmed immediately after.
+
+Using the PWUP (0x02) as a way to de-assert RST (0x42) here, and not as 
+an actual PWUP per se.
+
+> 
+> 
+>> +	}
+>>   	usleep_range(20000, 25000);
+
+Now that I think of it, we can move the PWDN from the register table to 
+here, after this sleep - and keep the (0x02) above to de-assert reset. 
+Let me know your thoughts.
+
+>>   }
+>>
+>> --
+>> 2.17.1
+>>
 
 Thanks,
--- 
-Email: Herbert Xu <herbert@gondor.apana.org.au>
-Home Page: http://gondor.apana.org.au/~herbert/
-PGP Key: http://gondor.apana.org.au/~herbert/pubkey.txt
+Jai
