@@ -2,108 +2,91 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CCA55659266
-	for <lists+linux-media@lfdr.de>; Thu, 29 Dec 2022 23:13:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 05CF4659475
+	for <lists+linux-media@lfdr.de>; Fri, 30 Dec 2022 04:46:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234001AbiL2WNc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 29 Dec 2022 17:13:32 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52454 "EHLO
+        id S234327AbiL3Dqn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 29 Dec 2022 22:46:43 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32906 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233866AbiL2WN2 (ORCPT
+        with ESMTP id S229655AbiL3Dql (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 29 Dec 2022 17:13:28 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 95486F24;
-        Thu, 29 Dec 2022 14:13:26 -0800 (PST)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 148EB283;
-        Thu, 29 Dec 2022 23:13:24 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1672352004;
-        bh=G+C0Y4D8jXrYSM4UkJuyTvJmgZ4ZwyhxuWpB4DOX70o=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=utnUdHhYswEMsfYom1MOSzmMwkBMsGM5ctenMnZGsMT0OBdgJ4vEwnLcab3vA9ftC
-         bOaLVPTgGien2lxCLs5Q/nPRWFy/1ZXfRLi7wqEHq927pONseelYPlZoMoZL9ottOc
-         nPMHtJbQWnDNKAFLMIcJfnUbmpzEaeRL4zR6vf9Q=
-Date:   Fri, 30 Dec 2022 00:13:19 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Ricardo Ribalda <ribalda@chromium.org>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Hans Verkuil <hans.verkuil@cisco.com>
-Subject: Re: [PATCH RESEND v2 0/7] Follow-up patches for uvc v4l2-compliance
-Message-ID: <Y64Q/yRRzxt8IByG@pendragon.ideasonboard.com>
-References: <20220920-resend-v4l2-compliance-v2-0-b0ceb15353ac@chromium.org>
+        Thu, 29 Dec 2022 22:46:41 -0500
+Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A762315F3F;
+        Thu, 29 Dec 2022 19:46:40 -0800 (PST)
+Received: by mail-pj1-x1036.google.com with SMTP id hd14-20020a17090b458e00b0021909875bccso19821847pjb.1;
+        Thu, 29 Dec 2022 19:46:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=dcbgyVzX1AakNIfgCknQO6z8uXwqIr1k4tKwKLcxd00=;
+        b=pklG5H0ujIMSGHPrz5f392GnfLVvCavb7UnXgXbwxCvoCoRB9M7LQ+ES2Uq5cO40QW
+         zxL49m/i9o26O22wk3cLsKrZtQEBGbR4AOeHk+rNMlSJscboK0iJWsV2akNj/1K75eBP
+         AJYtLFvQusmaSaVMrKPu7x6GxpGwiE4F5zDwakOE5z+Vc2E6hJNcNsMOw4zF7qjtRoTe
+         juf7/PEgy0OWcCbJrZKT9MRiJh+SwUtiu8dzNC51PvCQlB4ihqxzHkzb68hZtB+8d0oD
+         lvRT4cK2RbmhtcH58dQrt8WFWujJV1KwwhzYdy3r6qoh7Tsf9dvVogJ3ANaDXQK/zFbJ
+         f+Eg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=dcbgyVzX1AakNIfgCknQO6z8uXwqIr1k4tKwKLcxd00=;
+        b=qbkWACpG3aNCTZuxI1bvavv16qoPYU/1odC/Qk6lDoXd0CMa3jAQp7l9t6ANoI4PKC
+         qZeobii+AP4Hk5NsPkazcbt6lTH6Uqkd1zopA3J9OIMxI4SG6AvZHYZShTcYX9/JSomk
+         lCemvnTtcY+HQ7Y3mTHiyUEMVS6lOFqGStOouFBGTjSf4afGqp3hRdpDgqxF7sjy3OhQ
+         5E4kV69bC1JZJ+IhtldFdD5xSaUOwSdRlIYsqXbeuDR30xuO135znnih7GIIgU5/OeHS
+         hObmS4R2BWWN2+uL2gcZa1kpLZIAVP1EyafoQMrHYN0JpR0FVHI2eeqpWspsrTXYLF1f
+         MZxw==
+X-Gm-Message-State: AFqh2ko4ZDJAp6D8ZAGEE/q0Scy04MLeCYWXSERngmuV0N/W0/1fBomw
+        WG/YrRRFRAjPJbwDnxo13No=
+X-Google-Smtp-Source: AMrXdXt7HWhsGwuJumx9XdAE72UEwfwkFyMbG+KQoBy7NyVAfV4fylX7Prt/foKQDOE6URRX3FUMaw==
+X-Received: by 2002:a05:6a21:3d13:b0:ae:7f1d:1912 with SMTP id bi19-20020a056a213d1300b000ae7f1d1912mr43866177pzc.38.1672372000164;
+        Thu, 29 Dec 2022 19:46:40 -0800 (PST)
+Received: from xiaxiShen-ThinkPad.. (c-65-50-153-147.hs.gigamonster.net. [65.50.153.147])
+        by smtp.gmail.com with ESMTPSA id r25-20020aa79639000000b00574ab0e053bsm5777161pfg.187.2022.12.29.19.46.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 29 Dec 2022 19:46:39 -0800 (PST)
+From:   XiaxiShen <shenxiaxi26@gmail.com>
+To:     laurent.pinchart@ideasonboard.com, mchehab@kernel.org
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        XiaxiShen <shenxiaxi26@gmail.com>
+Subject: [PATCH] pr_info("I changed uvcvideo driver in the Linux Kernel\n");
+Date:   Thu, 29 Dec 2022 19:46:34 -0800
+Message-Id: <20221230034634.7809-1-shenxiaxi26@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220920-resend-v4l2-compliance-v2-0-b0ceb15353ac@chromium.org>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Ricardo,
+Signed-off-by: XiaxiShen <shenxiaxi26@gmail.com>
+---
+ drivers/media/usb/uvc/uvc_driver.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-On Fri, Dec 02, 2022 at 06:21:34PM +0100, Ricardo Ribalda wrote:
-> This patchset contains the fixes for the comments on "v10 of Fix
-> v4l2-compliance errors series". In particular to the patches
-> 
-> -uvcvideo: uvc_ctrl_is_accessible: check for INACTIVE
-> -uvcvideo: improve error handling in uvc_query_ctrl()
-> 
-> And the patch:
-> -uvcvideo: Fix handling on Bitmask controls
-
-Patches 1/7, 3/7, 4/7 and 6/7 are fine (possibly with changes mentioned
-in my review comments that I can handle when applying). I can apply them
-to my tree already (with a minor conflict resolution between 2/7 and
-3/7), but it may be easier for you to send a v3 of the whole series.
-Please let me know what you'd prefer.
-
-> To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> To: Mauro Carvalho Chehab <mchehab@kernel.org>
-> Cc: linux-media@vger.kernel.org
-> Cc: linux-kernel@vger.kernel.org
-> Cc: Hans Verkuil <hans.verkuil@cisco.com>
-> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> 
-> ---
-> Changes in v2:
-> - Include "Get menu names from framework series"
->   https://lore.kernel.org/r/20220920-standard-menues-v2-0-a35af3243c2f@chromium.org
-> - Link to v1: https://lore.kernel.org/r/20220920-resend-v4l2-compliance-v1-0-81364c15229b@chromium.org
-> 
-> ---
-> Hans Verkuil (2):
->       media: uvcvideo: uvc_ctrl_is_accessible: check for INACTIVE
->       media: uvcvideo: improve error logging in uvc_query_ctrl()
-> 
-> Ricardo Ribalda (5):
->       media: uvcvideo: Return -EACCES for Wrong state error
->       media: uvcvideo: Do not return positive errors in uvc_query_ctrl()
->       media: uvcvideo: Fix handling on Bitmask controls
->       media: uvcvideo: Implement mask for V4L2_CTRL_TYPE_MENU
->       media: uvcvideo: Use standard names for menus
-> 
->  drivers/media/usb/uvc/uvc_ctrl.c   | 230 ++++++++++++++++++++++++++++---------
->  drivers/media/usb/uvc/uvc_driver.c |   9 +-
->  drivers/media/usb/uvc/uvc_v4l2.c   |  85 ++++++++++----
->  drivers/media/usb/uvc/uvc_video.c  |  15 +--
->  drivers/media/usb/uvc/uvcvideo.h   |   8 +-
->  include/uapi/linux/uvcvideo.h      |   3 +-
->  6 files changed, 258 insertions(+), 92 deletions(-)
-> ---
-> base-commit: 521a547ced6477c54b4b0cc206000406c221b4d6
-> change-id: 20220920-resend-v4l2-compliance-4fdbe4fbd7b5
-
+diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+index e4bcb5011360..60778a5a2b4e 100644
+--- a/drivers/media/usb/uvc/uvc_driver.c
++++ b/drivers/media/usb/uvc/uvc_driver.c
+@@ -2082,6 +2082,8 @@ static int uvc_probe(struct usb_interface *intf,
+ 		(const struct uvc_device_info *)id->driver_info;
+ 	int function;
+ 	int ret;
++	pr_info("I changed uvcvideo driver in the Linux Kernel\n");
++
+ 
+ 	/* Allocate memory for the device and initialize it. */
+ 	dev = kzalloc(sizeof(*dev), GFP_KERNEL);
 -- 
-Regards,
+2.34.1
 
-Laurent Pinchart
