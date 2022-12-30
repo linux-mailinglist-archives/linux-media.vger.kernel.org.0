@@ -2,81 +2,72 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B7238659C39
-	for <lists+linux-media@lfdr.de>; Fri, 30 Dec 2022 21:39:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 830C7659771
+	for <lists+linux-media@lfdr.de>; Fri, 30 Dec 2022 11:50:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235474AbiL3Ujh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 30 Dec 2022 15:39:37 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59498 "EHLO
+        id S230434AbiL3KuM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 30 Dec 2022 05:50:12 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56772 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235329AbiL3Uj1 (ORCPT
+        with ESMTP id S229924AbiL3KuM (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 30 Dec 2022 15:39:27 -0500
-X-Greylist: delayed 20175 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 30 Dec 2022 12:39:25 PST
-Received: from mail.vacuumatic.cc (vacuumatic.cc [163.123.140.34])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A2CECD9;
-        Fri, 30 Dec 2022 12:39:25 -0800 (PST)
-Received: from localhost (localhost [127.0.0.1])
-        by mail.vacuumatic.cc (Postfix) with ESMTP id 2980C70E1E10;
-        Fri, 30 Dec 2022 05:10:13 -0500 (EST)
-Received: from mail.vacuumatic.cc ([127.0.0.1])
-        by localhost (mail.vacuumatic.cc [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id CwMzyfTDikvJ; Fri, 30 Dec 2022 05:10:11 -0500 (EST)
-Received: from localhost (localhost [127.0.0.1])
-        by mail.vacuumatic.cc (Postfix) with ESMTP id E3E3570E1E17;
-        Fri, 30 Dec 2022 05:10:05 -0500 (EST)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.vacuumatic.cc E3E3570E1E17
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vacuumatic.cc;
-        s=BD5E5048-7767-11ED-9AB1-AEF27DAD29AF; t=1672395006;
-        bh=8OSRQtZ/XGMt0m+/MV768q5oZkUB/T254Ol9zod/hVE=;
-        h=Date:From:Message-ID:MIME-Version;
-        b=oB017uJM3+VILepDVCRHqbBAxlNXvfFNju4QVc0p3VUhVHhYs4DgNfLDW9wz1lU46
-         4LWvcI5Awkb/hOzV1UgLqeDN0zRIp52gDKoo2R56wNemOOP++kCUyb+LReDz9kz0zK
-         mNCXcATQ2SymudADNCITJFseZyWRbXACBVwjCTIstpKFy+Q93NDCbFJX0ZZ/Jgrchi
-         f7UbK64NokFfXnjhWY684sMSS2ON3oE68SPMv1lcx7npNSiGe4+ekt9Y7sIS4nzz2/
-         fhtX+gTaQo6W1cQFj+jA4uw6d2lCDziIaWDuWF7XsaedWUmUrC0v7Mbl50/YLrvj47
-         11lF+1Ok3fjeQ==
-X-Virus-Scanned: amavisd-new at vacuumatic.cc
-Received: from mail.vacuumatic.cc ([127.0.0.1])
-        by localhost (mail.vacuumatic.cc [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id dQge5yDQT0pW; Fri, 30 Dec 2022 05:10:05 -0500 (EST)
-Received: from mail.vacuumatic.cc (mail.vacuumatic.cc [163.123.140.34])
-        by mail.vacuumatic.cc (Postfix) with ESMTP id 82A4E70EDE27;
-        Fri, 30 Dec 2022 05:09:57 -0500 (EST)
-Date:   Fri, 30 Dec 2022 05:09:57 -0500 (EST)
-From:   Lukas Reinhardt <support@vacuumatic.cc>
-Reply-To: Lukas Reinhardt <lukreinhard1@vivaldi.net>
-Message-ID: <1565539681.269587.1672394997473.JavaMail.zimbra@vacuumatic.cc>
-In-Reply-To: <1397014707.241670.1672348232055.JavaMail.zimbra@vacuumatic.cc>
-References: <1397014707.241670.1672348232055.JavaMail.zimbra@vacuumatic.cc>
-Subject: 3% IR Loan Offer
+        Fri, 30 Dec 2022 05:50:12 -0500
+X-Greylist: delayed 322 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 30 Dec 2022 02:50:11 PST
+Received: from gofer.mess.org (gofer.mess.org [IPv6:2a02:8011:d000:212::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3206D1A06D
+        for <linux-media@vger.kernel.org>; Fri, 30 Dec 2022 02:50:10 -0800 (PST)
+Received: by gofer.mess.org (Postfix, from userid 1000)
+        id 9A20710005E; Fri, 30 Dec 2022 10:44:44 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
+        t=1672397084; bh=5lBSF3ReS/fIxoeacRlOTVYo7hn5qGU77wTIOtPVUE0=;
+        h=Date:From:To:Subject:From;
+        b=I28bU6rSuaR9UClDOpn8+pJi9NgUFKS66PTBvq+cJ75NY2DSwSJZj1hpW+Hx3XXmw
+         UO2Se71wUrjFAme51hrTLsKk6C7gElKp7YY8WTE87cEPdEwos5ZHRfhiPXE89EP3Dd
+         XioxJi76QzQgSBIvgapA/Axd4FX9QXeUrWz7Zcrjdg5RiQC1qtumkRmA8PvmqkLzL5
+         dn+GZ/467pmv17/qC7gXTy3LHmldah6mMjQJyjDgFyjd4akg9m+IcRExwPGswEuEeB
+         1jPuR6qSK+G9I3gtgGVIh0CSRXPnSKMEYExl7l4dbAI+WjQalCjC4ZooA7fXvAr7OZ
+         wDU5WSNyxboMQ==
+Date:   Fri, 30 Dec 2022 10:44:44 +0000
+From:   Sean Young <sean@mess.org>
+To:     linux-media@vger.kernel.org
+Subject: [GIT PULL FOR v6.3] RC fixes
+Message-ID: <Y67BHLQFLve0XaqV@gofer.mess.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [163.123.140.34]
-X-Mailer: Zimbra 8.8.15_GA_4484 (zclient/8.8.15_GA_4484)
-Thread-Topic: 3% IR Loan Offer
-Thread-Index: u96i7u0zPj8LOsjj2ctwnSi+vmZef3ojmbos
-X-Spam-Status: No, score=4.5 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MISSING_HEADERS,
-        RCVD_IN_MSPIKE_H2,RCVD_IN_VALIDITY_RPBL,REPLYTO_WITHOUT_TO_CC,
-        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Level: ****
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
-To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello,
+The following changes since commit 6599e683db1bf22fee74302c47e31b9a42a1c3d2:
 
-We are a Kuwait Based Investment company offering corporate and personal loans at 3% interest rate for the duration of 10 years. We also give 1% commission to brokers, who introduce project owners for finance or other opportunities.
+  Merge tag 'v6.2-rc1' into media_tree (2022-12-28 16:07:44 +0000)
 
-Please get back to me if you are interested in more details.
+are available in the Git repository at:
 
+  git://linuxtv.org/syoung/media_tree.git tags/v6.3a
 
-Best Regards,
-Mr.Lukas Reinhardt
-Assistant Secretary
-General Global Financial Investment.
+for you to fetch changes up to c97681e2217576f44974c1eed189c69c0eda9da8:
+
+  media: rc/ir-rx51: Drop empty platform remove function (2022-12-30 09:25:52 +0000)
+
+----------------------------------------------------------------
+v6.3a
+
+----------------------------------------------------------------
+Jean Delvare (1):
+      media: rc: Drop obsolete dependencies on COMPILE_TEST
+
+Uwe Kleine-König (1):
+      media: rc/ir-rx51: Drop empty platform remove function
+
+ drivers/media/rc/Kconfig     | 4 ++--
+ drivers/media/rc/ir-rx51.c   | 6 ------
+ drivers/media/rc/pwm-ir-tx.c | 2 +-
+ 3 files changed, 3 insertions(+), 9 deletions(-)
