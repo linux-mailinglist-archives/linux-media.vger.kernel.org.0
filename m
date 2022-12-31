@@ -2,36 +2,36 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B43A265A697
-	for <lists+linux-media@lfdr.de>; Sat, 31 Dec 2022 21:05:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 39AC865A6B5
+	for <lists+linux-media@lfdr.de>; Sat, 31 Dec 2022 21:06:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235871AbiLaUFM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 31 Dec 2022 15:05:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33768 "EHLO
+        id S235885AbiLaUGB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 31 Dec 2022 15:06:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34066 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235870AbiLaUFG (ORCPT
+        with ESMTP id S235921AbiLaUFq (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 31 Dec 2022 15:05:06 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D71E7667;
-        Sat, 31 Dec 2022 12:05:04 -0800 (PST)
+        Sat, 31 Dec 2022 15:05:46 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E2BBB13;
+        Sat, 31 Dec 2022 12:05:44 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 30223B80915;
-        Sat, 31 Dec 2022 20:05:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 675A6C433D2;
-        Sat, 31 Dec 2022 20:05:00 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 7116660C28;
+        Sat, 31 Dec 2022 20:05:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6CBD6C433F0;
+        Sat, 31 Dec 2022 20:05:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1672517101;
-        bh=OqxE89YORzskro0l0o+XkZkf9CnCLfMdkMxsA/QsFo0=;
+        s=k20201202; t=1672517143;
+        bh=J4Yvml4YGKR2Q2uiSv1+yCLV/vM6oeB1H4tq+8nLbV4=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=nen7VuXbvszKA+NQsV3qC+MyqW2c1Hr3D8EqnoPlXRyuq0S9HVjacuZw2rLKHqnlJ
-         8YSwE/R6RC8k4kUFm2MkWQrGaIFoopm858YwWyT/DlQ19ndYTs9G+yVcWygKh6HI+F
-         9zrCn2aj460hGGRxjGfcAtGqxkgA4W5OqfIkGst6uYrkmM5dXUf3moTJ9uidvjBomF
-         q4KbyIpx9L7xzLonAPThGgEMBT43Arb4ruaOy3Wj2uSooiTykoHhMKK+x/yfc4O3Ui
-         zWeLZqrzKHOiDSJYQId7mMl2HGp3RowjPYHT47Pq3hpntjJIVu5a0hnpa4cFIm+tQW
-         D7AQALQ2ky4Ag==
+        b=A2gUMjsX6TqspqtMeCOrRJiJSiYT3DwAZG0FJ0EotjmbOuVSZFUe3N9dPJ3ptTElY
+         06Q0V3WZfoDO4mHmcYXygrB4fTZLZKTkF/MEmG7mz9mflnNXiM1s7Pkx/Y4zjB6Ct+
+         0fm+4yG/gYTVLqsLZhBEjofWQ9tSexUaFYL0dNzWl+PtPJ/doyOVSfmDn+g4w38WUV
+         VimW43KQFJf0DudQV/vfjTpbLH0m3UF6F1F5Qlme9fiqvvkNDVmq3A4x26Dqoz2SPA
+         syo7hbcvaUk5d/aDz/5QXvqoTnAOWEKcbxcx0mFi6U6VFC4TysjD7zqQdccQ4dVlkH
+         7T+ZUi2qx3cbQ==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Philip Yang <Philip.Yang@amd.com>,
@@ -42,12 +42,12 @@ Cc:     Philip Yang <Philip.Yang@amd.com>,
         sumit.semwal@linaro.org, amd-gfx@lists.freedesktop.org,
         dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
         linaro-mm-sig@lists.linaro.org
-Subject: [PATCH AUTOSEL 6.1 7/7] drm/amdkfd: Fix double release compute pasid
-Date:   Sat, 31 Dec 2022 15:04:39 -0500
-Message-Id: <20221231200439.1748686-7-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.0 7/7] drm/amdkfd: Fix double release compute pasid
+Date:   Sat, 31 Dec 2022 15:05:02 -0500
+Message-Id: <20221231200502.1748784-7-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20221231200439.1748686-1-sashal@kernel.org>
-References: <20221231200439.1748686-1-sashal@kernel.org>
+In-Reply-To: <20221231200502.1748784-1-sashal@kernel.org>
+References: <20221231200502.1748784-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -132,10 +132,10 @@ index 647220a8762d..30f145dc8724 100644
  					struct dma_fence **ef);
  void amdgpu_amdkfd_gpuvm_release_process_vm(struct amdgpu_device *adev,
 diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
-index 1f76e27f1a35..18a7cbbd00ff 100644
+index 5e184952ec98..f86a132bb761 100644
 --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
 +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
-@@ -1473,10 +1473,9 @@ static void amdgpu_amdkfd_gpuvm_unpin_bo(struct amdgpu_bo *bo)
+@@ -1471,10 +1471,9 @@ static void amdgpu_amdkfd_gpuvm_unpin_bo(struct amdgpu_bo *bo)
  	amdgpu_bo_unreserve(bo);
  }
  
@@ -149,7 +149,7 @@ index 1f76e27f1a35..18a7cbbd00ff 100644
  {
  	struct amdgpu_fpriv *drv_priv;
  	struct amdgpu_vm *avm;
-@@ -1487,10 +1486,6 @@ int amdgpu_amdkfd_gpuvm_acquire_process_vm(struct amdgpu_device *adev,
+@@ -1485,10 +1484,6 @@ int amdgpu_amdkfd_gpuvm_acquire_process_vm(struct amdgpu_device *adev,
  		return ret;
  	avm = &drv_priv->vm;
  
@@ -160,7 +160,7 @@ index 1f76e27f1a35..18a7cbbd00ff 100644
  	/* Free the original amdgpu allocated pasid,
  	 * will be replaced with kfd allocated pasid.
  	 */
-@@ -1499,14 +1494,36 @@ int amdgpu_amdkfd_gpuvm_acquire_process_vm(struct amdgpu_device *adev,
+@@ -1497,14 +1492,36 @@ int amdgpu_amdkfd_gpuvm_acquire_process_vm(struct amdgpu_device *adev,
  		amdgpu_vm_set_pasid(adev, avm, 0);
  	}
  
@@ -201,10 +201,10 @@ index 1f76e27f1a35..18a7cbbd00ff 100644
  	ret = init_kfd_vm(avm, process_info, ef);
  	if (ret)
 diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_process.c b/drivers/gpu/drm/amd/amdkfd/kfd_process.c
-index 9821fa9268d3..dd351105c1bc 100644
+index 04678f9e214b..febf0e9f7af1 100644
 --- a/drivers/gpu/drm/amd/amdkfd/kfd_process.c
 +++ b/drivers/gpu/drm/amd/amdkfd/kfd_process.c
-@@ -1576,9 +1576,9 @@ int kfd_process_device_init_vm(struct kfd_process_device *pdd,
+@@ -1581,9 +1581,9 @@ int kfd_process_device_init_vm(struct kfd_process_device *pdd,
  	p = pdd->process;
  	dev = pdd->dev;
  
@@ -217,7 +217,7 @@ index 9821fa9268d3..dd351105c1bc 100644
  	if (ret) {
  		pr_err("Failed to create process VM object\n");
  		return ret;
-@@ -1593,10 +1593,16 @@ int kfd_process_device_init_vm(struct kfd_process_device *pdd,
+@@ -1598,10 +1598,16 @@ int kfd_process_device_init_vm(struct kfd_process_device *pdd,
  	if (ret)
  		goto err_init_cwsr;
  
