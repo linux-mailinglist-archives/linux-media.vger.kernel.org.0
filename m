@@ -2,238 +2,97 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 39AC865A6B5
-	for <lists+linux-media@lfdr.de>; Sat, 31 Dec 2022 21:06:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6E12065A886
+	for <lists+linux-media@lfdr.de>; Sun,  1 Jan 2023 02:22:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235885AbiLaUGB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 31 Dec 2022 15:06:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34066 "EHLO
+        id S232415AbjAABWM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 31 Dec 2022 20:22:12 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57662 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235921AbiLaUFq (ORCPT
+        with ESMTP id S229882AbjAABWL (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 31 Dec 2022 15:05:46 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E2BBB13;
-        Sat, 31 Dec 2022 12:05:44 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 7116660C28;
-        Sat, 31 Dec 2022 20:05:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6CBD6C433F0;
-        Sat, 31 Dec 2022 20:05:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1672517143;
-        bh=J4Yvml4YGKR2Q2uiSv1+yCLV/vM6oeB1H4tq+8nLbV4=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=A2gUMjsX6TqspqtMeCOrRJiJSiYT3DwAZG0FJ0EotjmbOuVSZFUe3N9dPJ3ptTElY
-         06Q0V3WZfoDO4mHmcYXygrB4fTZLZKTkF/MEmG7mz9mflnNXiM1s7Pkx/Y4zjB6Ct+
-         0fm+4yG/gYTVLqsLZhBEjofWQ9tSexUaFYL0dNzWl+PtPJ/doyOVSfmDn+g4w38WUV
-         VimW43KQFJf0DudQV/vfjTpbLH0m3UF6F1F5Qlme9fiqvvkNDVmq3A4x26Dqoz2SPA
-         syo7hbcvaUk5d/aDz/5QXvqoTnAOWEKcbxcx0mFi6U6VFC4TysjD7zqQdccQ4dVlkH
-         7T+ZUi2qx3cbQ==
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Philip Yang <Philip.Yang@amd.com>,
-        Felix Kuehling <Felix.Kuehling@amd.com>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Sasha Levin <sashal@kernel.org>, christian.koenig@amd.com,
-        Xinhui.Pan@amd.com, airlied@gmail.com, daniel@ffwll.ch,
-        sumit.semwal@linaro.org, amd-gfx@lists.freedesktop.org,
-        dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
-        linaro-mm-sig@lists.linaro.org
-Subject: [PATCH AUTOSEL 6.0 7/7] drm/amdkfd: Fix double release compute pasid
-Date:   Sat, 31 Dec 2022 15:05:02 -0500
-Message-Id: <20221231200502.1748784-7-sashal@kernel.org>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20221231200502.1748784-1-sashal@kernel.org>
-References: <20221231200502.1748784-1-sashal@kernel.org>
+        Sat, 31 Dec 2022 20:22:11 -0500
+Received: from mail-ot1-x332.google.com (mail-ot1-x332.google.com [IPv6:2607:f8b0:4864:20::332])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 901E5634E
+        for <linux-media@vger.kernel.org>; Sat, 31 Dec 2022 17:22:09 -0800 (PST)
+Received: by mail-ot1-x332.google.com with SMTP id y18-20020a0568301d9200b0067082cd4679so15323101oti.4
+        for <linux-media@vger.kernel.org>; Sat, 31 Dec 2022 17:22:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=landley-net.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ww925qDRQMTRBp3kPOnTlPG41aVz0lVhVGJ/nRtnW2A=;
+        b=UWnp4aAAiHBfMiJDDDnPa33GKRGmN/cXcSC7AphuuXMDS9zs7ISyH9FFt5b4fd2Clq
+         q3LI6/HS1u0S4qCbyoo3GKaziyfPLeCmMpqJy8HLUmFoEJ2xr9fVyHcGwBEXxWOpfi3D
+         beeuvoSib65fz68FNf6JQx+Z3hSIQZfSWPE3BwKOKvlA4ThuI3sIr7I96zwiukzF+9J5
+         QQeVTwPn3XvxzUqrVFJWQES8Dz727dGDudBd8yFC0NPrXuoG7l/opDPpeihoqiNzXSRn
+         iKZFKY5tNB5DPQbf7XD8PkZEXlM//NfjF+dqOKzIi7fSb+MrU6GC7WBrE3pnW4wiurFP
+         vDHw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ww925qDRQMTRBp3kPOnTlPG41aVz0lVhVGJ/nRtnW2A=;
+        b=Q1wuYVE9Q13XpPCqfD/R7fUuFN1/LSpAFSLDJ/JIGyyf7RzF2h2qh7Fg3ZealbDc7M
+         X14CuX5q5BPEaF9YIwoG/ONqoSFxCWglSwtCoA9BBveBcLX7zfCZHoX8ZoRhcR50zu23
+         HHZ3rbUVk3w4UL29W68a+V6vtzT3AOeuQbs0MDKcuRBfFpR6MJfHvxiLhAYdi2PXMuJI
+         3LD0TAdN2kk6fiUNOS2fcQCZbWWbNEvvbAgoVNQqmOcimS/C/TETXM51UN3hxOJqp3mB
+         +fVR+vqJElzb7SNZnuhnYc+tv4QbN4SY1085onPIB9C1G61keU+qM4b/XgfViqKcFlOQ
+         SuGw==
+X-Gm-Message-State: AFqh2kqcIg6/25BC1DI+EI0oQAlkqpwsoZmfwLTLAzOfoIfBccNT4xQO
+        xPPLDLhgAQU9fzMiBZle3FJAJA==
+X-Google-Smtp-Source: AMrXdXuhn/vwpF7ssORw7RIwqNMPM39cDkAV7IkrYCgooAWtLfVGrcyS2H4EKgsrK8StB/MO/TAaug==
+X-Received: by 2002:a9d:7314:0:b0:673:67f8:93ae with SMTP id e20-20020a9d7314000000b0067367f893aemr21342552otk.29.1672536128939;
+        Sat, 31 Dec 2022 17:22:08 -0800 (PST)
+Received: from [192.168.86.224] ([136.62.38.22])
+        by smtp.gmail.com with ESMTPSA id c8-20020a9d6848000000b00670461b8be4sm3150741oto.33.2022.12.31.17.22.07
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 31 Dec 2022 17:22:08 -0800 (PST)
+Message-ID: <397291cd-4953-8b47-6021-228c9eb38361@landley.net>
+Date:   Sat, 31 Dec 2022 19:33:53 -0600
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.0
+Subject: Re: Build regressions/improvements in v6.2-rc1
+Content-Language: en-US
+To:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        linux-kernel@vger.kernel.org
+Cc:     linux-media@vger.kernel.org, kasan-dev@googlegroups.com,
+        Linux-sh list <linux-sh@vger.kernel.org>
+References: <CAHk-=wgf929uGOVpiWALPyC7pv_9KbwB2EAvQ3C4woshZZ5zqQ@mail.gmail.com>
+ <20221227082932.798359-1-geert@linux-m68k.org>
+ <alpine.DEB.2.22.394.2212270933530.311423@ramsan.of.borg>
+From:   Rob Landley <rob@landley.net>
+In-Reply-To: <alpine.DEB.2.22.394.2212270933530.311423@ramsan.of.borg>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-3.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Philip Yang <Philip.Yang@amd.com>
+On 12/27/22 02:35, Geert Uytterhoeven wrote:
+> sh4-gcc11/sh-allmodconfig (ICE = internal compiler error)
 
-[ Upstream commit 1a799c4c190ea9f0e81028e3eb3037ed0ab17ff5 ]
+What's your actual test config here? Because when I try make ARCH=sh
+allmodconfig; make ARCH=sh it dies in arch/sh/kernel/cpu/sh2/setup-sh7619.c with:
 
-If kfd_process_device_init_vm returns failure after vm is converted to
-compute vm and vm->pasid set to compute pasid, KFD will not take
-pdd->drm_file reference. As a result, drm close file handler maybe
-called to release the compute pasid before KFD process destroy worker to
-release the same pasid and set vm->pasid to zero, this generates below
-WARNING backtrace and NULL pointer access.
+./include/linux/sh_intc.h:100:63: error: division 'sizeof (void *) / sizeof
+(void)' does not compute the number of array elements [-Werror=sizeof-pointer-div]
+  100 | #define _INTC_ARRAY(a) a, __same_type(a, NULL) ? 0 : sizeof(a)/sizeof(*a)
 
-Add helper amdgpu_amdkfd_gpuvm_set_vm_pasid and call it at the last step
-of kfd_process_device_init_vm, to ensure vm pasid is the original pasid
-if acquiring vm failed or is the compute pasid with pdd->drm_file
-reference taken to avoid double release same pasid.
+(Which isn't new, lots of configs won't compile off x86 and arm. I'm not sure
+allmodconfig is picking a sane/actual cpu/board combo?)
 
- amdgpu: Failed to create process VM object
- ida_free called for id=32770 which is not allocated.
- WARNING: CPU: 57 PID: 72542 at ../lib/idr.c:522 ida_free+0x96/0x140
- RIP: 0010:ida_free+0x96/0x140
- Call Trace:
-  amdgpu_pasid_free_delayed+0xe1/0x2a0 [amdgpu]
-  amdgpu_driver_postclose_kms+0x2d8/0x340 [amdgpu]
-  drm_file_free.part.13+0x216/0x270 [drm]
-  drm_close_helper.isra.14+0x60/0x70 [drm]
-  drm_release+0x6e/0xf0 [drm]
-  __fput+0xcc/0x280
-  ____fput+0xe/0x20
-  task_work_run+0x96/0xc0
-  do_exit+0x3d0/0xc10
+What actual configuration are you trying to build?
 
- BUG: kernel NULL pointer dereference, address: 0000000000000000
- RIP: 0010:ida_free+0x76/0x140
- Call Trace:
-  amdgpu_pasid_free_delayed+0xe1/0x2a0 [amdgpu]
-  amdgpu_driver_postclose_kms+0x2d8/0x340 [amdgpu]
-  drm_file_free.part.13+0x216/0x270 [drm]
-  drm_close_helper.isra.14+0x60/0x70 [drm]
-  drm_release+0x6e/0xf0 [drm]
-  __fput+0xcc/0x280
-  ____fput+0xe/0x20
-  task_work_run+0x96/0xc0
-  do_exit+0x3d0/0xc10
+Rob
 
-Signed-off-by: Philip Yang <Philip.Yang@amd.com>
-Reviewed-by: Felix Kuehling <Felix.Kuehling@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.h    |  4 +-
- .../gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c  | 39 +++++++++++++------
- drivers/gpu/drm/amd/amdkfd/kfd_process.c      | 12 ++++--
- 3 files changed, 40 insertions(+), 15 deletions(-)
-
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.h
-index 647220a8762d..30f145dc8724 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.h
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.h
-@@ -265,8 +265,10 @@ int amdgpu_amdkfd_get_pcie_bandwidth_mbytes(struct amdgpu_device *adev, bool is_
- 	(&((struct amdgpu_fpriv *)					\
- 		((struct drm_file *)(drm_priv))->driver_priv)->vm)
- 
-+int amdgpu_amdkfd_gpuvm_set_vm_pasid(struct amdgpu_device *adev,
-+				     struct file *filp, u32 pasid);
- int amdgpu_amdkfd_gpuvm_acquire_process_vm(struct amdgpu_device *adev,
--					struct file *filp, u32 pasid,
-+					struct file *filp,
- 					void **process_info,
- 					struct dma_fence **ef);
- void amdgpu_amdkfd_gpuvm_release_process_vm(struct amdgpu_device *adev,
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
-index 5e184952ec98..f86a132bb761 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
-@@ -1471,10 +1471,9 @@ static void amdgpu_amdkfd_gpuvm_unpin_bo(struct amdgpu_bo *bo)
- 	amdgpu_bo_unreserve(bo);
- }
- 
--int amdgpu_amdkfd_gpuvm_acquire_process_vm(struct amdgpu_device *adev,
--					   struct file *filp, u32 pasid,
--					   void **process_info,
--					   struct dma_fence **ef)
-+int amdgpu_amdkfd_gpuvm_set_vm_pasid(struct amdgpu_device *adev,
-+				     struct file *filp, u32 pasid)
-+
- {
- 	struct amdgpu_fpriv *drv_priv;
- 	struct amdgpu_vm *avm;
-@@ -1485,10 +1484,6 @@ int amdgpu_amdkfd_gpuvm_acquire_process_vm(struct amdgpu_device *adev,
- 		return ret;
- 	avm = &drv_priv->vm;
- 
--	/* Already a compute VM? */
--	if (avm->process_info)
--		return -EINVAL;
--
- 	/* Free the original amdgpu allocated pasid,
- 	 * will be replaced with kfd allocated pasid.
- 	 */
-@@ -1497,14 +1492,36 @@ int amdgpu_amdkfd_gpuvm_acquire_process_vm(struct amdgpu_device *adev,
- 		amdgpu_vm_set_pasid(adev, avm, 0);
- 	}
- 
--	/* Convert VM into a compute VM */
--	ret = amdgpu_vm_make_compute(adev, avm);
-+	ret = amdgpu_vm_set_pasid(adev, avm, pasid);
- 	if (ret)
- 		return ret;
- 
--	ret = amdgpu_vm_set_pasid(adev, avm, pasid);
-+	return 0;
-+}
-+
-+int amdgpu_amdkfd_gpuvm_acquire_process_vm(struct amdgpu_device *adev,
-+					   struct file *filp,
-+					   void **process_info,
-+					   struct dma_fence **ef)
-+{
-+	struct amdgpu_fpriv *drv_priv;
-+	struct amdgpu_vm *avm;
-+	int ret;
-+
-+	ret = amdgpu_file_to_fpriv(filp, &drv_priv);
- 	if (ret)
- 		return ret;
-+	avm = &drv_priv->vm;
-+
-+	/* Already a compute VM? */
-+	if (avm->process_info)
-+		return -EINVAL;
-+
-+	/* Convert VM into a compute VM */
-+	ret = amdgpu_vm_make_compute(adev, avm);
-+	if (ret)
-+		return ret;
-+
- 	/* Initialize KFD part of the VM and process info */
- 	ret = init_kfd_vm(avm, process_info, ef);
- 	if (ret)
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_process.c b/drivers/gpu/drm/amd/amdkfd/kfd_process.c
-index 04678f9e214b..febf0e9f7af1 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_process.c
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_process.c
-@@ -1581,9 +1581,9 @@ int kfd_process_device_init_vm(struct kfd_process_device *pdd,
- 	p = pdd->process;
- 	dev = pdd->dev;
- 
--	ret = amdgpu_amdkfd_gpuvm_acquire_process_vm(
--		dev->adev, drm_file, p->pasid,
--		&p->kgd_process_info, &p->ef);
-+	ret = amdgpu_amdkfd_gpuvm_acquire_process_vm(dev->adev, drm_file,
-+						     &p->kgd_process_info,
-+						     &p->ef);
- 	if (ret) {
- 		pr_err("Failed to create process VM object\n");
- 		return ret;
-@@ -1598,10 +1598,16 @@ int kfd_process_device_init_vm(struct kfd_process_device *pdd,
- 	if (ret)
- 		goto err_init_cwsr;
- 
-+	ret = amdgpu_amdkfd_gpuvm_set_vm_pasid(dev->adev, drm_file, p->pasid);
-+	if (ret)
-+		goto err_set_pasid;
-+
- 	pdd->drm_file = drm_file;
- 
- 	return 0;
- 
-+err_set_pasid:
-+	kfd_process_device_destroy_cwsr_dgpu(pdd);
- err_init_cwsr:
- 	kfd_process_device_destroy_ib_mem(pdd);
- err_reserve_ib_mem:
--- 
-2.35.1
-
+P.S. Also my ssh cross gcc is 9.4 so I may need to build gcc-11 to see the
+error, but I thought I'd try to reproduce the easy way first...
