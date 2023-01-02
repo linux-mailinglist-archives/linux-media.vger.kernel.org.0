@@ -2,305 +2,131 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6C91B65B279
-	for <lists+linux-media@lfdr.de>; Mon,  2 Jan 2023 14:03:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7E90765B28C
+	for <lists+linux-media@lfdr.de>; Mon,  2 Jan 2023 14:14:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232810AbjABND3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 2 Jan 2023 08:03:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58810 "EHLO
+        id S235970AbjABNOW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 2 Jan 2023 08:14:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33404 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232156AbjABND2 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 2 Jan 2023 08:03:28 -0500
-Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com [IPv6:2607:f8b0:4864:20::1029])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2003A10D4
-        for <linux-media@vger.kernel.org>; Mon,  2 Jan 2023 05:03:27 -0800 (PST)
-Received: by mail-pj1-x1029.google.com with SMTP id o31-20020a17090a0a2200b00223fedffb30so28169826pjo.3
-        for <linux-media@vger.kernel.org>; Mon, 02 Jan 2023 05:03:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=31zKy5pixYa3mJGrO128QNI8d5q3L7a4Cx80FPZ2xpE=;
-        b=FZvs6kYl9XJMp7uxh70zEOcMF5F+r8RMlG9mv3NVsEWKkQig26/v1sMaB4L4Z9FA7v
-         ock2ncO0EXTQYktV3/3Z6WM6xnDnAi8F7xBdFWaS4HDMP3xGc8EJgehcdQpy00cJQLN6
-         MBZ2EXhypSAi8zrBM2/L+fvxJJoaG0Xg+J2Us=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=31zKy5pixYa3mJGrO128QNI8d5q3L7a4Cx80FPZ2xpE=;
-        b=xdQ6HfmpntRr0xXnfN4/OmTkuaXdGNmEVhVNxN7VQuyPFp5DuHNwBCx8sOM5OSnZ7D
-         8a0iIfpeAB8+gSaZgc1q6aXLTfzfmsmWlPzqMOPmtqxNtho4ZWzCIBexZ4nrqMT5ZToL
-         9SaYiv6ITIcqzGB7gOmS7Nx3USl3YOumxRf9WPt2cmN4Bz2hy00AQEcAgo8gkfDKFdRP
-         hFes8MiP+Bzp2hbzqovfk3e0Q38SjeNm236xSnKSQ97D1nAohOnoJAMzzNH4Kyr8ffyW
-         2pvxxVqyhxcFv8YHSEE5nlxAikEfGOt1aq2C1okFOzx+QjHwq2GfhfD/4vJdcTQ68SWX
-         01bg==
-X-Gm-Message-State: AFqh2krIH8n6fbuQDkKGJt3W24tlZ4TkcCjpORZgpCfsCTalJL3gB3rK
-        XMGsLgAcHDUmQ2RWKzWkjMMRSh+Jefyjeq6DBOw=
-X-Google-Smtp-Source: AMrXdXvIOz3JWgLyUw5D7j3yy2Wq8lVQB5SR92xKWvRP8v5tWc369q7/7ZlqVNyV4t7iFH+RW1c5Ew==
-X-Received: by 2002:a17:903:40cd:b0:192:772f:6cfe with SMTP id t13-20020a17090340cd00b00192772f6cfemr28173514pld.53.1672664606185;
-        Mon, 02 Jan 2023 05:03:26 -0800 (PST)
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com. [209.85.210.179])
-        by smtp.gmail.com with ESMTPSA id n2-20020a170902e54200b001887e30b9ddsm20031400plf.257.2023.01.02.05.03.24
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 02 Jan 2023 05:03:25 -0800 (PST)
-Received: by mail-pf1-f179.google.com with SMTP id 6so15891684pfz.4
-        for <linux-media@vger.kernel.org>; Mon, 02 Jan 2023 05:03:24 -0800 (PST)
-X-Received: by 2002:aa7:99cd:0:b0:581:3f7a:8ad0 with SMTP id
- v13-20020aa799cd000000b005813f7a8ad0mr1514401pfi.21.1672664604342; Mon, 02
- Jan 2023 05:03:24 -0800 (PST)
-MIME-Version: 1.0
-References: <20221212-uvc-race-v4-0-38d7075b03f5@chromium.org>
- <Y6sAO7URJpSIulye@pendragon.ideasonboard.com> <Y6sDKPD8L47ce35u@pendragon.ideasonboard.com>
- <CANiDSCuigeLooqRaDvzEW28pgZu1H42M+oxk_4UEZh=Jue2M8Q@mail.gmail.com> <Y7LUnNlJPpYWGLz9@pendragon.ideasonboard.com>
-In-Reply-To: <Y7LUnNlJPpYWGLz9@pendragon.ideasonboard.com>
-From:   Ricardo Ribalda <ribalda@chromium.org>
-Date:   Mon, 2 Jan 2023 14:03:13 +0100
-X-Gmail-Original-Message-ID: <CANiDSCsMcy35dCj3eaLyDwozHM+FA5aPnSKT2PTdMFONPyKT5g@mail.gmail.com>
-Message-ID: <CANiDSCsMcy35dCj3eaLyDwozHM+FA5aPnSKT2PTdMFONPyKT5g@mail.gmail.com>
-Subject: Re: [PATCH v4] media: uvcvideo: Fix race condition with usb_kill_urb
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Sergey Senozhatsky <senozhatsky@chromium.org>,
+        with ESMTP id S232877AbjABNOV (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 2 Jan 2023 08:14:21 -0500
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4ECBF108;
+        Mon,  2 Jan 2023 05:14:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1672665260; x=1704201260;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=EZo+4DbqsCLXUlE2Wd1gNAT85a+dsXWwnwV168nBS/4=;
+  b=U6XtXku4eQnDIqlnCi7fM8OgDEhbnD3csnTRcqJPXHFBZWB/aqYc9Zlk
+   Lq0YS/5xOLnAFoOKoFODzm5OEVBGhRbEjCo/2WqY/wRkBfo0g4XBiyqNY
+   0ph131WuCPZRgUh5+5F4N7y0jD4JyJr++6I8MVKhkvgD9d4s7sJmvf5F1
+   wLPhbBhVyzdatS68SfBOym3JJSXRQasI9jq9uofUZgWxdRaL39BSHnm8g
+   NzNRnrV13eyfZciL8NLytck4T/YyIj+xOZwaNE8EEy5WteWzrs4o6dbRq
+   RrW5sUDon5DZmOtMOBd8cAtr8EKgdvL2G8gg1CAD5+gV4GtJ6aMdI/shr
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10578"; a="319182331"
+X-IronPort-AV: E=Sophos;i="5.96,294,1665471600"; 
+   d="scan'208";a="319182331"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jan 2023 05:14:20 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10578"; a="743193756"
+X-IronPort-AV: E=Sophos;i="5.96,294,1665471600"; 
+   d="scan'208";a="743193756"
+Received: from punajuuri.fi.intel.com (HELO paasikivi.fi.intel.com) ([10.237.72.43])
+  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jan 2023 05:14:17 -0800
+Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
+        by paasikivi.fi.intel.com (Postfix) with ESMTP id 341F920178;
+        Mon,  2 Jan 2023 15:14:15 +0200 (EET)
+Date:   Mon, 2 Jan 2023 13:14:15 +0000
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     =?utf-8?Q?Barnab=C3=A1s_P=C5=91cze?= <pobrn@protonmail.com>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        linux-media@vger.kernel.org,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Max Staudt <mstaudt@google.com>, linux-media@vger.kernel.org,
-        stable@vger.kernel.org, Yunke Cao <yunkec@chromium.org>,
-        linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+        open list <linux-kernel@vger.kernel.org>
+Subject: Re: [RFC PATCH] media: v4l2-dev: sysfs: Support streaming attribute
+Message-ID: <Y7LYp01J5co9KSfJ@paasikivi.fi.intel.com>
+References: <20221223231736.2111774-1-kieran.bingham@ideasonboard.com>
+ <Y6lu14VsuH1LbqFH@pendragon.ideasonboard.com>
+ <yvFnaY1MM7I5C7H18aJdvQ6XEQn979YkGYpCjRLsnJvCRr2vYWVKorYqFXGxP3tWKeJ5B0oEA4Fn4W2-IqPd_N_wivEM4uKJD4WX53RiSmY=@protonmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <yvFnaY1MM7I5C7H18aJdvQ6XEQn979YkGYpCjRLsnJvCRr2vYWVKorYqFXGxP3tWKeJ5B0oEA4Fn4W2-IqPd_N_wivEM4uKJD4WX53RiSmY=@protonmail.com>
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, 2 Jan 2023 at 13:57, Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> Hi Ricardo,
->
-> On Mon, Jan 02, 2023 at 01:45:06PM +0100, Ricardo Ribalda wrote:
-> > On Tue, 27 Dec 2022 at 15:37, Laurent Pinchart wrote:
-> > > On Tue, Dec 27, 2022 at 04:25:01PM +0200, Laurent Pinchart wrote:
-> > > > On Wed, Dec 14, 2022 at 05:31:55PM +0100, Ricardo Ribalda wrote:
-> > > > > usb_kill_urb warranties that all the handlers are finished when it
-> > > > > returns, but does not protect against threads that might be handling
-> > > > > asynchronously the urb.
-> > > > >
-> > > > > For UVC, the function uvc_ctrl_status_event_async() takes care of
-> > > > > control changes asynchronously.
-> > > > >
-> > > > >  If the code is executed in the following order:
-> > > > >
-> > > > > CPU 0                                       CPU 1
-> > > > > =====                                       =====
-> > > > > uvc_status_complete()
-> > > > >                                     uvc_status_stop()
-> > > > > uvc_ctrl_status_event_work()
-> > > > >                                     uvc_status_start() -> FAIL
-> > > > >
-> > > > > Then uvc_status_start will keep failing and this error will be shown:
-> > > > >
-> > > > > <4>[    5.540139] URB 0000000000000000 submitted while active
-> > > > > drivers/usb/core/urb.c:378 usb_submit_urb+0x4c3/0x528
-> > > > >
-> > > > > Let's improve the current situation, by not re-submiting the urb if
-> > > > > we are stopping the status event. Also process the queued work
-> > > > > (if any) during stop.
-> > > > >
-> > > > > CPU 0                                       CPU 1
-> > > > > =====                                       =====
-> > > > > uvc_status_complete()
-> > > > >                                     uvc_status_stop()
-> > > > >                                     uvc_status_start()
-> > > > > uvc_ctrl_status_event_work() -> FAIL
-> > > > >
-> > > > > Hopefully, with the usb layer protection this should be enough to cover
-> > > > > all the cases.
-> > > > >
-> > > > > Cc: stable@vger.kernel.org
-> > > > > Fixes: e5225c820c05 ("media: uvcvideo: Send a control event when a Control Change interrupt arrives")
-> > > > > Reviewed-by: Yunke Cao <yunkec@chromium.org>
-> > > > > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> > > > > ---
-> > > > > uvc: Fix race condition on uvc
-> > > > >
-> > > > > Make sure that all the async work is finished when we stop the status urb.
-> > > > >
-> > > > > To: Yunke Cao <yunkec@chromium.org>
-> > > > > To: Sergey Senozhatsky <senozhatsky@chromium.org>
-> > > > > To: Max Staudt <mstaudt@google.com>
-> > > > > To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > > > > To: Mauro Carvalho Chehab <mchehab@kernel.org>
-> > > > > Cc: linux-media@vger.kernel.org
-> > > > > Cc: linux-kernel@vger.kernel.org
-> > > > > ---
-> > > > > Changes in v4:
-> > > > > - Replace bool with atomic_t to avoid compiler reordering
-> > > > > - First complete the async work and then kill the urb to avoid race (Thanks Laurent!)
-> > > > > - Link to v3: https://lore.kernel.org/r/20221212-uvc-race-v3-0-954efc752c9a@chromium.org
-> > > > >
-> > > > > Changes in v3:
-> > > > > - Remove the patch for dev->status, makes more sense in another series, and makes
-> > > > >   the zero day less nervous.
-> > > > > - Update reviewed-by (thanks Yunke!).
-> > > > > - Link to v2: https://lore.kernel.org/r/20221212-uvc-race-v2-0-54496cc3b8ab@chromium.org
-> > > > >
-> > > > > Changes in v2:
-> > > > > - Add a patch for not kalloc dev->status
-> > > > > - Redo the logic mechanism, so it also works with suspend (Thanks Yunke!)
-> > > > > - Link to v1: https://lore.kernel.org/r/20221212-uvc-race-v1-0-c52e1783c31d@chromium.org
-> > > > > ---
-> > > > >  drivers/media/usb/uvc/uvc_ctrl.c   | 3 +++
-> > > > >  drivers/media/usb/uvc/uvc_status.c | 6 ++++++
-> > > > >  drivers/media/usb/uvc/uvcvideo.h   | 1 +
-> > > > >  3 files changed, 10 insertions(+)
-> > > > >
-> > > > > diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
-> > > > > index c95a2229f4fa..1be6897a7d6d 100644
-> > > > > --- a/drivers/media/usb/uvc/uvc_ctrl.c
-> > > > > +++ b/drivers/media/usb/uvc/uvc_ctrl.c
-> > > > > @@ -1442,6 +1442,9 @@ static void uvc_ctrl_status_event_work(struct work_struct *work)
-> > > > >
-> > > > >     uvc_ctrl_status_event(w->chain, w->ctrl, w->data);
-> > > > >
-> > > > > +   if (atomic_read(&dev->flush_status))
-> > > > > +           return;
-> > > > > +
-> > > > >     /* Resubmit the URB. */
-> > > > >     w->urb->interval = dev->int_ep->desc.bInterval;
-> > > > >     ret = usb_submit_urb(w->urb, GFP_KERNEL);
-> > > > > diff --git a/drivers/media/usb/uvc/uvc_status.c b/drivers/media/usb/uvc/uvc_status.c
-> > > > > index 7518ffce22ed..4a95850cdc1b 100644
-> > > > > --- a/drivers/media/usb/uvc/uvc_status.c
-> > > > > +++ b/drivers/media/usb/uvc/uvc_status.c
-> > > > > @@ -304,10 +304,16 @@ int uvc_status_start(struct uvc_device *dev, gfp_t flags)
-> > > > >     if (dev->int_urb == NULL)
-> > > > >             return 0;
-> > > > >
-> > > > > +   atomic_set(&dev->flush_status, 0);
-> > > > >     return usb_submit_urb(dev->int_urb, flags);
-> > > > >  }
-> > > > >
-> > > > >  void uvc_status_stop(struct uvc_device *dev)
-> > > > >  {
-> > > > > +   struct uvc_ctrl_work *w = &dev->async_ctrl;
-> > > > > +
-> > > > > +   atomic_set(&dev->flush_status, 1);
-> > > >
-> > > > Note that atomic_read() and atomic_set() do no imply any memory barrier
-> > > > on most architectures, as far as I can tell. They essentially become
-> > > > READ_ONCE() and WRITE_ONCE() calls, which guarantee that the compiler
-> > > > will not merge or split loads or stores, or reorder them with respect to
-> > > > load and stores to the *same* memory location, but nothing else. I think
-> > > > you need to add proper barriers, and you can then probably also drop
-> > > > usage of atomic_t.
-> >
-> > You are absolutely right! Only a subset of atomic implies memory barriers.
-> >
-> > Found this doc particularly good:
-> > https://www.kernel.org/doc/html/v5.10/core-api/atomic_ops.html
-> >
-> >
-> > > >
-> > > > > +   if (cancel_work_sync(&w->work))
-> > > > > +           uvc_ctrl_status_event(w->chain, w->ctrl, w->data);
-> > > > >     usb_kill_urb(dev->int_urb);
-> > > >
-> > > > This should get rid of the main race (possibly save the barrier issue),
-> > > > but it's not the most efficient option, and can still be problematic.
-> > > > Consider the following case:
-> > > >
-> > > > CPU0                                                  CPU1
-> > > > ----                                                  ----
-> > > >
-> > > > void uvc_status_stop(struct uvc_device *dev)          uvc_ctrl_status_event_async()
-> > > > {                                                     {
-> > > >       ...
-> > > >       atomic_set(&dev->flush_status, 1);                      ...
-> > > >       if (cancel_work_sync())
-> > > >               ...
-> > > >                                                               schedule_work();
-> > > >       usb_kill_urb();                                 }
-> > > > }
-> > > >
-> > > > The usb_kill_urb() call ensures that uvc_ctrl_status_event_async()
-> > > > completes before uvc_status_stop() returns, but there will still be work
-> > > > scheduled in that case. uvc_ctrl_status_event_work() will be run later,
-> > > > and as flush_status is set to 1, the function will not resubmit the URB.
-> > > > That fixes the main race, but leaves the asynchronous control status
-> > > > event handling for after uvc_status_stop() returns, which isn't great.
-> > > >
-> > > > Now, if we consider that uvc_status_start() could be called shortly
-> > > > after uvc_status_stop(), we may get in a situation where
-> > > > uvc_status_start() will reset flush_status to 0 before
-> > > > uvc_ctrl_status_event_async() runs. Both uvc_ctrl_status_event_async()
-> > > > and uvc_status_start() will thus submit the same URB.
-> > > >
-> > > > You can't fix this by first killing the URB and then cancelling the
-> > > > work, as there would then be a risk that uvc_ctrl_status_event_work()
-> > > > would be running in parallel, going past the flush_status check before
-> > > > flush_status gets set to 1 in uvc_status_stop(), and submitting the URB
-> > > > after usb_kill_urb() is called.
-> > > >
-> > > > I think a good fix would be to check flush_status in
-> > > > uvc_ctrl_status_event_async() and avoid the schedule_work() call in that
-> > > > case.
-> >
-> > If we do that, then we will be losing an event. I would rather call
-> > cancel_work_sync() again after usb_kill_urb().
->
-> I've thought about that, but I don't think losing the event is an issue.
-> We're stopping event handling in the first place, there's no
-> synchronization guarantee with the camera. For all we know the camera
-> could have generate the event right after we stop instead of right
-> before. There's of course no reason to drop the event for the sake of
-> it, but if it leads to simpler code, there's no reason to process it
-> either.
+Hi Barnabás, others,
 
-Please take a look to v5, it does not look complicated, and we have
-all the synchronization code in two functions:
-uvc_status_stop() and uvc_ctrl_status_event_work(), instead of 3. Plus
-we do not lose any received event.
+On Wed, Dec 28, 2022 at 01:44:38AM +0000, Barnabás Pőcze wrote:
+> Hi
+> 
+> 
+> On 2022. december 26., hétfő 10:52, Laurent Pinchart wrote:
+> 
+> > Hi Kieran,
+> > 
+> > Thank you for the patch.
+> > 
+> > On Fri, Dec 23, 2022 at 11:17:35PM +0000, Kieran Bingham wrote:
+> > 
+> > > Provide a streaming attribute to allow userspace to interogate if a device
+> > > is actively streaming or not.
+> > > 
+> > > This will allow desktop notifications to report if a camera or device
+> > > is active on the system, rather than just 'open' which can occur when
+> > > configuring the device.
+> > > 
+> > > Bug: https://gitlab.freedesktop.org/pipewire/pipewire/-/issues/2669
+> > > Signed-off-by: Kieran Bingham kieran.bingham@ideasonboard.com
+> > > ---
+> > > 
+> > > This is a quick POC to see if such a facility makes sense.
+> > > I'm weary that not all video devices may have the queues registered on
+> > > the struct video_device, but this seems like an effective way to be able
+> > > to determine if a device is actively streaming on a system.
+> > 
+> > 
+> > I can imagine multiple problems, from race conditions to permissions and
+> > privacy. In order to comment on the fitness of this solution to address
+> > the problem you're trying to solve, could you describe the actual
+> > problem ?
+> 
+> 
+> The issue is explained in the following thread:
+> https://gitlab.freedesktop.org/pipewire/pipewire/-/issues/2669#note_1697388
+> 
+> In short, the user wants to show a "camera-in-use" indicator when the laptop camera
+> is used. The script that the user previously had only checked if /dev/video0
+> was open in any process, if it was, the indicator was shown. However, libcamera
+> - at least at the moment - keeps the file descriptor open as long as the Camera
+> object exists, which pipewire keeps alive for the entire lifetime of the device,
+> therefore the "camera-in-use" indicator is always shown.
 
-Regards!
+A sysfs attribute is not a great way to address this.
 
->
-> > > > You could then also move the atomic_set(..., 0) call from
-> > > > uvc_status_start() to the end of uvc_status_stop() (again with proper
-> > > > barriers).
-> >
-> > Will do that, it is more "elegant".
-> >
-> > > Also, as all of this is tricky, comments in appropriate places in the
-> > > code would be very helpful to avoid breaking things later.
-> > >
-> > > > Could you please check the memory barriers and test the above proposal
-> > > > (after double-checking it of course, I may have missed something) ?
-> > > >
-> > > > >  }
-> > > > > diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-> > > > > index df93db259312..1274691f157f 100644
-> > > > > --- a/drivers/media/usb/uvc/uvcvideo.h
-> > > > > +++ b/drivers/media/usb/uvc/uvcvideo.h
-> > > > > @@ -560,6 +560,7 @@ struct uvc_device {
-> > > > >     struct usb_host_endpoint *int_ep;
-> > > > >     struct urb *int_urb;
-> > > > >     u8 *status;
-> > > > > +   atomic_t flush_status;
-> > > > >     struct input_dev *input;
-> > > > >     char input_phys[64];
-> > > > >
->
-> --
-> Regards,
->
-> Laurent Pinchart
+libcamera certainly has information on whether streaming is ongoing. The
+information should come from there. Or Pipewire. Dbus perhaps?
 
-
+Alternatively libcamera could close the video devices while not streaming
+but that would involve e.g. releasing possible video buffer allocations as
+well, increasing streaming start latency.
 
 -- 
-Ricardo Ribalda
+Kind regards,
+
+Sakari Ailus
