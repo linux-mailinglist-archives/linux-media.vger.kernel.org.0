@@ -2,52 +2,61 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0716B65B2B6
-	for <lists+linux-media@lfdr.de>; Mon,  2 Jan 2023 14:35:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B3A9665B2C6
+	for <lists+linux-media@lfdr.de>; Mon,  2 Jan 2023 14:41:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232976AbjABNfo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 2 Jan 2023 08:35:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37962 "EHLO
+        id S232596AbjABNl2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 2 Jan 2023 08:41:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40368 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232947AbjABNfm (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 2 Jan 2023 08:35:42 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC67D6457;
-        Mon,  2 Jan 2023 05:35:39 -0800 (PST)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id DE5137C5;
-        Mon,  2 Jan 2023 14:35:36 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1672666537;
-        bh=7ZCichT9U5yO3QhGgXlLnhU3dvOgvOBgbW8mxgs7C8M=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=VGlJBGBcctUT06hZ4A2GU2BM3A0uUtbYNeqDg3FSsOwTuwUg1MD0lggvfS4/dGEyT
-         qMWQCbS2PTbHxQ74ZaIKjTjFMlpbynoTfg2Rz9ERIGwz3eyH7xPXHaWT6xPsA3YT8A
-         cG3XIQGw1jL/AL1CbQ4ksxcZFGx2V8BNuMqwIm88=
-Date:   Mon, 2 Jan 2023 15:35:33 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     =?utf-8?Q?Barnab=C3=A1s_P=C5=91cze?= <pobrn@protonmail.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        linux-media@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-        open list <linux-kernel@vger.kernel.org>
-Subject: Re: [RFC PATCH] media: v4l2-dev: sysfs: Support streaming attribute
-Message-ID: <Y7LdpQ9s7lS+x9mO@pendragon.ideasonboard.com>
-References: <20221223231736.2111774-1-kieran.bingham@ideasonboard.com>
- <Y6lu14VsuH1LbqFH@pendragon.ideasonboard.com>
- <yvFnaY1MM7I5C7H18aJdvQ6XEQn979YkGYpCjRLsnJvCRr2vYWVKorYqFXGxP3tWKeJ5B0oEA4Fn4W2-IqPd_N_wivEM4uKJD4WX53RiSmY=@protonmail.com>
- <Y7LYp01J5co9KSfJ@paasikivi.fi.intel.com>
+        with ESMTP id S232531AbjABNl0 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 2 Jan 2023 08:41:26 -0500
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4294D63AB;
+        Mon,  2 Jan 2023 05:41:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1672666886; x=1704202886;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=CX0zuNRoqPw8io4WYHuKdvqgSF3WPmb0FFc7W4rrRCY=;
+  b=JxbyP2YCRaNjv0lTwuH/Vzmel6591v3Jjf+OpBX0WNrKTbKZUvDC0+ZP
+   GSOzDDhJKgWf9Yj3XpHjiLFSjNzLqqSBO7G8Q/ZHPpyH9sFaoBUfEt4Su
+   p+NKXYpd17rrr5YH+Ff/WON3cpTqKnYPVpgm7VlPyn1B+nvMRdVFppxeP
+   ghB4CpoPjpUpxar/WjpPnzRgE7cp0B2so8jnwDWNgMSJFVih2fBv08C9K
+   7SBSKQd4tftv3H5f4lDm9ZvBylpvAAz857vGJOQ38BdKUHCKRrAKtkJjB
+   Gq3B3DQaOnZTQ4z2tutMr0FL2aQoUfvwzsT9+noMWk58KrqBSoneelmzx
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10578"; a="304993109"
+X-IronPort-AV: E=Sophos;i="5.96,294,1665471600"; 
+   d="scan'208";a="304993109"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jan 2023 05:41:25 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10578"; a="722976220"
+X-IronPort-AV: E=Sophos;i="5.96,294,1665471600"; 
+   d="scan'208";a="722976220"
+Received: from punajuuri.fi.intel.com (HELO paasikivi.fi.intel.com) ([10.237.72.43])
+  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jan 2023 05:41:23 -0800
+Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
+        by paasikivi.fi.intel.com (Postfix) with SMTP id 3A3F82017A;
+        Mon,  2 Jan 2023 15:41:21 +0200 (EET)
+Date:   Mon, 2 Jan 2023 13:41:21 +0000
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Aleksandr Burakov <a.burakov@rosalinux.ru>
+Cc:     Bingbu Cao <bingbu.cao@intel.com>,
+        Tianshu Qiu <tian.shu.qiu@intel.com>,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-kernel@vger.kernel.org, lvc-project@linuxtesting.org
+Subject: Re: [PATCH] staging: media: ipu3: buffer overflow fix in
+ imgu_map_node
+Message-ID: <Y7LfAR4QdIzp81yW@paasikivi.fi.intel.com>
+References: <20221223123025.5948-1-a.burakov@rosalinux.ru>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <Y7LYp01J5co9KSfJ@paasikivi.fi.intel.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+In-Reply-To: <20221223123025.5948-1-a.burakov@rosalinux.ru>
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -55,64 +64,51 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello,
+Hi Aleksandr,
 
-On Mon, Jan 02, 2023 at 01:14:15PM +0000, Sakari Ailus wrote:
-> On Wed, Dec 28, 2022 at 01:44:38AM +0000, Barnabás Pőcze wrote:
-> > On 2022. december 26., hétfő 10:52, Laurent Pinchart wrote:
-> > > On Fri, Dec 23, 2022 at 11:17:35PM +0000, Kieran Bingham wrote:
-> > > 
-> > > > Provide a streaming attribute to allow userspace to interogate if a device
-> > > > is actively streaming or not.
-> > > > 
-> > > > This will allow desktop notifications to report if a camera or device
-> > > > is active on the system, rather than just 'open' which can occur when
-> > > > configuring the device.
-> > > > 
-> > > > Bug: https://gitlab.freedesktop.org/pipewire/pipewire/-/issues/2669
-> > > > Signed-off-by: Kieran Bingham kieran.bingham@ideasonboard.com
-> > > > ---
-> > > > 
-> > > > This is a quick POC to see if such a facility makes sense.
-> > > > I'm weary that not all video devices may have the queues registered on
-> > > > the struct video_device, but this seems like an effective way to be able
-> > > > to determine if a device is actively streaming on a system.
-> > > 
-> > > I can imagine multiple problems, from race conditions to permissions and
-> > > privacy. In order to comment on the fitness of this solution to address
-> > > the problem you're trying to solve, could you describe the actual
-> > > problem ?
-> > 
-> > The issue is explained in the following thread:
-> > https://gitlab.freedesktop.org/pipewire/pipewire/-/issues/2669#note_1697388
-> > 
-> > In short, the user wants to show a "camera-in-use" indicator when the laptop camera
-> > is used. The script that the user previously had only checked if /dev/video0
-> > was open in any process, if it was, the indicator was shown. However, libcamera
-> > - at least at the moment - keeps the file descriptor open as long as the Camera
-> > object exists, which pipewire keeps alive for the entire lifetime of the device,
-> > therefore the "camera-in-use" indicator is always shown.
+On Fri, Dec 23, 2022 at 03:30:25PM +0300, Aleksandr Burakov wrote:
+> If imgu_node_map[i].css_queue is not equal to css_queue
+> then "i" after the loop could be equal to IMGU_NODE_NUM
+> that is more than the border value (IMGU_NODE_NUM - 1).
+> So imgu_map_node() call may return IMGU_NODE_NUM that is more
+> than expected value.
 > 
-> A sysfs attribute is not a great way to address this.
+> Found by Linux Verification Center (linuxtesting.org) with SVACE.
 > 
-> libcamera certainly has information on whether streaming is ongoing. The
-> information should come from there. Or Pipewire. Dbus perhaps?
+> Fixes: 7fc7af649ca7 ("media: staging/intel-ipu3: Add imgu top level pci device driver")
+> Signed-off-by: Aleksandr Burakov <a.burakov@rosalinux.ru>
+> ---
+>  drivers/staging/media/ipu3/ipu3.c | 6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/staging/media/ipu3/ipu3.c b/drivers/staging/media/ipu3/ipu3.c
+> index 0c453b37f8c4..cb09eb3cc227 100644
+> --- a/drivers/staging/media/ipu3/ipu3.c
+> +++ b/drivers/staging/media/ipu3/ipu3.c
+> @@ -60,8 +60,10 @@ unsigned int imgu_map_node(struct imgu_device *imgu, unsigned int css_queue)
+>  	for (i = 0; i < IMGU_NODE_NUM; i++)
+>  		if (imgu_node_map[i].css_queue == css_queue)
+>  			break;
+> -
+> -	return i;
+> +	if (i < IMGU_NODE_NUM)
+> +		return i;
+> +	else
+> +		return (IMGU_NODE_NUM - 1);
+>  }
+>  
+>  /**************** Dummy buffers ****************/
 
-I tend to agree, I think this is best solved in userspace where PipeWire
-can have a centralized view of all cameras in the system, and of their
-users.
+Thanks for the patch. It would require a bug elsewhere in the driver for
+this to happen. If some handling for this case is added, it shouldn't be
+hiding the issue.
 
-> Alternatively libcamera could close the video devices while not streaming
-> but that would involve e.g. releasing possible video buffer allocations as
-> well, increasing streaming start latency.
+One easy way could be to add WARN_ON() for this, and return some value (as
+you do). Zero would do equally well.
 
-Closing video (and subdev) nodes when the camera is not in use would be
-good I think. It doesn't mean we have to open them when starting
-capture, explicit open/close operation (or similar, maybe introducing a
-capture session object in the libcamera API would also make sense, it
-should be considered as part of the same issue) could help with this.
+I.e.
+
+	return WARN_ON(i >= IMGU_NODE_NUM) ? 0 : i;
 
 -- 
-Regards,
-
-Laurent Pinchart
+Sakari Ailus
