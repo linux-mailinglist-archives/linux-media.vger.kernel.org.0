@@ -2,332 +2,251 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5469265B259
-	for <lists+linux-media@lfdr.de>; Mon,  2 Jan 2023 13:49:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A91D665B269
+	for <lists+linux-media@lfdr.de>; Mon,  2 Jan 2023 13:54:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232870AbjABMto (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 2 Jan 2023 07:49:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53462 "EHLO
+        id S233051AbjABMyS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 2 Jan 2023 07:54:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56074 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232841AbjABMtm (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 2 Jan 2023 07:49:42 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6174EE4E
-        for <linux-media@vger.kernel.org>; Mon,  2 Jan 2023 04:49:41 -0800 (PST)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id E268A7C5;
-        Mon,  2 Jan 2023 13:49:39 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1672663780;
-        bh=DwU5zC5/zYEB9x/tKnmt6K6jFSmG94re+bMREh2EPQQ=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=OfLA1YmAYO07Mm5SetVVjV0myQy0Hz/eZrw0A/Yn93NYyHBDd53Z5Z2VPVy9FLtec
-         4OBazwjC6nwezgKIOgKXu/D4D2Fv3TmwaWZoCrn0cbwM5IwtIBEf6WsL7V89L5go0H
-         ofCmvHbd8oLc3T5Yg1soHyNd7bbJX1yT6iJ7dCwM=
-Date:   Mon, 2 Jan 2023 14:49:36 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Giuliano Lotta <giuliano.lotta@gmail.com>
-Cc:     Ricardo Ribalda <ribalda@chromium.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        mchehab@kernel.org
-Subject: Re: ucv camera fix : tester offering :-)
-Message-ID: <Y7LS4MMcSX/tO5EN@pendragon.ideasonboard.com>
-References: <CA+DpmqZ1fh=MqEn-G6wb_6yELuPWVTROG2ReUDPJGAAOn7FN9Q@mail.gmail.com>
- <CANiDSCuoL4-L4zXPFRS88NpmYMdbbP2QNi90U9LkpS90_unb1w@mail.gmail.com>
- <Y689FvF1zULBkSHs@pendragon.ideasonboard.com>
- <CA+DpmqZ=v1TwfhnjpaT6ip9L4UnVuE-Cx2cJo0hDNybNhKwu4g@mail.gmail.com>
+        with ESMTP id S235981AbjABMyK (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 2 Jan 2023 07:54:10 -0500
+Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com [IPv6:2a00:1450:4864:20::636])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EF8E8C21
+        for <linux-media@vger.kernel.org>; Mon,  2 Jan 2023 04:54:08 -0800 (PST)
+Received: by mail-ej1-x636.google.com with SMTP id jo4so66433972ejb.7
+        for <linux-media@vger.kernel.org>; Mon, 02 Jan 2023 04:54:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=4mSpRdBbR8hRsjiFVakEqY6OCTQghFDsF57WE7uaZ24=;
+        b=ftNK/aNTJUYoLnNPnZtpYA0c2auYvuuZKBly8Ot7SG7yW80AnySckkTePJ4xHSKbVs
+         qGWNQ+TBR+xT8+ytjem9zJrRHsBevryPUeqG17zBdheg1DsgTDoYTELa/DS0kb6V6qhR
+         71JZNOJMfUTcRck6vbmmnqo392zr6FgeXCnOg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=4mSpRdBbR8hRsjiFVakEqY6OCTQghFDsF57WE7uaZ24=;
+        b=cKeofeniSCNRP8eKoz8P4MEAZrDele3waXAtPjymCX1ilQP5KENM+irKn/Ye+RMQhR
+         qJr+iF1yyiAavxzqeQV2Y8NrBRxvyVTZSy4vOC1Wxrh718nCtV4a1DRcP7+CIYN1qlw8
+         iUEQdDiDbxZ6skFduVI+XrfkFmP5BsFL4pLbZa0czFQz3TPibxZYaPsIGNHlbdbdoY1p
+         MFVRKg420z1DV/BHjNSQzH4gRgnXq9NamemOxhEKcpWhia72+nSgmcr52LNw3MS7ktAn
+         nlr5g8BLiQ4awn+0/36uyG6ODugAzXcXNOBKDjY9ar+JGKPS5REviWUGDMTKdME+51NE
+         9E0w==
+X-Gm-Message-State: AFqh2kq0ZHHHm2urXP/mjZWblilC7alxoXnHCO6Jjo3IrZkD+AMGrTXL
+        wQzMwTmaTnsOlcQewdRetmOBqCoUWQkuRbJwyOY=
+X-Google-Smtp-Source: AMrXdXtKnal3J9pm26arZI9MbJIEvGdKx3JHk0FBnpKk8LqbC79A6lGLoOjRyMQqd+u8Jb8OqFug2w==
+X-Received: by 2002:a17:906:9f07:b0:7c1:6f0a:a2cf with SMTP id fy7-20020a1709069f0700b007c16f0aa2cfmr35989436ejc.32.1672664047325;
+        Mon, 02 Jan 2023 04:54:07 -0800 (PST)
+Received: from alco.roam.corp.google.com ([2620:0:1059:10:6ef6:ea10:76ec:977f])
+        by smtp.gmail.com with ESMTPSA id j15-20020a170906094f00b007add28659b0sm13205598ejd.140.2023.01.02.04.54.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 02 Jan 2023 04:54:06 -0800 (PST)
+From:   Ricardo Ribalda <ribalda@chromium.org>
+Date:   Mon, 02 Jan 2023 13:53:38 +0100
+Subject: [PATCH v5] media: uvcvideo: Fix race condition with usb_kill_urb
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CA+DpmqZ=v1TwfhnjpaT6ip9L4UnVuE-Cx2cJo0hDNybNhKwu4g@mail.gmail.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20221212-uvc-race-v5-0-3db3933d1608@chromium.org>
+To:     Sergey Senozhatsky <senozhatsky@chromium.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Max Staudt <mstaudt@google.com>
+Cc:     linux-media@vger.kernel.org, stable@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Yunke Cao <yunkec@chromium.org>,
+        Ricardo Ribalda <ribalda@chromium.org>
+X-Mailer: b4 0.11.0-dev-696ae
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5506; i=ribalda@chromium.org;
+ h=from:subject:message-id; bh=+NHyWPvCyiTeSkvSubZaZ/Q7vNEi0zyCacfqmuUFlec=;
+ b=owEBbQKS/ZANAwAKAdE30T7POsSIAcsmYgBjstPpb14iWK6RcBI4U/PFcjqha1VTQAciMfENYSVQ
+ E6oV2xWJAjMEAAEKAB0WIQREDzjr+/4oCDLSsx7RN9E+zzrEiAUCY7LT6QAKCRDRN9E+zzrEiJciD/
+ 0QhKqGkYR0UyIX7FhHkAGoH2TSg5zA4GQlTlCH0inYvovIfE9a5nql/WSl+nfDPU0UOiAJyZQhx9EI
+ Gwze+7gey1+WYXHo8oexhS1zHupNXWoaGwaEH1Om/HAU6/PGYOon81TxK2bXf+rM7JP2/J8tn++S07
+ 0bTPCCHDx2cJPvIwgkUqXM1qzPZdwXnEshv9A/jgK+1A9MOY92TbF5D2mR7cakcOLM5XAonXViFxh2
+ Rxehg952173WD5jLzxamdCB4WOPXIp7Pa/P2PTb0gQjUg6VYbc+Oi0SX11PE4sGC1TRl212XzyeaxL
+ uUlxbbdWnsZpa/qb87rDF0isbHmFuySVBTn51CmAxiJ2dNw/sqhqkiec1O0FOnP2NpIWkytOkttlSu
+ Vm8OpvXvAJZvAm58PcddIrO3qURhQw9HLFl18OzTOxu+KsQicyi3WvVuQNzZLQYcRrEpAnszDliUL0
+ +KE09fP90LTCQ5XkYTSgTONgDX7VT6rLpnQVfOMxG4QOLq3ITax+hChTLBcUDXhHgfQXFV7giThyO9
+ HQo3G8IPLQ0jMlhmLioRuFDRsynLnYoluMJ90rhHZMkGhyX/7A49d/qCEp1dZk5qavxu5CPfdo7xTy
+ pLt7dpATJQ9o2TY3vjqEqDbvzW8IVLjC0pG8HCjaI6MWGOlbsFJkjQPzzihg==
+X-Developer-Key: i=ribalda@chromium.org; a=openpgp;
+ fpr=9EC3BB66E2FC129A6F90B39556A0D81F9F782DA9
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Giuliano,
+usb_kill_urb warranties that all the handlers are finished when it
+returns, but does not protect against threads that might be handling
+asynchronously the urb.
 
-On Sun, Jan 01, 2023 at 10:26:00PM +0100, Giuliano Lotta wrote:
-> *Hi Laurent *
-> 
-> *Thanks a lot for your kind help… and thanks for finding time close to the
-> new year holiday (btw… Happy new year !)*
-> 
-> *I’m running **Ubuntu 22.04.1 LTS, with kernel **Ubuntu
-> 5.15.0-56.62-generic 5.15.64*
-> 
-> 
-> *I expanded the tar archive in my home directory, and created a new Eclipse
-> project with Eclispe main site config info.*
+For UVC, the function uvc_ctrl_status_event_async() takes care of
+control changes asynchronously.
 
-You can use your favourite source code editor to work on the kernel, but
-an Eclipse *project* may be overkill. I wouldn't recommend building the
-kernel within Eclipse, running 'make' on the command line is preferable.
+ If the code is executed in the following order:
 
-> *- UVC_DRIVER.C REFERENCE VERSION*
-> 
-> *Thanks for the diff your are submitting me… considering the line numbers,
-> your diff are NOT aligned with uvcdriver.c for my running ubuntu (kernel
-> 5,15) :*
-> 
-> *https://git.launchpad.net/~ubuntu-kernel-test/ubuntu/+source/linux/+git/linus--linux/tree/drivers/media/usb/uvc/uvc_driver.c?h=v5.15
-> <https://git.launchpad.net/~ubuntu-kernel-test/ubuntu/+source/linux/+git/linus--linux/tree/drivers/media/usb/uvc/uvc_driver.c?h=v5.15>*
-> 
-> 
-> 
-> *I also checked the Linus Torsvald git, and the ubuntu kernel 6,1. I see
-> that some “other” Quanta camera has been added in Ubuntu 6,1 mainline and
-> Torvald one, (e,g, 0x0408:0x4034), but non yet mine camera (0x0408:0x4035)
-> !!*
-> 
-> *https://git.launchpad.net/~ubuntu-kernel-test/ubuntu/+source/linux/+git/linus--linux/tree/drivers/media/usb/uvc/uvc_driver.c?h=v6.1
-> <https://git.launchpad.net/~ubuntu-kernel-test/ubuntu/+source/linux/+git/linus--linux/tree/drivers/media/usb/uvc/uvc_driver.c?h=v6.1>*
-> 
-> *https://github.com/torvalds/linux/blob/master/drivers/media/usb/uvc/uvc_driver.c
-> <https://github.com/torvalds/linux/blob/master/drivers/media/usb/uvc/uvc_driver.c>*
-> 
-> 
-> *The diff line number 2447, seems to match the Ubuntu 6,1 version, and NOT
-> the current Torvald version. Is that right ?*
+CPU 0					CPU 1
+===== 					=====
+uvc_status_complete()
+					uvc_status_stop()
+uvc_ctrl_status_event_work()
+					uvc_status_start() -> FAIL
 
-I don't recall which version I used as a base, but that doesn't matter
-much here, you can apply the diff manually in the worst case by adding
-the match entry to the array. The exact position doesn't matter much, as
-long as it's before the last two items.
+Then uvc_status_start will keep failing and this error will be shown:
 
-> *-DEVICE**_**INFO FIELD MACRO*
-> 
-> 
-> *comparing how suc field is created,  your macro seems to be different from
-> the “ubuntu standard”. *
-> 
-> 
-> *E.g. :*
-> .driver_info = (kernel_ulong_t) &(const struct uvc_device_info ) { .uvc_version = 0x010a, } },
-> vs
-> .driver_info = (kernel_ulong_t)&uvc_quirk_probe_minmax },
-> 
-> *Can I reform the .device_info field to follow the ubuntu standard ? Are
-> there any real differences or incompatibilities ?*
+<4>[    5.540139] URB 0000000000000000 submitted while active
+drivers/usb/core/urb.c:378 usb_submit_urb+0x4c3/0x528
 
-The uvc_device_info structure should be in the v5.15 kernel already, so
-the code I've sent should compile fine, I don't think there's a need to
-change anything.
+Let's improve the current situation, by not re-submiting the urb if
+we are stopping the status event. Also process the queued work
+(if any) during stop.
 
-> *- **NEW **COMPILED VERSION*
-> 
-> *I modified the 5,15 uvc_driver.c version with your lines of code, and
-> loaded it on github*
-> 
-> *https://github.com/Giuliano69/uvc_driver-for-Quanta-HD-User-Facing-0x0408-0x4035-/blob/main/uvc_driver.c
-> <https://github.com/Giuliano69/uvc_driver-for-Quanta-HD-User-Facing-0x0408-0x4035-/blob/main/uvc_driver.c>*
-> 
-> *Compiling the whole new kernel (“new” because the usb_driver.c is
-> modified), shows NO ERROR:*
+CPU 0					CPU 1
+===== 					=====
+uvc_status_complete()
+					uvc_status_stop()
+					uvc_status_start()
+uvc_ctrl_status_event_work() -> FAIL
 
-Good :-)
+Hopefully, with the usb layer protection this should be enough to cover
+all the cases.
 
-> > *21:42:38 **** Incremental Build of configuration Default for project
-> > Linux 5.15 *****
-> >
-> make all
-> >
-> > CALL scripts/checksyscalls.sh
-> > CALL scripts/atomic/check-atomics.sh
-> > DESCEND objtool
-> > DESCEND bpf/resolve_btfids
-> > CHK include/generated/compile.h
-> > CHK kernel/kheaders_data.tar.xz
-> > CC [M] drivers/media/usb/uvc/uvc_driver.o
-> > LD [M] drivers/media/usb/uvc/uvcvideo.o
-> > Kernel: arch/x86/boot/bzImage is ready (#2)
-> > MODPOST modules-only.symvers
-> > GEN Module.symvers
-> > CC [M] drivers/media/usb/uvc/uvcvideo.mod.o
-> > LD [M] drivers/media/usb/uvc/uvcvideo.ko
-> >
-> > 21:43:52 Build Finished. 0 errors, 0 warnings. (took 1m:14s.207ms)
-> >
-> >
-> *BUT **I’ve difficulties in finding WHERE is the new module after the
-> building in my project directory tree!! *
-> 
-> *Here is the ls -al*
-> 
-> *giuliano@Astra2A:~/linux-source-5.15.0/drivers/media/usb/uvc$ ls -l*
-> 
-> *totale 13288*
-> 
-> *-rw-r--r-- 1 giuliano giuliano 623 ott 31 2021 Kconfig*
-> *-rw-r--r-- 1 giuliano giuliano 290 ott 31 2021 Makefile*
-> *-rw-rw-r-- 1 giuliano giuliano 34 gen 1 21:43 modules.order*
-> *-rw-r--r-- 1 giuliano giuliano 61689 ott 31 2021 uvc_ctrl.c*
-> *-rw-rw-r-- 1 giuliano giuliano 530176 gen 1 11:48 uvc_ctrl.o*
-> *-rw-r--r-- 1 giuliano giuliano 2520 ott 31 2021 uvc_debugfs.c*
-> *-rw-rw-r-- 1 giuliano giuliano 342808 gen 1 11:48 uvc_debugfs.o*
-> *-rw-r--r-- 1 giuliano giuliano 87954 gen 1 21:42 uvc_driver.c*
-> *-rw-rw-r-- 1 giuliano giuliano 631208 gen 1 21:43 uvc_driver.o*
-> *-rw-r--r-- 1 giuliano giuliano 87571 ott 31 2021 uvc_driver.old*
-> *-rw-r--r-- 1 giuliano giuliano 3967 ott 31 2021 uvc_entity.c*
-> *-rw-rw-r-- 1 giuliano giuliano 344944 gen 1 11:48 uvc_entity.o*
-> *-rw-r--r-- 1 giuliano giuliano 3779 ott 31 2021 uvc_isight.c*
-> *-rw-rw-r-- 1 giuliano giuliano 315816 gen 1 11:48 uvc_isight.o*
-> *-rw-r--r-- 1 giuliano giuliano 4964 ott 31 2021 uvc_metadata.c*
-> *-rw-rw-r-- 1 giuliano giuliano 389056 gen 1 11:48 uvc_metadata.o*
-> *-rw-r--r-- 1 giuliano giuliano 13448 ott 31 2021 uvc_queue.c*
-> *-rw-rw-r-- 1 giuliano giuliano 416680 gen 1 11:48 uvc_queue.o*
-> *-rw-r--r-- 1 giuliano giuliano 7213 ott 31 2021 uvc_status.c*
-> *-rw-rw-r-- 1 giuliano giuliano 344240 gen 1 11:48 uvc_status.o*
-> *-rw-r--r-- 1 giuliano giuliano 39618 nov 22 20:53 uvc_v4l2.c*
-> *-rw-rw-r-- 1 giuliano giuliano 534856 gen 1 11:48 uvc_v4l2.o*
-> *-rw-r--r-- 1 giuliano giuliano 64532 nov 22 20:53 uvc_video.c*
-> *-rw-r--r-- 1 giuliano giuliano 27398 nov 22 20:53 uvcvideo.h*
-> *-rw-rw-r-- 1 giuliano giuliano 4384280 gen 1 21:43 uvcvideo.ko*
+Cc: stable@vger.kernel.org
+Fixes: e5225c820c05 ("media: uvcvideo: Send a control event when a Control Change interrupt arrives")
+Reviewed-by: Yunke Cao <yunkec@chromium.org>
+Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+---
+uvc: Fix race condition on uvc
 
-This is the new module.
+Make sure that all the async work is finished when we stop the status urb.
 
-Normally modules are installed in the system by running `make
-modules_install`. This will however overwrite all the modules installed
-by the Ubuntu kernel package, so I don't recommend it, many things could
-go wrong. Instead, you can try to load the module manually. First unload
-the exising uvcvideo module with `sudo rmmod uvcvideo`, and then load
-the new one with `sudo insmod drivers/media/usb/uvc/uvcvideo.ko` (note
-how insmod uses the module file path as an argument, while modprobe uses
-the module name and looks it up in /lib/modules - you should ajust the
-path according to where you run the command).
+To: Yunke Cao <yunkec@chromium.org>
+To: Sergey Senozhatsky <senozhatsky@chromium.org>
+To: Max Staudt <mstaudt@google.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+---
+Changes in v5:
+- atomic_t do not impose barriers, use smp_mb() instead. (Thanks Laurent)
+- Add an extra cancel_work_sync().
+- Link to v4: https://lore.kernel.org/r/20221212-uvc-race-v4-0-38d7075b03f5@chromium.org
 
-If this fails, `dmesg` may give some useful information.
+Changes in v4:
+- Replace bool with atomic_t to avoid compiler reordering.
+- First complete the async work and then kill the urb to avoid race (Thanks Laurent!)
+- Link to v3: https://lore.kernel.org/r/20221212-uvc-race-v3-0-954efc752c9a@chromium.org
 
-> *-rw-rw-r-- 1 giuliano giuliano 348 gen 1 21:43 uvcvideo.mod*
-> *-rw-rw-r-- 1 giuliano giuliano 10098 gen 1 21:43 uvcvideo.mod.c*
-> *-rw-rw-r-- 1 giuliano giuliano 70904 gen 1 21:43 uvcvideo.mod.o*
-> *-rw-rw-r-- 1 giuliano giuliano 500384 gen 1 11:48 uvc_video.o*
-> *-rw-rw-r-- 1 giuliano giuliano 4315312 gen 1 21:43 uvcvideo.o*
-> 
-> 
-> *IF the new module file is created, may I load it with a simple modprobe in
-> my running system ?*
-> 
-> *Can it interfere with the Nvidia driver (many times it showed some
-> problems…) =*
+Changes in v3:
+- Remove the patch for dev->status, makes more sense in another series, and makes
+  the zero day less nervous.
+- Update reviewed-by (thanks Yunke!).
+- Link to v2: https://lore.kernel.org/r/20221212-uvc-race-v2-0-54496cc3b8ab@chromium.org
 
-They shouldn't be related, no.
+Changes in v2:
+- Add a patch for not kalloc dev->status
+- Redo the logic mechanism, so it also works with suspend (Thanks Yunke!)
+- Link to v1: https://lore.kernel.org/r/20221212-uvc-race-v1-0-c52e1783c31d@chromium.org
+---
+ drivers/media/usb/uvc/uvc_ctrl.c   |  3 +++
+ drivers/media/usb/uvc/uvc_status.c | 36 ++++++++++++++++++++++++++++++++++++
+ drivers/media/usb/uvc/uvcvideo.h   |  1 +
+ 3 files changed, 40 insertions(+)
 
-> Il giorno ven 30 dic 2022 alle ore 20:33 Laurent Pinchart ha scritto:
-> > On Wed, Dec 21, 2022 at 09:09:37PM +0100, Ricardo Ribalda wrote:
-> > > Hi Giuliano
-> > >
-> > > Usually it is better to ask at the linux-media mailing list
-> > > https://www.linuxtv.org/lists.php. there is better chance to get an
-> > > answer and your question will get better chances to get be answered.
-> > >
-> > > On Wed, 21 Dec 2022 at 15:14, Giuliano Lotta wrote:
-> > > >
-> > > > Hi Laurent,
-> > > >
-> > > > I'm using using an ubuntu Ubuntu 22.04.1 LTS on 5.15.0-56-generic
-> > > >
-> > > > with an Acer Nitro 5 AN517-55 with Quanta ACER HD User Facing', USB
-> > > > 0408:4035.
-> > > >
-> > > > Currently the camera is not working under linux. The camera works
-> > > > perfectly on Windows 11 dual boot.
-> > > >
-> > > > The camera is reported to have problems on other linux versions:
-> > > > https://linux-hardware.org/?id=usb:0408-4035
-> > > >
-> > > > My console commands report similar info to other users:
-> > > > https://unix.stackexchange.com/questions/723504/integrated-camera-not-detected-working-on-acer-nitro-5-an515-58
-> > > >
-> > > > I see also that there is a proposed fix at
-> > > > https://patchwork.kernel.org/project/linux-media/patch/20220617235610.321917-9-ribalda@chromium.org/
-> > >
-> > > If your error in dmesg is simiar
-> > >
-> > > [    4.629731] uvcvideo 3-6:1.1: Failed to query (129) UVC probe control: 26 (exp. 48).
-> >
-> > It looks like your device advertise UVC 1.5 support (as also hinted by
-> > the availability of the Region of Interest control in the camera input
-> > terminal) but implements the UVC 1.0a video control. I'm honestly
-> > puzzled by how abysmal compliance testing seems to be among webcam
-> > manufacturers. In older days this would have called for beheading with a
-> > rusty tea spoon, or worse, cursing in them Finnish.
-> >
-> > > I am afraid that my patch won't help you much. My patch fixes the way
-> > > a control can be configured.
-> > >
-> > > Can you copy your whole dmesg when you get an error.
-> >
-> > That would be useful.
-> >
-> > > Also the output of lsusb -v -d 0408:4035
-> >
-> > That seems to be available from https://pastebin.com/raw/GQVWC6i3.
-> >
-> > Giuliano, could you try the following patch ? You need to apply it to
-> > the sources of the kernel you're running (available from your
-> > distribution), and compile the uvcvideo module. Depending on the
-> > distribution, it may sign kernel modules, in which case you may need to
-> > recompile the whole kernel. That's a distribution-specific issue that
-> > you should bring up with your distribution's support channel if you run
-> > into issues.
-> >
-> > diff --git a/drivers/media/usb/uvc/uvc_driver.c
-> > b/drivers/media/usb/uvc/uvc_driver.c
-> > index 6abec7a51f47..52e7cae5c249 100644
-> > --- a/drivers/media/usb/uvc/uvc_driver.c
-> > +++ b/drivers/media/usb/uvc/uvc_driver.c
-> > @@ -2447,6 +2447,17 @@ static const struct usb_device_id uvc_ids[] = {
-> >           .bInterfaceSubClass   = 1,
-> >           .bInterfaceProtocol   = UVC_PC_PROTOCOL_15,
-> >           .driver_info          = (kernel_ulong_t)&uvc_ctrl_power_line_limited },
-> > +       /* Quanta ACER HD User Facing */
-> > +       { .match_flags          = USB_DEVICE_ID_MATCH_DEVICE
-> > +                               | USB_DEVICE_ID_MATCH_INT_INFO,
-> > +         .idVendor             = 0x0408,
-> > +         .idProduct            = 0x4035,
-> > +         .bInterfaceClass      = USB_CLASS_VIDEO,
-> > +         .bInterfaceSubClass   = 1,
-> > +         .bInterfaceProtocol   = UVC_PC_PROTOCOL_15,
-> > +         .driver_info          = (kernel_ulong_t)&(const struct uvc_device_info) {
-> > +               .uvc_version = 0x010a,
-> > +         } },
-> >         /* LogiLink Wireless Webcam */
-> >         { .match_flags          = USB_DEVICE_ID_MATCH_DEVICE
-> >                                 | USB_DEVICE_ID_MATCH_INT_INFO,
-> >
-> > This may cause side effects, for instance when it comes to handling of
-> > the power line frequency control or other controls whose implementation
-> > depend on the UVC version, but we'll worry about that later.
-> >
-> > > > Installed linux-source but uvc_driver.c I found in the directory tree
-> > > > of Ubuntu is different from both :
-> > > >
-> > > > - https://github.com/torvalds/linux/blob/master/drivers/media/usb/uvc/uvc_driver.c
-> > > >
-> > > > - https://patchwork.kernel.org/project/linux-media/patch/20220617235610.321917-9-ribalda@chromium.org/
-> > > >
-> > > >
-> > > > I would like to test your patch and see if the solution can be
-> > > > submitted to Ubuntu for the next fix release.
-> > > >
-> > > > - Could you give me some instructions on how to proceed ?
-> > > >
-> > > > - Should I compile a new whole kernel or just a mod?
-> > > >
-> > > > - Where can I find the source to which your fix applies (seems to
-> > > >   apply to something different from Ubuntu and torvald versions) ?
-> > > >   Will it be compatible with the current Ubuntu version?
-> > > >
-> > > > - May I ask for some instructions on how to proceed with testing
-> > > >   your fix ?
+diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
+index c95a2229f4fa..5160facc8e20 100644
+--- a/drivers/media/usb/uvc/uvc_ctrl.c
++++ b/drivers/media/usb/uvc/uvc_ctrl.c
+@@ -1442,6 +1442,9 @@ static void uvc_ctrl_status_event_work(struct work_struct *work)
+ 
+ 	uvc_ctrl_status_event(w->chain, w->ctrl, w->data);
+ 
++	if (dev->flush_status)
++		return;
++
+ 	/* Resubmit the URB. */
+ 	w->urb->interval = dev->int_ep->desc.bInterval;
+ 	ret = usb_submit_urb(w->urb, GFP_KERNEL);
+diff --git a/drivers/media/usb/uvc/uvc_status.c b/drivers/media/usb/uvc/uvc_status.c
+index 7518ffce22ed..5911e63776e1 100644
+--- a/drivers/media/usb/uvc/uvc_status.c
++++ b/drivers/media/usb/uvc/uvc_status.c
+@@ -6,6 +6,7 @@
+  *          Laurent Pinchart (laurent.pinchart@ideasonboard.com)
+  */
+ 
++#include <asm/barrier.h>
+ #include <linux/kernel.h>
+ #include <linux/input.h>
+ #include <linux/slab.h>
+@@ -309,5 +310,40 @@ int uvc_status_start(struct uvc_device *dev, gfp_t flags)
+ 
+ void uvc_status_stop(struct uvc_device *dev)
+ {
++	struct uvc_ctrl_work *w = &dev->async_ctrl;
++
++	/* From this point, the status urb is not re-queued */
++	dev->flush_status = 1;
++	/*
++	 * Make sure that the other CPUs are aware of the new value of
++	 * flush_status.
++	 */
++	smp_mb();
++
++	/* If there is any status event on the queue, process it. */
++	if (cancel_work_sync(&w->work))
++		uvc_ctrl_status_event(w->chain, w->ctrl, w->data);
++
++	/* Kill the urb. */
+ 	usb_kill_urb(dev->int_urb);
++
++	/*
++	 * If an status event was queued between cancel_work_sync() and
++	 * usb_kill_urb(), process it.
++	 */
++	if (cancel_work_sync(&w->work))
++		uvc_ctrl_status_event(w->chain, w->ctrl, w->data);
++
++	/*
++	 * From this point, there are no events on the queue and the status urb
++	 * is dead, this is, no events will be queued until uvc_status_start()
++	 * is called.
++	 */
++	dev->flush_status = 0;
++	/*
++	 * Write to memory the value of flush_status before uvc_status_start()
++	 * is called again,
++	 */
++	smp_mb();
++
+ }
+diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
+index df93db259312..6a9b72d6789e 100644
+--- a/drivers/media/usb/uvc/uvcvideo.h
++++ b/drivers/media/usb/uvc/uvcvideo.h
+@@ -560,6 +560,7 @@ struct uvc_device {
+ 	struct usb_host_endpoint *int_ep;
+ 	struct urb *int_urb;
+ 	u8 *status;
++	bool flush_status;
+ 	struct input_dev *input;
+ 	char input_phys[64];
+ 
 
+---
+base-commit: 0ec5a38bf8499f403f81cb81a0e3a60887d1993c
+change-id: 20221212-uvc-race-09276ea68bf8
+
+Best regards,
 -- 
-Regards,
-
-Laurent Pinchart
+Ricardo Ribalda <ribalda@chromium.org>
