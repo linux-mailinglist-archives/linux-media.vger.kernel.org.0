@@ -2,432 +2,163 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D042065B29C
-	for <lists+linux-media@lfdr.de>; Mon,  2 Jan 2023 14:25:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CCD0865B2A6
+	for <lists+linux-media@lfdr.de>; Mon,  2 Jan 2023 14:27:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232574AbjABNZm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 2 Jan 2023 08:25:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35874 "EHLO
+        id S232618AbjABN1m (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 2 Jan 2023 08:27:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36234 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232579AbjABNZj (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 2 Jan 2023 08:25:39 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C8876447
-        for <linux-media@vger.kernel.org>; Mon,  2 Jan 2023 05:25:37 -0800 (PST)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id A1EA17C5;
-        Mon,  2 Jan 2023 14:25:35 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1672665935;
-        bh=EhngPYMYT8dedBH7GoRaeaPVlSVk8hWP2/QNjSTHxmM=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=IMsUu41s/CO9eVxrn0tNHTb/NIs9KomfFW8b010vZqu5Zrlcjtv9H7MkLbF27d+oB
-         1us3rSq2ulqc4zfijC3IfFynoaDTbmCBDdhTC5MKbinrwD0uywDnJFBoAaNyX9UMm8
-         bDfcOM9PPia89gbiTvA+EFfbAOpcUKvsVw1HeuQc=
-Date:   Mon, 2 Jan 2023 15:25:32 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Giuliano Lotta <giuliano.lotta@gmail.com>
-Cc:     Ricardo Ribalda <ribalda@chromium.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        mchehab@kernel.org
-Subject: Re: ucv camera fix : tester offering :-)
-Message-ID: <Y7LbTM0OemR2D95p@pendragon.ideasonboard.com>
-References: <CA+DpmqZ1fh=MqEn-G6wb_6yELuPWVTROG2ReUDPJGAAOn7FN9Q@mail.gmail.com>
- <CANiDSCuoL4-L4zXPFRS88NpmYMdbbP2QNi90U9LkpS90_unb1w@mail.gmail.com>
- <Y689FvF1zULBkSHs@pendragon.ideasonboard.com>
- <CA+DpmqZ=v1TwfhnjpaT6ip9L4UnVuE-Cx2cJo0hDNybNhKwu4g@mail.gmail.com>
- <Y7LS4MMcSX/tO5EN@pendragon.ideasonboard.com>
- <CA+Dpmqax3M5=a=uPEorx=o2_kaKt_Aj7iXaXHreyjWFLscr+Ng@mail.gmail.com>
+        with ESMTP id S232479AbjABN1k (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 2 Jan 2023 08:27:40 -0500
+Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com [IPv6:2a00:1450:4864:20::531])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 979782AD2
+        for <linux-media@vger.kernel.org>; Mon,  2 Jan 2023 05:27:38 -0800 (PST)
+Received: by mail-ed1-x531.google.com with SMTP id l29so32849218edj.7
+        for <linux-media@vger.kernel.org>; Mon, 02 Jan 2023 05:27:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=melexis.com; s=google;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=nhnWv+dk4FvwQWfDu6Dn5OXmIuaYtZRBKsqKseo/QJQ=;
+        b=hRZSSiPj2IoNsDeQxMn9v2eAoe4mhZWgBqbCr8EwM2KMCwuzROByFgr0trGhdg+IqP
+         2KQhr8e9uNlJOToJlBqxNIlnJkTHIOjtWIBlrSR1tKRQCSNPPZ+5oXwK+ggyzLDQvRSG
+         XY3EPnQHMpRXuD5U1Dqr6+E0V8htTFoqk+2ClqF86lGainDSKZnPD6Z7hMddXKQr6Ei3
+         FZVcm39SK/BIe+eUZbuwL8hjRKrPuq5KIo6e/cgcRRzZ7IlXz97Mq8L5NaccWregctcB
+         MGbkfR5UcM4cv+AEIBs/6Qs310OYQHSrunU5iu1Nz5YAseuk0AEzAo7faJhlg8DYkyJ0
+         KHbQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=nhnWv+dk4FvwQWfDu6Dn5OXmIuaYtZRBKsqKseo/QJQ=;
+        b=RI2Ih3MmF4919YjduskaiUxdYLs1vhCECe7eSMYRFgKlQHJDL6bZcpJp3/mWEFr8Cn
+         9vN4LoCGkeE+dfGJKMMtgA+RxFjlOl0AapKP3mXlLLMgi8kVoFxw97K/XaGU5txhqz9d
+         d4naWPE0k04IGqRxhN53+pCOSV/iVtYG7fEs2iqfLfIf760d0c6c9tbG/EILPW8HEUxa
+         CioTXr0TaAxIJXd03bPsByVPBXtqkrltlToB4SpJtF4YhycvYjyVniySb8WAYa2jtAS4
+         oCRFnlNL5GH/u8wLdoqAVYQU+HezyM/GWTAhrdcUvOHvlI2sumFk1PeJA3UgQHOx6QQb
+         EGxg==
+X-Gm-Message-State: AFqh2kqTOvy4Plnm8pN7w/SCx3HGuDQMyvZBPx4hyIG/GUrSb8BG7Ceo
+        TcJOMDh5lt/ZHFke1P7dbafmm8IMIfZR8KKWtDZuad3lA+e0JXhooyDHBPKV57bCJMh0g9TGjsL
+        u4QaGXncMeiUT4wlDO+IC5c7ukhl/yIf+0GYij8JzTml9f6cvvjJ/VqroPhaDsti3lpS8liwbFt
+        M=
+X-Google-Smtp-Source: AMrXdXvtQCww6HngH4qdls5nNXyiWv7LfO6ZAcq06IxTa1mk3Me+6RMCgHa3NMPe78ZaM44Ds0sKdQ==
+X-Received: by 2002:aa7:d7c2:0:b0:472:cee9:bbd3 with SMTP id e2-20020aa7d7c2000000b00472cee9bbd3mr36901688eds.27.1672666057151;
+        Mon, 02 Jan 2023 05:27:37 -0800 (PST)
+Received: from melexis.com ([91.192.181.19])
+        by smtp.gmail.com with ESMTPSA id ev26-20020a056402541a00b004815f3b32a6sm11971463edb.70.2023.01.02.05.27.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 02 Jan 2023 05:27:36 -0800 (PST)
+Date:   Mon, 2 Jan 2023 15:27:33 +0200
+From:   Volodymyr Kharuk <vkh@melexis.com>
+To:     linux-media@vger.kernel.org
+Cc:     Andrii Kyselov <ays@melexis.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        devicetree@vger.kernel.org,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Benjamin Mugnier <benjamin.mugnier@foss.st.com>
+Subject: Re: [PATCH v4 0/8] media: i2c: mlx7502x ToF camera support
+Message-ID: <Y7LbxRQ2mQnnRC6u@melexis.com>
+References: <cover.1669978791.git.vkh@melexis.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CA+Dpmqax3M5=a=uPEorx=o2_kaKt_Aj7iXaXHreyjWFLscr+Ng@mail.gmail.com>
+In-Reply-To: <cover.1669978791.git.vkh@melexis.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Giuliano,
+Hi All,
 
-On Mon, Jan 02, 2023 at 02:18:21PM +0100, Giuliano Lotta wrote:
-> Hi Laurent
-> 
-> I manually copied the uvcvideo.ko in
-> 
-> /lib/modules/5.15.0-56-generic/kernel/drivers/media/usb/uvc
-> 
-> sudo cp…...
-> 
-> 
-> then
-> 
-> sudo rmmod uvcvideo && sudo modprobe uvcvideo
-> 
-> 
-> BUT… IT FAILS
-> 
-> giuliano@Astra2A:~$ sudo rmmod uvcvideo && sudo modprobe uvcvideo
-> 
-> modprobe: ERROR: could not insert 'uvcvideo': Exec format error
-> 
-> 
-> and dmesg shows
-> 
-> [25961.151982] usbcore: registered new interface driver uvcvideo
-> 
-> [26323.125534] usbcore: deregistering interface driver uvcvideo
-> 
-> [26323.189294] uvcvideo: disagrees about version of symbol module_layout
-> 
-> 
-> 
-> 
-> These are the TWO modinfo from the old and new uvcvideo modules
-> 
-> https://pastebin.com/tSj8Exm6
-> 
-> Basically
-> 
-> OLD module: vermagic: 5.15.0-56-generic SMP mod_unload modversions
-> 
-> NEW module: vermagic: 5.15.64 SMP mod_unload modversions
-> 
-> 
-> btw…. to allow Eclipse to compile the kernel, I had to pass this commands
-> 
-> scripts/config --disable CONFIG_SYSTEM_REVOCATION_KEYS
-> 
-> scripts/config --disable SYSTEM_REVOCATION_KEYS
-> 
-> scripts/config --disable SYSTEM_TRUSTED_KEYS
-> 
-> 
-> hope that this does not affect the module layout & checking
-> 
-> 
-> -kindly ASK
-> 
-> 
-> HOW can FORCE the uvcdriver.c to match mi kernel version ?
-> 
-> Have I got OTHER ways to make the kernel module I’m compiling, match my
-> running system ?
+This is a gentle reminder about the patch series for ToF camera.
 
-This is getting distribution-specific, you will need to ask for support
-from Ubuntu-related resources (there may be Ubuntu users on this mailing
-list who could possibly help, but that's not guaranteed, Ubuntu forums,
-mailing lists or IRC channels are likely better).
+Thanks.
 
-> Il giorno lun 2 gen 2023 alle ore 13:49 Laurent Pinchart ha scritto:
-> > On Sun, Jan 01, 2023 at 10:26:00PM +0100, Giuliano Lotta wrote:
-> > > *Hi Laurent *
-> > >
-> > > *Thanks a lot for your kind help… and thanks for finding time close to the
-> > > new year holiday (btw… Happy new year !)*
-> > >
-> > > *I’m running **Ubuntu 22.04.1 LTS, with kernel **Ubuntu
-> > > 5.15.0-56.62-generic 5.15.64*
-> > >
-> > >
-> > > *I expanded the tar archive in my home directory, and created a new
-> > Eclipse
-> > > project with Eclispe main site config info.*
-> >
-> > You can use your favourite source code editor to work on the kernel, but
-> > an Eclipse *project* may be overkill. I wouldn't recommend building the
-> > kernel within Eclipse, running 'make' on the command line is preferable.
-> >
-> > > *- UVC_DRIVER.C REFERENCE VERSION*
-> > >
-> > > *Thanks for the diff your are submitting me… considering the line
-> > numbers,
-> > > your diff are NOT aligned with uvcdriver.c for my running ubuntu (kernel
-> > > 5,15) :*
-> > >
-> > > *
-> > https://git.launchpad.net/~ubuntu-kernel-test/ubuntu/+source/linux/+git/linus--linux/tree/drivers/media/usb/uvc/uvc_driver.c?h=v5.15
-> > > <
-> > https://git.launchpad.net/~ubuntu-kernel-test/ubuntu/+source/linux/+git/linus--linux/tree/drivers/media/usb/uvc/uvc_driver.c?h=v5.15
-> > >*
-> > >
-> > >
-> > >
-> > > *I also checked the Linus Torsvald git, and the ubuntu kernel 6,1. I see
-> > > that some “other” Quanta camera has been added in Ubuntu 6,1 mainline and
-> > > Torvald one, (e,g, 0x0408:0x4034), but non yet mine camera
-> > (0x0408:0x4035)
-> > > !!*
-> > >
-> > > *
-> > https://git.launchpad.net/~ubuntu-kernel-test/ubuntu/+source/linux/+git/linus--linux/tree/drivers/media/usb/uvc/uvc_driver.c?h=v6.1
-> > > <
-> > https://git.launchpad.net/~ubuntu-kernel-test/ubuntu/+source/linux/+git/linus--linux/tree/drivers/media/usb/uvc/uvc_driver.c?h=v6.1
-> > >*
-> > >
-> > > *
-> > https://github.com/torvalds/linux/blob/master/drivers/media/usb/uvc/uvc_driver.c
-> > > <
-> > https://github.com/torvalds/linux/blob/master/drivers/media/usb/uvc/uvc_driver.c
-> > >*
-> > >
-> > >
-> > > *The diff line number 2447, seems to match the Ubuntu 6,1 version, and
-> > NOT
-> > > the current Torvald version. Is that right ?*
-> >
-> > I don't recall which version I used as a base, but that doesn't matter
-> > much here, you can apply the diff manually in the worst case by adding
-> > the match entry to the array. The exact position doesn't matter much, as
-> > long as it's before the last two items.
-> >
-> > > *-DEVICE**_**INFO FIELD MACRO*
-> > >
-> > >
-> > > *comparing how suc field is created,  your macro seems to be different
-> > from
-> > > the “ubuntu standard”. *
-> > >
-> > >
-> > > *E.g. :*
-> > > .driver_info = (kernel_ulong_t) &(const struct uvc_device_info ) {
-> > .uvc_version = 0x010a, } },
-> > > vs
-> > > .driver_info = (kernel_ulong_t)&uvc_quirk_probe_minmax },
-> > >
-> > > *Can I reform the .device_info field to follow the ubuntu standard ? Are
-> > > there any real differences or incompatibilities ?*
-> >
-> > The uvc_device_info structure should be in the v5.15 kernel already, so
-> > the code I've sent should compile fine, I don't think there's a need to
-> > change anything.
-> >
-> > > *- **NEW **COMPILED VERSION*
-> > >
-> > > *I modified the 5,15 uvc_driver.c version with your lines of code, and
-> > > loaded it on github*
-> > >
-> > > *
-> > https://github.com/Giuliano69/uvc_driver-for-Quanta-HD-User-Facing-0x0408-0x4035-/blob/main/uvc_driver.c
-> > > <
-> > https://github.com/Giuliano69/uvc_driver-for-Quanta-HD-User-Facing-0x0408-0x4035-/blob/main/uvc_driver.c
-> > >*
-> > >
-> > > *Compiling the whole new kernel (“new” because the usb_driver.c is
-> > > modified), shows NO ERROR:*
-> >
-> > Good :-)
-> >
-> > > > *21:42:38 **** Incremental Build of configuration Default for project
-> > > > Linux 5.15 *****
-> > > >
-> > > make all
-> > > >
-> > > > CALL scripts/checksyscalls.sh
-> > > > CALL scripts/atomic/check-atomics.sh
-> > > > DESCEND objtool
-> > > > DESCEND bpf/resolve_btfids
-> > > > CHK include/generated/compile.h
-> > > > CHK kernel/kheaders_data.tar.xz
-> > > > CC [M] drivers/media/usb/uvc/uvc_driver.o
-> > > > LD [M] drivers/media/usb/uvc/uvcvideo.o
-> > > > Kernel: arch/x86/boot/bzImage is ready (#2)
-> > > > MODPOST modules-only.symvers
-> > > > GEN Module.symvers
-> > > > CC [M] drivers/media/usb/uvc/uvcvideo.mod.o
-> > > > LD [M] drivers/media/usb/uvc/uvcvideo.ko
-> > > >
-> > > > 21:43:52 Build Finished. 0 errors, 0 warnings. (took 1m:14s.207ms)
-> > > >
-> > > >
-> > > *BUT **I’ve difficulties in finding WHERE is the new module after the
-> > > building in my project directory tree!! *
-> > >
-> > > *Here is the ls -al*
-> > >
-> > > *giuliano@Astra2A:~/linux-source-5.15.0/drivers/media/usb/uvc$ ls -l*
-> > >
-> > > *totale 13288*
-> > >
-> > > *-rw-r--r-- 1 giuliano giuliano 623 ott 31 2021 Kconfig*
-> > > *-rw-r--r-- 1 giuliano giuliano 290 ott 31 2021 Makefile*
-> > > *-rw-rw-r-- 1 giuliano giuliano 34 gen 1 21:43 modules.order*
-> > > *-rw-r--r-- 1 giuliano giuliano 61689 ott 31 2021 uvc_ctrl.c*
-> > > *-rw-rw-r-- 1 giuliano giuliano 530176 gen 1 11:48 uvc_ctrl.o*
-> > > *-rw-r--r-- 1 giuliano giuliano 2520 ott 31 2021 uvc_debugfs.c*
-> > > *-rw-rw-r-- 1 giuliano giuliano 342808 gen 1 11:48 uvc_debugfs.o*
-> > > *-rw-r--r-- 1 giuliano giuliano 87954 gen 1 21:42 uvc_driver.c*
-> > > *-rw-rw-r-- 1 giuliano giuliano 631208 gen 1 21:43 uvc_driver.o*
-> > > *-rw-r--r-- 1 giuliano giuliano 87571 ott 31 2021 uvc_driver.old*
-> > > *-rw-r--r-- 1 giuliano giuliano 3967 ott 31 2021 uvc_entity.c*
-> > > *-rw-rw-r-- 1 giuliano giuliano 344944 gen 1 11:48 uvc_entity.o*
-> > > *-rw-r--r-- 1 giuliano giuliano 3779 ott 31 2021 uvc_isight.c*
-> > > *-rw-rw-r-- 1 giuliano giuliano 315816 gen 1 11:48 uvc_isight.o*
-> > > *-rw-r--r-- 1 giuliano giuliano 4964 ott 31 2021 uvc_metadata.c*
-> > > *-rw-rw-r-- 1 giuliano giuliano 389056 gen 1 11:48 uvc_metadata.o*
-> > > *-rw-r--r-- 1 giuliano giuliano 13448 ott 31 2021 uvc_queue.c*
-> > > *-rw-rw-r-- 1 giuliano giuliano 416680 gen 1 11:48 uvc_queue.o*
-> > > *-rw-r--r-- 1 giuliano giuliano 7213 ott 31 2021 uvc_status.c*
-> > > *-rw-rw-r-- 1 giuliano giuliano 344240 gen 1 11:48 uvc_status.o*
-> > > *-rw-r--r-- 1 giuliano giuliano 39618 nov 22 20:53 uvc_v4l2.c*
-> > > *-rw-rw-r-- 1 giuliano giuliano 534856 gen 1 11:48 uvc_v4l2.o*
-> > > *-rw-r--r-- 1 giuliano giuliano 64532 nov 22 20:53 uvc_video.c*
-> > > *-rw-r--r-- 1 giuliano giuliano 27398 nov 22 20:53 uvcvideo.h*
-> > > *-rw-rw-r-- 1 giuliano giuliano 4384280 gen 1 21:43 uvcvideo.ko*
-> >
-> > This is the new module.
-> >
-> > Normally modules are installed in the system by running `make
-> > modules_install`. This will however overwrite all the modules installed
-> > by the Ubuntu kernel package, so I don't recommend it, many things could
-> > go wrong. Instead, you can try to load the module manually. First unload
-> > the exising uvcvideo module with `sudo rmmod uvcvideo`, and then load
-> > the new one with `sudo insmod drivers/media/usb/uvc/uvcvideo.ko` (note
-> > how insmod uses the module file path as an argument, while modprobe uses
-> > the module name and looks it up in /lib/modules - you should ajust the
-> > path according to where you run the command).
-> >
-> > If this fails, `dmesg` may give some useful information.
-> >
-> > > *-rw-rw-r-- 1 giuliano giuliano 348 gen 1 21:43 uvcvideo.mod*
-> > > *-rw-rw-r-- 1 giuliano giuliano 10098 gen 1 21:43 uvcvideo.mod.c*
-> > > *-rw-rw-r-- 1 giuliano giuliano 70904 gen 1 21:43 uvcvideo.mod.o*
-> > > *-rw-rw-r-- 1 giuliano giuliano 500384 gen 1 11:48 uvc_video.o*
-> > > *-rw-rw-r-- 1 giuliano giuliano 4315312 gen 1 21:43 uvcvideo.o*
-> > >
-> > >
-> > > *IF the new module file is created, may I load it with a simple modprobe
-> > in
-> > > my running system ?*
-> > >
-> > > *Can it interfere with the Nvidia driver (many times it showed some
-> > > problems…) =*
-> >
-> > They shouldn't be related, no.
-> >
-> > > Il giorno ven 30 dic 2022 alle ore 20:33 Laurent Pinchart ha scritto:
-> > > > On Wed, Dec 21, 2022 at 09:09:37PM +0100, Ricardo Ribalda wrote:
-> > > > > Hi Giuliano
-> > > > >
-> > > > > Usually it is better to ask at the linux-media mailing list
-> > > > > https://www.linuxtv.org/lists.php. there is better chance to get an
-> > > > > answer and your question will get better chances to get be answered.
-> > > > >
-> > > > > On Wed, 21 Dec 2022 at 15:14, Giuliano Lotta wrote:
-> > > > > >
-> > > > > > Hi Laurent,
-> > > > > >
-> > > > > > I'm using using an ubuntu Ubuntu 22.04.1 LTS on 5.15.0-56-generic
-> > > > > >
-> > > > > > with an Acer Nitro 5 AN517-55 with Quanta ACER HD User Facing', USB
-> > > > > > 0408:4035.
-> > > > > >
-> > > > > > Currently the camera is not working under linux. The camera works
-> > > > > > perfectly on Windows 11 dual boot.
-> > > > > >
-> > > > > > The camera is reported to have problems on other linux versions:
-> > > > > > https://linux-hardware.org/?id=usb:0408-4035
-> > > > > >
-> > > > > > My console commands report similar info to other users:
-> > > > > >
-> > https://unix.stackexchange.com/questions/723504/integrated-camera-not-detected-working-on-acer-nitro-5-an515-58
-> > > > > >
-> > > > > > I see also that there is a proposed fix at
-> > > > > >
-> > https://patchwork.kernel.org/project/linux-media/patch/20220617235610.321917-9-ribalda@chromium.org/
-> > > > >
-> > > > > If your error in dmesg is simiar
-> > > > >
-> > > > > [    4.629731] uvcvideo 3-6:1.1: Failed to query (129) UVC probe
-> > control: 26 (exp. 48).
-> > > >
-> > > > It looks like your device advertise UVC 1.5 support (as also hinted by
-> > > > the availability of the Region of Interest control in the camera input
-> > > > terminal) but implements the UVC 1.0a video control. I'm honestly
-> > > > puzzled by how abysmal compliance testing seems to be among webcam
-> > > > manufacturers. In older days this would have called for beheading with
-> > a
-> > > > rusty tea spoon, or worse, cursing in them Finnish.
-> > > >
-> > > > > I am afraid that my patch won't help you much. My patch fixes the way
-> > > > > a control can be configured.
-> > > > >
-> > > > > Can you copy your whole dmesg when you get an error.
-> > > >
-> > > > That would be useful.
-> > > >
-> > > > > Also the output of lsusb -v -d 0408:4035
-> > > >
-> > > > That seems to be available from https://pastebin.com/raw/GQVWC6i3.
-> > > >
-> > > > Giuliano, could you try the following patch ? You need to apply it to
-> > > > the sources of the kernel you're running (available from your
-> > > > distribution), and compile the uvcvideo module. Depending on the
-> > > > distribution, it may sign kernel modules, in which case you may need to
-> > > > recompile the whole kernel. That's a distribution-specific issue that
-> > > > you should bring up with your distribution's support channel if you run
-> > > > into issues.
-> > > >
-> > > > diff --git a/drivers/media/usb/uvc/uvc_driver.c
-> > > > b/drivers/media/usb/uvc/uvc_driver.c
-> > > > index 6abec7a51f47..52e7cae5c249 100644
-> > > > --- a/drivers/media/usb/uvc/uvc_driver.c
-> > > > +++ b/drivers/media/usb/uvc/uvc_driver.c
-> > > > @@ -2447,6 +2447,17 @@ static const struct usb_device_id uvc_ids[] = {
-> > > >           .bInterfaceSubClass   = 1,
-> > > >           .bInterfaceProtocol   = UVC_PC_PROTOCOL_15,
-> > > >           .driver_info          =
-> > (kernel_ulong_t)&uvc_ctrl_power_line_limited },
-> > > > +       /* Quanta ACER HD User Facing */
-> > > > +       { .match_flags          = USB_DEVICE_ID_MATCH_DEVICE
-> > > > +                               | USB_DEVICE_ID_MATCH_INT_INFO,
-> > > > +         .idVendor             = 0x0408,
-> > > > +         .idProduct            = 0x4035,
-> > > > +         .bInterfaceClass      = USB_CLASS_VIDEO,
-> > > > +         .bInterfaceSubClass   = 1,
-> > > > +         .bInterfaceProtocol   = UVC_PC_PROTOCOL_15,
-> > > > +         .driver_info          = (kernel_ulong_t)&(const struct
-> > uvc_device_info) {
-> > > > +               .uvc_version = 0x010a,
-> > > > +         } },
-> > > >         /* LogiLink Wireless Webcam */
-> > > >         { .match_flags          = USB_DEVICE_ID_MATCH_DEVICE
-> > > >                                 | USB_DEVICE_ID_MATCH_INT_INFO,
-> > > >
-> > > > This may cause side effects, for instance when it comes to handling of
-> > > > the power line frequency control or other controls whose implementation
-> > > > depend on the UVC version, but we'll worry about that later.
-> > > >
-> > > > > > Installed linux-source but uvc_driver.c I found in the directory
-> > tree
-> > > > > > of Ubuntu is different from both :
-> > > > > >
-> > > > > > -
-> > https://github.com/torvalds/linux/blob/master/drivers/media/usb/uvc/uvc_driver.c
-> > > > > >
-> > > > > > -
-> > https://patchwork.kernel.org/project/linux-media/patch/20220617235610.321917-9-ribalda@chromium.org/
-> > > > > >
-> > > > > >
-> > > > > > I would like to test your patch and see if the solution can be
-> > > > > > submitted to Ubuntu for the next fix release.
-> > > > > >
-> > > > > > - Could you give me some instructions on how to proceed ?
-> > > > > >
-> > > > > > - Should I compile a new whole kernel or just a mod?
-> > > > > >
-> > > > > > - Where can I find the source to which your fix applies (seems to
-> > > > > >   apply to something different from Ubuntu and torvald versions) ?
-> > > > > >   Will it be compatible with the current Ubuntu version?
-> > > > > >
-> > > > > > - May I ask for some instructions on how to proceed with testing
-> > > > > >   your fix ?
+On Fri, Dec 02, 2022 at 06:07:30PM +0200, Volodymyr Kharuk wrote:
+> Hello,
+> 
+> This series adds support for the Melexis 75026 and 75027 Time of Flight
+> camera sensors, with DT bindings in patch 7/8 and a driver in patch 8/8.
+> In patches 1/8, 2/8 and 3/8, I've add ToF controls as separate
+> ToF control class.
+> 
+> v4:
+> - fix output mode
+> - forbid array for menu and warn if validate_new return an error
+> - add enums to custom control OUTPUT_MODE
+> - update doc
+> - minor fixes
+> 
+> v3:
+> - move FMOD, TINT, PHASE_SEQ to common V4L2 as ToF common controls
+> - FMOD and TINT became dynamic arrays
+> - remove PHASE_NUM, use dynamic_array for PHASE_SEQ,
+>   ctrl->new_elems pass number of phases
+> - remove leden-gpios, will be used gpio explicitly in library for now
+> - remade probe: use probe_new, no power on during probe
+> - remove autodetect and wildcard
+> - make all supplies to be required
+> - remove trigger ioctl, will add in separate patch series
+> - remove temperature ioctl, will add in separate patch series
+> - add documentation about custom ioctl
+> - style: 80 cols
+> - minor fixes device tree
+> 
+> v2:
+> - added external clock to the sensor
+> - added all regulators required by the sensor
+> - added posibility to choose sensor type in device tree
+> - added prefixes to all custom types in device tree and driver as well
+> - style fixes
+> 
+> Volodymyr Kharuk (8):
+>   media: uapi: ctrls: Add Time of Flight class controls
+>   media: v4l: ctrls: Fill V4L2_CID_TOF_CLASS controls
+>   media: Documentation: v4l: Add TOF class controls
+>   media: v4l: ctrls-api: Allow array update in __v4l2_ctrl_modify_range
+>   media: v4l: ctrls: Add user control base for mlx7502x
+>   media: uapi: Add mlx7502x header file
+>   media: dt-bindings: Add mlx7502x camera sensor
+>   media: i2c: Add driver for mlx7502x ToF sensor
+> 
+>  .../bindings/media/i2c/melexis,mlx7502x.yaml  |  126 ++
+>  .../userspace-api/media/drivers/index.rst     |    1 +
+>  .../userspace-api/media/drivers/mlx7502x.rst  |   28 +
+>  .../userspace-api/media/v4l/common.rst        |    1 +
+>  .../userspace-api/media/v4l/ext-ctrls-tof.rst |   56 +
+>  MAINTAINERS                                   |   11 +
+>  drivers/media/i2c/Kconfig                     |   13 +
+>  drivers/media/i2c/Makefile                    |    1 +
+>  drivers/media/i2c/mlx7502x.c                  | 1747 +++++++++++++++++
+>  drivers/media/v4l2-core/v4l2-ctrls-api.c      |   25 +-
+>  drivers/media/v4l2-core/v4l2-ctrls-defs.c     |   20 +
+>  include/uapi/linux/mlx7502x.h                 |   28 +
+>  include/uapi/linux/v4l2-controls.h            |   14 +
+>  13 files changed, 2059 insertions(+), 12 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/media/i2c/melexis,mlx7502x.yaml
+>  create mode 100644 Documentation/userspace-api/media/drivers/mlx7502x.rst
+>  create mode 100644 Documentation/userspace-api/media/v4l/ext-ctrls-tof.rst
+>  create mode 100644 drivers/media/i2c/mlx7502x.c
+>  create mode 100644 include/uapi/linux/mlx7502x.h
+> 
+> 
+> base-commit: a7bab6f8b73fe15a6181673149734a2756845dae
+> -- 
+> BR,
+> Volodymyr Kharuk
+> 
 
 -- 
-Regards,
+--
+Volodymyr Kharuk
 
-Laurent Pinchart
