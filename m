@@ -2,296 +2,258 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C283665B249
-	for <lists+linux-media@lfdr.de>; Mon,  2 Jan 2023 13:45:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B26CD65B257
+	for <lists+linux-media@lfdr.de>; Mon,  2 Jan 2023 13:48:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232841AbjABMp0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 2 Jan 2023 07:45:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51358 "EHLO
+        id S232852AbjABMsV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 2 Jan 2023 07:48:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52816 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232719AbjABMpX (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 2 Jan 2023 07:45:23 -0500
-Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com [IPv6:2607:f8b0:4864:20::62b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F17BB6453
-        for <linux-media@vger.kernel.org>; Mon,  2 Jan 2023 04:45:20 -0800 (PST)
-Received: by mail-pl1-x62b.google.com with SMTP id g16so19803108plq.12
-        for <linux-media@vger.kernel.org>; Mon, 02 Jan 2023 04:45:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=1xpu4k2D/PU+v5nzoXzMo8V939V41siBKh6dPsyMcqc=;
-        b=nYw0ZWTkICn6x6q5dgl3GV6vwE36VwxVFH/CSeHHwpmZRFQ3sM4/VFYy2ZMDpfedcL
-         +0VBLYySSi4y5l2sDogKxZPy0WLB7/wsLLxDj5wq25JNubULbpnlklRrTFe/dvMnRH+X
-         UOFoD79JaJKH6JnsbdA1/Pw/4zeuxoCCmvpFs=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=1xpu4k2D/PU+v5nzoXzMo8V939V41siBKh6dPsyMcqc=;
-        b=6m0O6slerkzdABgN61eP6Hd65GC4S4t6e60eMTXqpIDgeCfk9FCAlZ1PiM2UduTidu
-         d6YoiAMINo+3JMdTye2E/i/Peo4YRH7jICEn5FHRympFHrEMkc00A1l2o17OtUlIXSUd
-         uH/NY45ucJX368Qc25lk+W1VH6C6kfCBD0HPsp7oW37UtTwupuaWcW3dpa7Gh/43sm/a
-         G/PV6GgdJ0+ANDfbhoRRBzjHAudkI7nI/sJiqxkNrZYR267AoC7P2rmNiSgmZAVO5HjX
-         HUUN5SeKCVTBI7S8bvjIscz1ANohES6RicDWo26DujZNDG+lEr38uP1ODWOQtYp+c2uA
-         K1eA==
-X-Gm-Message-State: AFqh2kocpbEQYviOIy2njJAzrx6e8o2mH++NoTUFr1aji3zZv5HnLw/q
-        ksgcIj/X2xoFbYNaA2UC9K2r7uKTSm5v1XwQ
-X-Google-Smtp-Source: AMrXdXvRme21DVEPUvxtc6/iGfriIdw37Yz8kr51F4mo+ULQZBKUX+CVIiW/VOK2vyEtke59C3HM+Q==
-X-Received: by 2002:a17:90a:db8a:b0:226:632c:abbd with SMTP id h10-20020a17090adb8a00b00226632cabbdmr6087251pjv.47.1672663520033;
-        Mon, 02 Jan 2023 04:45:20 -0800 (PST)
-Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com. [209.85.215.169])
-        by smtp.gmail.com with ESMTPSA id 1-20020a17090a0a8100b00210125b789dsm16785737pjw.54.2023.01.02.04.45.18
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 02 Jan 2023 04:45:18 -0800 (PST)
-Received: by mail-pg1-f169.google.com with SMTP id r18so18257962pgr.12
-        for <linux-media@vger.kernel.org>; Mon, 02 Jan 2023 04:45:18 -0800 (PST)
-X-Received: by 2002:a65:5b81:0:b0:49c:5d81:b628 with SMTP id
- i1-20020a655b81000000b0049c5d81b628mr1017356pgr.213.1672663517782; Mon, 02
- Jan 2023 04:45:17 -0800 (PST)
-MIME-Version: 1.0
-References: <20221212-uvc-race-v4-0-38d7075b03f5@chromium.org>
- <Y6sAO7URJpSIulye@pendragon.ideasonboard.com> <Y6sDKPD8L47ce35u@pendragon.ideasonboard.com>
-In-Reply-To: <Y6sDKPD8L47ce35u@pendragon.ideasonboard.com>
-From:   Ricardo Ribalda <ribalda@chromium.org>
-Date:   Mon, 2 Jan 2023 13:45:06 +0100
-X-Gmail-Original-Message-ID: <CANiDSCuigeLooqRaDvzEW28pgZu1H42M+oxk_4UEZh=Jue2M8Q@mail.gmail.com>
-Message-ID: <CANiDSCuigeLooqRaDvzEW28pgZu1H42M+oxk_4UEZh=Jue2M8Q@mail.gmail.com>
-Subject: Re: [PATCH v4] media: uvcvideo: Fix race condition with usb_kill_urb
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Sergey Senozhatsky <senozhatsky@chromium.org>,
+        with ESMTP id S232856AbjABMsQ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 2 Jan 2023 07:48:16 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE5C3F10
+        for <linux-media@vger.kernel.org>; Mon,  2 Jan 2023 04:48:14 -0800 (PST)
+Received: from ideasonboard.com (unknown [IPv6:2001:b07:5d2e:52c9:c40c:10ff:feac:d8bd])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 66AD47C5;
+        Mon,  2 Jan 2023 13:48:12 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1672663692;
+        bh=w6vlQ+ES+CILkEit9fJ35TaZJ7Bxk5SvGZ/RVVUXrpY=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=UWYt4i/6fyc3pHVV/I+VgPDn/ruiTT62CZL51OS2JPB+ZoJaJ862PK/5TKOwJNHcY
+         YtUWImxm21VmBmpxaxccp/Hgbu7KbAz73jGAkZMwgbEkZfnv+la/TRMrgNCFWkd5p5
+         1XjgvLOTA76ZNP9jtr2IpkxzA1+9dSKCUODAURH0=
+Date:   Mon, 2 Jan 2023 13:48:09 +0100
+From:   Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To:     "Luthra, Jai" <j-luthra@ti.com>
+Cc:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Max Staudt <mstaudt@google.com>, linux-media@vger.kernel.org,
-        stable@vger.kernel.org, Yunke Cao <yunkec@chromium.org>,
-        linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-media@vger.kernel.org, Nishanth Menon <nm@ti.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH v3 2/3] media: ov5640: Fix soft reset sequence and timings
+Message-ID: <20230102124809.6a62e7aeifkixllu@uno.localdomain>
+References: <20221227173634.5752-1-j-luthra@ti.com>
+ <20221227173634.5752-3-j-luthra@ti.com>
+ <20221229180748.xjb2cpiehzlvbv7f@uno.localdomain>
+ <0a4f4d74-3f9e-2305-b627-5ce3bd3d1d22@ti.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <0a4f4d74-3f9e-2305-b627-5ce3bd3d1d22@ti.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent
+Hi Jay
 
-Thanks for your review!
-
-On Tue, 27 Dec 2022 at 15:37, Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
+On Fri, Dec 30, 2022 at 02:33:41PM +0530, Luthra, Jai wrote:
+> Hi Jacopo,
 >
-> On Tue, Dec 27, 2022 at 04:25:01PM +0200, Laurent Pinchart wrote:
-> > Hi Ricardo,
+> Thank you for the comments.
+>
+> On 29/12/22 23:37, Jacopo Mondi wrote:
+> > Hi Jai
 > >
-> > Thank you for the patch.
-> >
-> > On Wed, Dec 14, 2022 at 05:31:55PM +0100, Ricardo Ribalda wrote:
-> > > usb_kill_urb warranties that all the handlers are finished when it
-> > > returns, but does not protect against threads that might be handling
-> > > asynchronously the urb.
+> > On Tue, Dec 27, 2022 at 11:06:33PM +0530, Jai Luthra wrote:
+> > > Move the register-based reset out of the init_setting[] and into the
+> > > powerup_sequence function. The sensor is power cycled and reset using
+> > > the gpio pins so the soft reset is not always necessary.
 > > >
-> > > For UVC, the function uvc_ctrl_status_event_async() takes care of
-> > > control changes asynchronously.
+> > > This also ensures that soft reset honors the timing sequence
+> > > from the datasheet [1].
 > > >
-> > >  If the code is executed in the following order:
+> > > [1] https://cdn.sparkfun.com/datasheets/Sensors/LightImaging/OV5640_datasheet.pdf
 > > >
-> > > CPU 0                                       CPU 1
-> > > =====                                       =====
-> > > uvc_status_complete()
-> > >                                     uvc_status_stop()
-> > > uvc_ctrl_status_event_work()
-> > >                                     uvc_status_start() -> FAIL
-> > >
-> > > Then uvc_status_start will keep failing and this error will be shown:
-> > >
-> > > <4>[    5.540139] URB 0000000000000000 submitted while active
-> > > drivers/usb/core/urb.c:378 usb_submit_urb+0x4c3/0x528
-> > >
-> > > Let's improve the current situation, by not re-submiting the urb if
-> > > we are stopping the status event. Also process the queued work
-> > > (if any) during stop.
-> > >
-> > > CPU 0                                       CPU 1
-> > > =====                                       =====
-> > > uvc_status_complete()
-> > >                                     uvc_status_stop()
-> > >                                     uvc_status_start()
-> > > uvc_ctrl_status_event_work() -> FAIL
-> > >
-> > > Hopefully, with the usb layer protection this should be enough to cover
-> > > all the cases.
-> > >
-> > > Cc: stable@vger.kernel.org
-> > > Fixes: e5225c820c05 ("media: uvcvideo: Send a control event when a Control Change interrupt arrives")
-> > > Reviewed-by: Yunke Cao <yunkec@chromium.org>
-> > > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> > > Fixes: 19a81c1426c1 ("[media] add Omnivision OV5640 sensor driver")
+> > > Suggested-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> > > Signed-off-by: Jai Luthra <j-luthra@ti.com>
 > > > ---
-> > > uvc: Fix race condition on uvc
+> > >   drivers/media/i2c/ov5640.c | 30 ++++++++++++++++++++----------
+> > >   1 file changed, 20 insertions(+), 10 deletions(-)
 > > >
-> > > Make sure that all the async work is finished when we stop the status urb.
+> > > diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
+> > > index e6525caa9b8c..5df16fb6f0a0 100644
+> > > --- a/drivers/media/i2c/ov5640.c
+> > > +++ b/drivers/media/i2c/ov5640.c
+> > > @@ -50,6 +50,7 @@
+> > >   #define OV5640_REG_SYS_CTRL0		0x3008
+> > >   #define OV5640_REG_SYS_CTRL0_SW_PWDN	0x42
+> > >   #define OV5640_REG_SYS_CTRL0_SW_PWUP	0x02
+> > > +#define OV5640_REG_SYS_CTRL0_SW_RST	0x82
+> > >   #define OV5640_REG_CHIP_ID		0x300a
+> > >   #define OV5640_REG_IO_MIPI_CTRL00	0x300e
+> > >   #define OV5640_REG_PAD_OUTPUT_ENABLE01	0x3017
+> > > @@ -532,7 +533,7 @@ static const struct v4l2_mbus_framefmt ov5640_default_fmt = {
+> > >   };
 > > >
-> > > To: Yunke Cao <yunkec@chromium.org>
-> > > To: Sergey Senozhatsky <senozhatsky@chromium.org>
-> > > To: Max Staudt <mstaudt@google.com>
-> > > To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > > To: Mauro Carvalho Chehab <mchehab@kernel.org>
-> > > Cc: linux-media@vger.kernel.org
-> > > Cc: linux-kernel@vger.kernel.org
-> > > ---
-> > > Changes in v4:
-> > > - Replace bool with atomic_t to avoid compiler reordering
-> > > - First complete the async work and then kill the urb to avoid race (Thanks Laurent!)
-> > > - Link to v3: https://lore.kernel.org/r/20221212-uvc-race-v3-0-954efc752c9a@chromium.org
-> > >
-> > > Changes in v3:
-> > > - Remove the patch for dev->status, makes more sense in another series, and makes
-> > >   the zero day less nervous.
-> > > - Update reviewed-by (thanks Yunke!).
-> > > - Link to v2: https://lore.kernel.org/r/20221212-uvc-race-v2-0-54496cc3b8ab@chromium.org
-> > >
-> > > Changes in v2:
-> > > - Add a patch for not kalloc dev->status
-> > > - Redo the logic mechanism, so it also works with suspend (Thanks Yunke!)
-> > > - Link to v1: https://lore.kernel.org/r/20221212-uvc-race-v1-0-c52e1783c31d@chromium.org
-> > > ---
-> > >  drivers/media/usb/uvc/uvc_ctrl.c   | 3 +++
-> > >  drivers/media/usb/uvc/uvc_status.c | 6 ++++++
-> > >  drivers/media/usb/uvc/uvcvideo.h   | 1 +
-> > >  3 files changed, 10 insertions(+)
-> > >
-> > > diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
-> > > index c95a2229f4fa..1be6897a7d6d 100644
-> > > --- a/drivers/media/usb/uvc/uvc_ctrl.c
-> > > +++ b/drivers/media/usb/uvc/uvc_ctrl.c
-> > > @@ -1442,6 +1442,9 @@ static void uvc_ctrl_status_event_work(struct work_struct *work)
-> > >
-> > >     uvc_ctrl_status_event(w->chain, w->ctrl, w->data);
-> > >
-> > > +   if (atomic_read(&dev->flush_status))
-> > > +           return;
-> > > +
-> > >     /* Resubmit the URB. */
-> > >     w->urb->interval = dev->int_ep->desc.bInterval;
-> > >     ret = usb_submit_urb(w->urb, GFP_KERNEL);
-> > > diff --git a/drivers/media/usb/uvc/uvc_status.c b/drivers/media/usb/uvc/uvc_status.c
-> > > index 7518ffce22ed..4a95850cdc1b 100644
-> > > --- a/drivers/media/usb/uvc/uvc_status.c
-> > > +++ b/drivers/media/usb/uvc/uvc_status.c
-> > > @@ -304,10 +304,16 @@ int uvc_status_start(struct uvc_device *dev, gfp_t flags)
-> > >     if (dev->int_urb == NULL)
-> > >             return 0;
-> > >
-> > > +   atomic_set(&dev->flush_status, 0);
-> > >     return usb_submit_urb(dev->int_urb, flags);
-> > >  }
-> > >
-> > >  void uvc_status_stop(struct uvc_device *dev)
-> > >  {
-> > > +   struct uvc_ctrl_work *w = &dev->async_ctrl;
-> > > +
-> > > +   atomic_set(&dev->flush_status, 1);
+> > >   static const struct reg_value ov5640_init_setting[] = {
+> > > -	{0x3103, 0x11, 0, 0}, {0x3008, 0x82, 0, 5}, {0x3008, 0x42, 0, 0},
+> > > +	{0x3103, 0x11, 0, 0}, {0x3008, 0x42, 0, 0},
 > >
-> > Note that atomic_read() and atomic_set() do no imply any memory barrier
-> > on most architectures, as far as I can tell. They essentially become
-> > READ_ONCE() and WRITE_ONCE() calls, which guarantee that the compiler
-> > will not merge or split loads or stores, or reorder them with respect to
-> > load and stores to the *same* memory location, but nothing else. I think
-> > you need to add proper barriers, and you can then probably also drop
-> > usage of atomic_t.
-
-You are absolutely right! Only a subset of atomic implies memory barriers.
-
-Found this doc particularly good:
-https://www.kernel.org/doc/html/v5.10/core-api/atomic_ops.html
-
-
+> > have you tried removing the second entry
+> >          {0x3008, 0x42, 0, 0},
 > >
-> > > +   if (cancel_work_sync(&w->work))
-> > > +           uvc_ctrl_status_event(w->chain, w->ctrl, w->data);
-> > >     usb_kill_urb(dev->int_urb);
+> > as well ?
 > >
-> > This should get rid of the main race (possibly save the barrier issue),
-> > but it's not the most efficient option, and can still be problematic.
-> > Consider the following case:
-> >
-> > CPU0                                                  CPU1
-> > ----                                                  ----
-> >
-> > void uvc_status_stop(struct uvc_device *dev)          uvc_ctrl_status_event_async()
-> > {                                                     {
-> >       ...
-> >       atomic_set(&dev->flush_status, 1);                      ...
-> >       if (cancel_work_sync())
-> >               ...
-> >                                                               schedule_work();
-> >       usb_kill_urb();                                 }
-> > }
-> >
-> > The usb_kill_urb() call ensures that uvc_ctrl_status_event_async()
-> > completes before uvc_status_stop() returns, but there will still be work
-> > scheduled in that case. uvc_ctrl_status_event_work() will be run later,
-> > and as flush_status is set to 1, the function will not resubmit the URB.
-> > That fixes the main race, but leaves the asynchronous control status
-> > event handling for after uvc_status_stop() returns, which isn't great.
-> >
-> > Now, if we consider that uvc_status_start() could be called shortly
-> > after uvc_status_stop(), we may get in a situation where
-> > uvc_status_start() will reset flush_status to 0 before
-> > uvc_ctrl_status_event_async() runs. Both uvc_ctrl_status_event_async()
-> > and uvc_status_start() will thus submit the same URB.
-> >
-> > You can't fix this by first killing the URB and then cancelling the
-> > work, as there would then be a risk that uvc_ctrl_status_event_work()
-> > would be running in parallel, going past the flush_status check before
-> > flush_status gets set to 1 in uvc_status_stop(), and submitting the URB
-> > after usb_kill_urb() is called.
-> >
-> > I think a good fix would be to check flush_status in
-> > uvc_ctrl_status_event_async() and avoid the schedule_work() call in that
-> > case.
-
-If we do that, then we will be losing an event. I would rather call
-cancel_work_sync() again after usb_kill_urb().
-
-
-> >You could then also move the atomic_set(..., 0) call from
-> > uvc_status_start() to the end of uvc_status_stop() (again with proper
-> > barriers).
-
-Will do that, it is more "elegant".
-
+> > The SW_PWDN state allows programming registers (how can you exit with
+> > SW_PWUP otherwise?), so it's probably right to have it there.
 >
-> Also, as all of this is tricky, comments in appropriate places in the
-> code would be very helpful to avoid breaking things later.
+> Yes, I initially removed it from here and kept it in the powerup_sequence()
+> but logic to set SW_PWDN became in that function became a bit complicated:
 >
-> > Could you please check the memory barriers and test the above proposal
-> > (after double-checking it of course, I may have missed something) ?
+> When we are using HW pins, we want to wait 20ms after de-asserting RESET
+> before doing any SCCB register writes. But when we are using SW reset, we
+> were using this register write to de-assert RESET, and then wait 20ms.
+>
+> I found it cleaner to just keep it here where the registers are being
+> programmed for both the cases. But I don't have a strong opinion either way.
+>
+> >
+> >
+> >
+> > >   	{0x3103, 0x03, 0, 0}, {0x3630, 0x36, 0, 0},
+> > >   	{0x3631, 0x0e, 0, 0}, {0x3632, 0xe2, 0, 0}, {0x3633, 0x12, 0, 0},
+> > >   	{0x3621, 0xe0, 0, 0}, {0x3704, 0xa0, 0, 0}, {0x3703, 0x5a, 0, 0},
+> > > @@ -2440,18 +2441,27 @@ static void ov5640_power(struct ov5640_dev *sensor, bool enable)
+> > >    */
+> > >   static void ov5640_powerup_sequence(struct ov5640_dev *sensor)
+> > >   {
+> > > -	gpiod_set_value_cansleep(sensor->reset_gpio, 0);
+> > > +	if (sensor->pwdn_gpio) {
+> > > +		gpiod_set_value_cansleep(sensor->reset_gpio, 0);
+> > >
+> > > -	/* camera power cycle */
+> > > -	ov5640_power(sensor, false);
+> > > -	usleep_range(5000, 10000);
+> > > -	ov5640_power(sensor, true);
+> > > -	usleep_range(5000, 10000);
+> > > +		/* camera power cycle */
+> > > +		ov5640_power(sensor, false);
+> > > +		usleep_range(5000, 10000);
+> > > +		ov5640_power(sensor, true);
+> > > +		usleep_range(5000, 10000);
+> > >
+> > > -	gpiod_set_value_cansleep(sensor->reset_gpio, 1);
+> > > -	usleep_range(1000, 2000);
+> > > +		gpiod_set_value_cansleep(sensor->reset_gpio, 1);
+> > > +		usleep_range(1000, 2000);
+> > >
+> > > -	gpiod_set_value_cansleep(sensor->reset_gpio, 0);
+> > > +		gpiod_set_value_cansleep(sensor->reset_gpio, 0);
+> > > +	} else {
+> > > +		/* software reset */
+> > > +		ov5640_write_reg(sensor, OV5640_REG_SYS_CTRL0,
+> > > +				 OV5640_REG_SYS_CTRL0_SW_RST);
+> > > +		usleep_range(5000, 10000);
+> > > +		ov5640_write_reg(sensor, OV5640_REG_SYS_CTRL0,
+> > > +				 OV5640_REG_SYS_CTRL0_SW_PWUP);
+> >
+> > But now I wonder if this last PWUP is necessary, since init_settings[]
+> > (which programs PWDN) is programmed immediately after.
+>
+> Using the PWUP (0x02) as a way to de-assert RST (0x42) here, and not as an
+
+RST is 0x82 if I read it right
+
+> actual PWUP per se.
+>
+
+It is not necessary. The RST cleans up itself when the chip has done
+resetting. I tested it with:
+
+@@ -2463,12 +2478,24 @@ static void ov5640_powerup_sequence(struct ov5640_dev *sensor)
+
+                gpiod_set_value_cansleep(sensor->reset_gpio, 0);
+        } else {
++               int ret;
++               u16 sysctrl = 0;
++               u16 counter = 0;
++
+                /* software reset */
+                ov5640_write_reg(sensor, OV5640_REG_SYS_CTRL0,
+                                 OV5640_REG_SYS_CTRL0_SW_RST);
+-                usleep_range(5000, 10000);
+-               ov5640_write_reg(sensor, OV5640_REG_SYS_CTRL0,
+-                                OV5640_REG_SYS_CTRL0_SW_PWUP);
++
++               do {
++                       usleep_range(2000, 2500);
++                       ret = ov5640_read_reg16(sensor, OV5640_REG_SYS_CTRL0,
++                                               &sysctrl);
++                       if (ret)
++                               pr_err("Failed to read sysctrl: %d\n", ret);
++               } while (sysctrl & BIT(7) || ++counter > 100);
++
++               pr_err("Exit from reset in %u loops\n", counter);
+        }
+        usleep_range(20000, 25000);
+
+The loop exists after 1 iteration
+
+So I guess you can remove the last SW_PWUP write
 
 > >
-> > >  }
-> > > diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-> > > index df93db259312..1274691f157f 100644
-> > > --- a/drivers/media/usb/uvc/uvcvideo.h
-> > > +++ b/drivers/media/usb/uvc/uvcvideo.h
-> > > @@ -560,6 +560,7 @@ struct uvc_device {
-> > >     struct usb_host_endpoint *int_ep;
-> > >     struct urb *int_urb;
-> > >     u8 *status;
-> > > +   atomic_t flush_status;
-> > >     struct input_dev *input;
-> > >     char input_phys[64];
+> >
+> > > +	}
+> > >   	usleep_range(20000, 25000);
+>
+> Now that I think of it, we can move the PWDN from the register table to
+> here, after this sleep - and keep the (0x02) above to de-assert reset. Let
+> me know your thoughts.
+>
+
+Yes, I think it might be a good idea.
+The diff on top of your series should be like
+
+------------------------------------------------------------------------------
+-- a/drivers/media/i2c/ov5640.c
++++ b/drivers/media/i2c/ov5640.c
+@@ -533,7 +533,7 @@ static const struct v4l2_mbus_framefmt ov5640_default_fmt = {
+ };
+
+ static const struct reg_value ov5640_init_setting[] = {
+-       {0x3103, 0x11, 0, 0}, {0x3008, 0x42, 0, 0},
++       {0x3103, 0x11, 0, 0},
+        {0x3103, 0x03, 0, 0}, {0x3630, 0x36, 0, 0},
+        {0x3631, 0x0e, 0, 0}, {0x3632, 0xe2, 0, 0}, {0x3633, 0x12, 0, 0},
+        {0x3621, 0xe0, 0, 0}, {0x3704, 0xa0, 0, 0}, {0x3703, 0x5a, 0, 0},
+@@ -2466,11 +2466,12 @@ static void ov5640_powerup_sequence(struct ov5640_dev *sensor)
+                /* software reset */
+                ov5640_write_reg(sensor, OV5640_REG_SYS_CTRL0,
+                                 OV5640_REG_SYS_CTRL0_SW_RST);
+-               usleep_range(5000, 10000);
+-               ov5640_write_reg(sensor, OV5640_REG_SYS_CTRL0,
+-                                OV5640_REG_SYS_CTRL0_SW_PWUP);
+        }
+        usleep_range(20000, 25000);
++
++       /* Software standby: allows registers programming; exit at s_stream(1) */
++       ov5640_write_reg(sensor, OV5640_REG_SYS_CTRL0,
++                        OV5640_REG_SYS_CTRL0_SW_PWDN);
+ }
+
+ static int ov5640_set_power_on(struct ov5640_dev *sensor)
+------------------------------------------------------------------------------
+
+Do you agree with this ?
+
+Also, since you have to resend, could you please swap the order of
+patches 1 and 2 ? It's more logically correct to plumb the SW reset
+handling in, then allow it to happen as you do in patch 1/3.
+
+> > >   }
+> > >
+> > > --
+> > > 2.17.1
 > > >
 >
-> --
-> Regards,
->
-> Laurent Pinchart
-
-
-
--- 
-Ricardo Ribalda
+> Thanks,
+> Jai
