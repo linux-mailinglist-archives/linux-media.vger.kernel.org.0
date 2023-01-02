@@ -2,163 +2,117 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CCD0865B2A6
-	for <lists+linux-media@lfdr.de>; Mon,  2 Jan 2023 14:27:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0716B65B2B6
+	for <lists+linux-media@lfdr.de>; Mon,  2 Jan 2023 14:35:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232618AbjABN1m (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 2 Jan 2023 08:27:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36234 "EHLO
+        id S232976AbjABNfo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 2 Jan 2023 08:35:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37962 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232479AbjABN1k (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 2 Jan 2023 08:27:40 -0500
-Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com [IPv6:2a00:1450:4864:20::531])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 979782AD2
-        for <linux-media@vger.kernel.org>; Mon,  2 Jan 2023 05:27:38 -0800 (PST)
-Received: by mail-ed1-x531.google.com with SMTP id l29so32849218edj.7
-        for <linux-media@vger.kernel.org>; Mon, 02 Jan 2023 05:27:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=melexis.com; s=google;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=nhnWv+dk4FvwQWfDu6Dn5OXmIuaYtZRBKsqKseo/QJQ=;
-        b=hRZSSiPj2IoNsDeQxMn9v2eAoe4mhZWgBqbCr8EwM2KMCwuzROByFgr0trGhdg+IqP
-         2KQhr8e9uNlJOToJlBqxNIlnJkTHIOjtWIBlrSR1tKRQCSNPPZ+5oXwK+ggyzLDQvRSG
-         XY3EPnQHMpRXuD5U1Dqr6+E0V8htTFoqk+2ClqF86lGainDSKZnPD6Z7hMddXKQr6Ei3
-         FZVcm39SK/BIe+eUZbuwL8hjRKrPuq5KIo6e/cgcRRzZ7IlXz97Mq8L5NaccWregctcB
-         MGbkfR5UcM4cv+AEIBs/6Qs310OYQHSrunU5iu1Nz5YAseuk0AEzAo7faJhlg8DYkyJ0
-         KHbQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=nhnWv+dk4FvwQWfDu6Dn5OXmIuaYtZRBKsqKseo/QJQ=;
-        b=RI2Ih3MmF4919YjduskaiUxdYLs1vhCECe7eSMYRFgKlQHJDL6bZcpJp3/mWEFr8Cn
-         9vN4LoCGkeE+dfGJKMMtgA+RxFjlOl0AapKP3mXlLLMgi8kVoFxw97K/XaGU5txhqz9d
-         d4naWPE0k04IGqRxhN53+pCOSV/iVtYG7fEs2iqfLfIf760d0c6c9tbG/EILPW8HEUxa
-         CioTXr0TaAxIJXd03bPsByVPBXtqkrltlToB4SpJtF4YhycvYjyVniySb8WAYa2jtAS4
-         oCRFnlNL5GH/u8wLdoqAVYQU+HezyM/GWTAhrdcUvOHvlI2sumFk1PeJA3UgQHOx6QQb
-         EGxg==
-X-Gm-Message-State: AFqh2kqTOvy4Plnm8pN7w/SCx3HGuDQMyvZBPx4hyIG/GUrSb8BG7Ceo
-        TcJOMDh5lt/ZHFke1P7dbafmm8IMIfZR8KKWtDZuad3lA+e0JXhooyDHBPKV57bCJMh0g9TGjsL
-        u4QaGXncMeiUT4wlDO+IC5c7ukhl/yIf+0GYij8JzTml9f6cvvjJ/VqroPhaDsti3lpS8liwbFt
-        M=
-X-Google-Smtp-Source: AMrXdXvtQCww6HngH4qdls5nNXyiWv7LfO6ZAcq06IxTa1mk3Me+6RMCgHa3NMPe78ZaM44Ds0sKdQ==
-X-Received: by 2002:aa7:d7c2:0:b0:472:cee9:bbd3 with SMTP id e2-20020aa7d7c2000000b00472cee9bbd3mr36901688eds.27.1672666057151;
-        Mon, 02 Jan 2023 05:27:37 -0800 (PST)
-Received: from melexis.com ([91.192.181.19])
-        by smtp.gmail.com with ESMTPSA id ev26-20020a056402541a00b004815f3b32a6sm11971463edb.70.2023.01.02.05.27.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Jan 2023 05:27:36 -0800 (PST)
-Date:   Mon, 2 Jan 2023 15:27:33 +0200
-From:   Volodymyr Kharuk <vkh@melexis.com>
-To:     linux-media@vger.kernel.org
-Cc:     Andrii Kyselov <ays@melexis.com>,
+        with ESMTP id S232947AbjABNfm (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 2 Jan 2023 08:35:42 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC67D6457;
+        Mon,  2 Jan 2023 05:35:39 -0800 (PST)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id DE5137C5;
+        Mon,  2 Jan 2023 14:35:36 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1672666537;
+        bh=7ZCichT9U5yO3QhGgXlLnhU3dvOgvOBgbW8mxgs7C8M=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=VGlJBGBcctUT06hZ4A2GU2BM3A0uUtbYNeqDg3FSsOwTuwUg1MD0lggvfS4/dGEyT
+         qMWQCbS2PTbHxQ74ZaIKjTjFMlpbynoTfg2Rz9ERIGwz3eyH7xPXHaWT6xPsA3YT8A
+         cG3XIQGw1jL/AL1CbQ4ksxcZFGx2V8BNuMqwIm88=
+Date:   Mon, 2 Jan 2023 15:35:33 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     =?utf-8?Q?Barnab=C3=A1s_P=C5=91cze?= <pobrn@protonmail.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        linux-media@vger.kernel.org,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        devicetree@vger.kernel.org,
+        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Benjamin Mugnier <benjamin.mugnier@foss.st.com>
-Subject: Re: [PATCH v4 0/8] media: i2c: mlx7502x ToF camera support
-Message-ID: <Y7LbxRQ2mQnnRC6u@melexis.com>
-References: <cover.1669978791.git.vkh@melexis.com>
+        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+        open list <linux-kernel@vger.kernel.org>
+Subject: Re: [RFC PATCH] media: v4l2-dev: sysfs: Support streaming attribute
+Message-ID: <Y7LdpQ9s7lS+x9mO@pendragon.ideasonboard.com>
+References: <20221223231736.2111774-1-kieran.bingham@ideasonboard.com>
+ <Y6lu14VsuH1LbqFH@pendragon.ideasonboard.com>
+ <yvFnaY1MM7I5C7H18aJdvQ6XEQn979YkGYpCjRLsnJvCRr2vYWVKorYqFXGxP3tWKeJ5B0oEA4Fn4W2-IqPd_N_wivEM4uKJD4WX53RiSmY=@protonmail.com>
+ <Y7LYp01J5co9KSfJ@paasikivi.fi.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <cover.1669978791.git.vkh@melexis.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <Y7LYp01J5co9KSfJ@paasikivi.fi.intel.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi All,
+Hello,
 
-This is a gentle reminder about the patch series for ToF camera.
+On Mon, Jan 02, 2023 at 01:14:15PM +0000, Sakari Ailus wrote:
+> On Wed, Dec 28, 2022 at 01:44:38AM +0000, Barnabás Pőcze wrote:
+> > On 2022. december 26., hétfő 10:52, Laurent Pinchart wrote:
+> > > On Fri, Dec 23, 2022 at 11:17:35PM +0000, Kieran Bingham wrote:
+> > > 
+> > > > Provide a streaming attribute to allow userspace to interogate if a device
+> > > > is actively streaming or not.
+> > > > 
+> > > > This will allow desktop notifications to report if a camera or device
+> > > > is active on the system, rather than just 'open' which can occur when
+> > > > configuring the device.
+> > > > 
+> > > > Bug: https://gitlab.freedesktop.org/pipewire/pipewire/-/issues/2669
+> > > > Signed-off-by: Kieran Bingham kieran.bingham@ideasonboard.com
+> > > > ---
+> > > > 
+> > > > This is a quick POC to see if such a facility makes sense.
+> > > > I'm weary that not all video devices may have the queues registered on
+> > > > the struct video_device, but this seems like an effective way to be able
+> > > > to determine if a device is actively streaming on a system.
+> > > 
+> > > I can imagine multiple problems, from race conditions to permissions and
+> > > privacy. In order to comment on the fitness of this solution to address
+> > > the problem you're trying to solve, could you describe the actual
+> > > problem ?
+> > 
+> > The issue is explained in the following thread:
+> > https://gitlab.freedesktop.org/pipewire/pipewire/-/issues/2669#note_1697388
+> > 
+> > In short, the user wants to show a "camera-in-use" indicator when the laptop camera
+> > is used. The script that the user previously had only checked if /dev/video0
+> > was open in any process, if it was, the indicator was shown. However, libcamera
+> > - at least at the moment - keeps the file descriptor open as long as the Camera
+> > object exists, which pipewire keeps alive for the entire lifetime of the device,
+> > therefore the "camera-in-use" indicator is always shown.
+> 
+> A sysfs attribute is not a great way to address this.
+> 
+> libcamera certainly has information on whether streaming is ongoing. The
+> information should come from there. Or Pipewire. Dbus perhaps?
 
-Thanks.
+I tend to agree, I think this is best solved in userspace where PipeWire
+can have a centralized view of all cameras in the system, and of their
+users.
 
-On Fri, Dec 02, 2022 at 06:07:30PM +0200, Volodymyr Kharuk wrote:
-> Hello,
-> 
-> This series adds support for the Melexis 75026 and 75027 Time of Flight
-> camera sensors, with DT bindings in patch 7/8 and a driver in patch 8/8.
-> In patches 1/8, 2/8 and 3/8, I've add ToF controls as separate
-> ToF control class.
-> 
-> v4:
-> - fix output mode
-> - forbid array for menu and warn if validate_new return an error
-> - add enums to custom control OUTPUT_MODE
-> - update doc
-> - minor fixes
-> 
-> v3:
-> - move FMOD, TINT, PHASE_SEQ to common V4L2 as ToF common controls
-> - FMOD and TINT became dynamic arrays
-> - remove PHASE_NUM, use dynamic_array for PHASE_SEQ,
->   ctrl->new_elems pass number of phases
-> - remove leden-gpios, will be used gpio explicitly in library for now
-> - remade probe: use probe_new, no power on during probe
-> - remove autodetect and wildcard
-> - make all supplies to be required
-> - remove trigger ioctl, will add in separate patch series
-> - remove temperature ioctl, will add in separate patch series
-> - add documentation about custom ioctl
-> - style: 80 cols
-> - minor fixes device tree
-> 
-> v2:
-> - added external clock to the sensor
-> - added all regulators required by the sensor
-> - added posibility to choose sensor type in device tree
-> - added prefixes to all custom types in device tree and driver as well
-> - style fixes
-> 
-> Volodymyr Kharuk (8):
->   media: uapi: ctrls: Add Time of Flight class controls
->   media: v4l: ctrls: Fill V4L2_CID_TOF_CLASS controls
->   media: Documentation: v4l: Add TOF class controls
->   media: v4l: ctrls-api: Allow array update in __v4l2_ctrl_modify_range
->   media: v4l: ctrls: Add user control base for mlx7502x
->   media: uapi: Add mlx7502x header file
->   media: dt-bindings: Add mlx7502x camera sensor
->   media: i2c: Add driver for mlx7502x ToF sensor
-> 
->  .../bindings/media/i2c/melexis,mlx7502x.yaml  |  126 ++
->  .../userspace-api/media/drivers/index.rst     |    1 +
->  .../userspace-api/media/drivers/mlx7502x.rst  |   28 +
->  .../userspace-api/media/v4l/common.rst        |    1 +
->  .../userspace-api/media/v4l/ext-ctrls-tof.rst |   56 +
->  MAINTAINERS                                   |   11 +
->  drivers/media/i2c/Kconfig                     |   13 +
->  drivers/media/i2c/Makefile                    |    1 +
->  drivers/media/i2c/mlx7502x.c                  | 1747 +++++++++++++++++
->  drivers/media/v4l2-core/v4l2-ctrls-api.c      |   25 +-
->  drivers/media/v4l2-core/v4l2-ctrls-defs.c     |   20 +
->  include/uapi/linux/mlx7502x.h                 |   28 +
->  include/uapi/linux/v4l2-controls.h            |   14 +
->  13 files changed, 2059 insertions(+), 12 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/media/i2c/melexis,mlx7502x.yaml
->  create mode 100644 Documentation/userspace-api/media/drivers/mlx7502x.rst
->  create mode 100644 Documentation/userspace-api/media/v4l/ext-ctrls-tof.rst
->  create mode 100644 drivers/media/i2c/mlx7502x.c
->  create mode 100644 include/uapi/linux/mlx7502x.h
-> 
-> 
-> base-commit: a7bab6f8b73fe15a6181673149734a2756845dae
-> -- 
-> BR,
-> Volodymyr Kharuk
-> 
+> Alternatively libcamera could close the video devices while not streaming
+> but that would involve e.g. releasing possible video buffer allocations as
+> well, increasing streaming start latency.
+
+Closing video (and subdev) nodes when the camera is not in use would be
+good I think. It doesn't mean we have to open them when starting
+capture, explicit open/close operation (or similar, maybe introducing a
+capture session object in the libcamera API would also make sense, it
+should be considered as part of the same issue) could help with this.
 
 -- 
---
-Volodymyr Kharuk
+Regards,
 
+Laurent Pinchart
