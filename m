@@ -2,178 +2,200 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8D5F165C297
-	for <lists+linux-media@lfdr.de>; Tue,  3 Jan 2023 15:58:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B8A7765C2F0
+	for <lists+linux-media@lfdr.de>; Tue,  3 Jan 2023 16:24:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233299AbjACO5C (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 3 Jan 2023 09:57:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33364 "EHLO
+        id S233570AbjACPYJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 3 Jan 2023 10:24:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48422 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238095AbjACO4K (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 3 Jan 2023 09:56:10 -0500
-Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 894CF11A3A
-        for <linux-media@vger.kernel.org>; Tue,  3 Jan 2023 06:56:08 -0800 (PST)
-Received: by mail-pj1-x1036.google.com with SMTP id v13-20020a17090a6b0d00b00219c3be9830so31323321pjj.4
-        for <linux-media@vger.kernel.org>; Tue, 03 Jan 2023 06:56:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=IPA7zfOs9WX5PlpZIda/yaFJKJmOT3hpKS+FngDkof4=;
-        b=AK/pbINJxxsvubXpUA90163gydC2B6cON4fGpFnM57cGOaXX5g6VHUPOy8IiZmwkpo
-         YgNjDcvlPpd8M0QfgT3y7Qk1yYkp5LcGvQAiuS+1dpIYvBdkvdcCU5Q5Gg9AohRZ//eE
-         LweaQkSsPAT9HOXPdmLSTBnrmrjT4DmvypZPE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=IPA7zfOs9WX5PlpZIda/yaFJKJmOT3hpKS+FngDkof4=;
-        b=HGX1337Tg+2TMzdYh9c/z+obD81jRpO5//f/l+K223RI507IFL0wcCYo25YrEc8QPY
-         8cmsyVsPeeIDfkYAhwZ5j8Q06mLCva0T/V6z4uDM8l+xeeLWwLkkVm8Cly2qNVlTGDJM
-         VenDaupf4ZzSmGaHBYV8uT425mjtYwFiElS3En2AZfX7vcS4JBPocPUvTRwyfq//5qNr
-         /uNAHruhcMdfOSnp1ZdN7v7KjQFoBz4eQdFvHt81C2n1iIaoW1a5QOx+9f2pGt70SeSC
-         ICkymw8YmvRityIrEf5IsdnuSVtcUn4iTvfzqn+pVr5R4BbAQzI+VSTV2UKguiE17P5i
-         lV9Q==
-X-Gm-Message-State: AFqh2kpzBFoSqnOIsgCcWZFe23WrOujUGFem458QNr5jkZ3uUT9yB1Nl
-        0j7yE9xtFQIfKIZjmF8uuSxg/lRwd2JUjnwDl4M=
-X-Google-Smtp-Source: AMrXdXt4q7T/xQxdWgfr9L7qsIQD4Ngh7hGNmjXgUQIvhsF+EKwhupZ1GeTIqroFodbQ4HpQq5whUg==
-X-Received: by 2002:a05:6a21:998a:b0:ad:f86d:c0bc with SMTP id ve10-20020a056a21998a00b000adf86dc0bcmr69999878pzb.7.1672757767488;
-        Tue, 03 Jan 2023 06:56:07 -0800 (PST)
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com. [209.85.210.180])
-        by smtp.gmail.com with ESMTPSA id e28-20020a056a0000dc00b00576f7bd92cdsm10778282pfj.14.2023.01.03.06.56.06
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 03 Jan 2023 06:56:06 -0800 (PST)
-Received: by mail-pf1-f180.google.com with SMTP id a30so5101657pfr.6
-        for <linux-media@vger.kernel.org>; Tue, 03 Jan 2023 06:56:06 -0800 (PST)
-X-Received: by 2002:a63:1709:0:b0:48c:8cc5:1b73 with SMTP id
- x9-20020a631709000000b0048c8cc51b73mr2509074pgl.520.1672757765593; Tue, 03
- Jan 2023 06:56:05 -0800 (PST)
+        with ESMTP id S238041AbjACPX5 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 3 Jan 2023 10:23:57 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C70B21055E;
+        Tue,  3 Jan 2023 07:23:55 -0800 (PST)
+Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8F22B108;
+        Tue,  3 Jan 2023 16:23:53 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1672759433;
+        bh=LDqnQYWWwfalGU5z5r/QKv44ZlrXmBotvMvowzy8No8=;
+        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+        b=lZJcQFhlIIM+OIg6bXNhJ0VBi+sfewuRUYTk3CbEwo0oblIKUpnH+iIvM8cwa3FbE
+         NTfpXs+Z/1g76xHFRsD5KHeL740W9LXTAu+ndtbS1ltkStNnfu+7EKyTNfoZL12jkV
+         6nY0i69QIt+seOzWOWDoqri/HvajcaDYwLXLn8ho=
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-References: <20220920-invalid-desc-v1-0-76a93174f3bc@chromium.org>
- <20220920-invalid-desc-v1-1-76a93174f3bc@chromium.org> <Yypgi6Jc9/tZLtIw@pendragon.ideasonboard.com>
- <CANiDSCsbwYfnqcWOjAJw2qvZnB-qE66LqGMhpD8youDj=f+U-g@mail.gmail.com>
- <Yyt/LhNoEEfjly54@pendragon.ideasonboard.com> <CANiDSCsSsKk37JtBZjQiuw6MoH+f-iCf47MqU9BH18gbd4EKAg@mail.gmail.com>
- <Y1bXCP2fzacDuZxE@pendragon.ideasonboard.com>
-In-Reply-To: <Y1bXCP2fzacDuZxE@pendragon.ideasonboard.com>
-From:   Ricardo Ribalda <ribalda@chromium.org>
-Date:   Tue, 3 Jan 2023 15:55:54 +0100
-X-Gmail-Original-Message-ID: <CANiDSCsguMfWEHTGy3yry12uOFL=qELQO6tYwu9L-ueLW+bZpw@mail.gmail.com>
-Message-ID: <CANiDSCsguMfWEHTGy3yry12uOFL=qELQO6tYwu9L-ueLW+bZpw@mail.gmail.com>
-Subject: Re: [PATCH v1 1/1] media: uvc: Handle cameras with invalid descriptors
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <Y7QuMKi3ZdMDUwCw@pendragon.ideasonboard.com>
+References: <20221223231736.2111774-1-kieran.bingham@ideasonboard.com> <Y6lu14VsuH1LbqFH@pendragon.ideasonboard.com> <yvFnaY1MM7I5C7H18aJdvQ6XEQn979YkGYpCjRLsnJvCRr2vYWVKorYqFXGxP3tWKeJ5B0oEA4Fn4W2-IqPd_N_wivEM4uKJD4WX53RiSmY=@protonmail.com> <Y7LYp01J5co9KSfJ@paasikivi.fi.intel.com> <Y7LdpQ9s7lS+x9mO@pendragon.ideasonboard.com> <167273840266.530483.6812185939521706359@Monstersaurus> <Y7QuMKi3ZdMDUwCw@pendragon.ideasonboard.com>
+Subject: Re: [RFC PATCH] media: v4l2-dev: sysfs: Support streaming attribute
+From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        =?utf-8?q?Barnab=C3=A1s_P=C5=91cze?= <pobrn@protonmail.com>,
+        linux-media@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+        open list <linux-kernel@vger.kernel.org>
 To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        syzbot <syzkaller@googlegroups.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Date:   Tue, 03 Jan 2023 15:23:51 +0000
+Message-ID: <167275943112.2799906.2650046969237060663@Monstersaurus>
+User-Agent: alot/0.10
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent
+Quoting Laurent Pinchart (2023-01-03 13:31:28)
+> Hi Kieran,
+>=20
+> On Tue, Jan 03, 2023 at 09:33:22AM +0000, Kieran Bingham wrote:
+> > Quoting Laurent Pinchart (2023-01-02 13:35:33)
+> > > On Mon, Jan 02, 2023 at 01:14:15PM +0000, Sakari Ailus wrote:
+> > > > On Wed, Dec 28, 2022 at 01:44:38AM +0000, Barnab=C3=A1s P=C5=91cze =
+wrote:
+> > > > > On 2022. december 26., h=C3=A9tf=C5=91 10:52, Laurent Pinchart wr=
+ote:
+> > > > > > On Fri, Dec 23, 2022 at 11:17:35PM +0000, Kieran Bingham wrote:
+> > > > > >=20
+> > > > > > > Provide a streaming attribute to allow userspace to interogat=
+e if a device
+> > > > > > > is actively streaming or not.
+> > > > > > >=20
+> > > > > > > This will allow desktop notifications to report if a camera o=
+r device
+> > > > > > > is active on the system, rather than just 'open' which can oc=
+cur when
+> > > > > > > configuring the device.
+> > > > > > >=20
+> > > > > > > Bug: https://gitlab.freedesktop.org/pipewire/pipewire/-/issue=
+s/2669
+> > > > > > > Signed-off-by: Kieran Bingham kieran.bingham@ideasonboard.com
+> > > > > > > ---
+> > > > > > >=20
+> > > > > > > This is a quick POC to see if such a facility makes sense.
+> > > > > > > I'm weary that not all video devices may have the queues regi=
+stered on
+> > > > > > > the struct video_device, but this seems like an effective way=
+ to be able
+> > > > > > > to determine if a device is actively streaming on a system.
+> > > > > >=20
+> > > > > > I can imagine multiple problems, from race conditions to permis=
+sions and
+> > > > > > privacy. In order to comment on the fitness of this solution to=
+ address
+> > > > > > the problem you're trying to solve, could you describe the actu=
+al
+> > > > > > problem ?
+> > > > >=20
+> > > > > The issue is explained in the following thread:
+> > > > > https://gitlab.freedesktop.org/pipewire/pipewire/-/issues/2669#no=
+te_1697388
+> > > > >=20
+> > > > > In short, the user wants to show a "camera-in-use" indicator when=
+ the laptop camera
+> > > > > is used. The script that the user previously had only checked if =
+/dev/video0
+> > > > > was open in any process, if it was, the indicator was shown. Howe=
+ver, libcamera
+> > > > > - at least at the moment - keeps the file descriptor open as long=
+ as the Camera
+> > > > > object exists, which pipewire keeps alive for the entire lifetime=
+ of the device,
+> > > > > therefore the "camera-in-use" indicator is always shown.
+> > > >=20
+> > > > A sysfs attribute is not a great way to address this.
+> > > >=20
+> > > > libcamera certainly has information on whether streaming is ongoing=
+. The
+> > > > information should come from there. Or Pipewire. Dbus perhaps?
+> > >=20
+> > > I tend to agree, I think this is best solved in userspace where PipeW=
+ire
+> > > can have a centralized view of all cameras in the system, and of their
+> > > users.
+> >=20
+> > I fear that misses the entire point I was trying to make.
+> >=20
+> > Lets say pipewire 'is' available and in use and can be used to capture
+> > video streams for video calls, that's fine. But what happens if a user
+> > runs a gstreamer pipeline without using the pipewire source, or a
+> > suspcious process runs "yavta" and captures an image or stream
+> > discreetly...
+> >=20
+> > Only the kernel has a true centralised view of what devices are in use.
+>=20
+> That's right, but at the same time, the kernel as little view of what a
+> "camera" is.
+>=20
+> At the beginning of V4L a video capture node was a TV capture card (soon
+> with a few exceptions), then it also modelled a camera, for the past ten
+> years at least it's "just" a DMA engine in many cases, and relatively
+> recently even evolved to simply model a data flow endpoint with the
+> addition of metadata video nodes. This doesn't even mention usage of
+> video capture nodes in codecs or other memory to memory devices. Video
+> devices are now in many cases just one of the many components in a
+> camera pipeline.
+>=20
+> In most cases drivers can reasonably decide which video devices most
+> likely represent a "camera", but that an approximation in any case, and
+> not a general guarantee. In userspace the situation is worse, the link
+> between a video device and a camera has been long lost.  We started
+> recovering it with libcamera, which is, today, the only open-source
+> component available in Linux systems that has knowledge of cameras, not
+> just video device nodes.
+>=20
+> > > > Alternatively libcamera could close the video devices while not str=
+eaming
+> > > > but that would involve e.g. releasing possible video buffer allocat=
+ions as
+> > > > well, increasing streaming start latency.
+> >=20
+> > Or is it just that in that case 'lsof' should be sufficient?
+> >=20
+> > The problem I have with that is - just like with the issue when the
+> > Privacy LED comes on during power up/probe - then any time a device is
+> > opened to identify the device and not necessarily use it - the 'camera
+> > in use' notification would get flashed...
+>=20
+> Regardless of whether an open device node indication or a streaming
+> status is used, you don't want to indicate a camera is used because the
+> user is watching a movie and the V4L2-based codec is in use. You thus
+> need to at least filter out unrelated video devices in userspace, and if
+> you want to do so for privacy reasons, hardcoding in PipeWire (or
+> anywhere else) a heuristic will be prone to false positives or false
+> negatives. That isn't a good idea in my opinion, I believe this problem
+> can only be solved by handling the concept of "camera" in userspace.
 
-I think we have missed this patch.
+Indeed, with v4l2 based codecs, this gets far more complex.
 
-Regards!
+I think it's a shame we can't get this state globally, in a way that
+can't be 'hidden' or 'subverted' but I'll just consider this patch
+dropped.
 
-On Mon, 24 Oct 2022 at 20:19, Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> Hi Ricardo,
->
-> On Wed, Sep 21, 2022 at 11:52:29PM +0200, Ricardo Ribalda wrote:
-> > On Wed, 21 Sept 2022 at 23:16, Laurent Pinchart wrote:
-> > > On Wed, Sep 21, 2022 at 09:51:44AM +0200, Ricardo Ribalda wrote:
-> > > > Do you mean something like this?
-> > > >
-> > > > diff --git a/drivers/media/usb/uvc/uvc_entity.c
-> > > > b/drivers/media/usb/uvc/uvc_entity.c
-> > > > index 7c4d2f93d351..66d1f5da4ec7 100644
-> > > > --- a/drivers/media/usb/uvc/uvc_entity.c
-> > > > +++ b/drivers/media/usb/uvc/uvc_entity.c
-> > > > @@ -37,7 +37,7 @@ static int uvc_mc_create_links(struct uvc_video_chain *chain,
-> > > >                         continue;
-> > > >
-> > > >                 remote = uvc_entity_by_id(chain->dev, entity->baSourceID[i]);
-> > > > -               if (remote == NULL)
-> > > > +               if (remote == NULL || remote->num_pads == 0)
-> > > >                         return -EINVAL;
-> > >
-> > > Yes.
-> > >
-> > > >
-> > > >                 source = (UVC_ENTITY_TYPE(remote) == UVC_TT_STREAMING)
-> > > > @@ -46,6 +46,9 @@ static int uvc_mc_create_links(struct uvc_video_chain *chain,
-> > > >                 if (source == NULL)
-> > > >                         continue;
-> > > >
-> > > > +               if (source->num_pads != remote->num_pads)
-> > > > +                       return -EINVAL;
-> > > > +
-> > >
-> > > But this I would have dropped, as the media_entity num_pads is
-> > > initialized from uvc_entity num_pads and neither are changed after.
-> >
-> > Works for me. Shall I send a v2 or you can take it?
->
-> I'm handling it locally, will be in the next pull request.
->
-> > > >                 remote_pad = remote->num_pads - 1;
-> > > >                 ret = media_create_pad_link(source, remote_pad,
-> > > >                                                sink, i, flags);
-> > > >
-> > > > regarding making a new patch, whatever is easier for you ;)
-> > > >
-> > > >
-> > > > On Wed, 21 Sept 2022 at 02:53, Laurent Pinchart wrote:
-> > > > >
-> > > > > Hi Ricardo,
-> > > > >
-> > > > > Thank you for the patch.
-> > > > >
-> > > > > On Tue, Sep 20, 2022 at 04:04:55PM +0200, Ricardo Ribalda wrote:
-> > > > > > If the source entity does not contain any pads, do not create a link.
-> > > > > >
-> > > > > > Reported-by: syzbot <syzkaller@googlegroups.com>
-> > > > > > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> > > > > >
-> > > > > > diff --git a/drivers/media/usb/uvc/uvc_entity.c b/drivers/media/usb/uvc/uvc_entity.c
-> > > > > > index 7c4d2f93d351..1f730cb72e58 100644
-> > > > > > --- a/drivers/media/usb/uvc/uvc_entity.c
-> > > > > > +++ b/drivers/media/usb/uvc/uvc_entity.c
-> > > > > > @@ -43,7 +43,7 @@ static int uvc_mc_create_links(struct uvc_video_chain *chain,
-> > > > > >               source = (UVC_ENTITY_TYPE(remote) == UVC_TT_STREAMING)
-> > > > > >                      ? (remote->vdev ? &remote->vdev->entity : NULL)
-> > > > > >                      : &remote->subdev.entity;
-> > > > > > -             if (source == NULL)
-> > > > > > +             if (source == NULL || source->num_pads == 0)
-> > > > >
-> > > > > source->num_pads and remote->num_pads should always be identical, but as
-> > > > > the next line uses remote->num_pads, wouldn't it be better to test that
-> > > > > variable ? If so, I'd move the test a file lines earlier, with the
-> > > > > remote == NULL test.
-> > > > >
-> > > > > What do you think ? If you agree I can make that change when applying,
-> > > > > there's no need for a new version. Otherwise I'll keep the patch as-is.
-> > > > >
-> > > > > >                       continue;
-> > > > > >
-> > > > > >               remote_pad = remote->num_pads - 1;
->
-> --
+--
+Kieran
+
+
+>=20
+> > > Closing video (and subdev) nodes when the camera is not in use would =
+be
+> > > good I think. It doesn't mean we have to open them when starting
+> > > capture, explicit open/close operation (or similar, maybe introducing=
+ a
+> > > capture session object in the libcamera API would also make sense, it
+> > > should be considered as part of the same issue) could help with this.
+> >=20
+> > I'm not talking about libcamera in this thread. It's how does a user
+> > correctly identify when a camera is in use globally in a system.
+>=20
+> --=20
 > Regards,
->
+>=20
 > Laurent Pinchart
-
-
-
--- 
-Ricardo Ribalda
