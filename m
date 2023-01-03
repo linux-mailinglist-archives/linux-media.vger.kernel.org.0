@@ -2,54 +2,46 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3683665C495
-	for <lists+linux-media@lfdr.de>; Tue,  3 Jan 2023 18:06:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3435965C4C6
+	for <lists+linux-media@lfdr.de>; Tue,  3 Jan 2023 18:10:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238420AbjACRFQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 3 Jan 2023 12:05:16 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40988 "EHLO
+        id S238398AbjACRKj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 3 Jan 2023 12:10:39 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53868 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238435AbjACREk (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 3 Jan 2023 12:04:40 -0500
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 565AC13F4D;
-        Tue,  3 Jan 2023 09:01:28 -0800 (PST)
-Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:abfa:cf23:1e4e:2b14])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: benjamin.gaignard)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id B6A496602D22;
-        Tue,  3 Jan 2023 17:01:15 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1672765276;
-        bh=0evQrqRnb9kaCHHqbzsXzEtQVoBvZbX6zxh5lAc3G0c=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=arepqSVfQN9tsFnEFv9RYCmekD+1+YPbuLQ8pislwVcVNHN2ptorkKFwfFSo80Sxq
-         hlHoZkcev+T5yk3CgDaECuN88IRrZhSEQighCKaaQzaDQseNESCMMmxLawwb2xuPIh
-         kKuvbd5wq2hp8BjPZbTLVkiRDT7DeMHid/KcEFtrL4jQ5HAQGO/2gf6ddfHKsz9EXl
-         oSVKBETny+KuSORyr1/lupX9Vw9yc4iyIHAP/xdhur6dHBCFV3g8MsUWD6Vr8BP4KF
-         wYwqja4MnC+9BsuM8NpXVKwiB4ttiY+i81823qwgTJ9v4iNqgZBVUN+hO3ZqZInM3R
-         VtPkuHWsnR1iA==
-From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
-To:     ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
-        mchehab@kernel.org, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, heiko@sntech.de,
-        daniel.almeida@collabora.com, nicolas.dufresne@collabora.co.uk
-Cc:     linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, kernel@collabora.com,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: [PATCH v2 13/13] media: verisilicon: Conditionnaly ignore native formats
-Date:   Tue,  3 Jan 2023 18:00:58 +0100
-Message-Id: <20230103170058.810597-14-benjamin.gaignard@collabora.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230103170058.810597-1-benjamin.gaignard@collabora.com>
-References: <20230103170058.810597-1-benjamin.gaignard@collabora.com>
+        with ESMTP id S238395AbjACRKS (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 3 Jan 2023 12:10:18 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 580F613F04
+        for <linux-media@vger.kernel.org>; Tue,  3 Jan 2023 09:07:42 -0800 (PST)
+Received: from ideasonboard.com (unknown [IPv6:2001:b07:5d2e:52c9:c40c:10ff:feac:d8bd])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 79543108;
+        Tue,  3 Jan 2023 18:07:40 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1672765660;
+        bh=V79SqGBzHl99jVAzMWlNZZK/iQ2nYAob/68p3rqgobE=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=fv2T1GJypjctw+0yhYaGCqoBUv0c0A8WpPgZo11l7i1cyVrDMXKDQNUimsTAYe42d
+         17FYhiQpMAG4i/H+3ytPuHbTk59tdu91+HpdaIGM/y1oI2g8eMIubAN4tixfJ8v8n+
+         HZRAAbXEo5BvbSHdSVvSrB2kFHibORVjXGBlub0U=
+Date:   Tue, 3 Jan 2023 18:07:38 +0100
+From:   Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To:     Jai Luthra <j-luthra@ti.com>
+Cc:     Steve Longerbeam <slongerbeam@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+        linux-media@vger.kernel.org, Nishanth Menon <nm@ti.com>
+Subject: Re: [PATCH v4 1/2] media: ov5640: Fix soft reset sequence and timings
+Message-ID: <20230103170738.hldmc6pu4s2jch3e@uno.localdomain>
+References: <20230103122736.18479-1-j-luthra@ti.com>
+ <20230103122736.18479-2-j-luthra@ti.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20230103122736.18479-2-j-luthra@ti.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -57,150 +49,107 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-AV1 film grain feature requires to use the postprocessor to produce
-valid frames. In such case the driver shouldn't propose native pixels
-format but only post-processed pixels format.
-If a codec set need_postproc field in hantro_ctx structure to true
-native pixel formats will be ignored.
+Hi Jai,
+  bear with me a little longer..
 
-Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
----
- drivers/media/platform/verisilicon/hantro.h   |  3 ++
- .../media/platform/verisilicon/hantro_drv.c   |  5 ++
- .../platform/verisilicon/hantro_postproc.c    |  4 ++
- .../media/platform/verisilicon/hantro_v4l2.c  | 46 +++++++++++++------
- 4 files changed, 45 insertions(+), 13 deletions(-)
+On Tue, Jan 03, 2023 at 05:57:35PM +0530, Jai Luthra wrote:
+> Move the register-based reset out of the init_setting[] and into the
+> powerup_sequence function. The sensor is power cycled and reset using
+> the gpio pins so the soft reset is not always necessary.
+>
+> This also ensures that soft reset honors the timing sequence
+> from the datasheet [1].
+>
+> [1] https://cdn.sparkfun.com/datasheets/Sensors/LightImaging/OV5640_datasheet.pdf
+>
+> Fixes: 19a81c1426c1 ("[media] add Omnivision OV5640 sensor driver")
+> Reported-by: Nishanth Menon <nm@ti.com>
+> Suggested-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> Signed-off-by: Jai Luthra <j-luthra@ti.com>
+> ---
+>  drivers/media/i2c/ov5640.c | 33 +++++++++++++++++++++++----------
+>  1 file changed, 23 insertions(+), 10 deletions(-)
+>
+> diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
+> index e0f908af581b..9f3913aad93c 100644
+> --- a/drivers/media/i2c/ov5640.c
+> +++ b/drivers/media/i2c/ov5640.c
+> @@ -50,6 +50,7 @@
+>  #define OV5640_REG_SYS_CTRL0		0x3008
+>  #define OV5640_REG_SYS_CTRL0_SW_PWDN	0x42
+>  #define OV5640_REG_SYS_CTRL0_SW_PWUP	0x02
+> +#define OV5640_REG_SYS_CTRL0_SW_RST	0x82
+>  #define OV5640_REG_CHIP_ID		0x300a
+>  #define OV5640_REG_IO_MIPI_CTRL00	0x300e
+>  #define OV5640_REG_PAD_OUTPUT_ENABLE01	0x3017
+> @@ -532,7 +533,7 @@ static const struct v4l2_mbus_framefmt ov5640_default_fmt = {
+>  };
+>
+>  static const struct reg_value ov5640_init_setting[] = {
+> -	{0x3103, 0x11, 0, 0}, {0x3008, 0x82, 0, 5}, {0x3008, 0x42, 0, 0},
+> +	{0x3103, 0x11, 0, 0},
+>  	{0x3103, 0x03, 0, 0}, {0x3630, 0x36, 0, 0},
+>  	{0x3631, 0x0e, 0, 0}, {0x3632, 0xe2, 0, 0}, {0x3633, 0x12, 0, 0},
+>  	{0x3621, 0xe0, 0, 0}, {0x3704, 0xa0, 0, 0}, {0x3703, 0x5a, 0, 0},
+> @@ -2429,19 +2430,31 @@ static void ov5640_reset(struct ov5640_dev *sensor)
+>  	if (!sensor->reset_gpio)
+>  		return;
+>
+> -	gpiod_set_value_cansleep(sensor->reset_gpio, 0);
+> +	if (sensor->pwdn_gpio) {
+> +		gpiod_set_value_cansleep(sensor->reset_gpio, 0);
+>
+> -	/* camera power cycle */
+> -	ov5640_power(sensor, false);
+> -	usleep_range(5000, 10000);
+> -	ov5640_power(sensor, true);
+> -	usleep_range(5000, 10000);
+> +		/* camera power cycle */
+> +		ov5640_power(sensor, false);
+> +		usleep_range(5000, 10000);
+> +		ov5640_power(sensor, true);
+> +		usleep_range(5000, 10000);
+>
+> -	gpiod_set_value_cansleep(sensor->reset_gpio, 1);
+> -	usleep_range(1000, 2000);
+> +		gpiod_set_value_cansleep(sensor->reset_gpio, 1);
+> +		usleep_range(1000, 2000);
+>
+> -	gpiod_set_value_cansleep(sensor->reset_gpio, 0);
+> +		gpiod_set_value_cansleep(sensor->reset_gpio, 0);
+> +	} else {
+> +		/* software reset */
+> +		ov5640_write_reg(sensor, OV5640_REG_SYS_CTRL0,
+> +				 OV5640_REG_SYS_CTRL0_SW_RST);
+> +	}
+>  	usleep_range(20000, 25000);
+> +
+> +	/* software standby: allows registers programming;
+> +	 * exit at restore_mode() for CSI, s_stream(1) for DVP
+> +	 */
 
-diff --git a/drivers/media/platform/verisilicon/hantro.h b/drivers/media/platform/verisilicon/hantro.h
-index a98cb40a8d3b..7a5357e810fb 100644
---- a/drivers/media/platform/verisilicon/hantro.h
-+++ b/drivers/media/platform/verisilicon/hantro.h
-@@ -231,6 +231,8 @@ struct hantro_dev {
-  * @ctrl_handler:	Control handler used to register controls.
-  * @jpeg_quality:	User-specified JPEG compression quality.
-  * @bit_depth:		Bit depth of current frame
-+ * @need_postproc:	Set to true if the bitstream features require to
-+ *			use the post-processor.
-  *
-  * @codec_ops:		Set of operations related to codec mode.
-  * @postproc:		Post-processing context.
-@@ -258,6 +260,7 @@ struct hantro_ctx {
- 	struct v4l2_ctrl_handler ctrl_handler;
- 	int jpeg_quality;
- 	int bit_depth;
-+	bool need_postproc;
- 
- 	const struct hantro_codec_ops *codec_ops;
- 	struct hantro_postproc_ctx postproc;
-diff --git a/drivers/media/platform/verisilicon/hantro_drv.c b/drivers/media/platform/verisilicon/hantro_drv.c
-index 4fc6dea16ae6..8d7055c0bf3b 100644
---- a/drivers/media/platform/verisilicon/hantro_drv.c
-+++ b/drivers/media/platform/verisilicon/hantro_drv.c
-@@ -346,6 +346,11 @@ static int hantro_av1_s_ctrl(struct v4l2_ctrl *ctrl)
- 				return -EINVAL;
- 
- 		ctx->bit_depth = bit_depth;
-+
-+		if (ctrl->p_new.p_av1_sequence->flags
-+		    & V4L2_AV1_SEQUENCE_FLAG_FILM_GRAIN_PARAMS_PRESENT)
-+			ctx->need_postproc = true;
-+
- 		break;
- 	default:
- 		return -EINVAL;
-diff --git a/drivers/media/platform/verisilicon/hantro_postproc.c b/drivers/media/platform/verisilicon/hantro_postproc.c
-index 7dc39519a2ee..293e5612e2ce 100644
---- a/drivers/media/platform/verisilicon/hantro_postproc.c
-+++ b/drivers/media/platform/verisilicon/hantro_postproc.c
-@@ -57,6 +57,10 @@ bool hantro_needs_postproc(const struct hantro_ctx *ctx,
- {
- 	if (ctx->is_encoder)
- 		return false;
-+
-+	if (ctx->need_postproc)
-+		return true;
-+
- 	return fmt->postprocessed;
- }
- 
-diff --git a/drivers/media/platform/verisilicon/hantro_v4l2.c b/drivers/media/platform/verisilicon/hantro_v4l2.c
-index bbe79dbd2cd9..5c381766cca3 100644
---- a/drivers/media/platform/verisilicon/hantro_v4l2.c
-+++ b/drivers/media/platform/verisilicon/hantro_v4l2.c
-@@ -38,6 +38,11 @@ hantro_get_formats(const struct hantro_ctx *ctx, unsigned int *num_fmts)
- {
- 	const struct hantro_fmt *formats;
- 
-+	if (ctx->need_postproc) {
-+		*num_fmts = 0;
-+		return NULL;
-+	}
-+
- 	if (ctx->is_encoder) {
- 		formats = ctx->dev->variant->enc_fmts;
- 		*num_fmts = ctx->dev->variant->num_enc_fmts;
-@@ -132,6 +137,15 @@ hantro_get_default_fmt(const struct hantro_ctx *ctx, bool bitstream)
- 		    hantro_check_depth_match(ctx, &formats[i]))
- 			return &formats[i];
- 	}
-+
-+	formats = hantro_get_postproc_formats(ctx, &num_fmts);
-+	for (i = 0; i < num_fmts; i++) {
-+		if (bitstream == (formats[i].codec_mode !=
-+				  HANTRO_MODE_NONE) &&
-+		    hantro_check_depth_match(ctx, &formats[i]))
-+			return &formats[i];
-+	}
-+
- 	return NULL;
- }
- 
-@@ -261,19 +275,6 @@ static int vidioc_g_fmt_out_mplane(struct file *file, void *priv,
- 	return 0;
- }
- 
--static int vidioc_g_fmt_cap_mplane(struct file *file, void *priv,
--				   struct v4l2_format *f)
--{
--	struct v4l2_pix_format_mplane *pix_mp = &f->fmt.pix_mp;
--	struct hantro_ctx *ctx = fh_to_ctx(priv);
--
--	vpu_debug(4, "f->type = %d\n", f->type);
--
--	*pix_mp = ctx->dst_fmt;
--
--	return 0;
--}
--
- static int hantro_try_fmt(const struct hantro_ctx *ctx,
- 			  struct v4l2_pix_format_mplane *pix_mp,
- 			  enum v4l2_buf_type type)
-@@ -353,6 +354,25 @@ static int hantro_try_fmt(const struct hantro_ctx *ctx,
- 	return 0;
- }
- 
-+static int vidioc_g_fmt_cap_mplane(struct file *file, void *priv,
-+				   struct v4l2_format *f)
-+{
-+	struct v4l2_pix_format_mplane *pix_mp = &f->fmt.pix_mp;
-+	struct hantro_ctx *ctx = fh_to_ctx(priv);
-+	int ret;
-+
-+	vpu_debug(4, "f->type = %d\n", f->type);
-+
-+	ret = hantro_try_fmt(ctx, pix_mp, f->type);
-+	if (ret)
-+		return ret;
-+
-+	ctx->vpu_dst_fmt = hantro_find_format(ctx, pix_mp->pixelformat);
-+	ctx->dst_fmt = *pix_mp;
-+
-+	return 0;
-+}
-+
- static int vidioc_try_fmt_cap_mplane(struct file *file, void *priv,
- 				     struct v4l2_format *f)
- {
--- 
-2.34.1
+Multiline comments are usually written as
 
+	/*
+         * Software standby: allows registers programming;
+	 * exit at restore_mode() for CSI, s_stream(1) for DVP
+	 */
+
+It's a trivial change, I'm not collecting patches so I can't offer to
+change it when doing so, but maybe Sakari could help with that so that
+you don't have to send a new version ? (if that's the only comment you
+receive ofc)
+
+The patch looks good to me
+
+Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonaboard.com>
+
+
+> +	ov5640_write_reg(sensor, OV5640_REG_SYS_CTRL0,
+> +			 OV5640_REG_SYS_CTRL0_SW_PWDN);
+>  }
+>
+>  static int ov5640_set_power_on(struct ov5640_dev *sensor)
+> --
+> 2.17.1
+>
