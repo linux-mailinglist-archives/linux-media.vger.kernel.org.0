@@ -2,125 +2,91 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1E3F565BE89
-	for <lists+linux-media@lfdr.de>; Tue,  3 Jan 2023 12:02:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A82DE65BF49
+	for <lists+linux-media@lfdr.de>; Tue,  3 Jan 2023 12:46:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237459AbjACLCL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 3 Jan 2023 06:02:11 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45622 "EHLO
+        id S237424AbjACLpj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 3 Jan 2023 06:45:39 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41382 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237326AbjACLCB (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 3 Jan 2023 06:02:01 -0500
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0E57EE3D
-        for <linux-media@vger.kernel.org>; Tue,  3 Jan 2023 03:01:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1672743720; x=1704279720;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=sUZDoqJt8TyM8cEnEFPbm9QNRUAhYObNTONQFkRo8bk=;
-  b=pYrdMAueS0vUMrV6BcAoYGmfWC81i18oXRw4+z3MtXYuxa20ltHJp6FX
-   jzpIffqh/XyKyOII+HxbCZCxAE5WnqFzesoWRtLfbbgvTpL38F7ATUImf
-   FIBiMaZ+IYOey0hqxcfO30yVmyaexLKu9CcCoCtiR15lgfXS605w+dc7W
-   lMjcGs27s+KVSl7/2nIRkjYw7wqDSBYDrd4RKt+N8tbQ3jjXVfqSvmbqC
-   N8fJQSJShXqJ3q/Z+J9OunNkPv1fbYXnPNMlef/f4lHvhrlahR5aJUujG
-   47AJ3DYSjs9cauUsFy1ybmPsAZRWmYRtDbj9dRi5tWdqWbMEp9JoIwonT
-   Q==;
-X-IronPort-AV: E=Sophos;i="5.96,296,1665439200"; 
-   d="scan'208";a="28219671"
-Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
-  by mx1-pgp.tq-group.com with ESMTP; 03 Jan 2023 12:01:58 +0100
-Received: from mx1.tq-group.com ([192.168.6.7])
-  by tq-pgp-pr1.tq-net.de (PGP Universal service);
-  Tue, 03 Jan 2023 12:01:58 +0100
-X-PGP-Universal: processed;
-        by tq-pgp-pr1.tq-net.de on Tue, 03 Jan 2023 12:01:58 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1672743718; x=1704279718;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=sUZDoqJt8TyM8cEnEFPbm9QNRUAhYObNTONQFkRo8bk=;
-  b=ALSvS06VJgjVhpKK3FE0Cf6Tf5bnmrgHWSHTFsq1UazgOuu40y4u2Z1E
-   jhbZ1rndkhG3e1gd56t8H+YLYhn4Bhspuh5Z9kaisoCclSfL0DvKNF88F
-   JNesk4rSWBgEvn8a1OUZBbkfHr8AGi9csjF1+FohCfKKODEahXn3wuZhF
-   +aOIP2sqcgmWCxUndHFoJFbLD9+uAR0nhcUwES9opY/1vFx3Xxx2O7QFs
-   vVUwLcy4JKU/4bikIbvEeYVLwIS/Ud/khauQY8OSjVhGK0JHY/fuIZhza
-   Emdizy+oZffeZiBaZ9ElTF4jhzK/lhQOjWSMEGJ+CuIkCwtXWdAl4EdZd
-   g==;
-X-IronPort-AV: E=Sophos;i="5.96,296,1665439200"; 
-   d="scan'208";a="28219670"
-Received: from vtuxmail01.tq-net.de ([10.115.0.20])
-  by mx1.tq-group.com with ESMTP; 03 Jan 2023 12:01:58 +0100
-Received: from steina-w.localnet (unknown [10.123.53.21])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-        (No client certificate requested)
-        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 1961B280056;
-        Tue,  3 Jan 2023 12:01:58 +0100 (CET)
-From:   Alexander Stein <alexander.stein@ew.tq-group.com>
-To:     mchehab@kernel.org, ezequiel@vanguardiasur.com.ar,
-        hverkuil@xs4all.nl, laurent.pinchart@ideasonboard.com,
-        "Xavier Roumegue (OSS)" <xavier.roumegue@oss.nxp.com>
-Cc:     Xavier Roumegue <xavier.roumegue@oss.nxp.com>,
-        linux-media@vger.kernel.org, kernel test robot <lkp@intel.com>,
-        Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH] media: dw100: Add a missing unwind goto in dw100_probe()
-Date:   Tue, 03 Jan 2023 12:01:55 +0100
-Message-ID: <1962839.8hb0ThOEGa@steina-w>
-Organization: TQ-Systems GmbH
-In-Reply-To: <20230103105534.3018257-1-xavier.roumegue@oss.nxp.com>
-References: <20230103105534.3018257-1-xavier.roumegue@oss.nxp.com>
+        with ESMTP id S236914AbjACLpQ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 3 Jan 2023 06:45:16 -0500
+Received: from msg-2.mailo.com (msg-2.mailo.com [213.182.54.12])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D59C35F83;
+        Tue,  3 Jan 2023 03:45:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
+        t=1672746301; bh=hq1Mr8Cwby3ZbX2qb3uIoXDEXzZmuXFc29XcF8N/+r4=;
+        h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:MIME-Version:
+         Content-Type;
+        b=JOv+xNVKD5112S93a8c7aYmoCdX5KoU6wBhdnCWFfbKPJpGhoWZRjuks+zSBEsw75
+         SQPqDig8L+0Joav7loNL8qDYPMUh7sgIJsfpHPEyZZveFpTHIJKn7i+T7pkINA6PBZ
+         A56vNK7INh6hKl8O63cSAqsmToub/440/EUs+c68=
+Received: by b-3.in.mailobj.net [192.168.90.13] with ESMTP
+        via ip-206.mailobj.net [213.182.55.206]
+        Tue,  3 Jan 2023 12:45:01 +0100 (CET)
+X-EA-Auth: FA+GNfPw6PUD7+tjmQeBh7FR6EBoNuE5zSwpXBGXi4UNiowYmso+Xd15a3rfkgucAXYCHE1qTxBD6g3O2bSauSf9YlqOl8BE
+Date:   Tue, 3 Jan 2023 17:14:55 +0530
+From:   Deepak R Varma <drv@mailo.com>
+To:     Steve Longerbeam <slongerbeam@gmail.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Cc:     Saurabh Singh Sengar <ssengar@microsoft.com>,
+        Praveen Kumar <kumarpraveen@linux.microsoft.com>,
+        Deepak R Varma <drv@mailo.com>
+Subject: [PATCH] staging: media: imx: remove unnecessary return variable
+Message-ID: <Y7QVN0XY+ld2mBk4@qemulion>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+The function imx_media_fim_set_stream() can directly return 0 instead of
+using a ret variable which never changes its value. Issue identified
+using the returnvar.cocci Coccinelle semantic patch.
 
-Am Dienstag, 3. Januar 2023, 11:55:34 CET schrieb Xavier Roumegue (OSS):
-> From: Xavier Roumegue <xavier.roumegue@oss.nxp.com>
-> 
-> In case the IRQ allocation returns an error in dw100_probe(), the pm
-> runtime is not disabled before to return.
-> 
-> Add the missing unwind goto on the error handling path of the IRQ
-> allocation request.
-> 
-> Reported-by: kernel test robot <lkp@intel.com>
-> Reported-by: Dan Carpenter <error27@gmail.com>
-> Signed-off-by: Xavier Roumegue <xavier.roumegue@oss.nxp.com>
-> ---
->  drivers/media/platform/nxp/dw100/dw100.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/platform/nxp/dw100/dw100.c
-> b/drivers/media/platform/nxp/dw100/dw100.c index f6d48c36f386..189d60cd5ed1
-> 100644
-> --- a/drivers/media/platform/nxp/dw100/dw100.c
-> +++ b/drivers/media/platform/nxp/dw100/dw100.c
-> @@ -1571,7 +1571,7 @@ static int dw100_probe(struct platform_device *pdev)
->  			       dev_name(&pdev->dev), dw_dev);
->  	if (ret < 0) {
->  		dev_err(&pdev->dev, "Failed to request irq: %d\n", ret);
-> -		return ret;
-> +		goto err_pm;
->  	}
-> 
->  	ret = v4l2_device_register(&pdev->dev, &dw_dev->v4l2_dev);
+Signed-off-by: Deepak R Varma <drv@mailo.com>
+---
+ drivers/staging/media/imx/imx-media-fim.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-Doesn't it make more sense to request/allocate the IRQ (and other resources) 
-before enabling runtime PM?
+diff --git a/drivers/staging/media/imx/imx-media-fim.c b/drivers/staging/media/imx/imx-media-fim.c
+index fb6590dcfc36..e719227d4323 100644
+--- a/drivers/staging/media/imx/imx-media-fim.c
++++ b/drivers/staging/media/imx/imx-media-fim.c
+@@ -373,7 +373,6 @@ int imx_media_fim_set_stream(struct imx_media_fim *fim,
+ 			     bool on)
+ {
+ 	unsigned long flags;
+-	int ret = 0;
 
-Best regards,
-Alexander
+ 	v4l2_ctrl_lock(fim->ctrl[FIM_CL_ENABLE]);
+
+@@ -393,7 +392,7 @@ int imx_media_fim_set_stream(struct imx_media_fim *fim,
+ 	fim->stream_on = on;
+ out:
+ 	v4l2_ctrl_unlock(fim->ctrl[FIM_CL_ENABLE]);
+-	return ret;
++	return 0;
+ }
+
+ int imx_media_fim_add_controls(struct imx_media_fim *fim)
+--
+2.34.1
 
 
 
