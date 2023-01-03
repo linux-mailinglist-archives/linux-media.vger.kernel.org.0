@@ -2,176 +2,125 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 04BC865BE8B
-	for <lists+linux-media@lfdr.de>; Tue,  3 Jan 2023 12:02:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1E3F565BE89
+	for <lists+linux-media@lfdr.de>; Tue,  3 Jan 2023 12:02:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237463AbjACLCM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 3 Jan 2023 06:02:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45606 "EHLO
+        id S237459AbjACLCL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 3 Jan 2023 06:02:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45622 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237320AbjACLB6 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 3 Jan 2023 06:01:58 -0500
-Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com [IPv6:2a00:1450:4864:20::635])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 67DA7B97
-        for <linux-media@vger.kernel.org>; Tue,  3 Jan 2023 03:01:57 -0800 (PST)
-Received: by mail-ej1-x635.google.com with SMTP id tz12so72715012ejc.9
-        for <linux-media@vger.kernel.org>; Tue, 03 Jan 2023 03:01:57 -0800 (PST)
+        with ESMTP id S237326AbjACLCB (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 3 Jan 2023 06:02:01 -0500
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0E57EE3D
+        for <linux-media@vger.kernel.org>; Tue,  3 Jan 2023 03:01:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=00bD41CpohMBMgWN2aRl98+MG1NWyw9aXdRxmbyLX7k=;
-        b=lkh5HCyhJ0VSthqIJhVg7LcOAC5++DcCafGeW+njz7gDkKybj2yDo9MQKVo5UXRT6G
-         MILYofG4/Z6AMJSCIsZToHVaDBomPh1H6siahu7wUBPJpaihWnRtYYNnsM20RVRiDtUW
-         n2CZfMi+KUMjSk8bwX2x5599R1zGl7KIARf58=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=00bD41CpohMBMgWN2aRl98+MG1NWyw9aXdRxmbyLX7k=;
-        b=Yl6QAnZecYK/AzeHsBuehpcvr97dPQvpPaCXXeSPiWTi7J6+S1xhI8P4hIsoCu3Cy3
-         MqfdKft/sur5fH6YrSV+IUuXeRXebIjTciQe21CGybPgvqCw4ECYvdiqZVyvgWoAuDbO
-         hyo1uptVyG3SDBUjIwSimJzskhACpfghJdT+6Hbaed6POLsChI/pS/o5ONK1KyVKubnO
-         O2/p6JRLuQp3iacXOPEfe0q/K/1OSxqV1tkxurO1km22FES4xB6K7Lq3zLI0PJCqUlVz
-         8mb9TNXInW7B6uAFyVp+VXGD34RIm9CpTnP6G519xW1gBDypTOnFiVGfHol5OZk4o7MA
-         JyXA==
-X-Gm-Message-State: AFqh2kqnPMx4owz5bg+qt+B2CjXd0/BypYsZQRsEgUg7jjMii0G9r3Zu
-        dMq9NKrVjs0kpBYOUs5ld4G7jA==
-X-Google-Smtp-Source: AMrXdXulMSINEtzbSpMB3sr1ndMTGYRfhkV9njBGjb65OWUwvaklRjeHlms0gQxxrbKdq99S/2IKSQ==
-X-Received: by 2002:a17:907:8e93:b0:7ae:bfec:74c7 with SMTP id tx19-20020a1709078e9300b007aebfec74c7mr39110590ejc.72.1672743715986;
-        Tue, 03 Jan 2023 03:01:55 -0800 (PST)
-Received: from alco.roam.corp.google.com ([2620:0:1059:10:ef23:1430:9acc:b68])
-        by smtp.gmail.com with ESMTPSA id l12-20020a17090615cc00b007c0cd272a06sm13944331ejd.225.2023.01.03.03.01.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Jan 2023 03:01:55 -0800 (PST)
-From:   Ricardo Ribalda <ribalda@chromium.org>
-Date:   Tue, 03 Jan 2023 12:01:23 +0100
-Subject: [PATCH v3 3/3] media: uvcvideo: Refactor
- power_line_frequency_controls_limited
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1672743720; x=1704279720;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=sUZDoqJt8TyM8cEnEFPbm9QNRUAhYObNTONQFkRo8bk=;
+  b=pYrdMAueS0vUMrV6BcAoYGmfWC81i18oXRw4+z3MtXYuxa20ltHJp6FX
+   jzpIffqh/XyKyOII+HxbCZCxAE5WnqFzesoWRtLfbbgvTpL38F7ATUImf
+   FIBiMaZ+IYOey0hqxcfO30yVmyaexLKu9CcCoCtiR15lgfXS605w+dc7W
+   lMjcGs27s+KVSl7/2nIRkjYw7wqDSBYDrd4RKt+N8tbQ3jjXVfqSvmbqC
+   N8fJQSJShXqJ3q/Z+J9OunNkPv1fbYXnPNMlef/f4lHvhrlahR5aJUujG
+   47AJ3DYSjs9cauUsFy1ybmPsAZRWmYRtDbj9dRi5tWdqWbMEp9JoIwonT
+   Q==;
+X-IronPort-AV: E=Sophos;i="5.96,296,1665439200"; 
+   d="scan'208";a="28219671"
+Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
+  by mx1-pgp.tq-group.com with ESMTP; 03 Jan 2023 12:01:58 +0100
+Received: from mx1.tq-group.com ([192.168.6.7])
+  by tq-pgp-pr1.tq-net.de (PGP Universal service);
+  Tue, 03 Jan 2023 12:01:58 +0100
+X-PGP-Universal: processed;
+        by tq-pgp-pr1.tq-net.de on Tue, 03 Jan 2023 12:01:58 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1672743718; x=1704279718;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=sUZDoqJt8TyM8cEnEFPbm9QNRUAhYObNTONQFkRo8bk=;
+  b=ALSvS06VJgjVhpKK3FE0Cf6Tf5bnmrgHWSHTFsq1UazgOuu40y4u2Z1E
+   jhbZ1rndkhG3e1gd56t8H+YLYhn4Bhspuh5Z9kaisoCclSfL0DvKNF88F
+   JNesk4rSWBgEvn8a1OUZBbkfHr8AGi9csjF1+FohCfKKODEahXn3wuZhF
+   +aOIP2sqcgmWCxUndHFoJFbLD9+uAR0nhcUwES9opY/1vFx3Xxx2O7QFs
+   vVUwLcy4JKU/4bikIbvEeYVLwIS/Ud/khauQY8OSjVhGK0JHY/fuIZhza
+   Emdizy+oZffeZiBaZ9ElTF4jhzK/lhQOjWSMEGJ+CuIkCwtXWdAl4EdZd
+   g==;
+X-IronPort-AV: E=Sophos;i="5.96,296,1665439200"; 
+   d="scan'208";a="28219670"
+Received: from vtuxmail01.tq-net.de ([10.115.0.20])
+  by mx1.tq-group.com with ESMTP; 03 Jan 2023 12:01:58 +0100
+Received: from steina-w.localnet (unknown [10.123.53.21])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+        (No client certificate requested)
+        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 1961B280056;
+        Tue,  3 Jan 2023 12:01:58 +0100 (CET)
+From:   Alexander Stein <alexander.stein@ew.tq-group.com>
+To:     mchehab@kernel.org, ezequiel@vanguardiasur.com.ar,
+        hverkuil@xs4all.nl, laurent.pinchart@ideasonboard.com,
+        "Xavier Roumegue (OSS)" <xavier.roumegue@oss.nxp.com>
+Cc:     Xavier Roumegue <xavier.roumegue@oss.nxp.com>,
+        linux-media@vger.kernel.org, kernel test robot <lkp@intel.com>,
+        Dan Carpenter <error27@gmail.com>
+Subject: Re: [PATCH] media: dw100: Add a missing unwind goto in dw100_probe()
+Date:   Tue, 03 Jan 2023 12:01:55 +0100
+Message-ID: <1962839.8hb0ThOEGa@steina-w>
+Organization: TQ-Systems GmbH
+In-Reply-To: <20230103105534.3018257-1-xavier.roumegue@oss.nxp.com>
+References: <20230103105534.3018257-1-xavier.roumegue@oss.nxp.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20221101-easycam-v3-3-2c9881a7a4f7@chromium.org>
-References: <20221101-easycam-v3-0-2c9881a7a4f7@chromium.org>
-In-Reply-To: <20221101-easycam-v3-0-2c9881a7a4f7@chromium.org>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-media@vger.kernel.org,
-        Ricardo Ribalda <ribalda@chromium.org>,
-        linux-kernel@vger.kernel.org,
-        Sergey Senozhatsky <senozhatsky@chromium.org>
-X-Mailer: b4 0.11.0-dev-696ae
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3328; i=ribalda@chromium.org;
- h=from:subject:message-id; bh=U6+fv6Oz+oBYLUlCti95XpzN5zRXjjLpaYFVN2dc0HI=;
- b=owEBbQKS/ZANAwAKAdE30T7POsSIAcsmYgBjtAsep6BRBKmLrGo7Jh0JjciKXjPQr18hFu57TlyO
- Go95FN+JAjMEAAEKAB0WIQREDzjr+/4oCDLSsx7RN9E+zzrEiAUCY7QLHgAKCRDRN9E+zzrEiDfTD/
- sED2E32h08CttZhf7ECpbeysdAs4/o8+xOE0p0bCSKi5Tjk2X2z7qHE6CGs1mKFD6sXh4bArM/yatP
- 2eBzUH3JooZyZI0ZKYqrm8ZPsvYEDrLYYeErHU1D1McJsSoOUeKFLrLU+/VjfRthUB5Jd2mERmJkmv
- FONN68J9MWdIJO5P9rZk6qYWpxBBG+FULClMaf6xc3PkpM9CXMeBeInUC1uCveQ39M/rjjaA9zSrud
- gkhBFDxf8qBPZZ0v6u3l652X8k+++DLdW2Hu4J+i9iod7zaTHMesogtkzYXktqNEXE1oLM2Eb8aVxx
- n3KohB6dLJO4hVHryA/Ls3ML9zmQjBi/snepflN5/LTFbH0afItxxc4mEqMzGrr6C63Jfc9A7R9TAQ
- QJY5nSUiq/58UfWCbB6qdR9D2SKhxUAxK0ix4AUpvZgQw1BImKLtV/g4ix+O7i71hd0oJXVGa2dmXo
- OHGaHnTqnllCnUAT5FHVVeTB+KeF2UtdCUdlECRn7sqGTInQxqD785P17/IE3uquCIg4w1FWRxXmLO
- 63Ofnn8KevPELj3tOXP3H/a5gYXVR+Q9W91eIIh7P1GHnhHO9y9DcoSDgqVjDG06iINKWHARnY7+iw
- v8eoVUMyQ3sf4YqcAHBAW0xD0Rtldqn91Jm1pv3C6NLexP2bckaidYSwAXWQ==
-X-Developer-Key: i=ribalda@chromium.org; a=openpgp;
- fpr=9EC3BB66E2FC129A6F90B39556A0D81F9F782DA9
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Move the control mapping to uvc_ctrl.c. This way we do not have
-references to uvc controls or v4l2 controls in uvc_driver.c
+Hi,
 
-Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
----
- drivers/media/usb/uvc/uvc_ctrl.c   | 17 +++++++++++++++++
- drivers/media/usb/uvc/uvc_driver.c | 17 -----------------
- drivers/media/usb/uvc/uvcvideo.h   |  1 +
- 3 files changed, 18 insertions(+), 17 deletions(-)
+Am Dienstag, 3. Januar 2023, 11:55:34 CET schrieb Xavier Roumegue (OSS):
+> From: Xavier Roumegue <xavier.roumegue@oss.nxp.com>
+> 
+> In case the IRQ allocation returns an error in dw100_probe(), the pm
+> runtime is not disabled before to return.
+> 
+> Add the missing unwind goto on the error handling path of the IRQ
+> allocation request.
+> 
+> Reported-by: kernel test robot <lkp@intel.com>
+> Reported-by: Dan Carpenter <error27@gmail.com>
+> Signed-off-by: Xavier Roumegue <xavier.roumegue@oss.nxp.com>
+> ---
+>  drivers/media/platform/nxp/dw100/dw100.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/platform/nxp/dw100/dw100.c
+> b/drivers/media/platform/nxp/dw100/dw100.c index f6d48c36f386..189d60cd5ed1
+> 100644
+> --- a/drivers/media/platform/nxp/dw100/dw100.c
+> +++ b/drivers/media/platform/nxp/dw100/dw100.c
+> @@ -1571,7 +1571,7 @@ static int dw100_probe(struct platform_device *pdev)
+>  			       dev_name(&pdev->dev), dw_dev);
+>  	if (ret < 0) {
+>  		dev_err(&pdev->dev, "Failed to request irq: %d\n", ret);
+> -		return ret;
+> +		goto err_pm;
+>  	}
+> 
+>  	ret = v4l2_device_register(&pdev->dev, &dw_dev->v4l2_dev);
 
-diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
-index d8283d71bc96..4ff0415d8bf4 100644
---- a/drivers/media/usb/uvc/uvc_ctrl.c
-+++ b/drivers/media/usb/uvc/uvc_ctrl.c
-@@ -370,6 +370,11 @@ static const struct uvc_menu_info power_line_frequency_controls[] = {
- 	{ 3, "Auto" },
- };
- 
-+static const struct uvc_menu_info power_line_frequency_controls_limited[] = {
-+	{ 1, "50 Hz" },
-+	{ 2, "60 Hz" },
-+};
-+
- static const struct uvc_menu_info exposure_auto_controls[] = {
- 	{ 2, "Auto Mode" },
- 	{ 1, "Manual Mode" },
-@@ -751,6 +756,18 @@ static const struct uvc_control_mapping uvc_ctrl_mappings_uvc15[] = {
- 	},
- };
- 
-+const struct uvc_control_mapping uvc_ctrl_power_line_mapping_limited = {
-+	.id		= V4L2_CID_POWER_LINE_FREQUENCY,
-+	.entity		= UVC_GUID_UVC_PROCESSING,
-+	.selector	= UVC_PU_POWER_LINE_FREQUENCY_CONTROL,
-+	.size		= 2,
-+	.offset		= 0,
-+	.v4l2_type	= V4L2_CTRL_TYPE_MENU,
-+	.data_type	= UVC_CTRL_DATA_TYPE_ENUM,
-+	.menu_info	= power_line_frequency_controls_limited,
-+	.menu_count	= ARRAY_SIZE(power_line_frequency_controls_limited),
-+};
-+
- /* ------------------------------------------------------------------------
-  * Utility functions
-  */
-diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-index 9c09bc988278..6531aed5d642 100644
---- a/drivers/media/usb/uvc/uvc_driver.c
-+++ b/drivers/media/usb/uvc/uvc_driver.c
-@@ -2377,23 +2377,6 @@ static const struct uvc_device_info uvc_ctrl_power_line_uvc11 = {
- 	},
- };
- 
--static const struct uvc_menu_info power_line_frequency_controls_limited[] = {
--	{ 1, "50 Hz" },
--	{ 2, "60 Hz" },
--};
--
--static const struct uvc_control_mapping uvc_ctrl_power_line_mapping_limited = {
--	.id		= V4L2_CID_POWER_LINE_FREQUENCY,
--	.entity		= UVC_GUID_UVC_PROCESSING,
--	.selector	= UVC_PU_POWER_LINE_FREQUENCY_CONTROL,
--	.size		= 2,
--	.offset		= 0,
--	.v4l2_type	= V4L2_CTRL_TYPE_MENU,
--	.data_type	= UVC_CTRL_DATA_TYPE_ENUM,
--	.menu_info	= power_line_frequency_controls_limited,
--	.menu_count	= ARRAY_SIZE(power_line_frequency_controls_limited),
--};
--
- static const struct uvc_device_info uvc_ctrl_power_line_limited = {
- 	.mappings = (const struct uvc_control_mapping *[]) {
- 		&uvc_ctrl_power_line_mapping_limited,
-diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-index bcb0b0c101c8..818ae7a6f9b9 100644
---- a/drivers/media/usb/uvc/uvcvideo.h
-+++ b/drivers/media/usb/uvc/uvcvideo.h
-@@ -728,6 +728,7 @@ int uvc_status_start(struct uvc_device *dev, gfp_t flags);
- void uvc_status_stop(struct uvc_device *dev);
- 
- /* Controls */
-+extern const struct uvc_control_mapping uvc_ctrl_power_line_mapping_limited;
- extern const struct uvc_control_mapping uvc_ctrl_power_line_mapping_uvc11;
- extern const struct v4l2_subscribed_event_ops uvc_ctrl_sub_ev_ops;
- 
+Doesn't it make more sense to request/allocate the IRQ (and other resources) 
+before enabling runtime PM?
 
--- 
-2.39.0.314.g84b9a713c41-goog-b4-0.11.0-dev-696ae
+Best regards,
+Alexander
+
+
+
