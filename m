@@ -2,178 +2,149 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2D77E65BCD0
-	for <lists+linux-media@lfdr.de>; Tue,  3 Jan 2023 10:09:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id ADC0A65BD36
+	for <lists+linux-media@lfdr.de>; Tue,  3 Jan 2023 10:33:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230459AbjACJJO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 3 Jan 2023 04:09:14 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41234 "EHLO
+        id S237029AbjACJd3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 3 Jan 2023 04:33:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56018 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233041AbjACJJL (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 3 Jan 2023 04:09:11 -0500
-Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com [IPv6:2607:f8b0:4864:20::1029])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A5886E00A
-        for <linux-media@vger.kernel.org>; Tue,  3 Jan 2023 01:09:10 -0800 (PST)
-Received: by mail-pj1-x1029.google.com with SMTP id n65-20020a17090a2cc700b0021bc5ef7a14so30528332pjd.0
-        for <linux-media@vger.kernel.org>; Tue, 03 Jan 2023 01:09:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=jcCeUe8dp3S0aIMiyCkv1Dk6gs4kz2Rph2Ssgj/ekI0=;
-        b=TL/1ao89hsBreVnGN22u5zp0DHtCX9c2AzLxijusP3QSP4QTbywfw/7EuRB7yIKcEP
-         C1Biq5+4JdbSQkFIWKTTxni2MzrTs5iiw4GKfsZMSOJBXYR4V+A70HpG6WAspLdoUy8Y
-         XQaiRE7546GF9oWek9s0lvW/LoB6l84hC02Lg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=jcCeUe8dp3S0aIMiyCkv1Dk6gs4kz2Rph2Ssgj/ekI0=;
-        b=lW7D42v6PdmBTrtDgo6uEfQdUtoIyoUHZC+cKMelx6Q29gPeGKjXXz3dYgmrJO1+EZ
-         zrPSol/J8uua5t9VjSvA9TN8jZoyLtIKeZWIGOF20Y9atVfdgXBjlHJ0D7+HR4sO/yXb
-         lgY3ftTmro5QH0wpPzfsSI8BKv5ETpygxX/fE+bjgFCPrCeL3hjptjzLEFA2ZX2WAj25
-         SUmBOuPCkUULxLCOlG63nlGS4q6DyUOKHfgND2Wmn3xGXcd/hc5qJbct1THaeOzbUXCs
-         +dpyWnoN9E+NkSigSInVrwfcIwd8Ri+S9/oXmlbBIsuB0sBbCd3YjsWrQXCLT3BMZSJ4
-         mLiA==
-X-Gm-Message-State: AFqh2kouCEEtxA/0rw19i3hNCM7S2MxZIjvs4z7O0NBcM5rflRG0vYP8
-        6GDp5VQrHxcv3BGwia6z4tlLFIw2mdCSVyDxVZQ=
-X-Google-Smtp-Source: AMrXdXsxjlkU7GsIN9QNshlSLo4IztxnBACSVhIr3BiE+ar4Rc9rquQpWv3HxSTuMsZiEObXJTyKlA==
-X-Received: by 2002:a17:90b:1e05:b0:226:8ad:28f0 with SMTP id pg5-20020a17090b1e0500b0022608ad28f0mr26635994pjb.31.1672736949952;
-        Tue, 03 Jan 2023 01:09:09 -0800 (PST)
-Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com. [209.85.215.181])
-        by smtp.gmail.com with ESMTPSA id s4-20020a17090a13c400b002261ea8ac4fsm9728052pjf.13.2023.01.03.01.09.08
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 03 Jan 2023 01:09:08 -0800 (PST)
-Received: by mail-pg1-f181.google.com with SMTP id b12so19706828pgj.6
-        for <linux-media@vger.kernel.org>; Tue, 03 Jan 2023 01:09:08 -0800 (PST)
-X-Received: by 2002:a65:5b88:0:b0:495:fb5f:4395 with SMTP id
- i8-20020a655b88000000b00495fb5f4395mr1743111pgr.63.1672736947897; Tue, 03 Jan
- 2023 01:09:07 -0800 (PST)
+        with ESMTP id S236828AbjACJd2 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 3 Jan 2023 04:33:28 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8122E10FD;
+        Tue,  3 Jan 2023 01:33:27 -0800 (PST)
+Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0689B108;
+        Tue,  3 Jan 2023 10:33:24 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1672738405;
+        bh=Th77TtW0d0ivkQvCf1yb5Viacuy+hOj20gy2rCLjpgw=;
+        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+        b=LYUdXMYK4i5bL1g0xlDIiUZOmi62RXw3XJu8KPj+fXpdeUNJQZCG224SQxGrxwqM2
+         DIWPc4eGeKvHay2lYd2nrsGvnMstCPrJIxCgr1jEFrMiget6u65Yy4O0aflEOXt8/7
+         fKu8q9En3TBiMIc86quqndgSWRDnvT3ryt3R9mio=
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-References: <20221212-uvc-race-v6-0-2a662f8de011@chromium.org> <20230103022540.3667-1-hdanton@sina.com>
-In-Reply-To: <20230103022540.3667-1-hdanton@sina.com>
-From:   Ricardo Ribalda <ribalda@chromium.org>
-Date:   Tue, 3 Jan 2023 10:08:56 +0100
-X-Gmail-Original-Message-ID: <CANiDSCuTZ17ohj=G3c_36NmnCTtwt0aBZ1Fkh-+rzwEgufK5kw@mail.gmail.com>
-Message-ID: <CANiDSCuTZ17ohj=G3c_36NmnCTtwt0aBZ1Fkh-+rzwEgufK5kw@mail.gmail.com>
-Subject: Re: [PATCH v6] media: uvcvideo: Fix race condition with usb_kill_urb
-To:     Hillf Danton <hdanton@sina.com>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <Y7LdpQ9s7lS+x9mO@pendragon.ideasonboard.com>
+References: <20221223231736.2111774-1-kieran.bingham@ideasonboard.com> <Y6lu14VsuH1LbqFH@pendragon.ideasonboard.com> <yvFnaY1MM7I5C7H18aJdvQ6XEQn979YkGYpCjRLsnJvCRr2vYWVKorYqFXGxP3tWKeJ5B0oEA4Fn4W2-IqPd_N_wivEM4uKJD4WX53RiSmY=@protonmail.com> <Y7LYp01J5co9KSfJ@paasikivi.fi.intel.com> <Y7LdpQ9s7lS+x9mO@pendragon.ideasonboard.com>
+Subject: Re: [RFC PATCH] media: v4l2-dev: sysfs: Support streaming attribute
+From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc:     =?utf-8?q?Barnab=C3=A1s_P=C5=91cze?= <pobrn@protonmail.com>,
+        linux-media@vger.kernel.org,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Max Staudt <mstaudt@google.com>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Yunke Cao <yunkec@chromium.org>, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+        open list <linux-kernel@vger.kernel.org>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>
+Date:   Tue, 03 Jan 2023 09:33:22 +0000
+Message-ID: <167273840266.530483.6812185939521706359@Monstersaurus>
+User-Agent: alot/0.10
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hillf
+Quoting Laurent Pinchart (2023-01-02 13:35:33)
+> Hello,
+>=20
+> On Mon, Jan 02, 2023 at 01:14:15PM +0000, Sakari Ailus wrote:
+> > On Wed, Dec 28, 2022 at 01:44:38AM +0000, Barnab=C3=A1s P=C5=91cze wrot=
+e:
+> > > On 2022. december 26., h=C3=A9tf=C5=91 10:52, Laurent Pinchart wrote:
+> > > > On Fri, Dec 23, 2022 at 11:17:35PM +0000, Kieran Bingham wrote:
+> > > >=20
+> > > > > Provide a streaming attribute to allow userspace to interogate if=
+ a device
+> > > > > is actively streaming or not.
+> > > > >=20
+> > > > > This will allow desktop notifications to report if a camera or de=
+vice
+> > > > > is active on the system, rather than just 'open' which can occur =
+when
+> > > > > configuring the device.
+> > > > >=20
+> > > > > Bug: https://gitlab.freedesktop.org/pipewire/pipewire/-/issues/26=
+69
+> > > > > Signed-off-by: Kieran Bingham kieran.bingham@ideasonboard.com
+> > > > > ---
+> > > > >=20
+> > > > > This is a quick POC to see if such a facility makes sense.
+> > > > > I'm weary that not all video devices may have the queues register=
+ed on
+> > > > > the struct video_device, but this seems like an effective way to =
+be able
+> > > > > to determine if a device is actively streaming on a system.
+> > > >=20
+> > > > I can imagine multiple problems, from race conditions to permission=
+s and
+> > > > privacy. In order to comment on the fitness of this solution to add=
+ress
+> > > > the problem you're trying to solve, could you describe the actual
+> > > > problem ?
+> > >=20
+> > > The issue is explained in the following thread:
+> > > https://gitlab.freedesktop.org/pipewire/pipewire/-/issues/2669#note_1=
+697388
+> > >=20
+> > > In short, the user wants to show a "camera-in-use" indicator when the=
+ laptop camera
+> > > is used. The script that the user previously had only checked if /dev=
+/video0
+> > > was open in any process, if it was, the indicator was shown. However,=
+ libcamera
+> > > - at least at the moment - keeps the file descriptor open as long as =
+the Camera
+> > > object exists, which pipewire keeps alive for the entire lifetime of =
+the device,
+> > > therefore the "camera-in-use" indicator is always shown.
+> >=20
+> > A sysfs attribute is not a great way to address this.
+> >=20
+> > libcamera certainly has information on whether streaming is ongoing. The
+> > information should come from there. Or Pipewire. Dbus perhaps?
+>=20
+> I tend to agree, I think this is best solved in userspace where PipeWire
+> can have a centralized view of all cameras in the system, and of their
+> users.
 
-Thanks for the heads up
+I fear that misses the entire point I was trying to make.
 
-On Tue, 3 Jan 2023 at 03:25, Hillf Danton <hdanton@sina.com> wrote:
->
-> On 02 Jan 2023 15:48:01 +0100 Ricardo Ribalda <ribalda@chromium.org>
-> > --- a/drivers/media/usb/uvc/uvc_ctrl.c
-> > +++ b/drivers/media/usb/uvc/uvc_ctrl.c
-> > @@ -1442,6 +1442,9 @@ static void uvc_ctrl_status_event_work(struct work_struct *work)
-> >
-> >       uvc_ctrl_status_event(w->chain, w->ctrl, w->data);
-> >
-> > +     if (dev->flush_status)
-> > +             return;
-> > +
-> >       /* Resubmit the URB. */
-> >       w->urb->interval = dev->int_ep->desc.bInterval;
-> >       ret = usb_submit_urb(w->urb, GFP_KERNEL);
-> > diff --git a/drivers/media/usb/uvc/uvc_status.c b/drivers/media/usb/uvc/uvc_status.c
-> > index 7518ffce22ed..e457889345a3 100644
-> > --- a/drivers/media/usb/uvc/uvc_status.c
-> > +++ b/drivers/media/usb/uvc/uvc_status.c
-> > @@ -6,6 +6,7 @@
-> >   *          Laurent Pinchart (laurent.pinchart@ideasonboard.com)
-> >   */
-> >
-> > +#include <asm/barrier.h>
-> >  #include <linux/kernel.h>
-> >  #include <linux/input.h>
-> >  #include <linux/slab.h>
-> > @@ -309,5 +310,44 @@ int uvc_status_start(struct uvc_device *dev, gfp_t flags)
-> >
-> >  void uvc_status_stop(struct uvc_device *dev)
-> >  {
-> > +     struct uvc_ctrl_work *w = &dev->async_ctrl;
-> > +
-> > +     /* Prevent the asynchronous control handler from requeing the URB */
-> > +     dev->flush_status = true;
-> > +
-> > +     /*
-> > +      * The barrier is needed so the flush_status change is visible to other
-> > +      * CPUs running the asynchronous handler before usb_kill_urb() is
-> > +      * called below.
-> > +      */
-> > +     smp_mb();
->
-> Given unpaired mb, take a look at the release/acquire memory barrier pairing
-> in c5b2cbdbdac5 ("ipc/mqueue.c: update/document memory barriers")
+Lets say pipewire 'is' available and in use and can be used to capture
+video streams for video calls, that's fine. But what happens if a user
+runs a gstreamer pipeline without using the pipewire source, or a
+suspcious process runs "yavta" and captures an image or stream
+discreetly...
 
-Would it work? to replace:
+Only the kernel has a true centralised view of what devices are in use.
 
-dev->flush_status = true;
-smp_mb();
+> > Alternatively libcamera could close the video devices while not streami=
+ng
+> > but that would involve e.g. releasing possible video buffer allocations=
+ as
+> > well, increasing streaming start latency.
 
-with:
-smp_store_release(&dev->flush_status, 1);
+Or is it just that in that case 'lsof' should be sufficient?
 
-and then read it always with:
+The problem I have with that is - just like with the issue when the
+Privacy LED comes on during power up/probe - then any time a device is
+opened to identify the device and not necessarily use it - the 'camera
+in use' notification would get flashed...
 
-smp_load_acquire(&dev->flush_status);
+> Closing video (and subdev) nodes when the camera is not in use would be
+> good I think. It doesn't mean we have to open them when starting
+> capture, explicit open/close operation (or similar, maybe introducing a
+> capture session object in the libcamera API would also make sense, it
+> should be considered as part of the same issue) could help with this.
 
-Thanks!
-
->
-> > +
-> > +     /* If there is any status event on the queue, process it. */
-> > +     if (cancel_work_sync(&w->work))
-> > +             uvc_ctrl_status_event(w->chain, w->ctrl, w->data);
-> > +
-> > +     /* Kill the urb. */
-> >       usb_kill_urb(dev->int_urb);
-> > +
-> > +     /*
-> > +      * The URB completion handler may have queued asynchronous work. This
-> > +      * won't resubmit the URB as flush_status is set, but it needs to be
-> > +      * cancelled before returning or it could then race with a future
-> > +      * uvc_status_start() call.
-> > +      */
-> > +     if (cancel_work_sync(&w->work))
-> > +             uvc_ctrl_status_event(w->chain, w->ctrl, w->data);
-> > +
-> > +     /*
-> > +      * From this point, there are no events on the queue and the status URB
-> > +      * is dead, this is, no events will be queued until uvc_status_start()
-> > +      * is called.
-> > +      */
-> > +     dev->flush_status = false;
-> > +
-> > +     /*
-> > +      * Write to memory the value of flush_status before uvc_status_start()
-> > +      * is called again.
-> > +      */
-> > +     smp_mb();
-> >  }
-
-
-
--- 
-Ricardo Ribalda
+I'm not talking about libcamera in this thread. It's how does a user
+correctly identify when a camera is in use globally in a system.
+--
+Kieran
