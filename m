@@ -2,155 +2,176 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CAEE365C8C6
-	for <lists+linux-media@lfdr.de>; Tue,  3 Jan 2023 22:16:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8598965CA51
+	for <lists+linux-media@lfdr.de>; Wed,  4 Jan 2023 00:34:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238123AbjACVQW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 3 Jan 2023 16:16:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51250 "EHLO
+        id S234397AbjACXev (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 3 Jan 2023 18:34:51 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45888 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233928AbjACVQS (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 3 Jan 2023 16:16:18 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 17DA725D4;
-        Tue,  3 Jan 2023 13:16:17 -0800 (PST)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 72656108;
-        Tue,  3 Jan 2023 22:16:15 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1672780575;
-        bh=gy6v97UonmWmwdEPAg8ybJu1Rzhdgd2HNXcCozwf05Q=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=E8Fa42fTFOlHOaTL/iMTpi35Q4KA36wAKoWNYpuwOQ/FGe7qMcL22Efkyq/utzmCn
-         ZmNCbc1etlXtIuwArnxhezFT+99u+qn9IeLQjb8bkvtK4yk8S4d10+k6fQDPwx5++f
-         me85IkGrskbPL3dAD+Py09wYU99vjtP8SDsnGS4k=
-Date:   Tue, 3 Jan 2023 23:16:11 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Ricardo Ribalda <ribalda@chromium.org>
+        with ESMTP id S234221AbjACXet (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 3 Jan 2023 18:34:49 -0500
+Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3821413E3C
+        for <linux-media@vger.kernel.org>; Tue,  3 Jan 2023 15:34:49 -0800 (PST)
+Received: by mail-pj1-x102c.google.com with SMTP id o1-20020a17090a678100b00219cf69e5f0so37365706pjj.2
+        for <linux-media@vger.kernel.org>; Tue, 03 Jan 2023 15:34:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=5/148/emZk2X7NXA2ZwL6cgorWQ0FeFrEoaSTceyS2Y=;
+        b=Iwr1w90jote5Q4FWnxggWOj4Td6LX2xnYKBAtTc/ki2FfC2p93XeHqyHZVMuB1Vyfc
+         Kz0ETUC4QebjYjglXywNjWLweuAgE0eIZRM8BKob7FgQF8b8z6Ef4IxOfnRlLNsT6TDX
+         CvhBTtSz+WPRTBjY6fE/iDWhHXNCFe5kSQZ4A=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=5/148/emZk2X7NXA2ZwL6cgorWQ0FeFrEoaSTceyS2Y=;
+        b=qGEeQBvNXw70kViCq0EREbXmOHsXovwwhZxBeGkHaXncNxu0/n7jrJjRBKhEI1TANa
+         0t6Xx/3qa9BuL/1exHdzJf+TL9NWPMtfMCXhPj96mxUmqH3pafHuUiW97hjEiE7pIOxu
+         SSaSqHaWBOGGE6FboGaQQOtDsb7t6pDnxW0Dx56OqYlaQieKyjAZCGhnGNzC/yILYly+
+         PgY7Mn5qwmLHbLC/ObOZeqfDAep2cwqwSPX5JlWdH1INXEoG9eImiQjvXoJ9+RI1P4/y
+         03p4xDpwFGYPoBu4cUc4uXlJvT9s/uc1bAlx0kUwUWe7OXS78IIGC13W+cGb2lPYPwil
+         c3bw==
+X-Gm-Message-State: AFqh2kpvaMjqK6exJZ72h25Wu4cidKPwgCnJFufWF2ul4ySmCzc8sY5B
+        hzmS3FCPN2iMNZJXnEQPNUtGLg89s+/c6scgHVU=
+X-Google-Smtp-Source: AMrXdXvEGsjlXGPLEWH5j+hsOlPkQ5uJzQWU2rFiWlgX37bei6UJzrXNtUGAPECz9JoyxZHVgvUcVA==
+X-Received: by 2002:a05:6a21:c08d:b0:af:f1d1:6f7f with SMTP id bn13-20020a056a21c08d00b000aff1d16f7fmr61848920pzc.31.1672788888518;
+        Tue, 03 Jan 2023 15:34:48 -0800 (PST)
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com. [209.85.214.176])
+        by smtp.gmail.com with ESMTPSA id c10-20020a170903234a00b0017f73caf588sm22897933plh.218.2023.01.03.15.34.47
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 03 Jan 2023 15:34:47 -0800 (PST)
+Received: by mail-pl1-f176.google.com with SMTP id d15so34274138pls.6
+        for <linux-media@vger.kernel.org>; Tue, 03 Jan 2023 15:34:47 -0800 (PST)
+X-Received: by 2002:a17:90a:cf02:b0:219:33a1:d05f with SMTP id
+ h2-20020a17090acf0200b0021933a1d05fmr3544224pju.116.1672788886090; Tue, 03
+ Jan 2023 15:34:46 -0800 (PST)
+MIME-Version: 1.0
+References: <20220920-resend-hwtimestamp-v2-0-0d7978a817cc@chromium.org>
+ <20220920-resend-hwtimestamp-v2-8-0d7978a817cc@chromium.org> <Y6761ScB9FgMC6zb@pendragon.ideasonboard.com>
+In-Reply-To: <Y6761ScB9FgMC6zb@pendragon.ideasonboard.com>
+From:   Ricardo Ribalda <ribalda@chromium.org>
+Date:   Wed, 4 Jan 2023 00:34:34 +0100
+X-Gmail-Original-Message-ID: <CANiDSCtsk+oejXSDGo_DStocHOEsk4=oYOu6KccQdckfBXbj-g@mail.gmail.com>
+Message-ID: <CANiDSCtsk+oejXSDGo_DStocHOEsk4=oYOu6KccQdckfBXbj-g@mail.gmail.com>
+Subject: Re: [PATCH RESEND v2 8/8] media: uvcvideo: Fix hw timestampt handling
+ for slow FPS
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         "hn.chen" <hn.chen@sunplusit.com>, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Tomasz Figa <tfiga@chromium.org>
-Subject: Re: [PATCH RESEND v2 2/8] media: uvc: Allow quirking by entity guid
-Message-ID: <Y7SbG1la3tQtD6Rk@pendragon.ideasonboard.com>
-References: <20220920-resend-hwtimestamp-v2-0-0d7978a817cc@chromium.org>
- <20220920-resend-hwtimestamp-v2-2-0d7978a817cc@chromium.org>
- <Y67qWROM7rKywU3s@pendragon.ideasonboard.com>
- <CANiDSCs_36D5t5FOL+XuSCSz+H8RWQmV8F2TiAqDJTQUh-K2JQ@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CANiDSCs_36D5t5FOL+XuSCSz+H8RWQmV8F2TiAqDJTQUh-K2JQ@mail.gmail.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+        linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Ricardo,
+Hi Laurent
 
-On Tue, Jan 03, 2023 at 04:40:48PM +0100, Ricardo Ribalda wrote:
-> On Fri, 30 Dec 2022 at 14:40, Laurent Pinchart wrote:
-> > On Fri, Dec 02, 2022 at 06:02:42PM +0100, Ricardo Ribalda wrote:
-> > > When an IP is shared by multiple devices its erratas will be shared by
-> > > all of them. Instead of creating a long list of device quirks, or
-> > > waiting for the users to report errors in their hardware lets add a
-> > > routine to add quirks based on the entity guid.
+On Fri, 30 Dec 2022 at 15:51, Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+>
+> Hi Ricardo,
+>
+> Thank you for the patch.
+>
+> On Fri, Dec 02, 2022 at 06:02:48PM +0100, Ricardo Ribalda wrote:
+> > In UVC 1.5, when working with FPS under 32, there is a chance that the
+> > circular buffer contains two dev_sof overflows,
+>
+> An explanation of why this is the case would be good in the commit
+> message. Also, by overflow, are you talking about the SOF counter
+> rolling over ?
+>
+> > but the clock interpolator
+> > is only capable of handle a single overflow.
 > >
-> > I'm not thrilled by this. An entity is not an "IP". Quirks are needed to
-> > handle issues with particular firmware versions on particular devices.
-> > The same entity GUID can be used by different devices running different
-> > firmware versions, some that would require a quirk and some that
-> > wouldn't.
-> 
-> Unfortunately there are ISPs that do not support firmware upgrading
-> that have an error on their firmware (or in this particular case a
-> different interpretation of the standard).
+> > Remove all the samples from the circular buffer that are two overflows
+> > old.
+>
+> I would rather support multiple roll-over in the clock interpolator.
+> Dropping older sampls will lead to less predictable behaviour and harder
+> to debug issues.
+>
 
-I recall we've discussed that. I'll stick to the non politically correct
-interpretation of the issue, and call it a bug :-)
+Multiple roll-over would not necessarily mean better data here. We are
+deleting data that is more than 1 second away, and our resolution is
+1kHz, which means that we have enough data to provide good results, we
+have measured that 250msec already provides good data.
 
-> Those ISPs are mounted in
-> different boards with a VID:PID that is chosen by the module
-> manufacturer.
-> In those cases we cannot get a list of the devices that are broken, we
-> could only get a sublist that we will keep updating indefinitely as
-> users keep reporting bugs (if they do so).
-> 
-> We are lucky enough that SunplusIT has been very active and provided
-> us a way to detect what hardware requires quirking.
+From a logical point of view, this patch is fixing a bug, not adding a
+new feature, and it has been validated. I would rather add multi
+roll-over as a follow-up patch, or maybe suggest implementing it in
+userspace ;).
 
-Is there a guarantee that none of the newer firmware versions that do
-not exhibit this bug will *not* use the same XU GUID ?
-
-> In those
-> situations where the vendor is on board and there is no upgrade
-> mechanism I think that this is a good compromise.
-
-What I'm interested in is how to prevent this kind of issues in the
-future. HungNien, would you be interested in engaging with us in order
-to test future ISP firmwares against Linux ? I do appreciate that you
-have supported Ricardo with handling this issue. We could work on a
-publicly available UVC compliance test suite. You can reply about this
-privately if you would rather not discuss this topic on public mailing
-lists.
-
-> > > Tested-by: HungNien Chen <hn.chen@sunplusit.com>
-> > > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> > > ---
-> > >  drivers/media/usb/uvc/uvc_driver.c | 25 +++++++++++++++++++++++++
-> > >  1 file changed, 25 insertions(+)
-> > >
-> > > diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-> > > index 9c05776f11d1..c63ecfd4617d 100644
-> > > --- a/drivers/media/usb/uvc/uvc_driver.c
-> > > +++ b/drivers/media/usb/uvc/uvc_driver.c
-> > > @@ -1493,6 +1493,28 @@ static int uvc_parse_control(struct uvc_device *dev)
-> > >       return 0;
-> > >  }
-> > >
-> > > +static const struct uvc_entity_quirk {
-> > > +     u8 guid[16];
-> > > +     u32 quirks;
-> > > +} uvc_entity_quirk[] = {
-> > > +};
-> > > +
-> > > +static void uvc_entity_quirks(struct uvc_device *dev)
-> > > +{
-> > > +     struct uvc_entity *entity;
-> > > +     int i;
+> > Tested-by: HungNien Chen <hn.chen@sunplusit.com>
+> > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> > ---
+> >  drivers/media/usb/uvc/uvc_video.c | 15 +++++++++++++++
+> >  drivers/media/usb/uvc/uvcvideo.h  |  1 +
+> >  2 files changed, 16 insertions(+)
 > >
-> > unsigned int
+> > diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
+> > index c81a8362d582..6b6bd521d6c2 100644
+> > --- a/drivers/media/usb/uvc/uvc_video.c
+> > +++ b/drivers/media/usb/uvc/uvc_video.c
+> > @@ -471,6 +471,20 @@ static void uvc_video_clock_add_sample(struct uvc_clock *clock,
 > >
-> > > +
-> > > +     list_for_each_entry(entity, &dev->entities, list) {
-> > > +             for (i = 0; i < ARRAY_SIZE(uvc_entity_quirk); i++) {
-> > > +                     if (memcmp(entity->guid, uvc_entity_quirk[i].guid,
-> > > +                                sizeof(entity->guid)) == 0) {
-> > > +                             dev->quirks |= uvc_entity_quirk[i].quirks;
-> > > +                             break;
-> > > +                     }
-> > > +             }
-> > > +     }
-> > > +}
-> > > +
-> > >  /* -----------------------------------------------------------------------------
-> > >   * Privacy GPIO
-> > >   */
-> > > @@ -2452,6 +2474,9 @@ static int uvc_probe(struct usb_interface *intf,
-> > >               goto error;
-> > >       }
-> > >
-> > > +     /* Apply entity based quirks */
-> > > +     uvc_entity_quirks(dev);
-> > > +
-> > >       dev_info(&dev->udev->dev, "Found UVC %u.%02x device %s (%04x:%04x)\n",
-> > >                dev->uvc_version >> 8, dev->uvc_version & 0xff,
-> > >                udev->product ? udev->product : "<unnamed>",
+> >       spin_lock_irqsave(&clock->lock, flags);
+> >
+> > +     /* Delete last overflows */
+> > +     if (clock->head == clock->last_sof_overflow)
+> > +             clock->last_sof_overflow = -1;
+> > +
+> > +     /* Handle overflows */
+> > +     if (clock->count > 0 && clock->last_sof > sample->dev_sof) {
+> > +             /* Remove data from the last^2 overflows */
+> > +             if (clock->last_sof_overflow != -1)
+> > +                     clock->count = (clock->head - clock->last_sof_overflow)
+> > +                                                             % clock->count;
+> > +             clock->last_sof_overflow = clock->head;
+> > +     }
+> > +
+> > +     /* Add sample */
+> >       memcpy(&clock->samples[clock->head], sample, sizeof(*sample));
+> >       clock->last_sof = sample->dev_sof;
+> >       clock->head = (clock->head + 1) % clock->size;
+> > @@ -594,6 +608,7 @@ static void uvc_video_clock_reset(struct uvc_clock *clock)
+> >       clock->head = 0;
+> >       clock->count = 0;
+> >       clock->last_sof = -1;
+> > +     clock->last_sof_overflow = -1;
+> >       clock->sof_offset = -1;
+> >  }
+> >
+> > diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
+> > index 14daa7111953..d8c520ce5a86 100644
+> > --- a/drivers/media/usb/uvc/uvcvideo.h
+> > +++ b/drivers/media/usb/uvc/uvcvideo.h
+> > @@ -647,6 +647,7 @@ struct uvc_streaming {
+> >               unsigned int head;
+> >               unsigned int count;
+> >               unsigned int size;
+> > +             unsigned int last_sof_overflow;
+> >
+> >               u16 last_sof;
+> >               u16 sof_offset;
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
+
+
 
 -- 
-Regards,
-
-Laurent Pinchart
+Ricardo Ribalda
