@@ -2,108 +2,88 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0134965BF61
-	for <lists+linux-media@lfdr.de>; Tue,  3 Jan 2023 12:52:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9EF5B65BFDC
+	for <lists+linux-media@lfdr.de>; Tue,  3 Jan 2023 13:28:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237359AbjACLvL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 3 Jan 2023 06:51:11 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45418 "EHLO
+        id S233282AbjACM2D (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 3 Jan 2023 07:28:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33820 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237314AbjACLvJ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 3 Jan 2023 06:51:09 -0500
-Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com [IPv6:2607:f8b0:4864:20::62a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B83F96587;
-        Tue,  3 Jan 2023 03:51:03 -0800 (PST)
-Received: by mail-pl1-x62a.google.com with SMTP id d15so32358289pls.6;
-        Tue, 03 Jan 2023 03:51:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=t+ASKySmgpYe6aeuyIud7plzReCzUcsxfQRRqpb3dCM=;
-        b=dLWgbFCgL/n8+lBOD8gxbhiFHszFpeZo6BLDCarxXTBswHednpdDH3tiBOUHIzQOp5
-         TI0Rdf7kTZRDLe00zrmwQUVOnpj8jr/TmHnW2/kUSku2MJ7gvJrX1vYGaPl7Y8Yn35mX
-         EogWrpq293abNtofIdw5cybQ7/bzkBtlUP+qOcJSTzOi7xIUvg7w2+E5N6c7ATvIDKZW
-         OOhoOBKu1bxEhC4gJM69Lis/aPWlt6gtIKIEvjGqcnshfQqMLj9V7XQ45PGLrUweHVfV
-         SfXHCcMqpBIIorivPDikeOufr+z7HteEdwseA9IGlJIARcJjUBY1i/ezVdzKhQBIJKLy
-         9xzQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=t+ASKySmgpYe6aeuyIud7plzReCzUcsxfQRRqpb3dCM=;
-        b=wqre/ji89OaFdZMtB8vfxw0bdhG0dZ21MJe2uvSO12gJMlf/NkWWV9Y7mOSRzjlxxA
-         1s8xKdl53iIK5pRUky5vGgXUy3lx4ELfvIs/RP6i3NodUr9RWjynx8PIDIPowPwIaeVM
-         F8Uw+t45vWQiOy0JwYMWAJHCNFu2GvG0NPnLFCRCq17tR2eWLXrNH43BYgOZwvitehEj
-         IgooHFIWGsc9WPPJ4Fsv7TvU6DtH6yjwNdc7NimODwJXu2DzNQ3qpl8GZJI7Uxb4YWuC
-         dmX8VZcZtHyUmpubRzpzi4dt6+Owdzn02lsEqSBV6zWcN8DJx7C4+lW9nCdRLPrxRmot
-         ojHw==
-X-Gm-Message-State: AFqh2kqss0v7uqq1Cc2h/n8zfunbHCFE76mTuUBDA4xBZb8qVvC7LNCq
-        IjyCNQ7HkoIlruDEWZuP/IcRd8dcZUCkHWOOTas=
-X-Google-Smtp-Source: AMrXdXtjlG1QUtAGeuLxA2IQuXmZaZsBpL9dcTNtyWMOgr14QYIXMLdO7UE7vUNs7b0MrUG8gFjc9kbTS0iPSsOUAFY=
-X-Received: by 2002:a17:90b:485:b0:219:720c:29cb with SMTP id
- bh5-20020a17090b048500b00219720c29cbmr4199206pjb.76.1672746663119; Tue, 03
- Jan 2023 03:51:03 -0800 (PST)
-MIME-Version: 1.0
-References: <Y7QVN0XY+ld2mBk4@qemulion>
-In-Reply-To: <Y7QVN0XY+ld2mBk4@qemulion>
-From:   Fabio Estevam <festevam@gmail.com>
-Date:   Tue, 3 Jan 2023 08:50:51 -0300
-Message-ID: <CAOMZO5Adkz2ZZaWF1VQgTZ43LB-+MqLxp+smS_zFBSJK+x7bjA@mail.gmail.com>
-Subject: Re: [PATCH] staging: media: imx: remove unnecessary return variable
-To:     Deepak R Varma <drv@mailo.com>
-Cc:     Steve Longerbeam <slongerbeam@gmail.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
+        with ESMTP id S237308AbjACM1t (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 3 Jan 2023 07:27:49 -0500
+Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D8E9B49E
+        for <linux-media@vger.kernel.org>; Tue,  3 Jan 2023 04:27:48 -0800 (PST)
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 303CRe2Z107326;
+        Tue, 3 Jan 2023 06:27:40 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1672748860;
+        bh=SwRiD4792uWkQSxTAAgm2BiS/Xl+c3YxhOhTuACYV6Q=;
+        h=From:To:CC:Subject:Date;
+        b=M2JC4Opn2+RClafPTTbiyggkWscRgaSA0TTJpFi53sCcA6j9yXBd6NAk9TF400w6c
+         czfU2zVofSf35NtAKZgAGGtPR6NrtbIn50D6vNo5qCD8RIunrSP680lpS8iLo9S8JK
+         I7ynYaM0NoZxAA0WbtqN6ozCDctgnVXwYpN7YB78=
+Received: from DFLE105.ent.ti.com (dfle105.ent.ti.com [10.64.6.26])
+        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 303CReQb004488
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Tue, 3 Jan 2023 06:27:40 -0600
+Received: from DFLE105.ent.ti.com (10.64.6.26) by DFLE105.ent.ti.com
+ (10.64.6.26) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.16; Tue, 3
+ Jan 2023 06:27:39 -0600
+Received: from lelv0326.itg.ti.com (10.180.67.84) by DFLE105.ent.ti.com
+ (10.64.6.26) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.16 via
+ Frontend Transport; Tue, 3 Jan 2023 06:27:39 -0600
+Received: from localhost (ileaxei01-snat.itg.ti.com [10.180.69.5])
+        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 303CRc4B002368;
+        Tue, 3 Jan 2023 06:27:39 -0600
+From:   Jai Luthra <j-luthra@ti.com>
+To:     Steve Longerbeam <slongerbeam@gmail.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        Saurabh Singh Sengar <ssengar@microsoft.com>,
-        Praveen Kumar <kumarpraveen@linux.microsoft.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+CC:     <linux-media@vger.kernel.org>, Nishanth Menon <nm@ti.com>,
+        Jai Luthra <j-luthra@ti.com>
+Subject: [PATCH v4 0/2]  media: ov5640: Fix power up sequence delays
+Date:   Tue, 3 Jan 2023 17:57:34 +0530
+Message-ID: <20230103122736.18479-1-j-luthra@ti.com>
+X-Mailer: git-send-email 2.17.1
+MIME-Version: 1.0
+Content-Type: text/plain
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Jan 3, 2023 at 8:45 AM Deepak R Varma <drv@mailo.com> wrote:
->
-> The function imx_media_fim_set_stream() can directly return 0 instead of
-> using a ret variable which never changes its value. Issue identified
-> using the returnvar.cocci Coccinelle semantic patch.
->
-> Signed-off-by: Deepak R Varma <drv@mailo.com>
-> ---
->  drivers/staging/media/imx/imx-media-fim.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
->
-> diff --git a/drivers/staging/media/imx/imx-media-fim.c b/drivers/staging/media/imx/imx-media-fim.c
-> index fb6590dcfc36..e719227d4323 100644
-> --- a/drivers/staging/media/imx/imx-media-fim.c
-> +++ b/drivers/staging/media/imx/imx-media-fim.c
-> @@ -373,7 +373,6 @@ int imx_media_fim_set_stream(struct imx_media_fim *fim,
->                              bool on)
->  {
->         unsigned long flags;
-> -       int ret = 0;
->
->         v4l2_ctrl_lock(fim->ctrl[FIM_CL_ENABLE]);
->
-> @@ -393,7 +392,7 @@ int imx_media_fim_set_stream(struct imx_media_fim *fim,
->         fim->stream_on = on;
->  out:
->         v4l2_ctrl_unlock(fim->ctrl[FIM_CL_ENABLE]);
-> -       return ret;
-> +       return 0;
+This series fixes the power-up sequence delays to support some 15-pin 
+FFC compatible OV5640 modules.
 
-Maybe you could change imx_media_fim_set_stream() to a void function instead?
+Without appropriate delays after both gpio and register-based powerdown 
+and reset the sensor SCCB was not very stable, and probe would sometimes 
+fail at check_chip_id.
+
+Changes in v4:
+- Swap order of patches [1/3] and [2/3]
+- Drop patch [3/3] as SW powerup does not have same timing constraints
+- Move soft powerdown from the register table to powerup_sequence() 
+  along with soft reset
+
+v3: https://lore.kernel.org/all/20221227173634.5752-1-j-luthra@ti.com/
+
+Jai Luthra (2):
+  media: ov5640: Fix soft reset sequence and timings
+  media: ov5640: Handle delays when no reset_gpio set
+
+ drivers/media/i2c/ov5640.c | 55 +++++++++++++++++++++++++++-----------
+ 1 file changed, 39 insertions(+), 16 deletions(-)
+
+-- 
+2.17.1
+
