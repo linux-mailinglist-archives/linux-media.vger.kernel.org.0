@@ -2,116 +2,145 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E961D65C131
-	for <lists+linux-media@lfdr.de>; Tue,  3 Jan 2023 14:53:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1E5BE65C194
+	for <lists+linux-media@lfdr.de>; Tue,  3 Jan 2023 15:14:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237559AbjACNwr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 3 Jan 2023 08:52:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47674 "EHLO
+        id S237882AbjACOMS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 3 Jan 2023 09:12:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58486 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237505AbjACNwq (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 3 Jan 2023 08:52:46 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F1452C4F
-        for <linux-media@vger.kernel.org>; Tue,  3 Jan 2023 05:52:45 -0800 (PST)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2ECEB108;
-        Tue,  3 Jan 2023 14:52:44 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1672753964;
-        bh=zuNi/JbW4vTy7FeUMeaLjpzRHCiTCj9Rf0d+Qyxn900=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=rqKoFsYSz7EyTXIYh1XMSB1746EWbO9DgjgWvz84G98dlNP5TbPKdRgA/wHxicfo2
-         344lS9uiBi8VPS1xSkmoY35jmwqhrzz3QCWG4CbOjBJ4Lanuah5h/5R6EK9BIzTZpp
-         /cs55mCPgU/uw7zzCviVRQMgsUwbByhKliXYSmyg=
-Date:   Tue, 3 Jan 2023 15:52:40 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     "Xavier Roumegue (OSS)" <xavier.roumegue@oss.nxp.com>
-Cc:     Alexander Stein <alexander.stein@ew.tq-group.com>,
-        mchehab@kernel.org, ezequiel@vanguardiasur.com.ar,
-        hverkuil@xs4all.nl, linux-media@vger.kernel.org,
-        kernel test robot <lkp@intel.com>,
-        Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH] media: dw100: Add a missing unwind goto in dw100_probe()
-Message-ID: <Y7QzKAbCxiu7+sgs@pendragon.ideasonboard.com>
-References: <20230103105534.3018257-1-xavier.roumegue@oss.nxp.com>
- <1962839.8hb0ThOEGa@steina-w>
- <42a8016a-8922-236d-30a7-9b12b53a9bb9@oss.nxp.com>
+        with ESMTP id S237805AbjACOMN (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 3 Jan 2023 09:12:13 -0500
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6326411459;
+        Tue,  3 Jan 2023 06:12:09 -0800 (PST)
+Received: from [172.18.164.161] (unknown [46.183.103.8])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: rmader)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id C951E6602CFA;
+        Tue,  3 Jan 2023 14:12:05 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1672755127;
+        bh=QFKONSnl44fUfO33ehjMQ74G8iDnLg2h0QSpeLd9wjg=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=EzQ8N7bmre26Fvyo8QmIyR5itT5XXt3mTLA8kgegO0iu+h5juCFwCxDfhOPDQk/Lp
+         fJAk3z/XlRfJrXbLWY/+SRrbmihh8bnSY27EsgwILAmYv+2/A7qhM4Sjy7YxYrLJiN
+         Lq3oVHb1BU8RFtIb8kFG8dEsfvw3/iDr7xq3Y5bAOq9Ew3H4bs7J1LKwSmQzX7G+LR
+         zhvu3wChKTSyO2bhTc3lMeUYauahaZriGoiu5uTcPJvBaI8FPvDyCAnhh4mcneGaDg
+         Pa1B9SEujwIt9VV0I1SRs8QZrf0Fd/xnVYo+B9klY5Zb2TyjD6WeCANak3P+0lqJfa
+         l7jWUmcy3gMYw==
+Message-ID: <20f405f3-0a82-5d2f-2b0d-ce0d510b5098@collabora.com>
+Date:   Tue, 3 Jan 2023 15:11:44 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <42a8016a-8922-236d-30a7-9b12b53a9bb9@oss.nxp.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH] media: i2c: imx258: Parse and register properties
+Content-Language: en-US
+To:     Jacopo Mondi <jacopo@jmondi.org>
+Cc:     linux-kernel@vger.kernel.org, nicholas@rothemail.net,
+        javierm@redhat.com, Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org
+References: <20221225154234.378555-1-robert.mader@collabora.com>
+ <20230102140631.hadlh3stozecnzpj@uno.localdomain>
+From:   Robert Mader <robert.mader@collabora.com>
+In-Reply-To: <20230102140631.hadlh3stozecnzpj@uno.localdomain>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_SBL_CSS,
+        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello Xavier,
-
-On Tue, Jan 03, 2023 at 02:35:35PM +0100, Xavier Roumegue (OSS) wrote:
-> On 1/3/23 12:01, Alexander Stein wrote:
-> > Am Dienstag, 3. Januar 2023, 11:55:34 CET schrieb Xavier Roumegue (OSS):
-> >> From: Xavier Roumegue <xavier.roumegue@oss.nxp.com>
-> >>
-> >> In case the IRQ allocation returns an error in dw100_probe(), the pm
-> >> runtime is not disabled before to return.
-> >>
-> >> Add the missing unwind goto on the error handling path of the IRQ
-> >> allocation request.
-> >>
-> >> Reported-by: kernel test robot <lkp@intel.com>
-> >> Reported-by: Dan Carpenter <error27@gmail.com>
-> >> Signed-off-by: Xavier Roumegue <xavier.roumegue@oss.nxp.com>
-> >> ---
-> >>   drivers/media/platform/nxp/dw100/dw100.c | 2 +-
-> >>   1 file changed, 1 insertion(+), 1 deletion(-)
-> >>
-> >> diff --git a/drivers/media/platform/nxp/dw100/dw100.c
-> >> b/drivers/media/platform/nxp/dw100/dw100.c index f6d48c36f386..189d60cd5ed1
-> >> 100644
-> >> --- a/drivers/media/platform/nxp/dw100/dw100.c
-> >> +++ b/drivers/media/platform/nxp/dw100/dw100.c
-> >> @@ -1571,7 +1571,7 @@ static int dw100_probe(struct platform_device *pdev)
-> >>   			       dev_name(&pdev->dev), dw_dev);
-> >>   	if (ret < 0) {
-> >>   		dev_err(&pdev->dev, "Failed to request irq: %d\n", ret);
-> >> -		return ret;
-> >> +		goto err_pm;
-> >>   	}
-> >>
-> >>   	ret = v4l2_device_register(&pdev->dev, &dw_dev->v4l2_dev);
-> > 
-> > Doesn't it make more sense to request/allocate the IRQ (and other resources)
-> > before enabling runtime PM?
+On 02.01.23 15:06, Jacopo Mondi wrote:
+> Hi Robert
 >
-> I would say this does as much sense as the other way around, as soon as 
-> something wrong happens, you have to restore things as it was prior to enter 
-> your routine. The most optimal function call ordering should depend on the 
-> failing occurrence likelihood of each individual function.
-> On the probe path, I assume none of the functions are expected to fail.
-> But I understand one could argue differently.
-> 
-> So for the time being, this oneliner patch addresses the issue reported by the 
-> robot.
+> On Sun, Dec 25, 2022 at 04:42:34PM +0100, Robert Mader wrote:
+>> Analogous to e.g. the imx219. This enables propagating
+>> V4L2_CID_CAMERA_SENSOR_ROTATION values so that libcamera
+>> can detect the correct rotation from the device tree
+>> and propagate it further to e.g. Pipewire.
+>>
+>> Signed-off-by: Robert Mader <robert.mader@collabora.com>
+>> ---
+>>   drivers/media/i2c/imx258.c | 13 ++++++++++++-
+>>   1 file changed, 12 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/media/i2c/imx258.c b/drivers/media/i2c/imx258.c
+>> index eab5fc1ee2f7..85819043d1e3 100644
+>> --- a/drivers/media/i2c/imx258.c
+>> +++ b/drivers/media/i2c/imx258.c
+>> @@ -9,6 +9,7 @@
+>>   #include <linux/pm_runtime.h>
+>>   #include <media/v4l2-ctrls.h>
+>>   #include <media/v4l2-device.h>
+>> +#include <media/v4l2-fwnode.h>
+>>   #include <asm/unaligned.h>
+>>
+>>   #define IMX258_REG_VALUE_08BIT		1
+>> @@ -1149,6 +1150,7 @@ static int imx258_init_controls(struct imx258 *imx258)
+>>   {
+>>   	struct i2c_client *client = v4l2_get_subdevdata(&imx258->sd);
+>>   	struct v4l2_ctrl_handler *ctrl_hdlr;
+>> +	struct v4l2_fwnode_device_properties props;
+> Might be nicer to move this one line up
 
-I think that Alexander's point was that, as you request the IRQ with
-devm_request_irq(), you could just return in case of error if this was
-done before any other operation that requires a cleanup. In this case,
-however, enabling runtime PM is done so that the device gets reset,
-which I think is important to do before requesting the IRQ, otherwise
-spurious IRQs could happen if the device was left in a weird state.
+  Can you say what's your reasoning? I personally slightly prefer 
+alphabetical order, but no strong opinion :)
 
-A comment above runtime PM enable would be useful to record the reason
-why the current order is required. You could add that in a v2 of this
-patch, or in a separate patch. In either case,
+>>   	s64 vblank_def;
+>>   	s64 vblank_min;
+>>   	s64 pixel_rate_min;
+>> @@ -1156,7 +1158,7 @@ static int imx258_init_controls(struct imx258 *imx258)
+>>   	int ret;
+>>
+>>   	ctrl_hdlr = &imx258->ctrl_handler;
+>> -	ret = v4l2_ctrl_handler_init(ctrl_hdlr, 8);
+>> +	ret = v4l2_ctrl_handler_init(ctrl_hdlr, 10);
+> I count 9 controls being registered before this patch, not 8. Do I
+> count them right ?
+>
+> If that's case, as v4l2_ctrl_new_fwnode_properties()
+> can register up to two controls (V4L2_CID_ROTATION and
+> V4L2_CID_ORIENTATION) I would pre-reserve 11 controls not 10 to avoid
+> relocations.
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Indeed, looks like bumping this was forgotten in 
+c6f9d67e2ac625e331f6a7f5715d2f809ff0a922
+
+>>   	if (ret)
+>>   		return ret;
+>>
+>> @@ -1232,6 +1234,15 @@ static int imx258_init_controls(struct imx258 *imx258)
+>>   		goto error;
+>>   	}
+>>
+>> +	ret = v4l2_fwnode_device_parse(&client->dev, &props);
+>> +	if (ret)
+>> +		goto error;
+>> +
+>> +	ret = v4l2_ctrl_new_fwnode_properties(ctrl_hdlr, &imx258_ctrl_ops,
+>> +					      &props);
+>> +	if (ret)
+>> +		goto error;
+>> +
+> The rest looks good to me!
+>
+> Thanks
+>     j
+Thanks!
 
 -- 
-Regards,
+Robert Mader
+Consultant Software Developer
 
-Laurent Pinchart
+Collabora Ltd.
+Platinum Building, St John's Innovation Park, Cambridge CB4 0DS, UK
+Registered in England & Wales, no. 5513718
+
