@@ -2,172 +2,179 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 999E165C87F
-	for <lists+linux-media@lfdr.de>; Tue,  3 Jan 2023 21:55:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 17B3365C89D
+	for <lists+linux-media@lfdr.de>; Tue,  3 Jan 2023 22:07:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238913AbjACUzJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 3 Jan 2023 15:55:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40446 "EHLO
+        id S231283AbjACVHO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 3 Jan 2023 16:07:14 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46390 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238075AbjACUy5 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 3 Jan 2023 15:54:57 -0500
-Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com [IPv6:2607:f8b0:4864:20::630])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ACE1511451
-        for <linux-media@vger.kernel.org>; Tue,  3 Jan 2023 12:54:56 -0800 (PST)
-Received: by mail-pl1-x630.google.com with SMTP id y19so14880434plb.2
-        for <linux-media@vger.kernel.org>; Tue, 03 Jan 2023 12:54:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=KuxDXQh+XemD0kf38vi8EFpiKm6e7LclyzdQcARACLo=;
-        b=RdpSkdEM4iH8oPLGWi8GEmnSlQs49WiclBJ/Q/bGh6wtD4HZHr0A4iGAy2f7pn/Rzo
-         SQ56nD6okXOMV9wSyIm2nxuV3pgoKnHbqH/GztUYgCuoamIAF/AeoaFK5gYdYxl1o/Ve
-         i3w1BTINvKOm1xBTn18rFL8ZSQBIVTwRZlQ2g=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=KuxDXQh+XemD0kf38vi8EFpiKm6e7LclyzdQcARACLo=;
-        b=UGj0UehLyqZK/rAqjdGazFq+m9HNWWun7id9m4OzIQrF0oPS8NPwTxxN2ymyCeCdHc
-         20TRgtgKtnBG35VIZCT5L5YurG8+JJaE98hgszJH/XrdOOE9zMYY7O6XfOuivaI1N8mI
-         chOskaPMIAzNvDPNBWHnqQxUtyhpD6uVagtEHo3/1S9kiiMfpxWMtJj9KUgA/47N9859
-         JNqelkZ0oQc8u3uUXALFCbB/wUxQdB0eMqSoXMCZE76SfHGG/1yZxFh00dUWV/gyKzHA
-         hAq8DOEvURGXdcOQjFO7gSQK5Ua9WUPdjFyZtnX2tMzAILA+XfefYyoEPXZ+e36+107a
-         Ec/Q==
-X-Gm-Message-State: AFqh2kqkuqtNkgnpvTwvRMR3RaKWvEHxXpNtCN4hZN5HzVRjV9sQS9/i
-        nHhmFWkdwp1fOq/CNm3TPHB6kBUdT1LMbxnJ9CQ=
-X-Google-Smtp-Source: AMrXdXuWOwV4ACN9xYoSl6QduaUauZRbbZHX22DthnE0nL8zAZkWMU4HbK7yLWCpkpXFbwitS4kBsw==
-X-Received: by 2002:a17:902:9304:b0:192:caf2:505a with SMTP id bc4-20020a170902930400b00192caf2505amr7342965plb.5.1672779295729;
-        Tue, 03 Jan 2023 12:54:55 -0800 (PST)
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com. [209.85.214.181])
-        by smtp.gmail.com with ESMTPSA id u8-20020a17090341c800b0016d72804664sm10327766ple.205.2023.01.03.12.54.55
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 03 Jan 2023 12:54:55 -0800 (PST)
-Received: by mail-pl1-f181.google.com with SMTP id y19so14880398plb.2
-        for <linux-media@vger.kernel.org>; Tue, 03 Jan 2023 12:54:55 -0800 (PST)
-X-Received: by 2002:a17:90a:ee91:b0:21f:eb8:f6f0 with SMTP id
- i17-20020a17090aee9100b0021f0eb8f6f0mr2963218pjz.4.1672779294677; Tue, 03 Jan
- 2023 12:54:54 -0800 (PST)
-MIME-Version: 1.0
-References: <20220920-resend-v4l2-compliance-v3-0-598d33a15815@chromium.org> <Y7SVzNGrpdWXmvuI@pendragon.ideasonboard.com>
-In-Reply-To: <Y7SVzNGrpdWXmvuI@pendragon.ideasonboard.com>
-From:   Ricardo Ribalda <ribalda@chromium.org>
-Date:   Tue, 3 Jan 2023 21:54:43 +0100
-X-Gmail-Original-Message-ID: <CANiDSCsug_CobAAZvL0b8-wJ_0f4b8-fsiiLmkvkPRM01MNOUw@mail.gmail.com>
-Message-ID: <CANiDSCsug_CobAAZvL0b8-wJ_0f4b8-fsiiLmkvkPRM01MNOUw@mail.gmail.com>
-Subject: Re: [PATCH v3 0/8] Follow-up patches for uvc v4l2-compliance
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+        with ESMTP id S230431AbjACVGO (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 3 Jan 2023 16:06:14 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6692E14D2E;
+        Tue,  3 Jan 2023 13:06:13 -0800 (PST)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 507FF108;
+        Tue,  3 Jan 2023 22:06:11 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1672779971;
+        bh=+aDZNTXe2PPDjTmLCglr6MqZJ+xkLWv0E9JnBAc5lYY=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=vD8Vbho+G8SPqlP4FQcJUzeOCq/VVTXUzTxubn7/6qtv6p8OOWrLdKsz1P9x+YxnO
+         5hpqJylLW8YYlLpXBseTe66NkbyxY5lQTkZECmiCP1E0/jTUwJ6iuuuwc20q8m3p57
+         2ckBT4cOhHdMv1oj/6+R5J+vPJEJ0vhjlFLfrT5w=
+Date:   Tue, 3 Jan 2023 23:06:06 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Ricardo Ribalda <ribalda@chromium.org>
 Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Sergey Senozhatsky <senozhatsky@chromium.org>
+Subject: Re: [PATCH v3 2/3] media: uvcvideo: Fix power line control for
+ Lenovo Integrated Camera
+Message-ID: <Y7SYviXPM9bpTgE8@pendragon.ideasonboard.com>
+References: <20221101-easycam-v3-0-2c9881a7a4f7@chromium.org>
+ <20221101-easycam-v3-2-2c9881a7a4f7@chromium.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20221101-easycam-v3-2-2c9881a7a4f7@chromium.org>
+X-Spam-Status: No, score=-0.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        SUBJECT_DRUG_GAP_L autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent
+Hi Ricardo,
 
-On Tue, 3 Jan 2023 at 21:53, Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> Hi Ricardo,
->
-> On Tue, Jan 03, 2023 at 03:36:18PM +0100, Ricardo Ribalda wrote:
-> > This patchset contains the fixes for the comments on "v10 of Fix
-> > v4l2-compliance errors series". In particular to the patches
-> >
-> > -uvcvideo: uvc_ctrl_is_accessible: check for INACTIVE
-> > -uvcvideo: improve error handling in uvc_query_ctrl()
-> >
-> > And the patch:
-> > -uvcvideo: Fix handling on Bitmask controls
->
-> I've applied 1/8 to 7/8 to my tree and pushed the result to
-> https://git.kernel.org/pub/scm/linux/kernel/git/pinchartl/linux.git/log/?h=next/uvc.
-> You can submit a new version of 8/8 only based on that branch.
+Thank you for the patch.
 
-Thanks :)
+On Tue, Jan 03, 2023 at 12:01:22PM +0100, Ricardo Ribalda wrote:
+> The device does not implement the power line control correctly. It is
+> a UVC 1.5 device, but implements the PLC control as a UVC 1.1 device.
+> 
+> Add the corresponding control mapping override.
+> 
+> Bus 003 Device 002: ID 30c9:0093 Lenovo Integrated Camera
+> Device Descriptor:
+>   bLength                18
+>   bDescriptorType         1
+>   bcdUSB               2.01
+>   bDeviceClass          239 Miscellaneous Device
+>   bDeviceSubClass         2
+>   bDeviceProtocol         1 Interface Association
+>   bMaxPacketSize0        64
+>   idVendor           0x30c9
+>   idProduct          0x0093
+>   bcdDevice            0.07
+>   iManufacturer           3 Lenovo
+>   iProduct                1 Integrated Camera
+>   iSerial                 2 8SSC21J75356V1SR2830069
+>   bNumConfigurations      1
+> 
+> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> ---
+>  drivers/media/usb/uvc/uvc_ctrl.c   | 24 +++++++++++++-----------
+>  drivers/media/usb/uvc/uvc_driver.c | 16 ++++++++++++++++
+>  drivers/media/usb/uvc/uvcvideo.h   |  1 +
+>  3 files changed, 30 insertions(+), 11 deletions(-)
+> 
+> diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
+> index c95a2229f4fa..d8283d71bc96 100644
+> --- a/drivers/media/usb/uvc/uvc_ctrl.c
+> +++ b/drivers/media/usb/uvc/uvc_ctrl.c
+> @@ -721,18 +721,20 @@ static const struct uvc_control_mapping uvc_ctrl_mappings[] = {
+>  	},
+>  };
+>  
+> +const struct uvc_control_mapping uvc_ctrl_power_line_mapping_uvc11 = {
+> +	.id		= V4L2_CID_POWER_LINE_FREQUENCY,
+> +	.entity		= UVC_GUID_UVC_PROCESSING,
+> +	.selector	= UVC_PU_POWER_LINE_FREQUENCY_CONTROL,
+> +	.size		= 2,
+> +	.offset		= 0,
+> +	.v4l2_type	= V4L2_CTRL_TYPE_MENU,
+> +	.data_type	= UVC_CTRL_DATA_TYPE_ENUM,
+> +	.menu_info	= power_line_frequency_controls,
+> +	.menu_count	= ARRAY_SIZE(power_line_frequency_controls) - 1,
+> +};
+> +
+>  static const struct uvc_control_mapping uvc_ctrl_mappings_uvc11[] = {
+> -	{
+> -		.id		= V4L2_CID_POWER_LINE_FREQUENCY,
+> -		.entity		= UVC_GUID_UVC_PROCESSING,
+> -		.selector	= UVC_PU_POWER_LINE_FREQUENCY_CONTROL,
+> -		.size		= 2,
+> -		.offset		= 0,
+> -		.v4l2_type	= V4L2_CTRL_TYPE_MENU,
+> -		.data_type	= UVC_CTRL_DATA_TYPE_ENUM,
+> -		.menu_info	= power_line_frequency_controls,
+> -		.menu_count	= ARRAY_SIZE(power_line_frequency_controls) - 1,
+> -	},
+> +	uvc_ctrl_power_line_mapping_uvc11,
 
->
-> > To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > To: Mauro Carvalho Chehab <mchehab@kernel.org>
-> > Cc: linux-media@vger.kernel.org
-> > Cc: linux-kernel@vger.kernel.org
-> > Cc: Hans Verkuil <hans.verkuil@cisco.com>
-> > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> >
-> > ---
-> > Changes in v3 (Thanks Laurent):
-> > - Add a new patch for refactoring __uvc_ctrl_add_mapping
-> > - Use standard names for menus
-> >   - Return error on uvc_mapping_get_menu_value
-> >   - Add const
-> >   - StyLe!
-> > - Do not return positive errors in uvc_query_ctrl()
-> >    - Improve commit message
-> > - improve error logging in uvc_query_ctrl()
-> >    - Fix comment
-> >    - Improve doc
-> > - Fix handling on Bitmask controls
-> >    - s/uvc/UVC
-> >    - Reflow comments to 80 chars
-> >    - Test with GET_RES first
-> >    - Remove clamp to (0,..)
-> > - Return -EACCES for Wrong state error
-> >    - Full rewrite of commit message
-> > - uvc_ctrl_is_accessible: check for INACTIVE
-> >    - Update commit message
-> >    - Remove try variable
-> >    - Update documentation
-> > - Implement mask for V4L2_CTRL_TYPE_MENU
-> >    - Include linux/bits.h
-> > - Link to v2: https://lore.kernel.org/r/20220920-resend-v4l2-compliance-v2-0-7c0942040004@chromium.org
-> >
-> > Changes in v2:
-> > - Include "Get menu names from framework series"
-> >   https://lore.kernel.org/r/20220920-standard-menues-v2-0-a35af3243c2f@chromium.org
-> > - Link to v1: https://lore.kernel.org/r/20220920-resend-v4l2-compliance-v1-0-81364c15229b@chromium.org
-> >
-> > ---
-> > Hans Verkuil (2):
-> >       media: uvcvideo: Check for INACTIVE in uvc_ctrl_is_accessible()
-> >       media: uvcvideo: improve error logging in uvc_query_ctrl()
-> >
-> > Ricardo Ribalda (6):
-> >       media: uvcvideo: Return -EACCES for Wrong state error
-> >       media: uvcvideo: Do not return positive errors in uvc_query_ctrl()
-> >       media: uvcvideo: Fix handling on Bitmask controls
-> >       media: uvcvideo: Implement mask for V4L2_CTRL_TYPE_MENU
-> >       media: uvcvideo: Refactor __uvc_ctrl_add_mapping
-> >       media: uvcvideo: Use standard names for menus
-> >
-> >  drivers/media/usb/uvc/uvc_ctrl.c   | 238 ++++++++++++++++++++++++++++---------
-> >  drivers/media/usb/uvc/uvc_driver.c |  10 +-
-> >  drivers/media/usb/uvc/uvc_v4l2.c   | 108 ++++++++++++-----
-> >  drivers/media/usb/uvc/uvc_video.c  |  15 +--
-> >  drivers/media/usb/uvc/uvcvideo.h   |   8 +-
-> >  include/uapi/linux/uvcvideo.h      |   4 +-
-> >  6 files changed, 281 insertions(+), 102 deletions(-)
-> > ---
-> > base-commit: 69b41ac87e4a664de78a395ff97166f0b2943210
-> > change-id: 20220920-resend-v4l2-compliance-4fdbe4fbd7b5
->
-> --
-> Regards,
->
-> Laurent Pinchart
+This conflicts with your v4l2-compliance fixes series that I have
+applied to my tree. I have fixed the conflict locally and pushed the
+result to
+https://git.kernel.org/pub/scm/linux/kernel/git/pinchartl/linux.git/log/?h=next/uvc,
+could you check that I got it right ?
 
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
+>  };
+>  
+>  static const struct uvc_control_mapping uvc_ctrl_mappings_uvc15[] = {
+> diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+> index f2abd9d0c717..9c09bc988278 100644
+> --- a/drivers/media/usb/uvc/uvc_driver.c
+> +++ b/drivers/media/usb/uvc/uvc_driver.c
+> @@ -2370,6 +2370,13 @@ MODULE_PARM_DESC(timeout, "Streaming control requests timeout");
+>   * Driver initialization and cleanup
+>   */
+>  
+> +static const struct uvc_device_info uvc_ctrl_power_line_uvc11 = {
+> +	.mappings = (const struct uvc_control_mapping *[]) {
+> +		&uvc_ctrl_power_line_mapping_uvc11,
+> +		NULL, /* Sentinel */
+> +	},
+> +};
+> +
+>  static const struct uvc_menu_info power_line_frequency_controls_limited[] = {
+>  	{ 1, "50 Hz" },
+>  	{ 2, "60 Hz" },
+> @@ -2973,6 +2980,15 @@ static const struct usb_device_id uvc_ids[] = {
+>  	  .bInterfaceSubClass	= 1,
+>  	  .bInterfaceProtocol	= 0,
+>  	  .driver_info		= UVC_INFO_QUIRK(UVC_QUIRK_FORCE_BPP) },
+> +	/* Lenovo Integrated Camera */
+> +	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
+> +				| USB_DEVICE_ID_MATCH_INT_INFO,
+> +	  .idVendor		= 0x30c9,
+> +	  .idProduct		= 0x0093,
+> +	  .bInterfaceClass	= USB_CLASS_VIDEO,
+> +	  .bInterfaceSubClass	= 1,
+> +	  .bInterfaceProtocol	= UVC_PC_PROTOCOL_15,
+> +	  .driver_info		= (kernel_ulong_t)&uvc_ctrl_power_line_uvc11 },
+>  	/* Sonix Technology USB 2.0 Camera */
+>  	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
+>  				| USB_DEVICE_ID_MATCH_INT_INFO,
+> diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
+> index df93db259312..bcb0b0c101c8 100644
+> --- a/drivers/media/usb/uvc/uvcvideo.h
+> +++ b/drivers/media/usb/uvc/uvcvideo.h
+> @@ -728,6 +728,7 @@ int uvc_status_start(struct uvc_device *dev, gfp_t flags);
+>  void uvc_status_stop(struct uvc_device *dev);
+>  
+>  /* Controls */
+> +extern const struct uvc_control_mapping uvc_ctrl_power_line_mapping_uvc11;
+>  extern const struct v4l2_subscribed_event_ops uvc_ctrl_sub_ev_ops;
+>  
+>  int uvc_query_v4l2_ctrl(struct uvc_video_chain *chain,
 
 -- 
-Ricardo Ribalda
+Regards,
+
+Laurent Pinchart
