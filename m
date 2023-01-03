@@ -2,245 +2,135 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0B7DE65C3A5
-	for <lists+linux-media@lfdr.de>; Tue,  3 Jan 2023 17:14:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D683F65C497
+	for <lists+linux-media@lfdr.de>; Tue,  3 Jan 2023 18:06:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233526AbjACQN6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 3 Jan 2023 11:13:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42470 "EHLO
+        id S238363AbjACRE2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 3 Jan 2023 12:04:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41518 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233548AbjACQN2 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 3 Jan 2023 11:13:28 -0500
-Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 79EF4120B7
-        for <linux-media@vger.kernel.org>; Tue,  3 Jan 2023 08:13:27 -0800 (PST)
-Received: by mail-pj1-x102d.google.com with SMTP id a11-20020a17090a740b00b00223f7eba2c4so3825853pjg.5
-        for <linux-media@vger.kernel.org>; Tue, 03 Jan 2023 08:13:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=1H8VPSGvgpTrDAUE/zBL6BriDEyKvBPzo2ZBC0nBHpo=;
-        b=Y9ctkcuSL5IzdXx6GNNR/0YVL3dQsWMq/r+9uznxEw0j7BnHeY+ZClECtz5ykJRWfH
-         6db3dZQq2x2+xRA8PI4ck0qb2a+v+h7FZuNoJ2a1bcgtQmBcIAQOfICuo8LoWvnFJvbY
-         oxqjluK7iKI66PqBiNWu/4nTBV5ZbxDEVYfdI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=1H8VPSGvgpTrDAUE/zBL6BriDEyKvBPzo2ZBC0nBHpo=;
-        b=SwmoEg6rXgOHIxi3r/ttULVkM7U3b6AX4oHbGRnDGwsbtU+QZVoUQhDTWNWmwTJ2ib
-         4a/rwq8er/xLHofxALfAvVX4e6IVH96esjH94TsO2bHS0Z4gwzf9JsyRxf+pMe/qRSZ/
-         OoimTa8akr4c8wqfRBsWDtEOLxLFdhrJQWT73CKjMJi9gCHoQSlHos8H+wcgi5lT7/sb
-         oXOIvwIdhsq72EVOFwW84c/RhAeI7ZYRDcSi5xYltp6Yj6ytupSOIgfVTiHEBSerCsoR
-         h1puzmeM0+lodHrsZFIsmqqM/RoqY5xUOpd+W7XETKhwNHBwuhTggYNcZ3g7I3C/+PUW
-         GZWQ==
-X-Gm-Message-State: AFqh2kpC2+B9f71S5yfKVTiudg3QlR2L1vj8KuFgSUPoBvEs0seR4LfR
-        h8qGQT2P/vzTYx6dl1spYPMDqgCCYYgkNbaUbO4=
-X-Google-Smtp-Source: AMrXdXuoN9J/V/Fn6AkXBOqRcnzxyIcXdT8JRdE42SXGm3WxFzTEqWqoKLtD86llSZ8JfjoGyrnibQ==
-X-Received: by 2002:a17:90b:4a82:b0:219:64d0:9e39 with SMTP id lp2-20020a17090b4a8200b0021964d09e39mr51696527pjb.12.1672762406592;
-        Tue, 03 Jan 2023 08:13:26 -0800 (PST)
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com. [209.85.210.178])
-        by smtp.gmail.com with ESMTPSA id a15-20020a17090a70cf00b002265ddfc13esm5499536pjm.29.2023.01.03.08.13.26
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 03 Jan 2023 08:13:26 -0800 (PST)
-Received: by mail-pf1-f178.google.com with SMTP id g20so12650712pfb.3
-        for <linux-media@vger.kernel.org>; Tue, 03 Jan 2023 08:13:26 -0800 (PST)
-X-Received: by 2002:a62:5e44:0:b0:576:af2d:4c4d with SMTP id
- s65-20020a625e44000000b00576af2d4c4dmr2854842pfb.69.1672762405425; Tue, 03
- Jan 2023 08:13:25 -0800 (PST)
+        with ESMTP id S238567AbjACRCq (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 3 Jan 2023 12:02:46 -0500
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5BE0213E29;
+        Tue,  3 Jan 2023 09:01:11 -0800 (PST)
+Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:abfa:cf23:1e4e:2b14])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: benjamin.gaignard)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 2E89E6602CEE;
+        Tue,  3 Jan 2023 17:01:09 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1672765269;
+        bh=tup4Eb76uspONm3q+7VqPIP2eK1mHXuDxCsrk3zil+E=;
+        h=From:To:Cc:Subject:Date:From;
+        b=KT9UTq4eeQv0Q4/KCdUvU9Bd96a6GbLZAcLFHIXJhg8zZ+Sm4j2x1zf+0SJFrKeo9
+         jvwa6VTL4GkcdUHdBn7b0p9ozMWVHncNPrTkFsY6rtlQMGxheGrkB3KCwRA0JhWf9/
+         aJ5Ri3h1sfMPKVHdCY5rBv7t7McWfSbUzYR1UhSSlblpggcfgOrtuJwgGH7GGJPNO8
+         OnKHYw5oLFGbjKVO5kH0ZJkAy27pyyUKlRRgXS6qT9ZDHg+ny5mPB384sI8ANYoccE
+         cwX7j90Sx1cfGfkABX3G5cA+OTDwkb60vMB9e7q+dIusJcWDQUYOsHjWow90Y8uK9s
+         w5pSlEDS6jTHA==
+From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
+To:     ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
+        mchehab@kernel.org, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, heiko@sntech.de,
+        daniel.almeida@collabora.com, nicolas.dufresne@collabora.co.uk
+Cc:     linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, kernel@collabora.com,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Subject: [PATCH v2 00/13] AV1 stateless decoder for RK3588
+Date:   Tue,  3 Jan 2023 18:00:45 +0100
+Message-Id: <20230103170058.810597-1-benjamin.gaignard@collabora.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20220920-resend-hwtimestamp-v2-0-0d7978a817cc@chromium.org>
- <20220920-resend-hwtimestamp-v2-5-0d7978a817cc@chromium.org> <Y67tMN5+7vASplsE@pendragon.ideasonboard.com>
-In-Reply-To: <Y67tMN5+7vASplsE@pendragon.ideasonboard.com>
-From:   Ricardo Ribalda <ribalda@chromium.org>
-Date:   Tue, 3 Jan 2023 17:13:14 +0100
-X-Gmail-Original-Message-ID: <CANiDSCvRe80jGFsiRYETz2TAp2+EEhRthsPTAB6tyBKO3GjCNA@mail.gmail.com>
-Message-ID: <CANiDSCvRe80jGFsiRYETz2TAp2+EEhRthsPTAB6tyBKO3GjCNA@mail.gmail.com>
-Subject: Re: [PATCH RESEND v2 5/8] media: uvcvideo: Quirk for autosuspend in
- Logi C910
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        "hn.chen" <hn.chen@sunplusit.com>, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent
+This series implement AV1 stateless decoder for RK3588 SoC.
+The hardware support 8 and 10 bits bitstreams up to 7680x4320.
+AV1 feature like film grain or scaling are done by the postprocessor.
+The driver can produce NV12_4L4, NV12_10LE40_4L4, NV12 and P010 pixels formats.
+Even if Rockchip have named the hardware VPU981 it looks like a VC9000 but 
+with a different registers mapping.
 
-On Fri, 30 Dec 2022 at 14:52, Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> Hi Ricardo,
->
-> Thank you for the patch.
->
-> s/C910/B910 and C910/ in the subject line.
->
-> On Fri, Dec 02, 2022 at 06:02:45PM +0100, Ricardo Ribalda wrote:
-> > Logitech C910 firmware is unable to recover from a usb autosuspend. When
->
-> s/C910/B910 and C910/
-> s/usb/USB/
->
-> > it resumes, the device is in a state where it only produces invalid
-> > frames. Eg:
-> >
-> > $ echo 0xFFFF > /sys/module/uvcvideo/parameters/trace # enable verbose log
-> > $ yavta -c1 -n1 --file='frame#.jpg' --format MJPEG --size=1920x1080 /dev/video1
->
-> Is this true for YUYV frames too ?
+It is based on Daniel's "[PATCH v4] media: Add AV1 uAPI" [1] patches and
+Sebastian's device-tree patches for RK3588.
 
-I believe so. This is just the script that I typically use to play
-with my cameras.
+The full branch can be found here:
+https://gitlab.collabora.com/linux/for-upstream/-/commits/rk3588_av1_decoder_v2
 
->
-> > [350438.435219] uvcvideo: uvc_v4l2_open
-> > [350438.529794] uvcvideo: Resuming interface 2
-> > [350438.529801] uvcvideo: Resuming interface 3
-> > [350438.529991] uvcvideo: Trying format 0x47504a4d (MJPG): 1920x1080.
-> > [350438.529996] uvcvideo: Using default frame interval 33333.3 us (30.0 fps).
-> > [350438.551496] uvcvideo: uvc_v4l2_mmap
-> > [350438.555890] uvcvideo: Device requested 3060 B/frame bandwidth.
-> > [350438.555896] uvcvideo: Selecting alternate setting 11 (3060 B/frame bandwidth).
-> > [350438.556362] uvcvideo: Allocated 5 URB buffers of 32x3060 bytes each.
-> > [350439.316468] uvcvideo: Marking buffer as bad (error bit set).
-> > [350439.316475] uvcvideo: Frame complete (EOF found).
-> > [350439.316477] uvcvideo: EOF in empty payload.
-> > [350439.316484] uvcvideo: frame 1 stats: 149/261/417 packets, 1/149/417 pts (early initial), 416/417 scr, last pts/stc/sof 2976325734/2978107243/249
-> > [350439.384510] uvcvideo: Marking buffer as bad (error bit set).
-> > [350439.384516] uvcvideo: Frame complete (EOF found).
-> > [350439.384518] uvcvideo: EOF in empty payload.
-> > [350439.384525] uvcvideo: frame 2 stats: 265/379/533 packets, 1/265/533 pts (early initial), 532/533 scr, last pts/stc/sof 2979524454/2981305193/316
-> > [350439.448472] uvcvideo: Marking buffer as bad (error bit set).
-> > [350439.448478] uvcvideo: Frame complete (EOF found).
-> > [350439.448480] uvcvideo: EOF in empty payload.
-> > [350439.448487] uvcvideo: frame 3 stats: 265/377/533 packets, 1/265/533 pts (early initial), 532/533 scr, last pts/stc/sof 2982723174/2984503144/382
-> > ...(loop)...
-> >
-> > The devices can leave this invalid state if its altstate is toggled.
->
-> s/its altstate/the alternate setting of the streaming interface/
->
-> How did you figure this out ?
+Fluster score is: 200/239 while testing AV1-TEST-VECTORS with GStreamer-AV1-V4L2SL-Gst1.0.
+The failing tests are:
+- the 2 tests with 2 spatial layers: few errors in luma/chroma values
+- tests with resolution < hardware limit (64x64)
+- 10bits film grain test: bad macroblocks while decoding, the same 8bits
+  test is working fine.
 
-A deterministic process, where we analysed all the variables involved
-in the streaming process....
-(aka, educated guess + luck + trial and error :P)
+Changes in v2:
+- Remove useless +1 in sbs computation. 
+- Describe NV12_10LE40_4L4 pixels format.
+- Post-processor could generate P010.
+- Fix comments done on v1.
+- The last patch make sure that only post-processed formats are used when film
+  grain feature is enabled.
 
-I triggered a whole reconfiguration of the device and that worked, and
-then I started removing parts of it until I ended up with the minimum
-thing that made the device work.
+Benjamin
 
->
-> > This patch addes a quirk for this device so it can be autosuspended
-> > properly.
-> >
-> > lsusb -v:
-> > Bus 001 Device 049: ID 046d:0821 Logitech, Inc. HD Webcam C910
-> > Device Descriptor:
-> >   bLength                18
-> >   bDescriptorType         1
-> >   bcdUSB               2.00
-> >   bDeviceClass          239 Miscellaneous Device
-> >   bDeviceSubClass         2
-> >   bDeviceProtocol         1 Interface Association
-> >   bMaxPacketSize0        64
-> >   idVendor           0x046d Logitech, Inc.
-> >   idProduct          0x0821 HD Webcam C910
-> >   bcdDevice            0.10
-> >   iManufacturer           0
-> >   iProduct                0
-> >   iSerial                 1 390022B0
-> >   bNumConfigurations      1
-> >
-> > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> > ---
-> >  drivers/media/usb/uvc/uvc_driver.c | 18 ++++++++++++++++++
-> >  drivers/media/usb/uvc/uvc_video.c  |  5 +++++
-> >  drivers/media/usb/uvc/uvcvideo.h   |  1 +
-> >  3 files changed, 24 insertions(+)
-> >
-> > diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-> > index 4512316c8748..d2a158a1ce35 100644
-> > --- a/drivers/media/usb/uvc/uvc_driver.c
-> > +++ b/drivers/media/usb/uvc/uvc_driver.c
-> > @@ -2823,6 +2823,24 @@ static const struct usb_device_id uvc_ids[] = {
-> >         .bInterfaceSubClass   = 1,
-> >         .bInterfaceProtocol   = 0,
-> >         .driver_info          = (kernel_ulong_t)&uvc_quirk_probe_minmax },
-> > +     /* Logitech, Webcam C910 */
-> > +     { .match_flags          = USB_DEVICE_ID_MATCH_DEVICE
-> > +                             | USB_DEVICE_ID_MATCH_INT_INFO,
-> > +       .idVendor             = 0x046d,
-> > +       .idProduct            = 0x0821,
-> > +       .bInterfaceClass      = USB_CLASS_VIDEO,
-> > +       .bInterfaceSubClass   = 1,
-> > +       .bInterfaceProtocol   = 0,
-> > +       .driver_info          = UVC_INFO_QUIRK(UVC_QUIRK_WAKE_AUTOSUSPEND)},
-> > +     /* Logitech, Webcam B910 */
-> > +     { .match_flags          = USB_DEVICE_ID_MATCH_DEVICE
-> > +                             | USB_DEVICE_ID_MATCH_INT_INFO,
-> > +       .idVendor             = 0x046d,
-> > +       .idProduct            = 0x0823,
-> > +       .bInterfaceClass      = USB_CLASS_VIDEO,
-> > +       .bInterfaceSubClass   = 1,
-> > +       .bInterfaceProtocol   = 0,
-> > +       .driver_info          = UVC_INFO_QUIRK(UVC_QUIRK_WAKE_AUTOSUSPEND)},
-> >       /* Logitech Quickcam Fusion */
-> >       { .match_flags          = USB_DEVICE_ID_MATCH_DEVICE
-> >                               | USB_DEVICE_ID_MATCH_INT_INFO,
-> > diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
-> > index d387d6335344..75c32e232f5d 100644
-> > --- a/drivers/media/usb/uvc/uvc_video.c
-> > +++ b/drivers/media/usb/uvc/uvc_video.c
-> > @@ -1983,6 +1983,11 @@ static int uvc_video_start_transfer(struct uvc_streaming *stream,
-> >                       "Selecting alternate setting %u (%u B/frame bandwidth)\n",
-> >                       altsetting, best_psize);
-> >
->
-> Please add a comment to explain the issue.
->
-> > +             if (stream->dev->quirks & UVC_QUIRK_WAKE_AUTOSUSPEND) {
-> > +                     usb_set_interface(stream->dev->udev, intfnum,
-> > +                                       altsetting);
-> > +                     usb_set_interface(stream->dev->udev, intfnum, 0);
-> > +             }
->
-> Missing blank line.
->
-> >               ret = usb_set_interface(stream->dev->udev, intfnum, altsetting);
-> >               if (ret < 0)
-> >                       return ret;
-> > diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-> > index e41289605d0e..14daa7111953 100644
-> > --- a/drivers/media/usb/uvc/uvcvideo.h
-> > +++ b/drivers/media/usb/uvc/uvcvideo.h
-> > @@ -214,6 +214,7 @@
-> >  #define UVC_QUIRK_FORCE_BPP          0x00001000
-> >  #define UVC_QUIRK_IGNORE_EMPTY_TS    0x00002000
-> >  #define UVC_QUIRK_INVALID_DEVICE_SOF 0x00004000
-> > +#define UVC_QUIRK_WAKE_AUTOSUSPEND   0x00008000
-> >
-> >  /* Format flags */
-> >  #define UVC_FMT_FLAG_COMPRESSED              0x00000001
-> >
->
-> --
-> Regards,
->
-> Laurent Pinchart
+[1] https://lore.kernel.org/linux-media/20230103154832.6982-1-daniel.almeida@collabora.com/T/#u
+ 
+Benjamin Gaignard (12):
+  dt-bindings: media: rockchip-vpu: Add rk3588 vpu compatible
+  media: Add NV12_10LE40_4L4 pixel format
+  media: verisilicon: Get bit depth for V4L2_PIX_FMT_NV12_10LE40_4L4
+  media: verisilicon: Add AV1 decoder mode and controls
+  media: verisilicon: Save bit depth for AV1 decoder
+  media: verisilicon: Check AV1 bitstreams bit depth
+  media: verisilicon: Compute motion vectors size for AV1 frames
+  media: verisilicon: Add AV1 entropy helpers
+  media: verisilicon: Add Rockchip AV1 decoder
+  media: verisilicon: Add film grain feature to AV1 driver
+  media: verisilicon: Enable AV1 decoder on rk3588
+  media: verisilicon: Conditionnaly ignore native formats
 
+Nicolas Dufresne (1):
+  v4l2-common: Add support for fractional bpp
 
+ .../bindings/media/rockchip-vpu.yaml          |    1 +
+ .../media/v4l/pixfmt-yuv-planar.rst           |    4 +
+ drivers/media/platform/verisilicon/Makefile   |    3 +
+ drivers/media/platform/verisilicon/hantro.h   |    8 +
+ .../media/platform/verisilicon/hantro_drv.c   |   65 +
+ .../media/platform/verisilicon/hantro_hw.h    |  103 +
+ .../platform/verisilicon/hantro_postproc.c    |    7 +
+ .../media/platform/verisilicon/hantro_v4l2.c  |   52 +-
+ .../verisilicon/rockchip_av1_entropymode.c    | 4546 +++++++++++++++++
+ .../verisilicon/rockchip_av1_entropymode.h    |  272 +
+ .../verisilicon/rockchip_av1_filmgrain.c      |  401 ++
+ .../verisilicon/rockchip_av1_filmgrain.h      |   36 +
+ .../verisilicon/rockchip_vpu981_hw_av1_dec.c  | 2278 +++++++++
+ .../verisilicon/rockchip_vpu981_regs.h        |  477 ++
+ .../platform/verisilicon/rockchip_vpu_hw.c    |  119 +
+ drivers/media/v4l2-core/v4l2-common.c         |  149 +-
+ drivers/media/v4l2-core/v4l2-ioctl.c          |    1 +
+ include/media/v4l2-common.h                   |    2 +
+ include/uapi/linux/videodev2.h                |    1 +
+ 19 files changed, 8438 insertions(+), 87 deletions(-)
+ create mode 100644 drivers/media/platform/verisilicon/rockchip_av1_entropymode.c
+ create mode 100644 drivers/media/platform/verisilicon/rockchip_av1_entropymode.h
+ create mode 100644 drivers/media/platform/verisilicon/rockchip_av1_filmgrain.c
+ create mode 100644 drivers/media/platform/verisilicon/rockchip_av1_filmgrain.h
+ create mode 100644 drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c
+ create mode 100644 drivers/media/platform/verisilicon/rockchip_vpu981_regs.h
 
 -- 
-Ricardo Ribalda
+2.34.1
+
