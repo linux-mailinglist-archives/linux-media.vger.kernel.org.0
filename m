@@ -2,29 +2,29 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 28CF965C7F3
-	for <lists+linux-media@lfdr.de>; Tue,  3 Jan 2023 21:18:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 67D1D65C7FF
+	for <lists+linux-media@lfdr.de>; Tue,  3 Jan 2023 21:22:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233840AbjACURn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 3 Jan 2023 15:17:43 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48996 "EHLO
+        id S233907AbjACUWK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 3 Jan 2023 15:22:10 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51182 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233120AbjACURm (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 3 Jan 2023 15:17:42 -0500
+        with ESMTP id S233595AbjACUWI (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 3 Jan 2023 15:22:08 -0500
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 74B6121B2;
-        Tue,  3 Jan 2023 12:17:41 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8297610B7E;
+        Tue,  3 Jan 2023 12:22:07 -0800 (PST)
 Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9D5D4108;
-        Tue,  3 Jan 2023 21:17:39 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id DDBD7108;
+        Tue,  3 Jan 2023 21:22:05 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1672777060;
-        bh=lh2YiudcULvWvjVfZZbBPQ/O+yMC2b+02qH09fc1qNc=;
+        s=mail; t=1672777326;
+        bh=pfwPqM2jz9OmWd2+dA3cmy3/g9aYv/U4swdxzt6N+UQ=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=atg7Iwtjskq4rDaYqHp/YrTUYDbAWSdiWGN7tvNGb8DSfUOyIvTJ+5NFJyxQRUUQK
-         T1oVxGi6YmU0p61vMpsNcg6nMTcwaNirHNgq8x2UEHRqhh7JrkvYw0/+cj5xMBKZr5
-         4sDB4T4+GKZthFh+LCw74Ku2lSCTTl11dZum60qw=
-Date:   Tue, 3 Jan 2023 22:17:35 +0200
+        b=cWB80PEUIb/Y3Flzj5NSdqC5nhRqFrb9jruathY/i/VKhwz2toXFH6MkREB3d4F86
+         vcDDklKYwzZ7HfIxI6xq7F4KHFcKgTm6JT/UQkEh/8OG06rCWgzPOAlTUNaE0FJ/+f
+         3i7MvLIsO8Gp3m0vSeBpxU1hvIpRjSjjMkAna4C4=
+Date:   Tue, 3 Jan 2023 22:22:01 +0200
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Ricardo Ribalda <ribalda@chromium.org>
 Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -32,14 +32,14 @@ Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-kernel@vger.kernel.org,
         Hans Verkuil <hans.verkuil@cisco.com>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: Re: [PATCH v3 5/8] media: uvcvideo: Fix handling on Bitmask controls
-Message-ID: <Y7SNX5vAOuTq0NbO@pendragon.ideasonboard.com>
+Subject: Re: [PATCH v3 7/8] media: uvcvideo: Refactor __uvc_ctrl_add_mapping
+Message-ID: <Y7SOaXgUS/3G2s8M@pendragon.ideasonboard.com>
 References: <20220920-resend-v4l2-compliance-v3-0-598d33a15815@chromium.org>
- <20220920-resend-v4l2-compliance-v3-5-598d33a15815@chromium.org>
+ <20220920-resend-v4l2-compliance-v3-7-598d33a15815@chromium.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220920-resend-v4l2-compliance-v3-5-598d33a15815@chromium.org>
+In-Reply-To: <20220920-resend-v4l2-compliance-v3-7-598d33a15815@chromium.org>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
         autolearn=ham autolearn_force=no version=3.4.6
@@ -53,133 +53,80 @@ Hi Ricardo,
 
 Thank you for the patch.
 
-On Tue, Jan 03, 2023 at 03:36:23PM +0100, Ricardo Ribalda wrote:
-> Minimum and step values for V4L2_CTRL_TYPE_BITMASK controls should be 0.
-> There is no need to query the camera firmware about this and maybe get
-> invalid results.
+On Tue, Jan 03, 2023 at 03:36:25PM +0100, Ricardo Ribalda wrote:
+> Simplify the exit code with a common error tag freeing all the memory.
 > 
-> Also value should be masked to the max value advertised by the
-> hardware.
-> 
-> Finally, handle UVC 1.5 mask controls that use MAX instead of RES to
-> describe the valid bits.
-> 
-> Fixes v4l2-compliane:
-> Control ioctls (Input 0):
->                 fail: v4l2-test-controls.cpp(97): minimum must be 0 for a bitmask control
-> 	test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: FAIL
-> 
+> Suggested-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> ---
+>  drivers/media/usb/uvc/uvc_ctrl.c | 26 +++++++++++++++-----------
+>  1 file changed, 15 insertions(+), 11 deletions(-)
+> 
+> diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
+> index aa7a668f60a7..4830120e6506 100644
+> --- a/drivers/media/usb/uvc/uvc_ctrl.c
+> +++ b/drivers/media/usb/uvc/uvc_ctrl.c
+> @@ -2296,32 +2296,30 @@ static int __uvc_ctrl_add_mapping(struct uvc_video_chain *chain,
+>  	unsigned int i;
+>  
+>  	/*
+> -	 * Most mappings come from static kernel data and need to be duplicated.
+> +	 * Most mappings come from static kernel data, and need to be duplicated.
+>  	 * Mappings that come from userspace will be unnecessarily duplicated,
+>  	 * this could be optimized.
+>  	 */
+>  	map = kmemdup(mapping, sizeof(*mapping), GFP_KERNEL);
+> -	if (map == NULL)
+> +	if (!map)
+>  		return -ENOMEM;
+>  
+> +	map->name = NULL;
+> +	map->menu_info = NULL;
+> +
+>  	/* For UVCIOC_CTRL_MAP custom control */
+>  	if (mapping->name) {
+>  		map->name = kstrdup(mapping->name, GFP_KERNEL);
+> -		if (!map->name) {
+> -			kfree(map);
+> -			return -ENOMEM;
+> -		}
+> +		if (!map->name)
+> +			goto nomem;
+>  	}
+>  
+>  	INIT_LIST_HEAD(&map->ev_subs);
+>  
+>  	size = sizeof(*mapping->menu_info) * fls(mapping->menu_mask);
+>  	map->menu_info = kmemdup(mapping->menu_info, size, GFP_KERNEL);
+> -	if (map->menu_info == NULL) {
+> -		kfree(map->name);
+> -		kfree(map);
+> -		return -ENOMEM;
+> -	}
+> +	if (!map->menu_info)
+> +		goto nomem;
+>  
+>  	if (map->get == NULL)
+>  		map->get = uvc_get_le_value;
+> @@ -2342,6 +2340,12 @@ static int __uvc_ctrl_add_mapping(struct uvc_video_chain *chain,
+>  		ctrl->info.selector);
+>  
+>  	return 0;
+> +
+> +nomem:
+
+As it's an error label, I'd name it err_nomem. I'll fix that when
+applying.
 
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-> ---
->  drivers/media/usb/uvc/uvc_ctrl.c | 52 ++++++++++++++++++++++++++++++----------
->  1 file changed, 40 insertions(+), 12 deletions(-)
-> 
-> diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
-> index 6165d6b8e855..7622c5b54b35 100644
-> --- a/drivers/media/usb/uvc/uvc_ctrl.c
-> +++ b/drivers/media/usb/uvc/uvc_ctrl.c
-> @@ -1161,6 +1161,25 @@ static const char *uvc_map_get_name(const struct uvc_control_mapping *map)
->  	return "Unknown Control";
+> +	kfree(map->menu_info);
+> +	kfree(map->name);
+> +	kfree(map);
+> +	return -ENOMEM;
 >  }
 >  
-> +static u32 uvc_get_ctrl_bitmap(struct uvc_control *ctrl,
-> +			       struct uvc_control_mapping *mapping)
-> +{
-> +	/*
-> +	 * Some controls, like CT_AE_MODE_CONTROL, use GET_RES to represent
-> +	 * the number of bits supported. Those controls do not list GET_MAX
-> +	 * as supported.
-> +	 */
-> +	if (ctrl->info.flags & UVC_CTRL_FLAG_GET_RES)
-> +		return mapping->get(mapping, UVC_GET_RES,
-> +				    uvc_ctrl_data(ctrl, UVC_CTRL_DATA_RES));
-> +
-> +	if (ctrl->info.flags & UVC_CTRL_FLAG_GET_MAX)
-> +		return mapping->get(mapping, UVC_GET_MAX,
-> +				    uvc_ctrl_data(ctrl, UVC_CTRL_DATA_MAX));
-> +
-> +	return ~0;
-> +}
-> +
->  static int __uvc_query_v4l2_ctrl(struct uvc_video_chain *chain,
->  	struct uvc_control *ctrl,
->  	struct uvc_control_mapping *mapping,
-> @@ -1235,6 +1254,12 @@ static int __uvc_query_v4l2_ctrl(struct uvc_video_chain *chain,
->  		v4l2_ctrl->step = 0;
->  		return 0;
->  
-> +	case V4L2_CTRL_TYPE_BITMASK:
-> +		v4l2_ctrl->minimum = 0;
-> +		v4l2_ctrl->maximum = uvc_get_ctrl_bitmap(ctrl, mapping);
-> +		v4l2_ctrl->step = 0;
-> +		return 0;
-> +
->  	default:
->  		break;
->  	}
-> @@ -1336,19 +1361,14 @@ int uvc_query_v4l2_menu(struct uvc_video_chain *chain,
->  
->  	menu_info = &mapping->menu_info[query_menu->index];
->  
-> -	if (mapping->data_type == UVC_CTRL_DATA_TYPE_BITMASK &&
-> -	    (ctrl->info.flags & UVC_CTRL_FLAG_GET_RES)) {
-> -		s32 bitmap;
-> -
-> +	if (mapping->data_type == UVC_CTRL_DATA_TYPE_BITMASK) {
->  		if (!ctrl->cached) {
->  			ret = uvc_ctrl_populate_cache(chain, ctrl);
->  			if (ret < 0)
->  				goto done;
->  		}
->  
-> -		bitmap = mapping->get(mapping, UVC_GET_RES,
-> -				      uvc_ctrl_data(ctrl, UVC_CTRL_DATA_RES));
-> -		if (!(bitmap & menu_info->value)) {
-> +		if (!(uvc_get_ctrl_bitmap(ctrl, mapping) & menu_info->value)) {
->  			ret = -EINVAL;
->  			goto done;
->  		}
-> @@ -1831,6 +1851,17 @@ int uvc_ctrl_set(struct uvc_fh *handle,
->  		value = xctrl->value;
->  		break;
->  
-> +	case V4L2_CTRL_TYPE_BITMASK:
-> +		if (!ctrl->cached) {
-> +			ret = uvc_ctrl_populate_cache(chain, ctrl);
-> +			if (ret < 0)
-> +				return ret;
-> +		}
-> +
-> +		xctrl->value &= uvc_get_ctrl_bitmap(ctrl, mapping);
-> +		value = xctrl->value;
-> +		break;
-> +
->  	case V4L2_CTRL_TYPE_BOOLEAN:
->  		xctrl->value = clamp(xctrl->value, 0, 1);
->  		value = xctrl->value;
-> @@ -1845,17 +1876,14 @@ int uvc_ctrl_set(struct uvc_fh *handle,
->  		 * Valid menu indices are reported by the GET_RES request for
->  		 * UVC controls that support it.
->  		 */
-> -		if (mapping->data_type == UVC_CTRL_DATA_TYPE_BITMASK &&
-> -		    (ctrl->info.flags & UVC_CTRL_FLAG_GET_RES)) {
-> +		if (mapping->data_type == UVC_CTRL_DATA_TYPE_BITMASK) {
->  			if (!ctrl->cached) {
->  				ret = uvc_ctrl_populate_cache(chain, ctrl);
->  				if (ret < 0)
->  					return ret;
->  			}
->  
-> -			step = mapping->get(mapping, UVC_GET_RES,
-> -					uvc_ctrl_data(ctrl, UVC_CTRL_DATA_RES));
-> -			if (!(step & value))
-> +			if (!(uvc_get_ctrl_bitmap(ctrl, mapping) & value))
->  				return -EINVAL;
->  		}
->  
+>  int uvc_ctrl_add_mapping(struct uvc_video_chain *chain,
 > 
 
 -- 
