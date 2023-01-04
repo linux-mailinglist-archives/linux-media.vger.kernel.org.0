@@ -2,278 +2,203 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3D3B065CEE2
-	for <lists+linux-media@lfdr.de>; Wed,  4 Jan 2023 10:00:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4A41265CF47
+	for <lists+linux-media@lfdr.de>; Wed,  4 Jan 2023 10:13:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233543AbjADI7f (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 4 Jan 2023 03:59:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55822 "EHLO
+        id S234599AbjADJNE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 4 Jan 2023 04:13:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38564 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229490AbjADI7J (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 4 Jan 2023 03:59:09 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AFF491F2;
-        Wed,  4 Jan 2023 00:59:07 -0800 (PST)
-Received: from [192.168.1.15] (91-154-32-225.elisa-laajakaista.fi [91.154.32.225])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 582D46C7;
-        Wed,  4 Jan 2023 09:59:03 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1672822744;
-        bh=X4caveR8pcG+lsAtnOYm8ZzzqR5wLDb9yHb7Nz59WIs=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=VkBvjaRSuvrQF35+gGbVJo9ejV7VMTl8XW9Lu58F7TtMYjdWjufTL5npH4QOca+2R
-         gJJL8Jb4YVEfwqVYQIF6J3+xAxbLLuxqHqLfForz/MIcI+6niAUG7vBXk+vBi4jZFe
-         NCnWRPXSIQaSSoMC37ZollMukUXW3qQYGJ0SrDbc=
-Message-ID: <67f2998e-131f-a4f9-1434-8e0f5bd90bd7@ideasonboard.com>
-Date:   Wed, 4 Jan 2023 10:59:00 +0200
+        with ESMTP id S234182AbjADJND (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 4 Jan 2023 04:13:03 -0500
+Received: from mail-vs1-xe32.google.com (mail-vs1-xe32.google.com [IPv6:2607:f8b0:4864:20::e32])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3FFCFD2B;
+        Wed,  4 Jan 2023 01:13:01 -0800 (PST)
+Received: by mail-vs1-xe32.google.com with SMTP id i188so34231388vsi.8;
+        Wed, 04 Jan 2023 01:13:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=QPMX5kWJZPRRY4wnvXmSYf/iEepycQO9qoz1tO03Y7E=;
+        b=V5CHBHmD0S3FbkXFR+gItsN90huqqoo5uYdU3eF8jc9PWKVQPmONGIcPnPtLRvlj8W
+         aV2Qr7a0+07PeaMz5mL93zB69HtQifJXnmqseFsOAI4tm/UJBnyf8kT8WPFhsq16Zy0C
+         FiR4ay1mvoDxnXMMBZRHJlRM/LA+I2cjFE1hYMFfOMeg/xvt4WheNQZ9a50r5yzkD2Ou
+         f/+jpLcxTSotclANBYL9H5j+Ffjp8wuyKs63qKx25pifjjdOVXtGZ5vTQ6yYlW1RAgdN
+         3Nz6Wyqb4WyL280TZ17G/vBkRBkqHW/wcb61rIi5eO5VE1BGuKrSsezv16qndtj1OMiJ
+         IiXg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=QPMX5kWJZPRRY4wnvXmSYf/iEepycQO9qoz1tO03Y7E=;
+        b=RNC2A/xtBhSXPoI2EANEcHJS79ofhIzyoLVg4ySYJvaJjFhHRU8kBiQflPfTp3Fv4E
+         sIS5qJdIvPgZkRtZ+V2bAzgLdpRejbEqtvaau1Td/HAvaT5IGSPB4ipaxyQGx/KCZm1U
+         mqTSSi/a4WsQL8F+ssDZUXmRyYUyJikvgVn7k1xr5I/CwXlmXJrORNyAhQZLfsByalhE
+         yj21VAucoSuvvjFhzHcto6mmhNvAv+4RxtYNKeHbgxkLHjmmbR0boK6YknaP91+DbuNH
+         cVhIDMUOW9r8D+ypg1cD/pwBpv20DmU9ulzAz5eK+3JaOBbjfD2fD49mEwfGY1fryyqE
+         Ur3g==
+X-Gm-Message-State: AFqh2kpYNbBz1qeEv3NEZYSUaRt0FLlGfC+/rS1GMaQ2r6sOwXRBWO8R
+        e0gGnava3JplYP3HZHTQt//DU23+cfT03JiVTbY=
+X-Google-Smtp-Source: AMrXdXvTAdvAkZT6n8ezEcrJXpeklPvOVSosiAD0Vx17p4+/0cH66MykDFyoZ+aMSBUgDhRY9po3H9T6OpYe5jZNSAs=
+X-Received: by 2002:a05:6102:e94:b0:3b1:3231:ac9e with SMTP id
+ l20-20020a0561020e9400b003b13231ac9emr5119931vst.50.1672823580988; Wed, 04
+ Jan 2023 01:13:00 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH v5 5/8] dt-bindings: media: add bindings for TI DS90UB960
-Content-Language: en-US
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Wolfram Sang <wsa@kernel.org>,
-        Luca Ceresoli <luca.ceresoli@bootlin.com>,
-        Andy Shevchenko <andriy.shevchenko@intel.com>,
-        Matti Vaittinen <Matti.Vaittinen@fi.rohmeurope.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Peter Rosin <peda@axentia.se>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Michael Tretter <m.tretter@pengutronix.de>,
-        Shawn Tu <shawnx.tu@intel.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Mike Pagano <mpagano@gentoo.org>,
-        =?UTF-8?Q?Krzysztof_Ha=c5=82asa?= <khalasa@piap.pl>,
-        Marek Vasut <marex@denx.de>
-References: <20221208104006.316606-1-tomi.valkeinen@ideasonboard.com>
- <20221208104006.316606-6-tomi.valkeinen@ideasonboard.com>
- <Y5YaMpbj1WTTIp3B@pendragon.ideasonboard.com>
- <99372b9d-2050-2040-6b29-a1939c2e0c95@ideasonboard.com>
- <Y6nRWpWvWZ++V1KP@pendragon.ideasonboard.com>
-From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-In-Reply-To: <Y6nRWpWvWZ++V1KP@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+References: <20221227095123.2447948-1-milkfafa@gmail.com> <20221227095123.2447948-8-milkfafa@gmail.com>
+ <b8f173c0-6d40-d6aa-543e-fa8b06557f4f@molgen.mpg.de> <CADnNmFr1naRfam=z0p-4hEugSDJy_HCK8XZyQJ0eFirnmwuH4A@mail.gmail.com>
+ <4d64e3f9-57a3-c6be-2709-36e9a1617bf9@molgen.mpg.de>
+In-Reply-To: <4d64e3f9-57a3-c6be-2709-36e9a1617bf9@molgen.mpg.de>
+From:   Kun-Fa Lin <milkfafa@gmail.com>
+Date:   Wed, 4 Jan 2023 17:12:49 +0800
+Message-ID: <CADnNmFqFMBUj07oAZze3eeXAR0hbep4p9za=XNu5YrLVqUex=w@mail.gmail.com>
+Subject: Re: [PATCH v10 7/7] media: nuvoton: Add driver for NPCM video capture
+ and encode engine
+To:     Paul Menzel <pmenzel@molgen.mpg.de>
+Cc:     mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
+        avifishman70@gmail.com, tmaimon77@gmail.com, tali.perry1@gmail.com,
+        venture@google.com, yuenn@google.com, benjaminfair@google.com,
+        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        andrzej.p@collabora.com, kwliu@nuvoton.com,
+        devicetree@vger.kernel.org, openbmc@lists.ozlabs.org,
+        linux-kernel@vger.kernel.org, kflin@nuvoton.com,
+        linux-media@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 26/12/2022 18:52, Laurent Pinchart wrote:
-> Hi Tomi,
-> 
-> On Tue, Dec 13, 2022 at 04:25:46PM +0200, Tomi Valkeinen wrote:
->> On 11/12/2022 19:58, Laurent Pinchart wrote:
->>> On Thu, Dec 08, 2022 at 12:40:03PM +0200, Tomi Valkeinen wrote:
->>>> Add DT bindings for TI DS90UB960 FPDLink-3 Deserializer.
->>>>
->>>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
->>>> ---
->>>>    .../bindings/media/i2c/ti,ds90ub960.yaml      | 358 ++++++++++++++++++
->>>>    1 file changed, 358 insertions(+)
->>>>    create mode 100644 Documentation/devicetree/bindings/media/i2c/ti,ds90ub960.yaml
->>>>
->>>> diff --git a/Documentation/devicetree/bindings/media/i2c/ti,ds90ub960.yaml b/Documentation/devicetree/bindings/media/i2c/ti,ds90ub960.yaml
->>>> new file mode 100644
->>>> index 000000000000..d8b5e219d420
->>>> --- /dev/null
->>>> +++ b/Documentation/devicetree/bindings/media/i2c/ti,ds90ub960.yaml
->>>> @@ -0,0 +1,358 @@
->>>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
->>>> +%YAML 1.2
->>>> +---
->>>> +$id: http://devicetree.org/schemas/media/i2c/ti,ds90ub960.yaml#
->>>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->>>> +
->>>> +title: Texas Instruments DS90UB9XX Family FPD-Link Deserializer Hubs
->>>> +
->>>> +maintainers:
->>>> +  - Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
->>>> +
->>>> +description:
->>>> +  The TI DS90UB9XX devices are FPD-Link video deserializers with I2C and GPIO
->>>> +  forwarding.
->>>> +
->>>> +properties:
->>>> +  compatible:
->>>> +    enum:
->>>> +      - ti,ds90ub960-q1
->>>> +      - ti,ds90ub9702-q1
->>>> +
->>>> +  reg:
->>>> +    maxItems: 1
->>>> +    description:
->>>> +      i2c addresses for the deserializer and the serializers
->>>
->>> s/i2c/I2C/
->>>
->>> Same below.
->>>
->>> A bit more details would be nice, for instance the order in which
->>> addresses should be specified should be documented. The example below
->>> has one address only, so it's quite unclear. Or is this a left-over,
->>> from before the i2c-alias-pool ?
->>
->> That's a left over, but not related to i2c-alias-pool but the i2c-alias
->> for the serializers. It already says above 'maxItems: 1', so now it only
->> contains the deserializer address. I'll drop the desc.
-> 
-> Looks good to me.
-> 
->>>> +
->>>> +  clocks:
->>>> +    maxItems: 1
->>>> +    description:
->>>> +      Reference clock connected to the REFCLK pin.
->>>> +
->>>> +  clock-names:
->>>> +    items:
->>>> +      - const: refclk
->>>> +
->>>> +  powerdown-gpios:
->>>> +    maxItems: 1
->>>> +    description:
->>>> +      Specifier for the GPIO connected to the PDB pin.
->>>> +
->>>> +  i2c-alias-pool:
->>>> +    $ref: /schemas/types.yaml#/definitions/uint16-array
->>>> +    description:
->>>> +      i2c alias pool is a pool of i2c addresses on the main i2c bus that can be
->>>> +      used to access the remote peripherals. The addresses must be available,
->>>> +      not used by any other peripheral. Each remote peripheral is assigned an
->>>> +      alias from the pool, and transactions to that address will be forwarded
->>>> +      to the remote peripheral, with the address translated to the remote
->>>> +      peripheral's real address.
->>>
->>> As this property is optional, should you describe what happens when it's
->>> not specified ?
->>>
->>> I would also indicate that the pool doesn't cover the serializers, only
->>> the devices behind them.
->>
->> Yep, I'll clarify these.
->>
->>>> +
->>>> +  links:
->>>> +    type: object
->>>> +    additionalProperties: false
->>>> +
->>>> +    properties:
->>>> +      '#address-cells':
->>>> +        const: 1
->>>> +
->>>> +      '#size-cells':
->>>> +        const: 0
->>>> +
->>>> +      ti,manual-strobe:
->>>> +        type: boolean
->>>> +        description:
->>>> +          Enable manual strobe position and EQ level
->>>> +
->>>> +    patternProperties:
->>>> +      '^link@[0-9a-f]+$':
->>>
->>> There can be up to 4 links only, right ? I would then use
->>>
->>>         '^link@[0-3]$':
->>
->> Yes, I'll change that.
->>
->>>> +        type: object
->>>> +        additionalProperties: false
->>>> +        properties:
->>>> +          reg:
->>>> +            description: The link number
->>>> +            maxItems: 1
->>>> +
->>>> +          i2c-alias:
->>>> +            description:
->>>> +              The i2c address used for the serializer. Transactions to this
->>>> +              address on the i2c bus where the deserializer resides are
->>>> +              forwarded to the serializer.
->>>> +
->>>> +          ti,rx-mode:
->>>> +            $ref: /schemas/types.yaml#/definitions/uint32
->>>> +            enum:
->>>> +              - 0 # RAW10
->>>> +              - 1 # RAW12 HF
->>>> +              - 2 # RAW12 LF
->>>> +              - 3 # CSI2 SYNC
->>>> +              - 4 # CSI2 NON-SYNC
->>>> +            description: FPD-Link Input Mode
->>>
->>> Are there use cases for controlling this dynamically (in particular the
->>> sync/non-sync modes) ? Is there anything that could be queried at
->>> runtime from the serializers instead of being specified in DT ?
->>
->> We need a link to the serializer before we can query anything from the
->> serializer.
-> 
-> I meant querying it from the serializer driver, not the serializer
-> hardware. This being said, it would likely be difficult to do so, as the
-> serializer driver would need to probe first. I think I'm thus fine
-> selecting the mode in DT on the deserializer side.
-> 
->> To have a link, we need the mode... So, as I mentioned in
->> the other reply, we could define these in some way in the serializer's
->> properties instead of here, but I'm not sure if that's a good change.
->>
->> The driver can change the mode at runtime (say, from sync to non-sync
->> mode, if the HW supports that). But I think this property should reflect
->> the HW strapped configuration of the serializer.
-> 
-> That would possibly work for the DS90UB953, but the DS90UB913 has no
-> strapped mode selected at boot time but is instead configured
-> automatically through the back-channel (see my last reply to patch 3/8).
+> > How about "The VCD can capture a frame from digital video input and
+> > compare two frames in memory, then the ECE will compress the frame
+> > data into HEXTITLE format", is it better?
+>
+> Yes, I prefer your suggestion.
+>
+> >> Wich VNC viewer and version?
+> >
+> > I used RealVNC version 6.21.1109 to test.
+> > Do I have to add this information in the commit message?
+>
+> I do not think there are rules, but I prefer to have the test
+> environment and procedure information in the commit message in case
+> there are problems, and you want to reproduce things.
 
-Indeed.
+OK, I'll do that.
 
-> When connecting a DS90UB913 to a DS90UB914 deserializer, we can probably
-> start without mode selection in software, as the MODE pin is meant to
-> bootstrap that to a correct value which is then automatically
-> transmitted to the serializer (hardware designs where the mode would
-> need to be overridden should be rate). However, when connecting multiple
 
-I don't know if that's true. I guess it depends on how you see the deser 
-and the camera module. Are they part of the same HW design or not? In my 
-setups they are quite separate, and I connect different kinds of camera 
-modules to my deserializers. But I can see that if you create a, say, 
-car, you'd have both sides known at design time and would never change.
+> Yes, that is what I meant. Maybe even the debug messages.
 
-> DS90UB913 to a DS90UB960, I can imagine connecting different types of
-> cameras on the four input ports, so the need to specify the mode
-> per-port in DT would be more common.
+I get these debug messages after VNC viewer connected:
 
-Right, and even with UB914, you might well design the deserializer side 
-with, say, RAW10 sensors, but later in the cycle you'd need to change to 
-a RAW12 sensor. Depending on the deser mode strap would require you to 
-do a HW change on the deser side too.
+npcm-video f0810000.video: Got resolution[1600x1200] -> [1600x1200], status 0
+npcm-video f0810000.video: VCD mode = 0x1000b, Hi Res mode
+npcm-video f0810000.video: Digital mode: 1600 x 1200 x 2, pixelclock
+161666000, bytesperline 4096
+npcm-video f0810000.video: ECE open: client 1
+npcm-video f0810000.video: Got resolution[1600x1200] -> [1600x1200], status 0
+npcm-video f0810000.video: Got resolution[1600x1200] -> [1600x1200], status 0
+npcm-video f0810000.video: VCD irq status 0x84b00ff1
+npcm-video f0810000.video: offset = 0, ed_size = 1540907, gap = 12
+npcm-video f0810000.video: Got resolution[1600x1200] -> [1600x1200], status 0
+npcm-video f0810000.video: Got resolution[1600x1200] -> [1600x1200], status 0
+npcm-video f0810000.video: Got resolution[1600x1200] -> [1600x1200], status 0
+npcm-video f0810000.video: Got resolution[1600x1200] -> [1600x1200], status 0
+npcm-video f0810000.video: Got resolution[1600x1200] -> [1600x1200], status 0
+npcm-video f0810000.video: Got resolution[1600x1200] -> [1600x1200], status 0
+npcm-video f0810000.video: Got resolution[1600x1200] -> [1600x1200], status 0
+npcm-video f0810000.video: Got resolution[1600x1200] -> [1600x1200], status 0
+npcm-video f0810000.video: Got resolution[1600x1200] -> [1600x1200], status 0
+npcm-video f0810000.video: Got resolution[1600x1200] -> [1600x1200], status 0
+npcm-video f0810000.video: Got resolution[1600x1200] -> [1600x1200], status 0
+npcm-video f0810000.video: Got resolution[1600x1200] -> [1600x1200], status 0
+npcm-video f0810000.video: Got resolution[1600x1200] -> [1600x1200], status 0
+npcm-video f0810000.video: Got resolution[1600x1200] -> [1600x1200], status 0
+npcm-video f0810000.video: Got resolution[1600x1200] -> [1600x1200], status 0
+npcm-video f0810000.video: Got resolution[1600x1200] -> [1600x1200], status 0
+npcm-video f0810000.video: Got resolution[1600x1200] -> [1600x1200], status 0
+npcm-video f0810000.video: Got resolution[1600x1200] -> [1600x1200], status 0
+npcm-video f0810000.video: Got resolution[1600x1200] -> [1600x1200], status 0
+npcm-video f0810000.video: Got resolution[1600x1200] -> [1600x1200], status 0
+npcm-video f0810000.video: Got resolution[1600x1200] -> [1600x1200], status 0
+npcm-video f0810000.video: Got resolution[1600x1200] -> [1600x1200], status 0
+npcm-video f0810000.video: Got resolution[1600x1200] -> [1600x1200], status 0
+npcm-video f0810000.video: Got resolution[1600x1200] -> [1600x1200], status 0
+npcm-video f0810000.video: Got resolution[1600x1200] -> [1600x1200], status 0
+npcm-video f0810000.video: Got resolution[1600x1200] -> [1600x1200], status 0
+npcm-video f0810000.video: Got resolution[1600x1200] -> [1600x1200], status 0
+npcm-video f0810000.video: Got resolution[1600x1200] -> [1600x1200], status 0
+npcm-video f0810000.video: Got resolution[1600x1200] -> [1600x1200], status 0
+npcm-video f0810000.video: Got resolution[1600x1200] -> [1600x1200], status 0
+npcm-video f0810000.video: VCD irq status 0x84b00ff1
+npcm-video f0810000.video: offset = 0, ed_size = 1539638, gap = 12
+npcm-video f0810000.video: Got resolution[1600x1200] -> [1600x1200], status 0
+npcm-video f0810000.video: VCD irq status 0x84b00ff1
+npcm-video f0810000.video: Got resolution[1600x1200] -> [1600x1200], status 0
+npcm-video f0810000.video: Got resolution[1600x1200] -> [1600x1200], status 0
+npcm-video f0810000.video: offset = 0, ed_size = 1539638, gap = 12
+npcm-video f0810000.video: Got resolution[1600x1200] -> [1600x1200], status 0
+npcm-video f0810000.video: Got resolution[1600x1200] -> [1600x1200], status 0
+npcm-video f0810000.video: VCD irq status 0x84b00ff1
+npcm-video f0810000.video: Got resolution[1600x1200] -> [1600x1200], status 0
+npcm-video f0810000.video: offset = 0, ed_size = 1539638, gap = 12
+npcm-video f0810000.video: Got resolution[1600x1200] -> [1600x1200], status 0
+npcm-video f0810000.video: Got resolution[1600x1200] -> [1600x1200], status 0
+npcm-video f0810000.video: VCD irq status 0x84b00ff1
+npcm-video f0810000.video: offset = 0, ed_size = 1539638, gap = 12
+npcm-video f0810000.video: Got resolution[1600x1200] -> [1600x1200], status 0
+npcm-video f0810000.video: Got resolution[1600x1200] -> [1600x1200], status 0
+npcm-video f0810000.video: VCD irq status 0x84b00ff1
+npcm-video f0810000.video: offset = 0, ed_size = 1539638, gap = 12
+npcm-video f0810000.video: Got resolution[1600x1200] -> [1600x1200], status 0
+npcm-video f0810000.video: Got resolution[1600x1200] -> [1600x1200], status 0
+npcm-video f0810000.video: VCD irq status 0x84b00ff1
+npcm-video f0810000.video: Got resolution[1600x1200] -> [1600x1200], status 0
+npcm-video f0810000.video: Got resolution[1600x1200] -> [1600x1200], status 0
+npcm-video f0810000.video: VCD irq status 0x84b00ff1
+npcm-video f0810000.video: Got resolution[1600x1200] -> [1600x1200], status 0
+npcm-video f0810000.video: VCD irq status 0x84b00ff1
+npcm-video f0810000.video: Got resolution[1600x1200] -> [1600x1200], status 0
+npcm-video f0810000.video: VCD irq status 0x84b00ff1
+npcm-video f0810000.video: Got resolution[1600x1200] -> [1600x1200], status 0
+npcm-video f0810000.video: VCD irq status 0x84b00ff1
+npcm-video f0810000.video: Got resolution[1600x1200] -> [1600x1200], status 0
+[...]
 
-As I said in the other mail, I don't like the deser's strap, and I think 
-we should just basically ignore it as we can provide the necessary data 
-in the DT.
 
-> For these reasons, I don't think the ti,rx-mode property can be defined
-> as reflecting the hardware MODE strap with the DS90UB913. I also think
-> it would be quite confusing to define it as the desired runtime
-> configuration for the DS90UB913 and as the hardware MODE strap for the
-> DS90UB953. Could it be (explicitly) defined as the desired runtime
-> configuration in all cases ?
+> > I can note the datasheet name and revision in the commit message but
+> > can't provide the file link because it is not public.
+> > Is it ok with you?
+>
+> Yes, that would be ok with me.
 
-That sounds bad in a DT context =). You're right that the rx-mode can't 
-be defined as reflecting the serializer mode strap, but I think we can 
-define it as reflecting the default operation mode of the serializer 
-hardware (or maybe rather the camera module).
+> > So what I have to do is replace "u8/u16/u32" with "unsigned int" for
+> > generic local variables as much as possible.
+> > Is my understanding correct?
+>
+> Yes, I would say so.
 
-  Tomi
+> >>> +MODULE_AUTHOR("Joseph Liu<kwliu@nuvoton.com>");
+> >>> +MODULE_AUTHOR("Marvin Lin<kflin@nuvoton.com>");
+> >>
+> >> Please add a space before the <.
+> >>
+> >>> +MODULE_DESCRIPTION("Driver for Nuvoton NPCM Video Capture/Encode Engine");
+> >>> +MODULE_LICENSE("GPL");
+> >>
+> >> Not GPL v2?
+> >
+> > I'll correct them in the next patch.
+>
+> Awesome.
 
+ Thank you for your feedback.
+
+Regards,
+Marvin
