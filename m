@@ -2,98 +2,71 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BE98B65D13D
-	for <lists+linux-media@lfdr.de>; Wed,  4 Jan 2023 12:16:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3A79E65D142
+	for <lists+linux-media@lfdr.de>; Wed,  4 Jan 2023 12:19:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234505AbjADLQD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 4 Jan 2023 06:16:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45630 "EHLO
+        id S234505AbjADLTw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 4 Jan 2023 06:19:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46176 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230423AbjADLQB (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 4 Jan 2023 06:16:01 -0500
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 190DE1A3A0;
-        Wed,  4 Jan 2023 03:16:00 -0800 (PST)
-X-IronPort-AV: E=McAfee;i="6500,9779,10579"; a="302283998"
-X-IronPort-AV: E=Sophos;i="5.96,299,1665471600"; 
-   d="scan'208";a="302283998"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jan 2023 03:15:59 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10579"; a="779184672"
-X-IronPort-AV: E=Sophos;i="5.96,299,1665471600"; 
-   d="scan'208";a="779184672"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by orsmga004.jf.intel.com with ESMTP; 04 Jan 2023 03:15:56 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-        (envelope-from <andy@kernel.org>)
-        id 1pD1kQ-004HN0-1U;
-        Wed, 04 Jan 2023 13:15:54 +0200
-Date:   Wed, 4 Jan 2023 13:15:54 +0200
-From:   Andy Shevchenko <andy@kernel.org>
-To:     Arnd Bergmann <arnd@kernel.org>
-Cc:     Hans de Goede <hdegoede@redhat.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: atomisp: fix videobuf2 Kconfig depenendency
-Message-ID: <Y7Vf6nejMFXs/qAk@smile.fi.intel.com>
-References: <20230104082212.3770415-1-arnd@kernel.org>
+        with ESMTP id S230423AbjADLTu (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 4 Jan 2023 06:19:50 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF8981A3A0
+        for <linux-media@vger.kernel.org>; Wed,  4 Jan 2023 03:19:49 -0800 (PST)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 29D696C7;
+        Wed,  4 Jan 2023 12:19:48 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1672831188;
+        bh=6NCvRsXn32N/RZsTrQlL34uX2mUVD04Wdi7lQ8raFwg=;
+        h=From:To:Cc:Subject:Date:From;
+        b=b1TRexhp+3+plFw9LJvjbD7yHTgcmDFn/tcXX4hJGWorzFU5qyruZZp07v/tB/WGc
+         +t4LoPGBs9wiiV9r9/OYZPgLNJBbUL6KHSjiknJ662iOxn44aIOSwKi6KdPPl/+V5N
+         QeUZZ/diVNAPTME5BSTEHX3PJnoHNyTdqPVV4HNI=
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     linux-media@vger.kernel.org
+Cc:     Ricardo Ribalda <ribalda@chromium.org>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>
+Subject: [PATCH v2 0/2] media: uvcvideo: Drop format descriptions
+Date:   Wed,  4 Jan 2023 13:19:42 +0200
+Message-Id: <20230104111944.962-1-laurent.pinchart@ideasonboard.com>
+X-Mailer: git-send-email 2.38.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230104082212.3770415-1-arnd@kernel.org>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-X-Spam-Status: No, score=-3.5 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_SOFTFAIL autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Jan 04, 2023 at 09:21:36AM +0100, Arnd Bergmann wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
-> 
-> The recent conversion missed the Kconfig bit, so it can now
-> end up in a link error on randconfig builds:
-> 
-> ld.lld: error: undefined symbol: vb2_vmalloc_memops
-> >>> referenced by atomisp_fops.c
-> >>>               drivers/staging/media/atomisp/pci/atomisp_fops.o:(atomisp_open) in archive vmlinux.a
+Hello,
 
-Tested-by: Andy Shevchenko <andy@kernel.org>
+This small patch series is a new version of the previous single patch
+"[PATCH] media: uvcvideo: Remove format descriptions". In addition to
+fixing a bug in 1/2, the newly added patch 2/2 takes it a step forward
+with a further simplification.
 
-> Fixes: cb48ae89be3b ("media: atomisp: Convert to videobuf2")
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-> ---
->  drivers/staging/media/atomisp/Kconfig | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/staging/media/atomisp/Kconfig b/drivers/staging/media/atomisp/Kconfig
-> index 2c8d7fdcc5f7..c9bff98e5309 100644
-> --- a/drivers/staging/media/atomisp/Kconfig
-> +++ b/drivers/staging/media/atomisp/Kconfig
-> @@ -14,7 +14,7 @@ config VIDEO_ATOMISP
->  	depends on VIDEO_DEV && INTEL_ATOMISP
->  	depends on PMIC_OPREGION
->  	select IOSF_MBI
-> -	select VIDEOBUF_VMALLOC
-> +	select VIDEOBUF2_VMALLOC
->  	select VIDEO_V4L2_SUBDEV_API
->  	help
->  	  Say Y here if your platform supports Intel Atom SoC
-> -- 
-> 2.39.0
-> 
+I could squash 2/2 with 1/2 if desired, but I've decided to keep it
+separate at least for now in case there would be a preference for
+keeping the format name string for DV formats.
 
+Laurent Pinchart (2):
+  media: uvcvideo: Remove format descriptions
+  media: uvcvideo: Drop custom format names for DV formats
+
+ drivers/media/usb/uvc/uvc_driver.c | 19 +++----------------
+ drivers/media/usb/uvc/uvc_v4l2.c   |  2 --
+ drivers/media/usb/uvc/uvcvideo.h   |  2 --
+ 3 files changed, 3 insertions(+), 20 deletions(-)
+
+
+base-commit: fb1316b0ff3fc3cd98637040ee17ab7be753aac7
 -- 
-With Best Regards,
-Andy Shevchenko
+Regards,
 
+Laurent Pinchart
 
