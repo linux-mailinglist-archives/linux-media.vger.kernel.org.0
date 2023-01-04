@@ -2,58 +2,57 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 458F465D0E1
+	by mail.lfdr.de (Postfix) with ESMTP id DBB7865D0E3
 	for <lists+linux-media@lfdr.de>; Wed,  4 Jan 2023 11:47:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239018AbjADKqB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 4 Jan 2023 05:46:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57268 "EHLO
+        id S234789AbjADKqH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 4 Jan 2023 05:46:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57282 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234791AbjADKpx (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 4 Jan 2023 05:45:53 -0500
-Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com [IPv6:2a00:1450:4864:20::52d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D6C813D66
-        for <linux-media@vger.kernel.org>; Wed,  4 Jan 2023 02:45:52 -0800 (PST)
-Received: by mail-ed1-x52d.google.com with SMTP id r26so42791920edc.5
-        for <linux-media@vger.kernel.org>; Wed, 04 Jan 2023 02:45:52 -0800 (PST)
+        with ESMTP id S234701AbjADKpy (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 4 Jan 2023 05:45:54 -0500
+Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com [IPv6:2a00:1450:4864:20::631])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A6E712AE1
+        for <linux-media@vger.kernel.org>; Wed,  4 Jan 2023 02:45:53 -0800 (PST)
+Received: by mail-ej1-x631.google.com with SMTP id qk9so81382850ejc.3
+        for <linux-media@vger.kernel.org>; Wed, 04 Jan 2023 02:45:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=eP05S7oAYieh5bsYhS+hlRcyIQXVRRrXBen8HZvF0wQ=;
-        b=TYUlwgGUYxQtBfQgr6HAF4WRrUCCs6+Q0x3+s33syXNwAyHgUx7MmRNnZfoFphJsO0
-         giJw/1wEtflygRfp6kGmlMJDw0homhhm1lP9eBOGsSi3lviMr8vlVOAWJRvLfG29jOsg
-         po0ua4KgiALWE8geDkbcEIRjGDq71eMrpXthk=
+        bh=KyBrI1RwfXQizMxJ8rnnrBo4q45UrKGn2OI35vCZsYY=;
+        b=Uep3phL55FIMMwa37576Z/9XYaU7Cjh/iSkuW19M9vpAiL+74bvM1KKqyQMnfC5vO1
+         2/ANgpV/Fvb0SiM+laEYOILg+QbE0pSwYEdxLv26eD+7k9FRRQJA23cVPxX1Ou6UfxYj
+         FfZTQ9PbbKeBDGGS3JYlBg8ew6fyphoje1Hok=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=eP05S7oAYieh5bsYhS+hlRcyIQXVRRrXBen8HZvF0wQ=;
-        b=U0ngYD4X/vwo0lnqdyBIjguNu5I2suOAZ+tA458oh9JsENIfpmSLB0Kz5/X6HT48B1
-         Ar1dFj7ho9+dFpecl0a+BZM2yOCOdMsAas6bepJWCwIHYx5HTL5EVatj9dgxzaF7o9vy
-         kTt/GjJSyG3VkwKjy4waXkQf+2aZxy8ubhdcr7KXHlPcTFWXfWezXSAjtHlarvQxAgrM
-         biXizrisYv+Q3oVjocLF5VbjKEccdupMwUyy2WTtLedPKuP+1vuadv70VSE766AvCWvw
-         ABGD2sRXCGEYtEMXGN0Gdn2T4gbEPk2BcNJASnz5KLloTsfyjmY62uJc75hBHTJmUOLc
-         Eqvg==
-X-Gm-Message-State: AFqh2kqqlN2l8bY8X2iTlQmdTyMzrtFjTIn1Tn84kcV4yHbfsUxZ4O+X
-        Rfk35M8KcDbxOfaG1DgG2f2lSg==
-X-Google-Smtp-Source: AMrXdXvd+WHy9nXxH5I+9ehCk4+Sg6r2oo8mlgxL89YAHSiwKcCD6N70vX93Szq2dJp1Zd5DaPF84w==
-X-Received: by 2002:a05:6402:104d:b0:486:ac69:b9e4 with SMTP id e13-20020a056402104d00b00486ac69b9e4mr24243186edu.4.1672829150883;
-        Wed, 04 Jan 2023 02:45:50 -0800 (PST)
+        bh=KyBrI1RwfXQizMxJ8rnnrBo4q45UrKGn2OI35vCZsYY=;
+        b=SwjIIwqIRjAl1QxD+/S4zyvklRUZjSS+dXkrLXbmdvDAeZK9cQfYOjlx8Lw/mCbkHV
+         10rMzf6FsoqJa+rXwQQDnpH0aLGY0T+kg8dh75PWY0jopU5Oew2BL/XjEU20I6Liv7At
+         c4fo1u6ayIAMrWk93T4wHD+GzHRdsMt4PTeb/aWSJIUQ6wpkvXNe0Wglco8yL7AG/ntU
+         HOBDqmhanw0obhEW8uMOwhHLnCIqTMmEvljCFZLRqCnjyvl0fXPhYCsAgHviuYObOJ9r
+         73KmvaUWUC8I3t3TsCmQoBPVMek3+IjQmrlFFRi38srjKakZggfVrA8+GkDKQpj/HZZE
+         EpGA==
+X-Gm-Message-State: AFqh2ko+W8cufxF7OBGBL3FuY1J/aHDPyBOlfieUyrW0RGlBLvidNmkh
+        d0dCnnp/IDNpfTAojeHaYxRTT2NCqngLYX/sABg=
+X-Google-Smtp-Source: AMrXdXt00As5fSHArbEefv7fvImmjhDllCRKY5zJkWdWW9VOhpNt1PeXLA6fuJJKbzPfqo0kgnX+Kw==
+X-Received: by 2002:a17:906:5619:b0:7c0:faca:52c with SMTP id f25-20020a170906561900b007c0faca052cmr40663884ejq.37.1672829151931;
+        Wed, 04 Jan 2023 02:45:51 -0800 (PST)
 Received: from alco.roam.corp.google.com ([2620:0:1059:10:6531:9bb0:b3f7:86a8])
-        by smtp.gmail.com with ESMTPSA id g32-20020a056402322000b0048c85c5ad30sm4754971eda.83.2023.01.04.02.45.50
+        by smtp.gmail.com with ESMTPSA id g32-20020a056402322000b0048c85c5ad30sm4754971eda.83.2023.01.04.02.45.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Jan 2023 02:45:50 -0800 (PST)
+        Wed, 04 Jan 2023 02:45:51 -0800 (PST)
 From:   Ricardo Ribalda <ribalda@chromium.org>
-Date:   Wed, 04 Jan 2023 11:45:19 +0100
-Subject: [PATCH v3 1/8] media: uvcvideo: Extend documentation of
- uvc_video_clock_decode()
+Date:   Wed, 04 Jan 2023 11:45:20 +0100
+Subject: [PATCH v3 2/8] media: uvc: Allow quirking by entity guid
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20220920-resend-hwtimestamp-v3-1-db9faee7f47d@chromium.org>
+Message-Id: <20220920-resend-hwtimestamp-v3-2-db9faee7f47d@chromium.org>
 References: <20220920-resend-hwtimestamp-v3-0-db9faee7f47d@chromium.org>
 In-Reply-To: <20220920-resend-hwtimestamp-v3-0-db9faee7f47d@chromium.org>
 To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
@@ -62,19 +61,19 @@ Cc:     linux-kernel@vger.kernel.org, "hn.chen" <hn.chen@sunplusit.com>,
         Ricardo Ribalda <ribalda@chromium.org>,
         linux-media@vger.kernel.org
 X-Mailer: b4 0.11.0-dev-696ae
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1176; i=ribalda@chromium.org;
- h=from:subject:message-id; bh=uQh57Ft7V9nCoa2uBX998qypJtqw/WiItNoLfzr8WTk=;
- b=owEBbQKS/ZANAwAKAdE30T7POsSIAcsmYgBjtVjPU3f5Z2E9svRZE/BWIO4lXtzruJFEEjK/8sH6
- EOknXiiJAjMEAAEKAB0WIQREDzjr+/4oCDLSsx7RN9E+zzrEiAUCY7VYzwAKCRDRN9E+zzrEiLUTD/
- sGwSgyt23Hqu3cs30g8YGANyD6AaaRfERUnK4WLltA5EAVO8D1bab/irnj6GJhQDRXxO4nIGlB4XRc
- +0PsAYCMV9axdVIaNuLR7416mKF8eV/yCVrBN1KDbAH/9UkW+YQA8YAdDw9hUPJDAgukr9Y+B0E95w
- zrOkB5+o3TLiPXZiJ9eQXg//iOP2OEvJlxirJBDMXCNUX7ajl86WuMZAnDNhD0D5rFAk2UpP4SKJF5
- MaNc0uIvYZhhjqYyLYiKOX5QawWqoGnsMza4unUGUxiil+tRpYoiqs7Uuz+t6TpWw6H/wciwm337in
- JqDChnNCGVn6lrg6parvA6l4xoCpEHedrm8R4noQtpCO4SO9lxB4QxruJmYzMU4Qmr4vNYL9eaIFR2
- /y8tS1ZDt/dcKCUemWtMeuS2zJs4p9BrTneYpOGq7R+8LnbHpzah8tvJ9H3ytwHC7LK2ec5za8aCB7
- HkiUx8c2cmP4iIKD7My9Zg8LzDIKb8FTJ7PB2i9RK/UXZfQfLuB2JyXqSTkUE2o4IOZDmvFbGO08r/
- lzpZjb3rrWmw8NQQdq6a5odzPqbsc6jMveYNyTlsMqVjjjAbenmR75obHlP2RVsgfetnErHOeReOgz
- RLrrFZngMRK6YLqc0l3+bklN0NFKE67ARUQB6+Fvn6GZzHD0aEYLWpDsw1CA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1797; i=ribalda@chromium.org;
+ h=from:subject:message-id; bh=FoOybSKY0S3eTj4qt7v1f6DB//nxdb92ZYxbnB6L0cM=;
+ b=owEBbQKS/ZANAwAKAdE30T7POsSIAcsmYgBjtVjRUGIm+ptCBoYbh0RSttvX3gody0gvY/pWZOUo
+ z25/ILuJAjMEAAEKAB0WIQREDzjr+/4oCDLSsx7RN9E+zzrEiAUCY7VY0QAKCRDRN9E+zzrEiJyED/
+ 4smqXXbUx0OhCo1Gk2G1q5NSxcv/gZhUPIrEp2CohBfmROuHc6K1uWFI1PSWxodXVZi2w/hOugVSCN
+ ptF8H4UiBgG0CRwz/UMibCVCYQ5/ODjGYOvcqlieVFr9wvog+Pahb2fzfCXzw/Up1qVUUynedr9WXj
+ PZUOovW8NBWkos2NsAIE8qZ6oj8QRFiHck2hdqxpHrJsENA4NbHVrNldoVOFsf/VrGi5RCempnU4aL
+ L7QwrwiA8A3YVK+6tTdRFnkEKD9ZCDD2FEyyHPj0TqG+HxVFDmxlDfo1IJ9uHS0h6Sc/pgjMMUNl4C
+ 20esCE33VIUp+jT4j2mC6EL+AEe8txMbzavnbHbVRL1BshNFl5EgmoNO72p7peoCS8ZfbSTXBXz1Wg
+ gI0xVENtpBIQ0A64LjlAGM/sqOCAj/j0JkgwK/S6rLPeWbLRWgizLqXfnV4kvz9TV7CjWBVO2KcgAu
+ OBZ7V4kB8YvO0zh+VvOc6QbsTjoSm/sLzqu3jPqAPk9PmrOY/Z0fWAqx5UZEbuSUIuoZe3bZeYW5DX
+ OGiv1eBKLAVISJ1toBBYhwbQIHcNF6pqipBUmfpdN6HOPiwLvHZDDrCOaSA9I6RkkKmJfHF+5nog8e
+ N6unuSrLBaSDn2KDvWYkEVIZU5086LK9v44mMuZH1TeJSKe54wgDHAcCeyQg==
 X-Developer-Key: i=ribalda@chromium.org; a=openpgp;
  fpr=9EC3BB66E2FC129A6F90B39556A0D81F9F782DA9
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
@@ -86,31 +85,60 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Make an explicit reference to UVC 1.5, explaining how the algorithm
-supports the different behaviour of UVC 1.1 and 1.5.
+When an IP is shared by multiple devices its erratas will be shared by
+all of them. Instead of creating a long list of device quirks, or
+waiting for the users to report errors in their hardware lets add a
+routine to add quirks based on the entity guid.
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Tested-by: HungNien Chen <hn.chen@sunplusit.com>
 Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 ---
- drivers/media/usb/uvc/uvc_video.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ drivers/media/usb/uvc/uvc_driver.c | 25 +++++++++++++++++++++++++
+ 1 file changed, 25 insertions(+)
 
-diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
-index d2eb9066e4dc..def079c7a6fd 100644
---- a/drivers/media/usb/uvc/uvc_video.c
-+++ b/drivers/media/usb/uvc/uvc_video.c
-@@ -516,7 +516,9 @@ uvc_video_clock_decode(struct uvc_streaming *stream, struct uvc_buffer *buf,
+diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+index bd3716a359b0..5448576a8413 100644
+--- a/drivers/media/usb/uvc/uvc_driver.c
++++ b/drivers/media/usb/uvc/uvc_driver.c
+@@ -1195,6 +1195,28 @@ static int uvc_parse_control(struct uvc_device *dev)
+ 	return 0;
+ }
  
- 	/*
- 	 * To limit the amount of data, drop SCRs with an SOF identical to the
--	 * previous one.
-+	 * previous one. This filtering is also needed to support UVC 1.5, where
-+	 * all the data packets of the same frame contains the same SOF. In that
-+	 * case only the first one will match the host_sof.
- 	 */
- 	dev_sof = get_unaligned_le16(&data[header_size - 2]);
- 	if (dev_sof == stream->clock.last_sof)
++static const struct uvc_entity_quirk {
++	u8 guid[16];
++	u32 quirks;
++} uvc_entity_quirk[] = {
++};
++
++static void uvc_entity_quirks(struct uvc_device *dev)
++{
++	struct uvc_entity *entity;
++	unsigned int i;
++
++	list_for_each_entry(entity, &dev->entities, list) {
++		for (i = 0; i < ARRAY_SIZE(uvc_entity_quirk); i++) {
++			if (memcmp(entity->guid, uvc_entity_quirk[i].guid,
++				   sizeof(entity->guid)) == 0) {
++				dev->quirks |= uvc_entity_quirk[i].quirks;
++				break;
++			}
++		}
++	}
++}
++
+ /* -----------------------------------------------------------------------------
+  * Privacy GPIO
+  */
+@@ -2154,6 +2176,9 @@ static int uvc_probe(struct usb_interface *intf,
+ 		goto error;
+ 	}
+ 
++	/* Apply entity based quirks */
++	uvc_entity_quirks(dev);
++
+ 	dev_info(&dev->udev->dev, "Found UVC %u.%02x device %s (%04x:%04x)\n",
+ 		 dev->uvc_version >> 8, dev->uvc_version & 0xff,
+ 		 udev->product ? udev->product : "<unnamed>",
 
 -- 
 2.39.0.314.g84b9a713c41-goog-b4-0.11.0-dev-696ae
