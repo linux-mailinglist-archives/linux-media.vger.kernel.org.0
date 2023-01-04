@@ -2,102 +2,87 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8E60865CE3C
-	for <lists+linux-media@lfdr.de>; Wed,  4 Jan 2023 09:26:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 275CD65CED7
+	for <lists+linux-media@lfdr.de>; Wed,  4 Jan 2023 09:56:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233859AbjADI02 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 4 Jan 2023 03:26:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58004 "EHLO
+        id S233387AbjADI4D (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 4 Jan 2023 03:56:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53540 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233847AbjADI0Y (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 4 Jan 2023 03:26:24 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9CD13186D3;
-        Wed,  4 Jan 2023 00:26:22 -0800 (PST)
-Received: from [192.168.1.15] (91-154-32-225.elisa-laajakaista.fi [91.154.32.225])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 13BF36C7;
-        Wed,  4 Jan 2023 09:26:19 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1672820780;
-        bh=SeeLZDyqRZZDEu55JzGB0YU4joDF6QeMuk29dAr59mY=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=KFKZS6jqJ8VB5rzBzep4KAI0hfl0kqoKzEpzuSgzzdgvEQQFAz99q9aRu/goNlut2
-         5Lv9cvo6EK2dOgsLbAR7IsfC5yaeOCRpPomCCzI/xNT0JN4wjHzXBgT0L+HuumJKdh
-         4hSGvuRASezPAG+iQKAT2kcA/7STulL0hdEJU9GM=
-Message-ID: <1369118d-3311-f12e-e5d7-a981969baaaa@ideasonboard.com>
-Date:   Wed, 4 Jan 2023 10:26:16 +0200
+        with ESMTP id S233578AbjADIzw (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 4 Jan 2023 03:55:52 -0500
+Received: from cstnet.cn (smtp23.cstnet.cn [159.226.251.23])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 97EB4C7C;
+        Wed,  4 Jan 2023 00:55:49 -0800 (PST)
+Received: from localhost.localdomain (unknown [124.16.138.125])
+        by APP-03 (Coremail) with SMTP id rQCowACnrpYLP7VjtPNrCg--.29392S2;
+        Wed, 04 Jan 2023 16:55:40 +0800 (CST)
+From:   Jiasheng Jiang <jiasheng@iscas.ac.cn>
+To:     laurent.pinchart@ideasonboard.com, mchehab@kernel.org
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Jiasheng Jiang <jiasheng@iscas.ac.cn>
+Subject: [PATCH] media: platform: ti: Add missing check for devm_regulator_get
+Date:   Wed,  4 Jan 2023 16:55:37 +0800
+Message-Id: <20230104085537.20646-1-jiasheng@iscas.ac.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH v5 4/8] dt-bindings: media: add bindings for TI DS90UB953
-Content-Language: en-US
-To:     Rob Herring <robh@kernel.org>
-Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Wolfram Sang <wsa@kernel.org>,
-        Luca Ceresoli <luca.ceresoli@bootlin.com>,
-        Andy Shevchenko <andriy.shevchenko@intel.com>,
-        Matti Vaittinen <Matti.Vaittinen@fi.rohmeurope.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Peter Rosin <peda@axentia.se>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Michael Tretter <m.tretter@pengutronix.de>,
-        Shawn Tu <shawnx.tu@intel.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Mike Pagano <mpagano@gentoo.org>,
-        =?UTF-8?Q?Krzysztof_Ha=c5=82asa?= <khalasa@piap.pl>,
-        Marek Vasut <marex@denx.de>
-References: <20221208104006.316606-1-tomi.valkeinen@ideasonboard.com>
- <20221208104006.316606-5-tomi.valkeinen@ideasonboard.com>
- <20221209212744.GA3868990-robh@kernel.org>
-From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-In-Reply-To: <20221209212744.GA3868990-robh@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-5.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: rQCowACnrpYLP7VjtPNrCg--.29392S2
+X-Coremail-Antispam: 1UD129KBjvdXoWruF47tF45Aw1ktryUuw47twb_yoWDZFX_AF
+        sxXF42gry0v3Z5K3WYywnY9r95trWDZr4fX3y3tFWft3y8CFn8trWjkrWfWrsrAr4UZFy8
+        Wa95ZFW5u3sxCjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+        9fnUUIcSsGvfJTRUUUb2AFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+        6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
+        A2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j
+        6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
+        Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
+        I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r1j6r
+        4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCY02Avz4vE14v_GFyl
+        42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJV
+        WUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIYrxkI7VAK
+        I48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r
+        4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY
+        6I8E87Iv6xkF7I0E14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x0JUY_MsUUUUU=
+X-Originating-IP: [124.16.138.125]
+X-CM-SenderInfo: pmld2xxhqjqxpvfd2hldfou0/
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Rob,
+Add check for the return value of devm_regulator_get since it may return
+error pointer.
 
-On 09/12/2022 23:27, Rob Herring wrote:
-> On Thu, Dec 08, 2022 at 12:40:02PM +0200, Tomi Valkeinen wrote:
->> Add DT bindings for TI DS90UB953 FPDLink-3 Serializer.
-> 
-> Seems like this and DS90UB913 binding could be combined. I couldn't spot
-> a difference.
+Fixes: 448de7e7850b ("[media] omap3isp: OMAP3 ISP core")
+Signed-off-by: Jiasheng Jiang <jiasheng@iscas.ac.cn>
+---
+ drivers/media/platform/ti/omap3isp/isp.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-They are indeed quite similar, but there are a few diffs, especially 
-after fixing Laurent's review comments.
-
-E.g, as the UB913 is a parallel video serializer and the UB953 is a 
-CSI-2 serializer, the input port on UB913 has 'pclk-sample' property but 
-UB953 has 'data-lanes' property. The descriptions differ also a bit for 
-the above mentioned difference.
-
-The above points would still allow combining the bindings, though. But I 
-feel the UB913 is somewhat a different class of serializer device 
-compared to UB953 (and UB971 which the UB953's binding also supports), 
-so my gut feeling says it's better to keep them separate. But I don't 
-have much experience on maintaining such bindings, and, afaik, we could 
-always split the bindings later if needed.
-
-So... Do you have a preference on either way? Or maybe we can come back 
-to this after I send the next version with the updates.
-
-> In the subjects, drop 'binding for'. The prefix says this is a binding.
-> Maybe add 'Serializer'.
-
-Ok.
-
-  Tomi
+diff --git a/drivers/media/platform/ti/omap3isp/isp.c b/drivers/media/platform/ti/omap3isp/isp.c
+index 1d40bb59ff81..e7327e38482d 100644
+--- a/drivers/media/platform/ti/omap3isp/isp.c
++++ b/drivers/media/platform/ti/omap3isp/isp.c
+@@ -2307,7 +2307,16 @@ static int isp_probe(struct platform_device *pdev)
+ 
+ 	/* Regulators */
+ 	isp->isp_csiphy1.vdd = devm_regulator_get(&pdev->dev, "vdd-csiphy1");
++	if (IS_ERR(isp->isp_csiphy1.vdd)) {
++		ret = PTR_ERR(isp->isp_csiphy1.vdd);
++		goto error;
++	}
++
+ 	isp->isp_csiphy2.vdd = devm_regulator_get(&pdev->dev, "vdd-csiphy2");
++	if (IS_ERR(isp->isp_csiphy2.vdd)) {
++		ret = PTR_ERR(isp->isp_csiphy2.vdd);
++		goto error;
++	}
+ 
+ 	/* Clocks
+ 	 *
+-- 
+2.25.1
 
