@@ -2,57 +2,57 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DBB7865D0E3
+	by mail.lfdr.de (Postfix) with ESMTP id 915B165D0E2
 	for <lists+linux-media@lfdr.de>; Wed,  4 Jan 2023 11:47:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234789AbjADKqH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 4 Jan 2023 05:46:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57282 "EHLO
+        id S238926AbjADKqI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 4 Jan 2023 05:46:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57254 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234701AbjADKpy (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 4 Jan 2023 05:45:54 -0500
-Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com [IPv6:2a00:1450:4864:20::631])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A6E712AE1
-        for <linux-media@vger.kernel.org>; Wed,  4 Jan 2023 02:45:53 -0800 (PST)
-Received: by mail-ej1-x631.google.com with SMTP id qk9so81382850ejc.3
-        for <linux-media@vger.kernel.org>; Wed, 04 Jan 2023 02:45:53 -0800 (PST)
+        with ESMTP id S234903AbjADKpz (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 4 Jan 2023 05:45:55 -0500
+Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com [IPv6:2a00:1450:4864:20::52e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4DAC61029
+        for <linux-media@vger.kernel.org>; Wed,  4 Jan 2023 02:45:54 -0800 (PST)
+Received: by mail-ed1-x52e.google.com with SMTP id c17so47913820edj.13
+        for <linux-media@vger.kernel.org>; Wed, 04 Jan 2023 02:45:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=KyBrI1RwfXQizMxJ8rnnrBo4q45UrKGn2OI35vCZsYY=;
-        b=Uep3phL55FIMMwa37576Z/9XYaU7Cjh/iSkuW19M9vpAiL+74bvM1KKqyQMnfC5vO1
-         2/ANgpV/Fvb0SiM+laEYOILg+QbE0pSwYEdxLv26eD+7k9FRRQJA23cVPxX1Ou6UfxYj
-         FfZTQ9PbbKeBDGGS3JYlBg8ew6fyphoje1Hok=
+        bh=LJWDrSRhEFhfGsFyYK0V6BHpJWAjFj2NsvQbNJQkprs=;
+        b=gJi0oHoP2yFg0MctdLdpqE2ESdF2cHoQkqWB66CMsRRLkx7Q4QcBm7En77HJmkBgFL
+         Izg676PvTW3XeZPahl4WF8CF/bP+GLi9KfSdZh+ABN6xGgZlawamckeOJk4ph6cCN5PG
+         4i8B81JkqAThkZHqUJd26IiL1i4wbcNfWbzZ4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=KyBrI1RwfXQizMxJ8rnnrBo4q45UrKGn2OI35vCZsYY=;
-        b=SwjIIwqIRjAl1QxD+/S4zyvklRUZjSS+dXkrLXbmdvDAeZK9cQfYOjlx8Lw/mCbkHV
-         10rMzf6FsoqJa+rXwQQDnpH0aLGY0T+kg8dh75PWY0jopU5Oew2BL/XjEU20I6Liv7At
-         c4fo1u6ayIAMrWk93T4wHD+GzHRdsMt4PTeb/aWSJIUQ6wpkvXNe0Wglco8yL7AG/ntU
-         HOBDqmhanw0obhEW8uMOwhHLnCIqTMmEvljCFZLRqCnjyvl0fXPhYCsAgHviuYObOJ9r
-         73KmvaUWUC8I3t3TsCmQoBPVMek3+IjQmrlFFRi38srjKakZggfVrA8+GkDKQpj/HZZE
-         EpGA==
-X-Gm-Message-State: AFqh2ko+W8cufxF7OBGBL3FuY1J/aHDPyBOlfieUyrW0RGlBLvidNmkh
-        d0dCnnp/IDNpfTAojeHaYxRTT2NCqngLYX/sABg=
-X-Google-Smtp-Source: AMrXdXt00As5fSHArbEefv7fvImmjhDllCRKY5zJkWdWW9VOhpNt1PeXLA6fuJJKbzPfqo0kgnX+Kw==
-X-Received: by 2002:a17:906:5619:b0:7c0:faca:52c with SMTP id f25-20020a170906561900b007c0faca052cmr40663884ejq.37.1672829151931;
-        Wed, 04 Jan 2023 02:45:51 -0800 (PST)
+        bh=LJWDrSRhEFhfGsFyYK0V6BHpJWAjFj2NsvQbNJQkprs=;
+        b=HsJSHfuqVwoPFo7TUeJrj7g5e9hR5qkcj4zrduKux7NFF6wmmNK1LyINnPwJtJM6TW
+         Dtjy4HO+8Pm8+WsGMr/M0D601a8urPmgqmrM6aQP+fY0Z0HHJIt8F71+fGzCzN+DnKH5
+         SUyilNr/IkoQe3fhZFagUMy7Os76w55DUdfrtoqoa3bKQy3Rbs4qPr3TFw6/E1Q6CWHp
+         t5qW9xc3wz9wYtjQBJD+XRArBl5DNhXBZbSHoZZqyV0aneRtqwkgeSHHONih0H7Xs2BV
+         mqbAa/s4M2qGiiHL/BM2O7xwjurcezRacTj55VnBK28M9WQou+36o4QhiYLA5erf4t8i
+         5woQ==
+X-Gm-Message-State: AFqh2ko3vrHBZX2XkpCyyv4HQ5O1IliEJqon6rZhiu2/bh9hBOvXPSjo
+        5BoNUxmIsSjYzNj2reVCzh1y5ne3ogw93EssLB4=
+X-Google-Smtp-Source: AMrXdXuS4vfaZZii0jO+B5dF7EA8vQwvjlYTY9/UdmdXB68ZtW1E+NuTsFnjDJ9eUICjM5bPhRPVaQ==
+X-Received: by 2002:a05:6402:3807:b0:47e:eb84:c598 with SMTP id es7-20020a056402380700b0047eeb84c598mr39079345edb.30.1672829152764;
+        Wed, 04 Jan 2023 02:45:52 -0800 (PST)
 Received: from alco.roam.corp.google.com ([2620:0:1059:10:6531:9bb0:b3f7:86a8])
-        by smtp.gmail.com with ESMTPSA id g32-20020a056402322000b0048c85c5ad30sm4754971eda.83.2023.01.04.02.45.51
+        by smtp.gmail.com with ESMTPSA id g32-20020a056402322000b0048c85c5ad30sm4754971eda.83.2023.01.04.02.45.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Jan 2023 02:45:51 -0800 (PST)
+        Wed, 04 Jan 2023 02:45:52 -0800 (PST)
 From:   Ricardo Ribalda <ribalda@chromium.org>
-Date:   Wed, 04 Jan 2023 11:45:20 +0100
-Subject: [PATCH v3 2/8] media: uvc: Allow quirking by entity guid
+Date:   Wed, 04 Jan 2023 11:45:21 +0100
+Subject: [PATCH v3 3/8] media: uvc: Create UVC_QUIRK_IGNORE_EMPTY_TS quirk
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20220920-resend-hwtimestamp-v3-2-db9faee7f47d@chromium.org>
+Message-Id: <20220920-resend-hwtimestamp-v3-3-db9faee7f47d@chromium.org>
 References: <20220920-resend-hwtimestamp-v3-0-db9faee7f47d@chromium.org>
 In-Reply-To: <20220920-resend-hwtimestamp-v3-0-db9faee7f47d@chromium.org>
 To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
@@ -61,84 +61,138 @@ Cc:     linux-kernel@vger.kernel.org, "hn.chen" <hn.chen@sunplusit.com>,
         Ricardo Ribalda <ribalda@chromium.org>,
         linux-media@vger.kernel.org
 X-Mailer: b4 0.11.0-dev-696ae
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1797; i=ribalda@chromium.org;
- h=from:subject:message-id; bh=FoOybSKY0S3eTj4qt7v1f6DB//nxdb92ZYxbnB6L0cM=;
- b=owEBbQKS/ZANAwAKAdE30T7POsSIAcsmYgBjtVjRUGIm+ptCBoYbh0RSttvX3gody0gvY/pWZOUo
- z25/ILuJAjMEAAEKAB0WIQREDzjr+/4oCDLSsx7RN9E+zzrEiAUCY7VY0QAKCRDRN9E+zzrEiJyED/
- 4smqXXbUx0OhCo1Gk2G1q5NSxcv/gZhUPIrEp2CohBfmROuHc6K1uWFI1PSWxodXVZi2w/hOugVSCN
- ptF8H4UiBgG0CRwz/UMibCVCYQ5/ODjGYOvcqlieVFr9wvog+Pahb2fzfCXzw/Up1qVUUynedr9WXj
- PZUOovW8NBWkos2NsAIE8qZ6oj8QRFiHck2hdqxpHrJsENA4NbHVrNldoVOFsf/VrGi5RCempnU4aL
- L7QwrwiA8A3YVK+6tTdRFnkEKD9ZCDD2FEyyHPj0TqG+HxVFDmxlDfo1IJ9uHS0h6Sc/pgjMMUNl4C
- 20esCE33VIUp+jT4j2mC6EL+AEe8txMbzavnbHbVRL1BshNFl5EgmoNO72p7peoCS8ZfbSTXBXz1Wg
- gI0xVENtpBIQ0A64LjlAGM/sqOCAj/j0JkgwK/S6rLPeWbLRWgizLqXfnV4kvz9TV7CjWBVO2KcgAu
- OBZ7V4kB8YvO0zh+VvOc6QbsTjoSm/sLzqu3jPqAPk9PmrOY/Z0fWAqx5UZEbuSUIuoZe3bZeYW5DX
- OGiv1eBKLAVISJ1toBBYhwbQIHcNF6pqipBUmfpdN6HOPiwLvHZDDrCOaSA9I6RkkKmJfHF+5nog8e
- N6unuSrLBaSDn2KDvWYkEVIZU5086LK9v44mMuZH1TeJSKe54wgDHAcCeyQg==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3974; i=ribalda@chromium.org;
+ h=from:subject:message-id; bh=BJkG5vQwJjJAWQiYn2AnT8oOmSykPtFRv62ZOzP7kUA=;
+ b=owEBbQKS/ZANAwAKAdE30T7POsSIAcsmYgBjtVjT3benz16nMI5QBuxLX89IhlFS3jj70mLziY7U
+ 2sKTeoKJAjMEAAEKAB0WIQREDzjr+/4oCDLSsx7RN9E+zzrEiAUCY7VY0wAKCRDRN9E+zzrEiAA8D/
+ 49aOWCU5C/qlUPltX1KrAh75mVvc1R54PVqNns8jIVP6/vUO8mqFoeD0Ox3MdmyvrRQYoYp1Zh+tNV
+ vHCmFS5HcDZd9IYDTQfQ6aFrstJS1pOhWO+vo5Ed9eksrydvvPYtjKfOj6KtW0SBL5MBzMe6iJIXrd
+ TOotq9qlhu8B6n+L1C0fJbw3GOfjsW7KtdPV+HbpBEW9V5GUl0GeDY6tr+/b5mwq87gr4z++dpg7ig
+ TbNOByRJXeI2An/RrUg+qhPlT3jhQszJcJYIvtR+4z0MZJqs+T1qo/10LybboyeL1GZGZoB8vFxQAa
+ dwSPFPFmQTzckc99NivjZq+gwBQV/pex40z7Af7nwboemFTfWKhUMxI3inwV75qRsbADvBF8AZBq+o
+ 7ATjhHfL5WCaq3/fia1wROy3yBAEdDmh2Yv+RHKBoG8y5/TW/oz2VcITIiDgRmu7ZOg66YkLQakjTv
+ EIM1Jj+EDE509i/sX1lSnj5oz9I4gKGnSRdnA3/4CtkJ1ZHceN8+OgxHGzxps8P68MmKKL2TFos7fO
+ Mg+kdIoo65ANupzDpmMCf/Cj6jE/yJF3FMyJprKtHgSiup8PalkiySFmkPfhoIk55WPY9h8TvZ2QcZ
+ ZRNN3FlDieDn8JIBD82/sJeRDsLeZIg2X9cbre8Ey7R2tv524Ii1i/fwWZeA==
 X-Developer-Key: i=ribalda@chromium.org; a=openpgp;
  fpr=9EC3BB66E2FC129A6F90B39556A0D81F9F782DA9
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-When an IP is shared by multiple devices its erratas will be shared by
-all of them. Instead of creating a long list of device quirks, or
-waiting for the users to report errors in their hardware lets add a
-routine to add quirks based on the entity guid.
+Some SunplusIT cameras took a borderline interpretation of the UVC 1.5
+standard, and fill the PTS and SCR fields with invalid data if the
+package does not contain data.
+
+"STC must be captured when the first video data of a video frame is put
+on the USB bus."
+
+Eg:
+
+buffer: 0xa7755c00 len 000012 header:0x8c stc 00000000 sof 0000 pts 00000000
+buffer: 0xa7755c00 len 000012 header:0x8c stc 00000000 sof 0000 pts 00000000
+buffer: 0xa7755c00 len 000668 header:0x8c stc 73779dba sof 070c pts 7376d37a
+
+This borderline/buggy interpretation has been implemented in a variety
+of devices, from directly SunplusIT and from other OEMs that rebrand
+SunplusIT products.
+
+Luckily we can identify the affected modules by looking at the guid of
+one of the extension units:
+
+VideoControl Interface Descriptor:
+  guidExtensionCode         {82066163-7050-ab49-b8cc-b3855e8d221d}
+
+This patch adds a new quirk to take care of this.
+
+lsusb of one of the affected cameras:
+
+Bus 001 Device 003: ID 1bcf:2a01 Sunplus Innovation Technology Inc.
+Device Descriptor:
+  bLength                18
+  bDescriptorType         1
+  bcdUSB               2.01
+  bDeviceClass          239 Miscellaneous Device
+  bDeviceSubClass         2 ?
+  bDeviceProtocol         1 Interface Association
+  bMaxPacketSize0        64
+  idVendor           0x1bcf Sunplus Innovation Technology Inc.
+  idProduct          0x2a01
+  bcdDevice            0.02
+  iManufacturer           1 SunplusIT Inc
+  iProduct                2 HanChen Wise Camera
+  iSerial                 3 01.00.00
+  bNumConfigurations      1
 
 Tested-by: HungNien Chen <hn.chen@sunplusit.com>
 Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 ---
- drivers/media/usb/uvc/uvc_driver.c | 25 +++++++++++++++++++++++++
- 1 file changed, 25 insertions(+)
+ drivers/media/usb/uvc/uvc_driver.c | 11 +++++++++++
+ drivers/media/usb/uvc/uvc_video.c  | 10 ++++++++++
+ drivers/media/usb/uvc/uvcvideo.h   |  1 +
+ 3 files changed, 22 insertions(+)
 
 diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-index bd3716a359b0..5448576a8413 100644
+index 5448576a8413..c5ab6e2d24c3 100644
 --- a/drivers/media/usb/uvc/uvc_driver.c
 +++ b/drivers/media/usb/uvc/uvc_driver.c
-@@ -1195,6 +1195,28 @@ static int uvc_parse_control(struct uvc_device *dev)
- 	return 0;
- }
+@@ -1199,6 +1199,17 @@ static const struct uvc_entity_quirk {
+ 	u8 guid[16];
+ 	u32 quirks;
+ } uvc_entity_quirk[] = {
++	/*
++	 * Some SunPlusIT uvc 1.5 device firmware expects that packages with
++	 * no frame data are ignored by the host. Therefore it does not clear
++	 * the PTS/SCR bits in the header, and breaks the timestamp decode
++	 * algorithm.
++	 */
++	{
++		.guid = {0x82, 0x06, 0x61, 0x63, 0x70, 0x50, 0xab, 0x49,
++			 0xb8, 0xcc, 0xb3, 0x85, 0x5e, 0x8d, 0x22, 0x1d},
++		.quirks = UVC_QUIRK_IGNORE_EMPTY_TS,
++	},
+ };
  
-+static const struct uvc_entity_quirk {
-+	u8 guid[16];
-+	u32 quirks;
-+} uvc_entity_quirk[] = {
-+};
-+
-+static void uvc_entity_quirks(struct uvc_device *dev)
-+{
-+	struct uvc_entity *entity;
-+	unsigned int i;
-+
-+	list_for_each_entry(entity, &dev->entities, list) {
-+		for (i = 0; i < ARRAY_SIZE(uvc_entity_quirk); i++) {
-+			if (memcmp(entity->guid, uvc_entity_quirk[i].guid,
-+				   sizeof(entity->guid)) == 0) {
-+				dev->quirks |= uvc_entity_quirk[i].quirks;
-+				break;
-+			}
-+		}
-+	}
-+}
-+
- /* -----------------------------------------------------------------------------
-  * Privacy GPIO
-  */
-@@ -2154,6 +2176,9 @@ static int uvc_probe(struct usb_interface *intf,
- 		goto error;
- 	}
+ static void uvc_entity_quirks(struct uvc_device *dev)
+diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
+index def079c7a6fd..f469c62bedca 100644
+--- a/drivers/media/usb/uvc/uvc_video.c
++++ b/drivers/media/usb/uvc/uvc_video.c
+@@ -500,6 +500,16 @@ uvc_video_clock_decode(struct uvc_streaming *stream, struct uvc_buffer *buf,
+ 	if (len < header_size)
+ 		return;
  
-+	/* Apply entity based quirks */
-+	uvc_entity_quirks(dev);
++	/*
++	 * Some devices make a borderline interpreation of the UVC 1.5 standard
++	 * and the packets with no data contain undefined timestamps. Ignore
++	 * such packages to avoid interfering with the clock interpolation
++	 * algorithm.
++	 */
++	if (stream->dev->quirks & UVC_QUIRK_IGNORE_EMPTY_TS &&
++	    len == header_size)
++		return;
 +
- 	dev_info(&dev->udev->dev, "Found UVC %u.%02x device %s (%04x:%04x)\n",
- 		 dev->uvc_version >> 8, dev->uvc_version & 0xff,
- 		 udev->product ? udev->product : "<unnamed>",
+ 	/*
+ 	 * Extract the timestamps:
+ 	 *
+diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
+index df93db259312..c3424ae29339 100644
+--- a/drivers/media/usb/uvc/uvcvideo.h
++++ b/drivers/media/usb/uvc/uvcvideo.h
+@@ -74,6 +74,7 @@
+ #define UVC_QUIRK_RESTORE_CTRLS_ON_INIT	0x00000400
+ #define UVC_QUIRK_FORCE_Y8		0x00000800
+ #define UVC_QUIRK_FORCE_BPP		0x00001000
++#define UVC_QUIRK_IGNORE_EMPTY_TS	0x00002000
+ 
+ /* Format flags */
+ #define UVC_FMT_FLAG_COMPRESSED		0x00000001
 
 -- 
 2.39.0.314.g84b9a713c41-goog-b4-0.11.0-dev-696ae
