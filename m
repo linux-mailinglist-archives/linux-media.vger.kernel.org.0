@@ -2,289 +2,139 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 64F6865D549
-	for <lists+linux-media@lfdr.de>; Wed,  4 Jan 2023 15:15:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 048CE65D54A
+	for <lists+linux-media@lfdr.de>; Wed,  4 Jan 2023 15:15:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229499AbjADOPE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 4 Jan 2023 09:15:04 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40874 "EHLO
+        id S231180AbjADOPX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 4 Jan 2023 09:15:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40454 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239660AbjADOOj (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 4 Jan 2023 09:14:39 -0500
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3164A3D9E4
-        for <linux-media@vger.kernel.org>; Wed,  4 Jan 2023 06:14:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1672841657; x=1704377657;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=eMusruD1Fx4qT9EOXzPlabtPan6o7e7x0HMym+K3ErA=;
-  b=V3e5pBM54Q/i39ehLku8WTsLg3vn3DMf5cDQpjnbvwekw2dbpuc3AN+d
-   WQXGaXe7R29T3eDNHG3G4cALJs7jygLQsiGHkXeH0XE+UsOMu2mEDP4rU
-   LmbZz9LaKrMhMULzlMcSVJiX0Mu1c1FC7hhH9B6epQTBlZ1sqXj9jdtvn
-   +c89E0M21GYnOOkA7MeoTFC1kdrkhYX1yDHzMuIT9pmkj9ViXOMxBCAhS
-   kl3hcEAFaqmvB0nTDkJaEXaHIuCo2b8tkNzM51+gAhLuGY5YN/fKjeNwd
-   rhkaAqCMA368KOXmPArkzUtdaZJcCGQ7LgOL8QeI4ONw58c2sdhjWdIOP
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10580"; a="384233004"
-X-IronPort-AV: E=Sophos;i="5.96,300,1665471600"; 
-   d="scan'208";a="384233004"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jan 2023 06:14:16 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10580"; a="605191802"
-X-IronPort-AV: E=Sophos;i="5.96,300,1665471600"; 
-   d="scan'208";a="605191802"
-Received: from punajuuri.fi.intel.com (HELO paasikivi.fi.intel.com) ([10.237.72.43])
-  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jan 2023 06:14:14 -0800
-Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
-        by paasikivi.fi.intel.com (Postfix) with SMTP id B7C3D20078;
-        Wed,  4 Jan 2023 16:14:11 +0200 (EET)
-Date:   Wed, 4 Jan 2023 14:14:11 +0000
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        linux-media@vger.kernel.org,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        niklas.soderlund+renesas@ragnatech.se,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        satish.nagireddy@getcruise.com, Tomasz Figa <tfiga@chromium.org>
-Subject: Re: [PATCH v2 1/1] media: Documentation: Interaction between routes,
- formats and selections
-Message-ID: <Y7WJsx4E2rdoc88y@paasikivi.fi.intel.com>
-References: <20221207105809.911482-1-sakari.ailus@linux.intel.com>
- <Y5GtAmFjcaxSZ5y/@pendragon.ideasonboard.com>
- <Y6Aioq4eXrzlaqki@paasikivi.fi.intel.com>
- <Y6ndIdtiZ91GxPar@pendragon.ideasonboard.com>
+        with ESMTP id S235105AbjADOPH (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 4 Jan 2023 09:15:07 -0500
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 49BA33AAB4;
+        Wed,  4 Jan 2023 06:14:55 -0800 (PST)
+Received: from [IPV6:2001:4091:a244:801c:ff2e:9846:2bd1:fe62] (unknown [IPv6:2001:4091:a244:801c:ff2e:9846:2bd1:fe62])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: rmader)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 33D5F6602D11;
+        Wed,  4 Jan 2023 14:14:53 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1672841693;
+        bh=lw2JPVpDxfHC/ODQKCtrvMC8RVqDv1kVX/tAotai0sA=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=U2IkzowEhaZ6My70+KsMfUG2wTu7Wo8/9WWzs3e/C4T/o6/ekFvV2zLFfqXE7RwmY
+         K3yb847DCT284KExyldIYc28BR0P1yYhsH/w8PGONz9zVZYqshTaU+cW5QcNA/3wrP
+         X3MrNdJJB/WJEVRlsD+3xIKWrhwRuC307qczmI4kXkM/YXUUDfr5176aQKFUSgSx+G
+         hk4CXYAyMkdN8FBgH2eNwG52nXBeg9JbeIJbKPJ0fzbvG3ixJ2ajI5z9wyxlPDva6j
+         fQ2QXLZQIi+q0f40UeYOcBwyceoVZGHBVjGxWUWR5G7xUqn2HtaJ6Qn4KNJsDLB3oq
+         0H6P193wOSlxg==
+Message-ID: <e55766f0-5090-abb5-dbd7-58230153a8ce@collabora.com>
+Date:   Wed, 4 Jan 2023 15:14:50 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y6ndIdtiZ91GxPar@pendragon.ideasonboard.com>
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH v2] media: i2c: imx258: Parse and register properties
+Content-Language: en-US
+To:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc:     linux-kernel@vger.kernel.org, nicholas@rothemail.net,
+        javierm@redhat.com, Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org
+References: <20230104122337.123055-1-robert.mader@collabora.com>
+ <20230104141159.e2klapbpenslxqbx@uno.localdomain>
+From:   Robert Mader <robert.mader@collabora.com>
+In-Reply-To: <20230104141159.e2klapbpenslxqbx@uno.localdomain>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-3.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
-
-On Mon, Dec 26, 2022 at 07:42:57PM +0200, Laurent Pinchart wrote:
-> Hi Sakari,
-> 
-> On Mon, Dec 19, 2022 at 08:36:50AM +0000, Sakari Ailus wrote:
-> > On Thu, Dec 08, 2022 at 11:23:14AM +0200, Laurent Pinchart wrote:
-> > > On Wed, Dec 07, 2022 at 12:58:09PM +0200, Sakari Ailus wrote:
-> > > > Document how setting up routes interacts with formats and selections.
-> > > > 
-> > > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > > > ---
-> > > > since v1:
-> > > > 
-> > > > - Rewording changes based on Tomi's comments. In particular stricter
-> > > >   separation between "stream" and "stream ID".
-> > > > 
-> > > >  .../userspace-api/media/v4l/dev-subdev.rst    | 50 ++++++++++++++-----
-> > > >  1 file changed, 37 insertions(+), 13 deletions(-)
-> > > > 
-> > > > diff --git a/Documentation/userspace-api/media/v4l/dev-subdev.rst b/Documentation/userspace-api/media/v4l/dev-subdev.rst
-> > > > index 5075b1828b32d..92710bb9a0caa 100644
-> > > > --- a/Documentation/userspace-api/media/v4l/dev-subdev.rst
-> > > > +++ b/Documentation/userspace-api/media/v4l/dev-subdev.rst
-> > > > @@ -406,6 +406,8 @@ pixel array is not rectangular but cross-shaped or round. The maximum
-> > > >  size may also be smaller than the BOUNDS rectangle.
-> > > >  
-> > > >  
-> > > > +.. _format-propagation:
-> > > > +
-> > > >  Order of configuration and format propagation
-> > > >  ---------------------------------------------
-> > > >  
-> > > > @@ -507,12 +509,12 @@ source pads.
-> > > >  Streams, multiplexed media pads and internal routing
-> > > >  ----------------------------------------------------
-> > > >  
-> > > > -Commonly V4L2 subdevices support only separate video streams, that is, only a
-> > > > -single stream can pass through a media link and a media pad. Thus each pad
-> > > > -contains a format configuration for that single stream. In some cases a subdev
-> > > > -can do stream processing and split a stream into two or compose two streams
-> > > > -into one, but the inputs and outputs for the subdev are still a single stream
-> > > > -per pad.
-> > > > +Simple V4L2 subdevices do not support multiple, unrelated video streams,
-> > > > +and only a single stream can pass through a media link and a media pad.
-> > > > +Thus each pad contains a format and selection configuration for that
-> > > > +single stream. A subdev can do stream processing and split a stream into
-> > > > +two or compose two streams into one, but the inputs and outputs for the
-> > > > +subdev are still a single stream per pad.
-> > > >  
-> > > >  Some hardware, e.g. MIPI CSI-2, support multiplexed streams, that is, multiple
-> > > >  data streams are transmitted on the same bus, which is represented by a media
-> > > > @@ -539,14 +541,33 @@ streams from one end of the link to the other, and subdevices have routing
-> > > >  tables which describe how the incoming streams from sink pads are routed to the
-> > > >  source pads.
-> > > >  
-> > > > -A stream ID (often just "stream") is a media link-local identifier for a stream.
-> > > > +A stream ID is a media link-local identifier for a stream.
-> > > >  In other words, a particular stream ID must exist on both sides of a media
-> > > >  link, but another stream ID can be used for the same stream at the other side
-> > > > -of the subdevice.
-> > > > +of the subdevice. The same stream ID is used to refer to the stream on
-> > > > +both pads of the link on all ioctls operating on pads.
-> > > > +
-> > > > +A stream at a specific point in the media pipeline is identified by the
-> > > > +sub-devdev and a pad ID-stream ID pair. For subdevices that do not support
-> > > > +multiplexed streams the 'stream' field is always 0.
-> > > > +
-> > > > +Interaction between routes, formats and selections
-> > > 
-> > > s/selections/selection rectangles/
-> > > 
-> > > > +^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> > > > +
-> > > > +The addition of routes to the V4L2 sub-device interface moves the
-> > > > +sub-device formats and selections from pads to pad ID-stream ID pairs.
-> > > 
-> > > This reads as "pad" "ID-stream" "ID" "pairs". Even knowing how the API
-> > > behaves, I had trouble understanding this.
-> > 
-> > Well, that's perhaps a bit exaggerated but I agree the readability could be
-> > improved.
-> 
-> I promise I wasn't exagerating, I had to re-read the sentence multiple
-> times before getting what it meant :-)
-> 
-> > Maybe:
-> > 
-> > 	(pad ID, stream ID) pair
-> > 
-> > ? Not exactly great perhaps but should be easier to read.
-> 
-> How about
-> 
->   The addition of routes to the V4L2 sub-device interface moves the
->   sub-device formats and selections from pads to (pad, stream) pairs.
-> 
-> ? The text doesn't say "from pad IDs", so you could drop ID completely.
-
-That changes the meaning of it, for "stream" and "stream ID" are not the
-same things. I wonder if we could come up with another name for stream ID.
-
-> 
-> > > > +Besides the usual pad ID, also the stream ID needs to be provided for
-> > > > +setting formats and selections.
-> > > > +
-> > > > +Instead of the sub-device wide merging of streams from all source pads
-> > > > +towards all sink pads, data flows for each route are separate from each
-> > > > +other. Any number of routes from streams on sink pads towards streams on
-> > > > +source pads is allowed, to the extent supported by drivers. For every
-> > > > +stream on a sink pad, however, only a single route is allowed.
-> > > 
-> > > This explains routes, not format and selection rectangles.
-> > 
-> > Perhaps a few more words on formats and selections would be appropriate
-> > indeed.
-> > 
-> > > > -A stream at a specific point in the media pipeline is identified with the
-> > > > -subdev and a (pad, stream) pair. For subdevices that do not support
-> > > > -multiplexed streams the 'stream' is always 0.
-> > > > +Stream IDs, part of routes, are configured by using the
-> > > > +:ref:`VIDIOC_SUBDEV_S_ROUTING <VIDIOC_SUBDEV_G_ROUTING>` ioctl. This will
-> > > > +also revert the format and selection configuration to device defaults.
-> > > 
-> > > I don't expect someone who doesn't have detailed knowledge of the
-> > > implementation to understand what you mean here :-(
-> > > 
-> > > >  Configuring streams
-> > > >  ^^^^^^^^^^^^^^^^^^^
-> > > > @@ -565,8 +586,11 @@ Controller API <media_controller>`
-> > > >  setting the routing table will reset all the stream configurations in a media
-> > > >  entity.
-> > > >  
-> > > > -3) Configure streams. Each route endpoint must be configured
-> > > > -with :ref:`VIDIOC_SUBDEV_S_FMT <VIDIOC_SUBDEV_G_FMT>`.
-> > > > +3) Configure formats and selections. Each route is configured separately
-> > > 
-> > > We don't configure routes but streams, don't we ? Mentioning routes here
-> > > seems confusing to me.
-> > 
-> > Well, routing, format and selection APIs all apply to streams, don't they?
-> 
-> Yes, but a route is a connection between two streams within a subdev, so
-> formats and selection rectangles are not configured on routes but on
-> streams.
-
-It could be confusing for the reader to refer to streams only, as the
-formats (and selections) are propagated along the route. I'll see if I
-could include streams here.
-
-> 
-> > I'll see if I can make this easier to grasp.
-> > 
-> > > > +as documented plain subdevices in :ref:`<format-propagation>`. The stream
-> > > 
-> > > Did you mean "as documented for plain subdevices" ?
-> > 
-> > Yes.
-> > 
-> > > This is the part that bothers me. I don't think we can consider the
-> > > configuration of routes to be independent in the general case. How the
-> > > formats and selection rectangle of different streams interact with each
-> > > other is what I'd like to see documented.
-> > 
-> > That is device specific in the end. Even without routes there are hardware
-> > specific limitations on what can be done, in this case it's just that other
-> > routes can be limiting as well.
-> 
-> That's right, but the V4L2 subdevice model nonetheless has a set of
-> rules that govern how formats and selection rectangles interact with
-> each other. Those rules are expected to apply to all devices and
-> drivers.
-
-Yes, but in this case the formats and selections do not depend only on
-other formats and selections earlier on in the chain, but those configured
-on other stream IDs on that pad as well. There's not much we can say about
-that while keeping the interface functional. The behaviour does need to be
-specified more precisely, such as telling which stream is a master (could
-be called e.g. cat) of another, in order to convey it is affected by
-configuration of another stream.
-
-> 
-> In practice we have many drivers (in particular camera sensor drivers)
-> that behave incorrectly. One could argue that this means the rules are
-> not applicable, and we shouldn't try to carry this over to streams. For
-> devices that require a custom userspace anyway (such as ISPs), this
-> could be acceptable. For other devices, and in particular for camera
-> sensor drivers, I strongly disagree. We need a stricter set of rules to
-> make it possible to implement a generic userspace.
-> 
-> > But as both are configured by the user, what takes priority, the
-> > pre-existing configuration or the new configuration set by the user? I
-> > think we indeed need rules for that.
-> > 
-> > > As this is an area that has been entirely unexplored until now as far as
-> > > I can tell, I would be fine if we wanted to merge streams support
-> > > without support for selection rectangles to start with, and experiment
-> > > with the selection API later, once we have good use cases that can be
-> > > used for design and development.
-> > 
-> > Formats have dependencies, too, but perhaps a little less than if you add
-> > selections to the mix, too. In any case this should be documented in a
-> > different section.
-> 
-> You can pick the section in which you'd like to document this :-)
-> 
-> > > > +ID is set to the same stream ID associated with either sink or source pads
-> > > > +of routes configured using the :ref:`VIDIOC_SUBDEV_S_ROUTING
-> > > > +<VIDIOC_SUBDEV_G_ROUTING>` ioctl.
-> > > >  
-> > > >  Multiplexed streams setup example
-> > > >  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> 
-
--- 
-Kind regards,
-
-Sakari Ailus
+On 04.01.23 15:11, Jacopo Mondi wrote:
+> Hi Robert
+>
+> On Wed, Jan 04, 2023 at 01:23:37PM +0100, Robert Mader wrote:
+>> Analogous to e.g. the imx219. This enables propagating
+>> V4L2_CID_CAMERA_ORIENTATION and V4L2_CID_CAMERA_SENSOR_ROTATION
+>> values.
+>> The motivation is to allow libcamera detect these values from the
+>> device tree and propagate them further to e.g. Pipewire.
+>>
+>> While at it, reserve space for 3 additional controls even if
+>> v4l2_ctrl_new_fwnode_properties() can only register 2 of
+>> them, to fix the existing implementation which reserve space for 8
+>> controls but actually registers 9.
+>>
+>> Changes in v2:
+>>   - Reserve 11 instead of 10 controls
+>>   - Change order of variable declaration
+>>   - Slightly extend description
+> This part should go below, after ---, as it shouldn't be part of the commit
+> message
+>
+> The patch looks good
+>
+> Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Thanks! And ops, right, make sense. Should I spin a v3 for that or is it 
+simple enough to fix when pulling?
+>> Signed-off-by: Robert Mader <robert.mader@collabora.com>
+>> ---
+>>   drivers/media/i2c/imx258.c | 13 ++++++++++++-
+>>   1 file changed, 12 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/media/i2c/imx258.c b/drivers/media/i2c/imx258.c
+>> index eab5fc1ee2f7..3b560865b657 100644
+>> --- a/drivers/media/i2c/imx258.c
+>> +++ b/drivers/media/i2c/imx258.c
+>> @@ -9,6 +9,7 @@
+>>   #include <linux/pm_runtime.h>
+>>   #include <media/v4l2-ctrls.h>
+>>   #include <media/v4l2-device.h>
+>> +#include <media/v4l2-fwnode.h>
+>>   #include <asm/unaligned.h>
+>>
+>>   #define IMX258_REG_VALUE_08BIT		1
+>> @@ -1148,6 +1149,7 @@ static const struct v4l2_subdev_internal_ops imx258_internal_ops = {
+>>   static int imx258_init_controls(struct imx258 *imx258)
+>>   {
+>>   	struct i2c_client *client = v4l2_get_subdevdata(&imx258->sd);
+>> +	struct v4l2_fwnode_device_properties props;
+>>   	struct v4l2_ctrl_handler *ctrl_hdlr;
+>>   	s64 vblank_def;
+>>   	s64 vblank_min;
+>> @@ -1156,7 +1158,7 @@ static int imx258_init_controls(struct imx258 *imx258)
+>>   	int ret;
+>>
+>>   	ctrl_hdlr = &imx258->ctrl_handler;
+>> -	ret = v4l2_ctrl_handler_init(ctrl_hdlr, 8);
+>> +	ret = v4l2_ctrl_handler_init(ctrl_hdlr, 11);
+>>   	if (ret)
+>>   		return ret;
+>>
+>> @@ -1232,6 +1234,15 @@ static int imx258_init_controls(struct imx258 *imx258)
+>>   		goto error;
+>>   	}
+>>
+>> +	ret = v4l2_fwnode_device_parse(&client->dev, &props);
+>> +	if (ret)
+>> +		goto error;
+>> +
+>> +	ret = v4l2_ctrl_new_fwnode_properties(ctrl_hdlr, &imx258_ctrl_ops,
+>> +					      &props);
+>> +	if (ret)
+>> +		goto error;
+>> +
+>>   	imx258->sd.ctrl_handler = ctrl_hdlr;
+>>
+>>   	return 0;
+>> --
+>> 2.39.0
+>>
