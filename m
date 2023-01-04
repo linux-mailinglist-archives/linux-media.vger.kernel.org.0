@@ -2,105 +2,122 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EE9CD65D43F
-	for <lists+linux-media@lfdr.de>; Wed,  4 Jan 2023 14:32:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1086165D45F
+	for <lists+linux-media@lfdr.de>; Wed,  4 Jan 2023 14:35:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239068AbjADNcL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 4 Jan 2023 08:32:11 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35120 "EHLO
+        id S230420AbjADNf5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 4 Jan 2023 08:35:57 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36624 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239407AbjADNbf (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 4 Jan 2023 08:31:35 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 11EB6FAD9;
-        Wed,  4 Jan 2023 05:30:04 -0800 (PST)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 740336F0;
-        Wed,  4 Jan 2023 14:30:01 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1672839001;
-        bh=uhRldtdvTek1dhMsrtnOwymgShLrF7W4WbCLB82sKks=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=ThWjBZs06NtjhtmTCo7Z/VtV6lx8RKIlyGrcoZQ5Yp4ecSP9jpHamz4WC3MjpRbaj
-         7iQgPFS1EQbvKkZLWzxfvTmlnvjiDz2dDoIa0UF5j+Lx0Dwwai6yD9sV1C6GcWI35c
-         AoTGN6gNMSppceoxpXS5w/IoSzrzerXpcI1TrD3Y=
-Date:   Wed, 4 Jan 2023 15:29:57 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Andy Shevchenko <andriy.shevchenko@intel.com>
-Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Wolfram Sang <wsa@kernel.org>,
-        Luca Ceresoli <luca.ceresoli@bootlin.com>,
-        Matti Vaittinen <Matti.Vaittinen@fi.rohmeurope.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Peter Rosin <peda@axentia.se>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Michael Tretter <m.tretter@pengutronix.de>,
-        Shawn Tu <shawnx.tu@intel.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Mike Pagano <mpagano@gentoo.org>,
-        Krzysztof =?utf-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>,
-        Marek Vasut <marex@denx.de>
-Subject: Re: [PATCH v5 7/8] media: i2c: add DS90UB913 driver
-Message-ID: <Y7V/VQAol+pMwKje@pendragon.ideasonboard.com>
-References: <20221208104006.316606-1-tomi.valkeinen@ideasonboard.com>
- <20221208104006.316606-8-tomi.valkeinen@ideasonboard.com>
- <Y5YiazDtaxtLJyL0@pendragon.ideasonboard.com>
- <4d349785-ca37-d930-db3c-2581bba9fde0@ideasonboard.com>
- <Y6nTV16me9aQL3iT@pendragon.ideasonboard.com>
- <Y6tRB6DckOKWYHTv@smile.fi.intel.com>
+        with ESMTP id S239441AbjADNfT (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 4 Jan 2023 08:35:19 -0500
+Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8699442E22;
+        Wed,  4 Jan 2023 05:33:19 -0800 (PST)
+Received: by mail-wr1-x431.google.com with SMTP id t15so24089430wro.9;
+        Wed, 04 Jan 2023 05:33:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=1OZYEOsIa4HC8bLEt9jxOMrEzLh4jE7nib0ZT+FWq/g=;
+        b=SpSZbnAzW6o9lg07NRzRVSfCJpbhYU7a2YVcM/TLkt2cPBzgq5yO33mVU57wQ14Ez+
+         lzUdAcGRRgxyCuqpYSk8Bq4k3/N4Jj4C+CyVZROziBQ0kgqELjPMNQTgm2pMaIilbHz9
+         /kT+HrG87x5VlCzEnKybjkC3u2hgkRrW7cO6PDSI7BMHVAgIUuEZQE/Tx7s4dGPQxItx
+         Pwccv0rxsXD2UyJc/7TsLF0xQb8oYXWCsNegth8cxa73RWYXa2F2nKtgtqS7GiUl6/+r
+         UYsxu5am1bQCRzGlem2QX1gEh0jw0YuzNu1ROY18vdETW9ZGOoTv5nzEtZvshPytMk5b
+         szcw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=1OZYEOsIa4HC8bLEt9jxOMrEzLh4jE7nib0ZT+FWq/g=;
+        b=bXZrr/GFJj09OM9GybaXDnq4Qhm5mJ+6okyW+NOLimp+g5FIa3SyMFF2CW/vf3RfX6
+         wtmE2uh9dxrcA89ptQgi+x7Om77Xo0eAukk7mMSO6hqfbNgJ+LkbGaZra7J4jbkGtdzT
+         NteJIJZ8eAkLJr9dMdWUOrnBPraP3FF/+bSM6gQ9KFgP9IeavOVQVEBZifJGWvqF8HHd
+         +4cCCKuSyTOPbpTwMNhDCaJQyeChkbOAcdC+1y8queYncSQVT2WKKR3o9mpk7IRWdJ5L
+         5qlwa28gCRYlDwgm5kWCMrcVsvkUve6YuOS+REEbXcSF+1g6lY+oifKVOCKyfySnPbTm
+         qYZA==
+X-Gm-Message-State: AFqh2kpTQr11JE87FUUbzxvTY2Kcfvpb39oKBTLVuES9C1BGRjlVXeD9
+        YaH9NAB3kMPLa6yNaRzsWfI=
+X-Google-Smtp-Source: AMrXdXs4S3mE1SgBSPU2HGJPt7oU9k09p3+BZXz1hKBcx6RAjNzKLxxc12jfkmafWZjX6s/MtZFqOw==
+X-Received: by 2002:a5d:54d0:0:b0:24a:e56d:e20 with SMTP id x16-20020a5d54d0000000b0024ae56d0e20mr29166930wrv.29.1672839190899;
+        Wed, 04 Jan 2023 05:33:10 -0800 (PST)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id s13-20020adfdb0d000000b002420dba6447sm34648247wri.59.2023.01.04.05.33.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 04 Jan 2023 05:33:10 -0800 (PST)
+Date:   Wed, 4 Jan 2023 16:33:07 +0300
+From:   Dan Carpenter <error27@gmail.com>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     Aleksandr Burakov <a.burakov@rosalinux.ru>,
+        Bingbu Cao <bingbu.cao@intel.com>,
+        Tianshu Qiu <tian.shu.qiu@intel.com>,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-kernel@vger.kernel.org, lvc-project@linuxtesting.org
+Subject: Re: [PATCH] staging: media: ipu3: buffer overflow fix in
+ imgu_map_node
+Message-ID: <Y7WAExw/lQg4cd1E@kadam>
+References: <20221223123025.5948-1-a.burakov@rosalinux.ru>
+ <Y7LfAR4QdIzp81yW@paasikivi.fi.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Y6tRB6DckOKWYHTv@smile.fi.intel.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <Y7LfAR4QdIzp81yW@paasikivi.fi.intel.com>
+X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Dec 27, 2022 at 10:09:43PM +0200, Andy Shevchenko wrote:
-> On Mon, Dec 26, 2022 at 07:01:11PM +0200, Laurent Pinchart wrote:
-> > On Wed, Dec 14, 2022 at 08:29:48AM +0200, Tomi Valkeinen wrote:
-> > > On 11/12/2022 20:33, Laurent Pinchart wrote:
-> > > > On Thu, Dec 08, 2022 at 12:40:05PM +0200, Tomi Valkeinen wrote:
+On Mon, Jan 02, 2023 at 01:41:21PM +0000, Sakari Ailus wrote:
+> > diff --git a/drivers/staging/media/ipu3/ipu3.c b/drivers/staging/media/ipu3/ipu3.c
+> > index 0c453b37f8c4..cb09eb3cc227 100644
+> > --- a/drivers/staging/media/ipu3/ipu3.c
+> > +++ b/drivers/staging/media/ipu3/ipu3.c
+> > @@ -60,8 +60,10 @@ unsigned int imgu_map_node(struct imgu_device *imgu, unsigned int css_queue)
+> >  	for (i = 0; i < IMGU_NODE_NUM; i++)
+> >  		if (imgu_node_map[i].css_queue == css_queue)
+> >  			break;
+> > -
+> > -	return i;
+> > +	if (i < IMGU_NODE_NUM)
+> > +		return i;
+> > +	else
+> > +		return (IMGU_NODE_NUM - 1);
+> >  }
+> >  
+> >  /**************** Dummy buffers ****************/
 > 
-> ...
+> Thanks for the patch. It would require a bug elsewhere in the driver for
+> this to happen. If some handling for this case is added, it shouldn't be
+> hiding the issue.
 > 
-> > > >> +	dev_dbg(dev, "Bind %s\n", source_subdev->name);
-> > > > 
-> > > > I'd drop this message.
+> One easy way could be to add WARN_ON() for this, and return some value (as
+> you do). Zero would do equally well.
 > 
-> +1 here.
+> I.e.
 > 
-> > > Why is that? Do we get this easily from the v4l2 core? These debug 
-> > > prints in the bind/unbind process have been valuable for me.
-> > 
-> > Because debug messages are not meant to be a tracing infrastructure, and
-> > because, if we want to keep this message, it would be best handled in
-> > the v4l2-async core instead of being duplicated across drivers. Same for
-> > the messages at the end of the function.
+> 	return WARN_ON(i >= IMGU_NODE_NUM) ? 0 : i;
 > 
-> I don't think v4l2 needs debug prints. If we consider the above case, the
-> ftrace already provides that. If we consider something specific to v4l2 to
-> trace only critical parts, then trace events should be implemented.
 
-V4L2 has no support for trace events, and I agree that they would be
-useful. It doesn't mean that dev_dbg() is entirely useless though, and
-sometimes the line between the two isn't very clear. In any case, for
-this very specific debug message, I don't think it should be printed in
-individual drivers, but it should be handled in the V4L2 core, either as
-a debug message or a trace event.
+I sent basically the same response but somehow my email never went
+through...  I'm using mutt with gmail Oauth2 and msmtp and so my
+weekly(?) login has expired then something silently eats my outgoing
+emails.
 
--- 
-Regards,
+In this case the emails that I sent directly before and after went
+through so it seems like my login wasn't expired or everything would
+have been eaten.
 
-Laurent Pinchart
+This Oauth2 transition has just been so frustrating.  Am I the only
+person having trouble with it?
+
+regards,
+dan carpenter
+
