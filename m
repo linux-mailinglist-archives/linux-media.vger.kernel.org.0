@@ -2,45 +2,50 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EE2B065D23D
-	for <lists+linux-media@lfdr.de>; Wed,  4 Jan 2023 13:18:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1B69865D27C
+	for <lists+linux-media@lfdr.de>; Wed,  4 Jan 2023 13:24:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234103AbjADMSJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 4 Jan 2023 07:18:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45132 "EHLO
+        id S234350AbjADMYP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 4 Jan 2023 07:24:15 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49864 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233067AbjADMSH (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 4 Jan 2023 07:18:07 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D4C1D11836
-        for <linux-media@vger.kernel.org>; Wed,  4 Jan 2023 04:18:06 -0800 (PST)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id D00ED6C7;
-        Wed,  4 Jan 2023 13:18:03 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1672834684;
-        bh=r93CJllEYEDP8Xm7IUpafT7qhEYdZoawcEO3sTTRF3o=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=gAgsXFMqW9RveK+Bu8cHCXQZQtljd+1YBM23XePYMXnEKxXjQBh5fHaxmbGYJIS2X
-         TmgXeX5V6zwoTF4GvxMnLRfzc5YdG8Vv4utv0lSZhTta8yBKXHOsgsN5JrsrkVu8eO
-         XjMjdbY+475/iAx7ttIWH8+n90lMYG8Vb9zjBuDs=
-Date:   Wed, 4 Jan 2023 14:18:00 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Ricardo Ribalda <ribalda@chromium.org>
-Cc:     linux-media@vger.kernel.org,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>
-Subject: Re: [PATCH v2 2/2] media: uvcvideo: Drop custom format names for DV
- formats
-Message-ID: <Y7VueAazmXHPMjSW@pendragon.ideasonboard.com>
-References: <20230104111944.962-1-laurent.pinchart@ideasonboard.com>
- <20230104111944.962-3-laurent.pinchart@ideasonboard.com>
- <CANiDSCs=hc7M8ymXiVnp5MoSrB3E53v6eMrdriKXmnc790L31A@mail.gmail.com>
+        with ESMTP id S230200AbjADMYO (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 4 Jan 2023 07:24:14 -0500
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4EFD1DC;
+        Wed,  4 Jan 2023 04:24:13 -0800 (PST)
+Received: from desktop-fedora.fritz.box (unknown [IPv6:2001:4091:a244:801c:ff2e:9846:2bd1:fe62])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: rmader)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 7A1926602D11;
+        Wed,  4 Jan 2023 12:24:11 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1672835051;
+        bh=kHN/2peZ8F1bPcjIV89sdIjVmYmqi4lFfl55EO+Tx1A=;
+        h=From:To:Cc:Subject:Date:From;
+        b=b5VYnbfiEb6qzgpodn3wW4SltjOTnj01m6TbhuUy+A82dvqxrckXJYckhO/WjSwC9
+         ffVBeWgiTf/Mub6aQVk9giGog2gZoNAO7LN/E3ajlOVjWPzWeds0EJp09N8EM4jAVD
+         eCgqd18FXYAtd1cEv/q1VenmPVULNDL7ojOudWPBh6gP670TBRpImO1tqwfyueO26v
+         bPAzOqKPnI/575yMdFeKhzyI/IPab4Sp73sBfkw6ye5m0wvU/m6SnSYIgoSeFjUznk
+         C/H7iRLKyMIcq/QJSatAYb05m6tUunPoOD1OhVQsMR3xyFbpRI1LuvJ5NdrSP1XlJg
+         8IGmtsQtyNKFA==
+From:   Robert Mader <robert.mader@collabora.com>
+To:     linux-kernel@vger.kernel.org
+Cc:     nicholas@rothemail.net, javierm@redhat.com, jacopo@jmondi.org,
+        Robert Mader <robert.mader@collabora.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org
+Subject: [PATCH v2] media: i2c: imx258: Parse and register properties
+Date:   Wed,  4 Jan 2023 13:23:37 +0100
+Message-Id: <20230104122337.123055-1-robert.mader@collabora.com>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CANiDSCs=hc7M8ymXiVnp5MoSrB3E53v6eMrdriKXmnc790L31A@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -48,103 +53,72 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Ricardo,
+Analogous to e.g. the imx219. This enables propagating
+V4L2_CID_CAMERA_ORIENTATION and V4L2_CID_CAMERA_SENSOR_ROTATION
+values.
+The motivation is to allow libcamera detect these values from the
+device tree and propagate them further to e.g. Pipewire.
 
-On Wed, Jan 04, 2023 at 12:51:11PM +0100, Ricardo Ribalda wrote:
-> Hi Laurent
-> 
-> For what it's worth, I am pro squash :)
+While at it, reserve space for 3 additional controls even if
+v4l2_ctrl_new_fwnode_properties() can only register 2 of
+them, to fix the existing implementation which reserve space for 8
+controls but actually registers 9.
 
-Works for me. I'll give a few more days for people to comment and then
-I'll send a squashed v3.
+Changes in v2:
+ - Reserve 11 instead of 10 controls
+ - Change order of variable declaration
+ - Slightly extend description
 
-> On Wed, 4 Jan 2023 at 12:19, Laurent Pinchart wrote:
-> >
-> > Unlike V4L2, UVC makes a distinction between the SD-DV, SDL-DV and HD-DV
-> > formats. It also indicates whether the DV format uses 50Hz or 60Hz. This
-> > information is parsed by the driver to construct a format name string
-> > that is printed in a debug message, but serves no other purpose as V4L2
-> > has a single V4L2_PIX_FMT_DV pixel format that covers all those cases.
-> >
-> > As the information is available in the UVC descriptors, and thus
-> > accessible to users with lsusb if they really care, don't log it in a
-> > debug message and drop the format name string to simplify the code.
-> >
-> > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> 
-> With or without my nits
-> 
-> Reviewed-by: Ricardo Ribalda <ribalda@chromium.org>
->
-> > ---
-> >  drivers/media/usb/uvc/uvc_driver.c | 18 +++---------------
-> >  1 file changed, 3 insertions(+), 15 deletions(-)
-> >
-> > diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-> > index 9852d6f63ae8..ba41f13a2491 100644
-> > --- a/drivers/media/usb/uvc/uvc_driver.c
-> > +++ b/drivers/media/usb/uvc/uvc_driver.c
-> > @@ -228,7 +228,6 @@ static int uvc_parse_format(struct uvc_device *dev,
-> >         struct uvc_format_desc *fmtdesc;
-> >         struct uvc_frame *frame;
-> >         const unsigned char *start = buffer;
-> > -       char fmtname[12] = { 0, };
-> >         unsigned int width_multiplier = 1;
-> >         unsigned int interval;
-> >         unsigned int i, n;
-> > @@ -325,14 +324,10 @@ static int uvc_parse_format(struct uvc_device *dev,
-> >
-> >                 switch (buffer[8] & 0x7f) {
-> >                 case 0:
-> > -                       strscpy(fmtname, "SD-DV", sizeof(fmtname));
-> > -                       break;
-> >                 case 1:
-> > -                       strscpy(fmtname, "SDL-DV", sizeof(fmtname));
-> > -                       break;
-> >                 case 2:
-> > -                       strscpy(fmtname, "HD-DV", sizeof(fmtname));
-> >                         break;
-> > +
-> >                 default:
-> >                         uvc_dbg(dev, DESCR,
-> >                                 "device %d videostreaming interface %d: unknown DV format %u\n",
-> > @@ -341,9 +336,6 @@ static int uvc_parse_format(struct uvc_device *dev,
-> >                         return -EINVAL;
-> >                 }
-> >
-> > -               strlcat(fmtname, buffer[8] & (1 << 7) ? " 60Hz" : " 50Hz",
-> > -                       sizeof(fmtname));
-> > -
-> >                 format->fcc = V4L2_PIX_FMT_DV;
-> >                 format->flags = UVC_FMT_FLAG_COMPRESSED | UVC_FMT_FLAG_STREAM;
-> >                 format->bpp = 0;
-> > @@ -370,12 +362,8 @@ static int uvc_parse_format(struct uvc_device *dev,
-> >                 return -EINVAL;
-> >         }
-> >
-> > -       if (format->fcc) {
-> > -               if (fmtname[0])
-> > -                       uvc_dbg(dev, DESCR, "Found format %s\n", fmtname);
-> > -               else
-> > -                       uvc_dbg(dev, DESCR, "Found format %p4cc", &format->fcc);
-> > -       }
-> 
-> Maybe it is the way that I debug the issues. I run an OK execution
-> with a FAIl one and then I compare results. I tend to prefer that the
-> extra lines are errors and there is no missing lines.... but I if your
-> prefer it this way, I am ok with it ;)
+Signed-off-by: Robert Mader <robert.mader@collabora.com>
+---
+ drivers/media/i2c/imx258.c | 13 ++++++++++++-
+ 1 file changed, 12 insertions(+), 1 deletion(-)
 
-Given that formats with a 0 fourcc are useless from a userspace point of
-view, I think I'd rather drop them actually. That's a candidate for a
-further patch.
-
-> > +       if (format->fcc)
-> > +               uvc_dbg(dev, DESCR, "Found format %p4cc", &format->fcc);
-> >
-> >         buflen -= buffer[0];
-> >         buffer += buffer[0];
-
+diff --git a/drivers/media/i2c/imx258.c b/drivers/media/i2c/imx258.c
+index eab5fc1ee2f7..3b560865b657 100644
+--- a/drivers/media/i2c/imx258.c
++++ b/drivers/media/i2c/imx258.c
+@@ -9,6 +9,7 @@
+ #include <linux/pm_runtime.h>
+ #include <media/v4l2-ctrls.h>
+ #include <media/v4l2-device.h>
++#include <media/v4l2-fwnode.h>
+ #include <asm/unaligned.h>
+ 
+ #define IMX258_REG_VALUE_08BIT		1
+@@ -1148,6 +1149,7 @@ static const struct v4l2_subdev_internal_ops imx258_internal_ops = {
+ static int imx258_init_controls(struct imx258 *imx258)
+ {
+ 	struct i2c_client *client = v4l2_get_subdevdata(&imx258->sd);
++	struct v4l2_fwnode_device_properties props;
+ 	struct v4l2_ctrl_handler *ctrl_hdlr;
+ 	s64 vblank_def;
+ 	s64 vblank_min;
+@@ -1156,7 +1158,7 @@ static int imx258_init_controls(struct imx258 *imx258)
+ 	int ret;
+ 
+ 	ctrl_hdlr = &imx258->ctrl_handler;
+-	ret = v4l2_ctrl_handler_init(ctrl_hdlr, 8);
++	ret = v4l2_ctrl_handler_init(ctrl_hdlr, 11);
+ 	if (ret)
+ 		return ret;
+ 
+@@ -1232,6 +1234,15 @@ static int imx258_init_controls(struct imx258 *imx258)
+ 		goto error;
+ 	}
+ 
++	ret = v4l2_fwnode_device_parse(&client->dev, &props);
++	if (ret)
++		goto error;
++
++	ret = v4l2_ctrl_new_fwnode_properties(ctrl_hdlr, &imx258_ctrl_ops,
++					      &props);
++	if (ret)
++		goto error;
++
+ 	imx258->sd.ctrl_handler = ctrl_hdlr;
+ 
+ 	return 0;
 -- 
-Regards,
+2.39.0
 
-Laurent Pinchart
