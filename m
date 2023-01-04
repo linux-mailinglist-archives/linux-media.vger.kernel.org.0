@@ -2,128 +2,120 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 51B6B65D532
-	for <lists+linux-media@lfdr.de>; Wed,  4 Jan 2023 15:12:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DD8B965D540
+	for <lists+linux-media@lfdr.de>; Wed,  4 Jan 2023 15:14:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239613AbjADOMg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 4 Jan 2023 09:12:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35482 "EHLO
+        id S239544AbjADON3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 4 Jan 2023 09:13:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39384 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239742AbjADOMJ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 4 Jan 2023 09:12:09 -0500
+        with ESMTP id S239698AbjADONY (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 4 Jan 2023 09:13:24 -0500
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92E0D1EEEF;
-        Wed,  4 Jan 2023 06:12:05 -0800 (PST)
-Received: from ideasonboard.com (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 855D76F0;
-        Wed,  4 Jan 2023 15:12:02 +0100 (CET)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93FB639B;
+        Wed,  4 Jan 2023 06:13:22 -0800 (PST)
+Received: from [192.168.1.15] (91-154-32-225.elisa-laajakaista.fi [91.154.32.225])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id C47926F0;
+        Wed,  4 Jan 2023 15:13:19 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1672841522;
-        bh=msUYvAx7nht3qkWr7r2R/VeKP9ruGiKSIVIO/mml9Fw=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=RaOsVC2Yn3RRXAMOBkNE7Zh3BYIS+mpWQJtUUN+Hypq2K164Zzw0pMuXN+v6qQFlB
-         AsvlWWd/UZCT0ExN/PKbTKyQWSRadFxAH/CJhg8spJz64MoHYr2KH1F2ySEa0QLMeJ
-         lUkrFVLRyMphz2bDgKmWCe4k5f3AMqTJ4ACWj+Xk=
-Date:   Wed, 4 Jan 2023 15:11:59 +0100
-From:   Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To:     Robert Mader <robert.mader@collabora.com>
-Cc:     linux-kernel@vger.kernel.org, nicholas@rothemail.net,
-        javierm@redhat.com, Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH v2] media: i2c: imx258: Parse and register properties
-Message-ID: <20230104141159.e2klapbpenslxqbx@uno.localdomain>
-References: <20230104122337.123055-1-robert.mader@collabora.com>
+        s=mail; t=1672841600;
+        bh=O9jLiS+NekK0ccBdWVz+/nUK2tFJYyYF1AsBtNyXgDE=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=a6p6egW73JcVl/lTmZktBm4XTYCs+mKP+y5XnxQxUIHatPAWQSCLtzbjx12c9Cbgi
+         n1flf/ISkrWd1itQ2fThIGo1xzEZs/sDfcmKplFbedyeWC275DnJT6ltiYOcsckVCe
+         4z3UVmQOteLNUgaiNzIYA+yWFUIR6+L15Jybkfco=
+Message-ID: <dddcfe51-5dec-2826-61c3-12edaf04da4e@ideasonboard.com>
+Date:   Wed, 4 Jan 2023 16:13:17 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20230104122337.123055-1-robert.mader@collabora.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH v5 7/8] media: i2c: add DS90UB913 driver
+Content-Language: en-US
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Wolfram Sang <wsa@kernel.org>,
+        Luca Ceresoli <luca.ceresoli@bootlin.com>,
+        Andy Shevchenko <andriy.shevchenko@intel.com>,
+        Matti Vaittinen <Matti.Vaittinen@fi.rohmeurope.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Peter Rosin <peda@axentia.se>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Michael Tretter <m.tretter@pengutronix.de>,
+        Shawn Tu <shawnx.tu@intel.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Mike Pagano <mpagano@gentoo.org>,
+        =?UTF-8?Q?Krzysztof_Ha=c5=82asa?= <khalasa@piap.pl>,
+        Marek Vasut <marex@denx.de>
+References: <20221208104006.316606-1-tomi.valkeinen@ideasonboard.com>
+ <20221208104006.316606-8-tomi.valkeinen@ideasonboard.com>
+ <Y5YiazDtaxtLJyL0@pendragon.ideasonboard.com>
+ <4d349785-ca37-d930-db3c-2581bba9fde0@ideasonboard.com>
+ <7ddd576f-6e8a-7581-178c-2e8575227811@ideasonboard.com>
+ <Y6nSVlmlweUuUwJf@pendragon.ideasonboard.com>
+ <61729020-0977-521a-6137-3bd89f300652@ideasonboard.com>
+ <Y7WFaR5+NNSXLLow@pendragon.ideasonboard.com>
+From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+In-Reply-To: <Y7WFaR5+NNSXLLow@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-3.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Robert
+On 04/01/2023 15:55, Laurent Pinchart wrote:
+> Hi Tomi,
+> 
+> On Mon, Dec 26, 2022 at 09:25:34PM +0200, Tomi Valkeinen wrote:
+>> On 26/12/2022 18:56, Laurent Pinchart wrote:
+>>> On Wed, Dec 14, 2022 at 08:36:47AM +0200, Tomi Valkeinen wrote:
+>>>> On 14/12/2022 08:29, Tomi Valkeinen wrote:
+>>>>
+>>>>>> wondering if the struct device of the DS90UB913 could be passed instead
+>>>>>> of the port, to avoid passing the port throught
+>>>>>> ds90ub9xx_platform_data.
+>>>>>
+>>>>> Interesting thought. That would limit the number of remote i2c busses to
+>>>>> one, though. Not a problem for FPD-Link, but I wonder if that's assuming
+>>>>> too much for the future users. Then again, this is an in-kernel API so
+>>>>> we could extend it later if needed. So I'll try this out and see if I
+>>>>> hit any issues.
+>>>>
+>>>> Right, so the issue with this one would be that it would prevent a
+>>>> single device uses. E.g. a single chip which acts as an ATR (similar to
+>>>> i2c-mux chips), i.e. it contains both the main and the remote i2c busses.
+>>>
+>>> I don't think I understand this, sorry.
+>>
+>> What you are suggesting above means that we'd have a separate device for
+>> each port of the ATR. Which is fine in our current case, as the i2c
+>> master busses are behind separate remote devices.
+>>
+>> But if you consider a case similar to i2c-mux, where we have a single
+>> chip with the slave bus and, say, 4 master busses. We would probably
+>> have only a single device for that.
+> 
+> Hmmm... Yes you're right, it won't work in that case. Maybe we could
+> have two functions, the existing i2c_atr_add_adapter(), and another one
+> that wraps it ? It would be nice if we could get rid of the platform
+> data for the UB913 and UB953 drivers.
 
-On Wed, Jan 04, 2023 at 01:23:37PM +0100, Robert Mader wrote:
-> Analogous to e.g. the imx219. This enables propagating
-> V4L2_CID_CAMERA_ORIENTATION and V4L2_CID_CAMERA_SENSOR_ROTATION
-> values.
-> The motivation is to allow libcamera detect these values from the
-> device tree and propagate them further to e.g. Pipewire.
->
-> While at it, reserve space for 3 additional controls even if
-> v4l2_ctrl_new_fwnode_properties() can only register 2 of
-> them, to fix the existing implementation which reserve space for 8
-> controls but actually registers 9.
->
-> Changes in v2:
->  - Reserve 11 instead of 10 controls
->  - Change order of variable declaration
->  - Slightly extend description
+I wouldn't mind that at all, but we already have the bc_rate there. And 
+I have a feeling that we might need more if we implement more features.
 
-This part should go below, after ---, as it shouldn't be part of the commit
-message
+And we also have the atr pointer there. Or do you think that could be 
+dropped also? In your mail above you only mention the port, but maybe 
+the deser could register the serializer device and port to the ATR, and 
+then the ser could just use its device pointer instead of atr & port.
 
-The patch looks good
+  Tomi
 
-Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-
->
-> Signed-off-by: Robert Mader <robert.mader@collabora.com>
-> ---
->  drivers/media/i2c/imx258.c | 13 ++++++++++++-
->  1 file changed, 12 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/media/i2c/imx258.c b/drivers/media/i2c/imx258.c
-> index eab5fc1ee2f7..3b560865b657 100644
-> --- a/drivers/media/i2c/imx258.c
-> +++ b/drivers/media/i2c/imx258.c
-> @@ -9,6 +9,7 @@
->  #include <linux/pm_runtime.h>
->  #include <media/v4l2-ctrls.h>
->  #include <media/v4l2-device.h>
-> +#include <media/v4l2-fwnode.h>
->  #include <asm/unaligned.h>
->
->  #define IMX258_REG_VALUE_08BIT		1
-> @@ -1148,6 +1149,7 @@ static const struct v4l2_subdev_internal_ops imx258_internal_ops = {
->  static int imx258_init_controls(struct imx258 *imx258)
->  {
->  	struct i2c_client *client = v4l2_get_subdevdata(&imx258->sd);
-> +	struct v4l2_fwnode_device_properties props;
->  	struct v4l2_ctrl_handler *ctrl_hdlr;
->  	s64 vblank_def;
->  	s64 vblank_min;
-> @@ -1156,7 +1158,7 @@ static int imx258_init_controls(struct imx258 *imx258)
->  	int ret;
->
->  	ctrl_hdlr = &imx258->ctrl_handler;
-> -	ret = v4l2_ctrl_handler_init(ctrl_hdlr, 8);
-> +	ret = v4l2_ctrl_handler_init(ctrl_hdlr, 11);
->  	if (ret)
->  		return ret;
->
-> @@ -1232,6 +1234,15 @@ static int imx258_init_controls(struct imx258 *imx258)
->  		goto error;
->  	}
->
-> +	ret = v4l2_fwnode_device_parse(&client->dev, &props);
-> +	if (ret)
-> +		goto error;
-> +
-> +	ret = v4l2_ctrl_new_fwnode_properties(ctrl_hdlr, &imx258_ctrl_ops,
-> +					      &props);
-> +	if (ret)
-> +		goto error;
-> +
->  	imx258->sd.ctrl_handler = ctrl_hdlr;
->
->  	return 0;
-> --
-> 2.39.0
->
