@@ -2,232 +2,98 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A5A3E65D135
-	for <lists+linux-media@lfdr.de>; Wed,  4 Jan 2023 12:10:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BE98B65D13D
+	for <lists+linux-media@lfdr.de>; Wed,  4 Jan 2023 12:16:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233659AbjADLKu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 4 Jan 2023 06:10:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44242 "EHLO
+        id S234505AbjADLQD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 4 Jan 2023 06:16:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45630 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230423AbjADLKt (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 4 Jan 2023 06:10:49 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0026D1583E
-        for <linux-media@vger.kernel.org>; Wed,  4 Jan 2023 03:10:46 -0800 (PST)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id D101E6C7;
-        Wed,  4 Jan 2023 12:10:43 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1672830644;
-        bh=fzQTCAdtyw+O7QPLtwjK2hJrzh3h7bvnfKjbfOqMkI0=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Y3O67mreq5MMlAo2FoiVG7XrYX2QDrLHf7Owiaw7TdoWOA9RtqTDEBGKKjy+n1euD
-         9IbT+3pxqhzQ7L/RjMNwsQLLnDuBPnad+/vkrP2/NT4xgeiBfivldg70UZftVqypaF
-         tS+1ObfccBqxAEUUGd8KIvT0JI+54pnz1fLH0etQ=
-Date:   Wed, 4 Jan 2023 13:10:39 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Ricardo Ribalda <ribalda@chromium.org>
-Cc:     linux-media@vger.kernel.org,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Michael Grzeschik <m.grzeschik@pengutronix.de>
-Subject: Re: [PATCH v1] media: uvcvideo: Remove format descriptions
-Message-ID: <Y7Ver63AXghcFlop@pendragon.ideasonboard.com>
-References: <20221228014200.20462-1-laurent.pinchart@ideasonboard.com>
- <CANiDSCspM4GpF9xrizBMBRTMQKkK+yqGoDYgu=s0f+g3j4qm-g@mail.gmail.com>
+        with ESMTP id S230423AbjADLQB (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 4 Jan 2023 06:16:01 -0500
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 190DE1A3A0;
+        Wed,  4 Jan 2023 03:16:00 -0800 (PST)
+X-IronPort-AV: E=McAfee;i="6500,9779,10579"; a="302283998"
+X-IronPort-AV: E=Sophos;i="5.96,299,1665471600"; 
+   d="scan'208";a="302283998"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jan 2023 03:15:59 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10579"; a="779184672"
+X-IronPort-AV: E=Sophos;i="5.96,299,1665471600"; 
+   d="scan'208";a="779184672"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by orsmga004.jf.intel.com with ESMTP; 04 Jan 2023 03:15:56 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+        (envelope-from <andy@kernel.org>)
+        id 1pD1kQ-004HN0-1U;
+        Wed, 04 Jan 2023 13:15:54 +0200
+Date:   Wed, 4 Jan 2023 13:15:54 +0200
+From:   Andy Shevchenko <andy@kernel.org>
+To:     Arnd Bergmann <arnd@kernel.org>
+Cc:     Hans de Goede <hdegoede@redhat.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: atomisp: fix videobuf2 Kconfig depenendency
+Message-ID: <Y7Vf6nejMFXs/qAk@smile.fi.intel.com>
+References: <20230104082212.3770415-1-arnd@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CANiDSCspM4GpF9xrizBMBRTMQKkK+yqGoDYgu=s0f+g3j4qm-g@mail.gmail.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <20230104082212.3770415-1-arnd@kernel.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-Spam-Status: No, score=-3.5 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_SOFTFAIL autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Ricardo,
-
-On Wed, Jan 04, 2023 at 11:37:33AM +0100, Ricardo Ribalda wrote:
-> On Wed, 28 Dec 2022 at 02:42, Laurent Pinchart wrote:
-> >
-> > The V4L2 core fills format description on its own in v4l_fill_fmtdesc(),
->
-> Maybe make more explicit the rewrite, always fills
-
-Sure.
-
-> > there's no need to manually set the descriptions in the driver. This
-> > prepares for removal of the format descriptions from the uvc_fmts table.
->
-> With or without the nits:
+On Wed, Jan 04, 2023 at 09:21:36AM +0100, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
 > 
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
->
-> > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > ---
-> >
-> > Michael, I'd like to merge this before the "[PATCH v2 5/5] usb: uvc: use
-> > v4l2_fill_fmtdesc instead of open coded format name" patch you have
-> > submitted, if that's OK with you. It removes the need to call
-> > v4l2_fill_fmtdesc() in that patch, which will also allow dropping
-> > "[PATCH v2 4/5] media: v4l2: move v4l_fill_fmtdesc to common
-> > v4l2_fill_fmtdesc function" in that series. I think we can schedule all
-> > of that for v6.3.
-> >
-> > ---
-> >  drivers/media/usb/uvc/uvc_driver.c | 27 +++++++++++++--------------
-> >  drivers/media/usb/uvc/uvc_v4l2.c   |  2 --
-> >  drivers/media/usb/uvc/uvcvideo.h   |  2 --
-> >  3 files changed, 13 insertions(+), 18 deletions(-)
-> >
-> > diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-> > index 8132a5c3bc33..6de3d55daf36 100644
-> > --- a/drivers/media/usb/uvc/uvc_driver.c
-> > +++ b/drivers/media/usb/uvc/uvc_driver.c
-> > @@ -227,6 +227,7 @@ static int uvc_parse_format(struct uvc_device *dev,
-> >         struct uvc_format_desc *fmtdesc;
-> >         struct uvc_frame *frame;
-> >         const unsigned char *start = buffer;
-> > +       char fmtname[12] = { 0, };
->
-> What about
-> char fmtname[] = "\0SDL-DV 60Hz"; /* Longest possible string. */
-
-I'm a bit tempted, but I think it will just increase the kernel size a
-little bit for no real gain. We will still need to keep this in sync
-manually with any change we may make below in the future.
-
-> >         unsigned int width_multiplier = 1;
-> >         unsigned int interval;
-> >         unsigned int i, n;
-> > @@ -251,14 +252,10 @@ static int uvc_parse_format(struct uvc_device *dev,
-> >                 fmtdesc = uvc_format_by_guid(&buffer[5]);
-> >
-> >                 if (fmtdesc != NULL) {
-> > -                       strscpy(format->name, fmtdesc->name,
-> > -                               sizeof(format->name));
-> >                         format->fcc = fmtdesc->fcc;
-> >                 } else {
-> >                         dev_info(&streaming->intf->dev,
-> > -                                "Unknown video format %pUl\n", &buffer[5]);
-> > -                       snprintf(format->name, sizeof(format->name), "%pUl\n",
-> > -                               &buffer[5]);
-> > +                                "Unknown video format %p4cc\n", &buffer[5]);
-> >                         format->fcc = 0;
-> >                 }
-> >
-> > @@ -270,8 +267,6 @@ static int uvc_parse_format(struct uvc_device *dev,
-> >                  */
-> >                 if (dev->quirks & UVC_QUIRK_FORCE_Y8) {
-> >                         if (format->fcc == V4L2_PIX_FMT_YUYV) {
-> > -                               strscpy(format->name, "Greyscale 8-bit (Y8  )",
-> > -                                       sizeof(format->name));
-> >                                 format->fcc = V4L2_PIX_FMT_GREY;
-> >                                 format->bpp = 8;
-> >                                 width_multiplier = 2;
-> > @@ -312,7 +307,6 @@ static int uvc_parse_format(struct uvc_device *dev,
-> >                         return -EINVAL;
-> >                 }
-> >
-> > -               strscpy(format->name, "MJPEG", sizeof(format->name));
-> >                 format->fcc = V4L2_PIX_FMT_MJPEG;
-> >                 format->flags = UVC_FMT_FLAG_COMPRESSED;
-> >                 format->bpp = 0;
-> > @@ -330,13 +324,13 @@ static int uvc_parse_format(struct uvc_device *dev,
-> >
-> >                 switch (buffer[8] & 0x7f) {
-> >                 case 0:
-> > -                       strscpy(format->name, "SD-DV", sizeof(format->name));
-> > +                       strscpy(fmtname, "SD-DV", sizeof(fmtname));
-> >                         break;
-> >                 case 1:
-> > -                       strscpy(format->name, "SDL-DV", sizeof(format->name));
-> > +                       strscpy(fmtname, "SDL-DV", sizeof(fmtname));
-> >                         break;
-> >                 case 2:
-> > -                       strscpy(format->name, "HD-DV", sizeof(format->name));
-> > +                       strscpy(fmtname, "HD-DV", sizeof(fmtname));
-> >                         break;
-> >                 default:
-> >                         uvc_dbg(dev, DESCR,
-> > @@ -346,8 +340,8 @@ static int uvc_parse_format(struct uvc_device *dev,
-> >                         return -EINVAL;
-> >                 }
-> >
-> > -               strlcat(format->name, buffer[8] & (1 << 7) ? " 60Hz" : " 50Hz",
-> > -                       sizeof(format->name));
-> > +               strlcat(fmtname, buffer[8] & (1 << 7) ? " 60Hz" : " 50Hz",
-> > +                       sizeof(fmtname));
-> >
-> >                 format->fcc = V4L2_PIX_FMT_DV;
-> >                 format->flags = UVC_FMT_FLAG_COMPRESSED | UVC_FMT_FLAG_STREAM;
-> > @@ -375,7 +369,12 @@ static int uvc_parse_format(struct uvc_device *dev,
-> >                 return -EINVAL;
-> >         }
-> >
-> > -       uvc_dbg(dev, DESCR, "Found format %s\n", format->name);
+> The recent conversion missed the Kconfig bit, so it can now
+> end up in a link error on randconfig builds:
 > 
-> What about simply:
+> ld.lld: error: undefined symbol: vb2_vmalloc_memops
+> >>> referenced by atomisp_fops.c
+> >>>               drivers/staging/media/atomisp/pci/atomisp_fops.o:(atomisp_open) in archive vmlinux.a
+
+Tested-by: Andy Shevchenko <andy@kernel.org>
+
+> Fixes: cb48ae89be3b ("media: atomisp: Convert to videobuf2")
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> ---
+>  drivers/staging/media/atomisp/Kconfig | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> uvc_dbg(dev, DESCR, "Found format %p4cc %s\n", &format->fcc, fmtname);
+> diff --git a/drivers/staging/media/atomisp/Kconfig b/drivers/staging/media/atomisp/Kconfig
+> index 2c8d7fdcc5f7..c9bff98e5309 100644
+> --- a/drivers/staging/media/atomisp/Kconfig
+> +++ b/drivers/staging/media/atomisp/Kconfig
+> @@ -14,7 +14,7 @@ config VIDEO_ATOMISP
+>  	depends on VIDEO_DEV && INTEL_ATOMISP
+>  	depends on PMIC_OPREGION
+>  	select IOSF_MBI
+> -	select VIDEOBUF_VMALLOC
+> +	select VIDEOBUF2_VMALLOC
+>  	select VIDEO_V4L2_SUBDEV_API
+>  	help
+>  	  Say Y here if your platform supports Intel Atom SoC
+> -- 
+> 2.39.0
 > 
-> Even when format->fcc is zero, specially in uvc_dbg is nice to have that info.
-
-Note that, when format->fcc is zero, there's already a louder
-
-			dev_info(&streaming->intf->dev,
-				 "Unknown video format %p4cc\n", &buffer[5]);
-
-above, and fmtname will not be set. Your proposal would then print
-"Found format .... (0x00000000) \n" which I don't think would add much
-value.
-
-Another option would be to simply drop the format name for DV formats.
-It adds little value, and would simplify the code. I think I'll do so in
-v2.
-
-This also makes me realize I shouldn't have changed the dev_info() to
-%p4cc. I'll fix that in a v2.
-
-> > +       if (format->fcc) {
-> > +               if (fmtname[0])
-> > +                       uvc_dbg(dev, DESCR, "Found format %s\n", fmtname);
-> > +               else
-> > +                       uvc_dbg(dev, DESCR, "Found format %p4cc", &format->fcc);
-> > +       }
-> >
-> >         buflen -= buffer[0];
-> >         buffer += buffer[0];
-> > diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
-> > index f4d4c33b6dfb..dcd178d249b6 100644
-> > --- a/drivers/media/usb/uvc/uvc_v4l2.c
-> > +++ b/drivers/media/usb/uvc/uvc_v4l2.c
-> > @@ -660,8 +660,6 @@ static int uvc_ioctl_enum_fmt(struct uvc_streaming *stream,
-> >         fmt->flags = 0;
-> >         if (format->flags & UVC_FMT_FLAG_COMPRESSED)
-> >                 fmt->flags |= V4L2_FMT_FLAG_COMPRESSED;
-> > -       strscpy(fmt->description, format->name, sizeof(fmt->description));
-> > -       fmt->description[sizeof(fmt->description) - 1] = 0;
-> >         fmt->pixelformat = format->fcc;
-> >         return 0;
-> >  }
-> > diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-> > index 84326991ec36..cd5861cae3b0 100644
-> > --- a/drivers/media/usb/uvc/uvcvideo.h
-> > +++ b/drivers/media/usb/uvc/uvcvideo.h
-> > @@ -262,8 +262,6 @@ struct uvc_format {
-> >         u32 fcc;
-> >         u32 flags;
-> >
-> > -       char name[32];
-> > -
-> >         unsigned int nframes;
-> >         struct uvc_frame *frame;
-> >  };
 
 -- 
-Regards,
+With Best Regards,
+Andy Shevchenko
 
-Laurent Pinchart
+
