@@ -2,82 +2,120 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E510165CD1F
-	for <lists+linux-media@lfdr.de>; Wed,  4 Jan 2023 07:32:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DE22465CD8D
+	for <lists+linux-media@lfdr.de>; Wed,  4 Jan 2023 08:21:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233356AbjADGcg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 4 Jan 2023 01:32:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49908 "EHLO
+        id S233678AbjADHVL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 4 Jan 2023 02:21:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36960 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233403AbjADGcf (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 4 Jan 2023 01:32:35 -0500
-Received: from gandalf.ozlabs.org (mail.ozlabs.org [IPv6:2404:9400:2221:ea00::3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9CE6A14027;
-        Tue,  3 Jan 2023 22:32:34 -0800 (PST)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by mail.ozlabs.org (Postfix) with ESMTPSA id 4Nn0C04FZWz4xyt;
-        Wed,  4 Jan 2023 17:32:28 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ellerman.id.au;
-        s=201909; t=1672813949;
-        bh=yy1Ja7/gN5t53Ult7n0CLa7oWDzh1zFh5lkAWxcgdt4=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=O4NB1Mbe8U1HnIqf4kh5MjyenZwCG/UFSMjCR1YYsUv1msRBsq/cOPLS6UtlKekr1
-         p6ptRIVwVzzlvJI93Ym02Oo05krdVqvgro5C0ZJsz43Szf6QgOVbpOsmHnW+gP0Gxx
-         It+IIdezLasjprYmU/SNgRBa10xEHn9+NA+tiicO7+ipsJRYHocYBPmny2FkZO/+wg
-         /epgOSK4vPhFgHXdUqK1IAxlZdB/yJHbn5w69kkhfDL3nd7GL2eD5P212casgM5OdH
-         c43Ps7M6A84QPKdoDYHXciU+J4Ulm/M0HKxYmBvID8fagf/DOXadZyPIXS+qRVGPMN
-         77iTDos8k8Exg==
-From:   Michael Ellerman <mpe@ellerman.id.au>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>,
-        Rob Landley <rob@landley.net>
-Cc:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        kasan-dev@googlegroups.com,
-        Linux-sh list <linux-sh@vger.kernel.org>
-Subject: Re: Build regressions/improvements in v6.2-rc1
-In-Reply-To: <CAMuHMdVX4Yz-zHvnwB0oCuLfiNAiEsSupcyjfeH+1oKTfQKC9A@mail.gmail.com>
-References: <CAHk-=wgf929uGOVpiWALPyC7pv_9KbwB2EAvQ3C4woshZZ5zqQ@mail.gmail.com>
- <20221227082932.798359-1-geert@linux-m68k.org>
- <alpine.DEB.2.22.394.2212270933530.311423@ramsan.of.borg>
- <397291cd-4953-8b47-6021-228c9eb38361@landley.net>
- <CAMuHMdVX4Yz-zHvnwB0oCuLfiNAiEsSupcyjfeH+1oKTfQKC9A@mail.gmail.com>
-Date:   Wed, 04 Jan 2023 17:32:24 +1100
-Message-ID: <877cy24xon.fsf@mpe.ellerman.id.au>
+        with ESMTP id S233067AbjADHVJ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 4 Jan 2023 02:21:09 -0500
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A95FF04;
+        Tue,  3 Jan 2023 23:21:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1672816865; x=1704352865;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=7liNCCRrFXPCHaux0+GTNz9npfiWKG1pQ2+rp8wmVNs=;
+  b=R33U12flHIz+tCCfIIq60q/CoZEjObvGqxf3tobC85T/Iq4MogR8l0Zt
+   43bCb1KA033W3mhlEJVXVyYKfb+xctFhVBwydCJqtkZCB0fKBo4cC711p
+   rW3DdufaVP7Gvnsz6umNwHsOs/trfn5VFVjX0pVXMEwq/fna5r+oYPoJS
+   4X+BWbMDXYoNhVxSCHr6USUSk9r/hOiX94obHhLyvE2Pg8rew+urKvR0x
+   b/EXXU9ICFlzLJpr9oI26w6HAGdEmKrYVILI2YD0U7SQEE0gNF1hqecKr
+   9+aI5ZdrXPtGOVNU/gV0xaqUqHhH2xSnnwyH1Fr+XoDRAF2RFRp+jFilN
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10579"; a="302234725"
+X-IronPort-AV: E=Sophos;i="5.96,299,1665471600"; 
+   d="scan'208";a="302234725"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jan 2023 23:21:05 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10579"; a="687447285"
+X-IronPort-AV: E=Sophos;i="5.96,299,1665471600"; 
+   d="scan'208";a="687447285"
+Received: from punajuuri.fi.intel.com (HELO paasikivi.fi.intel.com) ([10.237.72.43])
+  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jan 2023 23:21:02 -0800
+Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
+        by paasikivi.fi.intel.com (Postfix) with ESMTP id 18480202DD;
+        Wed,  4 Jan 2023 09:21:00 +0200 (EET)
+Date:   Wed, 4 Jan 2023 07:21:00 +0000
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc:     Robert Mader <robert.mader@collabora.com>,
+        linux-kernel@vger.kernel.org, nicholas@rothemail.net,
+        javierm@redhat.com, Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH] media: i2c: imx258: Parse and register properties
+Message-ID: <Y7Uo3JlOoGJAoorz@paasikivi.fi.intel.com>
+References: <20221225154234.378555-1-robert.mader@collabora.com>
+ <20230102140631.hadlh3stozecnzpj@uno.localdomain>
+ <20f405f3-0a82-5d2f-2b0d-ce0d510b5098@collabora.com>
+ <20230103171624.qx6hm2exs3d5lg53@uno.localdomain>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_PASS,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230103171624.qx6hm2exs3d5lg53@uno.localdomain>
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Geert Uytterhoeven <geert@linux-m68k.org> writes:
-> Hi Rob,
->
-> On Sun, Jan 1, 2023 at 2:22 AM Rob Landley <rob@landley.net> wrote:
->> On 12/27/22 02:35, Geert Uytterhoeven wrote:
->> > sh4-gcc11/sh-allmodconfig (ICE = internal compiler error)
->>
->> What's your actual test config here? Because when I try make ARCH=sh
->> allmodconfig; make ARCH=sh it dies in arch/sh/kernel/cpu/sh2/setup-sh7619.c with:
->
-> [re-adding the URL you deleted]
->
->> > [2] http://kisskb.ellerman.id.au/kisskb/branch/linus/head/830b3c68c1fb1e9176028d02ef86f3cf76aa2476/ (all 152 configs)
->
-> Following to
-> http://kisskb.ellerman.id.au/kisskb/target/212841/ and
-> http://kisskb.ellerman.id.au/kisskb/buildresult/14854440/
-> gives you a page with a link to the config.
+Hi Jacopo, Robert,
 
-It's possible there's something wrong with the toolchain setup, I don't
-know much about sh.
+On Tue, Jan 03, 2023 at 06:16:24PM +0100, Jacopo Mondi wrote:
+> Hi Robert
+> 
+> On Tue, Jan 03, 2023 at 03:11:44PM +0100, Robert Mader wrote:
+> > On 02.01.23 15:06, Jacopo Mondi wrote:
+> > > Hi Robert
+> > >
+> > > On Sun, Dec 25, 2022 at 04:42:34PM +0100, Robert Mader wrote:
+> > > > Analogous to e.g. the imx219. This enables propagating
+> > > > V4L2_CID_CAMERA_SENSOR_ROTATION values so that libcamera
+> > > > can detect the correct rotation from the device tree
+> > > > and propagate it further to e.g. Pipewire.
+> > > >
+> > > > Signed-off-by: Robert Mader <robert.mader@collabora.com>
+> > > > ---
+> > > >   drivers/media/i2c/imx258.c | 13 ++++++++++++-
+> > > >   1 file changed, 12 insertions(+), 1 deletion(-)
+> > > >
+> > > > diff --git a/drivers/media/i2c/imx258.c b/drivers/media/i2c/imx258.c
+> > > > index eab5fc1ee2f7..85819043d1e3 100644
+> > > > --- a/drivers/media/i2c/imx258.c
+> > > > +++ b/drivers/media/i2c/imx258.c
+> > > > @@ -9,6 +9,7 @@
+> > > >   #include <linux/pm_runtime.h>
+> > > >   #include <media/v4l2-ctrls.h>
+> > > >   #include <media/v4l2-device.h>
+> > > > +#include <media/v4l2-fwnode.h>
+> > > >   #include <asm/unaligned.h>
+> > > >
+> > > >   #define IMX258_REG_VALUE_08BIT		1
+> > > > @@ -1149,6 +1150,7 @@ static int imx258_init_controls(struct imx258 *imx258)
+> > > >   {
+> > > >   	struct i2c_client *client = v4l2_get_subdevdata(&imx258->sd);
+> > > >   	struct v4l2_ctrl_handler *ctrl_hdlr;
+> > > > +	struct v4l2_fwnode_device_properties props;
+> > > Might be nicer to move this one line up
+> >
+> >  Can you say what's your reasoning? I personally slightly prefer
+> > alphabetical order, but no strong opinion :)
+> >
+> 
+> I've often been instructed to try to respect the inverse-xmas-tree
 
-But it's just the kernel.org crosstool sh4 compiler, nothing else fancy.
+I'd advise the same, unless there are other reasons to arrange the lines
+differently.
 
-cheers
+-- 
+Kind regards,
+
+Sakari Ailus
