@@ -2,85 +2,112 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7E7CB65D293
-	for <lists+linux-media@lfdr.de>; Wed,  4 Jan 2023 13:27:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AC66965D2FE
+	for <lists+linux-media@lfdr.de>; Wed,  4 Jan 2023 13:47:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229739AbjADM1F (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 4 Jan 2023 07:27:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51498 "EHLO
+        id S229453AbjADMrL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 4 Jan 2023 07:47:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60932 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239269AbjADM0z (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 4 Jan 2023 07:26:55 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 455D5A462
-        for <linux-media@vger.kernel.org>; Wed,  4 Jan 2023 04:26:54 -0800 (PST)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id C09696C7;
-        Wed,  4 Jan 2023 13:26:52 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1672835213;
-        bh=NuuP4pm3SjM0NwlEUC0rw58OZmtBU2fSFpDAMciA7TI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=ep+qRuDmQGBI2WkiMclF5MUMkqyQ7Nr1lWPqjbZP9uknLQ8iohPsGzoHQuzF1vA8K
-         aLJ6aNVdLRqMt1UMv7g/oOE075WBzwZCmnm/J4l+bTxYKDoliwTf9MnOwAofe/MnqG
-         SfLmRdxRGj3mcpGg11pFYwN66r5kw7q8BWRUOmxk=
-Date:   Wed, 4 Jan 2023 14:26:49 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Yang Yingliang <yangyingliang@huawei.com>
-Cc:     linux-media@vger.kernel.org, rmfrfs@gmail.com,
-        hverkuil-cisco@xs4all.nl, mchehab@kernel.org
-Subject: Re: [PATCH] media: imx: imx7-media-csi: fix missing
- clk_disable_unprepare() in imx7_csi_init()
-Message-ID: <Y7VwiXftRADhWXb6@pendragon.ideasonboard.com>
-References: <20230104093921.2570431-1-yangyingliang@huawei.com>
+        with ESMTP id S231795AbjADMrH (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 4 Jan 2023 07:47:07 -0500
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D854167FA;
+        Wed,  4 Jan 2023 04:47:05 -0800 (PST)
+Received: from [IPV6:2001:4091:a244:801c:ff2e:9846:2bd1:fe62] (unknown [IPv6:2001:4091:a244:801c:ff2e:9846:2bd1:fe62])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: rmader)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 8AE2B6602D11;
+        Wed,  4 Jan 2023 12:47:03 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1672836423;
+        bh=t14T8tj2RtWwvBr/+ApmxPga1nTZbNsBeZ5XFdnGQng=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=CcWENA6ZZb840wB6qk2QhHwxs8OIx3vzSLQ9bjrCsQQ+AFpTtT0DsMXtDyJwxQMCf
+         RX+HcpgFlMgeTE6HYZZoWESFu1QHdIf7kyTEjpsBRbrq+yXo1GW0JLAki8rkRarDUS
+         H+qq7lwGXG40DskFdTfcIJzkeE1HpqGf4TW0iqHLHYS9RbQ1FC4M7E/QpUNCKEBDOC
+         lhfKYAetjzDID4vQdaVQ7kRa3zIqT5hDjgXDf5BFQpd73DBKk3FAq2AkUBSGlZCsxm
+         hCYzX8dNPRLhFTYLRg6z5m+PMDfqHZ2otUW+2ix7qJMW35iWRc/fklKY9sW5jZQO1K
+         PFkgsW1hQbikA==
+Message-ID: <62b0d46f-7962-ad5f-dd4e-5820d76964b4@collabora.com>
+Date:   Wed, 4 Jan 2023 13:47:00 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20230104093921.2570431-1-yangyingliang@huawei.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH] media: i2c: imx258: Parse and register properties
+Content-Language: en-US
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc:     linux-kernel@vger.kernel.org, nicholas@rothemail.net,
+        javierm@redhat.com, Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org
+References: <20221225154234.378555-1-robert.mader@collabora.com>
+ <20230102140631.hadlh3stozecnzpj@uno.localdomain>
+ <20f405f3-0a82-5d2f-2b0d-ce0d510b5098@collabora.com>
+ <20230103171624.qx6hm2exs3d5lg53@uno.localdomain>
+ <Y7Uo3JlOoGJAoorz@paasikivi.fi.intel.com>
+From:   Robert Mader <robert.mader@collabora.com>
+In-Reply-To: <Y7Uo3JlOoGJAoorz@paasikivi.fi.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-3.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Yang,
+Sure, makes sense!
 
-Thank you for the patch.
+Send out v2 now.
 
-On Wed, Jan 04, 2023 at 05:39:21PM +0800, Yang Yingliang wrote:
-> Add missing clk_disable_unprepare(), if imx7_csi_dma_setup() fails
-> in imx7_csi_init().
-> 
-> Fixes: ff43ca911978 ("media: imx: imx7-media-csi: Move CSI configuration before source start")
-> Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-> ---
->  drivers/media/platform/nxp/imx7-media-csi.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/platform/nxp/imx7-media-csi.c b/drivers/media/platform/nxp/imx7-media-csi.c
-> index 886374d3a6ff..1ef92c8c0098 100644
-> --- a/drivers/media/platform/nxp/imx7-media-csi.c
-> +++ b/drivers/media/platform/nxp/imx7-media-csi.c
-> @@ -638,8 +638,10 @@ static int imx7_csi_init(struct imx7_csi *csi)
->  	imx7_csi_configure(csi);
->  
->  	ret = imx7_csi_dma_setup(csi);
-> -	if (ret < 0)
-> +	if (ret < 0) {
-> +		clk_disable_unprepare(csi->mclk);
->  		return ret;
-> +	}
->  
->  	return 0;
->  }
-
--- 
-Regards,
-
-Laurent Pinchart
+On 04.01.23 08:21, Sakari Ailus wrote:
+> Hi Jacopo, Robert,
+>
+> On Tue, Jan 03, 2023 at 06:16:24PM +0100, Jacopo Mondi wrote:
+>> Hi Robert
+>>
+>> On Tue, Jan 03, 2023 at 03:11:44PM +0100, Robert Mader wrote:
+>>> On 02.01.23 15:06, Jacopo Mondi wrote:
+>>>> Hi Robert
+>>>>
+>>>> On Sun, Dec 25, 2022 at 04:42:34PM +0100, Robert Mader wrote:
+>>>>> Analogous to e.g. the imx219. This enables propagating
+>>>>> V4L2_CID_CAMERA_SENSOR_ROTATION values so that libcamera
+>>>>> can detect the correct rotation from the device tree
+>>>>> and propagate it further to e.g. Pipewire.
+>>>>>
+>>>>> Signed-off-by: Robert Mader <robert.mader@collabora.com>
+>>>>> ---
+>>>>>    drivers/media/i2c/imx258.c | 13 ++++++++++++-
+>>>>>    1 file changed, 12 insertions(+), 1 deletion(-)
+>>>>>
+>>>>> diff --git a/drivers/media/i2c/imx258.c b/drivers/media/i2c/imx258.c
+>>>>> index eab5fc1ee2f7..85819043d1e3 100644
+>>>>> --- a/drivers/media/i2c/imx258.c
+>>>>> +++ b/drivers/media/i2c/imx258.c
+>>>>> @@ -9,6 +9,7 @@
+>>>>>    #include <linux/pm_runtime.h>
+>>>>>    #include <media/v4l2-ctrls.h>
+>>>>>    #include <media/v4l2-device.h>
+>>>>> +#include <media/v4l2-fwnode.h>
+>>>>>    #include <asm/unaligned.h>
+>>>>>
+>>>>>    #define IMX258_REG_VALUE_08BIT		1
+>>>>> @@ -1149,6 +1150,7 @@ static int imx258_init_controls(struct imx258 *imx258)
+>>>>>    {
+>>>>>    	struct i2c_client *client = v4l2_get_subdevdata(&imx258->sd);
+>>>>>    	struct v4l2_ctrl_handler *ctrl_hdlr;
+>>>>> +	struct v4l2_fwnode_device_properties props;
+>>>> Might be nicer to move this one line up
+>>>   Can you say what's your reasoning? I personally slightly prefer
+>>> alphabetical order, but no strong opinion :)
+>>>
+>> I've often been instructed to try to respect the inverse-xmas-tree
+> I'd advise the same, unless there are other reasons to arrange the lines
+> differently.
+>
