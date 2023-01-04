@@ -2,154 +2,232 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9C9EA65D0EB
-	for <lists+linux-media@lfdr.de>; Wed,  4 Jan 2023 11:47:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A5A3E65D135
+	for <lists+linux-media@lfdr.de>; Wed,  4 Jan 2023 12:10:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239087AbjADKqT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 4 Jan 2023 05:46:19 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57338 "EHLO
+        id S233659AbjADLKu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 4 Jan 2023 06:10:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44242 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234873AbjADKqA (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 4 Jan 2023 05:46:00 -0500
-Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com [IPv6:2a00:1450:4864:20::52e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F768DE2
-        for <linux-media@vger.kernel.org>; Wed,  4 Jan 2023 02:45:57 -0800 (PST)
-Received: by mail-ed1-x52e.google.com with SMTP id c17so47914011edj.13
-        for <linux-media@vger.kernel.org>; Wed, 04 Jan 2023 02:45:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=nvhfEUmWAxT7YLgkjs7oKY+EYBIYLwJw8UyNAJpHRQo=;
-        b=dISK5CQL6NuEAor3u8/gYBexo7B1bhbMOVEmYZZpAoY5p1A/rUPYMT62DxJMx90Npx
-         7rXQ7lCO+LPb/N0a54iJvyLbDia1pfLndow16zI2lueMd7ZvNURImkDJfvnVfuV0tz8B
-         BiM9S7QYLRWy1MzNC1hV6N7ho/LSBWnBX6ktM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=nvhfEUmWAxT7YLgkjs7oKY+EYBIYLwJw8UyNAJpHRQo=;
-        b=2UwXqC4jzPOadzGK8O+T6eZhjzd1o0FBXHj43NN9Xx+9KDl3E7LRA86u9lhebZXzME
-         Yb6s8C4PdpU8cFsPRi0dklsH4oML/Jh9n2zakJcT4AwttoI6HJg0LRtxVZ+YSDPSbMZL
-         +zN8S4J71qmfRnZVyfpTMx0a7rnp8zG6V7gvUOdPy3COxlyZ+ZrxlPMo3i7GcxqAxDgm
-         sfEoBH2/SCavi0YUq5Q9JB0opaylzBVPbzq860PR4wDjtCv7rocDHHWD4wELr/RNQ5aD
-         nrZ/yynQslrrrIvz5HhdXBolBvWwZIdOHZ/dJNAujhYrQDGdxBSIPPja/HCOczsdDvCL
-         rDtg==
-X-Gm-Message-State: AFqh2kptlDxz5/yMQ2FmIZEh7Ecuy7XCKe01XSj8FEAiYIFKttSg0Pcu
-        v4WLwiDzHzq0Ct+G6rCU/rh86A==
-X-Google-Smtp-Source: AMrXdXtK7yXq+Wrbdg6sTDOqQv2bKxvETVGBpupTcfgjXYK/Ufcf/+6DgdanTuYYxfCr3lXrtcQM3A==
-X-Received: by 2002:a05:6402:2932:b0:47e:bdb8:9133 with SMTP id ee50-20020a056402293200b0047ebdb89133mr46484720edb.38.1672829156878;
-        Wed, 04 Jan 2023 02:45:56 -0800 (PST)
-Received: from alco.roam.corp.google.com ([2620:0:1059:10:6531:9bb0:b3f7:86a8])
-        by smtp.gmail.com with ESMTPSA id g32-20020a056402322000b0048c85c5ad30sm4754971eda.83.2023.01.04.02.45.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Jan 2023 02:45:56 -0800 (PST)
-From:   Ricardo Ribalda <ribalda@chromium.org>
-Date:   Wed, 04 Jan 2023 11:45:26 +0100
-Subject: [PATCH v3 8/8] media: uvcvideo: Fix hw timestamp handling for slow FPS
+        with ESMTP id S230423AbjADLKt (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 4 Jan 2023 06:10:49 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0026D1583E
+        for <linux-media@vger.kernel.org>; Wed,  4 Jan 2023 03:10:46 -0800 (PST)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id D101E6C7;
+        Wed,  4 Jan 2023 12:10:43 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1672830644;
+        bh=fzQTCAdtyw+O7QPLtwjK2hJrzh3h7bvnfKjbfOqMkI0=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Y3O67mreq5MMlAo2FoiVG7XrYX2QDrLHf7Owiaw7TdoWOA9RtqTDEBGKKjy+n1euD
+         9IbT+3pxqhzQ7L/RjMNwsQLLnDuBPnad+/vkrP2/NT4xgeiBfivldg70UZftVqypaF
+         tS+1ObfccBqxAEUUGd8KIvT0JI+54pnz1fLH0etQ=
+Date:   Wed, 4 Jan 2023 13:10:39 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Ricardo Ribalda <ribalda@chromium.org>
+Cc:     linux-media@vger.kernel.org,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Michael Grzeschik <m.grzeschik@pengutronix.de>
+Subject: Re: [PATCH v1] media: uvcvideo: Remove format descriptions
+Message-ID: <Y7Ver63AXghcFlop@pendragon.ideasonboard.com>
+References: <20221228014200.20462-1-laurent.pinchart@ideasonboard.com>
+ <CANiDSCspM4GpF9xrizBMBRTMQKkK+yqGoDYgu=s0f+g3j4qm-g@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20220920-resend-hwtimestamp-v3-8-db9faee7f47d@chromium.org>
-References: <20220920-resend-hwtimestamp-v3-0-db9faee7f47d@chromium.org>
-In-Reply-To: <20220920-resend-hwtimestamp-v3-0-db9faee7f47d@chromium.org>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-kernel@vger.kernel.org, "hn.chen" <hn.chen@sunplusit.com>,
-        Ricardo Ribalda <ribalda@chromium.org>,
-        linux-media@vger.kernel.org
-X-Mailer: b4 0.11.0-dev-696ae
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2413; i=ribalda@chromium.org;
- h=from:subject:message-id; bh=tXnPsHtSlRO20+xxBqG21iV1cCKWm3KfmKl4+olKPes=;
- b=owEBbQKS/ZANAwAKAdE30T7POsSIAcsmYgBjtVjb523K5wvvjKlkHqfOBA3pdJuwddqB6BwLexTj
- vGE39kGJAjMEAAEKAB0WIQREDzjr+/4oCDLSsx7RN9E+zzrEiAUCY7VY2wAKCRDRN9E+zzrEiKnpD/
- 4uI3pEVUaMQ/JFUCpFt+c9XzJcropqqB0VOrgtG/fXURnKGs1j6GDsXgAtvOn2QxdUsoGaTD6E4hz9
- 9Am7G8HYbalb7qr/C3+9vk8+oFDx3KurgkXqv2vt/W3rLFg+QwOtU50Dkj5xz9E5xcwa0C487LmVrA
- QsW8i/rVc/Y0n6UUa/nAOYsSKJAGbtjOnhhTmdQNRgELSJpbuRJ7I6ZwrM2JYuaJx1+zU1zpjsiyoL
- yceYVrSYI0Z/EZYliOn+SZ402dhYEoSwlWjvSRFLTIbYHy6qXIl+XiAVuqC82nxXXcKEtBYGcmRLfW
- L8IIdihEI7llbp06mYaT7BXkn33P2x4Io+9abzUcqiYLeL7/MVtyUO7XQhA+0SbAOVDkqiiPesARON
- 7TAS+8G2u3o6PmoFwEaPcTcCgi5rZb1SDYgmMXB9nORZFIrXioAUZi21Hk3Ii5H7QdVLydpJlcI5HT
- 5aWWv0vhy7do7RWiWXerW9vVzuprZm5Zr7WXQd6j2xm869vM/gaoIGpT+Uw9/8sUKVxq4/iLQKK+i3
- mrJj0BoBRgLvjkkyeanNOeJgvfycD0SPpgRY6J/13D4FGO5ImLuJoxPTJWLUagCbgG9zqK0/pIP8Yr
- k3YnrNzt7kwAlv4xk93YjItVzm0Jz9oOVQS0fIYlEw2AQpSUgV8DzqEg+hhg==
-X-Developer-Key: i=ribalda@chromium.org; a=openpgp;
- fpr=9EC3BB66E2FC129A6F90B39556A0D81F9F782DA9
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CANiDSCspM4GpF9xrizBMBRTMQKkK+yqGoDYgu=s0f+g3j4qm-g@mail.gmail.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-In UVC 1.5 we get a single clock value per frame. With the current
-buffer size of 32, FPS slowers than 32 might roll-over twice.
+Hi Ricardo,
 
-The current code cannot handle two roll-over and provide invalid
-timestamps.
+On Wed, Jan 04, 2023 at 11:37:33AM +0100, Ricardo Ribalda wrote:
+> On Wed, 28 Dec 2022 at 02:42, Laurent Pinchart wrote:
+> >
+> > The V4L2 core fills format description on its own in v4l_fill_fmtdesc(),
+>
+> Maybe make more explicit the rewrite, always fills
 
-Revome all the samples from the circular buffer that are more than two
-rollovers old, so the algorithm always provides good timestamps.
+Sure.
 
-Note that we are removing values that are more than one second old,
-which means that there is enough distance between the two points that
-we use for the interpolation to provide good values.
+> > there's no need to manually set the descriptions in the driver. This
+> > prepares for removal of the format descriptions from the uvc_fmts table.
+>
+> With or without the nits:
+> 
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+>
+> > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > ---
+> >
+> > Michael, I'd like to merge this before the "[PATCH v2 5/5] usb: uvc: use
+> > v4l2_fill_fmtdesc instead of open coded format name" patch you have
+> > submitted, if that's OK with you. It removes the need to call
+> > v4l2_fill_fmtdesc() in that patch, which will also allow dropping
+> > "[PATCH v2 4/5] media: v4l2: move v4l_fill_fmtdesc to common
+> > v4l2_fill_fmtdesc function" in that series. I think we can schedule all
+> > of that for v6.3.
+> >
+> > ---
+> >  drivers/media/usb/uvc/uvc_driver.c | 27 +++++++++++++--------------
+> >  drivers/media/usb/uvc/uvc_v4l2.c   |  2 --
+> >  drivers/media/usb/uvc/uvcvideo.h   |  2 --
+> >  3 files changed, 13 insertions(+), 18 deletions(-)
+> >
+> > diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+> > index 8132a5c3bc33..6de3d55daf36 100644
+> > --- a/drivers/media/usb/uvc/uvc_driver.c
+> > +++ b/drivers/media/usb/uvc/uvc_driver.c
+> > @@ -227,6 +227,7 @@ static int uvc_parse_format(struct uvc_device *dev,
+> >         struct uvc_format_desc *fmtdesc;
+> >         struct uvc_frame *frame;
+> >         const unsigned char *start = buffer;
+> > +       char fmtname[12] = { 0, };
+>
+> What about
+> char fmtname[] = "\0SDL-DV 60Hz"; /* Longest possible string. */
 
-Tested-by: HungNien Chen <hn.chen@sunplusit.com>
-Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
----
- drivers/media/usb/uvc/uvc_video.c | 15 +++++++++++++++
- drivers/media/usb/uvc/uvcvideo.h  |  1 +
- 2 files changed, 16 insertions(+)
+I'm a bit tempted, but I think it will just increase the kernel size a
+little bit for no real gain. We will still need to keep this in sync
+manually with any change we may make below in the future.
 
-diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
-index 2c6da49ff84b..b0b93e218288 100644
---- a/drivers/media/usb/uvc/uvc_video.c
-+++ b/drivers/media/usb/uvc/uvc_video.c
-@@ -471,6 +471,20 @@ static void uvc_video_clock_add_sample(struct uvc_clock *clock,
- 
- 	spin_lock_irqsave(&clock->lock, flags);
- 
-+	/* Delete last overflows */
-+	if (clock->head == clock->last_sof_overflow)
-+		clock->last_sof_overflow = -1;
-+
-+	/* Handle overflows */
-+	if (clock->count > 0 && clock->last_sof > sample->dev_sof) {
-+		/* Remove data from the last^2 overflows */
-+		if (clock->last_sof_overflow != -1)
-+			clock->count = (clock->head - clock->last_sof_overflow)
-+								% clock->count;
-+		clock->last_sof_overflow = clock->head;
-+	}
-+
-+	/* Add sample */
- 	memcpy(&clock->samples[clock->head], sample, sizeof(*sample));
- 	clock->last_sof = sample->dev_sof;
- 	clock->head = (clock->head + 1) % clock->size;
-@@ -595,6 +609,7 @@ static void uvc_video_clock_reset(struct uvc_clock *clock)
- 	clock->head = 0;
- 	clock->count = 0;
- 	clock->last_sof = -1;
-+	clock->last_sof_overflow = -1;
- 	clock->sof_offset = -1;
- }
- 
-diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-index 24c3e9411415..6dc015754e99 100644
---- a/drivers/media/usb/uvc/uvcvideo.h
-+++ b/drivers/media/usb/uvc/uvcvideo.h
-@@ -503,6 +503,7 @@ struct uvc_streaming {
- 		unsigned int head;
- 		unsigned int count;
- 		unsigned int size;
-+		unsigned int last_sof_overflow;
- 
- 		u16 last_sof;
- 		u16 sof_offset;
+> >         unsigned int width_multiplier = 1;
+> >         unsigned int interval;
+> >         unsigned int i, n;
+> > @@ -251,14 +252,10 @@ static int uvc_parse_format(struct uvc_device *dev,
+> >                 fmtdesc = uvc_format_by_guid(&buffer[5]);
+> >
+> >                 if (fmtdesc != NULL) {
+> > -                       strscpy(format->name, fmtdesc->name,
+> > -                               sizeof(format->name));
+> >                         format->fcc = fmtdesc->fcc;
+> >                 } else {
+> >                         dev_info(&streaming->intf->dev,
+> > -                                "Unknown video format %pUl\n", &buffer[5]);
+> > -                       snprintf(format->name, sizeof(format->name), "%pUl\n",
+> > -                               &buffer[5]);
+> > +                                "Unknown video format %p4cc\n", &buffer[5]);
+> >                         format->fcc = 0;
+> >                 }
+> >
+> > @@ -270,8 +267,6 @@ static int uvc_parse_format(struct uvc_device *dev,
+> >                  */
+> >                 if (dev->quirks & UVC_QUIRK_FORCE_Y8) {
+> >                         if (format->fcc == V4L2_PIX_FMT_YUYV) {
+> > -                               strscpy(format->name, "Greyscale 8-bit (Y8  )",
+> > -                                       sizeof(format->name));
+> >                                 format->fcc = V4L2_PIX_FMT_GREY;
+> >                                 format->bpp = 8;
+> >                                 width_multiplier = 2;
+> > @@ -312,7 +307,6 @@ static int uvc_parse_format(struct uvc_device *dev,
+> >                         return -EINVAL;
+> >                 }
+> >
+> > -               strscpy(format->name, "MJPEG", sizeof(format->name));
+> >                 format->fcc = V4L2_PIX_FMT_MJPEG;
+> >                 format->flags = UVC_FMT_FLAG_COMPRESSED;
+> >                 format->bpp = 0;
+> > @@ -330,13 +324,13 @@ static int uvc_parse_format(struct uvc_device *dev,
+> >
+> >                 switch (buffer[8] & 0x7f) {
+> >                 case 0:
+> > -                       strscpy(format->name, "SD-DV", sizeof(format->name));
+> > +                       strscpy(fmtname, "SD-DV", sizeof(fmtname));
+> >                         break;
+> >                 case 1:
+> > -                       strscpy(format->name, "SDL-DV", sizeof(format->name));
+> > +                       strscpy(fmtname, "SDL-DV", sizeof(fmtname));
+> >                         break;
+> >                 case 2:
+> > -                       strscpy(format->name, "HD-DV", sizeof(format->name));
+> > +                       strscpy(fmtname, "HD-DV", sizeof(fmtname));
+> >                         break;
+> >                 default:
+> >                         uvc_dbg(dev, DESCR,
+> > @@ -346,8 +340,8 @@ static int uvc_parse_format(struct uvc_device *dev,
+> >                         return -EINVAL;
+> >                 }
+> >
+> > -               strlcat(format->name, buffer[8] & (1 << 7) ? " 60Hz" : " 50Hz",
+> > -                       sizeof(format->name));
+> > +               strlcat(fmtname, buffer[8] & (1 << 7) ? " 60Hz" : " 50Hz",
+> > +                       sizeof(fmtname));
+> >
+> >                 format->fcc = V4L2_PIX_FMT_DV;
+> >                 format->flags = UVC_FMT_FLAG_COMPRESSED | UVC_FMT_FLAG_STREAM;
+> > @@ -375,7 +369,12 @@ static int uvc_parse_format(struct uvc_device *dev,
+> >                 return -EINVAL;
+> >         }
+> >
+> > -       uvc_dbg(dev, DESCR, "Found format %s\n", format->name);
+> 
+> What about simply:
+> 
+> uvc_dbg(dev, DESCR, "Found format %p4cc %s\n", &format->fcc, fmtname);
+> 
+> Even when format->fcc is zero, specially in uvc_dbg is nice to have that info.
+
+Note that, when format->fcc is zero, there's already a louder
+
+			dev_info(&streaming->intf->dev,
+				 "Unknown video format %p4cc\n", &buffer[5]);
+
+above, and fmtname will not be set. Your proposal would then print
+"Found format .... (0x00000000) \n" which I don't think would add much
+value.
+
+Another option would be to simply drop the format name for DV formats.
+It adds little value, and would simplify the code. I think I'll do so in
+v2.
+
+This also makes me realize I shouldn't have changed the dev_info() to
+%p4cc. I'll fix that in a v2.
+
+> > +       if (format->fcc) {
+> > +               if (fmtname[0])
+> > +                       uvc_dbg(dev, DESCR, "Found format %s\n", fmtname);
+> > +               else
+> > +                       uvc_dbg(dev, DESCR, "Found format %p4cc", &format->fcc);
+> > +       }
+> >
+> >         buflen -= buffer[0];
+> >         buffer += buffer[0];
+> > diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
+> > index f4d4c33b6dfb..dcd178d249b6 100644
+> > --- a/drivers/media/usb/uvc/uvc_v4l2.c
+> > +++ b/drivers/media/usb/uvc/uvc_v4l2.c
+> > @@ -660,8 +660,6 @@ static int uvc_ioctl_enum_fmt(struct uvc_streaming *stream,
+> >         fmt->flags = 0;
+> >         if (format->flags & UVC_FMT_FLAG_COMPRESSED)
+> >                 fmt->flags |= V4L2_FMT_FLAG_COMPRESSED;
+> > -       strscpy(fmt->description, format->name, sizeof(fmt->description));
+> > -       fmt->description[sizeof(fmt->description) - 1] = 0;
+> >         fmt->pixelformat = format->fcc;
+> >         return 0;
+> >  }
+> > diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
+> > index 84326991ec36..cd5861cae3b0 100644
+> > --- a/drivers/media/usb/uvc/uvcvideo.h
+> > +++ b/drivers/media/usb/uvc/uvcvideo.h
+> > @@ -262,8 +262,6 @@ struct uvc_format {
+> >         u32 fcc;
+> >         u32 flags;
+> >
+> > -       char name[32];
+> > -
+> >         unsigned int nframes;
+> >         struct uvc_frame *frame;
+> >  };
 
 -- 
-2.39.0.314.g84b9a713c41-goog-b4-0.11.0-dev-696ae
+Regards,
+
+Laurent Pinchart
