@@ -2,44 +2,44 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CF3C065D7EE
-	for <lists+linux-media@lfdr.de>; Wed,  4 Jan 2023 17:09:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 55DB565D835
+	for <lists+linux-media@lfdr.de>; Wed,  4 Jan 2023 17:13:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239869AbjADQJA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 4 Jan 2023 11:09:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59306 "EHLO
+        id S235007AbjADQMr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 4 Jan 2023 11:12:47 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34094 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239743AbjADQIo (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 4 Jan 2023 11:08:44 -0500
+        with ESMTP id S240079AbjADQMN (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 4 Jan 2023 11:12:13 -0500
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2604E3D9D0;
-        Wed,  4 Jan 2023 08:08:39 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4EFE34087B;
+        Wed,  4 Jan 2023 08:11:49 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id A370A6179A;
-        Wed,  4 Jan 2023 16:08:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A5D5EC433F0;
-        Wed,  4 Jan 2023 16:08:37 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id BF7916179C;
+        Wed,  4 Jan 2023 16:11:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CC3F6C433F0;
+        Wed,  4 Jan 2023 16:11:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1672848518;
+        s=korg; t=1672848708;
         bh=5vqMnOjPB/EzvYDjxxL+uagrVqeIhA4cDaoRhifpY2Y=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=OBZax3tOSKh0SYZrhYRxqIyGVxTFnUdvq4r+wK3vE1Z2bdPZaQOhEGFxYjT/LC+g/
-         u4GNwOs0Rl9P2D9fEd9REDGnnkS7Zk4nDdGhZYDBh5jhjELnTqD4Gp2JOmGv5+OT4j
-         7GM0R8Eg4fFp+qFIRmjuFM+sQ0ZqDnT4GpL6Rajs=
+        b=tkIOltjj6KNOeDwL83sd3YRfSB3OnocTVA2X9i2iVhewgmqQYsoOTLQHb0sAmNw62
+         gL4ym6jyORObVrlL5H9j3AWqhO61KGKuxNHrQ7/LGW0maVMxCu1dPRhmc/t2HMEGg1
+         6RQhGdJBeTrEt7wwD2RRWFFZYuGmRPwetctN/cxk=
 From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To:     stable@vger.kernel.org
 Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         patches@lists.linux.dev,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-media@vger.kernel.org, "Jason A. Donenfeld" <Jason@zx2c4.com>
-Subject: [PATCH 6.1 003/207] media: stv0288: use explicitly signed char
-Date:   Wed,  4 Jan 2023 17:04:21 +0100
-Message-Id: <20230104160512.024402065@linuxfoundation.org>
+Subject: [PATCH 6.0 002/177] media: stv0288: use explicitly signed char
+Date:   Wed,  4 Jan 2023 17:04:53 +0100
+Message-Id: <20230104160507.718681077@linuxfoundation.org>
 X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20230104160511.905925875@linuxfoundation.org>
-References: <20230104160511.905925875@linuxfoundation.org>
+In-Reply-To: <20230104160507.635888536@linuxfoundation.org>
+References: <20230104160507.635888536@linuxfoundation.org>
 User-Agent: quilt/0.67
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
