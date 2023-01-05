@@ -2,72 +2,72 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1075565EEE7
-	for <lists+linux-media@lfdr.de>; Thu,  5 Jan 2023 15:39:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id ACFBD65EF36
+	for <lists+linux-media@lfdr.de>; Thu,  5 Jan 2023 15:49:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233426AbjAEOio (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 5 Jan 2023 09:38:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43012 "EHLO
+        id S234107AbjAEOtS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 5 Jan 2023 09:49:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48338 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230475AbjAEOin (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 5 Jan 2023 09:38:43 -0500
+        with ESMTP id S234162AbjAEOtL (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 5 Jan 2023 09:49:11 -0500
 Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com [64.147.123.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9AF685933E;
-        Thu,  5 Jan 2023 06:38:42 -0800 (PST)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-        by mailout.west.internal (Postfix) with ESMTP id B05A13200921;
-        Thu,  5 Jan 2023 09:38:40 -0500 (EST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D9DBA5AC63;
+        Thu,  5 Jan 2023 06:48:56 -0800 (PST)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+        by mailout.west.internal (Postfix) with ESMTP id 18BDD3200947;
+        Thu,  5 Jan 2023 09:48:55 -0500 (EST)
 Received: from mailfrontend1 ([10.202.2.162])
-  by compute5.internal (MEProxy); Thu, 05 Jan 2023 09:38:42 -0500
+  by compute4.internal (MEProxy); Thu, 05 Jan 2023 09:48:56 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
         cc:cc:content-transfer-encoding:content-type:date:date:from:from
         :in-reply-to:in-reply-to:message-id:mime-version:references
-        :reply-to:sender:subject:subject:to:to; s=fm3; t=1672929520; x=
-        1673015920; bh=0tRpqumuzD4A8ScE1T7chaSBsFg3IHBj12rmSPS7UQk=; b=d
-        4XVP0hfu/F6/aqVt3l7KnXcKsYzGCyPkegPh5cMb6DGQjil4x5jP/7hc8l4l/ZYr
-        dmW6ZFITa0tZjR4/RMJk2iVJQ/CwzSINlKcXCmiXdin90n2cK8pnCanUi0MD24Be
-        zcl0lb4i82jOmJ3e85hZigrGZoBe+t5jwX33lNdmBA+YnzNufMNu7XmeIbGhYU0f
-        c/XinqxdlpWh5ln3p+G+ikkrZ5px+5fkskZ4yXSc/sCI3CLR1ZIvENpADgRXltBn
-        hLzwEaWUGw/lpLASPwL6GWgdsG0X6zodJ+DX4iBGKyCE0Zc1JTid/+VkP+KA5Xrk
-        9JZVID+ykBC4TgsdGk9qw==
+        :reply-to:sender:subject:subject:to:to; s=fm3; t=1672930134; x=
+        1673016534; bh=V6G1v0bX0D4UJNGGt2xLs1w58IJyGOC4jf7dccTEEPM=; b=1
+        gZckvrW14EF6QB1iyxkjWAB6iRnHIiVv2ITPJDMOAekUfAtApvHM4joaNEsNOTPz
+        dm3iPtBjbXT4UaiyshKQ7x2M9bSXx7PR5x0ao4mHvjuJvXLV5YQjcsIwmdizvyxR
+        J8FFXJG4EoWwR3gajt9fQTRjmkPZra4YljZh21KuppF6OBhIzlmdClElEtm2m1tx
+        4yiw4oOIoqELlaB5ahYbxjeB6uB7XzysI7VPsqns2BaboVLGIDyBCtsKBx+eSJBP
+        sKhMKbVzNp0QwShyyyDt4w0JKxiHp04InkVNB4jDvkhTLK5kHUacKKEkds2otrcd
+        xCilLN3Xtiv9UpUJnbqWA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
         messagingengine.com; h=cc:cc:content-transfer-encoding
         :content-type:date:date:feedback-id:feedback-id:from:from
         :in-reply-to:in-reply-to:message-id:mime-version:references
         :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
-        :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1672929520; x=
-        1673015920; bh=0tRpqumuzD4A8ScE1T7chaSBsFg3IHBj12rmSPS7UQk=; b=Q
-        mQFZigQXsGb4r6btUJAczAkvrtBumokULURZYr9BGtsdKHGAhQuRmIsGKhhnbvC+
-        LjhBx/EnM5c1+Ov0HfGPAD2Mz8/6SPy0zV69+M7LDAr/n9H1dhINb5cQ5CrrL+4r
-        y1b+a8UCf/oFhnf832zSQcFvRKwGLXCjq9yi0vRlNA0IYVHfojbfw9DlqVO4b0SB
-        T6YI5eKHwcttLLGw6nIiT8JZ15cxtT4SgC32TXlFEU0lDlhb6BSWja79zAwMEqHe
-        gt9z8iWjSka1bTuLTQ8lk5aEQOd+ak+5EAaZBlEv3z6xka+1eGCOepNq+2ySMXLc
-        PIyaqHsm9Ss57ukPytCqw==
-X-ME-Sender: <xms:7-C2Y5pDpDdwzZ9i1c8ziDXeBnxnpPMJEv30DfLvp6tDjYJQIrNvQw>
-    <xme:7-C2Y7pAm2sM3PGdZZXvzn8WrKomMEc-zUSYuMvCvo4A9vc1OKr4HvfHTNfqNf4PC
-    1pUnki5hMqTbkAxEA>
-X-ME-Received: <xmr:7-C2Y2MDGjw_4EF4JjqLYeISZ9wH4Pz46PsKY12SANCHdYIiSDeZC45ei0IXcnNMzSoKN47vArjirjMi6kgFpv1Sw7iUUfh9KHGHC0GOleWUO0h1T2hrH8byEQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrjeekgdeikecutefuodetggdotefrodftvf
+        :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1672930134; x=
+        1673016534; bh=V6G1v0bX0D4UJNGGt2xLs1w58IJyGOC4jf7dccTEEPM=; b=c
+        NOnBTbP9S0V2/aQUaA120sVik6fZ0yLzAfug1DGbwRkHr5kGzXq7wLs81ycuGu+S
+        pSddtWpa7rIvSaym3JpoG6hsxAbcr4Ga2cWr6hWkM/cN5F04En3rzIQNZ2q6elLe
+        n9Y611F4OYGB22rrilQ9mQqAVCR64GxgF96nRaeVqqcpT5fgmLCCSFt+me3GpPa6
+        7zqLyHEmY54YecWhB/MfI3973WARveHAUWZaHl5fAIhXltYID+l4BSGxLZEEDhMj
+        oatK+gHoGaubk1+APfp0w9EEaB3/N1ROSp3dUpZ9W7+NygTlSOmG9jxDgPGfQfFi
+        xYw3BS/RnUVy3dVxqwbWg==
+X-ME-Sender: <xms:VuO2Y_NkVNEO0nT_BMvVb77DrTxIi28CSm96zlAn9CwDF011NETtkw>
+    <xme:VuO2Y59pmwVnoaXykU-NV9RLgQIww6y6kd7P6f1lUnUxRakts76Xi-b1iQtGvzciu
+    kFbD_w2H8dTOa7D3A>
+X-ME-Received: <xmr:VuO2Y-QqBTy4JTZ1d_rCLqaM23Fa_KzSSvi1hfjSucarsOpGiD4ouNXPfi2g4BhqAfs_VqgYXARxGsUHj0ULvzvFrZFWA9c2sJyB96bHyUcpufT3-k61FFwqNQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrjeekgdejtdcutefuodetggdotefrodftvf
     curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
     uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefkffggfgfuvfevfhfhjggtgfesthejredttdefjeenucfhrhhomhepufgrmhhu
+    fjughrpefkffggfgfvvehfhffujggtgfesthejredttdefjeenucfhrhhomhepufgrmhhu
     vghlucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecugg
-    ftrfgrthhtvghrnhepkeejleelfeeitdfhtdfgkeeghedufeduueegffdvhfdukeelleef
-    tdetjeehuddtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
-    homhepshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
-X-ME-Proxy: <xmx:7-C2Y07PRTSiCseNNHcdHN-fhBrwQUshcyconVZGhlx2XWYqiFxH8Q>
-    <xmx:7-C2Y44cJfaJdZEI7LHg5qIGEmGoOBe5DWlejR7aihYkkRlkrfS9GA>
-    <xmx:7-C2Y8hYQx225tPwiImxWhzHqlmVmoFMQ15_h04c-vsnwMmjY9xH-w>
-    <xmx:8OC2Y1O802ea8_p3G5yF6B-Pb7YVl7CFQQl1QE3UHG0IC2NxFoQd_g>
+    ftrfgrthhtvghrnhepheffgfegtedttddutdfhfefhgefftdeklefgueeltdettdekgffg
+    ueehvdfhffdvnecuffhomhgrihhnpehlihhnuhigqdhsuhhngihirdhorhhgpdhgihhthh
+    husgdrtghomhdpkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgeptdenucfr
+    rghrrghmpehmrghilhhfrhhomhepshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
+X-ME-Proxy: <xmx:VuO2YzuHz7nqtQ1CK9xQOK1ubF4Qr2BoMFzRtn8v2K3OS98dKrCkMg>
+    <xmx:VuO2Y3dag6Hskmc6IZJ5Xd_6lHgdqLmZsIYERnaxh3D4Qh_ZmgPMmw>
+    <xmx:VuO2Y_0Kz-AfUxMnu_kCWQjpj2xSV-bTlRpBvpAavLLn5Sv0cL8JeQ>
+    <xmx:VuO2YyDiQLu7j2MiOI9kd-2203LolwT-LoaxhNGV0RgrSj2KADdDXw>
 Feedback-ID: i0ad843c9:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 5 Jan 2023 09:38:37 -0500 (EST)
-Message-ID: <3b6ec431-70ac-cf68-6f46-9dc0affb1e68@sholland.org>
-Date:   Thu, 5 Jan 2023 08:38:36 -0600
+ 5 Jan 2023 09:48:53 -0500 (EST)
+Message-ID: <383edfed-c9fe-9214-5b61-dbe6f017e03a@sholland.org>
+Date:   Thu, 5 Jan 2023 08:48:52 -0600
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux ppc64le; rv:102.0) Gecko/20100101
  Thunderbird/102.3.3
-Subject: Re: [PATCH 4/4] riscv: dts: allwinner: d1: Add video engine node
 Content-Language: en-US
 To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 Cc:     Chen-Yu Tsai <wens@csie.org>,
@@ -86,9 +86,11 @@ Cc:     Chen-Yu Tsai <wens@csie.org>,
         linux-riscv@lists.infradead.org, linux-staging@lists.linux.dev,
         linux-sunxi@lists.linux.dev
 References: <20221231164628.19688-1-samuel@sholland.org>
- <20221231164628.19688-5-samuel@sholland.org> <Y7aiZdjI8L5h1Ca3@aptenodytes>
+ <20221231164628.19688-2-samuel@sholland.org> <Y7ap2dZdCHLNzzHb@aptenodytes>
 From:   Samuel Holland <samuel@sholland.org>
-In-Reply-To: <Y7aiZdjI8L5h1Ca3@aptenodytes>
+Subject: Re: [PATCH 1/4] media: dt-bindings: cedrus: Allow power domain
+ references
+In-Reply-To: <Y7ap2dZdCHLNzzHb@aptenodytes>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-5.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -103,16 +105,37 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Hi Paul,
 
-On 1/5/23 04:11, Paul Kocialkowski wrote:
+On 1/5/23 04:43, Paul Kocialkowski wrote:
 > On Sat 31 Dec 22, 10:46, Samuel Holland wrote:
->> D1 contains a video engine which is supported by the Cedrus driver.
+>> The Allwinner D1 SoC contains a separate power domain for its video
+>> engine, controlled via the "PPU" power controller. Allow the
+>> power-domains property so this can be represented in the devicetree.
 > 
-> Does it work "outside the box" without power domain management?
-> If not, it might be a bit confusing to add the node at this point.
+> I've been looking around for information regarding the PPU and couldn't find
+> anything about it. Do you have some reference where it is mentionned?
 
-Yes, it does. All of the power domains are enabled by default. However,
-if the PPU series is merged first, I will respin this to include the
-power-domains property from the beginning.
+There are some oblique references as far back as H6 in some user manuals
+(in the bus block diagram and interrupt list) and in the vendor clock
+drivers.
+
+I gathered some information here:
+https://linux-sunxi.org/PPU
+
+It is used by OpenSBI for CPU idle:
+https://github.com/riscv-software-src/opensbi/commit/9dc5ec5c.patch
+
+and I have a series adding PPU support to Linux for the Video Engine:
+https://lore.kernel.org/linux-sunxi/20221231160402.16157-1-samuel@sholland.org/
+
+> I do see a power domain driver (apparently for the GPU) on recent allwinner
+> kernel releases but that seems to be for arm64 chips only.
+
+Yes, there is an older GPU-specific power domain hardware, and the
+generic one found on D1/R528/T113 and newer. However, I found while
+writing the Linux driver that the two are more similar than the vendor
+drivers would imply. Most of the registers from the old hardware remain
+in the new hardware; they just are not used by the new vendor driver. So
+you can reference my Linux series for a full register list.
 
 Regards,
 Samuel
@@ -120,31 +143,23 @@ Samuel
 >> Signed-off-by: Samuel Holland <samuel@sholland.org>
 >> ---
 >>
->>  arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi | 11 +++++++++++
->>  1 file changed, 11 insertions(+)
+>>  .../bindings/media/allwinner,sun4i-a10-video-engine.yaml       | 3 +++
+>>  1 file changed, 3 insertions(+)
 >>
->> diff --git a/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi b/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
->> index dff363a3c934..4bd374279155 100644
->> --- a/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
->> +++ b/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
->> @@ -34,6 +34,17 @@ soc {
->>  		#address-cells = <1>;
->>  		#size-cells = <1>;
+>> diff --git a/Documentation/devicetree/bindings/media/allwinner,sun4i-a10-video-engine.yaml b/Documentation/devicetree/bindings/media/allwinner,sun4i-a10-video-engine.yaml
+>> index 541325f900a1..d5be7f604e8c 100644
+>> --- a/Documentation/devicetree/bindings/media/allwinner,sun4i-a10-video-engine.yaml
+>> +++ b/Documentation/devicetree/bindings/media/allwinner,sun4i-a10-video-engine.yaml
+>> @@ -63,6 +63,9 @@ properties:
+>>        CMA pool to use for buffers allocation instead of the default
+>>        CMA pool.
 >>  
->> +		ve: video-codec@1c0e000 {
->> +			compatible = "allwinner,sun20i-d1-video-engine";
->> +			reg = <0x1c0e000 0x2000>;
->> +			interrupts = <SOC_PERIPHERAL_IRQ(66) IRQ_TYPE_LEVEL_HIGH>;
->> +			clocks = <&ccu CLK_BUS_VE>,
->> +				 <&ccu CLK_VE>,
->> +				 <&ccu CLK_MBUS_VE>;
->> +			clock-names = "ahb", "mod", "ram";
->> +			resets = <&ccu RST_BUS_VE>;
->> +		};
+>> +  power-domains:
+>> +    maxItems: 1
 >> +
->>  		pio: pinctrl@2000000 {
->>  			compatible = "allwinner,sun20i-d1-pinctrl";
->>  			reg = <0x2000000 0x800>;
+>>  required:
+>>    - compatible
+>>    - reg
 >> -- 
 >> 2.37.4
 >>
