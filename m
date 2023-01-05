@@ -2,152 +2,89 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4B02F65F105
-	for <lists+linux-media@lfdr.de>; Thu,  5 Jan 2023 17:22:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D2AD465F2A4
+	for <lists+linux-media@lfdr.de>; Thu,  5 Jan 2023 18:28:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234713AbjAEQWJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 5 Jan 2023 11:22:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57666 "EHLO
+        id S233948AbjAER2G (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 5 Jan 2023 12:28:06 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42010 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235007AbjAEQWE (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 5 Jan 2023 11:22:04 -0500
-Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com [IPv6:2a00:1450:4864:20::633])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C9A351305;
-        Thu,  5 Jan 2023 08:22:04 -0800 (PST)
-Received: by mail-ej1-x633.google.com with SMTP id u19so91166764ejm.8;
-        Thu, 05 Jan 2023 08:22:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=FU9BexSvyi2rD+vcAVXhDiB0sHcYopPemd1xbDcQCCM=;
-        b=ZzmV1s9fsOiFn3LejpZMBW4u+pf0+ZsDVki4sSrDBfhDl+80zywTBkT2FEzzYYPBi8
-         JmEKj/3Qtjl+IaRZADQxPPtnnv2nKTIrrFX2o2FHjpaitSARP8JPauqYKgrkHW1UvnDo
-         c4f/TcKWlNL8MZgrKbZIB6+uzR7o51Romu8B8t0kqV685+x5Mh6USO9dHK+mR+2yHTS4
-         SdXlYi99kkgubU0p0EGJppw545xOeurgrgnbHVfnJNVnrp/RMu67JcDiQF+Fy3dOHG+t
-         Z1aQSAVwxxQiIVCyKOJiFkr6Xb6WAWvptnENqrE0UMtxZt/wJoSGIWImm4TGLjKgLw97
-         fyFA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=FU9BexSvyi2rD+vcAVXhDiB0sHcYopPemd1xbDcQCCM=;
-        b=ogUF30ASumonC2hjCCxu5CJQcwEb36+M9CrZScDjGvS9Rz1iiCLam+u7u0mHdIQB09
-         FN8jQv49JZAmL8B9Dq/erlE2VhWATRrnZrLWrdTucCa+q45HzFRxvJCB3UlPkIm9iNPm
-         bZyiIZlNMWEmVIpU6Hgm2kaGTmCv6KcGMIwlHiaqTBsq3IlCVpl7W5e4jTfAQGIt115d
-         kIzuLTC0+BbkZ6eajOx5Lq87lIHbzl/4endKN0D+ExnbGpF8hFK9QHx+cTcbVSdSU/dm
-         uZgg+zsfi94uIltj4XYhn0YDsQbYK9X9franL/s7iO+rCI6M/mG3CjhDUjs+NoDVWxkO
-         SMuw==
-X-Gm-Message-State: AFqh2krN9+raXJDm03N2Hs8Ow2odoG6kcJ5D4Lpx/Gw53EVP6KzHm+HK
-        ae1cvbkk5hbLjEuS52P8Xc8=
-X-Google-Smtp-Source: AMrXdXsD2peymLRAR8nXx7rxyHoJqIkfQ1+TstQthZ56mRCZ9BQTT+slxB9DzT9NnHO//D+Rg/RyuA==
-X-Received: by 2002:a17:906:b108:b0:843:a9fe:f115 with SMTP id u8-20020a170906b10800b00843a9fef115mr46900892ejy.32.1672935722636;
-        Thu, 05 Jan 2023 08:22:02 -0800 (PST)
-Received: from jernej-laptop.localnet (82-149-19-102.dynamic.telemach.net. [82.149.19.102])
-        by smtp.gmail.com with ESMTPSA id r18-20020a170906549200b007c0b28b85c5sm16503224ejo.138.2023.01.05.08.21.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Jan 2023 08:22:01 -0800 (PST)
-From:   Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Samuel Holland <samuel@sholland.org>
-Cc:     Chen-Yu Tsai <wens@csie.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Conor Dooley <conor@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Maxime Ripard <mripard@kernel.org>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-riscv@lists.infradead.org, linux-staging@lists.linux.dev,
-        linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH 4/4] riscv: dts: allwinner: d1: Add video engine node
-Date:   Thu, 05 Jan 2023 17:21:58 +0100
-Message-ID: <4767366.GXAFRqVoOG@jernej-laptop>
-In-Reply-To: <3b6ec431-70ac-cf68-6f46-9dc0affb1e68@sholland.org>
-References: <20221231164628.19688-1-samuel@sholland.org> <Y7aiZdjI8L5h1Ca3@aptenodytes>
- <3b6ec431-70ac-cf68-6f46-9dc0affb1e68@sholland.org>
+        with ESMTP id S235343AbjAER1d (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 5 Jan 2023 12:27:33 -0500
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A1EFE6718E
+        for <linux-media@vger.kernel.org>; Thu,  5 Jan 2023 09:23:31 -0800 (PST)
+Received: (Authenticated sender: jacopo@jmondi.org)
+        by mail.gandi.net (Postfix) with ESMTPSA id 47A511C0006;
+        Thu,  5 Jan 2023 17:23:28 +0000 (UTC)
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Nicholas Roth <nicholas@rothemail.net>,
+        Robert Mader <robert.mader@collabora.com>
+Cc:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-media@vger.kernel.org
+Subject: [PATCH 0/2] media: i2c: Add driver for OmniVision OV8858
+Date:   Thu,  5 Jan 2023 18:23:18 +0100
+Message-Id: <20230105172320.133810-1-jacopo@jmondi.org>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Dne =C4=8Detrtek, 05. januar 2023 ob 15:38:36 CET je Samuel Holland napisal=
-(a):
-> Hi Paul,
->=20
-> On 1/5/23 04:11, Paul Kocialkowski wrote:
-> > On Sat 31 Dec 22, 10:46, Samuel Holland wrote:
-> >> D1 contains a video engine which is supported by the Cedrus driver.
-> >=20
-> > Does it work "outside the box" without power domain management?
-> > If not, it might be a bit confusing to add the node at this point.
->=20
-> Yes, it does. All of the power domains are enabled by default. However,
-> if the PPU series is merged first, I will respin this to include the
-> power-domains property from the beginning.
+From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 
-I would rather see that merged before and having complete node right away.
+Hello,
+  this is a new version of  of Nicholas' first submission available at
+https://lore.kernel.org/all/20221106171129.166892-2-nicholas@rothemail.net/
 
-I've been away, but I'll merge everything that's ready for sunxi tree until=
-=20
-end of the weekend.
+This is a re-write of the previous version so I've restarted numeration from 0
+even if in this version I have not changed the register tables.
 
-Best regards,
-Jernej
+Functionally the most notable difference is the addition of support for binned
+mode in 4 data lanes mode.
 
->=20
-> Regards,
-> Samuel
->=20
-> >> Signed-off-by: Samuel Holland <samuel@sholland.org>
-> >> ---
-> >>=20
-> >>  arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi | 11 +++++++++++
-> >>  1 file changed, 11 insertions(+)
-> >>=20
-> >> diff --git a/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
-> >> b/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi index
-> >> dff363a3c934..4bd374279155 100644
-> >> --- a/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
-> >> +++ b/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
-> >> @@ -34,6 +34,17 @@ soc {
-> >>=20
-> >>  		#address-cells =3D <1>;
-> >>  		#size-cells =3D <1>;
-> >>=20
-> >> +		ve: video-codec@1c0e000 {
-> >> +			compatible =3D "allwinner,sun20i-d1-video-
-engine";
-> >> +			reg =3D <0x1c0e000 0x2000>;
-> >> +			interrupts =3D <SOC_PERIPHERAL_IRQ(66)=20
-IRQ_TYPE_LEVEL_HIGH>;
-> >> +			clocks =3D <&ccu CLK_BUS_VE>,
-> >> +				 <&ccu CLK_VE>,
-> >> +				 <&ccu CLK_MBUS_VE>;
-> >> +			clock-names =3D "ahb", "mod", "ram";
-> >> +			resets =3D <&ccu RST_BUS_VE>;
-> >> +		};
-> >> +
-> >>=20
-> >>  		pio: pinctrl@2000000 {
-> >>  	=09
-> >>  			compatible =3D "allwinner,sun20i-d1-pinctrl";
-> >>  			reg =3D <0x2000000 0x800>;
+There is more space for optimization on top of this series, in example the
+register tables can be reworked to share more common settings between modes. I
+have started the effort, but as it is a tedious and error-prone work I would
+rather have this first version merged and the iterate on top. Programming of the
+analog crop rectangle and output size could also be made parametric, but the
+current modes have a few undocumented registers and I didn't feel like biting
+the bullet and see if the can be safely removed or not.
 
+Also, the BSP driver mentions a "not well supported" R1A version of the chip.
+I would be in favour of removing it if no one oppose.
 
+Images are still rather "dark" when tested with libcamera but preview is working
+as expected in both modes (full res and half-res binned mode) and with 2 and 4
+data lanes.
 
+Nicholas could you let me know if things are fine with you here ?
+
+Thanks
+  j
+
+Jacopo Mondi (1):
+  dt-bindings: media: Add schema for OmniVision OV8858
+
+Nicholas Roth (1):
+  media: i2c: Add driver for OmniVision OV8858
+
+ .../bindings/media/i2c/ovti,ov8858.yaml       |  109 +
+ MAINTAINERS                                   |    9 +
+ drivers/media/i2c/Kconfig                     |   13 +
+ drivers/media/i2c/Makefile                    |    1 +
+ drivers/media/i2c/ov8858.c                    | 1989 +++++++++++++++++
+ 5 files changed, 2121 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/ovti,ov8858.yaml
+ create mode 100644 drivers/media/i2c/ov8858.c
+
+--
+2.38.1
 
