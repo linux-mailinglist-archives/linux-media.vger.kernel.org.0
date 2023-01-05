@@ -2,127 +2,112 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5B9D965E645
-	for <lists+linux-media@lfdr.de>; Thu,  5 Jan 2023 08:52:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1FA5A65E6DB
+	for <lists+linux-media@lfdr.de>; Thu,  5 Jan 2023 09:29:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230163AbjAEHwY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 5 Jan 2023 02:52:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45572 "EHLO
+        id S231234AbjAEI3U (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 5 Jan 2023 03:29:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37824 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229527AbjAEHwW (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 5 Jan 2023 02:52:22 -0500
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 34D2114028;
-        Wed,  4 Jan 2023 23:52:21 -0800 (PST)
-Received: from [IPV6:2a01:e0a:120:3210:ead5:88fc:cd91:c042] (unknown [IPv6:2a01:e0a:120:3210:ead5:88fc:cd91:c042])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: benjamin.gaignard)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id AE3B96602D29;
-        Thu,  5 Jan 2023 07:52:18 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1672905139;
-        bh=I9+kXg3GpKIbjc5YSQXZHG/6U6cH7e+ZQgdfpA18EMM=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=ADMxEGvXipnJKcNj5GP8AvdiMDBFxRXT0YpNOYNJa6CJrbl5t8ZhHfXTnCnwQMKS8
-         kLfG9Uzw3qA6trfC776ndavgII8win/f4eE7Y2jmBP1Gd/OqWLhOMgLl67mMZzv3um
-         uCAxkniZaXgx4Vgq4v7MeRUz1QemNSASGs4f5T9A4s9lfzgkc8/ib1Vc7SSnbN3dON
-         joXSvfmO2qBdpt6GaZRNE4FuHtThJ7vprYUIWrgsNQieZaS7VL2UOmu2gHv11xpEs/
-         Md92k1tfQYJQJWigRxJDVAQyqWq7cVh/Abyb7rbK0M9vg1b56+01ZgbbQa4MBKWow9
-         aH7V00V9V5giw==
-Message-ID: <20ff6ebe-7469-444a-f9f4-cb8b38e31538@collabora.com>
-Date:   Thu, 5 Jan 2023 08:52:15 +0100
+        with ESMTP id S231437AbjAEI3I (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 5 Jan 2023 03:29:08 -0500
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 00BBC2020
+        for <linux-media@vger.kernel.org>; Thu,  5 Jan 2023 00:29:05 -0800 (PST)
+Received: by mail-ej1-f51.google.com with SMTP id ud5so88544522ejc.4
+        for <linux-media@vger.kernel.org>; Thu, 05 Jan 2023 00:29:05 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
+         :content-language:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=yGHlop3cCbBfoVNnfx7yeftwRQibFydm8ZewcBvk/M8=;
+        b=xWaTtOHQ8L6h9pCPmi6qZT9aWiSB31Mfzwelap1+GFoD3ZtZpOt23hyOdRdWzs9dWd
+         aETI4aUlazlmvtulPYf46HoF/WUJVykPjbfVmNQ7lAXbxPoNQ7fnBU1kNIPBU9ExRnVp
+         TAou0dtGn9d/g2qWkdAghURHmNmRM+HWZ+YApLkuPeTWKPYJHduWI3b4Q2uPGshu8Y0B
+         wG/Ghh16+yO4XPofAJNkZJ3pvuz1A4gM/CjPyqqjyGm+CCELVuzBBkG1mq78oKiwbWgO
+         s5h0zaRVWKyzvRh6QHlBgCRPZy7smgEPYog1GvTZf37QM295UiDtojrmu/pyP/kzQqLK
+         N9Sw==
+X-Gm-Message-State: AFqh2kpYI4cjRp1/lInWuPFJkHcIh8+HXFNYg5NJR4uQKUVWhcX1pgUz
+        /eXCj+Hei+NPhyTLuHygEfCciFWspavvFA==
+X-Google-Smtp-Source: AMrXdXtdyYVIEW1j78tJBxMqR0264+FvKjroKe0n1IDvY1jml2EXzVDy9Jkuy0wG3gcT4NT/LMe4Ww==
+X-Received: by 2002:a17:906:60cb:b0:84b:b481:6188 with SMTP id f11-20020a17090660cb00b0084bb4816188mr33845725ejk.64.1672907344510;
+        Thu, 05 Jan 2023 00:29:04 -0800 (PST)
+Received: from ?IPV6:2a0b:e7c0:0:107::aaaa:49? ([2a0b:e7c0:0:107::aaaa:49])
+        by smtp.gmail.com with ESMTPSA id kv4-20020a17090778c400b007aee7ca1199sm16485095ejc.10.2023.01.05.00.29.03
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 05 Jan 2023 00:29:03 -0800 (PST)
+Message-ID: <5da0eeca-70d6-9933-8408-36b20bbc0d56@kernel.org>
+Date:   Thu, 5 Jan 2023 09:29:02 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH v2 07/13] media: verisilicon: Check AV1 bitstreams bit
- depth
-To:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-Cc:     p.zabel@pengutronix.de, mchehab@kernel.org, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, heiko@sntech.de,
-        daniel.almeida@collabora.com, nicolas.dufresne@collabora.co.uk,
-        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, kernel@collabora.com
-References: <20230103170058.810597-1-benjamin.gaignard@collabora.com>
- <20230103170058.810597-8-benjamin.gaignard@collabora.com>
- <CAAEAJfBpGwa-ZDFFCep8rk4+dgLrYOFdfyrqBZP68C+jkN0qMQ@mail.gmail.com>
+ Thunderbird/102.6.1
 Content-Language: en-US
-From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
-In-Reply-To: <CAAEAJfBpGwa-ZDFFCep8rk4+dgLrYOFdfyrqBZP68C+jkN0qMQ@mail.gmail.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Ricardo Ribalda <ribalda@chromium.org>
+Cc:     linux-media <linux-media@vger.kernel.org>
+References: <afdc583c-22c1-b57b-7773-307c84550218@kernel.org>
+ <CANiDSCu-1MOwMjh5NioDvNPWUtF_2A1nKf77RZ_OvgeLhLECKA@mail.gmail.com>
+ <Y7Z69HKvkFAunqQd@pendragon.ideasonboard.com>
+From:   Jiri Slaby <jirislaby@kernel.org>
+Subject: Re: EasyCAP (534d:0021) not offering native 720x576
+In-Reply-To: <Y7Z69HKvkFAunqQd@pendragon.ideasonboard.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-3.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-3.1 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        NICE_REPLY_A,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+On 05. 01. 23, 8:23, Laurent Pinchart wrote:
+> On Wed, Jan 04, 2023 at 02:12:44PM +0100, Ricardo Ribalda wrote:
+>> Hi Jiri
+>>
+>>
+>>
+>> I think that /dev/video3 belongs to your notebook webcam, not to the EasyCAP.
+> 
+> That looks correct.
 
-Le 04/01/2023 à 20:33, Ezequiel Garcia a écrit :
-> Hi Benjamin,
->
-> Thanks for the patch.
->
-> On Tue, Jan 3, 2023 at 2:01 PM Benjamin Gaignard
-> <benjamin.gaignard@collabora.com> wrote:
->> The driver supports 8 and 10 bits bitstreams, make sure to discard
->> other cases.
->>
->> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
->> ---
->>   drivers/media/platform/verisilicon/hantro_drv.c | 14 +++++++++++++-
->>   1 file changed, 13 insertions(+), 1 deletion(-)
->>
->> diff --git a/drivers/media/platform/verisilicon/hantro_drv.c b/drivers/media/platform/verisilicon/hantro_drv.c
->> index 8e93710dcfed..16539e89935c 100644
->> --- a/drivers/media/platform/verisilicon/hantro_drv.c
->> +++ b/drivers/media/platform/verisilicon/hantro_drv.c
->> @@ -282,7 +282,13 @@ static int hantro_try_ctrl(struct v4l2_ctrl *ctrl)
->>                  /* We only support profile 0 */
->>                  if (dec_params->profile != 0)
->>                          return -EINVAL;
->> +       } else if (ctrl->id == V4L2_CID_STATELESS_AV1_SEQUENCE) {
->> +               const struct v4l2_ctrl_av1_sequence *sequence = ctrl->p_new.p_av1_sequence;
->> +
->> +               if (sequence->bit_depth != 8 && sequence->bit_depth != 10)
->> +                       return -EINVAL;
->>          }
->> +
->>          return 0;
->>   }
->>
->> @@ -333,7 +339,13 @@ static int hantro_av1_s_ctrl(struct v4l2_ctrl *ctrl)
->>
->>          switch (ctrl->id) {
->>          case V4L2_CID_STATELESS_AV1_SEQUENCE:
->> -               ctx->bit_depth = ctrl->p_new.p_av1_sequence->bit_depth;
->> +               int bit_depth = ctrl->p_new.p_av1_sequence->bit_depth;
->> +
->> +               if (vb2_is_streaming(v4l2_m2m_get_src_vq(ctx->fh.m2m_ctx)))
->> +                       if (ctx->bit_depth != bit_depth)
->> +                               return -EINVAL;
->> +
-> Please use the v4l2_ctrl_grab API. Can you send a separate series to address
-> this for the other codecs?
+Yes, you are right -- only 2 devices (4+5) are created. I don't know why 
+I thought there are 3.
 
-I have tried to use v4l2_ctrl_grab API but when you grab a control you can set it anymore
-and V4L2_CID_STATELESS_AV1_SEQUENCE is send for each frame so it blocks everything.
+>> 720x480 I believe is the NTSC resolution.
 
-Benjamin
+Ah, that makes sense. Which leads me to: sometimes, the picture distorts 
+after I start playing the video. It's skewed and halves of the picture 
+switched [1]. I assume the driver expects NTSC@720x480, but the device 
+sends PAL@720x576, actually. Sometimes, there are also color strips.
 
->
-> Thanks a lot!
-> Ezequiel
->
->> +               ctx->bit_depth = bit_depth;
->>                  break;
->>          default:
->>                  return -EINVAL;
->> --
->> 2.34.1
->>
+[1] https://hci.fi.muni.cz/~xslaby/n/skew.jpg
+
+> Can you try starting the
+>> VHS, *before* you connect the grabber to the USB? Maybe that way the
+>> device realises that it should be working in PAL not in NTSC.
+> 
+> Good idea. The device advertises a maximum resolution of 720x480 in the
+> UVC descriptors it exposes to the host, so there's nothing the driver
+> can really do to obtain 720x576.
+
+That doesn't help. Maybe it would sound foolish (I don't know the 
+internals), but would it make sense to re-read UVC parameters on each 
+device start in open? Only as a debug aid to see if they change.
+
+> If plugging an active PAL source to the device before plugging it to the
+> USB port doesn't help, another option for investigation is to capture
+> USB traffic under Windows to check what happens there.
+
+OK, I can try it. I have win10 virt machine set up. So that should be 
+easy using usbmon. Except I don't know how to read the mon dumps. I 
+should start at Documentation/usb/usbmon.rst, I believe.
+
+thanks,
+-- 
+js
+suse labs
+
