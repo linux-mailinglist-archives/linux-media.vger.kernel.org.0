@@ -2,33 +2,33 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E950965E8AA
-	for <lists+linux-media@lfdr.de>; Thu,  5 Jan 2023 11:12:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5D6B365E92E
+	for <lists+linux-media@lfdr.de>; Thu,  5 Jan 2023 11:44:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232388AbjAEKMC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 5 Jan 2023 05:12:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37688 "EHLO
+        id S232022AbjAEKoP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 5 Jan 2023 05:44:15 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36132 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232360AbjAEKL7 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 5 Jan 2023 05:11:59 -0500
-Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::222])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC829167D9;
-        Thu,  5 Jan 2023 02:11:57 -0800 (PST)
+        with ESMTP id S232590AbjAEKnr (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 5 Jan 2023 05:43:47 -0500
+Received: from relay11.mail.gandi.net (relay11.mail.gandi.net [IPv6:2001:4b98:dc4:8::231])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D73AD44C4C;
+        Thu,  5 Jan 2023 02:43:45 -0800 (PST)
 Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id 745C94000D;
-        Thu,  5 Jan 2023 10:11:50 +0000 (UTC)
+        by mail.gandi.net (Postfix) with ESMTPSA id 83AEE100006;
+        Thu,  5 Jan 2023 10:43:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1672913516;
+        t=1672915424;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=HcbHSpYObowCaPT4UZ67tf0/71I4pFvPVyqK6Lz3L44=;
-        b=jXzx+L6tMjJ/USRyD6sSJATAagtFUQ4jkgSTOgGoJn4Gwcyvp4mF8bUmipoeszJb48ECR0
-        pfK7EITgdG0LtJ+xY9uNyVKlJ6Pz5w1BK6x82rh5BSM7I4dhBROudBF6FEbt2VZ+nnkohR
-        +1b4RgGssBKe9cfJAq33LDfZm6FKRS45r2s9/SKq+9aSKhpr9HnHZu6vYRgRAJCJ/5fR0d
-        N7aJu9yYvUsLYHXHIo9FhEmlkCLgP5PjGMlwA+cJKBIfvUb2SMV3ItTV6vXXBp8l51zWEx
-        QL5m4YB0sWbk1uIFDlePYihSEAp83TsknTSdEX9BgQwlFfbrMEgFn7GkAQggyA==
-Date:   Thu, 5 Jan 2023 11:11:49 +0100
+        bh=+Yr/nUbSQezXweJY6bNFYpcWO7a/X5IplQE9MKPs4FA=;
+        b=VV0/JX2BvGgdlR6xh7CnwhWQPLPXUZS7ei0be0XNMWNdFOAVpZSHgxJhNhoQ/IPYSjnxx3
+        PyUMV6Vpx1pV3K0VmNuHxaLFxL164X7pyeKKH8BC3JETfM47AywMB3nzzpcDu8yEpq4rUu
+        Q7jPb/MhV98WU4WoV7HpYjin0iel2BcZwhRutDK/e4mv5VVIWysy5RIXNLELSheoQBgrUa
+        PU7oL2J3HmADqcWdjJvN/MKrd2Bsmfy0/+HLA7mbbaJ8P0okGGNFYyLZ96uK2RT5xkaYjG
+        xsb4qYQ4WqN6uibTtsbQ42bTu6y+6FCGW4xckOZpqeMnfIonag3EeY0OioS0Tg==
+Date:   Thu, 5 Jan 2023 11:43:37 +0100
 From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 To:     Samuel Holland <samuel@sholland.org>
 Cc:     Chen-Yu Tsai <wens@csie.org>,
@@ -46,15 +46,16 @@ Cc:     Chen-Yu Tsai <wens@csie.org>,
         linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
         linux-riscv@lists.infradead.org, linux-staging@lists.linux.dev,
         linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH 4/4] riscv: dts: allwinner: d1: Add video engine node
-Message-ID: <Y7aiZdjI8L5h1Ca3@aptenodytes>
+Subject: Re: [PATCH 1/4] media: dt-bindings: cedrus: Allow power domain
+ references
+Message-ID: <Y7ap2dZdCHLNzzHb@aptenodytes>
 References: <20221231164628.19688-1-samuel@sholland.org>
- <20221231164628.19688-5-samuel@sholland.org>
+ <20221231164628.19688-2-samuel@sholland.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="uvNAlR/ImeHHAZfH"
+        protocol="application/pgp-signature"; boundary="nKy3H2Xqe6ArZJHS"
 Content-Disposition: inline
-In-Reply-To: <20221231164628.19688-5-samuel@sholland.org>
+In-Reply-To: <20221231164628.19688-2-samuel@sholland.org>
 X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
         SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
@@ -65,7 +66,7 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 
---uvNAlR/ImeHHAZfH
+--nKy3H2Xqe6ArZJHS
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
@@ -73,44 +74,44 @@ Content-Transfer-Encoding: quoted-printable
 Hi Samuel,
 
 On Sat 31 Dec 22, 10:46, Samuel Holland wrote:
-> D1 contains a video engine which is supported by the Cedrus driver.
+> The Allwinner D1 SoC contains a separate power domain for its video
+> engine, controlled via the "PPU" power controller. Allow the
+> power-domains property so this can be represented in the devicetree.
 
-Does it work "outside the box" without power domain management?
-If not, it might be a bit confusing to add the node at this point.
+I've been looking around for information regarding the PPU and couldn't find
+anything about it. Do you have some reference where it is mentionned?
+
+I do see a power domain driver (apparently for the GPU) on recent allwinner
+kernel releases but that seems to be for arm64 chips only.
 
 Cheers,
 
 Paul
-=20
+
 > Signed-off-by: Samuel Holland <samuel@sholland.org>
 > ---
 >=20
->  arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi | 11 +++++++++++
->  1 file changed, 11 insertions(+)
+>  .../bindings/media/allwinner,sun4i-a10-video-engine.yaml       | 3 +++
+>  1 file changed, 3 insertions(+)
 >=20
-> diff --git a/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi b/arch/ris=
-cv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
-> index dff363a3c934..4bd374279155 100644
-> --- a/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
-> +++ b/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
-> @@ -34,6 +34,17 @@ soc {
->  		#address-cells =3D <1>;
->  		#size-cells =3D <1>;
+> diff --git a/Documentation/devicetree/bindings/media/allwinner,sun4i-a10-=
+video-engine.yaml b/Documentation/devicetree/bindings/media/allwinner,sun4i=
+-a10-video-engine.yaml
+> index 541325f900a1..d5be7f604e8c 100644
+> --- a/Documentation/devicetree/bindings/media/allwinner,sun4i-a10-video-e=
+ngine.yaml
+> +++ b/Documentation/devicetree/bindings/media/allwinner,sun4i-a10-video-e=
+ngine.yaml
+> @@ -63,6 +63,9 @@ properties:
+>        CMA pool to use for buffers allocation instead of the default
+>        CMA pool.
 > =20
-> +		ve: video-codec@1c0e000 {
-> +			compatible =3D "allwinner,sun20i-d1-video-engine";
-> +			reg =3D <0x1c0e000 0x2000>;
-> +			interrupts =3D <SOC_PERIPHERAL_IRQ(66) IRQ_TYPE_LEVEL_HIGH>;
-> +			clocks =3D <&ccu CLK_BUS_VE>,
-> +				 <&ccu CLK_VE>,
-> +				 <&ccu CLK_MBUS_VE>;
-> +			clock-names =3D "ahb", "mod", "ram";
-> +			resets =3D <&ccu RST_BUS_VE>;
-> +		};
+> +  power-domains:
+> +    maxItems: 1
 > +
->  		pio: pinctrl@2000000 {
->  			compatible =3D "allwinner,sun20i-d1-pinctrl";
->  			reg =3D <0x2000000 0x800>;
+>  required:
+>    - compatible
+>    - reg
 > --=20
 > 2.37.4
 >=20
@@ -120,19 +121,19 @@ Paul Kocialkowski, Bootlin
 Embedded Linux and kernel engineering
 https://bootlin.com
 
---uvNAlR/ImeHHAZfH
+--nKy3H2Xqe6ArZJHS
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmO2omUACgkQ3cLmz3+f
-v9HoZQf/dl3gdDFnL9ptToBux9CndvEW3DuATq08dsu8Tuomejp5iBjKgLFwl1qW
-B5pIbqJw3GD3OKjU0qHE5Y0bjYg9wWKVQf48VY5tAE5xnM+uae1Rijw64Rvj1ZM0
-zjUCHo39JknTfE6kH8lXOkK1oxRfwqHs7oaAps/jZ2CPs/DBOPYhx/OhhvWqfui2
-QvZHgD/PqhGuYS9a7+G4mczarvORKkG36ICiHmBh5JxLkpvG/5B+KEH6CE5wyAdt
-E846talSC/BKaiMBngOwgQxLCHsVuROOBsxyfhVpgsWmQpyvDLmqLK+Ak0dgKby6
-9PH3omA3Vc7/cGWT64Yd1JglMkiD8w==
-=EMF0
+iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmO2qdkACgkQ3cLmz3+f
+v9FJkQgAodwHy0mR+AhNUcLpqjFBfhELdfQ6y6YJnDwkiGJJZDkXxAX7rpsAFGYu
+6CAoynkF3ve1u9SlMGMQtM4WNpCEX2sPMeAW1ljuTAdeNWIaalSMQS71fDEATuaZ
+MqxyQiO02r/9lqcWDGa9C3gkk3cQbIvfC/zK1tu3Gs2WUYOCFPerJUsmBKoucGdE
+Z+NHigkZJmHRQ7XDkhMzmcSoiSvDbKS7/pOC9O8A7icca6kdWudk/diC9MYkUYLD
+70Os3PUqUYB7e9llTG+sxpv5CQpSLe7uGvUx6e7cqNR59GZk8Tcy8gqcwitRxQkJ
+3bbS8sFAgj+6MhX/J02sf6SCFfnkmQ==
+=L1ge
 -----END PGP SIGNATURE-----
 
---uvNAlR/ImeHHAZfH--
+--nKy3H2Xqe6ArZJHS--
