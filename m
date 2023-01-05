@@ -2,72 +2,127 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id ED3F565E601
-	for <lists+linux-media@lfdr.de>; Thu,  5 Jan 2023 08:23:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5B9D965E645
+	for <lists+linux-media@lfdr.de>; Thu,  5 Jan 2023 08:52:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231235AbjAEHXn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 5 Jan 2023 02:23:43 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36510 "EHLO
+        id S230163AbjAEHwY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 5 Jan 2023 02:52:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45572 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229912AbjAEHXm (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 5 Jan 2023 02:23:42 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B0EA4883A
-        for <linux-media@vger.kernel.org>; Wed,  4 Jan 2023 23:23:40 -0800 (PST)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3D1C049C;
-        Thu,  5 Jan 2023 08:23:37 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1672903417;
-        bh=9Jug5JK/wqmTIoBwxAQ9kjzVMp4vIGbHqXMGwps/bjI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=T56p55P6vyt7h92m0+mtMaWSEzzz2cgCe6/PnDbNqE55t+EfDmuTvvygHyftJn9fl
-         RopMGNdvcYSZTJIrhMJQAfBg+8w2bHioSMlfL33dhfN3zQ3XisvXwxgdmRgs87Zc9h
-         uPOA7fvWj54ugjMXQhoCm7rC6W2wZUTQbDEua9+s=
-Date:   Thu, 5 Jan 2023 09:23:32 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Ricardo Ribalda <ribalda@chromium.org>
-Cc:     Jiri Slaby <jirislaby@kernel.org>,
-        linux-media <linux-media@vger.kernel.org>
-Subject: Re: EasyCAP (534d:0021) not offering native 720x576
-Message-ID: <Y7Z69HKvkFAunqQd@pendragon.ideasonboard.com>
-References: <afdc583c-22c1-b57b-7773-307c84550218@kernel.org>
- <CANiDSCu-1MOwMjh5NioDvNPWUtF_2A1nKf77RZ_OvgeLhLECKA@mail.gmail.com>
+        with ESMTP id S229527AbjAEHwW (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 5 Jan 2023 02:52:22 -0500
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 34D2114028;
+        Wed,  4 Jan 2023 23:52:21 -0800 (PST)
+Received: from [IPV6:2a01:e0a:120:3210:ead5:88fc:cd91:c042] (unknown [IPv6:2a01:e0a:120:3210:ead5:88fc:cd91:c042])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: benjamin.gaignard)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id AE3B96602D29;
+        Thu,  5 Jan 2023 07:52:18 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1672905139;
+        bh=I9+kXg3GpKIbjc5YSQXZHG/6U6cH7e+ZQgdfpA18EMM=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=ADMxEGvXipnJKcNj5GP8AvdiMDBFxRXT0YpNOYNJa6CJrbl5t8ZhHfXTnCnwQMKS8
+         kLfG9Uzw3qA6trfC776ndavgII8win/f4eE7Y2jmBP1Gd/OqWLhOMgLl67mMZzv3um
+         uCAxkniZaXgx4Vgq4v7MeRUz1QemNSASGs4f5T9A4s9lfzgkc8/ib1Vc7SSnbN3dON
+         joXSvfmO2qBdpt6GaZRNE4FuHtThJ7vprYUIWrgsNQieZaS7VL2UOmu2gHv11xpEs/
+         Md92k1tfQYJQJWigRxJDVAQyqWq7cVh/Abyb7rbK0M9vg1b56+01ZgbbQa4MBKWow9
+         aH7V00V9V5giw==
+Message-ID: <20ff6ebe-7469-444a-f9f4-cb8b38e31538@collabora.com>
+Date:   Thu, 5 Jan 2023 08:52:15 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CANiDSCu-1MOwMjh5NioDvNPWUtF_2A1nKf77RZ_OvgeLhLECKA@mail.gmail.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH v2 07/13] media: verisilicon: Check AV1 bitstreams bit
+ depth
+To:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Cc:     p.zabel@pengutronix.de, mchehab@kernel.org, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, heiko@sntech.de,
+        daniel.almeida@collabora.com, nicolas.dufresne@collabora.co.uk,
+        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, kernel@collabora.com
+References: <20230103170058.810597-1-benjamin.gaignard@collabora.com>
+ <20230103170058.810597-8-benjamin.gaignard@collabora.com>
+ <CAAEAJfBpGwa-ZDFFCep8rk4+dgLrYOFdfyrqBZP68C+jkN0qMQ@mail.gmail.com>
+Content-Language: en-US
+From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
+In-Reply-To: <CAAEAJfBpGwa-ZDFFCep8rk4+dgLrYOFdfyrqBZP68C+jkN0qMQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-3.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Jan 04, 2023 at 02:12:44PM +0100, Ricardo Ribalda wrote:
-> Hi Jiri
-> 
-> 
-> 
-> I think that /dev/video3 belongs to your notebook webcam, not to the EasyCAP.
 
-That looks correct.
+Le 04/01/2023 à 20:33, Ezequiel Garcia a écrit :
+> Hi Benjamin,
+>
+> Thanks for the patch.
+>
+> On Tue, Jan 3, 2023 at 2:01 PM Benjamin Gaignard
+> <benjamin.gaignard@collabora.com> wrote:
+>> The driver supports 8 and 10 bits bitstreams, make sure to discard
+>> other cases.
+>>
+>> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+>> ---
+>>   drivers/media/platform/verisilicon/hantro_drv.c | 14 +++++++++++++-
+>>   1 file changed, 13 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/media/platform/verisilicon/hantro_drv.c b/drivers/media/platform/verisilicon/hantro_drv.c
+>> index 8e93710dcfed..16539e89935c 100644
+>> --- a/drivers/media/platform/verisilicon/hantro_drv.c
+>> +++ b/drivers/media/platform/verisilicon/hantro_drv.c
+>> @@ -282,7 +282,13 @@ static int hantro_try_ctrl(struct v4l2_ctrl *ctrl)
+>>                  /* We only support profile 0 */
+>>                  if (dec_params->profile != 0)
+>>                          return -EINVAL;
+>> +       } else if (ctrl->id == V4L2_CID_STATELESS_AV1_SEQUENCE) {
+>> +               const struct v4l2_ctrl_av1_sequence *sequence = ctrl->p_new.p_av1_sequence;
+>> +
+>> +               if (sequence->bit_depth != 8 && sequence->bit_depth != 10)
+>> +                       return -EINVAL;
+>>          }
+>> +
+>>          return 0;
+>>   }
+>>
+>> @@ -333,7 +339,13 @@ static int hantro_av1_s_ctrl(struct v4l2_ctrl *ctrl)
+>>
+>>          switch (ctrl->id) {
+>>          case V4L2_CID_STATELESS_AV1_SEQUENCE:
+>> -               ctx->bit_depth = ctrl->p_new.p_av1_sequence->bit_depth;
+>> +               int bit_depth = ctrl->p_new.p_av1_sequence->bit_depth;
+>> +
+>> +               if (vb2_is_streaming(v4l2_m2m_get_src_vq(ctx->fh.m2m_ctx)))
+>> +                       if (ctx->bit_depth != bit_depth)
+>> +                               return -EINVAL;
+>> +
+> Please use the v4l2_ctrl_grab API. Can you send a separate series to address
+> this for the other codecs?
 
-> 720x480 I believe is the NTSC resolution. Can you try starting the
-> VHS, *before* you connect the grabber to the USB? Maybe that way the
-> device realises that it should be working in PAL not in NTSC.
+I have tried to use v4l2_ctrl_grab API but when you grab a control you can set it anymore
+and V4L2_CID_STATELESS_AV1_SEQUENCE is send for each frame so it blocks everything.
 
-Good idea. The device advertises a maximum resolution of 720x480 in the
-UVC descriptors it exposes to the host, so there's nothing the driver
-can really do to obtain 720x576.
+Benjamin
 
-If plugging an active PAL source to the device before plugging it to the
-USB port doesn't help, another option for investigation is to capture
-USB traffic under Windows to check what happens there.
-
--- 
-Regards,
-
-Laurent Pinchart
+>
+> Thanks a lot!
+> Ezequiel
+>
+>> +               ctx->bit_depth = bit_depth;
+>>                  break;
+>>          default:
+>>                  return -EINVAL;
+>> --
+>> 2.34.1
+>>
