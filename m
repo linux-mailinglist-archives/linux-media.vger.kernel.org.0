@@ -2,61 +2,60 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6DC6465F0FD
-	for <lists+linux-media@lfdr.de>; Thu,  5 Jan 2023 17:20:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4B02F65F105
+	for <lists+linux-media@lfdr.de>; Thu,  5 Jan 2023 17:22:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234918AbjAEQT6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 5 Jan 2023 11:19:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56294 "EHLO
+        id S234713AbjAEQWJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 5 Jan 2023 11:22:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57666 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234950AbjAEQT4 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 5 Jan 2023 11:19:56 -0500
-Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com [IPv6:2a00:1450:4864:20::635])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B2CD64E42F;
-        Thu,  5 Jan 2023 08:19:53 -0800 (PST)
-Received: by mail-ej1-x635.google.com with SMTP id tz12so91212571ejc.9;
-        Thu, 05 Jan 2023 08:19:53 -0800 (PST)
+        with ESMTP id S235007AbjAEQWE (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 5 Jan 2023 11:22:04 -0500
+Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com [IPv6:2a00:1450:4864:20::633])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C9A351305;
+        Thu,  5 Jan 2023 08:22:04 -0800 (PST)
+Received: by mail-ej1-x633.google.com with SMTP id u19so91166764ejm.8;
+        Thu, 05 Jan 2023 08:22:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=pyOyM/HgwJlEQ/SHr0fVdceVxYFOEYTbqWcahqqz92M=;
-        b=VQVKe2hUanS6/QijnRF6HkC0a+ngye5JsJDB/WLc6I2avTZBU/dgJ5Pc5p7zQ0uyrc
-         OmZMAIjPj70zYo6IwuWUb/JWAoZlOU8h02pIXCHOZZBGDaKzHb7KNiEFpkc8Cjf3ac8R
-         pUEzIrtIGUtKDiteNml8SNjgIG8qT/HsK93oEGjafTcBOgrUQV+mre7/c/iModBDsEi9
-         JGN6DdTrLG/BBdLt5V+rDhcjmT11A+FmdL8zpW/uPWMw1b348xCf8RXsylclOt+uAY3f
-         uZHddDuwE+5a4EY3pqNXIjraf3/MtJ3O/Vb93N0sZHlGPPnHHrrET35p3PAKNJYaT0jW
-         L+Iw==
+        bh=FU9BexSvyi2rD+vcAVXhDiB0sHcYopPemd1xbDcQCCM=;
+        b=ZzmV1s9fsOiFn3LejpZMBW4u+pf0+ZsDVki4sSrDBfhDl+80zywTBkT2FEzzYYPBi8
+         JmEKj/3Qtjl+IaRZADQxPPtnnv2nKTIrrFX2o2FHjpaitSARP8JPauqYKgrkHW1UvnDo
+         c4f/TcKWlNL8MZgrKbZIB6+uzR7o51Romu8B8t0kqV685+x5Mh6USO9dHK+mR+2yHTS4
+         SdXlYi99kkgubU0p0EGJppw545xOeurgrgnbHVfnJNVnrp/RMu67JcDiQF+Fy3dOHG+t
+         Z1aQSAVwxxQiIVCyKOJiFkr6Xb6WAWvptnENqrE0UMtxZt/wJoSGIWImm4TGLjKgLw97
+         fyFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=pyOyM/HgwJlEQ/SHr0fVdceVxYFOEYTbqWcahqqz92M=;
-        b=qmdPWIM8uUFk3yGL981szLcIO84Yx9D+QK3hZEaVWNBWnEwBVIRsqS67acrPEt003k
-         gII1nbZtMAjU+mDhgWHHcZGOm/ZoStoKhkn8cmUzhZkzw+LrIHAOQwkXum97BmyA2A5y
-         w6Dl7N5qAtVyCdpxAAegi2ngJlnyKzy2ffV6wsGA2FGZv3eEPb+3eOTLDfzUjvyVg5Nq
-         b3szPrUlrb1AdHAr4Ec6v0kjh9GDtN/k+hE7YFuclMJBr0iM75ajfpkoO0u647ZuK95y
-         wp+Rgn02B5WBvLLj+2BvV1dNUx366jmBQpEyauX6zVbZCJVnGFc53CLUmTdBj0Uoe5xc
-         /X+g==
-X-Gm-Message-State: AFqh2kp29jU6mhYzchdwZSgWPSFiiyHqdCDPEJJxtJccVd4L/qOImM20
-        Xdk4RPCh9aZkDcnoCf/UQEA=
-X-Google-Smtp-Source: AMrXdXsQwQkFr98YlIHQBlZLZhzkiyI1XZKspKsDyskIeLIk0vVJSB5Ia1sEEmCFUSd/R/u3G5WP/w==
-X-Received: by 2002:a17:906:f854:b0:849:7688:3e3e with SMTP id ks20-20020a170906f85400b0084976883e3emr35059487ejb.44.1672935592250;
-        Thu, 05 Jan 2023 08:19:52 -0800 (PST)
+        bh=FU9BexSvyi2rD+vcAVXhDiB0sHcYopPemd1xbDcQCCM=;
+        b=ogUF30ASumonC2hjCCxu5CJQcwEb36+M9CrZScDjGvS9Rz1iiCLam+u7u0mHdIQB09
+         FN8jQv49JZAmL8B9Dq/erlE2VhWATRrnZrLWrdTucCa+q45HzFRxvJCB3UlPkIm9iNPm
+         bZyiIZlNMWEmVIpU6Hgm2kaGTmCv6KcGMIwlHiaqTBsq3IlCVpl7W5e4jTfAQGIt115d
+         kIzuLTC0+BbkZ6eajOx5Lq87lIHbzl/4endKN0D+ExnbGpF8hFK9QHx+cTcbVSdSU/dm
+         uZgg+zsfi94uIltj4XYhn0YDsQbYK9X9franL/s7iO+rCI6M/mG3CjhDUjs+NoDVWxkO
+         SMuw==
+X-Gm-Message-State: AFqh2krN9+raXJDm03N2Hs8Ow2odoG6kcJ5D4Lpx/Gw53EVP6KzHm+HK
+        ae1cvbkk5hbLjEuS52P8Xc8=
+X-Google-Smtp-Source: AMrXdXsD2peymLRAR8nXx7rxyHoJqIkfQ1+TstQthZ56mRCZ9BQTT+slxB9DzT9NnHO//D+Rg/RyuA==
+X-Received: by 2002:a17:906:b108:b0:843:a9fe:f115 with SMTP id u8-20020a170906b10800b00843a9fef115mr46900892ejy.32.1672935722636;
+        Thu, 05 Jan 2023 08:22:02 -0800 (PST)
 Received: from jernej-laptop.localnet (82-149-19-102.dynamic.telemach.net. [82.149.19.102])
-        by smtp.gmail.com with ESMTPSA id z4-20020a17090655c400b0083ffb81f01esm16797532ejp.136.2023.01.05.08.19.50
+        by smtp.gmail.com with ESMTPSA id r18-20020a170906549200b007c0b28b85c5sm16503224ejo.138.2023.01.05.08.21.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Jan 2023 08:19:51 -0800 (PST)
+        Thu, 05 Jan 2023 08:22:01 -0800 (PST)
 From:   Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To:     Chen-Yu Tsai <wens@csie.org>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Samuel Holland <samuel@sholland.org>
+Cc:     Chen-Yu Tsai <wens@csie.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Samuel Holland <samuel@sholland.org>
-Cc:     Samuel Holland <samuel@sholland.org>,
         Albert Ou <aou@eecs.berkeley.edu>,
         Conor Dooley <conor@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -67,15 +66,15 @@ Cc:     Samuel Holland <samuel@sholland.org>,
         linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
         linux-riscv@lists.infradead.org, linux-staging@lists.linux.dev,
         linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH 3/4] media: cedrus: Make SRAM section claiming optional
-Date:   Thu, 05 Jan 2023 17:19:49 +0100
-Message-ID: <4450464.LvFx2qVVIh@jernej-laptop>
-In-Reply-To: <20221231164628.19688-4-samuel@sholland.org>
-References: <20221231164628.19688-1-samuel@sholland.org>
- <20221231164628.19688-4-samuel@sholland.org>
+Subject: Re: [PATCH 4/4] riscv: dts: allwinner: d1: Add video engine node
+Date:   Thu, 05 Jan 2023 17:21:58 +0100
+Message-ID: <4767366.GXAFRqVoOG@jernej-laptop>
+In-Reply-To: <3b6ec431-70ac-cf68-6f46-9dc0affb1e68@sholland.org>
+References: <20221231164628.19688-1-samuel@sholland.org> <Y7aiZdjI8L5h1Ca3@aptenodytes>
+ <3b6ec431-70ac-cf68-6f46-9dc0affb1e68@sholland.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
@@ -86,37 +85,68 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Dne sobota, 31. december 2022 ob 17:46:26 CET je Samuel Holland napisal(a):
-> The video engine in the D1 family of SoCs does not have a switchable
-> SRAM section. Allow the driver to probe even when the SRAM section
-> reference is missing.
-> 
-> Signed-off-by: Samuel Holland <samuel@sholland.org>
-> ---
-> 
->  drivers/staging/media/sunxi/cedrus/cedrus_hw.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
-> b/drivers/staging/media/sunxi/cedrus/cedrus_hw.c index
-> fa86a658fdc6..11e859617932 100644
-> --- a/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
-> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
-> @@ -257,7 +257,7 @@ int cedrus_hw_probe(struct cedrus_dev *dev)
->  	}
-> 
->  	ret = sunxi_sram_claim(dev->dev);
-> -	if (ret) {
-> +	if (ret && ret != -ENOENT) {
+Dne =C4=8Detrtek, 05. januar 2023 ob 15:38:36 CET je Samuel Holland napisal=
+(a):
+> Hi Paul,
+>=20
+> On 1/5/23 04:11, Paul Kocialkowski wrote:
+> > On Sat 31 Dec 22, 10:46, Samuel Holland wrote:
+> >> D1 contains a video engine which is supported by the Cedrus driver.
+> >=20
+> > Does it work "outside the box" without power domain management?
+> > If not, it might be a bit confusing to add the node at this point.
+>=20
+> Yes, it does. All of the power domains are enabled by default. However,
+> if the PPU series is merged first, I will respin this to include the
+> power-domains property from the beginning.
 
-What about more strict check based on quirks flag?
+I would rather see that merged before and having complete node right away.
+
+I've been away, but I'll merge everything that's ready for sunxi tree until=
+=20
+end of the weekend.
 
 Best regards,
 Jernej
 
->  		dev_err(dev->dev, "Failed to claim SRAM\n");
-> 
->  		goto err_mem;
+>=20
+> Regards,
+> Samuel
+>=20
+> >> Signed-off-by: Samuel Holland <samuel@sholland.org>
+> >> ---
+> >>=20
+> >>  arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi | 11 +++++++++++
+> >>  1 file changed, 11 insertions(+)
+> >>=20
+> >> diff --git a/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
+> >> b/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi index
+> >> dff363a3c934..4bd374279155 100644
+> >> --- a/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
+> >> +++ b/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
+> >> @@ -34,6 +34,17 @@ soc {
+> >>=20
+> >>  		#address-cells =3D <1>;
+> >>  		#size-cells =3D <1>;
+> >>=20
+> >> +		ve: video-codec@1c0e000 {
+> >> +			compatible =3D "allwinner,sun20i-d1-video-
+engine";
+> >> +			reg =3D <0x1c0e000 0x2000>;
+> >> +			interrupts =3D <SOC_PERIPHERAL_IRQ(66)=20
+IRQ_TYPE_LEVEL_HIGH>;
+> >> +			clocks =3D <&ccu CLK_BUS_VE>,
+> >> +				 <&ccu CLK_VE>,
+> >> +				 <&ccu CLK_MBUS_VE>;
+> >> +			clock-names =3D "ahb", "mod", "ram";
+> >> +			resets =3D <&ccu RST_BUS_VE>;
+> >> +		};
+> >> +
+> >>=20
+> >>  		pio: pinctrl@2000000 {
+> >>  	=09
+> >>  			compatible =3D "allwinner,sun20i-d1-pinctrl";
+> >>  			reg =3D <0x2000000 0x800>;
 
 
 
