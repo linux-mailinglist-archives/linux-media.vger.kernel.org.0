@@ -2,87 +2,139 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3E30065E7D2
-	for <lists+linux-media@lfdr.de>; Thu,  5 Jan 2023 10:29:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 352A365E862
+	for <lists+linux-media@lfdr.de>; Thu,  5 Jan 2023 10:57:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232093AbjAEJ36 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 5 Jan 2023 04:29:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41382 "EHLO
+        id S231712AbjAEJ5w (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 5 Jan 2023 04:57:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54684 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232120AbjAEJ34 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 5 Jan 2023 04:29:56 -0500
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 46824551DF
-        for <linux-media@vger.kernel.org>; Thu,  5 Jan 2023 01:29:55 -0800 (PST)
-Received: by mail-ej1-f50.google.com with SMTP id fy8so24731599ejc.13
-        for <linux-media@vger.kernel.org>; Thu, 05 Jan 2023 01:29:55 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:references:cc:to:from
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=5UQIi9Ycd1y4kwglUfzMyXDT7RIF/N9ey92kzAZN2Wc=;
-        b=mCR84iQ+A1xP+tZAC/ZM7tS27N/02JJvqLE2NdRduneE483eilkIvOVXjjNC8M9dHM
-         3oKSmkoXtiI1WMmVYvlrRLGDpvd+Z1xgoY0Q26VQu85b9movaw22KRqU0u+AYNgRje5p
-         kk/QXAPZKWuQUKXYipwnumJIkOiVP+O2sFO+lluv9vIQ/+vJw5MI2vhW5isPMFrbivIw
-         sZqZ7aOG3jbOGA+/sWDOz+xd0np08tEM77xOF1KKYxMGnvajRyyO5iCLtV9AmFS85goc
-         4tSSrGpOUhBtbj55q+hiHuMtoVc1x318/kvSQX0H/YxqFpXqWeaZjrvVsv/eRYmYAX4b
-         rgow==
-X-Gm-Message-State: AFqh2krXlBDs17JwMSuhQZrDgFJWvkfFBIan+oqPCJbWyyJJIpKF0RUw
-        3gYrH8zniMIUjXGle4wgCKM=
-X-Google-Smtp-Source: AMrXdXtm2CjAc1Q8vFUVTBHAXIyKHjG72AEU/N0HXlT97G/wgmrNgLzubu+Rw1qfZqqt5o7yftVHuQ==
-X-Received: by 2002:a17:907:a782:b0:7c1:6430:e5d0 with SMTP id vx2-20020a170907a78200b007c16430e5d0mr44883661ejc.4.1672910993801;
-        Thu, 05 Jan 2023 01:29:53 -0800 (PST)
-Received: from [192.168.1.49] (185-219-167-24-static.vivo.cz. [185.219.167.24])
-        by smtp.gmail.com with ESMTPSA id k10-20020a170906158a00b007ba9c181202sm16272023ejd.56.2023.01.05.01.29.53
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 05 Jan 2023 01:29:53 -0800 (PST)
-Message-ID: <117fb14e-b1dd-12ec-9fe6-6ee8f7ce0c62@kernel.org>
-Date:   Thu, 5 Jan 2023 10:29:52 +0100
+        with ESMTP id S231883AbjAEJ5q (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 5 Jan 2023 04:57:46 -0500
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F25C4FD69;
+        Thu,  5 Jan 2023 01:57:45 -0800 (PST)
+Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
+        by mail.gandi.net (Postfix) with ESMTPSA id 28043240006;
+        Thu,  5 Jan 2023 09:57:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1672912664;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=Fvlr13b/Y1zYrl0g6v6iiZSrz3z4wdfH46B86FopFgY=;
+        b=bGFNyQgMOLa121tXbFw3UGtXKhyimGOJTGqPtIn0Zpza2B9v6CVZOisJhs8fU8PtN97H1T
+        EIONvHQRx0RhFpaZDcb6AM0N8vJASsRY56gCTPuit6GdyRUOhHsVRg02icK01TiDovfS/U
+        osrUkvFffeNLYng5Qw68nej0PExTc1rTeK90WbUQkq79joH0Riu90L/iFHx/aSrDmYEgsx
+        cDfkQOLik+dGzV0DsgrrWRmV//5X94+WvFJ1TFXG+PNAA2v3i0FnxtkCBxnPFs9pyt/+ty
+        faZl0Dsnd7Xxq6ZvnuRmzMAhbFkjclPT5BT27vM1rjKWYwGIcY6wpELw9ejRHw==
+Date:   Thu, 5 Jan 2023 10:57:27 +0100
+From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To:     Samuel Holland <samuel@sholland.org>
+Cc:     Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Conor Dooley <conor@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Maxime Ripard <mripard@kernel.org>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-riscv@lists.infradead.org, linux-staging@lists.linux.dev,
+        linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH 2/4] media: dt-bindings: cedrus: Make allwinner,sram
+ optional
+Message-ID: <Y7afB98vPc56bDhm@aptenodytes>
+References: <20221231164628.19688-1-samuel@sholland.org>
+ <20221231164628.19688-3-samuel@sholland.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: EasyCAP (534d:0021) not offering native 720x576
-Content-Language: en-US
-From:   Jiri Slaby <jirislaby@kernel.org>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Ricardo Ribalda <ribalda@chromium.org>
-Cc:     linux-media <linux-media@vger.kernel.org>
-References: <afdc583c-22c1-b57b-7773-307c84550218@kernel.org>
- <CANiDSCu-1MOwMjh5NioDvNPWUtF_2A1nKf77RZ_OvgeLhLECKA@mail.gmail.com>
- <Y7Z69HKvkFAunqQd@pendragon.ideasonboard.com>
- <5da0eeca-70d6-9933-8408-36b20bbc0d56@kernel.org>
-In-Reply-To: <5da0eeca-70d6-9933-8408-36b20bbc0d56@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        NICE_REPLY_A,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="jljho90DVYkk8si4"
+Content-Disposition: inline
+In-Reply-To: <20221231164628.19688-3-samuel@sholland.org>
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 05. 01. 23, 9:29, Jiri Slaby wrote:
-> Ah, that makes sense. Which leads me to: sometimes, the picture distorts 
-> after I start playing the video. It's skewed and halves of the picture 
-> switched [1]. I assume the driver expects NTSC@720x480, but the device 
-> sends PAL@720x576, actually. Sometimes, there are also color strips.
-> 
-> [1] https://hci.fi.muni.cz/~xslaby/n/skew.jpg
 
-FWIW taking only every third line of it and applying this math on the 
-offset:
-   offset_in_bitmap = x + 2*576*y/480;
-makes some parts of the picture what they should be. I have no idea if 
-it helps anything though ;). IOW, the skew at the bottom of the picture 
-seems to be 576*2=1172 pixels for whatever reasons.
+--jljho90DVYkk8si4
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-thanks,
--- 
--- 
-js
-suse labs
+Hi Samuel,
 
+On Sat 31 Dec 22, 10:46, Samuel Holland wrote:
+> Allwinner SoCs can remap some bits of peripheral SRAM to a contiguous
+> range of addresses for use by early boot software. Usually the video
+> engine's SRAM is used for this purpose, so its mapping must be switched
+> back before the hardware can be used.
+>=20
+> However, the D1 and related SoCs use the DSP SRAM for this purpose. As a
+> result, the video engine SRAM is not switchable, and there is no need
+> for an allwinner,sram reference in the devicetree.
+>=20
+> Signed-off-by: Samuel Holland <samuel@sholland.org>
+
+Reviewed-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+
+Cheers,
+
+Paul
+
+> ---
+>=20
+>  .../bindings/media/allwinner,sun4i-a10-video-engine.yaml         | 1 -
+>  1 file changed, 1 deletion(-)
+>=20
+> diff --git a/Documentation/devicetree/bindings/media/allwinner,sun4i-a10-=
+video-engine.yaml b/Documentation/devicetree/bindings/media/allwinner,sun4i=
+-a10-video-engine.yaml
+> index d5be7f604e8c..74363b242fff 100644
+> --- a/Documentation/devicetree/bindings/media/allwinner,sun4i-a10-video-e=
+ngine.yaml
+> +++ b/Documentation/devicetree/bindings/media/allwinner,sun4i-a10-video-e=
+ngine.yaml
+> @@ -73,7 +73,6 @@ required:
+>    - clocks
+>    - clock-names
+>    - resets
+> -  - allwinner,sram
+> =20
+>  additionalProperties: false
+> =20
+> --=20
+> 2.37.4
+>=20
+
+--=20
+Paul Kocialkowski, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
+
+--jljho90DVYkk8si4
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmO2nwcACgkQ3cLmz3+f
+v9Ggugf9HSS2KhNLgkevts5teZksFM4RMyoOoDlpVlPoHJ9dDgeTfdMcoN7vPA9r
+YRKtDEyWUVX96YV/RmzVDWGazmbd46/khL5p8HhGHUjphTNVKm6/Ou5V91xBzgmN
+lDL7m8hE2LE/LPIa6EOiIAdOwmI0UVcvp2ltKhZibVKZ3gDtovUQmEftYuQmNAF6
+Z+iMSZEu2b0N+p1llPTxPwjHjruZknkYhRy3GEZcQEFTPUMIb5u39WjqA8TY1C7o
+54aAxAgd0v/T/iELJYHlal4LodbLczu4/OJdHIj1bludFs/cZQwHV+51prwnTlCD
+dHwTRJ6b3eLdlvq+km+n8zehF1FLTw==
+=4H5j
+-----END PGP SIGNATURE-----
+
+--jljho90DVYkk8si4--
