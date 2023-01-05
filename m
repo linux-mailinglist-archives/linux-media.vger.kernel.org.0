@@ -2,50 +2,52 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 539E265EC7B
-	for <lists+linux-media@lfdr.de>; Thu,  5 Jan 2023 14:10:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B7B4C65EDBF
+	for <lists+linux-media@lfdr.de>; Thu,  5 Jan 2023 14:48:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231202AbjAENKA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 5 Jan 2023 08:10:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59956 "EHLO
+        id S233714AbjAENsM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 5 Jan 2023 08:48:12 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33322 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231655AbjAENJk (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 5 Jan 2023 08:09:40 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0BDC05C1D3;
-        Thu,  5 Jan 2023 05:09:22 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 9CE9061A34;
-        Thu,  5 Jan 2023 13:09:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C7ACC433EF;
-        Thu,  5 Jan 2023 13:09:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1672924161;
-        bh=HTV6jjPSwVPA1txeBglso98Z39K0t4Xs2ZOnCMiE7bM=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=WlWZLRk50gHD5TMePLBIJbyqd/uh/wZ8C0Udlkn8ldva6ZkPKBVT6Pzi8SxLdiM3O
-         Gy5u87JaBNZ3E6EO0Qzj9JQ+94wcQK8duGeSRmTcwodQ5gT4xGr2Tmg4KY6/AVHKxu
-         BseXoFa0oKPAt9uCzSM5JFZG4wzL5rfDx92jMqFY=
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     stable@vger.kernel.org
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        patches@lists.linux.dev,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, "Jason A. Donenfeld" <Jason@zx2c4.com>
-Subject: [PATCH 4.9 226/251] media: stv0288: use explicitly signed char
-Date:   Thu,  5 Jan 2023 13:56:03 +0100
-Message-Id: <20230105125345.200839865@linuxfoundation.org>
-X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20230105125334.727282894@linuxfoundation.org>
-References: <20230105125334.727282894@linuxfoundation.org>
-User-Agent: quilt/0.67
+        with ESMTP id S233616AbjAENrq (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 5 Jan 2023 08:47:46 -0500
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D49B4D4AD
+        for <linux-media@vger.kernel.org>; Thu,  5 Jan 2023 05:47:33 -0800 (PST)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <mtr@pengutronix.de>)
+        id 1pDQai-0003Ql-07; Thu, 05 Jan 2023 14:47:32 +0100
+Received: from [2a0a:edc0:0:900:1d::48] (helo=litschi)
+        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+        (envelope-from <mtr@pengutronix.de>)
+        id 1pDQag-0040LM-86; Thu, 05 Jan 2023 14:47:30 +0100
+Received: from mtr by litschi with local (Exim 4.94.2)
+        (envelope-from <mtr@pengutronix.de>)
+        id 1pDQaf-000FV7-2O; Thu, 05 Jan 2023 14:47:29 +0100
+From:   Michael Tretter <m.tretter@pengutronix.de>
+To:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        Philipp Zabel <p.zabel@pengutronix.de>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Fabio Estevam <festevam@gmail.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        kernel@pengutronix.de, linux-imx@nxp.com,
+        linux-arm-kernel@lists.infradead.org,
+        Michael Tretter <m.tretter@pengutronix.de>
+Subject: [PATCH 0/8] media: imx-pxp: add support for i.MX7D
+Date:   Thu,  5 Jan 2023 14:47:21 +0100
+Message-Id: <20230105134729.59542-1-m.tretter@pengutronix.de>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: mtr@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -53,40 +55,58 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Jason A. Donenfeld <Jason@zx2c4.com>
+This series adds support for the PXP found on the i.MX7D to the imx-pxp
+driver.
 
-commit 7392134428c92a4cb541bd5c8f4f5c8d2e88364d upstream.
+The PXP on the i.MX7D has a few differences compared to the one on the
+i.MX6ULL. Especially, it has more processing blocks and slightly different
+multiplexers to route the data between the blocks. Therefore, the driver must
+configure a different data path depending on the platform.
 
-With char becoming unsigned by default, and with `char` alone being
-ambiguous and based on architecture, signed chars need to be marked
-explicitly as such. Use `s8` and `u8` types here, since that's what
-surrounding code does. This fixes:
+While the PXP has a version register, the reported version is the same on the
+i.MX6ULL and the i.MX7D. Therefore, we cannot use the version register to
+change the driver behavior, but have to use the device tree compatible. The
+driver still prints the found version to the log to help bringing up the PXP
+on further platforms.
 
-drivers/media/dvb-frontends/stv0288.c:471 stv0288_set_frontend() warn: assigning (-9) to unsigned variable 'tm'
-drivers/media/dvb-frontends/stv0288.c:471 stv0288_set_frontend() warn: we never enter this loop
+The patches are inspired by some earlier patches [0] by Laurent to add PXP
+support to the i.MX7d. Compared to the earlier patches, these patches add
+different behavior depending on the platform. Furthermore, the patches disable
+only the LUT block, but keep the rotator block enabled, as it may now be
+configured via the V4L2 rotate control.
 
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-media@vger.kernel.org
-Cc: stable@vger.kernel.org
-Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
----
- drivers/media/dvb-frontends/stv0288.c |    5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+Patch 1 converts the dt-binding to yaml.
 
---- a/drivers/media/dvb-frontends/stv0288.c
-+++ b/drivers/media/dvb-frontends/stv0288.c
-@@ -452,9 +452,8 @@ static int stv0288_set_frontend(struct d
- 	struct stv0288_state *state = fe->demodulator_priv;
- 	struct dtv_frontend_properties *c = &fe->dtv_property_cache;
- 
--	char tm;
--	unsigned char tda[3];
--	u8 reg, time_out = 0;
-+	u8 tda[3], reg, time_out = 0;
-+	s8 tm;
- 
- 	dprintk("%s : FE_SET_FRONTEND\n", __func__);
- 
+Patches 2 to 5 cleanup and refactor the driver in preparation of handling
+different PXP versions.
 
+Patches 6 and 7 add the handling of different platforms and the i.MX7d
+specific configuration.
+
+Patch 8 adds the device tree node for the PXP to the i.MX7d device tree.
+
+Michael
+
+[0] https://lore.kernel.org/linux-media/20200510223100.11641-1-laurent.pinchart@ideasonboard.com/
+
+Michael Tretter (8):
+  media: dt-bindings: media: fsl-pxp: convert to yaml
+  media: imx-pxp: detect PXP version
+  media: imx-pxp: extract helper function to setup data path
+  media: imx-pxp: explicitly disable unused blocks
+  media: imx-pxp: disable LUT block
+  media: imx-pxp: make data_path_ctrl0 platform dependent
+  media: imx-pxp: add support for i.MX7D
+  ARM: dts: imx7d: add node for PXP
+
+ .../bindings/media/fsl,imx6ull-pxp.yaml       |  62 ++++++++
+ .../devicetree/bindings/media/fsl-pxp.txt     |  26 ---
+ arch/arm/boot/dts/imx7d.dtsi                  |   9 ++
+ drivers/media/platform/nxp/imx-pxp.c          | 148 +++++++++++++++---
+ 4 files changed, 197 insertions(+), 48 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/media/fsl,imx6ull-pxp.yaml
+ delete mode 100644 Documentation/devicetree/bindings/media/fsl-pxp.txt
+
+-- 
+2.30.2
 
