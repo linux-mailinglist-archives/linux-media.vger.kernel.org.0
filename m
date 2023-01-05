@@ -2,32 +2,35 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D2AD465F2A4
-	for <lists+linux-media@lfdr.de>; Thu,  5 Jan 2023 18:28:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0572F65F2A5
+	for <lists+linux-media@lfdr.de>; Thu,  5 Jan 2023 18:28:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233948AbjAER2G (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 5 Jan 2023 12:28:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42010 "EHLO
+        id S234989AbjAER2I (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 5 Jan 2023 12:28:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41666 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235343AbjAER1d (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 5 Jan 2023 12:27:33 -0500
-Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A1EFE6718E
-        for <linux-media@vger.kernel.org>; Thu,  5 Jan 2023 09:23:31 -0800 (PST)
+        with ESMTP id S235257AbjAER1k (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 5 Jan 2023 12:27:40 -0500
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::225])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B125A671A6;
+        Thu,  5 Jan 2023 09:23:33 -0800 (PST)
 Received: (Authenticated sender: jacopo@jmondi.org)
-        by mail.gandi.net (Postfix) with ESMTPSA id 47A511C0006;
-        Thu,  5 Jan 2023 17:23:28 +0000 (UTC)
+        by mail.gandi.net (Postfix) with ESMTPSA id 2AE7C1C0008;
+        Thu,  5 Jan 2023 17:23:29 +0000 (UTC)
 From:   Jacopo Mondi <jacopo@jmondi.org>
 To:     Nicholas Roth <nicholas@rothemail.net>,
-        Robert Mader <robert.mader@collabora.com>
+        Robert Mader <robert.mader@collabora.com>, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org
 Cc:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-media@vger.kernel.org
-Subject: [PATCH 0/2] media: i2c: Add driver for OmniVision OV8858
-Date:   Thu,  5 Jan 2023 18:23:18 +0100
-Message-Id: <20230105172320.133810-1-jacopo@jmondi.org>
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org
+Subject: [PATCH 1/2] dt-bindings: media: Add schema for OmniVision OV8858
+Date:   Thu,  5 Jan 2023 18:23:19 +0100
+Message-Id: <20230105172320.133810-2-jacopo@jmondi.org>
 X-Mailer: git-send-email 2.38.1
+In-Reply-To: <20230105172320.133810-1-jacopo@jmondi.org>
+References: <20230105172320.133810-1-jacopo@jmondi.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
@@ -40,51 +43,129 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 
-Hello,
-  this is a new version of  of Nicholas' first submission available at
-https://lore.kernel.org/all/20221106171129.166892-2-nicholas@rothemail.net/
+Add binding schema for the OmniVision OV8858 8 Megapixels camera sensor.
 
-This is a re-write of the previous version so I've restarted numeration from 0
-even if in this version I have not changed the register tables.
-
-Functionally the most notable difference is the addition of support for binned
-mode in 4 data lanes mode.
-
-There is more space for optimization on top of this series, in example the
-register tables can be reworked to share more common settings between modes. I
-have started the effort, but as it is a tedious and error-prone work I would
-rather have this first version merged and the iterate on top. Programming of the
-analog crop rectangle and output size could also be made parametric, but the
-current modes have a few undocumented registers and I didn't feel like biting
-the bullet and see if the can be safely removed or not.
-
-Also, the BSP driver mentions a "not well supported" R1A version of the chip.
-I would be in favour of removing it if no one oppose.
-
-Images are still rather "dark" when tested with libcamera but preview is working
-as expected in both modes (full res and half-res binned mode) and with 2 and 4
-data lanes.
-
-Nicholas could you let me know if things are fine with you here ?
-
-Thanks
-  j
-
-Jacopo Mondi (1):
-  dt-bindings: media: Add schema for OmniVision OV8858
-
-Nicholas Roth (1):
-  media: i2c: Add driver for OmniVision OV8858
-
- .../bindings/media/i2c/ovti,ov8858.yaml       |  109 +
- MAINTAINERS                                   |    9 +
- drivers/media/i2c/Kconfig                     |   13 +
- drivers/media/i2c/Makefile                    |    1 +
- drivers/media/i2c/ov8858.c                    | 1989 +++++++++++++++++
- 5 files changed, 2121 insertions(+)
+Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+---
+ .../bindings/media/i2c/ovti,ov8858.yaml       | 109 ++++++++++++++++++
+ 1 file changed, 109 insertions(+)
  create mode 100644 Documentation/devicetree/bindings/media/i2c/ovti,ov8858.yaml
- create mode 100644 drivers/media/i2c/ov8858.c
 
+diff --git a/Documentation/devicetree/bindings/media/i2c/ovti,ov8858.yaml b/Documentation/devicetree/bindings/media/i2c/ovti,ov8858.yaml
+new file mode 100644
+index 000000000000..f6d5cf69234c
+--- /dev/null
++++ b/Documentation/devicetree/bindings/media/i2c/ovti,ov8858.yaml
+@@ -0,0 +1,109 @@
++# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/media/i2c/ovti,ov8858.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: OmniVision OV8858 Image Sensor
++
++maintainers:
++  - Jacopo Mondi <jacopo.mondi@ideasonboard.com>
++  - Nicholas Roth <nicholas@rothemail.net>
++
++description: |
++  The OmniVision OV8858 is a color CMOS 8 Megapixles (3264x2448) image sensor
++  controlled through an I2C-compatible SCCB bus. The sensor transmits images
++  on a MIPI CSI-2 output interface with up to 4 data lanes.
++
++properties:
++  compatible:
++    const: ovti,ov8858
++
++  reg:
++    maxItems: 1
++
++  clocks:
++    maxItems: 1
++    description: XVCLK external clock
++
++  clock-names:
++    const: xvclk
++
++  dvdd-supply:
++    description: Digital Domain Power Supply
++
++  avdd-supply:
++    description: Analog Domain Power Supply
++
++  dovdd-supply:
++    description: I/O Domain Power Supply
++
++  powerdown-gpios:
++    maxItems: 1
++    description: PWDNB powerdown GPIO (active low)
++
++  reset-gpios:
++    maxItems: 1
++    description: XSHUTDN reset GPIO (active low)
++
++  port:
++    description: MIPI CSI-2 transmitter port
++    $ref: /schemas/graph.yaml#/$defs/port-base
++    additionalProperties: false
++
++    properties:
++      endpoint:
++        $ref: /schemas/media/video-interfaces.yaml#
++        unevaluatedProperties: false
++
++        properties:
++          data-lanes:
++            minItems: 1
++            maxItems: 4
++
++        required:
++          - data-lanes
++
++required:
++  - compatible
++  - reg
++  - clocks
++  - assigned-clocks
++  - assigned-clock-rates
++  - port
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/pinctrl/rockchip.h>
++    #include <dt-bindings/clock/rk3399-cru.h>
++    #include <dt-bindings/gpio/gpio.h>
++
++    i2c2 {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        ov8858: camera@36 {
++            compatible = "ovti,ov8858";
++            reg = <0x36>;
++
++            clocks = <&cru SCLK_CIF_OUT>;
++            clock-names = "xvclk";
++            assigned-clocks = <&cru SCLK_CIF_OUT>;
++            assigned-clock-rates = <24000000>;
++
++            dovdd-supply = <&vcc1v8_dvp>;
++
++            reset-gpios = <&gpio1 RK_PA4 GPIO_ACTIVE_LOW>;
++            powerdown-gpios = <&gpio2 RK_PB4 GPIO_ACTIVE_LOW>;
++
++            port {
++                ucam_out: endpoint {
++                    remote-endpoint = <&mipi_in_ucam>;
++                    data-lanes = <1 2 3 4>;
++                };
++            };
++        };
++    };
++...
 --
 2.38.1
 
