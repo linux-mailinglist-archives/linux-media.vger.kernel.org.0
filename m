@@ -2,138 +2,83 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5D6B365E92E
-	for <lists+linux-media@lfdr.de>; Thu,  5 Jan 2023 11:44:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 838A565E967
+	for <lists+linux-media@lfdr.de>; Thu,  5 Jan 2023 11:55:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232022AbjAEKoP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 5 Jan 2023 05:44:15 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36132 "EHLO
+        id S232432AbjAEKzO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 5 Jan 2023 05:55:14 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42746 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232590AbjAEKnr (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 5 Jan 2023 05:43:47 -0500
-Received: from relay11.mail.gandi.net (relay11.mail.gandi.net [IPv6:2001:4b98:dc4:8::231])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D73AD44C4C;
-        Thu,  5 Jan 2023 02:43:45 -0800 (PST)
-Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id 83AEE100006;
-        Thu,  5 Jan 2023 10:43:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1672915424;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=+Yr/nUbSQezXweJY6bNFYpcWO7a/X5IplQE9MKPs4FA=;
-        b=VV0/JX2BvGgdlR6xh7CnwhWQPLPXUZS7ei0be0XNMWNdFOAVpZSHgxJhNhoQ/IPYSjnxx3
-        PyUMV6Vpx1pV3K0VmNuHxaLFxL164X7pyeKKH8BC3JETfM47AywMB3nzzpcDu8yEpq4rUu
-        Q7jPb/MhV98WU4WoV7HpYjin0iel2BcZwhRutDK/e4mv5VVIWysy5RIXNLELSheoQBgrUa
-        PU7oL2J3HmADqcWdjJvN/MKrd2Bsmfy0/+HLA7mbbaJ8P0okGGNFYyLZ96uK2RT5xkaYjG
-        xsb4qYQ4WqN6uibTtsbQ42bTu6y+6FCGW4xckOZpqeMnfIonag3EeY0OioS0Tg==
-Date:   Thu, 5 Jan 2023 11:43:37 +0100
-From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To:     Samuel Holland <samuel@sholland.org>
-Cc:     Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Conor Dooley <conor@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Maxime Ripard <mripard@kernel.org>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-riscv@lists.infradead.org, linux-staging@lists.linux.dev,
-        linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH 1/4] media: dt-bindings: cedrus: Allow power domain
- references
-Message-ID: <Y7ap2dZdCHLNzzHb@aptenodytes>
-References: <20221231164628.19688-1-samuel@sholland.org>
- <20221231164628.19688-2-samuel@sholland.org>
+        with ESMTP id S232688AbjAEKyv (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 5 Jan 2023 05:54:51 -0500
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 89ECD44C65
+        for <linux-media@vger.kernel.org>; Thu,  5 Jan 2023 02:54:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1672916090; x=1704452090;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=YiB8aT3Cn2TGT4ilr5VBZdMB/asLYoszqmiJWGDD6e0=;
+  b=Hzan6CbkojAcOgUPM6T+/AwPRMXSMk7G4xXyuqZJBvMmhYp//WlXsfD3
+   +zpQyQY9k4j+DVEOU1t+XUEGRLkovtnIvXBLlleRxvPZEKusdS/witG1G
+   Lnjqh+/TDXQ+ZSKYLrrKnA681biVRa9MqBDChXWaK4QL31YHvAG+qnWpL
+   Pj16jz/ubTFhH4IGVpVUTUopglp+8c0s98Pdjy6Q7L9ivncKUilxNaZVL
+   xY/jr4nf+gGhInIaC5qNoV+SNnJO8ZH3RRbxYyHjHNIASXxYxS6rgLU7u
+   I5oQRd79fv56D9C7evBQfU5/5OH22J2frO0BuUL5Xk+shSUfiHLPikeeg
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10580"; a="386608112"
+X-IronPort-AV: E=Sophos;i="5.96,302,1665471600"; 
+   d="scan'208";a="386608112"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jan 2023 02:54:50 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10580"; a="718793888"
+X-IronPort-AV: E=Sophos;i="5.96,302,1665471600"; 
+   d="scan'208";a="718793888"
+Received: from icg-kernel3.bj.intel.com ([172.16.126.100])
+  by fmsmga008.fm.intel.com with ESMTP; 05 Jan 2023 02:54:48 -0800
+From:   bingbu.cao@intel.com
+To:     linux-media@vger.kernel.org, arec.kao@intel.com,
+        sakari.ailus@linux.intel.com
+Cc:     bingbu.cao@intel.com, bingbu.cao@linux.intel.com
+Subject: [PATCH] media: ov13b10: remove streaming mode set from reg_list
+Date:   Thu,  5 Jan 2023 19:02:49 +0800
+Message-Id: <20230105110249.633633-1-bingbu.cao@intel.com>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="nKy3H2Xqe6ArZJHS"
-Content-Disposition: inline
-In-Reply-To: <20221231164628.19688-2-samuel@sholland.org>
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+From: Bingbu Cao <bingbu.cao@intel.com>
 
---nKy3H2Xqe6ArZJHS
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+It is not expected that trying to set the sensor to
+streaming mode when trying to set initial sensor configuration.
 
-Hi Samuel,
+Signed-off-by: Bingbu Cao <bingbu.cao@intel.com>
+---
+ drivers/media/i2c/ov13b10.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-On Sat 31 Dec 22, 10:46, Samuel Holland wrote:
-> The Allwinner D1 SoC contains a separate power domain for its video
-> engine, controlled via the "PPU" power controller. Allow the
-> power-domains property so this can be represented in the devicetree.
+diff --git a/drivers/media/i2c/ov13b10.c b/drivers/media/i2c/ov13b10.c
+index 549e5d93e568..841158febfba 100644
+--- a/drivers/media/i2c/ov13b10.c
++++ b/drivers/media/i2c/ov13b10.c
+@@ -243,7 +243,6 @@ static const struct ov13b10_reg mipi_data_rate_1120mbps[] = {
+ 	{0x5047, 0xa4},
+ 	{0x5048, 0x20},
+ 	{0x5049, 0xa4},
+-	{0x0100, 0x01},
+ };
+ 
+ static const struct ov13b10_reg mode_4208x3120_regs[] = {
+-- 
+2.39.0
 
-I've been looking around for information regarding the PPU and couldn't find
-anything about it. Do you have some reference where it is mentionned?
-
-I do see a power domain driver (apparently for the GPU) on recent allwinner
-kernel releases but that seems to be for arm64 chips only.
-
-Cheers,
-
-Paul
-
-> Signed-off-by: Samuel Holland <samuel@sholland.org>
-> ---
->=20
->  .../bindings/media/allwinner,sun4i-a10-video-engine.yaml       | 3 +++
->  1 file changed, 3 insertions(+)
->=20
-> diff --git a/Documentation/devicetree/bindings/media/allwinner,sun4i-a10-=
-video-engine.yaml b/Documentation/devicetree/bindings/media/allwinner,sun4i=
--a10-video-engine.yaml
-> index 541325f900a1..d5be7f604e8c 100644
-> --- a/Documentation/devicetree/bindings/media/allwinner,sun4i-a10-video-e=
-ngine.yaml
-> +++ b/Documentation/devicetree/bindings/media/allwinner,sun4i-a10-video-e=
-ngine.yaml
-> @@ -63,6 +63,9 @@ properties:
->        CMA pool to use for buffers allocation instead of the default
->        CMA pool.
-> =20
-> +  power-domains:
-> +    maxItems: 1
-> +
->  required:
->    - compatible
->    - reg
-> --=20
-> 2.37.4
->=20
-
---=20
-Paul Kocialkowski, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
-
---nKy3H2Xqe6ArZJHS
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmO2qdkACgkQ3cLmz3+f
-v9FJkQgAodwHy0mR+AhNUcLpqjFBfhELdfQ6y6YJnDwkiGJJZDkXxAX7rpsAFGYu
-6CAoynkF3ve1u9SlMGMQtM4WNpCEX2sPMeAW1ljuTAdeNWIaalSMQS71fDEATuaZ
-MqxyQiO02r/9lqcWDGa9C3gkk3cQbIvfC/zK1tu3Gs2WUYOCFPerJUsmBKoucGdE
-Z+NHigkZJmHRQ7XDkhMzmcSoiSvDbKS7/pOC9O8A7icca6kdWudk/diC9MYkUYLD
-70Os3PUqUYB7e9llTG+sxpv5CQpSLe7uGvUx6e7cqNR59GZk8Tcy8gqcwitRxQkJ
-3bbS8sFAgj+6MhX/J02sf6SCFfnkmQ==
-=L1ge
------END PGP SIGNATURE-----
-
---nKy3H2Xqe6ArZJHS--
