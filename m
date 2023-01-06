@@ -2,120 +2,149 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B0AC065FB58
-	for <lists+linux-media@lfdr.de>; Fri,  6 Jan 2023 07:18:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BAC7565FBF1
+	for <lists+linux-media@lfdr.de>; Fri,  6 Jan 2023 08:30:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231171AbjAFGSg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 6 Jan 2023 01:18:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54126 "EHLO
+        id S231689AbjAFH3w (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 6 Jan 2023 02:29:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51388 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229509AbjAFGR6 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 6 Jan 2023 01:17:58 -0500
-Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4948E6CFF9
-        for <linux-media@vger.kernel.org>; Thu,  5 Jan 2023 22:17:27 -0800 (PST)
-Received: by mail-pj1-x102e.google.com with SMTP id h7-20020a17090aa88700b00225f3e4c992so4322498pjq.1
-        for <linux-media@vger.kernel.org>; Thu, 05 Jan 2023 22:17:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=IVoLYcfDVSSj5Hj2x3GSCmfRlg0nzKREwK4vCCiBijM=;
-        b=AyQ3QZW4y+sUR958e4HRcaZdsf/qgBkw1mlhowceF0XUEUWrY2e1ma6nmNllYeoV/Q
-         Yy5UQs03pzNlRQAeKfjmpys5zi0J3ZFYI3CFleutVn2UmhUlRUTnNoHoZg9gZQxdi1sK
-         ITivwS+vfEb+n4eN81dcLcd4zY2NXxnBYIXWE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=IVoLYcfDVSSj5Hj2x3GSCmfRlg0nzKREwK4vCCiBijM=;
-        b=ox7aVo5kUDGQ/WviSGRta3iilpN2UyoqmKlxUEEElHHwpPhdfj7KGgxRGPqgY8aiQ3
-         f7bw3xzyvipHdH7F0u5SLEfY9zPHa/Bf2ebmMd5L4ACXBElwuvkVvJd9z0/VwP8fZNkz
-         u8K/VNJIq0hLyyauHCuB/JGT/h3qfMYsAj5LbDazJTfNXWP+0vTcxEb4cgEC5Fl/iCF/
-         9WSsI/jx5dIAxCllGCoiYv22URUPhDnMy9nwE/Nbus7iMJCynQwtPEqZpA5j0R8DVAnA
-         g+Y/dumAqKIUSVTKdt7kGUcSzaSsTM0Abyxt9Wp7F3kDjfqND/gSAoHH85dROvzx1yko
-         isIg==
-X-Gm-Message-State: AFqh2krh0ndJYsWmFCWvsjK2/zaDWzcp2Xdb2w1DLABQYHm/VaajUH5k
-        KaPYwL/pN2Rpej1vMmOCb1D7UQ==
-X-Google-Smtp-Source: AMrXdXu8EjH6zCt0hDwlIRVjDHugPnQhQK8vggGjZUTQDFpzSe1hy51vVrwqJVMV27Nnp3GrKotxqg==
-X-Received: by 2002:a17:90a:b011:b0:226:8fc5:b55 with SMTP id x17-20020a17090ab01100b002268fc50b55mr13282906pjq.33.1672985826224;
-        Thu, 05 Jan 2023 22:17:06 -0800 (PST)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id t23-20020a17090ae51700b00226d4009505sm278581pjy.3.2023.01.05.22.17.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Jan 2023 22:17:05 -0800 (PST)
-From:   Kees Cook <keescook@chromium.org>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Kees Cook <keescook@chromium.org>, ionut_n2001@yahoo.com,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-hardening@vger.kernel.org
-Subject: [PATCH] media: uvcvideo: Silence memcpy() run-time false positive warnings
-Date:   Thu,  5 Jan 2023 22:17:04 -0800
-Message-Id: <20230106061659.never.817-kees@kernel.org>
+        with ESMTP id S230062AbjAFH3n (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 6 Jan 2023 02:29:43 -0500
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 54B1D6F943;
+        Thu,  5 Jan 2023 23:29:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+  t=1672990181; x=1704526181;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=+O1VVugWdTrOq+0unh3qWgyTEpIB4QUXCWrVkXCuuvk=;
+  b=Euj4v68S9HfvYQyjjlwD6dwDWp/v0r3GRSpMUe6pU+A3hlf3cmOa+LjR
+   bcMGTCuUs7uiB195sHXcyY27B1lEKrtwojf74v6LW0nMSZPIte05watU4
+   QDdTByPrGtDz0OyydI/CrpSUmLUVbAbUXmMXcgaJ2zrp/CK3SXUskgGQ/
+   Faz7t20YgNpeyFlSoqyfJKAbrNnbCJQ2nhPW4Z7u1HligoATUzBoGLejz
+   KUwNSOn0ZRuHq/vyz35MsM+7Aud3jHwpT+Rk+cvBAlr6lwoq3epepHA04
+   5uh64reIahphCTsAbcLW+9bh3rT2gfNdOjg1RYBk+nkMUKs2gJOvb5VJW
+   Q==;
+X-IronPort-AV: E=Sophos;i="5.96,304,1665471600"; 
+   d="scan'208";a="131104680"
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+  by esa6.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 06 Jan 2023 00:29:39 -0700
+Received: from chn-vm-ex04.mchp-main.com (10.10.85.152) by
+ chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16; Fri, 6 Jan 2023 00:29:38 -0700
+Received: from microchip1-OptiPlex-9020.microchip.com (10.10.115.15) by
+ chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server id
+ 15.1.2507.16 via Frontend Transport; Fri, 6 Jan 2023 00:29:35 -0700
+From:   shravan kumar <shravan.chippa@microchip.com>
+To:     <paul.j.murphy@intel.com>, <daniele.alessandrelli@intel.com>,
+        <mchehab@kernel.org>
+CC:     <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        "shravan kumar" <shravan.chippa@microchip.com>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Sakari Ailus <sakari.ailus@iki.fi>
+Subject: [PATCH v8 0/4] media: i2c: imx334: support lower bandwidth mode
+Date:   Fri, 6 Jan 2023 12:59:27 +0530
+Message-ID: <20230106072931.2317597-1-shravan.chippa@microchip.com>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2208; h=from:subject:message-id; bh=HRw9p7KL+4QYDBK7zvJtazO5keiEwenv1mXQer7Jbt4=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBjt7zf29HyDZw/F4MlHzU+Bl4G8jxpLHfoOnTvU5u5 FlEqB3GJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCY7e83wAKCRCJcvTf3G3AJm9kD/ 47yg+LzAvpwtJYOb3OyV+MyCV2HpjQshWvE4+pgbpPOInmvvsqXeKW0Wm8McFGBzx2yl6blx5Pwpca /47EBMRpOiaT3GJNNxENwSAQHww/dF0ks2rY0PhvtPJbR+ZGd0MsSL03PBC85Kic9R1sf0fibXcTse 1/1izkyXUaxNymvLqFlfEIzecRP8k/7OXqvn9QcyXT/SOtVQb40dPRMPuxukLzjWqFxL0dA+kTz2uc RNSPIVy75p4LrE/mJBnwHLx/1tB3SJqNOxdimbYNR7+YP/fpUq6Bh7o1mhZJID8BxJJNDvbRqTPsn9 uURfsmbYsTr7rdQtiXrc2MLqikfo69Xdwm5Ufx/hpJ16yjjaU1d4ft7iT1kjKRc0hIsLsZVJgOXKhW hKw0Mrd5QMh7dm0xeoH49RHCtw3HUPdFfH+OdzuwPnVoPBSUDZuvKvdZ+Z/vpKbtOVIl/n0gzG/97j 8o76yXgd56XlarYhCNPv1gMoPKB1G8/7NUdoBNRR2QbCYZpCWjKuzxzfQ+sdKw4VZ3qTCLa1zS3TLV A49o0bouLm+QU+00+amCZ0rjTUw4yIyFfOm31Sg3Shec09zsbbMGjf9ShNfNpzy0zxZEswGJzvcZTh w4R++sq98XmsmnzSX/87MTHp2cWhQxB276FXEZS0Unn1URmr+UqjmtV/wfkg==
-X-Developer-Key: i=keescook@chromium.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The memcpy() in uvc_video_decode_meta() intentionally copies across the
-length and flags members and into the trailing buf flexible array.
-Split the copy so that the compiler can better reason about (the lack
-of) buffer overflows here. Avoid the run-time false positive warning:
+From: Shravan Chippa <shravan.chippa@microchip.com>
 
-  memcpy: detected field-spanning write (size 12) of single field "&meta->length" at drivers/media/usb/uvc/uvc_video.c:1355 (size 1)
+Hi
 
-Additionally fix a typo in the documentation for struct uvc_meta_buf.
+This patch series is for imx334 sensor driver support for lower bandwidth
 
-Reported-by: ionut_n2001@yahoo.com
-Link: https://bugzilla.kernel.org/show_bug.cgi?id=216810
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-media@vger.kernel.org
-Signed-off-by: Kees Cook <keescook@chromium.org>
----
- drivers/media/usb/uvc/uvc_video.c | 4 +++-
- include/uapi/linux/uvcvideo.h     | 2 +-
- 2 files changed, 4 insertions(+), 2 deletions(-)
+Some platforms may not be capable of supporting the bandwidth
+required for 12 bit or 3840x2160@60 resolutions.
 
-diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
-index d2eb9066e4dc..b67347ab4181 100644
---- a/drivers/media/usb/uvc/uvc_video.c
-+++ b/drivers/media/usb/uvc/uvc_video.c
-@@ -1352,7 +1352,9 @@ static void uvc_video_decode_meta(struct uvc_streaming *stream,
- 	if (has_scr)
- 		memcpy(stream->clock.last_scr, scr, 6);
- 
--	memcpy(&meta->length, mem, length);
-+	meta->length = mem[0];
-+	meta->flags  = mem[1];
-+	memcpy(meta->buf, &mem[2], length - 2);
- 	meta_buf->bytesused += length + sizeof(meta->ns) + sizeof(meta->sof);
- 
- 	uvc_dbg(stream->dev, FRAME,
-diff --git a/include/uapi/linux/uvcvideo.h b/include/uapi/linux/uvcvideo.h
-index 8288137387c0..a9d0a64007ba 100644
---- a/include/uapi/linux/uvcvideo.h
-+++ b/include/uapi/linux/uvcvideo.h
-@@ -86,7 +86,7 @@ struct uvc_xu_control_query {
-  * struct. The first two fields are added by the driver, they can be used for
-  * clock synchronisation. The rest is an exact copy of a UVC payload header.
-  * Only complete objects with complete buffers are included. Therefore it's
-- * always sizeof(meta->ts) + sizeof(meta->sof) + meta->length bytes large.
-+ * always sizeof(meta->ns) + sizeof(meta->sof) + meta->length bytes large.
-  */
- struct uvc_meta_buf {
- 	__u64 ns;
+Add support for dynamically selecting 10 bit and 1920x1080@30
+resolutions while leaving the existing configuration as default
+
+V7 -> V8
+-patch drop "mimx334-odify-link-frequency" as per the commnets
+linkfrquncy will be half of the line bandwidth
+
+-changed 1920x1080@30 mode link frequency from (891000000Mbps) 
+to (445500000Mbps). linkfrquncy will be half of the line bandwidth
+
+
+V6 -> V7
+Reloved: kernel test robot warning
+"drivers/media/i2c/imx334.c:767:15: warning: unused variable 'i' "
+
+V5 -> V6
+-Drop the dt-binding patch
+-Optimize the code to avoid duplicating the lines
+-Added proper mutex while imx334_mbus_codes array
+-Modified Function __v4l2_ctrl_modify_range arguments as per the review
+commants
+-Added hblank dummy set ctrl
+-Removed Redundant comment
+-corrected code alignment 
+-All commit msgs are re-written
+
+V4 -> V5
+-Added 5 more patchs as per the review comments witch has below updates
+-Updated 1782000000Mbps link frequency for 3840x2160@60 as per the mode
+values
+-Updated 1782000000Mbps link frequency in dt-bindings also
+-Updated 3840x2160@60 mode array with default(reset) values
+
+-Updated hblank __v4l2_ctrl_s_ctrl() to __v4l2_ctrl_modify_range()
+Suggested-by: Jacopo Mondi <jacopo@jmondi.org>
+
+-Current mode update only when we try to set V4L2_SUBDEV_FORMAT_ACTIVE
+-Added link frequency (891000000Mbps) and pixel rate (74250000) to
+1920x1080@30 mode
+Suggested-by: Sakari Ailus <sakari.ailus@iki.fi>
+
+-Updated commit message
+
+V3 -> V4
+- Make the 12 bit and 3840x2160 as default
+- Set bus code SRGGB12 if set format fails
+
+V2 -> V3
+- Fixed the warning reported by kernel test robot
+
+V1 -> V2
+- Addressed the review comment given by Jacopo Mondi,
+  Which has bug in imx334_enum_frame_size() loop function,
+- Renamed array codes[] to imx334_mbus_codes[]
+
+
+Shravan Chippa (5):
+  media: i2c: imx334: modify link frequency as for the configureation
+  media: i2c: imx334: replace __v4l2_ctrl_s_ctrl to
+    __v4l2_ctrl_modify_range
+  media: i2c: imx334: add missing reset values for mode 3840x2160_regs[]
+
+
+
+Shravan Chippa (4):
+  media: i2c: imx334: replace __v4l2_ctrl_s_ctrl to
+    __v4l2_ctrl_modify_range
+  media: i2c: imx334: add missing reset values for mode 3840x2160_regs[]
+  media: i2c: imx334: support lower bandwidth mode
+  media: i2c: imx334: update pixel and link frequency
+
+ drivers/media/i2c/imx334.c | 335 ++++++++++++++++++++++++++++++++++---
+ 1 file changed, 308 insertions(+), 27 deletions(-)
+
 -- 
 2.34.1
 
