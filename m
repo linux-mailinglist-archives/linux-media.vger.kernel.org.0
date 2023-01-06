@@ -2,43 +2,46 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0CFCF65FF4E
-	for <lists+linux-media@lfdr.de>; Fri,  6 Jan 2023 12:05:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1C74A65FF9D
+	for <lists+linux-media@lfdr.de>; Fri,  6 Jan 2023 12:35:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231855AbjAFLFA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 6 Jan 2023 06:05:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52054 "EHLO
+        id S229580AbjAFLfa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 6 Jan 2023 06:35:30 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35756 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229490AbjAFLE6 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 6 Jan 2023 06:04:58 -0500
+        with ESMTP id S232487AbjAFLf1 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 6 Jan 2023 06:35:27 -0500
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 828F86E0D2;
-        Fri,  6 Jan 2023 03:04:57 -0800 (PST)
-Received: from ideasonboard.com (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id E4F564AE;
-        Fri,  6 Jan 2023 12:04:55 +0100 (CET)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1EAAB7148F;
+        Fri,  6 Jan 2023 03:35:26 -0800 (PST)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2F8AE4AE;
+        Fri,  6 Jan 2023 12:35:24 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1673003096;
-        bh=GTINAZFVf6JoIW6tV+2Ycf4hQeOQsajQPsDSSlpHy7w=;
+        s=mail; t=1673004924;
+        bh=Npo5IIBmCbegYNeQclrVJonEiEvw8/xFIfsywaa8voM=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Pl2Grl17a1SKdwnA1EBF6+76g4vklyLKXet7/+z4Oc1dA5guR5TdZvfcCjwa47U30
-         IZdiUH2rIaYJbpBvE9CeXeS+LhIZTnICm3fa1m5djSXg7+42FFJRSy2tcdBvK+s8ei
-         GsuwxQU9MG+ajPop+9kxFCWdTQeP59kjcAXbUtYY=
-Date:   Fri, 6 Jan 2023 12:04:53 +0100
-From:   Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To:     shravan kumar <shravan.chippa@microchip.com>
-Cc:     paul.j.murphy@intel.com, daniele.alessandrelli@intel.com,
-        mchehab@kernel.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Sakari Ailus <sakari.ailus@iki.fi>
-Subject: Re: [PATCH v8 4/4] media: i2c: imx334: update pixel and link
- frequency
-Message-ID: <20230106110453.woy7libfwlpgbpeq@uno.localdomain>
-References: <20230106072931.2317597-1-shravan.chippa@microchip.com>
- <20230106072931.2317597-5-shravan.chippa@microchip.com>
+        b=cXrSxbvkjGp55Om5z/KEB6yPlpAebTo78gwxq8At1GlKZpx2CEhOElxR99kktCNEa
+         U5HIEbLxZEYvX4F6xyOwgEegYfyogNrhHls+v4AVWrDBWGY/J7b+oZL4ngZrWIc5Mi
+         TQ/9bqTODBUNLFOuwg9fWuNXCdJts+vNqpxah7FQ=
+Date:   Fri, 6 Jan 2023 13:35:19 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Michael Tretter <m.tretter@pengutronix.de>
+Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Fabio Estevam <festevam@gmail.com>, kernel@pengutronix.de,
+        linux-imx@nxp.com, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH 1/8] media: dt-bindings: media: fsl-pxp: convert to yaml
+Message-ID: <Y7gHd0HoG70ntuHM@pendragon.ideasonboard.com>
+References: <20230105134729.59542-1-m.tretter@pengutronix.de>
+ <20230105134729.59542-2-m.tretter@pengutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230106072931.2317597-5-shravan.chippa@microchip.com>
+In-Reply-To: <20230105134729.59542-2-m.tretter@pengutronix.de>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
         autolearn=ham autolearn_force=no version=3.4.6
@@ -48,137 +51,143 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Shravan
+Hi Michael,
 
-On Fri, Jan 06, 2023 at 12:59:31PM +0530, shravan kumar wrote:
-> From: Shravan Chippa <shravan.chippa@microchip.com>
->
-> Update pixel_rate and link frequency for 1920x1080@30
-> while changing mode.
->
-> Add dummy ctrl cases for pixel_rate and link frequency
-> to avoid error while changing the modes dynamically
->
-> Suggested-by: Sakari Ailus <sakari.ailus@iki.fi>
-> Signed-off-by: Shravan Chippa <shravan.chippa@microchip.com>
+Thank you for the patch.
+
+On Thu, Jan 05, 2023 at 02:47:22PM +0100, Michael Tretter wrote:
+> Convert the bindings of the Freescale Pixel Pipeline to YAML.
+> 
+> The conversion drops the previously listed compatibles for several SoCs.
+> It is unclear, if the PXP on these SoCs is compatible to any of the PXPs
+> on the existing SoCs and would allow to reuse the already defined
+> compatibles. The missing compatibles should be brought back when the
+> support for the PXP on these SoCs is added.
+> 
+> Signed-off-by: Michael Tretter <m.tretter@pengutronix.de>
 > ---
->  drivers/media/i2c/imx334.c | 11 ++++++++++-
->  1 file changed, 10 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/media/i2c/imx334.c b/drivers/media/i2c/imx334.c
-> index 0315e1c9541d..8c3ba660abae 100644
-> --- a/drivers/media/i2c/imx334.c
-> +++ b/drivers/media/i2c/imx334.c
-> @@ -50,6 +50,7 @@
->
->  /* CSI2 HW configuration */
->  #define IMX334_LINK_FREQ	891000000
-
-I guess you want to rename this one to  IMX334_LINK_FREQ_891M
-
-Give our previous discussion this seems correct for the following mode
-
-	{
-		.width = 3840,
-		.height = 2160,
-		.hblank = 560,
-		.vblank = 2340,
-		.vblank_min = 90,
-		.vblank_max = 132840,
-		.pclk = 594000000,
-		.link_freq_idx = 0,
-		.reg_list = {
-			.num_of_regs = ARRAY_SIZE(mode_3840x2160_regs),
-			.regs = mode_3840x2160_regs,
-		},
-	}, {
-
-        duration: (3840+560) * (2160+2340)  / 594000000 = 33sec = 30FPS
-        link_freq (3840+560) * (2160+2340)  * 30 * 12 / 8 = 891000000
-
-Which works well if we use min_vblank = 90 for 60FPS
-
-        duration: (3840+560) * (2160+90)  / 594000000 = 0.16 = 60 FPS
-        link_freq (3840+560) * (2160+90)  * 60 * 12 / 8 = 891000000
-
-
-> +#define IMX334_LINK_FREQ_445M	445500000
-
-But this doesn't work well for me
-
-	{
-		.width = 1920,
-		.height = 1080,
-		.hblank = 280,
-		.vblank = 1170,
-		.vblank_min = 90,
-		.vblank_max = 132840,
-		.pclk = 74250000,
-		.link_freq_idx = 1,
-		.reg_list = {
-			.num_of_regs = ARRAY_SIZE(mode_1920x1080_regs),
-			.regs = mode_1920x1080_regs,
-		},
-	},
-
-        duration: (1920+280) * (1080+1170) / 74250000 = 66msec = 16FPS
-        link_freq = (1920+280) * (1080+1170) * 60 * 10 / 8 = 371250000
-
-Do you agree with the above or have I missed something ?
-
-I understand you get 30 FPS with the 1920*1080 mode so could you
-please check in the newly introduce mode register table what are the
-actual values for the blankings and compute the pixel_rate and
-link_freq accordingly ?
-
->  #define IMX334_NUM_DATA_LANES	4
->
->  #define IMX334_REG_MIN		0x00
-> @@ -145,6 +146,7 @@ struct imx334 {
->
->  static const s64 link_freq[] = {
->  	IMX334_LINK_FREQ,
-> +	IMX334_LINK_FREQ_445M,
->  };
->
->  /* Sensor mode registers */
-> @@ -468,7 +470,7 @@ static const struct imx334_mode supported_modes[] = {
->  		.vblank_min = 90,
->  		.vblank_max = 132840,
->  		.pclk = 74250000,
-> -		.link_freq_idx = 0,
-> +		.link_freq_idx = 1,
->  		.reg_list = {
->  			.num_of_regs = ARRAY_SIZE(mode_1920x1080_regs),
->  			.regs = mode_1920x1080_regs,
-> @@ -598,6 +600,11 @@ static int imx334_update_controls(struct imx334 *imx334,
->  	if (ret)
->  		return ret;
->
-> +	ret = __v4l2_ctrl_modify_range(imx334->pclk_ctrl, mode->pclk,
-> +				       mode->pclk, 1, mode->pclk);
-> +	if (ret)
-> +		return ret;
+>  .../bindings/media/fsl,imx6ull-pxp.yaml       | 62 +++++++++++++++++++
+>  .../devicetree/bindings/media/fsl-pxp.txt     | 26 --------
+>  2 files changed, 62 insertions(+), 26 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/media/fsl,imx6ull-pxp.yaml
+>  delete mode 100644 Documentation/devicetree/bindings/media/fsl-pxp.txt
+> 
+> diff --git a/Documentation/devicetree/bindings/media/fsl,imx6ull-pxp.yaml b/Documentation/devicetree/bindings/media/fsl,imx6ull-pxp.yaml
+> new file mode 100644
+> index 000000000000..e5f227b84759
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/fsl,imx6ull-pxp.yaml
+> @@ -0,0 +1,62 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
 > +
->  	ret = __v4l2_ctrl_modify_range(imx334->hblank_ctrl, mode->hblank,
->  				       mode->hblank, 1, mode->hblank);
->  	if (ret)
-> @@ -698,6 +705,8 @@ static int imx334_set_ctrl(struct v4l2_ctrl *ctrl)
->  		pm_runtime_put(imx334->dev);
->
->  		break;
-> +	case V4L2_CID_PIXEL_RATE:
-> +	case V4L2_CID_LINK_FREQ:
->  	case V4L2_CID_HBLANK:
+> +%YAML 1.2
+> +---
+> +$id: "http://devicetree.org/schemas/media/fsl,imx6ull-pxp.yaml#"
+> +$schema: "http://devicetree.org/meta-schemas/core.yaml#"
+> +
+> +title: Freescale Pixel Pipeline
+> +
+> +maintainers:
+> +  - Philipp Zabel <p.zabel@pengutronix.de>
+> +  - Michael Tretter <m.tretter@pengutronix.de>
+> +
+> +description:
+> +  The Pixel Pipeline (PXP) is a memory-to-memory graphics processing engine
+> +  that supports scaling, colorspace conversion, alpha blending, rotation, and
+> +  pixel conversion via lookup table. Different versions are present on various
+> +  i.MX SoCs from i.MX23 to i.MX7.
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - fsl,imx6ul-pxp
+> +      - fsl,imx6ull-pxp
+> +      - fsl,imx7d-pxp
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    minItems: 1
+> +    maxItems: 2
 
-Same question as for patch 1/4: Do we need these safety checks for
-read-only controls ?
+Can you make the number of items conditional on the compatible string ?
 
-Thanks
-  j
+> +
+> +  clocks:
+> +    maxItems: 1
+> +
+> +  clock-names:
+> +    items:
+> +      - const: axi
 
->  		ret = 0;
->  		break;
-> --
-> 2.34.1
->
+I think this could be simplified to
+
+  clock-names:
+    const: axi
+
+Up to you.
+
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +  - clocks
+> +  - clock-names
+> +
+> +additionalProperties: False
+
+s/False/false/
+
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/clock/imx6ul-clock.h>
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +
+> +    pxp: pxp@21cc000 {
+> +        compatible = "fsl,imx6ull-pxp";
+> +        reg = <0x021cc000 0x4000>;
+> +        interrupts = <GIC_SPI 8 IRQ_TYPE_LEVEL_HIGH>,
+> +                     <GIC_SPI 18 IRQ_TYPE_LEVEL_HIGH>;
+> +        clock-names = "axi";
+> +        clocks = <&clks IMX6UL_CLK_PXP>;
+> +    };
+> diff --git a/Documentation/devicetree/bindings/media/fsl-pxp.txt b/Documentation/devicetree/bindings/media/fsl-pxp.txt
+> deleted file mode 100644
+> index f8090e06530d..000000000000
+> --- a/Documentation/devicetree/bindings/media/fsl-pxp.txt
+> +++ /dev/null
+> @@ -1,26 +0,0 @@
+> -Freescale Pixel Pipeline
+> -========================
+> -
+> -The Pixel Pipeline (PXP) is a memory-to-memory graphics processing engine
+> -that supports scaling, colorspace conversion, alpha blending, rotation, and
+> -pixel conversion via lookup table. Different versions are present on various
+> -i.MX SoCs from i.MX23 to i.MX7.
+> -
+> -Required properties:
+> -- compatible: should be "fsl,<soc>-pxp", where SoC can be one of imx23, imx28,
+> -  imx6dl, imx6sl, imx6sll, imx6ul, imx6sx, imx6ull, or imx7d.
+> -- reg: the register base and size for the device registers
+> -- interrupts: the PXP interrupt, two interrupts for imx6ull and imx7d.
+> -- clock-names: should be "axi"
+> -- clocks: the PXP AXI clock
+> -
+> -Example:
+> -
+> -pxp@21cc000 {
+> -	compatible = "fsl,imx6ull-pxp";
+> -	reg = <0x021cc000 0x4000>;
+> -	interrupts = <GIC_SPI 8 IRQ_TYPE_LEVEL_HIGH>,
+> -		     <GIC_SPI 18 IRQ_TYPE_LEVEL_HIGH>;
+> -	clock-names = "axi";
+> -	clocks = <&clks IMX6UL_CLK_PXP>;
+> -};
+
+-- 
+Regards,
+
+Laurent Pinchart
