@@ -2,341 +2,361 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CD59E6604E1
-	for <lists+linux-media@lfdr.de>; Fri,  6 Jan 2023 17:44:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 83227660538
+	for <lists+linux-media@lfdr.de>; Fri,  6 Jan 2023 18:04:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236524AbjAFQoa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 6 Jan 2023 11:44:30 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57366 "EHLO
+        id S235021AbjAFREv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 6 Jan 2023 12:04:51 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43572 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236151AbjAFQnb (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 6 Jan 2023 11:43:31 -0500
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2052.outbound.protection.outlook.com [40.107.244.52])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E47E37CDD0;
-        Fri,  6 Jan 2023 08:42:59 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=bxX13QTs3SwIX72p0Dcyb9ZT48dwndwX1Jo0M2SX5IuMehGfI/nJPztS4kY+vqAmD89LPfEDvzVXuFHj1nrceRjmlflqoqHa1VSYHqFufmyRNwz1RThz0HyDPG2fW8qXE8akVdkpnw/zt2kigP3p0omL/IjBMVm0EvBNdOSYRLGZEjiE+NNlWmgGb17CzdqcDGOFIIg006vaMkhJbfdN2Zh4hc7uo1xBoLn7Pps9SCe6Y8dMsRxY1LjDPJuTwY0nK068QvvD/o9JgrkCJbs7TNKQvU9NGtEF5UMu4/cnhHffK1GEAHYHhMJMzUunv+qApwVf2b8/VoDyrHFZNYoZ1Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=gzG5H4TYc4/7qSv+sCyigoBtM53TeWCoA9jDKKuj2uo=;
- b=Pw8nB48825Gp1Lue95FJaeJWGP4L/GBTHtTDD88ikRvODFD/wvdbda25HjGqwYBohS8hyqEJFjms1SdXpO+R4VV17aaoHvKn/dF0mqBVfmpwFAojKDpmuQjw2i2RaW3JOCaTapN82A+PGfSKQWbVGNiymItw+TatnxKfianOjQW66ncrZzwH/b63HDMAxblDaA8lzhQJRRnf6FU2VbXQdXrpti1xpk/sIH/gsB5TutkY8wubxmYXqZP0Azb7l5MNxniV9wjbf2HiUFMRjxbutiHgd+R64eyaXcuCmcAW0tTmMC4gd0Iil+C04pZanZivajTthn6je8+NunNqnHvzbQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=gzG5H4TYc4/7qSv+sCyigoBtM53TeWCoA9jDKKuj2uo=;
- b=WyY1TjMVJnlz52coLQeHeH9IznA7WtTmrFyNfjKdDuIoN7WGY8aaC/Js1PrD78O4Qro0koGcwQuLJ2RNDqd//U94QC+edzgI5SHlKJza2pRIbOpctWhrSa64e6xV64U/NRpK/1sAws4dEzALKWXZiZ4p0euOOBkoNgJ3N5OCrrxYlCKYbRYfXlZaNGYdXH1ZLUTo5iGELMRRB17HjiKhUWYyp1qWidHOsDZ4BRImzFNaHkBsylxS5yHEdbcjXxgsp8rhQoGYSj55u/71Y66moL5tQ0KoGBY0fBCxzZXP20o2d4SmzkftVEDekW4qbcAgNNoeNBbZ6fI26kDqmjpv2w==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from LV2PR12MB5869.namprd12.prod.outlook.com (2603:10b6:408:176::16)
- by DS0PR12MB6437.namprd12.prod.outlook.com (2603:10b6:8:cb::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5944.19; Fri, 6 Jan
- 2023 16:42:52 +0000
-Received: from LV2PR12MB5869.namprd12.prod.outlook.com
- ([fe80::f8b0:df13:5f8d:12a]) by LV2PR12MB5869.namprd12.prod.outlook.com
- ([fe80::f8b0:df13:5f8d:12a%9]) with mapi id 15.20.5944.019; Fri, 6 Jan 2023
- 16:42:52 +0000
-From:   Jason Gunthorpe <jgg@nvidia.com>
-To:     Lu Baolu <baolu.lu@linux.intel.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Kevin Tian <kevin.tian@intel.com>,
-        Matthew Rosato <mjrosato@linux.ibm.com>,
-        Robin Murphy <robin.murphy@arm.com>
-Cc:     Alex Williamson <alex.williamson@redhat.com>,
-        ath10k@lists.infradead.org, ath11k@lists.infradead.org,
-        Christian Borntraeger <borntraeger@linux.ibm.com>,
-        dri-devel@lists.freedesktop.org, iommu@lists.linux.dev,
-        kvm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-rdma@vger.kernel.org, linux-remoteproc@vger.kernel.org,
-        linux-s390@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-tegra@vger.kernel.org, linux-wireless@vger.kernel.org,
-        netdev@vger.kernel.org, nouveau@lists.freedesktop.org,
-        Niklas Schnelle <schnelle@linux.ibm.com>,
-        virtualization@lists.linux-foundation.org
-Subject: [PATCH 8/8] iommu/s390: Push the gfp parameter to the kmem_cache_alloc()'s
-Date:   Fri,  6 Jan 2023 12:42:48 -0400
-Message-Id: <8-v1-6e8b3997c46d+89e-iommu_map_gfp_jgg@nvidia.com>
-In-Reply-To: <0-v1-6e8b3997c46d+89e-iommu_map_gfp_jgg@nvidia.com>
-References: 
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: MN2PR02CA0009.namprd02.prod.outlook.com
- (2603:10b6:208:fc::22) To LV2PR12MB5869.namprd12.prod.outlook.com
- (2603:10b6:408:176::16)
+        with ESMTP id S234811AbjAFREt (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 6 Jan 2023 12:04:49 -0500
+Received: from mail-vk1-xa2f.google.com (mail-vk1-xa2f.google.com [IPv6:2607:f8b0:4864:20::a2f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 071F87A3A7
+        for <linux-media@vger.kernel.org>; Fri,  6 Jan 2023 09:04:48 -0800 (PST)
+Received: by mail-vk1-xa2f.google.com with SMTP id q7so866360vkn.3
+        for <linux-media@vger.kernel.org>; Fri, 06 Jan 2023 09:04:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=raspberrypi.com; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=xseUPxj6qju1eAHZF4W0HuKF5TTX5DKrVnNk+FidbeQ=;
+        b=YUwPwh5ejNxlLBTChU4Fr1O9Ds3g0si6gSkt3lNwR6epu/baE/LsoiyebzxyQYI+4q
+         sBUKQqndV2uSyLPZt9TMS5Ehk+feOIVwCerE2W20+gdwk8LKWCHMmWPJ3hDDdugc6H6f
+         /ORwJNRlIgU7Q0LmZ183o8w7jWMhw8eCm8sQdQxOMWEdyfnMi0sPNxtEsHwHmR/5jFqc
+         2ydQ34WUEjive1EcXRXT0dvqeUMKKY8G+gPEhVZDSykEmxwF+RHYVHGRBCzxdEac97GV
+         +hT1JXC+DTCzF9JsuKbk97+BccRI8CJUdsMiK0JcuiiysJk06ULT9j48qFfYPiz4V1vU
+         wLyw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=xseUPxj6qju1eAHZF4W0HuKF5TTX5DKrVnNk+FidbeQ=;
+        b=WvQVO49rqQ8UvYJ7U056zYDbj8ooWr2XOrYG1XOvtc/tRVugQuND1nA1edI3BPBtjn
+         kss1J7eeoZ6qf5AsXJoByS9pLXbHivb4mD9HsZrNAYleauTroezBvmVgRJYw1ANDfplq
+         pNuWkW751LTGqehYMZV8HEBGcN32ERoDg0Ye50NhWbmx8Lpad82sbBNg20Q56qMOZNNM
+         k5yNy0gKwKcT2dtHo0oZY4mA1vgfgEG8NFNPDEWiB6ScDWVZ0IHox05gZAvQG5n4GcUh
+         i75F2qMK9CdrFccH3i9lBmqW8klb/ZEcN1xqzCIZeHXY0l51BH/Q1Y/xnnCmjvuWN/nS
+         bP5Q==
+X-Gm-Message-State: AFqh2koaDRt7n/7FKV0XwgeKlzw6YrBnsBeW1csLs4HLZ0HKMEQEuKWQ
+        42hrCeD+cQEeFHqJXJMlHhZGpPemLE6bqq4XkuLlc432dGnyew==
+X-Google-Smtp-Source: AMrXdXuBYGnNNxK5jSvnXlmVwdgfhPwdJALkJU8jnvzWWVy2a+QcG+wCMHCGABkrOkb1OUI/x5Yp3AGn8TedpjD1uYs=
+X-Received: by 2002:a1f:a390:0:b0:3bd:1d27:eaa with SMTP id
+ m138-20020a1fa390000000b003bd1d270eaamr5829505vke.4.1673024685492; Fri, 06
+ Jan 2023 09:04:45 -0800 (PST)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LV2PR12MB5869:EE_|DS0PR12MB6437:EE_
-X-MS-Office365-Filtering-Correlation-Id: a0017374-1d4e-494e-3c18-08daf0050c9a
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: qhQN2tDydbCVLbhZ93Se++51k+9xCzhFbxHRGUavBJji5EpqwM9abcbsF7V0lzTYHcnucm4+GxrnaZSKNTOWYweqB28MEEVITP40FJ+9Q7SrUFeZAwdVukNeGTgNa5C2GYXKGeiRS8okwrz95MqRBgPgffNlsOnB6tpTX3puABx6FgEEokb9MvvtD19MTYLIThXfrbiQ7fFFcTrQMhvMbhA1P/kTGykB58Ig5S7Qch+Do2ivTlnyuk3wyGiE2VuTKd9ClLMfNacvr9B2zraoBA9mc7Y1SsNZNzrpL2ta/FJQzotvhwF6eQQE9+zcZMccQzk9Vgk8+ineqFhThWWjP22SFFRibPd4gv86NF8dW+YHlc2lBgeQrBCKatHQMyLnUBRwyoNSsVkA6QLKqxYWmDDGC1MIqYoYZiyT4bFY8+rW7OlFBVa7ignf/iiMGBbeDTLX+NMPWW7GXXyZhvViw2Rp1tZnIhOTvH0d6gOyAVmU/9M1LXp8VtiuxDfo50kxenPwQqh8I2ojcsH2VSKB9bswYcnjYb0sotdtK7hTw0naUYV+xk4wsTkd1GhUu4xBEGpFlVSZwHqah5vCDIEQE2v6RCFKIt10uU2SvH3tOYNTR+J9/HBpa1ienutudhs2JsOrxsY0swbL2Dkae6ai1Q0PIhvGX4xPt3J0lh7sGQS90+/t9zC5J1E0Bo6m3bjY
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV2PR12MB5869.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(366004)(136003)(376002)(346002)(39860400002)(396003)(451199015)(7416002)(5660300002)(54906003)(2906002)(41300700001)(8676002)(66946007)(8936002)(66476007)(316002)(4326008)(66556008)(83380400001)(6666004)(478600001)(110136005)(6506007)(36756003)(186003)(2616005)(26005)(6512007)(6486002)(86362001)(38100700002)(4216001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Sc5MxYePZ38UOERpbfLkiFylsIZuVor4DKkdlwSgsWKdtdRNjboiT7D2VVA4?=
- =?us-ascii?Q?70ECVb+7YVZNcEd/rpY3fsAYKJZdHDvRCxqyujDdrfDQcgofx7lR5Lom1Aek?=
- =?us-ascii?Q?BF1jDR4ok9WRQmIhusgec1qtLDaUfGcrZXZFcY1D7L4lC6++buac6PDHpJ+m?=
- =?us-ascii?Q?gHvomrtIOB1UO38R894mmdPJZzeycTebpVIdQDfBIOQfxgocNtVBvgTP8qpV?=
- =?us-ascii?Q?y3lBx/NsUNYWpUmuBZOjzarydFuA0eF/ytnRzl4kZAOoUtTuSOE7WBBPW/au?=
- =?us-ascii?Q?y6NwoO1yLzwcKr5JMOw3VnL2RIdQIxEwEDw518bTsmXHFba+8tSOb/OkEyhT?=
- =?us-ascii?Q?BAXVX4/OrDlKOj+5x8qrNwiWzFSJytCDK2oxd+4oijUaf3ZzNHmshuHpShIb?=
- =?us-ascii?Q?e8S33dAK3hcmohqQkygAM/0kbo5rI1aZFyBa7TSx6fz3TlSPPk0+Joqw6Wz6?=
- =?us-ascii?Q?ZaQSDhyUQ1ekmgTcWYmi51h5K9OBAGwGvyRL8SgCSlXmhi4VlupSyRLF4J44?=
- =?us-ascii?Q?Fn5fTqJYvmotixmgzU1EzpqOxS9GIu4/937LK83J57aAs3GXbl89NcEGgEs7?=
- =?us-ascii?Q?53baYdZtFtbWvFa2FQgUS8XxtIDLGxGX40KhylZcFTOFbxjcleQLEXKLObsB?=
- =?us-ascii?Q?XLs+UBAmjn1gYfDOKASu1Dt9ma+Ib0PJn9I1sucMPqh2WWIwjhdiSj4Dnaxt?=
- =?us-ascii?Q?NYhFO9BLJOdLax3Itiq0n54/kQJmcRR0DNYx17HgHGrD90dIM0pjkzUsHtHJ?=
- =?us-ascii?Q?eaquqzx+0IHYUk/HhP++bxIy/n0dKeX+IjbTAaygITTuYxXgqmYc/Vyckq8+?=
- =?us-ascii?Q?PVvyLrN9PFE0EO4q7jj4rRVP4xX8LuPQO5nZW2V76DhOsCiuYkw0hR8ParBB?=
- =?us-ascii?Q?QBLGvPZTjlN+UtkwX9zv8W3YKw+/t2est/7VlOgWRypzP2UmFMekuFSPlt6u?=
- =?us-ascii?Q?XrkSVZBfG2ug/63+wEuH+repKEfZgIspgrnkkvmPOMbB4rf8FHpeq+fjI7kG?=
- =?us-ascii?Q?mzUpvRsmw9qrxvFEW2KNggBHNJtn9Smzmj0eYNP77myqrx5Kb1DpVzDNm2P4?=
- =?us-ascii?Q?wjsRhmQgoFzt9JL1DAMfueID/cvoZkwNN4fttzWDVBOIMAvRBYwgwXAddPdF?=
- =?us-ascii?Q?E8XkyuPB88/i6CWg4lh5NIwQPpdAjc8GjWBVM9PtbUZ11lmpOdhfHx0vrcMp?=
- =?us-ascii?Q?0b9xbKsXWYDAxzkwNHxSg76i3R1oXCSuY4Go1fDOf6x58HtqhdXUgsnxc4u+?=
- =?us-ascii?Q?rFa47+O1fU0UGwaTUZz2uf1GpwKrsQix5bywJ81XtlsaubnDRFXIGDcqWH+p?=
- =?us-ascii?Q?kFtZTL8NY8MsIeFqWiswBPaONdVTr6Lwj8xJj3jlEF1BUdYv1VFNHucc0qOj?=
- =?us-ascii?Q?rz3+vDO/0LaHQ/6ucXF/zr5U1I4Xmv51NIV2qG6DMyzIHRqBsq4nlxZhM7Wc?=
- =?us-ascii?Q?dqT0z6rLcS6XI8ZM4rXn8FNlTnhLzsYr0spsIbe7Z8Y9HRZyqMwQE8lVU2IL?=
- =?us-ascii?Q?A1zXm9hg5IbgPdUXk+IiLp9UmzUTzJs0f2MWB75Y3FFzVvhPez8hQiWzWOpo?=
- =?us-ascii?Q?f1j2eP2ukOEC+LlQ2SQTt5CRuAX9n60a2/UAGuc4?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a0017374-1d4e-494e-3c18-08daf0050c9a
-X-MS-Exchange-CrossTenant-AuthSource: LV2PR12MB5869.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Jan 2023 16:42:50.5174
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: WGZm3I+oQ+4QRJzUh+HSjTL0W5DpYFauZa8CmmV9xmQuH2FSE6KkMuNfczmmYs+W
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB6437
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE
-        autolearn=no autolearn_force=no version=3.4.6
+References: <20221220084404.19280-1-umang.jain@ideasonboard.com>
+ <Y6Lqs8RUiyi452gM@pendragon.ideasonboard.com> <Y6MF3l40WM3onmyO@kroah.com>
+ <d48462f6-de4c-2816-0a7a-b3b13993604c@ideasonboard.com> <Y6SVegtHvwQ3p+3K@pendragon.ideasonboard.com>
+ <629b3f63-74e4-5cb5-29d1-6d2846bc24c7@i2se.com> <Y6lxtk4bqWwXAyHH@pendragon.ideasonboard.com>
+In-Reply-To: <Y6lxtk4bqWwXAyHH@pendragon.ideasonboard.com>
+From:   Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date:   Fri, 6 Jan 2023 17:04:29 +0000
+Message-ID: <CAPY8ntCePNY8eNtB58_6=doON4_oRb4OLuGLfA=0SDhRvmb3+Q@mail.gmail.com>
+Subject: Re: [PATCH] staging: vc04_services: vchiq_arm: Create platform_device
+ per device
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Stefan Wahren <stefan.wahren@i2se.com>,
+        Umang Jain <umang.jain@ideasonboard.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-staging@lists.linux.dev,
+        linux-rpi-kernel@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Adrien Thierry <athierry@redhat.com>,
+        Dan Carpenter <error27@gmail.com>,
+        Nicolas Saenz Julienne <nsaenz@kernel.org>,
+        Phil Elwell <phil@raspberrypi.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-dma_alloc_cpu_table() and dma_alloc_page_table() are eventually called by
-iommufd through s390_iommu_map_pages() and it should not be forced to
-atomic. Thread the gfp parameter through the call chain starting from
-s390_iommu_map_pages().
+Hi Laurent, Greg, Stefan, and Umang
 
-Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
----
- arch/s390/include/asm/pci_dma.h |  5 +++--
- arch/s390/pci/pci_dma.c         | 31 +++++++++++++++++--------------
- drivers/iommu/s390-iommu.c      | 15 +++++++++------
- 3 files changed, 29 insertions(+), 22 deletions(-)
+Sorry, still catching up from the holiday period.
 
-diff --git a/arch/s390/include/asm/pci_dma.h b/arch/s390/include/asm/pci_dma.h
-index 91e63426bdc53f..7119c04c51c5c8 100644
---- a/arch/s390/include/asm/pci_dma.h
-+++ b/arch/s390/include/asm/pci_dma.h
-@@ -186,9 +186,10 @@ static inline unsigned long *get_st_pto(unsigned long entry)
- 
- /* Prototypes */
- void dma_free_seg_table(unsigned long);
--unsigned long *dma_alloc_cpu_table(void);
-+unsigned long *dma_alloc_cpu_table(gfp_t gfp);
- void dma_cleanup_tables(unsigned long *);
--unsigned long *dma_walk_cpu_trans(unsigned long *rto, dma_addr_t dma_addr);
-+unsigned long *dma_walk_cpu_trans(unsigned long *rto, dma_addr_t dma_addr,
-+				  gfp_t gfp);
- void dma_update_cpu_trans(unsigned long *entry, phys_addr_t page_addr, int flags);
- 
- extern const struct dma_map_ops s390_pci_dma_ops;
-diff --git a/arch/s390/pci/pci_dma.c b/arch/s390/pci/pci_dma.c
-index ea478d11fbd132..2d9b01d7ca4c5c 100644
---- a/arch/s390/pci/pci_dma.c
-+++ b/arch/s390/pci/pci_dma.c
-@@ -27,11 +27,11 @@ static int zpci_refresh_global(struct zpci_dev *zdev)
- 				  zdev->iommu_pages * PAGE_SIZE);
- }
- 
--unsigned long *dma_alloc_cpu_table(void)
-+unsigned long *dma_alloc_cpu_table(gfp_t gfp)
- {
- 	unsigned long *table, *entry;
- 
--	table = kmem_cache_alloc(dma_region_table_cache, GFP_ATOMIC);
-+	table = kmem_cache_alloc(dma_region_table_cache, gfp);
- 	if (!table)
- 		return NULL;
- 
-@@ -45,11 +45,11 @@ static void dma_free_cpu_table(void *table)
- 	kmem_cache_free(dma_region_table_cache, table);
- }
- 
--static unsigned long *dma_alloc_page_table(void)
-+static unsigned long *dma_alloc_page_table(gfp_t gfp)
- {
- 	unsigned long *table, *entry;
- 
--	table = kmem_cache_alloc(dma_page_table_cache, GFP_ATOMIC);
-+	table = kmem_cache_alloc(dma_page_table_cache, gfp);
- 	if (!table)
- 		return NULL;
- 
-@@ -63,7 +63,7 @@ static void dma_free_page_table(void *table)
- 	kmem_cache_free(dma_page_table_cache, table);
- }
- 
--static unsigned long *dma_get_seg_table_origin(unsigned long *rtep)
-+static unsigned long *dma_get_seg_table_origin(unsigned long *rtep, gfp_t gfp)
- {
- 	unsigned long old_rte, rte;
- 	unsigned long *sto;
-@@ -72,7 +72,7 @@ static unsigned long *dma_get_seg_table_origin(unsigned long *rtep)
- 	if (reg_entry_isvalid(rte)) {
- 		sto = get_rt_sto(rte);
- 	} else {
--		sto = dma_alloc_cpu_table();
-+		sto = dma_alloc_cpu_table(gfp);
- 		if (!sto)
- 			return NULL;
- 
-@@ -90,7 +90,7 @@ static unsigned long *dma_get_seg_table_origin(unsigned long *rtep)
- 	return sto;
- }
- 
--static unsigned long *dma_get_page_table_origin(unsigned long *step)
-+static unsigned long *dma_get_page_table_origin(unsigned long *step, gfp_t gfp)
- {
- 	unsigned long old_ste, ste;
- 	unsigned long *pto;
-@@ -99,7 +99,7 @@ static unsigned long *dma_get_page_table_origin(unsigned long *step)
- 	if (reg_entry_isvalid(ste)) {
- 		pto = get_st_pto(ste);
- 	} else {
--		pto = dma_alloc_page_table();
-+		pto = dma_alloc_page_table(gfp);
- 		if (!pto)
- 			return NULL;
- 		set_st_pto(&ste, virt_to_phys(pto));
-@@ -116,18 +116,19 @@ static unsigned long *dma_get_page_table_origin(unsigned long *step)
- 	return pto;
- }
- 
--unsigned long *dma_walk_cpu_trans(unsigned long *rto, dma_addr_t dma_addr)
-+unsigned long *dma_walk_cpu_trans(unsigned long *rto, dma_addr_t dma_addr,
-+				  gfp_t gfp)
- {
- 	unsigned long *sto, *pto;
- 	unsigned int rtx, sx, px;
- 
- 	rtx = calc_rtx(dma_addr);
--	sto = dma_get_seg_table_origin(&rto[rtx]);
-+	sto = dma_get_seg_table_origin(&rto[rtx], gfp);
- 	if (!sto)
- 		return NULL;
- 
- 	sx = calc_sx(dma_addr);
--	pto = dma_get_page_table_origin(&sto[sx]);
-+	pto = dma_get_page_table_origin(&sto[sx], gfp);
- 	if (!pto)
- 		return NULL;
- 
-@@ -170,7 +171,8 @@ static int __dma_update_trans(struct zpci_dev *zdev, phys_addr_t pa,
- 		return -EINVAL;
- 
- 	for (i = 0; i < nr_pages; i++) {
--		entry = dma_walk_cpu_trans(zdev->dma_table, dma_addr);
-+		entry = dma_walk_cpu_trans(zdev->dma_table, dma_addr,
-+					   GFP_ATOMIC);
- 		if (!entry) {
- 			rc = -ENOMEM;
- 			goto undo_cpu_trans;
-@@ -186,7 +188,8 @@ static int __dma_update_trans(struct zpci_dev *zdev, phys_addr_t pa,
- 		while (i-- > 0) {
- 			page_addr -= PAGE_SIZE;
- 			dma_addr -= PAGE_SIZE;
--			entry = dma_walk_cpu_trans(zdev->dma_table, dma_addr);
-+			entry = dma_walk_cpu_trans(zdev->dma_table, dma_addr,
-+						   GFP_ATOMIC);
- 			if (!entry)
- 				break;
- 			dma_update_cpu_trans(entry, page_addr, flags);
-@@ -576,7 +579,7 @@ int zpci_dma_init_device(struct zpci_dev *zdev)
- 
- 	spin_lock_init(&zdev->iommu_bitmap_lock);
- 
--	zdev->dma_table = dma_alloc_cpu_table();
-+	zdev->dma_table = dma_alloc_cpu_table(GFP_KERNEL);
- 	if (!zdev->dma_table) {
- 		rc = -ENOMEM;
- 		goto out;
-diff --git a/drivers/iommu/s390-iommu.c b/drivers/iommu/s390-iommu.c
-index ed33c6cce08362..7dcfffed260e6b 100644
---- a/drivers/iommu/s390-iommu.c
-+++ b/drivers/iommu/s390-iommu.c
-@@ -52,7 +52,7 @@ static struct iommu_domain *s390_domain_alloc(unsigned domain_type)
- 	if (!s390_domain)
- 		return NULL;
- 
--	s390_domain->dma_table = dma_alloc_cpu_table();
-+	s390_domain->dma_table = dma_alloc_cpu_table(GFP_KERNEL);
- 	if (!s390_domain->dma_table) {
- 		kfree(s390_domain);
- 		return NULL;
-@@ -260,7 +260,8 @@ static void s390_iommu_iotlb_sync_map(struct iommu_domain *domain,
- 
- static int s390_iommu_validate_trans(struct s390_domain *s390_domain,
- 				     phys_addr_t pa, dma_addr_t dma_addr,
--				     unsigned long nr_pages, int flags)
-+				     unsigned long nr_pages, int flags,
-+				     gfp_t gfp)
- {
- 	phys_addr_t page_addr = pa & PAGE_MASK;
- 	unsigned long *entry;
-@@ -268,7 +269,8 @@ static int s390_iommu_validate_trans(struct s390_domain *s390_domain,
- 	int rc;
- 
- 	for (i = 0; i < nr_pages; i++) {
--		entry = dma_walk_cpu_trans(s390_domain->dma_table, dma_addr);
-+		entry = dma_walk_cpu_trans(s390_domain->dma_table, dma_addr,
-+					   gfp);
- 		if (unlikely(!entry)) {
- 			rc = -ENOMEM;
- 			goto undo_cpu_trans;
-@@ -284,7 +286,7 @@ static int s390_iommu_validate_trans(struct s390_domain *s390_domain,
- 	while (i-- > 0) {
- 		dma_addr -= PAGE_SIZE;
- 		entry = dma_walk_cpu_trans(s390_domain->dma_table,
--					   dma_addr);
-+					   dma_addr, gfp);
- 		if (!entry)
- 			break;
- 		dma_update_cpu_trans(entry, 0, ZPCI_PTE_INVALID);
-@@ -301,7 +303,8 @@ static int s390_iommu_invalidate_trans(struct s390_domain *s390_domain,
- 	int rc = 0;
- 
- 	for (i = 0; i < nr_pages; i++) {
--		entry = dma_walk_cpu_trans(s390_domain->dma_table, dma_addr);
-+		entry = dma_walk_cpu_trans(s390_domain->dma_table, dma_addr,
-+					   GFP_ATOMIC);
- 		if (unlikely(!entry)) {
- 			rc = -EINVAL;
- 			break;
-@@ -339,7 +342,7 @@ static int s390_iommu_map_pages(struct iommu_domain *domain,
- 		flags |= ZPCI_TABLE_PROTECTED;
- 
- 	rc = s390_iommu_validate_trans(s390_domain, paddr, iova,
--				       pgcount, flags);
-+				       pgcount, flags, gfp);
- 	if (!rc)
- 		*mapped = size;
- 
--- 
-2.39.0
+On Mon, 26 Dec 2022 at 10:04, Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+>
+> Hi Stefan,
+>
+> On Fri, Dec 23, 2022 at 12:24:22PM +0100, Stefan Wahren wrote:
+> > Am 22.12.22 um 18:35 schrieb Laurent Pinchart:
+> > > On Thu, Dec 22, 2022 at 01:59:28PM +0530, Umang Jain wrote:
+> > >> On 12/21/22 6:40 PM, Greg Kroah-Hartman wrote:
+> > >>> On Wed, Dec 21, 2022 at 01:14:59PM +0200, Laurent Pinchart wrote:
+> > >>>> On Tue, Dec 20, 2022 at 02:14:04PM +0530, Umang Jain wrote:
+> > >>>>> Create a proper per device platorm_device structure for all the child
+> > >>>>> devices that needs to be registered by vchiq platform driver. Replace
+> > >>>>> the vchiq_register_child() with platform_add_devices() to register the
+> > >>>>> child devices.
+> > >>>>
+> > >>>> This explains what the patch does, but not why.
+> > >>>>
+> > >>>>> This is part of an effort to address TODO item "Get rid of all non
+> > >>>>> essential global structures and create a proper per device structure"
+> > >>>>
+> > >>>> And this explains part of the reason only. Could you please expand the
+> > >>>> commit message with the reasoning behind this change ? It's not clear
+> > >>>> from the change below why this is needed and good.
+> > >>
+> > >> Ok, I thought the TODO reference was sufficient but I'll expand on it.
+> > >>
+> > >>>>> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
+> > >>>>> ---
+> > >>>>>    .../interface/vchiq_arm/vchiq_arm.c           | 59 ++++++++++---------
+> > >>>>>    1 file changed, 31 insertions(+), 28 deletions(-)
+> > >>>>>
+> > >>>>> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> > >>>>> index 22de23f3af02..fa42ea3791a7 100644
+> > >>>>> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> > >>>>> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> > >>>>> @@ -65,8 +65,29 @@ int vchiq_susp_log_level = VCHIQ_LOG_ERROR;
+> > >>>>>    DEFINE_SPINLOCK(msg_queue_spinlock);
+> > >>>>>    struct vchiq_state g_state;
+> > >>>>>
+> > >>>>> -static struct platform_device *bcm2835_camera;
+> > >>>>> -static struct platform_device *bcm2835_audio;
+> > >>>>> +static u64 vchiq_device_dmamask = DMA_BIT_MASK(32);
+> > >>>>
+> > >>>> The fact that this isn't const and is used by two different
+> > >>>> platform_device instances is worrying. Either it can be made const, or
+> > >>>> it's wrong.
+> > >>
+> > >> ack.
+> > >>
+> > >>>>> +
+> > >>>>> +static struct platform_device bcm2835_camera = {
+> > >>>>> +       .name           = "bcm2835-camera",
+> > >>>>> +       .id             = PLATFORM_DEVID_NONE,
+> > >>>>> +       .dev            = {
+> > >>>>> +               .dma_mask       = &vchiq_device_dmamask,
+> > >>>>> +       }
+> > >>>>> +};
+> > >>>>> +
+> > >>>>> +static struct platform_device bcm2835_audio = {
+> > >>>>> +       .name           = "bcm2835_audio",
+> > >>>>> +       .id             = PLATFORM_DEVID_NONE,
+> > >>>>> +       .dev            = {
+> > >>>>> +               .dma_mask       = &vchiq_device_dmamask,
+> > >>>>> +       }
+> > >>>>> +
+> > >>>>
+> > >>>> Extra blank line.
+> > >>
+> > >> oops, checkpatch.pl didn't catch this :-/
+> > >>
+> > >>>>> +};
+> > >>>>> +
+> > >>>>> +static struct platform_device *vchiq_devices[] __initdata = {
+> > >>>>
+> > >>>> Make it const.
+> > >>>>
+> > >>>>> +       &bcm2835_camera,
+> > >>>>> +       &bcm2835_audio,
+> > >>>>> +};
+> > >>>>>
+> > >>>>>    struct vchiq_drvdata {
+> > >>>>>         const unsigned int cache_line_size;
+> > >>>>> @@ -1763,28 +1784,6 @@ static const struct of_device_id vchiq_of_match[] = {
+> > >>>>>    };
+> > >>>>>    MODULE_DEVICE_TABLE(of, vchiq_of_match);
+> > >>>>>
+> > >>>>> -static struct platform_device *
+> > >>>>> -vchiq_register_child(struct platform_device *pdev, const char *name)
+> > >>>>> -{
+> > >>>>> -       struct platform_device_info pdevinfo;
+> > >>>>> -       struct platform_device *child;
+> > >>>>> -
+> > >>>>> -       memset(&pdevinfo, 0, sizeof(pdevinfo));
+> > >>>>> -
+> > >>>>> -       pdevinfo.parent = &pdev->dev;
+> > >>>>> -       pdevinfo.name = name;
+> > >>>>> -       pdevinfo.id = PLATFORM_DEVID_NONE;
+> > >>>>> -       pdevinfo.dma_mask = DMA_BIT_MASK(32);
+> > >>>>> -
+> > >>>>> -       child = platform_device_register_full(&pdevinfo);
+> > >>>>> -       if (IS_ERR(child)) {
+> > >>>>> -               dev_warn(&pdev->dev, "%s not registered\n", name);
+> > >>>>> -               child = NULL;
+> > >>>>> -       }
+> > >>>>> -
+> > >>>>> -       return child;
+> > >>>>> -}
+> > >>>>> -
+> > >>>>>    static int vchiq_probe(struct platform_device *pdev)
+> > >>>>>    {
+> > >>>>>         struct device_node *fw_node;
+> > >>>>> @@ -1832,8 +1831,11 @@ static int vchiq_probe(struct platform_device *pdev)
+> > >>>>>                 goto error_exit;
+> > >>>>>         }
+> > >>>>>
+> > >>>>> -       bcm2835_camera = vchiq_register_child(pdev, "bcm2835-camera");
+> > >>>>> -       bcm2835_audio = vchiq_register_child(pdev, "bcm2835_audio");
+> > >>>>> +       err = platform_add_devices(vchiq_devices, ARRAY_SIZE(vchiq_devices));
+> > >>>>> +       if (err) {
+> > >>>>> +               dev_warn(&pdev->dev, "Failed to add vchiq child devices");
+> > >>>>> +               goto error_exit;
+> > >>>>> +       }
+> > >>>>
+> > >>>> If you unbind and rebind this driver, the platform_device instances
+> > >>>> defined as global variables will be reused, and I'm pretty sure that
+> > >>>> will cause issues, for instance with the kobj->state_initialized check
+> > >>>> in kobject_init() (called from device_initialize(), itself called from
+> > >>>> platform_device_register(), from platform_add_devices()). I'm not sure
+> > >>>> static instances of platform_device are a very good idea in general.
+> > >>>
+> > >>> static instances of any device are a horrible idea, but it seems that
+> > >>> many drivers do this and abuse platform devices this way :(
+> > >>
+> > >> It seems  I have been a victim of the abuse usage while looking for
+> > >> platform_device references in the codebase. I'm working on a new
+> > >> approach for this.
+> > >>
+> > >> Currently (as per the linux-next branch), the vchiq driver will happily
+> > >> carry on if any of the child  platform device registration fails. That
+> > >> means if bcm2835-audio fails to register, bcm2835-camera will  still
+> > >> kept registered I suppose.
+> > >>
+> > >> However with usage of platform_add_devices() in this patch, I introduced
+> > >> a functionality change (I'm realizing this now) - any failure of child
+> > >> platform device registeration will -unregister- all the other platform
+> > >> devices i.e. if bcm2835-audio fails, bcm2835-camera will also get
+> > >> unregistered.
+> > >>
+> > >> Should I be working towards the status-quo behavior ? Or it's sane to
+> > >> unregistered other platform devices if one of the fails like
+> > >> platform_add_devices() does ? (This affects my new approach as well,
+> > >> hence the question)
+> > >
+> > > If it doesn't cause too much extra complexity, it would be nice to skip
+> > > devices that can't be registered successfully, and still support the
+> > > other ones. I don't expect registration failures to be a occuring
+> > > normally, so if this causes too much completely, I think it would still
+> > > be fine to fail more harshly.
+> > >
+> > >>> Ideally this should be done properly, with the correct devices created
+> > >>> automatically based on the device tree structure, NOT hard-coded into a
+> > >>> .c file like this.
+> > >>>
+> > >>> So I too really do not like this change, why are these not being created
+> > >>> by the firware layer automatically?
+> > >>
+> > >> Not sure if this is a helpful comment, but as far I know, there can be
+> > >> vchiq child platform devices which probably don't have a Device tree
+> > >> entry. like the bcm2835-isp [1] I posted earlier.
+> > >>
+> > >> [1] https://lore.kernel.org/lkml/20221121214722.22563-1-umang.jain@ideasonboard.com/
+> > >
+> > > Those devices are implemented and exposed by the firmware running on the
+> > > VC4. The device tree describes the VC4 itself with the resources
+> > > required to communicate with it through a mailbox interface. I was going
+> > > to say that the platform devices are then created based on what the
+> > > firmware exposes, but that's not right, they're indeed hardcoded in the
+> > > vchiq driver. Adding corresponding DT nodes (as children of the vchiq DT
+> > > node) could make sense. Dave, do you have any opinion on this ?
+> >
+> > i vaguely remember the discussion how to represent audio and camera
+> > interface in the device tree. Representing as child nodes of the VC4 has
+> > been rejected on the device tree mailing some years ago, because this
+> > doesn't represent the physical (hardware) wiring. It's still possible to
+> > access e.g. the camera interface from the ARM.
+>
+> For the camera, things have changed a lot since the mail thread you've
+> linked. The CSI-2 receiver (and camera sensors) are now described in DT
+> and controlled from the ARM side. I believe the firmware still supports
+> controlling that hardware from the VC4 side (limited to a very small set
+> of camera sensors), but I think we can ignore that from a mainline point
+> of view.
+>
+> The devices that are still controlled from the VC4 side are the camera
+> ISP, the video codec and the audio interface. As far as I can tell,
+> there's no plan to change this in neither the short term or long term
+> future. Based on my limited understanding, this architecture makes sense
+> for the ISP and codec as they share resources in a way that is best
+> handled by the VC4 firmware. I have no idea about the audio side. Dave,
+> please correct me if this is incorrect.
 
+Audio is only the analogue audio interface. HDMI should now be handled
+under the KMS driver.
+
+ISP and codec hardware are blocks we haven't got permission from
+Broadcom to open source, therefore they will remain under the
+firmware.
+Analogue audio is doing processing in the firmware that the ARM1176 of
+Pi0/1 hasn't got the grunt to do.
+
+> > The whole approach with using a separate binding for all the firmware
+> > stuff lead to a lot of trouble on the Raspberry Pi platform (ugly
+> > dependencies between firmware, DT and kernel). So i would like to avoid
+> > this here. In case the current implementation is a no go, how about
+> > letting the ARM core discover the available interfaces e.g. via mailbox
+> > interface?
+>
+> I don't know if this is possible with existing firmware, and, if not, if
+> it could be implemented (the firmware isn't open-source). If not, we
+> will need to handle the current situation in the best possible way,
+> which would require creating devices either in the VCHIQ driver, or
+> through DT. I agree the former is probably best, there would still be a
+> dependency between the kernel and firmware, but DT would at least be out
+> of the picture. A custom bus seems fine to me.
+
+There is currently no way to enumerate the VCHIQ services that are
+available from the firmware. They are normally all present, but
+configuring the firmware for minimum memory usage does remove all
+except audio.
+The vchiq_open_service call will fail if the relevant service isn't
+running, which is currently handled from the probe of each of the
+drivers.
+
+There's not a straight 1:1 mapping between the VCHIQ service 4cc and
+the kernel driver. bcm2835-camera, bcm2835-codec, and bcm2835-isp are
+all using the 'mmal' service 4cc, as that then has further selection
+for which MMAL components are present. Just advertising the vchiq
+service therefore isn't sufficient, and you'd be needing a sub-bus for
+the MMAL components and which kernel drivers those spawn.
+
+Even that is non-trivial as bcm2835-codec supports multiple 1-in,
+1-out components (video encode, video decode, JPEG encode,
+deinterlace, and a simple usage of the ISP for image conversion), so
+we now need to be passing info into bcm2835-codec as to which
+component to instantiate.
+
+
+If there really is a desire to be able to enumerate the VCHIQ services
+running, then it may be possible to add it to the firmware. My gut
+feeling is that it would be more sensible to implement it as a VCHIQ
+query rather than adding a dependency on the mailbox service.
+Doing so is going to be an issue for backwards compatibility, as a new
+kernel running on old firmware will end up with no services (including
+audio and camera that they currently would get).
+
+Getting a full list of MMAL components could also be done once the
+MMAL service had been opened, but it gets a touch ugly. Again there's
+going to be an issue with backwards compatibility if running an old
+firmware on a new kernel.
+
+  Dave
+
+> > For more inspiration take a look at this old thread [1]
+> >
+> > But i agree DT binding for vchiq itself is also a TODO
+> >
+> > and any help is appreciated.
+> >
+> > [1] - http://lists.infradead.org/pipermail/linux-rpi-kernel/2017-February/005541.html
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
