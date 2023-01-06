@@ -2,110 +2,201 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BDB8965FD08
-	for <lists+linux-media@lfdr.de>; Fri,  6 Jan 2023 09:47:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 67B9E65FD5D
+	for <lists+linux-media@lfdr.de>; Fri,  6 Jan 2023 10:16:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229923AbjAFIrY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 6 Jan 2023 03:47:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56104 "EHLO
+        id S232437AbjAFJPc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 6 Jan 2023 04:15:32 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40390 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229597AbjAFIrX (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 6 Jan 2023 03:47:23 -0500
-Received: from cstnet.cn (smtp25.cstnet.cn [159.226.251.25])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 22C0254724;
-        Fri,  6 Jan 2023 00:47:20 -0800 (PST)
-Received: from localhost.localdomain (unknown [124.16.138.125])
-        by APP-05 (Coremail) with SMTP id zQCowACnrfER4LdjAuloCw--.27825S2;
-        Fri, 06 Jan 2023 16:47:13 +0800 (CST)
-From:   Jiasheng Jiang <jiasheng@iscas.ac.cn>
-To:     robdclark@gmail.com, quic_abhinavk@quicinc.com,
-        dmitry.baryshkov@linaro.org, sean@poorly.run, airlied@gmail.com,
-        sumit.semwal@linaro.org, christian.koenig@amd.com
-Cc:     linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linaro-mm-sig@lists.linaro.org, freedreno@lists.freedesktop.org,
-        Jiasheng Jiang <jiasheng@iscas.ac.cn>
-Subject: [PATCH RESEND] drm/msm: Add missing check and destroy for alloc_ordered_workqueue
-Date:   Fri,  6 Jan 2023 16:47:12 +0800
-Message-Id: <20230106084712.29675-1-jiasheng@iscas.ac.cn>
-X-Mailer: git-send-email 2.25.1
+        with ESMTP id S232509AbjAFJPO (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 6 Jan 2023 04:15:14 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BDB9D63B9;
+        Fri,  6 Jan 2023 01:15:12 -0800 (PST)
+Received: from ideasonboard.com (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 261424AE;
+        Fri,  6 Jan 2023 10:15:10 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1672996510;
+        bh=PUb/2+vNbKva7BxdRPQh/qMdMplUQ5TGiRRnHYtoc4E=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=ju1bhcO39w1qM36Do+jYXtomzKp9s5b8tBKJ6hfP05SlXRHO8f/CLI/I+eMS4S8HR
+         8SAS7hQl36hWuciAoRYBadAqnHNqY877B/2Qq/RqU8qlmoMuowBeJrA85cmuAq8mQY
+         4+qDoxYUicNRJ4lgLW8MDLOiRMKZNuVyTPtv54EU=
+Date:   Fri, 6 Jan 2023 10:15:08 +0100
+From:   Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc:     Nicholas Roth <nicholas@rothemail.net>,
+        Robert Mader <robert.mader@collabora.com>, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org,
+        Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH 1/2] dt-bindings: media: Add schema for OmniVision OV8858
+Message-ID: <20230106091508.asjayi5ic2dz6vrg@uno.localdomain>
+References: <20230105172320.133810-1-jacopo@jmondi.org>
+ <20230105172320.133810-2-jacopo@jmondi.org>
+ <4a3f0fc7-4723-919a-ed8c-59e364d55c6f@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: zQCowACnrfER4LdjAuloCw--.27825S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7urWkCF4DJFyxtFykJw43KFg_yoW8Xr4kpa
-        13AayrtryFya1agwnFyr1kua45C3W8K3WfC3yI9wnIgwn0yr4DAa48tFyjkry3GFZ7XF12
-        yFZ2ya4DZF1jkrJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUUvG14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-        rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
-        1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
-        6r4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
-        Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
-        I7IYx2IY67AKxVWUAVWUtwAv7VC2z280aVAFwI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r1j6r
-        4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628v
-        n2kIc2xKxwCY02Avz4vE14v_GFyl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr
-        0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY
-        17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcV
-        C0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY
-        6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa
-        73UjIFyTuYvjfU07KsUUUUU
-X-Originating-IP: [124.16.138.125]
-X-CM-SenderInfo: pmld2xxhqjqxpvfd2hldfou0/
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <4a3f0fc7-4723-919a-ed8c-59e364d55c6f@linaro.org>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add check for the return value of alloc_ordered_workqueue as it may return
-NULL pointer.
-Moreover, use the destroy_workqueue in the later fails in order to avoid
-memory leak.
+Hi Krzysztof
+   thanks for the review
 
-Fixes: c8afe684c95c ("drm/msm: basic KMS driver for snapdragon")
-Signed-off-by: Jiasheng Jiang <jiasheng@iscas.ac.cn>
----
- drivers/gpu/drm/msm/msm_drv.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+On Fri, Jan 06, 2023 at 09:34:22AM +0100, Krzysztof Kozlowski wrote:
+> On 05/01/2023 18:23, Jacopo Mondi wrote:
+> > From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> >
+>
+> Subject: drop redundant "schema for".
+>
 
-diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
-index 8b0b0ac74a6f..b82d938226ad 100644
---- a/drivers/gpu/drm/msm/msm_drv.c
-+++ b/drivers/gpu/drm/msm/msm_drv.c
-@@ -418,6 +418,8 @@ static int msm_drm_init(struct device *dev, const struct drm_driver *drv)
- 	priv->dev = ddev;
- 
- 	priv->wq = alloc_ordered_workqueue("msm", 0);
-+	if (!priv->wq)
-+		return -ENOMEM;
- 
- 	INIT_LIST_HEAD(&priv->objects);
- 	mutex_init(&priv->obj_lock);
-@@ -440,12 +442,12 @@ static int msm_drm_init(struct device *dev, const struct drm_driver *drv)
- 
- 	ret = msm_init_vram(ddev);
- 	if (ret)
--		return ret;
-+		goto err_destroy_workqueue;
- 
- 	/* Bind all our sub-components: */
- 	ret = component_bind_all(dev, ddev);
- 	if (ret)
--		return ret;
-+		goto err_destroy_workqueue;
- 
- 	dma_set_max_seg_size(dev, UINT_MAX);
- 
-@@ -540,6 +542,8 @@ static int msm_drm_init(struct device *dev, const struct drm_driver *drv)
- 
- err_msm_uninit:
- 	msm_drm_uninit(dev);
-+err_destroy_workqueue:
-+	destroy_workqueue(priv->wq);
- 	return ret;
- }
- 
--- 
-2.25.1
+ack
 
+> > Add binding schema for the OmniVision OV8858 8 Megapixels camera sensor.
+> >
+>
+> Thank you for your patch. There is something to discuss/improve.
+>
+> > +properties:
+> > +  compatible:
+> > +    const: ovti,ov8858
+> > +
+> > +  reg:
+> > +    maxItems: 1
+> > +
+> > +  clocks:
+> > +    maxItems: 1
+> > +    description: XVCLK external clock
+> > +
+> > +  clock-names:
+> > +    const: xvclk
+> > +
+> > +  dvdd-supply:
+> > +    description: Digital Domain Power Supply
+> > +
+> > +  avdd-supply:
+> > +    description: Analog Domain Power Supply
+> > +
+> > +  dovdd-supply:
+> > +    description: I/O Domain Power Supply
+> > +
+> > +  powerdown-gpios:
+> > +    maxItems: 1
+>
+> No need for maxItems here - it is coming from gpio-consumer-common.
+>
+
+ack
+
+> > +    description: PWDNB powerdown GPIO (active low)
+> > +
+> > +  reset-gpios:
+> > +    maxItems: 1
+> > +    description: XSHUTDN reset GPIO (active low)
+> > +
+> > +  port:
+> > +    description: MIPI CSI-2 transmitter port
+> > +    $ref: /schemas/graph.yaml#/$defs/port-base
+> > +    additionalProperties: false
+> > +
+> > +    properties:
+> > +      endpoint:
+> > +        $ref: /schemas/media/video-interfaces.yaml#
+> > +        unevaluatedProperties: false
+> > +
+> > +        properties:
+> > +          data-lanes:
+> > +            minItems: 1
+> > +            maxItems: 4
+> > +
+> > +        required:
+> > +          - data-lanes
+> > +
+> > +required:
+> > +  - compatible
+> > +  - reg
+> > +  - clocks
+> > +  - assigned-clocks
+> > +  - assigned-clock-rates
+>
+> These should not be required.
+>
+
+makes sense
+
+> > +  - port
+> > +
+> > +additionalProperties: false
+> > +
+> > +examples:
+> > +  - |
+> > +    #include <dt-bindings/pinctrl/rockchip.h>
+>
+> Drop, not needed.
+>
+
+I need it for the definition of RK_PA4 and RK_PB4.
+
+The example fails to compile if I remove it
+
+> > +    #include <dt-bindings/clock/rk3399-cru.h>
+> > +    #include <dt-bindings/gpio/gpio.h>
+> > +
+> > +    i2c2 {
+>
+> i2c
+>
+
+Ack
+
+Will resend soon
+
+Thanks
+   j
+
+> > +        #address-cells = <1>;
+> > +        #size-cells = <0>;
+> > +
+> > +        ov8858: camera@36 {
+> > +            compatible = "ovti,ov8858";
+> > +            reg = <0x36>;
+> > +
+> > +            clocks = <&cru SCLK_CIF_OUT>;
+> > +            clock-names = "xvclk";
+> > +            assigned-clocks = <&cru SCLK_CIF_OUT>;
+> > +            assigned-clock-rates = <24000000>;
+> > +
+> > +            dovdd-supply = <&vcc1v8_dvp>;
+> > +
+> > +            reset-gpios = <&gpio1 RK_PA4 GPIO_ACTIVE_LOW>;
+> > +            powerdown-gpios = <&gpio2 RK_PB4 GPIO_ACTIVE_LOW>;
+> > +
+> > +            port {
+> > +                ucam_out: endpoint {
+> > +                    remote-endpoint = <&mipi_in_ucam>;
+> > +                    data-lanes = <1 2 3 4>;
+> > +                };
+> > +            };
+> > +        };
+> > +    };
+> > +...
+> > --
+> > 2.38.1
+> >
+>
+> Best regards,
+> Krzysztof
+>
