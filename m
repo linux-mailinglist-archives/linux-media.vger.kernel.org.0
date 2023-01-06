@@ -2,88 +2,195 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C6E326602F1
-	for <lists+linux-media@lfdr.de>; Fri,  6 Jan 2023 16:19:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8311C66037A
+	for <lists+linux-media@lfdr.de>; Fri,  6 Jan 2023 16:39:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234412AbjAFPS7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 6 Jan 2023 10:18:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36180 "EHLO
+        id S233548AbjAFPjY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 6 Jan 2023 10:39:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50502 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234496AbjAFPSl (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 6 Jan 2023 10:18:41 -0500
-Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E12C8B743;
-        Fri,  6 Jan 2023 07:18:40 -0800 (PST)
-Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-476e643d1d5so26868567b3.1;
-        Fri, 06 Jan 2023 07:18:40 -0800 (PST)
+        with ESMTP id S235180AbjAFPjQ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 6 Jan 2023 10:39:16 -0500
+Received: from mail-oa1-x30.google.com (mail-oa1-x30.google.com [IPv6:2001:4860:4864:20::30])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 943A776803;
+        Fri,  6 Jan 2023 07:39:15 -0800 (PST)
+Received: by mail-oa1-x30.google.com with SMTP id 586e51a60fabf-1322d768ba7so1877095fac.5;
+        Fri, 06 Jan 2023 07:39:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=nOU74MfLltUT+h+F/CrT1EH2iRW8ZoWBGIJbj4ikcZg=;
+        b=kCHCa/r/NH7je4QvL7iXn+mGinMO0F8rBjuPT2QnoR6UCmONeCpDaIl710U7xlpmT6
+         ikc1XvbZrH2G6v6Ld0fca1JWE5cOEg+kijfMUaFDYx835qxVEn/NO4CRdNIV1hXhLi6O
+         rrlxk+4D9lTSqnIgV2F/N+SXbUbcjK/Jzijiqx247t8iDkut1B0x8qPdt36ZE01G1QZW
+         /5R0EoDpcDbcFNpofc0nZGeQSzfXDpRT+ZaQn6YmnNmhgSospP8Ca2nKXFCRIl9L06qc
+         0O0Hf1tAT1axF1D8RPs/Aprow4ZU5Du+LmsxjuIoYb/wQtuBG8ejJ4PRaBaX6KY3PrTK
+         u6vQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=oLTT10Q08SvcCsbZuYubvWn2TjFc+1wP3y0ZN/T09Wc=;
-        b=RKjEKEBjR7zbv+AXsvsl9YLEazD1LOHUJYucqol512xauguktXOj6/HU+n6iqsxWm0
-         hjj6YJ2gflxjwQtUAVqiUvnjJ6dz3UmzFB1UpxebYVqfLG/hnR3PONteMaMKP+WsNVNl
-         tuPBpxUsbXrdua/Wn5nRw858KOO1LRwrApKEwduv1kyFmeeInnH9+UW5foP9wBaMKGzs
-         h8dPxv82OrFNm4uHt6Z5qxcDmcjFD2mCBC8DuBeTNkugCympWU7RnJAubyI1OQhTacHa
-         EXq8utlSznSD11aMA+ORTa3k3sGhE7XqfIRs2k/zS2U/xwf5aqcfbjMUNF+9fldkoEAm
-         m+fg==
-X-Gm-Message-State: AFqh2koPd6GE8ygV7C9oydj/3zbObaU/TREB4s+QR+TaZW7eVKXyzzs+
-        VR6Wf5bdnaiFfa71ZJM+nWIpE46lON9pug==
-X-Google-Smtp-Source: AMrXdXubmLBSxEeWEOTXkzNQNH1yY4T0RdkGs7dNm/m+L3Vkn40L98eh7w/lB8z1bzTKRDFEzHxEog==
-X-Received: by 2002:a81:4e89:0:b0:487:b6b9:ff5d with SMTP id c131-20020a814e89000000b00487b6b9ff5dmr29500339ywb.45.1673018319407;
-        Fri, 06 Jan 2023 07:18:39 -0800 (PST)
-Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com. [209.85.128.174])
-        by smtp.gmail.com with ESMTPSA id j19-20020a05620a411300b00704c1f4e756sm656168qko.14.2023.01.06.07.18.38
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 06 Jan 2023 07:18:39 -0800 (PST)
-Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-482363a1232so26741327b3.3;
-        Fri, 06 Jan 2023 07:18:38 -0800 (PST)
-X-Received: by 2002:a81:17ca:0:b0:46f:bd6:957d with SMTP id
- 193-20020a8117ca000000b0046f0bd6957dmr4281773ywx.383.1673018318622; Fri, 06
- Jan 2023 07:18:38 -0800 (PST)
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=nOU74MfLltUT+h+F/CrT1EH2iRW8ZoWBGIJbj4ikcZg=;
+        b=F06yqebb7xDQZgx5Q9Unc1dyLa0uAdcBtIxE/hScAQSQTFAAZQwheUupor8i7YfVHL
+         /zACm1DuV6124XiE7mRVsXnzpyIPj6tX8ljTSSJPIicc8Kc5ykFykjWIfyn+zxMmjz04
+         jANegVLyW2V8+MlYOlI2hPtmf9BRpndzlOgv0VuiWj+1HF0Uv1yW+i1oK3MyeAG9jx1P
+         DW7ZmZZ+tgiJaRn3i1y3xSPHqczD8Ec1p+OFxXkzw6zBTXoYHaSaBiLOJn/XCGs0+YGR
+         mvgkoTVlr3M1aRsUUsE0GdZkUHfUcJhMPcy3etpLSZhFdWg79hGTk/j0SHG/cjC2nuPR
+         QYeQ==
+X-Gm-Message-State: AFqh2kpznEWAIdcvsF+Ykyw8/xa8crhN01WjTbc8/hMU/dClaH2trXWC
+        dEopLJfOM6cFMYlg4EdMmLx3UyWvzklUPQBRVMY=
+X-Google-Smtp-Source: AMrXdXt0/0Yzb/5d06C0pGHF7OeoMwC1Beik/HhdgRVorPYXTJ/t6Z10/P3fO3icF9eUsmYUsIHQhJSZPSADJk9q0Qw=
+X-Received: by 2002:a05:6870:c59c:b0:150:d9aa:4011 with SMTP id
+ ba28-20020a056870c59c00b00150d9aa4011mr1145315oab.96.1673019554943; Fri, 06
+ Jan 2023 07:39:14 -0800 (PST)
 MIME-Version: 1.0
 References: <CAHk-=wgf929uGOVpiWALPyC7pv_9KbwB2EAvQ3C4woshZZ5zqQ@mail.gmail.com>
  <20221227082932.798359-1-geert@linux-m68k.org> <alpine.DEB.2.22.394.2212270933530.311423@ramsan.of.borg>
- <c05bee5d-0d69-289b-fe4b-98f4cd31a4f5@physik.fu-berlin.de> <CAMuHMdXNJveXHeS=g-aHbnxtyACxq1wCeaTg8LbpYqJTCqk86g@mail.gmail.com>
-In-Reply-To: <CAMuHMdXNJveXHeS=g-aHbnxtyACxq1wCeaTg8LbpYqJTCqk86g@mail.gmail.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 6 Jan 2023 16:18:27 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdU8AKSdujbr=nwaBUy4q4z_R=MERnb5CBPPv=A63BVFXA@mail.gmail.com>
-Message-ID: <CAMuHMdU8AKSdujbr=nwaBUy4q4z_R=MERnb5CBPPv=A63BVFXA@mail.gmail.com>
+In-Reply-To: <alpine.DEB.2.22.394.2212270933530.311423@ramsan.of.borg>
+From:   Alex Deucher <alexdeucher@gmail.com>
+Date:   Fri, 6 Jan 2023 10:39:03 -0500
+Message-ID: <CADnq5_PtJ2JxAH7vaQsMHomUmiAxhiOqn4suf1SAQkaqt=sg+g@mail.gmail.com>
 Subject: Re: Build regressions/improvements in v6.2-rc1
-To:     John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
-Cc:     linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
-        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
-        linux-wireless@vger.kernel.org, linux-mips@vger.kernel.org,
-        linux-sh@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
-        linuxppc-dev@lists.ozlabs.org, kasan-dev@googlegroups.com,
-        linux-xtensa@linux-xtensa.org
+To:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        "Siqueira, Rodrigo" <Rodrigo.Siqueira@amd.com>,
+        "Mahfooz, Hamza" <Hamza.Mahfooz@amd.com>
+Cc:     linux-kernel@vger.kernel.org, linux-xtensa@linux-xtensa.org,
+        linux-sh@vger.kernel.org, linux-wireless@vger.kernel.org,
+        linux-mips@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+        linux-f2fs-devel@lists.sourceforge.net, kasan-dev@googlegroups.com,
+        linuxppc-dev@lists.ozlabs.org,
+        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=1.1 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,SUSPICIOUS_RECIPS
-        autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Level: *
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Jan 6, 2023 at 4:17 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+On Tue, Dec 27, 2022 at 10:34 AM Geert Uytterhoeven
+<geert@linux-m68k.org> wrote:
 >
-> Hi John,
+> On Tue, 27 Dec 2022, Geert Uytterhoeven wrote:
+> > Below is the list of build error/warning regressions/improvements in
+> > v6.2-rc1[1] compared to v6.1[2].
+> >
+> > Summarized:
+> >  - build errors: +11/-13
+>
+> amd-gfx@lists.freedesktop.org
+> linux-arm-kernel@lists.infradead.org
+> linux-media@vger.kernel.org
+> linux-wireless@vger.kernel.org
+> linux-mips@vger.kernel.org
+> linux-sh@vger.kernel.org
+> linux-f2fs-devel@lists.sourceforge.net
+> linuxppc-dev@lists.ozlabs.org
+> kasan-dev@googlegroups.com
+> linux-xtensa@linux-xtensa.org
+>
+>    + /kisskb/src/drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn31/displ=
+ay_mode_vba_31.c: error: the frame size of 2224 bytes is larger than 2048 b=
+ytes [-Werror=3Dframe-larger-than=3D]:  =3D> 7082:1
+>    + /kisskb/src/drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn314/disp=
+lay_mode_vba_314.c: error: the frame size of 2208 bytes is larger than 2048=
+ bytes [-Werror=3Dframe-larger-than=3D]:  =3D> 7127:1
+>
 
-Bummer, "Hi Adrian", ofc ;-)
+@Siqueira, Rodrigo @Mahfooz, Hamza
 
-Gr{oetje,eeting}s,
+Can you take a look at fixing the DML stack size here up?
 
-                        Geert
+Alex
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+> arm64-gcc5/arm64-allmodconfig
+>
+>    + /kisskb/src/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c: error: a=
+rray subscript 2 is above array bounds of 'u32[2]' {aka 'unsigned int[2]'} =
+[-Werror=3Darray-bounds]:  =3D> 641:28
+>    + /kisskb/src/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c: error: a=
+rray subscript 3 is above array bounds of 'u32[2]' {aka 'unsigned int[2]'} =
+[-Werror=3Darray-bounds]:  =3D> 641:28
+>
+> m68k-gcc8/m68k-allmodconfig
+> See also https://lore.kernel.org/all/CAMuHMdWpPX2mpqFEWjjbjsQvDBQOXyjjdpK=
+nQu9qURAuVZXmMw@mail.gmail.com
+>
+>    + /kisskb/src/include/linux/bitfield.h: error: call to '__field_overfl=
+ow' declared with attribute error: value doesn't fit into mask:  =3D> 151:3
+>
+> In function 'u32_encode_bits',
+>      inlined from 'ieee80211_mlo_multicast_tx' at /kisskb/src/net/mac8021=
+1/tx.c:4435:17,
+>      inlined from 'ieee80211_subif_start_xmit' at /kisskb/src/net/mac8021=
+1/tx.c:4483:3:
+>
+> mipsel-gcc5/mips-allmodconfig
+>
+>    + /kisskb/src/include/linux/compiler_types.h: error: call to '__compil=
+etime_assert_262' declared with attribute error: Unsupported access size fo=
+r {READ,WRITE}_ONCE().:  =3D> 358:45
+>    + /kisskb/src/include/linux/compiler_types.h: error: call to '__compil=
+etime_assert_263' declared with attribute error: Unsupported access size fo=
+r {READ,WRITE}_ONCE().:  =3D> 358:45
+>
+> In function 'follow_pmd_mask',
+>      inlined from 'follow_pud_mask' at /kisskb/src/mm/gup.c:735:9,
+>      inlined from 'follow_p4d_mask' at /kisskb/src/mm/gup.c:752:9,
+>      inlined from 'follow_page_mask' at /kisskb/src/mm/gup.c:809:9:
+>
+> sh4-gcc11/sh-defconfig (G=C3=BCnter wondered if pmd_t should use union)
+>
+>    + /kisskb/src/include/linux/fortify-string.h: error: '__builtin_memcpy=
+' offset [0, 127] is out of the bounds [0, 0] [-Werror=3Darray-bounds]:  =
+=3D> 57:33
+>
+> /kisskb/src/arch/s390/kernel/setup.c: In function 'setup_lowcore_dat_on':
+> s390x-gcc11/s390-all{mod,yes}config
+>
+>    + /kisskb/src/include/linux/fortify-string.h: error: '__builtin_memset=
+' pointer overflow between offset [28, 898293814] and size [-898293787, -1]=
+ [-Werror=3Darray-bounds]:  =3D> 59:33
+>
+> /kisskb/src/fs/f2fs/inline.c: In function 'f2fs_move_inline_dirents':
+>
+> powerpc-gcc11/ppc64_book3e_allmodconfig
+> powerpc-gcc11/powerpc-all{mod,yes}config
+>
+>    + /kisskb/src/kernel/kcsan/kcsan_test.c: error: the frame size of 1680=
+ bytes is larger than 1536 bytes [-Werror=3Dframe-larger-than=3D]:  =3D> 25=
+7:1
+>
+> xtensa-gcc11/xtensa-allmodconfig (patch available)
+>
+>    + {standard input}: Error: unknown pseudo-op: `.cfi_def_c':  =3D> 1718
+>
+> sh4-gcc11/sh-allmodconfig (ICE =3D internal compiler error)
+>
+> > [1] http://kisskb.ellerman.id.au/kisskb/branch/linus/head/1b929c02afd37=
+871d5afb9d498426f83432e71c2/ (all 152 configs)
+> > [2] http://kisskb.ellerman.id.au/kisskb/branch/linus/head/830b3c68c1fb1=
+e9176028d02ef86f3cf76aa2476/ (all 152 configs)
+>
+> Gr{oetje,eeting}s,
+>
+>                                                 Geert
+>
+> --
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m6=
+8k.org
+>
+> In personal conversations with technical people, I call myself a hacker. =
+But
+> when I'm talking to journalists I just say "programmer" or something like=
+ that.
+>                                                             -- Linus Torv=
+alds
