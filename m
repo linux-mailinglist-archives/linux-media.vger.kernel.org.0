@@ -2,45 +2,44 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BF36F65FE21
-	for <lists+linux-media@lfdr.de>; Fri,  6 Jan 2023 10:41:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CEE3165FE49
+	for <lists+linux-media@lfdr.de>; Fri,  6 Jan 2023 10:49:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233792AbjAFJj4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 6 Jan 2023 04:39:56 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36374 "EHLO
+        id S229628AbjAFJrK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 6 Jan 2023 04:47:10 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40162 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231858AbjAFJj3 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 6 Jan 2023 04:39:29 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0939B45677;
-        Fri,  6 Jan 2023 01:31:25 -0800 (PST)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id D20AF4AE;
-        Fri,  6 Jan 2023 10:31:22 +0100 (CET)
+        with ESMTP id S233361AbjAFJqT (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 6 Jan 2023 04:46:19 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A7D269B39;
+        Fri,  6 Jan 2023 01:45:27 -0800 (PST)
+Received: from ideasonboard.com (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id BF8B94AE;
+        Fri,  6 Jan 2023 10:45:25 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1672997483;
-        bh=eW6rNAgrifU2DzhpvGHPC3nUtWhamr7BoiOuA6FOSCE=;
+        s=mail; t=1672998325;
+        bh=/T5taXd6bLDz4vjWDvClITUNDq0FfAJjqZXAsSuuVDk=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=ZFl1mgDgQ8pHrE9GH22/oiZkYb3/qnURlpqCOHCKiuu2Sq0r127f18aViEu+h38Oj
-         3mk5kkOf9yzxdOJQD45iqjoLnbhdcykvv5ok7HUGL2gYVuP7Us1VfJSIYIkwjBuVOW
-         Osty2MM9tFaUqM23ZEifJfq5WwJWyNnN7R7d7Ap8=
-Date:   Fri, 6 Jan 2023 11:31:17 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Jacopo Mondi <jacopo@jmondi.org>
-Cc:     Nicholas Roth <nicholas@rothemail.net>,
-        Robert Mader <robert.mader@collabora.com>, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org,
-        Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH 1/2] dt-bindings: media: Add schema for OmniVision OV8858
-Message-ID: <Y7fqZZkulQ2RstEu@pendragon.ideasonboard.com>
-References: <20230105172320.133810-1-jacopo@jmondi.org>
- <20230105172320.133810-2-jacopo@jmondi.org>
+        b=ITza31j00Q2sJ0eSZEMUDSpK8ypnGqTQf36VxePJmtaQpZtuqVr7bUD4SEBkefTWa
+         AHKgSZN4NAisuR/Uadv5xDPK+vR/I6N/+3LAlDmgN4rCQ7kl8dNKpiTmBGNTrD5lyI
+         Cc9cpS5f2qz+wwAfF22BLc1a4q7DAy3/ThsoFYpU=
+Date:   Fri, 6 Jan 2023 10:45:23 +0100
+From:   Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To:     shravan kumar <shravan.chippa@microchip.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     paul.j.murphy@intel.com, daniele.alessandrelli@intel.com,
+        mchehab@kernel.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v8 1/4] media: i2c: imx334: replace __v4l2_ctrl_s_ctrl to
+ __v4l2_ctrl_modify_range
+Message-ID: <20230106094523.s2giohns4xgcvccy@uno.localdomain>
+References: <20230106072931.2317597-1-shravan.chippa@microchip.com>
+ <20230106072931.2317597-2-shravan.chippa@microchip.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230105172320.133810-2-jacopo@jmondi.org>
+In-Reply-To: <20230106072931.2317597-2-shravan.chippa@microchip.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
         autolearn=ham autolearn_force=no version=3.4.6
@@ -50,147 +49,68 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jacopo,
+Hi Sharavan,
 
-Thank you for the patch.
+I'm a bit confused here
 
-One comment in addition to Krzysztof's.
-
-On Thu, Jan 05, 2023 at 06:23:19PM +0100, Jacopo Mondi wrote:
-> From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-> 
-> Add binding schema for the OmniVision OV8858 8 Megapixels camera sensor.
-> 
-> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+On Fri, Jan 06, 2023 at 12:59:28PM +0530, shravan kumar wrote:
+> From: Shravan Chippa <shravan.chippa@microchip.com>
+>
+> For evry mode we will get new set of values for hbalnk so use
+> __v4l2_ctrl_modify_range() to support multi modes for hblank.
+>
+> The hblank value is readonly in the driver. because of this the function
+> returns error if we try to change. so added dumy return case in
+> imx334_set_ctrl function
+>
+> Suggested-by: Jacopo Mondi <jacopo@jmondi.org>
+> Signed-off-by: Shravan Chippa <shravan.chippa@microchip.com>
 > ---
->  .../bindings/media/i2c/ovti,ov8858.yaml       | 109 ++++++++++++++++++
->  1 file changed, 109 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/i2c/ovti,ov8858.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/media/i2c/ovti,ov8858.yaml b/Documentation/devicetree/bindings/media/i2c/ovti,ov8858.yaml
-> new file mode 100644
-> index 000000000000..f6d5cf69234c
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/i2c/ovti,ov8858.yaml
-> @@ -0,0 +1,109 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/i2c/ovti,ov8858.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: OmniVision OV8858 Image Sensor
-> +
-> +maintainers:
-> +  - Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-> +  - Nicholas Roth <nicholas@rothemail.net>
-> +
-> +description: |
-> +  The OmniVision OV8858 is a color CMOS 8 Megapixles (3264x2448) image sensor
+>  drivers/media/i2c/imx334.c | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/media/i2c/imx334.c b/drivers/media/i2c/imx334.c
+> index 7b0a9086447d..ebacba3059b3 100644
+> --- a/drivers/media/i2c/imx334.c
+> +++ b/drivers/media/i2c/imx334.c
+> @@ -382,7 +382,8 @@ static int imx334_update_controls(struct imx334 *imx334,
+>  	if (ret)
+>  		return ret;
+>
+> -	ret = __v4l2_ctrl_s_ctrl(imx334->hblank_ctrl, mode->hblank);
+> +	ret = __v4l2_ctrl_modify_range(imx334->hblank_ctrl, mode->hblank,
+> +				       mode->hblank, 1, mode->hblank);
+>  	if (ret)
+>  		return ret;
+>
+> @@ -480,6 +481,9 @@ static int imx334_set_ctrl(struct v4l2_ctrl *ctrl)
+>
+>  		pm_runtime_put(imx334->dev);
+>
+> +		break;
+> +	case V4L2_CID_HBLANK:
+> +		ret = 0;
 
-s/pixles/pixels/
+Hblank is said to be read-only
 
-Conditionally-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+	if (imx334->hblank_ctrl)
+		imx334->hblank_ctrl->flags |= V4L2_CTRL_FLAG_READ_ONLY;
 
-with this and the issues pointed by Krzysztof first.
+So you shouldn't need this safety measure here.
 
-> +  controlled through an I2C-compatible SCCB bus. The sensor transmits images
-> +  on a MIPI CSI-2 output interface with up to 4 data lanes.
-> +
-> +properties:
-> +  compatible:
-> +    const: ovti,ov8858
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    maxItems: 1
-> +    description: XVCLK external clock
-> +
-> +  clock-names:
-> +    const: xvclk
-> +
-> +  dvdd-supply:
-> +    description: Digital Domain Power Supply
-> +
-> +  avdd-supply:
-> +    description: Analog Domain Power Supply
-> +
-> +  dovdd-supply:
-> +    description: I/O Domain Power Supply
-> +
-> +  powerdown-gpios:
-> +    maxItems: 1
-> +    description: PWDNB powerdown GPIO (active low)
-> +
-> +  reset-gpios:
-> +    maxItems: 1
-> +    description: XSHUTDN reset GPIO (active low)
-> +
-> +  port:
-> +    description: MIPI CSI-2 transmitter port
-> +    $ref: /schemas/graph.yaml#/$defs/port-base
-> +    additionalProperties: false
-> +
-> +    properties:
-> +      endpoint:
-> +        $ref: /schemas/media/video-interfaces.yaml#
-> +        unevaluatedProperties: false
-> +
-> +        properties:
-> +          data-lanes:
-> +            minItems: 1
-> +            maxItems: 4
-> +
-> +        required:
-> +          - data-lanes
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - clocks
-> +  - assigned-clocks
-> +  - assigned-clock-rates
-> +  - port
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/pinctrl/rockchip.h>
-> +    #include <dt-bindings/clock/rk3399-cru.h>
-> +    #include <dt-bindings/gpio/gpio.h>
-> +
-> +    i2c2 {
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +
-> +        ov8858: camera@36 {
-> +            compatible = "ovti,ov8858";
-> +            reg = <0x36>;
-> +
-> +            clocks = <&cru SCLK_CIF_OUT>;
-> +            clock-names = "xvclk";
-> +            assigned-clocks = <&cru SCLK_CIF_OUT>;
-> +            assigned-clock-rates = <24000000>;
-> +
-> +            dovdd-supply = <&vcc1v8_dvp>;
-> +
-> +            reset-gpios = <&gpio1 RK_PA4 GPIO_ACTIVE_LOW>;
-> +            powerdown-gpios = <&gpio2 RK_PB4 GPIO_ACTIVE_LOW>;
-> +
-> +            port {
-> +                ucam_out: endpoint {
-> +                    remote-endpoint = <&mipi_in_ucam>;
-> +                    data-lanes = <1 2 3 4>;
-> +                };
-> +            };
-> +        };
-> +    };
-> +...
+However I see that __v4l2_ctrl_modify_range() can call s_ctrl() if the
+current value has to be adjusted to the new limits.
 
--- 
-Regards,
+Hans, how does this work ? Do we need the above even if the control is
+said to be RO ?
 
-Laurent Pinchart
+Sharavan: have you experienced failures here, or is this just for
+safety ?
+
+
+>  		break;
+>  	default:
+>  		dev_err(imx334->dev, "Invalid control %d", ctrl->id);
+> --
+> 2.34.1
+>
