@@ -2,47 +2,47 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4630C660888
-	for <lists+linux-media@lfdr.de>; Fri,  6 Jan 2023 21:56:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4E798660892
+	for <lists+linux-media@lfdr.de>; Fri,  6 Jan 2023 22:00:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234216AbjAFU4m (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 6 Jan 2023 15:56:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48724 "EHLO
+        id S231277AbjAFU75 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 6 Jan 2023 15:59:57 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50050 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230032AbjAFU4k (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 6 Jan 2023 15:56:40 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DECC673E16;
-        Fri,  6 Jan 2023 12:56:38 -0800 (PST)
+        with ESMTP id S229752AbjAFU7z (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 6 Jan 2023 15:59:55 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C88673E22;
+        Fri,  6 Jan 2023 12:59:54 -0800 (PST)
 Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 47CE44AE;
-        Fri,  6 Jan 2023 21:56:37 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id D56794AE;
+        Fri,  6 Jan 2023 21:59:52 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1673038597;
-        bh=O+lZRKGklAUbUOw3w+KFU1s2PzW+rjlH05aQR/JzUkI=;
+        s=mail; t=1673038793;
+        bh=tfFk4cqOy1XZOWYxQx6dNDf7ZPddGqF7hvQjN8/ARcg=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Zx555jm9qXCpcaFXPEQkn73ZflaQTqSJoH3AsOI+z+FWSu6rKoUaLx37CAWeu9Ydx
-         qLTnTAq+ZZP81L8IQGlt/uJuprADj5l0Qgsg9Vz9KkFsmzi3Gp7PHSZlQQUcz0f/so
-         3aJH1AkVd+8445TUVxQl1AujGa/csxHhI/sB+Rr4=
-Date:   Fri, 6 Jan 2023 22:56:31 +0200
+        b=otnO9peaexEaR6dNwwdK/TH9cG1Yy9JmNOzvWmhLNnx5tIgkCoKFznTboBEx1CcTB
+         wz2ld2BBZL3CJzDSBVQAxhMYL5WkA2fqChJla67pfRGYeLfD5cr2Ee2VQxq0ox65/d
+         j0e0swG0f+27FAwC5RpxJgRfIIXVBIk30EeeGVhM=
+Date:   Fri, 6 Jan 2023 22:59:47 +0200
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Ricardo Ribalda <ribalda@chromium.org>
 Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-media@vger.kernel.org, Yunke Cao <yunkec@chromium.org>,
         linux-kernel@vger.kernel.org,
         Sergey Senozhatsky <senozhatsky@chromium.org>
-Subject: Re: [PATCH v2 5/7] media: uvcvideo: Refactor
- power_line_frequency_controls_limited
-Message-ID: <Y7iK/xuiSOsqBzqq@pendragon.ideasonboard.com>
+Subject: Re: [PATCH v2 6/7] media: uvcvideo: Fix power line control for
+ Lenovo Integrated Camera
+Message-ID: <Y7iLwzYCEzhT8lCl@pendragon.ideasonboard.com>
 References: <20230105-uvc-gcc5-v2-0-2ba6c660d6f5@chromium.org>
- <20230105-uvc-gcc5-v2-5-2ba6c660d6f5@chromium.org>
+ <20230105-uvc-gcc5-v2-6-2ba6c660d6f5@chromium.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230105-uvc-gcc5-v2-5-2ba6c660d6f5@chromium.org>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <20230105-uvc-gcc5-v2-6-2ba6c660d6f5@chromium.org>
+X-Spam-Status: No, score=-0.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        SUBJECT_DRUG_GAP_L autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -53,96 +53,105 @@ Hi Ricardo,
 
 Thank you for the patch.
 
-On Thu, Jan 05, 2023 at 02:52:56PM +0100, Ricardo Ribalda wrote:
-> Move the control mapping to uvc_ctrl.c. This way we do not have
-> references to UVC controls or V4L2 controls in uvc_driver.c
-> 
-> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> ---
->  drivers/media/usb/uvc/uvc_ctrl.c   | 13 +++++++++++++
->  drivers/media/usb/uvc/uvc_driver.c | 18 ------------------
->  drivers/media/usb/uvc/uvcvideo.h   |  1 +
->  3 files changed, 14 insertions(+), 18 deletions(-)
-> 
-> diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
-> index 9af64f7a23d3..f559a1ac6e3c 100644
-> --- a/drivers/media/usb/uvc/uvc_ctrl.c
-> +++ b/drivers/media/usb/uvc/uvc_ctrl.c
-> @@ -723,6 +723,19 @@ static const struct uvc_control_mapping uvc_ctrl_mappings[] = {
->  	},
->  };
->  
-> +const struct uvc_control_mapping uvc_ctrl_power_line_mapping_limited = {
-> +	.id		= V4L2_CID_POWER_LINE_FREQUENCY,
-> +	.entity		= UVC_GUID_UVC_PROCESSING,
-> +	.selector	= UVC_PU_POWER_LINE_FREQUENCY_CONTROL,
-> +	.size		= 2,
-> +	.offset		= 0,
-> +	.v4l2_type	= V4L2_CTRL_TYPE_MENU,
-> +	.data_type	= UVC_CTRL_DATA_TYPE_ENUM,
-> +	.menu_info	= power_line_frequency_controls,
-> +	.menu_mask	= GENMASK(V4L2_CID_POWER_LINE_FREQUENCY_60HZ,
-> +				  V4L2_CID_POWER_LINE_FREQUENCY_50HZ),
+On Thu, Jan 05, 2023 at 02:52:57PM +0100, Ricardo Ribalda wrote:
+> The device does not implement the power line control correctly. It is
+> a UVC 1.5 device, but implements the PLC control as a UVC 1.1 device.
 
-This also fixes a bug introduced in commit 382075604a68 ("media:
-uvcvideo: Limit power line control for Quanta UVC Webcam"). The
-offending commit caused the power line control menu entries to have
-incorrect indices compared to the V4L2_CID_POWER_LINE_FREQUENCY_*
-enumeration. Now that the limited mapping reuses the correct menu_info
-array, the indices correctly map to the V4L2 control specification.
+Did you mean PLF (power line frequency) ? I'd write:
 
-I'll add the above paragraph to the commit message, along with a Fixes:
-line.
+The device does not implement the power line frequency control
+correctly. It is a UVC 1.5 device, but implements the control as a UVC
+1.1 device.
+
+No need to resubmit just for this, I'll handle it locally.
 
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-> +};
-> +
->  static const struct uvc_control_mapping uvc_ctrl_power_line_mapping_uvc11 = {
+> Add the corresponding control mapping override.
+> 
+> Bus 003 Device 002: ID 30c9:0093 Lenovo Integrated Camera
+> Device Descriptor:
+>   bLength                18
+>   bDescriptorType         1
+>   bcdUSB               2.01
+>   bDeviceClass          239 Miscellaneous Device
+>   bDeviceSubClass         2
+>   bDeviceProtocol         1 Interface Association
+>   bMaxPacketSize0        64
+>   idVendor           0x30c9
+>   idProduct          0x0093
+>   bcdDevice            0.07
+>   iManufacturer           3 Lenovo
+>   iProduct                1 Integrated Camera
+>   iSerial                 2 8SSC21J75356V1SR2830069
+>   bNumConfigurations      1
+> 
+> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> ---
+>  drivers/media/usb/uvc/uvc_ctrl.c   |  2 +-
+>  drivers/media/usb/uvc/uvc_driver.c | 16 ++++++++++++++++
+>  drivers/media/usb/uvc/uvcvideo.h   |  1 +
+>  3 files changed, 18 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
+> index f559a1ac6e3c..28ef9b2024a1 100644
+> --- a/drivers/media/usb/uvc/uvc_ctrl.c
+> +++ b/drivers/media/usb/uvc/uvc_ctrl.c
+> @@ -736,7 +736,7 @@ const struct uvc_control_mapping uvc_ctrl_power_line_mapping_limited = {
+>  				  V4L2_CID_POWER_LINE_FREQUENCY_50HZ),
+>  };
+>  
+> -static const struct uvc_control_mapping uvc_ctrl_power_line_mapping_uvc11 = {
+> +const struct uvc_control_mapping uvc_ctrl_power_line_mapping_uvc11 = {
 >  	.id		= V4L2_CID_POWER_LINE_FREQUENCY,
 >  	.entity		= UVC_GUID_UVC_PROCESSING,
+>  	.selector	= UVC_PU_POWER_LINE_FREQUENCY_CONTROL,
 > diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-> index e659670ea2d8..37d2b08bc8b2 100644
+> index 37d2b08bc8b2..57c948d47bbf 100644
 > --- a/drivers/media/usb/uvc/uvc_driver.c
 > +++ b/drivers/media/usb/uvc/uvc_driver.c
-> @@ -2378,24 +2378,6 @@ MODULE_PARM_DESC(timeout, "Streaming control requests timeout");
->   * Driver initialization and cleanup
->   */
+> @@ -2385,6 +2385,13 @@ static const struct uvc_device_info uvc_ctrl_power_line_limited = {
+>  	},
+>  };
 >  
-> -static const struct uvc_menu_info power_line_frequency_controls_limited[] = {
-> -	{ 1, "50 Hz" },
-> -	{ 2, "60 Hz" },
-> -};
-> -
-> -static const struct uvc_control_mapping uvc_ctrl_power_line_mapping_limited = {
-> -	.id		= V4L2_CID_POWER_LINE_FREQUENCY,
-> -	.entity		= UVC_GUID_UVC_PROCESSING,
-> -	.selector	= UVC_PU_POWER_LINE_FREQUENCY_CONTROL,
-> -	.size		= 2,
-> -	.offset		= 0,
-> -	.v4l2_type	= V4L2_CTRL_TYPE_MENU,
-> -	.data_type	= UVC_CTRL_DATA_TYPE_ENUM,
-> -	.menu_info	= power_line_frequency_controls_limited,
-> -	.menu_mask	=
-> -		GENMASK(ARRAY_SIZE(power_line_frequency_controls_limited) - 1, 0),
-> -};
-> -
->  static const struct uvc_device_info uvc_ctrl_power_line_limited = {
->  	.mappings = (const struct uvc_control_mapping *[]) {
->  		&uvc_ctrl_power_line_mapping_limited,
+> +static const struct uvc_device_info uvc_ctrl_power_line_uvc11 = {
+> +	.mappings = (const struct uvc_control_mapping *[]) {
+> +		&uvc_ctrl_power_line_mapping_uvc11,
+> +		NULL, /* Sentinel */
+> +	},
+> +};
+> +
+>  static const struct uvc_device_info uvc_quirk_probe_minmax = {
+>  	.quirks = UVC_QUIRK_PROBE_MINMAX,
+>  };
+> @@ -2964,6 +2971,15 @@ static const struct usb_device_id uvc_ids[] = {
+>  	  .bInterfaceSubClass	= 1,
+>  	  .bInterfaceProtocol	= 0,
+>  	  .driver_info		= UVC_INFO_QUIRK(UVC_QUIRK_FORCE_BPP) },
+> +	/* Lenovo Integrated Camera */
+> +	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
+> +				| USB_DEVICE_ID_MATCH_INT_INFO,
+> +	  .idVendor		= 0x30c9,
+> +	  .idProduct		= 0x0093,
+> +	  .bInterfaceClass	= USB_CLASS_VIDEO,
+> +	  .bInterfaceSubClass	= 1,
+> +	  .bInterfaceProtocol	= UVC_PC_PROTOCOL_15,
+> +	  .driver_info		= (kernel_ulong_t)&uvc_ctrl_power_line_uvc11 },
+>  	/* Sonix Technology USB 2.0 Camera */
+>  	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
+>  				| USB_DEVICE_ID_MATCH_INT_INFO,
 > diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-> index a8eec43cd860..1b2d9f327583 100644
+> index 1b2d9f327583..31c33eb0edf5 100644
 > --- a/drivers/media/usb/uvc/uvcvideo.h
 > +++ b/drivers/media/usb/uvc/uvcvideo.h
-> @@ -747,6 +747,7 @@ int uvc_status_start(struct uvc_device *dev, gfp_t flags);
->  void uvc_status_stop(struct uvc_device *dev);
+> @@ -748,6 +748,7 @@ void uvc_status_stop(struct uvc_device *dev);
 >  
 >  /* Controls */
-> +extern const struct uvc_control_mapping uvc_ctrl_power_line_mapping_limited;
+>  extern const struct uvc_control_mapping uvc_ctrl_power_line_mapping_limited;
+> +extern const struct uvc_control_mapping uvc_ctrl_power_line_mapping_uvc11;
 >  extern const struct v4l2_subscribed_event_ops uvc_ctrl_sub_ev_ops;
 >  
 >  int uvc_query_v4l2_ctrl(struct uvc_video_chain *chain,
-> 
 
 -- 
 Regards,
