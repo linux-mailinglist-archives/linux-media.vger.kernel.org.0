@@ -2,361 +2,457 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 83227660538
-	for <lists+linux-media@lfdr.de>; Fri,  6 Jan 2023 18:04:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A6582660569
+	for <lists+linux-media@lfdr.de>; Fri,  6 Jan 2023 18:15:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235021AbjAFREv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 6 Jan 2023 12:04:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43572 "EHLO
+        id S234997AbjAFRPo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 6 Jan 2023 12:15:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50902 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234811AbjAFREt (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 6 Jan 2023 12:04:49 -0500
-Received: from mail-vk1-xa2f.google.com (mail-vk1-xa2f.google.com [IPv6:2607:f8b0:4864:20::a2f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 071F87A3A7
-        for <linux-media@vger.kernel.org>; Fri,  6 Jan 2023 09:04:48 -0800 (PST)
-Received: by mail-vk1-xa2f.google.com with SMTP id q7so866360vkn.3
-        for <linux-media@vger.kernel.org>; Fri, 06 Jan 2023 09:04:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=xseUPxj6qju1eAHZF4W0HuKF5TTX5DKrVnNk+FidbeQ=;
-        b=YUwPwh5ejNxlLBTChU4Fr1O9Ds3g0si6gSkt3lNwR6epu/baE/LsoiyebzxyQYI+4q
-         sBUKQqndV2uSyLPZt9TMS5Ehk+feOIVwCerE2W20+gdwk8LKWCHMmWPJ3hDDdugc6H6f
-         /ORwJNRlIgU7Q0LmZ183o8w7jWMhw8eCm8sQdQxOMWEdyfnMi0sPNxtEsHwHmR/5jFqc
-         2ydQ34WUEjive1EcXRXT0dvqeUMKKY8G+gPEhVZDSykEmxwF+RHYVHGRBCzxdEac97GV
-         +hT1JXC+DTCzF9JsuKbk97+BccRI8CJUdsMiK0JcuiiysJk06ULT9j48qFfYPiz4V1vU
-         wLyw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=xseUPxj6qju1eAHZF4W0HuKF5TTX5DKrVnNk+FidbeQ=;
-        b=WvQVO49rqQ8UvYJ7U056zYDbj8ooWr2XOrYG1XOvtc/tRVugQuND1nA1edI3BPBtjn
-         kss1J7eeoZ6qf5AsXJoByS9pLXbHivb4mD9HsZrNAYleauTroezBvmVgRJYw1ANDfplq
-         pNuWkW751LTGqehYMZV8HEBGcN32ERoDg0Ye50NhWbmx8Lpad82sbBNg20Q56qMOZNNM
-         k5yNy0gKwKcT2dtHo0oZY4mA1vgfgEG8NFNPDEWiB6ScDWVZ0IHox05gZAvQG5n4GcUh
-         i75F2qMK9CdrFccH3i9lBmqW8klb/ZEcN1xqzCIZeHXY0l51BH/Q1Y/xnnCmjvuWN/nS
-         bP5Q==
-X-Gm-Message-State: AFqh2koaDRt7n/7FKV0XwgeKlzw6YrBnsBeW1csLs4HLZ0HKMEQEuKWQ
-        42hrCeD+cQEeFHqJXJMlHhZGpPemLE6bqq4XkuLlc432dGnyew==
-X-Google-Smtp-Source: AMrXdXuBYGnNNxK5jSvnXlmVwdgfhPwdJALkJU8jnvzWWVy2a+QcG+wCMHCGABkrOkb1OUI/x5Yp3AGn8TedpjD1uYs=
-X-Received: by 2002:a1f:a390:0:b0:3bd:1d27:eaa with SMTP id
- m138-20020a1fa390000000b003bd1d270eaamr5829505vke.4.1673024685492; Fri, 06
- Jan 2023 09:04:45 -0800 (PST)
+        with ESMTP id S234746AbjAFRPl (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 6 Jan 2023 12:15:41 -0500
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id EE1C27CBD4;
+        Fri,  6 Jan 2023 09:15:38 -0800 (PST)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7A8E61FB;
+        Fri,  6 Jan 2023 09:16:20 -0800 (PST)
+Received: from [10.57.75.231] (unknown [10.57.75.231])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id EAE933F71A;
+        Fri,  6 Jan 2023 09:15:34 -0800 (PST)
+Message-ID: <4fd1b194-29ef-621d-4059-a8336058f217@arm.com>
+Date:   Fri, 6 Jan 2023 17:15:28 +0000
 MIME-Version: 1.0
-References: <20221220084404.19280-1-umang.jain@ideasonboard.com>
- <Y6Lqs8RUiyi452gM@pendragon.ideasonboard.com> <Y6MF3l40WM3onmyO@kroah.com>
- <d48462f6-de4c-2816-0a7a-b3b13993604c@ideasonboard.com> <Y6SVegtHvwQ3p+3K@pendragon.ideasonboard.com>
- <629b3f63-74e4-5cb5-29d1-6d2846bc24c7@i2se.com> <Y6lxtk4bqWwXAyHH@pendragon.ideasonboard.com>
-In-Reply-To: <Y6lxtk4bqWwXAyHH@pendragon.ideasonboard.com>
-From:   Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date:   Fri, 6 Jan 2023 17:04:29 +0000
-Message-ID: <CAPY8ntCePNY8eNtB58_6=doON4_oRb4OLuGLfA=0SDhRvmb3+Q@mail.gmail.com>
-Subject: Re: [PATCH] staging: vc04_services: vchiq_arm: Create platform_device
- per device
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Stefan Wahren <stefan.wahren@i2se.com>,
-        Umang Jain <umang.jain@ideasonboard.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-staging@lists.linux.dev,
-        linux-rpi-kernel@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Adrien Thierry <athierry@redhat.com>,
-        Dan Carpenter <error27@gmail.com>,
-        Nicolas Saenz Julienne <nsaenz@kernel.org>,
-        Phil Elwell <phil@raspberrypi.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH 1/8] iommu: Add a gfp parameter to iommu_map()
+Content-Language: en-GB
+To:     Jason Gunthorpe <jgg@nvidia.com>,
+        Lu Baolu <baolu.lu@linux.intel.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Kevin Tian <kevin.tian@intel.com>,
+        Matthew Rosato <mjrosato@linux.ibm.com>
+Cc:     Alex Williamson <alex.williamson@redhat.com>,
+        ath10k@lists.infradead.org, ath11k@lists.infradead.org,
+        Christian Borntraeger <borntraeger@linux.ibm.com>,
+        dri-devel@lists.freedesktop.org, iommu@lists.linux.dev,
+        kvm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-rdma@vger.kernel.org, linux-remoteproc@vger.kernel.org,
+        linux-s390@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-tegra@vger.kernel.org, linux-wireless@vger.kernel.org,
+        netdev@vger.kernel.org, nouveau@lists.freedesktop.org,
+        Niklas Schnelle <schnelle@linux.ibm.com>,
+        virtualization@lists.linux-foundation.org
+References: <1-v1-6e8b3997c46d+89e-iommu_map_gfp_jgg@nvidia.com>
+From:   Robin Murphy <robin.murphy@arm.com>
+In-Reply-To: <1-v1-6e8b3997c46d+89e-iommu_map_gfp_jgg@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_NONE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent, Greg, Stefan, and Umang
+On 2023-01-06 16:42, Jason Gunthorpe wrote:
+> The internal mechanisms support this, but instead of exposting the gfp to
+> the caller it wrappers it into iommu_map() and iommu_map_atomic()
+> 
+> Fix this instead of adding more variants for GFP_KERNEL_ACCOUNT.
 
-Sorry, still catching up from the holiday period.
+FWIW, since we *do* have two variants already, I think I'd have a mild 
+preference for leaving the regular map calls as-is (i.e. implicit 
+GFP_KERNEL), and just generalising the _atomic versions for the special 
+cases.
 
-On Mon, 26 Dec 2022 at 10:04, Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> Hi Stefan,
->
-> On Fri, Dec 23, 2022 at 12:24:22PM +0100, Stefan Wahren wrote:
-> > Am 22.12.22 um 18:35 schrieb Laurent Pinchart:
-> > > On Thu, Dec 22, 2022 at 01:59:28PM +0530, Umang Jain wrote:
-> > >> On 12/21/22 6:40 PM, Greg Kroah-Hartman wrote:
-> > >>> On Wed, Dec 21, 2022 at 01:14:59PM +0200, Laurent Pinchart wrote:
-> > >>>> On Tue, Dec 20, 2022 at 02:14:04PM +0530, Umang Jain wrote:
-> > >>>>> Create a proper per device platorm_device structure for all the child
-> > >>>>> devices that needs to be registered by vchiq platform driver. Replace
-> > >>>>> the vchiq_register_child() with platform_add_devices() to register the
-> > >>>>> child devices.
-> > >>>>
-> > >>>> This explains what the patch does, but not why.
-> > >>>>
-> > >>>>> This is part of an effort to address TODO item "Get rid of all non
-> > >>>>> essential global structures and create a proper per device structure"
-> > >>>>
-> > >>>> And this explains part of the reason only. Could you please expand the
-> > >>>> commit message with the reasoning behind this change ? It's not clear
-> > >>>> from the change below why this is needed and good.
-> > >>
-> > >> Ok, I thought the TODO reference was sufficient but I'll expand on it.
-> > >>
-> > >>>>> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
-> > >>>>> ---
-> > >>>>>    .../interface/vchiq_arm/vchiq_arm.c           | 59 ++++++++++---------
-> > >>>>>    1 file changed, 31 insertions(+), 28 deletions(-)
-> > >>>>>
-> > >>>>> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-> > >>>>> index 22de23f3af02..fa42ea3791a7 100644
-> > >>>>> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-> > >>>>> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-> > >>>>> @@ -65,8 +65,29 @@ int vchiq_susp_log_level = VCHIQ_LOG_ERROR;
-> > >>>>>    DEFINE_SPINLOCK(msg_queue_spinlock);
-> > >>>>>    struct vchiq_state g_state;
-> > >>>>>
-> > >>>>> -static struct platform_device *bcm2835_camera;
-> > >>>>> -static struct platform_device *bcm2835_audio;
-> > >>>>> +static u64 vchiq_device_dmamask = DMA_BIT_MASK(32);
-> > >>>>
-> > >>>> The fact that this isn't const and is used by two different
-> > >>>> platform_device instances is worrying. Either it can be made const, or
-> > >>>> it's wrong.
-> > >>
-> > >> ack.
-> > >>
-> > >>>>> +
-> > >>>>> +static struct platform_device bcm2835_camera = {
-> > >>>>> +       .name           = "bcm2835-camera",
-> > >>>>> +       .id             = PLATFORM_DEVID_NONE,
-> > >>>>> +       .dev            = {
-> > >>>>> +               .dma_mask       = &vchiq_device_dmamask,
-> > >>>>> +       }
-> > >>>>> +};
-> > >>>>> +
-> > >>>>> +static struct platform_device bcm2835_audio = {
-> > >>>>> +       .name           = "bcm2835_audio",
-> > >>>>> +       .id             = PLATFORM_DEVID_NONE,
-> > >>>>> +       .dev            = {
-> > >>>>> +               .dma_mask       = &vchiq_device_dmamask,
-> > >>>>> +       }
-> > >>>>> +
-> > >>>>
-> > >>>> Extra blank line.
-> > >>
-> > >> oops, checkpatch.pl didn't catch this :-/
-> > >>
-> > >>>>> +};
-> > >>>>> +
-> > >>>>> +static struct platform_device *vchiq_devices[] __initdata = {
-> > >>>>
-> > >>>> Make it const.
-> > >>>>
-> > >>>>> +       &bcm2835_camera,
-> > >>>>> +       &bcm2835_audio,
-> > >>>>> +};
-> > >>>>>
-> > >>>>>    struct vchiq_drvdata {
-> > >>>>>         const unsigned int cache_line_size;
-> > >>>>> @@ -1763,28 +1784,6 @@ static const struct of_device_id vchiq_of_match[] = {
-> > >>>>>    };
-> > >>>>>    MODULE_DEVICE_TABLE(of, vchiq_of_match);
-> > >>>>>
-> > >>>>> -static struct platform_device *
-> > >>>>> -vchiq_register_child(struct platform_device *pdev, const char *name)
-> > >>>>> -{
-> > >>>>> -       struct platform_device_info pdevinfo;
-> > >>>>> -       struct platform_device *child;
-> > >>>>> -
-> > >>>>> -       memset(&pdevinfo, 0, sizeof(pdevinfo));
-> > >>>>> -
-> > >>>>> -       pdevinfo.parent = &pdev->dev;
-> > >>>>> -       pdevinfo.name = name;
-> > >>>>> -       pdevinfo.id = PLATFORM_DEVID_NONE;
-> > >>>>> -       pdevinfo.dma_mask = DMA_BIT_MASK(32);
-> > >>>>> -
-> > >>>>> -       child = platform_device_register_full(&pdevinfo);
-> > >>>>> -       if (IS_ERR(child)) {
-> > >>>>> -               dev_warn(&pdev->dev, "%s not registered\n", name);
-> > >>>>> -               child = NULL;
-> > >>>>> -       }
-> > >>>>> -
-> > >>>>> -       return child;
-> > >>>>> -}
-> > >>>>> -
-> > >>>>>    static int vchiq_probe(struct platform_device *pdev)
-> > >>>>>    {
-> > >>>>>         struct device_node *fw_node;
-> > >>>>> @@ -1832,8 +1831,11 @@ static int vchiq_probe(struct platform_device *pdev)
-> > >>>>>                 goto error_exit;
-> > >>>>>         }
-> > >>>>>
-> > >>>>> -       bcm2835_camera = vchiq_register_child(pdev, "bcm2835-camera");
-> > >>>>> -       bcm2835_audio = vchiq_register_child(pdev, "bcm2835_audio");
-> > >>>>> +       err = platform_add_devices(vchiq_devices, ARRAY_SIZE(vchiq_devices));
-> > >>>>> +       if (err) {
-> > >>>>> +               dev_warn(&pdev->dev, "Failed to add vchiq child devices");
-> > >>>>> +               goto error_exit;
-> > >>>>> +       }
-> > >>>>
-> > >>>> If you unbind and rebind this driver, the platform_device instances
-> > >>>> defined as global variables will be reused, and I'm pretty sure that
-> > >>>> will cause issues, for instance with the kobj->state_initialized check
-> > >>>> in kobject_init() (called from device_initialize(), itself called from
-> > >>>> platform_device_register(), from platform_add_devices()). I'm not sure
-> > >>>> static instances of platform_device are a very good idea in general.
-> > >>>
-> > >>> static instances of any device are a horrible idea, but it seems that
-> > >>> many drivers do this and abuse platform devices this way :(
-> > >>
-> > >> It seems  I have been a victim of the abuse usage while looking for
-> > >> platform_device references in the codebase. I'm working on a new
-> > >> approach for this.
-> > >>
-> > >> Currently (as per the linux-next branch), the vchiq driver will happily
-> > >> carry on if any of the child  platform device registration fails. That
-> > >> means if bcm2835-audio fails to register, bcm2835-camera will  still
-> > >> kept registered I suppose.
-> > >>
-> > >> However with usage of platform_add_devices() in this patch, I introduced
-> > >> a functionality change (I'm realizing this now) - any failure of child
-> > >> platform device registeration will -unregister- all the other platform
-> > >> devices i.e. if bcm2835-audio fails, bcm2835-camera will also get
-> > >> unregistered.
-> > >>
-> > >> Should I be working towards the status-quo behavior ? Or it's sane to
-> > >> unregistered other platform devices if one of the fails like
-> > >> platform_add_devices() does ? (This affects my new approach as well,
-> > >> hence the question)
-> > >
-> > > If it doesn't cause too much extra complexity, it would be nice to skip
-> > > devices that can't be registered successfully, and still support the
-> > > other ones. I don't expect registration failures to be a occuring
-> > > normally, so if this causes too much completely, I think it would still
-> > > be fine to fail more harshly.
-> > >
-> > >>> Ideally this should be done properly, with the correct devices created
-> > >>> automatically based on the device tree structure, NOT hard-coded into a
-> > >>> .c file like this.
-> > >>>
-> > >>> So I too really do not like this change, why are these not being created
-> > >>> by the firware layer automatically?
-> > >>
-> > >> Not sure if this is a helpful comment, but as far I know, there can be
-> > >> vchiq child platform devices which probably don't have a Device tree
-> > >> entry. like the bcm2835-isp [1] I posted earlier.
-> > >>
-> > >> [1] https://lore.kernel.org/lkml/20221121214722.22563-1-umang.jain@ideasonboard.com/
-> > >
-> > > Those devices are implemented and exposed by the firmware running on the
-> > > VC4. The device tree describes the VC4 itself with the resources
-> > > required to communicate with it through a mailbox interface. I was going
-> > > to say that the platform devices are then created based on what the
-> > > firmware exposes, but that's not right, they're indeed hardcoded in the
-> > > vchiq driver. Adding corresponding DT nodes (as children of the vchiq DT
-> > > node) could make sense. Dave, do you have any opinion on this ?
-> >
-> > i vaguely remember the discussion how to represent audio and camera
-> > interface in the device tree. Representing as child nodes of the VC4 has
-> > been rejected on the device tree mailing some years ago, because this
-> > doesn't represent the physical (hardware) wiring. It's still possible to
-> > access e.g. the camera interface from the ARM.
->
-> For the camera, things have changed a lot since the mail thread you've
-> linked. The CSI-2 receiver (and camera sensors) are now described in DT
-> and controlled from the ARM side. I believe the firmware still supports
-> controlling that hardware from the VC4 side (limited to a very small set
-> of camera sensors), but I think we can ignore that from a mainline point
-> of view.
->
-> The devices that are still controlled from the VC4 side are the camera
-> ISP, the video codec and the audio interface. As far as I can tell,
-> there's no plan to change this in neither the short term or long term
-> future. Based on my limited understanding, this architecture makes sense
-> for the ISP and codec as they share resources in a way that is best
-> handled by the VC4 firmware. I have no idea about the audio side. Dave,
-> please correct me if this is incorrect.
+However, echoing the recent activity over on the DMA API side of things, 
+I think it's still worth proactively constraining the set of permissible 
+flags, lest we end up with more weird problems if stuff that doesn't 
+really make sense, like GFP_COMP or zone flags, manages to leak through 
+(that may have been part of the reason for having the current wrappers 
+rather than a bare gfp argument in the first place, I forget now).
 
-Audio is only the analogue audio interface. HDMI should now be handled
-under the KMS driver.
+Thanks,
+Robin.
 
-ISP and codec hardware are blocks we haven't got permission from
-Broadcom to open source, therefore they will remain under the
-firmware.
-Analogue audio is doing processing in the firmware that the ARM1176 of
-Pi0/1 hasn't got the grunt to do.
-
-> > The whole approach with using a separate binding for all the firmware
-> > stuff lead to a lot of trouble on the Raspberry Pi platform (ugly
-> > dependencies between firmware, DT and kernel). So i would like to avoid
-> > this here. In case the current implementation is a no go, how about
-> > letting the ARM core discover the available interfaces e.g. via mailbox
-> > interface?
->
-> I don't know if this is possible with existing firmware, and, if not, if
-> it could be implemented (the firmware isn't open-source). If not, we
-> will need to handle the current situation in the best possible way,
-> which would require creating devices either in the VCHIQ driver, or
-> through DT. I agree the former is probably best, there would still be a
-> dependency between the kernel and firmware, but DT would at least be out
-> of the picture. A custom bus seems fine to me.
-
-There is currently no way to enumerate the VCHIQ services that are
-available from the firmware. They are normally all present, but
-configuring the firmware for minimum memory usage does remove all
-except audio.
-The vchiq_open_service call will fail if the relevant service isn't
-running, which is currently handled from the probe of each of the
-drivers.
-
-There's not a straight 1:1 mapping between the VCHIQ service 4cc and
-the kernel driver. bcm2835-camera, bcm2835-codec, and bcm2835-isp are
-all using the 'mmal' service 4cc, as that then has further selection
-for which MMAL components are present. Just advertising the vchiq
-service therefore isn't sufficient, and you'd be needing a sub-bus for
-the MMAL components and which kernel drivers those spawn.
-
-Even that is non-trivial as bcm2835-codec supports multiple 1-in,
-1-out components (video encode, video decode, JPEG encode,
-deinterlace, and a simple usage of the ISP for image conversion), so
-we now need to be passing info into bcm2835-codec as to which
-component to instantiate.
-
-
-If there really is a desire to be able to enumerate the VCHIQ services
-running, then it may be possible to add it to the firmware. My gut
-feeling is that it would be more sensible to implement it as a VCHIQ
-query rather than adding a dependency on the mailbox service.
-Doing so is going to be an issue for backwards compatibility, as a new
-kernel running on old firmware will end up with no services (including
-audio and camera that they currently would get).
-
-Getting a full list of MMAL components could also be done once the
-MMAL service had been opened, but it gets a touch ugly. Again there's
-going to be an issue with backwards compatibility if running an old
-firmware on a new kernel.
-
-  Dave
-
-> > For more inspiration take a look at this old thread [1]
-> >
-> > But i agree DT binding for vchiq itself is also a TODO
-> >
-> > and any help is appreciated.
-> >
-> > [1] - http://lists.infradead.org/pipermail/linux-rpi-kernel/2017-February/005541.html
->
-> --
-> Regards,
->
-> Laurent Pinchart
+> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
+> ---
+>   arch/arm/mm/dma-mapping.c                       | 11 +++++++----
+>   .../gpu/drm/nouveau/nvkm/subdev/instmem/gk20a.c |  3 ++-
+>   drivers/gpu/drm/tegra/drm.c                     |  2 +-
+>   drivers/gpu/host1x/cdma.c                       |  2 +-
+>   drivers/infiniband/hw/usnic/usnic_uiom.c        |  4 ++--
+>   drivers/iommu/dma-iommu.c                       |  2 +-
+>   drivers/iommu/iommu.c                           | 17 ++++++-----------
+>   drivers/iommu/iommufd/pages.c                   |  6 ++++--
+>   drivers/media/platform/qcom/venus/firmware.c    |  2 +-
+>   drivers/net/ipa/ipa_mem.c                       |  6 ++++--
+>   drivers/net/wireless/ath/ath10k/snoc.c          |  2 +-
+>   drivers/net/wireless/ath/ath11k/ahb.c           |  4 ++--
+>   drivers/remoteproc/remoteproc_core.c            |  5 +++--
+>   drivers/vfio/vfio_iommu_type1.c                 |  9 +++++----
+>   drivers/vhost/vdpa.c                            |  2 +-
+>   include/linux/iommu.h                           |  4 ++--
+>   16 files changed, 43 insertions(+), 38 deletions(-)
+> 
+> diff --git a/arch/arm/mm/dma-mapping.c b/arch/arm/mm/dma-mapping.c
+> index c135f6e37a00ca..8bc01071474ab7 100644
+> --- a/arch/arm/mm/dma-mapping.c
+> +++ b/arch/arm/mm/dma-mapping.c
+> @@ -984,7 +984,8 @@ __iommu_create_mapping(struct device *dev, struct page **pages, size_t size,
+>   
+>   		len = (j - i) << PAGE_SHIFT;
+>   		ret = iommu_map(mapping->domain, iova, phys, len,
+> -				__dma_info_to_prot(DMA_BIDIRECTIONAL, attrs));
+> +				__dma_info_to_prot(DMA_BIDIRECTIONAL, attrs),
+> +				GFP_KERNEL);
+>   		if (ret < 0)
+>   			goto fail;
+>   		iova += len;
+> @@ -1207,7 +1208,8 @@ static int __map_sg_chunk(struct device *dev, struct scatterlist *sg,
+>   
+>   		prot = __dma_info_to_prot(dir, attrs);
+>   
+> -		ret = iommu_map(mapping->domain, iova, phys, len, prot);
+> +		ret = iommu_map(mapping->domain, iova, phys, len, prot,
+> +				GFP_KERNEL);
+>   		if (ret < 0)
+>   			goto fail;
+>   		count += len >> PAGE_SHIFT;
+> @@ -1379,7 +1381,8 @@ static dma_addr_t arm_iommu_map_page(struct device *dev, struct page *page,
+>   
+>   	prot = __dma_info_to_prot(dir, attrs);
+>   
+> -	ret = iommu_map(mapping->domain, dma_addr, page_to_phys(page), len, prot);
+> +	ret = iommu_map(mapping->domain, dma_addr, page_to_phys(page), len,
+> +			prot, GFP_KERNEL);
+>   	if (ret < 0)
+>   		goto fail;
+>   
+> @@ -1443,7 +1446,7 @@ static dma_addr_t arm_iommu_map_resource(struct device *dev,
+>   
+>   	prot = __dma_info_to_prot(dir, attrs) | IOMMU_MMIO;
+>   
+> -	ret = iommu_map(mapping->domain, dma_addr, addr, len, prot);
+> +	ret = iommu_map(mapping->domain, dma_addr, addr, len, prot, GFP_KERNEL);
+>   	if (ret < 0)
+>   		goto fail;
+>   
+> diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/instmem/gk20a.c b/drivers/gpu/drm/nouveau/nvkm/subdev/instmem/gk20a.c
+> index 648ecf5a8fbc2a..a4ac94a2ab57fc 100644
+> --- a/drivers/gpu/drm/nouveau/nvkm/subdev/instmem/gk20a.c
+> +++ b/drivers/gpu/drm/nouveau/nvkm/subdev/instmem/gk20a.c
+> @@ -475,7 +475,8 @@ gk20a_instobj_ctor_iommu(struct gk20a_instmem *imem, u32 npages, u32 align,
+>   		u32 offset = (r->offset + i) << imem->iommu_pgshift;
+>   
+>   		ret = iommu_map(imem->domain, offset, node->dma_addrs[i],
+> -				PAGE_SIZE, IOMMU_READ | IOMMU_WRITE);
+> +				PAGE_SIZE, IOMMU_READ | IOMMU_WRITE,
+> +				GFP_KERNEL);
+>   		if (ret < 0) {
+>   			nvkm_error(subdev, "IOMMU mapping failure: %d\n", ret);
+>   
+> diff --git a/drivers/gpu/drm/tegra/drm.c b/drivers/gpu/drm/tegra/drm.c
+> index 7bd2e65c2a16c5..6ca9f396e55be4 100644
+> --- a/drivers/gpu/drm/tegra/drm.c
+> +++ b/drivers/gpu/drm/tegra/drm.c
+> @@ -1057,7 +1057,7 @@ void *tegra_drm_alloc(struct tegra_drm *tegra, size_t size, dma_addr_t *dma)
+>   
+>   	*dma = iova_dma_addr(&tegra->carveout.domain, alloc);
+>   	err = iommu_map(tegra->domain, *dma, virt_to_phys(virt),
+> -			size, IOMMU_READ | IOMMU_WRITE);
+> +			size, IOMMU_READ | IOMMU_WRITE, GFP_KERNEL);
+>   	if (err < 0)
+>   		goto free_iova;
+>   
+> diff --git a/drivers/gpu/host1x/cdma.c b/drivers/gpu/host1x/cdma.c
+> index 103fda055394ab..4ddfcd2138c95b 100644
+> --- a/drivers/gpu/host1x/cdma.c
+> +++ b/drivers/gpu/host1x/cdma.c
+> @@ -105,7 +105,7 @@ static int host1x_pushbuffer_init(struct push_buffer *pb)
+>   
+>   		pb->dma = iova_dma_addr(&host1x->iova, alloc);
+>   		err = iommu_map(host1x->domain, pb->dma, pb->phys, size,
+> -				IOMMU_READ);
+> +				IOMMU_READ, GFP_KERNEL);
+>   		if (err)
+>   			goto iommu_free_iova;
+>   	} else {
+> diff --git a/drivers/infiniband/hw/usnic/usnic_uiom.c b/drivers/infiniband/hw/usnic/usnic_uiom.c
+> index c301b3be9f303d..aeeaca65ace96a 100644
+> --- a/drivers/infiniband/hw/usnic/usnic_uiom.c
+> +++ b/drivers/infiniband/hw/usnic/usnic_uiom.c
+> @@ -277,7 +277,7 @@ static int usnic_uiom_map_sorted_intervals(struct list_head *intervals,
+>   				usnic_dbg("va 0x%lx pa %pa size 0x%zx flags 0x%x",
+>   					va_start, &pa_start, size, flags);
+>   				err = iommu_map(pd->domain, va_start, pa_start,
+> -							size, flags);
+> +						size, flags, GFP_KERNEL);
+>   				if (err) {
+>   					usnic_err("Failed to map va 0x%lx pa %pa size 0x%zx with err %d\n",
+>   						va_start, &pa_start, size, err);
+> @@ -294,7 +294,7 @@ static int usnic_uiom_map_sorted_intervals(struct list_head *intervals,
+>   				usnic_dbg("va 0x%lx pa %pa size 0x%zx flags 0x%x\n",
+>   					va_start, &pa_start, size, flags);
+>   				err = iommu_map(pd->domain, va_start, pa_start,
+> -						size, flags);
+> +						size, flags, GFP_KERNEL);
+>   				if (err) {
+>   					usnic_err("Failed to map va 0x%lx pa %pa size 0x%zx with err %d\n",
+>   						va_start, &pa_start, size, err);
+> diff --git a/drivers/iommu/dma-iommu.c b/drivers/iommu/dma-iommu.c
+> index f798c44e090337..8bdb65e7686ff9 100644
+> --- a/drivers/iommu/dma-iommu.c
+> +++ b/drivers/iommu/dma-iommu.c
+> @@ -1615,7 +1615,7 @@ static struct iommu_dma_msi_page *iommu_dma_get_msi_page(struct device *dev,
+>   	if (!iova)
+>   		goto out_free_page;
+>   
+> -	if (iommu_map(domain, iova, msi_addr, size, prot))
+> +	if (iommu_map(domain, iova, msi_addr, size, prot, GFP_KERNEL))
+>   		goto out_free_iova;
+>   
+>   	INIT_LIST_HEAD(&msi_page->list);
+> diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
+> index de91dd88705bd3..fe29fc2140b132 100644
+> --- a/drivers/iommu/iommu.c
+> +++ b/drivers/iommu/iommu.c
+> @@ -930,7 +930,7 @@ static int iommu_create_device_direct_mappings(struct iommu_group *group,
+>   			if (map_size) {
+>   				ret = iommu_map(domain, addr - map_size,
+>   						addr - map_size, map_size,
+> -						entry->prot);
+> +						entry->prot, GFP_KERNEL);
+>   				if (ret)
+>   					goto out;
+>   				map_size = 0;
+> @@ -2360,31 +2360,26 @@ static int __iommu_map(struct iommu_domain *domain, unsigned long iova,
+>   	return ret;
+>   }
+>   
+> -static int _iommu_map(struct iommu_domain *domain, unsigned long iova,
+> -		      phys_addr_t paddr, size_t size, int prot, gfp_t gfp)
+> +int iommu_map(struct iommu_domain *domain, unsigned long iova,
+> +	      phys_addr_t paddr, size_t size, int prot, gfp_t gfp)
+>   {
+>   	const struct iommu_domain_ops *ops = domain->ops;
+>   	int ret;
+>   
+> +	might_sleep_if(gfpflags_allow_blocking(gfp));
+> +
+>   	ret = __iommu_map(domain, iova, paddr, size, prot, gfp);
+>   	if (ret == 0 && ops->iotlb_sync_map)
+>   		ops->iotlb_sync_map(domain, iova, size);
+>   
+>   	return ret;
+>   }
+> -
+> -int iommu_map(struct iommu_domain *domain, unsigned long iova,
+> -	      phys_addr_t paddr, size_t size, int prot)
+> -{
+> -	might_sleep();
+> -	return _iommu_map(domain, iova, paddr, size, prot, GFP_KERNEL);
+> -}
+>   EXPORT_SYMBOL_GPL(iommu_map);
+>   
+>   int iommu_map_atomic(struct iommu_domain *domain, unsigned long iova,
+>   	      phys_addr_t paddr, size_t size, int prot)
+>   {
+> -	return _iommu_map(domain, iova, paddr, size, prot, GFP_ATOMIC);
+> +	return iommu_map(domain, iova, paddr, size, prot, GFP_ATOMIC);
+>   }
+>   EXPORT_SYMBOL_GPL(iommu_map_atomic);
+>   
+> diff --git a/drivers/iommu/iommufd/pages.c b/drivers/iommu/iommufd/pages.c
+> index 1e1d3509efae5e..22cc3bb0c6c55a 100644
+> --- a/drivers/iommu/iommufd/pages.c
+> +++ b/drivers/iommu/iommufd/pages.c
+> @@ -456,7 +456,8 @@ static int batch_iommu_map_small(struct iommu_domain *domain,
+>   			size % PAGE_SIZE);
+>   
+>   	while (size) {
+> -		rc = iommu_map(domain, iova, paddr, PAGE_SIZE, prot);
+> +		rc = iommu_map(domain, iova, paddr, PAGE_SIZE, prot,
+> +			       GFP_KERNEL);
+>   		if (rc)
+>   			goto err_unmap;
+>   		iova += PAGE_SIZE;
+> @@ -500,7 +501,8 @@ static int batch_to_domain(struct pfn_batch *batch, struct iommu_domain *domain,
+>   		else
+>   			rc = iommu_map(domain, iova,
+>   				       PFN_PHYS(batch->pfns[cur]) + page_offset,
+> -				       next_iova - iova, area->iommu_prot);
+> +				       next_iova - iova, area->iommu_prot,
+> +				       GFP_KERNEL);
+>   		if (rc)
+>   			goto err_unmap;
+>   		iova = next_iova;
+> diff --git a/drivers/media/platform/qcom/venus/firmware.c b/drivers/media/platform/qcom/venus/firmware.c
+> index 142d4c74017c04..07d4dceb5e72c7 100644
+> --- a/drivers/media/platform/qcom/venus/firmware.c
+> +++ b/drivers/media/platform/qcom/venus/firmware.c
+> @@ -158,7 +158,7 @@ static int venus_boot_no_tz(struct venus_core *core, phys_addr_t mem_phys,
+>   	core->fw.mapped_mem_size = mem_size;
+>   
+>   	ret = iommu_map(iommu, VENUS_FW_START_ADDR, mem_phys, mem_size,
+> -			IOMMU_READ | IOMMU_WRITE | IOMMU_PRIV);
+> +			IOMMU_READ | IOMMU_WRITE | IOMMU_PRIV, GFP_KERNEL);
+>   	if (ret) {
+>   		dev_err(dev, "could not map video firmware region\n");
+>   		return ret;
+> diff --git a/drivers/net/ipa/ipa_mem.c b/drivers/net/ipa/ipa_mem.c
+> index 9ec5af323f731d..991a7d39f06661 100644
+> --- a/drivers/net/ipa/ipa_mem.c
+> +++ b/drivers/net/ipa/ipa_mem.c
+> @@ -466,7 +466,8 @@ static int ipa_imem_init(struct ipa *ipa, unsigned long addr, size_t size)
+>   	size = PAGE_ALIGN(size + addr - phys);
+>   	iova = phys;	/* We just want a direct mapping */
+>   
+> -	ret = iommu_map(domain, iova, phys, size, IOMMU_READ | IOMMU_WRITE);
+> +	ret = iommu_map(domain, iova, phys, size, IOMMU_READ | IOMMU_WRITE,
+> +			GFP_KERNEL);
+>   	if (ret)
+>   		return ret;
+>   
+> @@ -574,7 +575,8 @@ static int ipa_smem_init(struct ipa *ipa, u32 item, size_t size)
+>   	size = PAGE_ALIGN(size + addr - phys);
+>   	iova = phys;	/* We just want a direct mapping */
+>   
+> -	ret = iommu_map(domain, iova, phys, size, IOMMU_READ | IOMMU_WRITE);
+> +	ret = iommu_map(domain, iova, phys, size, IOMMU_READ | IOMMU_WRITE,
+> +			GFP_KERNEL);
+>   	if (ret)
+>   		return ret;
+>   
+> diff --git a/drivers/net/wireless/ath/ath10k/snoc.c b/drivers/net/wireless/ath/ath10k/snoc.c
+> index cfcb759a87deac..9a82f0336d9537 100644
+> --- a/drivers/net/wireless/ath/ath10k/snoc.c
+> +++ b/drivers/net/wireless/ath/ath10k/snoc.c
+> @@ -1639,7 +1639,7 @@ static int ath10k_fw_init(struct ath10k *ar)
+>   
+>   	ret = iommu_map(iommu_dom, ar_snoc->fw.fw_start_addr,
+>   			ar->msa.paddr, ar->msa.mem_size,
+> -			IOMMU_READ | IOMMU_WRITE);
+> +			IOMMU_READ | IOMMU_WRITE, GFP_KERNEL);
+>   	if (ret) {
+>   		ath10k_err(ar, "failed to map firmware region: %d\n", ret);
+>   		goto err_iommu_detach;
+> diff --git a/drivers/net/wireless/ath/ath11k/ahb.c b/drivers/net/wireless/ath/ath11k/ahb.c
+> index d34a4d6325b2b4..df8fdc7067f99c 100644
+> --- a/drivers/net/wireless/ath/ath11k/ahb.c
+> +++ b/drivers/net/wireless/ath/ath11k/ahb.c
+> @@ -1021,7 +1021,7 @@ static int ath11k_ahb_fw_resources_init(struct ath11k_base *ab)
+>   
+>   	ret = iommu_map(iommu_dom, ab_ahb->fw.msa_paddr,
+>   			ab_ahb->fw.msa_paddr, ab_ahb->fw.msa_size,
+> -			IOMMU_READ | IOMMU_WRITE);
+> +			IOMMU_READ | IOMMU_WRITE, GFP_KERNEL);
+>   	if (ret) {
+>   		ath11k_err(ab, "failed to map firmware region: %d\n", ret);
+>   		goto err_iommu_detach;
+> @@ -1029,7 +1029,7 @@ static int ath11k_ahb_fw_resources_init(struct ath11k_base *ab)
+>   
+>   	ret = iommu_map(iommu_dom, ab_ahb->fw.ce_paddr,
+>   			ab_ahb->fw.ce_paddr, ab_ahb->fw.ce_size,
+> -			IOMMU_READ | IOMMU_WRITE);
+> +			IOMMU_READ | IOMMU_WRITE, GFP_KERNEL);
+>   	if (ret) {
+>   		ath11k_err(ab, "failed to map firmware CE region: %d\n", ret);
+>   		goto err_iommu_unmap;
+> diff --git a/drivers/remoteproc/remoteproc_core.c b/drivers/remoteproc/remoteproc_core.c
+> index 1cd4815a6dd197..80072b6b628358 100644
+> --- a/drivers/remoteproc/remoteproc_core.c
+> +++ b/drivers/remoteproc/remoteproc_core.c
+> @@ -643,7 +643,8 @@ static int rproc_handle_devmem(struct rproc *rproc, void *ptr,
+>   	if (!mapping)
+>   		return -ENOMEM;
+>   
+> -	ret = iommu_map(rproc->domain, rsc->da, rsc->pa, rsc->len, rsc->flags);
+> +	ret = iommu_map(rproc->domain, rsc->da, rsc->pa, rsc->len, rsc->flags,
+> +			GFP_KERNEL);
+>   	if (ret) {
+>   		dev_err(dev, "failed to map devmem: %d\n", ret);
+>   		goto out;
+> @@ -737,7 +738,7 @@ static int rproc_alloc_carveout(struct rproc *rproc,
+>   		}
+>   
+>   		ret = iommu_map(rproc->domain, mem->da, dma, mem->len,
+> -				mem->flags);
+> +				mem->flags, GFP_KERNEL);
+>   		if (ret) {
+>   			dev_err(dev, "iommu_map failed: %d\n", ret);
+>   			goto free_mapping;
+> diff --git a/drivers/vfio/vfio_iommu_type1.c b/drivers/vfio/vfio_iommu_type1.c
+> index 23c24fe98c00d4..e14f86a8ef5258 100644
+> --- a/drivers/vfio/vfio_iommu_type1.c
+> +++ b/drivers/vfio/vfio_iommu_type1.c
+> @@ -1480,7 +1480,8 @@ static int vfio_iommu_map(struct vfio_iommu *iommu, dma_addr_t iova,
+>   
+>   	list_for_each_entry(d, &iommu->domain_list, next) {
+>   		ret = iommu_map(d->domain, iova, (phys_addr_t)pfn << PAGE_SHIFT,
+> -				npage << PAGE_SHIFT, prot | IOMMU_CACHE);
+> +				npage << PAGE_SHIFT, prot | IOMMU_CACHE,
+> +				GFP_KERNEL);
+>   		if (ret)
+>   			goto unwind;
+>   
+> @@ -1777,8 +1778,8 @@ static int vfio_iommu_replay(struct vfio_iommu *iommu,
+>   				size = npage << PAGE_SHIFT;
+>   			}
+>   
+> -			ret = iommu_map(domain->domain, iova, phys,
+> -					size, dma->prot | IOMMU_CACHE);
+> +			ret = iommu_map(domain->domain, iova, phys, size,
+> +					dma->prot | IOMMU_CACHE, GFP_KERNEL);
+>   			if (ret) {
+>   				if (!dma->iommu_mapped) {
+>   					vfio_unpin_pages_remote(dma, iova,
+> @@ -1866,7 +1867,7 @@ static void vfio_test_domain_fgsp(struct vfio_domain *domain)
+>   		return;
+>   
+>   	ret = iommu_map(domain->domain, 0, page_to_phys(pages), PAGE_SIZE * 2,
+> -			IOMMU_READ | IOMMU_WRITE | IOMMU_CACHE);
+> +			IOMMU_READ | IOMMU_WRITE | IOMMU_CACHE, GFP_KERNEL);
+>   	if (!ret) {
+>   		size_t unmapped = iommu_unmap(domain->domain, 0, PAGE_SIZE);
+>   
+> diff --git a/drivers/vhost/vdpa.c b/drivers/vhost/vdpa.c
+> index 166044642fd5cc..e555c3bd1c030b 100644
+> --- a/drivers/vhost/vdpa.c
+> +++ b/drivers/vhost/vdpa.c
+> @@ -777,7 +777,7 @@ static int vhost_vdpa_map(struct vhost_vdpa *v, struct vhost_iotlb *iotlb,
+>   			r = ops->set_map(vdpa, asid, iotlb);
+>   	} else {
+>   		r = iommu_map(v->domain, iova, pa, size,
+> -			      perm_to_iommu_flags(perm));
+> +			      perm_to_iommu_flags(perm), GFP_KERNEL);
+>   	}
+>   	if (r) {
+>   		vhost_iotlb_del_range(iotlb, iova, iova + size - 1);
+> diff --git a/include/linux/iommu.h b/include/linux/iommu.h
+> index 46e1347bfa2286..d2020994f292db 100644
+> --- a/include/linux/iommu.h
+> +++ b/include/linux/iommu.h
+> @@ -467,7 +467,7 @@ extern int iommu_sva_unbind_gpasid(struct iommu_domain *domain,
+>   extern struct iommu_domain *iommu_get_domain_for_dev(struct device *dev);
+>   extern struct iommu_domain *iommu_get_dma_domain(struct device *dev);
+>   extern int iommu_map(struct iommu_domain *domain, unsigned long iova,
+> -		     phys_addr_t paddr, size_t size, int prot);
+> +		     phys_addr_t paddr, size_t size, int prot, gfp_t gfp);
+>   extern int iommu_map_atomic(struct iommu_domain *domain, unsigned long iova,
+>   			    phys_addr_t paddr, size_t size, int prot);
+>   extern size_t iommu_unmap(struct iommu_domain *domain, unsigned long iova,
+> @@ -773,7 +773,7 @@ static inline struct iommu_domain *iommu_get_domain_for_dev(struct device *dev)
+>   }
+>   
+>   static inline int iommu_map(struct iommu_domain *domain, unsigned long iova,
+> -			    phys_addr_t paddr, size_t size, int prot)
+> +			    phys_addr_t paddr, size_t size, int prot, gfp_t gfp)
+>   {
+>   	return -ENODEV;
+>   }
