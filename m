@@ -2,29 +2,29 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9EA6D660041
-	for <lists+linux-media@lfdr.de>; Fri,  6 Jan 2023 13:28:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3BA31660046
+	for <lists+linux-media@lfdr.de>; Fri,  6 Jan 2023 13:31:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229935AbjAFM24 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 6 Jan 2023 07:28:56 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58272 "EHLO
+        id S230048AbjAFMbT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 6 Jan 2023 07:31:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59146 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229472AbjAFM2y (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 6 Jan 2023 07:28:54 -0500
+        with ESMTP id S231858AbjAFMbB (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 6 Jan 2023 07:31:01 -0500
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86D9169B10;
-        Fri,  6 Jan 2023 04:28:53 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3CC123D5D3;
+        Fri,  6 Jan 2023 04:30:59 -0800 (PST)
 Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0CD384AE;
-        Fri,  6 Jan 2023 13:28:51 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 530C64AE;
+        Fri,  6 Jan 2023 13:30:57 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1673008132;
-        bh=ohmt3vuyEz1ldwDDC5ms/9i4Y47Mwn3UmfHZb+7plcc=;
+        s=mail; t=1673008257;
+        bh=+YtF8mprGIFPaAWu0u6IBFSg5EXh3kE+K3R+8cVQZ18=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=AoxxABvuFkol/Cafw50oAhwSx4IT3f9XjUaXf5FitNRYPUqAzUl1iyZhSrLCvz71T
-         Sf/glbu3cKE1F4lO/hMoU+oUaheFIg6gVNLTdSz+VMUq9MNAYgfOUS4+ZYEw168If+
-         GXJ6TAqf8eOQF/tmAUszia/aX6AjtXk2GQPaTNTM=
-Date:   Fri, 6 Jan 2023 14:28:47 +0200
+        b=vaf3U6U7t2iwZ6s/HoJaQUX+iM+7weUE9imeuQ7EGpV8jO+/NPoEW7639X9PYoytK
+         Ky+delfHTbfrWUzVK9BOzb+WfEUNKSvdnZUk1eV73csM3YhIKOh+bqm8PGgVZpkgqq
+         d/jVPZQpc8WMd/66i+MvwTulFDNmOE3V9VteVBOo=
+Date:   Fri, 6 Jan 2023 14:30:52 +0200
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Michael Tretter <m.tretter@pengutronix.de>
 Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
@@ -34,15 +34,15 @@ Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Fabio Estevam <festevam@gmail.com>, kernel@pengutronix.de,
         linux-imx@nxp.com, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH 2/8] media: imx-pxp: detect PXP version
-Message-ID: <Y7gT/+2c5G9lT8jM@pendragon.ideasonboard.com>
+Subject: Re: [PATCH 6/8] media: imx-pxp: make data_path_ctrl0 platform
+ dependent
+Message-ID: <Y7gUfByMdqL3WFJI@pendragon.ideasonboard.com>
 References: <20230105134729.59542-1-m.tretter@pengutronix.de>
- <20230105134729.59542-3-m.tretter@pengutronix.de>
- <Y7gKUtGM+PRVgWja@pendragon.ideasonboard.com>
+ <20230105134729.59542-7-m.tretter@pengutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <Y7gKUtGM+PRVgWja@pendragon.ideasonboard.com>
+In-Reply-To: <20230105134729.59542-7-m.tretter@pengutronix.de>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
         autolearn=ham autolearn_force=no version=3.4.6
@@ -52,93 +52,114 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Jan 06, 2023 at 01:47:32PM +0200, Laurent Pinchart wrote:
-> Hi Michael,
-> 
-> Thank you for the patch.
-> 
-> On Thu, Jan 05, 2023 at 02:47:23PM +0100, Michael Tretter wrote:
-> > Different versions of the Pixel Pipeline have different blocks and their
-> > routing may be different. Read the PXP_HW_VERSION register to determine
-> > the version of the PXP and print it to the log for debugging purposes.
-> 
-> Is there a specific reason you chose to read the version register
-> instead of basing the decision on the compatible string ?
+Hi Michael,
 
-Reading the rest of the series, you use the compatible strings later,
-and never use the hw_version field. I'm tempted to propose dropping this
-patch.
+Thank you for the patch.
 
-> > Signed-off-by: Michael Tretter <m.tretter@pengutronix.de>
-> > ---
-> >  drivers/media/platform/nxp/imx-pxp.c | 18 ++++++++++++++++++
-> >  1 file changed, 18 insertions(+)
-> > 
-> > diff --git a/drivers/media/platform/nxp/imx-pxp.c b/drivers/media/platform/nxp/imx-pxp.c
-> > index 689ae5e6ac62..05abe40558b0 100644
-> > --- a/drivers/media/platform/nxp/imx-pxp.c
-> > +++ b/drivers/media/platform/nxp/imx-pxp.c
-> > @@ -10,6 +10,7 @@
-> >   * Pawel Osciak, <pawel@osciak.com>
-> >   * Marek Szyprowski, <m.szyprowski@samsung.com>
-> >   */
-> > +#include <linux/bitfield.h>
-> >  #include <linux/clk.h>
-> >  #include <linux/delay.h>
-> >  #include <linux/dma-mapping.h>
-> > @@ -52,6 +53,11 @@ MODULE_PARM_DESC(debug, "activates debug info");
-> >  #define MEM2MEM_HFLIP	(1 << 0)
-> >  #define MEM2MEM_VFLIP	(1 << 1)
-> >  
-> > +#define PXP_VERSION_MAJOR(version) \
-> > +	FIELD_GET(BM_PXP_VERSION_MAJOR, version)
-> > +#define PXP_VERSION_MINOR(version) \
-> > +	FIELD_GET(BM_PXP_VERSION_MINOR, version)
-> > +
-> >  #define dprintk(dev, fmt, arg...) \
-> >  	v4l2_dbg(1, debug, &dev->v4l2_dev, "%s: " fmt, __func__, ## arg)
-> >  
-> > @@ -192,6 +198,8 @@ struct pxp_dev {
-> >  	struct clk		*clk;
-> >  	void __iomem		*mmio;
-> >  
-> > +	u32			hw_version;
-> > +
-> >  	atomic_t		num_inst;
-> >  	struct mutex		dev_mutex;
-> >  	spinlock_t		irqlock;
-> > @@ -1660,6 +1668,11 @@ static int pxp_soft_reset(struct pxp_dev *dev)
-> >  	return 0;
-> >  }
-> >  
-> > +static u32 pxp_read_version(struct pxp_dev *dev)
-> > +{
-> > +	return readl(dev->mmio + HW_PXP_VERSION);
-> > +}
-> > +
-> >  static int pxp_probe(struct platform_device *pdev)
-> >  {
-> >  	struct pxp_dev *dev;
-> > @@ -1705,6 +1718,11 @@ static int pxp_probe(struct platform_device *pdev)
-> >  		goto err_clk;
-> >  	}
-> >  
-> > +	dev->hw_version = pxp_read_version(dev);
-> > +	dev_info(&pdev->dev, "PXP Version %d.%d\n",
+On Thu, Jan 05, 2023 at 02:47:27PM +0100, Michael Tretter wrote:
+> Unfortunately, the PXP_HW_VERSION register reports the PXP on the i.MX7D
+> and on the i.MX6ULL as version 3.0, although the PXP versions on these
+> SoCs have significant differences.
 > 
-> As the version can't be negative, I'd use %u.%u.
+> Use the compatible to configure the ctrl0 register as required dependent
+> on the platform.
 > 
-> > +		 PXP_VERSION_MAJOR(dev->hw_version),
-> > +		 PXP_VERSION_MINOR(dev->hw_version));
-> > +
+> Signed-off-by: Michael Tretter <m.tretter@pengutronix.de>
+> ---
+>  drivers/media/platform/nxp/imx-pxp.c | 27 +++++++++++++++++++++++++--
+>  1 file changed, 25 insertions(+), 2 deletions(-)
 > 
-> The driver now prints two messages at probe time, it would be nice to
-> combine them, or remove the other one. That's a candidate for a future
-> patch though.
-> 
-> >  	ret = v4l2_device_register(&pdev->dev, &dev->v4l2_dev);
-> >  	if (ret)
-> >  		goto err_clk;
+> diff --git a/drivers/media/platform/nxp/imx-pxp.c b/drivers/media/platform/nxp/imx-pxp.c
+> index 1d649b9cadad..4e182f80a36b 100644
+> --- a/drivers/media/platform/nxp/imx-pxp.c
+> +++ b/drivers/media/platform/nxp/imx-pxp.c
+> @@ -19,6 +19,7 @@
+>  #include <linux/iopoll.h>
+>  #include <linux/module.h>
+>  #include <linux/of.h>
+> +#include <linux/of_device.h>
+>  #include <linux/sched.h>
+>  #include <linux/slab.h>
+>  
+> @@ -191,6 +192,11 @@ static struct pxp_fmt *find_format(struct v4l2_format *f)
+>  	return &formats[k];
+>  }
+>  
+> +struct pxp_ctx;
+
+Please add a blank line here.
+
+> +struct pxp_pdata {
+> +	u32 (*data_path_ctrl0)(struct pxp_ctx *ctx);
+> +};
+> +
+>  struct pxp_dev {
+>  	struct v4l2_device	v4l2_dev;
+>  	struct video_device	vfd;
+> @@ -199,6 +205,7 @@ struct pxp_dev {
+>  	void __iomem		*mmio;
+>  
+>  	u32			hw_version;
+> +	const struct pxp_pdata	*pdata;
+>  
+>  	atomic_t		num_inst;
+>  	struct mutex		dev_mutex;
+> @@ -726,7 +733,7 @@ static void pxp_setup_csc(struct pxp_ctx *ctx)
+>  	}
+>  }
+>  
+> -static u32 pxp_data_path_ctrl0(struct pxp_ctx *ctx)
+> +static u32 pxp_imx6ull_data_path_ctrl0(struct pxp_ctx *ctx)
+>  {
+>  	u32 ctrl0;
+>  
+> @@ -756,6 +763,16 @@ static u32 pxp_data_path_ctrl0(struct pxp_ctx *ctx)
+>  	return ctrl0;
+>  }
+>  
+> +static u32 pxp_data_path_ctrl0(struct pxp_ctx *ctx)
+> +{
+> +	struct pxp_dev *dev = ctx->dev;
+> +
+> +	if (dev->pdata && dev->pdata->data_path_ctrl0)
+> +		return dev->pdata->data_path_ctrl0(ctx);
+> +
+> +	return pxp_imx6ull_data_path_ctrl0(ctx);
+
+Do you need this fallback, given that all compatible strings give you
+valid pdata ? I'd rather be explicit.
+
+This function then becomes so small that I would inline it in the
+caller.
+
+> +}
+> +
+>  static void pxp_set_data_path(struct pxp_ctx *ctx)
+>  {
+>  	struct pxp_dev *dev = ctx->dev;
+> @@ -1711,6 +1728,8 @@ static int pxp_probe(struct platform_device *pdev)
+>  	if (!dev)
+>  		return -ENOMEM;
+>  
+> +	dev->pdata = of_device_get_match_data(&pdev->dev);
+> +
+>  	dev->clk = devm_clk_get(&pdev->dev, "axi");
+>  	if (IS_ERR(dev->clk)) {
+>  		ret = PTR_ERR(dev->clk);
+> @@ -1811,8 +1830,12 @@ static int pxp_remove(struct platform_device *pdev)
+>  	return 0;
+>  }
+>  
+> +static const struct pxp_pdata pxp_imx6ull_pdata = {
+> +	.data_path_ctrl0 = pxp_imx6ull_data_path_ctrl0,
+> +};
+> +
+>  static const struct of_device_id pxp_dt_ids[] = {
+> -	{ .compatible = "fsl,imx6ull-pxp", .data = NULL },
+> +	{ .compatible = "fsl,imx6ull-pxp", .data = &pxp_imx6ull_pdata },
+>  	{ },
+>  };
+>  MODULE_DEVICE_TABLE(of, pxp_dt_ids);
 
 -- 
 Regards,
