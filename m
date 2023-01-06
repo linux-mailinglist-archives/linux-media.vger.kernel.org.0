@@ -2,41 +2,43 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C0700660155
-	for <lists+linux-media@lfdr.de>; Fri,  6 Jan 2023 14:34:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 30F54660165
+	for <lists+linux-media@lfdr.de>; Fri,  6 Jan 2023 14:37:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234740AbjAFNeB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 6 Jan 2023 08:34:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34840 "EHLO
+        id S234196AbjAFNhi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 6 Jan 2023 08:37:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39242 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234785AbjAFNdg (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 6 Jan 2023 08:33:36 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EAE8E777FF
-        for <linux-media@vger.kernel.org>; Fri,  6 Jan 2023 05:32:43 -0800 (PST)
+        with ESMTP id S233101AbjAFNhg (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 6 Jan 2023 08:37:36 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 464955FC3;
+        Fri,  6 Jan 2023 05:37:35 -0800 (PST)
 Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id A18C3A25;
-        Fri,  6 Jan 2023 14:32:41 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 84C7D4AE;
+        Fri,  6 Jan 2023 14:37:33 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1673011961;
-        bh=X0dFH/gmunl388tMMCumMCn9tAyvU3iA4YGBSbMoUA4=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=oeXxF8FlcEp/bqRYzv+A71TKyP602ossAAkvtG2K65b83DRCt2y8KM+s256ArlzGD
-         sWQCM+5dcEyc0yUZ1umaN89K41hY/EIqFVEixaNUv1mbzv2ARNplpjW1kwRcSflbaA
-         +54ZcLo5Nk+agU0Gp0KLT6jwbeBLpRyvYyjY4ODc=
+        s=mail; t=1673012253;
+        bh=uRZB5pjOykCODOYScnfRSBE21JUxXCnhmdfXZFIOhqQ=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=CjyQ/M/B4AzsE6RyqVXIMTHih+UiJMkIGQdy1L3BR0JTh0EyPWCtgeLGQ5m0jkxJs
+         L9R2hqnkRe2wVHDYIwnvTPkUGtZPeRPPL35uaxolLCt3bPzwNhTXdk1GPB15AdBf2m
+         Fb+7ADPS5j5/ajG980PLQjT9efw1HXRI4VbHHlck=
+Date:   Fri, 6 Jan 2023 15:37:28 +0200
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     linux-media@vger.kernel.org
-Cc:     Michael Tretter <m.tretter@pengutronix.de>,
-        Philipp Zabel <p.zabel@pengutronix.de>, kernel@pengutronix.de,
-        linux-imx@nxp.com
-Subject: [PATCH v1 6/6] media: imx-pxp: Use non-threaded IRQ
-Date:   Fri,  6 Jan 2023 15:32:27 +0200
-Message-Id: <20230106133227.13685-7-laurent.pinchart@ideasonboard.com>
-X-Mailer: git-send-email 2.38.2
-In-Reply-To: <20230106133227.13685-1-laurent.pinchart@ideasonboard.com>
-References: <20230106133227.13685-1-laurent.pinchart@ideasonboard.com>
+To:     Miaoqian Lin <linmq006@gmail.com>
+Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: platform: Fix refcount leak in probe and remove
+ function
+Message-ID: <Y7gkGGEFDQShRr5o@pendragon.ideasonboard.com>
+References: <20230106075809.966856-1-linmq006@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20230106075809.966856-1-linmq006@gmail.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
         autolearn=ham autolearn_force=no version=3.4.6
@@ -46,36 +48,79 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-There's no need to use threaded IRQs with the PXP, as the interrupt
-handler doesn't need to sleep and doesn't perform any time-consuming
-operation. Switch to regular IRQ handler.
+Hello Miaoqian,
 
-This fixes lockups of the PXP noticed on i.MX7, where the PXP would stop
-generating interrupts after a variable number of frames (from a few
-dozens to a few hundreds). The root cause is however unknown.
+Thank you for the patch.
 
-Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
----
- drivers/media/platform/nxp/imx-pxp.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+On Fri, Jan 06, 2023 at 11:58:09AM +0400, Miaoqian Lin wrote:
+> rcar_fcp_get() take reference, which should be balanced with
+> rcar_fcp_put(). Add missing rcar_fcp_put() in fdp1_remove and
+> the error paths of fdp1_probe() to fix this.
+> 
+> Fixes: 4710b752e029 ("[media] v4l: Add Renesas R-Car FDP1 Driver")
+> Signed-off-by: Miaoqian Lin <linmq006@gmail.com>
+> ---
+> I take commit Fixes: 7113469dafc2 ("media: vsp1: Fix an error handling
+> path in the probe function") for reference.
+> ---
+>  drivers/media/platform/renesas/rcar_fdp1.c | 11 ++++++++---
+>  1 file changed, 8 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/media/platform/renesas/rcar_fdp1.c b/drivers/media/platform/renesas/rcar_fdp1.c
+> index 37ecf489d112..ed97bb161743 100644
+> --- a/drivers/media/platform/renesas/rcar_fdp1.c
+> +++ b/drivers/media/platform/renesas/rcar_fdp1.c
+> @@ -2313,8 +2313,10 @@ static int fdp1_probe(struct platform_device *pdev)
+>  
+>  	/* Determine our clock rate */
+>  	clk = clk_get(&pdev->dev, NULL);
+> -	if (IS_ERR(clk))
+> -		return PTR_ERR(clk);
+> +	if (IS_ERR(clk)) {
+> +		ret = PTR_ERR(clk);
+> +		goto put_dev;
+> +	}
+>  
+>  	fdp1->clk_rate = clk_get_rate(clk);
+>  	clk_put(clk);
+> @@ -2323,7 +2325,7 @@ static int fdp1_probe(struct platform_device *pdev)
+>  	ret = v4l2_device_register(&pdev->dev, &fdp1->v4l2_dev);
+>  	if (ret) {
+>  		v4l2_err(&fdp1->v4l2_dev, "Failed to register video device\n");
+> -		return ret;
+> +		goto put_dev;
+>  	}
+>  
+>  	/* M2M registration */
+> @@ -2393,6 +2395,8 @@ static int fdp1_probe(struct platform_device *pdev)
+>  unreg_dev:
+>  	v4l2_device_unregister(&fdp1->v4l2_dev);
+>  
+> +put_dev:
+> +	rcar_fcp_put(fdp1->fcp);
+>  	return ret;
+>  }
+>  
+> @@ -2400,6 +2404,7 @@ static int fdp1_remove(struct platform_device *pdev)
+>  {
+>  	struct fdp1_dev *fdp1 = platform_get_drvdata(pdev);
+>  
+> +	rcar_fcp_put(fdp1->fcp);
 
-diff --git a/drivers/media/platform/nxp/imx-pxp.c b/drivers/media/platform/nxp/imx-pxp.c
-index e4d7a6339929..28a222c8fe86 100644
---- a/drivers/media/platform/nxp/imx-pxp.c
-+++ b/drivers/media/platform/nxp/imx-pxp.c
-@@ -1814,8 +1814,8 @@ static int pxp_probe(struct platform_device *pdev)
- 
- 	spin_lock_init(&dev->irqlock);
- 
--	ret = devm_request_threaded_irq(&pdev->dev, irq, NULL, pxp_irq_handler,
--			IRQF_ONESHOT, dev_name(&pdev->dev), dev);
-+	ret = devm_request_irq(&pdev->dev, irq, pxp_irq_handler,
-+			       IRQF_TRIGGER_HIGH, dev_name(&pdev->dev), dev);
- 	if (ret < 0) {
- 		dev_err(&pdev->dev, "Failed to request irq: %d\n", ret);
- 		return ret;
+I would move it at the end, after unregistering the V4L2 device, as here
+we may still be using the fcp.
+
+Apart from that, the patch looks good to me.
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+
+No need to send a v2, I'll make this small change in my tree.
+
+>  	v4l2_m2m_release(fdp1->m2m_dev);
+>  	video_unregister_device(&fdp1->vfd);
+>  	v4l2_device_unregister(&fdp1->v4l2_dev);
+
 -- 
 Regards,
 
 Laurent Pinchart
-
