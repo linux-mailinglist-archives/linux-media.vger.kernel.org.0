@@ -2,145 +2,120 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 38AC365FA0B
-	for <lists+linux-media@lfdr.de>; Fri,  6 Jan 2023 04:18:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B0AC065FB58
+	for <lists+linux-media@lfdr.de>; Fri,  6 Jan 2023 07:18:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230234AbjAFDSd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 5 Jan 2023 22:18:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37192 "EHLO
+        id S231171AbjAFGSg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 6 Jan 2023 01:18:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54126 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231569AbjAFDS0 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 5 Jan 2023 22:18:26 -0500
-Received: from mail-il1-f173.google.com (mail-il1-f173.google.com [209.85.166.173])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE284625C9;
-        Thu,  5 Jan 2023 19:18:25 -0800 (PST)
-Received: by mail-il1-f173.google.com with SMTP id m15so528898ilj.8;
-        Thu, 05 Jan 2023 19:18:25 -0800 (PST)
+        with ESMTP id S229509AbjAFGR6 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 6 Jan 2023 01:17:58 -0500
+Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4948E6CFF9
+        for <linux-media@vger.kernel.org>; Thu,  5 Jan 2023 22:17:27 -0800 (PST)
+Received: by mail-pj1-x102e.google.com with SMTP id h7-20020a17090aa88700b00225f3e4c992so4322498pjq.1
+        for <linux-media@vger.kernel.org>; Thu, 05 Jan 2023 22:17:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=IVoLYcfDVSSj5Hj2x3GSCmfRlg0nzKREwK4vCCiBijM=;
+        b=AyQ3QZW4y+sUR958e4HRcaZdsf/qgBkw1mlhowceF0XUEUWrY2e1ma6nmNllYeoV/Q
+         Yy5UQs03pzNlRQAeKfjmpys5zi0J3ZFYI3CFleutVn2UmhUlRUTnNoHoZg9gZQxdi1sK
+         ITivwS+vfEb+n4eN81dcLcd4zY2NXxnBYIXWE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=date:subject:message-id:references:in-reply-to:cc:to:from
-         :mime-version:content-transfer-encoding:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=ZZOnIW/A3jIdiVWRwgHX4rB5TbYZO3GMET4Ygn0mlBw=;
-        b=pDazbjBTIiRbfOw+XALkcIdy5PjBP0zhCSTBHID8zvdF17ETJrxNuz2FBJVgA4EnKt
-         EOByc9JET1CPfju4YcC4GMcY3+2Uq1UZl9c0F9+4SsSindpLQZpW8MMD1dYZaY/zhCs5
-         +Gs+I+PKpUa4XWXg6K2QWkpyNtt9rAvWwwrKFgpVEaFIF7oBTlNmmSnVRvapBvNryInE
-         T6A7R6uS/X9Exyyi1bph3URQns3IcAbqxg285hynkNjg88HCfR73Bdq9C1mJiKchaN/B
-         nBn+WA0NLYaLJbodugU47DEcOo9Nn3eWQqvuB0i3UhhOHBDN05t4QaLGrX0hFVqnZtrI
-         vDfQ==
-X-Gm-Message-State: AFqh2kosJTIdbHIr7kBayN0b9JfeZcftJcXB+k9niGqpKj5/zXWrVAHj
-        oKJdNsB+PaCQfhSUKrp9ZQ==
-X-Google-Smtp-Source: AMrXdXvW6c+lNsmShN3+QIbZc3yt5Q0Zr8M8EgW6NPwCGdUJw6F0CI7ZtvGYgqV4lTdGJfR+t1FmFg==
-X-Received: by 2002:a05:6e02:1054:b0:30d:7b25:8d04 with SMTP id p20-20020a056e02105400b0030d7b258d04mr3749152ilj.8.1672975105143;
-        Thu, 05 Jan 2023 19:18:25 -0800 (PST)
-Received: from robh_at_kernel.org ([64.188.179.248])
-        by smtp.gmail.com with ESMTPSA id c2-20020a023f42000000b0039decb5b452sm1322jaf.65.2023.01.05.19.18.23
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=IVoLYcfDVSSj5Hj2x3GSCmfRlg0nzKREwK4vCCiBijM=;
+        b=ox7aVo5kUDGQ/WviSGRta3iilpN2UyoqmKlxUEEElHHwpPhdfj7KGgxRGPqgY8aiQ3
+         f7bw3xzyvipHdH7F0u5SLEfY9zPHa/Bf2ebmMd5L4ACXBElwuvkVvJd9z0/VwP8fZNkz
+         u8K/VNJIq0hLyyauHCuB/JGT/h3qfMYsAj5LbDazJTfNXWP+0vTcxEb4cgEC5Fl/iCF/
+         9WSsI/jx5dIAxCllGCoiYv22URUPhDnMy9nwE/Nbus7iMJCynQwtPEqZpA5j0R8DVAnA
+         g+Y/dumAqKIUSVTKdt7kGUcSzaSsTM0Abyxt9Wp7F3kDjfqND/gSAoHH85dROvzx1yko
+         isIg==
+X-Gm-Message-State: AFqh2krh0ndJYsWmFCWvsjK2/zaDWzcp2Xdb2w1DLABQYHm/VaajUH5k
+        KaPYwL/pN2Rpej1vMmOCb1D7UQ==
+X-Google-Smtp-Source: AMrXdXu8EjH6zCt0hDwlIRVjDHugPnQhQK8vggGjZUTQDFpzSe1hy51vVrwqJVMV27Nnp3GrKotxqg==
+X-Received: by 2002:a17:90a:b011:b0:226:8fc5:b55 with SMTP id x17-20020a17090ab01100b002268fc50b55mr13282906pjq.33.1672985826224;
+        Thu, 05 Jan 2023 22:17:06 -0800 (PST)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id t23-20020a17090ae51700b00226d4009505sm278581pjy.3.2023.01.05.22.17.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Jan 2023 19:18:24 -0800 (PST)
-Received: (nullmailer pid 2198649 invoked by uid 1000);
-        Fri, 06 Jan 2023 03:18:21 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+        Thu, 05 Jan 2023 22:17:05 -0800 (PST)
+From:   Kees Cook <keescook@chromium.org>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Kees Cook <keescook@chromium.org>, ionut_n2001@yahoo.com,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-hardening@vger.kernel.org
+Subject: [PATCH] media: uvcvideo: Silence memcpy() run-time false positive warnings
+Date:   Thu,  5 Jan 2023 22:17:04 -0800
+Message-Id: <20230106061659.never.817-kees@kernel.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-From:   Rob Herring <robh@kernel.org>
-To:     Michael Tretter <m.tretter@pengutronix.de>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Fabio Estevam <festevam@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        linux-arm-kernel@lists.infradead.org,
-        Philipp Zabel <p.zabel@pengutronix.de>, kernel@pengutronix.de,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        linux-media@vger.kernel.org, linux-imx@nxp.com,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        devicetree@vger.kernel.org
-In-Reply-To: <20230105134729.59542-2-m.tretter@pengutronix.de>
-References: <20230105134729.59542-1-m.tretter@pengutronix.de>
- <20230105134729.59542-2-m.tretter@pengutronix.de>
-Message-Id: <167297493349.2193688.13768937269097834481.robh@kernel.org>
-Subject: Re: [PATCH 1/8] media: dt-bindings: media: fsl-pxp: convert to yaml
-Date:   Thu, 05 Jan 2023 21:18:21 -0600
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2208; h=from:subject:message-id; bh=HRw9p7KL+4QYDBK7zvJtazO5keiEwenv1mXQer7Jbt4=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBjt7zf29HyDZw/F4MlHzU+Bl4G8jxpLHfoOnTvU5u5 FlEqB3GJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCY7e83wAKCRCJcvTf3G3AJm9kD/ 47yg+LzAvpwtJYOb3OyV+MyCV2HpjQshWvE4+pgbpPOInmvvsqXeKW0Wm8McFGBzx2yl6blx5Pwpca /47EBMRpOiaT3GJNNxENwSAQHww/dF0ks2rY0PhvtPJbR+ZGd0MsSL03PBC85Kic9R1sf0fibXcTse 1/1izkyXUaxNymvLqFlfEIzecRP8k/7OXqvn9QcyXT/SOtVQb40dPRMPuxukLzjWqFxL0dA+kTz2uc RNSPIVy75p4LrE/mJBnwHLx/1tB3SJqNOxdimbYNR7+YP/fpUq6Bh7o1mhZJID8BxJJNDvbRqTPsn9 uURfsmbYsTr7rdQtiXrc2MLqikfo69Xdwm5Ufx/hpJ16yjjaU1d4ft7iT1kjKRc0hIsLsZVJgOXKhW hKw0Mrd5QMh7dm0xeoH49RHCtw3HUPdFfH+OdzuwPnVoPBSUDZuvKvdZ+Z/vpKbtOVIl/n0gzG/97j 8o76yXgd56XlarYhCNPv1gMoPKB1G8/7NUdoBNRR2QbCYZpCWjKuzxzfQ+sdKw4VZ3qTCLa1zS3TLV A49o0bouLm+QU+00+amCZ0rjTUw4yIyFfOm31Sg3Shec09zsbbMGjf9ShNfNpzy0zxZEswGJzvcZTh w4R++sq98XmsmnzSX/87MTHp2cWhQxB276FXEZS0Unn1URmr+UqjmtV/wfkg==
+X-Developer-Key: i=keescook@chromium.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+The memcpy() in uvc_video_decode_meta() intentionally copies across the
+length and flags members and into the trailing buf flexible array.
+Split the copy so that the compiler can better reason about (the lack
+of) buffer overflows here. Avoid the run-time false positive warning:
 
-On Thu, 05 Jan 2023 14:47:22 +0100, Michael Tretter wrote:
-> Convert the bindings of the Freescale Pixel Pipeline to YAML.
-> 
-> The conversion drops the previously listed compatibles for several SoCs.
-> It is unclear, if the PXP on these SoCs is compatible to any of the PXPs
-> on the existing SoCs and would allow to reuse the already defined
-> compatibles. The missing compatibles should be brought back when the
-> support for the PXP on these SoCs is added.
-> 
-> Signed-off-by: Michael Tretter <m.tretter@pengutronix.de>
-> ---
->  .../bindings/media/fsl,imx6ull-pxp.yaml       | 62 +++++++++++++++++++
->  .../devicetree/bindings/media/fsl-pxp.txt     | 26 --------
->  2 files changed, 62 insertions(+), 26 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/media/fsl,imx6ull-pxp.yaml
->  delete mode 100644 Documentation/devicetree/bindings/media/fsl-pxp.txt
-> 
+  memcpy: detected field-spanning write (size 12) of single field "&meta->length" at drivers/media/usb/uvc/uvc_video.c:1355 (size 1)
 
-Running 'make dtbs_check' with the schema in this patch gives the
-following warnings. Consider if they are expected or the schema is
-incorrect. These may not be new warnings.
+Additionally fix a typo in the documentation for struct uvc_meta_buf.
 
-Note that it is not yet a requirement to have 0 warnings for dtbs_check.
-This will change in the future.
+Reported-by: ionut_n2001@yahoo.com
+Link: https://bugzilla.kernel.org/show_bug.cgi?id=216810
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org
+Signed-off-by: Kees Cook <keescook@chromium.org>
+---
+ drivers/media/usb/uvc/uvc_video.c | 4 +++-
+ include/uapi/linux/uvcvideo.h     | 2 +-
+ 2 files changed, 4 insertions(+), 2 deletions(-)
 
-Full log is available here: https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20230105134729.59542-2-m.tretter@pengutronix.de
-
-
-pxp@20f0000: compatible:0: 'fsl,imx6sll-pxp' is not one of ['fsl,imx6ul-pxp', 'fsl,imx6ull-pxp', 'fsl,imx7d-pxp']
-	arch/arm/boot/dts/imx6sll-evk.dtb
-	arch/arm/boot/dts/imx6sll-kobo-clarahd.dtb
-	arch/arm/boot/dts/imx6sll-kobo-librah2o.dtb
-
-pxp@20f0000: compatible: ['fsl,imx6sll-pxp', 'fsl,imx6ull-pxp'] is too long
-	arch/arm/boot/dts/imx6sll-evk.dtb
-	arch/arm/boot/dts/imx6sll-kobo-clarahd.dtb
-	arch/arm/boot/dts/imx6sll-kobo-librah2o.dtb
-
-pxp@2218000: compatible:0: 'fsl,imx6sx-pxp' is not one of ['fsl,imx6ul-pxp', 'fsl,imx6ull-pxp', 'fsl,imx7d-pxp']
-	arch/arm/boot/dts/imx6sx-nitrogen6sx.dtb
-	arch/arm/boot/dts/imx6sx-sabreauto.dtb
-	arch/arm/boot/dts/imx6sx-sdb.dtb
-	arch/arm/boot/dts/imx6sx-sdb-mqs.dtb
-	arch/arm/boot/dts/imx6sx-sdb-reva.dtb
-	arch/arm/boot/dts/imx6sx-sdb-sai.dtb
-	arch/arm/boot/dts/imx6sx-softing-vining-2000.dtb
-	arch/arm/boot/dts/imx6sx-udoo-neo-basic.dtb
-	arch/arm/boot/dts/imx6sx-udoo-neo-extended.dtb
-	arch/arm/boot/dts/imx6sx-udoo-neo-full.dtb
-
-pxp@2218000: compatible: ['fsl,imx6sx-pxp', 'fsl,imx6ull-pxp'] is too long
-	arch/arm/boot/dts/imx6sx-nitrogen6sx.dtb
-	arch/arm/boot/dts/imx6sx-sabreauto.dtb
-	arch/arm/boot/dts/imx6sx-sdb.dtb
-	arch/arm/boot/dts/imx6sx-sdb-mqs.dtb
-	arch/arm/boot/dts/imx6sx-sdb-reva.dtb
-	arch/arm/boot/dts/imx6sx-sdb-sai.dtb
-	arch/arm/boot/dts/imx6sx-softing-vining-2000.dtb
-	arch/arm/boot/dts/imx6sx-udoo-neo-basic.dtb
-	arch/arm/boot/dts/imx6sx-udoo-neo-extended.dtb
-	arch/arm/boot/dts/imx6sx-udoo-neo-full.dtb
-
-pxp@2218000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-	arch/arm/boot/dts/imx6sx-nitrogen6sx.dtb
-	arch/arm/boot/dts/imx6sx-sabreauto.dtb
-	arch/arm/boot/dts/imx6sx-sdb.dtb
-	arch/arm/boot/dts/imx6sx-sdb-mqs.dtb
-	arch/arm/boot/dts/imx6sx-sdb-reva.dtb
-	arch/arm/boot/dts/imx6sx-sdb-sai.dtb
-	arch/arm/boot/dts/imx6sx-softing-vining-2000.dtb
-	arch/arm/boot/dts/imx6sx-udoo-neo-basic.dtb
-	arch/arm/boot/dts/imx6sx-udoo-neo-extended.dtb
-	arch/arm/boot/dts/imx6sx-udoo-neo-full.dtb
+diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
+index d2eb9066e4dc..b67347ab4181 100644
+--- a/drivers/media/usb/uvc/uvc_video.c
++++ b/drivers/media/usb/uvc/uvc_video.c
+@@ -1352,7 +1352,9 @@ static void uvc_video_decode_meta(struct uvc_streaming *stream,
+ 	if (has_scr)
+ 		memcpy(stream->clock.last_scr, scr, 6);
+ 
+-	memcpy(&meta->length, mem, length);
++	meta->length = mem[0];
++	meta->flags  = mem[1];
++	memcpy(meta->buf, &mem[2], length - 2);
+ 	meta_buf->bytesused += length + sizeof(meta->ns) + sizeof(meta->sof);
+ 
+ 	uvc_dbg(stream->dev, FRAME,
+diff --git a/include/uapi/linux/uvcvideo.h b/include/uapi/linux/uvcvideo.h
+index 8288137387c0..a9d0a64007ba 100644
+--- a/include/uapi/linux/uvcvideo.h
++++ b/include/uapi/linux/uvcvideo.h
+@@ -86,7 +86,7 @@ struct uvc_xu_control_query {
+  * struct. The first two fields are added by the driver, they can be used for
+  * clock synchronisation. The rest is an exact copy of a UVC payload header.
+  * Only complete objects with complete buffers are included. Therefore it's
+- * always sizeof(meta->ts) + sizeof(meta->sof) + meta->length bytes large.
++ * always sizeof(meta->ns) + sizeof(meta->sof) + meta->length bytes large.
+  */
+ struct uvc_meta_buf {
+ 	__u64 ns;
+-- 
+2.34.1
 
