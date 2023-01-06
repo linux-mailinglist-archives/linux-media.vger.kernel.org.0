@@ -2,68 +2,76 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D610865FCA8
-	for <lists+linux-media@lfdr.de>; Fri,  6 Jan 2023 09:23:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D34CE65FCDF
+	for <lists+linux-media@lfdr.de>; Fri,  6 Jan 2023 09:35:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231245AbjAFIXy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 6 Jan 2023 03:23:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44396 "EHLO
+        id S232714AbjAFIfa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 6 Jan 2023 03:35:30 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50024 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229490AbjAFIXw (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 6 Jan 2023 03:23:52 -0500
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 52A06625E5
-        for <linux-media@vger.kernel.org>; Fri,  6 Jan 2023 00:23:50 -0800 (PST)
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <mtr@pengutronix.de>)
-        id 1pDi0e-0008GD-J2; Fri, 06 Jan 2023 09:23:28 +0100
-Received: from mtr by ptx.hi.pengutronix.de with local (Exim 4.92)
-        (envelope-from <mtr@pengutronix.de>)
-        id 1pDi0d-0007W9-JA; Fri, 06 Jan 2023 09:23:27 +0100
-Date:   Fri, 6 Jan 2023 09:23:27 +0100
-From:   Michael Tretter <m.tretter@pengutronix.de>
-To:     Rob Herring <robh@kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Fabio Estevam <festevam@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        linux-arm-kernel@lists.infradead.org,
-        Philipp Zabel <p.zabel@pengutronix.de>, kernel@pengutronix.de,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        linux-media@vger.kernel.org, linux-imx@nxp.com,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        devicetree@vger.kernel.org
-Subject: Re: [PATCH 1/8] media: dt-bindings: media: fsl-pxp: convert to yaml
-Message-ID: <20230106082327.GB24101@pengutronix.de>
-Mail-Followup-To: Michael Tretter <m.tretter@pengutronix.de>,
-        Rob Herring <robh@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Fabio Estevam <festevam@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        linux-arm-kernel@lists.infradead.org,
-        Philipp Zabel <p.zabel@pengutronix.de>, kernel@pengutronix.de,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        linux-media@vger.kernel.org, linux-imx@nxp.com,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        devicetree@vger.kernel.org
-References: <20230105134729.59542-1-m.tretter@pengutronix.de>
- <20230105134729.59542-2-m.tretter@pengutronix.de>
- <167297493349.2193688.13768937269097834481.robh@kernel.org>
+        with ESMTP id S232821AbjAFIfL (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 6 Jan 2023 03:35:11 -0500
+Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 68B754166A
+        for <linux-media@vger.kernel.org>; Fri,  6 Jan 2023 00:34:27 -0800 (PST)
+Received: by mail-wm1-x336.google.com with SMTP id z8-20020a05600c220800b003d33b0bda11so3526097wml.0
+        for <linux-media@vger.kernel.org>; Fri, 06 Jan 2023 00:34:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=m92kzOal4gXjuPv7PrxQIGfw6UMdQvcts3JmeuS3/l8=;
+        b=ftZagesGRox1JSO1lt4TzrSTcQEjtxK6cknjK5abjVM3J7ZGgcA6WJPTuWbS4nz47z
+         hV6dioqrVHtmYAr9KMmJ27M6rTRncRek0eY1OMdF0CAuP7+1e3+gIqsGAnGKgsoM6UG7
+         LSTUZN6izU5W/M1UC2aDzgQSZNKCnX/Ls6OgJZUW7KwfJWev7OunogaQqU7IEFoByNtX
+         cMf5yJ98y89c7SsmTaH2jRulpMxRANzXrpirZnO9mpzCIRJmM4yEFKGCydwuY1RhIVle
+         ZnuP/DD4XPitL2jE5CHNBCXnnKLLBSroz/MbJ8ZTAqSltou0sXS9busb9244fTYPJvwV
+         DwKQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=m92kzOal4gXjuPv7PrxQIGfw6UMdQvcts3JmeuS3/l8=;
+        b=IzKFe1fEQEagg5UWrYi/Z+kubw0Vw8If1NsILCoGIIOX9TV2EACDcTHKXqUXF0eoJL
+         RPDVDM2Exk361m9DQUVHXq2xoBA3NkUbvvi90+9HrLN50lkeL5dNh9AStXWyvhzYxTXy
+         mfsZLwKHO6/kZqUj9nI2tL368QLO5YG6ItdYl1On++UTQX/d2jPR3uIxHyjss2JnRLDL
+         LwqsiPeEu1qjvzj6yl711zpYGGWbgTxa2fQQUqFj2JmYcx0rpIw6n+km4gDr2bIQYIju
+         vHERR1FMXVYoeIBjFGJrfRPGAD6xs7FJiAlcQ+NXDfhwkGeRGZlchqakw0bEGwZ/iR+3
+         gkFg==
+X-Gm-Message-State: AFqh2krP2Ihtp5mSHPH0INicykP66Q9GLRAEq8+wc7zoETVQO7XFgCuX
+        e6IQLZwfYxc1YDdSQxPS6b7CPg==
+X-Google-Smtp-Source: AMrXdXt5PZtBg7628GLaC6/rPUB/MnEARluyZ0woNWPIGD+t7sy1tJflYie+CubFAfEL6LRhzotzYA==
+X-Received: by 2002:a05:600c:4f83:b0:3d3:49db:d95 with SMTP id n3-20020a05600c4f8300b003d349db0d95mr38310610wmq.37.1672994064956;
+        Fri, 06 Jan 2023 00:34:24 -0800 (PST)
+Received: from [192.168.1.102] ([178.197.216.144])
+        by smtp.gmail.com with ESMTPSA id l14-20020a05600c4f0e00b003d96c811d6dsm5757889wmq.30.2023.01.06.00.34.23
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 06 Jan 2023 00:34:24 -0800 (PST)
+Message-ID: <4a3f0fc7-4723-919a-ed8c-59e364d55c6f@linaro.org>
+Date:   Fri, 6 Jan 2023 09:34:22 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <167297493349.2193688.13768937269097834481.robh@kernel.org>
-X-Sent-From: Pengutronix Hildesheim
-X-URL:  http://www.pengutronix.de/
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: mtr@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH 1/2] dt-bindings: media: Add schema for OmniVision OV8858
+Content-Language: en-US
+To:     Jacopo Mondi <jacopo@jmondi.org>,
+        Nicholas Roth <nicholas@rothemail.net>,
+        Robert Mader <robert.mader@collabora.com>, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org
+Cc:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org
+References: <20230105172320.133810-1-jacopo@jmondi.org>
+ <20230105172320.133810-2-jacopo@jmondi.org>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230105172320.133810-2-jacopo@jmondi.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -71,91 +79,125 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, 05 Jan 2023 21:18:21 -0600, Rob Herring wrote:
-> On Thu, 05 Jan 2023 14:47:22 +0100, Michael Tretter wrote:
-> > Convert the bindings of the Freescale Pixel Pipeline to YAML.
-> > 
-> > The conversion drops the previously listed compatibles for several SoCs.
-> > It is unclear, if the PXP on these SoCs is compatible to any of the PXPs
-> > on the existing SoCs and would allow to reuse the already defined
-> > compatibles. The missing compatibles should be brought back when the
-> > support for the PXP on these SoCs is added.
-> > 
-> > Signed-off-by: Michael Tretter <m.tretter@pengutronix.de>
-> > ---
-> >  .../bindings/media/fsl,imx6ull-pxp.yaml       | 62 +++++++++++++++++++
-> >  .../devicetree/bindings/media/fsl-pxp.txt     | 26 --------
-> >  2 files changed, 62 insertions(+), 26 deletions(-)
-> >  create mode 100644 Documentation/devicetree/bindings/media/fsl,imx6ull-pxp.yaml
-> >  delete mode 100644 Documentation/devicetree/bindings/media/fsl-pxp.txt
-> > 
+On 05/01/2023 18:23, Jacopo Mondi wrote:
+> From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 > 
-> Running 'make dtbs_check' with the schema in this patch gives the
-> following warnings. Consider if they are expected or the schema is
-> incorrect. These may not be new warnings.
 
-I am surprised that these warnings didn't show up when I ran 'make
-dtbs_check'. I will check if there is something wrong with my setup.
+Subject: drop redundant "schema for".
 
+> Add binding schema for the OmniVision OV8858 8 Megapixels camera sensor.
 > 
-> Note that it is not yet a requirement to have 0 warnings for dtbs_check.
-> This will change in the future.
-> 
-> Full log is available here: https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20230105134729.59542-2-m.tretter@pengutronix.de
-> 
-> 
-> pxp@20f0000: compatible:0: 'fsl,imx6sll-pxp' is not one of ['fsl,imx6ul-pxp', 'fsl,imx6ull-pxp', 'fsl,imx7d-pxp']
-> 	arch/arm/boot/dts/imx6sll-evk.dtb
-> 	arch/arm/boot/dts/imx6sll-kobo-clarahd.dtb
-> 	arch/arm/boot/dts/imx6sll-kobo-librah2o.dtb
-> 
-> pxp@20f0000: compatible: ['fsl,imx6sll-pxp', 'fsl,imx6ull-pxp'] is too long
-> 	arch/arm/boot/dts/imx6sll-evk.dtb
-> 	arch/arm/boot/dts/imx6sll-kobo-clarahd.dtb
-> 	arch/arm/boot/dts/imx6sll-kobo-librah2o.dtb
 
-This is an error in the schema. I dropped the fsl,imx6sll-pxp and
-fsl,imx6sx-pxp compatibles, because I thought that they aren't used.
+Thank you for your patch. There is something to discuss/improve.
 
-I will send a v2 to fix the schema.
+> +properties:
+> +  compatible:
+> +    const: ovti,ov8858
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    maxItems: 1
+> +    description: XVCLK external clock
+> +
+> +  clock-names:
+> +    const: xvclk
+> +
+> +  dvdd-supply:
+> +    description: Digital Domain Power Supply
+> +
+> +  avdd-supply:
+> +    description: Analog Domain Power Supply
+> +
+> +  dovdd-supply:
+> +    description: I/O Domain Power Supply
+> +
+> +  powerdown-gpios:
+> +    maxItems: 1
 
-Michael
+No need for maxItems here - it is coming from gpio-consumer-common.
 
+> +    description: PWDNB powerdown GPIO (active low)
+> +
+> +  reset-gpios:
+> +    maxItems: 1
+> +    description: XSHUTDN reset GPIO (active low)
+> +
+> +  port:
+> +    description: MIPI CSI-2 transmitter port
+> +    $ref: /schemas/graph.yaml#/$defs/port-base
+> +    additionalProperties: false
+> +
+> +    properties:
+> +      endpoint:
+> +        $ref: /schemas/media/video-interfaces.yaml#
+> +        unevaluatedProperties: false
+> +
+> +        properties:
+> +          data-lanes:
+> +            minItems: 1
+> +            maxItems: 4
+> +
+> +        required:
+> +          - data-lanes
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - clocks
+> +  - assigned-clocks
+> +  - assigned-clock-rates
+
+These should not be required.
+
+> +  - port
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/pinctrl/rockchip.h>
+
+Drop, not needed.
+
+> +    #include <dt-bindings/clock/rk3399-cru.h>
+> +    #include <dt-bindings/gpio/gpio.h>
+> +
+> +    i2c2 {
+
+i2c
+
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +
+> +        ov8858: camera@36 {
+> +            compatible = "ovti,ov8858";
+> +            reg = <0x36>;
+> +
+> +            clocks = <&cru SCLK_CIF_OUT>;
+> +            clock-names = "xvclk";
+> +            assigned-clocks = <&cru SCLK_CIF_OUT>;
+> +            assigned-clock-rates = <24000000>;
+> +
+> +            dovdd-supply = <&vcc1v8_dvp>;
+> +
+> +            reset-gpios = <&gpio1 RK_PA4 GPIO_ACTIVE_LOW>;
+> +            powerdown-gpios = <&gpio2 RK_PB4 GPIO_ACTIVE_LOW>;
+> +
+> +            port {
+> +                ucam_out: endpoint {
+> +                    remote-endpoint = <&mipi_in_ucam>;
+> +                    data-lanes = <1 2 3 4>;
+> +                };
+> +            };
+> +        };
+> +    };
+> +...
+> --
+> 2.38.1
 > 
-> pxp@2218000: compatible:0: 'fsl,imx6sx-pxp' is not one of ['fsl,imx6ul-pxp', 'fsl,imx6ull-pxp', 'fsl,imx7d-pxp']
-> 	arch/arm/boot/dts/imx6sx-nitrogen6sx.dtb
-> 	arch/arm/boot/dts/imx6sx-sabreauto.dtb
-> 	arch/arm/boot/dts/imx6sx-sdb.dtb
-> 	arch/arm/boot/dts/imx6sx-sdb-mqs.dtb
-> 	arch/arm/boot/dts/imx6sx-sdb-reva.dtb
-> 	arch/arm/boot/dts/imx6sx-sdb-sai.dtb
-> 	arch/arm/boot/dts/imx6sx-softing-vining-2000.dtb
-> 	arch/arm/boot/dts/imx6sx-udoo-neo-basic.dtb
-> 	arch/arm/boot/dts/imx6sx-udoo-neo-extended.dtb
-> 	arch/arm/boot/dts/imx6sx-udoo-neo-full.dtb
-> 
-> pxp@2218000: compatible: ['fsl,imx6sx-pxp', 'fsl,imx6ull-pxp'] is too long
-> 	arch/arm/boot/dts/imx6sx-nitrogen6sx.dtb
-> 	arch/arm/boot/dts/imx6sx-sabreauto.dtb
-> 	arch/arm/boot/dts/imx6sx-sdb.dtb
-> 	arch/arm/boot/dts/imx6sx-sdb-mqs.dtb
-> 	arch/arm/boot/dts/imx6sx-sdb-reva.dtb
-> 	arch/arm/boot/dts/imx6sx-sdb-sai.dtb
-> 	arch/arm/boot/dts/imx6sx-softing-vining-2000.dtb
-> 	arch/arm/boot/dts/imx6sx-udoo-neo-basic.dtb
-> 	arch/arm/boot/dts/imx6sx-udoo-neo-extended.dtb
-> 	arch/arm/boot/dts/imx6sx-udoo-neo-full.dtb
-> 
-> pxp@2218000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-> 	arch/arm/boot/dts/imx6sx-nitrogen6sx.dtb
-> 	arch/arm/boot/dts/imx6sx-sabreauto.dtb
-> 	arch/arm/boot/dts/imx6sx-sdb.dtb
-> 	arch/arm/boot/dts/imx6sx-sdb-mqs.dtb
-> 	arch/arm/boot/dts/imx6sx-sdb-reva.dtb
-> 	arch/arm/boot/dts/imx6sx-sdb-sai.dtb
-> 	arch/arm/boot/dts/imx6sx-softing-vining-2000.dtb
-> 	arch/arm/boot/dts/imx6sx-udoo-neo-basic.dtb
-> 	arch/arm/boot/dts/imx6sx-udoo-neo-extended.dtb
-> 	arch/arm/boot/dts/imx6sx-udoo-neo-full.dtb
-> 
-> 
+
+Best regards,
+Krzysztof
+
