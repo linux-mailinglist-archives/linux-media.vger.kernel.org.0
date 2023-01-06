@@ -2,130 +2,135 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 00902660746
-	for <lists+linux-media@lfdr.de>; Fri,  6 Jan 2023 20:40:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8409E66082B
+	for <lists+linux-media@lfdr.de>; Fri,  6 Jan 2023 21:20:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235598AbjAFTkz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 6 Jan 2023 14:40:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36094 "EHLO
+        id S236453AbjAFUUO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 6 Jan 2023 15:20:14 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57278 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234327AbjAFTkw (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 6 Jan 2023 14:40:52 -0500
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB26534D6D
-        for <linux-media@vger.kernel.org>; Fri,  6 Jan 2023 11:40:49 -0800 (PST)
-Received: by mail-wr1-x42a.google.com with SMTP id bn26so2251396wrb.0
-        for <linux-media@vger.kernel.org>; Fri, 06 Jan 2023 11:40:49 -0800 (PST)
+        with ESMTP id S236524AbjAFUTJ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 6 Jan 2023 15:19:09 -0500
+Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B75C73C72C
+        for <linux-media@vger.kernel.org>; Fri,  6 Jan 2023 12:19:03 -0800 (PST)
+Received: by mail-pl1-x632.google.com with SMTP id c4so2814253plc.5
+        for <linux-media@vger.kernel.org>; Fri, 06 Jan 2023 12:19:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:sender:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Latrb+MylXKpijKJpBSX+i5hbxF05MEWVlFc7jwtP/8=;
-        b=YKctH5fjqcumY5lCDtSZvEB+l0daLNKgaN/gGuIAxKyiKTeAFvwYFuomDIaC3l6aad
-         yisgmxL1Grfg0sgROu/hfu+di7RJVSlJLl46D9rvGhzudtXydCDByjlgChGlg3kCuNRy
-         gk6S2LsElk0RQMXHyEEnWIhWWEpqik8i02fsnuiUTzI4Fm7K99hJ5Pskw1cl7/eyiPsz
-         pPjLbCL+piZQdZuVzpmZJqnhwdWKIo+o9Kx7VK9gdCa95lsnDLXabPXrlpodXLK5jxCe
-         R2ncpnaDz8etsBzyEwwM97LTo0x8F8d4a8gDsLN65N0rtR5Qja99zGpyyLriV00ZTDPU
-         Ftbg==
+        d=chromium.org; s=google;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=AGLGQcWh7fxTpjGo3tS7tRpH8cdVI9NZGacuJMxc3aM=;
+        b=J9xFPANkCtLv9kwtnvnZCou4HRBDEo4c9C3yNzimS63v01YOjey8j/jy+W+9spWOfP
+         Hb32XPyzMkYx0h6JUNMnQ/6b8C/Uza4b+Vh6XP+suOFMvmj1xOQKuXkOEJNQcEEL0EM/
+         jxcndy3ffaHbTh+Gu0foYs47OsMEs6VWN0Bqc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:sender:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=Latrb+MylXKpijKJpBSX+i5hbxF05MEWVlFc7jwtP/8=;
-        b=IjFvG4oReim+meuQCs5haOglwR/cWXiZlX+N7ahTnPUZHErEkJ2eGsDWjCeNPy6FWu
-         KgFQATuSnCgLA5ddVblnIOV5edLMhqqC9qqpbG9mbr7QrG5oh31Dh24itrN3EB7y0NRy
-         iVQg9UT8/Kqtvz0bs14Yo+df3+I7+y7zsUg0BxB4KhSjr2P+EgLdOAQIxonbntaUZ3zo
-         fvg+o9OKoZS+BvsJfhVh85gsm9yfD2IGXXg9b/DmYmpsq2QtlOKmH71J+EwErpbOAXWK
-         N06rHU5Od4hv7xxkZdqzxnweL7HLg55RJmeKWSJc6tF0dG9/5FzhXwmzLGwQ4LVLoBpR
-         Irgw==
-X-Gm-Message-State: AFqh2kr0nVqvxCq2eR6jfLt7hailEXopQcSPXh3n8Hm5oaX477RByDy0
-        z/BxPjClXLnuS5jgfNq4NLGn2nbXEnd6rA==
-X-Google-Smtp-Source: AMrXdXs19AD5nkwy9gvXfhwBvkwr2YNqDNswO1U8o9FlnL9V9B9zvOCLbPWOLuYPGUIYAaY7sdGYKw==
-X-Received: by 2002:adf:ec0e:0:b0:2bb:3219:9bfc with SMTP id x14-20020adfec0e000000b002bb32199bfcmr1190256wrn.50.1673034049168;
-        Fri, 06 Jan 2023 11:40:49 -0800 (PST)
-Received: from localhost.localdomain ([90.242.19.250])
-        by smtp.gmail.com with ESMTPSA id bx9-20020a5d5b09000000b0023662245d3csm1968650wrb.95.2023.01.06.11.40.48
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=AGLGQcWh7fxTpjGo3tS7tRpH8cdVI9NZGacuJMxc3aM=;
+        b=8HWHBdxRzsCneSXkGuY9NCWPcftUfdOZIUrTLhNrgq3EQKXiEfDIXbIPb2nQCE746U
+         ANZrSf1dSnsWWLEBLqvt72hUs3JzCas2oX8XHhbfNMIjscO+H1jhhxZg5/p3rkDT1M6p
+         AC2vVUwXssAFu4qCIOCY6oIuHWBzTjVVlpkrt8SjDAHXebr6r5fEwIDoMUeH1WpqyvO9
+         hKD2MCaor8+fWov2oJJ6TOM00CbfNbTLf4bw18BaT08xh2yA+luz0K8CkxOsABKLTuAk
+         6hqTZCiKQVIoD9+ii9Obf/LHgaxKMvwv/0tEa7bdKE+R3HDSuTpyBnUZV2bom/kCdUwj
+         owPA==
+X-Gm-Message-State: AFqh2kqhrfvHHJdvmY7dD+aNc+F9SJag9XADtFzr+hywenGKj0/NCOT9
+        9zhf1RdPqUqpIoIrXPy+38ivGg==
+X-Google-Smtp-Source: AMrXdXudlVKAU4UX6Qzu0Go3bkXbaS/ERmoDwzPoi9msar5Xeo82q3RaDfeX+3INk0Ve1FfNZ7uYCA==
+X-Received: by 2002:a17:902:ec01:b0:192:b0a0:789b with SMTP id l1-20020a170902ec0100b00192b0a0789bmr27137344pld.2.1673036343274;
+        Fri, 06 Jan 2023 12:19:03 -0800 (PST)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id b14-20020a1709027e0e00b00193132018ecsm970899plm.170.2023.01.06.12.19.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Jan 2023 11:40:48 -0800 (PST)
-Sender: Adam Pigg <piggz1@gmail.com>
-From:   adam@piggz.co.uk
-To:     linux-media@vger.kernel.org
-Cc:     yong.deng@magewell.com, mchehab@kernel.org,
-        linux-sunxi@lists.linux.dev, paul.kocialkowski@bootlin.com,
-        laurent.pinchart@ideasonboard.com, Adam Pigg <adam@piggz.co.uk>
-Subject: [PATCH 3/3] media: sun6i-csi: implement vidioc_enum_framesizes
-Date:   Fri,  6 Jan 2023 19:40:38 +0000
-Message-Id: <20230106194038.16018-4-adam@piggz.co.uk>
-X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20230106194038.16018-1-adam@piggz.co.uk>
-References: <20230106194038.16018-1-adam@piggz.co.uk>
+        Fri, 06 Jan 2023 12:19:02 -0800 (PST)
+Date:   Fri, 6 Jan 2023 12:19:01 -0800
+From:   Kees Cook <keescook@chromium.org>
+To:     Ricardo Ribalda <ribalda@chromium.org>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        ionut_n2001@yahoo.com, Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-hardening@vger.kernel.org
+Subject: Re: [PATCH] media: uvcvideo: Silence memcpy() run-time false
+ positive warnings
+Message-ID: <202301061217.816FC0313D@keescook>
+References: <20230106061659.never.817-kees@kernel.org>
+ <CANiDSCtTz4mpTz4RHBzNXL=yBvXNXHBZQ-HYMFegLytoScW4eA@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=no
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CANiDSCtTz4mpTz4RHBzNXL=yBvXNXHBZQ-HYMFegLytoScW4eA@mail.gmail.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Adam Pigg <adam@piggz.co.uk>
+On Fri, Jan 06, 2023 at 12:43:44PM +0100, Ricardo Ribalda wrote:
+> On Fri, 6 Jan 2023 at 07:19, Kees Cook <keescook@chromium.org> wrote:
+> >
+> > The memcpy() in uvc_video_decode_meta() intentionally copies across the
+> > length and flags members and into the trailing buf flexible array.
+> > Split the copy so that the compiler can better reason about (the lack
+> > of) buffer overflows here. Avoid the run-time false positive warning:
+> >
+> >   memcpy: detected field-spanning write (size 12) of single field "&meta->length" at drivers/media/usb/uvc/uvc_video.c:1355 (size 1)
+> >
+> > Additionally fix a typo in the documentation for struct uvc_meta_buf.
+> >
+> > Reported-by: ionut_n2001@yahoo.com
+> > Link: https://bugzilla.kernel.org/show_bug.cgi?id=216810
+> > Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+> > Cc: linux-media@vger.kernel.org
+> > Signed-off-by: Kees Cook <keescook@chromium.org>
+> > ---
+> >  drivers/media/usb/uvc/uvc_video.c | 4 +++-
+> >  include/uapi/linux/uvcvideo.h     | 2 +-
+> >  2 files changed, 4 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
+> > index d2eb9066e4dc..b67347ab4181 100644
+> > --- a/drivers/media/usb/uvc/uvc_video.c
+> > +++ b/drivers/media/usb/uvc/uvc_video.c
+> > @@ -1352,7 +1352,9 @@ static void uvc_video_decode_meta(struct uvc_streaming *stream,
+> >         if (has_scr)
+> >                 memcpy(stream->clock.last_scr, scr, 6);
+> >
+> > -       memcpy(&meta->length, mem, length);
+> > +       meta->length = mem[0];
+> > +       meta->flags  = mem[1];
+> > +       memcpy(meta->buf, &mem[2], length - 2);
+> >         meta_buf->bytesused += length + sizeof(meta->ns) + sizeof(meta->sof);
+> >
+> >         uvc_dbg(stream->dev, FRAME,
+> > diff --git a/include/uapi/linux/uvcvideo.h b/include/uapi/linux/uvcvideo.h
+> > index 8288137387c0..a9d0a64007ba 100644
+> > --- a/include/uapi/linux/uvcvideo.h
+> > +++ b/include/uapi/linux/uvcvideo.h
+> > @@ -86,7 +86,7 @@ struct uvc_xu_control_query {
+> >   * struct. The first two fields are added by the driver, they can be used for
+> >   * clock synchronisation. The rest is an exact copy of a UVC payload header.
+> >   * Only complete objects with complete buffers are included. Therefore it's
+> > - * always sizeof(meta->ts) + sizeof(meta->sof) + meta->length bytes large.
+> > + * always sizeof(meta->ns) + sizeof(meta->sof) + meta->length bytes large.
+> >   */
+> >  struct uvc_meta_buf {
+> >         __u64 ns;
+> [...]
+>
+> Would it make more sense to replace *mem with a structure/union. Something like:
+> https://patchwork.linuxtv.org/project/linux-media/patch/20221214-uvc-status-alloc-v4-0-f8e3e2994ebd@chromium.org/
 
-Create sun6i_csi_capture_enum_framesizes which defines the min
-and max frame sizes
+I wasn't sure -- it seemed like this routine was doing the serializing
+into a struct already and an additional struct overlay wasn't going to
+improve readability. But I can certainly do that if it's preferred!
 
-Signed-off-by: Adam Pigg <adam@piggz.co.uk>
----
- .../sunxi/sun6i-csi/sun6i_csi_capture.c       | 24 +++++++++++++++++++
- 1 file changed, 24 insertions(+)
+-Kees
 
-diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
-index 54beba4d2b2f..2be761e6b650 100644
---- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
-+++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
-@@ -739,6 +739,29 @@ static int sun6i_csi_capture_try_fmt(struct file *file, void *private,
- 	return 0;
- }
- 
-+static int sun6i_csi_capture_enum_framesizes(struct file *file, void *fh,
-+					  struct v4l2_frmsizeenum *fsize)
-+{
-+	const struct sun6i_csi_capture_format *format;
-+
-+	if (fsize->index > 0)
-+		return -EINVAL;
-+
-+	format = sun6i_csi_capture_format_find(fsize->pixel_format);
-+	if (!format)
-+		return -EINVAL;
-+
-+	fsize->type = V4L2_FRMSIZE_TYPE_CONTINUOUS;
-+	fsize->stepwise.min_width = SUN6I_CSI_CAPTURE_WIDTH_MIN;
-+	fsize->stepwise.max_width = SUN6I_CSI_CAPTURE_WIDTH_MAX;
-+	fsize->stepwise.min_height = SUN6I_CSI_CAPTURE_HEIGHT_MIN;
-+	fsize->stepwise.max_height = SUN6I_CSI_CAPTURE_HEIGHT_MAX;
-+	fsize->stepwise.step_width = 1;
-+	fsize->stepwise.step_height = 1;
-+
-+	return 0;
-+}
-+
- static int sun6i_csi_capture_enum_input(struct file *file, void *private,
- 					struct v4l2_input *input)
- {
-@@ -775,6 +798,7 @@ static const struct v4l2_ioctl_ops sun6i_csi_capture_ioctl_ops = {
- 	.vidioc_g_fmt_vid_cap		= sun6i_csi_capture_g_fmt,
- 	.vidioc_s_fmt_vid_cap		= sun6i_csi_capture_s_fmt,
- 	.vidioc_try_fmt_vid_cap		= sun6i_csi_capture_try_fmt,
-+	.vidioc_enum_framesizes		= sun6i_csi_capture_enum_framesizes,
- 
- 	.vidioc_enum_input		= sun6i_csi_capture_enum_input,
- 	.vidioc_g_input			= sun6i_csi_capture_g_input,
 -- 
-2.39.0
-
+Kees Cook
