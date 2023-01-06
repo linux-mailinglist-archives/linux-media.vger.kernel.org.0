@@ -2,131 +2,91 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 78B6665FC5C
-	for <lists+linux-media@lfdr.de>; Fri,  6 Jan 2023 08:59:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9C9A765FC6C
+	for <lists+linux-media@lfdr.de>; Fri,  6 Jan 2023 09:09:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232056AbjAFH6d (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 6 Jan 2023 02:58:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34970 "EHLO
+        id S231665AbjAFIJM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 6 Jan 2023 03:09:12 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37546 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232011AbjAFH6X (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 6 Jan 2023 02:58:23 -0500
-Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com [IPv6:2607:f8b0:4864:20::42e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 605CB78E87;
-        Thu,  5 Jan 2023 23:58:18 -0800 (PST)
-Received: by mail-pf1-x42e.google.com with SMTP id a184so545508pfa.9;
-        Thu, 05 Jan 2023 23:58:18 -0800 (PST)
+        with ESMTP id S231536AbjAFIJK (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 6 Jan 2023 03:09:10 -0500
+Received: from mail-yw1-x1135.google.com (mail-yw1-x1135.google.com [IPv6:2607:f8b0:4864:20::1135])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8DBA078E86
+        for <linux-media@vger.kernel.org>; Fri,  6 Jan 2023 00:09:08 -0800 (PST)
+Received: by mail-yw1-x1135.google.com with SMTP id 00721157ae682-4b6255ce5baso12794357b3.11
+        for <linux-media@vger.kernel.org>; Fri, 06 Jan 2023 00:09:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=XouvIEMckFD/n/i3TL+KNnzKZMtEfFo4i1p26wV2Wug=;
-        b=HxIzGIhS2baO56Zs94wmhwt5tFoq9wj29F1lVQi6rWumWHmsDysbHm4U5DD7UP1wg/
-         FiU46dlHPLI/xvdBO2FIHfg8QlIpKLK7heoXRRWJ6sD504Fwd2yE5n+zPN13X9swSK8g
-         o1RNDmDgJJktcpSWMlSAgFF4RhyF4MpgZmvDUTQRmmoW/UgUdDdcUMfkRVMvmLDrNGeG
-         f+PHW5RNt+ijnKvmVZeIe0hUJIVek4ARAqet6stWBiu1cIogdeXjogsJfBtQfY2RFcZ9
-         Aycsf24xU0nZK5NcEe60jtKDdS8J9zmWVS1bVDlgFiM3vlDJaQv6PXfSnHtmGKHHZ1aB
-         N7pw==
+        d=linaro.org; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=Oyf8/xdGIeyv+pywCJ7PHhoImivmp2P3M0qiI+bO/c0=;
+        b=bKGQNv8uXrlgWUEXeM3i3nMbH++VCHo5Yd2FIZluObPRD9Ni8ZAV5+Rsoj6oUrunux
+         XqkRD57gxFntIkgC6ON5sAmTV6SsUhL4LnjDSvm7OynSk0wYYRv0lYIAA5hvdaDLkNDm
+         gbPYNbfbsHYnQVp89GzllLyunTyen147ZckzV03lYPlvUbWzd/IMG3WtxVhrIztaC1at
+         8pByiUA4KnBXJednw62cSq5dBytKmZgxy1pm2K4dhwhXBQTSmCd2cRG9/SwCwEdly2Jf
+         2wi9KSpffb3Kr/v9ydbdEcaJwaBpYIGum2+0u+8ZyUtmyZF2SUXX6YwJAEb7jr/rtBw8
+         EGgg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=XouvIEMckFD/n/i3TL+KNnzKZMtEfFo4i1p26wV2Wug=;
-        b=2Hg8KPq/HiWlibvJKpQLr/ZnP2OeNIyD19l2zE9xLii2NuWO1HGN/bgn1VcA0EeBfp
-         y5MyKy6XZvAvSvuFJSGWC39qNy9WIl380cWQytu6ONc1b2tdAhO0jw8daM37nUjDb7u7
-         tOKf8N4Gucm7YqoSkwB2Bhlazd89OgEUyvFevSs3G0lXLS3jNhKW9N0bf4qUHrSq0yyY
-         3bQwWFkljicDOOckYWxpXkdERRV69VsXetTzMPn1RmA2a0l5JvnKdumlSTNiBxHpP+1E
-         cy9J89XOn29JGCal0ATbRkaphsPA3YRwSi4b+LYdNwrD+/fiDtJxc+SoE2c8bEG4hcWw
-         b/Tw==
-X-Gm-Message-State: AFqh2krxWSBmLHWXmoHaQUeOYjZsZhI5YKcu1jGHJwAN+oeOTnPAO+4Z
-        LgIRXmAwJeK9J3BVpXQt2pQ=
-X-Google-Smtp-Source: AMrXdXsUqeGN9iLG7PBrUzR0ek75zRLm2VCDCD6Jppc+fB/f6lg8Snvllo4Hh3lRJnMK1f3zpfgnpg==
-X-Received: by 2002:a62:184c:0:b0:581:1e00:beeb with SMTP id 73-20020a62184c000000b005811e00beebmr45473824pfy.15.1672991897814;
-        Thu, 05 Jan 2023 23:58:17 -0800 (PST)
-Received: from localhost.localdomain ([202.120.234.246])
-        by smtp.googlemail.com with ESMTPSA id p7-20020a625b07000000b005825460056asm515765pfb.70.2023.01.05.23.58.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Jan 2023 23:58:17 -0800 (PST)
-From:   Miaoqian Lin <linmq006@gmail.com>
-To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     linmq006@gmail.com
-Subject: [PATCH] media: platform: Fix refcount leak in probe and remove function
-Date:   Fri,  6 Jan 2023 11:58:09 +0400
-Message-Id: <20230106075809.966856-1-linmq006@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        bh=Oyf8/xdGIeyv+pywCJ7PHhoImivmp2P3M0qiI+bO/c0=;
+        b=afTOehdDrIAbLX9J7eZYfhshdIJ8w84Sijd1B8VUFt1ZZuoPpov9wqcvuQUAQcdfYB
+         0wiJBXnooJd1qQ0kJq/T30qzOCjicJks7UoMad973SiRPRyQtPM4mcuJClSbLM1LU1xr
+         NBycx3OGO2kkPP6u5d3A6scKZiimCFZ2Kb/uggLBDwIK0eNUsNvbiDYHcIWdrNVGrXzd
+         xUkrWjIV7tp09qxdnSfv+41pfTWBHLb44O21buc+ED6I+8q0XaH0p6+uR5bZRrDqz1Lh
+         aMkWgguxHEDsbbSLCdxGKKMpYyKosfEmSQH7vs+89XiEKh2+94mkWMcF3wPd3ZYZWbD/
+         IfMQ==
+X-Gm-Message-State: AFqh2kp/JMyNoiGfeRn84ambCjZJ6RfO5oq3Fmen4jt/jn36qz7BlbNZ
+        zprRvygg/hi3QnSRqkxdxmHLNhTL55m0gQChAQmrRA==
+X-Google-Smtp-Source: AMrXdXsLzL9Cvjgf8Y76dGUlcsqoNvKrwQbdhz65NgGzcCjttxAwInXhnzL11PxiUmdUUMCG8BW0VjLcKK8Mr0JOCOQ=
+X-Received: by 2002:a81:1e88:0:b0:432:2458:f6ca with SMTP id
+ e130-20020a811e88000000b004322458f6camr7411794ywe.138.1672992547775; Fri, 06
+ Jan 2023 00:09:07 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+References: <20230106013824.27208-1-jiasheng@iscas.ac.cn>
+In-Reply-To: <20230106013824.27208-1-jiasheng@iscas.ac.cn>
+From:   Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date:   Fri, 6 Jan 2023 10:08:56 +0200
+Message-ID: <CAA8EJpqfssbS8VPmBHv6Y26ubJ-mG69tm+yz68OmYBA5_bP9Gw@mail.gmail.com>
+Subject: Re: [PATCH] drm/msm: Add missing check and destroy for alloc_ordered_workqueue
+To:     Jiasheng Jiang <jiasheng@iscas.ac.cn>
+Cc:     robdclark@gmail.com, quic_abhinavk@quicinc.com, sean@poorly.run,
+        airlied@gmail.com, sumit.semwal@linaro.org,
+        christian.koenig@amd.com, linux-arm-msm@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-rcar_fcp_get() take reference, which should be balanced with
-rcar_fcp_put(). Add missing rcar_fcp_put() in fdp1_remove and
-the error paths of fdp1_probe() to fix this.
+On Fri, 6 Jan 2023 at 03:38, Jiasheng Jiang <jiasheng@iscas.ac.cn> wrote:
+>
+> Add check for the return value of alloc_ordered_workqueue as it may return
+> NULL pointer.
+> Moreover, use the destroy_workqueue in the later fails in order to avoid
+> memory leak.
+>
+> Fixes: c8afe684c95c ("drm/msm: basic KMS driver for snapdragon")
+> Signed-off-by: Jiasheng Jiang <jiasheng@iscas.ac.cn>
 
-Fixes: 4710b752e029 ("[media] v4l: Add Renesas R-Car FDP1 Driver")
-Signed-off-by: Miaoqian Lin <linmq006@gmail.com>
----
-I take commit Fixes: 7113469dafc2 ("media: vsp1: Fix an error handling
-path in the probe function") for reference.
----
- drivers/media/platform/renesas/rcar_fdp1.c | 11 ++++++++---
- 1 file changed, 8 insertions(+), 3 deletions(-)
+Please resend the patch, including freedreno@ to the cc list.
 
-diff --git a/drivers/media/platform/renesas/rcar_fdp1.c b/drivers/media/platform/renesas/rcar_fdp1.c
-index 37ecf489d112..ed97bb161743 100644
---- a/drivers/media/platform/renesas/rcar_fdp1.c
-+++ b/drivers/media/platform/renesas/rcar_fdp1.c
-@@ -2313,8 +2313,10 @@ static int fdp1_probe(struct platform_device *pdev)
- 
- 	/* Determine our clock rate */
- 	clk = clk_get(&pdev->dev, NULL);
--	if (IS_ERR(clk))
--		return PTR_ERR(clk);
-+	if (IS_ERR(clk)) {
-+		ret = PTR_ERR(clk);
-+		goto put_dev;
-+	}
- 
- 	fdp1->clk_rate = clk_get_rate(clk);
- 	clk_put(clk);
-@@ -2323,7 +2325,7 @@ static int fdp1_probe(struct platform_device *pdev)
- 	ret = v4l2_device_register(&pdev->dev, &fdp1->v4l2_dev);
- 	if (ret) {
- 		v4l2_err(&fdp1->v4l2_dev, "Failed to register video device\n");
--		return ret;
-+		goto put_dev;
- 	}
- 
- 	/* M2M registration */
-@@ -2393,6 +2395,8 @@ static int fdp1_probe(struct platform_device *pdev)
- unreg_dev:
- 	v4l2_device_unregister(&fdp1->v4l2_dev);
- 
-+put_dev:
-+	rcar_fcp_put(fdp1->fcp);
- 	return ret;
- }
- 
-@@ -2400,6 +2404,7 @@ static int fdp1_remove(struct platform_device *pdev)
- {
- 	struct fdp1_dev *fdp1 = platform_get_drvdata(pdev);
- 
-+	rcar_fcp_put(fdp1->fcp);
- 	v4l2_m2m_release(fdp1->m2m_dev);
- 	video_unregister_device(&fdp1->vfd);
- 	v4l2_device_unregister(&fdp1->v4l2_dev);
+> ---
+>  drivers/gpu/drm/msm/msm_drv.c | 8 ++++++--
+>  1 file changed, 6 insertions(+), 2 deletions(-)
+
+
+
 -- 
-2.25.1
-
+With best wishes
+Dmitry
