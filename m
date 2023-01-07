@@ -2,40 +2,40 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 445F6660A6A
-	for <lists+linux-media@lfdr.de>; Sat,  7 Jan 2023 00:52:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CE602660A99
+	for <lists+linux-media@lfdr.de>; Sat,  7 Jan 2023 01:11:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231459AbjAFXww (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 6 Jan 2023 18:52:52 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54932 "EHLO
+        id S230269AbjAGAL5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 6 Jan 2023 19:11:57 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35410 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229780AbjAFXwu (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 6 Jan 2023 18:52:50 -0500
+        with ESMTP id S235581AbjAGALj (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 6 Jan 2023 19:11:39 -0500
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB96772D22
-        for <linux-media@vger.kernel.org>; Fri,  6 Jan 2023 15:52:49 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03E344BD54;
+        Fri,  6 Jan 2023 16:11:37 -0800 (PST)
 Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id F10044AE;
-        Sat,  7 Jan 2023 00:52:47 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id B13BF4AE;
+        Sat,  7 Jan 2023 01:11:35 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1673049168;
-        bh=a5FTzlXMy/R0AFqbxP3aa6XA2L2kFUj970/fQC8jMj8=;
-        h=From:To:Cc:Subject:Date:From;
-        b=kJA0bMjXHVjNB8jdwlpkTAIfrWzZ+JHV8Kn8d/soh9qjykseccflJONksB/Cn2sC2
-         mkTA0+RjtaN9R0RR8WCln1f+fZP5CFRRzmMjjE4e8rD83UdRMacMA39F500gZ/ZZIv
-         lbSoW/m+LTuqqAGA0F50QEZ0gb1rC+DiulBMDvGQ=
+        s=mail; t=1673050295;
+        bh=x8pzsewZWxr/vcdPPfkmHtSjn4WeCTlmgfotf/DK77o=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=BiSJsOZHaq3Strt7jLItKZPFvIWEvEUGzf5p6pEklUQO18aa0GL+Bd9fII2DGjth6
+         e0yi2eOLZG/hIJ3dNDxhyurJBbMXEPkAr1ry4s08UL8SaYfr/eHH5oG4M2oJCYdE/X
+         smh0EFDI0dpkmmOp+ttrI6SGMfBFeI73zHYsuKgI=
+Date:   Sat, 7 Jan 2023 02:11:30 +0200
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     linux-media@vger.kernel.org
-Cc:     Ricardo Ribalda <ribalda@chromium.org>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Daniel Scally <dan.scally@ideasonboard.com>,
-        Michael Grzeschik <m.grzeschik@pengutronix.de>
-Subject: [PATCH v3] media: uvcvideo: Remove format descriptions
-Date:   Sat,  7 Jan 2023 01:52:42 +0200
-Message-Id: <20230106235242.9536-1-laurent.pinchart@ideasonboard.com>
-X-Mailer: git-send-email 2.38.2
+To:     Ai Chao <aichao@kylinos.cn>
+Cc:     mchehab@kernel.org, ribalda@chromium.org,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4] media: uvcvideo: Fix bandwidth error for Alcor camera
+Message-ID: <Y7i4skTM/DBXpgca@pendragon.ideasonboard.com>
+References: <20221122084833.1241078-1-aichao@kylinos.cn>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20221122084833.1241078-1-aichao@kylinos.cn>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
         autolearn=ham autolearn_force=no version=3.4.6
@@ -45,136 +45,114 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The V4L2 core overwrites format descriptions in v4l_fill_fmtdesc(),
-there's no need to manually set the descriptions in the driver. This
-prepares for removal of the format descriptions from the uvc_fmts table.
+Hi again,
 
-Unlike V4L2, UVC makes a distinction between the SD-DV, SDL-DV and HD-DV
-formats. It also indicates whether the DV format uses 50Hz or 60Hz. This
-information is parsed by the driver to construct a format name string
-that is printed in a debug message, but serves no other purpose as V4L2
-has a single V4L2_PIX_FMT_DV pixel format that covers all those cases.
+On Tue, Nov 22, 2022 at 04:48:33PM +0800, Ai Chao wrote:
+> For Alcor Corp. Slave camera(1b17:6684/2017:0011), it support to output
+>  compressed video data, and it return a wrong dwMaxPayloadTransferSize
+>  fields. This is a fireware issue, but the manufacturer cannot provide
+>  a const return fieldsby the fireware. For some device, it requested
+>  2752512 B/frame bandwidth. For normally device, it requested 3072 or 1024
+>  B/frame bandwidth. so we check the dwMaxPayloadTransferSize fields,if it
+>  large than 0x1000, reset dwMaxPayloadTransferSize to 1024, and the camera
+>  preview normally.
+> 
+> Signed-off-by: Ai Chao <aichao@kylinos.cn>
+> 
+> ---
+> change for v4
+> - Change usb_match_one_id to usb_match_id
+> - Modify the discription
+> 
+> change for v3
+> - Add VID/PID 2017:0011
+> 
+> change for v2
+> - Used usb_match_one_id to check VID and PID
+> ---
+> ---
+>  drivers/media/usb/uvc/uvc_video.c | 12 ++++++++++++
+>  1 file changed, 12 insertions(+)
+> 
+> diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
+> index d2eb9066e4dc..75bdd71d0e5a 100644
+> --- a/drivers/media/usb/uvc/uvc_video.c
+> +++ b/drivers/media/usb/uvc/uvc_video.c
+> @@ -135,6 +135,11 @@ static void uvc_fixup_video_ctrl(struct uvc_streaming *stream,
+>  	static const struct usb_device_id elgato_cam_link_4k = {
+>  		USB_DEVICE(0x0fd9, 0x0066)
+>  	};
+> +	static const struct usb_device_id alcor_corp_slave_cam[] = {
+> +		{ USB_DEVICE(0x2017, 0x0011) },
+> +		{ USB_DEVICE(0x1b17, 0x6684) },
+> +		{ }
+> +	};
+>  	struct uvc_format *format = NULL;
+>  	struct uvc_frame *frame = NULL;
+>  	unsigned int i;
+> @@ -234,6 +239,13 @@ static void uvc_fixup_video_ctrl(struct uvc_streaming *stream,
+>  
+>  		ctrl->dwMaxPayloadTransferSize = bandwidth;
+>  	}
+> +
+> +	/* Alcor Corp. Slave camera return wrong dwMaxPayloadTransferSize */
 
-As the information is available in the UVC descriptors, and thus
-accessible to users with lsusb if they really care, don't log it in a
-debug message and drop the format name string to simplify the code.
+Let's add a bit more documentation:
 
-Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Reviewed-by: Ricardo Ribalda <ribalda@chromium.org>
----
-Changes since v2:
+	/*
+	 * Another issue is with devices that report a transfer size that
+	 * greatly exceeds the maximum supported by any existing USB version.
+	 * For instance, the "Slave camera" devices from Alcor Corp. (2017:0011
+	 * and 1b17:66B8) request 2752512 bytes per interval.
+	 */
 
-- Squash "media: uvcvideo: Remove format descriptions" and "media:
-  uvcvideo: Drop custom format names for DV formats"
-- Don't replace %pUl with %p4cc when the format is unknown
-- Print debug message even if fcc is 0
----
- drivers/media/usb/uvc/uvc_driver.c | 18 ++----------------
- drivers/media/usb/uvc/uvc_v4l2.c   |  2 --
- drivers/media/usb/uvc/uvcvideo.h   |  2 --
- 3 files changed, 2 insertions(+), 20 deletions(-)
+I would also take this as an opportunity to document the previous fixup,
+just above the UVC_QUIRK_FIX_BANDWIDTH check, with
 
-diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-index 57c948d47bbf..3318ec8ae7ef 100644
---- a/drivers/media/usb/uvc/uvc_driver.c
-+++ b/drivers/media/usb/uvc/uvc_driver.c
-@@ -252,14 +252,10 @@ static int uvc_parse_format(struct uvc_device *dev,
- 		fmtdesc = uvc_format_by_guid(&buffer[5]);
- 
- 		if (fmtdesc != NULL) {
--			strscpy(format->name, fmtdesc->name,
--				sizeof(format->name));
- 			format->fcc = fmtdesc->fcc;
- 		} else {
- 			dev_info(&streaming->intf->dev,
- 				 "Unknown video format %pUl\n", &buffer[5]);
--			snprintf(format->name, sizeof(format->name), "%pUl\n",
--				&buffer[5]);
- 			format->fcc = 0;
- 		}
- 
-@@ -271,8 +267,6 @@ static int uvc_parse_format(struct uvc_device *dev,
- 		 */
- 		if (dev->quirks & UVC_QUIRK_FORCE_Y8) {
- 			if (format->fcc == V4L2_PIX_FMT_YUYV) {
--				strscpy(format->name, "Greyscale 8-bit (Y8  )",
--					sizeof(format->name));
- 				format->fcc = V4L2_PIX_FMT_GREY;
- 				format->bpp = 8;
- 				width_multiplier = 2;
-@@ -313,7 +307,6 @@ static int uvc_parse_format(struct uvc_device *dev,
- 			return -EINVAL;
- 		}
- 
--		strscpy(format->name, "MJPEG", sizeof(format->name));
- 		format->fcc = V4L2_PIX_FMT_MJPEG;
- 		format->flags = UVC_FMT_FLAG_COMPRESSED;
- 		format->bpp = 0;
-@@ -331,14 +324,10 @@ static int uvc_parse_format(struct uvc_device *dev,
- 
- 		switch (buffer[8] & 0x7f) {
- 		case 0:
--			strscpy(format->name, "SD-DV", sizeof(format->name));
--			break;
- 		case 1:
--			strscpy(format->name, "SDL-DV", sizeof(format->name));
--			break;
- 		case 2:
--			strscpy(format->name, "HD-DV", sizeof(format->name));
- 			break;
-+
- 		default:
- 			uvc_dbg(dev, DESCR,
- 				"device %d videostreaming interface %d: unknown DV format %u\n",
-@@ -347,9 +336,6 @@ static int uvc_parse_format(struct uvc_device *dev,
- 			return -EINVAL;
- 		}
- 
--		strlcat(format->name, buffer[8] & (1 << 7) ? " 60Hz" : " 50Hz",
--			sizeof(format->name));
--
- 		format->fcc = V4L2_PIX_FMT_DV;
- 		format->flags = UVC_FMT_FLAG_COMPRESSED | UVC_FMT_FLAG_STREAM;
- 		format->bpp = 0;
-@@ -376,7 +362,7 @@ static int uvc_parse_format(struct uvc_device *dev,
- 		return -EINVAL;
- 	}
- 
--	uvc_dbg(dev, DESCR, "Found format %s\n", format->name);
-+	uvc_dbg(dev, DESCR, "Found format %p4cc", &format->fcc);
- 
- 	buflen -= buffer[0];
- 	buffer += buffer[0];
-diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
-index 0f4a39324062..35453f81c1d9 100644
---- a/drivers/media/usb/uvc/uvc_v4l2.c
-+++ b/drivers/media/usb/uvc/uvc_v4l2.c
-@@ -712,8 +712,6 @@ static int uvc_ioctl_enum_fmt(struct uvc_streaming *stream,
- 	fmt->flags = 0;
- 	if (format->flags & UVC_FMT_FLAG_COMPRESSED)
- 		fmt->flags |= V4L2_FMT_FLAG_COMPRESSED;
--	strscpy(fmt->description, format->name, sizeof(fmt->description));
--	fmt->description[sizeof(fmt->description) - 1] = 0;
- 	fmt->pixelformat = format->fcc;
- 	return 0;
- }
-diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-index c5a1c1c9d49e..e85df8deb965 100644
---- a/drivers/media/usb/uvc/uvcvideo.h
-+++ b/drivers/media/usb/uvc/uvcvideo.h
-@@ -263,8 +263,6 @@ struct uvc_format {
- 	u32 fcc;
- 	u32 flags;
- 
--	char name[32];
--
- 	unsigned int nframes;
- 	struct uvc_frame *frame;
- };
+	/*
+	 * Many devices report an incorrect dwMaxPayloadTransferSize value. The
+	 * most common issue is devices requesting the maximum possible USB
+	 * bandwidth (3072 bytes per interval for high-speed, high-bandwidth
+	 * isochronous endpoints) while they actually require less, preventing
+	 * multiple cameras from being used at the same time due to bandwidth
+	 * overallocation.
+	 *
+	 * For those devices, replace the dwMaxPayloadTransferSize value based
+	 * on an estimation calculated from the frame format and size. This is
+	 * only possible for uncompressed formats, as not enough information is
+	 * available to reliably estimate the bandwidth requirements for
+	 * compressed formats.
+	 */
 
-base-commit: d3428667a95be621bfffe70e5bf2e607bbf7e049
+> +	if ((format->flags & UVC_FMT_FLAG_COMPRESSED) &&
+> +	    (ctrl->dwMaxPayloadTransferSize > 0x1000) &&
+
+Given that the highest bandwidth supported by high-speed, high bandwidth
+devices is 3072 bytes per interval, I would check
+
+	    (ctrl->dwMaxPayloadTransferSize > 3072) &&
+
+here.
+
+> +	    usb_match_id(stream->dev->intf, alcor_corp_slave_cam)) {
+
+I'm also wondering if we could enable this fixup for all devices using
+isochronous endpoints (as for bulk endpoints the transfer size can be
+higher), without checking the VID:PID. No isochronous high-speed,
+high-bandwidth device should have a swMaxPayloadTransferSize value
+higher than 3072.  For super-speed devices I'm not entirely sure if the
+maximum transfer size covers multiple transfers in a burst. Ricardo, do
+you know anything about that ?
+
+I can send a v5 that does all this.
+
+> +		ctrl->dwMaxPayloadTransferSize = 1024;
+> +	}
+>  }
+>  
+>  static size_t uvc_video_ctrl_size(struct uvc_streaming *stream)
+
 -- 
 Regards,
 
 Laurent Pinchart
-
