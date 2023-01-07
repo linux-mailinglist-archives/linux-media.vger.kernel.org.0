@@ -2,163 +2,152 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1008E660D0C
-	for <lists+linux-media@lfdr.de>; Sat,  7 Jan 2023 09:44:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8A76D660EFE
+	for <lists+linux-media@lfdr.de>; Sat,  7 Jan 2023 14:10:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230500AbjAGIoM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 7 Jan 2023 03:44:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55798 "EHLO
+        id S230236AbjAGNKD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 7 Jan 2023 08:10:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52522 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229550AbjAGIoL (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 7 Jan 2023 03:44:11 -0500
-Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com [IPv6:2a00:1450:4864:20::433])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 46C1B61445
-        for <linux-media@vger.kernel.org>; Sat,  7 Jan 2023 00:44:10 -0800 (PST)
-Received: by mail-wr1-x433.google.com with SMTP id co23so3262926wrb.4
-        for <linux-media@vger.kernel.org>; Sat, 07 Jan 2023 00:44:10 -0800 (PST)
+        with ESMTP id S229695AbjAGNKC (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 7 Jan 2023 08:10:02 -0500
+Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com [IPv6:2a00:1450:4864:20::42d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 048B9574F4
+        for <linux-media@vger.kernel.org>; Sat,  7 Jan 2023 05:09:59 -0800 (PST)
+Received: by mail-wr1-x42d.google.com with SMTP id z5so2553578wrt.6
+        for <linux-media@vger.kernel.org>; Sat, 07 Jan 2023 05:09:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:message-id:date:subject:cc:to
-         :from:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=+6ScRDZ6PX5crj95gb2PeuR7M4+92xiqDVtcNYoN7GE=;
-        b=aE9RMtI4+WDm6gxXi9IX7QOmK0pHBOIQCPb+tA/byj+5XC1Q/1DfyB8UsVC7xFRq5N
-         lTokJM6AR8Xks1N1WCSOIh2+7fgTI0ACdwRB9KZ6OP1fSRjTu2fxHjft+T3fVATYMMbS
-         V1L/LYPsS0shYrSouau9asGnJyXAlr9wBGyOkIUe/8w1pc53kM7GlEEHiDXhaq+inEld
-         W4CmBFmQKAB/kYfwz7i+k/4EvdiKowbHwLXYLQINXx1+b3xa8o88iNw8WTH+RvN5QE/m
-         +Gf4fb6I2alOBRkWUzcqxcUOZt3qxp0zHetvYtyBg4xsWWrqu9QpDLE+a5cxraCX+YXS
-         npGw==
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=VLlY74lBKRGRzarxnE97qD14pxUge6wP6SsI1ElnUUs=;
+        b=jLpXA08K0gO/8AJAtcPQAKQSjWN8NrVGRvAPfvVx+pF5z0/AEXiTb1XvQXZbAzm3SA
+         1kagRlJuzuBqoDnvnw51zisv6YuyanMlJYuwtNHDkcG5Gl127IYspVkMEBRfDRLlQbS+
+         Q3w9GGTlPNFlsCzQ8w3fa7PDsWHcLS4VfescaxudTQP/8lnn3bFJE7Ije5KiqnsHyyYq
+         RE+9ge2VjzKSEu7+8Ak6ZVuDLMFW4N7q2JurKZCVXEPh0dK4tI6admJ2W7PCuHu9Nt8Z
+         8mjoMFHYz05qXOqoxzmITeVaRldha9MF1dxQDbdswPqlUXLthbOYtgM3H5ExE/nbTM65
+         UaGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=mime-version:references:in-reply-to:message-id:date:subject:cc:to
-         :from:sender:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=+6ScRDZ6PX5crj95gb2PeuR7M4+92xiqDVtcNYoN7GE=;
-        b=cVzJhUWxn06iqQn/il9wim2HxRfwFJtMYsAu7B35g0QFmqdc4dgcZwy9Bk3IqmJTLB
-         OsFOxuyYod9uaN7AWuV3rNyaN+ceRV2NBZAhYO3OcjwG3VV/wGzHs0QZikyeHckGhIgz
-         pHAADJA0kAyYpP/xNED7GOFV0PG8I2XSGf1wKY/hSVuA+D8n8PuZck7/ndGATwzEraxU
-         Yp/OFPWMujlAjFxQRCEq/KmUvX0jDrN2I4H1/YFcbmIByYrSsJX3OfWP5WWf2THej4c5
-         F8PDWLcE61qKg0vvvWFsd5S/TJEhBMaVp+eSbXPnJi4zl4vcKk+0pUgi0EGJdqtTHl4x
-         be3Q==
-X-Gm-Message-State: AFqh2kq9mEPOiuufToWMSxdR+vsU8yLVOA4qPbpxP6nLSNtMnGJzsJc1
-        FlHSlpNrLczBLLlYlAiDH5WJqDP4TFTVrQ==
-X-Google-Smtp-Source: AMrXdXvaUGx/9Wm2ekg2dgzHetJ9P7UmSNLny73Wp8avGRbP3U2OIjLZ6r38mohuhZvHkX/8EboOHw==
-X-Received: by 2002:a5d:4950:0:b0:26e:7604:6575 with SMTP id r16-20020a5d4950000000b0026e76046575mr33538853wrs.65.1673081048483;
-        Sat, 07 Jan 2023 00:44:08 -0800 (PST)
-Received: from 192-168-1-215.localnet ([90.242.19.250])
-        by smtp.gmail.com with ESMTPSA id m7-20020adffe47000000b002b880b6ef19sm3202047wrs.66.2023.01.07.00.44.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 07 Jan 2023 00:44:07 -0800 (PST)
-Sender: Adam Pigg <piggz1@gmail.com>
-From:   Adam Pigg <adam@piggz.co.uk>
-To:     linux-media@vger.kernel.org, piggz1@gmail.com
-Cc:     mchehab@kernel.org, linux-sunxi@lists.linux.dev,
-        paul.kocialkowski@bootlin.com, laurent.pinchart@ideasonboard.com,
-        yong.deng@magewell.com
-Subject: Re: [PATCH 0/3] suns6-csi changes to support libcamera
-Date:   Sat, 07 Jan 2023 08:43:43 +0000
-Message-ID: <3476105.iIbC2pHGDl@192-168-1-215>
-In-Reply-To: <ig7fmi.ro3721.rtjy47-qmf@smtp.gmail.com>
-References: <20230106194038.16018-1-adam@piggz.co.uk>
- <ig7fmi.ro3721.rtjy47-qmf@smtp.gmail.com>
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=VLlY74lBKRGRzarxnE97qD14pxUge6wP6SsI1ElnUUs=;
+        b=u7A22ebY3BaWrdmZKqWfvF8xT0+iDL7XzKBhuv5YdVP3m/35OlfIdpQU+m5Hq6y76t
+         w/cN8h6fuDOXv7jKBz3au+3agWzl5qYM1U51w7Y3wwnwOPuam+QXo4ly8yLU6Iai+Khl
+         Q60t9ebLxZzwAw9dp/zmuCZbq9EbDNSoL3JloyyYzbLzw6SMoCTyZ/588WbCIODP2f5/
+         0C6WunnOynTwzA8fgkgaMKI5z3Adm51//707MwI8ISj4crXi7S5VC0ib7hJ+3a0kC8Pw
+         oIB5atXrEIYFRnw3ji5/dMCatEDMtRoWfC6LgQ4br/AUH2CRMKc9qnV/z3r6Mjg7rAOH
+         pfIw==
+X-Gm-Message-State: AFqh2kqb+5u8LmZjjYPYybi/C83RozH1j3929M4hNXjWbJfKlTQ9BD12
+        d6Cv2624tzk5bONF7xMFsVorvw==
+X-Google-Smtp-Source: AMrXdXt92og9PyhiOxFHB6hAF5Bth+1E1nejyHX/tEYK9CUEX386gaoJHGcGTB7g1GUKKNOqEPpgBQ==
+X-Received: by 2002:a5d:58e6:0:b0:26f:aaff:e98c with SMTP id f6-20020a5d58e6000000b0026faaffe98cmr31680723wrd.27.1673096997552;
+        Sat, 07 Jan 2023 05:09:57 -0800 (PST)
+Received: from [192.168.1.109] ([178.197.216.144])
+        by smtp.gmail.com with ESMTPSA id z16-20020a5d4d10000000b00242209dd1ffsm3797535wrt.41.2023.01.07.05.09.55
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 07 Jan 2023 05:09:56 -0800 (PST)
+Message-ID: <4f1e55bc-9f0b-6411-2957-e68a049f1d6b@linaro.org>
+Date:   Sat, 7 Jan 2023 14:09:54 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="nextPart9048664.CDJkKcVGEf";
- micalg="pgp-sha256"; protocol="application/pgp-signature"
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=no
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH v2 1/2] dt-bindings: media: Add OmniVision OV8858
+Content-Language: en-US
+To:     Jacopo Mondi <jacopo@jmondi.org>,
+        Nicholas Roth <nicholas@rothemail.net>,
+        Robert Mader <robert.mader@collabora.com>, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-media@vger.kernel.org,
+        Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+        devicetree@vger.kernel.org
+References: <20230106203909.184073-1-jacopo@jmondi.org>
+ <20230106203909.184073-2-jacopo@jmondi.org>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230106203909.184073-2-jacopo@jmondi.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-5.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
---nextPart9048664.CDJkKcVGEf
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"; protected-headers="v1"
-From: Adam Pigg <adam@piggz.co.uk>
-To: linux-media@vger.kernel.org, piggz1@gmail.com
-Subject: Re: [PATCH 0/3] suns6-csi changes to support libcamera
-Date: Sat, 07 Jan 2023 08:43:43 +0000
-Message-ID: <3476105.iIbC2pHGDl@192-168-1-215>
-In-Reply-To: <ig7fmi.ro3721.rtjy47-qmf@smtp.gmail.com>
-MIME-Version: 1.0
-
-On Friday, 6 January 2023 23:10:46 GMT piggz1@gmail.com wrote:
-> Apologies, accidentally sent this set twice.  please ignore this set.
+On 06/01/2023 21:39, Jacopo Mondi wrote:
+> From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 > 
-Ignore this, the first set I sent myself, and I didnt actually send it twice to 
-the list!
-
-Also, if you see 2 email addresses,  adam@piggz.co.uk is a forwarding address 
-to GMail.  I could see how to make git-send-email set the preferred sender 
-address, only the from address.
-
-> Adam
+> Add binding schema for the OmniVision OV8858 8 Megapixels camera sensor.
 > 
-> On Friday, 6 January 2023, adam@piggz.co.uk wrote:
+> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> ---
+>  .../bindings/media/i2c/ovti,ov8858.yaml       | 105 ++++++++++++++++++
+>  1 file changed, 105 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/i2c/ovti,ov8858.yaml
 > 
-> > From: Adam Pigg <adam@piggz.co.uk>
-> > 
-> > This 3 patch set adds V4L2_CAP_IO_MC and vidioc_enum_framesizes support
-> > to the sun6i-csi driver, allowing the Pinephone rear camera (ov5640) to
-> > be supported.
-> > 
-> > These have been developed with the guidance of Laurent Pinchart, and
-> > been tested by capturing frames from the libcamera cam utility.
-> > 
-> > In addition to these, a patch to change the v4l gain mode in the ov5640
-> > driver, and the 2 format propagation patches all by Laurnet are
-> > required.
-> > 
-> > Adam Pigg (3):
-> > 
-> >   media: sun6i-csi: merge sun6i_csi_formats and sun6i_csi_formats_match
-> >   media: sun6i-csi: implement V4L2_CAP_IO_MC
-> >   media: sun6i-csi: implement vidioc_enum_framesizes
-> > 
-> > 
-> > 
-> >  .../sunxi/sun6i-csi/sun6i_csi_capture.c       | 215 +++++++++---------
-> >  .../sunxi/sun6i-csi/sun6i_csi_capture.h       |   6 +-
-> >  2 files changed, 103 insertions(+), 118 deletions(-)
-> > 
-> > 
-> > -- 
-> > 2.39.0
-> > 
-> >
-> >
-> 
-> 
-> -- 
-> Sent from my Sailfish device
+> diff --git a/Documentation/devicetree/bindings/media/i2c/ovti,ov8858.yaml b/Documentation/devicetree/bindings/media/i2c/ovti,ov8858.yaml
+> new file mode 100644
+> index 000000000000..002461a974f8
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/i2c/ovti,ov8858.yaml
+> @@ -0,0 +1,105 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/i2c/ovti,ov8858.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: OmniVision OV8858 Image Sensor
+> +
+> +maintainers:
+> +  - Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> +  - Nicholas Roth <nicholas@rothemail.net>
+> +
+> +description: |
+> +  The OmniVision OV8858 is a color CMOS 8 Megapixels (3264x2448) image sensor
+> +  controlled through an I2C-compatible SCCB bus. The sensor transmits images
+> +  on a MIPI CSI-2 output interface with up to 4 data lanes.
+> +
+> +properties:
+> +  compatible:
+> +    const: ovti,ov8858
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    maxItems: 1
+> +    description: XVCLK external clock
+> +
+> +  clock-names:
+> +    const: xvclk
+> +
+> +  dvdd-supply:
+> +    description: Digital Domain Power Supply
+> +
+> +  avdd-supply:
+> +    description: Analog Domain Power Supply
+> +
+> +  dovdd-supply:
+> +    description: I/O Domain Power Supply
+> +
+> +  powerdown-gpios:
+> +    description: PWDNB powerdown GPIO (active low)
+> +
+> +  reset-gpios:
+> +    description: XSHUTDN reset GPIO (active low)
+
+Here you need maxItems. I did not propose to remove it here.
 
 
---nextPart9048664.CDJkKcVGEf
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part.
-Content-Transfer-Encoding: 7Bit
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEG9S9FlpVKT4WucElgZzecrq7HBkFAmO5ML8ACgkQgZzecrq7
-HBkH5g//URjdEf+uZ5ZnLA5IkZnPKmYHS8Yew/78eM+6OV8Z64yy0ptlkrCQIjAZ
-tgQKIIGr6ujlWx4oMCkW1nxbrKGNdXXR8+AUnRzK+HnX53m5kIWdkApetAaKSURq
-NNWGbVLO1jFXbBqstf6zA3CwG60gg+9NP8mgK3Rhlcq5UAexqoM1piLRlgXLsDmS
-o8oiRXy8N/IGwHmb3Ki+f/NWlx8iq7sBL87rSPY/1LSaXiBbraKk6NbXjqmG3pFD
-KxdCTc+lte3zb2G9qN23MPX7xAk/ZAyVjQfXzS1io7wd0Cf3sxFHZacNPqZUEOMs
-ItQAtkUJLMGd4fuNGge+PKSpwSPisJpT+tWtLkKU+wwEvq/lIeoiOBFObl53oinu
-GMgK0tSb6x8MnCNPTZxeZKe/8aIEKFSl4J8+Fjin3s+eJ8bUhVo4w7qGXla+hMgm
-aJ1oc++jEyGmKkDgnC0YNq3LhZ4cehxNZ0XU2FruWPJfhQKCR45cgruFReOAzo+d
-Gps2ifyuQkG0bX6XfhEjGiNoLKBf/lQoA2oAeJ5y7jE8lwnMeZtrZuEwf/92D/l8
-Apnsi/no26/uDcoirs7ht+PV98PsVrwMQSKDWLCk8YzhUdF3H7qaeNzGPQoa9xp4
-Lt4ycOJ8YdMDuFFjxOqptyH2EPF41oudU1m7eNCP5P/F2BCzFZg=
-=3uut
------END PGP SIGNATURE-----
-
---nextPart9048664.CDJkKcVGEf--
-
-
+Best regards,
+Krzysztof
 
