@@ -2,40 +2,44 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CE602660A99
-	for <lists+linux-media@lfdr.de>; Sat,  7 Jan 2023 01:11:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9C9D1660AF4
+	for <lists+linux-media@lfdr.de>; Sat,  7 Jan 2023 01:39:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230269AbjAGAL5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 6 Jan 2023 19:11:57 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35410 "EHLO
+        id S232530AbjAGAiz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 6 Jan 2023 19:38:55 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44228 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235581AbjAGALj (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 6 Jan 2023 19:11:39 -0500
+        with ESMTP id S236149AbjAGAif (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 6 Jan 2023 19:38:35 -0500
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03E344BD54;
-        Fri,  6 Jan 2023 16:11:37 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1275284BD9;
+        Fri,  6 Jan 2023 16:37:24 -0800 (PST)
 Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id B13BF4AE;
-        Sat,  7 Jan 2023 01:11:35 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 604C34AE;
+        Sat,  7 Jan 2023 01:37:22 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1673050295;
-        bh=x8pzsewZWxr/vcdPPfkmHtSjn4WeCTlmgfotf/DK77o=;
+        s=mail; t=1673051842;
+        bh=1yPY6zLuxUhJr2heWCr2QRw7KxBcGsyvQJyxUF//dK8=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=BiSJsOZHaq3Strt7jLItKZPFvIWEvEUGzf5p6pEklUQO18aa0GL+Bd9fII2DGjth6
-         e0yi2eOLZG/hIJ3dNDxhyurJBbMXEPkAr1ry4s08UL8SaYfr/eHH5oG4M2oJCYdE/X
-         smh0EFDI0dpkmmOp+ttrI6SGMfBFeI73zHYsuKgI=
-Date:   Sat, 7 Jan 2023 02:11:30 +0200
+        b=tm5IE0cu4JhHxJgBiNmyRkVcmrGXqERTccrZp9tCQ7BbzFlQyjImdQpQRjfcM30Al
+         wg5O0Td2bTY0rNWgUpbBE80Bc95eFY2YoXxGOLp4n96omMBiL29auLkEILNXLJ+ffx
+         i0QMT0KJa3ZVYXBWH0n0254hoQGFNBDGeC72BFGs=
+Date:   Sat, 7 Jan 2023 02:37:17 +0200
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Ai Chao <aichao@kylinos.cn>
-Cc:     mchehab@kernel.org, ribalda@chromium.org,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4] media: uvcvideo: Fix bandwidth error for Alcor camera
-Message-ID: <Y7i4skTM/DBXpgca@pendragon.ideasonboard.com>
-References: <20221122084833.1241078-1-aichao@kylinos.cn>
+To:     Ricardo Ribalda <ribalda@chromium.org>
+Cc:     Sergey Senozhatsky <senozhatsky@chromium.org>,
+        Hillf Danton <hdanton@sina.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Max Staudt <mstaudt@google.com>,
+        Yunke Cao <yunkec@chromium.org>, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH v7] media: uvcvideo: Fix race condition with usb_kill_urb
+Message-ID: <Y7i+vfJxtcxZFgf/@pendragon.ideasonboard.com>
+References: <20221212-uvc-race-v7-0-e2517c66a55a@chromium.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20221122084833.1241078-1-aichao@kylinos.cn>
+In-Reply-To: <20221212-uvc-race-v7-0-e2517c66a55a@chromium.org>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
         autolearn=ham autolearn_force=no version=3.4.6
@@ -45,112 +49,212 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi again,
+Hi Ricardo,
 
-On Tue, Nov 22, 2022 at 04:48:33PM +0800, Ai Chao wrote:
-> For Alcor Corp. Slave camera(1b17:6684/2017:0011), it support to output
->  compressed video data, and it return a wrong dwMaxPayloadTransferSize
->  fields. This is a fireware issue, but the manufacturer cannot provide
->  a const return fieldsby the fireware. For some device, it requested
->  2752512 B/frame bandwidth. For normally device, it requested 3072 or 1024
->  B/frame bandwidth. so we check the dwMaxPayloadTransferSize fields,if it
->  large than 0x1000, reset dwMaxPayloadTransferSize to 1024, and the camera
->  preview normally.
+Thank you for the patch.
+
+On Thu, Jan 05, 2023 at 03:31:29PM +0100, Ricardo Ribalda wrote:
+> usb_kill_urb warranties that all the handlers are finished when it
+> returns, but does not protect against threads that might be handling
+> asynchronously the urb.
 > 
-> Signed-off-by: Ai Chao <aichao@kylinos.cn>
+> For UVC, the function uvc_ctrl_status_event_async() takes care of
+> control changes asynchronously.
 > 
+>  If the code is executed in the following order:
+> 
+> CPU 0					CPU 1
+> ===== 					=====
+> uvc_status_complete()
+> 					uvc_status_stop()
+> uvc_ctrl_status_event_work()
+> 					uvc_status_start() -> FAIL
+> 
+> Then uvc_status_start will keep failing and this error will be shown:
+> 
+> <4>[    5.540139] URB 0000000000000000 submitted while active
+> drivers/usb/core/urb.c:378 usb_submit_urb+0x4c3/0x528
+> 
+> Let's improve the current situation, by not re-submiting the urb if
+> we are stopping the status event. Also process the queued work
+> (if any) during stop.
+> 
+> CPU 0					CPU 1
+> ===== 					=====
+> uvc_status_complete()
+> 					uvc_status_stop()
+> 					uvc_status_start()
+> uvc_ctrl_status_event_work() -> FAIL
+> 
+> Hopefully, with the usb layer protection this should be enough to cover
+> all the cases.
+
+For some reason the word "hopefully" in a bug fix doesn't make me very
+hopeful ;-)
+
+> Cc: stable@vger.kernel.org
+> Fixes: e5225c820c05 ("media: uvcvideo: Send a control event when a Control Change interrupt arrives")
+> Reviewed-by: Yunke Cao <yunkec@chromium.org>
+> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 > ---
-> change for v4
-> - Change usb_match_one_id to usb_match_id
-> - Modify the discription
+> uvc: Fix race condition on uvc
 > 
-> change for v3
-> - Add VID/PID 2017:0011
+> Make sure that all the async work is finished when we stop the status urb.
 > 
-> change for v2
-> - Used usb_match_one_id to check VID and PID
+> To: Hillf Danton <hdanton@sina.com>
+> To: Yunke Cao <yunkec@chromium.org>
+> To: Sergey Senozhatsky <senozhatsky@chromium.org>
+> To: Max Staudt <mstaudt@google.com>
+> To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> To: Mauro Carvalho Chehab <mchehab@kernel.org>
+> Cc: linux-media@vger.kernel.org
+> Cc: linux-kernel@vger.kernel.org
 > ---
-> ---
->  drivers/media/usb/uvc/uvc_video.c | 12 ++++++++++++
->  1 file changed, 12 insertions(+)
+> Changes in v7:
+> - Use smp_store_release. (Thanks Hilf!)
+> - Rebase on top of uvc/next.
+> - Link to v6: https://lore.kernel.org/r/20221212-uvc-race-v6-0-2a662f8de011@chromium.org
 > 
-> diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
-> index d2eb9066e4dc..75bdd71d0e5a 100644
-> --- a/drivers/media/usb/uvc/uvc_video.c
-> +++ b/drivers/media/usb/uvc/uvc_video.c
-> @@ -135,6 +135,11 @@ static void uvc_fixup_video_ctrl(struct uvc_streaming *stream,
->  	static const struct usb_device_id elgato_cam_link_4k = {
->  		USB_DEVICE(0x0fd9, 0x0066)
->  	};
-> +	static const struct usb_device_id alcor_corp_slave_cam[] = {
-> +		{ USB_DEVICE(0x2017, 0x0011) },
-> +		{ USB_DEVICE(0x1b17, 0x6684) },
-> +		{ }
-> +	};
->  	struct uvc_format *format = NULL;
->  	struct uvc_frame *frame = NULL;
->  	unsigned int i;
-> @@ -234,6 +239,13 @@ static void uvc_fixup_video_ctrl(struct uvc_streaming *stream,
+> Changes in v6:
+> - Improve comments. (Thanks Laurent).
+> - Use true/false instead of 1/0 (Thanks Laurent).
+> - Link to v5: https://lore.kernel.org/r/20221212-uvc-race-v5-0-3db3933d1608@chromium.org
+> 
+> Changes in v5:
+> - atomic_t do not impose barriers, use smp_mb() instead. (Thanks Laurent)
+> - Add an extra cancel_work_sync().
+> - Link to v4: https://lore.kernel.org/r/20221212-uvc-race-v4-0-38d7075b03f5@chromium.org
+> 
+> Changes in v4:
+> - Replace bool with atomic_t to avoid compiler reordering.
+> - First complete the async work and then kill the urb to avoid race (Thanks Laurent!)
+> - Link to v3: https://lore.kernel.org/r/20221212-uvc-race-v3-0-954efc752c9a@chromium.org
+> 
+> Changes in v3:
+> - Remove the patch for dev->status, makes more sense in another series, and makes
+>   the zero day less nervous.
+> - Update reviewed-by (thanks Yunke!).
+> - Link to v2: https://lore.kernel.org/r/20221212-uvc-race-v2-0-54496cc3b8ab@chromium.org
+> 
+> Changes in v2:
+> - Add a patch for not kalloc dev->status
+> - Redo the logic mechanism, so it also works with suspend (Thanks Yunke!)
+> - Link to v1: https://lore.kernel.org/r/20221212-uvc-race-v1-0-c52e1783c31d@chromium.org
+> ---
+>  drivers/media/usb/uvc/uvc_ctrl.c   |  5 +++++
+>  drivers/media/usb/uvc/uvc_status.c | 33 +++++++++++++++++++++++++++++++++
+>  drivers/media/usb/uvc/uvcvideo.h   |  1 +
+>  3 files changed, 39 insertions(+)
+> 
+> diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
+> index e07b56bbf853..30c417768376 100644
+> --- a/drivers/media/usb/uvc/uvc_ctrl.c
+> +++ b/drivers/media/usb/uvc/uvc_ctrl.c
+> @@ -6,6 +6,7 @@
+>   *          Laurent Pinchart (laurent.pinchart@ideasonboard.com)
+>   */
 >  
->  		ctrl->dwMaxPayloadTransferSize = bandwidth;
->  	}
+> +#include <asm/barrier.h>
+>  #include <linux/bitops.h>
+>  #include <linux/kernel.h>
+>  #include <linux/list.h>
+> @@ -1509,6 +1510,10 @@ static void uvc_ctrl_status_event_work(struct work_struct *work)
+>  
+>  	uvc_ctrl_status_event(w->chain, w->ctrl, w->data);
+>  
+> +	/* The barrier is needed to synchronize with uvc_status_stop(). */
+> +	if (smp_load_acquire(&dev->flush_status))
+> +		return;
 > +
-> +	/* Alcor Corp. Slave camera return wrong dwMaxPayloadTransferSize */
-
-Let's add a bit more documentation:
-
-	/*
-	 * Another issue is with devices that report a transfer size that
-	 * greatly exceeds the maximum supported by any existing USB version.
-	 * For instance, the "Slave camera" devices from Alcor Corp. (2017:0011
-	 * and 1b17:66B8) request 2752512 bytes per interval.
-	 */
-
-I would also take this as an opportunity to document the previous fixup,
-just above the UVC_QUIRK_FIX_BANDWIDTH check, with
-
-	/*
-	 * Many devices report an incorrect dwMaxPayloadTransferSize value. The
-	 * most common issue is devices requesting the maximum possible USB
-	 * bandwidth (3072 bytes per interval for high-speed, high-bandwidth
-	 * isochronous endpoints) while they actually require less, preventing
-	 * multiple cameras from being used at the same time due to bandwidth
-	 * overallocation.
-	 *
-	 * For those devices, replace the dwMaxPayloadTransferSize value based
-	 * on an estimation calculated from the frame format and size. This is
-	 * only possible for uncompressed formats, as not enough information is
-	 * available to reliably estimate the bandwidth requirements for
-	 * compressed formats.
-	 */
-
-> +	if ((format->flags & UVC_FMT_FLAG_COMPRESSED) &&
-> +	    (ctrl->dwMaxPayloadTransferSize > 0x1000) &&
-
-Given that the highest bandwidth supported by high-speed, high bandwidth
-devices is 3072 bytes per interval, I would check
-
-	    (ctrl->dwMaxPayloadTransferSize > 3072) &&
-
-here.
-
-> +	    usb_match_id(stream->dev->intf, alcor_corp_slave_cam)) {
-
-I'm also wondering if we could enable this fixup for all devices using
-isochronous endpoints (as for bulk endpoints the transfer size can be
-higher), without checking the VID:PID. No isochronous high-speed,
-high-bandwidth device should have a swMaxPayloadTransferSize value
-higher than 3072.  For super-speed devices I'm not entirely sure if the
-maximum transfer size covers multiple transfers in a burst. Ricardo, do
-you know anything about that ?
-
-I can send a v5 that does all this.
-
-> +		ctrl->dwMaxPayloadTransferSize = 1024;
-> +	}
->  }
+>  	/* Resubmit the URB. */
+>  	w->urb->interval = dev->int_ep->desc.bInterval;
+>  	ret = usb_submit_urb(w->urb, GFP_KERNEL);
+> diff --git a/drivers/media/usb/uvc/uvc_status.c b/drivers/media/usb/uvc/uvc_status.c
+> index 602830a8023e..21e13b8441da 100644
+> --- a/drivers/media/usb/uvc/uvc_status.c
+> +++ b/drivers/media/usb/uvc/uvc_status.c
+> @@ -6,6 +6,7 @@
+>   *          Laurent Pinchart (laurent.pinchart@ideasonboard.com)
+>   */
 >  
->  static size_t uvc_video_ctrl_size(struct uvc_streaming *stream)
+> +#include <asm/barrier.h>
+>  #include <linux/kernel.h>
+>  #include <linux/input.h>
+>  #include <linux/slab.h>
+> @@ -311,5 +312,37 @@ int uvc_status_start(struct uvc_device *dev, gfp_t flags)
+>  
+>  void uvc_status_stop(struct uvc_device *dev)
+>  {
+> +	struct uvc_ctrl_work *w = &dev->async_ctrl;
+> +
+> +	/*
+> +	 * Prevent the asynchronous control handler from requeing the URB. The
+> +	 * barrier is needed so the flush_status change is visible to other
+> +	 * CPUs running the asynchronous handler before usb_kill_urb() is
+> +	 * called below.
+> +	 */
+> +	smp_store_release(&dev->flush_status, true);
+> +
+> +	/* If there is any status event on the queue, process it. */
+
+	/*
+	 * Cancel any pending asynchronous work. If any status event was queued,
+	 * process it synchronously.
+	 */
+
+> +	if (cancel_work_sync(&w->work))
+> +		uvc_ctrl_status_event(w->chain, w->ctrl, w->data);
+> +
+> +	/* Kill the urb. */
+>  	usb_kill_urb(dev->int_urb);
+> +
+> +	/*
+> +	 * The URB completion handler may have queued asynchronous work. This
+> +	 * won't resubmit the URB as flush_status is set, but it needs to be
+> +	 * cancelled before returning or it could then race with a future
+> +	 * uvc_status_start() call.
+> +	 */
+> +	if (cancel_work_sync(&w->work))
+> +		uvc_ctrl_status_event(w->chain, w->ctrl, w->data);
+> +
+> +	/*
+> +	 * From this point, there are no events on the queue and the status URB
+> +	 * is dead, this is, no events will be queued until uvc_status_start()
+> +	 * is called. The barrier is needed to make sure that it is written to
+> +	 * memory before uvc_status_start() is called again.
+
+With data races, the concept of "written to memory" doesn't make much
+sense anymore.
+
+	* From this point, there are no events on the queue and the status URB
+	* is dead. No events will be queued until uvc_status_start() is called.
+	* The barrier is needed to make sure that flush_status is visible to
+	* uvc_ctrl_status_event_work() when uvc_status_start() will be called
+	* again.
+
+I'll update the comments locally.
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+> +	 */
+> +	smp_store_release(&dev->flush_status, false);
+>  }
+> diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
+> index ae0066eceffd..b2b277cccbdb 100644
+> --- a/drivers/media/usb/uvc/uvcvideo.h
+> +++ b/drivers/media/usb/uvc/uvcvideo.h
+> @@ -578,6 +578,7 @@ struct uvc_device {
+>  	struct usb_host_endpoint *int_ep;
+>  	struct urb *int_urb;
+>  	struct uvc_status *status;
+> +	bool flush_status;
+>  
+>  	struct input_dev *input;
+>  	char input_phys[64];
+> 
+> ---
+> base-commit: fb1316b0ff3fc3cd98637040ee17ab7be753aac7
+> change-id: 20221212-uvc-race-09276ea68bf8
 
 -- 
 Regards,
