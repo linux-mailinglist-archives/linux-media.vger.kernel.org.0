@@ -2,94 +2,139 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 738B0661A4E
-	for <lists+linux-media@lfdr.de>; Sun,  8 Jan 2023 23:04:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BE1F2661A8E
+	for <lists+linux-media@lfdr.de>; Sun,  8 Jan 2023 23:45:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233873AbjAHWEL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 8 Jan 2023 17:04:11 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52442 "EHLO
+        id S233441AbjAHWp2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 8 Jan 2023 17:45:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34550 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234280AbjAHWEG (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sun, 8 Jan 2023 17:04:06 -0500
-Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC4AADFB6;
-        Sun,  8 Jan 2023 14:04:05 -0800 (PST)
-Received: by mail-qt1-f182.google.com with SMTP id a16so6481863qtw.10;
-        Sun, 08 Jan 2023 14:04:05 -0800 (PST)
+        with ESMTP id S231272AbjAHWpJ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sun, 8 Jan 2023 17:45:09 -0500
+Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com [IPv6:2a00:1450:4864:20::135])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5210B10068
+        for <linux-media@vger.kernel.org>; Sun,  8 Jan 2023 14:45:07 -0800 (PST)
+Received: by mail-lf1-x135.google.com with SMTP id v25so10344728lfe.12
+        for <linux-media@vger.kernel.org>; Sun, 08 Jan 2023 14:45:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=xNjDFq7jF6Xutyrz7TZXPQsfgSYhgyOTeZIcCQictVc=;
+        b=e8zj826Zagy7Wr+2jC7vyR1XimbGVyk4hS7mMWuWs5jS5BMhe4INZZPZZ3dqZGd4zW
+         vVuWxQoKEM2XVg1AJ1pcgxxZxdOmVRvTv6n/91dmCmyvQWOCv4w0hTImVuK4BUK86s0O
+         KIsslORjq5lajLYSh379zvq7zEUKgf0Wx2NeMGPciJ/W/W3IS6b0ICpuHi1WlLXLMQRH
+         P2ZwoeLK3bIf0AE1GtJdSaO4K/qofXQUK/AihEXhvsbAow2S5HtG3N558XOuEXrTX2h+
+         bFCWrkB2ARluw63iPTDc17QjyIKCcm7vZy1eGqwWusrs7OooTfKMoVqVarn+L5fLGiwo
+         bR0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=smqVhBr4nX6YYx3MjyPWcwtdavnXwnQDL87iFXCE9Ww=;
-        b=F1t0MoA04J5G38OvskvjxzPJD2lz/CORwIMmhPv0Hr/joGytGRocebCkWqZO0D5R9y
-         eDzBSlvTIsfrFcoXKToD5myYGcJEkYLNV0bY8jzsH0jtc7cAWpWYH+kZeuRcsLatkZmi
-         doKZ+FXh63TBeJrjIA2WgBZ2MLZJGMEB/Ni+JvSzPfw9jkG9JKqCbhLHnYp37eQJij9s
-         +TU15AVzQSjVdnPQ8Fz3Aw3GOKyEneCeMPidjnYr70HyEE7uh2DXyuwPsa579n25XStC
-         n2fm+Mzw2S0LLdQ769GHZaAr2f44mAjPBVbYAy0sbld7WrWLFH/9Sb/PxM6XeVxgvpWC
-         RGcw==
-X-Gm-Message-State: AFqh2kpLNm9k3IYta1ybOpJKoa+l9rsHa4wqz/3shxxxH/8gZ4wZPkwD
-        jrTflYln1oGRfwRKjpBm5Q==
-X-Google-Smtp-Source: AMrXdXs+JUGxh8nZuc8LmC5/3p1Vo/axLoxvWGuJFwFUL1dvvOM5hmtfzWKeJ+EcwlaO2dBC5ee6BA==
-X-Received: by 2002:a05:622a:418b:b0:3a8:2f65:6ccb with SMTP id cd11-20020a05622a418b00b003a82f656ccbmr74733334qtb.65.1673215444977;
-        Sun, 08 Jan 2023 14:04:04 -0800 (PST)
-Received: from robh_at_kernel.org ([2605:ef80:80a5:9b51:39ae:24d1:33f3:811e])
-        by smtp.gmail.com with ESMTPSA id f1-20020ac81341000000b003a6a19ee4f0sm3698555qtj.33.2023.01.08.14.04.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 08 Jan 2023 14:04:04 -0800 (PST)
-Received: (nullmailer pid 341683 invoked by uid 1000);
-        Sun, 08 Jan 2023 22:04:00 -0000
-Date:   Sun, 8 Jan 2023 16:04:00 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc:     Krzysztof =?utf-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        Wolfram Sang <wsa@kernel.org>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Andy Shevchenko <andriy.shevchenko@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Shawn Tu <shawnx.tu@intel.com>, Marek Vasut <marex@denx.de>,
-        linux-i2c@vger.kernel.org, devicetree@vger.kernel.org,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Matti Vaittinen <Matti.Vaittinen@fi.rohmeurope.com>,
-        Mike Pagano <mpagano@gentoo.org>,
-        Luca Ceresoli <luca.ceresoli@bootlin.com>,
-        Peter Rosin <peda@axentia.se>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Brown <broonie@kernel.org>,
-        Michael Tretter <m.tretter@pengutronix.de>
-Subject: Re: [PATCH v6 4/8] dt-bindings: media: add TI DS90UB953 FPD-Link III
- Serializer
-Message-ID: <167321543969.341610.2316098067478436643.robh@kernel.org>
-References: <20230105140307.272052-1-tomi.valkeinen@ideasonboard.com>
- <20230105140307.272052-5-tomi.valkeinen@ideasonboard.com>
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=xNjDFq7jF6Xutyrz7TZXPQsfgSYhgyOTeZIcCQictVc=;
+        b=5Gb2HQcErK4+ACbk5nUNIwSGS/XNya9hB4cWlHekhKhAJ6Yx7AujqXkZ6VRAnZuKLd
+         eSmH3RnZe6NPZ9GrKkWZHRMFgX3kwWeK73PYHSwkehP55alwPRy4YMzE/OSq0T4YH+Lx
+         EWyNEMyjdZXVIYnZW6ooRc3ZfyglBLYS8KXuylXDgX2jM7FEETC4YjZo93A7OdHMFjHL
+         URYLg6FeNQ+uJnQrRLo/ZDXkmbnqO+xu5lGZ1hJ06SPY3AygE9I0VXK4C5Ryg9FJkmL+
+         k9I8XIzTBpuSYWCSHuxjWWRWtTNPaISYk+3W4iAiEc3R9WI+WYQqWXdztPD4nw1PL2q1
+         KyRg==
+X-Gm-Message-State: AFqh2kp6eyuNsn8jdZKuQHgGv5qZqrLaPjMikuRCJuVghGusEMbiO1CW
+        kB69Wikz3blctg9ItT1T9oXq3Q==
+X-Google-Smtp-Source: AMrXdXvwzFkEAxmdB2Z6hlU44qt3jw6D5B4obR6CvQwIXBWaGQgM0nax26AbcjwKQIqDWuaHbP3Z5g==
+X-Received: by 2002:a05:6512:304a:b0:4b5:5098:e6f7 with SMTP id b10-20020a056512304a00b004b55098e6f7mr19827844lfb.68.1673217905625;
+        Sun, 08 Jan 2023 14:45:05 -0800 (PST)
+Received: from ?IPV6:2001:14ba:a085:4d00::8a5? (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a085:4d00::8a5])
+        by smtp.gmail.com with ESMTPSA id n26-20020a05651203fa00b0049464d89e40sm1257366lfq.72.2023.01.08.14.45.05
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 08 Jan 2023 14:45:05 -0800 (PST)
+Message-ID: <9b53d5f0-e1b1-1ecd-b9b9-efa20b11c916@linaro.org>
+Date:   Mon, 9 Jan 2023 00:45:04 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230105140307.272052-5-tomi.valkeinen@ideasonboard.com>
-X-Spam-Status: No, score=-1.3 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
-        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS autolearn=no
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH RESEND] drm/msm: Add missing check and destroy for
+ alloc_ordered_workqueue
+Content-Language: en-GB
+To:     Jiasheng Jiang <jiasheng@iscas.ac.cn>, robdclark@gmail.com,
+        quic_abhinavk@quicinc.com, sean@poorly.run, airlied@gmail.com,
+        sumit.semwal@linaro.org, christian.koenig@amd.com
+Cc:     linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linaro-mm-sig@lists.linaro.org, freedreno@lists.freedesktop.org
+References: <20230106084712.29675-1-jiasheng@iscas.ac.cn>
+From:   Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <20230106084712.29675-1-jiasheng@iscas.ac.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-
-On Thu, 05 Jan 2023 16:03:03 +0200, Tomi Valkeinen wrote:
-> Add DT bindings for TI DS90UB953 FPD-Link III Serializer.
+On 06/01/2023 10:47, Jiasheng Jiang wrote:
+> Add check for the return value of alloc_ordered_workqueue as it may return
+> NULL pointer.
+> Moreover, use the destroy_workqueue in the later fails in order to avoid
+> memory leak.
 > 
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> Fixes: c8afe684c95c ("drm/msm: basic KMS driver for snapdragon")
+> Signed-off-by: Jiasheng Jiang <jiasheng@iscas.ac.cn>
 > ---
->  .../bindings/media/i2c/ti,ds90ub953.yaml      | 134 ++++++++++++++++++
->  1 file changed, 134 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/i2c/ti,ds90ub953.yaml
+>   drivers/gpu/drm/msm/msm_drv.c | 8 ++++++--
+>   1 file changed, 6 insertions(+), 2 deletions(-)
 > 
+> diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
+> index 8b0b0ac74a6f..b82d938226ad 100644
+> --- a/drivers/gpu/drm/msm/msm_drv.c
+> +++ b/drivers/gpu/drm/msm/msm_drv.c
+> @@ -418,6 +418,8 @@ static int msm_drm_init(struct device *dev, const struct drm_driver *drv)
+>   	priv->dev = ddev;
+>   
+>   	priv->wq = alloc_ordered_workqueue("msm", 0);
+> +	if (!priv->wq)
+> +		return -ENOMEM;
+>   
+>   	INIT_LIST_HEAD(&priv->objects);
+>   	mutex_init(&priv->obj_lock);
+> @@ -440,12 +442,12 @@ static int msm_drm_init(struct device *dev, const struct drm_driver *drv)
+>   
+>   	ret = msm_init_vram(ddev);
+>   	if (ret)
+> -		return ret;
+> +		goto err_destroy_workqueue;
+>   
+>   	/* Bind all our sub-components: */
+>   	ret = component_bind_all(dev, ddev);
+>   	if (ret)
+> -		return ret;
+> +		goto err_destroy_workqueue;
+>   
+>   	dma_set_max_seg_size(dev, UINT_MAX);
+>   
+> @@ -540,6 +542,8 @@ static int msm_drm_init(struct device *dev, const struct drm_driver *drv)
+>   
+>   err_msm_uninit:
+>   	msm_drm_uninit(dev);
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+return ret is missing here. Your code will result in double free.
+
+However the intent was to unroll each and every action of msm_drm_init() 
+in msm_drm_uninit(). So in all your cases please goto err_msm_unit.
+
+> +err_destroy_workqueue:
+> +	destroy_workqueue(priv->wq);
+>   	return ret;
+>   }
+>   
+
+-- 
+With best wishes
+Dmitry
+
