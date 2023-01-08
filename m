@@ -2,217 +2,94 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 213DC6619C8
-	for <lists+linux-media@lfdr.de>; Sun,  8 Jan 2023 22:13:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8BF07661A4C
+	for <lists+linux-media@lfdr.de>; Sun,  8 Jan 2023 23:02:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233617AbjAHVNS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 8 Jan 2023 16:13:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60474 "EHLO
+        id S233690AbjAHWCB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 8 Jan 2023 17:02:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51978 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233381AbjAHVMv (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sun, 8 Jan 2023 16:12:51 -0500
-Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com [IPv6:2a00:1450:4864:20::22e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A037655F
-        for <linux-media@vger.kernel.org>; Sun,  8 Jan 2023 13:12:48 -0800 (PST)
-Received: by mail-lj1-x22e.google.com with SMTP id q2so7013135ljp.6
-        for <linux-media@vger.kernel.org>; Sun, 08 Jan 2023 13:12:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=x53uwOLKbwK81PFlMs31vANCaDhh1Zsvs/a9zuGpPQk=;
-        b=0PDk1gKy7Bf3a6EwyRvCAxmVMnlOtuNpFYpwSfF8y6YltxiIQb7a28VlfLbdiYUi6Z
-         8MUnG9BR3yVVQpLQU8XqLEmftHA2d1Gw5X/S61ZSMcY9nerIvO6sUXlrqj5+Ry8uK6s4
-         9+cxshzjPhDQxmL8A46alekPNVEs72Y5+5WPOa/B1jrup3Id5EloKkFXO0A1+jXx9HcN
-         4DK1RRwIkfvPYHrFAU2H0zcozt4Orl+qAk871SXv+SFwN217D4TvTQj04jycZig2r0f2
-         EQxBzqR9uic9UGoshpdACfObFi9jPenr8z/7THbGN2Te4ymD3Z1yCRA1igE8Ygf8s6Xr
-         +M/g==
+        with ESMTP id S231410AbjAHWBb (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sun, 8 Jan 2023 17:01:31 -0500
+Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86997DFB6;
+        Sun,  8 Jan 2023 14:01:30 -0800 (PST)
+Received: by mail-qt1-f176.google.com with SMTP id v14so6577297qtq.3;
+        Sun, 08 Jan 2023 14:01:30 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=x53uwOLKbwK81PFlMs31vANCaDhh1Zsvs/a9zuGpPQk=;
-        b=r2NdZIBv+CXL1sbcRfvpnKu8r3h6i1ln+ypLV7fjfw05E+QnLdmr93xscwddX1BMCG
-         jzwRpFpn7XcSb8lL40qJmyasUh6q2/uFus2ROrNkha5K1cSnVDsfA5+xTV3/fVGrEpul
-         qfv1TWbotwhodIqQ0Jt2+nnSGMcvQZ7mwWmxv8eBZgVC05j9c0goT4uwF0dOs6Xw2FHX
-         BpTUXcIMzYgToXLDnVQgkoNrvRRRLfM59Fd47h98M4DMvk/3nZf4WAYLnH+vB/LtS5Yg
-         7ROm9AzdVmLq2lMXaXHxmgguIVGmyO5TNkzSTqgSZnXg7pE7+878tbYJhJT/O71sfOZw
-         T9mQ==
-X-Gm-Message-State: AFqh2kqC/sU5JHk4BgJS2lEebR0yqE96k5g/LAd3gVjpCa/BmIRHxSIN
-        g8tczn5CX3XP8zBiret2gYHiXNO8o6IffWzVYyymqw==
-X-Google-Smtp-Source: AMrXdXssLooCUB3JcSjFGQGlVuCaFAVGO6fwtMCDpc/mUlglB++tww+r2xlSFr4vPtbjYEwsLwWpTCjfAlStv55FVrU=
-X-Received: by 2002:a2e:90d2:0:b0:27f:f22d:afe9 with SMTP id
- o18-20020a2e90d2000000b0027ff22dafe9mr1990761ljg.404.1673212366368; Sun, 08
- Jan 2023 13:12:46 -0800 (PST)
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Tqvkg+sv6uRRogNZ+vALt28IuW9OZ+Dw5Ea/2cbdCrM=;
+        b=kRppF5io3Vm493Ib2882zSWV9u2yDH/lZ8Jt37B1hAJnTyptcVU3sjBMj/F04hZqTw
+         uoS3xwgwnODV3msGtpH+Cakic96k80vpyNvvNOtYOSb0oJ20A7GaYvFLcNzYXSbj5FC9
+         dTM/AA26xwDIWfUvfnc5qakHFkOei221WyIawyJEdmyvap+utpwFX1lT1oAfQDmQqu4K
+         rawfqJDuzcMsV88ysQEcZ0b9RIyYs5ic39lGi2gTTKiRFZcFsEW93kExUx3rpif/Xs+d
+         Fg1sQQI1pX8hpihf9sp+pcqmoThh0us5VtCxx2GtLgj93ulZ32ASS3dnpLXwJUGYn4X7
+         iY1Q==
+X-Gm-Message-State: AFqh2krrMG4TCz1ZNKI0rDpRIxNMqWMFB8rwwwJAstdjCNQ7/+Dr0uj6
+        s5NKf0mAGieHj6+vhFOpVg==
+X-Google-Smtp-Source: AMrXdXssWVIkNhWI3KyO4Hgm/UiCqGRkmY9NOyHK5Nu3I/UZWQ9ZJyq3F5UOKdWBGal2v67GNFFU8Q==
+X-Received: by 2002:ac8:5401:0:b0:3ac:aef8:bcaa with SMTP id b1-20020ac85401000000b003acaef8bcaamr3661547qtq.18.1673215289669;
+        Sun, 08 Jan 2023 14:01:29 -0800 (PST)
+Received: from robh_at_kernel.org ([2605:ef80:80a5:9b51:39ae:24d1:33f3:811e])
+        by smtp.gmail.com with ESMTPSA id b3-20020ac86bc3000000b003ab7aee56a0sm3718441qtt.39.2023.01.08.14.01.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 08 Jan 2023 14:01:29 -0800 (PST)
+Received: (nullmailer pid 338823 invoked by uid 1000);
+        Sun, 08 Jan 2023 22:01:24 -0000
+Date:   Sun, 8 Jan 2023 16:01:24 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc:     Liam Girdwood <lgirdwood@gmail.com>,
+        Krzysztof =?utf-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>,
+        devicetree@vger.kernel.org,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Wolfram Sang <wsa@kernel.org>, linux-i2c@vger.kernel.org,
+        Andy Shevchenko <andriy.shevchenko@intel.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Marek Vasut <marex@denx.de>,
+        Luca Ceresoli <luca.ceresoli@bootlin.com>,
+        Michael Tretter <m.tretter@pengutronix.de>,
+        Mark Brown <broonie@kernel.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        linux-kernel@vger.kernel.org, Peter Rosin <peda@axentia.se>,
+        linux-media@vger.kernel.org,
+        Matti Vaittinen <Matti.Vaittinen@fi.rohmeurope.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Shawn Tu <shawnx.tu@intel.com>,
+        Mike Pagano <mpagano@gentoo.org>
+Subject: Re: [PATCH v6 3/8] dt-bindings: media: add TI DS90UB913 FPD-Link III
+ Serializer
+Message-ID: <167321528352.338760.2086491919796597688.robh@kernel.org>
+References: <20230105140307.272052-1-tomi.valkeinen@ideasonboard.com>
+ <20230105140307.272052-4-tomi.valkeinen@ideasonboard.com>
 MIME-Version: 1.0
-References: <20230103170058.810597-1-benjamin.gaignard@collabora.com> <20230103170058.810597-14-benjamin.gaignard@collabora.com>
-In-Reply-To: <20230103170058.810597-14-benjamin.gaignard@collabora.com>
-From:   Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-Date:   Sun, 8 Jan 2023 18:12:34 -0300
-Message-ID: <CAAEAJfBRtBSZt0B3OyQSCHhsseUn6_H+JSvAR3cOH15WUryuNw@mail.gmail.com>
-Subject: Re: [PATCH v2 13/13] media: verisilicon: Conditionnaly ignore native formats
-To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Cc:     p.zabel@pengutronix.de, mchehab@kernel.org, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, heiko@sntech.de,
-        daniel.almeida@collabora.com, nicolas.dufresne@collabora.co.uk,
-        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, kernel@collabora.com
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230105140307.272052-4-tomi.valkeinen@ideasonboard.com>
+X-Spam-Status: No, score=-1.3 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Jan 3, 2023 at 2:01 PM Benjamin Gaignard
-<benjamin.gaignard@collabora.com> wrote:
->
-> AV1 film grain feature requires to use the postprocessor to produce
-> valid frames. In such case the driver shouldn't propose native pixels
-> format but only post-processed pixels format.
-> If a codec set need_postproc field in hantro_ctx structure to true
-> native pixel formats will be ignored.
->
-> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+
+On Thu, 05 Jan 2023 16:03:02 +0200, Tomi Valkeinen wrote:
+> Add DT bindings for TI DS90UB913 FPD-Link III Serializer.
+> 
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 > ---
->  drivers/media/platform/verisilicon/hantro.h   |  3 ++
->  .../media/platform/verisilicon/hantro_drv.c   |  5 ++
->  .../platform/verisilicon/hantro_postproc.c    |  4 ++
->  .../media/platform/verisilicon/hantro_v4l2.c  | 46 +++++++++++++------
->  4 files changed, 45 insertions(+), 13 deletions(-)
->
-> diff --git a/drivers/media/platform/verisilicon/hantro.h b/drivers/media/platform/verisilicon/hantro.h
-> index a98cb40a8d3b..7a5357e810fb 100644
-> --- a/drivers/media/platform/verisilicon/hantro.h
-> +++ b/drivers/media/platform/verisilicon/hantro.h
-> @@ -231,6 +231,8 @@ struct hantro_dev {
->   * @ctrl_handler:      Control handler used to register controls.
->   * @jpeg_quality:      User-specified JPEG compression quality.
->   * @bit_depth:         Bit depth of current frame
-> + * @need_postproc:     Set to true if the bitstream features require to
-> + *                     use the post-processor.
->   *
->   * @codec_ops:         Set of operations related to codec mode.
->   * @postproc:          Post-processing context.
-> @@ -258,6 +260,7 @@ struct hantro_ctx {
->         struct v4l2_ctrl_handler ctrl_handler;
->         int jpeg_quality;
->         int bit_depth;
-> +       bool need_postproc;
->
->         const struct hantro_codec_ops *codec_ops;
->         struct hantro_postproc_ctx postproc;
-> diff --git a/drivers/media/platform/verisilicon/hantro_drv.c b/drivers/media/platform/verisilicon/hantro_drv.c
-> index 4fc6dea16ae6..8d7055c0bf3b 100644
-> --- a/drivers/media/platform/verisilicon/hantro_drv.c
-> +++ b/drivers/media/platform/verisilicon/hantro_drv.c
-> @@ -346,6 +346,11 @@ static int hantro_av1_s_ctrl(struct v4l2_ctrl *ctrl)
->                                 return -EINVAL;
->
->                 ctx->bit_depth = bit_depth;
-> +
-> +               if (ctrl->p_new.p_av1_sequence->flags
-> +                   & V4L2_AV1_SEQUENCE_FLAG_FILM_GRAIN_PARAMS_PRESENT)
-> +                       ctx->need_postproc = true;
-> +
->                 break;
->         default:
->                 return -EINVAL;
-> diff --git a/drivers/media/platform/verisilicon/hantro_postproc.c b/drivers/media/platform/verisilicon/hantro_postproc.c
-> index 7dc39519a2ee..293e5612e2ce 100644
-> --- a/drivers/media/platform/verisilicon/hantro_postproc.c
-> +++ b/drivers/media/platform/verisilicon/hantro_postproc.c
-> @@ -57,6 +57,10 @@ bool hantro_needs_postproc(const struct hantro_ctx *ctx,
->  {
->         if (ctx->is_encoder)
->                 return false;
-> +
-> +       if (ctx->need_postproc)
-> +               return true;
-> +
->         return fmt->postprocessed;
->  }
->
-> diff --git a/drivers/media/platform/verisilicon/hantro_v4l2.c b/drivers/media/platform/verisilicon/hantro_v4l2.c
-> index bbe79dbd2cd9..5c381766cca3 100644
-> --- a/drivers/media/platform/verisilicon/hantro_v4l2.c
-> +++ b/drivers/media/platform/verisilicon/hantro_v4l2.c
-> @@ -38,6 +38,11 @@ hantro_get_formats(const struct hantro_ctx *ctx, unsigned int *num_fmts)
->  {
->         const struct hantro_fmt *formats;
->
-> +       if (ctx->need_postproc) {
-> +               *num_fmts = 0;
-> +               return NULL;
-> +       }
-> +
->         if (ctx->is_encoder) {
->                 formats = ctx->dev->variant->enc_fmts;
->                 *num_fmts = ctx->dev->variant->num_enc_fmts;
-> @@ -132,6 +137,15 @@ hantro_get_default_fmt(const struct hantro_ctx *ctx, bool bitstream)
->                     hantro_check_depth_match(ctx, &formats[i]))
->                         return &formats[i];
->         }
-> +
-> +       formats = hantro_get_postproc_formats(ctx, &num_fmts);
-> +       for (i = 0; i < num_fmts; i++) {
-> +               if (bitstream == (formats[i].codec_mode !=
-> +                                 HANTRO_MODE_NONE) &&
-> +                   hantro_check_depth_match(ctx, &formats[i]))
-> +                       return &formats[i];
-> +       }
-> +
->         return NULL;
->  }
->
-> @@ -261,19 +275,6 @@ static int vidioc_g_fmt_out_mplane(struct file *file, void *priv,
->         return 0;
->  }
->
-> -static int vidioc_g_fmt_cap_mplane(struct file *file, void *priv,
-> -                                  struct v4l2_format *f)
-> -{
-> -       struct v4l2_pix_format_mplane *pix_mp = &f->fmt.pix_mp;
-> -       struct hantro_ctx *ctx = fh_to_ctx(priv);
-> -
-> -       vpu_debug(4, "f->type = %d\n", f->type);
-> -
-> -       *pix_mp = ctx->dst_fmt;
-> -
-> -       return 0;
-> -}
-> -
->  static int hantro_try_fmt(const struct hantro_ctx *ctx,
->                           struct v4l2_pix_format_mplane *pix_mp,
->                           enum v4l2_buf_type type)
-> @@ -353,6 +354,25 @@ static int hantro_try_fmt(const struct hantro_ctx *ctx,
->         return 0;
->  }
->
-> +static int vidioc_g_fmt_cap_mplane(struct file *file, void *priv,
-> +                                  struct v4l2_format *f)
-> +{
-> +       struct v4l2_pix_format_mplane *pix_mp = &f->fmt.pix_mp;
-> +       struct hantro_ctx *ctx = fh_to_ctx(priv);
-> +       int ret;
-> +
-> +       vpu_debug(4, "f->type = %d\n", f->type);
-> +
-> +       ret = hantro_try_fmt(ctx, pix_mp, f->type);
-> +       if (ret)
-> +               return ret;
-> +
-> +       ctx->vpu_dst_fmt = hantro_find_format(ctx, pix_mp->pixelformat);
-> +       ctx->dst_fmt = *pix_mp;
-> +
+>  .../bindings/media/i2c/ti,ds90ub913.yaml      | 133 ++++++++++++++++++
+>  1 file changed, 133 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/i2c/ti,ds90ub913.yaml
+> 
 
-This looks like the g_fmt is setting some state in the context,
-this looks incorrect.
-
-Thanks,
-Ezequiel
+Reviewed-by: Rob Herring <robh@kernel.org>
