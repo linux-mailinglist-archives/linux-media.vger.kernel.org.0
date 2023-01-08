@@ -2,596 +2,217 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 59D39661949
-	for <lists+linux-media@lfdr.de>; Sun,  8 Jan 2023 21:26:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 213DC6619C8
+	for <lists+linux-media@lfdr.de>; Sun,  8 Jan 2023 22:13:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233372AbjAHU0c (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 8 Jan 2023 15:26:32 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40930 "EHLO
+        id S233617AbjAHVNS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 8 Jan 2023 16:13:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60474 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235956AbjAHU0R (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sun, 8 Jan 2023 15:26:17 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 893CBC4B
-        for <linux-media@vger.kernel.org>; Sun,  8 Jan 2023 12:26:15 -0800 (PST)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id CE11D6CF;
-        Sun,  8 Jan 2023 21:26:12 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1673209573;
-        bh=CV7Qp9UI440uXbu0XSYg3jMW46Xt588J62tIFr9pJiw=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=WQ+/oNt0i4Hzaz+HtPnfTxJnshBjqjnQCqw3L5xenAOEiJGRvIypCzBObfqEZAbnb
-         zGh9I/hRIX3jh2K+8vjf3ExDuBYw+fXUqfgQJE8quUHTkNIBVcUkOQNOOpg6UTgEYA
-         Hsl2rurgZQJ/G1EBLHP1H/2TReQ1CPRqQFTbLZoI=
-Date:   Sun, 8 Jan 2023 22:26:09 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Adam Pigg <adam@piggz.co.uk>
-Cc:     linux-media@vger.kernel.org, yong.deng@magewell.com,
-        mchehab@kernel.org, linux-sunxi@lists.linux.dev,
-        paul.kocialkowski@bootlin.com
-Subject: Re: [PATCH 1/3] media: sun6i-csi: merge sun6i_csi_formats and
- sun6i_csi_formats_match
-Message-ID: <Y7sm4ZbAoBhuhmP/@pendragon.ideasonboard.com>
-References: <20230106194038.16018-1-adam@piggz.co.uk>
- <20230106194038.16018-2-adam@piggz.co.uk>
- <Y7ivZC2e0TZtbASV@pendragon.ideasonboard.com>
- <5905587.lOV4Wx5bFT@192-168-1-215>
+        with ESMTP id S233381AbjAHVMv (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sun, 8 Jan 2023 16:12:51 -0500
+Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com [IPv6:2a00:1450:4864:20::22e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A037655F
+        for <linux-media@vger.kernel.org>; Sun,  8 Jan 2023 13:12:48 -0800 (PST)
+Received: by mail-lj1-x22e.google.com with SMTP id q2so7013135ljp.6
+        for <linux-media@vger.kernel.org>; Sun, 08 Jan 2023 13:12:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=x53uwOLKbwK81PFlMs31vANCaDhh1Zsvs/a9zuGpPQk=;
+        b=0PDk1gKy7Bf3a6EwyRvCAxmVMnlOtuNpFYpwSfF8y6YltxiIQb7a28VlfLbdiYUi6Z
+         8MUnG9BR3yVVQpLQU8XqLEmftHA2d1Gw5X/S61ZSMcY9nerIvO6sUXlrqj5+Ry8uK6s4
+         9+cxshzjPhDQxmL8A46alekPNVEs72Y5+5WPOa/B1jrup3Id5EloKkFXO0A1+jXx9HcN
+         4DK1RRwIkfvPYHrFAU2H0zcozt4Orl+qAk871SXv+SFwN217D4TvTQj04jycZig2r0f2
+         EQxBzqR9uic9UGoshpdACfObFi9jPenr8z/7THbGN2Te4ymD3Z1yCRA1igE8Ygf8s6Xr
+         +M/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=x53uwOLKbwK81PFlMs31vANCaDhh1Zsvs/a9zuGpPQk=;
+        b=r2NdZIBv+CXL1sbcRfvpnKu8r3h6i1ln+ypLV7fjfw05E+QnLdmr93xscwddX1BMCG
+         jzwRpFpn7XcSb8lL40qJmyasUh6q2/uFus2ROrNkha5K1cSnVDsfA5+xTV3/fVGrEpul
+         qfv1TWbotwhodIqQ0Jt2+nnSGMcvQZ7mwWmxv8eBZgVC05j9c0goT4uwF0dOs6Xw2FHX
+         BpTUXcIMzYgToXLDnVQgkoNrvRRRLfM59Fd47h98M4DMvk/3nZf4WAYLnH+vB/LtS5Yg
+         7ROm9AzdVmLq2lMXaXHxmgguIVGmyO5TNkzSTqgSZnXg7pE7+878tbYJhJT/O71sfOZw
+         T9mQ==
+X-Gm-Message-State: AFqh2kqC/sU5JHk4BgJS2lEebR0yqE96k5g/LAd3gVjpCa/BmIRHxSIN
+        g8tczn5CX3XP8zBiret2gYHiXNO8o6IffWzVYyymqw==
+X-Google-Smtp-Source: AMrXdXssLooCUB3JcSjFGQGlVuCaFAVGO6fwtMCDpc/mUlglB++tww+r2xlSFr4vPtbjYEwsLwWpTCjfAlStv55FVrU=
+X-Received: by 2002:a2e:90d2:0:b0:27f:f22d:afe9 with SMTP id
+ o18-20020a2e90d2000000b0027ff22dafe9mr1990761ljg.404.1673212366368; Sun, 08
+ Jan 2023 13:12:46 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <5905587.lOV4Wx5bFT@192-168-1-215>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+References: <20230103170058.810597-1-benjamin.gaignard@collabora.com> <20230103170058.810597-14-benjamin.gaignard@collabora.com>
+In-Reply-To: <20230103170058.810597-14-benjamin.gaignard@collabora.com>
+From:   Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Date:   Sun, 8 Jan 2023 18:12:34 -0300
+Message-ID: <CAAEAJfBRtBSZt0B3OyQSCHhsseUn6_H+JSvAR3cOH15WUryuNw@mail.gmail.com>
+Subject: Re: [PATCH v2 13/13] media: verisilicon: Conditionnaly ignore native formats
+To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Cc:     p.zabel@pengutronix.de, mchehab@kernel.org, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, heiko@sntech.de,
+        daniel.almeida@collabora.com, nicolas.dufresne@collabora.co.uk,
+        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, kernel@collabora.com
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Adam,
+On Tue, Jan 3, 2023 at 2:01 PM Benjamin Gaignard
+<benjamin.gaignard@collabora.com> wrote:
+>
+> AV1 film grain feature requires to use the postprocessor to produce
+> valid frames. In such case the driver shouldn't propose native pixels
+> format but only post-processed pixels format.
+> If a codec set need_postproc field in hantro_ctx structure to true
+> native pixel formats will be ignored.
+>
+> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> ---
+>  drivers/media/platform/verisilicon/hantro.h   |  3 ++
+>  .../media/platform/verisilicon/hantro_drv.c   |  5 ++
+>  .../platform/verisilicon/hantro_postproc.c    |  4 ++
+>  .../media/platform/verisilicon/hantro_v4l2.c  | 46 +++++++++++++------
+>  4 files changed, 45 insertions(+), 13 deletions(-)
+>
+> diff --git a/drivers/media/platform/verisilicon/hantro.h b/drivers/media/platform/verisilicon/hantro.h
+> index a98cb40a8d3b..7a5357e810fb 100644
+> --- a/drivers/media/platform/verisilicon/hantro.h
+> +++ b/drivers/media/platform/verisilicon/hantro.h
+> @@ -231,6 +231,8 @@ struct hantro_dev {
+>   * @ctrl_handler:      Control handler used to register controls.
+>   * @jpeg_quality:      User-specified JPEG compression quality.
+>   * @bit_depth:         Bit depth of current frame
+> + * @need_postproc:     Set to true if the bitstream features require to
+> + *                     use the post-processor.
+>   *
+>   * @codec_ops:         Set of operations related to codec mode.
+>   * @postproc:          Post-processing context.
+> @@ -258,6 +260,7 @@ struct hantro_ctx {
+>         struct v4l2_ctrl_handler ctrl_handler;
+>         int jpeg_quality;
+>         int bit_depth;
+> +       bool need_postproc;
+>
+>         const struct hantro_codec_ops *codec_ops;
+>         struct hantro_postproc_ctx postproc;
+> diff --git a/drivers/media/platform/verisilicon/hantro_drv.c b/drivers/media/platform/verisilicon/hantro_drv.c
+> index 4fc6dea16ae6..8d7055c0bf3b 100644
+> --- a/drivers/media/platform/verisilicon/hantro_drv.c
+> +++ b/drivers/media/platform/verisilicon/hantro_drv.c
+> @@ -346,6 +346,11 @@ static int hantro_av1_s_ctrl(struct v4l2_ctrl *ctrl)
+>                                 return -EINVAL;
+>
+>                 ctx->bit_depth = bit_depth;
+> +
+> +               if (ctrl->p_new.p_av1_sequence->flags
+> +                   & V4L2_AV1_SEQUENCE_FLAG_FILM_GRAIN_PARAMS_PRESENT)
+> +                       ctx->need_postproc = true;
+> +
+>                 break;
+>         default:
+>                 return -EINVAL;
+> diff --git a/drivers/media/platform/verisilicon/hantro_postproc.c b/drivers/media/platform/verisilicon/hantro_postproc.c
+> index 7dc39519a2ee..293e5612e2ce 100644
+> --- a/drivers/media/platform/verisilicon/hantro_postproc.c
+> +++ b/drivers/media/platform/verisilicon/hantro_postproc.c
+> @@ -57,6 +57,10 @@ bool hantro_needs_postproc(const struct hantro_ctx *ctx,
+>  {
+>         if (ctx->is_encoder)
+>                 return false;
+> +
+> +       if (ctx->need_postproc)
+> +               return true;
+> +
+>         return fmt->postprocessed;
+>  }
+>
+> diff --git a/drivers/media/platform/verisilicon/hantro_v4l2.c b/drivers/media/platform/verisilicon/hantro_v4l2.c
+> index bbe79dbd2cd9..5c381766cca3 100644
+> --- a/drivers/media/platform/verisilicon/hantro_v4l2.c
+> +++ b/drivers/media/platform/verisilicon/hantro_v4l2.c
+> @@ -38,6 +38,11 @@ hantro_get_formats(const struct hantro_ctx *ctx, unsigned int *num_fmts)
+>  {
+>         const struct hantro_fmt *formats;
+>
+> +       if (ctx->need_postproc) {
+> +               *num_fmts = 0;
+> +               return NULL;
+> +       }
+> +
+>         if (ctx->is_encoder) {
+>                 formats = ctx->dev->variant->enc_fmts;
+>                 *num_fmts = ctx->dev->variant->num_enc_fmts;
+> @@ -132,6 +137,15 @@ hantro_get_default_fmt(const struct hantro_ctx *ctx, bool bitstream)
+>                     hantro_check_depth_match(ctx, &formats[i]))
+>                         return &formats[i];
+>         }
+> +
+> +       formats = hantro_get_postproc_formats(ctx, &num_fmts);
+> +       for (i = 0; i < num_fmts; i++) {
+> +               if (bitstream == (formats[i].codec_mode !=
+> +                                 HANTRO_MODE_NONE) &&
+> +                   hantro_check_depth_match(ctx, &formats[i]))
+> +                       return &formats[i];
+> +       }
+> +
+>         return NULL;
+>  }
+>
+> @@ -261,19 +275,6 @@ static int vidioc_g_fmt_out_mplane(struct file *file, void *priv,
+>         return 0;
+>  }
+>
+> -static int vidioc_g_fmt_cap_mplane(struct file *file, void *priv,
+> -                                  struct v4l2_format *f)
+> -{
+> -       struct v4l2_pix_format_mplane *pix_mp = &f->fmt.pix_mp;
+> -       struct hantro_ctx *ctx = fh_to_ctx(priv);
+> -
+> -       vpu_debug(4, "f->type = %d\n", f->type);
+> -
+> -       *pix_mp = ctx->dst_fmt;
+> -
+> -       return 0;
+> -}
+> -
+>  static int hantro_try_fmt(const struct hantro_ctx *ctx,
+>                           struct v4l2_pix_format_mplane *pix_mp,
+>                           enum v4l2_buf_type type)
+> @@ -353,6 +354,25 @@ static int hantro_try_fmt(const struct hantro_ctx *ctx,
+>         return 0;
+>  }
+>
+> +static int vidioc_g_fmt_cap_mplane(struct file *file, void *priv,
+> +                                  struct v4l2_format *f)
+> +{
+> +       struct v4l2_pix_format_mplane *pix_mp = &f->fmt.pix_mp;
+> +       struct hantro_ctx *ctx = fh_to_ctx(priv);
+> +       int ret;
+> +
+> +       vpu_debug(4, "f->type = %d\n", f->type);
+> +
+> +       ret = hantro_try_fmt(ctx, pix_mp, f->type);
+> +       if (ret)
+> +               return ret;
+> +
+> +       ctx->vpu_dst_fmt = hantro_find_format(ctx, pix_mp->pixelformat);
+> +       ctx->dst_fmt = *pix_mp;
+> +
 
-On Sun, Jan 08, 2023 at 06:23:56PM +0000, Adam Pigg wrote:
-> On Friday, 6 January 2023 23:31:48 GMT Laurent Pinchart wrote:
-> > On Fri, Jan 06, 2023 at 07:40:36PM +0000, adam@piggz.co.uk wrote:
-> > > From: Adam Pigg <adam@piggz.co.uk>
-> > > 
-> > > Merged the two format arrays into sun6i_csi_capture_formats as a
-> > > pre-requisite to implementing V4L2_CAP_IO_MC
-> > 
-> > I'll point to https://cbea.ms/git-commit/ if you haven't read it yet.
-> > You can ignore the "Limit the subject line to 50 characters" rule and go
-> > up to the normal 72 characters limit for commit messages, as 50 doesn't
-> > include the prefixes commonly used in kernel commit messages.
-> > 
-> > For this specific patch, I would write
-> > 
-> > Information about media bus formats and pixel formats supported by the
-> > driver is split between the sun6i_csi_capture_formats and
-> > sun6i_csi_capture_format_matches arrays. This makes it difficult to map
-> > media bus formats to pixel formats when enumerating the supported pixel
-> > formats by walking the sun6i_csi_capture_formats array. To prepare for
-> > support of media bus format support in sun6i_csi_capture_enum_fmt(),
-> > merge the two arrays toegether.
-> > 
-> > 
-> > An extra paragraph could be added to explain *how* this is being done,
-> > but the implementation is straightforward enough to not require that.
-> > 
-> > > Signed-off-by: Adam Pigg <adam@piggz.co.uk>
-> > > ---
-> > > 
-> > >  .../sunxi/sun6i-csi/sun6i_csi_capture.c       | 155 +++++-------------
-> > >  .../sunxi/sun6i-csi/sun6i_csi_capture.h       |   6 +-
-> > >  2 files changed, 46 insertions(+), 115 deletions(-)
-> > > 
-> > > diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
-> > > b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c index
-> > > 03d4adec054c..69578075421c 100644
-> > > --- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
-> > > +++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
-> > > @@ -22,6 +22,8 @@
-> > > 
-> > >  /* Helpers */
-> > > 
-> > > +#define SUN6I_BUS_FMTS(fmt...) (const u32[]) {fmt, 0}
-> > > +
-> > > 
-> > >  void sun6i_csi_capture_dimensions(struct sun6i_csi_device *csi_dev,
-> > >  
-> > >  				  unsigned int *width, unsigned  int *height)
-> > >  
-> > >  {
-> > > 
-> > > @@ -49,72 +51,86 @@ static const struct sun6i_csi_capture_format
-> > > sun6i_csi_capture_formats[] = {> 
-> > >  		.pixelformat		= V4L2_PIX_FMT_SBGGR8,
-> > >  		.output_format_frame	=  SUN6I_CSI_OUTPUT_FMT_FRAME_RAW_8,
-> > >  		.output_format_field	=  SUN6I_CSI_OUTPUT_FMT_FIELD_RAW_8,
-> > > 
-> > > +		.mbus_codes		=  SUN6I_BUS_FMTS(MEDIA_BUS_FMT_SBGGR8_1X8),
-> > > 
-> > >  	},
-> > >  	{
-> > >  	
-> > >  		.pixelformat		= V4L2_PIX_FMT_SGBRG8,
-> > >  		.output_format_frame	=  SUN6I_CSI_OUTPUT_FMT_FRAME_RAW_8,
-> > >  		.output_format_field	=  SUN6I_CSI_OUTPUT_FMT_FIELD_RAW_8,
-> > > 
-> > > +		.mbus_codes		=  SUN6I_BUS_FMTS(MEDIA_BUS_FMT_SGBRG8_1X8),
-> > > 
-> > >  	},
-> > >  	{
-> > >  	
-> > >  		.pixelformat		= V4L2_PIX_FMT_SGRBG8,
-> > >  		.output_format_frame	=  SUN6I_CSI_OUTPUT_FMT_FRAME_RAW_8,
-> > >  		.output_format_field	=  SUN6I_CSI_OUTPUT_FMT_FIELD_RAW_8,
-> > > 
-> > > +		.mbus_codes		=  SUN6I_BUS_FMTS(MEDIA_BUS_FMT_SGRBG8_1X8),
-> > > 
-> > >  	},
-> > >  	{
-> > >  	
-> > >  		.pixelformat		= V4L2_PIX_FMT_SRGGB8,
-> > >  		.output_format_frame	=  SUN6I_CSI_OUTPUT_FMT_FRAME_RAW_8,
-> > >  		.output_format_field	=  SUN6I_CSI_OUTPUT_FMT_FIELD_RAW_8,
-> > > 
-> > > +		.mbus_codes		=  SUN6I_BUS_FMTS(MEDIA_BUS_FMT_SRGGB8_1X8),
-> > > 
-> > >  	},
-> > >  	{
-> > >  	
-> > >  		.pixelformat		= V4L2_PIX_FMT_SBGGR10,
-> > >  		.output_format_frame	=  SUN6I_CSI_OUTPUT_FMT_FRAME_RAW_10,
-> > >  		.output_format_field	=  SUN6I_CSI_OUTPUT_FMT_FIELD_RAW_10,
-> > > 
-> > > +		.mbus_codes		=  SUN6I_BUS_FMTS(MEDIA_BUS_FMT_SBGGR10_1X10),
-> > > 
-> > >  	},
-> > >  	{
-> > >  	
-> > >  		.pixelformat		= V4L2_PIX_FMT_SGBRG10,
-> > >  		.output_format_frame	=  SUN6I_CSI_OUTPUT_FMT_FRAME_RAW_10,
-> > >  		.output_format_field	=  SUN6I_CSI_OUTPUT_FMT_FIELD_RAW_10,
-> > > 
-> > > +		.mbus_codes		=  SUN6I_BUS_FMTS(MEDIA_BUS_FMT_SGBRG10_1X10),
-> > > 
-> > >  	},
-> > >  	{
-> > >  	
-> > >  		.pixelformat		= V4L2_PIX_FMT_SGRBG10,
-> > >  		.output_format_frame	=  SUN6I_CSI_OUTPUT_FMT_FRAME_RAW_10,
-> > >  		.output_format_field	=  SUN6I_CSI_OUTPUT_FMT_FIELD_RAW_10,
-> > > 
-> > > +		.mbus_codes		=  SUN6I_BUS_FMTS(MEDIA_BUS_FMT_SGRBG10_1X10),
-> > > 
-> > >  	},
-> > >  	{
-> > >  	
-> > >  		.pixelformat		= V4L2_PIX_FMT_SRGGB10,
-> > >  		.output_format_frame	=  SUN6I_CSI_OUTPUT_FMT_FRAME_RAW_10,
-> > >  		.output_format_field	=  SUN6I_CSI_OUTPUT_FMT_FIELD_RAW_10,
-> > > 
-> > > +		.mbus_codes		=  SUN6I_BUS_FMTS(MEDIA_BUS_FMT_SRGGB10_1X10),
-> > > 
-> > >  	},
-> > >  	{
-> > >  	
-> > >  		.pixelformat		= V4L2_PIX_FMT_SBGGR12,
-> > >  		.output_format_frame	=  SUN6I_CSI_OUTPUT_FMT_FRAME_RAW_12,
-> > >  		.output_format_field	=  SUN6I_CSI_OUTPUT_FMT_FIELD_RAW_12,
-> > > 
-> > > +		.mbus_codes		=  SUN6I_BUS_FMTS(MEDIA_BUS_FMT_SBGGR12_1X12),
-> > > 
-> > >  	},
-> > >  	{
-> > >  	
-> > >  		.pixelformat		= V4L2_PIX_FMT_SGBRG12,
-> > >  		.output_format_frame	=  SUN6I_CSI_OUTPUT_FMT_FRAME_RAW_12,
-> > >  		.output_format_field	=  SUN6I_CSI_OUTPUT_FMT_FIELD_RAW_12,
-> > > 
-> > > +		.mbus_codes		=  SUN6I_BUS_FMTS(MEDIA_BUS_FMT_SGBRG12_1X12),
-> > > 
-> > >  	},
-> > >  	{
-> > >  	
-> > >  		.pixelformat		= V4L2_PIX_FMT_SGRBG12,
-> > >  		.output_format_frame	=  SUN6I_CSI_OUTPUT_FMT_FRAME_RAW_12,
-> > >  		.output_format_field	=  SUN6I_CSI_OUTPUT_FMT_FIELD_RAW_12,
-> > > 
-> > > +		.mbus_codes		=  SUN6I_BUS_FMTS(MEDIA_BUS_FMT_SGRBG12_1X12),
-> > > 
-> > >  	},
-> > >  	{
-> > >  	
-> > >  		.pixelformat		= V4L2_PIX_FMT_SRGGB12,
-> > >  		.output_format_frame	=  SUN6I_CSI_OUTPUT_FMT_FRAME_RAW_12,
-> > >  		.output_format_field	=  SUN6I_CSI_OUTPUT_FMT_FIELD_RAW_12,
-> > > 
-> > > +		.mbus_codes		=  SUN6I_BUS_FMTS(MEDIA_BUS_FMT_SRGGB12_1X12),
-> > > 
-> > >  	},
-> > >  	/* RGB */
-> > >  	{
-> > >  	
-> > >  		.pixelformat		= V4L2_PIX_FMT_RGB565,
-> > >  		.output_format_frame	=  SUN6I_CSI_OUTPUT_FMT_FRAME_RGB565,
-> > >  		.output_format_field	=  SUN6I_CSI_OUTPUT_FMT_FIELD_RGB565,
-> > > 
-> > > +		.mbus_codes		=  SUN6I_BUS_FMTS(MEDIA_BUS_FMT_RGB565_2X8_LE),
-> > > 
-> > >  	},
-> > >  	{
-> > >  	
-> > >  		.pixelformat		= V4L2_PIX_FMT_RGB565X,
-> > >  		.output_format_frame	=  SUN6I_CSI_OUTPUT_FMT_FRAME_RGB565,
-> > >  		.output_format_field	=  SUN6I_CSI_OUTPUT_FMT_FIELD_RGB565,
-> > > 
-> > > +		.mbus_codes		=  SUN6I_BUS_FMTS(MEDIA_BUS_FMT_RGB565_2X8_BE),
-> > > 
-> > >  	},
-> > >  	/* YUV422 */
-> > >  	{
-> > > 
-> > > @@ -123,6 +139,8 @@ static const struct sun6i_csi_capture_format
-> > > sun6i_csi_capture_formats[] = {> 
-> > >  		.output_format_field	=  SUN6I_CSI_OUTPUT_FMT_FIELD_RAW_8,
-> > >  		.input_format_raw	= true,
-> > >  		.hsize_len_factor	= 2,
-> > > 
-> > > +		.mbus_codes		=  SUN6I_BUS_FMTS(MEDIA_BUS_FMT_YUYV8_2X8,
-> > > +							  MEDIA_BUS_FMT_YUYV8_1X16),
-> > > 
-> > >  	},
-> > >  	{
-> > >  	
-> > >  		.pixelformat		= V4L2_PIX_FMT_YVYU,
-> > > 
-> > > @@ -130,6 +148,8 @@ static const struct sun6i_csi_capture_format
-> > > sun6i_csi_capture_formats[] = {> 
-> > >  		.output_format_field	=  SUN6I_CSI_OUTPUT_FMT_FIELD_RAW_8,
-> > >  		.input_format_raw	= true,
-> > >  		.hsize_len_factor	= 2,
-> > > 
-> > > +		.mbus_codes		=  SUN6I_BUS_FMTS(MEDIA_BUS_FMT_YVYU8_2X8,
-> > > +							  MEDIA_BUS_FMT_YVYU8_1X16),
-> > > 
-> > >  	},
-> > >  	{
-> > >  	
-> > >  		.pixelformat		= V4L2_PIX_FMT_UYVY,
-> > > 
-> > > @@ -137,6 +157,8 @@ static const struct sun6i_csi_capture_format
-> > > sun6i_csi_capture_formats[] = {
-> > >  		.output_format_field	=  SUN6I_CSI_OUTPUT_FMT_FIELD_RAW_8,
-> > >  		.input_format_raw	= true,
-> > >  		.hsize_len_factor	= 2,
-> > > 
-> > > +		.mbus_codes		=  SUN6I_BUS_FMTS(MEDIA_BUS_FMT_UYVY8_2X8,
-> > > +							  MEDIA_BUS_FMT_UYVY8_1X16),
-> > > 
-> > >  	},
-> > >  	{
-> > >  	
-> > >  		.pixelformat		= V4L2_PIX_FMT_VYUY,
-> > > 
-> > > @@ -144,57 +166,68 @@ static const struct sun6i_csi_capture_format
-> > > sun6i_csi_capture_formats[] = {> 
-> > >  		.output_format_field	=  SUN6I_CSI_OUTPUT_FMT_FIELD_RAW_8,
-> > >  		.input_format_raw	= true,
-> > >  		.hsize_len_factor	= 2,
-> > > 
-> > > +		.mbus_codes		=  SUN6I_BUS_FMTS(MEDIA_BUS_FMT_VYUY8_2X8,
-> > > +							  MEDIA_BUS_FMT_VYUY8_1X16),
-> > > 
-> > >  	},
-> > >  	{
-> > >  	
-> > >  		.pixelformat		= V4L2_PIX_FMT_NV16,
-> > >  		.output_format_frame	=  SUN6I_CSI_OUTPUT_FMT_FRAME_YUV422SP,
-> > >  		.output_format_field	=  SUN6I_CSI_OUTPUT_FMT_FIELD_YUV422SP,
-> > > 
-> > > +		.mbus_codes		= 0,
-> > 
-> > I don't think this is correct. To produce semi-planar or multi-planar
-> > YUV formats, I believe the CSI needs YUV input. This should thus be
-> > (unless I'm mistaken)
-> > 
-> > 		.mbus_codes		=  SUN6I_BUS_FMTS(MEDIA_BUS_FMT_UYVY8_2X8,
-> > 							  MEDIA_BUS_FMT_UYVY8_1X16,
-> > 							  MEDIA_BUS_FMT_VYUY8_2X8,
-> > 							  MEDIA_BUS_FMT_VYUY8_1X16,
-> > 							  MEDIA_BUS_FMT_YUYV8_2X8,
-> > 							  MEDIA_BUS_FMT_YUYV8_1X16,
-> > 							  MEDIA_BUS_FMT_YVYU8_2X8,
-> > 							  MEDIA_BUS_FMT_YVYU8_1X16),
-> > 
-> > and same below.
-> > 
-> Hi Laurent
-> 
-> Thanks for the help and tips.  Ive made all the other changes, which can be 
-> viewed here until i resubmit them https://github.com/sailfish-on-dontbeevil/
-> kernel-megi/commits/pinephone-libcamera
-> 
-> Im just not quite sure on this one.  I think my implementation of merging the 
-> arrays keeps the previous mapping right?  In sun6i_csi_capture_format_matches 
-> there is no mapping for the *NV formats, and the remaining ones ive set to 0?
+This looks like the g_fmt is setting some state in the context,
+this looks incorrect.
 
-The current implementation allows writing multi-planar formats (e.g.
-NV12) to memory when the input of the CSI is a YUV media bus format
-(e.g. YUYV8_1X16). This patch doesn't change that, but it will prevent
-NV12 from being enumerated when using media bus-based enumeration of
-pixel formats, so userspace won't see NV12 as being available.
-
-It would be fine fixing that issue in a separate patch on top of this
-one, but I though you could as well do both in one go.
-
-> > Paul, could you confirm this ?
-> > 
-> > I'm a bit surprised that the CSI can't shuffle the YUV components for
-> > packed YUYV formats, but so be it if that's a hardware limitation.
-> > 
-> > I'm also thinking that a subsequent patch could drop the raw check from
-> > sun6i_csi_capture_link_validate():
-> > 
-> > -	/* With raw input mode, we need a 1:1 match between input and  output. */
-> > -	if (bridge_format->input_format == SUN6I_CSI_INPUT_FMT_RAW ||
-> > -	    capture_format->input_format_raw) {
-> > -		match = sun6i_csi_capture_format_match(pixelformat,
-> > -						        fmt.format.code);
-> > -		if (!match)
-> > -			goto invalid;
-> > -	}
-> > +	/* Make sure the media bus code and pixel format are compatible. */
-> > +	match = sun6i_csi_capture_format_match(pixelformat,  fmt.format.code);
-> > +	if (!match)
-> > +		goto invalid;
-> > 
-> > >  	},
-> > >  	{
-> > >  	
-> > >  		.pixelformat		= V4L2_PIX_FMT_NV61,
-> > >  		.output_format_frame	=  SUN6I_CSI_OUTPUT_FMT_FRAME_YUV422SP,
-> > >  		.output_format_field	=  SUN6I_CSI_OUTPUT_FMT_FIELD_YUV422SP,
-> > >  		.input_yuv_seq_invert	= true,
-> > > 
-> > > +		.mbus_codes		= 0,
-> > > 
-> > >  	},
-> > >  	{
-> > >  	
-> > >  		.pixelformat		= V4L2_PIX_FMT_YUV422P,
-> > >  		.output_format_frame	=  SUN6I_CSI_OUTPUT_FMT_FRAME_YUV422P,
-> > >  		.output_format_field	=  SUN6I_CSI_OUTPUT_FMT_FIELD_YUV422P,
-> > > 
-> > > +		.mbus_codes		= 0,
-> > > 
-> > >  	},
-> > >  	/* YUV420 */
-> > >  	{
-> > >  	
-> > >  		.pixelformat		= V4L2_PIX_FMT_NV12_16L16,
-> > >  		.output_format_frame	=  SUN6I_CSI_OUTPUT_FMT_FRAME_YUV420MB,
-> > >  		.output_format_field	=  SUN6I_CSI_OUTPUT_FMT_FIELD_YUV420MB,
-> > > 
-> > > +		.mbus_codes		= 0,
-> > > 
-> > >  	},
-> > >  	{
-> > >  	
-> > >  		.pixelformat		= V4L2_PIX_FMT_NV12,
-> > >  		.output_format_frame	=  SUN6I_CSI_OUTPUT_FMT_FRAME_YUV420SP,
-> > >  		.output_format_field	=  SUN6I_CSI_OUTPUT_FMT_FIELD_YUV420SP,
-> > > 
-> > > +		.mbus_codes		= 0,
-> > > 
-> > >  	},
-> > >  	{
-> > >  	
-> > >  		.pixelformat		= V4L2_PIX_FMT_NV21,
-> > >  		.output_format_frame	=  SUN6I_CSI_OUTPUT_FMT_FRAME_YUV420SP,
-> > >  		.output_format_field	=  SUN6I_CSI_OUTPUT_FMT_FIELD_YUV420SP,
-> > >  		.input_yuv_seq_invert	= true,
-> > > 
-> > > +		.mbus_codes		= 0,
-> > > 
-> > >  	},
-> > >  	
-> > >  	{
-> > >  	
-> > >  		.pixelformat		= V4L2_PIX_FMT_YUV420,
-> > >  		.output_format_frame	=  SUN6I_CSI_OUTPUT_FMT_FRAME_YUV420P,
-> > >  		.output_format_field	=  SUN6I_CSI_OUTPUT_FMT_FIELD_YUV420P,
-> > > 
-> > > +		.mbus_codes		= 0,
-> > > 
-> > >  	},
-> > >  	{
-> > >  	
-> > >  		.pixelformat		= V4L2_PIX_FMT_YVU420,
-> > >  		.output_format_frame	=  SUN6I_CSI_OUTPUT_FMT_FRAME_YUV420P,
-> > >  		.output_format_field	=  SUN6I_CSI_OUTPUT_FMT_FIELD_YUV420P,
-> > >  		.input_yuv_seq_invert	= true,
-> > > 
-> > > +		.mbus_codes		= 0,
-> > > 
-> > >  	},
-> > >  	/* Compressed */
-> > >  	{
-> > >  	
-> > >  		.pixelformat		= V4L2_PIX_FMT_JPEG,
-> > >  		.output_format_frame	=  SUN6I_CSI_OUTPUT_FMT_FRAME_RAW_8,
-> > >  		.output_format_field	=  SUN6I_CSI_OUTPUT_FMT_FIELD_RAW_8,
-> > > 
-> > > +		.mbus_codes		=  SUN6I_BUS_FMTS(MEDIA_BUS_FMT_JPEG_1X8),
-> > > 
-> > >  	},
-> > >  
-> > >  };
-> > > 
-> > > @@ -210,118 +243,20 @@ struct sun6i_csi_capture_format
-> > > *sun6i_csi_capture_format_find(u32 pixelformat)> 
-> > >  	return NULL;
-> > >  
-> > >  }
-> > > 
-> > > -/* RAW formats need an exact match between pixel and mbus formats. */
-> > > -static const
-> > > -struct sun6i_csi_capture_format_match sun6i_csi_capture_format_matches[]
-> > > = { -	/* YUV420 */
-> > > -	{
-> > > -		.pixelformat	= V4L2_PIX_FMT_YUYV,
-> > > -		.mbus_code	= MEDIA_BUS_FMT_YUYV8_2X8,
-> > > -	},
-> > > -	{
-> > > -		.pixelformat	= V4L2_PIX_FMT_YUYV,
-> > > -		.mbus_code	= MEDIA_BUS_FMT_YUYV8_1X16,
-> > > -	},
-> > > -	{
-> > > -		.pixelformat	= V4L2_PIX_FMT_YVYU,
-> > > -		.mbus_code	= MEDIA_BUS_FMT_YVYU8_2X8,
-> > > -	},
-> > > -	{
-> > > -		.pixelformat	= V4L2_PIX_FMT_YVYU,
-> > > -		.mbus_code	= MEDIA_BUS_FMT_YVYU8_1X16,
-> > > -	},
-> > > -	{
-> > > -		.pixelformat	= V4L2_PIX_FMT_UYVY,
-> > > -		.mbus_code	= MEDIA_BUS_FMT_UYVY8_2X8,
-> > > -	},
-> > > -	{
-> > > -		.pixelformat	= V4L2_PIX_FMT_UYVY,
-> > > -		.mbus_code	= MEDIA_BUS_FMT_UYVY8_1X16,
-> > > -	},
-> > > -	{
-> > > -		.pixelformat	= V4L2_PIX_FMT_VYUY,
-> > > -		.mbus_code	= MEDIA_BUS_FMT_VYUY8_2X8,
-> > > -	},
-> > > -	{
-> > > -		.pixelformat	= V4L2_PIX_FMT_VYUY,
-> > > -		.mbus_code	= MEDIA_BUS_FMT_VYUY8_1X16,
-> > > -	},
-> > > -	/* RGB */
-> > > -	{
-> > > -		.pixelformat	= V4L2_PIX_FMT_RGB565,
-> > > -		.mbus_code	= MEDIA_BUS_FMT_RGB565_2X8_LE,
-> > > -	},
-> > > -	{
-> > > -		.pixelformat	= V4L2_PIX_FMT_RGB565X,
-> > > -		.mbus_code	= MEDIA_BUS_FMT_RGB565_2X8_BE,
-> > > -	},
-> > > -	/* Bayer */
-> > > -	{
-> > > -		.pixelformat	= V4L2_PIX_FMT_SBGGR8,
-> > > -		.mbus_code	= MEDIA_BUS_FMT_SBGGR8_1X8,
-> > > -	},
-> > > -	{
-> > > -		.pixelformat	= V4L2_PIX_FMT_SGBRG8,
-> > > -		.mbus_code	= MEDIA_BUS_FMT_SGBRG8_1X8,
-> > > -	},
-> > > -	{
-> > > -		.pixelformat	= V4L2_PIX_FMT_SGRBG8,
-> > > -		.mbus_code	= MEDIA_BUS_FMT_SGRBG8_1X8,
-> > > -	},
-> > > -	{
-> > > -		.pixelformat	= V4L2_PIX_FMT_SRGGB8,
-> > > -		.mbus_code	= MEDIA_BUS_FMT_SRGGB8_1X8,
-> > > -	},
-> > > -	{
-> > > -		.pixelformat	= V4L2_PIX_FMT_SBGGR10,
-> > > -		.mbus_code	= MEDIA_BUS_FMT_SBGGR10_1X10,
-> > > -	},
-> > > -	{
-> > > -		.pixelformat	= V4L2_PIX_FMT_SGBRG10,
-> > > -		.mbus_code	= MEDIA_BUS_FMT_SGBRG10_1X10,
-> > > -	},
-> > > -	{
-> > > -		.pixelformat	= V4L2_PIX_FMT_SGRBG10,
-> > > -		.mbus_code	= MEDIA_BUS_FMT_SGRBG10_1X10,
-> > > -	},
-> > > -	{
-> > > -		.pixelformat	= V4L2_PIX_FMT_SRGGB10,
-> > > -		.mbus_code	= MEDIA_BUS_FMT_SRGGB10_1X10,
-> > > -	},
-> > > -	{
-> > > -		.pixelformat	= V4L2_PIX_FMT_SBGGR12,
-> > > -		.mbus_code	= MEDIA_BUS_FMT_SBGGR12_1X12,
-> > > -	},
-> > > -	{
-> > > -		.pixelformat	= V4L2_PIX_FMT_SGBRG12,
-> > > -		.mbus_code	= MEDIA_BUS_FMT_SGBRG12_1X12,
-> > > -	},
-> > > -	{
-> > > -		.pixelformat	= V4L2_PIX_FMT_SGRBG12,
-> > > -		.mbus_code	= MEDIA_BUS_FMT_SGRBG12_1X12,
-> > > -	},
-> > > -	{
-> > > -		.pixelformat	= V4L2_PIX_FMT_SRGGB12,
-> > > -		.mbus_code	= MEDIA_BUS_FMT_SRGGB12_1X12,
-> > > -	},
-> > > -	/* Compressed */
-> > > -	{
-> > > -		.pixelformat	= V4L2_PIX_FMT_JPEG,
-> > > -		.mbus_code	= MEDIA_BUS_FMT_JPEG_1X8,
-> > > -	},
-> > > -};
-> > > -
-> > > 
-> > >  static bool sun6i_csi_capture_format_match(u32 pixelformat, u32
-> > >  mbus_code)
-> > >  {
-> > > 
-> > > -	unsigned int i;
-> > > -
-> > > -	for (i = 0; i < ARRAY_SIZE(sun6i_csi_capture_format_matches); i++)  {
-> > > -		const struct sun6i_csi_capture_format_match *match =
-> > > -			&sun6i_csi_capture_format_matches[i];
-> > > -
-> > > -		if (match->pixelformat == pixelformat &&
-> > > -		    match->mbus_code == mbus_code)
-> > > -			return true;
-> > > +	unsigned int i, j;
-> > > +
-> > > +	for (i = 0; i < ARRAY_SIZE(sun6i_csi_capture_formats); i++) {
-> > > +		const struct sun6i_csi_capture_format *format =
-> > > +			&sun6i_csi_capture_formats[i];
-> > > +
-> > > +		if (format->pixelformat == pixelformat) {
-> > > +			for (j = 0; format->mbus_codes[j]; j++) {
-> > > +				if (mbus_code == format->mbus_codes[j])
-> > > +					return true;
-> > > +			}
-> > > +		}
-> > > 
-> > >  	}
-> > >  	
-> > >  	return false;
-> > > 
-> > > diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.h
-> > > b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.h index
-> > > 3ee5ccefbd10..0484942834e3 100644
-> > > --- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.h
-> > > +++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.h
-> > > @@ -27,11 +27,7 @@ struct sun6i_csi_capture_format {
-> > > 
-> > >  	bool	input_yuv_seq_invert;
-> > >  	bool	input_format_raw;
-> > >  	u32	hsize_len_factor;
-> > > 
-> > > -};
-> > > -
-> > > -struct sun6i_csi_capture_format_match {
-> > > -	u32	pixelformat;
-> > > -	u32	mbus_code;
-> > > +	const u32 *mbus_codes;
-> > > 
-> > >  };
-> > >  
-> > >  #undef current
-
--- 
-Regards,
-
-Laurent Pinchart
+Thanks,
+Ezequiel
