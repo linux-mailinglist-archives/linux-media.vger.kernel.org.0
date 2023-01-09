@@ -2,255 +2,231 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7627E662633
-	for <lists+linux-media@lfdr.de>; Mon,  9 Jan 2023 13:57:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 38437662662
+	for <lists+linux-media@lfdr.de>; Mon,  9 Jan 2023 14:02:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236362AbjAIMzJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 9 Jan 2023 07:55:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41348 "EHLO
+        id S234815AbjAINCg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 9 Jan 2023 08:02:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49530 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236802AbjAIMx4 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 9 Jan 2023 07:53:56 -0500
-Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com [IPv6:2a00:1450:4864:20::32f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B53D5E0D
-        for <linux-media@vger.kernel.org>; Mon,  9 Jan 2023 04:53:49 -0800 (PST)
-Received: by mail-wm1-x32f.google.com with SMTP id ay12-20020a05600c1e0c00b003d9ea12bafcso3518878wmb.3
-        for <linux-media@vger.kernel.org>; Mon, 09 Jan 2023 04:53:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=apTdb92AzNQ96d3ETxccHyv95HLA5cv6Przk0hO/8h8=;
-        b=EsPXoXoYQiEGXrVW2y08Jw63MOaSE7K82Wa7hO1KkMnIEV1GsOeInOf2/7FEhX/x7g
-         HfnceNCBdr4d2qFy48gJokuywZ0DFfHh0/lc/FmPU0BXvkVj9BFzr1QCZvHVnekASNRd
-         aPw+24RSxuSQfYvMPvyZSrIfntYA8LQV2+LMWjudIVGoj4nSTJSzSCjcsOWb0FLx8nFN
-         xbVGV/sNMT1pUIX7L/fyYV/wbCR02VLtIk0oHdwVzjN3iPjNggr+OOwIH2odCBxfsO1u
-         docmtVsMF/TOvbNWwV0XUaNuyxB4deNMoTK7R1YJc93cZ59tTYI9Mmn1E7mEnyNg6eIC
-         kKIA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=apTdb92AzNQ96d3ETxccHyv95HLA5cv6Przk0hO/8h8=;
-        b=VpTU7TGilfd/+xLfcbJmp0UCxp1OzVqg/++otqzrJNdLRc/B4PeabYYBPUtKSSSH6F
-         KrjJOj8oh8RZz3kk5qH3S9DMaSX+H8aH7J3/di/+6R2KdBUn+OiOhBKkQ/bbPEWZdkSh
-         MLS+xF71Woj85bzm9mqpTHWS5sXYSKC50bkjEZkBEdFhAE9ziN5i5vcBwBnXPdRA3D+W
-         6PTnfBUB9g4bRJp7/GkDg+phdV/JM/P5npkPZmLA/kV+Hge0bhP8VHl27+XhD+WRIJbY
-         CYSZkPGt2W8tIItMfccj56YSQC+JG4KUcDIEcqXdlXRn0f7KsUz+8aNu5dX2oKiQjMKX
-         fPUw==
-X-Gm-Message-State: AFqh2kraEg2ps/99Z69GbBAOD6lbLDkFZ9W8lF3O6MVhGOF3mFTdqOZz
-        5Lx8M1330bUZLIZXLxIZEVb3og==
-X-Google-Smtp-Source: AMrXdXtAapEnKxQpOhIkltcToEX8T5OnPnIqchFzqGnfuLYUoCHcU94+sp3J+/xrNs805/CeyL0VSw==
-X-Received: by 2002:a05:600c:1e1d:b0:3cf:b07a:cd2f with SMTP id ay29-20020a05600c1e1d00b003cfb07acd2fmr45391761wmb.37.1673268828090;
-        Mon, 09 Jan 2023 04:53:48 -0800 (PST)
-Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:52eb:f6ff:feb3:451a])
-        by smtp.gmail.com with ESMTPSA id y7-20020a7bcd87000000b003d997e5e679sm12805667wmj.14.2023.01.09.04.53.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Jan 2023 04:53:47 -0800 (PST)
-From:   Neil Armstrong <neil.armstrong@linaro.org>
-Date:   Mon, 09 Jan 2023 13:53:35 +0100
-Subject: [PATCH v2 11/11] dt-bindings: net: convert mdio-mux-meson-g12a.txt to
- dt-schema
+        with ESMTP id S233331AbjAINCM (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 9 Jan 2023 08:02:12 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B4A991758A;
+        Mon,  9 Jan 2023 04:59:21 -0800 (PST)
+Received: from [192.168.1.15] (91-154-32-225.elisa-laajakaista.fi [91.154.32.225])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 601AE6CF;
+        Mon,  9 Jan 2023 13:59:04 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1673269145;
+        bh=b5YGXWGHoxTUNR2lz6oATrp9StnnDmiege+b+Kt/YnM=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=KrH5T+bybl6PE8El4Qq1rEpTueK/bkk15n6q/dYt+2CCW0oOYqStD7LHyJcRbxi6G
+         37+ZbEVMVSqdYp6qu+ZipXAK+VAB6FQ1ZIg+OKLPORNMFGVf2ZAJA/cD8WQF6/+7NP
+         eAcl919tiZ4bUQDh7hlGbfP4FMT9mgdx8LhGVyPU=
+Message-ID: <5173a16a-83c5-5cfe-f6ce-03e1c90e8790@ideasonboard.com>
+Date:   Mon, 9 Jan 2023 14:59:01 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20221117-b4-amlogic-bindings-convert-v2-11-36ad050bb625@linaro.org>
-References: <20221117-b4-amlogic-bindings-convert-v2-0-36ad050bb625@linaro.org>
-In-Reply-To: <20221117-b4-amlogic-bindings-convert-v2-0-36ad050bb625@linaro.org>
-To:     Rob Herring <robh+dt@kernel.org>,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH v6 7/8] media: i2c: add DS90UB913 driver
+Content-Language: en-US
+To:     Andy Shevchenko <andriy.shevchenko@intel.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
+        Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Guenter Roeck <linux@roeck-us.net>,
+        Wolfram Sang <wsa@kernel.org>,
+        Luca Ceresoli <luca.ceresoli@bootlin.com>,
+        Matti Vaittinen <Matti.Vaittinen@fi.rohmeurope.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Vinod Koul <vkoul@kernel.org>,
-        Kishon Vijay Abraham I <kishon@kernel.org>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>, Andrew Lunn <andrew@lunn.ch>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Russell King <linux@armlinux.org.uk>
-Cc:     devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-amlogic@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-watchdog@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-rtc@vger.kernel.org, linux-phy@lists.infradead.org,
-        linux-mmc@vger.kernel.org, linux-pci@vger.kernel.org,
-        netdev@vger.kernel.org, Neil Armstrong <neil.armstrong@linaro.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-X-Mailer: b4 0.11.1
+        Peter Rosin <peda@axentia.se>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Michael Tretter <m.tretter@pengutronix.de>,
+        Shawn Tu <shawnx.tu@intel.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Mike Pagano <mpagano@gentoo.org>,
+        =?UTF-8?Q?Krzysztof_Ha=c5=82asa?= <khalasa@piap.pl>,
+        Marek Vasut <marex@denx.de>
+References: <20230105140307.272052-1-tomi.valkeinen@ideasonboard.com>
+ <20230105140307.272052-8-tomi.valkeinen@ideasonboard.com>
+ <Y7pBSq49dL8Fzxsc@pendragon.ideasonboard.com>
+ <Y7v1Wrma/Ev8KEzy@smile.fi.intel.com>
+From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+In-Reply-To: <Y7v1Wrma/Ev8KEzy@smile.fi.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Convert MDIO bus multiplexer/glue of Amlogic G12a SoC family bindings
-to dt-schema.
+On 09/01/2023 13:07, Andy Shevchenko wrote:
+> On Sun, Jan 08, 2023 at 06:06:34AM +0200, Laurent Pinchart wrote:
+>> On Thu, Jan 05, 2023 at 04:03:06PM +0200, Tomi Valkeinen wrote:
+> 
+> ...
+> 
+>>> +	scnprintf(priv->gpio_chip_name, sizeof(priv->gpio_chip_name), "%s",
+>>> +		  dev_name(dev));
+>>
+>> I think you can use strscpy().
+> 
+> Actually I'm not sure we even need that variable. What is the lifetime of
+> the dev and gc? I believe they are the same or gc's one is shorter, hence
+> dev_name() can be used directly, no?
 
-Reviewed-by: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
----
- .../bindings/net/amlogic,g12a-mdio-mux.yaml        | 80 ++++++++++++++++++++++
- .../bindings/net/mdio-mux-meson-g12a.txt           | 48 -------------
- 2 files changed, 80 insertions(+), 48 deletions(-)
+I think this is a valid point, no need for the extra variable afaics.
 
-diff --git a/Documentation/devicetree/bindings/net/amlogic,g12a-mdio-mux.yaml b/Documentation/devicetree/bindings/net/amlogic,g12a-mdio-mux.yaml
-new file mode 100644
-index 000000000000..ec5c038ce6a0
---- /dev/null
-+++ b/Documentation/devicetree/bindings/net/amlogic,g12a-mdio-mux.yaml
-@@ -0,0 +1,80 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/net/amlogic,g12a-mdio-mux.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: MDIO bus multiplexer/glue of Amlogic G12a SoC family
-+
-+description:
-+  This is a special case of a MDIO bus multiplexer. It allows to choose between
-+  the internal mdio bus leading to the embedded 10/100 PHY or the external
-+  MDIO bus.
-+
-+maintainers:
-+  - Neil Armstrong <neil.armstrong@linaro.org>
-+
-+allOf:
-+  - $ref: mdio-mux.yaml#
-+
-+properties:
-+  compatible:
-+    const: amlogic,g12a-mdio-mux
-+
-+  reg:
-+    maxItems: 1
-+
-+  clocks:
-+    items:
-+      - description: peripheral clock
-+      - description: platform crytal
-+      - description: SoC 50MHz MPLL
-+
-+  clock-names:
-+    items:
-+      - const: pclk
-+      - const: clkin0
-+      - const: clkin1
-+
-+required:
-+  - compatible
-+  - reg
-+  - clocks
-+  - clock-names
-+
-+unevaluatedProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/interrupt-controller/irq.h>
-+    #include <dt-bindings/interrupt-controller/arm-gic.h>
-+    mdio-multiplexer@4c000 {
-+        compatible = "amlogic,g12a-mdio-mux";
-+        reg = <0x4c000 0xa4>;
-+        clocks = <&clkc_eth_phy>, <&xtal>, <&clkc_mpll>;
-+        clock-names = "pclk", "clkin0", "clkin1";
-+        mdio-parent-bus = <&mdio0>;
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+
-+        mdio@0 {
-+            reg = <0>;
-+            #address-cells = <1>;
-+            #size-cells = <0>;
-+        };
-+
-+        mdio@1 {
-+            reg = <1>;
-+            #address-cells = <1>;
-+            #size-cells = <0>;
-+
-+            ethernet-phy@8 {
-+                compatible = "ethernet-phy-id0180.3301",
-+                             "ethernet-phy-ieee802.3-c22";
-+                interrupts = <GIC_SPI 9 IRQ_TYPE_LEVEL_HIGH>;
-+                reg = <8>;
-+                max-speed = <100>;
-+            };
-+        };
-+    };
-+...
-diff --git a/Documentation/devicetree/bindings/net/mdio-mux-meson-g12a.txt b/Documentation/devicetree/bindings/net/mdio-mux-meson-g12a.txt
-deleted file mode 100644
-index 3a96cbed9294..000000000000
---- a/Documentation/devicetree/bindings/net/mdio-mux-meson-g12a.txt
-+++ /dev/null
-@@ -1,48 +0,0 @@
--Properties for the MDIO bus multiplexer/glue of Amlogic G12a SoC family.
--
--This is a special case of a MDIO bus multiplexer. It allows to choose between
--the internal mdio bus leading to the embedded 10/100 PHY or the external
--MDIO bus.
--
--Required properties in addition to the generic multiplexer properties:
--- compatible : amlogic,g12a-mdio-mux
--- reg: physical address and length of the multiplexer/glue registers
--- clocks: list of clock phandle, one for each entry clock-names.
--- clock-names: should contain the following:
--  * "pclk"   : peripheral clock.
--  * "clkin0" : platform crytal
--  * "clkin1" : SoC 50MHz MPLL
--
--Example :
--
--mdio_mux: mdio-multiplexer@4c000 {
--	compatible = "amlogic,g12a-mdio-mux";
--	reg = <0x0 0x4c000 0x0 0xa4>;
--	clocks = <&clkc CLKID_ETH_PHY>,
--		 <&xtal>,
--		 <&clkc CLKID_MPLL_5OM>;
--	clock-names = "pclk", "clkin0", "clkin1";
--	mdio-parent-bus = <&mdio0>;
--	#address-cells = <1>;
--	#size-cells = <0>;
--
--	ext_mdio: mdio@0 {
--		reg = <0>;
--		#address-cells = <1>;
--		#size-cells = <0>;
--	};
--
--	int_mdio: mdio@1 {
--		reg = <1>;
--		#address-cells = <1>;
--		#size-cells = <0>;
--
--		internal_ephy: ethernet-phy@8 {
--			compatible = "ethernet-phy-id0180.3301",
--				     "ethernet-phy-ieee802.3-c22";
--			interrupts = <GIC_SPI 9 IRQ_TYPE_LEVEL_HIGH>;
--			reg = <8>;
--			max-speed = <100>;
--		};
--	};
--};
+> ...
+> 
+>>> +	gc->of_node = priv->client->dev.of_node;
+> 
+> We don't have of_node anymore in gc. And if the parent device is set, you can
+> drop this line (it will work with older and newer kernels. Otherwise, use
+> fwnode.
 
--- 
-2.34.1
+What do you mean "we don't have of_node anymore"?
+
+> ...
+> 
+>>> +	ret = gpiochip_add_data(gc, priv);
+>>> +	if (ret) {
+>>> +		dev_err(dev, "Failed to add GPIOs: %d\n", ret);
+> 
+>>> +		return ret;
+>>> +	}
+>>> +
+>>> +	return 0;
+> 
+> return ret;
+
+I'm not a fan of that style. I like my error handling ifs to return the 
+error inside the if block, and a successful function ends in a "return 0".
+
+> ...
+> 
+>>> +	ep_node = of_graph_get_endpoint_by_regs(dev->of_node, 0, 0);
+> 
+> Why this can't be fwnode_handle from day 1?
+
+I guess it can. It's an old driver and there has been no need to convert 
+to fwnode, so we're still using OF.
+
+>>> +	if (!ep_node) {
+>>> +		dev_err(dev, "No graph endpoint\n");
+>>> +		return -ENODEV;
+>>> +	}
+> 
+> ...
+> 
+>>> +	ep_np = of_graph_get_endpoint_by_regs(np, 0, 0);
+>>> +	if (!ep_np) {
+>>> +		dev_err(dev, "OF: no endpoint\n");
+>>> +		return -ENOENT;
+>>> +	}
+> 
+> Ditto.
+> 
+>>> +	ret = of_property_read_u32(ep_np, "pclk-sample", &priv->pclk_polarity);
+>>> +
+>>> +	of_node_put(ep_np);
+> 
+> Ditto.
+> 
+> ...
+> 
+>>> +		return ret;
+>>> +	}
+>>> +
+>>> +	return 0;
+> 
+> return ret;
+> 
+> ...
+> 
+>>> +	priv->plat_data = dev_get_platdata(&client->dev);
+>>> +	if (!priv->plat_data) {
+>>> +		dev_err(dev, "Platform data missing\n");
+>>> +		return -ENODEV;
+> 
+> 	return dev_err_probe(...); ?
+
+Isn't the idea with dev_err_probe to use it where -EPROBE_DEFER might be 
+the error? That's not the case here.
+
+Buuut reading the relevant docs a bit more shows that it's actually 
+recommended to be used in this kind of cases too, so you're right.
+
+>>> +	}
+> 
+> ...
+> 
+>>> +	priv->regmap = devm_regmap_init_i2c(client, &ub913_regmap_config);
+>>> +	if (IS_ERR(priv->regmap)) {
+>>> +		dev_err(dev, "Failed to init regmap\n");
+>>> +		return PTR_ERR(priv->regmap);
+> 
+> Ditto?
+>
+>>> +	}
+> 
+> ...
+> 
+>>> +#ifdef CONFIG_OF
+>>
+>> The driver depends on CONFIG_OF so I would drop this, as well as the
+>> of_match_ptr().
+> 
+> Even if there is no OF dependency, these ugly ifdeffery with of_match_ptr()
+> are error prone (compilation wise).
+> 
+> ...
+> 
+>>> +static const struct of_device_id ub913_dt_ids[] = {
+>>> +	{ .compatible = "ti,ds90ub913a-q1", },
+> 
+> Inner comma is not needed.
+
+Ok.
+
+> 
+>>> +	{}
+>>> +};
+> 
+> ...
+> 
+>>> +static struct i2c_driver ds90ub913_driver = {
+>>> +	.probe_new	= ub913_probe,
+>>> +	.remove		= ub913_remove,
+>>> +	.id_table	= ub913_id,
+>>> +	.driver = {
+>>> +		.name	= "ds90ub913a",
+> 
+>>> +		.owner = THIS_MODULE,
+> 
+> This is something like for 5+ years is not needed, as the below macro sets it
+> for you.
+
+Ok.
+
+>>> +		.of_match_table = of_match_ptr(ub913_dt_ids),
+>>> +	},
+>>> +};
+> 
+>>> +
+> 
+> Redundant blank line.
+> 
+>>> +module_i2c_driver(ds90ub913_driver);
+> 
+
+  Tomi
+
