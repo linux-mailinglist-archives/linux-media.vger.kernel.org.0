@@ -2,49 +2,44 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8A7D16630DF
-	for <lists+linux-media@lfdr.de>; Mon,  9 Jan 2023 21:01:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2D11D663142
+	for <lists+linux-media@lfdr.de>; Mon,  9 Jan 2023 21:18:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237358AbjAIUBD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 9 Jan 2023 15:01:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59094 "EHLO
+        id S237394AbjAIUSk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 9 Jan 2023 15:18:40 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40480 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237735AbjAIUA7 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 9 Jan 2023 15:00:59 -0500
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 35831B24;
-        Mon,  9 Jan 2023 12:00:50 -0800 (PST)
+        with ESMTP id S229499AbjAIUSh (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 9 Jan 2023 15:18:37 -0500
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D17734764
+        for <linux-media@vger.kernel.org>; Mon,  9 Jan 2023 12:18:35 -0800 (PST)
 Received: from nicolas-tpx395.localdomain (192-222-136-102.qc.cable.ebox.net [192.222.136.102])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits))
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
         (No client certificate requested)
         (Authenticated sender: nicolas)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 8946E6602D6A;
-        Mon,  9 Jan 2023 20:00:48 +0000 (GMT)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 5F7B46602AAA;
+        Mon,  9 Jan 2023 20:18:33 +0000 (GMT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1673294449;
-        bh=aNxF/+Hoq4Gd7aJCmM96Gfm8Aq+Jh67MSR5O2NNGsso=;
+        s=mail; t=1673295513;
+        bh=6Ta1xAzUiR3rpnY6rASm1ZY0kLnmJcpI2Y+vSCkz1PA=;
         h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-        b=fyxUTj54ttkr13MsVew38u+JDz8+6sBegp8lpkc/xfZ69fO2htKaEC2LmSu4+74UI
-         5pJLjGpNH+/ZKoBV/QcrEvprWgJmcFffWXeutpyZurQrs7vqf/kWVJW9r8uxgA/8Ba
-         hPHF6EmCrW24JwlfMuiQPTLkagVAbGDn9an6tJuIRb3SkuuD9Y+Q+hsPBWmh58vsZv
-         4wJ3Eqh1gHGI3ZhCnWXDNH7flGRHMGYUzwQzDLsKdfaXRhf9pUaDtBfPCuD/8I9M9k
-         ss4/TJBPq8VTdPN1ZAf2qPUNJQiGK9VGcDacGt8tFImiADi2BeO9vS8f426wCTERAT
-         p1FLQNr5Du0Sg==
-Message-ID: <f3bf3ba7cc27f4d8eddeec730fe588a7a32c0465.camel@collabora.com>
-Subject: Re: [PATCH v2 3/4] media: rkvdec: Re-enable H.264 error detection
+        b=ZhGZypvVUqT2iMzoydbrjFAK3RLwDQzJk9W8s1+xGG3KMU01TjJxigbSMnNdXSwoM
+         kguIcNhJTongIAMgVUoJZNuRtV8q6ovMKVJBcmSoWhEFnwWQlKXD7wr1fxRxPl1Hc0
+         9s7jjWH2D7co+bp4JfLCn6qV4vUFlIa7MFvdTvbmSWxE3LLLdjVJJ68jeNcRY0h1hu
+         3PgLt8II5QtQdARpblnMYY1tpEsrNE9K5+ekoLe3fXZzrFW1ASC7c6KbJfDnb7ZO1i
+         nOAWxHjaN/JF2auv5daP0hpspgCjP40a4oMir7OppV+bLgipL27XJTznKnLUx8aufm
+         rMGwOBW7yHzzw==
+Message-ID: <e92aa9ec37cd22b2a915f357ecc46269c8f378a5.camel@collabora.com>
+Subject: Re: [PATCH v1 0/4] media: rkvdec: Fix H.264 error resilience
 From:   Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        kernel@collabora.com, linux-media@vger.kernel.org,
-        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org
-Date:   Mon, 09 Jan 2023 15:00:39 -0500
-In-Reply-To: <Y6oTEkEwuGISwr+z@eze-laptop>
+To:     Chen-Yu Tsai <wenst@chromium.org>
+Cc:     linux-media@vger.kernel.org, kernel@collabora.com
+Date:   Mon, 09 Jan 2023 15:18:24 -0500
+In-Reply-To: <CAGXv+5EAwVf2Tte5ErinAvE1xhTizBuQb5s5UY4BwipY5=nTFg@mail.gmail.com>
 References: <20221223193807.914935-1-nicolas.dufresne@collabora.com>
-         <20221223193807.914935-4-nicolas.dufresne@collabora.com>
-         <Y6oTEkEwuGISwr+z@eze-laptop>
+         <CAGXv+5EAwVf2Tte5ErinAvE1xhTizBuQb5s5UY4BwipY5=nTFg@mail.gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.46.2 (3.46.2-1.fc37) 
@@ -58,93 +53,54 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Le lundi 26 d=C3=A9cembre 2022 =C3=A0 18:33 -0300, Ezequiel Garcia a =C3=A9=
-crit=C2=A0:
-> Hi Nicolas,
->=20
-> I'm still unsure about this patchset.
-> It sounds like a good approach and a nice
-> improvement, but I want to make sure I think through it.
->=20
-> Meanwhile, a small comment...
->=20
-> On Fri, Dec 23, 2022 at 02:38:05PM -0500, Nicolas Dufresne wrote:
-> > This re-enable H.264 error detection, but using the other error mode.
-> > In that mode, the decoder will skip over the error macro-block or
-> > slices and complete the decoding. As a side effect, the error status
-> > is not set in the interrupt status register, and instead errors are
-> > detected per format. Using this mode workaround the issue that the
-> > HW get stuck in error state, and allow reporting that some corruption
-> > may be present in the buffer to userland.
+Le lundi 26 d=C3=A9cembre 2022 =C3=A0 12:20 +0800, Chen-Yu Tsai a =C3=A9cri=
+t=C2=A0:
+> On Sat, Dec 24, 2022 at 3:38 AM Nicolas Dufresne
+> <nicolas.dufresne@collabora.com> wrote:
 > >=20
-> > Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-> > ---
-> >  drivers/staging/media/rkvdec/rkvdec-h264.c | 23 +++++++++++++++++++---
-> >  1 file changed, 20 insertions(+), 3 deletions(-)
+> > This patch serie changes the decoding mode from "exit on error"
+> > to "keep decoding". Using this mode and re-enabling error detection
+> > allow getting error resilience without loosing the ability to report
+> > errors to userland. This have showed great results, but might be a
+> > little more risky since this is not the mode that the reference code
+> > uses and the documentation is very brief. With this in place,
+> > userspace can chose to skip or display corrupted frames depending
+> > on its application requirement. Previsouly, applicaiton would have
+> > had no choice but to present the corrupted frames.
 > >=20
-> > diff --git a/drivers/staging/media/rkvdec/rkvdec-h264.c b/drivers/stagi=
-ng/media/rkvdec/rkvdec-h264.c
-> > index 4fc167b42cf0c..dfe3e235f099a 100644
-> > --- a/drivers/staging/media/rkvdec/rkvdec-h264.c
-> > +++ b/drivers/staging/media/rkvdec/rkvdec-h264.c
-> > @@ -1162,14 +1162,15 @@ static int rkvdec_h264_run(struct rkvdec_ctx *c=
-tx)
-> > =20
-> >  	schedule_delayed_work(&rkvdec->watchdog_work, msecs_to_jiffies(2000))=
-;
-> > =20
-> > -	writel(0, rkvdec->regs + RKVDEC_REG_STRMD_ERR_EN);
-> > -	writel(0, rkvdec->regs + RKVDEC_REG_H264_ERR_E);
-> > +	writel(0xffffffff, rkvdec->regs + RKVDEC_REG_STRMD_ERR_EN);
-> > +	writel(0xffffffff, rkvdec->regs + RKVDEC_REG_H264_ERR_E);
-> >  	writel(1, rkvdec->regs + RKVDEC_REG_PREF_LUMA_CACHE_COMMAND);
-> >  	writel(1, rkvdec->regs + RKVDEC_REG_PREF_CHR_CACHE_COMMAND);
-> > =20
-> >  	/* Start decoding! */
-> >  	writel(RKVDEC_INTERRUPT_DEC_E | RKVDEC_CONFIG_DEC_CLK_GATE_E |
-> > -	       RKVDEC_TIMEOUT_E | RKVDEC_BUF_EMPTY_E,
-> > +	       RKVDEC_TIMEOUT_E | RKVDEC_BUF_EMPTY_E |
-> > +	       RKVDEC_H264ORVP9_ERR_MODE,
-> >  	       rkvdec->regs + RKVDEC_REG_INTERRUPT);
-> > =20
-> >  	return 0;
-> > @@ -1183,10 +1184,26 @@ static int rkvdec_h264_try_ctrl(struct rkvdec_c=
-tx *ctx, struct v4l2_ctrl *ctrl)
-> >  	return 0;
-> >  }
-> > =20
-> > +static int rkvdec_h264_check_error_info(struct rkvdec_ctx *ctx)
-> > +{
-> > +	struct rkvdec_dev *rkvdec =3D ctx->dev;
-> > +	int err;
-> > +
-> > +	err =3D readl(rkvdec->regs + RKVDEC_REG_H264_ERRINFO_NUM);
-> > +	if (err & RKVDEC_STRMD_DECT_ERR_FLAG) {
-> > +		pr_debug("Decoded picture have %i/%i slices with errors.\n",
+> > Changes since V1:
+> >         - Removed merged patch
+> >         - Changed usage of pr_debug into v4l2_dbg
+> >         - Fix typos in commit messages and comments
+> >=20
+> > Nicolas Dufresne (5):
+> >   media: rkvdec: Disable H.264 error detection
+> >   media: rkvdec: Add an ops to check for decode errors
+> >   media: rkvdec: Fix RKVDEC_ERR_PKT_NUM macro
+> >   media: rkvdec: Re-enable H.264 error detection
+> >   rkvdec: Improve error handling
 >=20
-> ... still uses pr_debug. I would change it so it uses v4l2_dbg,
-> and can be controlled using the same debug parameter
-> as you use in patch 4/4.
+> Apart from the minor comments in patch 3, the series is
+>=20
+> Reviewed-by: Chen-Yu Tsai <wenst@chromium.org>
+>=20
+> Do we need to add the check_error_info op for VP9?
 
-Good catch, I missed that one, will fix.
+In general, I try to avoid changes I cannot test. If you happen to have VP9=
+ with
+errors let me know. Looking quickly at the TRM, some part seems shared betw=
+een
+H.264 and VP9 indeed. Though, the TRM discourage from enabling the "keep
+decoding on error" mode we use here.
 
 >=20
-> > +			 RKVDEC_ERR_PKT_NUM(err), RKVDEC_SLICEDEC_NUM(err));
-> > +		return VB2_BUF_STATE_ERROR;
-> > +	}
-> > +
-> > +	return VB2_BUF_STATE_DONE;
-> > +}
-> > +
-> >  const struct rkvdec_coded_fmt_ops rkvdec_h264_fmt_ops =3D {
-> >  	.adjust_fmt =3D rkvdec_h264_adjust_fmt,
-> >  	.start =3D rkvdec_h264_start,
-> >  	.stop =3D rkvdec_h264_stop,
-> >  	.run =3D rkvdec_h264_run,
-> >  	.try_ctrl =3D rkvdec_h264_try_ctrl,
-> > +	.check_error_info =3D rkvdec_h264_check_error_info,
-> >  };
-> > --=20
+> >  drivers/staging/media/rkvdec/rkvdec-h264.c | 23 +++++++++++++--
+> >  drivers/staging/media/rkvdec/rkvdec-regs.h |  2 +-
+> >  drivers/staging/media/rkvdec/rkvdec.c      | 34 ++++++++++++++++++----
+> >  drivers/staging/media/rkvdec/rkvdec.h      |  2 ++
+> >  4 files changed, 51 insertions(+), 10 deletions(-)
+> >=20
+> > --
 > > 2.38.1
 > >=20
 
