@@ -2,387 +2,153 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0D4C1662243
-	for <lists+linux-media@lfdr.de>; Mon,  9 Jan 2023 10:59:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 11AFE662264
+	for <lists+linux-media@lfdr.de>; Mon,  9 Jan 2023 11:02:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234366AbjAIJ7S (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 9 Jan 2023 04:59:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49154 "EHLO
+        id S233713AbjAIKCV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 9 Jan 2023 05:02:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51298 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234714AbjAIJ6o (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 9 Jan 2023 04:58:44 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A1A2140A0;
-        Mon,  9 Jan 2023 01:57:04 -0800 (PST)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6DA2E6CF;
-        Mon,  9 Jan 2023 10:57:02 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1673258222;
-        bh=rfR62NKpknun6jgadtE73rwSV1lb2jWlzL1P6GLENz0=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=FP9wOl+4dCyIrwufbUlwlsNhx6Y8XAH0g9+JfD9ojrLdxAjPG+RSUyTw+aGPbxi9d
-         1R+jUDIAOUWnd0L48Tg1udP3CZ8S3cGdcaX8hez7FVBdx5VsRkSdMIuMdup2kT4bRj
-         F7ZIZHGVHvDK6zNhp3fUw8Yt9quCN2NQ4G3a0ztw=
-Date:   Mon, 9 Jan 2023 11:56:58 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Wolfram Sang <wsa@kernel.org>,
-        Luca Ceresoli <luca.ceresoli@bootlin.com>,
-        Andy Shevchenko <andriy.shevchenko@intel.com>,
-        Matti Vaittinen <Matti.Vaittinen@fi.rohmeurope.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Peter Rosin <peda@axentia.se>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Michael Tretter <m.tretter@pengutronix.de>,
-        Shawn Tu <shawnx.tu@intel.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Mike Pagano <mpagano@gentoo.org>,
-        Krzysztof =?utf-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>,
-        Marek Vasut <marex@denx.de>
-Subject: Re: [PATCH v6 7/8] media: i2c: add DS90UB913 driver
-Message-ID: <Y7vk6vb1vldHX4TL@pendragon.ideasonboard.com>
-References: <20230105140307.272052-1-tomi.valkeinen@ideasonboard.com>
- <20230105140307.272052-8-tomi.valkeinen@ideasonboard.com>
- <Y7pBSq49dL8Fzxsc@pendragon.ideasonboard.com>
- <bff59ee7-8491-1421-0968-ad479615246c@ideasonboard.com>
+        with ESMTP id S237046AbjAIKBW (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 9 Jan 2023 05:01:22 -0500
+Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com [IPv6:2a00:1450:4864:20::634])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 68A3010FD2
+        for <linux-media@vger.kernel.org>; Mon,  9 Jan 2023 02:01:14 -0800 (PST)
+Received: by mail-ej1-x634.google.com with SMTP id ud5so18712572ejc.4
+        for <linux-media@vger.kernel.org>; Mon, 09 Jan 2023 02:01:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=cc:to:message-id:date:from:content-transfer-encoding:mime-version
+         :subject:from:to:cc:subject:date:message-id:reply-to;
+        bh=Cvr86EcVYprczQ7Mp47b1jJqfLxIkymln8np11xtzkI=;
+        b=FCwhaykY5BgM/Vw2hOHnNX43Gnh3PkMvdOetmSPvTLpQwh3js+/qX/SlkVlyQ6fc73
+         mfUbVlvY7rQfMkB+ojN/fEPz1BadgZVZzsL79EPfYfM6lTA0WMeaou4XHqk1Z/fkYtGq
+         40ruNpDJNBUh1l0TdpuSp6sjKxZbkb87Jv1So=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:message-id:date:from:content-transfer-encoding:mime-version
+         :subject:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Cvr86EcVYprczQ7Mp47b1jJqfLxIkymln8np11xtzkI=;
+        b=PLkyHh34/SJ0kiPcFy4/gwEONNoRrfhYS7d4g1aubk/pumeLZUl/+teJ6NgaehkZ9m
+         fCyYTyQghHUtHcqS2s+mucqQ3h6dx5UqgM35h1huETg8yjlUsqNpIWHDuJ1krB9/1NMK
+         sOdesJXclBBxoh+OtOhHh64lsFPmQllIUjVEMJtv+CPK0XmXvUVlPvaLKmumzRhNMz1B
+         Ss9WTVSOH7+UahCPFb0lnxymxtYaVkSTaof0ihM+bElSDAlMTN6DnGNN9+98AKSC0Rhy
+         U13T8n92zvttdAEwauzn0ttEA7CiDLFqBUUjtLd+c9rRfrInE4TQX0mX/RL4rmSISOZ2
+         +/Vw==
+X-Gm-Message-State: AFqh2koghzPTro4stIwv6nby/Z7T2rLghxuQWawoZx4kwJglvB50bSus
+        dXQPBZ9KkZQ7jD+xiASR3c7cYQ==
+X-Google-Smtp-Source: AMrXdXvNvxEtV6UA+XKsChIrs28mvTcENXrswmEeaF1oibD0s99KRUVWg5Gq3/+ht8oX9boCGrYKXg==
+X-Received: by 2002:a17:907:9d0e:b0:7c0:c10e:1395 with SMTP id kt14-20020a1709079d0e00b007c0c10e1395mr55736385ejc.1.1673258472965;
+        Mon, 09 Jan 2023 02:01:12 -0800 (PST)
+Received: from alco.roam.corp.google.com ([2620:0:1059:10:cd22:9dd:6d54:8488])
+        by smtp.gmail.com with ESMTPSA id bg14-20020a170906a04e00b007c094d31f35sm3557548ejb.76.2023.01.09.02.01.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 09 Jan 2023 02:01:12 -0800 (PST)
+Subject: [PATCH v4 0/5] uvcvideo: Fixes for hw timestamping
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <bff59ee7-8491-1421-0968-ad479615246c@ideasonboard.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAM/lu2MC/4XNywrCMBAF0F8pWRtJprEPV/6HuMhj2gSaVJK2Iq
+ X/bnQpYlfDvXDPrCRhdJjIuVhJxMUlN4YcxKEg2srQI3UmZwIMgLXAaMSEwVD7mJzHNEl/p6pEgB
+ paaIQheahkQqqiDNrmaZiHIZfWpWmMz8+jhedz/WsunDKKreZCwakRTFy0jaN3sz+OsSe3LC6wr0
+ BWTGNYxSulKg4/lHJfKd+KajuJWHeiNl/Ktm0vJwnDpEgBAAA=
+From:   Ricardo Ribalda <ribalda@chromium.org>
+Date:   Mon, 09 Jan 2023 11:00:47 +0100
+Message-Id: <20220920-resend-hwtimestamp-v4-0-a8ddc1358a29@chromium.org>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Ricardo Ribalda <ribalda@chromium.org>,
+        "hn.chen" <hn.chen@sunplusit.com>, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org
+X-Mailer: b4 0.11.0-dev-696ae
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2516; i=ribalda@chromium.org;
+ h=from:subject:message-id; bh=RoEgR2V3s+l2yEuznl2FsB16WAvD8+V+KuBSRItNVRQ=;
+ b=owEBbQKS/ZANAwAKAdE30T7POsSIAcsmYgBju+XZDfuTHchTYMBEBnptnUJxvpJ9QI0AVvLXL554
+ rpl/fcaJAjMEAAEKAB0WIQREDzjr+/4oCDLSsx7RN9E+zzrEiAUCY7vl2QAKCRDRN9E+zzrEiEgxD/
+ 4kd48Vii2lrHcdK+sAvfCtzC4Ou1ySl1CQqVY3C1jxHSmj6aKFOX++z4N4ssUB8eoac6NFHj7Y22ow
+ RgmcWkISvoamDlZFBoRRlaXOBn6xlMdcLQyG8K6YrPtnqYPek59i8prkH4y4pgZZJ3cwn3OqJpFyZD
+ swFPsH0hhgDR4tAXCsJ+eHOwdlBuQmII9oex7sZ8zb7qPJd/ckwKpqXBYa5M5cYe+UFJ/5NINfiinF
+ Yz6m5yQz68gX9pmd4eraOZzpsmmRwsdqXqVHelrB65x5OSKPCqiNZiRFQGPSU2AoBPGWTcMPZsjK+V
+ px6+RDJA+O4x2vSGtedqW5U30INEnjT9mFTU0AWYj7M1l+COdWMKAMafSFJ8uFLpS9vUDsxM8YlbY8
+ LDO6fBcT1iPy1V2il2IecqmeCAVCo2V6ywxJMXCHiY46xzMDilWAo1WwgLBHTrSxY5kVPcommvGWc0
+ baBaQ3pNJMeLS7/Q8zdv0utdkPJeV9tItmv3BAqby17JIjD2o+qlH89RoeSP5e2jRwHZRF3KisFpMb
+ Rgq8Ij/Ye1DzmZK1z55NHzjFHxWt9v1Lt66YzVGct4kzLj42Ho/66n3F+daIbMbTqL0p28/U2K0lrM
+ pL8w5reXDLVa9SkNdjmfgFCSwubEfnkO/WUvMQ4lxNAm4rXrKDggxoN/tbbQ==
+X-Developer-Key: i=ribalda@chromium.org; a=openpgp;
+ fpr=9EC3BB66E2FC129A6F90B39556A0D81F9F782DA9
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Tomi,
+Add some fixes for fixing hw timestamp on some Logitech and SunplusIT
+cameras. The issues have been previously reported to the manufacturers.
 
-On Mon, Jan 09, 2023 at 11:40:43AM +0200, Tomi Valkeinen wrote:
-> On 08/01/2023 06:06, Laurent Pinchart wrote:
-> > On Thu, Jan 05, 2023 at 04:03:06PM +0200, Tomi Valkeinen wrote:
-> >> Add driver for TI DS90UB913 FPD-Link III Serializer.
-> >>
-> >> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> >> ---
-> >>   drivers/media/i2c/Kconfig     |  13 +
-> >>   drivers/media/i2c/Makefile    |   2 +-
-> >>   drivers/media/i2c/ds90ub913.c | 871 ++++++++++++++++++++++++++++++++++
-> >>   3 files changed, 885 insertions(+), 1 deletion(-)
-> >>   create mode 100644 drivers/media/i2c/ds90ub913.c
+Also include a patch to fix the current hw timestamping logic for ANY
+uvc 1.5 model running at under 16 fps.
 
-[snip]
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: hn.chen <hn.chen@sunplusit.com>
+Tested-by: HungNien Chen <hn.chen@sunplusit.com>
+Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 
-> >> diff --git a/drivers/media/i2c/ds90ub913.c b/drivers/media/i2c/ds90ub913.c
-> >> new file mode 100644
-> >> index 000000000000..0a60afb09cd3
-> >> --- /dev/null
-> >> +++ b/drivers/media/i2c/ds90ub913.c
-> >> @@ -0,0 +1,871 @@
+---
+Changes in v4 (Thanks Laurent!):
+- Rebase on top of pinchart/next/uvc
+- Use heuristic for UVC_QUIRK_IGNORE_EMPTY_TS
+- Link to v3: https://lore.kernel.org/r/20220920-resend-hwtimestamp-v3-0-db9faee7f47d@chromium.org
 
-[snip]
+Changes in v3 (Thanks Laurent!):
+- Rebase on top of pinchart/uvc/next
+- Fix hw timestampt handling for slow FPS
+  - Improve commit message
+- Quirk for invalid dev_sof in Logi C922
+  - Improve commit message
+- Allow hw clock updates with buffers not full
+  - Fix typo and improve messages
+- Refactor clock circular buffer
+  - Improve commit message
+- Quirk for autosuspend in Logi C910
+  - Improve commit message
+  - Add comments around the quirk
+- Create UVC_QUIRK_IGNORE_EMPTY_TS quirk
+  - Improve comments
+- Allow quirking by entity guid
+   - unsinged int
+- Extend documentation of uvc_video_clock_decode()
+   - uvcvideo on commit message
+   - Improve comment
+- Link to v2: https://lore.kernel.org/r/20220920-resend-hwtimestamp-v2-0-d8d0616bb612@chromium.org
 
-> >> +static int ub913_log_status(struct v4l2_subdev *sd)
-> >> +{
-> >> +	struct ub913_data *priv = sd_to_ub913(sd);
-> >> +	struct device *dev = &priv->client->dev;
-> >> +	u8 v, v1, v2;
-> >> +
-> >> +	ub913_read(priv, UB913_REG_MODE_SEL, &v);
-> >> +	dev_info(dev, "MODE_SEL %#x\n", v);
-> > 
-> > %#02x ? Same below.
-> 
-> Ok.
-> 
-> >> +
-> >> +	ub913_read(priv, UB913_REG_CRC_ERRORS_LSB, &v1);
-> >> +	ub913_read(priv, UB913_REG_CRC_ERRORS_MSB, &v2);
-> > 
-> > Looks racy, but if it's for debugging only, I suppose it's fine.
-> 
-> Well, nothing we can do about that in SW. In any case, I think for the 
-> user the value is either "none", "just a few", "a lot", so maybe the 
-> racyness doesn't matter.
+Changes in v2:
+- Require 1/4 sec of data before using the hw timestamps
+- Add Tested-by SunplusIT
+- Link to v1: https://lore.kernel.org/r/20220920-resend-hwtimestamp-v1-0-e9c14b258404@chromium.org
 
-It could be improved in software:
+---
+Ricardo Ribalda (5):
+      media: uvc: Ignore empty TS packets
+      media: uvcvideo: Quirk for invalid dev_sof in Logitech C922
+      media: uvcvideo: Allow hw clock updates with buffers not full
+      media: uvcvideo: Refactor clock circular buffer
+      media: uvcvideo: Fix hw timestamp handling for slow FPS
 
+ drivers/media/usb/uvc/uvc_driver.c |   9 +++
+ drivers/media/usb/uvc/uvc_video.c  | 123 ++++++++++++++++++++++++-------------
+ drivers/media/usb/uvc/uvcvideo.h   |   2 +
+ 3 files changed, 91 insertions(+), 43 deletions(-)
+---
+base-commit: 73d6709376914f577a61bb29e596fa93ec66598c
+change-id: 20220920-resend-hwtimestamp-b3e22729284d
 
-	do {
-		ub913_read(priv, UB913_REG_CRC_ERRORS_MSB, &msb);
-		ub913_read(priv, UB913_REG_CRC_ERRORS_LSB, &lsb);
-		ub913_read(priv, UB913_REG_CRC_ERRORS_MSB, &msb2);
-	} while (msb1 != msb2);
-
-but I think it's overkill.
-
-> >> +	dev_info(dev, "CRC errors %u\n", v1 | (v2 << 8));
-> >> +
-> >> +	ub913_read(priv, UB913_REG_GENERAL_STATUS, &v);
-> >> +	dev_info(dev, "GENERAL_STATUS %#x\n", v);
-> >> +
-> >> +	ub913_read(priv, UB913_REG_PLL_OVR, &v);
-> >> +	dev_info(dev, "PLL_OVR %#x\n", v);
-> >> +
-> >> +	/* clear CRC errors */
-> >> +	ub913_read(priv, UB913_REG_GENERAL_CFG, &v);
-> >> +	ub913_write(priv, UB913_REG_GENERAL_CFG, v | UB913_REG_GENERAL_CFG_CRC_ERR_RESET);
-> > 
-> > Line wrap.
-> 
-> Ok.
-> 
-> >> +	ub913_write(priv, UB913_REG_GENERAL_CFG, v);
-> > 
-> > Move this just after reading the number of CRC errors to avoid dropping
-> > some errors.
-> 
-> Ok.
-> 
-> >> +
-> >> +	return 0;
-> >> +}
-
-[snip]
-
-> >> +static int ub913_probe(struct i2c_client *client)
-> >> +{
-> >> +	struct device *dev = &client->dev;
-> >> +	struct ub913_data *priv;
-> >> +	int ret;
-> >> +	u8 v;
-> >> +	bool mode_override;
-> >> +	u8 mode;
-> >> +
-> >> +	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
-> >> +	if (!priv)
-> >> +		return -ENOMEM;
-> >> +
-> >> +	priv->client = client;
-> >> +
-> >> +	priv->plat_data = dev_get_platdata(&client->dev);
-> >> +	if (!priv->plat_data) {
-> >> +		dev_err(dev, "Platform data missing\n");
-> >> +		return -ENODEV;
-> >> +	}
-> >> +
-> >> +	priv->regmap = devm_regmap_init_i2c(client, &ub913_regmap_config);
-> >> +	if (IS_ERR(priv->regmap)) {
-> >> +		dev_err(dev, "Failed to init regmap\n");
-> >> +		return PTR_ERR(priv->regmap);
-> >> +	}
-> >> +
-> >> +	/* ub913 can also work without ext clock, but that is not supported */
-> > 
-> > Maybe "not supported by the driver yet." to make it clear it could be
-> > added ?
-> 
-> Ok.
-> 
-> >> +	priv->clkin = devm_clk_get(dev, "clkin");
-> >> +	if (IS_ERR(priv->clkin)) {
-> >> +		ret = PTR_ERR(priv->clkin);
-> >> +		if (ret != -EPROBE_DEFER)
-> >> +			dev_err(dev, "Cannot get CLKIN (%d)", ret);
-> > 
-> > Use dev_err_probe().
-> 
-> Ok.
-> 
-> >> +		return ret;
-> >> +	}
-> >> +
-> >> +	ret = ub913_parse_dt(priv);
-> >> +	if (ret)
-> >> +		return ret;
-> >> +
-> >> +	ret = ub913_read(priv, UB913_REG_MODE_SEL, &v);
-> >> +	if (ret)
-> >> +		return ret;
-> >> +
-> >> +	if (!(v & UB913_REG_MODE_SEL_MODE_UP_TO_DATE)) {
-> >> +		dev_err(dev, "Mode value not stabilized\n");
-> >> +		return -ENODEV;
-> >> +	}
-> >> +
-> >> +	mode_override = v & UB913_REG_MODE_SEL_MODE_OVERRIDE;
-> >> +	mode = v & 0xf;
-> > 
-> > A macro for the 0xf would be nice.
-> 
-> Ok.
-> 
-> >> +
-> >> +	dev_dbg(dev, "mode from %s: %#x\n",
-> >> +		mode_override ? "reg" : "deserializer", mode);
-> >> +
-> >> +	ret = ub913_i2c_master_init(priv);
-> >> +	if (ret) {
-> >> +		dev_err(dev, "i2c master init failed: %d\n", ret);
-> >> +		return ret;
-> >> +	}
-> >> +
-> >> +	ret = ub913_gpiochip_probe(priv);
-> >> +	if (ret) {
-> >> +		dev_err(dev, "Failed to init gpiochip\n");
-> >> +		return ret;
-> >> +	}
-> >> +
-> >> +	ret = ub913_register_clkout(priv);
-> >> +	if (ret) {
-> >> +		dev_err(dev, "Failed to register clkout\n");
-> >> +		goto err_gpiochip_remove;
-> >> +	}
-> >> +
-> >> +	ub913_read(priv, UB913_REG_GENERAL_CFG, &v);
-> >> +	v &= ~UB913_REG_GENERAL_CFG_PCLK_RISING;
-> >> +	v |= priv->pclk_polarity ? UB913_REG_GENERAL_CFG_PCLK_RISING : 0;
-> >> +	ub913_write(priv, UB913_REG_GENERAL_CFG, v);
-> > 
-> > We're completely missing power management, but I suppose that can be
-> > done later.
-> 
-> Yes. I'm not sure how that would be implemented. The serializer and the 
-> whole camera module depends on the deserializer. In most cases both the 
-> power and the communication comes from the deserializer over the 
-> FPD-Link cable. I'm not sure if there's much the serializer can do alone 
-> wrt. the power management.
-> 
-> Hmm, do we need a full bus structure for the FPD-Link after all, so that 
-> we get power management features? Although that would mean also the 
-> other peripherals on the camera module should somehow be involved, as we 
-> can't turn off the deserializer and the serializer without somehow being 
-> permitted by the other peripherals (like sensor).
-
-I suppose time will tell :-)
-
-> > Should this be grouped with the UB913_REG_MODE_SEL check above, and
-> > maybe moved to a hardware init function ?
-> 
-> Yes, I can try to restructure this a bit. I guess if we add a hw init 
-> function, also the ub913_i2c_master_init() would be called from there.
-> 
-> >> +
-> >> +	v4l2_i2c_subdev_init(&priv->sd, priv->client, &ub913_subdev_ops);
-> >> +	priv->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE | V4L2_SUBDEV_FL_STREAMS;
-> >> +	priv->sd.entity.function = MEDIA_ENT_F_VID_IF_BRIDGE;
-> >> +	priv->sd.entity.ops = &ub913_entity_ops;
-> >> +
-> >> +	priv->pads[0].flags = MEDIA_PAD_FL_SINK;
-> >> +	priv->pads[1].flags = MEDIA_PAD_FL_SOURCE;
-> >> +
-> >> +	ret = media_entity_pads_init(&priv->sd.entity, 2, priv->pads);
-> >> +	if (ret) {
-> >> +		dev_err(dev, "Failed to init pads\n");
-> >> +		goto err_gpiochip_remove;
-> >> +	}
-> >> +
-> >> +	priv->tx_ep_np = of_graph_get_endpoint_by_regs(dev->of_node, 1, 0);
-> >> +	if (priv->tx_ep_np)
-> >> +		priv->sd.fwnode = of_fwnode_handle(priv->tx_ep_np);
-> > 
-> > Can we meaningfully continue with tx_ep_np is NULL, or should that be an
-> > error ?
-> 
-> The matching part of v4l2 is not quite clear to me. I believe I took 
-> this part from some other driver. The driver doesn't need the tx_ep_np, 
-> afaiu this is only to help with the subdev connection matching. Is it 
-> possible the matching could happen some other way than via fwnode?
-
-In general yes, in practice we require DT so we will never match through
-another mean.
-
-> That said... We require DT, so I think that means the tx_ep_np must be 
-> there. If it's not, something is wrong, and we'd better fail. So, I 
-> think I can handle !tx_ep_np as an error.
-
-Sounds good to me.
-
-> >> +
-> >> +	ret = v4l2_subdev_init_finalize(&priv->sd);
-> >> +	if (ret)
-> >> +		goto err_entity_cleanup;
-> >> +
-> >> +	ret = ub913_v4l2_notifier_register(priv);
-> >> +	if (ret) {
-> >> +		dev_err(dev, "v4l2 subdev notifier register failed: %d\n", ret);
-> >> +		goto err_free_state;
-> >> +	}
-> >> +
-> >> +	ret = v4l2_async_register_subdev(&priv->sd);
-> >> +	if (ret) {
-> >> +		dev_err(dev, "v4l2_async_register_subdev error: %d\n", ret);
-> >> +		goto err_unreg_notif;
-> >> +	}
-> >> +
-> >> +	ret = ub913_add_i2c_adapter(priv);
-> >> +	if (ret) {
-> >> +		dev_err(dev, "failed to add remote i2c adapter\n");
-> >> +		goto err_unreg_async_subdev;
-> >> +	}
-> >> +
-> >> +	return 0;
-> >> +
-> >> +err_unreg_async_subdev:
-> >> +	v4l2_async_unregister_subdev(&priv->sd);
-> >> +err_unreg_notif:
-> >> +	ub913_v4l2_nf_unregister(priv);
-> >> +err_free_state:
-> > 
-> > I'd name this err_subdev_cleanup.
-> 
-> Yep.
-> 
-> >> +	v4l2_subdev_cleanup(&priv->sd);
-> >> +err_entity_cleanup:
-> >> +	if (priv->tx_ep_np)
-> >> +		of_node_put(priv->tx_ep_np);
-> > 
-> > of_node_put() is a no-op when called with NULL, you can drop the check.
-> > Same below.
-> 
-> Ok.
-> 
-> >> +
-> >> +	media_entity_cleanup(&priv->sd.entity);
-> >> +err_gpiochip_remove:
-> >> +	ub913_gpiochip_remove(priv);
-> >> +
-> >> +	return ret;
-> >> +}
-> >> +
-> >> +static void ub913_remove(struct i2c_client *client)
-> >> +{
-> >> +	struct v4l2_subdev *sd = i2c_get_clientdata(client);
-> >> +	struct ub913_data *priv = sd_to_ub913(sd);
-> >> +
-> >> +	i2c_atr_del_adapter(priv->plat_data->atr,
-> >> +			    priv->plat_data->port);
-> >> +
-> >> +	v4l2_async_unregister_subdev(&priv->sd);
-> >> +
-> >> +	ub913_v4l2_nf_unregister(priv);
-> >> +
-> >> +	v4l2_subdev_cleanup(&priv->sd);
-> >> +
-> >> +	if (priv->tx_ep_np)
-> >> +		of_node_put(priv->tx_ep_np);
-> >> +
-> >> +	media_entity_cleanup(&priv->sd.entity);
-> >> +
-> >> +	ub913_gpiochip_remove(priv);
-> >> +}
-
+Best regards,
 -- 
-Regards,
-
-Laurent Pinchart
+Ricardo Ribalda <ribalda@chromium.org>
