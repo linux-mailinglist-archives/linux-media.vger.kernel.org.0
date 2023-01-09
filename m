@@ -2,154 +2,349 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 62B5B662261
-	for <lists+linux-media@lfdr.de>; Mon,  9 Jan 2023 11:02:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 15E8F66227C
+	for <lists+linux-media@lfdr.de>; Mon,  9 Jan 2023 11:08:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236362AbjAIKCZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 9 Jan 2023 05:02:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52046 "EHLO
+        id S235375AbjAIKH6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 9 Jan 2023 05:07:58 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54382 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237066AbjAIKBY (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 9 Jan 2023 05:01:24 -0500
-Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7922911A00
-        for <linux-media@vger.kernel.org>; Mon,  9 Jan 2023 02:01:18 -0800 (PST)
-Received: by mail-ej1-x62c.google.com with SMTP id u19so18619640ejm.8
-        for <linux-media@vger.kernel.org>; Mon, 09 Jan 2023 02:01:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=IyPGVf1IA+R6W+BsSMF5B8bTb9iyrBrQc1FUkhnDkgs=;
-        b=UjwDJhca+rSCU2rIuiVC7dEcBv08I2zcp7ic+9MaK6LlNKz3C70l+p2vosFLBvv6R2
-         OGFMKB6tPRSyFRPnHXwdkuzowgisl9ZIctjtSQV/Qog49caGMRLbdautE+72tyFQeuOH
-         POBOSfs6K4fxYna9uzn0pyUh08VI/mpyWbGHQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=IyPGVf1IA+R6W+BsSMF5B8bTb9iyrBrQc1FUkhnDkgs=;
-        b=naOcSifE0VIC5nz1ENaJEsUt5nJuLnZ55lJqpuoZLH64vexCP2pVqJ4cYx8L/thtCs
-         XUc1/865OjfeqgJOPFjgBPfCF7Lsa7UEj2S8xfgHGk2AL10y/PTDuU20ci5VFckkJG8c
-         uOe0NhuQn5QEG3NFRHyn2O+B8ZfrzkhauZgcZFTmC3n24pYm/kfwMzLRjGBNrknZj/kk
-         8WV5r7Iy9aaJFfhabuQxYtYkLrm7zw0GLeNr1cZKV4GpSG8MrcIsLLMAcL7OqWxSNh2x
-         xMmOYvcvihMrpkuhFxI2NtsKhTAyA/r1hjj9JcbFNtpD0kUrOPcUIxvpwNH+5tfySLx8
-         hFBg==
-X-Gm-Message-State: AFqh2krIX2kXHrUqH9oRyZxEgx7ec8VcJ9xw8PIJSCgvt2EVLU5D1WmO
-        TkS/eeqk+573axjqbQ1k6LM5IA==
-X-Google-Smtp-Source: AMrXdXsiLpNbgHJnmcE9ua6HmBX7TPv/kKdK4Z59oxWNT03YKIM6qLuqS0l6SHOhNT7mqVBXHt82Ng==
-X-Received: by 2002:a17:907:c68a:b0:84c:e9c4:5751 with SMTP id ue10-20020a170907c68a00b0084ce9c45751mr20704462ejc.74.1673258477023;
-        Mon, 09 Jan 2023 02:01:17 -0800 (PST)
-Received: from alco.roam.corp.google.com ([2620:0:1059:10:cd22:9dd:6d54:8488])
-        by smtp.gmail.com with ESMTPSA id bg14-20020a170906a04e00b007c094d31f35sm3557548ejb.76.2023.01.09.02.01.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Jan 2023 02:01:16 -0800 (PST)
-From:   Ricardo Ribalda <ribalda@chromium.org>
-Date:   Mon, 09 Jan 2023 11:00:52 +0100
-Subject: [PATCH v4 5/5] media: uvcvideo: Fix hw timestamp handling for slow FPS
+        with ESMTP id S236390AbjAIKHl (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 9 Jan 2023 05:07:41 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC8EF175B0;
+        Mon,  9 Jan 2023 02:07:11 -0800 (PST)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id AA65D6CF;
+        Mon,  9 Jan 2023 11:07:09 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1673258829;
+        bh=MA3UIeIy29qHR4bO6RNUu05XnWNHU0OutnZKv3QwVwk=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=pjjjSCYSC8uDx+DkgNqThr6Ug7pgA+5GZd4RkvCh9ec2wiQgyWQA4/a53wez6N9ys
+         NZKrsnL6YAfGmjqIC0qDDDJDUKaPMZVratlChAJGRwSrqgoBc7/wTf5ZZGhoWRz8KH
+         xmQwm/HA9bllA23+ouY1hwQW3mw2mu1adHMqieTo=
+Date:   Mon, 9 Jan 2023 12:07:06 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Wolfram Sang <wsa@kernel.org>,
+        Luca Ceresoli <luca.ceresoli@bootlin.com>,
+        Andy Shevchenko <andriy.shevchenko@intel.com>,
+        Matti Vaittinen <Matti.Vaittinen@fi.rohmeurope.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Peter Rosin <peda@axentia.se>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Michael Tretter <m.tretter@pengutronix.de>,
+        Shawn Tu <shawnx.tu@intel.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Mike Pagano <mpagano@gentoo.org>,
+        Krzysztof =?utf-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>,
+        Marek Vasut <marex@denx.de>, Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH v6 5/8] dt-bindings: media: add TI DS90UB960 FPD-Link III
+ Deserializer
+Message-ID: <Y7vnSnQAh2nS9vXx@pendragon.ideasonboard.com>
+References: <20230105140307.272052-1-tomi.valkeinen@ideasonboard.com>
+ <20230105140307.272052-6-tomi.valkeinen@ideasonboard.com>
+ <Y7o3QEq9utV8nswA@pendragon.ideasonboard.com>
+ <a3857c78-c221-176f-b862-a0435b301c67@ideasonboard.com>
+ <Y7vZzg6YyC2IaUso@pendragon.ideasonboard.com>
+ <65e3ca66-a4ba-db9b-3640-c90a7bdee61b@ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20220920-resend-hwtimestamp-v4-5-a8ddc1358a29@chromium.org>
-References: <20220920-resend-hwtimestamp-v4-0-a8ddc1358a29@chromium.org>
-In-Reply-To: <20220920-resend-hwtimestamp-v4-0-a8ddc1358a29@chromium.org>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Ricardo Ribalda <ribalda@chromium.org>,
-        "hn.chen" <hn.chen@sunplusit.com>, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org
-X-Mailer: b4 0.11.0-dev-696ae
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2429; i=ribalda@chromium.org;
- h=from:subject:message-id; bh=d3/yxcuzrSsjuCAsXjVx8zgkh4Z01muFu99m52Mqt+Q=;
- b=owEBbQKS/ZANAwAKAdE30T7POsSIAcsmYgBju+Xmus5qwiM+bWh3XmGUFTqq8M16JB31p20MD+uH
- OlLPKEmJAjMEAAEKAB0WIQREDzjr+/4oCDLSsx7RN9E+zzrEiAUCY7vl5gAKCRDRN9E+zzrEiM7VD/
- 9bKbYtjzUsl9za5kNhGVS3+IUFvGg4JO/yvugtLoQfDMSl5vY1dRQGU5BiLNwoF0u6zltN2+7RbLDg
- zMvxiNuBs1pH55ubB7wgCtvUJmW8WMUMUpddrvhb2P6w6aYqGTthzg07Yji5aDoySqjVHYdmKOm0sw
- VMNCDpeK2MGCjpw+5nglsWb6TAfMdiz9Q7pPNs2V30GgcqtdZ2f09oIh25/xAXSkXfpKAx+EnZ7+q5
- TbuqW6BC5AopWpwdu0Mwlmz40Jz+IUnDuigBl5AUaHV05iJ4Assr+pwo60iquRf4QYd4TYjnTsqhet
- DQcGz+Kb4VXBtvvxVNoWDzbceEq7teHvT6RRJS0wcYopENhMkYts8nlfzBTlQ84Q+V6lzIbr0jd9kx
- BEvFZsv6lmFKwiZAG8x7F/ljVB1MJq9whuoowr/JmjQDotkUiLpVyAdbweIiwtamXdKs+NBsKUYcB3
- 3HRGudm67BzKvZqWlFahr22IgW2x5YN+e5u3hZbHd6afzNRmh9Kwyunw+yWTfesChVAGje3+lxAFXA
- mXOsA8YLNN+4djBH2QcwIDipQF+9XTM+jZd+9l7hAcNYYKYgA5ofA6/dIMG9lMeDKXBWTI8jVgZEa0
- C8HZjtclgV6j8It7KnZkoZ9LI5XKMKueDgJJ9MsSIR6BmJXHRfCU1b1sswJQ==
-X-Developer-Key: i=ribalda@chromium.org; a=openpgp;
- fpr=9EC3BB66E2FC129A6F90B39556A0D81F9F782DA9
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <65e3ca66-a4ba-db9b-3640-c90a7bdee61b@ideasonboard.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-In UVC 1.5 we get a single clock value per frame. With the current
-buffer size of 32, FPS slowers than 32 might roll-over twice.
+On Mon, Jan 09, 2023 at 11:53:22AM +0200, Tomi Valkeinen wrote:
+> On 09/01/2023 11:09, Laurent Pinchart wrote:
+> > On Mon, Jan 09, 2023 at 10:30:13AM +0200, Tomi Valkeinen wrote:
+> >> On 08/01/2023 05:23, Laurent Pinchart wrote:
+> >>> Hi Tomi,
+> >>>
+> >>> Thank you for the patch.
+> >>>
+> >>> On Thu, Jan 05, 2023 at 04:03:04PM +0200, Tomi Valkeinen wrote:
+> >>>> Add DT bindings for TI DS90UB960 FPD-Link III Deserializer.
+> >>>>
+> >>>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> >>>> Reviewed-by: Rob Herring <robh@kernel.org>
+> >>>> ---
+> >>>>    .../bindings/media/i2c/ti,ds90ub960.yaml      | 402 ++++++++++++++++++
+> >>>>    1 file changed, 402 insertions(+)
+> >>>>    create mode 100644 Documentation/devicetree/bindings/media/i2c/ti,ds90ub960.yaml
+> >>>>
+> >>>> diff --git a/Documentation/devicetree/bindings/media/i2c/ti,ds90ub960.yaml b/Documentation/devicetree/bindings/media/i2c/ti,ds90ub960.yaml
+> >>>> new file mode 100644
+> >>>> index 000000000000..664799ae55be
+> >>>> --- /dev/null
+> >>>> +++ b/Documentation/devicetree/bindings/media/i2c/ti,ds90ub960.yaml
+> >>>> @@ -0,0 +1,402 @@
+> >>>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> >>>> +%YAML 1.2
+> >>>> +---
+> >>>> +$id: http://devicetree.org/schemas/media/i2c/ti,ds90ub960.yaml#
+> >>>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> >>>> +
+> >>>> +title: Texas Instruments DS90UB9XX Family FPD-Link Deserializer Hubs
+> >>>> +
+> >>>> +maintainers:
+> >>>> +  - Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> >>>> +
+> >>>> +description:
+> >>>> +  The TI DS90UB9XX devices are FPD-Link video deserializers with I2C and GPIO
+> >>>> +  forwarding.
+> >>>> +
+> >>>> +properties:
+> >>>> +  compatible:
+> >>>> +    enum:
+> >>>> +      - ti,ds90ub960-q1
+> >>>> +      - ti,ds90ub9702-q1
+> >>>> +
+> >>>> +  reg:
+> >>>> +    maxItems: 1
+> >>>> +
+> >>>> +  clocks:
+> >>>> +    maxItems: 1
+> >>>> +    description:
+> >>>> +      Reference clock connected to the REFCLK pin.
+> >>>> +
+> >>>> +  clock-names:
+> >>>> +    items:
+> >>>> +      - const: refclk
+> >>>> +
+> >>>> +  powerdown-gpios:
+> >>>> +    maxItems: 1
+> >>>> +    description:
+> >>>> +      Specifier for the GPIO connected to the PDB pin.
+> >>>> +
+> >>>> +  i2c-alias-pool:
+> >>>> +    $ref: /schemas/types.yaml#/definitions/uint16-array
+> >>>> +    description:
+> >>>> +      I2C alias pool is a pool of I2C addresses on the main I2C bus that can be
+> >>>> +      used to access the remote peripherals on the serializer's I2C bus. The
+> >>>> +      addresses must be available, not used by any other peripheral. Each
+> >>>> +      remote peripheral is assigned an alias from the pool, and transactions to
+> >>>> +      that address will be forwarded to the remote peripheral, with the address
+> >>>> +      translated to the remote peripheral's real address. This property is not
+> >>>> +      needed if there are no I2C addressable remote peripherals.
+> >>>> +
+> >>>> +  links:
+> >>>> +    type: object
+> >>>> +    additionalProperties: false
+> >>>> +
+> >>>> +    properties:
+> >>>> +      '#address-cells':
+> >>>> +        const: 1
+> >>>> +
+> >>>> +      '#size-cells':
+> >>>> +        const: 0
+> >>>> +
+> >>>> +      ti,manual-strobe:
+> >>>> +        type: boolean
+> >>>> +        description:
+> >>>> +          Enable manual strobe position and EQ level
+> >>>> +
+> >>>> +    patternProperties:
+> >>>> +      '^link@[0-3]$':
+> >>>> +        type: object
+> >>>> +        additionalProperties: false
+> >>>> +        properties:
+> >>>> +          reg:
+> >>>> +            description: The link number
+> >>>> +            maxItems: 1
+> >>>> +
+> >>>> +          i2c-alias:
+> >>>> +            description:
+> >>>> +              The I2C address used for the serializer. Transactions to this
+> >>>> +              address on the I2C bus where the deserializer resides are
+> >>>> +              forwarded to the serializer.
+> >>>> +
+> >>>> +          ti,rx-mode:
+> >>>> +            $ref: /schemas/types.yaml#/definitions/uint32
+> >>>> +            enum:
+> >>>> +              - 0 # RAW10
+> >>>> +              - 1 # RAW12 HF
+> >>>> +              - 2 # RAW12 LF
+> >>>> +              - 3 # CSI2 SYNC
+> >>>> +              - 4 # CSI2 NON-SYNC
+> >>>> +            description:
+> >>>> +              FPD-Link Input Mode. This should reflect the hardware and the
+> >>>> +              default mode of the connected camera module.
+> >>>
+> >>> As the remote device may not be a camera, I'd write "of the connected
+> >>> device" or "of the connected serializer".
+> >>
+> >> I was trying to include the sensor also in the "camera module", as the
+> >> sensor's "normal" pixel cloud would affect RAW modes (HF/LF). Perhaps
+> >> "connected device" covers this.
+> >>
+> >>>> +
+> >>>> +          ti,cdr-mode:
+> >>>> +            $ref: /schemas/types.yaml#/definitions/uint32
+> >>>> +            enum:
+> >>>> +              - 0 # FPD-Link III
+> >>>> +              - 1 # FPD-Link IV
+> >>>> +            description:
+> >>>> +              FPD-Link CDR Mode. This should reflect the hardware and the
+> >>>> +              default mode of the connected camera module.
+> >>>> +
+> >>>> +          ti,strobe-pos:
+> >>>> +            $ref: /schemas/types.yaml#/definitions/int32
+> >>>> +            minimum: -13
+> >>>> +            maximum: 13
+> >>>> +            description: Manual strobe position
+> >>>> +
+> >>>> +          ti,eq-level:
+> >>>> +            $ref: /schemas/types.yaml#/definitions/uint32
+> >>>> +            maximum: 14
+> >>>> +            description: Manual EQ level
+> >>>> +
+> >>>> +          serializer:
+> >>>> +            type: object
+> >>>> +            description: FPD-Link Serializer node
+> >>>> +
+> >>>> +        required:
+> >>>> +          - reg
+> >>>> +          - i2c-alias
+> >>>> +          - ti,rx-mode
+> >>>> +          - serializer
+> >>>> +
+> >>>> +  ports:
+> >>>> +    $ref: /schemas/graph.yaml#/properties/ports
+> >>>> +
+> >>>> +    properties:
+> >>>> +      port@0:
+> >>>> +        $ref: /schemas/graph.yaml#/$defs/port-base
+> >>>> +        unevaluatedProperties: false
+> >>>> +        description: FPD-Link input 0
+> >>>> +
+> >>>> +        properties:
+> >>>> +          endpoint:
+> >>>> +            $ref: /schemas/media/video-interfaces.yaml#
+> >>>> +            unevaluatedProperties: false
+> >>>> +            description:
+> >>>> +              Endpoint for FPD-Link port. If the RX mode for this port is RAW,
+> >>>> +              hsync-active and vsync-active must be defined.
+> >>>> +
+> >>>> +      port@1:
+> >>>> +        $ref: /schemas/graph.yaml#/$defs/port-base
+> >>>> +        unevaluatedProperties: false
+> >>>> +        description: FPD-Link input 1
+> >>>> +
+> >>>> +        properties:
+> >>>> +          endpoint:
+> >>>> +            $ref: /schemas/media/video-interfaces.yaml#
+> >>>> +            unevaluatedProperties: false
+> >>>> +            description:
+> >>>> +              Endpoint for FPD-Link port. If the RX mode for this port is RAW,
+> >>>> +              hsync-active and vsync-active must be defined.
+> >>>> +
+> >>>> +      port@2:
+> >>>> +        $ref: /schemas/graph.yaml#/$defs/port-base
+> >>>> +        unevaluatedProperties: false
+> >>>> +        description: FPD-Link input 2
+> >>>> +
+> >>>> +        properties:
+> >>>> +          endpoint:
+> >>>> +            $ref: /schemas/media/video-interfaces.yaml#
+> >>>> +            unevaluatedProperties: false
+> >>>> +            description:
+> >>>> +              Endpoint for FPD-Link port. If the RX mode for this port is RAW,
+> >>>> +              hsync-active and vsync-active must be defined.
+> >>>> +
+> >>>> +      port@3:
+> >>>> +        $ref: /schemas/graph.yaml#/$defs/port-base
+> >>>> +        unevaluatedProperties: false
+> >>>> +        description: FPD-Link input 3
+> >>>> +
+> >>>> +        properties:
+> >>>> +          endpoint:
+> >>>> +            $ref: /schemas/media/video-interfaces.yaml#
+> >>>> +            unevaluatedProperties: false
+> >>>> +            description:
+> >>>> +              Endpoint for FPD-Link port. If the RX mode for this port is RAW,
+> >>>> +              hsync-active and vsync-active must be defined.
+> >>>> +
+> >>>> +      port@4:
+> >>>> +        $ref: /schemas/graph.yaml#/$defs/port-base
+> >>>> +        unevaluatedProperties: false
+> >>>> +        description: CSI-2 Output 0
+> >>>> +
+> >>>> +        properties:
+> >>>> +          endpoint:
+> >>>> +            $ref: /schemas/media/video-interfaces.yaml#
+> >>>> +            unevaluatedProperties: false
+> >>>> +
+> >>>> +            properties:
+> >>>> +              data-lanes:
+> >>>> +                minItems: 1
+> >>>> +                maxItems: 4
+> >>>> +
+> >>>> +            required:
+> >>>> +              - data-lanes
+> >>>> +
+> >>>> +      port@5:
+> >>>> +        $ref: /schemas/graph.yaml#/$defs/port-base
+> >>>> +        unevaluatedProperties: false
+> >>>> +        description: CSI-2 Output 1
+> >>>> +
+> >>>> +        properties:
+> >>>> +          endpoint:
+> >>>> +            $ref: /schemas/media/video-interfaces.yaml#
+> >>>> +            unevaluatedProperties: false
+> >>>> +
+> >>>> +            properties:
+> >>>> +              data-lanes:
+> >>>> +                minItems: 1
+> >>>> +                maxItems: 4
+> >>>> +
+> >>>> +            required:
+> >>>> +              - data-lanes
+> >>>
+> >>> I think you need
+> >>>
+> >>>       required:
+> >>>         - port@0
+> >>>         - port@1
+> >>>         - port@2
+> >>>         - port@3
+> >>>         - port@4
+> >>>         - port@5
+> >>
+> >> Is that needed? I think often some of the ports are unused (e.g. the
+> >> example in this yaml file). Is it customary to still require empty port
+> >> nodes in the DT?
+> > 
+> > Ports are an intrinsic property of a device, they don't depend on the
+> > device integration in the system. In this case, the UB960 has four
+> > FPD-Link inputs and two CSI-2 outputs, that's a property of the chip.
+> > They don't have to be connected to anything on the board, so endpooints
+> > are optional.
+> 
+> Yes, but why do they have to be required? A missing port node implies 
+> that it's not used, doesn't it? I don't mind much, it just feels a bit 
+> extra to add multiple almost empty "port@X { reg = <X>; };" style nodes 
+> to the dts file.
 
-The current code cannot handle two roll-over and provide invalid
-timestamps.
-
-Revome all the samples from the circular buffer that are more than two
-rollovers old, so the algorithm always provides good timestamps.
-
-Note that we are removing values that are more than one second old,
-which means that there is enough distance between the two points that
-we use for the interpolation to provide good values.
-
-Tested-by: HungNien Chen <hn.chen@sunplusit.com>
-Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
----
- drivers/media/usb/uvc/uvc_video.c | 15 +++++++++++++++
- drivers/media/usb/uvc/uvcvideo.h  |  1 +
- 2 files changed, 16 insertions(+)
-
-diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
-index 02831cf0a00f..04f452d95fd6 100644
---- a/drivers/media/usb/uvc/uvc_video.c
-+++ b/drivers/media/usb/uvc/uvc_video.c
-@@ -473,6 +473,20 @@ static void uvc_video_clock_add_sample(struct uvc_clock *clock,
- 
- 	spin_lock_irqsave(&clock->lock, flags);
- 
-+	/* Delete last overflows */
-+	if (clock->head == clock->last_sof_overflow)
-+		clock->last_sof_overflow = -1;
-+
-+	/* Handle overflows */
-+	if (clock->count > 0 && clock->last_sof > sample->dev_sof) {
-+		/* Remove data from the last^2 overflows */
-+		if (clock->last_sof_overflow != -1)
-+			clock->count = (clock->head - clock->last_sof_overflow)
-+								% clock->count;
-+		clock->last_sof_overflow = clock->head;
-+	}
-+
-+	/* Add sample */
- 	memcpy(&clock->samples[clock->head], sample, sizeof(*sample));
- 	clock->head = (clock->head + 1) % clock->size;
- 	clock->count = min(clock->count + 1, clock->size);
-@@ -600,6 +614,7 @@ static void uvc_video_clock_reset(struct uvc_clock *clock)
- 	clock->head = 0;
- 	clock->count = 0;
- 	clock->last_sof = -1;
-+	clock->last_sof_overflow = -1;
- 	clock->sof_offset = -1;
- }
- 
-diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-index 699c33bc24ed..f2a7e1507492 100644
---- a/drivers/media/usb/uvc/uvcvideo.h
-+++ b/drivers/media/usb/uvc/uvcvideo.h
-@@ -501,6 +501,7 @@ struct uvc_streaming {
- 		unsigned int head;
- 		unsigned int count;
- 		unsigned int size;
-+		unsigned int last_sof_overflow;
- 
- 		u16 last_sof;
- 		u16 sof_offset;
+Lots of them are in .dtsi files, so it's not that bad. The main reasons I
+push for making ports mandatory are uniformity (lots of bindings do so,
+albeit some because I wrote them or asked for changes during review
+:-)), and simplified port handling on the driver side. 
 
 -- 
-2.39.0.314.g84b9a713c41-goog-b4-0.11.0-dev-696ae
+Regards,
+
+Laurent Pinchart
