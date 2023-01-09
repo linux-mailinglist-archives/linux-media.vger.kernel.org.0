@@ -2,65 +2,59 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 31252662006
-	for <lists+linux-media@lfdr.de>; Mon,  9 Jan 2023 09:31:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B93C366210C
+	for <lists+linux-media@lfdr.de>; Mon,  9 Jan 2023 10:11:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230404AbjAIIb2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 9 Jan 2023 03:31:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44304 "EHLO
+        id S234589AbjAIJLI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 9 Jan 2023 04:11:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45430 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236623AbjAIIaf (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 9 Jan 2023 03:30:35 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5317F8FF0;
-        Mon,  9 Jan 2023 00:30:21 -0800 (PST)
-Received: from [192.168.1.15] (91-154-32-225.elisa-laajakaista.fi [91.154.32.225])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id F3BAD6CF;
-        Mon,  9 Jan 2023 09:30:16 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1673253018;
-        bh=sdVspnhyF91px8Uo85ASpiXoNUN4uleKcRqMugs9VBo=;
+        with ESMTP id S236618AbjAIJKK (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 9 Jan 2023 04:10:10 -0500
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC7D216584;
+        Mon,  9 Jan 2023 01:05:23 -0800 (PST)
+Received: from [IPV6:2a01:e0a:120:3210:ad7f:4e82:9389:686f] (unknown [IPv6:2a01:e0a:120:3210:ad7f:4e82:9389:686f])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: benjamin.gaignard)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id DBE1E6601F10;
+        Mon,  9 Jan 2023 09:05:21 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1673255122;
+        bh=tRpKJLAiABOhpP2YUjpXF1Z+WYFDa3TbM92QViIdx+0=;
         h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=ce6Um9vr8SCNk9BuEKWX5nBF6JWZh4gWOm7K8DZumxOzwKEHxTEWVISnbLE+cP5z4
-         m4IB/NXyJ3gjVFBIyuoLFeeHLvNf0CBX2M+6jAz9kEgaXRZnUFpDxYHmGa7+E4zkE4
-         IYj1PpvTyiKU5uEHSkWgoYpHdB6sBfyoVaguEGMc=
-Message-ID: <a3857c78-c221-176f-b862-a0435b301c67@ideasonboard.com>
-Date:   Mon, 9 Jan 2023 10:30:13 +0200
+        b=kN0y67jMkHwsCGjUaBqn+id3yzmig1x92FvKi1Nge9aiEAel3a2j0NT4uQWJZb2Et
+         oJVGqlXjB3ejkOkLS3gmIL7J3bNIHy4qT8pM6XfvU2qdsKEBAyHA7mAFeUpgB6HIJh
+         +tOVSUZ7xeAx66b0QYHlooEGbji65ssLSh6vyIYVnxO5rH92dA9Q3kXMZ8LdnXCl9V
+         7WHbi6dPs/4/wIEUJTkUJ9xYKwX3y4poAVbgeYo61rBIXqahrN3LIV1gz7JXnZrgNZ
+         9sbxA/2SWFoEc6P+ob8mNBc8eDuO6pOaMnqgix7EFOEmOGuABZIZVz2Gmlqvck00u8
+         qHQFRoeyJxEqQ==
+Message-ID: <852e5269-cb3d-bd56-c7fd-0a1f461623de@collabora.com>
+Date:   Mon, 9 Jan 2023 10:05:19 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.2
-Subject: Re: [PATCH v6 5/8] dt-bindings: media: add TI DS90UB960 FPD-Link III
- Deserializer
+Subject: Re: [PATCH v2 13/13] media: verisilicon: Conditionnaly ignore native
+ formats
+To:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Cc:     p.zabel@pengutronix.de, mchehab@kernel.org, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, heiko@sntech.de,
+        daniel.almeida@collabora.com, nicolas.dufresne@collabora.co.uk,
+        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, kernel@collabora.com
+References: <20230103170058.810597-1-benjamin.gaignard@collabora.com>
+ <20230103170058.810597-14-benjamin.gaignard@collabora.com>
+ <CAAEAJfBRtBSZt0B3OyQSCHhsseUn6_H+JSvAR3cOH15WUryuNw@mail.gmail.com>
 Content-Language: en-US
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Wolfram Sang <wsa@kernel.org>,
-        Luca Ceresoli <luca.ceresoli@bootlin.com>,
-        Andy Shevchenko <andriy.shevchenko@intel.com>,
-        Matti Vaittinen <Matti.Vaittinen@fi.rohmeurope.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Peter Rosin <peda@axentia.se>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Michael Tretter <m.tretter@pengutronix.de>,
-        Shawn Tu <shawnx.tu@intel.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Mike Pagano <mpagano@gentoo.org>,
-        =?UTF-8?Q?Krzysztof_Ha=c5=82asa?= <khalasa@piap.pl>,
-        Marek Vasut <marex@denx.de>, Rob Herring <robh@kernel.org>
-References: <20230105140307.272052-1-tomi.valkeinen@ideasonboard.com>
- <20230105140307.272052-6-tomi.valkeinen@ideasonboard.com>
- <Y7o3QEq9utV8nswA@pendragon.ideasonboard.com>
-From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-In-Reply-To: <Y7o3QEq9utV8nswA@pendragon.ideasonboard.com>
+From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
+In-Reply-To: <CAAEAJfBRtBSZt0B3OyQSCHhsseUn6_H+JSvAR3cOH15WUryuNw@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
         SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -68,262 +62,156 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 08/01/2023 05:23, Laurent Pinchart wrote:
-> Hi Tomi,
-> 
-> Thank you for the patch.
-> 
-> On Thu, Jan 05, 2023 at 04:03:04PM +0200, Tomi Valkeinen wrote:
->> Add DT bindings for TI DS90UB960 FPD-Link III Deserializer.
+
+Le 08/01/2023 à 22:12, Ezequiel Garcia a écrit :
+> On Tue, Jan 3, 2023 at 2:01 PM Benjamin Gaignard
+> <benjamin.gaignard@collabora.com> wrote:
+>> AV1 film grain feature requires to use the postprocessor to produce
+>> valid frames. In such case the driver shouldn't propose native pixels
+>> format but only post-processed pixels format.
+>> If a codec set need_postproc field in hantro_ctx structure to true
+>> native pixel formats will be ignored.
 >>
->> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
->> Reviewed-by: Rob Herring <robh@kernel.org>
+>> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 >> ---
->>   .../bindings/media/i2c/ti,ds90ub960.yaml      | 402 ++++++++++++++++++
->>   1 file changed, 402 insertions(+)
->>   create mode 100644 Documentation/devicetree/bindings/media/i2c/ti,ds90ub960.yaml
+>>   drivers/media/platform/verisilicon/hantro.h   |  3 ++
+>>   .../media/platform/verisilicon/hantro_drv.c   |  5 ++
+>>   .../platform/verisilicon/hantro_postproc.c    |  4 ++
+>>   .../media/platform/verisilicon/hantro_v4l2.c  | 46 +++++++++++++------
+>>   4 files changed, 45 insertions(+), 13 deletions(-)
 >>
->> diff --git a/Documentation/devicetree/bindings/media/i2c/ti,ds90ub960.yaml b/Documentation/devicetree/bindings/media/i2c/ti,ds90ub960.yaml
->> new file mode 100644
->> index 000000000000..664799ae55be
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/media/i2c/ti,ds90ub960.yaml
->> @@ -0,0 +1,402 @@
->> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
->> +%YAML 1.2
->> +---
->> +$id: http://devicetree.org/schemas/media/i2c/ti,ds90ub960.yaml#
->> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>> diff --git a/drivers/media/platform/verisilicon/hantro.h b/drivers/media/platform/verisilicon/hantro.h
+>> index a98cb40a8d3b..7a5357e810fb 100644
+>> --- a/drivers/media/platform/verisilicon/hantro.h
+>> +++ b/drivers/media/platform/verisilicon/hantro.h
+>> @@ -231,6 +231,8 @@ struct hantro_dev {
+>>    * @ctrl_handler:      Control handler used to register controls.
+>>    * @jpeg_quality:      User-specified JPEG compression quality.
+>>    * @bit_depth:         Bit depth of current frame
+>> + * @need_postproc:     Set to true if the bitstream features require to
+>> + *                     use the post-processor.
+>>    *
+>>    * @codec_ops:         Set of operations related to codec mode.
+>>    * @postproc:          Post-processing context.
+>> @@ -258,6 +260,7 @@ struct hantro_ctx {
+>>          struct v4l2_ctrl_handler ctrl_handler;
+>>          int jpeg_quality;
+>>          int bit_depth;
+>> +       bool need_postproc;
+>>
+>>          const struct hantro_codec_ops *codec_ops;
+>>          struct hantro_postproc_ctx postproc;
+>> diff --git a/drivers/media/platform/verisilicon/hantro_drv.c b/drivers/media/platform/verisilicon/hantro_drv.c
+>> index 4fc6dea16ae6..8d7055c0bf3b 100644
+>> --- a/drivers/media/platform/verisilicon/hantro_drv.c
+>> +++ b/drivers/media/platform/verisilicon/hantro_drv.c
+>> @@ -346,6 +346,11 @@ static int hantro_av1_s_ctrl(struct v4l2_ctrl *ctrl)
+>>                                  return -EINVAL;
+>>
+>>                  ctx->bit_depth = bit_depth;
 >> +
->> +title: Texas Instruments DS90UB9XX Family FPD-Link Deserializer Hubs
+>> +               if (ctrl->p_new.p_av1_sequence->flags
+>> +                   & V4L2_AV1_SEQUENCE_FLAG_FILM_GRAIN_PARAMS_PRESENT)
+>> +                       ctx->need_postproc = true;
 >> +
->> +maintainers:
->> +  - Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+>>                  break;
+>>          default:
+>>                  return -EINVAL;
+>> diff --git a/drivers/media/platform/verisilicon/hantro_postproc.c b/drivers/media/platform/verisilicon/hantro_postproc.c
+>> index 7dc39519a2ee..293e5612e2ce 100644
+>> --- a/drivers/media/platform/verisilicon/hantro_postproc.c
+>> +++ b/drivers/media/platform/verisilicon/hantro_postproc.c
+>> @@ -57,6 +57,10 @@ bool hantro_needs_postproc(const struct hantro_ctx *ctx,
+>>   {
+>>          if (ctx->is_encoder)
+>>                  return false;
 >> +
->> +description:
->> +  The TI DS90UB9XX devices are FPD-Link video deserializers with I2C and GPIO
->> +  forwarding.
+>> +       if (ctx->need_postproc)
+>> +               return true;
 >> +
->> +properties:
->> +  compatible:
->> +    enum:
->> +      - ti,ds90ub960-q1
->> +      - ti,ds90ub9702-q1
+>>          return fmt->postprocessed;
+>>   }
+>>
+>> diff --git a/drivers/media/platform/verisilicon/hantro_v4l2.c b/drivers/media/platform/verisilicon/hantro_v4l2.c
+>> index bbe79dbd2cd9..5c381766cca3 100644
+>> --- a/drivers/media/platform/verisilicon/hantro_v4l2.c
+>> +++ b/drivers/media/platform/verisilicon/hantro_v4l2.c
+>> @@ -38,6 +38,11 @@ hantro_get_formats(const struct hantro_ctx *ctx, unsigned int *num_fmts)
+>>   {
+>>          const struct hantro_fmt *formats;
+>>
+>> +       if (ctx->need_postproc) {
+>> +               *num_fmts = 0;
+>> +               return NULL;
+>> +       }
 >> +
->> +  reg:
->> +    maxItems: 1
+>>          if (ctx->is_encoder) {
+>>                  formats = ctx->dev->variant->enc_fmts;
+>>                  *num_fmts = ctx->dev->variant->num_enc_fmts;
+>> @@ -132,6 +137,15 @@ hantro_get_default_fmt(const struct hantro_ctx *ctx, bool bitstream)
+>>                      hantro_check_depth_match(ctx, &formats[i]))
+>>                          return &formats[i];
+>>          }
 >> +
->> +  clocks:
->> +    maxItems: 1
->> +    description:
->> +      Reference clock connected to the REFCLK pin.
+>> +       formats = hantro_get_postproc_formats(ctx, &num_fmts);
+>> +       for (i = 0; i < num_fmts; i++) {
+>> +               if (bitstream == (formats[i].codec_mode !=
+>> +                                 HANTRO_MODE_NONE) &&
+>> +                   hantro_check_depth_match(ctx, &formats[i]))
+>> +                       return &formats[i];
+>> +       }
 >> +
->> +  clock-names:
->> +    items:
->> +      - const: refclk
+>>          return NULL;
+>>   }
+>>
+>> @@ -261,19 +275,6 @@ static int vidioc_g_fmt_out_mplane(struct file *file, void *priv,
+>>          return 0;
+>>   }
+>>
+>> -static int vidioc_g_fmt_cap_mplane(struct file *file, void *priv,
+>> -                                  struct v4l2_format *f)
+>> -{
+>> -       struct v4l2_pix_format_mplane *pix_mp = &f->fmt.pix_mp;
+>> -       struct hantro_ctx *ctx = fh_to_ctx(priv);
+>> -
+>> -       vpu_debug(4, "f->type = %d\n", f->type);
+>> -
+>> -       *pix_mp = ctx->dst_fmt;
+>> -
+>> -       return 0;
+>> -}
+>> -
+>>   static int hantro_try_fmt(const struct hantro_ctx *ctx,
+>>                            struct v4l2_pix_format_mplane *pix_mp,
+>>                            enum v4l2_buf_type type)
+>> @@ -353,6 +354,25 @@ static int hantro_try_fmt(const struct hantro_ctx *ctx,
+>>          return 0;
+>>   }
+>>
+>> +static int vidioc_g_fmt_cap_mplane(struct file *file, void *priv,
+>> +                                  struct v4l2_format *f)
+>> +{
+>> +       struct v4l2_pix_format_mplane *pix_mp = &f->fmt.pix_mp;
+>> +       struct hantro_ctx *ctx = fh_to_ctx(priv);
+>> +       int ret;
 >> +
->> +  powerdown-gpios:
->> +    maxItems: 1
->> +    description:
->> +      Specifier for the GPIO connected to the PDB pin.
+>> +       vpu_debug(4, "f->type = %d\n", f->type);
 >> +
->> +  i2c-alias-pool:
->> +    $ref: /schemas/types.yaml#/definitions/uint16-array
->> +    description:
->> +      I2C alias pool is a pool of I2C addresses on the main I2C bus that can be
->> +      used to access the remote peripherals on the serializer's I2C bus. The
->> +      addresses must be available, not used by any other peripheral. Each
->> +      remote peripheral is assigned an alias from the pool, and transactions to
->> +      that address will be forwarded to the remote peripheral, with the address
->> +      translated to the remote peripheral's real address. This property is not
->> +      needed if there are no I2C addressable remote peripherals.
+>> +       ret = hantro_try_fmt(ctx, pix_mp, f->type);
+>> +       if (ret)
+>> +               return ret;
 >> +
->> +  links:
->> +    type: object
->> +    additionalProperties: false
+>> +       ctx->vpu_dst_fmt = hantro_find_format(ctx, pix_mp->pixelformat);
+>> +       ctx->dst_fmt = *pix_mp;
 >> +
->> +    properties:
->> +      '#address-cells':
->> +        const: 1
->> +
->> +      '#size-cells':
->> +        const: 0
->> +
->> +      ti,manual-strobe:
->> +        type: boolean
->> +        description:
->> +          Enable manual strobe position and EQ level
->> +
->> +    patternProperties:
->> +      '^link@[0-3]$':
->> +        type: object
->> +        additionalProperties: false
->> +        properties:
->> +          reg:
->> +            description: The link number
->> +            maxItems: 1
->> +
->> +          i2c-alias:
->> +            description:
->> +              The I2C address used for the serializer. Transactions to this
->> +              address on the I2C bus where the deserializer resides are
->> +              forwarded to the serializer.
->> +
->> +          ti,rx-mode:
->> +            $ref: /schemas/types.yaml#/definitions/uint32
->> +            enum:
->> +              - 0 # RAW10
->> +              - 1 # RAW12 HF
->> +              - 2 # RAW12 LF
->> +              - 3 # CSI2 SYNC
->> +              - 4 # CSI2 NON-SYNC
->> +            description:
->> +              FPD-Link Input Mode. This should reflect the hardware and the
->> +              default mode of the connected camera module.
-> 
-> As the remote device may not be a camera, I'd write "of the connected
-> device" or "of the connected serializer".
+> This looks like the g_fmt is setting some state in the context,
+> this looks incorrect.
 
-I was trying to include the sensor also in the "camera module", as the 
-sensor's "normal" pixel cloud would affect RAW modes (HF/LF). Perhaps 
-"connected device" covers this.
+Indeed only a call to hantro_try_fmt() is needed here.
+I will fix that in v3.
 
->> +
->> +          ti,cdr-mode:
->> +            $ref: /schemas/types.yaml#/definitions/uint32
->> +            enum:
->> +              - 0 # FPD-Link III
->> +              - 1 # FPD-Link IV
->> +            description:
->> +              FPD-Link CDR Mode. This should reflect the hardware and the
->> +              default mode of the connected camera module.
->> +
->> +          ti,strobe-pos:
->> +            $ref: /schemas/types.yaml#/definitions/int32
->> +            minimum: -13
->> +            maximum: 13
->> +            description: Manual strobe position
->> +
->> +          ti,eq-level:
->> +            $ref: /schemas/types.yaml#/definitions/uint32
->> +            maximum: 14
->> +            description: Manual EQ level
->> +
->> +          serializer:
->> +            type: object
->> +            description: FPD-Link Serializer node
->> +
->> +        required:
->> +          - reg
->> +          - i2c-alias
->> +          - ti,rx-mode
->> +          - serializer
->> +
->> +  ports:
->> +    $ref: /schemas/graph.yaml#/properties/ports
->> +
->> +    properties:
->> +      port@0:
->> +        $ref: /schemas/graph.yaml#/$defs/port-base
->> +        unevaluatedProperties: false
->> +        description: FPD-Link input 0
->> +
->> +        properties:
->> +          endpoint:
->> +            $ref: /schemas/media/video-interfaces.yaml#
->> +            unevaluatedProperties: false
->> +            description:
->> +              Endpoint for FPD-Link port. If the RX mode for this port is RAW,
->> +              hsync-active and vsync-active must be defined.
->> +
->> +      port@1:
->> +        $ref: /schemas/graph.yaml#/$defs/port-base
->> +        unevaluatedProperties: false
->> +        description: FPD-Link input 1
->> +
->> +        properties:
->> +          endpoint:
->> +            $ref: /schemas/media/video-interfaces.yaml#
->> +            unevaluatedProperties: false
->> +            description:
->> +              Endpoint for FPD-Link port. If the RX mode for this port is RAW,
->> +              hsync-active and vsync-active must be defined.
->> +
->> +      port@2:
->> +        $ref: /schemas/graph.yaml#/$defs/port-base
->> +        unevaluatedProperties: false
->> +        description: FPD-Link input 2
->> +
->> +        properties:
->> +          endpoint:
->> +            $ref: /schemas/media/video-interfaces.yaml#
->> +            unevaluatedProperties: false
->> +            description:
->> +              Endpoint for FPD-Link port. If the RX mode for this port is RAW,
->> +              hsync-active and vsync-active must be defined.
->> +
->> +      port@3:
->> +        $ref: /schemas/graph.yaml#/$defs/port-base
->> +        unevaluatedProperties: false
->> +        description: FPD-Link input 3
->> +
->> +        properties:
->> +          endpoint:
->> +            $ref: /schemas/media/video-interfaces.yaml#
->> +            unevaluatedProperties: false
->> +            description:
->> +              Endpoint for FPD-Link port. If the RX mode for this port is RAW,
->> +              hsync-active and vsync-active must be defined.
->> +
->> +      port@4:
->> +        $ref: /schemas/graph.yaml#/$defs/port-base
->> +        unevaluatedProperties: false
->> +        description: CSI-2 Output 0
->> +
->> +        properties:
->> +          endpoint:
->> +            $ref: /schemas/media/video-interfaces.yaml#
->> +            unevaluatedProperties: false
->> +
->> +            properties:
->> +              data-lanes:
->> +                minItems: 1
->> +                maxItems: 4
->> +
->> +            required:
->> +              - data-lanes
->> +
->> +      port@5:
->> +        $ref: /schemas/graph.yaml#/$defs/port-base
->> +        unevaluatedProperties: false
->> +        description: CSI-2 Output 1
->> +
->> +        properties:
->> +          endpoint:
->> +            $ref: /schemas/media/video-interfaces.yaml#
->> +            unevaluatedProperties: false
->> +
->> +            properties:
->> +              data-lanes:
->> +                minItems: 1
->> +                maxItems: 4
->> +
->> +            required:
->> +              - data-lanes
-> 
-> I think you need
-> 
->      required:
->        - port@0
->        - port@1
->        - port@2
->        - port@3
->        - port@4
->        - port@5
+Benjamin
 
-Is that needed? I think often some of the ports are unused (e.g. the 
-example in this yaml file). Is it customary to still require empty port 
-nodes in the DT?
-
-  Tomi
-
+>
+> Thanks,
+> Ezequiel
