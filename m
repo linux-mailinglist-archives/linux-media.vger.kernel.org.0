@@ -2,318 +2,237 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8255D663345
-	for <lists+linux-media@lfdr.de>; Mon,  9 Jan 2023 22:40:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DFD4B663359
+	for <lists+linux-media@lfdr.de>; Mon,  9 Jan 2023 22:42:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238051AbjAIVkP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 9 Jan 2023 16:40:15 -0500
+        id S235107AbjAIVmK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 9 Jan 2023 16:42:10 -0500
 Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50126 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238138AbjAIVjp (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 9 Jan 2023 16:39:45 -0500
-Received: from mail-oa1-x49.google.com (mail-oa1-x49.google.com [IPv6:2001:4860:4864:20::49])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9BA8F3BEB4
-        for <linux-media@vger.kernel.org>; Mon,  9 Jan 2023 13:38:32 -0800 (PST)
-Received: by mail-oa1-x49.google.com with SMTP id 586e51a60fabf-144a21f5c25so2662780fac.2
-        for <linux-media@vger.kernel.org>; Mon, 09 Jan 2023 13:38:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=bWOMIyzYML+GnCVLadZ/bfKF2vZbEfEtiwoUNHe8I8g=;
-        b=B/4nGCkbSar9JPAjXdE2nMB2agrlgj7EbvSmEmaJ+FSJY/iiSdTcvg5MdvBrbYHsHT
-         aJRIFm3Wr5pW8VLrvwXyFhP3E3TT9U5sZcpJvG8FV1JDpbHJwB7rtgFFGgNK9LDaVjog
-         Pxt5yN9L6hOC7uq/3GfuD7+lUUQyPP+3VSsa17lsU0G2BkfMYQpcL3C/SsXM7xi372Zn
-         fNO5FJJkb2PUBmghvakzxN8uNK9UFoT5CrG30MTZzLQBuir0MX/aQWG2h1G8i+8H8PX5
-         4fz1y8odBf62yg98vv3M9x+vuJXu9iZH5joEdWq+vYgTfLpmFQLvIEwSeteAmim8RvJX
-         MOWw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=bWOMIyzYML+GnCVLadZ/bfKF2vZbEfEtiwoUNHe8I8g=;
-        b=hpdeqpqzTtgIbFKhjryYz+VG1AEoxNVlQBc1cN3WvbQ8zfRireVntMAbCEUwSQQksj
-         b8loIX74j01u/aKOMd1tuMeBsEDlbkYcWgYHUNP0Wtv9FDfSejzwcA+lmHCREElJfZE8
-         hnVYrUUXMGbxar2bOjy4zdDKLrDpmozNI5hiCubmUDRrvH8f++nM8NMN1MgSHVXUJ6Au
-         fgxrYuyqIKVcHVUxZMFt+KTEd/drJq0v4Qv89yLPeU30qrJES3NNQUiHDtvR4X6SDz54
-         UXgX+rxG2rqbQSVgz6XaZ3sOvMnQ8dXql8VXjPcAgPNbHAXB2Vf8QQUclwEr3h1Vt7tT
-         vDlg==
-X-Gm-Message-State: AFqh2kq3YxOLY1I9xZn+a/XOxDBpRCC+2l1Bp4DbOYJ2+rMRnmAow26N
-        NHWyNwGi5NgLrbPD6bMEHSov8yqTzvwdqCM=
-X-Google-Smtp-Source: AMrXdXt2b4GmnQbBAnictl+P9Qid5OxsP4Aa+Rreix4gjPXQPZYSTzo2urBLSPG5NnFGp9zwycV58Z5FT1JxcHQ=
-X-Received: from tj.c.googlers.com ([fda3:e722:ac3:cc00:20:ed76:c0a8:53a])
- (user=tjmercier job=sendgmr) by 2002:a05:6870:6327:b0:15b:d2e:d059 with SMTP
- id s39-20020a056870632700b0015b0d2ed059mr587093oao.179.1673300311796; Mon, 09
- Jan 2023 13:38:31 -0800 (PST)
-Date:   Mon,  9 Jan 2023 21:38:06 +0000
-In-Reply-To: <20230109213809.418135-1-tjmercier@google.com>
-Mime-Version: 1.0
-References: <20230109213809.418135-1-tjmercier@google.com>
-X-Mailer: git-send-email 2.39.0.314.g84b9a713c41-goog
-Message-ID: <20230109213809.418135-4-tjmercier@google.com>
-Subject: [PATCH 3/4] binder: Add flags to relinquish ownership of fds
-From:   "T.J. Mercier" <tjmercier@google.com>
-To:     tjmercier@google.com, Tejun Heo <tj@kernel.org>,
-        Zefan Li <lizefan.x@bytedance.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "=?UTF-8?q?Arve=20Hj=C3=B8nnev=C3=A5g?=" <arve@android.com>,
-        Todd Kjos <tkjos@android.com>,
-        Martijn Coenen <maco@android.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Christian Brauner <brauner@kernel.org>,
-        Carlos Llamas <cmllamas@google.com>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        "=?UTF-8?q?Christian=20K=C3=B6nig?=" <christian.koenig@amd.com>
-Cc:     daniel.vetter@ffwll.ch, android-mm@google.com, jstultz@google.com,
-        Hridya Valsaraju <hridya@google.com>, cgroups@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-9.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=unavailable
-        autolearn_force=no version=3.4.6
+        with ESMTP id S238142AbjAIVlq (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 9 Jan 2023 16:41:46 -0500
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A74C12613
+        for <linux-media@vger.kernel.org>; Mon,  9 Jan 2023 13:41:30 -0800 (PST)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <mgr@pengutronix.de>)
+        id 1pEztY-0000Xk-Qu; Mon, 09 Jan 2023 22:41:28 +0100
+Received: from mgr by ptx.hi.pengutronix.de with local (Exim 4.92)
+        (envelope-from <mgr@pengutronix.de>)
+        id 1pEztX-0003KR-Tk; Mon, 09 Jan 2023 22:41:27 +0100
+Date:   Mon, 9 Jan 2023 22:41:27 +0100
+From:   Michael Grzeschik <mgr@pengutronix.de>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org,
+        Ricardo Ribalda <ribalda@chromium.org>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Daniel Scally <dan.scally@ideasonboard.com>
+Subject: Re: [PATCH v3] media: uvcvideo: Remove format descriptions
+Message-ID: <20230109214127.GA6064@pengutronix.de>
+References: <20230106235242.9536-1-laurent.pinchart@ideasonboard.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="sdtB3X0nJg68CQEu"
+Content-Disposition: inline
+In-Reply-To: <20230106235242.9536-1-laurent.pinchart@ideasonboard.com>
+X-Sent-From: Pengutronix Hildesheim
+X-URL:  http://www.pengutronix.de/
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: mgr@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Hridya Valsaraju <hridya@google.com>
 
-This patch introduces flags BINDER_FD_FLAG_XFER_CHARGE, and
-BINDER_FD_FLAG_XFER_CHARGE that a process sending an individual fd or
-fd array to another process over binder IPC can set to relinquish
-ownership of the fd(s) being sent for memory accounting purposes. If the
-flag is found to be set during the fd or fd array translation and the
-fd is for a DMA-BUF, the buffer is uncharged from the sender's cgroup
-and charged to the receiving process's cgroup instead.
+--sdtB3X0nJg68CQEu
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-It is up to the sending process to ensure that it closes the fds
-regardless of whether the transfer failed or succeeded.
+On Sat, Jan 07, 2023 at 01:52:42AM +0200, Laurent Pinchart wrote:
+>The V4L2 core overwrites format descriptions in v4l_fill_fmtdesc(),
+>there's no need to manually set the descriptions in the driver. This
+>prepares for removal of the format descriptions from the uvc_fmts table.
+>
+>Unlike V4L2, UVC makes a distinction between the SD-DV, SDL-DV and HD-DV
+>formats. It also indicates whether the DV format uses 50Hz or 60Hz. This
+>information is parsed by the driver to construct a format name string
+>that is printed in a debug message, but serves no other purpose as V4L2
+>has a single V4L2_PIX_FMT_DV pixel format that covers all those cases.
+>
+>As the information is available in the UVC descriptors, and thus
+>accessible to users with lsusb if they really care, don't log it in a
+>debug message and drop the format name string to simplify the code.
+>
+>Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+>Reviewed-by: Ricardo Ribalda <ribalda@chromium.org>
+>---
+>Changes since v2:
+>
+>- Squash "media: uvcvideo: Remove format descriptions" and "media:
+>  uvcvideo: Drop custom format names for DV formats"
+>- Don't replace %pUl with %p4cc when the format is unknown
+>- Print debug message even if fcc is 0
+>---
+> drivers/media/usb/uvc/uvc_driver.c | 18 ++----------------
+> drivers/media/usb/uvc/uvc_v4l2.c   |  2 --
+> drivers/media/usb/uvc/uvcvideo.h   |  2 --
+> 3 files changed, 2 insertions(+), 20 deletions(-)
+>
+>diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uv=
+c_driver.c
+>index 57c948d47bbf..3318ec8ae7ef 100644
+>--- a/drivers/media/usb/uvc/uvc_driver.c
+>+++ b/drivers/media/usb/uvc/uvc_driver.c
+>@@ -252,14 +252,10 @@ static int uvc_parse_format(struct uvc_device *dev,
+> 		fmtdesc =3D uvc_format_by_guid(&buffer[5]);
+>
+> 		if (fmtdesc !=3D NULL) {
+>-			strscpy(format->name, fmtdesc->name,
+>-				sizeof(format->name));
+> 			format->fcc =3D fmtdesc->fcc;
+> 		} else {
+> 			dev_info(&streaming->intf->dev,
+> 				 "Unknown video format %pUl\n", &buffer[5]);
+>-			snprintf(format->name, sizeof(format->name), "%pUl\n",
+>-				&buffer[5]);
+> 			format->fcc =3D 0;
+> 		}
+>
+>@@ -271,8 +267,6 @@ static int uvc_parse_format(struct uvc_device *dev,
+> 		 */
+> 		if (dev->quirks & UVC_QUIRK_FORCE_Y8) {
+> 			if (format->fcc =3D=3D V4L2_PIX_FMT_YUYV) {
+>-				strscpy(format->name, "Greyscale 8-bit (Y8  )",
+>-					sizeof(format->name));
+> 				format->fcc =3D V4L2_PIX_FMT_GREY;
+> 				format->bpp =3D 8;
+> 				width_multiplier =3D 2;
+>@@ -313,7 +307,6 @@ static int uvc_parse_format(struct uvc_device *dev,
+> 			return -EINVAL;
+> 		}
+>
+>-		strscpy(format->name, "MJPEG", sizeof(format->name));
+> 		format->fcc =3D V4L2_PIX_FMT_MJPEG;
+> 		format->flags =3D UVC_FMT_FLAG_COMPRESSED;
+> 		format->bpp =3D 0;
+>@@ -331,14 +324,10 @@ static int uvc_parse_format(struct uvc_device *dev,
+>
+> 		switch (buffer[8] & 0x7f) {
+> 		case 0:
+>-			strscpy(format->name, "SD-DV", sizeof(format->name));
+>-			break;
+> 		case 1:
+>-			strscpy(format->name, "SDL-DV", sizeof(format->name));
+>-			break;
+> 		case 2:
+>-			strscpy(format->name, "HD-DV", sizeof(format->name));
+> 			break;
+>+
+> 		default:
 
-Most graphics shared memory allocations in Android are done by the
-graphics allocator HAL process. On requests from clients, the HAL
-process allocates memory and sends the fds to the clients over binder
-IPC. The graphics allocator HAL will not retain any references to the
-buffers. When the HAL sets *_FLAG_XFER_CHARGE for fd arrays holding
-DMA-BUF fds, or individual fd objects, binder will transfer the charge
-for the buffer from the allocator process cgroup to the client process
-cgroup.
+Couldn't this become an simple if instead of this odd looking switch?
 
-The pad [1] and pad_flags [2] fields of binder_fd_object and
-binder_fda_array_object come from alignment with flat_binder_object and
-have never been exposed for use from userspace. This new flags use
-follows the pattern set by binder_buffer_object.
+		if (buffer[8] & 0x7f) > 2)
 
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/include/uapi/linux/android/binder.h?id=feba3900cabb8e7c87368faa28e7a6936809ba22
-[2] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/include/uapi/linux/android/binder.h?id=5cdcf4c6a638591ec0e98c57404a19e7f9997567
+With that change you can add:
 
-Signed-off-by: Hridya Valsaraju <hridya@google.com>
-Signed-off-by: T.J. Mercier <tjmercier@google.com>
----
- Documentation/admin-guide/cgroup-v2.rst |  3 ++-
- drivers/android/binder.c                | 31 +++++++++++++++++++++----
- drivers/dma-buf/dma-buf.c               |  4 +---
- include/linux/dma-buf.h                 |  1 +
- include/uapi/linux/android/binder.h     | 23 ++++++++++++++----
- 5 files changed, 50 insertions(+), 12 deletions(-)
+Reviewed-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
 
-diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
-index 538ae22bc514..d225295932c0 100644
---- a/Documentation/admin-guide/cgroup-v2.rst
-+++ b/Documentation/admin-guide/cgroup-v2.rst
-@@ -1457,7 +1457,8 @@ PAGE_SIZE multiple when read back.
- 
- 	  dmabuf (npn)
- 		Amount of memory used for exported DMA buffers allocated by the cgroup.
--		Stays with the allocating cgroup regardless of how the buffer is shared.
-+		Stays with the allocating cgroup regardless of how the buffer is shared
-+		unless explicitly transferred.
- 
- 	  workingset_refault_anon
- 		Number of refaults of previously evicted anonymous pages.
-diff --git a/drivers/android/binder.c b/drivers/android/binder.c
-index 880224ec6abb..9830848c8d25 100644
---- a/drivers/android/binder.c
-+++ b/drivers/android/binder.c
-@@ -42,6 +42,7 @@
- 
- #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
- 
-+#include <linux/dma-buf.h>
- #include <linux/fdtable.h>
- #include <linux/file.h>
- #include <linux/freezer.h>
-@@ -2237,7 +2238,7 @@ static int binder_translate_handle(struct flat_binder_object *fp,
- 	return ret;
- }
- 
--static int binder_translate_fd(u32 fd, binder_size_t fd_offset,
-+static int binder_translate_fd(u32 fd, binder_size_t fd_offset, __u32 flags,
- 			       struct binder_transaction *t,
- 			       struct binder_thread *thread,
- 			       struct binder_transaction *in_reply_to)
-@@ -2275,6 +2276,26 @@ static int binder_translate_fd(u32 fd, binder_size_t fd_offset,
- 		goto err_security;
- 	}
- 
-+	if (IS_ENABLED(CONFIG_MEMCG) && (flags & BINDER_FD_FLAG_XFER_CHARGE)) {
-+		struct dma_buf *dmabuf;
-+
-+		if (unlikely(!is_dma_buf_file(file))) {
-+			binder_user_error(
-+				"%d:%d got transaction with XFER_CHARGE for non-dmabuf fd, %d\n",
-+				proc->pid, thread->pid, fd);
-+			ret = -EINVAL;
-+			goto err_dmabuf;
-+		}
-+
-+		dmabuf = file->private_data;
-+		ret = dma_buf_transfer_charge(dmabuf, target_proc->tsk);
-+		if (ret) {
-+			pr_warn("%d:%d Unable to transfer DMA-BUF fd charge to %d\n",
-+				proc->pid, thread->pid, target_proc->pid);
-+			goto err_xfer;
-+		}
-+	}
-+
- 	/*
- 	 * Add fixup record for this transaction. The allocation
- 	 * of the fd in the target needs to be done from a
-@@ -2294,6 +2315,8 @@ static int binder_translate_fd(u32 fd, binder_size_t fd_offset,
- 	return ret;
- 
- err_alloc:
-+err_xfer:
-+err_dmabuf:
- err_security:
- 	fput(file);
- err_fget:
-@@ -2604,7 +2627,7 @@ static int binder_translate_fd_array(struct list_head *pf_head,
- 
- 		ret = copy_from_user(&fd, sender_ufda_base + sender_uoffset, sizeof(fd));
- 		if (!ret)
--			ret = binder_translate_fd(fd, offset, t, thread,
-+			ret = binder_translate_fd(fd, offset, fda->flags, t, thread,
- 						  in_reply_to);
- 		if (ret)
- 			return ret > 0 ? -EINVAL : ret;
-@@ -3383,8 +3406,8 @@ static void binder_transaction(struct binder_proc *proc,
- 			struct binder_fd_object *fp = to_binder_fd_object(hdr);
- 			binder_size_t fd_offset = object_offset +
- 				(uintptr_t)&fp->fd - (uintptr_t)fp;
--			int ret = binder_translate_fd(fp->fd, fd_offset, t,
--						      thread, in_reply_to);
-+			int ret = binder_translate_fd(fp->fd, fd_offset, fp->flags,
-+						      t, thread, in_reply_to);
- 
- 			fp->pad_binder = 0;
- 			if (ret < 0 ||
-diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-index fd6c5002032b..a65b42433099 100644
---- a/drivers/dma-buf/dma-buf.c
-+++ b/drivers/dma-buf/dma-buf.c
-@@ -34,8 +34,6 @@
- 
- #include "dma-buf-sysfs-stats.h"
- 
--static inline int is_dma_buf_file(struct file *);
--
- struct dma_buf_list {
- 	struct list_head head;
- 	struct mutex lock;
-@@ -527,7 +525,7 @@ static const struct file_operations dma_buf_fops = {
- /*
-  * is_dma_buf_file - Check if struct file* is associated with dma_buf
-  */
--static inline int is_dma_buf_file(struct file *file)
-+int is_dma_buf_file(struct file *file)
- {
- 	return file->f_op == &dma_buf_fops;
- }
-diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
-index 6aa128d76aa7..092d572ce528 100644
---- a/include/linux/dma-buf.h
-+++ b/include/linux/dma-buf.h
-@@ -595,6 +595,7 @@ dma_buf_attachment_is_dynamic(struct dma_buf_attachment *attach)
- 	return !!attach->importer_ops;
- }
- 
-+int is_dma_buf_file(struct file *file);
- struct dma_buf_attachment *dma_buf_attach(struct dma_buf *dmabuf,
- 					  struct device *dev);
- struct dma_buf_attachment *
-diff --git a/include/uapi/linux/android/binder.h b/include/uapi/linux/android/binder.h
-index e72e4de8f452..696c2bdb8a7e 100644
---- a/include/uapi/linux/android/binder.h
-+++ b/include/uapi/linux/android/binder.h
-@@ -91,14 +91,14 @@ struct flat_binder_object {
- /**
-  * struct binder_fd_object - describes a filedescriptor to be fixed up.
-  * @hdr:	common header structure
-- * @pad_flags:	padding to remain compatible with old userspace code
-+ * @flags:	One or more BINDER_FD_FLAG_* flags
-  * @pad_binder:	padding to remain compatible with old userspace code
-  * @fd:		file descriptor
-  * @cookie:	opaque data, used by user-space
-  */
- struct binder_fd_object {
- 	struct binder_object_header	hdr;
--	__u32				pad_flags;
-+	__u32				flags;
- 	union {
- 		binder_uintptr_t	pad_binder;
- 		__u32			fd;
-@@ -107,6 +107,17 @@ struct binder_fd_object {
- 	binder_uintptr_t		cookie;
- };
- 
-+enum {
-+	/**
-+	 * @BINDER_FD_FLAG_XFER_CHARGE
-+	 *
-+	 * When set, the sender of a binder_fd_object wishes to relinquish ownership of the fd for
-+	 * memory accounting purposes. If the fd is for a DMA-BUF, the buffer is uncharged from the
-+	 * sender's cgroup and charged to the receiving process's cgroup instead.
-+	 */
-+	BINDER_FD_FLAG_XFER_CHARGE = 0x01,
-+};
-+
- /* struct binder_buffer_object - object describing a userspace buffer
-  * @hdr:		common header structure
-  * @flags:		one or more BINDER_BUFFER_* flags
-@@ -141,7 +152,7 @@ enum {
- 
- /* struct binder_fd_array_object - object describing an array of fds in a buffer
-  * @hdr:		common header structure
-- * @pad:		padding to ensure correct alignment
-+ * @flags:		One or more BINDER_FDA_FLAG_* flags
-  * @num_fds:		number of file descriptors in the buffer
-  * @parent:		index in offset array to buffer holding the fd array
-  * @parent_offset:	start offset of fd array in the buffer
-@@ -162,12 +173,16 @@ enum {
-  */
- struct binder_fd_array_object {
- 	struct binder_object_header	hdr;
--	__u32				pad;
-+	__u32				flags;
- 	binder_size_t			num_fds;
- 	binder_size_t			parent;
- 	binder_size_t			parent_offset;
- };
- 
-+enum {
-+	BINDER_FDA_FLAG_XFER_CHARGE = BINDER_FD_FLAG_XFER_CHARGE,
-+};
-+
- /*
-  * On 64-bit platforms where user code may run in 32-bits the driver must
-  * translate the buffer (and local binder) addresses appropriately.
--- 
-2.39.0.314.g84b9a713c41-goog
+> 			uvc_dbg(dev, DESCR,
+> 				"device %d videostreaming interface %d: unknown DV format %u\n",
+>@@ -347,9 +336,6 @@ static int uvc_parse_format(struct uvc_device *dev,
+> 			return -EINVAL;
+> 		}
+>
+>-		strlcat(format->name, buffer[8] & (1 << 7) ? " 60Hz" : " 50Hz",
+>-			sizeof(format->name));
+>-
+> 		format->fcc =3D V4L2_PIX_FMT_DV;
+> 		format->flags =3D UVC_FMT_FLAG_COMPRESSED | UVC_FMT_FLAG_STREAM;
+> 		format->bpp =3D 0;
+>@@ -376,7 +362,7 @@ static int uvc_parse_format(struct uvc_device *dev,
+> 		return -EINVAL;
+> 	}
+>
+>-	uvc_dbg(dev, DESCR, "Found format %s\n", format->name);
+>+	uvc_dbg(dev, DESCR, "Found format %p4cc", &format->fcc);
+>
+> 	buflen -=3D buffer[0];
+> 	buffer +=3D buffer[0];
+>diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_=
+v4l2.c
+>index 0f4a39324062..35453f81c1d9 100644
+>--- a/drivers/media/usb/uvc/uvc_v4l2.c
+>+++ b/drivers/media/usb/uvc/uvc_v4l2.c
+>@@ -712,8 +712,6 @@ static int uvc_ioctl_enum_fmt(struct uvc_streaming *st=
+ream,
+> 	fmt->flags =3D 0;
+> 	if (format->flags & UVC_FMT_FLAG_COMPRESSED)
+> 		fmt->flags |=3D V4L2_FMT_FLAG_COMPRESSED;
+>-	strscpy(fmt->description, format->name, sizeof(fmt->description));
+>-	fmt->description[sizeof(fmt->description) - 1] =3D 0;
+> 	fmt->pixelformat =3D format->fcc;
+> 	return 0;
+> }
+>diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcv=
+ideo.h
+>index c5a1c1c9d49e..e85df8deb965 100644
+>--- a/drivers/media/usb/uvc/uvcvideo.h
+>+++ b/drivers/media/usb/uvc/uvcvideo.h
+>@@ -263,8 +263,6 @@ struct uvc_format {
+> 	u32 fcc;
+> 	u32 flags;
+>
+>-	char name[32];
+>-
+> 	unsigned int nframes;
+> 	struct uvc_frame *frame;
+> };
+>
+>base-commit: d3428667a95be621bfffe70e5bf2e607bbf7e049
+>--=20
+>Regards,
+>
+>Laurent Pinchart
+>
+>
 
+--=20
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+
+--sdtB3X0nJg68CQEu
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEElXvEUs6VPX6mDPT8C+njFXoeLGQFAmO8igUACgkQC+njFXoe
+LGSQMA//V13c8ayAAaxoA2YIvQDeRT8yobEcomczB/k0IO9d/rNdF78V/xKamhq5
+27Lo3GEgk3ebJUFR7MpkEscKpuLlfJ5LpWp3X9l5tJIGdn1oqpifMVhyAn0OPAtf
+j6llWo2DQoAu07at2XnjGzuDB5/jVMppV2N7ATgYoxYMzv9ZEaLT8u2JLHg6XEfx
+MjsetRlEjOEOjoOZaPbyjs+ic7SRvK96bCfrnVsVLja0q/LG/YJBbW+e8zKL9NrD
+4Ls1+3Ij6TJc9XZnV/f/jAmjMzKrm4oM7uueXTZ9IOuzIx8x8suiq5FOONkOrZqK
+IIc/bC5XILByYZ4ot6DrdCGDqIimKcCyj22Ul9aqPWys0t5Rc6SBwlCmiS3btWmH
+fyF+vAIjmo9CNrhtLCuI1n5i3qxDMhk6nG55ykJJBjES4yJ6GjuW023ziJBk8sN1
+q7XKreq7Jnb69gOQxsjXqLLAUnZDLcVEa/9HHN6pLWGh6VKgbiSjl68Ss4an548y
+nyTWe1ecFUurHue1ZNzWbOzH0H0NsCTZNDDSon68x5GOb0O5qKD8bWBDga22oBrD
+Lp/pmWC04V5EIa1Uvn3H1BaCD11pafDYhFcbgbIz9/t7QQ2retPwhwqBVY4xojD6
+a3dWYL+W3T3IColE8+dJdoyM1XpStY9ocfKWjl+iif/ou/IvcvM=
+=LTir
+-----END PGP SIGNATURE-----
+
+--sdtB3X0nJg68CQEu--
