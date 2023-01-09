@@ -2,349 +2,263 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 15E8F66227C
-	for <lists+linux-media@lfdr.de>; Mon,  9 Jan 2023 11:08:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 68A1866236C
+	for <lists+linux-media@lfdr.de>; Mon,  9 Jan 2023 11:46:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235375AbjAIKH6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 9 Jan 2023 05:07:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54382 "EHLO
+        id S233085AbjAIKqS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 9 Jan 2023 05:46:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56400 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236390AbjAIKHl (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 9 Jan 2023 05:07:41 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC8EF175B0;
-        Mon,  9 Jan 2023 02:07:11 -0800 (PST)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id AA65D6CF;
-        Mon,  9 Jan 2023 11:07:09 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1673258829;
-        bh=MA3UIeIy29qHR4bO6RNUu05XnWNHU0OutnZKv3QwVwk=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=pjjjSCYSC8uDx+DkgNqThr6Ug7pgA+5GZd4RkvCh9ec2wiQgyWQA4/a53wez6N9ys
-         NZKrsnL6YAfGmjqIC0qDDDJDUKaPMZVratlChAJGRwSrqgoBc7/wTf5ZZGhoWRz8KH
-         xmQwm/HA9bllA23+ouY1hwQW3mw2mu1adHMqieTo=
-Date:   Mon, 9 Jan 2023 12:07:06 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Wolfram Sang <wsa@kernel.org>,
-        Luca Ceresoli <luca.ceresoli@bootlin.com>,
-        Andy Shevchenko <andriy.shevchenko@intel.com>,
-        Matti Vaittinen <Matti.Vaittinen@fi.rohmeurope.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Peter Rosin <peda@axentia.se>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Michael Tretter <m.tretter@pengutronix.de>,
-        Shawn Tu <shawnx.tu@intel.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Mike Pagano <mpagano@gentoo.org>,
-        Krzysztof =?utf-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>,
-        Marek Vasut <marex@denx.de>, Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH v6 5/8] dt-bindings: media: add TI DS90UB960 FPD-Link III
- Deserializer
-Message-ID: <Y7vnSnQAh2nS9vXx@pendragon.ideasonboard.com>
-References: <20230105140307.272052-1-tomi.valkeinen@ideasonboard.com>
- <20230105140307.272052-6-tomi.valkeinen@ideasonboard.com>
- <Y7o3QEq9utV8nswA@pendragon.ideasonboard.com>
- <a3857c78-c221-176f-b862-a0435b301c67@ideasonboard.com>
- <Y7vZzg6YyC2IaUso@pendragon.ideasonboard.com>
- <65e3ca66-a4ba-db9b-3640-c90a7bdee61b@ideasonboard.com>
+        with ESMTP id S233702AbjAIKqQ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 9 Jan 2023 05:46:16 -0500
+Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com [IPv6:2607:f8b0:4864:20::1033])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 984991CE
+        for <linux-media@vger.kernel.org>; Mon,  9 Jan 2023 02:46:14 -0800 (PST)
+Received: by mail-pj1-x1033.google.com with SMTP id v13-20020a17090a6b0d00b00219c3be9830so8968054pjj.4
+        for <linux-media@vger.kernel.org>; Mon, 09 Jan 2023 02:46:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=Xocq62w4PAYvFCDkydfjm5OO3Os/86g8Ghpm8AJdy7g=;
+        b=OvL2lqUOcIP55k0NRmAkFXq/IIdQcDC1L1gLx2QTzeUhsP9pbauEBK2ycPQTOQ00Bc
+         nqU8wPao1qqe5HERvys2MQR01/oVO3KgN3MkJp25CNyNGaiN2UFGBRMK60kfWv6+LOmM
+         uCB93+zkF/on1+2lsnwwTqiJHiYJou1a83TPQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Xocq62w4PAYvFCDkydfjm5OO3Os/86g8Ghpm8AJdy7g=;
+        b=OVe9NDun6+adsDX+xTJMX3eocfY6r77EqPsIlFyDa+TCTsnv1NcOvHy1R659UnpFS1
+         AYaJI4YWY+6XvjThlOl2SKTSVokjuNVsHZEh2jED6/f/hN2b0JxU3ybpaKG0Hxza284N
+         4xzsWBN85KJ1NEE5v7CNoJu6w4r23DCrhp8GG8pxyLp0IV5w6JfrtKS4RtnwPZJxBzDn
+         sgxzj0gXMNuJpHq3uIkz98/7O4S8RW7TTTemqvf8v8shGuOywdr4a2LFMtyqKuZr809n
+         eokeiQwilYCFcyQmsr81eBUeLEzATN7kLtMtsG7lyhrGQMyGO85zshr3iGQt+r8lUFUW
+         Idbw==
+X-Gm-Message-State: AFqh2kpaAzuM13absv3VzYSYKEWFwjsG0IH9Lyy4I5XP/9dmg8afq6m+
+        q0pWwiTMYcyeMmn0kYe2Bs9o63eB1VrLeId2prA=
+X-Google-Smtp-Source: AMrXdXs49kVBddqbrxcRQbrMuviC7v/4qM8jm1eZvGspaSkXLVEZ28uFYmBAlLyFtreyV14j++S5xQ==
+X-Received: by 2002:a17:902:d54b:b0:193:3594:82e4 with SMTP id z11-20020a170902d54b00b00193359482e4mr2211761plf.18.1673261173836;
+        Mon, 09 Jan 2023 02:46:13 -0800 (PST)
+Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com. [209.85.215.181])
+        by smtp.gmail.com with ESMTPSA id q10-20020a170902e30a00b00192a04bc620sm5728727plc.295.2023.01.09.02.46.12
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 09 Jan 2023 02:46:12 -0800 (PST)
+Received: by mail-pg1-f181.google.com with SMTP id 36so5554577pgp.10
+        for <linux-media@vger.kernel.org>; Mon, 09 Jan 2023 02:46:12 -0800 (PST)
+X-Received: by 2002:a63:1709:0:b0:48c:8cc5:1b73 with SMTP id
+ x9-20020a631709000000b0048c8cc51b73mr3956813pgl.520.1673261171648; Mon, 09
+ Jan 2023 02:46:11 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <65e3ca66-a4ba-db9b-3640-c90a7bdee61b@ideasonboard.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+References: <20230106061659.never.817-kees@kernel.org> <CANiDSCtTz4mpTz4RHBzNXL=yBvXNXHBZQ-HYMFegLytoScW4eA@mail.gmail.com>
+ <202301061217.816FC0313D@keescook> <Y7jODnbUqCwfwwHI@pendragon.ideasonboard.com>
+In-Reply-To: <Y7jODnbUqCwfwwHI@pendragon.ideasonboard.com>
+From:   Ricardo Ribalda <ribalda@chromium.org>
+Date:   Mon, 9 Jan 2023 11:46:00 +0100
+X-Gmail-Original-Message-ID: <CANiDSCvB8vRp43A1J4BpNZveCvG66XbDmnkKZykbWSFCLX1XUQ@mail.gmail.com>
+Message-ID: <CANiDSCvB8vRp43A1J4BpNZveCvG66XbDmnkKZykbWSFCLX1XUQ@mail.gmail.com>
+Subject: Re: [PATCH] media: uvcvideo: Silence memcpy() run-time false positive warnings
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Kees Cook <keescook@chromium.org>, ionut_n2001@yahoo.com,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-hardening@vger.kernel.org
+Content-Type: multipart/mixed; boundary="000000000000c2124405f1d2798f"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Jan 09, 2023 at 11:53:22AM +0200, Tomi Valkeinen wrote:
-> On 09/01/2023 11:09, Laurent Pinchart wrote:
-> > On Mon, Jan 09, 2023 at 10:30:13AM +0200, Tomi Valkeinen wrote:
-> >> On 08/01/2023 05:23, Laurent Pinchart wrote:
-> >>> Hi Tomi,
-> >>>
-> >>> Thank you for the patch.
-> >>>
-> >>> On Thu, Jan 05, 2023 at 04:03:04PM +0200, Tomi Valkeinen wrote:
-> >>>> Add DT bindings for TI DS90UB960 FPD-Link III Deserializer.
-> >>>>
-> >>>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> >>>> Reviewed-by: Rob Herring <robh@kernel.org>
-> >>>> ---
-> >>>>    .../bindings/media/i2c/ti,ds90ub960.yaml      | 402 ++++++++++++++++++
-> >>>>    1 file changed, 402 insertions(+)
-> >>>>    create mode 100644 Documentation/devicetree/bindings/media/i2c/ti,ds90ub960.yaml
-> >>>>
-> >>>> diff --git a/Documentation/devicetree/bindings/media/i2c/ti,ds90ub960.yaml b/Documentation/devicetree/bindings/media/i2c/ti,ds90ub960.yaml
-> >>>> new file mode 100644
-> >>>> index 000000000000..664799ae55be
-> >>>> --- /dev/null
-> >>>> +++ b/Documentation/devicetree/bindings/media/i2c/ti,ds90ub960.yaml
-> >>>> @@ -0,0 +1,402 @@
-> >>>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> >>>> +%YAML 1.2
-> >>>> +---
-> >>>> +$id: http://devicetree.org/schemas/media/i2c/ti,ds90ub960.yaml#
-> >>>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> >>>> +
-> >>>> +title: Texas Instruments DS90UB9XX Family FPD-Link Deserializer Hubs
-> >>>> +
-> >>>> +maintainers:
-> >>>> +  - Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> >>>> +
-> >>>> +description:
-> >>>> +  The TI DS90UB9XX devices are FPD-Link video deserializers with I2C and GPIO
-> >>>> +  forwarding.
-> >>>> +
-> >>>> +properties:
-> >>>> +  compatible:
-> >>>> +    enum:
-> >>>> +      - ti,ds90ub960-q1
-> >>>> +      - ti,ds90ub9702-q1
-> >>>> +
-> >>>> +  reg:
-> >>>> +    maxItems: 1
-> >>>> +
-> >>>> +  clocks:
-> >>>> +    maxItems: 1
-> >>>> +    description:
-> >>>> +      Reference clock connected to the REFCLK pin.
-> >>>> +
-> >>>> +  clock-names:
-> >>>> +    items:
-> >>>> +      - const: refclk
-> >>>> +
-> >>>> +  powerdown-gpios:
-> >>>> +    maxItems: 1
-> >>>> +    description:
-> >>>> +      Specifier for the GPIO connected to the PDB pin.
-> >>>> +
-> >>>> +  i2c-alias-pool:
-> >>>> +    $ref: /schemas/types.yaml#/definitions/uint16-array
-> >>>> +    description:
-> >>>> +      I2C alias pool is a pool of I2C addresses on the main I2C bus that can be
-> >>>> +      used to access the remote peripherals on the serializer's I2C bus. The
-> >>>> +      addresses must be available, not used by any other peripheral. Each
-> >>>> +      remote peripheral is assigned an alias from the pool, and transactions to
-> >>>> +      that address will be forwarded to the remote peripheral, with the address
-> >>>> +      translated to the remote peripheral's real address. This property is not
-> >>>> +      needed if there are no I2C addressable remote peripherals.
-> >>>> +
-> >>>> +  links:
-> >>>> +    type: object
-> >>>> +    additionalProperties: false
-> >>>> +
-> >>>> +    properties:
-> >>>> +      '#address-cells':
-> >>>> +        const: 1
-> >>>> +
-> >>>> +      '#size-cells':
-> >>>> +        const: 0
-> >>>> +
-> >>>> +      ti,manual-strobe:
-> >>>> +        type: boolean
-> >>>> +        description:
-> >>>> +          Enable manual strobe position and EQ level
-> >>>> +
-> >>>> +    patternProperties:
-> >>>> +      '^link@[0-3]$':
-> >>>> +        type: object
-> >>>> +        additionalProperties: false
-> >>>> +        properties:
-> >>>> +          reg:
-> >>>> +            description: The link number
-> >>>> +            maxItems: 1
-> >>>> +
-> >>>> +          i2c-alias:
-> >>>> +            description:
-> >>>> +              The I2C address used for the serializer. Transactions to this
-> >>>> +              address on the I2C bus where the deserializer resides are
-> >>>> +              forwarded to the serializer.
-> >>>> +
-> >>>> +          ti,rx-mode:
-> >>>> +            $ref: /schemas/types.yaml#/definitions/uint32
-> >>>> +            enum:
-> >>>> +              - 0 # RAW10
-> >>>> +              - 1 # RAW12 HF
-> >>>> +              - 2 # RAW12 LF
-> >>>> +              - 3 # CSI2 SYNC
-> >>>> +              - 4 # CSI2 NON-SYNC
-> >>>> +            description:
-> >>>> +              FPD-Link Input Mode. This should reflect the hardware and the
-> >>>> +              default mode of the connected camera module.
-> >>>
-> >>> As the remote device may not be a camera, I'd write "of the connected
-> >>> device" or "of the connected serializer".
-> >>
-> >> I was trying to include the sensor also in the "camera module", as the
-> >> sensor's "normal" pixel cloud would affect RAW modes (HF/LF). Perhaps
-> >> "connected device" covers this.
-> >>
-> >>>> +
-> >>>> +          ti,cdr-mode:
-> >>>> +            $ref: /schemas/types.yaml#/definitions/uint32
-> >>>> +            enum:
-> >>>> +              - 0 # FPD-Link III
-> >>>> +              - 1 # FPD-Link IV
-> >>>> +            description:
-> >>>> +              FPD-Link CDR Mode. This should reflect the hardware and the
-> >>>> +              default mode of the connected camera module.
-> >>>> +
-> >>>> +          ti,strobe-pos:
-> >>>> +            $ref: /schemas/types.yaml#/definitions/int32
-> >>>> +            minimum: -13
-> >>>> +            maximum: 13
-> >>>> +            description: Manual strobe position
-> >>>> +
-> >>>> +          ti,eq-level:
-> >>>> +            $ref: /schemas/types.yaml#/definitions/uint32
-> >>>> +            maximum: 14
-> >>>> +            description: Manual EQ level
-> >>>> +
-> >>>> +          serializer:
-> >>>> +            type: object
-> >>>> +            description: FPD-Link Serializer node
-> >>>> +
-> >>>> +        required:
-> >>>> +          - reg
-> >>>> +          - i2c-alias
-> >>>> +          - ti,rx-mode
-> >>>> +          - serializer
-> >>>> +
-> >>>> +  ports:
-> >>>> +    $ref: /schemas/graph.yaml#/properties/ports
-> >>>> +
-> >>>> +    properties:
-> >>>> +      port@0:
-> >>>> +        $ref: /schemas/graph.yaml#/$defs/port-base
-> >>>> +        unevaluatedProperties: false
-> >>>> +        description: FPD-Link input 0
-> >>>> +
-> >>>> +        properties:
-> >>>> +          endpoint:
-> >>>> +            $ref: /schemas/media/video-interfaces.yaml#
-> >>>> +            unevaluatedProperties: false
-> >>>> +            description:
-> >>>> +              Endpoint for FPD-Link port. If the RX mode for this port is RAW,
-> >>>> +              hsync-active and vsync-active must be defined.
-> >>>> +
-> >>>> +      port@1:
-> >>>> +        $ref: /schemas/graph.yaml#/$defs/port-base
-> >>>> +        unevaluatedProperties: false
-> >>>> +        description: FPD-Link input 1
-> >>>> +
-> >>>> +        properties:
-> >>>> +          endpoint:
-> >>>> +            $ref: /schemas/media/video-interfaces.yaml#
-> >>>> +            unevaluatedProperties: false
-> >>>> +            description:
-> >>>> +              Endpoint for FPD-Link port. If the RX mode for this port is RAW,
-> >>>> +              hsync-active and vsync-active must be defined.
-> >>>> +
-> >>>> +      port@2:
-> >>>> +        $ref: /schemas/graph.yaml#/$defs/port-base
-> >>>> +        unevaluatedProperties: false
-> >>>> +        description: FPD-Link input 2
-> >>>> +
-> >>>> +        properties:
-> >>>> +          endpoint:
-> >>>> +            $ref: /schemas/media/video-interfaces.yaml#
-> >>>> +            unevaluatedProperties: false
-> >>>> +            description:
-> >>>> +              Endpoint for FPD-Link port. If the RX mode for this port is RAW,
-> >>>> +              hsync-active and vsync-active must be defined.
-> >>>> +
-> >>>> +      port@3:
-> >>>> +        $ref: /schemas/graph.yaml#/$defs/port-base
-> >>>> +        unevaluatedProperties: false
-> >>>> +        description: FPD-Link input 3
-> >>>> +
-> >>>> +        properties:
-> >>>> +          endpoint:
-> >>>> +            $ref: /schemas/media/video-interfaces.yaml#
-> >>>> +            unevaluatedProperties: false
-> >>>> +            description:
-> >>>> +              Endpoint for FPD-Link port. If the RX mode for this port is RAW,
-> >>>> +              hsync-active and vsync-active must be defined.
-> >>>> +
-> >>>> +      port@4:
-> >>>> +        $ref: /schemas/graph.yaml#/$defs/port-base
-> >>>> +        unevaluatedProperties: false
-> >>>> +        description: CSI-2 Output 0
-> >>>> +
-> >>>> +        properties:
-> >>>> +          endpoint:
-> >>>> +            $ref: /schemas/media/video-interfaces.yaml#
-> >>>> +            unevaluatedProperties: false
-> >>>> +
-> >>>> +            properties:
-> >>>> +              data-lanes:
-> >>>> +                minItems: 1
-> >>>> +                maxItems: 4
-> >>>> +
-> >>>> +            required:
-> >>>> +              - data-lanes
-> >>>> +
-> >>>> +      port@5:
-> >>>> +        $ref: /schemas/graph.yaml#/$defs/port-base
-> >>>> +        unevaluatedProperties: false
-> >>>> +        description: CSI-2 Output 1
-> >>>> +
-> >>>> +        properties:
-> >>>> +          endpoint:
-> >>>> +            $ref: /schemas/media/video-interfaces.yaml#
-> >>>> +            unevaluatedProperties: false
-> >>>> +
-> >>>> +            properties:
-> >>>> +              data-lanes:
-> >>>> +                minItems: 1
-> >>>> +                maxItems: 4
-> >>>> +
-> >>>> +            required:
-> >>>> +              - data-lanes
-> >>>
-> >>> I think you need
-> >>>
-> >>>       required:
-> >>>         - port@0
-> >>>         - port@1
-> >>>         - port@2
-> >>>         - port@3
-> >>>         - port@4
-> >>>         - port@5
-> >>
-> >> Is that needed? I think often some of the ports are unused (e.g. the
-> >> example in this yaml file). Is it customary to still require empty port
-> >> nodes in the DT?
-> > 
-> > Ports are an intrinsic property of a device, they don't depend on the
-> > device integration in the system. In this case, the UB960 has four
-> > FPD-Link inputs and two CSI-2 outputs, that's a property of the chip.
-> > They don't have to be connected to anything on the board, so endpooints
-> > are optional.
-> 
-> Yes, but why do they have to be required? A missing port node implies 
-> that it's not used, doesn't it? I don't mind much, it just feels a bit 
-> extra to add multiple almost empty "port@X { reg = <X>; };" style nodes 
-> to the dts file.
+--000000000000c2124405f1d2798f
+Content-Type: text/plain; charset="UTF-8"
 
-Lots of them are in .dtsi files, so it's not that bad. The main reasons I
-push for making ports mandatory are uniformity (lots of bindings do so,
-albeit some because I wrote them or asked for changes during review
-:-)), and simplified port handling on the driver side. 
+Hi Laurent
+
+I was thinking about something on the line of the attached patch,
+
+uvc_frame_header->data could also be replaced with a union.
+
+Warning, not tested ;)
+
+
+On Sat, 7 Jan 2023 at 02:42, Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+>
+> Hello,
+>
+> On Fri, Jan 06, 2023 at 12:19:01PM -0800, Kees Cook wrote:
+> > On Fri, Jan 06, 2023 at 12:43:44PM +0100, Ricardo Ribalda wrote:
+> > > On Fri, 6 Jan 2023 at 07:19, Kees Cook wrote:
+> > > >
+> > > > The memcpy() in uvc_video_decode_meta() intentionally copies across the
+> > > > length and flags members and into the trailing buf flexible array.
+> > > > Split the copy so that the compiler can better reason about (the lack
+> > > > of) buffer overflows here. Avoid the run-time false positive warning:
+> > > >
+> > > >   memcpy: detected field-spanning write (size 12) of single field "&meta->length" at drivers/media/usb/uvc/uvc_video.c:1355 (size 1)
+> > > >
+> > > > Additionally fix a typo in the documentation for struct uvc_meta_buf.
+> > > >
+> > > > Reported-by: ionut_n2001@yahoo.com
+> > > > Link: https://bugzilla.kernel.org/show_bug.cgi?id=216810
+> > > > Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > > > Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+> > > > Cc: linux-media@vger.kernel.org
+> > > > Signed-off-by: Kees Cook <keescook@chromium.org>
+> > > > ---
+> > > >  drivers/media/usb/uvc/uvc_video.c | 4 +++-
+> > > >  include/uapi/linux/uvcvideo.h     | 2 +-
+> > > >  2 files changed, 4 insertions(+), 2 deletions(-)
+> > > >
+> > > > diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
+> > > > index d2eb9066e4dc..b67347ab4181 100644
+> > > > --- a/drivers/media/usb/uvc/uvc_video.c
+> > > > +++ b/drivers/media/usb/uvc/uvc_video.c
+> > > > @@ -1352,7 +1352,9 @@ static void uvc_video_decode_meta(struct uvc_streaming *stream,
+> > > >         if (has_scr)
+> > > >                 memcpy(stream->clock.last_scr, scr, 6);
+> > > >
+> > > > -       memcpy(&meta->length, mem, length);
+> > > > +       meta->length = mem[0];
+> > > > +       meta->flags  = mem[1];
+> > > > +       memcpy(meta->buf, &mem[2], length - 2);
+> > > >         meta_buf->bytesused += length + sizeof(meta->ns) + sizeof(meta->sof);
+> > > >
+> > > >         uvc_dbg(stream->dev, FRAME,
+> > > > diff --git a/include/uapi/linux/uvcvideo.h b/include/uapi/linux/uvcvideo.h
+> > > > index 8288137387c0..a9d0a64007ba 100644
+> > > > --- a/include/uapi/linux/uvcvideo.h
+> > > > +++ b/include/uapi/linux/uvcvideo.h
+> > > > @@ -86,7 +86,7 @@ struct uvc_xu_control_query {
+> > > >   * struct. The first two fields are added by the driver, they can be used for
+> > > >   * clock synchronisation. The rest is an exact copy of a UVC payload header.
+> > > >   * Only complete objects with complete buffers are included. Therefore it's
+> > > > - * always sizeof(meta->ts) + sizeof(meta->sof) + meta->length bytes large.
+> > > > + * always sizeof(meta->ns) + sizeof(meta->sof) + meta->length bytes large.
+> > > >   */
+> > > >  struct uvc_meta_buf {
+> > > >         __u64 ns;
+> > > [...]
+> > >
+> > > Would it make more sense to replace *mem with a structure/union. Something like:
+> > > https://patchwork.linuxtv.org/project/linux-media/patch/20221214-uvc-status-alloc-v4-0-f8e3e2994ebd@chromium.org/
+> >
+> > I wasn't sure -- it seemed like this routine was doing the serializing
+> > into a struct already and an additional struct overlay wasn't going to
+> > improve readability. But I can certainly do that if it's preferred!
+>
+> I'm not sure to see how using an additional struct or union would help.
+> We can't use struct assignment as the data may be unaligned, so memcpy()
+> is required. The issue isn't with the source operand of the memcpy() but
+> with the destination operand. Ricardo, if I'm missing something, please
+> submit an alternative patch to explain what you meant.
+>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
+
+
 
 -- 
-Regards,
+Ricardo Ribalda
 
-Laurent Pinchart
+--000000000000c2124405f1d2798f
+Content-Type: text/x-patch; charset="US-ASCII"; 
+	name="0001-media-uvcvideo-Refactor-uvc_video_decode_meta.patch"
+Content-Disposition: attachment; 
+	filename="0001-media-uvcvideo-Refactor-uvc_video_decode_meta.patch"
+Content-Transfer-Encoding: base64
+Content-ID: <f_lcooeez80>
+X-Attachment-Id: f_lcooeez80
+
+RnJvbSBkY2U3MmZlN2YwMDNiYTQwYmEyZDUzNGU1Zjg0YmFmYzczYjM3MzE0IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBSaWNhcmRvIFJpYmFsZGEgPHJpYmFsZGFAY2hyb21pdW0ub3Jn
+PgpEYXRlOiBNb24sIDkgSmFuIDIwMjMgMTE6NDI6MjEgKzAxMDAKU3ViamVjdDogW1BBVENIXSBt
+ZWRpYTogdXZjdmlkZW86IFJlZmFjdG9yIHV2Y192aWRlb19kZWNvZGVfbWV0YQoKTk9UIFRFU1RF
+RCEKClNpZ25lZC1vZmYtYnk6IFJpY2FyZG8gUmliYWxkYSA8cmliYWxkYUBjaHJvbWl1bS5vcmc+
+Ci0tLQogZHJpdmVycy9tZWRpYS91c2IvdXZjL3V2Y192aWRlby5jIHwgNTggKysrKysrKysrKysr
+KysrKysrKystLS0tLS0tLS0tLQogMSBmaWxlIGNoYW5nZWQsIDM3IGluc2VydGlvbnMoKyksIDIx
+IGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvbWVkaWEvdXNiL3V2Yy91dmNfdmlk
+ZW8uYyBiL2RyaXZlcnMvbWVkaWEvdXNiL3V2Yy91dmNfdmlkZW8uYwppbmRleCAwNGY0NTJkOTVm
+ZDYuLmY2YzA5MTYyNmYzYyAxMDA2NDQKLS0tIGEvZHJpdmVycy9tZWRpYS91c2IvdXZjL3V2Y192
+aWRlby5jCisrKyBiL2RyaXZlcnMvbWVkaWEvdXNiL3V2Yy91dmNfdmlkZW8uYwpAQCAtMTMzMCw2
+ICsxMzMwLDE3IEBAIHN0YXRpYyBpbnQgdXZjX3ZpZGVvX2VuY29kZV9kYXRhKHN0cnVjdCB1dmNf
+c3RyZWFtaW5nICpzdHJlYW0sCiAgKiBNZXRhZGF0YQogICovCiAKK3N0cnVjdCB1dmNfZnJhbWVf
+aGVhZGVyIHsKKwl1OCBsZW5ndGg7CisJdTggZmxhZ3M7CisJdTggZGF0YVtdOworfSBfX3BhY2tl
+ZDsKKworc3RydWN0IHV2Y19zY3IgeworCXUzMiBzY3I7CisJdTE2IGZyYW1lX3NvZjsKK30gX19w
+YWNrZWQ7CisKIC8qCiAgKiBBZGRpdGlvbmFsbHkgdG8gdGhlIHBheWxvYWQgaGVhZGVycyB3ZSBh
+bHNvIHdhbnQgdG8gcHJvdmlkZSB0aGUgdXNlciB3aXRoIFVTQgogICogRnJhbWUgTnVtYmVycyBh
+bmQgc3lzdGVtIHRpbWUgdmFsdWVzLiBUaGUgcmVzdWx0aW5nIGJ1ZmZlciBpcyB0aHVzIGNvbXBv
+c2VkCkBAIC0xMzQzLDcgKzEzNTQsOCBAQCBzdGF0aWMgaW50IHV2Y192aWRlb19lbmNvZGVfZGF0
+YShzdHJ1Y3QgdXZjX3N0cmVhbWluZyAqc3RyZWFtLAogICovCiBzdGF0aWMgdm9pZCB1dmNfdmlk
+ZW9fZGVjb2RlX21ldGEoc3RydWN0IHV2Y19zdHJlYW1pbmcgKnN0cmVhbSwKIAkJCQkgIHN0cnVj
+dCB1dmNfYnVmZmVyICptZXRhX2J1ZiwKLQkJCQkgIGNvbnN0IHU4ICptZW0sIHVuc2lnbmVkIGlu
+dCBsZW5ndGgpCisJCQkJICBjb25zdCBzdHJ1Y3QgdXZjX2ZyYW1lX2hlYWRlciAqaGVhZGVyLAor
+CQkJCSAgdW5zaWduZWQgaW50IGxlbmd0aCkKIHsKIAlzdHJ1Y3QgdXZjX21ldGFfYnVmICptZXRh
+OwogCXNpemVfdCBsZW5fc3RkID0gMjsKQEAgLTEzNTEsNyArMTM2Myw4IEBAIHN0YXRpYyB2b2lk
+IHV2Y192aWRlb19kZWNvZGVfbWV0YShzdHJ1Y3QgdXZjX3N0cmVhbWluZyAqc3RyZWFtLAogCXVu
+c2lnbmVkIGxvbmcgZmxhZ3M7CiAJdW5zaWduZWQgaW50IHNvZjsKIAlrdGltZV90IHRpbWU7Ci0J
+Y29uc3QgdTggKnNjcjsKKwljb25zdCBzdHJ1Y3QgdXZjX3NjciAqc2NyOworCWNvbnN0IHUzMiAq
+cHRzOwogCiAJaWYgKCFtZXRhX2J1ZiB8fCBsZW5ndGggPT0gMikKIAkJcmV0dXJuOwpAQCAtMTM2
+MiwyOCArMTM3NSwzMSBAQCBzdGF0aWMgdm9pZCB1dmNfdmlkZW9fZGVjb2RlX21ldGEoc3RydWN0
+IHV2Y19zdHJlYW1pbmcgKnN0cmVhbSwKIAkJcmV0dXJuOwogCX0KIAotCWhhc19wdHMgPSBtZW1b
+MV0gJiBVVkNfU1RSRUFNX1BUUzsKLQloYXNfc2NyID0gbWVtWzFdICYgVVZDX1NUUkVBTV9TQ1I7
+CisJaGFzX3B0cyA9IGhlYWRlci0+ZmxhZ3MgJiBVVkNfU1RSRUFNX1BUUzsKKwloYXNfc2NyID0g
+aGVhZGVyLT5mbGFncyAmIFVWQ19TVFJFQU1fU0NSOwogCiAJaWYgKGhhc19wdHMpIHsKLQkJbGVu
+X3N0ZCArPSA0OwotCQlzY3IgPSBtZW0gKyA2OwotCX0gZWxzZSB7Ci0JCXNjciA9IG1lbSArIDI7
+CisJCXB0cyA9ICh1MzIgKikgaGVhZGVyLT5kYXRhOworCQlsZW5fc3RkICs9IHNpemVvZigqcHRz
+KTsKIAl9CiAKLQlpZiAoaGFzX3NjcikKLQkJbGVuX3N0ZCArPSA2OworCWlmIChoYXNfc2NyKSB7
+CisJCXU4IG9mZnNldDsKKworCQlvZmZzZXQgPSBoYXNfcHRzID8gc2l6ZW9mKCpwdHMpIDogMDsK
+KwkJc2NyID0gKHN0cnVjdCB1dmNfc2NyICopIGhlYWRlci0+ZGF0YSArIG9mZnNldDsKKwkJbGVu
+X3N0ZCArPSBzaXplb2Yoc3RydWN0IHV2Y19zY3IpOworCX0KIAogCWlmIChzdHJlYW0tPm1ldGEu
+Zm9ybWF0ID09IFY0TDJfTUVUQV9GTVRfVVZDKQogCQlsZW5ndGggPSBsZW5fc3RkOwogCiAJaWYg
+KGxlbmd0aCA9PSBsZW5fc3RkICYmICghaGFzX3NjciB8fAotCQkJCSAgIW1lbWNtcChzY3IsIHN0
+cmVhbS0+Y2xvY2subGFzdF9zY3IsIDYpKSkKKwkJCQkgICFtZW1jbXAoc2NyLCBzdHJlYW0tPmNs
+b2NrLmxhc3Rfc2NyLCBzaXplb2Yoc3RydWN0IHV2Y19zY3IpKSkpCiAJCXJldHVybjsKIAogCW1l
+dGEgPSAoc3RydWN0IHV2Y19tZXRhX2J1ZiAqKSgodTggKiltZXRhX2J1Zi0+bWVtICsgbWV0YV9i
+dWYtPmJ5dGVzdXNlZCk7Ci0JbG9jYWxfaXJxX3NhdmUoZmxhZ3MpOworCWxvY2FsX2lycV9zYXZl
+KGZsYWdzKTsgLy9kbyB3ZSBuZWVkIHRoaXM/CiAJdGltZSA9IHV2Y192aWRlb19nZXRfdGltZSgp
+OwogCXNvZiA9IHVzYl9nZXRfY3VycmVudF9mcmFtZV9udW1iZXIoc3RyZWFtLT5kZXYtPnVkZXYp
+OwogCWxvY2FsX2lycV9yZXN0b3JlKGZsYWdzKTsKQEAgLTEzOTEsMjAgKzE0MDcsMjAgQEAgc3Rh
+dGljIHZvaWQgdXZjX3ZpZGVvX2RlY29kZV9tZXRhKHN0cnVjdCB1dmNfc3RyZWFtaW5nICpzdHJl
+YW0sCiAJcHV0X3VuYWxpZ25lZChzb2YsICZtZXRhLT5zb2YpOwogCiAJaWYgKGhhc19zY3IpCi0J
+CW1lbWNweShzdHJlYW0tPmNsb2NrLmxhc3Rfc2NyLCBzY3IsIDYpOworCQltZW1jcHkoc3RyZWFt
+LT5jbG9jay5sYXN0X3Njciwgc2NyLCBzaXplb2Yoc3RydWN0IHV2Y19zY3IpKTsKIAotCW1ldGEt
+Pmxlbmd0aCA9IG1lbVswXTsKLQltZXRhLT5mbGFncyAgPSBtZW1bMV07Ci0JbWVtY3B5KG1ldGEt
+PmJ1ZiwgJm1lbVsyXSwgbGVuZ3RoIC0gMik7CisJbWV0YS0+bGVuZ3RoID0gaGVhZGVyLT5sZW5n
+dGg7CisJbWV0YS0+ZmxhZ3MgID0gaGVhZGVyLT5mbGFnczsKKwltZW1jcHkobWV0YS0+YnVmLCBo
+ZWFkZXItPmRhdGEsIGxlbmd0aCAtIG9mZnNldG9mKHN0cnVjdCB1dmNfZnJhbWVfaGVhZGVyLCBk
+YXRhKSk7CiAJbWV0YV9idWYtPmJ5dGVzdXNlZCArPSBsZW5ndGggKyBzaXplb2YobWV0YS0+bnMp
+ICsgc2l6ZW9mKG1ldGEtPnNvZik7CiAKIAl1dmNfZGJnKHN0cmVhbS0+ZGV2LCBGUkFNRSwKIAkJ
+IiVzKCk6IHQtc3lzICVsbHVucywgU09GICV1LCBsZW4gJXUsIGZsYWdzIDB4JXgsIFBUUyAldSwg
+U1RDICV1IGZyYW1lIFNPRiAldVxuIiwKIAkJX19mdW5jX18sIGt0aW1lX3RvX25zKHRpbWUpLCBt
+ZXRhLT5zb2YsIG1ldGEtPmxlbmd0aCwKIAkJbWV0YS0+ZmxhZ3MsCi0JCWhhc19wdHMgPyAqKHUz
+MiAqKW1ldGEtPmJ1ZiA6IDAsCi0JCWhhc19zY3IgPyAqKHUzMiAqKXNjciA6IDAsCi0JCWhhc19z
+Y3IgPyAqKHUzMiAqKShzY3IgKyA0KSAmIDB4N2ZmIDogMCk7CisJCWhhc19wdHMgPyAqcHRzIDog
+MCwKKwkJaGFzX3NjciA/IHNjci0+c2NyIDogMCwKKwkJaGFzX3NjciA/IHNjci0+ZnJhbWVfc29m
+ICYgMHg3ZmYgOiAwKTsKIH0KIAogLyogLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCkBAIC0xNDc5LDcgKzE0OTUs
+NyBAQCBzdGF0aWMgdm9pZCB1dmNfdmlkZW9fZGVjb2RlX2lzb2Moc3RydWN0IHV2Y191cmIgKnV2
+Y191cmIsCiAJCWlmIChyZXQgPCAwKQogCQkJY29udGludWU7CiAKLQkJdXZjX3ZpZGVvX2RlY29k
+ZV9tZXRhKHN0cmVhbSwgbWV0YV9idWYsIG1lbSwgcmV0KTsKKwkJdXZjX3ZpZGVvX2RlY29kZV9t
+ZXRhKHN0cmVhbSwgbWV0YV9idWYsIChzdHJ1Y3QgdXZjX2ZyYW1lX2hlYWRlciAqKSBtZW0sIHJl
+dCk7CiAKIAkJLyogRGVjb2RlIHRoZSBwYXlsb2FkIGRhdGEuICovCiAJCXV2Y192aWRlb19kZWNv
+ZGVfZGF0YSh1dmNfdXJiLCBidWYsIG1lbSArIHJldCwKQEAgLTE1MzEsNyArMTU0Nyw3IEBAIHN0
+YXRpYyB2b2lkIHV2Y192aWRlb19kZWNvZGVfYnVsayhzdHJ1Y3QgdXZjX3VyYiAqdXZjX3VyYiwK
+IAkJCW1lbWNweShzdHJlYW0tPmJ1bGsuaGVhZGVyLCBtZW0sIHJldCk7CiAJCQlzdHJlYW0tPmJ1
+bGsuaGVhZGVyX3NpemUgPSByZXQ7CiAKLQkJCXV2Y192aWRlb19kZWNvZGVfbWV0YShzdHJlYW0s
+IG1ldGFfYnVmLCBtZW0sIHJldCk7CisJCQl1dmNfdmlkZW9fZGVjb2RlX21ldGEoc3RyZWFtLCBt
+ZXRhX2J1ZiwgKHN0cnVjdCB1dmNfZnJhbWVfaGVhZGVyICopbWVtLCByZXQpOwogCiAJCQltZW0g
+Kz0gcmV0OwogCQkJbGVuIC09IHJldDsKLS0gCjIuMzkuMC4zMTQuZzg0YjlhNzEzYzQxLWdvb2cK
+Cg==
+--000000000000c2124405f1d2798f--
