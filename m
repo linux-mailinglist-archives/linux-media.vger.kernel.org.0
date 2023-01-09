@@ -2,152 +2,100 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1A1EB662458
-	for <lists+linux-media@lfdr.de>; Mon,  9 Jan 2023 12:38:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7335B6624D9
+	for <lists+linux-media@lfdr.de>; Mon,  9 Jan 2023 12:57:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234386AbjAILir (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 9 Jan 2023 06:38:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54888 "EHLO
+        id S236962AbjAIL5J (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 9 Jan 2023 06:57:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39522 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233705AbjAILio (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 9 Jan 2023 06:38:44 -0500
-Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com [IPv6:2a00:1450:4864:20::332])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3FDBC3AD
-        for <linux-media@vger.kernel.org>; Mon,  9 Jan 2023 03:38:41 -0800 (PST)
-Received: by mail-wm1-x332.google.com with SMTP id o15so6030961wmr.4
-        for <linux-media@vger.kernel.org>; Mon, 09 Jan 2023 03:38:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:organization:references:cc:to
-         :content-language:subject:reply-to:from:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=uWRQwZU7Q5uXmRpQpJb8/BTaeDI/2pDdqBknaeuYMoc=;
-        b=y1NBPAWB/5QSk15IQF0sayDsBGK9DTwzo64Fwhce+Wv3f7tVbPw++Vm7KjFJ/ePuIH
-         alZSxq4wMtI3JYRZn3zmZrqmW5U+tcE/36mSZS+ao+PBouUNXkLt8uMAN3EDUZoM8y1Z
-         V38rcAlr6k9TL1waTrhaRP8dMZcyQgFxWY3TRRWCtw3tASJlyK9l3O/MWYqVGJgAknVC
-         jyzHq/yTgZ5C7OdYW+njoDU4LjZ+sYY1fS9XGuRSIkUPXzN3ekBZA31uKMfMGcdTnJze
-         j7zyR4Zp7HBcTCJS529n0Jvj5PuGWJpqpZXzP6IkeqqXkPlbC7aVB/jHNAVTFf8RXMND
-         S+Fw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:organization:references:cc:to
-         :content-language:subject:reply-to:from:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=uWRQwZU7Q5uXmRpQpJb8/BTaeDI/2pDdqBknaeuYMoc=;
-        b=njhlUgrYfY0R6ArQ+yMMLlIztqdF6CDlMuiw6zO0WfIwln8QyQe1l1eFbnVje2T3Ft
-         qF16VeHO1hwI8oY8bWElwSywVp904CvQEWScTu4/azfkhTpEs3VBbkOJlTKZZJ6Q6fnL
-         xp3gF+HzMFOvTemV7+Z2E+WSAjSqI8n/MyF2X4bX0mY8VSyrr6RYEezlC/VsD/XzVcPC
-         1jfx6Ckw4nQHBEDQgX51c6Ve8chHXuB3+xNbNw785SrDoY/dCMOZ93JUWw+mKNcr8YY+
-         B1Ijh3KXC9LPO5Hx13MH50rayuZ+5IRhT/RxjdAe5WTH9Bl2kjVUOsJMxeBWDmsx71Wo
-         ZKSg==
-X-Gm-Message-State: AFqh2kq2clYfLt5nP6Z/YmILPVQyeTkuqcnwzduPJDbzn+4jPyvOWOPC
-        1RKC2xTZGrRZzO45LgRedvSurQ==
-X-Google-Smtp-Source: AMrXdXsgKZSO61ZWkew6Daa4r2uBx8Xe/DlWi/W5u/PDxgxQsVfDr2oBgtSbr4LJo3JD2nU14fQRlg==
-X-Received: by 2002:a05:600c:1f12:b0:3cf:8155:2adc with SMTP id bd18-20020a05600c1f1200b003cf81552adcmr47185923wmb.33.1673264319841;
-        Mon, 09 Jan 2023 03:38:39 -0800 (PST)
-Received: from [192.168.7.111] (679773502.box.freepro.com. [212.114.21.58])
-        by smtp.gmail.com with ESMTPSA id r126-20020a1c2b84000000b003d35c845cbbsm15439361wmr.21.2023.01.09.03.38.38
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 09 Jan 2023 03:38:39 -0800 (PST)
-Message-ID: <6c784b12-ea81-2ac9-ff99-e33f5c123483@linaro.org>
-Date:   Mon, 9 Jan 2023 12:38:37 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-From:   Neil Armstrong <neil.armstrong@linaro.org>
-Reply-To: neil.armstrong@linaro.org
-Subject: Re: [PATCH 03/12] dt-bindings: nvmem: convert
- amlogic-meson-mx-efuse.txt to dt-schema
-Content-Language: en-US
-To:     Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-Cc:     Jakub Kicinski <kuba@kernel.org>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>, Andrew Lunn <andrew@lunn.ch>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        Eric Dumazet <edumazet@google.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Russell King <linux@armlinux.org.uk>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Kishon Vijay Abraham I <kishon@kernel.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        Paolo Abeni <pabeni@redhat.com>,
+        with ESMTP id S237040AbjAIL41 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 9 Jan 2023 06:56:27 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E064CF3;
+        Mon,  9 Jan 2023 03:56:25 -0800 (PST)
+Received: from pendragon.ideasonboard.com (85-76-142-108-nat.elisa-mobile.fi [85.76.142.108])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9F8986CF;
+        Mon,  9 Jan 2023 12:56:22 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1673265382;
+        bh=XPs/a0nVKMqSHxxTHoDGGKRDbVgF5xY49dDsiFhkpD8=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=PLmoZr7RwlGLLWwcEsLG9n8oXjD+y8bQOPc5lhvhoIABb6iuwghfRvuGVMTx61+A6
+         bS9ffZdFQdVnZ1qZILPrK3B1qwNEutYzpt9aEMa2h6rND/bBamie3KuAsF5yp3bf6Q
+         jfY2+5o0P7cuNM+O5SLtws7un/b+8ChPpvaGelxM=
+Date:   Mon, 9 Jan 2023 13:56:19 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        sakari.ailus@linux.intel.com,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        niklas.soderlund+renesas@ragnatech.se,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        linux-media@vger.kernel.org, netdev@vger.kernel.org,
-        linux-amlogic@lists.infradead.org, linux-mmc@vger.kernel.org,
-        linux-rtc@vger.kernel.org, linux-phy@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-watchdog@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-pci@vger.kernel.org, devicetree@vger.kernel.org
-References: <20221117-b4-amlogic-bindings-convert-v1-0-3f025599b968@linaro.org>
- <20221117-b4-amlogic-bindings-convert-v1-3-3f025599b968@linaro.org>
- <CAFBinCANM=AOw1bbGCheFy20mqQ1ym_maK0C1sYpjceoNH-dNQ@mail.gmail.com>
-Organization: Linaro Developer Services
-In-Reply-To: <CAFBinCANM=AOw1bbGCheFy20mqQ1ym_maK0C1sYpjceoNH-dNQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        satish.nagireddy@getcruise.com, Tomasz Figa <tfiga@chromium.org>
+Subject: Re: [PATCH v16 02/20] media: add V4L2_SUBDEV_FL_STREAMS
+Message-ID: <Y7wA4z51PTf/KNK6@pendragon.ideasonboard.com>
+References: <20221215121634.287100-1-tomi.valkeinen@ideasonboard.com>
+ <20221215121634.287100-3-tomi.valkeinen@ideasonboard.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20221215121634.287100-3-tomi.valkeinen@ideasonboard.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 26/11/2022 00:04, Martin Blumenstingl wrote:
-> Hi Neil,
-> 
-> thanks for your work on this!
-> 
-> On Fri, Nov 18, 2022 at 3:33 PM Neil Armstrong
-> <neil.armstrong@linaro.org> wrote:
-> [...]
->> +        #address-cells = <1>;
->> +        #size-cells = <1>;
->> +
->> +        sn: sn@14 {
->> +            reg = <0x14 0x10>;
->> +        };
->> +
->> +        eth_mac: mac@34 {
->> +            reg = <0x34 0x10>;
->> +        };
->> +
->> +        bid: bid@46 {
->> +            reg = <0x46 0x30>;
->> +        };
-> I assume you took these examples from the newer, GX eFuse?
-> Unfortunately on boards with these older SoCs the serial number and
-> MAC address are often not stored in the eFuse.
-> This is just an example, so I won't be sad if we keep them. To avoid
-> confusion I suggest switching to different examples:
->    ethernet_mac_address: mac@1b4 {
->      reg = <0x1b4 0x6>;
->    };
->    temperature_calib: calib@1f4 {
->       reg = <0x1f4 0x4>;
->    };
-> 
-> What do you think?
+Hi Tomi,
 
+Thank you for the patch.
 
-Sure switched to it !
-
-Neil
+On Thu, Dec 15, 2022 at 02:16:16PM +0200, Tomi Valkeinen wrote:
+> Add subdev flag V4L2_SUBDEV_FL_STREAMS. It is used to indicate that the
+> subdev supports the new API with multiplexed streams (routing, stream
+> configs).
 > 
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> ---
+>  include/media/v4l2-subdev.h | 11 +++++++++++
+>  1 file changed, 11 insertions(+)
 > 
-> Best regards,
-> Martin
+> diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
+> index 2f80c9c818ed..4be0a590c7c7 100644
+> --- a/include/media/v4l2-subdev.h
+> +++ b/include/media/v4l2-subdev.h
+> @@ -879,6 +879,17 @@ struct v4l2_subdev_internal_ops {
+>   * should set this flag.
+>   */
+>  #define V4L2_SUBDEV_FL_HAS_EVENTS		(1U << 3)
+> +/*
+> + * Set this flag if this subdev supports multiplexed streams. This means
+> + * that the driver supports routing and handles the stream parameter in its
+> + * v4l2_subdev_pad_ops handlers. More specifically, this means:
+> + *
+> + * - Centrally managed subdev active state is enabled
+> + * - Legacy pad config is _not_ supported (state->pads is NULL)
+> + * - Routing ioctls are available
 
+I wonder, as a sanity check, should the subdev core verify that the
+s_routing operation is available when this flag is set ? This could be
+done on top, so
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+> + * - Multiple streams per pad are supported
+> + */
+> +#define V4L2_SUBDEV_FL_STREAMS			(1U << 4)
+>  
+>  struct regulator_bulk_data;
+>  
+
+-- 
+Regards,
+
+Laurent Pinchart
