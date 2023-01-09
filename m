@@ -2,61 +2,60 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BF6096625EE
-	for <lists+linux-media@lfdr.de>; Mon,  9 Jan 2023 13:54:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id ED05966262C
+	for <lists+linux-media@lfdr.de>; Mon,  9 Jan 2023 13:54:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234546AbjAIMyD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 9 Jan 2023 07:54:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40760 "EHLO
+        id S236471AbjAIMyN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 9 Jan 2023 07:54:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40828 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234641AbjAIMxh (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 9 Jan 2023 07:53:37 -0500
-Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com [IPv6:2a00:1450:4864:20::331])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97A8715F3B
-        for <linux-media@vger.kernel.org>; Mon,  9 Jan 2023 04:53:35 -0800 (PST)
-Received: by mail-wm1-x331.google.com with SMTP id bg13-20020a05600c3c8d00b003d9712b29d2so8931267wmb.2
-        for <linux-media@vger.kernel.org>; Mon, 09 Jan 2023 04:53:35 -0800 (PST)
+        with ESMTP id S234756AbjAIMxj (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 9 Jan 2023 07:53:39 -0500
+Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com [IPv6:2a00:1450:4864:20::32d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F61B38D
+        for <linux-media@vger.kernel.org>; Mon,  9 Jan 2023 04:53:37 -0800 (PST)
+Received: by mail-wm1-x32d.google.com with SMTP id ay40so6190375wmb.2
+        for <linux-media@vger.kernel.org>; Mon, 09 Jan 2023 04:53:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=UbXe2+vnFi2o0+x3zbVNdzht9oC5iTUElnKdAfsufrk=;
-        b=DOvxPAXGiNaerq41sXouK4mUViADCtl1292C8CsCHfPiv5MHP8l+bv4o+zhXHlZeg8
-         +TOLBBSwXzBJm1HVsjkOiBczYGdPKQp7IwzQcYyg3Y67Eam+CXMHMOJvDvmICQHb3bXd
-         aWBVDWPCA0tC/c7M6s5HslAPQ8l+zUU3XxO8iDbfcIorWmCGz9Prc09mRbAx4PAm3L9n
-         Tc7L4YXgyU+ot7CO38EL43CwU/1I5dtTEqvCFO/LYgCavf5P+uT7kXv9tBlKs3jK6ZRB
-         auzkSdJwVfsPTlD668SFi3GknfOOf2onl7SHMvMuSCehaEXwhBbEySGZN3oSfJ6ABVxV
-         h3Ng==
+        bh=qRoLsjyY/qf2Mb569g+NlHCALe/agKv6TWaWZecCXbM=;
+        b=PtAZ9sogJ7D4ak5aTWeShdIBpAojseUr1St7O+JcXvW9KypuHN2Tf5W1eVB8HsoPF5
+         Qc5AYGcZBGHgvHxrR3P6gpgTinKrkUnuy5LEDPE03vAR78m1vUv3J7o9Zs8EkLiokWFG
+         C5+WI1eABYMDkQ5QEoKydR/Me0T2WGlkuMYQfCLahG/XOli4iTy+Rn+agbzFJXwgJjhY
+         fQR1MEQz3dhs6YPpglpZflbvBSoAWJOLMZKoVKR9KOP9UnbpyVI8cbcw38XnxxrIevb5
+         gAPqB1nL5xVr+w5BIPh5+EWDCP9351eyJjxkEPdFQmPvKJPhGUQwh+0uzz7LAv35bZsI
+         uYtQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=UbXe2+vnFi2o0+x3zbVNdzht9oC5iTUElnKdAfsufrk=;
-        b=GQ/XXKGNCQLb23dzqJrl9iwVpPCNCc/HeIDZqgSK3Jgx9fwChFBzXhlqLzn8zd2H8L
-         uqZRlwAE8RhJJX6Dhz9YJY/dZPrrE3HtY9pjSiVWSDM+PURHbV0g0XgJzovF95Giitq9
-         MmqoT4HEgeaN6dJf9wPSEUTMJyFrRsTLSzF+OJ2xbOuvsT6a3TcyMVTxRgFYL0/eBB60
-         HuG89yIopsxa2HWruSE9spxjwThbVp2yKcGHylLwHC1CcGf3BnLGySxR4XADsM57y1Az
-         qn3CxnpEXsrwk9q6AZoB8sVBQ/ZG7nyWf5r4nyf0ph8UrIjgOZvu/jXJViBj10y0WDbP
-         9ruw==
-X-Gm-Message-State: AFqh2krkyIdf4NjyHWqpsuoupo+LhK4v1TvwcBXUEZW7Kqa3vUw1PZHX
-        EmoGTg+Lse0vs/+sHLZm/xs4Hg==
-X-Google-Smtp-Source: AMrXdXudpqXVFbLwik7jPum30M/juG26ZBSd4Z3aISfa1VLm3maETyuA/mzYk1lep4t/A1RsQFwlcA==
-X-Received: by 2002:a05:600c:2318:b0:3c6:e63e:23e9 with SMTP id 24-20020a05600c231800b003c6e63e23e9mr49142536wmo.24.1673268815169;
-        Mon, 09 Jan 2023 04:53:35 -0800 (PST)
+        bh=qRoLsjyY/qf2Mb569g+NlHCALe/agKv6TWaWZecCXbM=;
+        b=XCsit/IdRBRDn8qbIRCxnZjFm7+Cbu6f9OD9MGilePXXCqPp6RNFRNolt3FiApIzcG
+         RmGmfG7mNtuLnbBR1ECm1h4rQMA53FuthcVhZ1VnUZ1jgiLqgmhJutlVddwHAEXfVgv3
+         Ap72diErxjfDjDJ9GkN43yTDs9ZZaCThq4f3u9EgHtSP7aTM8Sr0NEeMShOoKA0hwetk
+         RdFuBcPBRuPmBWTw/sS+OBEkM5/jxL9O/8JDqrfePu2iKdZCujnMxFO8isUzLIFNfVvp
+         2pGXt9oeWd0N7z+DsCPM+MRmS0lMAmiVm+CMpujrzkKwcKWM/S3JaZa9lwFncPRNllhD
+         U+dA==
+X-Gm-Message-State: AFqh2krkWNPXTJrELfzQz0CWIRWmrSHsGwh1Clk0mwu2ajeOhAcf9U8t
+        T/NgIAqVcWqp1C9tf7LztYSWaQ==
+X-Google-Smtp-Source: AMrXdXv0Bdf0Epz6SrHpPBay5WK9tEtRPRH405V8jHfx2VRO9KsOFVi+7uQvyzocCrT86ySajHKxRw==
+X-Received: by 2002:a05:600c:d2:b0:3d2:2b70:f2fd with SMTP id u18-20020a05600c00d200b003d22b70f2fdmr47240724wmm.21.1673268816880;
+        Mon, 09 Jan 2023 04:53:36 -0800 (PST)
 Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:52eb:f6ff:feb3:451a])
-        by smtp.gmail.com with ESMTPSA id y7-20020a7bcd87000000b003d997e5e679sm12805667wmj.14.2023.01.09.04.53.33
+        by smtp.gmail.com with ESMTPSA id y7-20020a7bcd87000000b003d997e5e679sm12805667wmj.14.2023.01.09.04.53.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Jan 2023 04:53:34 -0800 (PST)
+        Mon, 09 Jan 2023 04:53:36 -0800 (PST)
 From:   Neil Armstrong <neil.armstrong@linaro.org>
-Date:   Mon, 09 Jan 2023 13:53:27 +0100
-Subject: [PATCH v2 03/11] dt-bindings: nvmem: convert
- amlogic-meson-mx-efuse.txt to dt-schema
+Date:   Mon, 09 Jan 2023 13:53:28 +0100
+Subject: [PATCH v2 04/11] dt-bindings: watchdog: convert meson-wdt.txt to dt-schema
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20221117-b4-amlogic-bindings-convert-v2-3-36ad050bb625@linaro.org>
+Message-Id: <20221117-b4-amlogic-bindings-convert-v2-4-36ad050bb625@linaro.org>
 References: <20221117-b4-amlogic-bindings-convert-v2-0-36ad050bb625@linaro.org>
 In-Reply-To: <20221117-b4-amlogic-bindings-convert-v2-0-36ad050bb625@linaro.org>
 To:     Rob Herring <robh+dt@kernel.org>,
@@ -92,116 +91,107 @@ Cc:     devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
 X-Mailer: b4 0.11.1
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Convert the Amlogic Meson6 eFuse bindings to dt-schema.
+Convert the Amlogic Meson6 SoCs Watchdog timer bindings to dt-schema.
 
+Take in account the used interrupts property.
+
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
 ---
- .../bindings/nvmem/amlogic,meson6-efuse.yaml       | 60 ++++++++++++++++++++++
- .../bindings/nvmem/amlogic-meson-mx-efuse.txt      | 22 --------
- 2 files changed, 60 insertions(+), 22 deletions(-)
+ .../bindings/watchdog/amlogic,meson6-wdt.yaml      | 50 ++++++++++++++++++++++
+ .../devicetree/bindings/watchdog/meson-wdt.txt     | 21 ---------
+ 2 files changed, 50 insertions(+), 21 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/nvmem/amlogic,meson6-efuse.yaml b/Documentation/devicetree/bindings/nvmem/amlogic,meson6-efuse.yaml
+diff --git a/Documentation/devicetree/bindings/watchdog/amlogic,meson6-wdt.yaml b/Documentation/devicetree/bindings/watchdog/amlogic,meson6-wdt.yaml
 new file mode 100644
-index 000000000000..11cace95d18c
+index 000000000000..84732cb58ec4
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/nvmem/amlogic,meson6-efuse.yaml
-@@ -0,0 +1,60 @@
++++ b/Documentation/devicetree/bindings/watchdog/amlogic,meson6-wdt.yaml
+@@ -0,0 +1,50 @@
 +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
 +%YAML 1.2
 +---
-+$id: http://devicetree.org/schemas/nvmem/amlogic,meson6-efuse.yaml#
++$id: http://devicetree.org/schemas/watchdog/amlogic,meson6-wdt.yaml#
 +$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-+title: Amlogic Meson6 eFuse
++title: Amlogic Meson6 SoCs Watchdog timer
 +
 +maintainers:
 +  - Neil Armstrong <neil.armstrong@linaro.org>
 +  - Martin Blumenstingl <martin.blumenstingl@googlemail.com>
 +
 +allOf:
-+  - $ref: nvmem.yaml#
++  - $ref: watchdog.yaml#
 +
 +properties:
 +  compatible:
-+    enum:
-+      - amlogic,meson6-efuse
-+      - amlogic,meson8-efuse
-+      - amlogic,meson8b-efuse
++    oneOf:
++      - enum:
++          - amlogic,meson6-wdt
++          - amlogic,meson8-wdt
++          - amlogic,meson8b-wdt
++      - items:
++          - const: amlogic,meson8m2-wdt
++          - const: amlogic,meson8b-wdt
++
++  interrupts:
++    maxItems: 1
 +
 +  reg:
 +    maxItems: 1
 +
-+  clocks:
-+    maxItems: 1
-+
-+  clock-names:
-+    const: core
-+
-+  secure-monitor:
-+    description: phandle to the secure-monitor node
-+
 +required:
 +  - compatible
++  - interrupts
 +  - reg
-+  - clocks
-+  - clock-names
 +
 +unevaluatedProperties: false
 +
 +examples:
 +  - |
-+    efuse: efuse@0 {
-+        compatible = "amlogic,meson6-efuse";
-+        reg = <0x0 0x2000>;
-+        clocks = <&clk_efuse>;
-+        clock-names = "core";
-+        #address-cells = <1>;
-+        #size-cells = <1>;
++    #include <dt-bindings/interrupt-controller/irq.h>
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
 +
-+        ethernet_mac_address: mac@1b4 {
-+            reg = <0x1b4 0x6>;
-+        };
-+
-+        temperature_calib: calib@1f4 {
-+             reg = <0x1f4 0x4>;
-+        };
++    wdt: watchdog@c1109900 {
++        compatible = "amlogic,meson6-wdt";
++        reg = <0xc1109900 0x8>;
++        interrupts = <GIC_SPI 0 IRQ_TYPE_EDGE_RISING>;
++        timeout-sec = <10>;
 +    };
-diff --git a/Documentation/devicetree/bindings/nvmem/amlogic-meson-mx-efuse.txt b/Documentation/devicetree/bindings/nvmem/amlogic-meson-mx-efuse.txt
+diff --git a/Documentation/devicetree/bindings/watchdog/meson-wdt.txt b/Documentation/devicetree/bindings/watchdog/meson-wdt.txt
 deleted file mode 100644
-index a3c63954a1a4..000000000000
---- a/Documentation/devicetree/bindings/nvmem/amlogic-meson-mx-efuse.txt
+index 7588cc3971bf..000000000000
+--- a/Documentation/devicetree/bindings/watchdog/meson-wdt.txt
 +++ /dev/null
-@@ -1,22 +0,0 @@
--Amlogic Meson6/Meson8/Meson8b efuse
+@@ -1,21 +0,0 @@
+-Meson SoCs Watchdog timer
 -
--Required Properties:
--- compatible: depending on the SoC this should be one of:
--	- "amlogic,meson6-efuse"
--	- "amlogic,meson8-efuse"
--	- "amlogic,meson8b-efuse"
--- reg: base address and size of the efuse registers
--- clocks: a reference to the efuse core gate clock
--- clock-names: must be "core"
+-Required properties:
 -
--All properties and sub-nodes as well as the consumer bindings
--defined in nvmem.txt in this directory are also supported.
+-- compatible : depending on the SoC this should be one of:
+-	"amlogic,meson6-wdt" on Meson6 SoCs
+-	"amlogic,meson8-wdt" and "amlogic,meson6-wdt" on Meson8 SoCs
+-	"amlogic,meson8b-wdt" on Meson8b SoCs
+-	"amlogic,meson8m2-wdt" and "amlogic,meson8b-wdt" on Meson8m2 SoCs
+-- reg : Specifies base physical address and size of the registers.
 -
+-Optional properties:
+-- timeout-sec: contains the watchdog timeout in seconds.
 -
 -Example:
--	efuse: nvmem@0 {
--		compatible = "amlogic,meson8-efuse";
--		reg = <0x0 0x2000>;
--		clocks = <&clkc CLKID_EFUSE>;
--		clock-names = "core";
--	};
+-
+-wdt: watchdog@c1109900 {
+-	compatible = "amlogic,meson6-wdt";
+-	reg = <0xc1109900 0x8>;
+-	timeout-sec = <10>;
+-};
 
 -- 
 2.34.1
