@@ -2,400 +2,109 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 18AC86626C2
-	for <lists+linux-media@lfdr.de>; Mon,  9 Jan 2023 14:19:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D73AB6627C6
+	for <lists+linux-media@lfdr.de>; Mon,  9 Jan 2023 14:55:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236851AbjAINTz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 9 Jan 2023 08:19:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35976 "EHLO
+        id S234910AbjAINzy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 9 Jan 2023 08:55:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35628 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237150AbjAINTQ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 9 Jan 2023 08:19:16 -0500
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 82B721A069
-        for <linux-media@vger.kernel.org>; Mon,  9 Jan 2023 05:19:14 -0800 (PST)
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <mgr@pengutronix.de>)
-        id 1pEs3O-0003P1-LO; Mon, 09 Jan 2023 14:19:06 +0100
-Received: from mgr by ptx.hi.pengutronix.de with local (Exim 4.92)
-        (envelope-from <mgr@pengutronix.de>)
-        id 1pEs3O-0005J9-0X; Mon, 09 Jan 2023 14:19:06 +0100
-Date:   Mon, 9 Jan 2023 14:19:05 +0100
-From:   Michael Grzeschik <mgr@pengutronix.de>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     gregkh@linuxfoundation.org, mchehab@kernel.org,
-        hverkuil-cisco@xs4all.nl, linux-usb@vger.kernel.org,
-        linux-media@vger.kernel.org, kernel@pengutronix.de,
-        Daniel Scally <dan.scally@ideasonboard.com>
-Subject: Re: [PATCH v2 5/5] usb: uvc: use v4l2_fill_fmtdesc instead of open
- coded format name
-Message-ID: <20230109131905.GA19093@pengutronix.de>
-References: <20221215224514.2344656-1-m.grzeschik@pengutronix.de>
- <20221215224514.2344656-6-m.grzeschik@pengutronix.de>
- <Y6ug9yUIFysMtajx@pendragon.ideasonboard.com>
+        with ESMTP id S234914AbjAINzt (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 9 Jan 2023 08:55:49 -0500
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 00B9E34D47;
+        Mon,  9 Jan 2023 05:55:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1673272547; x=1704808547;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=tGKHnAfBxD0cWgsYK90ScVvKbs945zzAa+okIcBUQCc=;
+  b=WWn4ZPbIkg1X8LY0za3SWAx7qSnt0cyB2yGtOkR2byIMalWPiLABAlzN
+   0ENz9NPxFHOgBIz97dtt4wHCAn/CfJ7jOrI0wLsBTSCLhEEwR2LyQETSv
+   dZDFyXV8nQfDCCHoPAtkJquEJ66vy/C77qerLA5uf+MnStSrt65F8lzzY
+   iyd8uyGsQa8IaR8uvdQtgMvCIXy0wWnAZHa+vhbOqVMbB443R6u5CKHgQ
+   MPLnMFQgHestzjFt6PkCxiGwYdhpgCRKt+wSZznVJmoeCTA8VA27rBZbL
+   8Motu+oP15oXn1Pv8zUNimmNxRZ8Qxa+Yqa3SKA9hV7qWBArz4PdokplP
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10585"; a="409118980"
+X-IronPort-AV: E=Sophos;i="5.96,311,1665471600"; 
+   d="scan'208";a="409118980"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jan 2023 05:55:47 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10585"; a="799032829"
+X-IronPort-AV: E=Sophos;i="5.96,311,1665471600"; 
+   d="scan'208";a="799032829"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by fmsmga001.fm.intel.com with ESMTP; 09 Jan 2023 05:55:42 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+        (envelope-from <andriy.shevchenko@intel.com>)
+        id 1pEscl-006VQL-0l;
+        Mon, 09 Jan 2023 15:55:39 +0200
+Date:   Mon, 9 Jan 2023 15:55:38 +0200
+From:   Andy Shevchenko <andriy.shevchenko@intel.com>
+To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Wolfram Sang <wsa@kernel.org>,
+        Luca Ceresoli <luca.ceresoli@bootlin.com>,
+        Matti Vaittinen <Matti.Vaittinen@fi.rohmeurope.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Peter Rosin <peda@axentia.se>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Michael Tretter <m.tretter@pengutronix.de>,
+        Shawn Tu <shawnx.tu@intel.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Mike Pagano <mpagano@gentoo.org>,
+        Krzysztof =?utf-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>,
+        Marek Vasut <marex@denx.de>
+Subject: Re: [PATCH v6 7/8] media: i2c: add DS90UB913 driver
+Message-ID: <Y7wc2lX8eGPITx30@smile.fi.intel.com>
+References: <20230105140307.272052-1-tomi.valkeinen@ideasonboard.com>
+ <20230105140307.272052-8-tomi.valkeinen@ideasonboard.com>
+ <Y7pBSq49dL8Fzxsc@pendragon.ideasonboard.com>
+ <Y7v1Wrma/Ev8KEzy@smile.fi.intel.com>
+ <5173a16a-83c5-5cfe-f6ce-03e1c90e8790@ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="C7zPtVaVf+AK4Oqc"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Y6ug9yUIFysMtajx@pendragon.ideasonboard.com>
-X-Sent-From: Pengutronix Hildesheim
-X-URL:  http://www.pengutronix.de/
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: mgr@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+In-Reply-To: <5173a16a-83c5-5cfe-f6ce-03e1c90e8790@ideasonboard.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+On Mon, Jan 09, 2023 at 02:59:01PM +0200, Tomi Valkeinen wrote:
+> On 09/01/2023 13:07, Andy Shevchenko wrote:
+> > On Sun, Jan 08, 2023 at 06:06:34AM +0200, Laurent Pinchart wrote:
+> > > On Thu, Jan 05, 2023 at 04:03:06PM +0200, Tomi Valkeinen wrote:
 
---C7zPtVaVf+AK4Oqc
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+...
 
-Hi Laurent,
+> > > > +	gc->of_node = priv->client->dev.of_node;
+> > 
+> > We don't have of_node anymore in gc. And if the parent device is set, you can
+> > drop this line (it will work with older and newer kernels. Otherwise, use
+> > fwnode.
+> 
+> What do you mean "we don't have of_node anymore"?
 
-Thank you for the review.
+There is no of_node member of struct gpio_chip anymore. This will fail
+to compile.
 
-On Wed, Dec 28, 2022 at 03:50:47AM +0200, Laurent Pinchart wrote:
->On Thu, Dec 15, 2022 at 11:45:14PM +0100, Michael Grzeschik wrote:
->> Since we have the helper function v4l2_fill_fmtdesc, we can use this to
->> get the corresponding descriptive string for the pixelformat and set the
->> compressed flag. This patch is removing the redundant name field in
->> uvc_format_desc and makes use of v4l2_fill_fmtdesc instead.
->
->I really like that.
->
->> Reviewed-by: Daniel Scally <dan.scally@ideasonboard.com>
->> Tested-by: Daniel Scally <dan.scally@ideasonboard.com>
->> Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
->>
->> ---
->> v1 -> v2: - added reviewed and tested tags
->> ---
->>  drivers/media/common/uvc.c             | 37 --------------------------
->>  drivers/media/usb/uvc/uvc_driver.c     |  8 +++++-
->>  drivers/usb/gadget/function/uvc_v4l2.c |  6 +----
->>  include/linux/usb/uvc.h                |  1 -
->>  4 files changed, 8 insertions(+), 44 deletions(-)
->>
->> diff --git a/drivers/media/common/uvc.c b/drivers/media/common/uvc.c
->> index a9d587490de8d5..ab2637b9b39b2a 100644
->> --- a/drivers/media/common/uvc.c
->> +++ b/drivers/media/common/uvc.c
->> @@ -13,187 +13,150 @@
->>
->>  static const struct uvc_format_desc uvc_fmts[] =3D {
->>  	{
->> -		.name		=3D "YUV 4:2:2 (YUYV)",
->>  		.guid		=3D UVC_GUID_FORMAT_YUY2,
->>  		.fcc		=3D V4L2_PIX_FMT_YUYV,
->>  	},
->>  	{
->> -		.name		=3D "YUV 4:2:2 (YUYV)",
->>  		.guid		=3D UVC_GUID_FORMAT_YUY2_ISIGHT,
->>  		.fcc		=3D V4L2_PIX_FMT_YUYV,
->>  	},
->>  	{
->> -		.name		=3D "YUV 4:2:0 (NV12)",
->>  		.guid		=3D UVC_GUID_FORMAT_NV12,
->>  		.fcc		=3D V4L2_PIX_FMT_NV12,
->>  	},
->>  	{
->> -		.name		=3D "MJPEG",
->>  		.guid		=3D UVC_GUID_FORMAT_MJPEG,
->>  		.fcc		=3D V4L2_PIX_FMT_MJPEG,
->>  	},
->>  	{
->> -		.name		=3D "YVU 4:2:0 (YV12)",
->>  		.guid		=3D UVC_GUID_FORMAT_YV12,
->>  		.fcc		=3D V4L2_PIX_FMT_YVU420,
->>  	},
->>  	{
->> -		.name		=3D "YUV 4:2:0 (I420)",
->>  		.guid		=3D UVC_GUID_FORMAT_I420,
->>  		.fcc		=3D V4L2_PIX_FMT_YUV420,
->>  	},
->>  	{
->> -		.name		=3D "YUV 4:2:0 (M420)",
->>  		.guid		=3D UVC_GUID_FORMAT_M420,
->>  		.fcc		=3D V4L2_PIX_FMT_M420,
->>  	},
->>  	{
->> -		.name		=3D "YUV 4:2:2 (UYVY)",
->>  		.guid		=3D UVC_GUID_FORMAT_UYVY,
->>  		.fcc		=3D V4L2_PIX_FMT_UYVY,
->>  	},
->>  	{
->> -		.name		=3D "Greyscale 8-bit (Y800)",
->>  		.guid		=3D UVC_GUID_FORMAT_Y800,
->>  		.fcc		=3D V4L2_PIX_FMT_GREY,
->>  	},
->>  	{
->> -		.name		=3D "Greyscale 8-bit (Y8  )",
->>  		.guid		=3D UVC_GUID_FORMAT_Y8,
->>  		.fcc		=3D V4L2_PIX_FMT_GREY,
->>  	},
->>  	{
->> -		.name		=3D "Greyscale 8-bit (D3DFMT_L8)",
->>  		.guid		=3D UVC_GUID_FORMAT_D3DFMT_L8,
->>  		.fcc		=3D V4L2_PIX_FMT_GREY,
->>  	},
->>  	{
->> -		.name		=3D "IR 8-bit (L8_IR)",
->>  		.guid		=3D UVC_GUID_FORMAT_KSMEDIA_L8_IR,
->>  		.fcc		=3D V4L2_PIX_FMT_GREY,
->>  	},
->>  	{
->> -		.name		=3D "Greyscale 10-bit (Y10 )",
->>  		.guid		=3D UVC_GUID_FORMAT_Y10,
->>  		.fcc		=3D V4L2_PIX_FMT_Y10,
->>  	},
->>  	{
->> -		.name		=3D "Greyscale 12-bit (Y12 )",
->>  		.guid		=3D UVC_GUID_FORMAT_Y12,
->>  		.fcc		=3D V4L2_PIX_FMT_Y12,
->>  	},
->>  	{
->> -		.name		=3D "Greyscale 16-bit (Y16 )",
->>  		.guid		=3D UVC_GUID_FORMAT_Y16,
->>  		.fcc		=3D V4L2_PIX_FMT_Y16,
->>  	},
->>  	{
->> -		.name		=3D "BGGR Bayer (BY8 )",
->>  		.guid		=3D UVC_GUID_FORMAT_BY8,
->>  		.fcc		=3D V4L2_PIX_FMT_SBGGR8,
->>  	},
->>  	{
->> -		.name		=3D "BGGR Bayer (BA81)",
->>  		.guid		=3D UVC_GUID_FORMAT_BA81,
->>  		.fcc		=3D V4L2_PIX_FMT_SBGGR8,
->>  	},
->>  	{
->> -		.name		=3D "GBRG Bayer (GBRG)",
->>  		.guid		=3D UVC_GUID_FORMAT_GBRG,
->>  		.fcc		=3D V4L2_PIX_FMT_SGBRG8,
->>  	},
->>  	{
->> -		.name		=3D "GRBG Bayer (GRBG)",
->>  		.guid		=3D UVC_GUID_FORMAT_GRBG,
->>  		.fcc		=3D V4L2_PIX_FMT_SGRBG8,
->>  	},
->>  	{
->> -		.name		=3D "RGGB Bayer (RGGB)",
->>  		.guid		=3D UVC_GUID_FORMAT_RGGB,
->>  		.fcc		=3D V4L2_PIX_FMT_SRGGB8,
->>  	},
->>  	{
->> -		.name		=3D "RGB565",
->>  		.guid		=3D UVC_GUID_FORMAT_RGBP,
->>  		.fcc		=3D V4L2_PIX_FMT_RGB565,
->>  	},
->>  	{
->> -		.name		=3D "BGR 8:8:8 (BGR3)",
->>  		.guid		=3D UVC_GUID_FORMAT_BGR3,
->>  		.fcc		=3D V4L2_PIX_FMT_BGR24,
->>  	},
->>  	{
->> -		.name		=3D "H.264",
->>  		.guid		=3D UVC_GUID_FORMAT_H264,
->>  		.fcc		=3D V4L2_PIX_FMT_H264,
->>  	},
->>  	{
->> -		.name		=3D "H.265",
->>  		.guid		=3D UVC_GUID_FORMAT_H265,
->>  		.fcc		=3D V4L2_PIX_FMT_HEVC,
->>  	},
->>  	{
->> -		.name		=3D "Greyscale 8 L/R (Y8I)",
->>  		.guid		=3D UVC_GUID_FORMAT_Y8I,
->>  		.fcc		=3D V4L2_PIX_FMT_Y8I,
->>  	},
->>  	{
->> -		.name		=3D "Greyscale 12 L/R (Y12I)",
->>  		.guid		=3D UVC_GUID_FORMAT_Y12I,
->>  		.fcc		=3D V4L2_PIX_FMT_Y12I,
->>  	},
->>  	{
->> -		.name		=3D "Depth data 16-bit (Z16)",
->>  		.guid		=3D UVC_GUID_FORMAT_Z16,
->>  		.fcc		=3D V4L2_PIX_FMT_Z16,
->>  	},
->>  	{
->> -		.name		=3D "Bayer 10-bit (SRGGB10P)",
->>  		.guid		=3D UVC_GUID_FORMAT_RW10,
->>  		.fcc		=3D V4L2_PIX_FMT_SRGGB10P,
->>  	},
->>  	{
->> -		.name		=3D "Bayer 16-bit (SBGGR16)",
->>  		.guid		=3D UVC_GUID_FORMAT_BG16,
->>  		.fcc		=3D V4L2_PIX_FMT_SBGGR16,
->>  	},
->>  	{
->> -		.name		=3D "Bayer 16-bit (SGBRG16)",
->>  		.guid		=3D UVC_GUID_FORMAT_GB16,
->>  		.fcc		=3D V4L2_PIX_FMT_SGBRG16,
->>  	},
->>  	{
->> -		.name		=3D "Bayer 16-bit (SRGGB16)",
->>  		.guid		=3D UVC_GUID_FORMAT_RG16,
->>  		.fcc		=3D V4L2_PIX_FMT_SRGGB16,
->>  	},
->>  	{
->> -		.name		=3D "Bayer 16-bit (SGRBG16)",
->>  		.guid		=3D UVC_GUID_FORMAT_GR16,
->>  		.fcc		=3D V4L2_PIX_FMT_SGRBG16,
->>  	},
->>  	{
->> -		.name		=3D "Depth data 16-bit (Z16)",
->>  		.guid		=3D UVC_GUID_FORMAT_INVZ,
->>  		.fcc		=3D V4L2_PIX_FMT_Z16,
->>  	},
->>  	{
->> -		.name		=3D "Greyscale 10-bit (Y10 )",
->>  		.guid		=3D UVC_GUID_FORMAT_INVI,
->>  		.fcc		=3D V4L2_PIX_FMT_Y10,
->>  	},
->>  	{
->> -		.name		=3D "IR:Depth 26-bit (INZI)",
->>  		.guid		=3D UVC_GUID_FORMAT_INZI,
->>  		.fcc		=3D V4L2_PIX_FMT_INZI,
->>  	},
->>  	{
->> -		.name		=3D "4-bit Depth Confidence (Packed)",
->>  		.guid		=3D UVC_GUID_FORMAT_CNF4,
->>  		.fcc		=3D V4L2_PIX_FMT_CNF4,
->>  	},
->>  	{
->> -		.name		=3D "HEVC",
->>  		.guid		=3D UVC_GUID_FORMAT_HEVC,
->>  		.fcc		=3D V4L2_PIX_FMT_HEVC,
->>  	},
->> diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/=
-uvc_driver.c
->> index 12b6ad0966d94a..af92e730bde7c7 100644
->> --- a/drivers/media/usb/uvc/uvc_driver.c
->> +++ b/drivers/media/usb/uvc/uvc_driver.c
->> @@ -251,7 +251,13 @@ static int uvc_parse_format(struct uvc_device *dev,
->>  		fmtdesc =3D uvc_format_by_guid(&buffer[5]);
->>
->>  		if (fmtdesc !=3D NULL) {
->> -			strscpy(format->name, fmtdesc->name,
->> +			struct v4l2_fmtdesc fmt;
->> +
->> +			fmt.pixelformat =3D fmtdesc->fcc;
->> +
->> +			v4l2_fill_fmtdesc(&fmt);
->> +
->> +			strscpy(format->name, fmt.description,
->>  				sizeof(format->name));
->>  			format->fcc =3D fmtdesc->fcc;
->>  		} else {
->
->I've just sent "[PATCH v1] media: uvcvideo: Remove format descriptions"
->which drops usage of the name in the uvcvideo driver without having to
->call v4l2_fill_fmtdesc(). With that merged, changes to uvc_driver.c can
->be dropped in this patch.
+-- 
+With Best Regards,
+Andy Shevchenko
 
-Right.
 
->
->> diff --git a/drivers/usb/gadget/function/uvc_v4l2.c b/drivers/usb/gadget=
-/function/uvc_v4l2.c
->> index 21e573e628f4e7..6e46fa1695f212 100644
->> --- a/drivers/usb/gadget/function/uvc_v4l2.c
->> +++ b/drivers/usb/gadget/function/uvc_v4l2.c
->> @@ -374,14 +374,10 @@ uvc_v4l2_enum_format(struct file *file, void *fh, =
-struct v4l2_fmtdesc *f)
->>  	if (!uformat)
->>  		return -EINVAL;
->>
->> -	if (uformat->type !=3D UVCG_UNCOMPRESSED)
->> -		f->flags |=3D V4L2_FMT_FLAG_COMPRESSED;
->> -
->>  	fmtdesc =3D to_uvc_format(uformat);
->>  	f->pixelformat =3D fmtdesc->fcc;
->>
->> -	strscpy(f->description, fmtdesc->name, sizeof(f->description));
->> -	f->description[strlen(fmtdesc->name) - 1] =3D 0;
->> +	v4l2_fill_fmtdesc(f);
->
->
->v4l_fill_fmtdesc() is actually called by v4l_enum_fmt() after calling
->the driver's .vidioc_enum_fmt_vid_out() operation, so you don't have to
->call it manually here.
->
->By dropping the manual calls to v4l_fill_fmtdesc(), you can also drop
->patch 4/5 in the series.
-
-This is a good point. I have dropped patch 4/5 in the stack.
-
->This creates a dependency between the patch I've just sent and this
->series. As I don't want to introduce any further delay, I'll create a
->stable branch based on v6.2-rc1 as soon as my patch gets reviewed, you
->you can then base the next version of this series on top of it. An
->alternative would be to merge this series through the media tree if Greg
->is OK with that.
-
-I found your v3 patch. I sure can rebase my work on your patch if your
-stable branch is available.
-
->>  	return 0;
->>  }
->> diff --git a/include/linux/usb/uvc.h b/include/linux/usb/uvc.h
->> index 227a03f252a5c0..e407a7b8a91c70 100644
->> --- a/include/linux/usb/uvc.h
->> +++ b/include/linux/usb/uvc.h
->> @@ -146,7 +146,6 @@
->>  	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
->>
->>  struct uvc_format_desc {
->> -	char *name;
->>  	u8 guid[16];
->>  	u32 fcc;
->>  };
->
->--=20
->Regards,
->
->Laurent Pinchart
->
-
---=20
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
-
---C7zPtVaVf+AK4Oqc
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEElXvEUs6VPX6mDPT8C+njFXoeLGQFAmO8FEcACgkQC+njFXoe
-LGRjKBAAjPydgpJ+LBIyft6V0cb3jINh43VyMhmyIh4RpfbxinSXEqoMr4KhFmCw
-un2ku7Igo8kxCFjG4BsdxkxFE6X4SBKbNfiXa4ezE7KR1lEQ/5DR1t8vuBGSxUaX
-Ua/3mlk1ZR0EOAdIrS2zwRTsQseebgQKHgy9vVQbdle5dnFJce0Dfs3siTA6ZXFT
-/dKgCEszP6OIYUWHdPJ0ygDPWnJmWe9Sp5/CtQ7ZqaFOTbr8xHasC7v1WBBC5hSF
-v4YIF5uc8c5+JAYKqtCfTpuY+kEa8BZMcY3qihUYvddIXcH7PAGbIDluPC8o9ev9
-BIJ5/pCgBfS8jZwbGyBfslBNJgCv5vGceuUa+Hs/TVxkdaTxjhK1m1dl8CW9kRtX
-8hmqo8j1t2iZD9Cc/4qH7nXTYEzt/9T1Jr55MorirNhATMQj5ASLvEDvTUei3iF0
-0heBtunYaCIBQKtKIm53sPXCpTKpM0HfBfJBa7CiFpVKN+6f1Kwr8roXWlB6rh1A
-TVh9JXc4X8esurrSlIn/QNKAUjHApICvnih6YpSe39ehLxbu2iYXj8LjvzGTis8h
-E/7bSZM90boIXscefQNE7bF1Oz+xmYQNTnIjscZcJnLjpRde4L8ufxV2m5+XkMUz
-dM9AFvJNv/Ez1fgp99D4Knx8I/f0A42BGnN+jU9MRiCDAE6xGfM=
-=PR4X
------END PGP SIGNATURE-----
-
---C7zPtVaVf+AK4Oqc--
