@@ -2,103 +2,105 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DD00D663C0F
-	for <lists+linux-media@lfdr.de>; Tue, 10 Jan 2023 10:01:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8251F663C5B
+	for <lists+linux-media@lfdr.de>; Tue, 10 Jan 2023 10:10:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231657AbjAJJBD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 10 Jan 2023 04:01:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48032 "EHLO
+        id S231222AbjAJJKy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 10 Jan 2023 04:10:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56604 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238498AbjAJI7w (ORCPT
+        with ESMTP id S238065AbjAJJK1 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 10 Jan 2023 03:59:52 -0500
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 563AF4D71E;
-        Tue, 10 Jan 2023 00:58:25 -0800 (PST)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out2.suse.de (Postfix) with ESMTPS id 4930267AEB;
-        Tue, 10 Jan 2023 08:58:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1673341100; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=MQLMOsWeyfQ9OMwOEPpBfSY/zX1K5gLRGoJXs0PRFhQ=;
-        b=d0/gJhZr3338arujv292RDCpaFVCNpNRhfmbIWIBvXye7cZy8BnXDKXCy9uBlP+DXmqzhv
-        vH5AzxAF9dGjzxCxyUj1ty+EwLrjZ3mqqo1g8JsfnV+KA79R00NSzTgm9DNtTFXOX4Gf8S
-        h+jlN7NEV2XA5L/y7LnIoWd7unR8GQs=
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 28CB313338;
-        Tue, 10 Jan 2023 08:58:20 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id 36wFB6wovWP/IgAAMHmgww
-        (envelope-from <mhocko@suse.com>); Tue, 10 Jan 2023 08:58:20 +0000
-Date:   Tue, 10 Jan 2023 09:58:19 +0100
-From:   Michal Hocko <mhocko@suse.com>
-To:     "T.J. Mercier" <tjmercier@google.com>
-Cc:     Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-        Roman Gushchin <roman.gushchin@linux.dev>,
-        Shakeel Butt <shakeelb@google.com>,
-        Muchun Song <muchun.song@linux.dev>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        daniel.vetter@ffwll.ch, android-mm@google.com, jstultz@google.com,
-        cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-        linux-mm@kvack.org
-Subject: Re: [PATCH 1/4] memcg: Track exported dma-buffers
-Message-ID: <Y70oqxejnUqkJVPx@dhcp22.suse.cz>
-References: <20230109213809.418135-1-tjmercier@google.com>
- <20230109213809.418135-2-tjmercier@google.com>
+        Tue, 10 Jan 2023 04:10:27 -0500
+Received: from mail.ivk.ru (mail.ivk.ru [185.6.174.67])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED77735929;
+        Tue, 10 Jan 2023 01:10:05 -0800 (PST)
+Received: from localhost.localdomain (unknown [91.190.239.60])
+        by mail.ivk.ru (Postfix) with ESMTPA id 397B720002;
+        Tue, 10 Jan 2023 12:10:02 +0300 (MSK)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ivk.ru;
+        s=FFC20516-06DA-11EA-9F07-2A32BFAFF1B3; t=1673341802;
+        bh=Uaa8ydfdH50Mrg+5T2G6vFiAUTpufESssojUSDw6bSg=;
+        h=From:To:Subject:Date:Message-Id:MIME-Version;
+        b=CYqza1ARoudArJ3HIujfN1KHJjwAXH5PaaRXd/+v9PtxoTo+sGGqrVxB34nMJIjMx
+         +XneZdWE5rXIbD/GPiwXONGcEDxCzhZ73L6Gv2W0WfRgssN9wpQ9nUOUKU4eY3E9HU
+         uh9K6Bt+QnjF95UelZq6tidZij0zlWab+IcoLh7QjKJZ94Z/H3W26w8+0o5eNdrEjf
+         ZWjo+o+xJSppiWoR0WpMgl/N1MBCiX/FRC8RJCzJEhuGFejhuAtFezYvgyr9kdCCnO
+         pmpgV/MqoWgSbbhXEYCuqg4HCzdnW2BoEyEr0n1XcFETEsz2bsVX0SIJTKlrrncM9D
+         j1EufscfxmALBiGd/QKiuzZ6v05Bgedy/Jj3e59G79aPPMmj+kqBHW6oH0kADvJu4l
+         tQFFriMIYaKgSLFah2e+zkEFlACoH3Vx40hY0+qIebEbziIXK9aXP1oJr8zxD0B44H
+         aVpjFbOrCOA11fe3Wop5e70pSp3lfhVGwWxXMhV88+dh14ysn0COQVhGEboVWdlLjy
+         7FaFmG2jeEumYllKOAluooTarRAZhnzMDTY7aOEjfaa1sR7wQ/sXoCDGqa2W9xyux/
+         o1Xg6UpnQQ2Am6/AVMp6OuSFk9wIyBY8EmpdAl1HSzhUlFw/KSJ3ghr9Bi3Z3g64Sh
+         ARfdCxA1ySL+4xst7rADlr5A=
+From:   Nikolay Burykin <burikin@ivk.ru>
+To:     Mauro Carvalho Chehab <mchehab@infradead.org>
+Cc:     Nikolay Burykin <burikin@ivk.ru>, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, lvc-project@linuxtesting.org,
+        khoroshilov@ispras.ru
+Subject: [PATCH] media: pci: cx23885: fix error handling for cx23885 ATSC boards
+Date:   Tue, 10 Jan 2023 12:09:00 +0300
+Message-Id: <20230110090900.25907-1-burikin@ivk.ru>
+X-Mailer: git-send-email 2.38.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230109213809.418135-2-tjmercier@google.com>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon 09-01-23 21:38:04, T.J. Mercier wrote:
-> When a buffer is exported to userspace, use memcg to attribute the
-> buffer to the allocating cgroup until all buffer references are
-> released.
-> 
-> Unlike the dmabuf sysfs stats implementation, this memcg accounting
-> avoids contention over the kernfs_rwsem incurred when creating or
-> removing nodes.
+After having been assigned to NULL value at cx23885-dvb.c:1202,
+pointer '0' is dereferenced at cx23885-dvb.c:2469.
 
-I am not familiar with dmabuf infrastructure so please bear with me.
-AFAIU this patch adds a dmabuf specific counter to find out the amount
-of dmabuf memory used. But I do not see any actual charging implemented
-for that memory.
+Found by Linux Verification Center (linuxtesting.org) with SVACE.
 
-I have looked at two random users of dma_buf_export cma_heap_allocate
-and it allocates pages to back the dmabuf (AFAIU) by cma_alloc
-which doesn't account to memcg, system_heap_allocate uses
-alloc_largest_available which relies on order_flags which doesn't seem
-to ever use __GFP_ACCOUNT.
+Signed-off-by: Nikolay Burykin <burikin@ivk.ru>
+---
+ drivers/media/pci/cx23885/cx23885-dvb.c | 12 ------------
+ 1 file changed, 12 deletions(-)
 
-This would mean that the counter doesn't represent any actual memory
-reflected in the overall memory consumption of a memcg. I believe this
-is rather unexpected and confusing behavior. While some counters
-overlap and their sum would exceed the charged memory we do not have any
-that doesn't correspond to any memory (at least not for non-root memcgs).
-
+diff --git a/drivers/media/pci/cx23885/cx23885-dvb.c b/drivers/media/pci/cx23885/cx23885-dvb.c
+index 45c2f4afceb8..9b437faf2c3f 100644
+--- a/drivers/media/pci/cx23885/cx23885-dvb.c
++++ b/drivers/media/pci/cx23885/cx23885-dvb.c
+@@ -2459,16 +2459,10 @@ static int dvb_register(struct cx23885_tsport *port)
+ 			request_module("%s", info.type);
+ 			client_tuner = i2c_new_client_device(&dev->i2c_bus[1].i2c_adap, &info);
+ 			if (!i2c_client_has_driver(client_tuner)) {
+-				module_put(client_demod->dev.driver->owner);
+-				i2c_unregister_device(client_demod);
+-				port->i2c_client_demod = NULL;
+ 				goto frontend_detach;
+ 			}
+ 			if (!try_module_get(client_tuner->dev.driver->owner)) {
+ 				i2c_unregister_device(client_tuner);
+-				module_put(client_demod->dev.driver->owner);
+-				i2c_unregister_device(client_demod);
+-				port->i2c_client_demod = NULL;
+ 				goto frontend_detach;
+ 			}
+ 			port->i2c_client_tuner = client_tuner;
+@@ -2505,16 +2499,10 @@ static int dvb_register(struct cx23885_tsport *port)
+ 			request_module("%s", info.type);
+ 			client_tuner = i2c_new_client_device(&dev->i2c_bus[1].i2c_adap, &info);
+ 			if (!i2c_client_has_driver(client_tuner)) {
+-				module_put(client_demod->dev.driver->owner);
+-				i2c_unregister_device(client_demod);
+-				port->i2c_client_demod = NULL;
+ 				goto frontend_detach;
+ 			}
+ 			if (!try_module_get(client_tuner->dev.driver->owner)) {
+ 				i2c_unregister_device(client_tuner);
+-				module_put(client_demod->dev.driver->owner);
+-				i2c_unregister_device(client_demod);
+-				port->i2c_client_demod = NULL;
+ 				goto frontend_detach;
+ 			}
+ 			port->i2c_client_tuner = client_tuner;
 -- 
-Michal Hocko
-SUSE Labs
+2.39.0
+
