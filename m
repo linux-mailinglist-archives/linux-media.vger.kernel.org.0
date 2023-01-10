@@ -2,94 +2,97 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C7C7A66380A
-	for <lists+linux-media@lfdr.de>; Tue, 10 Jan 2023 05:15:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D680E6639C7
+	for <lists+linux-media@lfdr.de>; Tue, 10 Jan 2023 08:16:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229600AbjAJEPo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 9 Jan 2023 23:15:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32828 "EHLO
+        id S229878AbjAJHQs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 10 Jan 2023 02:16:48 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41476 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229560AbjAJEPm (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 9 Jan 2023 23:15:42 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 217C5DF36
-        for <linux-media@vger.kernel.org>; Mon,  9 Jan 2023 20:15:40 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id C5279B810F1
-        for <linux-media@vger.kernel.org>; Tue, 10 Jan 2023 04:15:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 25376C433F0
-        for <linux-media@vger.kernel.org>; Tue, 10 Jan 2023 04:15:36 +0000 (UTC)
-Date:   Tue, 10 Jan 2023 05:15:35 +0100
-Message-ID: <a1476f3551b61f63b6804a3910af40c8.hverkuil@xs4all.nl>
-From:   "Hans Verkuil" <hverkuil-cisco@xs4all.nl>
+        with ESMTP id S229700AbjAJHQr (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 10 Jan 2023 02:16:47 -0500
+Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com [IPv6:2a00:1450:4864:20::433])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F392BED
+        for <linux-media@vger.kernel.org>; Mon,  9 Jan 2023 23:16:46 -0800 (PST)
+Received: by mail-wr1-x433.google.com with SMTP id bs20so10727637wrb.3
+        for <linux-media@vger.kernel.org>; Mon, 09 Jan 2023 23:16:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=BsXmfr1ifUQ41UhHdE4UcJ0WdZy3qnKZ5B3a5yc77No=;
+        b=ga9CCvY8s6Nd961yw8lBKQgVueNmsjpU5nKynseCHxor6xtvY1Unk8BOHk4YPMecYy
+         KbtMZ/r7UH445546TfVZJ+AqAS6uv1o0rUQRjp0/hJDPBP8DDsh4OQeRO+/n7AE8PdMC
+         lU296h597pX3E9NA4zOAIT/nh91AApgpJ8PZ7WVqUARi3fNxuFdFSBzmZaIf7uUQzMjG
+         KyeQpfkY6BBQAJBAYFscSv1H1L2TtwzMy5MYvp3gbYH8ICzt3mCgVVAHe423xQWzFAOy
+         /ZF50t0q9ScFQuwJydnZ/QkWJmnRuDyeaV86sAuIuvSdkQ1DsNnHpRtkPFgregcAyLtV
+         YPCw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=BsXmfr1ifUQ41UhHdE4UcJ0WdZy3qnKZ5B3a5yc77No=;
+        b=MCUXUsXKEc42qexwlQjxVYuxyFAPx+OrGcNl+06vcxQy2t/vn/kPk+KA7EFVnC0kgz
+         BEHYB3LzS04krneTN06q/x+VBMeZyKGWLx/1YkJUNagAAFPTBkXcR9KotaK7j+Ncu/m6
+         LELGC+hkgvewANA8jS9f4a+GvAZhZ8tyTWxUd1RDrT78g4xWioZvwOigr63btWxK9Mzo
+         hYq8JU2cfLLoPtnEGVC5JV/ZB7es/hnGmuJOeKlu78KgSlXyIM7ONG6QoiX01XjmWZCA
+         EAsXrkN+le99Bq5H7n8XXFMSFAfsoE2OwTrWoEKXg4FgZ4fWdZhrBg0SQfv8sPOOzlNg
+         7ygg==
+X-Gm-Message-State: AFqh2krbzbXFPk1E1j0fHiNLIkGb8u7+F6eS3Ckupyh8m+FXm1Y8YuDg
+        obhE9tlQNH97BpUvR1unlfb8BsshnRbFyEg=
+X-Google-Smtp-Source: AMrXdXvP1E24J8whqwOIF9HNjZyNh5JvnIjvtTaAn9TMYCM6g1W5fNv9K43sMnQg30YtBIt8WpkaAw==
+X-Received: by 2002:a5d:6411:0:b0:286:3b1b:a620 with SMTP id z17-20020a5d6411000000b002863b1ba620mr26107886wru.3.1673335004382;
+        Mon, 09 Jan 2023 23:16:44 -0800 (PST)
+Received: from images.net ([2001:41d0:2:c72a::])
+        by smtp.gmail.com with ESMTPSA id b2-20020a056000054200b0022584c82c80sm10421823wrf.19.2023.01.09.23.16.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 09 Jan 2023 23:16:43 -0800 (PST)
+From:   Athanasios Oikonomou <athoik@gmail.com>
 To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+Cc:     Athanasios Oikonomou <athoik@gmail.com>,
+        Robert Schlabbach <robert_s@gmx.net>
+Subject: [PATCH] media: dvb: bump DVB API version
+Date:   Tue, 10 Jan 2023 09:14:21 +0200
+Message-Id: <20230110071421.31498-1-athoik@gmail.com>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+Bump the DVB API version in order userspace to be aware of the changes
+recently implemented in enumerations for DVB-S2(X) and DVB-C2.
 
-Results of the daily build of media_tree:
+Related commit: 6508a50fe84f9858e8b59b53dce3847aaeeab744
+media: dvb: add DVB-C2 and DVB-S2X parameter values
 
-date:			Tue Jan 10 03:00:08 CET 2023
-media-tree git hash:	6599e683db1bf22fee74302c47e31b9a42a1c3d2
-media_build git hash:	0fe857b86addf382f6fd383948bd7736a3201403
-v4l-utils git hash:	a114e2eee4ea9cb2a4f940ffe0528e74a75c1d1e
-edid-decode git hash:	e052f5f9fdf74ca11aa1a8edfa62eff8d0aa3d0d
-gcc version:		i686-linux-gcc (GCC) 12.2.0
-sparse repo:            git://git.kernel.org/pub/scm/devel/sparse/sparse.git
-sparse version:		v0.6.4-39-gce1a6720-dirty
-smatch repo:            git://repo.or.cz/smatch.git
-smatch version:		v0.5.0-8217-g40351132-dirty
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: dc83e185adb0d7fab1e388ade12feccc5c9d39f7
-host hardware:		x86_64
-host os:		6.0.0-5-amd64
+Cc: Robert Schlabbach <robert_s@gmx.net>
+Signed-off-by: Athanasios Oikonomou <athoik@gmail.com>
+---
+ include/uapi/linux/dvb/version.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-linux-git-sh: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-powerpc64: OK
-linux-git-mips: OK
-linux-git-arm-multi: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-apps: OK
-spec-git: OK
-virtme: ERRORS: Final Summary: 3080, Succeeded: 3036, Failed: 44, Warnings: 3
-virtme-32: ERRORS: Final Summary: 3193, Succeeded: 3145, Failed: 48, Warnings: 3
-sparse: WARNINGS
-smatch: WARNINGS
-kerneldoc: OK
+diff --git a/include/uapi/linux/dvb/version.h b/include/uapi/linux/dvb/version.h
+index 1a8cd038aa0b..20bc874de321 100644
+--- a/include/uapi/linux/dvb/version.h
++++ b/include/uapi/linux/dvb/version.h
+@@ -10,6 +10,6 @@
+ #define _DVBVERSION_H_
+ 
+ #define DVB_API_VERSION 5
+-#define DVB_API_VERSION_MINOR 11
++#define DVB_API_VERSION_MINOR 12
+ 
+ #endif /*_DVBVERSION_H_*/
+-- 
+2.20.1
 
-Detailed results are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Tuesday.log
-
-Detailed regression test results are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Tuesday-test-media.log
-https://hverkuil.home.xs4all.nl/logs/Tuesday-test-media-32.log
-https://hverkuil.home.xs4all.nl/logs/Tuesday-test-media-dmesg.log
-
-Full logs are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Tuesday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-https://hverkuil.home.xs4all.nl/spec/index.html
