@@ -2,223 +2,134 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 21F35663E22
-	for <lists+linux-media@lfdr.de>; Tue, 10 Jan 2023 11:26:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2C488663EE4
+	for <lists+linux-media@lfdr.de>; Tue, 10 Jan 2023 12:04:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231790AbjAJKZm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 10 Jan 2023 05:25:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52314 "EHLO
+        id S229889AbjAJLEF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 10 Jan 2023 06:04:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46676 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231626AbjAJKZc (ORCPT
+        with ESMTP id S232892AbjAJLD0 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 10 Jan 2023 05:25:32 -0500
-Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com [199.106.114.39])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 35B62BC9;
-        Tue, 10 Jan 2023 02:25:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
-  t=1673346331; x=1704882331;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=xuQM5NfjI6g4UZyWsdHPnxdDryDkyccEF1TnseiyLrw=;
-  b=PL5YRJK+WOrcvQRc9GyfWhr0SXiLbBuS1kQv6TYoA3GmDTcPrOEh3q8V
-   BVRa4CIwUlZsFGRz7aPRlUaiUb7Pj586Cl14j906G+hW0rb8t+XWtKMEq
-   noZCAKX0y7sK54cjUo3bPMQY+Evuy+AgBfN1eoBNnTCn6R8k5YfFJB658
-   o=;
-Received: from unknown (HELO ironmsg-SD-alpha.qualcomm.com) ([10.53.140.30])
-  by alexa-out-sd-02.qualcomm.com with ESMTP; 10 Jan 2023 02:25:30 -0800
-X-QCInternal: smtphost
-Received: from unknown (HELO nasanex01a.na.qualcomm.com) ([10.52.223.231])
-  by ironmsg-SD-alpha.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jan 2023 02:25:18 -0800
-Received: from [10.251.45.37] (10.80.80.8) by nasanex01a.na.qualcomm.com
- (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Tue, 10 Jan
- 2023 02:25:15 -0800
-Message-ID: <57857be9-b90b-4b86-e6fd-c879df2d1000@quicinc.com>
-Date:   Tue, 10 Jan 2023 12:25:12 +0200
+        Tue, 10 Jan 2023 06:03:26 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6166212D30
+        for <linux-media@vger.kernel.org>; Tue, 10 Jan 2023 03:02:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1673348560;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=lTWV3iMaD81pwfEJZyicf42Tlx7DhOJiIaHvcmnaLWs=;
+        b=YKvAp6dAtp+wGprWsgX3XDeW9NXOu++ZIYXsF7qSz04CfjmUQ08i13Ram7OAIsIyRHA7DD
+        ZW0EVqd81cbdf0bIYhUzUyA1A2ClZeU6ho6Rwc4a3vk0ZiBvEmi2nPiyB986HeVJ9xmbFB
+        dBePuteX8dqSN5cT6ErkWYQ9hzJDhqc=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-167-bSPo1Bz_MSOQ6ZoZVB2mRg-1; Tue, 10 Jan 2023 06:02:39 -0500
+X-MC-Unique: bSPo1Bz_MSOQ6ZoZVB2mRg-1
+Received: by mail-ej1-f71.google.com with SMTP id oz11-20020a1709077d8b00b007c0dd8018b6so7517884ejc.17
+        for <linux-media@vger.kernel.org>; Tue, 10 Jan 2023 03:02:39 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=lTWV3iMaD81pwfEJZyicf42Tlx7DhOJiIaHvcmnaLWs=;
+        b=bFNv7vl718IS63ioWxXf3lnpt6LiqKqPQZUGP3H3U+sMOXe43jhoNKltnRN89q9Gb0
+         0oZrPlA08qYdb9lbPRYz0tcrWJ0tkrfhCPxpV8xc88xD8Pks7BMWuHNx1z0iwnIlscfV
+         +tc4cf5qqxMPzodh+21uD667TL3LODpIN1tUQJADRqg8esayBz199YqhrdEiJamdAksb
+         xjBuvXid6+rJ4ZT3kpvKnPsFU/dZJAe+lSYw9gArdo85wxA9RgGZPZqUAN6kFxKXxYd7
+         RGVY2YDXFy8MwEFK9F1AMTlt5RbbDstoS2iVOgJpr2zOtrKgko9aSwMaKmhdDFOHpWXv
+         eeSQ==
+X-Gm-Message-State: AFqh2kqc2ETRL1kV3EXorDjp8ZIdBrKXfK7tUkyKKnTObXCR2nlaHh+F
+        DN35nNRK2JqbUg7cLS1gYfOVWVf25X5HcQZdaMJVAubFN2SWMwjqVa+bqLWqyBbe1Vs0xWDxqOH
+        wC/nkyPZFiQdiq+DoI9JkYT4=
+X-Received: by 2002:a17:906:1410:b0:7bb:7d69:da90 with SMTP id p16-20020a170906141000b007bb7d69da90mr54055975ejc.31.1673348558235;
+        Tue, 10 Jan 2023 03:02:38 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXvzRd5VbzqlkNxSrrkP817SlZx0vErAVSGXRAmaSrLX9FRNypwoAhZuApyAsPCWEz5B2tK2Cw==
+X-Received: by 2002:a17:906:1410:b0:7bb:7d69:da90 with SMTP id p16-20020a170906141000b007bb7d69da90mr54055959ejc.31.1673348558066;
+        Tue, 10 Jan 2023 03:02:38 -0800 (PST)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id e15-20020a056402104f00b004918b6b5e30sm4712397edu.15.2023.01.10.03.02.37
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 10 Jan 2023 03:02:37 -0800 (PST)
+Message-ID: <39c80c05-3fac-6513-c941-7ae91959c88e@redhat.com>
+Date:   Tue, 10 Jan 2023 12:02:36 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.6.0
-Subject: Re: [PATCH v7 0/4] media: camss: sm8250: Virtual channels support for
- SM8250
-Content-Language: en-US
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-CC:     <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <robert.foss@linaro.org>, <akapatra@quicinc.com>,
-        <jzala@quicinc.com>, <todor.too@gmail.com>, <agross@kernel.org>,
-        <konrad.dybcio@somainline.org>, <mchehab@kernel.org>,
-        <bryan.odonoghue@linaro.org>, <cgera@qti.qualcomm.com>,
-        <gchinnab@quicinc.com>, <ayasan@qti.qualcomm.com>
-References: <20221209094037.1148-1-quic_mmitkov@quicinc.com>
- <Y7ovqAqbtKIXV7yN@pendragon.ideasonboard.com>
- <Y7owce0pcZpRsN3m@pendragon.ideasonboard.com>
-From:   "Milen Mitkov (Consultant)" <quic_mmitkov@quicinc.com>
-In-Reply-To: <Y7owce0pcZpRsN3m@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Subject: Re: [PATCH] media: atomisp: fix videobuf2 Kconfig depenendency
+Content-Language: en-US, nl
+To:     Arnd Bergmann <arnd@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Arnd Bergmann <arnd@arndb.de>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
+        Andy Shevchenko <andy@kernel.org>, linux-media@vger.kernel.org,
+        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20230104082212.3770415-1-arnd@kernel.org>
+From:   Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <20230104082212.3770415-1-arnd@kernel.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01a.na.qualcomm.com (10.52.223.231)
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 08/01/2023 04:54, Laurent Pinchart wrote:
-> On Sun, Jan 08, 2023 at 04:51:22AM +0200, Laurent Pinchart wrote:
->> Hi Milen,
->>
->> On Fri, Dec 09, 2022 at 11:40:33AM +0200, quic_mmitkov@quicinc.com wrote:
->>> From: Milen Mitkov <quic_mmitkov@quicinc.com>
->>>
->>> For v7:
->>> - Fix an issue with output state for different versions of the IFE
->>>    hardware (for platforms different from QRB5, e.g. QRB3).
->>>
->>> For v6:
->>> - Fix for a potential race condition in csid
->>> - More detailed description on how to use/test this feature in
->>>    user-space in the last patch.
->>>
->>> For v5:
->>> - Use entity->use_count instead of s_stream subdev call ret code to
->>>    check if another instance of the pipeline is running. Prevents an
->>>    error on 6.1 and up, when stopping one of several simultaneous
->>>    instances.
->>> - flush buffers instead of just returning if the pipeline didn't start.
->>>
->>> For v4:
->>> - fixes the warning reported by the kernel test robot
->>> - tiny code change to enable the vc functionality with the partially-applied
->>>    multistream patches on linux-next (tested on tag:next-20221010)
->>>
->>> For v3:
->>> - setting the sink pad format on the CSID entity will now propagate the
->>>    format to the source pads to keep the subdev in a valid internal state.
->>> - code syntax improvements
->>>
->>> For v2:
->>> - code syntax improvements
->>> - The info print for the enabled VCs was demoted to a dbg print. Can be
->>>    enabled with dynamic debug, e.g.:
->>> echo "file drivers/media/platform/qcom/camss/* +p" > /sys/kernel/debug/dynamic_debug/control
->>>
->>> NOTE: These changes depend on the multistream series, that as of yet
->>> is still not merged upstream. However, part of the
->>> multistream patches are merged in linux-next (tested on
->>> tag:next-20221010), including the patch that introduces the
->>> video_device_pipeline_alloc_start() functionality. This allows
->>> applying and using this series on linux-next without applying the
->>> complete multistream set.
->>>
->>> The CSID hardware on SM8250 can demux the input data stream into
->>> maximum of 4 multiple streams depending on virtual channel (vc)
->>> or data type (dt) configuration.
->>>
->>> Situations in which demuxing is useful:
->>> - HDR sensors that produce a 2-frame HDR output, e.g. a light and a dark frame
->>>    (the setup we used for testing, with the imx412 sensor),
->>>    or a 3-frame HDR output - light, medium-lit, dark frame.
->>> - sensors with additional metadata that is streamed over a different
->>>    virtual channel/datatype.
->>> - sensors that produce frames with multiple resolutions in the same pixel
->>>    data stream
->>>
->>> With these changes, the CSID entity has, as it did previously, a single
->>> sink port (0), and always exposes 4 source ports (1, 2,3, 4). The
->>> virtual channel configuration is determined by which of the source ports
->>> are linked to an output VFE line.
-> Another question, how does this work when demultiplexing different data
-> types for the same virtual channel ?
->
->>> For example, the link below will
->>> configure the CSID driver to enable vc 0 and vc 1:
->>>
->>> media-ctl -l '"msm_csid0":1->"msm_vfe0_rdi0":0[1]'
->>> media-ctl -l '"msm_csid0":2->"msm_vfe0_rdi1":0[1]'
->>>
->>> which will be demuxed and propagated into /dev/video0
->>> and /dev/video1 respectively. With this, the userspace can use
->>> any normal V4L2 client app to start/stop/queue/dequeue from these
->>> video nodes. Tested with the yavta app.
->> I'd like to get a high-level view of the result. Could you provide the
->> media graph with this series applied (both -p and --print-dot) ?
->>
->>> The format of each RDI channel of the used VFE(s) (msm_vfe0_rdi0,
->>> msm_vfe0_rdi1,...) must also be configured explicitly.
->>>
->>> Note that in order to keep a valid internal subdevice state,
->>> setting the sink pad format of the CSID subdevice will propagate
->>> this format to the source pads. However, since the CSID hardware
->>> can demux the input stream into several streams each of which can
->>> be a different format, in that case each source pad's
->>> format must be set individually, e.g.:
->>>
->>> media-ctl -V '"msm_csid0":1[fmt:SRGGB10/3840x2160]'
->>> media-ctl -V '"msm_csid0":2[fmt:SRGGB10/960x540]'
->>>
->>> Milen Mitkov (4):
->>>    media: camss: sm8250: Virtual channels for CSID
->>>    media: camss: vfe: Reserve VFE lines on stream start and link to CSID
->>>    media: camss: vfe-480: Multiple outputs support for SM8250
->>>    media: camss: sm8250: Pipeline starting and stopping for multiple
->>>      virtual channels
->>>
->>>   .../platform/qcom/camss/camss-csid-gen2.c     | 54 ++++++++++------
->>>   .../media/platform/qcom/camss/camss-csid.c    | 44 +++++++++----
->>>   .../media/platform/qcom/camss/camss-csid.h    | 11 +++-
->>>   .../media/platform/qcom/camss/camss-vfe-170.c |  4 +-
->>>   .../media/platform/qcom/camss/camss-vfe-480.c | 61 ++++++++++++-------
->>>   .../platform/qcom/camss/camss-vfe-gen1.c      |  4 +-
->>>   drivers/media/platform/qcom/camss/camss-vfe.c |  1 +
->>>   .../media/platform/qcom/camss/camss-video.c   | 21 ++++++-
->>>   drivers/media/platform/qcom/camss/camss.c     |  2 +-
->>>   9 files changed, 138 insertions(+), 64 deletions(-)
+Hi,
 
-Hi Laurent,
+On 1/4/23 09:21, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
+> 
+> The recent conversion missed the Kconfig bit, so it can now
+> end up in a link error on randconfig builds:
+> 
+> ld.lld: error: undefined symbol: vb2_vmalloc_memops
+>>>> referenced by atomisp_fops.c
+>>>>               drivers/staging/media/atomisp/pci/atomisp_fops.o:(atomisp_open) in archive vmlinux.a
+> 
+> Fixes: cb48ae89be3b ("media: atomisp: Convert to videobuf2")
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 
-Happy New Year!
+Thanks, patch looks good to me:
 
-Would be good if you can help us merge this series in the upcoming merge 
-window. I will answer your 3 questions here.
+Reviewed-by: Hans de Goede <hdegoede@redhat.com>
 
-Q: I'd like to get a high-level view of the result. Could you provide 
-the media graph with this series applied (both -p and --print-dot) ?
+Mauro, can you pick this up and send it to Linus as a 6.1 fix?
 
-A: As I am not sure what is the policy with regards to mail attachments 
-on the kernel mailing lists I've base64 encoded a small archive that has 
-4 different media-ctl dumps: -p before and after media links setup (for 
-2 virtual channels demuxing on CSID0) and --print-dot before and after 
-media links setup. It can be found here:
+Regards,
 
-https://pastes.io/sp0pkgrgfh
-
-Copy/paste the content to a file and: base64 -d <file> | tar -gz
-
-p.s. if there's another way to share files here please mention it :)
+Hans
 
 
-Q: How does this work when demultiplexing different data types for the 
-same virtual channel ?
-
-A: Our open-source customers defined the scope of work and they needed 
-virtual channels demuxing support only. Demuxing via datatype is not 
-supported currently.
 
 
-Q: I was wondering if Qualcomm had a spare RB5 vision development kit 
-that I could use for testing, both for this series, and for future 
-development (including the libcamera side).
 
-A: We have to check internally as there's a limited supply of RB5 
-boards. We'll get back to you.
-
-
-Thanks,
-
-Milen
+> ---
+>  drivers/staging/media/atomisp/Kconfig | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/staging/media/atomisp/Kconfig b/drivers/staging/media/atomisp/Kconfig
+> index 2c8d7fdcc5f7..c9bff98e5309 100644
+> --- a/drivers/staging/media/atomisp/Kconfig
+> +++ b/drivers/staging/media/atomisp/Kconfig
+> @@ -14,7 +14,7 @@ config VIDEO_ATOMISP
+>  	depends on VIDEO_DEV && INTEL_ATOMISP
+>  	depends on PMIC_OPREGION
+>  	select IOSF_MBI
+> -	select VIDEOBUF_VMALLOC
+> +	select VIDEOBUF2_VMALLOC
+>  	select VIDEO_V4L2_SUBDEV_API
+>  	help
+>  	  Say Y here if your platform supports Intel Atom SoC
 
