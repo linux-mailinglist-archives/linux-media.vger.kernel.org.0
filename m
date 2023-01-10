@@ -2,152 +2,111 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EE51B664C7F
-	for <lists+linux-media@lfdr.de>; Tue, 10 Jan 2023 20:31:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4A32A664CCD
+	for <lists+linux-media@lfdr.de>; Tue, 10 Jan 2023 20:53:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231439AbjAJTbY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 10 Jan 2023 14:31:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38446 "EHLO
+        id S232960AbjAJTxt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 10 Jan 2023 14:53:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50500 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229690AbjAJTbV (ORCPT
+        with ESMTP id S232670AbjAJTxp (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 10 Jan 2023 14:31:21 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D47C01EEFC;
-        Tue, 10 Jan 2023 11:31:20 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        Tue, 10 Jan 2023 14:53:45 -0500
+Received: from phobos.denx.de (phobos.denx.de [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C7B2912D06
+        for <linux-media@vger.kernel.org>; Tue, 10 Jan 2023 11:53:44 -0800 (PST)
+Received: from tr.lan (ip-86-49-120-218.bb.vodafone.cz [86.49.120.218])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 71E65618CF;
-        Tue, 10 Jan 2023 19:31:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D0CF5C433EF;
-        Tue, 10 Jan 2023 19:31:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1673379079;
-        bh=YHM7OnD1xkzNBw2hgChz55Fq/+ac89HX2y+1zDcTRUc=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=DXZtYRszJm5fXAKV5wizqXg3VnyyOKnHtfK+0m6E5ajzHb8PHnRmGMGofYljLAHih
-         +mzLtx8PkIq7cDr1RAlmLnsrc5iwT841E1pJ4OlgUSPCaVz1iLLkLaVpsmQPHKk63q
-         /OuIdOTAT+bhyHh3nZw9+gAPMYdBzh3QZ1aPtD1Dh6dZXHXs+E7wBIgRvYRNHpQbdk
-         E5W11a6wugzI9NN+kZLIU7tk2BflJ/gnlGn6TE2MPPdXEroaFIST3JIGTBSPQQ4UKe
-         v9GV3lk6jgvRVPqgKIBTQrfA/hZBl9b7sXItq3BwNLjdMChJ0sTSW51WPJJTlMVZv0
-         8G6AbCSNhwRGQ==
-Message-ID: <b0245b64-a3eb-a242-8824-9effe0c63f0e@kernel.org>
-Date:   Tue, 10 Jan 2023 20:31:13 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH v4 1/6] dt-bindings: media: platform: visconti: Add
- Toshiba Visconti Video Input Interface bindings
-Content-Language: en-US
-To:     Yuji Ishikawa <yuji2.ishikawa@toshiba.co.jp>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
+        (Authenticated sender: marex@denx.de)
+        by phobos.denx.de (Postfix) with ESMTPSA id 4D62C80CB0;
+        Tue, 10 Jan 2023 20:53:42 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+        s=phobos-20191101; t=1673380422;
+        bh=pkq8RXXUt0BEPtVpd5dHqZrWJ4rusDYCUuhOl8p0wvc=;
+        h=From:To:Cc:Subject:Date:From;
+        b=rdFv+WoZvUYmvAZcFDbawGZGLE2CleVhNrsSc3ihfbeb8XOI+pdjFfJTMFAnJXPeQ
+         7KII+CPnvFlc4efhF0LgEiORpXew8LUU2eK3Seb7kpRHT9/i+hB/W+bk9Ac67cDPCe
+         snFnL1hEl04Hhhfuv3lWO1hiH/DMIim+nO+COgtls4fgvIrKtTAqg7tavQOZPR8M2c
+         UxucGmOxA1++ZUw7aAE0SkROghYz0l1STB/fVX9/izAMqZ+kvBru3bNPLmgF/MMgvg
+         AXCI1tkggMz3FUJsbFRfMg6YRaw3kA21u96tFmAFU5X9MyKcSw5rze/+wN08gl3YoG
+         EAD8iOIKGDCVg==
+From:   Marek Vasut <marex@denx.de>
+To:     linux-media@vger.kernel.org
+Cc:     Marek Vasut <marex@denx.de>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>
-Cc:     linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-References: <20230110014143.18684-1-yuji2.ishikawa@toshiba.co.jp>
- <20230110014143.18684-2-yuji2.ishikawa@toshiba.co.jp>
-From:   Krzysztof Kozlowski <krzk@kernel.org>
-In-Reply-To: <20230110014143.18684-2-yuji2.ishikawa@toshiba.co.jp>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        William Manley <will@williammanley.net>
+Subject: [PATCH] media: uvcvideo: Add GUID for BGRA/X 8:8:8:8
+Date:   Tue, 10 Jan 2023 20:53:31 +0100
+Message-Id: <20230110195331.175103-1-marex@denx.de>
+X-Mailer: git-send-email 2.39.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Virus-Scanned: clamav-milter 0.103.6 at phobos.denx.de
+X-Virus-Status: Clean
+X-Spam-Status: No, score=-3.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_PASS,URI_TRY_3LD autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 10/01/2023 02:41, Yuji Ishikawa wrote:
-> Adds the Device Tree binding documentation that allows to describe
-> the Video Input Interface found in Toshiba Visconti SoCs.
-> 
-> Signed-off-by: Yuji Ishikawa <yuji2.ishikawa@toshiba.co.jp>
-> Reviewed-by: Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>
+The Cypress EZUSB FX3 UVC example can be configured to report pixel
+format "e436eb7e-524f-11ce-9f53-0020af0ba770". This is its GUID for
+BGRA/X 8:8:8:8.
 
-Please use scripts/get_maintainers.pl to get a list of necessary people
-and lists to CC.  It might happen, that command when run on an older
-kernel, gives you outdated entries.  Therefore please be sure you base
-your patches on recent Linux kernel.
+The UVC 1.5 spec [1] only defines GUIDs for YUY2, NV12, M420 and I420.
+This seems to be an extension documented in the Microsoft Windows Media
+Format SDK[2]. This Media Format SDK defines this GUID as corresponding
+to `MEDIASUBTYPE_RGB32`.
 
-You missed few of them, so clearly this was not sent correctly.
+Note that in my case, the FX3 UVC can output either channel order,
+BGR or RGB or any other mix for that matter. Since Linux commit
+1b8dc32286a1a ("[media] uvcvideo: Add GUID for BGR 8:8:8")
+defined a GUID for `MEDIASUBTYPE_RGB24` channel order as BGR, keep
+this change consistent and define `MEDIASUBTYPE_RGB32` as BGR as well.
 
+[1]: https://www.usb.org/document-library/video-class-v15-document-set
+[2]: https://learn.microsoft.com/en-us/windows/win32/wmformat/media-type-identifiers
 
-Subject: drop second/last, redundant "bindings". The "dt-bindings"
-prefix is already stating that these are bindings.
+Signed-off-by: Marek Vasut <marex@denx.de>
+---
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: William Manley <will@williammanley.net>
+---
+ include/media/v4l2-uvc.h | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-> ---
-> Changelog v2:
-> - no change
-> 
-> Changelog v3:
-> - no change
-> 
-> Changelog v4:
-> - fix style problems at the v3 patch
-> - remove "index" member
-> - update example
-> ---
->  .../bindings/media/toshiba,visconti-viif.yaml | 98 +++++++++++++++++++
->  1 file changed, 98 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/toshiba,visconti-viif.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/media/toshiba,visconti-viif.yaml b/Documentation/devicetree/bindings/media/toshiba,visconti-viif.yaml
-> new file mode 100644
-> index 00000000000..71442724d1a
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/toshiba,visconti-viif.yaml
-> @@ -0,0 +1,98 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/toshiba,visconti-viif.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Toshiba Visconti5 SoC Video Input Interface Device Tree Bindings
-
-Drop "Device Tree Bindings"
-
-> +
-> +maintainers:
-> +  - Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>
-> +
-> +description:
-> +  Toshiba Visconti5 SoC Video Input Interface (VIIF)
-> +  receives MIPI CSI2 video stream,
-> +  processes the stream with embedded image signal processor (L1ISP, L2ISP),
-> +  then stores pictures to main memory.
-
-Fix wrapping.
-
-> +
-> +properties:
-> +  compatible:
-> +    const: toshiba,visconti-viif
-
-Compatible must be specific. You called your SoC visconti5, didn't you?
-
-> +
-> +  reg:
-> +    items:
-> +      - description: registers for capture control
-> +      - description: registers for CSI2 receiver control
-> +
-> +  interrupts:
-> +    items:
-> +      - description: Sync Interrupt
-> +      - description: Status (Error) Interrupt
-> +      - description: CSI2 Receiver Interrupt
-> +      - description: L1ISP Interrupt
-> +
-
-
-
-Best regards,
-Krzysztof
+diff --git a/include/media/v4l2-uvc.h b/include/media/v4l2-uvc.h
+index f83e31661333b..c10e9086338be 100644
+--- a/include/media/v4l2-uvc.h
++++ b/include/media/v4l2-uvc.h
+@@ -99,6 +99,9 @@
+ #define UVC_GUID_FORMAT_BGR3 \
+ 	{ 0x7d, 0xeb, 0x36, 0xe4, 0x4f, 0x52, 0xce, 0x11, \
+ 	 0x9f, 0x53, 0x00, 0x20, 0xaf, 0x0b, 0xa7, 0x70}
++#define UVC_GUID_FORMAT_BGR4 \
++	{ 0x7e, 0xeb, 0x36, 0xe4, 0x4f, 0x52, 0xce, 0x11, \
++	 0x9f, 0x53, 0x00, 0x20, 0xaf, 0x0b, 0xa7, 0x70}
+ #define UVC_GUID_FORMAT_M420 \
+ 	{ 'M',  '4',  '2',  '0', 0x00, 0x00, 0x10, 0x00, \
+ 	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
+@@ -266,6 +269,11 @@ static struct uvc_format_desc uvc_fmts[] = {
+ 		.guid		= UVC_GUID_FORMAT_BGR3,
+ 		.fcc		= V4L2_PIX_FMT_BGR24,
+ 	},
++	{
++		.name		= "BGRA/X 8:8:8:8 (BGR4)",
++		.guid		= UVC_GUID_FORMAT_BGR4,
++		.fcc		= V4L2_PIX_FMT_BGR32,
++	},
+ 	{
+ 		.name		= "H.264",
+ 		.guid		= UVC_GUID_FORMAT_H264,
+-- 
+2.39.0
 
