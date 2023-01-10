@@ -2,111 +2,109 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4A32A664CCD
-	for <lists+linux-media@lfdr.de>; Tue, 10 Jan 2023 20:53:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 507D7664DF4
+	for <lists+linux-media@lfdr.de>; Tue, 10 Jan 2023 22:21:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232960AbjAJTxt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 10 Jan 2023 14:53:49 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50500 "EHLO
+        id S231481AbjAJVVB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 10 Jan 2023 16:21:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37328 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232670AbjAJTxp (ORCPT
+        with ESMTP id S229707AbjAJVU4 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 10 Jan 2023 14:53:45 -0500
-Received: from phobos.denx.de (phobos.denx.de [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C7B2912D06
-        for <linux-media@vger.kernel.org>; Tue, 10 Jan 2023 11:53:44 -0800 (PST)
-Received: from tr.lan (ip-86-49-120-218.bb.vodafone.cz [86.49.120.218])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-        (No client certificate requested)
-        (Authenticated sender: marex@denx.de)
-        by phobos.denx.de (Postfix) with ESMTPSA id 4D62C80CB0;
-        Tue, 10 Jan 2023 20:53:42 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
-        s=phobos-20191101; t=1673380422;
-        bh=pkq8RXXUt0BEPtVpd5dHqZrWJ4rusDYCUuhOl8p0wvc=;
-        h=From:To:Cc:Subject:Date:From;
-        b=rdFv+WoZvUYmvAZcFDbawGZGLE2CleVhNrsSc3ihfbeb8XOI+pdjFfJTMFAnJXPeQ
-         7KII+CPnvFlc4efhF0LgEiORpXew8LUU2eK3Seb7kpRHT9/i+hB/W+bk9Ac67cDPCe
-         snFnL1hEl04Hhhfuv3lWO1hiH/DMIim+nO+COgtls4fgvIrKtTAqg7tavQOZPR8M2c
-         UxucGmOxA1++ZUw7aAE0SkROghYz0l1STB/fVX9/izAMqZ+kvBru3bNPLmgF/MMgvg
-         AXCI1tkggMz3FUJsbFRfMg6YRaw3kA21u96tFmAFU5X9MyKcSw5rze/+wN08gl3YoG
-         EAD8iOIKGDCVg==
-From:   Marek Vasut <marex@denx.de>
-To:     linux-media@vger.kernel.org
-Cc:     Marek Vasut <marex@denx.de>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        William Manley <will@williammanley.net>
-Subject: [PATCH] media: uvcvideo: Add GUID for BGRA/X 8:8:8:8
-Date:   Tue, 10 Jan 2023 20:53:31 +0100
-Message-Id: <20230110195331.175103-1-marex@denx.de>
-X-Mailer: git-send-email 2.39.0
+        Tue, 10 Jan 2023 16:20:56 -0500
+Received: from mail-yb1-xb33.google.com (mail-yb1-xb33.google.com [IPv6:2607:f8b0:4864:20::b33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E6690DBB
+        for <linux-media@vger.kernel.org>; Tue, 10 Jan 2023 13:20:53 -0800 (PST)
+Received: by mail-yb1-xb33.google.com with SMTP id t15so13141078ybq.4
+        for <linux-media@vger.kernel.org>; Tue, 10 Jan 2023 13:20:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=84KT4Y38nuS6AqrFyQ10BjxIC1+dkLajEGpo0qupIB0=;
+        b=i/6/56Gy833/2gGx1GeT3ZzLw4GAb2tQtNavrOKj4NlxFTVOWLp78X2Ov2cTpKcVsd
+         AhtwTb8zNzs1JHuEhffOCDu9/95KApcUGu3AekwtGQU5lfj9CG3KbESeSgmjAxHkGK2C
+         wsWa8sg2APavwS+OnGEbWnUI035DrjGNUjMbGquCiDbMaehKCoCiSvJorbDeX8NHhAu3
+         FAa4PrPwhQnXLRp9VARVROA2N5OwVsGi865QW3YX/rEGLyaesZe3078I9PnGdlbFLZxR
+         oXcS5AtXHOe8J8ptKKiRRWtMzlKUBsoo/PN4j1C+Emlp+1z/gMmS3LICR+7pfoG4970d
+         e1NQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=84KT4Y38nuS6AqrFyQ10BjxIC1+dkLajEGpo0qupIB0=;
+        b=CP/RlRalk+lbbTCyzT6SJxl7PF+0wm0BydiDDxTso4sxyRvdb1wsmKuVHsQIfljjRI
+         nDUdRBwgBtLd8dCBw22y11cfPLVEJygDAhkxkqroMrP2OicX80wDnAp6v3ZGZntJZXUU
+         t0LjvL/eXqMqbXjHe8HIFL5/Tbor9IkBMzd0WbcY0g6XQbuttTaeX3P4WkzFTz29YA7A
+         l+vXtohuZ7s7xhZCJ9npZWgQgREVysD/K+P2YvyaCirEobjwuEy4y1sZwvKJrKVAUMO/
+         QvGTkkVEYI+k5N0DH/da+YKVIWW2g0yoBf/jRDkmq/3i4suWoi5Itp9jUkRlkh5KcglU
+         VL1A==
+X-Gm-Message-State: AFqh2kolH0M3c6+4VJCOYHnmnI/Ex679uDKJoXFXacCm6fOsigN9eJ6G
+        kfkyM+HPlnB8skLpy5ODimf6P02e/FDGrMYW5hR9Mw==
+X-Google-Smtp-Source: AMrXdXtxQf7auE0xRMOWiMXojs73pb+1H3ND26svrQT5CSOEUgrdcb+PU3bWS05ph908nwkFJn3XixWD2o+uI4W6Tzs=
+X-Received: by 2002:a25:ac8e:0:b0:7c0:d1d:3193 with SMTP id
+ x14-20020a25ac8e000000b007c00d1d3193mr468341ybi.61.1673385653016; Tue, 10 Jan
+ 2023 13:20:53 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Virus-Scanned: clamav-milter 0.103.6 at phobos.denx.de
-X-Virus-Status: Clean
-X-Spam-Status: No, score=-3.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_PASS,URI_TRY_3LD autolearn=ham autolearn_force=no version=3.4.6
+References: <20230109213809.418135-1-tjmercier@google.com> <20230109213809.418135-4-tjmercier@google.com>
+ <20230110014720.281-1-hdanton@sina.com>
+In-Reply-To: <20230110014720.281-1-hdanton@sina.com>
+From:   "T.J. Mercier" <tjmercier@google.com>
+Date:   Tue, 10 Jan 2023 13:20:42 -0800
+Message-ID: <CABdmKX11WP-ijLbU34Y7GG21NtqsCyMVyhnkxMMnL_hG7+TV6g@mail.gmail.com>
+Subject: Re: [PATCH 3/4] binder: Add flags to relinquish ownership of fds
+To:     Hillf Danton <hdanton@sina.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        daniel.vetter@ffwll.ch, Tejun Heo <tj@kernel.org>,
+        linux-media@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The Cypress EZUSB FX3 UVC example can be configured to report pixel
-format "e436eb7e-524f-11ce-9f53-0020af0ba770". This is its GUID for
-BGRA/X 8:8:8:8.
+On Mon, Jan 9, 2023 at 6:07 PM Hillf Danton <hdanton@sina.com> wrote:
+>
+> On 9 Jan 2023 21:38:06 +0000 T.J. Mercier <tjmercier@google.com>
+> >
+> > @@ -2275,6 +2276,26 @@ static int binder_translate_fd(u32 fd, binder_size_t fd_offset,
+> >               goto err_security;
+> >       }
+> >
+> > +     if (IS_ENABLED(CONFIG_MEMCG) && (flags & BINDER_FD_FLAG_XFER_CHARGE)) {
+> > +             struct dma_buf *dmabuf;
+> > +
+> > +             if (unlikely(!is_dma_buf_file(file))) {
+> > +                     binder_user_error(
+> > +                             "%d:%d got transaction with XFER_CHARGE for non-dmabuf fd, %d\n",
+> > +                             proc->pid, thread->pid, fd);
+> > +                     ret = -EINVAL;
+> > +                     goto err_dmabuf;
+> > +             }
+>
+> It barely makes sense to expose is_dma_buf_file() only for this.
+> > +
+> > +             dmabuf = file->private_data;
+> > +             ret = dma_buf_transfer_charge(dmabuf, target_proc->tsk);
+> > +             if (ret) {
+> > +                     pr_warn("%d:%d Unable to transfer DMA-BUF fd charge to %d\n",
+> > +                             proc->pid, thread->pid, target_proc->pid);
+> > +                     goto err_xfer;
+> > +             }
+> > +     }
+> > +
+>
+> This whole hunk should go to dma-buf instead by adding change to
+> dma_buf_transfer_charge() for instance.
 
-The UVC 1.5 spec [1] only defines GUIDs for YUY2, NV12, M420 and I420.
-This seems to be an extension documented in the Microsoft Windows Media
-Format SDK[2]. This Media Format SDK defines this GUID as corresponding
-to `MEDIASUBTYPE_RGB32`.
-
-Note that in my case, the FX3 UVC can output either channel order,
-BGR or RGB or any other mix for that matter. Since Linux commit
-1b8dc32286a1a ("[media] uvcvideo: Add GUID for BGR 8:8:8")
-defined a GUID for `MEDIASUBTYPE_RGB24` channel order as BGR, keep
-this change consistent and define `MEDIASUBTYPE_RGB32` as BGR as well.
-
-[1]: https://www.usb.org/document-library/video-class-v15-document-set
-[2]: https://learn.microsoft.com/en-us/windows/win32/wmformat/media-type-identifiers
-
-Signed-off-by: Marek Vasut <marex@denx.de>
----
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: William Manley <will@williammanley.net>
----
- include/media/v4l2-uvc.h | 8 ++++++++
- 1 file changed, 8 insertions(+)
-
-diff --git a/include/media/v4l2-uvc.h b/include/media/v4l2-uvc.h
-index f83e31661333b..c10e9086338be 100644
---- a/include/media/v4l2-uvc.h
-+++ b/include/media/v4l2-uvc.h
-@@ -99,6 +99,9 @@
- #define UVC_GUID_FORMAT_BGR3 \
- 	{ 0x7d, 0xeb, 0x36, 0xe4, 0x4f, 0x52, 0xce, 0x11, \
- 	 0x9f, 0x53, 0x00, 0x20, 0xaf, 0x0b, 0xa7, 0x70}
-+#define UVC_GUID_FORMAT_BGR4 \
-+	{ 0x7e, 0xeb, 0x36, 0xe4, 0x4f, 0x52, 0xce, 0x11, \
-+	 0x9f, 0x53, 0x00, 0x20, 0xaf, 0x0b, 0xa7, 0x70}
- #define UVC_GUID_FORMAT_M420 \
- 	{ 'M',  '4',  '2',  '0', 0x00, 0x00, 0x10, 0x00, \
- 	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
-@@ -266,6 +269,11 @@ static struct uvc_format_desc uvc_fmts[] = {
- 		.guid		= UVC_GUID_FORMAT_BGR3,
- 		.fcc		= V4L2_PIX_FMT_BGR24,
- 	},
-+	{
-+		.name		= "BGRA/X 8:8:8:8 (BGR4)",
-+		.guid		= UVC_GUID_FORMAT_BGR4,
-+		.fcc		= V4L2_PIX_FMT_BGR32,
-+	},
- 	{
- 		.name		= "H.264",
- 		.guid		= UVC_GUID_FORMAT_H264,
--- 
-2.39.0
-
+Fair enough, will change this for v2. I think we'd still want to
+distinguish between the two failure modes for logging purposes, so
+I'll use the return value of dma_buf_transfer_charge to do that.
