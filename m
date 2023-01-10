@@ -2,124 +2,92 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 778166646E4
-	for <lists+linux-media@lfdr.de>; Tue, 10 Jan 2023 18:01:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3F7806649F6
+	for <lists+linux-media@lfdr.de>; Tue, 10 Jan 2023 19:29:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234379AbjAJRBL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 10 Jan 2023 12:01:11 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39986 "EHLO
+        id S235193AbjAJS25 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 10 Jan 2023 13:28:57 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42318 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233674AbjAJRBJ (ORCPT
+        with ESMTP id S239415AbjAJS2b (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 10 Jan 2023 12:01:09 -0500
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7DBF76302;
-        Tue, 10 Jan 2023 09:01:04 -0800 (PST)
-Received: from [192.168.0.192] (unknown [194.146.248.75])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits))
+        Tue, 10 Jan 2023 13:28:31 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BBE6785C89;
+        Tue, 10 Jan 2023 10:24:13 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        (Authenticated sender: andrzej.p)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id B644C6602D2A;
-        Tue, 10 Jan 2023 17:01:02 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1673370062;
-        bh=HrdE2o6CJtMLfe6kBvN/SET4X3fpGFmG4oO76QwkFQg=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=mQaRAIgSqCYn60wLEk2Oxjna89BtnbObavyXDy3q0iN071F/S1YMSr10SQSL1PXKH
-         vUNFSYKyPS3RbsdnIYd3Z4y2yAqQVYBr5tNiEXIW/xxh8xjy/kaYrMiA89O8aWxUrG
-         lsKlVYMPautNjM5J6yR0uPgu2xWPTMja2LrGMfsG/p7nBLaIkSfMq1qJKKNIgpilND
-         8E8JJGdfZ/TWSMULeNtJl3unGD77Hp77xGLTzzquDiGnG+AlgVVkSHRNy3LGKQiTu6
-         n8Onz+7WNfAtp9jyoHfgG/y9sETqGmgAEI7O+R4cOwNEPsFEaKB/ByBh2lApT818Wl
-         EdWZGKkUewG4w==
-Message-ID: <a440a001-e9d8-ff8a-32c0-68df328d1c89@collabora.com>
-Date:   Tue, 10 Jan 2023 18:01:00 +0100
+        by ams.source.kernel.org (Postfix) with ESMTPS id 6D9F8B81903;
+        Tue, 10 Jan 2023 18:24:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 65F39C433D2;
+        Tue, 10 Jan 2023 18:24:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1673375051;
+        bh=5vqMnOjPB/EzvYDjxxL+uagrVqeIhA4cDaoRhifpY2Y=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=FF+BctLHB/64TNC1oOMfGhC9C2xnciTPJrcU6Q/1GK+GOTjGWxzNfRtRMTFg8sYeC
+         czPqucOPtNOAiTiLytTsqjlfEfIlmEKC9Ts6PnE5duonV1SGR/3DQx5WRUh7ASZhPx
+         H4SCTa1FKLXjQHlxXEMD+660IFXMC7DF9kX1A+ZA=
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     stable@vger.kernel.org
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        patches@lists.linux.dev,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, "Jason A. Donenfeld" <Jason@zx2c4.com>
+Subject: [PATCH 5.15 060/290] media: stv0288: use explicitly signed char
+Date:   Tue, 10 Jan 2023 19:02:32 +0100
+Message-Id: <20230110180033.702470964@linuxfoundation.org>
+X-Mailer: git-send-email 2.39.0
+In-Reply-To: <20230110180031.620810905@linuxfoundation.org>
+References: <20230110180031.620810905@linuxfoundation.org>
+User-Agent: quilt/0.67
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH] pr_info("I changed uvcvideo driver in the Linux
- Kernel\n");
-Content-Language: en-US
-To:     Xiaxi Shen <shenxiaxi26@gmail.com>
-Cc:     laurent.pinchart@ideasonboard.com, mchehab@kernel.org,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20221230034634.7809-1-shenxiaxi26@gmail.com>
- <49d1dece-cb90-23f3-977e-98905b1a0abc@collabora.com>
- <CABtBSabksqweaDjhSVEaETYtCoQCVE1stPN7wwJr=eLPEU3X2w@mail.gmail.com>
-From:   Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-In-Reply-To: <CABtBSabksqweaDjhSVEaETYtCoQCVE1stPN7wwJr=eLPEU3X2w@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_SBL_CSS,
-        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Level: *
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+From: Jason A. Donenfeld <Jason@zx2c4.com>
 
-W dniu 10.01.2023 o 00:39, Xiaxi Shen pisze:
-> Hi Andrzej,
-> 
-> Thanks for your advice.
-> It is my first time to send a patch, I will definitely check my explanation 
-> according to relevant guidelines before my future submission
+commit 7392134428c92a4cb541bd5c8f4f5c8d2e88364d upstream.
 
-I recommend reading:
+With char becoming unsigned by default, and with `char` alone being
+ambiguous and based on architecture, signed chars need to be marked
+explicitly as such. Use `s8` and `u8` types here, since that's what
+surrounding code does. This fixes:
 
-Documentation/process/*.
+drivers/media/dvb-frontends/stv0288.c:471 stv0288_set_frontend() warn: assigning (-9) to unsigned variable 'tm'
+drivers/media/dvb-frontends/stv0288.c:471 stv0288_set_frontend() warn: we never enter this loop
 
-Regards,
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org
+Cc: stable@vger.kernel.org
+Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+---
+ drivers/media/dvb-frontends/stv0288.c |    5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-Andrzej
+--- a/drivers/media/dvb-frontends/stv0288.c
++++ b/drivers/media/dvb-frontends/stv0288.c
+@@ -440,9 +440,8 @@ static int stv0288_set_frontend(struct d
+ 	struct stv0288_state *state = fe->demodulator_priv;
+ 	struct dtv_frontend_properties *c = &fe->dtv_property_cache;
+ 
+-	char tm;
+-	unsigned char tda[3];
+-	u8 reg, time_out = 0;
++	u8 tda[3], reg, time_out = 0;
++	s8 tm;
+ 
+ 	dprintk("%s : FE_SET_FRONTEND\n", __func__);
+ 
 
-> 
-> Yours sincerely,
-> Xiaxi Shen
-> 
-> Andrzej Pietrasiewicz <andrzej.p@collabora.com <mailto:andrzej.p@collabora.com>> 
-> 于2023年1月9日周一 08:14写道：
-> 
->     Hello XiaxiShen,
-> 
->       From Documentation/process/researcher-guidelines.rst:
-> 
->     "The Linux kernel community expects that everyone interacting with the
->     project is participating in good faith to make Linux better."
-> 
->     Please explain how your patch will make Linux better. "I added a pr_info()
->     which emits information unrelated to work of the driver" is not enough of an
->     explanation.
-> 
->     Failing to do so and to adhere to the expectation quoted above
->     you risk any patches to the kernel submitted by you being disregarded.
-> 
->     Andrzej
-> 
->     W dniu 30.12.2022 o 04:46, XiaxiShen pisze:
->      > Signed-off-by: XiaxiShen <shenxiaxi26@gmail.com
->     <mailto:shenxiaxi26@gmail.com>>
->      > ---
->      >   drivers/media/usb/uvc/uvc_driver.c | 2 ++
->      >   1 file changed, 2 insertions(+)
->      >
->      > diff --git a/drivers/media/usb/uvc/uvc_driver.c
->     b/drivers/media/usb/uvc/uvc_driver.c
->      > index e4bcb5011360..60778a5a2b4e 100644
->      > --- a/drivers/media/usb/uvc/uvc_driver.c
->      > +++ b/drivers/media/usb/uvc/uvc_driver.c
->      > @@ -2082,6 +2082,8 @@ static int uvc_probe(struct usb_interface *intf,
->      >               (const struct uvc_device_info *)id->driver_info;
->      >       int function;
->      >       int ret;
->      > +     pr_info("I changed uvcvideo driver in the Linux Kernel\n");
->      > +
->      >
->      >       /* Allocate memory for the device and initialize it. */
->      >       dev = kzalloc(sizeof(*dev), GFP_KERNEL);
-> 
 
