@@ -2,97 +2,94 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E06ED66370F
-	for <lists+linux-media@lfdr.de>; Tue, 10 Jan 2023 03:05:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C7C7A66380A
+	for <lists+linux-media@lfdr.de>; Tue, 10 Jan 2023 05:15:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230063AbjAJCF2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 9 Jan 2023 21:05:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41676 "EHLO
+        id S229600AbjAJEPo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 9 Jan 2023 23:15:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32828 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229871AbjAJCF1 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 9 Jan 2023 21:05:27 -0500
-Received: from mo-csw-fb.securemx.jp (mo-csw-fb1116.securemx.jp [210.130.202.175])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF6AE19282;
-        Mon,  9 Jan 2023 18:05:26 -0800 (PST)
-Received: by mo-csw-fb.securemx.jp (mx-mo-csw-fb1116) id 30A1lc5m012349; Tue, 10 Jan 2023 10:47:38 +0900
-Received: by mo-csw.securemx.jp (mx-mo-csw1116) id 30A1l79l024492; Tue, 10 Jan 2023 10:47:07 +0900
-X-Iguazu-Qid: 2wGr5g72QFywIxOWl1
-X-Iguazu-QSIG: v=2; s=0; t=1673315226; q=2wGr5g72QFywIxOWl1; m=XRaq7Z66F2+9OgIBWwjmpCJqGHKS1gM3LBz9yal2G8k=
-Received: from imx12-a.toshiba.co.jp ([38.106.60.135])
-        by relay.securemx.jp (mx-mr1112) id 30A1l576017317
-        (version=TLSv1.2 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-        Tue, 10 Jan 2023 10:47:05 +0900
-X-SA-MID: 48793552
-From:   Yuji Ishikawa <yuji2.ishikawa@toshiba.co.jp>
-To:     Hans Verkuil <hverkuil@xs4all.nl>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>
-Cc:     linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        yuji2.ishikawa@toshiba.co.jp
-Subject: [PATCH v4 6/6] MAINTAINERS: Add entries for Toshiba Visconti Video Input Interface
-Date:   Tue, 10 Jan 2023 10:41:43 +0900
-X-TSB-HOP2: ON
-Message-Id: <20230110014143.18684-7-yuji2.ishikawa@toshiba.co.jp>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20230110014143.18684-1-yuji2.ishikawa@toshiba.co.jp>
-References: <20230110014143.18684-1-yuji2.ishikawa@toshiba.co.jp>
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        with ESMTP id S229560AbjAJEPm (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 9 Jan 2023 23:15:42 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 217C5DF36
+        for <linux-media@vger.kernel.org>; Mon,  9 Jan 2023 20:15:40 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id C5279B810F1
+        for <linux-media@vger.kernel.org>; Tue, 10 Jan 2023 04:15:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 25376C433F0
+        for <linux-media@vger.kernel.org>; Tue, 10 Jan 2023 04:15:36 +0000 (UTC)
+Date:   Tue, 10 Jan 2023 05:15:35 +0100
+Message-ID: <a1476f3551b61f63b6804a3910af40c8.hverkuil@xs4all.nl>
+From:   "Hans Verkuil" <hverkuil-cisco@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Added entries for visconti Video Input Interface driver, including;
-* device tree bindings
-* source files
-* documentation files
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-Signed-off-by: Yuji Ishikawa <yuji2.ishikawa@toshiba.co.jp>
----
-Changelog v2:
-- no change
+Results of the daily build of media_tree:
 
-Changelog v3:
-- added entry for driver API documentation
+date:			Tue Jan 10 03:00:08 CET 2023
+media-tree git hash:	6599e683db1bf22fee74302c47e31b9a42a1c3d2
+media_build git hash:	0fe857b86addf382f6fd383948bd7736a3201403
+v4l-utils git hash:	a114e2eee4ea9cb2a4f940ffe0528e74a75c1d1e
+edid-decode git hash:	e052f5f9fdf74ca11aa1a8edfa62eff8d0aa3d0d
+gcc version:		i686-linux-gcc (GCC) 12.2.0
+sparse repo:            git://git.kernel.org/pub/scm/devel/sparse/sparse.git
+sparse version:		v0.6.4-39-gce1a6720-dirty
+smatch repo:            git://repo.or.cz/smatch.git
+smatch version:		v0.5.0-8217-g40351132-dirty
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: dc83e185adb0d7fab1e388ade12feccc5c9d39f7
+host hardware:		x86_64
+host os:		6.0.0-5-amd64
 
-Changelog v4:
-- added entry for header file 
----
- MAINTAINERS | 4 ++++
- 1 file changed, 4 insertions(+)
+linux-git-sh: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-powerpc64: OK
+linux-git-mips: OK
+linux-git-arm-multi: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+apps: OK
+spec-git: OK
+virtme: ERRORS: Final Summary: 3080, Succeeded: 3036, Failed: 44, Warnings: 3
+virtme-32: ERRORS: Final Summary: 3193, Succeeded: 3145, Failed: 48, Warnings: 3
+sparse: WARNINGS
+smatch: WARNINGS
+kerneldoc: OK
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 886d3f69ee6..e83ec3af09e 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -3014,18 +3014,22 @@ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/iwamatsu/linux-visconti.git
- F:	Documentation/devicetree/bindings/arm/toshiba.yaml
- F:	Documentation/devicetree/bindings/clock/toshiba,tmpv770x-pipllct.yaml
- F:	Documentation/devicetree/bindings/clock/toshiba,tmpv770x-pismu.yaml
-+F:	Documentation/devicetree/bindings/media/toshiba,visconti-viif.yaml
- F:	Documentation/devicetree/bindings/net/toshiba,visconti-dwmac.yaml
- F:	Documentation/devicetree/bindings/gpio/toshiba,gpio-visconti.yaml
- F:	Documentation/devicetree/bindings/pci/toshiba,visconti-pcie.yaml
- F:	Documentation/devicetree/bindings/pinctrl/toshiba,visconti-pinctrl.yaml
- F:	Documentation/devicetree/bindings/watchdog/toshiba,visconti-wdt.yaml
-+F:	Documentation/driver-api/media/drivers/visconti-viif.rst
- F:	arch/arm64/boot/dts/toshiba/
- F:	drivers/clk/visconti/
-+F:	drivers/media/platform/visconti/
- F:	drivers/net/ethernet/stmicro/stmmac/dwmac-visconti.c
- F:	drivers/gpio/gpio-visconti.c
- F:	drivers/pci/controller/dwc/pcie-visconti.c
- F:	drivers/pinctrl/visconti/
- F:	drivers/watchdog/visconti_wdt.c
-+F:	include/uapi/linux/visconti_viif.h
- N:	visconti
- 
- ARM/UNIPHIER ARCHITECTURE
--- 
-2.25.1
+Detailed results are available here:
 
+https://hverkuil.home.xs4all.nl/logs/Tuesday.log
 
+Detailed regression test results are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Tuesday-test-media.log
+https://hverkuil.home.xs4all.nl/logs/Tuesday-test-media-32.log
+https://hverkuil.home.xs4all.nl/logs/Tuesday-test-media-dmesg.log
+
+Full logs are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Tuesday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+https://hverkuil.home.xs4all.nl/spec/index.html
