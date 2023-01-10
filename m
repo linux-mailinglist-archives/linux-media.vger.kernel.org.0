@@ -2,68 +2,92 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 507D7664DF4
-	for <lists+linux-media@lfdr.de>; Tue, 10 Jan 2023 22:21:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B6E62664E46
+	for <lists+linux-media@lfdr.de>; Tue, 10 Jan 2023 22:48:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231481AbjAJVVB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 10 Jan 2023 16:21:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37328 "EHLO
+        id S233061AbjAJVsw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 10 Jan 2023 16:48:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50930 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229707AbjAJVU4 (ORCPT
+        with ESMTP id S231808AbjAJVsp (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 10 Jan 2023 16:20:56 -0500
-Received: from mail-yb1-xb33.google.com (mail-yb1-xb33.google.com [IPv6:2607:f8b0:4864:20::b33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E6690DBB
-        for <linux-media@vger.kernel.org>; Tue, 10 Jan 2023 13:20:53 -0800 (PST)
-Received: by mail-yb1-xb33.google.com with SMTP id t15so13141078ybq.4
-        for <linux-media@vger.kernel.org>; Tue, 10 Jan 2023 13:20:53 -0800 (PST)
+        Tue, 10 Jan 2023 16:48:45 -0500
+Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com [IPv6:2a00:1450:4864:20::635])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9AB375BA1E;
+        Tue, 10 Jan 2023 13:48:44 -0800 (PST)
+Received: by mail-ej1-x635.google.com with SMTP id tz12so32191236ejc.9;
+        Tue, 10 Jan 2023 13:48:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
+        d=googlemail.com; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=84KT4Y38nuS6AqrFyQ10BjxIC1+dkLajEGpo0qupIB0=;
-        b=i/6/56Gy833/2gGx1GeT3ZzLw4GAb2tQtNavrOKj4NlxFTVOWLp78X2Ov2cTpKcVsd
-         AhtwTb8zNzs1JHuEhffOCDu9/95KApcUGu3AekwtGQU5lfj9CG3KbESeSgmjAxHkGK2C
-         wsWa8sg2APavwS+OnGEbWnUI035DrjGNUjMbGquCiDbMaehKCoCiSvJorbDeX8NHhAu3
-         FAa4PrPwhQnXLRp9VARVROA2N5OwVsGi865QW3YX/rEGLyaesZe3078I9PnGdlbFLZxR
-         oXcS5AtXHOe8J8ptKKiRRWtMzlKUBsoo/PN4j1C+Emlp+1z/gMmS3LICR+7pfoG4970d
-         e1NQ==
+        bh=M3b2Vz7EFrY4ZoAZ7zhZDOrT9y3BFK6sS3AzbYrmCT4=;
+        b=SbL0sV3pbNJK6Bfyz2VD6czCXh94iQNaxKjXTjpArf+vHkqL2nrS4tK4IMhXZLfjob
+         c09q+NtJP7jTDEHqrpo4z+vxiPked3kTWBAamhe6hgWly3pGWP1K2kIFb6xFE1EMHHuA
+         W7zBN02N/9NXq5XxJ/cNLh3c3H5r4KcNP2TGEaQlZGQMQVMYxos6BKl4aN9W3LHnQDlo
+         uGtcnMyr0/OMndxB8218GOxLOCJBH6euzCMpEExz1HDoJNY47/pGCsIUK7g0mauCBUMm
+         nVxzqMQVGuqTMbJEYrlXPc7O60AVGYgvu35Ga9sqHDSFK9Pb5q0iDpNSZZ8SpIE1m8RL
+         PTXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=84KT4Y38nuS6AqrFyQ10BjxIC1+dkLajEGpo0qupIB0=;
-        b=CP/RlRalk+lbbTCyzT6SJxl7PF+0wm0BydiDDxTso4sxyRvdb1wsmKuVHsQIfljjRI
-         nDUdRBwgBtLd8dCBw22y11cfPLVEJygDAhkxkqroMrP2OicX80wDnAp6v3ZGZntJZXUU
-         t0LjvL/eXqMqbXjHe8HIFL5/Tbor9IkBMzd0WbcY0g6XQbuttTaeX3P4WkzFTz29YA7A
-         l+vXtohuZ7s7xhZCJ9npZWgQgREVysD/K+P2YvyaCirEobjwuEy4y1sZwvKJrKVAUMO/
-         QvGTkkVEYI+k5N0DH/da+YKVIWW2g0yoBf/jRDkmq/3i4suWoi5Itp9jUkRlkh5KcglU
-         VL1A==
-X-Gm-Message-State: AFqh2kolH0M3c6+4VJCOYHnmnI/Ex679uDKJoXFXacCm6fOsigN9eJ6G
-        kfkyM+HPlnB8skLpy5ODimf6P02e/FDGrMYW5hR9Mw==
-X-Google-Smtp-Source: AMrXdXtxQf7auE0xRMOWiMXojs73pb+1H3ND26svrQT5CSOEUgrdcb+PU3bWS05ph908nwkFJn3XixWD2o+uI4W6Tzs=
-X-Received: by 2002:a25:ac8e:0:b0:7c0:d1d:3193 with SMTP id
- x14-20020a25ac8e000000b007c00d1d3193mr468341ybi.61.1673385653016; Tue, 10 Jan
- 2023 13:20:53 -0800 (PST)
+        bh=M3b2Vz7EFrY4ZoAZ7zhZDOrT9y3BFK6sS3AzbYrmCT4=;
+        b=fUMh71S66H28vZIRLr3XOsfl1hUdLK7jQExEefa90/maNxxcnsg2umxkOUy/n5GtD3
+         M3dRv879gscuiH4j6nhIYW++efFY1fCE4Gj3Uf2emGU4STYvRHtKsWFslsvIKkP64XfM
+         r1gTin2au4hefq7I4f5s6f8VvKF4jWcKuONuJhEbAaileqdfkHEMdN21nAKKTXbAya9P
+         qjoXWdRC5lcdJG2m68XBUcOSOqRqabBtDftf6+oTAaHa7HQHy1ioAOKXAhv0adtgcHd5
+         aiDGTPdzmaYmSDRH2Iwn+eUfOUGjbCgySiG2AuYbTktJS2fei65EZg45jFlybi2SDDye
+         /znA==
+X-Gm-Message-State: AFqh2kp/8mKR5J4tw7pIM86QkCUZqYig3J+qakrqBK7wPpYieKmBRHpL
+        2NUTJx63O+mZ8AUXka7KKgeTrHFUhVJKIsonF+w=
+X-Google-Smtp-Source: AMrXdXvZWTCfsyyAyIXqF03H40iDiOq0blSYlASCBEmUrGVmKB7QN5KAlN7UDroP7DZCIIDm9TmpeUqouJfNZE/s2tk=
+X-Received: by 2002:a17:906:e4f:b0:7c0:ae1c:3eb7 with SMTP id
+ q15-20020a1709060e4f00b007c0ae1c3eb7mr4388606eji.510.1673387322980; Tue, 10
+ Jan 2023 13:48:42 -0800 (PST)
 MIME-Version: 1.0
-References: <20230109213809.418135-1-tjmercier@google.com> <20230109213809.418135-4-tjmercier@google.com>
- <20230110014720.281-1-hdanton@sina.com>
-In-Reply-To: <20230110014720.281-1-hdanton@sina.com>
-From:   "T.J. Mercier" <tjmercier@google.com>
-Date:   Tue, 10 Jan 2023 13:20:42 -0800
-Message-ID: <CABdmKX11WP-ijLbU34Y7GG21NtqsCyMVyhnkxMMnL_hG7+TV6g@mail.gmail.com>
-Subject: Re: [PATCH 3/4] binder: Add flags to relinquish ownership of fds
-To:     Hillf Danton <hdanton@sina.com>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        daniel.vetter@ffwll.ch, Tejun Heo <tj@kernel.org>,
-        linux-media@vger.kernel.org
+References: <20221117-b4-amlogic-bindings-convert-v2-0-36ad050bb625@linaro.org>
+ <20221117-b4-amlogic-bindings-convert-v2-4-36ad050bb625@linaro.org>
+In-Reply-To: <20221117-b4-amlogic-bindings-convert-v2-4-36ad050bb625@linaro.org>
+From:   Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+Date:   Tue, 10 Jan 2023 22:48:32 +0100
+Message-ID: <CAFBinCDd1MJEmSHR1XPsfBoRasBq+cV1F+66sCBXALtCCmoyUA@mail.gmail.com>
+Subject: Re: [PATCH v2 04/11] dt-bindings: watchdog: convert meson-wdt.txt to dt-schema
+To:     Neil Armstrong <neil.armstrong@linaro.org>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Jerome Brunet <jbrunet@baylibre.com>,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Alessandro Zummo <a.zummo@towertech.it>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Vinod Koul <vkoul@kernel.org>,
+        Kishon Vijay Abraham I <kishon@kernel.org>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>, Andrew Lunn <andrew@lunn.ch>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Russell King <linux@armlinux.org.uk>,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-amlogic@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-watchdog@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-rtc@vger.kernel.org, linux-phy@lists.infradead.org,
+        linux-mmc@vger.kernel.org, linux-pci@vger.kernel.org,
+        netdev@vger.kernel.org,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=ham
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -71,40 +95,30 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Jan 9, 2023 at 6:07 PM Hillf Danton <hdanton@sina.com> wrote:
->
-> On 9 Jan 2023 21:38:06 +0000 T.J. Mercier <tjmercier@google.com>
-> >
-> > @@ -2275,6 +2276,26 @@ static int binder_translate_fd(u32 fd, binder_size_t fd_offset,
-> >               goto err_security;
-> >       }
-> >
-> > +     if (IS_ENABLED(CONFIG_MEMCG) && (flags & BINDER_FD_FLAG_XFER_CHARGE)) {
-> > +             struct dma_buf *dmabuf;
-> > +
-> > +             if (unlikely(!is_dma_buf_file(file))) {
-> > +                     binder_user_error(
-> > +                             "%d:%d got transaction with XFER_CHARGE for non-dmabuf fd, %d\n",
-> > +                             proc->pid, thread->pid, fd);
-> > +                     ret = -EINVAL;
-> > +                     goto err_dmabuf;
-> > +             }
->
-> It barely makes sense to expose is_dma_buf_file() only for this.
-> > +
-> > +             dmabuf = file->private_data;
-> > +             ret = dma_buf_transfer_charge(dmabuf, target_proc->tsk);
-> > +             if (ret) {
-> > +                     pr_warn("%d:%d Unable to transfer DMA-BUF fd charge to %d\n",
-> > +                             proc->pid, thread->pid, target_proc->pid);
-> > +                     goto err_xfer;
-> > +             }
-> > +     }
-> > +
->
-> This whole hunk should go to dma-buf instead by adding change to
-> dma_buf_transfer_charge() for instance.
+Hi Neil,
 
-Fair enough, will change this for v2. I think we'd still want to
-distinguish between the two failure modes for logging purposes, so
-I'll use the return value of dma_buf_transfer_charge to do that.
+On Mon, Jan 9, 2023 at 1:53 PM Neil Armstrong <neil.armstrong@linaro.org> wrote:
+[...]
+> +  compatible:
+> +    oneOf:
+> +      - enum:
+> +          - amlogic,meson6-wdt
+> +          - amlogic,meson8-wdt
+Technically this is not an identical representation of what we had
+before which was:
+-       "amlogic,meson8-wdt" and "amlogic,meson6-wdt" on Meson8 SoCs
+
+We're not using the "amlogic,meson8-wdt" compatible anywhere at the moment.
+In the meson_wdt driver it's defined with the same per-SoC data as
+"amlogic,meson6-wdt".
+
+Long story short: In my opinion there's no need to change what you
+have right now.
+If you have to re-spin this then maybe you can add a note to the patch
+description.
+Please add my:
+Reviewed-by: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+
+
+Best regards,
+Martin
