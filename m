@@ -2,33 +2,33 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 549D3665970
-	for <lists+linux-media@lfdr.de>; Wed, 11 Jan 2023 11:53:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A5D2B66596B
+	for <lists+linux-media@lfdr.de>; Wed, 11 Jan 2023 11:53:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232511AbjAKKxW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 11 Jan 2023 05:53:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37182 "EHLO
+        id S231998AbjAKKxR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 11 Jan 2023 05:53:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37194 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238611AbjAKKxL (ORCPT
+        with ESMTP id S238622AbjAKKxM (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 11 Jan 2023 05:53:11 -0500
+        Wed, 11 Jan 2023 05:53:12 -0500
 Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE6A1101D
-        for <linux-media@vger.kernel.org>; Wed, 11 Jan 2023 02:53:07 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 29307200E
+        for <linux-media@vger.kernel.org>; Wed, 11 Jan 2023 02:53:09 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 37268B81BB1
-        for <linux-media@vger.kernel.org>; Wed, 11 Jan 2023 10:53:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 31CD7C433EF;
-        Wed, 11 Jan 2023 10:53:04 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 76ED9B81BB2
+        for <linux-media@vger.kernel.org>; Wed, 11 Jan 2023 10:53:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 59B28C433F0;
+        Wed, 11 Jan 2023 10:53:05 +0000 (UTC)
 From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
 To:     linux-media@vger.kernel.org
 Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: [PATCH 03/13] fsl-viu: remove deprecated driver
-Date:   Wed, 11 Jan 2023 11:52:48 +0100
-Message-Id: <20230111105258.547471-4-hverkuil-cisco@xs4all.nl>
+Subject: [PATCH 04/13] stkwebcam: remove deprecated driver
+Date:   Wed, 11 Jan 2023 11:52:49 +0100
+Message-Id: <20230111105258.547471-5-hverkuil-cisco@xs4all.nl>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230111105258.547471-1-hverkuil-cisco@xs4all.nl>
 References: <20230111105258.547471-1-hverkuil-cisco@xs4all.nl>
@@ -43,1711 +43,2296 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The fsl-viu driver does not use the vb2 framework for streaming
-video, instead it uses the old vb1 framework and nobody stepped in to
-convert this driver to vb2.
+The stkwebcam driver does not use the vb2 framework for streaming
+video, instead it implements this in the driver. This is error prone,
+and nobody stepped in to convert this driver to that framework.
 
 The hardware is very old, so the decision was made to remove it
-altogether since we want to get rid of the old vb1 framework.
+altogether.
 
 Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 ---
- .../admin-guide/media/platform-cardlist.rst   |    1 -
+ .../admin-guide/media/other-usb-cardlist.rst  |    1 -
+ .../admin-guide/media/usb-cardlist.rst        |    1 -
  drivers/staging/media/Kconfig                 |    1 -
  drivers/staging/media/Makefile                |    1 -
- .../staging/media/deprecated/fsl-viu/Kconfig  |   15 -
- .../staging/media/deprecated/fsl-viu/Makefile |    2 -
- drivers/staging/media/deprecated/fsl-viu/TODO |    7 -
- .../media/deprecated/fsl-viu/fsl-viu.c        | 1599 -----------------
- 7 files changed, 1626 deletions(-)
- delete mode 100644 drivers/staging/media/deprecated/fsl-viu/Kconfig
- delete mode 100644 drivers/staging/media/deprecated/fsl-viu/Makefile
- delete mode 100644 drivers/staging/media/deprecated/fsl-viu/TODO
- delete mode 100644 drivers/staging/media/deprecated/fsl-viu/fsl-viu.c
+ .../media/deprecated/stkwebcam/Kconfig        |   18 -
+ .../media/deprecated/stkwebcam/Makefile       |    5 -
+ .../staging/media/deprecated/stkwebcam/TODO   |   12 -
+ .../media/deprecated/stkwebcam/stk-sensor.c   |  587 -------
+ .../media/deprecated/stkwebcam/stk-webcam.c   | 1434 -----------------
+ .../media/deprecated/stkwebcam/stk-webcam.h   |  123 --
+ 10 files changed, 2183 deletions(-)
+ delete mode 100644 drivers/staging/media/deprecated/stkwebcam/Kconfig
+ delete mode 100644 drivers/staging/media/deprecated/stkwebcam/Makefile
+ delete mode 100644 drivers/staging/media/deprecated/stkwebcam/TODO
+ delete mode 100644 drivers/staging/media/deprecated/stkwebcam/stk-sensor.c
+ delete mode 100644 drivers/staging/media/deprecated/stkwebcam/stk-webcam.c
+ delete mode 100644 drivers/staging/media/deprecated/stkwebcam/stk-webcam.h
 
-diff --git a/Documentation/admin-guide/media/platform-cardlist.rst b/Documentation/admin-guide/media/platform-cardlist.rst
-index ac73c4166d1e..c0c22b3f469d 100644
---- a/Documentation/admin-guide/media/platform-cardlist.rst
-+++ b/Documentation/admin-guide/media/platform-cardlist.rst
-@@ -30,7 +30,6 @@ exynos-fimc-is     EXYNOS4x12 FIMC-IS (Imaging Subsystem)
- exynos-fimc-lite   EXYNOS FIMC-LITE camera interface
- exynos-gsc         Samsung Exynos G-Scaler
- exy                Samsung S5P/EXYNOS4 SoC series Camera Subsystem
--fsl-viu            Freescale VIU
- imx-pxp            i.MX Pixel Pipeline (PXP)
- isdf               TI DM365 ISIF video capture
- mmp_camera         Marvell Armada 610 integrated camera controller
+diff --git a/Documentation/admin-guide/media/other-usb-cardlist.rst b/Documentation/admin-guide/media/other-usb-cardlist.rst
+index 51ca863a8601..843f1c509cbc 100644
+--- a/Documentation/admin-guide/media/other-usb-cardlist.rst
++++ b/Documentation/admin-guide/media/other-usb-cardlist.rst
+@@ -64,7 +64,6 @@ pwc		  Visionite VCS-UC300			  0d81:1900
+ pwc		  Visionite VCS-UM100			  0d81:1910
+ s2255drv	  Sensoray 2255				  1943:2255, 1943:2257
+ stk1160		  STK1160 USB video capture dongle	  05e1:0408
+-stkwebcam	  Syntek DC1125				  174f:a311, 05e1:0501
+ dvb-ttusb-budget  Technotrend/Hauppauge Nova-USB devices  0b48:1003, 0b48:1004,
+ 							  0b48:1005
+ dvb-ttusb_dec	  Technotrend/Hauppauge MPEG decoder	  0b48:1006
+diff --git a/Documentation/admin-guide/media/usb-cardlist.rst b/Documentation/admin-guide/media/usb-cardlist.rst
+index af05dbecde0c..d5fd7249033d 100644
+--- a/Documentation/admin-guide/media/usb-cardlist.rst
++++ b/Documentation/admin-guide/media/usb-cardlist.rst
+@@ -92,7 +92,6 @@ pwc                     USB Philips Cameras
+ s2250                   Sensoray 2250/2251
+ s2255drv                USB Sensoray 2255 video capture device
+ smsusb                  Siano SMS1xxx based MDTV receiver
+-stkwebcam               USB Syntek DC1125 Camera
+ tm6000-alsa             TV Master TM5600/6000/6010 audio
+ tm6000-dvb              DVB Support for tm6000 based TV cards
+ tm6000                  TV Master TM5600/6000/6010 driver
 diff --git a/drivers/staging/media/Kconfig b/drivers/staging/media/Kconfig
-index 8d6c26e48609..257bb35af36f 100644
+index 257bb35af36f..d1c7e7597a10 100644
 --- a/drivers/staging/media/Kconfig
 +++ b/drivers/staging/media/Kconfig
-@@ -52,7 +52,6 @@ menuconfig STAGING_MEDIA_DEPRECATED
- 
+@@ -53,7 +53,6 @@ menuconfig STAGING_MEDIA_DEPRECATED
  if STAGING_MEDIA_DEPRECATED
  source "drivers/staging/media/deprecated/atmel/Kconfig"
--source "drivers/staging/media/deprecated/fsl-viu/Kconfig"
  source "drivers/staging/media/deprecated/saa7146/Kconfig"
- source "drivers/staging/media/deprecated/stkwebcam/Kconfig"
+-source "drivers/staging/media/deprecated/stkwebcam/Kconfig"
  source "drivers/staging/media/deprecated/tm6000/Kconfig"
+ source "drivers/staging/media/deprecated/vpfe_capture/Kconfig"
+ source "drivers/staging/media/deprecated/zr364xx/Kconfig"
 diff --git a/drivers/staging/media/Makefile b/drivers/staging/media/Makefile
-index 1f2c00cae4db..55e7479f91cf 100644
+index 55e7479f91cf..da2e4f0fb7cb 100644
 --- a/drivers/staging/media/Makefile
 +++ b/drivers/staging/media/Makefile
-@@ -11,7 +11,6 @@ obj-$(CONFIG_VIDEO_SUNXI)	+= sunxi/
+@@ -6,7 +6,6 @@ obj-$(CONFIG_VIDEO_MAX96712)	+= max96712/
+ obj-$(CONFIG_VIDEO_MESON_VDEC)	+= meson/vdec/
+ obj-$(CONFIG_VIDEO_OMAP4)	+= omap4iss/
+ obj-$(CONFIG_VIDEO_ROCKCHIP_VDEC)	+= rkvdec/
+-obj-$(CONFIG_VIDEO_STKWEBCAM)	+= deprecated/stkwebcam/
+ obj-$(CONFIG_VIDEO_SUNXI)	+= sunxi/
  obj-$(CONFIG_VIDEO_TEGRA)	+= tegra-video/
  obj-$(CONFIG_VIDEO_IPU3_IMGU)	+= ipu3/
- obj-$(CONFIG_VIDEO_TM6000)	+= deprecated/tm6000/
--obj-$(CONFIG_VIDEO_VIU)		+= deprecated/fsl-viu/
- obj-$(CONFIG_USB_ZR364XX)	+= deprecated/zr364xx/
- obj-y += deprecated/vpfe_capture/
- obj-y += deprecated/saa7146/
-diff --git a/drivers/staging/media/deprecated/fsl-viu/Kconfig b/drivers/staging/media/deprecated/fsl-viu/Kconfig
+diff --git a/drivers/staging/media/deprecated/stkwebcam/Kconfig b/drivers/staging/media/deprecated/stkwebcam/Kconfig
 deleted file mode 100644
-index 399892c69a18..000000000000
---- a/drivers/staging/media/deprecated/fsl-viu/Kconfig
+index 7234498e634a..000000000000
+--- a/drivers/staging/media/deprecated/stkwebcam/Kconfig
 +++ /dev/null
-@@ -1,15 +0,0 @@
+@@ -1,18 +0,0 @@
 -# SPDX-License-Identifier: GPL-2.0-only
--config VIDEO_VIU
--	tristate "NXP VIU Video Driver (DEPRECATED)"
--	depends on V4L_PLATFORM_DRIVERS
--	depends on VIDEO_DEV && (PPC_MPC512x || COMPILE_TEST) && I2C
--	select VIDEOBUF_DMA_CONTIG
+-config VIDEO_STKWEBCAM
+-	tristate "USB Syntek DC1125 Camera support (DEPRECATED)"
+-	depends on VIDEO_DEV
+-	depends on MEDIA_USB_SUPPORT && MEDIA_CAMERA_SUPPORT
 -	help
--	  Support for Freescale VIU video driver. This device captures
--	  video data, or overlays video on DIU frame buffer.
+-	  Say Y here if you want to use this type of camera.
+-	  Supported devices are typically found in some Asus laptops,
+-	  with USB id 174f:a311 and 05e1:0501. Other Syntek cameras
+-	  may be supported by the stk11xx driver, from which this is
+-	  derived, see <http://sourceforge.net/projects/syntekdriver/>
 -
 -	  This driver is deprecated and is scheduled for removal by
--	  the beginning of 2023. See the TODO file for more information.
+-	  the end of 2022. See the TODO file for more information.
 -
--	  Say Y here if you want to enable VIU device on MPC5121e Rev2+.
--	  In doubt, say N.
-diff --git a/drivers/staging/media/deprecated/fsl-viu/Makefile b/drivers/staging/media/deprecated/fsl-viu/Makefile
+-	  To compile this driver as a module, choose M here: the
+-	  module will be called stkwebcam.
+-
+diff --git a/drivers/staging/media/deprecated/stkwebcam/Makefile b/drivers/staging/media/deprecated/stkwebcam/Makefile
 deleted file mode 100644
-index 931ec56ad08c..000000000000
---- a/drivers/staging/media/deprecated/fsl-viu/Makefile
+index 17ad7b6f43d0..000000000000
+--- a/drivers/staging/media/deprecated/stkwebcam/Makefile
 +++ /dev/null
-@@ -1,2 +0,0 @@
+@@ -1,5 +0,0 @@
 -# SPDX-License-Identifier: GPL-2.0-only
--obj-$(CONFIG_VIDEO_VIU) += fsl-viu.o
-diff --git a/drivers/staging/media/deprecated/fsl-viu/TODO b/drivers/staging/media/deprecated/fsl-viu/TODO
+-stkwebcam-objs	:=	stk-webcam.o stk-sensor.o
+-
+-obj-$(CONFIG_VIDEO_STKWEBCAM)     += stkwebcam.o
+-
+diff --git a/drivers/staging/media/deprecated/stkwebcam/TODO b/drivers/staging/media/deprecated/stkwebcam/TODO
 deleted file mode 100644
-index ecb30a429689..000000000000
---- a/drivers/staging/media/deprecated/fsl-viu/TODO
+index 735304a72729..000000000000
+--- a/drivers/staging/media/deprecated/stkwebcam/TODO
 +++ /dev/null
-@@ -1,7 +0,0 @@
--This is one of the few drivers still not using the vb2
--framework, so this driver is now deprecated with the intent of
--removing it altogether by the beginning of 2023.
+@@ -1,12 +0,0 @@
+-This is a very old driver for very old hardware (specifically
+-laptops that use this sensor). In addition according to reports
+-the picture quality is quite bad.
+-
+-This is also one of the few drivers still not using the vb2
+-framework (or even the old videobuf framework!), so this driver
+-is now deprecated with the intent of removing it altogether by
+-the end of 2022.
 -
 -In order to keep this driver it has to be converted to vb2.
 -If someone is interested in doing this work, then contact the
 -linux-media mailinglist (https://linuxtv.org/lists.php).
-diff --git a/drivers/staging/media/deprecated/fsl-viu/fsl-viu.c b/drivers/staging/media/deprecated/fsl-viu/fsl-viu.c
+diff --git a/drivers/staging/media/deprecated/stkwebcam/stk-sensor.c b/drivers/staging/media/deprecated/stkwebcam/stk-sensor.c
 deleted file mode 100644
-index afc96f6db2a1..000000000000
---- a/drivers/staging/media/deprecated/fsl-viu/fsl-viu.c
+index 94aa6a27f934..000000000000
+--- a/drivers/staging/media/deprecated/stkwebcam/stk-sensor.c
 +++ /dev/null
-@@ -1,1599 +0,0 @@
+@@ -1,587 +0,0 @@
+-// SPDX-License-Identifier: GPL-2.0-or-later
+-/* stk-sensor.c: Driver for ov96xx sensor (used in some Syntek webcams)
+- *
+- * Copyright 2007-2008 Jaime Velasco Juan <jsagarribay@gmail.com>
+- *
+- * Some parts derived from ov7670.c:
+- * Copyright 2006 One Laptop Per Child Association, Inc.  Written
+- * by Jonathan Corbet with substantial inspiration from Mark
+- * McClelland's ovcamchip code.
+- *
+- * Copyright 2006-7 Jonathan Corbet <corbet@lwn.net>
+- *
+- * This file may be distributed under the terms of the GNU General
+- */
+-
+-/* Controlling the sensor via the STK1125 vendor specific control interface:
+- * The camera uses an OmniVision sensor and the stk1125 provides an
+- * SCCB(i2c)-USB bridge which let us program the sensor.
+- * In my case the sensor id is 0x9652, it can be read from sensor's register
+- * 0x0A and 0x0B as follows:
+- * - read register #R:
+- *   output #R to index 0x0208
+- *   output 0x0070 to index 0x0200
+- *   input 1 byte from index 0x0201 (some kind of status register)
+- *     until its value is 0x01
+- *   input 1 byte from index 0x0209. This is the value of #R
+- * - write value V to register #R
+- *   output #R to index 0x0204
+- *   output V to index 0x0205
+- *   output 0x0005 to index 0x0200
+- *   input 1 byte from index 0x0201 until its value becomes 0x04
+- */
+-
+-/* It seems the i2c bus is controlled with these registers */
+-
+-#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+-
+-#include "stk-webcam.h"
+-
+-#define STK_IIC_BASE		(0x0200)
+-#  define STK_IIC_OP		(STK_IIC_BASE)
+-#    define STK_IIC_OP_TX	(0x05)
+-#    define STK_IIC_OP_RX	(0x70)
+-#  define STK_IIC_STAT		(STK_IIC_BASE+1)
+-#    define STK_IIC_STAT_TX_OK	(0x04)
+-#    define STK_IIC_STAT_RX_OK	(0x01)
+-/* I don't know what does this register.
+- * when it is 0x00 or 0x01, we cannot talk to the sensor,
+- * other values work */
+-#  define STK_IIC_ENABLE	(STK_IIC_BASE+2)
+-#    define STK_IIC_ENABLE_NO	(0x00)
+-/* This is what the driver writes in windows */
+-#    define STK_IIC_ENABLE_YES	(0x1e)
+-/*
+- * Address of the slave. Seems like the binary driver look for the
+- * sensor in multiple places, attempting a reset sequence.
+- * We only know about the ov9650
+- */
+-#  define STK_IIC_ADDR		(STK_IIC_BASE+3)
+-#  define STK_IIC_TX_INDEX	(STK_IIC_BASE+4)
+-#  define STK_IIC_TX_VALUE	(STK_IIC_BASE+5)
+-#  define STK_IIC_RX_INDEX	(STK_IIC_BASE+8)
+-#  define STK_IIC_RX_VALUE	(STK_IIC_BASE+9)
+-
+-#define MAX_RETRIES		(50)
+-
+-#define SENSOR_ADDRESS		(0x60)
+-
+-/* From ov7670.c (These registers aren't fully accurate) */
+-
+-/* Registers */
+-#define REG_GAIN	0x00	/* Gain lower 8 bits (rest in vref) */
+-#define REG_BLUE	0x01	/* blue gain */
+-#define REG_RED		0x02	/* red gain */
+-#define REG_VREF	0x03	/* Pieces of GAIN, VSTART, VSTOP */
+-#define REG_COM1	0x04	/* Control 1 */
+-#define  COM1_CCIR656	  0x40  /* CCIR656 enable */
+-#define  COM1_QFMT	  0x20  /* QVGA/QCIF format */
+-#define  COM1_SKIP_0	  0x00  /* Do not skip any row */
+-#define  COM1_SKIP_2	  0x04  /* Skip 2 rows of 4 */
+-#define  COM1_SKIP_3	  0x08  /* Skip 3 rows of 4 */
+-#define REG_BAVE	0x05	/* U/B Average level */
+-#define REG_GbAVE	0x06	/* Y/Gb Average level */
+-#define REG_AECHH	0x07	/* AEC MS 5 bits */
+-#define REG_RAVE	0x08	/* V/R Average level */
+-#define REG_COM2	0x09	/* Control 2 */
+-#define  COM2_SSLEEP	  0x10	/* Soft sleep mode */
+-#define REG_PID		0x0a	/* Product ID MSB */
+-#define REG_VER		0x0b	/* Product ID LSB */
+-#define REG_COM3	0x0c	/* Control 3 */
+-#define  COM3_SWAP	  0x40	  /* Byte swap */
+-#define  COM3_SCALEEN	  0x08	  /* Enable scaling */
+-#define  COM3_DCWEN	  0x04	  /* Enable downsamp/crop/window */
+-#define REG_COM4	0x0d	/* Control 4 */
+-#define REG_COM5	0x0e	/* All "reserved" */
+-#define REG_COM6	0x0f	/* Control 6 */
+-#define REG_AECH	0x10	/* More bits of AEC value */
+-#define REG_CLKRC	0x11	/* Clock control */
+-#define   CLK_PLL	  0x80	  /* Enable internal PLL */
+-#define   CLK_EXT	  0x40	  /* Use external clock directly */
+-#define   CLK_SCALE	  0x3f	  /* Mask for internal clock scale */
+-#define REG_COM7	0x12	/* Control 7 */
+-#define   COM7_RESET	  0x80	  /* Register reset */
+-#define   COM7_FMT_MASK	  0x38
+-#define   COM7_FMT_SXGA	  0x00
+-#define   COM7_FMT_VGA	  0x40
+-#define	  COM7_FMT_CIF	  0x20	  /* CIF format */
+-#define   COM7_FMT_QVGA	  0x10	  /* QVGA format */
+-#define   COM7_FMT_QCIF	  0x08	  /* QCIF format */
+-#define	  COM7_RGB	  0x04	  /* bits 0 and 2 - RGB format */
+-#define	  COM7_YUV	  0x00	  /* YUV */
+-#define	  COM7_BAYER	  0x01	  /* Bayer format */
+-#define	  COM7_PBAYER	  0x05	  /* "Processed bayer" */
+-#define REG_COM8	0x13	/* Control 8 */
+-#define   COM8_FASTAEC	  0x80	  /* Enable fast AGC/AEC */
+-#define   COM8_AECSTEP	  0x40	  /* Unlimited AEC step size */
+-#define   COM8_BFILT	  0x20	  /* Band filter enable */
+-#define   COM8_AGC	  0x04	  /* Auto gain enable */
+-#define   COM8_AWB	  0x02	  /* White balance enable */
+-#define   COM8_AEC	  0x01	  /* Auto exposure enable */
+-#define REG_COM9	0x14	/* Control 9  - gain ceiling */
+-#define REG_COM10	0x15	/* Control 10 */
+-#define   COM10_HSYNC	  0x40	  /* HSYNC instead of HREF */
+-#define   COM10_PCLK_HB	  0x20	  /* Suppress PCLK on horiz blank */
+-#define   COM10_HREF_REV  0x08	  /* Reverse HREF */
+-#define   COM10_VS_LEAD	  0x04	  /* VSYNC on clock leading edge */
+-#define   COM10_VS_NEG	  0x02	  /* VSYNC negative */
+-#define   COM10_HS_NEG	  0x01	  /* HSYNC negative */
+-#define REG_HSTART	0x17	/* Horiz start high bits */
+-#define REG_HSTOP	0x18	/* Horiz stop high bits */
+-#define REG_VSTART	0x19	/* Vert start high bits */
+-#define REG_VSTOP	0x1a	/* Vert stop high bits */
+-#define REG_PSHFT	0x1b	/* Pixel delay after HREF */
+-#define REG_MIDH	0x1c	/* Manuf. ID high */
+-#define REG_MIDL	0x1d	/* Manuf. ID low */
+-#define REG_MVFP	0x1e	/* Mirror / vflip */
+-#define   MVFP_MIRROR	  0x20	  /* Mirror image */
+-#define   MVFP_FLIP	  0x10	  /* Vertical flip */
+-
+-#define REG_AEW		0x24	/* AGC upper limit */
+-#define REG_AEB		0x25	/* AGC lower limit */
+-#define REG_VPT		0x26	/* AGC/AEC fast mode op region */
+-#define REG_ADVFL	0x2d	/* Insert dummy lines (LSB) */
+-#define REG_ADVFH	0x2e	/* Insert dummy lines (MSB) */
+-#define REG_HSYST	0x30	/* HSYNC rising edge delay */
+-#define REG_HSYEN	0x31	/* HSYNC falling edge delay */
+-#define REG_HREF	0x32	/* HREF pieces */
+-#define REG_TSLB	0x3a	/* lots of stuff */
+-#define   TSLB_YLAST	  0x04	  /* UYVY or VYUY - see com13 */
+-#define   TSLB_BYTEORD	  0x08	  /* swap bytes in 16bit mode? */
+-#define REG_COM11	0x3b	/* Control 11 */
+-#define   COM11_NIGHT	  0x80	  /* NIght mode enable */
+-#define   COM11_NMFR	  0x60	  /* Two bit NM frame rate */
+-#define   COM11_HZAUTO	  0x10	  /* Auto detect 50/60 Hz */
+-#define	  COM11_50HZ	  0x08	  /* Manual 50Hz select */
+-#define   COM11_EXP	  0x02
+-#define REG_COM12	0x3c	/* Control 12 */
+-#define   COM12_HREF	  0x80	  /* HREF always */
+-#define REG_COM13	0x3d	/* Control 13 */
+-#define   COM13_GAMMA	  0x80	  /* Gamma enable */
+-#define	  COM13_UVSAT	  0x40	  /* UV saturation auto adjustment */
+-#define	  COM13_CMATRIX	  0x10	  /* Enable color matrix for RGB or YUV */
+-#define   COM13_UVSWAP	  0x01	  /* V before U - w/TSLB */
+-#define REG_COM14	0x3e	/* Control 14 */
+-#define   COM14_DCWEN	  0x10	  /* DCW/PCLK-scale enable */
+-#define REG_EDGE	0x3f	/* Edge enhancement factor */
+-#define REG_COM15	0x40	/* Control 15 */
+-#define   COM15_R10F0	  0x00	  /* Data range 10 to F0 */
+-#define	  COM15_R01FE	  0x80	  /*            01 to FE */
+-#define   COM15_R00FF	  0xc0	  /*            00 to FF */
+-#define   COM15_RGB565	  0x10	  /* RGB565 output */
+-#define   COM15_RGBFIXME	  0x20	  /* FIXME  */
+-#define   COM15_RGB555	  0x30	  /* RGB555 output */
+-#define REG_COM16	0x41	/* Control 16 */
+-#define   COM16_AWBGAIN   0x08	  /* AWB gain enable */
+-#define REG_COM17	0x42	/* Control 17 */
+-#define   COM17_AECWIN	  0xc0	  /* AEC window - must match COM4 */
+-#define   COM17_CBAR	  0x08	  /* DSP Color bar */
+-
+-/*
+- * This matrix defines how the colors are generated, must be
+- * tweaked to adjust hue and saturation.
+- *
+- * Order: v-red, v-green, v-blue, u-red, u-green, u-blue
+- *
+- * They are nine-bit signed quantities, with the sign bit
+- * stored in 0x58.  Sign for v-red is bit 0, and up from there.
+- */
+-#define	REG_CMATRIX_BASE 0x4f
+-#define   CMATRIX_LEN 6
+-#define REG_CMATRIX_SIGN 0x58
+-
+-
+-#define REG_BRIGHT	0x55	/* Brightness */
+-#define REG_CONTRAS	0x56	/* Contrast control */
+-
+-#define REG_GFIX	0x69	/* Fix gain control */
+-
+-#define REG_RGB444	0x8c	/* RGB 444 control */
+-#define   R444_ENABLE	  0x02	  /* Turn on RGB444, overrides 5x5 */
+-#define   R444_RGBX	  0x01	  /* Empty nibble at end */
+-
+-#define REG_HAECC1	0x9f	/* Hist AEC/AGC control 1 */
+-#define REG_HAECC2	0xa0	/* Hist AEC/AGC control 2 */
+-
+-#define REG_BD50MAX	0xa5	/* 50hz banding step limit */
+-#define REG_HAECC3	0xa6	/* Hist AEC/AGC control 3 */
+-#define REG_HAECC4	0xa7	/* Hist AEC/AGC control 4 */
+-#define REG_HAECC5	0xa8	/* Hist AEC/AGC control 5 */
+-#define REG_HAECC6	0xa9	/* Hist AEC/AGC control 6 */
+-#define REG_HAECC7	0xaa	/* Hist AEC/AGC control 7 */
+-#define REG_BD60MAX	0xab	/* 60hz banding step limit */
+-
+-
+-
+-
+-/* Returns 0 if OK */
+-static int stk_sensor_outb(struct stk_camera *dev, u8 reg, u8 val)
+-{
+-	int i = 0;
+-	u8 tmpval = 0;
+-
+-	if (stk_camera_write_reg(dev, STK_IIC_TX_INDEX, reg))
+-		return 1;
+-	if (stk_camera_write_reg(dev, STK_IIC_TX_VALUE, val))
+-		return 1;
+-	if (stk_camera_write_reg(dev, STK_IIC_OP, STK_IIC_OP_TX))
+-		return 1;
+-	do {
+-		if (stk_camera_read_reg(dev, STK_IIC_STAT, &tmpval))
+-			return 1;
+-		i++;
+-	} while (tmpval == 0 && i < MAX_RETRIES);
+-	if (tmpval != STK_IIC_STAT_TX_OK) {
+-		if (tmpval)
+-			pr_err("stk_sensor_outb failed, status=0x%02x\n",
+-			       tmpval);
+-		return 1;
+-	} else
+-		return 0;
+-}
+-
+-static int stk_sensor_inb(struct stk_camera *dev, u8 reg, u8 *val)
+-{
+-	int i = 0;
+-	u8 tmpval = 0;
+-
+-	if (stk_camera_write_reg(dev, STK_IIC_RX_INDEX, reg))
+-		return 1;
+-	if (stk_camera_write_reg(dev, STK_IIC_OP, STK_IIC_OP_RX))
+-		return 1;
+-	do {
+-		if (stk_camera_read_reg(dev, STK_IIC_STAT, &tmpval))
+-			return 1;
+-		i++;
+-	} while (tmpval == 0 && i < MAX_RETRIES);
+-	if (tmpval != STK_IIC_STAT_RX_OK) {
+-		if (tmpval)
+-			pr_err("stk_sensor_inb failed, status=0x%02x\n",
+-			       tmpval);
+-		return 1;
+-	}
+-
+-	if (stk_camera_read_reg(dev, STK_IIC_RX_VALUE, &tmpval))
+-		return 1;
+-
+-	*val = tmpval;
+-	return 0;
+-}
+-
+-static int stk_sensor_write_regvals(struct stk_camera *dev,
+-		struct regval *rv)
+-{
+-	int ret;
+-	if (rv == NULL)
+-		return 0;
+-	while (rv->reg != 0xff || rv->val != 0xff) {
+-		ret = stk_sensor_outb(dev, rv->reg, rv->val);
+-		if (ret != 0)
+-			return ret;
+-		rv++;
+-	}
+-	return 0;
+-}
+-
+-int stk_sensor_sleep(struct stk_camera *dev)
+-{
+-	u8 tmp;
+-	return stk_sensor_inb(dev, REG_COM2, &tmp)
+-		|| stk_sensor_outb(dev, REG_COM2, tmp|COM2_SSLEEP);
+-}
+-
+-int stk_sensor_wakeup(struct stk_camera *dev)
+-{
+-	u8 tmp;
+-	return stk_sensor_inb(dev, REG_COM2, &tmp)
+-		|| stk_sensor_outb(dev, REG_COM2, tmp&~COM2_SSLEEP);
+-}
+-
+-static struct regval ov_initvals[] = {
+-	{REG_CLKRC, CLK_PLL},
+-	{REG_COM11, 0x01},
+-	{0x6a, 0x7d},
+-	{REG_AECH, 0x40},
+-	{REG_GAIN, 0x00},
+-	{REG_BLUE, 0x80},
+-	{REG_RED, 0x80},
+-	/* Do not enable fast AEC for now */
+-	/*{REG_COM8, COM8_FASTAEC|COM8_AECSTEP|COM8_BFILT|COM8_AGC|COM8_AEC},*/
+-	{REG_COM8, COM8_AECSTEP|COM8_BFILT|COM8_AGC|COM8_AEC},
+-	{0x39, 0x50}, {0x38, 0x93},
+-	{0x37, 0x00}, {0x35, 0x81},
+-	{REG_COM5, 0x20},
+-	{REG_COM1, 0x00},
+-	{REG_COM3, 0x00},
+-	{REG_COM4, 0x00},
+-	{REG_PSHFT, 0x00},
+-	{0x16, 0x07},
+-	{0x33, 0xe2}, {0x34, 0xbf},
+-	{REG_COM16, 0x00},
+-	{0x96, 0x04},
+-	/* Gamma curve values */
+-/*	{ 0x7a, 0x20 },		{ 0x7b, 0x10 },
+-	{ 0x7c, 0x1e },		{ 0x7d, 0x35 },
+-	{ 0x7e, 0x5a },		{ 0x7f, 0x69 },
+-	{ 0x80, 0x76 },		{ 0x81, 0x80 },
+-	{ 0x82, 0x88 },		{ 0x83, 0x8f },
+-	{ 0x84, 0x96 },		{ 0x85, 0xa3 },
+-	{ 0x86, 0xaf },		{ 0x87, 0xc4 },
+-	{ 0x88, 0xd7 },		{ 0x89, 0xe8 },
+-*/
+-	{REG_GFIX, 0x40},
+-	{0x8e, 0x00},
+-	{REG_COM12, 0x73},
+-	{0x8f, 0xdf}, {0x8b, 0x06},
+-	{0x8c, 0x20},
+-	{0x94, 0x88}, {0x95, 0x88},
+-/*	{REG_COM15, 0xc1}, TODO */
+-	{0x29, 0x3f},
+-	{REG_COM6, 0x42},
+-	{REG_BD50MAX, 0x80},
+-	{REG_HAECC6, 0xb8}, {REG_HAECC7, 0x92},
+-	{REG_BD60MAX, 0x0a},
+-	{0x90, 0x00}, {0x91, 0x00},
+-	{REG_HAECC1, 0x00}, {REG_HAECC2, 0x00},
+-	{REG_AEW, 0x68}, {REG_AEB, 0x5c},
+-	{REG_VPT, 0xc3},
+-	{REG_COM9, 0x2e},
+-	{0x2a, 0x00}, {0x2b, 0x00},
+-
+-	{0xff, 0xff}, /* END MARKER */
+-};
+-
+-/* Probe the I2C bus and initialise the sensor chip */
+-int stk_sensor_init(struct stk_camera *dev)
+-{
+-	u8 idl = 0;
+-	u8 idh = 0;
+-
+-	if (stk_camera_write_reg(dev, STK_IIC_ENABLE, STK_IIC_ENABLE_YES)
+-		|| stk_camera_write_reg(dev, STK_IIC_ADDR, SENSOR_ADDRESS)
+-		|| stk_sensor_outb(dev, REG_COM7, COM7_RESET)) {
+-		pr_err("Sensor resetting failed\n");
+-		return -ENODEV;
+-	}
+-	msleep(10);
+-	/* Read the manufacturer ID: ov = 0x7FA2 */
+-	if (stk_sensor_inb(dev, REG_MIDH, &idh)
+-	    || stk_sensor_inb(dev, REG_MIDL, &idl)) {
+-		pr_err("Strange error reading sensor ID\n");
+-		return -ENODEV;
+-	}
+-	if (idh != 0x7f || idl != 0xa2) {
+-		pr_err("Huh? you don't have a sensor from ovt\n");
+-		return -ENODEV;
+-	}
+-	if (stk_sensor_inb(dev, REG_PID, &idh)
+-	    || stk_sensor_inb(dev, REG_VER, &idl)) {
+-		pr_err("Could not read sensor model\n");
+-		return -ENODEV;
+-	}
+-	stk_sensor_write_regvals(dev, ov_initvals);
+-	msleep(10);
+-	pr_info("OmniVision sensor detected, id %02X%02X at address %x\n",
+-		idh, idl, SENSOR_ADDRESS);
+-	return 0;
+-}
+-
+-/* V4L2_PIX_FMT_UYVY */
+-static struct regval ov_fmt_uyvy[] = {
+-	{REG_TSLB, TSLB_YLAST|0x08 },
+-	{ 0x4f, 0x80 },		/* "matrix coefficient 1" */
+-	{ 0x50, 0x80 },		/* "matrix coefficient 2" */
+-	{ 0x51, 0    },		/* vb */
+-	{ 0x52, 0x22 },		/* "matrix coefficient 4" */
+-	{ 0x53, 0x5e },		/* "matrix coefficient 5" */
+-	{ 0x54, 0x80 },		/* "matrix coefficient 6" */
+-	{REG_COM13, COM13_UVSAT|COM13_CMATRIX},
+-	{REG_COM15, COM15_R00FF },
+-	{0xff, 0xff}, /* END MARKER */
+-};
+-/* V4L2_PIX_FMT_YUYV */
+-static struct regval ov_fmt_yuyv[] = {
+-	{REG_TSLB, 0 },
+-	{ 0x4f, 0x80 },		/* "matrix coefficient 1" */
+-	{ 0x50, 0x80 },		/* "matrix coefficient 2" */
+-	{ 0x51, 0    },		/* vb */
+-	{ 0x52, 0x22 },		/* "matrix coefficient 4" */
+-	{ 0x53, 0x5e },		/* "matrix coefficient 5" */
+-	{ 0x54, 0x80 },		/* "matrix coefficient 6" */
+-	{REG_COM13, COM13_UVSAT|COM13_CMATRIX},
+-	{REG_COM15, COM15_R00FF },
+-	{0xff, 0xff}, /* END MARKER */
+-};
+-
+-/* V4L2_PIX_FMT_RGB565X rrrrrggg gggbbbbb */
+-static struct regval ov_fmt_rgbr[] = {
+-	{ REG_RGB444, 0 },	/* No RGB444 please */
+-	{REG_TSLB, 0x00},
+-	{ REG_COM1, 0x0 },
+-	{ REG_COM9, 0x38 },	/* 16x gain ceiling; 0x8 is reserved bit */
+-	{ 0x4f, 0xb3 },		/* "matrix coefficient 1" */
+-	{ 0x50, 0xb3 },		/* "matrix coefficient 2" */
+-	{ 0x51, 0    },		/* vb */
+-	{ 0x52, 0x3d },		/* "matrix coefficient 4" */
+-	{ 0x53, 0xa7 },		/* "matrix coefficient 5" */
+-	{ 0x54, 0xe4 },		/* "matrix coefficient 6" */
+-	{ REG_COM13, COM13_GAMMA },
+-	{ REG_COM15, COM15_RGB565|COM15_R00FF },
+-	{ 0xff, 0xff },
+-};
+-
+-/* V4L2_PIX_FMT_RGB565 gggbbbbb rrrrrggg */
+-static struct regval ov_fmt_rgbp[] = {
+-	{ REG_RGB444, 0 },	/* No RGB444 please */
+-	{REG_TSLB, TSLB_BYTEORD },
+-	{ REG_COM1, 0x0 },
+-	{ REG_COM9, 0x38 },	/* 16x gain ceiling; 0x8 is reserved bit */
+-	{ 0x4f, 0xb3 },		/* "matrix coefficient 1" */
+-	{ 0x50, 0xb3 },		/* "matrix coefficient 2" */
+-	{ 0x51, 0    },		/* vb */
+-	{ 0x52, 0x3d },		/* "matrix coefficient 4" */
+-	{ 0x53, 0xa7 },		/* "matrix coefficient 5" */
+-	{ 0x54, 0xe4 },		/* "matrix coefficient 6" */
+-	{ REG_COM13, COM13_GAMMA },
+-	{ REG_COM15, COM15_RGB565|COM15_R00FF },
+-	{ 0xff, 0xff },
+-};
+-
+-/* V4L2_PIX_FMT_SRGGB8 */
+-static struct regval ov_fmt_bayer[] = {
+-	/* This changes color order */
+-	{REG_TSLB, 0x40}, /* BGGR */
+-	/* {REG_TSLB, 0x08}, */ /* BGGR with vertical image flipping */
+-	{REG_COM15, COM15_R00FF },
+-	{0xff, 0xff}, /* END MARKER */
+-};
+-/*
+- * Store a set of start/stop values into the camera.
+- */
+-static int stk_sensor_set_hw(struct stk_camera *dev,
+-		int hstart, int hstop, int vstart, int vstop)
+-{
+-	int ret;
+-	unsigned char v;
+-/*
+- * Horizontal: 11 bits, top 8 live in hstart and hstop.  Bottom 3 of
+- * hstart are in href[2:0], bottom 3 of hstop in href[5:3].  There is
+- * a mystery "edge offset" value in the top two bits of href.
+- */
+-	ret =  stk_sensor_outb(dev, REG_HSTART, (hstart >> 3) & 0xff);
+-	ret += stk_sensor_outb(dev, REG_HSTOP, (hstop >> 3) & 0xff);
+-	ret += stk_sensor_inb(dev, REG_HREF, &v);
+-	v = (v & 0xc0) | ((hstop & 0x7) << 3) | (hstart & 0x7);
+-	msleep(10);
+-	ret += stk_sensor_outb(dev, REG_HREF, v);
+-/*
+- * Vertical: similar arrangement (note: this is different from ov7670.c)
+- */
+-	ret += stk_sensor_outb(dev, REG_VSTART, (vstart >> 3) & 0xff);
+-	ret += stk_sensor_outb(dev, REG_VSTOP, (vstop >> 3) & 0xff);
+-	ret += stk_sensor_inb(dev, REG_VREF, &v);
+-	v = (v & 0xc0) | ((vstop & 0x7) << 3) | (vstart & 0x7);
+-	msleep(10);
+-	ret += stk_sensor_outb(dev, REG_VREF, v);
+-	return ret;
+-}
+-
+-
+-int stk_sensor_configure(struct stk_camera *dev)
+-{
+-	int com7;
+-	/*
+-	 * We setup the sensor to output dummy lines in low-res modes,
+-	 * so we don't get absurdly hight framerates.
+-	 */
+-	unsigned dummylines;
+-	int flip;
+-	struct regval *rv;
+-
+-	switch (dev->vsettings.mode) {
+-	case MODE_QCIF: com7 = COM7_FMT_QCIF;
+-		dummylines = 604;
+-		break;
+-	case MODE_QVGA: com7 = COM7_FMT_QVGA;
+-		dummylines = 267;
+-		break;
+-	case MODE_CIF: com7 = COM7_FMT_CIF;
+-		dummylines = 412;
+-		break;
+-	case MODE_VGA: com7 = COM7_FMT_VGA;
+-		dummylines = 11;
+-		break;
+-	case MODE_SXGA: com7 = COM7_FMT_SXGA;
+-		dummylines = 0;
+-		break;
+-	default:
+-		pr_err("Unsupported mode %d\n", dev->vsettings.mode);
+-		return -EFAULT;
+-	}
+-	switch (dev->vsettings.palette) {
+-	case V4L2_PIX_FMT_UYVY:
+-		com7 |= COM7_YUV;
+-		rv = ov_fmt_uyvy;
+-		break;
+-	case V4L2_PIX_FMT_YUYV:
+-		com7 |= COM7_YUV;
+-		rv = ov_fmt_yuyv;
+-		break;
+-	case V4L2_PIX_FMT_RGB565:
+-		com7 |= COM7_RGB;
+-		rv = ov_fmt_rgbp;
+-		break;
+-	case V4L2_PIX_FMT_RGB565X:
+-		com7 |= COM7_RGB;
+-		rv = ov_fmt_rgbr;
+-		break;
+-	case V4L2_PIX_FMT_SBGGR8:
+-		com7 |= COM7_PBAYER;
+-		rv = ov_fmt_bayer;
+-		break;
+-	default:
+-		pr_err("Unsupported colorspace\n");
+-		return -EFAULT;
+-	}
+-	/*FIXME sometimes the sensor go to a bad state
+-	stk_sensor_write_regvals(dev, ov_initvals); */
+-	stk_sensor_outb(dev, REG_COM7, com7);
+-	msleep(50);
+-	stk_sensor_write_regvals(dev, rv);
+-	flip = (dev->vsettings.vflip?MVFP_FLIP:0)
+-		| (dev->vsettings.hflip?MVFP_MIRROR:0);
+-	stk_sensor_outb(dev, REG_MVFP, flip);
+-	if (dev->vsettings.palette == V4L2_PIX_FMT_SBGGR8
+-			&& !dev->vsettings.vflip)
+-		stk_sensor_outb(dev, REG_TSLB, 0x08);
+-	stk_sensor_outb(dev, REG_ADVFH, dummylines >> 8);
+-	stk_sensor_outb(dev, REG_ADVFL, dummylines & 0xff);
+-	msleep(50);
+-	switch (dev->vsettings.mode) {
+-	case MODE_VGA:
+-		if (stk_sensor_set_hw(dev, 302, 1582, 6, 486))
+-			pr_err("stk_sensor_set_hw failed (VGA)\n");
+-		break;
+-	case MODE_SXGA:
+-	case MODE_CIF:
+-	case MODE_QVGA:
+-	case MODE_QCIF:
+-		/*FIXME These settings seem ignored by the sensor
+-		if (stk_sensor_set_hw(dev, 220, 1500, 10, 1034))
+-			pr_err("stk_sensor_set_hw failed (SXGA)\n");
+-		*/
+-		break;
+-	}
+-	msleep(10);
+-	return 0;
+-}
+-
+-int stk_sensor_set_brightness(struct stk_camera *dev, int br)
+-{
+-	if (br < 0 || br > 0xff)
+-		return -EINVAL;
+-	stk_sensor_outb(dev, REG_AEB, max(0x00, br - 6));
+-	stk_sensor_outb(dev, REG_AEW, min(0xff, br + 6));
+-	return 0;
+-}
+-
+diff --git a/drivers/staging/media/deprecated/stkwebcam/stk-webcam.c b/drivers/staging/media/deprecated/stkwebcam/stk-webcam.c
+deleted file mode 100644
+index 787edb3d47c2..000000000000
+--- a/drivers/staging/media/deprecated/stkwebcam/stk-webcam.c
++++ /dev/null
+@@ -1,1434 +0,0 @@
 -// SPDX-License-Identifier: GPL-2.0-or-later
 -/*
-- * Copyright 2008-2010 Freescale Semiconductor, Inc. All Rights Reserved.
+- * stk-webcam.c : Driver for Syntek 1125 USB webcam controller
 - *
-- *  Freescale VIU video driver
+- * Copyright (C) 2006 Nicolas VIVIEN
+- * Copyright 2007-2008 Jaime Velasco Juan <jsagarribay@gmail.com>
 - *
-- *  Authors: Hongjun Chen <hong-jun.chen@freescale.com>
-- *	     Porting to 2.6.35 by DENX Software Engineering,
-- *	     Anatolij Gustschin <agust@denx.de>
+- * Some parts are inspired from cafe_ccic.c
+- * Copyright 2006-2007 Jonathan Corbet
 - */
+-
+-#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
 -
 -#include <linux/module.h>
--#include <linux/clk.h>
--#include <linux/kernel.h>
--#include <linux/i2c.h>
 -#include <linux/init.h>
--#include <linux/interrupt.h>
--#include <linux/io.h>
--#include <linux/of_address.h>
--#include <linux/of_irq.h>
--#include <linux/of_platform.h>
+-#include <linux/kernel.h>
+-#include <linux/errno.h>
 -#include <linux/slab.h>
+-
+-#include <linux/dmi.h>
+-#include <linux/usb.h>
+-#include <linux/mm.h>
+-#include <linux/vmalloc.h>
+-#include <linux/videodev2.h>
 -#include <media/v4l2-common.h>
--#include <media/v4l2-device.h>
 -#include <media/v4l2-ioctl.h>
--#include <media/v4l2-ctrls.h>
--#include <media/v4l2-fh.h>
 -#include <media/v4l2-event.h>
--#include <media/videobuf-dma-contig.h>
 -
--#define DRV_NAME		"fsl_viu"
--#define VIU_VERSION		"0.5.1"
+-#include "stk-webcam.h"
 -
--#define BUFFER_TIMEOUT		msecs_to_jiffies(500)  /* 0.5 seconds */
 -
--#define	VIU_VID_MEM_LIMIT	4	/* Video memory limit, in Mb */
+-static int hflip = -1;
+-module_param(hflip, int, 0444);
+-MODULE_PARM_DESC(hflip, "Horizontal image flip (mirror). Defaults to 0");
 -
--/* I2C address of video decoder chip is 0x4A */
--#define VIU_VIDEO_DECODER_ADDR	0x25
+-static int vflip = -1;
+-module_param(vflip, int, 0444);
+-MODULE_PARM_DESC(vflip, "Vertical image flip. Defaults to 0");
 -
--static int info_level;
+-static int debug;
+-module_param(debug, int, 0444);
+-MODULE_PARM_DESC(debug, "Debug v4l ioctls. Defaults to 0");
 -
--#define dprintk(level, fmt, arg...)					\
--	do {								\
--		if (level <= info_level)				\
--			printk(KERN_DEBUG "viu: " fmt , ## arg);	\
--	} while (0)
+-MODULE_LICENSE("GPL");
+-MODULE_AUTHOR("Jaime Velasco Juan <jsagarribay@gmail.com> and Nicolas VIVIEN");
+-MODULE_DESCRIPTION("Syntek DC1125 webcam driver");
+-
+-/* Some cameras have audio interfaces, we aren't interested in those */
+-static const struct usb_device_id stkwebcam_table[] = {
+-	{ USB_DEVICE_AND_INTERFACE_INFO(0x174f, 0xa311, 0xff, 0xff, 0xff) },
+-	{ USB_DEVICE_AND_INTERFACE_INFO(0x05e1, 0x0501, 0xff, 0xff, 0xff) },
+-	{ }
+-};
+-MODULE_DEVICE_TABLE(usb, stkwebcam_table);
 -
 -/*
-- * Basic structures
+- * The stk webcam laptop module is mounted upside down in some laptops :(
+- *
+- * Some background information (thanks to Hans de Goede for providing this):
+- *
+- * 1) Once upon a time the stkwebcam driver was written
+- *
+- * 2) The webcam in question was used mostly in Asus laptop models, including
+- * the laptop of the original author of the driver, and in these models, in
+- * typical Asus fashion (see the long long list for uvc cams inside v4l-utils),
+- * they mounted the webcam-module the wrong way up. So the hflip and vflip
+- * module options were given a default value of 1 (the correct value for
+- * upside down mounted models)
+- *
+- * 3) Years later I got a bug report from a user with a laptop with stkwebcam,
+- * where the module was actually mounted the right way up, and thus showed
+- * upside down under Linux. So now I was facing the choice of 2 options:
+- *
+- * a) Add a not-upside-down list to stkwebcam, which overrules the default.
+- *
+- * b) Do it like all the other drivers do, and make the default right for
+- *    cams mounted the proper way and add an upside-down model list, with
+- *    models where we need to flip-by-default.
+- *
+- * Despite knowing that going b) would cause a period of pain where we were
+- * building the table I opted to go for option b), since a) is just too ugly,
+- * and worse different from how every other driver does it leading to
+- * confusion in the long run. This change was made in kernel 3.6.
+- *
+- * So for any user report about upside-down images since kernel 3.6 ask them
+- * to provide the output of 'sudo dmidecode' so the laptop can be added in
+- * the table below.
 - */
--struct viu_fmt {
--	u32   fourcc;		/* v4l2 format id */
--	u32   pixelformat;
--	int   depth;
--};
--
--static struct viu_fmt formats[] = {
+-static const struct dmi_system_id stk_upside_down_dmi_table[] = {
 -	{
--		.fourcc		= V4L2_PIX_FMT_RGB565,
--		.pixelformat	= V4L2_PIX_FMT_RGB565,
--		.depth		= 16,
+-		.ident = "ASUS G1",
+-		.matches = {
+-			DMI_MATCH(DMI_SYS_VENDOR, "ASUSTeK Computer Inc."),
+-			DMI_MATCH(DMI_PRODUCT_NAME, "G1")
+-		}
 -	}, {
--		.fourcc		= V4L2_PIX_FMT_RGB32,
--		.pixelformat	= V4L2_PIX_FMT_RGB32,
--		.depth		= 32,
--	}
+-		.ident = "ASUS F3JC",
+-		.matches = {
+-			DMI_MATCH(DMI_SYS_VENDOR, "ASUSTeK Computer Inc."),
+-			DMI_MATCH(DMI_PRODUCT_NAME, "F3JC")
+-		}
+-	},
+-	{
+-		.ident = "T12Rg-H",
+-		.matches = {
+-			DMI_MATCH(DMI_SYS_VENDOR, "HCL Infosystems Limited"),
+-			DMI_MATCH(DMI_PRODUCT_NAME, "T12Rg-H")
+-		}
+-	},
+-	{
+-		.ident = "ASUS A6VM",
+-		.matches = {
+-			DMI_MATCH(DMI_SYS_VENDOR, "ASUSTeK Computer Inc."),
+-			DMI_MATCH(DMI_PRODUCT_NAME, "A6VM")
+-		}
+-	},
+-	{
+-		.ident = "ASUS A6JC",
+-		.matches = {
+-			DMI_MATCH(DMI_SYS_VENDOR, "ASUSTeK Computer Inc."),
+-			DMI_MATCH(DMI_PRODUCT_NAME, "A6JC")
+-		}
+-	},
+-	{}
 -};
 -
--struct viu_dev;
--struct viu_buf;
--
--/* buffer for one video frame */
--struct viu_buf {
--	/* common v4l buffer stuff -- must be first */
--	struct videobuf_buffer vb;
--	struct viu_fmt *fmt;
--};
--
--struct viu_dmaqueue {
--	struct viu_dev		*dev;
--	struct list_head	active;
--	struct list_head	queued;
--	struct timer_list	timeout;
--};
--
--struct viu_status {
--	u32 field_irq;
--	u32 vsync_irq;
--	u32 hsync_irq;
--	u32 vstart_irq;
--	u32 dma_end_irq;
--	u32 error_irq;
--};
--
--struct viu_reg {
--	u32 status_cfg;
--	u32 luminance;
--	u32 chroma_r;
--	u32 chroma_g;
--	u32 chroma_b;
--	u32 field_base_addr;
--	u32 dma_inc;
--	u32 picture_count;
--	u32 req_alarm;
--	u32 alpha;
--} __attribute__ ((packed));
--
--struct viu_dev {
--	struct v4l2_device	v4l2_dev;
--	struct v4l2_ctrl_handler hdl;
--	struct mutex		lock;
--	spinlock_t		slock;
--	int			users;
--
--	struct device		*dev;
--	/* various device info */
--	struct video_device	*vdev;
--	struct viu_dmaqueue	vidq;
--	enum v4l2_field		capfield;
--	int			field;
--	int			first;
--	int			dma_done;
--
--	/* Hardware register area */
--	struct viu_reg __iomem	*vr;
--
--	/* Interrupt vector */
--	int			irq;
--	struct viu_status	irqs;
--
--	/* video overlay */
--	struct v4l2_framebuffer	ovbuf;
--	struct viu_fmt		*ovfmt;
--	unsigned int		ovenable;
--	enum v4l2_field		ovfield;
--
--	/* crop */
--	struct v4l2_rect	crop_current;
--
--	/* clock pointer */
--	struct clk		*clk;
--
--	/* decoder */
--	struct v4l2_subdev	*decoder;
--
--	v4l2_std_id		std;
--};
--
--struct viu_fh {
--	/* must remain the first field of this struct */
--	struct v4l2_fh		fh;
--	struct viu_dev		*dev;
--
--	/* video capture */
--	struct videobuf_queue	vb_vidq;
--	spinlock_t		vbq_lock; /* spinlock for the videobuf queue */
--
--	/* video overlay */
--	struct v4l2_window	win;
--	struct v4l2_clip	clips[1];
--
--	/* video capture */
--	struct viu_fmt		*fmt;
--	int			width, height, sizeimage;
--	enum v4l2_buf_type	type;
--};
--
--static struct viu_reg reg_val;
 -
 -/*
-- * Macro definitions of VIU registers
+- * Basic stuff
+- */
+-int stk_camera_write_reg(struct stk_camera *dev, u16 index, u8 value)
+-{
+-	struct usb_device *udev = dev->udev;
+-	int ret;
+-
+-	ret =  usb_control_msg(udev, usb_sndctrlpipe(udev, 0),
+-			0x01,
+-			USB_DIR_OUT | USB_TYPE_VENDOR | USB_RECIP_DEVICE,
+-			value,
+-			index,
+-			NULL,
+-			0,
+-			500);
+-	if (ret < 0)
+-		return ret;
+-	else
+-		return 0;
+-}
+-
+-int stk_camera_read_reg(struct stk_camera *dev, u16 index, u8 *value)
+-{
+-	struct usb_device *udev = dev->udev;
+-	int ret;
+-
+-	ret = usb_control_msg(udev, usb_rcvctrlpipe(udev, 0),
+-			0x00,
+-			USB_DIR_IN | USB_TYPE_VENDOR | USB_RECIP_DEVICE,
+-			0x00,
+-			index,
+-			&dev->read_reg_scratch,
+-			sizeof(u8),
+-			500);
+-	if (ret >= 0)
+-		*value = dev->read_reg_scratch;
+-
+-	if (ret < 0)
+-		return ret;
+-	else
+-		return 0;
+-}
+-
+-static int stk_start_stream(struct stk_camera *dev)
+-{
+-	u8 value;
+-	int i, ret;
+-	u8 value_116, value_117;
+-
+-
+-	if (!is_present(dev))
+-		return -ENODEV;
+-	if (!is_memallocd(dev) || !is_initialised(dev)) {
+-		pr_err("FIXME: Buffers are not allocated\n");
+-		return -EFAULT;
+-	}
+-	ret = usb_set_interface(dev->udev, 0, 5);
+-
+-	if (ret < 0)
+-		pr_err("usb_set_interface failed !\n");
+-	if (stk_sensor_wakeup(dev))
+-		pr_err("error awaking the sensor\n");
+-
+-	stk_camera_read_reg(dev, 0x0116, &value_116);
+-	stk_camera_read_reg(dev, 0x0117, &value_117);
+-
+-	stk_camera_write_reg(dev, 0x0116, 0x0000);
+-	stk_camera_write_reg(dev, 0x0117, 0x0000);
+-
+-	stk_camera_read_reg(dev, 0x0100, &value);
+-	stk_camera_write_reg(dev, 0x0100, value | 0x80);
+-
+-	stk_camera_write_reg(dev, 0x0116, value_116);
+-	stk_camera_write_reg(dev, 0x0117, value_117);
+-	for (i = 0; i < MAX_ISO_BUFS; i++) {
+-		if (dev->isobufs[i].urb) {
+-			ret = usb_submit_urb(dev->isobufs[i].urb, GFP_KERNEL);
+-			atomic_inc(&dev->urbs_used);
+-			if (ret)
+-				return ret;
+-		}
+-	}
+-	set_streaming(dev);
+-	return 0;
+-}
+-
+-static int stk_stop_stream(struct stk_camera *dev)
+-{
+-	u8 value;
+-	int i;
+-	if (is_present(dev)) {
+-		stk_camera_read_reg(dev, 0x0100, &value);
+-		stk_camera_write_reg(dev, 0x0100, value & ~0x80);
+-		if (dev->isobufs != NULL) {
+-			for (i = 0; i < MAX_ISO_BUFS; i++) {
+-				if (dev->isobufs[i].urb)
+-					usb_kill_urb(dev->isobufs[i].urb);
+-			}
+-		}
+-		unset_streaming(dev);
+-
+-		if (usb_set_interface(dev->udev, 0, 0))
+-			pr_err("usb_set_interface failed !\n");
+-		if (stk_sensor_sleep(dev))
+-			pr_err("error suspending the sensor\n");
+-	}
+-	return 0;
+-}
+-
+-/*
+- * This seems to be the shortest init sequence we
+- * must do in order to find the sensor
+- * Bit 5 of reg. 0x0000 here is important, when reset to 0 the sensor
+- * is also reset. Maybe powers down it?
+- * Rest of values don't make a difference
 - */
 -
--/* STATUS_CONFIG register */
--enum status_config {
--	SOFT_RST		= 1 << 0,
+-static struct regval stk1125_initvals[] = {
+-	/*TODO: What means this sequence? */
+-	{0x0000, 0x24},
+-	{0x0100, 0x21},
+-	{0x0002, 0x68},
+-	{0x0003, 0x80},
+-	{0x0005, 0x00},
+-	{0x0007, 0x03},
+-	{0x000d, 0x00},
+-	{0x000f, 0x02},
+-	{0x0300, 0x12},
+-	{0x0350, 0x41},
+-	{0x0351, 0x00},
+-	{0x0352, 0x00},
+-	{0x0353, 0x00},
+-	{0x0018, 0x10},
+-	{0x0019, 0x00},
+-	{0x001b, 0x0e},
+-	{0x001c, 0x46},
+-	{0x0300, 0x80},
+-	{0x001a, 0x04},
+-	{0x0110, 0x00},
+-	{0x0111, 0x00},
+-	{0x0112, 0x00},
+-	{0x0113, 0x00},
 -
--	ERR_MASK		= 0x0f << 4,	/* Error code mask */
--	ERR_NO			= 0x00,		/* No error */
--	ERR_DMA_V		= 0x01 << 4,	/* DMA in vertical active */
--	ERR_DMA_VB		= 0x02 << 4,	/* DMA in vertical blanking */
--	ERR_LINE_TOO_LONG	= 0x04 << 4,	/* Line too long */
--	ERR_TOO_MANG_LINES	= 0x05 << 4,	/* Too many lines in field */
--	ERR_LINE_TOO_SHORT	= 0x06 << 4,	/* Line too short */
--	ERR_NOT_ENOUGH_LINE	= 0x07 << 4,	/* Not enough lines in field */
--	ERR_FIFO_OVERFLOW	= 0x08 << 4,	/* FIFO overflow */
--	ERR_FIFO_UNDERFLOW	= 0x09 << 4,	/* FIFO underflow */
--	ERR_1bit_ECC		= 0x0a << 4,	/* One bit ECC error */
--	ERR_MORE_ECC		= 0x0b << 4,	/* Two/more bits ECC error */
--
--	INT_FIELD_EN		= 0x01 << 8,	/* Enable field interrupt */
--	INT_VSYNC_EN		= 0x01 << 9,	/* Enable vsync interrupt */
--	INT_HSYNC_EN		= 0x01 << 10,	/* Enable hsync interrupt */
--	INT_VSTART_EN		= 0x01 << 11,	/* Enable vstart interrupt */
--	INT_DMA_END_EN		= 0x01 << 12,	/* Enable DMA end interrupt */
--	INT_ERROR_EN		= 0x01 << 13,	/* Enable error interrupt */
--	INT_ECC_EN		= 0x01 << 14,	/* Enable ECC interrupt */
--
--	INT_FIELD_STATUS	= 0x01 << 16,	/* field interrupt status */
--	INT_VSYNC_STATUS	= 0x01 << 17,	/* vsync interrupt status */
--	INT_HSYNC_STATUS	= 0x01 << 18,	/* hsync interrupt status */
--	INT_VSTART_STATUS	= 0x01 << 19,	/* vstart interrupt status */
--	INT_DMA_END_STATUS	= 0x01 << 20,	/* DMA end interrupt status */
--	INT_ERROR_STATUS	= 0x01 << 21,	/* error interrupt status */
--
--	DMA_ACT			= 0x01 << 27,	/* Enable DMA transfer */
--	FIELD_NO		= 0x01 << 28,	/* Field number */
--	DITHER_ON		= 0x01 << 29,	/* Dithering is on */
--	ROUND_ON		= 0x01 << 30,	/* Round is on */
--	MODE_32BIT		= 1UL << 31,	/* Data in RGBa888,
--						 * 0 in RGB565
--						 */
+-	{0xffff, 0xff},
 -};
 -
--#define norm_maxw()	720
--#define norm_maxh()	576
 -
--#define INT_ALL_STATUS	(INT_FIELD_STATUS | INT_VSYNC_STATUS | \
--			 INT_HSYNC_STATUS | INT_VSTART_STATUS | \
--			 INT_DMA_END_STATUS | INT_ERROR_STATUS)
+-static int stk_initialise(struct stk_camera *dev)
+-{
+-	struct regval *rv;
+-	int ret;
+-	if (!is_present(dev))
+-		return -ENODEV;
+-	if (is_initialised(dev))
+-		return 0;
+-	rv = stk1125_initvals;
+-	while (rv->reg != 0xffff) {
+-		ret = stk_camera_write_reg(dev, rv->reg, rv->val);
+-		if (ret)
+-			return ret;
+-		rv++;
+-	}
+-	if (stk_sensor_init(dev) == 0) {
+-		set_initialised(dev);
+-		return 0;
+-	} else
+-		return -1;
+-}
 -
--#define NUM_FORMATS	ARRAY_SIZE(formats)
+-/* *********************************************** */
+-/*
+- * This function is called as an URB transfert is complete (Isochronous pipe).
+- * So, the traitement is done in interrupt time, so it has be fast, not crash,
+- * and not stall. Neat.
+- */
+-static void stk_isoc_handler(struct urb *urb)
+-{
+-	int i;
+-	int ret;
+-	int framelen;
+-	unsigned long flags;
 -
--static irqreturn_t viu_intr(int irq, void *dev_id);
+-	unsigned char *fill = NULL;
+-	unsigned char *iso_buf = NULL;
 -
--static struct viu_fmt *format_by_fourcc(int fourcc)
+-	struct stk_camera *dev;
+-	struct stk_sio_buffer *fb;
+-
+-	dev = (struct stk_camera *) urb->context;
+-
+-	if (dev == NULL) {
+-		pr_err("isoc_handler called with NULL device !\n");
+-		return;
+-	}
+-
+-	if (urb->status == -ENOENT || urb->status == -ECONNRESET
+-		|| urb->status == -ESHUTDOWN) {
+-		atomic_dec(&dev->urbs_used);
+-		return;
+-	}
+-
+-	spin_lock_irqsave(&dev->spinlock, flags);
+-
+-	if (urb->status != -EINPROGRESS && urb->status != 0) {
+-		pr_err("isoc_handler: urb->status == %d\n", urb->status);
+-		goto resubmit;
+-	}
+-
+-	if (list_empty(&dev->sio_avail)) {
+-		/*FIXME Stop streaming after a while */
+-		pr_err_ratelimited("isoc_handler without available buffer!\n");
+-		goto resubmit;
+-	}
+-	fb = list_first_entry(&dev->sio_avail,
+-			struct stk_sio_buffer, list);
+-	fill = fb->buffer + fb->v4lbuf.bytesused;
+-
+-	for (i = 0; i < urb->number_of_packets; i++) {
+-		if (urb->iso_frame_desc[i].status != 0) {
+-			if (urb->iso_frame_desc[i].status != -EXDEV)
+-				pr_err("Frame %d has error %d\n",
+-				       i, urb->iso_frame_desc[i].status);
+-			continue;
+-		}
+-		framelen = urb->iso_frame_desc[i].actual_length;
+-		iso_buf = urb->transfer_buffer + urb->iso_frame_desc[i].offset;
+-
+-		if (framelen <= 4)
+-			continue; /* no data */
+-
+-		/*
+-		 * we found something informational from there
+-		 * the isoc frames have to type of headers
+-		 * type1: 00 xx 00 00 or 20 xx 00 00
+-		 * type2: 80 xx 00 00 00 00 00 00 or a0 xx 00 00 00 00 00 00
+-		 * xx is a sequencer which has never been seen over 0x3f
+-		 * imho data written down looks like bayer, i see similarities
+-		 * after every 640 bytes
+-		 */
+-		if (*iso_buf & 0x80) {
+-			framelen -= 8;
+-			iso_buf += 8;
+-			/* This marks a new frame */
+-			if (fb->v4lbuf.bytesused != 0
+-				&& fb->v4lbuf.bytesused != dev->frame_size) {
+-				pr_err_ratelimited("frame %d, bytesused=%d, skipping\n",
+-						   i, fb->v4lbuf.bytesused);
+-				fb->v4lbuf.bytesused = 0;
+-				fill = fb->buffer;
+-			} else if (fb->v4lbuf.bytesused == dev->frame_size) {
+-				if (list_is_singular(&dev->sio_avail)) {
+-					/* Always reuse the last buffer */
+-					fb->v4lbuf.bytesused = 0;
+-					fill = fb->buffer;
+-				} else {
+-					list_move_tail(dev->sio_avail.next,
+-						&dev->sio_full);
+-					wake_up(&dev->wait_frame);
+-					fb = list_first_entry(&dev->sio_avail,
+-						struct stk_sio_buffer, list);
+-					fb->v4lbuf.bytesused = 0;
+-					fill = fb->buffer;
+-				}
+-			}
+-		} else {
+-			framelen -= 4;
+-			iso_buf += 4;
+-		}
+-
+-		/* Our buffer is full !!! */
+-		if (framelen + fb->v4lbuf.bytesused > dev->frame_size) {
+-			pr_err_ratelimited("Frame buffer overflow, lost sync\n");
+-			/*FIXME Do something here? */
+-			continue;
+-		}
+-		spin_unlock_irqrestore(&dev->spinlock, flags);
+-		memcpy(fill, iso_buf, framelen);
+-		spin_lock_irqsave(&dev->spinlock, flags);
+-		fill += framelen;
+-
+-		/* New size of our buffer */
+-		fb->v4lbuf.bytesused += framelen;
+-	}
+-
+-resubmit:
+-	spin_unlock_irqrestore(&dev->spinlock, flags);
+-	urb->dev = dev->udev;
+-	ret = usb_submit_urb(urb, GFP_ATOMIC);
+-	if (ret != 0) {
+-		pr_err("Error (%d) re-submitting urb in stk_isoc_handler\n",
+-		       ret);
+-	}
+-}
+-
+-/* -------------------------------------------- */
+-
+-static int stk_prepare_iso(struct stk_camera *dev)
+-{
+-	void *kbuf;
+-	int i, j;
+-	struct urb *urb;
+-	struct usb_device *udev;
+-
+-	if (dev == NULL)
+-		return -ENXIO;
+-	udev = dev->udev;
+-
+-	if (dev->isobufs)
+-		pr_err("isobufs already allocated. Bad\n");
+-	else
+-		dev->isobufs = kcalloc(MAX_ISO_BUFS, sizeof(*dev->isobufs),
+-				       GFP_KERNEL);
+-	if (dev->isobufs == NULL) {
+-		pr_err("Unable to allocate iso buffers\n");
+-		return -ENOMEM;
+-	}
+-	for (i = 0; i < MAX_ISO_BUFS; i++) {
+-		if (dev->isobufs[i].data == NULL) {
+-			kbuf = kzalloc(ISO_BUFFER_SIZE, GFP_KERNEL);
+-			if (kbuf == NULL) {
+-				pr_err("Failed to allocate iso buffer %d\n", i);
+-				goto isobufs_out;
+-			}
+-			dev->isobufs[i].data = kbuf;
+-		} else
+-			pr_err("isobuf data already allocated\n");
+-		if (dev->isobufs[i].urb == NULL) {
+-			urb = usb_alloc_urb(ISO_FRAMES_PER_DESC, GFP_KERNEL);
+-			if (urb == NULL)
+-				goto isobufs_out;
+-			dev->isobufs[i].urb = urb;
+-		} else {
+-			pr_err("Killing URB\n");
+-			usb_kill_urb(dev->isobufs[i].urb);
+-			urb = dev->isobufs[i].urb;
+-		}
+-		urb->interval = 1;
+-		urb->dev = udev;
+-		urb->pipe = usb_rcvisocpipe(udev, dev->isoc_ep);
+-		urb->transfer_flags = URB_ISO_ASAP;
+-		urb->transfer_buffer = dev->isobufs[i].data;
+-		urb->transfer_buffer_length = ISO_BUFFER_SIZE;
+-		urb->complete = stk_isoc_handler;
+-		urb->context = dev;
+-		urb->start_frame = 0;
+-		urb->number_of_packets = ISO_FRAMES_PER_DESC;
+-
+-		for (j = 0; j < ISO_FRAMES_PER_DESC; j++) {
+-			urb->iso_frame_desc[j].offset = j * ISO_MAX_FRAME_SIZE;
+-			urb->iso_frame_desc[j].length = ISO_MAX_FRAME_SIZE;
+-		}
+-	}
+-	set_memallocd(dev);
+-	return 0;
+-
+-isobufs_out:
+-	for (i = 0; i < MAX_ISO_BUFS && dev->isobufs[i].data; i++)
+-		kfree(dev->isobufs[i].data);
+-	for (i = 0; i < MAX_ISO_BUFS && dev->isobufs[i].urb; i++)
+-		usb_free_urb(dev->isobufs[i].urb);
+-	kfree(dev->isobufs);
+-	dev->isobufs = NULL;
+-	return -ENOMEM;
+-}
+-
+-static void stk_clean_iso(struct stk_camera *dev)
 -{
 -	int i;
 -
--	for (i = 0; i < NUM_FORMATS; i++) {
--		if (formats[i].pixelformat == fourcc)
--			return formats + i;
--	}
+-	if (dev == NULL || dev->isobufs == NULL)
+-		return;
 -
--	dprintk(0, "unknown pixelformat:'%4.4s'\n", (char *)&fourcc);
--	return NULL;
--}
+-	for (i = 0; i < MAX_ISO_BUFS; i++) {
+-		struct urb *urb;
 -
--static void viu_start_dma(struct viu_dev *dev)
--{
--	struct viu_reg __iomem *vr = dev->vr;
--
--	dev->field = 0;
--
--	/* Enable DMA operation */
--	iowrite32be(SOFT_RST, &vr->status_cfg);
--	iowrite32be(INT_FIELD_EN, &vr->status_cfg);
--}
--
--static void viu_stop_dma(struct viu_dev *dev)
--{
--	struct viu_reg __iomem *vr = dev->vr;
--	int cnt = 100;
--	u32 status_cfg;
--
--	iowrite32be(0, &vr->status_cfg);
--
--	/* Clear pending interrupts */
--	status_cfg = ioread32be(&vr->status_cfg);
--	if (status_cfg & 0x3f0000)
--		iowrite32be(status_cfg & 0x3f0000, &vr->status_cfg);
--
--	if (status_cfg & DMA_ACT) {
--		do {
--			status_cfg = ioread32be(&vr->status_cfg);
--			if (status_cfg & INT_DMA_END_STATUS)
--				break;
--		} while (cnt--);
--
--		if (cnt < 0) {
--			/* timed out, issue soft reset */
--			iowrite32be(SOFT_RST, &vr->status_cfg);
--			iowrite32be(0, &vr->status_cfg);
--		} else {
--			/* clear DMA_END and other pending irqs */
--			iowrite32be(status_cfg & 0x3f0000, &vr->status_cfg);
+-		urb = dev->isobufs[i].urb;
+-		if (urb) {
+-			if (atomic_read(&dev->urbs_used) && is_present(dev))
+-				usb_kill_urb(urb);
+-			usb_free_urb(urb);
 -		}
+-		kfree(dev->isobufs[i].data);
 -	}
--
--	dev->field = 0;
+-	kfree(dev->isobufs);
+-	dev->isobufs = NULL;
+-	unset_memallocd(dev);
 -}
 -
--static int restart_video_queue(struct viu_dmaqueue *vidq)
+-static int stk_setup_siobuf(struct stk_camera *dev, int index)
 -{
--	struct viu_buf *buf, *prev;
+-	struct stk_sio_buffer *buf = dev->sio_bufs + index;
+-	INIT_LIST_HEAD(&buf->list);
+-	buf->v4lbuf.length = PAGE_ALIGN(dev->frame_size);
+-	buf->buffer = vmalloc_user(buf->v4lbuf.length);
+-	if (buf->buffer == NULL)
+-		return -ENOMEM;
+-	buf->mapcount = 0;
+-	buf->dev = dev;
+-	buf->v4lbuf.index = index;
+-	buf->v4lbuf.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
+-	buf->v4lbuf.flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
+-	buf->v4lbuf.field = V4L2_FIELD_NONE;
+-	buf->v4lbuf.memory = V4L2_MEMORY_MMAP;
+-	buf->v4lbuf.m.offset = 2*index*buf->v4lbuf.length;
+-	return 0;
+-}
 -
--	dprintk(1, "%s vidq=%p\n", __func__, vidq);
--	if (!list_empty(&vidq->active)) {
--		buf = list_entry(vidq->active.next, struct viu_buf, vb.queue);
--		dprintk(2, "restart_queue [%p/%d]: restart dma\n",
--			buf, buf->vb.i);
--
--		viu_stop_dma(vidq->dev);
--
--		/* cancel all outstanding capture requests */
--		list_for_each_entry_safe(buf, prev, &vidq->active, vb.queue) {
--			list_del(&buf->vb.queue);
--			buf->vb.state = VIDEOBUF_ERROR;
--			wake_up(&buf->vb.done);
--		}
--		mod_timer(&vidq->timeout, jiffies+BUFFER_TIMEOUT);
+-static int stk_free_sio_buffers(struct stk_camera *dev)
+-{
+-	int i;
+-	int nbufs;
+-	unsigned long flags;
+-	if (dev->n_sbufs == 0 || dev->sio_bufs == NULL)
 -		return 0;
+-	/*
+-	* If any buffers are mapped, we cannot free them at all.
+-	*/
+-	for (i = 0; i < dev->n_sbufs; i++) {
+-		if (dev->sio_bufs[i].mapcount > 0)
+-			return -EBUSY;
 -	}
--
--	prev = NULL;
--	for (;;) {
--		if (list_empty(&vidq->queued))
--			return 0;
--		buf = list_entry(vidq->queued.next, struct viu_buf, vb.queue);
--		if (prev == NULL) {
--			list_move_tail(&buf->vb.queue, &vidq->active);
--
--			dprintk(1, "Restarting video dma\n");
--			viu_stop_dma(vidq->dev);
--			viu_start_dma(vidq->dev);
--
--			buf->vb.state = VIDEOBUF_ACTIVE;
--			mod_timer(&vidq->timeout, jiffies+BUFFER_TIMEOUT);
--			dprintk(2, "[%p/%d] restart_queue - first active\n",
--				buf, buf->vb.i);
--
--		} else if (prev->vb.width  == buf->vb.width  &&
--			   prev->vb.height == buf->vb.height &&
--			   prev->fmt       == buf->fmt) {
--			list_move_tail(&buf->vb.queue, &vidq->active);
--			buf->vb.state = VIDEOBUF_ACTIVE;
--			dprintk(2, "[%p/%d] restart_queue - move to active\n",
--				buf, buf->vb.i);
--		} else {
--			return 0;
--		}
--		prev = buf;
--	}
--}
--
--static void viu_vid_timeout(struct timer_list *t)
--{
--	struct viu_dev *dev = from_timer(dev, t, vidq.timeout);
--	struct viu_buf *buf;
--	struct viu_dmaqueue *vidq = &dev->vidq;
--
--	while (!list_empty(&vidq->active)) {
--		buf = list_entry(vidq->active.next, struct viu_buf, vb.queue);
--		list_del(&buf->vb.queue);
--		buf->vb.state = VIDEOBUF_ERROR;
--		wake_up(&buf->vb.done);
--		dprintk(1, "viu/0: [%p/%d] timeout\n", buf, buf->vb.i);
--	}
--
--	restart_video_queue(vidq);
--}
--
--/*
-- * Videobuf operations
-- */
--static int buffer_setup(struct videobuf_queue *vq, unsigned int *count,
--			unsigned int *size)
--{
--	struct viu_fh *fh = vq->priv_data;
--
--	*size = fh->width * fh->height * fh->fmt->depth >> 3;
--	if (*count == 0)
--		*count = 32;
--
--	while (*size * *count > VIU_VID_MEM_LIMIT * 1024 * 1024)
--		(*count)--;
--
--	dprintk(1, "%s, count=%d, size=%d\n", __func__, *count, *size);
+-	/*
+-	* OK, let's do it.
+-	*/
+-	spin_lock_irqsave(&dev->spinlock, flags);
+-	INIT_LIST_HEAD(&dev->sio_avail);
+-	INIT_LIST_HEAD(&dev->sio_full);
+-	nbufs = dev->n_sbufs;
+-	dev->n_sbufs = 0;
+-	spin_unlock_irqrestore(&dev->spinlock, flags);
+-	for (i = 0; i < nbufs; i++)
+-		vfree(dev->sio_bufs[i].buffer);
+-	kfree(dev->sio_bufs);
+-	dev->sio_bufs = NULL;
 -	return 0;
 -}
 -
--static void free_buffer(struct videobuf_queue *vq, struct viu_buf *buf)
+-static int stk_prepare_sio_buffers(struct stk_camera *dev, unsigned n_sbufs)
 -{
--	struct videobuf_buffer *vb = &buf->vb;
--	void *vaddr = NULL;
--
--	videobuf_waiton(vq, &buf->vb, 0, 0);
--
--	if (vq->int_ops && vq->int_ops->vaddr)
--		vaddr = vq->int_ops->vaddr(vb);
--
--	if (vaddr)
--		videobuf_dma_contig_free(vq, &buf->vb);
--
--	buf->vb.state = VIDEOBUF_NEEDS_INIT;
--}
--
--inline int buffer_activate(struct viu_dev *dev, struct viu_buf *buf)
--{
--	struct viu_reg __iomem *vr = dev->vr;
--	int bpp;
--
--	/* setup the DMA base address */
--	reg_val.field_base_addr = videobuf_to_dma_contig(&buf->vb);
--
--	dprintk(1, "buffer_activate [%p/%d]: dma addr 0x%lx\n",
--		buf, buf->vb.i, (unsigned long)reg_val.field_base_addr);
--
--	/* interlace is on by default, set horizontal DMA increment */
--	reg_val.status_cfg = 0;
--	bpp = buf->fmt->depth >> 3;
--	switch (bpp) {
--	case 2:
--		reg_val.status_cfg &= ~MODE_32BIT;
--		reg_val.dma_inc = buf->vb.width * 2;
--		break;
--	case 4:
--		reg_val.status_cfg |= MODE_32BIT;
--		reg_val.dma_inc = buf->vb.width * 4;
--		break;
--	default:
--		dprintk(0, "doesn't support color depth(%d)\n",
--			bpp * 8);
--		return -EINVAL;
--	}
--
--	/* setup picture_count register */
--	reg_val.picture_count = (buf->vb.height / 2) << 16 |
--				buf->vb.width;
--
--	reg_val.status_cfg |= DMA_ACT | INT_DMA_END_EN | INT_FIELD_EN;
--
--	buf->vb.state = VIDEOBUF_ACTIVE;
--	dev->capfield = buf->vb.field;
--
--	/* reset dma increment if needed */
--	if (!V4L2_FIELD_HAS_BOTH(buf->vb.field))
--		reg_val.dma_inc = 0;
--
--	iowrite32be(reg_val.dma_inc, &vr->dma_inc);
--	iowrite32be(reg_val.picture_count, &vr->picture_count);
--	iowrite32be(reg_val.field_base_addr, &vr->field_base_addr);
--	mod_timer(&dev->vidq.timeout, jiffies + BUFFER_TIMEOUT);
--	return 0;
--}
--
--static int buffer_prepare(struct videobuf_queue *vq,
--			  struct videobuf_buffer *vb,
--			  enum v4l2_field field)
--{
--	struct viu_fh  *fh  = vq->priv_data;
--	struct viu_buf *buf = container_of(vb, struct viu_buf, vb);
--	int rc;
--
--	BUG_ON(fh->fmt == NULL);
--
--	if (fh->width  < 48 || fh->width  > norm_maxw() ||
--	    fh->height < 32 || fh->height > norm_maxh())
--		return -EINVAL;
--	buf->vb.size = (fh->width * fh->height * fh->fmt->depth) >> 3;
--	if (buf->vb.baddr != 0 && buf->vb.bsize < buf->vb.size)
--		return -EINVAL;
--
--	if (buf->fmt       != fh->fmt	 ||
--	    buf->vb.width  != fh->width  ||
--	    buf->vb.height != fh->height ||
--	    buf->vb.field  != field) {
--		buf->fmt       = fh->fmt;
--		buf->vb.width  = fh->width;
--		buf->vb.height = fh->height;
--		buf->vb.field  = field;
--	}
--
--	if (buf->vb.state == VIDEOBUF_NEEDS_INIT) {
--		rc = videobuf_iolock(vq, &buf->vb, NULL);
--		if (rc != 0)
--			goto fail;
--
--		buf->vb.width  = fh->width;
--		buf->vb.height = fh->height;
--		buf->vb.field  = field;
--		buf->fmt       = fh->fmt;
--	}
--
--	buf->vb.state = VIDEOBUF_PREPARED;
--	return 0;
--
--fail:
--	free_buffer(vq, buf);
--	return rc;
--}
--
--static void buffer_queue(struct videobuf_queue *vq, struct videobuf_buffer *vb)
--{
--	struct viu_buf       *buf     = container_of(vb, struct viu_buf, vb);
--	struct viu_fh        *fh      = vq->priv_data;
--	struct viu_dev       *dev     = fh->dev;
--	struct viu_dmaqueue  *vidq    = &dev->vidq;
--	struct viu_buf       *prev;
--
--	if (!list_empty(&vidq->queued)) {
--		dprintk(1, "adding vb queue=%p\n", &buf->vb.queue);
--		dprintk(1, "vidq pointer 0x%p, queued 0x%p\n",
--				vidq, &vidq->queued);
--		dprintk(1, "dev %p, queued: self %p, next %p, head %p\n",
--			dev, &vidq->queued, vidq->queued.next,
--			vidq->queued.prev);
--		list_add_tail(&buf->vb.queue, &vidq->queued);
--		buf->vb.state = VIDEOBUF_QUEUED;
--		dprintk(2, "[%p/%d] buffer_queue - append to queued\n",
--			buf, buf->vb.i);
--	} else if (list_empty(&vidq->active)) {
--		dprintk(1, "adding vb active=%p\n", &buf->vb.queue);
--		list_add_tail(&buf->vb.queue, &vidq->active);
--		buf->vb.state = VIDEOBUF_ACTIVE;
--		mod_timer(&vidq->timeout, jiffies+BUFFER_TIMEOUT);
--		dprintk(2, "[%p/%d] buffer_queue - first active\n",
--			buf, buf->vb.i);
--
--		buffer_activate(dev, buf);
--	} else {
--		dprintk(1, "adding vb queue2=%p\n", &buf->vb.queue);
--		prev = list_entry(vidq->active.prev, struct viu_buf, vb.queue);
--		if (prev->vb.width  == buf->vb.width  &&
--		    prev->vb.height == buf->vb.height &&
--		    prev->fmt       == buf->fmt) {
--			list_add_tail(&buf->vb.queue, &vidq->active);
--			buf->vb.state = VIDEOBUF_ACTIVE;
--			dprintk(2, "[%p/%d] buffer_queue - append to active\n",
--				buf, buf->vb.i);
--		} else {
--			list_add_tail(&buf->vb.queue, &vidq->queued);
--			buf->vb.state = VIDEOBUF_QUEUED;
--			dprintk(2, "[%p/%d] buffer_queue - first queued\n",
--				buf, buf->vb.i);
+-	int i;
+-	if (dev->sio_bufs != NULL)
+-		pr_err("sio_bufs already allocated\n");
+-	else {
+-		dev->sio_bufs = kcalloc(n_sbufs,
+-					sizeof(struct stk_sio_buffer),
+-					GFP_KERNEL);
+-		if (dev->sio_bufs == NULL)
+-			return -ENOMEM;
+-		for (i = 0; i < n_sbufs; i++) {
+-			if (stk_setup_siobuf(dev, i))
+-				return (dev->n_sbufs > 1 ? 0 : -ENOMEM);
+-			dev->n_sbufs = i+1;
 -		}
 -	}
--}
--
--static void buffer_release(struct videobuf_queue *vq,
--				struct videobuf_buffer *vb)
--{
--	struct viu_buf *buf  = container_of(vb, struct viu_buf, vb);
--	struct viu_fh  *fh   = vq->priv_data;
--	struct viu_dev *dev  = (struct viu_dev *)fh->dev;
--
--	viu_stop_dma(dev);
--	free_buffer(vq, buf);
--}
--
--static const struct videobuf_queue_ops viu_video_qops = {
--	.buf_setup      = buffer_setup,
--	.buf_prepare    = buffer_prepare,
--	.buf_queue      = buffer_queue,
--	.buf_release    = buffer_release,
--};
--
--/*
-- * IOCTL vidioc handling
-- */
--static int vidioc_querycap(struct file *file, void *priv,
--			   struct v4l2_capability *cap)
--{
--	strscpy(cap->driver, "viu", sizeof(cap->driver));
--	strscpy(cap->card, "viu", sizeof(cap->card));
--	strscpy(cap->bus_info, "platform:viu", sizeof(cap->bus_info));
 -	return 0;
 -}
 -
--static int vidioc_enum_fmt(struct file *file, void  *priv,
--					struct v4l2_fmtdesc *f)
+-static int stk_allocate_buffers(struct stk_camera *dev, unsigned n_sbufs)
 -{
--	int index = f->index;
--
--	if (f->index >= NUM_FORMATS)
--		return -EINVAL;
--
--	f->pixelformat = formats[index].fourcc;
--	return 0;
--}
--
--static int vidioc_g_fmt_cap(struct file *file, void *priv,
--					struct v4l2_format *f)
--{
--	struct viu_fh *fh = priv;
--
--	f->fmt.pix.width        = fh->width;
--	f->fmt.pix.height       = fh->height;
--	f->fmt.pix.field        = fh->vb_vidq.field;
--	f->fmt.pix.pixelformat  = fh->fmt->pixelformat;
--	f->fmt.pix.bytesperline =
--			(f->fmt.pix.width * fh->fmt->depth) >> 3;
--	f->fmt.pix.sizeimage	= fh->sizeimage;
--	f->fmt.pix.colorspace	= V4L2_COLORSPACE_SMPTE170M;
--	return 0;
--}
--
--static int vidioc_try_fmt_cap(struct file *file, void *priv,
--					struct v4l2_format *f)
--{
--	struct viu_fmt *fmt;
--	unsigned int maxw, maxh;
--
--	fmt = format_by_fourcc(f->fmt.pix.pixelformat);
--	if (!fmt) {
--		dprintk(1, "Fourcc format (0x%08x) invalid.",
--			f->fmt.pix.pixelformat);
--		return -EINVAL;
+-	int err;
+-	err = stk_prepare_iso(dev);
+-	if (err) {
+-		stk_clean_iso(dev);
+-		return err;
 -	}
--
--	maxw  = norm_maxw();
--	maxh  = norm_maxh();
--
--	f->fmt.pix.field = V4L2_FIELD_INTERLACED;
--	if (f->fmt.pix.height < 32)
--		f->fmt.pix.height = 32;
--	if (f->fmt.pix.height > maxh)
--		f->fmt.pix.height = maxh;
--	if (f->fmt.pix.width < 48)
--		f->fmt.pix.width = 48;
--	if (f->fmt.pix.width > maxw)
--		f->fmt.pix.width = maxw;
--	f->fmt.pix.width &= ~0x03;
--	f->fmt.pix.bytesperline =
--		(f->fmt.pix.width * fmt->depth) >> 3;
--	f->fmt.pix.sizeimage = f->fmt.pix.height * f->fmt.pix.bytesperline;
--	f->fmt.pix.colorspace = V4L2_COLORSPACE_SMPTE170M;
--
--	return 0;
--}
--
--static int vidioc_s_fmt_cap(struct file *file, void *priv,
--					struct v4l2_format *f)
--{
--	struct viu_fh *fh = priv;
--	int ret;
--
--	ret = vidioc_try_fmt_cap(file, fh, f);
--	if (ret < 0)
--		return ret;
--
--	fh->fmt           = format_by_fourcc(f->fmt.pix.pixelformat);
--	fh->width         = f->fmt.pix.width;
--	fh->height        = f->fmt.pix.height;
--	fh->sizeimage     = f->fmt.pix.sizeimage;
--	fh->vb_vidq.field = f->fmt.pix.field;
--	fh->type          = f->type;
--	return 0;
--}
--
--static int vidioc_g_fmt_overlay(struct file *file, void *priv,
--					struct v4l2_format *f)
--{
--	struct viu_fh *fh = priv;
--
--	f->fmt.win = fh->win;
--	return 0;
--}
--
--static int verify_preview(struct viu_dev *dev, struct v4l2_window *win)
--{
--	enum v4l2_field field;
--	int maxw, maxh;
--
--	if (dev->ovbuf.base == NULL)
--		return -EINVAL;
--	if (dev->ovfmt == NULL)
--		return -EINVAL;
--	if (win->w.width < 48 || win->w.height < 32)
--		return -EINVAL;
--
--	field = win->field;
--	maxw  = dev->crop_current.width;
--	maxh  = dev->crop_current.height;
--
--	if (field == V4L2_FIELD_ANY) {
--		field = (win->w.height > maxh/2)
--			? V4L2_FIELD_INTERLACED
--			: V4L2_FIELD_TOP;
+-	err = stk_prepare_sio_buffers(dev, n_sbufs);
+-	if (err) {
+-		stk_free_sio_buffers(dev);
+-		return err;
 -	}
--	switch (field) {
--	case V4L2_FIELD_TOP:
--	case V4L2_FIELD_BOTTOM:
--		maxh = maxh / 2;
--		break;
--	case V4L2_FIELD_INTERLACED:
--		break;
--	default:
--		return -EINVAL;
--	}
--
--	win->field = field;
--	if (win->w.width > maxw)
--		win->w.width = maxw;
--	if (win->w.height > maxh)
--		win->w.height = maxh;
 -	return 0;
 -}
 -
--inline void viu_activate_overlay(struct viu_reg __iomem *vr)
+-static void stk_free_buffers(struct stk_camera *dev)
 -{
--	iowrite32be(reg_val.field_base_addr, &vr->field_base_addr);
--	iowrite32be(reg_val.dma_inc, &vr->dma_inc);
--	iowrite32be(reg_val.picture_count, &vr->picture_count);
+-	stk_clean_iso(dev);
+-	stk_free_sio_buffers(dev);
 -}
+-/* -------------------------------------------- */
 -
--static int viu_setup_preview(struct viu_dev *dev, struct viu_fh *fh)
+-/* v4l file operations */
+-
+-static int v4l_stk_open(struct file *fp)
 -{
--	int bpp;
--
--	dprintk(1, "%s %dx%d\n", __func__,
--		fh->win.w.width, fh->win.w.height);
--
--	reg_val.status_cfg = 0;
--
--	/* setup window */
--	reg_val.picture_count = (fh->win.w.height / 2) << 16 |
--				fh->win.w.width;
--
--	/* setup color depth and dma increment */
--	bpp = dev->ovfmt->depth / 8;
--	switch (bpp) {
--	case 2:
--		reg_val.status_cfg &= ~MODE_32BIT;
--		reg_val.dma_inc = fh->win.w.width * 2;
--		break;
--	case 4:
--		reg_val.status_cfg |= MODE_32BIT;
--		reg_val.dma_inc = fh->win.w.width * 4;
--		break;
--	default:
--		dprintk(0, "device doesn't support color depth(%d)\n",
--			bpp * 8);
--		return -EINVAL;
--	}
--
--	dev->ovfield = fh->win.field;
--	if (!V4L2_FIELD_HAS_BOTH(dev->ovfield))
--		reg_val.dma_inc = 0;
--
--	reg_val.status_cfg |= DMA_ACT | INT_DMA_END_EN | INT_FIELD_EN;
--
--	/* setup the base address of the overlay buffer */
--	reg_val.field_base_addr = (u32)(long)dev->ovbuf.base;
--
--	return 0;
--}
--
--static int vidioc_s_fmt_overlay(struct file *file, void *priv,
--					struct v4l2_format *f)
--{
--	struct viu_fh  *fh  = priv;
--	struct viu_dev *dev = (struct viu_dev *)fh->dev;
--	unsigned long  flags;
+-	struct stk_camera *dev = video_drvdata(fp);
 -	int err;
 -
--	err = verify_preview(dev, &f->fmt.win);
--	if (err)
--		return err;
+-	if (dev == NULL || !is_present(dev))
+-		return -ENXIO;
 -
--	fh->win = f->fmt.win;
+-	if (mutex_lock_interruptible(&dev->lock))
+-		return -ERESTARTSYS;
+-	if (!dev->first_init)
+-		stk_camera_write_reg(dev, 0x0, 0x24);
+-	else
+-		dev->first_init = 0;
 -
--	spin_lock_irqsave(&dev->slock, flags);
--	viu_setup_preview(dev, fh);
--	spin_unlock_irqrestore(&dev->slock, flags);
--	return 0;
+-	err = v4l2_fh_open(fp);
+-	if (!err)
+-		usb_autopm_get_interface(dev->interface);
+-	mutex_unlock(&dev->lock);
+-	return err;
 -}
 -
--static int vidioc_try_fmt_overlay(struct file *file, void *priv,
--					struct v4l2_format *f)
+-static int v4l_stk_release(struct file *fp)
 -{
--	return 0;
--}
+-	struct stk_camera *dev = video_drvdata(fp);
 -
--static int vidioc_overlay(struct file *file, void *priv, unsigned int on)
--{
--	struct viu_fh  *fh  = priv;
--	struct viu_dev *dev = (struct viu_dev *)fh->dev;
--	unsigned long  flags;
--
--	if (on) {
--		spin_lock_irqsave(&dev->slock, flags);
--		viu_activate_overlay(dev->vr);
--		dev->ovenable = 1;
--
--		/* start dma */
--		viu_start_dma(dev);
--		spin_unlock_irqrestore(&dev->slock, flags);
--	} else {
--		viu_stop_dma(dev);
--		dev->ovenable = 0;
+-	mutex_lock(&dev->lock);
+-	if (dev->owner == fp) {
+-		stk_stop_stream(dev);
+-		stk_free_buffers(dev);
+-		stk_camera_write_reg(dev, 0x0, 0x49); /* turn off the LED */
+-		unset_initialised(dev);
+-		dev->owner = NULL;
 -	}
 -
--	return 0;
+-	usb_autopm_put_interface(dev->interface);
+-	mutex_unlock(&dev->lock);
+-	return v4l2_fh_release(fp);
 -}
 -
--static int vidioc_g_fbuf(struct file *file, void *priv, struct v4l2_framebuffer *arg)
+-static ssize_t stk_read(struct file *fp, char __user *buf,
+-		size_t count, loff_t *f_pos)
 -{
--	struct viu_fh  *fh = priv;
--	struct viu_dev *dev = fh->dev;
--	struct v4l2_framebuffer *fb = arg;
+-	int i;
+-	int ret;
+-	unsigned long flags;
+-	struct stk_sio_buffer *sbuf;
+-	struct stk_camera *dev = video_drvdata(fp);
 -
--	*fb = dev->ovbuf;
--	fb->capability = V4L2_FBUF_CAP_LIST_CLIPPING;
--	return 0;
--}
--
--static int vidioc_s_fbuf(struct file *file, void *priv, const struct v4l2_framebuffer *arg)
--{
--	struct viu_fh  *fh = priv;
--	struct viu_dev *dev = fh->dev;
--	const struct v4l2_framebuffer *fb = arg;
--	struct viu_fmt *fmt;
--
--	if (!capable(CAP_SYS_ADMIN) && !capable(CAP_SYS_RAWIO))
--		return -EPERM;
--
--	/* check args */
--	fmt = format_by_fourcc(fb->fmt.pixelformat);
--	if (fmt == NULL)
--		return -EINVAL;
--
--	/* ok, accept it */
--	dev->ovbuf = *fb;
--	dev->ovfmt = fmt;
--	if (dev->ovbuf.fmt.bytesperline == 0) {
--		dev->ovbuf.fmt.bytesperline =
--			dev->ovbuf.fmt.width * fmt->depth / 8;
+-	if (!is_present(dev))
+-		return -EIO;
+-	if (dev->owner && (!dev->reading || dev->owner != fp))
+-		return -EBUSY;
+-	dev->owner = fp;
+-	if (!is_streaming(dev)) {
+-		if (stk_initialise(dev)
+-			|| stk_allocate_buffers(dev, 3)
+-			|| stk_start_stream(dev))
+-			return -ENOMEM;
+-		dev->reading = 1;
+-		spin_lock_irqsave(&dev->spinlock, flags);
+-		for (i = 0; i < dev->n_sbufs; i++) {
+-			list_add_tail(&dev->sio_bufs[i].list, &dev->sio_avail);
+-			dev->sio_bufs[i].v4lbuf.flags = V4L2_BUF_FLAG_QUEUED;
+-		}
+-		spin_unlock_irqrestore(&dev->spinlock, flags);
 -	}
+-	if (*f_pos == 0) {
+-		if (fp->f_flags & O_NONBLOCK && list_empty(&dev->sio_full))
+-			return -EWOULDBLOCK;
+-		ret = wait_event_interruptible(dev->wait_frame,
+-			!list_empty(&dev->sio_full) || !is_present(dev));
+-		if (ret)
+-			return ret;
+-		if (!is_present(dev))
+-			return -EIO;
+-	}
+-	if (count + *f_pos > dev->frame_size)
+-		count = dev->frame_size - *f_pos;
+-	spin_lock_irqsave(&dev->spinlock, flags);
+-	if (list_empty(&dev->sio_full)) {
+-		spin_unlock_irqrestore(&dev->spinlock, flags);
+-		pr_err("BUG: No siobufs ready\n");
+-		return 0;
+-	}
+-	sbuf = list_first_entry(&dev->sio_full, struct stk_sio_buffer, list);
+-	spin_unlock_irqrestore(&dev->spinlock, flags);
+-
+-	if (copy_to_user(buf, sbuf->buffer + *f_pos, count))
+-		return -EFAULT;
+-
+-	*f_pos += count;
+-
+-	if (*f_pos >= dev->frame_size) {
+-		*f_pos = 0;
+-		spin_lock_irqsave(&dev->spinlock, flags);
+-		list_move_tail(&sbuf->list, &dev->sio_avail);
+-		spin_unlock_irqrestore(&dev->spinlock, flags);
+-	}
+-	return count;
+-}
+-
+-static ssize_t v4l_stk_read(struct file *fp, char __user *buf,
+-		size_t count, loff_t *f_pos)
+-{
+-	struct stk_camera *dev = video_drvdata(fp);
+-	int ret;
+-
+-	if (mutex_lock_interruptible(&dev->lock))
+-		return -ERESTARTSYS;
+-	ret = stk_read(fp, buf, count, f_pos);
+-	mutex_unlock(&dev->lock);
+-	return ret;
+-}
+-
+-static __poll_t v4l_stk_poll(struct file *fp, poll_table *wait)
+-{
+-	struct stk_camera *dev = video_drvdata(fp);
+-	__poll_t res = v4l2_ctrl_poll(fp, wait);
+-
+-	poll_wait(fp, &dev->wait_frame, wait);
+-
+-	if (!is_present(dev))
+-		return EPOLLERR;
+-
+-	if (!list_empty(&dev->sio_full))
+-		return res | EPOLLIN | EPOLLRDNORM;
+-
+-	return res;
+-}
+-
+-
+-static void stk_v4l_vm_open(struct vm_area_struct *vma)
+-{
+-	struct stk_sio_buffer *sbuf = vma->vm_private_data;
+-	sbuf->mapcount++;
+-}
+-static void stk_v4l_vm_close(struct vm_area_struct *vma)
+-{
+-	struct stk_sio_buffer *sbuf = vma->vm_private_data;
+-	sbuf->mapcount--;
+-	if (sbuf->mapcount == 0)
+-		sbuf->v4lbuf.flags &= ~V4L2_BUF_FLAG_MAPPED;
+-}
+-static const struct vm_operations_struct stk_v4l_vm_ops = {
+-	.open = stk_v4l_vm_open,
+-	.close = stk_v4l_vm_close
+-};
+-
+-static int v4l_stk_mmap(struct file *fp, struct vm_area_struct *vma)
+-{
+-	unsigned int i;
+-	int ret;
+-	unsigned long offset = vma->vm_pgoff << PAGE_SHIFT;
+-	struct stk_camera *dev = video_drvdata(fp);
+-	struct stk_sio_buffer *sbuf = NULL;
+-
+-	if (!(vma->vm_flags & VM_WRITE) || !(vma->vm_flags & VM_SHARED))
+-		return -EINVAL;
+-
+-	for (i = 0; i < dev->n_sbufs; i++) {
+-		if (dev->sio_bufs[i].v4lbuf.m.offset == offset) {
+-			sbuf = dev->sio_bufs + i;
+-			break;
+-		}
+-	}
+-	if (sbuf == NULL)
+-		return -EINVAL;
+-	ret = remap_vmalloc_range(vma, sbuf->buffer, 0);
+-	if (ret)
+-		return ret;
+-	vma->vm_flags |= VM_DONTEXPAND;
+-	vma->vm_private_data = sbuf;
+-	vma->vm_ops = &stk_v4l_vm_ops;
+-	sbuf->v4lbuf.flags |= V4L2_BUF_FLAG_MAPPED;
+-	stk_v4l_vm_open(vma);
 -	return 0;
 -}
 -
--static int vidioc_reqbufs(struct file *file, void *priv,
--				struct v4l2_requestbuffers *p)
+-/* v4l ioctl handlers */
+-
+-static int stk_vidioc_querycap(struct file *filp,
+-		void *priv, struct v4l2_capability *cap)
 -{
--	struct viu_fh *fh = priv;
+-	struct stk_camera *dev = video_drvdata(filp);
 -
--	return videobuf_reqbufs(&fh->vb_vidq, p);
--}
--
--static int vidioc_querybuf(struct file *file, void *priv,
--					struct v4l2_buffer *p)
--{
--	struct viu_fh *fh = priv;
--
--	return videobuf_querybuf(&fh->vb_vidq, p);
--}
--
--static int vidioc_qbuf(struct file *file, void *priv, struct v4l2_buffer *p)
--{
--	struct viu_fh *fh = priv;
--
--	return videobuf_qbuf(&fh->vb_vidq, p);
--}
--
--static int vidioc_dqbuf(struct file *file, void *priv, struct v4l2_buffer *p)
--{
--	struct viu_fh *fh = priv;
--
--	return videobuf_dqbuf(&fh->vb_vidq, p,
--				file->f_flags & O_NONBLOCK);
--}
--
--static int vidioc_streamon(struct file *file, void *priv, enum v4l2_buf_type i)
--{
--	struct viu_fh *fh = priv;
--	struct viu_dev *dev = fh->dev;
--
--	if (fh->type != V4L2_BUF_TYPE_VIDEO_CAPTURE)
--		return -EINVAL;
--	if (fh->type != i)
--		return -EINVAL;
--
--	if (dev->ovenable)
--		dev->ovenable = 0;
--
--	viu_start_dma(fh->dev);
--
--	return videobuf_streamon(&fh->vb_vidq);
--}
--
--static int vidioc_streamoff(struct file *file, void *priv, enum v4l2_buf_type i)
--{
--	struct viu_fh  *fh = priv;
--
--	if (fh->type != V4L2_BUF_TYPE_VIDEO_CAPTURE)
--		return -EINVAL;
--	if (fh->type != i)
--		return -EINVAL;
--
--	viu_stop_dma(fh->dev);
--
--	return videobuf_streamoff(&fh->vb_vidq);
--}
--
--#define decoder_call(viu, o, f, args...) \
--	v4l2_subdev_call(viu->decoder, o, f, ##args)
--
--static int vidioc_querystd(struct file *file, void *priv, v4l2_std_id *std_id)
--{
--	struct viu_fh *fh = priv;
--
--	decoder_call(fh->dev, video, querystd, std_id);
+-	strscpy(cap->driver, "stk", sizeof(cap->driver));
+-	strscpy(cap->card, "stk", sizeof(cap->card));
+-	usb_make_path(dev->udev, cap->bus_info, sizeof(cap->bus_info));
 -	return 0;
 -}
 -
--static int vidioc_s_std(struct file *file, void *priv, v4l2_std_id id)
+-static int stk_vidioc_enum_input(struct file *filp,
+-		void *priv, struct v4l2_input *input)
 -{
--	struct viu_fh *fh = priv;
--
--	fh->dev->std = id;
--	decoder_call(fh->dev, video, s_std, id);
--	return 0;
--}
--
--static int vidioc_g_std(struct file *file, void *priv, v4l2_std_id *std_id)
--{
--	struct viu_fh *fh = priv;
--
--	*std_id = fh->dev->std;
--	return 0;
--}
--
--/* only one input in this driver */
--static int vidioc_enum_input(struct file *file, void *priv,
--					struct v4l2_input *inp)
--{
--	struct viu_fh *fh = priv;
--
--	if (inp->index != 0)
+-	if (input->index != 0)
 -		return -EINVAL;
 -
--	inp->type = V4L2_INPUT_TYPE_CAMERA;
--	inp->std = fh->dev->vdev->tvnorms;
--	strscpy(inp->name, "Camera", sizeof(inp->name));
+-	strscpy(input->name, "Syntek USB Camera", sizeof(input->name));
+-	input->type = V4L2_INPUT_TYPE_CAMERA;
 -	return 0;
 -}
 -
--static int vidioc_g_input(struct file *file, void *priv, unsigned int *i)
+-
+-static int stk_vidioc_g_input(struct file *filp, void *priv, unsigned int *i)
 -{
 -	*i = 0;
 -	return 0;
 -}
 -
--static int vidioc_s_input(struct file *file, void *priv, unsigned int i)
+-static int stk_vidioc_s_input(struct file *filp, void *priv, unsigned int i)
 -{
--	struct viu_fh *fh = priv;
+-	return i ? -EINVAL : 0;
+-}
 -
--	if (i)
+-static int stk_s_ctrl(struct v4l2_ctrl *ctrl)
+-{
+-	struct stk_camera *dev =
+-		container_of(ctrl->handler, struct stk_camera, hdl);
+-
+-	switch (ctrl->id) {
+-	case V4L2_CID_BRIGHTNESS:
+-		return stk_sensor_set_brightness(dev, ctrl->val);
+-	case V4L2_CID_HFLIP:
+-		if (dmi_check_system(stk_upside_down_dmi_table))
+-			dev->vsettings.hflip = !ctrl->val;
+-		else
+-			dev->vsettings.hflip = ctrl->val;
+-		return 0;
+-	case V4L2_CID_VFLIP:
+-		if (dmi_check_system(stk_upside_down_dmi_table))
+-			dev->vsettings.vflip = !ctrl->val;
+-		else
+-			dev->vsettings.vflip = ctrl->val;
+-		return 0;
+-	default:
 -		return -EINVAL;
--
--	decoder_call(fh->dev, video, s_routing, i, 0, 0);
--	return 0;
--}
--
--inline void viu_activate_next_buf(struct viu_dev *dev,
--				struct viu_dmaqueue *viuq)
--{
--	struct viu_dmaqueue *vidq = viuq;
--	struct viu_buf *buf;
--
--	/* launch another DMA operation for an active/queued buffer */
--	if (!list_empty(&vidq->active)) {
--		buf = list_entry(vidq->active.next, struct viu_buf,
--					vb.queue);
--		dprintk(1, "start another queued buffer: 0x%p\n", buf);
--		buffer_activate(dev, buf);
--	} else if (!list_empty(&vidq->queued)) {
--		buf = list_entry(vidq->queued.next, struct viu_buf,
--					vb.queue);
--		list_del(&buf->vb.queue);
--
--		dprintk(1, "start another queued buffer: 0x%p\n", buf);
--		list_add_tail(&buf->vb.queue, &vidq->active);
--		buf->vb.state = VIDEOBUF_ACTIVE;
--		buffer_activate(dev, buf);
--	}
--}
--
--inline void viu_default_settings(struct viu_reg __iomem *vr)
--{
--	iowrite32be(0x9512A254, &vr->luminance);
--	iowrite32be(0x03310000, &vr->chroma_r);
--	iowrite32be(0x06600F38, &vr->chroma_g);
--	iowrite32be(0x00000409, &vr->chroma_b);
--	iowrite32be(0x000000ff, &vr->alpha);
--	iowrite32be(0x00000090, &vr->req_alarm);
--	dprintk(1, "status reg: 0x%08x, field base: 0x%08x\n",
--		ioread32be(&vr->status_cfg), ioread32be(&vr->field_base_addr));
--}
--
--static void viu_overlay_intr(struct viu_dev *dev, u32 status)
--{
--	struct viu_reg __iomem *vr = dev->vr;
--
--	if (status & INT_DMA_END_STATUS)
--		dev->dma_done = 1;
--
--	if (status & INT_FIELD_STATUS) {
--		if (dev->dma_done) {
--			u32 addr = reg_val.field_base_addr;
--
--			dev->dma_done = 0;
--			if (status & FIELD_NO)
--				addr += reg_val.dma_inc;
--
--			iowrite32be(addr, &vr->field_base_addr);
--			iowrite32be(reg_val.dma_inc, &vr->dma_inc);
--			iowrite32be((status & 0xffc0ffff) |
--				 (status & INT_ALL_STATUS) |
--				 reg_val.status_cfg, &vr->status_cfg);
--		} else if (status & INT_VSYNC_STATUS) {
--			iowrite32be((status & 0xffc0ffff) |
--				 (status & INT_ALL_STATUS) |
--				 reg_val.status_cfg, &vr->status_cfg);
--		}
--	}
--}
--
--static void viu_capture_intr(struct viu_dev *dev, u32 status)
--{
--	struct viu_dmaqueue *vidq = &dev->vidq;
--	struct viu_reg __iomem *vr = dev->vr;
--	struct viu_buf *buf;
--	int field_num;
--	int need_two;
--	int dma_done = 0;
--
--	field_num = status & FIELD_NO;
--	need_two = V4L2_FIELD_HAS_BOTH(dev->capfield);
--
--	if (status & INT_DMA_END_STATUS) {
--		dma_done = 1;
--		if (((field_num == 0) && (dev->field == 0)) ||
--		    (field_num && (dev->field == 1)))
--			dev->field++;
--	}
--
--	if (status & INT_FIELD_STATUS) {
--		dprintk(1, "irq: field %d, done %d\n",
--			!!field_num, dma_done);
--		if (unlikely(dev->first)) {
--			if (field_num == 0) {
--				dev->first = 0;
--				dprintk(1, "activate first buf\n");
--				viu_activate_next_buf(dev, vidq);
--			} else
--				dprintk(1, "wait field 0\n");
--			return;
--		}
--
--		/* setup buffer address for next dma operation */
--		if (!list_empty(&vidq->active)) {
--			u32 addr = reg_val.field_base_addr;
--
--			if (field_num && need_two) {
--				addr += reg_val.dma_inc;
--				dprintk(1, "field 1, 0x%lx, dev field %d\n",
--					(unsigned long)addr, dev->field);
--			}
--			iowrite32be(addr, &vr->field_base_addr);
--			iowrite32be(reg_val.dma_inc, &vr->dma_inc);
--			iowrite32be((status & 0xffc0ffff) |
--				 (status & INT_ALL_STATUS) |
--				 reg_val.status_cfg, &vr->status_cfg);
--			return;
--		}
--	}
--
--	if (dma_done && field_num && (dev->field == 2)) {
--		dev->field = 0;
--		buf = list_entry(vidq->active.next,
--				 struct viu_buf, vb.queue);
--		dprintk(1, "viu/0: [%p/%d] 0x%lx/0x%lx: dma complete\n",
--			buf, buf->vb.i,
--			(unsigned long)videobuf_to_dma_contig(&buf->vb),
--			(unsigned long)ioread32be(&vr->field_base_addr));
--
--		if (waitqueue_active(&buf->vb.done)) {
--			list_del(&buf->vb.queue);
--			buf->vb.ts = ktime_get_ns();
--			buf->vb.state = VIDEOBUF_DONE;
--			buf->vb.field_count++;
--			wake_up(&buf->vb.done);
--		}
--		/* activate next dma buffer */
--		viu_activate_next_buf(dev, vidq);
--	}
--}
--
--static irqreturn_t viu_intr(int irq, void *dev_id)
--{
--	struct viu_dev *dev  = (struct viu_dev *)dev_id;
--	struct viu_reg __iomem *vr = dev->vr;
--	u32 status;
--	u32 error;
--
--	status = ioread32be(&vr->status_cfg);
--
--	if (status & INT_ERROR_STATUS) {
--		dev->irqs.error_irq++;
--		error = status & ERR_MASK;
--		if (error)
--			dprintk(1, "Err: error(%d), times:%d!\n",
--				error >> 4, dev->irqs.error_irq);
--		/* Clear interrupt error bit and error flags */
--		iowrite32be((status & 0xffc0ffff) | INT_ERROR_STATUS,
--			    &vr->status_cfg);
--	}
--
--	if (status & INT_DMA_END_STATUS) {
--		dev->irqs.dma_end_irq++;
--		dev->dma_done = 1;
--		dprintk(2, "VIU DMA end interrupt times: %d\n",
--					dev->irqs.dma_end_irq);
--	}
--
--	if (status & INT_HSYNC_STATUS)
--		dev->irqs.hsync_irq++;
--
--	if (status & INT_FIELD_STATUS) {
--		dev->irqs.field_irq++;
--		dprintk(2, "VIU field interrupt times: %d\n",
--					dev->irqs.field_irq);
--	}
--
--	if (status & INT_VSTART_STATUS)
--		dev->irqs.vstart_irq++;
--
--	if (status & INT_VSYNC_STATUS) {
--		dev->irqs.vsync_irq++;
--		dprintk(2, "VIU vsync interrupt times: %d\n",
--			dev->irqs.vsync_irq);
--	}
--
--	/* clear all pending irqs */
--	status = ioread32be(&vr->status_cfg);
--	iowrite32be((status & 0xffc0ffff) | (status & INT_ALL_STATUS),
--		    &vr->status_cfg);
--
--	if (dev->ovenable) {
--		viu_overlay_intr(dev, status);
--		return IRQ_HANDLED;
--	}
--
--	/* Capture mode */
--	viu_capture_intr(dev, status);
--	return IRQ_HANDLED;
--}
--
--/*
-- * File operations for the device
-- */
--static int viu_open(struct file *file)
--{
--	struct video_device *vdev = video_devdata(file);
--	struct viu_dev *dev = video_get_drvdata(vdev);
--	struct viu_fh *fh;
--	struct viu_reg __iomem *vr;
--	int minor = vdev->minor;
--	u32 status_cfg;
--
--	dprintk(1, "viu: open (minor=%d)\n", minor);
--
--	dev->users++;
--	if (dev->users > 1) {
--		dev->users--;
--		return -EBUSY;
--	}
--
--	vr = dev->vr;
--
--	dprintk(1, "open minor=%d type=%s users=%d\n", minor,
--		v4l2_type_names[V4L2_BUF_TYPE_VIDEO_CAPTURE], dev->users);
--
--	if (mutex_lock_interruptible(&dev->lock)) {
--		dev->users--;
--		return -ERESTARTSYS;
--	}
--
--	/* allocate and initialize per filehandle data */
--	fh = kzalloc(sizeof(*fh), GFP_KERNEL);
--	if (!fh) {
--		dev->users--;
--		mutex_unlock(&dev->lock);
--		return -ENOMEM;
--	}
--
--	v4l2_fh_init(&fh->fh, vdev);
--	file->private_data = fh;
--	fh->dev = dev;
--
--	fh->type     = V4L2_BUF_TYPE_VIDEO_CAPTURE;
--	fh->fmt      = format_by_fourcc(V4L2_PIX_FMT_RGB32);
--	fh->width    = norm_maxw();
--	fh->height   = norm_maxh();
--	dev->crop_current.width  = fh->width;
--	dev->crop_current.height = fh->height;
--
--	dprintk(1, "Open: fh=%p, dev=%p, dev->vidq=%p\n", fh, dev, &dev->vidq);
--	dprintk(1, "Open: list_empty queued=%d\n",
--		list_empty(&dev->vidq.queued));
--	dprintk(1, "Open: list_empty active=%d\n",
--		list_empty(&dev->vidq.active));
--
--	viu_default_settings(vr);
--
--	status_cfg = ioread32be(&vr->status_cfg);
--	iowrite32be(status_cfg & ~(INT_VSYNC_EN | INT_HSYNC_EN |
--				INT_FIELD_EN | INT_VSTART_EN |
--				INT_DMA_END_EN | INT_ERROR_EN | INT_ECC_EN),
--		    &vr->status_cfg);
--
--	status_cfg = ioread32be(&vr->status_cfg);
--	iowrite32be(status_cfg | INT_ALL_STATUS, &vr->status_cfg);
--
--	spin_lock_init(&fh->vbq_lock);
--	videobuf_queue_dma_contig_init(&fh->vb_vidq, &viu_video_qops,
--				       dev->dev, &fh->vbq_lock,
--				       fh->type, V4L2_FIELD_INTERLACED,
--				       sizeof(struct viu_buf), fh,
--				       &fh->dev->lock);
--	v4l2_fh_add(&fh->fh);
--	mutex_unlock(&dev->lock);
--	return 0;
--}
--
--static ssize_t viu_read(struct file *file, char __user *data, size_t count,
--			loff_t *ppos)
--{
--	struct viu_fh *fh = file->private_data;
--	struct viu_dev *dev = fh->dev;
--	int ret = 0;
--
--	dprintk(2, "%s\n", __func__);
--	if (dev->ovenable)
--		dev->ovenable = 0;
--
--	if (fh->type == V4L2_BUF_TYPE_VIDEO_CAPTURE) {
--		if (mutex_lock_interruptible(&dev->lock))
--			return -ERESTARTSYS;
--		viu_start_dma(dev);
--		ret = videobuf_read_stream(&fh->vb_vidq, data, count,
--				ppos, 0, file->f_flags & O_NONBLOCK);
--		mutex_unlock(&dev->lock);
--		return ret;
 -	}
 -	return 0;
 -}
 -
--static __poll_t viu_poll(struct file *file, struct poll_table_struct *wait)
+-
+-static int stk_vidioc_enum_fmt_vid_cap(struct file *filp,
+-		void *priv, struct v4l2_fmtdesc *fmtd)
 -{
--	struct viu_fh *fh = file->private_data;
--	struct videobuf_queue *q = &fh->vb_vidq;
--	struct viu_dev *dev = fh->dev;
--	__poll_t req_events = poll_requested_events(wait);
--	__poll_t res = v4l2_ctrl_poll(file, wait);
--
--	if (V4L2_BUF_TYPE_VIDEO_CAPTURE != fh->type)
--		return EPOLLERR;
--
--	if (!(req_events & (EPOLLIN | EPOLLRDNORM)))
--		return res;
--
--	mutex_lock(&dev->lock);
--	res |= videobuf_poll_stream(file, q, wait);
--	mutex_unlock(&dev->lock);
--	return res;
--}
--
--static int viu_release(struct file *file)
--{
--	struct viu_fh *fh = file->private_data;
--	struct viu_dev *dev = fh->dev;
--	int minor = video_devdata(file)->minor;
--
--	mutex_lock(&dev->lock);
--	viu_stop_dma(dev);
--	videobuf_stop(&fh->vb_vidq);
--	videobuf_mmap_free(&fh->vb_vidq);
--	v4l2_fh_del(&fh->fh);
--	v4l2_fh_exit(&fh->fh);
--	mutex_unlock(&dev->lock);
--
--	kfree(fh);
--
--	dev->users--;
--	dprintk(1, "close (minor=%d, users=%d)\n",
--		minor, dev->users);
+-	switch (fmtd->index) {
+-	case 0:
+-		fmtd->pixelformat = V4L2_PIX_FMT_RGB565;
+-		break;
+-	case 1:
+-		fmtd->pixelformat = V4L2_PIX_FMT_RGB565X;
+-		break;
+-	case 2:
+-		fmtd->pixelformat = V4L2_PIX_FMT_UYVY;
+-		break;
+-	case 3:
+-		fmtd->pixelformat = V4L2_PIX_FMT_SBGGR8;
+-		break;
+-	case 4:
+-		fmtd->pixelformat = V4L2_PIX_FMT_YUYV;
+-		break;
+-	default:
+-		return -EINVAL;
+-	}
 -	return 0;
 -}
 -
--static void viu_reset(struct viu_reg __iomem *reg)
--{
--	iowrite32be(0, &reg->status_cfg);
--	iowrite32be(0x9512a254, &reg->luminance);
--	iowrite32be(0x03310000, &reg->chroma_r);
--	iowrite32be(0x06600f38, &reg->chroma_g);
--	iowrite32be(0x00000409, &reg->chroma_b);
--	iowrite32be(0, &reg->field_base_addr);
--	iowrite32be(0, &reg->dma_inc);
--	iowrite32be(0x01e002d0, &reg->picture_count);
--	iowrite32be(0x00000090, &reg->req_alarm);
--	iowrite32be(0x000000ff, &reg->alpha);
--}
--
--static int viu_mmap(struct file *file, struct vm_area_struct *vma)
--{
--	struct viu_fh *fh = file->private_data;
--	struct viu_dev *dev = fh->dev;
--	int ret;
--
--	dprintk(1, "mmap called, vma=%p\n", vma);
--
--	if (mutex_lock_interruptible(&dev->lock))
--		return -ERESTARTSYS;
--	ret = videobuf_mmap_mapper(&fh->vb_vidq, vma);
--	mutex_unlock(&dev->lock);
--
--	dprintk(1, "vma start=0x%08lx, size=%ld, ret=%d\n",
--		(unsigned long)vma->vm_start,
--		(unsigned long)vma->vm_end-(unsigned long)vma->vm_start,
--		ret);
--
--	return ret;
--}
--
--static const struct v4l2_file_operations viu_fops = {
--	.owner		= THIS_MODULE,
--	.open		= viu_open,
--	.release	= viu_release,
--	.read		= viu_read,
--	.poll		= viu_poll,
--	.unlocked_ioctl	= video_ioctl2, /* V4L2 ioctl handler */
--	.mmap		= viu_mmap,
+-static struct stk_size {
+-	unsigned w;
+-	unsigned h;
+-	enum stk_mode m;
+-} stk_sizes[] = {
+-	{ .w = 1280, .h = 1024, .m = MODE_SXGA, },
+-	{ .w = 640,  .h = 480,  .m = MODE_VGA,  },
+-	{ .w = 352,  .h = 288,  .m = MODE_CIF,  },
+-	{ .w = 320,  .h = 240,  .m = MODE_QVGA, },
+-	{ .w = 176,  .h = 144,  .m = MODE_QCIF, },
 -};
 -
--static const struct v4l2_ioctl_ops viu_ioctl_ops = {
--	.vidioc_querycap	= vidioc_querycap,
--	.vidioc_enum_fmt_vid_cap  = vidioc_enum_fmt,
--	.vidioc_g_fmt_vid_cap     = vidioc_g_fmt_cap,
--	.vidioc_try_fmt_vid_cap   = vidioc_try_fmt_cap,
--	.vidioc_s_fmt_vid_cap     = vidioc_s_fmt_cap,
--	.vidioc_enum_fmt_vid_overlay = vidioc_enum_fmt,
--	.vidioc_g_fmt_vid_overlay = vidioc_g_fmt_overlay,
--	.vidioc_try_fmt_vid_overlay = vidioc_try_fmt_overlay,
--	.vidioc_s_fmt_vid_overlay = vidioc_s_fmt_overlay,
--	.vidioc_overlay	      = vidioc_overlay,
--	.vidioc_g_fbuf	      = vidioc_g_fbuf,
--	.vidioc_s_fbuf	      = vidioc_s_fbuf,
--	.vidioc_reqbufs       = vidioc_reqbufs,
--	.vidioc_querybuf      = vidioc_querybuf,
--	.vidioc_qbuf          = vidioc_qbuf,
--	.vidioc_dqbuf         = vidioc_dqbuf,
--	.vidioc_g_std         = vidioc_g_std,
--	.vidioc_s_std         = vidioc_s_std,
--	.vidioc_querystd      = vidioc_querystd,
--	.vidioc_enum_input    = vidioc_enum_input,
--	.vidioc_g_input       = vidioc_g_input,
--	.vidioc_s_input       = vidioc_s_input,
--	.vidioc_streamon      = vidioc_streamon,
--	.vidioc_streamoff     = vidioc_streamoff,
--	.vidioc_log_status    = v4l2_ctrl_log_status,
+-static int stk_vidioc_g_fmt_vid_cap(struct file *filp,
+-		void *priv, struct v4l2_format *f)
+-{
+-	struct v4l2_pix_format *pix_format = &f->fmt.pix;
+-	struct stk_camera *dev = video_drvdata(filp);
+-	int i;
+-
+-	for (i = 0; i < ARRAY_SIZE(stk_sizes) &&
+-			stk_sizes[i].m != dev->vsettings.mode; i++)
+-		;
+-	if (i == ARRAY_SIZE(stk_sizes)) {
+-		pr_err("ERROR: mode invalid\n");
+-		return -EINVAL;
+-	}
+-	pix_format->width = stk_sizes[i].w;
+-	pix_format->height = stk_sizes[i].h;
+-	pix_format->field = V4L2_FIELD_NONE;
+-	pix_format->colorspace = V4L2_COLORSPACE_SRGB;
+-	pix_format->pixelformat = dev->vsettings.palette;
+-	if (dev->vsettings.palette == V4L2_PIX_FMT_SBGGR8)
+-		pix_format->bytesperline = pix_format->width;
+-	else
+-		pix_format->bytesperline = 2 * pix_format->width;
+-	pix_format->sizeimage = pix_format->bytesperline
+-				* pix_format->height;
+-	return 0;
+-}
+-
+-static int stk_try_fmt_vid_cap(struct file *filp,
+-		struct v4l2_format *fmtd, int *idx)
+-{
+-	int i;
+-	switch (fmtd->fmt.pix.pixelformat) {
+-	case V4L2_PIX_FMT_RGB565:
+-	case V4L2_PIX_FMT_RGB565X:
+-	case V4L2_PIX_FMT_UYVY:
+-	case V4L2_PIX_FMT_YUYV:
+-	case V4L2_PIX_FMT_SBGGR8:
+-		break;
+-	default:
+-		return -EINVAL;
+-	}
+-	for (i = 1; i < ARRAY_SIZE(stk_sizes); i++) {
+-		if (fmtd->fmt.pix.width > stk_sizes[i].w)
+-			break;
+-	}
+-	if (i == ARRAY_SIZE(stk_sizes)
+-		|| (abs(fmtd->fmt.pix.width - stk_sizes[i-1].w)
+-			< abs(fmtd->fmt.pix.width - stk_sizes[i].w))) {
+-		fmtd->fmt.pix.height = stk_sizes[i-1].h;
+-		fmtd->fmt.pix.width = stk_sizes[i-1].w;
+-		if (idx)
+-			*idx = i - 1;
+-	} else {
+-		fmtd->fmt.pix.height = stk_sizes[i].h;
+-		fmtd->fmt.pix.width = stk_sizes[i].w;
+-		if (idx)
+-			*idx = i;
+-	}
+-
+-	fmtd->fmt.pix.field = V4L2_FIELD_NONE;
+-	fmtd->fmt.pix.colorspace = V4L2_COLORSPACE_SRGB;
+-	if (fmtd->fmt.pix.pixelformat == V4L2_PIX_FMT_SBGGR8)
+-		fmtd->fmt.pix.bytesperline = fmtd->fmt.pix.width;
+-	else
+-		fmtd->fmt.pix.bytesperline = 2 * fmtd->fmt.pix.width;
+-	fmtd->fmt.pix.sizeimage = fmtd->fmt.pix.bytesperline
+-		* fmtd->fmt.pix.height;
+-	return 0;
+-}
+-
+-static int stk_vidioc_try_fmt_vid_cap(struct file *filp,
+-		void *priv, struct v4l2_format *fmtd)
+-{
+-	return stk_try_fmt_vid_cap(filp, fmtd, NULL);
+-}
+-
+-static int stk_setup_format(struct stk_camera *dev)
+-{
+-	int i = 0;
+-	int depth;
+-	if (dev->vsettings.palette == V4L2_PIX_FMT_SBGGR8)
+-		depth = 1;
+-	else
+-		depth = 2;
+-	while (i < ARRAY_SIZE(stk_sizes) &&
+-			stk_sizes[i].m != dev->vsettings.mode)
+-		i++;
+-	if (i == ARRAY_SIZE(stk_sizes)) {
+-		pr_err("Something is broken in %s\n", __func__);
+-		return -EFAULT;
+-	}
+-	/* This registers controls some timings, not sure of what. */
+-	stk_camera_write_reg(dev, 0x001b, 0x0e);
+-	if (dev->vsettings.mode == MODE_SXGA)
+-		stk_camera_write_reg(dev, 0x001c, 0x0e);
+-	else
+-		stk_camera_write_reg(dev, 0x001c, 0x46);
+-	/*
+-	 * Registers 0x0115 0x0114 are the size of each line (bytes),
+-	 * regs 0x0117 0x0116 are the height of the image.
+-	 */
+-	stk_camera_write_reg(dev, 0x0115,
+-		((stk_sizes[i].w * depth) >> 8) & 0xff);
+-	stk_camera_write_reg(dev, 0x0114,
+-		(stk_sizes[i].w * depth) & 0xff);
+-	stk_camera_write_reg(dev, 0x0117,
+-		(stk_sizes[i].h >> 8) & 0xff);
+-	stk_camera_write_reg(dev, 0x0116,
+-		stk_sizes[i].h & 0xff);
+-	return stk_sensor_configure(dev);
+-}
+-
+-static int stk_vidioc_s_fmt_vid_cap(struct file *filp,
+-		void *priv, struct v4l2_format *fmtd)
+-{
+-	int ret;
+-	int idx;
+-	struct stk_camera *dev = video_drvdata(filp);
+-
+-	if (dev == NULL)
+-		return -ENODEV;
+-	if (!is_present(dev))
+-		return -ENODEV;
+-	if (is_streaming(dev))
+-		return -EBUSY;
+-	if (dev->owner)
+-		return -EBUSY;
+-	ret = stk_try_fmt_vid_cap(filp, fmtd, &idx);
+-	if (ret)
+-		return ret;
+-
+-	dev->vsettings.palette = fmtd->fmt.pix.pixelformat;
+-	stk_free_buffers(dev);
+-	dev->frame_size = fmtd->fmt.pix.sizeimage;
+-	dev->vsettings.mode = stk_sizes[idx].m;
+-
+-	stk_initialise(dev);
+-	return stk_setup_format(dev);
+-}
+-
+-static int stk_vidioc_reqbufs(struct file *filp,
+-		void *priv, struct v4l2_requestbuffers *rb)
+-{
+-	struct stk_camera *dev = video_drvdata(filp);
+-
+-	if (dev == NULL)
+-		return -ENODEV;
+-	if (rb->memory != V4L2_MEMORY_MMAP)
+-		return -EINVAL;
+-	if (is_streaming(dev)
+-		|| (dev->owner && dev->owner != filp))
+-		return -EBUSY;
+-	stk_free_buffers(dev);
+-	if (rb->count == 0) {
+-		stk_camera_write_reg(dev, 0x0, 0x49); /* turn off the LED */
+-		unset_initialised(dev);
+-		dev->owner = NULL;
+-		return 0;
+-	}
+-	dev->owner = filp;
+-
+-	/*FIXME If they ask for zero, we must stop streaming and free */
+-	if (rb->count < 3)
+-		rb->count = 3;
+-	/* Arbitrary limit */
+-	else if (rb->count > 5)
+-		rb->count = 5;
+-
+-	stk_allocate_buffers(dev, rb->count);
+-	rb->count = dev->n_sbufs;
+-	return 0;
+-}
+-
+-static int stk_vidioc_querybuf(struct file *filp,
+-		void *priv, struct v4l2_buffer *buf)
+-{
+-	struct stk_camera *dev = video_drvdata(filp);
+-	struct stk_sio_buffer *sbuf;
+-
+-	if (buf->index >= dev->n_sbufs)
+-		return -EINVAL;
+-	sbuf = dev->sio_bufs + buf->index;
+-	*buf = sbuf->v4lbuf;
+-	return 0;
+-}
+-
+-static int stk_vidioc_qbuf(struct file *filp,
+-		void *priv, struct v4l2_buffer *buf)
+-{
+-	struct stk_camera *dev = video_drvdata(filp);
+-	struct stk_sio_buffer *sbuf;
+-	unsigned long flags;
+-
+-	if (buf->memory != V4L2_MEMORY_MMAP)
+-		return -EINVAL;
+-
+-	if (buf->index >= dev->n_sbufs)
+-		return -EINVAL;
+-	sbuf = dev->sio_bufs + buf->index;
+-	if (sbuf->v4lbuf.flags & V4L2_BUF_FLAG_QUEUED)
+-		return 0;
+-	sbuf->v4lbuf.flags |= V4L2_BUF_FLAG_QUEUED;
+-	sbuf->v4lbuf.flags &= ~V4L2_BUF_FLAG_DONE;
+-	spin_lock_irqsave(&dev->spinlock, flags);
+-	list_add_tail(&sbuf->list, &dev->sio_avail);
+-	*buf = sbuf->v4lbuf;
+-	spin_unlock_irqrestore(&dev->spinlock, flags);
+-	return 0;
+-}
+-
+-static int stk_vidioc_dqbuf(struct file *filp,
+-		void *priv, struct v4l2_buffer *buf)
+-{
+-	struct stk_camera *dev = video_drvdata(filp);
+-	struct stk_sio_buffer *sbuf;
+-	unsigned long flags;
+-	int ret;
+-
+-	if (!is_streaming(dev))
+-		return -EINVAL;
+-
+-	if (filp->f_flags & O_NONBLOCK && list_empty(&dev->sio_full))
+-		return -EWOULDBLOCK;
+-	ret = wait_event_interruptible(dev->wait_frame,
+-		!list_empty(&dev->sio_full) || !is_present(dev));
+-	if (ret)
+-		return ret;
+-	if (!is_present(dev))
+-		return -EIO;
+-
+-	spin_lock_irqsave(&dev->spinlock, flags);
+-	sbuf = list_first_entry(&dev->sio_full, struct stk_sio_buffer, list);
+-	list_del_init(&sbuf->list);
+-	spin_unlock_irqrestore(&dev->spinlock, flags);
+-	sbuf->v4lbuf.flags &= ~V4L2_BUF_FLAG_QUEUED;
+-	sbuf->v4lbuf.flags |= V4L2_BUF_FLAG_DONE;
+-	sbuf->v4lbuf.sequence = ++dev->sequence;
+-	v4l2_buffer_set_timestamp(&sbuf->v4lbuf, ktime_get_ns());
+-
+-	*buf = sbuf->v4lbuf;
+-	return 0;
+-}
+-
+-static int stk_vidioc_streamon(struct file *filp,
+-		void *priv, enum v4l2_buf_type type)
+-{
+-	struct stk_camera *dev = video_drvdata(filp);
+-	if (is_streaming(dev))
+-		return 0;
+-	if (dev->sio_bufs == NULL)
+-		return -EINVAL;
+-	dev->sequence = 0;
+-	return stk_start_stream(dev);
+-}
+-
+-static int stk_vidioc_streamoff(struct file *filp,
+-		void *priv, enum v4l2_buf_type type)
+-{
+-	struct stk_camera *dev = video_drvdata(filp);
+-	unsigned long flags;
+-	int i;
+-	stk_stop_stream(dev);
+-	spin_lock_irqsave(&dev->spinlock, flags);
+-	INIT_LIST_HEAD(&dev->sio_avail);
+-	INIT_LIST_HEAD(&dev->sio_full);
+-	for (i = 0; i < dev->n_sbufs; i++) {
+-		INIT_LIST_HEAD(&dev->sio_bufs[i].list);
+-		dev->sio_bufs[i].v4lbuf.flags = 0;
+-	}
+-	spin_unlock_irqrestore(&dev->spinlock, flags);
+-	return 0;
+-}
+-
+-
+-static int stk_vidioc_g_parm(struct file *filp,
+-		void *priv, struct v4l2_streamparm *sp)
+-{
+-	/*FIXME This is not correct */
+-	sp->parm.capture.timeperframe.numerator = 1;
+-	sp->parm.capture.timeperframe.denominator = 30;
+-	sp->parm.capture.readbuffers = 2;
+-	return 0;
+-}
+-
+-static int stk_vidioc_enum_framesizes(struct file *filp,
+-		void *priv, struct v4l2_frmsizeenum *frms)
+-{
+-	if (frms->index >= ARRAY_SIZE(stk_sizes))
+-		return -EINVAL;
+-	switch (frms->pixel_format) {
+-	case V4L2_PIX_FMT_RGB565:
+-	case V4L2_PIX_FMT_RGB565X:
+-	case V4L2_PIX_FMT_UYVY:
+-	case V4L2_PIX_FMT_YUYV:
+-	case V4L2_PIX_FMT_SBGGR8:
+-		frms->type = V4L2_FRMSIZE_TYPE_DISCRETE;
+-		frms->discrete.width = stk_sizes[frms->index].w;
+-		frms->discrete.height = stk_sizes[frms->index].h;
+-		return 0;
+-	default: return -EINVAL;
+-	}
+-}
+-
+-static const struct v4l2_ctrl_ops stk_ctrl_ops = {
+-	.s_ctrl = stk_s_ctrl,
+-};
+-
+-static const struct v4l2_file_operations v4l_stk_fops = {
+-	.owner = THIS_MODULE,
+-	.open = v4l_stk_open,
+-	.release = v4l_stk_release,
+-	.read = v4l_stk_read,
+-	.poll = v4l_stk_poll,
+-	.mmap = v4l_stk_mmap,
+-	.unlocked_ioctl = video_ioctl2,
+-};
+-
+-static const struct v4l2_ioctl_ops v4l_stk_ioctl_ops = {
+-	.vidioc_querycap = stk_vidioc_querycap,
+-	.vidioc_enum_fmt_vid_cap = stk_vidioc_enum_fmt_vid_cap,
+-	.vidioc_try_fmt_vid_cap = stk_vidioc_try_fmt_vid_cap,
+-	.vidioc_s_fmt_vid_cap = stk_vidioc_s_fmt_vid_cap,
+-	.vidioc_g_fmt_vid_cap = stk_vidioc_g_fmt_vid_cap,
+-	.vidioc_enum_input = stk_vidioc_enum_input,
+-	.vidioc_s_input = stk_vidioc_s_input,
+-	.vidioc_g_input = stk_vidioc_g_input,
+-	.vidioc_reqbufs = stk_vidioc_reqbufs,
+-	.vidioc_querybuf = stk_vidioc_querybuf,
+-	.vidioc_qbuf = stk_vidioc_qbuf,
+-	.vidioc_dqbuf = stk_vidioc_dqbuf,
+-	.vidioc_streamon = stk_vidioc_streamon,
+-	.vidioc_streamoff = stk_vidioc_streamoff,
+-	.vidioc_g_parm = stk_vidioc_g_parm,
+-	.vidioc_enum_framesizes = stk_vidioc_enum_framesizes,
+-	.vidioc_log_status = v4l2_ctrl_log_status,
 -	.vidioc_subscribe_event = v4l2_ctrl_subscribe_event,
 -	.vidioc_unsubscribe_event = v4l2_event_unsubscribe,
 -};
 -
--static const struct video_device viu_template = {
--	.name		= "FSL viu",
--	.fops		= &viu_fops,
--	.minor		= -1,
--	.ioctl_ops	= &viu_ioctl_ops,
--	.release	= video_device_release,
--
--	.tvnorms        = V4L2_STD_NTSC_M | V4L2_STD_PAL,
--	.device_caps	= V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_STREAMING |
--			  V4L2_CAP_VIDEO_OVERLAY | V4L2_CAP_READWRITE,
--};
--
--static int viu_of_probe(struct platform_device *op)
+-static void stk_v4l_dev_release(struct video_device *vd)
 -{
--	struct viu_dev *viu_dev;
--	struct video_device *vdev;
--	struct resource r;
--	struct viu_reg __iomem *viu_regs;
--	struct i2c_adapter *ad;
--	int ret, viu_irq;
--	struct clk *clk;
+-	struct stk_camera *dev = vdev_to_camera(vd);
 -
--	ret = of_address_to_resource(op->dev.of_node, 0, &r);
--	if (ret) {
--		dev_err(&op->dev, "Can't parse device node resource\n");
--		return -ENODEV;
--	}
--
--	viu_irq = irq_of_parse_and_map(op->dev.of_node, 0);
--	if (!viu_irq) {
--		dev_err(&op->dev, "Error while mapping the irq\n");
--		return -EINVAL;
--	}
--
--	/* request mem region */
--	if (!devm_request_mem_region(&op->dev, r.start,
--				     sizeof(struct viu_reg), DRV_NAME)) {
--		dev_err(&op->dev, "Error while requesting mem region\n");
--		ret = -EBUSY;
--		goto err_irq;
--	}
--
--	/* remap registers */
--	viu_regs = devm_ioremap(&op->dev, r.start, sizeof(struct viu_reg));
--	if (!viu_regs) {
--		dev_err(&op->dev, "Can't map register set\n");
--		ret = -ENOMEM;
--		goto err_irq;
--	}
--
--	/* Prepare our private structure */
--	viu_dev = devm_kzalloc(&op->dev, sizeof(struct viu_dev), GFP_KERNEL);
--	if (!viu_dev) {
--		dev_err(&op->dev, "Can't allocate private structure\n");
--		ret = -ENOMEM;
--		goto err_irq;
--	}
--
--	viu_dev->vr = viu_regs;
--	viu_dev->irq = viu_irq;
--	viu_dev->dev = &op->dev;
--
--	/* init video dma queues */
--	INIT_LIST_HEAD(&viu_dev->vidq.active);
--	INIT_LIST_HEAD(&viu_dev->vidq.queued);
--
--	snprintf(viu_dev->v4l2_dev.name,
--		 sizeof(viu_dev->v4l2_dev.name), "%s", "VIU");
--	ret = v4l2_device_register(viu_dev->dev, &viu_dev->v4l2_dev);
--	if (ret < 0) {
--		dev_err(&op->dev, "v4l2_device_register() failed: %d\n", ret);
--		goto err_irq;
--	}
--
--	ad = i2c_get_adapter(0);
--	if (!ad) {
--		ret = -EFAULT;
--		dev_err(&op->dev, "couldn't get i2c adapter\n");
--		goto err_v4l2;
--	}
--
--	v4l2_ctrl_handler_init(&viu_dev->hdl, 5);
--	if (viu_dev->hdl.error) {
--		ret = viu_dev->hdl.error;
--		dev_err(&op->dev, "couldn't register control\n");
--		goto err_i2c;
--	}
--	/* This control handler will inherit the control(s) from the
--	   sub-device(s). */
--	viu_dev->v4l2_dev.ctrl_handler = &viu_dev->hdl;
--	viu_dev->decoder = v4l2_i2c_new_subdev(&viu_dev->v4l2_dev, ad,
--			"saa7113", VIU_VIDEO_DECODER_ADDR, NULL);
--
--	timer_setup(&viu_dev->vidq.timeout, viu_vid_timeout, 0);
--	viu_dev->std = V4L2_STD_NTSC_M;
--	viu_dev->first = 1;
--
--	/* Allocate memory for video device */
--	vdev = video_device_alloc();
--	if (vdev == NULL) {
--		ret = -ENOMEM;
--		goto err_hdl;
--	}
--
--	*vdev = viu_template;
--
--	vdev->v4l2_dev = &viu_dev->v4l2_dev;
--
--	viu_dev->vdev = vdev;
--
--	/* initialize locks */
--	mutex_init(&viu_dev->lock);
--	viu_dev->vdev->lock = &viu_dev->lock;
--	spin_lock_init(&viu_dev->slock);
--
--	video_set_drvdata(viu_dev->vdev, viu_dev);
--
--	mutex_lock(&viu_dev->lock);
--
--	ret = video_register_device(viu_dev->vdev, VFL_TYPE_VIDEO, -1);
--	if (ret < 0) {
--		video_device_release(viu_dev->vdev);
--		goto err_unlock;
--	}
--
--	/* enable VIU clock */
--	clk = devm_clk_get(&op->dev, "ipg");
--	if (IS_ERR(clk)) {
--		dev_err(&op->dev, "failed to lookup the clock!\n");
--		ret = PTR_ERR(clk);
--		goto err_vdev;
--	}
--	ret = clk_prepare_enable(clk);
--	if (ret) {
--		dev_err(&op->dev, "failed to enable the clock!\n");
--		goto err_vdev;
--	}
--	viu_dev->clk = clk;
--
--	/* reset VIU module */
--	viu_reset(viu_dev->vr);
--
--	/* install interrupt handler */
--	if (request_irq(viu_dev->irq, viu_intr, 0, "viu", (void *)viu_dev)) {
--		dev_err(&op->dev, "Request VIU IRQ failed.\n");
--		ret = -ENODEV;
--		goto err_clk;
--	}
--
--	mutex_unlock(&viu_dev->lock);
--
--	dev_info(&op->dev, "Freescale VIU Video Capture Board\n");
--	return ret;
--
--err_clk:
--	clk_disable_unprepare(viu_dev->clk);
--err_vdev:
--	video_unregister_device(viu_dev->vdev);
--err_unlock:
--	mutex_unlock(&viu_dev->lock);
--err_hdl:
--	v4l2_ctrl_handler_free(&viu_dev->hdl);
--err_i2c:
--	i2c_put_adapter(ad);
--err_v4l2:
--	v4l2_device_unregister(&viu_dev->v4l2_dev);
--err_irq:
--	irq_dispose_mapping(viu_irq);
--	return ret;
--}
--
--static int viu_of_remove(struct platform_device *op)
--{
--	struct v4l2_device *v4l2_dev = platform_get_drvdata(op);
--	struct viu_dev *dev = container_of(v4l2_dev, struct viu_dev, v4l2_dev);
--	struct v4l2_subdev *sdev = list_entry(v4l2_dev->subdevs.next,
--					      struct v4l2_subdev, list);
--	struct i2c_client *client = v4l2_get_subdevdata(sdev);
--
--	free_irq(dev->irq, (void *)dev);
--	irq_dispose_mapping(dev->irq);
--
--	clk_disable_unprepare(dev->clk);
+-	if (dev->sio_bufs != NULL || dev->isobufs != NULL)
+-		pr_err("We are leaking memory\n");
+-	usb_put_intf(dev->interface);
+-	usb_put_dev(dev->udev);
 -
 -	v4l2_ctrl_handler_free(&dev->hdl);
--	video_unregister_device(dev->vdev);
--	i2c_put_adapter(client->adapter);
 -	v4l2_device_unregister(&dev->v4l2_dev);
+-	kfree(dev);
+-}
+-
+-static const struct video_device stk_v4l_data = {
+-	.name = "stkwebcam",
+-	.fops = &v4l_stk_fops,
+-	.ioctl_ops = &v4l_stk_ioctl_ops,
+-	.release = stk_v4l_dev_release,
+-};
+-
+-
+-static int stk_register_video_device(struct stk_camera *dev)
+-{
+-	int err;
+-
+-	dev->vdev = stk_v4l_data;
+-	dev->vdev.lock = &dev->lock;
+-	dev->vdev.v4l2_dev = &dev->v4l2_dev;
+-	dev->vdev.device_caps = V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_READWRITE |
+-				V4L2_CAP_STREAMING;
+-	video_set_drvdata(&dev->vdev, dev);
+-	err = video_register_device(&dev->vdev, VFL_TYPE_VIDEO, -1);
+-	if (err)
+-		pr_err("v4l registration failed\n");
+-	else
+-		pr_info("Syntek USB2.0 Camera is now controlling device %s\n",
+-			video_device_node_name(&dev->vdev));
+-	return err;
+-}
+-
+-
+-/* USB Stuff */
+-
+-static int stk_camera_probe(struct usb_interface *interface,
+-		const struct usb_device_id *id)
+-{
+-	struct v4l2_ctrl_handler *hdl;
+-	int err = 0;
+-	int i;
+-
+-	struct stk_camera *dev = NULL;
+-	struct usb_device *udev = interface_to_usbdev(interface);
+-	struct usb_host_interface *iface_desc;
+-	struct usb_endpoint_descriptor *endpoint;
+-
+-	dev = kzalloc(sizeof(struct stk_camera), GFP_KERNEL);
+-	if (dev == NULL) {
+-		pr_err("Out of memory !\n");
+-		return -ENOMEM;
+-	}
+-	err = v4l2_device_register(&interface->dev, &dev->v4l2_dev);
+-	if (err < 0) {
+-		dev_err(&udev->dev, "couldn't register v4l2_device\n");
+-		kfree(dev);
+-		return err;
+-	}
+-	hdl = &dev->hdl;
+-	v4l2_ctrl_handler_init(hdl, 3);
+-	v4l2_ctrl_new_std(hdl, &stk_ctrl_ops,
+-			  V4L2_CID_BRIGHTNESS, 0, 0xff, 0x1, 0x60);
+-	v4l2_ctrl_new_std(hdl, &stk_ctrl_ops,
+-			  V4L2_CID_HFLIP, 0, 1, 1, 1);
+-	v4l2_ctrl_new_std(hdl, &stk_ctrl_ops,
+-			  V4L2_CID_VFLIP, 0, 1, 1, 1);
+-	if (hdl->error) {
+-		err = hdl->error;
+-		dev_err(&udev->dev, "couldn't register control\n");
+-		goto error;
+-	}
+-	dev->v4l2_dev.ctrl_handler = hdl;
+-
+-	spin_lock_init(&dev->spinlock);
+-	mutex_init(&dev->lock);
+-	init_waitqueue_head(&dev->wait_frame);
+-	dev->first_init = 1; /* webcam LED management */
+-
+-	dev->udev = usb_get_dev(udev);
+-	dev->interface = interface;
+-	usb_get_intf(interface);
+-
+-	if (hflip != -1)
+-		dev->vsettings.hflip = hflip;
+-	else if (dmi_check_system(stk_upside_down_dmi_table))
+-		dev->vsettings.hflip = 1;
+-	else
+-		dev->vsettings.hflip = 0;
+-	if (vflip != -1)
+-		dev->vsettings.vflip = vflip;
+-	else if (dmi_check_system(stk_upside_down_dmi_table))
+-		dev->vsettings.vflip = 1;
+-	else
+-		dev->vsettings.vflip = 0;
+-	dev->n_sbufs = 0;
+-	set_present(dev);
+-
+-	/* Set up the endpoint information
+-	 * use only the first isoc-in endpoint
+-	 * for the current alternate setting */
+-	iface_desc = interface->cur_altsetting;
+-
+-	for (i = 0; i < iface_desc->desc.bNumEndpoints; ++i) {
+-		endpoint = &iface_desc->endpoint[i].desc;
+-
+-		if (!dev->isoc_ep
+-			&& usb_endpoint_is_isoc_in(endpoint)) {
+-			/* we found an isoc in endpoint */
+-			dev->isoc_ep = usb_endpoint_num(endpoint);
+-			break;
+-		}
+-	}
+-	if (!dev->isoc_ep) {
+-		pr_err("Could not find isoc-in endpoint\n");
+-		err = -ENODEV;
+-		goto error_put;
+-	}
+-	dev->vsettings.palette = V4L2_PIX_FMT_RGB565;
+-	dev->vsettings.mode = MODE_VGA;
+-	dev->frame_size = 640 * 480 * 2;
+-
+-	INIT_LIST_HEAD(&dev->sio_avail);
+-	INIT_LIST_HEAD(&dev->sio_full);
+-
+-	usb_set_intfdata(interface, dev);
+-
+-	err = stk_register_video_device(dev);
+-	if (err)
+-		goto error_put;
+-
 -	return 0;
+-
+-error_put:
+-	usb_put_intf(interface);
+-	usb_put_dev(dev->udev);
+-error:
+-	v4l2_ctrl_handler_free(hdl);
+-	v4l2_device_unregister(&dev->v4l2_dev);
+-	kfree(dev);
+-	return err;
+-}
+-
+-static void stk_camera_disconnect(struct usb_interface *interface)
+-{
+-	struct stk_camera *dev = usb_get_intfdata(interface);
+-
+-	usb_set_intfdata(interface, NULL);
+-	unset_present(dev);
+-
+-	wake_up_interruptible(&dev->wait_frame);
+-
+-	pr_info("Syntek USB2.0 Camera release resources device %s\n",
+-		video_device_node_name(&dev->vdev));
+-
+-	video_unregister_device(&dev->vdev);
 -}
 -
 -#ifdef CONFIG_PM
--static int viu_suspend(struct platform_device *op, pm_message_t state)
+-static int stk_camera_suspend(struct usb_interface *intf, pm_message_t message)
 -{
--	struct v4l2_device *v4l2_dev = platform_get_drvdata(op);
--	struct viu_dev *dev = container_of(v4l2_dev, struct viu_dev, v4l2_dev);
--
--	clk_disable(dev->clk);
+-	struct stk_camera *dev = usb_get_intfdata(intf);
+-	if (is_streaming(dev)) {
+-		stk_stop_stream(dev);
+-		/* yes, this is ugly */
+-		set_streaming(dev);
+-	}
 -	return 0;
 -}
 -
--static int viu_resume(struct platform_device *op)
+-static int stk_camera_resume(struct usb_interface *intf)
 -{
--	struct v4l2_device *v4l2_dev = platform_get_drvdata(op);
--	struct viu_dev *dev = container_of(v4l2_dev, struct viu_dev, v4l2_dev);
--
--	clk_enable(dev->clk);
+-	struct stk_camera *dev = usb_get_intfdata(intf);
+-	if (!is_initialised(dev))
+-		return 0;
+-	unset_initialised(dev);
+-	stk_initialise(dev);
+-	stk_camera_write_reg(dev, 0x0, 0x49);
+-	stk_setup_format(dev);
+-	if (is_streaming(dev))
+-		stk_start_stream(dev);
 -	return 0;
 -}
 -#endif
 -
+-static struct usb_driver stk_camera_driver = {
+-	.name = "stkwebcam",
+-	.probe = stk_camera_probe,
+-	.disconnect = stk_camera_disconnect,
+-	.id_table = stkwebcam_table,
+-#ifdef CONFIG_PM
+-	.suspend = stk_camera_suspend,
+-	.resume = stk_camera_resume,
+-#endif
+-};
+-
+-module_usb_driver(stk_camera_driver);
+diff --git a/drivers/staging/media/deprecated/stkwebcam/stk-webcam.h b/drivers/staging/media/deprecated/stkwebcam/stk-webcam.h
+deleted file mode 100644
+index 136decffe9ce..000000000000
+--- a/drivers/staging/media/deprecated/stkwebcam/stk-webcam.h
++++ /dev/null
+@@ -1,123 +0,0 @@
+-/* SPDX-License-Identifier: GPL-2.0-or-later */
 -/*
-- * Initialization and module stuff
+- * stk-webcam.h : Driver for Syntek 1125 USB webcam controller
+- *
+- * Copyright (C) 2006 Nicolas VIVIEN
+- * Copyright 2007-2008 Jaime Velasco Juan <jsagarribay@gmail.com>
 - */
--static const struct of_device_id mpc512x_viu_of_match[] = {
--	{
--		.compatible = "fsl,mpc5121-viu",
--	},
--	{},
--};
--MODULE_DEVICE_TABLE(of, mpc512x_viu_of_match);
 -
--static struct platform_driver viu_of_platform_driver = {
--	.probe = viu_of_probe,
--	.remove = viu_of_remove,
--#ifdef CONFIG_PM
--	.suspend = viu_suspend,
--	.resume = viu_resume,
+-#ifndef STKWEBCAM_H
+-#define STKWEBCAM_H
+-
+-#include <linux/usb.h>
+-#include <media/v4l2-device.h>
+-#include <media/v4l2-ctrls.h>
+-#include <media/v4l2-common.h>
+-
+-#define DRIVER_VERSION		"v0.0.1"
+-#define DRIVER_VERSION_NUM	0x000001
+-
+-#define MAX_ISO_BUFS		3
+-#define ISO_FRAMES_PER_DESC	16
+-#define ISO_MAX_FRAME_SIZE	3 * 1024
+-#define ISO_BUFFER_SIZE		(ISO_FRAMES_PER_DESC * ISO_MAX_FRAME_SIZE)
+-
+-struct stk_iso_buf {
+-	void *data;
+-	int length;
+-	int read;
+-	struct urb *urb;
+-};
+-
+-/* Streaming IO buffers */
+-struct stk_sio_buffer {
+-	struct v4l2_buffer v4lbuf;
+-	char *buffer;
+-	int mapcount;
+-	struct stk_camera *dev;
+-	struct list_head list;
+-};
+-
+-enum stk_mode {MODE_VGA, MODE_SXGA, MODE_CIF, MODE_QVGA, MODE_QCIF};
+-
+-struct stk_video {
+-	enum stk_mode mode;
+-	__u32 palette;
+-	int hflip;
+-	int vflip;
+-};
+-
+-enum stk_status {
+-	S_PRESENT = 1,
+-	S_INITIALISED = 2,
+-	S_MEMALLOCD = 4,
+-	S_STREAMING = 8,
+-};
+-#define is_present(dev)		((dev)->status & S_PRESENT)
+-#define is_initialised(dev)	((dev)->status & S_INITIALISED)
+-#define is_streaming(dev)	((dev)->status & S_STREAMING)
+-#define is_memallocd(dev)	((dev)->status & S_MEMALLOCD)
+-#define set_present(dev)	((dev)->status = S_PRESENT)
+-#define unset_present(dev)	((dev)->status &= \
+-					~(S_PRESENT|S_INITIALISED|S_STREAMING))
+-#define set_initialised(dev)	((dev)->status |= S_INITIALISED)
+-#define unset_initialised(dev)	((dev)->status &= ~S_INITIALISED)
+-#define set_memallocd(dev)	((dev)->status |= S_MEMALLOCD)
+-#define unset_memallocd(dev)	((dev)->status &= ~S_MEMALLOCD)
+-#define set_streaming(dev)	((dev)->status |= S_STREAMING)
+-#define unset_streaming(dev)	((dev)->status &= ~S_STREAMING)
+-
+-struct regval {
+-	unsigned reg;
+-	unsigned val;
+-};
+-
+-struct stk_camera {
+-	struct v4l2_device v4l2_dev;
+-	struct v4l2_ctrl_handler hdl;
+-	struct video_device vdev;
+-	struct usb_device *udev;
+-	struct usb_interface *interface;
+-	int webcam_model;
+-	struct file *owner;
+-	struct mutex lock;
+-	int first_init;
+-
+-	u8 isoc_ep;
+-
+-	/* Not sure if this is right */
+-	atomic_t urbs_used;
+-
+-	struct stk_video vsettings;
+-
+-	enum stk_status status;
+-
+-	spinlock_t spinlock;
+-	wait_queue_head_t wait_frame;
+-
+-	struct stk_iso_buf *isobufs;
+-
+-	int frame_size;
+-	/* Streaming buffers */
+-	int reading;
+-	unsigned int n_sbufs;
+-	struct stk_sio_buffer *sio_bufs;
+-	struct list_head sio_avail;
+-	struct list_head sio_full;
+-	unsigned sequence;
+-
+-	u8 read_reg_scratch;
+-};
+-
+-#define vdev_to_camera(d) container_of(d, struct stk_camera, vdev)
+-
+-int stk_camera_write_reg(struct stk_camera *, u16, u8);
+-int stk_camera_read_reg(struct stk_camera *, u16, u8 *);
+-
+-int stk_sensor_init(struct stk_camera *);
+-int stk_sensor_configure(struct stk_camera *);
+-int stk_sensor_sleep(struct stk_camera *dev);
+-int stk_sensor_wakeup(struct stk_camera *dev);
+-int stk_sensor_set_brightness(struct stk_camera *dev, int br);
+-
 -#endif
--	.driver = {
--		.name = DRV_NAME,
--		.of_match_table = mpc512x_viu_of_match,
--	},
--};
--
--module_platform_driver(viu_of_platform_driver);
--
--MODULE_DESCRIPTION("Freescale Video-In(VIU)");
--MODULE_AUTHOR("Hongjun Chen");
--MODULE_LICENSE("GPL");
--MODULE_VERSION(VIU_VERSION);
 -- 
 2.39.0
 
