@@ -2,166 +2,148 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1C8F4665D2B
-	for <lists+linux-media@lfdr.de>; Wed, 11 Jan 2023 14:58:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 51FAD665D4F
+	for <lists+linux-media@lfdr.de>; Wed, 11 Jan 2023 15:09:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232757AbjAKN6H (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 11 Jan 2023 08:58:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47620 "EHLO
+        id S234614AbjAKOJO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 11 Jan 2023 09:09:14 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53828 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232478AbjAKN6G (ORCPT
+        with ESMTP id S234013AbjAKOJL (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 11 Jan 2023 08:58:06 -0500
-Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com [IPv6:2a00:1450:4864:20::12c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3622AC48
-        for <linux-media@vger.kernel.org>; Wed, 11 Jan 2023 05:58:05 -0800 (PST)
-Received: by mail-lf1-x12c.google.com with SMTP id y25so23621056lfa.9
-        for <linux-media@vger.kernel.org>; Wed, 11 Jan 2023 05:58:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=44/nBqqhAUPyxGB5I8M9n1J0/0YHj04WiXik7CmLbeA=;
-        b=zWl83H4HSSjWuq9PnZYN8PIZ6AXnITpL1VbNF4N5RqNMLf29sa4ZdXNjdk6seF+B12
-         wDd8Y8bNws5zb8ORt2YgnaXcnqFXf44EGn/XsgRvxccg9GY3dtlUJ1NGuHQDXu4GrRfH
-         aaZIlYHpaFqi/tVEw93pDCG7eiWwNBVSy7BHgqJNHa+J4pZiE4gwFGg0b4tztDVYmwTU
-         4W0ZOPYb/fBcMZcRIW6sKt1V9uJDtBOMeFAxn1Dd/yI6nZnre33vaGT3mVUTjxjWswQk
-         2nQpoFzYDLTasLMriCeyRVe3FmWH9ZvbJOhXIMKT83T4kT3kfr2IrXzA/Yxx8NE+Nszk
-         e4ww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=44/nBqqhAUPyxGB5I8M9n1J0/0YHj04WiXik7CmLbeA=;
-        b=MAnSkutwjYjwwTbQ2GD6zZi4ML+aZEv5ZxEgGhyFtxrrmA8ArQoeH+61ia9EOAj3Ml
-         Dt/J+35sG06NLUuPiUvKx7sbUouumz9F9jtCWnq8sQSJQ+Ix8gmwuBVVKg5FymEc2089
-         Z22ur3dkLWDW6Zk/6aV/m63HhHijR+C56hLwRhFNkDCCDzbkNRSKf7Xe8BbcZjk3xCcm
-         wzaDr3suHU/jk4/nHG34RJ2o0tn1KLht55cwUJpo+d6clzOuwllrokXDZRplM7b0l8/j
-         3UM7ilzxzE3R3DaQOJlRrW4XDGPsIE33P73K6Y80E2LMtMnm0b3EmFJS8Eh6zq7L7lKp
-         jYrQ==
-X-Gm-Message-State: AFqh2kp0fNXzG3uP0qUXbMEVWfWsT4H2icNuN6uQQ4eKS8du0hYCVtwd
-        WHcId5ll1cf94tlYWfLPN4EEYg==
-X-Google-Smtp-Source: AMrXdXsncOkM7KAlsnz6GSQron9wTKD27W5Bjt4gHL/41yBaqFqSlgPeVz3IuHHTiUKHDRXr6lkt0g==
-X-Received: by 2002:a05:6512:3f0e:b0:4cb:430d:2b99 with SMTP id y14-20020a0565123f0e00b004cb430d2b99mr10988858lfa.41.1673445483570;
-        Wed, 11 Jan 2023 05:58:03 -0800 (PST)
-Received: from fedora.. ([85.235.10.72])
-        by smtp.gmail.com with ESMTPSA id t20-20020ac243b4000000b004cb44c1d060sm2721367lfl.134.2023.01.11.05.58.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Jan 2023 05:58:03 -0800 (PST)
-From:   Linus Walleij <linus.walleij@linaro.org>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        linux-gpio@vger.kernel.org,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Subject: [PATCH] media: em28xx: Drop abuse of gpiolib
-Date:   Wed, 11 Jan 2023 14:58:01 +0100
-Message-Id: <20230111135801.135824-1-linus.walleij@linaro.org>
-X-Mailer: git-send-email 2.39.0
+        Wed, 11 Jan 2023 09:09:11 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 018BC270
+        for <linux-media@vger.kernel.org>; Wed, 11 Jan 2023 06:09:05 -0800 (PST)
+Received: from [192.168.1.15] (91-154-32-225.elisa-laajakaista.fi [91.154.32.225])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id A84304DD;
+        Wed, 11 Jan 2023 15:09:02 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1673446143;
+        bh=3+aW0npNIzDJDU+iADwu31j7qfH7/zIQMfmCqMkVXM8=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=DC+wVeXwE/IhXwtRX4lrl2Yp6A1NY8Vr2HtwmaBgI8BvKb5t7RmSxxP4iNAedEkKP
+         Zo2A998nGijk7IOHFKOL4gevI1I5jEC929e8G+OQjXC1w0KxND9HeIXcgTIXCst3oy
+         tAM/bPe+Ms7Q2zBGDVnc8yvaF+ZN731zvgYg4Z3I=
+Message-ID: <fa887a38-8551-16bb-fa34-3e3b3f6b02dc@ideasonboard.com>
+Date:   Wed, 11 Jan 2023 16:08:59 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH v2 1/1] media: Documentation: Update documentation for
+ streams
+Content-Language: en-US
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     linux-media@vger.kernel.org,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        niklas.soderlund+renesas@ragnatech.se,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        satish.nagireddy@getcruise.com, Tomasz Figa <tfiga@chromium.org>
+References: <20221215121634.287100-1-tomi.valkeinen@ideasonboard.com>
+ <20230111110920.2004227-1-sakari.ailus@linux.intel.com>
+From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+In-Reply-To: <20230111110920.2004227-1-sakari.ailus@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The driver is issueing calls to the legacy gpio API from
-<linux/gpio.h> to pull a LNA gpio line low or high.
+On 11/01/2023 13:09, Sakari Ailus wrote:
+> Document how streams interacts with formats and selections.
+> 
+> Update documentation in respect to what is allowed, in particular streams
+> are only supported via full routes, source-only routes are not supported
+> right now.
+> 
+> The centerpiece of the API additions are streams. Albeit routes are
+> configured via S_ROUTING IOCTL that also declares streams, it is streams
+> that are accessed through other APIs. Thus refer to streams instead of
+> routes in documentation.
+> 
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> ---
+> since v1:
+> 
+> - Address Tomi's comments:
+> 
+>    - Fix wrong terms (sink vs. source, others)
+> 
+>    - Align subdev, subdevice to sub-device consistently
+> 
+>    - Improve wording in a number of places
+> 
+>    - Rebase on plain v16 streams set (i.e. not additional patches in between)
+> 
+>    - Drop a few redundant sentences
+> 
+>    See: <URL:https://lore.kernel.org/linux-media/Y76SpkZTxtPvpXtU@paasikivi.fi.intel.com/T/#me8bb137ec1bc7fb20efe8042be04b40753928f1d>
+> 
+>   .../userspace-api/media/v4l/dev-subdev.rst    | 74 +++++++++++++------
+>   1 file changed, 51 insertions(+), 23 deletions(-)
+> 
+> diff --git a/Documentation/userspace-api/media/v4l/dev-subdev.rst b/Documentation/userspace-api/media/v4l/dev-subdev.rst
+> index 7d1b8ebd4e173..cf720a257a9bb 100644
+> --- a/Documentation/userspace-api/media/v4l/dev-subdev.rst
+> +++ b/Documentation/userspace-api/media/v4l/dev-subdev.rst
+> @@ -406,6 +406,8 @@ pixel array is not rectangular but cross-shaped or round. The maximum
+>   size may also be smaller than the BOUNDS rectangle.
+>   
+>   
+> +.. _format-propagation:
+> +
+>   Order of configuration and format propagation
+>   ---------------------------------------------
+>   
+> @@ -507,12 +509,12 @@ source pads.
+>   Streams, multiplexed media pads and internal routing
+>   ----------------------------------------------------
+>   
+> -Commonly V4L2 subdevices support only separate video streams, that is, only a
+> -single stream can pass through a media link and a media pad. Thus each pad
+> -contains a format configuration for that single stream. In some cases a subdev
+> -can do stream processing and split a stream into two or compose two streams
+> -into one, but the inputs and outputs for the subdev are still a single stream
+> -per pad.
+> +Simple V4L2 subdevices do not support multiple, unrelated video streams,
+> +and only a single stream can pass through a media link and a media pad.
+> +Thus each pad contains a format and selection configuration for that
+> +single stream. A subdev can do stream processing and split a stream into
+> +two or compose two streams into one, but the inputs and outputs for the
+> +subdev are still a single stream per pad.
+>   
+>   Some hardware, e.g. MIPI CSI-2, support multiplexed streams, that is, multiple
+>   data streams are transmitted on the same bus, which is represented by a media
+> @@ -539,14 +541,35 @@ streams from one end of the link to the other, and subdevices have routing
+>   tables which describe how the incoming streams from sink pads are routed to the
+>   source pads.
+>   
+> -A stream ID (often just "stream") is a media link-local identifier for a stream.
+> -In other words, a particular stream ID must exist on both sides of a media
+> +A stream ID is a media pad-local identifier for a stream. Streams IDs of
+> +the same stream must be equal on both ends of a link. In other words,
+> +a particular stream ID must exist on both sides of a media
+>   link, but another stream ID can be used for the same stream at the other side
+> -of the subdevice.
+> +of the subdevice. The same stream ID is used to refer to the stream on
+> +both pads of the link on all ioctls operating on pads.
+> +
+> +A stream at a specific point in the media pipeline is identified by the
+> +sub-devdev and a (pad, stream) pair. For subdevices that do not support
 
-The code as it stands can not work and does not make sense
-since the GPIO number assigned to dvb->lna_gpio is only
-in scope in this file and never assigned any valid GPIO
-number, the driver has no way of asking for a proper GPIO
-and will likely ask for GPIO 0, which will likely be wrong.
+"sub-devdev". Also, you have "subdevice" (also in other places in the 
+text), not "sub-device".
 
-In one execution path dvb->lna_gpio is assigned some constants
-to the local GPIO block which is not using gpiolib, adding
-to the confusion.
+Other than that, looks fine:
 
-Delete all use of gpiolib as it can't work. Leave the custom
-(local) gpio handling around, as this is likely the only thing
-that can actually work.
+Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 
-My guess is that this driver only worked on platforms that
-for some reason does not enable CONFIG_GPIOLIB. It was likely
-causing a bug on any platform enabling CONFIG_GPIOLIB.
-
-If anyone knows how to fix this driver properly then tell
-me.
-
-Cc: linux-gpio@vger.kernel.org
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
----
- drivers/media/usb/em28xx/em28xx-dvb.c | 32 ---------------------------
- 1 file changed, 32 deletions(-)
-
-diff --git a/drivers/media/usb/em28xx/em28xx-dvb.c b/drivers/media/usb/em28xx/em28xx-dvb.c
-index 9fce59979e3b..57598e825135 100644
---- a/drivers/media/usb/em28xx/em28xx-dvb.c
-+++ b/drivers/media/usb/em28xx/em28xx-dvb.c
-@@ -29,7 +29,6 @@
- #include <media/dmxdev.h>
- #include <media/tuner.h>
- #include "tuner-simple.h"
--#include <linux/gpio.h>
- 
- #include "lgdt330x.h"
- #include "lgdt3305.h"
-@@ -727,28 +726,10 @@ static int em28xx_pctv_290e_set_lna(struct dvb_frontend *fe)
- 	struct dtv_frontend_properties *c = &fe->dtv_property_cache;
- 	struct em28xx_i2c_bus *i2c_bus = fe->dvb->priv;
- 	struct em28xx *dev = i2c_bus->dev;
--#ifdef CONFIG_GPIOLIB
--	struct em28xx_dvb *dvb = dev->dvb;
--	int ret;
--	unsigned long flags;
--
--	if (c->lna == 1)
--		flags = GPIOF_OUT_INIT_HIGH; /* enable LNA */
--	else
--		flags = GPIOF_OUT_INIT_LOW; /* disable LNA */
- 
--	ret = gpio_request_one(dvb->lna_gpio, flags, NULL);
--	if (ret)
--		dev_err(&dev->intf->dev, "gpio request failed %d\n", ret);
--	else
--		gpio_free(dvb->lna_gpio);
--
--	return ret;
--#else
- 	dev_warn(&dev->intf->dev, "%s: LNA control is disabled (lna=%u)\n",
- 		 KBUILD_MODNAME, c->lna);
- 	return 0;
--#endif
- }
- 
- static int em28xx_pctv_292e_set_lna(struct dvb_frontend *fe)
-@@ -1705,19 +1686,6 @@ static int em28xx_dvb_init(struct em28xx *dev)
- 				goto out_free;
- 			}
- 
--#ifdef CONFIG_GPIOLIB
--			/* enable LNA for DVB-T, DVB-T2 and DVB-C */
--			result = gpio_request_one(dvb->lna_gpio,
--						  GPIOF_OUT_INIT_LOW, NULL);
--			if (result)
--				dev_err(&dev->intf->dev,
--					"gpio request failed %d\n",
--					result);
--			else
--				gpio_free(dvb->lna_gpio);
--
--			result = 0; /* continue even set LNA fails */
--#endif
- 			dvb->fe[0]->ops.set_lna = em28xx_pctv_290e_set_lna;
- 		}
- 
--- 
-2.34.1
+  Tomi
 
