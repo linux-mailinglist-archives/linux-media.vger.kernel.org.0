@@ -2,264 +2,672 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D01DB665A11
-	for <lists+linux-media@lfdr.de>; Wed, 11 Jan 2023 12:26:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E6DE0665A35
+	for <lists+linux-media@lfdr.de>; Wed, 11 Jan 2023 12:31:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233905AbjAKL0C (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 11 Jan 2023 06:26:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53982 "EHLO
+        id S235948AbjAKLbw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 11 Jan 2023 06:31:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58682 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232606AbjAKLYo (ORCPT
+        with ESMTP id S233279AbjAKLb2 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 11 Jan 2023 06:24:44 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2E1017587
-        for <linux-media@vger.kernel.org>; Wed, 11 Jan 2023 03:24:40 -0800 (PST)
+        Wed, 11 Jan 2023 06:31:28 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D97D8FD8;
+        Wed, 11 Jan 2023 03:31:15 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 32B8061BB9
-        for <linux-media@vger.kernel.org>; Wed, 11 Jan 2023 11:24:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 45178C433F1;
-        Wed, 11 Jan 2023 11:24:39 +0000 (UTC)
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: [PATCHv2 16/16] dvb_demux.h: remove write_to_decoder
-Date:   Wed, 11 Jan 2023 12:24:18 +0100
-Message-Id: <20230111112418.687882-17-hverkuil-cisco@xs4all.nl>
+        by ams.source.kernel.org (Postfix) with ESMTPS id D3739B81BAC;
+        Wed, 11 Jan 2023 11:31:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 24DEFC433D2;
+        Wed, 11 Jan 2023 11:31:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1673436672;
+        bh=/xh1izJomABNl5qkjtygh0vb+C2Jzn7G+FTNpW6+bx8=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=GRQntNaLof/0T9sNSucrCAXxphTm/kOwXCb0QKkASaETEsDTr2nKg11Pgh1mdOhx+
+         7FnW2WDLWGxa4vUFiXaL49P0KtcOY6mfDjmQR8FC5sDpVMDw09BwD+QRTwMqHWvUZo
+         aAeJ2nerLBVvGcl1lrcGWCapQMVbDGzPGnXDG3Vg=
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     linux-kernel@vger.kernel.org
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jens Axboe <axboe@kernel.dk>, Len Brown <lenb@kernel.org>,
+        Stefan Richter <stefanr@s5r6.in-berlin.de>,
+        Wolfram Sang <wsa@kernel.org>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Sean Young <sean@mess.org>, Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Maximilian Luz <luzmaximilian@gmail.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Mark Gross <markgross@kernel.org>,
+        Vinod Koul <vkoul@kernel.org>,
+        Bard Liao <yung-chuan.liao@linux.intel.com>,
+        Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+        Sanyog Kale <sanyog.r.kale@intel.com>,
+        Andreas Noever <andreas.noever@gmail.com>,
+        Michael Jamet <michael.jamet@intel.com>,
+        Yehezkel Bernat <YehezkelShB@gmail.com>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        Chaitanya Kulkarni <kch@nvidia.com>,
+        Ming Lei <ming.lei@redhat.com>,
+        Jilin Yuan <yuanjilin@cdjrlc.com>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ira Weiny <ira.weiny@intel.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Won Chung <wonchung@google.com>, alsa-devel@alsa-project.org,
+        devicetree@vger.kernel.org, linux-acpi@vger.kernel.org,
+        linux-block@vger.kernel.org, linux-i2c@vger.kernel.org,
+        linux-i3c@lists.infradead.org, linux-input@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-serial@vger.kernel.org,
+        linux-usb@vger.kernel.org, linux1394-devel@lists.sourceforge.net,
+        platform-driver-x86@vger.kernel.org,
+        "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: [PATCH v2 05/16] driver core: make struct device_type.uevent() take a const *
+Date:   Wed, 11 Jan 2023 12:30:07 +0100
+Message-Id: <20230111113018.459199-6-gregkh@linuxfoundation.org>
 X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20230111112418.687882-1-hverkuil-cisco@xs4all.nl>
-References: <20230111112418.687882-1-hverkuil-cisco@xs4all.nl>
+In-Reply-To: <20230111113018.459199-1-gregkh@linuxfoundation.org>
+References: <20230111113018.459199-1-gregkh@linuxfoundation.org>
 MIME-Version: 1.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=23701; i=gregkh@linuxfoundation.org; h=from:subject; bh=/xh1izJomABNl5qkjtygh0vb+C2Jzn7G+FTNpW6+bx8=; b=owGbwMvMwCRo6H6F97bub03G02pJDMn75h5/MV3eUeFL6OYjOm1rHiwsXHr6uVCZx3OFpOvdWtNf 6RrN7YhlYRBkYpAVU2T5so3n6P6KQ4pehranYeawMoEMYeDiFICJvJVmmF9yylrk/oadayQfJ9pkNb beXrBO5wzD/HgB52+hWsLNz46bXu0/ZHVgdn/2YQA=
+X-Developer-Key: i=gregkh@linuxfoundation.org; a=openpgp; fpr=F4B60CC5BF78C2214A313DCB3147D40DDB2DFB29
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This callback was only used by av7110, and that driver has now been
-removed, so remove this callback as well.
+The uevent() callback in struct device_type should not be modifying the
+device that is passed into it, so mark it as a const * and propagate the
+function signature changes out into all relevant subsystems that use
+this callback.
 
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc: Jens Axboe <axboe@kernel.dk>
+Cc: Len Brown <lenb@kernel.org>
+Cc: Stefan Richter <stefanr@s5r6.in-berlin.de>
+Cc: Wolfram Sang <wsa@kernel.org>
+Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: Sean Young <sean@mess.org>
+Cc: Rob Herring <robh+dt@kernel.org>
+Cc: Frank Rowand <frowand.list@gmail.com>
+Cc: Maximilian Luz <luzmaximilian@gmail.com>
+Cc: Hans de Goede <hdegoede@redhat.com>
+Cc: Mark Gross <markgross@kernel.org>
+Cc: Vinod Koul <vkoul@kernel.org>
+Cc: Bard Liao <yung-chuan.liao@linux.intel.com>
+Cc: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+Cc: Sanyog Kale <sanyog.r.kale@intel.com>
+Cc: Andreas Noever <andreas.noever@gmail.com>
+Cc: Michael Jamet <michael.jamet@intel.com>
+Cc: Yehezkel Bernat <YehezkelShB@gmail.com>
+Cc: Jiri Slaby <jirislaby@kernel.org>
+Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>
+Cc: "Martin K. Petersen" <martin.petersen@oracle.com>
+Cc: Chaitanya Kulkarni <kch@nvidia.com>
+Cc: Ming Lei <ming.lei@redhat.com>
+Cc: Jilin Yuan <yuanjilin@cdjrlc.com>
+Cc: Alan Stern <stern@rowland.harvard.edu>
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Jason Gunthorpe <jgg@ziepe.ca>
+Cc: Thomas Gleixner <tglx@linutronix.de>
+Cc: Ira Weiny <ira.weiny@intel.com>
+Cc: Dan Williams <dan.j.williams@intel.com>
+Cc: Won Chung <wonchung@google.com>
+Cc: alsa-devel@alsa-project.org
+Cc: devicetree@vger.kernel.org
+Cc: linux-acpi@vger.kernel.org
+Cc: linux-block@vger.kernel.org
+Cc: linux-i2c@vger.kernel.org
+Cc: linux-i3c@lists.infradead.org
+Cc: linux-input@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-media@vger.kernel.org
+Cc: linux-serial@vger.kernel.org
+Cc: linux-usb@vger.kernel.org
+Cc: linux1394-devel@lists.sourceforge.net
+Cc: platform-driver-x86@vger.kernel.org
+Acked-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+Acked-by: Mika Westerberg <mika.westerberg@linux.intel.com> # for Thunderbolt
+Acked-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
- drivers/media/common/b2c2/flexcop.c                        | 1 -
- drivers/media/dvb-core/dvb_demux.c                         | 4 ----
- drivers/media/firewire/firedtv-dvb.c                       | 1 -
- drivers/media/pci/bt8xx/dvb-bt8xx.c                        | 1 -
- drivers/media/pci/mantis/mantis_dvb.c                      | 1 -
- drivers/media/pci/ngene/ngene-dvb.c                        | 1 -
- drivers/media/pci/pt1/pt1.c                                | 1 -
- drivers/media/pci/smipcie/smipcie-main.c                   | 1 -
- drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-common.c | 1 -
- drivers/media/usb/dvb-usb-v2/dvb_usb_core.c                | 1 -
- drivers/media/usb/dvb-usb/dvb-usb-dvb.c                    | 1 -
- drivers/media/usb/pvrusb2/pvrusb2-dvb.c                    | 1 -
- drivers/media/usb/ttusb-budget/dvb-ttusb-budget.c          | 1 -
- drivers/media/usb/ttusb-dec/ttusb_dec.c                    | 1 -
- include/media/dvb_demux.h                                  | 6 ------
- 15 files changed, 23 deletions(-)
+ block/partitions/core.c                   |  4 ++--
+ drivers/acpi/device_sysfs.c               |  8 ++++----
+ drivers/acpi/internal.h                   |  2 +-
+ drivers/firewire/core-device.c            |  8 ++++----
+ drivers/gpu/drm/display/drm_dp_aux_bus.c  |  2 +-
+ drivers/i2c/i2c-core-base.c               |  4 ++--
+ drivers/i3c/device.c                      |  2 +-
+ drivers/i3c/master.c                      |  4 ++--
+ drivers/input/input.c                     | 16 ++++++++--------
+ drivers/media/rc/rc-main.c                |  2 +-
+ drivers/platform/surface/aggregator/bus.c |  4 ++--
+ drivers/soundwire/bus_type.c              |  4 ++--
+ drivers/thunderbolt/switch.c              |  4 ++--
+ drivers/thunderbolt/tb.h                  |  2 +-
+ drivers/thunderbolt/xdomain.c             |  6 +++---
+ drivers/tty/serdev/core.c                 |  2 +-
+ drivers/usb/core/message.c                |  8 ++++----
+ drivers/usb/core/usb.c                    |  4 ++--
+ drivers/usb/phy/phy.c                     |  6 +++---
+ drivers/usb/roles/class.c                 |  3 +--
+ drivers/usb/typec/class.c                 |  2 +-
+ include/linux/acpi.h                      |  4 ++--
+ include/linux/device.h                    |  2 +-
+ include/linux/i3c/device.h                |  2 +-
+ include/linux/soundwire/sdw_type.h        |  2 +-
+ 25 files changed, 53 insertions(+), 54 deletions(-)
 
-diff --git a/drivers/media/common/b2c2/flexcop.c b/drivers/media/common/b2c2/flexcop.c
-index e7a88a2d248c..18a13c4625da 100644
---- a/drivers/media/common/b2c2/flexcop.c
-+++ b/drivers/media/common/b2c2/flexcop.c
-@@ -71,7 +71,6 @@ static int flexcop_dvb_init(struct flexcop_device *fc)
- 	fc->demux.filternum = fc->demux.feednum = FC_MAX_FEED;
- 	fc->demux.start_feed = flexcop_dvb_start_feed;
- 	fc->demux.stop_feed = flexcop_dvb_stop_feed;
--	fc->demux.write_to_decoder = NULL;
+diff --git a/block/partitions/core.c b/block/partitions/core.c
+index b8112f52d388..7b8ef6296abd 100644
+--- a/block/partitions/core.c
++++ b/block/partitions/core.c
+@@ -254,9 +254,9 @@ static void part_release(struct device *dev)
+ 	iput(dev_to_bdev(dev)->bd_inode);
+ }
  
- 	ret = dvb_dmx_init(&fc->demux);
- 	if (ret < 0) {
-diff --git a/drivers/media/dvb-core/dvb_demux.c b/drivers/media/dvb-core/dvb_demux.c
-index b380da460295..5c48dcc0f05d 100644
---- a/drivers/media/dvb-core/dvb_demux.c
-+++ b/drivers/media/dvb-core/dvb_demux.c
-@@ -379,10 +379,6 @@ static inline void dvb_dmx_swfilter_packet_type(struct dvb_demux_feed *feed,
- 				feed->cb.ts(buf, 188, NULL, 0, &feed->feed.ts,
- 					    &feed->buffer_flags);
- 		}
--		/* Used only on full-featured devices */
--		if (feed->ts_type & TS_DECODER)
--			if (feed->demux->write_to_decoder)
--				feed->demux->write_to_decoder(feed, buf, 188);
- 		break;
+-static int part_uevent(struct device *dev, struct kobj_uevent_env *env)
++static int part_uevent(const struct device *dev, struct kobj_uevent_env *env)
+ {
+-	struct block_device *part = dev_to_bdev(dev);
++	const struct block_device *part = dev_to_bdev(dev);
  
- 	case DMX_TYPE_SEC:
-diff --git a/drivers/media/firewire/firedtv-dvb.c b/drivers/media/firewire/firedtv-dvb.c
-index 3b7e2f1ec98f..91f1345da116 100644
---- a/drivers/media/firewire/firedtv-dvb.c
-+++ b/drivers/media/firewire/firedtv-dvb.c
-@@ -174,7 +174,6 @@ int fdtv_dvb_register(struct firedtv *fdtv, const char *name)
- 	fdtv->demux.feednum	= 16;
- 	fdtv->demux.start_feed	= fdtv_start_feed;
- 	fdtv->demux.stop_feed	= fdtv_stop_feed;
--	fdtv->demux.write_to_decoder = NULL;
+ 	add_uevent_var(env, "PARTN=%u", part->bd_partno);
+ 	if (part->bd_meta_info && part->bd_meta_info->volname[0])
+diff --git a/drivers/acpi/device_sysfs.c b/drivers/acpi/device_sysfs.c
+index 120873dad2cc..daff2c0c5c52 100644
+--- a/drivers/acpi/device_sysfs.c
++++ b/drivers/acpi/device_sysfs.c
+@@ -133,7 +133,7 @@ static void acpi_hide_nondev_subnodes(struct acpi_device_data *data)
+  *         -EINVAL: output error
+  *         -ENOMEM: output is truncated
+  */
+-static int create_pnp_modalias(struct acpi_device *acpi_dev, char *modalias,
++static int create_pnp_modalias(const struct acpi_device *acpi_dev, char *modalias,
+ 			       int size)
+ {
+ 	int len;
+@@ -191,7 +191,7 @@ static int create_pnp_modalias(struct acpi_device *acpi_dev, char *modalias,
+  * only be called for devices having ACPI_DT_NAMESPACE_HID in their list of
+  * ACPI/PNP IDs.
+  */
+-static int create_of_modalias(struct acpi_device *acpi_dev, char *modalias,
++static int create_of_modalias(const struct acpi_device *acpi_dev, char *modalias,
+ 			      int size)
+ {
+ 	struct acpi_buffer buf = { ACPI_ALLOCATE_BUFFER };
+@@ -239,7 +239,7 @@ static int create_of_modalias(struct acpi_device *acpi_dev, char *modalias,
+ 	return len;
+ }
  
- 	err = dvb_dmx_init(&fdtv->demux);
- 	if (err)
-diff --git a/drivers/media/pci/bt8xx/dvb-bt8xx.c b/drivers/media/pci/bt8xx/dvb-bt8xx.c
-index 4cb890b949c3..67db20c95aae 100644
---- a/drivers/media/pci/bt8xx/dvb-bt8xx.c
-+++ b/drivers/media/pci/bt8xx/dvb-bt8xx.c
-@@ -732,7 +732,6 @@ static int dvb_bt8xx_load_card(struct dvb_bt8xx_card *card, u32 type)
- 	card->demux.feednum = 256;
- 	card->demux.start_feed = dvb_bt8xx_start_feed;
- 	card->demux.stop_feed = dvb_bt8xx_stop_feed;
--	card->demux.write_to_decoder = NULL;
+-int __acpi_device_uevent_modalias(struct acpi_device *adev,
++int __acpi_device_uevent_modalias(const struct acpi_device *adev,
+ 				  struct kobj_uevent_env *env)
+ {
+ 	int len;
+@@ -277,7 +277,7 @@ int __acpi_device_uevent_modalias(struct acpi_device *adev,
+  * Because other buses do not support ACPI HIDs & CIDs, e.g. for a device with
+  * hid:IBM0001 and cid:ACPI0001 you get: "acpi:IBM0001:ACPI0001".
+  */
+-int acpi_device_uevent_modalias(struct device *dev, struct kobj_uevent_env *env)
++int acpi_device_uevent_modalias(const struct device *dev, struct kobj_uevent_env *env)
+ {
+ 	return __acpi_device_uevent_modalias(acpi_companion_match(dev), env);
+ }
+diff --git a/drivers/acpi/internal.h b/drivers/acpi/internal.h
+index ec584442fb29..06ad497067ac 100644
+--- a/drivers/acpi/internal.h
++++ b/drivers/acpi/internal.h
+@@ -120,7 +120,7 @@ int acpi_bus_register_early_device(int type);
+                      Device Matching and Notification
+    -------------------------------------------------------------------------- */
+ struct acpi_device *acpi_companion_match(const struct device *dev);
+-int __acpi_device_uevent_modalias(struct acpi_device *adev,
++int __acpi_device_uevent_modalias(const struct acpi_device *adev,
+ 				  struct kobj_uevent_env *env);
  
- 	result = dvb_dmx_init(&card->demux);
- 	if (result < 0) {
-diff --git a/drivers/media/pci/mantis/mantis_dvb.c b/drivers/media/pci/mantis/mantis_dvb.c
-index c7ba4a76e608..a92f32ec5c2a 100644
---- a/drivers/media/pci/mantis/mantis_dvb.c
-+++ b/drivers/media/pci/mantis/mantis_dvb.c
-@@ -161,7 +161,6 @@ int mantis_dvb_init(struct mantis_pci *mantis)
- 	mantis->demux.feednum		= 256;
- 	mantis->demux.start_feed	= mantis_dvb_start_feed;
- 	mantis->demux.stop_feed		= mantis_dvb_stop_feed;
--	mantis->demux.write_to_decoder	= NULL;
+ /* --------------------------------------------------------------------------
+diff --git a/drivers/firewire/core-device.c b/drivers/firewire/core-device.c
+index adddd8c45d0c..aa597cda0d88 100644
+--- a/drivers/firewire/core-device.c
++++ b/drivers/firewire/core-device.c
+@@ -133,7 +133,7 @@ static void get_ids(const u32 *directory, int *id)
+ 	}
+ }
  
- 	dprintk(MANTIS_DEBUG, 1, "dvb_dmx_init");
- 	result = dvb_dmx_init(&mantis->demux);
-diff --git a/drivers/media/pci/ngene/ngene-dvb.c b/drivers/media/pci/ngene/ngene-dvb.c
-index fda24ba3dc3c..241b14f9684e 100644
---- a/drivers/media/pci/ngene/ngene-dvb.c
-+++ b/drivers/media/pci/ngene/ngene-dvb.c
-@@ -310,7 +310,6 @@ int my_dvb_dmx_ts_card_init(struct dvb_demux *dvbdemux, char *id,
- 	dvbdemux->feednum = 256;
- 	dvbdemux->start_feed = start_feed;
- 	dvbdemux->stop_feed = stop_feed;
--	dvbdemux->write_to_decoder = NULL;
- 	dvbdemux->dmx.capabilities = (DMX_TS_FILTERING |
- 				      DMX_SECTION_FILTERING |
- 				      DMX_MEMORY_BASED_FILTERING);
-diff --git a/drivers/media/pci/pt1/pt1.c b/drivers/media/pci/pt1/pt1.c
-index 121a4a92ea10..92d174fe4917 100644
---- a/drivers/media/pci/pt1/pt1.c
-+++ b/drivers/media/pci/pt1/pt1.c
-@@ -869,7 +869,6 @@ pt1_alloc_adapter(struct pt1 *pt1)
- 	demux->filternum = 256;
- 	demux->start_feed = pt1_start_feed;
- 	demux->stop_feed = pt1_stop_feed;
--	demux->write_to_decoder = NULL;
- 	ret = dvb_dmx_init(demux);
- 	if (ret < 0)
- 		goto err_unregister_adapter;
-diff --git a/drivers/media/pci/smipcie/smipcie-main.c b/drivers/media/pci/smipcie/smipcie-main.c
-index 0c300d019d9c..a0adec89d7cb 100644
---- a/drivers/media/pci/smipcie/smipcie-main.c
-+++ b/drivers/media/pci/smipcie/smipcie-main.c
-@@ -739,7 +739,6 @@ static int my_dvb_dmx_ts_card_init(struct dvb_demux *dvbdemux, char *id,
- 	dvbdemux->feednum = 256;
- 	dvbdemux->start_feed = start_feed;
- 	dvbdemux->stop_feed = stop_feed;
--	dvbdemux->write_to_decoder = NULL;
- 	dvbdemux->dmx.capabilities = (DMX_TS_FILTERING |
- 				      DMX_SECTION_FILTERING |
- 				      DMX_MEMORY_BASED_FILTERING);
-diff --git a/drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-common.c b/drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-common.c
-index 5df67da25525..03af243faeff 100644
---- a/drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-common.c
-+++ b/drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-common.c
-@@ -47,7 +47,6 @@ static int register_dvb(struct stdemux *demux, struct dvb_adapter *adap,
+-static void get_modalias_ids(struct fw_unit *unit, int *id)
++static void get_modalias_ids(const struct fw_unit *unit, int *id)
+ {
+ 	get_ids(&fw_parent_device(unit)->config_rom[5], id);
+ 	get_ids(unit->directory, id);
+@@ -195,7 +195,7 @@ static void fw_unit_remove(struct device *dev)
+ 	driver->remove(fw_unit(dev));
+ }
  
- 	demux->dvb_demux.start_feed = start_feed;
- 	demux->dvb_demux.stop_feed = stop_feed;
--	demux->dvb_demux.write_to_decoder = NULL;
+-static int get_modalias(struct fw_unit *unit, char *buffer, size_t buffer_size)
++static int get_modalias(const struct fw_unit *unit, char *buffer, size_t buffer_size)
+ {
+ 	int id[] = {0, 0, 0, 0};
  
- 	result = dvb_dmx_init(&demux->dvb_demux);
- 	if (result < 0) {
-diff --git a/drivers/media/usb/dvb-usb-v2/dvb_usb_core.c b/drivers/media/usb/dvb-usb-v2/dvb_usb_core.c
-index f1c79f351ec8..b21ff02a591c 100644
---- a/drivers/media/usb/dvb-usb-v2/dvb_usb_core.c
-+++ b/drivers/media/usb/dvb-usb-v2/dvb_usb_core.c
-@@ -470,7 +470,6 @@ static int dvb_usbv2_adapter_dvb_init(struct dvb_usb_adapter *adap)
- 	adap->demux.feednum          = adap->demux.filternum;
- 	adap->demux.start_feed       = dvb_usb_start_feed;
- 	adap->demux.stop_feed        = dvb_usb_stop_feed;
--	adap->demux.write_to_decoder = NULL;
- 	ret = dvb_dmx_init(&adap->demux);
- 	if (ret < 0) {
- 		dev_err(&d->udev->dev, "%s: dvb_dmx_init() failed=%d\n",
-diff --git a/drivers/media/usb/dvb-usb/dvb-usb-dvb.c b/drivers/media/usb/dvb-usb/dvb-usb-dvb.c
-index 0a7f8ba90992..b17f4b06766d 100644
---- a/drivers/media/usb/dvb-usb/dvb-usb-dvb.c
-+++ b/drivers/media/usb/dvb-usb/dvb-usb-dvb.c
-@@ -180,7 +180,6 @@ int dvb_usb_adapter_dvb_init(struct dvb_usb_adapter *adap, short *adapter_nums)
- 	adap->demux.feednum          = adap->demux.filternum;
- 	adap->demux.start_feed       = dvb_usb_start_feed;
- 	adap->demux.stop_feed        = dvb_usb_stop_feed;
--	adap->demux.write_to_decoder = NULL;
- 	if ((ret = dvb_dmx_init(&adap->demux)) < 0) {
- 		err("dvb_dmx_init failed: error %d", ret);
- 		goto err_dmx;
-diff --git a/drivers/media/usb/pvrusb2/pvrusb2-dvb.c b/drivers/media/usb/pvrusb2/pvrusb2-dvb.c
-index 26811efe0fb5..930508685c7f 100644
---- a/drivers/media/usb/pvrusb2/pvrusb2-dvb.c
-+++ b/drivers/media/usb/pvrusb2/pvrusb2-dvb.c
-@@ -263,7 +263,6 @@ static int pvr2_dvb_adapter_init(struct pvr2_dvb_adapter *adap)
- 	adap->demux.feednum          = 256;
- 	adap->demux.start_feed       = pvr2_dvb_start_feed;
- 	adap->demux.stop_feed        = pvr2_dvb_stop_feed;
--	adap->demux.write_to_decoder = NULL;
+@@ -206,9 +206,9 @@ static int get_modalias(struct fw_unit *unit, char *buffer, size_t buffer_size)
+ 			id[0], id[1], id[2], id[3]);
+ }
  
- 	ret = dvb_dmx_init(&adap->demux);
- 	if (ret < 0) {
-diff --git a/drivers/media/usb/ttusb-budget/dvb-ttusb-budget.c b/drivers/media/usb/ttusb-budget/dvb-ttusb-budget.c
-index 9e016b71aa91..18b483540c9f 100644
---- a/drivers/media/usb/ttusb-budget/dvb-ttusb-budget.c
-+++ b/drivers/media/usb/ttusb-budget/dvb-ttusb-budget.c
-@@ -1670,7 +1670,6 @@ static int ttusb_probe(struct usb_interface *intf, const struct usb_device_id *i
- 	ttusb->dvb_demux.feednum = TTUSB_MAXCHANNEL;
- 	ttusb->dvb_demux.start_feed = ttusb_start_feed;
- 	ttusb->dvb_demux.stop_feed = ttusb_stop_feed;
--	ttusb->dvb_demux.write_to_decoder = NULL;
+-static int fw_unit_uevent(struct device *dev, struct kobj_uevent_env *env)
++static int fw_unit_uevent(const struct device *dev, struct kobj_uevent_env *env)
+ {
+-	struct fw_unit *unit = fw_unit(dev);
++	const struct fw_unit *unit = fw_unit(dev);
+ 	char modalias[64];
  
- 	result = dvb_dmx_init(&ttusb->dvb_demux);
- 	if (result < 0) {
-diff --git a/drivers/media/usb/ttusb-dec/ttusb_dec.c b/drivers/media/usb/ttusb-dec/ttusb_dec.c
-index 38822cedd93a..e9d6294ebcc5 100644
---- a/drivers/media/usb/ttusb-dec/ttusb_dec.c
-+++ b/drivers/media/usb/ttusb-dec/ttusb_dec.c
-@@ -1476,7 +1476,6 @@ static int ttusb_dec_init_dvb(struct ttusb_dec *dec)
- 	dec->demux.feednum = 31;
- 	dec->demux.start_feed = ttusb_dec_start_feed;
- 	dec->demux.stop_feed = ttusb_dec_stop_feed;
--	dec->demux.write_to_decoder = NULL;
+ 	get_modalias(unit, modalias, sizeof(modalias));
+diff --git a/drivers/gpu/drm/display/drm_dp_aux_bus.c b/drivers/gpu/drm/display/drm_dp_aux_bus.c
+index e31a0261c53e..8a165be1a821 100644
+--- a/drivers/gpu/drm/display/drm_dp_aux_bus.c
++++ b/drivers/gpu/drm/display/drm_dp_aux_bus.c
+@@ -161,7 +161,7 @@ static void dp_aux_ep_dev_release(struct device *dev)
+ 	kfree(aux_ep_with_data);
+ }
  
- 	if ((result = dvb_dmx_init(&dec->demux)) < 0) {
- 		printk("%s: dvb_dmx_init failed: error %d\n", __func__,
-diff --git a/include/media/dvb_demux.h b/include/media/dvb_demux.h
-index 1580de3dbc80..316b637b9f13 100644
---- a/include/media/dvb_demux.h
-+++ b/include/media/dvb_demux.h
-@@ -170,10 +170,6 @@ struct dvb_demux_feed {
-  *			a DVB feed.
-  * @stop_feed:		callback routine to be called in order to stop
-  *			a DVB feed.
-- * @write_to_decoder:	callback routine to be called if the feed is TS and
-- *			it is routed to an A/V decoder, when a new TS packet
-- *			is received.
-- *			Used only on av7110-av.c.
-  * @check_crc32:	callback routine to check CRC. If not initialized,
-  *			dvb_demux will use an internal one.
-  * @memcopy:		callback routine to memcopy received data.
-@@ -203,8 +199,6 @@ struct dvb_demux {
- 	int feednum;
- 	int (*start_feed)(struct dvb_demux_feed *feed);
- 	int (*stop_feed)(struct dvb_demux_feed *feed);
--	int (*write_to_decoder)(struct dvb_demux_feed *feed,
--				 const u8 *buf, size_t len);
- 	u32 (*check_crc32)(struct dvb_demux_feed *feed,
- 			    const u8 *buf, size_t len);
- 	void (*memcopy)(struct dvb_demux_feed *feed, u8 *dst,
+-static int dp_aux_ep_dev_modalias(struct device *dev, struct kobj_uevent_env *env)
++static int dp_aux_ep_dev_modalias(const struct device *dev, struct kobj_uevent_env *env)
+ {
+ 	return of_device_uevent_modalias(dev, env);
+ }
+diff --git a/drivers/i2c/i2c-core-base.c b/drivers/i2c/i2c-core-base.c
+index 087e480b624c..51b78a52ab7f 100644
+--- a/drivers/i2c/i2c-core-base.c
++++ b/drivers/i2c/i2c-core-base.c
+@@ -136,9 +136,9 @@ static int i2c_device_match(struct device *dev, struct device_driver *drv)
+ 	return 0;
+ }
+ 
+-static int i2c_device_uevent(struct device *dev, struct kobj_uevent_env *env)
++static int i2c_device_uevent(const struct device *dev, struct kobj_uevent_env *env)
+ {
+-	struct i2c_client *client = to_i2c_client(dev);
++	const struct i2c_client *client = to_i2c_client(dev);
+ 	int rc;
+ 
+ 	rc = of_device_uevent_modalias(dev, env);
+diff --git a/drivers/i3c/device.c b/drivers/i3c/device.c
+index d111499061b2..1a6a8703dbc3 100644
+--- a/drivers/i3c/device.c
++++ b/drivers/i3c/device.c
+@@ -78,7 +78,7 @@ EXPORT_SYMBOL_GPL(i3c_device_do_setdasa);
+  *
+  * Retrieve I3C dev info.
+  */
+-void i3c_device_get_info(struct i3c_device *dev,
++void i3c_device_get_info(const struct i3c_device *dev,
+ 			 struct i3c_device_info *info)
+ {
+ 	if (!info)
+diff --git a/drivers/i3c/master.c b/drivers/i3c/master.c
+index d7e6f6c99aea..7a60e1c5e587 100644
+--- a/drivers/i3c/master.c
++++ b/drivers/i3c/master.c
+@@ -273,9 +273,9 @@ static struct attribute *i3c_device_attrs[] = {
+ };
+ ATTRIBUTE_GROUPS(i3c_device);
+ 
+-static int i3c_device_uevent(struct device *dev, struct kobj_uevent_env *env)
++static int i3c_device_uevent(const struct device *dev, struct kobj_uevent_env *env)
+ {
+-	struct i3c_device *i3cdev = dev_to_i3cdev(dev);
++	const struct i3c_device *i3cdev = dev_to_i3cdev(dev);
+ 	struct i3c_device_info devinfo;
+ 	u16 manuf, part, ext;
+ 
+diff --git a/drivers/input/input.c b/drivers/input/input.c
+index ca2e3dd7188b..0336e799d713 100644
+--- a/drivers/input/input.c
++++ b/drivers/input/input.c
+@@ -1372,7 +1372,7 @@ INPUT_DEV_STRING_ATTR_SHOW(phys);
+ INPUT_DEV_STRING_ATTR_SHOW(uniq);
+ 
+ static int input_print_modalias_bits(char *buf, int size,
+-				     char name, unsigned long *bm,
++				     char name, const unsigned long *bm,
+ 				     unsigned int min_bit, unsigned int max_bit)
+ {
+ 	int len = 0, i;
+@@ -1384,7 +1384,7 @@ static int input_print_modalias_bits(char *buf, int size,
+ 	return len;
+ }
+ 
+-static int input_print_modalias(char *buf, int size, struct input_dev *id,
++static int input_print_modalias(char *buf, int size, const struct input_dev *id,
+ 				int add_cr)
+ {
+ 	int len;
+@@ -1432,7 +1432,7 @@ static ssize_t input_dev_show_modalias(struct device *dev,
+ }
+ static DEVICE_ATTR(modalias, S_IRUGO, input_dev_show_modalias, NULL);
+ 
+-static int input_print_bitmap(char *buf, int buf_size, unsigned long *bitmap,
++static int input_print_bitmap(char *buf, int buf_size, const unsigned long *bitmap,
+ 			      int max, int add_cr);
+ 
+ static ssize_t input_dev_show_properties(struct device *dev,
+@@ -1524,7 +1524,7 @@ static const struct attribute_group input_dev_id_attr_group = {
+ 	.attrs	= input_dev_id_attrs,
+ };
+ 
+-static int input_print_bitmap(char *buf, int buf_size, unsigned long *bitmap,
++static int input_print_bitmap(char *buf, int buf_size, const unsigned long *bitmap,
+ 			      int max, int add_cr)
+ {
+ 	int i;
+@@ -1621,7 +1621,7 @@ static void input_dev_release(struct device *device)
+  * device bitfields.
+  */
+ static int input_add_uevent_bm_var(struct kobj_uevent_env *env,
+-				   const char *name, unsigned long *bitmap, int max)
++				   const char *name, const unsigned long *bitmap, int max)
+ {
+ 	int len;
+ 
+@@ -1639,7 +1639,7 @@ static int input_add_uevent_bm_var(struct kobj_uevent_env *env,
+ }
+ 
+ static int input_add_uevent_modalias_var(struct kobj_uevent_env *env,
+-					 struct input_dev *dev)
++					 const struct input_dev *dev)
+ {
+ 	int len;
+ 
+@@ -1677,9 +1677,9 @@ static int input_add_uevent_modalias_var(struct kobj_uevent_env *env,
+ 			return err;					\
+ 	} while (0)
+ 
+-static int input_dev_uevent(struct device *device, struct kobj_uevent_env *env)
++static int input_dev_uevent(const struct device *device, struct kobj_uevent_env *env)
+ {
+-	struct input_dev *dev = to_input_dev(device);
++	const struct input_dev *dev = to_input_dev(device);
+ 
+ 	INPUT_ADD_HOTPLUG_VAR("PRODUCT=%x/%x/%x/%x",
+ 				dev->id.bustype, dev->id.vendor,
+diff --git a/drivers/media/rc/rc-main.c b/drivers/media/rc/rc-main.c
+index 527d9324742b..6bdad6341844 100644
+--- a/drivers/media/rc/rc-main.c
++++ b/drivers/media/rc/rc-main.c
+@@ -1614,7 +1614,7 @@ static void rc_dev_release(struct device *device)
+ 	kfree(dev);
+ }
+ 
+-static int rc_dev_uevent(struct device *device, struct kobj_uevent_env *env)
++static int rc_dev_uevent(const struct device *device, struct kobj_uevent_env *env)
+ {
+ 	struct rc_dev *dev = to_rc_dev(device);
+ 	int ret = 0;
+diff --git a/drivers/platform/surface/aggregator/bus.c b/drivers/platform/surface/aggregator/bus.c
+index de539938896e..407eb55050a6 100644
+--- a/drivers/platform/surface/aggregator/bus.c
++++ b/drivers/platform/surface/aggregator/bus.c
+@@ -35,9 +35,9 @@ static struct attribute *ssam_device_attrs[] = {
+ };
+ ATTRIBUTE_GROUPS(ssam_device);
+ 
+-static int ssam_device_uevent(struct device *dev, struct kobj_uevent_env *env)
++static int ssam_device_uevent(const struct device *dev, struct kobj_uevent_env *env)
+ {
+-	struct ssam_device *sdev = to_ssam_device(dev);
++	const struct ssam_device *sdev = to_ssam_device(dev);
+ 
+ 	return add_uevent_var(env, "MODALIAS=ssam:d%02Xc%02Xt%02Xi%02Xf%02X",
+ 			      sdev->uid.domain, sdev->uid.category,
+diff --git a/drivers/soundwire/bus_type.c b/drivers/soundwire/bus_type.c
+index 04b3529f8929..26c9a0a85d49 100644
+--- a/drivers/soundwire/bus_type.c
++++ b/drivers/soundwire/bus_type.c
+@@ -58,9 +58,9 @@ int sdw_slave_modalias(const struct sdw_slave *slave, char *buf, size_t size)
+ 			slave->id.sdw_version, slave->id.class_id);
+ }
+ 
+-int sdw_slave_uevent(struct device *dev, struct kobj_uevent_env *env)
++int sdw_slave_uevent(const struct device *dev, struct kobj_uevent_env *env)
+ {
+-	struct sdw_slave *slave = dev_to_sdw_dev(dev);
++	const struct sdw_slave *slave = dev_to_sdw_dev(dev);
+ 	char modalias[32];
+ 
+ 	sdw_slave_modalias(slave, modalias, sizeof(modalias));
+diff --git a/drivers/thunderbolt/switch.c b/drivers/thunderbolt/switch.c
+index 363d712aa364..cb6c304c445e 100644
+--- a/drivers/thunderbolt/switch.c
++++ b/drivers/thunderbolt/switch.c
+@@ -2176,9 +2176,9 @@ static void tb_switch_release(struct device *dev)
+ 	kfree(sw);
+ }
+ 
+-static int tb_switch_uevent(struct device *dev, struct kobj_uevent_env *env)
++static int tb_switch_uevent(const struct device *dev, struct kobj_uevent_env *env)
+ {
+-	struct tb_switch *sw = tb_to_switch(dev);
++	const struct tb_switch *sw = tb_to_switch(dev);
+ 	const char *type;
+ 
+ 	if (sw->config.thunderbolt_version == USB4_VERSION_1_0) {
+diff --git a/drivers/thunderbolt/tb.h b/drivers/thunderbolt/tb.h
+index f9786976f5ec..909da0a98134 100644
+--- a/drivers/thunderbolt/tb.h
++++ b/drivers/thunderbolt/tb.h
+@@ -815,7 +815,7 @@ static inline bool tb_is_switch(const struct device *dev)
+ 	return dev->type == &tb_switch_type;
+ }
+ 
+-static inline struct tb_switch *tb_to_switch(struct device *dev)
++static inline struct tb_switch *tb_to_switch(const struct device *dev)
+ {
+ 	if (tb_is_switch(dev))
+ 		return container_of(dev, struct tb_switch, dev);
+diff --git a/drivers/thunderbolt/xdomain.c b/drivers/thunderbolt/xdomain.c
+index cfa83486c9da..7bf1e360b04c 100644
+--- a/drivers/thunderbolt/xdomain.c
++++ b/drivers/thunderbolt/xdomain.c
+@@ -881,7 +881,7 @@ static ssize_t key_show(struct device *dev, struct device_attribute *attr,
+ }
+ static DEVICE_ATTR_RO(key);
+ 
+-static int get_modalias(struct tb_service *svc, char *buf, size_t size)
++static int get_modalias(const struct tb_service *svc, char *buf, size_t size)
+ {
+ 	return snprintf(buf, size, "tbsvc:k%sp%08Xv%08Xr%08X", svc->key,
+ 			svc->prtcid, svc->prtcvers, svc->prtcrevs);
+@@ -953,9 +953,9 @@ static const struct attribute_group *tb_service_attr_groups[] = {
+ 	NULL,
+ };
+ 
+-static int tb_service_uevent(struct device *dev, struct kobj_uevent_env *env)
++static int tb_service_uevent(const struct device *dev, struct kobj_uevent_env *env)
+ {
+-	struct tb_service *svc = container_of(dev, struct tb_service, dev);
++	const struct tb_service *svc = container_of_const(dev, struct tb_service, dev);
+ 	char modalias[64];
+ 
+ 	get_modalias(svc, modalias, sizeof(modalias));
+diff --git a/drivers/tty/serdev/core.c b/drivers/tty/serdev/core.c
+index 0180e1e4e75d..aa80de3a8194 100644
+--- a/drivers/tty/serdev/core.c
++++ b/drivers/tty/serdev/core.c
+@@ -42,7 +42,7 @@ static struct attribute *serdev_device_attrs[] = {
+ };
+ ATTRIBUTE_GROUPS(serdev_device);
+ 
+-static int serdev_device_uevent(struct device *dev, struct kobj_uevent_env *env)
++static int serdev_device_uevent(const struct device *dev, struct kobj_uevent_env *env)
+ {
+ 	int rc;
+ 
+diff --git a/drivers/usb/core/message.c b/drivers/usb/core/message.c
+index 127fac1af676..cc404bb7e8f7 100644
+--- a/drivers/usb/core/message.c
++++ b/drivers/usb/core/message.c
+@@ -1819,11 +1819,11 @@ void usb_authorize_interface(struct usb_interface *intf)
+ 	}
+ }
+ 
+-static int usb_if_uevent(struct device *dev, struct kobj_uevent_env *env)
++static int usb_if_uevent(const struct device *dev, struct kobj_uevent_env *env)
+ {
+-	struct usb_device *usb_dev;
+-	struct usb_interface *intf;
+-	struct usb_host_interface *alt;
++	const struct usb_device *usb_dev;
++	const struct usb_interface *intf;
++	const struct usb_host_interface *alt;
+ 
+ 	intf = to_usb_interface(dev);
+ 	usb_dev = interface_to_usbdev(intf);
+diff --git a/drivers/usb/core/usb.c b/drivers/usb/core/usb.c
+index 11b15d7b357a..8527c06b65e6 100644
+--- a/drivers/usb/core/usb.c
++++ b/drivers/usb/core/usb.c
+@@ -423,9 +423,9 @@ static void usb_release_dev(struct device *dev)
+ 	kfree(udev);
+ }
+ 
+-static int usb_dev_uevent(struct device *dev, struct kobj_uevent_env *env)
++static int usb_dev_uevent(const struct device *dev, struct kobj_uevent_env *env)
+ {
+-	struct usb_device *usb_dev;
++	const struct usb_device *usb_dev;
+ 
+ 	usb_dev = to_usb_device(dev);
+ 
+diff --git a/drivers/usb/phy/phy.c b/drivers/usb/phy/phy.c
+index 1b24492bb4e5..4b468bde19cf 100644
+--- a/drivers/usb/phy/phy.c
++++ b/drivers/usb/phy/phy.c
+@@ -80,7 +80,7 @@ static struct usb_phy *__of_usb_find_phy(struct device_node *node)
+ 	return ERR_PTR(-EPROBE_DEFER);
+ }
+ 
+-static struct usb_phy *__device_to_usb_phy(struct device *dev)
++static struct usb_phy *__device_to_usb_phy(const struct device *dev)
+ {
+ 	struct usb_phy *usb_phy;
+ 
+@@ -145,9 +145,9 @@ static void usb_phy_notify_charger_work(struct work_struct *work)
+ 	kobject_uevent(&usb_phy->dev->kobj, KOBJ_CHANGE);
+ }
+ 
+-static int usb_phy_uevent(struct device *dev, struct kobj_uevent_env *env)
++static int usb_phy_uevent(const struct device *dev, struct kobj_uevent_env *env)
+ {
+-	struct usb_phy *usb_phy;
++	const struct usb_phy *usb_phy;
+ 	char uchger_state[50] = { 0 };
+ 	char uchger_type[50] = { 0 };
+ 	unsigned long flags;
+diff --git a/drivers/usb/roles/class.c b/drivers/usb/roles/class.c
+index eacb46ec2ab3..56814ef80c24 100644
+--- a/drivers/usb/roles/class.c
++++ b/drivers/usb/roles/class.c
+@@ -274,8 +274,7 @@ static const struct attribute_group *usb_role_switch_groups[] = {
+ 	NULL,
+ };
+ 
+-static int
+-usb_role_switch_uevent(struct device *dev, struct kobj_uevent_env *env)
++static int usb_role_switch_uevent(const struct device *dev, struct kobj_uevent_env *env)
+ {
+ 	int ret;
+ 
+diff --git a/drivers/usb/typec/class.c b/drivers/usb/typec/class.c
+index 5897905cb4f0..a89d8fd3f46c 100644
+--- a/drivers/usb/typec/class.c
++++ b/drivers/usb/typec/class.c
+@@ -1737,7 +1737,7 @@ static const struct attribute_group *typec_groups[] = {
+ 	NULL
+ };
+ 
+-static int typec_uevent(struct device *dev, struct kobj_uevent_env *env)
++static int typec_uevent(const struct device *dev, struct kobj_uevent_env *env)
+ {
+ 	int ret;
+ 
+diff --git a/include/linux/acpi.h b/include/linux/acpi.h
+index 5e6a876e17ba..564b62f13bd0 100644
+--- a/include/linux/acpi.h
++++ b/include/linux/acpi.h
+@@ -723,7 +723,7 @@ const struct acpi_device_id *acpi_match_device(const struct acpi_device_id *ids,
+ const void *acpi_device_get_match_data(const struct device *dev);
+ extern bool acpi_driver_match_device(struct device *dev,
+ 				     const struct device_driver *drv);
+-int acpi_device_uevent_modalias(struct device *, struct kobj_uevent_env *);
++int acpi_device_uevent_modalias(const struct device *, struct kobj_uevent_env *);
+ int acpi_device_modalias(struct device *, char *, int);
+ 
+ struct platform_device *acpi_create_platform_device(struct acpi_device *,
+@@ -958,7 +958,7 @@ static inline union acpi_object *acpi_evaluate_dsm(acpi_handle handle,
+ 	return NULL;
+ }
+ 
+-static inline int acpi_device_uevent_modalias(struct device *dev,
++static inline int acpi_device_uevent_modalias(const struct device *dev,
+ 				struct kobj_uevent_env *env)
+ {
+ 	return -ENODEV;
+diff --git a/include/linux/device.h b/include/linux/device.h
+index 44e3acae7b36..dad0614aad96 100644
+--- a/include/linux/device.h
++++ b/include/linux/device.h
+@@ -88,7 +88,7 @@ int subsys_virtual_register(struct bus_type *subsys,
+ struct device_type {
+ 	const char *name;
+ 	const struct attribute_group **groups;
+-	int (*uevent)(struct device *dev, struct kobj_uevent_env *env);
++	int (*uevent)(const struct device *dev, struct kobj_uevent_env *env);
+ 	char *(*devnode)(struct device *dev, umode_t *mode,
+ 			 kuid_t *uid, kgid_t *gid);
+ 	void (*release)(struct device *dev);
+diff --git a/include/linux/i3c/device.h b/include/linux/i3c/device.h
+index 68b558929aec..ce115ef08fec 100644
+--- a/include/linux/i3c/device.h
++++ b/include/linux/i3c/device.h
+@@ -303,7 +303,7 @@ int i3c_device_do_priv_xfers(struct i3c_device *dev,
+ 
+ int i3c_device_do_setdasa(struct i3c_device *dev);
+ 
+-void i3c_device_get_info(struct i3c_device *dev, struct i3c_device_info *info);
++void i3c_device_get_info(const struct i3c_device *dev, struct i3c_device_info *info);
+ 
+ struct i3c_ibi_payload {
+ 	unsigned int len;
+diff --git a/include/linux/soundwire/sdw_type.h b/include/linux/soundwire/sdw_type.h
+index 52eb66cd11bc..d8c27f1e5559 100644
+--- a/include/linux/soundwire/sdw_type.h
++++ b/include/linux/soundwire/sdw_type.h
+@@ -21,7 +21,7 @@ static inline int is_sdw_slave(const struct device *dev)
+ int __sdw_register_driver(struct sdw_driver *drv, struct module *owner);
+ void sdw_unregister_driver(struct sdw_driver *drv);
+ 
+-int sdw_slave_uevent(struct device *dev, struct kobj_uevent_env *env);
++int sdw_slave_uevent(const struct device *dev, struct kobj_uevent_env *env);
+ 
+ /**
+  * module_sdw_driver() - Helper macro for registering a Soundwire driver
 -- 
 2.39.0
 
