@@ -2,107 +2,111 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 97F9866558B
-	for <lists+linux-media@lfdr.de>; Wed, 11 Jan 2023 08:57:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 17753665686
+	for <lists+linux-media@lfdr.de>; Wed, 11 Jan 2023 09:52:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231640AbjAKH5X (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 11 Jan 2023 02:57:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57912 "EHLO
+        id S235720AbjAKIww (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 11 Jan 2023 03:52:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59990 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236065AbjAKH4j (ORCPT
+        with ESMTP id S232077AbjAKIwr (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 11 Jan 2023 02:56:39 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB7045FB1;
-        Tue, 10 Jan 2023 23:56:27 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id BDE30B81AC7;
-        Wed, 11 Jan 2023 07:56:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 69C57C433F0;
-        Wed, 11 Jan 2023 07:56:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1673423783;
-        bh=2u7nhABhalr1syMdvDWnyzBAsvh3jha2i2GvzP5W6AI=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=lErlo3e4xmSv9OKudecdXAEB8QKLE+sW6hoWXlzF6rL5I42SakD9/9/DLREwZSV8g
-         9J8b0+XtLK4QNsC5PYtAKQNK5Zd3CuF78U2GAiFLXVKRRdlMyYhyOU7UNkeF2NLsG4
-         ctr8l/MvyaNfZtEkkcTaGLxQF8v2uYhCULiWvtQQrYRBjjuu0SQovDRAvnLvuzYlsu
-         4rcAJLmBPzhTq1WN8Agx5RhFG3l+tCgOiWXqxwc9N/F6xD2Qm1nNK+7qwkKWXosd4g
-         6nqWZYMOSA+8NRS7VZlgkNB5m1bt17pXtv24kJ1v8fkqXpI18fJCVHYIfE0Zj7HDLM
-         JNn7Mm/+oqSbg==
-Message-ID: <e83108ff-3f9b-8087-f7da-3b95bf89f0d3@kernel.org>
-Date:   Wed, 11 Jan 2023 08:56:15 +0100
+        Wed, 11 Jan 2023 03:52:47 -0500
+Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com [IPv6:2607:f8b0:4864:20::636])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 94C63101CF
+        for <linux-media@vger.kernel.org>; Wed, 11 Jan 2023 00:52:42 -0800 (PST)
+Received: by mail-pl1-x636.google.com with SMTP id 17so16126497pll.0
+        for <linux-media@vger.kernel.org>; Wed, 11 Jan 2023 00:52:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=cc:to:message-id:date:from:content-transfer-encoding:mime-version
+         :subject:from:to:cc:subject:date:message-id:reply-to;
+        bh=wqCK+F3NQ/WGaXLcIcOMDouMxXDEFoEvg+1KtOppxeY=;
+        b=DTcmeYWP40XvxuO4qpiqRHULNmiwo8+64irQJ7KINs7kMqbXY7UXrX2RP+lHjFwfuY
+         IrrfYTghgFE/AvAVNXFpoBYXjbN52LGaYNTGAqg57PmydTAcbhGbRH/zsJnQJm+hMUcm
+         Cz4ukJygPdmAJKtFSQri5BZi7CViCGCx0nwqY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:message-id:date:from:content-transfer-encoding:mime-version
+         :subject:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=wqCK+F3NQ/WGaXLcIcOMDouMxXDEFoEvg+1KtOppxeY=;
+        b=QJyBnJM/RzeypdOkQiS7vkvjn3vT3D5U9vJfrwApRz3vK7KoYHGwzY1w8K0jSHdrUY
+         FEhbw5IjzHH2MCRnq3YCbVZV1e2DlT8GKZd6tPVLMIA0AWoHNA9a85+dNcw1unTNbjwz
+         bo1q3gQVgxagb6IvTXBk7J1yRhOY0ohLuVD3Qxg5Wghv7LW4YexdkfBpND+6m8HicLLg
+         77kz28mpqSWSoqpPF1KVeKQTl+mrEWxqXSIwERy8BUat3a/aAiWFxqIBn3pQv09SaNFU
+         rmQfEfBnUBtVVAj6XlFjQDEP0Qtq4tNqmR/jAU2sFyQ+Mze0FwI9ttmxSj2yG6HwZx7/
+         ZUMw==
+X-Gm-Message-State: AFqh2kplFZUiDrvtP8vSL1RAOqtwddm45SSB3sqP3eGsIwSRUmijh0d4
+        K0D0fc+OlSOx6V56JaWqOjETLg==
+X-Google-Smtp-Source: AMrXdXum8ArM4pB9qETHPJODnPDp/suBqyLyoixncGVjhBx1UAuymc1r+iaUvuZWqudNJObqgHXXLA==
+X-Received: by 2002:a05:6a20:1384:b0:af:864d:e7bc with SMTP id w4-20020a056a20138400b000af864de7bcmr103740756pzh.25.1673427162145;
+        Wed, 11 Jan 2023 00:52:42 -0800 (PST)
+Received: from yunkec1.tok.corp.google.com ([2401:fa00:8f:203:c84:581:fd3a:b32b])
+        by smtp.gmail.com with ESMTPSA id ik9-20020a170902ab0900b00183c67844aesm9566612plb.22.2023.01.11.00.52.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 11 Jan 2023 00:52:41 -0800 (PST)
+Subject: [PATCH RFC 0/3] meida: uvcvideo: reimplement privacy gpio as a separate subdevice
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH v4 1/6] dt-bindings: media: platform: visconti: Add
- Toshiba Visconti Video Input Interface bindings
-To:     yuji2.ishikawa@toshiba.co.jp, hverkuil@xs4all.nl,
-        laurent.pinchart@ideasonboard.com, mchehab@kernel.org,
-        nobuhiro1.iwamatsu@toshiba.co.jp
-Cc:     linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-References: <20230110014143.18684-1-yuji2.ishikawa@toshiba.co.jp>
- <20230110014143.18684-2-yuji2.ishikawa@toshiba.co.jp>
- <b0245b64-a3eb-a242-8824-9effe0c63f0e@kernel.org>
- <TYAPR01MB6201932EC0EAB58C4228CD4292FC9@TYAPR01MB6201.jpnprd01.prod.outlook.com>
-Content-Language: en-US
-From:   Krzysztof Kozlowski <krzk@kernel.org>
-In-Reply-To: <TYAPR01MB6201932EC0EAB58C4228CD4292FC9@TYAPR01MB6201.jpnprd01.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+X-b4-tracking: H4sIANV4vmMC/w3LQQqAMAwEwK9IzhaMgoqfkbQuGpAqDS2I+Hd7nMO8ZEgKo6V5KaGo6RUruG0oHB
+ J3ON2qqe/6oWNml0tY76RFwrNa9huKY0zC44R5hKcavRicTxLDUWvM5/l9PzD2TzRpAAAA
+From:   Yunke Cao <yunkec@chromium.org>
+Date:   Wed, 11 Jan 2023 17:52:37 +0900
+Message-Id: <20230111-uvc_privacy_subdev-v1-0-f859ac9a01e3@chromium.org>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Ricardo Ribalda <ribalda@chromium.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     Yunke Cao <yunkec@chromium.org>, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Ricardo Ribalda <ribalda@chromium.org>
+X-Mailer: b4 0.11.0-dev-4d321
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 11/01/2023 03:19, yuji2.ishikawa@toshiba.co.jp wrote:
-> Hello Krzysztof,
-> 
->> -----Original Message-----
->> From: Krzysztof Kozlowski <krzk@kernel.org>
->> Sent: Wednesday, January 11, 2023 4:31 AM
->> To: ishikawa yuji(石川 悠司 ○ＲＤＣ□ＡＩＴＣ○ＥＡ開)
->> <yuji2.ishikawa@toshiba.co.jp>; Hans Verkuil <hverkuil@xs4all.nl>; Laurent
->> Pinchart <laurent.pinchart@ideasonboard.com>; Mauro Carvalho Chehab
->> <mchehab@kernel.org>; iwamatsu nobuhiro(岩松 信洋 □ＳＷＣ◯ＡＣＴ)
->> <nobuhiro1.iwamatsu@toshiba.co.jp>
->> Cc: linux-media@vger.kernel.org; linux-arm-kernel@lists.infradead.org;
->> linux-kernel@vger.kernel.org; devicetree@vger.kernel.org
->> Subject: Re: [PATCH v4 1/6] dt-bindings: media: platform: visconti: Add Toshiba
->> Visconti Video Input Interface bindings
->>
->> On 10/01/2023 02:41, Yuji Ishikawa wrote:
->>> Adds the Device Tree binding documentation that allows to describe the
->>> Video Input Interface found in Toshiba Visconti SoCs.
->>>
->>> Signed-off-by: Yuji Ishikawa <yuji2.ishikawa@toshiba.co.jp>
->>> Reviewed-by: Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>
->>
->> Please use scripts/get_maintainers.pl to get a list of necessary people and lists
->> to CC.  It might happen, that command when run on an older kernel, gives you
->> outdated entries.  Therefore please be sure you base your patches on recent
->> Linux kernel.
->>
->> You missed few of them, so clearly this was not sent correctly.
->>
->>
->> Subject: drop second/last, redundant "bindings". The "dt-bindings"
->> prefix is already stating that these are bindings.
-> 
-> Thanks for reporting. The recipient was generated with an older kernel.
-> I'll update the list and send the v5 patch.
+privacy_gpio in uvc were added as V4L2_CID_PRIVACY in uvc video node in
+https://lore.kernel.org/all/20201223133528.55014-1-ribalda@chromium.org/
 
-The patchset should be rebased and tested on new kernel. But this still
-does not explain missing CC to Rob - he is there since ages...
+Userspace applications often require to constantly poll privacy control.
+Currently, polling privacy control requires keeping the video node open,
+which prevents the camera from autosuspending.
+
+This patchset adds a separate v4l2 subdevice. Userspace access the gpio
+via V4L2_CID_PRIVACY in the new subdevice. Applications can poll the
+privacy control status without opening the video node and activate the
+camera.
+
+The non-gpio V4L2_CID_PRIVACY in uvc is not affected.
+
+Suggested-by: Ricardo Ribalda <ribalda@chromium.org>
+Signed-off-by: Yunke Cao <yunkec@chromium.org>
+---
+Yunke Cao (3):
+      media: v4l2-ctrls: Expose v4l2_ctrl_fill_event()
+      media: uvcvideo: remove entity privacy control in the uvc video node
+      media: uvcvideo: reimplement privacy GPIO as a separate subdevice
+
+ drivers/media/usb/uvc/uvc_ctrl.c          | 17 -------
+ drivers/media/usb/uvc/uvc_driver.c        | 44 ++----------------
+ drivers/media/usb/uvc/uvc_entity.c        | 76 +++++++++++++++++++++++++++++++
+ drivers/media/usb/uvc/uvcvideo.h          | 19 +++++---
+ drivers/media/v4l2-core/v4l2-ctrls-core.c |  9 ++--
+ include/media/v4l2-ctrls.h                | 12 +++++
+ 6 files changed, 111 insertions(+), 66 deletions(-)
+---
+base-commit: 7dd4b804e08041ff56c88bdd8da742d14b17ed25
+change-id: 20230111-uvc_privacy_subdev-1e7a167e86eb
 
 Best regards,
-Krzysztof
-
+-- 
+Yunke Cao <yunkec@chromium.org>
