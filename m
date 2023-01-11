@@ -2,232 +2,226 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D024F665A70
-	for <lists+linux-media@lfdr.de>; Wed, 11 Jan 2023 12:40:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 33596665ADD
+	for <lists+linux-media@lfdr.de>; Wed, 11 Jan 2023 12:58:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238298AbjAKLkE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 11 Jan 2023 06:40:04 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37912 "EHLO
+        id S238861AbjAKL6M (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 11 Jan 2023 06:58:12 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53018 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238344AbjAKLjf (ORCPT
+        with ESMTP id S236329AbjAKL5b (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 11 Jan 2023 06:39:35 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E95B0B7E1
-        for <linux-media@vger.kernel.org>; Wed, 11 Jan 2023 03:35:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1673436937;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=aHM2nrq0s6Ww2GRqx6ysR7XCOFH9LRjdLLMrpgZ0h6U=;
-        b=GszriPKtmEULQZmluhbNQItDIFMwAxXPGUtMt5oENiSais9Szn5v6Hqd/pNE1uyx3rXtK1
-        zS7gSSNHJ4c3NW+xuQ5MO8jUvL5IECsp2yIbCDDa0H83ZcB4App1FGKYOFxF/waK/3g0bw
-        QcHt3erf+BerfahFKfT0GTIvrLgFPhQ=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-590-LPdhZ5QLPrOliN1aS2hTfA-1; Wed, 11 Jan 2023 06:35:36 -0500
-X-MC-Unique: LPdhZ5QLPrOliN1aS2hTfA-1
-Received: by mail-ej1-f70.google.com with SMTP id ga21-20020a1709070c1500b007c171be7cd7so10128490ejc.20
-        for <linux-media@vger.kernel.org>; Wed, 11 Jan 2023 03:35:35 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=aHM2nrq0s6Ww2GRqx6ysR7XCOFH9LRjdLLMrpgZ0h6U=;
-        b=f8uPxSRdexh56tW9/cBkQJNgz6ypneynHVOLixpXbheZYqDrycdmxqOUOqFXnKz+ji
-         2YnI9HNWME7FKbS98FouffIUWmbOTQSXuuKQzUOp9Ir/fxZn4U+Akb+iFrccZBKakZX+
-         DBFiYWDmq5ZYj2MjdjIEN0ehLIJjDZD0BpMsQGu1jvIAEkReUKumKOMna1THBuuEV9td
-         yxaCMFsbP3ptfIjs/NstpRhRINF4BCX23MOU5UEcjVvFix6eobhYNhi5JfHRyfT4jvhI
-         DcuEagcPAQiJCVfMt003yajRRMDl8Lela58IxpYK+eu3UrM7Ot4nKKv9EP8YV/RIvRcS
-         8rxA==
-X-Gm-Message-State: AFqh2koH4O27+R0OTcLZU0nBGktRFAosFkm3XAJishbzxFpx6sYTwsSD
-        sFHJH3B9k7++5HybupVqorHsURk3FzuZv6R9dfS4+7HtnBpMA62v7KEMWs+XukMhq55rH443RWw
-        kzaCQaZUGzpwMr1ZocVThZcQ=
-X-Received: by 2002:a17:906:a19a:b0:7c1:6d65:4718 with SMTP id s26-20020a170906a19a00b007c16d654718mr62940110ejy.33.1673436935053;
-        Wed, 11 Jan 2023 03:35:35 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXugso+wPAehAcdGPV3PaQJQuAyz1wjv3Cn6uo0v71xo5Wz6pAe3kQp44xPM4llry88QH/tdnQ==
-X-Received: by 2002:a17:906:a19a:b0:7c1:6d65:4718 with SMTP id s26-20020a170906a19a00b007c16d654718mr62940100ejy.33.1673436934864;
-        Wed, 11 Jan 2023 03:35:34 -0800 (PST)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id a3-20020aa7cf03000000b0049019b48373sm5959303edy.85.2023.01.11.03.35.33
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 11 Jan 2023 03:35:34 -0800 (PST)
-Message-ID: <7bd5d013-d0d8-8020-d91a-39917fa61f33@redhat.com>
-Date:   Wed, 11 Jan 2023 12:35:33 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH v3 08/11] platform/x86: int3472/discrete: Create a LED
- class device for the privacy LED
-Content-Language: en-US, nl
-To:     Andy Shevchenko <andy@kernel.org>
-Cc:     Mark Gross <markgross@kernel.org>, Pavel Machek <pavel@ucw.cz>,
-        Lee Jones <lee@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Daniel Scally <djrscally@gmail.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Wed, 11 Jan 2023 06:57:31 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7FAFA5FAA;
+        Wed, 11 Jan 2023 03:50:31 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 3CFFCB81B8D;
+        Wed, 11 Jan 2023 11:50:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5FE6AC433D2;
+        Wed, 11 Jan 2023 11:50:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1673437828;
+        bh=ee90ZrdxFbeWGNSMRr1VURdeCwSTryoyYgek0eDL43U=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Ux9y0zsReAjEza05MKHtM99Oo6HV0AlBIcKbjqhk0Sdu0kERz3ZrU1pdvSmZd9jKp
+         k+y3U+ZUgDdbHMHa3JgdaPTGOMNqeI6ACPHMdPJ22gpRvjUeCWCYjM91aT8U1Llxoj
+         QFI4iOnz4DtuijqA9rKpiDnWwp2+K0jYCfZ8voAcoguGLJghxXY7U2GXEIk6idHOd+
+         gVGSEP9bjHsYzJzeX3oOLB27xVWD3FK/0R9UF1usKjrN2w9qkcneozn93br8ae8scX
+         afwqdqESHuEQ9rQmkman8KOYqgij4A593O4qR3mWFfMNDzHF3KBIfD8RFnbmm7xvWX
+         Mfb/EbO9h+cdw==
+Date:   Wed, 11 Jan 2023 12:50:26 +0100
+From:   Wolfram Sang <wsa@kernel.org>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     linux-kernel@vger.kernel.org, Jens Axboe <axboe@kernel.dk>,
+        Len Brown <lenb@kernel.org>,
+        Stefan Richter <stefanr@s5r6.in-berlin.de>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Sean Young <sean@mess.org>, Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Maximilian Luz <luzmaximilian@gmail.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Mark Gross <markgross@kernel.org>,
+        Vinod Koul <vkoul@kernel.org>,
+        Bard Liao <yung-chuan.liao@linux.intel.com>,
+        Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+        Sanyog Kale <sanyog.r.kale@intel.com>,
+        Andreas Noever <andreas.noever@gmail.com>,
+        Michael Jamet <michael.jamet@intel.com>,
+        Yehezkel Bernat <YehezkelShB@gmail.com>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        Chaitanya Kulkarni <kch@nvidia.com>,
+        Ming Lei <ming.lei@redhat.com>,
+        Jilin Yuan <yuanjilin@cdjrlc.com>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
-        platform-driver-x86@vger.kernel.org, linux-leds@vger.kernel.org,
-        linux-gpio@vger.kernel.org, Kate Hsuan <hpa@redhat.com>,
-        Mark Pearson <markpearson@lenovo.com>,
-        Andy Yeh <andy.yeh@intel.com>, Yao Hao <yao.hao@intel.com>,
-        linux-media@vger.kernel.org
-References: <20221216113013.126881-1-hdegoede@redhat.com>
- <20221216113013.126881-9-hdegoede@redhat.com>
- <Y5x9uHm8NnVHc0Lv@smile.fi.intel.com>
- <d3d28b30-a364-66eb-7870-06c43d683bb7@redhat.com>
- <Y5ynWBqkhLB2cHYU@smile.fi.intel.com>
-From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <Y5ynWBqkhLB2cHYU@smile.fi.intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE
-        autolearn=ham autolearn_force=no version=3.4.6
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ira Weiny <ira.weiny@intel.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Won Chung <wonchung@google.com>, alsa-devel@alsa-project.org,
+        devicetree@vger.kernel.org, linux-acpi@vger.kernel.org,
+        linux-block@vger.kernel.org, linux-i2c@vger.kernel.org,
+        linux-i3c@lists.infradead.org, linux-input@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-serial@vger.kernel.org,
+        linux-usb@vger.kernel.org, linux1394-devel@lists.sourceforge.net,
+        platform-driver-x86@vger.kernel.org,
+        "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: Re: [PATCH v2 05/16] driver core: make struct device_type.uevent()
+ take a const *
+Message-ID: <Y76igjXSaG4tB1KJ@ninjato>
+Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-kernel@vger.kernel.org, Jens Axboe <axboe@kernel.dk>,
+        Len Brown <lenb@kernel.org>,
+        Stefan Richter <stefanr@s5r6.in-berlin.de>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Sean Young <sean@mess.org>, Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Maximilian Luz <luzmaximilian@gmail.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Mark Gross <markgross@kernel.org>, Vinod Koul <vkoul@kernel.org>,
+        Bard Liao <yung-chuan.liao@linux.intel.com>,
+        Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+        Sanyog Kale <sanyog.r.kale@intel.com>,
+        Andreas Noever <andreas.noever@gmail.com>,
+        Michael Jamet <michael.jamet@intel.com>,
+        Yehezkel Bernat <YehezkelShB@gmail.com>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        Chaitanya Kulkarni <kch@nvidia.com>, Ming Lei <ming.lei@redhat.com>,
+        Jilin Yuan <yuanjilin@cdjrlc.com>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ira Weiny <ira.weiny@intel.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Won Chung <wonchung@google.com>, alsa-devel@alsa-project.org,
+        devicetree@vger.kernel.org, linux-acpi@vger.kernel.org,
+        linux-block@vger.kernel.org, linux-i2c@vger.kernel.org,
+        linux-i3c@lists.infradead.org, linux-input@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-serial@vger.kernel.org,
+        linux-usb@vger.kernel.org, linux1394-devel@lists.sourceforge.net,
+        platform-driver-x86@vger.kernel.org,
+        "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+References: <20230111113018.459199-1-gregkh@linuxfoundation.org>
+ <20230111113018.459199-6-gregkh@linuxfoundation.org>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="eatOmASNmMfu/WLi"
+Content-Disposition: inline
+In-Reply-To: <20230111113018.459199-6-gregkh@linuxfoundation.org>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
 
-On 12/16/22 18:14, Andy Shevchenko wrote:
-> On Fri, Dec 16, 2022 at 05:29:13PM +0100, Hans de Goede wrote:
->> On 12/16/22 15:16, Andy Shevchenko wrote:
->>> On Fri, Dec 16, 2022 at 12:30:10PM +0100, Hans de Goede wrote:
-> 
-> ...
-> 
->>>> +	if (IS_ERR(int3472->pled.gpio)) {
->>>> +		ret = PTR_ERR(int3472->pled.gpio);
->>>> +		return dev_err_probe(int3472->dev, ret, "getting privacy LED GPIO\n");
->>>
->>> 	return dev_err_probe(...);
->>
->> That goes over 100 chars.
-> 
-> The point is you don't need ret to be initialized. Moreover, no-one prevents
-> you to split the line to two.
+--eatOmASNmMfu/WLi
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-The compiler is perfectly capable of optimizing away the store
-in ret if that is not necessary; and splitting the line instead
-of doing it above will just make the code harder to read.
+On Wed, Jan 11, 2023 at 12:30:07PM +0100, Greg Kroah-Hartman wrote:
+> The uevent() callback in struct device_type should not be modifying the
+> device that is passed into it, so mark it as a const * and propagate the
+> function signature changes out into all relevant subsystems that use
+> this callback.
+>=20
+> Cc: Jens Axboe <axboe@kernel.dk>
+> Cc: Len Brown <lenb@kernel.org>
+> Cc: Stefan Richter <stefanr@s5r6.in-berlin.de>
+> Cc: Wolfram Sang <wsa@kernel.org>
+> Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>
+> Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> Cc: Sean Young <sean@mess.org>
+> Cc: Rob Herring <robh+dt@kernel.org>
+> Cc: Frank Rowand <frowand.list@gmail.com>
+> Cc: Maximilian Luz <luzmaximilian@gmail.com>
+> Cc: Hans de Goede <hdegoede@redhat.com>
+> Cc: Mark Gross <markgross@kernel.org>
+> Cc: Vinod Koul <vkoul@kernel.org>
+> Cc: Bard Liao <yung-chuan.liao@linux.intel.com>
+> Cc: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+> Cc: Sanyog Kale <sanyog.r.kale@intel.com>
+> Cc: Andreas Noever <andreas.noever@gmail.com>
+> Cc: Michael Jamet <michael.jamet@intel.com>
+> Cc: Yehezkel Bernat <YehezkelShB@gmail.com>
+> Cc: Jiri Slaby <jirislaby@kernel.org>
+> Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+> Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>
+> Cc: "Martin K. Petersen" <martin.petersen@oracle.com>
+> Cc: Chaitanya Kulkarni <kch@nvidia.com>
+> Cc: Ming Lei <ming.lei@redhat.com>
+> Cc: Jilin Yuan <yuanjilin@cdjrlc.com>
+> Cc: Alan Stern <stern@rowland.harvard.edu>
+> Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> Cc: Sakari Ailus <sakari.ailus@linux.intel.com>
+> Cc: Jason Gunthorpe <jgg@ziepe.ca>
+> Cc: Thomas Gleixner <tglx@linutronix.de>
+> Cc: Ira Weiny <ira.weiny@intel.com>
+> Cc: Dan Williams <dan.j.williams@intel.com>
+> Cc: Won Chung <wonchung@google.com>
+> Cc: alsa-devel@alsa-project.org
+> Cc: devicetree@vger.kernel.org
+> Cc: linux-acpi@vger.kernel.org
+> Cc: linux-block@vger.kernel.org
+> Cc: linux-i2c@vger.kernel.org
+> Cc: linux-i3c@lists.infradead.org
+> Cc: linux-input@vger.kernel.org
+> Cc: linux-kernel@vger.kernel.org
+> Cc: linux-media@vger.kernel.org
+> Cc: linux-serial@vger.kernel.org
+> Cc: linux-usb@vger.kernel.org
+> Cc: linux1394-devel@lists.sourceforge.net
+> Cc: platform-driver-x86@vger.kernel.org
+> Acked-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+> Acked-by: Mika Westerberg <mika.westerberg@linux.intel.com> # for Thunder=
+bolt
+> Acked-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
-Also this really is bikeshedding...
-
-> 
->>>> +	}
-> 
-> ...
-> 
->>>> +	/* Generate the name, replacing the ':' in the ACPI devname with '_' */
->>>> +	snprintf(int3472->pled.name, sizeof(int3472->pled.name),
->>>> +		 "%s::privacy_led", acpi_dev_name(int3472->sensor));
->>>
->>>> +	for (i = 0; int3472->pled.name[i]; i++) {
->>>> +		if (int3472->pled.name[i] == ':') {
->>>> +			int3472->pled.name[i] = '_';
->>>> +			break;
->>>> +		}
->>>> +	}
->>>
->>> NIH strreplace().
->>
->> Please look more careful, quoting from the strreplace() docs:
->>
->>  * strreplace - Replace all occurrences of character in string.
->>
->> Notice the *all* and we only want to replace the first ':' here,
->> because the ':' char has a special meaning in LED class-device-names.
-> 
-> It's still possible to use that, but anyway, the above is still
-> something NIH.
-> 
-> 	char *p;
-> 
-> 	p = strchr(name, ':');
-> 	*p = '_';
-
-Ok, In will switch to this for the next version.
-
-> But either code has an issue if by some reason you need to check if : is ever
-> present in acpi_dev_name().
-
-acpi device names are set by this code:
-
-        result = ida_alloc(instance_ida, GFP_KERNEL);
-        if (result < 0)
-                return result;
-
-        device->pnp.instance_no = result;
-        dev_set_name(&device->dev, "%s:%02x", acpi_device_bus_id->bus_id, result);
-
-And the bus_id cannot have a : in it, so there always is a single :.
+Acked-by: Wolfram Sang <wsa@kernel.org>
 
 
-> 
-> The more robust is either to copy acpi_dev_name(), call strreplace(), so you
-> will be sure that _all_ : from ACPI device name will be covered and then attach
-> the rest.
-> 
-> ...
-> 
->>>> +void skl_int3472_unregister_pled(struct int3472_discrete_device *int3472)
->>>> +{
->>>> +	if (IS_ERR_OR_NULL(int3472->pled.classdev.dev))
->>>> +		return;
->>>
->>> This dups the check inside the _unregister() below, right?
->>
->> Right.
->>
->>>> +	led_remove_lookup(&int3472->pled.lookup);
->>>
->>> With list_del_init() I believe the above check can be droped.
->>
->> No it cannot, list_del_init() inside led_remove_lookup() would
->> protect against double led_remove_lookup() calls.
->>
->> But here we may have a completely uninitialized list_head on
->> devices without an INT3472 privacy-led, which will trigger
->> either __list_del_entry_valid() errors or lead to NULL
->> pointer derefs.
-> 
-> But we can initialize that as well...
+--eatOmASNmMfu/WLi
+Content-Type: application/pgp-signature; name="signature.asc"
 
-The standard pattern in the kernel is that INIT_LIST_HEAD()
-is only used for list_head-s which are actually used as the head
-of the list. list_head-s used to track members of the list are
-usually not initialized until they are added to the list.
+-----BEGIN PGP SIGNATURE-----
 
-Doing multiple list-init-s in multiple cases, including
-one in *subsystem core code* just to drop an if here seems
-counter productive.
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmO+on4ACgkQFA3kzBSg
+Kbar9Q/+PJ2u9B6sH0kIrC6oEnXoKAsfZZ5U75pl6ls0qQDtMNBd4jnNQ220OhTa
+3pKYq76YstsF8WPELZjVaJiHnzs1kkB/HblIzzTLIMuOjq4jtGJqUhr4HZ1Jh3Or
+aVm0zykl99om05o9YHGq1SNKWVUlm7EOnU48snB4WbcWEoF+M46TVT2JXpwn+fn5
+rFvfrYUhqwuUj3FqI0/aynOj3SNv1yMFJCoyAOzO+EBJ+iC+uHfm54OGdCsCBhE1
+O1yOluZULN9KLANZJZwrI0syoa85Lf3WYi9C/hGSgJ2pWxBCi4JqrkGUVPNeBvQv
+RmjpLLZTDzkSWn1FOUC6TgAL6xBco04oHD/v9IhKoZLnfYx/1EG9K6j/wHBzhlkB
+otHCRJbah0YHXkzb0sBFIZxMZJoIXvWrPUeN3LrOj9aF21ysk33o+ExAv6a9eN58
+CQzM8GvIYCVx6/qKM0h9zOo9pyHbay0o7hkHAGggsdljr7zY/wUAoRs9e8IGYcES
+T3ZLU4ADXxgXrm96VYxxrrxOTme/uJHHypU1e7G7Wq9MfAAuFLFilPjLPea/HldQ
+UK8M9Hs/nX22KKtQPWoZkEGAKyV6gbo39HU4xsYH6BdzYVFpH8mzFCYpvxYkoS+v
+URGDgDt+jgb0d30Galr88Mpkhuz1+CRO5R3dVQiioc6bbecfCbI=
+=wUgU
+-----END PGP SIGNATURE-----
 
-Also checking that we can move forward with the unregister
-is a good idea regardless of all the called functions being
-able to run safely if the register never happened, because
-future changes to the unregister function might end up
-doing something which is unsafe when the LED was never
-registered in the first place.
-
-Regards,
-
-Hans
-
-
-
-
-> 
->>>> +	led_classdev_unregister(&int3472->pled.classdev);
->>>> +	gpiod_put(int3472->pled.gpio);
->>>> +}
-> 
-
+--eatOmASNmMfu/WLi--
