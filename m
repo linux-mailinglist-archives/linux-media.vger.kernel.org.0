@@ -2,38 +2,37 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 71AEB66596F
-	for <lists+linux-media@lfdr.de>; Wed, 11 Jan 2023 11:53:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4AFE466596C
+	for <lists+linux-media@lfdr.de>; Wed, 11 Jan 2023 11:53:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238398AbjAKKxV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        id S237634AbjAKKxV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
         Wed, 11 Jan 2023 05:53:21 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37176 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37174 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238543AbjAKKxK (ORCPT
+        with ESMTP id S238514AbjAKKxK (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Wed, 11 Jan 2023 05:53:10 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7BB371014
-        for <linux-media@vger.kernel.org>; Wed, 11 Jan 2023 02:53:05 -0800 (PST)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0FDB6117E
+        for <linux-media@vger.kernel.org>; Wed, 11 Jan 2023 02:53:04 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id CA761B81BAE
-        for <linux-media@vger.kernel.org>; Wed, 11 Jan 2023 10:53:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 81A36C433F0;
-        Wed, 11 Jan 2023 10:53:01 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 5943661BBB
+        for <linux-media@vger.kernel.org>; Wed, 11 Jan 2023 10:53:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D5FD2C433D2;
+        Wed, 11 Jan 2023 10:53:02 +0000 (UTC)
 From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
 To:     linux-media@vger.kernel.org
 Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: [PATCH 01/13] meye: remove this deprecated driver
-Date:   Wed, 11 Jan 2023 11:52:46 +0100
-Message-Id: <20230111105258.547471-2-hverkuil-cisco@xs4all.nl>
+Subject: [PATCH 02/13] cpia2: remove deprecated driver
+Date:   Wed, 11 Jan 2023 11:52:47 +0100
+Message-Id: <20230111105258.547471-3-hverkuil-cisco@xs4all.nl>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230111105258.547471-1-hverkuil-cisco@xs4all.nl>
 References: <20230111105258.547471-1-hverkuil-cisco@xs4all.nl>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
         HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS
@@ -44,7 +43,7 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The meye driver does not use the vb2 framework for streaming
+The cpia2 driver does not use the vb2 framework for streaming
 video, instead it implements this in the driver. This is error prone,
 and nobody stepped in to convert this driver to that framework.
 
@@ -53,1795 +52,3271 @@ altogether.
 
 Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 ---
- Documentation/admin-guide/media/meye.rst      |   93 -
- .../admin-guide/media/pci-cardlist.rst        |    1 -
+ Documentation/admin-guide/media/cpia2.rst     |  145 -
+ .../admin-guide/media/other-usb-cardlist.rst  |    2 -
+ .../admin-guide/media/usb-cardlist.rst        |    1 -
  .../admin-guide/media/v4l-drivers.rst         |    1 -
- .../userspace-api/media/drivers/index.rst     |    1 -
- .../userspace-api/media/drivers/meye-uapi.rst |   53 -
- MAINTAINERS                                   |    8 -
+ .../driver-api/media/drivers/cpia2_devel.rst  |   56 -
+ .../driver-api/media/drivers/index.rst        |    1 -
  drivers/staging/media/Kconfig                 |    1 -
  drivers/staging/media/Makefile                |    1 -
- drivers/staging/media/deprecated/meye/Kconfig |   19 -
- .../staging/media/deprecated/meye/Makefile    |    2 -
- drivers/staging/media/deprecated/meye/TODO    |    6 -
- drivers/staging/media/deprecated/meye/meye.c  | 1814 -----------------
- drivers/staging/media/deprecated/meye/meye.h  |  311 ---
- include/uapi/linux/meye.h                     |   65 -
- include/uapi/linux/v4l2-controls.h            |    8 +-
- 15 files changed, 6 insertions(+), 2378 deletions(-)
- delete mode 100644 Documentation/admin-guide/media/meye.rst
- delete mode 100644 Documentation/userspace-api/media/drivers/meye-uapi.rst
- delete mode 100644 drivers/staging/media/deprecated/meye/Kconfig
- delete mode 100644 drivers/staging/media/deprecated/meye/Makefile
- delete mode 100644 drivers/staging/media/deprecated/meye/TODO
- delete mode 100644 drivers/staging/media/deprecated/meye/meye.c
- delete mode 100644 drivers/staging/media/deprecated/meye/meye.h
- delete mode 100644 include/uapi/linux/meye.h
+ .../staging/media/deprecated/cpia2/Kconfig    |   13 -
+ .../staging/media/deprecated/cpia2/Makefile   |    4 -
+ drivers/staging/media/deprecated/cpia2/TODO   |    6 -
+ .../staging/media/deprecated/cpia2/cpia2.h    |  475 ----
+ .../media/deprecated/cpia2/cpia2_core.c       | 2434 -----------------
+ .../media/deprecated/cpia2/cpia2_registers.h  |  463 ----
+ .../media/deprecated/cpia2/cpia2_usb.c        |  966 -------
+ .../media/deprecated/cpia2/cpia2_v4l.c        | 1226 ---------
+ 16 files changed, 5795 deletions(-)
+ delete mode 100644 Documentation/admin-guide/media/cpia2.rst
+ delete mode 100644 Documentation/driver-api/media/drivers/cpia2_devel.rst
+ delete mode 100644 drivers/staging/media/deprecated/cpia2/Kconfig
+ delete mode 100644 drivers/staging/media/deprecated/cpia2/Makefile
+ delete mode 100644 drivers/staging/media/deprecated/cpia2/TODO
+ delete mode 100644 drivers/staging/media/deprecated/cpia2/cpia2.h
+ delete mode 100644 drivers/staging/media/deprecated/cpia2/cpia2_core.c
+ delete mode 100644 drivers/staging/media/deprecated/cpia2/cpia2_registers.h
+ delete mode 100644 drivers/staging/media/deprecated/cpia2/cpia2_usb.c
+ delete mode 100644 drivers/staging/media/deprecated/cpia2/cpia2_v4l.c
 
-diff --git a/Documentation/admin-guide/media/meye.rst b/Documentation/admin-guide/media/meye.rst
+diff --git a/Documentation/admin-guide/media/cpia2.rst b/Documentation/admin-guide/media/cpia2.rst
 deleted file mode 100644
-index 9098a1e65f8b..000000000000
---- a/Documentation/admin-guide/media/meye.rst
+index f6ffef686462..000000000000
+--- a/Documentation/admin-guide/media/cpia2.rst
 +++ /dev/null
-@@ -1,93 +0,0 @@
+@@ -1,145 +0,0 @@
 -.. SPDX-License-Identifier: GPL-2.0
 -
--.. include:: <isonum.txt>
+-The cpia2 driver
+-================
 -
--Vaio Picturebook Motion Eye Camera Driver
--=========================================
+-Authors: Peter Pregler <Peter_Pregler@email.com>,
+-Scott J. Bertin <scottbertin@yahoo.com>, and
+-Jarl Totland <Jarl.Totland@bdc.no> for the original cpia driver, which
+-this one was modelled from.
 -
--Copyright |copy| 2001-2004 Stelian Pop <stelian@popies.net>
+-Introduction
+-------------
 -
--Copyright |copy| 2001-2002 Alcôve <www.alcove.com>
+-This is a driver for STMicroelectronics's CPiA2 (second generation
+-Colour Processor Interface ASIC) based cameras. This camera outputs an MJPEG
+-stream at up to vga size. It implements the Video4Linux interface as much as
+-possible.  Since the V4L interface does not support compressed formats, only
+-an mjpeg enabled application can be used with the camera. We have modified the
+-gqcam application to view this stream.
 -
--Copyright |copy| 2000 Andrew Tridgell <tridge@samba.org>
+-The driver is implemented as two kernel modules. The cpia2 module
+-contains the camera functions and the V4L interface.  The cpia2_usb module
+-contains usb specific functions.  The main reason for this was the size of the
+-module was getting out of hand, so I separated them.  It is not likely that
+-there will be a parallel port version.
 -
--This driver enable the use of video4linux compatible applications with the
--Motion Eye camera. This driver requires the "Sony Laptop Extras" driver (which
--can be found in the "Misc devices" section of the kernel configuration utility)
--to be compiled and installed (using its "camera=1" parameter).
+-Features
+---------
 -
--It can do at maximum 30 fps @ 320x240 or 15 fps @ 640x480.
+-- Supports cameras with the Vision stv6410 (CIF) and stv6500 (VGA) cmos
+-  sensors. I only have the vga sensor, so can't test the other.
+-- Image formats: VGA, QVGA, CIF, QCIF, and a number of sizes in between.
+-  VGA and QVGA are the native image sizes for the VGA camera. CIF is done
+-  in the coprocessor by scaling QVGA.  All other sizes are done by clipping.
+-- Palette: YCrCb, compressed with MJPEG.
+-- Some compression parameters are settable.
+-- Sensor framerate is adjustable (up to 30 fps CIF, 15 fps VGA).
+-- Adjust brightness, color, contrast while streaming.
+-- Flicker control settable for 50 or 60 Hz mains frequency.
 -
--Grabbing is supported in packed YUV colorspace only.
+-Making and installing the stv672 driver modules
+------------------------------------------------
 -
--MJPEG hardware grabbing is supported via a private API (see below).
+-Requirements
+-~~~~~~~~~~~~
 -
--Hardware supported
--------------------
+-Video4Linux must be either compiled into the kernel or
+-available as a module.  Video4Linux2 is automatically detected and made
+-available at compile time.
 -
--This driver supports the 'second' version of the MotionEye camera :)
+-Setup
+-~~~~~
 -
--The first version was connected directly on the video bus of the Neomagic
--video card and is unsupported.
--
--The second one, made by Kawasaki Steel is fully supported by this
--driver (PCI vendor/device is 0x136b/0xff01)
--
--The third one, present in recent (more or less last year) Picturebooks
--(C1M* models), is not supported. The manufacturer has given the specs
--to the developers under a NDA (which allows the development of a GPL
--driver however), but things are not moving very fast (see
--http://r-engine.sourceforge.net/) (PCI vendor/device is 0x10cf/0x2011).
--
--There is a forth model connected on the USB bus in TR1* Vaio laptops.
--This camera is not supported at all by the current driver, in fact
--little information if any is available for this camera
--(USB vendor/device is 0x054c/0x0107).
+-Use ``modprobe cpia2`` to load and ``modprobe -r cpia2`` to unload. This
+-may be done automatically by your distribution.
 -
 -Driver options
----------------
+-~~~~~~~~~~~~~~
 -
--Several options can be passed to the meye driver using the standard
--module argument syntax (<param>=<value> when passing the option to the
--module or meye.<param>=<value> on the kernel boot line when meye is
--statically linked into the kernel). Those options are:
+-.. tabularcolumns:: |p{13ex}|L|
 -
--.. code-block:: none
 -
--	gbuffers:	number of capture buffers, default is 2 (32 max)
+-==============  ========================================================
+-Option		Description
+-==============  ========================================================
+-video_nr	video device to register (0=/dev/video0, etc)
+-		range -1 to 64.  default is -1 (first available)
+-		If you have more than 1 camera, this MUST be -1.
+-buffer_size	Size for each frame buffer in bytes (default 68k)
+-num_buffers	Number of frame buffers (1-32, default 3)
+-alternate	USB Alternate (2-7, default 7)
+-flicker_freq	Frequency for flicker reduction(50 or 60, default 60)
+-flicker_mode	0 to disable, or 1 to enable flicker reduction.
+-		(default 0). This is only effective if the camera
+-		uses a stv0672 coprocessor.
+-==============  ========================================================
 -
--	gbufsize:	size of each capture buffer, default is 614400
+-Setting the options
+-~~~~~~~~~~~~~~~~~~~
 -
--	video_nr:	video device to register (0 = /dev/video0, etc)
+-If you are using modules, edit /etc/modules.conf and add an options
+-line like this::
 -
--Module use
------------
+-	options cpia2 num_buffers=3 buffer_size=65535
 -
--In order to automatically load the meye module on use, you can put those lines
--in your /etc/modprobe.d/meye.conf file:
+-If the driver is compiled into the kernel, at boot time specify them
+-like this::
 -
--.. code-block:: none
+-	cpia2.num_buffers=3 cpia2.buffer_size=65535
 -
--	alias char-major-81 videodev
--	alias char-major-81-0 meye
--	options meye gbuffers=32
+-What buffer size should I use?
+-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -
--Usage:
--------
+-The maximum image size depends on the alternate you choose, and the
+-frame rate achieved by the camera.  If the compression engine is able to
+-keep up with the frame rate, the maximum image size is given by the table
+-below.
 -
--.. code-block:: none
+-The compression engine starts out at maximum compression, and will
+-increase image quality until it is close to the size in the table.  As long
+-as the compression engine can keep up with the frame rate, after a short time
+-the images will all be about the size in the table, regardless of resolution.
 -
--	xawtv >= 3.49 (<http://bytesex.org/xawtv/>)
--		for display and uncompressed video capture:
+-At low alternate settings, the compression engine may not be able to
+-compress the image enough and will reduce the frame rate by producing larger
+-images.
 -
--			xawtv -c /dev/video0 -geometry 640x480
--				or
--			xawtv -c /dev/video0 -geometry 320x240
+-The default of 68k should be good for most users.  This will handle
+-any alternate at frame rates down to 15fps.  For lower frame rates, it may
+-be necessary to increase the buffer size to avoid having frames dropped due
+-to insufficient space.
 -
--	motioneye (<http://popies.net/meye/>)
--		for getting ppm or jpg snapshots, mjpeg video
+-========== ========== ======== =====
+-Alternate  bytes/ms   15fps    30fps
+-========== ========== ======== =====
+-    2         128      8533     4267
+-    3         384     25600    12800
+-    4         640     42667    21333
+-    5         768     51200    25600
+-    6         896     59733    29867
+-    7        1023     68200    34100
+-========== ========== ======== =====
 -
--Bugs / Todo
-------------
+-Table: Image size(bytes)
 -
--- 'motioneye' still uses the meye private v4l1 API extensions.
-diff --git a/Documentation/admin-guide/media/pci-cardlist.rst b/Documentation/admin-guide/media/pci-cardlist.rst
-index f4d670e632f8..42528795d4da 100644
---- a/Documentation/admin-guide/media/pci-cardlist.rst
-+++ b/Documentation/admin-guide/media/pci-cardlist.rst
-@@ -77,7 +77,6 @@ ipu3-cio2         Intel ipu3-cio2 driver
- ivtv              Conexant cx23416/cx23415 MPEG encoder/decoder
- ivtvfb            Conexant cx23415 framebuffer
- mantis            MANTIS based cards
--meye              Sony Vaio Picturebook Motion Eye
- mxb               Siemens-Nixdorf 'Multimedia eXtension Board'
- netup-unidvb      NetUP Universal DVB card
- ngene             Micronas nGene
+-
+-How many buffers should I use?
+-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-
+-For normal streaming, 3 should give the best results.  With only 2,
+-it is possible for the camera to finish sending one image just after a
+-program has started reading the other.  If this happens, the driver must drop
+-a frame.  The exception to this is if you have a heavily loaded machine.  In
+-this case use 2 buffers.  You are probably not reading at the full frame rate.
+-If the camera can send multiple images before a read finishes, it could
+-overwrite the third buffer before the read finishes, leading to a corrupt
+-image.  Single and double buffering have extra checks to avoid overwriting.
+-
+-Using the camera
+-~~~~~~~~~~~~~~~~
+-
+-We are providing a modified gqcam application to view the output. In
+-order to avoid confusion, here it is called mview.  There is also the qx5view
+-program which can also control the lights on the qx5 microscope. MJPEG Tools
+-(http://mjpeg.sourceforge.net) can also be used to record from the camera.
+diff --git a/Documentation/admin-guide/media/other-usb-cardlist.rst b/Documentation/admin-guide/media/other-usb-cardlist.rst
+index bbfdb1389c18..51ca863a8601 100644
+--- a/Documentation/admin-guide/media/other-usb-cardlist.rst
++++ b/Documentation/admin-guide/media/other-usb-cardlist.rst
+@@ -14,8 +14,6 @@ dvb-as102	  nBox DVB-T Dongle			  0b89:0007
+ dvb-as102	  Sky IT Digital Key (green led)	  2137:0001
+ b2c2-flexcop-usb  Technisat/B2C2 FlexCop II/IIb/III	  0af7:0101
+ 		  Digital TV
+-cpia2		  Vision's CPiA2 cameras		  0553:0100, 0553:0140,
+-		  such as the Digital Blue QX5		  0553:0151
+ go7007		  WIS GO7007 MPEG encoder		  1943:a250, 093b:a002,
+ 							  093b:a004, 0eb1:6666,
+ 							  0eb1:6668
+diff --git a/Documentation/admin-guide/media/usb-cardlist.rst b/Documentation/admin-guide/media/usb-cardlist.rst
+index 1e96f928e0af..af05dbecde0c 100644
+--- a/Documentation/admin-guide/media/usb-cardlist.rst
++++ b/Documentation/admin-guide/media/usb-cardlist.rst
+@@ -43,7 +43,6 @@ Driver                  Name
+ airspy                  AirSpy
+ au0828                  Auvitek AU0828
+ b2c2-flexcop-usb        Technisat/B2C2 Air/Sky/Cable2PC USB
+-cpia2                   CPiA2 Video For Linux
+ cx231xx                 Conexant cx231xx USB video capture
+ dvb-as102               Abilis AS102 DVB receiver
+ dvb-ttusb-budget        Technotrend/Hauppauge Nova - USB devices
 diff --git a/Documentation/admin-guide/media/v4l-drivers.rst b/Documentation/admin-guide/media/v4l-drivers.rst
-index 90a026ee05c6..adb5240d0407 100644
+index adb5240d0407..aa5dcbae077e 100644
 --- a/Documentation/admin-guide/media/v4l-drivers.rst
 +++ b/Documentation/admin-guide/media/v4l-drivers.rst
-@@ -19,7 +19,6 @@ Video4Linux (V4L) driver-specific documentation
- 	imx7
- 	ipu3
- 	ivtv
--	meye
- 	omap3isp
- 	omap4_camera
- 	philips
-diff --git a/Documentation/userspace-api/media/drivers/index.rst b/Documentation/userspace-api/media/drivers/index.rst
-index 915dbf0f4db5..6708d649afd7 100644
---- a/Documentation/userspace-api/media/drivers/index.rst
-+++ b/Documentation/userspace-api/media/drivers/index.rst
-@@ -37,7 +37,6 @@ For more details see the file COPYING in the source distribution of Linux.
- 	dw100
- 	imx-uapi
- 	max2175
--	meye-uapi
- 	omap3isp-uapi
- 	st-vgxy61
- 	uvcvideo
-diff --git a/Documentation/userspace-api/media/drivers/meye-uapi.rst b/Documentation/userspace-api/media/drivers/meye-uapi.rst
+@@ -11,7 +11,6 @@ Video4Linux (V4L) driver-specific documentation
+ 
+ 	bttv
+ 	cafe_ccic
+-	cpia2
+ 	cx88
+ 	davinci-vpbe
+ 	fimc
+diff --git a/Documentation/driver-api/media/drivers/cpia2_devel.rst b/Documentation/driver-api/media/drivers/cpia2_devel.rst
 deleted file mode 100644
-index 66b1c142f920..000000000000
---- a/Documentation/userspace-api/media/drivers/meye-uapi.rst
+index decaa4768c78..000000000000
+--- a/Documentation/driver-api/media/drivers/cpia2_devel.rst
 +++ /dev/null
-@@ -1,53 +0,0 @@
+@@ -1,56 +0,0 @@
 -.. SPDX-License-Identifier: GPL-2.0
 -
--.. include:: <isonum.txt>
+-The cpia2 driver
+-================
 -
--Vaio Picturebook Motion Eye Camera Driver
--=========================================
--
--Copyright |copy| 2001-2004 Stelian Pop <stelian@popies.net>
--
--Copyright |copy| 2001-2002 Alcôve <www.alcove.com>
--
--Copyright |copy| 2000 Andrew Tridgell <tridge@samba.org>
--
--Private API
-------------
--
--The driver supports frame grabbing with the video4linux API,
--so all video4linux tools (like xawtv) should work with this driver.
--
--Besides the video4linux interface, the driver has a private interface
--for accessing the Motion Eye extended parameters (camera sharpness,
--agc, video framerate), the snapshot and the MJPEG capture facilities.
--
--This interface consists of several ioctls (prototypes and structures
--can be found in include/linux/meye.h):
--
--MEYEIOC_G_PARAMS and MEYEIOC_S_PARAMS
--	Get and set the extended parameters of the motion eye camera.
--	The user should always query the current parameters with
--	MEYEIOC_G_PARAMS, change what he likes and then issue the
--	MEYEIOC_S_PARAMS call (checking for -EINVAL). The extended
--	parameters are described by the meye_params structure.
+-Authors: Peter Pregler <Peter_Pregler@email.com>,
+-Scott J. Bertin <scottbertin@yahoo.com>, and
+-Jarl Totland <Jarl.Totland@bdc.no> for the original cpia driver, which
+-this one was modelled from.
 -
 -
--MEYEIOC_QBUF_CAPT
--	Queue a buffer for capture (the buffers must have been
--	obtained with a VIDIOCGMBUF call and mmap'ed by the
--	application). The argument to MEYEIOC_QBUF_CAPT is the
--	buffer number to queue (or -1 to end capture). The first
--	call to MEYEIOC_QBUF_CAPT starts the streaming capture.
+-Notes to developers
+-~~~~~~~~~~~~~~~~~~~
 -
--MEYEIOC_SYNC
--	Takes as an argument the buffer number you want to sync.
--	This ioctl blocks until the buffer is filled and ready
--	for the application to use. It returns the buffer size.
+-   - This is a driver version stripped of the 2.4 back compatibility
+-     and old MJPEG ioctl API. See cpia2.sf.net for 2.4 support.
 -
--MEYEIOC_STILLCAPT and MEYEIOC_STILLJCAPT
--	Takes a snapshot in an uncompressed or compressed jpeg format.
--	This ioctl blocks until the snapshot is done and returns (for
--	jpeg snapshot) the size of the image. The image data is
--	available from the first mmap'ed buffer.
+-Programmer's overview of cpia2 driver
+-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -
--Look at the 'motioneye' application code for an actual example.
-diff --git a/MAINTAINERS b/MAINTAINERS
-index f61eb221415b..f814ab594ea4 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -13071,7 +13071,6 @@ F:	include/media/
- F:	include/uapi/linux/dvb/
- F:	include/uapi/linux/ivtv*
- F:	include/uapi/linux/media.h
--F:	include/uapi/linux/meye.h
- F:	include/uapi/linux/uvcvideo.h
- F:	include/uapi/linux/v4l2-*
- F:	include/uapi/linux/videodev2.h
-@@ -14150,13 +14149,6 @@ F:	drivers/regulator/mpq7920.c
- F:	drivers/regulator/mpq7920.h
- F:	include/linux/mfd/mp2629.h
+-Cpia2 is the second generation video coprocessor from VLSI Vision Ltd (now a
+-division of ST Microelectronics).  There are two versions.  The first is the
+-STV0672, which is capable of up to 30 frames per second (fps) in frame sizes
+-up to CIF, and 15 fps for VGA frames.  The STV0676 is an improved version,
+-which can handle up to 30 fps VGA.  Both coprocessors can be attached to two
+-CMOS sensors - the vvl6410 CIF sensor and the vvl6500 VGA sensor.  These will
+-be referred to as the 410 and the 500 sensors, or the CIF and VGA sensors.
+-
+-The two chipsets operate almost identically.  The core is an 8051 processor,
+-running two different versions of firmware.  The 672 runs the VP4 video
+-processor code, the 676 runs VP5.  There are a few differences in register
+-mappings for the two chips.  In these cases, the symbols defined in the
+-header files are marked with VP4 or VP5 as part of the symbol name.
+-
+-The cameras appear externally as three sets of registers. Setting register
+-values is the only way to control the camera.  Some settings are
+-interdependant, such as the sequence required to power up the camera. I will
+-try to make note of all of these cases.
+-
+-The register sets are called blocks.  Block 0 is the system block.  This
+-section is always powered on when the camera is plugged in.  It contains
+-registers that control housekeeping functions such as powering up the video
+-processor.  The video processor is the VP block.  These registers control
+-how the video from the sensor is processed.  Examples are timing registers,
+-user mode (vga, qvga), scaling, cropping, framerates, and so on.  The last
+-block is the video compressor (VC).  The video stream sent from the camera is
+-compressed as Motion JPEG (JPEGA).  The VC controls all of the compression
+-parameters.  Looking at the file cpia2_registers.h, you can get a full view
+-of these registers and the possible values for most of them.
+-
+-One or more registers can be set or read by sending a usb control message to
+-the camera.  There are three modes for this.  Block mode requests a number
+-of contiguous registers.  Random mode reads or writes random registers with
+-a tuple structure containing address/value pairs.  The repeat mode is only
+-used by VP4 to load a firmware patch.  It contains a starting address and
+-a sequence of bytes to be written into a gpio port.
+diff --git a/Documentation/driver-api/media/drivers/index.rst b/Documentation/driver-api/media/drivers/index.rst
+index 32406490557c..61d64366ab51 100644
+--- a/Documentation/driver-api/media/drivers/index.rst
++++ b/Documentation/driver-api/media/drivers/index.rst
+@@ -13,7 +13,6 @@ Video4Linux (V4L) drivers
+ 	:maxdepth: 5
  
--MOTION EYE VAIO PICTUREBOOK CAMERA DRIVER
--S:	Orphan
--W:	http://popies.net/meye/
--F:	Documentation/userspace-api/media/drivers/meye*
--F:	drivers/staging/media/deprecated/meye/
--F:	include/uapi/linux/meye.h
--
- MOTORCOMM PHY DRIVER
- M:	Peter Geis <pgwipeout@gmail.com>
- M:	Frank <Frank.Sae@motor-comm.com>
+ 	bttv-devel
+-	cpia2_devel
+ 	cx2341x-devel
+ 	cx88-devel
+ 	davinci-vpbe-devel
 diff --git a/drivers/staging/media/Kconfig b/drivers/staging/media/Kconfig
-index b79f93684c4f..c312fe741a30 100644
+index c312fe741a30..8d6c26e48609 100644
 --- a/drivers/staging/media/Kconfig
 +++ b/drivers/staging/media/Kconfig
-@@ -54,7 +54,6 @@ if STAGING_MEDIA_DEPRECATED
+@@ -52,7 +52,6 @@ menuconfig STAGING_MEDIA_DEPRECATED
+ 
+ if STAGING_MEDIA_DEPRECATED
  source "drivers/staging/media/deprecated/atmel/Kconfig"
- source "drivers/staging/media/deprecated/cpia2/Kconfig"
+-source "drivers/staging/media/deprecated/cpia2/Kconfig"
  source "drivers/staging/media/deprecated/fsl-viu/Kconfig"
--source "drivers/staging/media/deprecated/meye/Kconfig"
  source "drivers/staging/media/deprecated/saa7146/Kconfig"
  source "drivers/staging/media/deprecated/stkwebcam/Kconfig"
- source "drivers/staging/media/deprecated/tm6000/Kconfig"
 diff --git a/drivers/staging/media/Makefile b/drivers/staging/media/Makefile
-index 54bbdd4b0d08..f61ab43625b3 100644
+index f61ab43625b3..1f2c00cae4db 100644
 --- a/drivers/staging/media/Makefile
 +++ b/drivers/staging/media/Makefile
-@@ -5,7 +5,6 @@ obj-$(CONFIG_VIDEO_CPIA2)	+= deprecated/cpia2/
+@@ -1,7 +1,6 @@
+ # SPDX-License-Identifier: GPL-2.0
+ obj-$(CONFIG_VIDEO_ATMEL_ISC_BASE)	+= deprecated/atmel/
+ obj-$(CONFIG_INTEL_ATOMISP)     += atomisp/
+-obj-$(CONFIG_VIDEO_CPIA2)	+= deprecated/cpia2/
  obj-$(CONFIG_VIDEO_IMX_MEDIA)	+= imx/
  obj-$(CONFIG_VIDEO_MAX96712)	+= max96712/
  obj-$(CONFIG_VIDEO_MESON_VDEC)	+= meson/vdec/
--obj-$(CONFIG_VIDEO_MEYE)	+= deprecated/meye/
- obj-$(CONFIG_VIDEO_OMAP4)	+= omap4iss/
- obj-$(CONFIG_VIDEO_ROCKCHIP_VDEC)	+= rkvdec/
- obj-$(CONFIG_VIDEO_STKWEBCAM)	+= deprecated/stkwebcam/
-diff --git a/drivers/staging/media/deprecated/meye/Kconfig b/drivers/staging/media/deprecated/meye/Kconfig
+diff --git a/drivers/staging/media/deprecated/cpia2/Kconfig b/drivers/staging/media/deprecated/cpia2/Kconfig
 deleted file mode 100644
-index f135f8568c85..000000000000
---- a/drivers/staging/media/deprecated/meye/Kconfig
+index ee3b25a759d4..000000000000
+--- a/drivers/staging/media/deprecated/cpia2/Kconfig
 +++ /dev/null
-@@ -1,19 +0,0 @@
+@@ -1,13 +0,0 @@
 -# SPDX-License-Identifier: GPL-2.0-only
--config VIDEO_MEYE
--	tristate "Sony Vaio Picturebook Motion Eye Video For Linux (DEPRECATED)"
--	depends on PCI && VIDEO_DEV
--	depends on SONY_LAPTOP
--	depends on X86 || COMPILE_TEST
+-config VIDEO_CPIA2
+-	tristate "CPiA2 Video For Linux (DEPRECATED)"
+-	depends on USB && VIDEO_DEV
 -	help
--	  This is the video4linux driver for the Motion Eye camera found
--	  in the Vaio Picturebook laptops. Please read the material in
--	  <file:Documentation/admin-guide/media/meye.rst> for more information.
--
--	  If you say Y or M here, you need to say Y or M to "Sony Laptop
--	  Extras" in the misc device section.
+-	  This is the video4linux driver for cameras based on Vision's CPiA2
+-	  (Colour Processor Interface ASIC), such as the Digital Blue QX5
+-	  Microscope. If you have one of these cameras, say Y here
 -
 -	  This driver is deprecated and is scheduled for removal by
 -	  the beginning of 2023. See the TODO file for more information.
 -
--	  To compile this driver as a module, choose M here: the
--	  module will be called meye.
-diff --git a/drivers/staging/media/deprecated/meye/Makefile b/drivers/staging/media/deprecated/meye/Makefile
+-	  This driver is also available as a module (cpia2).
+diff --git a/drivers/staging/media/deprecated/cpia2/Makefile b/drivers/staging/media/deprecated/cpia2/Makefile
 deleted file mode 100644
-index 36f1f86f0d58..000000000000
---- a/drivers/staging/media/deprecated/meye/Makefile
+index 05664141f4d7..000000000000
+--- a/drivers/staging/media/deprecated/cpia2/Makefile
 +++ /dev/null
-@@ -1,2 +0,0 @@
+@@ -1,4 +0,0 @@
 -# SPDX-License-Identifier: GPL-2.0-only
--obj-$(CONFIG_VIDEO_MEYE) += meye.o
-diff --git a/drivers/staging/media/deprecated/meye/TODO b/drivers/staging/media/deprecated/meye/TODO
+-cpia2-objs	:= cpia2_v4l.o cpia2_usb.o cpia2_core.o
+-
+-obj-$(CONFIG_VIDEO_CPIA2) += cpia2.o
+diff --git a/drivers/staging/media/deprecated/cpia2/TODO b/drivers/staging/media/deprecated/cpia2/TODO
 deleted file mode 100644
-index 6d1d1433d5a0..000000000000
---- a/drivers/staging/media/deprecated/meye/TODO
+index 92ac8718d164..000000000000
+--- a/drivers/staging/media/deprecated/cpia2/TODO
 +++ /dev/null
 @@ -1,6 +0,0 @@
--The meye driver does not use the vb2 framework for streaming
+-The cpia2 driver does not use the vb2 framework for streaming
 -video, instead it implements this in the driver.
 -
 -To prevent removal of this driver early 2023 it has to be
 -converted to use vb2. Contact the linux-media@vger.kernel.org
 -mailing list if you want to do this.
-diff --git a/drivers/staging/media/deprecated/meye/meye.c b/drivers/staging/media/deprecated/meye/meye.c
+diff --git a/drivers/staging/media/deprecated/cpia2/cpia2.h b/drivers/staging/media/deprecated/cpia2/cpia2.h
 deleted file mode 100644
-index 5d87efd9b95c..000000000000
---- a/drivers/staging/media/deprecated/meye/meye.c
+index 57b7f1ea68da..000000000000
+--- a/drivers/staging/media/deprecated/cpia2/cpia2.h
 +++ /dev/null
-@@ -1,1814 +0,0 @@
--// SPDX-License-Identifier: GPL-2.0-or-later
--/*
-- * Motion Eye video4linux driver for Sony Vaio PictureBook
+@@ -1,475 +0,0 @@
+-/* SPDX-License-Identifier: GPL-2.0-or-later */
+-/****************************************************************************
 - *
-- * Copyright (C) 2001-2004 Stelian Pop <stelian@popies.net>
+- *  Filename: cpia2.h
 - *
-- * Copyright (C) 2001-2002 Alcôve <www.alcove.com>
+- *  Copyright 2001, STMicrolectronics, Inc.
 - *
-- * Copyright (C) 2000 Andrew Tridgell <tridge@valinux.com>
+- *  Contact:  steve.miller@st.com
 - *
-- * Earlier work by Werner Almesberger, Paul `Rusty' Russell and Paul Mackerras.
+- *  Description:
+- *     This is a USB driver for CPiA2 based video cameras.
 - *
-- * Some parts borrowed from various video4linux drivers, especially
-- * bttv-driver.c and zoran.c, see original files for credits.
-- */
--#include <linux/module.h>
--#include <linux/pci.h>
--#include <linux/sched.h>
--#include <linux/init.h>
--#include <linux/gfp.h>
+- *     This driver is modelled on the cpia usb driver by
+- *     Jochen Scharrlach and Johannes Erdfeldt.
+- *
+- ****************************************************************************/
+-
+-#ifndef __CPIA2_H__
+-#define __CPIA2_H__
+-
 -#include <linux/videodev2.h>
+-#include <linux/usb.h>
+-#include <linux/poll.h>
 -#include <media/v4l2-common.h>
 -#include <media/v4l2-device.h>
--#include <media/v4l2-ioctl.h>
--#include <media/v4l2-fh.h>
--#include <media/v4l2-event.h>
--#include <linux/uaccess.h>
--#include <asm/io.h>
--#include <linux/delay.h>
--#include <linux/interrupt.h>
+-#include <media/v4l2-ctrls.h>
+-
+-#include "cpia2_registers.h"
+-
+-/* define for verbose debug output */
+-//#define _CPIA2_DEBUG_
+-
+-/***
+- * Image defines
+- ***/
+-
+-/*  Misc constants */
+-#define ALLOW_CORRUPT 0		/* Causes collater to discard checksum */
+-
+-/* USB Transfer mode */
+-#define XFER_ISOC 0
+-#define XFER_BULK 1
+-
+-/* USB Alternates */
+-#define USBIF_CMDONLY 0
+-#define USBIF_BULK 1
+-#define USBIF_ISO_1 2	/*  128 bytes/ms */
+-#define USBIF_ISO_2 3	/*  384 bytes/ms */
+-#define USBIF_ISO_3 4	/*  640 bytes/ms */
+-#define USBIF_ISO_4 5	/*  768 bytes/ms */
+-#define USBIF_ISO_5 6	/*  896 bytes/ms */
+-#define USBIF_ISO_6 7	/* 1023 bytes/ms */
+-
+-/* Flicker Modes */
+-#define NEVER_FLICKER   0
+-#define FLICKER_60      60
+-#define FLICKER_50      50
+-
+-/* Debug flags */
+-#define DEBUG_NONE          0
+-#define DEBUG_REG           0x00000001
+-#define DEBUG_DUMP_PATCH    0x00000002
+-#define DEBUG_DUMP_REGS     0x00000004
+-
+-/***
+- * Video frame sizes
+- ***/
+-enum {
+-	VIDEOSIZE_VGA = 0,	/* 640x480 */
+-	VIDEOSIZE_CIF,		/* 352x288 */
+-	VIDEOSIZE_QVGA,		/* 320x240 */
+-	VIDEOSIZE_QCIF,		/* 176x144 */
+-	VIDEOSIZE_288_216,
+-	VIDEOSIZE_256_192,
+-	VIDEOSIZE_224_168,
+-	VIDEOSIZE_192_144,
+-};
+-
+-#define STV_IMAGE_CIF_ROWS    288
+-#define STV_IMAGE_CIF_COLS    352
+-
+-#define STV_IMAGE_QCIF_ROWS   144
+-#define STV_IMAGE_QCIF_COLS   176
+-
+-#define STV_IMAGE_VGA_ROWS    480
+-#define STV_IMAGE_VGA_COLS    640
+-
+-#define STV_IMAGE_QVGA_ROWS   240
+-#define STV_IMAGE_QVGA_COLS   320
+-
+-#define JPEG_MARKER_COM (1<<6)	/* Comment segment */
+-
+-/***
+- * Enums
+- ***/
+-/* Sensor types available with cpia2 asics */
+-enum sensors {
+-	CPIA2_SENSOR_410,
+-	CPIA2_SENSOR_500
+-};
+-
+-/* Asic types available in the CPiA2 architecture */
+-#define  CPIA2_ASIC_672 0x67
+-
+-/* Device types (stv672, stv676, etc) */
+-#define  DEVICE_STV_672   0x0001
+-#define  DEVICE_STV_676   0x0002
+-
+-enum frame_status {
+-	FRAME_EMPTY,
+-	FRAME_READING,		/* In the process of being grabbed into */
+-	FRAME_READY,		/* Ready to be read */
+-	FRAME_ERROR,
+-};
+-
+-/***
+- * Register access (for USB request byte)
+- ***/
+-enum {
+-	CAMERAACCESS_SYSTEM = 0,
+-	CAMERAACCESS_VC,
+-	CAMERAACCESS_VP,
+-	CAMERAACCESS_IDATA
+-};
+-
+-#define CAMERAACCESS_TYPE_BLOCK    0x00
+-#define CAMERAACCESS_TYPE_RANDOM   0x04
+-#define CAMERAACCESS_TYPE_MASK     0x08
+-#define CAMERAACCESS_TYPE_REPEAT   0x0C
+-
+-#define TRANSFER_READ 0
+-#define TRANSFER_WRITE 1
+-
+-#define DEFAULT_ALT   USBIF_ISO_6
+-#define DEFAULT_BRIGHTNESS 0x46
+-#define DEFAULT_CONTRAST 0x93
+-#define DEFAULT_SATURATION 0x7f
+-
+-/* Power state */
+-#define HI_POWER_MODE CPIA2_SYSTEM_CONTROL_HIGH_POWER
+-#define LO_POWER_MODE CPIA2_SYSTEM_CONTROL_LOW_POWER
+-
+-
+-/********
+- * Commands
+- *******/
+-enum {
+-	CPIA2_CMD_NONE = 0,
+-	CPIA2_CMD_GET_VERSION,
+-	CPIA2_CMD_GET_PNP_ID,
+-	CPIA2_CMD_GET_ASIC_TYPE,
+-	CPIA2_CMD_GET_SENSOR,
+-	CPIA2_CMD_GET_VP_DEVICE,
+-	CPIA2_CMD_GET_VP_BRIGHTNESS,
+-	CPIA2_CMD_SET_VP_BRIGHTNESS,
+-	CPIA2_CMD_GET_CONTRAST,
+-	CPIA2_CMD_SET_CONTRAST,
+-	CPIA2_CMD_GET_VP_SATURATION,
+-	CPIA2_CMD_SET_VP_SATURATION,
+-	CPIA2_CMD_GET_VP_GPIO_DIRECTION,
+-	CPIA2_CMD_SET_VP_GPIO_DIRECTION,
+-	CPIA2_CMD_GET_VP_GPIO_DATA,
+-	CPIA2_CMD_SET_VP_GPIO_DATA,
+-	CPIA2_CMD_GET_VC_MP_GPIO_DIRECTION,
+-	CPIA2_CMD_SET_VC_MP_GPIO_DIRECTION,
+-	CPIA2_CMD_GET_VC_MP_GPIO_DATA,
+-	CPIA2_CMD_SET_VC_MP_GPIO_DATA,
+-	CPIA2_CMD_ENABLE_PACKET_CTRL,
+-	CPIA2_CMD_GET_FLICKER_MODES,
+-	CPIA2_CMD_SET_FLICKER_MODES,
+-	CPIA2_CMD_RESET_FIFO,	/* clear fifo and enable stream block */
+-	CPIA2_CMD_SET_HI_POWER,
+-	CPIA2_CMD_SET_LOW_POWER,
+-	CPIA2_CMD_CLEAR_V2W_ERR,
+-	CPIA2_CMD_SET_USER_MODE,
+-	CPIA2_CMD_GET_USER_MODE,
+-	CPIA2_CMD_FRAMERATE_REQ,
+-	CPIA2_CMD_SET_COMPRESSION_STATE,
+-	CPIA2_CMD_GET_WAKEUP,
+-	CPIA2_CMD_SET_WAKEUP,
+-	CPIA2_CMD_GET_PW_CONTROL,
+-	CPIA2_CMD_SET_PW_CONTROL,
+-	CPIA2_CMD_GET_SYSTEM_CTRL,
+-	CPIA2_CMD_SET_SYSTEM_CTRL,
+-	CPIA2_CMD_GET_VP_SYSTEM_STATE,
+-	CPIA2_CMD_GET_VP_SYSTEM_CTRL,
+-	CPIA2_CMD_SET_VP_SYSTEM_CTRL,
+-	CPIA2_CMD_GET_VP_EXP_MODES,
+-	CPIA2_CMD_SET_VP_EXP_MODES,
+-	CPIA2_CMD_GET_DEVICE_CONFIG,
+-	CPIA2_CMD_SET_DEVICE_CONFIG,
+-	CPIA2_CMD_SET_SERIAL_ADDR,
+-	CPIA2_CMD_SET_SENSOR_CR1,
+-	CPIA2_CMD_GET_VC_CONTROL,
+-	CPIA2_CMD_SET_VC_CONTROL,
+-	CPIA2_CMD_SET_TARGET_KB,
+-	CPIA2_CMD_SET_DEF_JPEG_OPT,
+-	CPIA2_CMD_REHASH_VP4,
+-	CPIA2_CMD_GET_USER_EFFECTS,
+-	CPIA2_CMD_SET_USER_EFFECTS
+-};
+-
+-enum user_cmd {
+-	COMMAND_NONE = 0x00000001,
+-	COMMAND_SET_FPS = 0x00000002,
+-	COMMAND_SET_COLOR_PARAMS = 0x00000004,
+-	COMMAND_GET_COLOR_PARAMS = 0x00000008,
+-	COMMAND_SET_FORMAT = 0x00000010,	/* size, etc */
+-	COMMAND_SET_FLICKER = 0x00000020
+-};
+-
+-/***
+- * Some defines specific to the 676 chip
+- ***/
+-#define CAMACC_CIF      0x01
+-#define CAMACC_VGA      0x02
+-#define CAMACC_QCIF     0x04
+-#define CAMACC_QVGA     0x08
+-
+-
+-struct cpia2_register {
+-	u8 index;
+-	u8 value;
+-};
+-
+-struct cpia2_reg_mask {
+-	u8 index;
+-	u8 and_mask;
+-	u8 or_mask;
+-	u8 fill;
+-};
+-
+-struct cpia2_command {
+-	u32 command;
+-	u8 req_mode;		/* (Block or random) | registerBank */
+-	u8 reg_count;
+-	u8 direction;
+-	u8 start;
+-	union reg_types {
+-		struct cpia2_register registers[32];
+-		struct cpia2_reg_mask masks[16];
+-		u8 block_data[64];
+-		u8 *patch_data;	/* points to function defined block */
+-	} buffer;
+-};
+-
+-struct camera_params {
+-	struct {
+-		u8 firmware_revision_hi; /* For system register set (bank 0) */
+-		u8 firmware_revision_lo;
+-		u8 asic_id;	/* Video Compressor set (bank 1) */
+-		u8 asic_rev;
+-		u8 vp_device_hi;	/* Video Processor set (bank 2) */
+-		u8 vp_device_lo;
+-		u8 sensor_flags;
+-		u8 sensor_rev;
+-	} version;
+-
+-	struct {
+-		u32 device_type;     /* enumerated from vendor/product ids.
+-				      * Currently, either STV_672 or STV_676 */
+-		u16 vendor;
+-		u16 product;
+-		u16 device_revision;
+-	} pnp_id;
+-
+-	struct {
+-		u8 brightness;	/* CPIA2_VP_EXPOSURE_TARGET */
+-		u8 contrast;	/* Note: this is CPIA2_VP_YRANGE */
+-		u8 saturation;	/*  CPIA2_VP_SATURATION */
+-	} color_params;
+-
+-	struct {
+-		u8 cam_register;
+-		u8 flicker_mode_req;	/* 1 if flicker on, else never flicker */
+-	} flicker_control;
+-
+-	struct {
+-		u8 jpeg_options;
+-		u8 creep_period;
+-		u8 user_squeeze;
+-		u8 inhibit_htables;
+-	} compression;
+-
+-	struct {
+-		u8 ohsize;	/* output image size */
+-		u8 ovsize;
+-		u8 hcrop;	/* cropping start_pos/4 */
+-		u8 vcrop;
+-		u8 hphase;	/* scaling registers */
+-		u8 vphase;
+-		u8 hispan;
+-		u8 vispan;
+-		u8 hicrop;
+-		u8 vicrop;
+-		u8 hifraction;
+-		u8 vifraction;
+-	} image_size;
+-
+-	struct {
+-		int width;	/* actual window width */
+-		int height;	/* actual window height */
+-	} roi;
+-
+-	struct {
+-		u8 video_mode;
+-		u8 frame_rate;
+-		u8 video_size;	/* Not a register, just a convenience for cropped sizes */
+-		u8 gpio_direction;
+-		u8 gpio_data;
+-		u8 system_ctrl;
+-		u8 system_state;
+-		u8 lowlight_boost;	/* Bool: 0 = off, 1 = on */
+-		u8 device_config;
+-		u8 exposure_modes;
+-		u8 user_effects;
+-	} vp_params;
+-
+-	struct {
+-		u8 pw_control;
+-		u8 wakeup;
+-		u8 vc_control;
+-		u8 vc_mp_direction;
+-		u8 vc_mp_data;
+-		u8 quality;
+-	} vc_params;
+-
+-	struct {
+-		u8 power_mode;
+-		u8 system_ctrl;
+-		u8 stream_mode;	/* This is the current alternate for usb drivers */
+-		u8 allow_corrupt;
+-	} camera_state;
+-};
+-
+-#define NUM_SBUF    2
+-
+-struct cpia2_sbuf {
+-	char *data;
+-	struct urb *urb;
+-};
+-
+-struct framebuf {
+-	u64 ts;
+-	unsigned long seq;
+-	int num;
+-	int length;
+-	int max_length;
+-	volatile enum frame_status status;
+-	u8 *data;
+-	struct framebuf *next;
+-};
+-
+-struct camera_data {
+-	/* locks */
+-	struct v4l2_device v4l2_dev;
+-	struct mutex v4l2_lock;	/* serialize file operations */
+-	struct v4l2_ctrl_handler hdl;
+-	struct {
+-		/* Lights control cluster */
+-		struct v4l2_ctrl *top_light;
+-		struct v4l2_ctrl *bottom_light;
+-	};
+-	struct v4l2_ctrl *usb_alt;
+-
+-	/* camera status */
+-	int first_image_seen;
+-	enum sensors sensor_type;
+-	u8 flush;
+-	struct v4l2_fh *stream_fh;
+-	u8 mmapped;
+-	int streaming;		/* 0 = no, 1 = yes */
+-	int xfer_mode;		/* XFER_BULK or XFER_ISOC */
+-	struct camera_params params;	/* camera settings */
+-
+-	/* v4l */
+-	int video_size;			/* VIDEO_SIZE_ */
+-	struct video_device vdev;	/* v4l videodev */
+-	u32 width;
+-	u32 height;			/* Its size */
+-	__u32 pixelformat;       /* Format fourcc      */
+-
+-	/* USB */
+-	struct usb_device *dev;
+-	unsigned char iface;
+-	unsigned int cur_alt;
+-	unsigned int old_alt;
+-	struct cpia2_sbuf sbuf[NUM_SBUF];	/* Double buffering */
+-
+-	wait_queue_head_t wq_stream;
+-
+-	/* Buffering */
+-	u32 frame_size;
+-	int num_frames;
+-	unsigned long frame_count;
+-	u8 *frame_buffer;	/* frame buffer data */
+-	struct framebuf *buffers;
+-	struct framebuf * volatile curbuff;
+-	struct framebuf *workbuff;
+-
+-	/* MJPEG Extension */
+-	int APPn;		/* Number of APP segment to be written, must be 0..15 */
+-	int APP_len;		/* Length of data in JPEG APPn segment */
+-	char APP_data[60];	/* Data in the JPEG APPn segment. */
+-
+-	int COM_len;		/* Length of data in JPEG COM segment */
+-	char COM_data[60];	/* Data in JPEG COM segment */
+-};
+-
+-/* v4l */
+-int cpia2_register_camera(struct camera_data *cam);
+-void cpia2_unregister_camera(struct camera_data *cam);
+-void cpia2_camera_release(struct v4l2_device *v4l2_dev);
+-
+-/* core */
+-int cpia2_reset_camera(struct camera_data *cam);
+-int cpia2_set_low_power(struct camera_data *cam);
+-void cpia2_dbg_dump_registers(struct camera_data *cam);
+-int cpia2_match_video_size(int width, int height);
+-void cpia2_set_camera_state(struct camera_data *cam);
+-void cpia2_save_camera_state(struct camera_data *cam);
+-void cpia2_set_color_params(struct camera_data *cam);
+-void cpia2_set_brightness(struct camera_data *cam, unsigned char value);
+-void cpia2_set_contrast(struct camera_data *cam, unsigned char value);
+-void cpia2_set_saturation(struct camera_data *cam, unsigned char value);
+-int cpia2_set_flicker_mode(struct camera_data *cam, int mode);
+-void cpia2_set_format(struct camera_data *cam);
+-int cpia2_send_command(struct camera_data *cam, struct cpia2_command *cmd);
+-int cpia2_do_command(struct camera_data *cam,
+-		     unsigned int command,
+-		     unsigned char direction, unsigned char param);
+-void cpia2_deinit_camera_struct(struct camera_data *cam, struct usb_interface *intf);
+-struct camera_data *cpia2_init_camera_struct(struct usb_interface *intf);
+-int cpia2_init_camera(struct camera_data *cam);
+-int cpia2_allocate_buffers(struct camera_data *cam);
+-void cpia2_free_buffers(struct camera_data *cam);
+-long cpia2_read(struct camera_data *cam,
+-		char __user *buf, unsigned long count, int noblock);
+-__poll_t cpia2_poll(struct camera_data *cam,
+-			struct file *filp, poll_table *wait);
+-int cpia2_remap_buffer(struct camera_data *cam, struct vm_area_struct *vma);
+-void cpia2_set_property_flip(struct camera_data *cam, int prop_val);
+-void cpia2_set_property_mirror(struct camera_data *cam, int prop_val);
+-int cpia2_set_gpio(struct camera_data *cam, unsigned char setting);
+-int cpia2_set_fps(struct camera_data *cam, int framerate);
+-
+-/* usb */
+-int cpia2_usb_init(void);
+-void cpia2_usb_cleanup(void);
+-int cpia2_usb_transfer_cmd(struct camera_data *cam, void *registers,
+-			   u8 request, u8 start, u8 count, u8 direction);
+-int cpia2_usb_stream_start(struct camera_data *cam, unsigned int alternate);
+-int cpia2_usb_stream_stop(struct camera_data *cam);
+-int cpia2_usb_stream_pause(struct camera_data *cam);
+-int cpia2_usb_stream_resume(struct camera_data *cam);
+-int cpia2_usb_change_streaming_alternate(struct camera_data *cam,
+-					 unsigned int alt);
+-
+-
+-/* ----------------------- debug functions ---------------------- */
+-#ifdef _CPIA2_DEBUG_
+-#define ALOG(lev, fmt, args...) printk(lev "%s:%d %s(): " fmt, __FILE__, __LINE__, __func__, ## args)
+-#define LOG(fmt, args...) ALOG(KERN_INFO, fmt, ## args)
+-#define ERR(fmt, args...) ALOG(KERN_ERR, fmt, ## args)
+-#define DBG(fmt, args...) ALOG(KERN_DEBUG, fmt, ## args)
+-#else
+-#define ALOG(fmt,args...) printk(fmt,##args)
+-#define LOG(fmt,args...) ALOG(KERN_INFO "cpia2: "fmt,##args)
+-#define ERR(fmt,args...) ALOG(KERN_ERR "cpia2: "fmt,##args)
+-#define DBG(fmn,args...) do {} while(0)
+-#endif
+-/* No function or lineno, for shorter lines */
+-#define KINFO(fmt, args...) printk(KERN_INFO fmt,##args)
+-
+-#endif
+diff --git a/drivers/staging/media/deprecated/cpia2/cpia2_core.c b/drivers/staging/media/deprecated/cpia2/cpia2_core.c
+deleted file mode 100644
+index b5a2d06fb356..000000000000
+--- a/drivers/staging/media/deprecated/cpia2/cpia2_core.c
++++ /dev/null
+@@ -1,2434 +0,0 @@
+-// SPDX-License-Identifier: GPL-2.0-or-later
+-/****************************************************************************
+- *
+- *  Filename: cpia2_core.c
+- *
+- *  Copyright 2001, STMicrolectronics, Inc.
+- *      Contact:  steve.miller@st.com
+- *
+- *  Description:
+- *     This is a USB driver for CPia2 based video cameras.
+- *     The infrastructure of this driver is based on the cpia usb driver by
+- *     Jochen Scharrlach and Johannes Erdfeldt.
+- *
+- *  Stripped of 2.4 stuff ready for main kernel submit by
+- *		Alan Cox <alan@lxorguk.ukuu.org.uk>
+- *
+- ****************************************************************************/
+-
+-#include "cpia2.h"
+-
+-#include <linux/module.h>
+-#include <linux/slab.h>
+-#include <linux/mm.h>
 -#include <linux/vmalloc.h>
--#include <linux/dma-mapping.h>
+-#include <linux/firmware.h>
+-#include <linux/sched/signal.h>
 -
--#include "meye.h"
--#include <linux/meye.h>
+-#define FIRMWARE "cpia2/stv0672_vp4.bin"
+-MODULE_FIRMWARE(FIRMWARE);
 -
--MODULE_AUTHOR("Stelian Pop <stelian@popies.net>");
--MODULE_DESCRIPTION("v4l2 driver for the MotionEye camera");
--MODULE_LICENSE("GPL");
--MODULE_VERSION(MEYE_DRIVER_VERSION);
+-/* #define _CPIA2_DEBUG_ */
 -
--/* number of grab buffers */
--static unsigned int gbuffers = 2;
--module_param(gbuffers, int, 0444);
--MODULE_PARM_DESC(gbuffers, "number of capture buffers, default is 2 (32 max)");
+-#ifdef _CPIA2_DEBUG_
 -
--/* size of a grab buffer */
--static unsigned int gbufsize = MEYE_MAX_BUFSIZE;
--module_param(gbufsize, int, 0444);
--MODULE_PARM_DESC(gbufsize, "size of the capture buffers, default is 614400 (will be rounded up to a page multiple)");
+-static const char *block_name[] = {
+-	"System",
+-	"VC",
+-	"VP",
+-	"IDATA"
+-};
+-#endif
 -
--/* /dev/videoX registration number */
--static int video_nr = -1;
--module_param(video_nr, int, 0444);
--MODULE_PARM_DESC(video_nr, "video device to register (0=/dev/video0, etc)");
+-static unsigned int debugs_on;	/* default 0 - DEBUG_REG */
 -
--/* driver structure - only one possible */
--static struct meye meye;
 -
--/****************************************************************************/
--/* Memory allocation routines (stolen from bttv-driver.c)                   */
--/****************************************************************************/
+-/******************************************************************************
+- *
+- *  Forward Declarations
+- *
+- *****************************************************************************/
+-static int apply_vp_patch(struct camera_data *cam);
+-static int set_default_user_mode(struct camera_data *cam);
+-static int set_vw_size(struct camera_data *cam, int size);
+-static int configure_sensor(struct camera_data *cam,
+-			    int reqwidth, int reqheight);
+-static int config_sensor_410(struct camera_data *cam,
+-			    int reqwidth, int reqheight);
+-static int config_sensor_500(struct camera_data *cam,
+-			    int reqwidth, int reqheight);
+-static int set_all_properties(struct camera_data *cam);
+-static void wake_system(struct camera_data *cam);
+-static void set_lowlight_boost(struct camera_data *cam);
+-static void reset_camera_struct(struct camera_data *cam);
+-static int cpia2_set_high_power(struct camera_data *cam);
+-
+-/* Here we want the physical address of the memory.
+- * This is used when initializing the contents of the
+- * area and marking the pages as reserved.
+- */
+-static inline unsigned long kvirt_to_pa(unsigned long adr)
+-{
+-	unsigned long kva, ret;
+-
+-	kva = (unsigned long) page_address(vmalloc_to_page((void *)adr));
+-	kva |= adr & (PAGE_SIZE-1); /* restore the offset */
+-	ret = __pa(kva);
+-	return ret;
+-}
+-
 -static void *rvmalloc(unsigned long size)
 -{
 -	void *mem;
 -	unsigned long adr;
 -
+-	/* Round it off to PAGE_SIZE */
 -	size = PAGE_ALIGN(size);
+-
 -	mem = vmalloc_32(size);
--	if (mem) {
--		memset(mem, 0, size);
--		adr = (unsigned long) mem;
--		while (size > 0) {
--			SetPageReserved(vmalloc_to_page((void *)adr));
--			adr += PAGE_SIZE;
--			size -= PAGE_SIZE;
--		}
+-	if (!mem)
+-		return NULL;
+-
+-	memset(mem, 0, size);	/* Clear the ram out, no junk to the user */
+-	adr = (unsigned long) mem;
+-
+-	while ((long)size > 0) {
+-		SetPageReserved(vmalloc_to_page((void *)adr));
+-		adr += PAGE_SIZE;
+-		size -= PAGE_SIZE;
 -	}
 -	return mem;
 -}
 -
--static void rvfree(void * mem, unsigned long size)
+-static void rvfree(void *mem, unsigned long size)
 -{
 -	unsigned long adr;
 -
--	if (mem) {
--		adr = (unsigned long) mem;
--		while ((long) size > 0) {
--			ClearPageReserved(vmalloc_to_page((void *)adr));
--			adr += PAGE_SIZE;
--			size -= PAGE_SIZE;
--		}
--		vfree(mem);
+-	if (!mem)
+-		return;
+-
+-	size = PAGE_ALIGN(size);
+-
+-	adr = (unsigned long) mem;
+-	while ((long)size > 0) {
+-		ClearPageReserved(vmalloc_to_page((void *)adr));
+-		adr += PAGE_SIZE;
+-		size -= PAGE_SIZE;
 -	}
+-	vfree(mem);
 -}
 -
--/*
-- * return a page table pointing to N pages of locked memory
+-/******************************************************************************
 - *
-- * NOTE: The meye device expects DMA addresses on 32 bits, we build
-- * a table of 1024 entries = 4 bytes * 1024 = 4096 bytes.
-- */
--static int ptable_alloc(void)
+- *  cpia2_do_command
+- *
+- *  Send an arbitrary command to the camera.  For commands that read from
+- *  the camera, copy the buffers into the proper param structures.
+- *****************************************************************************/
+-int cpia2_do_command(struct camera_data *cam,
+-		     u32 command, u8 direction, u8 param)
 -{
--	u32 *pt;
--	int i;
+-	int retval = 0;
+-	struct cpia2_command cmd;
+-	unsigned int device = cam->params.pnp_id.device_type;
 -
--	memset(meye.mchip_ptable, 0, sizeof(meye.mchip_ptable));
+-	cmd.command = command;
+-	cmd.reg_count = 2;	/* default */
+-	cmd.direction = direction;
 -
--	/* give only 32 bit DMA addresses */
--	if (dma_set_mask(&meye.mchip_dev->dev, DMA_BIT_MASK(32)))
--		return -1;
--
--	meye.mchip_ptable_toc = dma_alloc_coherent(&meye.mchip_dev->dev,
--						   PAGE_SIZE,
--						   &meye.mchip_dmahandle,
--						   GFP_KERNEL);
--	if (!meye.mchip_ptable_toc) {
--		meye.mchip_dmahandle = 0;
--		return -1;
+-	/***
+-	 * Set up the command.
+-	 ***/
+-	switch (command) {
+-	case CPIA2_CMD_GET_VERSION:
+-		cmd.req_mode =
+-		    CAMERAACCESS_TYPE_BLOCK | CAMERAACCESS_SYSTEM;
+-		cmd.start = CPIA2_SYSTEM_DEVICE_HI;
+-		break;
+-	case CPIA2_CMD_GET_PNP_ID:
+-		cmd.req_mode =
+-		    CAMERAACCESS_TYPE_BLOCK | CAMERAACCESS_SYSTEM;
+-		cmd.reg_count = 8;
+-		cmd.start = CPIA2_SYSTEM_DESCRIP_VID_HI;
+-		break;
+-	case CPIA2_CMD_GET_ASIC_TYPE:
+-		cmd.req_mode = CAMERAACCESS_TYPE_BLOCK | CAMERAACCESS_VC;
+-		cmd.start = CPIA2_VC_ASIC_ID;
+-		break;
+-	case CPIA2_CMD_GET_SENSOR:
+-		cmd.req_mode = CAMERAACCESS_TYPE_BLOCK | CAMERAACCESS_VP;
+-		cmd.start = CPIA2_VP_SENSOR_FLAGS;
+-		break;
+-	case CPIA2_CMD_GET_VP_DEVICE:
+-		cmd.req_mode = CAMERAACCESS_TYPE_BLOCK | CAMERAACCESS_VP;
+-		cmd.start = CPIA2_VP_DEVICEH;
+-		break;
+-	case CPIA2_CMD_SET_VP_BRIGHTNESS:
+-		cmd.buffer.block_data[0] = param;
+-		fallthrough;
+-	case CPIA2_CMD_GET_VP_BRIGHTNESS:
+-		cmd.req_mode = CAMERAACCESS_TYPE_BLOCK | CAMERAACCESS_VP;
+-		cmd.reg_count = 1;
+-		if (device == DEVICE_STV_672)
+-			cmd.start = CPIA2_VP4_EXPOSURE_TARGET;
+-		else
+-			cmd.start = CPIA2_VP5_EXPOSURE_TARGET;
+-		break;
+-	case CPIA2_CMD_SET_CONTRAST:
+-		cmd.buffer.block_data[0] = param;
+-		fallthrough;
+-	case CPIA2_CMD_GET_CONTRAST:
+-		cmd.req_mode = CAMERAACCESS_TYPE_BLOCK | CAMERAACCESS_VP;
+-		cmd.reg_count = 1;
+-		cmd.start = CPIA2_VP_YRANGE;
+-		break;
+-	case CPIA2_CMD_SET_VP_SATURATION:
+-		cmd.buffer.block_data[0] = param;
+-		fallthrough;
+-	case CPIA2_CMD_GET_VP_SATURATION:
+-		cmd.req_mode = CAMERAACCESS_TYPE_BLOCK | CAMERAACCESS_VP;
+-		cmd.reg_count = 1;
+-		if (device == DEVICE_STV_672)
+-			cmd.start = CPIA2_VP_SATURATION;
+-		else
+-			cmd.start = CPIA2_VP5_MCUVSATURATION;
+-		break;
+-	case CPIA2_CMD_SET_VP_GPIO_DATA:
+-		cmd.buffer.block_data[0] = param;
+-		fallthrough;
+-	case CPIA2_CMD_GET_VP_GPIO_DATA:
+-		cmd.req_mode = CAMERAACCESS_TYPE_BLOCK | CAMERAACCESS_VP;
+-		cmd.reg_count = 1;
+-		cmd.start = CPIA2_VP_GPIO_DATA;
+-		break;
+-	case CPIA2_CMD_SET_VP_GPIO_DIRECTION:
+-		cmd.buffer.block_data[0] = param;
+-		fallthrough;
+-	case CPIA2_CMD_GET_VP_GPIO_DIRECTION:
+-		cmd.req_mode = CAMERAACCESS_TYPE_BLOCK | CAMERAACCESS_VP;
+-		cmd.reg_count = 1;
+-		cmd.start = CPIA2_VP_GPIO_DIRECTION;
+-		break;
+-	case CPIA2_CMD_SET_VC_MP_GPIO_DATA:
+-		cmd.buffer.block_data[0] = param;
+-		fallthrough;
+-	case CPIA2_CMD_GET_VC_MP_GPIO_DATA:
+-		cmd.req_mode = CAMERAACCESS_TYPE_BLOCK | CAMERAACCESS_VC;
+-		cmd.reg_count = 1;
+-		cmd.start = CPIA2_VC_MP_DATA;
+-		break;
+-	case CPIA2_CMD_SET_VC_MP_GPIO_DIRECTION:
+-		cmd.buffer.block_data[0] = param;
+-		fallthrough;
+-	case CPIA2_CMD_GET_VC_MP_GPIO_DIRECTION:
+-		cmd.req_mode = CAMERAACCESS_TYPE_BLOCK | CAMERAACCESS_VC;
+-		cmd.reg_count = 1;
+-		cmd.start = CPIA2_VC_MP_DIR;
+-		break;
+-	case CPIA2_CMD_ENABLE_PACKET_CTRL:
+-		cmd.req_mode =
+-		    CAMERAACCESS_TYPE_BLOCK | CAMERAACCESS_SYSTEM;
+-		cmd.start = CPIA2_SYSTEM_INT_PACKET_CTRL;
+-		cmd.reg_count = 1;
+-		cmd.buffer.block_data[0] = param;
+-		break;
+-	case CPIA2_CMD_SET_FLICKER_MODES:
+-		cmd.buffer.block_data[0] = param;
+-		fallthrough;
+-	case CPIA2_CMD_GET_FLICKER_MODES:
+-		cmd.req_mode = CAMERAACCESS_TYPE_BLOCK | CAMERAACCESS_VP;
+-		cmd.reg_count = 1;
+-		cmd.start = CPIA2_VP_FLICKER_MODES;
+-		break;
+-	case CPIA2_CMD_RESET_FIFO:	/* clear fifo and enable stream block */
+-		cmd.req_mode = CAMERAACCESS_TYPE_RANDOM | CAMERAACCESS_VC;
+-		cmd.reg_count = 2;
+-		cmd.start = 0;
+-		cmd.buffer.registers[0].index = CPIA2_VC_ST_CTRL;
+-		cmd.buffer.registers[0].value = CPIA2_VC_ST_CTRL_SRC_VC |
+-		    CPIA2_VC_ST_CTRL_DST_USB | CPIA2_VC_ST_CTRL_EOF_DETECT;
+-		cmd.buffer.registers[1].index = CPIA2_VC_ST_CTRL;
+-		cmd.buffer.registers[1].value = CPIA2_VC_ST_CTRL_SRC_VC |
+-		    CPIA2_VC_ST_CTRL_DST_USB |
+-		    CPIA2_VC_ST_CTRL_EOF_DETECT |
+-		    CPIA2_VC_ST_CTRL_FIFO_ENABLE;
+-		break;
+-	case CPIA2_CMD_SET_HI_POWER:
+-		cmd.req_mode =
+-		    CAMERAACCESS_TYPE_RANDOM | CAMERAACCESS_SYSTEM;
+-		cmd.reg_count = 2;
+-		cmd.buffer.registers[0].index =
+-		    CPIA2_SYSTEM_SYSTEM_CONTROL;
+-		cmd.buffer.registers[1].index =
+-		    CPIA2_SYSTEM_SYSTEM_CONTROL;
+-		cmd.buffer.registers[0].value = CPIA2_SYSTEM_CONTROL_CLEAR_ERR;
+-		cmd.buffer.registers[1].value =
+-		    CPIA2_SYSTEM_CONTROL_HIGH_POWER;
+-		break;
+-	case CPIA2_CMD_SET_LOW_POWER:
+-		cmd.req_mode =
+-		    CAMERAACCESS_TYPE_BLOCK | CAMERAACCESS_SYSTEM;
+-		cmd.reg_count = 1;
+-		cmd.start = CPIA2_SYSTEM_SYSTEM_CONTROL;
+-		cmd.buffer.block_data[0] = 0;
+-		break;
+-	case CPIA2_CMD_CLEAR_V2W_ERR:
+-		cmd.req_mode =
+-		    CAMERAACCESS_TYPE_BLOCK | CAMERAACCESS_SYSTEM;
+-		cmd.reg_count = 1;
+-		cmd.start = CPIA2_SYSTEM_SYSTEM_CONTROL;
+-		cmd.buffer.block_data[0] = CPIA2_SYSTEM_CONTROL_CLEAR_ERR;
+-		break;
+-	case CPIA2_CMD_SET_USER_MODE:
+-		cmd.buffer.block_data[0] = param;
+-		fallthrough;
+-	case CPIA2_CMD_GET_USER_MODE:
+-		cmd.req_mode = CAMERAACCESS_TYPE_BLOCK | CAMERAACCESS_VP;
+-		cmd.reg_count = 1;
+-		if (device == DEVICE_STV_672)
+-			cmd.start = CPIA2_VP4_USER_MODE;
+-		else
+-			cmd.start = CPIA2_VP5_USER_MODE;
+-		break;
+-	case CPIA2_CMD_FRAMERATE_REQ:
+-		cmd.req_mode = CAMERAACCESS_TYPE_BLOCK | CAMERAACCESS_VP;
+-		cmd.reg_count = 1;
+-		if (device == DEVICE_STV_672)
+-			cmd.start = CPIA2_VP4_FRAMERATE_REQUEST;
+-		else
+-			cmd.start = CPIA2_VP5_FRAMERATE_REQUEST;
+-		cmd.buffer.block_data[0] = param;
+-		break;
+-	case CPIA2_CMD_SET_WAKEUP:
+-		cmd.buffer.block_data[0] = param;
+-		fallthrough;
+-	case CPIA2_CMD_GET_WAKEUP:
+-		cmd.req_mode = CAMERAACCESS_TYPE_BLOCK | CAMERAACCESS_VC;
+-		cmd.reg_count = 1;
+-		cmd.start = CPIA2_VC_WAKEUP;
+-		break;
+-	case CPIA2_CMD_SET_PW_CONTROL:
+-		cmd.buffer.block_data[0] = param;
+-		fallthrough;
+-	case CPIA2_CMD_GET_PW_CONTROL:
+-		cmd.req_mode = CAMERAACCESS_TYPE_BLOCK | CAMERAACCESS_VC;
+-		cmd.reg_count = 1;
+-		cmd.start = CPIA2_VC_PW_CTRL;
+-		break;
+-	case CPIA2_CMD_GET_VP_SYSTEM_STATE:
+-		cmd.req_mode = CAMERAACCESS_TYPE_BLOCK | CAMERAACCESS_VP;
+-		cmd.reg_count = 1;
+-		cmd.start = CPIA2_VP_SYSTEMSTATE;
+-		break;
+-	case CPIA2_CMD_SET_SYSTEM_CTRL:
+-		cmd.buffer.block_data[0] = param;
+-		fallthrough;
+-	case CPIA2_CMD_GET_SYSTEM_CTRL:
+-		cmd.req_mode =
+-		    CAMERAACCESS_TYPE_BLOCK | CAMERAACCESS_SYSTEM;
+-		cmd.reg_count = 1;
+-		cmd.start = CPIA2_SYSTEM_SYSTEM_CONTROL;
+-		break;
+-	case CPIA2_CMD_SET_VP_SYSTEM_CTRL:
+-		cmd.buffer.block_data[0] = param;
+-		fallthrough;
+-	case CPIA2_CMD_GET_VP_SYSTEM_CTRL:
+-		cmd.req_mode = CAMERAACCESS_TYPE_BLOCK | CAMERAACCESS_VP;
+-		cmd.reg_count = 1;
+-		cmd.start = CPIA2_VP_SYSTEMCTRL;
+-		break;
+-	case CPIA2_CMD_SET_VP_EXP_MODES:
+-		cmd.buffer.block_data[0] = param;
+-		fallthrough;
+-	case CPIA2_CMD_GET_VP_EXP_MODES:
+-		cmd.req_mode = CAMERAACCESS_TYPE_BLOCK | CAMERAACCESS_VP;
+-		cmd.reg_count = 1;
+-		cmd.start = CPIA2_VP_EXPOSURE_MODES;
+-		break;
+-	case CPIA2_CMD_SET_DEVICE_CONFIG:
+-		cmd.buffer.block_data[0] = param;
+-		fallthrough;
+-	case CPIA2_CMD_GET_DEVICE_CONFIG:
+-		cmd.req_mode = CAMERAACCESS_TYPE_BLOCK | CAMERAACCESS_VP;
+-		cmd.reg_count = 1;
+-		cmd.start = CPIA2_VP_DEVICE_CONFIG;
+-		break;
+-	case CPIA2_CMD_SET_SERIAL_ADDR:
+-		cmd.buffer.block_data[0] = param;
+-		cmd.req_mode =
+-		    CAMERAACCESS_TYPE_BLOCK | CAMERAACCESS_SYSTEM;
+-		cmd.reg_count = 1;
+-		cmd.start = CPIA2_SYSTEM_VP_SERIAL_ADDR;
+-		break;
+-	case CPIA2_CMD_SET_SENSOR_CR1:
+-		cmd.buffer.block_data[0] = param;
+-		cmd.req_mode = CAMERAACCESS_TYPE_BLOCK | CAMERAACCESS_VP;
+-		cmd.reg_count = 1;
+-		cmd.start = CPIA2_SENSOR_CR1;
+-		break;
+-	case CPIA2_CMD_SET_VC_CONTROL:
+-		cmd.buffer.block_data[0] = param;
+-		fallthrough;
+-	case CPIA2_CMD_GET_VC_CONTROL:
+-		cmd.req_mode = CAMERAACCESS_TYPE_BLOCK | CAMERAACCESS_VC;
+-		cmd.reg_count = 1;
+-		cmd.start = CPIA2_VC_VC_CTRL;
+-		break;
+-	case CPIA2_CMD_SET_TARGET_KB:
+-		cmd.req_mode = CAMERAACCESS_TYPE_RANDOM | CAMERAACCESS_VC;
+-		cmd.reg_count = 1;
+-		cmd.buffer.registers[0].index = CPIA2_VC_VC_TARGET_KB;
+-		cmd.buffer.registers[0].value = param;
+-		break;
+-	case CPIA2_CMD_SET_DEF_JPEG_OPT:
+-		cmd.req_mode = CAMERAACCESS_TYPE_RANDOM | CAMERAACCESS_VC;
+-		cmd.reg_count = 4;
+-		cmd.buffer.registers[0].index = CPIA2_VC_VC_JPEG_OPT;
+-		cmd.buffer.registers[0].value =
+-		    CPIA2_VC_VC_JPEG_OPT_DOUBLE_SQUEEZE;
+-		cmd.buffer.registers[1].index = CPIA2_VC_VC_USER_SQUEEZE;
+-		cmd.buffer.registers[1].value = 20;
+-		cmd.buffer.registers[2].index = CPIA2_VC_VC_CREEP_PERIOD;
+-		cmd.buffer.registers[2].value = 2;
+-		cmd.buffer.registers[3].index = CPIA2_VC_VC_JPEG_OPT;
+-		cmd.buffer.registers[3].value = CPIA2_VC_VC_JPEG_OPT_DEFAULT;
+-		break;
+-	case CPIA2_CMD_REHASH_VP4:
+-		cmd.req_mode = CAMERAACCESS_TYPE_BLOCK | CAMERAACCESS_VP;
+-		cmd.reg_count = 1;
+-		cmd.start = CPIA2_VP_REHASH_VALUES;
+-		cmd.buffer.block_data[0] = param;
+-		break;
+-	case CPIA2_CMD_SET_USER_EFFECTS:  /* Note: Be careful with this as
+-					     this register can also affect
+-					     flicker modes */
+-		cmd.buffer.block_data[0] = param;
+-		fallthrough;
+-	case CPIA2_CMD_GET_USER_EFFECTS:
+-		cmd.req_mode = CAMERAACCESS_TYPE_BLOCK | CAMERAACCESS_VP;
+-		cmd.reg_count = 1;
+-		if (device == DEVICE_STV_672)
+-			cmd.start = CPIA2_VP4_USER_EFFECTS;
+-		else
+-			cmd.start = CPIA2_VP5_USER_EFFECTS;
+-		break;
+-	default:
+-		LOG("DoCommand received invalid command\n");
+-		return -EINVAL;
 -	}
 -
--	pt = meye.mchip_ptable_toc;
--	for (i = 0; i < MCHIP_NB_PAGES; i++) {
--		dma_addr_t dma;
--		meye.mchip_ptable[i] = dma_alloc_coherent(&meye.mchip_dev->dev,
--							  PAGE_SIZE,
--							  &dma,
--							  GFP_KERNEL);
--		if (!meye.mchip_ptable[i]) {
--			int j;
--			pt = meye.mchip_ptable_toc;
--			for (j = 0; j < i; ++j) {
--				dma = (dma_addr_t) *pt;
--				dma_free_coherent(&meye.mchip_dev->dev,
--						  PAGE_SIZE,
--						  meye.mchip_ptable[j], dma);
--				pt++;
+-	retval = cpia2_send_command(cam, &cmd);
+-	if (retval) {
+-		return retval;
+-	}
+-
+-	/***
+-	 * Now copy any results from a read into the appropriate param struct.
+-	 ***/
+-	switch (command) {
+-	case CPIA2_CMD_GET_VERSION:
+-		cam->params.version.firmware_revision_hi =
+-		    cmd.buffer.block_data[0];
+-		cam->params.version.firmware_revision_lo =
+-		    cmd.buffer.block_data[1];
+-		break;
+-	case CPIA2_CMD_GET_PNP_ID:
+-		cam->params.pnp_id.vendor = (cmd.buffer.block_data[0] << 8) |
+-					    cmd.buffer.block_data[1];
+-		cam->params.pnp_id.product = (cmd.buffer.block_data[2] << 8) |
+-					     cmd.buffer.block_data[3];
+-		cam->params.pnp_id.device_revision =
+-			(cmd.buffer.block_data[4] << 8) |
+-			cmd.buffer.block_data[5];
+-		if (cam->params.pnp_id.vendor == 0x553) {
+-			if (cam->params.pnp_id.product == 0x100) {
+-				cam->params.pnp_id.device_type = DEVICE_STV_672;
+-			} else if (cam->params.pnp_id.product == 0x140 ||
+-				   cam->params.pnp_id.product == 0x151) {
+-				cam->params.pnp_id.device_type = DEVICE_STV_676;
 -			}
--			dma_free_coherent(&meye.mchip_dev->dev,
--					  PAGE_SIZE,
--					  meye.mchip_ptable_toc,
--					  meye.mchip_dmahandle);
--			meye.mchip_ptable_toc = NULL;
--			meye.mchip_dmahandle = 0;
--			return -1;
 -		}
--		*pt = (u32) dma;
--		pt++;
+-		break;
+-	case CPIA2_CMD_GET_ASIC_TYPE:
+-		cam->params.version.asic_id = cmd.buffer.block_data[0];
+-		cam->params.version.asic_rev = cmd.buffer.block_data[1];
+-		break;
+-	case CPIA2_CMD_GET_SENSOR:
+-		cam->params.version.sensor_flags = cmd.buffer.block_data[0];
+-		cam->params.version.sensor_rev = cmd.buffer.block_data[1];
+-		break;
+-	case CPIA2_CMD_GET_VP_DEVICE:
+-		cam->params.version.vp_device_hi = cmd.buffer.block_data[0];
+-		cam->params.version.vp_device_lo = cmd.buffer.block_data[1];
+-		break;
+-	case CPIA2_CMD_GET_VP_GPIO_DATA:
+-		cam->params.vp_params.gpio_data = cmd.buffer.block_data[0];
+-		break;
+-	case CPIA2_CMD_GET_VP_GPIO_DIRECTION:
+-		cam->params.vp_params.gpio_direction = cmd.buffer.block_data[0];
+-		break;
+-	case CPIA2_CMD_GET_VC_MP_GPIO_DIRECTION:
+-		cam->params.vc_params.vc_mp_direction =cmd.buffer.block_data[0];
+-		break;
+-	case CPIA2_CMD_GET_VC_MP_GPIO_DATA:
+-		cam->params.vc_params.vc_mp_data = cmd.buffer.block_data[0];
+-		break;
+-	case CPIA2_CMD_GET_FLICKER_MODES:
+-		cam->params.flicker_control.cam_register =
+-			cmd.buffer.block_data[0];
+-		break;
+-	case CPIA2_CMD_GET_WAKEUP:
+-		cam->params.vc_params.wakeup = cmd.buffer.block_data[0];
+-		break;
+-	case CPIA2_CMD_GET_PW_CONTROL:
+-		cam->params.vc_params.pw_control = cmd.buffer.block_data[0];
+-		break;
+-	case CPIA2_CMD_GET_SYSTEM_CTRL:
+-		cam->params.camera_state.system_ctrl = cmd.buffer.block_data[0];
+-		break;
+-	case CPIA2_CMD_GET_VP_SYSTEM_STATE:
+-		cam->params.vp_params.system_state = cmd.buffer.block_data[0];
+-		break;
+-	case CPIA2_CMD_GET_VP_SYSTEM_CTRL:
+-		cam->params.vp_params.system_ctrl = cmd.buffer.block_data[0];
+-		break;
+-	case CPIA2_CMD_GET_VP_EXP_MODES:
+-		cam->params.vp_params.exposure_modes = cmd.buffer.block_data[0];
+-		break;
+-	case CPIA2_CMD_GET_DEVICE_CONFIG:
+-		cam->params.vp_params.device_config = cmd.buffer.block_data[0];
+-		break;
+-	case CPIA2_CMD_GET_VC_CONTROL:
+-		cam->params.vc_params.vc_control = cmd.buffer.block_data[0];
+-		break;
+-	case CPIA2_CMD_GET_USER_MODE:
+-		cam->params.vp_params.video_mode = cmd.buffer.block_data[0];
+-		break;
+-	case CPIA2_CMD_GET_USER_EFFECTS:
+-		cam->params.vp_params.user_effects = cmd.buffer.block_data[0];
+-		break;
+-	default:
+-		break;
 -	}
--	return 0;
+-	return retval;
 -}
 -
--static void ptable_free(void)
+-/******************************************************************************
+- *
+- *  cpia2_send_command
+- *
+- *****************************************************************************/
+-
+-#define DIR(cmd) ((cmd->direction == TRANSFER_WRITE) ? "Write" : "Read")
+-#define BINDEX(cmd) (cmd->req_mode & 0x03)
+-
+-int cpia2_send_command(struct camera_data *cam, struct cpia2_command *cmd)
 -{
--	u32 *pt;
--	int i;
+-	u8 count;
+-	u8 start;
+-	u8 *buffer;
+-	int retval;
 -
--	pt = meye.mchip_ptable_toc;
--	for (i = 0; i < MCHIP_NB_PAGES; i++) {
--		dma_addr_t dma = (dma_addr_t) *pt;
--		if (meye.mchip_ptable[i])
--			dma_free_coherent(&meye.mchip_dev->dev,
--					  PAGE_SIZE,
--					  meye.mchip_ptable[i], dma);
--		pt++;
--	}
--
--	if (meye.mchip_ptable_toc)
--		dma_free_coherent(&meye.mchip_dev->dev,
--				  PAGE_SIZE,
--				  meye.mchip_ptable_toc,
--				  meye.mchip_dmahandle);
--
--	memset(meye.mchip_ptable, 0, sizeof(meye.mchip_ptable));
--	meye.mchip_ptable_toc = NULL;
--	meye.mchip_dmahandle = 0;
--}
--
--/* copy data from ptable into buf */
--static void ptable_copy(u8 *buf, int start, int size, int pt_pages)
--{
--	int i;
--
--	for (i = 0; i < (size / PAGE_SIZE) * PAGE_SIZE; i += PAGE_SIZE) {
--		memcpy(buf + i, meye.mchip_ptable[start++], PAGE_SIZE);
--		if (start >= pt_pages)
--			start = 0;
--	}
--	memcpy(buf + i, meye.mchip_ptable[start], size % PAGE_SIZE);
--}
--
--/****************************************************************************/
--/* JPEG tables at different qualities to load into the VRJ chip             */
--/****************************************************************************/
--
--/* return a set of quantisation tables based on a quality from 1 to 10 */
--static u16 *jpeg_quantisation_tables(int *length, int quality)
--{
--	static u16 jpeg_tables[][70] = { {
--		0xdbff, 0x4300, 0xff00, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff,
--		0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff,
--		0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff,
--		0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff,
--		0xffff, 0xffff, 0xffff,
--		0xdbff, 0x4300, 0xff01, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff,
--		0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff,
--		0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff,
--		0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff,
--		0xffff, 0xffff, 0xffff,
--	},
--	{
--		0xdbff, 0x4300, 0x5000, 0x3c37, 0x3c46, 0x5032, 0x4146, 0x5a46,
--		0x5055, 0x785f, 0x82c8, 0x6e78, 0x786e, 0xaff5, 0x91b9, 0xffc8,
--		0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff,
--		0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff,
--		0xffff, 0xffff, 0xffff,
--		0xdbff, 0x4300, 0x5501, 0x5a5a, 0x6978, 0xeb78, 0x8282, 0xffeb,
--		0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff,
--		0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff,
--		0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff,
--		0xffff, 0xffff, 0xffff,
--	},
--	{
--		0xdbff, 0x4300, 0x2800, 0x1e1c, 0x1e23, 0x2819, 0x2123, 0x2d23,
--		0x282b, 0x3c30, 0x4164, 0x373c, 0x3c37, 0x587b, 0x495d, 0x9164,
--		0x9980, 0x8f96, 0x8c80, 0xa08a, 0xe6b4, 0xa0c3, 0xdaaa, 0x8aad,
--		0xc88c, 0xcbff, 0xeeda, 0xfff5, 0xffff, 0xc19b, 0xffff, 0xfaff,
--		0xe6ff, 0xfffd, 0xfff8,
--		0xdbff, 0x4300, 0x2b01, 0x2d2d, 0x353c, 0x763c, 0x4141, 0xf876,
--		0x8ca5, 0xf8a5, 0xf8f8, 0xf8f8, 0xf8f8, 0xf8f8, 0xf8f8, 0xf8f8,
--		0xf8f8, 0xf8f8, 0xf8f8, 0xf8f8, 0xf8f8, 0xf8f8, 0xf8f8, 0xf8f8,
--		0xf8f8, 0xf8f8, 0xf8f8, 0xf8f8, 0xf8f8, 0xf8f8, 0xf8f8, 0xf8f8,
--		0xf8f8, 0xf8f8, 0xfff8,
--	},
--	{
--		0xdbff, 0x4300, 0x1b00, 0x1412, 0x1417, 0x1b11, 0x1617, 0x1e17,
--		0x1b1c, 0x2820, 0x2b42, 0x2528, 0x2825, 0x3a51, 0x303d, 0x6042,
--		0x6555, 0x5f64, 0x5d55, 0x6a5b, 0x9978, 0x6a81, 0x9071, 0x5b73,
--		0x855d, 0x86b5, 0x9e90, 0xaba3, 0xabad, 0x8067, 0xc9bc, 0xa6ba,
--		0x99c7, 0xaba8, 0xffa4,
--		0xdbff, 0x4300, 0x1c01, 0x1e1e, 0x2328, 0x4e28, 0x2b2b, 0xa44e,
--		0x5d6e, 0xa46e, 0xa4a4, 0xa4a4, 0xa4a4, 0xa4a4, 0xa4a4, 0xa4a4,
--		0xa4a4, 0xa4a4, 0xa4a4, 0xa4a4, 0xa4a4, 0xa4a4, 0xa4a4, 0xa4a4,
--		0xa4a4, 0xa4a4, 0xa4a4, 0xa4a4, 0xa4a4, 0xa4a4, 0xa4a4, 0xa4a4,
--		0xa4a4, 0xa4a4, 0xffa4,
--	},
--	{
--		0xdbff, 0x4300, 0x1400, 0x0f0e, 0x0f12, 0x140d, 0x1012, 0x1712,
--		0x1415, 0x1e18, 0x2132, 0x1c1e, 0x1e1c, 0x2c3d, 0x242e, 0x4932,
--		0x4c40, 0x474b, 0x4640, 0x5045, 0x735a, 0x5062, 0x6d55, 0x4556,
--		0x6446, 0x6588, 0x776d, 0x817b, 0x8182, 0x604e, 0x978d, 0x7d8c,
--		0x7396, 0x817e, 0xff7c,
--		0xdbff, 0x4300, 0x1501, 0x1717, 0x1a1e, 0x3b1e, 0x2121, 0x7c3b,
--		0x4653, 0x7c53, 0x7c7c, 0x7c7c, 0x7c7c, 0x7c7c, 0x7c7c, 0x7c7c,
--		0x7c7c, 0x7c7c, 0x7c7c, 0x7c7c, 0x7c7c, 0x7c7c, 0x7c7c, 0x7c7c,
--		0x7c7c, 0x7c7c, 0x7c7c, 0x7c7c, 0x7c7c, 0x7c7c, 0x7c7c, 0x7c7c,
--		0x7c7c, 0x7c7c, 0xff7c,
--	},
--	{
--		0xdbff, 0x4300, 0x1000, 0x0c0b, 0x0c0e, 0x100a, 0x0d0e, 0x120e,
--		0x1011, 0x1813, 0x1a28, 0x1618, 0x1816, 0x2331, 0x1d25, 0x3a28,
--		0x3d33, 0x393c, 0x3833, 0x4037, 0x5c48, 0x404e, 0x5744, 0x3745,
--		0x5038, 0x516d, 0x5f57, 0x6762, 0x6768, 0x4d3e, 0x7971, 0x6470,
--		0x5c78, 0x6765, 0xff63,
--		0xdbff, 0x4300, 0x1101, 0x1212, 0x1518, 0x2f18, 0x1a1a, 0x632f,
--		0x3842, 0x6342, 0x6363, 0x6363, 0x6363, 0x6363, 0x6363, 0x6363,
--		0x6363, 0x6363, 0x6363, 0x6363, 0x6363, 0x6363, 0x6363, 0x6363,
--		0x6363, 0x6363, 0x6363, 0x6363, 0x6363, 0x6363, 0x6363, 0x6363,
--		0x6363, 0x6363, 0xff63,
--	},
--	{
--		0xdbff, 0x4300, 0x0d00, 0x0a09, 0x0a0b, 0x0d08, 0x0a0b, 0x0e0b,
--		0x0d0e, 0x130f, 0x1520, 0x1213, 0x1312, 0x1c27, 0x171e, 0x2e20,
--		0x3129, 0x2e30, 0x2d29, 0x332c, 0x4a3a, 0x333e, 0x4636, 0x2c37,
--		0x402d, 0x4157, 0x4c46, 0x524e, 0x5253, 0x3e32, 0x615a, 0x505a,
--		0x4a60, 0x5251, 0xff4f,
--		0xdbff, 0x4300, 0x0e01, 0x0e0e, 0x1113, 0x2613, 0x1515, 0x4f26,
--		0x2d35, 0x4f35, 0x4f4f, 0x4f4f, 0x4f4f, 0x4f4f, 0x4f4f, 0x4f4f,
--		0x4f4f, 0x4f4f, 0x4f4f, 0x4f4f, 0x4f4f, 0x4f4f, 0x4f4f, 0x4f4f,
--		0x4f4f, 0x4f4f, 0x4f4f, 0x4f4f, 0x4f4f, 0x4f4f, 0x4f4f, 0x4f4f,
--		0x4f4f, 0x4f4f, 0xff4f,
--	},
--	{
--		0xdbff, 0x4300, 0x0a00, 0x0707, 0x0708, 0x0a06, 0x0808, 0x0b08,
--		0x0a0a, 0x0e0b, 0x1018, 0x0d0e, 0x0e0d, 0x151d, 0x1116, 0x2318,
--		0x251f, 0x2224, 0x221f, 0x2621, 0x372b, 0x262f, 0x3429, 0x2129,
--		0x3022, 0x3141, 0x3934, 0x3e3b, 0x3e3e, 0x2e25, 0x4944, 0x3c43,
--		0x3748, 0x3e3d, 0xff3b,
--		0xdbff, 0x4300, 0x0a01, 0x0b0b, 0x0d0e, 0x1c0e, 0x1010, 0x3b1c,
--		0x2228, 0x3b28, 0x3b3b, 0x3b3b, 0x3b3b, 0x3b3b, 0x3b3b, 0x3b3b,
--		0x3b3b, 0x3b3b, 0x3b3b, 0x3b3b, 0x3b3b, 0x3b3b, 0x3b3b, 0x3b3b,
--		0x3b3b, 0x3b3b, 0x3b3b, 0x3b3b, 0x3b3b, 0x3b3b, 0x3b3b, 0x3b3b,
--		0x3b3b, 0x3b3b, 0xff3b,
--	},
--	{
--		0xdbff, 0x4300, 0x0600, 0x0504, 0x0506, 0x0604, 0x0506, 0x0706,
--		0x0607, 0x0a08, 0x0a10, 0x090a, 0x0a09, 0x0e14, 0x0c0f, 0x1710,
--		0x1814, 0x1718, 0x1614, 0x1a16, 0x251d, 0x1a1f, 0x231b, 0x161c,
--		0x2016, 0x202c, 0x2623, 0x2927, 0x292a, 0x1f19, 0x302d, 0x282d,
--		0x2530, 0x2928, 0xff28,
--		0xdbff, 0x4300, 0x0701, 0x0707, 0x080a, 0x130a, 0x0a0a, 0x2813,
--		0x161a, 0x281a, 0x2828, 0x2828, 0x2828, 0x2828, 0x2828, 0x2828,
--		0x2828, 0x2828, 0x2828, 0x2828, 0x2828, 0x2828, 0x2828, 0x2828,
--		0x2828, 0x2828, 0x2828, 0x2828, 0x2828, 0x2828, 0x2828, 0x2828,
--		0x2828, 0x2828, 0xff28,
--	},
--	{
--		0xdbff, 0x4300, 0x0300, 0x0202, 0x0203, 0x0302, 0x0303, 0x0403,
--		0x0303, 0x0504, 0x0508, 0x0405, 0x0504, 0x070a, 0x0607, 0x0c08,
--		0x0c0a, 0x0b0c, 0x0b0a, 0x0d0b, 0x120e, 0x0d10, 0x110e, 0x0b0e,
--		0x100b, 0x1016, 0x1311, 0x1514, 0x1515, 0x0f0c, 0x1817, 0x1416,
--		0x1218, 0x1514, 0xff14,
--		0xdbff, 0x4300, 0x0301, 0x0404, 0x0405, 0x0905, 0x0505, 0x1409,
--		0x0b0d, 0x140d, 0x1414, 0x1414, 0x1414, 0x1414, 0x1414, 0x1414,
--		0x1414, 0x1414, 0x1414, 0x1414, 0x1414, 0x1414, 0x1414, 0x1414,
--		0x1414, 0x1414, 0x1414, 0x1414, 0x1414, 0x1414, 0x1414, 0x1414,
--		0x1414, 0x1414, 0xff14,
--	},
--	{
--		0xdbff, 0x4300, 0x0100, 0x0101, 0x0101, 0x0101, 0x0101, 0x0101,
--		0x0101, 0x0101, 0x0101, 0x0101, 0x0101, 0x0101, 0x0101, 0x0101,
--		0x0101, 0x0101, 0x0101, 0x0101, 0x0101, 0x0101, 0x0101, 0x0101,
--		0x0101, 0x0101, 0x0101, 0x0101, 0x0101, 0x0101, 0x0101, 0x0101,
--		0x0101, 0x0101, 0xff01,
--		0xdbff, 0x4300, 0x0101, 0x0101, 0x0101, 0x0101, 0x0101, 0x0101,
--		0x0101, 0x0101, 0x0101, 0x0101, 0x0101, 0x0101, 0x0101, 0x0101,
--		0x0101, 0x0101, 0x0101, 0x0101, 0x0101, 0x0101, 0x0101, 0x0101,
--		0x0101, 0x0101, 0x0101, 0x0101, 0x0101, 0x0101, 0x0101, 0x0101,
--		0x0101, 0x0101, 0xff01,
--	} };
--
--	if (quality < 0 || quality > 10) {
--		printk(KERN_WARNING
--		       "meye: invalid quality level %d - using 8\n", quality);
--		quality = 8;
+-	switch (cmd->req_mode & 0x0c) {
+-	case CAMERAACCESS_TYPE_RANDOM:
+-		count = cmd->reg_count * sizeof(struct cpia2_register);
+-		start = 0;
+-		buffer = (u8 *) & cmd->buffer;
+-		if (debugs_on & DEBUG_REG)
+-			DBG("%s Random: Register block %s\n", DIR(cmd),
+-			    block_name[BINDEX(cmd)]);
+-		break;
+-	case CAMERAACCESS_TYPE_BLOCK:
+-		count = cmd->reg_count;
+-		start = cmd->start;
+-		buffer = cmd->buffer.block_data;
+-		if (debugs_on & DEBUG_REG)
+-			DBG("%s Block: Register block %s\n", DIR(cmd),
+-			    block_name[BINDEX(cmd)]);
+-		break;
+-	case CAMERAACCESS_TYPE_MASK:
+-		count = cmd->reg_count * sizeof(struct cpia2_reg_mask);
+-		start = 0;
+-		buffer = (u8 *) & cmd->buffer;
+-		if (debugs_on & DEBUG_REG)
+-			DBG("%s Mask: Register block %s\n", DIR(cmd),
+-			    block_name[BINDEX(cmd)]);
+-		break;
+-	case CAMERAACCESS_TYPE_REPEAT:	/* For patch blocks only */
+-		count = cmd->reg_count;
+-		start = cmd->start;
+-		buffer = cmd->buffer.block_data;
+-		if (debugs_on & DEBUG_REG)
+-			DBG("%s Repeat: Register block %s\n", DIR(cmd),
+-			    block_name[BINDEX(cmd)]);
+-		break;
+-	default:
+-		LOG("%s: invalid request mode\n",__func__);
+-		return -EINVAL;
 -	}
 -
--	*length = ARRAY_SIZE(jpeg_tables[quality]);
--	return jpeg_tables[quality];
--}
--
--/* return a generic set of huffman tables */
--static u16 *jpeg_huffman_tables(int *length)
--{
--	static u16 tables[] = {
--		0xC4FF, 0xB500, 0x0010, 0x0102, 0x0303, 0x0402, 0x0503, 0x0405,
--		0x0004, 0x0100, 0x017D, 0x0302, 0x0400, 0x0511, 0x2112, 0x4131,
--		0x1306, 0x6151, 0x2207, 0x1471, 0x8132, 0xA191, 0x2308, 0xB142,
--		0x15C1, 0xD152, 0x24F0, 0x6233, 0x8272, 0x0A09, 0x1716, 0x1918,
--		0x251A, 0x2726, 0x2928, 0x342A, 0x3635, 0x3837, 0x3A39, 0x4443,
--		0x4645, 0x4847, 0x4A49, 0x5453, 0x5655, 0x5857, 0x5A59, 0x6463,
--		0x6665, 0x6867, 0x6A69, 0x7473, 0x7675, 0x7877, 0x7A79, 0x8483,
--		0x8685, 0x8887, 0x8A89, 0x9392, 0x9594, 0x9796, 0x9998, 0xA29A,
--		0xA4A3, 0xA6A5, 0xA8A7, 0xAAA9, 0xB3B2, 0xB5B4, 0xB7B6, 0xB9B8,
--		0xC2BA, 0xC4C3, 0xC6C5, 0xC8C7, 0xCAC9, 0xD3D2, 0xD5D4, 0xD7D6,
--		0xD9D8, 0xE1DA, 0xE3E2, 0xE5E4, 0xE7E6, 0xE9E8, 0xF1EA, 0xF3F2,
--		0xF5F4, 0xF7F6, 0xF9F8, 0xFFFA,
--		0xC4FF, 0xB500, 0x0011, 0x0102, 0x0402, 0x0304, 0x0704, 0x0405,
--		0x0004, 0x0201, 0x0077, 0x0201, 0x1103, 0x0504, 0x3121, 0x1206,
--		0x5141, 0x6107, 0x1371, 0x3222, 0x0881, 0x4214, 0xA191, 0xC1B1,
--		0x2309, 0x5233, 0x15F0, 0x7262, 0x0AD1, 0x2416, 0xE134, 0xF125,
--		0x1817, 0x1A19, 0x2726, 0x2928, 0x352A, 0x3736, 0x3938, 0x433A,
--		0x4544, 0x4746, 0x4948, 0x534A, 0x5554, 0x5756, 0x5958, 0x635A,
--		0x6564, 0x6766, 0x6968, 0x736A, 0x7574, 0x7776, 0x7978, 0x827A,
--		0x8483, 0x8685, 0x8887, 0x8A89, 0x9392, 0x9594, 0x9796, 0x9998,
--		0xA29A, 0xA4A3, 0xA6A5, 0xA8A7, 0xAAA9, 0xB3B2, 0xB5B4, 0xB7B6,
--		0xB9B8, 0xC2BA, 0xC4C3, 0xC6C5, 0xC8C7, 0xCAC9, 0xD3D2, 0xD5D4,
--		0xD7D6, 0xD9D8, 0xE2DA, 0xE4E3, 0xE6E5, 0xE8E7, 0xEAE9, 0xF3F2,
--		0xF5F4, 0xF7F6, 0xF9F8, 0xFFFA,
--		0xC4FF, 0x1F00, 0x0000, 0x0501, 0x0101, 0x0101, 0x0101, 0x0000,
--		0x0000, 0x0000, 0x0000, 0x0201, 0x0403, 0x0605, 0x0807, 0x0A09,
--		0xFF0B,
--		0xC4FF, 0x1F00, 0x0001, 0x0103, 0x0101, 0x0101, 0x0101, 0x0101,
--		0x0000, 0x0000, 0x0000, 0x0201, 0x0403, 0x0605, 0x0807, 0x0A09,
--		0xFF0B
--	};
--
--	*length = ARRAY_SIZE(tables);
--	return tables;
--}
--
--/****************************************************************************/
--/* MCHIP low-level functions                                                */
--/****************************************************************************/
--
--/* returns the horizontal capture size */
--static inline int mchip_hsize(void)
--{
--	return meye.params.subsample ? 320 : 640;
--}
--
--/* returns the vertical capture size */
--static inline int mchip_vsize(void)
--{
--	return meye.params.subsample ? 240 : 480;
--}
--
--/* waits for a register to be available */
--static void mchip_sync(int reg)
--{
--	u32 status;
--	int i;
--
--	if (reg == MCHIP_MM_FIFO_DATA) {
--		for (i = 0; i < MCHIP_REG_TIMEOUT; i++) {
--			status = readl(meye.mchip_mmregs +
--				       MCHIP_MM_FIFO_STATUS);
--			if (!(status & MCHIP_MM_FIFO_WAIT)) {
--				printk(KERN_WARNING "meye: fifo not ready\n");
--				return;
--			}
--			if (status & MCHIP_MM_FIFO_READY)
--				return;
--			udelay(1);
+-	retval = cpia2_usb_transfer_cmd(cam,
+-					buffer,
+-					cmd->req_mode,
+-					start, count, cmd->direction);
+-#ifdef _CPIA2_DEBUG_
+-	if (debugs_on & DEBUG_REG) {
+-		int i;
+-		for (i = 0; i < cmd->reg_count; i++) {
+-			if((cmd->req_mode & 0x0c) == CAMERAACCESS_TYPE_BLOCK)
+-				KINFO("%s Block: [0x%02X] = 0x%02X\n",
+-				    DIR(cmd), start + i, buffer[i]);
+-			if((cmd->req_mode & 0x0c) == CAMERAACCESS_TYPE_RANDOM)
+-				KINFO("%s Random: [0x%02X] = 0x%02X\n",
+-				    DIR(cmd), cmd->buffer.registers[i].index,
+-				    cmd->buffer.registers[i].value);
 -		}
--	} else if (reg > 0x80) {
--		u32 mask = (reg < 0x100) ? MCHIP_HIC_STATUS_MCC_RDY
--					 : MCHIP_HIC_STATUS_VRJ_RDY;
--		for (i = 0; i < MCHIP_REG_TIMEOUT; i++) {
--			status = readl(meye.mchip_mmregs + MCHIP_HIC_STATUS);
--			if (status & mask)
--				return;
--			udelay(1);
--		}
--	} else
--		return;
--	printk(KERN_WARNING
--	       "meye: mchip_sync() timeout on reg 0x%x status=0x%x\n",
--	       reg, status);
--}
--
--/* sets a value into the register */
--static inline void mchip_set(int reg, u32 v)
--{
--	mchip_sync(reg);
--	writel(v, meye.mchip_mmregs + reg);
--}
--
--/* get the register value */
--static inline u32 mchip_read(int reg)
--{
--	mchip_sync(reg);
--	return readl(meye.mchip_mmregs + reg);
--}
--
--/* wait for a register to become a particular value */
--static inline int mchip_delay(u32 reg, u32 v)
--{
--	int n = 10;
--	while (--n && mchip_read(reg) != v)
--		udelay(1);
--	return n;
--}
--
--/* setup subsampling */
--static void mchip_subsample(void)
--{
--	mchip_set(MCHIP_MCC_R_SAMPLING, meye.params.subsample);
--	mchip_set(MCHIP_MCC_R_XRANGE, mchip_hsize());
--	mchip_set(MCHIP_MCC_R_YRANGE, mchip_vsize());
--	mchip_set(MCHIP_MCC_B_XRANGE, mchip_hsize());
--	mchip_set(MCHIP_MCC_B_YRANGE, mchip_vsize());
--	mchip_delay(MCHIP_HIC_STATUS, MCHIP_HIC_STATUS_IDLE);
--}
--
--/* set the framerate into the mchip */
--static void mchip_set_framerate(void)
--{
--	mchip_set(MCHIP_HIC_S_RATE, meye.params.framerate);
--}
--
--/* load some huffman and quantisation tables into the VRJ chip ready
--   for JPEG compression */
--static void mchip_load_tables(void)
--{
--	int i;
--	int length;
--	u16 *tables;
--
--	tables = jpeg_huffman_tables(&length);
--	for (i = 0; i < length; i++)
--		writel(tables[i], meye.mchip_mmregs + MCHIP_VRJ_TABLE_DATA);
--
--	tables = jpeg_quantisation_tables(&length, meye.params.quality);
--	for (i = 0; i < length; i++)
--		writel(tables[i], meye.mchip_mmregs + MCHIP_VRJ_TABLE_DATA);
--}
--
--/* setup the VRJ parameters in the chip */
--static void mchip_vrj_setup(u8 mode)
--{
--	mchip_set(MCHIP_VRJ_BUS_MODE, 5);
--	mchip_set(MCHIP_VRJ_SIGNAL_ACTIVE_LEVEL, 0x1f);
--	mchip_set(MCHIP_VRJ_PDAT_USE, 1);
--	mchip_set(MCHIP_VRJ_IRQ_FLAG, 0xa0);
--	mchip_set(MCHIP_VRJ_MODE_SPECIFY, mode);
--	mchip_set(MCHIP_VRJ_NUM_LINES, mchip_vsize());
--	mchip_set(MCHIP_VRJ_NUM_PIXELS, mchip_hsize());
--	mchip_set(MCHIP_VRJ_NUM_COMPONENTS, 0x1b);
--	mchip_set(MCHIP_VRJ_LIMIT_COMPRESSED_LO, 0xFFFF);
--	mchip_set(MCHIP_VRJ_LIMIT_COMPRESSED_HI, 0xFFFF);
--	mchip_set(MCHIP_VRJ_COMP_DATA_FORMAT, 0xC);
--	mchip_set(MCHIP_VRJ_RESTART_INTERVAL, 0);
--	mchip_set(MCHIP_VRJ_SOF1, 0x601);
--	mchip_set(MCHIP_VRJ_SOF2, 0x1502);
--	mchip_set(MCHIP_VRJ_SOF3, 0x1503);
--	mchip_set(MCHIP_VRJ_SOF4, 0x1596);
--	mchip_set(MCHIP_VRJ_SOS, 0x0ed0);
--
--	mchip_load_tables();
--}
--
--/* sets the DMA parameters into the chip */
--static void mchip_dma_setup(dma_addr_t dma_addr)
--{
--	int i;
--
--	mchip_set(MCHIP_MM_PT_ADDR, (u32)dma_addr);
--	for (i = 0; i < 4; i++)
--		mchip_set(MCHIP_MM_FIR(i), 0);
--	meye.mchip_fnum = 0;
--}
--
--/* setup for DMA transfers - also zeros the framebuffer */
--static int mchip_dma_alloc(void)
--{
--	if (!meye.mchip_dmahandle)
--		if (ptable_alloc())
--			return -1;
--	return 0;
--}
--
--/* frees the DMA buffer */
--static void mchip_dma_free(void)
--{
--	if (meye.mchip_dmahandle) {
--		mchip_dma_setup(0);
--		ptable_free();
 -	}
+-#endif
+-
+-	return retval;
+-};
+-
+-/*************
+- * Functions to implement camera functionality
+- *************/
+-/******************************************************************************
+- *
+- *  cpia2_get_version_info
+- *
+- *****************************************************************************/
+-static void cpia2_get_version_info(struct camera_data *cam)
+-{
+-	cpia2_do_command(cam, CPIA2_CMD_GET_VERSION, TRANSFER_READ, 0);
+-	cpia2_do_command(cam, CPIA2_CMD_GET_PNP_ID, TRANSFER_READ, 0);
+-	cpia2_do_command(cam, CPIA2_CMD_GET_ASIC_TYPE, TRANSFER_READ, 0);
+-	cpia2_do_command(cam, CPIA2_CMD_GET_SENSOR, TRANSFER_READ, 0);
+-	cpia2_do_command(cam, CPIA2_CMD_GET_VP_DEVICE, TRANSFER_READ, 0);
 -}
 -
--/* stop any existing HIC action and wait for any dma to complete then
--   reset the dma engine */
--static void mchip_hic_stop(void)
+-/******************************************************************************
+- *
+- *  cpia2_reset_camera
+- *
+- *  Called at least during the open process, sets up initial params.
+- *****************************************************************************/
+-int cpia2_reset_camera(struct camera_data *cam)
 -{
--	int i, j;
--
--	meye.mchip_mode = MCHIP_HIC_MODE_NOOP;
--	if (!(mchip_read(MCHIP_HIC_STATUS) & MCHIP_HIC_STATUS_BUSY))
--		return;
--	for (i = 0; i < 20; ++i) {
--		mchip_set(MCHIP_HIC_CMD, MCHIP_HIC_CMD_STOP);
--		mchip_delay(MCHIP_HIC_CMD, 0);
--		for (j = 0; j < 100; ++j) {
--			if (mchip_delay(MCHIP_HIC_STATUS,
--					MCHIP_HIC_STATUS_IDLE))
--				return;
--			msleep(1);
--		}
--		printk(KERN_ERR "meye: need to reset HIC!\n");
--
--		mchip_set(MCHIP_HIC_CTL, MCHIP_HIC_CTL_SOFT_RESET);
--		msleep(250);
--	}
--	printk(KERN_ERR "meye: resetting HIC hanged!\n");
--}
--
--/****************************************************************************/
--/* MCHIP frame processing functions                                         */
--/****************************************************************************/
--
--/* get the next ready frame from the dma engine */
--static u32 mchip_get_frame(void)
--{
--	return mchip_read(MCHIP_MM_FIR(meye.mchip_fnum));
--}
--
--/* frees the current frame from the dma engine */
--static void mchip_free_frame(void)
--{
--	mchip_set(MCHIP_MM_FIR(meye.mchip_fnum), 0);
--	meye.mchip_fnum++;
--	meye.mchip_fnum %= 4;
--}
--
--/* read one frame from the framebuffer assuming it was captured using
--   a uncompressed transfer */
--static void mchip_cont_read_frame(u32 v, u8 *buf, int size)
--{
--	int pt_id;
--
--	pt_id = (v >> 17) & 0x3FF;
--
--	ptable_copy(buf, pt_id, size, MCHIP_NB_PAGES);
--}
--
--/* read a compressed frame from the framebuffer */
--static int mchip_comp_read_frame(u32 v, u8 *buf, int size)
--{
--	int pt_start, pt_end, trailer;
--	int fsize;
+-	u8 tmp_reg;
+-	int retval = 0;
+-	int target_kb;
 -	int i;
+-	struct cpia2_command cmd;
 -
--	pt_start = (v >> 19) & 0xFF;
--	pt_end = (v >> 11) & 0xFF;
--	trailer = (v >> 1) & 0x3FF;
+-	/***
+-	 * VC setup
+-	 ***/
+-	retval = configure_sensor(cam,
+-				  cam->params.roi.width,
+-				  cam->params.roi.height);
+-	if (retval < 0) {
+-		ERR("Couldn't configure sensor, error=%d\n", retval);
+-		return retval;
+-	}
 -
--	if (pt_end < pt_start)
--		fsize = (MCHIP_NB_PAGES_MJPEG - pt_start) * PAGE_SIZE +
--			pt_end * PAGE_SIZE + trailer * 4;
+-	/* Clear FIFO and route/enable stream block */
+-	cmd.req_mode = CAMERAACCESS_TYPE_RANDOM | CAMERAACCESS_VC;
+-	cmd.direction = TRANSFER_WRITE;
+-	cmd.reg_count = 2;
+-	cmd.buffer.registers[0].index = CPIA2_VC_ST_CTRL;
+-	cmd.buffer.registers[0].value = CPIA2_VC_ST_CTRL_SRC_VC |
+-		CPIA2_VC_ST_CTRL_DST_USB | CPIA2_VC_ST_CTRL_EOF_DETECT;
+-	cmd.buffer.registers[1].index = CPIA2_VC_ST_CTRL;
+-	cmd.buffer.registers[1].value = CPIA2_VC_ST_CTRL_SRC_VC |
+-		CPIA2_VC_ST_CTRL_DST_USB |
+-		CPIA2_VC_ST_CTRL_EOF_DETECT | CPIA2_VC_ST_CTRL_FIFO_ENABLE;
+-
+-	cpia2_send_command(cam, &cmd);
+-
+-	cpia2_set_high_power(cam);
+-
+-	if (cam->params.pnp_id.device_type == DEVICE_STV_672) {
+-		/* Enable button notification */
+-		cmd.req_mode = CAMERAACCESS_TYPE_RANDOM | CAMERAACCESS_SYSTEM;
+-		cmd.buffer.registers[0].index = CPIA2_SYSTEM_INT_PACKET_CTRL;
+-		cmd.buffer.registers[0].value =
+-			CPIA2_SYSTEM_INT_PACKET_CTRL_ENABLE_SW_XX;
+-		cmd.reg_count = 1;
+-		cpia2_send_command(cam, &cmd);
+-	}
+-
+-	schedule_timeout_interruptible(msecs_to_jiffies(100));
+-
+-	if (cam->params.pnp_id.device_type == DEVICE_STV_672)
+-		retval = apply_vp_patch(cam);
+-
+-	/* wait for vp to go to sleep */
+-	schedule_timeout_interruptible(msecs_to_jiffies(100));
+-
+-	/***
+-	 * If this is a 676, apply VP5 fixes before we start streaming
+-	 ***/
+-	if (cam->params.pnp_id.device_type == DEVICE_STV_676) {
+-		cmd.req_mode = CAMERAACCESS_TYPE_RANDOM | CAMERAACCESS_VP;
+-
+-		/* The following writes improve the picture */
+-		cmd.buffer.registers[0].index = CPIA2_VP5_MYBLACK_LEVEL;
+-		cmd.buffer.registers[0].value = 0; /* reduce from the default
+-						    * rec 601 pedestal of 16 */
+-		cmd.buffer.registers[1].index = CPIA2_VP5_MCYRANGE;
+-		cmd.buffer.registers[1].value = 0x92; /* increase from 100% to
+-						       * (256/256 - 31) to fill
+-						       * available range */
+-		cmd.buffer.registers[2].index = CPIA2_VP5_MYCEILING;
+-		cmd.buffer.registers[2].value = 0xFF; /* Increase from the
+-						       * default rec 601 ceiling
+-						       * of 240 */
+-		cmd.buffer.registers[3].index = CPIA2_VP5_MCUVSATURATION;
+-		cmd.buffer.registers[3].value = 0xFF; /* Increase from the rec
+-						       * 601 100% level (128)
+-						       * to 145-192 */
+-		cmd.buffer.registers[4].index = CPIA2_VP5_ANTIFLKRSETUP;
+-		cmd.buffer.registers[4].value = 0x80;  /* Inhibit the
+-							* anti-flicker */
+-
+-		/* The following 4 writes are a fix to allow QVGA to work at 30 fps */
+-		cmd.buffer.registers[5].index = CPIA2_VP_RAM_ADDR_H;
+-		cmd.buffer.registers[5].value = 0x01;
+-		cmd.buffer.registers[6].index = CPIA2_VP_RAM_ADDR_L;
+-		cmd.buffer.registers[6].value = 0xE3;
+-		cmd.buffer.registers[7].index = CPIA2_VP_RAM_DATA;
+-		cmd.buffer.registers[7].value = 0x02;
+-		cmd.buffer.registers[8].index = CPIA2_VP_RAM_DATA;
+-		cmd.buffer.registers[8].value = 0xFC;
+-
+-		cmd.direction = TRANSFER_WRITE;
+-		cmd.reg_count = 9;
+-
+-		cpia2_send_command(cam, &cmd);
+-	}
+-
+-	/* Activate all settings and start the data stream */
+-	/* Set user mode */
+-	set_default_user_mode(cam);
+-
+-	/* Give VP time to wake up */
+-	schedule_timeout_interruptible(msecs_to_jiffies(100));
+-
+-	set_all_properties(cam);
+-
+-	cpia2_do_command(cam, CPIA2_CMD_GET_USER_MODE, TRANSFER_READ, 0);
+-	DBG("After SetAllProperties(cam), user mode is 0x%0X\n",
+-	    cam->params.vp_params.video_mode);
+-
+-	/***
+-	 * Set audio regulator off.  This and the code to set the compresison
+-	 * state are too complex to form a CPIA2_CMD_, and seem to be somewhat
+-	 * intertwined.  This stuff came straight from the windows driver.
+-	 ***/
+-	/* Turn AutoExposure off in VP and enable the serial bridge to the sensor */
+-	cpia2_do_command(cam, CPIA2_CMD_GET_VP_SYSTEM_CTRL, TRANSFER_READ, 0);
+-	tmp_reg = cam->params.vp_params.system_ctrl;
+-	cmd.buffer.registers[0].value = tmp_reg &
+-		(tmp_reg & (CPIA2_VP_SYSTEMCTRL_HK_CONTROL ^ 0xFF));
+-
+-	cpia2_do_command(cam, CPIA2_CMD_GET_DEVICE_CONFIG, TRANSFER_READ, 0);
+-	cmd.buffer.registers[1].value = cam->params.vp_params.device_config |
+-					CPIA2_VP_DEVICE_CONFIG_SERIAL_BRIDGE;
+-	cmd.buffer.registers[0].index = CPIA2_VP_SYSTEMCTRL;
+-	cmd.buffer.registers[1].index = CPIA2_VP_DEVICE_CONFIG;
+-	cmd.req_mode = CAMERAACCESS_TYPE_RANDOM | CAMERAACCESS_VP;
+-	cmd.reg_count = 2;
+-	cmd.direction = TRANSFER_WRITE;
+-	cmd.start = 0;
+-	cpia2_send_command(cam, &cmd);
+-
+-	/* Set the correct I2C address in the CPiA-2 system register */
+-	cpia2_do_command(cam,
+-			 CPIA2_CMD_SET_SERIAL_ADDR,
+-			 TRANSFER_WRITE,
+-			 CPIA2_SYSTEM_VP_SERIAL_ADDR_SENSOR);
+-
+-	/* Now have sensor access - set bit to turn the audio regulator off */
+-	cpia2_do_command(cam,
+-			 CPIA2_CMD_SET_SENSOR_CR1,
+-			 TRANSFER_WRITE, CPIA2_SENSOR_CR1_DOWN_AUDIO_REGULATOR);
+-
+-	/* Set the correct I2C address in the CPiA-2 system register */
+-	if (cam->params.pnp_id.device_type == DEVICE_STV_672)
+-		cpia2_do_command(cam,
+-				 CPIA2_CMD_SET_SERIAL_ADDR,
+-				 TRANSFER_WRITE,
+-				 CPIA2_SYSTEM_VP_SERIAL_ADDR_VP); // 0x88
 -	else
--		fsize = (pt_end - pt_start) * PAGE_SIZE + trailer * 4;
+-		cpia2_do_command(cam,
+-				 CPIA2_CMD_SET_SERIAL_ADDR,
+-				 TRANSFER_WRITE,
+-				 CPIA2_SYSTEM_VP_SERIAL_ADDR_676_VP); // 0x8a
 -
--	if (fsize > size) {
--		printk(KERN_WARNING "meye: oversized compressed frame %d\n",
--		       fsize);
--		return -1;
+-	/* increase signal drive strength */
+-	if (cam->params.pnp_id.device_type == DEVICE_STV_676)
+-		cpia2_do_command(cam,
+-				 CPIA2_CMD_SET_VP_EXP_MODES,
+-				 TRANSFER_WRITE,
+-				 CPIA2_VP_EXPOSURE_MODES_COMPILE_EXP);
+-
+-	/* Start autoexposure */
+-	cpia2_do_command(cam, CPIA2_CMD_GET_DEVICE_CONFIG, TRANSFER_READ, 0);
+-	cmd.buffer.registers[0].value = cam->params.vp_params.device_config &
+-				  (CPIA2_VP_DEVICE_CONFIG_SERIAL_BRIDGE ^ 0xFF);
+-
+-	cpia2_do_command(cam, CPIA2_CMD_GET_VP_SYSTEM_CTRL, TRANSFER_READ, 0);
+-	cmd.buffer.registers[1].value =
+-	    cam->params.vp_params.system_ctrl | CPIA2_VP_SYSTEMCTRL_HK_CONTROL;
+-
+-	cmd.buffer.registers[0].index = CPIA2_VP_DEVICE_CONFIG;
+-	cmd.buffer.registers[1].index = CPIA2_VP_SYSTEMCTRL;
+-	cmd.req_mode = CAMERAACCESS_TYPE_RANDOM | CAMERAACCESS_VP;
+-	cmd.reg_count = 2;
+-	cmd.direction = TRANSFER_WRITE;
+-
+-	cpia2_send_command(cam, &cmd);
+-
+-	/* Set compression state */
+-	cpia2_do_command(cam, CPIA2_CMD_GET_VC_CONTROL, TRANSFER_READ, 0);
+-	if (cam->params.compression.inhibit_htables) {
+-		tmp_reg = cam->params.vc_params.vc_control |
+-			  CPIA2_VC_VC_CTRL_INHIBIT_H_TABLES;
+-	} else  {
+-		tmp_reg = cam->params.vc_params.vc_control &
+-			  ~CPIA2_VC_VC_CTRL_INHIBIT_H_TABLES;
+-	}
+-	cpia2_do_command(cam, CPIA2_CMD_SET_VC_CONTROL, TRANSFER_WRITE,tmp_reg);
+-
+-	/* Set target size (kb) on vc
+-	   This is a heuristic based on the quality parameter and the raw
+-	   framesize in kB divided by 16 (the compression factor when the
+-	   quality is 100%) */
+-	target_kb = (cam->width * cam->height * 2 / 16384) *
+-				cam->params.vc_params.quality / 100;
+-	if (target_kb < 1)
+-		target_kb = 1;
+-	cpia2_do_command(cam, CPIA2_CMD_SET_TARGET_KB,
+-			 TRANSFER_WRITE, target_kb);
+-
+-	/* Wiggle VC Reset */
+-	/***
+-	 * First read and wait a bit.
+-	 ***/
+-	for (i = 0; i < 50; i++) {
+-		cpia2_do_command(cam, CPIA2_CMD_GET_PW_CONTROL,
+-				 TRANSFER_READ, 0);
 -	}
 -
--	ptable_copy(buf, pt_start, fsize, MCHIP_NB_PAGES_MJPEG);
+-	tmp_reg = cam->params.vc_params.pw_control;
+-	tmp_reg &= ~CPIA2_VC_PW_CTRL_VC_RESET_N;
 -
--#ifdef MEYE_JPEG_CORRECTION
+-	cpia2_do_command(cam, CPIA2_CMD_SET_PW_CONTROL, TRANSFER_WRITE,tmp_reg);
 -
--	/* Some mchip generated jpeg frames are incorrect. In most
--	 * (all ?) of those cases, the final EOI (0xff 0xd9) marker
--	 * is not present at the end of the frame.
--	 *
--	 * Since adding the final marker is not enough to restore
--	 * the jpeg integrity, we drop the frame.
+-	tmp_reg |= CPIA2_VC_PW_CTRL_VC_RESET_N;
+-	cpia2_do_command(cam, CPIA2_CMD_SET_PW_CONTROL, TRANSFER_WRITE,tmp_reg);
+-
+-	cpia2_do_command(cam, CPIA2_CMD_SET_DEF_JPEG_OPT, TRANSFER_WRITE, 0);
+-
+-	cpia2_do_command(cam, CPIA2_CMD_GET_USER_MODE, TRANSFER_READ, 0);
+-	DBG("After VC RESET, user mode is 0x%0X\n",
+-	    cam->params.vp_params.video_mode);
+-
+-	return retval;
+-}
+-
+-/******************************************************************************
+- *
+- *  cpia2_set_high_power
+- *
+- *****************************************************************************/
+-static int cpia2_set_high_power(struct camera_data *cam)
+-{
+-	int i;
+-	for (i = 0; i <= 50; i++) {
+-		/* Read system status */
+-		cpia2_do_command(cam,CPIA2_CMD_GET_SYSTEM_CTRL,TRANSFER_READ,0);
+-
+-		/* If there is an error, clear it */
+-		if(cam->params.camera_state.system_ctrl &
+-		   CPIA2_SYSTEM_CONTROL_V2W_ERR)
+-			cpia2_do_command(cam, CPIA2_CMD_CLEAR_V2W_ERR,
+-					 TRANSFER_WRITE, 0);
+-
+-		/* Try to set high power mode */
+-		cpia2_do_command(cam, CPIA2_CMD_SET_SYSTEM_CTRL,
+-				 TRANSFER_WRITE, 1);
+-
+-		/* Try to read something in VP to check if everything is awake */
+-		cpia2_do_command(cam, CPIA2_CMD_GET_VP_SYSTEM_STATE,
+-				 TRANSFER_READ, 0);
+-		if (cam->params.vp_params.system_state &
+-		    CPIA2_VP_SYSTEMSTATE_HK_ALIVE) {
+-			break;
+-		} else if (i == 50) {
+-			cam->params.camera_state.power_mode = LO_POWER_MODE;
+-			ERR("Camera did not wake up\n");
+-			return -EIO;
+-		}
+-	}
+-
+-	DBG("System now in high power state\n");
+-	cam->params.camera_state.power_mode = HI_POWER_MODE;
+-	return 0;
+-}
+-
+-/******************************************************************************
+- *
+- *  cpia2_set_low_power
+- *
+- *****************************************************************************/
+-int cpia2_set_low_power(struct camera_data *cam)
+-{
+-	cam->params.camera_state.power_mode = LO_POWER_MODE;
+-	cpia2_do_command(cam, CPIA2_CMD_SET_SYSTEM_CTRL, TRANSFER_WRITE, 0);
+-	return 0;
+-}
+-
+-/******************************************************************************
+- *
+- *  apply_vp_patch
+- *
+- *****************************************************************************/
+-static int cpia2_send_onebyte_command(struct camera_data *cam,
+-				      struct cpia2_command *cmd,
+-				      u8 start, u8 datum)
+-{
+-	cmd->buffer.block_data[0] = datum;
+-	cmd->start = start;
+-	cmd->reg_count = 1;
+-	return cpia2_send_command(cam, cmd);
+-}
+-
+-static int apply_vp_patch(struct camera_data *cam)
+-{
+-	const struct firmware *fw;
+-	const char fw_name[] = FIRMWARE;
+-	int i, ret;
+-	struct cpia2_command cmd;
+-
+-	ret = request_firmware(&fw, fw_name, &cam->dev->dev);
+-	if (ret) {
+-		printk(KERN_ERR "cpia2: failed to load VP patch \"%s\"\n",
+-		       fw_name);
+-		return ret;
+-	}
+-
+-	cmd.req_mode = CAMERAACCESS_TYPE_REPEAT | CAMERAACCESS_VP;
+-	cmd.direction = TRANSFER_WRITE;
+-
+-	/* First send the start address... */
+-	cpia2_send_onebyte_command(cam, &cmd, 0x0A, fw->data[0]); /* hi */
+-	cpia2_send_onebyte_command(cam, &cmd, 0x0B, fw->data[1]); /* lo */
+-
+-	/* ... followed by the data payload */
+-	for (i = 2; i < fw->size; i += 64) {
+-		cmd.start = 0x0C; /* Data */
+-		cmd.reg_count = min_t(uint, 64, fw->size - i);
+-		memcpy(cmd.buffer.block_data, &fw->data[i], cmd.reg_count);
+-		cpia2_send_command(cam, &cmd);
+-	}
+-
+-	/* Next send the start address... */
+-	cpia2_send_onebyte_command(cam, &cmd, 0x0A, fw->data[0]); /* hi */
+-	cpia2_send_onebyte_command(cam, &cmd, 0x0B, fw->data[1]); /* lo */
+-
+-	/* ... followed by the 'goto' command */
+-	cpia2_send_onebyte_command(cam, &cmd, 0x0D, 1);
+-
+-	release_firmware(fw);
+-	return 0;
+-}
+-
+-/******************************************************************************
+- *
+- *  set_default_user_mode
+- *
+- *****************************************************************************/
+-static int set_default_user_mode(struct camera_data *cam)
+-{
+-	unsigned char user_mode;
+-	unsigned char frame_rate;
+-	int width = cam->params.roi.width;
+-	int height = cam->params.roi.height;
+-
+-	switch (cam->params.version.sensor_flags) {
+-	case CPIA2_VP_SENSOR_FLAGS_404:
+-	case CPIA2_VP_SENSOR_FLAGS_407:
+-	case CPIA2_VP_SENSOR_FLAGS_409:
+-	case CPIA2_VP_SENSOR_FLAGS_410:
+-		if ((width > STV_IMAGE_QCIF_COLS)
+-		    || (height > STV_IMAGE_QCIF_ROWS)) {
+-			user_mode = CPIA2_VP_USER_MODE_CIF;
+-		} else {
+-			user_mode = CPIA2_VP_USER_MODE_QCIFDS;
+-		}
+-		frame_rate = CPIA2_VP_FRAMERATE_30;
+-		break;
+-	case CPIA2_VP_SENSOR_FLAGS_500:
+-		if ((width > STV_IMAGE_CIF_COLS)
+-		    || (height > STV_IMAGE_CIF_ROWS)) {
+-			user_mode = CPIA2_VP_USER_MODE_VGA;
+-		} else {
+-			user_mode = CPIA2_VP_USER_MODE_QVGADS;
+-		}
+-		if (cam->params.pnp_id.device_type == DEVICE_STV_672)
+-			frame_rate = CPIA2_VP_FRAMERATE_15;
+-		else
+-			frame_rate = CPIA2_VP_FRAMERATE_30;
+-		break;
+-	default:
+-		LOG("%s: Invalid sensor flag value 0x%0X\n",__func__,
+-		    cam->params.version.sensor_flags);
+-		return -EINVAL;
+-	}
+-
+-	DBG("Sensor flag = 0x%0x, user mode = 0x%0x, frame rate = 0x%X\n",
+-	    cam->params.version.sensor_flags, user_mode, frame_rate);
+-	cpia2_do_command(cam, CPIA2_CMD_SET_USER_MODE, TRANSFER_WRITE,
+-			 user_mode);
+-	if(cam->params.vp_params.frame_rate > 0 &&
+-	   frame_rate > cam->params.vp_params.frame_rate)
+-		frame_rate = cam->params.vp_params.frame_rate;
+-
+-	cpia2_set_fps(cam, frame_rate);
+-
+-//	if (cam->params.pnp_id.device_type == DEVICE_STV_676)
+-//		cpia2_do_command(cam,
+-//				 CPIA2_CMD_SET_VP_SYSTEM_CTRL,
+-//				 TRANSFER_WRITE,
+-//				 CPIA2_VP_SYSTEMCTRL_HK_CONTROL |
+-//				 CPIA2_VP_SYSTEMCTRL_POWER_CONTROL);
+-
+-	return 0;
+-}
+-
+-/******************************************************************************
+- *
+- *  cpia2_match_video_size
+- *
+- *  return the best match, where 'best' is as always
+- *  the largest that is not bigger than what is requested.
+- *****************************************************************************/
+-int cpia2_match_video_size(int width, int height)
+-{
+-	if (width >= STV_IMAGE_VGA_COLS && height >= STV_IMAGE_VGA_ROWS)
+-		return VIDEOSIZE_VGA;
+-
+-	if (width >= STV_IMAGE_CIF_COLS && height >= STV_IMAGE_CIF_ROWS)
+-		return VIDEOSIZE_CIF;
+-
+-	if (width >= STV_IMAGE_QVGA_COLS && height >= STV_IMAGE_QVGA_ROWS)
+-		return VIDEOSIZE_QVGA;
+-
+-	if (width >= 288 && height >= 216)
+-		return VIDEOSIZE_288_216;
+-
+-	if (width >= 256 && height >= 192)
+-		return VIDEOSIZE_256_192;
+-
+-	if (width >= 224 && height >= 168)
+-		return VIDEOSIZE_224_168;
+-
+-	if (width >= 192 && height >= 144)
+-		return VIDEOSIZE_192_144;
+-
+-	if (width >= STV_IMAGE_QCIF_COLS && height >= STV_IMAGE_QCIF_ROWS)
+-		return VIDEOSIZE_QCIF;
+-
+-	return -1;
+-}
+-
+-/******************************************************************************
+- *
+- *  SetVideoSize
+- *
+- *****************************************************************************/
+-static int set_vw_size(struct camera_data *cam, int size)
+-{
+-	int retval = 0;
+-
+-	cam->params.vp_params.video_size = size;
+-
+-	switch (size) {
+-	case VIDEOSIZE_VGA:
+-		DBG("Setting size to VGA\n");
+-		cam->params.roi.width = STV_IMAGE_VGA_COLS;
+-		cam->params.roi.height = STV_IMAGE_VGA_ROWS;
+-		cam->width = STV_IMAGE_VGA_COLS;
+-		cam->height = STV_IMAGE_VGA_ROWS;
+-		break;
+-	case VIDEOSIZE_CIF:
+-		DBG("Setting size to CIF\n");
+-		cam->params.roi.width = STV_IMAGE_CIF_COLS;
+-		cam->params.roi.height = STV_IMAGE_CIF_ROWS;
+-		cam->width = STV_IMAGE_CIF_COLS;
+-		cam->height = STV_IMAGE_CIF_ROWS;
+-		break;
+-	case VIDEOSIZE_QVGA:
+-		DBG("Setting size to QVGA\n");
+-		cam->params.roi.width = STV_IMAGE_QVGA_COLS;
+-		cam->params.roi.height = STV_IMAGE_QVGA_ROWS;
+-		cam->width = STV_IMAGE_QVGA_COLS;
+-		cam->height = STV_IMAGE_QVGA_ROWS;
+-		break;
+-	case VIDEOSIZE_288_216:
+-		cam->params.roi.width = 288;
+-		cam->params.roi.height = 216;
+-		cam->width = 288;
+-		cam->height = 216;
+-		break;
+-	case VIDEOSIZE_256_192:
+-		cam->width = 256;
+-		cam->height = 192;
+-		cam->params.roi.width = 256;
+-		cam->params.roi.height = 192;
+-		break;
+-	case VIDEOSIZE_224_168:
+-		cam->width = 224;
+-		cam->height = 168;
+-		cam->params.roi.width = 224;
+-		cam->params.roi.height = 168;
+-		break;
+-	case VIDEOSIZE_192_144:
+-		cam->width = 192;
+-		cam->height = 144;
+-		cam->params.roi.width = 192;
+-		cam->params.roi.height = 144;
+-		break;
+-	case VIDEOSIZE_QCIF:
+-		DBG("Setting size to QCIF\n");
+-		cam->params.roi.width = STV_IMAGE_QCIF_COLS;
+-		cam->params.roi.height = STV_IMAGE_QCIF_ROWS;
+-		cam->width = STV_IMAGE_QCIF_COLS;
+-		cam->height = STV_IMAGE_QCIF_ROWS;
+-		break;
+-	default:
+-		retval = -EINVAL;
+-	}
+-	return retval;
+-}
+-
+-/******************************************************************************
+- *
+- *  configure_sensor
+- *
+- *****************************************************************************/
+-static int configure_sensor(struct camera_data *cam,
+-			    int req_width, int req_height)
+-{
+-	int retval;
+-
+-	switch (cam->params.version.sensor_flags) {
+-	case CPIA2_VP_SENSOR_FLAGS_404:
+-	case CPIA2_VP_SENSOR_FLAGS_407:
+-	case CPIA2_VP_SENSOR_FLAGS_409:
+-	case CPIA2_VP_SENSOR_FLAGS_410:
+-		retval = config_sensor_410(cam, req_width, req_height);
+-		break;
+-	case CPIA2_VP_SENSOR_FLAGS_500:
+-		retval = config_sensor_500(cam, req_width, req_height);
+-		break;
+-	default:
+-		return -EINVAL;
+-	}
+-
+-	return retval;
+-}
+-
+-/******************************************************************************
+- *
+- *  config_sensor_410
+- *
+- *****************************************************************************/
+-static int config_sensor_410(struct camera_data *cam,
+-			    int req_width, int req_height)
+-{
+-	struct cpia2_command cmd;
+-	int i = 0;
+-	int image_size;
+-	int image_type;
+-	int width = req_width;
+-	int height = req_height;
+-
+-	/***
+-	 *  Make sure size doesn't exceed CIF.
+-	 ***/
+-	if (width > STV_IMAGE_CIF_COLS)
+-		width = STV_IMAGE_CIF_COLS;
+-	if (height > STV_IMAGE_CIF_ROWS)
+-		height = STV_IMAGE_CIF_ROWS;
+-
+-	image_size = cpia2_match_video_size(width, height);
+-
+-	DBG("Config 410: width = %d, height = %d\n", width, height);
+-	DBG("Image size returned is %d\n", image_size);
+-	if (image_size >= 0) {
+-		set_vw_size(cam, image_size);
+-		width = cam->params.roi.width;
+-		height = cam->params.roi.height;
+-
+-		DBG("After set_vw_size(), width = %d, height = %d\n",
+-		    width, height);
+-		if (width <= 176 && height <= 144) {
+-			DBG("image type = VIDEOSIZE_QCIF\n");
+-			image_type = VIDEOSIZE_QCIF;
+-		}
+-		else if (width <= 320 && height <= 240) {
+-			DBG("image type = VIDEOSIZE_QVGA\n");
+-			image_type = VIDEOSIZE_QVGA;
+-		}
+-		else {
+-			DBG("image type = VIDEOSIZE_CIF\n");
+-			image_type = VIDEOSIZE_CIF;
+-		}
+-	} else {
+-		ERR("ConfigSensor410 failed\n");
+-		return -EINVAL;
+-	}
+-
+-	cmd.req_mode = CAMERAACCESS_TYPE_RANDOM | CAMERAACCESS_VC;
+-	cmd.direction = TRANSFER_WRITE;
+-
+-	/* VC Format */
+-	cmd.buffer.registers[i].index = CPIA2_VC_VC_FORMAT;
+-	if (image_type == VIDEOSIZE_CIF) {
+-		cmd.buffer.registers[i++].value =
+-		    (u8) (CPIA2_VC_VC_FORMAT_UFIRST |
+-			  CPIA2_VC_VC_FORMAT_SHORTLINE);
+-	} else {
+-		cmd.buffer.registers[i++].value =
+-		    (u8) CPIA2_VC_VC_FORMAT_UFIRST;
+-	}
+-
+-	/* VC Clocks */
+-	cmd.buffer.registers[i].index = CPIA2_VC_VC_CLOCKS;
+-	if (image_type == VIDEOSIZE_QCIF) {
+-		if (cam->params.pnp_id.device_type == DEVICE_STV_672) {
+-			cmd.buffer.registers[i++].value=
+-				(u8)(CPIA2_VC_VC_672_CLOCKS_CIF_DIV_BY_3 |
+-				     CPIA2_VC_VC_672_CLOCKS_SCALING |
+-				     CPIA2_VC_VC_CLOCKS_LOGDIV2);
+-			DBG("VC_Clocks (0xc4) should be B\n");
+-		}
+-		else {
+-			cmd.buffer.registers[i++].value=
+-				(u8)(CPIA2_VC_VC_676_CLOCKS_CIF_DIV_BY_3 |
+-				     CPIA2_VC_VC_CLOCKS_LOGDIV2);
+-		}
+-	} else {
+-		if (cam->params.pnp_id.device_type == DEVICE_STV_672) {
+-			cmd.buffer.registers[i++].value =
+-			   (u8) (CPIA2_VC_VC_672_CLOCKS_CIF_DIV_BY_3 |
+-				 CPIA2_VC_VC_CLOCKS_LOGDIV0);
+-		}
+-		else {
+-			cmd.buffer.registers[i++].value =
+-			   (u8) (CPIA2_VC_VC_676_CLOCKS_CIF_DIV_BY_3 |
+-				 CPIA2_VC_VC_676_CLOCKS_SCALING |
+-				 CPIA2_VC_VC_CLOCKS_LOGDIV0);
+-		}
+-	}
+-	DBG("VC_Clocks (0xc4) = 0x%0X\n", cmd.buffer.registers[i-1].value);
+-
+-	/* Input reqWidth from VC */
+-	cmd.buffer.registers[i].index = CPIA2_VC_VC_IHSIZE_LO;
+-	if (image_type == VIDEOSIZE_QCIF)
+-		cmd.buffer.registers[i++].value =
+-		    (u8) (STV_IMAGE_QCIF_COLS / 4);
+-	else
+-		cmd.buffer.registers[i++].value =
+-		    (u8) (STV_IMAGE_CIF_COLS / 4);
+-
+-	/* Timings */
+-	cmd.buffer.registers[i].index = CPIA2_VC_VC_XLIM_HI;
+-	if (image_type == VIDEOSIZE_QCIF)
+-		cmd.buffer.registers[i++].value = (u8) 0;
+-	else
+-		cmd.buffer.registers[i++].value = (u8) 1;
+-
+-	cmd.buffer.registers[i].index = CPIA2_VC_VC_XLIM_LO;
+-	if (image_type == VIDEOSIZE_QCIF)
+-		cmd.buffer.registers[i++].value = (u8) 208;
+-	else
+-		cmd.buffer.registers[i++].value = (u8) 160;
+-
+-	cmd.buffer.registers[i].index = CPIA2_VC_VC_YLIM_HI;
+-	if (image_type == VIDEOSIZE_QCIF)
+-		cmd.buffer.registers[i++].value = (u8) 0;
+-	else
+-		cmd.buffer.registers[i++].value = (u8) 1;
+-
+-	cmd.buffer.registers[i].index = CPIA2_VC_VC_YLIM_LO;
+-	if (image_type == VIDEOSIZE_QCIF)
+-		cmd.buffer.registers[i++].value = (u8) 160;
+-	else
+-		cmd.buffer.registers[i++].value = (u8) 64;
+-
+-	/* Output Image Size */
+-	cmd.buffer.registers[i].index = CPIA2_VC_VC_OHSIZE;
+-	cmd.buffer.registers[i++].value = cam->params.roi.width / 4;
+-
+-	cmd.buffer.registers[i].index = CPIA2_VC_VC_OVSIZE;
+-	cmd.buffer.registers[i++].value = cam->params.roi.height / 4;
+-
+-	/* Cropping */
+-	cmd.buffer.registers[i].index = CPIA2_VC_VC_HCROP;
+-	if (image_type == VIDEOSIZE_QCIF)
+-		cmd.buffer.registers[i++].value =
+-		    (u8) (((STV_IMAGE_QCIF_COLS / 4) - (width / 4)) / 2);
+-	else
+-		cmd.buffer.registers[i++].value =
+-		    (u8) (((STV_IMAGE_CIF_COLS / 4) - (width / 4)) / 2);
+-
+-	cmd.buffer.registers[i].index = CPIA2_VC_VC_VCROP;
+-	if (image_type == VIDEOSIZE_QCIF)
+-		cmd.buffer.registers[i++].value =
+-		    (u8) (((STV_IMAGE_QCIF_ROWS / 4) - (height / 4)) / 2);
+-	else
+-		cmd.buffer.registers[i++].value =
+-		    (u8) (((STV_IMAGE_CIF_ROWS / 4) - (height / 4)) / 2);
+-
+-	/* Scaling registers (defaults) */
+-	cmd.buffer.registers[i].index = CPIA2_VC_VC_HPHASE;
+-	cmd.buffer.registers[i++].value = (u8) 0;
+-
+-	cmd.buffer.registers[i].index = CPIA2_VC_VC_VPHASE;
+-	cmd.buffer.registers[i++].value = (u8) 0;
+-
+-	cmd.buffer.registers[i].index = CPIA2_VC_VC_HISPAN;
+-	cmd.buffer.registers[i++].value = (u8) 31;
+-
+-	cmd.buffer.registers[i].index = CPIA2_VC_VC_VISPAN;
+-	cmd.buffer.registers[i++].value = (u8) 31;
+-
+-	cmd.buffer.registers[i].index = CPIA2_VC_VC_HICROP;
+-	cmd.buffer.registers[i++].value = (u8) 0;
+-
+-	cmd.buffer.registers[i].index = CPIA2_VC_VC_VICROP;
+-	cmd.buffer.registers[i++].value = (u8) 0;
+-
+-	cmd.buffer.registers[i].index = CPIA2_VC_VC_HFRACT;
+-	cmd.buffer.registers[i++].value = (u8) 0x81;	/* = 8/1 = 8 (HIBYTE/LOBYTE) */
+-
+-	cmd.buffer.registers[i].index = CPIA2_VC_VC_VFRACT;
+-	cmd.buffer.registers[i++].value = (u8) 0x81;	/* = 8/1 = 8 (HIBYTE/LOBYTE) */
+-
+-	cmd.reg_count = i;
+-
+-	cpia2_send_command(cam, &cmd);
+-
+-	return i;
+-}
+-
+-
+-/******************************************************************************
+- *
+- *  config_sensor_500(cam)
+- *
+- *****************************************************************************/
+-static int config_sensor_500(struct camera_data *cam,
+-			     int req_width, int req_height)
+-{
+-	struct cpia2_command cmd;
+-	int i = 0;
+-	int image_size = VIDEOSIZE_CIF;
+-	int image_type = VIDEOSIZE_VGA;
+-	int width = req_width;
+-	int height = req_height;
+-	unsigned int device = cam->params.pnp_id.device_type;
+-
+-	image_size = cpia2_match_video_size(width, height);
+-
+-	if (width > STV_IMAGE_CIF_COLS || height > STV_IMAGE_CIF_ROWS)
+-		image_type = VIDEOSIZE_VGA;
+-	else if (width > STV_IMAGE_QVGA_COLS || height > STV_IMAGE_QVGA_ROWS)
+-		image_type = VIDEOSIZE_CIF;
+-	else if (width > STV_IMAGE_QCIF_COLS || height > STV_IMAGE_QCIF_ROWS)
+-		image_type = VIDEOSIZE_QVGA;
+-	else
+-		image_type = VIDEOSIZE_QCIF;
+-
+-	if (image_size >= 0) {
+-		set_vw_size(cam, image_size);
+-		width = cam->params.roi.width;
+-		height = cam->params.roi.height;
+-	} else {
+-		ERR("ConfigSensor500 failed\n");
+-		return -EINVAL;
+-	}
+-
+-	DBG("image_size = %d, width = %d, height = %d, type = %d\n",
+-	    image_size, width, height, image_type);
+-
+-	cmd.req_mode = CAMERAACCESS_TYPE_RANDOM | CAMERAACCESS_VC;
+-	cmd.direction = TRANSFER_WRITE;
+-	i = 0;
+-
+-	/* VC Format */
+-	cmd.buffer.registers[i].index = CPIA2_VC_VC_FORMAT;
+-	cmd.buffer.registers[i].value = (u8) CPIA2_VC_VC_FORMAT_UFIRST;
+-	if (image_type == VIDEOSIZE_QCIF)
+-		cmd.buffer.registers[i].value |= (u8) CPIA2_VC_VC_FORMAT_DECIMATING;
+-	i++;
+-
+-	/* VC Clocks */
+-	cmd.buffer.registers[i].index = CPIA2_VC_VC_CLOCKS;
+-	if (device == DEVICE_STV_672) {
+-		if (image_type == VIDEOSIZE_VGA)
+-			cmd.buffer.registers[i].value =
+-				(u8)CPIA2_VC_VC_CLOCKS_LOGDIV1;
+-		else
+-			cmd.buffer.registers[i].value =
+-				(u8)(CPIA2_VC_VC_672_CLOCKS_SCALING |
+-				     CPIA2_VC_VC_CLOCKS_LOGDIV3);
+-	} else {
+-		if (image_type == VIDEOSIZE_VGA)
+-			cmd.buffer.registers[i].value =
+-				(u8)CPIA2_VC_VC_CLOCKS_LOGDIV0;
+-		else
+-			cmd.buffer.registers[i].value =
+-				(u8)(CPIA2_VC_VC_676_CLOCKS_SCALING |
+-				     CPIA2_VC_VC_CLOCKS_LOGDIV2);
+-	}
+-	i++;
+-
+-	DBG("VC_CLOCKS = 0x%X\n", cmd.buffer.registers[i-1].value);
+-
+-	/* Input width from VP */
+-	cmd.buffer.registers[i].index = CPIA2_VC_VC_IHSIZE_LO;
+-	if (image_type == VIDEOSIZE_VGA)
+-		cmd.buffer.registers[i].value =
+-		    (u8) (STV_IMAGE_VGA_COLS / 4);
+-	else
+-		cmd.buffer.registers[i].value =
+-		    (u8) (STV_IMAGE_QVGA_COLS / 4);
+-	i++;
+-	DBG("Input width = %d\n", cmd.buffer.registers[i-1].value);
+-
+-	/* Timings */
+-	cmd.buffer.registers[i].index = CPIA2_VC_VC_XLIM_HI;
+-	if (image_type == VIDEOSIZE_VGA)
+-		cmd.buffer.registers[i++].value = (u8) 2;
+-	else
+-		cmd.buffer.registers[i++].value = (u8) 1;
+-
+-	cmd.buffer.registers[i].index = CPIA2_VC_VC_XLIM_LO;
+-	if (image_type == VIDEOSIZE_VGA)
+-		cmd.buffer.registers[i++].value = (u8) 250;
+-	else if (image_type == VIDEOSIZE_QVGA)
+-		cmd.buffer.registers[i++].value = (u8) 125;
+-	else
+-		cmd.buffer.registers[i++].value = (u8) 160;
+-
+-	cmd.buffer.registers[i].index = CPIA2_VC_VC_YLIM_HI;
+-	if (image_type == VIDEOSIZE_VGA)
+-		cmd.buffer.registers[i++].value = (u8) 2;
+-	else
+-		cmd.buffer.registers[i++].value = (u8) 1;
+-
+-	cmd.buffer.registers[i].index = CPIA2_VC_VC_YLIM_LO;
+-	if (image_type == VIDEOSIZE_VGA)
+-		cmd.buffer.registers[i++].value = (u8) 12;
+-	else if (image_type == VIDEOSIZE_QVGA)
+-		cmd.buffer.registers[i++].value = (u8) 64;
+-	else
+-		cmd.buffer.registers[i++].value = (u8) 6;
+-
+-	/* Output Image Size */
+-	cmd.buffer.registers[i].index = CPIA2_VC_VC_OHSIZE;
+-	if (image_type == VIDEOSIZE_QCIF)
+-		cmd.buffer.registers[i++].value = STV_IMAGE_CIF_COLS  / 4;
+-	else
+-		cmd.buffer.registers[i++].value = width / 4;
+-
+-	cmd.buffer.registers[i].index = CPIA2_VC_VC_OVSIZE;
+-	if (image_type == VIDEOSIZE_QCIF)
+-		cmd.buffer.registers[i++].value = STV_IMAGE_CIF_ROWS  / 4;
+-	else
+-		cmd.buffer.registers[i++].value = height / 4;
+-
+-	/* Cropping */
+-	cmd.buffer.registers[i].index = CPIA2_VC_VC_HCROP;
+-	if (image_type == VIDEOSIZE_VGA)
+-		cmd.buffer.registers[i++].value =
+-		    (u8) (((STV_IMAGE_VGA_COLS / 4) - (width / 4)) / 2);
+-	else if (image_type == VIDEOSIZE_QVGA)
+-		cmd.buffer.registers[i++].value =
+-		    (u8) (((STV_IMAGE_QVGA_COLS / 4) - (width / 4)) / 2);
+-	else if (image_type == VIDEOSIZE_CIF)
+-		cmd.buffer.registers[i++].value =
+-		    (u8) (((STV_IMAGE_CIF_COLS / 4) - (width / 4)) / 2);
+-	else /*if (image_type == VIDEOSIZE_QCIF)*/
+-		cmd.buffer.registers[i++].value =
+-			(u8) (((STV_IMAGE_QCIF_COLS / 4) - (width / 4)) / 2);
+-
+-	cmd.buffer.registers[i].index = CPIA2_VC_VC_VCROP;
+-	if (image_type == VIDEOSIZE_VGA)
+-		cmd.buffer.registers[i++].value =
+-		    (u8) (((STV_IMAGE_VGA_ROWS / 4) - (height / 4)) / 2);
+-	else if (image_type == VIDEOSIZE_QVGA)
+-		cmd.buffer.registers[i++].value =
+-		    (u8) (((STV_IMAGE_QVGA_ROWS / 4) - (height / 4)) / 2);
+-	else if (image_type == VIDEOSIZE_CIF)
+-		cmd.buffer.registers[i++].value =
+-		    (u8) (((STV_IMAGE_CIF_ROWS / 4) - (height / 4)) / 2);
+-	else /*if (image_type == VIDEOSIZE_QCIF)*/
+-		cmd.buffer.registers[i++].value =
+-		    (u8) (((STV_IMAGE_QCIF_ROWS / 4) - (height / 4)) / 2);
+-
+-	/* Scaling registers (defaults) */
+-	cmd.buffer.registers[i].index = CPIA2_VC_VC_HPHASE;
+-	if (image_type == VIDEOSIZE_CIF || image_type == VIDEOSIZE_QCIF)
+-		cmd.buffer.registers[i++].value = (u8) 36;
+-	else
+-		cmd.buffer.registers[i++].value = (u8) 0;
+-
+-	cmd.buffer.registers[i].index = CPIA2_VC_VC_VPHASE;
+-	if (image_type == VIDEOSIZE_CIF || image_type == VIDEOSIZE_QCIF)
+-		cmd.buffer.registers[i++].value = (u8) 32;
+-	else
+-		cmd.buffer.registers[i++].value = (u8) 0;
+-
+-	cmd.buffer.registers[i].index = CPIA2_VC_VC_HISPAN;
+-	if (image_type == VIDEOSIZE_CIF || image_type == VIDEOSIZE_QCIF)
+-		cmd.buffer.registers[i++].value = (u8) 26;
+-	else
+-		cmd.buffer.registers[i++].value = (u8) 31;
+-
+-	cmd.buffer.registers[i].index = CPIA2_VC_VC_VISPAN;
+-	if (image_type == VIDEOSIZE_CIF || image_type == VIDEOSIZE_QCIF)
+-		cmd.buffer.registers[i++].value = (u8) 21;
+-	else
+-		cmd.buffer.registers[i++].value = (u8) 31;
+-
+-	cmd.buffer.registers[i].index = CPIA2_VC_VC_HICROP;
+-	cmd.buffer.registers[i++].value = (u8) 0;
+-
+-	cmd.buffer.registers[i].index = CPIA2_VC_VC_VICROP;
+-	cmd.buffer.registers[i++].value = (u8) 0;
+-
+-	cmd.buffer.registers[i].index = CPIA2_VC_VC_HFRACT;
+-	if (image_type == VIDEOSIZE_CIF || image_type == VIDEOSIZE_QCIF)
+-		cmd.buffer.registers[i++].value = (u8) 0x2B;	/* 2/11 */
+-	else
+-		cmd.buffer.registers[i++].value = (u8) 0x81;	/* 8/1 */
+-
+-	cmd.buffer.registers[i].index = CPIA2_VC_VC_VFRACT;
+-	if (image_type == VIDEOSIZE_CIF || image_type == VIDEOSIZE_QCIF)
+-		cmd.buffer.registers[i++].value = (u8) 0x13;	/* 1/3 */
+-	else
+-		cmd.buffer.registers[i++].value = (u8) 0x81;	/* 8/1 */
+-
+-	cmd.reg_count = i;
+-
+-	cpia2_send_command(cam, &cmd);
+-
+-	return i;
+-}
+-
+-
+-/******************************************************************************
+- *
+- *  setallproperties
+- *
+- *  This sets all user changeable properties to the values in cam->params.
+- *****************************************************************************/
+-static int set_all_properties(struct camera_data *cam)
+-{
+-	/**
+-	 * Don't set target_kb here, it will be set later.
+-	 * framerate and user_mode were already set (set_default_user_mode).
+-	 **/
+-
+-	cpia2_usb_change_streaming_alternate(cam,
+-					  cam->params.camera_state.stream_mode);
+-
+-	cpia2_do_command(cam,
+-			 CPIA2_CMD_SET_VC_MP_GPIO_DIRECTION,
+-			 TRANSFER_WRITE, cam->params.vp_params.gpio_direction);
+-	cpia2_do_command(cam, CPIA2_CMD_SET_VC_MP_GPIO_DATA, TRANSFER_WRITE,
+-			 cam->params.vp_params.gpio_data);
+-
+-	v4l2_ctrl_handler_setup(&cam->hdl);
+-
+-	wake_system(cam);
+-
+-	set_lowlight_boost(cam);
+-
+-	return 0;
+-}
+-
+-/******************************************************************************
+- *
+- *  cpia2_save_camera_state
+- *
+- *****************************************************************************/
+-void cpia2_save_camera_state(struct camera_data *cam)
+-{
+-	cpia2_do_command(cam, CPIA2_CMD_GET_USER_EFFECTS, TRANSFER_READ, 0);
+-	cpia2_do_command(cam, CPIA2_CMD_GET_VC_MP_GPIO_DIRECTION, TRANSFER_READ,
+-			 0);
+-	cpia2_do_command(cam, CPIA2_CMD_GET_VC_MP_GPIO_DATA, TRANSFER_READ, 0);
+-	/* Don't get framerate or target_kb. Trust the values we already have */
+-}
+-
+-
+-/******************************************************************************
+- *
+- *  cpia2_set_flicker_mode
+- *
+- *****************************************************************************/
+-int cpia2_set_flicker_mode(struct camera_data *cam, int mode)
+-{
+-	unsigned char cam_reg;
+-	int err = 0;
+-
+-	if(cam->params.pnp_id.device_type != DEVICE_STV_672)
+-		return -EINVAL;
+-
+-	/* Set the appropriate bits in FLICKER_MODES, preserving the rest */
+-	if((err = cpia2_do_command(cam, CPIA2_CMD_GET_FLICKER_MODES,
+-				   TRANSFER_READ, 0)))
+-		return err;
+-	cam_reg = cam->params.flicker_control.cam_register;
+-
+-	switch(mode) {
+-	case NEVER_FLICKER:
+-		cam_reg |= CPIA2_VP_FLICKER_MODES_NEVER_FLICKER;
+-		cam_reg &= ~CPIA2_VP_FLICKER_MODES_50HZ;
+-		break;
+-	case FLICKER_60:
+-		cam_reg &= ~CPIA2_VP_FLICKER_MODES_NEVER_FLICKER;
+-		cam_reg &= ~CPIA2_VP_FLICKER_MODES_50HZ;
+-		break;
+-	case FLICKER_50:
+-		cam_reg &= ~CPIA2_VP_FLICKER_MODES_NEVER_FLICKER;
+-		cam_reg |= CPIA2_VP_FLICKER_MODES_50HZ;
+-		break;
+-	default:
+-		return -EINVAL;
+-	}
+-
+-	if((err = cpia2_do_command(cam, CPIA2_CMD_SET_FLICKER_MODES,
+-				   TRANSFER_WRITE, cam_reg)))
+-		return err;
+-
+-	/* Set the appropriate bits in EXP_MODES, preserving the rest */
+-	if((err = cpia2_do_command(cam, CPIA2_CMD_GET_VP_EXP_MODES,
+-				   TRANSFER_READ, 0)))
+-		return err;
+-	cam_reg = cam->params.vp_params.exposure_modes;
+-
+-	if (mode == NEVER_FLICKER) {
+-		cam_reg |= CPIA2_VP_EXPOSURE_MODES_INHIBIT_FLICKER;
+-	} else {
+-		cam_reg &= ~CPIA2_VP_EXPOSURE_MODES_INHIBIT_FLICKER;
+-	}
+-
+-	if((err = cpia2_do_command(cam, CPIA2_CMD_SET_VP_EXP_MODES,
+-				   TRANSFER_WRITE, cam_reg)))
+-		return err;
+-
+-	if((err = cpia2_do_command(cam, CPIA2_CMD_REHASH_VP4,
+-				   TRANSFER_WRITE, 1)))
+-		return err;
+-
+-	switch(mode) {
+-	case NEVER_FLICKER:
+-	case FLICKER_60:
+-	case FLICKER_50:
+-		cam->params.flicker_control.flicker_mode_req = mode;
+-		break;
+-	default:
+-		err = -EINVAL;
+-	}
+-
+-	return err;
+-}
+-
+-/******************************************************************************
+- *
+- *  cpia2_set_property_flip
+- *
+- *****************************************************************************/
+-void cpia2_set_property_flip(struct camera_data *cam, int prop_val)
+-{
+-	unsigned char cam_reg;
+-
+-	cpia2_do_command(cam, CPIA2_CMD_GET_USER_EFFECTS, TRANSFER_READ, 0);
+-	cam_reg = cam->params.vp_params.user_effects;
+-
+-	if (prop_val)
+-	{
+-		cam_reg |= CPIA2_VP_USER_EFFECTS_FLIP;
+-	}
+-	else
+-	{
+-		cam_reg &= ~CPIA2_VP_USER_EFFECTS_FLIP;
+-	}
+-	cam->params.vp_params.user_effects = cam_reg;
+-	cpia2_do_command(cam, CPIA2_CMD_SET_USER_EFFECTS, TRANSFER_WRITE,
+-			 cam_reg);
+-}
+-
+-/******************************************************************************
+- *
+- *  cpia2_set_property_mirror
+- *
+- *****************************************************************************/
+-void cpia2_set_property_mirror(struct camera_data *cam, int prop_val)
+-{
+-	unsigned char cam_reg;
+-
+-	cpia2_do_command(cam, CPIA2_CMD_GET_USER_EFFECTS, TRANSFER_READ, 0);
+-	cam_reg = cam->params.vp_params.user_effects;
+-
+-	if (prop_val)
+-	{
+-		cam_reg |= CPIA2_VP_USER_EFFECTS_MIRROR;
+-	}
+-	else
+-	{
+-		cam_reg &= ~CPIA2_VP_USER_EFFECTS_MIRROR;
+-	}
+-	cam->params.vp_params.user_effects = cam_reg;
+-	cpia2_do_command(cam, CPIA2_CMD_SET_USER_EFFECTS, TRANSFER_WRITE,
+-			 cam_reg);
+-}
+-
+-/******************************************************************************
+- *
+- *  cpia2_set_gpio
+- *
+- *****************************************************************************/
+-int cpia2_set_gpio(struct camera_data *cam, unsigned char setting)
+-{
+-	int ret;
+-
+-	/* Set the microport direction (register 0x90, should be defined
+-	 * already) to 1 (user output), and set the microport data (0x91) to
+-	 * the value in the ioctl argument.
 -	 */
 -
--	for (i = fsize - 1; i > 0 && buf[i] == 0xff; i--) ;
+-	ret = cpia2_do_command(cam,
+-			       CPIA2_CMD_SET_VC_MP_GPIO_DIRECTION,
+-			       CPIA2_VC_MP_DIR_OUTPUT,
+-			       255);
+-	if (ret < 0)
+-		return ret;
+-	cam->params.vp_params.gpio_direction = 255;
 -
--	if (i < 2 || buf[i - 1] != 0xff || buf[i] != 0xd9)
--		return -1;
--
--#endif
--
--	return fsize;
--}
--
--/* take a picture into SDRAM */
--static void mchip_take_picture(void)
--{
--	int i;
--
--	mchip_hic_stop();
--	mchip_subsample();
--	mchip_dma_setup(meye.mchip_dmahandle);
--
--	mchip_set(MCHIP_HIC_MODE, MCHIP_HIC_MODE_STILL_CAP);
--	mchip_set(MCHIP_HIC_CMD, MCHIP_HIC_CMD_START);
--
--	mchip_delay(MCHIP_HIC_CMD, 0);
--
--	for (i = 0; i < 100; ++i) {
--		if (mchip_delay(MCHIP_HIC_STATUS, MCHIP_HIC_STATUS_IDLE))
--			break;
--		msleep(1);
--	}
--}
--
--/* dma a previously taken picture into a buffer */
--static void mchip_get_picture(u8 *buf, int bufsize)
--{
--	u32 v;
--	int i;
--
--	mchip_set(MCHIP_HIC_MODE, MCHIP_HIC_MODE_STILL_OUT);
--	mchip_set(MCHIP_HIC_CMD, MCHIP_HIC_CMD_START);
--
--	mchip_delay(MCHIP_HIC_CMD, 0);
--	for (i = 0; i < 100; ++i) {
--		if (mchip_delay(MCHIP_HIC_STATUS, MCHIP_HIC_STATUS_IDLE))
--			break;
--		msleep(1);
--	}
--	for (i = 0; i < 4; ++i) {
--		v = mchip_get_frame();
--		if (v & MCHIP_MM_FIR_RDY) {
--			mchip_cont_read_frame(v, buf, bufsize);
--			break;
--		}
--		mchip_free_frame();
--	}
--}
--
--/* start continuous dma capture */
--static void mchip_continuous_start(void)
--{
--	mchip_hic_stop();
--	mchip_subsample();
--	mchip_set_framerate();
--	mchip_dma_setup(meye.mchip_dmahandle);
--
--	meye.mchip_mode = MCHIP_HIC_MODE_CONT_OUT;
--
--	mchip_set(MCHIP_HIC_MODE, MCHIP_HIC_MODE_CONT_OUT);
--	mchip_set(MCHIP_HIC_CMD, MCHIP_HIC_CMD_START);
--
--	mchip_delay(MCHIP_HIC_CMD, 0);
--}
--
--/* compress one frame into a buffer */
--static int mchip_compress_frame(u8 *buf, int bufsize)
--{
--	u32 v;
--	int len = -1, i;
--
--	mchip_vrj_setup(0x3f);
--	udelay(50);
--
--	mchip_set(MCHIP_HIC_MODE, MCHIP_HIC_MODE_STILL_COMP);
--	mchip_set(MCHIP_HIC_CMD, MCHIP_HIC_CMD_START);
--
--	mchip_delay(MCHIP_HIC_CMD, 0);
--	for (i = 0; i < 100; ++i) {
--		if (mchip_delay(MCHIP_HIC_STATUS, MCHIP_HIC_STATUS_IDLE))
--			break;
--		msleep(1);
--	}
--
--	for (i = 0; i < 4; ++i) {
--		v = mchip_get_frame();
--		if (v & MCHIP_MM_FIR_RDY) {
--			len = mchip_comp_read_frame(v, buf, bufsize);
--			break;
--		}
--		mchip_free_frame();
--	}
--	return len;
--}
--
--#if 0
--/* uncompress one image into a buffer */
--static int mchip_uncompress_frame(u8 *img, int imgsize, u8 *buf, int bufsize)
--{
--	mchip_vrj_setup(0x3f);
--	udelay(50);
--
--	mchip_set(MCHIP_HIC_MODE, MCHIP_HIC_MODE_STILL_DECOMP);
--	mchip_set(MCHIP_HIC_CMD, MCHIP_HIC_CMD_START);
--
--	mchip_delay(MCHIP_HIC_CMD, 0);
--
--	return mchip_comp_read_frame(buf, bufsize);
--}
--#endif
--
--/* start continuous compressed capture */
--static void mchip_cont_compression_start(void)
--{
--	mchip_hic_stop();
--	mchip_vrj_setup(0x3f);
--	mchip_subsample();
--	mchip_set_framerate();
--	mchip_dma_setup(meye.mchip_dmahandle);
--
--	meye.mchip_mode = MCHIP_HIC_MODE_CONT_COMP;
--
--	mchip_set(MCHIP_HIC_MODE, MCHIP_HIC_MODE_CONT_COMP);
--	mchip_set(MCHIP_HIC_CMD, MCHIP_HIC_CMD_START);
--
--	mchip_delay(MCHIP_HIC_CMD, 0);
--}
--
--/****************************************************************************/
--/* Interrupt handling                                                       */
--/****************************************************************************/
--
--static irqreturn_t meye_irq(int irq, void *dev_id)
--{
--	u32 v;
--	int reqnr;
--	static int sequence;
--
--	v = mchip_read(MCHIP_MM_INTA);
--
--	if (meye.mchip_mode != MCHIP_HIC_MODE_CONT_OUT &&
--	    meye.mchip_mode != MCHIP_HIC_MODE_CONT_COMP)
--		return IRQ_NONE;
--
--again:
--	v = mchip_get_frame();
--	if (!(v & MCHIP_MM_FIR_RDY))
--		return IRQ_HANDLED;
--
--	if (meye.mchip_mode == MCHIP_HIC_MODE_CONT_OUT) {
--		if (kfifo_out_locked(&meye.grabq, (unsigned char *)&reqnr,
--			      sizeof(int), &meye.grabq_lock) != sizeof(int)) {
--			mchip_free_frame();
--			return IRQ_HANDLED;
--		}
--		mchip_cont_read_frame(v, meye.grab_fbuffer + gbufsize * reqnr,
--				      mchip_hsize() * mchip_vsize() * 2);
--		meye.grab_buffer[reqnr].size = mchip_hsize() * mchip_vsize() * 2;
--		meye.grab_buffer[reqnr].state = MEYE_BUF_DONE;
--		meye.grab_buffer[reqnr].ts = ktime_get_ns();
--		meye.grab_buffer[reqnr].sequence = sequence++;
--		kfifo_in_locked(&meye.doneq, (unsigned char *)&reqnr,
--				sizeof(int), &meye.doneq_lock);
--		wake_up_interruptible(&meye.proc_list);
--	} else {
--		int size;
--		size = mchip_comp_read_frame(v, meye.grab_temp, gbufsize);
--		if (size == -1) {
--			mchip_free_frame();
--			goto again;
--		}
--		if (kfifo_out_locked(&meye.grabq, (unsigned char *)&reqnr,
--			      sizeof(int), &meye.grabq_lock) != sizeof(int)) {
--			mchip_free_frame();
--			goto again;
--		}
--		memcpy(meye.grab_fbuffer + gbufsize * reqnr, meye.grab_temp,
--		       size);
--		meye.grab_buffer[reqnr].size = size;
--		meye.grab_buffer[reqnr].state = MEYE_BUF_DONE;
--		meye.grab_buffer[reqnr].ts = ktime_get_ns();
--		meye.grab_buffer[reqnr].sequence = sequence++;
--		kfifo_in_locked(&meye.doneq, (unsigned char *)&reqnr,
--				sizeof(int), &meye.doneq_lock);
--		wake_up_interruptible(&meye.proc_list);
--	}
--	mchip_free_frame();
--	goto again;
--}
--
--/****************************************************************************/
--/* video4linux integration                                                  */
--/****************************************************************************/
--
--static int meye_open(struct file *file)
--{
--	int i;
--
--	if (test_and_set_bit(0, &meye.in_use))
--		return -EBUSY;
--
--	mchip_hic_stop();
--
--	if (mchip_dma_alloc()) {
--		printk(KERN_ERR "meye: mchip framebuffer allocation failed\n");
--		clear_bit(0, &meye.in_use);
--		return -ENOBUFS;
--	}
--
--	for (i = 0; i < MEYE_MAX_BUFNBRS; i++)
--		meye.grab_buffer[i].state = MEYE_BUF_UNUSED;
--	kfifo_reset(&meye.grabq);
--	kfifo_reset(&meye.doneq);
--	return v4l2_fh_open(file);
--}
--
--static int meye_release(struct file *file)
--{
--	mchip_hic_stop();
--	mchip_dma_free();
--	clear_bit(0, &meye.in_use);
--	return v4l2_fh_release(file);
--}
--
--static int meyeioc_g_params(struct meye_params *p)
--{
--	*p = meye.params;
--	return 0;
--}
--
--static int meyeioc_s_params(struct meye_params *jp)
--{
--	if (jp->subsample > 1)
--		return -EINVAL;
--
--	if (jp->quality > 10)
--		return -EINVAL;
--
--	if (jp->sharpness > 63 || jp->agc > 63 || jp->picture > 63)
--		return -EINVAL;
--
--	if (jp->framerate > 31)
--		return -EINVAL;
--
--	mutex_lock(&meye.lock);
--
--	if (meye.params.subsample != jp->subsample ||
--	    meye.params.quality != jp->quality)
--		mchip_hic_stop();	/* need restart */
--
--	meye.params = *jp;
--	sony_pic_camera_command(SONY_PIC_COMMAND_SETCAMERASHARPNESS,
--			      meye.params.sharpness);
--	sony_pic_camera_command(SONY_PIC_COMMAND_SETCAMERAAGC,
--			      meye.params.agc);
--	sony_pic_camera_command(SONY_PIC_COMMAND_SETCAMERAPICTURE,
--			      meye.params.picture);
--	mutex_unlock(&meye.lock);
+-	ret = cpia2_do_command(cam,
+-			       CPIA2_CMD_SET_VC_MP_GPIO_DATA,
+-			       CPIA2_VC_MP_DIR_OUTPUT,
+-			       setting);
+-	if (ret < 0)
+-		return ret;
+-	cam->params.vp_params.gpio_data = setting;
 -
 -	return 0;
 -}
 -
--static int meyeioc_qbuf_capt(int *nb)
+-/******************************************************************************
+- *
+- *  cpia2_set_fps
+- *
+- *****************************************************************************/
+-int cpia2_set_fps(struct camera_data *cam, int framerate)
 -{
--	if (!meye.grab_fbuffer)
--		return -EINVAL;
+-	int retval;
 -
--	if (*nb >= gbuffers)
--		return -EINVAL;
--
--	if (*nb < 0) {
--		/* stop capture */
--		mchip_hic_stop();
--		return 0;
--	}
--
--	if (meye.grab_buffer[*nb].state != MEYE_BUF_UNUSED)
--		return -EBUSY;
--
--	mutex_lock(&meye.lock);
--
--	if (meye.mchip_mode != MCHIP_HIC_MODE_CONT_COMP)
--		mchip_cont_compression_start();
--
--	meye.grab_buffer[*nb].state = MEYE_BUF_USING;
--	kfifo_in_locked(&meye.grabq, (unsigned char *)nb, sizeof(int),
--			 &meye.grabq_lock);
--	mutex_unlock(&meye.lock);
--
--	return 0;
--}
--
--static int meyeioc_sync(struct file *file, void *fh, int *i)
--{
--	int unused;
--
--	if (*i < 0 || *i >= gbuffers)
--		return -EINVAL;
--
--	mutex_lock(&meye.lock);
--	switch (meye.grab_buffer[*i].state) {
--
--	case MEYE_BUF_UNUSED:
--		mutex_unlock(&meye.lock);
--		return -EINVAL;
--	case MEYE_BUF_USING:
--		if (file->f_flags & O_NONBLOCK) {
--			mutex_unlock(&meye.lock);
--			return -EAGAIN;
--		}
--		if (wait_event_interruptible(meye.proc_list,
--			(meye.grab_buffer[*i].state != MEYE_BUF_USING))) {
--			mutex_unlock(&meye.lock);
--			return -EINTR;
--		}
--		fallthrough;
--	case MEYE_BUF_DONE:
--		meye.grab_buffer[*i].state = MEYE_BUF_UNUSED;
--		if (kfifo_out_locked(&meye.doneq, (unsigned char *)&unused,
--				sizeof(int), &meye.doneq_lock) != sizeof(int))
--					break;
--	}
--	*i = meye.grab_buffer[*i].size;
--	mutex_unlock(&meye.lock);
--	return 0;
--}
--
--static int meyeioc_stillcapt(void)
--{
--	if (!meye.grab_fbuffer)
--		return -EINVAL;
--
--	if (meye.grab_buffer[0].state != MEYE_BUF_UNUSED)
--		return -EBUSY;
--
--	mutex_lock(&meye.lock);
--	meye.grab_buffer[0].state = MEYE_BUF_USING;
--	mchip_take_picture();
--
--	mchip_get_picture(meye.grab_fbuffer,
--			mchip_hsize() * mchip_vsize() * 2);
--
--	meye.grab_buffer[0].state = MEYE_BUF_DONE;
--	mutex_unlock(&meye.lock);
--
--	return 0;
--}
--
--static int meyeioc_stilljcapt(int *len)
--{
--	if (!meye.grab_fbuffer)
--		return -EINVAL;
--
--	if (meye.grab_buffer[0].state != MEYE_BUF_UNUSED)
--		return -EBUSY;
--
--	mutex_lock(&meye.lock);
--	meye.grab_buffer[0].state = MEYE_BUF_USING;
--	*len = -1;
--
--	while (*len == -1) {
--		mchip_take_picture();
--		*len = mchip_compress_frame(meye.grab_fbuffer, gbufsize);
--	}
--
--	meye.grab_buffer[0].state = MEYE_BUF_DONE;
--	mutex_unlock(&meye.lock);
--	return 0;
--}
--
--static int vidioc_querycap(struct file *file, void *fh,
--				struct v4l2_capability *cap)
--{
--	strscpy(cap->driver, "meye", sizeof(cap->driver));
--	strscpy(cap->card, "meye", sizeof(cap->card));
--	return 0;
--}
--
--static int vidioc_enum_input(struct file *file, void *fh, struct v4l2_input *i)
--{
--	if (i->index != 0)
--		return -EINVAL;
--
--	strscpy(i->name, "Camera", sizeof(i->name));
--	i->type = V4L2_INPUT_TYPE_CAMERA;
--
--	return 0;
--}
--
--static int vidioc_g_input(struct file *file, void *fh, unsigned int *i)
--{
--	*i = 0;
--	return 0;
--}
--
--static int vidioc_s_input(struct file *file, void *fh, unsigned int i)
--{
--	if (i != 0)
--		return -EINVAL;
--
--	return 0;
--}
--
--static int meye_s_ctrl(struct v4l2_ctrl *ctrl)
--{
--	mutex_lock(&meye.lock);
--	switch (ctrl->id) {
--	case V4L2_CID_BRIGHTNESS:
--		sony_pic_camera_command(
--			SONY_PIC_COMMAND_SETCAMERABRIGHTNESS, ctrl->val);
--		meye.brightness = ctrl->val << 10;
--		break;
--	case V4L2_CID_HUE:
--		sony_pic_camera_command(
--			SONY_PIC_COMMAND_SETCAMERAHUE, ctrl->val);
--		meye.hue = ctrl->val << 10;
--		break;
--	case V4L2_CID_CONTRAST:
--		sony_pic_camera_command(
--			SONY_PIC_COMMAND_SETCAMERACONTRAST, ctrl->val);
--		meye.contrast = ctrl->val << 10;
--		break;
--	case V4L2_CID_SATURATION:
--		sony_pic_camera_command(
--			SONY_PIC_COMMAND_SETCAMERACOLOR, ctrl->val);
--		meye.colour = ctrl->val << 10;
--		break;
--	case V4L2_CID_MEYE_AGC:
--		sony_pic_camera_command(
--			SONY_PIC_COMMAND_SETCAMERAAGC, ctrl->val);
--		meye.params.agc = ctrl->val;
--		break;
--	case V4L2_CID_SHARPNESS:
--		sony_pic_camera_command(
--			SONY_PIC_COMMAND_SETCAMERASHARPNESS, ctrl->val);
--		meye.params.sharpness = ctrl->val;
--		break;
--	case V4L2_CID_MEYE_PICTURE:
--		sony_pic_camera_command(
--			SONY_PIC_COMMAND_SETCAMERAPICTURE, ctrl->val);
--		meye.params.picture = ctrl->val;
--		break;
--	case V4L2_CID_JPEG_COMPRESSION_QUALITY:
--		meye.params.quality = ctrl->val;
--		break;
--	case V4L2_CID_MEYE_FRAMERATE:
--		meye.params.framerate = ctrl->val;
--		break;
--	default:
--		mutex_unlock(&meye.lock);
--		return -EINVAL;
--	}
--	mutex_unlock(&meye.lock);
--
--	return 0;
--}
--
--static int vidioc_enum_fmt_vid_cap(struct file *file, void *fh,
--				struct v4l2_fmtdesc *f)
--{
--	if (f->index > 1)
--		return -EINVAL;
--
--	if (f->index == 0) {
--		/* standard YUV 422 capture */
--		f->flags = 0;
--		f->pixelformat = V4L2_PIX_FMT_YUYV;
--	} else {
--		/* compressed MJPEG capture */
--		f->pixelformat = V4L2_PIX_FMT_MJPEG;
--	}
--
--	return 0;
--}
--
--static int vidioc_try_fmt_vid_cap(struct file *file, void *fh,
--				struct v4l2_format *f)
--{
--	if (f->fmt.pix.pixelformat != V4L2_PIX_FMT_YUYV &&
--	    f->fmt.pix.pixelformat != V4L2_PIX_FMT_MJPEG)
--		return -EINVAL;
--
--	if (f->fmt.pix.field != V4L2_FIELD_ANY &&
--	    f->fmt.pix.field != V4L2_FIELD_NONE)
--		return -EINVAL;
--
--	f->fmt.pix.field = V4L2_FIELD_NONE;
--
--	if (f->fmt.pix.width <= 320) {
--		f->fmt.pix.width = 320;
--		f->fmt.pix.height = 240;
--	} else {
--		f->fmt.pix.width = 640;
--		f->fmt.pix.height = 480;
--	}
--
--	f->fmt.pix.bytesperline = f->fmt.pix.width * 2;
--	f->fmt.pix.sizeimage = f->fmt.pix.height *
--			       f->fmt.pix.bytesperline;
--	f->fmt.pix.colorspace = 0;
--
--	return 0;
--}
--
--static int vidioc_g_fmt_vid_cap(struct file *file, void *fh,
--				    struct v4l2_format *f)
--{
--	switch (meye.mchip_mode) {
--	case MCHIP_HIC_MODE_CONT_OUT:
--	default:
--		f->fmt.pix.pixelformat = V4L2_PIX_FMT_YUYV;
--		break;
--	case MCHIP_HIC_MODE_CONT_COMP:
--		f->fmt.pix.pixelformat = V4L2_PIX_FMT_MJPEG;
--		break;
--	}
--
--	f->fmt.pix.field = V4L2_FIELD_NONE;
--	f->fmt.pix.width = mchip_hsize();
--	f->fmt.pix.height = mchip_vsize();
--	f->fmt.pix.bytesperline = f->fmt.pix.width * 2;
--	f->fmt.pix.sizeimage = f->fmt.pix.height *
--			       f->fmt.pix.bytesperline;
--
--	return 0;
--}
--
--static int vidioc_s_fmt_vid_cap(struct file *file, void *fh,
--				    struct v4l2_format *f)
--{
--	if (f->fmt.pix.pixelformat != V4L2_PIX_FMT_YUYV &&
--	    f->fmt.pix.pixelformat != V4L2_PIX_FMT_MJPEG)
--		return -EINVAL;
--
--	if (f->fmt.pix.field != V4L2_FIELD_ANY &&
--	    f->fmt.pix.field != V4L2_FIELD_NONE)
--		return -EINVAL;
--
--	f->fmt.pix.field = V4L2_FIELD_NONE;
--	mutex_lock(&meye.lock);
--
--	if (f->fmt.pix.width <= 320) {
--		f->fmt.pix.width = 320;
--		f->fmt.pix.height = 240;
--		meye.params.subsample = 1;
--	} else {
--		f->fmt.pix.width = 640;
--		f->fmt.pix.height = 480;
--		meye.params.subsample = 0;
--	}
--
--	switch (f->fmt.pix.pixelformat) {
--	case V4L2_PIX_FMT_YUYV:
--		meye.mchip_mode = MCHIP_HIC_MODE_CONT_OUT;
--		break;
--	case V4L2_PIX_FMT_MJPEG:
--		meye.mchip_mode = MCHIP_HIC_MODE_CONT_COMP;
--		break;
--	}
--
--	mutex_unlock(&meye.lock);
--	f->fmt.pix.bytesperline = f->fmt.pix.width * 2;
--	f->fmt.pix.sizeimage = f->fmt.pix.height *
--			       f->fmt.pix.bytesperline;
--	f->fmt.pix.colorspace = 0;
--
--	return 0;
--}
--
--static int vidioc_reqbufs(struct file *file, void *fh,
--				struct v4l2_requestbuffers *req)
--{
--	int i;
--
--	if (req->memory != V4L2_MEMORY_MMAP)
--		return -EINVAL;
--
--	if (meye.grab_fbuffer && req->count == gbuffers) {
--		/* already allocated, no modifications */
--		return 0;
--	}
--
--	mutex_lock(&meye.lock);
--	if (meye.grab_fbuffer) {
--		for (i = 0; i < gbuffers; i++)
--			if (meye.vma_use_count[i]) {
--				mutex_unlock(&meye.lock);
+-	switch(framerate) {
+-		case CPIA2_VP_FRAMERATE_30:
+-		case CPIA2_VP_FRAMERATE_25:
+-			if(cam->params.pnp_id.device_type == DEVICE_STV_672 &&
+-			   cam->params.version.sensor_flags ==
+-						    CPIA2_VP_SENSOR_FLAGS_500) {
 -				return -EINVAL;
 -			}
--		rvfree(meye.grab_fbuffer, gbuffers * gbufsize);
--		meye.grab_fbuffer = NULL;
+-			fallthrough;
+-		case CPIA2_VP_FRAMERATE_15:
+-		case CPIA2_VP_FRAMERATE_12_5:
+-		case CPIA2_VP_FRAMERATE_7_5:
+-		case CPIA2_VP_FRAMERATE_6_25:
+-			break;
+-		default:
+-			return -EINVAL;
 -	}
 -
--	gbuffers = max(2, min((int)req->count, MEYE_MAX_BUFNBRS));
--	req->count = gbuffers;
--	meye.grab_fbuffer = rvmalloc(gbuffers * gbufsize);
+-	if (cam->params.pnp_id.device_type == DEVICE_STV_672 &&
+-	    framerate == CPIA2_VP_FRAMERATE_15)
+-		framerate = 0; /* Work around bug in VP4 */
 -
--	if (!meye.grab_fbuffer) {
--		printk(KERN_ERR "meye: v4l framebuffer allocation failed\n");
--		mutex_unlock(&meye.lock);
--		return -ENOMEM;
+-	retval = cpia2_do_command(cam,
+-				 CPIA2_CMD_FRAMERATE_REQ,
+-				 TRANSFER_WRITE,
+-				 framerate);
+-
+-	if(retval == 0)
+-		cam->params.vp_params.frame_rate = framerate;
+-
+-	return retval;
+-}
+-
+-/******************************************************************************
+- *
+- *  cpia2_set_brightness
+- *
+- *****************************************************************************/
+-void cpia2_set_brightness(struct camera_data *cam, unsigned char value)
+-{
+-	/***
+-	 * Don't let the register be set to zero - bug in VP4 - flash of full
+-	 * brightness
+-	 ***/
+-	if (cam->params.pnp_id.device_type == DEVICE_STV_672 && value == 0)
+-		value++;
+-	DBG("Setting brightness to %d (0x%0x)\n", value, value);
+-	cpia2_do_command(cam, CPIA2_CMD_SET_VP_BRIGHTNESS, TRANSFER_WRITE, value);
+-}
+-
+-/******************************************************************************
+- *
+- *  cpia2_set_contrast
+- *
+- *****************************************************************************/
+-void cpia2_set_contrast(struct camera_data *cam, unsigned char value)
+-{
+-	DBG("Setting contrast to %d (0x%0x)\n", value, value);
+-	cpia2_do_command(cam, CPIA2_CMD_SET_CONTRAST, TRANSFER_WRITE, value);
+-}
+-
+-/******************************************************************************
+- *
+- *  cpia2_set_saturation
+- *
+- *****************************************************************************/
+-void cpia2_set_saturation(struct camera_data *cam, unsigned char value)
+-{
+-	DBG("Setting saturation to %d (0x%0x)\n", value, value);
+-	cpia2_do_command(cam,CPIA2_CMD_SET_VP_SATURATION, TRANSFER_WRITE,value);
+-}
+-
+-/******************************************************************************
+- *
+- *  wake_system
+- *
+- *****************************************************************************/
+-static void wake_system(struct camera_data *cam)
+-{
+-	cpia2_do_command(cam, CPIA2_CMD_SET_WAKEUP, TRANSFER_WRITE, 0);
+-}
+-
+-/******************************************************************************
+- *
+- *  set_lowlight_boost
+- *
+- *  Valid for STV500 sensor only
+- *****************************************************************************/
+-static void set_lowlight_boost(struct camera_data *cam)
+-{
+-	struct cpia2_command cmd;
+-
+-	if (cam->params.pnp_id.device_type != DEVICE_STV_672 ||
+-	    cam->params.version.sensor_flags != CPIA2_VP_SENSOR_FLAGS_500)
+-		return;
+-
+-	cmd.direction = TRANSFER_WRITE;
+-	cmd.req_mode = CAMERAACCESS_TYPE_BLOCK | CAMERAACCESS_VP;
+-	cmd.reg_count = 3;
+-	cmd.start = CPIA2_VP_RAM_ADDR_H;
+-
+-	cmd.buffer.block_data[0] = 0;	/* High byte of address to write to */
+-	cmd.buffer.block_data[1] = 0x59;	/* Low byte of address to write to */
+-	cmd.buffer.block_data[2] = 0;	/* High byte of data to write */
+-
+-	cpia2_send_command(cam, &cmd);
+-
+-	if (cam->params.vp_params.lowlight_boost) {
+-		cmd.buffer.block_data[0] = 0x02;	/* Low byte data to write */
+-	} else {
+-		cmd.buffer.block_data[0] = 0x06;
+-	}
+-	cmd.start = CPIA2_VP_RAM_DATA;
+-	cmd.reg_count = 1;
+-	cpia2_send_command(cam, &cmd);
+-
+-	/* Rehash the VP4 values */
+-	cpia2_do_command(cam, CPIA2_CMD_REHASH_VP4, TRANSFER_WRITE, 1);
+-}
+-
+-/******************************************************************************
+- *
+- *  cpia2_set_format
+- *
+- *  Assumes that new size is already set in param struct.
+- *****************************************************************************/
+-void cpia2_set_format(struct camera_data *cam)
+-{
+-	cam->flush = true;
+-
+-	cpia2_usb_stream_pause(cam);
+-
+-	/* reset camera to new size */
+-	cpia2_set_low_power(cam);
+-	cpia2_reset_camera(cam);
+-	cam->flush = false;
+-
+-	cpia2_dbg_dump_registers(cam);
+-
+-	cpia2_usb_stream_resume(cam);
+-}
+-
+-/******************************************************************************
+- *
+- * cpia2_dbg_dump_registers
+- *
+- *****************************************************************************/
+-void cpia2_dbg_dump_registers(struct camera_data *cam)
+-{
+-#ifdef _CPIA2_DEBUG_
+-	struct cpia2_command cmd;
+-
+-	if (!(debugs_on & DEBUG_DUMP_REGS))
+-		return;
+-
+-	cmd.direction = TRANSFER_READ;
+-
+-	/* Start with bank 0 (SYSTEM) */
+-	cmd.req_mode = CAMERAACCESS_TYPE_BLOCK | CAMERAACCESS_SYSTEM;
+-	cmd.reg_count = 3;
+-	cmd.start = 0;
+-	cpia2_send_command(cam, &cmd);
+-	printk(KERN_DEBUG "System Device Hi      = 0x%X\n",
+-	       cmd.buffer.block_data[0]);
+-	printk(KERN_DEBUG "System Device Lo      = 0x%X\n",
+-	       cmd.buffer.block_data[1]);
+-	printk(KERN_DEBUG "System_system control = 0x%X\n",
+-	       cmd.buffer.block_data[2]);
+-
+-	/* Bank 1 (VC) */
+-	cmd.req_mode = CAMERAACCESS_TYPE_BLOCK | CAMERAACCESS_VC;
+-	cmd.reg_count = 4;
+-	cmd.start = 0x80;
+-	cpia2_send_command(cam, &cmd);
+-	printk(KERN_DEBUG "ASIC_ID       = 0x%X\n",
+-	       cmd.buffer.block_data[0]);
+-	printk(KERN_DEBUG "ASIC_REV      = 0x%X\n",
+-	       cmd.buffer.block_data[1]);
+-	printk(KERN_DEBUG "PW_CONTRL     = 0x%X\n",
+-	       cmd.buffer.block_data[2]);
+-	printk(KERN_DEBUG "WAKEUP        = 0x%X\n",
+-	       cmd.buffer.block_data[3]);
+-
+-	cmd.start = 0xA0;	/* ST_CTRL */
+-	cmd.reg_count = 1;
+-	cpia2_send_command(cam, &cmd);
+-	printk(KERN_DEBUG "Stream ctrl   = 0x%X\n",
+-	       cmd.buffer.block_data[0]);
+-
+-	cmd.start = 0xA4;	/* Stream status */
+-	cpia2_send_command(cam, &cmd);
+-	printk(KERN_DEBUG "Stream status = 0x%X\n",
+-	       cmd.buffer.block_data[0]);
+-
+-	cmd.start = 0xA8;	/* USB status */
+-	cmd.reg_count = 3;
+-	cpia2_send_command(cam, &cmd);
+-	printk(KERN_DEBUG "USB_CTRL      = 0x%X\n",
+-	       cmd.buffer.block_data[0]);
+-	printk(KERN_DEBUG "USB_STRM      = 0x%X\n",
+-	       cmd.buffer.block_data[1]);
+-	printk(KERN_DEBUG "USB_STATUS    = 0x%X\n",
+-	       cmd.buffer.block_data[2]);
+-
+-	cmd.start = 0xAF;	/* USB settings */
+-	cmd.reg_count = 1;
+-	cpia2_send_command(cam, &cmd);
+-	printk(KERN_DEBUG "USB settings  = 0x%X\n",
+-	       cmd.buffer.block_data[0]);
+-
+-	cmd.start = 0xC0;	/* VC stuff */
+-	cmd.reg_count = 26;
+-	cpia2_send_command(cam, &cmd);
+-	printk(KERN_DEBUG "VC Control    = 0x%0X\n",
+-	       cmd.buffer.block_data[0]);
+-	printk(KERN_DEBUG "VC Format     = 0x%0X\n",
+-	       cmd.buffer.block_data[3]);
+-	printk(KERN_DEBUG "VC Clocks     = 0x%0X\n",
+-	       cmd.buffer.block_data[4]);
+-	printk(KERN_DEBUG "VC IHSize     = 0x%0X\n",
+-	       cmd.buffer.block_data[5]);
+-	printk(KERN_DEBUG "VC Xlim Hi    = 0x%0X\n",
+-	       cmd.buffer.block_data[6]);
+-	printk(KERN_DEBUG "VC XLim Lo    = 0x%0X\n",
+-	       cmd.buffer.block_data[7]);
+-	printk(KERN_DEBUG "VC YLim Hi    = 0x%0X\n",
+-	       cmd.buffer.block_data[8]);
+-	printk(KERN_DEBUG "VC YLim Lo    = 0x%0X\n",
+-	       cmd.buffer.block_data[9]);
+-	printk(KERN_DEBUG "VC OHSize     = 0x%0X\n",
+-	       cmd.buffer.block_data[10]);
+-	printk(KERN_DEBUG "VC OVSize     = 0x%0X\n",
+-	       cmd.buffer.block_data[11]);
+-	printk(KERN_DEBUG "VC HCrop      = 0x%0X\n",
+-	       cmd.buffer.block_data[12]);
+-	printk(KERN_DEBUG "VC VCrop      = 0x%0X\n",
+-	       cmd.buffer.block_data[13]);
+-	printk(KERN_DEBUG "VC HPhase     = 0x%0X\n",
+-	       cmd.buffer.block_data[14]);
+-	printk(KERN_DEBUG "VC VPhase     = 0x%0X\n",
+-	       cmd.buffer.block_data[15]);
+-	printk(KERN_DEBUG "VC HIspan     = 0x%0X\n",
+-	       cmd.buffer.block_data[16]);
+-	printk(KERN_DEBUG "VC VIspan     = 0x%0X\n",
+-	       cmd.buffer.block_data[17]);
+-	printk(KERN_DEBUG "VC HiCrop     = 0x%0X\n",
+-	       cmd.buffer.block_data[18]);
+-	printk(KERN_DEBUG "VC ViCrop     = 0x%0X\n",
+-	       cmd.buffer.block_data[19]);
+-	printk(KERN_DEBUG "VC HiFract    = 0x%0X\n",
+-	       cmd.buffer.block_data[20]);
+-	printk(KERN_DEBUG "VC ViFract    = 0x%0X\n",
+-	       cmd.buffer.block_data[21]);
+-	printk(KERN_DEBUG "VC JPeg Opt   = 0x%0X\n",
+-	       cmd.buffer.block_data[22]);
+-	printk(KERN_DEBUG "VC Creep Per  = 0x%0X\n",
+-	       cmd.buffer.block_data[23]);
+-	printk(KERN_DEBUG "VC User Sq.   = 0x%0X\n",
+-	       cmd.buffer.block_data[24]);
+-	printk(KERN_DEBUG "VC Target KB  = 0x%0X\n",
+-	       cmd.buffer.block_data[25]);
+-
+-	/*** VP ***/
+-	cmd.req_mode = CAMERAACCESS_TYPE_BLOCK | CAMERAACCESS_VP;
+-	cmd.reg_count = 14;
+-	cmd.start = 0;
+-	cpia2_send_command(cam, &cmd);
+-
+-	printk(KERN_DEBUG "VP Dev Hi     = 0x%0X\n",
+-	       cmd.buffer.block_data[0]);
+-	printk(KERN_DEBUG "VP Dev Lo     = 0x%0X\n",
+-	       cmd.buffer.block_data[1]);
+-	printk(KERN_DEBUG "VP Sys State  = 0x%0X\n",
+-	       cmd.buffer.block_data[2]);
+-	printk(KERN_DEBUG "VP Sys Ctrl   = 0x%0X\n",
+-	       cmd.buffer.block_data[3]);
+-	printk(KERN_DEBUG "VP Sensor flg = 0x%0X\n",
+-	       cmd.buffer.block_data[5]);
+-	printk(KERN_DEBUG "VP Sensor Rev = 0x%0X\n",
+-	       cmd.buffer.block_data[6]);
+-	printk(KERN_DEBUG "VP Dev Config = 0x%0X\n",
+-	       cmd.buffer.block_data[7]);
+-	printk(KERN_DEBUG "VP GPIO_DIR   = 0x%0X\n",
+-	       cmd.buffer.block_data[8]);
+-	printk(KERN_DEBUG "VP GPIO_DATA  = 0x%0X\n",
+-	       cmd.buffer.block_data[9]);
+-	printk(KERN_DEBUG "VP Ram ADDR H = 0x%0X\n",
+-	       cmd.buffer.block_data[10]);
+-	printk(KERN_DEBUG "VP Ram ADDR L = 0x%0X\n",
+-	       cmd.buffer.block_data[11]);
+-	printk(KERN_DEBUG "VP RAM Data   = 0x%0X\n",
+-	       cmd.buffer.block_data[12]);
+-	printk(KERN_DEBUG "Do Call       = 0x%0X\n",
+-	       cmd.buffer.block_data[13]);
+-
+-	if (cam->params.pnp_id.device_type == DEVICE_STV_672) {
+-		cmd.reg_count = 9;
+-		cmd.start = 0x0E;
+-		cpia2_send_command(cam, &cmd);
+-		printk(KERN_DEBUG "VP Clock Ctrl = 0x%0X\n",
+-		       cmd.buffer.block_data[0]);
+-		printk(KERN_DEBUG "VP Patch Rev  = 0x%0X\n",
+-		       cmd.buffer.block_data[1]);
+-		printk(KERN_DEBUG "VP Vid Mode   = 0x%0X\n",
+-		       cmd.buffer.block_data[2]);
+-		printk(KERN_DEBUG "VP Framerate  = 0x%0X\n",
+-		       cmd.buffer.block_data[3]);
+-		printk(KERN_DEBUG "VP UserEffect = 0x%0X\n",
+-		       cmd.buffer.block_data[4]);
+-		printk(KERN_DEBUG "VP White Bal  = 0x%0X\n",
+-		       cmd.buffer.block_data[5]);
+-		printk(KERN_DEBUG "VP WB thresh  = 0x%0X\n",
+-		       cmd.buffer.block_data[6]);
+-		printk(KERN_DEBUG "VP Exp Modes  = 0x%0X\n",
+-		       cmd.buffer.block_data[7]);
+-		printk(KERN_DEBUG "VP Exp Target = 0x%0X\n",
+-		       cmd.buffer.block_data[8]);
+-
+-		cmd.reg_count = 1;
+-		cmd.start = 0x1B;
+-		cpia2_send_command(cam, &cmd);
+-		printk(KERN_DEBUG "VP FlickerMds = 0x%0X\n",
+-		       cmd.buffer.block_data[0]);
+-	} else {
+-		cmd.reg_count = 8 ;
+-		cmd.start = 0x0E;
+-		cpia2_send_command(cam, &cmd);
+-		printk(KERN_DEBUG "VP Clock Ctrl = 0x%0X\n",
+-		       cmd.buffer.block_data[0]);
+-		printk(KERN_DEBUG "VP Patch Rev  = 0x%0X\n",
+-		       cmd.buffer.block_data[1]);
+-		printk(KERN_DEBUG "VP Vid Mode   = 0x%0X\n",
+-		       cmd.buffer.block_data[5]);
+-		printk(KERN_DEBUG "VP Framerate  = 0x%0X\n",
+-		       cmd.buffer.block_data[6]);
+-		printk(KERN_DEBUG "VP UserEffect = 0x%0X\n",
+-		       cmd.buffer.block_data[7]);
+-
+-		cmd.reg_count = 1;
+-		cmd.start = CPIA2_VP5_EXPOSURE_TARGET;
+-		cpia2_send_command(cam, &cmd);
+-		printk(KERN_DEBUG "VP5 Exp Target= 0x%0X\n",
+-		       cmd.buffer.block_data[0]);
+-
+-		cmd.reg_count = 4;
+-		cmd.start = 0x3A;
+-		cpia2_send_command(cam, &cmd);
+-		printk(KERN_DEBUG "VP5 MY Black  = 0x%0X\n",
+-		       cmd.buffer.block_data[0]);
+-		printk(KERN_DEBUG "VP5 MCY Range = 0x%0X\n",
+-		       cmd.buffer.block_data[1]);
+-		printk(KERN_DEBUG "VP5 MYCEILING = 0x%0X\n",
+-		       cmd.buffer.block_data[2]);
+-		printk(KERN_DEBUG "VP5 MCUV Sat  = 0x%0X\n",
+-		       cmd.buffer.block_data[3]);
+-	}
+-#endif
+-}
+-
+-/******************************************************************************
+- *
+- *  reset_camera_struct
+- *
+- *  Sets all values to the defaults
+- *****************************************************************************/
+-static void reset_camera_struct(struct camera_data *cam)
+-{
+-	/***
+-	 * The following parameter values are the defaults from the register map.
+-	 ***/
+-	cam->params.vp_params.lowlight_boost = 0;
+-
+-	/* FlickerModes */
+-	cam->params.flicker_control.flicker_mode_req = NEVER_FLICKER;
+-
+-	/* jpeg params */
+-	cam->params.compression.jpeg_options = CPIA2_VC_VC_JPEG_OPT_DEFAULT;
+-	cam->params.compression.creep_period = 2;
+-	cam->params.compression.user_squeeze = 20;
+-	cam->params.compression.inhibit_htables = false;
+-
+-	/* gpio params */
+-	cam->params.vp_params.gpio_direction = 0;	/* write, the default safe mode */
+-	cam->params.vp_params.gpio_data = 0;
+-
+-	/* Target kb params */
+-	cam->params.vc_params.quality = 100;
+-
+-	/***
+-	 * Set Sensor FPS as fast as possible.
+-	 ***/
+-	if(cam->params.pnp_id.device_type == DEVICE_STV_672) {
+-		if(cam->params.version.sensor_flags == CPIA2_VP_SENSOR_FLAGS_500)
+-			cam->params.vp_params.frame_rate = CPIA2_VP_FRAMERATE_15;
+-		else
+-			cam->params.vp_params.frame_rate = CPIA2_VP_FRAMERATE_30;
+-	} else {
+-		cam->params.vp_params.frame_rate = CPIA2_VP_FRAMERATE_30;
 -	}
 -
--	for (i = 0; i < gbuffers; i++)
--		meye.vma_use_count[i] = 0;
+-	/***
+-	 * Set default video mode as large as possible :
+-	 * for vga sensor set to vga, for cif sensor set to CIF.
+-	 ***/
+-	if (cam->params.version.sensor_flags == CPIA2_VP_SENSOR_FLAGS_500) {
+-		cam->sensor_type = CPIA2_SENSOR_500;
+-		cam->video_size = VIDEOSIZE_VGA;
+-		cam->params.roi.width = STV_IMAGE_VGA_COLS;
+-		cam->params.roi.height = STV_IMAGE_VGA_ROWS;
+-	} else {
+-		cam->sensor_type = CPIA2_SENSOR_410;
+-		cam->video_size = VIDEOSIZE_CIF;
+-		cam->params.roi.width = STV_IMAGE_CIF_COLS;
+-		cam->params.roi.height = STV_IMAGE_CIF_ROWS;
+-	}
 -
--	mutex_unlock(&meye.lock);
+-	cam->width = cam->params.roi.width;
+-	cam->height = cam->params.roi.height;
+-}
+-
+-/******************************************************************************
+- *
+- *  cpia2_init_camera_struct
+- *
+- *  Deinitialize camera struct
+- *****************************************************************************/
+-void cpia2_deinit_camera_struct(struct camera_data *cam, struct usb_interface *intf)
+-{
+-	v4l2_device_unregister(&cam->v4l2_dev);
+-	kfree(cam);
+-}
+-
+-/******************************************************************************
+- *
+- *  cpia2_init_camera_struct
+- *
+- *  Initializes camera struct, does not call reset to fill in defaults.
+- *****************************************************************************/
+-struct camera_data *cpia2_init_camera_struct(struct usb_interface *intf)
+-{
+-	struct camera_data *cam;
+-
+-	cam = kzalloc(sizeof(*cam), GFP_KERNEL);
+-
+-	if (!cam) {
+-		ERR("couldn't kmalloc cpia2 struct\n");
+-		return NULL;
+-	}
+-
+-	cam->v4l2_dev.release = cpia2_camera_release;
+-	if (v4l2_device_register(&intf->dev, &cam->v4l2_dev) < 0) {
+-		v4l2_err(&cam->v4l2_dev, "couldn't register v4l2_device\n");
+-		kfree(cam);
+-		return NULL;
+-	}
+-
+-	mutex_init(&cam->v4l2_lock);
+-	init_waitqueue_head(&cam->wq_stream);
+-
+-	return cam;
+-}
+-
+-/******************************************************************************
+- *
+- *  cpia2_init_camera
+- *
+- *  Initializes camera.
+- *****************************************************************************/
+-int cpia2_init_camera(struct camera_data *cam)
+-{
+-	DBG("Start\n");
+-
+-	cam->mmapped = false;
+-
+-	/* Get sensor and asic types before reset. */
+-	cpia2_set_high_power(cam);
+-	cpia2_get_version_info(cam);
+-	if (cam->params.version.asic_id != CPIA2_ASIC_672) {
+-		ERR("Device IO error (asicID has incorrect value of 0x%X\n",
+-		    cam->params.version.asic_id);
+-		return -ENODEV;
+-	}
+-
+-	/* Set GPIO direction and data to a safe state. */
+-	cpia2_do_command(cam, CPIA2_CMD_SET_VC_MP_GPIO_DIRECTION,
+-			 TRANSFER_WRITE, 0);
+-	cpia2_do_command(cam, CPIA2_CMD_SET_VC_MP_GPIO_DATA,
+-			 TRANSFER_WRITE, 0);
+-
+-	/* resetting struct requires version info for sensor and asic types */
+-	reset_camera_struct(cam);
+-
+-	cpia2_set_low_power(cam);
+-
+-	DBG("End\n");
 -
 -	return 0;
 -}
 -
--static int vidioc_querybuf(struct file *file, void *fh, struct v4l2_buffer *buf)
+-/******************************************************************************
+- *
+- *  cpia2_allocate_buffers
+- *
+- *****************************************************************************/
+-int cpia2_allocate_buffers(struct camera_data *cam)
 -{
--	unsigned int index = buf->index;
+-	int i;
 -
--	if (index >= gbuffers)
--		return -EINVAL;
+-	if(!cam->buffers) {
+-		u32 size = cam->num_frames*sizeof(struct framebuf);
+-		cam->buffers = kmalloc(size, GFP_KERNEL);
+-		if(!cam->buffers) {
+-			ERR("couldn't kmalloc frame buffer structures\n");
+-			return -ENOMEM;
+-		}
+-	}
 -
--	buf->bytesused = meye.grab_buffer[index].size;
--	buf->flags = V4L2_BUF_FLAG_MAPPED | V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
+-	if(!cam->frame_buffer) {
+-		cam->frame_buffer = rvmalloc(cam->frame_size*cam->num_frames);
+-		if (!cam->frame_buffer) {
+-			ERR("couldn't vmalloc frame buffer data area\n");
+-			kfree(cam->buffers);
+-			cam->buffers = NULL;
+-			return -ENOMEM;
+-		}
+-	}
 -
--	if (meye.grab_buffer[index].state == MEYE_BUF_USING)
--		buf->flags |= V4L2_BUF_FLAG_QUEUED;
--
--	if (meye.grab_buffer[index].state == MEYE_BUF_DONE)
--		buf->flags |= V4L2_BUF_FLAG_DONE;
--
--	buf->field = V4L2_FIELD_NONE;
--	v4l2_buffer_set_timestamp(buf, meye.grab_buffer[index].ts);
--	buf->sequence = meye.grab_buffer[index].sequence;
--	buf->memory = V4L2_MEMORY_MMAP;
--	buf->m.offset = index * gbufsize;
--	buf->length = gbufsize;
--
+-	for(i=0; i<cam->num_frames-1; ++i) {
+-		cam->buffers[i].next = &cam->buffers[i+1];
+-		cam->buffers[i].data = cam->frame_buffer +i*cam->frame_size;
+-		cam->buffers[i].status = FRAME_EMPTY;
+-		cam->buffers[i].length = 0;
+-		cam->buffers[i].max_length = 0;
+-		cam->buffers[i].num = i;
+-	}
+-	cam->buffers[i].next = cam->buffers;
+-	cam->buffers[i].data = cam->frame_buffer +i*cam->frame_size;
+-	cam->buffers[i].status = FRAME_EMPTY;
+-	cam->buffers[i].length = 0;
+-	cam->buffers[i].max_length = 0;
+-	cam->buffers[i].num = i;
+-	cam->curbuff = cam->buffers;
+-	cam->workbuff = cam->curbuff->next;
+-	DBG("buffers=%p, curbuff=%p, workbuff=%p\n", cam->buffers, cam->curbuff,
+-	    cam->workbuff);
 -	return 0;
 -}
 -
--static int vidioc_qbuf(struct file *file, void *fh, struct v4l2_buffer *buf)
+-/******************************************************************************
+- *
+- *  cpia2_free_buffers
+- *
+- *****************************************************************************/
+-void cpia2_free_buffers(struct camera_data *cam)
 -{
--	if (buf->memory != V4L2_MEMORY_MMAP)
--		return -EINVAL;
--
--	if (buf->index >= gbuffers)
--		return -EINVAL;
--
--	if (meye.grab_buffer[buf->index].state != MEYE_BUF_UNUSED)
--		return -EINVAL;
--
--	mutex_lock(&meye.lock);
--	buf->flags |= V4L2_BUF_FLAG_QUEUED;
--	buf->flags &= ~V4L2_BUF_FLAG_DONE;
--	meye.grab_buffer[buf->index].state = MEYE_BUF_USING;
--	kfifo_in_locked(&meye.grabq, (unsigned char *)&buf->index,
--			sizeof(int), &meye.grabq_lock);
--	mutex_unlock(&meye.lock);
--
--	return 0;
+-	if(cam->buffers) {
+-		kfree(cam->buffers);
+-		cam->buffers = NULL;
+-	}
+-	if(cam->frame_buffer) {
+-		rvfree(cam->frame_buffer, cam->frame_size*cam->num_frames);
+-		cam->frame_buffer = NULL;
+-	}
 -}
 -
--static int vidioc_dqbuf(struct file *file, void *fh, struct v4l2_buffer *buf)
+-/******************************************************************************
+- *
+- *  cpia2_read
+- *
+- *****************************************************************************/
+-long cpia2_read(struct camera_data *cam,
+-		char __user *buf, unsigned long count, int noblock)
 -{
--	int reqnr;
+-	struct framebuf *frame;
 -
--	if (buf->memory != V4L2_MEMORY_MMAP)
+-	if (!count)
+-		return 0;
+-
+-	if (!buf) {
+-		ERR("%s: buffer NULL\n",__func__);
 -		return -EINVAL;
+-	}
 -
--	mutex_lock(&meye.lock);
+-	if (!cam) {
+-		ERR("%s: Internal error, camera_data NULL!\n",__func__);
+-		return -EINVAL;
+-	}
 -
--	if (kfifo_len(&meye.doneq) == 0 && file->f_flags & O_NONBLOCK) {
--		mutex_unlock(&meye.lock);
+-	if (!cam->streaming) {
+-		/* Start streaming */
+-		cpia2_usb_stream_start(cam,
+-				       cam->params.camera_state.stream_mode);
+-	}
+-
+-	/* Copy cam->curbuff in case it changes while we're processing */
+-	frame = cam->curbuff;
+-	if (noblock && frame->status != FRAME_READY) {
 -		return -EAGAIN;
 -	}
 -
--	if (wait_event_interruptible(meye.proc_list,
--				     kfifo_len(&meye.doneq) != 0) < 0) {
--		mutex_unlock(&meye.lock);
--		return -EINTR;
+-	if (frame->status != FRAME_READY) {
+-		mutex_unlock(&cam->v4l2_lock);
+-		wait_event_interruptible(cam->wq_stream,
+-			       !video_is_registered(&cam->vdev) ||
+-			       (frame = cam->curbuff)->status == FRAME_READY);
+-		mutex_lock(&cam->v4l2_lock);
+-		if (signal_pending(current))
+-			return -ERESTARTSYS;
+-		if (!video_is_registered(&cam->vdev))
+-			return 0;
 -	}
 -
--	if (!kfifo_out_locked(&meye.doneq, (unsigned char *)&reqnr,
--		       sizeof(int), &meye.doneq_lock)) {
--		mutex_unlock(&meye.lock);
--		return -EBUSY;
+-	/* copy data to user space */
+-	if (frame->length > count)
+-		return -EFAULT;
+-	if (copy_to_user(buf, frame->data, frame->length))
+-		return -EFAULT;
+-
+-	count = frame->length;
+-
+-	frame->status = FRAME_EMPTY;
+-
+-	return count;
+-}
+-
+-/******************************************************************************
+- *
+- *  cpia2_poll
+- *
+- *****************************************************************************/
+-__poll_t cpia2_poll(struct camera_data *cam, struct file *filp,
+-			poll_table *wait)
+-{
+-	__poll_t status = v4l2_ctrl_poll(filp, wait);
+-
+-	if ((poll_requested_events(wait) & (EPOLLIN | EPOLLRDNORM)) &&
+-			!cam->streaming) {
+-		/* Start streaming */
+-		cpia2_usb_stream_start(cam,
+-				       cam->params.camera_state.stream_mode);
 -	}
 -
--	if (meye.grab_buffer[reqnr].state != MEYE_BUF_DONE) {
--		mutex_unlock(&meye.lock);
--		return -EINVAL;
--	}
+-	poll_wait(filp, &cam->wq_stream, wait);
 -
--	buf->index = reqnr;
--	buf->bytesused = meye.grab_buffer[reqnr].size;
--	buf->flags = V4L2_BUF_FLAG_MAPPED | V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
--	buf->field = V4L2_FIELD_NONE;
--	v4l2_buffer_set_timestamp(buf, meye.grab_buffer[reqnr].ts);
--	buf->sequence = meye.grab_buffer[reqnr].sequence;
--	buf->memory = V4L2_MEMORY_MMAP;
--	buf->m.offset = reqnr * gbufsize;
--	buf->length = gbufsize;
--	meye.grab_buffer[reqnr].state = MEYE_BUF_UNUSED;
--	mutex_unlock(&meye.lock);
+-	if (cam->curbuff->status == FRAME_READY)
+-		status |= EPOLLIN | EPOLLRDNORM;
 -
--	return 0;
+-	return status;
 -}
 -
--static int vidioc_streamon(struct file *file, void *fh, enum v4l2_buf_type i)
+-/******************************************************************************
+- *
+- *  cpia2_remap_buffer
+- *
+- *****************************************************************************/
+-int cpia2_remap_buffer(struct camera_data *cam, struct vm_area_struct *vma)
 -{
--	mutex_lock(&meye.lock);
--
--	switch (meye.mchip_mode) {
--	case MCHIP_HIC_MODE_CONT_OUT:
--		mchip_continuous_start();
--		break;
--	case MCHIP_HIC_MODE_CONT_COMP:
--		mchip_cont_compression_start();
--		break;
--	default:
--		mutex_unlock(&meye.lock);
--		return -EINVAL;
--	}
--
--	mutex_unlock(&meye.lock);
--
--	return 0;
--}
--
--static int vidioc_streamoff(struct file *file, void *fh, enum v4l2_buf_type i)
--{
--	mutex_lock(&meye.lock);
--	mchip_hic_stop();
--	kfifo_reset(&meye.grabq);
--	kfifo_reset(&meye.doneq);
--
--	for (i = 0; i < MEYE_MAX_BUFNBRS; i++)
--		meye.grab_buffer[i].state = MEYE_BUF_UNUSED;
--
--	mutex_unlock(&meye.lock);
--	return 0;
--}
--
--static long vidioc_default(struct file *file, void *fh, bool valid_prio,
--			   unsigned int cmd, void *arg)
--{
--	switch (cmd) {
--	case MEYEIOC_G_PARAMS:
--		return meyeioc_g_params((struct meye_params *) arg);
--
--	case MEYEIOC_S_PARAMS:
--		return meyeioc_s_params((struct meye_params *) arg);
--
--	case MEYEIOC_QBUF_CAPT:
--		return meyeioc_qbuf_capt((int *) arg);
--
--	case MEYEIOC_SYNC:
--		return meyeioc_sync(file, fh, (int *) arg);
--
--	case MEYEIOC_STILLCAPT:
--		return meyeioc_stillcapt();
--
--	case MEYEIOC_STILLJCAPT:
--		return meyeioc_stilljcapt((int *) arg);
--
--	default:
--		return -ENOTTY;
--	}
--
--}
--
--static __poll_t meye_poll(struct file *file, poll_table *wait)
--{
--	__poll_t res = v4l2_ctrl_poll(file, wait);
--
--	mutex_lock(&meye.lock);
--	poll_wait(file, &meye.proc_list, wait);
--	if (kfifo_len(&meye.doneq))
--		res |= EPOLLIN | EPOLLRDNORM;
--	mutex_unlock(&meye.lock);
--	return res;
--}
--
--static void meye_vm_open(struct vm_area_struct *vma)
--{
--	long idx = (long)vma->vm_private_data;
--	meye.vma_use_count[idx]++;
--}
--
--static void meye_vm_close(struct vm_area_struct *vma)
--{
--	long idx = (long)vma->vm_private_data;
--	meye.vma_use_count[idx]--;
--}
--
--static const struct vm_operations_struct meye_vm_ops = {
--	.open		= meye_vm_open,
--	.close		= meye_vm_close,
--};
--
--static int meye_mmap(struct file *file, struct vm_area_struct *vma)
--{
--	unsigned long start = vma->vm_start;
--	unsigned long size = vma->vm_end - vma->vm_start;
--	unsigned long offset = vma->vm_pgoff << PAGE_SHIFT;
+-	const char *adr = (const char *)vma->vm_start;
+-	unsigned long size = vma->vm_end-vma->vm_start;
+-	unsigned long start_offset = vma->vm_pgoff << PAGE_SHIFT;
+-	unsigned long start = (unsigned long) adr;
 -	unsigned long page, pos;
 -
--	mutex_lock(&meye.lock);
--	if (size > gbuffers * gbufsize || offset > gbuffers * gbufsize - size) {
--		mutex_unlock(&meye.lock);
+-	DBG("mmap offset:%ld size:%ld\n", start_offset, size);
+-
+-	if (!video_is_registered(&cam->vdev))
+-		return -ENODEV;
+-
+-	if (size > cam->frame_size*cam->num_frames  ||
+-	    (start_offset % cam->frame_size) != 0 ||
+-	    (start_offset+size > cam->frame_size*cam->num_frames))
 -		return -EINVAL;
--	}
--	if (!meye.grab_fbuffer) {
--		int i;
 -
--		/* lazy allocation */
--		meye.grab_fbuffer = rvmalloc(gbuffers*gbufsize);
--		if (!meye.grab_fbuffer) {
--			printk(KERN_ERR "meye: v4l framebuffer allocation failed\n");
--			mutex_unlock(&meye.lock);
--			return -ENOMEM;
--		}
--		for (i = 0; i < gbuffers; i++)
--			meye.vma_use_count[i] = 0;
--	}
--	pos = (unsigned long)meye.grab_fbuffer + offset;
--
+-	pos = ((unsigned long) (cam->frame_buffer)) + start_offset;
 -	while (size > 0) {
--		page = vmalloc_to_pfn((void *)pos);
--		if (remap_pfn_range(vma, start, page, PAGE_SIZE, PAGE_SHARED)) {
--			mutex_unlock(&meye.lock);
+-		page = kvirt_to_pa(pos);
+-		if (remap_pfn_range(vma, start, page >> PAGE_SHIFT, PAGE_SIZE, PAGE_SHARED))
 -			return -EAGAIN;
--		}
 -		start += PAGE_SIZE;
 -		pos += PAGE_SIZE;
 -		if (size > PAGE_SIZE)
@@ -1850,751 +3325,2682 @@ index 5d87efd9b95c..000000000000
 -			size = 0;
 -	}
 -
--	vma->vm_ops = &meye_vm_ops;
--	vma->vm_flags &= ~VM_IO;	/* not I/O memory */
--	vma->vm_flags |= VM_DONTEXPAND | VM_DONTDUMP;
--	vma->vm_private_data = (void *) (offset / gbufsize);
--	meye_vm_open(vma);
+-	cam->mmapped = true;
+-	return 0;
+-}
+diff --git a/drivers/staging/media/deprecated/cpia2/cpia2_registers.h b/drivers/staging/media/deprecated/cpia2/cpia2_registers.h
+deleted file mode 100644
+index 8c73812a15c9..000000000000
+--- a/drivers/staging/media/deprecated/cpia2/cpia2_registers.h
++++ /dev/null
+@@ -1,463 +0,0 @@
+-/* SPDX-License-Identifier: GPL-2.0-or-later */
+-/****************************************************************************
+- *
+- *  Filename: cpia2registers.h
+- *
+- *  Copyright 2001, STMicrolectronics, Inc.
+- *
+- *  Description:
+- *     Definitions for the CPia2 register set
+- *
+- ****************************************************************************/
 -
--	mutex_unlock(&meye.lock);
+-#ifndef CPIA2_REGISTER_HEADER
+-#define CPIA2_REGISTER_HEADER
+-
+-/***
+- * System register set (Bank 0)
+- ***/
+-#define CPIA2_SYSTEM_DEVICE_HI                     0x00
+-#define CPIA2_SYSTEM_DEVICE_LO                     0x01
+-
+-#define CPIA2_SYSTEM_SYSTEM_CONTROL                0x02
+-#define CPIA2_SYSTEM_CONTROL_LOW_POWER       0x00
+-#define CPIA2_SYSTEM_CONTROL_HIGH_POWER      0x01
+-#define CPIA2_SYSTEM_CONTROL_SUSPEND         0x02
+-#define CPIA2_SYSTEM_CONTROL_V2W_ERR         0x10
+-#define CPIA2_SYSTEM_CONTROL_RB_ERR          0x10
+-#define CPIA2_SYSTEM_CONTROL_CLEAR_ERR       0x80
+-
+-#define CPIA2_SYSTEM_INT_PACKET_CTRL                0x04
+-#define CPIA2_SYSTEM_INT_PACKET_CTRL_ENABLE_SW_XX 0x01
+-#define CPIA2_SYSTEM_INT_PACKET_CTRL_ENABLE_EOF   0x02
+-#define CPIA2_SYSTEM_INT_PACKET_CTRL_ENABLE_INT1  0x04
+-
+-#define CPIA2_SYSTEM_CACHE_CTRL                     0x05
+-#define CPIA2_SYSTEM_CACHE_CTRL_CACHE_RESET      0x01
+-#define CPIA2_SYSTEM_CACHE_CTRL_CACHE_FLUSH      0x02
+-
+-#define CPIA2_SYSTEM_SERIAL_CTRL                    0x06
+-#define CPIA2_SYSTEM_SERIAL_CTRL_NULL_CMD        0x00
+-#define CPIA2_SYSTEM_SERIAL_CTRL_START_CMD       0x01
+-#define CPIA2_SYSTEM_SERIAL_CTRL_STOP_CMD        0x02
+-#define CPIA2_SYSTEM_SERIAL_CTRL_WRITE_CMD       0x03
+-#define CPIA2_SYSTEM_SERIAL_CTRL_READ_ACK_CMD    0x04
+-#define CPIA2_SYSTEM_SERIAL_CTRL_READ_NACK_CMD   0x05
+-
+-#define CPIA2_SYSTEM_SERIAL_DATA                     0x07
+-
+-#define CPIA2_SYSTEM_VP_SERIAL_ADDR                  0x08
+-
+-/***
+- * I2C addresses for various devices in CPiA2
+- ***/
+-#define CPIA2_SYSTEM_VP_SERIAL_ADDR_SENSOR           0x20
+-#define CPIA2_SYSTEM_VP_SERIAL_ADDR_VP               0x88
+-#define CPIA2_SYSTEM_VP_SERIAL_ADDR_676_VP           0x8A
+-
+-#define CPIA2_SYSTEM_SPARE_REG1                      0x09
+-#define CPIA2_SYSTEM_SPARE_REG2                      0x0A
+-#define CPIA2_SYSTEM_SPARE_REG3                      0x0B
+-
+-#define CPIA2_SYSTEM_MC_PORT_0                       0x0C
+-#define CPIA2_SYSTEM_MC_PORT_1                       0x0D
+-#define CPIA2_SYSTEM_MC_PORT_2                       0x0E
+-#define CPIA2_SYSTEM_MC_PORT_3                       0x0F
+-
+-#define CPIA2_SYSTEM_STATUS_PKT                      0x20
+-#define CPIA2_SYSTEM_STATUS_PKT_END                  0x27
+-
+-#define CPIA2_SYSTEM_DESCRIP_VID_HI                  0x30
+-#define CPIA2_SYSTEM_DESCRIP_VID_LO                  0x31
+-#define CPIA2_SYSTEM_DESCRIP_PID_HI                  0x32
+-#define CPIA2_SYSTEM_DESCRIP_PID_LO                  0x33
+-
+-#define CPIA2_SYSTEM_FW_VERSION_HI                   0x34
+-#define CPIA2_SYSTEM_FW_VERSION_LO                   0x35
+-
+-#define CPIA2_SYSTEM_CACHE_START_INDEX               0x80
+-#define CPIA2_SYSTEM_CACHE_MAX_WRITES                0x10
+-
+-/***
+- * VC register set (Bank 1)
+- ***/
+-#define CPIA2_VC_ASIC_ID                 0x80
+-
+-#define CPIA2_VC_ASIC_REV                0x81
+-
+-#define CPIA2_VC_PW_CTRL                 0x82
+-#define CPIA2_VC_PW_CTRL_COLDSTART      0x01
+-#define CPIA2_VC_PW_CTRL_CP_CLK_EN      0x02
+-#define CPIA2_VC_PW_CTRL_VP_RESET_N     0x04
+-#define CPIA2_VC_PW_CTRL_VC_CLK_EN      0x08
+-#define CPIA2_VC_PW_CTRL_VC_RESET_N     0x10
+-#define CPIA2_VC_PW_CTRL_GOTO_SUSPEND   0x20
+-#define CPIA2_VC_PW_CTRL_UDC_SUSPEND    0x40
+-#define CPIA2_VC_PW_CTRL_PWR_DOWN       0x80
+-
+-#define CPIA2_VC_WAKEUP                   0x83
+-#define CPIA2_VC_WAKEUP_SW_ENABLE       0x01
+-#define CPIA2_VC_WAKEUP_XX_ENABLE       0x02
+-#define CPIA2_VC_WAKEUP_SW_ATWAKEUP     0x04
+-#define CPIA2_VC_WAKEUP_XX_ATWAKEUP     0x08
+-
+-#define CPIA2_VC_CLOCK_CTRL               0x84
+-#define CPIA2_VC_CLOCK_CTRL_TESTUP72    0x01
+-
+-#define CPIA2_VC_INT_ENABLE                0x88
+-#define CPIA2_VC_INT_ENABLE_XX_IE       0x01
+-#define CPIA2_VC_INT_ENABLE_SW_IE       0x02
+-#define CPIA2_VC_INT_ENABLE_VC_IE       0x04
+-#define CPIA2_VC_INT_ENABLE_USBDATA_IE  0x08
+-#define CPIA2_VC_INT_ENABLE_USBSETUP_IE 0x10
+-#define CPIA2_VC_INT_ENABLE_USBCFG_IE   0x20
+-
+-#define CPIA2_VC_INT_FLAG                  0x89
+-#define CPIA2_VC_INT_ENABLE_XX_FLAG       0x01
+-#define CPIA2_VC_INT_ENABLE_SW_FLAG       0x02
+-#define CPIA2_VC_INT_ENABLE_VC_FLAG       0x04
+-#define CPIA2_VC_INT_ENABLE_USBDATA_FLAG  0x08
+-#define CPIA2_VC_INT_ENABLE_USBSETUP_FLAG 0x10
+-#define CPIA2_VC_INT_ENABLE_USBCFG_FLAG   0x20
+-#define CPIA2_VC_INT_ENABLE_SET_RESET_BIT 0x80
+-
+-#define CPIA2_VC_INT_STATE                 0x8A
+-#define CPIA2_VC_INT_STATE_XX_STATE     0x01
+-#define CPIA2_VC_INT_STATE_SW_STATE     0x02
+-
+-#define CPIA2_VC_MP_DIR                    0x90
+-#define CPIA2_VC_MP_DIR_INPUT           0x00
+-#define CPIA2_VC_MP_DIR_OUTPUT          0x01
+-
+-#define CPIA2_VC_MP_DATA                   0x91
+-
+-#define CPIA2_VC_DP_CTRL                   0x98
+-#define CPIA2_VC_DP_CTRL_MODE_0         0x00
+-#define CPIA2_VC_DP_CTRL_MODE_A         0x01
+-#define CPIA2_VC_DP_CTRL_MODE_B         0x02
+-#define CPIA2_VC_DP_CTRL_MODE_C         0x03
+-#define CPIA2_VC_DP_CTRL_FAKE_FST       0x04
+-
+-#define CPIA2_VC_AD_CTRL                   0x99
+-#define CPIA2_VC_AD_CTRL_SRC_0          0x00
+-#define CPIA2_VC_AD_CTRL_SRC_DIGI_A     0x01
+-#define CPIA2_VC_AD_CTRL_SRC_REG        0x02
+-#define CPIA2_VC_AD_CTRL_DST_USB        0x00
+-#define CPIA2_VC_AD_CTRL_DST_REG        0x04
+-
+-#define CPIA2_VC_AD_TEST_IN                0x9B
+-
+-#define CPIA2_VC_AD_TEST_OUT               0x9C
+-
+-#define CPIA2_VC_AD_STATUS                 0x9D
+-#define CPIA2_VC_AD_STATUS_EMPTY        0x01
+-#define CPIA2_VC_AD_STATUS_FULL         0x02
+-
+-#define CPIA2_VC_DP_DATA                   0x9E
+-
+-#define CPIA2_VC_ST_CTRL                   0xA0
+-#define CPIA2_VC_ST_CTRL_SRC_VC         0x00
+-#define CPIA2_VC_ST_CTRL_SRC_DP         0x01
+-#define CPIA2_VC_ST_CTRL_SRC_REG        0x02
+-
+-#define CPIA2_VC_ST_CTRL_RAW_SELECT     0x04
+-
+-#define CPIA2_VC_ST_CTRL_DST_USB        0x00
+-#define CPIA2_VC_ST_CTRL_DST_DP         0x08
+-#define CPIA2_VC_ST_CTRL_DST_REG        0x10
+-
+-#define CPIA2_VC_ST_CTRL_FIFO_ENABLE    0x20
+-#define CPIA2_VC_ST_CTRL_EOF_DETECT     0x40
+-
+-#define CPIA2_VC_ST_TEST                   0xA1
+-#define CPIA2_VC_ST_TEST_MODE_MANUAL    0x00
+-#define CPIA2_VC_ST_TEST_MODE_INCREMENT 0x02
+-
+-#define CPIA2_VC_ST_TEST_AUTO_FILL      0x08
+-
+-#define CPIA2_VC_ST_TEST_REPEAT_FIFO    0x10
+-
+-#define CPIA2_VC_ST_TEST_IN                0xA2
+-
+-#define CPIA2_VC_ST_TEST_OUT               0xA3
+-
+-#define CPIA2_VC_ST_STATUS                 0xA4
+-#define CPIA2_VC_ST_STATUS_EMPTY        0x01
+-#define CPIA2_VC_ST_STATUS_FULL         0x02
+-
+-#define CPIA2_VC_ST_FRAME_DETECT_1         0xA5
+-
+-#define CPIA2_VC_ST_FRAME_DETECT_2         0xA6
+-
+-#define CPIA2_VC_USB_CTRL                    0xA8
+-#define CPIA2_VC_USB_CTRL_CMD_STALLED      0x01
+-#define CPIA2_VC_USB_CTRL_CMD_READY        0x02
+-#define CPIA2_VC_USB_CTRL_CMD_STATUS       0x04
+-#define CPIA2_VC_USB_CTRL_CMD_STATUS_DIR   0x08
+-#define CPIA2_VC_USB_CTRL_CMD_NO_CLASH     0x10
+-#define CPIA2_VC_USB_CTRL_CMD_MICRO_ACCESS 0x80
+-
+-#define CPIA2_VC_USB_STRM                  0xA9
+-#define CPIA2_VC_USB_STRM_ISO_ENABLE    0x01
+-#define CPIA2_VC_USB_STRM_BLK_ENABLE    0x02
+-#define CPIA2_VC_USB_STRM_INT_ENABLE    0x04
+-#define CPIA2_VC_USB_STRM_AUD_ENABLE    0x08
+-
+-#define CPIA2_VC_USB_STATUS                   0xAA
+-#define CPIA2_VC_USB_STATUS_CMD_IN_PROGRESS  0x01
+-#define CPIA2_VC_USB_STATUS_CMD_STATUS_STALL 0x02
+-#define CPIA2_VC_USB_STATUS_CMD_HANDSHAKE    0x04
+-#define CPIA2_VC_USB_STATUS_CMD_OVERRIDE     0x08
+-#define CPIA2_VC_USB_STATUS_CMD_FIFO_BUSY    0x10
+-#define CPIA2_VC_USB_STATUS_BULK_REPEAT_TXN  0x20
+-#define CPIA2_VC_USB_STATUS_CONFIG_DONE      0x40
+-#define CPIA2_VC_USB_STATUS_USB_SUSPEND      0x80
+-
+-#define CPIA2_VC_USB_CMDW                   0xAB
+-
+-#define CPIA2_VC_USB_DATARW                 0xAC
+-
+-#define CPIA2_VC_USB_INFO                   0xAD
+-
+-#define CPIA2_VC_USB_CONFIG                 0xAE
+-
+-#define CPIA2_VC_USB_SETTINGS                  0xAF
+-#define CPIA2_VC_USB_SETTINGS_CONFIG_MASK    0x03
+-#define CPIA2_VC_USB_SETTINGS_INTERFACE_MASK 0x0C
+-#define CPIA2_VC_USB_SETTINGS_ALTERNATE_MASK 0x70
+-
+-#define CPIA2_VC_USB_ISOLIM                  0xB0
+-
+-#define CPIA2_VC_USB_ISOFAILS                0xB1
+-
+-#define CPIA2_VC_USB_ISOMAXPKTHI             0xB2
+-
+-#define CPIA2_VC_USB_ISOMAXPKTLO             0xB3
+-
+-#define CPIA2_VC_V2W_CTRL                    0xB8
+-#define CPIA2_VC_V2W_SELECT               0x01
+-
+-#define CPIA2_VC_V2W_SCL                     0xB9
+-
+-#define CPIA2_VC_V2W_SDA                     0xBA
+-
+-#define CPIA2_VC_VC_CTRL                     0xC0
+-#define CPIA2_VC_VC_CTRL_RUN              0x01
+-#define CPIA2_VC_VC_CTRL_SINGLESHOT       0x02
+-#define CPIA2_VC_VC_CTRL_IDLING           0x04
+-#define CPIA2_VC_VC_CTRL_INHIBIT_H_TABLES 0x10
+-#define CPIA2_VC_VC_CTRL_INHIBIT_Q_TABLES 0x20
+-#define CPIA2_VC_VC_CTRL_INHIBIT_PRIVATE  0x40
+-
+-#define CPIA2_VC_VC_RESTART_IVAL_HI          0xC1
+-
+-#define CPIA2_VC_VC_RESTART_IVAL_LO          0xC2
+-
+-#define CPIA2_VC_VC_FORMAT                   0xC3
+-#define CPIA2_VC_VC_FORMAT_UFIRST         0x01
+-#define CPIA2_VC_VC_FORMAT_MONO           0x02
+-#define CPIA2_VC_VC_FORMAT_DECIMATING     0x04
+-#define CPIA2_VC_VC_FORMAT_SHORTLINE      0x08
+-#define CPIA2_VC_VC_FORMAT_SELFTEST       0x10
+-
+-#define CPIA2_VC_VC_CLOCKS                         0xC4
+-#define CPIA2_VC_VC_CLOCKS_CLKDIV_MASK        0x03
+-#define CPIA2_VC_VC_672_CLOCKS_CIF_DIV_BY_3   0x04
+-#define CPIA2_VC_VC_672_CLOCKS_SCALING        0x08
+-#define CPIA2_VC_VC_CLOCKS_LOGDIV0        0x00
+-#define CPIA2_VC_VC_CLOCKS_LOGDIV1        0x01
+-#define CPIA2_VC_VC_CLOCKS_LOGDIV2        0x02
+-#define CPIA2_VC_VC_CLOCKS_LOGDIV3        0x03
+-#define CPIA2_VC_VC_676_CLOCKS_CIF_DIV_BY_3   0x08
+-#define CPIA2_VC_VC_676_CLOCKS_SCALING	      0x10
+-
+-#define CPIA2_VC_VC_IHSIZE_LO                0xC5
+-
+-#define CPIA2_VC_VC_XLIM_HI                  0xC6
+-
+-#define CPIA2_VC_VC_XLIM_LO                  0xC7
+-
+-#define CPIA2_VC_VC_YLIM_HI                  0xC8
+-
+-#define CPIA2_VC_VC_YLIM_LO                  0xC9
+-
+-#define CPIA2_VC_VC_OHSIZE                   0xCA
+-
+-#define CPIA2_VC_VC_OVSIZE                   0xCB
+-
+-#define CPIA2_VC_VC_HCROP                    0xCC
+-
+-#define CPIA2_VC_VC_VCROP                    0xCD
+-
+-#define CPIA2_VC_VC_HPHASE                   0xCE
+-
+-#define CPIA2_VC_VC_VPHASE                   0xCF
+-
+-#define CPIA2_VC_VC_HISPAN                   0xD0
+-
+-#define CPIA2_VC_VC_VISPAN                   0xD1
+-
+-#define CPIA2_VC_VC_HICROP                   0xD2
+-
+-#define CPIA2_VC_VC_VICROP                   0xD3
+-
+-#define CPIA2_VC_VC_HFRACT                   0xD4
+-#define CPIA2_VC_VC_HFRACT_DEN_MASK       0x0F
+-#define CPIA2_VC_VC_HFRACT_NUM_MASK       0xF0
+-
+-#define CPIA2_VC_VC_VFRACT                   0xD5
+-#define CPIA2_VC_VC_VFRACT_DEN_MASK       0x0F
+-#define CPIA2_VC_VC_VFRACT_NUM_MASK       0xF0
+-
+-#define CPIA2_VC_VC_JPEG_OPT                      0xD6
+-#define CPIA2_VC_VC_JPEG_OPT_DOUBLE_SQUEEZE     0x01
+-#define CPIA2_VC_VC_JPEG_OPT_NO_DC_AUTO_SQUEEZE 0x02
+-#define CPIA2_VC_VC_JPEG_OPT_AUTO_SQUEEZE       0x04
+-#define CPIA2_VC_VC_JPEG_OPT_DEFAULT      (CPIA2_VC_VC_JPEG_OPT_DOUBLE_SQUEEZE|\
+-					   CPIA2_VC_VC_JPEG_OPT_AUTO_SQUEEZE)
+-
+-
+-#define CPIA2_VC_VC_CREEP_PERIOD             0xD7
+-#define CPIA2_VC_VC_USER_SQUEEZE             0xD8
+-#define CPIA2_VC_VC_TARGET_KB                0xD9
+-
+-#define CPIA2_VC_VC_AUTO_SQUEEZE             0xE6
+-
+-
+-/***
+- * VP register set (Bank 2)
+- ***/
+-#define CPIA2_VP_DEVICEH                             0
+-#define CPIA2_VP_DEVICEL                             1
+-
+-#define CPIA2_VP_SYSTEMSTATE                         0x02
+-#define CPIA2_VP_SYSTEMSTATE_HK_ALIVE             0x01
+-
+-#define CPIA2_VP_SYSTEMCTRL                          0x03
+-#define CPIA2_VP_SYSTEMCTRL_REQ_CLEAR_ERROR       0x80
+-#define CPIA2_VP_SYSTEMCTRL_POWER_DOWN_PLL        0x20
+-#define CPIA2_VP_SYSTEMCTRL_REQ_SUSPEND_STATE     0x10
+-#define CPIA2_VP_SYSTEMCTRL_REQ_SERIAL_WAKEUP     0x08
+-#define CPIA2_VP_SYSTEMCTRL_REQ_AUTOLOAD          0x04
+-#define CPIA2_VP_SYSTEMCTRL_HK_CONTROL            0x02
+-#define CPIA2_VP_SYSTEMCTRL_POWER_CONTROL         0x01
+-
+-#define CPIA2_VP_SENSOR_FLAGS                        0x05
+-#define CPIA2_VP_SENSOR_FLAGS_404                 0x01
+-#define CPIA2_VP_SENSOR_FLAGS_407                 0x02
+-#define CPIA2_VP_SENSOR_FLAGS_409                 0x04
+-#define CPIA2_VP_SENSOR_FLAGS_410                 0x08
+-#define CPIA2_VP_SENSOR_FLAGS_500                 0x10
+-
+-#define CPIA2_VP_SENSOR_REV                          0x06
+-
+-#define CPIA2_VP_DEVICE_CONFIG                       0x07
+-#define CPIA2_VP_DEVICE_CONFIG_SERIAL_BRIDGE      0x01
+-
+-#define CPIA2_VP_GPIO_DIRECTION                      0x08
+-#define CPIA2_VP_GPIO_READ                        0xFF
+-#define CPIA2_VP_GPIO_WRITE                       0x00
+-
+-#define CPIA2_VP_GPIO_DATA                           0x09
+-
+-#define CPIA2_VP_RAM_ADDR_H                          0x0A
+-#define CPIA2_VP_RAM_ADDR_L                          0x0B
+-#define CPIA2_VP_RAM_DATA                            0x0C
+-
+-#define CPIA2_VP_PATCH_REV                           0x0F
+-
+-#define CPIA2_VP4_USER_MODE                           0x10
+-#define CPIA2_VP5_USER_MODE                           0x13
+-#define CPIA2_VP_USER_MODE_CIF                    0x01
+-#define CPIA2_VP_USER_MODE_QCIFDS                 0x02
+-#define CPIA2_VP_USER_MODE_QCIFPTC                0x04
+-#define CPIA2_VP_USER_MODE_QVGADS                 0x08
+-#define CPIA2_VP_USER_MODE_QVGAPTC                0x10
+-#define CPIA2_VP_USER_MODE_VGA                    0x20
+-
+-#define CPIA2_VP4_FRAMERATE_REQUEST                    0x11
+-#define CPIA2_VP5_FRAMERATE_REQUEST                    0x14
+-#define CPIA2_VP_FRAMERATE_60                     0x80
+-#define CPIA2_VP_FRAMERATE_50                     0x40
+-#define CPIA2_VP_FRAMERATE_30                     0x20
+-#define CPIA2_VP_FRAMERATE_25                     0x10
+-#define CPIA2_VP_FRAMERATE_15                     0x08
+-#define CPIA2_VP_FRAMERATE_12_5                   0x04
+-#define CPIA2_VP_FRAMERATE_7_5                    0x02
+-#define CPIA2_VP_FRAMERATE_6_25                   0x01
+-
+-#define CPIA2_VP4_USER_EFFECTS                         0x12
+-#define CPIA2_VP5_USER_EFFECTS                         0x15
+-#define CPIA2_VP_USER_EFFECTS_COLBARS             0x01
+-#define CPIA2_VP_USER_EFFECTS_COLBARS_GRAD        0x02
+-#define CPIA2_VP_USER_EFFECTS_MIRROR              0x04
+-#define CPIA2_VP_USER_EFFECTS_FLIP                0x40  // VP5 only
+-
+-/* NOTE: CPIA2_VP_EXPOSURE_MODES shares the same register as VP5 User
+- * Effects */
+-#define CPIA2_VP_EXPOSURE_MODES                       0x15
+-#define CPIA2_VP_EXPOSURE_MODES_INHIBIT_FLICKER   0x20
+-#define CPIA2_VP_EXPOSURE_MODES_COMPILE_EXP       0x10
+-
+-#define CPIA2_VP4_EXPOSURE_TARGET                     0x16    // VP4
+-#define CPIA2_VP5_EXPOSURE_TARGET		      0x20    // VP5
+-
+-#define CPIA2_VP_FLICKER_MODES                        0x1B
+-#define CPIA2_VP_FLICKER_MODES_50HZ               0x80
+-#define CPIA2_VP_FLICKER_MODES_CUSTOM_FLT_FFREQ   0x40
+-#define CPIA2_VP_FLICKER_MODES_NEVER_FLICKER      0x20
+-#define CPIA2_VP_FLICKER_MODES_INHIBIT_RUB        0x10
+-#define CPIA2_VP_FLICKER_MODES_ADJUST_LINE_FREQ   0x08
+-#define CPIA2_VP_FLICKER_MODES_CUSTOM_INT_FFREQ   0x04
+-
+-#define CPIA2_VP_UMISC                                0x1D
+-#define CPIA2_VP_UMISC_FORCE_MONO                 0x80
+-#define CPIA2_VP_UMISC_FORCE_ID_MASK              0x40
+-#define CPIA2_VP_UMISC_INHIBIT_AUTO_FGS           0x20
+-#define CPIA2_VP_UMISC_INHIBIT_AUTO_DIMS          0x08
+-#define CPIA2_VP_UMISC_OPT_FOR_SENSOR_DS          0x04
+-#define CPIA2_VP_UMISC_INHIBIT_AUTO_MODE_INT      0x02
+-
+-#define CPIA2_VP5_ANTIFLKRSETUP                       0x22  //34
+-
+-#define CPIA2_VP_INTERPOLATION                        0x24
+-#define CPIA2_VP_INTERPOLATION_EVEN_FIRST         0x40
+-#define CPIA2_VP_INTERPOLATION_HJOG               0x20
+-#define CPIA2_VP_INTERPOLATION_VJOG               0x10
+-
+-#define CPIA2_VP_GAMMA                                0x25
+-#define CPIA2_VP_DEFAULT_GAMMA                    0x10
+-
+-#define CPIA2_VP_YRANGE                               0x26
+-
+-#define CPIA2_VP_SATURATION                           0x27
+-
+-#define CPIA2_VP5_MYBLACK_LEVEL                       0x3A   //58
+-#define CPIA2_VP5_MCYRANGE                            0x3B   //59
+-#define CPIA2_VP5_MYCEILING                           0x3C   //60
+-#define CPIA2_VP5_MCUVSATURATION                      0x3D   //61
+-
+-
+-#define CPIA2_VP_REHASH_VALUES                        0x60
+-
+-
+-/***
+- * Common sensor registers
+- ***/
+-#define CPIA2_SENSOR_DEVICE_H                         0x00
+-#define CPIA2_SENSOR_DEVICE_L                         0x01
+-
+-#define CPIA2_SENSOR_DATA_FORMAT                      0x16
+-#define CPIA2_SENSOR_DATA_FORMAT_HMIRROR      0x08
+-#define CPIA2_SENSOR_DATA_FORMAT_VMIRROR      0x10
+-
+-#define CPIA2_SENSOR_CR1                              0x76
+-#define CPIA2_SENSOR_CR1_STAND_BY             0x01
+-#define CPIA2_SENSOR_CR1_DOWN_RAMP_GEN        0x02
+-#define CPIA2_SENSOR_CR1_DOWN_COLUMN_ADC      0x04
+-#define CPIA2_SENSOR_CR1_DOWN_CAB_REGULATOR   0x08
+-#define CPIA2_SENSOR_CR1_DOWN_AUDIO_REGULATOR 0x10
+-#define CPIA2_SENSOR_CR1_DOWN_VRT_AMP         0x20
+-#define CPIA2_SENSOR_CR1_DOWN_BAND_GAP        0x40
+-
+-#endif
+diff --git a/drivers/staging/media/deprecated/cpia2/cpia2_usb.c b/drivers/staging/media/deprecated/cpia2/cpia2_usb.c
+deleted file mode 100644
+index cba03b286473..000000000000
+--- a/drivers/staging/media/deprecated/cpia2/cpia2_usb.c
++++ /dev/null
+@@ -1,966 +0,0 @@
+-// SPDX-License-Identifier: GPL-2.0-or-later
+-/****************************************************************************
+- *
+- *  Filename: cpia2_usb.c
+- *
+- *  Copyright 2001, STMicrolectronics, Inc.
+- *      Contact:  steve.miller@st.com
+- *
+- *  Description:
+- *     This is a USB driver for CPia2 based video cameras.
+- *     The infrastructure of this driver is based on the cpia usb driver by
+- *     Jochen Scharrlach and Johannes Erdfeldt.
+- *
+- *  Stripped of 2.4 stuff ready for main kernel submit by
+- *		Alan Cox <alan@lxorguk.ukuu.org.uk>
+- ****************************************************************************/
+-
+-#include <linux/kernel.h>
+-#include <linux/slab.h>
+-#include <linux/usb.h>
+-#include <linux/module.h>
+-
+-#include "cpia2.h"
+-
+-static int frame_sizes[] = {
+-	0,	// USBIF_CMDONLY
+-	0,	// USBIF_BULK
+-	128,	// USBIF_ISO_1
+-	384,	// USBIF_ISO_2
+-	640,	// USBIF_ISO_3
+-	768,	// USBIF_ISO_4
+-	896,	// USBIF_ISO_5
+-	1023,	// USBIF_ISO_6
+-};
+-
+-#define FRAMES_PER_DESC    10
+-#define FRAME_SIZE_PER_DESC   frame_sizes[cam->cur_alt]
+-
+-static void process_frame(struct camera_data *cam);
+-static void cpia2_usb_complete(struct urb *urb);
+-static int cpia2_usb_probe(struct usb_interface *intf,
+-			   const struct usb_device_id *id);
+-static void cpia2_usb_disconnect(struct usb_interface *intf);
+-static int cpia2_usb_suspend(struct usb_interface *intf, pm_message_t message);
+-static int cpia2_usb_resume(struct usb_interface *intf);
+-
+-static void free_sbufs(struct camera_data *cam);
+-static void add_APPn(struct camera_data *cam);
+-static void add_COM(struct camera_data *cam);
+-static int submit_urbs(struct camera_data *cam);
+-static int set_alternate(struct camera_data *cam, unsigned int alt);
+-static int configure_transfer_mode(struct camera_data *cam, unsigned int alt);
+-
+-static const struct usb_device_id cpia2_id_table[] = {
+-	{USB_DEVICE(0x0553, 0x0100)},
+-	{USB_DEVICE(0x0553, 0x0140)},
+-	{USB_DEVICE(0x0553, 0x0151)},  /* STV0676 */
+-	{}			/* Terminating entry */
+-};
+-MODULE_DEVICE_TABLE(usb, cpia2_id_table);
+-
+-static struct usb_driver cpia2_driver = {
+-	.name		= "cpia2",
+-	.probe		= cpia2_usb_probe,
+-	.disconnect	= cpia2_usb_disconnect,
+-	.suspend	= cpia2_usb_suspend,
+-	.resume		= cpia2_usb_resume,
+-	.reset_resume	= cpia2_usb_resume,
+-	.id_table	= cpia2_id_table
+-};
+-
+-
+-/******************************************************************************
+- *
+- *  process_frame
+- *
+- *****************************************************************************/
+-static void process_frame(struct camera_data *cam)
+-{
+-	static int frame_count;
+-
+-	unsigned char *inbuff = cam->workbuff->data;
+-
+-	DBG("Processing frame #%d, current:%d\n",
+-	    cam->workbuff->num, cam->curbuff->num);
+-
+-	if(cam->workbuff->length > cam->workbuff->max_length)
+-		cam->workbuff->max_length = cam->workbuff->length;
+-
+-	if ((inbuff[0] == 0xFF) && (inbuff[1] == 0xD8)) {
+-		frame_count++;
+-	} else {
+-		cam->workbuff->status = FRAME_ERROR;
+-		DBG("Start of frame not found\n");
+-		return;
+-	}
+-
+-	/***
+-	 * Now the output buffer should have a JPEG image in it.
+-	 ***/
+-	if(!cam->first_image_seen) {
+-		/* Always skip the first image after streaming
+-		 * starts. It is almost certainly corrupt. */
+-		cam->first_image_seen = 1;
+-		cam->workbuff->status = FRAME_EMPTY;
+-		return;
+-	}
+-	if (cam->workbuff->length > 3) {
+-		if(cam->mmapped &&
+-		   cam->workbuff->length < cam->workbuff->max_length) {
+-			/* No junk in the buffers */
+-			memset(cam->workbuff->data+cam->workbuff->length,
+-			       0, cam->workbuff->max_length-
+-				  cam->workbuff->length);
+-		}
+-		cam->workbuff->max_length = cam->workbuff->length;
+-		cam->workbuff->status = FRAME_READY;
+-
+-		if(!cam->mmapped && cam->num_frames > 2) {
+-			/* During normal reading, the most recent
+-			 * frame will be read.  If the current frame
+-			 * hasn't started reading yet, it will never
+-			 * be read, so mark it empty.  If the buffer is
+-			 * mmapped, or we have few buffers, we need to
+-			 * wait for the user to free the buffer.
+-			 *
+-			 * NOTE: This is not entirely foolproof with 3
+-			 * buffers, but it would take an EXTREMELY
+-			 * overloaded system to cause problems (possible
+-			 * image data corruption).  Basically, it would
+-			 * need to take more time to execute cpia2_read
+-			 * than it would for the camera to send
+-			 * cam->num_frames-2 frames before problems
+-			 * could occur.
+-			 */
+-			cam->curbuff->status = FRAME_EMPTY;
+-		}
+-		cam->curbuff = cam->workbuff;
+-		cam->workbuff = cam->workbuff->next;
+-		DBG("Changed buffers, work:%d, current:%d\n",
+-		    cam->workbuff->num, cam->curbuff->num);
+-		return;
+-	} else {
+-		DBG("Not enough data for an image.\n");
+-	}
+-
+-	cam->workbuff->status = FRAME_ERROR;
+-	return;
+-}
+-
+-/******************************************************************************
+- *
+- *  add_APPn
+- *
+- *  Adds a user specified APPn record
+- *****************************************************************************/
+-static void add_APPn(struct camera_data *cam)
+-{
+-	if(cam->APP_len > 0) {
+-		cam->workbuff->data[cam->workbuff->length++] = 0xFF;
+-		cam->workbuff->data[cam->workbuff->length++] = 0xE0+cam->APPn;
+-		cam->workbuff->data[cam->workbuff->length++] = 0;
+-		cam->workbuff->data[cam->workbuff->length++] = cam->APP_len+2;
+-		memcpy(cam->workbuff->data+cam->workbuff->length,
+-		       cam->APP_data, cam->APP_len);
+-		cam->workbuff->length += cam->APP_len;
+-	}
+-}
+-
+-/******************************************************************************
+- *
+- *  add_COM
+- *
+- *  Adds a user specified COM record
+- *****************************************************************************/
+-static void add_COM(struct camera_data *cam)
+-{
+-	if(cam->COM_len > 0) {
+-		cam->workbuff->data[cam->workbuff->length++] = 0xFF;
+-		cam->workbuff->data[cam->workbuff->length++] = 0xFE;
+-		cam->workbuff->data[cam->workbuff->length++] = 0;
+-		cam->workbuff->data[cam->workbuff->length++] = cam->COM_len+2;
+-		memcpy(cam->workbuff->data+cam->workbuff->length,
+-		       cam->COM_data, cam->COM_len);
+-		cam->workbuff->length += cam->COM_len;
+-	}
+-}
+-
+-/******************************************************************************
+- *
+- *  cpia2_usb_complete
+- *
+- *  callback when incoming packet is received
+- *****************************************************************************/
+-static void cpia2_usb_complete(struct urb *urb)
+-{
+-	int i;
+-	unsigned char *cdata;
+-	static bool frame_ready = false;
+-	struct camera_data *cam = (struct camera_data *) urb->context;
+-
+-	if (urb->status!=0) {
+-		if (!(urb->status == -ENOENT ||
+-		      urb->status == -ECONNRESET ||
+-		      urb->status == -ESHUTDOWN))
+-		{
+-			DBG("urb->status = %d!\n", urb->status);
+-		}
+-		DBG("Stopping streaming\n");
+-		return;
+-	}
+-
+-	if (!cam->streaming || !video_is_registered(&cam->vdev)) {
+-		LOG("Will now stop the streaming: streaming = %d, present=%d\n",
+-		    cam->streaming, video_is_registered(&cam->vdev));
+-		return;
+-	}
+-
+-	/***
+-	 * Packet collater
+-	 ***/
+-	//DBG("Collating %d packets\n", urb->number_of_packets);
+-	for (i = 0; i < urb->number_of_packets; i++) {
+-		u16 checksum, iso_checksum;
+-		int j;
+-		int n = urb->iso_frame_desc[i].actual_length;
+-		int st = urb->iso_frame_desc[i].status;
+-
+-		if(cam->workbuff->status == FRAME_READY) {
+-			struct framebuf *ptr;
+-			/* Try to find an available buffer */
+-			DBG("workbuff full, searching\n");
+-			for (ptr = cam->workbuff->next;
+-			     ptr != cam->workbuff;
+-			     ptr = ptr->next)
+-			{
+-				if (ptr->status == FRAME_EMPTY) {
+-					ptr->status = FRAME_READING;
+-					ptr->length = 0;
+-					break;
+-				}
+-			}
+-			if (ptr == cam->workbuff)
+-				break; /* No READING or EMPTY buffers left */
+-
+-			cam->workbuff = ptr;
+-		}
+-
+-		if (cam->workbuff->status == FRAME_EMPTY ||
+-		    cam->workbuff->status == FRAME_ERROR) {
+-			cam->workbuff->status = FRAME_READING;
+-			cam->workbuff->length = 0;
+-		}
+-
+-		//DBG("   Packet %d length = %d, status = %d\n", i, n, st);
+-		cdata = urb->transfer_buffer + urb->iso_frame_desc[i].offset;
+-
+-		if (st) {
+-			LOG("cpia2 data error: [%d] len=%d, status = %d\n",
+-			    i, n, st);
+-			if(!ALLOW_CORRUPT)
+-				cam->workbuff->status = FRAME_ERROR;
+-			continue;
+-		}
+-
+-		if(n<=2)
+-			continue;
+-
+-		checksum = 0;
+-		for(j=0; j<n-2; ++j)
+-			checksum += cdata[j];
+-		iso_checksum = cdata[j] + cdata[j+1]*256;
+-		if(checksum != iso_checksum) {
+-			LOG("checksum mismatch: [%d] len=%d, calculated = %x, checksum = %x\n",
+-			    i, n, (int)checksum, (int)iso_checksum);
+-			if(!ALLOW_CORRUPT) {
+-				cam->workbuff->status = FRAME_ERROR;
+-				continue;
+-			}
+-		}
+-		n -= 2;
+-
+-		if(cam->workbuff->status != FRAME_READING) {
+-			if((0xFF == cdata[0] && 0xD8 == cdata[1]) ||
+-			   (0xD8 == cdata[0] && 0xFF == cdata[1] &&
+-			    0 != cdata[2])) {
+-				/* frame is skipped, but increment total
+-				 * frame count anyway */
+-				cam->frame_count++;
+-			}
+-			DBG("workbuff not reading, status=%d\n",
+-			    cam->workbuff->status);
+-			continue;
+-		}
+-
+-		if (cam->frame_size < cam->workbuff->length + n) {
+-			ERR("buffer overflow! length: %d, n: %d\n",
+-			    cam->workbuff->length, n);
+-			cam->workbuff->status = FRAME_ERROR;
+-			if(cam->workbuff->length > cam->workbuff->max_length)
+-				cam->workbuff->max_length =
+-					cam->workbuff->length;
+-			continue;
+-		}
+-
+-		if (cam->workbuff->length == 0) {
+-			int data_offset;
+-			if ((0xD8 == cdata[0]) && (0xFF == cdata[1])) {
+-				data_offset = 1;
+-			} else if((0xFF == cdata[0]) && (0xD8 == cdata[1])
+-				  && (0xFF == cdata[2])) {
+-				data_offset = 2;
+-			} else {
+-				DBG("Ignoring packet, not beginning!\n");
+-				continue;
+-			}
+-			DBG("Start of frame pattern found\n");
+-			cam->workbuff->ts = ktime_get_ns();
+-			cam->workbuff->seq = cam->frame_count++;
+-			cam->workbuff->data[0] = 0xFF;
+-			cam->workbuff->data[1] = 0xD8;
+-			cam->workbuff->length = 2;
+-			add_APPn(cam);
+-			add_COM(cam);
+-			memcpy(cam->workbuff->data+cam->workbuff->length,
+-			       cdata+data_offset, n-data_offset);
+-			cam->workbuff->length += n-data_offset;
+-		} else if (cam->workbuff->length > 0) {
+-			memcpy(cam->workbuff->data + cam->workbuff->length,
+-			       cdata, n);
+-			cam->workbuff->length += n;
+-		}
+-
+-		if ((cam->workbuff->length >= 3) &&
+-		    (cam->workbuff->data[cam->workbuff->length - 3] == 0xFF) &&
+-		    (cam->workbuff->data[cam->workbuff->length - 2] == 0xD9) &&
+-		    (cam->workbuff->data[cam->workbuff->length - 1] == 0xFF)) {
+-			frame_ready = true;
+-			cam->workbuff->data[cam->workbuff->length - 1] = 0;
+-			cam->workbuff->length -= 1;
+-		} else if ((cam->workbuff->length >= 2) &&
+-		   (cam->workbuff->data[cam->workbuff->length - 2] == 0xFF) &&
+-		   (cam->workbuff->data[cam->workbuff->length - 1] == 0xD9)) {
+-			frame_ready = true;
+-		}
+-
+-		if (frame_ready) {
+-			DBG("Workbuff image size = %d\n",cam->workbuff->length);
+-			process_frame(cam);
+-
+-			frame_ready = false;
+-
+-			if (waitqueue_active(&cam->wq_stream))
+-				wake_up_interruptible(&cam->wq_stream);
+-		}
+-	}
+-
+-	if(cam->streaming) {
+-		/* resubmit */
+-		urb->dev = cam->dev;
+-		if ((i = usb_submit_urb(urb, GFP_ATOMIC)) != 0)
+-			ERR("%s: usb_submit_urb ret %d!\n", __func__, i);
+-	}
+-}
+-
+-/******************************************************************************
+- *
+- * configure_transfer_mode
+- *
+- *****************************************************************************/
+-static int configure_transfer_mode(struct camera_data *cam, unsigned int alt)
+-{
+-	static unsigned char iso_regs[8][4] = {
+-		{0x00, 0x00, 0x00, 0x00},
+-		{0x00, 0x00, 0x00, 0x00},
+-		{0xB9, 0x00, 0x00, 0x7E},
+-		{0xB9, 0x00, 0x01, 0x7E},
+-		{0xB9, 0x00, 0x02, 0x7E},
+-		{0xB9, 0x00, 0x02, 0xFE},
+-		{0xB9, 0x00, 0x03, 0x7E},
+-		{0xB9, 0x00, 0x03, 0xFD}
+-	};
+-	struct cpia2_command cmd;
+-	unsigned char reg;
+-
+-	if (!video_is_registered(&cam->vdev))
+-		return -ENODEV;
+-
+-	/***
+-	 * Write the isoc registers according to the alternate selected
+-	 ***/
+-	cmd.direction = TRANSFER_WRITE;
+-	cmd.buffer.block_data[0] = iso_regs[alt][0];
+-	cmd.buffer.block_data[1] = iso_regs[alt][1];
+-	cmd.buffer.block_data[2] = iso_regs[alt][2];
+-	cmd.buffer.block_data[3] = iso_regs[alt][3];
+-	cmd.req_mode = CAMERAACCESS_TYPE_BLOCK | CAMERAACCESS_VC;
+-	cmd.start = CPIA2_VC_USB_ISOLIM;
+-	cmd.reg_count = 4;
+-	cpia2_send_command(cam, &cmd);
+-
+-	/***
+-	 * Enable relevant streams before starting polling.
+-	 * First read USB Stream Config Register.
+-	 ***/
+-	cmd.direction = TRANSFER_READ;
+-	cmd.req_mode = CAMERAACCESS_TYPE_BLOCK | CAMERAACCESS_VC;
+-	cmd.start = CPIA2_VC_USB_STRM;
+-	cmd.reg_count = 1;
+-	cpia2_send_command(cam, &cmd);
+-	reg = cmd.buffer.block_data[0];
+-
+-	/* Clear iso, bulk, and int */
+-	reg &= ~(CPIA2_VC_USB_STRM_BLK_ENABLE |
+-		 CPIA2_VC_USB_STRM_ISO_ENABLE |
+-		 CPIA2_VC_USB_STRM_INT_ENABLE);
+-
+-	if (alt == USBIF_BULK) {
+-		DBG("Enabling bulk xfer\n");
+-		reg |= CPIA2_VC_USB_STRM_BLK_ENABLE;	/* Enable Bulk */
+-		cam->xfer_mode = XFER_BULK;
+-	} else if (alt >= USBIF_ISO_1) {
+-		DBG("Enabling ISOC xfer\n");
+-		reg |= CPIA2_VC_USB_STRM_ISO_ENABLE;
+-		cam->xfer_mode = XFER_ISOC;
+-	}
+-
+-	cmd.buffer.block_data[0] = reg;
+-	cmd.direction = TRANSFER_WRITE;
+-	cmd.start = CPIA2_VC_USB_STRM;
+-	cmd.reg_count = 1;
+-	cmd.req_mode = CAMERAACCESS_TYPE_BLOCK | CAMERAACCESS_VC;
+-	cpia2_send_command(cam, &cmd);
+-
 -	return 0;
 -}
 -
--static const struct v4l2_file_operations meye_fops = {
--	.owner		= THIS_MODULE,
--	.open		= meye_open,
--	.release	= meye_release,
--	.mmap		= meye_mmap,
--	.unlocked_ioctl	= video_ioctl2,
--	.poll		= meye_poll,
--};
--
--static const struct v4l2_ioctl_ops meye_ioctl_ops = {
--	.vidioc_querycap	= vidioc_querycap,
--	.vidioc_enum_input	= vidioc_enum_input,
--	.vidioc_g_input		= vidioc_g_input,
--	.vidioc_s_input		= vidioc_s_input,
--	.vidioc_enum_fmt_vid_cap = vidioc_enum_fmt_vid_cap,
--	.vidioc_try_fmt_vid_cap	= vidioc_try_fmt_vid_cap,
--	.vidioc_g_fmt_vid_cap	= vidioc_g_fmt_vid_cap,
--	.vidioc_s_fmt_vid_cap	= vidioc_s_fmt_vid_cap,
--	.vidioc_reqbufs		= vidioc_reqbufs,
--	.vidioc_querybuf	= vidioc_querybuf,
--	.vidioc_qbuf		= vidioc_qbuf,
--	.vidioc_dqbuf		= vidioc_dqbuf,
--	.vidioc_streamon	= vidioc_streamon,
--	.vidioc_streamoff	= vidioc_streamoff,
--	.vidioc_log_status	= v4l2_ctrl_log_status,
--	.vidioc_subscribe_event	= v4l2_ctrl_subscribe_event,
--	.vidioc_unsubscribe_event = v4l2_event_unsubscribe,
--	.vidioc_default		= vidioc_default,
--};
--
--static const struct video_device meye_template = {
--	.name		= "meye",
--	.fops		= &meye_fops,
--	.ioctl_ops	= &meye_ioctl_ops,
--	.release	= video_device_release_empty,
--	.device_caps	= V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_STREAMING,
--};
--
--static const struct v4l2_ctrl_ops meye_ctrl_ops = {
--	.s_ctrl = meye_s_ctrl,
--};
--
--static int __maybe_unused meye_suspend(struct device *dev)
+-/******************************************************************************
+- *
+- * cpia2_usb_change_streaming_alternate
+- *
+- *****************************************************************************/
+-int cpia2_usb_change_streaming_alternate(struct camera_data *cam,
+-					 unsigned int alt)
 -{
--	meye.pm_mchip_mode = meye.mchip_mode;
--	mchip_hic_stop();
--	mchip_set(MCHIP_MM_INTA, 0x0);
--	return 0;
--}
+-	int ret = 0;
 -
--static int __maybe_unused meye_resume(struct device *dev)
--{
--	pci_write_config_word(meye.mchip_dev, MCHIP_PCI_SOFTRESET_SET, 1);
+-	if(alt < USBIF_ISO_1 || alt > USBIF_ISO_6)
+-		return -EINVAL;
 -
--	mchip_delay(MCHIP_HIC_CMD, 0);
--	mchip_delay(MCHIP_HIC_STATUS, MCHIP_HIC_STATUS_IDLE);
--	msleep(1);
--	mchip_set(MCHIP_VRJ_SOFT_RESET, 1);
--	msleep(1);
--	mchip_set(MCHIP_MM_PCI_MODE, 5);
--	msleep(1);
--	mchip_set(MCHIP_MM_INTA, MCHIP_MM_INTA_HIC_1_MASK);
+-	if(alt == cam->params.camera_state.stream_mode)
+-		return 0;
 -
--	switch (meye.pm_mchip_mode) {
--	case MCHIP_HIC_MODE_CONT_OUT:
--		mchip_continuous_start();
--		break;
--	case MCHIP_HIC_MODE_CONT_COMP:
--		mchip_cont_compression_start();
--		break;
--	}
--	return 0;
--}
+-	cpia2_usb_stream_pause(cam);
 -
--static int meye_probe(struct pci_dev *pcidev, const struct pci_device_id *ent)
--{
--	static const struct v4l2_ctrl_config ctrl_agc = {
--		.id = V4L2_CID_MEYE_AGC,
--		.type = V4L2_CTRL_TYPE_INTEGER,
--		.ops = &meye_ctrl_ops,
--		.name = "AGC",
--		.max = 63,
--		.step = 1,
--		.def = 48,
--		.flags = V4L2_CTRL_FLAG_SLIDER,
--	};
--	static const struct v4l2_ctrl_config ctrl_picture = {
--		.id = V4L2_CID_MEYE_PICTURE,
--		.type = V4L2_CTRL_TYPE_INTEGER,
--		.ops = &meye_ctrl_ops,
--		.name = "Picture",
--		.max = 63,
--		.step = 1,
--	};
--	static const struct v4l2_ctrl_config ctrl_framerate = {
--		.id = V4L2_CID_MEYE_FRAMERATE,
--		.type = V4L2_CTRL_TYPE_INTEGER,
--		.ops = &meye_ctrl_ops,
--		.name = "Framerate",
--		.max = 31,
--		.step = 1,
--	};
--	struct v4l2_device *v4l2_dev = &meye.v4l2_dev;
--	int ret = -EBUSY;
--	unsigned long mchip_adr;
+-	configure_transfer_mode(cam, alt);
 -
--	if (meye.mchip_dev != NULL) {
--		printk(KERN_ERR "meye: only one device allowed!\n");
--		return ret;
--	}
+-	cam->params.camera_state.stream_mode = alt;
 -
--	ret = v4l2_device_register(&pcidev->dev, v4l2_dev);
--	if (ret < 0) {
--		v4l2_err(v4l2_dev, "Could not register v4l2_device\n");
--		return ret;
--	}
--	ret = -ENOMEM;
--	meye.mchip_dev = pcidev;
+-	/* Reset the camera to prevent image quality degradation */
+-	cpia2_reset_camera(cam);
 -
--	meye.grab_temp = vmalloc(array_size(PAGE_SIZE, MCHIP_NB_PAGES_MJPEG));
--	if (!meye.grab_temp)
--		goto outvmalloc;
+-	cpia2_usb_stream_resume(cam);
 -
--	spin_lock_init(&meye.grabq_lock);
--	if (kfifo_alloc(&meye.grabq, sizeof(int) * MEYE_MAX_BUFNBRS,
--			GFP_KERNEL))
--		goto outkfifoalloc1;
--
--	spin_lock_init(&meye.doneq_lock);
--	if (kfifo_alloc(&meye.doneq, sizeof(int) * MEYE_MAX_BUFNBRS,
--			GFP_KERNEL))
--		goto outkfifoalloc2;
--
--	meye.vdev = meye_template;
--	meye.vdev.v4l2_dev = &meye.v4l2_dev;
--
--	ret = sony_pic_camera_command(SONY_PIC_COMMAND_SETCAMERA, 1);
--	if (ret) {
--		v4l2_err(v4l2_dev, "meye: unable to power on the camera\n");
--		v4l2_err(v4l2_dev, "meye: did you enable the camera in sonypi using the module options ?\n");
--		goto outsonypienable;
--	}
--
--	ret = pci_enable_device(meye.mchip_dev);
--	if (ret) {
--		v4l2_err(v4l2_dev, "meye: pci_enable_device failed\n");
--		goto outenabledev;
--	}
--
--	ret = -EIO;
--	mchip_adr = pci_resource_start(meye.mchip_dev,0);
--	if (!mchip_adr) {
--		v4l2_err(v4l2_dev, "meye: mchip has no device base address\n");
--		goto outregions;
--	}
--	if (!request_mem_region(pci_resource_start(meye.mchip_dev, 0),
--				pci_resource_len(meye.mchip_dev, 0),
--				"meye")) {
--		v4l2_err(v4l2_dev, "meye: request_mem_region failed\n");
--		goto outregions;
--	}
--	meye.mchip_mmregs = ioremap(mchip_adr, MCHIP_MM_REGS);
--	if (!meye.mchip_mmregs) {
--		v4l2_err(v4l2_dev, "meye: ioremap failed\n");
--		goto outremap;
--	}
--
--	meye.mchip_irq = pcidev->irq;
--	if (request_irq(meye.mchip_irq, meye_irq,
--			IRQF_SHARED, "meye", meye_irq)) {
--		v4l2_err(v4l2_dev, "request_irq failed\n");
--		goto outreqirq;
--	}
--
--	pci_write_config_byte(meye.mchip_dev, PCI_CACHE_LINE_SIZE, 8);
--	pci_write_config_byte(meye.mchip_dev, PCI_LATENCY_TIMER, 64);
--
--	pci_set_master(meye.mchip_dev);
--
--	/* Ask the camera to perform a soft reset. */
--	pci_write_config_word(meye.mchip_dev, MCHIP_PCI_SOFTRESET_SET, 1);
--
--	mchip_delay(MCHIP_HIC_CMD, 0);
--	mchip_delay(MCHIP_HIC_STATUS, MCHIP_HIC_STATUS_IDLE);
--
--	msleep(1);
--	mchip_set(MCHIP_VRJ_SOFT_RESET, 1);
--
--	msleep(1);
--	mchip_set(MCHIP_MM_PCI_MODE, 5);
--
--	msleep(1);
--	mchip_set(MCHIP_MM_INTA, MCHIP_MM_INTA_HIC_1_MASK);
--
--	mutex_init(&meye.lock);
--	init_waitqueue_head(&meye.proc_list);
--
--	v4l2_ctrl_handler_init(&meye.hdl, 3);
--	v4l2_ctrl_new_std(&meye.hdl, &meye_ctrl_ops,
--			  V4L2_CID_BRIGHTNESS, 0, 63, 1, 32);
--	v4l2_ctrl_new_std(&meye.hdl, &meye_ctrl_ops,
--			  V4L2_CID_HUE, 0, 63, 1, 32);
--	v4l2_ctrl_new_std(&meye.hdl, &meye_ctrl_ops,
--			  V4L2_CID_CONTRAST, 0, 63, 1, 32);
--	v4l2_ctrl_new_std(&meye.hdl, &meye_ctrl_ops,
--			  V4L2_CID_SATURATION, 0, 63, 1, 32);
--	v4l2_ctrl_new_custom(&meye.hdl, &ctrl_agc, NULL);
--	v4l2_ctrl_new_std(&meye.hdl, &meye_ctrl_ops,
--			  V4L2_CID_SHARPNESS, 0, 63, 1, 32);
--	v4l2_ctrl_new_custom(&meye.hdl, &ctrl_picture, NULL);
--	v4l2_ctrl_new_std(&meye.hdl, &meye_ctrl_ops,
--			  V4L2_CID_JPEG_COMPRESSION_QUALITY, 0, 10, 1, 8);
--	v4l2_ctrl_new_custom(&meye.hdl, &ctrl_framerate, NULL);
--	if (meye.hdl.error) {
--		v4l2_err(v4l2_dev, "couldn't register controls\n");
--		goto outvideoreg;
--	}
--
--	v4l2_ctrl_handler_setup(&meye.hdl);
--	meye.vdev.ctrl_handler = &meye.hdl;
--
--	if (video_register_device(&meye.vdev, VFL_TYPE_VIDEO,
--				  video_nr) < 0) {
--		v4l2_err(v4l2_dev, "video_register_device failed\n");
--		goto outvideoreg;
--	}
--
--	v4l2_info(v4l2_dev, "Motion Eye Camera Driver v%s.\n",
--	       MEYE_DRIVER_VERSION);
--	v4l2_info(v4l2_dev, "mchip KL5A72002 rev. %d, base %lx, irq %d\n",
--	       meye.mchip_dev->revision, mchip_adr, meye.mchip_irq);
--
--	return 0;
--
--outvideoreg:
--	v4l2_ctrl_handler_free(&meye.hdl);
--	free_irq(meye.mchip_irq, meye_irq);
--outreqirq:
--	iounmap(meye.mchip_mmregs);
--outremap:
--	release_mem_region(pci_resource_start(meye.mchip_dev, 0),
--			   pci_resource_len(meye.mchip_dev, 0));
--outregions:
--	pci_disable_device(meye.mchip_dev);
--outenabledev:
--	sony_pic_camera_command(SONY_PIC_COMMAND_SETCAMERA, 0);
--outsonypienable:
--	kfifo_free(&meye.doneq);
--outkfifoalloc2:
--	kfifo_free(&meye.grabq);
--outkfifoalloc1:
--	vfree(meye.grab_temp);
--outvmalloc:
 -	return ret;
 -}
 -
--static void meye_remove(struct pci_dev *pcidev)
+-/******************************************************************************
+- *
+- * set_alternate
+- *
+- *****************************************************************************/
+-static int set_alternate(struct camera_data *cam, unsigned int alt)
 -{
--	video_unregister_device(&meye.vdev);
+-	int ret = 0;
 -
--	mchip_hic_stop();
+-	if(alt == cam->cur_alt)
+-		return 0;
 -
--	mchip_dma_free();
--
--	/* disable interrupts */
--	mchip_set(MCHIP_MM_INTA, 0x0);
--
--	free_irq(meye.mchip_irq, meye_irq);
--
--	iounmap(meye.mchip_mmregs);
--
--	release_mem_region(pci_resource_start(meye.mchip_dev, 0),
--			   pci_resource_len(meye.mchip_dev, 0));
--
--	pci_disable_device(meye.mchip_dev);
--
--	sony_pic_camera_command(SONY_PIC_COMMAND_SETCAMERA, 0);
--
--	kfifo_free(&meye.doneq);
--	kfifo_free(&meye.grabq);
--
--	vfree(meye.grab_temp);
--
--	if (meye.grab_fbuffer) {
--		rvfree(meye.grab_fbuffer, gbuffers*gbufsize);
--		meye.grab_fbuffer = NULL;
+-	if (cam->cur_alt != USBIF_CMDONLY) {
+-		DBG("Changing from alt %d to %d\n", cam->cur_alt, USBIF_CMDONLY);
+-		ret = usb_set_interface(cam->dev, cam->iface, USBIF_CMDONLY);
+-		if (ret != 0)
+-			return ret;
+-	}
+-	if (alt != USBIF_CMDONLY) {
+-		DBG("Changing from alt %d to %d\n", USBIF_CMDONLY, alt);
+-		ret = usb_set_interface(cam->dev, cam->iface, alt);
+-		if (ret != 0)
+-			return ret;
 -	}
 -
--	printk(KERN_INFO "meye: removed\n");
+-	cam->old_alt = cam->cur_alt;
+-	cam->cur_alt = alt;
+-
+-	return ret;
 -}
 -
--static const struct pci_device_id meye_pci_tbl[] = {
--	{ PCI_VDEVICE(KAWASAKI, PCI_DEVICE_ID_MCHIP_KL5A72002), 0 },
--	{ }
--};
--
--MODULE_DEVICE_TABLE(pci, meye_pci_tbl);
--
--static SIMPLE_DEV_PM_OPS(meye_pm_ops, meye_suspend, meye_resume);
--
--static struct pci_driver meye_driver = {
--	.name		= "meye",
--	.id_table	= meye_pci_tbl,
--	.probe		= meye_probe,
--	.remove		= meye_remove,
--	.driver.pm	= &meye_pm_ops,
--};
--
--static int __init meye_init(void)
+-/******************************************************************************
+- *
+- * free_sbufs
+- *
+- * Free all cam->sbuf[]. All non-NULL .data and .urb members that are non-NULL
+- * are assumed to be allocated. Non-NULL .urb members are also assumed to be
+- * submitted (and must therefore be killed before they are freed).
+- *****************************************************************************/
+-static void free_sbufs(struct camera_data *cam)
 -{
--	gbuffers = max(2, min((int)gbuffers, MEYE_MAX_BUFNBRS));
--	if (gbufsize > MEYE_MAX_BUFSIZE)
--		gbufsize = MEYE_MAX_BUFSIZE;
--	gbufsize = PAGE_ALIGN(gbufsize);
--	printk(KERN_INFO "meye: using %d buffers with %dk (%dk total) for capture\n",
--			 gbuffers,
--			 gbufsize / 1024, gbuffers * gbufsize / 1024);
--	return pci_register_driver(&meye_driver);
+-	int i;
+-
+-	for (i = 0; i < NUM_SBUF; i++) {
+-		if(cam->sbuf[i].urb) {
+-			usb_kill_urb(cam->sbuf[i].urb);
+-			usb_free_urb(cam->sbuf[i].urb);
+-			cam->sbuf[i].urb = NULL;
+-		}
+-		if(cam->sbuf[i].data) {
+-			kfree(cam->sbuf[i].data);
+-			cam->sbuf[i].data = NULL;
+-		}
+-	}
 -}
 -
--static void __exit meye_exit(void)
+-/*******
+-* Convenience functions
+-*******/
+-/****************************************************************************
+- *
+- *  write_packet
+- *
+- ***************************************************************************/
+-static int write_packet(struct usb_device *udev,
+-			u8 request, u8 * registers, u16 start, size_t size)
 -{
--	pci_unregister_driver(&meye_driver);
+-	unsigned char *buf;
+-	int ret;
+-
+-	if (!registers || size <= 0)
+-		return -EINVAL;
+-
+-	buf = kmemdup(registers, size, GFP_KERNEL);
+-	if (!buf)
+-		return -ENOMEM;
+-
+-	ret = usb_control_msg(udev,
+-			       usb_sndctrlpipe(udev, 0),
+-			       request,
+-			       USB_TYPE_VENDOR | USB_RECIP_DEVICE,
+-			       start,	/* value */
+-			       0,	/* index */
+-			       buf,	/* buffer */
+-			       size,
+-			       1000);
+-
+-	kfree(buf);
+-	return ret;
 -}
 -
--module_init(meye_init);
--module_exit(meye_exit);
-diff --git a/drivers/staging/media/deprecated/meye/meye.h b/drivers/staging/media/deprecated/meye/meye.h
+-/****************************************************************************
+- *
+- *  read_packet
+- *
+- ***************************************************************************/
+-static int read_packet(struct usb_device *udev,
+-		       u8 request, u8 * registers, u16 start, size_t size)
+-{
+-	unsigned char *buf;
+-	int ret;
+-
+-	if (!registers || size <= 0)
+-		return -EINVAL;
+-
+-	buf = kmalloc(size, GFP_KERNEL);
+-	if (!buf)
+-		return -ENOMEM;
+-
+-	ret = usb_control_msg(udev,
+-			       usb_rcvctrlpipe(udev, 0),
+-			       request,
+-			       USB_DIR_IN|USB_TYPE_VENDOR|USB_RECIP_DEVICE,
+-			       start,	/* value */
+-			       0,	/* index */
+-			       buf,	/* buffer */
+-			       size,
+-			       1000);
+-
+-	if (ret >= 0)
+-		memcpy(registers, buf, size);
+-
+-	kfree(buf);
+-
+-	return ret;
+-}
+-
+-/******************************************************************************
+- *
+- *  cpia2_usb_transfer_cmd
+- *
+- *****************************************************************************/
+-int cpia2_usb_transfer_cmd(struct camera_data *cam,
+-			   void *registers,
+-			   u8 request, u8 start, u8 count, u8 direction)
+-{
+-	int err = 0;
+-	struct usb_device *udev = cam->dev;
+-
+-	if (!udev) {
+-		ERR("%s: Internal driver error: udev is NULL\n", __func__);
+-		return -EINVAL;
+-	}
+-
+-	if (!registers) {
+-		ERR("%s: Internal driver error: register array is NULL\n", __func__);
+-		return -EINVAL;
+-	}
+-
+-	if (direction == TRANSFER_READ) {
+-		err = read_packet(udev, request, (u8 *)registers, start, count);
+-		if (err > 0)
+-			err = 0;
+-	} else if (direction == TRANSFER_WRITE) {
+-		err =write_packet(udev, request, (u8 *)registers, start, count);
+-		if (err < 0) {
+-			LOG("Control message failed, err val = %d\n", err);
+-			LOG("Message: request = 0x%0X, start = 0x%0X\n",
+-			    request, start);
+-			LOG("Message: count = %d, register[0] = 0x%0X\n",
+-			    count, ((unsigned char *) registers)[0]);
+-		} else
+-			err=0;
+-	} else {
+-		LOG("Unexpected first byte of direction: %d\n",
+-		       direction);
+-		return -EINVAL;
+-	}
+-
+-	if(err != 0)
+-		LOG("Unexpected error: %d\n", err);
+-	return err;
+-}
+-
+-
+-/******************************************************************************
+- *
+- *  submit_urbs
+- *
+- *****************************************************************************/
+-static int submit_urbs(struct camera_data *cam)
+-{
+-	struct urb *urb;
+-	int fx, err, i, j;
+-
+-	for(i=0; i<NUM_SBUF; ++i) {
+-		if (cam->sbuf[i].data)
+-			continue;
+-		cam->sbuf[i].data =
+-		    kmalloc_array(FRAME_SIZE_PER_DESC, FRAMES_PER_DESC,
+-				  GFP_KERNEL);
+-		if (!cam->sbuf[i].data) {
+-			while (--i >= 0) {
+-				kfree(cam->sbuf[i].data);
+-				cam->sbuf[i].data = NULL;
+-			}
+-			return -ENOMEM;
+-		}
+-	}
+-
+-	/* We double buffer the Isoc lists, and also know the polling
+-	 * interval is every frame (1 == (1 << (bInterval -1))).
+-	 */
+-	for(i=0; i<NUM_SBUF; ++i) {
+-		if(cam->sbuf[i].urb) {
+-			continue;
+-		}
+-		urb = usb_alloc_urb(FRAMES_PER_DESC, GFP_KERNEL);
+-		if (!urb) {
+-			for (j = 0; j < i; j++)
+-				usb_free_urb(cam->sbuf[j].urb);
+-			for (j = 0; j < NUM_SBUF; j++) {
+-				kfree(cam->sbuf[j].data);
+-				cam->sbuf[j].data = NULL;
+-			}
+-			return -ENOMEM;
+-		}
+-
+-		cam->sbuf[i].urb = urb;
+-		urb->dev = cam->dev;
+-		urb->context = cam;
+-		urb->pipe = usb_rcvisocpipe(cam->dev, 1 /*ISOC endpoint*/);
+-		urb->transfer_flags = URB_ISO_ASAP;
+-		urb->transfer_buffer = cam->sbuf[i].data;
+-		urb->complete = cpia2_usb_complete;
+-		urb->number_of_packets = FRAMES_PER_DESC;
+-		urb->interval = 1;
+-		urb->transfer_buffer_length =
+-			FRAME_SIZE_PER_DESC * FRAMES_PER_DESC;
+-
+-		for (fx = 0; fx < FRAMES_PER_DESC; fx++) {
+-			urb->iso_frame_desc[fx].offset =
+-				FRAME_SIZE_PER_DESC * fx;
+-			urb->iso_frame_desc[fx].length = FRAME_SIZE_PER_DESC;
+-		}
+-	}
+-
+-
+-	/* Queue the ISO urbs, and resubmit in the completion handler */
+-	for(i=0; i<NUM_SBUF; ++i) {
+-		err = usb_submit_urb(cam->sbuf[i].urb, GFP_KERNEL);
+-		if (err) {
+-			ERR("usb_submit_urb[%d]() = %d\n", i, err);
+-			return err;
+-		}
+-	}
+-
+-	return 0;
+-}
+-
+-/******************************************************************************
+- *
+- *  cpia2_usb_stream_start
+- *
+- *****************************************************************************/
+-int cpia2_usb_stream_start(struct camera_data *cam, unsigned int alternate)
+-{
+-	int ret;
+-	int old_alt;
+-
+-	if(cam->streaming)
+-		return 0;
+-
+-	if (cam->flush) {
+-		int i;
+-		DBG("Flushing buffers\n");
+-		for(i=0; i<cam->num_frames; ++i) {
+-			cam->buffers[i].status = FRAME_EMPTY;
+-			cam->buffers[i].length = 0;
+-		}
+-		cam->curbuff = &cam->buffers[0];
+-		cam->workbuff = cam->curbuff->next;
+-		cam->flush = false;
+-	}
+-
+-	old_alt = cam->params.camera_state.stream_mode;
+-	cam->params.camera_state.stream_mode = 0;
+-	ret = cpia2_usb_change_streaming_alternate(cam, alternate);
+-	if (ret < 0) {
+-		int ret2;
+-		ERR("cpia2_usb_change_streaming_alternate() = %d!\n", ret);
+-		cam->params.camera_state.stream_mode = old_alt;
+-		ret2 = set_alternate(cam, USBIF_CMDONLY);
+-		if (ret2 < 0) {
+-			ERR("cpia2_usb_change_streaming_alternate(%d) =%d has already failed. Then tried to call set_alternate(USBIF_CMDONLY) = %d.\n",
+-			    alternate, ret, ret2);
+-		}
+-	} else {
+-		cam->frame_count = 0;
+-		cam->streaming = 1;
+-		ret = cpia2_usb_stream_resume(cam);
+-	}
+-	return ret;
+-}
+-
+-/******************************************************************************
+- *
+- *  cpia2_usb_stream_pause
+- *
+- *****************************************************************************/
+-int cpia2_usb_stream_pause(struct camera_data *cam)
+-{
+-	int ret = 0;
+-	if(cam->streaming) {
+-		free_sbufs(cam);
+-		ret = set_alternate(cam, USBIF_CMDONLY);
+-	}
+-	return ret;
+-}
+-
+-/******************************************************************************
+- *
+- *  cpia2_usb_stream_resume
+- *
+- *****************************************************************************/
+-int cpia2_usb_stream_resume(struct camera_data *cam)
+-{
+-	int ret = 0;
+-	if(cam->streaming) {
+-		cam->first_image_seen = 0;
+-		ret = set_alternate(cam, cam->params.camera_state.stream_mode);
+-		if(ret == 0) {
+-			/* for some reason the user effects need to be set
+-			   again when starting streaming. */
+-			cpia2_do_command(cam, CPIA2_CMD_SET_USER_EFFECTS, TRANSFER_WRITE,
+-					cam->params.vp_params.user_effects);
+-			ret = submit_urbs(cam);
+-		}
+-	}
+-	return ret;
+-}
+-
+-/******************************************************************************
+- *
+- *  cpia2_usb_stream_stop
+- *
+- *****************************************************************************/
+-int cpia2_usb_stream_stop(struct camera_data *cam)
+-{
+-	int ret;
+-
+-	ret = cpia2_usb_stream_pause(cam);
+-	cam->streaming = 0;
+-	configure_transfer_mode(cam, 0);
+-	return ret;
+-}
+-
+-/******************************************************************************
+- *
+- *  cpia2_usb_probe
+- *
+- *  Probe and initialize.
+- *****************************************************************************/
+-static int cpia2_usb_probe(struct usb_interface *intf,
+-			   const struct usb_device_id *id)
+-{
+-	struct usb_device *udev = interface_to_usbdev(intf);
+-	struct usb_interface_descriptor *interface;
+-	struct camera_data *cam;
+-	int ret;
+-
+-	/* A multi-config CPiA2 camera? */
+-	if (udev->descriptor.bNumConfigurations != 1)
+-		return -ENODEV;
+-	interface = &intf->cur_altsetting->desc;
+-
+-	/* If we get to this point, we found a CPiA2 camera */
+-	LOG("CPiA2 USB camera found\n");
+-
+-	cam = cpia2_init_camera_struct(intf);
+-	if (cam == NULL)
+-		return -ENOMEM;
+-
+-	cam->dev = udev;
+-	cam->iface = interface->bInterfaceNumber;
+-
+-	ret = set_alternate(cam, USBIF_CMDONLY);
+-	if (ret < 0) {
+-		ERR("%s: usb_set_interface error (ret = %d)\n", __func__, ret);
+-		goto alt_err;
+-	}
+-
+-
+-	if((ret = cpia2_init_camera(cam)) < 0) {
+-		ERR("%s: failed to initialize cpia2 camera (ret = %d)\n", __func__, ret);
+-		goto alt_err;
+-	}
+-	LOG("  CPiA Version: %d.%02d (%d.%d)\n",
+-	       cam->params.version.firmware_revision_hi,
+-	       cam->params.version.firmware_revision_lo,
+-	       cam->params.version.asic_id,
+-	       cam->params.version.asic_rev);
+-	LOG("  CPiA PnP-ID: %04x:%04x:%04x\n",
+-	       cam->params.pnp_id.vendor,
+-	       cam->params.pnp_id.product,
+-	       cam->params.pnp_id.device_revision);
+-	LOG("  SensorID: %d.(version %d)\n",
+-	       cam->params.version.sensor_flags,
+-	       cam->params.version.sensor_rev);
+-
+-	usb_set_intfdata(intf, cam);
+-
+-	ret = cpia2_register_camera(cam);
+-	if (ret < 0) {
+-		ERR("%s: Failed to register cpia2 camera (ret = %d)\n", __func__, ret);
+-		goto alt_err;
+-	}
+-
+-	return 0;
+-
+-alt_err:
+-	cpia2_deinit_camera_struct(cam, intf);
+-	return ret;
+-}
+-
+-/******************************************************************************
+- *
+- *  cpia2_disconnect
+- *
+- *****************************************************************************/
+-static void cpia2_usb_disconnect(struct usb_interface *intf)
+-{
+-	struct camera_data *cam = usb_get_intfdata(intf);
+-	usb_set_intfdata(intf, NULL);
+-
+-	DBG("Stopping stream\n");
+-	cpia2_usb_stream_stop(cam);
+-
+-	mutex_lock(&cam->v4l2_lock);
+-	DBG("Unregistering camera\n");
+-	cpia2_unregister_camera(cam);
+-	v4l2_device_disconnect(&cam->v4l2_dev);
+-	mutex_unlock(&cam->v4l2_lock);
+-
+-	if(cam->buffers) {
+-		DBG("Wakeup waiting processes\n");
+-		cam->curbuff->status = FRAME_READY;
+-		cam->curbuff->length = 0;
+-		wake_up_interruptible(&cam->wq_stream);
+-	}
+-
+-	v4l2_device_put(&cam->v4l2_dev);
+-
+-	LOG("CPiA2 camera disconnected.\n");
+-}
+-
+-static int cpia2_usb_suspend(struct usb_interface *intf, pm_message_t message)
+-{
+-	struct camera_data *cam = usb_get_intfdata(intf);
+-
+-	mutex_lock(&cam->v4l2_lock);
+-	if (cam->streaming) {
+-		cpia2_usb_stream_stop(cam);
+-		cam->streaming = 1;
+-	}
+-	mutex_unlock(&cam->v4l2_lock);
+-
+-	dev_info(&intf->dev, "going into suspend..\n");
+-	return 0;
+-}
+-
+-/* Resume device - start device. */
+-static int cpia2_usb_resume(struct usb_interface *intf)
+-{
+-	struct camera_data *cam = usb_get_intfdata(intf);
+-
+-	mutex_lock(&cam->v4l2_lock);
+-	v4l2_ctrl_handler_setup(&cam->hdl);
+-	if (cam->streaming) {
+-		cam->streaming = 0;
+-		cpia2_usb_stream_start(cam,
+-				cam->params.camera_state.stream_mode);
+-	}
+-	mutex_unlock(&cam->v4l2_lock);
+-
+-	dev_info(&intf->dev, "coming out of suspend..\n");
+-	return 0;
+-}
+-
+-/******************************************************************************
+- *
+- *  usb_cpia2_init
+- *
+- *****************************************************************************/
+-int cpia2_usb_init(void)
+-{
+-	return usb_register(&cpia2_driver);
+-}
+-
+-/******************************************************************************
+- *
+- *  usb_cpia_cleanup
+- *
+- *****************************************************************************/
+-void cpia2_usb_cleanup(void)
+-{
+-	schedule_timeout(2 * HZ);
+-	usb_deregister(&cpia2_driver);
+-}
+diff --git a/drivers/staging/media/deprecated/cpia2/cpia2_v4l.c b/drivers/staging/media/deprecated/cpia2/cpia2_v4l.c
 deleted file mode 100644
-index 5fa6552cf93d..000000000000
---- a/drivers/staging/media/deprecated/meye/meye.h
+index 926ecfc9b64a..000000000000
+--- a/drivers/staging/media/deprecated/cpia2/cpia2_v4l.c
 +++ /dev/null
-@@ -1,311 +0,0 @@
--/* SPDX-License-Identifier: GPL-2.0-or-later */
--/*
-- * Motion Eye video4linux driver for Sony Vaio PictureBook
+@@ -1,1226 +0,0 @@
+-// SPDX-License-Identifier: GPL-2.0-or-later
+-/****************************************************************************
 - *
-- * Copyright (C) 2001-2004 Stelian Pop <stelian@popies.net>
+- *  Filename: cpia2_v4l.c
 - *
-- * Copyright (C) 2001-2002 Alcôve <www.alcove.com>
+- *  Copyright 2001, STMicrolectronics, Inc.
+- *      Contact:  steve.miller@st.com
+- *  Copyright 2001,2005, Scott J. Bertin <scottbertin@yahoo.com>
 - *
-- * Copyright (C) 2000 Andrew Tridgell <tridge@valinux.com>
+- *  Description:
+- *     This is a USB driver for CPia2 based video cameras.
+- *     The infrastructure of this driver is based on the cpia usb driver by
+- *     Jochen Scharrlach and Johannes Erdfeldt.
 - *
-- * Earlier work by Werner Almesberger, Paul `Rusty' Russell and Paul Mackerras.
+- *  Stripped of 2.4 stuff ready for main kernel submit by
+- *		Alan Cox <alan@lxorguk.ukuu.org.uk>
+- ****************************************************************************/
+-
+-#define CPIA_VERSION "3.0.1"
+-
+-#include <linux/module.h>
+-#include <linux/time.h>
+-#include <linux/sched.h>
+-#include <linux/slab.h>
+-#include <linux/init.h>
+-#include <linux/videodev2.h>
+-#include <linux/stringify.h>
+-#include <media/v4l2-ioctl.h>
+-#include <media/v4l2-event.h>
+-
+-#include "cpia2.h"
+-
+-static int video_nr = -1;
+-module_param(video_nr, int, 0);
+-MODULE_PARM_DESC(video_nr, "video device to register (0=/dev/video0, etc)");
+-
+-static int buffer_size = 68 * 1024;
+-module_param(buffer_size, int, 0);
+-MODULE_PARM_DESC(buffer_size, "Size for each frame buffer in bytes (default 68k)");
+-
+-static int num_buffers = 3;
+-module_param(num_buffers, int, 0);
+-MODULE_PARM_DESC(num_buffers, "Number of frame buffers (1-"
+-		 __stringify(VIDEO_MAX_FRAME) ", default 3)");
+-
+-static int alternate = DEFAULT_ALT;
+-module_param(alternate, int, 0);
+-MODULE_PARM_DESC(alternate, "USB Alternate (" __stringify(USBIF_ISO_1) "-"
+-		 __stringify(USBIF_ISO_6) ", default "
+-		 __stringify(DEFAULT_ALT) ")");
+-
+-static int flicker_mode;
+-module_param(flicker_mode, int, 0);
+-MODULE_PARM_DESC(flicker_mode, "Flicker frequency (0 (disabled), " __stringify(50) " or "
+-		 __stringify(60) ", default 0)");
+-
+-MODULE_AUTHOR("Steve Miller (STMicroelectronics) <steve.miller@st.com>");
+-MODULE_DESCRIPTION("V4L-driver for STMicroelectronics CPiA2 based cameras");
+-MODULE_LICENSE("GPL");
+-MODULE_VERSION(CPIA_VERSION);
+-
+-#define ABOUT "V4L-Driver for Vision CPiA2 based cameras"
+-#define CPIA2_CID_USB_ALT (V4L2_CID_USER_BASE | 0xf000)
+-
+-/******************************************************************************
 - *
-- * Some parts borrowed from various video4linux drivers, especially
-- * bttv-driver.c and zoran.c, see original files for credits.
-- */
+- *  cpia2_open
+- *
+- *****************************************************************************/
+-static int cpia2_open(struct file *file)
+-{
+-	struct camera_data *cam = video_drvdata(file);
+-	int retval;
 -
--#ifndef _MEYE_PRIV_H_
--#define _MEYE_PRIV_H_
+-	if (mutex_lock_interruptible(&cam->v4l2_lock))
+-		return -ERESTARTSYS;
+-	retval = v4l2_fh_open(file);
+-	if (retval)
+-		goto open_unlock;
 -
--#define MEYE_DRIVER_MAJORVERSION	 1
--#define MEYE_DRIVER_MINORVERSION	14
+-	if (v4l2_fh_is_singular_file(file)) {
+-		if (cpia2_allocate_buffers(cam)) {
+-			v4l2_fh_release(file);
+-			retval = -ENOMEM;
+-			goto open_unlock;
+-		}
 -
--#define MEYE_DRIVER_VERSION __stringify(MEYE_DRIVER_MAJORVERSION) "." \
--			    __stringify(MEYE_DRIVER_MINORVERSION)
+-		/* reset the camera */
+-		if (cpia2_reset_camera(cam) < 0) {
+-			v4l2_fh_release(file);
+-			retval = -EIO;
+-			goto open_unlock;
+-		}
 -
--#include <linux/types.h>
--#include <linux/pci.h>
--#include <linux/kfifo.h>
--#include <media/v4l2-ctrls.h>
+-		cam->APP_len = 0;
+-		cam->COM_len = 0;
+-	}
 -
--/****************************************************************************/
--/* Motion JPEG chip registers                                               */
--/****************************************************************************/
+-	cpia2_dbg_dump_registers(cam);
+-open_unlock:
+-	mutex_unlock(&cam->v4l2_lock);
+-	return retval;
+-}
 -
--/* Motion JPEG chip PCI configuration registers */
--#define MCHIP_PCI_POWER_CSR		0x54
--#define MCHIP_PCI_MCORE_STATUS		0x60		/* see HIC_STATUS   */
--#define MCHIP_PCI_HOSTUSEREQ_SET	0x64
--#define MCHIP_PCI_HOSTUSEREQ_CLR	0x68
--#define MCHIP_PCI_LOWPOWER_SET		0x6c
--#define MCHIP_PCI_LOWPOWER_CLR		0x70
--#define MCHIP_PCI_SOFTRESET_SET		0x74
+-/******************************************************************************
+- *
+- *  cpia2_close
+- *
+- *****************************************************************************/
+-static int cpia2_close(struct file *file)
+-{
+-	struct video_device *dev = video_devdata(file);
+-	struct camera_data *cam = video_get_drvdata(dev);
 -
--/* Motion JPEG chip memory mapped registers */
--#define MCHIP_MM_REGS			0x200		/* 512 bytes        */
--#define MCHIP_REG_TIMEOUT		1000		/* reg access, ~us  */
--#define MCHIP_MCC_VRJ_TIMEOUT		1000		/* MCC & VRJ access */
+-	mutex_lock(&cam->v4l2_lock);
+-	if (video_is_registered(&cam->vdev) && v4l2_fh_is_singular_file(file)) {
+-		cpia2_usb_stream_stop(cam);
 -
--#define MCHIP_MM_PCI_MODE		0x00		/* PCI access mode */
--#define MCHIP_MM_PCI_MODE_RETRY		0x00000001	/* retry mode */
--#define MCHIP_MM_PCI_MODE_MASTER	0x00000002	/* master access */
--#define MCHIP_MM_PCI_MODE_READ_LINE	0x00000004	/* read line */
+-		/* save camera state for later open */
+-		cpia2_save_camera_state(cam);
 -
--#define MCHIP_MM_INTA			0x04		/* Int status/mask */
--#define MCHIP_MM_INTA_MCC		0x00000001	/* MCC interrupt */
--#define MCHIP_MM_INTA_VRJ		0x00000002	/* VRJ interrupt */
--#define MCHIP_MM_INTA_HIC_1		0x00000004	/* one frame done */
--#define MCHIP_MM_INTA_HIC_1_MASK	0x00000400	/* 1: enable */
--#define MCHIP_MM_INTA_HIC_END		0x00000008	/* all frames done */
--#define MCHIP_MM_INTA_HIC_END_MASK	0x00000800
--#define MCHIP_MM_INTA_JPEG		0x00000010	/* decompress. error */
--#define MCHIP_MM_INTA_JPEG_MASK		0x00001000
--#define MCHIP_MM_INTA_CAPTURE		0x00000020	/* capture end */
--#define MCHIP_MM_INTA_PCI_ERR		0x00000040	/* PCI error */
--#define MCHIP_MM_INTA_PCI_ERR_MASK	0x00004000
+-		cpia2_set_low_power(cam);
+-		cpia2_free_buffers(cam);
+-	}
 -
--#define MCHIP_MM_PT_ADDR		0x08		/* page table address*/
--							/* n*4kB */
--#define MCHIP_NB_PAGES			1024		/* pages for display */
--#define MCHIP_NB_PAGES_MJPEG		256		/* pages for mjpeg */
+-	if (cam->stream_fh == file->private_data) {
+-		cam->stream_fh = NULL;
+-		cam->mmapped = 0;
+-	}
+-	mutex_unlock(&cam->v4l2_lock);
+-	return v4l2_fh_release(file);
+-}
 -
--#define MCHIP_MM_FIR(n)			(0x0c+(n)*4)	/* Frame info 0-3 */
--#define MCHIP_MM_FIR_RDY		0x00000001	/* frame ready */
--#define MCHIP_MM_FIR_FAILFR_MASK	0xf8000000	/* # of failed frames */
--#define MCHIP_MM_FIR_FAILFR_SHIFT	27
+-/******************************************************************************
+- *
+- *  cpia2_v4l_read
+- *
+- *****************************************************************************/
+-static ssize_t cpia2_v4l_read(struct file *file, char __user *buf, size_t count,
+-			      loff_t *off)
+-{
+-	struct camera_data *cam = video_drvdata(file);
+-	int noblock = file->f_flags & O_NONBLOCK;
+-	ssize_t ret;
 -
--	/* continuous comp/decomp mode */
--#define MCHIP_MM_FIR_C_ENDL_MASK	0x000007fe	/* end DW [10] */
--#define MCHIP_MM_FIR_C_ENDL_SHIFT	1
--#define MCHIP_MM_FIR_C_ENDP_MASK	0x0007f800	/* end page [8] */
--#define MCHIP_MM_FIR_C_ENDP_SHIFT	11
--#define MCHIP_MM_FIR_C_STARTP_MASK	0x07f80000	/* start page [8] */
--#define MCHIP_MM_FIR_C_STARTP_SHIFT	19
+-	if (!cam)
+-		return -EINVAL;
 -
--	/* continuous picture output mode */
--#define MCHIP_MM_FIR_O_STARTP_MASK	0x7ffe0000	/* start page [10] */
--#define MCHIP_MM_FIR_O_STARTP_SHIFT	17
+-	if (mutex_lock_interruptible(&cam->v4l2_lock))
+-		return -ERESTARTSYS;
+-	ret = cpia2_read(cam, buf, count, noblock);
+-	mutex_unlock(&cam->v4l2_lock);
+-	return ret;
+-}
 -
--#define MCHIP_MM_FIFO_DATA		0x1c		/* PCI TGT FIFO data */
--#define MCHIP_MM_FIFO_STATUS		0x20		/* PCI TGT FIFO stat */
--#define MCHIP_MM_FIFO_MASK		0x00000003
--#define MCHIP_MM_FIFO_WAIT_OR_READY	0x00000002      /* Bits common to WAIT & READY*/
--#define MCHIP_MM_FIFO_IDLE		0x0		/* HIC idle */
--#define MCHIP_MM_FIFO_IDLE1		0x1		/* idem ??? */
--#define	MCHIP_MM_FIFO_WAIT		0x2		/* wait request */
--#define MCHIP_MM_FIFO_READY		0x3		/* data ready */
+-/******************************************************************************
+- *
+- *  cpia2_v4l_poll
+- *
+- *****************************************************************************/
+-static __poll_t cpia2_v4l_poll(struct file *filp, struct poll_table_struct *wait)
+-{
+-	struct camera_data *cam = video_drvdata(filp);
+-	__poll_t res;
 -
--#define MCHIP_HIC_HOST_USEREQ		0x40		/* host uses MCORE */
+-	mutex_lock(&cam->v4l2_lock);
+-	res = cpia2_poll(cam, filp, wait);
+-	mutex_unlock(&cam->v4l2_lock);
+-	return res;
+-}
 -
--#define MCHIP_HIC_TP_BUSY		0x44		/* taking picture */
+-static int sync(struct camera_data *cam, int frame_nr)
+-{
+-	struct framebuf *frame = &cam->buffers[frame_nr];
 -
--#define MCHIP_HIC_PIC_SAVED		0x48		/* pic in SDRAM */
+-	while (1) {
+-		if (frame->status == FRAME_READY)
+-			return 0;
 -
--#define MCHIP_HIC_LOWPOWER		0x4c		/* clock stopped */
+-		if (!cam->streaming) {
+-			frame->status = FRAME_READY;
+-			frame->length = 0;
+-			return 0;
+-		}
 -
--#define MCHIP_HIC_CTL			0x50		/* HIC control */
--#define MCHIP_HIC_CTL_SOFT_RESET	0x00000001	/* MCORE reset */
--#define MCHIP_HIC_CTL_MCORE_RDY		0x00000002	/* MCORE ready */
+-		mutex_unlock(&cam->v4l2_lock);
+-		wait_event_interruptible(cam->wq_stream,
+-					 !cam->streaming ||
+-					 frame->status == FRAME_READY);
+-		mutex_lock(&cam->v4l2_lock);
+-		if (signal_pending(current))
+-			return -ERESTARTSYS;
+-		if (!video_is_registered(&cam->vdev))
+-			return -ENOTTY;
+-	}
+-}
 -
--#define MCHIP_HIC_CMD			0x54		/* HIC command */
--#define MCHIP_HIC_CMD_BITS		0x00000003      /* cmd width=[1:0]*/
--#define MCHIP_HIC_CMD_NOOP		0x0
--#define MCHIP_HIC_CMD_START		0x1
--#define MCHIP_HIC_CMD_STOP		0x2
+-/******************************************************************************
+- *
+- *  ioctl_querycap
+- *
+- *  V4L2 device capabilities
+- *
+- *****************************************************************************/
 -
--#define MCHIP_HIC_MODE			0x58
--#define MCHIP_HIC_MODE_NOOP		0x0
--#define MCHIP_HIC_MODE_STILL_CAP	0x1		/* still pic capt */
--#define MCHIP_HIC_MODE_DISPLAY		0x2		/* display */
--#define MCHIP_HIC_MODE_STILL_COMP	0x3		/* still pic comp. */
--#define MCHIP_HIC_MODE_STILL_DECOMP	0x4		/* still pic decomp. */
--#define MCHIP_HIC_MODE_CONT_COMP	0x5		/* cont capt+comp */
--#define MCHIP_HIC_MODE_CONT_DECOMP	0x6		/* cont decomp+disp */
--#define MCHIP_HIC_MODE_STILL_OUT	0x7		/* still pic output */
--#define MCHIP_HIC_MODE_CONT_OUT		0x8		/* cont output */
+-static int cpia2_querycap(struct file *file, void *fh, struct v4l2_capability *vc)
+-{
+-	struct camera_data *cam = video_drvdata(file);
 -
--#define MCHIP_HIC_STATUS		0x5c
--#define MCHIP_HIC_STATUS_MCC_RDY	0x00000001	/* MCC reg acc ok */
--#define MCHIP_HIC_STATUS_VRJ_RDY	0x00000002	/* VRJ reg acc ok */
--#define MCHIP_HIC_STATUS_IDLE           0x00000003
--#define MCHIP_HIC_STATUS_CAPDIS		0x00000004	/* cap/disp in prog */
--#define MCHIP_HIC_STATUS_COMPDEC	0x00000008	/* (de)comp in prog */
--#define MCHIP_HIC_STATUS_BUSY		0x00000010	/* HIC busy */
+-	strscpy(vc->driver, "cpia2", sizeof(vc->driver));
 -
--#define MCHIP_HIC_S_RATE		0x60		/* MJPEG # frames */
+-	if (cam->params.pnp_id.product == 0x151)
+-		strscpy(vc->card, "QX5 Microscope", sizeof(vc->card));
+-	else
+-		strscpy(vc->card, "CPiA2 Camera", sizeof(vc->card));
+-	switch (cam->params.pnp_id.device_type) {
+-	case DEVICE_STV_672:
+-		strcat(vc->card, " (672/");
+-		break;
+-	case DEVICE_STV_676:
+-		strcat(vc->card, " (676/");
+-		break;
+-	default:
+-		strcat(vc->card, " (XXX/");
+-		break;
+-	}
+-	switch (cam->params.version.sensor_flags) {
+-	case CPIA2_VP_SENSOR_FLAGS_404:
+-		strcat(vc->card, "404)");
+-		break;
+-	case CPIA2_VP_SENSOR_FLAGS_407:
+-		strcat(vc->card, "407)");
+-		break;
+-	case CPIA2_VP_SENSOR_FLAGS_409:
+-		strcat(vc->card, "409)");
+-		break;
+-	case CPIA2_VP_SENSOR_FLAGS_410:
+-		strcat(vc->card, "410)");
+-		break;
+-	case CPIA2_VP_SENSOR_FLAGS_500:
+-		strcat(vc->card, "500)");
+-		break;
+-	default:
+-		strcat(vc->card, "XXX)");
+-		break;
+-	}
 -
--#define MCHIP_HIC_PCI_VFMT		0x64		/* video format */
--#define MCHIP_HIC_PCI_VFMT_YVYU		0x00000001	/* 0: V Y' U Y */
--							/* 1: Y' V Y U */
+-	if (usb_make_path(cam->dev, vc->bus_info, sizeof(vc->bus_info)) < 0)
+-		memset(vc->bus_info, 0, sizeof(vc->bus_info));
+-	return 0;
+-}
 -
--#define MCHIP_MCC_CMD			0x80		/* MCC commands */
--#define MCHIP_MCC_CMD_INITIAL		0x0		/* idle ? */
--#define MCHIP_MCC_CMD_IIC_START_SET	0x1
--#define MCHIP_MCC_CMD_IIC_END_SET	0x2
--#define MCHIP_MCC_CMD_FM_WRITE		0x3		/* frame memory */
--#define MCHIP_MCC_CMD_FM_READ		0x4
--#define MCHIP_MCC_CMD_FM_STOP		0x5
--#define MCHIP_MCC_CMD_CAPTURE		0x6
--#define MCHIP_MCC_CMD_DISPLAY		0x7
--#define MCHIP_MCC_CMD_END_DISP		0x8
--#define MCHIP_MCC_CMD_STILL_COMP	0x9
--#define MCHIP_MCC_CMD_STILL_DECOMP	0xa
--#define MCHIP_MCC_CMD_STILL_OUTPUT	0xb
--#define MCHIP_MCC_CMD_CONT_OUTPUT	0xc
--#define MCHIP_MCC_CMD_CONT_COMP		0xd
--#define MCHIP_MCC_CMD_CONT_DECOMP	0xe
--#define MCHIP_MCC_CMD_RESET		0xf		/* MCC reset */
+-/******************************************************************************
+- *
+- *  ioctl_input
+- *
+- *  V4L2 input get/set/enumerate
+- *
+- *****************************************************************************/
 -
--#define MCHIP_MCC_IIC_WR		0x84
+-static int cpia2_enum_input(struct file *file, void *fh, struct v4l2_input *i)
+-{
+-	if (i->index)
+-		return -EINVAL;
+-	strscpy(i->name, "Camera", sizeof(i->name));
+-	i->type = V4L2_INPUT_TYPE_CAMERA;
+-	return 0;
+-}
 -
--#define MCHIP_MCC_MCC_WR		0x88
+-static int cpia2_g_input(struct file *file, void *fh, unsigned int *i)
+-{
+-	*i = 0;
+-	return 0;
+-}
 -
--#define MCHIP_MCC_MCC_RD		0x8c
+-static int cpia2_s_input(struct file *file, void *fh, unsigned int i)
+-{
+-	return i ? -EINVAL : 0;
+-}
 -
--#define MCHIP_MCC_STATUS		0x90
--#define MCHIP_MCC_STATUS_CAPT		0x00000001	/* capturing */
--#define MCHIP_MCC_STATUS_DISP		0x00000002	/* displaying */
--#define MCHIP_MCC_STATUS_COMP		0x00000004	/* compressing */
--#define MCHIP_MCC_STATUS_DECOMP		0x00000008	/* decompressing */
--#define MCHIP_MCC_STATUS_MCC_WR		0x00000010	/* register ready */
--#define MCHIP_MCC_STATUS_MCC_RD		0x00000020	/* register ready */
--#define MCHIP_MCC_STATUS_IIC_WR		0x00000040	/* register ready */
--#define MCHIP_MCC_STATUS_OUTPUT		0x00000080	/* output in prog */
+-/******************************************************************************
+- *
+- *  ioctl_enum_fmt
+- *
+- *  V4L2 format enumerate
+- *
+- *****************************************************************************/
 -
--#define MCHIP_MCC_SIG_POLARITY		0x94
--#define MCHIP_MCC_SIG_POL_VS_H		0x00000001	/* VS active-high */
--#define MCHIP_MCC_SIG_POL_HS_H		0x00000002	/* HS active-high */
--#define MCHIP_MCC_SIG_POL_DOE_H		0x00000004	/* DOE active-high */
+-static int cpia2_enum_fmt_vid_cap(struct file *file, void *fh,
+-				  struct v4l2_fmtdesc *f)
+-{
+-	if (f->index > 1)
+-		return -EINVAL;
 -
--#define MCHIP_MCC_IRQ			0x98
--#define MCHIP_MCC_IRQ_CAPDIS_STRT	0x00000001	/* cap/disp started */
--#define MCHIP_MCC_IRQ_CAPDIS_STRT_MASK	0x00000010
--#define MCHIP_MCC_IRQ_CAPDIS_END	0x00000002	/* cap/disp ended */
--#define MCHIP_MCC_IRQ_CAPDIS_END_MASK	0x00000020
--#define MCHIP_MCC_IRQ_COMPDEC_STRT	0x00000004	/* (de)comp started */
--#define MCHIP_MCC_IRQ_COMPDEC_STRT_MASK	0x00000040
--#define MCHIP_MCC_IRQ_COMPDEC_END	0x00000008	/* (de)comp ended */
--#define MCHIP_MCC_IRQ_COMPDEC_END_MASK	0x00000080
+-	if (f->index == 0)
+-		f->pixelformat = V4L2_PIX_FMT_MJPEG;
+-	else
+-		f->pixelformat = V4L2_PIX_FMT_JPEG;
+-	return 0;
+-}
 -
--#define MCHIP_MCC_HSTART		0x9c		/* video in */
--#define MCHIP_MCC_VSTART		0xa0
--#define MCHIP_MCC_HCOUNT		0xa4
--#define MCHIP_MCC_VCOUNT		0xa8
--#define MCHIP_MCC_R_XBASE		0xac		/* capt/disp */
--#define MCHIP_MCC_R_YBASE		0xb0
--#define MCHIP_MCC_R_XRANGE		0xb4
--#define MCHIP_MCC_R_YRANGE		0xb8
--#define MCHIP_MCC_B_XBASE		0xbc		/* comp/decomp */
--#define MCHIP_MCC_B_YBASE		0xc0
--#define MCHIP_MCC_B_XRANGE		0xc4
--#define MCHIP_MCC_B_YRANGE		0xc8
+-/******************************************************************************
+- *
+- *  ioctl_try_fmt
+- *
+- *  V4L2 format try
+- *
+- *****************************************************************************/
 -
--#define MCHIP_MCC_R_SAMPLING		0xcc		/* 1: 1:4 */
+-static int cpia2_try_fmt_vid_cap(struct file *file, void *fh,
+-				 struct v4l2_format *f)
+-{
+-	struct camera_data *cam = video_drvdata(file);
 -
--#define MCHIP_VRJ_CMD			0x100		/* VRJ commands */
+-	if (f->fmt.pix.pixelformat != V4L2_PIX_FMT_MJPEG &&
+-	    f->fmt.pix.pixelformat != V4L2_PIX_FMT_JPEG)
+-		return -EINVAL;
 -
--/* VRJ registers (see table 12.2.4) */
--#define MCHIP_VRJ_COMPRESSED_DATA	0x1b0
--#define MCHIP_VRJ_PIXEL_DATA		0x1b8
+-	f->fmt.pix.field = V4L2_FIELD_NONE;
+-	f->fmt.pix.bytesperline = 0;
+-	f->fmt.pix.sizeimage = cam->frame_size;
+-	f->fmt.pix.colorspace = V4L2_COLORSPACE_JPEG;
 -
--#define MCHIP_VRJ_BUS_MODE		0x100
--#define MCHIP_VRJ_SIGNAL_ACTIVE_LEVEL	0x108
--#define MCHIP_VRJ_PDAT_USE		0x110
--#define MCHIP_VRJ_MODE_SPECIFY		0x118
--#define MCHIP_VRJ_LIMIT_COMPRESSED_LO	0x120
--#define MCHIP_VRJ_LIMIT_COMPRESSED_HI	0x124
--#define MCHIP_VRJ_COMP_DATA_FORMAT	0x128
--#define MCHIP_VRJ_TABLE_DATA		0x140
--#define MCHIP_VRJ_RESTART_INTERVAL	0x148
--#define MCHIP_VRJ_NUM_LINES		0x150
--#define MCHIP_VRJ_NUM_PIXELS		0x158
--#define MCHIP_VRJ_NUM_COMPONENTS	0x160
--#define MCHIP_VRJ_SOF1			0x168
--#define MCHIP_VRJ_SOF2			0x170
--#define MCHIP_VRJ_SOF3			0x178
--#define MCHIP_VRJ_SOF4			0x180
--#define MCHIP_VRJ_SOS			0x188
--#define MCHIP_VRJ_SOFT_RESET		0x190
+-	switch (cpia2_match_video_size(f->fmt.pix.width, f->fmt.pix.height)) {
+-	case VIDEOSIZE_VGA:
+-		f->fmt.pix.width = 640;
+-		f->fmt.pix.height = 480;
+-		break;
+-	case VIDEOSIZE_CIF:
+-		f->fmt.pix.width = 352;
+-		f->fmt.pix.height = 288;
+-		break;
+-	case VIDEOSIZE_QVGA:
+-		f->fmt.pix.width = 320;
+-		f->fmt.pix.height = 240;
+-		break;
+-	case VIDEOSIZE_288_216:
+-		f->fmt.pix.width = 288;
+-		f->fmt.pix.height = 216;
+-		break;
+-	case VIDEOSIZE_256_192:
+-		f->fmt.pix.width = 256;
+-		f->fmt.pix.height = 192;
+-		break;
+-	case VIDEOSIZE_224_168:
+-		f->fmt.pix.width = 224;
+-		f->fmt.pix.height = 168;
+-		break;
+-	case VIDEOSIZE_192_144:
+-		f->fmt.pix.width = 192;
+-		f->fmt.pix.height = 144;
+-		break;
+-	case VIDEOSIZE_QCIF:
+-	default:
+-		f->fmt.pix.width = 176;
+-		f->fmt.pix.height = 144;
+-		break;
+-	}
 -
--#define MCHIP_VRJ_STATUS		0x1c0
--#define MCHIP_VRJ_STATUS_BUSY		0x00001
--#define MCHIP_VRJ_STATUS_COMP_ACCESS	0x00002
--#define MCHIP_VRJ_STATUS_PIXEL_ACCESS	0x00004
--#define MCHIP_VRJ_STATUS_ERROR		0x00008
+-	return 0;
+-}
 -
--#define MCHIP_VRJ_IRQ_FLAG		0x1c8
--#define MCHIP_VRJ_ERROR_REPORT		0x1d8
+-/******************************************************************************
+- *
+- *  ioctl_set_fmt
+- *
+- *  V4L2 format set
+- *
+- *****************************************************************************/
 -
--#define MCHIP_VRJ_START_COMMAND		0x1a0
+-static int cpia2_s_fmt_vid_cap(struct file *file, void *_fh,
+-			       struct v4l2_format *f)
+-{
+-	struct camera_data *cam = video_drvdata(file);
+-	int err, frame;
 -
--/****************************************************************************/
--/* Driver definitions.                                                      */
--/****************************************************************************/
+-	err = cpia2_try_fmt_vid_cap(file, _fh, f);
+-	if (err != 0)
+-		return err;
 -
--/* Sony Programmable I/O Controller for accessing the camera commands */
--#include <linux/sony-laptop.h>
+-	cam->pixelformat = f->fmt.pix.pixelformat;
 -
--/* private API definitions */
--#include <linux/meye.h>
--#include <linux/mutex.h>
+-	/* NOTE: This should be set to 1 for MJPEG, but some apps don't handle
+-	 * the missing Huffman table properly.
+-	 */
+-	cam->params.compression.inhibit_htables = 0;
+-		/*f->fmt.pix.pixelformat == V4L2_PIX_FMT_MJPEG;*/
 -
+-	/* we set the video window to something smaller or equal to what
+-	 * is requested by the user???
+-	 */
+-	DBG("Requested width = %d, height = %d\n",
+-	    f->fmt.pix.width, f->fmt.pix.height);
+-	if (f->fmt.pix.width != cam->width ||
+-	    f->fmt.pix.height != cam->height) {
+-		cam->width = f->fmt.pix.width;
+-		cam->height = f->fmt.pix.height;
+-		cam->params.roi.width = f->fmt.pix.width;
+-		cam->params.roi.height = f->fmt.pix.height;
+-		cpia2_set_format(cam);
+-	}
 -
--/* Enable jpg software correction */
--#define MEYE_JPEG_CORRECTION	1
+-	for (frame = 0; frame < cam->num_frames; ++frame) {
+-		if (cam->buffers[frame].status == FRAME_READING)
+-			if ((err = sync(cam, frame)) < 0)
+-				return err;
 -
--/* Maximum size of a buffer */
--#define MEYE_MAX_BUFSIZE	614400	/* 640 * 480 * 2 */
+-		cam->buffers[frame].status = FRAME_EMPTY;
+-	}
 -
--/* Maximum number of buffers */
--#define MEYE_MAX_BUFNBRS	32
+-	return 0;
+-}
 -
--/* State of a buffer */
--#define MEYE_BUF_UNUSED	0	/* not used */
--#define MEYE_BUF_USING	1	/* currently grabbing / playing */
--#define MEYE_BUF_DONE	2	/* done */
+-/******************************************************************************
+- *
+- *  ioctl_get_fmt
+- *
+- *  V4L2 format get
+- *
+- *****************************************************************************/
 -
--/* grab buffer */
--struct meye_grab_buffer {
--	int state;			/* state of buffer */
--	unsigned long size;		/* size of jpg frame */
--	u64 ts;				/* timestamp */
--	unsigned long sequence;		/* sequence number */
+-static int cpia2_g_fmt_vid_cap(struct file *file, void *fh,
+-			       struct v4l2_format *f)
+-{
+-	struct camera_data *cam = video_drvdata(file);
+-
+-	f->fmt.pix.width = cam->width;
+-	f->fmt.pix.height = cam->height;
+-	f->fmt.pix.pixelformat = cam->pixelformat;
+-	f->fmt.pix.field = V4L2_FIELD_NONE;
+-	f->fmt.pix.bytesperline = 0;
+-	f->fmt.pix.sizeimage = cam->frame_size;
+-	f->fmt.pix.colorspace = V4L2_COLORSPACE_JPEG;
+-
+-	return 0;
+-}
+-
+-/******************************************************************************
+- *
+- *  ioctl_cropcap
+- *
+- *  V4L2 query cropping capabilities
+- *  NOTE: cropping is currently disabled
+- *
+- *****************************************************************************/
+-
+-static int cpia2_g_selection(struct file *file, void *fh,
+-			     struct v4l2_selection *s)
+-{
+-	struct camera_data *cam = video_drvdata(file);
+-
+-	if (s->type != V4L2_BUF_TYPE_VIDEO_CAPTURE)
+-		return -EINVAL;
+-
+-	switch (s->target) {
+-	case V4L2_SEL_TGT_CROP_BOUNDS:
+-	case V4L2_SEL_TGT_CROP_DEFAULT:
+-		s->r.left = 0;
+-		s->r.top = 0;
+-		s->r.width = cam->width;
+-		s->r.height = cam->height;
+-		break;
+-	default:
+-		return -EINVAL;
+-	}
+-	return 0;
+-}
+-
+-struct framerate_info {
+-	int value;
+-	struct v4l2_fract period;
 -};
 -
--/* size of kfifos containing buffer indices */
--#define MEYE_QUEUE_SIZE	MEYE_MAX_BUFNBRS
--
--/* Motion Eye device structure */
--struct meye {
--	struct v4l2_device v4l2_dev;	/* Main v4l2_device struct */
--	struct v4l2_ctrl_handler hdl;
--	struct pci_dev *mchip_dev;	/* pci device */
--	u8 mchip_irq;			/* irq */
--	u8 mchip_mode;			/* actual mchip mode: HIC_MODE... */
--	u8 mchip_fnum;			/* current mchip frame number */
--	unsigned char __iomem *mchip_mmregs;/* mchip: memory mapped registers */
--	u8 *mchip_ptable[MCHIP_NB_PAGES];/* mchip: ptable */
--	void *mchip_ptable_toc;		/* mchip: ptable toc */
--	dma_addr_t mchip_dmahandle;	/* mchip: dma handle to ptable toc */
--	unsigned char *grab_fbuffer;	/* capture framebuffer */
--	unsigned char *grab_temp;	/* temporary buffer */
--					/* list of buffers */
--	struct meye_grab_buffer grab_buffer[MEYE_MAX_BUFNBRS];
--	int vma_use_count[MEYE_MAX_BUFNBRS]; /* mmap count */
--	struct mutex lock;		/* mutex for open/mmap... */
--	struct kfifo grabq;		/* queue for buffers to be grabbed */
--	spinlock_t grabq_lock;		/* lock protecting the queue */
--	struct kfifo doneq;		/* queue for grabbed buffers */
--	spinlock_t doneq_lock;		/* lock protecting the queue */
--	wait_queue_head_t proc_list;	/* wait queue */
--	struct video_device vdev;	/* video device parameters */
--	u16 brightness;
--	u16 hue;
--	u16 contrast;
--	u16 colour;
--	struct meye_params params;	/* additional parameters */
--	unsigned long in_use;		/* set to 1 if the device is in use */
--	u8 pm_mchip_mode;		/* old mchip mode */
+-static const struct framerate_info framerate_controls[] = {
+-	{ CPIA2_VP_FRAMERATE_6_25, { 4, 25 } },
+-	{ CPIA2_VP_FRAMERATE_7_5,  { 2, 15 } },
+-	{ CPIA2_VP_FRAMERATE_12_5, { 2, 25 } },
+-	{ CPIA2_VP_FRAMERATE_15,   { 1, 15 } },
+-	{ CPIA2_VP_FRAMERATE_25,   { 1, 25 } },
+-	{ CPIA2_VP_FRAMERATE_30,   { 1, 30 } },
 -};
 -
--#endif
-diff --git a/include/uapi/linux/meye.h b/include/uapi/linux/meye.h
-deleted file mode 100644
-index de9e3a954f3d..000000000000
---- a/include/uapi/linux/meye.h
-+++ /dev/null
-@@ -1,65 +0,0 @@
--/* SPDX-License-Identifier: GPL-2.0+ WITH Linux-syscall-note */
--/*
-- * Motion Eye video4linux driver for Sony Vaio PictureBook
-- *
-- * Copyright (C) 2001-2003 Stelian Pop <stelian@popies.net>
-- *
-- * Copyright (C) 2001-2002 Alcôve <www.alcove.com>
-- *
-- * Copyright (C) 2000 Andrew Tridgell <tridge@valinux.com>
-- *
-- * Earlier work by Werner Almesberger, Paul `Rusty' Russell and Paul Mackerras.
-- *
-- * Some parts borrowed from various video4linux drivers, especially
-- * bttv-driver.c and zoran.c, see original files for credits.
-- *
-- * This program is free software; you can redistribute it and/or modify
-- * it under the terms of the GNU General Public License as published by
-- * the Free Software Foundation; either version 2 of the License, or
-- * (at your option) any later version.
-- *
-- * This program is distributed in the hope that it will be useful,
-- * but WITHOUT ANY WARRANTY; without even the implied warranty of
-- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-- * GNU General Public License for more details.
-- *
-- * You should have received a copy of the GNU General Public License
-- * along with this program; if not, write to the Free Software
-- * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
-- */
+-static int cpia2_g_parm(struct file *file, void *fh, struct v4l2_streamparm *p)
+-{
+-	struct camera_data *cam = video_drvdata(file);
+-	struct v4l2_captureparm *cap = &p->parm.capture;
+-	int i;
 -
--#ifndef _MEYE_H_
--#define _MEYE_H_
+-	if (p->type != V4L2_BUF_TYPE_VIDEO_CAPTURE)
+-		return -EINVAL;
 -
--/****************************************************************************/
--/* Private API for handling mjpeg capture / playback.                       */
--/****************************************************************************/
+-	cap->capability = V4L2_CAP_TIMEPERFRAME;
+-	cap->readbuffers = cam->num_frames;
+-	for (i = 0; i < ARRAY_SIZE(framerate_controls); i++)
+-		if (cam->params.vp_params.frame_rate == framerate_controls[i].value) {
+-			cap->timeperframe = framerate_controls[i].period;
+-			break;
+-		}
+-	return 0;
+-}
 -
--struct meye_params {
--	unsigned char subsample;
--	unsigned char quality;
--	unsigned char sharpness;
--	unsigned char agc;
--	unsigned char picture;
--	unsigned char framerate;
+-static int cpia2_s_parm(struct file *file, void *fh, struct v4l2_streamparm *p)
+-{
+-	struct camera_data *cam = video_drvdata(file);
+-	struct v4l2_captureparm *cap = &p->parm.capture;
+-	struct v4l2_fract tpf = cap->timeperframe;
+-	int max = ARRAY_SIZE(framerate_controls) - 1;
+-	int ret;
+-	int i;
+-
+-	ret = cpia2_g_parm(file, fh, p);
+-	if (ret || !tpf.denominator || !tpf.numerator)
+-		return ret;
+-
+-	/* Maximum 15 fps for this model */
+-	if (cam->params.pnp_id.device_type == DEVICE_STV_672 &&
+-	    cam->params.version.sensor_flags == CPIA2_VP_SENSOR_FLAGS_500)
+-		max -= 2;
+-	for (i = 0; i <= max; i++) {
+-		struct v4l2_fract f1 = tpf;
+-		struct v4l2_fract f2 = framerate_controls[i].period;
+-
+-		f1.numerator *= f2.denominator;
+-		f2.numerator *= f1.denominator;
+-		if (f1.numerator >= f2.numerator)
+-			break;
+-	}
+-	if (i > max)
+-		i = max;
+-	cap->timeperframe = framerate_controls[i].period;
+-	return cpia2_set_fps(cam, framerate_controls[i].value);
+-}
+-
+-static const struct {
+-	u32 width;
+-	u32 height;
+-} cpia2_framesizes[] = {
+-	{ 640, 480 },
+-	{ 352, 288 },
+-	{ 320, 240 },
+-	{ 288, 216 },
+-	{ 256, 192 },
+-	{ 224, 168 },
+-	{ 192, 144 },
+-	{ 176, 144 },
 -};
 -
--/* query the extended parameters */
--#define MEYEIOC_G_PARAMS	_IOR ('v', BASE_VIDIOC_PRIVATE+0, struct meye_params)
--/* set the extended parameters */
--#define MEYEIOC_S_PARAMS	_IOW ('v', BASE_VIDIOC_PRIVATE+1, struct meye_params)
--/* queue a buffer for mjpeg capture */
--#define MEYEIOC_QBUF_CAPT	_IOW ('v', BASE_VIDIOC_PRIVATE+2, int)
--/* sync a previously queued mjpeg buffer */
--#define MEYEIOC_SYNC		_IOWR('v', BASE_VIDIOC_PRIVATE+3, int)
--/* get a still uncompressed snapshot */
--#define MEYEIOC_STILLCAPT	_IO  ('v', BASE_VIDIOC_PRIVATE+4)
--/* get a jpeg compressed snapshot */
--#define MEYEIOC_STILLJCAPT	_IOR ('v', BASE_VIDIOC_PRIVATE+5, int)
+-static int cpia2_enum_framesizes(struct file *file, void *fh,
+-				 struct v4l2_frmsizeenum *fsize)
+-{
+-	if (fsize->pixel_format != V4L2_PIX_FMT_MJPEG &&
+-	    fsize->pixel_format != V4L2_PIX_FMT_JPEG)
+-		return -EINVAL;
+-	if (fsize->index >= ARRAY_SIZE(cpia2_framesizes))
+-		return -EINVAL;
+-	fsize->type = V4L2_FRMSIZE_TYPE_DISCRETE;
+-	fsize->discrete.width = cpia2_framesizes[fsize->index].width;
+-	fsize->discrete.height = cpia2_framesizes[fsize->index].height;
 -
--/* V4L2 private controls */
--#define V4L2_CID_MEYE_AGC		(V4L2_CID_USER_MEYE_BASE + 0)
--#define V4L2_CID_MEYE_PICTURE		(V4L2_CID_USER_MEYE_BASE + 1)
--#define V4L2_CID_MEYE_FRAMERATE		(V4L2_CID_USER_MEYE_BASE + 2)
+-	return 0;
+-}
 -
--#endif
-diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
-index b73a8ba7df6c..5e80daa4ffe0 100644
---- a/include/uapi/linux/v4l2-controls.h
-+++ b/include/uapi/linux/v4l2-controls.h
-@@ -115,9 +115,13 @@ enum v4l2_colorfx {
- 
- /* USER-class private control IDs */
- 
--/* The base for the meye driver controls. See linux/meye.h for the list
-- * of controls. We reserve 16 controls for this driver. */
-+#ifndef __KERNEL__
-+/*
-+ * The base for the meye driver controls. This driver was removed, but
-+ * we keep this define in case any software still uses it.
-+ */
- #define V4L2_CID_USER_MEYE_BASE			(V4L2_CID_USER_BASE + 0x1000)
-+#endif
- 
- /* The base for the bttv driver controls.
-  * We reserve 32 controls for this driver. */
+-static int cpia2_enum_frameintervals(struct file *file, void *fh,
+-				     struct v4l2_frmivalenum *fival)
+-{
+-	struct camera_data *cam = video_drvdata(file);
+-	int max = ARRAY_SIZE(framerate_controls) - 1;
+-	int i;
+-
+-	if (fival->pixel_format != V4L2_PIX_FMT_MJPEG &&
+-	    fival->pixel_format != V4L2_PIX_FMT_JPEG)
+-		return -EINVAL;
+-
+-	/* Maximum 15 fps for this model */
+-	if (cam->params.pnp_id.device_type == DEVICE_STV_672 &&
+-	    cam->params.version.sensor_flags == CPIA2_VP_SENSOR_FLAGS_500)
+-		max -= 2;
+-	if (fival->index > max)
+-		return -EINVAL;
+-	for (i = 0; i < ARRAY_SIZE(cpia2_framesizes); i++)
+-		if (fival->width == cpia2_framesizes[i].width &&
+-		    fival->height == cpia2_framesizes[i].height)
+-			break;
+-	if (i == ARRAY_SIZE(cpia2_framesizes))
+-		return -EINVAL;
+-	fival->type = V4L2_FRMIVAL_TYPE_DISCRETE;
+-	fival->discrete = framerate_controls[fival->index].period;
+-	return 0;
+-}
+-
+-/******************************************************************************
+- *
+- *  ioctl_s_ctrl
+- *
+- *  V4L2 set the value of a control variable
+- *
+- *****************************************************************************/
+-
+-static int cpia2_s_ctrl(struct v4l2_ctrl *ctrl)
+-{
+-	struct camera_data *cam =
+-		container_of(ctrl->handler, struct camera_data, hdl);
+-	static const int flicker_table[] = {
+-		NEVER_FLICKER,
+-		FLICKER_50,
+-		FLICKER_60,
+-	};
+-
+-	DBG("Set control id:%d, value:%d\n", ctrl->id, ctrl->val);
+-
+-	switch (ctrl->id) {
+-	case V4L2_CID_BRIGHTNESS:
+-		cpia2_set_brightness(cam, ctrl->val);
+-		break;
+-	case V4L2_CID_CONTRAST:
+-		cpia2_set_contrast(cam, ctrl->val);
+-		break;
+-	case V4L2_CID_SATURATION:
+-		cpia2_set_saturation(cam, ctrl->val);
+-		break;
+-	case V4L2_CID_HFLIP:
+-		cpia2_set_property_mirror(cam, ctrl->val);
+-		break;
+-	case V4L2_CID_VFLIP:
+-		cpia2_set_property_flip(cam, ctrl->val);
+-		break;
+-	case V4L2_CID_POWER_LINE_FREQUENCY:
+-		return cpia2_set_flicker_mode(cam, flicker_table[ctrl->val]);
+-	case V4L2_CID_ILLUMINATORS_1:
+-		return cpia2_set_gpio(cam, (cam->top_light->val << 6) |
+-					   (cam->bottom_light->val << 7));
+-	case V4L2_CID_JPEG_ACTIVE_MARKER:
+-		cam->params.compression.inhibit_htables =
+-			!(ctrl->val & V4L2_JPEG_ACTIVE_MARKER_DHT);
+-		break;
+-	case V4L2_CID_JPEG_COMPRESSION_QUALITY:
+-		cam->params.vc_params.quality = ctrl->val;
+-		break;
+-	case CPIA2_CID_USB_ALT:
+-		cam->params.camera_state.stream_mode = ctrl->val;
+-		break;
+-	default:
+-		return -EINVAL;
+-	}
+-
+-	return 0;
+-}
+-
+-/******************************************************************************
+- *
+- *  ioctl_g_jpegcomp
+- *
+- *  V4L2 get the JPEG compression parameters
+- *
+- *****************************************************************************/
+-
+-static int cpia2_g_jpegcomp(struct file *file, void *fh, struct v4l2_jpegcompression *parms)
+-{
+-	struct camera_data *cam = video_drvdata(file);
+-
+-	memset(parms, 0, sizeof(*parms));
+-
+-	parms->quality = 80; // TODO: Can this be made meaningful?
+-
+-	parms->jpeg_markers = V4L2_JPEG_MARKER_DQT | V4L2_JPEG_MARKER_DRI;
+-	if (!cam->params.compression.inhibit_htables)
+-		parms->jpeg_markers |= V4L2_JPEG_MARKER_DHT;
+-
+-	parms->APPn = cam->APPn;
+-	parms->APP_len = cam->APP_len;
+-	if (cam->APP_len > 0) {
+-		memcpy(parms->APP_data, cam->APP_data, cam->APP_len);
+-		parms->jpeg_markers |= V4L2_JPEG_MARKER_APP;
+-	}
+-
+-	parms->COM_len = cam->COM_len;
+-	if (cam->COM_len > 0) {
+-		memcpy(parms->COM_data, cam->COM_data, cam->COM_len);
+-		parms->jpeg_markers |= JPEG_MARKER_COM;
+-	}
+-
+-	DBG("G_JPEGCOMP APP_len:%d COM_len:%d\n",
+-	    parms->APP_len, parms->COM_len);
+-
+-	return 0;
+-}
+-
+-/******************************************************************************
+- *
+- *  ioctl_s_jpegcomp
+- *
+- *  V4L2 set the JPEG compression parameters
+- *  NOTE: quality and some jpeg_markers are ignored.
+- *
+- *****************************************************************************/
+-
+-static int cpia2_s_jpegcomp(struct file *file, void *fh,
+-			    const struct v4l2_jpegcompression *parms)
+-{
+-	struct camera_data *cam = video_drvdata(file);
+-
+-	DBG("S_JPEGCOMP APP_len:%d COM_len:%d\n",
+-	    parms->APP_len, parms->COM_len);
+-
+-	cam->params.compression.inhibit_htables =
+-		!(parms->jpeg_markers & V4L2_JPEG_MARKER_DHT);
+-
+-	if (parms->APP_len != 0) {
+-		if (parms->APP_len > 0 &&
+-		    parms->APP_len <= sizeof(cam->APP_data) &&
+-		   parms->APPn >= 0 && parms->APPn <= 15) {
+-			cam->APPn = parms->APPn;
+-			cam->APP_len = parms->APP_len;
+-			memcpy(cam->APP_data, parms->APP_data, parms->APP_len);
+-		} else {
+-			LOG("Bad APPn Params n=%d len=%d\n",
+-			    parms->APPn, parms->APP_len);
+-			return -EINVAL;
+-		}
+-	} else {
+-		cam->APP_len = 0;
+-	}
+-
+-	if (parms->COM_len != 0) {
+-		if (parms->COM_len > 0 &&
+-		    parms->COM_len <= sizeof(cam->COM_data)) {
+-			cam->COM_len = parms->COM_len;
+-			memcpy(cam->COM_data, parms->COM_data, parms->COM_len);
+-		} else {
+-			LOG("Bad COM_len=%d\n", parms->COM_len);
+-			return -EINVAL;
+-		}
+-	}
+-
+-	return 0;
+-}
+-
+-/******************************************************************************
+- *
+- *  ioctl_reqbufs
+- *
+- *  V4L2 Initiate memory mapping.
+- *  NOTE: The user's request is ignored. For now the buffers are fixed.
+- *
+- *****************************************************************************/
+-
+-static int cpia2_reqbufs(struct file *file, void *fh, struct v4l2_requestbuffers *req)
+-{
+-	struct camera_data *cam = video_drvdata(file);
+-
+-	if (req->type != V4L2_BUF_TYPE_VIDEO_CAPTURE ||
+-	    req->memory != V4L2_MEMORY_MMAP)
+-		return -EINVAL;
+-
+-	DBG("REQBUFS requested:%d returning:%d\n", req->count, cam->num_frames);
+-	req->count = cam->num_frames;
+-	memset(&req->reserved, 0, sizeof(req->reserved));
+-
+-	return 0;
+-}
+-
+-/******************************************************************************
+- *
+- *  ioctl_querybuf
+- *
+- *  V4L2 Query memory buffer status.
+- *
+- *****************************************************************************/
+-
+-static int cpia2_querybuf(struct file *file, void *fh, struct v4l2_buffer *buf)
+-{
+-	struct camera_data *cam = video_drvdata(file);
+-
+-	if (buf->type != V4L2_BUF_TYPE_VIDEO_CAPTURE ||
+-	    buf->index >= cam->num_frames)
+-		return -EINVAL;
+-
+-	buf->m.offset = cam->buffers[buf->index].data - cam->frame_buffer;
+-	buf->length = cam->frame_size;
+-
+-	buf->memory = V4L2_MEMORY_MMAP;
+-
+-	if (cam->mmapped)
+-		buf->flags = V4L2_BUF_FLAG_MAPPED;
+-	else
+-		buf->flags = 0;
+-
+-	buf->flags |= V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
+-
+-	switch (cam->buffers[buf->index].status) {
+-	case FRAME_EMPTY:
+-	case FRAME_ERROR:
+-	case FRAME_READING:
+-		buf->bytesused = 0;
+-		buf->flags = V4L2_BUF_FLAG_QUEUED;
+-		break;
+-	case FRAME_READY:
+-		buf->bytesused = cam->buffers[buf->index].length;
+-		v4l2_buffer_set_timestamp(buf, cam->buffers[buf->index].ts);
+-		buf->sequence = cam->buffers[buf->index].seq;
+-		buf->flags = V4L2_BUF_FLAG_DONE;
+-		break;
+-	}
+-
+-	DBG("QUERYBUF index:%d offset:%d flags:%d seq:%d bytesused:%d\n",
+-	    buf->index, buf->m.offset, buf->flags, buf->sequence,
+-	    buf->bytesused);
+-
+-	return 0;
+-}
+-
+-/******************************************************************************
+- *
+- *  ioctl_qbuf
+- *
+- *  V4L2 User is freeing buffer
+- *
+- *****************************************************************************/
+-
+-static int cpia2_qbuf(struct file *file, void *fh, struct v4l2_buffer *buf)
+-{
+-	struct camera_data *cam = video_drvdata(file);
+-
+-	if (buf->type != V4L2_BUF_TYPE_VIDEO_CAPTURE ||
+-	    buf->memory != V4L2_MEMORY_MMAP ||
+-	   buf->index >= cam->num_frames)
+-		return -EINVAL;
+-
+-	DBG("QBUF #%d\n", buf->index);
+-
+-	if (cam->buffers[buf->index].status == FRAME_READY)
+-		cam->buffers[buf->index].status = FRAME_EMPTY;
+-
+-	return 0;
+-}
+-
+-/******************************************************************************
+- *
+- *  find_earliest_filled_buffer
+- *
+- *  Helper for ioctl_dqbuf. Find the next ready buffer.
+- *
+- *****************************************************************************/
+-
+-static int find_earliest_filled_buffer(struct camera_data *cam)
+-{
+-	int i;
+-	int found = -1;
+-
+-	for (i = 0; i < cam->num_frames; i++) {
+-		if (cam->buffers[i].status == FRAME_READY) {
+-			if (found < 0) {
+-				found = i;
+-			} else {
+-				/* find which buffer is earlier */
+-				if (cam->buffers[i].ts < cam->buffers[found].ts)
+-					found = i;
+-			}
+-		}
+-	}
+-	return found;
+-}
+-
+-/******************************************************************************
+- *
+- *  ioctl_dqbuf
+- *
+- *  V4L2 User is asking for a filled buffer.
+- *
+- *****************************************************************************/
+-
+-static int cpia2_dqbuf(struct file *file, void *fh, struct v4l2_buffer *buf)
+-{
+-	struct camera_data *cam = video_drvdata(file);
+-	int frame;
+-
+-	if (buf->type != V4L2_BUF_TYPE_VIDEO_CAPTURE ||
+-	    buf->memory != V4L2_MEMORY_MMAP)
+-		return -EINVAL;
+-
+-	frame = find_earliest_filled_buffer(cam);
+-
+-	if (frame < 0 && file->f_flags & O_NONBLOCK)
+-		return -EAGAIN;
+-
+-	if (frame < 0) {
+-		/* Wait for a frame to become available */
+-		struct framebuf *cb = cam->curbuff;
+-
+-		mutex_unlock(&cam->v4l2_lock);
+-		wait_event_interruptible(cam->wq_stream,
+-					 !video_is_registered(&cam->vdev) ||
+-					 (cb = cam->curbuff)->status == FRAME_READY);
+-		mutex_lock(&cam->v4l2_lock);
+-		if (signal_pending(current))
+-			return -ERESTARTSYS;
+-		if (!video_is_registered(&cam->vdev))
+-			return -ENOTTY;
+-		frame = cb->num;
+-	}
+-
+-	buf->index = frame;
+-	buf->bytesused = cam->buffers[buf->index].length;
+-	buf->flags = V4L2_BUF_FLAG_MAPPED | V4L2_BUF_FLAG_DONE
+-		| V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
+-	buf->field = V4L2_FIELD_NONE;
+-	v4l2_buffer_set_timestamp(buf, cam->buffers[buf->index].ts);
+-	buf->sequence = cam->buffers[buf->index].seq;
+-	buf->m.offset = cam->buffers[buf->index].data - cam->frame_buffer;
+-	buf->length = cam->frame_size;
+-	buf->reserved2 = 0;
+-	buf->request_fd = 0;
+-	memset(&buf->timecode, 0, sizeof(buf->timecode));
+-
+-	DBG("DQBUF #%d status:%d seq:%d length:%d\n", buf->index,
+-	    cam->buffers[buf->index].status, buf->sequence, buf->bytesused);
+-
+-	return 0;
+-}
+-
+-static int cpia2_streamon(struct file *file, void *fh, enum v4l2_buf_type type)
+-{
+-	struct camera_data *cam = video_drvdata(file);
+-	int ret = -EINVAL;
+-
+-	DBG("VIDIOC_STREAMON, streaming=%d\n", cam->streaming);
+-	if (!cam->mmapped || type != V4L2_BUF_TYPE_VIDEO_CAPTURE)
+-		return -EINVAL;
+-
+-	if (!cam->streaming) {
+-		ret = cpia2_usb_stream_start(cam,
+-					     cam->params.camera_state.stream_mode);
+-		if (!ret)
+-			v4l2_ctrl_grab(cam->usb_alt, true);
+-	}
+-	return ret;
+-}
+-
+-static int cpia2_streamoff(struct file *file, void *fh, enum v4l2_buf_type type)
+-{
+-	struct camera_data *cam = video_drvdata(file);
+-	int ret = -EINVAL;
+-
+-	DBG("VIDIOC_STREAMOFF, streaming=%d\n", cam->streaming);
+-	if (!cam->mmapped || type != V4L2_BUF_TYPE_VIDEO_CAPTURE)
+-		return -EINVAL;
+-
+-	if (cam->streaming) {
+-		ret = cpia2_usb_stream_stop(cam);
+-		if (!ret)
+-			v4l2_ctrl_grab(cam->usb_alt, false);
+-	}
+-	return ret;
+-}
+-
+-/******************************************************************************
+- *
+- *  cpia2_mmap
+- *
+- *****************************************************************************/
+-static int cpia2_mmap(struct file *file, struct vm_area_struct *area)
+-{
+-	struct camera_data *cam = video_drvdata(file);
+-	int retval;
+-
+-	if (mutex_lock_interruptible(&cam->v4l2_lock))
+-		return -ERESTARTSYS;
+-	retval = cpia2_remap_buffer(cam, area);
+-
+-	if (!retval)
+-		cam->stream_fh = file->private_data;
+-	mutex_unlock(&cam->v4l2_lock);
+-	return retval;
+-}
+-
+-/******************************************************************************
+- *
+- *  reset_camera_struct_v4l
+- *
+- *  Sets all values to the defaults
+- *****************************************************************************/
+-static void reset_camera_struct_v4l(struct camera_data *cam)
+-{
+-	cam->width = cam->params.roi.width;
+-	cam->height = cam->params.roi.height;
+-
+-	cam->frame_size = buffer_size;
+-	cam->num_frames = num_buffers;
+-
+-	/* Flicker modes */
+-	cam->params.flicker_control.flicker_mode_req = flicker_mode;
+-
+-	/* stream modes */
+-	cam->params.camera_state.stream_mode = alternate;
+-
+-	cam->pixelformat = V4L2_PIX_FMT_JPEG;
+-}
+-
+-static const struct v4l2_ioctl_ops cpia2_ioctl_ops = {
+-	.vidioc_querycap		    = cpia2_querycap,
+-	.vidioc_enum_input		    = cpia2_enum_input,
+-	.vidioc_g_input			    = cpia2_g_input,
+-	.vidioc_s_input			    = cpia2_s_input,
+-	.vidioc_enum_fmt_vid_cap	    = cpia2_enum_fmt_vid_cap,
+-	.vidioc_g_fmt_vid_cap		    = cpia2_g_fmt_vid_cap,
+-	.vidioc_s_fmt_vid_cap		    = cpia2_s_fmt_vid_cap,
+-	.vidioc_try_fmt_vid_cap		    = cpia2_try_fmt_vid_cap,
+-	.vidioc_g_jpegcomp		    = cpia2_g_jpegcomp,
+-	.vidioc_s_jpegcomp		    = cpia2_s_jpegcomp,
+-	.vidioc_g_selection		    = cpia2_g_selection,
+-	.vidioc_reqbufs			    = cpia2_reqbufs,
+-	.vidioc_querybuf		    = cpia2_querybuf,
+-	.vidioc_qbuf			    = cpia2_qbuf,
+-	.vidioc_dqbuf			    = cpia2_dqbuf,
+-	.vidioc_streamon		    = cpia2_streamon,
+-	.vidioc_streamoff		    = cpia2_streamoff,
+-	.vidioc_s_parm			    = cpia2_s_parm,
+-	.vidioc_g_parm			    = cpia2_g_parm,
+-	.vidioc_enum_framesizes		    = cpia2_enum_framesizes,
+-	.vidioc_enum_frameintervals	    = cpia2_enum_frameintervals,
+-	.vidioc_subscribe_event		    = v4l2_ctrl_subscribe_event,
+-	.vidioc_unsubscribe_event	    = v4l2_event_unsubscribe,
+-};
+-
+-/***
+- * The v4l video device structure initialized for this device
+- ***/
+-static const struct v4l2_file_operations cpia2_fops = {
+-	.owner		= THIS_MODULE,
+-	.open		= cpia2_open,
+-	.release	= cpia2_close,
+-	.read		= cpia2_v4l_read,
+-	.poll		= cpia2_v4l_poll,
+-	.unlocked_ioctl	= video_ioctl2,
+-	.mmap		= cpia2_mmap,
+-};
+-
+-static const struct video_device cpia2_template = {
+-	/* I could not find any place for the old .initialize initializer?? */
+-	.name =		"CPiA2 Camera",
+-	.fops =		&cpia2_fops,
+-	.ioctl_ops =	&cpia2_ioctl_ops,
+-	.release =	video_device_release_empty,
+-};
+-
+-void cpia2_camera_release(struct v4l2_device *v4l2_dev)
+-{
+-	struct camera_data *cam =
+-		container_of(v4l2_dev, struct camera_data, v4l2_dev);
+-
+-	v4l2_ctrl_handler_free(&cam->hdl);
+-	v4l2_device_unregister(&cam->v4l2_dev);
+-	kfree(cam);
+-}
+-
+-static const struct v4l2_ctrl_ops cpia2_ctrl_ops = {
+-	.s_ctrl = cpia2_s_ctrl,
+-};
+-
+-/******************************************************************************
+- *
+- *  cpia2_register_camera
+- *
+- *****************************************************************************/
+-int cpia2_register_camera(struct camera_data *cam)
+-{
+-	struct v4l2_ctrl_handler *hdl = &cam->hdl;
+-	struct v4l2_ctrl_config cpia2_usb_alt = {
+-		.ops = &cpia2_ctrl_ops,
+-		.id = CPIA2_CID_USB_ALT,
+-		.name = "USB Alternate",
+-		.type = V4L2_CTRL_TYPE_INTEGER,
+-		.min = USBIF_ISO_1,
+-		.max = USBIF_ISO_6,
+-		.step = 1,
+-	};
+-	int ret;
+-
+-	v4l2_ctrl_handler_init(hdl, 12);
+-	v4l2_ctrl_new_std(hdl, &cpia2_ctrl_ops,
+-			  V4L2_CID_BRIGHTNESS,
+-			  cam->params.pnp_id.device_type == DEVICE_STV_672 ? 1 : 0,
+-			  255, 1, DEFAULT_BRIGHTNESS);
+-	v4l2_ctrl_new_std(hdl, &cpia2_ctrl_ops,
+-			  V4L2_CID_CONTRAST, 0, 255, 1, DEFAULT_CONTRAST);
+-	v4l2_ctrl_new_std(hdl, &cpia2_ctrl_ops,
+-			  V4L2_CID_SATURATION, 0, 255, 1, DEFAULT_SATURATION);
+-	v4l2_ctrl_new_std(hdl, &cpia2_ctrl_ops,
+-			  V4L2_CID_HFLIP, 0, 1, 1, 0);
+-	v4l2_ctrl_new_std(hdl, &cpia2_ctrl_ops,
+-			  V4L2_CID_JPEG_ACTIVE_MARKER, 0,
+-			  V4L2_JPEG_ACTIVE_MARKER_DHT, 0,
+-			  V4L2_JPEG_ACTIVE_MARKER_DHT);
+-	v4l2_ctrl_new_std(hdl, &cpia2_ctrl_ops,
+-			  V4L2_CID_JPEG_COMPRESSION_QUALITY, 1,
+-			  100, 1, 100);
+-	cpia2_usb_alt.def = alternate;
+-	cam->usb_alt = v4l2_ctrl_new_custom(hdl, &cpia2_usb_alt, NULL);
+-	/* VP5 Only */
+-	if (cam->params.pnp_id.device_type != DEVICE_STV_672)
+-		v4l2_ctrl_new_std(hdl, &cpia2_ctrl_ops,
+-				  V4L2_CID_VFLIP, 0, 1, 1, 0);
+-	/* Flicker control only valid for 672 */
+-	if (cam->params.pnp_id.device_type == DEVICE_STV_672)
+-		v4l2_ctrl_new_std_menu(hdl, &cpia2_ctrl_ops,
+-				       V4L2_CID_POWER_LINE_FREQUENCY,
+-				       V4L2_CID_POWER_LINE_FREQUENCY_60HZ,
+-				       0, 0);
+-	/* Light control only valid for the QX5 Microscope */
+-	if (cam->params.pnp_id.product == 0x151) {
+-		cam->top_light = v4l2_ctrl_new_std(hdl, &cpia2_ctrl_ops,
+-						   V4L2_CID_ILLUMINATORS_1,
+-						   0, 1, 1, 0);
+-		cam->bottom_light = v4l2_ctrl_new_std(hdl, &cpia2_ctrl_ops,
+-						      V4L2_CID_ILLUMINATORS_2,
+-						      0, 1, 1, 0);
+-		v4l2_ctrl_cluster(2, &cam->top_light);
+-	}
+-
+-	if (hdl->error) {
+-		ret = hdl->error;
+-		v4l2_ctrl_handler_free(hdl);
+-		return ret;
+-	}
+-
+-	cam->vdev = cpia2_template;
+-	video_set_drvdata(&cam->vdev, cam);
+-	cam->vdev.lock = &cam->v4l2_lock;
+-	cam->vdev.ctrl_handler = hdl;
+-	cam->vdev.v4l2_dev = &cam->v4l2_dev;
+-	cam->vdev.device_caps = V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_READWRITE |
+-				V4L2_CAP_STREAMING;
+-
+-	reset_camera_struct_v4l(cam);
+-
+-	/* register v4l device */
+-	if (video_register_device(&cam->vdev, VFL_TYPE_VIDEO, video_nr) < 0) {
+-		ERR("video_register_device failed\n");
+-		return -ENODEV;
+-	}
+-
+-	return 0;
+-}
+-
+-/******************************************************************************
+- *
+- *  cpia2_unregister_camera
+- *
+- *****************************************************************************/
+-void cpia2_unregister_camera(struct camera_data *cam)
+-{
+-	video_unregister_device(&cam->vdev);
+-}
+-
+-/******************************************************************************
+- *
+- *  check_parameters
+- *
+- *  Make sure that all user-supplied parameters are sensible
+- *****************************************************************************/
+-static void __init check_parameters(void)
+-{
+-	if (buffer_size < PAGE_SIZE) {
+-		buffer_size = PAGE_SIZE;
+-		LOG("buffer_size too small, setting to %d\n", buffer_size);
+-	} else if (buffer_size > 1024 * 1024) {
+-		/* arbitrary upper limiit */
+-		buffer_size = 1024 * 1024;
+-		LOG("buffer_size ridiculously large, setting to %d\n",
+-		    buffer_size);
+-	} else {
+-		buffer_size += PAGE_SIZE - 1;
+-		buffer_size &= ~(PAGE_SIZE - 1);
+-	}
+-
+-	if (num_buffers < 1) {
+-		num_buffers = 1;
+-		LOG("num_buffers too small, setting to %d\n", num_buffers);
+-	} else if (num_buffers > VIDEO_MAX_FRAME) {
+-		num_buffers = VIDEO_MAX_FRAME;
+-		LOG("num_buffers too large, setting to %d\n", num_buffers);
+-	}
+-
+-	if (alternate < USBIF_ISO_1 || alternate > USBIF_ISO_6) {
+-		alternate = DEFAULT_ALT;
+-		LOG("alternate specified is invalid, using %d\n", alternate);
+-	}
+-
+-	if (flicker_mode != 0 && flicker_mode != FLICKER_50 && flicker_mode != FLICKER_60) {
+-		flicker_mode = 0;
+-		LOG("Flicker mode specified is invalid, using %d\n",
+-		    flicker_mode);
+-	}
+-
+-	DBG("Using %d buffers, each %d bytes, alternate=%d\n",
+-	    num_buffers, buffer_size, alternate);
+-}
+-
+-/************   Module Stuff ***************/
+-
+-/******************************************************************************
+- *
+- * cpia2_init/module_init
+- *
+- *****************************************************************************/
+-static int __init cpia2_init(void)
+-{
+-	LOG("%s v%s\n",
+-	    ABOUT, CPIA_VERSION);
+-	check_parameters();
+-	return cpia2_usb_init();
+-}
+-
+-/******************************************************************************
+- *
+- * cpia2_exit/module_exit
+- *
+- *****************************************************************************/
+-static void __exit cpia2_exit(void)
+-{
+-	cpia2_usb_cleanup();
+-	schedule_timeout(2 * HZ);
+-}
+-
+-module_init(cpia2_init);
+-module_exit(cpia2_exit);
 -- 
 2.39.0
 
