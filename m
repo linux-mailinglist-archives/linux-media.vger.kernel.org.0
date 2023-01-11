@@ -2,450 +2,232 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 91C1E66599E
-	for <lists+linux-media@lfdr.de>; Wed, 11 Jan 2023 12:02:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 289796659CF
+	for <lists+linux-media@lfdr.de>; Wed, 11 Jan 2023 12:12:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231294AbjAKLCG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 11 Jan 2023 06:02:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42062 "EHLO
+        id S229732AbjAKLLm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 11 Jan 2023 06:11:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45086 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236031AbjAKLBi (ORCPT
+        with ESMTP id S232408AbjAKLKv (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 11 Jan 2023 06:01:38 -0500
-X-Greylist: delayed 62 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 11 Jan 2023 03:01:34 PST
-Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.183])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EBF5011A21
-        for <linux-media@vger.kernel.org>; Wed, 11 Jan 2023 03:01:33 -0800 (PST)
-X-KPN-MessageId: 1872fd45-919f-11ed-b08d-005056992ed3
-Received: from smtp.kpnmail.nl (unknown [10.31.155.8])
-        by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-        id 1872fd45-919f-11ed-b08d-005056992ed3;
-        Wed, 11 Jan 2023 12:00:01 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=xs4all.nl; s=xs4all01;
-        h=content-type:to:from:subject:mime-version:date:message-id;
-        bh=tt6+qCaexzs07oP/kAMtc9+xxdNndMG+4zHQerKvNz8=;
-        b=rhYm8Y2o3szkimyufYi1DqIS09L5pYqNxVIhaI9+8OdvrZOxyEuEU/K2zblhJZ1vExMFW1tEtHgCU
-         NVlG8HSq3F2UMSwRsnil0GGoOGZ6WF+Z9hYR21R1bLxUA8sJ8G4ATjtkt/uyaVFoN64UDzUrO985M6
-         kG34F6DCpClfBdS31RZL9PC7Zv9YUN5U2oaSZb6ND8ILuOu0Gbhp8qIE38DPwv5G0GSMh4wnoMHcNs
-         3p4FOZyx/PYGRq0Jlm9TM40puibAPr2RMnlaQKdzMdBXD3asAMQMd/XnqyRPXchrNgiKV6zKrkcTQ9
-         NypHWM9Kx7JEm7U7MMDt7uaeT+mxW7w==
-X-KPN-MID: 33|lS7LycrR8RLgWztWhNydM921jSiORo2FlfJw1jU86w4EW6DoeDSifUpvOVL5zg2
- EyXMVAOiofosc9ltSwhOCzZt5ZEGQ/bDZ4kda4SFn6ik=
-X-KPN-VerifiedSender: Yes
-X-CMASSUN: 33|pf3dKv2cWa8Vj2xtUZwPNaldp3um7ijvAqh4BmzO+GfzwCxU1NDHOtzjNnOAOzN
- y2fr/EmtSWKdr8HanTD0LXQ==
-X-Originating-IP: 173.38.220.40
-Received: from [10.47.77.219] (unknown [173.38.220.40])
-        by smtp.xs4all.nl (Halon) with ESMTPSA
-        id 2843c109-919f-11ed-9d31-00505699d6e5;
-        Wed, 11 Jan 2023 12:00:29 +0100 (CET)
-Message-ID: <acc6c097-5299-6f11-2398-3fdd269c0e41@xs4all.nl>
-Date:   Wed, 11 Jan 2023 12:00:27 +0100
+        Wed, 11 Jan 2023 06:10:51 -0500
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C60F318E19
+        for <linux-media@vger.kernel.org>; Wed, 11 Jan 2023 03:09:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1673435346; x=1704971346;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=kj8atyzMDlYQ6j+a228/7z4Ybjhat8Ww8HYoVNd7DDs=;
+  b=gn+qnvA9UCZFwe5Zuag5Re+PpAyuCAV00UKACpaHOlLz1LCXFWBnq/TA
+   BFq/N9OfULgmzIaz3n7N9aL6V7l1oiPi9FgAfB66rQ7ezHU8cSC2z1AaQ
+   se1cKAhCllbf4sCO9x2jAcgpnVctgfp4t4hJOWL9uWuqxa+QWDuJZS+jw
+   mtQmFL8M9xRgENRjvN1yar1EudLJR1FnTYbRpTcObuEv48V71adnpyXZk
+   3EaPExVwmqGVxUeVG/TDwmA6XwkLH0UmyXua45xc6DL5n31pl6FIxzcUf
+   gmHaQ60lVsW6iamTXoCgUfEMqSKYdV2RJS1a4Dvh8ydcA8BR4eD4PuQYz
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10586"; a="311195910"
+X-IronPort-AV: E=Sophos;i="5.96,315,1665471600"; 
+   d="scan'208";a="311195910"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jan 2023 03:09:06 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10586"; a="902722511"
+X-IronPort-AV: E=Sophos;i="5.96,315,1665471600"; 
+   d="scan'208";a="902722511"
+Received: from punajuuri.fi.intel.com (HELO paasikivi.fi.intel.com) ([10.237.72.43])
+  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jan 2023 03:09:03 -0800
+Received: from punajuuri.localdomain (punajuuri.localdomain [192.168.240.130])
+        by paasikivi.fi.intel.com (Postfix) with ESMTP id 91AE82010E;
+        Wed, 11 Jan 2023 13:09:01 +0200 (EET)
+Received: from sailus by punajuuri.localdomain with local (Exim 4.94.2)
+        (envelope-from <sakari.ailus@linux.intel.com>)
+        id 1pFYyu-008PP2-Rn; Wed, 11 Jan 2023 13:09:20 +0200
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        niklas.soderlund+renesas@ragnatech.se,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        satish.nagireddy@getcruise.com, Tomasz Figa <tfiga@chromium.org>
+Subject: [PATCH v2 1/1] media: Documentation: Update documentation for streams
+Date:   Wed, 11 Jan 2023 13:09:20 +0200
+Message-Id: <20230111110920.2004227-1-sakari.ailus@linux.intel.com>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20221215121634.287100-1-tomi.valkeinen@ideasonboard.com>
+References: <20221215121634.287100-1-tomi.valkeinen@ideasonboard.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH 00/13] staging/media: remove most deprecated drivers
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20230111105258.547471-1-hverkuil-cisco@xs4all.nl>
-Content-Language: en-US
-In-Reply-To: <20230111105258.547471-1-hverkuil-cisco@xs4all.nl>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Ah, patch 08/13 (removal of av7110) was too big. I'll split it up and post
-a v2.
+Document how streams interacts with formats and selections.
 
-Regards,
+Update documentation in respect to what is allowed, in particular streams
+are only supported via full routes, source-only routes are not supported
+right now.
 
-	Hans
+The centerpiece of the API additions are streams. Albeit routes are
+configured via S_ROUTING IOCTL that also declares streams, it is streams
+that are accessed through other APIs. Thus refer to streams instead of
+routes in documentation.
 
-On 1/11/23 11:52, Hans Verkuil wrote:
-> We deprecated a lot of old drivers that did not use vb2, but either
-> implemented buffer handling themselves, or used the old vb1 framework.
-> 
-> This series deletes these drivers.
-> 
-> After this series, the only remaining deprecated driver is the atmel
-> driver.
-> 
-> The only two drivers that still use vb1 in mainline are cx18 and bttv.
-> 
-> Regards,
-> 
-> 	Hans
-> 
-> Hans Verkuil (13):
->   meye: remove this deprecated driver
->   cpia2: remove deprecated driver
->   fsl-viu: remove deprecated driver
->   stkwebcam: remove deprecated driver
->   zr364xx: remove deprecated driver
->   vpfe_capture: remove deprecated davinci drivers
->   tm6000: remove deprecated driver
->   av7110: remove deprecated driver
->   ttpci: remove deprecated driver
->   saa7146: remove deprecated drivers
->   dvbdev.h: remove DVB_DEVICE_VIDEO/AUDIO/OSD
->   dvb_demux.h: remove av7110-private fields
->   dvb_demux.h: remove write_to_decoder
-> 
->  Documentation/admin-guide/media/cpia2.rst     |  145 -
->  .../admin-guide/media/dvb-drivers.rst         |    1 -
->  Documentation/admin-guide/media/dvb_intro.rst |    8 +-
->  Documentation/admin-guide/media/meye.rst      |   93 -
->  .../admin-guide/media/other-usb-cardlist.rst  |   14 -
->  .../admin-guide/media/pci-cardlist.rst        |    5 -
->  .../admin-guide/media/platform-cardlist.rst   |    1 -
->  .../admin-guide/media/tm6000-cardlist.rst     |   83 -
->  .../admin-guide/media/usb-cardlist.rst        |    7 -
->  .../admin-guide/media/v4l-drivers.rst         |    2 -
->  Documentation/admin-guide/media/zr364xx.rst   |  102 -
->  .../driver-api/media/drivers/cpia2_devel.rst  |   56 -
->  .../driver-api/media/drivers/index.rst        |    1 -
->  .../userspace-api/media/drivers/index.rst     |    1 -
->  .../userspace-api/media/drivers/meye-uapi.rst |   53 -
->  MAINTAINERS                                   |   34 -
->  drivers/media/common/b2c2/flexcop.c           |    1 -
->  drivers/media/dvb-core/dvb_demux.c            |    6 -
->  drivers/media/dvb-core/dvbdev.c               |    6 -
->  drivers/media/firewire/firedtv-dvb.c          |    1 -
->  drivers/media/pci/bt8xx/dvb-bt8xx.c           |    1 -
->  drivers/media/pci/mantis/mantis_dvb.c         |    1 -
->  drivers/media/pci/ngene/ngene-dvb.c           |    1 -
->  drivers/media/pci/pt1/pt1.c                   |    1 -
->  drivers/media/pci/smipcie/smipcie-main.c      |    1 -
->  .../st/sti/c8sectpfe/c8sectpfe-common.c       |    1 -
->  drivers/media/usb/dvb-usb-v2/dvb_usb_core.c   |    1 -
->  drivers/media/usb/dvb-usb/dvb-usb-dvb.c       |    1 -
->  drivers/media/usb/pvrusb2/pvrusb2-dvb.c       |    1 -
->  .../media/usb/ttusb-budget/dvb-ttusb-budget.c |    1 -
->  drivers/media/usb/ttusb-dec/ttusb_dec.c       |    1 -
->  drivers/staging/media/Kconfig                 |    8 -
->  drivers/staging/media/Makefile                |    8 -
->  .../staging/media/deprecated/cpia2/Kconfig    |   13 -
->  .../staging/media/deprecated/cpia2/Makefile   |    4 -
->  drivers/staging/media/deprecated/cpia2/TODO   |    6 -
->  .../staging/media/deprecated/cpia2/cpia2.h    |  475 ---
->  .../media/deprecated/cpia2/cpia2_core.c       | 2434 --------------
->  .../media/deprecated/cpia2/cpia2_registers.h  |  463 ---
->  .../media/deprecated/cpia2/cpia2_usb.c        |  966 ------
->  .../media/deprecated/cpia2/cpia2_v4l.c        | 1226 -------
->  .../staging/media/deprecated/fsl-viu/Kconfig  |   15 -
->  .../staging/media/deprecated/fsl-viu/Makefile |    2 -
->  drivers/staging/media/deprecated/fsl-viu/TODO |    7 -
->  .../media/deprecated/fsl-viu/fsl-viu.c        | 1599 ---------
->  drivers/staging/media/deprecated/meye/Kconfig |   19 -
->  .../staging/media/deprecated/meye/Makefile    |    2 -
->  drivers/staging/media/deprecated/meye/TODO    |    6 -
->  drivers/staging/media/deprecated/meye/meye.c  | 1814 ----------
->  drivers/staging/media/deprecated/meye/meye.h  |  311 --
->  .../staging/media/deprecated/saa7146/Kconfig  |    5 -
->  .../staging/media/deprecated/saa7146/Makefile |    2 -
->  .../media/deprecated/saa7146/av7110/Kconfig   |  106 -
->  .../media/deprecated/saa7146/av7110/Makefile  |   23 -
->  .../media/deprecated/saa7146/av7110/TODO      |    9 -
->  .../av7110/audio-bilingual-channel-select.rst |   58 -
->  .../saa7146/av7110/audio-channel-select.rst   |   57 -
->  .../saa7146/av7110/audio-clear-buffer.rst     |   48 -
->  .../saa7146/av7110/audio-continue.rst         |   48 -
->  .../saa7146/av7110/audio-fclose.rst           |   51 -
->  .../deprecated/saa7146/av7110/audio-fopen.rst |  103 -
->  .../saa7146/av7110/audio-fwrite.rst           |   79 -
->  .../saa7146/av7110/audio-get-capabilities.rst |   54 -
->  .../saa7146/av7110/audio-get-status.rst       |   54 -
->  .../deprecated/saa7146/av7110/audio-pause.rst |   49 -
->  .../deprecated/saa7146/av7110/audio-play.rst  |   48 -
->  .../saa7146/av7110/audio-select-source.rst    |   56 -
->  .../saa7146/av7110/audio-set-av-sync.rst      |   58 -
->  .../saa7146/av7110/audio-set-bypass-mode.rst  |   62 -
->  .../saa7146/av7110/audio-set-id.rst           |   59 -
->  .../saa7146/av7110/audio-set-mixer.rst        |   53 -
->  .../saa7146/av7110/audio-set-mute.rst         |   62 -
->  .../saa7146/av7110/audio-set-streamtype.rst   |   66 -
->  .../deprecated/saa7146/av7110/audio-stop.rst  |   48 -
->  .../media/deprecated/saa7146/av7110/audio.rst |   27 -
->  .../saa7146/av7110/audio_data_types.rst       |  116 -
->  .../saa7146/av7110/audio_function_calls.rst   |   30 -
->  .../media/deprecated/saa7146/av7110/av7110.c  | 2919 -----------------
->  .../media/deprecated/saa7146/av7110/av7110.h  |  315 --
->  .../deprecated/saa7146/av7110/av7110_av.c     | 1681 ----------
->  .../deprecated/saa7146/av7110/av7110_av.h     |   32 -
->  .../deprecated/saa7146/av7110/av7110_ca.c     |  380 ---
->  .../deprecated/saa7146/av7110/av7110_ca.h     |   15 -
->  .../deprecated/saa7146/av7110/av7110_hw.c     | 1204 -------
->  .../deprecated/saa7146/av7110/av7110_hw.h     |  496 ---
->  .../deprecated/saa7146/av7110/av7110_ipack.c  |  404 ---
->  .../deprecated/saa7146/av7110/av7110_ipack.h  |   13 -
->  .../deprecated/saa7146/av7110/av7110_ir.c     |  158 -
->  .../deprecated/saa7146/av7110/av7110_v4l.c    |  952 ------
->  .../deprecated/saa7146/av7110/budget-patch.c  |  665 ----
->  .../deprecated/saa7146/av7110/dvb_filter.c    |  115 -
->  .../deprecated/saa7146/av7110/dvb_filter.h    |  242 --
->  .../media/deprecated/saa7146/av7110/sp8870.c  |  609 ----
->  .../media/deprecated/saa7146/av7110/sp8870.h  |   37 -
->  .../saa7146/av7110/video-clear-buffer.rst     |   54 -
->  .../saa7146/av7110/video-command.rst          |   96 -
->  .../saa7146/av7110/video-continue.rst         |   57 -
->  .../saa7146/av7110/video-fast-forward.rst     |   72 -
->  .../saa7146/av7110/video-fclose.rst           |   51 -
->  .../deprecated/saa7146/av7110/video-fopen.rst |  111 -
->  .../saa7146/av7110/video-freeze.rst           |   61 -
->  .../saa7146/av7110/video-fwrite.rst           |   79 -
->  .../saa7146/av7110/video-get-capabilities.rst |   61 -
->  .../saa7146/av7110/video-get-event.rst        |  105 -
->  .../saa7146/av7110/video-get-frame-count.rst  |   65 -
->  .../saa7146/av7110/video-get-pts.rst          |   69 -
->  .../saa7146/av7110/video-get-size.rst         |   69 -
->  .../saa7146/av7110/video-get-status.rst       |   72 -
->  .../deprecated/saa7146/av7110/video-play.rst  |   57 -
->  .../saa7146/av7110/video-select-source.rst    |   76 -
->  .../saa7146/av7110/video-set-blank.rst        |   64 -
->  .../av7110/video-set-display-format.rst       |   60 -
->  .../saa7146/av7110/video-set-format.rst       |   82 -
->  .../saa7146/av7110/video-set-streamtype.rst   |   61 -
->  .../saa7146/av7110/video-slowmotion.rst       |   72 -
->  .../saa7146/av7110/video-stillpicture.rst     |   61 -
->  .../deprecated/saa7146/av7110/video-stop.rst  |   74 -
->  .../saa7146/av7110/video-try-command.rst      |   66 -
->  .../media/deprecated/saa7146/av7110/video.rst |   36 -
->  .../saa7146/av7110/video_function_calls.rst   |   35 -
->  .../deprecated/saa7146/av7110/video_types.rst |  248 --
->  .../media/deprecated/saa7146/common/Kconfig   |   10 -
->  .../media/deprecated/saa7146/common/Makefile  |    6 -
->  .../media/deprecated/saa7146/common/saa7146.h |  472 ---
->  .../deprecated/saa7146/common/saa7146_core.c  |  578 ----
->  .../deprecated/saa7146/common/saa7146_fops.c  |  658 ----
->  .../deprecated/saa7146/common/saa7146_hlp.c   | 1046 ------
->  .../deprecated/saa7146/common/saa7146_i2c.c   |  421 ---
->  .../deprecated/saa7146/common/saa7146_vbi.c   |  498 ---
->  .../deprecated/saa7146/common/saa7146_video.c | 1286 --------
->  .../deprecated/saa7146/common/saa7146_vv.h    |  266 --
->  .../media/deprecated/saa7146/saa7146/Kconfig  |   48 -
->  .../media/deprecated/saa7146/saa7146/Makefile |    6 -
->  .../media/deprecated/saa7146/saa7146/TODO     |    7 -
->  .../saa7146/saa7146/hexium_gemini.c           |  425 ---
->  .../deprecated/saa7146/saa7146/hexium_orion.c |  496 ---
->  .../media/deprecated/saa7146/saa7146/mxb.c    |  873 -----
->  .../media/deprecated/saa7146/ttpci/Kconfig    |   95 -
->  .../media/deprecated/saa7146/ttpci/Makefile   |   13 -
->  .../media/deprecated/saa7146/ttpci/TODO       |    7 -
->  .../deprecated/saa7146/ttpci/budget-av.c      | 1622 ---------
->  .../deprecated/saa7146/ttpci/budget-ci.c      | 1574 ---------
->  .../deprecated/saa7146/ttpci/budget-core.c    |  603 ----
->  .../media/deprecated/saa7146/ttpci/budget.c   |  883 -----
->  .../media/deprecated/saa7146/ttpci/budget.h   |  129 -
->  .../media/deprecated/stkwebcam/Kconfig        |   18 -
->  .../media/deprecated/stkwebcam/Makefile       |    5 -
->  .../staging/media/deprecated/stkwebcam/TODO   |   12 -
->  .../media/deprecated/stkwebcam/stk-sensor.c   |  587 ----
->  .../media/deprecated/stkwebcam/stk-webcam.c   | 1434 --------
->  .../media/deprecated/stkwebcam/stk-webcam.h   |  123 -
->  .../staging/media/deprecated/tm6000/Kconfig   |   37 -
->  .../staging/media/deprecated/tm6000/Makefile  |   14 -
->  drivers/staging/media/deprecated/tm6000/TODO  |    7 -
->  .../media/deprecated/tm6000/tm6000-alsa.c     |  440 ---
->  .../media/deprecated/tm6000/tm6000-cards.c    | 1397 --------
->  .../media/deprecated/tm6000/tm6000-core.c     |  916 ------
->  .../media/deprecated/tm6000/tm6000-dvb.c      |  454 ---
->  .../media/deprecated/tm6000/tm6000-i2c.c      |  317 --
->  .../media/deprecated/tm6000/tm6000-input.c    |  503 ---
->  .../media/deprecated/tm6000/tm6000-regs.h     |  588 ----
->  .../media/deprecated/tm6000/tm6000-stds.c     |  623 ----
->  .../media/deprecated/tm6000/tm6000-usb-isoc.h |   38 -
->  .../media/deprecated/tm6000/tm6000-video.c    | 1703 ----------
->  .../staging/media/deprecated/tm6000/tm6000.h  |  396 ---
->  .../media/deprecated/vpfe_capture/Kconfig     |   58 -
->  .../media/deprecated/vpfe_capture/Makefile    |    4 -
->  .../media/deprecated/vpfe_capture/TODO        |    7 -
->  .../deprecated/vpfe_capture/ccdc_hw_device.h  |   80 -
->  .../deprecated/vpfe_capture/dm355_ccdc.c      |  934 ------
->  .../deprecated/vpfe_capture/dm355_ccdc.h      |  308 --
->  .../deprecated/vpfe_capture/dm355_ccdc_regs.h |  297 --
->  .../deprecated/vpfe_capture/dm644x_ccdc.c     |  879 -----
->  .../deprecated/vpfe_capture/dm644x_ccdc.h     |  171 -
->  .../vpfe_capture/dm644x_ccdc_regs.h           |  140 -
->  .../media/deprecated/vpfe_capture/isif.c      | 1127 -------
->  .../media/deprecated/vpfe_capture/isif.h      |  518 ---
->  .../media/deprecated/vpfe_capture/isif_regs.h |  256 --
->  .../deprecated/vpfe_capture/vpfe_capture.c    | 1902 -----------
->  .../staging/media/deprecated/zr364xx/Kconfig  |   18 -
->  .../staging/media/deprecated/zr364xx/Makefile |    3 -
->  drivers/staging/media/deprecated/zr364xx/TODO |    7 -
->  .../media/deprecated/zr364xx/zr364xx.c        | 1635 ---------
->  include/media/davinci/ccdc_types.h            |   30 -
->  include/media/dvb_demux.h                     |   13 -
->  include/media/dvbdev.h                        |   11 -
->  include/uapi/linux/meye.h                     |   65 -
->  include/uapi/linux/v4l2-controls.h            |    8 +-
->  188 files changed, 7 insertions(+), 53789 deletions(-)
->  delete mode 100644 Documentation/admin-guide/media/cpia2.rst
->  delete mode 100644 Documentation/admin-guide/media/meye.rst
->  delete mode 100644 Documentation/admin-guide/media/tm6000-cardlist.rst
->  delete mode 100644 Documentation/admin-guide/media/zr364xx.rst
->  delete mode 100644 Documentation/driver-api/media/drivers/cpia2_devel.rst
->  delete mode 100644 Documentation/userspace-api/media/drivers/meye-uapi.rst
->  delete mode 100644 drivers/staging/media/deprecated/cpia2/Kconfig
->  delete mode 100644 drivers/staging/media/deprecated/cpia2/Makefile
->  delete mode 100644 drivers/staging/media/deprecated/cpia2/TODO
->  delete mode 100644 drivers/staging/media/deprecated/cpia2/cpia2.h
->  delete mode 100644 drivers/staging/media/deprecated/cpia2/cpia2_core.c
->  delete mode 100644 drivers/staging/media/deprecated/cpia2/cpia2_registers.h
->  delete mode 100644 drivers/staging/media/deprecated/cpia2/cpia2_usb.c
->  delete mode 100644 drivers/staging/media/deprecated/cpia2/cpia2_v4l.c
->  delete mode 100644 drivers/staging/media/deprecated/fsl-viu/Kconfig
->  delete mode 100644 drivers/staging/media/deprecated/fsl-viu/Makefile
->  delete mode 100644 drivers/staging/media/deprecated/fsl-viu/TODO
->  delete mode 100644 drivers/staging/media/deprecated/fsl-viu/fsl-viu.c
->  delete mode 100644 drivers/staging/media/deprecated/meye/Kconfig
->  delete mode 100644 drivers/staging/media/deprecated/meye/Makefile
->  delete mode 100644 drivers/staging/media/deprecated/meye/TODO
->  delete mode 100644 drivers/staging/media/deprecated/meye/meye.c
->  delete mode 100644 drivers/staging/media/deprecated/meye/meye.h
->  delete mode 100644 drivers/staging/media/deprecated/saa7146/Kconfig
->  delete mode 100644 drivers/staging/media/deprecated/saa7146/Makefile
->  delete mode 100644 drivers/staging/media/deprecated/saa7146/av7110/Kconfig
->  delete mode 100644 drivers/staging/media/deprecated/saa7146/av7110/Makefile
->  delete mode 100644 drivers/staging/media/deprecated/saa7146/av7110/TODO
->  delete mode 100644 drivers/staging/media/deprecated/saa7146/av7110/audio-bilingual-channel-select.rst
->  delete mode 100644 drivers/staging/media/deprecated/saa7146/av7110/audio-channel-select.rst
->  delete mode 100644 drivers/staging/media/deprecated/saa7146/av7110/audio-clear-buffer.rst
->  delete mode 100644 drivers/staging/media/deprecated/saa7146/av7110/audio-continue.rst
->  delete mode 100644 drivers/staging/media/deprecated/saa7146/av7110/audio-fclose.rst
->  delete mode 100644 drivers/staging/media/deprecated/saa7146/av7110/audio-fopen.rst
->  delete mode 100644 drivers/staging/media/deprecated/saa7146/av7110/audio-fwrite.rst
->  delete mode 100644 drivers/staging/media/deprecated/saa7146/av7110/audio-get-capabilities.rst
->  delete mode 100644 drivers/staging/media/deprecated/saa7146/av7110/audio-get-status.rst
->  delete mode 100644 drivers/staging/media/deprecated/saa7146/av7110/audio-pause.rst
->  delete mode 100644 drivers/staging/media/deprecated/saa7146/av7110/audio-play.rst
->  delete mode 100644 drivers/staging/media/deprecated/saa7146/av7110/audio-select-source.rst
->  delete mode 100644 drivers/staging/media/deprecated/saa7146/av7110/audio-set-av-sync.rst
->  delete mode 100644 drivers/staging/media/deprecated/saa7146/av7110/audio-set-bypass-mode.rst
->  delete mode 100644 drivers/staging/media/deprecated/saa7146/av7110/audio-set-id.rst
->  delete mode 100644 drivers/staging/media/deprecated/saa7146/av7110/audio-set-mixer.rst
->  delete mode 100644 drivers/staging/media/deprecated/saa7146/av7110/audio-set-mute.rst
->  delete mode 100644 drivers/staging/media/deprecated/saa7146/av7110/audio-set-streamtype.rst
->  delete mode 100644 drivers/staging/media/deprecated/saa7146/av7110/audio-stop.rst
->  delete mode 100644 drivers/staging/media/deprecated/saa7146/av7110/audio.rst
->  delete mode 100644 drivers/staging/media/deprecated/saa7146/av7110/audio_data_types.rst
->  delete mode 100644 drivers/staging/media/deprecated/saa7146/av7110/audio_function_calls.rst
->  delete mode 100644 drivers/staging/media/deprecated/saa7146/av7110/av7110.c
->  delete mode 100644 drivers/staging/media/deprecated/saa7146/av7110/av7110.h
->  delete mode 100644 drivers/staging/media/deprecated/saa7146/av7110/av7110_av.c
->  delete mode 100644 drivers/staging/media/deprecated/saa7146/av7110/av7110_av.h
->  delete mode 100644 drivers/staging/media/deprecated/saa7146/av7110/av7110_ca.c
->  delete mode 100644 drivers/staging/media/deprecated/saa7146/av7110/av7110_ca.h
->  delete mode 100644 drivers/staging/media/deprecated/saa7146/av7110/av7110_hw.c
->  delete mode 100644 drivers/staging/media/deprecated/saa7146/av7110/av7110_hw.h
->  delete mode 100644 drivers/staging/media/deprecated/saa7146/av7110/av7110_ipack.c
->  delete mode 100644 drivers/staging/media/deprecated/saa7146/av7110/av7110_ipack.h
->  delete mode 100644 drivers/staging/media/deprecated/saa7146/av7110/av7110_ir.c
->  delete mode 100644 drivers/staging/media/deprecated/saa7146/av7110/av7110_v4l.c
->  delete mode 100644 drivers/staging/media/deprecated/saa7146/av7110/budget-patch.c
->  delete mode 100644 drivers/staging/media/deprecated/saa7146/av7110/dvb_filter.c
->  delete mode 100644 drivers/staging/media/deprecated/saa7146/av7110/dvb_filter.h
->  delete mode 100644 drivers/staging/media/deprecated/saa7146/av7110/sp8870.c
->  delete mode 100644 drivers/staging/media/deprecated/saa7146/av7110/sp8870.h
->  delete mode 100644 drivers/staging/media/deprecated/saa7146/av7110/video-clear-buffer.rst
->  delete mode 100644 drivers/staging/media/deprecated/saa7146/av7110/video-command.rst
->  delete mode 100644 drivers/staging/media/deprecated/saa7146/av7110/video-continue.rst
->  delete mode 100644 drivers/staging/media/deprecated/saa7146/av7110/video-fast-forward.rst
->  delete mode 100644 drivers/staging/media/deprecated/saa7146/av7110/video-fclose.rst
->  delete mode 100644 drivers/staging/media/deprecated/saa7146/av7110/video-fopen.rst
->  delete mode 100644 drivers/staging/media/deprecated/saa7146/av7110/video-freeze.rst
->  delete mode 100644 drivers/staging/media/deprecated/saa7146/av7110/video-fwrite.rst
->  delete mode 100644 drivers/staging/media/deprecated/saa7146/av7110/video-get-capabilities.rst
->  delete mode 100644 drivers/staging/media/deprecated/saa7146/av7110/video-get-event.rst
->  delete mode 100644 drivers/staging/media/deprecated/saa7146/av7110/video-get-frame-count.rst
->  delete mode 100644 drivers/staging/media/deprecated/saa7146/av7110/video-get-pts.rst
->  delete mode 100644 drivers/staging/media/deprecated/saa7146/av7110/video-get-size.rst
->  delete mode 100644 drivers/staging/media/deprecated/saa7146/av7110/video-get-status.rst
->  delete mode 100644 drivers/staging/media/deprecated/saa7146/av7110/video-play.rst
->  delete mode 100644 drivers/staging/media/deprecated/saa7146/av7110/video-select-source.rst
->  delete mode 100644 drivers/staging/media/deprecated/saa7146/av7110/video-set-blank.rst
->  delete mode 100644 drivers/staging/media/deprecated/saa7146/av7110/video-set-display-format.rst
->  delete mode 100644 drivers/staging/media/deprecated/saa7146/av7110/video-set-format.rst
->  delete mode 100644 drivers/staging/media/deprecated/saa7146/av7110/video-set-streamtype.rst
->  delete mode 100644 drivers/staging/media/deprecated/saa7146/av7110/video-slowmotion.rst
->  delete mode 100644 drivers/staging/media/deprecated/saa7146/av7110/video-stillpicture.rst
->  delete mode 100644 drivers/staging/media/deprecated/saa7146/av7110/video-stop.rst
->  delete mode 100644 drivers/staging/media/deprecated/saa7146/av7110/video-try-command.rst
->  delete mode 100644 drivers/staging/media/deprecated/saa7146/av7110/video.rst
->  delete mode 100644 drivers/staging/media/deprecated/saa7146/av7110/video_function_calls.rst
->  delete mode 100644 drivers/staging/media/deprecated/saa7146/av7110/video_types.rst
->  delete mode 100644 drivers/staging/media/deprecated/saa7146/common/Kconfig
->  delete mode 100644 drivers/staging/media/deprecated/saa7146/common/Makefile
->  delete mode 100644 drivers/staging/media/deprecated/saa7146/common/saa7146.h
->  delete mode 100644 drivers/staging/media/deprecated/saa7146/common/saa7146_core.c
->  delete mode 100644 drivers/staging/media/deprecated/saa7146/common/saa7146_fops.c
->  delete mode 100644 drivers/staging/media/deprecated/saa7146/common/saa7146_hlp.c
->  delete mode 100644 drivers/staging/media/deprecated/saa7146/common/saa7146_i2c.c
->  delete mode 100644 drivers/staging/media/deprecated/saa7146/common/saa7146_vbi.c
->  delete mode 100644 drivers/staging/media/deprecated/saa7146/common/saa7146_video.c
->  delete mode 100644 drivers/staging/media/deprecated/saa7146/common/saa7146_vv.h
->  delete mode 100644 drivers/staging/media/deprecated/saa7146/saa7146/Kconfig
->  delete mode 100644 drivers/staging/media/deprecated/saa7146/saa7146/Makefile
->  delete mode 100644 drivers/staging/media/deprecated/saa7146/saa7146/TODO
->  delete mode 100644 drivers/staging/media/deprecated/saa7146/saa7146/hexium_gemini.c
->  delete mode 100644 drivers/staging/media/deprecated/saa7146/saa7146/hexium_orion.c
->  delete mode 100644 drivers/staging/media/deprecated/saa7146/saa7146/mxb.c
->  delete mode 100644 drivers/staging/media/deprecated/saa7146/ttpci/Kconfig
->  delete mode 100644 drivers/staging/media/deprecated/saa7146/ttpci/Makefile
->  delete mode 100644 drivers/staging/media/deprecated/saa7146/ttpci/TODO
->  delete mode 100644 drivers/staging/media/deprecated/saa7146/ttpci/budget-av.c
->  delete mode 100644 drivers/staging/media/deprecated/saa7146/ttpci/budget-ci.c
->  delete mode 100644 drivers/staging/media/deprecated/saa7146/ttpci/budget-core.c
->  delete mode 100644 drivers/staging/media/deprecated/saa7146/ttpci/budget.c
->  delete mode 100644 drivers/staging/media/deprecated/saa7146/ttpci/budget.h
->  delete mode 100644 drivers/staging/media/deprecated/stkwebcam/Kconfig
->  delete mode 100644 drivers/staging/media/deprecated/stkwebcam/Makefile
->  delete mode 100644 drivers/staging/media/deprecated/stkwebcam/TODO
->  delete mode 100644 drivers/staging/media/deprecated/stkwebcam/stk-sensor.c
->  delete mode 100644 drivers/staging/media/deprecated/stkwebcam/stk-webcam.c
->  delete mode 100644 drivers/staging/media/deprecated/stkwebcam/stk-webcam.h
->  delete mode 100644 drivers/staging/media/deprecated/tm6000/Kconfig
->  delete mode 100644 drivers/staging/media/deprecated/tm6000/Makefile
->  delete mode 100644 drivers/staging/media/deprecated/tm6000/TODO
->  delete mode 100644 drivers/staging/media/deprecated/tm6000/tm6000-alsa.c
->  delete mode 100644 drivers/staging/media/deprecated/tm6000/tm6000-cards.c
->  delete mode 100644 drivers/staging/media/deprecated/tm6000/tm6000-core.c
->  delete mode 100644 drivers/staging/media/deprecated/tm6000/tm6000-dvb.c
->  delete mode 100644 drivers/staging/media/deprecated/tm6000/tm6000-i2c.c
->  delete mode 100644 drivers/staging/media/deprecated/tm6000/tm6000-input.c
->  delete mode 100644 drivers/staging/media/deprecated/tm6000/tm6000-regs.h
->  delete mode 100644 drivers/staging/media/deprecated/tm6000/tm6000-stds.c
->  delete mode 100644 drivers/staging/media/deprecated/tm6000/tm6000-usb-isoc.h
->  delete mode 100644 drivers/staging/media/deprecated/tm6000/tm6000-video.c
->  delete mode 100644 drivers/staging/media/deprecated/tm6000/tm6000.h
->  delete mode 100644 drivers/staging/media/deprecated/vpfe_capture/Kconfig
->  delete mode 100644 drivers/staging/media/deprecated/vpfe_capture/Makefile
->  delete mode 100644 drivers/staging/media/deprecated/vpfe_capture/TODO
->  delete mode 100644 drivers/staging/media/deprecated/vpfe_capture/ccdc_hw_device.h
->  delete mode 100644 drivers/staging/media/deprecated/vpfe_capture/dm355_ccdc.c
->  delete mode 100644 drivers/staging/media/deprecated/vpfe_capture/dm355_ccdc.h
->  delete mode 100644 drivers/staging/media/deprecated/vpfe_capture/dm355_ccdc_regs.h
->  delete mode 100644 drivers/staging/media/deprecated/vpfe_capture/dm644x_ccdc.c
->  delete mode 100644 drivers/staging/media/deprecated/vpfe_capture/dm644x_ccdc.h
->  delete mode 100644 drivers/staging/media/deprecated/vpfe_capture/dm644x_ccdc_regs.h
->  delete mode 100644 drivers/staging/media/deprecated/vpfe_capture/isif.c
->  delete mode 100644 drivers/staging/media/deprecated/vpfe_capture/isif.h
->  delete mode 100644 drivers/staging/media/deprecated/vpfe_capture/isif_regs.h
->  delete mode 100644 drivers/staging/media/deprecated/vpfe_capture/vpfe_capture.c
->  delete mode 100644 drivers/staging/media/deprecated/zr364xx/Kconfig
->  delete mode 100644 drivers/staging/media/deprecated/zr364xx/Makefile
->  delete mode 100644 drivers/staging/media/deprecated/zr364xx/TODO
->  delete mode 100644 drivers/staging/media/deprecated/zr364xx/zr364xx.c
->  delete mode 100644 include/media/davinci/ccdc_types.h
->  delete mode 100644 include/uapi/linux/meye.h
-> 
+Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+---
+since v1:
+
+- Address Tomi's comments:
+
+  - Fix wrong terms (sink vs. source, others)
+
+  - Align subdev, subdevice to sub-device consistently
+
+  - Improve wording in a number of places
+
+  - Rebase on plain v16 streams set (i.e. not additional patches in between)
+
+  - Drop a few redundant sentences
+
+  See: <URL:https://lore.kernel.org/linux-media/Y76SpkZTxtPvpXtU@paasikivi.fi.intel.com/T/#me8bb137ec1bc7fb20efe8042be04b40753928f1d>  
+
+ .../userspace-api/media/v4l/dev-subdev.rst    | 74 +++++++++++++------
+ 1 file changed, 51 insertions(+), 23 deletions(-)
+
+diff --git a/Documentation/userspace-api/media/v4l/dev-subdev.rst b/Documentation/userspace-api/media/v4l/dev-subdev.rst
+index 7d1b8ebd4e173..cf720a257a9bb 100644
+--- a/Documentation/userspace-api/media/v4l/dev-subdev.rst
++++ b/Documentation/userspace-api/media/v4l/dev-subdev.rst
+@@ -406,6 +406,8 @@ pixel array is not rectangular but cross-shaped or round. The maximum
+ size may also be smaller than the BOUNDS rectangle.
+ 
+ 
++.. _format-propagation:
++
+ Order of configuration and format propagation
+ ---------------------------------------------
+ 
+@@ -507,12 +509,12 @@ source pads.
+ Streams, multiplexed media pads and internal routing
+ ----------------------------------------------------
+ 
+-Commonly V4L2 subdevices support only separate video streams, that is, only a
+-single stream can pass through a media link and a media pad. Thus each pad
+-contains a format configuration for that single stream. In some cases a subdev
+-can do stream processing and split a stream into two or compose two streams
+-into one, but the inputs and outputs for the subdev are still a single stream
+-per pad.
++Simple V4L2 subdevices do not support multiple, unrelated video streams,
++and only a single stream can pass through a media link and a media pad.
++Thus each pad contains a format and selection configuration for that
++single stream. A subdev can do stream processing and split a stream into
++two or compose two streams into one, but the inputs and outputs for the
++subdev are still a single stream per pad.
+ 
+ Some hardware, e.g. MIPI CSI-2, support multiplexed streams, that is, multiple
+ data streams are transmitted on the same bus, which is represented by a media
+@@ -539,14 +541,35 @@ streams from one end of the link to the other, and subdevices have routing
+ tables which describe how the incoming streams from sink pads are routed to the
+ source pads.
+ 
+-A stream ID (often just "stream") is a media link-local identifier for a stream.
+-In other words, a particular stream ID must exist on both sides of a media
++A stream ID is a media pad-local identifier for a stream. Streams IDs of
++the same stream must be equal on both ends of a link. In other words,
++a particular stream ID must exist on both sides of a media
+ link, but another stream ID can be used for the same stream at the other side
+-of the subdevice.
++of the subdevice. The same stream ID is used to refer to the stream on
++both pads of the link on all ioctls operating on pads.
++
++A stream at a specific point in the media pipeline is identified by the
++sub-devdev and a (pad, stream) pair. For subdevices that do not support
++multiplexed streams the 'stream' field is always 0.
++
++Interaction between routes, streams, formats and selections
++^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
++
++The addition of streams to the V4L2 sub-device interface moves the sub-device
++formats and selections from pads to (pad, stream) pairs. Besides the
++usual pad, also the stream ID needs to be provided for setting formats and
++selections. The order of configuring formats and selections along a stream is
++the same as without streams (see :ref:`format-propagation`).
++
++Instead of the sub-device wide merging of streams from all source pads
++towards all sink pads, data flows for each route are separate from each
++other. Any number of routes from streams on sink pads towards streams on
++source pads is allowed, to the extent supported by drivers. For every
++stream on a sink pad, however, only a single route is allowed.
+ 
+-A stream at a specific point in the media pipeline is identified with the
+-subdev and a (pad, stream) pair. For subdevices that do not support
+-multiplexed streams the 'stream' is always 0.
++Any configurations of a stream within a pad, such as format or selections,
++are independent of similar configurations on other streams. This is
++subject to change in the future.
+ 
+ Configuring streams
+ ^^^^^^^^^^^^^^^^^^^
+@@ -560,13 +583,17 @@ There are three steps in configuring the streams:
+ 1) Set up links. Connect the pads between subdevices using the :ref:`Media
+ Controller API <media_controller>`
+ 
+-2) Routing. The routing table for the subdevice must be set with
++2) Streams. Streams are declared and their routing is configured by
++setting the routing table for the subdevice must be set with
+ :ref:`VIDIOC_SUBDEV_S_ROUTING <VIDIOC_SUBDEV_G_ROUTING>` ioctl. Note that
+-setting the routing table will reset all the stream configurations in a media
+-entity.
++setting the routing table will reset formats and selections in the
++sub-device to default values.
+ 
+-3) Configure streams. Each route endpoint must be configured
+-with :ref:`VIDIOC_SUBDEV_S_FMT <VIDIOC_SUBDEV_G_FMT>`.
++3) Configure formats and selections. Formats and selections of each stream
++are configured separately as documented for plain subdevices in
++:ref:`<format-propagation>`. The stream ID is set to the same stream ID
++associated with either sink or source pads of routes configured using the
++:ref:`VIDIOC_SUBDEV_S_ROUTING <VIDIOC_SUBDEV_G_ROUTING>` ioctl.
+ 
+ Multiplexed streams setup example
+ ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+@@ -596,7 +623,7 @@ To configure this pipeline, the userspace must take the following steps:
+ bridge to the receiver, and the receiver to the DMA engines. This step does
+ not differ from normal non-multiplexed media controller setup.
+ 
+-2) Configure routing.
++2) Configure routing
+ 
+ .. flat-table:: Bridge routing table
+     :header-rows:  1
+@@ -630,12 +657,13 @@ not differ from normal non-multiplexed media controller setup.
+       - V4L2_SUBDEV_ROUTE_FL_ACTIVE
+       - Pixel data stream from Sensor B
+ 
+-3) Configure streams
++3) Configure formats and selections
+ 
+-After configuring the routing table, the next step is configuring the streams.
+-This step is similar to configuring the pads in a non-multiplexed streams
+-setup, with the difference that we need to configure each (pad, stream) pair
+-(i.e. route endpoint) instead of just a pad.
++After configuring the routing table, the next step is configuring the
++formats and selections for the streams. This step is similar to
++configuring the pads in a non-multiplexed streams setup, with the
++difference that we need to configure each (pad, stream) pair instead of
++just a pad.
+ 
+ A common way to accomplish this is to start from the sensors and propagate the
+ configurations along the stream towards the receiver,
+-- 
+2.30.2
 
