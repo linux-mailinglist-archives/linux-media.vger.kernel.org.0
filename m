@@ -2,62 +2,91 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 40770666C26
-	for <lists+linux-media@lfdr.de>; Thu, 12 Jan 2023 09:11:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B5CA9666C31
+	for <lists+linux-media@lfdr.de>; Thu, 12 Jan 2023 09:13:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239710AbjALILn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 12 Jan 2023 03:11:43 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49554 "EHLO
+        id S239481AbjALINq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 12 Jan 2023 03:13:46 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51074 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236544AbjALILa (ORCPT
+        with ESMTP id S239755AbjALINo (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 12 Jan 2023 03:11:30 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1774A4C727;
-        Thu, 12 Jan 2023 00:11:22 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 6AA49B81D90;
-        Thu, 12 Jan 2023 08:11:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C4DA3C433EF;
-        Thu, 12 Jan 2023 08:11:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1673511079;
-        bh=omEZp3lmrTt3GrVewdVony8ojSj5H8hp7rwM9j19Lhk=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=rPOHjuUXe5lo5QJz91xI2vJSSodx/v+COsN3j+ST4HcIDjOkX+XGSBifE4+bj0XIQ
-         7ZTLLr3VwfwFonXtnXEmHFb+8xdxLXLReBoNFRoEVLG/DYsHQrBC09tCZWx8z1XD/w
-         qpeJtekvRy61tb61l1OpMU7kKqBxVWiS+TmXyHf8trtwaSrbe/CIU6xO9vyFv+I85w
-         IBwrt81wt7M3/H6FBFUCyOMHJyIPZzrvHHNEsAGBlP8BUB0Rzo4BIbC353vyWUo2Ix
-         /c+PUC9MSWiinzDAyFj6w9NNlVv513DUtEzytE0BswUvzVsD5mnFn+tPuoWeG6RQVm
-         G0Jt0GUoz+i5Q==
-Message-ID: <f92ff708-add2-44c3-8e51-33a1279cecbf@kernel.org>
-Date:   Thu, 12 Jan 2023 09:11:13 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH v4 1/6] dt-bindings: media: platform: visconti: Add
- Toshiba Visconti Video Input Interface bindings
-To:     yuji2.ishikawa@toshiba.co.jp, hverkuil@xs4all.nl,
-        laurent.pinchart@ideasonboard.com, mchehab@kernel.org,
-        nobuhiro1.iwamatsu@toshiba.co.jp
-Cc:     linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-References: <20230110014143.18684-1-yuji2.ishikawa@toshiba.co.jp>
- <20230110014143.18684-2-yuji2.ishikawa@toshiba.co.jp>
- <b0245b64-a3eb-a242-8824-9effe0c63f0e@kernel.org>
- <TYAPR01MB62019B464730E0268B58E90492FC9@TYAPR01MB6201.jpnprd01.prod.outlook.com>
- <14ffd7a0-caf3-d5ee-18bb-df4e53f276c7@kernel.org>
- <TYAPR01MB62014698C65E5ADFBD07C65F92FD9@TYAPR01MB6201.jpnprd01.prod.outlook.com>
-Content-Language: en-US
-From:   Krzysztof Kozlowski <krzk@kernel.org>
-In-Reply-To: <TYAPR01MB62014698C65E5ADFBD07C65F92FD9@TYAPR01MB6201.jpnprd01.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        Thu, 12 Jan 2023 03:13:44 -0500
+Received: from mail-pf1-x449.google.com (mail-pf1-x449.google.com [IPv6:2607:f8b0:4864:20::449])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 555594A971
+        for <linux-media@vger.kernel.org>; Thu, 12 Jan 2023 00:13:40 -0800 (PST)
+Received: by mail-pf1-x449.google.com with SMTP id b196-20020a621bcd000000b0058a63dc105eso4323987pfb.6
+        for <linux-media@vger.kernel.org>; Thu, 12 Jan 2023 00:13:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=VWdRXf2+F3B6naWulQRoVncCtgT+T33N/C9h1MKyUek=;
+        b=RGhd7Gam36sQbHlynE0qAtHIsyX4aCLddPEY2Ot/Dgnedc14Puqc+N15BF4HB1+p/F
+         EyiFI8PkNHaolrVoe7QK5BM3CZp8vk6W4pTXG5t695yYCvf//btA1VGQaXM5Z9EWJrrS
+         xLHhPHGK7LgyKGGfWBnGBtXkZ8Wr4/C7eaUCkaE01oIFkojxBDOH6PCPZu8BNx5Djp6V
+         IfwRrmeF7rOuyASGIPSCTwqUXba95DqJIXmf+I/r32QKtPTm9Z4todzk318w55UFVqKx
+         +j/E0vEN9DOhznh8mKC4jQPd/KfjI32B1A83D6ZGmdcx152TXiUUGw3Pro8wO5zpPEJ8
+         n0bQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=VWdRXf2+F3B6naWulQRoVncCtgT+T33N/C9h1MKyUek=;
+        b=GveDY/h4mRX1QNAzICvWy6LTdl+rHFe+L5i2bXfwEw1W1xNqBU18KTJR2pdm6JwrMS
+         InmyUjJ6F1Rg12tnbRRrOg0s64kSTzEQ2Ua5fRl+UCauwTrEoFRnM7pQdrNET/BfydRT
+         A/88+9uG4Ark4zSYDoIJHvvzqGhKnetgp2D1tX08rdyh6ynmdWs4DrFWeNoBB7yQ5TZV
+         1i1WIHofVtMxTOnpeELorPOu0Uv5sIyFr644CuXLIFgQsc/RkgQYQaIktarVqph/sSLx
+         3Wk1Xd0vR5y6EUEIjWruqF4jIrdEcNLySQUg5fKZgre4zG9a/R14uLrO/wr1UtCSGEPq
+         jfoQ==
+X-Gm-Message-State: AFqh2kqmhp3S4im1ZhM0wXDcHGtG+u1XTaRhuHMO2Mz/9vTTMatIYKAA
+        FQWjPod/sSWAY2ANHz3YTe0yvGrKR2cygg==
+X-Google-Smtp-Source: AMrXdXsnUERgCx1wBY/PUV43pyxeJkOgHSEhh4R8ej3lO942bcK1tz6HE+NyNfEUpzC5WGguaBo2zTGHvm8JZA==
+X-Received: from shakeelb.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:262e])
+ (user=shakeelb job=sendgmr) by 2002:a05:6a00:1244:b0:56b:8181:fe3e with SMTP
+ id u4-20020a056a00124400b0056b8181fe3emr5060573pfi.57.1673511219777; Thu, 12
+ Jan 2023 00:13:39 -0800 (PST)
+Date:   Thu, 12 Jan 2023 08:13:37 +0000
+In-Reply-To: <CABdmKX0TAv=iRz0s+F6dVVX=xsK00BeUPkRM4bnsfemDAY9U4w@mail.gmail.com>
+Mime-Version: 1.0
+References: <20230109213809.418135-1-tjmercier@google.com> <CALvZod4ru7F38tAO-gM9ZFKaEhS0w3KqFbPwhwcTvgJs4xMUow@mail.gmail.com>
+ <Y78+rfzXPq5XGs9O@phenom.ffwll.local> <CABdmKX0TAv=iRz0s+F6dVVX=xsK00BeUPkRM4bnsfemDAY9U4w@mail.gmail.com>
+Message-ID: <20230112081337.fxgnhdk44mxu26et@google.com>
+Subject: Re: [PATCH 0/4] Track exported dma-buffers with memcg
+From:   Shakeel Butt <shakeelb@google.com>
+To:     "T.J. Mercier" <tjmercier@google.com>
+Cc:     Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Arve =?utf-8?B?SGrDuG5uZXbDpWc=?=" <arve@android.com>,
+        Todd Kjos <tkjos@android.com>,
+        Martijn Coenen <maco@android.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Christian Brauner <brauner@kernel.org>,
+        Carlos Llamas <cmllamas@google.com>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        "Christian =?utf-8?B?S8O2bmln?=" <christian.koenig@amd.com>,
+        Michal Hocko <mhocko@kernel.org>,
+        Roman Gushchin <roman.gushchin@linux.dev>,
+        Muchun Song <muchun.song@linux.dev>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Paul Moore <paul@paul-moore.com>,
+        James Morris <jmorris@namei.org>,
+        "Serge E. Hallyn" <serge@hallyn.com>,
+        Stephen Smalley <stephen.smalley.work@gmail.com>,
+        Eric Paris <eparis@parisplace.org>, android-mm@google.com,
+        jstultz@google.com, cgroups@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org, linux-mm@kvack.org,
+        linux-security-module@vger.kernel.org, selinux@vger.kernel.org,
+        daniel.vetter@ffwll.ch
+Content-Type: text/plain; charset="us-ascii"
+X-Spam-Status: No, score=-9.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -65,25 +94,21 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 12/01/2023 03:05, yuji2.ishikawa@toshiba.co.jp wrote:
->>>> Compatible must be specific. You called your SoC visconti5, didn't you?
->>>>
->>>
->>> The Video Input Interface hardware is likely to be used at future SoCs
->>> of Visconti Architecture.
->>> Does compatible have to be specific to SoC's model name rather than
->>> architecture name?
->>
->> Compatibles should always be specific to SoC model name. Adding more generic
->> family fallback is also good idea when it is applicable.
->>
+On Wed, Jan 11, 2023 at 04:49:36PM -0800, T.J. Mercier wrote:
 > 
-> I'll update the compatible to "toshiba,visconti5-viif".
-> I'll consider adding generic version "toshiba,visconti-viif" when a successor SoC gets available.
+[...]
+> > The problem is a bit that with gpu allocations reclaim is essentially "we
+> > pass the error to userspace and they get to sort the mess out". There are
+> > some exceptions (some gpu drivers to have shrinkers) would we need to make
+> > sure these shrinkers are tied into the cgroup stuff before we could enable
+> > charging for them?
+> >
+> I'm also not sure that we can depend on the dmabuf being backed at
+> export time 100% of the time? (They are for dmabuf heaps.) If not,
+> that'd make calling the existing memcg folio based functions a bit
+> difficult.
+> 
 
-Are you sure? You will have to wait at least one cycle between DTS and
-driver change, due to ABI break of DTB users.
-
-Best regards,
-Krzysztof
-
+Where does the actual memory get allocated? I see the first patch is
+updating the stat in dma_buf_export() and dma_buf_release(). Does the
+memory get allocated and freed in those code paths?
