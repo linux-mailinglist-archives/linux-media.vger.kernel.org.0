@@ -2,44 +2,44 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8C668666D88
-	for <lists+linux-media@lfdr.de>; Thu, 12 Jan 2023 10:10:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B3010666D8A
+	for <lists+linux-media@lfdr.de>; Thu, 12 Jan 2023 10:10:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239986AbjALJKg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 12 Jan 2023 04:10:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57292 "EHLO
+        id S239799AbjALJKl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 12 Jan 2023 04:10:41 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57380 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239991AbjALJJt (ORCPT
+        with ESMTP id S236069AbjALJJw (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 12 Jan 2023 04:09:49 -0500
-Received: from EUR05-DB8-obe.outbound.protection.outlook.com (mail-db8eur05on2048.outbound.protection.outlook.com [40.107.20.48])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5AB854D4A8;
-        Thu, 12 Jan 2023 01:05:14 -0800 (PST)
+        Thu, 12 Jan 2023 04:09:52 -0500
+Received: from EUR05-DB8-obe.outbound.protection.outlook.com (mail-db8eur05on2040.outbound.protection.outlook.com [40.107.20.40])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 29CDB517D2;
+        Thu, 12 Jan 2023 01:05:18 -0800 (PST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=IeOb3L3XTnOj16xIn8rM7nQ8HSGzIbY1INaUCnWSQ3C91gqaG3vNSIwkbllse8dQ8kIM+LdQF70Z3oAHZxe3ZjZONnwsBu7QRpbOg4Ghc1rHU31JkMtPq/OAxndmGGU5ccVhr0kN9SEwYVViLewt6Z/eT1a/g25TKwsUM7jnKkwDLkOAlTuU7InDNN93dLB2f6sUzU1zKfr1uGkVAc7l976xHL3bIqJAuyLR3zuf9mB1rIfdHJ2SQKuvULv/lbwgK9118gM0sJU+a+rRHV+9zigy8kR38J29aCPXTKHKx6bcheg87a3WPOWFlh/z6AHEU1Rp69F7xKBRJiFbXkXw6A==
+ b=c2BHJKBEiQuLwlb2aZm2Z0qiS3AAp13szarBIwtQ2EHrOAlSUPkbej13w1aKkYVWmWVhA2xF92W7lciPQ/uTPznNgpDlhfmrgKJ8LmZ2YMukdZXGjBu6LiJZiwvy2QSoCRHJ6DOHDSSpDpVtDMZn9skpl3RZBaobtiwMs4RtrGT3wmwyS1G/Z2GMDQib8aDthHCaskrMaeYs/Wlq7CbMGDbcbSjivJKrMNDQzOno23dClqxFgNoC5BigkfmBX7D6kQFu6blnnyyYeOQUCQaE+k72jx5CRDUKtTmpeX4yNBSGUgFiixvr4DSpJqp95WxVGbUP0AzSkPobNeK17afFng==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=v8LUl6sWj72DEsDN7yyXOzYWigjgz0tWjhCW6KdwStY=;
- b=FpxyI61UBnXQjFYVq0DsARdIERlCjb2hPck6MWxZjEPfxntxUjN428mdGVUkn3mQx3iIVxx8GwFATf5tlm5COyv8YvKZst9C01LyU9VRX62t0jn4kYjBV4kZeBgNccqcFlevsn3Syb6FjrJqmaT+jzn0XXuNUnP8uNZFst46NeWfZVSzX7z6RqpaEmg3At5JUDJtu2J2ky63klR0MgpNyMUyMNT5oIQJxTDfI+vPl5gbvIk9Gc13Whu5Ze6dKaluGFRlEbgEBuDdZpBi66I5W9320RZzwirjWFUbqVRAkgPiyceDHYoZD+t0EprIVQYn+SmoMVKDlslRvCGPskho6w==
+ bh=fmo9r4dCtCA/pxiFPT/rVXfK/Ozo6bHQOtSI5P6fCwA=;
+ b=EtGkFCBRA3YG5FDHsZcVM1NHGB6BJv1zMliQsgZ4W7yR2A9/bOEzL0J/s8oc2woABl5VhQlFRiTQPdHKmAFVG8z/3uDCBKwIl+jjYBJOh9GlElJQiZKuFif2H2UdBJY4qm4iFNiwoHhLNmHu2sfBVy+DItK32FlCqfeeuBdys5fSFahdN1WRol32V9EW3MnMbfUbDdzCJvwuGBoZJrBrydAbcKCqw+fHaJF1fEOXsMv9U4bbedAC1cyKiEKh4zDGPrNXcXD4pyfFbmx2ZtZnHaIW7LfqR4B7QpoNAz2UHbrw0F+QbNurt7U2/q7JtGtFCxcPB0JEISrGBAZ7hPvYMA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
  header.d=nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=v8LUl6sWj72DEsDN7yyXOzYWigjgz0tWjhCW6KdwStY=;
- b=btEzUxwKPovfg0JYp003ZNS+w27ZiNA0nNk0uIEWhYEzmjarm82em2kzwfevyVie3Jn7xr4jZs8F0d/eMGZH91lR9rw3P9pDeBYnJVtNQImgSoPG92XUjvz/8/XwU+6JKf0I35DPQxcj8mhd6HsM3E9JWZclFpC3EWii5T5rpN4=
+ bh=fmo9r4dCtCA/pxiFPT/rVXfK/Ozo6bHQOtSI5P6fCwA=;
+ b=AzfyT4SmOWvHif3VUY2cBmgQ6YKE+gn8k1adgcjIl7Db1yupYAtgk9zqhdoOUxUtpcsmOCNgoFi6Gzdm0AgpRni5FkbxuBp99ukHFN+o8rKcp5ZLe3ttWu8Xe5Nv9zQ2n904bWUmgbbSSBd+W20rgvGNgBp2B+ktl9XtIx2M4vk=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nxp.com;
 Received: from AM6PR04MB6341.eurprd04.prod.outlook.com (2603:10a6:20b:d8::14)
  by AM9PR04MB8875.eurprd04.prod.outlook.com (2603:10a6:20b:40a::6) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5986.18; Thu, 12 Jan
- 2023 09:05:11 +0000
+ 2023 09:05:15 +0000
 Received: from AM6PR04MB6341.eurprd04.prod.outlook.com
  ([fe80::3a82:42b3:f1ed:5c3d]) by AM6PR04MB6341.eurprd04.prod.outlook.com
  ([fe80::3a82:42b3:f1ed:5c3d%7]) with mapi id 15.20.6002.013; Thu, 12 Jan 2023
- 09:05:11 +0000
+ 09:05:15 +0000
 From:   Ming Qian <ming.qian@nxp.com>
 To:     mchehab@kernel.org, hverkuil-cisco@xs4all.nl
 Cc:     shawnguo@kernel.org, robh+dt@kernel.org, s.hauer@pengutronix.de,
@@ -47,9 +47,9 @@ Cc:     shawnguo@kernel.org, robh+dt@kernel.org, s.hauer@pengutronix.de,
         xiahong.bao@nxp.com, eagle.zhou@nxp.com, tao.jiang_2@nxp.com,
         linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org
-Subject: [PATCH v2 1/2] media: add Sorenson Spark video format
-Date:   Thu, 12 Jan 2023 17:04:47 +0800
-Message-Id: <fb29e0170fcbf258136566d59aaa904d0da559a9.1673513975.git.ming.qian@nxp.com>
+Subject: [PATCH v2 2/2] media: amphion: support to decode sorenson spark video
+Date:   Thu, 12 Jan 2023 17:04:48 +0800
+Message-Id: <ab85e597c37aad849480bfe912d5e06aebc51726.1673513975.git.ming.qian@nxp.com>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <cover.1673513975.git.ming.qian@nxp.com>
 References: <cover.1673513975.git.ming.qian@nxp.com>
@@ -61,50 +61,50 @@ X-ClientProxiedBy: SG2PR04CA0200.apcprd04.prod.outlook.com
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: AM6PR04MB6341:EE_|AM9PR04MB8875:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8d7f9ea1-731a-4f80-80c4-08daf47c1c42
+X-MS-Office365-Filtering-Correlation-Id: 45814b56-dd3f-49fd-bb8d-08daf47c1ecf
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: vh2pavcgV/suHaPf9yHhu6qlz4duPxXj+swpa41/9HVGB/L+vpsLZzeTwl4hMU26yQNmf4TwQduMIYIN10gFLpGj+oJhauMyxl4TFL/gjwvBvDk28WkEot+Nw3hmm4qiJe0lDRPMeeKLyd0oe+uEQp2TTht6psAroeYXhKXorHEHvQk8pAYw7mJNfyy7qwNobc5haaciBhljYJBFD9OrQRo7qtrvDaRjMzat1o4BOQzenjYwnFLxzNi8NfFZw8GIynCCPLfwGqRGB1GuclShY1qwEsfM5sOuzqgkRixDtjrXJeH2nzwklzzQ8F9UUFVBmWmzbOUZQt5mUdyvVIhyp7Se7PLRhW5wMSR8QDH+PDFxFQK2Iybqfvbh3mlT9WOeckjWee6bpmaDGKotqMmSWF0rC5Cws3lazIZu7l1ko68pPmZRekLyRjhw7rwyjaKfhC5arCmZ5UwEwX5MQiQnKBf62TB4EkwGrCgp4qBPo+BUTWfKV0pB846sd/oZUoJoSttLdm+3s2mi4IRmmGHKN//u9nnA5Lh4DJDjQscESBRWnLDfAK3aZz/yEQtFdA8HqgRw6zm+nPB4xkYD5worBYCRmiVFYrTdz5zoiZC0h7CI7UMk7JIciF+8ufZbmD70TxNo+g4yRZlkKSxgggHVUihn52WP50MV5SpmMVombOFdQH5LrNHkVGCzwpMJ/YyBNXplx5M4qYTnww0kpXFI2g==
+X-Microsoft-Antispam-Message-Info: xjBDMsPhl1OVeStKllHLvsMobhcLVc3yBymeQMwE6Hp8AfJ7UKQpqLcHARR1oW5dyVMraPMTwKjN64TFew//EycGClAV6pXVoP1HI/CutwKQboUgnpxBOt/cZ4EoRw7+UNUQ8CrSoChB8hs6l2HmSNgAlEcSws2fR8emhX4j5WnAG/cr/Et3U545PFnqHJZa4IJy4S0gRbD4hSnFS+XgLTIxbKB27yDxVDd5KykkZtZDNF/PqMQaWRweej40bLeMPWFVQnWIJTPX6myt2xdRWzb1GRmR/5Aa2ioWCj1KOsrXrVKJKKBSt3l4FAkmZRpjZqFUmdJDDABfAIfK8BmqigXO24dxjJbCIaPtZxn1GREmzgHbtE3/6CdNz1STdNA5XjgQsGX3EGu9SmEMy3a8DtCuaHWBTY1fmVtrbkTtdvOmKqOksu1fRY4uzVRSX4h13HhyadR2cxodCfYMemHMhe5Sn+bf//0Z449eK6cEq+Z7heJARYKUzd4mTQ6LygIQSCSbo3EAgs6olkisIQv+bcTvvekLB34QG5FbRcYlY5MN6RC+N59LWoqHUPGlpSgwKW1jsSQGGsBn/Yekj9mCzxPG867Lh7a3jrUbrKs5pQBt1cmBLxIXEI9a1IvTcytO8qZmfa1iiD2avVsKyqQ6Dd3cOEskjMSD4QiY9TPuFLD4xqnDd5MuohH142PRkZ9TBHIT32v4xbQAUhR0XT0ptw==
 X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6PR04MB6341.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(376002)(39860400002)(136003)(396003)(366004)(346002)(451199015)(38100700002)(2906002)(6506007)(5660300002)(8936002)(6512007)(186003)(44832011)(7416002)(41300700001)(36756003)(26005)(6666004)(86362001)(52116002)(66476007)(8676002)(4326008)(66946007)(66556008)(38350700002)(2616005)(478600001)(316002)(6486002);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?EQ/qboC32imFKWgQYq99hzcEtpso5xIDyHJvCoAG+KHkk/oO+Pr/1Ml4NG6B?=
- =?us-ascii?Q?INWhRNeSFMdcSWRxwUPU9tR/6teNgCS79o64xkFSAn2tlRVvXR2zBrIt+pqi?=
- =?us-ascii?Q?s3CfUh6IK5g0jvhpiUh8U0WfWoaYpOn9MkVPeZj/t3wl7OHWxnqI0dupi8qv?=
- =?us-ascii?Q?xKPU3PnqSJTcQbqoiaFHG0sh1YdC0bmjddIV9eXpDb/C0lHjnMXMhL5TIHf1?=
- =?us-ascii?Q?OqxkNGkjyWRsZW8qAsjhLvK0mSCskQVnPM3lX1Xe6yb60E0+Jk4sKk7YG+AO?=
- =?us-ascii?Q?1+yeXT1jyrTXzXgz5SHLHsmggp/UUZBe7HposQ46GFv3MQV0xz/9zXiRKAaM?=
- =?us-ascii?Q?25y0UY+XYh5xbQts/53NjzYtOK2vhriMHjsXOxuxH/2/iDtUnwXJNY9XGSA7?=
- =?us-ascii?Q?2CaG2L/u4C08F3ECxJlMiaAnjRBQ1N03MkjRRE9GGJmonw8w6I0QVKiGif7j?=
- =?us-ascii?Q?3pWTkJk6wNUrFsqvVDe13CXsJYdTbySZXEQGSNcLveAwogQi3SonH6CO4tnH?=
- =?us-ascii?Q?i6adArjEMKGXR/paq3+ArFTMOr7STQLOUfq5udp81ygPkFXLwxprwLcVhPCE?=
- =?us-ascii?Q?xNs9Y6COlfzkTgxAec/Z6+Jxyt4KukeJp5WpseXWUD7s5by7xIyjuW3qMqjz?=
- =?us-ascii?Q?IX5H7ddjxr4rfCj0X+ssNmw+OinOUNlxN9PvMZtHOPWUn78ca6pTDTjbic+5?=
- =?us-ascii?Q?5hq1zVbZ5iLBmVXzbP4oEexDfzoBXVNiqHsOLqdbCzAY6XsiZOIpXHr1M3I1?=
- =?us-ascii?Q?ohuHHBKyumCqmyJHD4ZwBeUsTT483nmokgkkWpWaUgDavqL1ozoqs4XLFcOw?=
- =?us-ascii?Q?sUIiGJB2Sv4u8pSR0buOmkBH+07LTvrF/Tg7HbLq+ilA0bRxnUZrxRfeSWXX?=
- =?us-ascii?Q?OISye2qBzEeE7jIRnMrcF8u03UvYZCT6nVhREbIRI7dtMBZUDGgg2j1gxNB1?=
- =?us-ascii?Q?PQVrcTWZH8edXHR2T6QYps+IJiIx9sN85MP64hpiJPdwt7R96ikcbEsMsahY?=
- =?us-ascii?Q?7jB8zxUga/2KdoILQPLY74Ym7cT/XOnXoqUrTu51F9K5phY5reMtI2MvC9/w?=
- =?us-ascii?Q?fVDm8u1S+zrunsJy5uXljMEnvfZTgNzTi17iyxG4uYQEliojY0xuwzO2yKIq?=
- =?us-ascii?Q?S38Div8xVw2tr/FsjqtRUPAHyACY/KJVwOH/Ku9L2NK62DdQ2dpXj8QfipGK?=
- =?us-ascii?Q?QOlNrLE6TnTix4QbWRKXzIEJyyXzLnKYhk0L61cRrrnvGcU7/eIldjCE+6NZ?=
- =?us-ascii?Q?E0jhpqvrYoSxWHw7s3R+VlJaE3l8YUGVfvg0F82i5tkuQuZhhL8GtCY5SNmM?=
- =?us-ascii?Q?RbKDYCTsPpz8apPWyNhFzfsmML+bFhnRS7eb7/kczcycJm2UhEkjWeMTt0zC?=
- =?us-ascii?Q?v+cqExPnZgy6cMLpB8CO5N3mcHyAzN0UQnsoKp+cvfuW3ztx3ar8shSj0On7?=
- =?us-ascii?Q?iWfat6M4yVvfj2ELIC3PIzIj5Rtv9f+EtPH88DRIu2S10P1BgFc5UUqwz7p3?=
- =?us-ascii?Q?D/a/ti/JSK+CU2n/NT3zPr41wqF/paZukMp36+7YWLEAEc2Rb2D530/CPHok?=
- =?us-ascii?Q?zFqyoKSc9D+mwRPthKnE5iGmLX90hG8CU1ZPHPAm?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?3XPXqEKFJnO8vq2Gx+UbEa9A8Gag7qnBPzvbjqfWluw9rSA8xy61+96EP6fv?=
+ =?us-ascii?Q?Xqp3CiOYBF834lBNDvv8dhTdMGDkdIFqot1MxYM1ZqBoShG5y51PqSfTmUW5?=
+ =?us-ascii?Q?T/qpYgut9LHfrFYME0aBs9V7avFZLX8iEhrSTVXiu6NpAkENDYpXZiU0bGwr?=
+ =?us-ascii?Q?N7UbLYApbHFjHqZDJ3DaH3pxu8/fF59cliISg7fVqhh5MXB8Ezx0CXTyZUyv?=
+ =?us-ascii?Q?yLxiyicMkCSq+bGNcbIjICsBHN+bZ2z5Ap9yJqgIK4gTMLHKqnx3jl2dgY6h?=
+ =?us-ascii?Q?S6Mph4d7gKtIFrbFocRK7LymsgsxnjytbyE1tnTnxRTpRVQPJWiEIA8F91Fm?=
+ =?us-ascii?Q?4AK8h7s+OGJfHVs8wD7G9EophEAFDVRqZhdHVFdffp9n6JE/UxTkdWSKYjCG?=
+ =?us-ascii?Q?pKM6PcYDMqI3axXX3RltfikfXF+U6v0S5OmwHwCdYvh7oUlklJYped7r1zRL?=
+ =?us-ascii?Q?G4wuxJTzkXn8zcUt0fy2X/ZexzLxuq4lzqNEx7jAtyP4H4tWb/zQCJkq/tRI?=
+ =?us-ascii?Q?WUAMCbQWvGtvWGpzdcnHnKfZfo1L54oMe8vdCb6scHMcuNSwx9t+qL+m3AZJ?=
+ =?us-ascii?Q?1hG67a+9HdyBYvl/TUdoP3pAVW0l2ArTKRXgfLYl5yTqF3pKo32PObSTxgOh?=
+ =?us-ascii?Q?abi2Vy8TfVm5MJ1Gxniv+qQGvn8fDKIDkLg8EySWYJQGoVUWbKAfQXMYfCe0?=
+ =?us-ascii?Q?358d1wazIT10L5EpLV0/96kelGBEcwaSk0ubwK6QxBkhIoPi86aTcbz/5uIF?=
+ =?us-ascii?Q?qMhTvyw+Z0SBqOYCJ7ugnqapY89AI+Azl1AnCe/1Wo7/+UKXAGTy5+qiCb1a?=
+ =?us-ascii?Q?Rpsv5qTyIBKqqp3tH/yuOdI2/wxPw0QjA4YFXC+2mJv5rLCQUPaerlUqMB3b?=
+ =?us-ascii?Q?1XE+ICJygTQMIgbNTpDY9gtNqo0Xej7yjnzaGezt6bFRB7Ok9peXvcMTngbj?=
+ =?us-ascii?Q?zQnAxxLI/2vPwW7VcWJ+JCL6+eEBGUUv/H8b04IhQIPjaiM05nfDHuuY7Rug?=
+ =?us-ascii?Q?7NuT9IPID2I3P0W9zwHss8kLGzKXO0ktUFjsz/moRjXP6izb2NnoWKze4ddN?=
+ =?us-ascii?Q?AoDmiQQ01dyRCghHudpp7GKVzr1XTyAXMaBW4q1OzFmoM/zouAmfBoj7PzO7?=
+ =?us-ascii?Q?YfvZZK+xEUb3YsVg69ZNNAIldAX6AW+nVZuGwyF18hi/MJwjrir5GJXJVgiu?=
+ =?us-ascii?Q?JKS2IrUGkd+xUS/oWRAI1SGW9Rn0psnuKRdLJeHZ9LvuMyioisGGN8EwSm4J?=
+ =?us-ascii?Q?h3+OLWUh2NFZ+oV1wsyFVzENuh6rfRtrxGLZulXB1sUEkFyr3IYj59ttaxuH?=
+ =?us-ascii?Q?ck0Kke9AGkZ/xI5/8dAhWN07UK8nl1I3jR9MrvfirH2SwY3/0nckH0f8dMBM?=
+ =?us-ascii?Q?dJOOsjzXD1EBCVVx6V0iSRMmvWj8NFzgxveumDd17ue0y5NN/xjLdqIDSLSZ?=
+ =?us-ascii?Q?S6/OcabWYDJqYpT7mqcITUtPw436nvubpPh85gLprqH+/2+bGcLczoV+4tTD?=
+ =?us-ascii?Q?UWoFh8dlTc0ncim/mYuRtFtNxyW8ZPvsQXVWE4evIgm3gN9+LTwdyIsdV2oH?=
+ =?us-ascii?Q?2qSBdN+BPJxdWiIXUo36F8aWTDOLzXe77smW+HPu?=
 X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8d7f9ea1-731a-4f80-80c4-08daf47c1c42
+X-MS-Exchange-CrossTenant-Network-Message-Id: 45814b56-dd3f-49fd-bb8d-08daf47c1ecf
 X-MS-Exchange-CrossTenant-AuthSource: AM6PR04MB6341.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jan 2023 09:05:11.5932
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jan 2023 09:05:15.8117
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: LK4/PKh2Eb9g5TQX7v991IcOKlUIvZ3ySNF3h5HUE6brd19Lcq4+nXXp+j2slTcnFXZ6l+s7WTf7HNBIz8RJ5w==
+X-MS-Exchange-CrossTenant-UserPrincipalName: aLeZP/TyVfl04OXdPz5lyIAib6Z2LgoFwsD+BpfjJAtfoZYyQQzbyAA/4kHmJFqxseW7+QohtUs7S0VuLH7qkg==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9PR04MB8875
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
@@ -118,56 +118,90 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Sorenson Spark is an implementation of H.263 for use
 in Flash Video and Adobe Flash files.
-Sorenson Spark is an incomplete implementation of H.263.
-It differs mostly in header structure and ranges of the coefficients.
+amphion decoder can support it by insert some startcode
+before sequence and picture.
 
 Signed-off-by: Ming Qian <ming.qian@nxp.com>
 ---
- Documentation/userspace-api/media/v4l/pixfmt-compressed.rst | 5 +++++
- drivers/media/v4l2-core/v4l2-ioctl.c                        | 1 +
- include/uapi/linux/videodev2.h                              | 1 +
- 3 files changed, 7 insertions(+)
+ drivers/media/platform/amphion/vdec.c       |  7 +++++++
+ drivers/media/platform/amphion/vpu_malone.c | 18 ++++++++++++++++++
+ 2 files changed, 25 insertions(+)
 
-diff --git a/Documentation/userspace-api/media/v4l/pixfmt-compressed.rst b/Documentation/userspace-api/media/v4l/pixfmt-compressed.rst
-index 506dd3c98884..a0230f357680 100644
---- a/Documentation/userspace-api/media/v4l/pixfmt-compressed.rst
-+++ b/Documentation/userspace-api/media/v4l/pixfmt-compressed.rst
-@@ -88,6 +88,11 @@ Compressed Formats
-       - ``V4L2_PIX_FMT_H263``
-       - 'H263'
-       - H263 video elementary stream.
-+    * .. _V4L2-PIX-FMT-SPK:
+diff --git a/drivers/media/platform/amphion/vdec.c b/drivers/media/platform/amphion/vdec.c
+index 87f9f8e90ab1..09304b96f40d 100644
+--- a/drivers/media/platform/amphion/vdec.c
++++ b/drivers/media/platform/amphion/vdec.c
+@@ -165,6 +165,13 @@ static const struct vpu_format vdec_formats[] = {
+ 		.type = V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE,
+ 		.flags = V4L2_FMT_FLAG_DYN_RESOLUTION | V4L2_FMT_FLAG_COMPRESSED
+ 	},
++	{
++		.pixfmt = V4L2_PIX_FMT_SPK,
++		.mem_planes = 1,
++		.comp_planes = 1,
++		.type = V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE,
++		.flags = V4L2_FMT_FLAG_DYN_RESOLUTION | V4L2_FMT_FLAG_COMPRESSED
++	},
+ 	{0, 0, 0, 0},
+ };
+ 
+diff --git a/drivers/media/platform/amphion/vpu_malone.c b/drivers/media/platform/amphion/vpu_malone.c
+index 2c9bfc6a5a72..67ba637c4c7f 100644
+--- a/drivers/media/platform/amphion/vpu_malone.c
++++ b/drivers/media/platform/amphion/vpu_malone.c
+@@ -562,6 +562,7 @@ static struct malone_fmt_mapping fmt_mappings[] = {
+ 	{V4L2_PIX_FMT_H263,        MALONE_FMT_ASP},
+ 	{V4L2_PIX_FMT_JPEG,        MALONE_FMT_JPG},
+ 	{V4L2_PIX_FMT_VP8,         MALONE_FMT_VP8},
++	{V4L2_PIX_FMT_SPK,         MALONE_FMT_SPK},
+ };
+ 
+ static enum vpu_malone_format vpu_malone_format_remap(u32 pixelformat)
+@@ -987,6 +988,7 @@ static const struct malone_padding_scode padding_scodes[] = {
+ 	{SCODE_PADDING_EOS,      V4L2_PIX_FMT_XVID,        {0xb1010000, 0x0}},
+ 	{SCODE_PADDING_EOS,      V4L2_PIX_FMT_H263,        {0xb1010000, 0x0}},
+ 	{SCODE_PADDING_EOS,      V4L2_PIX_FMT_VP8,         {0x34010000, 0x0}},
++	{SCODE_PADDING_EOS,      V4L2_PIX_FMT_SPK,         {0x34010000, 0x0}},
+ 	{SCODE_PADDING_EOS,      V4L2_PIX_FMT_JPEG,        {0xefff0000, 0x0}},
+ 	{SCODE_PADDING_ABORT,    V4L2_PIX_FMT_H264,        {0x0B010000, 0}},
+ 	{SCODE_PADDING_ABORT,    V4L2_PIX_FMT_H264_MVC,    {0x0B010000, 0}},
+@@ -998,6 +1000,7 @@ static const struct malone_padding_scode padding_scodes[] = {
+ 	{SCODE_PADDING_ABORT,    V4L2_PIX_FMT_XVID,        {0xb1010000, 0x0}},
+ 	{SCODE_PADDING_ABORT,    V4L2_PIX_FMT_H263,        {0xb1010000, 0x0}},
+ 	{SCODE_PADDING_ABORT,    V4L2_PIX_FMT_VP8,         {0x34010000, 0x0}},
++	{SCODE_PADDING_ABORT,    V4L2_PIX_FMT_SPK,         {0x34010000, 0x0}},
+ 	{SCODE_PADDING_EOS,      V4L2_PIX_FMT_JPEG,        {0x0, 0x0}},
+ 	{SCODE_PADDING_BUFFLUSH, V4L2_PIX_FMT_H264,        {0x15010000, 0x0}},
+ 	{SCODE_PADDING_BUFFLUSH, V4L2_PIX_FMT_H264_MVC,    {0x15010000, 0x0}},
+@@ -1411,6 +1414,16 @@ static int vpu_malone_insert_scode_vp8_pic(struct malone_scode_t *scode)
+ 	return size;
+ }
+ 
++static int vpu_malone_insert_scode_spk_seq(struct malone_scode_t *scode)
++{
++	return vpu_malone_insert_scode_seq(scode, MALONE_CODEC_ID_SPK, 0);
++}
 +
-+      - ``V4L2_PIX_FMT_SPK``
-+      - 'SPK0'
-+      - Sorenson Spark is an implementation of H.263 for use in Flash Video and Adobe Flash files
-     * .. _V4L2-PIX-FMT-MPEG1:
++static int vpu_malone_insert_scode_spk_pic(struct malone_scode_t *scode)
++{
++	return vpu_malone_insert_scode_pic(scode, MALONE_CODEC_ID_SPK, 0);
++}
++
+ static const struct malone_scode_handler scode_handlers[] = {
+ 	{
+ 		/* fix me, need to swap return operation after gstreamer swap */
+@@ -1427,6 +1440,11 @@ static const struct malone_scode_handler scode_handlers[] = {
+ 		.insert_scode_seq = vpu_malone_insert_scode_vp8_seq,
+ 		.insert_scode_pic = vpu_malone_insert_scode_vp8_pic,
+ 	},
++	{
++		.pixelformat = V4L2_PIX_FMT_SPK,
++		.insert_scode_seq = vpu_malone_insert_scode_spk_seq,
++		.insert_scode_pic = vpu_malone_insert_scode_spk_pic,
++	},
+ };
  
-       - ``V4L2_PIX_FMT_MPEG1``
-diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
-index 8e0a0ff62a70..9b5b04b8aa69 100644
---- a/drivers/media/v4l2-core/v4l2-ioctl.c
-+++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-@@ -1472,6 +1472,7 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
- 		case V4L2_PIX_FMT_HEVC_SLICE:	descr = "HEVC Parsed Slice Data"; break;
- 		case V4L2_PIX_FMT_FWHT:		descr = "FWHT"; break; /* used in vicodec */
- 		case V4L2_PIX_FMT_FWHT_STATELESS:	descr = "FWHT Stateless"; break; /* used in vicodec */
-+		case V4L2_PIX_FMT_SPK:		descr = "Sorenson Spark"; break;
- 		case V4L2_PIX_FMT_CPIA1:	descr = "GSPCA CPiA YUV"; break;
- 		case V4L2_PIX_FMT_WNVA:		descr = "WNVA"; break;
- 		case V4L2_PIX_FMT_SN9C10X:	descr = "GSPCA SN9C10X"; break;
-diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-index 3c56b81424f3..262ef10cfa02 100644
---- a/include/uapi/linux/videodev2.h
-+++ b/include/uapi/linux/videodev2.h
-@@ -739,6 +739,7 @@ struct v4l2_pix_format {
- #define V4L2_PIX_FMT_FWHT_STATELESS     v4l2_fourcc('S', 'F', 'W', 'H') /* Stateless FWHT (vicodec) */
- #define V4L2_PIX_FMT_H264_SLICE v4l2_fourcc('S', '2', '6', '4') /* H264 parsed slices */
- #define V4L2_PIX_FMT_HEVC_SLICE v4l2_fourcc('S', '2', '6', '5') /* HEVC parsed slices */
-+#define V4L2_PIX_FMT_SPK      v4l2_fourcc('S', 'P', 'K', '0') /* Sorenson Spark */
- 
- /*  Vendor-specific formats   */
- #define V4L2_PIX_FMT_CPIA1    v4l2_fourcc('C', 'P', 'I', 'A') /* cpia1 YUV */
+ static const struct malone_scode_handler *get_scode_handler(u32 pixelformat)
 -- 
 2.38.1
 
