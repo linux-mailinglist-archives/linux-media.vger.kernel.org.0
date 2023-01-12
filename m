@@ -2,244 +2,187 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 90CCB667165
-	for <lists+linux-media@lfdr.de>; Thu, 12 Jan 2023 12:57:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 523CE667178
+	for <lists+linux-media@lfdr.de>; Thu, 12 Jan 2023 12:59:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235143AbjALL5I (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 12 Jan 2023 06:57:08 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35186 "EHLO
+        id S230271AbjALL7m (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 12 Jan 2023 06:59:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38340 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231310AbjALL4k (ORCPT
+        with ESMTP id S229518AbjALL7K (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 12 Jan 2023 06:56:40 -0500
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C4F885B48A
-        for <linux-media@vger.kernel.org>; Thu, 12 Jan 2023 03:48:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1673524112; x=1705060112;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=69TSg2YSMx4WS9QSpBcJJKKTzfcaOVvNOHaxUC1TYUI=;
-  b=OebRANwf4VM/VEfNJ3I+wAuFPwYnvUlRYVEyJCICDx4y4EFnTCZ8RguV
-   Z/0DPIa8rWsSn+3IAMCILTtCA4BvcU22mpuRbeCC+W8nOYGc8ok5hIH5H
-   2BWOSernSb97CIBKHQKUF9uCNdzfti+fmVikzxau2m3FDYNEBcLljHdKe
-   Ez2fsNuim11Il2UAJD1oBKOC7aj4RhmxsyYAnZ6ZIxrDFrpWjORXuSbrp
-   xTwijKd675Fux7NQbz5zZchNA6kYbe3KgeWi1FGmR1ElkJXNrCDxQbuCZ
-   okLkJ3hgbtzHRpVXNbJY0FAWwsiqMAerUqeAFnC7h7Wp0NSZjWASFOKp2
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10586"; a="321378265"
-X-IronPort-AV: E=Sophos;i="5.97,319,1669104000"; 
-   d="scan'208";a="321378265"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2023 03:48:32 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10586"; a="831665358"
-X-IronPort-AV: E=Sophos;i="5.97,319,1669104000"; 
-   d="scan'208";a="831665358"
-Received: from punajuuri.fi.intel.com (HELO paasikivi.fi.intel.com) ([10.237.72.43])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2023 03:48:29 -0800
-Received: from punajuuri.localdomain (punajuuri.localdomain [192.168.240.130])
-        by paasikivi.fi.intel.com (Postfix) with ESMTP id 3ED1E2010E;
-        Thu, 12 Jan 2023 13:48:27 +0200 (EET)
-Received: from sailus by punajuuri.localdomain with local (Exim 4.94.2)
-        (envelope-from <sakari.ailus@linux.intel.com>)
-        id 1pFw4e-008Pks-Pf; Thu, 12 Jan 2023 13:48:48 +0200
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        niklas.soderlund+renesas@ragnatech.se,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        satish.nagireddy@getcruise.com, Tomasz Figa <tfiga@chromium.org>
-Subject: [PATCH v3 1/1] media: Documentation: Update documentation for streams
-Date:   Thu, 12 Jan 2023 13:48:48 +0200
-Message-Id: <20230112114848.2005581-1-sakari.ailus@linux.intel.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20221215121634.287100-1-tomi.valkeinen@ideasonboard.com>
-References: <20221215121634.287100-1-tomi.valkeinen@ideasonboard.com>
+        Thu, 12 Jan 2023 06:59:10 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E68BF564E0
+        for <linux-media@vger.kernel.org>; Thu, 12 Jan 2023 03:53:24 -0800 (PST)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 88DAD505;
+        Thu, 12 Jan 2023 12:53:22 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1673524402;
+        bh=gWEDniUkTI/wE0SI06Ik5TCXG0ZErmSMkM1Lz63YFkg=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=lx4wcaIbE76QEf/Vj7S4NDEsg6Azae6ocAwhlMq3kxkBOd1W0z835hl4ED3j33tVH
+         XoiaOj8f1e/07000amXkhpW0Bmw3RopuSbRORISAwZSroR2trIBX0Hg8NV1YFMzaYF
+         mS/zrrjX3prbGUdUXsa89odiw9A70VsMGcrC0HTc=
+Date:   Thu, 12 Jan 2023 13:53:22 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Francesco Dolcini <francesco@dolcini.it>
+Cc:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+        Aishwarya Kothari <aishwaryakothari75@gmail.com>,
+        linux-media@vger.kernel.org, francesco.dolcini@toradex.com,
+        marcel.ziswiler@toradex.com, Sakari Ailus <sakari.ailus@iki.fi>
+Subject: Re: Issue with ov5640 camera sensor on apalis imx6
+Message-ID: <Y7/0snRnvE8yPFwP@pendragon.ideasonboard.com>
+References: <081cc2d3-1f3a-6c14-6dc7-53f976be7b2b@gmail.com>
+ <Y5De/R956xERjjP/@pendragon.ideasonboard.com>
+ <20221207190529.tkphzyuf7w56t43g@uno.localdomain>
+ <1f316bda-5bc7-009c-ee22-a1e72653d58c@gmail.com>
+ <20221222132828.pyfgjl57ntwfe4xl@uno.localdomain>
+ <0d9748b7-457f-6274-bf3f-3f37944decf4@gmail.com>
+ <20230111115038.ncu2kt3jnnn7xotv@uno.localdomain>
+ <Y7/c9IVUkC9Mbb7/@pendragon.ideasonboard.com>
+ <Y7/sVZNTf2sGHwbo@francesco-nb.int.toradex.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <Y7/sVZNTf2sGHwbo@francesco-nb.int.toradex.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Document how streams interacts with formats and selections.
+On Thu, Jan 12, 2023 at 12:17:41PM +0100, Francesco Dolcini wrote:
+> On Thu, Jan 12, 2023 at 12:12:04PM +0200, Laurent Pinchart wrote:
+> > On Wed, Jan 11, 2023 at 12:50:38PM +0100, Jacopo Mondi wrote:
+> > > On Thu, Jan 05, 2023 at 03:35:42PM +0100, Aishwarya Kothari wrote:
+> > > > Thanks
+> > > > Reverting the commit 1f391df4 (media: v4l2-async: Use endpoints in
+> > > > __v4l2_async_nf_add_fwnode_remote()) and setting the format as below works
+> > > > fine when tested on v6.0 and v6.1
+> > > > root@apalis-imx6-10774951:~# cat ov5640.sh
+> > > > media-ctl -l "'ov5640 1-003c':0 -> 'imx6-mipi-csi2':0[1]"
+> > > > media-ctl -l "'imx6-mipi-csi2':2 -> 'ipu1_csi1':0[1]"
+> > > > media-ctl -l "'ipu1_csi1':2 -> 'ipu1_csi1 capture':0[1]"
+> > > > # Configure pads
+> > > > media-ctl -V "'ov5640 1-003c':0 [fmt:UYVY8_1X16/1920x1080 field:none]"
+> > > > media-ctl -V "'imx6-mipi-csi2':2 [fmt:UYVY8_1X16/1920x1080 field:none]"
+> > > > media-ctl -V "'ipu1_csi1':2 [fmt:UYVY8_1X16/1920x1080 field:none]"
+> > > 
+> > > I reproduced the issue by booting the most recent media tree master on
+> > > an i.MX6Q board with an ov5640 sensor connected.
+> > > 
+> > > Looking at the list of pending async subdevices at the end of the boot
+> > > sequence (thanks Laurent for letting me know such sysfs attribute
+> > > existed :)
+> > > 
+> > > # cat /sys/kernel/debug/v4l2-async/pending_async_subdevices
+> > > ipu2_csi1_mux:
+> > >  [fwnode] dev=21dc000.mipi, node=/soc/bus@2100000/mipi@21dc000/port@4/endpoint
+> > > ipu1_csi0_mux:
+> > >  [fwnode] dev=21dc000.mipi, node=/soc/bus@2100000/mipi@21dc000/port@1/endpoint
+> > > imx6-mipi-csi2:
+> > > ipu2_csi1:
+> > > ipu2_csi0:
+> > > ipu1_csi1:
+> > >  [fwnode] dev=21dc000.mipi, node=/soc/bus@2100000/mipi@21dc000/port@2/endpoint
+> > > ipu1_csi0:
+> > > imx-media:
+> > > ov5640 2-003c:
+> > > 
+> > > it is clear that there are unsatisfied dependencies on subdevices that
+> > > should be registered by the mipi-csi2 driver.
+> > > 
+> > > The mipi-csi2 DTS layout is the following
+> > > https://elixir.bootlin.com/linux/latest/source/arch/arm/boot/dts/imx6q.dtsi#L486
+> > > with 1 source port connected to the sensor and 4 sink ports with an
+> > > endpoint each connected to the 2 muxes and the 2 IPU[1,2] CSI[0,1] (see
+> > > "Figure 19-1. CSI2IPU gasket connectivity" of the IMX6DQRM TRM).
+> > > 
+> > > The CSI-2 driver registers one subdevice only
+> > > https://elixir.bootlin.com/linux/latest/source/drivers/staging/media/imx/imx6-mipi-csi2.c#L629
+> > > and with the logic implemented in v4l2_async for heterogeneous
+> > > matching
+> > > https://elixir.bootlin.com/linux/latest/source/drivers/media/v4l2-core/v4l2-async.c#L79
+> > > the first driver that probes and that searches from an endpoint in
+> > > the mipi-csi2 device node gets satisfied while the other 3 will be
+> > > left pending. That's why you see "ipu2_csi0:" above having no pending
+> > > subdevs, while "ipu1_csi1:", "ipu1_csi0_mux:" and "ipu2_csi1_mux:"
+> > > have pending subdevices.
+> > > 
+> > > Before commit 1f391df4 (media: v4l2-async: Use endpoints in
+> > > __v4l2_async_nf_add_fwnode_remote())" all the notifiers in ipu1_csi1,
+> > > ipu1_csi0_mux, ipu2_csi0 and ipu2_csi1_mux pointed to the same device
+> > > node "imx6-mipi-csi2". In order to register multiple notifiers with
+> > > an asd that point the same device node you can see that both the
+> > > imx-media-csi and video-mux implement a workaround in the form of:
+> > > 
+> > > 		asd = v4l2_async_nf_add_fwnode_remote(&vmux->notifier, ep,
+> > > 						      struct v4l2_async_subdev);
+> > > 
+> > > 		fwnode_handle_put(ep);
+> > > 
+> > > 		if (IS_ERR(asd)) {
+> > > 			ret = PTR_ERR(asd);
+> > > 			/* OK if asd already exists */
+> > > 			if (ret != -EEXIST)
+> > > 				return ret;
+> > > 		}
+> > > 
+> > > https://elixir.bootlin.com/linux/latest/source/drivers/staging/media/imx/imx-media-csi.c#L1925
+> > > https://elixir.bootlin.com/linux/latest/source/drivers/media/platform/video-mux.c#L382
+> > > 
+> > > as registering multiple asd with on the same fwnode fails when adding
+> > > the asd at:
+> > > https://elixir.bootlin.com/linux/latest/source/drivers/media/v4l2-core/v4l2-async.c#L459
+> > > (thanks again Laurent for spotting this 'workaround')
+> > > 
+> > > This can also be seen in the kernel logs when running with 1f391df4
+> > > reverted and debug enabled on v4l2-async:
+> > > 
+> > > [    3.735368] (NULL device *): subdev descriptor already listed in this or other notifiers
+> > > [    4.242167] (NULL device *): subdev descriptor already listed in this or other notifiers
+> > > [    4.245655] (NULL device *): subdev descriptor already listed in this or other notifiers
+> > > 
+> > > The end result is that a single notifier that points to the mipi_csi2
+> > > device node is registered instead of 4 notifiers as it happens when
+> > > matching on endpoints. When the single notifier binds it registers
+> > > links for all its sink pads (see the _bound callbacks in imx-media-csi
+> > > and video-mux that call v4l2_create_fwnode_links() and
+> > > v4l2_create_fwnode_links_to_pad() respectively) and you have a working
+> > > media-device. Fragile at best as a design, but that's what we'll have
+> > > to live with I'm afraid.
+> > > 
+> > > Now, how to fix this. I tried to think of a way to let the remote
+> > > subdev decide if it has to be matched on endpoints or device node so
+> > > that the decision is up to the mipi-csi2 driver. The alternative would
+> > > be to manually add to the notifier an asd that points to the device
+> > > node instead of using v4l2_async_nf_add_fwnode_remote(). This would be
+> > > fine for the imx-mipi-csi component, as it is always paired the
+> > > mipi-csi2 device so it can safely assume the remote has to be matched
+> > > on device node.  However the video-mux would have to be modified in
+> > > the same way, and as it is a generic component we cannot make any
+> > > assumption on the remote there...
+> > > 
+> > > Any ideas ?
+> > 
+> > Not any easy one :-S
+> 
+> Wouldn't be the case that we should revert that change till we have a
+> proper solution in place given that is not going to be an easy fix?
+> In the end no matter the reason it was working before, this is just a
+> regression.
 
-Update documentation in respect to what is allowed, in particular streams
-are only supported via full routes, source-only routes are not supported
-right now.
+I would have agreed if there wasn't a high risk that will cause
+regressions on other platforms that now depend on this change :-( We're
+thus trading one regression for another one, which may require biting
+the bullet and handling this properly.
 
-The centerpiece of the API additions are streams. Albeit routes are
-configured via S_ROUTING IOCTL that also declares streams, it is streams
-that are accessed through other APIs. Thus refer to streams instead of
-routes in documentation.
-
-Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
----
-since v2:
-
-- Include sub-device term alignment changes and rewrite of the 3rd point
-  of stream-based configuration missed in v2.
-
- .../userspace-api/media/v4l/dev-subdev.rst    | 84 ++++++++++++-------
- 1 file changed, 55 insertions(+), 29 deletions(-)
-
-diff --git a/Documentation/userspace-api/media/v4l/dev-subdev.rst b/Documentation/userspace-api/media/v4l/dev-subdev.rst
-index 7d1b8ebd4e173..51cae93e4c527 100644
---- a/Documentation/userspace-api/media/v4l/dev-subdev.rst
-+++ b/Documentation/userspace-api/media/v4l/dev-subdev.rst
-@@ -406,6 +406,8 @@ pixel array is not rectangular but cross-shaped or round. The maximum
- size may also be smaller than the BOUNDS rectangle.
- 
- 
-+.. _format-propagation:
-+
- Order of configuration and format propagation
- ---------------------------------------------
- 
-@@ -507,12 +509,12 @@ source pads.
- Streams, multiplexed media pads and internal routing
- ----------------------------------------------------
- 
--Commonly V4L2 subdevices support only separate video streams, that is, only a
--single stream can pass through a media link and a media pad. Thus each pad
--contains a format configuration for that single stream. In some cases a subdev
--can do stream processing and split a stream into two or compose two streams
--into one, but the inputs and outputs for the subdev are still a single stream
--per pad.
-+Simple V4L2 sub-devices do not support multiple, unrelated video streams,
-+and only a single stream can pass through a media link and a media pad.
-+Thus each pad contains a format and selection configuration for that
-+single stream. A subdev can do stream processing and split a stream into
-+two or compose two streams into one, but the inputs and outputs for the
-+subdev are still a single stream per pad.
- 
- Some hardware, e.g. MIPI CSI-2, support multiplexed streams, that is, multiple
- data streams are transmitted on the same bus, which is represented by a media
-@@ -535,38 +537,62 @@ Understanding streams
- A stream is a stream of content (e.g. pixel data or metadata) flowing through
- the media pipeline from a source (e.g. a sensor) towards the final sink (e.g. a
- receiver and demultiplexer in a SoC). Each media link carries all the enabled
--streams from one end of the link to the other, and subdevices have routing
-+streams from one end of the link to the other, and sub-devices have routing
- tables which describe how the incoming streams from sink pads are routed to the
- source pads.
- 
--A stream ID (often just "stream") is a media link-local identifier for a stream.
--In other words, a particular stream ID must exist on both sides of a media
-+A stream ID is a media pad-local identifier for a stream. Streams IDs of
-+the same stream must be equal on both ends of a link. In other words,
-+a particular stream ID must exist on both sides of a media
- link, but another stream ID can be used for the same stream at the other side
--of the subdevice.
-+of the sub-device.
-+
-+A stream at a specific point in the media pipeline is identified by the
-+sub-device and a (pad, stream) pair. For sub-devices that do not support
-+multiplexed streams the 'stream' field is always 0.
-+
-+Interaction between routes, streams, formats and selections
-+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-+
-+The addition of streams to the V4L2 sub-device interface moves the sub-device
-+formats and selections from pads to (pad, stream) pairs. Besides the
-+usual pad, also the stream ID needs to be provided for setting formats and
-+selections. The order of configuring formats and selections along a stream is
-+the same as without streams (see :ref:`format-propagation`).
-+
-+Instead of the sub-device wide merging of streams from all sink pads
-+towards all source pads, data flows for each route are separate from each
-+other. Any number of routes from streams on sink pads towards streams on
-+source pads is allowed, to the extent supported by drivers. For every
-+stream on a source pad, however, only a single route is allowed.
- 
--A stream at a specific point in the media pipeline is identified with the
--subdev and a (pad, stream) pair. For subdevices that do not support
--multiplexed streams the 'stream' is always 0.
-+Any configurations of a stream within a pad, such as format or selections,
-+are independent of similar configurations on other streams. This is
-+subject to change in the future.
- 
- Configuring streams
- ^^^^^^^^^^^^^^^^^^^
- 
--The configuration of the streams is done individually for each subdevice and
--the validity of the streams between subdevices is validated when the pipeline
-+The configuration of the streams is done individually for each sub-device and
-+the validity of the streams between sub-devices is validated when the pipeline
- is started.
- 
- There are three steps in configuring the streams:
- 
--1) Set up links. Connect the pads between subdevices using the :ref:`Media
-+1) Set up links. Connect the pads between sub-devices using the :ref:`Media
- Controller API <media_controller>`
- 
--2) Routing. The routing table for the subdevice must be set with
-+2) Streams. Streams are declared and their routing is configured by
-+setting the routing table for the sub-device using
- :ref:`VIDIOC_SUBDEV_S_ROUTING <VIDIOC_SUBDEV_G_ROUTING>` ioctl. Note that
--setting the routing table will reset all the stream configurations in a media
--entity.
-+setting the routing table will reset formats and selections in the
-+sub-device to default values.
- 
--3) Configure streams. Each route endpoint must be configured
--with :ref:`VIDIOC_SUBDEV_S_FMT <VIDIOC_SUBDEV_G_FMT>`.
-+3) Configure formats and selections. Formats and selections of each stream
-+are configured separately as documented for plain sub-devices in
-+:ref:`<format-propagation>`. The stream ID is set to the same stream ID
-+associated with either sink or source pads of routes configured using the
-+:ref:`VIDIOC_SUBDEV_S_ROUTING <VIDIOC_SUBDEV_G_ROUTING>` ioctl.
- 
- Multiplexed streams setup example
- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-@@ -586,7 +612,7 @@ A simple example of a multiplexed stream setup might be as follows:
- - DMA Engines in the SoC (DMA Engine), one for each stream. Each DMA engine is
-   connected to a single source pad in the receiver.
- 
--The sensors, the bridge and the receiver are modeled as V4L2 subdevices,
-+The sensors, the bridge and the receiver are modeled as V4L2 sub-devices,
- exposed to userspace via /dev/v4l-subdevX device nodes. The DMA engines are
- modeled as V4L2 devices, exposed to userspace via /dev/videoX nodes.
- 
-@@ -596,7 +622,7 @@ To configure this pipeline, the userspace must take the following steps:
- bridge to the receiver, and the receiver to the DMA engines. This step does
- not differ from normal non-multiplexed media controller setup.
- 
--2) Configure routing.
-+2) Configure routing
- 
- .. flat-table:: Bridge routing table
-     :header-rows:  1
-@@ -630,14 +656,14 @@ not differ from normal non-multiplexed media controller setup.
-       - V4L2_SUBDEV_ROUTE_FL_ACTIVE
-       - Pixel data stream from Sensor B
- 
--3) Configure streams
-+3) Configure formats and selections
- 
--After configuring the routing table, the next step is configuring the streams.
--This step is similar to configuring the pads in a non-multiplexed streams
--setup, with the difference that we need to configure each (pad, stream) pair
--(i.e. route endpoint) instead of just a pad.
-+After configuring routing, the next step is configuring the formats and
-+selections for the streams. This is similar to performing this step without
-+streams, with just one exception: the ``stream`` field needs to be assigned
-+to the value of the stream ID.
- 
- A common way to accomplish this is to start from the sensors and propagate the
- configurations along the stream towards the receiver,
- using :ref:`VIDIOC_SUBDEV_S_FMT <VIDIOC_SUBDEV_G_FMT>` ioctls to configure each
--stream endpoint in each subdev.
-+stream endpoint in each sub-device.
 -- 
-2.30.2
+Regards,
 
+Laurent Pinchart
