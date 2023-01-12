@@ -2,37 +2,37 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AE84B667D52
-	for <lists+linux-media@lfdr.de>; Thu, 12 Jan 2023 19:03:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 60E4D667D4F
+	for <lists+linux-media@lfdr.de>; Thu, 12 Jan 2023 19:03:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240173AbjALSDb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 12 Jan 2023 13:03:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45278 "EHLO
+        id S229863AbjALSD3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 12 Jan 2023 13:03:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44512 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240148AbjALSC3 (ORCPT
+        with ESMTP id S240087AbjALSC3 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Thu, 12 Jan 2023 13:02:29 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C64D55644
-        for <linux-media@vger.kernel.org>; Thu, 12 Jan 2023 09:25:13 -0800 (PST)
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E87D255646
+        for <linux-media@vger.kernel.org>; Thu, 12 Jan 2023 09:25:14 -0800 (PST)
 Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id DCC99496;
-        Thu, 12 Jan 2023 18:25:11 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 67A0D505;
+        Thu, 12 Jan 2023 18:25:13 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1673544312;
-        bh=tPkjDPFGGYDS9bfX5sepCs/DfykhJC1/K5FUJno/98E=;
+        s=mail; t=1673544313;
+        bh=91eqVBQkYs3vxnwvnKCufb4K8rjnuHji0Eobz9yL7WE=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=voSpwVHApOOlNa8YCitHx5p9JqWN82y1TjqvfMmEq/VUt74pp2CWqBJbPzhFizZ/V
-         77e+cy39barQ5lFPsM7wfTqN8FLiGBwXtoFBM+VO3DtCJ2EH1Tk4wSBCHjnX5e4yEQ
-         yDWbgctScbcchLf1WJmo/pssEB4bJe/9sl6y5Gi0=
+        b=Un49Of5N58l5PkUC9kalNEGjXync5xNHh6yOseEfhQOqPigc2VNlzgg0UiXNM/ir0
+         3WF5mtqE8lxsHnZVP9XwM4FcoGA0jq8aXHuAQ/9cJz6Iqlr2OxmQ/745AQkI3YZbeP
+         JV0gANrOjVMAzWmF/ZoX99dnIg0xf6AD4cbKoA2M=
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     linux-media@vger.kernel.org
 Cc:     Michael Tretter <m.tretter@pengutronix.de>,
         Philipp Zabel <p.zabel@pengutronix.de>, kernel@pengutronix.de,
         linux-imx@nxp.com
-Subject: [PATCH v2 3/7] media: imx-pxp: Add media controller support
-Date:   Thu, 12 Jan 2023 19:25:03 +0200
-Message-Id: <20230112172507.30579-4-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v2 4/7] media: imx-pxp: Pass pixel format value to find_format()
+Date:   Thu, 12 Jan 2023 19:25:04 +0200
+Message-Id: <20230112172507.30579-5-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.38.2
 In-Reply-To: <20230112172507.30579-1-laurent.pinchart@ideasonboard.com>
 References: <20230112172507.30579-1-laurent.pinchart@ideasonboard.com>
@@ -47,89 +47,73 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Register a media device for the PXP, using the v4l2-mem2mem MC
-infrastructure to populate the media graph. No media device operation is
-implemented, the main use of the MC API is to allow consistent discovery
-of media devices for userspace.
+The find_format() function looks up format information for a given pixel
+format. It takes a v4l2_format pointer, but only uses the contained
+pixel format value. To prepare it for being used by callers that don't
+have v4l2_format, modify it to take the pixel format value directly.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Reviewed-by: Michael Tretter <m.tretter@pengutronix.de>
 ---
-Changes since v1:
-
-- Drop manual setting of bus_info
----
- drivers/media/platform/nxp/imx-pxp.c | 35 ++++++++++++++++++++++++++++
- 1 file changed, 35 insertions(+)
+ drivers/media/platform/nxp/imx-pxp.c | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
 diff --git a/drivers/media/platform/nxp/imx-pxp.c b/drivers/media/platform/nxp/imx-pxp.c
-index 945316edd580..c3d2df5d725d 100644
+index c3d2df5d725d..2566a7821982 100644
 --- a/drivers/media/platform/nxp/imx-pxp.c
 +++ b/drivers/media/platform/nxp/imx-pxp.c
-@@ -24,6 +24,7 @@
- #include <linux/sched.h>
- #include <linux/slab.h>
+@@ -176,14 +176,14 @@ enum {
+ 	V4L2_M2M_DST = 1,
+ };
  
-+#include <media/media-device.h>
- #include <media/v4l2-ctrls.h>
- #include <media/v4l2-device.h>
- #include <media/v4l2-event.h>
-@@ -200,6 +201,9 @@ struct pxp_pdata {
- struct pxp_dev {
- 	struct v4l2_device	v4l2_dev;
- 	struct video_device	vfd;
-+#ifdef CONFIG_MEDIA_CONTROLLER
-+	struct media_device	mdev;
-+#endif
+-static struct pxp_fmt *find_format(struct v4l2_format *f)
++static struct pxp_fmt *find_format(unsigned int pixelformat)
+ {
+ 	struct pxp_fmt *fmt;
+ 	unsigned int k;
  
- 	struct clk		*clk;
- 	void __iomem		*mmio;
-@@ -1830,8 +1834,34 @@ static int pxp_probe(struct platform_device *pdev)
- 		goto err_m2m;
+ 	for (k = 0; k < NUM_FORMATS; k++) {
+ 		fmt = &formats[k];
+-		if (fmt->fourcc == f->fmt.pix.pixelformat)
++		if (fmt->fourcc == pixelformat)
+ 			break;
  	}
  
-+#ifdef CONFIG_MEDIA_CONTROLLER
-+	dev->mdev.dev = &pdev->dev;
-+	strscpy(dev->mdev.model, MEM2MEM_NAME, sizeof(dev->mdev.model));
-+	media_device_init(&dev->mdev);
-+	dev->v4l2_dev.mdev = &dev->mdev;
-+
-+	ret = v4l2_m2m_register_media_controller(dev->m2m_dev, vfd,
-+						 MEDIA_ENT_F_PROC_VIDEO_PIXEL_FORMATTER);
-+	if (ret) {
-+		dev_err(&pdev->dev, "Failed to initialize media device\n");
-+		goto err_vfd;
-+	}
-+
-+	ret = media_device_register(&dev->mdev);
-+	if (ret) {
-+		dev_err(&pdev->dev, "Failed to register media device\n");
-+		goto err_m2m_mc;
-+	}
-+#endif
-+
- 	return 0;
+@@ -1266,10 +1266,10 @@ static int pxp_try_fmt_vid_cap(struct file *file, void *priv,
+ 	struct pxp_fmt *fmt;
+ 	struct pxp_ctx *ctx = file2ctx(file);
  
-+#ifdef CONFIG_MEDIA_CONTROLLER
-+err_m2m_mc:
-+	v4l2_m2m_unregister_media_controller(dev->m2m_dev);
-+err_vfd:
-+	video_unregister_device(vfd);
-+#endif
- err_m2m:
- 	v4l2_m2m_release(dev->m2m_dev);
- err_v4l2:
-@@ -1852,6 +1882,11 @@ static int pxp_remove(struct platform_device *pdev)
- 	clk_disable_unprepare(dev->clk);
+-	fmt = find_format(f);
++	fmt = find_format(f->fmt.pix.pixelformat);
+ 	if (!fmt) {
+ 		f->fmt.pix.pixelformat = formats[0].fourcc;
+-		fmt = find_format(f);
++		fmt = find_format(f->fmt.pix.pixelformat);
+ 	}
+ 	if (!(fmt->types & MEM2MEM_CAPTURE)) {
+ 		v4l2_err(&ctx->dev->v4l2_dev,
+@@ -1294,10 +1294,10 @@ static int pxp_try_fmt_vid_out(struct file *file, void *priv,
+ 	struct pxp_fmt *fmt;
+ 	struct pxp_ctx *ctx = file2ctx(file);
  
- 	v4l2_info(&dev->v4l2_dev, "Removing " MEM2MEM_NAME);
-+
-+#ifdef CONFIG_MEDIA_CONTROLLER
-+	media_device_unregister(&dev->mdev);
-+	v4l2_m2m_unregister_media_controller(dev->m2m_dev);
-+#endif
- 	video_unregister_device(&dev->vfd);
- 	v4l2_m2m_release(dev->m2m_dev);
- 	v4l2_device_unregister(&dev->v4l2_dev);
+-	fmt = find_format(f);
++	fmt = find_format(f->fmt.pix.pixelformat);
+ 	if (!fmt) {
+ 		f->fmt.pix.pixelformat = formats[0].fourcc;
+-		fmt = find_format(f);
++		fmt = find_format(f->fmt.pix.pixelformat);
+ 	}
+ 	if (!(fmt->types & MEM2MEM_OUTPUT)) {
+ 		v4l2_err(&ctx->dev->v4l2_dev,
+@@ -1330,7 +1330,7 @@ static int pxp_s_fmt(struct pxp_ctx *ctx, struct v4l2_format *f)
+ 		return -EBUSY;
+ 	}
+ 
+-	q_data->fmt		= find_format(f);
++	q_data->fmt		= find_format(f->fmt.pix.pixelformat);
+ 	q_data->width		= f->fmt.pix.width;
+ 	q_data->height		= f->fmt.pix.height;
+ 	q_data->bytesperline	= f->fmt.pix.bytesperline;
 -- 
 Regards,
 
