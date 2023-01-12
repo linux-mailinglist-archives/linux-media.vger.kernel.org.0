@@ -2,37 +2,37 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 60E4D667D4F
-	for <lists+linux-media@lfdr.de>; Thu, 12 Jan 2023 19:03:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 05D69667D53
+	for <lists+linux-media@lfdr.de>; Thu, 12 Jan 2023 19:03:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229863AbjALSD3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 12 Jan 2023 13:03:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44512 "EHLO
+        id S232125AbjALSDu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 12 Jan 2023 13:03:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44540 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240087AbjALSC3 (ORCPT
+        with ESMTP id S240156AbjALSC3 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Thu, 12 Jan 2023 13:02:29 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E87D255646
-        for <linux-media@vger.kernel.org>; Thu, 12 Jan 2023 09:25:14 -0800 (PST)
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 53A9755647
+        for <linux-media@vger.kernel.org>; Thu, 12 Jan 2023 09:25:16 -0800 (PST)
 Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 67A0D505;
-        Thu, 12 Jan 2023 18:25:13 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id D1BF7491;
+        Thu, 12 Jan 2023 18:25:14 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1673544313;
-        bh=91eqVBQkYs3vxnwvnKCufb4K8rjnuHji0Eobz9yL7WE=;
+        s=mail; t=1673544315;
+        bh=antwnTO/zTzZxh/Yc0caKQNnv2yZA+GpHGmlEvDFv5w=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Un49Of5N58l5PkUC9kalNEGjXync5xNHh6yOseEfhQOqPigc2VNlzgg0UiXNM/ir0
-         3WF5mtqE8lxsHnZVP9XwM4FcoGA0jq8aXHuAQ/9cJz6Iqlr2OxmQ/745AQkI3YZbeP
-         JV0gANrOjVMAzWmF/ZoX99dnIg0xf6AD4cbKoA2M=
+        b=EHMJ4NjRguSMxfmhPNJvw3t3FilESC2Q6TYboqupWhesScX7d4rLcNXM+HChyGC1v
+         fkV1bzFSvLJlms3g0Bqe+QcIG4fuIQWZWmGbdnUpks25vBLofQKhmDPrMZn4siqHxz
+         hT2Y5nmrajhiPIMEPyS0mMARMB/EGuOcrjfcA6Y8=
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     linux-media@vger.kernel.org
 Cc:     Michael Tretter <m.tretter@pengutronix.de>,
         Philipp Zabel <p.zabel@pengutronix.de>, kernel@pengutronix.de,
         linux-imx@nxp.com
-Subject: [PATCH v2 4/7] media: imx-pxp: Pass pixel format value to find_format()
-Date:   Thu, 12 Jan 2023 19:25:04 +0200
-Message-Id: <20230112172507.30579-5-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v2 5/7] media: imx-pxp: Implement frame size enumeration
+Date:   Thu, 12 Jan 2023 19:25:05 +0200
+Message-Id: <20230112172507.30579-6-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.38.2
 In-Reply-To: <20230112172507.30579-1-laurent.pinchart@ideasonboard.com>
 References: <20230112172507.30579-1-laurent.pinchart@ideasonboard.com>
@@ -47,73 +47,57 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The find_format() function looks up format information for a given pixel
-format. It takes a v4l2_format pointer, but only uses the contained
-pixel format value. To prepare it for being used by callers that don't
-have v4l2_format, modify it to take the pixel format value directly.
+Implement support for the VIDIOC_ENUM_FRAMESIZES ioctl.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Reviewed-by: Michael Tretter <m.tretter@pengutronix.de>
 ---
- drivers/media/platform/nxp/imx-pxp.c | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+Changes since v1:
+
+- Use 1 << ALIGN_*
+---
+ drivers/media/platform/nxp/imx-pxp.c | 22 ++++++++++++++++++++++
+ 1 file changed, 22 insertions(+)
 
 diff --git a/drivers/media/platform/nxp/imx-pxp.c b/drivers/media/platform/nxp/imx-pxp.c
-index c3d2df5d725d..2566a7821982 100644
+index 2566a7821982..580824efa3f5 100644
 --- a/drivers/media/platform/nxp/imx-pxp.c
 +++ b/drivers/media/platform/nxp/imx-pxp.c
-@@ -176,14 +176,14 @@ enum {
- 	V4L2_M2M_DST = 1,
- };
+@@ -1389,6 +1389,26 @@ static int pxp_s_fmt_vid_out(struct file *file, void *priv,
+ 	return 0;
+ }
  
--static struct pxp_fmt *find_format(struct v4l2_format *f)
-+static struct pxp_fmt *find_format(unsigned int pixelformat)
++static int pxp_enum_framesizes(struct file *file, void *fh,
++			       struct v4l2_frmsizeenum *fsize)
++{
++	if (fsize->index > 0)
++		return -EINVAL;
++
++	if (!find_format(fsize->pixel_format))
++		return -EINVAL;
++
++	fsize->type = V4L2_FRMSIZE_TYPE_STEPWISE;
++	fsize->stepwise.min_width = MIN_W;
++	fsize->stepwise.max_width = MAX_W;
++	fsize->stepwise.step_width = 1 << ALIGN_W;
++	fsize->stepwise.min_height = MIN_H;
++	fsize->stepwise.max_height = MAX_H;
++	fsize->stepwise.step_height = 1 << ALIGN_H;
++
++	return 0;
++}
++
+ static u8 pxp_degrees_to_rot_mode(u32 degrees)
  {
- 	struct pxp_fmt *fmt;
- 	unsigned int k;
+ 	switch (degrees) {
+@@ -1457,6 +1477,8 @@ static const struct v4l2_ioctl_ops pxp_ioctl_ops = {
+ 	.vidioc_try_fmt_vid_out	= pxp_try_fmt_vid_out,
+ 	.vidioc_s_fmt_vid_out	= pxp_s_fmt_vid_out,
  
- 	for (k = 0; k < NUM_FORMATS; k++) {
- 		fmt = &formats[k];
--		if (fmt->fourcc == f->fmt.pix.pixelformat)
-+		if (fmt->fourcc == pixelformat)
- 			break;
- 	}
- 
-@@ -1266,10 +1266,10 @@ static int pxp_try_fmt_vid_cap(struct file *file, void *priv,
- 	struct pxp_fmt *fmt;
- 	struct pxp_ctx *ctx = file2ctx(file);
- 
--	fmt = find_format(f);
-+	fmt = find_format(f->fmt.pix.pixelformat);
- 	if (!fmt) {
- 		f->fmt.pix.pixelformat = formats[0].fourcc;
--		fmt = find_format(f);
-+		fmt = find_format(f->fmt.pix.pixelformat);
- 	}
- 	if (!(fmt->types & MEM2MEM_CAPTURE)) {
- 		v4l2_err(&ctx->dev->v4l2_dev,
-@@ -1294,10 +1294,10 @@ static int pxp_try_fmt_vid_out(struct file *file, void *priv,
- 	struct pxp_fmt *fmt;
- 	struct pxp_ctx *ctx = file2ctx(file);
- 
--	fmt = find_format(f);
-+	fmt = find_format(f->fmt.pix.pixelformat);
- 	if (!fmt) {
- 		f->fmt.pix.pixelformat = formats[0].fourcc;
--		fmt = find_format(f);
-+		fmt = find_format(f->fmt.pix.pixelformat);
- 	}
- 	if (!(fmt->types & MEM2MEM_OUTPUT)) {
- 		v4l2_err(&ctx->dev->v4l2_dev,
-@@ -1330,7 +1330,7 @@ static int pxp_s_fmt(struct pxp_ctx *ctx, struct v4l2_format *f)
- 		return -EBUSY;
- 	}
- 
--	q_data->fmt		= find_format(f);
-+	q_data->fmt		= find_format(f->fmt.pix.pixelformat);
- 	q_data->width		= f->fmt.pix.width;
- 	q_data->height		= f->fmt.pix.height;
- 	q_data->bytesperline	= f->fmt.pix.bytesperline;
++	.vidioc_enum_framesizes	= pxp_enum_framesizes,
++
+ 	.vidioc_reqbufs		= v4l2_m2m_ioctl_reqbufs,
+ 	.vidioc_querybuf	= v4l2_m2m_ioctl_querybuf,
+ 	.vidioc_qbuf		= v4l2_m2m_ioctl_qbuf,
 -- 
 Regards,
 
