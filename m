@@ -2,90 +2,62 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DA86F666BEA
-	for <lists+linux-media@lfdr.de>; Thu, 12 Jan 2023 08:56:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 40770666C26
+	for <lists+linux-media@lfdr.de>; Thu, 12 Jan 2023 09:11:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232408AbjALH4l (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 12 Jan 2023 02:56:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40490 "EHLO
+        id S239710AbjALILn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 12 Jan 2023 03:11:43 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49554 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235030AbjALH4g (ORCPT
+        with ESMTP id S236544AbjALILa (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 12 Jan 2023 02:56:36 -0500
-Received: from mail-pg1-x549.google.com (mail-pg1-x549.google.com [IPv6:2607:f8b0:4864:20::549])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3CBBDBFF
-        for <linux-media@vger.kernel.org>; Wed, 11 Jan 2023 23:56:35 -0800 (PST)
-Received: by mail-pg1-x549.google.com with SMTP id e184-20020a6369c1000000b0049de6cfcc40so7855910pgc.19
-        for <linux-media@vger.kernel.org>; Wed, 11 Jan 2023 23:56:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=to:from:subject:message-id:references:mime-version:in-reply-to:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Vg6nAgYjZ4wYYlTqMF3jbo791ipG8SuFLzs8v41dmTI=;
-        b=kL0UvQite/urbN7Yp3NlzfzFTECRjRM1K7T5g4ZxG3zHylBlslAyzr6qxrAi9aysJM
-         RDeACOZIgRrgriXoR4Pb3FUm6siAnl76A15BakL+7xmzzyJYvBrIKvFGmqzOdrHuLyHw
-         eLCWL5a84U7mTNiiuZkhyyW//9BsTntHFbTMWG3xqNxmoxumrT4tac24HiqQmCacQxb7
-         hWUb45XPnPy09DrO6jQeVMIxbVjfhO/QXKCL83ehtKjjTMjBps8fFK6gPa75SmpeTyw8
-         vcf4DzdsP5Yv5ETLXzCGGp7Lotol2entUVESDqjWMyWKfU3XQsKSss8PleO3BkZomuWi
-         ioIg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=to:from:subject:message-id:references:mime-version:in-reply-to:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Vg6nAgYjZ4wYYlTqMF3jbo791ipG8SuFLzs8v41dmTI=;
-        b=KHk+Xgu0th0wsxrnQCj/kbSzPSQ2Ujen7YR6EvTZVr0+EQtoSqiL8XrRtAHI5kmxCy
-         ltEtmvLVWFmEKpKuGaUp5GMa7+PSPdupp5C5mM0bhuNcmVFYbqtcnSeg5RmMBB0lBExI
-         m/SrLnylRBWf/ZkaXaVSGLvFrw5zDEsRaV4LZSJ2u+4zrVDsfclxPp9YhRM5n4j+ij/Z
-         EH76/erwKtPZE42ZNleKwHzb8EEhy6uni1UyvHeTG5z3x1nt5jNAQFd/W2UgjHqmgIcF
-         H8KWWP8MOd/uWXNV+HONKld8hHgWBhZPnASS9kbzD52kD4DouVRu12mWgH3R0wCYAZzP
-         v2rA==
-X-Gm-Message-State: AFqh2krWH2Ut90K5gKNcCb8TLf0LKCQpIp2Rxzno7aMjLKImYe6R5R51
-        ufihb3DwF1f4jPCS1NgT4SEIkxbJgJ1YiQ==
-X-Google-Smtp-Source: AMrXdXv29WhmagcsXxW5VJTVWoRrJdV9U6Gev8NYUGOd+PwEKkvAbufkJGb0qU84S3rueo4liZ5Ei6F1OKpY1Q==
-X-Received: from shakeelb.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:262e])
- (user=shakeelb job=sendgmr) by 2002:a62:1488:0:b0:581:85ab:16b3 with SMTP id
- 130-20020a621488000000b0058185ab16b3mr4558933pfu.67.1673510194669; Wed, 11
- Jan 2023 23:56:34 -0800 (PST)
-Date:   Thu, 12 Jan 2023 07:56:31 +0000
-In-Reply-To: <Y78+rfzXPq5XGs9O@phenom.ffwll.local>
-Mime-Version: 1.0
-References: <20230109213809.418135-1-tjmercier@google.com> <CALvZod4ru7F38tAO-gM9ZFKaEhS0w3KqFbPwhwcTvgJs4xMUow@mail.gmail.com>
- <Y78+rfzXPq5XGs9O@phenom.ffwll.local>
-Message-ID: <20230112075631.wc6fd54ci55drhkp@google.com>
-Subject: Re: [PATCH 0/4] Track exported dma-buffers with memcg
-From:   Shakeel Butt <shakeelb@google.com>
-To:     "T.J. Mercier" <tjmercier@google.com>, Tejun Heo <tj@kernel.org>,
-        Zefan Li <lizefan.x@bytedance.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Arve =?utf-8?B?SGrDuG5uZXbDpWc=?=" <arve@android.com>,
-        Todd Kjos <tkjos@android.com>,
-        Martijn Coenen <maco@android.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Christian Brauner <brauner@kernel.org>,
-        Carlos Llamas <cmllamas@google.com>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        "Christian =?utf-8?B?S8O2bmln?=" <christian.koenig@amd.com>,
-        Michal Hocko <mhocko@kernel.org>,
-        Roman Gushchin <roman.gushchin@linux.dev>,
-        Muchun Song <muchun.song@linux.dev>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Paul Moore <paul@paul-moore.com>,
-        James Morris <jmorris@namei.org>,
-        "Serge E. Hallyn" <serge@hallyn.com>,
-        Stephen Smalley <stephen.smalley.work@gmail.com>,
-        Eric Paris <eparis@parisplace.org>, android-mm@google.com,
-        jstultz@google.com, cgroups@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org, linux-mm@kvack.org,
-        linux-security-module@vger.kernel.org, selinux@vger.kernel.org
-Content-Type: text/plain; charset="us-ascii"
-X-Spam-Status: No, score=-9.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=unavailable
+        Thu, 12 Jan 2023 03:11:30 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1774A4C727;
+        Thu, 12 Jan 2023 00:11:22 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 6AA49B81D90;
+        Thu, 12 Jan 2023 08:11:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C4DA3C433EF;
+        Thu, 12 Jan 2023 08:11:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1673511079;
+        bh=omEZp3lmrTt3GrVewdVony8ojSj5H8hp7rwM9j19Lhk=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=rPOHjuUXe5lo5QJz91xI2vJSSodx/v+COsN3j+ST4HcIDjOkX+XGSBifE4+bj0XIQ
+         7ZTLLr3VwfwFonXtnXEmHFb+8xdxLXLReBoNFRoEVLG/DYsHQrBC09tCZWx8z1XD/w
+         qpeJtekvRy61tb61l1OpMU7kKqBxVWiS+TmXyHf8trtwaSrbe/CIU6xO9vyFv+I85w
+         IBwrt81wt7M3/H6FBFUCyOMHJyIPZzrvHHNEsAGBlP8BUB0Rzo4BIbC353vyWUo2Ix
+         /c+PUC9MSWiinzDAyFj6w9NNlVv513DUtEzytE0BswUvzVsD5mnFn+tPuoWeG6RQVm
+         G0Jt0GUoz+i5Q==
+Message-ID: <f92ff708-add2-44c3-8e51-33a1279cecbf@kernel.org>
+Date:   Thu, 12 Jan 2023 09:11:13 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH v4 1/6] dt-bindings: media: platform: visconti: Add
+ Toshiba Visconti Video Input Interface bindings
+To:     yuji2.ishikawa@toshiba.co.jp, hverkuil@xs4all.nl,
+        laurent.pinchart@ideasonboard.com, mchehab@kernel.org,
+        nobuhiro1.iwamatsu@toshiba.co.jp
+Cc:     linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
+References: <20230110014143.18684-1-yuji2.ishikawa@toshiba.co.jp>
+ <20230110014143.18684-2-yuji2.ishikawa@toshiba.co.jp>
+ <b0245b64-a3eb-a242-8824-9effe0c63f0e@kernel.org>
+ <TYAPR01MB62019B464730E0268B58E90492FC9@TYAPR01MB6201.jpnprd01.prod.outlook.com>
+ <14ffd7a0-caf3-d5ee-18bb-df4e53f276c7@kernel.org>
+ <TYAPR01MB62014698C65E5ADFBD07C65F92FD9@TYAPR01MB6201.jpnprd01.prod.outlook.com>
+Content-Language: en-US
+From:   Krzysztof Kozlowski <krzk@kernel.org>
+In-Reply-To: <TYAPR01MB62014698C65E5ADFBD07C65F92FD9@TYAPR01MB6201.jpnprd01.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -93,31 +65,25 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Jan 11, 2023 at 11:56:45PM +0100, Daniel Vetter wrote:
+On 12/01/2023 03:05, yuji2.ishikawa@toshiba.co.jp wrote:
+>>>> Compatible must be specific. You called your SoC visconti5, didn't you?
+>>>>
+>>>
+>>> The Video Input Interface hardware is likely to be used at future SoCs
+>>> of Visconti Architecture.
+>>> Does compatible have to be specific to SoC's model name rather than
+>>> architecture name?
+>>
+>> Compatibles should always be specific to SoC model name. Adding more generic
+>> family fallback is also good idea when it is applicable.
+>>
 > 
-[...]
-> I think eventually, at least for other "account gpu stuff in cgroups" use
-> case we do want to actually charge the memory.
-> 
-> The problem is a bit that with gpu allocations reclaim is essentially "we
-> pass the error to userspace and they get to sort the mess out". There are
-> some exceptions (some gpu drivers to have shrinkers) would we need to make
-> sure these shrinkers are tied into the cgroup stuff before we could enable
-> charging for them?
-> 
+> I'll update the compatible to "toshiba,visconti5-viif".
+> I'll consider adding generic version "toshiba,visconti-viif" when a successor SoC gets available.
 
-No, there is no requirement to have shrinkers or making such memory
-reclaimable before charging it. Though existing shrinkers and the
-possible future shrinkers would need to be converted into memcg aware
-shrinkers.
+Are you sure? You will have to wait at least one cycle between DTS and
+driver change, due to ABI break of DTB users.
 
-Though there will be a need to update user expectations that if they 
-use memcgs with hard limits, they may start seeing memcg OOMs after the
-charging of dmabuf.
+Best regards,
+Krzysztof
 
-> Also note that at least from the gpu driver side this is all a huge
-> endeavour, so if we can split up the steps as much as possible (and get
-> something interim useable that doesn't break stuff ofc), that is
-> practically need to make headway here. 
-
-This sounds reasonable to me.
