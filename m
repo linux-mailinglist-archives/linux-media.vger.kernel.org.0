@@ -2,326 +2,126 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3A2476675A4
-	for <lists+linux-media@lfdr.de>; Thu, 12 Jan 2023 15:23:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1E2C266777C
+	for <lists+linux-media@lfdr.de>; Thu, 12 Jan 2023 15:44:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235762AbjALOXq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 12 Jan 2023 09:23:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44194 "EHLO
+        id S239817AbjALOoJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 12 Jan 2023 09:44:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38194 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236676AbjALOXO (ORCPT
+        with ESMTP id S239928AbjALOnc (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 12 Jan 2023 09:23:14 -0500
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 28AB059F95
-        for <linux-media@vger.kernel.org>; Thu, 12 Jan 2023 06:14:40 -0800 (PST)
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <mtr@pengutronix.de>)
-        id 1pFyLl-00062z-W5; Thu, 12 Jan 2023 15:14:38 +0100
-Received: from mtr by ptx.hi.pengutronix.de with local (Exim 4.92)
-        (envelope-from <mtr@pengutronix.de>)
-        id 1pFyLl-0000WE-DE; Thu, 12 Jan 2023 15:14:37 +0100
-Date:   Thu, 12 Jan 2023 15:14:37 +0100
-From:   Michael Tretter <m.tretter@pengutronix.de>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Alexander Stein <alexander.stein@ew.tq-group.com>,
-        linux-media@vger.kernel.org,
-        Philipp Zabel <p.zabel@pengutronix.de>, kernel@pengutronix.de,
-        linux-imx@nxp.com
-Subject: Re: [PATCH v1 5/6] media: imx-pxp: Introduce pxp_read() and
- pxp_write() wrappers
-Message-ID: <20230112141437.GQ24101@pengutronix.de>
-Mail-Followup-To: Michael Tretter <m.tretter@pengutronix.de>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Alexander Stein <alexander.stein@ew.tq-group.com>,
-        linux-media@vger.kernel.org, Philipp Zabel <p.zabel@pengutronix.de>,
-        kernel@pengutronix.de, linux-imx@nxp.com
-References: <20230106133227.13685-1-laurent.pinchart@ideasonboard.com>
- <20230106133227.13685-6-laurent.pinchart@ideasonboard.com>
- <1818343.QZUTf85G27@steina-w>
- <Y7hsDU+gPrNnvS17@pendragon.ideasonboard.com>
+        Thu, 12 Jan 2023 09:43:32 -0500
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A694763192;
+        Thu, 12 Jan 2023 06:32:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1673533955; x=1705069955;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ib3vyisFDI6K4betGWmHI2M4r3YZdqPwbAKOST8VhdY=;
+  b=G2uGCVNmmQ+D4sR3M84UvgEn6CiT6XDhV1BOn0rrAPteRguX95ncAXhM
+   WebUIzG85+NwBXY6Tt1RmdY8YKeR/dAtAr5V7CeYqAq1ZAe9EBy3Pr0k3
+   c+56dM++sxUxZJ7QcnUEx35QHIoiMq87QpbmZ01su8dVU0BaTOYcH7s9X
+   SZ7wH8WQZxsxsy8cc98Vd8wEnWKwdBF0Vs/OOf4jCVKM7yZnvqG8Gp2W+
+   ju503yEVZw78NciCwgOJxQgtfW3LNZwK5HDqCBU2SBYoEdBWL4UnNvolg
+   KTZPTKRZBjt6Jip63Pbv7uPrufD+33WI9phDVVp8z6wD9e/NtVSR+6Mij
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10588"; a="388188525"
+X-IronPort-AV: E=Sophos;i="5.97,211,1669104000"; 
+   d="scan'208";a="388188525"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2023 06:15:18 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10588"; a="765632315"
+X-IronPort-AV: E=Sophos;i="5.97,211,1669104000"; 
+   d="scan'208";a="765632315"
+Received: from lkp-server02.sh.intel.com (HELO f1920e93ebb5) ([10.239.97.151])
+  by fmsmga002.fm.intel.com with ESMTP; 12 Jan 2023 06:15:16 -0800
+Received: from kbuild by f1920e93ebb5 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1pFyMN-000AAE-1j;
+        Thu, 12 Jan 2023 14:15:15 +0000
+Date:   Thu, 12 Jan 2023 22:14:48 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     tumic@gpxsee.org, Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Lizhi Hou <lizhi.hou@amd.com>,
+        Martin =?utf-8?B?VMWvbWE=?= <martin.tuma@digiteqautomotive.com>
+Subject: Re: [RESEND PATCH v4 1/1] Added Digiteq Automotive MGB4 driver
+Message-ID: <202301122241.aanYtERe-lkp@intel.com>
+References: <20230112130458.2836-2-tumic@gpxsee.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Y7hsDU+gPrNnvS17@pendragon.ideasonboard.com>
-X-Sent-From: Pengutronix Hildesheim
-X-URL:  http://www.pengutronix.de/
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: mtr@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <20230112130458.2836-2-tumic@gpxsee.org>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, 06 Jan 2023 20:44:29 +0200, Laurent Pinchart wrote:
-> On Fri, Jan 06, 2023 at 03:50:37PM +0100, Alexander Stein wrote:
-> > Am Freitag, 6. Januar 2023, 14:32:26 CET schrieb Laurent Pinchart:
-> > > Add pxp_read() and pxp_write() functions to wrap readl() and writel()
-> > > respectively. This can be useful for debugging register accesses.
-> > 
-> > I know this is just sending old patches, but how about using regmap-mmio 
-> > instead? This gives you access in debugfs for register values.
-> 
-> I'm fine with that. Notice how easy it would be on top of this patch, as
-> you will then only need to modify pxp_read() and pxp_write() ;-)
+Hi,
 
-Almost. There is one instance of readl_poll_timeout() that needs to be
-converted too.
+Thank you for the patch! Perhaps something to improve:
 
-> 
-> My i.MX7D board is now at the bottom of a box so I don't plan to work on
-> this myself, but I would review a patch.
+[auto build test WARNING on media-tree/master]
+[also build test WARNING on linus/master v6.2-rc3 next-20230112]
+[cannot apply to sailus-media-tree/streams]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-I will add a patch to my series.
+url:    https://github.com/intel-lab-lkp/linux/commits/tumic-gpxsee-org/Added-Digiteq-Automotive-MGB4-driver/20230112-191715
+base:   git://linuxtv.org/media_tree.git master
+patch link:    https://lore.kernel.org/r/20230112130458.2836-2-tumic%40gpxsee.org
+patch subject: [RESEND PATCH v4 1/1] Added Digiteq Automotive MGB4 driver
+reproduce:
+        make versioncheck
 
-Michael
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
 
-> 
-> > > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > > ---
-> > >  drivers/media/platform/nxp/imx-pxp.c | 118 +++++++++++++++------------
-> > >  1 file changed, 64 insertions(+), 54 deletions(-)
-> > > 
-> > > diff --git a/drivers/media/platform/nxp/imx-pxp.c
-> > > b/drivers/media/platform/nxp/imx-pxp.c index 68f838e3069d..e4d7a6339929
-> > > 100644
-> > > --- a/drivers/media/platform/nxp/imx-pxp.c
-> > > +++ b/drivers/media/platform/nxp/imx-pxp.c
-> > > @@ -253,6 +253,16 @@ static struct pxp_q_data *get_q_data(struct pxp_ctx
-> > > *ctx, return &ctx->q_data[V4L2_M2M_DST];
-> > >  }
-> > > 
-> > > +static inline u32 pxp_read(struct pxp_dev *dev, u32 reg)
-> > > +{
-> > > +	return readl(dev->mmio + reg);
-> > > +}
-> > > +
-> > > +static inline void pxp_write(struct pxp_dev *dev, u32 reg, u32 value)
-> > > +{
-> > > +	writel(value, dev->mmio + reg);
-> > > +}
-> > > +
-> > >  static u32 pxp_v4l2_pix_fmt_to_ps_format(u32 v4l2_pix_fmt)
-> > >  {
-> > >  	switch (v4l2_pix_fmt) {
-> > > @@ -505,11 +515,11 @@ static void pxp_setup_csc(struct pxp_ctx *ctx)
-> > >  				csc1_coef = csc1_coef_smpte240m_lim;
-> > >  		}
-> > > 
-> > > -		writel(csc1_coef[0], dev->mmio + HW_PXP_CSC1_COEF0);
-> > > -		writel(csc1_coef[1], dev->mmio + HW_PXP_CSC1_COEF1);
-> > > -		writel(csc1_coef[2], dev->mmio + HW_PXP_CSC1_COEF2);
-> > > +		pxp_write(dev, HW_PXP_CSC1_COEF0, csc1_coef[0]);
-> > > +		pxp_write(dev, HW_PXP_CSC1_COEF1, csc1_coef[1]);
-> > > +		pxp_write(dev, HW_PXP_CSC1_COEF2, csc1_coef[2]);
-> > >  	} else {
-> > > -		writel(BM_PXP_CSC1_COEF0_BYPASS, dev->mmio + 
-> > HW_PXP_CSC1_COEF0);
-> > > +		pxp_write(dev, HW_PXP_CSC1_COEF0, 
-> > BM_PXP_CSC1_COEF0_BYPASS);
-> > >  	}
-> > > 
-> > >  	if (!pxp_v4l2_pix_fmt_is_yuv(ctx->q_data[V4L2_M2M_SRC].fmt->fourcc) 
-> > &&
-> > > @@ -725,15 +735,15 @@ static void pxp_setup_csc(struct pxp_ctx *ctx)
-> > >  				    BP_PXP_CSC2_CTRL_CSC_MODE;
-> > >  		}
-> > > 
-> > > -		writel(csc2_ctrl, dev->mmio + HW_PXP_CSC2_CTRL);
-> > > -		writel(csc2_coef[0], dev->mmio + HW_PXP_CSC2_COEF0);
-> > > -		writel(csc2_coef[1], dev->mmio + HW_PXP_CSC2_COEF1);
-> > > -		writel(csc2_coef[2], dev->mmio + HW_PXP_CSC2_COEF2);
-> > > -		writel(csc2_coef[3], dev->mmio + HW_PXP_CSC2_COEF3);
-> > > -		writel(csc2_coef[4], dev->mmio + HW_PXP_CSC2_COEF4);
-> > > -		writel(csc2_coef[5], dev->mmio + HW_PXP_CSC2_COEF5);
-> > > +		pxp_write(dev, HW_PXP_CSC2_CTRL, csc2_ctrl);
-> > > +		pxp_write(dev, HW_PXP_CSC2_COEF0, csc2_coef[0]);
-> > > +		pxp_write(dev, HW_PXP_CSC2_COEF1, csc2_coef[1]);
-> > > +		pxp_write(dev, HW_PXP_CSC2_COEF2, csc2_coef[2]);
-> > > +		pxp_write(dev, HW_PXP_CSC2_COEF3, csc2_coef[3]);
-> > > +		pxp_write(dev, HW_PXP_CSC2_COEF4, csc2_coef[4]);
-> > > +		pxp_write(dev, HW_PXP_CSC2_COEF5, csc2_coef[5]);
-> > >  	} else {
-> > > -		writel(BM_PXP_CSC2_CTRL_BYPASS, dev->mmio + 
-> > HW_PXP_CSC2_CTRL);
-> > > +		pxp_write(dev, HW_PXP_CSC2_CTRL, BM_PXP_CSC2_CTRL_BYPASS);
-> > >  	}
-> > >  }
-> > > 
-> > > @@ -820,8 +830,8 @@ static void pxp_set_data_path(struct pxp_ctx *ctx)
-> > >  	ctrl1 |= BF_PXP_DATA_PATH_CTRL1_MUX17_SEL(3);
-> > >  	ctrl1 |= BF_PXP_DATA_PATH_CTRL1_MUX16_SEL(3);
-> > > 
-> > > -	writel(ctrl0, dev->mmio + HW_PXP_DATA_PATH_CTRL0);
-> > > -	writel(ctrl1, dev->mmio + HW_PXP_DATA_PATH_CTRL1);
-> > > +	pxp_write(dev, HW_PXP_DATA_PATH_CTRL0, ctrl0);
-> > > +	pxp_write(dev, HW_PXP_DATA_PATH_CTRL1, ctrl1);
-> > >  }
-> > > 
-> > >  static int pxp_start(struct pxp_ctx *ctx, struct vb2_v4l2_buffer *in_vb,
-> > > @@ -977,48 +987,48 @@ static int pxp_start(struct pxp_ctx *ctx, struct
-> > > vb2_v4l2_buffer *in_vb, BF_PXP_PS_SCALE_XSCALE(xscale);
-> > >  	ps_offset = BF_PXP_PS_OFFSET_YOFFSET(0) | 
-> > BF_PXP_PS_OFFSET_XOFFSET(0);
-> > > 
-> > > -	writel(ctrl, dev->mmio + HW_PXP_CTRL);
-> > > +	pxp_write(dev, HW_PXP_CTRL, ctrl);
-> > >  	/* skip STAT */
-> > > -	writel(out_ctrl, dev->mmio + HW_PXP_OUT_CTRL);
-> > > -	writel(out_buf, dev->mmio + HW_PXP_OUT_BUF);
-> > > -	writel(out_buf2, dev->mmio + HW_PXP_OUT_BUF2);
-> > > -	writel(out_pitch, dev->mmio + HW_PXP_OUT_PITCH);
-> > > -	writel(out_lrc, dev->mmio + HW_PXP_OUT_LRC);
-> > > -	writel(out_ps_ulc, dev->mmio + HW_PXP_OUT_PS_ULC);
-> > > -	writel(out_ps_lrc, dev->mmio + HW_PXP_OUT_PS_LRC);
-> > > -	writel(as_ulc, dev->mmio + HW_PXP_OUT_AS_ULC);
-> > > -	writel(as_lrc, dev->mmio + HW_PXP_OUT_AS_LRC);
-> > > -	writel(ps_ctrl, dev->mmio + HW_PXP_PS_CTRL);
-> > > -	writel(ps_buf, dev->mmio + HW_PXP_PS_BUF);
-> > > -	writel(ps_ubuf, dev->mmio + HW_PXP_PS_UBUF);
-> > > -	writel(ps_vbuf, dev->mmio + HW_PXP_PS_VBUF);
-> > > -	writel(ps_pitch, dev->mmio + HW_PXP_PS_PITCH);
-> > > -	writel(0x00ffffff, dev->mmio + HW_PXP_PS_BACKGROUND_0);
-> > > -	writel(ps_scale, dev->mmio + HW_PXP_PS_SCALE);
-> > > -	writel(ps_offset, dev->mmio + HW_PXP_PS_OFFSET);
-> > > +	pxp_write(dev, HW_PXP_OUT_CTRL, out_ctrl);
-> > > +	pxp_write(dev, HW_PXP_OUT_BUF, out_buf);
-> > > +	pxp_write(dev, HW_PXP_OUT_BUF2, out_buf2);
-> > > +	pxp_write(dev, HW_PXP_OUT_PITCH, out_pitch);
-> > > +	pxp_write(dev, HW_PXP_OUT_LRC, out_lrc);
-> > > +	pxp_write(dev, HW_PXP_OUT_PS_ULC, out_ps_ulc);
-> > > +	pxp_write(dev, HW_PXP_OUT_PS_LRC, out_ps_lrc);
-> > > +	pxp_write(dev, HW_PXP_OUT_AS_ULC, as_ulc);
-> > > +	pxp_write(dev, HW_PXP_OUT_AS_LRC, as_lrc);
-> > > +	pxp_write(dev, HW_PXP_PS_CTRL, ps_ctrl);
-> > > +	pxp_write(dev, HW_PXP_PS_BUF, ps_buf);
-> > > +	pxp_write(dev, HW_PXP_PS_UBUF, ps_ubuf);
-> > > +	pxp_write(dev, HW_PXP_PS_VBUF, ps_vbuf);
-> > > +	pxp_write(dev, HW_PXP_PS_PITCH, ps_pitch);
-> > > +	pxp_write(dev, HW_PXP_PS_BACKGROUND_0, 0x00ffffff);
-> > > +	pxp_write(dev, HW_PXP_PS_SCALE, ps_scale);
-> > > +	pxp_write(dev, HW_PXP_PS_OFFSET, ps_offset);
-> > >  	/* disable processed surface color keying */
-> > > -	writel(0x00ffffff, dev->mmio + HW_PXP_PS_CLRKEYLOW_0);
-> > > -	writel(0x00000000, dev->mmio + HW_PXP_PS_CLRKEYHIGH_0);
-> > > +	pxp_write(dev, HW_PXP_PS_CLRKEYLOW_0, 0x00ffffff);
-> > > +	pxp_write(dev, HW_PXP_PS_CLRKEYHIGH_0, 0x00000000);
-> > > 
-> > >  	/* disable alpha surface color keying */
-> > > -	writel(0x00ffffff, dev->mmio + HW_PXP_AS_CLRKEYLOW_0);
-> > > -	writel(0x00000000, dev->mmio + HW_PXP_AS_CLRKEYHIGH_0);
-> > > +	pxp_write(dev, HW_PXP_AS_CLRKEYLOW_0, 0x00ffffff);
-> > > +	pxp_write(dev, HW_PXP_AS_CLRKEYHIGH_0, 0x00000000);
-> > > 
-> > >  	/* setup CSC */
-> > >  	pxp_setup_csc(ctx);
-> > > 
-> > >  	/* bypass LUT */
-> > > -	writel(BM_PXP_LUT_CTRL_BYPASS, dev->mmio + HW_PXP_LUT_CTRL);
-> > > +	pxp_write(dev, HW_PXP_LUT_CTRL, BM_PXP_LUT_CTRL_BYPASS);
-> > > 
-> > >  	pxp_set_data_path(ctx);
-> > > 
-> > > -	writel(0xffff, dev->mmio + HW_PXP_IRQ_MASK);
-> > > +	pxp_write(dev, HW_PXP_IRQ_MASK, 0xffff);
-> > > 
-> > >  	/* ungate, enable PS/AS/OUT and PXP operation */
-> > > -	writel(BM_PXP_CTRL_IRQ_ENABLE, dev->mmio + HW_PXP_CTRL_SET);
-> > > -	writel(BM_PXP_CTRL_ENABLE | BM_PXP_CTRL_ENABLE_CSC2 |
-> > > -	       BM_PXP_CTRL_ENABLE_ROTATE0 |
-> > > -	       BM_PXP_CTRL_ENABLE_PS_AS_OUT, dev->mmio + HW_PXP_CTRL_SET);
-> > > +	pxp_write(dev, HW_PXP_CTRL_SET, BM_PXP_CTRL_IRQ_ENABLE);
-> > > +	pxp_write(dev, HW_PXP_CTRL_SET,
-> > > +		  BM_PXP_CTRL_ENABLE | BM_PXP_CTRL_ENABLE_CSC2 |
-> > > +		  BM_PXP_CTRL_ENABLE_ROTATE0 | 
-> > BM_PXP_CTRL_ENABLE_PS_AS_OUT);
-> > > 
-> > >  	return 0;
-> > >  }
-> > > @@ -1091,23 +1101,23 @@ static irqreturn_t pxp_irq_handler(int irq, void
-> > > *dev_id) struct pxp_dev *dev = dev_id;
-> > >  	u32 stat;
-> > > 
-> > > -	stat = readl(dev->mmio + HW_PXP_STAT);
-> > > +	stat = pxp_read(dev, HW_PXP_STAT);
-> > > 
-> > >  	if (stat & BM_PXP_STAT_IRQ0) {
-> > >  		/* we expect x = 0, y = height, irq0 = 1 */
-> > >  		if (stat & ~(BM_PXP_STAT_BLOCKX | BM_PXP_STAT_BLOCKY |
-> > >  			     BM_PXP_STAT_IRQ0))
-> > >  			dprintk(dev, "%s: stat = 0x%08x\n", __func__, 
-> > stat);
-> > > -		writel(BM_PXP_STAT_IRQ0, dev->mmio + HW_PXP_STAT_CLR);
-> > > +		pxp_write(dev, HW_PXP_STAT_CLR, BM_PXP_STAT_IRQ0);
-> > > 
-> > >  		pxp_job_finish(dev);
-> > >  	} else {
-> > > -		u32 irq = readl(dev->mmio + HW_PXP_IRQ);
-> > > +		u32 irq = pxp_read(dev, HW_PXP_IRQ);
-> > > 
-> > >  		dprintk(dev, "%s: stat = 0x%08x\n", __func__, stat);
-> > >  		dprintk(dev, "%s: irq = 0x%08x\n", __func__, irq);
-> > > 
-> > > -		writel(irq, dev->mmio + HW_PXP_IRQ_CLR);
-> > > +		pxp_write(dev, HW_PXP_IRQ_CLR, irq);
-> > >  	}
-> > > 
-> > >  	return IRQ_HANDLED;
-> > > @@ -1753,25 +1763,25 @@ static int pxp_soft_reset(struct pxp_dev *dev)
-> > >  	int ret;
-> > >  	u32 val;
-> > > 
-> > > -	writel(BM_PXP_CTRL_SFTRST, dev->mmio + HW_PXP_CTRL_CLR);
-> > > -	writel(BM_PXP_CTRL_CLKGATE, dev->mmio + HW_PXP_CTRL_CLR);
-> > > +	pxp_write(dev, HW_PXP_CTRL_CLR, BM_PXP_CTRL_SFTRST);
-> > > +	pxp_write(dev, HW_PXP_CTRL_CLR, BM_PXP_CTRL_CLKGATE);
-> > > 
-> > > -	writel(BM_PXP_CTRL_SFTRST, dev->mmio + HW_PXP_CTRL_SET);
-> > > +	pxp_write(dev, HW_PXP_CTRL_SET, BM_PXP_CTRL_SFTRST);
-> > > 
-> > >  	ret = readl_poll_timeout(dev->mmio + HW_PXP_CTRL, val,
-> > >  				 val & BM_PXP_CTRL_CLKGATE, 0, 100);
-> > >  	if (ret < 0)
-> > >  		return ret;
-> > > 
-> > > -	writel(BM_PXP_CTRL_SFTRST, dev->mmio + HW_PXP_CTRL_CLR);
-> > > -	writel(BM_PXP_CTRL_CLKGATE, dev->mmio + HW_PXP_CTRL_CLR);
-> > > +	pxp_write(dev, HW_PXP_CTRL_CLR, BM_PXP_CTRL_SFTRST);
-> > > +	pxp_write(dev, HW_PXP_CTRL_CLR, BM_PXP_CTRL_CLKGATE);
-> > > 
-> > >  	return 0;
-> > >  }
-> > > 
-> > >  static u32 pxp_read_version(struct pxp_dev *dev)
-> > >  {
-> > > -	return readl(dev->mmio + HW_PXP_VERSION);
-> > > +	return pxp_read(dev, HW_PXP_VERSION);
-> > >  }
-> > > 
-> > >  static int pxp_probe(struct platform_device *pdev)
-> > > @@ -1902,8 +1912,8 @@ static int pxp_remove(struct platform_device *pdev)
-> > >  {
-> > >  	struct pxp_dev *dev = platform_get_drvdata(pdev);
-> > > 
-> > > -	writel(BM_PXP_CTRL_CLKGATE, dev->mmio + HW_PXP_CTRL_SET);
-> > > -	writel(BM_PXP_CTRL_SFTRST, dev->mmio + HW_PXP_CTRL_SET);
-> > > +	pxp_write(dev, HW_PXP_CTRL_SET, BM_PXP_CTRL_CLKGATE);
-> > > +	pxp_write(dev, HW_PXP_CTRL_SET, BM_PXP_CTRL_SFTRST);
-> > > 
-> > >  	clk_disable_unprepare(dev->clk);
-> 
-> -- 
-> Regards,
-> 
-> Laurent Pinchart
-> 
+versioncheck warnings: (new ones prefixed by >>)
+   INFO PATH=/opt/cross/clang/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   /usr/bin/timeout -k 100 3h /usr/bin/make W=1 --keep-going HOSTCC=gcc-11 CC=gcc-11 -j32 ARCH=x86_64 versioncheck
+   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
+   	-name '*.[hcS]' -type f -print | sort \
+   	| xargs perl -w ./scripts/checkversion.pl
+   ./drivers/accessibility/speakup/genmap.c: 13 linux/version.h not needed.
+   ./drivers/accessibility/speakup/makemapdata.c: 13 linux/version.h not needed.
+>> ./drivers/media/pci/mgb4/mgb4_core.c: 21 linux/version.h not needed.
+>> ./drivers/media/pci/mgb4/mgb4_i2c.c: 11 linux/version.h not needed.
+>> ./drivers/media/pci/mgb4/mgb4_trigger.c: 13 linux/version.h not needed.
+   ./drivers/net/ethernet/qlogic/qede/qede.h: 10 linux/version.h not needed.
+   ./drivers/net/ethernet/qlogic/qede/qede_ethtool.c: 7 linux/version.h not needed.
+   ./drivers/scsi/cxgbi/libcxgbi.h: 27 linux/version.h not needed.
+   ./drivers/scsi/mpi3mr/mpi3mr.h: 32 linux/version.h not needed.
+   ./drivers/scsi/qedi/qedi_dbg.h: 14 linux/version.h not needed.
+   ./drivers/soc/tegra/cbb/tegra-cbb.c: 19 linux/version.h not needed.
+   ./drivers/soc/tegra/cbb/tegra194-cbb.c: 26 linux/version.h not needed.
+   ./drivers/soc/tegra/cbb/tegra234-cbb.c: 27 linux/version.h not needed.
+   ./drivers/staging/media/atomisp/include/linux/atomisp.h: 23 linux/version.h not needed.
+   ./init/version-timestamp.c: 5 linux/version.h not needed.
+   ./samples/trace_events/trace_custom_sched.c: 11 linux/version.h not needed.
+   ./sound/soc/codecs/cs42l42.c: 14 linux/version.h not needed.
+   ./tools/lib/bpf/bpf_helpers.h: 289: need linux/version.h
+   ./tools/perf/tests/bpf-script-example.c: 60: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-kbuild.c: 21: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-prologue.c: 47: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-relocation.c: 51: need linux/version.h
+   ./tools/testing/selftests/bpf/progs/dev_cgroup.c: 9 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/netcnt_prog.c: 3 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_map_lock.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_send_signal_kern.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_spin_lock.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_tcp_estats.c: 37 linux/version.h not needed.
+   ./tools/testing/selftests/wireguard/qemu/init.c: 27 linux/version.h not needed.
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
