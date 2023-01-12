@@ -2,166 +2,170 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 49AD8668532
-	for <lists+linux-media@lfdr.de>; Thu, 12 Jan 2023 22:18:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 78C17668598
+	for <lists+linux-media@lfdr.de>; Thu, 12 Jan 2023 22:38:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240813AbjALVSQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 12 Jan 2023 16:18:16 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51626 "EHLO
+        id S240668AbjALVia (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 12 Jan 2023 16:38:30 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33346 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240774AbjALVRx (ORCPT
+        with ESMTP id S240517AbjALVhg (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 12 Jan 2023 16:17:53 -0500
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C52E77AD7;
-        Thu, 12 Jan 2023 12:59:13 -0800 (PST)
-Received: from notapiano (unknown [IPv6:2600:4041:5b1a:cd00:524d:e95d:1a9c:492a])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: nfraprado)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 4C7E06602D59;
-        Thu, 12 Jan 2023 20:58:33 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1673557116;
-        bh=wlus3ItbPJlKKgtyc4iIkSQkGdha2/qmSLhvIsGYOgE=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=P1bC2BxC39SXJ66hdDZKauBr+s8XAfK/NxeGin7AZJrszz/zAD9M6t29DN6f5DjxT
-         7INqYrfNiR+XRJNdNTHiANz08OLMOrc/xIoEnurfCcaoKydH9CLimMnRZixEz+1XgW
-         xxepSrerWFKxzOXKs7T9bRIw2CYR8BhT3CZVahS5jUYkbFR5+1sVMcsOgh6wmVeran
-         bvT71bJT5Hvan+yE9lRBkQF1GY6kM7I58pc3jA7bMZuibiC+nk/zyHTRCMMDVZEQIX
-         /OVvB9jkdmBbiVfpPAstqDddlNF4DFNazF3kZmias4W/HkcIj+Rs1FQIZzQi5FL00P
-         ArsSx0Cda7ILg==
-Date:   Thu, 12 Jan 2023 15:58:25 -0500
-From:   =?utf-8?B?TsOtY29sYXMgRi4gUi4gQS4=?= Prado 
-        <nfraprado@collabora.com>
-To:     Yunfei Dong <yunfei.dong@mediatek.com>
-Cc:     Alexandre Courbot <acourbot@chromium.org>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Tiffany Lin <tiffany.lin@mediatek.com>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Tomasz Figa <tfiga@google.com>,
-        George Sun <george.sun@mediatek.com>,
-        Xiaoyong Lu <xiaoyong.lu@mediatek.com>,
-        Hsin-Yi Wang <hsinyi@chromium.org>,
-        Fritz Koenig <frkoenig@chromium.org>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        Irui Wang <irui.wang@mediatek.com>,
-        Steve Cho <stevecho@chromium.org>, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org,
-        Project_Global_Chrome_Upstream_Group@mediatek.com
-Subject: Re: [PATCH v7, 5/7] media: mediatek: vcodec: Different codec using
- different capture format
-Message-ID: <20230112205825.wb5qcqhh5kwvyi3y@notapiano>
-References: <20220518123004.18286-1-yunfei.dong@mediatek.com>
- <20220518123004.18286-6-yunfei.dong@mediatek.com>
+        Thu, 12 Jan 2023 16:37:36 -0500
+Received: from mail-vs1-xe34.google.com (mail-vs1-xe34.google.com [IPv6:2607:f8b0:4864:20::e34])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 392E7FACF
+        for <linux-media@vger.kernel.org>; Thu, 12 Jan 2023 13:30:00 -0800 (PST)
+Received: by mail-vs1-xe34.google.com with SMTP id k6so11508716vsk.1
+        for <linux-media@vger.kernel.org>; Thu, 12 Jan 2023 13:30:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=fwy7mU0+l0AiZhA6hxeiY5zRnp3tXsX024ZI6mo01Ec=;
+        b=wJSsshJi1QQUz/sGl6b2s1K8zWrRANk8pR+jycMKTpQ/gRPtZr1NrQekYtuFzroOlF
+         KlxlNQPu7gwEGhl08Z41WcgmBi5QyyicUGlNb5N3dES4WWfTqJmejRScYZvXpr6+/zM2
+         yTm7azIKE6DIbqxEm0H91tg5Nq7EIc/QZPbB1RgHURxNA4M4Vs08mx1tNbsY6RauQgqf
+         fd8hABuUaGZQRIe+4erkCZtZIz19RKZ0ChhOzzzDz180lSSuVC8ryEpfkyEKfJziST6W
+         EuEOECDgsQ6oa7kqBFAXscQkcc/iUfwnuNC6AKq6vWOPDUUlK8lLUJgQPGMg/yiDESqo
+         vTEQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=fwy7mU0+l0AiZhA6hxeiY5zRnp3tXsX024ZI6mo01Ec=;
+        b=WQU6tgBMgOwHQBLlfHh66t0rvkAPdqEsKcXICyYsVhEtCnkyiEG58xZgAH5IqYZ8qC
+         jiy+vzwAArqxBTwOhpKPiZeizvaWn0j+9y7coQ6GT62o4dzUYIhoT5zunlwxluDbjIMp
+         F0jBnpZKM1GpCLGMhCsK31umUH+/viu8A0Dy8HxE5564qNpvin+ViRSwKeTv1MdRCnh3
+         NcbJP1KqK3tIXhZUCthQ5gpUu0cs81hsxrqDLADvOiq2CS3KztAjKHygzp8quKdQUPcp
+         HeqMhin7jU8nP46vu0txiI40vSZVKjmonVm2sd8tTxem63j50cx7URWeh+dTcnS+T0Ah
+         I2TQ==
+X-Gm-Message-State: AFqh2kr4rKtV8vjQ5ssj3SRutCrwdLCuSmRV4X6ex4G7QHYbGc5ULjKH
+        goXXhaBMyVFDPrTKh5SkMxnWog==
+X-Google-Smtp-Source: AMrXdXtXtA8Qby03OHi5tcAPMXq0UXNFP9YdKTxQGJYPz9FXBicVZcD69h3SC8TDiGqntscDHIT6Lg==
+X-Received: by 2002:a05:6102:158c:b0:3c6:d639:f1ac with SMTP id g12-20020a056102158c00b003c6d639f1acmr34115219vsv.22.1673558999315;
+        Thu, 12 Jan 2023 13:29:59 -0800 (PST)
+Received: from nicolas-tpx395.localdomain (192-222-136-102.qc.cable.ebox.net. [192.222.136.102])
+        by smtp.gmail.com with ESMTPSA id d6-20020a05620a240600b006fc2f74ad12sm11655317qkn.92.2023.01.12.13.29.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 12 Jan 2023 13:29:58 -0800 (PST)
+Message-ID: <d841827840b0a33b424d91aea46af33d30f5de7c.camel@ndufresne.ca>
+Subject: Re: [PATCH v2 1/2] media: add RealVideo format
+From:   Nicolas Dufresne <nicolas@ndufresne.ca>
+To:     Ming Qian <ming.qian@nxp.com>, mchehab@kernel.org,
+        hverkuil-cisco@xs4all.nl
+Cc:     shawnguo@kernel.org, robh+dt@kernel.org, s.hauer@pengutronix.de,
+        kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
+        xiahong.bao@nxp.com, eagle.zhou@nxp.com, tao.jiang_2@nxp.com,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+Date:   Thu, 12 Jan 2023 16:29:56 -0500
+In-Reply-To: <ef8212602467151a6e20ccce3e7ef7adcd7a7c91.1673514352.git.ming.qian@nxp.com>
+References: <cover.1673514352.git.ming.qian@nxp.com>
+         <ef8212602467151a6e20ccce3e7ef7adcd7a7c91.1673514352.git.ming.qian@nxp.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.2 (3.46.2-1.fc37) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220518123004.18286-6-yunfei.dong@mediatek.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, May 18, 2022 at 08:30:02PM +0800, Yunfei Dong wrote:
-> Vp8 need to use MM21, but vp9 and h264 need to use HyFbc mode
-> for mt8195. Vp8/vp9/h264 use the same MM21 format for mt8192.
+Hi Ming,
 
-Hi Yunfei,
-
-why do VP9 and H264 need to use HyFbc (is this the same as MT21C?) mode on
-MT8195? The SCP firmware on linux-firmware for MT8195 [1] only has MM21
-available and based on my testing it works just fine. And contrary to what the
-commit message states this logic is also being applied to MT8192, preventing it
-to use MM21 when there are more than one format available.
-
-Thanks,
-Nícolas
-
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git/tree/mediatek/mt8195/scp.img?id=375d4500d315ff20c59911d12d86b477d4979b1d
-
-> 
-> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
+Le jeudi 12 janvier 2023 =C3=A0 17:18 +0800, Ming Qian a =C3=A9crit=C2=A0:
+> RealVideo, or also spelled as Real Video, is a suite of proprietary
+> video compression formats developed by RealNetworks -
+> the specific format changes with the version.
+> RealVideo codecs are identified by four-character codes.
+> RV10 and RV20 are the H.263-based codecs.
+> RV30 and RV40 are RealNetworks' proprietary H.264-based codecs.
+> RV60 is RealNetworks' proprietary HEVC-based codecs.
+>=20
+> Signed-off-by: Ming Qian <ming.qian@nxp.com>
 > ---
->  .../platform/mediatek/vcodec/mtk_vcodec_dec.c | 41 +++++++++++++++++++
->  1 file changed, 41 insertions(+)
-> 
-> diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c
-> index 52e5d36aa912..254649240b34 100644
-> --- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c
-> +++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c
-> @@ -35,6 +35,44 @@ mtk_vdec_find_format(struct v4l2_format *f,
->  	return NULL;
->  }
->  
-> +static bool mtk_vdec_get_cap_fmt(struct mtk_vcodec_ctx *ctx, int format_index)
-> +{
-> +	const struct mtk_vcodec_dec_pdata *dec_pdata = ctx->dev->vdec_pdata;
-> +	const struct mtk_video_fmt *fmt;
-> +	struct mtk_q_data *q_data;
-> +	int num_frame_count = 0, i;
-> +	bool ret = true;
+>  .../userspace-api/media/v4l/pixfmt-compressed.rst     | 11 +++++++++++
+>  drivers/media/v4l2-core/v4l2-ioctl.c                  |  1 +
+>  include/uapi/linux/videodev2.h                        |  1 +
+>  3 files changed, 13 insertions(+)
+>=20
+> diff --git a/Documentation/userspace-api/media/v4l/pixfmt-compressed.rst =
+b/Documentation/userspace-api/media/v4l/pixfmt-compressed.rst
+> index a0230f357680..22035d92c788 100644
+> --- a/Documentation/userspace-api/media/v4l/pixfmt-compressed.rst
+> +++ b/Documentation/userspace-api/media/v4l/pixfmt-compressed.rst
+> @@ -237,6 +237,17 @@ Compressed Formats
+>          Metadata associated with the frame to decode is required to be p=
+assed
+>          through the ``V4L2_CID_STATELESS_FWHT_PARAMS`` control.
+>  	See the :ref:`associated Codec Control ID <codec-stateless-fwht>`.
+> +    * .. _V4L2-PIX-FMT-RV:
 > +
-> +	for (i = 0; i < *dec_pdata->num_formats; i++) {
-> +		if (dec_pdata->vdec_formats[i].type != MTK_FMT_FRAME)
-> +			continue;
-> +
-> +		num_frame_count++;
-> +	}
-> +
-> +	if (num_frame_count == 1)
-> +		return true;
-> +
-> +	fmt = &dec_pdata->vdec_formats[format_index];
-> +	q_data = &ctx->q_data[MTK_Q_DATA_SRC];
-> +	switch (q_data->fmt->fourcc) {
-> +	case V4L2_PIX_FMT_VP8_FRAME:
-> +		if (fmt->fourcc == V4L2_PIX_FMT_MM21)
-> +			ret = true;
-> +		break;
-> +	case V4L2_PIX_FMT_H264_SLICE:
-> +	case V4L2_PIX_FMT_VP9_FRAME:
-> +		if (fmt->fourcc == V4L2_PIX_FMT_MM21)
-> +			ret = false;
-> +		break;
-> +	default:
-> +		ret = true;
-> +		break;
-> +	};
-> +
-> +	return ret;
-> +}
-> +
->  static struct mtk_q_data *mtk_vdec_get_q_data(struct mtk_vcodec_ctx *ctx,
->  					      enum v4l2_buf_type type)
->  {
-> @@ -566,6 +604,9 @@ static int vidioc_enum_fmt(struct v4l2_fmtdesc *f, void *priv,
->  		    dec_pdata->vdec_formats[i].type != MTK_FMT_FRAME)
->  			continue;
->  
-> +		if (!output_queue && !mtk_vdec_get_cap_fmt(ctx, i))
-> +			continue;
-> +
->  		if (j == f->index)
->  			break;
->  		++j;
-> -- 
-> 2.18.0
-> 
-> 
+> +      - ``V4L2_PIX_FMT_RV``
+> +      - 'RV00'
+> +      - RealVideo, or also spelled as Real Video, is a suite of propriet=
+ary
+> +        video compression formats developed by RealNetworks -
+> +        the specific format changes with the version.
+> +        RealVideo codecs are identified by four-character codes.
+> +        RV10 and RV20 are the H.263-based codecs.
+> +        RV30 and RV40 are RealNetworks' proprietary H.264-based codecs.
+> +        RV60 is RealNetworks' proprietary HEVC-based codecs.
+
+Much better description. Though you haven't commented or addressed my conce=
+rn of
+having 4 different CODECs under the same FMT. I thinks it would make more s=
+ense
+to export the four of them. Then driver can pick the set they support,
+regardless if it requires special handling of not at the HW level. What do =
+you
+think ?
+
+Even though unlikely considering the age of the CODECs, but having a single=
+ FMT
+for an encoder would just increase the encoder interface complexity (could
+require a control to select which actual format to encode to).
+> =20
+>  .. raw:: latex
+> =20
+> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-co=
+re/v4l2-ioctl.c
+> index 9b5b04b8aa69..c375261d169f 100644
+> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
+> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+> @@ -1473,6 +1473,7 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *f=
+mt)
+>  		case V4L2_PIX_FMT_FWHT:		descr =3D "FWHT"; break; /* used in vicodec *=
+/
+>  		case V4L2_PIX_FMT_FWHT_STATELESS:	descr =3D "FWHT Stateless"; break; /=
+* used in vicodec */
+>  		case V4L2_PIX_FMT_SPK:		descr =3D "Sorenson Spark"; break;
+> +		case V4L2_PIX_FMT_RV:		descr =3D "RealVideo"; break;
+>  		case V4L2_PIX_FMT_CPIA1:	descr =3D "GSPCA CPiA YUV"; break;
+>  		case V4L2_PIX_FMT_WNVA:		descr =3D "WNVA"; break;
+>  		case V4L2_PIX_FMT_SN9C10X:	descr =3D "GSPCA SN9C10X"; break;
+> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev=
+2.h
+> index 262ef10cfa02..0a7ddb023d7c 100644
+> --- a/include/uapi/linux/videodev2.h
+> +++ b/include/uapi/linux/videodev2.h
+> @@ -740,6 +740,7 @@ struct v4l2_pix_format {
+>  #define V4L2_PIX_FMT_H264_SLICE v4l2_fourcc('S', '2', '6', '4') /* H264 =
+parsed slices */
+>  #define V4L2_PIX_FMT_HEVC_SLICE v4l2_fourcc('S', '2', '6', '5') /* HEVC =
+parsed slices */
+>  #define V4L2_PIX_FMT_SPK      v4l2_fourcc('S', 'P', 'K', '0') /* Sorenso=
+n Spark */
+> +#define V4L2_PIX_FMT_RV       v4l2_fourcc('R', 'V', '0', '0') /* RealVid=
+eo */
+> =20
+>  /*  Vendor-specific formats   */
+>  #define V4L2_PIX_FMT_CPIA1    v4l2_fourcc('C', 'P', 'I', 'A') /* cpia1 Y=
+UV */
+
