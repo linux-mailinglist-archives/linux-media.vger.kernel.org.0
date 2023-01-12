@@ -2,201 +2,185 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 507D966799B
-	for <lists+linux-media@lfdr.de>; Thu, 12 Jan 2023 16:40:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 08547667CC6
+	for <lists+linux-media@lfdr.de>; Thu, 12 Jan 2023 18:40:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240542AbjALPkZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 12 Jan 2023 10:40:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53472 "EHLO
+        id S230114AbjALRkh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 12 Jan 2023 12:40:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59636 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240557AbjALPjp (ORCPT
+        with ESMTP id S230316AbjALRkF (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 12 Jan 2023 10:39:45 -0500
-Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com [IPv6:2a00:1450:4864:20::130])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0ECC35471E
-        for <linux-media@vger.kernel.org>; Thu, 12 Jan 2023 07:30:25 -0800 (PST)
-Received: by mail-lf1-x130.google.com with SMTP id bq39so28997447lfb.0
-        for <linux-media@vger.kernel.org>; Thu, 12 Jan 2023 07:30:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=iKwwjEGopbISTrCjxgfQJsmoWWl/0HgOwyebrt0JLGA=;
-        b=QbI169xhV8vhsr4V43oKe3t3ypXsYwuhSqv+U3fpDtFAZlimhEns/OKDdeLbZoZmIh
-         vBTAIdpXaeEx1D8wnaC3SOK1pmpgvLkcH52Ack0AR7xityglMY5G15apEjxBliyOTcKf
-         KFFNUZ/wh5OgRKL1qOxea/YdXalez4QJD7y6CWBklcPj8VmiUF9OHe+7zenmpRYbEwyj
-         vVdl99EChOEYB09vc3Xi2oVNySDI1Kr72mtUi2hElBPN5ZCghAltKgpET/OaAgmQjr1y
-         KGcH3IH4RklrAMcPgz1IyWMrFqQh8AnpD12cHrk5PQxIO3ZQD7ZqWRNC9TEbE+lVRNPl
-         asWA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=iKwwjEGopbISTrCjxgfQJsmoWWl/0HgOwyebrt0JLGA=;
-        b=nAPAe4hkyN22qIRQxil5I2IOZvPFD+A2rJOj3AN9N5yVx1L5JG3GvdkhrnpYWAGkXC
-         UEXciw0TO0OdtE+vhhpM/rO5JX73qjlF2u7+OcBNxzwGgVzCRWnbOx++l3rDBhgodHYc
-         wpXpTEyV1ktOyjSdo59K1iLZ5u370kWvWw6Mpx5xDilhv2wQ8s/VANCNwuxAC+GBpDCm
-         s0N9Jkiq3vspyP8Wgk2kATJVS54mM4NLfhQBDgBWa8Z+FfCtCZ9OxC0LLkxW5epfeOLA
-         YauEruxQtA6glR/QULW8plxBEYpGXfL0ozLvWG6/93+CRrylMM3v+jFLIBS7mCMn9QT7
-         7L+w==
-X-Gm-Message-State: AFqh2kp5S3CL34T0z6GQtqoVYGlJPMZ5C87r+YOgSsI9iUs0FPx2vDlO
-        jKANbMlEN4RItSPVYQgOqW4wNBV5gjuUkmB0DssR+g==
-X-Google-Smtp-Source: AMrXdXsfoS3G1+dA5+WKzSYh25yd+Y2eQHNON3kw/MeVVXIcC4tY8i5M8+KHlpGkY0ARtDng3p/ekgpCc9RpY74z6no=
-X-Received: by 2002:a05:6512:2805:b0:4b5:b18a:c52d with SMTP id
- cf5-20020a056512280500b004b5b18ac52dmr7967483lfb.299.1673537423283; Thu, 12
- Jan 2023 07:30:23 -0800 (PST)
+        Thu, 12 Jan 2023 12:40:05 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 15E1E6D50F
+        for <linux-media@vger.kernel.org>; Thu, 12 Jan 2023 08:59:15 -0800 (PST)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6FE5F10B;
+        Thu, 12 Jan 2023 17:59:13 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1673542753;
+        bh=LQEIH/k9144rFdlUEP5kTnOSwQzrQX4DezugO+R2KrA=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=U1gEGiTcNTR4h2zygiq23IQMJT7kL4wT71ricTDD7tRMffz2kBj3DNFYBdfpHrOj7
+         TKedhn0IHpQ0Lnp74xz12Qfk/GqpRFvE9MZ2PwPbRKZgkzE8fetFt9JkB+p7kDvhwK
+         +IMVoZH9PPcROE8udel5//iQjDrkUZFUolCVrfbM=
+Date:   Thu, 12 Jan 2023 18:59:12 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Michael Tretter <m.tretter@pengutronix.de>
+Cc:     linux-media@vger.kernel.org,
+        Philipp Zabel <p.zabel@pengutronix.de>, kernel@pengutronix.de,
+        linux-imx@nxp.com
+Subject: Re: [PATCH v1 2/6] media: imx-pxp: Add media controller support
+Message-ID: <Y8A8YExjE1FCiQdn@pendragon.ideasonboard.com>
+References: <20230106133227.13685-1-laurent.pinchart@ideasonboard.com>
+ <20230106133227.13685-3-laurent.pinchart@ideasonboard.com>
+ <20230112135820.GN24101@pengutronix.de>
 MIME-Version: 1.0
-References: <20230101-patch-series-v2-6-2-rc1-v2-0-fa1897efac14@collabora.com> <20230101-patch-series-v2-6-2-rc1-v2-6-fa1897efac14@collabora.com>
-In-Reply-To: <20230101-patch-series-v2-6-2-rc1-v2-6-fa1897efac14@collabora.com>
-From:   Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-Date:   Thu, 12 Jan 2023 12:30:11 -0300
-Message-ID: <CAAEAJfDOcYBtWR41BLM-SUnm9oe1t=8ffJS1Kg_V-gYWzUfe8w@mail.gmail.com>
-Subject: Re: [PATCH v2 06/12] staging: media: rkvdec: Add a valid pixel format
- check as callback
-To:     Sebastian Fricke <sebastian.fricke@collabora.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Alex Bee <knaerzche@gmail.com>,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        Collabora Kernel-domain <kernel@collabora.com>,
-        Robert Beckett <bob.beckett@collabora.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20230112135820.GN24101@pengutronix.de>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sebastian,
+Hi Michael,
 
-On Thu, Jan 12, 2023 at 9:56 AM Sebastian Fricke
-<sebastian.fricke@collabora.com> wrote:
->
-> Provide a callback for codec variant drivers to indicate the correct
-> output pixel-format. It will either utilize the SPS structure stored via
-> the S_CTRL IOCTL or return the default pixel-format.
->
-> Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
-> Signed-off-by: Sebastian Fricke <sebastian.fricke@collabora.com>
-> ---
->  drivers/staging/media/rkvdec/rkvdec.c | 45 +++++++++++++++++++++++++++++------
->  drivers/staging/media/rkvdec/rkvdec.h |  1 +
->  2 files changed, 39 insertions(+), 7 deletions(-)
->
-> diff --git a/drivers/staging/media/rkvdec/rkvdec.c b/drivers/staging/media/rkvdec/rkvdec.c
-> index e0e95d06e216..a46f918926a2 100644
-> --- a/drivers/staging/media/rkvdec/rkvdec.c
-> +++ b/drivers/staging/media/rkvdec/rkvdec.c
-> @@ -38,6 +38,20 @@ static int rkvdec_queue_busy(struct rkvdec_ctx *ctx, enum v4l2_buf_type buf_type
->                 return 0;
->  }
->
-> +/*
-> + * Use the current SPS, set by the user via the VIDIOC_S_CTRL IOCTL,
-> + * to determine the optimal pixel-format. Each codec is responsible
-> + * for choosing the appropriate pixel-format for a given parameter set.
-> + */
+On Thu, Jan 12, 2023 at 02:58:20PM +0100, Michael Tretter wrote:
+> On Fri, 06 Jan 2023 15:32:23 +0200, Laurent Pinchart wrote:
+> > Register a media device for the PXP, using the v4l2-mem2mem MC
+> > infrastructure to populate the media graph. No media device operation is
+> > implemented, the main use of the MC API is to allow consistent discovery
+> > of media devices for userspace.
+> > 
+> > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > ---
+> >  drivers/media/platform/nxp/imx-pxp.c | 37 ++++++++++++++++++++++++++++
+> >  1 file changed, 37 insertions(+)
+> > 
+> > diff --git a/drivers/media/platform/nxp/imx-pxp.c b/drivers/media/platform/nxp/imx-pxp.c
+> > index dcb04217288b..132065c8b8b4 100644
+> > --- a/drivers/media/platform/nxp/imx-pxp.c
+> > +++ b/drivers/media/platform/nxp/imx-pxp.c
+> > @@ -24,6 +24,7 @@
+> >  #include <linux/sched.h>
+> >  #include <linux/slab.h>
+> >  
+> > +#include <media/media-device.h>
+> >  #include <media/v4l2-ctrls.h>
+> >  #include <media/v4l2-device.h>
+> >  #include <media/v4l2-event.h>
+> > @@ -200,6 +201,9 @@ struct pxp_pdata {
+> >  struct pxp_dev {
+> >  	struct v4l2_device	v4l2_dev;
+> >  	struct video_device	vfd;
+> > +#ifdef CONFIG_MEDIA_CONTROLLER
+> > +	struct media_device	mdev;
+> > +#endif
+> >  
+> >  	struct clk		*clk;
+> >  	void __iomem		*mmio;
+> > @@ -1832,8 +1836,36 @@ static int pxp_probe(struct platform_device *pdev)
+> >  		goto err_m2m;
+> >  	}
+> >  
+> > +#ifdef CONFIG_MEDIA_CONTROLLER
+> > +	dev->mdev.dev = &pdev->dev;
+> > +	strscpy(dev->mdev.model, MEM2MEM_NAME, sizeof(dev->mdev.model));
+> > +	snprintf(dev->mdev.bus_info, sizeof(dev->mdev.bus_info), "platform:%s",
+> > +		 dev_name(&pdev->dev));
+> 
+> v4l2-compliance gives the following warning:
+> 
+> 	warn: v4l2-compliance.cpp(642): media bus_info 'platform:30700000.pxp' differs from V4L2 bus_info 'platform:pxp'
+> 
+> I would change this patch to use the same name as in the V4L2 bus_info. Do you
+> have a reason for including the address in the bus_info?
 
-It seems this assumes there's always only one valid format.
-Do you think that will hold true always for RKVDEC and for all codecs?
+Actually, I should drop bus_info here. The documentation of
+media_device_init() states
 
-How about we approach this differently? Instead of having a callback
-for codecs to implement, we just maintain a list of valid decoded formats
-(in the context) and re-create the list when the SPS is changed (in the S_CTRL).
+ * The bus_info field is set by media_device_init() for PCI and platform devices
+ * if the field begins with '\0'.
 
-Possibly simpler and less invasive, not sure if there are any caveats.
+media_device_init() calls media_set_bus_info() which is defined as
 
-Thanks,
-Ezequiel
+/**
+ * media_set_bus_info() - Set bus_info field
+ *
+ * @bus_info:		Variable where to write the bus info (char array)
+ * @bus_info_size:	Length of the bus_info
+ * @dev:		Related struct device
+ *
+ * Sets bus information based on &dev. This is currently done for PCI and
+ * platform devices. dev is required to be non-NULL for this to happen.
+ *
+ * This function is not meant to be called from drivers.
+ */
+static inline void
+media_set_bus_info(char *bus_info, size_t bus_info_size, struct device *dev)
+{
+	if (!dev)
+		strscpy(bus_info, "no bus info", bus_info_size);
+	else if (dev_is_platform(dev))
+		snprintf(bus_info, bus_info_size, "platform:%s", dev_name(dev));
+	else if (dev_is_pci(dev))
+		snprintf(bus_info, bus_info_size, "PCI:%s", dev_name(dev));
+}
 
-> +static int rkvdec_get_valid_fmt(struct rkvdec_ctx *ctx)
-> +{
-> +       const struct rkvdec_coded_fmt_desc *coded_desc = ctx->coded_fmt_desc;
-> +
-> +       if (coded_desc->ops->valid_fmt)
-> +               return coded_desc->ops->valid_fmt(ctx);
-> +       return ctx->coded_fmt_desc->decoded_fmts[0];
-> +}
-> +
->  static int rkvdec_try_ctrl(struct v4l2_ctrl *ctrl)
->  {
->         struct rkvdec_ctx *ctx = container_of(ctrl->handler, struct rkvdec_ctx, ctrl_hdl);
-> @@ -200,8 +214,9 @@ static void rkvdec_reset_coded_fmt(struct rkvdec_ctx *ctx)
->  static void rkvdec_reset_decoded_fmt(struct rkvdec_ctx *ctx)
->  {
->         struct v4l2_format *f = &ctx->decoded_fmt;
-> +       u32 valid_fmt = rkvdec_get_valid_fmt(ctx);
->
-> -       rkvdec_reset_fmt(ctx, f, ctx->coded_fmt_desc->decoded_fmts[0]);
-> +       rkvdec_reset_fmt(ctx, f, valid_fmt);
->         f->type = V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE;
->         v4l2_fill_pixfmt_mp(&f->fmt.pix_mp,
->                             ctx->coded_fmt_desc->decoded_fmts[0],
-> @@ -260,13 +275,17 @@ static int rkvdec_try_capture_fmt(struct file *file, void *priv,
->         if (WARN_ON(!coded_desc))
->                 return -EINVAL;
->
-> -       for (i = 0; i < coded_desc->num_decoded_fmts; i++) {
-> -               if (coded_desc->decoded_fmts[i] == pix_mp->pixelformat)
-> -                       break;
-> -       }
-> +       if (ctx->sps) {
-> +               pix_mp->pixelformat = rkvdec_get_valid_fmt(ctx);
-> +       } else {
-> +               for (i = 0; i < coded_desc->num_decoded_fmts; i++) {
-> +                       if (coded_desc->decoded_fmts[i] == pix_mp->pixelformat)
-> +                               break;
-> +               }
->
-> -       if (i == coded_desc->num_decoded_fmts)
-> -               pix_mp->pixelformat = coded_desc->decoded_fmts[0];
-> +               if (i == coded_desc->num_decoded_fmts)
-> +                       pix_mp->pixelformat = coded_desc->decoded_fmts[0];
-> +       }
->
->         /* Always apply the frmsize constraint of the coded end. */
->         pix_mp->width = max(pix_mp->width, ctx->coded_fmt.fmt.pix_mp.width);
-> @@ -435,6 +454,18 @@ static int rkvdec_enum_capture_fmt(struct file *file, void *priv,
->         if (WARN_ON(!ctx->coded_fmt_desc))
->                 return -EINVAL;
->
-> +       /*
-> +        * According to the specification the driver can only return formats
-> +        * that are supported by both the current encoded format and the
-> +        * provided controls
-> +        */
-> +       if (ctx->sps) {
-> +               if (f->index)
-> +                       return -EINVAL;
-> +               f->pixelformat = rkvdec_get_valid_fmt(ctx);
-> +               return 0;
-> +       }
-> +
->         if (f->index >= ctx->coded_fmt_desc->num_decoded_fmts)
->                 return -EINVAL;
->
-> diff --git a/drivers/staging/media/rkvdec/rkvdec.h b/drivers/staging/media/rkvdec/rkvdec.h
-> index 332126e7b812..e353a4403e5b 100644
-> --- a/drivers/staging/media/rkvdec/rkvdec.h
-> +++ b/drivers/staging/media/rkvdec/rkvdec.h
-> @@ -66,6 +66,7 @@ vb2_to_rkvdec_decoded_buf(struct vb2_buffer *buf)
->  struct rkvdec_coded_fmt_ops {
->         int (*adjust_fmt)(struct rkvdec_ctx *ctx,
->                           struct v4l2_format *f);
-> +       u32 (*valid_fmt)(struct rkvdec_ctx *ctx);
->         int (*start)(struct rkvdec_ctx *ctx);
->         void (*stop)(struct rkvdec_ctx *ctx);
->         int (*run)(struct rkvdec_ctx *ctx);
->
-> --
-> 2.25.1
+v4l_querycap() also calls media_set_bus_info(). Including the device
+name is thus the recommended option.
+
+I'll include in v2 another patch that drops the bus_info from the
+video_device to make v4l2-compliance happy.
+
+> > +	media_device_init(&dev->mdev);
+> > +	dev->v4l2_dev.mdev = &dev->mdev;
+> > +
+> > +	ret = v4l2_m2m_register_media_controller(dev->m2m_dev, vfd,
+> > +						 MEDIA_ENT_F_PROC_VIDEO_PIXEL_FORMATTER);
+> > +	if (ret) {
+> > +		dev_err(&pdev->dev, "Failed to initialize media device\n");
+> > +		goto err_vfd;
+> > +	}
+> > +
+> > +	ret = media_device_register(&dev->mdev);
+> > +	if (ret) {
+> > +		dev_err(&pdev->dev, "Failed to register media device\n");
+> > +		goto err_m2m_mc;
+> > +	}
+> > +#endif
+> > +
+> >  	return 0;
+> >  
+> > +#ifdef CONFIG_MEDIA_CONTROLLER
+> > +err_m2m_mc:
+> > +	v4l2_m2m_unregister_media_controller(dev->m2m_dev);
+> > +err_vfd:
+> > +	video_unregister_device(vfd);
+> > +#endif
+> >  err_m2m:
+> >  	v4l2_m2m_release(dev->m2m_dev);
+> >  err_v4l2:
+> > @@ -1854,6 +1886,11 @@ static int pxp_remove(struct platform_device *pdev)
+> >  	clk_disable_unprepare(dev->clk);
+> >  
+> >  	v4l2_info(&dev->v4l2_dev, "Removing " MEM2MEM_NAME);
+> > +
+> > +#ifdef CONFIG_MEDIA_CONTROLLER
+> > +	media_device_unregister(&dev->mdev);
+> > +	v4l2_m2m_unregister_media_controller(dev->m2m_dev);
+> > +#endif
+> >  	video_unregister_device(&dev->vfd);
+> >  	v4l2_m2m_release(dev->m2m_dev);
+> >  	v4l2_device_unregister(&dev->v4l2_dev);
+
+-- 
+Regards,
+
+Laurent Pinchart
