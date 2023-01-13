@@ -2,30 +2,30 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CD52B66936A
-	for <lists+linux-media@lfdr.de>; Fri, 13 Jan 2023 10:57:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9C8E066936B
+	for <lists+linux-media@lfdr.de>; Fri, 13 Jan 2023 10:57:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241216AbjAMJ5U (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 13 Jan 2023 04:57:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43810 "EHLO
+        id S240802AbjAMJ5V (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 13 Jan 2023 04:57:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45122 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241230AbjAMJ46 (ORCPT
+        with ESMTP id S238902AbjAMJ47 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 13 Jan 2023 04:56:58 -0500
+        Fri, 13 Jan 2023 04:56:59 -0500
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE12365AF0
-        for <linux-media@vger.kernel.org>; Fri, 13 Jan 2023 01:54:12 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A8E1E66994
+        for <linux-media@vger.kernel.org>; Fri, 13 Jan 2023 01:54:13 -0800 (PST)
 Received: from dude05.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::54])
         by metis.ext.pengutronix.de with esmtp (Exim 4.92)
         (envelope-from <m.tretter@pengutronix.de>)
-        id 1pGGlG-0003cp-Kg; Fri, 13 Jan 2023 10:54:10 +0100
+        id 1pGGlH-0003cp-5b; Fri, 13 Jan 2023 10:54:11 +0100
 From:   Michael Tretter <m.tretter@pengutronix.de>
-Date:   Fri, 13 Jan 2023 10:54:07 +0100
-Subject: [PATCH v2 01/16] dt-bindings: media: fsl-pxp: convert to yaml
+Date:   Fri, 13 Jan 2023 10:54:08 +0100
+Subject: [PATCH v2 02/16] media: imx-pxp: detect PXP version
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230112-imx-pxp-v2-1-e2281da1db55@pengutronix.de>
+Message-Id: <20230112-imx-pxp-v2-2-e2281da1db55@pengutronix.de>
 References: <20230112-imx-pxp-v2-0-e2281da1db55@pengutronix.de>
 In-Reply-To: <20230112-imx-pxp-v2-0-e2281da1db55@pengutronix.de>
 To:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
@@ -52,13 +52,9 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Convert the bindings of the Freescale Pixel Pipeline to YAML.
-
-The conversion drops the previously listed compatibles for several SoCs.
-It is unclear, if the PXP on these SoCs is compatible to any of the PXPs
-on the existing SoCs and would allow to reuse the already defined
-compatibles. The missing compatibles should be brought back when the
-support for the PXP on these SoCs is added.
+Different versions of the Pixel Pipeline have different blocks and their
+routing may be different. Read the PXP_HW_VERSION register to determine
+the version of the PXP and print it to the log for debugging purposes.
 
 Signed-off-by: Michael Tretter <m.tretter@pengutronix.de>
 ---
@@ -66,134 +62,55 @@ Changelog:
 
 v2:
 
-- add fsl,imx6sll-pxp and fsl,imx6sx-pxp compatibles
-- restrict number of interrupts per variant
-- cleanup syntax
+- reduce debug level for version to dev_dbg
+- drop hw_version field from struct pxp_dev
 ---
- .../devicetree/bindings/media/fsl,imx6ull-pxp.yaml | 82 ++++++++++++++++++++++
- .../devicetree/bindings/media/fsl-pxp.txt          | 26 -------
- 2 files changed, 82 insertions(+), 26 deletions(-)
+ drivers/media/platform/nxp/imx-pxp.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/media/fsl,imx6ull-pxp.yaml b/Documentation/devicetree/bindings/media/fsl,imx6ull-pxp.yaml
-new file mode 100644
-index 000000000000..c1232689a261
---- /dev/null
-+++ b/Documentation/devicetree/bindings/media/fsl,imx6ull-pxp.yaml
-@@ -0,0 +1,82 @@
-+# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+diff --git a/drivers/media/platform/nxp/imx-pxp.c b/drivers/media/platform/nxp/imx-pxp.c
+index 689ae5e6ac62..5b671c6e5cae 100644
+--- a/drivers/media/platform/nxp/imx-pxp.c
++++ b/drivers/media/platform/nxp/imx-pxp.c
+@@ -10,6 +10,7 @@
+  * Pawel Osciak, <pawel@osciak.com>
+  * Marek Szyprowski, <m.szyprowski@samsung.com>
+  */
++#include <linux/bitfield.h>
+ #include <linux/clk.h>
+ #include <linux/delay.h>
+ #include <linux/dma-mapping.h>
+@@ -52,6 +53,11 @@ MODULE_PARM_DESC(debug, "activates debug info");
+ #define MEM2MEM_HFLIP	(1 << 0)
+ #define MEM2MEM_VFLIP	(1 << 1)
+ 
++#define PXP_VERSION_MAJOR(version) \
++	FIELD_GET(BM_PXP_VERSION_MAJOR, version)
++#define PXP_VERSION_MINOR(version) \
++	FIELD_GET(BM_PXP_VERSION_MINOR, version)
 +
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/media/fsl,imx6ull-pxp.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
+ #define dprintk(dev, fmt, arg...) \
+ 	v4l2_dbg(1, debug, &dev->v4l2_dev, "%s: " fmt, __func__, ## arg)
+ 
+@@ -1665,6 +1671,7 @@ static int pxp_probe(struct platform_device *pdev)
+ 	struct pxp_dev *dev;
+ 	struct video_device *vfd;
+ 	int irq;
++	u32 hw_version;
+ 	int ret;
+ 
+ 	dev = devm_kzalloc(&pdev->dev, sizeof(*dev), GFP_KERNEL);
+@@ -1705,6 +1712,10 @@ static int pxp_probe(struct platform_device *pdev)
+ 		goto err_clk;
+ 	}
+ 
++	hw_version = readl(dev->mmio + HW_PXP_VERSION);
++	dev_dbg(&pdev->dev, "PXP Version %u.%u\n",
++		PXP_VERSION_MAJOR(hw_version), PXP_VERSION_MINOR(hw_version));
 +
-+title: Freescale Pixel Pipeline
-+
-+maintainers:
-+  - Philipp Zabel <p.zabel@pengutronix.de>
-+  - Michael Tretter <m.tretter@pengutronix.de>
-+
-+description:
-+  The Pixel Pipeline (PXP) is a memory-to-memory graphics processing engine
-+  that supports scaling, colorspace conversion, alpha blending, rotation, and
-+  pixel conversion via lookup table. Different versions are present on various
-+  i.MX SoCs from i.MX23 to i.MX7.
-+
-+properties:
-+  compatible:
-+    oneOf:
-+      - const: fsl,imx6ul-pxp
-+      - const: fsl,imx6ull-pxp
-+      - const: fsl,imx7d-pxp
-+      - items:
-+          - enum:
-+              - fsl,imx6sll-pxp
-+              - fsl,imx6sx-pxp
-+          - const: fsl,imx6ull-pxp
-+
-+  reg:
-+    maxItems: 1
-+
-+  interrupts:
-+    minItems: 1
-+    maxItems: 2
-+
-+  clocks:
-+    maxItems: 1
-+
-+  clock-names:
-+    const: axi
-+
-+required:
-+  - compatible
-+  - reg
-+  - interrupts
-+  - clocks
-+  - clock-names
-+
-+allOf:
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            enum:
-+              - fsl,imx6sx-pxp
-+    then:
-+      properties:
-+        interrupts:
-+          numItems: 1
-+    else:
-+      properties:
-+        interrupts:
-+          numItems: 2
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/clock/imx6ul-clock.h>
-+    #include <dt-bindings/interrupt-controller/arm-gic.h>
-+
-+    pxp: pxp@21cc000 {
-+        compatible = "fsl,imx6ull-pxp";
-+        reg = <0x021cc000 0x4000>;
-+        interrupts = <GIC_SPI 8 IRQ_TYPE_LEVEL_HIGH>,
-+                     <GIC_SPI 18 IRQ_TYPE_LEVEL_HIGH>;
-+        clock-names = "axi";
-+        clocks = <&clks IMX6UL_CLK_PXP>;
-+    };
-diff --git a/Documentation/devicetree/bindings/media/fsl-pxp.txt b/Documentation/devicetree/bindings/media/fsl-pxp.txt
-deleted file mode 100644
-index f8090e06530d..000000000000
---- a/Documentation/devicetree/bindings/media/fsl-pxp.txt
-+++ /dev/null
-@@ -1,26 +0,0 @@
--Freescale Pixel Pipeline
--========================
--
--The Pixel Pipeline (PXP) is a memory-to-memory graphics processing engine
--that supports scaling, colorspace conversion, alpha blending, rotation, and
--pixel conversion via lookup table. Different versions are present on various
--i.MX SoCs from i.MX23 to i.MX7.
--
--Required properties:
--- compatible: should be "fsl,<soc>-pxp", where SoC can be one of imx23, imx28,
--  imx6dl, imx6sl, imx6sll, imx6ul, imx6sx, imx6ull, or imx7d.
--- reg: the register base and size for the device registers
--- interrupts: the PXP interrupt, two interrupts for imx6ull and imx7d.
--- clock-names: should be "axi"
--- clocks: the PXP AXI clock
--
--Example:
--
--pxp@21cc000 {
--	compatible = "fsl,imx6ull-pxp";
--	reg = <0x021cc000 0x4000>;
--	interrupts = <GIC_SPI 8 IRQ_TYPE_LEVEL_HIGH>,
--		     <GIC_SPI 18 IRQ_TYPE_LEVEL_HIGH>;
--	clock-names = "axi";
--	clocks = <&clks IMX6UL_CLK_PXP>;
--};
+ 	ret = v4l2_device_register(&pdev->dev, &dev->v4l2_dev);
+ 	if (ret)
+ 		goto err_clk;
 
 -- 
 2.30.2
