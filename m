@@ -2,60 +2,69 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 08AAF669C66
-	for <lists+linux-media@lfdr.de>; Fri, 13 Jan 2023 16:33:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4450B669C75
+	for <lists+linux-media@lfdr.de>; Fri, 13 Jan 2023 16:34:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230287AbjAMPdG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 13 Jan 2023 10:33:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48564 "EHLO
+        id S230090AbjAMPdw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 13 Jan 2023 10:33:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52582 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230285AbjAMPcJ (ORCPT
+        with ESMTP id S230216AbjAMPd1 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 13 Jan 2023 10:32:09 -0500
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C02E177D1C;
-        Fri, 13 Jan 2023 07:25:57 -0800 (PST)
-Received: from [IPV6:2a01:e0a:120:3210:299b:2170:fef0:26ee] (unknown [IPv6:2a01:e0a:120:3210:299b:2170:fef0:26ee])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: benjamin.gaignard)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 2B4326602DD6;
-        Fri, 13 Jan 2023 15:25:56 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1673623556;
-        bh=6vMpGC4QuNECsrWfSd/DR/10cnqSErEuJDg0yULogko=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=NOogRgsJ9d7LGA6zPXR6S3iXbusslL7xAsB35lPxVdKdc6tbP05EJ5kMCoWnYerJh
-         VjeBbYGQaOhLm1NnU53nVeaam/htx7TmEc1zJ3qfRIYDnyGlQzllIT9bKHMnYMInoI
-         NmU9In4JKQTCf/04uXcNgKPWeEqrhKrW8TceIUzf03BpYNViGUXkI1D9x1COIxK8wW
-         wGAklUacizq86PIblFWOe0c2O4/wvrk4iUTiOJ14IMy7IehBvUFRWiQKFuDYRBOTeM
-         03yM0gqTjCgWP7i5YTuZCyBBHrxG4c+drP9PqN+ofhmzDbCS48O1FH4B5gONDDEIAZ
-         WHAgJBmhs0jbg==
-Message-ID: <6d05e9c0-e7c1-b4b5-668b-5644510a6cec@collabora.com>
-Date:   Fri, 13 Jan 2023 16:25:53 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH v2] media: verisilicon: HEVC: Only propose 10 bits
- compatible pixels formats
-Content-Language: en-US
-To:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-Cc:     p.zabel@pengutronix.de, mchehab@kernel.org, shawnguo@kernel.org,
-        s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
-        linux-imx@nxp.com, hverkuil-cisco@xs4all.nl,
-        nicolas.dufresne@collabora.co.uk, linux-media@vger.kernel.org,
-        linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, kernel@collabora.com
-References: <20230113131257.661079-1-benjamin.gaignard@collabora.com>
- <CAAEAJfAnoe+rL=9yFV1crhoaFa9uWaaJq3nCeS+QZPLi_xnsOw@mail.gmail.com>
-From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
-In-Reply-To: <CAAEAJfAnoe+rL=9yFV1crhoaFa9uWaaJq3nCeS+QZPLi_xnsOw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+        Fri, 13 Jan 2023 10:33:27 -0500
+Received: from mail-oa1-f48.google.com (mail-oa1-f48.google.com [209.85.160.48])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 49B3197495;
+        Fri, 13 Jan 2023 07:26:59 -0800 (PST)
+Received: by mail-oa1-f48.google.com with SMTP id 586e51a60fabf-15ee27bb0a8so2232918fac.7;
+        Fri, 13 Jan 2023 07:26:59 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=date:subject:message-id:references:in-reply-to:cc:to:from
+         :mime-version:content-transfer-encoding:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=yRP2TkocjqOQMhG/MnByzo0NYJBw9GX0UeX2+swfxyw=;
+        b=XJTSNZ84byqfa8L7ozHlRQdt0zT0p88JVrfftKuB7JY+A4LWP9qMcyQBLj5t7S8SNo
+         HhXOBzTUZ43aW3VTd94BSfoS3bdgytCiCCRQtX2qk1c8l4udeXFvevR1K9kto0wQkkTi
+         EYw4rMEsrjuv4Sec/mcEn2iHyLRbKa8vcdZXEn7//X6EIBds81rMDdiFo3i3hym6pdFv
+         aubt1RMlMDkR0+dQzMpgmpzuxv+wg8Ga32SSLnpUnkTyA64dwt6CiLtlgv9jZ14mhzls
+         lUGzRF9mTPB1MfnPJwbavCagCgzy0xOUh06OCrYP0nSDnjmiXrLnPVuZ+qW6NICODTG1
+         hqCQ==
+X-Gm-Message-State: AFqh2kqL5tAO4X0TARDfnGyyXBzWXywo+0KI/ZePJQze7l3I91hgkTMh
+        nvVpikJowalh7Ss5ge1faw==
+X-Google-Smtp-Source: AMrXdXtFsV3IDfB+5WgXTwlbtVQ4BVdTaEHUy90uzjy0PZiYeyMKTsWpvSX3+LHQIvqAAk/oGTCuUw==
+X-Received: by 2002:a05:6871:281:b0:15e:b684:270a with SMTP id i1-20020a056871028100b0015eb684270amr4670405oae.14.1673623618356;
+        Fri, 13 Jan 2023 07:26:58 -0800 (PST)
+Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id r18-20020a05687080d200b0012763819bcasm10532509oab.50.2023.01.13.07.26.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 13 Jan 2023 07:26:57 -0800 (PST)
+Received: (nullmailer pid 2224495 invoked by uid 1000);
+        Fri, 13 Jan 2023 15:26:52 -0000
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+MIME-Version: 1.0
+From:   Rob Herring <robh@kernel.org>
+To:     Michael Tretter <m.tretter@pengutronix.de>
+Cc:     kernel@pengutronix.de, linux-imx@nxp.com,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Fabio Estevam <festevam@gmail.com>,
+        Alexander Stein <alexander.stein@ew.tq-group.com>,
+        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+In-Reply-To: <20230112-imx-pxp-v2-1-e2281da1db55@pengutronix.de>
+References: <20230112-imx-pxp-v2-0-e2281da1db55@pengutronix.de>
+ <20230112-imx-pxp-v2-1-e2281da1db55@pengutronix.de>
+Message-Id: <167362341999.2212137.8812962458192062043.robh@kernel.org>
+Subject: Re: [PATCH v2 01/16] dt-bindings: media: fsl-pxp: convert to yaml
+Date:   Fri, 13 Jan 2023 09:26:52 -0600
+X-Spam-Status: No, score=-1.3 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -63,187 +72,59 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 
-Le 13/01/2023 à 15:12, Ezequiel Garcia a écrit :
-> Hi Benjamin,
->
-> On Fri, Jan 13, 2023 at 10:13 AM Benjamin Gaignard
-> <benjamin.gaignard@collabora.com> wrote:
->> When decoding a 10bits bitstreams HEVC driver should only expose
->> 10bits pixel formats.
->> To fulfill this requirement it is needed to call hantro_reset_raw_fmt()
->> when bit depth change and to correctly set match_depth in pixel formats
->> enumeration.
->>
->> Fixes: dc39473d0340 ("media: hantro: imx8m: Enable 10bit decoding")
->>
->> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
->> ---
->> version 2:
->> - Also remove struct hantro_ctx *ctx variable in hantro_try_ctrl()
->>
->>   .../media/platform/verisilicon/hantro_drv.c   | 40 +++++++++++++++----
->>   .../media/platform/verisilicon/hantro_v4l2.c  |  2 +-
->>   .../media/platform/verisilicon/hantro_v4l2.h  |  1 +
->>   .../media/platform/verisilicon/imx8m_vpu_hw.c |  2 +
->>   4 files changed, 36 insertions(+), 9 deletions(-)
->>
->> diff --git a/drivers/media/platform/verisilicon/hantro_drv.c b/drivers/media/platform/verisilicon/hantro_drv.c
->> index 8cb4a68c9119..e824e87618db 100644
->> --- a/drivers/media/platform/verisilicon/hantro_drv.c
->> +++ b/drivers/media/platform/verisilicon/hantro_drv.c
->> @@ -251,11 +251,6 @@ queue_init(void *priv, struct vb2_queue *src_vq, struct vb2_queue *dst_vq)
->>
->>   static int hantro_try_ctrl(struct v4l2_ctrl *ctrl)
->>   {
->> -       struct hantro_ctx *ctx;
->> -
->> -       ctx = container_of(ctrl->handler,
->> -                          struct hantro_ctx, ctrl_handler);
->> -
-> This change is unrelated to this commit.
+On Fri, 13 Jan 2023 10:54:07 +0100, Michael Tretter wrote:
+> Convert the bindings of the Freescale Pixel Pipeline to YAML.
+> 
+> The conversion drops the previously listed compatibles for several SoCs.
+> It is unclear, if the PXP on these SoCs is compatible to any of the PXPs
+> on the existing SoCs and would allow to reuse the already defined
+> compatibles. The missing compatibles should be brought back when the
+> support for the PXP on these SoCs is added.
+> 
+> Signed-off-by: Michael Tretter <m.tretter@pengutronix.de>
+> ---
+> Changelog:
+> 
+> v2:
+> 
+> - add fsl,imx6sll-pxp and fsl,imx6sx-pxp compatibles
+> - restrict number of interrupts per variant
+> - cleanup syntax
+> ---
+>  .../devicetree/bindings/media/fsl,imx6ull-pxp.yaml | 82 ++++++++++++++++++++++
+>  .../devicetree/bindings/media/fsl-pxp.txt          | 26 -------
+>  2 files changed, 82 insertions(+), 26 deletions(-)
+> 
 
-It is because ctx is no more used in this function.
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
->
->>          if (ctrl->id == V4L2_CID_STATELESS_H264_SPS) {
->>                  const struct v4l2_ctrl_h264_sps *sps = ctrl->p_new.p_h264_sps;
->>
->> @@ -274,8 +269,6 @@ static int hantro_try_ctrl(struct v4l2_ctrl *ctrl)
->>                  if (sps->bit_depth_luma_minus8 != 0 && sps->bit_depth_luma_minus8 != 2)
->>                          /* Only 8-bit and 10-bit are supported */
->>                          return -EINVAL;
->> -
->> -               ctx->bit_depth = sps->bit_depth_luma_minus8 + 8;
->>          } else if (ctrl->id == V4L2_CID_STATELESS_VP9_FRAME) {
->>                  const struct v4l2_ctrl_vp9_frame *dec_params = ctrl->p_new.p_vp9_frame;
->>
->> @@ -286,6 +279,32 @@ static int hantro_try_ctrl(struct v4l2_ctrl *ctrl)
->>          return 0;
->>   }
->>
->> +static int hantro_hevc_s_ctrl(struct v4l2_ctrl *ctrl)
->> +{
->> +       struct hantro_ctx *ctx;
->> +
->> +       ctx = container_of(ctrl->handler,
->> +                          struct hantro_ctx, ctrl_handler);
->> +
->> +       vpu_debug(1, "s_ctrl: id = %d, val = %d\n", ctrl->id, ctrl->val);
->> +
->> +       switch (ctrl->id) {
->> +       case V4L2_CID_STATELESS_HEVC_SPS:
->> +               const struct v4l2_ctrl_hevc_sps *sps = ctrl->p_new.p_hevc_sps;
->> +               int bit_depth = sps->bit_depth_luma_minus8 + 8;
->> +
->> +               if (ctx->bit_depth != bit_depth) {
->> +                       ctx->bit_depth = bit_depth;
->> +                       hantro_reset_raw_fmt(ctx);
-> We need to propagate the EBUSY error from hantro_set_fmt_cap,
-> to hantro_reset_raw_fmt, so this operation can fail if the capture
-> queue has buffers allocated.
->
-> Keep in mind, we have to make sure the hantro_ctx state
-> remains unchanged when the operation fails.
->
-> The entire hantro_v4l2.c format negotiation is done without this
-> case in mind (controls can change the format enumeration),
-> so this new case needs some refactoring.
+yamllint warnings/errors:
 
-I will change hantro_reset_raw_fmt() prototype to:
-int hantro_reset_raw_fmt(struct hantro_ctx *ctx);
-so I will be able to return the result of hantro_set_fmt_out()
-or hantro_set_fmt_cap() when setting the control.
+dtschema/dtc warnings/errors:
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/media/fsl,imx6ull-pxp.yaml: allOf:0:else:properties:interrupts: 'anyOf' conditional failed, one must be fixed:
+	'numItems' is not one of ['$ref', 'additionalItems', 'additionalProperties', 'allOf', 'anyOf', 'const', 'contains', 'default', 'dependencies', 'dependentRequired', 'dependentSchemas', 'deprecated', 'description', 'else', 'enum', 'exclusiveMaximum', 'exclusiveMinimum', 'items', 'if', 'minItems', 'minimum', 'maxItems', 'maximum', 'multipleOf', 'not', 'oneOf', 'pattern', 'patternProperties', 'properties', 'required', 'then', 'typeSize', 'unevaluatedProperties', 'uniqueItems']
+	'type' was expected
+	from schema $id: http://devicetree.org/meta-schemas/keywords.yaml#
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/media/fsl,imx6ull-pxp.yaml: allOf:0:then:properties:interrupts: 'anyOf' conditional failed, one must be fixed:
+	'numItems' is not one of ['$ref', 'additionalItems', 'additionalProperties', 'allOf', 'anyOf', 'const', 'contains', 'default', 'dependencies', 'dependentRequired', 'dependentSchemas', 'deprecated', 'description', 'else', 'enum', 'exclusiveMaximum', 'exclusiveMinimum', 'items', 'if', 'minItems', 'minimum', 'maxItems', 'maximum', 'multipleOf', 'not', 'oneOf', 'pattern', 'patternProperties', 'properties', 'required', 'then', 'typeSize', 'unevaluatedProperties', 'uniqueItems']
+	'type' was expected
+	from schema $id: http://devicetree.org/meta-schemas/keywords.yaml#
 
-Does that sound correct for you ?
+doc reference errors (make refcheckdocs):
 
-Regards,
-Benjamin
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20230112-imx-pxp-v2-1-e2281da1db55@pengutronix.de
 
->
-> I also think we need v4l2-compliance tests for it.
->
-> Thanks!
-> Ezequiel
->
->
->> +               }
->> +               break;
->> +       default:
->> +               return -EINVAL;
->> +       }
->> +
->> +       return 0;
->> +}
->> +
->>   static int hantro_jpeg_s_ctrl(struct v4l2_ctrl *ctrl)
->>   {
->>          struct hantro_ctx *ctx;
->> @@ -328,6 +347,11 @@ static const struct v4l2_ctrl_ops hantro_ctrl_ops = {
->>          .try_ctrl = hantro_try_ctrl,
->>   };
->>
->> +static const struct v4l2_ctrl_ops hantro_hevc_ctrl_ops = {
->> +       .s_ctrl = hantro_hevc_s_ctrl,
->> +       .try_ctrl = hantro_try_ctrl,
->> +};
->> +
->>   static const struct v4l2_ctrl_ops hantro_jpeg_ctrl_ops = {
->>          .s_ctrl = hantro_jpeg_s_ctrl,
->>   };
->> @@ -470,7 +494,7 @@ static const struct hantro_ctrl controls[] = {
->>                  .codec = HANTRO_HEVC_DECODER,
->>                  .cfg = {
->>                          .id = V4L2_CID_STATELESS_HEVC_SPS,
->> -                       .ops = &hantro_ctrl_ops,
->> +                       .ops = &hantro_hevc_ctrl_ops,
->>                  },
->>          }, {
->>                  .codec = HANTRO_HEVC_DECODER,
->> diff --git a/drivers/media/platform/verisilicon/hantro_v4l2.c b/drivers/media/platform/verisilicon/hantro_v4l2.c
->> index 2c7a805289e7..0025e049dd26 100644
->> --- a/drivers/media/platform/verisilicon/hantro_v4l2.c
->> +++ b/drivers/media/platform/verisilicon/hantro_v4l2.c
->> @@ -398,7 +398,7 @@ hantro_reset_encoded_fmt(struct hantro_ctx *ctx)
->>                  hantro_set_fmt_out(ctx, fmt);
->>   }
->>
->> -static void
->> +void
->>   hantro_reset_raw_fmt(struct hantro_ctx *ctx)
->>   {
->>          const struct hantro_fmt *raw_vpu_fmt;
->> diff --git a/drivers/media/platform/verisilicon/hantro_v4l2.h b/drivers/media/platform/verisilicon/hantro_v4l2.h
->> index 64f6f57e9d7a..f642560aed93 100644
->> --- a/drivers/media/platform/verisilicon/hantro_v4l2.h
->> +++ b/drivers/media/platform/verisilicon/hantro_v4l2.h
->> @@ -21,6 +21,7 @@
->>   extern const struct v4l2_ioctl_ops hantro_ioctl_ops;
->>   extern const struct vb2_ops hantro_queue_ops;
->>
->> +void hantro_reset_raw_fmt(struct hantro_ctx *ctx);
->>   void hantro_reset_fmts(struct hantro_ctx *ctx);
->>   int hantro_get_format_depth(u32 fourcc);
->>   const struct hantro_fmt *
->> diff --git a/drivers/media/platform/verisilicon/imx8m_vpu_hw.c b/drivers/media/platform/verisilicon/imx8m_vpu_hw.c
->> index b390228fd3b4..f850d8bddef6 100644
->> --- a/drivers/media/platform/verisilicon/imx8m_vpu_hw.c
->> +++ b/drivers/media/platform/verisilicon/imx8m_vpu_hw.c
->> @@ -152,6 +152,7 @@ static const struct hantro_fmt imx8m_vpu_g2_postproc_fmts[] = {
->>          {
->>                  .fourcc = V4L2_PIX_FMT_NV12,
->>                  .codec_mode = HANTRO_MODE_NONE,
->> +               .match_depth = true,
->>                  .postprocessed = true,
->>                  .frmsize = {
->>                          .min_width = FMT_MIN_WIDTH,
->> @@ -165,6 +166,7 @@ static const struct hantro_fmt imx8m_vpu_g2_postproc_fmts[] = {
->>          {
->>                  .fourcc = V4L2_PIX_FMT_P010,
->>                  .codec_mode = HANTRO_MODE_NONE,
->> +               .match_depth = true,
->>                  .postprocessed = true,
->>                  .frmsize = {
->>                          .min_width = FMT_MIN_WIDTH,
->> --
->> 2.34.1
->>
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
+
