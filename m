@@ -2,145 +2,106 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 84B966688D2
-	for <lists+linux-media@lfdr.de>; Fri, 13 Jan 2023 02:04:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8048A6688D5
+	for <lists+linux-media@lfdr.de>; Fri, 13 Jan 2023 02:04:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232555AbjAMBCO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 12 Jan 2023 20:02:14 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54290 "EHLO
+        id S232194AbjAMBDn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 12 Jan 2023 20:03:43 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55504 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240363AbjAMBCJ (ORCPT
+        with ESMTP id S240644AbjAMBDh (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 12 Jan 2023 20:02:09 -0500
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 25DA141D5C;
-        Thu, 12 Jan 2023 17:02:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1673571724; x=1705107724;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=WfPV1BmOyya+FAsHZKNSHM3S5ihrRKEErtIUDEBUmWI=;
-  b=XZay2370f925bpIUxvbiqsjLdHG5NZ+dhLY4zu1ciuNf/N9VjBSh0stm
-   9O9WyQ0Ta/VMfoFcuVsjROTpyqhKkD6PHwQWIUvr47jDuMB3RKaql/88t
-   wq1Tp2dMP3pIylTtkIor4WDxUUJFfWTUEzbLojglWxJ3r2K4dyT20Ze7t
-   FZ9Z2q86O9Mc0NSWK2D2hhPAv3ZCchE6ks0I58xutMZUmEx9Wgeqcvxc7
-   H8WKckdXw2CeEYHMc4uCc8d8GzpQPIUKbByf8aLcxZEOi7h8LulqA9wtw
-   8W5qAlRwiDxVtKQ0cszfhfRx7JEyOkWboL/34qArqgxyi/dIqJwY1NlSS
-   A==;
-X-IronPort-AV: E=Sophos;i="5.97,212,1669100400"; 
-   d="scan'208";a="132123578"
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa6.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 12 Jan 2023 18:02:03 -0700
-Received: from chn-vm-ex02.mchp-main.com (10.10.85.144) by
- chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16; Thu, 12 Jan 2023 18:02:02 -0700
-Received: from microchip1-OptiPlex-9020.microchip.com (10.10.115.15) by
- chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server id
- 15.1.2507.16 via Frontend Transport; Thu, 12 Jan 2023 18:01:59 -0700
-From:   shravan kumar <shravan.chippa@microchip.com>
-To:     <paul.j.murphy@intel.com>, <daniele.alessandrelli@intel.com>,
-        <mchehab@kernel.org>
-CC:     <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        "shravan kumar" <shravan.chippa@microchip.com>,
-        Sakari Ailus <sakari.ailus@iki.fi>
-Subject: [PATCH v9 4/4] media: i2c: imx334: update pixel and link frequency
-Date:   Fri, 13 Jan 2023 06:31:35 +0530
-Message-ID: <20230113010135.2620818-5-shravan.chippa@microchip.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230113010135.2620818-1-shravan.chippa@microchip.com>
-References: <20230113010135.2620818-1-shravan.chippa@microchip.com>
+        Thu, 12 Jan 2023 20:03:37 -0500
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 078081A81F
+        for <linux-media@vger.kernel.org>; Thu, 12 Jan 2023 17:03:35 -0800 (PST)
+Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: marex@denx.de)
+        by phobos.denx.de (Postfix) with ESMTPSA id A9359829F5;
+        Fri, 13 Jan 2023 02:03:33 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+        s=phobos-20191101; t=1673571814;
+        bh=1XFaZHmkb8YSF/bHCD7z/Pbj4IYhEiDhEY/GMEGJtt4=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=kq5Mw+P+4v8sozCRBQwgkyP35yjICkqfMrn8V1U+fkx+X75tMM11bZyjgQhnIIuaO
+         0r7LggMDucHe0Ce8dG+n5CQPLfXVaP3QXOz3//JssgUPEPWLcr7C6fTVhWrHnUkwIQ
+         OrrPxLBukZQmNS5wogi+Bge4osi7BuZELzjTBj3b1mniY8Is80LFi3i+D/Y2WsyESL
+         qA2nGsLaXTq671Gb28cGC66XRLqke5NfNdZ4SfiuwbFOfkNSnPlRdn9jRkTw+LrfC2
+         VS5YYx0ILTCjPf3bB1td6kd/r0aToDekijBX+Aq4WvFCSne87cx/6uhxNbGlSPokPA
+         ByQHrsSqKC4ww==
+Message-ID: <3dcf0665-a3ba-1279-2bc8-0e5d6f9319bc@denx.de>
+Date:   Fri, 13 Jan 2023 02:03:33 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH] media: uvcvideo: Add GUID for BGRA/X 8:8:8:8
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        William Manley <will@williammanley.net>
+References: <20230110195331.175103-1-marex@denx.de>
+ <Y8CUo17laYyY9/c2@pendragon.ideasonboard.com>
+Content-Language: en-US
+From:   Marek Vasut <marex@denx.de>
+In-Reply-To: <Y8CUo17laYyY9/c2@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Virus-Scanned: clamav-milter 0.103.6 at phobos.denx.de
+X-Virus-Status: Clean
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Shravan Chippa <shravan.chippa@microchip.com>
+On 1/13/23 00:15, Laurent Pinchart wrote:
+> Hi Marek,
 
-Update pixel_rate and link frequency for 1920x1080@30
-while changing mode.
+Hi,
 
-Add dummy ctrl cases for pixel_rate and link frequency
-to avoid error while changing the modes dynamically
+> Thank you for the patch.
+> 
+> On Tue, Jan 10, 2023 at 08:53:31PM +0100, Marek Vasut wrote:
+>> The Cypress EZUSB FX3 UVC example can be configured to report pixel
+>> format "e436eb7e-524f-11ce-9f53-0020af0ba770". This is its GUID for
+>> BGRA/X 8:8:8:8.
+>>
+>> The UVC 1.5 spec [1] only defines GUIDs for YUY2, NV12, M420 and I420.
+>> This seems to be an extension documented in the Microsoft Windows Media
+>> Format SDK[2]. This Media Format SDK defines this GUID as corresponding
+>> to `MEDIASUBTYPE_RGB32`.
+>>
+>> Note that in my case, the FX3 UVC can output either channel order,
+>> BGR or RGB or any other mix for that matter. Since Linux commit
+>> 1b8dc32286a1a ("[media] uvcvideo: Add GUID for BGR 8:8:8")
+>> defined a GUID for `MEDIASUBTYPE_RGB24` channel order as BGR, keep
+>> this change consistent and define `MEDIASUBTYPE_RGB32` as BGR as well.
+> 
+> I'd like to see documentation of the MEDIASUBTYPE_RGB32 format that
+> indicates the components order precisely. While there's a high chance it
+> maps to a BGR (in the V4L2 nomenclature) format, there would still be
+> two different options for the A or X component.
 
-Suggested-by: Sakari Ailus <sakari.ailus@iki.fi>
-Signed-off-by: Shravan Chippa <shravan.chippa@microchip.com>
----
- drivers/media/i2c/imx334.c | 17 +++++++++++++----
- 1 file changed, 13 insertions(+), 4 deletions(-)
+Maybe this ?
 
-diff --git a/drivers/media/i2c/imx334.c b/drivers/media/i2c/imx334.c
-index 4ab1b9eb9a64..373022fbd6b2 100644
---- a/drivers/media/i2c/imx334.c
-+++ b/drivers/media/i2c/imx334.c
-@@ -49,7 +49,8 @@
- #define IMX334_INCLK_RATE	24000000
- 
- /* CSI2 HW configuration */
--#define IMX334_LINK_FREQ	891000000
-+#define IMX334_LINK_FREQ_891M	891000000
-+#define IMX334_LINK_FREQ_445M	445500000
- #define IMX334_NUM_DATA_LANES	4
- 
- #define IMX334_REG_MIN		0x00
-@@ -144,7 +145,8 @@ struct imx334 {
- };
- 
- static const s64 link_freq[] = {
--	IMX334_LINK_FREQ,
-+	IMX334_LINK_FREQ_891M,
-+	IMX334_LINK_FREQ_445M,
- };
- 
- /* Sensor mode registers */
-@@ -468,7 +470,7 @@ static const struct imx334_mode supported_modes[] = {
- 		.vblank_min = 45,
- 		.vblank_max = 132840,
- 		.pclk = 297000000,
--		.link_freq_idx = 0,
-+		.link_freq_idx = 1,
- 		.reg_list = {
- 			.num_of_regs = ARRAY_SIZE(mode_1920x1080_regs),
- 			.regs = mode_1920x1080_regs,
-@@ -598,6 +600,11 @@ static int imx334_update_controls(struct imx334 *imx334,
- 	if (ret)
- 		return ret;
- 
-+	ret = __v4l2_ctrl_modify_range(imx334->pclk_ctrl, mode->pclk,
-+				       mode->pclk, 1, mode->pclk);
-+	if (ret)
-+		return ret;
-+
- 	ret = __v4l2_ctrl_modify_range(imx334->hblank_ctrl, mode->hblank,
- 				       mode->hblank, 1, mode->hblank);
- 	if (ret)
-@@ -698,6 +705,8 @@ static int imx334_set_ctrl(struct v4l2_ctrl *ctrl)
- 		pm_runtime_put(imx334->dev);
- 
- 		break;
-+	case V4L2_CID_PIXEL_RATE:
-+	case V4L2_CID_LINK_FREQ:
- 	case V4L2_CID_HBLANK:
- 		ret = 0;
- 		break;
-@@ -1102,7 +1111,7 @@ static int imx334_parse_hw_config(struct imx334 *imx334)
- 	}
- 
- 	for (i = 0; i < bus_cfg.nr_of_link_frequencies; i++)
--		if (bus_cfg.link_frequencies[i] == IMX334_LINK_FREQ)
-+		if (bus_cfg.link_frequencies[i] == IMX334_LINK_FREQ_891M)
- 			goto done_endpoint_free;
- 
- 	ret = -EINVAL;
--- 
-2.34.1
+https://github.com/MicrosoftDocs/win32/blob/docs/desktop-src/DirectShow/uncompressed-rgb-video-subtypes.md
+
+"
+Remarks
+...
+For RGB 32, every pixel is an RGBQUAD. Each color is one byte, with a 
+value from 0 to 255, inclusive. The memory layout is:
+Byte    0       1       2       3
+Value   Blue    Green   Red     Alpha or Don't Care
+"
+
+Maps to
+
+drivers/media/v4l2-core/v4l2-ioctl.c:   case V4L2_PIX_FMT_BGR32: 
+descr = "32-bit BGRA/X 8-8-8-8"; break;
 
