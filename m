@@ -2,130 +2,165 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3502E669495
-	for <lists+linux-media@lfdr.de>; Fri, 13 Jan 2023 11:46:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 092806695C1
+	for <lists+linux-media@lfdr.de>; Fri, 13 Jan 2023 12:37:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232777AbjAMKqz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 13 Jan 2023 05:46:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47356 "EHLO
+        id S234010AbjAMLhn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 13 Jan 2023 06:37:43 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54888 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241311AbjAMKqW (ORCPT
+        with ESMTP id S231274AbjAMLgz (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 13 Jan 2023 05:46:22 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C5AF2777C0;
-        Fri, 13 Jan 2023 02:44:34 -0800 (PST)
-Received: from pendragon.ideasonboard.com (85-131-99-81.bb.dnainternet.fi [85.131.99.81])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7505A4D4;
-        Fri, 13 Jan 2023 11:44:32 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1673606672;
-        bh=jQe8bELRpakqILNHk4rOJgvTETgI/bwME5HNZmZ2sRI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=FQ0nH4d3KOV3Lf96/S86FUl+4Qt0lB2ZLE6+f/s+EnM4fRP065G/gLJlUtIdlsZqj
-         BK0fWbWd2oXBloA2w0rObnhJ/ml7b/IpI6lIb7tOzbxsQymsAezw+OqQWOwlmYpZca
-         MMtAs+vyr5jBYedcQPweKRiZ7xMNf25+NZJoO1qc=
-Date:   Fri, 13 Jan 2023 12:44:31 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Michael Tretter <m.tretter@pengutronix.de>
-Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Fabio Estevam <festevam@gmail.com>,
-        Alexander Stein <alexander.stein@ew.tq-group.com>,
-        kernel@pengutronix.de, linux-imx@nxp.com,
-        linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v2 02/16] media: imx-pxp: detect PXP version
-Message-ID: <Y8E2Dx7ngjiUYVfO@pendragon.ideasonboard.com>
-References: <20230112-imx-pxp-v2-0-e2281da1db55@pengutronix.de>
- <20230112-imx-pxp-v2-2-e2281da1db55@pengutronix.de>
+        Fri, 13 Jan 2023 06:36:55 -0500
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A0752DCF
+        for <linux-media@vger.kernel.org>; Fri, 13 Jan 2023 03:25:05 -0800 (PST)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <pza@pengutronix.de>)
+        id 1pGIB7-00043X-5b; Fri, 13 Jan 2023 12:24:57 +0100
+Received: from pza by ptx.hi.pengutronix.de with local (Exim 4.92)
+        (envelope-from <pza@pengutronix.de>)
+        id 1pGIB6-0002OX-6p; Fri, 13 Jan 2023 12:24:56 +0100
+Date:   Fri, 13 Jan 2023 12:24:56 +0100
+From:   Philipp Zabel <p.zabel@pengutronix.de>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     linux-media@vger.kernel.org, kernel@pengutronix.de
+Subject: Re: [PATCH] media: v4l2-async: fix binding async subdevs with
+ multiple source ports
+Message-ID: <20230113112456.GA9093@pengutronix.de>
+References: <20220810104848.846783-1-p.zabel@pengutronix.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230112-imx-pxp-v2-2-e2281da1db55@pengutronix.de>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <20220810104848.846783-1-p.zabel@pengutronix.de>
+X-Sent-From: Pengutronix Hildesheim
+X-URL:  http://www.pengutronix.de/
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: pza@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Michael,
+Hi,
 
-Thank you for the patch.
+On Wed, Aug 10, 2022 at 12:48:48PM +0200, Philipp Zabel wrote:
+> Asynchronous subdevice probing on imx-media with imx6-mipi-csi2 is
+> broken since commit 1f391df44607 ("media: v4l2-async: Use endpoints in
+> __v4l2_async_nf_add_fwnode_remote()").
+> 
+> This is a side effect of imx6-mipi-csi2 having a single subdevice with
+> four separate source ports connected to different subdevices. Before,
+> the imx-media-csi and video-mux devices registered async sub-devices
+> via device fwnode that matched the imx6-mipi-csi2 device on their
+> respective notifiers. This caused the first asd to be put on the
+> notifier waiting list, and the other three to return -EEXIST and be
+> ignored.
+> 
+> With async subdev registration via endpoint fwnode, all four asds are
+> distinct and three of them keep dangling on their notifiers after the
+> first one is bound.
+> 
+> This patch modifies __v4l2_async_nf_has_async_subdev() to consider
+> asds matching different fwnode endpoints of the same sub-device equal
+> if the latter is already bound and matches via device fwnode. Further,
+> v4l2_async_register_subdev() is modified to remove dangling duplicate
+> asds that were registered before the sub-device was available to check
+> its fwnode.
+> 
+> Fixes: 1f391df44607 ("media: v4l2-async: Use endpoints in __v4l2_async_nf_add_fwnode_remote()")
+> Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
 
-On Fri, Jan 13, 2023 at 10:54:08AM +0100, Michael Tretter wrote:
-> Different versions of the Pixel Pipeline have different blocks and their
-> routing may be different. Read the PXP_HW_VERSION register to determine
-> the version of the PXP and print it to the log for debugging purposes.
-> 
-> Signed-off-by: Michael Tretter <m.tretter@pengutronix.de>
+Any comments on this? The issue persists on v6.2-rc3.
+
 > ---
-> Changelog:
+>  drivers/media/v4l2-core/v4l2-async.c | 43 ++++++++++++++++++++++++++++
+>  1 file changed, 43 insertions(+)
 > 
-> v2:
-> 
-> - reduce debug level for version to dev_dbg
-> - drop hw_version field from struct pxp_dev
-> ---
->  drivers/media/platform/nxp/imx-pxp.c | 11 +++++++++++
->  1 file changed, 11 insertions(+)
-> 
-> diff --git a/drivers/media/platform/nxp/imx-pxp.c b/drivers/media/platform/nxp/imx-pxp.c
-> index 689ae5e6ac62..5b671c6e5cae 100644
-> --- a/drivers/media/platform/nxp/imx-pxp.c
-> +++ b/drivers/media/platform/nxp/imx-pxp.c
-> @@ -10,6 +10,7 @@
->   * Pawel Osciak, <pawel@osciak.com>
->   * Marek Szyprowski, <m.szyprowski@samsung.com>
->   */
-> +#include <linux/bitfield.h>
->  #include <linux/clk.h>
->  #include <linux/delay.h>
->  #include <linux/dma-mapping.h>
-> @@ -52,6 +53,11 @@ MODULE_PARM_DESC(debug, "activates debug info");
->  #define MEM2MEM_HFLIP	(1 << 0)
->  #define MEM2MEM_VFLIP	(1 << 1)
+> diff --git a/drivers/media/v4l2-core/v4l2-async.c b/drivers/media/v4l2-core/v4l2-async.c
+> index 2f1b718a9189..b24220ed7077 100644
+> --- a/drivers/media/v4l2-core/v4l2-async.c
+> +++ b/drivers/media/v4l2-core/v4l2-async.c
+> @@ -452,6 +452,22 @@ __v4l2_async_nf_has_async_subdev(struct v4l2_async_notifier *notifier,
 >  
-> +#define PXP_VERSION_MAJOR(version) \
-> +	FIELD_GET(BM_PXP_VERSION_MAJOR, version)
-> +#define PXP_VERSION_MINOR(version) \
-> +	FIELD_GET(BM_PXP_VERSION_MINOR, version)
+>  		if (asd_equal(asd, sd->asd))
+>  			return true;
 > +
->  #define dprintk(dev, fmt, arg...) \
->  	v4l2_dbg(1, debug, &dev->v4l2_dev, "%s: " fmt, __func__, ## arg)
->  
-> @@ -1665,6 +1671,7 @@ static int pxp_probe(struct platform_device *pdev)
->  	struct pxp_dev *dev;
->  	struct video_device *vfd;
->  	int irq;
-> +	u32 hw_version;
-
-I'd move this one line up. Up to you, with or without that,
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
->  	int ret;
->  
->  	dev = devm_kzalloc(&pdev->dev, sizeof(*dev), GFP_KERNEL);
-> @@ -1705,6 +1712,10 @@ static int pxp_probe(struct platform_device *pdev)
->  		goto err_clk;
+> +		/*
+> +		 * If the asd matches an endpoint fwnode, handle sub-devices
+> +		 * with device fwnode that were already matched by another asd
+> +		 * with a different endpoint fwnode on the same device.
+> +		 */
+> +		if (asd->match_type == V4L2_ASYNC_MATCH_FWNODE &&
+> +		    fwnode_graph_is_endpoint(asd->match.fwnode) &&
+> +		    sd->fwnode && !fwnode_graph_is_endpoint(sd->fwnode)) {
+> +			struct fwnode_handle *devnode;
+> +
+> +			devnode = fwnode_graph_get_port_parent(asd->match.fwnode);
+> +			fwnode_handle_put(devnode);
+> +			if (devnode == sd->fwnode)
+> +				return true;
+> +		}
 >  	}
 >  
-> +	hw_version = readl(dev->mmio + HW_PXP_VERSION);
-> +	dev_dbg(&pdev->dev, "PXP Version %u.%u\n",
-> +		PXP_VERSION_MAJOR(hw_version), PXP_VERSION_MINOR(hw_version));
+>  	return false;
+> @@ -749,6 +765,24 @@ __v4l2_async_nf_add_i2c(struct v4l2_async_notifier *notifier, int adapter_id,
+>  }
+>  EXPORT_SYMBOL_GPL(__v4l2_async_nf_add_i2c);
+>  
+> +static void v4l2_async_remove_duplicate_matches(struct v4l2_subdev *sd)
+> +{
+> +	struct v4l2_async_notifier *notifier;
 > +
->  	ret = v4l2_device_register(&pdev->dev, &dev->v4l2_dev);
->  	if (ret)
->  		goto err_clk;
+> +	lockdep_assert_held(&list_lock);
+> +
+> +	list_for_each_entry(notifier, &notifier_list, list) {
+> +		struct v4l2_async_subdev *asd;
+> +
+> +		asd = v4l2_async_find_match(notifier, sd);
+> +		if (!asd)
+> +			continue;
+> +
+> +		/* Remove from the waiting list */
+> +		list_del(&asd->list);
+> +	}
+> +}
+> +
+>  int v4l2_async_register_subdev(struct v4l2_subdev *sd)
+>  {
+>  	struct v4l2_async_notifier *subdev_notifier;
+> @@ -783,6 +817,15 @@ int v4l2_async_register_subdev(struct v4l2_subdev *sd)
+>  		if (ret)
+>  			goto err_unbind;
+>  
+> +		/*
+> +		 * At this point the asd is removed from the notifier wait list.
+> +		 * There might be other notifiers with asds matching different
+> +		 * fwnode endpoints of the same sd remaining. If the sd matches
+> +		 * by device fwnode, remove the dangling asds.
+> +		 */
+> +		if (sd->fwnode && !fwnode_graph_is_endpoint(sd->fwnode))
+> +			v4l2_async_remove_duplicate_matches(sd);
+> +
+>  		ret = v4l2_async_nf_try_complete(notifier);
+>  		if (ret)
+>  			goto err_unbind;
+> -- 
+> 2.30.2
+> 
 > 
 
--- 
-Regards,
-
-Laurent Pinchart
+regards
+Philipp
