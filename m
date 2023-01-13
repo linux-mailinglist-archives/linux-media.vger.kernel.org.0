@@ -2,60 +2,56 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 51E0466924A
-	for <lists+linux-media@lfdr.de>; Fri, 13 Jan 2023 10:06:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C394B669268
+	for <lists+linux-media@lfdr.de>; Fri, 13 Jan 2023 10:10:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241153AbjAMJGX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 13 Jan 2023 04:06:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37076 "EHLO
+        id S241215AbjAMJKj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 13 Jan 2023 04:10:39 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36616 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241124AbjAMJF4 (ORCPT
+        with ESMTP id S241102AbjAMJI2 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 13 Jan 2023 04:05:56 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B0CAD7458A;
-        Fri, 13 Jan 2023 01:04:27 -0800 (PST)
+        Fri, 13 Jan 2023 04:08:28 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 698B895B2;
+        Fri, 13 Jan 2023 01:06:18 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 53A7960FB2;
-        Fri, 13 Jan 2023 09:04:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5EB8DC433AC;
-        Fri, 13 Jan 2023 09:04:19 +0000 (UTC)
-Message-ID: <c092c11f-870f-6520-ad89-001468ed59dc@xs4all.nl>
-Date:   Fri, 13 Jan 2023 10:04:17 +0100
+        by ams.source.kernel.org (Postfix) with ESMTPS id 92488B820D0;
+        Fri, 13 Jan 2023 09:06:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5E4C4C433D2;
+        Fri, 13 Jan 2023 09:05:55 +0000 (UTC)
+Message-ID: <649a45a5-1680-dd71-ed74-df16d4353638@xs4all.nl>
+Date:   Fri, 13 Jan 2023 10:05:54 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.6.0
-Subject: Re: [PATCH v4 0/9] media: dt-bindings: common CEC properties
+Subject: Re: [PATCH 20/22] media: remove sh_vou
 Content-Language: en-US
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Neil Armstrong <neil.armstrong@linaro.org>,
-        Alain Volmat <alain.volmat@foss.st.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Kevin Hilman <khilman@baylibre.com>,
-        devicetree@vger.kernel.org, Joe Tessler <jrt@google.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        linux-tegra@vger.kernel.org,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        linux-media@vger.kernel.org, Jeff Chase <jnchase@google.com>,
-        linux-arm-kernel@lists.infradead.org,
-        linux-amlogic@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        Yannick Fertre <yannick.fertre@foss.st.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        linux-kernel@vger.kernel.org
-References: <20221208103115.25512-1-krzysztof.kozlowski@linaro.org>
- <cd803c70-faf0-963e-fca3-0edd13fa8a29@linaro.org>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <cd803c70-faf0-963e-fca3-0edd13fa8a29@linaro.org>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Christoph Hellwig <hch@lst.de>
+Cc:     Yoshinori Sato <ysato@users.sourceforge.jp>,
+        Rich Felker <dalias@libc.org>, Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-kernel@vger.kernel.org, linux-watchdog@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-arch@vger.kernel.org,
+        dmaengine@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-mmc@vger.kernel.org, linux-mtd@lists.infradead.org,
+        netdev@vger.kernel.org, linux-gpio@vger.kernel.org,
+        linux-rtc@vger.kernel.org, linux-spi@vger.kernel.org,
+        linux-serial@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-fbdev@vger.kernel.org, alsa-devel@alsa-project.org,
+        linux-sh@vger.kernel.org
+References: <20230113062339.1909087-1-hch@lst.de>
+ <20230113062339.1909087-21-hch@lst.de>
+ <Y8EPvllOwhODRUiP@pendragon.ideasonboard.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+In-Reply-To: <Y8EPvllOwhODRUiP@pendragon.ideasonboard.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
@@ -67,28 +63,35 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Krzysztof,
-
-On 13/01/2023 09:59, Krzysztof Kozlowski wrote:
-> On 08/12/2022 11:31, Krzysztof Kozlowski wrote:
->> Hi,
->>
->> Changes since v3
->> ================
->> 1. cec-gpio: Add missing SPDX.
->> 2. nvidia,tegra114-cec: Correct path in maintainers.
->>
+On 13/01/2023 09:01, Laurent Pinchart wrote:
+> Hi Christoph,
 > 
+> Thank you for the patch.
 > 
-> Mauro (and maybe Hans?), any comments here. Can you apply the patchset?
+> On Fri, Jan 13, 2023 at 07:23:37AM +0100, Christoph Hellwig wrote:
+>> Now that arch/sh is removed this driver is dead code.
+>>
+>> Signed-off-by: Christoph Hellwig <hch@lst.de>
+>> ---
+>>  drivers/media/platform/renesas/Kconfig  |    9 -
+>>  drivers/media/platform/renesas/Makefile |    1 -
+>>  drivers/media/platform/renesas/sh_vou.c | 1375 -----------------------
+> 
+> You can also emove include/media/drv-intf/sh_vou.sh. With that, and the
+> corresponding MAINTAINERS entry dropped,
+> 
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-No comments yet. I plan to review and likely merge this next week.
+And with that you can also add my Ack:
+
+Acked-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 
 Regards,
 
 	Hans
 
 > 
-> Best regards,
-> Krzysztof
+>>  3 files changed, 1385 deletions(-)
+>>  delete mode 100644 drivers/media/platform/renesas/sh_vou.c
+> 
 
