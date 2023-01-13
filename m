@@ -2,108 +2,247 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 802DF668E18
-	for <lists+linux-media@lfdr.de>; Fri, 13 Jan 2023 07:32:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D7DE7668E7B
+	for <lists+linux-media@lfdr.de>; Fri, 13 Jan 2023 07:57:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232726AbjAMGbK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 13 Jan 2023 01:31:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37912 "EHLO
+        id S230223AbjAMG5F (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 13 Jan 2023 01:57:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56638 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240857AbjAMG1P (ORCPT
+        with ESMTP id S240830AbjAMGzx (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 13 Jan 2023 01:27:15 -0500
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA4926B19F;
-        Thu, 12 Jan 2023 22:25:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
-        :Reply-To:Content-Type:Content-ID:Content-Description;
-        bh=V1vQGE3XW96qQp3ejFsm70w3mnOS9+pWBLCZirkv1tk=; b=2+SiOyCvTzvDZZCeuwWrAYwhzj
-        EWAQESOIDtQymDuYM0T7JpVes3xvB7NFWQ+KmJV1uAOpOiRJUBjTMIMZUpzF2ix6MOt0hGo62CWng
-        diwLKN81u+WjRqFmLkwMZ873sIws+XMLCIUxrN4I7r+ZaeFve8swojZ2Nb8EGuKmlXeIEB1nRyph2
-        AGmxrxbCZm5edKIVp4yRI47qeIEa85kNn0gl7iBuYuEaOtP2HtGe1Lkv6xia/XchQLm3DtxOaVah4
-        5sBY0LpYQziGvInjmbVYYVxDsXL3Jm0yMz0PJd+Su5dRSgTKQwyncOI0wCWZmAu3ILcI2jS/gxiK0
-        qG4NqsbA==;
-Received: from [2001:4bb8:181:656b:9509:7d20:8d39:f895] (helo=localhost)
-        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1pGDUo-000m9z-Df; Fri, 13 Jan 2023 06:24:59 +0000
-From:   Christoph Hellwig <hch@lst.de>
-To:     Yoshinori Sato <ysato@users.sourceforge.jp>,
-        Rich Felker <dalias@libc.org>, Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-kernel@vger.kernel.org, linux-watchdog@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-arch@vger.kernel.org,
-        dmaengine@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org,
-        linux-input@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-mmc@vger.kernel.org, linux-mtd@lists.infradead.org,
-        netdev@vger.kernel.org, linux-gpio@vger.kernel.org,
-        linux-rtc@vger.kernel.org, linux-spi@vger.kernel.org,
-        linux-serial@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-fbdev@vger.kernel.org, alsa-devel@alsa-project.org,
-        linux-sh@vger.kernel.org
-Subject: [PATCH 22/22] drivers: platform: remove early_platform_cleanup
-Date:   Fri, 13 Jan 2023 07:23:39 +0100
-Message-Id: <20230113062339.1909087-23-hch@lst.de>
-X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20230113062339.1909087-1-hch@lst.de>
-References: <20230113062339.1909087-1-hch@lst.de>
+        Fri, 13 Jan 2023 01:55:53 -0500
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C05171494;
+        Thu, 12 Jan 2023 22:41:12 -0800 (PST)
+X-UUID: 41e61f7e930d11eda06fc9ecc4dadd91-20230113
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+        h=Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=z3jvBq8prIW+2nxTySolV2oTR+8wYM/Zd0sr863uT3o=;
+        b=UaAjTgBTe5X8cbCCJRF7WV8Oeo05dTL+FnMkvL5vq9b0YntASyWcV+3KVxGIUPE/IVIXOfRitJB56DPJ7DzrFoURR8rd/t7lqGn32pIM2GAm4zhWJciy6Qd3lzwyxZTTDYLNZgrLPh9gL5wvcrOfpe37QheOUxZmGLyX+90XvCU=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.17,REQID:061cbabb-8932-4146-b5ea-b6af25ba8275,IP:0,U
+        RL:0,TC:0,Content:-25,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
+        N:release,TS:-25
+X-CID-META: VersionHash:543e81c,CLOUDID:27f0b5f5-ff42-4fb0-b929-626456a83c14,B
+        ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
+        RL:1,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0
+X-CID-BVR: 0,NGT
+X-UUID: 41e61f7e930d11eda06fc9ecc4dadd91-20230113
+Received: from mtkmbs11n1.mediatek.inc [(172.21.101.185)] by mailgw01.mediatek.com
+        (envelope-from <moudy.ho@mediatek.com>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+        with ESMTP id 2108194176; Fri, 13 Jan 2023 14:41:06 +0800
+Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
+ mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.792.15; Fri, 13 Jan 2023 14:41:05 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
+ mtkmbs11n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.792.15 via Frontend Transport; Fri, 13 Jan 2023 14:41:06 +0800
+From:   Moudy Ho <moudy.ho@mediatek.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
+CC:     Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+        <linux-media@vger.kernel.org>,
+        <linux-mediatek@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>,
+        <Project_Global_Chrome_Upstream_Group@mediatek.com>,
+        Moudy Ho <moudy.ho@mediatek.com>
+Subject: [PATCH v5 00/12] Add support for multiple chips
+Date:   Fri, 13 Jan 2023 14:40:52 +0800
+Message-ID: <20230113064104.22402-1-moudy.ho@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
-X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_NONE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain
+X-MTK:  N
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,
+        SPF_PASS,UNPARSEABLE_RELAY autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This weak stub was only overriden by the now remove sh architecture.
+Changes since v4:
+- Rebase on linux-next.
+- Fix potential frame size overflow in "mtk-mdp3-regs.c".
+- Fix OOB in MDP3 component clocks in "mtk-mdp3-comp.*".
+- Reconfigure the shared memory between MDP3 kerenl and SCP.
 
-Signed-off-by: Christoph Hellwig <hch@lst.de>
----
- drivers/base/platform.c         | 4 ----
- include/linux/platform_device.h | 3 ---
- 2 files changed, 7 deletions(-)
+Changes since v3:
+- Rebase on linux-next.
+- In the file "mtk-mdp3-m2m.c", use the limited resolution defined by
+  each platform to replace the default format.
+- Add platform ID in driver data, and refine shared memory structure preprocessing.
+- Simplify the way to get mutex ID in function "mdp_path_subfrm_require".
 
-diff --git a/drivers/base/platform.c b/drivers/base/platform.c
-index 968f3d71eeab2e..eb3feabf6c2f53 100644
---- a/drivers/base/platform.c
-+++ b/drivers/base/platform.c
-@@ -1506,14 +1506,10 @@ struct device *platform_find_device_by_driver(struct device *start,
- }
- EXPORT_SYMBOL_GPL(platform_find_device_by_driver);
- 
--void __weak __init early_platform_cleanup(void) { }
--
- int __init platform_bus_init(void)
- {
- 	int error;
- 
--	early_platform_cleanup();
--
- 	error = device_register(&platform_bus);
- 	if (error) {
- 		put_device(&platform_bus);
-diff --git a/include/linux/platform_device.h b/include/linux/platform_device.h
-index 894939a74dd20f..86692f730e3a12 100644
---- a/include/linux/platform_device.h
-+++ b/include/linux/platform_device.h
-@@ -352,7 +352,4 @@ extern int platform_pm_restore(struct device *dev);
- #define USE_PLATFORM_PM_SLEEP_OPS
- #endif
- 
--/* For now only SuperH uses it */
--void early_platform_cleanup(void);
--
- #endif /* _PLATFORM_DEVICE_H_ */
+Changes since v2:
+- Depend on :
+  [1] https://patchwork.kernel.org/project/linux-mediatek/list/?series=687004
+- Split the shared memory header(mtk-img-ipi.h) by preprocessing instead, and
+  classify the generic parts into "mtk-mdp3-type.h", and move
+  chip-specific parts to"mt8183/mdp3-comp-mt8183.h".
+
+Changes since v1:
+- Depend on :
+  [1] https://patchwork.kernel.org/project/linux-mediatek/list/?series=687004
+- For hardware-specific structures in the shared memory header(mtk-img-ipi.h),
+  split the relevant functions and structure definitions.
+
+Hi,
+
+To support multiple chips, a chip configuration header file needs to be created
+and the relevant information split and moved into it.
+
+The v4l2-compliance test results list is as follows:
+v4l2-compliance 1.23.0-4942, 32 bits, 32-bit time_t
+v4l2-compliance SHA: 4cf258c24026 2022-07-28 15:43:45
+
+Compliance test for mtk-mdp3 device /dev/video0:
+
+Driver Info:
+	Driver name      : mtk-mdp3
+	Card type        : MediaTek MDP3
+	Bus info         : platform:14001000.mdp3-rdma0
+	Driver version   : 6.2.0
+	Capabilities     : 0x84204000
+		Video Memory-to-Memory Multiplanar
+		Streaming
+		Extended Pix Format
+		Device Capabilities
+	Device Caps      : 0x04204000
+		Video Memory-to-Memory Multiplanar
+		Streaming
+		Extended Pix Format
+
+Required ioctls:
+	test VIDIOC_QUERYCAP: OK
+	test invalid ioctls: OK
+
+Allow for multiple opens:
+	test second /dev/video0 open: OK
+	test VIDIOC_QUERYCAP: OK
+	test VIDIOC_G/S_PRIORITY: OK
+	test for unlimited opens: OK
+
+Debug ioctls:
+	test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
+	test VIDIOC_LOG_STATUS: OK (Not Supported)
+
+Input ioctls:
+	test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+	test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+	test VIDIOC_ENUMAUDIO: OK (Not Supported)
+	test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
+	test VIDIOC_G/S_AUDIO: OK (Not Supported)
+	Inputs: 0 Audio Inputs: 0 Tuners: 0
+
+Output ioctls:
+	test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+	test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+	test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+	test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+	Outputs: 0 Audio Outputs: 0 Modulators: 0
+
+Input/Output configuration ioctls:
+	test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+	test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+	test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+	test VIDIOC_G/S_EDID: OK (Not Supported)
+
+Control ioctls:
+	test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
+	test VIDIOC_QUERYCTRL: OK
+	test VIDIOC_G/S_CTRL: OK
+	test VIDIOC_G/S/TRY_EXT_CTRLS: OK
+	test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
+	test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+	Standard Controls: 4 Private Controls: 0
+
+Format ioctls:
+	test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+	test VIDIOC_G/S_PARM: OK (Not Supported)
+	test VIDIOC_G_FBUF: OK (Not Supported)
+	test VIDIOC_G_FMT: OK
+	test VIDIOC_TRY_FMT: OK
+	test VIDIOC_S_FMT: OK
+	test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+	test Cropping: OK
+	test Composing: OK
+	test Scaling: OK
+
+Codec ioctls:
+	test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+	test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+	test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+
+Buffer ioctls:
+	test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+	test VIDIOC_EXPBUF: OK
+	test Requests: OK (Not Supported)
+	test TIME32/64: OK
+
+Test input 0:
+
+Streaming ioctls:
+	test read/write: OK (Not Supported)
+	test blocking wait: OK
+    (snip)
+	test MMAP (no poll): OK
+	(snip)
+	test MMAP (select): OK
+    (snip)
+	test MMAP (epoll): OK
+	test USERPTR (no poll): OK (Not Supported)
+	test USERPTR (select): OK (Not Supported)
+	test DMABUF: Cannot test, specify --expbuf-device
+
+Stream using all formats:
+	(snip)
+Total for mtk-mdp3 device /dev/video0: 1174, Succeeded: 1174, Failed: 0, Warnings: 0
+
+Moudy Ho (12):
+  media: platform: mtk-mdp3: fix potential frame size overflow in
+    mdp_try_fmt_mplane()
+  media: platform: mtk-mdp3: add chip configuration header file
+  media: platform: mtk-mdp3: chip config split about component settings
+  media: platform: mtk-mdp3: chip config split about subcomponents
+  media: platform: mtk-mdp3: chip config split about color format
+  media: platform: mtk-mdp3: chip config split about resolution
+    limitations
+  media: platform: mtk-mdp3: chip config split about pipe info
+  media: platform: mtk-mdp3: extend mdp_color format for compressed mode
+  media: platform: mtk-mdp3: dynamically allocate component clocks
+  media: platform: mtk-mdp3: Split general definitions used in MDP3
+  media: platform: mtk-mdp3: decompose hardware-related information in
+    shared memory
+  media: platform: mtk-mdp3: reconfigure shared memory
+
+ .../mediatek/mdp3/mt8183/mdp3-comp-mt8183.h   | 144 +++++
+ .../mediatek/mdp3/mt8183/mdp3-plat-mt8183.h   | 409 +++++++++++++
+ .../platform/mediatek/mdp3/mtk-img-ipi.h      | 188 +-----
+ .../platform/mediatek/mdp3/mtk-mdp3-cmdq.c    | 145 +++--
+ .../platform/mediatek/mdp3/mtk-mdp3-comp.c    | 567 ++++++++++++------
+ .../platform/mediatek/mdp3/mtk-mdp3-comp.h    |  27 +-
+ .../platform/mediatek/mdp3/mtk-mdp3-core.c    |  49 +-
+ .../platform/mediatek/mdp3/mtk-mdp3-core.h    |  18 +-
+ .../platform/mediatek/mdp3/mtk-mdp3-m2m.c     |  28 +-
+ .../platform/mediatek/mdp3/mtk-mdp3-m2m.h     |   1 -
+ .../platform/mediatek/mdp3/mtk-mdp3-regs.c    | 287 +--------
+ .../platform/mediatek/mdp3/mtk-mdp3-regs.h    | 214 +++----
+ .../platform/mediatek/mdp3/mtk-mdp3-type.h    |  53 ++
+ .../platform/mediatek/mdp3/mtk-mdp3-vpu.c     | 194 +++---
+ .../platform/mediatek/mdp3/mtk-mdp3-vpu.h     |  29 +-
+ 15 files changed, 1397 insertions(+), 956 deletions(-)
+ create mode 100644 drivers/media/platform/mediatek/mdp3/mt8183/mdp3-comp-mt8183.h
+ create mode 100644 drivers/media/platform/mediatek/mdp3/mt8183/mdp3-plat-mt8183.h
+ create mode 100644 drivers/media/platform/mediatek/mdp3/mtk-mdp3-type.h
+
 -- 
-2.39.0
+2.18.0
 
