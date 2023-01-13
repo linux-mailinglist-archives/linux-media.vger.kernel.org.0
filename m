@@ -2,30 +2,30 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3BCA0669381
-	for <lists+linux-media@lfdr.de>; Fri, 13 Jan 2023 10:57:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5F2FA669383
+	for <lists+linux-media@lfdr.de>; Fri, 13 Jan 2023 10:57:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232730AbjAMJ5j (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 13 Jan 2023 04:57:39 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42722 "EHLO
+        id S234855AbjAMJ5m (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 13 Jan 2023 04:57:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45214 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231154AbjAMJ5E (ORCPT
+        with ESMTP id S234010AbjAMJ5F (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 13 Jan 2023 04:57:04 -0500
+        Fri, 13 Jan 2023 04:57:05 -0500
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B6B6D676D9
-        for <linux-media@vger.kernel.org>; Fri, 13 Jan 2023 01:54:18 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7500168CA2
+        for <linux-media@vger.kernel.org>; Fri, 13 Jan 2023 01:54:19 -0800 (PST)
 Received: from dude05.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::54])
         by metis.ext.pengutronix.de with esmtp (Exim 4.92)
         (envelope-from <m.tretter@pengutronix.de>)
-        id 1pGGlM-0003cp-El; Fri, 13 Jan 2023 10:54:16 +0100
+        id 1pGGlM-0003cp-W1; Fri, 13 Jan 2023 10:54:17 +0100
 From:   Michael Tretter <m.tretter@pengutronix.de>
-Date:   Fri, 13 Jan 2023 10:54:18 +0100
-Subject: [PATCH v2 12/16] media: imx-pxp: Pass pixel format value to find_format()
+Date:   Fri, 13 Jan 2023 10:54:19 +0100
+Subject: [PATCH v2 13/16] media: imx-pxp: Implement frame size enumeration
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230112-imx-pxp-v2-12-e2281da1db55@pengutronix.de>
+Message-Id: <20230112-imx-pxp-v2-13-e2281da1db55@pengutronix.de>
 References: <20230112-imx-pxp-v2-0-e2281da1db55@pengutronix.de>
 In-Reply-To: <20230112-imx-pxp-v2-0-e2281da1db55@pengutronix.de>
 To:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
@@ -54,80 +54,60 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-The find_format() function looks up format information for a given pixel
-format. It takes a v4l2_format pointer, but only uses the contained
-pixel format value. To prepare it for being used by callers that don't
-have v4l2_format, modify it to take the pixel format value directly.
+Implement support for the VIDIOC_ENUM_FRAMESIZES ioctl.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Reviewed-by: Michael Tretter <m.tretter@pengutronix.de>
 Signed-off-by: Michael Tretter <m.tretter@pengutronix.de>
 ---
-Changelog
+Changes since v1:
 
-v2:
-
-- Pick from https://lore.kernel.org/linux-media/20230112172507.30579-1-laurent.pinchart@ideasonboard.com
+- Use 1 << ALIGN_*
+- Pick from https://lore.kernel.org/linux-media/20230112172507.30579-1-laurent.pinchart@ideasonboard.com/
 ---
- drivers/media/platform/nxp/imx-pxp.c | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+ drivers/media/platform/nxp/imx-pxp.c | 22 ++++++++++++++++++++++
+ 1 file changed, 22 insertions(+)
 
 diff --git a/drivers/media/platform/nxp/imx-pxp.c b/drivers/media/platform/nxp/imx-pxp.c
-index 351e76ee32ca..9e2e522d9241 100644
+index 9e2e522d9241..f34eba62f7d6 100644
 --- a/drivers/media/platform/nxp/imx-pxp.c
 +++ b/drivers/media/platform/nxp/imx-pxp.c
-@@ -176,14 +176,14 @@ enum {
- 	V4L2_M2M_DST = 1,
- };
+@@ -1379,6 +1379,26 @@ static int pxp_s_fmt_vid_out(struct file *file, void *priv,
+ 	return 0;
+ }
  
--static struct pxp_fmt *find_format(struct v4l2_format *f)
-+static struct pxp_fmt *find_format(unsigned int pixelformat)
++static int pxp_enum_framesizes(struct file *file, void *fh,
++			       struct v4l2_frmsizeenum *fsize)
++{
++	if (fsize->index > 0)
++		return -EINVAL;
++
++	if (!find_format(fsize->pixel_format))
++		return -EINVAL;
++
++	fsize->type = V4L2_FRMSIZE_TYPE_STEPWISE;
++	fsize->stepwise.min_width = MIN_W;
++	fsize->stepwise.max_width = MAX_W;
++	fsize->stepwise.step_width = 1 << ALIGN_W;
++	fsize->stepwise.min_height = MIN_H;
++	fsize->stepwise.max_height = MAX_H;
++	fsize->stepwise.step_height = 1 << ALIGN_H;
++
++	return 0;
++}
++
+ static u8 pxp_degrees_to_rot_mode(u32 degrees)
  {
- 	struct pxp_fmt *fmt;
- 	unsigned int k;
+ 	switch (degrees) {
+@@ -1447,6 +1467,8 @@ static const struct v4l2_ioctl_ops pxp_ioctl_ops = {
+ 	.vidioc_try_fmt_vid_out	= pxp_try_fmt_vid_out,
+ 	.vidioc_s_fmt_vid_out	= pxp_s_fmt_vid_out,
  
- 	for (k = 0; k < NUM_FORMATS; k++) {
- 		fmt = &formats[k];
--		if (fmt->fourcc == f->fmt.pix.pixelformat)
-+		if (fmt->fourcc == pixelformat)
- 			break;
- 	}
- 
-@@ -1256,10 +1256,10 @@ static int pxp_try_fmt_vid_cap(struct file *file, void *priv,
- 	struct pxp_fmt *fmt;
- 	struct pxp_ctx *ctx = file2ctx(file);
- 
--	fmt = find_format(f);
-+	fmt = find_format(f->fmt.pix.pixelformat);
- 	if (!fmt) {
- 		f->fmt.pix.pixelformat = formats[0].fourcc;
--		fmt = find_format(f);
-+		fmt = find_format(f->fmt.pix.pixelformat);
- 	}
- 	if (!(fmt->types & MEM2MEM_CAPTURE)) {
- 		v4l2_err(&ctx->dev->v4l2_dev,
-@@ -1284,10 +1284,10 @@ static int pxp_try_fmt_vid_out(struct file *file, void *priv,
- 	struct pxp_fmt *fmt;
- 	struct pxp_ctx *ctx = file2ctx(file);
- 
--	fmt = find_format(f);
-+	fmt = find_format(f->fmt.pix.pixelformat);
- 	if (!fmt) {
- 		f->fmt.pix.pixelformat = formats[0].fourcc;
--		fmt = find_format(f);
-+		fmt = find_format(f->fmt.pix.pixelformat);
- 	}
- 	if (!(fmt->types & MEM2MEM_OUTPUT)) {
- 		v4l2_err(&ctx->dev->v4l2_dev,
-@@ -1320,7 +1320,7 @@ static int pxp_s_fmt(struct pxp_ctx *ctx, struct v4l2_format *f)
- 		return -EBUSY;
- 	}
- 
--	q_data->fmt		= find_format(f);
-+	q_data->fmt		= find_format(f->fmt.pix.pixelformat);
- 	q_data->width		= f->fmt.pix.width;
- 	q_data->height		= f->fmt.pix.height;
- 	q_data->bytesperline	= f->fmt.pix.bytesperline;
++	.vidioc_enum_framesizes	= pxp_enum_framesizes,
++
+ 	.vidioc_reqbufs		= v4l2_m2m_ioctl_reqbufs,
+ 	.vidioc_querybuf	= v4l2_m2m_ioctl_querybuf,
+ 	.vidioc_qbuf		= v4l2_m2m_ioctl_qbuf,
 
 -- 
 2.30.2
