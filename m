@@ -2,30 +2,30 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EB3D0669379
-	for <lists+linux-media@lfdr.de>; Fri, 13 Jan 2023 10:57:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3F014669380
+	for <lists+linux-media@lfdr.de>; Fri, 13 Jan 2023 10:57:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240846AbjAMJ5d (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 13 Jan 2023 04:57:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45146 "EHLO
+        id S239619AbjAMJ5h (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 13 Jan 2023 04:57:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42904 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241239AbjAMJ5A (ORCPT
+        with ESMTP id S241070AbjAMJ5D (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 13 Jan 2023 04:57:00 -0500
+        Fri, 13 Jan 2023 04:57:03 -0500
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 315E5671AA
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D55F7676C6
         for <linux-media@vger.kernel.org>; Fri, 13 Jan 2023 01:54:17 -0800 (PST)
 Received: from dude05.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::54])
         by metis.ext.pengutronix.de with esmtp (Exim 4.92)
         (envelope-from <m.tretter@pengutronix.de>)
-        id 1pGGlK-0003cp-SI; Fri, 13 Jan 2023 10:54:14 +0100
+        id 1pGGlL-0003cp-Ct; Fri, 13 Jan 2023 10:54:15 +0100
 From:   Michael Tretter <m.tretter@pengutronix.de>
-Date:   Fri, 13 Jan 2023 10:54:15 +0100
-Subject: [PATCH v2 09/16] media: imx-pxp: Sort headers alphabetically
+Date:   Fri, 13 Jan 2023 10:54:16 +0100
+Subject: [PATCH v2 10/16] media: imx-pxp: Don't set bus_info manually in .querycap()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230112-imx-pxp-v2-9-e2281da1db55@pengutronix.de>
+Message-Id: <20230112-imx-pxp-v2-10-e2281da1db55@pengutronix.de>
 References: <20230112-imx-pxp-v2-0-e2281da1db55@pengutronix.de>
 In-Reply-To: <20230112-imx-pxp-v2-0-e2281da1db55@pengutronix.de>
 To:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
@@ -54,8 +54,10 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-Sorting headers alphabetically helps locating duplicates, and make it
-easier to figure out where to insert new headers.
+The v4l2_capability.bus_info field is set by the V4L2 core when left
+empty by the .querycap() handler. This is the recommended practice, in
+order to ensure bus_info coherence between drivers. Don't set it
+manually.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Reviewed-by: Michael Tretter <m.tretter@pengutronix.de>
@@ -67,33 +69,22 @@ v2:
 
 - Pick from https://lore.kernel.org/linux-media/20230112172507.30579-1-laurent.pinchart@ideasonboard.com
 ---
- drivers/media/platform/nxp/imx-pxp.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ drivers/media/platform/nxp/imx-pxp.c | 2 --
+ 1 file changed, 2 deletions(-)
 
 diff --git a/drivers/media/platform/nxp/imx-pxp.c b/drivers/media/platform/nxp/imx-pxp.c
-index aabe10f21c8b..ad11ac530f96 100644
+index ad11ac530f96..86ccc3c4aae3 100644
 --- a/drivers/media/platform/nxp/imx-pxp.c
 +++ b/drivers/media/platform/nxp/imx-pxp.c
-@@ -20,15 +20,15 @@
- #include <linux/module.h>
- #include <linux/of.h>
- #include <linux/of_device.h>
-+#include <linux/platform_device.h>
- #include <linux/sched.h>
- #include <linux/slab.h>
+@@ -1107,8 +1107,6 @@ static int pxp_querycap(struct file *file, void *priv,
+ {
+ 	strscpy(cap->driver, MEM2MEM_NAME, sizeof(cap->driver));
+ 	strscpy(cap->card, MEM2MEM_NAME, sizeof(cap->card));
+-	snprintf(cap->bus_info, sizeof(cap->bus_info),
+-			"platform:%s", MEM2MEM_NAME);
+ 	return 0;
+ }
  
--#include <linux/platform_device.h>
--#include <media/v4l2-mem2mem.h>
--#include <media/v4l2-device.h>
--#include <media/v4l2-ioctl.h>
- #include <media/v4l2-ctrls.h>
-+#include <media/v4l2-device.h>
- #include <media/v4l2-event.h>
-+#include <media/v4l2-ioctl.h>
-+#include <media/v4l2-mem2mem.h>
- #include <media/videobuf2-dma-contig.h>
- 
- #include "imx-pxp.h"
 
 -- 
 2.30.2
