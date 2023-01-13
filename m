@@ -2,33 +2,33 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A11376695FA
-	for <lists+linux-media@lfdr.de>; Fri, 13 Jan 2023 12:53:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D3792669604
+	for <lists+linux-media@lfdr.de>; Fri, 13 Jan 2023 12:54:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241271AbjAMLvl convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Fri, 13 Jan 2023 06:51:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37278 "EHLO
+        id S241467AbjAMLvr convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Fri, 13 Jan 2023 06:51:47 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37280 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232204AbjAMLvT (ORCPT
+        with ESMTP id S240928AbjAMLvU (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 13 Jan 2023 06:51:19 -0500
+        Fri, 13 Jan 2023 06:51:20 -0500
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6AF334D700
-        for <linux-media@vger.kernel.org>; Fri, 13 Jan 2023 03:46:09 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B387CBB7
+        for <linux-media@vger.kernel.org>; Fri, 13 Jan 2023 03:46:13 -0800 (PST)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
         by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <p.zabel@pengutronix.de>)
-        id 1pGIVb-0007h1-Og; Fri, 13 Jan 2023 12:46:07 +0100
+        id 1pGIVg-0007n2-0z; Fri, 13 Jan 2023 12:46:12 +0100
 Received: from [2a0a:edc0:0:900:1d::4e] (helo=lupine)
         by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
         (envelope-from <p.zabel@pengutronix.de>)
-        id 1pGIVa-005krm-N0; Fri, 13 Jan 2023 12:46:06 +0100
+        id 1pGIVf-005krr-BO; Fri, 13 Jan 2023 12:46:11 +0100
 Received: from pza by lupine with local (Exim 4.94.2)
         (envelope-from <p.zabel@pengutronix.de>)
-        id 1pGIVa-0005ug-3P; Fri, 13 Jan 2023 12:46:06 +0100
-Message-ID: <4599f59e689637ba453cebd53cbc076135a16c6c.camel@pengutronix.de>
-Subject: Re: [PATCH v2 01/16] dt-bindings: media: fsl-pxp: convert to yaml
+        id 1pGIVd-0005uw-TJ; Fri, 13 Jan 2023 12:46:09 +0100
+Message-ID: <c3e7d478b785f63aa464e6efdcf987cedc34cf9c.camel@pengutronix.de>
+Subject: Re: [PATCH v2 02/16] media: imx-pxp: detect PXP version
 From:   Philipp Zabel <p.zabel@pengutronix.de>
 To:     Michael Tretter <m.tretter@pengutronix.de>,
         linux-media@vger.kernel.org, devicetree@vger.kernel.org,
@@ -40,10 +40,10 @@ Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Alexander Stein <alexander.stein@ew.tq-group.com>,
         kernel@pengutronix.de, linux-imx@nxp.com,
         linux-arm-kernel@lists.infradead.org
-Date:   Fri, 13 Jan 2023 12:46:06 +0100
-In-Reply-To: <20230112-imx-pxp-v2-1-e2281da1db55@pengutronix.de>
+Date:   Fri, 13 Jan 2023 12:46:09 +0100
+In-Reply-To: <20230112-imx-pxp-v2-2-e2281da1db55@pengutronix.de>
 References: <20230112-imx-pxp-v2-0-e2281da1db55@pengutronix.de>
-         <20230112-imx-pxp-v2-1-e2281da1db55@pengutronix.de>
+         <20230112-imx-pxp-v2-2-e2281da1db55@pengutronix.de>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8BIT
 User-Agent: Evolution 3.38.3-1+deb11u1 
@@ -61,13 +61,9 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 On Fr, 2023-01-13 at 10:54 +0100, Michael Tretter wrote:
-> Convert the bindings of the Freescale Pixel Pipeline to YAML.
-> 
-> The conversion drops the previously listed compatibles for several SoCs.
-> It is unclear, if the PXP on these SoCs is compatible to any of the PXPs
-> on the existing SoCs and would allow to reuse the already defined
-> compatibles. The missing compatibles should be brought back when the
-> support for the PXP on these SoCs is added.
+> Different versions of the Pixel Pipeline have different blocks and their
+> routing may be different. Read the PXP_HW_VERSION register to determine
+> the version of the PXP and print it to the log for debugging purposes.
 > 
 > Signed-off-by: Michael Tretter <m.tretter@pengutronix.de>
 
