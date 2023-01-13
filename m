@@ -2,44 +2,44 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CFAB7668AC6
-	for <lists+linux-media@lfdr.de>; Fri, 13 Jan 2023 05:18:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9A65E668B49
+	for <lists+linux-media@lfdr.de>; Fri, 13 Jan 2023 06:27:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233400AbjAMERr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 12 Jan 2023 23:17:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37788 "EHLO
+        id S237953AbjAMF1T (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 13 Jan 2023 00:27:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32876 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235614AbjAMEQq (ORCPT
+        with ESMTP id S234573AbjAMF02 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 12 Jan 2023 23:16:46 -0500
-Received: from EUR05-VI1-obe.outbound.protection.outlook.com (mail-vi1eur05on2044.outbound.protection.outlook.com [40.107.21.44])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2F5869535;
-        Thu, 12 Jan 2023 20:13:34 -0800 (PST)
+        Fri, 13 Jan 2023 00:26:28 -0500
+Received: from EUR04-HE1-obe.outbound.protection.outlook.com (mail-he1eur04on2051.outbound.protection.outlook.com [40.107.7.51])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E79961319;
+        Thu, 12 Jan 2023 21:26:10 -0800 (PST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=V5wH9eVWQZhE0iDWqL/OhWG0TiyGjsku5zpRcSJmO/kju1wVDBxygATxZGkmQ3xziHF8AuQ8oxV48iegXn19AmVIYwijxYuuGNQ86VJzz91YnjknGcESItWY6jj62BmyeDWCWqcLENzYU5tvHcosIwA9YorFM5UqsFfV34OhH7n4N9GVvNDLn61LWGLqhGX1WpOep80gk4mwTjfpisdEXm2XB5lCZTB7/eWHSrDiz/MriSDEq9UbrVm9jMzZCEDKfou2l4A6pnLYPzET//wGpt/AhNbi9AwdXqpOU8AHnCcQOHzfFHHce4MFmDRqzRMGPTNsHIi5ymAwX0yr7z6F8Q==
+ b=nDvomM20gxJUBjdlU4Lqx82zw+jZmCG/2RjcUE9QPjtrTKlmgmY/JKbFtoXU37ahreXztNPexS2vnD1sv3c6WfxdrDZgNd8g+uFNQzj904Dvt80LKtWm7jCMjDErEK2IY0/L7qlJAlvrc5snRuUWIRjR0C2n6EU72+6986Wg2Fe4VGWe+VdmJ6hVrERAWyUbcbn4/QNu4KvO34f58kW5jQqc11pxrQCA6siu2aHYVrAHz2pfDNicvAcgnxQGRt302dia8YLp4rkKchDHYL19Zusi7gyiGuyrlKSG4+rVSbUx9qsmZ7mE+d3yt0YpGahIfeOFSXv8ep3dHeH9NQaAGA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=OZd/pf9Nctz2lcb09rfma/BLcXqoUAi2b/OPSEzICU8=;
- b=da8tYMMaOr8z6tQ4XyjmY230YcHqhxjdiTjBo0/gtMQpfVhwyToL2YnK9SEuMBJnWF2z9AcEebZ4KtmanNkLCgBv9PdUeLcitNNKR5fc5jZlu++8WoMn61pdPqA9SaVYObRDr4rihZX6GqmZnPohvYPo9p+f5Zt1SeQ5oI2dmF4ufAYIZ5vlRN1L1HsHcPUUuyFu6q3XzDBBOpu6vHCfHSh8Wadep6vrIGjFVuXjvk233zzuqZnYRdX+LsBnr8s6UZQX8OWEE0RJxqA9Av90Qvg/nq6IZoPYuLz5N5e6TJYNrz+AEkbBnOehgKtMl1a+gfVM5Iyk/h9ZmOA1JZlMUg==
+ bh=bZFW5qfP/3fmDN96yw4B3bYfhN3k1vpunXPTAW6utwM=;
+ b=Fp5ExSPLVG83cbmY9ud4as8EOBkWzPv8qTWM9k80xYbxYWXwDPJdr55JCMXcezbpOOvTTW9ZKzimhf4kwZBzWGA7XyFlznSsY2OlCb5qLZMh/JNQMjLgWOlztROtAfp90xthOsQQSgKsAg0El8x/82z9jFUUtbzEH5EMWJTb56QGBeKBa63WdHiGHKB/vftXa7NEcTEx3MYIR0cGordAWhvE5WzXJ+VqvbOOpLviSMFdb6SFn8hMDgOpc06cpJNAmiz6siBKJ5RiBmQa1CSha2zreCx3kg2xoFyWlLiFsAcUanVqVwYrXG0NII6SOkLOq/6IqWpxjAfG0CcDg3c7bw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
  header.d=nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=OZd/pf9Nctz2lcb09rfma/BLcXqoUAi2b/OPSEzICU8=;
- b=hjYIqeJYhS+vKWZrATua80RlQZ87Jd1akujQWYoQMF11d2iUKjL4jCPdLMnvLE2Togm9IuoECIOcQ/tHFtoP9ePeWLW7U6jGTyshcLu98ZhplYbx7yvhFiY2iFzGVbarJEPKvL57JWlchflQy0Yc57ZOQf5ujL1OfIWm11f7Qa8=
+ bh=bZFW5qfP/3fmDN96yw4B3bYfhN3k1vpunXPTAW6utwM=;
+ b=fNPKe2gMoj+mWJkmUBML1W3m9PNA/yyYhyhuA4/H/0z7HgWiJuBEh/F6eEHKNEnY34Aj+wJ3xKesIVW4yudOAt9tuMFEvLPSCmMbdLtl0xMtDr2aMVR0owlxnwex18poC7WE7MDl+5Y2YPR6TDkLfXAguBmVkoJgrzzEiJpmWig=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nxp.com;
 Received: from AM6PR04MB6341.eurprd04.prod.outlook.com (2603:10a6:20b:d8::14)
- by AM8PR04MB7441.eurprd04.prod.outlook.com (2603:10a6:20b:1c4::7) with
+ by DBBPR04MB8043.eurprd04.prod.outlook.com (2603:10a6:10:1e7::18) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6002.12; Fri, 13 Jan
- 2023 04:13:31 +0000
+ 2023 05:26:07 +0000
 Received: from AM6PR04MB6341.eurprd04.prod.outlook.com
  ([fe80::3a82:42b3:f1ed:5c3d]) by AM6PR04MB6341.eurprd04.prod.outlook.com
  ([fe80::3a82:42b3:f1ed:5c3d%7]) with mapi id 15.20.6002.013; Fri, 13 Jan 2023
- 04:13:31 +0000
+ 05:26:07 +0000
 From:   Ming Qian <ming.qian@nxp.com>
 To:     mchehab@kernel.org, hverkuil-cisco@xs4all.nl
 Cc:     shawnguo@kernel.org, robh+dt@kernel.org, s.hauer@pengutronix.de,
@@ -47,65 +47,63 @@ Cc:     shawnguo@kernel.org, robh+dt@kernel.org, s.hauer@pengutronix.de,
         xiahong.bao@nxp.com, eagle.zhou@nxp.com, tao.jiang_2@nxp.com,
         linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org
-Subject: [PATCH v3 2/2] media: amphion: support to decode RealVideo video
-Date:   Fri, 13 Jan 2023 12:13:07 +0800
-Message-Id: <7e51bb1653eac32bcedffdff740fd0ebe8a96720.1673582851.git.ming.qian@nxp.com>
+Subject: [PATCH] media: amphion: correct the unspecified color space
+Date:   Fri, 13 Jan 2023 13:25:51 +0800
+Message-Id: <20230113052551.23708-1-ming.qian@nxp.com>
 X-Mailer: git-send-email 2.38.1
-In-Reply-To: <cover.1673582851.git.ming.qian@nxp.com>
-References: <cover.1673582851.git.ming.qian@nxp.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: SG2PR06CA0230.apcprd06.prod.outlook.com
- (2603:1096:4:ac::14) To AM6PR04MB6341.eurprd04.prod.outlook.com
+X-ClientProxiedBy: SG2PR01CA0112.apcprd01.prod.exchangelabs.com
+ (2603:1096:4:40::16) To AM6PR04MB6341.eurprd04.prod.outlook.com
  (2603:10a6:20b:d8::14)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM6PR04MB6341:EE_|AM8PR04MB7441:EE_
-X-MS-Office365-Filtering-Correlation-Id: 695219ae-962b-457f-d4fd-08daf51c87e0
+X-MS-TrafficTypeDiagnostic: AM6PR04MB6341:EE_|DBBPR04MB8043:EE_
+X-MS-Office365-Filtering-Correlation-Id: a205ce03-d1ba-4d93-36f1-08daf526abf2
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: A51+iQJMksG+//w3YRBh1ZpMYc4lrghknUCkMh7+xXxnQ5FwenvKUG4R5vuTYAMQnZprnqS1AFCY9loPDmzbI3DxDfwxjD4Nil/IG+tdF/58qxetP/5VKcBBKNrnrHakWOeYCNtvlR3Ri0Uo+fixrTzJht7WV7HftsqcVig65NLtFMewkvHVegcRW2n3ZBDqXaPi6nCvN8jjhYwxWZ6YbX80zIzX2zstae+DUl+/M8Yc+ljFZAxuaF7V2CHZ0a4E09WRjjgVG2QKwh1CLjNInAad62avfSp/ZlRZAnyYQ/C176cltUiZCVXuz/9kpkCMZJi6MGEmKpjN+tc9ORmRs/3/KuXkHulFHur6HzNuRc2HTjafI9es+66AXVT59dYlWVoTqS68kUy97yQqx23SzcFLGwDEb3nmKpg8C4k8iOT0lXkGBJ9CFL+5WULGw5/16gwwW+z/zAk8TZfao0chPRPYwmoRW2cr36ANML9Z5F7yfqa9bHcjkwb+nhMPaDbv1JUb22fQLlQ+Cey6dYhTZIHVhjNalEpbmOL/D3XU6I2dJyCgqaLbyxQgXss1WBz1OmTZGrDPxFH37UXxYIa4PMJtKWH16SbSkcV2Q9nInAntpVGfidKfZkZ2//WIwoN3QZNR/H9dcXEt/okXOLs8W61yX2E2uUZcbK3lXLSyoUxXL95vlpPfxB38IL0AMVqW
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6PR04MB6341.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(376002)(366004)(136003)(396003)(39860400002)(346002)(451199015)(26005)(6486002)(478600001)(52116002)(6512007)(186003)(316002)(2616005)(8676002)(66556008)(66946007)(66476007)(6506007)(4326008)(6666004)(41300700001)(2906002)(83380400001)(44832011)(8936002)(5660300002)(7416002)(38350700002)(38100700002)(86362001)(36756003);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: TBePorAdx8K+WP1fgZXKrKJ1CLK8QTBGWFZrHPks8uzf5AeDsUsxPpgIdI+YnUm2XIjmfIj+7FTeWxmP1YGYkPSGwTKyBLEftzKo29X1nFF/WVsHo3KcaB/xCSsSE6FxKrERiJhiwRc/RuThMlOcstWoseswQSwooeu0X0cmlM5TwyCkJ0++93CXuA+20RJg9T7s+QeDbAtUqqWYUy//W25euvR3OSeQpECkk5aWKZrzVGqerc7jA/g+SFmIik3B3JVk+i+BrctgKZXoiHzoKkYMS/G2ddt/YHsGRfUV4ayUX31/oE6ybZEurLNDYvvwK+CUfqw+h0VgSCTcYlpZ3xD7ZcsS5UF3ZUHVjgLTNHutChCXNq1Esoj3AL58TUkLlaVbmOqCwWZBOjbqj1ebtKdvaV86dgo8x1O7nKfQJ0oAgSEzU3FfnQ7KWnd40ylkp36C2UTIED0YHttNoICOR9V26tOUHs1LcQfoKxe6dUOWxEhf/oGPsZxLCLOzYab9xgsFPZSwmOZiJ4Irl1DHtjDMH4R9e4cNnEcsKxZiyHHtBc5Qu2s2Ln/dC2O99GxmKcAVPN6qVg7zGQ+rqsXEt08bh9rT6ookY6AT75JGTk3JsAAY/wcJiUlmnvBqfIw9dbswyIbKgb9t+0BDUJBbeuhVre2XAo8+20wrFA/2lWBqolvHN4ilgpHbi5lQTkVq700JWMGCp/xRbYpyIT78xw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6PR04MB6341.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(346002)(376002)(396003)(136003)(39860400002)(366004)(451199015)(8936002)(66946007)(66556008)(7416002)(4326008)(26005)(86362001)(66476007)(41300700001)(8676002)(5660300002)(186003)(478600001)(36756003)(2906002)(6486002)(52116002)(44832011)(316002)(6666004)(1076003)(6512007)(6506007)(2616005)(38100700002)(38350700002)(83380400001);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?EGomi/16/cBeDU6uQ5tZP9nAPezBTbIkcIgmB3Xil5VlYd3qMXup9V2Quxx3?=
- =?us-ascii?Q?sjPywXaBobzk4PdL3Ezyk1ynBbxaZBfJAgzhGxqVHM83zoEk7uYQdeiBbv3U?=
- =?us-ascii?Q?06Qrs/RdqxtafZL3vBeeHbf6E0ei0SdU+yY9+b7Ub0302PWWdQ5cjovtq2uF?=
- =?us-ascii?Q?r0Cf/YjFZF6zwtBVl0bMCjJtYc9vxrh01cNqs9lkIxVTT+d2/34ook+M6wcj?=
- =?us-ascii?Q?sUx8JvkTDhLfN5Q6VMngS7ZzxxDa0L/ayZ7as+uSXzwHB5+6/FQEIpcf/Tv4?=
- =?us-ascii?Q?RUi6FPZJY/v1/KxdJZkPClfQlvVzIi23PwlMT+FkDAWr/Vgqbl7/nzYrQn0j?=
- =?us-ascii?Q?xkHMzjkeIcfF70gfPijPS3B4jNtE1XpWxjeHHMbyKKyMpK66ovWruFtyJfUJ?=
- =?us-ascii?Q?jd73a3dD93O1sGkeXN3gP5wkzeJp0v7GvXzM1L52EnFsy2Bdru77AIuVHfCo?=
- =?us-ascii?Q?LvTzbYpbXltifMOXsbSPMxG5tbfr0S+kD3Hwwjig+pTaBWZ7cCRZeoAG2Ef9?=
- =?us-ascii?Q?+Aq3CyAxrrhlmLDknk7WVkhyDTlKPbMXBEVA3H87eOwseKoHnZyJUMG+w+K+?=
- =?us-ascii?Q?WTyxjOoWE+CB5WqYJf1ZOXPt0ohnjWUT/gsvO35Ka55PDDGxz8UW8MDsTtkp?=
- =?us-ascii?Q?WYny9Fi9cjg7c9rv9tNEhcYC/xGxN1q82G89CC0htjM1VmC9EFDJUbviqr2/?=
- =?us-ascii?Q?ixq7/HmjVrcnSpaXDNwC7J/6Mhrzq+jnGk6VBhlZwaYHvhwwvb1vNjyVUPK7?=
- =?us-ascii?Q?PLB0mVFEgkHGnQ6CuK8b8tP7vCO+9ft2rtUcpFcYnyEPD2iJ3DLiBC+1QpTz?=
- =?us-ascii?Q?pj7QoD7mMk+4C+VWSNtgiPlpW3ca6EZUPN4k8ucXezOfNVoN4ycXyvuBMSnA?=
- =?us-ascii?Q?My9ji8eYQIq2zsrRnV5M02SrEUYPqkJ4VRXJKB/PLD3i8qohX6pr89RmYify?=
- =?us-ascii?Q?0ZLDjSxOGB7HdBpPIu1n9ujXsWw1cApbHSz4X9Fl8bKS6Gg8eXdRKYMDqZXT?=
- =?us-ascii?Q?fR4YOmX8Ec7oj65MiR59gQZGns/boymChM/fMWa9xxZDWebSNRpMYmiPM4aM?=
- =?us-ascii?Q?cu13DUgxdkY/IGJN5Hrn/wthZb3bJJuH7FlH7EE/+FSv2/UMboXgnfJx+7Si?=
- =?us-ascii?Q?y27oaZeQWeiBRfzHx4+gPBfP3BeqlABBcLkdIJQ10haROg/RZKZPlcaOXWHL?=
- =?us-ascii?Q?JtZtO7V3fjGudk2thEabFfVfCkSOuceQreztOwwRwNHL9y4z99jt5s586DBF?=
- =?us-ascii?Q?u8hFViCqbjJksEG9pgmbgkoJfwh/vlcdvcoiuS+1/QQUTSbg2J5lYUBPW3II?=
- =?us-ascii?Q?ZOeiM0l/inBzY7NM5RhSxYjHnr5Rh6KiXNlHZeL7FFMIUGJAMcLRcVyFPAWJ?=
- =?us-ascii?Q?y5hIfjcJhpEgpiMaPqPTmRkWxXajCQQYSXFQ57oCQjiInW5Aea1eTIG5NDDW?=
- =?us-ascii?Q?R0GS4XdZMNLwRXbH+xbFfRN3KgUTdb2spfzKx9ob6i7hqTZgg9+eQ43/M7u3?=
- =?us-ascii?Q?IvFWwIWd4WQwj21EvC5zrm3xLKe9lR4GKgN7xaUWq/Znzpn53ba2gyCOeutx?=
- =?us-ascii?Q?dDvZnZvf/FdKFPk0bFEuGYdCNX5v2CZUIYlIzHVv?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?2JIID5zU7MuSMOStY8+81b0hRmULjlBV+MDk7kyaEv2A3hOlRuQKMzs/9nsX?=
+ =?us-ascii?Q?V9Uj3pSiH4cMXqTFbz2VYOj8lle9CdmoUdmE+x7D9xY+5XP9w6HWyIyWK0ay?=
+ =?us-ascii?Q?6ufnLoV8eqld5fN8SWAvGREyYUW7fXzvU6GVcE/xEezdSjWBkRk2T/7GZfYD?=
+ =?us-ascii?Q?npqQnfJyjqOK0lm10TkWK2osYilTQscfeIIQ0K3C4OeHFQgHLb0/Y7atu8u5?=
+ =?us-ascii?Q?y+o6ZQCQjUlA0Y5/TBnnmyRl2NyjM8w0VuoCX1teRGzhjTVCgF2lRCQy0sfq?=
+ =?us-ascii?Q?d8VPmrTiSU/C8+g/z5VWRS6qqYKg8iK7jI957EN0CrTdpl14TW0IgPjgCHYc?=
+ =?us-ascii?Q?b+HT0XkvBgR0Rex1HsXoqsTLdRx1adb29LFJv8vMGvobq6r5Jgqnr370Q/9C?=
+ =?us-ascii?Q?aSSshPSeFlo47CiTxvaTeq4Dhlzy2K5ED65+p1ToLMDS2/T39mEGGhyVWknB?=
+ =?us-ascii?Q?k2QJOvdVcBdkiDlZaLuBUamYcfJ6ywGXPRC81jspu3pOyLdSXVT+Zo42YQ2O?=
+ =?us-ascii?Q?1wlJZ9yC2CRYq5SsnzoJhb5vZjwC3w8ztqPgGdBD8XFHuk8zTTVovjywFmM4?=
+ =?us-ascii?Q?6GTYGr8HMgWVSY2o9mH4Aa5rddYhXI11R/co5cQG0BG7r3XiQbUeIqt1yCgk?=
+ =?us-ascii?Q?+FCnk9nEoIgOjhtUl4AcR0OiOcdp2MlykJyocq+L2dZPa6bnUqKAuCA7TsQ8?=
+ =?us-ascii?Q?I49fAtv3kAwUgY2o51VsuAe2XQAYC/lHncbPvfuSK70O1/QeakFVZaMfI+pV?=
+ =?us-ascii?Q?Q91ez88NReit9ldeE5RFbAy9AqSN7Tos4DqDKaCziJdAYf50FcHWkHJli7u1?=
+ =?us-ascii?Q?DPtKyxQPyOqWLD2qIwpEgBdsV/E5HbOt2dnf9M7SbVaiuw7fBr3Q/RKwgBuF?=
+ =?us-ascii?Q?7tiu++Cx7KND7a5c07zAi0AnGwH4TfD5hCoBM1+VWuEPeC/KEJzTh8cYt3Ry?=
+ =?us-ascii?Q?IqTvHjYK8ApEzNkr5HZRMx8xPWZm68/Q1V2q/dXhxCYaSOLHENrX+iJy8OLJ?=
+ =?us-ascii?Q?+51AziakYJUTnZ+HfrbECwwda8Cc4ZaDMVpk95zZJ7Nn0LAWDLmr7hgcBRqr?=
+ =?us-ascii?Q?jDblsG/T4jNnFtlZP8+3I+PcnQbrFgzJrsM88pKdLM/k43pbQXEJq7HLULc/?=
+ =?us-ascii?Q?FxnzJNpca6zzlSxoVriCqHjDyMm3ZaqBNiucy87avjElecu/KwMScO4PdMQK?=
+ =?us-ascii?Q?VAW3osgcsHZEs3xsJHN+gQ+Tf5UWQFWY3ogI4V3oJ2nWCXzgPtrZucROfDjH?=
+ =?us-ascii?Q?djSTKqb7aAQF42bVoOxA1vlJIHE5GazuEwMb88t3hdqf5T2o2YIhObc4GJrK?=
+ =?us-ascii?Q?TtyQWTVh4PV8uegLcJcF4+yW9V9HOjamLWtRwVQqs+59Dd9uSAfYguvelcyw?=
+ =?us-ascii?Q?UMoTApZ4ubmNR+97KDPqMf2p0Mktgt0NGEmWE+NwSx5hU9p24MT/jHLfeaMi?=
+ =?us-ascii?Q?GPsS6sgdBgi1puNHnkmjbaM2jbtEFcrA7zG+NjBba8eSjpZWkXkJkzQ9uSnt?=
+ =?us-ascii?Q?q6WnrkU9AtQkc1DSRCvBiF/zqzwnAWW0h4vngIq1f5jAHwIlXkHhTgU3s3aT?=
+ =?us-ascii?Q?mxZfvu63/fGRZQAYbyVKnXCCZqSLOsmSjZwej/NE?=
 X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 695219ae-962b-457f-d4fd-08daf51c87e0
+X-MS-Exchange-CrossTenant-Network-Message-Id: a205ce03-d1ba-4d93-36f1-08daf526abf2
 X-MS-Exchange-CrossTenant-AuthSource: AM6PR04MB6341.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Jan 2023 04:13:31.6238
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Jan 2023 05:26:07.1967
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Lqyz6Kcx9Jj1uYFSuHHQJPADK2X+3tZs6TI83ChcPDw+C3QSoYphawoIRpG+UeSXpcmh7juqPFy7mCclov0glw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM8PR04MB7441
+X-MS-Exchange-CrossTenant-UserPrincipalName: ImFOAavRVQL/AoC4VrZ1V5avyPnidEXdhr6CWi83HEwVLKMTDllzU08I6As8JBOjkjBdBzUgMeKz7QrDdRLhyA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBBPR04MB8043
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS autolearn=ham
@@ -116,116 +114,50 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-amphion decoder add support for the RealVideo video.
-RV30 and RV40 are support by amphion decoder.
+in the E.2.1 of Rec. ITU-T H.264 (06/2019),
+0 of cloour primaries is reserved, and 2 is unspecified.
+driver can map V4L2_COLORSPACE_LAST to 0,
+and map V4L2_COLORSPACE_DEFAULT to 2.
 
+v4l2_xfer_func and v4l2_ycbcr_encoding are similar case.
+
+Fixes: 3cd084519c6f ("media: amphion: add vpu v4l2 m2m support")
 Signed-off-by: Ming Qian <ming.qian@nxp.com>
 ---
- drivers/media/platform/amphion/vdec.c       | 14 +++++++++++++
- drivers/media/platform/amphion/vpu_malone.c | 23 +++++++++++++++++++++
- drivers/media/platform/amphion/vpu_malone.h |  1 +
- 3 files changed, 38 insertions(+)
+ drivers/media/platform/amphion/vpu_color.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/media/platform/amphion/vdec.c b/drivers/media/platform/amphion/vdec.c
-index 09304b96f40d..03477998b9eb 100644
---- a/drivers/media/platform/amphion/vdec.c
-+++ b/drivers/media/platform/amphion/vdec.c
-@@ -172,6 +172,20 @@ static const struct vpu_format vdec_formats[] = {
- 		.type = V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE,
- 		.flags = V4L2_FMT_FLAG_DYN_RESOLUTION | V4L2_FMT_FLAG_COMPRESSED
- 	},
-+	{
-+		.pixfmt = V4L2_PIX_FMT_RV30,
-+		.mem_planes = 1,
-+		.comp_planes = 1,
-+		.type = V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE,
-+		.flags = V4L2_FMT_FLAG_DYN_RESOLUTION | V4L2_FMT_FLAG_COMPRESSED
-+	},
-+	{
-+		.pixfmt = V4L2_PIX_FMT_RV40,
-+		.mem_planes = 1,
-+		.comp_planes = 1,
-+		.type = V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE,
-+		.flags = V4L2_FMT_FLAG_DYN_RESOLUTION | V4L2_FMT_FLAG_COMPRESSED
-+	},
- 	{0, 0, 0, 0},
+diff --git a/drivers/media/platform/amphion/vpu_color.c b/drivers/media/platform/amphion/vpu_color.c
+index 80b9a53fd1c1..4ae435cbc5cd 100644
+--- a/drivers/media/platform/amphion/vpu_color.c
++++ b/drivers/media/platform/amphion/vpu_color.c
+@@ -17,7 +17,7 @@
+ #include "vpu_helpers.h"
+ 
+ static const u8 colorprimaries[] = {
+-	0,
++	V4L2_COLORSPACE_LAST,
+ 	V4L2_COLORSPACE_REC709,         /*Rec. ITU-R BT.709-6*/
+ 	0,
+ 	0,
+@@ -31,7 +31,7 @@ static const u8 colorprimaries[] = {
  };
  
-diff --git a/drivers/media/platform/amphion/vpu_malone.c b/drivers/media/platform/amphion/vpu_malone.c
-index 67ba637c4c7f..26039741166a 100644
---- a/drivers/media/platform/amphion/vpu_malone.c
-+++ b/drivers/media/platform/amphion/vpu_malone.c
-@@ -68,6 +68,8 @@
- #define STREAM_CONFIG_NUM_DBE_SET(x, y)		CONFIG_SET(x, y, 30, 0x40000000)
- #define STREAM_CONFIG_FS_CTRL_MODE_SET(x, y)	CONFIG_SET(x, y, 31, 0x80000000)
- 
-+#define MALONE_DEC_FMT_RV_MASK			BIT(21)
-+
- enum vpu_malone_stream_input_mode {
- 	INVALID_MODE = 0,
- 	FRAME_LVL,
-@@ -478,6 +480,9 @@ u32 vpu_malone_get_version(struct vpu_shared_addr *shared)
- {
- 	struct malone_iface *iface = shared->iface;
- 
-+	vpu_malone_enable_format(V4L2_PIX_FMT_RV30, iface->fw_version & MALONE_DEC_FMT_RV_MASK);
-+	vpu_malone_enable_format(V4L2_PIX_FMT_RV40, iface->fw_version & MALONE_DEC_FMT_RV_MASK);
-+
- 	return iface->fw_version;
- }
- 
-@@ -563,8 +568,22 @@ static struct malone_fmt_mapping fmt_mappings[] = {
- 	{V4L2_PIX_FMT_JPEG,        MALONE_FMT_JPG},
- 	{V4L2_PIX_FMT_VP8,         MALONE_FMT_VP8},
- 	{V4L2_PIX_FMT_SPK,         MALONE_FMT_SPK},
-+	{V4L2_PIX_FMT_RV30,        MALONE_FMT_RV},
-+	{V4L2_PIX_FMT_RV40,        MALONE_FMT_RV},
+ static const u8 colortransfers[] = {
+-	0,
++	V4L2_XFER_FUNC_LAST,
+ 	V4L2_XFER_FUNC_709,             /*Rec. ITU-R BT.709-6*/
+ 	0,
+ 	0,
+@@ -53,7 +53,7 @@ static const u8 colortransfers[] = {
  };
  
-+void vpu_malone_enable_format(u32 pixelformat, int enable)
-+{
-+	u32 i;
-+
-+	for (i = 0; i < ARRAY_SIZE(fmt_mappings); i++) {
-+		if (pixelformat == fmt_mappings[i].pixelformat) {
-+			fmt_mappings[i].is_disabled = enable ? 0 : 1;
-+			return;
-+		}
-+	}
-+}
-+
- static enum vpu_malone_format vpu_malone_format_remap(u32 pixelformat)
- {
- 	u32 i;
-@@ -989,6 +1008,8 @@ static const struct malone_padding_scode padding_scodes[] = {
- 	{SCODE_PADDING_EOS,      V4L2_PIX_FMT_H263,        {0xb1010000, 0x0}},
- 	{SCODE_PADDING_EOS,      V4L2_PIX_FMT_VP8,         {0x34010000, 0x0}},
- 	{SCODE_PADDING_EOS,      V4L2_PIX_FMT_SPK,         {0x34010000, 0x0}},
-+	{SCODE_PADDING_EOS,      V4L2_PIX_FMT_RV30,        {0x34010000, 0x0}},
-+	{SCODE_PADDING_EOS,      V4L2_PIX_FMT_RV40,        {0x34010000, 0x0}},
- 	{SCODE_PADDING_EOS,      V4L2_PIX_FMT_JPEG,        {0xefff0000, 0x0}},
- 	{SCODE_PADDING_ABORT,    V4L2_PIX_FMT_H264,        {0x0B010000, 0}},
- 	{SCODE_PADDING_ABORT,    V4L2_PIX_FMT_H264_MVC,    {0x0B010000, 0}},
-@@ -1001,6 +1022,8 @@ static const struct malone_padding_scode padding_scodes[] = {
- 	{SCODE_PADDING_ABORT,    V4L2_PIX_FMT_H263,        {0xb1010000, 0x0}},
- 	{SCODE_PADDING_ABORT,    V4L2_PIX_FMT_VP8,         {0x34010000, 0x0}},
- 	{SCODE_PADDING_ABORT,    V4L2_PIX_FMT_SPK,         {0x34010000, 0x0}},
-+	{SCODE_PADDING_ABORT,    V4L2_PIX_FMT_RV30,        {0x34010000, 0x0}},
-+	{SCODE_PADDING_ABORT,    V4L2_PIX_FMT_RV40,        {0x34010000, 0x0}},
- 	{SCODE_PADDING_EOS,      V4L2_PIX_FMT_JPEG,        {0x0, 0x0}},
- 	{SCODE_PADDING_BUFFLUSH, V4L2_PIX_FMT_H264,        {0x15010000, 0x0}},
- 	{SCODE_PADDING_BUFFLUSH, V4L2_PIX_FMT_H264_MVC,    {0x15010000, 0x0}},
-diff --git a/drivers/media/platform/amphion/vpu_malone.h b/drivers/media/platform/amphion/vpu_malone.h
-index 02a9d9530970..c95b53629199 100644
---- a/drivers/media/platform/amphion/vpu_malone.h
-+++ b/drivers/media/platform/amphion/vpu_malone.h
-@@ -41,5 +41,6 @@ int vpu_malone_post_cmd(struct vpu_shared_addr *shared, u32 instance);
- int vpu_malone_init_instance(struct vpu_shared_addr *shared, u32 instance);
- u32 vpu_malone_get_max_instance_count(struct vpu_shared_addr *shared);
- bool vpu_malone_check_fmt(enum vpu_core_type type, u32 pixelfmt);
-+void vpu_malone_enable_format(u32 pixelformat, int enable);
- 
- #endif
+ static const u8 colormatrixcoefs[] = {
+-	0,
++	V4L2_YCBCR_ENC_LAST,
+ 	V4L2_YCBCR_ENC_709,              /*Rec. ITU-R BT.709-6*/
+ 	0,
+ 	0,
 -- 
 2.38.1
 
