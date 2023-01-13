@@ -2,30 +2,30 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A94B3669373
-	for <lists+linux-media@lfdr.de>; Fri, 13 Jan 2023 10:57:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 668B9669376
+	for <lists+linux-media@lfdr.de>; Fri, 13 Jan 2023 10:57:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241287AbjAMJ53 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 13 Jan 2023 04:57:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42828 "EHLO
+        id S241012AbjAMJ5a (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 13 Jan 2023 04:57:30 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45136 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239619AbjAMJ5A (ORCPT
+        with ESMTP id S240818AbjAMJ5A (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Fri, 13 Jan 2023 04:57:00 -0500
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF38567192
-        for <linux-media@vger.kernel.org>; Fri, 13 Jan 2023 01:54:15 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69303669B0
+        for <linux-media@vger.kernel.org>; Fri, 13 Jan 2023 01:54:16 -0800 (PST)
 Received: from dude05.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::54])
         by metis.ext.pengutronix.de with esmtp (Exim 4.92)
         (envelope-from <m.tretter@pengutronix.de>)
-        id 1pGGlJ-0003cp-9F; Fri, 13 Jan 2023 10:54:13 +0100
+        id 1pGGlJ-0003cp-QV; Fri, 13 Jan 2023 10:54:13 +0100
 From:   Michael Tretter <m.tretter@pengutronix.de>
-Date:   Fri, 13 Jan 2023 10:54:12 +0100
-Subject: [PATCH v2 06/16] media: imx-pxp: make data_path_ctrl0 platform dependent
+Date:   Fri, 13 Jan 2023 10:54:13 +0100
+Subject: [PATCH v2 07/16] media: imx-pxp: add support for i.MX7D
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230112-imx-pxp-v2-6-e2281da1db55@pengutronix.de>
+Message-Id: <20230112-imx-pxp-v2-7-e2281da1db55@pengutronix.de>
 References: <20230112-imx-pxp-v2-0-e2281da1db55@pengutronix.de>
 In-Reply-To: <20230112-imx-pxp-v2-0-e2281da1db55@pengutronix.de>
 To:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
@@ -52,96 +52,73 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Unfortunately, the PXP_HW_VERSION register reports the PXP on the i.MX7D
-and on the i.MX6ULL as version 3.0, although the PXP versions on these
-SoCs have significant differences.
+The i.MX7D needs a different data path configuration than the i.MX6ULL.
+Configure the data path as close as possible to the data path on the
+i.MX6ULL.
 
-Use the compatible to configure the ctrl0 register as required dependent
-on the platform.
-
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Signed-off-by: Michael Tretter <m.tretter@pengutronix.de>
 ---
 Changelog
 
-v2:
-
-- drop fallback for missing data_path_ctrl0
+v2: none
 ---
- drivers/media/platform/nxp/imx-pxp.c | 21 ++++++++++++++++++---
- 1 file changed, 18 insertions(+), 3 deletions(-)
+ drivers/media/platform/nxp/imx-pxp.c | 36 ++++++++++++++++++++++++++++++++++++
+ 1 file changed, 36 insertions(+)
 
 diff --git a/drivers/media/platform/nxp/imx-pxp.c b/drivers/media/platform/nxp/imx-pxp.c
-index bf3be989a552..c7f8a1808516 100644
+index c7f8a1808516..aabe10f21c8b 100644
 --- a/drivers/media/platform/nxp/imx-pxp.c
 +++ b/drivers/media/platform/nxp/imx-pxp.c
-@@ -19,6 +19,7 @@
- #include <linux/iopoll.h>
- #include <linux/module.h>
- #include <linux/of.h>
-+#include <linux/of_device.h>
- #include <linux/sched.h>
- #include <linux/slab.h>
- 
-@@ -191,6 +192,12 @@ static struct pxp_fmt *find_format(struct v4l2_format *f)
- 	return &formats[k];
+@@ -763,6 +763,37 @@ static u32 pxp_imx6ull_data_path_ctrl0(struct pxp_ctx *ctx)
+ 	return ctrl0;
  }
  
-+struct pxp_ctx;
++static u32 pxp_imx7d_data_path_ctrl0(struct pxp_ctx *ctx)
++{
++	u32 ctrl0;
 +
-+struct pxp_pdata {
-+	u32 (*data_path_ctrl0)(struct pxp_ctx *ctx);
-+};
++	ctrl0 = 0;
++	ctrl0 |= BF_PXP_DATA_PATH_CTRL0_MUX15_SEL(3);
++	/* Select Rotation 0 */
++	ctrl0 |= BF_PXP_DATA_PATH_CTRL0_MUX14_SEL(0);
++	ctrl0 |= BF_PXP_DATA_PATH_CTRL0_MUX13_SEL(3);
++	/* Select MUX11 for Rotation 0 */
++	ctrl0 |= BF_PXP_DATA_PATH_CTRL0_MUX12_SEL(1);
++	/* Bypass LUT */
++	ctrl0 |= BF_PXP_DATA_PATH_CTRL0_MUX11_SEL(1);
++	ctrl0 |= BF_PXP_DATA_PATH_CTRL0_MUX10_SEL(3);
++	ctrl0 |= BF_PXP_DATA_PATH_CTRL0_MUX9_SEL(3);
++	/* Select CSC 2 */
++	ctrl0 |= BF_PXP_DATA_PATH_CTRL0_MUX8_SEL(0);
++	ctrl0 |= BF_PXP_DATA_PATH_CTRL0_MUX7_SEL(3);
++	/* Select Composite Alpha Blending/Color Key 0 for CSC 2 */
++	ctrl0 |= BF_PXP_DATA_PATH_CTRL0_MUX6_SEL(1);
++	ctrl0 |= BF_PXP_DATA_PATH_CTRL0_MUX5_SEL(3);
++	ctrl0 |= BF_PXP_DATA_PATH_CTRL0_MUX4_SEL(3);
++	/* Bypass Rotation 1 */
++	ctrl0 |= BF_PXP_DATA_PATH_CTRL0_MUX3_SEL(0);
++	ctrl0 |= BF_PXP_DATA_PATH_CTRL0_MUX2_SEL(3);
++	ctrl0 |= BF_PXP_DATA_PATH_CTRL0_MUX1_SEL(3);
++	ctrl0 |= BF_PXP_DATA_PATH_CTRL0_MUX0_SEL(3);
 +
- struct pxp_dev {
- 	struct v4l2_device	v4l2_dev;
- 	struct video_device	vfd;
-@@ -198,6 +205,8 @@ struct pxp_dev {
- 	struct clk		*clk;
- 	void __iomem		*mmio;
- 
-+	const struct pxp_pdata	*pdata;
++	return ctrl0;
++}
 +
- 	atomic_t		num_inst;
- 	struct mutex		dev_mutex;
- 	spinlock_t		irqlock;
-@@ -724,7 +733,7 @@ static void pxp_setup_csc(struct pxp_ctx *ctx)
- 	}
- }
- 
--static u32 pxp_data_path_ctrl0(struct pxp_ctx *ctx)
-+static u32 pxp_imx6ull_data_path_ctrl0(struct pxp_ctx *ctx)
+ static void pxp_set_data_path(struct pxp_ctx *ctx)
  {
- 	u32 ctrl0;
+ 	struct pxp_dev *dev = ctx->dev;
+@@ -1819,8 +1850,13 @@ static const struct pxp_pdata pxp_imx6ull_pdata = {
+ 	.data_path_ctrl0 = pxp_imx6ull_data_path_ctrl0,
+ };
  
-@@ -760,7 +769,7 @@ static void pxp_set_data_path(struct pxp_ctx *ctx)
- 	u32 ctrl0;
- 	u32 ctrl1;
- 
--	ctrl0 = pxp_data_path_ctrl0(ctx);
-+	ctrl0 = dev->pdata->data_path_ctrl0(ctx);
- 
- 	ctrl1 = 0;
- 	ctrl1 |= BF_PXP_DATA_PATH_CTRL1_MUX17_SEL(3);
-@@ -1705,6 +1714,8 @@ static int pxp_probe(struct platform_device *pdev)
- 	if (!dev)
- 		return -ENOMEM;
- 
-+	dev->pdata = of_device_get_match_data(&pdev->dev);
-+
- 	dev->clk = devm_clk_get(&pdev->dev, "axi");
- 	if (IS_ERR(dev->clk)) {
- 		ret = PTR_ERR(dev->clk);
-@@ -1804,8 +1815,12 @@ static int pxp_remove(struct platform_device *pdev)
- 	return 0;
- }
- 
-+static const struct pxp_pdata pxp_imx6ull_pdata = {
-+	.data_path_ctrl0 = pxp_imx6ull_data_path_ctrl0,
++static const struct pxp_pdata pxp_imx7d_pdata = {
++	.data_path_ctrl0 = pxp_imx7d_data_path_ctrl0,
 +};
 +
  static const struct of_device_id pxp_dt_ids[] = {
--	{ .compatible = "fsl,imx6ull-pxp", .data = NULL },
-+	{ .compatible = "fsl,imx6ull-pxp", .data = &pxp_imx6ull_pdata },
+ 	{ .compatible = "fsl,imx6ull-pxp", .data = &pxp_imx6ull_pdata },
++	{ .compatible = "fsl,imx7d-pxp", .data = &pxp_imx7d_pdata },
  	{ },
  };
  MODULE_DEVICE_TABLE(of, pxp_dt_ids);
