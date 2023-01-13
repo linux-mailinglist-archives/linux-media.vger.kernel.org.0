@@ -2,92 +2,68 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4F47C669211
-	for <lists+linux-media@lfdr.de>; Fri, 13 Jan 2023 10:00:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 979F2669222
+	for <lists+linux-media@lfdr.de>; Fri, 13 Jan 2023 10:03:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231416AbjAMJAA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 13 Jan 2023 04:00:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33098 "EHLO
+        id S239644AbjAMJDk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 13 Jan 2023 04:03:40 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35518 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240573AbjAMI7o (ORCPT
+        with ESMTP id S235451AbjAMJDa (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 13 Jan 2023 03:59:44 -0500
-Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 573C371FD3
-        for <linux-media@vger.kernel.org>; Fri, 13 Jan 2023 00:59:36 -0800 (PST)
-Received: by mail-ej1-x62c.google.com with SMTP id qk9so50772579ejc.3
-        for <linux-media@vger.kernel.org>; Fri, 13 Jan 2023 00:59:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:cc:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=9YM8Shx2IZukw9YcFp8FhnA2qd5i13IeliX120PH17I=;
-        b=UswNafJ8Hcq8szwzEdclRDjcNXXT+kfG7zB9GvtX0hGjvzrZfoStfz9NgA0jc+sJR3
-         Rixfzk4u9VFwLwgURno/IXUlVFigpNu39LT9NDc5Xw8YuyEjr0CWwYATZyCodqdH1c81
-         LpzCJ5kKDL0FzvtYfXLmrJuwXjxK5Tz2XZbNW9Lrn/B/jTpyk8/A4/avobX/texpV4H0
-         unOstmnettk1gSMvYCtzZWZiRcF5otG5OlQau/8UI/hZ82dJiVTh9sTwE37KjRaysgSw
-         uquU+BTFsZXsw+9vVCkEjnOKOrgswmnORNmMR+V1qEAi7/K3ojaXMj/PYkoitAjerQsE
-         B4RA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:cc:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=9YM8Shx2IZukw9YcFp8FhnA2qd5i13IeliX120PH17I=;
-        b=2rqyu/lyUI+vKriJQfCItH5DqMdNdbeVb8OO0gyXSiJunk3nmyu4XjsKchXEJ8OjAp
-         //4xImqaDS2N4ErL1hUAehdKpD6R7nV1jejl0gLInVNqtIaSpX6cDGPr3MVge7JBWN35
-         SgiQQSSRBicScJBvUDpELAm+JSbXa0dFIIlbNFvzOa1hh1DFswMxIQiRUkfPhMBnN6FT
-         xo2c9iKydJk3mtdx2s3EcHiGf+a1PdvfL+vJaZYjqKNNYY295ycAB1ZrfiQ8fFTzTaso
-         or1NhuJDzMOvu7wXik1Q1YveWZGWpHmMKuiP7WWh8XeKD0FlXHFliZ092M/dbob3rUSL
-         563w==
-X-Gm-Message-State: AFqh2kp/nJois5WxYCoYBkUeBGTbtWfG/BsIJjS1wLNA0gV28xa4Mzs0
-        Qe0uuAIcEcfnsIlenxw3OOtXzA==
-X-Google-Smtp-Source: AMrXdXsPxc2oqEqJfGabmBqgzaWDsQkxV3GmdjQPkiDF+d6dv+FHlRbTN+U0t+9cYBoJoZb4U0H6gg==
-X-Received: by 2002:a17:906:1e8a:b0:864:223:40b with SMTP id e10-20020a1709061e8a00b008640223040bmr6721662ejj.33.1673600374808;
-        Fri, 13 Jan 2023 00:59:34 -0800 (PST)
-Received: from [192.168.1.109] ([178.197.216.144])
-        by smtp.gmail.com with ESMTPSA id en6-20020a056402528600b00499b3d09bd2sm5792349edb.91.2023.01.13.00.59.31
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 13 Jan 2023 00:59:33 -0800 (PST)
-Message-ID: <cd803c70-faf0-963e-fca3-0edd13fa8a29@linaro.org>
-Date:   Fri, 13 Jan 2023 09:59:30 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH v4 0/9] media: dt-bindings: common CEC properties
-Content-Language: en-US
+        Fri, 13 Jan 2023 04:03:30 -0500
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3E5BD25C4;
+        Fri, 13 Jan 2023 01:03:28 -0800 (PST)
+X-UUID: 2272fd24932111eda06fc9ecc4dadd91-20230113
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+        h=Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=Gg8bWb1FimtqSa/S00NIuzeLTb9/WRlCLgNfTbeYtTQ=;
+        b=pWV3Umt9NNcfcJwv1tSGe+bJogH9+aDxCuO0R9nmQdVictclFwDFTATK/vYJZxOUTvut8f3WZVugjSNzutIPIIC6BtZ99izlKVl6I8h6I5u7qYwqmDXZ0qAAso7zfr3dgHDOu/QSFlPBwy9+ihJK920URaMAC5xkJ0DfUkZ1LGA=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.17,REQID:daf139c1-7b45-4710-91a4-c0d0d4a116a1,IP:0,U
+        RL:0,TC:0,Content:-25,EDM:0,RT:0,SF:95,FILE:0,BULK:0,RULE:Release_Ham,ACTI
+        ON:release,TS:70
+X-CID-INFO: VERSION:1.1.17,REQID:daf139c1-7b45-4710-91a4-c0d0d4a116a1,IP:0,URL
+        :0,TC:0,Content:-25,EDM:0,RT:0,SF:95,FILE:0,BULK:0,RULE:Spam_GS981B3D,ACTI
+        ON:quarantine,TS:70
+X-CID-META: VersionHash:543e81c,CLOUDID:0174baf5-ff42-4fb0-b929-626456a83c14,B
+        ulkID:230113170324PQERBQG7,BulkQuantity:0,Recheck:0,SF:38|28|17|19|48,TC:n
+        il,Content:0,EDM:-3,IP:nil,URL:1,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OS
+        I:0,OSA:0
+X-CID-APTURL: Status:success,Category:nil,Trust:0,Unknown:4,Malicious:0
+X-CID-BVR: 0,NGT
+X-UUID: 2272fd24932111eda06fc9ecc4dadd91-20230113
+Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by mailgw01.mediatek.com
+        (envelope-from <moudy.ho@mediatek.com>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+        with ESMTP id 1168271827; Fri, 13 Jan 2023 17:03:23 +0800
+Received: from mtkmbs13n1.mediatek.inc (172.21.101.193) by
+ mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.792.15; Fri, 13 Jan 2023 17:03:22 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
+ mtkmbs13n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.792.15 via Frontend Transport; Fri, 13 Jan 2023 17:03:22 +0800
+From:   Moudy Ho <moudy.ho@mediatek.com>
 To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>
-References: <20221208103115.25512-1-krzysztof.kozlowski@linaro.org>
-Cc:     Neil Armstrong <neil.armstrong@linaro.org>,
-        Alain Volmat <alain.volmat@foss.st.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Kevin Hilman <khilman@baylibre.com>,
-        devicetree@vger.kernel.org, Joe Tessler <jrt@google.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        linux-tegra@vger.kernel.org,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        linux-media@vger.kernel.org, Jeff Chase <jnchase@google.com>,
-        linux-arm-kernel@lists.infradead.org,
-        linux-amlogic@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        Yannick Fertre <yannick.fertre@foss.st.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        linux-kernel@vger.kernel.org
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20221208103115.25512-1-krzysztof.kozlowski@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+CC:     Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+        <linux-media@vger.kernel.org>,
+        <linux-mediatek@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>,
+        <Project_Global_Chrome_Upstream_Group@mediatek.com>,
+        Moudy Ho <moudy.ho@mediatek.com>
+Subject: [PATCH v3 00/13] add support MDP3 on MT8195 platform
+Date:   Fri, 13 Jan 2023 17:03:08 +0800
+Message-ID: <20230113090321.25128-1-moudy.ho@mediatek.com>
+X-Mailer: git-send-email 2.18.0
+MIME-Version: 1.0
+Content-Type: text/plain
+X-MTK:  N
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,
+        SPF_PASS,UNPARSEABLE_RELAY autolearn=ham autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -95,17 +71,104 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 08/12/2022 11:31, Krzysztof Kozlowski wrote:
-> Hi,
->
-> Changes since v3
-> ================
-> 1. cec-gpio: Add missing SPDX.
-> 2. nvidia,tegra114-cec: Correct path in maintainers.
->
+Changes since v2:
+- Depend on :
+  [1] MMSYS/MUTEX: https://patchwork.kernel.org/project/linux-mediatek/list/?series=711592
+  [2] MDP3: https://patchwork.kernel.org/project/linux-mediatek/list/?series=711618
+- Suggested by Rob to revise MDP3 bindings to pass dtbs check
+- Add parallel paths feature.
+- Add blended components settings.
 
+Changes since v1:
+- Depend on :
+  [1] MDP3 : https://patchwork.kernel.org/project/linux-mediatek/list/?series=698872
+  [2] MMSYS/MUTEX: https://patchwork.kernel.org/project/linux-mediatek/list/?series=684959
+- Fix compilation failure due to use of undeclared identifier in file "mtk-mdp3-cmdq.c"
 
-Mauro (and maybe Hans?), any comments here. Can you apply the patchset?
+Hello,
 
-Best regards,
-Krzysztof
+This patch is used to add support for MDP3 on the MT8195 platform that
+contains more picture quality components, and can arrange more pipelines
+through two sets of MMSYS and MUTEX respectively.
+
+Moudy Ho (13):
+  dt-binding: mediatek: add bindings for MediaTek mt8195 MDP3 components
+  arm64: dts: mediatek: mt8195: add MDP3 nodes
+  media: platform: mtk-mdp3: add support second sets of MMSYS
+  media: platform: mtk-mdp3: add support second sets of MUTEX
+  media: platform: mtk-mdp3: introduce more MDP3 components
+  media: platform: mtk-mdp3: add checks for dummy components
+  media: platform: mtk-mdp3: avoid multiple driver registrations
+  media: platform: mtk-mdp3: extend GCE event waiting in RDMA and WROT
+  media: platform: mtk-mdp3: add the blend of component in MUTEX MOD
+  media: platform: mtk-mdp3: add mt8195 platform configuration
+  media: platform: mtk-mdp3: add mt8195 shared memory configurations
+  media: platform: mtk-mdp3: add mt8195 MDP3 component settings
+  media: platform: mtk-mdp3: add support for parallel pipe to improve
+    FPS
+
+ .../bindings/media/mediatek,mdp3-aal.yaml     |  63 ++
+ .../bindings/media/mediatek,mdp3-color.yaml   |  63 ++
+ .../bindings/media/mediatek,mdp3-fg.yaml      |  63 ++
+ .../bindings/media/mediatek,mdp3-hdr.yaml     |  62 ++
+ .../bindings/media/mediatek,mdp3-merge.yaml   |  63 ++
+ .../bindings/media/mediatek,mdp3-ovl.yaml     |  63 ++
+ .../bindings/media/mediatek,mdp3-pad.yaml     |  63 ++
+ .../bindings/media/mediatek,mdp3-rdma.yaml    |  30 +-
+ .../bindings/media/mediatek,mdp3-rsz.yaml     |  11 +-
+ .../bindings/media/mediatek,mdp3-split.yaml   |  75 ++
+ .../bindings/media/mediatek,mdp3-stitch.yaml  |  63 ++
+ .../bindings/media/mediatek,mdp3-tcc.yaml     |  62 ++
+ .../bindings/media/mediatek,mdp3-tdshp.yaml   |  63 ++
+ arch/arm64/boot/dts/mediatek/mt8195.dtsi      | 420 +++++++++
+ .../platform/mediatek/mdp3/mdp_reg_aal.h      |  25 +
+ .../platform/mediatek/mdp3/mdp_reg_color.h    |  31 +
+ .../media/platform/mediatek/mdp3/mdp_reg_fg.h |  23 +
+ .../platform/mediatek/mdp3/mdp_reg_hdr.h      |  31 +
+ .../platform/mediatek/mdp3/mdp_reg_merge.h    |  25 +
+ .../platform/mediatek/mdp3/mdp_reg_ovl.h      |  25 +
+ .../platform/mediatek/mdp3/mdp_reg_pad.h      |  21 +
+ .../platform/mediatek/mdp3/mdp_reg_rdma.h     |  24 +
+ .../platform/mediatek/mdp3/mdp_reg_rsz.h      |   2 +
+ .../platform/mediatek/mdp3/mdp_reg_tdshp.h    |  34 +
+ .../platform/mediatek/mdp3/mdp_reg_wrot.h     |   8 +
+ .../mediatek/mdp3/mt8183/mdp3-plat-mt8183.h   |  38 +-
+ .../mediatek/mdp3/mt8195/mdp3-comp-mt8195.h   | 283 ++++++
+ .../mediatek/mdp3/mt8195/mdp3-plat-mt8195.h   | 669 ++++++++++++++
+ .../platform/mediatek/mdp3/mtk-img-ipi.h      |   4 +
+ .../platform/mediatek/mdp3/mtk-mdp3-cmdq.c    | 453 +++++++---
+ .../platform/mediatek/mdp3/mtk-mdp3-cmdq.h    |   1 +
+ .../platform/mediatek/mdp3/mtk-mdp3-comp.c    | 834 +++++++++++++++++-
+ .../platform/mediatek/mdp3/mtk-mdp3-comp.h    |  92 +-
+ .../platform/mediatek/mdp3/mtk-mdp3-core.c    | 115 ++-
+ .../platform/mediatek/mdp3/mtk-mdp3-core.h    |  33 +-
+ .../platform/mediatek/mdp3/mtk-mdp3-m2m.c     |  15 +
+ .../platform/mediatek/mdp3/mtk-mdp3-regs.c    |  18 +
+ .../platform/mediatek/mdp3/mtk-mdp3-regs.h    |   1 +
+ .../platform/mediatek/mdp3/mtk-mdp3-vpu.c     |   3 +-
+ 39 files changed, 3791 insertions(+), 181 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/media/mediatek,mdp3-aal.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/mediatek,mdp3-color.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/mediatek,mdp3-fg.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/mediatek,mdp3-hdr.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/mediatek,mdp3-merge.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/mediatek,mdp3-ovl.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/mediatek,mdp3-pad.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/mediatek,mdp3-split.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/mediatek,mdp3-stitch.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/mediatek,mdp3-tcc.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/mediatek,mdp3-tdshp.yaml
+ create mode 100644 drivers/media/platform/mediatek/mdp3/mdp_reg_aal.h
+ create mode 100644 drivers/media/platform/mediatek/mdp3/mdp_reg_color.h
+ create mode 100644 drivers/media/platform/mediatek/mdp3/mdp_reg_fg.h
+ create mode 100644 drivers/media/platform/mediatek/mdp3/mdp_reg_hdr.h
+ create mode 100644 drivers/media/platform/mediatek/mdp3/mdp_reg_merge.h
+ create mode 100644 drivers/media/platform/mediatek/mdp3/mdp_reg_ovl.h
+ create mode 100644 drivers/media/platform/mediatek/mdp3/mdp_reg_pad.h
+ create mode 100644 drivers/media/platform/mediatek/mdp3/mdp_reg_tdshp.h
+ create mode 100644 drivers/media/platform/mediatek/mdp3/mt8195/mdp3-comp-mt8195.h
+ create mode 100644 drivers/media/platform/mediatek/mdp3/mt8195/mdp3-plat-mt8195.h
+
+-- 
+2.18.0
+
