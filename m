@@ -2,244 +2,101 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1BEB76699CE
-	for <lists+linux-media@lfdr.de>; Fri, 13 Jan 2023 15:15:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id ACB70669A33
+	for <lists+linux-media@lfdr.de>; Fri, 13 Jan 2023 15:32:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241928AbjAMOPU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 13 Jan 2023 09:15:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40336 "EHLO
+        id S229589AbjAMObg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 13 Jan 2023 09:31:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55296 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242119AbjAMOOC (ORCPT
+        with ESMTP id S229571AbjAMOaq (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 13 Jan 2023 09:14:02 -0500
-Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com [IPv6:2a00:1450:4864:20::12e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 602526E0C9
-        for <linux-media@vger.kernel.org>; Fri, 13 Jan 2023 06:13:08 -0800 (PST)
-Received: by mail-lf1-x12e.google.com with SMTP id y25so33289200lfa.9
-        for <linux-media@vger.kernel.org>; Fri, 13 Jan 2023 06:13:08 -0800 (PST)
+        Fri, 13 Jan 2023 09:30:46 -0500
+Received: from mail-io1-xd32.google.com (mail-io1-xd32.google.com [IPv6:2607:f8b0:4864:20::d32])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2FCBC848F0
+        for <linux-media@vger.kernel.org>; Fri, 13 Jan 2023 06:23:42 -0800 (PST)
+Received: by mail-io1-xd32.google.com with SMTP id d22so1733752iof.5
+        for <linux-media@vger.kernel.org>; Fri, 13 Jan 2023 06:23:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=HLMxgYnqS/4/TB7UwvI/vIGP7m316E2G7fHeJE1jpg8=;
-        b=AgTJXz4WlI46LfMJr07WPO9BhmaVxpE2iOif1zm+Oqp2iZVRniRVH567A90yVL5zdT
-         q1XZFC3xt7nD6cJNMVIvsOZecK0s9anCwlI3UWXh2ZdrPj0tZocJmc/VU9ZcuJg6dyTK
-         APxb7T3i87E3Xsmq+DLDOIjYhftZV8wQrUz9GGXYm1vlT2HYb8Q8EXQCe5dVC28w94XB
-         5f7UeCZX30k7tILF7DrEO0D4HJzPbpfVs418KVMVGS9QCsqtum44qhS7GAzZ0+irSILU
-         ipDxlxLSFw7DLoQehGVG7EYWuzAgSdyGCk1kY45FvWcJvcItZFLeF+D4HXs+ejyIVgO+
-         HwvQ==
+        d=gmail.com; s=20210112;
+        h=to:subject:message-id:date:from:reply-to:mime-version:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=+OF3VMKCJX/ixRNA7KETCaEsWyEBkIDVOlKWye/O0OA=;
+        b=MK7e6Vy0okniHu3Q9+oSRGxZAwtfUcCw709gjtpmGqYm4W84IZvw4tBwf/JeD4Sz6H
+         3KURCQ1q7FJNLx+GLRWt1AGelsjK5K90b9GlN0sKUA6ZUg/qpGAmzhVkYIMi1e8GW14O
+         cFtXxDW3U7HKPR1h1QucXhqmNKCsZMoObgInYsIcK9GV+Q1SmTW3TNFPjIiYngs//Zw8
+         0a/3E2iFbnIOhj7mPg7o55ip5AqJcSu4cmOrbMNeUEYXVxQDLd1kY3ucGjxruvrrHS7M
+         XetQgLqP0j8VlFQPDJPkXr0ojEVpUsKfNGxzo9W4EnGlfHoCwYlTt4oOdX6QabpPSrPy
+         sowg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=HLMxgYnqS/4/TB7UwvI/vIGP7m316E2G7fHeJE1jpg8=;
-        b=VZOHcdUEAkK3nAsRZ9x03tXFEYB4t9EIPnQeQ8FirqYn/um+HAZSHJzC7Bu7hVvNOE
-         RpSQsj5eAquJVsLnVIx1DL2/FLbRqxEMHT370Aj+KqkN8OI6Jz+xa5LZooKvBE1cjYKv
-         exsRkT7RuGtLRwYmAjbMU3OxVTJHxzuMVDDke1cilFpLd+j2ux3wCSkFmj2SzpRozgs2
-         skHjtiXYzVQEsCuBOoPftPj+X7nHC9nQ+PpqNJ0+07zfAKotyUZdzjgFuCSoK7jts4iA
-         28m9Vqvb0fJ7mDIiV1JLlYidxqGAZsUSmDeGevdIAfYinQdAcDSOcwj1a2yAzb8oSxJZ
-         xrCw==
-X-Gm-Message-State: AFqh2kqVz6CC1BwVcyE+ViRES7C2i8geYGudHIPXvdQ4vSQ8hNffjDKi
-        yFSwlt8tKgIqVNYlexoDptMhwwQQtSo9Aoik+NChmg==
-X-Google-Smtp-Source: AMrXdXutSMAOZy9HzarrHShlHiOo8HAv9jYGW08xHIKS5auBxnj5lfCkvop1Nhs4GtEDmbJ2Th7fITLFBqZcAAXkUY0=
-X-Received: by 2002:a05:6512:708:b0:4ca:fab6:91db with SMTP id
- b8-20020a056512070800b004cafab691dbmr3403772lfs.202.1673619186692; Fri, 13
- Jan 2023 06:13:06 -0800 (PST)
+        h=to:subject:message-id:date:from:reply-to:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=+OF3VMKCJX/ixRNA7KETCaEsWyEBkIDVOlKWye/O0OA=;
+        b=pUc7HC0bJ+V5b1ZRocOYoAxLzzYFEHU1auxb4574TOMubwoMEpQZlbUbpPXXpVxmX9
+         DjMwuUvIZAZ1Bixbka8WtO7bhX7nsQqPqVW4Wmqs+3/XUjG7S+bmjlyX1EV0GVuaGtjm
+         ZYpga2AeJuFeSWqOplUUfeaqaznwepyNYEjlrpDpq1UcHvD1d/iU2WimeD1aTIPl/NvM
+         ewfQs7Kup3MBMv4GBxYrteYIKsNDv4evoyErZqvM7cTx+8fOymsNccj4A70pDoK5wLm9
+         6v4uMo82huxgtO7noXkARZ6oeViYDOJAbyBGp9aswBs6F24r4JKCUiAp7CMlCCcJNGQH
+         pnTw==
+X-Gm-Message-State: AFqh2krRbUhJchSY5H1NKqwrIxJNryjCl6X5Fe9Kmahiu4T+sdJhEfI4
+        9qbyS4mDF9TKocIUA+p3rAltG+I9WHPyjOOQiDU=
+X-Google-Smtp-Source: AMrXdXshiBnmfviu9GpNb0RTPGnCcyaimsk+bKcdbNGmrDubcSeViaijlgxCq2yePIP/Xii+kaUmkoerHpw3FkTn4/M=
+X-Received: by 2002:a6b:7f08:0:b0:6e2:ec05:87c8 with SMTP id
+ l8-20020a6b7f08000000b006e2ec0587c8mr6674474ioq.144.1673619821627; Fri, 13
+ Jan 2023 06:23:41 -0800 (PST)
 MIME-Version: 1.0
-References: <20230113131257.661079-1-benjamin.gaignard@collabora.com>
-In-Reply-To: <20230113131257.661079-1-benjamin.gaignard@collabora.com>
-From:   Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-Date:   Fri, 13 Jan 2023 11:12:53 -0300
-Message-ID: <CAAEAJfAnoe+rL=9yFV1crhoaFa9uWaaJq3nCeS+QZPLi_xnsOw@mail.gmail.com>
-Subject: Re: [PATCH v2] media: verisilicon: HEVC: Only propose 10 bits
- compatible pixels formats
-To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Cc:     p.zabel@pengutronix.de, mchehab@kernel.org, shawnguo@kernel.org,
-        s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
-        linux-imx@nxp.com, hverkuil-cisco@xs4all.nl,
-        nicolas.dufresne@collabora.co.uk, linux-media@vger.kernel.org,
-        linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, kernel@collabora.com
+Received: by 2002:a05:6e02:1282:b0:30d:c36b:403c with HTTP; Fri, 13 Jan 2023
+ 06:23:41 -0800 (PST)
+Reply-To: hitnodeby23@yahoo.com
+From:   Hinda Itno Deby <atidigahcyril@gmail.com>
+Date:   Fri, 13 Jan 2023 06:23:41 -0800
+Message-ID: <CALHvQ-i=c6i56KKAWCU6YHCKu56RytXe0C3_h_MOPvHa0vgPTw@mail.gmail.com>
+Subject: Reply
+To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: Yes, score=7.8 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FREEMAIL_REPLYTO,
+        FREEMAIL_REPLYTO_END_DIGIT,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        UNDISC_FREEM,UNDISC_MONEY,URG_BIZ autolearn=no autolearn_force=no
+        version=3.4.6
+X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+        *      https://www.dnswl.org/, no trust
+        *      [2607:f8b0:4864:20:0:0:0:d32 listed in]
+        [list.dnswl.org]
+        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.5009]
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        *  0.2 FREEMAIL_REPLYTO_END_DIGIT Reply-To freemail username ends in
+        *      digit
+        *      [hitnodeby23[at]yahoo.com]
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
+        *      provider
+        *      [atidigahcyril[at]gmail.com]
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        *  0.6 URG_BIZ Contains urgent matter
+        *  2.7 UNDISC_FREEM Undisclosed recipients + freemail reply-to
+        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
+        *      different freemails
+        *  2.7 UNDISC_MONEY Undisclosed recipients + money/fraud signs
+X-Spam-Level: *******
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Benjamin,
+-- 
+My name is Hinda Itno Deby Please I want us to discuss Urgent Business
+Proposal, if you are interested kindly reply to me so i can give you
+all the details.
 
-On Fri, Jan 13, 2023 at 10:13 AM Benjamin Gaignard
-<benjamin.gaignard@collabora.com> wrote:
->
-> When decoding a 10bits bitstreams HEVC driver should only expose
-> 10bits pixel formats.
-> To fulfill this requirement it is needed to call hantro_reset_raw_fmt()
-> when bit depth change and to correctly set match_depth in pixel formats
-> enumeration.
->
-> Fixes: dc39473d0340 ("media: hantro: imx8m: Enable 10bit decoding")
->
-> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-> ---
-> version 2:
-> - Also remove struct hantro_ctx *ctx variable in hantro_try_ctrl()
->
->  .../media/platform/verisilicon/hantro_drv.c   | 40 +++++++++++++++----
->  .../media/platform/verisilicon/hantro_v4l2.c  |  2 +-
->  .../media/platform/verisilicon/hantro_v4l2.h  |  1 +
->  .../media/platform/verisilicon/imx8m_vpu_hw.c |  2 +
->  4 files changed, 36 insertions(+), 9 deletions(-)
->
-> diff --git a/drivers/media/platform/verisilicon/hantro_drv.c b/drivers/media/platform/verisilicon/hantro_drv.c
-> index 8cb4a68c9119..e824e87618db 100644
-> --- a/drivers/media/platform/verisilicon/hantro_drv.c
-> +++ b/drivers/media/platform/verisilicon/hantro_drv.c
-> @@ -251,11 +251,6 @@ queue_init(void *priv, struct vb2_queue *src_vq, struct vb2_queue *dst_vq)
->
->  static int hantro_try_ctrl(struct v4l2_ctrl *ctrl)
->  {
-> -       struct hantro_ctx *ctx;
-> -
-> -       ctx = container_of(ctrl->handler,
-> -                          struct hantro_ctx, ctrl_handler);
-> -
-
-This change is unrelated to this commit.
-
->         if (ctrl->id == V4L2_CID_STATELESS_H264_SPS) {
->                 const struct v4l2_ctrl_h264_sps *sps = ctrl->p_new.p_h264_sps;
->
-> @@ -274,8 +269,6 @@ static int hantro_try_ctrl(struct v4l2_ctrl *ctrl)
->                 if (sps->bit_depth_luma_minus8 != 0 && sps->bit_depth_luma_minus8 != 2)
->                         /* Only 8-bit and 10-bit are supported */
->                         return -EINVAL;
-> -
-> -               ctx->bit_depth = sps->bit_depth_luma_minus8 + 8;
->         } else if (ctrl->id == V4L2_CID_STATELESS_VP9_FRAME) {
->                 const struct v4l2_ctrl_vp9_frame *dec_params = ctrl->p_new.p_vp9_frame;
->
-> @@ -286,6 +279,32 @@ static int hantro_try_ctrl(struct v4l2_ctrl *ctrl)
->         return 0;
->  }
->
-> +static int hantro_hevc_s_ctrl(struct v4l2_ctrl *ctrl)
-> +{
-> +       struct hantro_ctx *ctx;
-> +
-> +       ctx = container_of(ctrl->handler,
-> +                          struct hantro_ctx, ctrl_handler);
-> +
-> +       vpu_debug(1, "s_ctrl: id = %d, val = %d\n", ctrl->id, ctrl->val);
-> +
-> +       switch (ctrl->id) {
-> +       case V4L2_CID_STATELESS_HEVC_SPS:
-> +               const struct v4l2_ctrl_hevc_sps *sps = ctrl->p_new.p_hevc_sps;
-> +               int bit_depth = sps->bit_depth_luma_minus8 + 8;
-> +
-> +               if (ctx->bit_depth != bit_depth) {
-> +                       ctx->bit_depth = bit_depth;
-> +                       hantro_reset_raw_fmt(ctx);
-
-We need to propagate the EBUSY error from hantro_set_fmt_cap,
-to hantro_reset_raw_fmt, so this operation can fail if the capture
-queue has buffers allocated.
-
-Keep in mind, we have to make sure the hantro_ctx state
-remains unchanged when the operation fails.
-
-The entire hantro_v4l2.c format negotiation is done without this
-case in mind (controls can change the format enumeration),
-so this new case needs some refactoring.
-
-I also think we need v4l2-compliance tests for it.
-
-Thanks!
-Ezequiel
-
-
-> +               }
-> +               break;
-> +       default:
-> +               return -EINVAL;
-> +       }
-> +
-> +       return 0;
-> +}
-> +
->  static int hantro_jpeg_s_ctrl(struct v4l2_ctrl *ctrl)
->  {
->         struct hantro_ctx *ctx;
-> @@ -328,6 +347,11 @@ static const struct v4l2_ctrl_ops hantro_ctrl_ops = {
->         .try_ctrl = hantro_try_ctrl,
->  };
->
-> +static const struct v4l2_ctrl_ops hantro_hevc_ctrl_ops = {
-> +       .s_ctrl = hantro_hevc_s_ctrl,
-> +       .try_ctrl = hantro_try_ctrl,
-> +};
-> +
->  static const struct v4l2_ctrl_ops hantro_jpeg_ctrl_ops = {
->         .s_ctrl = hantro_jpeg_s_ctrl,
->  };
-> @@ -470,7 +494,7 @@ static const struct hantro_ctrl controls[] = {
->                 .codec = HANTRO_HEVC_DECODER,
->                 .cfg = {
->                         .id = V4L2_CID_STATELESS_HEVC_SPS,
-> -                       .ops = &hantro_ctrl_ops,
-> +                       .ops = &hantro_hevc_ctrl_ops,
->                 },
->         }, {
->                 .codec = HANTRO_HEVC_DECODER,
-> diff --git a/drivers/media/platform/verisilicon/hantro_v4l2.c b/drivers/media/platform/verisilicon/hantro_v4l2.c
-> index 2c7a805289e7..0025e049dd26 100644
-> --- a/drivers/media/platform/verisilicon/hantro_v4l2.c
-> +++ b/drivers/media/platform/verisilicon/hantro_v4l2.c
-> @@ -398,7 +398,7 @@ hantro_reset_encoded_fmt(struct hantro_ctx *ctx)
->                 hantro_set_fmt_out(ctx, fmt);
->  }
->
-> -static void
-> +void
->  hantro_reset_raw_fmt(struct hantro_ctx *ctx)
->  {
->         const struct hantro_fmt *raw_vpu_fmt;
-> diff --git a/drivers/media/platform/verisilicon/hantro_v4l2.h b/drivers/media/platform/verisilicon/hantro_v4l2.h
-> index 64f6f57e9d7a..f642560aed93 100644
-> --- a/drivers/media/platform/verisilicon/hantro_v4l2.h
-> +++ b/drivers/media/platform/verisilicon/hantro_v4l2.h
-> @@ -21,6 +21,7 @@
->  extern const struct v4l2_ioctl_ops hantro_ioctl_ops;
->  extern const struct vb2_ops hantro_queue_ops;
->
-> +void hantro_reset_raw_fmt(struct hantro_ctx *ctx);
->  void hantro_reset_fmts(struct hantro_ctx *ctx);
->  int hantro_get_format_depth(u32 fourcc);
->  const struct hantro_fmt *
-> diff --git a/drivers/media/platform/verisilicon/imx8m_vpu_hw.c b/drivers/media/platform/verisilicon/imx8m_vpu_hw.c
-> index b390228fd3b4..f850d8bddef6 100644
-> --- a/drivers/media/platform/verisilicon/imx8m_vpu_hw.c
-> +++ b/drivers/media/platform/verisilicon/imx8m_vpu_hw.c
-> @@ -152,6 +152,7 @@ static const struct hantro_fmt imx8m_vpu_g2_postproc_fmts[] = {
->         {
->                 .fourcc = V4L2_PIX_FMT_NV12,
->                 .codec_mode = HANTRO_MODE_NONE,
-> +               .match_depth = true,
->                 .postprocessed = true,
->                 .frmsize = {
->                         .min_width = FMT_MIN_WIDTH,
-> @@ -165,6 +166,7 @@ static const struct hantro_fmt imx8m_vpu_g2_postproc_fmts[] = {
->         {
->                 .fourcc = V4L2_PIX_FMT_P010,
->                 .codec_mode = HANTRO_MODE_NONE,
-> +               .match_depth = true,
->                 .postprocessed = true,
->                 .frmsize = {
->                         .min_width = FMT_MIN_WIDTH,
-> --
-> 2.34.1
->
+Thanks and God Bless You.
+Ms Hinda Itno Deby
