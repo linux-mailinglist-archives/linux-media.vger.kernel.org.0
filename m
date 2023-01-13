@@ -2,159 +2,122 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0624D669389
-	for <lists+linux-media@lfdr.de>; Fri, 13 Jan 2023 10:57:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6F60D6693B1
+	for <lists+linux-media@lfdr.de>; Fri, 13 Jan 2023 11:07:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241008AbjAMJ5q (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 13 Jan 2023 04:57:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42936 "EHLO
+        id S240846AbjAMKHE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 13 Jan 2023 05:07:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51146 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241135AbjAMJ5L (ORCPT
+        with ESMTP id S239755AbjAMKG5 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 13 Jan 2023 04:57:11 -0500
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B651C6B5AF
-        for <linux-media@vger.kernel.org>; Fri, 13 Jan 2023 01:54:21 -0800 (PST)
-Received: from dude05.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::54])
-        by metis.ext.pengutronix.de with esmtp (Exim 4.92)
-        (envelope-from <m.tretter@pengutronix.de>)
-        id 1pGGlO-0003cp-Ji; Fri, 13 Jan 2023 10:54:18 +0100
-From:   Michael Tretter <m.tretter@pengutronix.de>
-Date:   Fri, 13 Jan 2023 10:54:22 +0100
-Subject: [PATCH v2 16/16] media: imx-pxp: convert to regmap
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20230112-imx-pxp-v2-16-e2281da1db55@pengutronix.de>
-References: <20230112-imx-pxp-v2-0-e2281da1db55@pengutronix.de>
-In-Reply-To: <20230112-imx-pxp-v2-0-e2281da1db55@pengutronix.de>
-To:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Michael Tretter <m.tretter@pengutronix.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Fabio Estevam <festevam@gmail.com>,
-        Alexander Stein <alexander.stein@ew.tq-group.com>,
-        kernel@pengutronix.de, linux-imx@nxp.com,
-        linux-arm-kernel@lists.infradead.org
-X-Mailer: b4 0.11.2
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:1101:1d::54
-X-SA-Exim-Mail-From: m.tretter@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        Fri, 13 Jan 2023 05:06:57 -0500
+Received: from wnew4-smtp.messagingengine.com (wnew4-smtp.messagingengine.com [64.147.123.18])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 186DC34D65;
+        Fri, 13 Jan 2023 02:06:56 -0800 (PST)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+        by mailnew.west.internal (Postfix) with ESMTP id 59F1E2B066ED;
+        Fri, 13 Jan 2023 05:06:53 -0500 (EST)
+Received: from imap51 ([10.202.2.101])
+  by compute6.internal (MEProxy); Fri, 13 Jan 2023 05:06:55 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+        :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+        :message-id:mime-version:references:reply-to:sender:subject
+        :subject:to:to; s=fm2; t=1673604412; x=1673611612; bh=wiGd1poFqy
+        c19NDgfhWxoziS+5a2ezYepeVzBSacqw8=; b=jQa0HDmPBmL/FfJL+hgRmPsB40
+        Y3mC3xChdI36TABN4RG5b4ucaLsZc6+hC+19/zCIm4A4ie1QOoF7GdEwpLDXWLgg
+        YS7KkbMyef4z8Yilol0xjO/jcY2PDSzSOyaObnKUz9YejiKar9NRQ/48gMheN8SP
+        L9ydOdhClMFMN+laVtMxeJLlISQdpKBcfrhR3HNQLngArqhNZXfmj7B7QaV3Yjlc
+        q1pbz3p93X/orY60g/G7bg2Tiz9gOW8CeW5RhiSUeYXFN/oIPHXLd05ewSyQoczy
+        YcvZ76uBqZ6njLqUwdbbXb3on9pD3cxdKgfVZ0av7GSfMv1N46xG/nNSra4w==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+        :mime-version:references:reply-to:sender:subject:subject:to:to
+        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+        fm3; t=1673604412; x=1673611612; bh=wiGd1poFqyc19NDgfhWxoziS+5a2
+        ezYepeVzBSacqw8=; b=T9tKOcHloTqEvCQgyITgoeWHiCG023yZCoHB8GCNjjun
+        JWtWHvJqinTMKxNzOHfWFkde1UNzFYeNjWL4OYuUevGP5ZiDtpX0SAgeRoVmsRqT
+        4s4imE9aYV/f9Pvbl/xyCzDnDswOyuD8ceeVeSEppPmXeTdO2UYN2NW+SPkjkx6z
+        7AGNecW4IwYIR8h6khoClacES7xN1wBX6oY0XpQ9E/MHHJqDRpFMe5RHSjqUpFHQ
+        972R/sDnO/VHBlJ/MZtdHhD4RBw3rwTM6MhJr5iT0G2mUNkzC1EVZ0kt797d6W2S
+        fBdJ8aBi3uu6VLi/i8mbcHwOUByNIvAxQvGBru7fCg==
+X-ME-Sender: <xms:Oy3BY2x8u8jGs5oav_hETNuy2fGaBGNB7nGV00CwtVI39ajIhtTDrA>
+    <xme:Oy3BYyQeI43uOCS5CK49RFBPrQXLvgoH7jyxA1EWEhaXS1U_GFSXnUcOsyByJ4HxX
+    7ebslCPuxwL7F72QUk>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrleekgddtkecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdetrhhn
+    ugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrghtth
+    gvrhhnpeffheeugeetiefhgeethfejgfdtuefggeejleehjeeutefhfeeggefhkedtkeet
+    ffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrh
+    hnugesrghrnhgusgdruggv
+X-ME-Proxy: <xmx:Oy3BY4WFmJ1Wzov0EgMi6qcJljjNqlgJoW7YxZYtni3we9ZcuZJC0Q>
+    <xmx:Oy3BY8jDZdOmomBzdPQYugeTKvRs2JAmwJR9qFQ78gYn6oU0QQd3og>
+    <xmx:Oy3BY4DQ3Zg11gEbb70JkOCpYbMnoYHqWtdB8svYNbX-CHCrZb2sRA>
+    <xmx:PC3BYzV0__Pe1Lv9Yq1qvCTC7InwXhC6SGzQNcMq4ULKQsDh2lBDrgxrUdU>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+        id B041DB60086; Fri, 13 Jan 2023 05:06:51 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.7.0-alpha0-1185-g841157300a-fm-20221208.002-g84115730
+Mime-Version: 1.0
+Message-Id: <d9c2f760-283b-483c-8512-fdd2c372f26c@app.fastmail.com>
+In-Reply-To: <CAMuHMdXYt4dNHUDsTnPa-RP+sdK=35nNa9xQzMChwK54qO44mA@mail.gmail.com>
+References: <20230113062339.1909087-1-hch@lst.de>
+ <20230113062339.1909087-12-hch@lst.de>
+ <CAMuHMdXYt4dNHUDsTnPa-RP+sdK=35nNa9xQzMChwK54qO44mA@mail.gmail.com>
+Date:   Fri, 13 Jan 2023 11:06:22 +0100
+From:   "Arnd Bergmann" <arnd@arndb.de>
+To:     "Geert Uytterhoeven" <geert@linux-m68k.org>,
+        "Christoph Hellwig" <hch@lst.de>
+Cc:     "Yoshinori Sato" <ysato@users.sourceforge.jp>,
+        "Rich Felker" <dalias@libc.org>,
+        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+        "laurent.pinchart" <laurent.pinchart@ideasonboard.com>,
+        "Kieran Bingham" <kieran.bingham+renesas@ideasonboard.com>,
+        "Geert Uytterhoeven" <geert+renesas@glider.be>,
+        linux-kernel@vger.kernel.org, linux-watchdog@vger.kernel.org,
+        devicetree@vger.kernel.org,
+        Linux-Arch <linux-arch@vger.kernel.org>,
+        dmaengine@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        linux-i2c@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-media@vger.kernel.org,
+        "linux-mmc @ vger . kernel . org" <linux-mmc@vger.kernel.org>,
+        linux-mtd@lists.infradead.org, Netdev <netdev@vger.kernel.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        linux-rtc@vger.kernel.org, linux-spi@vger.kernel.org,
+        linux-serial@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-fbdev@vger.kernel.org, alsa-devel@alsa-project.org,
+        linux-sh@vger.kernel.org
+Subject: Re: [PATCH 11/22] mtd/nand: remove sh_flctl
+Content-Type: text/plain
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Replace the readl and writel with regmap to ease debugging the registers
-from userspace.
+On Fri, Jan 13, 2023, at 09:30, Geert Uytterhoeven wrote:
+> On Fri, Jan 13, 2023 at 7:24 AM Christoph Hellwig <hch@lst.de> wrote:
+>> Now that arch/sh is removed this driver is dead code.
+>
+> FTR, this hardware block is also present on the ARM-based
+> SH-Mobile AG5 and R-Mobile A1 SoCs.
+> Again, no DT support.
 
-Suggested-by: Alexander Stein <alexander.stein@ew.tq-group.com>
-Signed-off-by: Michael Tretter <m.tretter@pengutronix.de>
----
-Changelog
+I would generally consider drivers dead when they have no DT support
+and no platform in the upstream kernel registering the corresponding
+device.
 
-v2:
+If anyone still uses this driver on SH-Mobile or R-Mobile, they
+have clearly given up on upstreaming their patches by now, and
+they can carry the burden of maintaining the driver out of tree,
+or re-submit a working version.
 
-- new patch
----
- drivers/media/platform/nxp/imx-pxp.c | 31 +++++++++++++++++++++++--------
- 1 file changed, 23 insertions(+), 8 deletions(-)
-
-diff --git a/drivers/media/platform/nxp/imx-pxp.c b/drivers/media/platform/nxp/imx-pxp.c
-index b8a7e49cbc08..f2e9608a7d2d 100644
---- a/drivers/media/platform/nxp/imx-pxp.c
-+++ b/drivers/media/platform/nxp/imx-pxp.c
-@@ -21,6 +21,7 @@
- #include <linux/of.h>
- #include <linux/of_device.h>
- #include <linux/platform_device.h>
-+#include <linux/regmap.h>
- #include <linux/sched.h>
- #include <linux/slab.h>
- 
-@@ -176,6 +177,13 @@ enum {
- 	V4L2_M2M_DST = 1,
- };
- 
-+static const struct regmap_config pxp_regmap_config = {
-+	.reg_bits = 32,
-+	.reg_stride = 4,
-+	.val_bits = 32,
-+	.max_register = HW_PXP_VERSION,
-+};
-+
- static struct pxp_fmt *find_format(unsigned int pixelformat)
- {
- 	struct pxp_fmt *fmt;
-@@ -207,7 +215,7 @@ struct pxp_dev {
- #endif
- 
- 	struct clk		*clk;
--	void __iomem		*mmio;
-+	struct regmap		*regmap;
- 
- 	const struct pxp_pdata	*pdata;
- 
-@@ -255,12 +263,16 @@ static struct pxp_q_data *get_q_data(struct pxp_ctx *ctx,
- 
- static inline u32 pxp_read(struct pxp_dev *dev, u32 reg)
- {
--	return readl(dev->mmio + reg);
-+	u32 value;
-+
-+	regmap_read(dev->regmap, reg, &value);
-+
-+	return value;
- }
- 
- static inline void pxp_write(struct pxp_dev *dev, u32 reg, u32 value)
- {
--	writel(value, dev->mmio + reg);
-+	regmap_write(dev->regmap, reg, value);
- }
- 
- static u32 pxp_v4l2_pix_fmt_to_ps_format(u32 v4l2_pix_fmt)
-@@ -1756,8 +1768,8 @@ static int pxp_soft_reset(struct pxp_dev *dev)
- 
- 	pxp_write(dev, HW_PXP_CTRL_SET, BM_PXP_CTRL_SFTRST);
- 
--	ret = readl_poll_timeout(dev->mmio + HW_PXP_CTRL, val,
--				 val & BM_PXP_CTRL_CLKGATE, 0, 100);
-+	ret = regmap_read_poll_timeout(dev->regmap, HW_PXP_CTRL, val,
-+				       val & BM_PXP_CTRL_CLKGATE, 0, 100);
- 	if (ret < 0)
- 		return ret;
- 
-@@ -1774,6 +1786,7 @@ static int pxp_probe(struct platform_device *pdev)
- 	int irq;
- 	u32 hw_version;
- 	int ret;
-+	void __iomem *mmio;
- 
- 	dev = devm_kzalloc(&pdev->dev, sizeof(*dev), GFP_KERNEL);
- 	if (!dev)
-@@ -1788,9 +1801,11 @@ static int pxp_probe(struct platform_device *pdev)
- 		return ret;
- 	}
- 
--	dev->mmio = devm_platform_ioremap_resource(pdev, 0);
--	if (IS_ERR(dev->mmio))
--		return PTR_ERR(dev->mmio);
-+	mmio = devm_platform_ioremap_resource(pdev, 0);
-+	if (IS_ERR(mmio))
-+		return PTR_ERR(mmio);
-+	dev->regmap = devm_regmap_init_mmio(&pdev->dev, mmio,
-+					    &pxp_regmap_config);
- 
- 	irq = platform_get_irq(pdev, 0);
- 	if (irq < 0)
-
--- 
-2.30.2
+    Arnd
