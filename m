@@ -2,77 +2,53 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B5799669831
-	for <lists+linux-media@lfdr.de>; Fri, 13 Jan 2023 14:15:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 02F23669866
+	for <lists+linux-media@lfdr.de>; Fri, 13 Jan 2023 14:22:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240122AbjAMNPv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 13 Jan 2023 08:15:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48500 "EHLO
+        id S241450AbjAMNWO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 13 Jan 2023 08:22:14 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53652 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232755AbjAMNPX (ORCPT
+        with ESMTP id S235451AbjAMNVm (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 13 Jan 2023 08:15:23 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 442DD485BF
-        for <linux-media@vger.kernel.org>; Fri, 13 Jan 2023 05:03:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1673614989;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=mfmWBFHq3QdJ8Mbs23/FdpCEeH6NIz261ChPtazTb7k=;
-        b=FPHhTA489sq+eWfrs0ttqikyr7TUAnR4HpvbA4dER7PrJ/9XYYZvt8DoW35kg/oQGOeM8/
-        gGcarI6/oj+k8+HuIccMnVNhRWuyYSLkAEnbo+KjLf3s6Z7o2C6+Y9CM8oe+e/372rG/oK
-        sZe6NCwO1iaA+18LbF1wv9TsMjd7org=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-28-mQn4DsY8OY2O0GvKgldeMw-1; Fri, 13 Jan 2023 08:01:03 -0500
-X-MC-Unique: mQn4DsY8OY2O0GvKgldeMw-1
-Received: by mail-ej1-f71.google.com with SMTP id ga21-20020a1709070c1500b007c171be7cd7so15280735ejc.20
-        for <linux-media@vger.kernel.org>; Fri, 13 Jan 2023 05:01:03 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=mfmWBFHq3QdJ8Mbs23/FdpCEeH6NIz261ChPtazTb7k=;
-        b=DhXrZyZOwmMZI8cqDHRNFFamyF3VPGvoK5J7rl041rNJ7QLDOxzhkbs+aQWjKfOo6n
-         hKcY6R6kWvOMMpZwF7pmeESRaksaEF3nu8Y2uSrYwjcMtK7XZeWqtRYLVVwDjLDH+KDN
-         Q0wNQmCrNELiMeEF9uLyeeMT4dMWZh8g5NUh/73tvZI+kajwgRVTBjL3gz6lk8HSAYEr
-         xu0R9qcatZnJoAGobmfXDOe0e2eLJPX5/GWlBQxieOF9QIzFdN+vGrvtpVg3RrCWCsy1
-         cDNn6hWepIQkk1zDWwtN745Qu9bDfC9kOuhId2Yr6MIeP1hLWSKcSnNWwtHpd8BFPh9o
-         ev3Q==
-X-Gm-Message-State: AFqh2koqkPxfX/ydItxRq1mnau10eJTaWok/PwvsZX86j/IUWE4ifpF9
-        Y9dRKwQsd+Zlhha7XwDAgUEowg3NrJuHIE84CVo+3DFbF94jJQNrY8lxVivSTBYOpRgDSIgXFMH
-        3oRngbaT9pmpHubuCRrg5CJ8=
-X-Received: by 2002:a17:907:272b:b0:866:d17a:e50 with SMTP id d11-20020a170907272b00b00866d17a0e50mr5823037ejl.70.1673614861731;
-        Fri, 13 Jan 2023 05:01:01 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXuq9wBoW1xaYIfkfGdyhB0kl/b0YpqvIu1HE1SWM751Xnx7RYPUt3ut2Pyn8HjPnw3coTWXFA==
-X-Received: by 2002:a17:907:272b:b0:866:d17a:e50 with SMTP id d11-20020a170907272b00b00866d17a0e50mr5823021ejl.70.1673614861501;
-        Fri, 13 Jan 2023 05:01:01 -0800 (PST)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id y16-20020a1709063a9000b0084ce5d5d21bsm8488059ejd.22.2023.01.13.05.01.00
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 13 Jan 2023 05:01:00 -0800 (PST)
-Message-ID: <86978231-7c5a-c1a0-ef33-b49924b441bd@redhat.com>
-Date:   Fri, 13 Jan 2023 14:00:59 +0100
+        Fri, 13 Jan 2023 08:21:42 -0500
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 31DCC59D10;
+        Fri, 13 Jan 2023 05:13:06 -0800 (PST)
+Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:299b:2170:fef0:26ee])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: benjamin.gaignard)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 5AC446600010;
+        Fri, 13 Jan 2023 13:13:04 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1673615584;
+        bh=VqwCudtI0SZq/0MSnI5aLFMDHO/pDPFpBRABocGAm/U=;
+        h=From:To:Cc:Subject:Date:From;
+        b=XORmRfmsoTn5+QUnYMG2x5nCRbwnhDMUDwbHCpTRWvktJKvxLxLmJewLOS1qNajLN
+         GP9ylqVDfTh9PgW6GOcCeynDvykGqcBZaP4yqnLFidb3q1s4Dtl9IaTGHPZ0fOzpSc
+         1bLKJiluz/7V50w+QRBUu9wUGZ3eS1IFZOm9HKE7yv0hIZxX+P7RpKeP51wYUjJMIG
+         soNhxIdsv+v8/0StYwKuprfj3mOdTMkrBfdrxcamZVrvezgbdm+W3Z1j18/gC8QMsz
+         XSoSOisiZkKk0IyeYmOLQLY0L0ItwY5J6lmlstrmJ6cCwmsZcjT3fFWIj5IQsqI1Kt
+         mn1tZyQUnpV8A==
+From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
+To:     ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
+        mchehab@kernel.org, shawnguo@kernel.org, s.hauer@pengutronix.de,
+        kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
+        hverkuil-cisco@xs4all.nl, nicolas.dufresne@collabora.co.uk
+Cc:     linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        kernel@collabora.com,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Subject: [PATCH v2] media: verisilicon: HEVC: Only propose 10 bits compatible pixels formats
+Date:   Fri, 13 Jan 2023 14:12:57 +0100
+Message-Id: <20230113131257.661079-1-benjamin.gaignard@collabora.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH] atomisp: use vb2_start_streaming_called()
-To:     Hans Verkuil <hverkuil@xs4all.nl>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>
-References: <bc6c24ec-72ea-64a1-9061-311cc7339827@xs4all.nl>
-Content-Language: en-US, nl
-From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <bc6c24ec-72ea-64a1-9061-311cc7339827@xs4all.nl>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -80,43 +56,149 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+When decoding a 10bits bitstreams HEVC driver should only expose
+10bits pixel formats.
+To fulfill this requirement it is needed to call hantro_reset_raw_fmt()
+when bit depth change and to correctly set match_depth in pixel formats
+enumeration.
 
-On 12/8/22 09:12, Hans Verkuil wrote:
-> Don't touch q->start_streaming_called directly, use the
-> vb2_start_streaming_called() function instead.
-> 
-> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Fixes: dc39473d0340 ("media: hantro: imx8m: Enable 10bit decoding")
 
-Thank you I have added this to my list of pending atomisp
-patches now.
+Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+---
+version 2:
+- Also remove struct hantro_ctx *ctx variable in hantro_try_ctrl()
 
-Regards,
+ .../media/platform/verisilicon/hantro_drv.c   | 40 +++++++++++++++----
+ .../media/platform/verisilicon/hantro_v4l2.c  |  2 +-
+ .../media/platform/verisilicon/hantro_v4l2.h  |  1 +
+ .../media/platform/verisilicon/imx8m_vpu_hw.c |  2 +
+ 4 files changed, 36 insertions(+), 9 deletions(-)
 
-Hans
-
-
-> ---
->  drivers/staging/media/atomisp/pci/atomisp_ioctl.c | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-> index cb01ba65c88f..4f35e8f8250a 100644
-> --- a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-> +++ b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-> @@ -636,10 +636,10 @@ static int atomisp_enum_input(struct file *file, void *fh,
->  static unsigned int
->  atomisp_subdev_streaming_count(struct atomisp_sub_device *asd)
->  {
-> -	return asd->video_out_preview.vb_queue.start_streaming_called
-> -	       + asd->video_out_capture.vb_queue.start_streaming_called
-> -	       + asd->video_out_video_capture.vb_queue.start_streaming_called
-> -	       + asd->video_out_vf.vb_queue.start_streaming_called;
-> +	return vb2_start_streaming_called(&asd->video_out_preview.vb_queue) +
-> +	       vb2_start_streaming_called(&asd->video_out_capture.vb_queue) +
-> +	       vb2_start_streaming_called(&asd->video_out_video_capture.vb_queue) +
-> +	       vb2_start_streaming_called(&asd->video_out_vf.vb_queue);
->  }
-> 
->  unsigned int atomisp_streaming_count(struct atomisp_device *isp)
+diff --git a/drivers/media/platform/verisilicon/hantro_drv.c b/drivers/media/platform/verisilicon/hantro_drv.c
+index 8cb4a68c9119..e824e87618db 100644
+--- a/drivers/media/platform/verisilicon/hantro_drv.c
++++ b/drivers/media/platform/verisilicon/hantro_drv.c
+@@ -251,11 +251,6 @@ queue_init(void *priv, struct vb2_queue *src_vq, struct vb2_queue *dst_vq)
+ 
+ static int hantro_try_ctrl(struct v4l2_ctrl *ctrl)
+ {
+-	struct hantro_ctx *ctx;
+-
+-	ctx = container_of(ctrl->handler,
+-			   struct hantro_ctx, ctrl_handler);
+-
+ 	if (ctrl->id == V4L2_CID_STATELESS_H264_SPS) {
+ 		const struct v4l2_ctrl_h264_sps *sps = ctrl->p_new.p_h264_sps;
+ 
+@@ -274,8 +269,6 @@ static int hantro_try_ctrl(struct v4l2_ctrl *ctrl)
+ 		if (sps->bit_depth_luma_minus8 != 0 && sps->bit_depth_luma_minus8 != 2)
+ 			/* Only 8-bit and 10-bit are supported */
+ 			return -EINVAL;
+-
+-		ctx->bit_depth = sps->bit_depth_luma_minus8 + 8;
+ 	} else if (ctrl->id == V4L2_CID_STATELESS_VP9_FRAME) {
+ 		const struct v4l2_ctrl_vp9_frame *dec_params = ctrl->p_new.p_vp9_frame;
+ 
+@@ -286,6 +279,32 @@ static int hantro_try_ctrl(struct v4l2_ctrl *ctrl)
+ 	return 0;
+ }
+ 
++static int hantro_hevc_s_ctrl(struct v4l2_ctrl *ctrl)
++{
++	struct hantro_ctx *ctx;
++
++	ctx = container_of(ctrl->handler,
++			   struct hantro_ctx, ctrl_handler);
++
++	vpu_debug(1, "s_ctrl: id = %d, val = %d\n", ctrl->id, ctrl->val);
++
++	switch (ctrl->id) {
++	case V4L2_CID_STATELESS_HEVC_SPS:
++		const struct v4l2_ctrl_hevc_sps *sps = ctrl->p_new.p_hevc_sps;
++		int bit_depth = sps->bit_depth_luma_minus8 + 8;
++
++		if (ctx->bit_depth != bit_depth) {
++			ctx->bit_depth = bit_depth;
++			hantro_reset_raw_fmt(ctx);
++		}
++		break;
++	default:
++		return -EINVAL;
++	}
++
++	return 0;
++}
++
+ static int hantro_jpeg_s_ctrl(struct v4l2_ctrl *ctrl)
+ {
+ 	struct hantro_ctx *ctx;
+@@ -328,6 +347,11 @@ static const struct v4l2_ctrl_ops hantro_ctrl_ops = {
+ 	.try_ctrl = hantro_try_ctrl,
+ };
+ 
++static const struct v4l2_ctrl_ops hantro_hevc_ctrl_ops = {
++	.s_ctrl = hantro_hevc_s_ctrl,
++	.try_ctrl = hantro_try_ctrl,
++};
++
+ static const struct v4l2_ctrl_ops hantro_jpeg_ctrl_ops = {
+ 	.s_ctrl = hantro_jpeg_s_ctrl,
+ };
+@@ -470,7 +494,7 @@ static const struct hantro_ctrl controls[] = {
+ 		.codec = HANTRO_HEVC_DECODER,
+ 		.cfg = {
+ 			.id = V4L2_CID_STATELESS_HEVC_SPS,
+-			.ops = &hantro_ctrl_ops,
++			.ops = &hantro_hevc_ctrl_ops,
+ 		},
+ 	}, {
+ 		.codec = HANTRO_HEVC_DECODER,
+diff --git a/drivers/media/platform/verisilicon/hantro_v4l2.c b/drivers/media/platform/verisilicon/hantro_v4l2.c
+index 2c7a805289e7..0025e049dd26 100644
+--- a/drivers/media/platform/verisilicon/hantro_v4l2.c
++++ b/drivers/media/platform/verisilicon/hantro_v4l2.c
+@@ -398,7 +398,7 @@ hantro_reset_encoded_fmt(struct hantro_ctx *ctx)
+ 		hantro_set_fmt_out(ctx, fmt);
+ }
+ 
+-static void
++void
+ hantro_reset_raw_fmt(struct hantro_ctx *ctx)
+ {
+ 	const struct hantro_fmt *raw_vpu_fmt;
+diff --git a/drivers/media/platform/verisilicon/hantro_v4l2.h b/drivers/media/platform/verisilicon/hantro_v4l2.h
+index 64f6f57e9d7a..f642560aed93 100644
+--- a/drivers/media/platform/verisilicon/hantro_v4l2.h
++++ b/drivers/media/platform/verisilicon/hantro_v4l2.h
+@@ -21,6 +21,7 @@
+ extern const struct v4l2_ioctl_ops hantro_ioctl_ops;
+ extern const struct vb2_ops hantro_queue_ops;
+ 
++void hantro_reset_raw_fmt(struct hantro_ctx *ctx);
+ void hantro_reset_fmts(struct hantro_ctx *ctx);
+ int hantro_get_format_depth(u32 fourcc);
+ const struct hantro_fmt *
+diff --git a/drivers/media/platform/verisilicon/imx8m_vpu_hw.c b/drivers/media/platform/verisilicon/imx8m_vpu_hw.c
+index b390228fd3b4..f850d8bddef6 100644
+--- a/drivers/media/platform/verisilicon/imx8m_vpu_hw.c
++++ b/drivers/media/platform/verisilicon/imx8m_vpu_hw.c
+@@ -152,6 +152,7 @@ static const struct hantro_fmt imx8m_vpu_g2_postproc_fmts[] = {
+ 	{
+ 		.fourcc = V4L2_PIX_FMT_NV12,
+ 		.codec_mode = HANTRO_MODE_NONE,
++		.match_depth = true,
+ 		.postprocessed = true,
+ 		.frmsize = {
+ 			.min_width = FMT_MIN_WIDTH,
+@@ -165,6 +166,7 @@ static const struct hantro_fmt imx8m_vpu_g2_postproc_fmts[] = {
+ 	{
+ 		.fourcc = V4L2_PIX_FMT_P010,
+ 		.codec_mode = HANTRO_MODE_NONE,
++		.match_depth = true,
+ 		.postprocessed = true,
+ 		.frmsize = {
+ 			.min_width = FMT_MIN_WIDTH,
+-- 
+2.34.1
 
