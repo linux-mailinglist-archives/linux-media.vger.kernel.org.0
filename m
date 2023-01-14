@@ -2,56 +2,56 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AC36D66A83B
-	for <lists+linux-media@lfdr.de>; Sat, 14 Jan 2023 02:28:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3EE6566A8BD
+	for <lists+linux-media@lfdr.de>; Sat, 14 Jan 2023 03:49:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230119AbjANB17 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 13 Jan 2023 20:27:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58282 "EHLO
+        id S231357AbjANCtL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 13 Jan 2023 21:49:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53554 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231201AbjANB15 (ORCPT
+        with ESMTP id S230492AbjANCtJ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 13 Jan 2023 20:27:57 -0500
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F56E7F9C3;
-        Fri, 13 Jan 2023 17:27:52 -0800 (PST)
+        Fri, 13 Jan 2023 21:49:09 -0500
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B9351A47C;
+        Fri, 13 Jan 2023 18:49:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1673659672; x=1705195672;
+  t=1673664545; x=1705200545;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=eaFCZQByrM0ldWVvZrqftKMl+yX593cmcsPo3NIQnXw=;
-  b=dqrOo2pKRLqV0wiztqRPOY0HjymXkjw84Y90S4k5Fbt7PXojIqu5cHg1
-   LdendHtSk6urWk7xMtzo3Q6yehmuGlv6gFPHtqvaOdkKFReDLow03ByJ+
-   SUhQf4XuRiN54nWUdpag+EriCrOi/ScaVK6nhJElboHaUR7/jhbjwP6ly
-   wQGvMDESNVDWc7e3ihKETiczvEhZG2Y57NF8KDgX7e0Oa+N8I7wqFtYPu
-   esDw4VpwQqsslLniAaHY3MjhunGSW1qNhzvKebE/sz3vD+M+DAQe36jbu
-   3eCTBgCW3YnAJpPfwCP6sQe/YeJjxa0xrA1MCHkG+9r9oIXZQjSIi5D1Y
+  bh=jHu5liN80x8ZkbDHxypcEmCeIwfJoEY9NeuN9auCG9c=;
+  b=bZnn0sqyZsDnT2x8wx/f3xH2bBmmUPGBJTHp9ioaAp5Gt0yZSRji57gS
+   HBT8KAcWZzf3hV0zSbcBlunBH1VAG97Pp9gZdhH7gDFD0zMMjeLrIw/k9
+   mMr9W7brMh0K7uHNW9PLxrXCb1UH2pWEF/H4+N9kU50gFiq8eZ0G29xPB
+   rTLZI1+JbP3gX7UhIHyZjkOHdXOSaLNHEtm2eBoa0XjDuxwYYp53JacEx
+   ZE+kxeR7j3B8BQ6y/F2O4qvVOI+/L8iLqfuCeHRgin5xYQNEJVnD1X6ko
+   lOn1fsD9rjdo3j/hZNoJnN6p1h//t1rMbD3ILSBxhgizIy2IGryu3uEVj
    g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10589"; a="304528884"
+X-IronPort-AV: E=McAfee;i="6500,9779,10589"; a="386500425"
 X-IronPort-AV: E=Sophos;i="5.97,215,1669104000"; 
-   d="scan'208";a="304528884"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jan 2023 17:27:51 -0800
+   d="scan'208";a="386500425"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jan 2023 18:49:04 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10589"; a="635957647"
+X-IronPort-AV: E=McAfee;i="6500,9779,10589"; a="658407843"
 X-IronPort-AV: E=Sophos;i="5.97,215,1669104000"; 
-   d="scan'208";a="635957647"
+   d="scan'208";a="658407843"
 Received: from lkp-server02.sh.intel.com (HELO f1920e93ebb5) ([10.239.97.151])
-  by orsmga006.jf.intel.com with ESMTP; 13 Jan 2023 17:27:48 -0800
+  by orsmga002.jf.intel.com with ESMTP; 13 Jan 2023 18:49:01 -0800
 Received: from kbuild by f1920e93ebb5 with local (Exim 4.96)
         (envelope-from <lkp@intel.com>)
-        id 1pGVKl-000BbS-1d;
-        Sat, 14 Jan 2023 01:27:47 +0000
-Date:   Sat, 14 Jan 2023 09:27:41 +0800
+        id 1pGWbH-000BfU-36;
+        Sat, 14 Jan 2023 02:48:55 +0000
+Date:   Sat, 14 Jan 2023 10:48:42 +0800
 From:   kernel test robot <lkp@intel.com>
 To:     Mauro Carvalho Chehab <mchehab@kernel.org>
 Cc:     llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
         linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-Subject: drivers/media/platform/marvell/mmp-driver.c:364:34: warning: unused
- variable 'mmpcam_of_match'
-Message-ID: <202301140920.MCvS3OHk-lkp@intel.com>
+Subject: drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-core.c:1175:34:
+ warning: unused variable 'c8sectpfe_match'
+Message-ID: <202301141023.sUwX173W-lkp@intel.com>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="2olhQhfN0i4ZRB/N"
+Content-Type: multipart/mixed; boundary="qsCNDWynd0lPZPF0"
 Content-Disposition: inline
 X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
@@ -64,7 +64,7 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 
---2olhQhfN0i4ZRB/N
+--qsCNDWynd0lPZPF0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
@@ -74,54 +74,54 @@ First bad commit (maybe != root cause):
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   97ec4d559d939743e8af83628be5af8da610d9dc
-commit: dc7bbea90075b57772e9a28043061bf71d96f06f media: platform: rename marvell-ccic/ to marvell/
+commit: e7b8153e2a4f0c9c8d1450aa7328d54ea64fe8b2 media: platform: place stm32/ and sti/ under st/ dir
 date:   10 months ago
 config: hexagon-randconfig-r014-20230114
 compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 8d9828ef5aa9688500657d36cd2aefbe12bbd162)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=dc7bbea90075b57772e9a28043061bf71d96f06f
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=e7b8153e2a4f0c9c8d1450aa7328d54ea64fe8b2
         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
         git fetch --no-tags linus master
-        git checkout dc7bbea90075b57772e9a28043061bf71d96f06f
+        git checkout e7b8153e2a4f0c9c8d1450aa7328d54ea64fe8b2
         # save the config file
         mkdir build_dir && cp config build_dir/.config
         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash drivers/media/platform/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash drivers/media/platform/st/sti/c8sectpfe/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
 All warnings (new ones prefixed by >>):
 
->> drivers/media/platform/marvell/mmp-driver.c:364:34: warning: unused variable 'mmpcam_of_match' [-Wunused-const-variable]
-   static const struct of_device_id mmpcam_of_match[] = {
+>> drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-core.c:1175:34: warning: unused variable 'c8sectpfe_match' [-Wunused-const-variable]
+   static const struct of_device_id c8sectpfe_match[] = {
                                     ^
    1 warning generated.
 
 
-vim +/mmpcam_of_match +364 drivers/media/platform/marvell/mmp-driver.c
+vim +/c8sectpfe_match +1175 drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-core.c
 
-bb0a896e3d5083 drivers/media/video/marvell-ccic/mmp-driver.c    Jonathan Corbet 2011-12-30  363  
-83c40e6611ec1e drivers/media/platform/marvell-ccic/mmp-driver.c Lubomir Rintel  2019-05-28 @364  static const struct of_device_id mmpcam_of_match[] = {
-83c40e6611ec1e drivers/media/platform/marvell-ccic/mmp-driver.c Lubomir Rintel  2019-05-28  365  	{ .compatible = "marvell,mmp2-ccic", },
-83c40e6611ec1e drivers/media/platform/marvell-ccic/mmp-driver.c Lubomir Rintel  2019-05-28  366  	{},
-83c40e6611ec1e drivers/media/platform/marvell-ccic/mmp-driver.c Lubomir Rintel  2019-05-28  367  };
-08aac0e32fe44b drivers/media/platform/marvell-ccic/mmp-driver.c Lubomir Rintel  2019-07-22  368  MODULE_DEVICE_TABLE(of, mmpcam_of_match);
-67a8dbbc4e04cd drivers/media/video/marvell-ccic/mmp-driver.c    Jonathan Corbet 2011-06-11  369  
+c5f5d0f99794cf drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c Peter Griffin 2015-07-30  1174  
+c5f5d0f99794cf drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c Peter Griffin 2015-07-30 @1175  static const struct of_device_id c8sectpfe_match[] = {
+c5f5d0f99794cf drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c Peter Griffin 2015-07-30  1176  	{ .compatible = "st,stih407-c8sectpfe" },
+c5f5d0f99794cf drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c Peter Griffin 2015-07-30  1177  	{ /* sentinel */ },
+c5f5d0f99794cf drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c Peter Griffin 2015-07-30  1178  };
+c5f5d0f99794cf drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c Peter Griffin 2015-07-30  1179  MODULE_DEVICE_TABLE(of, c8sectpfe_match);
+c5f5d0f99794cf drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c Peter Griffin 2015-07-30  1180  
 
-:::::: The code at line 364 was first introduced by commit
-:::::: 83c40e6611ec1e548ece34f6940f516333abc16a media: marvell-ccic/mmp: add devicetree support
+:::::: The code at line 1175 was first introduced by commit
+:::::: c5f5d0f99794cfb675ecacfe37a1b33b352b9752 [media] c8sectpfe: STiH407/10 Linux DVB demux support
 
-:::::: TO: Lubomir Rintel <lkundrak@v3.sk>
-:::::: CC: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+:::::: TO: Peter Griffin <peter.griffin@linaro.org>
+:::::: CC: Mauro Carvalho Chehab <mchehab@osg.samsung.com>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
 
---2olhQhfN0i4ZRB/N
+--qsCNDWynd0lPZPF0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: attachment; filename=config
 
@@ -2147,9 +2147,9 @@ CONFIG_VIDEO_OMAP2_VOUT=y
 CONFIG_VIDEO_QCOM_CAMSS=y
 # CONFIG_VIDEO_RENESAS_CEU is not set
 CONFIG_VIDEO_SH_VOU=y
-CONFIG_DVB_C8SECTPFE=y
 # CONFIG_VIDEO_SUN4I_CSI is not set
 # CONFIG_VIDEO_SUN6I_CSI is not set
+CONFIG_DVB_C8SECTPFE=y
 CONFIG_VIDEO_TI_CAL=y
 # CONFIG_VIDEO_TI_CAL_MC is not set
 CONFIG_V4L_TEST_DRIVERS=y
@@ -5811,4 +5811,4 @@ CONFIG_TEST_FREE_PAGES=y
 # CONFIG_WARN_ABI_ERRORS is not set
 # end of Kernel hacking
 
---2olhQhfN0i4ZRB/N--
+--qsCNDWynd0lPZPF0--
