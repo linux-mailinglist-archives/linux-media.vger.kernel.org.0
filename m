@@ -2,41 +2,41 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 724DA66AD68
-	for <lists+linux-media@lfdr.de>; Sat, 14 Jan 2023 20:39:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F294366AD71
+	for <lists+linux-media@lfdr.de>; Sat, 14 Jan 2023 20:44:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229972AbjANTjN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 14 Jan 2023 14:39:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60958 "EHLO
+        id S230118AbjANTo4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 14 Jan 2023 14:44:56 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33836 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229918AbjANTjM (ORCPT
+        with ESMTP id S229972AbjANToy (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 14 Jan 2023 14:39:12 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6266255A9
-        for <linux-media@vger.kernel.org>; Sat, 14 Jan 2023 11:39:10 -0800 (PST)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0C500308;
-        Sat, 14 Jan 2023 20:39:06 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1673725147;
-        bh=lXmt5kNF2FooAe8+sCKdR2tZewzwPW6kb6oWcN07vzY=;
-        h=Date:From:To:Cc:Subject:From;
-        b=a2DZktnLqserEfvQo20E9l3PKwmOSD2WRytc+ekzE5l9nioQRA2/Myz4OWBcpNU70
-         xmKw9O16r/1iW0CgmqqXXoe1FtrYrg6dYQjgYoBshTCISojTJUxqNJrUrZTd7MhC9h
-         dnJw6ELeKYVeZyfm+RDHU3DXDYIH74lCxpcwmzeA=
-Date:   Sat, 14 Jan 2023 21:39:06 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     linux-media@vger.kernel.org
-Cc:     Michael Grzeschik <m.grzeschik@pengutronix.de>,
-        Ricardo Ribalda <ribalda@chromium.org>
-Subject: [GIT PULL FOR v6.3] uvcvideo changes
-Message-ID: <Y8ME2oZc7SRlhBCP@pendragon.ideasonboard.com>
+        Sat, 14 Jan 2023 14:44:54 -0500
+Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06871A5C9
+        for <linux-media@vger.kernel.org>; Sat, 14 Jan 2023 11:44:52 -0800 (PST)
+Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1pGmSP-00HWDl-UE; Sat, 14 Jan 2023 19:44:49 +0000
+Received: from ip6-localhost ([::1] helo=localhost.localdomain)
+        by slave0 with esmtp (Exim 4.94.2)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1pGmSL-00ABdL-0L; Sat, 14 Jan 2023 19:44:45 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL FOR v6.3] uvcvideo changes (#88916)
+Date:   Sat, 14 Jan 2023 19:44:44 +0000
+Message-Id: <20230114194444.2427953-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <Y8ME2oZc7SRlhBCP@pendragon.ideasonboard.com>
+References: 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -44,81 +44,12 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mauro,
+From: builder@linuxtv.org
 
-The following changes since commit 1b929c02afd37871d5afb9d498426f83432e71c2:
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/Y8ME2oZc7SRlhBCP@pendragon.ideasonboard.com/
+Build log: https://builder.linuxtv.org/job/patchwork/273347/
+Build time: 00:00:00
+Link: https://lore.kernel.org/linux-media/Y8ME2oZc7SRlhBCP@pendragon.ideasonboard.com
 
-  Linux 6.2-rc1 (2022-12-25 13:41:39 -0800)
-
-are available in the Git repository at:
-
-  git@gitolite.kernel.org:pub/scm/linux/kernel/git/pinchartl/linux.git tags/media-uvc-next-20230114
-
-for you to fetch changes up to fd957081cff04668f390c6f290bdcc7fc009a0f1:
-
-  media: uvcvideo: Silence memcpy() run-time false positive warnings (2023-01-14 17:21:40 +0200)
-
-The first commit in the branch (b5fd00fb8e89 "media: uvcvideo: Remove
-format descriptions") may need to be merged in the linux-usb tree as
-well, as it would conflict with work from Michael Grzeschik on the UVC
-gadget side. I've thus based this pull request on v6.2-rc1, making sure
-it can be used as a stable branch for Michael. Please merge it as-is,
-without cherry-picking.
-
-----------------------------------------------------------------
-uvcvideo fixes and improvements
-
-----------------------------------------------------------------
-Guenter Roeck (1):
-      media: uvcvideo: Handle errors from calls to usb_string
-
-Hans Verkuil (2):
-      media: uvcvideo: Check for INACTIVE in uvc_ctrl_is_accessible()
-      media: uvcvideo: Improve error logging in uvc_query_ctrl()
-
-Kees Cook (1):
-      media: uvcvideo: Silence memcpy() run-time false positive warnings
-
-Laurent Pinchart (2):
-      media: uvcvideo: Remove format descriptions
-      media: uvcvideo: Factor out usb_string() calls
-
-Pedro Guilherme Siqueira Moreira (3):
-      media: uvcvideo: Fix missing newline after declarations
-      media: uvcvideo: Fix assignment inside if condition
-      media: uvcvideo: Fix usage of symbolic permissions to octal
-
-Ricardo Ribalda (18):
-      media: uvcvideo: Handle cameras with invalid descriptors
-      media: uvcvideo: Only create input devs if hw supports it
-      media: uvcvideo: Remove void casting for the status endpoint
-      media: uvcvideo: Recover stalled ElGato devices
-      media: uvcvideo: Limit power line control for Acer EasyCamera
-      media: uvcvideo: Return -EACCES for Wrong state error
-      media: uvcvideo: Do not return positive errors in uvc_query_ctrl()
-      media: uvcvideo: Fix handling on Bitmask controls
-      media: uvcvideo: Refactor __uvc_ctrl_add_mapping
-      media: uvcvideo: Limit power line control for Acer EasyCamera
-      media: uvcvideo: Extend documentation of uvc_video_clock_decode()
-      media: uvcvideo: Implement mask for V4L2_CTRL_TYPE_MENU
-      media: uvcvideo: Refactor uvc_ctrl_mappings_uvcXX
-      media: uvcvideo: Refactor power_line_frequency_controls_limited
-      media: uvcvideo: Fix power line control for Lenovo Integrated Camera
-      media: uvcvideo: Use standard names for menus
-      media: uvcvideo: Fix race condition with usb_kill_urb
-      media: uvcvideo: Quirk for autosuspend in Logitech B910 and C910
-
- drivers/media/usb/uvc/uvc_ctrl.c   | 342 +++++++++++++++++++++++++++----------
- drivers/media/usb/uvc/uvc_driver.c | 181 +++++++++++---------
- drivers/media/usb/uvc/uvc_entity.c |   2 +-
- drivers/media/usb/uvc/uvc_status.c | 125 +++++++++-----
- drivers/media/usb/uvc/uvc_v4l2.c   | 111 ++++++++----
- drivers/media/usb/uvc/uvc_video.c  |  58 +++++--
- drivers/media/usb/uvc/uvcvideo.h   |  39 ++++-
- include/uapi/linux/uvcvideo.h      |   6 +-
- 8 files changed, 596 insertions(+), 268 deletions(-)
-
--- 
-Regards,
-
-Laurent Pinchart
+Build aborted due to a fatal error:
+FAILED: can't fetch patches from 1b929c02afd37871d5afb9d498426f83432e71c2 to fd957081cff04668f390c6f290bdcc7fc009a0f1
