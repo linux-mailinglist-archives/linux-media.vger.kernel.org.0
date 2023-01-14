@@ -2,45 +2,53 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2D8EA66AC0D
-	for <lists+linux-media@lfdr.de>; Sat, 14 Jan 2023 16:19:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D47CC66AC14
+	for <lists+linux-media@lfdr.de>; Sat, 14 Jan 2023 16:26:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229646AbjANPTN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 14 Jan 2023 10:19:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40864 "EHLO
+        id S229746AbjANP0M (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 14 Jan 2023 10:26:12 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42170 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229746AbjANPTM (ORCPT
+        with ESMTP id S229650AbjANP0K (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 14 Jan 2023 10:19:12 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2B8907EC3;
-        Sat, 14 Jan 2023 07:19:11 -0800 (PST)
-Received: from ideasonboard.com (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1D803E68;
-        Sat, 14 Jan 2023 16:19:09 +0100 (CET)
+        Sat, 14 Jan 2023 10:26:10 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A78656589;
+        Sat, 14 Jan 2023 07:26:09 -0800 (PST)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id BD605E68;
+        Sat, 14 Jan 2023 16:26:07 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1673709549;
-        bh=8DdFlTYIVYx7MH33ENuQ32ueX7/jjHZyqYmBP6RymQ8=;
+        s=mail; t=1673709968;
+        bh=Mxk+7v37ul20DB6RqJ3fOS53oL7b3kMxZZSPi2z4RBA=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=uCwTnM+POwxmPx9k1hfd/HTR/7druFEY/2QbW4vZHQ1srpjmMaxN7lQAKi6ej7QOh
-         NOoq+iaKGUsCfBVI2hXqFpKardxh4nsYtR5Wj1VmZzBKkop3RiPuHJdJlEDzYz7JsG
-         l9wLRKGZCqTptqqxK6Xw5kMWvn63VDFVmTQhnEh4=
-Date:   Sat, 14 Jan 2023 16:19:06 +0100
-From:   Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To:     Sakari Ailus <sakari.ailus@iki.fi>
-Cc:     Andrey Skvortsov <andrej.skvortzov@gmail.com>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: ov5640: Update last busy timestamp to reset
- autosuspend timer
-Message-ID: <20230114151906.gkgmhzpq64dhwouu@uno.localdomain>
-References: <20230114112109.982005-1-andrej.skvortzov@gmail.com>
- <Y8KgGhu0e/+xIfDm@valkosipuli.retiisi.eu>
+        b=C2SP3wMVsX+K34TgKptdslEey9NaY5+qCYIXWEudJ6avqtu1DVtZW70QWqhAW+Efn
+         7NlTePlJnwgpkGDhDOOVPRXGZZQ15bbzrn+3C5wfglWiGynMNU4HjC+VtOmO9ezIiQ
+         4ZrC+UARMKdArI+7aBgK28ahETJHBu7QbkPpdJqI=
+Date:   Sat, 14 Jan 2023 17:26:08 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     devicetree@vger.kernel.org, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org,
+        linux-arm-kernel@lists.infradead.org,
+        Rob Herring <robh+dt@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Eugen Hristev <eugen.hristev@microchip.com>,
+        Hugues Fruchet <hugues.fruchet@foss.st.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Fabio Estevam <festevam@gmail.com>,
+        Shawn Guo <shawnguo@kernel.org>
+Subject: Re: [PATCH v3 5/6] ARM: dts: renesas: Use new media bus type macros
+Message-ID: <Y8LJkPLghb/8Y+iQ@pendragon.ideasonboard.com>
+References: <20220615221410.27459-1-laurent.pinchart@ideasonboard.com>
+ <20220615221410.27459-6-laurent.pinchart@ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <Y8KgGhu0e/+xIfDm@valkosipuli.retiisi.eu>
+In-Reply-To: <20220615221410.27459-6-laurent.pinchart@ideasonboard.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
         autolearn=ham autolearn_force=no version=3.4.6
@@ -50,88 +58,117 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari
+Geert, could you please take this in your tree for v6.3 ? The two
+patches that the DT changes depend on have been merged in v6.2.
 
-On Sat, Jan 14, 2023 at 02:29:14PM +0200, Sakari Ailus wrote:
-> Hi Andrey,
->
-> On Sat, Jan 14, 2023 at 02:21:09PM +0300, Andrey Skvortsov wrote:
-> > Otherwise autosuspend delay doesn't work and power is cut off
-> > immediately as device is freed.
-> >
-> > Signed-off-by: Andrey Skvortsov <andrej.skvortzov@gmail.com>
-> > ---
-> >  drivers/media/i2c/ov5640.c | 9 ++++++++-
-> >  1 file changed, 8 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
-> > index ac35350..f71c0f7 100644
-> > --- a/drivers/media/i2c/ov5640.c
-> > +++ b/drivers/media/i2c/ov5640.c
-> > @@ -1238,6 +1238,7 @@ static int ov5640_write_reg(struct ov5640_dev *sensor, u16 reg, u8 val)
-> >  		return ret;
-> >  	}
-> >
-> > +	pm_runtime_mark_last_busy(&sensor->i2c_client->dev);
-> >  	return 0;
-> >  }
-> >
-> > @@ -1305,6 +1306,7 @@ static int ov5640_read_reg(struct ov5640_dev *sensor, u16 reg, u8 *val)
-> >  	}
-> >
-> >  	*val = buf[0];
-> > +	pm_runtime_mark_last_busy(&sensor->i2c_client->dev);
->
-> I wouldn't add these calls to register accesses. It's generally relevant
-> with autosuspend_put().
->
-> The rest seems fine to me.
->
+On Thu, Jun 16, 2022 at 01:14:09AM +0300, Laurent Pinchart wrote:
+> Now that a header exists with macros for the media interface bus-type
+> values, replace hardcoding numerical constants with the corresponding
+> macros in the DT sources.
+> 
+> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> ---
+>  arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ca.dts       | 11 +++++++----
+>  .../dts/r8a7742-iwg21d-q7-dbcm-ov5640-single.dtsi     |  4 +++-
+>  .../dts/r8a7742-iwg21d-q7-dbcm-ov7725-single.dtsi     |  4 +++-
+>  3 files changed, 13 insertions(+), 6 deletions(-)
+> 
+> diff --git a/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ca.dts b/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ca.dts
+> index 4e58c54cde17..33ac4bd1e63b 100644
+> --- a/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ca.dts
+> +++ b/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ca.dts
+> @@ -7,6 +7,9 @@
+>   */
+>  
+>  /dts-v1/;
+> +
+> +#include <dt-bindings/media/video-interfaces.h>
+> +
+>  #include "r8a7742-iwg21d-q7.dts"
+>  
+>  / {
+> @@ -242,7 +245,7 @@ port {
+>  		vin0ep: endpoint {
+>  			remote-endpoint = <&cam0ep>;
+>  			bus-width = <8>;
+> -			bus-type = <6>;
+> +			bus-type = <MEDIA_BUS_TYPE_BT656>;
+>  		};
+>  	};
+>  };
+> @@ -273,7 +276,7 @@ port {
+>  		vin1ep: endpoint {
+>  			remote-endpoint = <&cam1ep>;
+>  			bus-width = <8>;
+> -			bus-type = <6>;
+> +			bus-type = <MEDIA_BUS_TYPE_BT656>;
+>  		};
+>  	};
+>  };
+> @@ -305,7 +308,7 @@ vin2ep: endpoint {
+>  			remote-endpoint = <&cam2ep>;
+>  			bus-width = <8>;
+>  			data-shift = <8>;
+> -			bus-type = <6>;
+> +			bus-type = <MEDIA_BUS_TYPE_BT656>;
+>  		};
+>  	};
+>  };
+> @@ -335,7 +338,7 @@ port {
+>  		vin3ep: endpoint {
+>  			remote-endpoint = <&cam3ep>;
+>  			bus-width = <8>;
+> -			bus-type = <6>;
+> +			bus-type = <MEDIA_BUS_TYPE_BT656>;
+>  		};
+>  	};
+>  };
+> diff --git a/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ov5640-single.dtsi b/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ov5640-single.dtsi
+> index 40cef0b1d1e6..c73160df619d 100644
+> --- a/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ov5640-single.dtsi
+> +++ b/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ov5640-single.dtsi
+> @@ -7,6 +7,8 @@
+>   * Copyright (C) 2020 Renesas Electronics Corp.
+>   */
+>  
+> +#include <dt-bindings/media/video-interfaces.h>
+> +
+>  #define CAM_ENABLED	1
+>  
+>  &CAM_PARENT_I2C {
+> @@ -26,7 +28,7 @@ port {
+>  			CAM_EP: endpoint {
+>  				bus-width = <8>;
+>  				data-shift = <2>;
+> -				bus-type = <6>;
+> +				bus-type = <MEDIA_BUS_TYPE_BT656>;
+>  				pclk-sample = <1>;
+>  				remote-endpoint = <&VIN_EP>;
+>  			};
+> diff --git a/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ov7725-single.dtsi b/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ov7725-single.dtsi
+> index f5e77f024251..a7f5cfec64b8 100644
+> --- a/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ov7725-single.dtsi
+> +++ b/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ov7725-single.dtsi
+> @@ -7,6 +7,8 @@
+>   * Copyright (C) 2020 Renesas Electronics Corp.
+>   */
+>  
+> +#include <dt-bindings/media/video-interfaces.h>
+> +
+>  #define CAM_ENABLED	1
+>  
+>  &CAM_PARENT_I2C {
+> @@ -21,7 +23,7 @@ ov7725@21 {
+>  		port {
+>  			CAM_EP: endpoint {
+>  				bus-width = <8>;
+> -				bus-type = <6>;
+> +				bus-type = <MEDIA_BUS_TYPE_BT656>;
+>  				remote-endpoint = <&VIN_EP>;
+>  			};
+>  		};
 
-Does it mean the same should be done for the all the sensor drivers that
-use autosuspend ? I count 8 of them, not a huge number.
+-- 
+Regards,
 
-> >  	return 0;
-> >  }
-> >
-> > @@ -3615,6 +3617,7 @@ static int ov5640_g_volatile_ctrl(struct v4l2_ctrl *ctrl)
-> >  		break;
-> >  	}
-> >
-> > +	pm_runtime_mark_last_busy(&sensor->i2c_client->dev);
-> >  	pm_runtime_put_autosuspend(&sensor->i2c_client->dev);
-> >
-> >  	return 0;
-> > @@ -3702,6 +3705,7 @@ static int ov5640_s_ctrl(struct v4l2_ctrl *ctrl)
-> >  		break;
-> >  	}
-> >
-> > +	pm_runtime_mark_last_busy(&sensor->i2c_client->dev);
-> >  	pm_runtime_put_autosuspend(&sensor->i2c_client->dev);
-> >
-> >  	return ret;
-> > @@ -4034,8 +4038,10 @@ static int ov5640_s_stream(struct v4l2_subdev *sd, int enable)
-> >  out:
-> >  	mutex_unlock(&sensor->lock);
-> >
-> > -	if (!enable || ret)
-> > +	if (!enable || ret) {
-> > +		pm_runtime_mark_last_busy(&sensor->i2c_client->dev);
-> >  		pm_runtime_put_autosuspend(&sensor->i2c_client->dev);
-> > +	}
-> >
-> >  	return ret;
-> >  }
-> > @@ -4203,6 +4209,7 @@ static int ov5640_probe(struct i2c_client *client)
-> >
-> >  	pm_runtime_set_autosuspend_delay(dev, 1000);
-> >  	pm_runtime_use_autosuspend(dev);
-> > +	pm_runtime_mark_last_busy(dev);
-> >  	pm_runtime_put_autosuspend(dev);
-> >
-> >  	return 0;
->
-> --
-> Kind regards,
->
-> Sakari Ailus
+Laurent Pinchart
