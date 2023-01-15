@@ -2,47 +2,37 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F40B166B105
-	for <lists+linux-media@lfdr.de>; Sun, 15 Jan 2023 13:40:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A329766B218
+	for <lists+linux-media@lfdr.de>; Sun, 15 Jan 2023 16:32:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231367AbjAOMkv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 15 Jan 2023 07:40:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51186 "EHLO
+        id S231367AbjAOPcR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 15 Jan 2023 10:32:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54964 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231346AbjAOMku (ORCPT
+        with ESMTP id S229895AbjAOPcQ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 15 Jan 2023 07:40:50 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E48A6EC57;
-        Sun, 15 Jan 2023 04:40:49 -0800 (PST)
-Received: from desky.lan (91-154-32-225.elisa-laajakaista.fi [91.154.32.225])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id D717B308;
-        Sun, 15 Jan 2023 13:40:45 +0100 (CET)
+        Sun, 15 Jan 2023 10:32:16 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B70EB478
+        for <linux-media@vger.kernel.org>; Sun, 15 Jan 2023 07:32:13 -0800 (PST)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id DDCB5308
+        for <linux-media@vger.kernel.org>; Sun, 15 Jan 2023 16:32:10 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1673786446;
-        bh=Gk1qa6CCnI/c7OGD8JV4Gc+RUJW+6//3P/tTEV+Yl9s=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=PdTeF4BNzA50MWulZA8sEZCN9t5mKuXIK14ItS3+yfFYymWCgLAchWjF/WkhsolXi
-         pzwQifnHSHzng3GRHUWlAKvULcCaW/yD6/pKpWTxG5A55DGm0wyEJ5dVboOMQBPc04
-         ajPBWLGSOt0MFemHlZlUun3RlVsKRIVOfaJvBQSg=
-From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-To:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        sakari.ailus@linux.intel.com,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        niklas.soderlund+renesas@ragnatech.se,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        satish.nagireddy@getcruise.com, Tomasz Figa <tfiga@chromium.org>
-Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: [PATCH v16.1] media: subdev: Require code change to enable [GS]_ROUTING
-Date:   Sun, 15 Jan 2023 14:40:08 +0200
-Message-Id: <20230115124008.293634-1-tomi.valkeinen@ideasonboard.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20221215121634.287100-7-tomi.valkeinen@ideasonboard.com>
-References: <20221215121634.287100-7-tomi.valkeinen@ideasonboard.com>
+        s=mail; t=1673796731;
+        bh=pqIPCRir+q/AbPby6BxKVY1clx+ZXqvPXkzRbWYgGmk=;
+        h=Date:From:To:Subject:From;
+        b=nguICSeRsrwWrwkdhDllTN5bXcGj/2fau73FBlAuyaPbetIsyJQbXyzYYFBafvYC/
+         vTNYqYNPki4Lrx/VHayjvMnTo3eZ0P3HfGJCzqqNcq52MAFA8MK/EZRaHw+wuysGCl
+         QKTiLHNMAAWPAU8TB8jjypWoKiGFXmsDXM959NGQ=
+Date:   Sun, 15 Jan 2023 17:32:11 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     linux-media@vger.kernel.org
+Subject: [GIT PULL FOR v6.3] Miscellaneous changes
+Message-ID: <Y8Qce6/DS49icJ71@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
         autolearn=ham autolearn_force=no version=3.4.6
@@ -52,62 +42,55 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Streams API is an experimental feature. To use Streams API, the user
-needs to change a variable in v4l2-subdev.c and recompile the kernel.
+Hi Mauro,
 
-This commit should be reverted when the Streams API is deemed ready for
-production use.
+The following changes since commit 1b929c02afd37871d5afb9d498426f83432e71c2:
 
-Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
----
+  Linux 6.2-rc1 (2022-12-25 13:41:39 -0800)
 
-Here's a minor update to the patch:
-- Fix unused var warning
-- Don't initialize the static var to 0
+are available in the Git repository at:
 
- drivers/media/v4l2-core/v4l2-subdev.c | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
+  git://git.kernel.org/pub/scm/linux/kernel/git/pinchartl/linux.git media-misc-next-20230115
 
-diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-index 61b429016a2f..a576b22164b0 100644
---- a/drivers/media/v4l2-core/v4l2-subdev.c
-+++ b/drivers/media/v4l2-core/v4l2-subdev.c
-@@ -23,6 +23,15 @@
- #include <media/v4l2-fh.h>
- #include <media/v4l2-ioctl.h>
- 
-+#if defined(CONFIG_VIDEO_V4L2_SUBDEV_API)
-+/*
-+ * Streams API is an experimental feature. To use Streams API, set
-+ * 'v4l2_subdev_enable_streams_api' to 1 below.
-+ */
-+
-+static bool v4l2_subdev_enable_streams_api;
-+#endif
-+
- /*
-  * Maximum stream ID is 63 for now, as we use u64 bitmask to represent a set
-  * of streams.
-@@ -751,6 +760,9 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
- 		struct v4l2_subdev_routing *routing = arg;
- 		struct v4l2_subdev_krouting *krouting;
- 
-+		if (!v4l2_subdev_enable_streams_api)
-+			return -ENOIOCTLCMD;
-+
- 		if (!(sd->flags & V4L2_SUBDEV_FL_STREAMS))
- 			return -ENOIOCTLCMD;
- 
-@@ -778,6 +790,9 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
- 		struct v4l2_subdev_krouting krouting = {};
- 		unsigned int i;
- 
-+		if (!v4l2_subdev_enable_streams_api)
-+			return -ENOIOCTLCMD;
-+
- 		if (!(sd->flags & V4L2_SUBDEV_FL_STREAMS))
- 			return -ENOIOCTLCMD;
- 
+for you to fetch changes up to d1c36bbb42d23742c1b17799749f637ed11ee98e:
+
+  media: imx: imx7-media-csi: fix missing clk_disable_unprepare() in imx7_csi_init() (2023-01-15 17:31:01 +0200)
+
+----------------------------------------------------------------
+Miscellaneous changes to MC core and platform drivers
+
+----------------------------------------------------------------
+Gaosheng Cui (1):
+      media: ti: cal: fix possible memory leak in cal_ctx_create()
+
+Jiasheng Jiang (1):
+      media: platform: ti: Add missing check for devm_regulator_get
+
+Laurent Pinchart (1):
+      media: mc: Improve the media_entity_has_pad_interdep() documentation
+
+Marek Vasut (1):
+      dt-bindings: media: imx7-csi: Document i.MX8M power-domains property
+
+Miaoqian Lin (1):
+      media: mc: entity: Fix doc for media_graph_walk_init
+
+Xavier Roumegue (1):
+      media: dw100: Add a missing unwind goto in dw100_probe()
+
+Yang Yingliang (1):
+      media: imx: imx7-media-csi: fix missing clk_disable_unprepare() in imx7_csi_init()
+
+ .../devicetree/bindings/media/nxp,imx7-csi.yaml         | 15 +++++++++++++++
+ drivers/media/mc/mc-entity.c                            | 17 +++++++++++++++--
+ drivers/media/platform/nxp/dw100/dw100.c                |  2 +-
+ drivers/media/platform/nxp/imx7-media-csi.c             |  4 +++-
+ drivers/media/platform/ti/cal/cal.c                     |  4 +++-
+ drivers/media/platform/ti/omap3isp/isp.c                |  9 +++++++++
+ include/media/media-entity.h                            |  4 +++-
+ 7 files changed, 49 insertions(+), 6 deletions(-)
+
 -- 
-2.34.1
+Regards,
 
+Laurent Pinchart
