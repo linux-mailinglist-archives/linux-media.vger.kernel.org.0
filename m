@@ -2,181 +2,134 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 080DD66AE39
-	for <lists+linux-media@lfdr.de>; Sat, 14 Jan 2023 22:49:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E169366AEE9
+	for <lists+linux-media@lfdr.de>; Sun, 15 Jan 2023 01:43:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230512AbjANVtM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 14 Jan 2023 16:49:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55686 "EHLO
+        id S230475AbjAOAn0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 14 Jan 2023 19:43:26 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51506 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230493AbjANVtH (ORCPT
+        with ESMTP id S230042AbjAOAnX (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 14 Jan 2023 16:49:07 -0500
-X-Greylist: delayed 36696 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sat, 14 Jan 2023 13:49:05 PST
-Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 49D319EDF;
-        Sat, 14 Jan 2023 13:49:05 -0800 (PST)
-Received: from hillosipuli.retiisi.eu (dkwgw2td6j41r63crh2zt-3.rev.dnainternet.fi [IPv6:2001:14ba:448b:2b40:7a3e:2aed:5c4e:35a9])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: sailus)
-        by lahtoruutu.iki.fi (Postfix) with ESMTPSA id DDC4F1B002E5;
-        Sat, 14 Jan 2023 23:49:02 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
-        t=1673732943;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=N7hLwEJw4Pb7qb2KhIKkhf2vUiG3X5VhrWk9rvmzvPY=;
-        b=nhqhLjQT0fLgQJW1voOwxafw7q0M1KeoEJsZUW1a6FLutkQMk1DOlcnROZTMJYEkbMFz9T
-        2hUkh0UN+hIovAaApPt0tjZdkEUpORAZ+puZZh5wP90AryXrl1P+OuJmeyclbFY2N5/01d
-        M9dbyjvINCH2BgVttCfU3IoD3TzezYC/ZRW4/IY4nqIWGDm1EkE3PhgjqU5PjKVefyQt4I
-        MmiLs5avL5wWTjOrLfR8FqcOSJP/TcWBnNY8mlW0MtRkwnCn5DQNYBcRBgnSYZEkvlWqTy
-        OmIm0nHkEDA3/OTqsyvU4Y9mY5PrKz9nqF1xKIzqxM3m+QFSb44Jn99WJqV8/Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-        s=lahtoruutu; t=1673732943;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=N7hLwEJw4Pb7qb2KhIKkhf2vUiG3X5VhrWk9rvmzvPY=;
-        b=IgIeVSwnpc1Wx/CAsLAUlwujHbXTuObgfgmSEIiebc699UcKXASR2KJ43+ARVlK4x4hXEI
-        BpCwB/V0LCtF2wZR7Tlh80STTPSfzC+zvSGpm0podoOJ5uZBOnHwwYa3Cz6jaD1rDGXsjr
-        tqyfkQuGYAl98Bcq/PWjT0K3JQCHJVuwzBSpNce5UjezClnTQ862IH0kYjolYp/d0wxu7H
-        q8frsbLmwDVpMCVgJRcWzOvSa7Zp7txwvaitq1hduAdIOo8Odqkd02ETX4+cpNpAPqWGpu
-        DAryGU6Dcv4oJb7BA/e7GdCj98S1K0j342sd+f0BEs5H/SLp3os+m1W9panw3A==
-ARC-Authentication-Results: i=1;
-        ORIGINATING;
-        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1673732943; a=rsa-sha256;
-        cv=none;
-        b=m7KRI8Qr3qiNKxvJ2oKy5mtphFMEuKqm2PAOODaiQ1vjXCV/QEDeqT0ds8ydvpEBQjlGVL
-        HbfqaMMh5rQqogkI5WomXlFd5xT/0MJcsSyUMDjc9QYdkxafeB0El0i0EHLpE49xh0YnZK
-        UtW0WLKaKQ2vm/AXgLRcx7p3a8vzTxk+LwZhcltfGYTsch4ktKGgT40YdZinYOt/4srdov
-        9zodTdVL4y+p2p4aBsy0U1akgnLHfOEB9YTPT+EXUEdzvYR1gVCOtyRfLFDq0Dk7Zurstd
-        zutwpyOznZR/yV1KMInb1n4Rbip/nDvixlOrLYRVipNeRugUiDGomQHcciixFA==
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 5C92B634C91;
-        Sat, 14 Jan 2023 23:49:02 +0200 (EET)
-Date:   Sat, 14 Jan 2023 23:49:02 +0200
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc:     Andrey Skvortsov <andrej.skvortzov@gmail.com>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: ov5640: Update last busy timestamp to reset
- autosuspend timer
-Message-ID: <Y8MjThKZLWnqfe0I@valkosipuli.retiisi.eu>
-References: <20230114112109.982005-1-andrej.skvortzov@gmail.com>
- <Y8KgGhu0e/+xIfDm@valkosipuli.retiisi.eu>
- <20230114151906.gkgmhzpq64dhwouu@uno.localdomain>
+        Sat, 14 Jan 2023 19:43:23 -0500
+Received: from mail-oi1-x229.google.com (mail-oi1-x229.google.com [IPv6:2607:f8b0:4864:20::229])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A944A242
+        for <linux-media@vger.kernel.org>; Sat, 14 Jan 2023 16:43:22 -0800 (PST)
+Received: by mail-oi1-x229.google.com with SMTP id o66so20563354oia.6
+        for <linux-media@vger.kernel.org>; Sat, 14 Jan 2023 16:43:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=landley-net.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=VA+b6ERucM0SVhgS+CxkVoqDPdylXXEER7Oavou/n5c=;
+        b=AWOVJoTRCZIzDDPEVrLicc1SKpwl7KTn8Ol48utvExDUblpnjljkkxvHgz5x7ZXre+
+         8m1djuSOUoerjvNlDkOsvOoru5Slmn51JdtG4yWzqApm65GcAawUt0a4970Ve8qE/PbE
+         WIpzUe/igEignY6RXJsMefYQMCJguWlv4sRLkistNu2yHDIEgQ5le/hWruMQxtCBR8qR
+         R0Xe1ZeaqdcCUIm6QnssL2hDeKkpiOJ4cANGy/HkgZiIyg5h2uIoq1Znienu3k+LNYC0
+         mG/pqdest+Z0kWbWIAyWD+qrcbh4pkalGKoAU1Y3Z3G0iffow+5qADIIMc/6gwB/2uWn
+         mYPA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=VA+b6ERucM0SVhgS+CxkVoqDPdylXXEER7Oavou/n5c=;
+        b=MRN63wUGnMO7c8zoJBcNZKhcMQhD91vGbCnFEAju9bJfpUd4XdiKtV5PyDK/oB1gxU
+         VERJ6kIuRxOScmbGCSoRjY7OUaZR5kpcwF5JWw98pRjtbcX019NA57vxIsdjsIHxXgoF
+         IJHy0It82HOOnZTXKCvsIku+CCBBGjQgiqJPUC92vANF6P8SxWc8HWesu0uu6//YZaQM
+         ib7DIylHbKJpeJDAnv6N5NmdacQtYiKXkVHC5RuKMaUrjiWwZ4UTZX1DCVhES7tn3e4S
+         8uUAKVaGaSj+g+MpB0XonNpnoDVHgxDuy1vHtEKmkuIrzuJtrUuUVqQB19JlXENTynmW
+         htUQ==
+X-Gm-Message-State: AFqh2ko2ciQNWNotfoDHUzprgZr6rHuRgLl86nFwFWcPCG/VDonD4oa8
+        fYqjtxR/qSYNlehh/nfTZFwaYQ==
+X-Google-Smtp-Source: AMrXdXtmlbzCnjvw02a750r61CcJJIRVFXhgi7CC+Te697GM+nVvImU+iajKPZiIXIE5Si7tn9Lk3Q==
+X-Received: by 2002:aca:c189:0:b0:35a:6005:3dc5 with SMTP id r131-20020acac189000000b0035a60053dc5mr35396207oif.51.1673743401843;
+        Sat, 14 Jan 2023 16:43:21 -0800 (PST)
+Received: from [192.168.86.224] ([136.62.38.22])
+        by smtp.gmail.com with ESMTPSA id l10-20020a056808020a00b00360e46a1edasm10935583oie.22.2023.01.14.16.43.20
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 14 Jan 2023 16:43:21 -0800 (PST)
+Message-ID: <fe206345-9445-f1be-02c1-b3cc39a533ef@landley.net>
+Date:   Sat, 14 Jan 2023 18:55:31 -0600
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230114151906.gkgmhzpq64dhwouu@uno.localdomain>
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.0
+Subject: Re: [PATCH 02/22] usb: remove the dead USB_OHCI_SH option
+Content-Language: en-US
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Christoph Hellwig <hch@lst.de>
+Cc:     Yoshinori Sato <ysato@users.sourceforge.jp>,
+        Rich Felker <dalias@libc.org>, Arnd Bergmann <arnd@arndb.de>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-kernel@vger.kernel.org, linux-watchdog@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-arch@vger.kernel.org,
+        dmaengine@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-mmc@vger.kernel.org, linux-mtd@lists.infradead.org,
+        netdev@vger.kernel.org, linux-gpio@vger.kernel.org,
+        linux-rtc@vger.kernel.org, linux-spi@vger.kernel.org,
+        linux-serial@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-fbdev@vger.kernel.org, alsa-devel@alsa-project.org,
+        linux-sh@vger.kernel.org
+References: <20230113062339.1909087-1-hch@lst.de>
+ <20230113062339.1909087-3-hch@lst.de> <Y8EEbCP6PRMzWP5y@kroah.com>
+From:   Rob Landley <rob@landley.net>
+In-Reply-To: <Y8EEbCP6PRMzWP5y@kroah.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jacopo,
 
-On Sat, Jan 14, 2023 at 04:19:06PM +0100, Jacopo Mondi wrote:
-> Hi Sakari
+
+On 1/13/23 01:12, Greg Kroah-Hartman wrote:
+> On Fri, Jan 13, 2023 at 07:23:19AM +0100, Christoph Hellwig wrote:
+>> USB_OHCI_SH is a dummy option that never builds any code, remove it.
+>> 
+>> Signed-off-by: Christoph Hellwig <hch@lst.de>
+>> ---
+>>  drivers/usb/host/Kconfig | 11 -----------
+>>  1 file changed, 11 deletions(-)
+>> 
+>> diff --git a/drivers/usb/host/Kconfig b/drivers/usb/host/Kconfig
+>> index 8d799d23c476e1..ca5f657c092cf4 100644
+>> --- a/drivers/usb/host/Kconfig
+>> +++ b/drivers/usb/host/Kconfig
+>> @@ -548,17 +548,6 @@ config USB_OHCI_HCD_SSB
+>>  
+>>  	  If unsure, say N.
+>>  
+>> -config USB_OHCI_SH
+>> -	bool "OHCI support for SuperH USB controller (DEPRECATED)"
+>> -	depends on SUPERH || COMPILE_TEST
+>> -	select USB_OHCI_HCD_PLATFORM
+>> -	help
+>> -	  This option is deprecated now and the driver was removed, use
+>> -	  USB_OHCI_HCD_PLATFORM instead.
+>> -
+>> -	  Enables support for the on-chip OHCI controller on the SuperH.
+>> -	  If you use the PCI OHCI controller, this option is not necessary.
+>> -
+>>  config USB_OHCI_EXYNOS
+>>  	tristate "OHCI support for Samsung S5P/Exynos SoC Series"
+>>  	depends on ARCH_S5PV210 || ARCH_EXYNOS || COMPILE_TEST
+>> -- 
+>> 2.39.0
+>> 
 > 
-> On Sat, Jan 14, 2023 at 02:29:14PM +0200, Sakari Ailus wrote:
-> > Hi Andrey,
-> >
-> > On Sat, Jan 14, 2023 at 02:21:09PM +0300, Andrey Skvortsov wrote:
-> > > Otherwise autosuspend delay doesn't work and power is cut off
-> > > immediately as device is freed.
-> > >
-> > > Signed-off-by: Andrey Skvortsov <andrej.skvortzov@gmail.com>
-> > > ---
-> > >  drivers/media/i2c/ov5640.c | 9 ++++++++-
-> > >  1 file changed, 8 insertions(+), 1 deletion(-)
-> > >
-> > > diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
-> > > index ac35350..f71c0f7 100644
-> > > --- a/drivers/media/i2c/ov5640.c
-> > > +++ b/drivers/media/i2c/ov5640.c
-> > > @@ -1238,6 +1238,7 @@ static int ov5640_write_reg(struct ov5640_dev *sensor, u16 reg, u8 val)
-> > >  		return ret;
-> > >  	}
-> > >
-> > > +	pm_runtime_mark_last_busy(&sensor->i2c_client->dev);
-> > >  	return 0;
-> > >  }
-> > >
-> > > @@ -1305,6 +1306,7 @@ static int ov5640_read_reg(struct ov5640_dev *sensor, u16 reg, u8 *val)
-> > >  	}
-> > >
-> > >  	*val = buf[0];
-> > > +	pm_runtime_mark_last_busy(&sensor->i2c_client->dev);
-> >
-> > I wouldn't add these calls to register accesses. It's generally relevant
-> > with autosuspend_put().
-> >
-> > The rest seems fine to me.
-> >
-> 
-> Does it mean the same should be done for the all the sensor drivers that
-> use autosuspend ? I count 8 of them, not a huge number.
+> Do you want all of these to go through a single tree, or can they go
+> through the different driver subsystem trees?
 
-pm_runtime_mark_last_busy() should be called before
-pm_runtime_put_autosuspend(). I was thinking of adding a helper that would
-simply call both of them. We don't have that yet though.
+Neither please. Multiple people are objecting.
 
-> 
-> > >  	return 0;
-> > >  }
-> > >
-> > > @@ -3615,6 +3617,7 @@ static int ov5640_g_volatile_ctrl(struct v4l2_ctrl *ctrl)
-> > >  		break;
-> > >  	}
-> > >
-> > > +	pm_runtime_mark_last_busy(&sensor->i2c_client->dev);
-> > >  	pm_runtime_put_autosuspend(&sensor->i2c_client->dev);
-> > >
-> > >  	return 0;
-> > > @@ -3702,6 +3705,7 @@ static int ov5640_s_ctrl(struct v4l2_ctrl *ctrl)
-> > >  		break;
-> > >  	}
-> > >
-> > > +	pm_runtime_mark_last_busy(&sensor->i2c_client->dev);
-> > >  	pm_runtime_put_autosuspend(&sensor->i2c_client->dev);
-> > >
-> > >  	return ret;
-> > > @@ -4034,8 +4038,10 @@ static int ov5640_s_stream(struct v4l2_subdev *sd, int enable)
-> > >  out:
-> > >  	mutex_unlock(&sensor->lock);
-> > >
-> > > -	if (!enable || ret)
-> > > +	if (!enable || ret) {
-> > > +		pm_runtime_mark_last_busy(&sensor->i2c_client->dev);
-> > >  		pm_runtime_put_autosuspend(&sensor->i2c_client->dev);
-> > > +	}
-> > >
-> > >  	return ret;
-> > >  }
-> > > @@ -4203,6 +4209,7 @@ static int ov5640_probe(struct i2c_client *client)
-> > >
-> > >  	pm_runtime_set_autosuspend_delay(dev, 1000);
-> > >  	pm_runtime_use_autosuspend(dev);
-> > > +	pm_runtime_mark_last_busy(dev);
-> > >  	pm_runtime_put_autosuspend(dev);
-> > >
-> > >  	return 0;
-
--- 
-Kind regards,
-
-Sakari Ailus
+Rob
