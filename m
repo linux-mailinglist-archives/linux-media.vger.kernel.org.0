@@ -2,134 +2,113 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 636BC66B21C
-	for <lists+linux-media@lfdr.de>; Sun, 15 Jan 2023 16:34:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EBD2A66B2AF
+	for <lists+linux-media@lfdr.de>; Sun, 15 Jan 2023 18:00:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231386AbjAOPe5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 15 Jan 2023 10:34:57 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55432 "EHLO
+        id S231315AbjAORAw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 15 Jan 2023 12:00:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50910 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231315AbjAOPe4 (ORCPT
+        with ESMTP id S230359AbjAORAv (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 15 Jan 2023 10:34:56 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 37111C66E;
-        Sun, 15 Jan 2023 07:34:55 -0800 (PST)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id B8D02308;
-        Sun, 15 Jan 2023 16:34:53 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1673796894;
-        bh=1RRTXyngk17dlUtF9mMUc4zHJAb3i5SSEk2dC2yJZQk=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=CXSaq28ZlpEdUkVjNk54ze/uTfBu9VxvsDAj0hKiadccqbZIWo2VcdCGzC1FsElT6
-         QQWvA84CLtNcE10SmUetNBlDIKWMV1i1wYe6qegLGZyw5WPMYmMSDIbJf0yaRKv2xH
-         6MruBKT41MKwecsICZYlaE5u7RJW3asJoKyiUsQ0=
-Date:   Sun, 15 Jan 2023 17:34:54 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        sakari.ailus@linux.intel.com,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        niklas.soderlund+renesas@ragnatech.se,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        satish.nagireddy@getcruise.com, Tomasz Figa <tfiga@chromium.org>
-Subject: Re: [PATCH v16.1] media: subdev: Require code change to enable
- [GS]_ROUTING
-Message-ID: <Y8QdHs6p+NAx/mX8@pendragon.ideasonboard.com>
-References: <20221215121634.287100-7-tomi.valkeinen@ideasonboard.com>
- <20230115124008.293634-1-tomi.valkeinen@ideasonboard.com>
- <Y8Qc/TPLdzz6bL5b@pendragon.ideasonboard.com>
+        Sun, 15 Jan 2023 12:00:51 -0500
+Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com [IPv6:2a00:1450:4864:20::12d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4FDF2EC5E
+        for <linux-media@vger.kernel.org>; Sun, 15 Jan 2023 09:00:49 -0800 (PST)
+Received: by mail-lf1-x12d.google.com with SMTP id d30so34844347lfv.8
+        for <linux-media@vger.kernel.org>; Sun, 15 Jan 2023 09:00:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ragnatech-se.20210112.gappssmtp.com; s=20210112;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=9JT1UC0wph/bO1K0/YbavkOzB/NDVlY8g8+V0Wc6o/Y=;
+        b=GUJmcGUlqxXBYk3nrX+uJiFmd2mXrUNDz7Poo6Ceam7tYwsN4cBzS9wWS/rLyItiBp
+         UucyI8mEsmoakof9LE+c4p0SGisQOUThssXeCkkCLXSQrLWFGeZ1eQ+9P91F+RrB21Fl
+         /qoDFa464LOLlh2zkFCd7eqAI14I19/opa6Qw2JxR9K6kg7TFOSrvJJKUs6CQA1XxFtY
+         WLwxgr4Q1KSS7a9bBgYHCCMC6BqXcCPf+rlS9qv/yMzAkPuMXL8Jyphtyu/lGdS0vB4y
+         J2jmgJXVyHyiDjOGg6eK9XIeFe/v9sUL+YHuwIs4VRcjS24Uc5FhxZkB2hXwuzDp/JnI
+         l/IA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=9JT1UC0wph/bO1K0/YbavkOzB/NDVlY8g8+V0Wc6o/Y=;
+        b=cxfxIx308TQk/+954YfJ/wsHUeo/VMW7OqPD7gfyHFGNcVmABuSD7Rl2/cB12zxupd
+         Q8nS5zZ12jRvGi/u0N7dJJdjPvuZ9+kJFBndH8Qd5ThGfr0zLDw49TEdhEFWQ+tlZ6rO
+         K9H8m7Jpi2/wSm02SNC8ZS9yKE21Ww7hS4pCUwLotNRE++owiQrwSWTLhYXqPD7nBuew
+         czNwKD6fQaUw3a4hrTFLI95AzrOjwFC/sLGMSR9xX+M5UUuEGANjfIMXJhTr2rvybVHg
+         39oORFkfanzuZr4NfbRz9d0NdkNH7BrcD7jmGxu71hg96FBqQiP9TQqMVQaR2LWyMrL+
+         pPPA==
+X-Gm-Message-State: AFqh2koIy9KKx+1dBri5Z6E/pygQeRYobLZ4H/q76uA10rhBeHBKkE5o
+        tJ4vAOlkfKW0fVqjrZSZNc146afZtsPHjHaL+6U=
+X-Google-Smtp-Source: AMrXdXvbYBSBdqBGSyvfHQs+aWPPslHv2dQL7of7aJdsdhacJNo4ABOLRE39vhDMHSRbPUfrY3oOCg==
+X-Received: by 2002:a05:6512:32d5:b0:4cc:73ff:579a with SMTP id f21-20020a05651232d500b004cc73ff579amr9539646lfg.38.1673802047670;
+        Sun, 15 Jan 2023 09:00:47 -0800 (PST)
+Received: from localhost (h-46-59-89-207.A463.priv.bahnhof.se. [46.59.89.207])
+        by smtp.gmail.com with ESMTPSA id m7-20020a195207000000b004cb10601096sm4750947lfb.136.2023.01.15.09.00.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 15 Jan 2023 09:00:47 -0800 (PST)
+Date:   Sun, 15 Jan 2023 18:00:46 +0100
+From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Subject: Re: [PATCH] media: max9286: Free control handler
+Message-ID: <Y8QxPhyoLykwFgjI@oden.dyn.berto.se>
+References: <20230114214650.2984-1-laurent.pinchart@ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <Y8Qc/TPLdzz6bL5b@pendragon.ideasonboard.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230114214650.2984-1-laurent.pinchart@ideasonboard.com>
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sun, Jan 15, 2023 at 05:34:23PM +0200, Laurent Pinchart wrote:
-> Hi Tomi,
-> 
-> Thank you for the patch.
-> 
-> On Sun, Jan 15, 2023 at 02:40:08PM +0200, Tomi Valkeinen wrote:
-> > Streams API is an experimental feature. To use Streams API, the user
-> 
-> Nitpicking, I'd write "The Streams API" and "To use the Streams API".
-> 
-> I'm sure Sakari can handle this in the second version of the pull
-> request.
-> 
-> > needs to change a variable in v4l2-subdev.c and recompile the kernel.
-> > 
-> > This commit should be reverted when the Streams API is deemed ready for
-> > production use.
-> > 
-> > Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> 
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> 
-> > ---
-> > 
-> > Here's a minor update to the patch:
-> > - Fix unused var warning
-> > - Don't initialize the static var to 0
-> > 
-> >  drivers/media/v4l2-core/v4l2-subdev.c | 15 +++++++++++++++
-> >  1 file changed, 15 insertions(+)
-> > 
-> > diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-> > index 61b429016a2f..a576b22164b0 100644
-> > --- a/drivers/media/v4l2-core/v4l2-subdev.c
-> > +++ b/drivers/media/v4l2-core/v4l2-subdev.c
-> > @@ -23,6 +23,15 @@
-> >  #include <media/v4l2-fh.h>
-> >  #include <media/v4l2-ioctl.h>
-> >  
-> > +#if defined(CONFIG_VIDEO_V4L2_SUBDEV_API)
-> > +/*
-> > + * Streams API is an experimental feature. To use Streams API, set
+Hi Laurent,
 
-Oh, and here too.
+Thanks for your patch.
 
-> > + * 'v4l2_subdev_enable_streams_api' to 1 below.
-> > + */
-> > +
-> > +static bool v4l2_subdev_enable_streams_api;
-> > +#endif
-> > +
-> >  /*
-> >   * Maximum stream ID is 63 for now, as we use u64 bitmask to represent a set
-> >   * of streams.
-> > @@ -751,6 +760,9 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
-> >  		struct v4l2_subdev_routing *routing = arg;
-> >  		struct v4l2_subdev_krouting *krouting;
-> >  
-> > +		if (!v4l2_subdev_enable_streams_api)
-> > +			return -ENOIOCTLCMD;
-> > +
-> >  		if (!(sd->flags & V4L2_SUBDEV_FL_STREAMS))
-> >  			return -ENOIOCTLCMD;
-> >  
-> > @@ -778,6 +790,9 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
-> >  		struct v4l2_subdev_krouting krouting = {};
-> >  		unsigned int i;
-> >  
-> > +		if (!v4l2_subdev_enable_streams_api)
-> > +			return -ENOIOCTLCMD;
-> > +
-> >  		if (!(sd->flags & V4L2_SUBDEV_FL_STREAMS))
-> >  			return -ENOIOCTLCMD;
-> >  
+On 2023-01-14 23:46:50 +0200, Laurent Pinchart wrote:
+> The control handler is leaked in some probe-time error paths, as well as
+> in the remove path. Fix it.
+> 
+> Fixes: 66d8c9d2422d ("media: i2c: Add MAX9286 driver")
+> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+
+> ---
+>  drivers/media/i2c/max9286.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
+> index 701038d6d19b..13a986b88588 100644
+> --- a/drivers/media/i2c/max9286.c
+> +++ b/drivers/media/i2c/max9286.c
+> @@ -1122,6 +1122,7 @@ static int max9286_v4l2_register(struct max9286_priv *priv)
+>  static void max9286_v4l2_unregister(struct max9286_priv *priv)
+>  {
+>  	fwnode_handle_put(priv->sd.fwnode);
+> +	v4l2_ctrl_handler_free(&priv->ctrls);
+>  	v4l2_async_unregister_subdev(&priv->sd);
+>  	max9286_v4l2_notifier_unregister(priv);
+>  }
+> -- 
+> Regards,
+> 
+> Laurent Pinchart
+> 
 
 -- 
-Regards,
-
-Laurent Pinchart
+Kind Regards,
+Niklas Söderlund
