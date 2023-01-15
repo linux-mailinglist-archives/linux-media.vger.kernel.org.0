@@ -2,132 +2,109 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D0F8B66B336
-	for <lists+linux-media@lfdr.de>; Sun, 15 Jan 2023 18:30:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 38C9966B3EE
+	for <lists+linux-media@lfdr.de>; Sun, 15 Jan 2023 21:47:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231346AbjAORae (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 15 Jan 2023 12:30:34 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57580 "EHLO
+        id S231514AbjAOUrn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 15 Jan 2023 15:47:43 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60066 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231150AbjAORae (ORCPT
+        with ESMTP id S231381AbjAOUrl (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 15 Jan 2023 12:30:34 -0500
-Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com [IPv6:2a00:1450:4864:20::130])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D1014CC21;
-        Sun, 15 Jan 2023 09:30:32 -0800 (PST)
-Received: by mail-lf1-x130.google.com with SMTP id cf42so39856081lfb.1;
-        Sun, 15 Jan 2023 09:30:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/ebf/oMXVYkekYORrvr7onKgABPLQXE20mj48sKZlpw=;
-        b=VgSLbySZZ5EApqg7phVC233TMn/iI/ffZlfBP4ilUSsmwPmPwadMmGQal7pNVCMYZJ
-         I/0DfwoSYpgfDpoJPjDoxHUdCEaLEolKMNQsns65U1AGWFux7DlOjuxON5LUt0p8Alyc
-         WAbGDQ+JADw6z9qFxG1HFrnSGsxKqy0FIt1oT6ai1pJZP7s7LmjUHNaDU5zwAs+Wlu+N
-         rF86s9kLAmWybL6z4cOhT8Nx+btz3K7qA/WGNQ8GyAxTsRiTt1K3yZII9F82nlpUVUIv
-         /+Zs9XJxx85r6J8vSdtitWqRvOhk/stPN166HgBBzJStrOgUxzYqFgB9YD7W913CTaml
-         6Gzw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=/ebf/oMXVYkekYORrvr7onKgABPLQXE20mj48sKZlpw=;
-        b=6HQoSKEEvDQQdPvSC6XYZKog2V637Nh18qJ6XBMSIeP2djOtlkVnsGjrTvpYT6Mc4n
-         At3LWN+EJNV2JSutmFInKG4mC2qoqh9M494qaHojkyDwTpC2RhkD4PSCycyl6vh82Lh0
-         T+c9FM0u5H6KzdsMNg5ELXqM/+xiuyg0BjdoxfgZ8Dle5E29Rpyae9DYnX3mfhyIyeoL
-         5Il7SRjmMYHNwMMlKRyEkqXD+gwSdlV/rC9ul/QyRVkMVdFh4dPChpqdNOmN7adZKclr
-         /+tbGqLdw9dpCKIrkepdGSivlCvzQ5jEoSK1376hU2l0k9rzXHLkEkKjK8Q2EGoDnzh2
-         bYlw==
-X-Gm-Message-State: AFqh2kp6y7M8yPbZoWOF2Xs8oZ9H2TJ6wYvAd5pZ2fIMxB2gGc4viDLZ
-        DgUJxfucwJ26sjDxv2rbzt7uvTHSzW8=
-X-Google-Smtp-Source: AMrXdXuON2TYlGB3cTjE1TQOgzZuKnHEmOWjNQzjLqbiXcX72nj9b3rAeLf5ZlQoXk/kWW+DzM8gjw==
-X-Received: by 2002:a19:6552:0:b0:4cc:8572:c7bc with SMTP id c18-20020a196552000000b004cc8572c7bcmr1928468lfj.65.1673803831077;
-        Sun, 15 Jan 2023 09:30:31 -0800 (PST)
-Received: from localhost.localdomain ([2a05:3580:f312:6c02:b940:4283:cb3e:a3e8])
-        by smtp.gmail.com with ESMTPSA id u10-20020a05651220ca00b004cb10c151fasm4775008lfr.88.2023.01.15.09.30.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 15 Jan 2023 09:30:30 -0800 (PST)
-From:   Andrey Skvortsov <andrej.skvortzov@gmail.com>
-To:     Steve Longerbeam <slongerbeam@gmail.com>,
-        Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     Andrey Skvortsov <andrej.skvortzov@gmail.com>
-Subject: [PATCHv2] media: ov5640: Update last busy timestamp to reset autosuspend timer
-Date:   Sun, 15 Jan 2023 20:30:10 +0300
-Message-Id: <20230115173010.1237320-1-andrej.skvortzov@gmail.com>
-X-Mailer: git-send-email 2.39.0
-In-Reply-To: <Y8KgGhu0e/+xIfDm@valkosipuli.retiisi.eu>
-References: <Y8KgGhu0e/+xIfDm@valkosipuli.retiisi.eu>
+        Sun, 15 Jan 2023 15:47:41 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A924B13506
+        for <linux-media@vger.kernel.org>; Sun, 15 Jan 2023 12:47:40 -0800 (PST)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id E84C3308;
+        Sun, 15 Jan 2023 21:47:37 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1673815658;
+        bh=Hmn94T1Y+AeKkAsBNXxAiYkJHqhchh1QBWl2nxtr/RQ=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=BeHKvMA0WtRq202ukCiBx4rHQ0SG6dRXiqe1tS2zMM0BU5I14Dwhy1f9eDrIylN+1
+         YHxFhcwf2bMarXuzvVyWRygIhZz4O38U/zSAWnHYroZCmrZw0PFjl0yTyuQEBfXErt
+         ERUdK9x2hpouxvSBUy+AZ66fkoioPxr1LsauYgRU=
+Date:   Sun, 15 Jan 2023 22:47:38 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Giuliano Lotta <giuliano.lotta@gmail.com>
+Cc:     linux-media@vger.kernel.org, Ricardo Ribalda <ribalda@chromium.org>
+Subject: Re: ucv camera fix : tester offering :-)
+Message-ID: <Y8RmahoMiyoRVNkJ@pendragon.ideasonboard.com>
+References: <CA+DpmqZ1fh=MqEn-G6wb_6yELuPWVTROG2ReUDPJGAAOn7FN9Q@mail.gmail.com>
+ <CANiDSCuoL4-L4zXPFRS88NpmYMdbbP2QNi90U9LkpS90_unb1w@mail.gmail.com>
+ <Y689FvF1zULBkSHs@pendragon.ideasonboard.com>
+ <CA+DpmqZ=v1TwfhnjpaT6ip9L4UnVuE-Cx2cJo0hDNybNhKwu4g@mail.gmail.com>
+ <Y7LS4MMcSX/tO5EN@pendragon.ideasonboard.com>
+ <CA+Dpmqax3M5=a=uPEorx=o2_kaKt_Aj7iXaXHreyjWFLscr+Ng@mail.gmail.com>
+ <CA+DpmqYNK=zLPPRjsqWF-3TgdPHq97tFBGamizrdN1i3xHwAtQ@mail.gmail.com>
+ <CA+DpmqaVAh8SHhML+4t_MuV4fmZ1HeCaZ9i9B58TRUqpJ2k9VQ@mail.gmail.com>
+ <Y71KO4ZEwYVSYuvm@pendragon.ideasonboard.com>
+ <CA+Dpmqba0Lo0wpEQYFbd9SUrBGspn44UDn_jqGyJTpf1oYhttg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CA+Dpmqba0Lo0wpEQYFbd9SUrBGspn44UDn_jqGyJTpf1oYhttg@mail.gmail.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Otherwise autosuspend delay doesn't work and power is cut off
-immediately as device is freed.
+Hi Giuliano,
 
-Signed-off-by: Andrey Skvortsov <andrej.skvortzov@gmail.com>
----
+(CC'ing linux-media and Ricardo)
 
-Changes since PATCHv1:
- * Removed pm_runtime_mask_last_busy call from ov5640_write_reg and ov5640_read_reg
-   as suggested by Sakari Ailus
- * Updated diff against next-20230113
+On Tue, Jan 10, 2023 at 02:11:54PM +0100, Giuliano Lotta wrote:
+> UPDATE:
+> after resuming the nobebook, the system crashed with the following message:
+> 
+> usb 3-6: Failed to query (SET_CUR) UVC control 4 on unit 1: -32 (exp. 4)
+> uvcvideo 3-6:1.0: reset_resume error -5
+> 
+> WHERE / HOW may I find other useful information to debug the problem ?
 
-drivers/media/i2c/ov5640.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+That doesn't seem like a crash, but it's not nice. Does the webcam stop
+functioning after that ?
 
-diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
-index e0f908af581b..24f4f395aad6 100644
---- a/drivers/media/i2c/ov5640.c
-+++ b/drivers/media/i2c/ov5640.c
-@@ -3316,6 +3316,7 @@ static int ov5640_g_volatile_ctrl(struct v4l2_ctrl *ctrl)
- 		break;
- 	}
- 
-+	pm_runtime_mark_last_busy(&sensor->i2c_client->dev);
- 	pm_runtime_put_autosuspend(&sensor->i2c_client->dev);
- 
- 	return 0;
-@@ -3391,6 +3392,7 @@ static int ov5640_s_ctrl(struct v4l2_ctrl *ctrl)
- 		break;
- 	}
- 
-+	pm_runtime_mark_last_busy(&sensor->i2c_client->dev);
- 	pm_runtime_put_autosuspend(&sensor->i2c_client->dev);
- 
- 	return ret;
-@@ -3710,8 +3712,10 @@ static int ov5640_s_stream(struct v4l2_subdev *sd, int enable)
- out:
- 	mutex_unlock(&sensor->lock);
- 
--	if (!enable || ret)
-+	if (!enable || ret) {
-+		pm_runtime_mark_last_busy(&sensor->i2c_client->dev);
- 		pm_runtime_put_autosuspend(&sensor->i2c_client->dev);
-+	}
- 
- 	return ret;
- }
-@@ -3912,6 +3916,7 @@ static int ov5640_probe(struct i2c_client *client)
- 
- 	pm_runtime_set_autosuspend_delay(dev, 1000);
- 	pm_runtime_use_autosuspend(dev);
-+	pm_runtime_mark_last_busy(dev);
- 	pm_runtime_put_autosuspend(dev);
- 
- 	return 0;
+Ricardo, the device is a
+
+Bus 003 Device 003: ID 0408:4035 Quanta Computer, Inc. ACER HD User Facing
+Device Descriptor:
+  bLength                18
+  bDescriptorType         1
+  bcdUSB               2.01
+  bDeviceClass          239 Miscellaneous Device
+  bDeviceSubClass         2
+  bDeviceProtocol         1 Interface Association
+  bMaxPacketSize0        64
+  idVendor           0x0408 Quanta Computer, Inc.
+  idProduct          0x4035
+  bcdDevice            0.04
+  iManufacturer           1 Quanta
+  iProduct                2 ACER HD User Facing
+  iSerial                 3 01.00.00
+  bNumConfigurations      1
+
+Does it ring a bell ?
+
+> Il giorno mar 10 gen 2023 alle ore 12:21 Laurent Pinchart ha scritto:
+> > On Tue, Jan 10, 2023 at 07:57:21AM +0100, Giuliano Lotta wrote:
+> > > Hi Laurent,
+> > > I just realized that the VIDOE has NO AUDIO....
+> > >
+> > > Trying a webcam test site like : https://it.webcamtests.com/
+> > > it says that the webcam does not have a microphone.
+> > >
+> > > Any idea on how to solve this problem ?
+> >
+> > Well, your webcam does not have a microphone :-) It's integrated in a
+> > laptop, so audio is handled through your laptop audio device.
+
 -- 
-2.39.0
+Regards,
 
+Laurent Pinchart
