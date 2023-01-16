@@ -2,332 +2,263 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6691C66B8CE
-	for <lists+linux-media@lfdr.de>; Mon, 16 Jan 2023 09:09:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9014366B8CF
+	for <lists+linux-media@lfdr.de>; Mon, 16 Jan 2023 09:10:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232011AbjAPIJf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 16 Jan 2023 03:09:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42042 "EHLO
+        id S232089AbjAPIKP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 16 Jan 2023 03:10:15 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42166 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232098AbjAPIJV (ORCPT
+        with ESMTP id S231855AbjAPIKM (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 16 Jan 2023 03:09:21 -0500
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6E92412069
-        for <linux-media@vger.kernel.org>; Mon, 16 Jan 2023 00:09:12 -0800 (PST)
+        Mon, 16 Jan 2023 03:10:12 -0500
+Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 553E32734
+        for <linux-media@vger.kernel.org>; Mon, 16 Jan 2023 00:10:11 -0800 (PST)
+Received: by mail-ej1-x629.google.com with SMTP id vw16so3010517ejc.12
+        for <linux-media@vger.kernel.org>; Mon, 16 Jan 2023 00:10:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1673856552; x=1705392552;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=3YIt9b4dKPs+W2l5HHRqjREJ84ge1sW1QI5/8cmPMZI=;
-  b=cK499eXq58wg5KiryyXkZyCvbAE5QCZQVr1/PTVp6nhh4HnEf+TOsxVm
-   Dwb+MKajbqvaDZai+UR/7Lcq2asnS2HLEKE3WNQIKpXzm/LWmmUOKWnxf
-   aFyilWtPwi1dHLWD0dpJIhkZuiK3+hs/td8t9Dk+JhT+FJ5iha30UB089
-   eRxOhmE+FHQ9UUw9muMHYS3NU59nk6mng1TcCc8mlFM9RueZMnT4zsn/j
-   vZiq5t5u9EYSYOWZoUW1DQkd+3KAsU9Jt5BmOcnnjS5BF6gHClet2mLAp
-   3zp/qz+KmMhZm5QCzojucZGZFzb5aVbDC2auvUs2dXkUCPv+7YF9bZyfs
-   w==;
-X-IronPort-AV: E=Sophos;i="5.97,220,1669071600"; 
-   d="scan'208";a="28439077"
-Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
-  by mx1-pgp.tq-group.com with ESMTP; 16 Jan 2023 09:09:07 +0100
-Received: from mx1.tq-group.com ([192.168.6.7])
-  by tq-pgp-pr1.tq-net.de (PGP Universal service);
-  Mon, 16 Jan 2023 09:09:08 +0100
-X-PGP-Universal: processed;
-        by tq-pgp-pr1.tq-net.de on Mon, 16 Jan 2023 09:09:08 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1673856547; x=1705392547;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=3YIt9b4dKPs+W2l5HHRqjREJ84ge1sW1QI5/8cmPMZI=;
-  b=VwpdTa2+pPduftKKFL+LMFuXTHkTWHu1r9DqBzqk5dPnA1MKdKcOh6Cv
-   XKFAoS9F6Gxa25rBjeREljdV8xInq6IJ/vecZEWEBatpdsU6+Gu0YxnUB
-   lN9XO9xds104PahZfD9tuKRivFLy99iYEC25KUDqq6jLm66qhnsYe1ATP
-   O2fcGVm+T12BNN4mQPevmVZ4e23f8WXqtF/VrAN5XRm/06Eyo07dI9mff
-   h4V8wFOJoxLmJlhVNazuWZATJREd2Gh+6QlS6Tjp3fM9LH2scWx1uJiW8
-   VxXx5+IVXa6aJ+EaLNpYpTYuIJiv7AucqkcolVTma32WqWpVQF2NKszmW
-   A==;
-X-IronPort-AV: E=Sophos;i="5.97,220,1669071600"; 
-   d="scan'208";a="28439038"
-Received: from vtuxmail01.tq-net.de ([10.115.0.20])
-  by mx1.tq-group.com with ESMTP; 16 Jan 2023 09:09:01 +0100
-Received: from steina-w.localnet (unknown [10.123.53.21])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-        (No client certificate requested)
-        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 7A6F6280056;
-        Mon, 16 Jan 2023 09:09:01 +0100 (CET)
-From:   Alexander Stein <alexander.stein@ew.tq-group.com>
-To:     linux-media@vger.kernel.org,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Sakari Ailus <sakari.ailus@iki.fi>,
-        Manivannan Sadhasivam <mani@kernel.org>,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>
-Subject: Re: [PATCH v2 02/17] media: i2c: imx290: Factor out subdev init and cleanup to functions
-Date:   Mon, 16 Jan 2023 09:09:02 +0100
-Message-ID: <4774526.GXAFRqVoOG@steina-w>
-Organization: TQ-Systems GmbH
-In-Reply-To: <20230114171802.13878-2-laurent.pinchart@ideasonboard.com>
-References: <20230114171727.13830-1-laurent.pinchart@ideasonboard.com> <20230114171802.13878-1-laurent.pinchart@ideasonboard.com> <20230114171802.13878-2-laurent.pinchart@ideasonboard.com>
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=zms17SHseS3wAoavooLT/19S/3viSn8s+o0NzNuVEiU=;
+        b=h5Sj63KXGKJ6mTUFmnOoksQZFRd0wz0/9nKYmTFIxVovnq8T/KiMMHhMmv/YX/kO2d
+         +d/hw+HaA53PTT1rJma1PlfP69+vcM9CadbwgE2yzurhYx/4KXcCFN2mRR41bzabVb4c
+         sy6pvuXMaf7/9MNYHWQgZMyObKeSv25F1+zHPIQzPpvqAn5+sAYLrHcQEM0sDE7DVSFZ
+         7KlgjqHiXG+qZaWlD0JWhoUv+0gsqXjd3q6gHl4H5QKJsxBCvM5AjBkmWESZz5Uh86GM
+         MP1dSaDM4YuaoQNJ9DAHklVpcu96FXpdNUXT18aMH3PJ8YJ6scB2CkeQZ3/fi4AeivH0
+         hrYQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=zms17SHseS3wAoavooLT/19S/3viSn8s+o0NzNuVEiU=;
+        b=XjD250MJ6a44HdEQNLybkY+XPCDIgO0CNMPLrRAvWJPvanjU2LZipHVJZCT28jRHVQ
+         4P2/1lTkFkOikbD80tt93mxxg+vs2BE8zHQjefaKgWoxyKlBbrqfBlsCgpw1ru7x+Cal
+         PdUhQ2cUQOS6qpKMgVVvPGN45NwoGxNY+adXQGcO4IOSe/hDCv8aZvEjMokMFLY10x5g
+         RLjMDdsEmlh4k+GWo0d+pFHmgDujyeaPT8fWDOnLWW8bGN+GE5zPpqRPCU6LqjiDU7D8
+         vyNM3zbSZNPIEyt/ZMdbEoR8N/ONMSH+qEUODxm7zt/SEPwNwjvSZt6JYPBPVEHQ1DMP
+         TTuQ==
+X-Gm-Message-State: AFqh2kpveEJjDYVY/bmz5oIjqPeu8lS1wIs9tzDEqQcojdBq5dpt3APU
+        X5/zec6/5A1gyFXgBiSSpxqdTA==
+X-Google-Smtp-Source: AMrXdXsoQ8RZgHiEi0DjL+X9OpgWoZTiwWDn4sfC2Q/QMHAv5AT27GqlyXu1cVT+1PPwqX/xmaiOow==
+X-Received: by 2002:a17:906:eb88:b0:870:7e7d:97a7 with SMTP id mh8-20020a170906eb8800b008707e7d97a7mr3021202ejb.72.1673856609899;
+        Mon, 16 Jan 2023 00:10:09 -0800 (PST)
+Received: from [192.168.1.109] ([178.197.216.144])
+        by smtp.gmail.com with ESMTPSA id j3-20020a170906474300b0084d4cb08f27sm8551169ejs.104.2023.01.16.00.10.08
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 16 Jan 2023 00:10:09 -0800 (PST)
+Message-ID: <f24a54f1-2720-3345-9596-bb8d388ba16f@linaro.org>
+Date:   Mon, 16 Jan 2023 09:10:07 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [RESEND v3 01/13] dt-binding: mediatek: add bindings for MediaTek
+ mt8195 MDP3 components
+Content-Language: en-US
+To:     Moudy Ho <moudy.ho@mediatek.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>
+Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org,
+        Project_Global_Chrome_Upstream_Group@mediatek.com
+References: <20230116032147.23607-1-moudy.ho@mediatek.com>
+ <20230116032147.23607-2-moudy.ho@mediatek.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230116032147.23607-2-moudy.ho@mediatek.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello Laurent,
+On 16/01/2023 04:21, Moudy Ho wrote:
+> This patch adds support for MT8195 MDP3 RDMA, and introduce more
+> MDP3 components present in MT8195.
 
-thanks for the update.
+Do not use "This commit/patch".
+https://elixir.bootlin.com/linux/v5.17.1/source/Documentation/process/submitting-patches.rst#L95
 
-Am Samstag, 14. Januar 2023, 18:17:47 CET schrieb Laurent Pinchart:
-> The probe() function is large. Make it more readable by factoring the
-> subdev initialization code out. While at it, rename the error labels as
-> the "free_" prefix isn't accurate.
+Subject: drop second/last, redundant "bindings for". The "dt-bindings"
+prefix is already stating that these are bindings.
+
 > 
-> No functional change intended.
-> 
-> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Signed-off-by: Moudy Ho <moudy.ho@mediatek.com>
 > ---
-> Changes since v1:
+>  .../bindings/media/mediatek,mdp3-aal.yaml     | 63 ++++++++++++++++
+>  .../bindings/media/mediatek,mdp3-color.yaml   | 63 ++++++++++++++++
+>  .../bindings/media/mediatek,mdp3-fg.yaml      | 63 ++++++++++++++++
+>  .../bindings/media/mediatek,mdp3-hdr.yaml     | 62 +++++++++++++++
+>  .../bindings/media/mediatek,mdp3-merge.yaml   | 63 ++++++++++++++++
+>  .../bindings/media/mediatek,mdp3-ovl.yaml     | 63 ++++++++++++++++
+>  .../bindings/media/mediatek,mdp3-pad.yaml     | 63 ++++++++++++++++
+>  .../bindings/media/mediatek,mdp3-rdma.yaml    | 30 +++++---
+>  .../bindings/media/mediatek,mdp3-rsz.yaml     | 11 ++-
+>  .../bindings/media/mediatek,mdp3-split.yaml   | 75 +++++++++++++++++++
+>  .../bindings/media/mediatek,mdp3-stitch.yaml  | 63 ++++++++++++++++
+>  .../bindings/media/mediatek,mdp3-tcc.yaml     | 62 +++++++++++++++
+>  .../bindings/media/mediatek,mdp3-tdshp.yaml   | 63 ++++++++++++++++
+>  13 files changed, 731 insertions(+), 13 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/media/mediatek,mdp3-aal.yaml
+>  create mode 100644 Documentation/devicetree/bindings/media/mediatek,mdp3-color.yaml
+>  create mode 100644 Documentation/devicetree/bindings/media/mediatek,mdp3-fg.yaml
+>  create mode 100644 Documentation/devicetree/bindings/media/mediatek,mdp3-hdr.yaml
+>  create mode 100644 Documentation/devicetree/bindings/media/mediatek,mdp3-merge.yaml
+>  create mode 100644 Documentation/devicetree/bindings/media/mediatek,mdp3-ovl.yaml
+>  create mode 100644 Documentation/devicetree/bindings/media/mediatek,mdp3-pad.yaml
+>  create mode 100644 Documentation/devicetree/bindings/media/mediatek,mdp3-split.yaml
+>  create mode 100644 Documentation/devicetree/bindings/media/mediatek,mdp3-stitch.yaml
+>  create mode 100644 Documentation/devicetree/bindings/media/mediatek,mdp3-tcc.yaml
+>  create mode 100644 Documentation/devicetree/bindings/media/mediatek,mdp3-tdshp.yaml
 > 
-> - Free control handler in imx290_subdev_init() error path
+> diff --git a/Documentation/devicetree/bindings/media/mediatek,mdp3-aal.yaml b/Documentation/devicetree/bindings/media/mediatek,mdp3-aal.yaml
+> new file mode 100644
+> index 000000000000..d2e1b5245778
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/mediatek,mdp3-aal.yaml
 
-Reviewed-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+Filename should match compatible, unless you already expect this binding
+will cover other devices. If so, why not adding them now?
 
-> ---
->  drivers/media/i2c/imx290.c | 108 +++++++++++++++++++++----------------
->  1 file changed, 62 insertions(+), 46 deletions(-)
-> 
-> diff --git a/drivers/media/i2c/imx290.c b/drivers/media/i2c/imx290.c
-> index ca2fa57c28fe..5529bd39238f 100644
-> --- a/drivers/media/i2c/imx290.c
-> +++ b/drivers/media/i2c/imx290.c
-> @@ -1015,6 +1015,47 @@ static const struct media_entity_operations
-> imx290_subdev_entity_ops = { .link_validate = v4l2_subdev_link_validate,
->  };
-> 
-> +static int imx290_subdev_init(struct imx290 *imx290)
-> +{
-> +	struct i2c_client *client = to_i2c_client(imx290->dev);
-> +	int ret;
+> @@ -0,0 +1,63 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/mediatek,mdp3-aal.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > +
-> +	/*
-> +	 * Initialize the frame format. In particular, imx290->current_mode
-> +	 * and imx290->bpp are set to defaults: imx290_calc_pixel_rate() 
-call
-> +	 * below relies on these fields.
-> +	 */
-> +	imx290_entity_init_cfg(&imx290->sd, NULL);
+> +title: MediaTek Media Data Path 3 AAL
 > +
-> +	ret = imx290_ctrl_init(imx290);
-> +	if (ret < 0) {
-> +		dev_err(imx290->dev, "Control initialization error %d\n", 
-ret);
-> +		return ret;
-> +	}
+> +maintainers:
+> +  - Matthias Brugger <matthias.bgg@gmail.com>
+> +  - Moudy Ho <moudy.ho@mediatek.com>
 > +
-> +	v4l2_i2c_subdev_init(&imx290->sd, client, &imx290_subdev_ops);
-> +	imx290->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
-> +	imx290->sd.dev = imx290->dev;
-> +	imx290->sd.entity.ops = &imx290_subdev_entity_ops;
-> +	imx290->sd.entity.function = MEDIA_ENT_F_CAM_SENSOR;
+> +description:
+> +  One of Media Data Path 3 (MDP3) components is responsible for backlight
+> +  power saving and sunlight visibility improving.
 > +
-> +	imx290->pad.flags = MEDIA_PAD_FL_SOURCE;
-> +	ret = media_entity_pads_init(&imx290->sd.entity, 1, &imx290->pad);
-> +	if (ret < 0) {
-> +		dev_err(imx290->dev, "Could not register media entity\n");
-> +		v4l2_ctrl_handler_free(&imx290->ctrls);
-> +		return ret;
-> +	}
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - mediatek,mt8195-mdp3-aal
 > +
-> +	return 0;
-> +}
+> +  reg:
+> +    maxItems: 1
 > +
-> +static void imx290_subdev_cleanup(struct imx290 *imx290)
-> +{
-> +	media_entity_cleanup(&imx290->sd.entity);
-> +	v4l2_ctrl_handler_free(&imx290->ctrls);
-> +}
+> +  mediatek,gce-client-reg:
+> +    description:
+> +      The register of client driver can be configured by gce with 4 arguments
+> +      defined in this property, such as phandle of gce, subsys id,
+> +      register offset and size.
+> +      Each subsys id is mapping to a base address of display function blocks
+> +      register which is defined in the gce header
+> +      include/dt-bindings/gce/<chip>-gce.h.
+> +    $ref: /schemas/types.yaml#/definitions/phandle-array
+> +    maxItems: 1
+
+items with items syntax instead:
+
+https://elixir.bootlin.com/linux/v5.18-rc1/source/Documentation/devicetree/bindings/soc/samsung/exynos-usi.yaml#L42
+
 > +
->  /*
-> ---------------------------------------------------------------------------
-> - * Power management
->   */
-> @@ -1147,10 +1188,10 @@ static int imx290_probe(struct i2c_client *client)
->  	fwnode_handle_put(endpoint);
->  	if (ret == -ENXIO) {
->  		dev_err(dev, "Unsupported bus type, should be CSI2\n");
-> -		goto free_err;
-> +		goto err_endpoint;
->  	} else if (ret) {
->  		dev_err(dev, "Parsing endpoint node failed\n");
-> -		goto free_err;
-> +		goto err_endpoint;
->  	}
-> 
->  	/* Get number of data lanes */
-> @@ -1158,7 +1199,7 @@ static int imx290_probe(struct i2c_client *client)
->  	if (imx290->nlanes != 2 && imx290->nlanes != 4) {
->  		dev_err(dev, "Invalid data lanes: %d\n", imx290->nlanes);
->  		ret = -EINVAL;
-> -		goto free_err;
-> +		goto err_endpoint;
->  	}
-> 
->  	dev_dbg(dev, "Using %u data lanes\n", imx290->nlanes);
-> @@ -1166,7 +1207,7 @@ static int imx290_probe(struct i2c_client *client)
->  	if (!ep.nr_of_link_frequencies) {
->  		dev_err(dev, "link-frequency property not found in DT\n");
->  		ret = -EINVAL;
-> -		goto free_err;
-> +		goto err_endpoint;
->  	}
-> 
->  	/* Check that link frequences for all the modes are in device tree 
-*/
-> @@ -1174,7 +1215,7 @@ static int imx290_probe(struct i2c_client *client)
->  	if (fq) {
->  		dev_err(dev, "Link frequency of %lld is not supported\n", 
-fq);
->  		ret = -EINVAL;
-> -		goto free_err;
-> +		goto err_endpoint;
->  	}
-> 
->  	/* get system clock (xclk) */
-> @@ -1182,14 +1223,14 @@ static int imx290_probe(struct i2c_client *client)
->  	if (IS_ERR(imx290->xclk)) {
->  		dev_err(dev, "Could not get xclk");
->  		ret = PTR_ERR(imx290->xclk);
-> -		goto free_err;
-> +		goto err_endpoint;
->  	}
-> 
->  	ret = fwnode_property_read_u32(dev_fwnode(dev), "clock-frequency",
->  				       &xclk_freq);
->  	if (ret) {
->  		dev_err(dev, "Could not get xclk frequency\n");
-> -		goto free_err;
-> +		goto err_endpoint;
->  	}
-> 
->  	/* external clock must be 37.125 MHz */
-> @@ -1197,19 +1238,19 @@ static int imx290_probe(struct i2c_client *client)
->  		dev_err(dev, "External clock frequency %u is not 
-supported\n",
->  			xclk_freq);
->  		ret = -EINVAL;
-> -		goto free_err;
-> +		goto err_endpoint;
->  	}
-> 
->  	ret = clk_set_rate(imx290->xclk, xclk_freq);
->  	if (ret) {
->  		dev_err(dev, "Could not set xclk frequency\n");
-> -		goto free_err;
-> +		goto err_endpoint;
->  	}
-> 
->  	ret = imx290_get_regulators(dev, imx290);
->  	if (ret < 0) {
->  		dev_err(dev, "Cannot get regulators\n");
-> -		goto free_err;
-> +		goto err_endpoint;
->  	}
-> 
->  	imx290->rst_gpio = devm_gpiod_get_optional(dev, "reset",
-> @@ -1217,48 +1258,26 @@ static int imx290_probe(struct i2c_client *client)
->  	if (IS_ERR(imx290->rst_gpio)) {
->  		dev_err(dev, "Cannot get reset gpio\n");
->  		ret = PTR_ERR(imx290->rst_gpio);
-> -		goto free_err;
-> +		goto err_endpoint;
->  	}
-> 
->  	mutex_init(&imx290->lock);
-> 
-> -	/*
-> -	 * Initialize the frame format. In particular, imx290->current_mode
-> -	 * and imx290->bpp are set to defaults: imx290_calc_pixel_rate() 
-call
-> -	 * below relies on these fields.
-> -	 */
-> -	imx290_entity_init_cfg(&imx290->sd, NULL);
-> -
-> -	ret = imx290_ctrl_init(imx290);
-> -	if (ret < 0) {
-> -		dev_err(dev, "Control initialization error %d\n", ret);
-> -		goto free_mutex;
-> -	}
-> -
-> -	v4l2_i2c_subdev_init(&imx290->sd, client, &imx290_subdev_ops);
-> -	imx290->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
-> -	imx290->sd.dev = &client->dev;
-> -	imx290->sd.entity.ops = &imx290_subdev_entity_ops;
-> -	imx290->sd.entity.function = MEDIA_ENT_F_CAM_SENSOR;
-> -
-> -	imx290->pad.flags = MEDIA_PAD_FL_SOURCE;
-> -	ret = media_entity_pads_init(&imx290->sd.entity, 1, &imx290->pad);
-> -	if (ret < 0) {
-> -		dev_err(dev, "Could not register media entity\n");
-> -		goto free_ctrl;
-> -	}
-> +	ret = imx290_subdev_init(imx290);
-> +	if (ret)
-> +		goto err_mutex;
-> 
->  	ret = v4l2_async_register_subdev(&imx290->sd);
->  	if (ret < 0) {
->  		dev_err(dev, "Could not register v4l2 device\n");
-> -		goto free_entity;
-> +		goto err_subdev;
->  	}
-> 
->  	/* Power on the device to match runtime PM state below */
->  	ret = imx290_power_on(dev);
->  	if (ret < 0) {
->  		dev_err(dev, "Could not power on the device\n");
-> -		goto free_entity;
-> +		goto err_subdev;
->  	}
-> 
->  	pm_runtime_set_active(dev);
-> @@ -1269,13 +1288,11 @@ static int imx290_probe(struct i2c_client *client)
-> 
->  	return 0;
-> 
-> -free_entity:
-> -	media_entity_cleanup(&imx290->sd.entity);
-> -free_ctrl:
-> -	v4l2_ctrl_handler_free(&imx290->ctrls);
-> -free_mutex:
-> +err_subdev:
-> +	imx290_subdev_cleanup(imx290);
-> +err_mutex:
->  	mutex_destroy(&imx290->lock);
-> -free_err:
-> +err_endpoint:
->  	v4l2_fwnode_endpoint_free(&ep);
-> 
->  	return ret;
-> @@ -1287,8 +1304,7 @@ static void imx290_remove(struct i2c_client *client)
->  	struct imx290 *imx290 = to_imx290(sd);
-> 
->  	v4l2_async_unregister_subdev(sd);
-> -	media_entity_cleanup(&sd->entity);
-> -	v4l2_ctrl_handler_free(sd->ctrl_handler);
-> +	imx290_subdev_cleanup(imx290);
-> 
->  	mutex_destroy(&imx290->lock);
+> +  clocks:
+> +    minItems: 1
+
+Nope, maxItems.
+
+> +
+> +  power-domains:
+> +    maxItems: 1
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - mediatek,gce-client-reg
+> +  - clocks
+> +  - power-domains
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/clock/mt8195-clk.h>
+> +    #include <dt-bindings/gce/mt8195-gce.h>
+> +    #include <dt-bindings/power/mt8195-power.h>
+> +
+> +    mdp3-aal0@14005000 {
+
+Node names should be generic.
+https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html#generic-names-recommendation
+
+Definitelly "3" and "0" are not generic suffixes.
+
+All comments above apply to your other files here.
+
+> +        compatible = "mediatek,mt8195-mdp3-aal";
+> +        reg = <0x14005000 0x1000>;
+> +        mediatek,gce-client-reg = <&gce1 SUBSYS_1400XXXX 0x5000 0x1000>;
+> +        clocks = <&vppsys0 CLK_VPP0_MDP_AAL>;
+> +        power-domains = <&spm MT8195_POWER_DOMAIN_VPPSYS0>;
+> +    };
+> diff --git a/Documentation/devicetree/bindings/media/mediatek,mdp3-color.yaml b/Documentation/devicetree/bindings/media/mediatek,mdp3-color.yaml
+> new file mode 100644
+> index 000000000000..1d8aa5dc76b9
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/mediatek,mdp3-color.yaml
+> @@ -0,0 +1,63 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/mediatek,mdp3-color.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: MediaTek Media Data Path 3 COLOR
+> +
+> +maintainers:
+> +  - Matthias Brugger <matthias.bgg@gmail.com>
+> +  - Moudy Ho <moudy.ho@mediatek.com>
+> +
+> +description:
+> +  One of Media Data Path 3 (MDP3) components used to adjust hue, luma and
+> +  saturation to get better picture quality.
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - mediatek,mt8195-mdp3-color
+
+This is exactly the same as previous file. Why do you split the binding?
+It really looks unnecessary.
+
+Probably all other files should be also squashed.
+
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  mediatek,gce-client-reg:
+> +    description:
+> +      The register of client driver can be configured by gce with 4 arguments
+> +      defined in this property, such as phandle of gce, subsys id,
+> +      register offset and size.
+> +      Each subsys id is mapping to a base address of display function blocks
+> +      register which is defined in the gce header
+> +      include/dt-bindings/gce/<chip>-gce.h.
+
+Full, real path please, so it could be validated with tools.
 
 
-
+Best regards,
+Krzysztof
 
