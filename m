@@ -2,112 +2,190 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B373466D288
-	for <lists+linux-media@lfdr.de>; Tue, 17 Jan 2023 00:05:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B6FD466D287
+	for <lists+linux-media@lfdr.de>; Tue, 17 Jan 2023 00:05:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235144AbjAPXFt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 16 Jan 2023 18:05:49 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44066 "EHLO
+        id S235163AbjAPXFr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 16 Jan 2023 18:05:47 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44048 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235214AbjAPXFW (ORCPT
+        with ESMTP id S235246AbjAPXFS (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 16 Jan 2023 18:05:22 -0500
-Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com [IPv6:2a00:1450:4864:20::32e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6B8B2E0DC
-        for <linux-media@vger.kernel.org>; Mon, 16 Jan 2023 15:04:28 -0800 (PST)
-Received: by mail-wm1-x32e.google.com with SMTP id f25-20020a1c6a19000000b003da221fbf48so6895622wmc.1
-        for <linux-media@vger.kernel.org>; Mon, 16 Jan 2023 15:04:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=qdVquD9u0NlEIO5cxWzYGboFvm6XlfypUwKZRUXYZtU=;
-        b=Sm9E8gs8hjOMEkBjEH8SiQK6HB1Pg74vnMqjGhwc8mhvKNPIvRqzqQYwt2xSF6VHKC
-         Js6NIpcPf3k+9A9SEvyhRJtmn16QdBUuaek1SZbQUUfLOYkRcKoKYhuK68oRincqS7oy
-         TPfKH6FMpvD61/rdUxN3pE/QsxNWftr/e90/yDvQt5lrNxYPG/NXhYzWGxJVJRY4VVW9
-         uNm43uSJ3UaHSenG3juhn3L5lH3FnG4bS+Qbt2if7Rzg99Yu22MDl72wFpcpoArZJqiR
-         Lw+O7hIpijwqybvKATWNkZFGBm8Iw49HoPaZpOVjMprh0Ij0wiJKL777QBD9FOt4HY1m
-         iapg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=qdVquD9u0NlEIO5cxWzYGboFvm6XlfypUwKZRUXYZtU=;
-        b=1w0LCwn/m+ilpL0szqcM9qvwKD+BsdpnuYM2AD6Z1hRzhwbwLOc2peTMxCbq4VsL8x
-         CZ05qSaC/5t71V/V/obqHzdm0CSGv5N1O5aqselHCBrOb+kJLW7CmNbjL0JFc0IR9jGa
-         YmFqMNsPEZpy47IWZxxG36rGMzJyYkYtKM+ipet3ZQnhsXnHgYAoITTznNVSCvbDtlmv
-         hURaFKpfvi5QLVIrDmnndXcWzGZsCbpP6crCEY6BQ8SGZfUuCCayfry8Bsn/hPqkO3yJ
-         V/ZJhX5/dCPRI5WzXnBrhiPDQmW+9RqlGSqYvHmmmrCNdyfGKFQpJDEKTgPBsdtFZWLO
-         MRLQ==
-X-Gm-Message-State: AFqh2ko5BZdGBKAJYCT0/8G99WGRGnb7VFN05d4rzcrSgfpfio3t7v6L
-        IbnuMUF8yEVdrz71co+UO18=
-X-Google-Smtp-Source: AMrXdXvbGJ9u2q+SZPhf5sOM6tVLv6nSoLpDEyC3UaL6ha+NwHD2966GBjROJX23QYHvcuXzivpQCA==
-X-Received: by 2002:a05:600c:a690:b0:3d5:64bf:ccb8 with SMTP id ip16-20020a05600ca69000b003d564bfccb8mr999617wmb.12.1673910267014;
-        Mon, 16 Jan 2023 15:04:27 -0800 (PST)
-Received: from localhost.localdomain (mm-88-61-120-178.brest.dynamic.pppoe.byfly.by. [178.120.61.88])
-        by smtp.gmail.com with ESMTPSA id n7-20020a05600c4f8700b003c6bd12ac27sm39136685wmq.37.2023.01.16.15.04.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Jan 2023 15:04:26 -0800 (PST)
-From:   Oleg Verych <olecom@gmail.com>
-To:     linux-sunxi@lists.linux.dev (open list:ARM/Allwinner sunXi SoC support)
-Cc:     Oleg Verych <olecom@gmail.com>, Maxime Ripard <mripard@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@iki.fi>,
-        linux-media@vger.kernel.org (open list:ALLWINNER A10 CSI DRIVER),
-        linux-sunxi <linux-sunxi@googlegroups.com>
-Subject: [PATCH] media: sun4i-csi: Use CSI_INT_STA_REG name, fix typo in a comment
-Date:   Tue, 17 Jan 2023 02:03:23 +0300
-Message-Id: <20230116230323.4718-1-olecom@gmail.com>
-X-Mailer: git-send-email 2.35.1.windows.2
-In-Reply-To: <Y8WgY74zWjF3kvln@valkosipuli.retiisi.eu>
-References: <Y8WgY74zWjF3kvln@valkosipuli.retiisi.eu>
+        Mon, 16 Jan 2023 18:05:18 -0500
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F9542CFC9
+        for <linux-media@vger.kernel.org>; Mon, 16 Jan 2023 15:04:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1673910265; x=1705446265;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=U9aRG0iiEVQLgJcbSw2hglrAJ5YG+1Q6otYTxuSrueo=;
+  b=hlrvaoGdkXk/4TPK0wiBmbn6KwOjKQWNxieGWhThdxYEzRBMBndAGhHL
+   CVAeHMFVB/tAx/XIw+jOGcluAaqqWIGUFZPWhIe7hylpB+5swiaYYtp+c
+   5qQ3FkjuQuMhQV8evIGV2L4SB8wh0Z8ptQFGDOj+5ntp6ud1FNcoa1wKy
+   Q+U/wsuroLXaMUAoaYOegqvSBpg7dNWqSFRYc+7XYjho4xDoJE2iUkG/F
+   BAZ3VgQQowkZmJ8/PfYQhOC/WfJokl7cRvB25VcTeFQQekSuI3JlZvuTk
+   uHoeWUNMcc/ARq/GH0Gox0ce5PSOHW19g3yPnbyVITNl2S54Nt14Fk9yU
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10592"; a="351813557"
+X-IronPort-AV: E=Sophos;i="5.97,222,1669104000"; 
+   d="scan'208";a="351813557"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2023 15:04:25 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10592"; a="783045660"
+X-IronPort-AV: E=Sophos;i="5.97,222,1669104000"; 
+   d="scan'208";a="783045660"
+Received: from lkp-server02.sh.intel.com (HELO f57cd993bc73) ([10.239.97.151])
+  by orsmga004.jf.intel.com with ESMTP; 16 Jan 2023 15:04:23 -0800
+Received: from kbuild by f57cd993bc73 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1pHYWc-0000mV-1s;
+        Mon, 16 Jan 2023 23:04:22 +0000
+Date:   Tue, 17 Jan 2023 07:03:33 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     linux-media@vger.kernel.org
+Subject: [sailus-media-tree:streams] BUILD SUCCESS
+ 314a1ebb85475f982dc18069558ed6d3e64f2866
+Message-ID: <63c5d7c5.Tw7SJe8u+n5Sodt/%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Fix interrupt status register offset usage to be a defined name
-CSI_INT_STA_REG (= 0x34) instead of a plain number.
+tree/branch: git://linuxtv.org/sailus/media_tree.git streams
+branch HEAD: 314a1ebb85475f982dc18069558ed6d3e64f2866  media: Documentation: Update documentation for streams
 
-Additionally fix a typo in a comment of the same file.
+elapsed time: 720m
 
-Signed-off-by: Oleg Verych <olecom@gmail.com>
+configs tested: 107
+configs skipped: 4
 
----
- drivers/media/platform/sunxi/sun4i-csi/sun4i_dma.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-diff --git a/drivers/media/platform/sunxi/sun4i-csi/sun4i_dma.c b/drivers/media/platform/sunxi/sun4i-csi/sun4i_dma.c
-index a3e826a75..95b5633b7 100644
---- a/drivers/media/platform/sunxi/sun4i-csi/sun4i_dma.c
-+++ b/drivers/media/platform/sunxi/sun4i-csi/sun4i_dma.c
-@@ -245,7 +245,7 @@ static int sun4i_csi_start_streaming(struct vb2_queue *vq, unsigned int count)
- 	 * We need a scratch buffer in case where we'll not have any
- 	 * more buffer queued so that we don't error out. One of those
- 	 * cases is when you end up at the last frame to capture, you
--	 * don't havea any buffer queued any more, and yet it doesn't
-+	 * don't have any buffer queued any more, and yet it doesn't
- 	 * really matter since you'll never reach the next buffer.
- 	 *
- 	 * Since we support the multi-planar API, we need to have a
-@@ -311,7 +311,7 @@ static int sun4i_csi_start_streaming(struct vb2_queue *vq, unsigned int count)
- 	writel(CSI_BUF_CTRL_DBE, csi->regs + CSI_BUF_CTRL_REG);
- 
- 	/* Clear the pending interrupts */
--	writel(CSI_INT_FRM_DONE, csi->regs + 0x34);
-+	writel(CSI_INT_FRM_DONE, csi->regs + CSI_INT_STA_REG);
- 
- 	/* Enable frame done interrupt */
- 	writel(CSI_INT_FRM_DONE, csi->regs + CSI_INT_EN_REG);
+gcc tested configs:
+arc                                 defconfig
+powerpc                           allnoconfig
+x86_64                            allnoconfig
+alpha                               defconfig
+x86_64                              defconfig
+um                             i386_defconfig
+um                           x86_64_defconfig
+x86_64                               rhel-8.3
+m68k                             allyesconfig
+m68k                             allmodconfig
+arm                                 defconfig
+arc                              allyesconfig
+x86_64                           allyesconfig
+alpha                            allyesconfig
+x86_64                          rhel-8.3-func
+i386                                defconfig
+x86_64                    rhel-8.3-kselftests
+s390                                defconfig
+s390                             allmodconfig
+s390                             allyesconfig
+x86_64                           rhel-8.3-bpf
+arm64                            allyesconfig
+x86_64                           rhel-8.3-syz
+x86_64                         rhel-8.3-kunit
+riscv                randconfig-r042-20230116
+x86_64                           rhel-8.3-kvm
+i386                 randconfig-a013-20230116
+arm                              allyesconfig
+arc                  randconfig-r043-20230116
+i386                 randconfig-a012-20230116
+x86_64               randconfig-a011-20230116
+i386                 randconfig-a011-20230116
+i386                 randconfig-a016-20230116
+x86_64               randconfig-a013-20230116
+s390                 randconfig-r044-20230116
+i386                 randconfig-a014-20230116
+x86_64               randconfig-a012-20230116
+i386                 randconfig-a015-20230116
+sh                               allmodconfig
+x86_64               randconfig-a015-20230116
+x86_64               randconfig-a014-20230116
+x86_64               randconfig-a016-20230116
+ia64                             allmodconfig
+mips                             allyesconfig
+powerpc                          allmodconfig
+nios2                         10m50_defconfig
+arc                               allnoconfig
+i386                             allyesconfig
+powerpc                      ppc6xx_defconfig
+m68k                       m5275evb_defconfig
+openrisc                       virt_defconfig
+arm                            mps2_defconfig
+powerpc                      makalu_defconfig
+arm                               allnoconfig
+sh                      rts7751r2d1_defconfig
+riscv                    nommu_virt_defconfig
+riscv                          rv32_defconfig
+riscv                    nommu_k210_defconfig
+riscv                             allnoconfig
+i386                   debian-10.3-kselftests
+i386                              debian-10.3
+nios2                            allyesconfig
+nios2                               defconfig
+parisc                              defconfig
+parisc64                            defconfig
+parisc                           allyesconfig
+mips                           jazz_defconfig
+powerpc                      ep88xc_defconfig
+powerpc                  storcenter_defconfig
+arm                             ezx_defconfig
+sh                        sh7785lcr_defconfig
+mips                        bcm47xx_defconfig
+mips                         bigsur_defconfig
+powerpc                mpc7448_hpc2_defconfig
+sparc                               defconfig
+xtensa                           allyesconfig
+csky                                defconfig
+sparc                            allyesconfig
+x86_64                                  kexec
+
+clang tested configs:
+x86_64                          rhel-8.3-rust
+i386                 randconfig-a002-20230116
+i386                 randconfig-a004-20230116
+i386                 randconfig-a003-20230116
+i386                 randconfig-a005-20230116
+i386                 randconfig-a001-20230116
+i386                 randconfig-a006-20230116
+arm                  randconfig-r046-20230116
+hexagon              randconfig-r045-20230116
+hexagon              randconfig-r041-20230116
+arm                       netwinder_defconfig
+powerpc                     kilauea_defconfig
+x86_64               randconfig-a003-20230116
+x86_64               randconfig-a004-20230116
+x86_64               randconfig-a006-20230116
+x86_64               randconfig-a005-20230116
+x86_64               randconfig-a001-20230116
+x86_64               randconfig-a002-20230116
+riscv                randconfig-r042-20230115
+s390                 randconfig-r044-20230115
+hexagon              randconfig-r041-20230115
+hexagon              randconfig-r045-20230115
+arm                        vexpress_defconfig
+powerpc                 mpc8315_rdb_defconfig
+arm                          pxa168_defconfig
+arm                     am200epdkit_defconfig
+mips                           mtx1_defconfig
+powerpc                     pseries_defconfig
+
 -- 
-2.20.1
-
+0-DAY CI Kernel Test Service
+https://01.org/lkp
