@@ -2,75 +2,75 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2E51E66BC80
-	for <lists+linux-media@lfdr.de>; Mon, 16 Jan 2023 12:11:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7D17466BC93
+	for <lists+linux-media@lfdr.de>; Mon, 16 Jan 2023 12:14:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229489AbjAPLLc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 16 Jan 2023 06:11:32 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41206 "EHLO
+        id S229593AbjAPLOu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 16 Jan 2023 06:14:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44572 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229535AbjAPLL2 (ORCPT
+        with ESMTP id S229568AbjAPLOt (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 16 Jan 2023 06:11:28 -0500
+        Mon, 16 Jan 2023 06:14:49 -0500
 Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6FEB659FA
-        for <linux-media@vger.kernel.org>; Mon, 16 Jan 2023 03:11:26 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ADE5310CE
+        for <linux-media@vger.kernel.org>; Mon, 16 Jan 2023 03:14:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1673867486; x=1705403486;
+  t=1673867687; x=1705403687;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=hIFwWAsUhe3mHyufAdPdfkBxbIEnTu/rI0S6d7w5MAQ=;
-  b=OKfUUuLiP9+CBrOo4WHcn/b68shqY61noGv62MKL0QvfjastueoUXJvo
-   Ip3i0fcJNzjCWLCh+zitBFwNswai51wHYXErF3hHmZ4FU5c0XiieMr9xH
-   bxaSy6A8NYuJufvJV49wYJoDjVERVJTmGtpl6zcfggbfGEG3zHh2QR6t3
-   66Ra73F/sOJg6zqszq6NLFQYXMwZZb/HesGoIwmpP28hBUycU7Kg5DteH
-   6eLQAGCH3t4f2xqRrELLfSRn1VrQyZH0nWJgjymy1JskzkmcesjxTvSBF
-   LBRK+WmWfq4l9VdgYLx/U5T41v5g15qr9lnUpZlfY26602b7RZhwyhPZp
-   g==;
+  bh=EzuwIKl2haeHI2dx46K8uW+y/hr3Ymn4/CH4bB/RZO0=;
+  b=EbNKrs+6JOiLrApETYXipBqO1hhxQaorUPHwFiuEwnN23IZR5ZCCIBr8
+   XAsOkTA3YJ2Obe45EQ+5/0wZ3D5xLz10f32jcvjRFRz16/wo1eErBnvuq
+   weipwXFt1EUe/EBJ4AetYJ8BvYFpSF/P/TojayqPgZKgN/pBpCD93Ou2U
+   3O09aa5YOHjtlwitpLIZao3sI5gqPUjXTVYa7SnHJNrtIaFMeLS1/SzaW
+   UC/2Gsc3fE012ZuZrsRjaewAhz0tMN6Hwn4oGsWY9orNIIz75cPvS92Q/
+   9xlUYIKVAAI/aMzxey+WYfnygHjujoxbyY0A6DvEc0JBks7a8xfjlcCjL
+   A==;
 X-IronPort-AV: E=Sophos;i="5.97,220,1669071600"; 
-   d="scan'208";a="28447191"
+   d="scan'208";a="28447291"
 Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
-  by mx1-pgp.tq-group.com with ESMTP; 16 Jan 2023 12:11:24 +0100
+  by mx1-pgp.tq-group.com with ESMTP; 16 Jan 2023 12:14:46 +0100
 Received: from mx1.tq-group.com ([192.168.6.7])
   by tq-pgp-pr1.tq-net.de (PGP Universal service);
-  Mon, 16 Jan 2023 12:11:24 +0100
+  Mon, 16 Jan 2023 12:14:46 +0100
 X-PGP-Universal: processed;
-        by tq-pgp-pr1.tq-net.de on Mon, 16 Jan 2023 12:11:24 +0100
+        by tq-pgp-pr1.tq-net.de on Mon, 16 Jan 2023 12:14:46 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1673867484; x=1705403484;
+  t=1673867686; x=1705403686;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=hIFwWAsUhe3mHyufAdPdfkBxbIEnTu/rI0S6d7w5MAQ=;
-  b=awPLEXw9wx3o06m6+sU8Thl/UQDDB7YWLH5AU1UoiRaKnFMcQjywlYl4
-   OCEV/+LObpjijELH5pu52PiiijJgfL4LJZObPV9jpPxyXQctcobL/2bAp
-   Ppq+eYwhYvgaahxrTrTHQPyFO7Dt5kJLvUq2vDf/QLDz5PLxJZbjCgvse
-   aF0FhGPMzPrC6RMTMgt/gANXm7nN3jX7EcZgt6Cxvq24m6dfa4xtEtnQo
-   T++HVkAFcqqt3gvv4v7lfLwis+DAeHvABT7VRb6/21C2uiAK48K0nERnJ
-   ekgZIdp7cC1B8a+40yBp4xziaZKHYeB8BpXTM/D7w49eOX9oISFCVB8FC
+  bh=EzuwIKl2haeHI2dx46K8uW+y/hr3Ymn4/CH4bB/RZO0=;
+  b=f3wKOzNXtww/jbyWAgt7uzsX5no/uTkQHUTsFv1/GTnQ6APZ+iiPZx7b
+   c/7QwhLUY1noMOOqdqzukU3axHu8yC3MU4QMpMgCv5LUczTmUnNvExlOt
+   fcaXtYOofeEO1bAHbIgrIp5pAZ+FcicCQf5tDCbaJLClcBI+q+aI0PBZ+
+   6UDBJvYZpB29OWzOH7Po3zg8iy3/1QhnDFoaJCWBKjUME4AHdxDFOlaFp
+   fKWEHI6f9VB2Ea/UpvtzsILsv4c4ywEllR7rtoQh6P6Z0b6h8et0ala31
+   52Yjq/OXIPOe8YJhK0E4JfwnG5Mo8YIpE7Ri3m7ERcbWqxdn0S0QBqBbs
    w==;
 X-IronPort-AV: E=Sophos;i="5.97,220,1669071600"; 
-   d="scan'208";a="28447190"
+   d="scan'208";a="28447290"
 Received: from vtuxmail01.tq-net.de ([10.115.0.20])
-  by mx1.tq-group.com with ESMTP; 16 Jan 2023 12:11:24 +0100
+  by mx1.tq-group.com with ESMTP; 16 Jan 2023 12:14:46 +0100
 Received: from steina-w.localnet (unknown [10.123.53.21])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
         (No client certificate requested)
-        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id ADF61280056;
-        Mon, 16 Jan 2023 12:11:24 +0100 (CET)
+        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id D3C46280056;
+        Mon, 16 Jan 2023 12:14:45 +0100 (CET)
 From:   Alexander Stein <alexander.stein@ew.tq-group.com>
 To:     linux-media@vger.kernel.org,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc:     Sakari Ailus <sakari.ailus@iki.fi>,
         Manivannan Sadhasivam <mani@kernel.org>,
         Dave Stevenson <dave.stevenson@raspberrypi.com>
-Subject: Re: [PATCH v2 13/17] media: i2c: imx290: Use runtime PM autosuspend
-Date:   Mon, 16 Jan 2023 12:11:25 +0100
-Message-ID: <9053636.CDJkKcVGEf@steina-w>
+Subject: Re: [PATCH v2 14/17] media: i2c: imx290: Initialize runtime PM before subdev
+Date:   Mon, 16 Jan 2023 12:14:46 +0100
+Message-ID: <5797633.MhkbZ0Pkbq@steina-w>
 Organization: TQ-Systems GmbH
-In-Reply-To: <20230114171802.13878-13-laurent.pinchart@ideasonboard.com>
-References: <20230114171727.13830-1-laurent.pinchart@ideasonboard.com> <20230114171802.13878-1-laurent.pinchart@ideasonboard.com> <20230114171802.13878-13-laurent.pinchart@ideasonboard.com>
+In-Reply-To: <20230114171802.13878-14-laurent.pinchart@ideasonboard.com>
+References: <20230114171727.13830-1-laurent.pinchart@ideasonboard.com> <20230114171802.13878-1-laurent.pinchart@ideasonboard.com> <20230114171802.13878-14-laurent.pinchart@ideasonboard.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
@@ -87,149 +87,172 @@ Hi Laurent,
 
 thanks for the update.
 
-Am Samstag, 14. Januar 2023, 18:17:58 CET schrieb Laurent Pinchart:
-> Use runtime PM autosuspend to avoid powering off the sensor during fast
-> stop-reconfigure-restart cycles. This also fixes runtime PM handling in
-> the probe function that didn't suspend the device, effectively leaving
-> it resumed forever.
+Am Samstag, 14. Januar 2023, 18:17:59 CET schrieb Laurent Pinchart:
+> Initializing the subdev before runtime PM means that no subdev
+> initialization can interact with the runtime PM framework. This can be
+> problematic when modifying controls, as the .s_ctrl() handler commonly
+> calls pm_runtime_get_if_in_use(). These code paths are not trivial,
+> making the driver fragile and possibly causing subtle bugs.
 > 
-> While at it, improve documentation of power management in probe() and
-> remove().
+> To make the subdev initialization more robust, initialize runtime PM
+> first.
 > 
 > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+Acked-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
 > ---
-> Changes since v1:
-> 
-> - Enable autosuspend before registering the subdev
-> - Decrease the PM usage count after registering the subdev
-> - Use pm_runtime_put_autosuspend() in imx290_set_ctrl()
-> ---
->  drivers/media/i2c/imx290.c | 58 +++++++++++++++++++++++++++++---------
->  1 file changed, 45 insertions(+), 13 deletions(-)
+>  drivers/media/i2c/imx290.c | 57 ++++++++++++++++++++++----------------
+>  1 file changed, 33 insertions(+), 24 deletions(-)
 > 
 > diff --git a/drivers/media/i2c/imx290.c b/drivers/media/i2c/imx290.c
-> index b16fd76e0737..6a3e93c10fb1 100644
+> index 6a3e93c10fb1..c3ffb23104bf 100644
 > --- a/drivers/media/i2c/imx290.c
 > +++ b/drivers/media/i2c/imx290.c
-> @@ -631,7 +631,8 @@ static int imx290_set_ctrl(struct v4l2_ctrl *ctrl)
->  		break;
+> @@ -581,9 +581,7 @@ static int imx290_set_ctrl(struct v4l2_ctrl *ctrl)
+> 
+>  	/*
+>  	 * Return immediately for controls that don't need to be applied to 
+the
+> -	 * device. This includes all controls modified in 
+imx290_ctrl_update(),
+> -	 * which is called at probe time before runtime PM is initialized, 
+so
+> -	 * we can't proceed to the pm_runtime_get_if_in_use() call below.
+> +	 * device.
+>  	 */
+>  	switch (ctrl->id) {
+>  	case V4L2_CID_LINK_FREQ:
+> @@ -1054,22 +1052,20 @@ static void imx290_subdev_cleanup(struct imx290
+> *imx290) * Power management
+>   */
+> 
+> -static int imx290_power_on(struct device *dev)
+> +static int imx290_power_on(struct imx290 *imx290)
+>  {
+> -	struct v4l2_subdev *sd = dev_get_drvdata(dev);
+> -	struct imx290 *imx290 = to_imx290(sd);
+>  	int ret;
+> 
+>  	ret = clk_prepare_enable(imx290->xclk);
+>  	if (ret) {
+> -		dev_err(dev, "Failed to enable clock\n");
+> +		dev_err(imx290->dev, "Failed to enable clock\n");
+>  		return ret;
 >  	}
 > 
-> -	pm_runtime_put(imx290->dev);
-> +	pm_runtime_mark_last_busy(imx290->dev);
-> +	pm_runtime_put_autosuspend(imx290->dev);
-> 
->  	return ret;
+>  	ret = regulator_bulk_enable(ARRAY_SIZE(imx290->supplies),
+>  				    imx290->supplies);
+>  	if (ret) {
+> -		dev_err(dev, "Failed to enable regulators\n");
+> +		dev_err(imx290->dev, "Failed to enable regulators\n");
+>  		clk_disable_unprepare(imx290->xclk);
+>  		return ret;
+>  	}
+> @@ -1084,20 +1080,33 @@ static int imx290_power_on(struct device *dev)
+>  	return 0;
 >  }
-> @@ -832,12 +833,13 @@ static int imx290_set_stream(struct v4l2_subdev *sd,
-> int enable) ret = imx290_start_streaming(imx290, state);
->  		if (ret) {
->  			dev_err(imx290->dev, "Start stream failed\n");
-> -			pm_runtime_put(imx290->dev);
-> +			pm_runtime_put_sync(imx290->dev);
->  			goto unlock;
->  		}
->  	} else {
->  		imx290_stop_streaming(imx290);
-> -		pm_runtime_put(imx290->dev);
-> +		pm_runtime_mark_last_busy(imx290->dev);
-> +		pm_runtime_put_autosuspend(imx290->dev);
->  	}
 > 
->  unlock:
-> @@ -1274,33 +1276,59 @@ static int imx290_probe(struct i2c_client *client)
->  	if (ret)
->  		return ret;
-> 
-> -	/* Initialize and register subdev. */
-> +	/* Initialize the V4L2 subdev. */
->  	ret = imx290_subdev_init(imx290);
->  	if (ret)
->  		return ret;
-> 
-> -	ret = v4l2_async_register_subdev(&imx290->sd);
-> -	if (ret < 0) {
-> -		dev_err(dev, "Could not register v4l2 device\n");
-> -		goto err_subdev;
-> -	}
+> -static int imx290_power_off(struct device *dev)
+> +static void imx290_power_off(struct imx290 *imx290)
+>  {
+> -	struct v4l2_subdev *sd = dev_get_drvdata(dev);
+> -	struct imx290 *imx290 = to_imx290(sd);
 > -
-> -	/* Power on the device to match runtime PM state below */
-> +	/*
-> +	 * Enable power management. The driver supports runtime PM, but 
+>  	clk_disable_unprepare(imx290->xclk);
+>  	gpiod_set_value_cansleep(imx290->rst_gpio, 1);
+>  	regulator_bulk_disable(ARRAY_SIZE(imx290->supplies), imx290-
+>supplies);
+> +}
+> +
+> +static int imx290_runtime_resume(struct device *dev)
+> +{
+> +	struct v4l2_subdev *sd = dev_get_drvdata(dev);
+> +	struct imx290 *imx290 = to_imx290(sd);
+> +
+> +	return imx290_power_on(imx290);
+> +}
+> +
+> +static int imx290_runtime_suspend(struct device *dev)
+> +{
+> +	struct v4l2_subdev *sd = dev_get_drvdata(dev);
+> +	struct imx290 *imx290 = to_imx290(sd);
+> +
+> +	imx290_power_off(imx290);
+> 
+>  	return 0;
+>  }
+> 
+>  static const struct dev_pm_ops imx290_pm_ops = {
+> -	SET_RUNTIME_PM_OPS(imx290_power_off, imx290_power_on, NULL)
+> +	SET_RUNTIME_PM_OPS(imx290_runtime_suspend, imx290_runtime_resume, 
+NULL)
+>  };
+> 
+>  /*
+> ---------------------------------------------------------------------------
+> - @@ -1276,20 +1285,15 @@ static int imx290_probe(struct i2c_client *client)
+> if (ret)
+>  		return ret;
+> 
+> -	/* Initialize the V4L2 subdev. */
+> -	ret = imx290_subdev_init(imx290);
+> -	if (ret)
+> -		return ret;
+> -
+>  	/*
+>  	 * Enable power management. The driver supports runtime PM, but 
 needs to
-> +	 * work when runtime PM is disabled in the kernel. To that end, 
+>  	 * work when runtime PM is disabled in the kernel. To that end, 
 power
-> +	 * the sensor on manually here.
-> +	 */
->  	ret = imx290_power_on(dev);
+>  	 * the sensor on manually here.
+>  	 */
+> -	ret = imx290_power_on(dev);
+> +	ret = imx290_power_on(imx290);
 >  	if (ret < 0) {
 >  		dev_err(dev, "Could not power on the device\n");
->  		goto err_subdev;
+> -		goto err_subdev;
+> +		return ret;
 >  	}
 > 
-> +	/*
-> +	 * Enable runtime PM with autosuspend. As the device has been 
-powered
-> +	 * manually, mark it as active, and increase the usage count without
-> +	 * resuming the device.
-> +	 */
->  	pm_runtime_set_active(dev);
-> +	pm_runtime_get_noresume(dev);
->  	pm_runtime_enable(dev);
-> -	pm_runtime_idle(dev);
-> +	pm_runtime_set_autosuspend_delay(dev, 1000);
-> +	pm_runtime_use_autosuspend(dev);
+>  	/*
+> @@ -1303,6 +1307,11 @@ static int imx290_probe(struct i2c_client *client)
+>  	pm_runtime_set_autosuspend_delay(dev, 1000);
+>  	pm_runtime_use_autosuspend(dev);
+> 
+> +	/* Initialize the V4L2 subdev. */
+> +	ret = imx290_subdev_init(imx290);
+> +	if (ret)
+> +		goto err_pm;
 > +
-> +	/*
-> +	 * Finally, register the V4L2 subdev. This must be done after
-> +	 * initializing everything as the subdev can be used immediately 
+>  	/*
+>  	 * Finally, register the V4L2 subdev. This must be done after
+>  	 * initializing everything as the subdev can be used immediately 
 after
-> +	 * being registered.
-> +	 */
-> +	ret = v4l2_async_register_subdev(&imx290->sd);
-> +	if (ret < 0) {
-> +		dev_err(dev, "Could not register v4l2 device\n");
-> +		goto err_subdev;
-
-I assume this should be err_pm. Otherwise
-Acked-by: Alexander Stein <alexander.stein@ew.tq-group.com>
-
-Best regards,
-Alexander
-
-> +	}
-> +
-> +	/*
-> +	 * Decrease the PM usage count. The device will get suspended after 
-the
-> +	 * autosuspend delay, turning the power off.
-> +	 */
-> +	pm_runtime_mark_last_busy(dev);
-> +	pm_runtime_put_autosuspend(dev);
+> @@ -1323,12 +1332,12 @@ static int imx290_probe(struct i2c_client *client)
 > 
 >  	return 0;
 > 
-> +err_pm:
-> +	pm_runtime_disable(dev);
-> +	pm_runtime_put_noidle(dev);
-> +	imx290_power_off(dev);
->  err_subdev:
->  	imx290_subdev_cleanup(imx290);
-> -
+> +err_subdev:
+> +	imx290_subdev_cleanup(imx290);
+>  err_pm:
+>  	pm_runtime_disable(dev);
+>  	pm_runtime_put_noidle(dev);
+> -	imx290_power_off(dev);
+> -err_subdev:
+> -	imx290_subdev_cleanup(imx290);
+> +	imx290_power_off(imx290);
 >  	return ret;
 >  }
 > 
-> @@ -1312,6 +1340,10 @@ static void imx290_remove(struct i2c_client *client)
->  	v4l2_async_unregister_subdev(sd);
->  	imx290_subdev_cleanup(imx290);
-> 
-> +	/*
-> +	 * Disable runtime PM. In case runtime PM is disabled in the kernel,
-> +	 * make sure to turn power off manually.
-> +	 */
+> @@ -1346,7 +1355,7 @@ static void imx290_remove(struct i2c_client *client)
+>  	 */
 >  	pm_runtime_disable(imx290->dev);
 >  	if (!pm_runtime_status_suspended(imx290->dev))
->  		imx290_power_off(imx290->dev);
+> -		imx290_power_off(imx290->dev);
+> +		imx290_power_off(imx290);
+>  	pm_runtime_set_suspended(imx290->dev);
+>  }
 
 
 
