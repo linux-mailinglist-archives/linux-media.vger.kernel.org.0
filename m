@@ -2,38 +2,38 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E3B8966C2EC
-	for <lists+linux-media@lfdr.de>; Mon, 16 Jan 2023 15:56:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B87FB66C2EB
+	for <lists+linux-media@lfdr.de>; Mon, 16 Jan 2023 15:56:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232796AbjAPO42 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 16 Jan 2023 09:56:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45676 "EHLO
+        id S230257AbjAPO40 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 16 Jan 2023 09:56:26 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51988 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232694AbjAPO4B (ORCPT
+        with ESMTP id S232700AbjAPO4B (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Mon, 16 Jan 2023 09:56:01 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DDB3626854
-        for <linux-media@vger.kernel.org>; Mon, 16 Jan 2023 06:45:03 -0800 (PST)
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5751F26861
+        for <linux-media@vger.kernel.org>; Mon, 16 Jan 2023 06:45:05 -0800 (PST)
 Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6DFC4AD5;
-        Mon, 16 Jan 2023 15:45:02 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id D9756E7B;
+        Mon, 16 Jan 2023 15:45:03 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1673880302;
-        bh=zcxytw9kWLXrBKNNkblyQCOjNiw79dcDrL6kDctq+BA=;
+        s=mail; t=1673880304;
+        bh=QQdUA7xStoSUf8SK+ccuAXrcCLeIQbD8umcat8ntU+M=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=VyFzhDt1QCX1Oi2IzkIrCuTRapfnNC/ZLUmz+SAtM1SSMwRQcYmfBclqlwPPJSI9r
-         Xl/qL+OdvXUUTNyntpwltDzMkVGAVxhOS8jsBPgb5KPK7Ppd2DlTVmA39dX27E8BxH
-         lXfFJ+SPImuK2AytmqqcuufhsQuYXJK2QwxyAuFQ=
+        b=eTtPXhmKn9hdejPo0XGBUVJ5r3dpF/5K9EXjwLEhnghF+NT51Xl+eAemPVet6QD6o
+         7EpvIpU4ZmgJhYeImUqwP2bHimzT3DMDR374bEHcjKKKBeHkZN+O4yc1xuGbuMJxPq
+         TXW9fbzXuIwlXM0OsGBjjeBc/RysUOQ6a/q4GbcM=
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     linux-media@vger.kernel.org
 Cc:     Sakari Ailus <sakari.ailus@iki.fi>,
         Manivannan Sadhasivam <mani@kernel.org>,
         Alexander Stein <alexander.stein@ew.tq-group.com>,
         Dave Stevenson <dave.stevenson@raspberrypi.com>
-Subject: [PATCH v3 06/17] media: i2c: imx290: Compute pixel rate and blanking in one place
-Date:   Mon, 16 Jan 2023 16:44:43 +0200
-Message-Id: <20230116144454.1012-7-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v3 07/17] media: i2c: imx290: Factor out black level setting to a function
+Date:   Mon, 16 Jan 2023 16:44:44 +0200
+Message-Id: <20230116144454.1012-8-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.38.2
 In-Reply-To: <20230116144454.1012-1-laurent.pinchart@ideasonboard.com>
 References: <20230116144454.1012-1-laurent.pinchart@ideasonboard.com>
@@ -48,133 +48,133 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The hblank, vblank, pixel rate and link frequency values and limits are
-currently computed when creating controls, in imx290_ctrl_init(), and
-updated in imx290_ctrl_update(). This duplicates the logic in different
-places. Simplify the code by setting the control values and limits to
-hardcoded values when creating the controls, and call
-imx290_ctrl_update() to then update them.
+The black level programmed in the BLKLEVEL register depends on the
+output format. The black level value computation is currently performed
+in imx290_set_ctrl(), in addition to having different black level values
+in the output-specific register value tables. Move it to a separate
+function to simplify the imx290_set_ctrl() code.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Acked-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+Reviewed-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 ---
 Changes since v1:
 
-- Fix typo in comment
+- Drop bpp variable in imx290_write_current_format()
 ---
- drivers/media/i2c/imx290.c | 43 +++++++++++++++++---------------------
- 1 file changed, 19 insertions(+), 24 deletions(-)
+ drivers/media/i2c/imx290.c | 50 ++++++++++++++++++++------------------
+ 1 file changed, 26 insertions(+), 24 deletions(-)
 
 diff --git a/drivers/media/i2c/imx290.c b/drivers/media/i2c/imx290.c
-index 25671ded7c2a..d3279d88f253 100644
+index d3279d88f253..e7043e9a8fd5 100644
 --- a/drivers/media/i2c/imx290.c
 +++ b/drivers/media/i2c/imx290.c
-@@ -547,18 +547,6 @@ static int imx290_write_current_format(struct imx290 *imx290)
- 	return 0;
+@@ -152,6 +152,9 @@
+ #define IMX290_PIXEL_ARRAY_RECORDING_WIDTH		1920
+ #define IMX290_PIXEL_ARRAY_RECORDING_HEIGHT		1080
+ 
++/* Equivalent value for 16bpp */
++#define IMX290_BLACK_LEVEL_DEFAULT			3840
++
+ #define IMX290_NUM_SUPPLIES				3
+ 
+ struct imx290_regval {
+@@ -315,7 +318,6 @@ static const struct imx290_regval imx290_10bit_settings[] = {
+ 	{ IMX290_ADBIT2, IMX290_ADBIT2_10BIT },
+ 	{ IMX290_ADBIT3, IMX290_ADBIT3_10BIT },
+ 	{ IMX290_CSI_DT_FMT, IMX290_CSI_DT_FMT_RAW10 },
+-	{ IMX290_BLKLEVEL, 60 },
+ };
+ 
+ static const struct imx290_regval imx290_12bit_settings[] = {
+@@ -325,7 +327,6 @@ static const struct imx290_regval imx290_12bit_settings[] = {
+ 	{ IMX290_ADBIT2, IMX290_ADBIT2_12BIT },
+ 	{ IMX290_ADBIT3, IMX290_ADBIT3_12BIT },
+ 	{ IMX290_CSI_DT_FMT, IMX290_CSI_DT_FMT_RAW12 },
+-	{ IMX290_BLKLEVEL, 240 },
+ };
+ 
+ /* supported link frequencies */
+@@ -516,35 +517,40 @@ static int imx290_set_data_lanes(struct imx290 *imx290)
+ 	return ret;
  }
  
--static u64 imx290_calc_pixel_rate(struct imx290 *imx290,
--				  const struct imx290_mode *mode)
--{
--	s64 link_freq = imx290_link_freqs_ptr(imx290)[mode->link_freq_index];
--	u64 pixel_rate;
--
--	/* pixel rate = link_freq * 2 * nr_of_lanes / bits_per_sample */
--	pixel_rate = link_freq * 2 * imx290->nlanes;
--	do_div(pixel_rate, imx290->bpp);
--	return pixel_rate;
--}
--
- /* ----------------------------------------------------------------------------
-  * Controls
-  */
-@@ -632,6 +620,8 @@ static void imx290_ctrl_update(struct imx290 *imx290,
- {
- 	unsigned int hblank = mode->hmax - mode->width;
- 	unsigned int vblank = IMX290_VMAX_DEFAULT - mode->height;
-+	s64 link_freq = imx290_link_freqs_ptr(imx290)[mode->link_freq_index];
-+	u64 pixel_rate;
- 
- 	/*
- 	 * This function may be called from imx290_set_fmt() before controls
-@@ -640,9 +630,12 @@ static void imx290_ctrl_update(struct imx290 *imx290,
- 	if (!imx290->ctrls.lock)
- 		return;
- 
-+	/* pixel rate = link_freq * 2 * nr_of_lanes / bits_per_sample */
-+	pixel_rate = link_freq * 2 * imx290->nlanes;
-+	do_div(pixel_rate, imx290->bpp);
++static int imx290_set_black_level(struct imx290 *imx290,
++				  unsigned int black_level, int *err)
++{
++	return imx290_write(imx290, IMX290_BLKLEVEL,
++			    black_level >> (16 - imx290->bpp), err);
++}
 +
- 	__v4l2_ctrl_s_ctrl(imx290->link_freq, mode->link_freq_index);
--	__v4l2_ctrl_s_ctrl_int64(imx290->pixel_rate,
--				 imx290_calc_pixel_rate(imx290, mode));
-+	__v4l2_ctrl_s_ctrl_int64(imx290->pixel_rate, pixel_rate);
- 
- 	__v4l2_ctrl_modify_range(imx290->hblank, hblank, hblank, 1, hblank);
- 	__v4l2_ctrl_modify_range(imx290->vblank, vblank, vblank, 1, vblank);
-@@ -651,8 +644,6 @@ static void imx290_ctrl_update(struct imx290 *imx290,
- static int imx290_ctrl_init(struct imx290 *imx290)
+ static int imx290_write_current_format(struct imx290 *imx290)
  {
- 	struct v4l2_fwnode_device_properties props;
--	unsigned int blank;
--	u64 pixel_rate;
++	const struct imx290_regval *regs;
++	unsigned int num_regs;
  	int ret;
  
- 	ret = v4l2_fwnode_device_parse(imx290->dev, &props);
-@@ -682,6 +673,11 @@ static int imx290_ctrl_init(struct imx290 *imx290)
- 			  V4L2_CID_EXPOSURE, 1, IMX290_VMAX_DEFAULT - 2, 1,
- 			  IMX290_VMAX_DEFAULT - 2);
- 
-+	/*
-+	 * Set the link frequency, pixel rate, horizontal blanking and vertical
-+	 * blanking to hardcoded values, they will be updated by
-+	 * imx290_ctrl_update().
-+	 */
- 	imx290->link_freq =
- 		v4l2_ctrl_new_int_menu(&imx290->ctrls, &imx290_ctrl_ops,
- 				       V4L2_CID_LINK_FREQ,
-@@ -690,27 +686,22 @@ static int imx290_ctrl_init(struct imx290 *imx290)
- 	if (imx290->link_freq)
- 		imx290->link_freq->flags |= V4L2_CTRL_FLAG_READ_ONLY;
- 
--	pixel_rate = imx290_calc_pixel_rate(imx290, imx290->current_mode);
- 	imx290->pixel_rate = v4l2_ctrl_new_std(&imx290->ctrls, &imx290_ctrl_ops,
- 					       V4L2_CID_PIXEL_RATE,
--					       1, INT_MAX, 1, pixel_rate);
-+					       1, INT_MAX, 1, 1);
- 
- 	v4l2_ctrl_new_std_menu_items(&imx290->ctrls, &imx290_ctrl_ops,
- 				     V4L2_CID_TEST_PATTERN,
- 				     ARRAY_SIZE(imx290_test_pattern_menu) - 1,
- 				     0, 0, imx290_test_pattern_menu);
- 
--	blank = imx290->current_mode->hmax - imx290->current_mode->width;
- 	imx290->hblank = v4l2_ctrl_new_std(&imx290->ctrls, &imx290_ctrl_ops,
--					   V4L2_CID_HBLANK, blank, blank, 1,
--					   blank);
-+					   V4L2_CID_HBLANK, 1, 1, 1, 1);
- 	if (imx290->hblank)
- 		imx290->hblank->flags |= V4L2_CTRL_FLAG_READ_ONLY;
- 
--	blank = IMX290_VMAX_DEFAULT - imx290->current_mode->height;
- 	imx290->vblank = v4l2_ctrl_new_std(&imx290->ctrls, &imx290_ctrl_ops,
--					   V4L2_CID_VBLANK, blank, blank, 1,
--					   blank);
-+					   V4L2_CID_VBLANK, 1, 1, 1, 1);
- 	if (imx290->vblank)
- 		imx290->vblank->flags |= V4L2_CTRL_FLAG_READ_ONLY;
- 
-@@ -725,6 +716,10 @@ static int imx290_ctrl_init(struct imx290 *imx290)
- 		return ret;
+ 	switch (imx290->current_format.code) {
+ 	case MEDIA_BUS_FMT_SRGGB10_1X10:
+-		ret = imx290_set_register_array(imx290, imx290_10bit_settings,
+-						ARRAY_SIZE(
+-							imx290_10bit_settings));
+-		if (ret < 0) {
+-			dev_err(imx290->dev, "Could not set format registers\n");
+-			return ret;
+-		}
++		regs = imx290_10bit_settings;
++		num_regs = ARRAY_SIZE(imx290_10bit_settings);
+ 		break;
+ 	case MEDIA_BUS_FMT_SRGGB12_1X12:
+-		ret = imx290_set_register_array(imx290, imx290_12bit_settings,
+-						ARRAY_SIZE(
+-							imx290_12bit_settings));
+-		if (ret < 0) {
+-			dev_err(imx290->dev, "Could not set format registers\n");
+-			return ret;
+-		}
++		regs = imx290_12bit_settings;
++		num_regs = ARRAY_SIZE(imx290_12bit_settings);
+ 		break;
+ 	default:
+ 		dev_err(imx290->dev, "Unknown pixel format\n");
+ 		return -EINVAL;
  	}
  
-+	mutex_lock(imx290->ctrls.lock);
-+	imx290_ctrl_update(imx290, imx290->current_mode);
-+	mutex_unlock(imx290->ctrls.lock);
+-	return 0;
++	ret = imx290_set_register_array(imx290, regs, num_regs);
++	if (ret < 0) {
++		dev_err(imx290->dev, "Could not set format registers\n");
++		return ret;
++	}
 +
- 	return 0;
++	return imx290_set_black_level(imx290, IMX290_BLACK_LEVEL_DEFAULT, &ret);
  }
  
+ /* ----------------------------------------------------------------------------
+@@ -573,7 +579,7 @@ static int imx290_set_ctrl(struct v4l2_ctrl *ctrl)
+ 
+ 	case V4L2_CID_TEST_PATTERN:
+ 		if (ctrl->val) {
+-			imx290_write(imx290, IMX290_BLKLEVEL, 0, &ret);
++			imx290_set_black_level(imx290, 0, &ret);
+ 			usleep_range(10000, 11000);
+ 			imx290_write(imx290, IMX290_PGCTRL,
+ 				     (u8)(IMX290_PGCTRL_REGEN |
+@@ -582,12 +588,8 @@ static int imx290_set_ctrl(struct v4l2_ctrl *ctrl)
+ 		} else {
+ 			imx290_write(imx290, IMX290_PGCTRL, 0x00, &ret);
+ 			usleep_range(10000, 11000);
+-			if (imx290->bpp == 10)
+-				imx290_write(imx290, IMX290_BLKLEVEL, 0x3c,
+-					     &ret);
+-			else /* 12 bits per pixel */
+-				imx290_write(imx290, IMX290_BLKLEVEL, 0xf0,
+-					     &ret);
++			imx290_set_black_level(imx290, IMX290_BLACK_LEVEL_DEFAULT,
++					       &ret);
+ 		}
+ 		break;
+ 	default:
 -- 
 Regards,
 
