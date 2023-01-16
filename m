@@ -2,124 +2,181 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D331566BB11
-	for <lists+linux-media@lfdr.de>; Mon, 16 Jan 2023 11:00:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 021C166BB20
+	for <lists+linux-media@lfdr.de>; Mon, 16 Jan 2023 11:01:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229596AbjAPKAT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 16 Jan 2023 05:00:19 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48896 "EHLO
+        id S229712AbjAPKBt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 16 Jan 2023 05:01:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50086 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229559AbjAPKAS (ORCPT
+        with ESMTP id S229669AbjAPKBq (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 16 Jan 2023 05:00:18 -0500
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C546A5D4;
-        Mon, 16 Jan 2023 02:00:17 -0800 (PST)
-Received: from [192.168.0.192] (unknown [194.146.248.75])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: andrzej.p)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 06DC36602AA1;
-        Mon, 16 Jan 2023 10:00:04 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1673863205;
-        bh=bteXBz8BLiztEyL7HtssVPl+baNjigI3gWj/ST9tDa0=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=aJYKfJiPhFWcCppJFPrl60DfbWgsRc7GY6t2GzHT4tus3wVdBiou5+4Gfjcuh2923
-         EHmu3YIfHo+vaBf2UgnGJU/y3DEV9nNY7dqJJ8vvIqRO5GcSjTVeSNwAQbJ6NarlEQ
-         qV2UvlqPbYYT+ExP8u0WX78BEpcMbcCdNAN4PMok/VvFvPwfhH7YhvLR2l0VU3eGgm
-         eDDROmNA0L1IDkiJwg3VN2+QiVzODbQSDSJzWI12aIP1lOyK8cJ2hV6rydebPKDBNY
-         ZHnvqyKtNUwjUXfyjVQtiIczAgQzJc67pcyb/I9+wGCu8Zb/VTMOGwsI/OhnbyMoXf
-         zHRMLpDD3qLoA==
-Message-ID: <075169b4-3c6a-2379-0dc9-34b89fb83ef1@collabora.com>
-Date:   Mon, 16 Jan 2023 11:00:02 +0100
+        Mon, 16 Jan 2023 05:01:46 -0500
+Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com [IPv6:2a00:1450:4864:20::52c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EF6A8A5D4
+        for <linux-media@vger.kernel.org>; Mon, 16 Jan 2023 02:01:44 -0800 (PST)
+Received: by mail-ed1-x52c.google.com with SMTP id m21so39994971edc.3
+        for <linux-media@vger.kernel.org>; Mon, 16 Jan 2023 02:01:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=lgldI+82xaPUxW9jFm83l+ZVCizNwJg+yeI6zrnzsq4=;
+        b=BCpiKjVBNdeZIXfLzwWGp6kixGj7UhUJC6Jg3ImNGeisAS1niXVyRhbI37ToWhVVov
+         Gau4+9ctE1TDM13aqvWzu+yVTrjdC7tpaxBvH6lbm1K8ZLSAoYqj1tnfDNhaIggJy8Ix
+         U/m66LrjGiz/kInp/qy2Q4BcTg2Hx+cyJ/wha7WUftpsKznaWllLTHXTxs4JOuEAtz2K
+         Rk1Gp73r2z4eTAFbP20g0pkZLqvAsF50G1T9htpwAMzxU64m8827iOUAbuqItmOd2E4A
+         HnjayK4LMsTaDCKG/ax7O7cRtjDYaN817bWhHtQmCMNH239aO/y0pjmUOszBeipZH+p1
+         C2mA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=lgldI+82xaPUxW9jFm83l+ZVCizNwJg+yeI6zrnzsq4=;
+        b=zgYdZpriKwXbIUDy2jQPzk6KzBqzLRBJONikGRNP8uqtXwX64ip+3mg74MX7aZ0zI3
+         ANXINM13PRRssvTg+HnSNF6OsBgZXKx/anrDUJPPs+83ReJA5hl3RfHYoI5ZFZCRCNRf
+         Rlg706GuBrSQPm9XJNiCjmdw5K2tueSLjuJ93kgP+ejdJQ8pDvutFnFB4PL1Qh7uu59w
+         uiW16Kf5gDFPFTUzRVBkN21nV3oMxU+V6dS2cOEvKp22J7GneKCLXNNEeVleT/6yBlSc
+         h+vuWVCbiQuGy3PzjLmNVq5U76Wx4Qwf7vasu8U8pQikpLWLMVMPK7XjhBGIpnajS8FM
+         b15A==
+X-Gm-Message-State: AFqh2kp7iEUyhI5D10Yo1CknGoxOnyYzusCZlKDSQO02C/FB5/sjLS30
+        B1kJfbTc6zUw49z7PTJU0sAYGIB0KPsEXrR+
+X-Google-Smtp-Source: AMrXdXvnFV6jO2U3anaxOMJIRIEJtNv8DD9RTL58GFnKUvxRRdcA3m/m4J+pPGsSPdTOMxg7f/nfCA==
+X-Received: by 2002:a05:6402:520b:b0:48b:58be:472c with SMTP id s11-20020a056402520b00b0048b58be472cmr78238671edd.18.1673863303450;
+        Mon, 16 Jan 2023 02:01:43 -0800 (PST)
+Received: from [192.168.1.109] ([178.197.216.144])
+        by smtp.gmail.com with ESMTPSA id q24-20020a056402249800b0046ac460da13sm11336099eda.53.2023.01.16.02.01.41
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 16 Jan 2023 02:01:43 -0800 (PST)
+Message-ID: <dbf5fc36-11c6-ae54-a19c-5fc9924aa18d@linaro.org>
+Date:   Mon, 16 Jan 2023 11:01:40 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH v2 05/12] staging: media: rkvdec: Add SPS structure to
- internal context
-To:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        Sebastian Fricke <sebastian.fricke@collabora.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Alex Bee <knaerzche@gmail.com>,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        Collabora Kernel-domain <kernel@collabora.com>,
-        Robert Beckett <bob.beckett@collabora.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>
-References: <20230101-patch-series-v2-6-2-rc1-v2-0-fa1897efac14@collabora.com>
- <20230101-patch-series-v2-6-2-rc1-v2-5-fa1897efac14@collabora.com>
- <CAAEAJfDqXJf-UovhGnmN7FDY-skSu-x5Rgz+K2WVQP+PKUVbsQ@mail.gmail.com>
+ Thunderbird/102.6.1
+Subject: Re: [RESEND v3 01/13] dt-binding: mediatek: add bindings for MediaTek
+ mt8195 MDP3 components
+To:     =?UTF-8?B?TW91ZHkgSG8gKOS9leWul+WOnyk=?= <Moudy.Ho@mediatek.com>,
+        "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
+        "mchehab@kernel.org" <mchehab@kernel.org>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "krzysztof.kozlowski+dt@linaro.org" 
+        <krzysztof.kozlowski+dt@linaro.org>
+Cc:     "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "linux-mediatek@lists.infradead.org" 
+        <linux-mediatek@lists.infradead.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        Project_Global_Chrome_Upstream_Group 
+        <Project_Global_Chrome_Upstream_Group@mediatek.com>
+References: <20230116032147.23607-1-moudy.ho@mediatek.com>
+ <20230116032147.23607-2-moudy.ho@mediatek.com>
+ <f24a54f1-2720-3345-9596-bb8d388ba16f@linaro.org>
+ <a5ef36df5bf8c483d327247199f5494be13b1efa.camel@mediatek.com>
 Content-Language: en-US
-From:   Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-In-Reply-To: <CAAEAJfDqXJf-UovhGnmN7FDY-skSu-x5Rgz+K2WVQP+PKUVbsQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <a5ef36df5bf8c483d327247199f5494be13b1efa.camel@mediatek.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_SBL_CSS,
-        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Level: *
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sebastian,
+On 16/01/2023 10:39, Moudy Ho (何宗原) wrote:
+> Hi Krzysztof,
+> 
+> Thank you for taking the time to help review, I would like to ask a
+> modification as follows.
+> 
+> On Mon, 2023-01-16 at 09:10 +0100, Krzysztof Kozlowski wrote:
+>>>
+> 
+> (snip)
+> 
+>> On 16/01/2023 04:21, Moudy Ho wrote:
+>>> diff --git a/Documentation/devicetree/bindings/media/mediatek,mdp3-
+>>> aal.yaml b/Documentation/devicetree/bindings/media/mediatek,mdp3-
+>>> aal.yaml
+>>> new file mode 100644
+>>> index 000000000000..d2e1b5245778
+>>> --- /dev/null
+>>> +++ b/Documentation/devicetree/bindings/media/mediatek,mdp3-
+>>> aal.yaml
+>>
+>> Filename should match compatible, unless you already expect this
+>> binding
+>> will cover other devices. If so, why not adding them now?
+>>
+> 
+> May I rename this file to "mediatek,mt8195-mdp3.yaml"
+> 
+>>>
+> 
+> (snip)
+> 
+>>> diff --git a/Documentation/devicetree/bindings/media/mediatek,mdp3-
+>>> color.yaml b/Documentation/devicetree/bindings/media/mediatek,mdp3-
+>>> color.yaml
+>>> new file mode 100644
+>>> index 000000000000..1d8aa5dc76b9
+>>> --- /dev/null
+>>> +++ b/Documentation/devicetree/bindings/media/mediatek,mdp3-
+>>> color.yaml
+>>> @@ -0,0 +1,63 @@
+>>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+>>> +%YAML 1.2
+>>> +---
+>>> +$id: 
+>>> https://urldefense.com/v3/__http://devicetree.org/schemas/media/mediatek,mdp3-color.yaml*__;Iw!!CTRNKA9wMg0ARbw!lcferrFFP-mshDHNL-rwJLgNKDrXF9fXoljpqL30k5YKTNvCwuC3webzR32VnQQoPeFvSvAewNkeupcT4mjdEwNEKP4V$ 
+>>>  
+>>> +$schema: 
+>>> https://urldefense.com/v3/__http://devicetree.org/meta-schemas/core.yaml*__;Iw!!CTRNKA9wMg0ARbw!lcferrFFP-mshDHNL-rwJLgNKDrXF9fXoljpqL30k5YKTNvCwuC3webzR32VnQQoPeFvSvAewNkeupcT4mjdEz618JHq$ 
+>>>  
+>>> +
+>>> +title: MediaTek Media Data Path 3 COLOR
+>>> +
+>>> +maintainers:
+>>> +  - Matthias Brugger <matthias.bgg@gmail.com>
+>>> +  - Moudy Ho <moudy.ho@mediatek.com>
+>>> +
+>>> +description:
+>>> +  One of Media Data Path 3 (MDP3) components used to adjust hue,
+>>> luma and
+>>> +  saturation to get better picture quality.
+>>> +
+>>> +properties:
+>>> +  compatible:
+>>> +    enum:
+>>> +      - mediatek,mt8195-mdp3-color
+>>
+>> This is exactly the same as previous file. Why do you split the
+>> binding?
+>> It really looks unnecessary.
+>>
+>> Probably all other files should be also squashed.
+>>
+> 
+> and convert all other bindings into individual compatible enums to
+> squash all files?
+> 
+>   compatible:
+>     enum:
+>       - mediatek,mt8195-mdp3-color
+>       - mediatek,mt8195-mdp3-aal
 
-W dniu 12.01.2023 o 16:02, Ezequiel Garcia pisze:
-> Hi Sebastian,
-> 
-> On Thu, Jan 12, 2023 at 9:56 AM Sebastian Fricke
-> <sebastian.fricke@collabora.com> wrote:
->>
->> Prepare storing the SPS structure for HEVC & H264 in the internal
->> context of the rkvdec instance. This structure is used to figure out
->> which capture queue format is appropriate for decoding.
->>
->> Signed-off-by: Sebastian Fricke <sebastian.fricke@collabora.com>
->> ---
->>   drivers/staging/media/rkvdec/rkvdec.h | 1 +
->>   1 file changed, 1 insertion(+)
->>
->> diff --git a/drivers/staging/media/rkvdec/rkvdec.h b/drivers/staging/media/rkvdec/rkvdec.h
->> index 633335ebb9c4..332126e7b812 100644
->> --- a/drivers/staging/media/rkvdec/rkvdec.h
->> +++ b/drivers/staging/media/rkvdec/rkvdec.h
->> @@ -105,6 +105,7 @@ struct rkvdec_ctx {
->>          struct v4l2_ctrl_handler ctrl_hdl;
->>          struct rkvdec_dev *dev;
->>          void *priv;
->> +       void *sps;
-> 
-> I don't really like re-caching the SPS in the context,
-> since all the controls are already stored in the context,
-> via the ctrl_handler.
-> 
-> See hantro_get_ctrl().
-> 
-> Duplicating state can lead to problems and even if we get it
-> right this time, will be hard to maintain.
-> 
+Yes, all devices which have exactly the same properties in one binding
+file. Their compatibles listed in enum.
 
-Also, just looking at this patch is seems a bit too fine-grained
-a change to add a member to a driver-internal struct and have no
-users at the same time. OTOH Ezequiel has easily spotted it :D
+You can keep the separate bindings which differ from each other.
 
-Andrzej
-
-> Thanks,
-> Ezequiel
-> 
->>   };
->>
->>   static inline struct rkvdec_ctx *fh_to_rkvdec_ctx(struct v4l2_fh *fh)
->>
->> --
->> 2.25.1
+Best regards,
+Krzysztof
 
