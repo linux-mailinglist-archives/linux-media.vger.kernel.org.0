@@ -2,188 +2,153 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id ACA9B66C284
-	for <lists+linux-media@lfdr.de>; Mon, 16 Jan 2023 15:44:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B133B66C280
+	for <lists+linux-media@lfdr.de>; Mon, 16 Jan 2023 15:44:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230424AbjAPOof (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 16 Jan 2023 09:44:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37236 "EHLO
+        id S229509AbjAPOoR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 16 Jan 2023 09:44:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37294 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232791AbjAPOnn (ORCPT
+        with ESMTP id S232868AbjAPOnw (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 16 Jan 2023 09:43:43 -0500
-Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6FD0135262
-        for <linux-media@vger.kernel.org>; Mon, 16 Jan 2023 06:21:52 -0800 (PST)
-Received: by mail-pj1-x102c.google.com with SMTP id bj3so26064695pjb.0
-        for <linux-media@vger.kernel.org>; Mon, 16 Jan 2023 06:21:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=75qLQ4ZTy+zb7MfhuD6FB8jFBCO1xGIc9ZW9OCqfnxk=;
-        b=RyYoFuA+EOCSHiG20L8pZ1EvjDdnC/oZIbxSwuIC/mk5MUFc5AmZfpuWFJ3mN97ePv
-         q4hh3k0TuHNDOb4fEO/j5oA7GVjqCE2LQZWJXkqo7rs7sdqmekZyAob53c8hoB3cuuRz
-         jCMX214WYudKTfkPs/YaCn4nq2B9+2xQNUnhI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=75qLQ4ZTy+zb7MfhuD6FB8jFBCO1xGIc9ZW9OCqfnxk=;
-        b=NiMfQZiKGZ5dEAQ1ppTOXStPn31qgOMBM67cE7xr0tdzRsqUdIEuMCO03bPqOjvxdu
-         Aq87bGCG5/zDWApvd/lYhoH7eObOEKAl50ixK9gSmHuzgYUXob+L/wvpc6VOUBlJJph4
-         bjwPi6uUL4R0mzMSy1ya7AHVSFSKLOW2A5cRbN9y1IZvGlYymVUMU1fgheEkQzlzuZ+5
-         anCQDVW0GG3Hdty+lhLO+dZXVaCRXqcPIrFrYq4gpds57dkSrKHrecnVTzSLAWjiXWNR
-         WsUmYCkpk3fboFUgM4u3iRg8TAHi34KTDWlZE6Eh+dXwk4MpWb7gHpeTLR9rsNAnA8+7
-         369A==
-X-Gm-Message-State: AFqh2koAj2R1QjXGLpISqeGX0KYpiXX3L/qwXyIpo/+A42NAvWFStA10
-        rZh7FtgOMBUWYqXLaCr8oUVG8pJY9sLUAd9EFQ8=
-X-Google-Smtp-Source: AMrXdXuJJGrP3ltu8mwS3Uk0MrysD6zn+x7b7sL0NOhHUOtq+GZTDA/uBYmXDwiYuOjGG6l3Vx8SZw==
-X-Received: by 2002:a17:903:32cc:b0:189:129e:92af with SMTP id i12-20020a17090332cc00b00189129e92afmr130737177plr.14.1673878911741;
-        Mon, 16 Jan 2023 06:21:51 -0800 (PST)
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com. [209.85.210.180])
-        by smtp.gmail.com with ESMTPSA id t12-20020a170902b20c00b001931f232962sm17860089plr.112.2023.01.16.06.21.50
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 16 Jan 2023 06:21:51 -0800 (PST)
-Received: by mail-pf1-f180.google.com with SMTP id y5so21057263pfe.2
-        for <linux-media@vger.kernel.org>; Mon, 16 Jan 2023 06:21:50 -0800 (PST)
-X-Received: by 2002:a62:1501:0:b0:589:8362:c7ce with SMTP id
- 1-20020a621501000000b005898362c7cemr2112397pfv.21.1673878910333; Mon, 16 Jan
- 2023 06:21:50 -0800 (PST)
+        Mon, 16 Jan 2023 09:43:52 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E64B23C75
+        for <linux-media@vger.kernel.org>; Mon, 16 Jan 2023 06:22:30 -0800 (PST)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id DF69A802;
+        Mon, 16 Jan 2023 15:22:28 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1673878949;
+        bh=txEoX9Y0uaw3HpAApqU/gLxE/5qgshc9vMJnZjsdOi4=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=aXK/amOmTkGEzol5PWyWeTrV4OdEDOdt1FbHuOxjrmo77mVGz5llfplMiT4Ut5T7+
+         VkXlqhSma2oS0z2XssI+S09fE+80xliVXivzc3nD0MowQdMZPi1qwRLv/ncqHTrO4s
+         aGi5fruBNGhAj4fZtVlEKtO8aXABYYJxRG9bouPw=
+Date:   Mon, 16 Jan 2023 16:22:29 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Ricardo Ribalda <ribalda@chromium.org>
+Cc:     Marek Vasut <marex@denx.de>, linux-media@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        William Manley <will@williammanley.net>,
+        Michael Grzeschik <m.grzeschik@pengutronix.de>
+Subject: Re: [PATCH v2] media: uvcvideo: Add GUID for BGRA/X 8:8:8:8
+Message-ID: <Y8VdpQGcqmoKESk8@pendragon.ideasonboard.com>
+References: <20230116094032.4389-1-marex@denx.de>
+ <Y8Uq2EtsYi9kmdqw@pendragon.ideasonboard.com>
+ <CANiDSCtniqdwr7oqvcMfH9sKYMuTX7jyAA9P9ZeCFhEGq8Rnqw@mail.gmail.com>
 MIME-Version: 1.0
-References: <20230115205210.20077-1-laurent.pinchart@ideasonboard.com>
- <CANiDSCvgxyRGw4EsGtGN5GxB_oCj2FpQgqr7tOUEyjwKSVRocA@mail.gmail.com>
- <Y8VbYq48+gmmd4rD@pendragon.ideasonboard.com> <CAL8NLXtDfhjRPy4EEE7Re+AkkbOo0Aeo-9kRd4CXsUKUHQ_yNw@mail.gmail.com>
-In-Reply-To: <CAL8NLXtDfhjRPy4EEE7Re+AkkbOo0Aeo-9kRd4CXsUKUHQ_yNw@mail.gmail.com>
-From:   Ricardo Ribalda <ribalda@chromium.org>
-Date:   Mon, 16 Jan 2023 15:21:39 +0100
-X-Gmail-Original-Message-ID: <CANiDSCtO5G5aC2ZJyOz+vsyor1iO-HDQNdX7SBNLgA=D+nZg1w@mail.gmail.com>
-Message-ID: <CANiDSCtO5G5aC2ZJyOz+vsyor1iO-HDQNdX7SBNLgA=D+nZg1w@mail.gmail.com>
-Subject: Re: [PATCH] media: uvcvideo: Force UVC version to 1.0a for 0408:4035
-To:     =?UTF-8?Q?Kolbj=C3=B8rn_Jetne?= <kolbjorn@kodemaker.no>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-media@vger.kernel.org,
-        Giuliano Lotta <giuliano.lotta@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CANiDSCtniqdwr7oqvcMfH9sKYMuTX7jyAA9P9ZeCFhEGq8Rnqw@mail.gmail.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Kolbj=C3=B8rn
+Hello,
 
-On Mon, 16 Jan 2023 at 15:16, Kolbj=C3=B8rn Jetne <kolbjorn@kodemaker.no> w=
-rote:
+(CC'ing Michael)
+
+On Mon, Jan 16, 2023 at 02:20:40PM +0100, Ricardo Ribalda wrote:
+> Hi Marek!!!
+> 
+> Why do they call MEDIASUBTYPE_RGB32 something that is BRG ? !
+> 
+> Why do WE call XBGR something that is BGRX? !!
+> 
+> Besides our insanity, your patch looks sane. Thanks for it :)
+> 
+> There are some patches on the queue to remove the format definitions,
+> so your patch might not apply cleanly, I guess Laurent will take care
+> of it
+
+Ricardo meant [5].
+
+Michael, I'm waiting for Mauro to merge the uvcvideo pull request for
+v6.3 ([6]). Once done, you can use that as a base branch for your
+series, and send a pull request to Greg. Could you include Marek's
+patch, either at the bottom or the top of your series ? Alternatively I
+can send a v4 of the uvcvideo pull request with this patch included if
+you prefer.
+
+[5] https://lore.kernel.org/linux-media/20221215224514.2344656-1-m.grzeschik@pengutronix.de/
+[6] https://lore.kernel.org/linux-media/Y8R0yfSL+1BNi%2Ff3@pendragon.ideasonboard.com/
+
+> On Mon, 16 Jan 2023 at 11:50, Laurent Pinchart wrote:
+> > On Mon, Jan 16, 2023 at 10:40:32AM +0100, Marek Vasut wrote:
+> > > The Cypress EZUSB FX3 UVC example can be configured to report pixel
+> > > format "e436eb7e-524f-11ce-9f53-0020af0ba770". This is its GUID for
+> > > BGRA/X 8:8:8:8.
+> > >
+> > > The UVC 1.5 spec [1] only defines GUIDs for YUY2, NV12, M420 and I420.
+> > > This seems to be an extension documented in the Microsoft Windows Media
+> > > Format SDK[2]. This Media Format SDK defines this GUID as corresponding
+> > > to `MEDIASUBTYPE_RGB32`, which is confirmed by [4] as `MEDIASUBTYPE_ARGB32`
+> > > has different GUID.
+> > >
+> > > Note that in my case, the FX3 UVC can output either channel order,
+> > > BGR or RGB or any other mix for that matter. Since Linux commit
+> > > 1b8dc32286a1a ("[media] uvcvideo: Add GUID for BGR 8:8:8")
+> > > defined a GUID for `MEDIASUBTYPE_RGB24` channel order as BGR, keep
+> > > this change consistent and define `MEDIASUBTYPE_RGB32` as BGR as well.
+> > > Document [3] also indicates the channel order is BGR.
+> > >
+> > > [1] https://www.usb.org/document-library/video-class-v15-document-set
+> > > [2] https://learn.microsoft.com/en-us/windows/win32/wmformat/media-type-identifiers
+> > > [3] https://learn.microsoft.com/en-us/windows/win32/directshow/uncompressed-rgb-video-subtypes
+> > > [4] https://gix.github.io/media-types/
+> > >
+> > > Signed-off-by: Marek Vasut <marex@denx.de>
+> >
+> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 >
-> I have no idea about the reason for being involved in this conversation..=
-.
-My bad
-
-I tried finding the email of this user:
-https://bugs.launchpad.net/ubuntu/+source/linux/+bug/2000947/comments/22
-
-and I thought it was you. Sorry about that!
-
+> Reviewed-by: Ricardo Ribalda <ricardo@ribalda.com>
 >
-> - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-> Kolbj=C3=B8rn Jetne
-> Daglig leder
-> +47 957 45 096
->
-> KODEMAKER
-> www.kodemaker.no
->
->
-> man. 16. jan. 2023 kl. 15:12 skrev Laurent Pinchart <laurent.pinchart@ide=
-asonboard.com>:
->>
->> Hi Ricardo,
->>
->> On Mon, Jan 16, 2023 at 02:05:28PM +0100, Ricardo Ribalda wrote:
->> > On Sun, 15 Jan 2023 at 21:52, Laurent Pinchart wrote:
->> > >
->> > > The Quanta ACER HD User Facing camera reports a UVC 1.50 version, bu=
-t
->> > > implements UVC 1.0a as shown by the UVC probe control being 26 bytes
->> > > long. Force the UVC version for that device.
->> >
->> > Don't we also want to include 4035:4033 ?
->>
->> I've asked for the lsusb output for that device, I'll send a separate
->> patch when I get it.
->>
->> > I am curious about the PowerLine Control (does it have one?) will it
->> > behave like 1.1 or 1.5
->>
->> Good question. Hardcoding the version to 1.0a will not cause an error,
->> but may prevent the auto mode from being supported.
->>
->> An alternative would be to automatically fall back to the UVC 1.0a video
->> probe and commit control when the size returned by GET_CUR differs from
->> the value expected from UVC 1.5. That would be a generic fix that won't
->> require quirks. What do you think ?
->>
->> > Would it be possible to get the output with uvc_debug enabled?
->>
->> I'll let you tell Giuliano how to provide that :-)
->>
->> > > Reported-by: Giuliano Lotta <giuliano.lotta@gmail.com>
->> > > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
->> > > ---
->> > >
->> > > Giuliano, I believe you've successfully tested this patch. If so, co=
-uld
->> > > you reply with a Tested-by tag ? Just copying the following in your
->> > > reply will do:
->> > >
->> > > Tested-by: Giuliano Lotta <giuliano.lotta@gmail.com>
->> > >
->> > >  drivers/media/usb/uvc/uvc_driver.c | 11 +++++++++++
->> > >  1 file changed, 11 insertions(+)
->> > >
->> > > diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/=
-uvc/uvc_driver.c
->> > > index 1a186abeb4fa..742eeaff333e 100644
->> > > --- a/drivers/media/usb/uvc/uvc_driver.c
->> > > +++ b/drivers/media/usb/uvc/uvc_driver.c
->> > > @@ -2429,6 +2429,17 @@ static const struct usb_device_id uvc_ids[] =
-=3D {
->> > >           .bInterfaceSubClass   =3D 1,
->> > >           .bInterfaceProtocol   =3D UVC_PC_PROTOCOL_15,
->> > >           .driver_info          =3D (kernel_ulong_t)&uvc_ctrl_power_=
-line_limited },
->> > > +       /* Quanta ACER HD User Facing */
->> > > +       { .match_flags          =3D USB_DEVICE_ID_MATCH_DEVICE
->> > > +                               | USB_DEVICE_ID_MATCH_INT_INFO,
->> > > +         .idVendor             =3D 0x0408,
->> > > +         .idProduct            =3D 0x4035,
->> > > +         .bInterfaceClass      =3D USB_CLASS_VIDEO,
->> > > +         .bInterfaceSubClass   =3D 1,
->> > > +         .bInterfaceProtocol   =3D UVC_PC_PROTOCOL_15,
->> > > +         .driver_info          =3D (kernel_ulong_t)&(const struct u=
-vc_device_info){
->> > > +               .uvc_version =3D 0x010a,
->> > > +         } },
->> > >         /* LogiLink Wireless Webcam */
->> > >         { .match_flags          =3D USB_DEVICE_ID_MATCH_DEVICE
->> > >                                 | USB_DEVICE_ID_MATCH_INT_INFO,
->> > >
->> > > base-commit: fd957081cff04668f390c6f290bdcc7fc009a0f1
->>
->> --
->> Regards,
->>
->> Laurent Pinchart
+> > > ---
+> > > Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > > Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+> > > Cc: William Manley <will@williammanley.net>
+> > > ---
+> > > V2: - Reference document [3] confirming BGR channel order
+> > >     - Reference document [4] describing MEDIASUBTYPE_ARGB32 with different GUID
+> > >     - Use V4L2_PIX_FMT_XBGR32 instead of V4L2_PIX_FMT_BGR32 which is deprecated
+> > > ---
+> > >  include/media/v4l2-uvc.h | 8 ++++++++
+> > >  1 file changed, 8 insertions(+)
+> > >
+> > > diff --git a/include/media/v4l2-uvc.h b/include/media/v4l2-uvc.h
+> > > index f83e31661333b..b010a36fc1d95 100644
+> > > --- a/include/media/v4l2-uvc.h
+> > > +++ b/include/media/v4l2-uvc.h
+> > > @@ -99,6 +99,9 @@
+> > >  #define UVC_GUID_FORMAT_BGR3 \
+> > >       { 0x7d, 0xeb, 0x36, 0xe4, 0x4f, 0x52, 0xce, 0x11, \
+> > >        0x9f, 0x53, 0x00, 0x20, 0xaf, 0x0b, 0xa7, 0x70}
+> > > +#define UVC_GUID_FORMAT_BGR4 \
+> > > +     { 0x7e, 0xeb, 0x36, 0xe4, 0x4f, 0x52, 0xce, 0x11, \
+> > > +      0x9f, 0x53, 0x00, 0x20, 0xaf, 0x0b, 0xa7, 0x70}
+> > >  #define UVC_GUID_FORMAT_M420 \
+> > >       { 'M',  '4',  '2',  '0', 0x00, 0x00, 0x10, 0x00, \
+> > >        0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
+> > > @@ -266,6 +269,11 @@ static struct uvc_format_desc uvc_fmts[] = {
+> > >               .guid           = UVC_GUID_FORMAT_BGR3,
+> > >               .fcc            = V4L2_PIX_FMT_BGR24,
+> > >       },
+> > > +     {
+> > > +             .name           = "BGRA/X 8:8:8:8 (BGR4)",
+> > > +             .guid           = UVC_GUID_FORMAT_BGR4,
+> > > +             .fcc            = V4L2_PIX_FMT_XBGR32,
+> > > +     },
+> > >       {
+> > >               .name           = "H.264",
+> > >               .guid           = UVC_GUID_FORMAT_H264,
 
+-- 
+Regards,
 
-
---=20
-Ricardo Ribalda
+Laurent Pinchart
