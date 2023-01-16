@@ -2,179 +2,173 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1350B66BF8B
-	for <lists+linux-media@lfdr.de>; Mon, 16 Jan 2023 14:18:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DC9F866BF9A
+	for <lists+linux-media@lfdr.de>; Mon, 16 Jan 2023 14:21:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230510AbjAPNS0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 16 Jan 2023 08:18:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38580 "EHLO
+        id S229589AbjAPNU7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 16 Jan 2023 08:20:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42030 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230101AbjAPNR4 (ORCPT
+        with ESMTP id S229577AbjAPNU4 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 16 Jan 2023 08:17:56 -0500
-Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [IPv6:2a0b:5c81:1c1::37])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6815F3ABB
-        for <linux-media@vger.kernel.org>; Mon, 16 Jan 2023 05:16:31 -0800 (PST)
-Received: from meesny.iki.fi (meesny.iki.fi [195.140.195.201])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by lahtoruutu.iki.fi (Postfix) with ESMTPS id DFF5D1B0007F
-        for <linux-media@vger.kernel.org>; Mon, 16 Jan 2023 15:16:28 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
-        t=1673874988;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type;
-        bh=lzFq2ugiYgi7HI3Ix0bQXNNFwZMTPlYffm/oqXKNm/w=;
-        b=RDz1SGPDITwHH4bsejRxlryL3d7L4ffNZgoJYTLJTQChNii6/CiFIn2PUmcrEhY5BAB2HK
-        iZCEq+m5f752HVaiN3aAjd80LHWjQG0A33AVtdz60d+zReYAPGHdXVKvHaVKZB5vxxv4sJ
-        NGtgZs0zOJ2vDpt/3wV4akPE+otIcH1WbOo2eJYVMyEw75ooDY3KcOU7cfTzGi3LJx8i/4
-        Mo9NF0uCA4OJ86QGlcFblpeNl/JHdD4HWOfPPxstMDPuNFVj6ueP3O4mez633MOsHech0r
-        RsLhiFElLtNd5kvGZr9x6mGv2Mgd6EMCEVJU8x/fVZIR5OUO9h6HKulDZV490A==
-Received: from hillosipuli.retiisi.eu (82-181-192-243.bb.dnainternet.fi [82.181.192.243])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: sailus)
-        by meesny.iki.fi (Postfix) with ESMTPSA id C8F0620059;
-        Mon, 16 Jan 2023 15:16:22 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
-        t=1673874982;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type;
-        bh=lzFq2ugiYgi7HI3Ix0bQXNNFwZMTPlYffm/oqXKNm/w=;
-        b=xL2E2KKJcNnZCHR7HV8k5TM8I4U0lrKWvwNCkywxvF2V5/8FuDdKesvhc60bP0OPbw8q89
-        EJ8Nax008q+b5VBwbZq4qm5IiKcvMg+B0Qe/ZoIAlNg8S6nfc67SsJaVutKD//GHxKFrZv
-        5zvqcLHVzv9gi1E4BmhJhHO3AG3Z3gk=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-        s=meesny; t=1673874982;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type;
-        bh=lzFq2ugiYgi7HI3Ix0bQXNNFwZMTPlYffm/oqXKNm/w=;
-        b=PVjmxALi358pivUFeZvE6cbQ82+7uYy4BhqC1SPNiZq+d/kWv7kf4BnU2RlKONHkSSRtNj
-        R3Q6tMRUsKymiUyy6PgnTD+7vC/HglL+jzVnLOB5ilD8ogk/nqdZ9Mk67Qcwm+7+PNgFLn
-        /U0BUwEKG+NfwCd+YW+JpsD0gJzm7wU=
-ARC-Authentication-Results: i=1;
-        ORIGINATING;
-        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Seal: i=1; s=meesny; d=iki.fi; t=1673874982; a=rsa-sha256; cv=none;
-        b=G3EzbccnPg3cId4NdDUf8mUKykZj7Q2SyxCn5dggNdwOdsYWwDRvPT+ETMZAnEMIHWKoIQ
-        3zUzjYsk2Wgf+2REJ4arakU1yOXy3qzMLiymr/ARmPflLphh9VkziWhCFOXdUqATHXrzw/
-        HL3ft0r2aKfB84qbjfrbDiUfThVSJCw=
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 5DF5B634C91;
-        Mon, 16 Jan 2023 15:16:22 +0200 (EET)
-Date:   Mon, 16 Jan 2023 15:16:22 +0200
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     linux-media@vger.kernel.org
-Cc:     tomi.valkeinen@ideasonboard.com, laurent.pinchart@ideasonboard.com,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        niklas.soderlund+renesas@ragnatech.se,
-        satish.nagireddy@getcruise.com, Tomasz Figa <tfiga@chromium.org>,
-        "Qiu, Tian Shu" <tian.shu.qiu@intel.com>
-Subject: [GIT PULL FOR 6.3 v2] V4L2 streams support
-Message-ID: <Y8VOJs7v1/Oogum7@valkosipuli.retiisi.eu>
+        Mon, 16 Jan 2023 08:20:56 -0500
+Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92ED93ABB
+        for <linux-media@vger.kernel.org>; Mon, 16 Jan 2023 05:20:53 -0800 (PST)
+Received: by mail-pj1-x1036.google.com with SMTP id bj3so25912702pjb.0
+        for <linux-media@vger.kernel.org>; Mon, 16 Jan 2023 05:20:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=aVbymCc7So56zzlwH/iGqWQN7KU9mVa5OPelxhMkhOE=;
+        b=EIUJjiYScUZy3n2+Lld8QU2xjRp0dxOfBk7hhRM3u+wX1xl/AWDuXnJBO3JWmeDhuY
+         V0m7aWikOggNOoBI9j5luErufR+44/eKCNQEePfb87+Y3l7l78M7Y1/JVmu0UEO+jUhP
+         BXSIv573sWkeIULkhrvAFEN2pAeKy8ECZu+JY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=aVbymCc7So56zzlwH/iGqWQN7KU9mVa5OPelxhMkhOE=;
+        b=jTTc+/rYT1Y+wCKGl7kmcWPEOGvZAUZ7HEBtEmlWk6vcRctQyNlXJh3+LW0ICFh78l
+         ybsXsA3FwYzWQy7Y8vQFYgnLgkiLOM6PqrT29l1NMc2tubzkH5V+r2J224Yz/hVE9xEJ
+         gFQXHYhxjmjBLjL0ITh9F6fF6gSHe7oZGtBFHVYzCtHfKKIfyWQtsChH6XkhGUiv4aVW
+         KaXjWRk2XQESOt2sAO17eCV097kmdsJU6ZucExWfHZI6aQQVefXQ3DRP6NL5xrtfmEhW
+         xSN1GyH1z48nVUCtt1S963ISwqJhdyz5LMlS5Rc2LfHzzSuBYmfgg6ASVfq71eBnIHYE
+         GHpw==
+X-Gm-Message-State: AFqh2kpcftOjsi9JRj5xpOU1ij+wpUXA2CDw91vej6FAwQsqGGVjRJRX
+        /5vv8WttJ8/GcSxlri3OES2kXgLJl4AiqdDq8nI=
+X-Google-Smtp-Source: AMrXdXujdIel2igTWcTt5rtS2czVxfrfKNtf/MYD8nZPPqRK+qsyueZ3vMinCCGHNKomdOKygxqe1A==
+X-Received: by 2002:a17:902:e809:b0:194:83fd:9a7a with SMTP id u9-20020a170902e80900b0019483fd9a7amr9846077plg.54.1673875252391;
+        Mon, 16 Jan 2023 05:20:52 -0800 (PST)
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com. [209.85.214.171])
+        by smtp.gmail.com with ESMTPSA id n10-20020a170902e54a00b0018971fba556sm19259457plf.139.2023.01.16.05.20.51
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 16 Jan 2023 05:20:51 -0800 (PST)
+Received: by mail-pl1-f171.google.com with SMTP id k18so6276792pll.5
+        for <linux-media@vger.kernel.org>; Mon, 16 Jan 2023 05:20:51 -0800 (PST)
+X-Received: by 2002:a17:90a:c984:b0:219:8132:70db with SMTP id
+ w4-20020a17090ac98400b00219813270dbmr9193706pjt.183.1673875251059; Mon, 16
+ Jan 2023 05:20:51 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+References: <20230116094032.4389-1-marex@denx.de> <Y8Uq2EtsYi9kmdqw@pendragon.ideasonboard.com>
+In-Reply-To: <Y8Uq2EtsYi9kmdqw@pendragon.ideasonboard.com>
+From:   Ricardo Ribalda <ribalda@chromium.org>
+Date:   Mon, 16 Jan 2023 14:20:40 +0100
+X-Gmail-Original-Message-ID: <CANiDSCtniqdwr7oqvcMfH9sKYMuTX7jyAA9P9ZeCFhEGq8Rnqw@mail.gmail.com>
+Message-ID: <CANiDSCtniqdwr7oqvcMfH9sKYMuTX7jyAA9P9ZeCFhEGq8Rnqw@mail.gmail.com>
+Subject: Re: [PATCH v2] media: uvcvideo: Add GUID for BGRA/X 8:8:8:8
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Marek Vasut <marex@denx.de>, linux-media@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        William Manley <will@williammanley.net>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mauro,
+Hi Marek!!!
 
-This set contains support for multiple streams over a single MC link, a set
-that has been out of tree for more than five years, has worked on by more
-than five people in their turns. I think it is now ready for upstream.
+Why do they call MEDIASUBTYPE_RGB32 something that is BRG ? !
 
-Source sub-devices with multiple streams aren't supported yet but the
-intent is to add the support soon.
+Why do WE call XBGR something that is BGRX? !!
 
-Using the new APII requires setting v4l2_subdev_enable_streams_api in
-drivers/media/v4l2-core/v4l2-subdev.c to true, so no new API is exposed to
-the user space quite yet. The intent is also to change this soon, possibly
-for 6.3 but may well slip to 6.4.
+Besides our insanity, your patch looks sane. Thanks for it :)
 
-since v1:
+There are some patches on the queue to remove the format definitions,
+so your patch might not apply cleanly, I guess Laurent will take care
+of it
 
-- Fix documentation build and compile warnings.
-
-Please pull.
+Thanks
 
 
-The following changes since commit 6599e683db1bf22fee74302c47e31b9a42a1c3d2:
+On Mon, 16 Jan 2023 at 11:50, Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+>
+> Hi Marek,
+>
+> Thank you for the patch.
+>
+> On Mon, Jan 16, 2023 at 10:40:32AM +0100, Marek Vasut wrote:
+> > The Cypress EZUSB FX3 UVC example can be configured to report pixel
+> > format "e436eb7e-524f-11ce-9f53-0020af0ba770". This is its GUID for
+> > BGRA/X 8:8:8:8.
+> >
+> > The UVC 1.5 spec [1] only defines GUIDs for YUY2, NV12, M420 and I420.
+> > This seems to be an extension documented in the Microsoft Windows Media
+> > Format SDK[2]. This Media Format SDK defines this GUID as corresponding
+> > to `MEDIASUBTYPE_RGB32`, which is confirmed by [4] as `MEDIASUBTYPE_ARGB32`
+> > has different GUID.
+> >
+> > Note that in my case, the FX3 UVC can output either channel order,
+> > BGR or RGB or any other mix for that matter. Since Linux commit
+> > 1b8dc32286a1a ("[media] uvcvideo: Add GUID for BGR 8:8:8")
+> > defined a GUID for `MEDIASUBTYPE_RGB24` channel order as BGR, keep
+> > this change consistent and define `MEDIASUBTYPE_RGB32` as BGR as well.
+> > Document [3] also indicates the channel order is BGR.
+> >
+> > [1] https://www.usb.org/document-library/video-class-v15-document-set
+> > [2] https://learn.microsoft.com/en-us/windows/win32/wmformat/media-type-identifiers
+> > [3] https://learn.microsoft.com/en-us/windows/win32/directshow/uncompressed-rgb-video-subtypes
+> > [4] https://gix.github.io/media-types/
+> >
+> > Signed-off-by: Marek Vasut <marex@denx.de>
+>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Reviewed-by: Ricardo Ribalda <ricardo@ribalda.com>
+>
+> > ---
+> > Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+> > Cc: William Manley <will@williammanley.net>
+> > ---
+> > V2: - Reference document [3] confirming BGR channel order
+> >     - Reference document [4] describing MEDIASUBTYPE_ARGB32 with different GUID
+> >     - Use V4L2_PIX_FMT_XBGR32 instead of V4L2_PIX_FMT_BGR32 which is deprecated
+> > ---
+> >  include/media/v4l2-uvc.h | 8 ++++++++
+> >  1 file changed, 8 insertions(+)
+> >
+> > diff --git a/include/media/v4l2-uvc.h b/include/media/v4l2-uvc.h
+> > index f83e31661333b..b010a36fc1d95 100644
+> > --- a/include/media/v4l2-uvc.h
+> > +++ b/include/media/v4l2-uvc.h
+> > @@ -99,6 +99,9 @@
+> >  #define UVC_GUID_FORMAT_BGR3 \
+> >       { 0x7d, 0xeb, 0x36, 0xe4, 0x4f, 0x52, 0xce, 0x11, \
+> >        0x9f, 0x53, 0x00, 0x20, 0xaf, 0x0b, 0xa7, 0x70}
+> > +#define UVC_GUID_FORMAT_BGR4 \
+> > +     { 0x7e, 0xeb, 0x36, 0xe4, 0x4f, 0x52, 0xce, 0x11, \
+> > +      0x9f, 0x53, 0x00, 0x20, 0xaf, 0x0b, 0xa7, 0x70}
+> >  #define UVC_GUID_FORMAT_M420 \
+> >       { 'M',  '4',  '2',  '0', 0x00, 0x00, 0x10, 0x00, \
+> >        0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
+> > @@ -266,6 +269,11 @@ static struct uvc_format_desc uvc_fmts[] = {
+> >               .guid           = UVC_GUID_FORMAT_BGR3,
+> >               .fcc            = V4L2_PIX_FMT_BGR24,
+> >       },
+> > +     {
+> > +             .name           = "BGRA/X 8:8:8:8 (BGR4)",
+> > +             .guid           = UVC_GUID_FORMAT_BGR4,
+> > +             .fcc            = V4L2_PIX_FMT_XBGR32,
+> > +     },
+> >       {
+> >               .name           = "H.264",
+> >               .guid           = UVC_GUID_FORMAT_H264,
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
 
-  Merge tag 'v6.2-rc1' into media_tree (2022-12-28 16:07:44 +0000)
 
-are available in the Git repository at:
-
-  git://linuxtv.org/sailus/media_tree.git tags/streams-6.3-2-signed
-
-for you to fetch changes up to 314a1ebb85475f982dc18069558ed6d3e64f2866:
-
-  media: Documentation: Update documentation for streams (2023-01-16 12:27:08 +0200)
-
-----------------------------------------------------------------
-Streams for v6.3
-
-----------------------------------------------------------------
-Jacopo Mondi (2):
-      media: Documentation: Add GS_ROUTING documentation
-      media: subdev: Add for_each_active_route() macro
-
-Laurent Pinchart (5):
-      media: subdev: Add [GS]_ROUTING subdev ioctls and operations
-      media: subdev: add v4l2_subdev_routing_validate() helper
-      media: v4l2-subdev: Add v4l2_subdev_state_xlate_streams() helper
-      media: v4l2-subdev: Add subdev .(enable|disable)_streams() operations
-      media: v4l2-subdev: Add v4l2_subdev_s_stream_helper() function
-
-Sakari Ailus (2):
-      media: Add stream to frame descriptor
-      media: Documentation: Update documentation for streams
-
-Tomi Valkeinen (12):
-      media: v4l2-subdev: Sort includes
-      media: add V4L2_SUBDEV_FL_STREAMS
-      media: add V4L2_SUBDEV_CAP_STREAMS
-      media: subdev: Require code change to enable [GS]_ROUTING
-      media: subdev: add v4l2_subdev_has_pad_interdep()
-      media: subdev: add v4l2_subdev_set_routing helper()
-      media: Documentation: add multiplexed streams documentation
-      media: subdev: add stream based configuration
-      media: subdev: use streams in v4l2_subdev_link_validate()
-      media: subdev: add "opposite" stream helper funcs
-      media: subdev: add streams to v4l2_subdev_get_fmt() helper function
-      media: subdev: add v4l2_subdev_set_routing_with_fmt() helper
-
- .clang-format                                      |    1 +
- Documentation/driver-api/media/v4l2-subdev.rst     |    8 +
- .../userspace-api/media/v4l/dev-subdev.rst         |  166 ++++
- .../userspace-api/media/v4l/user-func.rst          |    1 +
- .../v4l/vidioc-subdev-enum-frame-interval.rst      |    5 +-
- .../media/v4l/vidioc-subdev-enum-frame-size.rst    |    5 +-
- .../media/v4l/vidioc-subdev-enum-mbus-code.rst     |    5 +-
- .../media/v4l/vidioc-subdev-g-crop.rst             |    5 +-
- .../media/v4l/vidioc-subdev-g-fmt.rst              |    5 +-
- .../media/v4l/vidioc-subdev-g-frame-interval.rst   |    5 +-
- .../media/v4l/vidioc-subdev-g-routing.rst          |  147 +++
- .../media/v4l/vidioc-subdev-g-selection.rst        |    5 +-
- drivers/media/v4l2-core/v4l2-ioctl.c               |   25 +-
- drivers/media/v4l2-core/v4l2-subdev.c              | 1002 +++++++++++++++++++-
- include/media/v4l2-subdev.h                        |  377 ++++++++
- include/uapi/linux/v4l2-subdev.h                   |   74 +-
- 16 files changed, 1786 insertions(+), 50 deletions(-)
- create mode 100644 Documentation/userspace-api/media/v4l/vidioc-subdev-g-routing.rst
 
 -- 
-Kind regards,
-
-Sakari Ailus
+Ricardo Ribalda
