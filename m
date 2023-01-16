@@ -2,142 +2,157 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7502966C2C2
-	for <lists+linux-media@lfdr.de>; Mon, 16 Jan 2023 15:53:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7607B66C2CE
+	for <lists+linux-media@lfdr.de>; Mon, 16 Jan 2023 15:54:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231158AbjAPOx3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 16 Jan 2023 09:53:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44518 "EHLO
+        id S230466AbjAPOyN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 16 Jan 2023 09:54:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43996 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229731AbjAPOwb (ORCPT
+        with ESMTP id S231562AbjAPOxY (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 16 Jan 2023 09:52:31 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 360A322796
-        for <linux-media@vger.kernel.org>; Mon, 16 Jan 2023 06:39:05 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id E3F46B80E6E
-        for <linux-media@vger.kernel.org>; Mon, 16 Jan 2023 14:39:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DB42EC433D2;
-        Mon, 16 Jan 2023 14:39:01 +0000 (UTC)
-Message-ID: <dac6a072-39f4-96c5-cb13-171c54213937@xs4all.nl>
-Date:   Mon, 16 Jan 2023 15:39:00 +0100
+        Mon, 16 Jan 2023 09:53:24 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED6E122793
+        for <linux-media@vger.kernel.org>; Mon, 16 Jan 2023 06:40:42 -0800 (PST)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5D44F802;
+        Mon, 16 Jan 2023 15:40:41 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1673880041;
+        bh=JGTapkST4k4uhlPTL0xDXPbGqucj9spbxBmmuhCjLFc=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=KBu9psN7K+zm5aXyPxizx34MlLnBg8OAVPHjEHYnD6lhR01/iXqXtUAcW8VGgRKhw
+         LpwjGooo3H4ggcsTFUycSes0iqBnZB1+zJxhPlvUQLUoN0j48uyZi3B9W0Q2Qqu9Qh
+         yIne+75Q44vjEgSduuoSvHNMi1TBE/HvjcmJFI9M=
+Date:   Mon, 16 Jan 2023 16:40:41 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Ricardo Ribalda <ribalda@chromium.org>
+Cc:     linux-media@vger.kernel.org, Ai Chao <aichao@kylinos.cn>,
+        Jackie Liu <liuyun01@kylinos.cn>
+Subject: Re: [PATCH v5] media: uvcvideo: Fix bandwidth error for Alcor camera
+Message-ID: <Y8Vh6Xhbrb6pcxNf@pendragon.ideasonboard.com>
+References: <20230115211735.3877-1-laurent.pinchart@ideasonboard.com>
+ <CANiDSCtWkRd_oya97Qd9wHMM+ZC=2pVQz2a1NCLYximTDrwNkQ@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCHv2 00/16] staging/media: remove most deprecated drivers
-Content-Language: en-US
-To:     Corinna Vinschen <vinschen@redhat.com>
-Cc:     linux-media@vger.kernel.org,
-        Rudy Zijlstra <rudy@grumpydevil.homelinux.org>
-References: <Y8UepVxVuihu4Vjj@calimero.vinschen.de>
- <86c7f052-152a-6199-5a00-2db7b3d7cad6@xs4all.nl>
- <Y8VSmox2xCbYltXp@calimero.vinschen.de>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <Y8VSmox2xCbYltXp@calimero.vinschen.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CANiDSCtWkRd_oya97Qd9wHMM+ZC=2pVQz2a1NCLYximTDrwNkQ@mail.gmail.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 16/01/2023 14:35, Corinna Vinschen wrote:
-> Hi Hans,
-> 
-> On Jan 16 11:08, Hans Verkuil wrote:
->> Hi Corinna,
->>
->> On 16/01/2023 10:53, Corinna Vinschen wrote:
->>> Hi Hans,
->>>
->>> I only learned about this yesterday, so I hope I'm not too late.
->>>
->>> Please don't do that.  You're about to remove working drivers used by a
->>> lot of people.
->>>
->>> If you remove them from the Linux kernel, you will leave *lots* of DVB-C
->>> and DVB-S card users behind.  They will update their TV recording
->>> machines to a newer system at one point and suddenly their ability to
->>> record from TV is gone forever.
->>>
->>> I'm personally affected by this as well.  We're using a machine with
->>> four Technotrend S2-3200 Budget DVB-S2 cards for TV recordings using
->>> the VDR package.  This card is apparently handled by the code under
->>> drivers/staging/media/deprecated/saa7146.
->>>
->>> If this code goes away, we will have to keep the machine running on
->>> an old kernel for a long time.
->>>
->>> I'm fortunate that I even learned about this developement, being a
->>> developer myself, but how's a normal user to know that a Linux driver
->>> they are using every day is about to be removed from the kernel?  Again,
->>> please don't break the equipment of us users of these DVB-C and DVB-S
->>> cards for the future.  
->>
->> I've dropped the PR for now.
-> 
-> I'm really glad to read that.
-> 
->> Is the concern specifically for the saa7146
->> based hardware?
->>
->> I.e., from Red Hat's point of view, are there any concerns about removing
->> vpfe_capture, tm6000, zr364xx, stkwebcam, fsl-viu, cpia2 and meye?
-> 
-> I'm not part of the Red Hat media team, so I can't answer that, sorry.  
-> 
-> The problem is that there are no usage numbers anywhere.  I don't know
-> which of these drivers are still in use and which aren't.  I only know
-> for certain for our saa7146 based cards @home.  Terratec was the market
-> leader for quite some time, so there are lots of Terratec cards and
-> budget cards from third party vendors in the wild.
-> 
->> The core problem with saa7146 (and the other deprecated drivers) is that
->> it is using the old videobuf framework, which has known problems and we
->> want (need!) to get rid of it, either by dropping drivers or converting
->> them.
->>
->> One partial solution would be to drop analog video support from saa7146,
->> since that's the bit that uses this framework. DVB would remain working,
->> but analog video support would die, unless someone steps up to do the
->> conversion from vb1 to vb2.
-> 
-> Maybe I'm biased, but who has actually still access to analog TV?  I'm
-> not sure about that, but in Germany, analog TV over terrestrial antenna
-> has been dropped about 2005.  Analog satellite has gone 2012.  Analog
-> cable took until 2019.  I don't know about other regions.
+Hi Ricardo,
 
-Analog TV is almost certainly still used in places.
-
-But it's not so much about TV as it is about analog video in general, so
-also capturing from S-Video or composite connectors. That's definitely
-still used.
-
+On Mon, Jan 16, 2023 at 03:14:39PM +0100, Ricardo Ribalda wrote:
+> On Sun, 15 Jan 2023 at 22:17, Laurent Pinchart wrote:
+> >
+> > From: Ai Chao <aichao@kylinos.cn>
+> >
+> > The Alcor Corp. Slave camera (1b17:6684 and 2017:0011) returns a wrong
+> > dwMaxPayloadTransferSize value for compressed formats. Valid values are
+> > typically up to 3072 bytes per interval (for high-speed, high-bandwidth
+> > devices), and those faulty devices request 2752512 bytes per interval.
+> > This is a firmware issue, but the manufacturer cannot provide a fixed
+> > firmware.
+> >
+> > Fix this by checking the dwMaxPayloadTransferSize field, and hardcoding
+> > a value of 1024 if it exceeds 3072 for compressed formats transferred
+> > over isochronous endpoints. While at it, document the other quirk that
+> > handles a bandwidth issue for uncompressed formats.
+> >
+> > Signed-off-by: Ai Chao <aichao@kylinos.cn>
+> > ---
+> > I have dropped the Reviewed-by tags as the patch has changed
+> > significantly.
+> >
+> > Ricardo, do you know if the 3072 bytes limit is fine with super-speed
+> > devices, or does it need to be increased ?
 > 
->> So support for the old MXB, Hexium Gemini and Hexium Orion would die, but
->> for the other DVB devices it would stay alive.
-> 
-> So, yeah, from my POV this might be an option.
-> 
->> I'm honestly quite surprised that these old DVB PCI cards are still in
->> use, I did not expect that.
-> 
-> There isn't a really well-working alternative, unless you plug in lots
-> of USB devices instead.  Even more important these days, the cards are
-> still working, despite their age.  There's really no good reason to
-> throw them into the dustbin and buy something new, instead of trying to
-> use working equipment as long as possible to save waste.
+> We have enough documentation to let ChatGPT make the code for us :)
 
-OK, I'll make a new PR that keeps the saa7146 for now, and work on removing
-analog video support from saa7146.
+It will still need some improvements :-)
 
+> I am going to try tonight on two superspeed cameras. Will let you know tomorow.
+> 
+> > ---
+> >  drivers/media/usb/uvc/uvc_video.c | 31 +++++++++++++++++++++++++++++++
+> >  1 file changed, 31 insertions(+)
+> >
+> > diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
+> > index d4b023d4de7c..c6351d3b24cf 100644
+> > --- a/drivers/media/usb/uvc/uvc_video.c
+> > +++ b/drivers/media/usb/uvc/uvc_video.c
+> > @@ -200,6 +200,20 @@ static void uvc_fixup_video_ctrl(struct uvc_streaming *stream,
+> >         if ((ctrl->dwMaxPayloadTransferSize & 0xffff0000) == 0xffff0000)
+> >                 ctrl->dwMaxPayloadTransferSize &= ~0xffff0000;
+> >
+> > +       /*
+> > +        * Many devices report an incorrect dwMaxPayloadTransferSize value. The
+> > +        * most common issue is devices requesting the maximum possible USB
+> > +        * bandwidth (3072 bytes per interval for high-speed, high-bandwidth
+> > +        * isochronous endpoints) while they actually require less, preventing
+> > +        * multiple cameras from being used at the same time due to bandwidth
+> > +        * overallocation.
+> > +        *
+> > +        * For those devices, replace the dwMaxPayloadTransferSize value based
+> > +        * on an estimation calculated from the frame format and size. This is
+> > +        * only possible for uncompressed formats, as not enough information is
+> > +        * available to reliably estimate the bandwidth requirements for
+> > +        * compressed formats.
+> > +        */
+> >         if (!(format->flags & UVC_FMT_FLAG_COMPRESSED) &&
+> >             stream->dev->quirks & UVC_QUIRK_FIX_BANDWIDTH &&
+> >             stream->intf->num_altsetting > 1) {
+> > @@ -236,6 +250,23 @@ static void uvc_fixup_video_ctrl(struct uvc_streaming *stream,
+> >
+> >                 ctrl->dwMaxPayloadTransferSize = bandwidth;
+> >         }
+> > +
+> > +       /*
+> > +        * Another issue is with devices that report a transfer size that
+> > +        * greatly exceeds the maximum supported by any existing USB version
+> > +        * for isochronous transfers.  For instance, the "Slave camera" devices
+> > +        * from Alcor Corp. (2017:0011 and 1b17:66B8) request 2752512 bytes per
+> > +        * interval.
+> > +        *
+> > +        * For uncompressed formats, this can be addressed by the FIX_BANDWIDTH
+> > +        * quirk, but for compressed format we can't meaningfully estimate the
+> > +        * required bandwidth. Just hardcode it to 1024 bytes per interval,
+> > +        * which should be large enough for compressed formats.
+> > +        */
+> > +       if ((format->flags & UVC_FMT_FLAG_COMPRESSED) &&
+> > +           ctrl->dwMaxPayloadTransferSize > 3072 &&
+> > +           stream->intf->num_altsetting > 1)
+> > +               ctrl->dwMaxPayloadTransferSize = 1024;
+> 
+> - Maybe we should add a debug message if we are doing this?
+
+I can do that.
+
+> - Also I do not like that the value that we use as trigger (3072) is
+> different than the quirked value (1024)
+> 
+> Something like:
+> 
+> value = min(3072, value)
+> 
+> makes more sense
+
+That would prevent two such devices from working in parallel, when they
+likely could as 1024 bytes should be enough. That's the reason for the
+UVC_QUIRK_FIX_BANDWIDTH for uncompressed formats.
+
+> >  }
+> >
+> >  static size_t uvc_video_ctrl_size(struct uvc_streaming *stream)
+
+-- 
 Regards,
 
-	Hans
+Laurent Pinchart
