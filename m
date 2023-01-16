@@ -2,154 +2,124 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0802566B8D7
-	for <lists+linux-media@lfdr.de>; Mon, 16 Jan 2023 09:12:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BA0D566B8FE
+	for <lists+linux-media@lfdr.de>; Mon, 16 Jan 2023 09:23:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231855AbjAPIMH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 16 Jan 2023 03:12:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43158 "EHLO
+        id S232273AbjAPIXW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 16 Jan 2023 03:23:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47146 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232108AbjAPIMG (ORCPT
+        with ESMTP id S232199AbjAPIXV (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 16 Jan 2023 03:12:06 -0500
-Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0AFAC65AC
-        for <linux-media@vger.kernel.org>; Mon, 16 Jan 2023 00:12:05 -0800 (PST)
-Received: by mail-pj1-x102e.google.com with SMTP id m7-20020a17090a730700b00225ebb9cd01so33116532pjk.3
-        for <linux-media@vger.kernel.org>; Mon, 16 Jan 2023 00:12:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=svK8sNfAt+CcG9dxerrXV/d83fJtHYoUCeN+JdYuUsI=;
-        b=ZF1MERoF1+pmbMV08oqcTGgay89UjTc22aiLItFLScH4TiiWguSZjR5bI2Pj3BCvUj
-         +fyIq9GqmkSiklHxvvAdXRE/+3kZo9tBLoGVxP4sWygw6avrinOcRiQhiO5BJ2W0uMLh
-         yPyLnLLkXP814s5hrHU8380JgTC3G20vlvFHg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=svK8sNfAt+CcG9dxerrXV/d83fJtHYoUCeN+JdYuUsI=;
-        b=diftw95voKrTsIzlD92DEeHsCVT7yktpZEp+eytt3YcwNnHjPDTd7tBAN223bamDy3
-         mzCSMy1tUksGZPh1DQxWm1HJcb4HC8gnjZCWZw/CYjNoXogHCvplyZ+yj91VV/Txn6+T
-         2Zf+sXZ9TDq8YAtMTnPamRkSjq3bsdpI2hQPV+aYuqrmi1WSlFVji+IHtGG0t1jLRqzB
-         zIXYvQIP69wGf3pzoCegKPkLdAL5FhZnYYBZI2AuCrTWRUbHPGuNgOXRc2mRa4zBdRs+
-         zZASoxbJCHKgOOpAuH3p2+ITJN08cVrZRJVxkJx0MXnCc9ooj+bzEf7OvEezKw0SdoRi
-         SyzQ==
-X-Gm-Message-State: AFqh2krowzAgp8nIfemROUfGFICjK7D+jYDBiDwEqUVLfJED+HxHMbOD
-        0W0k27Ks9jJLUSaneVpn79B7wIg1J2igwGTJ
-X-Google-Smtp-Source: AMrXdXvxPO0+eCpLGHYvSIDwAnNJGbCQ6TOsyjwEVh31srADas+vQzTA+gC7EA9l6ouHTvlVoRgzAQ==
-X-Received: by 2002:a17:90a:e387:b0:227:1ef2:1db7 with SMTP id b7-20020a17090ae38700b002271ef21db7mr26435256pjz.9.1673856724126;
-        Mon, 16 Jan 2023 00:12:04 -0800 (PST)
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com. [209.85.216.46])
-        by smtp.gmail.com with ESMTPSA id b2-20020a655782000000b0047915d582ccsm15359298pgr.20.2023.01.16.00.12.03
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 16 Jan 2023 00:12:03 -0800 (PST)
-Received: by mail-pj1-f46.google.com with SMTP id m7-20020a17090a730700b00225ebb9cd01so33116471pjk.3
-        for <linux-media@vger.kernel.org>; Mon, 16 Jan 2023 00:12:03 -0800 (PST)
-X-Received: by 2002:a17:902:d588:b0:194:621a:3ee9 with SMTP id
- k8-20020a170902d58800b00194621a3ee9mr736827plh.124.1673856722666; Mon, 16 Jan
- 2023 00:12:02 -0800 (PST)
+        Mon, 16 Jan 2023 03:23:21 -0500
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0271C869F;
+        Mon, 16 Jan 2023 00:23:20 -0800 (PST)
+Received: from [192.168.15.130] (unknown [194.152.46.21])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits))
+        (No client certificate requested)
+        (Authenticated sender: andrzej.p)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id D266B6602BBC;
+        Mon, 16 Jan 2023 08:23:17 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1673857398;
+        bh=0oEXBLaXBkw2yiI3T0rNElgIM6GXeR/1APFK7PWIKIU=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=Q+wx2+LaBSyOuWoLDAuOqnRo3FT0DXhpU5z+BeOun7NQL7t5MKyLPaRPrXPahTtbV
+         4ydtz5i9RsPiNd6DcB0TEaPfqdrMtXc3YfYRnOJh+F5JavHNarSJIVjo18WURIYu0i
+         lSePYzJero/OMjWKuhybnqZ+hFHtzDbVVFPNywfIxa+TQ3RskXNPmmB5Eq99QM95no
+         aWYb0qFUqqjKYTHHovbRVOHIXLn59HsnCMyKebLdWV2z59Ngq11GMQlIRl5RFWPWTx
+         2bswoAW69vApp9Vg1FjHNFKIrpzafbLg+Fc6GK98qAAUywoJjQD3gbrNPklP/djusa
+         00/t98Xosq+uA==
+Message-ID: <e154b22c-1cb4-dbb1-40e0-91fad130363d@collabora.com>
+Date:   Mon, 16 Jan 2023 09:23:09 +0100
 MIME-Version: 1.0
-References: <CA+DpmqZ1fh=MqEn-G6wb_6yELuPWVTROG2ReUDPJGAAOn7FN9Q@mail.gmail.com>
- <CANiDSCuoL4-L4zXPFRS88NpmYMdbbP2QNi90U9LkpS90_unb1w@mail.gmail.com>
- <Y689FvF1zULBkSHs@pendragon.ideasonboard.com> <CA+DpmqZ=v1TwfhnjpaT6ip9L4UnVuE-Cx2cJo0hDNybNhKwu4g@mail.gmail.com>
- <Y7LS4MMcSX/tO5EN@pendragon.ideasonboard.com> <CA+Dpmqax3M5=a=uPEorx=o2_kaKt_Aj7iXaXHreyjWFLscr+Ng@mail.gmail.com>
- <CA+DpmqYNK=zLPPRjsqWF-3TgdPHq97tFBGamizrdN1i3xHwAtQ@mail.gmail.com>
- <CA+DpmqaVAh8SHhML+4t_MuV4fmZ1HeCaZ9i9B58TRUqpJ2k9VQ@mail.gmail.com>
- <Y71KO4ZEwYVSYuvm@pendragon.ideasonboard.com> <CA+Dpmqba0Lo0wpEQYFbd9SUrBGspn44UDn_jqGyJTpf1oYhttg@mail.gmail.com>
- <Y8RmahoMiyoRVNkJ@pendragon.ideasonboard.com>
-In-Reply-To: <Y8RmahoMiyoRVNkJ@pendragon.ideasonboard.com>
-From:   Ricardo Ribalda <ribalda@chromium.org>
-Date:   Mon, 16 Jan 2023 09:11:54 +0100
-X-Gmail-Original-Message-ID: <CANiDSCsnqnfhG2We1d44ckM0PUioNskKC5YGTqw4podteLNWLg@mail.gmail.com>
-Message-ID: <CANiDSCsnqnfhG2We1d44ckM0PUioNskKC5YGTqw4podteLNWLg@mail.gmail.com>
-Subject: Re: ucv camera fix : tester offering :-)
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Giuliano Lotta <giuliano.lotta@gmail.com>,
-        linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH v2 04/12] staging: media: rkvdec: Block start streaming
+ until both queues run
+Content-Language: en-US
+To:     Sebastian Fricke <sebastian.fricke@collabora.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Alex Bee <knaerzche@gmail.com>,
+        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+        Collabora Kernel-domain <kernel@collabora.com>,
+        Robert Beckett <bob.beckett@collabora.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>
+References: <20230101-patch-series-v2-6-2-rc1-v2-0-fa1897efac14@collabora.com>
+ <20230101-patch-series-v2-6-2-rc1-v2-4-fa1897efac14@collabora.com>
+From:   Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+In-Reply-To: <20230101-patch-series-v2-6-2-rc1-v2-4-fa1897efac14@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-0.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_SORBS_WEB,
+        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent
+Hi Sebastian,
 
-On Sun, 15 Jan 2023 at 21:47, Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> Hi Giuliano,
->
-> (CC'ing linux-media and Ricardo)
->
-> On Tue, Jan 10, 2023 at 02:11:54PM +0100, Giuliano Lotta wrote:
-> > UPDATE:
-> > after resuming the nobebook, the system crashed with the following message:
-> >
-> > usb 3-6: Failed to query (SET_CUR) UVC control 4 on unit 1: -32 (exp. 4)
-> > uvcvideo 3-6:1.0: reset_resume error -5
-> >
-> > WHERE / HOW may I find other useful information to debug the problem ?
->
-> That doesn't seem like a crash, but it's not nice. Does the webcam stop
-> functioning after that ?
->
-> Ricardo, the device is a
->
-> Bus 003 Device 003: ID 0408:4035 Quanta Computer, Inc. ACER HD User Facing
-> Device Descriptor:
->   bLength                18
->   bDescriptorType         1
->   bcdUSB               2.01
->   bDeviceClass          239 Miscellaneous Device
->   bDeviceSubClass         2
->   bDeviceProtocol         1 Interface Association
->   bMaxPacketSize0        64
->   idVendor           0x0408 Quanta Computer, Inc.
->   idProduct          0x4035
->   bcdDevice            0.04
->   iManufacturer           1 Quanta
->   iProduct                2 ACER HD User Facing
->   iSerial                 3 01.00.00
->   bNumConfigurations      1
->
-> Does it ring a bell ?
+Ezequiel and Dan have had some comments, they need addressing.
 
-I could not find anything with 4035 on the ChromeOS componnet database.
+If, as a result, the logic of this patch remains in place then:
 
-Quanta uses different ISPs on their modules, so it is not
-straightforward to figure out the ISP vendor :(
+W dniu 12.01.2023 o 13:56, Sebastian Fricke pisze:
+> Ensure that both the CAPTURE and the OUTPUT queue are running (e.g. busy
+> -> have buffers allocated) before starting the actual streaming process.
+> 
+> Signed-off-by: Sebastian Fricke <sebastian.fricke@collabora.com>
+> ---
+>   drivers/staging/media/rkvdec/rkvdec.c | 7 +++++++
+>   1 file changed, 7 insertions(+)
+> 
+> diff --git a/drivers/staging/media/rkvdec/rkvdec.c b/drivers/staging/media/rkvdec/rkvdec.c
+> index c849f6c20279..e0e95d06e216 100644
+> --- a/drivers/staging/media/rkvdec/rkvdec.c
+> +++ b/drivers/staging/media/rkvdec/rkvdec.c
+> @@ -562,6 +562,13 @@ static int rkvdec_start_streaming(struct vb2_queue *q, unsigned int count)
+>   	if (V4L2_TYPE_IS_CAPTURE(q->type))
+>   		return 0;
+>   
+> +	/*
+> +	 * Make sure that both the output and the capture queue are running
+> +	 */
+> +	if (rkvdec_queue_busy(ctx, V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE) == 0 ||
+> +	    rkvdec_queue_busy(ctx, V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE) == 0)
 
+if you convert to a macro in PATCH 03/12 then the conditions can be rewritten as
 
+!rkvdec_queue_busy(.....)
 
+instead of comparing to 0. (actually, this can be done regardless, but makes 
+more sense if the result of rkvdec_queue_busy() is boolean which it is when
+it becomes a macro as suggested)
 
->
-> > Il giorno mar 10 gen 2023 alle ore 12:21 Laurent Pinchart ha scritto:
-> > > On Tue, Jan 10, 2023 at 07:57:21AM +0100, Giuliano Lotta wrote:
-> > > > Hi Laurent,
-> > > > I just realized that the VIDOE has NO AUDIO....
-> > > >
-> > > > Trying a webcam test site like : https://it.webcamtests.com/
-> > > > it says that the webcam does not have a microphone.
-> > > >
-> > > > Any idea on how to solve this problem ?
-> > >
-> > > Well, your webcam does not have a microphone :-) It's integrated in a
-> > > laptop, so audio is handled through your laptop audio device.
->
-> --
-> Regards,
->
-> Laurent Pinchart
+Then you can optionally follow De Morgan's law:
 
+if (!(rkvdec_queue_busy() && rkvdec_queue_busy()))
+	return -EAGAIN;
 
+and you get one negation less.
 
--- 
-Ricardo Ribalda
+Regards,
+
+Andrzej
+
+> +		return -EAGAIN;
+> +
+>   	desc = ctx->coded_fmt_desc;
+>   	if (WARN_ON(!desc))
+>   		return -EINVAL;
+> 
+
