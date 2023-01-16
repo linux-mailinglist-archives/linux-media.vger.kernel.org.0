@@ -2,42 +2,46 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B4F9866BC1B
-	for <lists+linux-media@lfdr.de>; Mon, 16 Jan 2023 11:45:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E8E1D66BC20
+	for <lists+linux-media@lfdr.de>; Mon, 16 Jan 2023 11:48:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230422AbjAPKpz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 16 Jan 2023 05:45:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54542 "EHLO
+        id S229616AbjAPKsi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 16 Jan 2023 05:48:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56710 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230423AbjAPKps (ORCPT
+        with ESMTP id S230045AbjAPKsb (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 16 Jan 2023 05:45:48 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B3E203C12
-        for <linux-media@vger.kernel.org>; Mon, 16 Jan 2023 02:45:45 -0800 (PST)
+        Mon, 16 Jan 2023 05:48:31 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03F5019686
+        for <linux-media@vger.kernel.org>; Mon, 16 Jan 2023 02:48:30 -0800 (PST)
 Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0C60A802;
-        Mon, 16 Jan 2023 11:45:43 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4E7E9802;
+        Mon, 16 Jan 2023 11:48:28 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1673865944;
-        bh=Szls3UUbDSfotpw/92Ne+Ump16nlNX7ABp8ARjdtJ8A=;
+        s=mail; t=1673866108;
+        bh=LsjXMHYzE5m4TXe3hmJ9X0BHpocVP17hILgAskronnA=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=MJclni33EuNa28jg1hbQxajDO6krARFzGsrYgQDQXiChCiauA7ws+TisSrB7nafnD
-         SFbVKCL7PGc6CT3dRQPxZ4Ye1Pvkw3zrkt02C4rxrE44v4OCNQ+Np+SS/frHFcSZIo
-         a++O/XxsMCjVwV5effNV/NH06yHjmmqJMVjm7CJ0=
-Date:   Mon, 16 Jan 2023 12:45:44 +0200
+        b=DqKebJlGPHPcbiRBicVv/Ej+q5kv2RgwFvGo3v5TmDJtzV2RshjzXp6upKX0ep4Gb
+         BvqFWiFx0jRdEP+hGcCwSEwljnignzzUH2veZhOhDjkkTRTnKVvDJdJ4tbYXU/4fFZ
+         /UYvuo1XPytZbt5HOxKPO/izXxUnZj7Rs2AaMVFs=
+Date:   Mon, 16 Jan 2023 12:48:28 +0200
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Marek Vasut <marex@denx.de>
-Cc:     linux-media@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        William Manley <will@williammanley.net>
-Subject: Re: [PATCH v2] media: uvcvideo: Add GUID for BGRA/X 8:8:8:8
-Message-ID: <Y8Uq2EtsYi9kmdqw@pendragon.ideasonboard.com>
-References: <20230116094032.4389-1-marex@denx.de>
+To:     Alexander Stein <alexander.stein@ew.tq-group.com>
+Cc:     linux-media@vger.kernel.org, Sakari Ailus <sakari.ailus@iki.fi>,
+        Manivannan Sadhasivam <mani@kernel.org>,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>
+Subject: Re: [PATCH v2 08/17] media: i2c: imx290: Factor out DT parsing to
+ separate function
+Message-ID: <Y8UrfCfELkwfJX/4@pendragon.ideasonboard.com>
+References: <20230114171727.13830-1-laurent.pinchart@ideasonboard.com>
+ <20230114171802.13878-1-laurent.pinchart@ideasonboard.com>
+ <20230114171802.13878-8-laurent.pinchart@ideasonboard.com>
+ <3218497.44csPzL39Z@steina-w>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230116094032.4389-1-marex@denx.de>
+In-Reply-To: <3218497.44csPzL39Z@steina-w>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
         autolearn=ham autolearn_force=no version=3.4.6
@@ -47,75 +51,213 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Marek,
+Hi Alexander,
 
-Thank you for the patch.
+On Mon, Jan 16, 2023 at 11:33:47AM +0100, Alexander Stein wrote:
+> Am Samstag, 14. Januar 2023, 18:17:53 CET schrieb Laurent Pinchart:
+> > Make the probe() function more readable by factoring out the DT parsing
+> > code to a separate function. No functional change intended.
+> > 
+> > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > ---
+> >  drivers/media/i2c/imx290.c | 95 +++++++++++++++++++++-----------------
+> >  1 file changed, 52 insertions(+), 43 deletions(-)
+> > 
+> > diff --git a/drivers/media/i2c/imx290.c b/drivers/media/i2c/imx290.c
+> > index 0dc536893ebf..18c1e5c429a2 100644
+> > --- a/drivers/media/i2c/imx290.c
+> > +++ b/drivers/media/i2c/imx290.c
+> > @@ -1144,111 +1144,124 @@ static s64 imx290_check_link_freqs(const struct
+> > imx290 *imx290, return 0;
+> >  }
+> > 
+> > -static int imx290_probe(struct i2c_client *client)
+> > +static int imx290_parse_dt(struct imx290 *imx290)
+> >  {
+> > -	struct device *dev = &client->dev;
+> > -	struct fwnode_handle *endpoint;
+> >  	/* Only CSI2 is supported for now: */
+> >  	struct v4l2_fwnode_endpoint ep = {
+> >  		.bus_type = V4L2_MBUS_CSI2_DPHY
+> >  	};
+> > -	struct imx290 *imx290;
+> > -	u32 xclk_freq;
+> > +	struct fwnode_handle *endpoint;
+> > +	int ret;
+> >  	s64 fq;
+> > -	int ret;
+> > 
+> > -	imx290 = devm_kzalloc(dev, sizeof(*imx290), GFP_KERNEL);
+> > -	if (!imx290)
+> > -		return -ENOMEM;
+> > -
+> > -	imx290->dev = dev;
+> > -	imx290->regmap = devm_regmap_init_i2c(client, &imx290_regmap_config);
+> > -	if (IS_ERR(imx290->regmap)) {
+> > -		dev_err(dev, "Unable to initialize I2C\n");
+> > -		return -ENODEV;
+> > -	}
+> > -
+> > -	endpoint = fwnode_graph_get_next_endpoint(dev_fwnode(dev), NULL);
+> > +	endpoint = fwnode_graph_get_next_endpoint(dev_fwnode(imx290->dev), NULL);
+> >  	if (!endpoint) {
+> > -		dev_err(dev, "Endpoint node not found\n");
+> > +		dev_err(imx290->dev, "Endpoint node not found\n");
+> >  		return -EINVAL;
+> >  	}
+> > 
+> >  	ret = v4l2_fwnode_endpoint_alloc_parse(endpoint, &ep);
+> >  	fwnode_handle_put(endpoint);
+> >  	if (ret == -ENXIO) {
+> > -		dev_err(dev, "Unsupported bus type, should be CSI2\n");
+> > -		goto err_endpoint;
+> > +		dev_err(imx290->dev, "Unsupported bus type, should be CSI2\n");
+> > +		goto done;
+> >  	} else if (ret) {
+> > -		dev_err(dev, "Parsing endpoint node failed\n");
+> > -		goto err_endpoint;
+> > +		dev_err(imx290->dev, "Parsing endpoint node failed\n");
+> > +		goto done;
+> >  	}
+> > 
+> >  	/* Get number of data lanes */
+> >  	imx290->nlanes = ep.bus.mipi_csi2.num_data_lanes;
+> >  	if (imx290->nlanes != 2 && imx290->nlanes != 4) {
+> > -		dev_err(dev, "Invalid data lanes: %d\n", imx290->nlanes);
+> > +		dev_err(imx290->dev, "Invalid data lanes: %d\n", imx290-
+> >nlanes);
+> >  		ret = -EINVAL;
+> > -		goto err_endpoint;
+> > +		goto done;
+> >  	}
+> > 
+> > -	dev_dbg(dev, "Using %u data lanes\n", imx290->nlanes);
+> > +	dev_dbg(imx290->dev, "Using %u data lanes\n", imx290->nlanes);
+> > 
+> >  	if (!ep.nr_of_link_frequencies) {
+> > -		dev_err(dev, "link-frequency property not found in DT\n");
+> > +		dev_err(imx290->dev, "link-frequency property not found in DT\n");
+> >  		ret = -EINVAL;
+> > -		goto err_endpoint;
+> > +		goto done;
+> >  	}
+> > 
+> >  	/* Check that link frequences for all the modes are in device tree */
+> >  	fq = imx290_check_link_freqs(imx290, &ep);
+> >  	if (fq) {
+> > -		dev_err(dev, "Link frequency of %lld is not supported\n", fq);
+> > +		dev_err(imx290->dev, "Link frequency of %lld is not supported\n",
+> > +			fq);
+> >  		ret = -EINVAL;
+> > -		goto err_endpoint;
+> > +		goto done;
+> >  	}
+> > 
+> > +	ret = 0;
+> > +
+> > +done:
+> > +	v4l2_fwnode_endpoint_free(&ep);
+> > +	return ret;
+> > +}
+> > +
+> > +static int imx290_probe(struct i2c_client *client)
+> > +{
+> > +	struct device *dev = &client->dev;
+> > +	struct imx290 *imx290;
+> > +	u32 xclk_freq;
+> > +	int ret;
+> > +
+> > +	imx290 = devm_kzalloc(dev, sizeof(*imx290), GFP_KERNEL);
+> > +	if (!imx290)
+> > +		return -ENOMEM;
+> > +
+> > +	imx290->dev = dev;
+> > +	imx290->regmap = devm_regmap_init_i2c(client, &imx290_regmap_config);
+> > +	if (IS_ERR(imx290->regmap)) {
+> > +		dev_err(dev, "Unable to initialize I2C\n");
+> > +		return -ENODEV;
+> > +	}
+> > +
+> > +	ret = imx290_parse_dt(imx290);
+> > +	if (ret)
+> > +		return ret;
+> > +
+> >  	/* get system clock (xclk) */
+> >  	imx290->xclk = devm_clk_get(dev, "xclk");
+> >  	if (IS_ERR(imx290->xclk)) {
+> >  		dev_err(dev, "Could not get xclk");
+> > -		ret = PTR_ERR(imx290->xclk);
+> > -		goto err_endpoint;
+> > +		return PTR_ERR(imx290->xclk);
+> 
+> Please use dev_err_probe() here.
 
-On Mon, Jan 16, 2023 at 10:40:32AM +0100, Marek Vasut wrote:
-> The Cypress EZUSB FX3 UVC example can be configured to report pixel
-> format "e436eb7e-524f-11ce-9f53-0020af0ba770". This is its GUID for
-> BGRA/X 8:8:8:8.
-> 
-> The UVC 1.5 spec [1] only defines GUIDs for YUY2, NV12, M420 and I420.
-> This seems to be an extension documented in the Microsoft Windows Media
-> Format SDK[2]. This Media Format SDK defines this GUID as corresponding
-> to `MEDIASUBTYPE_RGB32`, which is confirmed by [4] as `MEDIASUBTYPE_ARGB32`
-> has different GUID.
-> 
-> Note that in my case, the FX3 UVC can output either channel order,
-> BGR or RGB or any other mix for that matter. Since Linux commit
-> 1b8dc32286a1a ("[media] uvcvideo: Add GUID for BGR 8:8:8")
-> defined a GUID for `MEDIASUBTYPE_RGB24` channel order as BGR, keep
-> this change consistent and define `MEDIASUBTYPE_RGB32` as BGR as well.
-> Document [3] also indicates the channel order is BGR.
-> 
-> [1] https://www.usb.org/document-library/video-class-v15-document-set
-> [2] https://learn.microsoft.com/en-us/windows/win32/wmformat/media-type-identifiers
-> [3] https://learn.microsoft.com/en-us/windows/win32/directshow/uncompressed-rgb-video-subtypes
-> [4] https://gix.github.io/media-types/
-> 
-> Signed-off-by: Marek Vasut <marex@denx.de>
+It's done in the next patch in this series, which converts the driver to
+dev_err_probe(). This patch only factors out code.
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-> ---
-> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-> Cc: William Manley <will@williammanley.net>
-> ---
-> V2: - Reference document [3] confirming BGR channel order
->     - Reference document [4] describing MEDIASUBTYPE_ARGB32 with different GUID
->     - Use V4L2_PIX_FMT_XBGR32 instead of V4L2_PIX_FMT_BGR32 which is deprecated
-> ---
->  include/media/v4l2-uvc.h | 8 ++++++++
->  1 file changed, 8 insertions(+)
+> >  	}
+> > 
+> >  	ret = fwnode_property_read_u32(dev_fwnode(dev), "clock-frequency",
+> >  				       &xclk_freq);
+> >  	if (ret) {
+> >  		dev_err(dev, "Could not get xclk frequency\n");
+> > -		goto err_endpoint;
+> > +		return ret;
+> >  	}
+> > 
+> >  	/* external clock must be 37.125 MHz */
+> >  	if (xclk_freq != 37125000) {
+> >  		dev_err(dev, "External clock frequency %u is not supported\n",
+> >  			xclk_freq);
+> > -		ret = -EINVAL;
+> > -		goto err_endpoint;
+> > +		return -EINVAL;
+> >  	}
+> > 
+> >  	ret = clk_set_rate(imx290->xclk, xclk_freq);
+> >  	if (ret) {
+> >  		dev_err(dev, "Could not set xclk frequency\n");
+> > -		goto err_endpoint;
+> > +		return ret;
+> >  	}
+> > 
+> >  	ret = imx290_get_regulators(dev, imx290);
+> >  	if (ret < 0) {
+> >  		dev_err(dev, "Cannot get regulators\n");
+> > -		goto err_endpoint;
+> > +		return ret;
 > 
-> diff --git a/include/media/v4l2-uvc.h b/include/media/v4l2-uvc.h
-> index f83e31661333b..b010a36fc1d95 100644
-> --- a/include/media/v4l2-uvc.h
-> +++ b/include/media/v4l2-uvc.h
-> @@ -99,6 +99,9 @@
->  #define UVC_GUID_FORMAT_BGR3 \
->  	{ 0x7d, 0xeb, 0x36, 0xe4, 0x4f, 0x52, 0xce, 0x11, \
->  	 0x9f, 0x53, 0x00, 0x20, 0xaf, 0x0b, 0xa7, 0x70}
-> +#define UVC_GUID_FORMAT_BGR4 \
-> +	{ 0x7e, 0xeb, 0x36, 0xe4, 0x4f, 0x52, 0xce, 0x11, \
-> +	 0x9f, 0x53, 0x00, 0x20, 0xaf, 0x0b, 0xa7, 0x70}
->  #define UVC_GUID_FORMAT_M420 \
->  	{ 'M',  '4',  '2',  '0', 0x00, 0x00, 0x10, 0x00, \
->  	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
-> @@ -266,6 +269,11 @@ static struct uvc_format_desc uvc_fmts[] = {
->  		.guid		= UVC_GUID_FORMAT_BGR3,
->  		.fcc		= V4L2_PIX_FMT_BGR24,
->  	},
-> +	{
-> +		.name		= "BGRA/X 8:8:8:8 (BGR4)",
-> +		.guid		= UVC_GUID_FORMAT_BGR4,
-> +		.fcc		= V4L2_PIX_FMT_XBGR32,
-> +	},
->  	{
->  		.name		= "H.264",
->  		.guid		= UVC_GUID_FORMAT_H264,
+> Please use dev_err_probe() here.
+> 
+> >  	}
+> > 
+> >  	imx290->rst_gpio = devm_gpiod_get_optional(dev, "reset",
+> >  						   GPIOD_OUT_HIGH);
+> >  	if (IS_ERR(imx290->rst_gpio)) {
+> >  		dev_err(dev, "Cannot get reset gpio\n");
+> > -		ret = PTR_ERR(imx290->rst_gpio);
+> > -		goto err_endpoint;
+> > +		return PTR_ERR(imx290->rst_gpio);
+> >  	}
+> > 
+> >  	mutex_init(&imx290->lock);
+> > @@ -1274,16 +1287,12 @@ static int imx290_probe(struct i2c_client *client)
+> >  	pm_runtime_enable(dev);
+> >  	pm_runtime_idle(dev);
+> > 
+> > -	v4l2_fwnode_endpoint_free(&ep);
+> > -
+> >  	return 0;
+> > 
+> >  err_subdev:
+> >  	imx290_subdev_cleanup(imx290);
+> >  err_mutex:
+> >  	mutex_destroy(&imx290->lock);
+> > -err_endpoint:
+> > -	v4l2_fwnode_endpoint_free(&ep);
+> > 
+> >  	return ret;
+> >  }
 
 -- 
 Regards,
