@@ -2,45 +2,45 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9DB1866CB5F
-	for <lists+linux-media@lfdr.de>; Mon, 16 Jan 2023 18:14:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BFD9066CD78
+	for <lists+linux-media@lfdr.de>; Mon, 16 Jan 2023 18:36:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234334AbjAPROf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 16 Jan 2023 12:14:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39028 "EHLO
+        id S234973AbjAPRge (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 16 Jan 2023 12:36:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56114 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234371AbjAPRNO (ORCPT
+        with ESMTP id S234970AbjAPRgI (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 16 Jan 2023 12:13:14 -0500
+        Mon, 16 Jan 2023 12:36:08 -0500
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB3FA4B763;
-        Mon, 16 Jan 2023 08:53:55 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 32DAE3BDB9;
+        Mon, 16 Jan 2023 09:12:23 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 7DB8B61085;
-        Mon, 16 Jan 2023 16:53:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9381AC433EF;
-        Mon, 16 Jan 2023 16:53:54 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 72E5361086;
+        Mon, 16 Jan 2023 17:12:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8847CC433EF;
+        Mon, 16 Jan 2023 17:12:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1673888034;
-        bh=HTV6jjPSwVPA1txeBglso98Z39K0t4Xs2ZOnCMiE7bM=;
+        s=korg; t=1673889142;
+        bh=lrN+0GPbj8ygztJuBup/ObdsdtF1D8BgqFpPmEfnrJY=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=aZJNv4sLtV0B1IUAnRcGO33YKH2J5bx7XxB7RjsEcKGft+xjSy8X9SFtxq/yMylxu
-         Z2ThjrhPUerMif4vv85pMnvcfPPyT2aQsphUuroml9BG7bJFSYowFQFy56EF30HpA2
-         x460EQOg435sDaD1/Y5VIIWV0bNfu9VLrX4iCevM=
+        b=TzCh07aFKSenoVOBRDvPsizB5XuH1VD+xhzSaQGdJ4JR0PMpgC1YBtawhV4Wy1o9h
+         sosFSCzuKnsR9GtsAg8stCIShj+2cceo73Cl0PD5Zr9eF3sJNKqovBxGrra3X25B3y
+         KFFs+vDUBvErSummQbdd/7q9h+EM808BTL675zA4=
 From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To:     stable@vger.kernel.org
 Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         patches@lists.linux.dev,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-media@vger.kernel.org, "Jason A. Donenfeld" <Jason@zx2c4.com>
-Subject: [PATCH 4.19 376/521] media: stv0288: use explicitly signed char
-Date:   Mon, 16 Jan 2023 16:50:38 +0100
-Message-Id: <20230116154903.926770708@linuxfoundation.org>
+Subject: [PATCH 4.14 273/338] media: stv0288: use explicitly signed char
+Date:   Mon, 16 Jan 2023 16:52:26 +0100
+Message-Id: <20230116154832.992710161@linuxfoundation.org>
 X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20230116154847.246743274@linuxfoundation.org>
-References: <20230116154847.246743274@linuxfoundation.org>
+In-Reply-To: <20230116154820.689115727@linuxfoundation.org>
+References: <20230116154820.689115727@linuxfoundation.org>
 User-Agent: quilt/0.67
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -77,7 +77,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 --- a/drivers/media/dvb-frontends/stv0288.c
 +++ b/drivers/media/dvb-frontends/stv0288.c
-@@ -452,9 +452,8 @@ static int stv0288_set_frontend(struct d
+@@ -458,9 +458,8 @@ static int stv0288_set_frontend(struct d
  	struct stv0288_state *state = fe->demodulator_priv;
  	struct dtv_frontend_properties *c = &fe->dtv_property_cache;
  
