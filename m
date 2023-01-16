@@ -2,51 +2,66 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BFD9066CD78
-	for <lists+linux-media@lfdr.de>; Mon, 16 Jan 2023 18:36:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C478066CCA9
+	for <lists+linux-media@lfdr.de>; Mon, 16 Jan 2023 18:28:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234973AbjAPRge (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 16 Jan 2023 12:36:34 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56114 "EHLO
+        id S234715AbjAPR2p (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 16 Jan 2023 12:28:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52374 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234970AbjAPRgI (ORCPT
+        with ESMTP id S234776AbjAPR2G (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 16 Jan 2023 12:36:08 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 32DAE3BDB9;
-        Mon, 16 Jan 2023 09:12:23 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 72E5361086;
-        Mon, 16 Jan 2023 17:12:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8847CC433EF;
-        Mon, 16 Jan 2023 17:12:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1673889142;
-        bh=lrN+0GPbj8ygztJuBup/ObdsdtF1D8BgqFpPmEfnrJY=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=TzCh07aFKSenoVOBRDvPsizB5XuH1VD+xhzSaQGdJ4JR0PMpgC1YBtawhV4Wy1o9h
-         sosFSCzuKnsR9GtsAg8stCIShj+2cceo73Cl0PD5Zr9eF3sJNKqovBxGrra3X25B3y
-         KFFs+vDUBvErSummQbdd/7q9h+EM808BTL675zA4=
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     stable@vger.kernel.org
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        patches@lists.linux.dev,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, "Jason A. Donenfeld" <Jason@zx2c4.com>
-Subject: [PATCH 4.14 273/338] media: stv0288: use explicitly signed char
-Date:   Mon, 16 Jan 2023 16:52:26 +0100
-Message-Id: <20230116154832.992710161@linuxfoundation.org>
-X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20230116154820.689115727@linuxfoundation.org>
-References: <20230116154820.689115727@linuxfoundation.org>
-User-Agent: quilt/0.67
+        Mon, 16 Jan 2023 12:28:06 -0500
+Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com [IPv6:2607:f8b0:4864:20::1029])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE1EA5AB68
+        for <linux-media@vger.kernel.org>; Mon, 16 Jan 2023 09:05:06 -0800 (PST)
+Received: by mail-pj1-x1029.google.com with SMTP id q23-20020a17090a065700b002290913a521so12229319pje.5
+        for <linux-media@vger.kernel.org>; Mon, 16 Jan 2023 09:05:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=raspberrypi.com; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=KoU4MiY5NAW5uUyzHbdGl94JYqDc+w3m9+CtivQxG8E=;
+        b=ZedqWuWVV+ZWy0eIdCTpo6kRVSJn7Gi7swnMqZ2txaQmlJLeddXvDV0Yb+CvA0v5cJ
+         QWHZaIkngh2SVys7aWQqmy/ZSmiWhacVLRnd8UQL+Fnvhuytnx9/Hn/pcS7YPqmjrmCD
+         hGKOoVMWw1G6oZ3mZL5XgKkLEM1+TtB9l8snXI25leaD53NZLoALO237PvRZ41C1hxjj
+         4lggOYE8U3GQKLmgxeCw9Ze3KxBdNxir35iXlYF97yGPimCluPg0RajkQyLKkUozz8fQ
+         56KGO8SbiOz7sUF+TXL5XQx7Tp4VqG79NiJonU0Gjsea/1ElVjzO4zPV0p0gQLpZv3ln
+         lFSg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=KoU4MiY5NAW5uUyzHbdGl94JYqDc+w3m9+CtivQxG8E=;
+        b=6V8G7yNOwL28NpXMSjQWvwgtNsy2yZn0uSQnmKSn3Q2CVA1yOmnfyPHRTps/tDurYY
+         N63xGFYixBcwisN/8sA4tS3n30xRqfX7NltscH+YNt7Iq1nUunwVsTILUQWT9z7Y06cr
+         b0mPZp3MhbfeDxmNFXKQpyVv1i1vN0bB5VbMbAcP17MtpAKz/uUiX9LaVdWNQAjXlC8J
+         aaB5eFbZ9L/Uf0AL9S0AOr9eqqTthbguY0sYXOpejc4Hx2uwADUrnvDENlfh2MgMXABS
+         eMnpvBhnxRQ/5mJ9L2HKPOOJlRXrQed+GseBpIyYfCp8+jgqwgFuYz8OT1R+tllhSw9W
+         d9DQ==
+X-Gm-Message-State: AFqh2krw1D/4eYLwkueKZh0QbQxJKPajJ3qTde2qSVa7gUeUTiLBHmU+
+        QtgO+rweXsPTYUZ7ZylWtZzxg49kswyknaq2KUMqAw==
+X-Google-Smtp-Source: AMrXdXtPJS7l1UHI+JJ3J1+9pN5L61VM7QmeLZpLuTYkYnjopuFka8Ck4uR2jv9I2gg33e+Ay8AOHNBIe5SDOWSKnfI=
+X-Received: by 2002:a17:90b:1109:b0:226:f85c:e099 with SMTP id
+ gi9-20020a17090b110900b00226f85ce099mr3414283pjb.198.1673888706287; Mon, 16
+ Jan 2023 09:05:06 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+References: <20221220120754.2040428-1-aford173@gmail.com> <20221220120754.2040428-2-aford173@gmail.com>
+ <CAHCN7xLsm32SufnHb3pozmjKbT6KTETTRR4msdiYBxDn_LKHRw@mail.gmail.com>
+ <CAPY8ntAv7WC5mVz6F2Jd5iMDbYdP7KN=yFXFE+AtDrUc93qLwQ@mail.gmail.com> <CAHCN7xLrVfN+CbGhUEB-iy54hu2tSHk7Ge0eEb-h41r44R3DEg@mail.gmail.com>
+In-Reply-To: <CAHCN7xLrVfN+CbGhUEB-iy54hu2tSHk7Ge0eEb-h41r44R3DEg@mail.gmail.com>
+From:   Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date:   Mon, 16 Jan 2023 17:04:21 +0000
+Message-ID: <CAPY8ntBZ9rw=Uki13rEDuCu9T9O5W5z-ZCw7bHRC-PudjzRUpA@mail.gmail.com>
+Subject: Re: [PATCH V4 2/2] media: i2c: imx219: Support four-lane operation
+To:     Adam Ford <aford173@gmail.com>
+Cc:     linux-media@vger.kernel.org, aford@beaconembedded.com,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -54,40 +69,207 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Jason A. Donenfeld <Jason@zx2c4.com>
+On Mon, 16 Jan 2023 at 16:36, Adam Ford <aford173@gmail.com> wrote:
+>
+> On Mon, Jan 16, 2023 at 8:42 AM Dave Stevenson
+> <dave.stevenson@raspberrypi.com> wrote:
+> >
+> > Hi Adam
+> >
+> > Sorry, for the delay.
+> >
+> > On Fri, 13 Jan 2023 at 18:41, Adam Ford <aford173@gmail.com> wrote:
+> > >
+> > > On Tue, Dec 20, 2022 at 6:08 AM Adam Ford <aford173@gmail.com> wrote:
+> > > >
+> > > > The imx219 camera is capable of either two-lane or four-lane
+> > > > operation.  When operating in four-lane, both the pixel rate and
+> > > > link frequency change. Regardless of the mode, however, both
+> > > > frequencies remain fixed.
+> > > >
+> > > > Helper functions are needed to read and set pixel and link frequencies
+> > > > which also reduces the number of fixed registers in the table of modes.
+> > > >
+> > > > Signed-off-by: Adam Ford <aford173@gmail.com>
+> >
+> > I can't test on 4 lanes, but 2 lane modes still work, and the code
+> > looks reasonable for 4 lanes.
+>
+> Thanks!  For what it's worth, I tested this on an Renesas RZ/G2M SoC
+> which has both a 2-lane and 4-lane interface, and I didn't see any
+> difference in performance or image quality between the 2-lane and
+> 4-lane modes.
 
-commit 7392134428c92a4cb541bd5c8f4f5c8d2e88364d upstream.
+It's more that I don't have an IMX219 module that breaks out all 4 lanes.
+It still works correctly on 2 lanes, so as long as it works for you on
+4 lanes, then I'm happy.
 
-With char becoming unsigned by default, and with `char` alone being
-ambiguous and based on architecture, signed chars need to be marked
-explicitly as such. Use `s8` and `u8` types here, since that's what
-surrounding code does. This fixes:
+  Dave
 
-drivers/media/dvb-frontends/stv0288.c:471 stv0288_set_frontend() warn: assigning (-9) to unsigned variable 'tm'
-drivers/media/dvb-frontends/stv0288.c:471 stv0288_set_frontend() warn: we never enter this loop
-
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-media@vger.kernel.org
-Cc: stable@vger.kernel.org
-Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
----
- drivers/media/dvb-frontends/stv0288.c |    5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
-
---- a/drivers/media/dvb-frontends/stv0288.c
-+++ b/drivers/media/dvb-frontends/stv0288.c
-@@ -458,9 +458,8 @@ static int stv0288_set_frontend(struct d
- 	struct stv0288_state *state = fe->demodulator_priv;
- 	struct dtv_frontend_properties *c = &fe->dtv_property_cache;
- 
--	char tm;
--	unsigned char tda[3];
--	u8 reg, time_out = 0;
-+	u8 tda[3], reg, time_out = 0;
-+	s8 tm;
- 
- 	dprintk("%s : FE_SET_FRONTEND\n", __func__);
- 
-
-
+> adam
+> >
+> > Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> >
+> >
+> > > Gentle nudge on this.
+> > >
+> > > > ---
+> > > > V4:  Restore check for nr_of_link_frequencies and update commit message
+> > > > V3:  Keep the helper function doing the link and lane parsing to
+> > > >      keep th probe function small.
+> > > >
+> > > > V2:  Replace if-else statements with ternary operator
+> > > >      Fix 4-lane Link Rate.
+> > > >      Fix checking the link rate so only the link rate for
+> > > >      the given number of lanes is permitted.
+> > > >
+> > > > diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
+> > > > index 7f44d62047b6..b5fa4986470a 100644
+> > > > --- a/drivers/media/i2c/imx219.c
+> > > > +++ b/drivers/media/i2c/imx219.c
+> > > > @@ -42,10 +42,16 @@
+> > > >  /* External clock frequency is 24.0M */
+> > > >  #define IMX219_XCLK_FREQ               24000000
+> > > >
+> > > > -/* Pixel rate is fixed at 182.4M for all the modes */
+> > > > +/* Pixel rate is fixed for all the modes */
+> > > >  #define IMX219_PIXEL_RATE              182400000
+> > > > +#define IMX219_PIXEL_RATE_4LANE                280800000
+> > > >
+> > > >  #define IMX219_DEFAULT_LINK_FREQ       456000000
+> > > > +#define IMX219_DEFAULT_LINK_FREQ_4LANE 363000000
+> > > > +
+> > > > +#define IMX219_REG_CSI_LANE_MODE       0x0114
+> > > > +#define IMX219_CSI_2_LANE_MODE         0x01
+> > > > +#define IMX219_CSI_4_LANE_MODE         0x03
+> > > >
+> > > >  /* V_TIMING internal */
+> > > >  #define IMX219_REG_VTS                 0x0160
+> > > > @@ -299,6 +305,10 @@ static const s64 imx219_link_freq_menu[] = {
+> > > >         IMX219_DEFAULT_LINK_FREQ,
+> > > >  };
+> > > >
+> > > > +static const s64 imx219_link_freq_4lane_menu[] = {
+> > > > +       IMX219_DEFAULT_LINK_FREQ_4LANE,
+> > > > +};
+> > > > +
+> > > >  static const char * const imx219_test_pattern_menu[] = {
+> > > >         "Disabled",
+> > > >         "Color Bars",
+> > > > @@ -474,6 +484,9 @@ struct imx219 {
+> > > >
+> > > >         /* Streaming on/off */
+> > > >         bool streaming;
+> > > > +
+> > > > +       /* Two or Four lanes */
+> > > > +       u8 lanes;
+> > > >  };
+> > > >
+> > > >  static inline struct imx219 *to_imx219(struct v4l2_subdev *_sd)
+> > > > @@ -936,6 +949,13 @@ static int imx219_get_selection(struct v4l2_subdev *sd,
+> > > >         return -EINVAL;
+> > > >  }
+> > > >
+> > > > +static int imx219_configure_lanes(struct imx219 *imx219)
+> > > > +{
+> > > > +       return imx219_write_reg(imx219, IMX219_REG_CSI_LANE_MODE,
+> > > > +                               IMX219_REG_VALUE_08BIT, (imx219->lanes == 2) ?
+> > > > +                               IMX219_CSI_2_LANE_MODE : IMX219_CSI_4_LANE_MODE);
+> > > > +};
+> > > > +
+> > > >  static int imx219_start_streaming(struct imx219 *imx219)
+> > > >  {
+> > > >         struct i2c_client *client = v4l2_get_subdevdata(&imx219->sd);
+> > > > @@ -953,6 +973,13 @@ static int imx219_start_streaming(struct imx219 *imx219)
+> > > >                 goto err_rpm_put;
+> > > >         }
+> > > >
+> > > > +       /* Configure two or four Lane mode */
+> > > > +       ret = imx219_configure_lanes(imx219);
+> > > > +       if (ret) {
+> > > > +               dev_err(&client->dev, "%s failed to configure lanes\n", __func__);
+> > > > +               goto err_rpm_put;
+> > > > +       }
+> > > > +
+> > > >         /* Apply default values of current mode */
+> > > >         reg_list = &imx219->mode->reg_list;
+> > > >         ret = imx219_write_regs(imx219, reg_list->regs, reg_list->num_of_regs);
+> > > > @@ -1184,6 +1211,11 @@ static const struct v4l2_subdev_internal_ops imx219_internal_ops = {
+> > > >         .open = imx219_open,
+> > > >  };
+> > > >
+> > > > +static unsigned long imx219_get_pixel_rate(struct imx219 *imx219)
+> > > > +{
+> > > > +       return (imx219->lanes == 2) ? IMX219_PIXEL_RATE : IMX219_PIXEL_RATE_4LANE;
+> > > > +}
+> > > > +
+> > > >  /* Initialize control handlers */
+> > > >  static int imx219_init_controls(struct imx219 *imx219)
+> > > >  {
+> > > > @@ -1205,15 +1237,16 @@ static int imx219_init_controls(struct imx219 *imx219)
+> > > >         /* By default, PIXEL_RATE is read only */
+> > > >         imx219->pixel_rate = v4l2_ctrl_new_std(ctrl_hdlr, &imx219_ctrl_ops,
+> > > >                                                V4L2_CID_PIXEL_RATE,
+> > > > -                                              IMX219_PIXEL_RATE,
+> > > > -                                              IMX219_PIXEL_RATE, 1,
+> > > > -                                              IMX219_PIXEL_RATE);
+> > > > +                                              imx219_get_pixel_rate(imx219),
+> > > > +                                              imx219_get_pixel_rate(imx219), 1,
+> > > > +                                              imx219_get_pixel_rate(imx219));
+> > > >
+> > > >         imx219->link_freq =
+> > > >                 v4l2_ctrl_new_int_menu(ctrl_hdlr, &imx219_ctrl_ops,
+> > > >                                        V4L2_CID_LINK_FREQ,
+> > > >                                        ARRAY_SIZE(imx219_link_freq_menu) - 1, 0,
+> > > > -                                      imx219_link_freq_menu);
+> > > > +                                      (imx219->lanes == 2) ? imx219_link_freq_menu :
+> > > > +                                      imx219_link_freq_4lane_menu);
+> > > >         if (imx219->link_freq)
+> > > >                 imx219->link_freq->flags |= V4L2_CTRL_FLAG_READ_ONLY;
+> > > >
+> > > > @@ -1308,7 +1341,7 @@ static void imx219_free_controls(struct imx219 *imx219)
+> > > >         mutex_destroy(&imx219->mutex);
+> > > >  }
+> > > >
+> > > > -static int imx219_check_hwcfg(struct device *dev)
+> > > > +static int imx219_check_hwcfg(struct device *dev, struct imx219 *imx219)
+> > > >  {
+> > > >         struct fwnode_handle *endpoint;
+> > > >         struct v4l2_fwnode_endpoint ep_cfg = {
+> > > > @@ -1328,10 +1361,12 @@ static int imx219_check_hwcfg(struct device *dev)
+> > > >         }
+> > > >
+> > > >         /* Check the number of MIPI CSI2 data lanes */
+> > > > -       if (ep_cfg.bus.mipi_csi2.num_data_lanes != 2) {
+> > > > -               dev_err(dev, "only 2 data lanes are currently supported\n");
+> > > > +       if (ep_cfg.bus.mipi_csi2.num_data_lanes != 2 &&
+> > > > +           ep_cfg.bus.mipi_csi2.num_data_lanes != 4) {
+> > > > +               dev_err(dev, "only 2 or 4 data lanes are currently supported\n");
+> > > >                 goto error_out;
+> > > >         }
+> > > > +       imx219->lanes = ep_cfg.bus.mipi_csi2.num_data_lanes;
+> > > >
+> > > >         /* Check the link frequency set in device tree */
+> > > >         if (!ep_cfg.nr_of_link_frequencies) {
+> > > > @@ -1340,7 +1375,8 @@ static int imx219_check_hwcfg(struct device *dev)
+> > > >         }
+> > > >
+> > > >         if (ep_cfg.nr_of_link_frequencies != 1 ||
+> > > > -           ep_cfg.link_frequencies[0] != IMX219_DEFAULT_LINK_FREQ) {
+> > > > +          (ep_cfg.link_frequencies[0] != ((imx219->lanes == 2) ?
+> > > > +           IMX219_DEFAULT_LINK_FREQ : IMX219_DEFAULT_LINK_FREQ_4LANE))) {
+> > > >                 dev_err(dev, "Link frequency not supported: %lld\n",
+> > > >                         ep_cfg.link_frequencies[0]);
+> > > >                 goto error_out;
+> > > > @@ -1368,7 +1404,7 @@ static int imx219_probe(struct i2c_client *client)
+> > > >         v4l2_i2c_subdev_init(&imx219->sd, client, &imx219_subdev_ops);
+> > > >
+> > > >         /* Check the hardware configuration in device tree */
+> > > > -       if (imx219_check_hwcfg(dev))
+> > > > +       if (imx219_check_hwcfg(dev, imx219))
+> > > >                 return -EINVAL;
+> > > >
+> > > >         /* Get system clock (xclk) */
+> > > > --
+> > > > 2.34.1
+> > > >
