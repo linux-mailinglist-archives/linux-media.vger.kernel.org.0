@@ -2,77 +2,94 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E3BB966D0B9
-	for <lists+linux-media@lfdr.de>; Mon, 16 Jan 2023 22:10:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6040866D1A2
+	for <lists+linux-media@lfdr.de>; Mon, 16 Jan 2023 23:16:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233924AbjAPVKD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 16 Jan 2023 16:10:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56362 "EHLO
+        id S235198AbjAPWQS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 16 Jan 2023 17:16:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52438 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233847AbjAPVJ7 (ORCPT
+        with ESMTP id S235157AbjAPWP6 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 16 Jan 2023 16:09:59 -0500
+        Mon, 16 Jan 2023 17:15:58 -0500
 Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [IPv6:2a0b:5c81:1c1::37])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D1161CAE3
-        for <linux-media@vger.kernel.org>; Mon, 16 Jan 2023 13:09:59 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6D7C6279A9;
+        Mon, 16 Jan 2023 14:15:47 -0800 (PST)
+Received: from meesny.iki.fi (meesny.iki.fi [195.140.195.201])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        by lahtoruutu.iki.fi (Postfix) with ESMTPS id 8D61D1B00229;
+        Tue, 17 Jan 2023 00:15:45 +0200 (EET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
+        t=1673907345;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=Spx/m+y6IQTXG2/ImI2Ltvhjm/XLr6qXWNR6waNDMSU=;
+        b=FJZFBTcBJuV4qVjDaaJSme2TO70+BVoLo9ooMiDCwbf0GBUeX1J0qUe9qLlwwVLMCs18A1
+        IEad29ZieP/wXyeq6KtSy6VEgee6DXn2xlYcuHTte6v+ocdfx6ezJFWSb9ulC5UbE/4/nv
+        sY+jbFxdYz+HBC4Rk3C/vrxsHOUcOrzWRdnU+xdu0o7gcQbnmdKsCi8WCGVRw/NOeY2Og2
+        XJfxMvQ7uw8T3o6+hi1739fIJCdneBxvmtDaPIsVVkl1rZsCXw1tIYrkUuSjVI2tQ5Amxw
+        QKomR9+awMiP65OQsQweRTbDBGgxxFWNKrjMk1IpraJsYXesr3NpSnryiya2WQ==
 Received: from hillosipuli.retiisi.eu (82-181-192-243.bb.dnainternet.fi [82.181.192.243])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
         (No client certificate requested)
         (Authenticated sender: sailus)
-        by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 555CD1B0023B;
-        Mon, 16 Jan 2023 23:09:56 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
-        t=1673903396;
+        by meesny.iki.fi (Postfix) with ESMTPSA id 1FF2720174;
+        Tue, 17 Jan 2023 00:14:24 +0200 (EET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
+        t=1673907264;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=dbAdlK0BxI0psHjrkM7TVjI+sE/7hkpjcx3VvL3xT0Q=;
-        b=bIstBwWnhMDNZ2QCxBOEcg9qZDxMJ7lXTJBW2oKmMwxp47VhX+PGY0FHO6vRn3OJ1tf0cR
-        uD8MOL1mn58isNBaG6AfX2ke6JrgI+IyW0jAchLX9lL5bw/nyciKzkrX1YUsoVAPXGt/oY
-        JCgdVKBnj+WpHh5XHzuPVaa3veZqBox0GsQaUWMkOeVX6F/rkkurR6tqKo8HOrZ27iIWvj
-        F8fdvukwUE5lRR14oI0GojOflqFte8R+2KKfn2c0QGBhauMkb8yB2jsEwc3my1HYwyixh7
-        qEXs9OhiRIN6lhWyQcjmt4g6m/JisZVqYq8MDORbU1kjA2sy9M0MQ72HC2tQIA==
+        bh=Spx/m+y6IQTXG2/ImI2Ltvhjm/XLr6qXWNR6waNDMSU=;
+        b=lic720AH2W9TQd3tzimJlTprlQe0RglzVlrXqvLSe1V8INI4bMFdA9Vhy0MISszx8hfCu3
+        gk6LkiPBQdN6LSDKudoYGwoyS7mDz2kZJtBRu+cHtiFtj6m816z+ikH45MK0fYNZc07KWq
+        Jd8kFnH/KHF+mzaW3EFiqGw//3jWhyA=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-        s=lahtoruutu; t=1673903396;
+        s=meesny; t=1673907264;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=dbAdlK0BxI0psHjrkM7TVjI+sE/7hkpjcx3VvL3xT0Q=;
-        b=g98QCzmgjDAzq5HKRGFKeXczCOyNrbndIT6rSbigDX//srAp7jAtDYu/lZF6ImdU2VW4XA
-        SDnO+lsgkQBQ8HGTW2U6YAQ1n4a80ZYWGESdO5sc4b8S9bm7eVu8p+sPn+xVdg7AZDX5gG
-        W4/+0D0suk43+y01FFuS711MqkNmM2ovxd4JZZ7Xme1PmT6K/0VVjh729+CY1vhbr4UE3W
-        6MuWTBo5oUxiDAhIANE+HnIFr3IqjuizQcCqEQ2zrhV+QM/bElwjM7HxdYpReCIQj7aImP
-        eWD1zJ7OmSkC73XM0KnKf6Y6PW3iAPA8LnFKeVlqM62n7iszMgiMQs4Ku6PjUA==
+        bh=Spx/m+y6IQTXG2/ImI2Ltvhjm/XLr6qXWNR6waNDMSU=;
+        b=YNHPecA5uhPtoWK+SbGvIiJ9EqmqsVw8T6z/1CMkW00a64+VC9t9IlbI8doLp4qpGnnrnt
+        UcgtcKR7Kqryh/lsVS2BEWDthaJ7IsZlzwW+/ynOwxnXPeJfvSO/86tEdtTccN5QELYxOQ
+        Dh541ngLiqiJKvo2ZQtiMw+dfQOLw3I=
 ARC-Authentication-Results: i=1;
         ORIGINATING;
         auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1673903396; a=rsa-sha256;
-        cv=none;
-        b=iHvowksLtk7oQlAB9j3XPUn3aANguOE5qazWaNzJyBnO6Icd3YTie6EWqPsnDi1xu6ktk3
-        mOV4K1FEiIBKtyMfzv+mCzT8B6QmSLGt1pzizH7d2BCsz5OYV8kUZ1KhzLqH4/oeolT4Yb
-        AYATmo0G2Ei8IDmNC8BEUtV0A/NAt5Emm/7QRGmdE5MAVVr9y2ZUDDreAQz2kS20lrzf4R
-        SA7FfrbydPpb/DXMswvrA6B/xKaa3DQYYao0uLdyXe8L2SnIIOlBjEc4N2rv4LE6FVkd1T
-        Pvt/5tMveVeBAjMac2tATGustHvJ7VDzOBpXTEA10eE8KwFMCisx9qD7Z5n0NA==
+ARC-Seal: i=1; s=meesny; d=iki.fi; t=1673907264; a=rsa-sha256; cv=none;
+        b=MkIPuGznRw0iD7dbhb/lBe1ScveNqP1y/HcziCWU+07kywNeubk9P3ExoWFaymp//PS7DA
+        OXgPQCqOyAWlgYUzdERSVUmOc3ET07xqV5zt1/ixqeRPMF1LeOD2W7RxUXaXcQYSa0QPsW
+        kCFOkkw48pcRS2ulx3CK5vNwbThIkgk=
 Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
         (No client certificate requested)
-        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 0A09E634C91;
-        Mon, 16 Jan 2023 23:09:56 +0200 (EET)
-Date:   Mon, 16 Jan 2023 23:09:55 +0200
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 8C8F9634C92;
+        Tue, 17 Jan 2023 00:14:23 +0200 (EET)
+Date:   Tue, 17 Jan 2023 00:14:23 +0200
 From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     Jai Luthra <j-luthra@ti.com>
-Cc:     Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH v2] media: i2c: imx219: Fix binning for RAW8 capture
-Message-ID: <Y8W9I73w8zYdG1tp@valkosipuli.retiisi.eu>
-References: <20221228111457.25516-1-j-luthra@ti.com>
+To:     Marco Felsch <m.felsch@pengutronix.de>
+Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>, mchehab@kernel.org,
+        laurent.pinchart+renesas@ideasonboard.com,
+        jacopo+renesas@jmondi.org, akinobu.mita@gmail.com,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kernel@pengutronix.de
+Subject: Re: [PATCH 3/4] media: mt9m111: fix device power usage
+Message-ID: <Y8XMP7+HrABQCaMR@valkosipuli.retiisi.eu>
+References: <20220818144712.997477-1-m.felsch@pengutronix.de>
+ <20220818144712.997477-3-m.felsch@pengutronix.de>
+ <YwMix1+Bm1jEbWqv@paasikivi.fi.intel.com>
+ <20220822075426.qjgxue7sjehazga4@pengutronix.de>
+ <YwNJ8RpSR+oVxnS/@paasikivi.fi.intel.com>
+ <20220823144450.ctjmby53prjw5qis@pengutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221228111457.25516-1-j-luthra@ti.com>
+In-Reply-To: <20220823144450.ctjmby53prjw5qis@pengutronix.de>
 X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
         SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
@@ -82,33 +99,40 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jai,
+Hi Marco,
 
-On Wed, Dec 28, 2022 at 04:44:57PM +0530, Jai Luthra wrote:
-> 2x2 binning works fine for RAW10 capture, but for RAW8 1232p mode it
-> leads to corrupted frames [1][2].
+On Tue, Aug 23, 2022 at 04:44:50PM +0200, Marco Felsch wrote:
+> Hi Sakari,
 > 
-> Using the special 2x2 analog binning mode fixes the issue, but causes
-> artefacts for RAW10 1232p capture. So here we choose the binning mode
-> depending upon the frame format selected.
+> On 22-08-22, Sakari Ailus wrote:
+> > On Mon, Aug 22, 2022 at 09:54:26AM +0200, Marco Felsch wrote:
+> > > Hi Sakari,
+> > > 
+> > > On 22-08-22, Sakari Ailus wrote:
+> > > > Hi Marco,
+> > > > 
+> > > > On Thu, Aug 18, 2022 at 04:47:11PM +0200, Marco Felsch wrote:
+> > > > > Currently the driver turn off the power after probe and toggle it during
+> > > > > .stream by using the .s_power callback. This is problematic since other
+> > > > > callbacks like .set_fmt accessing the hardware as well which will fail.
+> > > > > So in the end the default format is the only supported format.
+> > > > 
+> > > > It'd be much better to add runtime PM support to the driver instead.
+> > > 
+> > > I got your point, but didn't have the time for it right now, I will drop
+> > > the patch from my v2.
+> > 
+> > The API is different but generally involves doing more or less the same
+> > what this and the 4th patch do together.
 > 
-> As both binning modes work fine for 480p RAW8 and RAW10 capture, it can
-> share the same code path as 1232p for selecting binning mode.
-> 
-> [1] https://forums.raspberrypi.com/viewtopic.php?t=332103
-> [2] https://github.com/raspberrypi/libcamera-apps/issues/281
-> 
-> Fixes: 22da1d56e982 ("media: i2c: imx219: Add support for RAW8 bit bayer format")
-> Signed-off-by: Jai Luthra <j-luthra@ti.com>
+> I know :) as soon as I got feedback on my TC35 series [1] I give it a
+> try and change it to dev-pm.
 
-I'm afraid this no longer applies after Laurent's imx290 series. Could you
-rebase this on my master branch:
+What's the status of this set?
 
-<URL:https://git.linuxtv.org/sailus/media_tree.git/log/>
+These are nice improvements but I was expecting v2.
 
-I'm about to push patches there, should be done in a few hours' time.
+Thanks.
 
 -- 
-Kind regards,
-
 Sakari Ailus
