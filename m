@@ -2,47 +2,51 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 62F7E66C642
-	for <lists+linux-media@lfdr.de>; Mon, 16 Jan 2023 17:17:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D659A66C688
+	for <lists+linux-media@lfdr.de>; Mon, 16 Jan 2023 17:21:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232940AbjAPQRZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 16 Jan 2023 11:17:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59928 "EHLO
+        id S233060AbjAPQVS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 16 Jan 2023 11:21:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38198 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232697AbjAPQQl (ORCPT
+        with ESMTP id S233024AbjAPQUa (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 16 Jan 2023 11:16:41 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C09032D177
-        for <linux-media@vger.kernel.org>; Mon, 16 Jan 2023 08:09:42 -0800 (PST)
+        Mon, 16 Jan 2023 11:20:30 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3BD6F24130;
+        Mon, 16 Jan 2023 08:11:14 -0800 (PST)
 Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9891C802;
-        Mon, 16 Jan 2023 17:09:40 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6CC82802;
+        Mon, 16 Jan 2023 17:11:12 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1673885380;
-        bh=A/rSlLX7/ELosAY6jcyBPlMwwe7fUDBSC//URSO2cS0=;
+        s=mail; t=1673885472;
+        bh=epDaYP2YbyIBykxlBWLULPbW/jKptCwX8FkRp6/Wa74=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=RgQJiZvUIsldIRzNoIia+sYp/XlNUMfvb/GCM0GK/6HGZVDbYS0XQ4yD9PNY+shaX
-         835mWZ+jBb36QtnXuhgZsQCGD8xTIH+Ii8O7rGNxlCZ48qlCoqD+LLhT/+SG3Zsp4Q
-         SZ/m3P6M+pzU4Jhwdhg8ivuDR+Sx+7xPCtddH6rU=
-Date:   Mon, 16 Jan 2023 18:09:41 +0200
+        b=eJ1dkZaVcbIan0HRCt9W5wNGZ7TC4u984EnVG9IwHDygm8yX6+kRQitpU+nKc1x2U
+         ka3mdq08Kkcf7N1ksLMuXUroxNb1wX8ku9p6tOH1XZg66kEmSSMITksNQqzQAjelgP
+         Q6HZRRculBkAyiwXfkl+uXkBpFgXtPd45nxpR2NU=
+Date:   Mon, 16 Jan 2023 18:11:12 +0200
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Philipp Zabel <p.zabel@pengutronix.de>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-media@vger.kernel.org, kernel@pengutronix.de,
-        Francesco Dolcini <francesco@dolcini.it>
-Subject: Re: [PATCH] media: v4l2-async: fix binding async subdevs with
- multiple source ports
-Message-ID: <Y8V2xQ872MLZ1cDD@pendragon.ideasonboard.com>
-References: <20220810104848.846783-1-p.zabel@pengutronix.de>
- <20230113112456.GA9093@pengutronix.de>
- <Y8Sji3VUaPvKprCF@pendragon.ideasonboard.com>
- <20230116134607.GA31026@pengutronix.de>
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc:     Michael Tretter <m.tretter@pengutronix.de>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Fabio Estevam <festevam@gmail.com>,
+        Alexander Stein <alexander.stein@ew.tq-group.com>,
+        kernel@pengutronix.de, linux-imx@nxp.com,
+        linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v2.1 02/17] dt-bindings: media: fsl-pxp: convert to yaml
+Message-ID: <Y8V3IGGpzaq4eQpR@pendragon.ideasonboard.com>
+References: <20230112-imx-pxp-v2-1-e2281da1db55@pengutronix.de>
+ <20230116113856.1445078-1-m.tretter@pengutronix.de>
+ <76f3a771-2283-4e6e-d3b8-fdfcf1f4291f@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230116134607.GA31026@pengutronix.de>
+In-Reply-To: <76f3a771-2283-4e6e-d3b8-fdfcf1f4291f@linaro.org>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
         autolearn=ham autolearn_force=no version=3.4.6
@@ -52,46 +56,50 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Philipp,
+Hi Krzysztof,
 
-On Mon, Jan 16, 2023 at 02:46:07PM +0100, Philipp Zabel wrote:
-> On Mon, Jan 16, 2023 at 03:08:27AM +0200, Laurent Pinchart wrote:
-> [...]
-> > To make sure I understand this correctly, you need both changes, with
-> > the change in __v4l2_async_nf_has_async_subdev() meant to address asds
-> > being added after the subdev has been registered, and the change in
-> > v4l2_async_register_subdev() meant to address asds that have been added
-> > before ?
+On Mon, Jan 16, 2023 at 12:59:23PM +0100, Krzysztof Kozlowski wrote:
+> On 16/01/2023 12:38, Michael Tretter wrote:
+> > Convert the bindings of the Freescale Pixel Pipeline to YAML.
+> > 
+> > The conversion drops the previously listed compatibles for several SoCs.
+> > It is unclear, if the PXP on these SoCs is compatible to any of the PXPs
+> > on the existing SoCs and would allow to reuse the already defined
+> > compatibles. The missing compatibles should be brought back when the
+> > support for the PXP on these SoCs is added.
+> > 
+> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
+> > Signed-off-by: Michael Tretter <m.tretter@pengutronix.de>
+> > ---
+> > Changelog:
+> > 
+> > v2:
+> > 
+> > - add fsl,imx6sll-pxp and fsl,imx6sx-pxp compatibles
+> > - restrict number of interrupts per variant
+> > - cleanup syntax
+> > 
+> > v2.1:
+> > 
+> > - use enum for compatibles
+> > - add power-domains property
+> > - fix syntax for specifying the required number of interrupts
+> > - fix number of interrupts for fsl,imx6ul-pxp
 > 
-> Yes, your understanding is correct.
-> 
-> > The imx6 ipu drivers implement a "clever hack" to handle the
-> > multi-endpoint issue that was never officially supported by v4l2-async.
-> 
-> That belongs in parentheses all right. I think it might even have been
-> accidental.
+> Attaching some half-baked patch to existing thread is not the way. It
+> might not be supported by workflows at all (b4, patchwork), it messes
+> with threads. Don't do it. Send a v3 of entire patchset once you collect
+> proper feedback.
 
-There are explicit checks in the video-mux driver and in the ipu driver
-for -EEXIST, so it was likely done on purpose :-)
+This is the only patch in the series that required a new version, and
+I've asked Michael to resubmit it alone to avoid spamming all the
+recipients.
 
-> > Obviously, as it has worked so far, leaving it broken isn't a very nice
-> > option. The fix feels a bit like a hack though, and a better solution
-> > would be to allow subdevs to be matched multiple times, by multiple
-> > consumers. That's a more intrusive change though, so I could be OK with
-> > this as a short term fix, assuming it doesn't break anything else.
-> 
-> Right, the intention was that this patch could be applied on stable
-> kernels, as I only had noticed the issue after the release.
-> 
-> > I would however want to ensure this doesn't get abused by new drivers.
-> > Could we add a dev_warn() somewhere to indicate that multi-endpoint
-> > matching is not supported and shouldn't be used until fixed ? Sakari,
-> > what do you think ?
-> [...]
-> 
-> pr_warn_once() in both places, perhaps?
+> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-I'm fine with that.
+Thanks. I'll take the whole series in my tree and send a pull request
+for v6.3.
 
 -- 
 Regards,
