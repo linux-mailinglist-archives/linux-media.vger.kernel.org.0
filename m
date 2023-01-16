@@ -2,181 +2,127 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DF64466D064
-	for <lists+linux-media@lfdr.de>; Mon, 16 Jan 2023 21:47:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B4AD466D0A0
+	for <lists+linux-media@lfdr.de>; Mon, 16 Jan 2023 22:01:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232536AbjAPUrU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 16 Jan 2023 15:47:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44922 "EHLO
+        id S233489AbjAPVBY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 16 Jan 2023 16:01:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52280 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230103AbjAPUrT (ORCPT
+        with ESMTP id S232671AbjAPVBR (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 16 Jan 2023 15:47:19 -0500
-Received: from mail-qt1-x830.google.com (mail-qt1-x830.google.com [IPv6:2607:f8b0:4864:20::830])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 13D9127D60
-        for <linux-media@vger.kernel.org>; Mon, 16 Jan 2023 12:47:18 -0800 (PST)
-Received: by mail-qt1-x830.google.com with SMTP id h21so25466567qta.12
-        for <linux-media@vger.kernel.org>; Mon, 16 Jan 2023 12:47:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=auTQc7ls171FtB9Rdx/AnXWuASX8tEkcbzG+L/Ndly4=;
-        b=aN1JZAowCcPnqXMuFHUgpfYS+p0a8c8JGxCVQULJl7zIBYhubq/5B+7M42XVKzYjTU
-         R8f6bBFeDZkOEt2SjkA5jFMAlrXGIc9jvP+JT5hJm743XSo09G92NQpg2a3RZoILq38k
-         JchvWT9JeAnlETFdZ4QMnHA2fycGEWsr3eAAU1i1hn3AoLNw0o3bQPdr6tf+XS24wYCM
-         A7rzh2BBCdtrYVXIbzkytAfAkIVCmkS9Pd5pE0oe46MRJ+lxlWYmx6ZqbPrjhacn3yQt
-         OyLsRkhRglSVOcCAOPzHzZws1qVU+1kDh8PvLOOzua8G5BrQy0OTJ6d9vZnCJKkDNiqM
-         ALqg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=auTQc7ls171FtB9Rdx/AnXWuASX8tEkcbzG+L/Ndly4=;
-        b=LdaSLmVLiJiOB5Xr+Q6DMUJQ18X93z+jBaLMHE3gbrNDiG6d0VRa+OYHYCETizZRvK
-         QzlMSiF85+GwwKlBSfsKRM0sEMWNObFDc46gpev8ZFHMTSp8wH0HnpYQ2/1AoKZJSNMJ
-         HCrp7o80I5aPr82/XVkx3fzBPEeaiBEb3E9JTow1UL4hFp6sWIvn4zGndz1XA8CB0697
-         PACVjLYQU+TqFre46nhg7npKzm5ysx+B+fxviDylGVmdP7TkH9v/9zC9R547l169uS0a
-         d99T8lmxbZqBuVNHGSodf+8LkcE52XbxSik5uFkWIR6Yxh0+mewoThLmE6uTDWCarhR1
-         5qSQ==
-X-Gm-Message-State: AFqh2kp/RYXebCU0qERREP32mAMDghCMeMjB8XsIZ7saqayi9FJAXnWA
-        ZrhRbaBVJFXwaCjwXbqCpSWQKg==
-X-Google-Smtp-Source: AMrXdXs7mDuV9/YX/70BnnuzjQchqMN7J1FcatwXKxjN3Co9yiD6c5WjTiHbKGHDVuzWzCKNMnNuZA==
-X-Received: by 2002:a05:622a:4a83:b0:3b4:7e41:daa8 with SMTP id fw3-20020a05622a4a8300b003b47e41daa8mr702301qtb.28.1673902037214;
-        Mon, 16 Jan 2023 12:47:17 -0800 (PST)
-Received: from nicolas-tpx395.localdomain (192-222-136-102.qc.cable.ebox.net. [192.222.136.102])
-        by smtp.gmail.com with ESMTPSA id br31-20020a05620a461f00b006fa2cc1b0fbsm18713536qkb.11.2023.01.16.12.47.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Jan 2023 12:47:16 -0800 (PST)
-Message-ID: <d06c0c48d69af6acede89cf5a911180f48b3f266.camel@ndufresne.ca>
-Subject: Re: [PATCH v3 1/2] media: add RealVideo format RV30 and RV40
-From:   Nicolas Dufresne <nicolas@ndufresne.ca>
-To:     Ming Qian <ming.qian@nxp.com>, mchehab@kernel.org,
-        hverkuil-cisco@xs4all.nl
-Cc:     shawnguo@kernel.org, robh+dt@kernel.org, s.hauer@pengutronix.de,
-        kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
-        xiahong.bao@nxp.com, eagle.zhou@nxp.com, tao.jiang_2@nxp.com,
+        Mon, 16 Jan 2023 16:01:17 -0500
+Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 62EF1279A5;
+        Mon, 16 Jan 2023 13:01:12 -0800 (PST)
+Received: from hillosipuli.retiisi.eu (dkwpftty8y--hfpj0xqfy-3.rev.dnainternet.fi [IPv6:2001:14ba:4498:4840:1c07:fe62:30fe:9b48])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: sailus)
+        by lahtoruutu.iki.fi (Postfix) with ESMTPSA id A1D661B002E4;
+        Mon, 16 Jan 2023 23:01:09 +0200 (EET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
+        t=1673902869;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=oqY/zzcD03j9DKBmP/L1E82sbMHJoJjY22Eh+rHM6j0=;
+        b=Rn+zCzzrxOLYjnQ1nARvUOjaS4VGxfnm9sIqFF9+7Drvu6AxESF0yDIPuGY6PZyCvgGDhO
+        5qkHxuho1Mt5JuX+RINHA3c9uz6ZuekcEbKSohNZHYbclb8nzpVSvbgsB/S8xPsSOb+q0J
+        4AiJoLr0MutPK/MeA9teWDQSV3jwucuGQPFXCTOWWaAKCzwt+iKQJQon9L8eZtfG1RZrLv
+        BNwOhVXGGgZPIt/BI/0k0d/QT0m8uSp8sV95dqZrxNqurHSQpIH1JX3QfZ2pMM2rgipuOQ
+        b2KqmiT0SnXvAnUS8DTEUIvqoy+eDIMREd+8Wda4gIhxvSNwQwiM3Qh7GQ0gWQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+        s=lahtoruutu; t=1673902869;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=oqY/zzcD03j9DKBmP/L1E82sbMHJoJjY22Eh+rHM6j0=;
+        b=rNYG7ndds3/gohYk5+3vXQlQTEDPPSxfkcFlCJ+DjIfDNWlI92ExMiAa2jkgDiwNLO0WjR
+        Nn0dZDyTt9lyrdHPXDiW8Lte9KQxrSmnM9lAxMexuJ9F0fYhz7mjTWn0Qi+PREilxhD/Mh
+        ZbE8R/qaeF2zf1bKSOfxIJabmyRBQN+z70FZ67xmXiKPTCu6usgg9mBLAKdt742kPyxv8/
+        Qr2ZzKPILusXSo7bGuUfrBkVwprV4t4asaGKC+tjDm/AaPpUi7XuQ6SLdM4labL7lVzIln
+        OdiSvtN+Z8vOn/wQFZN9c54n3I8V1w+G+LoJPUODn5H+SsqOTCmOoXHyc6Zv5w==
+ARC-Authentication-Results: i=1;
+        ORIGINATING;
+        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1673902869; a=rsa-sha256;
+        cv=none;
+        b=jnUpk7XtPEn9bbET8EdBYJhF/Zah7sX3oaSouzZmrY8dZp10mX1wTtcIPEn2noRnd4jGks
+        Ievs0405ToPDBu8onhZIuqc0GQJM8JatInLSvygUHEbyUxYiccuceFuDw4KHfMNuI5phdB
+        jnxlp2YBoUQ1fEpw4LobyVRnROtFeY+ebiCzlkWFGlhzYs7FQXs6mDTiLTqWUcIKz60V2d
+        jppuW2ChM5H+VHGE60HewMTnP4TTQ4gpZQSeiyS2nyunpclSkgoMFl0cEEz3ib7d/y6uLc
+        yMWFgWlNL+2R8OQdWO6P2md5Yv8OuysRPjFkw7WP4BT1paiWMMJcG6jsThnBNw==
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 3D6AC634C92;
+        Mon, 16 Jan 2023 23:01:09 +0200 (EET)
+Date:   Mon, 16 Jan 2023 23:01:09 +0200
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     Aleksandr Burakov <a.burakov@rosalinux.ru>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-Date:   Mon, 16 Jan 2023 15:47:14 -0500
-In-Reply-To: <8cbe08de42af1ecf0df39970d57742445fd0d488.1673582851.git.ming.qian@nxp.com>
-References: <cover.1673582851.git.ming.qian@nxp.com>
-         <8cbe08de42af1ecf0df39970d57742445fd0d488.1673582851.git.ming.qian@nxp.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.2 (3.46.2-1.fc37) 
+        lvc-project@linuxtesting.org
+Subject: Re: [PATCH] media: v4l2-flash: fix NULL dereference in
+ v4l2_flash_s_ctrl()
+Message-ID: <Y8W7FaNouVxmeWox@valkosipuli.retiisi.eu>
+References: <20221207141808.22922-1-a.burakov@rosalinux.ru>
 MIME-Version: 1.0
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221207141808.22922-1-a.burakov@rosalinux.ru>
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Le vendredi 13 janvier 2023 =C3=A0 12:13 +0800, Ming Qian a =C3=A9crit=C2=
-=A0:
-> RealVideo, or also spelled as Real Video, is a suite of proprietary
-> video compression formats developed by RealNetworks -
-> the specific format changes with the version.
-> RealVideo codecs are identified by four-character codes.
-> RV30 and RV40 are RealNetworks' proprietary H.264-based codecs.
->=20
-> Signed-off-by: Ming Qian <ming.qian@nxp.com>
+Hi Alexandr,
+
+On Wed, Dec 07, 2022 at 05:18:07PM +0300, Aleksandr Burakov wrote:
+> The NULL check added for fled_cdev before dereference.
+> 
+> Found by Linux Verification Center (linuxtesting.org) with SVACE.
+> 
+> Signed-off-by: Aleksandr Burakov <a.burakov@rosalinux.ru>
+> Fixes: 42bd6f59ae90 ("media: Add registration helpers for V4L2 flash sub-devices")
 > ---
->  .../media/v4l/pixfmt-compressed.rst           | 21 +++++++++++++++++++
->  drivers/media/v4l2-core/v4l2-ioctl.c          |  2 ++
->  include/uapi/linux/videodev2.h                |  2 ++
->  3 files changed, 25 insertions(+)
->=20
-> diff --git a/Documentation/userspace-api/media/v4l/pixfmt-compressed.rst =
-b/Documentation/userspace-api/media/v4l/pixfmt-compressed.rst
-> index a0230f357680..50ac095c1f16 100644
-> --- a/Documentation/userspace-api/media/v4l/pixfmt-compressed.rst
-> +++ b/Documentation/userspace-api/media/v4l/pixfmt-compressed.rst
-> @@ -237,6 +237,27 @@ Compressed Formats
->          Metadata associated with the frame to decode is required to be p=
-assed
->          through the ``V4L2_CID_STATELESS_FWHT_PARAMS`` control.
->  	See the :ref:`associated Codec Control ID <codec-stateless-fwht>`.
-> +    * .. _V4L2-PIX-FMT-RV30:
-> +
-> +      - ``V4L2_PIX_FMT_RV30``
-> +      - 'RV30'
-> +      - RealVideo, or also spelled as Real Video, is a suite of propriet=
-ary
-> +        video compression formats developed by RealNetworks -
-> +        the specific format changes with the version.
-> +        RealVideo codecs are identified by four-character codes.
-> +        RV30 corresponds to RealVideo 8, suspected to based largely on a=
-n early draft of H.264
+>  drivers/media/v4l2-core/v4l2-flash-led-class.c | 4 ++++
+>  1 file changed, 4 insertions(+)
+> 
+> diff --git a/drivers/media/v4l2-core/v4l2-flash-led-class.c b/drivers/media/v4l2-core/v4l2-flash-led-class.c
+> index 355595a0fefa..36cc46e80eea 100644
+> --- a/drivers/media/v4l2-core/v4l2-flash-led-class.c
+> +++ b/drivers/media/v4l2-core/v4l2-flash-led-class.c
+> @@ -291,12 +291,16 @@ static int v4l2_flash_s_ctrl(struct v4l2_ctrl *c)
+>  		 * No conversion is needed as LED Flash class also uses
+>  		 * microseconds for flash timeout units.
+>  		 */
+> +		if (!fled_cdev)
+> +			return -EINVAL;
+>  		return led_set_flash_timeout(fled_cdev, c->val);
+>  	case V4L2_CID_FLASH_INTENSITY:
+>  		/*
+>  		 * No conversion is needed as LED Flash class also uses
+>  		 * microamperes for flash intensity units.
+>  		 */
+> +		if (!fled_cdev)
+> +			return -EINVAL;
+>  		return led_set_flash_brightness(fled_cdev, c->val);
+>  	}
+>  
 
-to *be* based on.
+fled_cdev won't be NULL above, this is checked elsewhere in the V4L2 flash
+LED class code. I guess the question then is whether doing such a check is
+meaningful. It would require a bug elsewhere in the code to happen.
 
-Just a style comment too, but the flow could be improved while fixing this =
-typo.
-Lines in this paragraph seems very uneven.
+-- 
+Kind regards,
 
-> +    * .. _V4L2-PIX-FMT-RV40:
-> +
-> +      - ``V4L2_PIX_FMT_RV40``
-> +      - 'RV40'
-> +      - RV40 represents RealVideo 9 and RealVideo 10.
-> +        RealVideo 9, suspected to be based on H.264,
-> +        RealVideo 10, aka RV9 EHQ, This refers to
-> +        an improved encoder for the RV9 format
-> +        that is fully backwards compatible with RV9 players -
-> +        the format and decoder did not change,
-> +        only the encoder did.
-> +        As a result, it uses the same FourCC.
-
-It feels this one could be wider ? But again, this is cosmetic at this poin=
-t.
-For the API changes, assuming fixed typo and improved style:
-
-Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-
-> =20
->  .. raw:: latex
-> =20
-> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-co=
-re/v4l2-ioctl.c
-> index 9b5b04b8aa69..0546b00d3fc9 100644
-> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
-> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-> @@ -1473,6 +1473,8 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *f=
-mt)
->  		case V4L2_PIX_FMT_FWHT:		descr =3D "FWHT"; break; /* used in vicodec *=
-/
->  		case V4L2_PIX_FMT_FWHT_STATELESS:	descr =3D "FWHT Stateless"; break; /=
-* used in vicodec */
->  		case V4L2_PIX_FMT_SPK:		descr =3D "Sorenson Spark"; break;
-> +		case V4L2_PIX_FMT_RV30:		descr =3D "RealVideo 8"; break;
-> +		case V4L2_PIX_FMT_RV40:		descr =3D "RealVideo 9 & 10"; break;
->  		case V4L2_PIX_FMT_CPIA1:	descr =3D "GSPCA CPiA YUV"; break;
->  		case V4L2_PIX_FMT_WNVA:		descr =3D "WNVA"; break;
->  		case V4L2_PIX_FMT_SN9C10X:	descr =3D "GSPCA SN9C10X"; break;
-> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev=
-2.h
-> index 262ef10cfa02..b121154a6e24 100644
-> --- a/include/uapi/linux/videodev2.h
-> +++ b/include/uapi/linux/videodev2.h
-> @@ -740,6 +740,8 @@ struct v4l2_pix_format {
->  #define V4L2_PIX_FMT_H264_SLICE v4l2_fourcc('S', '2', '6', '4') /* H264 =
-parsed slices */
->  #define V4L2_PIX_FMT_HEVC_SLICE v4l2_fourcc('S', '2', '6', '5') /* HEVC =
-parsed slices */
->  #define V4L2_PIX_FMT_SPK      v4l2_fourcc('S', 'P', 'K', '0') /* Sorenso=
-n Spark */
-> +#define V4L2_PIX_FMT_RV30     v4l2_fourcc('R', 'V', '3', '0') /* RealVid=
-eo 8 */
-> +#define V4L2_PIX_FMT_RV40     v4l2_fourcc('R', 'V', '4', '0') /* RealVid=
-eo 9 & 10 */
-> =20
->  /*  Vendor-specific formats   */
->  #define V4L2_PIX_FMT_CPIA1    v4l2_fourcc('C', 'P', 'I', 'A') /* cpia1 Y=
-UV */
-
+Sakari Ailus
