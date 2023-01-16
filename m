@@ -2,67 +2,69 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3F75766C23E
-	for <lists+linux-media@lfdr.de>; Mon, 16 Jan 2023 15:34:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B81AE66C26E
+	for <lists+linux-media@lfdr.de>; Mon, 16 Jan 2023 15:42:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232699AbjAPOec (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 16 Jan 2023 09:34:32 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60610 "EHLO
+        id S231183AbjAPOmd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 16 Jan 2023 09:42:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37544 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232465AbjAPOeN (ORCPT
+        with ESMTP id S229507AbjAPOmK (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 16 Jan 2023 09:34:13 -0500
-Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com [IPv6:2607:f8b0:4864:20::429])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2B22722789
-        for <linux-media@vger.kernel.org>; Mon, 16 Jan 2023 06:14:53 -0800 (PST)
-Received: by mail-pf1-x429.google.com with SMTP id 200so14867216pfx.7
-        for <linux-media@vger.kernel.org>; Mon, 16 Jan 2023 06:14:53 -0800 (PST)
+        Mon, 16 Jan 2023 09:42:10 -0500
+Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D233C2278D
+        for <linux-media@vger.kernel.org>; Mon, 16 Jan 2023 06:19:35 -0800 (PST)
+Received: by mail-pl1-x633.google.com with SMTP id d3so30448315plr.10
+        for <linux-media@vger.kernel.org>; Mon, 16 Jan 2023 06:19:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=YNqJXkPAAc4WHhXGVLeZMV95oQstg+2VjVLPre5zAiw=;
-        b=n5zUQUH1RjuWF5oSddP4fx05yBgxdMFQ5VPBjtV0cqGfc2xHp1N4JPbTOryFKJjgbQ
-         QMaQot2CUWqpLNmexuiNbiPN+6jetvomvWn/lQ7nB4h0aCSv/CT90Ue2rZW3cbgZxlDV
-         f65PoCb0dBRA9TI6oOFM1Lsn0jM0SIVaATGo0=
+        bh=HiaNsyu4v4chIY9eqovT1CDhuf21Wxga6X1yd6sWaEk=;
+        b=lFgCIOCzlqxIHadu6KtAh2pfPeuwf2uoEEhYV1TPlAELlEiHZXtb3rR+IBTrc/dmtb
+         KXFZin5UCMi0z5PXoc7dAFmdBf9sbfb6ubzgCZyku29Lz9LTmzKgnKD3+T9iTtA0+dnL
+         E/VwWUsfWeQ8ONpCO1odA3RoK8Z93vohsbyZI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=YNqJXkPAAc4WHhXGVLeZMV95oQstg+2VjVLPre5zAiw=;
-        b=damTXeUU8hsDia7J3VpsL+BpqYxoC3wuQLWfpxSi+MQpE52SOmGSzH11Cao03aH1to
-         EF6S8bUv5mg6cZX8+LOXZAR5BgzkkaCd4sRhCEaIOMlmmb/TPEZdxhPyTcCHGwvFFrZx
-         uqEwN3PSsDOPQAC8D3ogWpYczkUaQBdvzHSfbqh0yo0Tz13Vv/v5TsgdNCYedO/Ygk9G
-         lfoV3FluZVo/gvDZ9SUHuGnMqNVBl+yyAFVnPXTDl0Qf5RTqDhtuCAdZv92CdMZ2e9V2
-         6qtRhU08M9m9MKvtNEcp6C36/qhOE2Hq6g61dKLd6pQk6psnz1Sg9dm6iXV+ESy5l/AD
-         CTvQ==
-X-Gm-Message-State: AFqh2kqtQ5WrzYnFeNDAhKvSh39HWzAJoJVQ76mTOVFGa5BvnhHJW99y
-        5BDb+8LDYMS6JxhGAzn3TxuLhJHC6Xyhe7s2EIg=
-X-Google-Smtp-Source: AMrXdXvE9UvPnho650aMVJl3xCSpJy+BuJOKwMfbRm6gkT4P/pgcVn9eAyja7CM1BZv+rUNx4ixVgQ==
-X-Received: by 2002:aa7:9185:0:b0:58d:9850:d56c with SMTP id x5-20020aa79185000000b0058d9850d56cmr5143261pfa.25.1673878492300;
-        Mon, 16 Jan 2023 06:14:52 -0800 (PST)
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com. [209.85.214.174])
-        by smtp.gmail.com with ESMTPSA id k7-20020aa79727000000b0056b9ec7e2desm2580669pfg.125.2023.01.16.06.14.51
+        bh=HiaNsyu4v4chIY9eqovT1CDhuf21Wxga6X1yd6sWaEk=;
+        b=lDODYqeOHV5l3jolQ8Q0LyztigSdMi4cPh3Bh+GHeTQ04crIRlQqcR5SAtMZVRngFB
+         wLP4wGmUPW4yNwwMOh7UM8xp9ikF8cHZB0qhWz3u9Uk9oSA41T4NbcvgA7sVxEPbKbm0
+         xhJuAFM7zFY3OsoaWP2EoyB9uMoilfEYiAG8/Hj4ktibGNqHtAGf+bz2mCPOEhu5k0Mg
+         C3JCzUxKQt/t4Omv9Aef8Eccbl3HZ4qmnyHrZ75MCDNKesRy5C0odXaRBp51Bkeop8IV
+         WjekyLRtppO8GLY3bWLFZgNvmr/Rr2RhkNYygnwSotINBjPtJeP2NaHibHdOsLxV4PsY
+         jhYQ==
+X-Gm-Message-State: AFqh2koEU/N+O0umq6GO91Qeiyours8ge7umYZaLKkBZiI6x0YbGX84Y
+        6qNU5XsOuE7TBnA6m8gBLxUSq+ImgusOTDzLQJo=
+X-Google-Smtp-Source: AMrXdXufSC+hjObhuwLBP7pYVfJTAnJ2/x4DXzMWPAiNs6aRxxFMzgG50ijsxw4yz30omDtoptWIwg==
+X-Received: by 2002:a05:6a21:169b:b0:b8:ad30:717c with SMTP id np27-20020a056a21169b00b000b8ad30717cmr726709pzb.9.1673878775162;
+        Mon, 16 Jan 2023 06:19:35 -0800 (PST)
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com. [209.85.210.179])
+        by smtp.gmail.com with ESMTPSA id b2-20020a17090a7ac200b0022698aa22d9sm516628pjl.31.2023.01.16.06.19.34
         for <linux-media@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 16 Jan 2023 06:14:51 -0800 (PST)
-Received: by mail-pl1-f174.google.com with SMTP id k18so6419927pll.5
-        for <linux-media@vger.kernel.org>; Mon, 16 Jan 2023 06:14:51 -0800 (PST)
-X-Received: by 2002:a17:902:cf42:b0:192:e615:f070 with SMTP id
- e2-20020a170902cf4200b00192e615f070mr687434plg.36.1673878490931; Mon, 16 Jan
- 2023 06:14:50 -0800 (PST)
+        Mon, 16 Jan 2023 06:19:34 -0800 (PST)
+Received: by mail-pf1-f179.google.com with SMTP id 127so3782193pfe.4
+        for <linux-media@vger.kernel.org>; Mon, 16 Jan 2023 06:19:34 -0800 (PST)
+X-Received: by 2002:a63:1463:0:b0:4be:c5ec:93fd with SMTP id
+ 35-20020a631463000000b004bec5ec93fdmr783053pgu.63.1673878773821; Mon, 16 Jan
+ 2023 06:19:33 -0800 (PST)
 MIME-Version: 1.0
-References: <20230115211735.3877-1-laurent.pinchart@ideasonboard.com>
-In-Reply-To: <20230115211735.3877-1-laurent.pinchart@ideasonboard.com>
+References: <20230115205210.20077-1-laurent.pinchart@ideasonboard.com>
+ <CANiDSCvgxyRGw4EsGtGN5GxB_oCj2FpQgqr7tOUEyjwKSVRocA@mail.gmail.com> <Y8VbYq48+gmmd4rD@pendragon.ideasonboard.com>
+In-Reply-To: <Y8VbYq48+gmmd4rD@pendragon.ideasonboard.com>
 From:   Ricardo Ribalda <ribalda@chromium.org>
-Date:   Mon, 16 Jan 2023 15:14:39 +0100
-X-Gmail-Original-Message-ID: <CANiDSCtWkRd_oya97Qd9wHMM+ZC=2pVQz2a1NCLYximTDrwNkQ@mail.gmail.com>
-Message-ID: <CANiDSCtWkRd_oya97Qd9wHMM+ZC=2pVQz2a1NCLYximTDrwNkQ@mail.gmail.com>
-Subject: Re: [PATCH v5] media: uvcvideo: Fix bandwidth error for Alcor camera
+Date:   Mon, 16 Jan 2023 15:19:22 +0100
+X-Gmail-Original-Message-ID: <CANiDSCuDeCmSJB+daPBnUMc20Aev_+2VRo3Dn+UiyrzciQS7og@mail.gmail.com>
+Message-ID: <CANiDSCuDeCmSJB+daPBnUMc20Aev_+2VRo3Dn+UiyrzciQS7og@mail.gmail.com>
+Subject: Re: [PATCH] media: uvcvideo: Force UVC version to 1.0a for 0408:4035
 To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, Ai Chao <aichao@kylinos.cn>,
-        Jackie Liu <liuyun01@kylinos.cn>
+Cc:     linux-media@vger.kernel.org,
+        Giuliano Lotta <giuliano.lotta@gmail.com>,
+        "kolbjorn@kodemaker.no" <kolbjorn@kodemaker.no>
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
@@ -73,110 +75,94 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent
+HI Laurent
 
-On Sun, 15 Jan 2023 at 22:17, Laurent Pinchart
+On Mon, 16 Jan 2023 at 15:12, Laurent Pinchart
 <laurent.pinchart@ideasonboard.com> wrote:
 >
-> From: Ai Chao <aichao@kylinos.cn>
+> Hi Ricardo,
 >
-> The Alcor Corp. Slave camera (1b17:6684 and 2017:0011) returns a wrong
-> dwMaxPayloadTransferSize value for compressed formats. Valid values are
-> typically up to 3072 bytes per interval (for high-speed, high-bandwidth
-> devices), and those faulty devices request 2752512 bytes per interval.
-> This is a firmware issue, but the manufacturer cannot provide a fixed
-> firmware.
+> On Mon, Jan 16, 2023 at 02:05:28PM +0100, Ricardo Ribalda wrote:
+> > On Sun, 15 Jan 2023 at 21:52, Laurent Pinchart wrote:
+> > >
+> > > The Quanta ACER HD User Facing camera reports a UVC 1.50 version, but
+> > > implements UVC 1.0a as shown by the UVC probe control being 26 bytes
+> > > long. Force the UVC version for that device.
+> >
+> > Don't we also want to include 4035:4033 ?
 >
-> Fix this by checking the dwMaxPayloadTransferSize field, and hardcoding
-> a value of 1024 if it exceeds 3072 for compressed formats transferred
-> over isochronous endpoints. While at it, document the other quirk that
-> handles a bandwidth issue for uncompressed formats.
+> I've asked for the lsusb output for that device, I'll send a separate
+> patch when I get it.
 >
-> Signed-off-by: Ai Chao <aichao@kylinos.cn>
-> ---
-> I have dropped the Reviewed-by tags as the patch has changed
-> significantly.
+> > I am curious about the PowerLine Control (does it have one?) will it
+> > behave like 1.1 or 1.5
 >
-> Ricardo, do you know if the 3072 bytes limit is fine with super-speed
-> devices, or does it need to be increased ?
-
-We have enough documentation to let ChatGPT make the code for us :)
-
-I am going to try tonight on two superspeed cameras. Will let you know tomorow.
-
-> ---
->  drivers/media/usb/uvc/uvc_video.c | 31 +++++++++++++++++++++++++++++++
->  1 file changed, 31 insertions(+)
+> Good question. Hardcoding the version to 1.0a will not cause an error,
+> but may prevent the auto mode from being supported.
 >
-> diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
-> index d4b023d4de7c..c6351d3b24cf 100644
-> --- a/drivers/media/usb/uvc/uvc_video.c
-> +++ b/drivers/media/usb/uvc/uvc_video.c
-> @@ -200,6 +200,20 @@ static void uvc_fixup_video_ctrl(struct uvc_streaming *stream,
->         if ((ctrl->dwMaxPayloadTransferSize & 0xffff0000) == 0xffff0000)
->                 ctrl->dwMaxPayloadTransferSize &= ~0xffff0000;
+> An alternative would be to automatically fall back to the UVC 1.0a video
+> probe and commit control when the size returned by GET_CUR differs from
+> the value expected from UVC 1.5. That would be a generic fix that won't
+> require quirks. What do you think ?
+
+That sounds good to me, but we should print a warning. At least to
+make the users aware that here be dragons.
+
 >
-> +       /*
-> +        * Many devices report an incorrect dwMaxPayloadTransferSize value. The
-> +        * most common issue is devices requesting the maximum possible USB
-> +        * bandwidth (3072 bytes per interval for high-speed, high-bandwidth
-> +        * isochronous endpoints) while they actually require less, preventing
-> +        * multiple cameras from being used at the same time due to bandwidth
-> +        * overallocation.
-> +        *
-> +        * For those devices, replace the dwMaxPayloadTransferSize value based
-> +        * on an estimation calculated from the frame format and size. This is
-> +        * only possible for uncompressed formats, as not enough information is
-> +        * available to reliably estimate the bandwidth requirements for
-> +        * compressed formats.
-> +        */
->         if (!(format->flags & UVC_FMT_FLAG_COMPRESSED) &&
->             stream->dev->quirks & UVC_QUIRK_FIX_BANDWIDTH &&
->             stream->intf->num_altsetting > 1) {
-> @@ -236,6 +250,23 @@ static void uvc_fixup_video_ctrl(struct uvc_streaming *stream,
+> > Would it be possible to get the output with uvc_debug enabled?
 >
->                 ctrl->dwMaxPayloadTransferSize = bandwidth;
->         }
-> +
-> +       /*
-> +        * Another issue is with devices that report a transfer size that
-> +        * greatly exceeds the maximum supported by any existing USB version
-> +        * for isochronous transfers.  For instance, the "Slave camera" devices
-> +        * from Alcor Corp. (2017:0011 and 1b17:66B8) request 2752512 bytes per
-> +        * interval.
-> +        *
-> +        * For uncompressed formats, this can be addressed by the FIX_BANDWIDTH
-> +        * quirk, but for compressed format we can't meaningfully estimate the
-> +        * required bandwidth. Just hardcode it to 1024 bytes per interval,
-> +        * which should be large enough for compressed formats.
-> +        */
-> +       if ((format->flags & UVC_FMT_FLAG_COMPRESSED) &&
-> +           ctrl->dwMaxPayloadTransferSize > 3072 &&
-> +           stream->intf->num_altsetting > 1)
-> +               ctrl->dwMaxPayloadTransferSize = 1024;
+> I'll let you tell Giuliano how to provide that :-)
 
-- Maybe we should add a debug message if we are doing this?
+sure, you just do:
 
-- Also I do not like that the value that we use as trigger (3072) is
-different than the quirked value (1024)
+sudo rmmod uvcvideo; sudo modprobe uvcvideo  trace=0xffffffff
 
-Something like:
+and then when you run dmesg, there will be much more uvc output
 
-value = min(3072, value)
-
-makes more sense
-
-Thanks!
-
-
->  }
 >
->  static size_t uvc_video_ctrl_size(struct uvc_streaming *stream)
+> > > Reported-by: Giuliano Lotta <giuliano.lotta@gmail.com>
+> > > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > > ---
+> > >
+> > > Giuliano, I believe you've successfully tested this patch. If so, could
+> > > you reply with a Tested-by tag ? Just copying the following in your
+> > > reply will do:
+> > >
+> > > Tested-by: Giuliano Lotta <giuliano.lotta@gmail.com>
+> > >
+> > >  drivers/media/usb/uvc/uvc_driver.c | 11 +++++++++++
+> > >  1 file changed, 11 insertions(+)
+> > >
+> > > diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+> > > index 1a186abeb4fa..742eeaff333e 100644
+> > > --- a/drivers/media/usb/uvc/uvc_driver.c
+> > > +++ b/drivers/media/usb/uvc/uvc_driver.c
+> > > @@ -2429,6 +2429,17 @@ static const struct usb_device_id uvc_ids[] = {
+> > >           .bInterfaceSubClass   = 1,
+> > >           .bInterfaceProtocol   = UVC_PC_PROTOCOL_15,
+> > >           .driver_info          = (kernel_ulong_t)&uvc_ctrl_power_line_limited },
+> > > +       /* Quanta ACER HD User Facing */
+> > > +       { .match_flags          = USB_DEVICE_ID_MATCH_DEVICE
+> > > +                               | USB_DEVICE_ID_MATCH_INT_INFO,
+> > > +         .idVendor             = 0x0408,
+> > > +         .idProduct            = 0x4035,
+> > > +         .bInterfaceClass      = USB_CLASS_VIDEO,
+> > > +         .bInterfaceSubClass   = 1,
+> > > +         .bInterfaceProtocol   = UVC_PC_PROTOCOL_15,
+> > > +         .driver_info          = (kernel_ulong_t)&(const struct uvc_device_info){
+> > > +               .uvc_version = 0x010a,
+> > > +         } },
+> > >         /* LogiLink Wireless Webcam */
+> > >         { .match_flags          = USB_DEVICE_ID_MATCH_DEVICE
+> > >                                 | USB_DEVICE_ID_MATCH_INT_INFO,
+> > >
+> > > base-commit: fd957081cff04668f390c6f290bdcc7fc009a0f1
+>
 > --
 > Regards,
 >
 > Laurent Pinchart
->
+
 
 
 -- 
