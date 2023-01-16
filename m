@@ -2,78 +2,77 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B4AD466D0A0
-	for <lists+linux-media@lfdr.de>; Mon, 16 Jan 2023 22:01:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E3BB966D0B9
+	for <lists+linux-media@lfdr.de>; Mon, 16 Jan 2023 22:10:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233489AbjAPVBY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 16 Jan 2023 16:01:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52280 "EHLO
+        id S233924AbjAPVKD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 16 Jan 2023 16:10:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56362 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232671AbjAPVBR (ORCPT
+        with ESMTP id S233847AbjAPVJ7 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 16 Jan 2023 16:01:17 -0500
-Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 62EF1279A5;
-        Mon, 16 Jan 2023 13:01:12 -0800 (PST)
-Received: from hillosipuli.retiisi.eu (dkwpftty8y--hfpj0xqfy-3.rev.dnainternet.fi [IPv6:2001:14ba:4498:4840:1c07:fe62:30fe:9b48])
+        Mon, 16 Jan 2023 16:09:59 -0500
+Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [IPv6:2a0b:5c81:1c1::37])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D1161CAE3
+        for <linux-media@vger.kernel.org>; Mon, 16 Jan 2023 13:09:59 -0800 (PST)
+Received: from hillosipuli.retiisi.eu (82-181-192-243.bb.dnainternet.fi [82.181.192.243])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
         (No client certificate requested)
         (Authenticated sender: sailus)
-        by lahtoruutu.iki.fi (Postfix) with ESMTPSA id A1D661B002E4;
-        Mon, 16 Jan 2023 23:01:09 +0200 (EET)
+        by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 555CD1B0023B;
+        Mon, 16 Jan 2023 23:09:56 +0200 (EET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
-        t=1673902869;
+        t=1673903396;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=oqY/zzcD03j9DKBmP/L1E82sbMHJoJjY22Eh+rHM6j0=;
-        b=Rn+zCzzrxOLYjnQ1nARvUOjaS4VGxfnm9sIqFF9+7Drvu6AxESF0yDIPuGY6PZyCvgGDhO
-        5qkHxuho1Mt5JuX+RINHA3c9uz6ZuekcEbKSohNZHYbclb8nzpVSvbgsB/S8xPsSOb+q0J
-        4AiJoLr0MutPK/MeA9teWDQSV3jwucuGQPFXCTOWWaAKCzwt+iKQJQon9L8eZtfG1RZrLv
-        BNwOhVXGGgZPIt/BI/0k0d/QT0m8uSp8sV95dqZrxNqurHSQpIH1JX3QfZ2pMM2rgipuOQ
-        b2KqmiT0SnXvAnUS8DTEUIvqoy+eDIMREd+8Wda4gIhxvSNwQwiM3Qh7GQ0gWQ==
+        bh=dbAdlK0BxI0psHjrkM7TVjI+sE/7hkpjcx3VvL3xT0Q=;
+        b=bIstBwWnhMDNZ2QCxBOEcg9qZDxMJ7lXTJBW2oKmMwxp47VhX+PGY0FHO6vRn3OJ1tf0cR
+        uD8MOL1mn58isNBaG6AfX2ke6JrgI+IyW0jAchLX9lL5bw/nyciKzkrX1YUsoVAPXGt/oY
+        JCgdVKBnj+WpHh5XHzuPVaa3veZqBox0GsQaUWMkOeVX6F/rkkurR6tqKo8HOrZ27iIWvj
+        F8fdvukwUE5lRR14oI0GojOflqFte8R+2KKfn2c0QGBhauMkb8yB2jsEwc3my1HYwyixh7
+        qEXs9OhiRIN6lhWyQcjmt4g6m/JisZVqYq8MDORbU1kjA2sy9M0MQ72HC2tQIA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-        s=lahtoruutu; t=1673902869;
+        s=lahtoruutu; t=1673903396;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=oqY/zzcD03j9DKBmP/L1E82sbMHJoJjY22Eh+rHM6j0=;
-        b=rNYG7ndds3/gohYk5+3vXQlQTEDPPSxfkcFlCJ+DjIfDNWlI92ExMiAa2jkgDiwNLO0WjR
-        Nn0dZDyTt9lyrdHPXDiW8Lte9KQxrSmnM9lAxMexuJ9F0fYhz7mjTWn0Qi+PREilxhD/Mh
-        ZbE8R/qaeF2zf1bKSOfxIJabmyRBQN+z70FZ67xmXiKPTCu6usgg9mBLAKdt742kPyxv8/
-        Qr2ZzKPILusXSo7bGuUfrBkVwprV4t4asaGKC+tjDm/AaPpUi7XuQ6SLdM4labL7lVzIln
-        OdiSvtN+Z8vOn/wQFZN9c54n3I8V1w+G+LoJPUODn5H+SsqOTCmOoXHyc6Zv5w==
+        bh=dbAdlK0BxI0psHjrkM7TVjI+sE/7hkpjcx3VvL3xT0Q=;
+        b=g98QCzmgjDAzq5HKRGFKeXczCOyNrbndIT6rSbigDX//srAp7jAtDYu/lZF6ImdU2VW4XA
+        SDnO+lsgkQBQ8HGTW2U6YAQ1n4a80ZYWGESdO5sc4b8S9bm7eVu8p+sPn+xVdg7AZDX5gG
+        W4/+0D0suk43+y01FFuS711MqkNmM2ovxd4JZZ7Xme1PmT6K/0VVjh729+CY1vhbr4UE3W
+        6MuWTBo5oUxiDAhIANE+HnIFr3IqjuizQcCqEQ2zrhV+QM/bElwjM7HxdYpReCIQj7aImP
+        eWD1zJ7OmSkC73XM0KnKf6Y6PW3iAPA8LnFKeVlqM62n7iszMgiMQs4Ku6PjUA==
 ARC-Authentication-Results: i=1;
         ORIGINATING;
         auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1673902869; a=rsa-sha256;
+ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1673903396; a=rsa-sha256;
         cv=none;
-        b=jnUpk7XtPEn9bbET8EdBYJhF/Zah7sX3oaSouzZmrY8dZp10mX1wTtcIPEn2noRnd4jGks
-        Ievs0405ToPDBu8onhZIuqc0GQJM8JatInLSvygUHEbyUxYiccuceFuDw4KHfMNuI5phdB
-        jnxlp2YBoUQ1fEpw4LobyVRnROtFeY+ebiCzlkWFGlhzYs7FQXs6mDTiLTqWUcIKz60V2d
-        jppuW2ChM5H+VHGE60HewMTnP4TTQ4gpZQSeiyS2nyunpclSkgoMFl0cEEz3ib7d/y6uLc
-        yMWFgWlNL+2R8OQdWO6P2md5Yv8OuysRPjFkw7WP4BT1paiWMMJcG6jsThnBNw==
+        b=iHvowksLtk7oQlAB9j3XPUn3aANguOE5qazWaNzJyBnO6Icd3YTie6EWqPsnDi1xu6ktk3
+        mOV4K1FEiIBKtyMfzv+mCzT8B6QmSLGt1pzizH7d2BCsz5OYV8kUZ1KhzLqH4/oeolT4Yb
+        AYATmo0G2Ei8IDmNC8BEUtV0A/NAt5Emm/7QRGmdE5MAVVr9y2ZUDDreAQz2kS20lrzf4R
+        SA7FfrbydPpb/DXMswvrA6B/xKaa3DQYYao0uLdyXe8L2SnIIOlBjEc4N2rv4LE6FVkd1T
+        Pvt/5tMveVeBAjMac2tATGustHvJ7VDzOBpXTEA10eE8KwFMCisx9qD7Z5n0NA==
 Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
         (No client certificate requested)
-        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 3D6AC634C92;
-        Mon, 16 Jan 2023 23:01:09 +0200 (EET)
-Date:   Mon, 16 Jan 2023 23:01:09 +0200
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 0A09E634C91;
+        Mon, 16 Jan 2023 23:09:56 +0200 (EET)
+Date:   Mon, 16 Jan 2023 23:09:55 +0200
 From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     Aleksandr Burakov <a.burakov@rosalinux.ru>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        lvc-project@linuxtesting.org
-Subject: Re: [PATCH] media: v4l2-flash: fix NULL dereference in
- v4l2_flash_s_ctrl()
-Message-ID: <Y8W7FaNouVxmeWox@valkosipuli.retiisi.eu>
-References: <20221207141808.22922-1-a.burakov@rosalinux.ru>
+To:     Jai Luthra <j-luthra@ti.com>
+Cc:     Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH v2] media: i2c: imx219: Fix binning for RAW8 capture
+Message-ID: <Y8W9I73w8zYdG1tp@valkosipuli.retiisi.eu>
+References: <20221228111457.25516-1-j-luthra@ti.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221207141808.22922-1-a.burakov@rosalinux.ru>
+In-Reply-To: <20221228111457.25516-1-j-luthra@ti.com>
 X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
         SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
@@ -83,44 +82,31 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Alexandr,
+Hi Jai,
 
-On Wed, Dec 07, 2022 at 05:18:07PM +0300, Aleksandr Burakov wrote:
-> The NULL check added for fled_cdev before dereference.
+On Wed, Dec 28, 2022 at 04:44:57PM +0530, Jai Luthra wrote:
+> 2x2 binning works fine for RAW10 capture, but for RAW8 1232p mode it
+> leads to corrupted frames [1][2].
 > 
-> Found by Linux Verification Center (linuxtesting.org) with SVACE.
+> Using the special 2x2 analog binning mode fixes the issue, but causes
+> artefacts for RAW10 1232p capture. So here we choose the binning mode
+> depending upon the frame format selected.
 > 
-> Signed-off-by: Aleksandr Burakov <a.burakov@rosalinux.ru>
-> Fixes: 42bd6f59ae90 ("media: Add registration helpers for V4L2 flash sub-devices")
-> ---
->  drivers/media/v4l2-core/v4l2-flash-led-class.c | 4 ++++
->  1 file changed, 4 insertions(+)
+> As both binning modes work fine for 480p RAW8 and RAW10 capture, it can
+> share the same code path as 1232p for selecting binning mode.
 > 
-> diff --git a/drivers/media/v4l2-core/v4l2-flash-led-class.c b/drivers/media/v4l2-core/v4l2-flash-led-class.c
-> index 355595a0fefa..36cc46e80eea 100644
-> --- a/drivers/media/v4l2-core/v4l2-flash-led-class.c
-> +++ b/drivers/media/v4l2-core/v4l2-flash-led-class.c
-> @@ -291,12 +291,16 @@ static int v4l2_flash_s_ctrl(struct v4l2_ctrl *c)
->  		 * No conversion is needed as LED Flash class also uses
->  		 * microseconds for flash timeout units.
->  		 */
-> +		if (!fled_cdev)
-> +			return -EINVAL;
->  		return led_set_flash_timeout(fled_cdev, c->val);
->  	case V4L2_CID_FLASH_INTENSITY:
->  		/*
->  		 * No conversion is needed as LED Flash class also uses
->  		 * microamperes for flash intensity units.
->  		 */
-> +		if (!fled_cdev)
-> +			return -EINVAL;
->  		return led_set_flash_brightness(fled_cdev, c->val);
->  	}
->  
+> [1] https://forums.raspberrypi.com/viewtopic.php?t=332103
+> [2] https://github.com/raspberrypi/libcamera-apps/issues/281
+> 
+> Fixes: 22da1d56e982 ("media: i2c: imx219: Add support for RAW8 bit bayer format")
+> Signed-off-by: Jai Luthra <j-luthra@ti.com>
 
-fled_cdev won't be NULL above, this is checked elsewhere in the V4L2 flash
-LED class code. I guess the question then is whether doing such a check is
-meaningful. It would require a bug elsewhere in the code to happen.
+I'm afraid this no longer applies after Laurent's imx290 series. Could you
+rebase this on my master branch:
+
+<URL:https://git.linuxtv.org/sailus/media_tree.git/log/>
+
+I'm about to push patches there, should be done in a few hours' time.
 
 -- 
 Kind regards,
