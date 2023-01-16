@@ -2,115 +2,181 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3C2EF66CF69
-	for <lists+linux-media@lfdr.de>; Mon, 16 Jan 2023 20:14:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DF64466D064
+	for <lists+linux-media@lfdr.de>; Mon, 16 Jan 2023 21:47:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232682AbjAPTOy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 16 Jan 2023 14:14:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38238 "EHLO
+        id S232536AbjAPUrU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 16 Jan 2023 15:47:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44922 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232656AbjAPTOs (ORCPT
+        with ESMTP id S230103AbjAPUrT (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 16 Jan 2023 14:14:48 -0500
-Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 805002B081
-        for <linux-media@vger.kernel.org>; Mon, 16 Jan 2023 11:14:47 -0800 (PST)
-Received: from hillosipuli.retiisi.eu (82-181-192-243.bb.dnainternet.fi [82.181.192.243])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: sailus)
-        by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 375E11B002E3;
-        Mon, 16 Jan 2023 21:14:45 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
-        t=1673896485;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=BNTBozArzOH4oFq20640DeE+6wtz4uk6ThICVlEEOOM=;
-        b=R8GYQ3z5mvmo+T9vq0zXQKPclN6aE4gW9H8zet5T3CziqbHaUgRpkoVBxQjcbNqC4t1o97
-        dSuE8AdJs0Rowj2Vj8V965o+e4AR+xf6vcjT21z51FJwwfTkFZCnXEzHN/9kcqOz0BNp7s
-        HSDJ9oO459mvVMIgpoxVGmEsP68d2CVB7p6GgfbfM29tFjmjuNSK6PnJV2IaRbYXPfe9wQ
-        6e7wlcBq0gUCWvIfzaHHr5isfeW82MHBFjml7xAdJ3j20oqvS/oFHyEv05C5lApOm+JHCZ
-        X4EF5Ul0k02co8E5SrmMT+91OafMSFJ1vxHaW2tz4DBEZWPgUZS9zM7bgtodGw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-        s=lahtoruutu; t=1673896485;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=BNTBozArzOH4oFq20640DeE+6wtz4uk6ThICVlEEOOM=;
-        b=ua57k06YAtJRIkWTih7PP4+ujzwlQ36rPI+2S5fgcDPis6BGQX8nE28lTX8tpiPrJBE7On
-        FpN+WUwbWl5GhYHhbjzOqyeJ1zk1w5WWNW2b5s8okMwZDHSCX9MTYYFekmUH6O/MMsYLKt
-        Jlhsd8T905hJcLMl1VPfCAb/1ixz/SKJ98cFGrU8a42Ja1CczvDM3oDFvwFSAwMUZHd7XC
-        TGWcHDcLYxsrn9U+wgZRP+NqaR/pNlbkTFoztxHW0FRy7LdlRIeckCjfE9OoGe0Okh+X3Y
-        hBELNYcDfkXvz5GPXAw+nw7qw+DMd7YrjCxenQjF1oWJiDbT7NZ154W+gtBy5Q==
-ARC-Authentication-Results: i=1;
-        ORIGINATING;
-        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1673896485; a=rsa-sha256;
-        cv=none;
-        b=JQrN6NbpoNK5+fI1RFZw/Ph/ZVqUdUUtLhyDmkE5JTdrilUmow4iDKuV1Amk+bRoB+32QI
-        ++OoMQb1k7/jXXDPSdOE9V55ftxeDBETyoCOrNl72jj4n8NgkVOfVJ5pqWds6byQb4XVgK
-        kzlSMxF6A4gokHmQ2KFh4FTMQOJii5UCZ76KTqV4k/Hj6RI2Futm68Yj7xCzwCvicgwOsE
-        ta26pFl5y19bhHb+D/C4goC7NBV3FLNRPneYEUFuD05tujV+VFtL/vh5xZia4aaoqjDAWq
-        MUrMsiOURl/x45zcRGi2I2aDHp5+ADbqCmnd5HYHGqec5808GHbWC7JBZcOZEw==
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id A32F5634C91;
-        Mon, 16 Jan 2023 21:14:44 +0200 (EET)
-Date:   Mon, 16 Jan 2023 21:14:44 +0200
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc:     Jai Luthra <j-luthra@ti.com>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-media@vger.kernel.org, Nishanth Menon <nm@ti.com>
-Subject: Re: [PATCH v4 1/2] media: ov5640: Fix soft reset sequence and timings
-Message-ID: <Y8WiJLvRiBnmmapc@valkosipuli.retiisi.eu>
-References: <20230103122736.18479-1-j-luthra@ti.com>
- <20230103122736.18479-2-j-luthra@ti.com>
- <20230103170738.hldmc6pu4s2jch3e@uno.localdomain>
+        Mon, 16 Jan 2023 15:47:19 -0500
+Received: from mail-qt1-x830.google.com (mail-qt1-x830.google.com [IPv6:2607:f8b0:4864:20::830])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 13D9127D60
+        for <linux-media@vger.kernel.org>; Mon, 16 Jan 2023 12:47:18 -0800 (PST)
+Received: by mail-qt1-x830.google.com with SMTP id h21so25466567qta.12
+        for <linux-media@vger.kernel.org>; Mon, 16 Jan 2023 12:47:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=auTQc7ls171FtB9Rdx/AnXWuASX8tEkcbzG+L/Ndly4=;
+        b=aN1JZAowCcPnqXMuFHUgpfYS+p0a8c8JGxCVQULJl7zIBYhubq/5B+7M42XVKzYjTU
+         R8f6bBFeDZkOEt2SjkA5jFMAlrXGIc9jvP+JT5hJm743XSo09G92NQpg2a3RZoILq38k
+         JchvWT9JeAnlETFdZ4QMnHA2fycGEWsr3eAAU1i1hn3AoLNw0o3bQPdr6tf+XS24wYCM
+         A7rzh2BBCdtrYVXIbzkytAfAkIVCmkS9Pd5pE0oe46MRJ+lxlWYmx6ZqbPrjhacn3yQt
+         OyLsRkhRglSVOcCAOPzHzZws1qVU+1kDh8PvLOOzua8G5BrQy0OTJ6d9vZnCJKkDNiqM
+         ALqg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=auTQc7ls171FtB9Rdx/AnXWuASX8tEkcbzG+L/Ndly4=;
+        b=LdaSLmVLiJiOB5Xr+Q6DMUJQ18X93z+jBaLMHE3gbrNDiG6d0VRa+OYHYCETizZRvK
+         QzlMSiF85+GwwKlBSfsKRM0sEMWNObFDc46gpev8ZFHMTSp8wH0HnpYQ2/1AoKZJSNMJ
+         HCrp7o80I5aPr82/XVkx3fzBPEeaiBEb3E9JTow1UL4hFp6sWIvn4zGndz1XA8CB0697
+         PACVjLYQU+TqFre46nhg7npKzm5ysx+B+fxviDylGVmdP7TkH9v/9zC9R547l169uS0a
+         d99T8lmxbZqBuVNHGSodf+8LkcE52XbxSik5uFkWIR6Yxh0+mewoThLmE6uTDWCarhR1
+         5qSQ==
+X-Gm-Message-State: AFqh2kp/RYXebCU0qERREP32mAMDghCMeMjB8XsIZ7saqayi9FJAXnWA
+        ZrhRbaBVJFXwaCjwXbqCpSWQKg==
+X-Google-Smtp-Source: AMrXdXs7mDuV9/YX/70BnnuzjQchqMN7J1FcatwXKxjN3Co9yiD6c5WjTiHbKGHDVuzWzCKNMnNuZA==
+X-Received: by 2002:a05:622a:4a83:b0:3b4:7e41:daa8 with SMTP id fw3-20020a05622a4a8300b003b47e41daa8mr702301qtb.28.1673902037214;
+        Mon, 16 Jan 2023 12:47:17 -0800 (PST)
+Received: from nicolas-tpx395.localdomain (192-222-136-102.qc.cable.ebox.net. [192.222.136.102])
+        by smtp.gmail.com with ESMTPSA id br31-20020a05620a461f00b006fa2cc1b0fbsm18713536qkb.11.2023.01.16.12.47.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 16 Jan 2023 12:47:16 -0800 (PST)
+Message-ID: <d06c0c48d69af6acede89cf5a911180f48b3f266.camel@ndufresne.ca>
+Subject: Re: [PATCH v3 1/2] media: add RealVideo format RV30 and RV40
+From:   Nicolas Dufresne <nicolas@ndufresne.ca>
+To:     Ming Qian <ming.qian@nxp.com>, mchehab@kernel.org,
+        hverkuil-cisco@xs4all.nl
+Cc:     shawnguo@kernel.org, robh+dt@kernel.org, s.hauer@pengutronix.de,
+        kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
+        xiahong.bao@nxp.com, eagle.zhou@nxp.com, tao.jiang_2@nxp.com,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+Date:   Mon, 16 Jan 2023 15:47:14 -0500
+In-Reply-To: <8cbe08de42af1ecf0df39970d57742445fd0d488.1673582851.git.ming.qian@nxp.com>
+References: <cover.1673582851.git.ming.qian@nxp.com>
+         <8cbe08de42af1ecf0df39970d57742445fd0d488.1673582851.git.ming.qian@nxp.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.2 (3.46.2-1.fc37) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230103170738.hldmc6pu4s2jch3e@uno.localdomain>
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Jan 03, 2023 at 06:07:38PM +0100, Jacopo Mondi wrote:
-> > +	/* software standby: allows registers programming;
-> > +	 * exit at restore_mode() for CSI, s_stream(1) for DVP
-> > +	 */
-> 
-> Multiline comments are usually written as
-> 
-> 	/*
->          * Software standby: allows registers programming;
-> 	 * exit at restore_mode() for CSI, s_stream(1) for DVP
-> 	 */
-> 
-> It's a trivial change, I'm not collecting patches so I can't offer to
-> change it when doing so, but maybe Sakari could help with that so that
-> you don't have to send a new version ? (if that's the only comment you
-> receive ofc)
+Le vendredi 13 janvier 2023 =C3=A0 12:13 +0800, Ming Qian a =C3=A9crit=C2=
+=A0:
+> RealVideo, or also spelled as Real Video, is a suite of proprietary
+> video compression formats developed by RealNetworks -
+> the specific format changes with the version.
+> RealVideo codecs are identified by four-character codes.
+> RV30 and RV40 are RealNetworks' proprietary H.264-based codecs.
+>=20
+> Signed-off-by: Ming Qian <ming.qian@nxp.com>
+> ---
+>  .../media/v4l/pixfmt-compressed.rst           | 21 +++++++++++++++++++
+>  drivers/media/v4l2-core/v4l2-ioctl.c          |  2 ++
+>  include/uapi/linux/videodev2.h                |  2 ++
+>  3 files changed, 25 insertions(+)
+>=20
+> diff --git a/Documentation/userspace-api/media/v4l/pixfmt-compressed.rst =
+b/Documentation/userspace-api/media/v4l/pixfmt-compressed.rst
+> index a0230f357680..50ac095c1f16 100644
+> --- a/Documentation/userspace-api/media/v4l/pixfmt-compressed.rst
+> +++ b/Documentation/userspace-api/media/v4l/pixfmt-compressed.rst
+> @@ -237,6 +237,27 @@ Compressed Formats
+>          Metadata associated with the frame to decode is required to be p=
+assed
+>          through the ``V4L2_CID_STATELESS_FWHT_PARAMS`` control.
+>  	See the :ref:`associated Codec Control ID <codec-stateless-fwht>`.
+> +    * .. _V4L2-PIX-FMT-RV30:
+> +
+> +      - ``V4L2_PIX_FMT_RV30``
+> +      - 'RV30'
+> +      - RealVideo, or also spelled as Real Video, is a suite of propriet=
+ary
+> +        video compression formats developed by RealNetworks -
+> +        the specific format changes with the version.
+> +        RealVideo codecs are identified by four-character codes.
+> +        RV30 corresponds to RealVideo 8, suspected to based largely on a=
+n early draft of H.264
 
-Works for me.
+to *be* based on.
 
-> 
-> The patch looks good to me
-> 
-> Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonaboard.com>
+Just a style comment too, but the flow could be improved while fixing this =
+typo.
+Lines in this paragraph seems very uneven.
 
-Thanks!
+> +    * .. _V4L2-PIX-FMT-RV40:
+> +
+> +      - ``V4L2_PIX_FMT_RV40``
+> +      - 'RV40'
+> +      - RV40 represents RealVideo 9 and RealVideo 10.
+> +        RealVideo 9, suspected to be based on H.264,
+> +        RealVideo 10, aka RV9 EHQ, This refers to
+> +        an improved encoder for the RV9 format
+> +        that is fully backwards compatible with RV9 players -
+> +        the format and decoder did not change,
+> +        only the encoder did.
+> +        As a result, it uses the same FourCC.
 
--- 
-Sakari Ailus
+It feels this one could be wider ? But again, this is cosmetic at this poin=
+t.
+For the API changes, assuming fixed typo and improved style:
+
+Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+
+> =20
+>  .. raw:: latex
+> =20
+> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-co=
+re/v4l2-ioctl.c
+> index 9b5b04b8aa69..0546b00d3fc9 100644
+> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
+> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+> @@ -1473,6 +1473,8 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *f=
+mt)
+>  		case V4L2_PIX_FMT_FWHT:		descr =3D "FWHT"; break; /* used in vicodec *=
+/
+>  		case V4L2_PIX_FMT_FWHT_STATELESS:	descr =3D "FWHT Stateless"; break; /=
+* used in vicodec */
+>  		case V4L2_PIX_FMT_SPK:		descr =3D "Sorenson Spark"; break;
+> +		case V4L2_PIX_FMT_RV30:		descr =3D "RealVideo 8"; break;
+> +		case V4L2_PIX_FMT_RV40:		descr =3D "RealVideo 9 & 10"; break;
+>  		case V4L2_PIX_FMT_CPIA1:	descr =3D "GSPCA CPiA YUV"; break;
+>  		case V4L2_PIX_FMT_WNVA:		descr =3D "WNVA"; break;
+>  		case V4L2_PIX_FMT_SN9C10X:	descr =3D "GSPCA SN9C10X"; break;
+> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev=
+2.h
+> index 262ef10cfa02..b121154a6e24 100644
+> --- a/include/uapi/linux/videodev2.h
+> +++ b/include/uapi/linux/videodev2.h
+> @@ -740,6 +740,8 @@ struct v4l2_pix_format {
+>  #define V4L2_PIX_FMT_H264_SLICE v4l2_fourcc('S', '2', '6', '4') /* H264 =
+parsed slices */
+>  #define V4L2_PIX_FMT_HEVC_SLICE v4l2_fourcc('S', '2', '6', '5') /* HEVC =
+parsed slices */
+>  #define V4L2_PIX_FMT_SPK      v4l2_fourcc('S', 'P', 'K', '0') /* Sorenso=
+n Spark */
+> +#define V4L2_PIX_FMT_RV30     v4l2_fourcc('R', 'V', '3', '0') /* RealVid=
+eo 8 */
+> +#define V4L2_PIX_FMT_RV40     v4l2_fourcc('R', 'V', '4', '0') /* RealVid=
+eo 9 & 10 */
+> =20
+>  /*  Vendor-specific formats   */
+>  #define V4L2_PIX_FMT_CPIA1    v4l2_fourcc('C', 'P', 'I', 'A') /* cpia1 Y=
+UV */
+
