@@ -2,124 +2,93 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BA0D566B8FE
-	for <lists+linux-media@lfdr.de>; Mon, 16 Jan 2023 09:23:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CA27C66B95C
+	for <lists+linux-media@lfdr.de>; Mon, 16 Jan 2023 09:52:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232273AbjAPIXW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 16 Jan 2023 03:23:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47146 "EHLO
+        id S232388AbjAPIwc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 16 Jan 2023 03:52:32 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57744 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232199AbjAPIXV (ORCPT
+        with ESMTP id S232371AbjAPIw0 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 16 Jan 2023 03:23:21 -0500
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0271C869F;
-        Mon, 16 Jan 2023 00:23:20 -0800 (PST)
-Received: from [192.168.15.130] (unknown [194.152.46.21])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits))
-        (No client certificate requested)
-        (Authenticated sender: andrzej.p)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id D266B6602BBC;
-        Mon, 16 Jan 2023 08:23:17 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1673857398;
-        bh=0oEXBLaXBkw2yiI3T0rNElgIM6GXeR/1APFK7PWIKIU=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=Q+wx2+LaBSyOuWoLDAuOqnRo3FT0DXhpU5z+BeOun7NQL7t5MKyLPaRPrXPahTtbV
-         4ydtz5i9RsPiNd6DcB0TEaPfqdrMtXc3YfYRnOJh+F5JavHNarSJIVjo18WURIYu0i
-         lSePYzJero/OMjWKuhybnqZ+hFHtzDbVVFPNywfIxa+TQ3RskXNPmmB5Eq99QM95no
-         aWYb0qFUqqjKYTHHovbRVOHIXLn59HsnCMyKebLdWV2z59Ngq11GMQlIRl5RFWPWTx
-         2bswoAW69vApp9Vg1FjHNFKIrpzafbLg+Fc6GK98qAAUywoJjQD3gbrNPklP/djusa
-         00/t98Xosq+uA==
-Message-ID: <e154b22c-1cb4-dbb1-40e0-91fad130363d@collabora.com>
-Date:   Mon, 16 Jan 2023 09:23:09 +0100
+        Mon, 16 Jan 2023 03:52:26 -0500
+Received: from outpost1.zedat.fu-berlin.de (outpost1.zedat.fu-berlin.de [130.133.4.66])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2646044A1;
+        Mon, 16 Jan 2023 00:52:24 -0800 (PST)
+Received: from inpost2.zedat.fu-berlin.de ([130.133.4.69])
+          by outpost.zedat.fu-berlin.de (Exim 4.95)
+          with esmtps (TLS1.3)
+          tls TLS_AES_256_GCM_SHA384
+          (envelope-from <glaubitz@zedat.fu-berlin.de>)
+          id 1pHLDw-0003Fv-T9; Mon, 16 Jan 2023 09:52:12 +0100
+Received: from p57bd9464.dip0.t-ipconnect.de ([87.189.148.100] helo=[192.168.178.81])
+          by inpost2.zedat.fu-berlin.de (Exim 4.95)
+          with esmtpsa (TLS1.3)
+          tls TLS_AES_128_GCM_SHA256
+          (envelope-from <glaubitz@physik.fu-berlin.de>)
+          id 1pHLDw-000TdQ-Lf; Mon, 16 Jan 2023 09:52:12 +0100
+Message-ID: <40dc1bc1-d9cd-d9be-188e-5167ebae235c@physik.fu-berlin.de>
+Date:   Mon, 16 Jan 2023 09:52:10 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH v2 04/12] staging: media: rkvdec: Block start streaming
- until both queues run
-Content-Language: en-US
-To:     Sebastian Fricke <sebastian.fricke@collabora.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Alex Bee <knaerzche@gmail.com>,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        Collabora Kernel-domain <kernel@collabora.com>,
-        Robert Beckett <bob.beckett@collabora.com>,
+ Thunderbird/102.6.1
+Subject: Re: remove arch/sh
+To:     Christoph Hellwig <hch@lst.de>
+Cc:     Yoshinori Sato <ysato@users.sourceforge.jp>,
+        Rich Felker <dalias@libc.org>, Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>
-References: <20230101-patch-series-v2-6-2-rc1-v2-0-fa1897efac14@collabora.com>
- <20230101-patch-series-v2-6-2-rc1-v2-4-fa1897efac14@collabora.com>
-From:   Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-In-Reply-To: <20230101-patch-series-v2-6-2-rc1-v2-4-fa1897efac14@collabora.com>
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-kernel@vger.kernel.org, linux-watchdog@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-arch@vger.kernel.org,
+        dmaengine@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-mmc@vger.kernel.org, linux-mtd@lists.infradead.org,
+        netdev@vger.kernel.org, linux-gpio@vger.kernel.org,
+        linux-rtc@vger.kernel.org, linux-spi@vger.kernel.org,
+        linux-serial@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-fbdev@vger.kernel.org, alsa-devel@alsa-project.org,
+        linux-sh@vger.kernel.org
+References: <20230113062339.1909087-1-hch@lst.de>
+ <11e2e0a8-eabe-2d8c-d612-9cdd4bcc3648@physik.fu-berlin.de>
+ <20230116071306.GA15848@lst.de>
+Content-Language: en-US
+From:   John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+In-Reply-To: <20230116071306.GA15848@lst.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-0.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_SORBS_WEB,
-        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 7bit
+X-Original-Sender: glaubitz@physik.fu-berlin.de
+X-Originating-IP: 87.189.148.100
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        RCVD_IN_DNSWL_MED,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sebastian,
+Hello Christoph!
 
-Ezequiel and Dan have had some comments, they need addressing.
-
-If, as a result, the logic of this patch remains in place then:
-
-W dniu 12.01.2023 o 13:56, Sebastian Fricke pisze:
-> Ensure that both the CAPTURE and the OUTPUT queue are running (e.g. busy
-> -> have buffers allocated) before starting the actual streaming process.
+On 1/16/23 08:13, Christoph Hellwig wrote:
+> On Fri, Jan 13, 2023 at 09:09:52AM +0100, John Paul Adrian Glaubitz wrote:
+>> I'm still maintaining and using this port in Debian.
+>>
+>> It's a bit disappointing that people keep hammering on it. It works fine for me.
 > 
-> Signed-off-by: Sebastian Fricke <sebastian.fricke@collabora.com>
-> ---
->   drivers/staging/media/rkvdec/rkvdec.c | 7 +++++++
->   1 file changed, 7 insertions(+)
-> 
-> diff --git a/drivers/staging/media/rkvdec/rkvdec.c b/drivers/staging/media/rkvdec/rkvdec.c
-> index c849f6c20279..e0e95d06e216 100644
-> --- a/drivers/staging/media/rkvdec/rkvdec.c
-> +++ b/drivers/staging/media/rkvdec/rkvdec.c
-> @@ -562,6 +562,13 @@ static int rkvdec_start_streaming(struct vb2_queue *q, unsigned int count)
->   	if (V4L2_TYPE_IS_CAPTURE(q->type))
->   		return 0;
->   
-> +	/*
-> +	 * Make sure that both the output and the capture queue are running
-> +	 */
-> +	if (rkvdec_queue_busy(ctx, V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE) == 0 ||
-> +	    rkvdec_queue_busy(ctx, V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE) == 0)
+> What platforms do you (or your users) use it on?
 
-if you convert to a macro in PATCH 03/12 then the conditions can be rewritten as
+We have had a discussion between multiple people invested in the SuperH port and
+I have decided to volunteer as a co-maintainer of the port to support Rich Felker
+when he isn't available.
 
-!rkvdec_queue_busy(.....)
+Adrian
 
-instead of comparing to 0. (actually, this can be done regardless, but makes 
-more sense if the result of rkvdec_queue_busy() is boolean which it is when
-it becomes a macro as suggested)
-
-Then you can optionally follow De Morgan's law:
-
-if (!(rkvdec_queue_busy() && rkvdec_queue_busy()))
-	return -EAGAIN;
-
-and you get one negation less.
-
-Regards,
-
-Andrzej
-
-> +		return -EAGAIN;
-> +
->   	desc = ctx->coded_fmt_desc;
->   	if (WARN_ON(!desc))
->   		return -EINVAL;
-> 
+-- 
+  .''`.  John Paul Adrian Glaubitz
+: :' :  Debian Developer
+`. `'   Physicist
+   `-    GPG: 62FF 8A75 84E0 2956 9546  0006 7426 3B37 F5B5 F913
 
