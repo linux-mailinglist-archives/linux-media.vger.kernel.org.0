@@ -2,106 +2,147 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 47F0666BFC2
-	for <lists+linux-media@lfdr.de>; Mon, 16 Jan 2023 14:28:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3186166BFE5
+	for <lists+linux-media@lfdr.de>; Mon, 16 Jan 2023 14:36:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229717AbjAPN2E (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 16 Jan 2023 08:28:04 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47708 "EHLO
+        id S230447AbjAPNgS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 16 Jan 2023 08:36:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51960 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229535AbjAPN2D (ORCPT
+        with ESMTP id S230468AbjAPNgJ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 16 Jan 2023 08:28:03 -0500
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 15226166DE
-        for <linux-media@vger.kernel.org>; Mon, 16 Jan 2023 05:27:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1673875679; x=1705411679;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=CFbMZPT/w7sB5FOYD3xpRK5Z1CfgHSWWV4x0XBHNvxM=;
-  b=mAA7OOAwAG2cPrGXA40VxOlkAKoe8H43KXFdJuq+Swnv5H8+hpeoGZhU
-   iE07qejC2VWGguZ5c95u3uFcLIMzyMdwa0n2u7MwthlxxnCn1CZgKmO64
-   tw92xmuz3ENfoUFSXzsmJvvNMbREqDIxl2tTtYNIfBmaXrBZG/1YphcSV
-   EQtmHhP8rbiy0HsC7vYBH02xEEeUfYWTDk7zp/U1/Qr5DG0nHzfZKRBoz
-   +kC+nRQz4pP8X/v1acCd6wYf3Oe0jFr8AtBI1MnM8dhDA+fU+diIa8Y/Q
-   C3TFArKzgULe5/WTPu1dfMjMH78yF/XzkzJQw+AT+Z/glFZ78OJ0Q0wDI
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10591"; a="325727389"
-X-IronPort-AV: E=Sophos;i="5.97,221,1669104000"; 
-   d="scan'208";a="325727389"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2023 05:27:58 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10591"; a="766887429"
-X-IronPort-AV: E=Sophos;i="5.97,221,1669104000"; 
-   d="scan'208";a="766887429"
-Received: from punajuuri.fi.intel.com (HELO paasikivi.fi.intel.com) ([10.237.72.43])
-  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2023 05:27:56 -0800
-Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
-        by paasikivi.fi.intel.com (Postfix) with SMTP id 445D820165;
-        Mon, 16 Jan 2023 15:27:54 +0200 (EET)
-Date:   Mon, 16 Jan 2023 13:27:54 +0000
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Philipp Zabel <p.zabel@pengutronix.de>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-media@vger.kernel.org, kernel@pengutronix.de
-Subject: Re: [PATCH] media: v4l2-async: fix binding async subdevs with
- multiple source ports
-Message-ID: <Y8VQ2nGjy39z+RET@paasikivi.fi.intel.com>
-References: <20220810104848.846783-1-p.zabel@pengutronix.de>
- <20230113112456.GA9093@pengutronix.de>
+        Mon, 16 Jan 2023 08:36:09 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 15B4C1D923
+        for <linux-media@vger.kernel.org>; Mon, 16 Jan 2023 05:35:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1673876126;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=tAvUK0431qrdIjMrDzQc6oNNmBkY0t1HYoQvy6bKAsE=;
+        b=euKAHBBlTN22FhbEnPTxGRkNIXnUi2q2JC0he9RSik6N+2xexdFDgZqqZhustQyOHtxM7n
+        c1ZMXUNXcXA7ER2uoSZ3pWXf7B20twEt/lUnB+NdTJjATmfhvqZjQbR4ZeUaGTaBP1/5Ei
+        KE79oJmqDye/+d3JeS1AHNK3CPgpmec=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-650-TCktV_WFPEaYMZfgItsh5Q-1; Mon, 16 Jan 2023 08:35:24 -0500
+X-MC-Unique: TCktV_WFPEaYMZfgItsh5Q-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com [10.11.54.7])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6F05C2804136;
+        Mon, 16 Jan 2023 13:35:24 +0000 (UTC)
+Received: from calimero.vinschen.de (unknown [10.39.192.5])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id EFF8A14171B8;
+        Mon, 16 Jan 2023 13:35:23 +0000 (UTC)
+Received: by calimero.vinschen.de (Postfix, from userid 500)
+        id 751CFA8088F; Mon, 16 Jan 2023 14:35:22 +0100 (CET)
+Date:   Mon, 16 Jan 2023 14:35:22 +0100
+From:   Corinna Vinschen <vinschen@redhat.com>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     linux-media@vger.kernel.org,
+        Rudy Zijlstra <rudy@grumpydevil.homelinux.org>
+Subject: Re: [PATCHv2 00/16] staging/media: remove most deprecated drivers
+Message-ID: <Y8VSmox2xCbYltXp@calimero.vinschen.de>
+References: <Y8UepVxVuihu4Vjj@calimero.vinschen.de>
+ <86c7f052-152a-6199-5a00-2db7b3d7cad6@xs4all.nl>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230113112456.GA9093@pengutronix.de>
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
-        autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <86c7f052-152a-6199-5a00-2db7b3d7cad6@xs4all.nl>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Philipp,
+Hi Hans,
 
-On Fri, Jan 13, 2023 at 12:24:56PM +0100, Philipp Zabel wrote:
-> Hi,
+On Jan 16 11:08, Hans Verkuil wrote:
+> Hi Corinna,
 > 
-> On Wed, Aug 10, 2022 at 12:48:48PM +0200, Philipp Zabel wrote:
-> > Asynchronous subdevice probing on imx-media with imx6-mipi-csi2 is
-> > broken since commit 1f391df44607 ("media: v4l2-async: Use endpoints in
-> > __v4l2_async_nf_add_fwnode_remote()").
+> On 16/01/2023 10:53, Corinna Vinschen wrote:
+> > Hi Hans,
 > > 
-> > This is a side effect of imx6-mipi-csi2 having a single subdevice with
-> > four separate source ports connected to different subdevices. Before,
-> > the imx-media-csi and video-mux devices registered async sub-devices
-> > via device fwnode that matched the imx6-mipi-csi2 device on their
-> > respective notifiers. This caused the first asd to be put on the
-> > notifier waiting list, and the other three to return -EEXIST and be
-> > ignored.
+> > I only learned about this yesterday, so I hope I'm not too late.
 > > 
-> > With async subdev registration via endpoint fwnode, all four asds are
-> > distinct and three of them keep dangling on their notifiers after the
-> > first one is bound.
+> > Please don't do that.  You're about to remove working drivers used by a
+> > lot of people.
 > > 
-> > This patch modifies __v4l2_async_nf_has_async_subdev() to consider
-> > asds matching different fwnode endpoints of the same sub-device equal
-> > if the latter is already bound and matches via device fwnode. Further,
-> > v4l2_async_register_subdev() is modified to remove dangling duplicate
-> > asds that were registered before the sub-device was available to check
-> > its fwnode.
+> > If you remove them from the Linux kernel, you will leave *lots* of DVB-C
+> > and DVB-S card users behind.  They will update their TV recording
+> > machines to a newer system at one point and suddenly their ability to
+> > record from TV is gone forever.
 > > 
-> > Fixes: 1f391df44607 ("media: v4l2-async: Use endpoints in __v4l2_async_nf_add_fwnode_remote()")
-> > Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
+> > I'm personally affected by this as well.  We're using a machine with
+> > four Technotrend S2-3200 Budget DVB-S2 cards for TV recordings using
+> > the VDR package.  This card is apparently handled by the code under
+> > drivers/staging/media/deprecated/saa7146.
+> > 
+> > If this code goes away, we will have to keep the machine running on
+> > an old kernel for a long time.
+> > 
+> > I'm fortunate that I even learned about this developement, being a
+> > developer myself, but how's a normal user to know that a Linux driver
+> > they are using every day is about to be removed from the kernel?  Again,
+> > please don't break the equipment of us users of these DVB-C and DVB-S
+> > cards for the future.  
 > 
-> Any comments on this? The issue persists on v6.2-rc3.
+> I've dropped the PR for now.
 
-My apologies --- this had gotten buried in my inbox. It happens
-occasionally. I'll try to review this tomorrow.
+I'm really glad to read that.
 
--- 
-Sakari Ailus
+> Is the concern specifically for the saa7146
+> based hardware?
+> 
+> I.e., from Red Hat's point of view, are there any concerns about removing
+> vpfe_capture, tm6000, zr364xx, stkwebcam, fsl-viu, cpia2 and meye?
+
+I'm not part of the Red Hat media team, so I can't answer that, sorry.  
+
+The problem is that there are no usage numbers anywhere.  I don't know
+which of these drivers are still in use and which aren't.  I only know
+for certain for our saa7146 based cards @home.  Terratec was the market
+leader for quite some time, so there are lots of Terratec cards and
+budget cards from third party vendors in the wild.
+
+> The core problem with saa7146 (and the other deprecated drivers) is that
+> it is using the old videobuf framework, which has known problems and we
+> want (need!) to get rid of it, either by dropping drivers or converting
+> them.
+> 
+> One partial solution would be to drop analog video support from saa7146,
+> since that's the bit that uses this framework. DVB would remain working,
+> but analog video support would die, unless someone steps up to do the
+> conversion from vb1 to vb2.
+
+Maybe I'm biased, but who has actually still access to analog TV?  I'm
+not sure about that, but in Germany, analog TV over terrestrial antenna
+has been dropped about 2005.  Analog satellite has gone 2012.  Analog
+cable took until 2019.  I don't know about other regions.
+
+> So support for the old MXB, Hexium Gemini and Hexium Orion would die, but
+> for the other DVB devices it would stay alive.
+
+So, yeah, from my POV this might be an option.
+
+> I'm honestly quite surprised that these old DVB PCI cards are still in
+> use, I did not expect that.
+
+There isn't a really well-working alternative, unless you plug in lots
+of USB devices instead.  Even more important these days, the cards are
+still working, despite their age.  There's really no good reason to
+throw them into the dustbin and buy something new, instead of trying to
+use working equipment as long as possible to save waste.
+
+
+Thanks,
+Corinna
+
