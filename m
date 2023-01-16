@@ -2,141 +2,179 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 579C366BEA5
-	for <lists+linux-media@lfdr.de>; Mon, 16 Jan 2023 14:06:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1350B66BF8B
+	for <lists+linux-media@lfdr.de>; Mon, 16 Jan 2023 14:18:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231482AbjAPNGm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 16 Jan 2023 08:06:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56666 "EHLO
+        id S230510AbjAPNS0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 16 Jan 2023 08:18:26 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38580 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231393AbjAPNGU (ORCPT
+        with ESMTP id S230101AbjAPNR4 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 16 Jan 2023 08:06:20 -0500
-Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com [IPv6:2607:f8b0:4864:20::629])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 05C621E5EE
-        for <linux-media@vger.kernel.org>; Mon, 16 Jan 2023 05:05:42 -0800 (PST)
-Received: by mail-pl1-x629.google.com with SMTP id p24so30249419plw.11
-        for <linux-media@vger.kernel.org>; Mon, 16 Jan 2023 05:05:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=YHEN6NRkyow7uUjKRMEr8ke6VmFpUwa/vD6NWEe4Dj4=;
-        b=n4oMOOAAD2IqVNFJjQnDftb1tm9uDXwWoABmCcyeM9IG5NnEpQvPGbuHiTzPLYDVwe
-         kklh6hxeytmBkCo5NjQFhby33DvlJQit9UuBZK9JmBthRgo21O6DguUl3pWCcz8Osl9d
-         mYuwIQNd6y5h3W1XIzwKslvsiaFHpZP2L9rnM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=YHEN6NRkyow7uUjKRMEr8ke6VmFpUwa/vD6NWEe4Dj4=;
-        b=2fEve0IXpENrIF/7kyjERbykm8Emnui/1Mdw3GZOeY+5KlKLGuh2rC3Cm/e4R20OYv
-         5hc0TURmcRuS42UOBQndHSej/7/5ymDkixSewjgjaPYZqdXJ492pzDfRiuYTDvxXojnV
-         /kkT0iBEc9wnjdevT8Op+33w+0BAfw6rsIiXdtT9dTrUapQcjTxyuGECCiqU+i3We3s3
-         sfjPRmfBllkEDTcVWR0aHYdvO9YdQlxBdOy2BB5qE8pIuyQlPuO801cFcJV/n21GOpwO
-         ovugpWSRm7lmGUFybOoU7BfcJv2ZubEQ7mXncJnjAFqheAygGWn9xDzxvR+cdh7AtNZB
-         RX1g==
-X-Gm-Message-State: AFqh2kohPaHalIWkVaw+24bNHJP5MJEOnQGLr9xcVV2UwP515TyJo8Tm
-        WPmCX6xqUVeOXiz3u/oyb2yCYRt4d5uxsg79QW8=
-X-Google-Smtp-Source: AMrXdXtCUan2+aP6nfV9i9bf65+z6wvDZwalU0k9opbpeAGDc1XVqZnSFP2bnzUTP/jZFrwteS+q6Q==
-X-Received: by 2002:a17:902:ee82:b0:193:30bc:ed86 with SMTP id a2-20020a170902ee8200b0019330bced86mr21694592pld.48.1673874341303;
-        Mon, 16 Jan 2023 05:05:41 -0800 (PST)
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com. [209.85.216.54])
-        by smtp.gmail.com with ESMTPSA id p9-20020a170902780900b00188fc6766d6sm19187952pll.219.2023.01.16.05.05.40
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 16 Jan 2023 05:05:40 -0800 (PST)
-Received: by mail-pj1-f54.google.com with SMTP id o7-20020a17090a0a0700b00226c9b82c3aso31006036pjo.3
-        for <linux-media@vger.kernel.org>; Mon, 16 Jan 2023 05:05:40 -0800 (PST)
-X-Received: by 2002:a17:90a:c984:b0:219:8132:70db with SMTP id
- w4-20020a17090ac98400b00219813270dbmr9189148pjt.183.1673874339367; Mon, 16
- Jan 2023 05:05:39 -0800 (PST)
+        Mon, 16 Jan 2023 08:17:56 -0500
+Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [IPv6:2a0b:5c81:1c1::37])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6815F3ABB
+        for <linux-media@vger.kernel.org>; Mon, 16 Jan 2023 05:16:31 -0800 (PST)
+Received: from meesny.iki.fi (meesny.iki.fi [195.140.195.201])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by lahtoruutu.iki.fi (Postfix) with ESMTPS id DFF5D1B0007F
+        for <linux-media@vger.kernel.org>; Mon, 16 Jan 2023 15:16:28 +0200 (EET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
+        t=1673874988;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+        bh=lzFq2ugiYgi7HI3Ix0bQXNNFwZMTPlYffm/oqXKNm/w=;
+        b=RDz1SGPDITwHH4bsejRxlryL3d7L4ffNZgoJYTLJTQChNii6/CiFIn2PUmcrEhY5BAB2HK
+        iZCEq+m5f752HVaiN3aAjd80LHWjQG0A33AVtdz60d+zReYAPGHdXVKvHaVKZB5vxxv4sJ
+        NGtgZs0zOJ2vDpt/3wV4akPE+otIcH1WbOo2eJYVMyEw75ooDY3KcOU7cfTzGi3LJx8i/4
+        Mo9NF0uCA4OJ86QGlcFblpeNl/JHdD4HWOfPPxstMDPuNFVj6ueP3O4mez633MOsHech0r
+        RsLhiFElLtNd5kvGZr9x6mGv2Mgd6EMCEVJU8x/fVZIR5OUO9h6HKulDZV490A==
+Received: from hillosipuli.retiisi.eu (82-181-192-243.bb.dnainternet.fi [82.181.192.243])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: sailus)
+        by meesny.iki.fi (Postfix) with ESMTPSA id C8F0620059;
+        Mon, 16 Jan 2023 15:16:22 +0200 (EET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
+        t=1673874982;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+        bh=lzFq2ugiYgi7HI3Ix0bQXNNFwZMTPlYffm/oqXKNm/w=;
+        b=xL2E2KKJcNnZCHR7HV8k5TM8I4U0lrKWvwNCkywxvF2V5/8FuDdKesvhc60bP0OPbw8q89
+        EJ8Nax008q+b5VBwbZq4qm5IiKcvMg+B0Qe/ZoIAlNg8S6nfc67SsJaVutKD//GHxKFrZv
+        5zvqcLHVzv9gi1E4BmhJhHO3AG3Z3gk=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+        s=meesny; t=1673874982;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+        bh=lzFq2ugiYgi7HI3Ix0bQXNNFwZMTPlYffm/oqXKNm/w=;
+        b=PVjmxALi358pivUFeZvE6cbQ82+7uYy4BhqC1SPNiZq+d/kWv7kf4BnU2RlKONHkSSRtNj
+        R3Q6tMRUsKymiUyy6PgnTD+7vC/HglL+jzVnLOB5ilD8ogk/nqdZ9Mk67Qcwm+7+PNgFLn
+        /U0BUwEKG+NfwCd+YW+JpsD0gJzm7wU=
+ARC-Authentication-Results: i=1;
+        ORIGINATING;
+        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Seal: i=1; s=meesny; d=iki.fi; t=1673874982; a=rsa-sha256; cv=none;
+        b=G3EzbccnPg3cId4NdDUf8mUKykZj7Q2SyxCn5dggNdwOdsYWwDRvPT+ETMZAnEMIHWKoIQ
+        3zUzjYsk2Wgf+2REJ4arakU1yOXy3qzMLiymr/ARmPflLphh9VkziWhCFOXdUqATHXrzw/
+        HL3ft0r2aKfB84qbjfrbDiUfThVSJCw=
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 5DF5B634C91;
+        Mon, 16 Jan 2023 15:16:22 +0200 (EET)
+Date:   Mon, 16 Jan 2023 15:16:22 +0200
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     linux-media@vger.kernel.org
+Cc:     tomi.valkeinen@ideasonboard.com, laurent.pinchart@ideasonboard.com,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        niklas.soderlund+renesas@ragnatech.se,
+        satish.nagireddy@getcruise.com, Tomasz Figa <tfiga@chromium.org>,
+        "Qiu, Tian Shu" <tian.shu.qiu@intel.com>
+Subject: [GIT PULL FOR 6.3 v2] V4L2 streams support
+Message-ID: <Y8VOJs7v1/Oogum7@valkosipuli.retiisi.eu>
 MIME-Version: 1.0
-References: <20230115205210.20077-1-laurent.pinchart@ideasonboard.com>
-In-Reply-To: <20230115205210.20077-1-laurent.pinchart@ideasonboard.com>
-From:   Ricardo Ribalda <ribalda@chromium.org>
-Date:   Mon, 16 Jan 2023 14:05:28 +0100
-X-Gmail-Original-Message-ID: <CANiDSCvgxyRGw4EsGtGN5GxB_oCj2FpQgqr7tOUEyjwKSVRocA@mail.gmail.com>
-Message-ID: <CANiDSCvgxyRGw4EsGtGN5GxB_oCj2FpQgqr7tOUEyjwKSVRocA@mail.gmail.com>
-Subject: Re: [PATCH] media: uvcvideo: Force UVC version to 1.0a for 0408:4035
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org,
-        Giuliano Lotta <giuliano.lotta@gmail.com>,
-        "kolbjorn@kodemaker.no" <kolbjorn@kodemaker.no>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent
+Hi Mauro,
 
-On Sun, 15 Jan 2023 at 21:52, Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> The Quanta ACER HD User Facing camera reports a UVC 1.50 version, but
-> implements UVC 1.0a as shown by the UVC probe control being 26 bytes
-> long. Force the UVC version for that device.
+This set contains support for multiple streams over a single MC link, a set
+that has been out of tree for more than five years, has worked on by more
+than five people in their turns. I think it is now ready for upstream.
 
-Don't we also want to include 4035:4033 ?
+Source sub-devices with multiple streams aren't supported yet but the
+intent is to add the support soon.
 
-I am curious about the PowerLine Control (does it have one?) will it
-behave like 1.1 or 1.5
+Using the new APII requires setting v4l2_subdev_enable_streams_api in
+drivers/media/v4l2-core/v4l2-subdev.c to true, so no new API is exposed to
+the user space quite yet. The intent is also to change this soon, possibly
+for 6.3 but may well slip to 6.4.
 
-Would it be possible to get the output with uvc_debug enabled?
+since v1:
 
-Regards!
+- Fix documentation build and compile warnings.
 
-
->
-> Reported-by: Giuliano Lotta <giuliano.lotta@gmail.com>
-> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> ---
->
-> Giuliano, I believe you've successfully tested this patch. If so, could
-> you reply with a Tested-by tag ? Just copying the following in your
-> reply will do:
->
-> Tested-by: Giuliano Lotta <giuliano.lotta@gmail.com>
->
->  drivers/media/usb/uvc/uvc_driver.c | 11 +++++++++++
->  1 file changed, 11 insertions(+)
->
-> diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-> index 1a186abeb4fa..742eeaff333e 100644
-> --- a/drivers/media/usb/uvc/uvc_driver.c
-> +++ b/drivers/media/usb/uvc/uvc_driver.c
-> @@ -2429,6 +2429,17 @@ static const struct usb_device_id uvc_ids[] = {
->           .bInterfaceSubClass   = 1,
->           .bInterfaceProtocol   = UVC_PC_PROTOCOL_15,
->           .driver_info          = (kernel_ulong_t)&uvc_ctrl_power_line_limited },
-> +       /* Quanta ACER HD User Facing */
-> +       { .match_flags          = USB_DEVICE_ID_MATCH_DEVICE
-> +                               | USB_DEVICE_ID_MATCH_INT_INFO,
-> +         .idVendor             = 0x0408,
-> +         .idProduct            = 0x4035,
-> +         .bInterfaceClass      = USB_CLASS_VIDEO,
-> +         .bInterfaceSubClass   = 1,
-> +         .bInterfaceProtocol   = UVC_PC_PROTOCOL_15,
-> +         .driver_info          = (kernel_ulong_t)&(const struct uvc_device_info){
-> +               .uvc_version = 0x010a,
-> +         } },
->         /* LogiLink Wireless Webcam */
->         { .match_flags          = USB_DEVICE_ID_MATCH_DEVICE
->                                 | USB_DEVICE_ID_MATCH_INT_INFO,
->
-> base-commit: fd957081cff04668f390c6f290bdcc7fc009a0f1
-> --
-> Regards,
->
-> Laurent Pinchart
->
+Please pull.
 
 
---
-Ricardo Ribalda
+The following changes since commit 6599e683db1bf22fee74302c47e31b9a42a1c3d2:
+
+  Merge tag 'v6.2-rc1' into media_tree (2022-12-28 16:07:44 +0000)
+
+are available in the Git repository at:
+
+  git://linuxtv.org/sailus/media_tree.git tags/streams-6.3-2-signed
+
+for you to fetch changes up to 314a1ebb85475f982dc18069558ed6d3e64f2866:
+
+  media: Documentation: Update documentation for streams (2023-01-16 12:27:08 +0200)
+
+----------------------------------------------------------------
+Streams for v6.3
+
+----------------------------------------------------------------
+Jacopo Mondi (2):
+      media: Documentation: Add GS_ROUTING documentation
+      media: subdev: Add for_each_active_route() macro
+
+Laurent Pinchart (5):
+      media: subdev: Add [GS]_ROUTING subdev ioctls and operations
+      media: subdev: add v4l2_subdev_routing_validate() helper
+      media: v4l2-subdev: Add v4l2_subdev_state_xlate_streams() helper
+      media: v4l2-subdev: Add subdev .(enable|disable)_streams() operations
+      media: v4l2-subdev: Add v4l2_subdev_s_stream_helper() function
+
+Sakari Ailus (2):
+      media: Add stream to frame descriptor
+      media: Documentation: Update documentation for streams
+
+Tomi Valkeinen (12):
+      media: v4l2-subdev: Sort includes
+      media: add V4L2_SUBDEV_FL_STREAMS
+      media: add V4L2_SUBDEV_CAP_STREAMS
+      media: subdev: Require code change to enable [GS]_ROUTING
+      media: subdev: add v4l2_subdev_has_pad_interdep()
+      media: subdev: add v4l2_subdev_set_routing helper()
+      media: Documentation: add multiplexed streams documentation
+      media: subdev: add stream based configuration
+      media: subdev: use streams in v4l2_subdev_link_validate()
+      media: subdev: add "opposite" stream helper funcs
+      media: subdev: add streams to v4l2_subdev_get_fmt() helper function
+      media: subdev: add v4l2_subdev_set_routing_with_fmt() helper
+
+ .clang-format                                      |    1 +
+ Documentation/driver-api/media/v4l2-subdev.rst     |    8 +
+ .../userspace-api/media/v4l/dev-subdev.rst         |  166 ++++
+ .../userspace-api/media/v4l/user-func.rst          |    1 +
+ .../v4l/vidioc-subdev-enum-frame-interval.rst      |    5 +-
+ .../media/v4l/vidioc-subdev-enum-frame-size.rst    |    5 +-
+ .../media/v4l/vidioc-subdev-enum-mbus-code.rst     |    5 +-
+ .../media/v4l/vidioc-subdev-g-crop.rst             |    5 +-
+ .../media/v4l/vidioc-subdev-g-fmt.rst              |    5 +-
+ .../media/v4l/vidioc-subdev-g-frame-interval.rst   |    5 +-
+ .../media/v4l/vidioc-subdev-g-routing.rst          |  147 +++
+ .../media/v4l/vidioc-subdev-g-selection.rst        |    5 +-
+ drivers/media/v4l2-core/v4l2-ioctl.c               |   25 +-
+ drivers/media/v4l2-core/v4l2-subdev.c              | 1002 +++++++++++++++++++-
+ include/media/v4l2-subdev.h                        |  377 ++++++++
+ include/uapi/linux/v4l2-subdev.h                   |   74 +-
+ 16 files changed, 1786 insertions(+), 50 deletions(-)
+ create mode 100644 Documentation/userspace-api/media/v4l/vidioc-subdev-g-routing.rst
+
+-- 
+Kind regards,
+
+Sakari Ailus
