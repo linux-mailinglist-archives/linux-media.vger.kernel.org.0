@@ -2,61 +2,60 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9014366B8CF
-	for <lists+linux-media@lfdr.de>; Mon, 16 Jan 2023 09:10:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 97A6066B8D4
+	for <lists+linux-media@lfdr.de>; Mon, 16 Jan 2023 09:11:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232089AbjAPIKP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 16 Jan 2023 03:10:15 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42166 "EHLO
+        id S232153AbjAPILi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 16 Jan 2023 03:11:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42872 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231855AbjAPIKM (ORCPT
+        with ESMTP id S231576AbjAPILh (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 16 Jan 2023 03:10:12 -0500
-Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 553E32734
-        for <linux-media@vger.kernel.org>; Mon, 16 Jan 2023 00:10:11 -0800 (PST)
-Received: by mail-ej1-x629.google.com with SMTP id vw16so3010517ejc.12
-        for <linux-media@vger.kernel.org>; Mon, 16 Jan 2023 00:10:11 -0800 (PST)
+        Mon, 16 Jan 2023 03:11:37 -0500
+Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com [IPv6:2a00:1450:4864:20::633])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB5CB65AC
+        for <linux-media@vger.kernel.org>; Mon, 16 Jan 2023 00:11:33 -0800 (PST)
+Received: by mail-ej1-x633.google.com with SMTP id hw16so54308441ejc.10
+        for <linux-media@vger.kernel.org>; Mon, 16 Jan 2023 00:11:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=zms17SHseS3wAoavooLT/19S/3viSn8s+o0NzNuVEiU=;
-        b=h5Sj63KXGKJ6mTUFmnOoksQZFRd0wz0/9nKYmTFIxVovnq8T/KiMMHhMmv/YX/kO2d
-         +d/hw+HaA53PTT1rJma1PlfP69+vcM9CadbwgE2yzurhYx/4KXcCFN2mRR41bzabVb4c
-         sy6pvuXMaf7/9MNYHWQgZMyObKeSv25F1+zHPIQzPpvqAn5+sAYLrHcQEM0sDE7DVSFZ
-         7KlgjqHiXG+qZaWlD0JWhoUv+0gsqXjd3q6gHl4H5QKJsxBCvM5AjBkmWESZz5Uh86GM
-         MP1dSaDM4YuaoQNJ9DAHklVpcu96FXpdNUXT18aMH3PJ8YJ6scB2CkeQZ3/fi4AeivH0
-         hrYQ==
+        bh=D4ymnYKhsS5iGv9bsc4wQY9ntYFsPX+jp5KzAaLzQD4=;
+        b=xWuVPpbqSPdKQoVpn+evZUOz92Ak0AkA2LERHD4T1TTO28wKqxKz+bFsrqX98liYZF
+         fjdr/eMRiJVOss4qNo+G76S+TTDHjGBMM9DAuvnm/GGJXfjrJ2xlUz4kP4qXGxN53s1E
+         xFiK8JauJxOfzcqUK9wQa7qzhLMDUhDg3XV+CdjZdxKNUmvOxI+jzq2UWgRk29a7NuPj
+         GdTdXacEmxT4M5N/oSjUAtwyz8dEkrKFRW5gRpVnQLX9ijd6jRxMDH9pfuedkr2TGG9M
+         yP+FmlEeTcD+UhTP+xPqLIVtLJegrmApSkNpggApjFjAVpWpcQckA+yT6lT5BlqVB4SF
+         ta2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=zms17SHseS3wAoavooLT/19S/3viSn8s+o0NzNuVEiU=;
-        b=XjD250MJ6a44HdEQNLybkY+XPCDIgO0CNMPLrRAvWJPvanjU2LZipHVJZCT28jRHVQ
-         4P2/1lTkFkOikbD80tt93mxxg+vs2BE8zHQjefaKgWoxyKlBbrqfBlsCgpw1ru7x+Cal
-         PdUhQ2cUQOS6qpKMgVVvPGN45NwoGxNY+adXQGcO4IOSe/hDCv8aZvEjMokMFLY10x5g
-         RLjMDdsEmlh4k+GWo0d+pFHmgDujyeaPT8fWDOnLWW8bGN+GE5zPpqRPCU6LqjiDU7D8
-         vyNM3zbSZNPIEyt/ZMdbEoR8N/ONMSH+qEUODxm7zt/SEPwNwjvSZt6JYPBPVEHQ1DMP
-         TTuQ==
-X-Gm-Message-State: AFqh2kpveEJjDYVY/bmz5oIjqPeu8lS1wIs9tzDEqQcojdBq5dpt3APU
-        X5/zec6/5A1gyFXgBiSSpxqdTA==
-X-Google-Smtp-Source: AMrXdXsoQ8RZgHiEi0DjL+X9OpgWoZTiwWDn4sfC2Q/QMHAv5AT27GqlyXu1cVT+1PPwqX/xmaiOow==
-X-Received: by 2002:a17:906:eb88:b0:870:7e7d:97a7 with SMTP id mh8-20020a170906eb8800b008707e7d97a7mr3021202ejb.72.1673856609899;
-        Mon, 16 Jan 2023 00:10:09 -0800 (PST)
+        bh=D4ymnYKhsS5iGv9bsc4wQY9ntYFsPX+jp5KzAaLzQD4=;
+        b=ucgwul+Wjr7iwy7+v6D7jOV9FpGAVbcCfHzSRozwAeNZMrQyqndx/GbHU8oj9HLLMT
+         AfFAFeOJL8up7hgtsymNd4gzPZEIUoETDpVI1ehpCpwpht7pCRwDVhzLT7O25QQUW3Kp
+         2PFi0umJI6VlmXxn+d840q2BGCiBphNVmOJSk2NvRYutyU0xr9vrEVhwjJg3bo2M9Rma
+         ptgA5Gih0zdeAJw2/ZjkH1vKSmQVH2xcaJs4FYdHUqFiHBV/K+giK5/LAGOL3YScEvAc
+         cIho8qTOrdFO9Q/IwBlLKABqm17qS3eGFb65BkQEAgHgoEg0JSSMxKLSkExYUYNjogx5
+         4zcg==
+X-Gm-Message-State: AFqh2kpjvRlf/tWuigzp9Aqi6smdgPPMY2v0DgmSCOKc6UjyTftlpPxe
+        fPW4aNX90qCuA+/eWLQFouOO7A==
+X-Google-Smtp-Source: AMrXdXsBdP72AkcKF65oxwlJ7ZJRCVcEpKDcRDmYVyokU253P4At6lvgwyuEbeN/2E/ruNFGCMa3rQ==
+X-Received: by 2002:a17:906:b00d:b0:7c1:8ba6:6eb3 with SMTP id v13-20020a170906b00d00b007c18ba66eb3mr81757639ejy.35.1673856692269;
+        Mon, 16 Jan 2023 00:11:32 -0800 (PST)
 Received: from [192.168.1.109] ([178.197.216.144])
-        by smtp.gmail.com with ESMTPSA id j3-20020a170906474300b0084d4cb08f27sm8551169ejs.104.2023.01.16.00.10.08
+        by smtp.gmail.com with ESMTPSA id v18-20020aa7cd52000000b0047eeaae9558sm3158160edw.60.2023.01.16.00.11.30
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 16 Jan 2023 00:10:09 -0800 (PST)
-Message-ID: <f24a54f1-2720-3345-9596-bb8d388ba16f@linaro.org>
-Date:   Mon, 16 Jan 2023 09:10:07 +0100
+        Mon, 16 Jan 2023 00:11:31 -0800 (PST)
+Message-ID: <63f3d41a-1aa3-396a-b515-bc805f4a19b4@linaro.org>
+Date:   Mon, 16 Jan 2023 09:11:30 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.6.1
-Subject: Re: [RESEND v3 01/13] dt-binding: mediatek: add bindings for MediaTek
- mt8195 MDP3 components
+Subject: Re: [RESEND v3 02/13] arm64: dts: mediatek: mt8195: add MDP3 nodes
 Content-Language: en-US
 To:     Moudy Ho <moudy.ho@mediatek.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -68,9 +67,9 @@ Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
         linux-mediatek@lists.infradead.org,
         Project_Global_Chrome_Upstream_Group@mediatek.com
 References: <20230116032147.23607-1-moudy.ho@mediatek.com>
- <20230116032147.23607-2-moudy.ho@mediatek.com>
+ <20230116032147.23607-3-moudy.ho@mediatek.com>
 From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230116032147.23607-2-moudy.ho@mediatek.com>
+In-Reply-To: <20230116032147.23607-3-moudy.ho@mediatek.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -84,179 +83,72 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 On 16/01/2023 04:21, Moudy Ho wrote:
-> This patch adds support for MT8195 MDP3 RDMA, and introduce more
-> MDP3 components present in MT8195.
-
-Do not use "This commit/patch".
-https://elixir.bootlin.com/linux/v5.17.1/source/Documentation/process/submitting-patches.rst#L95
-
-Subject: drop second/last, redundant "bindings for". The "dt-bindings"
-prefix is already stating that these are bindings.
-
+> Add device nodes for Media Data Path 3 (MDP3) modules.
 > 
 > Signed-off-by: Moudy Ho <moudy.ho@mediatek.com>
 > ---
->  .../bindings/media/mediatek,mdp3-aal.yaml     | 63 ++++++++++++++++
->  .../bindings/media/mediatek,mdp3-color.yaml   | 63 ++++++++++++++++
->  .../bindings/media/mediatek,mdp3-fg.yaml      | 63 ++++++++++++++++
->  .../bindings/media/mediatek,mdp3-hdr.yaml     | 62 +++++++++++++++
->  .../bindings/media/mediatek,mdp3-merge.yaml   | 63 ++++++++++++++++
->  .../bindings/media/mediatek,mdp3-ovl.yaml     | 63 ++++++++++++++++
->  .../bindings/media/mediatek,mdp3-pad.yaml     | 63 ++++++++++++++++
->  .../bindings/media/mediatek,mdp3-rdma.yaml    | 30 +++++---
->  .../bindings/media/mediatek,mdp3-rsz.yaml     | 11 ++-
->  .../bindings/media/mediatek,mdp3-split.yaml   | 75 +++++++++++++++++++
->  .../bindings/media/mediatek,mdp3-stitch.yaml  | 63 ++++++++++++++++
->  .../bindings/media/mediatek,mdp3-tcc.yaml     | 62 +++++++++++++++
->  .../bindings/media/mediatek,mdp3-tdshp.yaml   | 63 ++++++++++++++++
->  13 files changed, 731 insertions(+), 13 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/media/mediatek,mdp3-aal.yaml
->  create mode 100644 Documentation/devicetree/bindings/media/mediatek,mdp3-color.yaml
->  create mode 100644 Documentation/devicetree/bindings/media/mediatek,mdp3-fg.yaml
->  create mode 100644 Documentation/devicetree/bindings/media/mediatek,mdp3-hdr.yaml
->  create mode 100644 Documentation/devicetree/bindings/media/mediatek,mdp3-merge.yaml
->  create mode 100644 Documentation/devicetree/bindings/media/mediatek,mdp3-ovl.yaml
->  create mode 100644 Documentation/devicetree/bindings/media/mediatek,mdp3-pad.yaml
->  create mode 100644 Documentation/devicetree/bindings/media/mediatek,mdp3-split.yaml
->  create mode 100644 Documentation/devicetree/bindings/media/mediatek,mdp3-stitch.yaml
->  create mode 100644 Documentation/devicetree/bindings/media/mediatek,mdp3-tcc.yaml
->  create mode 100644 Documentation/devicetree/bindings/media/mediatek,mdp3-tdshp.yaml
+>  arch/arm64/boot/dts/mediatek/mt8195.dtsi | 420 +++++++++++++++++++++++
+>  1 file changed, 420 insertions(+)
 > 
-> diff --git a/Documentation/devicetree/bindings/media/mediatek,mdp3-aal.yaml b/Documentation/devicetree/bindings/media/mediatek,mdp3-aal.yaml
-> new file mode 100644
-> index 000000000000..d2e1b5245778
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/mediatek,mdp3-aal.yaml
-
-Filename should match compatible, unless you already expect this binding
-will cover other devices. If so, why not adding them now?
-
-> @@ -0,0 +1,63 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/mediatek,mdp3-aal.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: MediaTek Media Data Path 3 AAL
-> +
-> +maintainers:
-> +  - Matthias Brugger <matthias.bgg@gmail.com>
-> +  - Moudy Ho <moudy.ho@mediatek.com>
-> +
-> +description:
-> +  One of Media Data Path 3 (MDP3) components is responsible for backlight
-> +  power saving and sunlight visibility improving.
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - mediatek,mt8195-mdp3-aal
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  mediatek,gce-client-reg:
-> +    description:
-> +      The register of client driver can be configured by gce with 4 arguments
-> +      defined in this property, such as phandle of gce, subsys id,
-> +      register offset and size.
-> +      Each subsys id is mapping to a base address of display function blocks
-> +      register which is defined in the gce header
-> +      include/dt-bindings/gce/<chip>-gce.h.
-> +    $ref: /schemas/types.yaml#/definitions/phandle-array
-> +    maxItems: 1
-
-items with items syntax instead:
-
-https://elixir.bootlin.com/linux/v5.18-rc1/source/Documentation/devicetree/bindings/soc/samsung/exynos-usi.yaml#L42
-
-> +
-> +  clocks:
-> +    minItems: 1
-
-Nope, maxItems.
-
-> +
-> +  power-domains:
-> +    maxItems: 1
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - mediatek,gce-client-reg
-> +  - clocks
-> +  - power-domains
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/clock/mt8195-clk.h>
-> +    #include <dt-bindings/gce/mt8195-gce.h>
-> +    #include <dt-bindings/power/mt8195-power.h>
-> +
-> +    mdp3-aal0@14005000 {
+> diff --git a/arch/arm64/boot/dts/mediatek/mt8195.dtsi b/arch/arm64/boot/dts/mediatek/mt8195.dtsi
+> index 206dd534c3f6..d2d1ba71222d 100644
+> --- a/arch/arm64/boot/dts/mediatek/mt8195.dtsi
+> +++ b/arch/arm64/boot/dts/mediatek/mt8195.dtsi
+> @@ -1706,6 +1706,133 @@
+>  			#clock-cells = <1>;
+>  		};
+>  
+> +		mdp3-rdma0@14001000 {
 
 Node names should be generic.
 https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html#generic-names-recommendation
 
-Definitelly "3" and "0" are not generic suffixes.
+0 is definitely not generic
 
-All comments above apply to your other files here.
+Isn't this dma-controller? or if not then just rdma?
 
-> +        compatible = "mediatek,mt8195-mdp3-aal";
-> +        reg = <0x14005000 0x1000>;
-> +        mediatek,gce-client-reg = <&gce1 SUBSYS_1400XXXX 0x5000 0x1000>;
-> +        clocks = <&vppsys0 CLK_VPP0_MDP_AAL>;
-> +        power-domains = <&spm MT8195_POWER_DOMAIN_VPPSYS0>;
-> +    };
-> diff --git a/Documentation/devicetree/bindings/media/mediatek,mdp3-color.yaml b/Documentation/devicetree/bindings/media/mediatek,mdp3-color.yaml
-> new file mode 100644
-> index 000000000000..1d8aa5dc76b9
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/mediatek,mdp3-color.yaml
-> @@ -0,0 +1,63 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/mediatek,mdp3-color.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +			compatible = "mediatek,mt8195-mdp3-rdma";
+> +			reg = <0 0x14001000 0 0x1000>;
+> +			mediatek,gce-client-reg = <&gce1 SUBSYS_1400XXXX 0x1000 0x1000>;
+> +			mediatek,gce-events = <CMDQ_EVENT_VPP0_MDP_RDMA_SOF>,
+> +					      <CMDQ_EVENT_VPP0_MDP_RDMA_FRAME_DONE>;
+> +			power-domains = <&spm MT8195_POWER_DOMAIN_VPPSYS0>,
+> +					<&spm MT8195_POWER_DOMAIN_VPPSYS1>;
+> +			iommus = <&iommu_vpp M4U_PORT_L4_MDP_RDMA>,
+> +				 <&iommu_vpp M4U_PORT_L4_MDP_WROT>;
+> +			clocks = <&vppsys0 CLK_VPP0_MDP_RDMA>,
+> +				 <&topckgen CLK_TOP_CFG_VPP0>,
+> +				 <&topckgen CLK_TOP_CFG_26M_VPP0>,
+> +				 <&vppsys0 CLK_VPP0_WARP0_ASYNC_TX>,
+> +				 <&vppsys0 CLK_VPP0_WARP0_RELAY>,
+> +				 <&vppsys0 CLK_VPP0_WARP0_MDP_DL_ASYNC>,
+> +				 <&vppsys0 CLK_VPP0_WARP1_ASYNC_TX>,
+> +				 <&vppsys0 CLK_VPP0_WARP1_RELAY>,
+> +				 <&vppsys0 CLK_VPP0_WARP1_MDP_DL_ASYNC>,
+> +				 <&vppsys0 CLK_VPP0_VPP02VPP1_RELAY>,
+> +				 <&vppsys1 CLK_VPP1_DL_ASYNC>,
+> +				 <&vppsys1 CLK_VPP1_VPP0_DL_ASYNC>,
+> +				 <&vppsys1 CLK_VPP1_VPP0_DL_RELAY>,
+> +				 <&vppsys0 CLK_VPP0_VPP12VPP0_ASYNC>,
+> +				 <&vppsys1 CLK_VPP1_VPP0_DL1_RELAY>,
+> +				 <&vppsys1 CLK_VPP1_SVPP2_VDO0_DL_RELAY>,
+> +				 <&vppsys1 CLK_VPP1_SVPP3_VDO1_DL_RELAY>,
+> +				 <&vppsys1 CLK_VPP1_SVPP2_VDO1_DL_RELAY>,
+> +				 <&vppsys1 CLK_VPP1_SVPP3_VDO0_DL_RELAY>;
+> +			mboxes = <&gce1 12 CMDQ_THR_PRIO_1>,
+> +				 <&gce1 13 CMDQ_THR_PRIO_1>,
+> +				 <&gce1 14 CMDQ_THR_PRIO_1>,
+> +				 <&gce1 21 CMDQ_THR_PRIO_1>,
+> +				 <&gce1 22 CMDQ_THR_PRIO_1>;
+> +		};
 > +
-> +title: MediaTek Media Data Path 3 COLOR
-> +
-> +maintainers:
-> +  - Matthias Brugger <matthias.bgg@gmail.com>
-> +  - Moudy Ho <moudy.ho@mediatek.com>
-> +
-> +description:
-> +  One of Media Data Path 3 (MDP3) components used to adjust hue, luma and
-> +  saturation to get better picture quality.
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - mediatek,mt8195-mdp3-color
+> +		mdp3-fg0@14002000 {
 
-This is exactly the same as previous file. Why do you split the binding?
-It really looks unnecessary.
+Node names should be generic.
+https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html#generic-names-recommendation
 
-Probably all other files should be also squashed.
-
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  mediatek,gce-client-reg:
-> +    description:
-> +      The register of client driver can be configured by gce with 4 arguments
-> +      defined in this property, such as phandle of gce, subsys id,
-> +      register offset and size.
-> +      Each subsys id is mapping to a base address of display function blocks
-> +      register which is defined in the gce header
-> +      include/dt-bindings/gce/<chip>-gce.h.
-
-Full, real path please, so it could be validated with tools.
+"0" suffix is definitely nothing generic. Drop such suffixes everywhere.
+Drop also "mdp3" prefix everywhere.
 
 
 Best regards,
