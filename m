@@ -2,119 +2,93 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0172466BAB3
-	for <lists+linux-media@lfdr.de>; Mon, 16 Jan 2023 10:42:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 555A066BACA
+	for <lists+linux-media@lfdr.de>; Mon, 16 Jan 2023 10:46:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232164AbjAPJmd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 16 Jan 2023 04:42:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34454 "EHLO
+        id S229586AbjAPJqY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 16 Jan 2023 04:46:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39106 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232029AbjAPJmB (ORCPT
+        with ESMTP id S229472AbjAPJqW (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 16 Jan 2023 04:42:01 -0500
-Received: from phobos.denx.de (phobos.denx.de [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96741901B
-        for <linux-media@vger.kernel.org>; Mon, 16 Jan 2023 01:41:01 -0800 (PST)
-Received: from tr.lan (ip-86-49-120-218.bb.vodafone.cz [86.49.120.218])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+        Mon, 16 Jan 2023 04:46:22 -0500
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B64DD55AD;
+        Mon, 16 Jan 2023 01:46:21 -0800 (PST)
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits))
         (No client certificate requested)
-        (Authenticated sender: marex@denx.de)
-        by phobos.denx.de (Postfix) with ESMTPSA id 2CF2684F3E;
-        Mon, 16 Jan 2023 10:40:59 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
-        s=phobos-20191101; t=1673862059;
-        bh=2Z2kMCsq5i+J8ewEsI4JA5Hw0b0vs3rbQ3+drUOHW34=;
-        h=From:To:Cc:Subject:Date:From;
-        b=rdasGdp035y/gSP1ySs1RG9IFV0nxUyuvyHS5OTLdQdrlKuvzd5jVA0uBbb26xqTI
-         Y9JU01d7y+qoYZvkBjMyLgdwJrxOacUmdl4gOuiY3aEd+kQxvfICRJJBjidmZT4HS+
-         1pqibbjOzHkGmaWrr5yD9zvSY0wQb/n5cdUJCSJF7McWBjTTkKuU9DcaFOlYseVF5W
-         hdFHQdo1F3mneGknELPpTawvn33Vas2qBlGZKlwHIBScZPnXNMLrf9p/O8PJo7D8bq
-         eAvTfQe8AC1I14KvRQtpwuDqIxUXj6MBqBi7LWrDohEcy2APTvPtJKVSxCf5usAq62
-         H1TNDRlzOaXEw==
-From:   Marek Vasut <marex@denx.de>
-To:     linux-media@vger.kernel.org
-Cc:     Marek Vasut <marex@denx.de>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        William Manley <will@williammanley.net>
-Subject: [PATCH v2] media: uvcvideo: Add GUID for BGRA/X 8:8:8:8
-Date:   Mon, 16 Jan 2023 10:40:32 +0100
-Message-Id: <20230116094032.4389-1-marex@denx.de>
-X-Mailer: git-send-email 2.39.0
+        (Authenticated sender: kholk11)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id A6E0766029A5;
+        Mon, 16 Jan 2023 09:46:18 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1673862380;
+        bh=nYQprZYDKKBXvoouxOYysIQde0DT4K7g+1YTSkKBGiU=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=fCApfwp9woRngKm4ZG1JqCe1yX4d8c7xfrO7LrW+GG7lSywzWwWeeIwU3Dum54yfK
+         nUpHOLQzwI4kPzWF5uawdu3O5okGrLLMWS6AZAuIUS7y3MRp7her0w3C/6cW8e7cAf
+         97Yq+BWJjT4xBp4HVbtgi5O62P0aYr5TpXd0YA+Bz366oVzInpp1V2X+Dm1+aSsIQu
+         eUh3Jv4RfX4pbC8GZwZZCuqnLHeSuFo22t/tvMCwwqrnoABMVR2hZ9VLwwNOqkiWQO
+         zpQnYL3o+9v+DHRHXmmrFVWm94uTnVxRhjS1yL7gjLXoD0jYCT2D1XefE24Ex6XaDm
+         HHjZgdmtzZfhQ==
+Message-ID: <1a9a09d5-58e2-badc-6d1c-fe2008c305f9@collabora.com>
+Date:   Mon, 16 Jan 2023 10:46:16 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Virus-Scanned: clamav-milter 0.103.6 at phobos.denx.de
-X-Virus-Status: Clean
-X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_PASS,URI_TRY_3LD autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH 07/10] iommu/mediatek: Add a gap for the iova regions
+Content-Language: en-US
+To:     Yong Wu <yong.wu@mediatek.com>, Joerg Roedel <joro@8bytes.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>
+Cc:     Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>, nfraprado@collabora.com,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
+        iommu@lists.linux.dev, mingyuan.ma@mediatek.com,
+        yf.wang@mediatek.com, libo.kang@mediatek.com,
+        Yunfei Dong <yunfei.dong@mediatek.com>,
+        kyrie wu <kyrie.wu@mediatek.corp-partner.google.com>,
+        chengci.xu@mediatek.com, youlin.pei@mediatek.com,
+        anan.sun@mediatek.com
+References: <20230113060133.9394-1-yong.wu@mediatek.com>
+ <20230113060133.9394-8-yong.wu@mediatek.com>
+From:   AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20230113060133.9394-8-yong.wu@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The Cypress EZUSB FX3 UVC example can be configured to report pixel
-format "e436eb7e-524f-11ce-9f53-0020af0ba770". This is its GUID for
-BGRA/X 8:8:8:8.
+Il 13/01/23 07:01, Yong Wu ha scritto:
+> Currenly masters can not indicate its special dma-ranges. Prepare
+> for vcodec. some vcodec end address is address + size, if our size
+> is 4G, the end address may be 0x2_0000_0000. and the
+> register is u32, then it may get zero. thus add a gap(8M) for
+> all the regions.
+> 
+> Signed-off-by: Yong Wu <yong.wu@mediatek.com>
 
-The UVC 1.5 spec [1] only defines GUIDs for YUY2, NV12, M420 and I420.
-This seems to be an extension documented in the Microsoft Windows Media
-Format SDK[2]. This Media Format SDK defines this GUID as corresponding
-to `MEDIASUBTYPE_RGB32`, which is confirmed by [4] as `MEDIASUBTYPE_ARGB32`
-has different GUID.
+I definitely agree on the fact that we do *need* this series... but this
+particular commit looks like a hack.
 
-Note that in my case, the FX3 UVC can output either channel order,
-BGR or RGB or any other mix for that matter. Since Linux commit
-1b8dc32286a1a ("[media] uvcvideo: Add GUID for BGR 8:8:8")
-defined a GUID for `MEDIASUBTYPE_RGB24` channel order as BGR, keep
-this change consistent and define `MEDIASUBTYPE_RGB32` as BGR as well.
-Document [3] also indicates the channel order is BGR.
+I'm not convinced: I have a hunch that this one will sooner or later backfire
+on us and break things again... at the same time, I'm not sure how to do this
+properly at this point (I didn't do any research, anyway).
 
-[1] https://www.usb.org/document-library/video-class-v15-document-set
-[2] https://learn.microsoft.com/en-us/windows/win32/wmformat/media-type-identifiers
-[3] https://learn.microsoft.com/en-us/windows/win32/directshow/uncompressed-rgb-video-subtypes
-[4] https://gix.github.io/media-types/
+Ideas?
 
-Signed-off-by: Marek Vasut <marex@denx.de>
----
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: William Manley <will@williammanley.net>
----
-V2: - Reference document [3] confirming BGR channel order
-    - Reference document [4] describing MEDIASUBTYPE_ARGB32 with different GUID
-    - Use V4L2_PIX_FMT_XBGR32 instead of V4L2_PIX_FMT_BGR32 which is deprecated
----
- include/media/v4l2-uvc.h | 8 ++++++++
- 1 file changed, 8 insertions(+)
-
-diff --git a/include/media/v4l2-uvc.h b/include/media/v4l2-uvc.h
-index f83e31661333b..b010a36fc1d95 100644
---- a/include/media/v4l2-uvc.h
-+++ b/include/media/v4l2-uvc.h
-@@ -99,6 +99,9 @@
- #define UVC_GUID_FORMAT_BGR3 \
- 	{ 0x7d, 0xeb, 0x36, 0xe4, 0x4f, 0x52, 0xce, 0x11, \
- 	 0x9f, 0x53, 0x00, 0x20, 0xaf, 0x0b, 0xa7, 0x70}
-+#define UVC_GUID_FORMAT_BGR4 \
-+	{ 0x7e, 0xeb, 0x36, 0xe4, 0x4f, 0x52, 0xce, 0x11, \
-+	 0x9f, 0x53, 0x00, 0x20, 0xaf, 0x0b, 0xa7, 0x70}
- #define UVC_GUID_FORMAT_M420 \
- 	{ 'M',  '4',  '2',  '0', 0x00, 0x00, 0x10, 0x00, \
- 	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
-@@ -266,6 +269,11 @@ static struct uvc_format_desc uvc_fmts[] = {
- 		.guid		= UVC_GUID_FORMAT_BGR3,
- 		.fcc		= V4L2_PIX_FMT_BGR24,
- 	},
-+	{
-+		.name		= "BGRA/X 8:8:8:8 (BGR4)",
-+		.guid		= UVC_GUID_FORMAT_BGR4,
-+		.fcc		= V4L2_PIX_FMT_XBGR32,
-+	},
- 	{
- 		.name		= "H.264",
- 		.guid		= UVC_GUID_FORMAT_H264,
--- 
-2.39.0
+Regards,
+Angelo
 
