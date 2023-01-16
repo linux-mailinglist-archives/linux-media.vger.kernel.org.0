@@ -2,228 +2,183 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6C97266C354
-	for <lists+linux-media@lfdr.de>; Mon, 16 Jan 2023 16:09:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 232DD66C363
+	for <lists+linux-media@lfdr.de>; Mon, 16 Jan 2023 16:13:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231852AbjAPPJt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 16 Jan 2023 10:09:49 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35110 "EHLO
+        id S231503AbjAPPN1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 16 Jan 2023 10:13:27 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38560 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233192AbjAPPJL (ORCPT
+        with ESMTP id S229699AbjAPPNG (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 16 Jan 2023 10:09:11 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 887CC1D900
-        for <linux-media@vger.kernel.org>; Mon, 16 Jan 2023 06:56:55 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        Mon, 16 Jan 2023 10:13:06 -0500
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4AF313253F
+        for <linux-media@vger.kernel.org>; Mon, 16 Jan 2023 07:00:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1673881247; x=1705417247;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=gUSQ27e3b8A48rGuJUufQ9ZHS0q5jDzBwVYo6del8h4=;
+  b=S7AVGm8xUTNrtAhyDwxJQSj2TEzkuYTMMxrqGuG8mP79s/H0KEVkIkOm
+   4L0UUbc+X+eq2R/yGi1GR07Uz3PDTK4dkilooGXTQrmcdyt5eC3T6kuDK
+   hgVSoGe0aD/puJGLC9lccPlusewuIjGbFKTkKXhL7EDjndtGJ8xIywTuJ
+   SYUmAuc/yeczHBYxIyzpoeXuoy4sqgG+hWpvjjzkSY+LR365ojwPiVnTl
+   cyswZtjJxmwWDjYC2KW0gilrhaaX3HEPEUofX+D6dm3PGyuPaGgwhrWQU
+   KN+v+NUNtEkHQtInvEIh50b9Dsd5mVyF5bTFVc1KKtalqSeo5KQfk4AWt
+   Q==;
+X-IronPort-AV: E=Sophos;i="5.97,221,1669071600"; 
+   d="scan'208";a="28454905"
+Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
+  by mx1-pgp.tq-group.com with ESMTP; 16 Jan 2023 16:00:45 +0100
+Received: from mx1.tq-group.com ([192.168.6.7])
+  by tq-pgp-pr1.tq-net.de (PGP Universal service);
+  Mon, 16 Jan 2023 16:00:45 +0100
+X-PGP-Universal: processed;
+        by tq-pgp-pr1.tq-net.de on Mon, 16 Jan 2023 16:00:45 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1673881245; x=1705417245;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=gUSQ27e3b8A48rGuJUufQ9ZHS0q5jDzBwVYo6del8h4=;
+  b=jBnqtzEotfNHzqHBTvPjFDDjEDYjHk4JExYP9XD4GSzmBp9pFM97bR2l
+   p41buELlLiTJ/OdoITI+SaTksZfTU71sqowz3eNfXV1cvID7C9jQ2Eviv
+   NGsYeKar8/nI+wFuqZhIlQ1tW6fGDxxIlaVIpldBQl1qLLwxdm9XZMgod
+   pJiKfu5JyDYCBAx7hctnHoIE0Rw1lXEDmRssst2w5XKe0r4dgQ0SV4AaL
+   PQrVJsLzfzm4012NiqYMIo/GnQgyl7oiQpRo2q3vgbHup6m21ErabzkY+
+   XMeu0gLAznmK2rYDy5qmOF61YhLDSvTUqHvuoJwuyjFHSUrIE5y/iMzlY
+   Q==;
+X-IronPort-AV: E=Sophos;i="5.97,221,1669071600"; 
+   d="scan'208";a="28454904"
+Received: from vtuxmail01.tq-net.de ([10.115.0.20])
+  by mx1.tq-group.com with ESMTP; 16 Jan 2023 16:00:45 +0100
+Received: from steina-w.localnet (unknown [10.123.53.21])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id ECB75B80FD3
-        for <linux-media@vger.kernel.org>; Mon, 16 Jan 2023 14:56:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61757C433EF
-        for <linux-media@vger.kernel.org>; Mon, 16 Jan 2023 14:56:52 +0000 (UTC)
-Message-ID: <ccb23c4f-2a1a-0b26-0865-14cb1e4f6323@xs4all.nl>
-Date:   Mon, 16 Jan 2023 15:56:51 +0100
+        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 5F5F5280073;
+        Mon, 16 Jan 2023 16:00:45 +0100 (CET)
+From:   Alexander Stein <alexander.stein@ew.tq-group.com>
+To:     linux-media@vger.kernel.org,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Sakari Ailus <sakari.ailus@iki.fi>,
+        Manivannan Sadhasivam <mani@kernel.org>,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>
+Subject: Re: [PATCH v3 05/17] media: i2c: imx290: Pass format and mode to imx290_calc_pixel_rate()
+Date:   Mon, 16 Jan 2023 16:00:45 +0100
+Message-ID: <1817263.atdPhlSkOF@steina-w>
+Organization: TQ-Systems GmbH
+In-Reply-To: <20230116144454.1012-6-laurent.pinchart@ideasonboard.com>
+References: <20230116144454.1012-1-laurent.pinchart@ideasonboard.com> <20230116144454.1012-6-laurent.pinchart@ideasonboard.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Content-Language: en-US
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [GIT PULL FOR v6.3] (v2) media: delete deprecated drivers
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This series deletes the deprecated media drivers that do not use vb2
-for streaming. They either implement this themselves, or use the old
-vb1 framework.
+Hi Laurent,
 
-It's all old hardware, and nobody (unsurprisingly) stepped up to do the
-vb2 conversion.
+thanks for the update.
 
-The saa7146 driver is not deleted: it turns out that the DVB part is still
-in use.
+Am Montag, 16. Januar 2023, 15:44:42 CET schrieb Laurent Pinchart:
+> Avoid accessing the imx290 current_format and current_mode fields in
+> imx290_calc_pixel_rate() to prepare for the removal of those fields.
+> Among the two callers of the function, imx290_ctrl_update() has an
+> explicit mode pointer already, and we can also give it a format pointer.
+> Use those explicitly.
+> 
+> While at it, inline the imx290_get_link_freq() function in
+> imx290_calc_pixel_rate() as it is only called there.
+> 
+> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-The best approach is probably to drop analog video support from this driver,
-but keep the digital video part, and move what remains back to mainline.
+Reviewed-by: Alexander Stein <alexander.stein@ew.tq-group.com>
 
-That will be a separate series, though.
+> ---
+> Changes since v2:
+> 
+> - Really drop format argument from imx290_calc_pixel_rate()
+> 
+> Changes since v1:
+> 
+> - Drop format argument from imx290_calc_pixel_rate()
+> ---
+>  drivers/media/i2c/imx290.c | 22 ++++++++--------------
+>  1 file changed, 8 insertions(+), 14 deletions(-)
+> 
+> diff --git a/drivers/media/i2c/imx290.c b/drivers/media/i2c/imx290.c
+> index 4ad6eab4f2e2..25671ded7c2a 100644
+> --- a/drivers/media/i2c/imx290.c
+> +++ b/drivers/media/i2c/imx290.c
+> @@ -547,21 +547,14 @@ static int imx290_write_current_format(struct imx290
+> *imx290) return 0;
+>  }
+> 
+> -static s64 imx290_get_link_freq(struct imx290 *imx290)
+> +static u64 imx290_calc_pixel_rate(struct imx290 *imx290,
+> +				  const struct imx290_mode *mode)
+>  {
+> -	u8 index = imx290->current_mode->link_freq_index;
+> -
+> -	return *(imx290_link_freqs_ptr(imx290) + index);
+> -}
+> -
+> -static u64 imx290_calc_pixel_rate(struct imx290 *imx290)
+> -{
+> -	s64 link_freq = imx290_get_link_freq(imx290);
+> -	u8 nlanes = imx290->nlanes;
+> +	s64 link_freq = imx290_link_freqs_ptr(imx290)[mode-
+>link_freq_index];
+>  	u64 pixel_rate;
+> 
+>  	/* pixel rate = link_freq * 2 * nr_of_lanes / bits_per_sample */
+> -	pixel_rate = link_freq * 2 * nlanes;
+> +	pixel_rate = link_freq * 2 * imx290->nlanes;
+>  	do_div(pixel_rate, imx290->bpp);
+>  	return pixel_rate;
+>  }
+> @@ -649,7 +642,7 @@ static void imx290_ctrl_update(struct imx290 *imx290,
+> 
+>  	__v4l2_ctrl_s_ctrl(imx290->link_freq, mode->link_freq_index);
+>  	__v4l2_ctrl_s_ctrl_int64(imx290->pixel_rate,
+> -				 imx290_calc_pixel_rate(imx290));
+> +				 imx290_calc_pixel_rate(imx290, 
+mode));
+> 
+>  	__v4l2_ctrl_modify_range(imx290->hblank, hblank, hblank, 1, hblank);
+>  	__v4l2_ctrl_modify_range(imx290->vblank, vblank, vblank, 1, vblank);
+> @@ -659,6 +652,7 @@ static int imx290_ctrl_init(struct imx290 *imx290)
+>  {
+>  	struct v4l2_fwnode_device_properties props;
+>  	unsigned int blank;
+> +	u64 pixel_rate;
+>  	int ret;
+> 
+>  	ret = v4l2_fwnode_device_parse(imx290->dev, &props);
+> @@ -696,10 +690,10 @@ static int imx290_ctrl_init(struct imx290 *imx290)
+>  	if (imx290->link_freq)
+>  		imx290->link_freq->flags |= V4L2_CTRL_FLAG_READ_ONLY;
+> 
+> +	pixel_rate = imx290_calc_pixel_rate(imx290, imx290->current_mode);
+>  	imx290->pixel_rate = v4l2_ctrl_new_std(&imx290->ctrls, 
+&imx290_ctrl_ops,
+>  					       V4L2_CID_PIXEL_RATE,
+> -					       1, INT_MAX, 1,
+> -					       
+imx290_calc_pixel_rate(imx290));
+> +					       1, INT_MAX, 1, 
+pixel_rate);
+> 
+>  	v4l2_ctrl_new_std_menu_items(&imx290->ctrls, &imx290_ctrl_ops,
+>  				     V4L2_CID_TEST_PATTERN,
 
-Regards,
 
-	Hans
 
-Changes since v1: drop the last 9 patches that remove saa7146 from the PR.
 
-The following changes since commit 6599e683db1bf22fee74302c47e31b9a42a1c3d2:
-
-  Merge tag 'v6.2-rc1' into media_tree (2022-12-28 16:07:44 +0000)
-
-are available in the Git repository at:
-
-  git://linuxtv.org/hverkuil/media_tree.git tags/br-v6.3b
-
-for you to fetch changes up to 67dcebbac5b509af8734921c247a13104368735e:
-
-  tm6000: remove deprecated driver (2023-01-14 11:27:06 +0100)
-
-----------------------------------------------------------------
-Tag branch
-
-----------------------------------------------------------------
-Hans Verkuil (7):
-      meye: remove this deprecated driver
-      cpia2: remove deprecated driver
-      fsl-viu: remove deprecated driver
-      stkwebcam: remove deprecated driver
-      zr364xx: remove deprecated driver
-      vpfe_capture: remove deprecated davinci drivers
-      tm6000: remove deprecated driver
-
- Documentation/admin-guide/media/cpia2.rst                        |  145 ----
- Documentation/admin-guide/media/dvb-drivers.rst                  |    1 -
- Documentation/admin-guide/media/meye.rst                         |   93 --
- Documentation/admin-guide/media/other-usb-cardlist.rst           |   14 -
- Documentation/admin-guide/media/pci-cardlist.rst                 |    1 -
- Documentation/admin-guide/media/platform-cardlist.rst            |    1 -
- Documentation/admin-guide/media/tm6000-cardlist.rst              |   83 --
- Documentation/admin-guide/media/usb-cardlist.rst                 |    7 -
- Documentation/admin-guide/media/v4l-drivers.rst                  |    2 -
- Documentation/admin-guide/media/zr364xx.rst                      |  102 ---
- Documentation/driver-api/media/drivers/cpia2_devel.rst           |   56 --
- Documentation/driver-api/media/drivers/index.rst                 |    1 -
- Documentation/userspace-api/media/drivers/index.rst              |    1 -
- Documentation/userspace-api/media/drivers/meye-uapi.rst          |   53 --
- MAINTAINERS                                                      |   27 -
- drivers/staging/media/Kconfig                                    |    7 -
- drivers/staging/media/Makefile                                   |    7 -
- drivers/staging/media/deprecated/cpia2/Kconfig                   |   13 -
- drivers/staging/media/deprecated/cpia2/Makefile                  |    4 -
- drivers/staging/media/deprecated/cpia2/TODO                      |    6 -
- drivers/staging/media/deprecated/cpia2/cpia2.h                   |  475 -----------
- drivers/staging/media/deprecated/cpia2/cpia2_core.c              | 2434 -----------------------------------------------------
- drivers/staging/media/deprecated/cpia2/cpia2_registers.h         |  463 ----------
- drivers/staging/media/deprecated/cpia2/cpia2_usb.c               |  966 ---------------------
- drivers/staging/media/deprecated/cpia2/cpia2_v4l.c               | 1226 ---------------------------
- drivers/staging/media/deprecated/fsl-viu/Kconfig                 |   15 -
- drivers/staging/media/deprecated/fsl-viu/Makefile                |    2 -
- drivers/staging/media/deprecated/fsl-viu/TODO                    |    7 -
- drivers/staging/media/deprecated/fsl-viu/fsl-viu.c               | 1599 -----------------------------------
- drivers/staging/media/deprecated/meye/Kconfig                    |   19 -
- drivers/staging/media/deprecated/meye/Makefile                   |    2 -
- drivers/staging/media/deprecated/meye/TODO                       |    6 -
- drivers/staging/media/deprecated/meye/meye.c                     | 1814 ---------------------------------------
- drivers/staging/media/deprecated/meye/meye.h                     |  311 -------
- drivers/staging/media/deprecated/stkwebcam/Kconfig               |   18 -
- drivers/staging/media/deprecated/stkwebcam/Makefile              |    5 -
- drivers/staging/media/deprecated/stkwebcam/TODO                  |   12 -
- drivers/staging/media/deprecated/stkwebcam/stk-sensor.c          |  587 -------------
- drivers/staging/media/deprecated/stkwebcam/stk-webcam.c          | 1434 -------------------------------
- drivers/staging/media/deprecated/stkwebcam/stk-webcam.h          |  123 ---
- drivers/staging/media/deprecated/tm6000/Kconfig                  |   37 -
- drivers/staging/media/deprecated/tm6000/Makefile                 |   14 -
- drivers/staging/media/deprecated/tm6000/TODO                     |    7 -
- drivers/staging/media/deprecated/tm6000/tm6000-alsa.c            |  440 ----------
- drivers/staging/media/deprecated/tm6000/tm6000-cards.c           | 1397 ------------------------------
- drivers/staging/media/deprecated/tm6000/tm6000-core.c            |  916 --------------------
- drivers/staging/media/deprecated/tm6000/tm6000-dvb.c             |  454 ----------
- drivers/staging/media/deprecated/tm6000/tm6000-i2c.c             |  317 -------
- drivers/staging/media/deprecated/tm6000/tm6000-input.c           |  503 -----------
- drivers/staging/media/deprecated/tm6000/tm6000-regs.h            |  588 -------------
- drivers/staging/media/deprecated/tm6000/tm6000-stds.c            |  623 --------------
- drivers/staging/media/deprecated/tm6000/tm6000-usb-isoc.h        |   38 -
- drivers/staging/media/deprecated/tm6000/tm6000-video.c           | 1703 -------------------------------------
- drivers/staging/media/deprecated/tm6000/tm6000.h                 |  396 ---------
- drivers/staging/media/deprecated/vpfe_capture/Kconfig            |   58 --
- drivers/staging/media/deprecated/vpfe_capture/Makefile           |    4 -
- drivers/staging/media/deprecated/vpfe_capture/TODO               |    7 -
- drivers/staging/media/deprecated/vpfe_capture/ccdc_hw_device.h   |   80 --
- drivers/staging/media/deprecated/vpfe_capture/dm355_ccdc.c       |  934 --------------------
- drivers/staging/media/deprecated/vpfe_capture/dm355_ccdc.h       |  308 -------
- drivers/staging/media/deprecated/vpfe_capture/dm355_ccdc_regs.h  |  297 -------
- drivers/staging/media/deprecated/vpfe_capture/dm644x_ccdc.c      |  879 -------------------
- drivers/staging/media/deprecated/vpfe_capture/dm644x_ccdc.h      |  171 ----
- drivers/staging/media/deprecated/vpfe_capture/dm644x_ccdc_regs.h |  140 ---
- drivers/staging/media/deprecated/vpfe_capture/isif.c             | 1127 -------------------------
- drivers/staging/media/deprecated/vpfe_capture/isif.h             |  518 ------------
- drivers/staging/media/deprecated/vpfe_capture/isif_regs.h        |  256 ------
- drivers/staging/media/deprecated/vpfe_capture/vpfe_capture.c     | 1902 -----------------------------------------
- drivers/staging/media/deprecated/zr364xx/Kconfig                 |   18 -
- drivers/staging/media/deprecated/zr364xx/Makefile                |    3 -
- drivers/staging/media/deprecated/zr364xx/TODO                    |    7 -
- drivers/staging/media/deprecated/zr364xx/zr364xx.c               | 1635 -----------------------------------
- include/media/davinci/ccdc_types.h                               |   30 -
- include/uapi/linux/meye.h                                        |   65 --
- include/uapi/linux/v4l2-controls.h                               |    8 +-
- 75 files changed, 6 insertions(+), 28016 deletions(-)
- delete mode 100644 Documentation/admin-guide/media/cpia2.rst
- delete mode 100644 Documentation/admin-guide/media/meye.rst
- delete mode 100644 Documentation/admin-guide/media/tm6000-cardlist.rst
- delete mode 100644 Documentation/admin-guide/media/zr364xx.rst
- delete mode 100644 Documentation/driver-api/media/drivers/cpia2_devel.rst
- delete mode 100644 Documentation/userspace-api/media/drivers/meye-uapi.rst
- delete mode 100644 drivers/staging/media/deprecated/cpia2/Kconfig
- delete mode 100644 drivers/staging/media/deprecated/cpia2/Makefile
- delete mode 100644 drivers/staging/media/deprecated/cpia2/TODO
- delete mode 100644 drivers/staging/media/deprecated/cpia2/cpia2.h
- delete mode 100644 drivers/staging/media/deprecated/cpia2/cpia2_core.c
- delete mode 100644 drivers/staging/media/deprecated/cpia2/cpia2_registers.h
- delete mode 100644 drivers/staging/media/deprecated/cpia2/cpia2_usb.c
- delete mode 100644 drivers/staging/media/deprecated/cpia2/cpia2_v4l.c
- delete mode 100644 drivers/staging/media/deprecated/fsl-viu/Kconfig
- delete mode 100644 drivers/staging/media/deprecated/fsl-viu/Makefile
- delete mode 100644 drivers/staging/media/deprecated/fsl-viu/TODO
- delete mode 100644 drivers/staging/media/deprecated/fsl-viu/fsl-viu.c
- delete mode 100644 drivers/staging/media/deprecated/meye/Kconfig
- delete mode 100644 drivers/staging/media/deprecated/meye/Makefile
- delete mode 100644 drivers/staging/media/deprecated/meye/TODO
- delete mode 100644 drivers/staging/media/deprecated/meye/meye.c
- delete mode 100644 drivers/staging/media/deprecated/meye/meye.h
- delete mode 100644 drivers/staging/media/deprecated/stkwebcam/Kconfig
- delete mode 100644 drivers/staging/media/deprecated/stkwebcam/Makefile
- delete mode 100644 drivers/staging/media/deprecated/stkwebcam/TODO
- delete mode 100644 drivers/staging/media/deprecated/stkwebcam/stk-sensor.c
- delete mode 100644 drivers/staging/media/deprecated/stkwebcam/stk-webcam.c
- delete mode 100644 drivers/staging/media/deprecated/stkwebcam/stk-webcam.h
- delete mode 100644 drivers/staging/media/deprecated/tm6000/Kconfig
- delete mode 100644 drivers/staging/media/deprecated/tm6000/Makefile
- delete mode 100644 drivers/staging/media/deprecated/tm6000/TODO
- delete mode 100644 drivers/staging/media/deprecated/tm6000/tm6000-alsa.c
- delete mode 100644 drivers/staging/media/deprecated/tm6000/tm6000-cards.c
- delete mode 100644 drivers/staging/media/deprecated/tm6000/tm6000-core.c
- delete mode 100644 drivers/staging/media/deprecated/tm6000/tm6000-dvb.c
- delete mode 100644 drivers/staging/media/deprecated/tm6000/tm6000-i2c.c
- delete mode 100644 drivers/staging/media/deprecated/tm6000/tm6000-input.c
- delete mode 100644 drivers/staging/media/deprecated/tm6000/tm6000-regs.h
- delete mode 100644 drivers/staging/media/deprecated/tm6000/tm6000-stds.c
- delete mode 100644 drivers/staging/media/deprecated/tm6000/tm6000-usb-isoc.h
- delete mode 100644 drivers/staging/media/deprecated/tm6000/tm6000-video.c
- delete mode 100644 drivers/staging/media/deprecated/tm6000/tm6000.h
- delete mode 100644 drivers/staging/media/deprecated/vpfe_capture/Kconfig
- delete mode 100644 drivers/staging/media/deprecated/vpfe_capture/Makefile
- delete mode 100644 drivers/staging/media/deprecated/vpfe_capture/TODO
- delete mode 100644 drivers/staging/media/deprecated/vpfe_capture/ccdc_hw_device.h
- delete mode 100644 drivers/staging/media/deprecated/vpfe_capture/dm355_ccdc.c
- delete mode 100644 drivers/staging/media/deprecated/vpfe_capture/dm355_ccdc.h
- delete mode 100644 drivers/staging/media/deprecated/vpfe_capture/dm355_ccdc_regs.h
- delete mode 100644 drivers/staging/media/deprecated/vpfe_capture/dm644x_ccdc.c
- delete mode 100644 drivers/staging/media/deprecated/vpfe_capture/dm644x_ccdc.h
- delete mode 100644 drivers/staging/media/deprecated/vpfe_capture/dm644x_ccdc_regs.h
- delete mode 100644 drivers/staging/media/deprecated/vpfe_capture/isif.c
- delete mode 100644 drivers/staging/media/deprecated/vpfe_capture/isif.h
- delete mode 100644 drivers/staging/media/deprecated/vpfe_capture/isif_regs.h
- delete mode 100644 drivers/staging/media/deprecated/vpfe_capture/vpfe_capture.c
- delete mode 100644 drivers/staging/media/deprecated/zr364xx/Kconfig
- delete mode 100644 drivers/staging/media/deprecated/zr364xx/Makefile
- delete mode 100644 drivers/staging/media/deprecated/zr364xx/TODO
- delete mode 100644 drivers/staging/media/deprecated/zr364xx/zr364xx.c
- delete mode 100644 include/media/davinci/ccdc_types.h
- delete mode 100644 include/uapi/linux/meye.h
