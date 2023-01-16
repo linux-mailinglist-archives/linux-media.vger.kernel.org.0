@@ -2,145 +2,306 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9911A66BBAC
-	for <lists+linux-media@lfdr.de>; Mon, 16 Jan 2023 11:28:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5EE8B66BBC9
+	for <lists+linux-media@lfdr.de>; Mon, 16 Jan 2023 11:33:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230254AbjAPK2D (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 16 Jan 2023 05:28:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42146 "EHLO
+        id S230034AbjAPKdw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 16 Jan 2023 05:33:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45364 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229997AbjAPK2C (ORCPT
+        with ESMTP id S230119AbjAPKdv (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 16 Jan 2023 05:28:02 -0500
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9DB5213D45;
-        Mon, 16 Jan 2023 02:28:01 -0800 (PST)
-Received: from [192.168.0.192] (unknown [194.146.248.75])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits))
+        Mon, 16 Jan 2023 05:33:51 -0500
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AAD081ABC1
+        for <linux-media@vger.kernel.org>; Mon, 16 Jan 2023 02:33:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1673865228; x=1705401228;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=XdEYTQSPlTqOhmvlT9+Dg9CnnN0qelPRLuJMiOPnDWU=;
+  b=iNvkCQm+gXQOfCCI3UvpIyrqI/dfb4CjXlXUniB24V3Lc28I+fHGQ3WQ
+   uVUHDzZnJhO6rlnPO2igUU2L2j8fvPjPE686THOkoyseG1hI9uj9iC75H
+   os8iAxKML+f8CI1yqYxQjaSRYZdZwJTECP/e8+zQGZ9VvEw1EKItI1pT0
+   RszKO/bGZtIsN/oedBt5u5qYfIn3PIBvGm6EXgBGkRHMNdgaixj5EmBg4
+   jJb49DOD/iqy5/5UKrIPhe6bjPiYI/Dfvic74xuIvNtF2XVMEBzf70eDP
+   zpSlM/RCNFU15ddEXIcUQW2BYTbhnDtn2F1nO+s8bk7t/Czlhlq9ibnZV
+   A==;
+X-IronPort-AV: E=Sophos;i="5.97,220,1669071600"; 
+   d="scan'208";a="28445921"
+Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
+  by mx1-pgp.tq-group.com with ESMTP; 16 Jan 2023 11:33:47 +0100
+Received: from mx1.tq-group.com ([192.168.6.7])
+  by tq-pgp-pr1.tq-net.de (PGP Universal service);
+  Mon, 16 Jan 2023 11:33:47 +0100
+X-PGP-Universal: processed;
+        by tq-pgp-pr1.tq-net.de on Mon, 16 Jan 2023 11:33:47 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1673865227; x=1705401227;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=XdEYTQSPlTqOhmvlT9+Dg9CnnN0qelPRLuJMiOPnDWU=;
+  b=qCRNjInukqIhjfd9892uMaU/hOHA8iN4Px1Z1LTTDCqiu/KdOySDrbLD
+   2VfNzOx5FXE9zH+0/X0EY0SPCFzXRiw0eSS9UG++wBkB4lnVmYedx6uUh
+   XwFgIRr/p8B1UoKOkVEt9YFrlgDkDQP1fCYrgAlsh3Z7gVee0TplIzrO4
+   GoQNUuS5E6d1gJjBaskmosJsV6AheUbbGFFyRCEGmCuJfss4ASTieBsOl
+   fdCNRYWG8wVQ4iELGu88nRPKKf6vom+y+ml6p4fViP0uH/y8IkiAIgYkf
+   1Nt92cZmf7MQo+/gkPYPQnxiQsU26rFq9/IbTU5/ZjRIUbzZkcTGNabGm
+   A==;
+X-IronPort-AV: E=Sophos;i="5.97,220,1669071600"; 
+   d="scan'208";a="28445920"
+Received: from vtuxmail01.tq-net.de ([10.115.0.20])
+  by mx1.tq-group.com with ESMTP; 16 Jan 2023 11:33:46 +0100
+Received: from steina-w.localnet (unknown [10.123.53.21])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
         (No client certificate requested)
-        (Authenticated sender: andrzej.p)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 80C0F6602B33;
-        Mon, 16 Jan 2023 10:27:59 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1673864880;
-        bh=3YLQCWLBDRjQgJbSK/lpCAaa+L3SonN+5HslDLGB3qM=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=Mlb+R+XkZQ7rJVx4ylunSEEY3pqJ6rmMgXpP5RyVBHZHqv0+77TabesSr8ck1IIjw
-         Ycdoh0WMX7DvIi6cM2jpTHXWPUil+ASzoLG0fAaiKaGgtuIk83T3Di8BlnjBroZ4uP
-         Rt7JMdwlFIU+lSKYnJILJUB4RB/IQKHO9rO6f9BRCWFtNnjYkc86DyqBd86UYG8YCY
-         +Gu7sP9H4yped3+Yn5Iwnbvl6PhIuvnxQgXt2Sx7flNuFaMQqyY4t2sfxhsCECdl5b
-         dzEGo8sTY8gX84ZfJjxrQoL5eYLb1o7TkedgJbiTWmRXjaHBBdv/ZenHOxTPJaTVY6
-         sbP6LWFyR7BPQ==
-Message-ID: <4d2347e4-7732-1352-5009-791362596e0b@collabora.com>
-Date:   Mon, 16 Jan 2023 11:27:57 +0100
+        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 9A5EC280072;
+        Mon, 16 Jan 2023 11:33:46 +0100 (CET)
+From:   Alexander Stein <alexander.stein@ew.tq-group.com>
+To:     linux-media@vger.kernel.org,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Sakari Ailus <sakari.ailus@iki.fi>,
+        Manivannan Sadhasivam <mani@kernel.org>,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>
+Subject: Re: [PATCH v2 08/17] media: i2c: imx290: Factor out DT parsing to separate function
+Date:   Mon, 16 Jan 2023 11:33:47 +0100
+Message-ID: <3218497.44csPzL39Z@steina-w>
+Organization: TQ-Systems GmbH
+In-Reply-To: <20230114171802.13878-8-laurent.pinchart@ideasonboard.com>
+References: <20230114171727.13830-1-laurent.pinchart@ideasonboard.com> <20230114171802.13878-1-laurent.pinchart@ideasonboard.com> <20230114171802.13878-8-laurent.pinchart@ideasonboard.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH v2 07/12] staging: media: rkvdec: Add a routine to fetch
- SPS attributes as a callback
-Content-Language: en-US
-To:     Sebastian Fricke <sebastian.fricke@collabora.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Alex Bee <knaerzche@gmail.com>,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        Collabora Kernel-domain <kernel@collabora.com>,
-        Robert Beckett <bob.beckett@collabora.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>
-References: <20230101-patch-series-v2-6-2-rc1-v2-0-fa1897efac14@collabora.com>
- <20230101-patch-series-v2-6-2-rc1-v2-7-fa1897efac14@collabora.com>
-From:   Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-In-Reply-To: <20230101-patch-series-v2-6-2-rc1-v2-7-fa1897efac14@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_SBL_CSS,
-        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Level: *
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sebastian,
+Hi Laurent,
 
-W dniu 12.01.2023 o 13:56, Sebastian Fricke pisze:
-> Add a callback for each codec variant, that fetches basic information
-> like resolution, bit-depth and sub-sampling from a SPS structure. This
-> data is used to verify whether a new SPS structure is valid.
+thanks for the update.
+
+Am Samstag, 14. Januar 2023, 18:17:53 CET schrieb Laurent Pinchart:
+> Make the probe() function more readable by factoring out the DT parsing
+> code to a separate function. No functional change intended.
 > 
-> Signed-off-by: Sebastian Fricke <sebastian.fricke@collabora.com>
+> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 > ---
->   drivers/staging/media/rkvdec/rkvdec.c | 10 ++++++++++
->   drivers/staging/media/rkvdec/rkvdec.h | 10 ++++++++++
->   2 files changed, 20 insertions(+)
+>  drivers/media/i2c/imx290.c | 95 +++++++++++++++++++++-----------------
+>  1 file changed, 52 insertions(+), 43 deletions(-)
 > 
-> diff --git a/drivers/staging/media/rkvdec/rkvdec.c b/drivers/staging/media/rkvdec/rkvdec.c
-> index a46f918926a2..e8c750a7343a 100644
-> --- a/drivers/staging/media/rkvdec/rkvdec.c
-> +++ b/drivers/staging/media/rkvdec/rkvdec.c
-> @@ -52,6 +52,16 @@ static int rkvdec_get_valid_fmt(struct rkvdec_ctx *ctx)
->   	return ctx->coded_fmt_desc->decoded_fmts[0];
->   }
->   
-> +static int rkvdec_get_sps_attributes(struct rkvdec_ctx *ctx, void *sps,
-> +				     struct sps_attributes *attributes)
-> +{
-> +	const struct rkvdec_coded_fmt_desc *coded_desc = ctx->coded_fmt_desc;
+> diff --git a/drivers/media/i2c/imx290.c b/drivers/media/i2c/imx290.c
+> index 0dc536893ebf..18c1e5c429a2 100644
+> --- a/drivers/media/i2c/imx290.c
+> +++ b/drivers/media/i2c/imx290.c
+> @@ -1144,111 +1144,124 @@ static s64 imx290_check_link_freqs(const struct
+> imx290 *imx290, return 0;
+>  }
+> 
+> -static int imx290_probe(struct i2c_client *client)
+> +static int imx290_parse_dt(struct imx290 *imx290)
+>  {
+> -	struct device *dev = &client->dev;
+> -	struct fwnode_handle *endpoint;
+>  	/* Only CSI2 is supported for now: */
+>  	struct v4l2_fwnode_endpoint ep = {
+>  		.bus_type = V4L2_MBUS_CSI2_DPHY
+>  	};
+> -	struct imx290 *imx290;
+> -	u32 xclk_freq;
+> +	struct fwnode_handle *endpoint;
+> +	int ret;
+>  	s64 fq;
+> -	int ret;
+> 
+> -	imx290 = devm_kzalloc(dev, sizeof(*imx290), GFP_KERNEL);
+> -	if (!imx290)
+> -		return -ENOMEM;
+> -
+> -	imx290->dev = dev;
+> -	imx290->regmap = devm_regmap_init_i2c(client, 
+&imx290_regmap_config);
+> -	if (IS_ERR(imx290->regmap)) {
+> -		dev_err(dev, "Unable to initialize I2C\n");
+> -		return -ENODEV;
+> -	}
+> -
+> -	endpoint = fwnode_graph_get_next_endpoint(dev_fwnode(dev), NULL);
+> +	endpoint = fwnode_graph_get_next_endpoint(dev_fwnode(imx290->dev), 
+NULL);
+>  	if (!endpoint) {
+> -		dev_err(dev, "Endpoint node not found\n");
+> +		dev_err(imx290->dev, "Endpoint node not found\n");
+>  		return -EINVAL;
+>  	}
+> 
+>  	ret = v4l2_fwnode_endpoint_alloc_parse(endpoint, &ep);
+>  	fwnode_handle_put(endpoint);
+>  	if (ret == -ENXIO) {
+> -		dev_err(dev, "Unsupported bus type, should be CSI2\n");
+> -		goto err_endpoint;
+> +		dev_err(imx290->dev, "Unsupported bus type, should be 
+CSI2\n");
+> +		goto done;
+>  	} else if (ret) {
+> -		dev_err(dev, "Parsing endpoint node failed\n");
+> -		goto err_endpoint;
+> +		dev_err(imx290->dev, "Parsing endpoint node failed\n");
+> +		goto done;
+>  	}
+> 
+>  	/* Get number of data lanes */
+>  	imx290->nlanes = ep.bus.mipi_csi2.num_data_lanes;
+>  	if (imx290->nlanes != 2 && imx290->nlanes != 4) {
+> -		dev_err(dev, "Invalid data lanes: %d\n", imx290->nlanes);
+> +		dev_err(imx290->dev, "Invalid data lanes: %d\n", imx290-
+>nlanes);
+>  		ret = -EINVAL;
+> -		goto err_endpoint;
+> +		goto done;
+>  	}
+> 
+> -	dev_dbg(dev, "Using %u data lanes\n", imx290->nlanes);
+> +	dev_dbg(imx290->dev, "Using %u data lanes\n", imx290->nlanes);
+> 
+>  	if (!ep.nr_of_link_frequencies) {
+> -		dev_err(dev, "link-frequency property not found in DT\n");
+> +		dev_err(imx290->dev, "link-frequency property not found in 
+DT\n");
+>  		ret = -EINVAL;
+> -		goto err_endpoint;
+> +		goto done;
+>  	}
+> 
+>  	/* Check that link frequences for all the modes are in device tree 
+*/
+>  	fq = imx290_check_link_freqs(imx290, &ep);
+>  	if (fq) {
+> -		dev_err(dev, "Link frequency of %lld is not supported\n", 
+fq);
+> +		dev_err(imx290->dev, "Link frequency of %lld is not 
+supported\n",
+> +			fq);
+>  		ret = -EINVAL;
+> -		goto err_endpoint;
+> +		goto done;
+>  	}
+> 
+> +	ret = 0;
 > +
-> +	if (coded_desc->ops->get_sps_attributes)
-> +		return coded_desc->ops->get_sps_attributes(ctx, sps, attributes);
-> +	return 0;
-
-It seems that if there's no ->get_sps_attributes(), then even though
-"attributes" won't be filled in, the result is a success (as suggested
-by the returned 0). That's maybe confusing to potential users, especially,
-if they don't e.g. memset the attributes struct to zero - the function will
-report "success" but the struct will contain random data.
-
-In PATCH 09/12 you call the implementation directly (not through the ops
-struct), and there you actually ignore the return value.
-
-Regards,
-
-Andrzej
-
+> +done:
+> +	v4l2_fwnode_endpoint_free(&ep);
+> +	return ret;
 > +}
 > +
->   static int rkvdec_try_ctrl(struct v4l2_ctrl *ctrl)
->   {
->   	struct rkvdec_ctx *ctx = container_of(ctrl->handler, struct rkvdec_ctx, ctrl_hdl);
-> diff --git a/drivers/staging/media/rkvdec/rkvdec.h b/drivers/staging/media/rkvdec/rkvdec.h
-> index e353a4403e5b..7b6702c360fd 100644
-> --- a/drivers/staging/media/rkvdec/rkvdec.h
-> +++ b/drivers/staging/media/rkvdec/rkvdec.h
-> @@ -63,10 +63,20 @@ vb2_to_rkvdec_decoded_buf(struct vb2_buffer *buf)
->   			    base.vb.vb2_buf);
->   }
->   
-> +struct sps_attributes {
-> +	unsigned int width;
-> +	unsigned int height;
-> +	unsigned int luma_bitdepth;
-> +	unsigned int chroma_bitdepth;
-> +	unsigned int subsampling;
-> +};
+> +static int imx290_probe(struct i2c_client *client)
+> +{
+> +	struct device *dev = &client->dev;
+> +	struct imx290 *imx290;
+> +	u32 xclk_freq;
+> +	int ret;
 > +
->   struct rkvdec_coded_fmt_ops {
->   	int (*adjust_fmt)(struct rkvdec_ctx *ctx,
->   			  struct v4l2_format *f);
->   	u32 (*valid_fmt)(struct rkvdec_ctx *ctx);
-> +	int (*get_sps_attributes)(struct rkvdec_ctx *ctx, void *sps,
-> +				  struct sps_attributes *attributes);
->   	int (*start)(struct rkvdec_ctx *ctx);
->   	void (*stop)(struct rkvdec_ctx *ctx);
->   	int (*run)(struct rkvdec_ctx *ctx);
+> +	imx290 = devm_kzalloc(dev, sizeof(*imx290), GFP_KERNEL);
+> +	if (!imx290)
+> +		return -ENOMEM;
+> +
+> +	imx290->dev = dev;
+> +	imx290->regmap = devm_regmap_init_i2c(client, 
+&imx290_regmap_config);
+> +	if (IS_ERR(imx290->regmap)) {
+> +		dev_err(dev, "Unable to initialize I2C\n");
+> +		return -ENODEV;
+> +	}
+> +
+> +	ret = imx290_parse_dt(imx290);
+> +	if (ret)
+> +		return ret;
+> +
+>  	/* get system clock (xclk) */
+>  	imx290->xclk = devm_clk_get(dev, "xclk");
+>  	if (IS_ERR(imx290->xclk)) {
+>  		dev_err(dev, "Could not get xclk");
+> -		ret = PTR_ERR(imx290->xclk);
+> -		goto err_endpoint;
+> +		return PTR_ERR(imx290->xclk);
+
+Please use dev_err_probe() here.
+
+>  	}
 > 
+>  	ret = fwnode_property_read_u32(dev_fwnode(dev), "clock-frequency",
+>  				       &xclk_freq);
+>  	if (ret) {
+>  		dev_err(dev, "Could not get xclk frequency\n");
+> -		goto err_endpoint;
+> +		return ret;
+>  	}
+> 
+>  	/* external clock must be 37.125 MHz */
+>  	if (xclk_freq != 37125000) {
+>  		dev_err(dev, "External clock frequency %u is not 
+supported\n",
+>  			xclk_freq);
+> -		ret = -EINVAL;
+> -		goto err_endpoint;
+> +		return -EINVAL;
+>  	}
+> 
+>  	ret = clk_set_rate(imx290->xclk, xclk_freq);
+>  	if (ret) {
+>  		dev_err(dev, "Could not set xclk frequency\n");
+> -		goto err_endpoint;
+> +		return ret;
+>  	}
+> 
+>  	ret = imx290_get_regulators(dev, imx290);
+>  	if (ret < 0) {
+>  		dev_err(dev, "Cannot get regulators\n");
+> -		goto err_endpoint;
+> +		return ret;
+
+Please use dev_err_probe() here.
+
+Regards,
+Alexander
+
+>  	}
+> 
+>  	imx290->rst_gpio = devm_gpiod_get_optional(dev, "reset",
+>  						   
+GPIOD_OUT_HIGH);
+>  	if (IS_ERR(imx290->rst_gpio)) {
+>  		dev_err(dev, "Cannot get reset gpio\n");
+> -		ret = PTR_ERR(imx290->rst_gpio);
+> -		goto err_endpoint;
+> +		return PTR_ERR(imx290->rst_gpio);
+>  	}
+> 
+>  	mutex_init(&imx290->lock);
+> @@ -1274,16 +1287,12 @@ static int imx290_probe(struct i2c_client *client)
+>  	pm_runtime_enable(dev);
+>  	pm_runtime_idle(dev);
+> 
+> -	v4l2_fwnode_endpoint_free(&ep);
+> -
+>  	return 0;
+> 
+>  err_subdev:
+>  	imx290_subdev_cleanup(imx290);
+>  err_mutex:
+>  	mutex_destroy(&imx290->lock);
+> -err_endpoint:
+> -	v4l2_fwnode_endpoint_free(&ep);
+> 
+>  	return ret;
+>  }
+
+
+
 
