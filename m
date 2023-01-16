@@ -2,122 +2,176 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 45AF666BA21
-	for <lists+linux-media@lfdr.de>; Mon, 16 Jan 2023 10:20:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D2DAE66BA26
+	for <lists+linux-media@lfdr.de>; Mon, 16 Jan 2023 10:20:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232069AbjAPJUd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 16 Jan 2023 04:20:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48136 "EHLO
+        id S232279AbjAPJUu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 16 Jan 2023 04:20:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50682 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232715AbjAPJSi (ORCPT
+        with ESMTP id S232109AbjAPJUo (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 16 Jan 2023 04:18:38 -0500
-Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com [IPv6:2a00:1450:4864:20::636])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0912018B35
-        for <linux-media@vger.kernel.org>; Mon, 16 Jan 2023 01:17:46 -0800 (PST)
-Received: by mail-ej1-x636.google.com with SMTP id v6so23540344ejg.6
-        for <linux-media@vger.kernel.org>; Mon, 16 Jan 2023 01:17:46 -0800 (PST)
+        Mon, 16 Jan 2023 04:20:44 -0500
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C62B144B7
+        for <linux-media@vger.kernel.org>; Mon, 16 Jan 2023 01:20:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ww7Hxrw6n0J7k//JManeo1d6RMBOH6s8LbvXGDtzj+w=;
-        b=v5qDCDI2V1SvQnjE03DuLKYjo6tGrNOI1fmyfrbtX1bfPSDjMuEb6AkRNNQjQqF4w9
-         xvQA/XAhZyZU2S+cwiw5px7dPh6bGcR+xr6ngwFz5eeZXFQq5i9BbV7hirtq4T8QTrOJ
-         4hPL6DWur+wbtCguPVrmyHlClK3FNqe73Xvc3EDFkvIuCX9VLZhXiC8qbzyFAwlvPi12
-         AZXKsEJlsfb46On51cFyrW8NFIzom4xbLrii2c8cGPecK2Run3frV1V/pyOdDqs/qdwk
-         WZqGxdYN+iUbvIBhL9SH0SnYV4aqeLBt8ThmSoPPW9TCZ4CRAwTB1bBAW2Ur3HV1UbxG
-         tA1A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ww7Hxrw6n0J7k//JManeo1d6RMBOH6s8LbvXGDtzj+w=;
-        b=pO6BIaJcUjZM1hzoQe4r+DEu1eF3/TUkKUdPKLxkjGHsZMp5QvB3VK5xMxGQs+p877
-         drc8cH94rVkTPKynYpzxP80djjx57+LaQZU8irP8l3MHLx4uPfVxM/WrUZ+bEGcIMn3z
-         lmQrsmYPCowtpbPKOudovZF9zAuRoHRIrIYn9izKa/G/3aKQXC9glhWZOO4mjw5qOAcW
-         q/uSHQviRs6UsqORvX68ClYbNiF91pISJDG6o389yHArt0hkmkdKEebLMxFWEpFyikco
-         mZNXvgU8gDIvQ5rf22J8xZmecAPS+O1pu0piRJ2o8FjCebTZiWG3d4zRZeAtE1e+0el8
-         vr1g==
-X-Gm-Message-State: AFqh2krAhZ8mcN1ciGAN9si0RHFUOh3qTRz2jGWg8n/G/8Mmrt/QoDZt
-        uGpD8ZdQk6/re3hJic90k8s5Rw==
-X-Google-Smtp-Source: AMrXdXsKA+xBsKYbyxr+liaowz9b+i0Yta2/1SABcEZ2fAZj9G6NDYjCiRPwvXY9TodJyFWT6Ret/w==
-X-Received: by 2002:a17:906:4acc:b0:870:b53e:86b9 with SMTP id u12-20020a1709064acc00b00870b53e86b9mr2489239ejt.39.1673860665533;
-        Mon, 16 Jan 2023 01:17:45 -0800 (PST)
-Received: from [192.168.1.109] ([178.197.216.144])
-        by smtp.gmail.com with ESMTPSA id g13-20020a170906538d00b0085a958808c6sm6941007ejo.7.2023.01.16.01.17.44
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 16 Jan 2023 01:17:45 -0800 (PST)
-Message-ID: <ea718cd4-db3c-12a8-aac6-688d7189fbf9@linaro.org>
-Date:   Mon, 16 Jan 2023 10:17:43 +0100
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1673860843; x=1705396843;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=wcLl7s8W8ZbopTUUHZWTMM52AOmfAfWwMxzT5PHxl/E=;
+  b=mhKDQ86A1Ufv2uUg+7D9ulDkcu4qf+8YNv0KbfGqfx2cWTfpS48QooUc
+   0+LaEo2k8AvRGUhYrgL1BQb9OUUG86PwQikb7XzgO6mS/Q6vq7Dr/A5GP
+   eoBxeDajXkCTIwA4nBqGGz3xJ2ZHUefeW4CLaNvpSw6b7YuHJugeYoz2/
+   rQg9POPVxk4nP632+IDibzJJ1PfGZT0/AC16diyuc0U8J2TWoAU3Itq6P
+   CKVKBWkKz3XQmcD94qhs6vXYog1mi0ti6LXLfHThRuOYl8BHzFACRb77f
+   Mp4dzz9gavBd7ju1pFmRABZM9lvHYPCRawOHNUYal5zk1P3mrQZNW969d
+   Q==;
+X-IronPort-AV: E=Sophos;i="5.97,220,1669071600"; 
+   d="scan'208";a="28442956"
+Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
+  by mx1-pgp.tq-group.com with ESMTP; 16 Jan 2023 10:20:41 +0100
+Received: from mx1.tq-group.com ([192.168.6.7])
+  by tq-pgp-pr1.tq-net.de (PGP Universal service);
+  Mon, 16 Jan 2023 10:20:41 +0100
+X-PGP-Universal: processed;
+        by tq-pgp-pr1.tq-net.de on Mon, 16 Jan 2023 10:20:41 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1673860841; x=1705396841;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=wcLl7s8W8ZbopTUUHZWTMM52AOmfAfWwMxzT5PHxl/E=;
+  b=HBnz1o+PsYso/pknuB4SgGRAGWlCSziMUH2wagKFCLbS//kRzIMjRCAn
+   8olGxQmyT9lhYRn9fDzehrhV6LzMkNpcuqAO8vOqZOhIfHLVCcqjjkG8C
+   qYidKSHOkji2m+7YBtkzUneuZnciUSQzmRqmULLiEgN/hYUU9U+bG2n0E
+   J4TnLR3Bs+IKkRNovpu7aYFV9HUJAMQsudZ2dNsXWhELVin04ky9zLhQv
+   PLzGaEk/TnlgmK3hW2N7LoXWM2zwcw70TfCOTlRRxZ5oEIexd0TmcIXaE
+   apo5d698gmrHq7egZfHd7CafitKvKsJsLJSKiJnXOhh9PKPsIWgzQZYL+
+   g==;
+X-IronPort-AV: E=Sophos;i="5.97,220,1669071600"; 
+   d="scan'208";a="28442955"
+Received: from vtuxmail01.tq-net.de ([10.115.0.20])
+  by mx1.tq-group.com with ESMTP; 16 Jan 2023 10:20:41 +0100
+Received: from steina-w.localnet (unknown [10.123.53.21])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+        (No client certificate requested)
+        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 66706280056;
+        Mon, 16 Jan 2023 10:20:41 +0100 (CET)
+From:   Alexander Stein <alexander.stein@ew.tq-group.com>
+To:     linux-media@vger.kernel.org,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Sakari Ailus <sakari.ailus@iki.fi>,
+        Manivannan Sadhasivam <mani@kernel.org>,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>
+Subject: Re: [PATCH v2 03/17] media: i2c: imx290: Factor out control update code to a function
+Date:   Mon, 16 Jan 2023 10:20:41 +0100
+Message-ID: <2132591.irdbgypaU6@steina-w>
+Organization: TQ-Systems GmbH
+In-Reply-To: <20230114171802.13878-3-laurent.pinchart@ideasonboard.com>
+References: <20230114171727.13830-1-laurent.pinchart@ideasonboard.com> <20230114171802.13878-1-laurent.pinchart@ideasonboard.com> <20230114171802.13878-3-laurent.pinchart@ideasonboard.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [RESEND v3 02/13] arm64: dts: mediatek: mt8195: add MDP3 nodes
-Content-Language: en-US
-To:     =?UTF-8?B?TW91ZHkgSG8gKOS9leWul+WOnyk=?= <Moudy.Ho@mediatek.com>,
-        "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
-        "mchehab@kernel.org" <mchehab@kernel.org>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "krzysztof.kozlowski+dt@linaro.org" 
-        <krzysztof.kozlowski+dt@linaro.org>
-Cc:     "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linux-mediatek@lists.infradead.org" 
-        <linux-mediatek@lists.infradead.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        Project_Global_Chrome_Upstream_Group 
-        <Project_Global_Chrome_Upstream_Group@mediatek.com>
-References: <20230116032147.23607-1-moudy.ho@mediatek.com>
- <20230116032147.23607-3-moudy.ho@mediatek.com>
- <63f3d41a-1aa3-396a-b515-bc805f4a19b4@linaro.org>
- <47f79e0ffda3fe72e574596aad8c4562a3b6e14a.camel@mediatek.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <47f79e0ffda3fe72e574596aad8c4562a3b6e14a.camel@mediatek.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 16/01/2023 10:14, Moudy Ho (何宗原) wrote:
->>> +		mdp3-fg0@14002000 {
->>
->> Node names should be generic.
->>
-> https://urldefense.com/v3/__https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html*generic-names-recommendation__;Iw!!CTRNKA9wMg0ARbw!gmuIIk9pHTEGcVTtOXNeP3a8XUucoiTd5vTmxNK8lCHtytRDc3R8Eh44WOWNEUkJlv_pPCtg_DvPCHsCHNscg6_0cfJe$ 
->>  
->>
->> "0" suffix is definitely nothing generic. Drop such suffixes
->> everywhere.
->> Drop also "mdp3" prefix everywhere.
->>
->>
->> Best regards,
->> Krzysztof
->>
-> 
-> Hi Krzysztof,
-> 
-> May I uniformly name all MediaTek's media data path ver.3(MDP3) nodes
-> as "mdp3@xxx"?
+Hi Laurent,
 
-No, because it does not describe generic class of a device. Some nodes
-are probably quite specific, thus we do not have generic names for them,
-but then any prefixes are also not neeeded. If node is image-scaler, it
-is just image-scaler, not "mdp3-image-scaler". If node is video-codec it
-is not mdp3-video-codec. etc.
+thanks for the update.
 
-Best regards,
-Krzysztof
+Am Samstag, 14. Januar 2023, 18:17:48 CET schrieb Laurent Pinchart:
+> Move the control update code to a separate function to group it with all
+> the control-related code and make imx290_set_fmt() more readable.
+> 
+> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> ---
+> Changes since v1:
+> 
+> - Correctly handle the case where imx290_ctrl_update() gets called
+>   before controls are initialized
+
+Reviewed-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+
+> ---
+>  drivers/media/i2c/imx290.c | 43 ++++++++++++++++++++------------------
+>  1 file changed, 23 insertions(+), 20 deletions(-)
+> 
+> diff --git a/drivers/media/i2c/imx290.c b/drivers/media/i2c/imx290.c
+> index 5529bd39238f..991e7285c40c 100644
+> --- a/drivers/media/i2c/imx290.c
+> +++ b/drivers/media/i2c/imx290.c
+> @@ -639,6 +639,28 @@ static const char * const imx290_test_pattern_menu[] =
+> { "000/555h Toggle Pattern",
+>  };
+> 
+> +static void imx290_ctrl_update(struct imx290 *imx290,
+> +			       const struct imx290_mode *mode)
+> +{
+> +	unsigned int hblank = mode->hmax - mode->width;
+> +	unsigned int vblank = IMX290_VMAX_DEFAULT - mode->height;
+> +
+> +	/*
+> +	 * This function may be called from imx290_set_fmt() before controls
+> +	 * get created by imx290_ctrl_init(). Return immediately in that 
+case.
+> +	 */
+> +	if (!imx290->ctrls.lock)
+> +		return;
+> +
+> +	__v4l2_ctrl_s_ctrl(imx290->link_freq,
+> +			   imx290_get_link_freq_index(imx290));
+> +	__v4l2_ctrl_s_ctrl_int64(imx290->pixel_rate,
+> +				 imx290_calc_pixel_rate(imx290));
+> +
+> +	__v4l2_ctrl_modify_range(imx290->hblank, hblank, hblank, 1, hblank);
+> +	__v4l2_ctrl_modify_range(imx290->vblank, vblank, vblank, 1, vblank);
+> +}
+> +
+>  static int imx290_ctrl_init(struct imx290 *imx290)
+>  {
+>  	struct v4l2_fwnode_device_properties props;
+> @@ -904,26 +926,7 @@ static int imx290_set_fmt(struct v4l2_subdev *sd,
+>  		imx290->current_mode = mode;
+>  		imx290->bpp = imx290_formats[i].bpp;
+> 
+> -		if (imx290->link_freq)
+> -			__v4l2_ctrl_s_ctrl(imx290->link_freq,
+> -					   
+imx290_get_link_freq_index(imx290));
+> -		if (imx290->pixel_rate)
+> -			__v4l2_ctrl_s_ctrl_int64(imx290->pixel_rate,
+> -						 
+imx290_calc_pixel_rate(imx290));
+> -
+> -		if (imx290->hblank) {
+> -			unsigned int hblank = mode->hmax - mode->width;
+> -
+> -			__v4l2_ctrl_modify_range(imx290->hblank, hblank, 
+hblank,
+> -						 1, hblank);
+> -		}
+> -
+> -		if (imx290->vblank) {
+> -			unsigned int vblank = IMX290_VMAX_DEFAULT - 
+mode->height;
+> -
+> -			__v4l2_ctrl_modify_range(imx290->vblank, vblank, 
+vblank,
+> -						 1, vblank);
+> -		}
+> +		imx290_ctrl_update(imx290, mode);
+>  	}
+> 
+>  	*format = fmt->format;
+
+
+
 
