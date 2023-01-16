@@ -2,58 +2,46 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4380966BC27
-	for <lists+linux-media@lfdr.de>; Mon, 16 Jan 2023 11:49:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 542F166BC33
+	for <lists+linux-media@lfdr.de>; Mon, 16 Jan 2023 11:52:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230008AbjAPKt1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 16 Jan 2023 05:49:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57160 "EHLO
+        id S229613AbjAPKwa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 16 Jan 2023 05:52:30 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59276 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229722AbjAPKtY (ORCPT
+        with ESMTP id S229585AbjAPKw2 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 16 Jan 2023 05:49:24 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B187D1714B;
-        Mon, 16 Jan 2023 02:49:22 -0800 (PST)
+        Mon, 16 Jan 2023 05:52:28 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 80B9844AB
+        for <linux-media@vger.kernel.org>; Mon, 16 Jan 2023 02:52:27 -0800 (PST)
 Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id EBE04802;
-        Mon, 16 Jan 2023 11:49:20 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id C60AE802;
+        Mon, 16 Jan 2023 11:52:25 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1673866161;
-        bh=QPKbaBg15FIAAfwmoECrnTKED2vhulpywKn1lrKXHwQ=;
+        s=mail; t=1673866346;
+        bh=qJsDh/ezjCb47yyQCVWHMhxoqT6LfDMatfW6NrTH3dM=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=rsA5uz9qrZPSpxqp6TK4pQviMeiZZ0RpR5R1xNmbXmObdIByNf0plUQnAoTpzwGNj
-         PSQE1Fh0fK1GjZ0oR+CAEnITmGOsbwrgs//zvN3ENei9t61JeVVqe5LDRgR0Lhi2q6
-         4Gf4QXelvSnd430RTAICZbhE6AiPNRTrr/9NhjDY=
-Date:   Mon, 16 Jan 2023 12:49:21 +0200
+        b=S+MLB6KRLoM5pdStt3PGtF8T6UzHVsIn09a3KCWEf/K9xO7MD82/8cZq5U3HTgNih
+         vKcXBTda8QRSSZh/zW2NmzHJ5hLjq5Yw0r9QQb7pAfurtw3xJLbtZOGHVkD/XZDvAz
+         zZqsLxwGfRAG1nOZ2vkXhGcqAD8+u7CJMBUwvF2k=
+Date:   Mon, 16 Jan 2023 12:52:26 +0200
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     devicetree@vger.kernel.org, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org,
-        linux-arm-kernel@lists.infradead.org,
-        Rob Herring <robh+dt@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Eugen Hristev <eugen.hristev@microchip.com>,
-        Hugues Fruchet <hugues.fruchet@foss.st.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Fabio Estevam <festevam@gmail.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH v3 5/6] ARM: dts: renesas: Use new media bus type macros
-Message-ID: <Y8UrsSnhGd7GQEIJ@pendragon.ideasonboard.com>
-References: <20220615221410.27459-1-laurent.pinchart@ideasonboard.com>
- <20220615221410.27459-6-laurent.pinchart@ideasonboard.com>
- <Y8LJkPLghb/8Y+iQ@pendragon.ideasonboard.com>
- <CAMuHMdXnssq_tGbg+vL7BuLK5sa4Lg1xx0106uMFthRfUoq7=Q@mail.gmail.com>
- <Y8UpDsTixfacduXl@pendragon.ideasonboard.com>
- <CAMuHMdVHnJ2Q1CCDUiTUPcESp2cExu6BynoscTGOiD6UA1u7_w@mail.gmail.com>
+To:     Alexander Stein <alexander.stein@ew.tq-group.com>
+Cc:     linux-media@vger.kernel.org, Sakari Ailus <sakari.ailus@iki.fi>,
+        Manivannan Sadhasivam <mani@kernel.org>,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>
+Subject: Re: [PATCH v2 05/17] media: i2c: imx290: Pass format and mode to
+ imx290_calc_pixel_rate()
+Message-ID: <Y8UsagbHxwXfJvaq@pendragon.ideasonboard.com>
+References: <20230114171727.13830-1-laurent.pinchart@ideasonboard.com>
+ <20230114171802.13878-1-laurent.pinchart@ideasonboard.com>
+ <20230114171802.13878-5-laurent.pinchart@ideasonboard.com>
+ <2867010.e9J7NaK4W3@steina-w>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <CAMuHMdVHnJ2Q1CCDUiTUPcESp2cExu6BynoscTGOiD6UA1u7_w@mail.gmail.com>
+In-Reply-To: <2867010.e9J7NaK4W3@steina-w>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
         autolearn=ham autolearn_force=no version=3.4.6
@@ -63,105 +51,115 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Jan 16, 2023 at 11:44:13AM +0100, Geert Uytterhoeven wrote:
-> On Mon, Jan 16, 2023 at 11:38 AM Laurent Pinchart wrote:
-> > On Mon, Jan 16, 2023 at 11:24:10AM +0100, Geert Uytterhoeven wrote:
-> > > On Sat, Jan 14, 2023 at 4:26 PM Laurent Pinchart wrote:
-> > > > Geert, could you please take this in your tree for v6.3 ? The two
-> > > > patches that the DT changes depend on have been merged in v6.2.
-> > >
-> > > Thank you, I had missed these.
-> > >
-> > > > On Thu, Jun 16, 2022 at 01:14:09AM +0300, Laurent Pinchart wrote:
-> > > > > Now that a header exists with macros for the media interface bus-type
-> > > > > values, replace hardcoding numerical constants with the corresponding
-> > > > > macros in the DT sources.
-> > > > >
-> > > > > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > >
-> > > Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > >
-> > > > > ---
-> > > > >  arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ca.dts       | 11 +++++++----
-> > > > >  .../dts/r8a7742-iwg21d-q7-dbcm-ov5640-single.dtsi     |  4 +++-
-> > > > >  .../dts/r8a7742-iwg21d-q7-dbcm-ov7725-single.dtsi     |  4 +++-
-> > > > >  3 files changed, 13 insertions(+), 6 deletions(-)
-> > > > >
-> > > > > diff --git a/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ca.dts b/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ca.dts
-> > > > > index 4e58c54cde17..33ac4bd1e63b 100644
-> > > > > --- a/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ca.dts
-> > > > > +++ b/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ca.dts
-> > > > > @@ -7,6 +7,9 @@
-> > > > >   */
-> > > > >
-> > > > >  /dts-v1/;
-> > > > > +
-> > > > > +#include <dt-bindings/media/video-interfaces.h>
-> > > > > +
-> > > > >  #include "r8a7742-iwg21d-q7.dts"
-> > > > >
-> > > > >  / {
-> > > > > @@ -242,7 +245,7 @@ port {
-> > > > >               vin0ep: endpoint {
-> > > > >                       remote-endpoint = <&cam0ep>;
-> > > > >                       bus-width = <8>;
-> > > > > -                     bus-type = <6>;
-> > > > > +                     bus-type = <MEDIA_BUS_TYPE_BT656>;
-> > > > >               };
-> > > > >       };
-> > > > >  };
-> > > > > @@ -273,7 +276,7 @@ port {
-> > > > >               vin1ep: endpoint {
-> > > > >                       remote-endpoint = <&cam1ep>;
-> > > > >                       bus-width = <8>;
-> > > > > -                     bus-type = <6>;
-> > > > > +                     bus-type = <MEDIA_BUS_TYPE_BT656>;
-> > > > >               };
-> > > > >       };
-> > > > >  };
-> > > > > @@ -305,7 +308,7 @@ vin2ep: endpoint {
-> > > > >                       remote-endpoint = <&cam2ep>;
-> > > > >                       bus-width = <8>;
-> > > > >                       data-shift = <8>;
-> > > > > -                     bus-type = <6>;
-> > > > > +                     bus-type = <MEDIA_BUS_TYPE_BT656>;
-> > > > >               };
-> > > > >       };
-> > > > >  };
-> > > > > @@ -335,7 +338,7 @@ port {
-> > > > >               vin3ep: endpoint {
-> > > > >                       remote-endpoint = <&cam3ep>;
-> > > > >                       bus-width = <8>;
-> > > > > -                     bus-type = <6>;
-> > > > > +                     bus-type = <MEDIA_BUS_TYPE_BT656>;
-> > > > >               };
-> > > > >       };
-> > > > >  };
-> > > > > diff --git a/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ov5640-single.dtsi b/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ov5640-single.dtsi
-> > > > > index 40cef0b1d1e6..c73160df619d 100644
-> > > > > --- a/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ov5640-single.dtsi
-> > > > > +++ b/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ov5640-single.dtsi
-> > > > > @@ -7,6 +7,8 @@
-> > > > >   * Copyright (C) 2020 Renesas Electronics Corp.
-> > > > >   */
-> > > > >
-> > > > > +#include <dt-bindings/media/video-interfaces.h>
-> > >
-> > > This .dtsi file is only intended to be included by
-> > > arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ca.dts, which already has
-> > > the include.  Hence if you don't mind, I would like to drop this part
-> > > while applying  and queuing in renesas-devel for v6.3.
-> >
-> > Isn't it better to include headers as needed to avoid depending on
-> > indirect includes ?
-> 
-> In general, I agree.
-> In this particular case, (the multiple inclusions of) the
-> r8a7742-iwg21d-q7-dbcm-ov*-single.dtsi files are tied very intimately
-> to r8a7742-iwg21d-q7-dbcm-ca.dts.
+Hi Alexander,
 
-I'd still prefer keeping the #include here, but you're the maintainer
-:-)
+On Mon, Jan 16, 2023 at 11:22:49AM +0100, Alexander Stein wrote:
+> Am Samstag, 14. Januar 2023, 18:17:50 CET schrieb Laurent Pinchart:
+> > Avoid accessing the imx290 current_format and current_mode fields in
+> > imx290_calc_pixel_rate() to prepare for the removal of those fields.
+> > Among the two callers of the function, imx290_ctrl_update() has an
+> > explicit mode pointer already, and we can also give it a format pointer.
+> > Use those explicitly.
+> > 
+> > While at it, inline the imx290_get_link_freq() function in
+> > imx290_calc_pixel_rate() as it is only called there.
+> > 
+> > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > ---
+> > Changes since v1:
+> > 
+> > - Drop format argument from imx290_calc_pixel_rate()
+> > ---
+> >  drivers/media/i2c/imx290.c | 27 ++++++++++++---------------
+> >  1 file changed, 12 insertions(+), 15 deletions(-)
+> > 
+> > diff --git a/drivers/media/i2c/imx290.c b/drivers/media/i2c/imx290.c
+> > index 4ad6eab4f2e2..8f141df74e2f 100644
+> > --- a/drivers/media/i2c/imx290.c
+> > +++ b/drivers/media/i2c/imx290.c
+> > @@ -547,21 +547,15 @@ static int imx290_write_current_format(struct imx290 *imx290)
+> >  	return 0;
+> >  }
+> > 
+> > -static s64 imx290_get_link_freq(struct imx290 *imx290)
+> > +static u64 imx290_calc_pixel_rate(struct imx290 *imx290,
+> > +				  const struct v4l2_mbus_framefmt *format,
+> 
+> Maybe some mishap, but the format parameter is still here.
+
+Hmmmm... Maybe I got it wrong when rebasing. I'll fix it in v3.
+
+> Otherwise:
+> Reviewed-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+> 
+> > +				  const struct imx290_mode *mode)
+> >  {
+> > -	u8 index = imx290->current_mode->link_freq_index;
+> > -
+> > -	return *(imx290_link_freqs_ptr(imx290) + index);
+> > -}
+> > -
+> > -static u64 imx290_calc_pixel_rate(struct imx290 *imx290)
+> > -{
+> > -	s64 link_freq = imx290_get_link_freq(imx290);
+> > -	u8 nlanes = imx290->nlanes;
+> > +	s64 link_freq = imx290_link_freqs_ptr(imx290)[mode->link_freq_index];
+> >  	u64 pixel_rate;
+> > 
+> >  	/* pixel rate = link_freq * 2 * nr_of_lanes / bits_per_sample */
+> > -	pixel_rate = link_freq * 2 * nlanes;
+> > +	pixel_rate = link_freq * 2 * imx290->nlanes;
+> >  	do_div(pixel_rate, imx290->bpp);
+> >  	return pixel_rate;
+> >  }
+> > @@ -635,6 +629,7 @@ static const char * const imx290_test_pattern_menu[] = {
+> > };
+> > 
+> >  static void imx290_ctrl_update(struct imx290 *imx290,
+> > +			       const struct v4l2_mbus_framefmt *format,
+> >  			       const struct imx290_mode *mode)
+> >  {
+> >  	unsigned int hblank = mode->hmax - mode->width;
+> > @@ -649,7 +644,7 @@ static void imx290_ctrl_update(struct imx290 *imx290,
+> > 
+> >  	__v4l2_ctrl_s_ctrl(imx290->link_freq, mode->link_freq_index);
+> >  	__v4l2_ctrl_s_ctrl_int64(imx290->pixel_rate,
+> > -				 imx290_calc_pixel_rate(imx290));
+> > +				 imx290_calc_pixel_rate(imx290, format, mode));
+> > 
+> >  	__v4l2_ctrl_modify_range(imx290->hblank, hblank, hblank, 1, hblank);
+> >  	__v4l2_ctrl_modify_range(imx290->vblank, vblank, vblank, 1, vblank);
+> > @@ -659,6 +654,7 @@ static int imx290_ctrl_init(struct imx290 *imx290)
+> >  {
+> >  	struct v4l2_fwnode_device_properties props;
+> >  	unsigned int blank;
+> > +	u64 pixel_rate;
+> >  	int ret;
+> > 
+> >  	ret = v4l2_fwnode_device_parse(imx290->dev, &props);
+> > @@ -696,10 +692,11 @@ static int imx290_ctrl_init(struct imx290 *imx290)
+> >  	if (imx290->link_freq)
+> >  		imx290->link_freq->flags |= V4L2_CTRL_FLAG_READ_ONLY;
+> > 
+> > +	pixel_rate = imx290_calc_pixel_rate(imx290, &imx290->current_format,
+> > +					    imx290->current_mode);
+> >  	imx290->pixel_rate = v4l2_ctrl_new_std(&imx290->ctrls, &imx290_ctrl_ops,
+> >  					       V4L2_CID_PIXEL_RATE,
+> > -					       1, INT_MAX, 1,
+> > -					       imx290_calc_pixel_rate(imx290));
+> > +					       1, INT_MAX, 1, pixel_rate);
+> > 
+> >  	v4l2_ctrl_new_std_menu_items(&imx290->ctrls, &imx290_ctrl_ops,
+> >  				     V4L2_CID_TEST_PATTERN,
+> > @@ -920,7 +917,7 @@ static int imx290_set_fmt(struct v4l2_subdev *sd,
+> >  		imx290->current_mode = mode;
+> >  		imx290->bpp = imx290_formats[i].bpp;
+> > 
+> > -		imx290_ctrl_update(imx290, mode);
+> > +		imx290_ctrl_update(imx290, &fmt->format, mode);
+> >  	}
+> > 
+> >  	*format = fmt->format;
 
 -- 
 Regards,
