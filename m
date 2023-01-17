@@ -2,161 +2,123 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8540866E33E
-	for <lists+linux-media@lfdr.de>; Tue, 17 Jan 2023 17:17:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 37F7D66E3DC
+	for <lists+linux-media@lfdr.de>; Tue, 17 Jan 2023 17:43:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231266AbjAQQRf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 17 Jan 2023 11:17:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37314 "EHLO
+        id S232946AbjAQQnH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 17 Jan 2023 11:43:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49830 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230508AbjAQQRc (ORCPT
+        with ESMTP id S232620AbjAQQmn (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 17 Jan 2023 11:17:32 -0500
-Received: from h7.fbrelay.privateemail.com (h7.fbrelay.privateemail.com [162.0.218.230])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5CC253C28D
-        for <linux-media@vger.kernel.org>; Tue, 17 Jan 2023 08:17:31 -0800 (PST)
-Received: from MTA-06-3.privateemail.com (mta-06.privateemail.com [68.65.122.16])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        Tue, 17 Jan 2023 11:42:43 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C7D544B187;
+        Tue, 17 Jan 2023 08:41:58 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by h7.fbrelay.privateemail.com (Postfix) with ESMTPS id DB7966056D
-        for <linux-media@vger.kernel.org>; Tue, 17 Jan 2023 11:17:29 -0500 (EST)
-Received: from mta-06.privateemail.com (localhost [127.0.0.1])
-        by mta-06.privateemail.com (Postfix) with ESMTP id C01FD18000A0;
-        Tue, 17 Jan 2023 11:17:25 -0500 (EST)
-Received: from bpappas-XPS-13-9310.ucf.edu (050-088-208-136.res.spectrum.com [50.88.208.136])
-        by mta-06.privateemail.com (Postfix) with ESMTPA id 33D7418000AA;
-        Tue, 17 Jan 2023 11:17:14 -0500 (EST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=pappasbrent.com;
-        s=default; t=1673972245;
-        bh=2SmQASqnGnVtA5Kz3u+Cb46Sf35Z/fNjuOekQAR+6fI=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=lFROjVOR69QpsJhr6SmMOchJrEhs1Zog59GnudKjzVLI8LcYH2khYP6v6y5NWngA0
-         p/OFzS07M/QPDyyxlE1RAN8pk5wnf2f2XZV7+DssRBUrT6Kto8YRMl5diB/ttDMNnj
-         IgHbQZ9F5n0sbgUJ6soy4hqIIkze9J50ctLimJtV4gPvJbPDoj6EjlIUOElzUHRmGd
-         uvoGYX2ryVbmOrIFx7nRdkoFq+gq+vzHtlrInKRk9C3oBbOwRDOkxN802Bf/9nRV2M
-         Maf3aMWhHXpT8hLdcyqKmpL4vBjxZdR3vV2kAI98vY+UJDBewN2q1RC8XdOT3TE3cQ
-         MnKuXqhS5NEqw==
-From:   Brent Pappas <bpappas@pappasbrent.com>
-To:     andy@kernel.org
-Cc:     ailus@linux.intel.com, bpappas@pappasbrent.com, error27@gmail.com,
-        gregkh@linuxfoundation.org, hdegoede@redhat.com,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-staging@lists.linux.dev, mchehab@kernel.org
-Subject: [PATCH v2] media: atomisp: pci: Replace bytes macros with functions
-Date:   Tue, 17 Jan 2023 11:16:59 -0500
-Message-Id: <20230117161659.31232-1-bpappas@pappasbrent.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <Y8bARLuFubMVILIN@smile.fi.intel.com>
-References: <Y8bARLuFubMVILIN@smile.fi.intel.com>
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 60355614DC;
+        Tue, 17 Jan 2023 16:41:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D8E3C433EF;
+        Tue, 17 Jan 2023 16:41:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1673973717;
+        bh=CBQge2tglo1PExJ2uEmEVHTzZHTr+x6bkDHCfczwo6s=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=uoozzgvpm4ScjhKs8jGarJGREeMAR3gqJqAw0/eaaDYmksoed+UuRC7Yu03YmCG88
+         V1MIDiTfboKXqlJyBJBFL2J7iFEyt7LY976ySiAaCtfRjo6TchH7IQtvz+M9+QEm6q
+         7COSHo0dPrdF5NXCln2JvctTyvV8VnUkM8jMhtSts4rzCHHWB+xvbe7W5S9pXSKtyT
+         u+aZ76VPP9eLBrExU/8JlIWmxl1NFRL/T6MdXFSJcnL1IOMYRzX/CtSBzW3wXWm8rQ
+         DbfqdYSNc6Kr7NuGhmlaSwn7pBGzoQFzd4mdvTI1u/+ODSKsLOeyqcPFgHSRonQq1H
+         uKPbFT36iGkTw==
+Date:   Tue, 17 Jan 2023 17:41:52 +0100
+From:   Mauro Carvalho Chehab <mchehab@kernel.org>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Dave Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Subject: Re: [PATCH v3 0/7] media/drm: renesas: Add new pixel formats
+Message-ID: <20230117174152.21bb1484@coco.lan>
+In-Reply-To: <Y8ak0SD1YLUZt0Pz@pendragon.ideasonboard.com>
+References: <20221221092448.741294-1-tomi.valkeinen+renesas@ideasonboard.com>
+        <Y6m2AqlDdmcgCk8F@pendragon.ideasonboard.com>
+        <479e1dca-8d9c-cc75-75d9-3148ccc54f68@ideasonboard.com>
+        <Y8ak0SD1YLUZt0Pz@pendragon.ideasonboard.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.35; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Virus-Scanned: ClamAV using ClamSMTP
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Thank you for the advice Andy.
-I took a look in overflow.h and found the size_mul function, I assume this
-is what I should be using to prevent accidental overflow.
-I also removed the inline keyword from the function definitions because
-Dan (error27@gmail.com) recommended that I do so in reply to an earlier
-patch I submitted.
+Em Tue, 17 Jan 2023 15:38:25 +0200
+Laurent Pinchart <laurent.pinchart@ideasonboard.com> escreveu:
 
-Signed-off-by: Brent Pappas <bpappas@pappasbrent.com>
----
-Changelog:
-V1 -> V2: Use size_mul to perform size_t multiplication without risk of
-		  overflow.
-		  Remove the inline keyword from function definitions.
+> Hi Tomi,
+> 
+> (CC'ing Mauro and Hans)
+> 
+> On Tue, Jan 10, 2023 at 04:25:37PM +0200, Tomi Valkeinen wrote:
+> > On 26/12/2022 16:56, Laurent Pinchart wrote:  
+> > > Hi Tomi,
+> > > 
+> > > (CC'ing Daniel and Dave)
+> > > 
+> > > On Wed, Dec 21, 2022 at 11:24:41AM +0200, Tomi Valkeinen wrote:  
+> > >> From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> > >>
+> > >> Hi,
+> > >>
+> > >> These add new pixel formats for Renesas V3U and V4H SoCs.
+> > >>
+> > >> As the display pipeline is split between DRM and V4L2 components, this
+> > >> series touches both subsystems. I'm sending all these together to
+> > >> simplify review. If needed, I can later split this to V4L2 and DRM
+> > >> parts, of which the V4L2 part needs to be merged first.  
+> > > 
+> > > As the changes on the DRM side are small and shouldn't conflict with
+> > > anything else queued for v6.3, it would be easier to merge the whole
+> > > series through the media tree. Daniel, Dave, would you be OK with that ?
+> > > If so, could you please ack patches 6/7 and 7/7 ?  
+> > 
+> > Note that these patches depend on the two DRM driver patches in "[PATCH 
+> > v5 0/7] Renesas V4H DSI & DP output support", which are not very small 
+> > (but still not big).  
+> 
+> Good point. I'm thus leaning more towards merging this through the DRM
+> tree then. Mauro, can we get your ack on the V4L2 part of this series ?
+> We'll create a stable branch based on v6.2-rc1 in case it also need to
+> be merged in the media tree due to last minute conflicts (I'm mainly
+> thinking about the new formats).
 
- .../staging/media/atomisp/pci/sh_css_params.c | 38 +++++++++++--------
- 1 file changed, 23 insertions(+), 15 deletions(-)
+Feel free to merge the V4L2 patches via DRM tree with my ack:
 
-diff --git a/drivers/staging/media/atomisp/pci/sh_css_params.c b/drivers/staging/media/atomisp/pci/sh_css_params.c
-index f08564f58242..7e111df5c09d 100644
---- a/drivers/staging/media/atomisp/pci/sh_css_params.c
-+++ b/drivers/staging/media/atomisp/pci/sh_css_params.c
-@@ -98,17 +98,27 @@
- #include "sh_css_frac.h"
- #include "ia_css_bufq.h"
- 
--#define FPNTBL_BYTES(binary) \
--	(sizeof(char) * (binary)->in_frame_info.res.height * \
--	 (binary)->in_frame_info.padded_width)
-+static size_t fpntbl_bytes(const struct ia_css_binary *binary)
-+{
-+	return size_mul(sizeof(char),
-+			size_mul(binary->in_frame_info.res.height,
-+				 binary->in_frame_info.padded_width));
-+}
- 
--#define SCTBL_BYTES(binary) \
--	(sizeof(unsigned short) * (binary)->sctbl_height * \
--	 (binary)->sctbl_aligned_width_per_color * IA_CSS_SC_NUM_COLORS)
-+static size_t sctbl_bytes(const struct ia_css_binary *binary)
-+{
-+	return size_mul(sizeof(unsigned short),
-+				size_mul(binary->sctbl_height,
-+					 size_mul(binary->sctbl_aligned_width_per_color,
-+						  IA_CSS_SC_NUM_COLORS)));
-+}
- 
--#define MORPH_PLANE_BYTES(binary) \
--	(SH_CSS_MORPH_TABLE_ELEM_BYTES * (binary)->morph_tbl_aligned_width * \
--	 (binary)->morph_tbl_height)
-+static size_t morph_plane_bytes(const struct ia_css_binary *binary)
-+{
-+	return size_mul(SH_CSS_MORPH_TABLE_ELEM_BYTES,
-+					size_mul(binary->morph_tbl_aligned_width,
-+						 binary->morph_tbl_height));
-+}
- 
- /* We keep a second copy of the ptr struct for the SP to access.
-    Again, this would not be necessary on the chip. */
-@@ -3279,7 +3289,7 @@ sh_css_params_write_to_ddr_internal(
- 	if (binary->info->sp.enable.fpnr) {
- 		buff_realloced = reallocate_buffer(&ddr_map->fpn_tbl,
- 						   &ddr_map_size->fpn_tbl,
--						   (size_t)(FPNTBL_BYTES(binary)),
-+						   fpntbl_bytes(binary),
- 						   params->config_changed[IA_CSS_FPN_ID],
- 						   &err);
- 		if (err) {
-@@ -3304,7 +3314,7 @@ sh_css_params_write_to_ddr_internal(
- 
- 		buff_realloced = reallocate_buffer(&ddr_map->sc_tbl,
- 						   &ddr_map_size->sc_tbl,
--						   SCTBL_BYTES(binary),
-+						   sctbl_bytes(binary),
- 						   params->sc_table_changed,
- 						   &err);
- 		if (err) {
-@@ -3538,8 +3548,7 @@ sh_css_params_write_to_ddr_internal(
- 			buff_realloced |=
- 			    reallocate_buffer(virt_addr_tetra_x[i],
- 					    virt_size_tetra_x[i],
--					    (size_t)
--					    (MORPH_PLANE_BYTES(binary)),
-+					    morph_plane_bytes(binary),
- 					    params->morph_table_changed,
- 					    &err);
- 			if (err) {
-@@ -3549,8 +3558,7 @@ sh_css_params_write_to_ddr_internal(
- 			buff_realloced |=
- 			    reallocate_buffer(virt_addr_tetra_y[i],
- 					    virt_size_tetra_y[i],
--					    (size_t)
--					    (MORPH_PLANE_BYTES(binary)),
-+					    morph_plane_bytes(binary),
- 					    params->morph_table_changed,
- 					    &err);
- 			if (err) {
--- 
-2.34.1
+Acked-by: Mauro Carvalho Chehab <mchehab@kernel.org>
 
+> 
+> Hans, as there won't be a pull request through the media tree, if you
+> want to review the new formats, now would be a good time.
+> 
+> > I don't think there's a compile-time dependency between the DRM and V4L2 
+> > parts, but there's a functional side dependency, so it would be nice to 
+> > merge these via a single tree. I can't say if DRM or V4L2 tree is 
+> > easier, but I don't expect conflicts either way.  
+> 
+
+
+
+Thanks,
+Mauro
