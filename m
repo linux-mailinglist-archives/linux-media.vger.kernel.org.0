@@ -2,116 +2,91 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4B3BC670A7B
-	for <lists+linux-media@lfdr.de>; Tue, 17 Jan 2023 23:01:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 787E1670B24
+	for <lists+linux-media@lfdr.de>; Tue, 17 Jan 2023 23:04:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229632AbjAQWA6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 17 Jan 2023 17:00:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43280 "EHLO
+        id S229820AbjAQWEo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 17 Jan 2023 17:04:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46798 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229759AbjAQV7h (ORCPT
+        with ESMTP id S229821AbjAQWEF (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 17 Jan 2023 16:59:37 -0500
-Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 32A0639BB4
-        for <linux-media@vger.kernel.org>; Tue, 17 Jan 2023 12:32:43 -0800 (PST)
-Received: by mail-qt1-f173.google.com with SMTP id d16so15264634qtw.8
-        for <linux-media@vger.kernel.org>; Tue, 17 Jan 2023 12:32:43 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=80XVCGq03uPtsV/B6FIva6jAl8T2rvyiR6KKpMSI6gk=;
-        b=lXnknCiDJDeImOg2ynrceci+wBn7VRWiTKtZ5zry3n3LxaXYEe7+//Oe1fD83/RQIn
-         HS+YNchNRWtOSLBI/8cVelwy+KekCKssBnZuyJ1t2D6R4TOsF982SgvrPXiLvmNQBnt6
-         PTPJAXdghn4sWZ57lkIbcnTFPDgFdx1gXx7227dXgq6kn0RSz5qA6w7oAObJmf+hwjir
-         lITX3ljs2KEsk8IW68xM4EHbwvVNXxJC63IVBzUXuJEc7ZoYjnFxHSdj3BbZu45K+bAG
-         /G+GpOqikOavNHZ5Pi9c8Pwpg7uUrEj35TvB+fGzkH4/I/nqjtMs8KDAdgJqukZcBxAN
-         zLaQ==
-X-Gm-Message-State: AFqh2koSoVSpotP0Kc96Tzj8i3mU5AcnwaAJ564+W7SNznovirefyRrc
-        +qqf/DktYlm69XIFIPMZ18rfvjNabklpOw==
-X-Google-Smtp-Source: AMrXdXtZi2WSBt9Y8EcjsSxfooanhk3hBjMaLlhjN2fNtR4WlSKzRFRQNmUeGMH0hA/Og0hXWUOO+Q==
-X-Received: by 2002:a05:622a:4d0e:b0:3b6:32f6:c14d with SMTP id fd14-20020a05622a4d0e00b003b632f6c14dmr10574392qtb.29.1673987562124;
-        Tue, 17 Jan 2023 12:32:42 -0800 (PST)
-Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com. [209.85.219.176])
-        by smtp.gmail.com with ESMTPSA id j25-20020ac874d9000000b003b0b903720esm9572257qtr.13.2023.01.17.12.32.41
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 17 Jan 2023 12:32:41 -0800 (PST)
-Received: by mail-yb1-f176.google.com with SMTP id p188so35617372yba.5
-        for <linux-media@vger.kernel.org>; Tue, 17 Jan 2023 12:32:41 -0800 (PST)
-X-Received: by 2002:a25:9801:0:b0:7d5:b884:3617 with SMTP id
- a1-20020a259801000000b007d5b8843617mr449162ybo.380.1673987561135; Tue, 17 Jan
- 2023 12:32:41 -0800 (PST)
+        Tue, 17 Jan 2023 17:04:05 -0500
+Received: from outpost1.zedat.fu-berlin.de (outpost1.zedat.fu-berlin.de [130.133.4.66])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 554FB4F87F;
+        Tue, 17 Jan 2023 12:37:39 -0800 (PST)
+Received: from inpost2.zedat.fu-berlin.de ([130.133.4.69])
+          by outpost.zedat.fu-berlin.de (Exim 4.95)
+          with esmtps (TLS1.3)
+          tls TLS_AES_256_GCM_SHA384
+          (envelope-from <glaubitz@zedat.fu-berlin.de>)
+          id 1pHsi7-002brB-VR; Tue, 17 Jan 2023 21:37:35 +0100
+Received: from p57bd9464.dip0.t-ipconnect.de ([87.189.148.100] helo=[192.168.178.81])
+          by inpost2.zedat.fu-berlin.de (Exim 4.95)
+          with esmtpsa (TLS1.3)
+          tls TLS_AES_128_GCM_SHA256
+          (envelope-from <glaubitz@physik.fu-berlin.de>)
+          id 1pHsi7-003MvY-Or; Tue, 17 Jan 2023 21:37:35 +0100
+Message-ID: <0d238f02-4d78-6f14-1b1b-f53f0317a910@physik.fu-berlin.de>
+Date:   Tue, 17 Jan 2023 21:37:35 +0100
 MIME-Version: 1.0
-References: <20221226094820.1157244-1-cuigaosheng1@huawei.com>
-In-Reply-To: <20221226094820.1157244-1-cuigaosheng1@huawei.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 17 Jan 2023 21:32:29 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdVT1d1V78o5fTiEP5RmbYCNqpKJR_1A7e_RJABA1STpYQ@mail.gmail.com>
-Message-ID: <CAMuHMdVT1d1V78o5fTiEP5RmbYCNqpKJR_1A7e_RJABA1STpYQ@mail.gmail.com>
-Subject: Re: [PATCH -next] media: staging: stkwebcam: Fix the build error with stkwebcam
-To:     Gaosheng Cui <cuigaosheng1@huawei.com>
-Cc:     mchehab@kernel.org, gregkh@linuxfoundation.org,
-        hverkuil-cisco@xs4all.nl, ribalda@chromium.org,
-        neil.armstrong@linaro.org, geert+renesas@glider.be,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: Calculating array sizes in C - was: Re: Build
+ regressions/improvements in v6.2-rc1
+Content-Language: en-US
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+        linux-wireless@vger.kernel.org, linux-mips@vger.kernel.org,
+        linux-sh@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
+        linuxppc-dev@lists.ozlabs.org, kasan-dev@googlegroups.com,
+        linux-xtensa@linux-xtensa.org,
+        Michael Karcher <kernel@mkarcher.dialup.fu-berlin.de>,
+        Arnd Bergmann <arnd@arndb.de>
+References: <CAHk-=wgf929uGOVpiWALPyC7pv_9KbwB2EAvQ3C4woshZZ5zqQ@mail.gmail.com>
+ <20221227082932.798359-1-geert@linux-m68k.org>
+ <alpine.DEB.2.22.394.2212270933530.311423@ramsan.of.borg>
+ <c05bee5d-0d69-289b-fe4b-98f4cd31a4f5@physik.fu-berlin.de>
+ <CAMuHMdXNJveXHeS=g-aHbnxtyACxq1wCeaTg8LbpYqJTCqk86g@mail.gmail.com>
+ <3800eaa8-a4da-b2f0-da31-6627176cb92e@physik.fu-berlin.de>
+ <CAMuHMdWbBRkhecrqcir92TgZnffMe8ku2t7PcVLqA6e6F-j=iw@mail.gmail.com>
+ <429140e0-72fe-c91c-53bc-124d33ab5ffa@physik.fu-berlin.de>
+ <CAMuHMdWpHSsAB3WosyCVgS6+t4pU35Xfj3tjmdCDoyS2QkS7iw@mail.gmail.com>
+From:   John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+In-Reply-To: <CAMuHMdWpHSsAB3WosyCVgS6+t4pU35Xfj3tjmdCDoyS2QkS7iw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Original-Sender: glaubitz@physik.fu-berlin.de
+X-Originating-IP: 87.189.148.100
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        RCVD_IN_DNSWL_MED,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Gaosheng,
+Hi!
 
-On Mon, Dec 26, 2022 at 10:48 AM Gaosheng Cui <cuigaosheng1@huawei.com> wrote:
-> When I am building the kernel on arm64, set config CONFIG_USB=m &&
-> CONFIG_VIDEO_STKWEBCAM=y, I get some error reports as follows:
->   drivers/staging/media/deprecated/stkwebcam/stk-webcam.o: In
->     function `stk_v4l_dev_release':
->   stk-webcam.c:(.text+0x3e0): undefined reference to `usb_put_intf'
->   stk-webcam.c:(.text+0x3e8): undefined reference to `usb_put_dev'
->   drivers/staging/media/deprecated/stkwebcam/stk-webcam.o: In
->   function `stk_clean_iso':
->   stk-webcam.c:(.text+0xb0c): undefined reference to `usb_kill_urb'
->   stk-webcam.c:(.text+0xb14): undefined reference to `usb_free_urb'
->
-> Fix it by add dependency option on USB for VIDEO_STKWEBCAM.
->
-> Signed-off-by: Gaosheng Cui <cuigaosheng1@huawei.com>
+On 1/17/23 21:05, Geert Uytterhoeven wrote:
+>> Isn't this supposed to be caught by this check:
+>>
+>>          a, __same_type(a, NULL)
+>>
+>> ?
+> 
+> Yeah, but gcc thinks it is smarter than us...
+> Probably it drops the test, assuming UB cannot happen.
 
-Thanks for your patch!
+Hmm, sounds like a GGC bug to me then. Not sure how to fix this then.
 
-> --- a/drivers/staging/media/deprecated/stkwebcam/Kconfig
-> +++ b/drivers/staging/media/deprecated/stkwebcam/Kconfig
-> @@ -2,7 +2,7 @@
->  config VIDEO_STKWEBCAM
->         tristate "USB Syntek DC1125 Camera support (DEPRECATED)"
->         depends on VIDEO_DEV
-> -       depends on MEDIA_USB_SUPPORT && MEDIA_CAMERA_SUPPORT
-> +       depends on USB && MEDIA_USB_SUPPORT && MEDIA_CAMERA_SUPPORT
->         help
->           Say Y here if you want to use this type of camera.
->           Supported devices are typically found in some Asus laptops,
+Adrian
 
-I think Arnd's patch[1] is better, as it also fixes the modular
-MEDIA_SUPPORT case.
+-- 
+  .''`.  John Paul Adrian Glaubitz
+: :' :  Debian Developer
+`. `'   Physicist
+   `-    GPG: 62FF 8A75 84E0 2956 9546  0006 7426 3B37 F5B5 F913
 
-[1] "[PATCH] staging: media: stkwebcam: add USB dependency"
-    https://lore.kernel.org/all/20230117165851.2300111-1-arnd@kernel.org
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
