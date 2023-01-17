@@ -2,65 +2,52 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6918D66E1FB
-	for <lists+linux-media@lfdr.de>; Tue, 17 Jan 2023 16:22:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 731DC66E216
+	for <lists+linux-media@lfdr.de>; Tue, 17 Jan 2023 16:26:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229726AbjAQPWR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 17 Jan 2023 10:22:17 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57296 "EHLO
+        id S231485AbjAQP0v (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 17 Jan 2023 10:26:51 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59006 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229695AbjAQPWQ (ORCPT
+        with ESMTP id S229803AbjAQP0Z (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 17 Jan 2023 10:22:16 -0500
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E415F55BA;
-        Tue, 17 Jan 2023 07:22:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1673968934; x=1705504934;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=7BTQ79mOZfvv0uHbF0pJ6F9idS5NsvEgnqqwJjZd0IE=;
-  b=miGQb1lJ2mCPkYcTcfCP73+DAOPhYyxqQJapBuaYsBlRiXjzuiN7rSoF
-   8ZPfKPSYlqazqNM2fCsWXOGr2eE9iPpRYwNodmpLlRrXA2L5AUXwaMlJj
-   0JayTqlU36gsFuGGWPUn17ydKsX0h5HLXNAEO3VAzon/bWmQs3/tFcHKg
-   dIKZzFgfvemyuN65lXLnQap89SQN7w3ybm8Cu0gn4bln84SfEi0hk/WVp
-   d9wtu1ROXGCaQGp5HYjOkyARB+ek6BPRmqcOEKgdahXYQhHHVG2H3fzxU
-   kLM63fU1tyhVYWG0qlfIfIqucwAgedGspMpelStb7siLuGcJgECJ4vtiD
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10592"; a="312586345"
-X-IronPort-AV: E=Sophos;i="5.97,224,1669104000"; 
-   d="scan'208";a="312586345"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jan 2023 07:22:14 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10592"; a="689823338"
-X-IronPort-AV: E=Sophos;i="5.97,224,1669104000"; 
-   d="scan'208";a="689823338"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by orsmga008.jf.intel.com with ESMTP; 17 Jan 2023 07:22:12 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1pHnmt-00AdLk-1I;
-        Tue, 17 Jan 2023 17:22:11 +0200
-Date:   Tue, 17 Jan 2023 17:22:11 +0200
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     linux-acpi@vger.kernel.org, rafael@kernel.org,
-        linux-media@vger.kernel.org, heikki.krogerus@linux.intel.com
-Subject: Re: [PATCH 5/8] ACPI: property: Dig "rotation" property for devices
- with CSI2 _CRS
-Message-ID: <Y8a9Iy2xzmHh7crA@smile.fi.intel.com>
-References: <20230117122244.2546597-1-sakari.ailus@linux.intel.com>
- <20230117122244.2546597-6-sakari.ailus@linux.intel.com>
+        Tue, 17 Jan 2023 10:26:25 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1054655BA;
+        Tue, 17 Jan 2023 07:26:24 -0800 (PST)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9F3F610C;
+        Tue, 17 Jan 2023 16:26:21 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1673969181;
+        bh=tSDcjAh6bFmwIhxqPp/jq7QIdOqP7tA6ejjlekmgFZo=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=BVlO2NPSanLnnpZ9sV70KYrrQe9hv2XFk89MRzJJ55jCEXhtEy0oWi7C3t5UzIqsr
+         pq9GIkxGnIyLgvxDX1ajQ777N9AA2NfaRG1WJVmsPC/oEXti4UF4QHn96Ae6cKXVTL
+         QEnC9WZFMQMXpfkUfgATNOUrxNC/JDtxvoTpnsY8=
+Date:   Tue, 17 Jan 2023 17:26:22 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Yuji Ishikawa <yuji2.ishikawa@toshiba.co.jp>
+Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
+        Mark Brown <broonie@kernel.org>, linux-media@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org
+Subject: Re: [PATCH v5 1/6] dt-bindings: media: platform: visconti: Add
+ Toshiba Visconti Video Input Interface bindings
+Message-ID: <Y8a+Hk2jFOjbkIvZ@pendragon.ideasonboard.com>
+References: <20230111022433.25950-1-yuji2.ishikawa@toshiba.co.jp>
+ <20230111022433.25950-2-yuji2.ishikawa@toshiba.co.jp>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230117122244.2546597-6-sakari.ailus@linux.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
+In-Reply-To: <20230111022433.25950-2-yuji2.ishikawa@toshiba.co.jp>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -68,32 +55,198 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Jan 17, 2023 at 02:22:41PM +0200, Sakari Ailus wrote:
-> Dig "rotation" property value for devices with _CRS CSI2 resource
-> descriptor. The value comes from _PLD (physical location of device)
-> object, if it exists for the device.
+Hi Yuji,
+
+Thank you for the patch.
+
+On Wed, Jan 11, 2023 at 11:24:28AM +0900, Yuji Ishikawa wrote:
+> Adds the Device Tree binding documentation that allows to describe
+> the Video Input Interface found in Toshiba Visconti SoCs.
 > 
-> This way camera sensor drivers that know the "rotation" property do not
-> need to care about _PLD on ACPI.
+> Signed-off-by: Yuji Ishikawa <yuji2.ishikawa@toshiba.co.jp>
+> Reviewed-by: Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>
+> ---
+> Changelog v2:
+> - no change
+> 
+> Changelog v3:
+> - no change
+> 
+> Changelog v4:
+> - fix style problems at the v3 patch
+> - remove "index" member
+> - update example
+> 
+> Changelog v5:
+> - no change
+> ---
+>  .../bindings/media/toshiba,visconti-viif.yaml | 98 +++++++++++++++++++
+>  1 file changed, 98 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/toshiba,visconti-viif.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/media/toshiba,visconti-viif.yaml b/Documentation/devicetree/bindings/media/toshiba,visconti-viif.yaml
+> new file mode 100644
+> index 00000000000..71442724d1a
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/toshiba,visconti-viif.yaml
+> @@ -0,0 +1,98 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/toshiba,visconti-viif.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Toshiba Visconti5 SoC Video Input Interface Device Tree Bindings
+> +
+> +maintainers:
+> +  - Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>
+> +
+> +description:
+> +  Toshiba Visconti5 SoC Video Input Interface (VIIF)
+> +  receives MIPI CSI2 video stream,
+> +  processes the stream with embedded image signal processor (L1ISP, L2ISP),
+> +  then stores pictures to main memory.
+> +
+> +properties:
+> +  compatible:
+> +    const: toshiba,visconti-viif
+> +
+> +  reg:
+> +    items:
+> +      - description: registers for capture control
+> +      - description: registers for CSI2 receiver control
 
-...
+Nitpicking, s/registers/Registers/ in the two lines above as you
+capitalize the descriptions below.
 
-> +	if (fwnode_property_read_u32(fwnode, "rotation", &val) &&
-> +	    acpi_get_physical_device_location(acpi_device_handle(device),
-> +					      &pld) == AE_OK) {
+> +
+> +  interrupts:
+> +    items:
+> +      - description: Sync Interrupt
+> +      - description: Status (Error) Interrupt
+> +      - description: CSI2 Receiver Interrupt
+> +      - description: L1ISP Interrupt
+> +
+> +  port:
+> +    $ref: /schemas/graph.yaml#/$defs/port-base
+> +    unevaluatedProperties: false
+> +    description: Input port, single endpoint describing the CSI-2 transmitter.
 
-ACPI_SUCCESS() ?
+I would write
 
-...
+    description:
+      CSI-2 input port, with a single endpoint connected to the CSI-2
+      transmitter.
 
-> +		ads->dev_props[NEXT_PROPERTY(prop_index, DEV_ROTATION)] =
-> +			PROPERTY_ENTRY_U32("rotation",
-> +					   (u32)pld->rotation * 45U);
+> +
+> +    properties:
+> +      endpoint:
+> +        $ref: video-interfaces.yaml#
+> +        unevaluatedProperties: false
+> +
+> +        properties:
+> +          data-lanes:
+> +            description: VIIF supports 2 or 4 data lines
 
-Why do you need casting?
+s/lines/lanes/
+
+> +            $ref: /schemas/types.yaml#/definitions/uint32-array
+
+You can drop this line, it's already handled by video-interfaces.yaml.
+
+> +            minItems: 1
+> +            maxItems: 4
+
+If only 2 or 4 data lanes are supported, shouldn't minItems be 2 ?
+
+> +            items:
+> +              minimum: 1
+> +              maximum: 4
+
+Can the CSI-2 receiver reorder the data lanes ? If not, I think you can
+write
+
+            items:
+              - const: 1
+              - const: 2
+              - const: 3
+              - const: 4
+
+> +
+> +          clock-lanes:
+> +            description: VIIF supports 1 clock line
+
+s/line/lane/
+
+> +            const: 0
+
+I would also add
+
+          clock-noncontinuous: true
+          link-frequencies: true
+
+to indicate that the above two properties are used by this device.
+
+Also, mark the properties that are required:
+
+        required:
+          - data-lanes
+          - clock-lanes
+
+I'm wondering, though, if clock-lanes shouldn't be simply omitted. If
+the hardware doesn't support any other option than using lane 0 for the
+clock lane (as in, no lane remapping), then you can drop the clock-lanes
+property completely.
+
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +  - port
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +    #include <dt-bindings/interrupt-controller/irq.h>
+> +
+> +    soc {
+> +        #address-cells = <2>;
+> +        #size-cells = <2>;
+> +
+> +        viif@1c000000 {
+> +            compatible = "toshiba,visconti-viif";
+> +            reg = <0 0x1c000000 0 0x6000>,
+> +                  <0 0x1c008000 0 0x400>;
+> +            interrupts = <GIC_SPI 64 IRQ_TYPE_LEVEL_HIGH>,
+> +                         <GIC_SPI 67 IRQ_TYPE_LEVEL_HIGH>,
+> +                         <GIC_SPI 73 IRQ_TYPE_LEVEL_HIGH>,
+> +                         <GIC_SPI 76 IRQ_TYPE_LEVEL_HIGH>;
+> +
+> +            port {
+> +                #address-cells = <1>;
+> +                #size-cells = <0>;
+> +
+> +                csi_in0: endpoint {
+> +                    remote-endpoint = <&imx219_out0>;
+> +                    bus-type = <4>;
+
+Does the hardware support any other bus type ? If not, you can drop the
+bus-type. If it does, bus-type should be added to the binding, with the
+value set to "const: 4".
+
+> +                    data-lanes = <1 2>;
+> +                    clock-lanes = <0>;
+> +                    clock-noncontinuous;
+> +                    link-frequencies = /bits/ 64 <456000000>;
+> +                };
+> +            };
+> +        };
+> +    };
 
 -- 
-With Best Regards,
-Andy Shevchenko
+Regards,
 
-
+Laurent Pinchart
