@@ -2,152 +2,157 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DE83C66DB69
-	for <lists+linux-media@lfdr.de>; Tue, 17 Jan 2023 11:44:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CCACF66DB64
+	for <lists+linux-media@lfdr.de>; Tue, 17 Jan 2023 11:44:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236504AbjAQKov (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 17 Jan 2023 05:44:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47960 "EHLO
+        id S235843AbjAQKoY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 17 Jan 2023 05:44:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47696 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236478AbjAQKon (ORCPT
+        with ESMTP id S236116AbjAQKoU (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 17 Jan 2023 05:44:43 -0500
-Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com [91.207.212.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 57CA7144B1;
-        Tue, 17 Jan 2023 02:44:42 -0800 (PST)
-Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
-        by mx07-00178001.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 30H9T5Gm032587;
-        Tue, 17 Jan 2023 11:44:07 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=selector1;
- bh=JetU/vClmq28CdUgwaZ2wTGVF1V5rAHQm81lnMbAvfs=;
- b=i7TQbM0z6/i2uiW0f/D4FVl4e5kV6f6FLCvULOZXVb4TthuTRBV5CQhnnnh7F7pwDM/4
- qO8YEHxZ08wnLvkWLknxlZOEBBakbAF9sd7yujp5DW4GE3slec8P4FRJ/+811IwB0Lql
- K1Q3nwN96ZdKwOTBDT6msHzr/hU6Zx9bHk289Z2WqwlZ6mIo82CTzv4SUr+1ZfSPXYIU
- qC2UbOp38z248mFW/o0SSuJlxL3/zTzJApPktzT7VaN8+2FwpDErplA5RU9WYVJplLRQ
- yMektUCxwKEorDikB8F4uZ70rwQjpO7+PqV30e5tvHMqh5w/BlTtHG55YrlwcKSoBDNc Vg== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-        by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3n3m5q03wn-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 17 Jan 2023 11:44:07 +0100
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id F22E610002A;
-        Tue, 17 Jan 2023 11:44:04 +0100 (CET)
-Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
-        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 3A314214D31;
-        Tue, 17 Jan 2023 11:44:04 +0100 (CET)
-Received: from [10.201.21.93] (10.201.21.93) by SHFDAG1NODE1.st.com
- (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.13; Tue, 17 Jan
- 2023 11:44:02 +0100
-Message-ID: <2d482a44-3810-ef03-7ecb-547552b596c1@foss.st.com>
-Date:   Tue, 17 Jan 2023 11:44:01 +0100
+        Tue, 17 Jan 2023 05:44:20 -0500
+Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com [IPv6:2a00:1450:4864:20::430])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EBF5646A4
+        for <linux-media@vger.kernel.org>; Tue, 17 Jan 2023 02:44:18 -0800 (PST)
+Received: by mail-wr1-x430.google.com with SMTP id e3so20894105wru.13
+        for <linux-media@vger.kernel.org>; Tue, 17 Jan 2023 02:44:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=rDFJAyxdwlXAceDq2HEyYot6ddhmeIhv2ZNqpa+nXCY=;
+        b=mejaY73R9K8EQWWiawJO1bS1S6I4yHsgrohDuS2fhH8cueOsSYZi42eZLXw2ZhqfBj
+         VIdfM3A2WiHmJi7wglW2fcZkPTPCRHfzFakebE0hzRReQV2L7HsuxA2i34ae1WWZMxEj
+         EGS2JQ+ZG+kG2WmARA0PqObGq5tHf7RJAHgYOF2Vbsd95qaBGg6YCWwCGWiaLPq3+q/a
+         QJyxBskSEfe06Z1XJm87x5j8m4UP5stOlFmg0xJ/j5aa1rttQdPDMY90q3XVVu0k7kKi
+         gYwlkW123cPMsiJAJFT6JbsNlUip9QDE9CrBkKfQwt5TTVbCKBSgTa7kvMIijQLLb+Hw
+         RlYw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=rDFJAyxdwlXAceDq2HEyYot6ddhmeIhv2ZNqpa+nXCY=;
+        b=6oL9Vae6/ZimI34O8X0f64HU0Jqd+SD4prsifYEArEPRctY1T4OZPdVNdatDuuDwFD
+         4/mDoPlOTc5K2LZyg3zNy3XUv1pQ/9frKOEOpfGXa2nQodwXsSu41hf12HWmZXWPXJJM
+         0qkTIv0AVPtDMv1pD33CBGXm4xk3uD0aG3PRiWyImFb5XlC/l+H+zwsJXVjQp0rbEr5A
+         UZE7nIV6Y9PUabrWA6eBu6DDztX4mUouTu+3WVe98T4FLVT/j3zftSstNJ1VTz8d6Eer
+         BvFVsw6vMVMmdbYkW9h4L8FYknSxdGHFFLChD1JeVgZx19Ty6qahGPnVNnD8ndLPONbf
+         6AWg==
+X-Gm-Message-State: AFqh2kqv2u2bOuu5Na8iwF2Srl47DxjxVFopT1b4iAhJVRnhlOItWmaM
+        crIXSG/bnjw3wNkC0VZgIXXhxQ==
+X-Google-Smtp-Source: AMrXdXtZBBAJRszEFQuiAI8oVhKjjwBpWztQ8LR+hAfpx5+gygc/xT1aXjwWWGgP9vgzwbJyvxRKDQ==
+X-Received: by 2002:adf:fa4e:0:b0:2bd:d415:39c with SMTP id y14-20020adffa4e000000b002bdd415039cmr12015109wrr.4.1673952257509;
+        Tue, 17 Jan 2023 02:44:17 -0800 (PST)
+Received: from [192.168.1.109] ([178.197.216.144])
+        by smtp.gmail.com with ESMTPSA id o17-20020a5d4091000000b0028965dc7c6bsm28121074wrp.73.2023.01.17.02.44.14
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 17 Jan 2023 02:44:17 -0800 (PST)
+Message-ID: <3c7e9a5f-24e3-3486-11f8-556428947423@linaro.org>
+Date:   Tue, 17 Jan 2023 11:44:14 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH v3 6/6] ARM: dts: stm32: Use new media bus type macros
+ Thunderbird/102.6.1
+Subject: Re: [PATCH 01/10] dt-bindings: media: mediatek,vcodec: Remove
+ dma-ranges property
 Content-Language: en-US
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Hugues Fruchet <hugues.fruchet@foss.st.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>
-CC:     <devicetree@vger.kernel.org>, <linux-media@vger.kernel.org>,
-        <dri-devel@lists.freedesktop.org>,
+To:     =?UTF-8?B?WW9uZyBXdSAo5ZC05YuHKQ==?= <Yong.Wu@mediatek.com>
+Cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-mediatek@lists.infradead.org" 
+        <linux-mediatek@lists.infradead.org>,
+        =?UTF-8?B?WW91bGluIFBlaSAo6KO05Y+L5p6XKQ==?= 
+        <youlin.pei@mediatek.com>,
+        =?UTF-8?B?VGlmZmFueSBMaW4gKOael+aFp+ePiik=?= 
+        <tiffany.lin@mediatek.com>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        =?UTF-8?B?QW5hbiBTdW4gKOWtmeWuieWuiSk=?= <Anan.Sun@mediatek.com>,
+        =?UTF-8?B?TGlibyBLYW5nICjlurfliKnms6Ip?= <Libo.Kang@mediatek.com>,
+        "kyrie.wu@mediatek.corp-partner.google.com" 
+        <kyrie.wu@mediatek.corp-partner.google.com>,
+        "robin.murphy@arm.com" <robin.murphy@arm.com>,
+        "hverkuil@xs4all.nl" <hverkuil@xs4all.nl>,
+        =?UTF-8?B?Q2hlbmdjaSBYdSAo6K645om/6LWQKQ==?= 
+        <Chengci.Xu@mediatek.com>,
+        "mchehab@kernel.org" <mchehab@kernel.org>,
+        "joro@8bytes.org" <joro@8bytes.org>,
+        =?UTF-8?B?WXVuZmVpIERvbmcgKOiRo+S6kemjnik=?= 
+        <Yunfei.Dong@mediatek.com>,
+        =?UTF-8?B?WUYgV2FuZyAo546L5LqR6aOeKQ==?= <YF.Wang@mediatek.com>,
+        "nfraprado@collabora.com" <nfraprado@collabora.com>,
+        "linux-arm-kernel@lists.infradead.org" 
         <linux-arm-kernel@lists.infradead.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Eugen Hristev <eugen.hristev@microchip.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Fabio Estevam <festevam@gmail.com>,
-        Shawn Guo <shawnguo@kernel.org>
-References: <20220615221410.27459-1-laurent.pinchart@ideasonboard.com>
- <20220615221410.27459-7-laurent.pinchart@ideasonboard.com>
- <Y8LL9RuzIFTAbcvC@pendragon.ideasonboard.com>
-From:   Alexandre TORGUE <alexandre.torgue@foss.st.com>
-In-Reply-To: <Y8LL9RuzIFTAbcvC@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.201.21.93]
-X-ClientProxiedBy: EQNCAS1NODE4.st.com (10.75.129.82) To SHFDAG1NODE1.st.com
- (10.75.129.69)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.923,Hydra:6.0.562,FMLib:17.11.122.1
- definitions=2023-01-17_04,2023-01-17_01,2022-06-22_01
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,NICE_REPLY_A,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        "krzysztof.kozlowski+dt@linaro.org" 
+        <krzysztof.kozlowski+dt@linaro.org>,
+        "iommu@lists.linux.dev" <iommu@lists.linux.dev>,
+        "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
+        =?UTF-8?B?TWluZ3l1YW4gTWEgKOmprOm4o+i/nCk=?= 
+        <Mingyuan.Ma@mediatek.com>,
+        =?UTF-8?B?QW5kcmV3LUNUIENoZW4gKOmZs+aZuui/qik=?= 
+        <Andrew-CT.Chen@mediatek.com>,
+        "angelogioacchino.delregno@collabora.com" 
+        <angelogioacchino.delregno@collabora.com>,
+        "will@kernel.org" <will@kernel.org>
+References: <20230113060133.9394-1-yong.wu@mediatek.com>
+ <20230113060133.9394-2-yong.wu@mediatek.com>
+ <07ecf7cf-4a68-0f80-0452-3737b7d7922d@linaro.org>
+ <796e7fb8619d114c63580e5c4289c59a57449843.camel@mediatek.com>
+ <2e2a0c70-86d2-7ba1-c87c-aaaa9dd460b5@linaro.org>
+ <3da13600844b8a6c3b788bdb26faa537d0287173.camel@mediatek.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <3da13600844b8a6c3b788bdb26faa537d0287173.camel@mediatek.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent
-
-On 1/14/23 16:36, Laurent Pinchart wrote:
-> Hugues, Maxime, Alexandre, could one of you take this patch in your tree
-> for v6.3 ? The two patches that it depends on have both been merged in
-> v6.2.
-
-Yes sure.
-
-Cheers
-Alex
-
-> 
-> On Thu, Jun 16, 2022 at 01:14:10AM +0300, Laurent Pinchart wrote:
->> Now that a header exists with macros for the media interface bus-type
->> values, replace hardcoding numerical constants with the corresponding
->> macros in the DT sources.
+On 16/01/2023 10:16, Yong Wu (吴勇) wrote:
+>>>>>
+>>>>> Cc: Tiffany Lin <tiffany.lin@mediatek.com>
+>>>>> Cc: Andrew-CT Chen <andrew-ct.chen@mediatek.com>
+>>>>> Cc: Yunfei Dong <yunfei.dong@mediatek.com>
+>>>>> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+>>>>> Cc: Rob Herring <robh+dt@kernel.org>
+>>>>> Cc: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+>>>>
+>>>> There is little point in storing output of get_maintainers.pl
+>>>> forever
+>>>> in
+>>>> the git log. If you need it for some reason, please keep it after
+>>>> -
+>>>> --.
+>>>
+>>> I did get the list from get_maintainers.pl. Sorry that I didn't
+>>> differentiate.
 >>
->> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
->> ---
->>   arch/arm/boot/dts/stm32429i-eval.dts  | 3 ++-
->>   arch/arm/boot/dts/stm32mp157c-ev1.dts | 3 ++-
->>   2 files changed, 4 insertions(+), 2 deletions(-)
->>
->> diff --git a/arch/arm/boot/dts/stm32429i-eval.dts b/arch/arm/boot/dts/stm32429i-eval.dts
->> index 0d98aca01736..5fae11e6607b 100644
->> --- a/arch/arm/boot/dts/stm32429i-eval.dts
->> +++ b/arch/arm/boot/dts/stm32429i-eval.dts
->> @@ -50,6 +50,7 @@
->>   #include "stm32f429-pinctrl.dtsi"
->>   #include <dt-bindings/input/input.h>
->>   #include <dt-bindings/gpio/gpio.h>
->> +#include <dt-bindings/media/video-interfaces.h>
->>   
->>   / {
->>   	model = "STMicroelectronics STM32429i-EVAL board";
->> @@ -186,7 +187,7 @@ &dcmi {
->>   	port {
->>   		dcmi_0: endpoint {
->>   			remote-endpoint = <&ov2640_0>;
->> -			bus-type = <5>;
->> +			bus-type = <MEDIA_BUS_TYPE_PARALLEL>;
->>   			bus-width = <8>;
->>   			hsync-active = <0>;
->>   			vsync-active = <0>;
->> diff --git a/arch/arm/boot/dts/stm32mp157c-ev1.dts b/arch/arm/boot/dts/stm32mp157c-ev1.dts
->> index d142dd30e16b..306d41a6138f 100644
->> --- a/arch/arm/boot/dts/stm32mp157c-ev1.dts
->> +++ b/arch/arm/boot/dts/stm32mp157c-ev1.dts
->> @@ -8,6 +8,7 @@
->>   #include "stm32mp157c-ed1.dts"
->>   #include <dt-bindings/gpio/gpio.h>
->>   #include <dt-bindings/input/input.h>
->> +#include <dt-bindings/media/video-interfaces.h>
->>   
->>   / {
->>   	model = "STMicroelectronics STM32MP157C eval daughter on eval mother";
->> @@ -90,7 +91,7 @@ &dcmi {
->>   	port {
->>   		dcmi_0: endpoint {
->>   			remote-endpoint = <&ov5640_0>;
->> -			bus-type = <5>;
->> +			bus-type = <MEDIA_BUS_TYPE_PARALLEL>;
->>   			bus-width = <8>;
->>   			hsync-active = <0>;
->>   			vsync-active = <0>;
+>> Getting the list from get_maintainers.pl is correct but storing it
+>> forever in git log is really unnecessary. It's not useful. It's just
+>> automated output, reproducible at any given time.
 > 
+> This patchset crosses several domains. This patch is about vcodec, the
+> next one is about jpeg and the later ones are about iommu.
+> The reviewers may be different, thus I use "Cc:" here. is this OK in
+> this case? 
+
+I guess we do not talk about the same thing. It does not matter that
+reviewers are different. They are all different. Please show me the
+direct benefit of storing automated output from a tool in Git log.
+
+> or I should remove this, and put all of them in the cc list
+> of the mail.
+
+I gave you the instruction at beginning, some mails ago...
+
+Best regards,
+Krzysztof
 
