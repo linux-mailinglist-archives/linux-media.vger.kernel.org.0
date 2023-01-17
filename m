@@ -2,62 +2,60 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 30F3C66DAC1
-	for <lists+linux-media@lfdr.de>; Tue, 17 Jan 2023 11:18:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A367666DACB
+	for <lists+linux-media@lfdr.de>; Tue, 17 Jan 2023 11:20:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236691AbjAQKSJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 17 Jan 2023 05:18:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58378 "EHLO
+        id S236157AbjAQKUi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 17 Jan 2023 05:20:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33054 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236345AbjAQKRh (ORCPT
+        with ESMTP id S236148AbjAQKUh (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 17 Jan 2023 05:17:37 -0500
+        Tue, 17 Jan 2023 05:20:37 -0500
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 91A932E0EC
-        for <linux-media@vger.kernel.org>; Tue, 17 Jan 2023 02:17:18 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 382C986B2
+        for <linux-media@vger.kernel.org>; Tue, 17 Jan 2023 02:20:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1673950638; x=1705486638;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=4Q2e4esyX1Zfluzdd0jNs3eXBlO0HWsiGELh6flAyoo=;
-  b=cLEzQt9h9oYHSYGBcX/swuupeKRx+s3NJNUzGNT/ZaMA4MuraNH4ylad
-   J5iGi4RrLElgB2IEMrqgZ6dGRvXj+IvFKp6ZZC8CDF9+KVFDd21RYYgyT
-   OskQ6azNYJJGGTYS1fdY+9YFQDFNAxMrvpX4DzPotn4NrtWzj8X2d+S+M
-   Toc1pJFOod9i8/VtE3dN1IehMMoMfqZt3yUKMEICFd7IyKqoOpSn9NwbA
-   zN5OiDCsvpDWiTECmAzZEhGwjwXof+G5rO7yrtvPZWL44Z+b+GgvcBpS9
-   ZrPMMjv6KElyP1imApJzPPqCX+TnrJWuWxL99ec3lOBGTbi4t3shCJl1c
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10592"; a="351903905"
+  t=1673950836; x=1705486836;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=YzKO8JMHeLJbIR6Mi+RBfivsxfeMf3oLKNPr5dAKhSc=;
+  b=d6JgU8UybRhZuDqQ7Lo12pfUodjrQr6XMyPnU6ADtu4Kd/qBvNvOW/mV
+   hJqrV+kz4fVF9TYpaNETFU7HASbGOJczqEfnZWUPuMhhKLEkqa0baqYSQ
+   L1M0bH4cMgvh4RtSkkIRMfZe2BWybC6dU91ALmGI03+goh/KUcFjRVoa0
+   T9bdllPQJGXFQdN9zPEYL2tcnmP4uOKTDy0eWo417bUfPwR8Ry7SXtBKt
+   L6iBmiBmU0zZSvF6JSQ7+V7K4R/egzsuGALBEBJWFZDJvEB3oydwri+3W
+   EfKgKTv7oe5zQqaHuz46dZs93QAC35VT5y1J7WlCTolYtiipUzEREMD1N
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10592"; a="351904333"
 X-IronPort-AV: E=Sophos;i="5.97,222,1669104000"; 
-   d="scan'208";a="351903905"
+   d="scan'208";a="351904333"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jan 2023 02:17:18 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10592"; a="689750155"
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jan 2023 02:20:35 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10592"; a="689750937"
 X-IronPort-AV: E=Sophos;i="5.97,222,1669104000"; 
-   d="scan'208";a="689750155"
-Received: from punajuuri.fi.intel.com (HELO paasikivi.fi.intel.com) ([10.237.72.43])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jan 2023 02:17:16 -0800
-Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
-        by paasikivi.fi.intel.com (Postfix) with SMTP id 8FF6020165;
-        Tue, 17 Jan 2023 12:17:13 +0200 (EET)
-Date:   Tue, 17 Jan 2023 10:17:13 +0000
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc:     Robert Mader <robert.mader@collabora.com>,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH 2/3] media: imx258: Register H/V flip controls
-Message-ID: <Y8Z1qVTZo12tfVmi@paasikivi.fi.intel.com>
-References: <20230117100603.51631-1-jacopo.mondi@ideasonboard.com>
- <20230117100603.51631-3-jacopo.mondi@ideasonboard.com>
+   d="scan'208";a="689750937"
+Received: from lkp-server02.sh.intel.com (HELO f57cd993bc73) ([10.239.97.151])
+  by orsmga008.jf.intel.com with ESMTP; 17 Jan 2023 02:20:34 -0800
+Received: from kbuild by f57cd993bc73 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1pHj4z-000198-0g;
+        Tue, 17 Jan 2023 10:20:33 +0000
+Date:   Tue, 17 Jan 2023 18:19:59 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     linux-media@vger.kernel.org
+Subject: [sailus-media-tree:master] BUILD REGRESSION
+ 629f71f470a35df1574796a767e31c95d38f63e0
+Message-ID: <63c6764f.g/NpNbFW4E8QR350%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230117100603.51631-3-jacopo.mondi@ideasonboard.com>
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
         RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -66,74 +64,190 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jacopo,
+tree/branch: git://linuxtv.org/sailus/media_tree.git master
+branch HEAD: 629f71f470a35df1574796a767e31c95d38f63e0  media: i2c: ak7375: Add regulator management
 
-Thanks for the patch.
+Error/Warning reports:
 
-On Tue, Jan 17, 2023 at 11:06:02AM +0100, Jacopo Mondi wrote:
-> Register controls for V4L2_CID_HFLIP and V4L2_CID_VFLIP.
-> 
-> The controls are registered as read-only and enabled by default, as the
-> driver embeds a 180 degrees rotation in its programming sequences and
-> only supports that mode of operations.
-> 
-> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-> ---
->  drivers/media/i2c/imx258.c | 14 +++++++++++++-
->  1 file changed, 13 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/i2c/imx258.c b/drivers/media/i2c/imx258.c
-> index 3b560865b657..2e0a4ea76589 100644
-> --- a/drivers/media/i2c/imx258.c
-> +++ b/drivers/media/i2c/imx258.c
-> @@ -1151,6 +1151,7 @@ static int imx258_init_controls(struct imx258 *imx258)
->  	struct i2c_client *client = v4l2_get_subdevdata(&imx258->sd);
->  	struct v4l2_fwnode_device_properties props;
->  	struct v4l2_ctrl_handler *ctrl_hdlr;
-> +	struct v4l2_ctrl *vflip, *hflip;
->  	s64 vblank_def;
->  	s64 vblank_min;
->  	s64 pixel_rate_min;
-> @@ -1158,7 +1159,7 @@ static int imx258_init_controls(struct imx258 *imx258)
->  	int ret;
->  
->  	ctrl_hdlr = &imx258->ctrl_handler;
-> -	ret = v4l2_ctrl_handler_init(ctrl_hdlr, 11);
-> +	ret = v4l2_ctrl_handler_init(ctrl_hdlr, 13);
->  	if (ret)
->  		return ret;
->  
-> @@ -1174,6 +1175,17 @@ static int imx258_init_controls(struct imx258 *imx258)
->  	if (imx258->link_freq)
->  		imx258->link_freq->flags |= V4L2_CTRL_FLAG_READ_ONLY;
->  
-> +	/* The driver only supports one bayer order and flips by default. */
-> +	hflip = v4l2_ctrl_new_std(ctrl_hdlr, &imx258_ctrl_ops,
-> +				  V4L2_CID_HFLIP, 1, 1, 1, 1);
-> +	if (hflip)
-> +		hflip->flags |= V4L2_CTRL_FLAG_READ_ONLY;
-> +
-> +	vflip = v4l2_ctrl_new_std(ctrl_hdlr, &imx258_ctrl_ops,
-> +				  V4L2_CID_VFLIP, 1, 1, 1, 1);
+https://lore.kernel.org/oe-kbuild-all/202301170722.9HVMLR9f-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202301170919.wNXpJU4r-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202301171036.r0qBvyEB-lkp@intel.com
 
-This defaults the controls to 1, which suggests the image is upside down.
+Error/Warning: (recently discovered and may have been fixed)
 
-The rotation property has been used to tell the driver the sensor is upside
-down, and this has also had the effect of reversing flip contron values so
-if they're disabled, the image is upright.
+drivers/media/i2c/imx290.c:563:35: warning: variable 'state' set but not used [-Wunused-but-set-variable]
+drivers/media/i2c/imx290.c:571:35: warning: variable 'state' set but not used [-Wunused-but-set-variable]
+drivers/media/i2c/imx290.c:599:35: error: use of undeclared identifier 'format'
+drivers/media/i2c/imx290.c:599:56: error: 'format' undeclared (first use in this function)
+drivers/media/i2c/imx290.c:608:35: error: use of undeclared identifier 'format'
+drivers/media/i2c/imx290.c:608:56: error: 'format' undeclared (first use in this function)
 
-See e.g. the CCS driver.
+Error/Warning ids grouped by kconfigs:
 
-I'd do the same here.
+gcc_recent_errors
+|-- alpha-allmodconfig
+|   `-- drivers-media-i2c-imx290.c:warning:variable-state-set-but-not-used
+|-- alpha-allyesconfig
+|   `-- drivers-media-i2c-imx290.c:warning:variable-state-set-but-not-used
+|-- arc-allyesconfig
+|   `-- drivers-media-i2c-imx290.c:warning:variable-state-set-but-not-used
+|-- arc-randconfig-r043-20230117
+|   `-- drivers-media-i2c-imx290.c:warning:variable-state-set-but-not-used
+|-- arm-randconfig-r046-20230117
+|   |-- drivers-media-i2c-imx290.c:error:format-undeclared-(first-use-in-this-function)
+|   `-- drivers-media-i2c-imx290.c:warning:variable-state-set-but-not-used
+|-- arm-randconfig-s043-20230115
+|   |-- drivers-media-i2c-imx290.c:error:format-undeclared-(first-use-in-this-function)
+|   `-- drivers-media-i2c-imx290.c:warning:variable-state-set-but-not-used
+|-- arm64-randconfig-r032-20230115
+|   |-- drivers-media-i2c-imx290.c:error:format-undeclared-(first-use-in-this-function)
+|   `-- drivers-media-i2c-imx290.c:warning:variable-state-set-but-not-used
+|-- i386-randconfig-a016-20230116
+|   `-- drivers-media-i2c-imx290.c:warning:variable-state-set-but-not-used
+|-- i386-randconfig-s001-20230116
+|   |-- drivers-media-i2c-imx290.c:error:format-undeclared-(first-use-in-this-function)
+|   `-- drivers-media-i2c-imx290.c:warning:variable-state-set-but-not-used
+|-- ia64-allmodconfig
+|   |-- drivers-media-i2c-imx290.c:error:format-undeclared-(first-use-in-this-function)
+|   `-- drivers-media-i2c-imx290.c:warning:variable-state-set-but-not-used
+|-- ia64-buildonly-randconfig-r006-20230116
+|   `-- drivers-media-i2c-imx290.c:warning:variable-state-set-but-not-used
+|-- ia64-randconfig-c44-20230115
+|   |-- drivers-media-i2c-imx290.c:error:format-undeclared-(first-use-in-this-function)
+|   `-- drivers-media-i2c-imx290.c:warning:variable-state-set-but-not-used
+|-- loongarch-buildonly-randconfig-r003-20230116
+|   |-- drivers-media-i2c-imx290.c:error:format-undeclared-(first-use-in-this-function)
+|   `-- drivers-media-i2c-imx290.c:warning:variable-state-set-but-not-used
+|-- loongarch-randconfig-r015-20230116
+|   `-- drivers-media-i2c-imx290.c:warning:variable-state-set-but-not-used
+|-- m68k-allmodconfig
+|   `-- drivers-media-i2c-imx290.c:warning:variable-state-set-but-not-used
+|-- m68k-allyesconfig
+|   `-- drivers-media-i2c-imx290.c:warning:variable-state-set-but-not-used
+|-- m68k-randconfig-r013-20230116
+|   |-- drivers-media-i2c-imx290.c:error:format-undeclared-(first-use-in-this-function)
+|   `-- drivers-media-i2c-imx290.c:warning:variable-state-set-but-not-used
+|-- m68k-randconfig-r033-20230116
+|   `-- drivers-media-i2c-imx290.c:warning:variable-state-set-but-not-used
+|-- m68k-randconfig-s031-20230115
+|   |-- drivers-media-i2c-imx290.c:error:format-undeclared-(first-use-in-this-function)
+|   `-- drivers-media-i2c-imx290.c:warning:variable-state-set-but-not-used
+|-- microblaze-randconfig-c024-20230115
+|   |-- drivers-media-i2c-imx290.c:error:format-undeclared-(first-use-in-this-function)
+|   `-- drivers-media-i2c-imx290.c:warning:variable-state-set-but-not-used
+clang_recent_errors
+|-- i386-randconfig-a003-20230116
+|   `-- drivers-media-i2c-imx290.c:error:use-of-undeclared-identifier-format
+|-- powerpc-allyesconfig
+|   `-- drivers-media-i2c-imx290.c:error:use-of-undeclared-identifier-format
+|-- riscv-randconfig-r004-20230116
+|   `-- drivers-media-i2c-imx290.c:error:use-of-undeclared-identifier-format
+`-- s390-buildonly-randconfig-r003-20230115
+    `-- drivers-media-i2c-imx290.c:error:use-of-undeclared-identifier-format
 
-> +	if (vflip)
-> +		vflip->flags |= V4L2_CTRL_FLAG_READ_ONLY;
-> +
->  	pixel_rate_max = link_freq_to_pixel_rate(link_freq_menu_items[0]);
->  	pixel_rate_min = link_freq_to_pixel_rate(link_freq_menu_items[1]);
->  	/* By default, PIXEL_RATE is read only */
+elapsed time: 722m
+
+configs tested: 94
+configs skipped: 3
+
+gcc tested configs:
+x86_64                            allnoconfig
+powerpc                           allnoconfig
+arm                                 defconfig
+i386                                defconfig
+um                           x86_64_defconfig
+um                             i386_defconfig
+arm                              allyesconfig
+arm64                            allyesconfig
+sh                               allmodconfig
+i386                             allyesconfig
+x86_64                              defconfig
+powerpc                          allmodconfig
+mips                             allyesconfig
+x86_64                               rhel-8.3
+i386                 randconfig-a014-20230116
+i386                 randconfig-a013-20230116
+i386                 randconfig-a012-20230116
+i386                 randconfig-a011-20230116
+i386                 randconfig-a016-20230116
+i386                 randconfig-a015-20230116
+ia64                             allmodconfig
+x86_64                           rhel-8.3-bpf
+x86_64                          rhel-8.3-func
+x86_64                           rhel-8.3-syz
+x86_64                           allyesconfig
+x86_64                    rhel-8.3-kselftests
+x86_64                         rhel-8.3-kunit
+x86_64                           rhel-8.3-kvm
+m68k                             allmodconfig
+m68k                             allyesconfig
+alpha                            allyesconfig
+arc                              allyesconfig
+s390                 randconfig-r044-20230116
+riscv                randconfig-r042-20230116
+arc                  randconfig-r043-20230116
+arm                  randconfig-r046-20230117
+arc                  randconfig-r043-20230117
+x86_64               randconfig-a011-20230116
+x86_64               randconfig-a013-20230116
+x86_64               randconfig-a012-20230116
+x86_64               randconfig-a014-20230116
+x86_64               randconfig-a015-20230116
+x86_64               randconfig-a016-20230116
+arc                                 defconfig
+alpha                               defconfig
+s390                             allmodconfig
+s390                             allyesconfig
+s390                                defconfig
+sh                        sh7763rdp_defconfig
+sh                         ap325rxa_defconfig
+alpha                            alldefconfig
+arc                         haps_hs_defconfig
+riscv                    nommu_virt_defconfig
+riscv                          rv32_defconfig
+riscv                    nommu_k210_defconfig
+riscv                             allnoconfig
+i386                   debian-10.3-kselftests
+i386                              debian-10.3
+i386                          debian-10.3-kvm
+i386                        debian-10.3-kunit
+i386                         debian-10.3-func
+arm                         s3c6400_defconfig
+arm                            lart_defconfig
+powerpc                 mpc837x_rdb_defconfig
+sh                        sh7757lcr_defconfig
+powerpc                     stx_gp3_defconfig
+arm                           corgi_defconfig
+arc                      axs103_smp_defconfig
+sparc                               defconfig
+xtensa                           allyesconfig
+csky                                defconfig
+sparc                            allyesconfig
+x86_64                                  kexec
+
+clang tested configs:
+x86_64                          rhel-8.3-rust
+i386                 randconfig-a002-20230116
+x86_64               randconfig-a001-20230116
+x86_64               randconfig-a003-20230116
+i386                 randconfig-a003-20230116
+x86_64               randconfig-a002-20230116
+i386                 randconfig-a001-20230116
+x86_64               randconfig-a004-20230116
+i386                 randconfig-a004-20230116
+x86_64               randconfig-a005-20230116
+x86_64               randconfig-a006-20230116
+i386                 randconfig-a006-20230116
+i386                 randconfig-a005-20230116
+hexagon              randconfig-r041-20230116
+hexagon              randconfig-r045-20230117
+hexagon              randconfig-r041-20230117
+arm                  randconfig-r046-20230116
+hexagon              randconfig-r045-20230116
+riscv                randconfig-r042-20230117
+s390                 randconfig-r044-20230117
+x86_64                        randconfig-k001
 
 -- 
-Kind regards,
-
-Sakari Ailus
+0-DAY CI Kernel Test Service
+https://01.org/lkp
