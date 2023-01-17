@@ -2,136 +2,162 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EE7DB66E696
-	for <lists+linux-media@lfdr.de>; Tue, 17 Jan 2023 20:09:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 32F7966E6EB
+	for <lists+linux-media@lfdr.de>; Tue, 17 Jan 2023 20:25:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230465AbjAQTJQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 17 Jan 2023 14:09:16 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43478 "EHLO
+        id S230310AbjAQTX2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 17 Jan 2023 14:23:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50816 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234643AbjAQTGk (ORCPT
+        with ESMTP id S235183AbjAQTU6 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 17 Jan 2023 14:06:40 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A8C031E22;
-        Tue, 17 Jan 2023 10:21:20 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        Tue, 17 Jan 2023 14:20:58 -0500
+Received: from h5.fbrelay.privateemail.com (h5.fbrelay.privateemail.com [162.0.218.228])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 107F92312D;
+        Tue, 17 Jan 2023 10:32:30 -0800 (PST)
+Received: from MTA-10-4.privateemail.com (mta-10.privateemail.com [68.65.122.20])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id B2266B81975;
-        Tue, 17 Jan 2023 18:21:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E6CC6C433D2;
-        Tue, 17 Jan 2023 18:21:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1673979677;
-        bh=7aRxXGEphfT5LNMRbYhiA6ttlYV7jeRaPdDuQxYBe1s=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=AZ8uKQWBVJtfGdGphoRSRsp6ZpplVL6v+28Np9lbvLZtyzxyz0n7qzYQnZK3WbcuI
-         Vm1VmRRmopnaQxqO/owyQnXLDMrQooltH+R4vGrvJDuusEwvV1ozameHVdtIGcMVdT
-         qO7tPHaWpZPOTN33zIcKWKGhQUJG6cJ4stD8t0OY=
-Date:   Tue, 17 Jan 2023 19:21:14 +0100
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Umang Jain <umang.jain@ideasonboard.com>
-Cc:     linux-staging@lists.linux.dev,
-        linux-rpi-kernel@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Stefan Wahren <stefan.wahren@i2se.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Adrien Thierry <athierry@redhat.com>,
-        Dan Carpenter <error27@gmail.com>,
-        Nicolas Saenz Julienne <nsaenz@kernel.org>,
-        Phil Elwell <phil@raspberrypi.com>,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [PATCH v3] staging: vc04_services: vchiq: Register devices with
- a custom bus_type
-Message-ID: <Y8bnGrsxQD6/eYu3@kroah.com>
-References: <20230111090029.250884-1-umang.jain@ideasonboard.com>
+        by h5.fbrelay.privateemail.com (Postfix) with ESMTPS id 4F3726002B;
+        Tue, 17 Jan 2023 18:32:29 +0000 (UTC)
+Received: from mta-10.privateemail.com (localhost [127.0.0.1])
+        by mta-10.privateemail.com (Postfix) with ESMTP id 5022918000A2;
+        Tue, 17 Jan 2023 13:32:15 -0500 (EST)
+Received: from bpappas-XPS-13-9310.net.ucf.edu (unknown [132.170.212.18])
+        by mta-10.privateemail.com (Postfix) with ESMTPA id 156F9180009F;
+        Tue, 17 Jan 2023 13:32:02 -0500 (EST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=pappasbrent.com;
+        s=default; t=1673980335;
+        bh=9tfJHMfquKiMaSi0dIV592j2HgRcbJho137zYx7AinU=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=m5m0mC81auHjGwcitxEiIW9qQZnWrm/aLrL5F6Vszpo803bmYPrx6OlmZpkvP3GBA
+         jtr6lpaidV8qjwZnKQsRgK/IN9/VfGRCuFvArbUuEPqoNlp/ilH6fJf8H/t8h+0dB0
+         Q+dZwhXl5MsqWiO5+3K6cfFbVNLRKHgUHQbZTKEGQMM3Q7MdgWNmAPpSGpO25Gnk5h
+         Kzjug6I9Un70kzSl4q0Ntj4zdLUBNj/V7loq0afDt5bgWnaoWyBdEf+qHbwOngD16F
+         9lPOJiVt5Cf9YObHfW/4LEFKvhJkh1dMOnDCZjVEzbLFmkMLUdE4KdELWOwWmhlUD6
+         C8jMuh6ZeypFQ==
+From:   Brent Pappas <bpappas@pappasbrent.com>
+To:     andy.shevchenko@gmail.com
+Cc:     ailus@linux.intel.com, andy@kernel.org, bpappas@pappasbrent.com,
+        error27@gmail.com, gregkh@linuxfoundation.org, hdegoede@redhat.com,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-staging@lists.linux.dev, mchehab@kernel.org
+Subject: [PATCH v3] media: atomisp: pci: Replace bytes macros with functions
+Date:   Tue, 17 Jan 2023 13:31:52 -0500
+Message-Id: <20230117183152.6521-1-bpappas@pappasbrent.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <CAHp75VcxaSXeMNmkPoMnA+zjp+JWmHp5aE+2yPhXaqxMC6QWEQ@mail.gmail.com>
+References: <CAHp75VcxaSXeMNmkPoMnA+zjp+JWmHp5aE+2yPhXaqxMC6QWEQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230111090029.250884-1-umang.jain@ideasonboard.com>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Virus-Scanned: ClamAV using ClamSMTP
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Jan 11, 2023 at 02:30:29PM +0530, Umang Jain wrote:
-> The devices that the vchiq interface registers(bcm2835-audio,
-> bcm2835-camera) are implemented and exposed by the VC04 firmware.
-> The device tree describes the VC04 itself with the resources
-> required to communicate with it through a mailbox interface. However,
-> the vchiq interface registers these devices as platform devices. This
-> also means the specific drivers for these devices are also getting
-> registered as platform drivers. This is not correct and a blatant
-> abuse of platform device/driver.
-> 
-> Replace the platform device/driver model with a standard device driver
-> model. A custom bus_type, vchiq_bus_type, is created in the vchiq
-> interface which matches the devices to their specific device drivers
-> thereby, establishing driver binding. A struct vchiq_device wraps the
-> struct device for each device being registered on the bus by the vchiq
-> interface.
-> 
-> Each device registered will expose a 'name' read-only device attribute
-> in sysfs (/sys/bus/vchiq-bus/devices). New devices and drivers can be
-> added by registering on vchiq_bus_type and adding a corresponding
-> device name entry in the static list of devices, vchiq_devices. There
-> is currently no way to enumerate the VCHIQ devices that are available
-> from the firmware.
-> 
-> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
-> ---
-> Changes in v3:
-> - Rework entirely to replace platform devices/driver model
-> 
-> -v2:
-> https://lore.kernel.org/all/20221222191500.515795-1-umang.jain@ideasonboard.com/
-> 
-> -v1:
-> https://lore.kernel.org/all/20221220084404.19280-1-umang.jain@ideasonboard.com/
-> 
-> - Developed on top of:
-> [PATCH v3 0/7] staging: vc04_services: Remove custom return values
-> 
-> ---
->  .../vc04_services/bcm2835-audio/Makefile      |   5 +-
->  .../vc04_services/bcm2835-audio/bcm2835.c     |  19 ++-
->  .../vc04_services/bcm2835-camera/Makefile     |   2 +
->  .../bcm2835-camera/bcm2835-camera.c           |  17 ++-
->  .../interface/vchiq_arm/vchiq_arm.c           | 121 +++++++++++++++---
->  .../interface/vchiq_arm/vchiq_arm.h           |   1 +
->  6 files changed, 123 insertions(+), 42 deletions(-)
-> 
-> diff --git a/drivers/staging/vc04_services/bcm2835-audio/Makefile b/drivers/staging/vc04_services/bcm2835-audio/Makefile
-> index d59fe4dde615..4801467be58a 100644
-> --- a/drivers/staging/vc04_services/bcm2835-audio/Makefile
-> +++ b/drivers/staging/vc04_services/bcm2835-audio/Makefile
-> @@ -2,4 +2,7 @@
->  obj-$(CONFIG_SND_BCM2835)	+= snd-bcm2835.o
->  snd-bcm2835-objs		:= bcm2835.o bcm2835-ctl.o bcm2835-pcm.o bcm2835-vchiq.o
->  
-> -ccflags-y += -I $(srctree)/$(src)/../include -D__VCCOREVER__=0x04000000
-> +ccflags-y += \
-> +	-I $(srctree)/$(src)/../include \
-> +	-I $(srctree)/$(src)/../interface/vchiq_arm \
+Replace the function-like macros FPNTBL_BYTES, SCTBL_BYTES, and
+MORPH_PLANE_BYTES with static inline functions to comply with Linux coding
+style standards.
+Replace multiplication with calls to size_mul to prevent accidental
+arithmetic overflow.
 
-Please never add new -I entries, as that can break the build when you
-only want to build a subdirectory.  Just use the "../" in the .c files
-instead.
+Signed-off-by: Brent Pappas <bpappas@pappasbrent.com>
+---
+Changelog:
+V1 -> V2: Use size_mul to perform size_t multiplication without risk of
+		  overflow.
+		  Remove the inline keyword from function definitions.
 
-While you are not responsible for the original one here, please never
-add a new one.
+V2 -> V3: Add commit message.
 
-And, you can work to get rid of the current addition as well, that
-should be done sooner rather than later anyway.
+ .../staging/media/atomisp/pci/sh_css_params.c | 38 +++++++++++--------
+ 1 file changed, 23 insertions(+), 15 deletions(-)
 
-thanks,
+diff --git a/drivers/staging/media/atomisp/pci/sh_css_params.c b/drivers/staging/media/atomisp/pci/sh_css_params.c
+index f08564f58242..7e111df5c09d 100644
+--- a/drivers/staging/media/atomisp/pci/sh_css_params.c
++++ b/drivers/staging/media/atomisp/pci/sh_css_params.c
+@@ -98,17 +98,27 @@
+ #include "sh_css_frac.h"
+ #include "ia_css_bufq.h"
+ 
+-#define FPNTBL_BYTES(binary) \
+-	(sizeof(char) * (binary)->in_frame_info.res.height * \
+-	 (binary)->in_frame_info.padded_width)
++static size_t fpntbl_bytes(const struct ia_css_binary *binary)
++{
++	return size_mul(sizeof(char),
++			size_mul(binary->in_frame_info.res.height,
++				 binary->in_frame_info.padded_width));
++}
+ 
+-#define SCTBL_BYTES(binary) \
+-	(sizeof(unsigned short) * (binary)->sctbl_height * \
+-	 (binary)->sctbl_aligned_width_per_color * IA_CSS_SC_NUM_COLORS)
++static size_t sctbl_bytes(const struct ia_css_binary *binary)
++{
++	return size_mul(sizeof(unsigned short),
++				size_mul(binary->sctbl_height,
++					 size_mul(binary->sctbl_aligned_width_per_color,
++						  IA_CSS_SC_NUM_COLORS)));
++}
+ 
+-#define MORPH_PLANE_BYTES(binary) \
+-	(SH_CSS_MORPH_TABLE_ELEM_BYTES * (binary)->morph_tbl_aligned_width * \
+-	 (binary)->morph_tbl_height)
++static size_t morph_plane_bytes(const struct ia_css_binary *binary)
++{
++	return size_mul(SH_CSS_MORPH_TABLE_ELEM_BYTES,
++					size_mul(binary->morph_tbl_aligned_width,
++						 binary->morph_tbl_height));
++}
+ 
+ /* We keep a second copy of the ptr struct for the SP to access.
+    Again, this would not be necessary on the chip. */
+@@ -3279,7 +3289,7 @@ sh_css_params_write_to_ddr_internal(
+ 	if (binary->info->sp.enable.fpnr) {
+ 		buff_realloced = reallocate_buffer(&ddr_map->fpn_tbl,
+ 						   &ddr_map_size->fpn_tbl,
+-						   (size_t)(FPNTBL_BYTES(binary)),
++						   fpntbl_bytes(binary),
+ 						   params->config_changed[IA_CSS_FPN_ID],
+ 						   &err);
+ 		if (err) {
+@@ -3304,7 +3314,7 @@ sh_css_params_write_to_ddr_internal(
+ 
+ 		buff_realloced = reallocate_buffer(&ddr_map->sc_tbl,
+ 						   &ddr_map_size->sc_tbl,
+-						   SCTBL_BYTES(binary),
++						   sctbl_bytes(binary),
+ 						   params->sc_table_changed,
+ 						   &err);
+ 		if (err) {
+@@ -3538,8 +3548,7 @@ sh_css_params_write_to_ddr_internal(
+ 			buff_realloced |=
+ 			    reallocate_buffer(virt_addr_tetra_x[i],
+ 					    virt_size_tetra_x[i],
+-					    (size_t)
+-					    (MORPH_PLANE_BYTES(binary)),
++					    morph_plane_bytes(binary),
+ 					    params->morph_table_changed,
+ 					    &err);
+ 			if (err) {
+@@ -3549,8 +3558,7 @@ sh_css_params_write_to_ddr_internal(
+ 			buff_realloced |=
+ 			    reallocate_buffer(virt_addr_tetra_y[i],
+ 					    virt_size_tetra_y[i],
+-					    (size_t)
+-					    (MORPH_PLANE_BYTES(binary)),
++					    morph_plane_bytes(binary),
+ 					    params->morph_table_changed,
+ 					    &err);
+ 			if (err) {
+-- 
+2.34.1
 
-greg k-h
