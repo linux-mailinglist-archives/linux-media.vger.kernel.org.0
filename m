@@ -2,150 +2,118 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 58F7B67213D
-	for <lists+linux-media@lfdr.de>; Wed, 18 Jan 2023 16:27:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 96A35672224
+	for <lists+linux-media@lfdr.de>; Wed, 18 Jan 2023 16:52:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230118AbjARP1v (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 18 Jan 2023 10:27:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33442 "EHLO
+        id S230388AbjARPwf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 18 Jan 2023 10:52:35 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56310 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230076AbjARP1S (ORCPT
+        with ESMTP id S230479AbjARPve (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 18 Jan 2023 10:27:18 -0500
-Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com [IPv6:2a00:1450:4864:20::430])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6EA01CAE0;
-        Wed, 18 Jan 2023 07:26:55 -0800 (PST)
-Received: by mail-wr1-x430.google.com with SMTP id r30so9892548wrr.10;
-        Wed, 18 Jan 2023 07:26:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ypPAzYEJSbtUHwI+8APhdCEH8lcbIVf9Cb/fG9P1p/Q=;
-        b=b1LFdXq6UsyoNYZJSZ7z8zdAZJUQLpfM6RxV1TR5vx6KIgxuoZC3qsNzovOh7JxmRQ
-         6nIahIMfk2OG02NbwbUDdoJvTV4IfPa0t5kepbJN307sQzfI8PlGNtccTZ32nadKN7TV
-         8ZLcuBHPCHaGNkRujMRps8KheTLYciw3l987dtIRqa7jRQZUarzSPGKC3wwSGS/QatUd
-         PxOz4L8+gSqtPXnNdqt/VcSL5sLr9HQDZ+U6z/9zjCT1ai3ly7jyLJhSBurpHwMv2kJ7
-         dLWlkA/GJZJ+xpVocP9jSjzD5PWfSYz+XMuMDLk928f8SRGesjK4lp2NXTdQPKLNoTcU
-         m+Wg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ypPAzYEJSbtUHwI+8APhdCEH8lcbIVf9Cb/fG9P1p/Q=;
-        b=hltsJIWENzUTdUmFnsI8JDiFJvkLfrGX0wUkw1TK1y+Pn2RlUuxp/uwxEgmZnNtrVd
-         CYbpwL+Gnhc4bHLLhNO5rfnEgQQp7thWPb++X7+8hutW3kZZF5yxIqbZKz0/0aWB/70G
-         rOHzjmE18DPsEI7402lT30l4epjibtfWVgztYxFzLksa0wFU3+39C+mTu0MourgKXSgS
-         iSV1YQe4eVGvZd5ulm4eI/fXwapOL0FR+gNwdGKyqaUQkAjvikykmBHHZLpUyCdl+rE4
-         GWa83f7G80tPjgvIhSEkS2xtk13vCOwJUR0MYk+CIcu9x3VcVmuYirtx6XBbb4gHKN6i
-         AWOw==
-X-Gm-Message-State: AFqh2krgn6fZ8WMh0nWyotbMLGDE4h+6V/8h5a+TMqqSgB7uHsR0RREp
-        xRah9Pw2XkyGA4LHAiFI2lU=
-X-Google-Smtp-Source: AMrXdXuCq08opotKRprCnH9Sx/BDKWlGWP9FMJHuvV3tcH8bNrfV2MD+oeI500xtKhdsjeZCYtClJg==
-X-Received: by 2002:a05:6000:5c2:b0:2bb:eb3d:8d20 with SMTP id bh2-20020a05600005c200b002bbeb3d8d20mr3483580wrb.43.1674055614334;
-        Wed, 18 Jan 2023 07:26:54 -0800 (PST)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id bu9-20020a056000078900b002be1dcb6efbsm5451116wrb.9.2023.01.18.07.26.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Jan 2023 07:26:53 -0800 (PST)
-Date:   Wed, 18 Jan 2023 18:26:50 +0300
-From:   Dan Carpenter <error27@gmail.com>
-To:     Brent Pappas <bpappas@pappasbrent.com>
-Cc:     ailus@linux.intel.com, andy.shevchenko@gmail.com,
-        gregkh@linuxfoundation.org, hdegoede@redhat.com,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-staging@lists.linux.dev, mchehab@kernel.org
-Subject: Re: [PATCH v5] media: atomisp: pci: Replace bytes macros with
- functions
-Message-ID: <Y8gPuh+WDO6vJPu+@kadam>
-References: <Y8gImBdR6YpEKZEb@kadam>
- <20230118151656.20558-1-bpappas@pappasbrent.com>
-MIME-Version: 1.0
+        Wed, 18 Jan 2023 10:51:34 -0500
+X-Greylist: delayed 313 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 18 Jan 2023 07:49:46 PST
+Received: from cnc.isely.net (cnc.isely.net [192.69.181.175])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 719D445233;
+        Wed, 18 Jan 2023 07:49:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=isely.net; s=deb;
+        t=1674056364; bh=PUCorUQZC6FeLowATjHfocaMvZBn2st6AioBFC89WJI=;
+        l=1781; h=Date:From:Reply-To:To:cc:Subject:In-Reply-To:References;
+        b=BUZEbEqT1HJhDjTohgOQaLFLfu6tNIuWeAx8CtryC0Y4PiR7So2vdM9viJgIy6VTu
+         BNCQ3MzQRyYgTk0FJIzX2KDaP8UdVymGBQ9l7zrjkAvysxDhtZBdzMNkxu9bxLQJrd
+         Z2yjvxMGD+pUaO1AIJ8oNIlLgBHznaWw+G0ffiO0FHt1WSjikF/nzG+/OtGrF
+Original-Reply-To: Mike Isely at pobox <isely@pobox.com>
+Original-Subject: Re: [PATCH] media: pvrusb2: fix DVB_CORE dependency
+Original-From: Mike Isely <isely@isely.net>
+Original-cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+  Lecopzer Chen <lecopzer.chen@mediatek.com>,
+  Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+  Arnd Bergmann <arnd@arndb.de>,
+  "=?ISO-8859-2?Q?=A3ukasz_Stelmach?=" <l.stelmach@samsung.com>,
+  Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+  Jacopo Mondi <jacopo@jmondi.org>,
+  Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
+  linux-media@vger.kernel.org,
+  Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+  Mike Isely at pobox <isely@pobox.com>
+Received: from ts3-dock1.isely.net (ts3-dock1.isely.net [::ffff:192.168.23.13])
+  (AUTH: PLAIN isely, TLS: TLS1.3,256bits,ECDHE_RSA_AES_256_GCM_SHA384)
+  by cnc.isely.net with ESMTPSA
+  id 000000000008033F.0000000063C812AC.00006E06; Wed, 18 Jan 2023 09:39:24 -0600
+Date:   Wed, 18 Jan 2023 09:39:24 -0600 (CST)
+From:   Mike Isely <isely@isely.net>
+Reply-To: Mike Isely at pobox <isely@pobox.com>
+To:     Arnd Bergmann <arnd@kernel.org>
+cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Lecopzer Chen <lecopzer.chen@mediatek.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Arnd Bergmann <arnd@arndb.de>,
+        "=?ISO-8859-2?Q?=A3ukasz_Stelmach?=" <l.stelmach@samsung.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
+        linux-media@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Mike Isely at pobox <isely@pobox.com>
+Subject: Re: [PATCH] media: pvrusb2: fix DVB_CORE dependency
+In-Reply-To: <20230117171055.2714621-1-arnd@kernel.org>
+Message-ID: <f045d0c6-0043-8feb-a423-954ce381396d@isely.net>
+References: <20230117171055.2714621-1-arnd@kernel.org>
+Mime-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230118151656.20558-1-bpappas@pappasbrent.com>
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Jan 18, 2023 at 10:16:56AM -0500, Brent Pappas wrote:
-> Replace the function-like macros FPNTBL_BYTES(), SCTBL_BYTES(), and
-> MORPH_PLANE_BYTES() with functions to comply with Linux coding style
-> standards.
-> Replace multiplication with calls to array_size() and array3_size()
-> to prevent accidental arithmetic overflow.
+
+That doesn't seem right.  The pvrusb2 module should reference that 
+symbol like any other.  There is no special treatment of it within 
+pvrusb2 - so why is that requiring special treatment here?
+
+Is it possible that dvb_module_probe and dvb_module_release are not 
+exported?  (Or that there are two corresponding different exported 
+symbol names that pvrusb2 should be using instead?)
+
+  -Mike
+
+On Tue, 17 Jan 2023, Arnd Bergmann wrote:
+
+> From: Arnd Bergmann <arnd@arndb.de>
 > 
-> Signed-off-by: Brent Pappas <bpappas@pappasbrent.com>
+> Now that DVB_CORE can be a loadable module, pvrusb2 can run into
+> a link error:
+> 
+> ld.lld: error: undefined symbol: dvb_module_probe
+> >>> referenced by pvrusb2-devattr.c
+> >>>               drivers/media/usb/pvrusb2/pvrusb2-devattr.o:(pvr2_lgdt3306a_attach) in archive vmlinux.a
+> ld.lld: error: undefined symbol: dvb_module_release
+> >>> referenced by pvrusb2-devattr.c
+> >>>               drivers/media/usb/pvrusb2/pvrusb2-devattr.o:(pvr2_dual_fe_attach) in archive vmlinux.a
+> 
+> Refine the Kconfig dependencies to avoid this case.
+> 
+> Fixes: 7655c342dbc4 ("media: Kconfig: Make DVB_CORE=m possible when MEDIA_SUPPORT=y")
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 > ---
-> Changelog:
-> V1 -> V2: Use size_mul() to perform size_t multiplication without risk of
-> 		  overflow.
-> 		  Remove the inline keyword from function definitions.
+>  drivers/media/usb/pvrusb2/Kconfig | 1 +
+>  1 file changed, 1 insertion(+)
 > 
-> V2 -> V3: Add commit message.
+> diff --git a/drivers/media/usb/pvrusb2/Kconfig b/drivers/media/usb/pvrusb2/Kconfig
+> index f2b64e49c5a2..e02a25d2d029 100644
+> --- a/drivers/media/usb/pvrusb2/Kconfig
+> +++ b/drivers/media/usb/pvrusb2/Kconfig
+> @@ -37,6 +37,7 @@ config VIDEO_PVRUSB2_DVB
+>  	bool "pvrusb2 ATSC/DVB support"
+>  	default y
+>  	depends on VIDEO_PVRUSB2 && DVB_CORE
+> +	depends on VIDEO_PVRUSB2=m || DVB_CORE=y
+>  	select DVB_LGDT330X if MEDIA_SUBDRV_AUTOSELECT
+>  	select DVB_S5H1409 if MEDIA_SUBDRV_AUTOSELECT
+>  	select DVB_S5H1411 if MEDIA_SUBDRV_AUTOSELECT
 > 
-> V3 -> V4: Use array_size() and array3_size() for multiplication.
-> 
-> V4 -> V5: Fix indentation.
-> 
->  .../staging/media/atomisp/pci/sh_css_params.c | 38 +++++++++++--------
->  1 file changed, 23 insertions(+), 15 deletions(-)
-> 
-> diff --git a/drivers/staging/media/atomisp/pci/sh_css_params.c b/drivers/staging/media/atomisp/pci/sh_css_params.c
-> index f08564f58242..7e111df5c09d 100644
-> --- a/drivers/staging/media/atomisp/pci/sh_css_params.c
-> +++ b/drivers/staging/media/atomisp/pci/sh_css_params.c
-> @@ -98,17 +98,27 @@
->  #include "sh_css_frac.h"
->  #include "ia_css_bufq.h"
->  
-> -#define FPNTBL_BYTES(binary) \
-> -	(sizeof(char) * (binary)->in_frame_info.res.height * \
-> -	 (binary)->in_frame_info.padded_width)
-> +static size_t fpntbl_bytes(const struct ia_css_binary *binary)
-> +{
-> +	return array3_size(sizeof(char),
-> +					   binary->in_frame_info.res.height,
-> +					   binary->in_frame_info.padded_width);
-
-Nope.
-
-> +}
->  
-> -#define SCTBL_BYTES(binary) \
-> -	(sizeof(unsigned short) * (binary)->sctbl_height * \
-> -	 (binary)->sctbl_aligned_width_per_color * IA_CSS_SC_NUM_COLORS)
-> +static size_t sctbl_bytes(const struct ia_css_binary *binary)
-> +{
-> +	return array_size(sizeof(unsigned short),
-> +					  array3_size(binary->sctbl_height,
-> +						      binary->sctbl_aligned_width_per_color,
-> +								  IA_CSS_SC_NUM_COLORS));
-
-Also nope.
-
-> +}
->  
-> -#define MORPH_PLANE_BYTES(binary) \
-> -	(SH_CSS_MORPH_TABLE_ELEM_BYTES * (binary)->morph_tbl_aligned_width * \
-> -	 (binary)->morph_tbl_height)
-> +static size_t morph_plane_bytes(const struct ia_css_binary *binary)
-> +{
-> +	return array3_size(SH_CSS_MORPH_TABLE_ELEM_BYTES,
-> +					   binary->morph_tbl_aligned_width,
-> +					   binary->morph_tbl_height);
-
-Nope.
-
-> +}
-
-regards,
-dan carpenter
-
