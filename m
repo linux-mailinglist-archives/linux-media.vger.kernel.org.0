@@ -2,164 +2,129 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 27115672020
-	for <lists+linux-media@lfdr.de>; Wed, 18 Jan 2023 15:50:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AD0A667206B
+	for <lists+linux-media@lfdr.de>; Wed, 18 Jan 2023 16:01:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229686AbjAROub (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 18 Jan 2023 09:50:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50290 "EHLO
+        id S231599AbjARPBx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 18 Jan 2023 10:01:53 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60788 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231681AbjAROuE (ORCPT
+        with ESMTP id S231305AbjARPBR (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 18 Jan 2023 09:50:04 -0500
-Received: from h5.fbrelay.privateemail.com (h5.fbrelay.privateemail.com [162.0.218.228])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E679F86B3;
-        Wed, 18 Jan 2023 06:42:48 -0800 (PST)
-Received: from MTA-07-4.privateemail.com (unknown [198.54.122.141])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by h5.fbrelay.privateemail.com (Postfix) with ESMTPS id D3C3B60730;
-        Wed, 18 Jan 2023 14:42:46 +0000 (UTC)
-Received: from mta-07.privateemail.com (localhost [127.0.0.1])
-        by mta-07.privateemail.com (Postfix) with ESMTP id 404D41801119;
-        Wed, 18 Jan 2023 09:42:40 -0500 (EST)
-Received: from bpappas-XPS-13-9310.ucf.edu (050-088-208-136.res.spectrum.com [50.88.208.136])
-        by mta-07.privateemail.com (Postfix) with ESMTPA id CE0201801126;
-        Wed, 18 Jan 2023 09:42:28 -0500 (EST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=pappasbrent.com;
-        s=default; t=1674052960;
-        bh=FqDHCHvsB52HFi8bEmC/gtO/khX/839t5pQ/ZUuPeVI=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=nDX1ABUr4GRiT7rKx/G8R8mJ4M0QNyUby6oxCSCAIF8TZ59UJ4aBGuazu6aDiVKTj
-         7JQ6ivf3fjLUcnHsVKDN2YOfFILVvLrXNTIJOjb6WtC57SZe5GViJxANiGVt2N46bk
-         3V8m/8olN4+7A9jBysabb5U7Fq/gVWg7s49keBD3yONjEJE0LLD3WGtYUqFvxhEsT9
-         mkqi690Mb2asL7jo6rnP8wT/oPcLK8HmEIVxy61RwGeJ70jbCMs7H+gxNyhmMJX+YY
-         TZHyRzNnsP5Hyf002ikc9joVMOGp1YQZIZP1z0jfmYdRtTmOnChkjCkT8p4hLb4ztl
-         YByZgGmFc6qrQ==
-From:   Brent Pappas <bpappas@pappasbrent.com>
-To:     andy.shevchenko@gmail.com
-Cc:     ailus@linux.intel.com, bpappas@pappasbrent.com, error27@gmail.com,
+        Wed, 18 Jan 2023 10:01:17 -0500
+Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com [IPv6:2a00:1450:4864:20::333])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 346CA37F0B;
+        Wed, 18 Jan 2023 06:56:30 -0800 (PST)
+Received: by mail-wm1-x333.google.com with SMTP id k16so4237483wms.2;
+        Wed, 18 Jan 2023 06:56:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=MaU4xcoIvuYlrJkvIksCMnsfWTJ9NQrt07UqgdSvUt8=;
+        b=cjAdENS67WVP+1GqCou7olNn5RC35WH4WRlkKDbs/3IG/+oHzdd58hv3xbOgmXydgy
+         RuG6uQW4Mml1SuomuHGOYsfyCRqcZ4WqDfzck0ooA+VcKNodUAi7mMq5zeJkSbsa3E6y
+         P/UT7PL9AANkKuYjuVapWLwst1YI7WzELKpB5zqFdB1fP9jQhEmh4QayDcnD1JHKCsn2
+         oMW8mC8Y9WVh63P0n2tgfgTGSBmnDChnX8JNe52D76/5HDqRuZ18Ux8HfFlQLy+a+d4V
+         yjAcAwDkcAYWAuu00c+ESEOSZai3UUnTAq7oUXCocGHgZ4s/x4Lzvwn/4nAkHJPj4puy
+         QMSQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=MaU4xcoIvuYlrJkvIksCMnsfWTJ9NQrt07UqgdSvUt8=;
+        b=0iTFqWTnyu/Ro09jS4u/nL8hOmpcjGVVcWkI0UXyYMWInDEDI56pJ9Ert7ifIWvJi3
+         5Qt/HUb4tM5EJ6TeXM9Z7LGXrxhzDVxX7B2SfkSt4vBdFcZ0F6V+k1EH3Z2Ab2Q/V3LL
+         adewPH4LFJOm1k7awZOgH7bBdeB2ZGHuDyr8OIn7PCYfV7hcLLUPRUmc01m1FH+85Wt4
+         Vxq0NB9PMdCbBO4oKIAFhnsfAyyWYMHUBVz1pJT37ECtv14OJShNJeYZV4G2FPIXe7+a
+         YnmzCbzLe6gxNsjnHYNzHLfEISdgTBA46hLdG+vL0sjEhUxV2/v+P6AXVxzB76PjTnd8
+         6huQ==
+X-Gm-Message-State: AFqh2koNPmCqlfsTIEpicaM0x5Y2HTWY6VU9HwcAqRDYs4oAUQtkDRoD
+        l+NgG3Hrkb/uVWfFRBao/Ug=
+X-Google-Smtp-Source: AMrXdXs8GnprtjlQg8wOe27VuMXLmamnap+2Vh2Z5ePwcvK++/uQ0cMcbw/Mooxb6Q+yt5LCzwdEmw==
+X-Received: by 2002:a05:600c:ad0:b0:3d9:ebab:ccff with SMTP id c16-20020a05600c0ad000b003d9ebabccffmr15616483wmr.33.1674053788750;
+        Wed, 18 Jan 2023 06:56:28 -0800 (PST)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id l11-20020a1ced0b000000b003dafb0c8dfbsm2674533wmh.14.2023.01.18.06.56.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 18 Jan 2023 06:56:28 -0800 (PST)
+Date:   Wed, 18 Jan 2023 17:56:24 +0300
+From:   Dan Carpenter <error27@gmail.com>
+To:     Brent Pappas <bpappas@pappasbrent.com>
+Cc:     andy.shevchenko@gmail.com, ailus@linux.intel.com,
         gregkh@linuxfoundation.org, hdegoede@redhat.com,
         linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
         linux-staging@lists.linux.dev, mchehab@kernel.org
-Subject: [PATCH v4] media: atomisp: pci: Replace bytes macros with functions
-Date:   Wed, 18 Jan 2023 09:42:26 -0500
-Message-Id: <20230118144226.13127-1-bpappas@pappasbrent.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <Y8bq25jjRdgTTd7/@smile.fi.intel.com>
+Subject: Re: [PATCH v4] media: atomisp: pci: Replace bytes macros with
+ functions
+Message-ID: <Y8gImBdR6YpEKZEb@kadam>
 References: <Y8bq25jjRdgTTd7/@smile.fi.intel.com>
+ <20230118144226.13127-1-bpappas@pappasbrent.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Virus-Scanned: ClamAV using ClamSMTP
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230118144226.13127-1-bpappas@pappasbrent.com>
+X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Replace the function-like macros FPNTBL_BYTES(), SCTBL_BYTES(), and
-MORPH_PLANE_BYTES() with functions to comply with Linux coding style
-standards.
-Replace multiplication with calls to functions/macros from overflow.h
-to prevent accidental arithmetic overflow.
+On Wed, Jan 18, 2023 at 09:42:26AM -0500, Brent Pappas wrote:
+> Replace the function-like macros FPNTBL_BYTES(), SCTBL_BYTES(), and
+> MORPH_PLANE_BYTES() with functions to comply with Linux coding style
+> standards.
+> Replace multiplication with calls to functions/macros from overflow.h
+> to prevent accidental arithmetic overflow.
+> 
+> Signed-off-by: Brent Pappas <bpappas@pappasbrent.com>
+> ---
+> Changelog:
+> V1 -> V2: Use size_mul() to perform size_t multiplication without risk of
+> 		  overflow.
+> 		  Remove the inline keyword from function definitions.
+> 
+> V2 -> V3: Add commit message.
+> 
+> V3 -> V4: Use array_size() and array3_size() for multiplication.
+> 
+>  .../staging/media/atomisp/pci/sh_css_params.c | 38 +++++++++++--------
+>  1 file changed, 23 insertions(+), 15 deletions(-)
+> 
+> diff --git a/drivers/staging/media/atomisp/pci/sh_css_params.c b/drivers/staging/media/atomisp/pci/sh_css_params.c
+> index f08564f58242..7e111df5c09d 100644
+> --- a/drivers/staging/media/atomisp/pci/sh_css_params.c
+> +++ b/drivers/staging/media/atomisp/pci/sh_css_params.c
+> @@ -98,17 +98,27 @@
+>  #include "sh_css_frac.h"
+>  #include "ia_css_bufq.h"
+>  
+> -#define FPNTBL_BYTES(binary) \
+> -	(sizeof(char) * (binary)->in_frame_info.res.height * \
+> -	 (binary)->in_frame_info.padded_width)
+> +static size_t fpntbl_bytes(const struct ia_css_binary *binary)
+> +{
+> +	return array3_size(sizeof(char),
+> +			binary->in_frame_info.res.height,
+> +				 binary->in_frame_info.padded_width);
 
-Signed-off-by: Brent Pappas <bpappas@pappasbrent.com>
----
-Changelog:
-V1 -> V2: Use size_mul() to perform size_t multiplication without risk of
-		  overflow.
-		  Remove the inline keyword from function definitions.
+This indenting is not correct.  Do it the way that checkpatch.pl likes:
 
-V2 -> V3: Add commit message.
+	return array3_size(sizeof(char),
+			   binary->in_frame_info.res.height,
+			   binary->in_frame_info.padded_width);
 
-V3 -> V4: Use array_size() and array3_size() for multiplication.
+[tab][tab][tab][space][space][space]binary->in_frame_info.res.height,
+[tab][tab][tab][space][space][space]binary->in_frame_info.padded_width);
 
- .../staging/media/atomisp/pci/sh_css_params.c | 38 +++++++++++--------
- 1 file changed, 23 insertions(+), 15 deletions(-)
+(Same for the rest obviously)
 
-diff --git a/drivers/staging/media/atomisp/pci/sh_css_params.c b/drivers/staging/media/atomisp/pci/sh_css_params.c
-index f08564f58242..7e111df5c09d 100644
---- a/drivers/staging/media/atomisp/pci/sh_css_params.c
-+++ b/drivers/staging/media/atomisp/pci/sh_css_params.c
-@@ -98,17 +98,27 @@
- #include "sh_css_frac.h"
- #include "ia_css_bufq.h"
- 
--#define FPNTBL_BYTES(binary) \
--	(sizeof(char) * (binary)->in_frame_info.res.height * \
--	 (binary)->in_frame_info.padded_width)
-+static size_t fpntbl_bytes(const struct ia_css_binary *binary)
-+{
-+	return array3_size(sizeof(char),
-+			binary->in_frame_info.res.height,
-+				 binary->in_frame_info.padded_width);
-+}
- 
--#define SCTBL_BYTES(binary) \
--	(sizeof(unsigned short) * (binary)->sctbl_height * \
--	 (binary)->sctbl_aligned_width_per_color * IA_CSS_SC_NUM_COLORS)
-+static size_t sctbl_bytes(const struct ia_css_binary *binary)
-+{
-+	return array_size(sizeof(unsigned short),
-+				array3_size(binary->sctbl_height,
-+					    binary->sctbl_aligned_width_per_color,
-+						  IA_CSS_SC_NUM_COLORS));
-+}
- 
--#define MORPH_PLANE_BYTES(binary) \
--	(SH_CSS_MORPH_TABLE_ELEM_BYTES * (binary)->morph_tbl_aligned_width * \
--	 (binary)->morph_tbl_height)
-+static size_t morph_plane_bytes(const struct ia_css_binary *binary)
-+{
-+	return array3_size(SH_CSS_MORPH_TABLE_ELEM_BYTES,
-+					binary->morph_tbl_aligned_width,
-+						 binary->morph_tbl_height);
-+}
- 
- /* We keep a second copy of the ptr struct for the SP to access.
-    Again, this would not be necessary on the chip. */
-@@ -3279,7 +3289,7 @@ sh_css_params_write_to_ddr_internal(
- 	if (binary->info->sp.enable.fpnr) {
- 		buff_realloced = reallocate_buffer(&ddr_map->fpn_tbl,
- 						   &ddr_map_size->fpn_tbl,
--						   (size_t)(FPNTBL_BYTES(binary)),
-+						   fpntbl_bytes(binary),
- 						   params->config_changed[IA_CSS_FPN_ID],
- 						   &err);
- 		if (err) {
-@@ -3304,7 +3314,7 @@ sh_css_params_write_to_ddr_internal(
- 
- 		buff_realloced = reallocate_buffer(&ddr_map->sc_tbl,
- 						   &ddr_map_size->sc_tbl,
--						   SCTBL_BYTES(binary),
-+						   sctbl_bytes(binary),
- 						   params->sc_table_changed,
- 						   &err);
- 		if (err) {
-@@ -3538,8 +3548,7 @@ sh_css_params_write_to_ddr_internal(
- 			buff_realloced |=
- 			    reallocate_buffer(virt_addr_tetra_x[i],
- 					    virt_size_tetra_x[i],
--					    (size_t)
--					    (MORPH_PLANE_BYTES(binary)),
-+					    morph_plane_bytes(binary),
- 					    params->morph_table_changed,
- 					    &err);
- 			if (err) {
-@@ -3549,8 +3558,7 @@ sh_css_params_write_to_ddr_internal(
- 			buff_realloced |=
- 			    reallocate_buffer(virt_addr_tetra_y[i],
- 					    virt_size_tetra_y[i],
--					    (size_t)
--					    (MORPH_PLANE_BYTES(binary)),
-+					    morph_plane_bytes(binary),
- 					    params->morph_table_changed,
- 					    &err);
- 			if (err) {
--- 
-2.34.1
+regards,
+dan carpenter
+
 
