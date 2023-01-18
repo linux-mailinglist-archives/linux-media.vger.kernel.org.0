@@ -2,168 +2,339 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1F4D26725D7
-	for <lists+linux-media@lfdr.de>; Wed, 18 Jan 2023 19:01:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 09406672662
+	for <lists+linux-media@lfdr.de>; Wed, 18 Jan 2023 19:11:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230455AbjARSBH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 18 Jan 2023 13:01:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54922 "EHLO
+        id S231252AbjARSLo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 18 Jan 2023 13:11:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36064 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230249AbjARSAx (ORCPT
+        with ESMTP id S231346AbjARSLW (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 18 Jan 2023 13:00:53 -0500
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2046.outbound.protection.outlook.com [40.107.243.46])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 72E8A56895;
-        Wed, 18 Jan 2023 10:00:52 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=NsA9cv7REBe37zw/vOhFLLGs49vLLa6GxZ9aW2n+1YdbHbZ5912j/snkSjQqBkWUahO+t99LZzGLzaDd/QeW0WyB2FCi+I8u34ULF+SHAklY6qgCr7YE6udA8Da+dfJFv1OOcEmjkvLRWGJBNQWoR8GmKx/sgXC1hkavbG/kJu4tGsDFnnPdzqOoJQmumOYphWMRn44SBv3J2wTlOnpOLls5D9zJVnsWZhOqWYu3nYs4PB6XafOLu2+YEAg1Dau6wDwX7+jDQJ2KyViTtbK/Vr4a8DhijDJQYF8bIIznmU575dcXZhg+pPodA8LzDslg1/3fjClHjgBsJX9Vm5Akjw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=vqPQQtTRQUpYSGOXmSqMnJWIpGPVCuIxL1bg187xZXs=;
- b=Jec7mNtiT7LwijgwO0G8/3sDu3mWO7u8/M/KcWNhYtyFFL2661UrrME42VBXYIGlcK+OlLkU+bE7U8aLlkCDC3g5tylwpRc4DInBU4S9TpG8EAx8lW/bSN4x4176+wAk2iKK0OEFR0aBG/Y7jx2gfc3LmPLx/spJ+J9h9/+1qDlZ1F2j2xUX0e5QDt0Yp8Awa5pW6h6PkycEB8r+wAvwPpYvZbfh1yv8GBczkpnhCNVFiIx6JB5iDDdlM3gXRgNtDknaMkc7d5rWjrrp34YP9Y6sDLErTfa6A9Rbyntqa0AzV8NoQ5Py1ssB83Ik5q39PKiK3bKdfjC4Ef+wugZSbQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vqPQQtTRQUpYSGOXmSqMnJWIpGPVCuIxL1bg187xZXs=;
- b=bEG7OuyKGPl10p6JweU4jUhea7ZDK3C9Q8Vw91dSN86drPLLuZTET+z/W8uqZiz35M1vjOhtlH5G1r9FH79YQp/Tg8gvgy7pTd1WoQZM+DJsf4RkXzhWoPmSIDyhNvWQo1ViRtRRs/PAeHOrHC5v/8HjTJW/eLR84Bl1oWpw12hCtD+a1/G3tszY9HQsNVcOojL1CuUX6MoEw1HmvUcui4i2PR94r6hG8Hu6QV6+9zDymfGl2K1V+eFnDOiECrQPpQXZks9QcBvudNrUFy2fmts3RdVSlBIllluATuN5LFXM0fbktEMStQkroPhltqHf55Ez/r1sT93w0/RcKq7HKw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from LV2PR12MB5869.namprd12.prod.outlook.com (2603:10b6:408:176::16)
- by DM4PR12MB5818.namprd12.prod.outlook.com (2603:10b6:8:62::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5986.23; Wed, 18 Jan
- 2023 18:00:49 +0000
-Received: from LV2PR12MB5869.namprd12.prod.outlook.com
- ([fe80::f8b0:df13:5f8d:12a]) by LV2PR12MB5869.namprd12.prod.outlook.com
- ([fe80::f8b0:df13:5f8d:12a%9]) with mapi id 15.20.6002.013; Wed, 18 Jan 2023
- 18:00:49 +0000
-From:   Jason Gunthorpe <jgg@nvidia.com>
-To:     Lu Baolu <baolu.lu@linux.intel.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Kevin Tian <kevin.tian@intel.com>,
-        Matthew Rosato <mjrosato@linux.ibm.com>,
-        Robin Murphy <robin.murphy@arm.com>
-Cc:     Alex Williamson <alex.williamson@redhat.com>,
-        ath10k@lists.infradead.org, ath11k@lists.infradead.org,
-        Christian Borntraeger <borntraeger@linux.ibm.com>,
-        dri-devel@lists.freedesktop.org, iommu@lists.linux.dev,
-        kvm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-rdma@vger.kernel.org, linux-remoteproc@vger.kernel.org,
-        linux-s390@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-tegra@vger.kernel.org, linux-wireless@vger.kernel.org,
-        netdev@vger.kernel.org, nouveau@lists.freedesktop.org,
-        Niklas Schnelle <schnelle@linux.ibm.com>,
-        virtualization@lists.linux-foundation.org
-Subject: [PATCH v2 10/10] iommu/s390: Use GFP_KERNEL in sleepable contexts
-Date:   Wed, 18 Jan 2023 14:00:44 -0400
-Message-Id: <10-v2-ce66f632bd0d+484-iommu_map_gfp_jgg@nvidia.com>
-In-Reply-To: <0-v2-ce66f632bd0d+484-iommu_map_gfp_jgg@nvidia.com>
-References: 
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: BLAPR03CA0085.namprd03.prod.outlook.com
- (2603:10b6:208:329::30) To LV2PR12MB5869.namprd12.prod.outlook.com
- (2603:10b6:408:176::16)
+        Wed, 18 Jan 2023 13:11:22 -0500
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BFB324ED0C;
+        Wed, 18 Jan 2023 10:11:15 -0800 (PST)
+Received: from [192.168.1.139] ([37.4.248.41]) by mrelayeu.kundenserver.de
+ (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis) id
+ 1M6H7o-1pKOks0aQy-006i5j; Wed, 18 Jan 2023 19:10:58 +0100
+Message-ID: <07d1b3e2-9072-d12f-98e3-48d0f9d712d2@i2se.com>
+Date:   Wed, 18 Jan 2023 19:10:57 +0100
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LV2PR12MB5869:EE_|DM4PR12MB5818:EE_
-X-MS-Office365-Filtering-Correlation-Id: c1721888-54a1-4925-7872-08daf97dec52
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: EaU9ywwN6UQ6lqY9VmpkUIvlY4Azaf/JXeP0m37rNvOhCk1obBI5yEO2DbdCOn5hOUqKKp+g6+I8knVHS8WuwQkneJLcSsRH8EvQXA3uYk1VsXX0jCxW9xRIS6G0o17fQ1yoFnkeKPuqNFRiIOYKuqRgRZp3zEV6ZEQ9wsYRVPDBQ67oH4A7yU1s5oCBZVuukpTVZx+eO4Ab5tX87jRJJ3zBrELq3cswVHTsvCdOC/kXo+P4hg1wILAfXg2ytWip4CWFHFFkcbWSQeHoA3jyu2iO+EoTCefez440pPAFoRawGCZ7Kvbm9eb13QHbJ2gePeLN8g60wq1eigS/TxyCYVfhOcbmfwq1VdEMt8ciJHI3Av8E9/kW4c+XWJyQF0eZF4Uno3EHUMe6F8QyNHx2PFV8P0MKI/fhb+O1mNByHjTOWhwVzwq8d5AYM0KIBNBH3x1ub9h2omu3RvWj3KbFBSvqVxwQEre33r87EefeKbHxq05KKbC4lSRcvXE1rI5+XmyGm8WasoL8IpCC0xV9G269/6lDXfVgjdqoJkVrO4EtGDSsm+VssV38kjXQAZKTyrHzs3/Ilru+vBEAFrgaTL1/c9q8J2uTdugc4ezHojJ7kQPlsJE+frc4cOk6w1x8455A+jZojjtV3i+YGbwpxw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV2PR12MB5869.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(136003)(39860400002)(376002)(396003)(346002)(366004)(451199015)(8676002)(36756003)(83380400001)(41300700001)(8936002)(2906002)(66476007)(2616005)(110136005)(54906003)(4326008)(316002)(5660300002)(38100700002)(86362001)(66556008)(7416002)(186003)(6486002)(6512007)(478600001)(26005)(66946007)(6666004)(6506007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?6xefLf1A7b6onibFJL4xcR/mMuhUGDqMKS+h80M4YEmmEQm1qxrS5ZvNBA+u?=
- =?us-ascii?Q?rzXhGvukVau1KVHteD9OVIjy5Hpn4QVACXetjIBiM2pZwrwGpjcBF7byuFM4?=
- =?us-ascii?Q?CvnBEM6okyNEFDhCpP+D/SVeTTWHeZkQOJ0c0jcYEvQoFOrOKQEuOLsarNgj?=
- =?us-ascii?Q?oXiX7CBxHOjN9cdHEyJy9wMs/k76zLk3j7xTPDw8YujTFtPT2lTal+vHn1ml?=
- =?us-ascii?Q?WyY062z4c8SAP//YQmwYoWLZTLlVbl+9h8qTXZdADFoPwYwg7JhKSLv4oKpp?=
- =?us-ascii?Q?rliaTN2NCGdt2hwKWlW5yIChqE0jwXtOiBSIhaV4GMRKvFf0cS5MWOHEK7ZX?=
- =?us-ascii?Q?CGRKE6iq7RzkQRbcbl6lrYntMyyngL++HfcCicCSovmQsQ8PQ8iBDIGdVnaE?=
- =?us-ascii?Q?wkyHV5/GmYZTDrtvZDb2vrW5+4w0zyNnUeLctRcx4s8ZtkJZDkoz08MKWmTj?=
- =?us-ascii?Q?H89W3yZXPp/CtFhQuIjqxLvFjcpt9qqdYptmd4Yx5GbJL3dfnBoEjzyTugMe?=
- =?us-ascii?Q?FOAJob2OOiWNCOKhC6/JsNmPNnOcn7ffN0z6wj7yW66tJGmX9poL6ECKnST+?=
- =?us-ascii?Q?m3MKXONv+LVbDRkBP3bhavohehSpmRRyBc0BgzIMcy2Krv5zpgF/YBf4Jfrd?=
- =?us-ascii?Q?faW7+lk5qqFSB3ofVhvOv7JzVsbJyXpHVnAwoseO8KWtZdH9wKHuP5Jmu8Uf?=
- =?us-ascii?Q?MRpEpj57+sg6Cd4Gw6/WOH/vxp4iPNQqSX7MsH9FYeDUuJJNwYypKvRiJ8ul?=
- =?us-ascii?Q?EnakRKsNNi8fsdwi/npFS/udPzBqU6MNsZi2O/UHC1lSRJKmMfxWpgSLRG1g?=
- =?us-ascii?Q?cjxU0VQg3fyrpuV+KmWa0Uq38YNnHu5w/uN6OiDUX5ikEAPrkfVrKKy+VDeR?=
- =?us-ascii?Q?N0Ntx4i+JSWH0eJuisJWHIh2qXVVoTgq1Oqamdhe0P2kc4pRvza6l4+auAMi?=
- =?us-ascii?Q?MbBdnnus2k0uy4q9iQreHBry+Wa8GhRkkZP8qrsAiwvcAnQrQfK2gnnu2pzb?=
- =?us-ascii?Q?KUu361hZ7BELWtZxIvWRX0J3UiKoxeE47Z5Fmf8UHE/Sn7HqZfG6EMenWmid?=
- =?us-ascii?Q?vJoOODg2w1ax9440cMJZ/rJwXEx8jFTT4jFGaC0G5R7JTQgQM9B9RvE15H39?=
- =?us-ascii?Q?kEsoU0S3fAZbPodLJKvhIsViAFIXa3U2P3067/Q5uOaVZ6KoRWSRf5VARQgY?=
- =?us-ascii?Q?+HXqE37XEHznLELGAATEo0uY/6bZFh19zF2uV9CYJl53rDATZI/vOd3nh2+Y?=
- =?us-ascii?Q?ZFmsvD1ykzkwGIcoAgSgAMhIof/d/ggKuQGyMn/Sr3Ig616JewsFopajyKzf?=
- =?us-ascii?Q?LhzvqS4+YE4xj+iMgzrovgMtYc1SitPeFrkEOrUhMJzPqkdEMg61BeSDVRss?=
- =?us-ascii?Q?lRB192lauuwRwe26ZAUCEL/Rfuecgyz39/YuaRhjVF6/90bPfwvSNFtw5MsG?=
- =?us-ascii?Q?0aGxfDgXMXXRWV6BKMmQbl6Xv9e95uVNajmNROYyUpeQpdzKrKpDfl4P1RvP?=
- =?us-ascii?Q?GrgOeb+LoN10DKH/ZCBWdHbwxoHdCfDaSqrTxUoPisnvbGaqzldqvIMamV5C?=
- =?us-ascii?Q?FLPn+Cgug8S39DehW6LS1EXCoO3ttKP4ryLDCNcm?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c1721888-54a1-4925-7872-08daf97dec52
-X-MS-Exchange-CrossTenant-AuthSource: LV2PR12MB5869.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Jan 2023 18:00:46.0214
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: UZqc2vdieqmNxvGL7Dg7UiD0Zivm0glFD4RNBPiJvlFLC/n4oq87FtslIka/Q+t9
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB5818
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE
-        autolearn=no autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [RFC PATCH 4/4] staging: vc04_services: Drop remnants of custom
+ logging
+Content-Language: en-US
+To:     Umang Jain <umang.jain@ideasonboard.com>,
+        Phil Elwell <phil@raspberrypi.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Adrien Thierry <athierry@redhat.com>,
+        Dan Carpenter <error27@gmail.com>,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        linux-staging@lists.linux.dev,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        linux-kernel@vger.kernel.org,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-rpi-kernel@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+References: <20230118115810.21979-1-umang.jain@ideasonboard.com>
+ <20230118115810.21979-5-umang.jain@ideasonboard.com>
+From:   Stefan Wahren <stefan.wahren@i2se.com>
+In-Reply-To: <20230118115810.21979-5-umang.jain@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Provags-ID: V03:K1:k7ngXy/iSumtDiFB+K8JBW2wWj1T7x3yIwjvbBUbCWCqrEqvZWt
+ tywPaZuP/k8XUvN8Tfuh56mXZ04KANOrctghw7RZXoR+w18/K4zOmgZwl7//q1vcdBjIRui
+ hU/SYZg+JBdF08zC3g2GYDikFZUGm3xSblMMPyJivrfxawvMRjUe2HMPO/wRsLrVYJ2xdFS
+ spBtDGyTvQWFnGbUeeXEg==
+UI-OutboundReport: notjunk:1;M01:P0:cVK7N9Dh1wE=;2mb+vgyA+kOLzoavtsm0dzadBc/
+ WcheQbSg8YOMtu1HTkbx0UtwjbxYqD6gxocTuyDsfkHit2I5saTy7ekpPSalZDDLROU9s9Zz2
+ 9Ok/C/eFx+1Sbhtx4aAZJLilboJha8hcQUaj175Ypw2Sk07SqaE6ATma37vu3ySF687ZsRPxA
+ FvettuoWhcqO7W0y4NZdBKKyju9EOSa925kGL+EfwGh+GxpFxlFhIGRH2SpY2bVlJYYPax1d0
+ MsRT4tSHEY6s2vVhtW7HVM1WQ3OhrjxhybzQFlKWvCdq9gEsRUgI5Y3XffhaQAK4pNx/wUhTZ
+ zoWT78a22yp38wi9aF/5HftpdSRqhJMdtq9LsLFUWacVghKJYWXdF/uTpfT3tLNLuJ/9S1D5C
+ yzTf1jCbyz8cxea6qyVyCMZyqB6nvRq2Rue7ufUEWuqzf1tG0Ks9BQEj3giV8VPCqUqK7LXbv
+ 7JrbQm4XxsENjla72PhI9YAgZYpNNSWkqIuhCWu8NNJSuXClfN85mTk4IV+dL9mnkMRKx7yhI
+ SaROFG1nCikWpF0ezh7pAwVNcZPca3PuDZLBthMTtDfHpw/od69rK5wofP6bVWk6fqSA4MY0o
+ 7fy50o3HeCQzbT2tZ4xSJc8tly7bd8dR7znzvJ7lWMxCcjiBRUGbquTHUBNgikPbbIGZwBiW5
+ +Bxpe5RYr4e4fKjU5mS1jnltySHmrnzMqwSI+aBHEQ==
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-These contexts are sleepable, so use the proper annotation. The GFP_ATOMIC
-was added mechanically in the prior patches.
+Hi Umang,
 
-Reviewed-by: Niklas Schnelle <schnelle@linux.ibm.com>
-Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
----
- arch/s390/pci/pci_dma.c    | 2 +-
- drivers/iommu/s390-iommu.c | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+[add Phil]
 
-diff --git a/arch/s390/pci/pci_dma.c b/arch/s390/pci/pci_dma.c
-index 2f6d05d6da4f76..2d9b01d7ca4c5c 100644
---- a/arch/s390/pci/pci_dma.c
-+++ b/arch/s390/pci/pci_dma.c
-@@ -579,7 +579,7 @@ int zpci_dma_init_device(struct zpci_dev *zdev)
- 
- 	spin_lock_init(&zdev->iommu_bitmap_lock);
- 
--	zdev->dma_table = dma_alloc_cpu_table(GFP_ATOMIC);
-+	zdev->dma_table = dma_alloc_cpu_table(GFP_KERNEL);
- 	if (!zdev->dma_table) {
- 		rc = -ENOMEM;
- 		goto out;
-diff --git a/drivers/iommu/s390-iommu.c b/drivers/iommu/s390-iommu.c
-index 654ec4411fe36c..7dcfffed260e6b 100644
---- a/drivers/iommu/s390-iommu.c
-+++ b/drivers/iommu/s390-iommu.c
-@@ -52,7 +52,7 @@ static struct iommu_domain *s390_domain_alloc(unsigned domain_type)
- 	if (!s390_domain)
- 		return NULL;
- 
--	s390_domain->dma_table = dma_alloc_cpu_table(GFP_ATOMIC);
-+	s390_domain->dma_table = dma_alloc_cpu_table(GFP_KERNEL);
- 	if (!s390_domain->dma_table) {
- 		kfree(s390_domain);
- 		return NULL;
--- 
-2.39.0
-
+Am 18.01.23 um 12:58 schrieb Umang Jain:
+> Drop remnants of custom logging such as header definitions and such.
+> Also migrate the vchiq_debugfs to use the log levels coming from
+> include/linux/kern_levels.h instead.
+since we switch to default kernel logging, i would prefer to drop all of 
+these logging specific debugfs entries too. Or just leave one entry to 
+specify a logging mask as suggested before.
+>
+> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
+> ---
+>   .../interface/vchiq_arm/vchiq_arm.c           |  4 --
+>   .../interface/vchiq_arm/vchiq_core.c          | 39 +++++++------------
+>   .../interface/vchiq_arm/vchiq_core.h          | 39 -------------------
+>   .../interface/vchiq_arm/vchiq_debugfs.c       | 26 ++++++++-----
+>   4 files changed, 31 insertions(+), 77 deletions(-)
+>
+> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> index ed3773b996a3..45e28ca368ee 100644
+> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> @@ -60,10 +60,6 @@
+>   #define KEEPALIVE_VER 1
+>   #define KEEPALIVE_VER_MIN KEEPALIVE_VER
+>   
+> -/* Run time control of log level, based on KERN_XXX level. */
+> -int vchiq_arm_log_level = VCHIQ_LOG_DEFAULT;
+> -int vchiq_susp_log_level = VCHIQ_LOG_ERROR;
+> -
+>   DEFINE_SPINLOCK(msg_queue_spinlock);
+>   struct vchiq_state g_state;
+>   
+> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
+> index 7b3c57326d28..4cf710a3ca28 100644
+> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
+> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
+> @@ -9,6 +9,7 @@
+>   #include <linux/wait.h>
+>   #include <linux/delay.h>
+>   #include <linux/slab.h>
+> +#include <linux/kern_levels.h>
+>   #include <linux/kref.h>
+>   #include <linux/rcupdate.h>
+>   #include <linux/sched/signal.h>
+> @@ -103,10 +104,8 @@ static_assert((unsigned int)VCHIQ_PORT_MAX <
+>   
+>   #define BULK_INDEX(x) ((x) & (VCHIQ_NUM_SERVICE_BULKS - 1))
+>   
+> -#define SRVTRACE_LEVEL(srv) \
+> -	(((srv) && (srv)->trace) ? VCHIQ_LOG_TRACE : vchiq_core_msg_log_level)
+>   #define SRVTRACE_ENABLED(srv, lev) \
+> -	(((srv) && (srv)->trace) || (vchiq_core_msg_log_level >= (lev)))
+> +	(((srv) && (srv)->trace) || (LOGLEVEL_DEFAULT >= (lev)))
+>   
+>   #define NO_CLOSE_RECVD	0
+>   #define CLOSE_RECVD	1
+> @@ -154,11 +153,6 @@ static inline void check_sizes(void)
+>   	BUILD_BUG_ON_NOT_POWER_OF_2(VCHIQ_MAX_SERVICES);
+>   }
+>   
+> -/* Run time control of log level, based on KERN_XXX level. */
+> -int vchiq_core_log_level = VCHIQ_LOG_DEFAULT;
+> -int vchiq_core_msg_log_level = VCHIQ_LOG_DEFAULT;
+> -int vchiq_sync_log_level = VCHIQ_LOG_DEFAULT;
+> -
+>   DEFINE_SPINLOCK(bulk_waiter_spinlock);
+>   static DEFINE_SPINLOCK(quota_spinlock);
+>   
+> @@ -1035,8 +1029,7 @@ queue_message(struct vchiq_state *state, struct vchiq_service *service,
+>   			return -EINVAL;
+>   		}
+>   
+> -		if (SRVTRACE_ENABLED(service,
+> -				     VCHIQ_LOG_INFO))
+> +		if (SRVTRACE_ENABLED(service, LOGLEVEL_INFO))
+>   			vchiq_log_dump_mem("Sent", 0,
+>   					   header->data,
+>   					   min_t(size_t, 16, callback_result));
+> @@ -1144,6 +1137,7 @@ queue_message_sync(struct vchiq_state *state, struct vchiq_service *service,
+>   	struct vchiq_shared_state *local;
+>   	struct vchiq_header *header;
+>   	ssize_t callback_result;
+> +	int svc_fourcc;
+>   
+>   	local = state->local;
+>   
+> @@ -1184,8 +1178,7 @@ queue_message_sync(struct vchiq_state *state, struct vchiq_service *service,
+>   	}
+>   
+>   	if (service) {
+> -		if (SRVTRACE_ENABLED(service,
+> -				     VCHIQ_LOG_INFO))
+> +		if (SRVTRACE_ENABLED(service, LOGLEVEL_INFO))
+>   			vchiq_log_dump_mem("Sent", 0,
+>   					   header->data,
+>   					   min_t(size_t, 16, callback_result));
+> @@ -1199,19 +1192,15 @@ queue_message_sync(struct vchiq_state *state, struct vchiq_service *service,
+>   	header->size = size;
+>   	header->msgid = msgid;
+>   
+> -	if (vchiq_sync_log_level >= VCHIQ_LOG_TRACE) {
+> -		int svc_fourcc;
+>   
+> -		svc_fourcc = service
+> -			? service->base.fourcc
+> -			: VCHIQ_MAKE_FOURCC('?', '?', '?', '?');
+> +	svc_fourcc = service ? service->base.fourcc
+> +			     : VCHIQ_MAKE_FOURCC('?', '?', '?', '?');
+>   
+> -		dev_dbg(state->dev,
+> -			"Sent Sync Msg %s(%u) to %c%c%c%c s:%u d:%d len:%d",
+> -			msg_type_str(VCHIQ_MSG_TYPE(msgid)), VCHIQ_MSG_TYPE(msgid),
+> -			VCHIQ_FOURCC_AS_4CHARS(svc_fourcc), VCHIQ_MSG_SRCPORT(msgid),
+> -			VCHIQ_MSG_DSTPORT(msgid), size);
+> -	}
+> +	dev_dbg(state->dev,
+> +		"Sent Sync Msg %s(%u) to %c%c%c%c s:%u d:%d len:%d",
+> +		msg_type_str(VCHIQ_MSG_TYPE(msgid)), VCHIQ_MSG_TYPE(msgid),
+> +		VCHIQ_FOURCC_AS_4CHARS(svc_fourcc), VCHIQ_MSG_SRCPORT(msgid),
+> +		VCHIQ_MSG_DSTPORT(msgid), size);
+>   
+>   	remote_event_signal(&state->remote->sync_trigger);
+>   
+> @@ -1624,7 +1613,7 @@ parse_message(struct vchiq_state *state, struct vchiq_header *header)
+>   		break;
+>   	}
+>   
+> -	if (SRVTRACE_ENABLED(service, VCHIQ_LOG_INFO)) {
+> +	if (SRVTRACE_ENABLED(service, LOGLEVEL_INFO)) {
+>   		int svc_fourcc;
+>   
+>   		svc_fourcc = service
+> @@ -2031,7 +2020,7 @@ sync_func(void *v)
+>   			continue;
+>   		}
+>   
+> -		if (vchiq_sync_log_level >= VCHIQ_LOG_TRACE) {
+> +		if (vchiq_sync_log_level >= LOGLEVEL_DEBUG) {
+>   			int svc_fourcc;
+>   
+>   			svc_fourcc = service
+> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
+> index ec3505424718..960bf4efeab5 100644
+> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
+> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
+> @@ -30,39 +30,6 @@
+>   #define VCHIQ_SLOT_SIZE     4096
+>   #define VCHIQ_MAX_MSG_SIZE  (VCHIQ_SLOT_SIZE - sizeof(struct vchiq_header))
+>   
+> -/* Run time control of log level, based on KERN_XXX level. */
+> -#define VCHIQ_LOG_DEFAULT  4
+> -#define VCHIQ_LOG_ERROR    3
+> -#define VCHIQ_LOG_WARNING  4
+> -#define VCHIQ_LOG_INFO     6
+> -#define VCHIQ_LOG_TRACE    7
+> -
+> -#define VCHIQ_LOG_PREFIX   KERN_INFO "vchiq: "
+> -
+> -#ifndef vchiq_log_error
+> -#define vchiq_log_error(cat, fmt, ...) \
+> -	do { if (cat >= VCHIQ_LOG_ERROR) \
+> -		printk(VCHIQ_LOG_PREFIX fmt "\n", ##__VA_ARGS__); } while (0)
+> -#endif
+> -#ifndef vchiq_log_warning
+> -#define vchiq_log_warning(cat, fmt, ...) \
+> -	do { if (cat >= VCHIQ_LOG_WARNING) \
+> -		 printk(VCHIQ_LOG_PREFIX fmt "\n", ##__VA_ARGS__); } while (0)
+> -#endif
+> -#ifndef vchiq_log_info
+> -#define vchiq_log_info(cat, fmt, ...) \
+> -	do { if (cat >= VCHIQ_LOG_INFO) \
+> -		printk(VCHIQ_LOG_PREFIX fmt "\n", ##__VA_ARGS__); } while (0)
+> -#endif
+> -#ifndef vchiq_log_trace
+> -#define vchiq_log_trace(cat, fmt, ...) \
+> -	do { if (cat >= VCHIQ_LOG_TRACE) \
+> -		printk(VCHIQ_LOG_PREFIX fmt "\n", ##__VA_ARGS__); } while (0)
+> -#endif
+> -
+> -#define vchiq_loud_error(...) \
+> -	vchiq_log_error(vchiq_core_log_level, "===== " __VA_ARGS__)
+> -
+>   #define VCHIQ_SLOT_MASK        (VCHIQ_SLOT_SIZE - 1)
+>   #define VCHIQ_SLOT_QUEUE_MASK  (VCHIQ_MAX_SLOTS_PER_SIDE - 1)
+>   #define VCHIQ_SLOT_ZERO_SLOTS  DIV_ROUND_UP(sizeof(struct vchiq_slot_zero), \
+> @@ -496,12 +463,6 @@ vchiq_dump_state(void *dump_context, struct vchiq_state *state);
+>   extern int
+>   vchiq_dump_service_state(void *dump_context, struct vchiq_service *service);
+>   
+> -extern void
+> -vchiq_loud_error_header(void);
+> -
+> -extern void
+> -vchiq_loud_error_footer(void);
+> -
+>   extern void
+>   request_poll(struct vchiq_state *state, struct vchiq_service *service,
+>   	     int poll_type);
+> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_debugfs.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_debugfs.c
+> index dc667afd1f8c..1d142752351d 100644
+> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_debugfs.c
+> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_debugfs.c
+> @@ -5,6 +5,8 @@
+>    */
+>   
+>   #include <linux/debugfs.h>
+> +#include <linux/kern_levels.h>
+> +
+>   #include "vchiq_core.h"
+>   #include "vchiq_arm.h"
+>   #include "vchiq_debugfs.h"
+> @@ -22,6 +24,12 @@
+>   static struct dentry *vchiq_dbg_dir;
+>   static struct dentry *vchiq_dbg_clients;
+>   
+> +int vchiq_arm_log_level = LOGLEVEL_DEFAULT;
+> +int vchiq_susp_log_level = LOGLEVEL_ERR;
+> +int vchiq_core_log_level = LOGLEVEL_DEFAULT;
+> +int vchiq_core_msg_log_level = LOGLEVEL_DEFAULT;
+> +int vchiq_sync_log_level = LOGLEVEL_DEFAULT;
+> +
+>   /* Log category debugfs entries */
+>   struct vchiq_debugfs_log_entry {
+>   	const char *name;
+> @@ -42,16 +50,16 @@ static int debugfs_log_show(struct seq_file *f, void *offset)
+>   	char *log_value = NULL;
+>   
+>   	switch (*levp) {
+> -	case VCHIQ_LOG_ERROR:
+> +	case LOGLEVEL_ERR:
+>   		log_value = VCHIQ_LOG_ERROR_STR;
+>   		break;
+> -	case VCHIQ_LOG_WARNING:
+> +	case LOGLEVEL_WARNING:
+>   		log_value = VCHIQ_LOG_WARNING_STR;
+>   		break;
+> -	case VCHIQ_LOG_INFO:
+> +	case LOGLEVEL_INFO:
+>   		log_value = VCHIQ_LOG_INFO_STR;
+>   		break;
+> -	case VCHIQ_LOG_TRACE:
+> +	case LOGLEVEL_DEBUG:
+>   		log_value = VCHIQ_LOG_TRACE_STR;
+>   		break;
+>   	default:
+> @@ -85,15 +93,15 @@ static ssize_t debugfs_log_write(struct file *file,
+>   	kbuf[count - 1] = 0;
+>   
+>   	if (strncmp("error", kbuf, strlen("error")) == 0)
+> -		*levp = VCHIQ_LOG_ERROR;
+> +		*levp = LOGLEVEL_ERR;
+>   	else if (strncmp("warning", kbuf, strlen("warning")) == 0)
+> -		*levp = VCHIQ_LOG_WARNING;
+> +		*levp = LOGLEVEL_WARNING;
+>   	else if (strncmp("info", kbuf, strlen("info")) == 0)
+> -		*levp = VCHIQ_LOG_INFO;
+> +		*levp = LOGLEVEL_INFO;
+>   	else if (strncmp("trace", kbuf, strlen("trace")) == 0)
+> -		*levp = VCHIQ_LOG_TRACE;
+> +		*levp = LOGLEVEL_DEBUG;
+>   	else
+> -		*levp = VCHIQ_LOG_DEFAULT;
+> +		*levp = LOGLEVEL_DEFAULT;
+>   
+>   	*ppos += count;
+>   
