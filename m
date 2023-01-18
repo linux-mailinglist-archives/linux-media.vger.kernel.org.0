@@ -2,117 +2,176 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 634BC6724E3
-	for <lists+linux-media@lfdr.de>; Wed, 18 Jan 2023 18:29:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DDC7F672532
+	for <lists+linux-media@lfdr.de>; Wed, 18 Jan 2023 18:40:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230196AbjARR35 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 18 Jan 2023 12:29:57 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56468 "EHLO
+        id S231174AbjARRkM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 18 Jan 2023 12:40:12 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36034 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229741AbjARR3o (ORCPT
+        with ESMTP id S231266AbjARRj5 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 18 Jan 2023 12:29:44 -0500
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C8FB21A0D;
-        Wed, 18 Jan 2023 09:29:41 -0800 (PST)
-Received: from [192.168.1.139] ([37.4.248.41]) by mrelayeu.kundenserver.de
- (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis) id
- 1MzTCy-1oW1VW1Hhg-00vQLu; Wed, 18 Jan 2023 18:29:26 +0100
-Message-ID: <89377474-bcd4-452a-973f-dd5092dea4d6@i2se.com>
-Date:   Wed, 18 Jan 2023 18:29:23 +0100
+        Wed, 18 Jan 2023 12:39:57 -0500
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6DA1C45238;
+        Wed, 18 Jan 2023 09:39:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1674063596; x=1705599596;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=vGFQg5vQ2tBuxQdDvjqjjggEnx6mFCJZT90tdFoRLCM=;
+  b=jEC0hPrYKGs0/H9OS0O/EYN6vdp+o614bFwIwW0tsJPwD4wKCtS/LaEj
+   VMYu6z8dfpbGlpeTcj/zbInzdMK+eoVmp7l+eaCx3rVfctRQ1+SiBhhLa
+   Dn2iR9awHx0o7HjuJXOSJuWIUrb4RbLTbaQ9TsRD6HKEzymiLYL2XZIrn
+   n1xle0x+KTKxqihq8NkmnaBb9KJra54MVKJh9uGa6elm3gP0ujydw1Y7U
+   m9+qF8Z0xiSQ7DxLlN+najdWUGxEjylYS1fLOQ30YX3XsewLOHShM9uUY
+   kajRed1Jk0qwOv85WNXiwYzoYhZ15QAvGzJtrE4Gf/3wS2XzZYHc7bSlK
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="323732911"
+X-IronPort-AV: E=Sophos;i="5.97,226,1669104000"; 
+   d="scan'208";a="323732911"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2023 09:39:55 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="659881433"
+X-IronPort-AV: E=Sophos;i="5.97,226,1669104000"; 
+   d="scan'208";a="659881433"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by orsmga002.jf.intel.com with ESMTP; 18 Jan 2023 09:39:50 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+        (envelope-from <andriy.shevchenko@intel.com>)
+        id 1pICPb-00BIio-0o;
+        Wed, 18 Jan 2023 19:39:47 +0200
+Date:   Wed, 18 Jan 2023 19:39:46 +0200
+From:   Andy Shevchenko <andriy.shevchenko@intel.com>
+To:     Luca Ceresoli <luca.ceresoli@bootlin.com>
+Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Wolfram Sang <wsa@kernel.org>,
+        Matti Vaittinen <Matti.Vaittinen@fi.rohmeurope.com>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Peter Rosin <peda@axentia.se>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Michael Tretter <m.tretter@pengutronix.de>,
+        Shawn Tu <shawnx.tu@intel.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Mike Pagano <mpagano@gentoo.org>,
+        Krzysztof =?utf-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>,
+        Marek Vasut <marex@denx.de>,
+        Luca Ceresoli <luca@lucaceresoli.net>
+Subject: Re: [PATCH v7 1/7] i2c: add I2C Address Translator (ATR) support
+Message-ID: <Y8gu4mlXUlyiFKZD@smile.fi.intel.com>
+References: <20230118124031.788940-1-tomi.valkeinen@ideasonboard.com>
+ <20230118124031.788940-2-tomi.valkeinen@ideasonboard.com>
+ <Y8gA+cz9m7PaEhfP@smile.fi.intel.com>
+ <20230118181753.7a325953@booty>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [RFC PATCH 1/4] staging: vc04_services: vchiq_core: Drop custom
- logging
-To:     Umang Jain <umang.jain@ideasonboard.com>,
-        linux-staging@lists.linux.dev,
-        linux-rpi-kernel@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Adrien Thierry <athierry@redhat.com>,
-        Dan Carpenter <error27@gmail.com>,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-References: <20230118115810.21979-1-umang.jain@ideasonboard.com>
- <20230118115810.21979-2-umang.jain@ideasonboard.com>
-Content-Language: en-US
-From:   Stefan Wahren <stefan.wahren@i2se.com>
-In-Reply-To: <20230118115810.21979-2-umang.jain@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Provags-ID: V03:K1:c9i/D17w64yXKdNX4GYL2ssWp34kom0i30U5afG6wwqxgpXdqhi
- 1rIOQKRsuPAZltULVkvkcj+vsAfhnmYBXEXOZH1R8xJnLDv1X1Pk1U33zSBx8cqfgu7dth1
- Pijywyamf+gBZJDuCT0uYu10sfEr20Us0TzrMZwU4xSvw6PDOzjxg1q0eqisTejQAL2yYA5
- vijcLbazpZcrg6NzG8jMg==
-UI-OutboundReport: notjunk:1;M01:P0:2/yHPKPMUzY=;AX4aNqWm+UcOr38RvvoFo4+LBaH
- 5i03g5b1GY2b81uiDhYPcXzdSilZwjHjPwz/me18F3l0rzllt9vPIM5p/RoZlzcGGUQ6lRlHJ
- olfjLnxM0quAeM0w/cVZpQiDSSjQAm91cNhCWXMMIWmtGgwgzAp0VE6tB41Q4wi7nZnY6r3nj
- cPuGqeb3Voq6FI1kfocQ7D6NajcY5qYIeapk84MItCEKJ9npkPc8WcdTEEt7c1s7z5ULWxBS7
- i7M6ViDenl3bzSyvOUz8yASQ0Wux4H384miofvAmzuvNNcFD+74haLUNet4D4ee4JllHrEcb+
- SJ9nZuC8e9jss7N1L5+y7gJTY1nIdgtPgm7cPnfUY3mpebBWUMjtfsMJ6Joio/U+8txyPEFub
- uAi1OmWb9XoCb+ywifWTfxbtEvTliSK5d4FAima5iy2INq+i/3dPju0KCiUvg9Qc2LpBIIuXe
- Cjejg1XyZw/IuF39Y4GZwB2GRzlAcvEN1gwm/eUgtBZi9DNavwV74KA3z14OMLJwfClWNmLpZ
- HAQj8VlnonAiyuJE94UEkxCzSYpp/OGVfN8uQ6WE4hQ9jgXbom8XVOk5cwlykbX3qrI6UUWB5
- dLoitT5DV1EdGkFS5dCymtzgi75DYHJHBF1mBeAANqDwCovagkyGIe91JqUvNKiDsQX3+nCXC
- 45WB38MByLX6amyJ8+gMsNc/2MuR+Mp7UefeSgoLSg==
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230118181753.7a325953@booty>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Umang,
+On Wed, Jan 18, 2023 at 06:17:53PM +0100, Luca Ceresoli wrote:
+> On Wed, 18 Jan 2023 16:23:53 +0200
+> Andy Shevchenko <andriy.shevchenko@intel.com> wrote:
 
-Am 18.01.23 um 12:58 schrieb Umang Jain:
-> Drop custom logging from the vchiq_core.c and use standard kernel
-> logging infrastructure (dev_dbg() and friends for struct Device
-> stuff) and pr_info (and similar) for vchiq_services/instances things.
-i'm sorry but your "staging: vc04_services: vchiq: Register devices with 
-a custom bus_type" is still in my backlog. I was busy with some 
-regressions on bcm2835/bcm2711.
->
-> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
-> ---
->   .../interface/vchiq_arm/vchiq_core.c          | 450 ++++++++----------
->   1 file changed, 204 insertions(+), 246 deletions(-)
->
-> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
-> index 4e705a447a62..7b3c57326d28 100644
-> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
-> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
-> @@ -227,10 +227,11 @@ static const char *msg_type_str(unsigned int msg_type)
->   static inline void
->   set_service_state(struct vchiq_service *service, int newstate)
->   {
-> -	vchiq_log_info(vchiq_core_log_level, "%d: srv:%d %s->%s",
-> -		       service->state->id, service->localport,
-> -		       srvstate_names[service->srvstate],
-> -		       srvstate_names[newstate]);
-> +	struct vchiq_state *state = service->state;
-> +
-> +	dev_info(state->dev, "%d: srv:%d %s->%s", state->id,
-> +		 service->localport, srvstate_names[service->srvstate],
-> +		 srvstate_names[newstate]);
->   	service->srvstate = newstate;
->   }
->   
-> @@ -255,8 +256,7 @@ find_service_by_handle(struct vchiq_instance *instance, unsigned int handle)
->   		return service;
->   	}
->   	rcu_read_unlock();
-> -	vchiq_log_info(vchiq_core_log_level,
-> -		       "Invalid service handle 0x%x", handle);
-> +	pr_info("vchiq: Invalid service handle 0x%x", handle);
+...
 
-Some log levels like this here doesn't make sense. I would expect here a 
-warning or an error. Could you please have look at it in a separate patch?
+> > > +A typical example follows.
+> > > +
+> > > +Topology::
+> > > +
+> > > +                      Slave X @ 0x10
+> > > +              .-----.   |
+> > > +  .-----.     |     |---+---- B
+> > > +  | CPU |--A--| ATR |
+> > > +  `-----'     |     |---+---- C
+> > > +              `-----'   |
+> > > +                      Slave Y @ 0x10
+> > > +
+> > > +Alias table:
+> > > +
+> > > +.. table::
+> > > +
+> > > +   ======   =====
+> > > +   Client   Alias
+> > > +   ======   =====
+> > > +   X        0x20
+> > > +   Y        0x30
+> > > +   ======   =====
+> > > +
+> > > +Transaction:
+> > > +
+> > > + - Slave X driver sends a transaction (on adapter B), slave address 0x10
+> > > + - ATR driver rewrites messages with address 0x20, forwards to adapter A
+> > > + - Physical I2C transaction on bus A, slave address 0x20
+> > > + - ATR chip propagates transaction on bus B with address translated to 0x10
+> > > + - Slave X chip replies on bus B
+> > > + - ATR chip forwards reply on bus A
+> > > + - ATR driver rewrites messages with address 0x10
+> > > + - Slave X driver gets back the msgs[], with reply and address 0x10  
+> > 
+> > I'm not sure I got the real / virtual status of the adapters. Are the B and C
+> > virtual ones, while A is the real?
+> 
+> Let me reply, as I wrote these docs back at the times and thus I feel
+> guilty in case that's unclear. :)
+> 
+> I don't like the word "virtual" in this situation. A, B and C are all
+> physical busses, made of copper and run by electrons on PCBs. B and C
+> are the "remote" or "downstream" busses (w.r.t. the CPU), where the i2c
+> devices are and where transactions happen using the address that the
+> chip responds to. A is the "local" or "upstream" bus that is driven
+> directly by the CPU (*) and where address aliases are used. Using
+> aliases there is necessary because using address 0x10 would be
+> ambiguous as there are two 0x10 chips out there.
+> 
+> (*) There could be more layers of course, but still A is "closer to the
+> CPU than B and C", for the sake of completeness.
 
-Thanks
+Can the diagram and/or text be updated to elaborate this?
+
+...
+
+> > > +void i2c_atr_set_driver_data(struct i2c_atr *atr, void *data)
+> > > +{
+> > > +	atr->priv = data;
+> > > +}
+> > > +EXPORT_SYMBOL_NS_GPL(i2c_atr_set_driver_data, I2C_ATR);
+> > > +
+> > > +void *i2c_atr_get_driver_data(struct i2c_atr *atr)
+> > > +{
+> > > +	return atr->priv;
+> > > +}
+> > > +EXPORT_SYMBOL_NS_GPL(i2c_atr_get_driver_data, I2C_ATR);  
+> > 
+> > Just to be sure: Is it really _driver_ data and not _device instance_ data?
+> 
+> It is device instance data indeed. I don't remember why this got
+> changed, but in v3 it was i2c_atr_set_clientdata().
+
+It's me who was and is against calling it clientdata due to possible
+confusion with i2c_set/get_clientdata() that is about *driver data*.
+I missed that time the fact that this is about device instance data.
+I dunno which name would be better in this case, i2c_atr_set/get_client_priv() ?
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
 
