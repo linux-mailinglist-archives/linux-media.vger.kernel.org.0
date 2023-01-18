@@ -2,207 +2,273 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 40D0A6717BE
-	for <lists+linux-media@lfdr.de>; Wed, 18 Jan 2023 10:29:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 363AA67196F
+	for <lists+linux-media@lfdr.de>; Wed, 18 Jan 2023 11:44:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230183AbjARJ27 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 18 Jan 2023 04:28:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50626 "EHLO
+        id S230167AbjARKom (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 18 Jan 2023 05:44:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37536 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229908AbjARJ0h (ORCPT
+        with ESMTP id S230101AbjARKmu (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 18 Jan 2023 04:26:37 -0500
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 36AB7530FC;
-        Wed, 18 Jan 2023 00:52:30 -0800 (PST)
-X-UUID: 6d3504b6970d11ed945fc101203acc17-20230118
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-        h=MIME-Version:Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:Message-ID:Date:Subject:CC:To:From; bh=7oWGcqc6umv1n6EjRJx6TZsOAagTABpA6oCSVX0FXK8=;
-        b=fNwE3XAaKJVJ2mjEunKkbv4O42ok1lhfP8jlYkbMDvZL9fq8hD4iYffmge4xUxidPA47kr6nXOZsi2IfZXeJvU/r6uN5ap6tUnny1evdD33TrymETIFn0BGEn+K7+KgjmppfQ6HDTJfqRFPYt/1Ao6n11zrRXn3Fv5VWHwF9d84=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.18,REQID:69ebcc0a-64e5-4bd9-a10f-47f3ab4e73b3,IP:0,U
-        RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-        release,TS:0
-X-CID-META: VersionHash:3ca2d6b,CLOUDID:f080ff54-dd49-462e-a4be-2143a3ddc739,B
-        ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
-        RL:1,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0
-X-CID-BVR: 0,NGT
-X-UUID: 6d3504b6970d11ed945fc101203acc17-20230118
-Received: from mtkmbs11n2.mediatek.inc [(172.21.101.187)] by mailgw02.mediatek.com
-        (envelope-from <moudy.ho@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-        with ESMTP id 1962576115; Wed, 18 Jan 2023 16:52:24 +0800
-Received: from mtkmbs10n1.mediatek.inc (172.21.101.34) by
- mtkmbs11n2.mediatek.inc (172.21.101.187) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.792.15; Wed, 18 Jan 2023 16:52:22 +0800
-Received: from APC01-TYZ-obe.outbound.protection.outlook.com (172.21.101.239)
- by mtkmbs10n1.mediatek.com (172.21.101.34) with Microsoft SMTP Server id
- 15.2.792.15 via Frontend Transport; Wed, 18 Jan 2023 16:52:22 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=d3xtajWMJpKIRM/1jhdemGPyHC+Bd3xvp1JyAgEvP9gBBKXSr4uvQLmw6MWPX8H0yKro2IjoepNCRiUqXvh808RXIGUWE5IpmdCYPSAzDZwEv6u77oXv1bZJgZ6zqhd2JYfYZqcNDMzWfukUB0XMdLiCgmULYqXoilveuV2kk45SFNh5y53iAaj4ojAeoSfWiRmjPnN3CdDYQAS5C+f6mTBnV6BHoW3xHVPjwnVveXJaEK6I6k27k07ZI/Vc1KAj8Mn7pwKvJmaX52yQun33xsejNGB3BuGkkZaeLu4+pa16NAc83E8YfQWVBMmrAxUMszNM5E78SMZ0XHvXZXHoHA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=7oWGcqc6umv1n6EjRJx6TZsOAagTABpA6oCSVX0FXK8=;
- b=JGoVxj1RwyRmFKLtxepvNe0CUvmpFJcbOjOehHQFx636NMmvFoTokPuIG7DujDJfOfrNaRM2x7XGvcM0btLr8mWI2rgJLMZwGUFWNPbx4/c1xc98m8u7uBj4lIHCahJx+v7REpAzNmZE47ghViz+V/HWrI3vSZx2XNqvHwJcqncDxexG4EaXBEkV//HVM3oDaiFWr9iBdt9wUT/cL4w81AXtQ90llWgOOOU73EJR/YcnBEC5xlaeAhlzCJ6A/2pcr7rIX9XRjHb+oLvVEpdI4Izf0H/n/zQDejZUh4vRnVhyHK3ZlxFTyCDQ5T+RAsH0Uc7YUUP7SGS2gFTEpzZvaw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=mediatek.com; dmarc=pass action=none header.from=mediatek.com;
- dkim=pass header.d=mediatek.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=mediateko365.onmicrosoft.com; s=selector2-mediateko365-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7oWGcqc6umv1n6EjRJx6TZsOAagTABpA6oCSVX0FXK8=;
- b=V+jG4FPdpwmmS3xW8DH+orfsibE4ElLG6c9myLrjBZm17f3T0+3z2fYGbcWWLMNze/Sm07sGYFd/vfCqgMuczHND7jQQSqj8w8x6lAmS+NW/BaDVzM5LMw/2GzQTV+8hc9siDo/iBVyKjr87g3xTH36S4A/qn+VpFWEy+2EV9TI=
-Received: from TY0PR03MB6356.apcprd03.prod.outlook.com (2603:1096:400:14c::9)
- by TYZPR03MB5939.apcprd03.prod.outlook.com (2603:1096:400:126::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6002.12; Wed, 18 Jan
- 2023 08:52:21 +0000
-Received: from TY0PR03MB6356.apcprd03.prod.outlook.com
- ([fe80::eb3c:770d:783d:352d]) by TY0PR03MB6356.apcprd03.prod.outlook.com
- ([fe80::eb3c:770d:783d:352d%4]) with mapi id 15.20.5986.023; Wed, 18 Jan 2023
- 08:52:20 +0000
-From:   =?utf-8?B?TW91ZHkgSG8gKOS9leWul+WOnyk=?= <Moudy.Ho@mediatek.com>
-To:     "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
-        "mchehab@kernel.org" <mchehab@kernel.org>,
-        "krzysztof.kozlowski@linaro.org" <krzysztof.kozlowski@linaro.org>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "krzysztof.kozlowski+dt@linaro.org" 
-        <krzysztof.kozlowski+dt@linaro.org>
-CC:     "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linux-mediatek@lists.infradead.org" 
-        <linux-mediatek@lists.infradead.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        Project_Global_Chrome_Upstream_Group 
-        <Project_Global_Chrome_Upstream_Group@mediatek.com>
-Subject: Re: [RESEND v3 01/13] dt-binding: mediatek: add bindings for MediaTek
- mt8195 MDP3 components
-Thread-Topic: [RESEND v3 01/13] dt-binding: mediatek: add bindings for
- MediaTek mt8195 MDP3 components
-Thread-Index: AQHZKVms05m6LhvokEeyIkOE8xk7Za6gsTCAgAMwdIA=
-Date:   Wed, 18 Jan 2023 08:52:20 +0000
-Message-ID: <bd6bbc3d126a39dd8b8499e891b152c25b6713a7.camel@mediatek.com>
-References: <20230116032147.23607-1-moudy.ho@mediatek.com>
-         <20230116032147.23607-2-moudy.ho@mediatek.com>
-         <f24a54f1-2720-3345-9596-bb8d388ba16f@linaro.org>
-In-Reply-To: <f24a54f1-2720-3345-9596-bb8d388ba16f@linaro.org>
-Accept-Language: zh-TW, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=mediatek.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TY0PR03MB6356:EE_|TYZPR03MB5939:EE_
-x-ms-office365-filtering-correlation-id: abca9a7e-977b-42ed-e37a-08daf9314f83
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: alErhBTAq4k++HsxS4qYLK6+8CnPlRgWay7q6kjM2RGedoaddivjI5Hsq5z+4TjDmYva7OCtRaXTbxUmQQZFLUTRQJhiQ8TaxnxpYfF3wNMuYmQ1CLjpHTm5QYJtzgyhLDy1a4ta9mP7n4UJG27WPDS2qcATR47uWBUGUGUu30IC5xbtFtdOFVFB66/TkPRYOtQ8+ELTOomJcbqbsLQb43B2aRZIsNfybkkQcd9E3qwvqzUK/pEpKBgvU450cKMruGjORkFrIxVVlzhctMJV+fYyCfp5/mPn6l5mIukoWIIc1lsuryY8Tri1ycmvFK5e8XdEQOzwx+svHoZlA7peQELf7GlBdElMj8ceVrR/BspoI2jb1q7PYLypB/Won7iiW3Rr2/3opUSDPrTOJ0gODVgcp4oifCHgVckkNw7CX/xHMR9uYyoSvQ4ghdCshf/QrVyy2++fsC27wQHGgHNOAlukNOsC9rgxhZi/m4gbibdxW6B7D8yZLtQGT/yfnCkiw/c0gZMt8/hibNSG2zCAI7hw1c1gB2XoyV9ldCpUnT3YY2vpxCPoXDtZgL/QNiDptQiD25ijkb/UJjZJK1r52woLFftgpML068iVZQohxuvXGljnXk9qaLq67d5Z0qwHfcfLdZ6fdi/m5J0OUILKNfwNjJnLV3InRnFpqPZNGg8dr81jZVXgfLJh7YHU8KtbeMZvUfe/OXWvURu/nofo+XM0RDzLNeyG6+siuHyPoU3T9A+C3hb3ga611TPgiQL5
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY0PR03MB6356.apcprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(346002)(39860400002)(376002)(396003)(366004)(136003)(451199015)(36756003)(83380400001)(41300700001)(8936002)(85182001)(2906002)(66476007)(122000001)(76116006)(2616005)(4326008)(54906003)(8676002)(66446008)(110136005)(64756008)(316002)(53546011)(5660300002)(38100700002)(38070700005)(86362001)(7416002)(66556008)(91956017)(66946007)(26005)(6512007)(478600001)(186003)(966005)(6486002)(6506007)(71200400001)(107886003)(99106002);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?ODRWVmdtTWcwREpDQ3V4YTFvYTlubDdmZFFYWGl1TXM1dlB3dVJSelBwUTl3?=
- =?utf-8?B?Zm9kSjllQW1HNi9VcmZVWElXSGpxaS91d1V6RGt6NFhlYTE1MjBYSXVycG9W?=
- =?utf-8?B?eHNkbHczNXdNYmhGTC9pU0UxVEk4ci9GblVwMVVNNUREMU5NQ1VCMGhOQmha?=
- =?utf-8?B?ejVkRzJnUTF3RDNDQzRRWElQUGhkQTZ3cm5GM01oVnFNamZjeVJwNFNDQjBJ?=
- =?utf-8?B?SWUreDlqU2svMCtWelRWNUh4N3QyOHQrVGRFMVJZdUNISm9La2w4R2tkcmpa?=
- =?utf-8?B?eHI5bWd0WWlhRVc4MTJEMlpTNWRmTlZVR04wam5sMldOVUE1THZ3QWJiRzB6?=
- =?utf-8?B?USs5a0o0NFJiWjBsWisvUzJVQzJEcU9zR1BHdEYxaDRSRFFEak1yaDVuTDFF?=
- =?utf-8?B?b2VmTFREeEt1aUNZQ0t4RkVoWUg2cFlNN2ExbDdWYnFTem1YdWNtOU5nRUFj?=
- =?utf-8?B?N1ZBTjcxVzVUbFBGc1paM0JOV2kzdnE3Rm82bGRmd0FTUjBiSlhnL3NRSnBy?=
- =?utf-8?B?aXBhM2FycnNsNUF3ZjlnTFBpYWpUYkxxZDQrK1c0dEkrUVpTZlRBaGZXMkwv?=
- =?utf-8?B?dWNSeDlvSGs1UUVTckcrMGQ2WFhqS1c3TGpXQlo3RlNoZVBVVjNiK3g4Vmp6?=
- =?utf-8?B?YWI4TS9tVmtUZ0NYSDJ3TkRGYVBhOU01bWdDbnNMaEdjM1I1N1hnWXQ0Szdl?=
- =?utf-8?B?RC9hR1FTZHJ3WGZjenVIbEJGaVJ3cHdNMjJxNExwNnNXb3huUUkreTBwVFds?=
- =?utf-8?B?ZDlhS1draHJVbmlGUzJibEpINUNWOHRTZ1JwRWJUSGhZdnlTRndEVGYxTUwy?=
- =?utf-8?B?bGlmWmFEQU9RNW5XOVMyUXRZeXZ6emt5cnJOb3JETk1BVHFEd2loc3A3S3Fp?=
- =?utf-8?B?c3JScS9UT0E0M2taOG03OHVvUWR2WUlEaWhOWEd5T1J0aWV5eXVPa0RDaVNi?=
- =?utf-8?B?Q1NMSmhxdVZRK3pQNGZqUHhFbmRwc1doeS8zaGc4c3hoMW9xb3VyMFBjOVFh?=
- =?utf-8?B?YW8vcGUxWTRXUmQyTk1zRGhqS0h6L1RGVkNZQlpUS0NJaWd2SUNTNGJleURl?=
- =?utf-8?B?ZXlNRlRHVXN1QUFVd1lFSFJIYnp0cHhIMGtmRVJ3am1vWi83M2MxQnJQVUpz?=
- =?utf-8?B?clRYejc0TC9BVlRVQkUzZkovL0Zic2l5dFJPTDNYQ2tWOS9SOTlMSGtvM1hu?=
- =?utf-8?B?a1FTUW9wTmdHaVRaWjVWdzBiY1NaUG9KVWhqN0ZIOURaenFHOUxVK0Nyc1B2?=
- =?utf-8?B?ZzVYQjdPeDhQTnF1NG9WcGF3VFUxa1k2VzdqLzZrcUdsbGRPRHVKU1FBa0pz?=
- =?utf-8?B?Z3E2aGdzN1FjQWtseERyaUVCV0RuRk83dGFoTlhFV2xmSHdHaWRDTm1IOUhG?=
- =?utf-8?B?anliaUF5OGRWWXc2OTBpL1YraUtTL3B6OGNTUU5rQXc3am94blJvUUF5cFZa?=
- =?utf-8?B?ZEJic0l4bmhxUVh6cGcvVGhmeWwwamo1Q0tCYm1SdUhlVWd5ZUtIOG5tUWlR?=
- =?utf-8?B?SVcvc2RBZEtWazNyL3pMYitmSVZMNFJUQ0tad0g3a0wwZHpNRlJnVm9jcExF?=
- =?utf-8?B?bU5GR21uTDlBT2FJd1FZaHFHWXdKZFJYSlBGWkpCZXA1ZVJ3Y1d5MjU4WlhW?=
- =?utf-8?B?NElqZ2VqMElwS2hFZ3hUeXkycGdHVy9QNGxWUjlKbnJZcndubzkwOERkaEVM?=
- =?utf-8?B?UFFaMzdXT2ZxRjQzOW9LeitIdmZUaUF0RTBpdDhaWENRTFc0MUd6MXNqcllN?=
- =?utf-8?B?VGNtY1htZmlsaDdvYm5lb0daQ1FjNDhGbEdmc0QyVHdXTDFjL2RBOThRaHhh?=
- =?utf-8?B?REpHSjdxZWFUb2pUMGJtTzdLV3IrY3lYWUV6REhqaDNndUh2L1ZXaWx1UjZR?=
- =?utf-8?B?eStVYnpSam9jWjliSkpZTXpyTjhFVjBsNXVDK1hlNHgvajcxSFB0V1ljUk5j?=
- =?utf-8?B?cGo2b0V3TXNqZUoxWUlab2sraWQwWnJHaU9KVm9paGxvZzUrUHFTVU80OWZQ?=
- =?utf-8?B?d2V3WXd4L3NoV3VUYmRiRG9QbUIyZWhXME1YYVJBUlI0cGl6U3NuOXlUTWpt?=
- =?utf-8?B?SVpUZ05JdkV6bDh4TTIxV2dpN0d5dzVMakQ2LzNUNGVvRjlPejBDTkxYT0dB?=
- =?utf-8?B?dkZzVWlYZStKUU1XQlRIYlR6dVJSRERBb0Z1QW1wNnp3Mk0rb0ptQ3FTTnlV?=
- =?utf-8?B?NlE9PQ==?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <E8091A707113A544A7DC419DBA1AC766@apcprd03.prod.outlook.com>
-Content-Transfer-Encoding: base64
-MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TY0PR03MB6356.apcprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: abca9a7e-977b-42ed-e37a-08daf9314f83
-X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Jan 2023 08:52:20.8635
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: a7687ede-7a6b-4ef6-bace-642f677fbe31
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: y6UZ2WuTi/9lBKGEmhK0NKfX/C38kPxZtCakWv4Mc4sjLIxXQICF/Qw5jW0HiG7GWzmr5M70fWt3tTMIYPGapg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYZPR03MB5939
-X-MTK:  N
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,
-        SPF_PASS,UNPARSEABLE_RELAY autolearn=ham autolearn_force=no
-        version=3.4.6
+        Wed, 18 Jan 2023 05:42:50 -0500
+Received: from azure-sdnproxy.icoremail.net (azure-sdnproxy.icoremail.net [20.232.28.96])
+        by lindbergh.monkeyblade.net (Postfix) with SMTP id 1365B2E0C7;
+        Wed, 18 Jan 2023 01:46:53 -0800 (PST)
+Received: from ubuntu.localdomain (unknown [106.117.76.92])
+        by mail-app2 (Coremail) with SMTP id by_KCgBXXSH3v8dj8gr_CQ--.6318S2;
+        Wed, 18 Jan 2023 17:46:40 +0800 (CST)
+From:   Duoming Zhou <duoming@zju.edu.cn>
+To:     mchehab@kernel.org
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Duoming Zhou <duoming@zju.edu.cn>
+Subject: [PATCH] media: usb: siano: Fix use after free bugs caused by do_submit_urb
+Date:   Wed, 18 Jan 2023 17:46:30 +0800
+Message-Id: <20230118094630.22141-1-duoming@zju.edu.cn>
+X-Mailer: git-send-email 2.17.1
+X-CM-TRANSID: by_KCgBXXSH3v8dj8gr_CQ--.6318S2
+X-Coremail-Antispam: 1UD129KBjvJXoWfJr13Kw1fGr1Dtr13Zw18Zrb_yoWkGFy5pF
+        n3GrZ0krW8try7Ar4jyF18tw17GrZFy3W7tr40yw1xX3W29w45Xry8K3yjgr1UGr45AFy7
+        JF98JrWxtryqkaUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUUkS14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+        rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+        1l84ACjcxK6xIIjxv20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
+        JVWxJr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
+        CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
+        2Ix0cI8IcVAFwI0_JrI_JrylYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
+        W8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc2xSY4AK67AK6r4f
+        MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr
+        0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCIc40Y0x0E
+        wIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJV
+        W8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAI
+        cVC2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjfUeWrWUUUUU
+X-CM-SenderInfo: qssqjiasttq6lmxovvfxof0/1tbiAgoTAVZdtdRROQAbsD
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-T24gTW9uLCAyMDIzLTAxLTE2IGF0IDA5OjEwICswMTAwLCBLcnp5c3p0b2YgS296bG93c2tpIHdy
-b3RlOg0KPiBPbiAxNi8wMS8yMDIzIDA0OjIxLCBNb3VkeSBIbyB3cm90ZToNCg0KKHNuaXApDQoN
-Cj4gPiArICBtZWRpYXRlayxnY2UtY2xpZW50LXJlZzoNCj4gPiArICAgIGRlc2NyaXB0aW9uOg0K
-PiA+ICsgICAgICBUaGUgcmVnaXN0ZXIgb2YgY2xpZW50IGRyaXZlciBjYW4gYmUgY29uZmlndXJl
-ZCBieSBnY2Ugd2l0aA0KPiA+IDQgYXJndW1lbnRzDQo+ID4gKyAgICAgIGRlZmluZWQgaW4gdGhp
-cyBwcm9wZXJ0eSwgc3VjaCBhcyBwaGFuZGxlIG9mIGdjZSwgc3Vic3lzIGlkLA0KPiA+ICsgICAg
-ICByZWdpc3RlciBvZmZzZXQgYW5kIHNpemUuDQo+ID4gKyAgICAgIEVhY2ggc3Vic3lzIGlkIGlz
-IG1hcHBpbmcgdG8gYSBiYXNlIGFkZHJlc3Mgb2YgZGlzcGxheQ0KPiA+IGZ1bmN0aW9uIGJsb2Nr
-cw0KPiA+ICsgICAgICByZWdpc3RlciB3aGljaCBpcyBkZWZpbmVkIGluIHRoZSBnY2UgaGVhZGVy
-DQo+ID4gKyAgICAgIGluY2x1ZGUvZHQtYmluZGluZ3MvZ2NlLzxjaGlwPi1nY2UuaC4NCj4gPiAr
-ICAgICRyZWY6IC9zY2hlbWFzL3R5cGVzLnlhbWwjL2RlZmluaXRpb25zL3BoYW5kbGUtYXJyYXkN
-Cj4gPiArICAgIG1heEl0ZW1zOiAxDQo+IA0KPiBpdGVtcyB3aXRoIGl0ZW1zIHN5bnRheCBpbnN0
-ZWFkOg0KPiANCj4gDQpodHRwczovL3VybGRlZmVuc2UuY29tL3YzL19faHR0cHM6Ly9lbGl4aXIu
-Ym9vdGxpbi5jb20vbGludXgvdjUuMTgtcmMxL3NvdXJjZS9Eb2N1bWVudGF0aW9uL2RldmljZXRy
-ZWUvYmluZGluZ3Mvc29jL3NhbXN1bmcvZXh5bm9zLXVzaS55YW1sKkw0Ml9fO0l3ISFDVFJOS0E5
-d01nMEFSYnchbGNmZXJyRkZQLW1zaERITkwtcndKTGdOS0RyWEY5ZlhvbGpwcUwzMGs1WUtUTnZD
-d3VDM3dlYnpSMzJWblFRb1BlRnZTdkFld05rZXVwY1Q0bWpkRV9yb3hXVW8kwqANCj4gIA0KPiAN
-Cj4gPiArDQoNCihzbmlwKQ0KDQo+ID4gKw0KPiA+ICsgIG1lZGlhdGVrLGdjZS1jbGllbnQtcmVn
-Og0KPiA+ICsgICAgZGVzY3JpcHRpb246DQo+ID4gKyAgICAgIFRoZSByZWdpc3RlciBvZiBjbGll
-bnQgZHJpdmVyIGNhbiBiZSBjb25maWd1cmVkIGJ5IGdjZSB3aXRoDQo+ID4gNCBhcmd1bWVudHMN
-Cj4gPiArICAgICAgZGVmaW5lZCBpbiB0aGlzIHByb3BlcnR5LCBzdWNoIGFzIHBoYW5kbGUgb2Yg
-Z2NlLCBzdWJzeXMgaWQsDQo+ID4gKyAgICAgIHJlZ2lzdGVyIG9mZnNldCBhbmQgc2l6ZS4NCj4g
-PiArICAgICAgRWFjaCBzdWJzeXMgaWQgaXMgbWFwcGluZyB0byBhIGJhc2UgYWRkcmVzcyBvZiBk
-aXNwbGF5DQo+ID4gZnVuY3Rpb24gYmxvY2tzDQo+ID4gKyAgICAgIHJlZ2lzdGVyIHdoaWNoIGlz
-IGRlZmluZWQgaW4gdGhlIGdjZSBoZWFkZXINCj4gPiArICAgICAgaW5jbHVkZS9kdC1iaW5kaW5n
-cy9nY2UvPGNoaXA+LWdjZS5oLg0KPiANCj4gRnVsbCwgcmVhbCBwYXRoIHBsZWFzZSwgc28gaXQg
-Y291bGQgYmUgdmFsaWRhdGVkIHdpdGggdG9vbHMuDQo+IA0KPiANCj4gQmVzdCByZWdhcmRzLA0K
-PiBLcnp5c3p0b2YNCj4gDQoNCkhpIEtyenlzenRvZiwNCg0KU29ycnkgdG8gYnVnIHlvdSBhZ2Fp
-biBhYm91dCB0aGlzIHByb3BlcnR5LCBjb3VsZCBpdCBiZSBjaGFuZ2VkIHRvDQpmb2xsb3dpbmcg
-Zm9ybS4NCg0KICAgIG1lZGlhdGVrLGdjZS1jbGllbnQtcmVnOg0KICAgICAgJHJlZjogL3NjaGVt
-YXMvdHlwZXMueWFtbCMvZGVmaW5pdGlvbnMvcGhhbmRsZS1hcnJheQ0KICAgICAgaXRlbXM6DQog
-ICAgICAgIGl0ZW1zOg0KICAgICAgICAgIC0gZGVzY3JpcHRpb246IHBoYW5kbGUgb2YgR0NFDQog
-ICAgICAgICAgLSBkZXNjcmlwdGlvbjogR0NFIHN1YnN5cyBpZA0KICAgICAgICAgIC0gZGVzY3Jp
-cHRpb246IHJlZ2lzdGVyIG9mZnNldA0KICAgICAgICAgIC0gZGVzY3JpcHRpb246IHJlZ2lzdGVy
-IHNpemUNCiAgICAgIGRlc2NyaXB0aW9uOg0KICAgICAgICAuLi4gZGVmaW5lZCBpbiA8aW5jbHVk
-ZS9kdC1iaW5kaW5ncy9nY2UvbXQ4MTk1LWdjZS5oPi4NCiAgICAgbWF4SXRlbXM6IDEgDQogIA0K
-QWxzbywgaXMgdGhlIGluY2x1ZGUgaGVhZGVyIHBhdGggc3RpbGwgbmVjZXNzYXJ5IGluIHRoaXMg
-Zm9ybT8NCg0KU2luY2VyZWx5LA0KTW91ZHkNCg==
+There are UAF bugs caused by do_submit_urb(). One of the KASan reports
+is shown below:
+
+[   36.403605] BUG: KASAN: use-after-free in worker_thread+0x4a2/0x890
+[   36.406105] Read of size 8 at addr ffff8880059600e8 by task kworker/0:2/49
+[   36.408316]
+[   36.408867] CPU: 0 PID: 49 Comm: kworker/0:2 Not tainted 6.2.0-rc3-15798-g5a41237ad1d4-dir8
+[   36.411696] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.14.0-0-g15584
+[   36.416157] Workqueue:  0x0 (events)
+[   36.417654] Call Trace:
+[   36.418546]  <TASK>
+[   36.419320]  dump_stack_lvl+0x96/0xd0
+[   36.420522]  print_address_description+0x75/0x350
+[   36.421992]  print_report+0x11b/0x250
+[   36.423174]  ? _raw_spin_lock_irqsave+0x87/0xd0
+[   36.424806]  ? __virt_addr_valid+0xcf/0x170
+[   36.426069]  ? worker_thread+0x4a2/0x890
+[   36.427355]  kasan_report+0x131/0x160
+[   36.428556]  ? worker_thread+0x4a2/0x890
+[   36.430053]  worker_thread+0x4a2/0x890
+[   36.431297]  ? worker_clr_flags+0x90/0x90
+[   36.432479]  kthread+0x166/0x190
+[   36.433493]  ? kthread_blkcg+0x50/0x50
+[   36.434669]  ret_from_fork+0x22/0x30
+[   36.435923]  </TASK>
+[   36.436684]
+[   36.437215] Allocated by task 24:
+[   36.438289]  kasan_set_track+0x50/0x80
+[   36.439436]  __kasan_kmalloc+0x89/0xa0
+[   36.440566]  smsusb_probe+0x374/0xc90
+[   36.441920]  usb_probe_interface+0x2d1/0x4c0
+[   36.443253]  really_probe+0x1d5/0x580
+[   36.444539]  __driver_probe_device+0xe3/0x130
+[   36.446085]  driver_probe_device+0x49/0x220
+[   36.447423]  __device_attach_driver+0x19e/0x1b0
+[   36.448931]  bus_for_each_drv+0xcb/0x110
+[   36.450217]  __device_attach+0x132/0x1f0
+[   36.451470]  bus_probe_device+0x59/0xf0
+[   36.452563]  device_add+0x4ec/0x7b0
+[   36.453830]  usb_set_configuration+0xc63/0xe10
+[   36.455230]  usb_generic_driver_probe+0x3b/0x80
+[   36.456166] printk: console [ttyGS0] disabled
+[   36.456569]  usb_probe_device+0x90/0x110
+[   36.459523]  really_probe+0x1d5/0x580
+[   36.461027]  __driver_probe_device+0xe3/0x130
+[   36.462465]  driver_probe_device+0x49/0x220
+[   36.463847]  __device_attach_driver+0x19e/0x1b0
+[   36.465229]  bus_for_each_drv+0xcb/0x110
+[   36.466466]  __device_attach+0x132/0x1f0
+[   36.467799]  bus_probe_device+0x59/0xf0
+[   36.469010]  device_add+0x4ec/0x7b0
+[   36.470125]  usb_new_device+0x863/0xa00
+[   36.471374]  hub_event+0x18c7/0x2220
+[   36.472746]  process_one_work+0x34c/0x5b0
+[   36.474041]  worker_thread+0x4b7/0x890
+[   36.475216]  kthread+0x166/0x190
+[   36.476267]  ret_from_fork+0x22/0x30
+[   36.477447]
+[   36.478160] Freed by task 24:
+[   36.479239]  kasan_set_track+0x50/0x80
+[   36.480512]  kasan_save_free_info+0x2b/0x40
+[   36.481808]  ____kasan_slab_free+0x122/0x1a0
+[   36.483173]  __kmem_cache_free+0xc4/0x200
+[   36.484563]  smsusb_term_device+0xcd/0xf0
+[   36.485896]  smsusb_probe+0xc85/0xc90
+[   36.486976]  usb_probe_interface+0x2d1/0x4c0
+[   36.488303]  really_probe+0x1d5/0x580
+[   36.489498]  __driver_probe_device+0xe3/0x130
+[   36.491140]  driver_probe_device+0x49/0x220
+[   36.492475]  __device_attach_driver+0x19e/0x1b0
+[   36.493988]  bus_for_each_drv+0xcb/0x110
+[   36.495171]  __device_attach+0x132/0x1f0
+[   36.496617]  bus_probe_device+0x59/0xf0
+[   36.497875]  device_add+0x4ec/0x7b0
+[   36.498972]  usb_set_configuration+0xc63/0xe10
+[   36.500264]  usb_generic_driver_probe+0x3b/0x80
+[   36.501740]  usb_probe_device+0x90/0x110
+[   36.503084]  really_probe+0x1d5/0x580
+[   36.504241]  __driver_probe_device+0xe3/0x130
+[   36.505548]  driver_probe_device+0x49/0x220
+[   36.506766]  __device_attach_driver+0x19e/0x1b0
+[   36.508368]  bus_for_each_drv+0xcb/0x110
+[   36.509646]  __device_attach+0x132/0x1f0
+[   36.510911]  bus_probe_device+0x59/0xf0
+[   36.512103]  device_add+0x4ec/0x7b0
+[   36.513215]  usb_new_device+0x863/0xa00
+[   36.514736]  hub_event+0x18c7/0x2220
+[   36.516130]  process_one_work+0x34c/0x5b0
+[   36.517396]  worker_thread+0x4b7/0x890
+[   36.518591]  kthread+0x166/0x190
+[   36.519599]  ret_from_fork+0x22/0x30
+[   36.520851]
+[   36.521405] Last potentially related work creation:
+[   36.523143]  kasan_save_stack+0x3f/0x60
+[   36.524275]  kasan_record_aux_stack_noalloc+0x9d/0xb0
+[   36.525831]  insert_work+0x25/0x130
+[   36.527039]  __queue_work+0x4d4/0x620
+[   36.528236]  queue_work_on+0x72/0xb0
+[   36.529344]  __usb_hcd_giveback_urb+0x13f/0x1b0
+[   36.530819]  dummy_timer+0x350/0x1a40
+[   36.532149]  call_timer_fn+0x2c/0x190
+[   36.533567]  expire_timers+0x69/0x1f0
+[   36.534736]  __run_timers+0x289/0x2d0
+[   36.535841]  run_timer_softirq+0x2d/0x60
+[   36.537110]  __do_softirq+0x116/0x380
+[   36.538377]
+[   36.538950] Second to last potentially related work creation:
+[   36.540855]  kasan_save_stack+0x3f/0x60
+[   36.542084]  kasan_record_aux_stack_noalloc+0x9d/0xb0
+[   36.543592]  insert_work+0x25/0x130
+[   36.544891]  __queue_work+0x4d4/0x620
+[   36.546168]  queue_work_on+0x72/0xb0
+[   36.547328]  __usb_hcd_giveback_urb+0x13f/0x1b0
+[   36.548805]  dummy_timer+0x350/0x1a40
+[   36.550116]  call_timer_fn+0x2c/0x190
+[   36.551570]  expire_timers+0x69/0x1f0
+[   36.552762]  __run_timers+0x289/0x2d0
+[   36.553916]  run_timer_softirq+0x2d/0x60
+[   36.555118]  __do_softirq+0x116/0x380
+[   36.556239]
+[   36.556807] The buggy address belongs to the object at ffff888005960000
+[   36.556807]  which belongs to the cache kmalloc-4k of size 4096
+[   36.560652] The buggy address is located 232 bytes inside of
+[   36.560652]  4096-byte region [ffff888005960000, ffff888005961000)
+[   36.564791]
+[   36.565355] The buggy address belongs to the physical page:
+[   36.567212] page:000000004f0a0731 refcount:1 mapcount:0 mapping:0000000000000000 index:0x00
+[   36.570534] head:000000004f0a0731 order:3 compound_mapcount:0 subpages_mapcount:0 compound0
+[   36.573717] flags: 0x100000000010200(slab|head|node=0|zone=1)
+[   36.575481] raw: 0100000000010200 ffff888001042140 dead000000000122 0000000000000000
+[   36.577842] raw: 0000000000000000 0000000000040004 00000001ffffffff 0000000000000000
+[   36.580175] page dumped because: kasan: bad access detected
+[   36.581994]
+[   36.582548] Memory state around the buggy address:
+[   36.583983]  ffff88800595ff80: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+[   36.586240]  ffff888005960000: fa fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+[   36.588884] >ffff888005960080: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+[   36.591071]                                                           ^
+[   36.593295]  ffff888005960100: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+[   36.595705]  ffff888005960180: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+[   36.598026] ==================================================================
+[   36.600224] Disabling lock debugging due to kernel taint
+[   36.602681] general protection fault, probably for non-canonical address 0x43600a000000060I
+[   36.607129] CPU: 0 PID: 49 Comm: kworker/0:2 Tainted: G    B              6.2.0-rc3-15798-8
+[   36.611115] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.14.0-0-g15584
+[   36.615026] Workqueue: events do_submit_urb
+[   36.616290] RIP: 0010:_raw_spin_lock_irqsave+0x8a/0xd0
+[   36.618107] Code: 24 00 00 00 00 48 89 df be 04 00 00 00 e8 9e b5 c6 fe 48 89 ef be 04 00 5
+[   36.623522] RSP: 0018:ffff888004b6fcf0 EFLAGS: 00010046
+[   36.625072] RAX: 0000000000000000 RBX: 043600a000000060 RCX: ffffffff9fc0e0d7
+[   36.627206] RDX: 0000000000000000 RSI: dffffc0000000000 RDI: ffff888004b6fcf0
+[   36.629813] RBP: ffff888004b6fcf0 R08: dffffc0000000000 R09: ffffed100096df9f
+[   36.631974] R10: dfffe9100096dfa0 R11: 1ffff1100096df9e R12: ffff888005960020
+[   36.634285] R13: ffff8880059600f0 R14: 0000000000000246 R15: 0000000000000001
+[   36.636438] FS:  0000000000000000(0000) GS:ffff88806d600000(0000) knlGS:0000000000000000
+[   36.639092] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[   36.640951] CR2: 00007f07476819a3 CR3: 0000000004a34000 CR4: 00000000000006f0
+[   36.643411] Call Trace:
+[   36.644215]  <TASK>
+[   36.644902]  smscore_getbuffer+0x3e/0x1e0
+[   36.646147]  do_submit_urb+0x4f/0x190
+[   36.647449]  process_one_work+0x34c/0x5b0
+[   36.648777]  worker_thread+0x4b7/0x890
+[   36.649984]  ? worker_clr_flags+0x90/0x90
+[   36.651166]  kthread+0x166/0x190
+[   36.652151]  ? kthread_blkcg+0x50/0x50
+[   36.653547]  ret_from_fork+0x22/0x30
+[   36.655051]  </TASK>
+[   36.655733] Modules linked in:
+[   36.656787] ---[ end trace 0000000000000000 ]---
+[   36.658328] RIP: 0010:_raw_spin_lock_irqsave+0x8a/0xd0
+[   36.660045] Code: 24 00 00 00 00 48 89 df be 04 00 00 00 e8 9e b5 c6 fe 48 89 ef be 04 00 5
+[   36.665730] RSP: 0018:ffff888004b6fcf0 EFLAGS: 00010046
+[   36.667448] RAX: 0000000000000000 RBX: 043600a000000060 RCX: ffffffff9fc0e0d7
+[   36.669675] RDX: 0000000000000000 RSI: dffffc0000000000 RDI: ffff888004b6fcf0
+[   36.672645] RBP: ffff888004b6fcf0 R08: dffffc0000000000 R09: ffffed100096df9f
+[   36.674921] R10: dfffe9100096dfa0 R11: 1ffff1100096df9e R12: ffff888005960020
+[   36.677034] R13: ffff8880059600f0 R14: 0000000000000246 R15: 0000000000000001
+[   36.679184] FS:  0000000000000000(0000) GS:ffff88806d600000(0000) knlGS:0000000000000000
+[   36.681655] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[   36.683383] CR2: 00007f07476819a3 CR3: 0000000004a34000 CR4: 00000000000006f0
+[   36.685733] Kernel panic - not syncing: Fatal exception
+[   36.688585] Kernel Offset: 0x1d400000 from 0xffffffff81000000 (relocation range: 0xfffffff)
+[   36.692199] ---[ end Kernel panic - not syncing: Fatal exception ]---
+
+When the siano device is plugged in, it may call the following functions
+to initialize the device.
+
+smsusb_probe()-->smsusb_init_device()-->smscore_start_device().
+
+When smscore_start_device() gets failed, the function smsusb_term_device()
+will be called and smsusb_device_t will be deallocated. Although we use
+usb_kill_urb() in smsusb_stop_streaming() to cancel transfer requests
+and wait for them to finish, the worker threads that are scheduled by
+smsusb_onresponse() may be still running. As a result, the UAF bugs
+could happen.
+
+We add cancel_work_sync() in smsusb_stop_streaming() in order that the
+worker threads could finish before the smsusb_device_t is deallocated.
+
+Fixes: dd47fbd40e6e ("[media] smsusb: don't sleep while atomic")
+Signed-off-by: Duoming Zhou <duoming@zju.edu.cn>
+---
+ drivers/media/usb/siano/smsusb.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/media/usb/siano/smsusb.c b/drivers/media/usb/siano/smsusb.c
+index fe9c7b3a950..6f443c542c6 100644
+--- a/drivers/media/usb/siano/smsusb.c
++++ b/drivers/media/usb/siano/smsusb.c
+@@ -179,6 +179,7 @@ static void smsusb_stop_streaming(struct smsusb_device_t *dev)
+ 
+ 	for (i = 0; i < MAX_URBS; i++) {
+ 		usb_kill_urb(&dev->surbs[i].urb);
++		cancel_work_sync(&dev->surbs[i].wq);
+ 
+ 		if (dev->surbs[i].cb) {
+ 			smscore_putbuffer(dev->coredev, dev->surbs[i].cb);
+-- 
+2.17.1
+
