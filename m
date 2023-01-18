@@ -2,278 +2,164 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0884B671FB1
-	for <lists+linux-media@lfdr.de>; Wed, 18 Jan 2023 15:35:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 27115672020
+	for <lists+linux-media@lfdr.de>; Wed, 18 Jan 2023 15:50:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230390AbjAROfM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 18 Jan 2023 09:35:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33710 "EHLO
+        id S229686AbjAROub (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 18 Jan 2023 09:50:31 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50290 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231393AbjAROez (ORCPT
+        with ESMTP id S231681AbjAROuE (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 18 Jan 2023 09:34:55 -0500
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 81B322748C;
-        Wed, 18 Jan 2023 06:24:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674051842; x=1705587842;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=JW3Z4qGJkww64HEvaFHH2zXhHyqrRqOdAVZDOpAtKk8=;
-  b=QaI4ogYNVLn/Yyb6QADgDDFmYQ7YIhwojhhpFnzhtaCb5e1Mendtx/Hv
-   41SVq+aqav0mpoAkiRTK0Asis/NMKZ3ID+DOJW0rguyhu0HzpGoAigTIP
-   mZzZPDpxtmRD5XgNFZJlILuhfEyWyRVlBTAiZUmrD7qg/E8zg44o23wq5
-   oL+PzSZtNhxlKNxoa7czIGtKkEVWQgx6y2VU4q5GLcQXXIV50WR7Rzqd1
-   fDpGNiCmOQbMfGrCi0vpa8stDQOv3XouOyo//TQ9HiqNdz0/tPdP4ZQAo
-   9jF7NkfH/yo3jQwVL4zYjjdJfBDKdIjpN45cOZ2pV2LHGLM2MtqGFx8Qo
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10593"; a="352239982"
-X-IronPort-AV: E=Sophos;i="5.97,226,1669104000"; 
-   d="scan'208";a="352239982"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2023 06:24:02 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10593"; a="833598833"
-X-IronPort-AV: E=Sophos;i="5.97,226,1669104000"; 
-   d="scan'208";a="833598833"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by orsmga005.jf.intel.com with ESMTP; 18 Jan 2023 06:23:56 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-        (envelope-from <andriy.shevchenko@intel.com>)
-        id 1pI9M1-00BDkv-1i;
-        Wed, 18 Jan 2023 16:23:53 +0200
-Date:   Wed, 18 Jan 2023 16:23:53 +0200
-From:   Andy Shevchenko <andriy.shevchenko@intel.com>
-To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Wolfram Sang <wsa@kernel.org>,
-        Luca Ceresoli <luca.ceresoli@bootlin.com>,
-        Matti Vaittinen <Matti.Vaittinen@fi.rohmeurope.com>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Peter Rosin <peda@axentia.se>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Michael Tretter <m.tretter@pengutronix.de>,
-        Shawn Tu <shawnx.tu@intel.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Mike Pagano <mpagano@gentoo.org>,
-        Krzysztof =?utf-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>,
-        Marek Vasut <marex@denx.de>,
-        Luca Ceresoli <luca@lucaceresoli.net>
-Subject: Re: [PATCH v7 1/7] i2c: add I2C Address Translator (ATR) support
-Message-ID: <Y8gA+cz9m7PaEhfP@smile.fi.intel.com>
-References: <20230118124031.788940-1-tomi.valkeinen@ideasonboard.com>
- <20230118124031.788940-2-tomi.valkeinen@ideasonboard.com>
+        Wed, 18 Jan 2023 09:50:04 -0500
+Received: from h5.fbrelay.privateemail.com (h5.fbrelay.privateemail.com [162.0.218.228])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E679F86B3;
+        Wed, 18 Jan 2023 06:42:48 -0800 (PST)
+Received: from MTA-07-4.privateemail.com (unknown [198.54.122.141])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by h5.fbrelay.privateemail.com (Postfix) with ESMTPS id D3C3B60730;
+        Wed, 18 Jan 2023 14:42:46 +0000 (UTC)
+Received: from mta-07.privateemail.com (localhost [127.0.0.1])
+        by mta-07.privateemail.com (Postfix) with ESMTP id 404D41801119;
+        Wed, 18 Jan 2023 09:42:40 -0500 (EST)
+Received: from bpappas-XPS-13-9310.ucf.edu (050-088-208-136.res.spectrum.com [50.88.208.136])
+        by mta-07.privateemail.com (Postfix) with ESMTPA id CE0201801126;
+        Wed, 18 Jan 2023 09:42:28 -0500 (EST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=pappasbrent.com;
+        s=default; t=1674052960;
+        bh=FqDHCHvsB52HFi8bEmC/gtO/khX/839t5pQ/ZUuPeVI=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=nDX1ABUr4GRiT7rKx/G8R8mJ4M0QNyUby6oxCSCAIF8TZ59UJ4aBGuazu6aDiVKTj
+         7JQ6ivf3fjLUcnHsVKDN2YOfFILVvLrXNTIJOjb6WtC57SZe5GViJxANiGVt2N46bk
+         3V8m/8olN4+7A9jBysabb5U7Fq/gVWg7s49keBD3yONjEJE0LLD3WGtYUqFvxhEsT9
+         mkqi690Mb2asL7jo6rnP8wT/oPcLK8HmEIVxy61RwGeJ70jbCMs7H+gxNyhmMJX+YY
+         TZHyRzNnsP5Hyf002ikc9joVMOGp1YQZIZP1z0jfmYdRtTmOnChkjCkT8p4hLb4ztl
+         YByZgGmFc6qrQ==
+From:   Brent Pappas <bpappas@pappasbrent.com>
+To:     andy.shevchenko@gmail.com
+Cc:     ailus@linux.intel.com, bpappas@pappasbrent.com, error27@gmail.com,
+        gregkh@linuxfoundation.org, hdegoede@redhat.com,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-staging@lists.linux.dev, mchehab@kernel.org
+Subject: [PATCH v4] media: atomisp: pci: Replace bytes macros with functions
+Date:   Wed, 18 Jan 2023 09:42:26 -0500
+Message-Id: <20230118144226.13127-1-bpappas@pappasbrent.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <Y8bq25jjRdgTTd7/@smile.fi.intel.com>
+References: <Y8bq25jjRdgTTd7/@smile.fi.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230118124031.788940-2-tomi.valkeinen@ideasonboard.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Virus-Scanned: ClamAV using ClamSMTP
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Jan 18, 2023 at 02:40:25PM +0200, Tomi Valkeinen wrote:
-> From: Luca Ceresoli <luca@lucaceresoli.net>
-> 
-> An ATR is a device that looks similar to an i2c-mux: it has an I2C
-> slave "upstream" port and N master "downstream" ports, and forwards
-> transactions from upstream to the appropriate downstream port. But is
-> is different in that the forwarded transaction has a different slave
+Replace the function-like macros FPNTBL_BYTES(), SCTBL_BYTES(), and
+MORPH_PLANE_BYTES() with functions to comply with Linux coding style
+standards.
+Replace multiplication with calls to functions/macros from overflow.h
+to prevent accidental arithmetic overflow.
 
-is is ?
+Signed-off-by: Brent Pappas <bpappas@pappasbrent.com>
+---
+Changelog:
+V1 -> V2: Use size_mul() to perform size_t multiplication without risk of
+		  overflow.
+		  Remove the inline keyword from function definitions.
 
-> address. The address used on the upstream bus is called the "alias"
-> and is (potentially) different from the physical slave address of the
-> downstream chip.
-> 
-> Add a helper file (just like i2c-mux.c for a mux or switch) to allow
-> implementing ATR features in a device driver. The helper takes care or
-> adapter creation/destruction and translates addresses at each transaction.
+V2 -> V3: Add commit message.
 
-...
+V3 -> V4: Use array_size() and array3_size() for multiplication.
 
-> +A typical example follows.
-> +
-> +Topology::
-> +
-> +                      Slave X @ 0x10
-> +              .-----.   |
-> +  .-----.     |     |---+---- B
-> +  | CPU |--A--| ATR |
-> +  `-----'     |     |---+---- C
-> +              `-----'   |
-> +                      Slave Y @ 0x10
-> +
-> +Alias table:
-> +
-> +.. table::
-> +
-> +   ======   =====
-> +   Client   Alias
-> +   ======   =====
-> +   X        0x20
-> +   Y        0x30
-> +   ======   =====
-> +
-> +Transaction:
-> +
-> + - Slave X driver sends a transaction (on adapter B), slave address 0x10
-> + - ATR driver rewrites messages with address 0x20, forwards to adapter A
-> + - Physical I2C transaction on bus A, slave address 0x20
-> + - ATR chip propagates transaction on bus B with address translated to 0x10
-> + - Slave X chip replies on bus B
-> + - ATR chip forwards reply on bus A
-> + - ATR driver rewrites messages with address 0x10
-> + - Slave X driver gets back the msgs[], with reply and address 0x10
+ .../staging/media/atomisp/pci/sh_css_params.c | 38 +++++++++++--------
+ 1 file changed, 23 insertions(+), 15 deletions(-)
 
-I'm not sure I got the real / virtual status of the adapters. Are the B and C
-virtual ones, while A is the real?
-
-...
-
-> +#define ATR_MAX_ADAPTERS 99	/* Just a sanity limit */
-
-Hmm... It's not clear why this is not 100, for example, and how 99 below is
-related to that, assuming channel numbering is started from 0.
-
-> +#define ATR_MAX_SYMLINK_LEN 16	/* Longest name is 10 chars: "channel-99" */
-
-...
-
-> +	/* Ensure we have enough room to save the original addresses */
-> +	if (unlikely(chan->orig_addrs_size < num)) {
-> +		u16 *new_buf;
-> +
-> +		new_buf = kmalloc_array(num, sizeof(*new_buf), GFP_KERNEL);
-
-I remember that I asked why we don't use krealloc_array() here... Perhaps
-that we don't need to copy the old mapping table? Can we put a short comment
-to clarify this in the code?
-
-> +		if (!new_buf)
-> +			return -ENOMEM;
-> +
-> +		kfree(chan->orig_addrs);
-> +		chan->orig_addrs = new_buf;
-> +		chan->orig_addrs_size = num;
-> +	}
-
-...
-
-> +struct i2c_atr *i2c_atr_new(struct i2c_adapter *parent, struct device *dev,
-> +			    const struct i2c_atr_ops *ops, int max_adapters)
-> +{
-> +	struct i2c_atr *atr;
-> +	int ret;
-> +
-> +	if (max_adapters > ATR_MAX_ADAPTERS)
-> +		return ERR_PTR(-EINVAL);
-> +
-> +	if (!ops || !ops->attach_client || !ops->detach_client)
-> +		return ERR_PTR(-EINVAL);
-
-> +	atr = devm_kzalloc(dev, struct_size(atr, adapter, max_adapters),
-> +			   GFP_KERNEL);
-
-How do you know (or why do we limit) that the scope of this function will be
-only in ->probe()? Even though, I would replace devm_ by non-devm_ since there
-is the tear-down function has to be called by the user anyway.
-
-> +	if (!atr)
-> +		return ERR_PTR(-ENOMEM);
-> +
-> +	mutex_init(&atr->lock);
-> +
-> +	atr->parent = parent;
-> +	atr->dev = dev;
-> +	atr->ops = ops;
-> +	atr->max_adapters = max_adapters;
-> +
-> +	if (parent->algo->master_xfer)
-> +		atr->algo.master_xfer = i2c_atr_master_xfer;
-> +	if (parent->algo->smbus_xfer)
-> +		atr->algo.smbus_xfer = i2c_atr_smbus_xfer;
-> +	atr->algo.functionality = i2c_atr_functionality;
-> +
-> +	atr->i2c_nb.notifier_call = i2c_atr_bus_notifier_call;
-> +	ret = bus_register_notifier(&i2c_bus_type, &atr->i2c_nb);
-> +	if (ret) {
-> +		mutex_destroy(&atr->lock);
-> +		return ERR_PTR(ret);
-> +	}
-> +
-> +	return atr;
-> +}
-
-...
-
-> +void i2c_atr_del_adapter(struct i2c_atr *atr, u32 chan_id)
-> +{
-> +	char symlink_name[ATR_MAX_SYMLINK_LEN];
-
-> +
-
-Redundant blank line.
-
-> +	struct i2c_adapter *adap = atr->adapter[chan_id];
-> +	struct i2c_atr_chan *chan = adap->algo_data;
-> +	struct fwnode_handle *fwnode = dev_fwnode(&adap->dev);
-> +	struct device *dev = atr->dev;
-
-> +	if (!adap)
-> +		return;
-
-Redundant check (it will be optimized out by compiler) or wrong assignments
-above.
-
-> +	dev_dbg(dev, "Removing ATR child bus %d\n", i2c_adapter_id(adap));
-> +
-> +	snprintf(symlink_name, sizeof(symlink_name), "channel-%u",
-> +		 chan->chan_id);
-> +	sysfs_remove_link(&dev->kobj, symlink_name);
-> +	sysfs_remove_link(&chan->adap.dev.kobj, "atr_device");
-> +
-> +	i2c_del_adapter(adap);
-> +
-> +	atr->adapter[chan_id] = NULL;
-> +
-> +	fwnode_handle_put(fwnode);
-> +	mutex_destroy(&chan->orig_addrs_lock);
-> +	kfree(chan->orig_addrs);
-> +	kfree(chan);
-> +}
-
-...
-
-> +void i2c_atr_set_driver_data(struct i2c_atr *atr, void *data)
-> +{
-> +	atr->priv = data;
-> +}
-> +EXPORT_SYMBOL_NS_GPL(i2c_atr_set_driver_data, I2C_ATR);
-> +
-> +void *i2c_atr_get_driver_data(struct i2c_atr *atr)
-> +{
-> +	return atr->priv;
-> +}
-> +EXPORT_SYMBOL_NS_GPL(i2c_atr_get_driver_data, I2C_ATR);
-
-Just to be sure: Is it really _driver_ data and not _device instance_ data?
-
+diff --git a/drivers/staging/media/atomisp/pci/sh_css_params.c b/drivers/staging/media/atomisp/pci/sh_css_params.c
+index f08564f58242..7e111df5c09d 100644
+--- a/drivers/staging/media/atomisp/pci/sh_css_params.c
++++ b/drivers/staging/media/atomisp/pci/sh_css_params.c
+@@ -98,17 +98,27 @@
+ #include "sh_css_frac.h"
+ #include "ia_css_bufq.h"
+ 
+-#define FPNTBL_BYTES(binary) \
+-	(sizeof(char) * (binary)->in_frame_info.res.height * \
+-	 (binary)->in_frame_info.padded_width)
++static size_t fpntbl_bytes(const struct ia_css_binary *binary)
++{
++	return array3_size(sizeof(char),
++			binary->in_frame_info.res.height,
++				 binary->in_frame_info.padded_width);
++}
+ 
+-#define SCTBL_BYTES(binary) \
+-	(sizeof(unsigned short) * (binary)->sctbl_height * \
+-	 (binary)->sctbl_aligned_width_per_color * IA_CSS_SC_NUM_COLORS)
++static size_t sctbl_bytes(const struct ia_css_binary *binary)
++{
++	return array_size(sizeof(unsigned short),
++				array3_size(binary->sctbl_height,
++					    binary->sctbl_aligned_width_per_color,
++						  IA_CSS_SC_NUM_COLORS));
++}
+ 
+-#define MORPH_PLANE_BYTES(binary) \
+-	(SH_CSS_MORPH_TABLE_ELEM_BYTES * (binary)->morph_tbl_aligned_width * \
+-	 (binary)->morph_tbl_height)
++static size_t morph_plane_bytes(const struct ia_css_binary *binary)
++{
++	return array3_size(SH_CSS_MORPH_TABLE_ELEM_BYTES,
++					binary->morph_tbl_aligned_width,
++						 binary->morph_tbl_height);
++}
+ 
+ /* We keep a second copy of the ptr struct for the SP to access.
+    Again, this would not be necessary on the chip. */
+@@ -3279,7 +3289,7 @@ sh_css_params_write_to_ddr_internal(
+ 	if (binary->info->sp.enable.fpnr) {
+ 		buff_realloced = reallocate_buffer(&ddr_map->fpn_tbl,
+ 						   &ddr_map_size->fpn_tbl,
+-						   (size_t)(FPNTBL_BYTES(binary)),
++						   fpntbl_bytes(binary),
+ 						   params->config_changed[IA_CSS_FPN_ID],
+ 						   &err);
+ 		if (err) {
+@@ -3304,7 +3314,7 @@ sh_css_params_write_to_ddr_internal(
+ 
+ 		buff_realloced = reallocate_buffer(&ddr_map->sc_tbl,
+ 						   &ddr_map_size->sc_tbl,
+-						   SCTBL_BYTES(binary),
++						   sctbl_bytes(binary),
+ 						   params->sc_table_changed,
+ 						   &err);
+ 		if (err) {
+@@ -3538,8 +3548,7 @@ sh_css_params_write_to_ddr_internal(
+ 			buff_realloced |=
+ 			    reallocate_buffer(virt_addr_tetra_x[i],
+ 					    virt_size_tetra_x[i],
+-					    (size_t)
+-					    (MORPH_PLANE_BYTES(binary)),
++					    morph_plane_bytes(binary),
+ 					    params->morph_table_changed,
+ 					    &err);
+ 			if (err) {
+@@ -3549,8 +3558,7 @@ sh_css_params_write_to_ddr_internal(
+ 			buff_realloced |=
+ 			    reallocate_buffer(virt_addr_tetra_y[i],
+ 					    virt_size_tetra_y[i],
+-					    (size_t)
+-					    (MORPH_PLANE_BYTES(binary)),
++					    morph_plane_bytes(binary),
+ 					    params->morph_table_changed,
+ 					    &err);
+ 			if (err) {
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.34.1
 
