@@ -2,339 +2,320 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 09406672662
-	for <lists+linux-media@lfdr.de>; Wed, 18 Jan 2023 19:11:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7157E6727B0
+	for <lists+linux-media@lfdr.de>; Wed, 18 Jan 2023 20:01:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231252AbjARSLo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 18 Jan 2023 13:11:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36064 "EHLO
+        id S229864AbjARTBa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 18 Jan 2023 14:01:30 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41486 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231346AbjARSLW (ORCPT
+        with ESMTP id S230003AbjARTBC (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 18 Jan 2023 13:11:22 -0500
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BFB324ED0C;
-        Wed, 18 Jan 2023 10:11:15 -0800 (PST)
-Received: from [192.168.1.139] ([37.4.248.41]) by mrelayeu.kundenserver.de
- (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis) id
- 1M6H7o-1pKOks0aQy-006i5j; Wed, 18 Jan 2023 19:10:58 +0100
-Message-ID: <07d1b3e2-9072-d12f-98e3-48d0f9d712d2@i2se.com>
-Date:   Wed, 18 Jan 2023 19:10:57 +0100
-MIME-Version: 1.0
+        Wed, 18 Jan 2023 14:01:02 -0500
+Received: from EUR05-VI1-obe.outbound.protection.outlook.com (mail-vi1eur05on2069.outbound.protection.outlook.com [40.107.21.69])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F372F5F387;
+        Wed, 18 Jan 2023 11:00:28 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Y8oJn2cFXLJAn5hUJdKKQ7wNJGHxT1PPjMC6pfVyj04E7edO/YlMET+SfrHDre7gjT1flG4nFXzMR8ksJtbMHzJSwTQQEGdDIo+ce8xZM6pjfChM9HkGVcr3cftS5uB7Gui3g8+SLbqIfx99udIyVWc0RxD5XIG2EMYwtzxkKU8VjkGcB67i1mPE4QhAs72IwneeBiFY0qKTBb2dHmRbqPcOFvBx5uyuimU2XUpNIkSYRi5z/OYDE8MtJL7UMPTO9aJT14OdIcy5fH5tmhs0djbbaEln1f3+L9WFkvVTnYGKqkmlcN3EOsoFyXmNJkXJ6rxXh1nMT7jx1HSaYkg++g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=NoF5LUzBs/yBMovKXbsrbQZ3anHiZVmsTHLHATAF5DA=;
+ b=lTPh+9Ep/hCfXh/Xl0XnjVw3x1wj0qPece5VKT8I1AzNMfO0pdZyEyWwReazduzVVMRnZvpgSQl7+FayNhbd7nvTT4Ow69djdfrJcDoKKIABm3d7+aTPOsSoeeWRahZ6+AK1yAgaazMJ8wAptyTCGsYTgzkxAJ23oea8Bni3uMv/g5BMKdEx94MQMOFV73Xn69d03/Z74rrT5ui4rTY8jGC44qboZDNLVwAaS9LrVQwDOw2IZe0sCdt/+lVHRFmi0w7kabkHynfwBcQsI/F89VSRFRPOfg4dXs2YiFZ8pFzp61ekb/30xJrLBpSdnl/Aq1IWHe8fKV2jTjb9WBOxPg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=wolfvision.net; dmarc=pass action=none
+ header.from=wolfvision.net; dkim=pass header.d=wolfvision.net; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wolfvision.net;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=NoF5LUzBs/yBMovKXbsrbQZ3anHiZVmsTHLHATAF5DA=;
+ b=HkGV0WIf8KxnN+x2f2b/Hdf1ARupm+490DEav7mydKAcYBLS9jm7dz5lChpMGC8vwPn0ERadY+dAlrzz0aHjCzcUIJ12B372i14wk6e0wpE6ImAamfM++iikbyzcQ4W+PWekks+W+tqrtPouT6yPhcrRFfA5U5EVyc/X+qHKBg8=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=wolfvision.net;
+Received: from GV2PR08MB9158.eurprd08.prod.outlook.com (2603:10a6:150:e0::9)
+ by AS2PR08MB9547.eurprd08.prod.outlook.com (2603:10a6:20b:60c::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6002.12; Wed, 18 Jan
+ 2023 19:00:25 +0000
+Received: from GV2PR08MB9158.eurprd08.prod.outlook.com
+ ([fe80::1186:9787:f2c6:235a]) by GV2PR08MB9158.eurprd08.prod.outlook.com
+ ([fe80::1186:9787:f2c6:235a%9]) with mapi id 15.20.5986.023; Wed, 18 Jan 2023
+ 19:00:25 +0000
+Message-ID: <956672cf-a228-54c9-bd79-14b7b0621c59@wolfvision.net>
+Date:   Wed, 18 Jan 2023 20:00:17 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [RFC PATCH 4/4] staging: vc04_services: Drop remnants of custom
- logging
+ Thunderbird/102.6.0
+Subject: Re: [PATCH 1/2] dt-bindings: media: i2c: add imx415 cmos image sensor
 Content-Language: en-US
-To:     Umang Jain <umang.jain@ideasonboard.com>,
-        Phil Elwell <phil@raspberrypi.com>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Adrien Thierry <athierry@redhat.com>,
-        Dan Carpenter <error27@gmail.com>,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        linux-staging@lists.linux.dev,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        linux-kernel@vger.kernel.org,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-rpi-kernel@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
-References: <20230118115810.21979-1-umang.jain@ideasonboard.com>
- <20230118115810.21979-5-umang.jain@ideasonboard.com>
-From:   Stefan Wahren <stefan.wahren@i2se.com>
-In-Reply-To: <20230118115810.21979-5-umang.jain@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To:     Rob Herring <robh@kernel.org>
+Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        Gerald Loacker <gerald.loacker@wolfvision.net>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Shawn Tu <shawnx.tu@intel.com>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Marco Felsch <m.felsch@pengutronix.de>,
+        Mikhail Rudenko <mike.rudenko@gmail.com>,
+        =?UTF-8?Q?Krzysztof_Ha=c5=82asa?= <khalasa@piap.pl>,
+        Marek Vasut <marex@denx.de>
+References: <20230118103239.3409674-1-michael.riesch@wolfvision.net>
+ <20230118103239.3409674-2-michael.riesch@wolfvision.net>
+ <20230118154852.GA55989-robh@kernel.org>
+From:   Michael Riesch <michael.riesch@wolfvision.net>
+In-Reply-To: <20230118154852.GA55989-robh@kernel.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Provags-ID: V03:K1:k7ngXy/iSumtDiFB+K8JBW2wWj1T7x3yIwjvbBUbCWCqrEqvZWt
- tywPaZuP/k8XUvN8Tfuh56mXZ04KANOrctghw7RZXoR+w18/K4zOmgZwl7//q1vcdBjIRui
- hU/SYZg+JBdF08zC3g2GYDikFZUGm3xSblMMPyJivrfxawvMRjUe2HMPO/wRsLrVYJ2xdFS
- spBtDGyTvQWFnGbUeeXEg==
-UI-OutboundReport: notjunk:1;M01:P0:cVK7N9Dh1wE=;2mb+vgyA+kOLzoavtsm0dzadBc/
- WcheQbSg8YOMtu1HTkbx0UtwjbxYqD6gxocTuyDsfkHit2I5saTy7ekpPSalZDDLROU9s9Zz2
- 9Ok/C/eFx+1Sbhtx4aAZJLilboJha8hcQUaj175Ypw2Sk07SqaE6ATma37vu3ySF687ZsRPxA
- FvettuoWhcqO7W0y4NZdBKKyju9EOSa925kGL+EfwGh+GxpFxlFhIGRH2SpY2bVlJYYPax1d0
- MsRT4tSHEY6s2vVhtW7HVM1WQ3OhrjxhybzQFlKWvCdq9gEsRUgI5Y3XffhaQAK4pNx/wUhTZ
- zoWT78a22yp38wi9aF/5HftpdSRqhJMdtq9LsLFUWacVghKJYWXdF/uTpfT3tLNLuJ/9S1D5C
- yzTf1jCbyz8cxea6qyVyCMZyqB6nvRq2Rue7ufUEWuqzf1tG0Ks9BQEj3giV8VPCqUqK7LXbv
- 7JrbQm4XxsENjla72PhI9YAgZYpNNSWkqIuhCWu8NNJSuXClfN85mTk4IV+dL9mnkMRKx7yhI
- SaROFG1nCikWpF0ezh7pAwVNcZPca3PuDZLBthMTtDfHpw/od69rK5wofP6bVWk6fqSA4MY0o
- 7fy50o3HeCQzbT2tZ4xSJc8tly7bd8dR7znzvJ7lWMxCcjiBRUGbquTHUBNgikPbbIGZwBiW5
- +Bxpe5RYr4e4fKjU5mS1jnltySHmrnzMqwSI+aBHEQ==
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+X-ClientProxiedBy: ZR2P278CA0043.CHEP278.PROD.OUTLOOK.COM
+ (2603:10a6:910:47::17) To GV2PR08MB9158.eurprd08.prod.outlook.com
+ (2603:10a6:150:e0::9)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: GV2PR08MB9158:EE_|AS2PR08MB9547:EE_
+X-MS-Office365-Filtering-Correlation-Id: e6fb485c-f98c-4d49-c776-08daf9864175
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: j3E1FBdK4dj2sl37sPfSrt67Du0kpIFNZ7PW2Aq7cMLnbKCjqVhulYlOd5qy8ZokpRvW79gPeszvIGF8zSyOT/RxRfMpLyQtAZ7FHVp008M9LrYlglAKaEMPh7znV2Pv9o8Q8cjsZpJKPuJVdvZeulX27tGXKSAcJvUtUVawxL78ZdIjXSufbQUmWmcwN28gsOGoeFzaUsU9makFqm6UTS7lHKgEDjBNIRiuE3ZILtNN+DeDjPe3jlDHylvivFexxZUBq6pZ3RDEapBIFhVDKRmbikxW3PKyNj2KE5EtRCKaxMEg+vty4WkmvUQr1iUVzNzz3e1DtGQIislHdxcQcPhKSpjGMvmzANlKxM/xQtCGo2hSI6JUv83cNydsNmtUq6c6U2Hng/h85xTCQII7exWbCWHGrt3cY+XEnhWY83CNtFLetrCwDw5oFtegc+xg7ybR879Ic1rWJ+uuAowQIwStMUaX93G7R1QL6sAQM80TpMVhOjygK4wz4232wThGEPhWMw546MWBPRWq7TcvDXuttN/8Uz4bnyVljuYg1CWbyTFK9mo8FtXhxgnDrWXP+SRbu/gn4JCVvoqXnOkJZjpH3d4mmbdVHnSzWc1cWDheViCWGZUhpnGvW6Eelg7gfgFQBv+H0bIM3ZEDktE8XLBvthhd9K8PM3qT1UKZnUwMocY/scYKTNus52o86xivedm9FKa52c462qmyGqQV3Y035RCKeR81b+Fs7QoqWT1u0nTXgjqDqZOcH1dybHp2
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV2PR08MB9158.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(396003)(39850400004)(136003)(346002)(376002)(366004)(451199015)(6506007)(966005)(6666004)(53546011)(186003)(478600001)(6512007)(31696002)(52116002)(38100700002)(54906003)(2616005)(41300700001)(7416002)(6916009)(316002)(4326008)(66556008)(66946007)(8676002)(66476007)(2906002)(83380400001)(5660300002)(36756003)(44832011)(6486002)(31686004)(8936002)(86362001)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?aGlGVC9HM2FkYkJod3M1YVRtc08vRTJhb3BYWnozUjR5NS9VK2I1T2JhZ2tn?=
+ =?utf-8?B?ZDExQVc0Tms1QWlwbXFqcDVWbXlyY0tROERYbERoNmxyZlVFcC9ZaDdTbzVO?=
+ =?utf-8?B?aks2SHpwSy9TU3VXOU9Kb1ErekFBUXJaOVAzcGRKcy9zOGZObGNTaGdaNzd0?=
+ =?utf-8?B?N2xqTUZNU3JJbFllNDh0VnhVTDlreitHcUNaSmpUMHJ4UC94NUhUL01KTUVQ?=
+ =?utf-8?B?TmVYRFlHQzJMeTBIaC9IL3h3bVhKZ0UzaUlLZXIrQ3Z3MVc4cmNXNHlvU1pZ?=
+ =?utf-8?B?RVJuUHRLOTU4eHJJbVhlbVN2RnZQSjM4TWgyaENWMXM4ZThsaWorT0lkZERq?=
+ =?utf-8?B?NVYzVHh2YlhhcGlReU9UZDRXaERvY0pXNE5Ib0ZjMXRQTVoxZEs0RVhKeVBK?=
+ =?utf-8?B?Nm1xd1VsdnFkQU1QbWsyUitlS3FISWI4MHE1cjgwNnc2SlZ3dVI4ejlsV2sr?=
+ =?utf-8?B?Q0xSK0xaMXlJTmtoWTY2ZTNKZXFYV3VOL21KWldzSElCUW1mVUlpU1k5WTZP?=
+ =?utf-8?B?VkNvbTRIcmM2SjVKaEY4QytQVU5HdHMrU2pvOXl6M3h4ckhaMjJwN05TWTJI?=
+ =?utf-8?B?bVNEclVpZ3dSL1dMbkZxYWw2NngxOERubmY2Tlc0eFRCcWNiT0FWclZRWjNF?=
+ =?utf-8?B?WDFkM1hUb1ZNS3JpdnNOSi9IcFBrMGtCdW5pb1UvNitZTUl6QU5vQzRScy9t?=
+ =?utf-8?B?bFpnNTJKUXVTN3lSTzVaclJPdDREOUFzNFBZTmJoaWNqWkk5V3dwYldGRnFn?=
+ =?utf-8?B?VFdJR2RBcnk4a3FxdXQwR05NWVdnTC82R3NvQ28xbWY2QzJQZzFubGJJZWw4?=
+ =?utf-8?B?cjRYQjlFUjkzd0VWdFNRQ0MzSVB1Qkt0T1pjMWVINTVMZlNnbFZuUVVzMkFM?=
+ =?utf-8?B?M0piN1FwQTVCR3EzaFdUOFJSdWhUUnZBaFM4WWo5MS9SNjVtYnBZRktsNUg5?=
+ =?utf-8?B?UU5WVEpIZkhmanR4NTVQcW1yOGlwWlhNaHFYWGE1R2lOQXMyOWRiWU5uZksv?=
+ =?utf-8?B?cW9neXJMUVNPb1ZaRnZBYUZCYytac0ZqSGdHNmpleTBNRExlNGlkUnZZbzdo?=
+ =?utf-8?B?YWtHYXBETy84T2dveVRCUU9kRTloMUFWRHkvVkxoRXNuZTNFdEVPYVlkTFFa?=
+ =?utf-8?B?aUNPTGVyS1dkSkRKbjZhS0lwbG5OVXl2bGVORklKbi90SW5GYTdPdUdiYTlo?=
+ =?utf-8?B?RUpCSklwdjZJUXY3V0d1MngyTkFCdE12OUJBdTF3ZUo2cjFISHZrQ2Q3Zkk1?=
+ =?utf-8?B?bEJKOHFQajQ4ck1oaGlUVEpMOWx5NXo3aS9YTzZ4ZmVWODJWSm1kYTZMeG1o?=
+ =?utf-8?B?cmZadGcwR2ZzL0dCRGlKZkc4SGtPT0xkRnVpaFJUWnRiSG9UdnBQL2VyNVlN?=
+ =?utf-8?B?RjRjNkd2Y3EyNE1MY0wxSjg2WjNpN2sybkdJSGdpeWlhZkxJT0hGQlhpSFJv?=
+ =?utf-8?B?cGRCbTdHSGJHV1Zub2tnSHczK3VkVWNPZ3BkVnBQemlqSkhPRmdkU1dabzJ1?=
+ =?utf-8?B?QXU1MEtTcHh1MWtmSnc4S05zeiswRkd5STFuak1WSHRVK2RaU0oySDJ4Z3NZ?=
+ =?utf-8?B?cVVCMEU3WGhXaDZwaGNSL0RqSklLaThVZTZaZ0QranVRSXJOdnl1c3hlSjcx?=
+ =?utf-8?B?T0FRQ0o4dDVFMGRVZzZ3eGdha2pnZ3Q4TmNUVXF4aysxcDdNNVdXaVRNNlEy?=
+ =?utf-8?B?N3hpaVp5NmRuK1RQTVlGNkFtNGZOZUJsdzArRWNBRWorNDRrRU9Bb29tTVhF?=
+ =?utf-8?B?YkgzdjFCcEdaRU9ma0dsVjgxQzBzajBQem92QVRyMElTNXpLdzdEcW1nRkZS?=
+ =?utf-8?B?VGdJanlMNjd6L1NCTzN1bC82eTB2Y3ZTQVRPWFVDOG5YRm1VTHh2Mno5TW1G?=
+ =?utf-8?B?WGR6UzAwOGxOTmxKY2RlUDlVMVd2akJ2S0UxSTdQRVZnL3hNV2VpZGNVNUFk?=
+ =?utf-8?B?YjhuV1JmaHBvQWdqR3IrMWg4VFpCZWRkdHBCWUhiVm9xbk8zUHYxMUdRcHd2?=
+ =?utf-8?B?eWFzMzA1aHFyVCtIZ0xzUm9oelNzaVVpMVNidFc4RzRxWlNEMzlhWFhmeFlZ?=
+ =?utf-8?B?aHhpVEVrZ2NYb2c2WkxFWXhCdElTSlh4eUg3WEZBRjB5VUtNMW5JTEIyUEhK?=
+ =?utf-8?B?MDkwSC9PQ0RJNHFJOWZZUzQ2T3NDeTV4R0tkbUpkVzdMckYzamNTaXpUcDB1?=
+ =?utf-8?B?U3FTbEpUbWY2U0NTalY1eG5pZmgwOWxpck5HbzVwUkJrOWQwMXI5WkFpZkhE?=
+ =?utf-8?B?RnpmRTB3NjNubXVWL1dsSDNXalhBPT0=?=
+X-OriginatorOrg: wolfvision.net
+X-MS-Exchange-CrossTenant-Network-Message-Id: e6fb485c-f98c-4d49-c776-08daf9864175
+X-MS-Exchange-CrossTenant-AuthSource: GV2PR08MB9158.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Jan 2023 19:00:24.7549
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: e94ec9da-9183-471e-83b3-51baa8eb804f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: pL1vaPNnelB1S/5a3UGXTKmmFdyd2DYCpXn+yC6Z7X2mtUsK8SkEfyiYYHLFC7Lr+Bm2y8wCBB221bYeVnzU/YcbawkRP9EtIOckxolv6jw=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS2PR08MB9547
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Umang,
+Hi Rob,
 
-[add Phil]
+On 1/18/23 16:48, Rob Herring wrote:
+> On Wed, Jan 18, 2023 at 11:32:38AM +0100, Michael Riesch wrote:
+>> Add devicetree binding for the Sony IMX415 CMOS image sensor.
+>>
+>> Signed-off-by: Michael Riesch <michael.riesch@wolfvision.net>
+>> ---
+>>  .../bindings/media/i2c/sony,imx415.yaml       | 120 ++++++++++++++++++
+>>  MAINTAINERS                                   |   7 +
+>>  2 files changed, 127 insertions(+)
+>>  create mode 100644 Documentation/devicetree/bindings/media/i2c/sony,imx415.yaml
+>>
+>> diff --git a/Documentation/devicetree/bindings/media/i2c/sony,imx415.yaml b/Documentation/devicetree/bindings/media/i2c/sony,imx415.yaml
+>> new file mode 100644
+>> index 000000000000..ae54834a2341
+>> --- /dev/null
+>> +++ b/Documentation/devicetree/bindings/media/i2c/sony,imx415.yaml
+>> @@ -0,0 +1,120 @@
+>> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+>> +%YAML 1.2
+>> +---
+>> +$id: http://devicetree.org/schemas/media/i2c/sony,imx415.yaml#
+>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>> +
+>> +title: Sony IMX415 CMOS Image Sensor
+>> +
+>> +maintainers:
+>> +  - Michael Riesch <michael.riesch@wolfvision.net>
+>> +
+>> +description: |-
+>> +  The Sony IMX415 is a diagonal 6.4 mm (Type 1/2.8) CMOS active pixel type
+>> +  solid-state image sensor with a square pixel array and 8.46 M effective
+>> +  pixels. This chip operates with analog 2.9 V, digital 1.1 V, and interface
+>> +  1.8 V triple power supply, and has low power consumption.
+>> +  The IMX415 is programmable through I2C interface. The sensor output is
+>> +  available via CSI-2 serial data output (two or four lanes).
+>> +
+>> +allOf:
+>> +  - $ref: ../video-interface-devices.yaml#
+>> +
+>> +properties:
+>> +  compatible:
+>> +    const: sony,imx415
+>> +
+>> +  reg:
+>> +    maxItems: 1
+>> +
+>> +  clocks:
+>> +    maxItems: 1
+>> +
+>> +  clock-names:
+>> +    description: Input clock (24 MHz, 27 MHz, 37.125 MHz, 72 MHz or 74.25 MHz)
+>> +    items:
+>> +      - const: inck
+>> +
+>> +  avdd-supply:
+>> +    description: Analog power supply (2.9 V)
+>> +
+>> +  dvdd-supply:
+>> +    description: Digital power supply (1.1 V)
+>> +
+>> +  ovdd-supply:
+>> +    description: Interface power supply (1.8 V)
+>> +
+>> +  reset-gpios:
+>> +    description: Sensor reset (XCLR) GPIO
+>> +    maxItems: 1
+>> +
+>> +  flash-leds: true
+>> +
+>> +  lens-focus: true
+>> +
+>> +  orientation: true
+>> +
+>> +  rotation: true
+>> +
+>> +  port:
+>> +    $ref: /schemas/graph.yaml#/properties/port
+> 
+> /properties/port is for when there are no extra properties. You need 
+> /$defs/port-base here since there are extra properties in the endpoint 
+> node.
 
-Am 18.01.23 um 12:58 schrieb Umang Jain:
-> Drop remnants of custom logging such as header definitions and such.
-> Also migrate the vchiq_debugfs to use the log levels coming from
-> include/linux/kern_levels.h instead.
-since we switch to default kernel logging, i would prefer to drop all of 
-these logging specific debugfs entries too. Or just leave one entry to 
-specify a logging mask as suggested before.
->
-> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
-> ---
->   .../interface/vchiq_arm/vchiq_arm.c           |  4 --
->   .../interface/vchiq_arm/vchiq_core.c          | 39 +++++++------------
->   .../interface/vchiq_arm/vchiq_core.h          | 39 -------------------
->   .../interface/vchiq_arm/vchiq_debugfs.c       | 26 ++++++++-----
->   4 files changed, 31 insertions(+), 77 deletions(-)
->
-> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-> index ed3773b996a3..45e28ca368ee 100644
-> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-> @@ -60,10 +60,6 @@
->   #define KEEPALIVE_VER 1
->   #define KEEPALIVE_VER_MIN KEEPALIVE_VER
->   
-> -/* Run time control of log level, based on KERN_XXX level. */
-> -int vchiq_arm_log_level = VCHIQ_LOG_DEFAULT;
-> -int vchiq_susp_log_level = VCHIQ_LOG_ERROR;
-> -
->   DEFINE_SPINLOCK(msg_queue_spinlock);
->   struct vchiq_state g_state;
->   
-> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
-> index 7b3c57326d28..4cf710a3ca28 100644
-> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
-> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
-> @@ -9,6 +9,7 @@
->   #include <linux/wait.h>
->   #include <linux/delay.h>
->   #include <linux/slab.h>
-> +#include <linux/kern_levels.h>
->   #include <linux/kref.h>
->   #include <linux/rcupdate.h>
->   #include <linux/sched/signal.h>
-> @@ -103,10 +104,8 @@ static_assert((unsigned int)VCHIQ_PORT_MAX <
->   
->   #define BULK_INDEX(x) ((x) & (VCHIQ_NUM_SERVICE_BULKS - 1))
->   
-> -#define SRVTRACE_LEVEL(srv) \
-> -	(((srv) && (srv)->trace) ? VCHIQ_LOG_TRACE : vchiq_core_msg_log_level)
->   #define SRVTRACE_ENABLED(srv, lev) \
-> -	(((srv) && (srv)->trace) || (vchiq_core_msg_log_level >= (lev)))
-> +	(((srv) && (srv)->trace) || (LOGLEVEL_DEFAULT >= (lev)))
->   
->   #define NO_CLOSE_RECVD	0
->   #define CLOSE_RECVD	1
-> @@ -154,11 +153,6 @@ static inline void check_sizes(void)
->   	BUILD_BUG_ON_NOT_POWER_OF_2(VCHIQ_MAX_SERVICES);
->   }
->   
-> -/* Run time control of log level, based on KERN_XXX level. */
-> -int vchiq_core_log_level = VCHIQ_LOG_DEFAULT;
-> -int vchiq_core_msg_log_level = VCHIQ_LOG_DEFAULT;
-> -int vchiq_sync_log_level = VCHIQ_LOG_DEFAULT;
-> -
->   DEFINE_SPINLOCK(bulk_waiter_spinlock);
->   static DEFINE_SPINLOCK(quota_spinlock);
->   
-> @@ -1035,8 +1029,7 @@ queue_message(struct vchiq_state *state, struct vchiq_service *service,
->   			return -EINVAL;
->   		}
->   
-> -		if (SRVTRACE_ENABLED(service,
-> -				     VCHIQ_LOG_INFO))
-> +		if (SRVTRACE_ENABLED(service, LOGLEVEL_INFO))
->   			vchiq_log_dump_mem("Sent", 0,
->   					   header->data,
->   					   min_t(size_t, 16, callback_result));
-> @@ -1144,6 +1137,7 @@ queue_message_sync(struct vchiq_state *state, struct vchiq_service *service,
->   	struct vchiq_shared_state *local;
->   	struct vchiq_header *header;
->   	ssize_t callback_result;
-> +	int svc_fourcc;
->   
->   	local = state->local;
->   
-> @@ -1184,8 +1178,7 @@ queue_message_sync(struct vchiq_state *state, struct vchiq_service *service,
->   	}
->   
->   	if (service) {
-> -		if (SRVTRACE_ENABLED(service,
-> -				     VCHIQ_LOG_INFO))
-> +		if (SRVTRACE_ENABLED(service, LOGLEVEL_INFO))
->   			vchiq_log_dump_mem("Sent", 0,
->   					   header->data,
->   					   min_t(size_t, 16, callback_result));
-> @@ -1199,19 +1192,15 @@ queue_message_sync(struct vchiq_state *state, struct vchiq_service *service,
->   	header->size = size;
->   	header->msgid = msgid;
->   
-> -	if (vchiq_sync_log_level >= VCHIQ_LOG_TRACE) {
-> -		int svc_fourcc;
->   
-> -		svc_fourcc = service
-> -			? service->base.fourcc
-> -			: VCHIQ_MAKE_FOURCC('?', '?', '?', '?');
-> +	svc_fourcc = service ? service->base.fourcc
-> +			     : VCHIQ_MAKE_FOURCC('?', '?', '?', '?');
->   
-> -		dev_dbg(state->dev,
-> -			"Sent Sync Msg %s(%u) to %c%c%c%c s:%u d:%d len:%d",
-> -			msg_type_str(VCHIQ_MSG_TYPE(msgid)), VCHIQ_MSG_TYPE(msgid),
-> -			VCHIQ_FOURCC_AS_4CHARS(svc_fourcc), VCHIQ_MSG_SRCPORT(msgid),
-> -			VCHIQ_MSG_DSTPORT(msgid), size);
-> -	}
-> +	dev_dbg(state->dev,
-> +		"Sent Sync Msg %s(%u) to %c%c%c%c s:%u d:%d len:%d",
-> +		msg_type_str(VCHIQ_MSG_TYPE(msgid)), VCHIQ_MSG_TYPE(msgid),
-> +		VCHIQ_FOURCC_AS_4CHARS(svc_fourcc), VCHIQ_MSG_SRCPORT(msgid),
-> +		VCHIQ_MSG_DSTPORT(msgid), size);
->   
->   	remote_event_signal(&state->remote->sync_trigger);
->   
-> @@ -1624,7 +1613,7 @@ parse_message(struct vchiq_state *state, struct vchiq_header *header)
->   		break;
->   	}
->   
-> -	if (SRVTRACE_ENABLED(service, VCHIQ_LOG_INFO)) {
-> +	if (SRVTRACE_ENABLED(service, LOGLEVEL_INFO)) {
->   		int svc_fourcc;
->   
->   		svc_fourcc = service
-> @@ -2031,7 +2020,7 @@ sync_func(void *v)
->   			continue;
->   		}
->   
-> -		if (vchiq_sync_log_level >= VCHIQ_LOG_TRACE) {
-> +		if (vchiq_sync_log_level >= LOGLEVEL_DEBUG) {
->   			int svc_fourcc;
->   
->   			svc_fourcc = service
-> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
-> index ec3505424718..960bf4efeab5 100644
-> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
-> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
-> @@ -30,39 +30,6 @@
->   #define VCHIQ_SLOT_SIZE     4096
->   #define VCHIQ_MAX_MSG_SIZE  (VCHIQ_SLOT_SIZE - sizeof(struct vchiq_header))
->   
-> -/* Run time control of log level, based on KERN_XXX level. */
-> -#define VCHIQ_LOG_DEFAULT  4
-> -#define VCHIQ_LOG_ERROR    3
-> -#define VCHIQ_LOG_WARNING  4
-> -#define VCHIQ_LOG_INFO     6
-> -#define VCHIQ_LOG_TRACE    7
-> -
-> -#define VCHIQ_LOG_PREFIX   KERN_INFO "vchiq: "
-> -
-> -#ifndef vchiq_log_error
-> -#define vchiq_log_error(cat, fmt, ...) \
-> -	do { if (cat >= VCHIQ_LOG_ERROR) \
-> -		printk(VCHIQ_LOG_PREFIX fmt "\n", ##__VA_ARGS__); } while (0)
-> -#endif
-> -#ifndef vchiq_log_warning
-> -#define vchiq_log_warning(cat, fmt, ...) \
-> -	do { if (cat >= VCHIQ_LOG_WARNING) \
-> -		 printk(VCHIQ_LOG_PREFIX fmt "\n", ##__VA_ARGS__); } while (0)
-> -#endif
-> -#ifndef vchiq_log_info
-> -#define vchiq_log_info(cat, fmt, ...) \
-> -	do { if (cat >= VCHIQ_LOG_INFO) \
-> -		printk(VCHIQ_LOG_PREFIX fmt "\n", ##__VA_ARGS__); } while (0)
-> -#endif
-> -#ifndef vchiq_log_trace
-> -#define vchiq_log_trace(cat, fmt, ...) \
-> -	do { if (cat >= VCHIQ_LOG_TRACE) \
-> -		printk(VCHIQ_LOG_PREFIX fmt "\n", ##__VA_ARGS__); } while (0)
-> -#endif
-> -
-> -#define vchiq_loud_error(...) \
-> -	vchiq_log_error(vchiq_core_log_level, "===== " __VA_ARGS__)
-> -
->   #define VCHIQ_SLOT_MASK        (VCHIQ_SLOT_SIZE - 1)
->   #define VCHIQ_SLOT_QUEUE_MASK  (VCHIQ_MAX_SLOTS_PER_SIDE - 1)
->   #define VCHIQ_SLOT_ZERO_SLOTS  DIV_ROUND_UP(sizeof(struct vchiq_slot_zero), \
-> @@ -496,12 +463,6 @@ vchiq_dump_state(void *dump_context, struct vchiq_state *state);
->   extern int
->   vchiq_dump_service_state(void *dump_context, struct vchiq_service *service);
->   
-> -extern void
-> -vchiq_loud_error_header(void);
-> -
-> -extern void
-> -vchiq_loud_error_footer(void);
-> -
->   extern void
->   request_poll(struct vchiq_state *state, struct vchiq_service *service,
->   	     int poll_type);
-> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_debugfs.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_debugfs.c
-> index dc667afd1f8c..1d142752351d 100644
-> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_debugfs.c
-> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_debugfs.c
-> @@ -5,6 +5,8 @@
->    */
->   
->   #include <linux/debugfs.h>
-> +#include <linux/kern_levels.h>
-> +
->   #include "vchiq_core.h"
->   #include "vchiq_arm.h"
->   #include "vchiq_debugfs.h"
-> @@ -22,6 +24,12 @@
->   static struct dentry *vchiq_dbg_dir;
->   static struct dentry *vchiq_dbg_clients;
->   
-> +int vchiq_arm_log_level = LOGLEVEL_DEFAULT;
-> +int vchiq_susp_log_level = LOGLEVEL_ERR;
-> +int vchiq_core_log_level = LOGLEVEL_DEFAULT;
-> +int vchiq_core_msg_log_level = LOGLEVEL_DEFAULT;
-> +int vchiq_sync_log_level = LOGLEVEL_DEFAULT;
-> +
->   /* Log category debugfs entries */
->   struct vchiq_debugfs_log_entry {
->   	const char *name;
-> @@ -42,16 +50,16 @@ static int debugfs_log_show(struct seq_file *f, void *offset)
->   	char *log_value = NULL;
->   
->   	switch (*levp) {
-> -	case VCHIQ_LOG_ERROR:
-> +	case LOGLEVEL_ERR:
->   		log_value = VCHIQ_LOG_ERROR_STR;
->   		break;
-> -	case VCHIQ_LOG_WARNING:
-> +	case LOGLEVEL_WARNING:
->   		log_value = VCHIQ_LOG_WARNING_STR;
->   		break;
-> -	case VCHIQ_LOG_INFO:
-> +	case LOGLEVEL_INFO:
->   		log_value = VCHIQ_LOG_INFO_STR;
->   		break;
-> -	case VCHIQ_LOG_TRACE:
-> +	case LOGLEVEL_DEBUG:
->   		log_value = VCHIQ_LOG_TRACE_STR;
->   		break;
->   	default:
-> @@ -85,15 +93,15 @@ static ssize_t debugfs_log_write(struct file *file,
->   	kbuf[count - 1] = 0;
->   
->   	if (strncmp("error", kbuf, strlen("error")) == 0)
-> -		*levp = VCHIQ_LOG_ERROR;
-> +		*levp = LOGLEVEL_ERR;
->   	else if (strncmp("warning", kbuf, strlen("warning")) == 0)
-> -		*levp = VCHIQ_LOG_WARNING;
-> +		*levp = LOGLEVEL_WARNING;
->   	else if (strncmp("info", kbuf, strlen("info")) == 0)
-> -		*levp = VCHIQ_LOG_INFO;
-> +		*levp = LOGLEVEL_INFO;
->   	else if (strncmp("trace", kbuf, strlen("trace")) == 0)
-> -		*levp = VCHIQ_LOG_TRACE;
-> +		*levp = LOGLEVEL_DEBUG;
->   	else
-> -		*levp = VCHIQ_LOG_DEFAULT;
-> +		*levp = LOGLEVEL_DEFAULT;
->   
->   	*ppos += count;
->   
+Aaahhh, thanks for the pointer! I was really out of ideas what causes
+this error. dt_binding_check now completes successfully.
+
+I'll fix it in v2.
+
+Best regards,
+Michael
+
+> 
+>> +
+>> +    properties:
+>> +      endpoint:
+>> +        $ref: /schemas/media/video-interfaces.yaml#
+>> +        unevaluatedProperties: false
+>> +
+>> +        properties:
+>> +          data-lanes: true
+>> +          link-frequencies: true
+>> +
+>> +        required:
+>> +          - data-lanes
+>> +          - link-frequencies
+>> +
+>> +    required:
+>> +      - endpoint
+>> +
+>> +required:
+>> +  - compatible
+>> +  - reg
+>> +  - clocks
+>> +  - clock-names
+>> +  - avdd-supply
+>> +  - dvdd-supply
+>> +  - ovdd-supply
+>> +  - port
+>> +
+>> +additionalProperties: false
+>> +
+>> +examples:
+>> +  - |
+>> +    #include <dt-bindings/gpio/gpio.h>
+>> +
+>> +    i2c {
+>> +        #address-cells = <1>;
+>> +        #size-cells = <0>;
+>> +
+>> +        imx415: camera-sensor@1a {
+>> +            compatible = "sony,imx415";
+>> +            reg = <0x1a>;
+>> +            avdd-supply = <&vcc2v9_cam>;
+>> +            clocks = <&clock_cam>;
+>> +            clock-names = "inck";
+>> +            dvdd-supply = <&vcc1v1_cam>;
+>> +            ovdd-supply = <&vcc1v8_cam>;
+>> +            lens-focus = <&vcm>;
+>> +            rotation = <180>;
+>> +            orientation = <2>;
+>> +            reset-gpios = <&gpio_expander 14 GPIO_ACTIVE_LOW>;
+>> +
+>> +            port {
+>> +                imx415_ep: endpoint {
+>> +                    remote-endpoint = <&mipi_in>;
+>> +                    clock-lanes = <0>;
+>> +                    data-lanes = <1 2>;
+>> +                };
+>> +            };
+>> +        };
+>> +    };
+>> +...
+>> diff --git a/MAINTAINERS b/MAINTAINERS
+>> index f61eb221415b..c9fa893bf649 100644
+>> --- a/MAINTAINERS
+>> +++ b/MAINTAINERS
+>> @@ -19493,6 +19493,13 @@ T:	git git://linuxtv.org/media_tree.git
+>>  F:	Documentation/devicetree/bindings/media/i2c/sony,imx412.yaml
+>>  F:	drivers/media/i2c/imx412.c
+>>  
+>> +SONY IMX415 SENSOR DRIVER
+>> +M:	Michael Riesch <michael.riesch@wolfvision.net>
+>> +L:	linux-media@vger.kernel.org
+>> +S:	Maintained
+>> +T:	git git://linuxtv.org/media_tree.git
+>> +F:	Documentation/devicetree/bindings/media/i2c/sony,imx415.yaml
+>> +
+>>  SONY MEMORYSTICK SUBSYSTEM
+>>  M:	Maxim Levitsky <maximlevitsky@gmail.com>
+>>  M:	Alex Dubov <oakad@yahoo.com>
+>> -- 
+>> 2.30.2
+>>
