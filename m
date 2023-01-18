@@ -2,176 +2,72 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DDC7F672532
-	for <lists+linux-media@lfdr.de>; Wed, 18 Jan 2023 18:40:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 26D3767253D
+	for <lists+linux-media@lfdr.de>; Wed, 18 Jan 2023 18:43:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231174AbjARRkM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 18 Jan 2023 12:40:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36034 "EHLO
+        id S230498AbjARRnG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 18 Jan 2023 12:43:06 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39608 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231266AbjARRj5 (ORCPT
+        with ESMTP id S231320AbjARRma (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 18 Jan 2023 12:39:57 -0500
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6DA1C45238;
-        Wed, 18 Jan 2023 09:39:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674063596; x=1705599596;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=vGFQg5vQ2tBuxQdDvjqjjggEnx6mFCJZT90tdFoRLCM=;
-  b=jEC0hPrYKGs0/H9OS0O/EYN6vdp+o614bFwIwW0tsJPwD4wKCtS/LaEj
-   VMYu6z8dfpbGlpeTcj/zbInzdMK+eoVmp7l+eaCx3rVfctRQ1+SiBhhLa
-   Dn2iR9awHx0o7HjuJXOSJuWIUrb4RbLTbaQ9TsRD6HKEzymiLYL2XZIrn
-   n1xle0x+KTKxqihq8NkmnaBb9KJra54MVKJh9uGa6elm3gP0ujydw1Y7U
-   m9+qF8Z0xiSQ7DxLlN+najdWUGxEjylYS1fLOQ30YX3XsewLOHShM9uUY
-   kajRed1Jk0qwOv85WNXiwYzoYhZ15QAvGzJtrE4Gf/3wS2XzZYHc7bSlK
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="323732911"
-X-IronPort-AV: E=Sophos;i="5.97,226,1669104000"; 
-   d="scan'208";a="323732911"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2023 09:39:55 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="659881433"
-X-IronPort-AV: E=Sophos;i="5.97,226,1669104000"; 
-   d="scan'208";a="659881433"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by orsmga002.jf.intel.com with ESMTP; 18 Jan 2023 09:39:50 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-        (envelope-from <andriy.shevchenko@intel.com>)
-        id 1pICPb-00BIio-0o;
-        Wed, 18 Jan 2023 19:39:47 +0200
-Date:   Wed, 18 Jan 2023 19:39:46 +0200
-From:   Andy Shevchenko <andriy.shevchenko@intel.com>
-To:     Luca Ceresoli <luca.ceresoli@bootlin.com>
-Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Wolfram Sang <wsa@kernel.org>,
-        Matti Vaittinen <Matti.Vaittinen@fi.rohmeurope.com>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Peter Rosin <peda@axentia.se>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Michael Tretter <m.tretter@pengutronix.de>,
-        Shawn Tu <shawnx.tu@intel.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Mike Pagano <mpagano@gentoo.org>,
-        Krzysztof =?utf-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>,
-        Marek Vasut <marex@denx.de>,
-        Luca Ceresoli <luca@lucaceresoli.net>
-Subject: Re: [PATCH v7 1/7] i2c: add I2C Address Translator (ATR) support
-Message-ID: <Y8gu4mlXUlyiFKZD@smile.fi.intel.com>
-References: <20230118124031.788940-1-tomi.valkeinen@ideasonboard.com>
- <20230118124031.788940-2-tomi.valkeinen@ideasonboard.com>
- <Y8gA+cz9m7PaEhfP@smile.fi.intel.com>
- <20230118181753.7a325953@booty>
+        Wed, 18 Jan 2023 12:42:30 -0500
+X-Greylist: delayed 83370 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 18 Jan 2023 09:42:02 PST
+Received: from MTA-11-3.privateemail.com (mta-11-3.privateemail.com [198.54.122.105])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8CAC837B5F;
+        Wed, 18 Jan 2023 09:41:49 -0800 (PST)
+Received: from mta-11.privateemail.com (localhost [127.0.0.1])
+        by mta-11.privateemail.com (Postfix) with ESMTP id E9FC818000A4;
+        Wed, 18 Jan 2023 12:41:48 -0500 (EST)
+Received: from pappasbrent.com (050-088-208-136.res.spectrum.com [50.88.208.136])
+        by mta-11.privateemail.com (Postfix) with ESMTPA id F33A018000A8;
+        Wed, 18 Jan 2023 12:41:38 -0500 (EST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=pappasbrent.com;
+        s=default; t=1674063708;
+        bh=D7WHsXyXqtqJWxl+4AA+cbRa4gc8zNjQxP2TO71jpHU=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=FKJ78MCIj8RQxUTJAJzyJonlBSXjGLX/1+BIy3ysTyJAUyYB/JdRj1e8GYa8zQpMm
+         LNyfGg4qG/ukz4it8cTkmkqAFu6+jyq7YIG6GxfyN2tO3FNAjOPDPlho52sDRE5aQf
+         Hru1Ri3XaDd8jgcsGf5xfoeswQDayvWcwmMlN/k6F5MLM223SizJPaTTsIZus5kLbQ
+         LBVGoe6kpGBNBeHU6FJcM3USIrtPpJSZTPrm4eYxpn7G/f7y8NFJVEEqhVPbok/MRq
+         d3C43QpdkqcK9K3UPktq7NoGYG9WkZPq5A30lghDkQKwLyIu3+PIXlWgx+U1v59Fk4
+         o7/uLItoaMO4g==
+Date:   Wed, 18 Jan 2023 12:41:36 -0500
+From:   Brent Pappas <bpappas@pappasbrent.com>
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc:     ailus@linux.intel.com, error27@gmail.com,
+        gregkh@linuxfoundation.org, hdegoede@redhat.com,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-staging@lists.linux.dev, mchehab@kernel.org
+Subject: Re: [PATCH v6] media: atomisp: pci: Replace bytes macros with
+ functions
+Message-ID: <Y8gvUG6ncjZ0WG/v@pappasbrent.com>
+References: <CAHp75VcxvPZOZpGMSQXkCFv+WekHckMJkympfdR0ih72AjjkNw@mail.gmail.com>
+ <20230118160739.26059-1-bpappas@pappasbrent.com>
+ <CAHp75VeP42nhAnjWMXnsHpd7SQhJ2G1kqX6mbEHxnpFHhKWYHg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230118181753.7a325953@booty>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <CAHp75VeP42nhAnjWMXnsHpd7SQhJ2G1kqX6mbEHxnpFHhKWYHg@mail.gmail.com>
+X-Virus-Scanned: ClamAV using ClamSMTP
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Jan 18, 2023 at 06:17:53PM +0100, Luca Ceresoli wrote:
-> On Wed, 18 Jan 2023 16:23:53 +0200
-> Andy Shevchenko <andriy.shevchenko@intel.com> wrote:
+> In my MUA I don't clearly see if indentations are really being fixed,
+> assuming that
 
-...
+The issue I was having was that my editor had tabs set to size 4.
+I switched them to size 8 and could see the issues that Dan was seeing.
+I've ran checkpatch.pl on the patch and it passes, but if you see an
+issue I will address it.
 
-> > > +A typical example follows.
-> > > +
-> > > +Topology::
-> > > +
-> > > +                      Slave X @ 0x10
-> > > +              .-----.   |
-> > > +  .-----.     |     |---+---- B
-> > > +  | CPU |--A--| ATR |
-> > > +  `-----'     |     |---+---- C
-> > > +              `-----'   |
-> > > +                      Slave Y @ 0x10
-> > > +
-> > > +Alias table:
-> > > +
-> > > +.. table::
-> > > +
-> > > +   ======   =====
-> > > +   Client   Alias
-> > > +   ======   =====
-> > > +   X        0x20
-> > > +   Y        0x30
-> > > +   ======   =====
-> > > +
-> > > +Transaction:
-> > > +
-> > > + - Slave X driver sends a transaction (on adapter B), slave address 0x10
-> > > + - ATR driver rewrites messages with address 0x20, forwards to adapter A
-> > > + - Physical I2C transaction on bus A, slave address 0x20
-> > > + - ATR chip propagates transaction on bus B with address translated to 0x10
-> > > + - Slave X chip replies on bus B
-> > > + - ATR chip forwards reply on bus A
-> > > + - ATR driver rewrites messages with address 0x10
-> > > + - Slave X driver gets back the msgs[], with reply and address 0x10  
-> > 
-> > I'm not sure I got the real / virtual status of the adapters. Are the B and C
-> > virtual ones, while A is the real?
-> 
-> Let me reply, as I wrote these docs back at the times and thus I feel
-> guilty in case that's unclear. :)
-> 
-> I don't like the word "virtual" in this situation. A, B and C are all
-> physical busses, made of copper and run by electrons on PCBs. B and C
-> are the "remote" or "downstream" busses (w.r.t. the CPU), where the i2c
-> devices are and where transactions happen using the address that the
-> chip responds to. A is the "local" or "upstream" bus that is driven
-> directly by the CPU (*) and where address aliases are used. Using
-> aliases there is necessary because using address 0x10 would be
-> ambiguous as there are two 0x10 chips out there.
-> 
-> (*) There could be more layers of course, but still A is "closer to the
-> CPU than B and C", for the sake of completeness.
+> Thank you and keep going!
 
-Can the diagram and/or text be updated to elaborate this?
-
-...
-
-> > > +void i2c_atr_set_driver_data(struct i2c_atr *atr, void *data)
-> > > +{
-> > > +	atr->priv = data;
-> > > +}
-> > > +EXPORT_SYMBOL_NS_GPL(i2c_atr_set_driver_data, I2C_ATR);
-> > > +
-> > > +void *i2c_atr_get_driver_data(struct i2c_atr *atr)
-> > > +{
-> > > +	return atr->priv;
-> > > +}
-> > > +EXPORT_SYMBOL_NS_GPL(i2c_atr_get_driver_data, I2C_ATR);  
-> > 
-> > Just to be sure: Is it really _driver_ data and not _device instance_ data?
-> 
-> It is device instance data indeed. I don't remember why this got
-> changed, but in v3 it was i2c_atr_set_clientdata().
-
-It's me who was and is against calling it clientdata due to possible
-confusion with i2c_set/get_clientdata() that is about *driver data*.
-I missed that time the fact that this is about device instance data.
-I dunno which name would be better in this case, i2c_atr_set/get_client_priv() ?
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+Thank you for your patience.
