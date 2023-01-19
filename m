@@ -2,56 +2,62 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C83BA673C4E
-	for <lists+linux-media@lfdr.de>; Thu, 19 Jan 2023 15:40:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A62FC673C6A
+	for <lists+linux-media@lfdr.de>; Thu, 19 Jan 2023 15:41:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231560AbjASOjo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 19 Jan 2023 09:39:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59274 "EHLO
+        id S231654AbjASOlD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 19 Jan 2023 09:41:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59436 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231515AbjASOjm (ORCPT
+        with ESMTP id S231770AbjASOkI (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 19 Jan 2023 09:39:42 -0500
-Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 09E668298E;
-        Thu, 19 Jan 2023 06:38:01 -0800 (PST)
-Received: by mail-wr1-x434.google.com with SMTP id n7so2076257wrx.5;
-        Thu, 19 Jan 2023 06:38:00 -0800 (PST)
+        Thu, 19 Jan 2023 09:40:08 -0500
+Received: from mail-yb1-xb2d.google.com (mail-yb1-xb2d.google.com [IPv6:2607:f8b0:4864:20::b2d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8843F86EE0
+        for <linux-media@vger.kernel.org>; Thu, 19 Jan 2023 06:39:20 -0800 (PST)
+Received: by mail-yb1-xb2d.google.com with SMTP id 69so2748942ybn.2
+        for <linux-media@vger.kernel.org>; Thu, 19 Jan 2023 06:39:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=GD0a/ka5+MJwmasza9LWV0qmM9V0aVs/dU+fSwzbrLs=;
-        b=bQEZCtdRMYcijshT0y2Qu43vkvvkxnxFwy1oJhQCYKekBgxduc4PibPd41KYQ4DIlk
-         r36PazF7qhmaQ/BJkKR0r/pA4X/4FSq3jf7rlUlUfMW7edWvRHJBHv0kUNUmXL50ivUI
-         daB4uoFA40zs8ffS7cHsMu0w5LQUUrZvR+lq+C3EULFL5NugbTV2ey3ubJRZmC1unaO1
-         VUh8MjbKZHEKtzBc0UF8AXYnpQE3c9EhcLMKjFCQ5sNvCd2dB+32dnHVa1GYHjjdod9X
-         z5WwPPK2NwjfBbtV9/lAkTJ00PRnU5dLTD4avwUpEBqtxinsS8SBcs3s0vmSS6BWdjB9
-         DqQg==
+        d=raspberrypi.com; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=kvfRouGYUkIYzfxHUcwrstqXmNVmW04bPhCFhKA1H7E=;
+        b=eVdYoWoitswFXn+eY4IJ9622Y4VAy0zNvxtFX7AYKsVBDHGIcDStTLOBIATzIGoTug
+         g7QSlf6Fzoh8Wzhc78eINRTDmo50PV+XWWvcr7109cTF5YPZLyK3cISGG2xdTIUSLDpX
+         tv63dXHMgE1+C+xYBZJFLF216fRihoXds+7zibZSLPETwFH9+jeVWi4TBdQD3Rv0rJPh
+         Scf1W6zVHBT9o+smV17TfBzoZINbljWqyeuM0L0pP1lXANSWOpzutycAybkP8DqqK8fS
+         3JxGAG9ijXd7nrKwRBZ7we/B4RDxCRzKl51xPMM9D20sw/9crcmt/NUMdnBnjQT+xz7b
+         bb9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=GD0a/ka5+MJwmasza9LWV0qmM9V0aVs/dU+fSwzbrLs=;
-        b=zcWQhD4kT+qqI04q6NP6jKtzodsP6+MQ1vmxdsmmRzLcqd1j8JRflfdYm8CHGDaxik
-         9MWZpah6skG+FPN6qxIO68544zDVI94HLkzhx2V/kAe5RKFOTrCrA5pdr1QzWtjbNBrU
-         ls1l75hKyiqqheH73D81saCR4DQEFAwg4GlPtGQAj9+R7/By1BMjDQh0itBv/2fLIYiP
-         nkmu/XWrSGyzLaJCafqAy9uVCAz0POs+HVIQWgRCU2sLdGG+hH6pOFJyRaxVlv1mx6bz
-         5fhamf5gJCm9bhIwkU2YpcihKefIsdFrKrB6jxG08sYouWUYc9db5npwEX6cHpyPqDQm
-         Q3Zg==
-X-Gm-Message-State: AFqh2kqS3czrX2bh7x1E1HYQSH8iWDxY5cMXw1Wx3rz3E0tAu4gmInKZ
-        dFV4ilkPUnqu+I1BE9joEnY=
-X-Google-Smtp-Source: AMrXdXs/MbE7VqWd1vWjhpRw1JIECqYAGxrvtnGpGJTppbIZ3SSFqmdLDloCNBl/0j/F8ueulrWNqA==
-X-Received: by 2002:a5d:428e:0:b0:2bc:8339:1fcc with SMTP id k14-20020a5d428e000000b002bc83391fccmr10333611wrq.58.1674139079212;
-        Thu, 19 Jan 2023 06:37:59 -0800 (PST)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id q15-20020adfab0f000000b002bde7999cd6sm16061235wrc.61.2023.01.19.06.37.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Jan 2023 06:37:58 -0800 (PST)
-Date:   Thu, 19 Jan 2023 17:37:48 +0300
-From:   Dan Carpenter <error27@gmail.com>
-To:     Phil Elwell <phil@raspberrypi.com>
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=kvfRouGYUkIYzfxHUcwrstqXmNVmW04bPhCFhKA1H7E=;
+        b=OnPUdrWUUhWXgcS1CyStSlxpnm/ozzw3dTTCzJJuAqpBhaNCHZ7ZPFp1cTtXsUFemY
+         PorzeVJC/NtGv+4YiZ6u9hvATsFYAoWB+sxa3PYH6t2KD4qmI5axaiiRhjO4TEOlPqRJ
+         5SQZHQqPuebVwWmtKO2HL5YMvoQg2QtvxDPImcfT1pyq266BlQQA8ORtSaiNNV/rwdIH
+         g9oZnZdImjmlJpqaRHzb7hkgwrOFF05uMDG6OQZOtPWk9zK4wA88klo+aBLX267ot5dF
+         MqfjrvvhI/8LXK92KHpp9L7uHhEWojenXSzjBEcwoORSY763uTlY+yPsnmlDzWNGyJtC
+         93rw==
+X-Gm-Message-State: AFqh2kqEVRH7kMPsoxZSbDmLJPvMoFxlFLmUmEpoSnpakNVHtMcGGcrv
+        wRXStmHzw0fwtCbaS/rmGV1DbUlDZLlZJtLomWzrPw==
+X-Google-Smtp-Source: AMrXdXvkRdrXG4AIQQgFLkBJ0cBId619roqwYS2XeYk6pfuRMEaeJUWft/jaJIXYZmguMSTONGPdb/vE5+CBkhM/xio=
+X-Received: by 2002:a25:e0cb:0:b0:7fb:858a:b1b4 with SMTP id
+ x194-20020a25e0cb000000b007fb858ab1b4mr325439ybg.488.1674139159741; Thu, 19
+ Jan 2023 06:39:19 -0800 (PST)
+MIME-Version: 1.0
+References: <20230118115810.21979-1-umang.jain@ideasonboard.com>
+ <b1a26368-3753-0d32-434b-e220dd9c06b4@i2se.com> <CAMEGJJ1=dix7gWvV3Jxef-M-ExFZRTASQCr+6sn_dGsEQ=deYQ@mail.gmail.com>
+ <Y8lHqd9FlxiXTLuW@kroah.com> <CAMEGJJ1oZ9XFw0609PrEABAgDwvapbc3hG4hJ=vBekUOepdiWw@mail.gmail.com>
+ <Y8lS5eBliYw5EHBb@kadam> <CAMEGJJ2b1KFQY1m1eTcvf8_kGBBTjzrBD2i_M2uR+6v4gEcbVQ@mail.gmail.com>
+ <Y8lVvHMIYeSOLM5q@kadam>
+In-Reply-To: <Y8lVvHMIYeSOLM5q@kadam>
+From:   Phil Elwell <phil@raspberrypi.com>
+Date:   Thu, 19 Jan 2023 14:39:10 +0000
+Message-ID: <CAMEGJJ2grBH6NgA+0hwGwmkgRtk0GErULkH6XXbvaykRDzQnfA@mail.gmail.com>
+Subject: Re: [RFC PATCH 0/4] Drop custom logging
+To:     Dan Carpenter <error27@gmail.com>
 Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Stefan Wahren <stefan.wahren@i2se.com>,
         Umang Jain <umang.jain@ideasonboard.com>,
@@ -64,53 +70,43 @@ Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Kieran Bingham <kieran.bingham@ideasonboard.com>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH 0/4] Drop custom logging
-Message-ID: <Y8lVvHMIYeSOLM5q@kadam>
-References: <20230118115810.21979-1-umang.jain@ideasonboard.com>
- <b1a26368-3753-0d32-434b-e220dd9c06b4@i2se.com>
- <CAMEGJJ1=dix7gWvV3Jxef-M-ExFZRTASQCr+6sn_dGsEQ=deYQ@mail.gmail.com>
- <Y8lHqd9FlxiXTLuW@kroah.com>
- <CAMEGJJ1oZ9XFw0609PrEABAgDwvapbc3hG4hJ=vBekUOepdiWw@mail.gmail.com>
- <Y8lS5eBliYw5EHBb@kadam>
- <CAMEGJJ2b1KFQY1m1eTcvf8_kGBBTjzrBD2i_M2uR+6v4gEcbVQ@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAMEGJJ2b1KFQY1m1eTcvf8_kGBBTjzrBD2i_M2uR+6v4gEcbVQ@mail.gmail.com>
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Jan 19, 2023 at 02:31:50PM +0000, Phil Elwell wrote:
-> On Thu, 19 Jan 2023 at 14:25, Dan Carpenter <error27@gmail.com> wrote:
-> >
-> > On Thu, Jan 19, 2023 at 01:47:44PM +0000, Phil Elwell wrote:
-> > > > > I understand the desire to remove the custom logging. I don't welcome
-> > > > > the loss of flexibility that comes with such a strategy
-> > > >
-> > > > What "loss of flexibility"?  You now have access to the full dynamic
-> > > > debugging facilities that all of the rest of the kernel has.  What is
-> > > > lacking?
+On Thu, 19 Jan 2023 at 14:37, Dan Carpenter <error27@gmail.com> wrote:
+>
+> On Thu, Jan 19, 2023 at 02:31:50PM +0000, Phil Elwell wrote:
+> > On Thu, 19 Jan 2023 at 14:25, Dan Carpenter <error27@gmail.com> wrote:
 > > >
-> > > Perhaps I've missed something, either in this patch set or the kernel
-> > > as a whole, but how is one supposed to set different logging levels on
-> > > different facilities within a driver/module, or even for the module as
-> > > a whole?
+> > > On Thu, Jan 19, 2023 at 01:47:44PM +0000, Phil Elwell wrote:
+> > > > > > I understand the desire to remove the custom logging. I don't welcome
+> > > > > > the loss of flexibility that comes with such a strategy
+> > > > >
+> > > > > What "loss of flexibility"?  You now have access to the full dynamic
+> > > > > debugging facilities that all of the rest of the kernel has.  What is
+> > > > > lacking?
+> > > >
+> > > > Perhaps I've missed something, either in this patch set or the kernel
+> > > > as a whole, but how is one supposed to set different logging levels on
+> > > > different facilities within a driver/module, or even for the module as
+> > > > a whole?
+> > >
+> > > Yeah.  You will be still able to do that and more besides after the
+> > > transition.  Cleaning this up makes the code better in every way.
+> > >
+> > > Documentation/admin-guide/dynamic-debug-howto.rst
 > >
-> > Yeah.  You will be still able to do that and more besides after the
-> > transition.  Cleaning this up makes the code better in every way.
-> >
-> > Documentation/admin-guide/dynamic-debug-howto.rst
-> 
-> Are you saying this patch set gets us to that point?
+> > Are you saying this patch set gets us to that point?
+>
+> Yes.  The patch has some issues, but yes.
 
-Yes.  The patch has some issues, but yes.
+OK, thanks. I'll be watching how this plays out with interest.
 
-regards,
-dan carpenter
+Phil
