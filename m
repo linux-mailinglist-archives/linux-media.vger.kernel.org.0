@@ -2,72 +2,53 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BF3BB6733F3
-	for <lists+linux-media@lfdr.de>; Thu, 19 Jan 2023 09:44:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 059916733FC
+	for <lists+linux-media@lfdr.de>; Thu, 19 Jan 2023 09:47:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230219AbjASIoh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 19 Jan 2023 03:44:37 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54268 "EHLO
+        id S230064AbjASIrs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 19 Jan 2023 03:47:48 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55704 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230217AbjASIoS (ORCPT
+        with ESMTP id S230126AbjASIrh (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 19 Jan 2023 03:44:18 -0500
-Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D5571677B6;
-        Thu, 19 Jan 2023 00:44:05 -0800 (PST)
-Received: from booty (unknown [77.244.183.192])
-        (Authenticated sender: luca.ceresoli@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id 2263460010;
-        Thu, 19 Jan 2023 08:43:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1674117844;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=5+uhyQtS1mg9Pdmjr6UXBzPNPAvqOBVv9nU3qb1kqdk=;
-        b=PJx4ICKiGVIzXOLdZ6Gh9j30sxGpjPI22w4v4C5JTXH4aLsu3mvZv1JYpzeBhDWGzXKPCp
-        zjOqFVNACtpo44OgHEorej+XRokIeKZFlmtFpzpVqc/QIw2PXdW9FjFkzmixC5nxKJn82/
-        ZcGT7hvQ5nW20kOxb5iXmpOCcANNEl7s5yTuPJhonxjO6BEV+V6DIkc0VU6KYVHL1Nw1Ua
-        j/yfC0RuQJJN0/7M8BxDRpx8nDQhV0SOCMO5avuzjoRVDrHl9Ry3k9AS2H7+2CeDKWEEbs
-        /Zuy2+ndcInwatHfWXETLrmprEcRRYM0JPFXTZcbQpK95NjEFpQB6UfLBAZxfQ==
-Date:   Thu, 19 Jan 2023 09:43:58 +0100
-From:   Luca Ceresoli <luca.ceresoli@bootlin.com>
-To:     Andy Shevchenko <andriy.shevchenko@intel.com>
-Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Wolfram Sang <wsa@kernel.org>,
-        Matti Vaittinen <Matti.Vaittinen@fi.rohmeurope.com>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Peter Rosin <peda@axentia.se>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Michael Tretter <m.tretter@pengutronix.de>,
-        Shawn Tu <shawnx.tu@intel.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Mike Pagano <mpagano@gentoo.org>,
-        Krzysztof =?UTF-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>,
-        Marek Vasut <marex@denx.de>
-Subject: Re: [PATCH v7 0/7] i2c-atr and FPDLink
-Message-ID: <20230119094358.010bc826@booty>
-In-Reply-To: <Y8gvu/E5EoPqo8J1@smile.fi.intel.com>
-References: <20230118124031.788940-1-tomi.valkeinen@ideasonboard.com>
-        <Y8gX0krXayfOa4Hi@smile.fi.intel.com>
-        <bd6d6cc0-4e70-fa31-4b5e-e6bcddf62d36@ideasonboard.com>
-        <Y8gvu/E5EoPqo8J1@smile.fi.intel.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+        Thu, 19 Jan 2023 03:47:37 -0500
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7103861D77;
+        Thu, 19 Jan 2023 00:47:33 -0800 (PST)
+Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:2ad6:2833:dcf0:41ee])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: benjamin.gaignard)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 783926600864;
+        Thu, 19 Jan 2023 08:47:31 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1674118051;
+        bh=CAlP9QcCzlEbxHvVcSyXEx1s2/N6vplOVRdCA93dTew=;
+        h=From:To:Cc:Subject:Date:From;
+        b=WXKcs6gWzur4lPf8hAJvPjWmt79h0TzssBAPj2/0GLycgG/I8poyZofsrsMBznMFU
+         cRX7Nj6PphBfVQ4PDNs9VsxhLRDXdPlbJYrB3+1ginwhCyw7fjx7sEr9OZVUr5GZtE
+         6oJIo/FHZIUWsT0unwWs4UyAFAJO4eFkZOzilhWJm0iwZZcXIkVWvZCd+k7Ih3zBcs
+         Q6YW3cy4T+Y0CwoGh7NlbJLIuyymuh21grZYALQZQO08z1uiN+fJAsdc1vIpEx+tkW
+         69ubYa+9BgIrXD5awIyNp6OvH3o78md9B/sDCy3Z4pNJq8hlvoYdUPAzi9cLy7IksU
+         80FI/eGjO6lsA==
+From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
+To:     ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
+        mchehab@kernel.org, shawnguo@kernel.org, s.hauer@pengutronix.de,
+        kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
+        hverkuil-cisco@xs4all.nl, nicolas.dufresne@collabora.co.uk
+Cc:     linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        kernel@collabora.com,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Subject: [PATCH v3] media: verisilicon: HEVC: Only propose 10 bits compatible pixels formats
+Date:   Thu, 19 Jan 2023 09:47:23 +0100
+Message-Id: <20230119084723.133576-1-benjamin.gaignard@collabora.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -75,71 +56,167 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Andy,
+When decoding a 10bits bitstreams HEVC driver should only expose
+10bits pixel formats.
+To fulfill this requirement it is needed to call hantro_reset_raw_fmt()
+when bit depth change and to correctly set match_depth in pixel formats
+enumeration.
 
-On Wed, 18 Jan 2023 19:43:23 +0200
-Andy Shevchenko <andriy.shevchenko@intel.com> wrote:
+Fixes: dc39473d0340 ("media: hantro: imx8m: Enable 10bit decoding")
 
-> On Wed, Jan 18, 2023 at 07:28:20PM +0200, Tomi Valkeinen wrote:
-> > On 18/01/2023 18:01, Andy Shevchenko wrote:  
-> > > On Wed, Jan 18, 2023 at 02:40:24PM +0200, Tomi Valkeinen wrote:  
-> > > > Hi,
-> > > > 
-> > > > You can find the v6 from:
-> > > > 
-> > > > https://lore.kernel.org/all/20230105140307.272052-1-tomi.valkeinen@ideasonboard.com/
-> > > > 
-> > > > Main changes:
-> > > > 
-> > > > * i2c-atr: Use bus notifier. This allows us to drop the patch that adds
-> > > >    the attach_client/detach_client callbacks. On the downside, it removes
-> > > >    the option for error handling if the translation setup fails, and also
-> > > >    doesn't provide us the pointer to the i2c_board_info. I belive both
-> > > >    are acceptable downsides.
-> > > > 
-> > > > * Use fwnode in the fpdlink drivers instead of OF
-> > > > 
-> > > > * Addressed all the review comments (I hope)
-> > > > 
-> > > > * Lots of cosmetic or minor fixes which I came up while doing the fwnode
-> > > >    change  
-> > > 
-> > > I believe my comments to the first driver applies to the next two, so please
-> > > address them whenever you are agree / it's possible / it makes sense.
-> > > 
-> > > About ATR implementation. We have the i2c bus (Linux representation of
-> > > the driver model) and i2c_adapter and i2c_client objects there. Can't we
-> > > have an i2c_client_aliased in similar way and be transparent with users?  
-> 
-> > Can you clarify what you mean here?
-> > 
-> > The i2c_clients are not aware of the i2c-atr. They are normal i2c clients.
-> > The FPD-Link drivers are aware of the ATR, as the FPD-Link hardware contains
-> > the ATR support.  
-> 
-> Can't that hardware be represented as I2C adapter? In such case the ATR specifics
-> can be hidden from the client (drivers).
-> 
-> I'm worrying about code duplication and other things that leak into drivers as
-> ATR callbacks.
+Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+---
+version 3:
+- Propagate hantro_reset_raw_fmt() error.
+  I hope I have correctly understood Ezekiel's thoughts 
+  in the way I have implemented them.
 
-Which callbacks do you refer to? i2c_atr_ops? I don't think we can do
-without the attach/detach_client ones, it's where the driver-specific
-implementation is hooked for the generic ATR infra to call it.
+version 2:
+- Remove struct hantro_ctx *ctx variable in hantro_try_ctrl()
+  because it isn't used anymore.
 
-However now I noticed the select/deselect ops are still there. IIRC
-they are not used by any driver and in the past the plan was to just
-remove them. Tomi, do you think there is a good reason to keep them?
+ .../media/platform/verisilicon/hantro_drv.c   | 40 +++++++++++++++----
+ .../media/platform/verisilicon/hantro_v4l2.c  |  6 +--
+ .../media/platform/verisilicon/hantro_v4l2.h  |  1 +
+ .../media/platform/verisilicon/imx8m_vpu_hw.c |  2 +
+ 4 files changed, 38 insertions(+), 11 deletions(-)
 
-> It might be that I didn't get how hw exactly functioning on this
-> level and why we need those callbacks.
-
-As far as "how hw exactly works", in case you haven't seen that, the
-best explanation I was able to give is in my ELCE 2019 talk, at minute
-~22. It's a 2-3 minute watch. The slides have pointers to other talks
-and discussion.
-
+diff --git a/drivers/media/platform/verisilicon/hantro_drv.c b/drivers/media/platform/verisilicon/hantro_drv.c
+index 8cb4a68c9119..a713a45c0108 100644
+--- a/drivers/media/platform/verisilicon/hantro_drv.c
++++ b/drivers/media/platform/verisilicon/hantro_drv.c
+@@ -251,11 +251,6 @@ queue_init(void *priv, struct vb2_queue *src_vq, struct vb2_queue *dst_vq)
+ 
+ static int hantro_try_ctrl(struct v4l2_ctrl *ctrl)
+ {
+-	struct hantro_ctx *ctx;
+-
+-	ctx = container_of(ctrl->handler,
+-			   struct hantro_ctx, ctrl_handler);
+-
+ 	if (ctrl->id == V4L2_CID_STATELESS_H264_SPS) {
+ 		const struct v4l2_ctrl_h264_sps *sps = ctrl->p_new.p_h264_sps;
+ 
+@@ -274,8 +269,6 @@ static int hantro_try_ctrl(struct v4l2_ctrl *ctrl)
+ 		if (sps->bit_depth_luma_minus8 != 0 && sps->bit_depth_luma_minus8 != 2)
+ 			/* Only 8-bit and 10-bit are supported */
+ 			return -EINVAL;
+-
+-		ctx->bit_depth = sps->bit_depth_luma_minus8 + 8;
+ 	} else if (ctrl->id == V4L2_CID_STATELESS_VP9_FRAME) {
+ 		const struct v4l2_ctrl_vp9_frame *dec_params = ctrl->p_new.p_vp9_frame;
+ 
+@@ -286,6 +279,32 @@ static int hantro_try_ctrl(struct v4l2_ctrl *ctrl)
+ 	return 0;
+ }
+ 
++static int hantro_hevc_s_ctrl(struct v4l2_ctrl *ctrl)
++{
++	struct hantro_ctx *ctx;
++
++	ctx = container_of(ctrl->handler,
++			   struct hantro_ctx, ctrl_handler);
++
++	vpu_debug(1, "s_ctrl: id = %d, val = %d\n", ctrl->id, ctrl->val);
++
++	switch (ctrl->id) {
++	case V4L2_CID_STATELESS_HEVC_SPS:
++		const struct v4l2_ctrl_hevc_sps *sps = ctrl->p_new.p_hevc_sps;
++		int bit_depth = sps->bit_depth_luma_minus8 + 8;
++
++		if (ctx->bit_depth != bit_depth) {
++			ctx->bit_depth = bit_depth;
++			return hantro_reset_raw_fmt(ctx);
++		}
++		break;
++	default:
++		return -EINVAL;
++	}
++
++	return 0;
++}
++
+ static int hantro_jpeg_s_ctrl(struct v4l2_ctrl *ctrl)
+ {
+ 	struct hantro_ctx *ctx;
+@@ -328,6 +347,11 @@ static const struct v4l2_ctrl_ops hantro_ctrl_ops = {
+ 	.try_ctrl = hantro_try_ctrl,
+ };
+ 
++static const struct v4l2_ctrl_ops hantro_hevc_ctrl_ops = {
++	.s_ctrl = hantro_hevc_s_ctrl,
++	.try_ctrl = hantro_try_ctrl,
++};
++
+ static const struct v4l2_ctrl_ops hantro_jpeg_ctrl_ops = {
+ 	.s_ctrl = hantro_jpeg_s_ctrl,
+ };
+@@ -470,7 +494,7 @@ static const struct hantro_ctrl controls[] = {
+ 		.codec = HANTRO_HEVC_DECODER,
+ 		.cfg = {
+ 			.id = V4L2_CID_STATELESS_HEVC_SPS,
+-			.ops = &hantro_ctrl_ops,
++			.ops = &hantro_hevc_ctrl_ops,
+ 		},
+ 	}, {
+ 		.codec = HANTRO_HEVC_DECODER,
+diff --git a/drivers/media/platform/verisilicon/hantro_v4l2.c b/drivers/media/platform/verisilicon/hantro_v4l2.c
+index 2c7a805289e7..cd85877bbbe2 100644
+--- a/drivers/media/platform/verisilicon/hantro_v4l2.c
++++ b/drivers/media/platform/verisilicon/hantro_v4l2.c
+@@ -398,7 +398,7 @@ hantro_reset_encoded_fmt(struct hantro_ctx *ctx)
+ 		hantro_set_fmt_out(ctx, fmt);
+ }
+ 
+-static void
++int
+ hantro_reset_raw_fmt(struct hantro_ctx *ctx)
+ {
+ 	const struct hantro_fmt *raw_vpu_fmt;
+@@ -420,9 +420,9 @@ hantro_reset_raw_fmt(struct hantro_ctx *ctx)
+ 	raw_fmt->width = encoded_fmt->width;
+ 	raw_fmt->height = encoded_fmt->height;
+ 	if (ctx->is_encoder)
+-		hantro_set_fmt_out(ctx, raw_fmt);
++		return hantro_set_fmt_out(ctx, raw_fmt);
+ 	else
+-		hantro_set_fmt_cap(ctx, raw_fmt);
++		return hantro_set_fmt_cap(ctx, raw_fmt);
+ }
+ 
+ void hantro_reset_fmts(struct hantro_ctx *ctx)
+diff --git a/drivers/media/platform/verisilicon/hantro_v4l2.h b/drivers/media/platform/verisilicon/hantro_v4l2.h
+index 64f6f57e9d7a..cb8e1fe3422d 100644
+--- a/drivers/media/platform/verisilicon/hantro_v4l2.h
++++ b/drivers/media/platform/verisilicon/hantro_v4l2.h
+@@ -21,6 +21,7 @@
+ extern const struct v4l2_ioctl_ops hantro_ioctl_ops;
+ extern const struct vb2_ops hantro_queue_ops;
+ 
++int hantro_reset_raw_fmt(struct hantro_ctx *ctx);
+ void hantro_reset_fmts(struct hantro_ctx *ctx);
+ int hantro_get_format_depth(u32 fourcc);
+ const struct hantro_fmt *
+diff --git a/drivers/media/platform/verisilicon/imx8m_vpu_hw.c b/drivers/media/platform/verisilicon/imx8m_vpu_hw.c
+index b390228fd3b4..f850d8bddef6 100644
+--- a/drivers/media/platform/verisilicon/imx8m_vpu_hw.c
++++ b/drivers/media/platform/verisilicon/imx8m_vpu_hw.c
+@@ -152,6 +152,7 @@ static const struct hantro_fmt imx8m_vpu_g2_postproc_fmts[] = {
+ 	{
+ 		.fourcc = V4L2_PIX_FMT_NV12,
+ 		.codec_mode = HANTRO_MODE_NONE,
++		.match_depth = true,
+ 		.postprocessed = true,
+ 		.frmsize = {
+ 			.min_width = FMT_MIN_WIDTH,
+@@ -165,6 +166,7 @@ static const struct hantro_fmt imx8m_vpu_g2_postproc_fmts[] = {
+ 	{
+ 		.fourcc = V4L2_PIX_FMT_P010,
+ 		.codec_mode = HANTRO_MODE_NONE,
++		.match_depth = true,
+ 		.postprocessed = true,
+ 		.frmsize = {
+ 			.min_width = FMT_MIN_WIDTH,
 -- 
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+2.34.1
+
