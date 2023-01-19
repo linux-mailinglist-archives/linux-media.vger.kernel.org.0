@@ -2,68 +2,90 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 08F17674B41
-	for <lists+linux-media@lfdr.de>; Fri, 20 Jan 2023 05:50:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 42711674B36
+	for <lists+linux-media@lfdr.de>; Fri, 20 Jan 2023 05:50:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230323AbjATEu3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 19 Jan 2023 23:50:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35360 "EHLO
+        id S229697AbjATEuL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 19 Jan 2023 23:50:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43538 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230460AbjATEtz (ORCPT
+        with ESMTP id S230342AbjATEtl (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 19 Jan 2023 23:49:55 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5BB9CCE893;
-        Thu, 19 Jan 2023 20:43:41 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id E6AE9B820EE;
-        Thu, 19 Jan 2023 12:14:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F20CC433EF;
-        Thu, 19 Jan 2023 12:14:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1674130491;
-        bh=CG8mfmfOWM+5nGB+yTL4n2ztHake1TEnvVAcm3gH9lI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=ZZizQ1ikMohqI25dF0gqmRcuHtjrZtwFqn6zaPhuhcHEe60u15DNqrGjVykpXRz0D
-         /MKRqV1ADdCpUQ5LILfutfGTEgzmFYebPivszr5vWx7gN0HHRJxF1+Qxtk3rIJopzU
-         58azpQbSUKWiKoAJ4UDxFMsnAGLZ60+RCf0TIigI=
-Date:   Thu, 19 Jan 2023 13:14:49 +0100
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Umang Jain <umang.jain@ideasonboard.com>
-Cc:     linux-staging@lists.linux.dev,
-        linux-rpi-kernel@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Stefan Wahren <stefan.wahren@i2se.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Adrien Thierry <athierry@redhat.com>,
-        Dan Carpenter <error27@gmail.com>,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Paul Elder <paul.elder@ideasonboard.com>
-Subject: Re: [PATCH v5 1/6] staging: vc04_services: Drop __VCCOREVER__
- remnants
-Message-ID: <Y8k0OTYJ1hZ5L6O/@kroah.com>
-References: <20230119115503.268693-1-umang.jain@ideasonboard.com>
- <20230119115503.268693-2-umang.jain@ideasonboard.com>
+        Thu, 19 Jan 2023 23:49:41 -0500
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C8D9CE21B;
+        Thu, 19 Jan 2023 20:43:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1674189814; x=1705725814;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=mC6/yLW/v5eP5n1rZOeQjtsj6ZTV75jbF/wAVyUTX8w=;
+  b=MxCmbRMq20IxmcsEeRTfy0VGCoHtyc657jvFpXdeEvhuNUu3FfXXecm4
+   t+VE9CU9G5jgEOntw67TnmksSFSUW3SB2GOhMTzjr4jH04IzAxnY6sjlU
+   pw1Y4xUdpYL++RVMTcWUr15EEOsPCyBRWowmXo4yP3MJqrslDX7ilknY3
+   GJRuvs6iqulIaca5g0QcWaP0QMoFxhE2MaCTbz3/xang+36s8MsaXx2d6
+   QQqPep97pzNdcK6HJIZK2nudKl1EJOjszjnZ4fMHcrmsruxD3wP3Apzt3
+   47HWtzyJfl+PMaKwbJkV2wvASlec5eMkFhNwCbgWQx6snlijC+jhvxt4n
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="387637452"
+X-IronPort-AV: E=Sophos;i="5.97,229,1669104000"; 
+   d="scan'208";a="387637452"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2023 06:03:32 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="833990074"
+X-IronPort-AV: E=Sophos;i="5.97,229,1669104000"; 
+   d="scan'208";a="833990074"
+Received: from punajuuri.fi.intel.com (HELO paasikivi.fi.intel.com) ([10.237.72.43])
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2023 06:03:30 -0800
+Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
+        by paasikivi.fi.intel.com (Postfix) with SMTP id 3C89D20497;
+        Thu, 19 Jan 2023 16:03:28 +0200 (EET)
+Date:   Thu, 19 Jan 2023 14:03:28 +0000
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc:     linux-acpi@vger.kernel.org, rafael@kernel.org,
+        linux-media@vger.kernel.org, heikki.krogerus@linux.intel.com
+Subject: Re: [PATCH 1/8] ACPI: property: Parse data node string references in
+ properties
+Message-ID: <Y8lNsP1B6e+jiCjv@paasikivi.fi.intel.com>
+References: <20230117122244.2546597-1-sakari.ailus@linux.intel.com>
+ <20230117122244.2546597-2-sakari.ailus@linux.intel.com>
+ <Y8aw0KdhM+KJqnj2@smile.fi.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230119115503.268693-2-umang.jain@ideasonboard.com>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <Y8aw0KdhM+KJqnj2@smile.fi.intel.com>
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Jan 19, 2023 at 05:24:58PM +0530, Umang Jain wrote:
-> Commit 8ba5f91bab63("staging: vc04_services: remove __VCCOREVER__")
+Hi Andy,
 
-Nit, you need a space before the '(' character :(
+On Tue, Jan 17, 2023 at 04:29:36PM +0200, Andy Shevchenko wrote:
+> On Tue, Jan 17, 2023 at 02:22:37PM +0200, Sakari Ailus wrote:
+> > Add support for parsing property references using strings, besides
+> > reference objects that were previously supported. This allows also
+> > referencing data nodes which was not possible with reference objects.
+> 
+> ...
+> 
+> > +		pr_err("ACPI: bad node type\n");
+> 
+> 
+> Looking at this I'm wondering what prevents us to have pr_fmt() defined as
+> it's done in ~60 modules under drivers/acpi already.
+> 
+> Other than that, LGTM.
 
+Thanks for the review.
+
+I'll add pr_fmt() here, plus print the name of the troubling node.
+
+-- 
+Sakari Ailus
