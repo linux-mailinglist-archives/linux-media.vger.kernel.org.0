@@ -2,164 +2,209 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DE34C673709
-	for <lists+linux-media@lfdr.de>; Thu, 19 Jan 2023 12:36:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B6ECD673741
+	for <lists+linux-media@lfdr.de>; Thu, 19 Jan 2023 12:45:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230511AbjASLf5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 19 Jan 2023 06:35:57 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44296 "EHLO
+        id S230421AbjASLpr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 19 Jan 2023 06:45:47 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51100 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230421AbjASLfj (ORCPT
+        with ESMTP id S231136AbjASLpM (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 19 Jan 2023 06:35:39 -0500
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4092B83;
-        Thu, 19 Jan 2023 03:35:29 -0800 (PST)
-Received: from booty (unknown [77.244.183.192])
-        (Authenticated sender: luca.ceresoli@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id A9052E0012;
-        Thu, 19 Jan 2023 11:35:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1674128128;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=9b4Gd71VIpRzmWAFvIEX9qIOF0R0AhLHNhOUdNP3BeY=;
-        b=dwQEieih0KVf2hhXRvwQq0Dfw9zd0/0j7TapWPquKpkqFdrH1zKD/aKuctuBVhciWWfqMi
-        isuP5qMq4WOLwJ4n0SLcsXDH51ybVlGZfVeKOC2QqqzXs0Dj2eBiXyRmD6czMihTluHhJi
-        r35o/pZRGJooSKyOtcPzL2ucsqvfzHQ120rM4A5gMMyXGO1guHYDp+UsEoBd0N8R4d+KGi
-        XtWhPtJGMvBy+sAc9R4EhQSjcbcLmPlQ4ubJ2ylTLx2FBxMXmCnpU/eovi2ZVBg2/csI35
-        ecMDVy8a/qHpzX9LBJsiD2jvxhlwoPJJU+JxNGtBio8F0yVjKedBxw+IaGjkKA==
-Date:   Thu, 19 Jan 2023 12:35:20 +0100
-From:   Luca Ceresoli <luca.ceresoli@bootlin.com>
-To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc:     Andy Shevchenko <andriy.shevchenko@intel.com>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Wolfram Sang <wsa@kernel.org>,
-        Matti Vaittinen <Matti.Vaittinen@fi.rohmeurope.com>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Peter Rosin <peda@axentia.se>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Michael Tretter <m.tretter@pengutronix.de>,
-        Shawn Tu <shawnx.tu@intel.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Mike Pagano <mpagano@gentoo.org>,
-        Krzysztof =?UTF-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>,
-        Marek Vasut <marex@denx.de>,
-        Luca Ceresoli <luca@lucaceresoli.net>
-Subject: Re: [PATCH v7 1/7] i2c: add I2C Address Translator (ATR) support
-Message-ID: <20230119123520.7f1aa680@booty>
-In-Reply-To: <db2e7386-e625-5bad-0c99-bae633e96d80@ideasonboard.com>
-References: <20230118124031.788940-1-tomi.valkeinen@ideasonboard.com>
-        <20230118124031.788940-2-tomi.valkeinen@ideasonboard.com>
-        <Y8gA+cz9m7PaEhfP@smile.fi.intel.com>
-        <20230118181753.7a325953@booty>
-        <Y8gu4mlXUlyiFKZD@smile.fi.intel.com>
-        <20230119092115.02cbbab3@booty>
-        <db2e7386-e625-5bad-0c99-bae633e96d80@ideasonboard.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+        Thu, 19 Jan 2023 06:45:12 -0500
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2084.outbound.protection.outlook.com [40.107.92.84])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D13966CE9
+        for <linux-media@vger.kernel.org>; Thu, 19 Jan 2023 03:44:42 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=C5gQAM4MHCKv4WTF1ORpjD6y2dBuKyLy4ZlJCpLSweovFK4BGIVhOnLVkcoB096p6BvAcVEPBusVKwg0wYdemxsLHJQEde/ThD+gI5Nfgezlg4DbrkvNDpaQW7ZZjY7eRKRd5Xti4mrP1k6AK7A1PDoaOs8XAIN7vqD+8yj1fHOCz5u0NlKvL2tSUjVYKbn/Fm/cEBHSQzErVVhbL8kimlEvjlozjtsGGqSX/hxPzhSghGkCjsyDqktAfKPVmANQkjcWBZUkPcggA1TNss6+RbWbsNBwcVg+hEkgFWpmnsiyCo9WaQrAtH/qqyOOdAE8wctJGrngzo8D1PcioYBz9g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ToLJaSRi/EOcP/EusyLd9hTZZHaHBEXVfIJZcjwiL0E=;
+ b=EXtU9QpwU98rLTX5D1+IN9DFZaulwY+4TSU/zklIa1PVYHQO2piWB5LI7F+Hq4uf5f9Cvf40pn4k+DfcX89EmtdXnj4RVtE6YEm0KI09OJsAbpEherqbH+MX6UwDXIqmRd3HixQQmpFzdIWr+2ikEG5ZM5jFckMFOnZmPPTP1EqVaU+BfqSo/0I82iO0F+10w9VVbOSn8+BF9LUuXDMH4nM/0ZxKn2BMfxTsptP5A55pdWlyF1ea7lLAg0kEfDKAja0beqOSLPYOi6mBv9h98j8kES8/2X0L88+0dlb+s1Hd4a/LxCMaKsCXIcpbUmVjK1S5kO7nNKdJx3JAiacPjQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ToLJaSRi/EOcP/EusyLd9hTZZHaHBEXVfIJZcjwiL0E=;
+ b=XDM+aJR3I1UhR97zvbs+NrhbRYbgSHtCsHUlSqMye81swGIa+nriJMHWYKkMQdvAwf5nX1Hrx7AuQ8Fua4XFfAPVBgzyhI6yqu6EJVVOH1BJYcZT+LtTs22CMiefl/LwJkh2Qdf7xAqmDkP0N0SgU/D0tmGqoXPE8ZF05M+OxJk=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
+ by CH2PR12MB4229.namprd12.prod.outlook.com (2603:10b6:610:a5::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6002.24; Thu, 19 Jan
+ 2023 11:44:40 +0000
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::80d8:934f:caa7:67b0]) by BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::80d8:934f:caa7:67b0%3]) with mapi id 15.20.6002.024; Thu, 19 Jan 2023
+ 11:44:40 +0000
+Message-ID: <61349cff-c06c-3958-c1cf-9713e12bc313@amd.com>
+Date:   Thu, 19 Jan 2023 12:44:35 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: RFC: dma_resv_unlock() and ww_acquire_ctx scope
+Content-Language: en-US
+To:     Daniel Vetter <daniel@ffwll.ch>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc:     Paul Cercueil <paul@crapouillou.net>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org
+References: <730e5a40874c0e5bf66ddcb9fe7b2e4f28e09b1a.camel@crapouillou.net>
+ <33c2d360-31f9-da8b-127a-d473029192e6@linux.intel.com>
+ <Y8kltaITYoTEl9SQ@phenom.ffwll.local>
+From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+In-Reply-To: <Y8kltaITYoTEl9SQ@phenom.ffwll.local>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+X-ClientProxiedBy: FR3P281CA0202.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:a5::6) To BN8PR12MB3587.namprd12.prod.outlook.com
+ (2603:10b6:408:43::13)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|CH2PR12MB4229:EE_
+X-MS-Office365-Filtering-Correlation-Id: c0ed6f6d-81f2-4f2d-3d4b-08dafa128c61
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 3eFHsTFzBoDlfL0T7Drqm8vp0ywsL3oFhSWK5U4+9Xl49HWK4PuirXIoCTpmHKfhsLnE4HbSq6HHcXpThu9o4qcwNHSgftu5Baisu9PqEuwIueMpBnLJd1/kPRDlUUzauW4ij4ld+IyS3O072EWjLom+6Dn3KAEXluq2Rnbe1GAcal2is85BI3pX8UrouNSOdP7Xzxsg0WM0Wj+LxgGn+Rb0xx7Yp9W+YhYEUfwqZfxpHFUhOD9uHEK/XREUEOrvVfC42DU4fupRA1e/HZRhqn+yKJH18MD3atr21HY/9FKC2tywWyR7wVlfoxPeXE/3lsdqLEoJRaL74WbKSsuJNHL6uYo8w08RH1zJ89Onow5x42Qyb975VLRcETYyznCL8v+BlzjCMvvZ0sRVo4ZEmnf3J5mEyzP9EkJaE7JFc/OkPS338bUWu9EYdhwqsbBhF5K/NX2mGb7ZcerjBa7UemLY5xK6Jcn+QftGkd7ALhFSCEWGYWVEwSZ1OQumH9G/RV9iiFmP9LAANYUGaXPoMiWAgdDjV3mG87JEgMwEQSUOTirlMq1IpurUE4epBmDprcBWxXgm+99W0joXAk6lul2cdj1whN12ifkCAXwHLoxWtBC/IoYwM7lf0rBcmBzHpok5UNdPBYg7KfiM4xnRtCckfIoYn6cHaJUws9oK8KPNy305H4pzzYE54mCrAylYYZjU/4ceWhwBKIiOAWhxW2aGwVNRlR/AbvB9Jrgugfs=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN8PR12MB3587.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(376002)(366004)(346002)(396003)(39860400002)(136003)(451199015)(41300700001)(4326008)(31686004)(6666004)(8676002)(66476007)(8936002)(66556008)(66946007)(36756003)(2616005)(2906002)(5660300002)(54906003)(110136005)(316002)(26005)(6486002)(31696002)(86362001)(186003)(478600001)(6512007)(53546011)(6506007)(83380400001)(38100700002)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Q2FYTHpvZ2sxZkx1VjRROTZ0WkJGd0ZwN2VYWW5zVlRqbW55NTVUc0hiTVYw?=
+ =?utf-8?B?aDRmNFVVejNZSytvcDVhTFFBVnN4MVJRNnpSR2tzcGpMUXlaRUpFTUNvb2xk?=
+ =?utf-8?B?Y0dxZ2wwV0FrUFczNVNwYjdVOVhmOUFLdGxJS0tIOWxRNFF0Tmw5Qm1UVDlB?=
+ =?utf-8?B?ZUxBOFVuNEpMTTlvc2pCeEhtSWs1WVc2OGdqRWI0N1BBWTZCdHRyN3RwbnB2?=
+ =?utf-8?B?RzZ5NHhDbGMyYlNLcXBwMWdla2VDQzRKbVFVanpzQUd4VHh3NXN4T2FCcEo5?=
+ =?utf-8?B?SGRYMEM5UDBUNnVKQVVkU28yekpQbElxa2FGOURwWTk1Z1VTZVBOcFVCc0E2?=
+ =?utf-8?B?NWNLejNlUm40aDZtSHo5Yk4yUjRsd3JZOTc2YTF0RG9jRHFhbXNxYzBlMnZt?=
+ =?utf-8?B?KzNaMXFBNGFQWEZLUTlCT3B0T3YvYTRDVEtidkhiQ05JdDR6c3NjU1V4bzdq?=
+ =?utf-8?B?NzJvb210djFyWEF6Zy9nNG9tQUVZTHFWbW9WRmRDR1JxNUNFOUhJUHBRdEQ2?=
+ =?utf-8?B?cGNCU3dsMzNsYXc3Zko4MFJySG10VzRESm9FOXhwOHRESjFUYUJjSGsrRmJn?=
+ =?utf-8?B?U1NPZXU3Y2orUVU2Z0xrUGRPeCt1YkFtYWVZclZnaERiZWdzcDh2QlAzdkNR?=
+ =?utf-8?B?ZG1QdjY4MnlCak1LWkx2ckFXQjZ1T0x0cUZZYkZoTGV1cVA5Q2NYMUEvaDM3?=
+ =?utf-8?B?S05lODVmOXhPZzEvUytDS3oxd0RKK1N0ZWR3anlQd2dFRVFzOWRmako3Sjhj?=
+ =?utf-8?B?V25mdUN0V3dVUnkzanBTbXhaVmZEWFRNZXQ5VkYxVUxCb05aZ1p0QjJvazlp?=
+ =?utf-8?B?amtjcGxaQkkrUmh5L0R0bVFvQWdLOElIY1FJSVY5Ym0yWWluaHNMYzJOUFN1?=
+ =?utf-8?B?eDcrWFFueTZOVktXdlMxSTNyaTJsVXpXVS8weGo2eC9GeHJISnlJSGdsNjVD?=
+ =?utf-8?B?QmJ4UVNnWlcxTy9iV2MvSE1DdGdDYjZZSEVVOFZnVGNWM1k2d1FCV1dEWk1q?=
+ =?utf-8?B?ZDF4UE1rY1hDREovT0RYdHByazVSZWRYRnEzRDVYS2M1TmFKS1RjLzVBQXVT?=
+ =?utf-8?B?YUZPYWRhd3BBZXVuc3J3U3d6OWh1SDcrRWRVU1YrWUcvWmt4TkRyZEx3V0h2?=
+ =?utf-8?B?NnptV3pSSWp5aVBSa2lQZ3NCaE4zTVV2bEFpdXZhYzM4OXYzeW9GRGtBMk1y?=
+ =?utf-8?B?bEsvRVdpK3k1Um1ja3lpSHNWNmlRcVlDdVRGOHdaYnRLK3M4NVNveldyUlFy?=
+ =?utf-8?B?UmRiTWZwRGk2TFBBWWsrbFEzVXpwbSsvWE4rZUZkSTYyeFVaT1ZaNGdnRXl1?=
+ =?utf-8?B?MCt4bWhMRDU2aFVkRGJJY2MzV2x5S3hHVVl5YkhuaEtDRTdDOFRjZGhJcFRR?=
+ =?utf-8?B?NjFHNmRZNjZZWkFQNGd1UVRuWmRvR2hnYTlRZmprWHQ4dGwyckczWjh6SzBV?=
+ =?utf-8?B?MDFicjF4aDllS1BwUGJDcy9NNW5LMGI2ODhJVDh4T1lNaUZHYmJKdHFtUFJn?=
+ =?utf-8?B?SkRaNk5ISUp5eTUrdUxnNkR0RmgrWUdTaFUxWWVPVGttTjZjaW1YM0RtUUVQ?=
+ =?utf-8?B?YlVlTjNkbDF2eDh0dEpudkgvVmMrcG8vSVVyQUozOVpsSzBHc3ZzSUlUOVA0?=
+ =?utf-8?B?QU1FYlVQamptaW1YcHkwN251Q1pMYjl0MGJjQ1lnMlo3MlArQTd5cnRCak5p?=
+ =?utf-8?B?dEtRaWRSdGFWTmdaVXBVcjlIQ0s0VTdEU1NobThkUkRCdmVMTDE3T0dMYW51?=
+ =?utf-8?B?cjg1WmVpQ1B3Qk93dVUyZnlUSXZKWnY3cm9udDhKUDB2dXp6a2dGWGJtRUh1?=
+ =?utf-8?B?VVNwM2tDTTFwYmlpdjExSVVKU21RdVFUVjlBN3hBVTlpSDE0RjJKVlZuaWtS?=
+ =?utf-8?B?TnViQXRPYVppRG9Bcm9VVUU4djE3VU5yd01EOWpqMkM4WXppOGFOQURnQXow?=
+ =?utf-8?B?cy9pVHZhc0dzREljeFZ4KzNzaWZ5d1ZMUi9tMFljREdseFJBZEdJRmNZVkg1?=
+ =?utf-8?B?TVdpbGVJS3pYOUxJc1VUeGwvSk5tZTZMQkVIQVcxRDlIUHQ1MCttYUl0L1VI?=
+ =?utf-8?B?TkRZT2xYSUg1cVlmSWtONm41UTdEdVVZOFdTYlBaTi9GenlQTE5EenlYN09j?=
+ =?utf-8?Q?EaGrHBx3qp+xEz4CKJgCN5XQG?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c0ed6f6d-81f2-4f2d-3d4b-08dafa128c61
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Jan 2023 11:44:39.9759
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: DveyUK7ud/Rz8oXqo1L30A5WmU6yEKNMnQC7m3r4MwNB+nGQwau+/4NT1EQlpCHW
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB4229
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Tomi, Andy,
+Am 19.01.23 um 12:12 schrieb Daniel Vetter:
+> On Thu, Jan 19, 2023 at 11:37:39AM +0100, Maarten Lankhorst wrote:
+>> On 2023-01-19 11:24, Paul Cercueil wrote:
+>>> Hi,
+>>>
+>>> Just a reflexion I have after an intensive (and intense) debugging
+>>> session.
+>>>
+>>> I had the following code:
+>>>
+>>>
+>>> int my_dma_resv_lock(struct dma_buf *dmabuf)
+>>> {
+>>> 	struct ww_acquire_ctx ctx;
+>>> 	int ret;
+>>>
+>>> 	ww_acquire_init(&ctx, &reservation_ww_class);
+>>>
+>>> 	ret = dma_resv_lock_interruptible(dmabuf->resv, &ctx);
+>>> 	if (ret) {
+>>> 		if (ret != -EDEADLK)
+>>> 			return ret;
+>>>
+>>> 		ret = dma_resv_lock_slow_interruptible(dmabuf->resv,
+>>> 						       &ctx);
+>>> 	}
+>>>
+>>> 	return ret;
+>>> }
+>>>
+>>>
+>>> Then I would eventually unlock the dma_resv object in the caller
+>>> function. What made me think this was okay, was that the API itself
+>>> suggests it's okay - as dma_resv_unlock() does not take the
+>>> "ww_acquire_ctx" object as argument, my assumption was that after the
+>>> dma_resv was locked, the variable could go out of scope.
+>>>
+>>> I wonder if it would be possible to change the API a little bit, so
+>>> that it is less prone to errors like this. Maybe by doing a struct copy
+>>> of the initialized ctx into the dma_resv object (if at all possible),
+>>> so that the original can actually go out of scope, or maybe having
+>>> dma_resv_unlock() take the ww_acquire_ctx as argument, even if it is
+>>> not actually used in the function body - just to make it obvious that
+>>> it is needed all the way to the point where the dma_resv is unlocked.
+>>>
+>>> This email doesn't have to result in anything, I just thought I'd share
+>>> one point where I feel the API could be made less error-prone.
+>> Hey,
+>>
+>> This example code will fail eventually. If you have DEBUG_LOCK_ALLOC
+>> enabled, a fake lock is inited in ww_acquire_init. If you don't free it
+>> using ww_acquire_fini(), lockdep will see that you free a live lock that was
+>> never released. PROVE_LOCKING will also complain that you never unlocked the
+>> ctx fake lock.
+>>
+>> If you do call ww_acquire_fini, you will get a loud complain if you never
+>> released all locks, because ctx->acquired is non-zero.
 
-On Thu, 19 Jan 2023 12:09:57 +0200
-Tomi Valkeinen <tomi.valkeinen@ideasonboard.com> wrote:
+The problem isn't that dma_resv_unlock() doesn't need the ctx, the 
+problem is that in this example the ctx object isn't properly cleaned up 
+and used.
 
-> On 19/01/2023 10:21, Luca Ceresoli wrote:
-> 
-> <snip>
-> 
-> >>>>> +void i2c_atr_set_driver_data(struct i2c_atr *atr, void *data)
-> >>>>> +{
-> >>>>> +	atr->priv = data;
-> >>>>> +}
-> >>>>> +EXPORT_SYMBOL_NS_GPL(i2c_atr_set_driver_data, I2C_ATR);
-> >>>>> +
-> >>>>> +void *i2c_atr_get_driver_data(struct i2c_atr *atr)
-> >>>>> +{
-> >>>>> +	return atr->priv;
-> >>>>> +}
-> >>>>> +EXPORT_SYMBOL_NS_GPL(i2c_atr_get_driver_data, I2C_ATR);  
-> >>>>
-> >>>> Just to be sure: Is it really _driver_ data and not _device instance_ data?  
-> >>>
-> >>> It is device instance data indeed. I don't remember why this got
-> >>> changed, but in v3 it was i2c_atr_set_clientdata().  
-> >>
-> >> It's me who was and is against calling it clientdata due to possible
-> >> confusion with i2c_set/get_clientdata() that is about *driver data*.
-> >> I missed that time the fact that this is about device instance data.
-> >> I dunno which name would be better in this case, i2c_atr_set/get_client_priv() ?  
-> > 
-> > Not sure I'm following you here. The i2c_atr_set_clientdata() name was
-> > given for similarity with i2c_set_clientdata(). The latter wraps
-> > dev_set_drvdata(), which sets `struct device`->driver_data. There is
-> > one driver_data per each `struct device` instance, not per each driver.
-> > The same goes for i2c_atr_set_driver_data(): there is one priv pointer
-> > per each `struct i2c_atr` instance.  
-> 
-> I'm a bit confused. What is "driver data" and what is "device instance 
-> data"?
-> 
-> This deals with the driver's private data, where the "driver" is the 
-> owner/creator of the i2c-atr. The i2c-atr itself doesn't have a device 
-> (it's kind of part of the owner's device), and there's no driver in 
-> i2c-atr.c
-> 
-> I don't like "client" here, as it reminds me of i2c_client (especially 
-> as we're in i2c context).
-> 
-> What about i2c_atr_set_user_data()? Or "owner_data"?
+As long as you only need to grab one lock the ctx should be NULL. Only 
+when you grab multiple locks the ctx is used to make sure that you can 
+detect and handle deadlocks between those different locks.
 
-Ah, only now I got the point Andy made initially about "client" not
-being an appropriate word.
+So using the ctx correctly also makes the lifetime of that object much 
+more clear since it needs to stay around at least until all locks are taken.
 
-In i2c we have:
+>>
+>> Try with PROVE_LOCKING, your example will receive a lockdep splat. :)
+> Also CONFIG_DEBUG_WW_MUTEX_SLOWPATH=y any time you change ww code please.
+> Otherwise it's just not fully tested.
 
-  i2c_set_clientdata(struct i2c_client *client, void *data)
-          ^^^^^^~~~~            ^^^^^^                ~~~~
+Yeah, completely agree to both.
 
-so "client" clearly makes sense there, now here.
+Christian.
 
-The same logic applied here would lead to:
+> -Daniel
 
-  i2c_atr_set_atrdata(struct i2c_atr *atr, void *data)
-              ^^^~~~~            ^^^             ~~~~
-
-which makes sense but it is a ugly IMO.
-
-So I think i2c_atr_get_driver_data() in this v7 makes sense, it's to
-set the data that the ATR driver instance needs.
-
-This is coherent with logic in spi/spi.h:
-
-  spi_set_drvdata(struct spi_device *spi, void *data)
-
-except for the abbreviation ("_drvdata" vs "_driver_data").
-
-Andy, Tomi, would i2c_atr_set_drvdata() be OK for you, just like SPI
-does?
-
--- 
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
