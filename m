@@ -2,39 +2,58 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9AC2C674397
-	for <lists+linux-media@lfdr.de>; Thu, 19 Jan 2023 21:40:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B6B8E67439D
+	for <lists+linux-media@lfdr.de>; Thu, 19 Jan 2023 21:42:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230197AbjASUkq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 19 Jan 2023 15:40:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44200 "EHLO
+        id S230042AbjASUmL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 19 Jan 2023 15:42:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45628 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230232AbjASUkg (ORCPT
+        with ESMTP id S229677AbjASUmH (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 19 Jan 2023 15:40:36 -0500
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 290789EE0F;
-        Thu, 19 Jan 2023 12:40:27 -0800 (PST)
-Received: from nicolas-tpx395.localdomain (192-222-136-102.qc.cable.ebox.net [192.222.136.102])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: nicolas)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id A682F660087C;
-        Thu, 19 Jan 2023 20:40:24 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1674160826;
-        bh=pKKvSzEVhqAZVWboXnAR32Zg3yJ4mCGK7JdsQV41PG0=;
-        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-        b=YambYvw0O/wkLxHpHPRgTZC7vh1xd4gpqQeHl7xITtH9YL4e/IRGOI4gZC5edlNbM
-         a2eMGk4RXHyb7AhqPKm9wAl2PwhEWR5paXmIwjqAY5g3OIiHLn33+wGCuLl8bEFQdF
-         hvPh0kNr6N67DNQY0Jx/WS2OcC7/dxz1QhuIv5iKPh0FcaosT11E2gu8hpgsZPf+l/
-         XJz/oc9LfCWoijztaaj0b6vaRy2crmJi6fgMc4J42g4fr0knBhO/Gjnb6oBe8x1Dko
-         fQjxYYXOFqMYKP+NZMJc7bYMw7KhsSpAZqviZ51YB+oNZucq5sSIyhlvpkWdJrjxb5
-         GgcGzCv0B1GMQ==
-Message-ID: <a1345b0c5a25f0f14659f5c02ab49dbcbb2ccdef.camel@collabora.com>
-Subject: Re: [PATCH v2 1/2] media: add Sorenson Spark video format
-From:   Nicolas Dufresne <nicolas.dufresne@collabora.com>
+        Thu, 19 Jan 2023 15:42:07 -0500
+Received: from mail-qt1-x831.google.com (mail-qt1-x831.google.com [IPv6:2607:f8b0:4864:20::831])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7AAF49F047
+        for <linux-media@vger.kernel.org>; Thu, 19 Jan 2023 12:41:33 -0800 (PST)
+Received: by mail-qt1-x831.google.com with SMTP id e8so2580765qts.1
+        for <linux-media@vger.kernel.org>; Thu, 19 Jan 2023 12:41:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=1jM2JQTdRNAdYzy1GQ8Op4oYVTBiB1MTyaHN5HgqtFQ=;
+        b=G90JXst8UiJUIJm7dm3a/sYtG7NhkTvFEmQppGE0hH7IurH7MrzQIguR4FMczQzG4D
+         LOy+4VdCoyC2rOpVbAsvWND1TldbzniA5lIg3zl7FkX5gYQR9iz8vbNdXvRwbUcS620P
+         eXAGG4LWc3oQj8zfpvTUHYV58B/Hp+qZvnmBRKtoCzlHCk1N+WO6bgfKfDXfDY4Virhy
+         iMifmeqgDfdVuKndw50gQa93m9LQaUVL5w5FDlgW9S6nLhePhUOQG7QlR4wf9yfU8tYr
+         24sAQFPRErLH1z55azBDRTRFgrYiVrO86bp3vyFYdFAMmasFeHcs4ebwoBsQwK4T9J5H
+         UXZQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=1jM2JQTdRNAdYzy1GQ8Op4oYVTBiB1MTyaHN5HgqtFQ=;
+        b=XWlYlI+OOl9PAdTgklpuHcGXLx/yhcKuEaCQxP7CxIjXy8l68FGKJJFUCUk2nJQHcl
+         gECJxPYnmZhkbJh5V8AvI7scO65N6fb/IJ40R+V4bjmI0qxy4/yK+Y2T6SkbrGydzjm6
+         rnI6U6uehNG26B1Lal2EE7+8pdRTGn8n0GLrewhvImGcIoHgrA+GMzn6PpptMTgCxB2y
+         e4vjJJY4I2PTAunYpraFalc0F2hgcF8kykhUpAW5jj9RlxITX876nUZkYg9ivAsF11I/
+         hizi/HK02Su8XQwh5HNTKHCVxnKeEG1S/fLKnPbhX4GXKlpiSkxiNayK27H5bxa8jDY9
+         bImg==
+X-Gm-Message-State: AFqh2kqOpMI9CXTEcIF0MV70XDlkzSygu4qf6khVpSrebnbeqec6mKy/
+        wkjYYFziIqvpOZZ1nCTSMdFzlg==
+X-Google-Smtp-Source: AMrXdXvC9/kukIOkGJxFQ64UcL1d+ibzQMHjEy4HG2UUkfHs3di2p07mMQ01ChKb+J9L5KZYIHTnFA==
+X-Received: by 2002:ac8:4a18:0:b0:3b6:8d44:5648 with SMTP id x24-20020ac84a18000000b003b68d445648mr6609929qtq.46.1674160882813;
+        Thu, 19 Jan 2023 12:41:22 -0800 (PST)
+Received: from nicolas-tpx395.localdomain (192-222-136-102.qc.cable.ebox.net. [192.222.136.102])
+        by smtp.gmail.com with ESMTPSA id j25-20020ac874d9000000b003b0b903720esm12386762qtr.13.2023.01.19.12.41.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 19 Jan 2023 12:41:22 -0800 (PST)
+Message-ID: <bb9fb55bf81b978041e44e04d619adf43488f467.camel@ndufresne.ca>
+Subject: Re: [PATCH v2 2/2] media: amphion: support to decode sorenson spark
+ video
+From:   Nicolas Dufresne <nicolas@ndufresne.ca>
 To:     Ming Qian <ming.qian@nxp.com>, mchehab@kernel.org,
         hverkuil-cisco@xs4all.nl
 Cc:     shawnguo@kernel.org, robh+dt@kernel.org, s.hauer@pengutronix.de,
@@ -42,91 +61,119 @@ Cc:     shawnguo@kernel.org, robh+dt@kernel.org, s.hauer@pengutronix.de,
         xiahong.bao@nxp.com, eagle.zhou@nxp.com, tao.jiang_2@nxp.com,
         linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org
-Date:   Thu, 19 Jan 2023 15:40:12 -0500
-In-Reply-To: <fb29e0170fcbf258136566d59aaa904d0da559a9.1673513975.git.ming.qian@nxp.com>
+Date:   Thu, 19 Jan 2023 15:41:19 -0500
+In-Reply-To: <ab85e597c37aad849480bfe912d5e06aebc51726.1673513975.git.ming.qian@nxp.com>
 References: <cover.1673513975.git.ming.qian@nxp.com>
-         <fb29e0170fcbf258136566d59aaa904d0da559a9.1673513975.git.ming.qian@nxp.com>
+         <ab85e597c37aad849480bfe912d5e06aebc51726.1673513975.git.ming.qian@nxp.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.46.2 (3.46.2-1.fc37) 
 MIME-Version: 1.0
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-
 Le jeudi 12 janvier 2023 =C3=A0 17:04 +0800, Ming Qian a =C3=A9crit=C2=A0:
 > Sorenson Spark is an implementation of H.263 for use
 > in Flash Video and Adobe Flash files.
-> Sorenson Spark is an incomplete implementation of H.263.
-> It differs mostly in header structure and ranges of the coefficients.
+> amphion decoder can support it by insert some startcode
+> before sequence and picture.
+
+Its historical codec, but I'm surprise it does not also support H263 (and
+possibly H263+). Note a review comment of course, just a curiosity.
+
 >=20
 > Signed-off-by: Ming Qian <ming.qian@nxp.com>
-
-Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-
 > ---
->  Documentation/userspace-api/media/v4l/pixfmt-compressed.rst | 5 +++++
->  drivers/media/v4l2-core/v4l2-ioctl.c                        | 1 +
->  include/uapi/linux/videodev2.h                              | 1 +
->  3 files changed, 7 insertions(+)
+>  drivers/media/platform/amphion/vdec.c       |  7 +++++++
+>  drivers/media/platform/amphion/vpu_malone.c | 18 ++++++++++++++++++
+>  2 files changed, 25 insertions(+)
 >=20
-> diff --git a/Documentation/userspace-api/media/v4l/pixfmt-compressed.rst =
-b/Documentation/userspace-api/media/v4l/pixfmt-compressed.rst
-> index 506dd3c98884..a0230f357680 100644
-> --- a/Documentation/userspace-api/media/v4l/pixfmt-compressed.rst
-> +++ b/Documentation/userspace-api/media/v4l/pixfmt-compressed.rst
-> @@ -88,6 +88,11 @@ Compressed Formats
->        - ``V4L2_PIX_FMT_H263``
->        - 'H263'
->        - H263 video elementary stream.
-> +    * .. _V4L2-PIX-FMT-SPK:
+> diff --git a/drivers/media/platform/amphion/vdec.c b/drivers/media/platfo=
+rm/amphion/vdec.c
+> index 87f9f8e90ab1..09304b96f40d 100644
+> --- a/drivers/media/platform/amphion/vdec.c
+> +++ b/drivers/media/platform/amphion/vdec.c
+> @@ -165,6 +165,13 @@ static const struct vpu_format vdec_formats[] =3D {
+>  		.type =3D V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE,
+>  		.flags =3D V4L2_FMT_FLAG_DYN_RESOLUTION | V4L2_FMT_FLAG_COMPRESSED
+>  	},
+> +	{
+> +		.pixfmt =3D V4L2_PIX_FMT_SPK,
+> +		.mem_planes =3D 1,
+> +		.comp_planes =3D 1,
+> +		.type =3D V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE,
+> +		.flags =3D V4L2_FMT_FLAG_DYN_RESOLUTION | V4L2_FMT_FLAG_COMPRESSED
+> +	},
+>  	{0, 0, 0, 0},
+>  };
+> =20
+> diff --git a/drivers/media/platform/amphion/vpu_malone.c b/drivers/media/=
+platform/amphion/vpu_malone.c
+> index 2c9bfc6a5a72..67ba637c4c7f 100644
+> --- a/drivers/media/platform/amphion/vpu_malone.c
+> +++ b/drivers/media/platform/amphion/vpu_malone.c
+> @@ -562,6 +562,7 @@ static struct malone_fmt_mapping fmt_mappings[] =3D {
+>  	{V4L2_PIX_FMT_H263,        MALONE_FMT_ASP},
+>  	{V4L2_PIX_FMT_JPEG,        MALONE_FMT_JPG},
+>  	{V4L2_PIX_FMT_VP8,         MALONE_FMT_VP8},
+> +	{V4L2_PIX_FMT_SPK,         MALONE_FMT_SPK},
+>  };
+> =20
+>  static enum vpu_malone_format vpu_malone_format_remap(u32 pixelformat)
+> @@ -987,6 +988,7 @@ static const struct malone_padding_scode padding_scod=
+es[] =3D {
+>  	{SCODE_PADDING_EOS,      V4L2_PIX_FMT_XVID,        {0xb1010000, 0x0}},
+>  	{SCODE_PADDING_EOS,      V4L2_PIX_FMT_H263,        {0xb1010000, 0x0}},
+>  	{SCODE_PADDING_EOS,      V4L2_PIX_FMT_VP8,         {0x34010000, 0x0}},
+> +	{SCODE_PADDING_EOS,      V4L2_PIX_FMT_SPK,         {0x34010000, 0x0}},
+>  	{SCODE_PADDING_EOS,      V4L2_PIX_FMT_JPEG,        {0xefff0000, 0x0}},
+>  	{SCODE_PADDING_ABORT,    V4L2_PIX_FMT_H264,        {0x0B010000, 0}},
+>  	{SCODE_PADDING_ABORT,    V4L2_PIX_FMT_H264_MVC,    {0x0B010000, 0}},
+> @@ -998,6 +1000,7 @@ static const struct malone_padding_scode padding_sco=
+des[] =3D {
+>  	{SCODE_PADDING_ABORT,    V4L2_PIX_FMT_XVID,        {0xb1010000, 0x0}},
+>  	{SCODE_PADDING_ABORT,    V4L2_PIX_FMT_H263,        {0xb1010000, 0x0}},
+>  	{SCODE_PADDING_ABORT,    V4L2_PIX_FMT_VP8,         {0x34010000, 0x0}},
+> +	{SCODE_PADDING_ABORT,    V4L2_PIX_FMT_SPK,         {0x34010000, 0x0}},
+>  	{SCODE_PADDING_EOS,      V4L2_PIX_FMT_JPEG,        {0x0, 0x0}},
+>  	{SCODE_PADDING_BUFFLUSH, V4L2_PIX_FMT_H264,        {0x15010000, 0x0}},
+>  	{SCODE_PADDING_BUFFLUSH, V4L2_PIX_FMT_H264_MVC,    {0x15010000, 0x0}},
+> @@ -1411,6 +1414,16 @@ static int vpu_malone_insert_scode_vp8_pic(struct =
+malone_scode_t *scode)
+>  	return size;
+>  }
+> =20
+> +static int vpu_malone_insert_scode_spk_seq(struct malone_scode_t *scode)
+> +{
+> +	return vpu_malone_insert_scode_seq(scode, MALONE_CODEC_ID_SPK, 0);
+> +}
 > +
-> +      - ``V4L2_PIX_FMT_SPK``
-> +      - 'SPK0'
-> +      - Sorenson Spark is an implementation of H.263 for use in Flash Vi=
-deo and Adobe Flash files
->      * .. _V4L2-PIX-FMT-MPEG1:
+> +static int vpu_malone_insert_scode_spk_pic(struct malone_scode_t *scode)
+> +{
+> +	return vpu_malone_insert_scode_pic(scode, MALONE_CODEC_ID_SPK, 0);
+> +}
+> +
+>  static const struct malone_scode_handler scode_handlers[] =3D {
+>  	{
+>  		/* fix me, need to swap return operation after gstreamer swap */
+> @@ -1427,6 +1440,11 @@ static const struct malone_scode_handler scode_han=
+dlers[] =3D {
+>  		.insert_scode_seq =3D vpu_malone_insert_scode_vp8_seq,
+>  		.insert_scode_pic =3D vpu_malone_insert_scode_vp8_pic,
+>  	},
+> +	{
+> +		.pixelformat =3D V4L2_PIX_FMT_SPK,
+> +		.insert_scode_seq =3D vpu_malone_insert_scode_spk_seq,
+> +		.insert_scode_pic =3D vpu_malone_insert_scode_spk_pic,
+> +	},
+>  };
 > =20
->        - ``V4L2_PIX_FMT_MPEG1``
-> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-co=
-re/v4l2-ioctl.c
-> index 8e0a0ff62a70..9b5b04b8aa69 100644
-> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
-> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-> @@ -1472,6 +1472,7 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *f=
-mt)
->  		case V4L2_PIX_FMT_HEVC_SLICE:	descr =3D "HEVC Parsed Slice Data"; brea=
-k;
->  		case V4L2_PIX_FMT_FWHT:		descr =3D "FWHT"; break; /* used in vicodec *=
-/
->  		case V4L2_PIX_FMT_FWHT_STATELESS:	descr =3D "FWHT Stateless"; break; /=
-* used in vicodec */
-> +		case V4L2_PIX_FMT_SPK:		descr =3D "Sorenson Spark"; break;
->  		case V4L2_PIX_FMT_CPIA1:	descr =3D "GSPCA CPiA YUV"; break;
->  		case V4L2_PIX_FMT_WNVA:		descr =3D "WNVA"; break;
->  		case V4L2_PIX_FMT_SN9C10X:	descr =3D "GSPCA SN9C10X"; break;
-> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev=
-2.h
-> index 3c56b81424f3..262ef10cfa02 100644
-> --- a/include/uapi/linux/videodev2.h
-> +++ b/include/uapi/linux/videodev2.h
-> @@ -739,6 +739,7 @@ struct v4l2_pix_format {
->  #define V4L2_PIX_FMT_FWHT_STATELESS     v4l2_fourcc('S', 'F', 'W', 'H') =
-/* Stateless FWHT (vicodec) */
->  #define V4L2_PIX_FMT_H264_SLICE v4l2_fourcc('S', '2', '6', '4') /* H264 =
-parsed slices */
->  #define V4L2_PIX_FMT_HEVC_SLICE v4l2_fourcc('S', '2', '6', '5') /* HEVC =
-parsed slices */
-> +#define V4L2_PIX_FMT_SPK      v4l2_fourcc('S', 'P', 'K', '0') /* Sorenso=
-n Spark */
-> =20
->  /*  Vendor-specific formats   */
->  #define V4L2_PIX_FMT_CPIA1    v4l2_fourcc('C', 'P', 'I', 'A') /* cpia1 Y=
-UV */
+>  static const struct malone_scode_handler *get_scode_handler(u32 pixelfor=
+mat)
 
