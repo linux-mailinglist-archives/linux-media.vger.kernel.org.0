@@ -2,140 +2,83 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D1CEA6749FA
-	for <lists+linux-media@lfdr.de>; Fri, 20 Jan 2023 04:19:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1D939674BCC
+	for <lists+linux-media@lfdr.de>; Fri, 20 Jan 2023 06:08:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229840AbjATDTG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 19 Jan 2023 22:19:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36860 "EHLO
+        id S231192AbjATFIY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 20 Jan 2023 00:08:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34968 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229634AbjATDTF (ORCPT
+        with ESMTP id S231172AbjATFHy (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 19 Jan 2023 22:19:05 -0500
-Received: from mail-ot1-x330.google.com (mail-ot1-x330.google.com [IPv6:2607:f8b0:4864:20::330])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C84718170
-        for <linux-media@vger.kernel.org>; Thu, 19 Jan 2023 19:19:03 -0800 (PST)
-Received: by mail-ot1-x330.google.com with SMTP id k1-20020a056830150100b006864d1cb279so2390153otp.5
-        for <linux-media@vger.kernel.org>; Thu, 19 Jan 2023 19:19:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=landley-net.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=WxJtcfmjg8bDlWo77QXfqDNdo8CBClhx9W/RQtlqbwY=;
-        b=195AXt9odDu2myrtF32+GBb0qMFgjNikCrpxsa+WbA8hIOrugiKzMmRa6ck9jEEnh+
-         BAiMUjeACSwa7DIsy0nd31WMLgqeemkaP54UGh/z5/4/iE4OKfk/JF3Mfjc9Slk04hNo
-         yl5Eob9OFP8rjo94KXNck41rTFVGwR12Dn+yA5SLoZAqZ3VzofVm+vx+0BgQAYSmr785
-         93R2tgLtdgq0ZrmMjpy2ltpjwYB3CfaG5BeK8n4rbY9oAJxrmKWOuImd3ZYcTj/FPdb2
-         jJLXFRha+Q7ERnsBZifTFijpda8XPNDI9gPItiLsvkjmbQtAsn8L1qQF4XOocbXXc8zc
-         lOGg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=WxJtcfmjg8bDlWo77QXfqDNdo8CBClhx9W/RQtlqbwY=;
-        b=O0Q81tpcKJalsWqJrojWMB2Rnf025fzjKlmWQXKPfaKYZkG8tGDfNhXQ4SFUrxskbN
-         C20m2CgbCXbyhkJMLOvv5d5Fhe+tf2NL/CLARs+YObsqO7+/b2Z176JvGmXtvJU4KB36
-         wfOSR/r0k1b3BstCrhjLR45x7njEoJW67qyFpLz8xnYAXnAXRSFsL4ZLNviwdpo8Frxc
-         wPwjTVlNhnJK/mHOOEwleBsnuF7OBkSCVlYsKIAvWvTWBFyZMUMbYrcPWR0Gp5wpy1KV
-         DPD3VE4AHZXQlp4A31kXyUMLVxX8vexvNvy0n0ApkYYyS8U6kWYo+taCuf68be0JQW7y
-         Q3tA==
-X-Gm-Message-State: AFqh2kqn3ZHE5jjtUgx6e55aP+ndNOSq6JzP02VfFGSxzhmQnbE6vcNL
-        fckDeg5SuAvhhR43FEo5oeht4w==
-X-Google-Smtp-Source: AMrXdXsEe/2+E0aFpK50BI2W31LvjkQnB05BvrClqgL71HBhXQ2hq9P1I+orXsNyKBoEZPHv4iTJdA==
-X-Received: by 2002:a9d:704f:0:b0:685:579f:918e with SMTP id x15-20020a9d704f000000b00685579f918emr6930248otj.0.1674184742349;
-        Thu, 19 Jan 2023 19:19:02 -0800 (PST)
-Received: from ?IPV6:2607:fb90:f20b:1885:28a8:1eff:fe1b:3320? ([2607:fb90:f20b:1885:28a8:1eff:fe1b:3320])
-        by smtp.gmail.com with ESMTPSA id m6-20020a9d73c6000000b006860be3a43fsm7631822otk.14.2023.01.19.19.19.01
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 19 Jan 2023 19:19:01 -0800 (PST)
-Message-ID: <0f51dac4-836b-0ff2-38c6-5521745c1c88@landley.net>
-Date:   Thu, 19 Jan 2023 21:31:21 -0600
+        Fri, 20 Jan 2023 00:07:54 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E7E44C45B2;
+        Thu, 19 Jan 2023 20:55:08 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 2B60CB82109;
+        Thu, 19 Jan 2023 07:46:43 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9B0FDC433EF;
+        Thu, 19 Jan 2023 07:46:40 +0000 (UTC)
+Message-ID: <ccedda97-ed68-9453-30d3-24506d771b44@xs4all.nl>
+Date:   Thu, 19 Jan 2023 08:46:39 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Subject: Re: Calculating array sizes in C - was: Re: Build
- regressions/improvements in v6.2-rc1
+ Thunderbird/102.6.0
+Subject: Re: [PATCH] media:cec:fix double free and uaf issue when cancel data
+ during noblocking
 Content-Language: en-US
-To:     "Michael.Karcher" <Michael.Karcher@fu-berlin.de>,
-        John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
-        Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
-        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
-        linux-wireless@vger.kernel.org, linux-mips@vger.kernel.org,
-        linux-sh@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
-        linuxppc-dev@lists.ozlabs.org, kasan-dev@googlegroups.com,
-        linux-xtensa@linux-xtensa.org,
-        Michael Karcher <kernel@mkarcher.dialup.fu-berlin.de>,
-        Arnd Bergmann <arnd@arndb.de>
-References: <CAHk-=wgf929uGOVpiWALPyC7pv_9KbwB2EAvQ3C4woshZZ5zqQ@mail.gmail.com>
- <20221227082932.798359-1-geert@linux-m68k.org>
- <alpine.DEB.2.22.394.2212270933530.311423@ramsan.of.borg>
- <c05bee5d-0d69-289b-fe4b-98f4cd31a4f5@physik.fu-berlin.de>
- <CAMuHMdXNJveXHeS=g-aHbnxtyACxq1wCeaTg8LbpYqJTCqk86g@mail.gmail.com>
- <3800eaa8-a4da-b2f0-da31-6627176cb92e@physik.fu-berlin.de>
- <CAMuHMdWbBRkhecrqcir92TgZnffMe8ku2t7PcVLqA6e6F-j=iw@mail.gmail.com>
- <429140e0-72fe-c91c-53bc-124d33ab5ffa@physik.fu-berlin.de>
- <CAMuHMdWpHSsAB3WosyCVgS6+t4pU35Xfj3tjmdCDoyS2QkS7iw@mail.gmail.com>
- <0d238f02-4d78-6f14-1b1b-f53f0317a910@physik.fu-berlin.de>
- <1732342f-49fe-c20e-b877-bc0a340e1a50@fu-berlin.de>
-From:   Rob Landley <rob@landley.net>
-In-Reply-To: <1732342f-49fe-c20e-b877-bc0a340e1a50@fu-berlin.de>
+To:     Xinghui Li <korantwork@gmail.com>, mchehab@kernel.org
+Cc:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        Xinghui Li <korantli@tencent.com>, loydlv <loydlv@tencent.com>
+References: <20230111123712.160882-1-korantwork@gmail.com>
+ <b1a8593b-b4f3-b943-39db-ed17679e32cb@xs4all.nl>
+ <4D54942F-92F0-429D-9F54-3D8F7705D576@gmail.com>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <4D54942F-92F0-429D-9F54-3D8F7705D576@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE
-        autolearn=unavailable autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-
-
-On 1/19/23 16:11, Michael.Karcher wrote:
-> Isn't this supposed to be caught by this check:
->>>>
->>>>          a, __same_type(a, NULL)
->>>>
->>>> ?
->>>
->>> Yeah, but gcc thinks it is smarter than us...
->>> Probably it drops the test, assuming UB cannot happen.
->> Hmm, sounds like a GGC bug to me then. Not sure how to fix this then.
+On 19/01/2023 05:49, Xinghui Li wrote:
+> 在 2023/1/18 18:18，“Hans Verkuil”<hverkuil-cisco@xs4all.nl <mailto:hverkuil-cisco@xs4all.nl>> 写入:
 > 
+>> ...while this free is called if data->blocking is true. (see the 'if (!block) return 0;'
+>> further up).
+> Do you mean this code?
 > 
-> I don't see a clear bug at this point. We are talking about the C expression
+> 	/* All done if we don't need to block waiting for completion */
+> 	if (!block)
+> 		return 0;
+
+Yes.
+
+> I notice this part code. But I'm not sure if 'block' will be modified in other sync operations. 
+> So I sent this patch for community to review.
+
+It's not modified anywhere else.
+
 > 
->    __same_type((void*)0, (void*)0)? 0 : sizeof((void*)0)/sizeof(*((void*0))
+>> So I have my doubts if this patch actually addresses the correct issue.
+>> Do you have an actual debug trace of the UAF? Or even better, code to reproduce
+>> this issue.
+> 
+> And we found this issue by the code scanning tool developed by loydlv and filtered from 200 issue by human.
+> So it could be the none-issue. If so, I hope I didn't waste too much of your time.
 
-*(void*) is type "void" which does not have a size.
+I'll reject this patch since I believe this to be a false report. For future reference:
+if a patch is based on code scanning tools then it's good to mention that in the commit
+log. I wasn't aware that 'loydlv' is such a tool.
 
-The problem is gcc "optimizing out" an earlier type check, the same way it
-"optimizes out" checks for signed integer math overflowing, or "optimizes out" a
-comparison to pointers from two different local variables from different
-function calls trying to calculate the amount of stack used, or "optimizes out"
-using char *x = (char *)1; as a flag value and then doing "if (!(x-1)) because
-it can "never happen"...
-> I suggest to file a bug against gcc complaining about a "spurious 
-> warning", and using "-Werror -Wno-error-sizeof-pointer-div" until gcc is 
-> adapted to not emit the warning about the pointer division if the result 
-> is not used.
+Regards,
 
-Remember when gcc got rewritten in c++ starting in 2007?
-
-Historically the main marketing push of C++ was that it contains the whole of C
-and therefore MUST be just as good a language, the same way a mud pie contains
-an entire glass of water and therefore MUST be just as good a beverage. Anything
-C can do that C++ _can't_ do is seen as an existential threat by C++ developers.
-They've worked dilligently to "fix" C not being a giant pile of "undefined
-behavior" the way C++ is for 15 years now.
-
-I have... opinions on this.
-
-> Regards,
->    Michael Karcher
-
-Rob
+	Hans
