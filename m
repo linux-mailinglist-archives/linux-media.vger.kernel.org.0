@@ -2,209 +2,105 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B6ECD673741
-	for <lists+linux-media@lfdr.de>; Thu, 19 Jan 2023 12:45:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 323AA673787
+	for <lists+linux-media@lfdr.de>; Thu, 19 Jan 2023 12:55:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230421AbjASLpr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 19 Jan 2023 06:45:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51100 "EHLO
+        id S230160AbjASLzZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 19 Jan 2023 06:55:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59072 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231136AbjASLpM (ORCPT
+        with ESMTP id S230077AbjASLzX (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 19 Jan 2023 06:45:12 -0500
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2084.outbound.protection.outlook.com [40.107.92.84])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D13966CE9
-        for <linux-media@vger.kernel.org>; Thu, 19 Jan 2023 03:44:42 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=C5gQAM4MHCKv4WTF1ORpjD6y2dBuKyLy4ZlJCpLSweovFK4BGIVhOnLVkcoB096p6BvAcVEPBusVKwg0wYdemxsLHJQEde/ThD+gI5Nfgezlg4DbrkvNDpaQW7ZZjY7eRKRd5Xti4mrP1k6AK7A1PDoaOs8XAIN7vqD+8yj1fHOCz5u0NlKvL2tSUjVYKbn/Fm/cEBHSQzErVVhbL8kimlEvjlozjtsGGqSX/hxPzhSghGkCjsyDqktAfKPVmANQkjcWBZUkPcggA1TNss6+RbWbsNBwcVg+hEkgFWpmnsiyCo9WaQrAtH/qqyOOdAE8wctJGrngzo8D1PcioYBz9g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ToLJaSRi/EOcP/EusyLd9hTZZHaHBEXVfIJZcjwiL0E=;
- b=EXtU9QpwU98rLTX5D1+IN9DFZaulwY+4TSU/zklIa1PVYHQO2piWB5LI7F+Hq4uf5f9Cvf40pn4k+DfcX89EmtdXnj4RVtE6YEm0KI09OJsAbpEherqbH+MX6UwDXIqmRd3HixQQmpFzdIWr+2ikEG5ZM5jFckMFOnZmPPTP1EqVaU+BfqSo/0I82iO0F+10w9VVbOSn8+BF9LUuXDMH4nM/0ZxKn2BMfxTsptP5A55pdWlyF1ea7lLAg0kEfDKAja0beqOSLPYOi6mBv9h98j8kES8/2X0L88+0dlb+s1Hd4a/LxCMaKsCXIcpbUmVjK1S5kO7nNKdJx3JAiacPjQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ToLJaSRi/EOcP/EusyLd9hTZZHaHBEXVfIJZcjwiL0E=;
- b=XDM+aJR3I1UhR97zvbs+NrhbRYbgSHtCsHUlSqMye81swGIa+nriJMHWYKkMQdvAwf5nX1Hrx7AuQ8Fua4XFfAPVBgzyhI6yqu6EJVVOH1BJYcZT+LtTs22CMiefl/LwJkh2Qdf7xAqmDkP0N0SgU/D0tmGqoXPE8ZF05M+OxJk=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by CH2PR12MB4229.namprd12.prod.outlook.com (2603:10b6:610:a5::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6002.24; Thu, 19 Jan
- 2023 11:44:40 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::80d8:934f:caa7:67b0]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::80d8:934f:caa7:67b0%3]) with mapi id 15.20.6002.024; Thu, 19 Jan 2023
- 11:44:40 +0000
-Message-ID: <61349cff-c06c-3958-c1cf-9713e12bc313@amd.com>
-Date:   Thu, 19 Jan 2023 12:44:35 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: RFC: dma_resv_unlock() and ww_acquire_ctx scope
-Content-Language: en-US
-To:     Daniel Vetter <daniel@ffwll.ch>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc:     Paul Cercueil <paul@crapouillou.net>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org
-References: <730e5a40874c0e5bf66ddcb9fe7b2e4f28e09b1a.camel@crapouillou.net>
- <33c2d360-31f9-da8b-127a-d473029192e6@linux.intel.com>
- <Y8kltaITYoTEl9SQ@phenom.ffwll.local>
-From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <Y8kltaITYoTEl9SQ@phenom.ffwll.local>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR3P281CA0202.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:a5::6) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
+        Thu, 19 Jan 2023 06:55:23 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 880844B4B0;
+        Thu, 19 Jan 2023 03:55:22 -0800 (PST)
+Received: from ideasonboard.com (unknown [IPv6:2401:4900:1c80:b229:a6c1:a673:925f:1ed6])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7A9202B3;
+        Thu, 19 Jan 2023 12:55:12 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1674129319;
+        bh=9pAoOLTF7+Cw2506uroWXwqL72bQqS8dBuEzdJmN6mk=;
+        h=From:To:Cc:Subject:Date:From;
+        b=EFBLzxwdWyogpOD+jkKNhGCeVQNIVIUwhdmwIeQT90jtFUyAUrpAH01zIH7UjmggZ
+         naxjM5EsPyGZYb4zb0NPDJglBSL12ekfhZslZUyz5XD5MdO91Wvl5dnTFIreL1aoal
+         MLPsKMNxWaMtNsdVu6/K6RvFrVq/RhxOvmTpLpUg=
+From:   Umang Jain <umang.jain@ideasonboard.com>
+To:     linux-staging@lists.linux.dev,
+        linux-rpi-kernel@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     Stefan Wahren <stefan.wahren@i2se.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Adrien Thierry <athierry@redhat.com>,
+        Dan Carpenter <error27@gmail.com>,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Paul Elder <paul.elder@ideasonboard.com>,
+        Umang Jain <umang.jain@ideasonboard.com>
+Subject: [PATCH v5 0/6] staging: vc04_services: vchiq: Register devices with a custom bus_type
+Date:   Thu, 19 Jan 2023 17:24:57 +0530
+Message-Id: <20230119115503.268693-1-umang.jain@ideasonboard.com>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|CH2PR12MB4229:EE_
-X-MS-Office365-Filtering-Correlation-Id: c0ed6f6d-81f2-4f2d-3d4b-08dafa128c61
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 3eFHsTFzBoDlfL0T7Drqm8vp0ywsL3oFhSWK5U4+9Xl49HWK4PuirXIoCTpmHKfhsLnE4HbSq6HHcXpThu9o4qcwNHSgftu5Baisu9PqEuwIueMpBnLJd1/kPRDlUUzauW4ij4ld+IyS3O072EWjLom+6Dn3KAEXluq2Rnbe1GAcal2is85BI3pX8UrouNSOdP7Xzxsg0WM0Wj+LxgGn+Rb0xx7Yp9W+YhYEUfwqZfxpHFUhOD9uHEK/XREUEOrvVfC42DU4fupRA1e/HZRhqn+yKJH18MD3atr21HY/9FKC2tywWyR7wVlfoxPeXE/3lsdqLEoJRaL74WbKSsuJNHL6uYo8w08RH1zJ89Onow5x42Qyb975VLRcETYyznCL8v+BlzjCMvvZ0sRVo4ZEmnf3J5mEyzP9EkJaE7JFc/OkPS338bUWu9EYdhwqsbBhF5K/NX2mGb7ZcerjBa7UemLY5xK6Jcn+QftGkd7ALhFSCEWGYWVEwSZ1OQumH9G/RV9iiFmP9LAANYUGaXPoMiWAgdDjV3mG87JEgMwEQSUOTirlMq1IpurUE4epBmDprcBWxXgm+99W0joXAk6lul2cdj1whN12ifkCAXwHLoxWtBC/IoYwM7lf0rBcmBzHpok5UNdPBYg7KfiM4xnRtCckfIoYn6cHaJUws9oK8KPNy305H4pzzYE54mCrAylYYZjU/4ceWhwBKIiOAWhxW2aGwVNRlR/AbvB9Jrgugfs=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN8PR12MB3587.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(376002)(366004)(346002)(396003)(39860400002)(136003)(451199015)(41300700001)(4326008)(31686004)(6666004)(8676002)(66476007)(8936002)(66556008)(66946007)(36756003)(2616005)(2906002)(5660300002)(54906003)(110136005)(316002)(26005)(6486002)(31696002)(86362001)(186003)(478600001)(6512007)(53546011)(6506007)(83380400001)(38100700002)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Q2FYTHpvZ2sxZkx1VjRROTZ0WkJGd0ZwN2VYWW5zVlRqbW55NTVUc0hiTVYw?=
- =?utf-8?B?aDRmNFVVejNZSytvcDVhTFFBVnN4MVJRNnpSR2tzcGpMUXlaRUpFTUNvb2xk?=
- =?utf-8?B?Y0dxZ2wwV0FrUFczNVNwYjdVOVhmOUFLdGxJS0tIOWxRNFF0Tmw5Qm1UVDlB?=
- =?utf-8?B?ZUxBOFVuNEpMTTlvc2pCeEhtSWs1WVc2OGdqRWI0N1BBWTZCdHRyN3RwbnB2?=
- =?utf-8?B?RzZ5NHhDbGMyYlNLcXBwMWdla2VDQzRKbVFVanpzQUd4VHh3NXN4T2FCcEo5?=
- =?utf-8?B?SGRYMEM5UDBUNnVKQVVkU28yekpQbElxa2FGOURwWTk1Z1VTZVBOcFVCc0E2?=
- =?utf-8?B?NWNLejNlUm40aDZtSHo5Yk4yUjRsd3JZOTc2YTF0RG9jRHFhbXNxYzBlMnZt?=
- =?utf-8?B?KzNaMXFBNGFQWEZLUTlCT3B0T3YvYTRDVEtidkhiQ05JdDR6c3NjU1V4bzdq?=
- =?utf-8?B?NzJvb210djFyWEF6Zy9nNG9tQUVZTHFWbW9WRmRDR1JxNUNFOUhJUHBRdEQ2?=
- =?utf-8?B?cGNCU3dsMzNsYXc3Zko4MFJySG10VzRESm9FOXhwOHRESjFUYUJjSGsrRmJn?=
- =?utf-8?B?U1NPZXU3Y2orUVU2Z0xrUGRPeCt1YkFtYWVZclZnaERiZWdzcDh2QlAzdkNR?=
- =?utf-8?B?ZG1QdjY4MnlCak1LWkx2ckFXQjZ1T0x0cUZZYkZoTGV1cVA5Q2NYMUEvaDM3?=
- =?utf-8?B?S05lODVmOXhPZzEvUytDS3oxd0RKK1N0ZWR3anlQd2dFRVFzOWRmako3Sjhj?=
- =?utf-8?B?V25mdUN0V3dVUnkzanBTbXhaVmZEWFRNZXQ5VkYxVUxCb05aZ1p0QjJvazlp?=
- =?utf-8?B?amtjcGxaQkkrUmh5L0R0bVFvQWdLOElIY1FJSVY5Ym0yWWluaHNMYzJOUFN1?=
- =?utf-8?B?eDcrWFFueTZOVktXdlMxSTNyaTJsVXpXVS8weGo2eC9GeHJISnlJSGdsNjVD?=
- =?utf-8?B?QmJ4UVNnWlcxTy9iV2MvSE1DdGdDYjZZSEVVOFZnVGNWM1k2d1FCV1dEWk1q?=
- =?utf-8?B?ZDF4UE1rY1hDREovT0RYdHByazVSZWRYRnEzRDVYS2M1TmFKS1RjLzVBQXVT?=
- =?utf-8?B?YUZPYWRhd3BBZXVuc3J3U3d6OWh1SDcrRWRVU1YrWUcvWmt4TkRyZEx3V0h2?=
- =?utf-8?B?NnptV3pSSWp5aVBSa2lQZ3NCaE4zTVV2bEFpdXZhYzM4OXYzeW9GRGtBMk1y?=
- =?utf-8?B?bEsvRVdpK3k1Um1ja3lpSHNWNmlRcVlDdVRGOHdaYnRLK3M4NVNveldyUlFy?=
- =?utf-8?B?UmRiTWZwRGk2TFBBWWsrbFEzVXpwbSsvWE4rZUZkSTYyeFVaT1ZaNGdnRXl1?=
- =?utf-8?B?MCt4bWhMRDU2aFVkRGJJY2MzV2x5S3hHVVl5YkhuaEtDRTdDOFRjZGhJcFRR?=
- =?utf-8?B?NjFHNmRZNjZZWkFQNGd1UVRuWmRvR2hnYTlRZmprWHQ4dGwyckczWjh6SzBV?=
- =?utf-8?B?MDFicjF4aDllS1BwUGJDcy9NNW5LMGI2ODhJVDh4T1lNaUZHYmJKdHFtUFJn?=
- =?utf-8?B?SkRaNk5ISUp5eTUrdUxnNkR0RmgrWUdTaFUxWWVPVGttTjZjaW1YM0RtUUVQ?=
- =?utf-8?B?YlVlTjNkbDF2eDh0dEpudkgvVmMrcG8vSVVyQUozOVpsSzBHc3ZzSUlUOVA0?=
- =?utf-8?B?QU1FYlVQamptaW1YcHkwN251Q1pMYjl0MGJjQ1lnMlo3MlArQTd5cnRCak5p?=
- =?utf-8?B?dEtRaWRSdGFWTmdaVXBVcjlIQ0s0VTdEU1NobThkUkRCdmVMTDE3T0dMYW51?=
- =?utf-8?B?cjg1WmVpQ1B3Qk93dVUyZnlUSXZKWnY3cm9udDhKUDB2dXp6a2dGWGJtRUh1?=
- =?utf-8?B?VVNwM2tDTTFwYmlpdjExSVVKU21RdVFUVjlBN3hBVTlpSDE0RjJKVlZuaWtS?=
- =?utf-8?B?TnViQXRPYVppRG9Bcm9VVUU4djE3VU5yd01EOWpqMkM4WXppOGFOQURnQXow?=
- =?utf-8?B?cy9pVHZhc0dzREljeFZ4KzNzaWZ5d1ZMUi9tMFljREdseFJBZEdJRmNZVkg1?=
- =?utf-8?B?TVdpbGVJS3pYOUxJc1VUeGwvSk5tZTZMQkVIQVcxRDlIUHQ1MCttYUl0L1VI?=
- =?utf-8?B?TkRZT2xYSUg1cVlmSWtONm41UTdEdVVZOFdTYlBaTi9GenlQTE5EenlYN09j?=
- =?utf-8?Q?EaGrHBx3qp+xEz4CKJgCN5XQG?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c0ed6f6d-81f2-4f2d-3d4b-08dafa128c61
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Jan 2023 11:44:39.9759
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: DveyUK7ud/Rz8oXqo1L30A5WmU6yEKNMnQC7m3r4MwNB+nGQwau+/4NT1EQlpCHW
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB4229
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am 19.01.23 um 12:12 schrieb Daniel Vetter:
-> On Thu, Jan 19, 2023 at 11:37:39AM +0100, Maarten Lankhorst wrote:
->> On 2023-01-19 11:24, Paul Cercueil wrote:
->>> Hi,
->>>
->>> Just a reflexion I have after an intensive (and intense) debugging
->>> session.
->>>
->>> I had the following code:
->>>
->>>
->>> int my_dma_resv_lock(struct dma_buf *dmabuf)
->>> {
->>> 	struct ww_acquire_ctx ctx;
->>> 	int ret;
->>>
->>> 	ww_acquire_init(&ctx, &reservation_ww_class);
->>>
->>> 	ret = dma_resv_lock_interruptible(dmabuf->resv, &ctx);
->>> 	if (ret) {
->>> 		if (ret != -EDEADLK)
->>> 			return ret;
->>>
->>> 		ret = dma_resv_lock_slow_interruptible(dmabuf->resv,
->>> 						       &ctx);
->>> 	}
->>>
->>> 	return ret;
->>> }
->>>
->>>
->>> Then I would eventually unlock the dma_resv object in the caller
->>> function. What made me think this was okay, was that the API itself
->>> suggests it's okay - as dma_resv_unlock() does not take the
->>> "ww_acquire_ctx" object as argument, my assumption was that after the
->>> dma_resv was locked, the variable could go out of scope.
->>>
->>> I wonder if it would be possible to change the API a little bit, so
->>> that it is less prone to errors like this. Maybe by doing a struct copy
->>> of the initialized ctx into the dma_resv object (if at all possible),
->>> so that the original can actually go out of scope, or maybe having
->>> dma_resv_unlock() take the ww_acquire_ctx as argument, even if it is
->>> not actually used in the function body - just to make it obvious that
->>> it is needed all the way to the point where the dma_resv is unlocked.
->>>
->>> This email doesn't have to result in anything, I just thought I'd share
->>> one point where I feel the API could be made less error-prone.
->> Hey,
->>
->> This example code will fail eventually. If you have DEBUG_LOCK_ALLOC
->> enabled, a fake lock is inited in ww_acquire_init. If you don't free it
->> using ww_acquire_fini(), lockdep will see that you free a live lock that was
->> never released. PROVE_LOCKING will also complain that you never unlocked the
->> ctx fake lock.
->>
->> If you do call ww_acquire_fini, you will get a loud complain if you never
->> released all locks, because ctx->acquired is non-zero.
+The main patch (6/6) is laregly unchanged from v3.
+Specific details are elaborated in its commit message.
 
-The problem isn't that dma_resv_unlock() doesn't need the ctx, the 
-problem is that in this example the ctx object isn't properly cleaned up 
-and used.
+This series just introduces five extra patches for dropping include
+directives from Makefiles (suggested by Greg KH) and rebased.
 
-As long as you only need to grab one lock the ctx should be NULL. Only 
-when you grab multiple locks the ctx is used to make sure that you can 
-detect and handle deadlocks between those different locks.
+Changes in v5:
+- Fixup missing "staging: " in commits' subject line
+- No code changes from v4
 
-So using the ctx correctly also makes the lifetime of that object much 
-more clear since it needs to stay around at least until all locks are taken.
+Changes in v4: 
+- Introduce patches to drop include directives from Makefile
 
->>
->> Try with PROVE_LOCKING, your example will receive a lockdep splat. :)
-> Also CONFIG_DEBUG_WW_MUTEX_SLOWPATH=y any time you change ww code please.
-> Otherwise it's just not fully tested.
+Changes in v3:
+- Rework entirely to replace platform devices/driver model
 
-Yeah, completely agree to both.
+-v2:
+https://lore.kernel.org/all/20221222191500.515795-1-umang.jain@ideasonboard.com/
 
-Christian.
+-v1:
+https://lore.kernel.org/all/20221220084404.19280-1-umang.jain@ideasonboard.com/
 
-> -Daniel
+Umang Jain (6):
+  staging: vc04_services: Drop __VCCOREVER__ remnants
+  staging: vc04_services: bcm2835-audio: Drop include Makefile directive
+  staging: vc04_services: bcm2835-camera: Drop include Makefile
+    directive
+  staging: vc04_services: vchiq-mmal: Drop include Makefile directive
+  staging: vc04_services: interface: Drop include Makefile directive
+  staging: vc04_services: vchiq: Register devices with a custom bus_type
+
+ drivers/staging/vc04_services/Makefile        |   2 -
+ .../vc04_services/bcm2835-audio/Makefile      |   2 -
+ .../vc04_services/bcm2835-audio/bcm2835.c     |  19 ++-
+ .../vc04_services/bcm2835-audio/bcm2835.h     |   3 +-
+ .../vc04_services/bcm2835-camera/Makefile     |   5 -
+ .../bcm2835-camera/bcm2835-camera.c           |  27 ++--
+ .../vc04_services/bcm2835-camera/controls.c   |   6 +-
+ .../interface/vchiq_arm/vchiq_arm.c           | 121 +++++++++++++++---
+ .../interface/vchiq_arm/vchiq_arm.h           |   1 +
+ .../interface/vchiq_arm/vchiq_core.h          |   2 +-
+ .../interface/vchiq_arm/vchiq_ioctl.h         |   3 +-
+ .../staging/vc04_services/vchiq-mmal/Makefile |   5 -
+ .../vc04_services/vchiq-mmal/mmal-vchiq.c     |   2 +-
+ 13 files changed, 131 insertions(+), 67 deletions(-)
+
+-- 
+2.38.1
 
