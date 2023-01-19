@@ -2,111 +2,94 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A62FC673C6A
-	for <lists+linux-media@lfdr.de>; Thu, 19 Jan 2023 15:41:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 96C49673CA5
+	for <lists+linux-media@lfdr.de>; Thu, 19 Jan 2023 15:46:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231654AbjASOlD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 19 Jan 2023 09:41:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59436 "EHLO
+        id S230339AbjASOqM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 19 Jan 2023 09:46:12 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36348 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231770AbjASOkI (ORCPT
+        with ESMTP id S230231AbjASOpk (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 19 Jan 2023 09:40:08 -0500
-Received: from mail-yb1-xb2d.google.com (mail-yb1-xb2d.google.com [IPv6:2607:f8b0:4864:20::b2d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8843F86EE0
-        for <linux-media@vger.kernel.org>; Thu, 19 Jan 2023 06:39:20 -0800 (PST)
-Received: by mail-yb1-xb2d.google.com with SMTP id 69so2748942ybn.2
-        for <linux-media@vger.kernel.org>; Thu, 19 Jan 2023 06:39:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=kvfRouGYUkIYzfxHUcwrstqXmNVmW04bPhCFhKA1H7E=;
-        b=eVdYoWoitswFXn+eY4IJ9622Y4VAy0zNvxtFX7AYKsVBDHGIcDStTLOBIATzIGoTug
-         g7QSlf6Fzoh8Wzhc78eINRTDmo50PV+XWWvcr7109cTF5YPZLyK3cISGG2xdTIUSLDpX
-         tv63dXHMgE1+C+xYBZJFLF216fRihoXds+7zibZSLPETwFH9+jeVWi4TBdQD3Rv0rJPh
-         Scf1W6zVHBT9o+smV17TfBzoZINbljWqyeuM0L0pP1lXANSWOpzutycAybkP8DqqK8fS
-         3JxGAG9ijXd7nrKwRBZ7we/B4RDxCRzKl51xPMM9D20sw/9crcmt/NUMdnBnjQT+xz7b
-         bb9g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=kvfRouGYUkIYzfxHUcwrstqXmNVmW04bPhCFhKA1H7E=;
-        b=OnPUdrWUUhWXgcS1CyStSlxpnm/ozzw3dTTCzJJuAqpBhaNCHZ7ZPFp1cTtXsUFemY
-         PorzeVJC/NtGv+4YiZ6u9hvATsFYAoWB+sxa3PYH6t2KD4qmI5axaiiRhjO4TEOlPqRJ
-         5SQZHQqPuebVwWmtKO2HL5YMvoQg2QtvxDPImcfT1pyq266BlQQA8ORtSaiNNV/rwdIH
-         g9oZnZdImjmlJpqaRHzb7hkgwrOFF05uMDG6OQZOtPWk9zK4wA88klo+aBLX267ot5dF
-         MqfjrvvhI/8LXK92KHpp9L7uHhEWojenXSzjBEcwoORSY763uTlY+yPsnmlDzWNGyJtC
-         93rw==
-X-Gm-Message-State: AFqh2kqEVRH7kMPsoxZSbDmLJPvMoFxlFLmUmEpoSnpakNVHtMcGGcrv
-        wRXStmHzw0fwtCbaS/rmGV1DbUlDZLlZJtLomWzrPw==
-X-Google-Smtp-Source: AMrXdXvkRdrXG4AIQQgFLkBJ0cBId619roqwYS2XeYk6pfuRMEaeJUWft/jaJIXYZmguMSTONGPdb/vE5+CBkhM/xio=
-X-Received: by 2002:a25:e0cb:0:b0:7fb:858a:b1b4 with SMTP id
- x194-20020a25e0cb000000b007fb858ab1b4mr325439ybg.488.1674139159741; Thu, 19
- Jan 2023 06:39:19 -0800 (PST)
+        Thu, 19 Jan 2023 09:45:40 -0500
+Received: from MTA-10-4.privateemail.com (mta-10-4.privateemail.com [198.54.122.149])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6EA287580;
+        Thu, 19 Jan 2023 06:42:49 -0800 (PST)
+Received: from mta-10.privateemail.com (localhost [127.0.0.1])
+        by mta-10.privateemail.com (Postfix) with ESMTP id 5914618000A8;
+        Thu, 19 Jan 2023 09:42:29 -0500 (EST)
+Received: from bpappas-XPS-13-9310.ucf.edu (050-088-208-136.res.spectrum.com [50.88.208.136])
+        by mta-10.privateemail.com (Postfix) with ESMTPA id 42B2218000A6;
+        Thu, 19 Jan 2023 09:42:17 -0500 (EST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=pappasbrent.com;
+        s=default; t=1674139349;
+        bh=OvjuU8Er9NffYgNl0xuyyr+JSQYsrtMIdTAEnQq5WTo=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=nOXLzkyosRaBdcMN0ZtH9/fbx+5YhAyqwHHv5q6hJa62Uz3nqSUeMi5h/tCyIRMyK
+         4vHtnIVbhL5ijYpmiIk1adATGuASKjFzwenkc1dejLQdaFvQ3LtLvkHUTejSknAHDY
+         RIoQmrHhhEwWG1c47UaYT4r2q7KW4TxnoL85j+Yv2ROaWHz1yzCHJkj69k0UKiiAgQ
+         gvlXQINieg7EN7utJaTLzAllIGXjeUqz6vDFKnoa9FEUz4/UOQw7aQ/Q2js2zUCuPs
+         61Brz1d7i3QnXi4ctGq66B7xRRa3KmDTurjw2QZrcHDx+yXaLKvxWbXBIAl4Ep7++T
+         4QGtk6eRF9IdQ==
+From:   Brent Pappas <bpappas@pappasbrent.com>
+To:     andy.shevchenko@gmail.com
+Cc:     andy@kernel.org, bpappas@pappasbrent.com, colin.i.king@gmail.com,
+        gregkh@linuxfoundation.org, hdegoede@redhat.com,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-staging@lists.linux.dev, mchehab@kernel.org,
+        sakari.ailus@linux.intel.com
+Subject: [PATCH v2] media: atomisp: pci: sh_css: Inline single invocation of macro STATS_ENABLED()
+Date:   Thu, 19 Jan 2023 09:42:03 -0500
+Message-Id: <20230119144203.17084-1-bpappas@pappasbrent.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <CAHp75Vc4QS=Gr-DSvf7pzCKktqGPfno4TBDmicj5CKgyHGjSsw@mail.gmail.com>
+References: <CAHp75Vc4QS=Gr-DSvf7pzCKktqGPfno4TBDmicj5CKgyHGjSsw@mail.gmail.com>
 MIME-Version: 1.0
-References: <20230118115810.21979-1-umang.jain@ideasonboard.com>
- <b1a26368-3753-0d32-434b-e220dd9c06b4@i2se.com> <CAMEGJJ1=dix7gWvV3Jxef-M-ExFZRTASQCr+6sn_dGsEQ=deYQ@mail.gmail.com>
- <Y8lHqd9FlxiXTLuW@kroah.com> <CAMEGJJ1oZ9XFw0609PrEABAgDwvapbc3hG4hJ=vBekUOepdiWw@mail.gmail.com>
- <Y8lS5eBliYw5EHBb@kadam> <CAMEGJJ2b1KFQY1m1eTcvf8_kGBBTjzrBD2i_M2uR+6v4gEcbVQ@mail.gmail.com>
- <Y8lVvHMIYeSOLM5q@kadam>
-In-Reply-To: <Y8lVvHMIYeSOLM5q@kadam>
-From:   Phil Elwell <phil@raspberrypi.com>
-Date:   Thu, 19 Jan 2023 14:39:10 +0000
-Message-ID: <CAMEGJJ2grBH6NgA+0hwGwmkgRtk0GErULkH6XXbvaykRDzQnfA@mail.gmail.com>
-Subject: Re: [RFC PATCH 0/4] Drop custom logging
-To:     Dan Carpenter <error27@gmail.com>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Stefan Wahren <stefan.wahren@i2se.com>,
-        Umang Jain <umang.jain@ideasonboard.com>,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org,
-        linux-rpi-kernel@lists.infradead.org,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Adrien Thierry <athierry@redhat.com>,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Virus-Scanned: ClamAV using ClamSMTP
+X-Spam-Status: No, score=0.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SORTED_RECIPS,SPF_HELO_NONE,
+        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, 19 Jan 2023 at 14:37, Dan Carpenter <error27@gmail.com> wrote:
->
-> On Thu, Jan 19, 2023 at 02:31:50PM +0000, Phil Elwell wrote:
-> > On Thu, 19 Jan 2023 at 14:25, Dan Carpenter <error27@gmail.com> wrote:
-> > >
-> > > On Thu, Jan 19, 2023 at 01:47:44PM +0000, Phil Elwell wrote:
-> > > > > > I understand the desire to remove the custom logging. I don't welcome
-> > > > > > the loss of flexibility that comes with such a strategy
-> > > > >
-> > > > > What "loss of flexibility"?  You now have access to the full dynamic
-> > > > > debugging facilities that all of the rest of the kernel has.  What is
-> > > > > lacking?
-> > > >
-> > > > Perhaps I've missed something, either in this patch set or the kernel
-> > > > as a whole, but how is one supposed to set different logging levels on
-> > > > different facilities within a driver/module, or even for the module as
-> > > > a whole?
-> > >
-> > > Yeah.  You will be still able to do that and more besides after the
-> > > transition.  Cleaning this up makes the code better in every way.
-> > >
-> > > Documentation/admin-guide/dynamic-debug-howto.rst
-> >
-> > Are you saying this patch set gets us to that point?
->
-> Yes.  The patch has some issues, but yes.
+Inline the single invocation of the macro STATS_ENABLED().
+The macro abstraction is not necessary because the logic behind it is only
+used once.
 
-OK, thanks. I'll be watching how this plays out with interest.
+Signed-off-by: Brent Pappas <bpappas@pappasbrent.com>
+---
+ drivers/staging/media/atomisp/pci/sh_css.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-Phil
+diff --git a/drivers/staging/media/atomisp/pci/sh_css.c b/drivers/staging/media/atomisp/pci/sh_css.c
+index 726cb7aa4ecd..93789500416f 100644
+--- a/drivers/staging/media/atomisp/pci/sh_css.c
++++ b/drivers/staging/media/atomisp/pci/sh_css.c
+@@ -97,9 +97,6 @@
+  */
+ #define JPEG_BYTES (16 * 1024 * 1024)
+ 
+-#define STATS_ENABLED(stage) (stage && stage->binary && stage->binary->info && \
+-	(stage->binary->info->sp.enable.s3a || stage->binary->info->sp.enable.dis))
+-
+ struct sh_css my_css;
+ 
+ int  __printf(1, 0) (*sh_css_printf)(const char *fmt, va_list args) = NULL;
+@@ -3743,7 +3740,9 @@ ia_css_pipe_enqueue_buffer(struct ia_css_pipe *pipe,
+ 			 * The SP will read the params after it got
+ 			 * empty 3a and dis
+ 			 */
+-			if (STATS_ENABLED(stage)) {
++			if (stage && stage->binary && stage->binary->info &&
++			    (stage->binary->info->sp.enable.s3a ||
++			     stage->binary->info->sp.enable.dis)) {
+ 				/* there is a stage that needs it */
+ 				return_err = ia_css_bufq_enqueue_buffer(thread_id,
+ 									queue_id,
+-- 
+2.34.1
+
