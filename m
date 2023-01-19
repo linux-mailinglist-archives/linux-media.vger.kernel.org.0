@@ -2,73 +2,76 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id ABF27673CD4
-	for <lists+linux-media@lfdr.de>; Thu, 19 Jan 2023 15:55:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 934F8673CDB
+	for <lists+linux-media@lfdr.de>; Thu, 19 Jan 2023 15:55:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230527AbjASOyu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 19 Jan 2023 09:54:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41140 "EHLO
+        id S231148AbjASOzg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 19 Jan 2023 09:55:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41632 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230306AbjASOyq (ORCPT
+        with ESMTP id S230483AbjASOzf (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 19 Jan 2023 09:54:46 -0500
-Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 82E45798FA;
-        Thu, 19 Jan 2023 06:54:42 -0800 (PST)
-Received: by mail-wr1-x42b.google.com with SMTP id b7so2131455wrt.3;
-        Thu, 19 Jan 2023 06:54:42 -0800 (PST)
+        Thu, 19 Jan 2023 09:55:35 -0500
+Received: from mail-qv1-xf33.google.com (mail-qv1-xf33.google.com [IPv6:2607:f8b0:4864:20::f33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B90C75A18;
+        Thu, 19 Jan 2023 06:55:34 -0800 (PST)
+Received: by mail-qv1-xf33.google.com with SMTP id m12so1660139qvt.9;
+        Thu, 19 Jan 2023 06:55:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=wy5TUZFPF5q8Yt4s63OdjaHjAcmxGBFMCBM3EbZvWiA=;
-        b=RQ/Ocry7XDJLW+Ir5Swv2D4r+NGiJfMvZheDWAMTdVu+GxyjOqvzOOwbiSrjvN4EPE
-         4zxlqYcP95+QFfgTqVIeQDR3eRhAKzFe3blYux+ZH6YdHI7eeX2zVmw9dQL0TsWetY6j
-         N9xog01QXKs0y1e+nIPyfEaNn1HzPy05DbWpZ6vOWP3guLc5DPl7QZVUxKp4M4+PScIw
-         vHNRLWou4Joj5VEgNBPu+zP9xDZR3oRCNzuqoisaq26mXMzGq8XsBbvHR7TzlpM38MkU
-         OohAXk68S5bqNutdw9eszxsLYfkAGPC1HNmEdbH7ITgzhkaqLizXbeiaHvSrDMCX8WdY
-         mUkQ==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZuSHIMi100SjCMXyOYZNA55sNFG4gfYNgu8GWlVIKt4=;
+        b=KRGLD1IRUeh365ARvjPFu9EMF/uDhkb3MyNt9+Puodgz0h31D4Fj3ZTTdbYaKTZyHV
+         Oc7dm3T3Y1aOGNDc7uLQirBt7hSX0GBM0wrOKgJQv6Ozf3gZB+XHmot/khh0VSNnvpZj
+         dDKZ9y4NFIDjIkHsKGaN2NIXUBfyjRjthIzL22bNF1BRPXR5fknewjq9gOAyk/3roNVV
+         HfWxoMPRmkYXWW7vGu2UtjGOW8mrW201j9N/crmBkJPdrbLAhW0wQcxp6YY2lR9Kv/7H
+         A2Y4I7GYe1/dgvUCS733hsRRNgog3nNYVr9A/9XRfSA+qYWDiYH36MDYLd8qO+qcRew+
+         eK4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=wy5TUZFPF5q8Yt4s63OdjaHjAcmxGBFMCBM3EbZvWiA=;
-        b=FK97/uX08fsWKVMtmTl/PssJW7Y4D7Hp09amqyj4Ga7Qs6RwW3eHq7bx9xun1Jo5kI
-         lb2EIAfBW6YRZE4zdI5JwfqcIfe+4qu6VkMIVo8hCeMXLUcLZZKngp+FoLxO3OCvSo5N
-         ZY5Jn5nbe6/F9pHsDoywsjp9igugge7baLspiJuTxMX/N6B23SWV70UbfjZhdXBwMWH+
-         GpLYBFlBlveoHXhiJVyZ4itf3xjnDpcZ0ACoVZktMGIJEzUZudQDMVYRYavsTiRoinHT
-         GwrFtnazJlDfP3dhqztXqxgil7JTVmhUd5FBCfSzFbKZIn5E0w5XJT40JrEssoSpjpGU
-         deZA==
-X-Gm-Message-State: AFqh2kpum4xctB1i+AojT0KWBy1H/o7JajbfpYUjxk5r5qjc8FYqQXnY
-        yeD6Km6iBaOsidxI6i/bzamu+PDOLEIcIw==
-X-Google-Smtp-Source: AMrXdXu2WNrBPsS8qb3Vrho0oFI8358Pv6WvBJb0HPYxPZM3rU4S1uzhuV+Uun42ZoTKQGl4BclE6A==
-X-Received: by 2002:adf:f78d:0:b0:2bd:bed5:9207 with SMTP id q13-20020adff78d000000b002bdbed59207mr9873199wrp.12.1674140081020;
-        Thu, 19 Jan 2023 06:54:41 -0800 (PST)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id q15-20020adfab0f000000b002bde7999cd6sm16094172wrc.61.2023.01.19.06.54.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Jan 2023 06:54:40 -0800 (PST)
-Date:   Thu, 19 Jan 2023 17:54:37 +0300
-From:   Dan Carpenter <error27@gmail.com>
-To:     Brent Pappas <bpappas@pappasbrent.com>
-Cc:     andy.shevchenko@gmail.com, andy@kernel.org, colin.i.king@gmail.com,
-        gregkh@linuxfoundation.org, hdegoede@redhat.com,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-staging@lists.linux.dev, mchehab@kernel.org,
-        sakari.ailus@linux.intel.com
-Subject: Re: [PATCH v2] media: atomisp: pci: sh_css: Inline single invocation
- of macro STATS_ENABLED()
-Message-ID: <Y8lZreSphK6DIkJg@kadam>
-References: <CAHp75Vc4QS=Gr-DSvf7pzCKktqGPfno4TBDmicj5CKgyHGjSsw@mail.gmail.com>
- <20230119144203.17084-1-bpappas@pappasbrent.com>
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ZuSHIMi100SjCMXyOYZNA55sNFG4gfYNgu8GWlVIKt4=;
+        b=lubXXvlqBVIpA60QpU1FBsnVtmFFqX10qaD1DB4dajszBE874LwTd6w60W6mbUTaPA
+         4mS4I8D1EYiZsp5OTZs3lgaEoMddILwSVhIOxS/GcrxqNKAKjja/kyxOJ9SgJkcewD3b
+         7tV4ZBBDEBGm4ud8fhPERh4rg7gyzC5Vdt68uwewLPlO8hx7Q9VcWGe178RLdV301k91
+         TyaqhO1FbQ+dE6U0lvjgMhmRA4Zn34ibtAbjoYHCfw3imz0qLBTto571gpGA0yITUyVH
+         Rfdvgyp/7Qf1V03kvJilfSdsa7JV8d7FkJKCbOMhicxQtlx1OHp7yCqCWTzAYHhEn+qM
+         6Kcg==
+X-Gm-Message-State: AFqh2kofB+XjliWj9ndbz3cQkPSBK4Rz36PAb8FdLo7IJ6op8VIBdDAo
+        RR1cnIrhm5Yq86XmK90IkoUvx7rAFRysuXE8+yw=
+X-Google-Smtp-Source: AMrXdXubsgfZ3wzyVdKl2A9HpcN8mWntdfDZIcBi9M//XkVzfxLrDyJjnWuZkZ0lxhe3zqNwGl5objy5U0PkaTTzUbo=
+X-Received: by 2002:a05:6214:418e:b0:532:2c82:95ac with SMTP id
+ ld14-20020a056214418e00b005322c8295acmr696888qvb.97.1674140133179; Thu, 19
+ Jan 2023 06:55:33 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230119144203.17084-1-bpappas@pappasbrent.com>
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+References: <20230119130053.111344-1-hdegoede@redhat.com> <20230119130053.111344-5-hdegoede@redhat.com>
+ <CAHp75VcCEJVx71H9MqNqPP+KAMDzgpx5v1P9h_h375ejeMa2+g@mail.gmail.com> <53af2be7-8a10-2ea4-83f7-501668f8042a@redhat.com>
+In-Reply-To: <53af2be7-8a10-2ea4-83f7-501668f8042a@redhat.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Thu, 19 Jan 2023 16:54:57 +0200
+Message-ID: <CAHp75Vd1TjAedSGmA=fQTy-f5NsZDG96VCxtbLN2Nf+rUOo-TA@mail.gmail.com>
+Subject: Re: [PATCH v4 04/11] leds: led-class: Add generic [devm_]led_get()
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Mark Gross <markgross@kernel.org>,
+        Andy Shevchenko <andy@kernel.org>, Pavel Machek <pavel@ucw.cz>,
+        Lee Jones <lee@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Daniel Scally <djrscally@gmail.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        platform-driver-x86@vger.kernel.org, linux-leds@vger.kernel.org,
+        linux-gpio@vger.kernel.org, Kate Hsuan <hpa@redhat.com>,
+        Mark Pearson <markpearson@lenovo.com>,
+        Andy Yeh <andy.yeh@intel.com>, Hao Yao <hao.yao@intel.com>,
+        linux-media@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -76,43 +79,74 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Jan 19, 2023 at 09:42:03AM -0500, Brent Pappas wrote:
-> Inline the single invocation of the macro STATS_ENABLED().
-> The macro abstraction is not necessary because the logic behind it is only
-> used once.
-> 
-> Signed-off-by: Brent Pappas <bpappas@pappasbrent.com>
-> ---
+On Thu, Jan 19, 2023 at 4:16 PM Hans de Goede <hdegoede@redhat.com> wrote:
+> On 1/19/23 15:04, Andy Shevchenko wrote:
+> > On Thu, Jan 19, 2023 at 3:01 PM Hans de Goede <hdegoede@redhat.com> wrote:
 
-Needs a V2: note which says what changed.
+...
 
->  drivers/staging/media/atomisp/pci/sh_css.c | 7 +++----
->  1 file changed, 3 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/staging/media/atomisp/pci/sh_css.c b/drivers/staging/media/atomisp/pci/sh_css.c
-> index 726cb7aa4ecd..93789500416f 100644
-> --- a/drivers/staging/media/atomisp/pci/sh_css.c
-> +++ b/drivers/staging/media/atomisp/pci/sh_css.c
-> @@ -97,9 +97,6 @@
->   */
->  #define JPEG_BYTES (16 * 1024 * 1024)
->  
-> -#define STATS_ENABLED(stage) (stage && stage->binary && stage->binary->info && \
-> -	(stage->binary->info->sp.enable.s3a || stage->binary->info->sp.enable.dis))
-> -
->  struct sh_css my_css;
->  
->  int  __printf(1, 0) (*sh_css_printf)(const char *fmt, va_list args) = NULL;
-> @@ -3743,7 +3740,9 @@ ia_css_pipe_enqueue_buffer(struct ia_css_pipe *pipe,
->  			 * The SP will read the params after it got
->  			 * empty 3a and dis
->  			 */
-> -			if (STATS_ENABLED(stage)) {
-> +			if (stage && stage->binary && stage->binary->info &&
-                            ^^^^^^^^
-We know that "stage" must be non-NULL.  You should wait over night
-before resending v2 patches so that we think "This guy spend overnight
-running tests.  He must be very serious."  There is no rush.
+> >> +/*
+> >> + * This is used to tell led_get() device which led_classdev to return for
+> >> + * a specific consumer device-name, function pair on non devicetree platforms.
+> >> + * Note all strings must be set.
+> >> + */
+> >> +struct led_lookup_data {
+> >> +       struct list_head list;
+> >> +       const char *led_name;
+> >> +       const char *consumer_dev_name;
+> >> +       const char *consumer_function;
+> >> +};
+> >
+> > I'm wondering if it would be better to have something like
+> >
+> > struct led_function_map {
+> >        const char *name;
+> >        const char *function;
+> > };
+> >
+> > struct led_lookup_data {
+> >        struct list_head list;
+> >        const char *dev_name;
+> >        const struct led_function_map map[];
+> > };
+>
+> Thank you for the review.
+>
+> Since led_lookup_data now is variable sized, AFAIK this means that
+> the led_lookup_data now can no longer be embedded in another struct and
+> instead it must always be dynamically allocated, including adding error
+> checking + rollback for said allocation.
 
-regards,
-dan carpenter
+I'm not sure what you are talking about here. GPIO lookup table
+defined in the same way and doesn't strictly require heap allocation.
+For the embedding into another structure, it can be as the last entry AFAIU.
+
+> If you look at the only current consumer of this:
+>
+> [PATCH v4 09/11] platform/x86: int3472/discrete: Create a LED class device for the privacy LED
+>
+> then the code there would become more complicated.
+
+> > as you may have more than one LED per the device and it would be a
+> > more compressed list in this case. I'm basically referring to the GPIO
+> > lookup table.
+>
+> Right, but having more then 1 GPIO per device is quite common while
+> I expect having more then 1 (or maybe 2) LEDs per device to be rare while
+> at the same time the suggested change makes things slightly more
+> complicated for consumers of the API which know before hand how much
+> lookup entries they will need (typically 1).
+>
+> So all in all I believe staying with the current implementation is better
+> but if there is a strong preference to switch to the structure you suggest
+> then I have no objection against that.
+
+I have no strong opinion, I just want to have fewer variants of the
+lookup tables.
+Anyway, reset framework has something similar to yours. Question: can you
+rename fields to be something like dev_id, con_id, etc as it's done in the most
+of the lookup data types?
+
+-- 
+With Best Regards,
+Andy Shevchenko
