@@ -2,427 +2,189 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 75621672810
-	for <lists+linux-media@lfdr.de>; Wed, 18 Jan 2023 20:19:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 63D766730B6
+	for <lists+linux-media@lfdr.de>; Thu, 19 Jan 2023 05:55:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230254AbjARTTp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 18 Jan 2023 14:19:45 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51924 "EHLO
+        id S229819AbjASEy7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 18 Jan 2023 23:54:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40024 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230188AbjARTTZ (ORCPT
+        with ESMTP id S230003AbjASEyO (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 18 Jan 2023 14:19:25 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4EF0A53571;
-        Wed, 18 Jan 2023 11:19:14 -0800 (PST)
-Received: from umang.jainideasonboard.com (unknown [IPv6:2405:204:820c:4b28:9aaf:3c:ef34:ecdd])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 44A0A1056;
-        Wed, 18 Jan 2023 20:19:05 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1674069553;
-        bh=v7f2EepVufrbXEZ17JZNbOqBSaSez3VNJ0FenZNNITU=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Fgxgii/T8W/KCP1MmqKx/qWjYOiaFcmxtzdXmmuDidXNmNN+J+nGKyXbN+dunckMy
-         GbOMV+ay1Nxz07kDBi+A/YS9XDT6DnmivgL5NrhpuoqTbhfRUjmxReg80AbgtPqauZ
-         fhjudRJ2PyzxaMJ90EtLFQsKwCXDlAAMKVzMRoPc=
-From:   Umang Jain <umang.jain@ideasonboard.com>
-To:     linux-staging@lists.linux.dev,
-        linux-rpi-kernel@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     Stefan Wahren <stefan.wahren@i2se.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Adrien Thierry <athierry@redhat.com>,
-        Dan Carpenter <error27@gmail.com>,
-        Nicolas Saenz Julienne <nsaenz@kernel.org>,
-        Phil Elwell <phil@raspberrypi.com>,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Umang Jain <umang.jain@ideasonboard.com>
-Subject: [PATCH v4 6/6] staging: vc04_services: vchiq: Register devices with a custom bus_type
-Date:   Thu, 19 Jan 2023 00:48:11 +0530
-Message-Id: <20230118191811.208552-7-umang.jain@ideasonboard.com>
-X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20230118191811.208552-1-umang.jain@ideasonboard.com>
-References: <20230118191811.208552-1-umang.jain@ideasonboard.com>
+        Wed, 18 Jan 2023 23:54:14 -0500
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F28E746D48;
+        Wed, 18 Jan 2023 20:46:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1674103575; x=1705639575;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=7akVbq0P52BNTMgJDfm7MfKXhG+VYySWKfey57WLr5k=;
+  b=ih7LnqHxNniZdQ1i2Rf2Z96YLGdR86jLPDnDFY5jt8mrIBypQ/pZNlXZ
+   oVKa2buAp0VAWYH27Ntpq6blFziPBBrbyZmBXEeOYA/HnF2O0YcLVhPTf
+   JpHxVw9jmsvpJFFqw+Hsg2HPo/i9lQpLdY9PooB3GyzEKFNaqP54KfjPO
+   bAI1hdmMK9+GrIsGhxkFZKhT0uTUdjIFF0nVVW3wX8duDSDzzpYrot4pe
+   7LVQLGWE4QCA6XDl3k7uj65DYb3HzEgnE73we+/oGNhpBk37JeorDj5VM
+   PpKZ9/gAEQPvLDkugjpCj0SuuvD35g8CkPY2Zaek+ig86JLdNUpNbU8E8
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="352436284"
+X-IronPort-AV: E=Sophos;i="5.97,226,1669104000"; 
+   d="scan'208";a="352436284"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2023 19:45:30 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="783912415"
+X-IronPort-AV: E=Sophos;i="5.97,226,1669104000"; 
+   d="scan'208";a="783912415"
+Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
+  by orsmga004.jf.intel.com with ESMTP; 18 Jan 2023 19:45:30 -0800
+Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16; Wed, 18 Jan 2023 19:45:29 -0800
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16; Wed, 18 Jan 2023 19:45:29 -0800
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16 via Frontend Transport; Wed, 18 Jan 2023 19:45:29 -0800
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.103)
+ by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.16; Wed, 18 Jan 2023 19:45:29 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=YlbNH4rpsshthMK9jAuTyK2huyS6ead1iPK/bPe/W0DN7oBAn39IrzsqWSIPRGnDnyaEplq3fQ2sRytd8VgpVxJVBtf7icXHMKOk2704NsBA+kJmtmCMmH/TJszKFbTTFbqNItjv462Ugf6vNmWPeMV5JtNc+KfhmwX43EMD/UJ+NdxjK1R+z0y+pnXkQ0QKYRgMOUquPNrqkI3ZLJErItJOlYS8mCqww9/zTNxK//EOUU8xW/8S1uTVyO56eb6R//qRvBNk9SC81jkDxy1R0f+Kc9PPA0+lAbCTTrvqrWK7L2GxYK+8U8SpwNPqN7ntvI0FUwsTnvSNv1TsbTWw5Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=7akVbq0P52BNTMgJDfm7MfKXhG+VYySWKfey57WLr5k=;
+ b=TXNDXjMTGTNwRxg9DwdUUiHGPqwzjUaunpQXwM5iEJqse5plqalsKhpO2fTEM2czsKKW5xvyQT5aRGau0QHD3tMvIxYK+RwFvQAjIUKLx8+cxdWoa1AMxmrH8AIR8//HHNDupIdfq/8DcEY4qQfW4IrPzr15G8lH1VvuGyIGETikf31VMtWzqY3XpPZS7WNwCg5UkEraa+fzGBqATVpDiTGkzXZg6SpGWScOpM+wQWHUYyMXNw5DQewY8c4H08dLt0wEdSths59pvmRAVsRDNK8jbmBaRaVBQtX8BcQ9noAwUzA/XF/v6gvsGVFO0gC5cI7ptIorI0ua514SaV5/BQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from BN9PR11MB5276.namprd11.prod.outlook.com (2603:10b6:408:135::18)
+ by DM4PR11MB7374.namprd11.prod.outlook.com (2603:10b6:8:102::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5986.23; Thu, 19 Jan
+ 2023 03:45:27 +0000
+Received: from BN9PR11MB5276.namprd11.prod.outlook.com
+ ([fe80::6a8d:b95:e1b5:d79d]) by BN9PR11MB5276.namprd11.prod.outlook.com
+ ([fe80::6a8d:b95:e1b5:d79d%9]) with mapi id 15.20.6002.025; Thu, 19 Jan 2023
+ 03:45:27 +0000
+From:   "Tian, Kevin" <kevin.tian@intel.com>
+To:     Jason Gunthorpe <jgg@nvidia.com>,
+        Lu Baolu <baolu.lu@linux.intel.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Matthew Rosato <mjrosato@linux.ibm.com>,
+        Robin Murphy <robin.murphy@arm.com>
+CC:     Alex Williamson <alex.williamson@redhat.com>,
+        "ath10k@lists.infradead.org" <ath10k@lists.infradead.org>,
+        "ath11k@lists.infradead.org" <ath11k@lists.infradead.org>,
+        Christian Borntraeger <borntraeger@linux.ibm.com>,
+        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+        "iommu@lists.linux.dev" <iommu@lists.linux.dev>,
+        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
+        "linux-remoteproc@vger.kernel.org" <linux-remoteproc@vger.kernel.org>,
+        "linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>,
+        "linux-stm32@st-md-mailman.stormreply.com" 
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
+        "linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "nouveau@lists.freedesktop.org" <nouveau@lists.freedesktop.org>,
+        Niklas Schnelle <schnelle@linux.ibm.com>,
+        "virtualization@lists.linux-foundation.org" 
+        <virtualization@lists.linux-foundation.org>
+Subject: RE: [PATCH v2 01/10] iommu: Add a gfp parameter to iommu_map()
+Thread-Topic: [PATCH v2 01/10] iommu: Add a gfp parameter to iommu_map()
+Thread-Index: AQHZK2bhAG5uFdBTPE6j23ADS1S6Ba6lGgRA
+Date:   Thu, 19 Jan 2023 03:45:27 +0000
+Message-ID: <BN9PR11MB5276FF1670244D0F0924E9948CC49@BN9PR11MB5276.namprd11.prod.outlook.com>
+References: <0-v2-ce66f632bd0d+484-iommu_map_gfp_jgg@nvidia.com>
+ <1-v2-ce66f632bd0d+484-iommu_map_gfp_jgg@nvidia.com>
+In-Reply-To: <1-v2-ce66f632bd0d+484-iommu_map_gfp_jgg@nvidia.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: BN9PR11MB5276:EE_|DM4PR11MB7374:EE_
+x-ms-office365-filtering-correlation-id: 512d9d41-4181-4abb-0f4d-08daf9cf9ac5
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: nXsKyRwmcMM6jgR7Ux03qKu4xruHqnfKKJorqaUybbE+OrhdRYZeiDJmeX8EVsSTkZdmkbumai1vJaHQUB6fV916ADgD2xjw3eCpLQfHfV4I+EIBPPN2cdkJk7fS5XKzy/7mRBM81so7AnuUB47B2mcvmzw/n4I4noUwB6M7WAQPZyBStCH5ZF3kFYp6ygGnKy3ZsboHvULfCNv6JEkMRtr7We93y7Fka7LQbyF3UaSYaI0dCEwfq5v2cM0wWjE0L+41zaWc9/ZIvdP1v56rNfsJ9JiDMguWBEWTDpOekmunQvXhlCiDvKQd5hvOdygwR+caW8ADzto2++z3/dsnbHk8rLHpv5bl4hH+huJPuTUvt5btdDJJ3wBKNy0V1vUys+etwe0KRXfua4u9C0oMLImdPC8BWHyzkWb+uO7l+2b1eC1zoew/+rbFjinLvspM06ac43IO1y4zUSlqVngAFVlsBulyZ99WDm8r/057J6haWxByXqXTq49+gfkVJExsC85D0ARuE286hAKVYmQo3ZyFSXcbL3wXqHUvow2DNa3ysHtHyGqC5eVal7tKNvwbKD388vvmi8kQEaz8/DUwg09MA3AiZOAstZdyps/G3VQt7apx81CezjjeJqeZm8EtmOfBgCIj+LOMn+bhcSWa8QI1P80hqyA240Nvw6CQIQOe6pZ8tZTo5oLtQgYmiUtq0tJ4e6v6ArxrW9HLxC1KaA==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN9PR11MB5276.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(376002)(39860400002)(366004)(346002)(136003)(396003)(451199015)(4326008)(38070700005)(64756008)(76116006)(8936002)(316002)(66446008)(66946007)(52536014)(66476007)(7416002)(8676002)(5660300002)(66556008)(4744005)(55016003)(2906002)(83380400001)(38100700002)(82960400001)(41300700001)(122000001)(33656002)(7696005)(54906003)(110136005)(478600001)(71200400001)(86362001)(6506007)(186003)(26005)(9686003);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?V70RZtzN/HC2Vyvnpyc48yZ79OFEewzTIV97kSb1DxWEQqoP0Enl4R3GyPBS?=
+ =?us-ascii?Q?L2yufo1OhJuwCYBJ6+g8CMvM4IQTZWAd/zGV1ir7bPEAsjmUPJOgmM2ucbTD?=
+ =?us-ascii?Q?Ai+nEYv223gtgc08jrDFgcpF4RB+aR+AjRzx2ZD7ODTklNF70tWw2ry2vFIw?=
+ =?us-ascii?Q?o6ACBN91TAsKNf7SyqTaSubYEhFS6p12wwq/EGw+bNDfs4j4BuufYTYzn+OQ?=
+ =?us-ascii?Q?MOFZD88EYTY1J89mM+ZJeoO2doN4Og/MSRy0ncODlZ1HcYHRbOKFSVPaNT+Z?=
+ =?us-ascii?Q?WKNoGdNjHNzjSVUlL1R4hezqKMasr8L2AifrWP7xom53rFlkdYeVk4yE6FPb?=
+ =?us-ascii?Q?j/4OOqxPutuRVCnEI17j7lXQID48fLkTYwgbKRgJd0s7eAZOmVg7/3bVYgeV?=
+ =?us-ascii?Q?QOxrN1Pt3070gpoMGeeGDzbQTejc2X+UmM6vtAlu0B7M1TkAqIwh66T5Dfc+?=
+ =?us-ascii?Q?osVPhSPXnnbmTGg0vkfghgNkkJoJx3p8qnBIEBwIx5SMSwpKs9rqXvraPpfJ?=
+ =?us-ascii?Q?BHJA0nEPgxPA1wOaEK/8xnKAfY2ZwcSOcakYwBl41PkLZBWcJ7OzRugJXoQj?=
+ =?us-ascii?Q?rRj8hp8yE7k3dsT+96d3lnntd9lQpQB5DXQDNNF7695I/SjfIkHqXGwQEDc4?=
+ =?us-ascii?Q?7Uje8BO6FqvdqXmRrCIlLKd6RO2edszBIYae+suoGG24htW0q5joAysYVAEy?=
+ =?us-ascii?Q?API4TutROEezmP5mSdfEpLzcRbLBhTpCoPah0rAGXnurZLR6yLQ/y371OxNp?=
+ =?us-ascii?Q?dcpPE4NuVTdQD4A0eNEZVBjnBirCpGnzzIUu1+XEZRv7PbvLC809la3m5bJj?=
+ =?us-ascii?Q?YTPSFkkjZXBx4VzllfBmrey8CSTtxDB9bE6AOLbqMpNJF2bOmcQErD1B7M2Z?=
+ =?us-ascii?Q?rvEqvoGUVic1oZwu9efG9VacK48gsqJRRpmVg1IwgyR1mtXRYkGYdowhQwrP?=
+ =?us-ascii?Q?/KkyhFhX4P4aUxsX2c79hulbqYbxEgddFl7wkeFQPXGIKMgkacuGyyD4njna?=
+ =?us-ascii?Q?Flo8Pbii6eJZR+75BYi7wzmUBUdBFUsD4chtZ2I2iQN6zNjdFrv6IGz2fCNb?=
+ =?us-ascii?Q?tr3dPrck4jPe7x6EuClk3uWStrsh9pRAZG0zClMPbCE12E/ViZ4xlg2RPAd3?=
+ =?us-ascii?Q?oDx9oC1Rk29aN5WGb/33jwFZMxIR+1ZknFAJKUpzr38JZkv0eRWH6mu5bOcX?=
+ =?us-ascii?Q?vPK4XxDhM5ngCoOE992oLKA7/Gx5tJmRY4PhfzpaAzh1I1yt2Zw/NYPfFhjD?=
+ =?us-ascii?Q?xxz/yc1vhBcsGNn6+DwpTx34Yr0F8/MHgvgJO+I4T5vf9zdVBYeTgReVFo4+?=
+ =?us-ascii?Q?oljl2VtFXN5pknpif1AOcJz3BrXMMq0O6hEhylTDhSDq/2Nzie9jdXj7oHBp?=
+ =?us-ascii?Q?iWk86ZXMHcSxxRwG6+yDXumyc+axGJQpf3SSA4K+6Xl5briW7I7Sq4ms/2SY?=
+ =?us-ascii?Q?kwQLPyU2QWePi4rkl4gqE7uw21or7ocNfB9wf4SMfYLL9A5Dxy+U34IyEwAT?=
+ =?us-ascii?Q?uQSaWJiumqjSfod9Eu+bcM49jh+LpcaXHJhUFlCeu0WaymkyhAOh+MFJCdyt?=
+ =?us-ascii?Q?5KOS7dvMa+FDxaWSnf6aU5eEwyVLNzdf8NUmdv3u?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BN9PR11MB5276.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 512d9d41-4181-4abb-0f4d-08daf9cf9ac5
+X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Jan 2023 03:45:27.5873
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: VhImZFlxTjjhEYAMo0jxG32ZRffp7cdiw//Vf57QwMKssahbl6155KdZ8tcZYWR+Wf5paRmWFgTBcaaOvWsjOw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB7374
+X-OriginatorOrg: intel.com
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The devices that the vchiq interface registers(bcm2835-audio,
-bcm2835-camera) are implemented and exposed by the VC04 firmware.
-The device tree describes the VC04 itself with the resources
-required to communicate with it through a mailbox interface. However,
-the vchiq interface registers these devices as platform devices. This
-also means the specific drivers for these devices are also getting
-registered as platform drivers. This is not correct and a blatant
-abuse of platform device/driver.
+> From: Jason Gunthorpe <jgg@nvidia.com>
+> Sent: Thursday, January 19, 2023 2:01 AM
+>=20
+> The internal mechanisms support this, but instead of exposting the gfp to
+> the caller it wrappers it into iommu_map() and iommu_map_atomic()
+>=20
+> Fix this instead of adding more variants for GFP_KERNEL_ACCOUNT.
+>=20
+> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
 
-Replace the platform device/driver model with a standard device driver
-model. A custom bus_type, vchiq_bus_type, is created in the vchiq
-interface which matches the devices to their specific device drivers
-thereby, establishing driver binding. A struct vchiq_device wraps the
-struct device for each device being registered on the bus by the vchiq
-interface.
-
-Each device registered will expose a 'name' read-only device attribute
-in sysfs (/sys/bus/vchiq-bus/devices). New devices and drivers can be
-added by registering on vchiq_bus_type and adding a corresponding
-device name entry in the static list of devices, vchiq_devices. There
-is currently no way to enumerate the VCHIQ devices that are available
-from the firmware.
-
-Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
----
- .../vc04_services/bcm2835-audio/bcm2835.c     |  19 ++-
- .../bcm2835-camera/bcm2835-camera.c           |  17 ++-
- .../interface/vchiq_arm/vchiq_arm.c           | 121 +++++++++++++++---
- .../interface/vchiq_arm/vchiq_arm.h           |   1 +
- 4 files changed, 117 insertions(+), 41 deletions(-)
-
-diff --git a/drivers/staging/vc04_services/bcm2835-audio/bcm2835.c b/drivers/staging/vc04_services/bcm2835-audio/bcm2835.c
-index 00bc898b0189..9f3af84f5d5d 100644
---- a/drivers/staging/vc04_services/bcm2835-audio/bcm2835.c
-+++ b/drivers/staging/vc04_services/bcm2835-audio/bcm2835.c
-@@ -1,12 +1,11 @@
- // SPDX-License-Identifier: GPL-2.0
- /* Copyright 2011 Broadcom Corporation.  All rights reserved. */
- 
--#include <linux/platform_device.h>
--
- #include <linux/init.h>
- #include <linux/slab.h>
- #include <linux/module.h>
- 
-+#include "../interface/vchiq_arm/vchiq_arm.h"
- #include "bcm2835.h"
- 
- static bool enable_hdmi;
-@@ -268,9 +267,8 @@ static int snd_add_child_devices(struct device *device, u32 numchans)
- 	return 0;
- }
- 
--static int snd_bcm2835_alsa_probe(struct platform_device *pdev)
-+static int snd_bcm2835_alsa_probe(struct device *dev)
- {
--	struct device *dev = &pdev->dev;
- 	int err;
- 
- 	if (num_channels <= 0 || num_channels > MAX_SUBSTREAMS) {
-@@ -292,30 +290,29 @@ static int snd_bcm2835_alsa_probe(struct platform_device *pdev)
- 
- #ifdef CONFIG_PM
- 
--static int snd_bcm2835_alsa_suspend(struct platform_device *pdev,
-+static int snd_bcm2835_alsa_suspend(struct device *pdev,
- 				    pm_message_t state)
- {
- 	return 0;
- }
- 
--static int snd_bcm2835_alsa_resume(struct platform_device *pdev)
-+static int snd_bcm2835_alsa_resume(struct device *pdev)
- {
- 	return 0;
- }
- 
- #endif
- 
--static struct platform_driver bcm2835_alsa_driver = {
-+static struct device_driver bcm2835_alsa_driver = {
- 	.probe = snd_bcm2835_alsa_probe,
- #ifdef CONFIG_PM
- 	.suspend = snd_bcm2835_alsa_suspend,
- 	.resume = snd_bcm2835_alsa_resume,
- #endif
--	.driver = {
--		.name = "bcm2835_audio",
--	},
-+	.name = "bcm2835_audio",
-+	.bus = &vchiq_bus_type,
- };
--module_platform_driver(bcm2835_alsa_driver);
-+module_driver(bcm2835_alsa_driver, driver_register, driver_unregister);
- 
- MODULE_AUTHOR("Dom Cobley");
- MODULE_DESCRIPTION("Alsa driver for BCM2835 chip");
-diff --git a/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c b/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c
-index 4f81765912ea..199a49f9ec1e 100644
---- a/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c
-+++ b/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c
-@@ -24,8 +24,8 @@
- #include <media/v4l2-event.h>
- #include <media/v4l2-common.h>
- #include <linux/delay.h>
--#include <linux/platform_device.h>
- 
-+#include "../interface/vchiq_arm/vchiq_arm.h"
- #include "../vchiq-mmal/mmal-common.h"
- #include "../vchiq-mmal/mmal-encodings.h"
- #include "../vchiq-mmal/mmal-vchiq.h"
-@@ -1841,7 +1841,7 @@ static struct v4l2_format default_v4l2_format = {
- 	.fmt.pix.sizeimage = 1024 * 768,
- };
- 
--static int bcm2835_mmal_probe(struct platform_device *pdev)
-+static int bcm2835_mmal_probe(struct device *device)
- {
- 	int ret;
- 	struct bcm2835_mmal_dev *dev;
-@@ -1896,7 +1896,7 @@ static int bcm2835_mmal_probe(struct platform_device *pdev)
- 						       &camera_instance);
- 		ret = v4l2_device_register(NULL, &dev->v4l2_dev);
- 		if (ret) {
--			dev_err(&pdev->dev, "%s: could not register V4L2 device: %d\n",
-+			dev_err(device, "%s: could not register V4L2 device: %d\n",
- 				__func__, ret);
- 			goto free_dev;
- 		}
-@@ -1976,7 +1976,7 @@ static int bcm2835_mmal_probe(struct platform_device *pdev)
- 	return ret;
- }
- 
--static int bcm2835_mmal_remove(struct platform_device *pdev)
-+static int bcm2835_mmal_remove(struct device *device)
- {
- 	int camera;
- 	struct vchiq_mmal_instance *instance = gdev[0]->instance;
-@@ -1990,15 +1990,14 @@ static int bcm2835_mmal_remove(struct platform_device *pdev)
- 	return 0;
- }
- 
--static struct platform_driver bcm2835_camera_driver = {
-+static struct device_driver bcm2835_camera_driver = {
-+	.name		= "bcm2835-camera",
- 	.probe		= bcm2835_mmal_probe,
- 	.remove		= bcm2835_mmal_remove,
--	.driver		= {
--		.name	= "bcm2835-camera",
--	},
-+	.bus		= &vchiq_bus_type,
- };
- 
--module_platform_driver(bcm2835_camera_driver)
-+module_driver(bcm2835_camera_driver, driver_register, driver_unregister)
- 
- MODULE_DESCRIPTION("Broadcom 2835 MMAL video capture");
- MODULE_AUTHOR("Vincent Sanders");
-diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-index 22de23f3af02..86c8e5df7cf6 100644
---- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-+++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-@@ -12,6 +12,8 @@
- #include <linux/cdev.h>
- #include <linux/fs.h>
- #include <linux/device.h>
-+#include <linux/device/bus.h>
-+#include <linux/string.h>
- #include <linux/mm.h>
- #include <linux/highmem.h>
- #include <linux/pagemap.h>
-@@ -65,9 +67,6 @@ int vchiq_susp_log_level = VCHIQ_LOG_ERROR;
- DEFINE_SPINLOCK(msg_queue_spinlock);
- struct vchiq_state g_state;
- 
--static struct platform_device *bcm2835_camera;
--static struct platform_device *bcm2835_audio;
--
- struct vchiq_drvdata {
- 	const unsigned int cache_line_size;
- 	struct rpi_firmware *fw;
-@@ -132,6 +131,51 @@ struct vchiq_pagelist_info {
- 	unsigned int scatterlist_mapped;
- };
- 
-+struct vchiq_device {
-+	const char *name;
-+	struct device dev;
-+};
-+
-+static ssize_t vchiq_dev_show(struct device *dev,
-+			      struct device_attribute *attr, char *buf)
-+{
-+	struct vchiq_device *device = container_of(dev, struct vchiq_device, dev);
-+
-+	return sprintf(buf, "%s", device->name);
-+}
-+
-+static DEVICE_ATTR_RO(vchiq_dev);
-+
-+static struct attribute *vchiq_dev_attrs[] = {
-+	&dev_attr_vchiq_dev.attr,
-+	NULL
-+};
-+
-+ATTRIBUTE_GROUPS(vchiq_dev);
-+
-+static const struct device_type vchiq_device_type = {
-+	.groups         = vchiq_dev_groups
-+};
-+
-+static int vchiq_bus_type_match(struct device *dev, struct device_driver *drv)
-+{
-+	if (dev->bus == &vchiq_bus_type &&
-+	    strcmp(dev_name(dev), drv->name) == 0)
-+		return 1;
-+	return 0;
-+}
-+
-+struct bus_type vchiq_bus_type = {
-+	.name   = "vchiq-bus",
-+	.match  = vchiq_bus_type_match,
-+};
-+EXPORT_SYMBOL(vchiq_bus_type);
-+
-+static const char *const vchiq_devices[] = {
-+	"bcm2835_audio",
-+	"bcm2835-camera",
-+};
-+
- static void __iomem *g_regs;
- /* This value is the size of the L2 cache lines as understood by the
-  * VPU firmware, which determines the required alignment of the
-@@ -1763,26 +1807,52 @@ static const struct of_device_id vchiq_of_match[] = {
- };
- MODULE_DEVICE_TABLE(of, vchiq_of_match);
- 
--static struct platform_device *
-+static void
-+vchiq_release_device(struct device *dev)
-+{
-+	struct vchiq_device *device;
-+
-+	device = container_of(dev, struct vchiq_device, dev);
-+	kfree(device);
-+}
-+
-+static int
- vchiq_register_child(struct platform_device *pdev, const char *name)
- {
--	struct platform_device_info pdevinfo;
--	struct platform_device *child;
-+	struct vchiq_device *device = NULL;
-+	int ret;
- 
--	memset(&pdevinfo, 0, sizeof(pdevinfo));
-+	device = kzalloc(sizeof(*device), GFP_KERNEL);
-+	if (!device)
-+		return -ENOMEM;
- 
--	pdevinfo.parent = &pdev->dev;
--	pdevinfo.name = name;
--	pdevinfo.id = PLATFORM_DEVID_NONE;
--	pdevinfo.dma_mask = DMA_BIT_MASK(32);
-+	device->name = name;
-+	device->dev.init_name = name;
-+	device->dev.parent = &pdev->dev;
-+	device->dev.bus = &vchiq_bus_type;
-+	device->dev.type = &vchiq_device_type;
-+	device->dev.release = vchiq_release_device;
-+
-+	ret = dma_set_mask_and_coherent(&device->dev, DMA_BIT_MASK(32));
-+	if (ret < 0) {
-+		vchiq_release_device(&device->dev);
-+		return ret;
-+	}
- 
--	child = platform_device_register_full(&pdevinfo);
--	if (IS_ERR(child)) {
--		dev_warn(&pdev->dev, "%s not registered\n", name);
--		child = NULL;
-+	ret = device_register(&device->dev);
-+	if (ret) {
-+		put_device(&device->dev);
-+		return -EINVAL;
- 	}
- 
--	return child;
-+	return 0;
-+}
-+
-+static int
-+vchiq_unregister_child(struct device *dev, void *data)
-+{
-+	device_unregister(dev);
-+	return 0;
- }
- 
- static int vchiq_probe(struct platform_device *pdev)
-@@ -1790,7 +1860,7 @@ static int vchiq_probe(struct platform_device *pdev)
- 	struct device_node *fw_node;
- 	const struct of_device_id *of_id;
- 	struct vchiq_drvdata *drvdata;
--	int err;
-+	int i, err;
- 
- 	of_id = of_match_node(vchiq_of_match, pdev->dev.of_node);
- 	drvdata = (struct vchiq_drvdata *)of_id->data;
-@@ -1832,8 +1902,12 @@ static int vchiq_probe(struct platform_device *pdev)
- 		goto error_exit;
- 	}
- 
--	bcm2835_camera = vchiq_register_child(pdev, "bcm2835-camera");
--	bcm2835_audio = vchiq_register_child(pdev, "bcm2835_audio");
-+	for (i = 0; i < ARRAY_SIZE(vchiq_devices); i++) {
-+		err = vchiq_register_child(pdev, vchiq_devices[i]);
-+		if (!err)
-+			dev_err(&pdev->dev, "Failed to register %s vchiq device\n",
-+				vchiq_devices[i]);
-+	}
- 
- 	return 0;
- 
-@@ -1845,8 +1919,8 @@ static int vchiq_probe(struct platform_device *pdev)
- 
- static int vchiq_remove(struct platform_device *pdev)
- {
--	platform_device_unregister(bcm2835_audio);
--	platform_device_unregister(bcm2835_camera);
-+	bus_for_each_dev(&vchiq_bus_type, NULL, NULL, vchiq_unregister_child);
-+
- 	vchiq_debugfs_deinit();
- 	vchiq_deregister_chrdev();
- 
-@@ -1866,6 +1940,10 @@ static int __init vchiq_driver_init(void)
- {
- 	int ret;
- 
-+	ret = bus_register(&vchiq_bus_type);
-+	if (ret)
-+		pr_err("Failed to register %s\n", vchiq_bus_type.name);
-+
- 	ret = platform_driver_register(&vchiq_driver);
- 	if (ret)
- 		pr_err("Failed to register vchiq driver\n");
-@@ -1876,6 +1954,7 @@ module_init(vchiq_driver_init);
- 
- static void __exit vchiq_driver_exit(void)
- {
-+	bus_unregister(&vchiq_bus_type);
- 	platform_driver_unregister(&vchiq_driver);
- }
- module_exit(vchiq_driver_exit);
-diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.h b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.h
-index 2fb31f9b527f..98c3af32774a 100644
---- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.h
-+++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.h
-@@ -81,6 +81,7 @@ extern int vchiq_susp_log_level;
- 
- extern spinlock_t msg_queue_spinlock;
- extern struct vchiq_state g_state;
-+extern struct bus_type vchiq_bus_type;
- 
- extern struct vchiq_state *
- vchiq_get_state(void);
--- 
-2.39.0
-
+Reviewed-by: Kevin Tian <kevin.tian@intel.com>
