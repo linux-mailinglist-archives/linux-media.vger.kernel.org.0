@@ -2,187 +2,144 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 08462673929
-	for <lists+linux-media@lfdr.de>; Thu, 19 Jan 2023 14:01:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5FD8167393C
+	for <lists+linux-media@lfdr.de>; Thu, 19 Jan 2023 14:03:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230397AbjASNB4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 19 Jan 2023 08:01:56 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42972 "EHLO
+        id S230463AbjASNDG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 19 Jan 2023 08:03:06 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43098 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230487AbjASNBT (ORCPT
+        with ESMTP id S230424AbjASNCX (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 19 Jan 2023 08:01:19 -0500
-Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C579337565;
-        Thu, 19 Jan 2023 05:01:03 -0800 (PST)
-Received: from booty (unknown [77.244.183.192])
-        (Authenticated sender: luca.ceresoli@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id 84417C0002;
-        Thu, 19 Jan 2023 13:00:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1674133262;
+        Thu, 19 Jan 2023 08:02:23 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F04B14AA7E
+        for <linux-media@vger.kernel.org>; Thu, 19 Jan 2023 05:01:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1674133279;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=ZtBO/H//7lVetyBYfz8PbXrkUfECY93kbBBF1YE8iqk=;
-        b=Po1eYWeD5DbyoV+Oqs67NNBLcNdUJrDdEIsG/I998h/ez1bpX6XdQ08LGtSp6dq4eTT+7g
-        tgjv6Y8n9eQPTPQUD+JwaGhkVFwPNSVUAvKfNuAI0uMcg5yUljnxiapb+G8zS73/7ik4C2
-        oI4nxAXcR7+tU21zv1YPhypPvrUXjCnF9hR7SZAYB97/m6IJeMXwov5nhAA2DFg7aY39N+
-        6JGsL4Oj8MlU4/BoBgE1i8pKD1xacaKKETsPSdCsiSgxOPY/YBTtn4K6+Pc4mJa4JLKtvW
-        9TaKxUgx4aMpS+NP2O0Id7h02c/zsZYBzWB6e13COvJ3eHoc/LAHTMlPAXj9lw==
-Date:   Thu, 19 Jan 2023 14:00:56 +0100
-From:   Luca Ceresoli <luca.ceresoli@bootlin.com>
-To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc:     Andy Shevchenko <andriy.shevchenko@intel.com>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Wolfram Sang <wsa@kernel.org>,
-        Matti Vaittinen <Matti.Vaittinen@fi.rohmeurope.com>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        bh=PgCWZucAw987lpdcXzkIARbQAn+kk2GRWirIP2HWUCI=;
+        b=C91c/p3DrnCYaRKvMsFLYCTffHI0Tu0XkOBIi3WsYvOiEJ0aS7a3X1mbvIaQLFHkTo71o+
+        dcq4KjkQr5fIfTsPgLHJ4yPxiL1KzJNEle7PW0LlvqqOlmGHgAp5YrUeRw9pxRi6v/FRG2
+        S6GoojlJvM6g/5Dg9SDu8F83h/jPtSA=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-22-oHrjqlBzN_CEBPWWaFJ1mA-1; Thu, 19 Jan 2023 08:01:13 -0500
+X-MC-Unique: oHrjqlBzN_CEBPWWaFJ1mA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com [10.11.54.7])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2D698280BCA9;
+        Thu, 19 Jan 2023 13:01:12 +0000 (UTC)
+Received: from localhost.localdomain (unknown [10.39.194.158])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id DC6CE1415108;
+        Thu, 19 Jan 2023 13:01:08 +0000 (UTC)
+From:   Hans de Goede <hdegoede@redhat.com>
+To:     Mark Gross <markgross@kernel.org>,
+        Andy Shevchenko <andy@kernel.org>, Pavel Machek <pavel@ucw.cz>,
+        Lee Jones <lee@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Daniel Scally <djrscally@gmail.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Peter Rosin <peda@axentia.se>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Michael Tretter <m.tretter@pengutronix.de>,
-        Shawn Tu <shawnx.tu@intel.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Mike Pagano <mpagano@gentoo.org>,
-        Krzysztof =?UTF-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>,
-        Marek Vasut <marex@denx.de>,
-        Luca Ceresoli <luca@lucaceresoli.net>
-Subject: Re: [PATCH v7 1/7] i2c: add I2C Address Translator (ATR) support
-Message-ID: <20230119140056.686c0dea@booty>
-In-Reply-To: <79331f60-0849-9d5a-822a-987df01a4b96@ideasonboard.com>
-References: <20230118124031.788940-1-tomi.valkeinen@ideasonboard.com>
-        <20230118124031.788940-2-tomi.valkeinen@ideasonboard.com>
-        <Y8gA+cz9m7PaEhfP@smile.fi.intel.com>
-        <20230118181753.7a325953@booty>
-        <Y8gu4mlXUlyiFKZD@smile.fi.intel.com>
-        <20230119092115.02cbbab3@booty>
-        <db2e7386-e625-5bad-0c99-bae633e96d80@ideasonboard.com>
-        <20230119123520.7f1aa680@booty>
-        <79331f60-0849-9d5a-822a-987df01a4b96@ideasonboard.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+        Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     Hans de Goede <hdegoede@redhat.com>,
+        platform-driver-x86@vger.kernel.org, linux-leds@vger.kernel.org,
+        linux-gpio@vger.kernel.org, Kate Hsuan <hpa@redhat.com>,
+        Mark Pearson <markpearson@lenovo.com>,
+        Andy Yeh <andy.yeh@intel.com>, Hao Yao <hao.yao@intel.com>,
+        linux-media@vger.kernel.org
+Subject: [PATCH v4 02/11] leds: led-class: Add led_module_get() helper
+Date:   Thu, 19 Jan 2023 14:00:44 +0100
+Message-Id: <20230119130053.111344-3-hdegoede@redhat.com>
+In-Reply-To: <20230119130053.111344-1-hdegoede@redhat.com>
+References: <20230119130053.111344-1-hdegoede@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Tomi, Andy,
+Split out part of of_led_get() into a generic led_module_get() helper
+function.
 
-On Thu, 19 Jan 2023 14:22:26 +0200
-Tomi Valkeinen <tomi.valkeinen@ideasonboard.com> wrote:
+This is a preparation patch for adding a generic (non devicetree specific)
+led_get() function.
 
-> On 19/01/2023 13:35, Luca Ceresoli wrote:
-> > Hi Tomi, Andy,
-> > 
-> > On Thu, 19 Jan 2023 12:09:57 +0200
-> > Tomi Valkeinen <tomi.valkeinen@ideasonboard.com> wrote:
-> >   
-> >> On 19/01/2023 10:21, Luca Ceresoli wrote:
-> >>
-> >> <snip>
-> >>  
-> >>>>>>> +void i2c_atr_set_driver_data(struct i2c_atr *atr, void *data)
-> >>>>>>> +{
-> >>>>>>> +	atr->priv = data;
-> >>>>>>> +}
-> >>>>>>> +EXPORT_SYMBOL_NS_GPL(i2c_atr_set_driver_data, I2C_ATR);
-> >>>>>>> +
-> >>>>>>> +void *i2c_atr_get_driver_data(struct i2c_atr *atr)
-> >>>>>>> +{
-> >>>>>>> +	return atr->priv;
-> >>>>>>> +}
-> >>>>>>> +EXPORT_SYMBOL_NS_GPL(i2c_atr_get_driver_data, I2C_ATR);  
-> >>>>>>
-> >>>>>> Just to be sure: Is it really _driver_ data and not _device instance_ data?  
-> >>>>>
-> >>>>> It is device instance data indeed. I don't remember why this got
-> >>>>> changed, but in v3 it was i2c_atr_set_clientdata().  
-> >>>>
-> >>>> It's me who was and is against calling it clientdata due to possible
-> >>>> confusion with i2c_set/get_clientdata() that is about *driver data*.
-> >>>> I missed that time the fact that this is about device instance data.
-> >>>> I dunno which name would be better in this case, i2c_atr_set/get_client_priv() ?  
-> >>>
-> >>> Not sure I'm following you here. The i2c_atr_set_clientdata() name was
-> >>> given for similarity with i2c_set_clientdata(). The latter wraps
-> >>> dev_set_drvdata(), which sets `struct device`->driver_data. There is
-> >>> one driver_data per each `struct device` instance, not per each driver.
-> >>> The same goes for i2c_atr_set_driver_data(): there is one priv pointer
-> >>> per each `struct i2c_atr` instance.  
-> >>
-> >> I'm a bit confused. What is "driver data" and what is "device instance
-> >> data"?
-> >>
-> >> This deals with the driver's private data, where the "driver" is the
-> >> owner/creator of the i2c-atr. The i2c-atr itself doesn't have a device
-> >> (it's kind of part of the owner's device), and there's no driver in
-> >> i2c-atr.c
-> >>
-> >> I don't like "client" here, as it reminds me of i2c_client (especially
-> >> as we're in i2c context).
-> >>
-> >> What about i2c_atr_set_user_data()? Or "owner_data"?  
-> > 
-> > Ah, only now I got the point Andy made initially about "client" not
-> > being an appropriate word.
-> > 
-> > In i2c we have:
-> > 
-> >    i2c_set_clientdata(struct i2c_client *client, void *data)
-> >            ^^^^^^~~~~            ^^^^^^                ~~~~
-> > 
-> > so "client" clearly makes sense there, now here.  
-> 
-> Isn't that also used by the i2c_client? A driver which handles an i2c 
-> device is the "i2c client", in a sense?
-> 
-> > The same logic applied here would lead to:
-> > 
-> >    i2c_atr_set_atrdata(struct i2c_atr *atr, void *data)
-> >                ^^^~~~~            ^^^             ~~~~
-> > 
-> > which makes sense but it is a ugly IMO.  
-> 
-> Here, I think, there's a bit of a difference to the i2c_client case, as 
-> we have a separate component for the i2c-atr. Although I guess one can 
-> argue that the top level driver is the ATR driver, as it handles the HW, 
-> and i2c-atr.c is just a set of helpers, so... I don't know =).
-> 
-> > So I think i2c_atr_get_driver_data() in this v7 makes sense, it's to
-> > set the data that the ATR driver instance needs.
-> > 
-> > This is coherent with logic in spi/spi.h:
-> > 
-> >    spi_set_drvdata(struct spi_device *spi, void *data)
-> > 
-> > except for the abbreviation ("_drvdata" vs "_driver_data").
-> > 
-> > Andy, Tomi, would i2c_atr_set_drvdata() be OK for you, just like SPI
-> > does?  
-> 
-> Well, I'm good with the current i2c_atr_set_driver_data(). If all agrees 
-> that it's "driver data", I'd rather keep it like that. I find this 
-> "drvdata" style very odd. Why no underscore between drv and data? Why 
-> abbreviate drv, it doesn't really help anything here?
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+---
+Changes in v4:
+- Rename helper from __led_get() to led_module_get()
+---
+ drivers/leds/led-class.c | 30 ++++++++++++++++++------------
+ 1 file changed, 18 insertions(+), 12 deletions(-)
 
-Agreed, I'm OK with either form of "driver data".
-
-
+diff --git a/drivers/leds/led-class.c b/drivers/leds/led-class.c
+index 7391d2cf1370..743d97b082dc 100644
+--- a/drivers/leds/led-class.c
++++ b/drivers/leds/led-class.c
+@@ -215,6 +215,23 @@ static int led_resume(struct device *dev)
+ 
+ static SIMPLE_DEV_PM_OPS(leds_class_dev_pm_ops, led_suspend, led_resume);
+ 
++static struct led_classdev *led_module_get(struct device *led_dev)
++{
++	struct led_classdev *led_cdev;
++
++	if (!led_dev)
++		return ERR_PTR(-EPROBE_DEFER);
++
++	led_cdev = dev_get_drvdata(led_dev);
++
++	if (!try_module_get(led_cdev->dev->parent->driver->owner)) {
++		put_device(led_cdev->dev);
++		return ERR_PTR(-ENODEV);
++	}
++
++	return led_cdev;
++}
++
+ /**
+  * of_led_get() - request a LED device via the LED framework
+  * @np: device node to get the LED device from
+@@ -226,7 +243,6 @@ static SIMPLE_DEV_PM_OPS(leds_class_dev_pm_ops, led_suspend, led_resume);
+ struct led_classdev *of_led_get(struct device_node *np, int index)
+ {
+ 	struct device *led_dev;
+-	struct led_classdev *led_cdev;
+ 	struct device_node *led_node;
+ 
+ 	led_node = of_parse_phandle(np, "leds", index);
+@@ -236,17 +252,7 @@ struct led_classdev *of_led_get(struct device_node *np, int index)
+ 	led_dev = class_find_device_by_of_node(leds_class, led_node);
+ 	of_node_put(led_node);
+ 
+-	if (!led_dev)
+-		return ERR_PTR(-EPROBE_DEFER);
+-
+-	led_cdev = dev_get_drvdata(led_dev);
+-
+-	if (!try_module_get(led_cdev->dev->parent->driver->owner)) {
+-		put_device(led_cdev->dev);
+-		return ERR_PTR(-ENODEV);
+-	}
+-
+-	return led_cdev;
++	return led_module_get(led_dev);
+ }
+ EXPORT_SYMBOL_GPL(of_led_get);
+ 
 -- 
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+2.39.0
+
