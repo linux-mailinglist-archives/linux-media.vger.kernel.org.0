@@ -2,192 +2,164 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 177516736D7
-	for <lists+linux-media@lfdr.de>; Thu, 19 Jan 2023 12:29:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DE34C673709
+	for <lists+linux-media@lfdr.de>; Thu, 19 Jan 2023 12:36:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230219AbjASL3q (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 19 Jan 2023 06:29:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38360 "EHLO
+        id S230511AbjASLf5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 19 Jan 2023 06:35:57 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44296 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230353AbjASL3d (ORCPT
+        with ESMTP id S230421AbjASLfj (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 19 Jan 2023 06:29:33 -0500
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 49A016F8A7;
-        Thu, 19 Jan 2023 03:29:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1674127757; x=1705663757;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=QPl/84At/7CklOKY4iDHADsrN39puNNjvYV0F53XPa4=;
-  b=EmVMtgyBFupaBiBJHO8f9Wy64S47uKQURAunygoSGsKwmI6qWUGdWu61
-   WlcUfWwFnI3S155l+kBMPjmSNEmtjHvwMK9qMUorQdntMKjj4hz3kJMB+
-   WuxBihm9jNEoLCgQWbPdc/+hbTqGQmGAYi7iQvzqSxyX7plbpH+SttK8D
-   5DW8u9wAADxgSOiaPU9tWkobeZSuIIAT+1UlIyu4QF+Ggs46HkAdUcwlw
-   3asTp08YCnyPbgKXCdZ3wZCnhT/J5QGhOvVOPxR7CybalZ+6scvJA2U5m
-   65H9j3awolDDQfkg9xsRc6lWNzWN3Pac6Tgzpm1Bme9yEcAsxySWHkZ+0
-   Q==;
-X-IronPort-AV: E=Sophos;i="5.97,228,1669100400"; 
-   d="scan'208";a="208443550"
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa1.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 19 Jan 2023 04:29:16 -0700
-Received: from chn-vm-ex03.mchp-main.com (10.10.85.151) by
- chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16; Thu, 19 Jan 2023 04:29:16 -0700
-Received: from microchip1-OptiPlex-9020.microchip.com (10.10.115.15) by
- chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server id
- 15.1.2507.16 via Frontend Transport; Thu, 19 Jan 2023 04:29:13 -0700
-From:   shravan kumar <shravan.chippa@microchip.com>
-To:     <paul.j.murphy@intel.com>, <daniele.alessandrelli@intel.com>,
-        <mchehab@kernel.org>
-CC:     <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        "shravan kumar" <shravan.chippa@microchip.com>,
-        Sakari Ailus <sakari.ailus@iki.fi>
-Subject: [PATCH v10 5/5] media: i2c: imx334: update pixel and link frequency
-Date:   Thu, 19 Jan 2023 16:58:48 +0530
-Message-ID: <20230119112848.3523273-6-shravan.chippa@microchip.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230119112848.3523273-1-shravan.chippa@microchip.com>
-References: <20230119112848.3523273-1-shravan.chippa@microchip.com>
+        Thu, 19 Jan 2023 06:35:39 -0500
+Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4092B83;
+        Thu, 19 Jan 2023 03:35:29 -0800 (PST)
+Received: from booty (unknown [77.244.183.192])
+        (Authenticated sender: luca.ceresoli@bootlin.com)
+        by mail.gandi.net (Postfix) with ESMTPSA id A9052E0012;
+        Thu, 19 Jan 2023 11:35:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1674128128;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=9b4Gd71VIpRzmWAFvIEX9qIOF0R0AhLHNhOUdNP3BeY=;
+        b=dwQEieih0KVf2hhXRvwQq0Dfw9zd0/0j7TapWPquKpkqFdrH1zKD/aKuctuBVhciWWfqMi
+        isuP5qMq4WOLwJ4n0SLcsXDH51ybVlGZfVeKOC2QqqzXs0Dj2eBiXyRmD6czMihTluHhJi
+        r35o/pZRGJooSKyOtcPzL2ucsqvfzHQ120rM4A5gMMyXGO1guHYDp+UsEoBd0N8R4d+KGi
+        XtWhPtJGMvBy+sAc9R4EhQSjcbcLmPlQ4ubJ2ylTLx2FBxMXmCnpU/eovi2ZVBg2/csI35
+        ecMDVy8a/qHpzX9LBJsiD2jvxhlwoPJJU+JxNGtBio8F0yVjKedBxw+IaGjkKA==
+Date:   Thu, 19 Jan 2023 12:35:20 +0100
+From:   Luca Ceresoli <luca.ceresoli@bootlin.com>
+To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc:     Andy Shevchenko <andriy.shevchenko@intel.com>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Wolfram Sang <wsa@kernel.org>,
+        Matti Vaittinen <Matti.Vaittinen@fi.rohmeurope.com>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Peter Rosin <peda@axentia.se>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Michael Tretter <m.tretter@pengutronix.de>,
+        Shawn Tu <shawnx.tu@intel.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Mike Pagano <mpagano@gentoo.org>,
+        Krzysztof =?UTF-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>,
+        Marek Vasut <marex@denx.de>,
+        Luca Ceresoli <luca@lucaceresoli.net>
+Subject: Re: [PATCH v7 1/7] i2c: add I2C Address Translator (ATR) support
+Message-ID: <20230119123520.7f1aa680@booty>
+In-Reply-To: <db2e7386-e625-5bad-0c99-bae633e96d80@ideasonboard.com>
+References: <20230118124031.788940-1-tomi.valkeinen@ideasonboard.com>
+        <20230118124031.788940-2-tomi.valkeinen@ideasonboard.com>
+        <Y8gA+cz9m7PaEhfP@smile.fi.intel.com>
+        <20230118181753.7a325953@booty>
+        <Y8gu4mlXUlyiFKZD@smile.fi.intel.com>
+        <20230119092115.02cbbab3@booty>
+        <db2e7386-e625-5bad-0c99-bae633e96d80@ideasonboard.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Shravan Chippa <shravan.chippa@microchip.com>
+Hi Tomi, Andy,
 
-Update pixel_rate and link frequency for 1920x1080@30
-while changing mode.
+On Thu, 19 Jan 2023 12:09:57 +0200
+Tomi Valkeinen <tomi.valkeinen@ideasonboard.com> wrote:
 
-Add dummy ctrl cases for pixel_rate and link frequency
-to avoid error while changing the modes dynamically
+> On 19/01/2023 10:21, Luca Ceresoli wrote:
+> 
+> <snip>
+> 
+> >>>>> +void i2c_atr_set_driver_data(struct i2c_atr *atr, void *data)
+> >>>>> +{
+> >>>>> +	atr->priv = data;
+> >>>>> +}
+> >>>>> +EXPORT_SYMBOL_NS_GPL(i2c_atr_set_driver_data, I2C_ATR);
+> >>>>> +
+> >>>>> +void *i2c_atr_get_driver_data(struct i2c_atr *atr)
+> >>>>> +{
+> >>>>> +	return atr->priv;
+> >>>>> +}
+> >>>>> +EXPORT_SYMBOL_NS_GPL(i2c_atr_get_driver_data, I2C_ATR);  
+> >>>>
+> >>>> Just to be sure: Is it really _driver_ data and not _device instance_ data?  
+> >>>
+> >>> It is device instance data indeed. I don't remember why this got
+> >>> changed, but in v3 it was i2c_atr_set_clientdata().  
+> >>
+> >> It's me who was and is against calling it clientdata due to possible
+> >> confusion with i2c_set/get_clientdata() that is about *driver data*.
+> >> I missed that time the fact that this is about device instance data.
+> >> I dunno which name would be better in this case, i2c_atr_set/get_client_priv() ?  
+> > 
+> > Not sure I'm following you here. The i2c_atr_set_clientdata() name was
+> > given for similarity with i2c_set_clientdata(). The latter wraps
+> > dev_set_drvdata(), which sets `struct device`->driver_data. There is
+> > one driver_data per each `struct device` instance, not per each driver.
+> > The same goes for i2c_atr_set_driver_data(): there is one priv pointer
+> > per each `struct i2c_atr` instance.  
+> 
+> I'm a bit confused. What is "driver data" and what is "device instance 
+> data"?
+> 
+> This deals with the driver's private data, where the "driver" is the 
+> owner/creator of the i2c-atr. The i2c-atr itself doesn't have a device 
+> (it's kind of part of the owner's device), and there's no driver in 
+> i2c-atr.c
+> 
+> I don't like "client" here, as it reminds me of i2c_client (especially 
+> as we're in i2c context).
+> 
+> What about i2c_atr_set_user_data()? Or "owner_data"?
 
-add support to handle multiple link frequencies
+Ah, only now I got the point Andy made initially about "client" not
+being an appropriate word.
 
-Suggested-by: Sakari Ailus <sakari.ailus@iki.fi>
-Signed-off-by: Shravan Chippa <shravan.chippa@microchip.com>
----
- drivers/media/i2c/imx334.c | 41 ++++++++++++++++++++++++++++----------
- 1 file changed, 30 insertions(+), 11 deletions(-)
+In i2c we have:
 
-diff --git a/drivers/media/i2c/imx334.c b/drivers/media/i2c/imx334.c
-index 309c706114d2..62b104eaa437 100644
---- a/drivers/media/i2c/imx334.c
-+++ b/drivers/media/i2c/imx334.c
-@@ -49,7 +49,8 @@
- #define IMX334_INCLK_RATE	24000000
- 
- /* CSI2 HW configuration */
--#define IMX334_LINK_FREQ	891000000
-+#define IMX334_LINK_FREQ_891M	891000000
-+#define IMX334_LINK_FREQ_445M	445500000
- #define IMX334_NUM_DATA_LANES	4
- 
- #define IMX334_REG_MIN		0x00
-@@ -139,12 +140,14 @@ struct imx334 {
- 	u32 vblank;
- 	const struct imx334_mode *cur_mode;
- 	struct mutex mutex;
-+	unsigned long menu_skip_mask;
- 	u32 cur_code;
- 	bool streaming;
- };
- 
- static const s64 link_freq[] = {
--	IMX334_LINK_FREQ,
-+	IMX334_LINK_FREQ_891M,
-+	IMX334_LINK_FREQ_445M,
- };
- 
- /* Sensor mode registers for 1920x1080@30fps */
-@@ -468,7 +471,7 @@ static const struct imx334_mode supported_modes[] = {
- 		.vblank_min = 45,
- 		.vblank_max = 132840,
- 		.pclk = 297000000,
--		.link_freq_idx = 0,
-+		.link_freq_idx = 1,
- 		.reg_list = {
- 			.num_of_regs = ARRAY_SIZE(mode_1920x1080_regs),
- 			.regs = mode_1920x1080_regs,
-@@ -598,6 +601,11 @@ static int imx334_update_controls(struct imx334 *imx334,
- 	if (ret)
- 		return ret;
- 
-+	ret = __v4l2_ctrl_modify_range(imx334->pclk_ctrl, mode->pclk,
-+				       mode->pclk, 1, mode->pclk);
-+	if (ret)
-+		return ret;
-+
- 	ret = __v4l2_ctrl_modify_range(imx334->hblank_ctrl, mode->hblank,
- 				       mode->hblank, 1, mode->hblank);
- 	if (ret)
-@@ -698,6 +706,8 @@ static int imx334_set_ctrl(struct v4l2_ctrl *ctrl)
- 		pm_runtime_put(imx334->dev);
- 
- 		break;
-+	case V4L2_CID_PIXEL_RATE:
-+	case V4L2_CID_LINK_FREQ:
- 	case V4L2_CID_HBLANK:
- 		ret = 0;
- 		break;
-@@ -1047,7 +1057,7 @@ static int imx334_parse_hw_config(struct imx334 *imx334)
- 	struct fwnode_handle *ep;
- 	unsigned long rate;
- 	int ret;
--	int i;
-+	int i, j;
- 
- 	if (!fwnode)
- 		return -ENXIO;
-@@ -1097,11 +1107,20 @@ static int imx334_parse_hw_config(struct imx334 *imx334)
- 		goto done_endpoint_free;
- 	}
- 
--	for (i = 0; i < bus_cfg.nr_of_link_frequencies; i++)
--		if (bus_cfg.link_frequencies[i] == IMX334_LINK_FREQ)
-+	for (i = 0; i < bus_cfg.nr_of_link_frequencies; i++) {
-+		for (j = 0; j < ARRAY_SIZE(link_freq); j++) {
-+			if (bus_cfg.link_frequencies[i] == link_freq[j]) {
-+				set_bit(j, &imx334->menu_skip_mask);
-+				break;
-+			}
-+		}
-+
-+		if (j == ARRAY_SIZE(link_freq)) {
-+			ret = dev_err_probe(imx334->dev, -EINVAL,
-+					    "no supported link freq found\n");
- 			goto done_endpoint_free;
--
--	ret = -EINVAL;
-+		}
-+	}
- 
- done_endpoint_free:
- 	v4l2_fwnode_endpoint_free(&bus_cfg);
-@@ -1232,10 +1251,10 @@ static int imx334_init_controls(struct imx334 *imx334)
- 	imx334->link_freq_ctrl = v4l2_ctrl_new_int_menu(ctrl_hdlr,
- 							&imx334_ctrl_ops,
- 							V4L2_CID_LINK_FREQ,
--							ARRAY_SIZE(link_freq) -
--							1,
--							mode->link_freq_idx,
-+							__fls(imx334->menu_skip_mask),
-+							__ffs(imx334->menu_skip_mask),
- 							link_freq);
-+
- 	if (imx334->link_freq_ctrl)
- 		imx334->link_freq_ctrl->flags |= V4L2_CTRL_FLAG_READ_ONLY;
- 
+  i2c_set_clientdata(struct i2c_client *client, void *data)
+          ^^^^^^~~~~            ^^^^^^                ~~~~
+
+so "client" clearly makes sense there, now here.
+
+The same logic applied here would lead to:
+
+  i2c_atr_set_atrdata(struct i2c_atr *atr, void *data)
+              ^^^~~~~            ^^^             ~~~~
+
+which makes sense but it is a ugly IMO.
+
+So I think i2c_atr_get_driver_data() in this v7 makes sense, it's to
+set the data that the ATR driver instance needs.
+
+This is coherent with logic in spi/spi.h:
+
+  spi_set_drvdata(struct spi_device *spi, void *data)
+
+except for the abbreviation ("_drvdata" vs "_driver_data").
+
+Andy, Tomi, would i2c_atr_set_drvdata() be OK for you, just like SPI
+does?
+
 -- 
-2.34.1
-
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
