@@ -2,89 +2,68 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8D155674B6A
-	for <lists+linux-media@lfdr.de>; Fri, 20 Jan 2023 05:54:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 08F17674B41
+	for <lists+linux-media@lfdr.de>; Fri, 20 Jan 2023 05:50:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231203AbjATEyK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 19 Jan 2023 23:54:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49232 "EHLO
+        id S230323AbjATEu3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 19 Jan 2023 23:50:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35360 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230481AbjATExr (ORCPT
+        with ESMTP id S230460AbjATEtz (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 19 Jan 2023 23:53:47 -0500
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1BA3BCE8A2;
-        Thu, 19 Jan 2023 20:45:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674189914; x=1705725914;
-  h=message-id:date:mime-version:cc:subject:to:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=DuOBg1V/kEEpNk+BV4bYqVrWJSOOFRR3sdWDamFrvt0=;
-  b=DpH5Gz6m8iV2ch09fwLFA5GAnqlxbeNoa7S3bI/YFsVgN87LhKKoHb0Q
-   cSCYdT3KmY8GtvjtNyqfoyZjFlZdvPRAzezNcOKx6+isXeCmUB45fV3DF
-   026+DbQtNrLVHraaQW0P2BkA1avJfJCRa80U8itPz7XQ3IEFFPIYbClxs
-   28pG13X7QphCrYMsq60VrkQyCLoGnlbwbBVjTPl45e3wWdRgqLxggzixe
-   SAA5swOR1eMGWiVdWM7YFfhsxGvQQy2A0iZNyMvQ//2lqzy3XrGkXktPN
-   QJ1loYld9EDGI/1Qb4zzbto8KYzzKZkmUqKFZsbc6A6sRmm5zTKHoGxD2
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="308821076"
-X-IronPort-AV: E=Sophos;i="5.97,229,1669104000"; 
-   d="scan'208";a="308821076"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2023 03:47:51 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="988957189"
-X-IronPort-AV: E=Sophos;i="5.97,229,1669104000"; 
-   d="scan'208";a="988957189"
-Received: from blu2-mobl.ccr.corp.intel.com (HELO [10.252.185.248]) ([10.252.185.248])
-  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2023 03:47:45 -0800
-Message-ID: <08c874f6-0c59-0b74-a2c8-7ad61356af6f@linux.intel.com>
-Date:   Thu, 19 Jan 2023 19:47:42 +0800
+        Thu, 19 Jan 2023 23:49:55 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5BB9CCE893;
+        Thu, 19 Jan 2023 20:43:41 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id E6AE9B820EE;
+        Thu, 19 Jan 2023 12:14:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F20CC433EF;
+        Thu, 19 Jan 2023 12:14:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1674130491;
+        bh=CG8mfmfOWM+5nGB+yTL4n2ztHake1TEnvVAcm3gH9lI=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=ZZizQ1ikMohqI25dF0gqmRcuHtjrZtwFqn6zaPhuhcHEe60u15DNqrGjVykpXRz0D
+         /MKRqV1ADdCpUQ5LILfutfGTEgzmFYebPivszr5vWx7gN0HHRJxF1+Qxtk3rIJopzU
+         58azpQbSUKWiKoAJ4UDxFMsnAGLZ60+RCf0TIigI=
+Date:   Thu, 19 Jan 2023 13:14:49 +0100
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Umang Jain <umang.jain@ideasonboard.com>
+Cc:     linux-staging@lists.linux.dev,
+        linux-rpi-kernel@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Stefan Wahren <stefan.wahren@i2se.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Adrien Thierry <athierry@redhat.com>,
+        Dan Carpenter <error27@gmail.com>,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Paul Elder <paul.elder@ideasonboard.com>
+Subject: Re: [PATCH v5 1/6] staging: vc04_services: Drop __VCCOREVER__
+ remnants
+Message-ID: <Y8k0OTYJ1hZ5L6O/@kroah.com>
+References: <20230119115503.268693-1-umang.jain@ideasonboard.com>
+ <20230119115503.268693-2-umang.jain@ideasonboard.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Cc:     baolu.lu@linux.intel.com,
-        Alex Williamson <alex.williamson@redhat.com>,
-        ath10k@lists.infradead.org, ath11k@lists.infradead.org,
-        Christian Borntraeger <borntraeger@linux.ibm.com>,
-        dri-devel@lists.freedesktop.org, iommu@lists.linux.dev,
-        kvm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-rdma@vger.kernel.org, linux-remoteproc@vger.kernel.org,
-        linux-s390@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-tegra@vger.kernel.org, linux-wireless@vger.kernel.org,
-        netdev@vger.kernel.org, nouveau@lists.freedesktop.org,
-        Niklas Schnelle <schnelle@linux.ibm.com>,
-        virtualization@lists.linux-foundation.org
-Subject: Re: [PATCH v2 06/10] iommu/intel: Add a gfp parameter to
- alloc_pgtable_page()
-Content-Language: en-US
-To:     Jason Gunthorpe <jgg@nvidia.com>, Joerg Roedel <joro@8bytes.org>,
-        Kevin Tian <kevin.tian@intel.com>,
-        Matthew Rosato <mjrosato@linux.ibm.com>,
-        Robin Murphy <robin.murphy@arm.com>
-References: <6-v2-ce66f632bd0d+484-iommu_map_gfp_jgg@nvidia.com>
-From:   Baolu Lu <baolu.lu@linux.intel.com>
-In-Reply-To: <6-v2-ce66f632bd0d+484-iommu_map_gfp_jgg@nvidia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230119115503.268693-2-umang.jain@ideasonboard.com>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 2023/1/19 2:00, Jason Gunthorpe wrote:
-> This is eventually called by iommufd through intel_iommu_map_pages() and
-> it should not be forced to atomic. Push the GFP_ATOMIC to all callers.
-> 
-> Signed-off-by: Jason Gunthorpe<jgg@nvidia.com>
+On Thu, Jan 19, 2023 at 05:24:58PM +0530, Umang Jain wrote:
+> Commit 8ba5f91bab63("staging: vc04_services: remove __VCCOREVER__")
 
-Reviewed-by: Lu Baolu <baolu.lu@linux.intel.com>
+Nit, you need a space before the '(' character :(
 
-Best regards,
-baolu
