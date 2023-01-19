@@ -2,100 +2,142 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 730CE674BC3
-	for <lists+linux-media@lfdr.de>; Fri, 20 Jan 2023 06:07:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5D636674C9F
+	for <lists+linux-media@lfdr.de>; Fri, 20 Jan 2023 06:37:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231189AbjATFHy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 20 Jan 2023 00:07:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38016 "EHLO
+        id S230373AbjATFhd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 20 Jan 2023 00:37:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42220 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230322AbjATFHJ (ORCPT
+        with ESMTP id S230362AbjATFgu (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 20 Jan 2023 00:07:09 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F9D285367;
-        Thu, 19 Jan 2023 20:54:47 -0800 (PST)
+        Fri, 20 Jan 2023 00:36:50 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC52110276;
+        Thu, 19 Jan 2023 21:33:25 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id E1646B82291;
-        Thu, 19 Jan 2023 12:26:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0C418C433D2;
-        Thu, 19 Jan 2023 12:26:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1674131189;
-        bh=v9L6O/kpVavTAGVUX5tNF84tMHDgWEumEJW0la5jK9k=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=G3oKUnQAfK+bLJ/exC6I7cCOyATgyL3RGezNeN1Q8JOv8zqwSakrpFNQCQY4xLomW
-         PEiAmfGN5SUAKQtNMx69KdJb4B+j6o0dpKQxuA/9SGy1LhSJ/uTfi2syyKHjSoqM01
-         CrYw6OVqkRFsKDBddVBM3h/vMWqhDxRFatC6OvamfDDmyOP0T0lzjwhjeJ7Hnh/hKP
-         bqmUWl0N0iCpW+MqLhSId4W/1ZXjBfSVn+9jLZP8RTzBOHnFyUz447AQMjclKFnAPy
-         gDR4ly4EZZRieH0oZvVlLWQu16zQAb/wC+kXIWZjpUu+628AsIPwIuzeLFfuAmyvo2
-         wnsY5pt9/l/3Q==
-Message-ID: <dd96a81a-84c1-fa82-627b-894cae5f7bdd@kernel.org>
-Date:   Thu, 19 Jan 2023 13:26:23 +0100
+        by ams.source.kernel.org (Postfix) with ESMTPS id 65B3CB82268;
+        Thu, 19 Jan 2023 13:37:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 95D6EC433EF;
+        Thu, 19 Jan 2023 13:37:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1674135468;
+        bh=sO75cV7afKYaRCZB2EF0QM3uKzcgi0tN7kGZsXY3dqk=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=k7zzqJLN4b0SJLtEuq0d+WrSWejXA73Nx/iuuFKS9ftvinCN4cbyMwNDjn04POiGz
+         zLDPaZqPrNvur38ttXU3yj2gZZqjkNyi0xO9b6Ugo/r+GfeONiVhG4yPmyL8G/lbrs
+         mkg+aoki1ZSrnvaMwxx9ehbXgyIhady/thHEu6yc=
+Date:   Thu, 19 Jan 2023 14:37:45 +0100
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Phil Elwell <phil@raspberrypi.com>
+Cc:     Stefan Wahren <stefan.wahren@i2se.com>,
+        Umang Jain <umang.jain@ideasonboard.com>,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org,
+        linux-rpi-kernel@lists.infradead.org,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Adrien Thierry <athierry@redhat.com>,
+        Dan Carpenter <error27@gmail.com>,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-kernel@vger.kernel.org
+Subject: Re: [RFC PATCH 0/4] Drop custom logging
+Message-ID: <Y8lHqd9FlxiXTLuW@kroah.com>
+References: <20230118115810.21979-1-umang.jain@ideasonboard.com>
+ <b1a26368-3753-0d32-434b-e220dd9c06b4@i2se.com>
+ <CAMEGJJ1=dix7gWvV3Jxef-M-ExFZRTASQCr+6sn_dGsEQ=deYQ@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.0
-Subject: Re: [PATCH v10 4/5] dt-bindings: media: i2c: imx334 add new link_freq
-Content-Language: en-US
-To:     shravan kumar <shravan.chippa@microchip.com>,
-        paul.j.murphy@intel.com, daniele.alessandrelli@intel.com,
-        mchehab@kernel.org
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Sakari Ailus <sakari.ailus@iki.fi>
-References: <20230119112848.3523273-1-shravan.chippa@microchip.com>
- <20230119112848.3523273-5-shravan.chippa@microchip.com>
-From:   Krzysztof Kozlowski <krzk@kernel.org>
-In-Reply-To: <20230119112848.3523273-5-shravan.chippa@microchip.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-7.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAMEGJJ1=dix7gWvV3Jxef-M-ExFZRTASQCr+6sn_dGsEQ=deYQ@mail.gmail.com>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 19/01/2023 12:28, shravan kumar wrote:
-> From: Shravan Chippa <shravan.chippa@microchip.com>
-
-Please use scripts/get_maintainers.pl to get a list of necessary people
-and lists to CC.  It might happen, that command when run on an older
-kernel, gives you outdated entries.  Therefore please be sure you base
-your patches on recent Linux kernel.
-
-You skipped several of people/lists, so please resend.
-
+On Thu, Jan 19, 2023 at 01:31:12PM +0000, Phil Elwell wrote:
+> Hi all,
 > 
-> add new supported link frequency in dt example
-
-Start with capital letter. Finish with full stop.
-
 > 
-> Suggested-by: Sakari Ailus <sakari.ailus@iki.fi>
-> Signed-off-by: Shravan Chippa <shravan.chippa@microchip.com>
-> ---
->  Documentation/devicetree/bindings/media/i2c/sony,imx334.yaml | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> On Wed, 18 Jan 2023 at 17:55, Stefan Wahren <stefan.wahren@i2se.com> wrote:
+> >
+> > Hi Umang,
+> >
+> > [add Phil]
+> >
+> > Am 18.01.23 um 12:58 schrieb Umang Jain:
+> > > Drop custom logging from the vchiq interface.
+> > > Mostly of them are replaced with dev_dbg and friends
+> > > and/or pr_info and friends.
+> > >
+> > > The debugfs log levels (in 4/4) are mapped to kernel
+> > > logs levels (coming from include/linux/kern_levels.h)
+> > > Would like some thoughts on it as I am not sure (hence
+> > > marking this is RFC)
+> > >
+> > >  From drivers/staging/vc04_services/interface/TODO:
+> > >
+> > > """
+> > > * Cleanup logging mechanism
+> > >
+> > > The driver should probably be using the standard kernel logging mechanisms
+> > > such as dev_info, dev_dbg, and friends.
+> >
+> > i don't have any experience with vchiq logging/debug. So i'm not sure if
+> > it's acceptable to lose the second log level dimension (like
+> > vchiq_arm_log_level) completely. Complex drivers like brcmfmac have a
+> > debug mask to avoid log spamming [1]. Maybe this is a compromise.
+> >
+> > Btw some loglevel locations has already been messed up during
+> > refactoring :-(
+> >
+> > [1] - drivers/net/wireless/broadcom/brcm80211/brcmfmac/debug.h
+> >
+> > > """
+> > >
+> > > Umang Jain (4):
+> > >    staging: vc04_services: vchiq_core: Drop custom logging
+> > >    staging: vc04_services: vchiq_arm: Drop custom logging
+> > >    staging: vc04_services: Drop custom logging
+> > >    staging: vc04_services: Drop remnants of custom logging
+> > >
+> > >   .../interface/vchiq_arm/vchiq_arm.c           | 151 +++---
+> > >   .../interface/vchiq_arm/vchiq_connected.c     |   5 +-
+> > >   .../interface/vchiq_arm/vchiq_core.c          | 479 ++++++++----------
+> > >   .../interface/vchiq_arm/vchiq_core.h          |  39 --
+> > >   .../interface/vchiq_arm/vchiq_debugfs.c       |  26 +-
+> > >   .../interface/vchiq_arm/vchiq_dev.c           |  78 ++-
+> > >   6 files changed, 329 insertions(+), 449 deletions(-)
+> > >
 > 
-> diff --git a/Documentation/devicetree/bindings/media/i2c/sony,imx334.yaml b/Documentation/devicetree/bindings/media/i2c/sony,imx334.yaml
-> index f5055b9db693..09533496b20c 100644
-> --- a/Documentation/devicetree/bindings/media/i2c/sony,imx334.yaml
-> +++ b/Documentation/devicetree/bindings/media/i2c/sony,imx334.yaml
-> @@ -82,7 +82,7 @@ examples:
->                  imx334: endpoint {
->                      remote-endpoint = <&cam>;
->                      data-lanes = <1 2 3 4>;
-> -                    link-frequencies = /bits/ 64 <891000000>;
-> +                    link-frequencies = /bits/ 64 <891000000 445500000>;
->                  };
->              };
->          };
+> Thanks for the nudge - this patch set hasn't yet made its way through
+> the sluggish rpi-kernel moderation.
+> 
+> I understand the desire to remove the custom logging. I don't welcome
+> the loss of flexibility that comes with such a strategy
 
-Best regards,
-Krzysztof
+What "loss of flexibility"?  You now have access to the full dynamic
+debugging facilities that all of the rest of the kernel has.  What is
+lacking?
 
+> , but I'm not
+> going to argue about it. What's harder to understand is the state that
+> this patchset leaves VCHIQ logging in. From what I can see, the
+> per-service logging control has gone, but the code still contains
+> macros that hint at something useful. Similarly, the debugfs support
+> is completely vestigial, giving the appearance of control while
+> actually achieving nothing.
+
+The debugfs files should also be removed if they don't do anything
+anymore.
+
+thanks,
+
+greg k-h
