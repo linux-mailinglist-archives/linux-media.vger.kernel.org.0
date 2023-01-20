@@ -2,83 +2,139 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0CA5D675CC0
-	for <lists+linux-media@lfdr.de>; Fri, 20 Jan 2023 19:29:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EC929675D84
+	for <lists+linux-media@lfdr.de>; Fri, 20 Jan 2023 20:03:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229682AbjATS3w (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 20 Jan 2023 13:29:52 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41054 "EHLO
+        id S229501AbjATTDt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 20 Jan 2023 14:03:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39894 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229493AbjATS3v (ORCPT
+        with ESMTP id S229484AbjATTDs (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 20 Jan 2023 13:29:51 -0500
-Received: from outpost1.zedat.fu-berlin.de (outpost1.zedat.fu-berlin.de [130.133.4.66])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8811C7B2C2;
-        Fri, 20 Jan 2023 10:29:50 -0800 (PST)
-Received: from inpost2.zedat.fu-berlin.de ([130.133.4.69])
-          by outpost.zedat.fu-berlin.de (Exim 4.95)
-          with esmtps (TLS1.3)
-          tls TLS_AES_256_GCM_SHA384
-          (envelope-from <mkarcher@zedat.fu-berlin.de>)
-          id 1pIw91-002ZeP-SB; Fri, 20 Jan 2023 19:29:43 +0100
-Received: from pd9f631ca.dip0.t-ipconnect.de ([217.246.49.202] helo=[192.168.144.87])
-          by inpost2.zedat.fu-berlin.de (Exim 4.95)
-          with esmtpsa (TLS1.3)
-          tls TLS_AES_128_GCM_SHA256
-          (envelope-from <Michael.Karcher@fu-berlin.de>)
-          id 1pIw91-002DWz-Lq; Fri, 20 Jan 2023 19:29:43 +0100
-Message-ID: <9e037a3d-56a6-6a06-834a-48c0b8d9225f@fu-berlin.de>
-Date:   Fri, 20 Jan 2023 19:29:42 +0100
+        Fri, 20 Jan 2023 14:03:48 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 65A002116
+        for <linux-media@vger.kernel.org>; Fri, 20 Jan 2023 11:03:28 -0800 (PST)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5BEFD514;
+        Fri, 20 Jan 2023 20:03:23 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1674241403;
+        bh=Wcjds+dYXT/N8+Xmb65JQjYwIwWVzKG/YQwYzJDjRk4=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=OoghPEosO9Sspv516aVKKyYpdks22sbsOQzXlO+I+BGPE3mP4221CrMeAJ01JZbLo
+         Wn5wkrFcDpCenrjG6qc87ouMHk47bOohVThtca7H4EqJIiHqCEX4w/RDydx7YQVcfm
+         ZNz6mekVVJu70oiQPR1E1YKIhVBEXPE+ECc2cNQM=
+Date:   Fri, 20 Jan 2023 21:03:20 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     Hans de Goede <hdegoede@redhat.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
+Subject: Re: "media: vb2: add (un)prepare_streaming queue ops" causes
+ vb2_queue->streaming to be set earlier ?
+Message-ID: <Y8rleOkeKiO21DEb@pendragon.ideasonboard.com>
+References: <545610e7-3446-2b82-60dc-7385fea3774f@redhat.com>
+ <51d24c79-867e-3e5b-df60-6ac4555e12bf@xs4all.nl>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: Calculating array sizes in C - was: Re: Build
- regressions/improvements in v6.2-rc1
-To:     Segher Boessenkool <segher@kernel.crashing.org>,
-        Rob Landley <rob@landley.net>
-Cc:     John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        linux-xtensa@linux-xtensa.org, Arnd Bergmann <arnd@arndb.de>,
-        linux-sh@vger.kernel.org, linux-wireless@vger.kernel.org,
-        linux-mips@vger.kernel.org, amd-gfx@lists.freedesktop.org,
-        linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com,
-        linux-f2fs-devel@lists.sourceforge.net,
-        linuxppc-dev@lists.ozlabs.org,
-        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
-References: <alpine.DEB.2.22.394.2212270933530.311423@ramsan.of.borg>
- <c05bee5d-0d69-289b-fe4b-98f4cd31a4f5@physik.fu-berlin.de>
- <CAMuHMdXNJveXHeS=g-aHbnxtyACxq1wCeaTg8LbpYqJTCqk86g@mail.gmail.com>
- <3800eaa8-a4da-b2f0-da31-6627176cb92e@physik.fu-berlin.de>
- <CAMuHMdWbBRkhecrqcir92TgZnffMe8ku2t7PcVLqA6e6F-j=iw@mail.gmail.com>
- <429140e0-72fe-c91c-53bc-124d33ab5ffa@physik.fu-berlin.de>
- <CAMuHMdWpHSsAB3WosyCVgS6+t4pU35Xfj3tjmdCDoyS2QkS7iw@mail.gmail.com>
- <0d238f02-4d78-6f14-1b1b-f53f0317a910@physik.fu-berlin.de>
- <1732342f-49fe-c20e-b877-bc0a340e1a50@fu-berlin.de>
- <0f51dac4-836b-0ff2-38c6-5521745c1c88@landley.net>
- <20230120105341.GI25951@gate.crashing.org>
-From:   "Michael.Karcher" <Michael.Karcher@fu-berlin.de>
-In-Reply-To: <20230120105341.GI25951@gate.crashing.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Original-Sender: Michael.Karcher@fu-berlin.de
-X-Originating-IP: 217.246.49.202
-X-ZEDAT-Hint: T
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        RCVD_IN_DNSWL_MED,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <51d24c79-867e-3e5b-df60-6ac4555e12bf@xs4all.nl>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello!
-> Can someone please file a GCC PR?  With reduced testcase preferably.
+On Thu, Dec 08, 2022 at 08:40:05AM +0100, Hans Verkuil wrote:
+> Hi Hans,
+> 
+> On 07/12/2022 22:23, Hans de Goede wrote:
+> > Hi Hans,
+> > 
+> > I just fixed a crash in the out of tree driver which is caused by:
+> > 
+> > a10b21532574 ("media: vb2: add (un)prepare_streaming queue ops")
+> > 
+> > I know that breaking out of tree code is fine / not our problem,
+> > but I wonder if this maybe affects some in tree code too ?
+> > 
+> > The problem with the out of tree driver is that it
+> > used vb2_queue->streaming inside the buf_queue() callback
+> > to determine if the buffer was being pre-queued (from
+> > vb2_start_streaming() calling __enqueue_in_driver()) before
+> > the start_streaming queue-op is called.
+> > 
+> > Or if it was being queued after the start_streaming queue-op
+> > has been called.
+> > 
+> > With vb2_queue->streaming now being set before the
+> >  __enqueue_in_driver() calls in vb2_start_streaming() this
+> > broke and it went down the route to see if there was
+> > space available in the hw-queue which NULL pointer deref-ed
+> > because the hw-queue had not been setup yet (more or less).
+> > 
+> > This is fixed now as far as the ipu6 driver is concerned,
+> > but I wonder if we may not have in tree drivers making
+> > similar assumptions about vb2_queue->streaming in their
+> > buf_queue() callbacks ?
+> 
+> I checked, and there is nobody else that's doing that.
 
-https://gcc.gnu.org/bugzilla/show_bug.cgi?id=108483
+Unfortunately, commit a10b21532574 ("media: vb2: add
+(un)prepare_streaming queue ops") broke the vsp1 driver, which oopses
+when starting streaming due to the issue described above.
 
-There you are.
+> It's definitely wrong to use q->streaming like that, it was never
+> meant as a check for whether or not the buffer was pre-queued.
 
-Kind regars,
-   Michael Karcher
+It's done though :-) The vsp1 .buf_queue() handler reads as
 
+static void vsp1_video_buffer_queue(struct vb2_buffer *vb)
+{
+	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
+	struct vsp1_video *video = vb2_get_drv_priv(vb->vb2_queue);
+	struct vsp1_pipeline *pipe = video->rwpf->entity.pipe;
+	struct vsp1_vb2_buffer *buf = to_vsp1_vb2_buffer(vbuf);
+	unsigned long flags;
+	bool empty;
+	
+	spin_lock_irqsave(&video->irqlock, flags);
+	empty = list_empty(&video->irqqueue);
+	list_add_tail(&buf->queue, &video->irqqueue);
+	spin_unlock_irqrestore(&video->irqlock, flags);
+	
+	if (!empty)
+		return;
+
+	spin_lock_irqsave(&pipe->irqlock, flags);
+
+	video->rwpf->mem = buf->mem;
+	pipe->buffers_ready |= 1 << video->pipe_index;
+	
+	if (vb2_is_streaming(&video->queue) &&
+	    vsp1_pipeline_ready(pipe))
+		vsp1_video_pipeline_run(pipe);
+
+	spin_unlock_irqrestore(&pipe->irqlock, flags);
+} 
+
+> Thanks for the heads-up, though! It is a real change in vb2 behavior
+> that I hadn't realized could cause problems.
+> 
+> It's a good change, since having buf_queue called when q->streaming is
+> false makes no sense. However, you can use q->start_streaming_called
+> instead if for some reason a driver needs to know.
+
+This fixes the issue in the vsp1 driver. I'll submit a patch, but I'm
+worried about other breakages thought, *lots* of drivers call
+vb2_is_streaming(), including in the .buf_queue() handler. Even the m2m
+core does so. I'm not sure we'll be able to fix all that in time for
+v6.2.
+
+-- 
+Regards,
+
+Laurent Pinchart
