@@ -2,86 +2,99 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2C441675102
-	for <lists+linux-media@lfdr.de>; Fri, 20 Jan 2023 10:27:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2F21767511D
+	for <lists+linux-media@lfdr.de>; Fri, 20 Jan 2023 10:30:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230427AbjATJ1P (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 20 Jan 2023 04:27:15 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45364 "EHLO
+        id S230465AbjATJaY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 20 Jan 2023 04:30:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49750 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230204AbjATJ1N (ORCPT
+        with ESMTP id S231244AbjATJaL (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 20 Jan 2023 04:27:13 -0500
-Received: from mail.8bytes.org (mail.8bytes.org [IPv6:2a01:238:42d9:3f00:e505:6202:4f0c:f051])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 055A0A19A5;
-        Fri, 20 Jan 2023 01:26:42 -0800 (PST)
-Received: from 8bytes.org (p200300c27714bc0086ad4f9d2505dd0d.dip0.t-ipconnect.de [IPv6:2003:c2:7714:bc00:86ad:4f9d:2505:dd0d])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by mail.8bytes.org (Postfix) with ESMTPSA id E12D62626D1;
-        Fri, 20 Jan 2023 10:24:56 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=8bytes.org;
-        s=default; t=1674206697;
-        bh=N0Ez9jlBhYWiOK7+xYABfIe0+VmfRPgpACpzUje2F4A=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=lOLKVLD4dyMYfuGfszt0Aqi18MMtbwUvgwVbHoDO6hE/pu3jlsoFnfOvfV2sSJ6i8
-         k3lOBgDA7x9bkKbnD+qVSk6qrzEVOc/9/JS99/CzblV3IjUWMNUsDLegoejr0hYkyT
-         NIAGgbjvSNtqhO8clUAYjH7vWYcGoTKi2kDTgKFmFcsSDinl9Vo2l2M2oUTe7UNJh3
-         4hHtdAX4so62XBRGFWlRKgCJW94p/lPduMMBp2SCZ238xwGOe1m0xh9F5SouN8x7NO
-         06U5w+umYu9ogUcIQK1YpQ4ciXMhW+H2quzpMMrP7f3cTLkb2U0hf6Ab3xk/GMJY5E
-         1P63Vv4/HChRw==
-Date:   Fri, 20 Jan 2023 10:24:55 +0100
-From:   Joerg Roedel <joro@8bytes.org>
-To:     Jason Gunthorpe <jgg@nvidia.com>
-Cc:     Robin Murphy <robin.murphy@arm.com>,
-        Lu Baolu <baolu.lu@linux.intel.com>,
-        Kevin Tian <kevin.tian@intel.com>,
-        Matthew Rosato <mjrosato@linux.ibm.com>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        ath10k@lists.infradead.org, ath11k@lists.infradead.org,
-        Christian Borntraeger <borntraeger@linux.ibm.com>,
-        dri-devel@lists.freedesktop.org, iommu@lists.linux.dev,
-        kvm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-rdma@vger.kernel.org, linux-remoteproc@vger.kernel.org,
-        linux-s390@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-tegra@vger.kernel.org, linux-wireless@vger.kernel.org,
-        netdev@vger.kernel.org, nouveau@lists.freedesktop.org,
-        Niklas Schnelle <schnelle@linux.ibm.com>,
-        virtualization@lists.linux-foundation.org
-Subject: Re: [PATCH 1/8] iommu: Add a gfp parameter to iommu_map()
-Message-ID: <Y8pd50mdNShTyVRX@8bytes.org>
-References: <1-v1-6e8b3997c46d+89e-iommu_map_gfp_jgg@nvidia.com>
- <4fd1b194-29ef-621d-4059-a8336058f217@arm.com>
- <Y7hZOwerwljDKoQq@nvidia.com>
+        Fri, 20 Jan 2023 04:30:11 -0500
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 89E1294C97;
+        Fri, 20 Jan 2023 01:29:36 -0800 (PST)
+Received: from ip5b412258.dynamic.kabel-deutschland.de ([91.65.34.88] helo=diego.localnet)
+        by gloria.sntech.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.94.2)
+        (envelope-from <heiko@sntech.de>)
+        id 1pInhK-0002aV-GZ; Fri, 20 Jan 2023 10:28:34 +0100
+From:   Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
+To:     Jacob Chen <jacob-chen@iotwrt.com>,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Michael Tretter <m.tretter@pengutronix.de>
+Cc:     linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Nicolas Frattaroli <frattaroli.nicolas@gmail.com>,
+        Michael Tretter <m.tretter@pengutronix.de>
+Subject: Re: [PATCH RESEND 1/2] media: dt-bindings: media: rockchip-rga: add
+ rockchip,rk3568-rga
+Date:   Fri, 20 Jan 2023 10:28:33 +0100
+Message-ID: <1938419.usQuhbGJ8B@diego>
+In-Reply-To: <20230119-rk3568-rga-v1-1-43d4d14365e6@pengutronix.de>
+References: <20230119-rk3568-rga-v1-0-43d4d14365e6@pengutronix.de>
+ <20230119-rk3568-rga-v1-1-43d4d14365e6@pengutronix.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y7hZOwerwljDKoQq@nvidia.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_PASS,
+        T_SPF_HELO_TEMPERROR autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Jan 06, 2023 at 01:24:11PM -0400, Jason Gunthorpe wrote:
-> I think it is just better to follow kernel convention and have
-> allocation functions include the GFP because it is a clear signal to
-> the user that there is an allocation hidden inside the API. The whole
-> point of gfp is not to have multitudes of every function for every
-> allocation mode.
+Am Freitag, 20. Januar 2023, 10:14:21 CET schrieb Michael Tretter:
+> Add a new compatible for the rk3568 Rockchip SoC, which also features an
+> RGA, which is called RGA2 in the TRM Part2. It is the same core as used
+> on the rk3288, which documents the same RGA2.
+> 
+> Specify a new compatible for the rk3568 to be able to handle unknown
+> SoC-specific differences in the driver.
+> 
+> Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> Signed-off-by: Michael Tretter <m.tretter@pengutronix.de>
 
-Well, having GFP parameters is not a strict kernel convention. There are
-places doing it differently and have sleeping and atomic variants of
-APIs. I have to say I like the latter more. But given that this leads to
-an invasion of API functions here which all do the same under the hood, I
-agree it is better to go with a GFP parameter here.
+Reviewed-by: Heiko Stuebner <heiko@sntech.de>
 
-Regards,
+@media people: I'd guess this should go through the media-tree, while I
+would pick the devicetree patch.
 
-	Joerg
+I can also apply this binding patch, but would need an Ack from the
+media-side for it.
+
+Thanks
+Heiko
+
+> ---
+>  Documentation/devicetree/bindings/media/rockchip-rga.yaml | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/media/rockchip-rga.yaml b/Documentation/devicetree/bindings/media/rockchip-rga.yaml
+> index dd645ddccb07..ea2342222408 100644
+> --- a/Documentation/devicetree/bindings/media/rockchip-rga.yaml
+> +++ b/Documentation/devicetree/bindings/media/rockchip-rga.yaml
+> @@ -21,7 +21,9 @@ properties:
+>        - const: rockchip,rk3288-rga
+>        - const: rockchip,rk3399-rga
+>        - items:
+> -          - const: rockchip,rk3228-rga
+> +          - enum:
+> +              - rockchip,rk3228-rga
+> +              - rockchip,rk3568-rga
+>            - const: rockchip,rk3288-rga
+>  
+>    reg:
+> 
+> 
+
+
+
+
