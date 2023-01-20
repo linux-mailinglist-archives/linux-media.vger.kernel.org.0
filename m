@@ -2,162 +2,342 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5AF43675F0F
-	for <lists+linux-media@lfdr.de>; Fri, 20 Jan 2023 21:44:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C7266675F9C
+	for <lists+linux-media@lfdr.de>; Fri, 20 Jan 2023 22:25:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229712AbjATUoG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 20 Jan 2023 15:44:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46242 "EHLO
+        id S229702AbjATVZo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 20 Jan 2023 16:25:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43666 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229494AbjATUoE (ORCPT
+        with ESMTP id S229683AbjATVZn (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 20 Jan 2023 15:44:04 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F89F94C98;
-        Fri, 20 Jan 2023 12:44:03 -0800 (PST)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 968B9514;
-        Fri, 20 Jan 2023 21:44:01 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1674247441;
-        bh=RGZWizV5aQWvvi9vM3wcSdZJlXGVRCw+kfzO4ZPIbP4=;
-        h=From:To:Cc:Subject:Date:From;
-        b=tpYpRQErh9OcXl0wugmLZ9WstE0uP+tQ5iJsL3jmt/Ov5WJzsZDPRY1+ono7MmFw9
-         uKhIHznC8KDv+I0lhxplgietpni+tOPm9DvXNp3g4D1J1pFNHlrtu76S3lmdq23Uk8
-         49kUvYIt4nemU/B4eF6PYrth3qETojJdEC4DF8xk=
-From:   Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-To:     linux-media@vger.kernel.org
-Cc:     Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-renesas-soc@vger.kernel.org,
-        Hans de Goede <hdegoede@redhat.com>
-Subject: [PATCH] media: vsp1: Replace vb2_is_streaming() with vb2_start_streaming_called()
-Date:   Fri, 20 Jan 2023 22:43:59 +0200
-Message-Id: <20230120204359.25114-1-laurent.pinchart+renesas@ideasonboard.com>
-X-Mailer: git-send-email 2.39.1
+        Fri, 20 Jan 2023 16:25:43 -0500
+Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com [IPv6:2607:f8b0:4864:20::1034])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE0936A33F
+        for <linux-media@vger.kernel.org>; Fri, 20 Jan 2023 13:25:41 -0800 (PST)
+Received: by mail-pj1-x1034.google.com with SMTP id u1-20020a17090a450100b0022936a63a21so10238789pjg.4
+        for <linux-media@vger.kernel.org>; Fri, 20 Jan 2023 13:25:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=lx7Bv+SVM/w6kHv4tQh6+Mruz9/kiECXW3eC6e0xGg0=;
+        b=ZNqm4HSbdl4pAHwhx7RgOiCKpib4uiI7hPCKWGQR15JiJ8StAy/J4Zm31u6iK6lGLM
+         QiLA0PCFNKBXcST29+sq0iPmSPSg7V0T7p/HZidnE3iM7F2kusC33U/bwnzKsx1UmGCU
+         bx+Xo+t2JyFyOxQIacT59Z6mRKwQ35EBjzNYcrfMK0SdOqDCHb4QbH8QwOQFL03I+2q4
+         9XVR+kwNAW15vZSyXHa+uXJCz2PV2UGIpUDKPAE7zJ4V/WMVUgJxyKxkdMbJ5mMeVcah
+         J9gZ47LBgo9fAhOcHF2aZvcxatMn/XQ/J0FLq60IOAPtLLFX30u20oObRkFQbRLEPFMv
+         4Uyg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=lx7Bv+SVM/w6kHv4tQh6+Mruz9/kiECXW3eC6e0xGg0=;
+        b=Ibl6YJ6GD7txdiFdKIU02pNOlaLJsuh3ed+YUCUE6dRS96+rQW/d7aWldoM/41nX6a
+         +2G16x7+ilJmq9UTmhX3+W2ItxIZPr/6SR7JkjTKk4J+5PREANJfn5MxYQvNPRMAz0NE
+         C6yOYn4M949lX/EAUfPoALDvyg8hYnd1B1pUMUIaLtodiKxKXuSayDWjZvfhTd2fZCMX
+         gdiDNhR9IcuIXi3Qy6uua/HQD0aEZZN5TcQ+5Vi+rR8HNOpmWqCUL+g+l6z+35QR4Y17
+         yhokJmRHCaLECDoAGlN2J11mLFqMAmbKVAWZM5BhdNJMQ9kmgcuHU+/MvOnS9d2KSi1u
+         EA/w==
+X-Gm-Message-State: AFqh2kocZFJHOKsYVN64n4+01jnAxpt0oRtUSdZM07dnoJp2S/opJ1Mv
+        Z+2zjmW88rmXfLc08bU94bGwwA==
+X-Google-Smtp-Source: AMrXdXtwhIqtBWU45zyf1bzkiqUzuWp2dKInBgUEkeiJg+t/kbCqaHe66mWt/V9avpd8lqioBqzT9Q==
+X-Received: by 2002:a17:903:2481:b0:194:b105:5cb4 with SMTP id p1-20020a170903248100b00194b1055cb4mr13282543plw.25.1674249940805;
+        Fri, 20 Jan 2023 13:25:40 -0800 (PST)
+Received: from google.com (157.214.185.35.bc.googleusercontent.com. [35.185.214.157])
+        by smtp.gmail.com with ESMTPSA id p17-20020a170902a41100b0017a032d7ae4sm14892384plq.104.2023.01.20.13.25.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 20 Jan 2023 13:25:40 -0800 (PST)
+Date:   Fri, 20 Jan 2023 21:25:36 +0000
+From:   Carlos Llamas <cmllamas@google.com>
+To:     "T.J. Mercier" <tjmercier@google.com>
+Cc:     Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Arve =?iso-8859-1?B?SGr4bm5lduVn?= <arve@android.com>,
+        Todd Kjos <tkjos@android.com>,
+        Martijn Coenen <maco@android.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Christian Brauner <brauner@kernel.org>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        daniel.vetter@ffwll.ch, android-mm@google.com, jstultz@google.com,
+        Hridya Valsaraju <hridya@google.com>, cgroups@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH 3/4] binder: Add flags to relinquish ownership of fds
+Message-ID: <Y8sG0BSlZ4l8XX89@google.com>
+References: <20230109213809.418135-1-tjmercier@google.com>
+ <20230109213809.418135-4-tjmercier@google.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230109213809.418135-4-tjmercier@google.com>
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The vsp1 driver uses the vb2_is_streaming() function in its .buf_queue()
-handler to check if the .start_streaming() operation has been called,
-and decide whether to just add the buffer to an internal queue, or also
-trigger a hardware run. vb2_is_streaming() relies on the vb2_queue
-structure's streaming field, which used to be set only after calling the
-.start_streaming() operation.
+On Mon, Jan 09, 2023 at 09:38:06PM +0000, T.J. Mercier wrote:
+> From: Hridya Valsaraju <hridya@google.com>
+> 
+> This patch introduces flags BINDER_FD_FLAG_XFER_CHARGE, and
+> BINDER_FD_FLAG_XFER_CHARGE that a process sending an individual fd or
 
-Commit a10b21532574 ("media: vb2: add (un)prepare_streaming queue ops")
-changed this, setting the .streaming field in vb2_core_streamon() before
-enqueuing buffers to the driver and calling .start_streaming(). This
-broke the vsp1 driver which now believes that .start_streaming() has
-been called when it hasn't, leading to a crash:
+I believe the second one was meant to be BINDER_FDA_FLAG_XFER_CHARGE.
+However, I don't think a separation of flags is needed. We process each
+fd in the array individually anyway. So, it's OK to reuse the FD flags
+for FDAs too.
 
-[  881.058705] Unable to handle kernel NULL pointer dereference at virtual address 0000000000000020
-[  881.067495] Mem abort info:
-[  881.070290]   ESR = 0x0000000096000006
-[  881.074042]   EC = 0x25: DABT (current EL), IL = 32 bits
-[  881.079358]   SET = 0, FnV = 0
-[  881.082414]   EA = 0, S1PTW = 0
-[  881.085558]   FSC = 0x06: level 2 translation fault
-[  881.090439] Data abort info:
-[  881.093320]   ISV = 0, ISS = 0x00000006
-[  881.097157]   CM = 0, WnR = 0
-[  881.100126] user pgtable: 4k pages, 48-bit VAs, pgdp=000000004fa51000
-[  881.106573] [0000000000000020] pgd=080000004f36e003, p4d=080000004f36e003, pud=080000004f7ec003, pmd=0000000000000000
-[  881.117217] Internal error: Oops: 0000000096000006 [#1] PREEMPT SMP
-[  881.123494] Modules linked in: rcar_fdp1 v4l2_mem2mem
-[  881.128572] CPU: 0 PID: 1271 Comm: yavta Tainted: G    B              6.2.0-rc1-00023-g6c94e2e99343 #556
-[  881.138061] Hardware name: Renesas Salvator-X 2nd version board based on r8a77965 (DT)
-[  881.145981] pstate: 400000c5 (nZcv daIF -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-[  881.152951] pc : vsp1_dl_list_add_body+0xa8/0xe0
-[  881.157580] lr : vsp1_dl_list_add_body+0x34/0xe0
-[  881.162206] sp : ffff80000c267710
-[  881.165522] x29: ffff80000c267710 x28: ffff000010938ae8 x27: ffff000013a8dd98
-[  881.172683] x26: ffff000010938098 x25: ffff000013a8dc00 x24: ffff000010ed6ba8
-[  881.179841] x23: ffff00000faa4000 x22: 0000000000000000 x21: 0000000000000020
-[  881.186998] x20: ffff00000faa4000 x19: 0000000000000000 x18: 0000000000000000
-[  881.194154] x17: 0000000000000000 x16: 0000000000000000 x15: 0000000000000000
-[  881.201309] x14: 0000000000000000 x13: 746e696174206c65 x12: ffff70000157043d
-[  881.208465] x11: 1ffff0000157043c x10: ffff70000157043c x9 : dfff800000000000
-[  881.215622] x8 : ffff80000ab821e7 x7 : 00008ffffea8fbc4 x6 : 0000000000000001
-[  881.222779] x5 : ffff80000ab821e0 x4 : ffff70000157043d x3 : 0000000000000020
-[  881.229936] x2 : 0000000000000020 x1 : ffff00000e4f6400 x0 : 0000000000000000
-[  881.237092] Call trace:
-[  881.239542]  vsp1_dl_list_add_body+0xa8/0xe0
-[  881.243822]  vsp1_video_pipeline_run+0x270/0x2a0
-[  881.248449]  vsp1_video_buffer_queue+0x1c0/0x1d0
-[  881.253076]  __enqueue_in_driver+0xbc/0x260
-[  881.257269]  vb2_start_streaming+0x48/0x200
-[  881.261461]  vb2_core_streamon+0x13c/0x280
-[  881.265565]  vb2_streamon+0x3c/0x90
-[  881.269064]  vsp1_video_streamon+0x2fc/0x3e0
-[  881.273344]  v4l_streamon+0x50/0x70
-[  881.276844]  __video_do_ioctl+0x2bc/0x5d0
-[  881.280861]  video_usercopy+0x2a8/0xc80
-[  881.284704]  video_ioctl2+0x20/0x40
-[  881.288201]  v4l2_ioctl+0xa4/0xc0
-[  881.291525]  __arm64_sys_ioctl+0xe8/0x110
-[  881.295543]  invoke_syscall+0x68/0x190
-[  881.299303]  el0_svc_common.constprop.0+0x88/0x170
-[  881.304105]  do_el0_svc+0x4c/0xf0
-[  881.307430]  el0_svc+0x4c/0xa0
-[  881.310494]  el0t_64_sync_handler+0xbc/0x140
-[  881.314773]  el0t_64_sync+0x190/0x194
-[  881.318450] Code: d50323bf d65f03c0 91008263 f9800071 (885f7c60)
-[  881.324551] ---[ end trace 0000000000000000 ]---
-[  881.329173] note: yavta[1271] exited with preempt_count 1
+> fd array to another process over binder IPC can set to relinquish
+> ownership of the fd(s) being sent for memory accounting purposes. If the
+> flag is found to be set during the fd or fd array translation and the
+> fd is for a DMA-BUF, the buffer is uncharged from the sender's cgroup
+> and charged to the receiving process's cgroup instead.
+> 
+> It is up to the sending process to ensure that it closes the fds
+> regardless of whether the transfer failed or succeeded.
+> 
+> Most graphics shared memory allocations in Android are done by the
+> graphics allocator HAL process. On requests from clients, the HAL
+> process allocates memory and sends the fds to the clients over binder
+> IPC. The graphics allocator HAL will not retain any references to the
+> buffers. When the HAL sets *_FLAG_XFER_CHARGE for fd arrays holding
+> DMA-BUF fds, or individual fd objects, binder will transfer the charge
+> for the buffer from the allocator process cgroup to the client process
+> cgroup.
+> 
+> The pad [1] and pad_flags [2] fields of binder_fd_object and
+> binder_fda_array_object come from alignment with flat_binder_object and
+> have never been exposed for use from userspace. This new flags use
+> follows the pattern set by binder_buffer_object.
+> 
+> [1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/include/uapi/linux/android/binder.h?id=feba3900cabb8e7c87368faa28e7a6936809ba22
+> [2] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/include/uapi/linux/android/binder.h?id=5cdcf4c6a638591ec0e98c57404a19e7f9997567
+> 
+> Signed-off-by: Hridya Valsaraju <hridya@google.com>
+> Signed-off-by: T.J. Mercier <tjmercier@google.com>
+> ---
+>  Documentation/admin-guide/cgroup-v2.rst |  3 ++-
+>  drivers/android/binder.c                | 31 +++++++++++++++++++++----
+>  drivers/dma-buf/dma-buf.c               |  4 +---
+>  include/linux/dma-buf.h                 |  1 +
+>  include/uapi/linux/android/binder.h     | 23 ++++++++++++++----
+>  5 files changed, 50 insertions(+), 12 deletions(-)
+> 
+> diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
+> index 538ae22bc514..d225295932c0 100644
+> --- a/Documentation/admin-guide/cgroup-v2.rst
+> +++ b/Documentation/admin-guide/cgroup-v2.rst
+> @@ -1457,7 +1457,8 @@ PAGE_SIZE multiple when read back.
+>  
+>  	  dmabuf (npn)
+>  		Amount of memory used for exported DMA buffers allocated by the cgroup.
+> -		Stays with the allocating cgroup regardless of how the buffer is shared.
+> +		Stays with the allocating cgroup regardless of how the buffer is shared
+> +		unless explicitly transferred.
+>  
+>  	  workingset_refault_anon
+>  		Number of refaults of previously evicted anonymous pages.
+> diff --git a/drivers/android/binder.c b/drivers/android/binder.c
+> index 880224ec6abb..9830848c8d25 100644
+> --- a/drivers/android/binder.c
+> +++ b/drivers/android/binder.c
+> @@ -42,6 +42,7 @@
+>  
+>  #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+>  
+> +#include <linux/dma-buf.h>
+>  #include <linux/fdtable.h>
+>  #include <linux/file.h>
+>  #include <linux/freezer.h>
+> @@ -2237,7 +2238,7 @@ static int binder_translate_handle(struct flat_binder_object *fp,
+>  	return ret;
+>  }
+>  
+> -static int binder_translate_fd(u32 fd, binder_size_t fd_offset,
+> +static int binder_translate_fd(u32 fd, binder_size_t fd_offset, __u32 flags,
+>  			       struct binder_transaction *t,
+>  			       struct binder_thread *thread,
+>  			       struct binder_transaction *in_reply_to)
+> @@ -2275,6 +2276,26 @@ static int binder_translate_fd(u32 fd, binder_size_t fd_offset,
+>  		goto err_security;
+>  	}
+>  
+> +	if (IS_ENABLED(CONFIG_MEMCG) && (flags & BINDER_FD_FLAG_XFER_CHARGE)) {
+> +		struct dma_buf *dmabuf;
+> +
+> +		if (unlikely(!is_dma_buf_file(file))) {
+> +			binder_user_error(
+> +				"%d:%d got transaction with XFER_CHARGE for non-dmabuf fd, %d\n",
+> +				proc->pid, thread->pid, fd);
+> +			ret = -EINVAL;
+> +			goto err_dmabuf;
+> +		}
+> +
+> +		dmabuf = file->private_data;
+> +		ret = dma_buf_transfer_charge(dmabuf, target_proc->tsk);
+> +		if (ret) {
+> +			pr_warn("%d:%d Unable to transfer DMA-BUF fd charge to %d\n",
+> +				proc->pid, thread->pid, target_proc->pid);
+> +			goto err_xfer;
+> +		}
+> +	}
+> +
+>  	/*
+>  	 * Add fixup record for this transaction. The allocation
+>  	 * of the fd in the target needs to be done from a
+> @@ -2294,6 +2315,8 @@ static int binder_translate_fd(u32 fd, binder_size_t fd_offset,
+>  	return ret;
+>  
+>  err_alloc:
+> +err_xfer:
+> +err_dmabuf:
+>  err_security:
+>  	fput(file);
+>  err_fget:
+> @@ -2604,7 +2627,7 @@ static int binder_translate_fd_array(struct list_head *pf_head,
+>  
+>  		ret = copy_from_user(&fd, sender_ufda_base + sender_uoffset, sizeof(fd));
+>  		if (!ret)
+> -			ret = binder_translate_fd(fd, offset, t, thread,
+> +			ret = binder_translate_fd(fd, offset, fda->flags, t, thread,
+>  						  in_reply_to);
+>  		if (ret)
+>  			return ret > 0 ? -EINVAL : ret;
+> @@ -3383,8 +3406,8 @@ static void binder_transaction(struct binder_proc *proc,
+>  			struct binder_fd_object *fp = to_binder_fd_object(hdr);
+>  			binder_size_t fd_offset = object_offset +
+>  				(uintptr_t)&fp->fd - (uintptr_t)fp;
+> -			int ret = binder_translate_fd(fp->fd, fd_offset, t,
+> -						      thread, in_reply_to);
+> +			int ret = binder_translate_fd(fp->fd, fd_offset, fp->flags,
+> +						      t, thread, in_reply_to);
+>  
+>  			fp->pad_binder = 0;
+>  			if (ret < 0 ||
 
-A different regression report sent to the linux-media mailing list ([1])
-was answered with a claim that the vb2_is_streaming() function has never
-been meant for this purpose. The document of the function, as well as of
-the struct vb2_queue streaming field, is sparse, so this claim may be
-hard to verify.
+IMO the changes to the dma-buf api should some in a separate patch. So
+those can be approved and managed separately.
 
-The information needed by the vsp1 driver to decide how to process
-queued buffers is also available from the vb2_start_streaming_called()
-function. Use it instead of vb2_is_streaming() to fix the problem.
+> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+> index fd6c5002032b..a65b42433099 100644
+> --- a/drivers/dma-buf/dma-buf.c
+> +++ b/drivers/dma-buf/dma-buf.c
+> @@ -34,8 +34,6 @@
+>  
+>  #include "dma-buf-sysfs-stats.h"
+>  
+> -static inline int is_dma_buf_file(struct file *);
+> -
+>  struct dma_buf_list {
+>  	struct list_head head;
+>  	struct mutex lock;
+> @@ -527,7 +525,7 @@ static const struct file_operations dma_buf_fops = {
+>  /*
+>   * is_dma_buf_file - Check if struct file* is associated with dma_buf
+>   */
+> -static inline int is_dma_buf_file(struct file *file)
+> +int is_dma_buf_file(struct file *file)
+>  {
+>  	return file->f_op == &dma_buf_fops;
+>  }
+> diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
+> index 6aa128d76aa7..092d572ce528 100644
+> --- a/include/linux/dma-buf.h
+> +++ b/include/linux/dma-buf.h
+> @@ -595,6 +595,7 @@ dma_buf_attachment_is_dynamic(struct dma_buf_attachment *attach)
+>  	return !!attach->importer_ops;
+>  }
+>  
+> +int is_dma_buf_file(struct file *file);
+>  struct dma_buf_attachment *dma_buf_attach(struct dma_buf *dmabuf,
+>  					  struct device *dev);
+>  struct dma_buf_attachment *
+> diff --git a/include/uapi/linux/android/binder.h b/include/uapi/linux/android/binder.h
+> index e72e4de8f452..696c2bdb8a7e 100644
+> --- a/include/uapi/linux/android/binder.h
+> +++ b/include/uapi/linux/android/binder.h
+> @@ -91,14 +91,14 @@ struct flat_binder_object {
+>  /**
+>   * struct binder_fd_object - describes a filedescriptor to be fixed up.
+>   * @hdr:	common header structure
+> - * @pad_flags:	padding to remain compatible with old userspace code
+> + * @flags:	One or more BINDER_FD_FLAG_* flags
+>   * @pad_binder:	padding to remain compatible with old userspace code
+>   * @fd:		file descriptor
+>   * @cookie:	opaque data, used by user-space
+>   */
+>  struct binder_fd_object {
+>  	struct binder_object_header	hdr;
+> -	__u32				pad_flags;
+> +	__u32				flags;
+>  	union {
+>  		binder_uintptr_t	pad_binder;
+>  		__u32			fd;
+> @@ -107,6 +107,17 @@ struct binder_fd_object {
+>  	binder_uintptr_t		cookie;
+>  };
+>  
+> +enum {
+> +	/**
+> +	 * @BINDER_FD_FLAG_XFER_CHARGE
+> +	 *
+> +	 * When set, the sender of a binder_fd_object wishes to relinquish ownership of the fd for
+> +	 * memory accounting purposes. If the fd is for a DMA-BUF, the buffer is uncharged from the
+> +	 * sender's cgroup and charged to the receiving process's cgroup instead.
+> +	 */
+> +	BINDER_FD_FLAG_XFER_CHARGE = 0x01,
+> +};
+> +
+>  /* struct binder_buffer_object - object describing a userspace buffer
+>   * @hdr:		common header structure
+>   * @flags:		one or more BINDER_BUFFER_* flags
+> @@ -141,7 +152,7 @@ enum {
+>  
+>  /* struct binder_fd_array_object - object describing an array of fds in a buffer
+>   * @hdr:		common header structure
+> - * @pad:		padding to ensure correct alignment
+> + * @flags:		One or more BINDER_FDA_FLAG_* flags
+>   * @num_fds:		number of file descriptors in the buffer
+>   * @parent:		index in offset array to buffer holding the fd array
+>   * @parent_offset:	start offset of fd array in the buffer
+> @@ -162,12 +173,16 @@ enum {
+>   */
+>  struct binder_fd_array_object {
+>  	struct binder_object_header	hdr;
+> -	__u32				pad;
+> +	__u32				flags;
+>  	binder_size_t			num_fds;
+>  	binder_size_t			parent;
+>  	binder_size_t			parent_offset;
+>  };
+>  
+> +enum {
+> +	BINDER_FDA_FLAG_XFER_CHARGE = BINDER_FD_FLAG_XFER_CHARGE,
+> +};
+> +
 
-[1] https://lore.kernel.org/linux-media/545610e7-3446-2b82-60dc-7385fea3774f@redhat.com/
+I would prefer to drop this. It should avoid silly mistakes in
+userspace similar to the typo in the commit message above.
 
-Fixes: a10b21532574 ("media: vb2: add (un)prepare_streaming queue ops")
-Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
----
-Hans, I think many drivers may be affected by a10b21532574, and it would
-be difficult to test them all in time for the v6.2 release. Maybe the
-original behaviour of vb2_is_streaming() could be restored (I haven't
-checked), or maybe the commit should be reverted to give more time to
-fix the issue correctly.
+>  /*
+>   * On 64-bit platforms where user code may run in 32-bits the driver must
+>   * translate the buffer (and local binder) addresses appropriately.
+> -- 
+> 2.39.0.314.g84b9a713c41-goog
+> 
 
-In the meantime, this patch should be merged as a v6.2 fix, as I think
-it goes in the right direction in any case.
----
- drivers/media/platform/renesas/vsp1/vsp1_video.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/media/platform/renesas/vsp1/vsp1_video.c b/drivers/media/platform/renesas/vsp1/vsp1_video.c
-index 544012fd1fe9..3664c87e4afb 100644
---- a/drivers/media/platform/renesas/vsp1/vsp1_video.c
-+++ b/drivers/media/platform/renesas/vsp1/vsp1_video.c
-@@ -776,7 +776,7 @@ static void vsp1_video_buffer_queue(struct vb2_buffer *vb)
- 	video->rwpf->mem = buf->mem;
- 	pipe->buffers_ready |= 1 << video->pipe_index;
- 
--	if (vb2_is_streaming(&video->queue) &&
-+	if (vb2_start_streaming_called(&video->queue) &&
- 	    vsp1_pipeline_ready(pipe))
- 		vsp1_video_pipeline_run(pipe);
- 
-
-base-commit: 1b929c02afd37871d5afb9d498426f83432e71c2
--- 
-Regards,
-
-Laurent Pinchart
-
+Thanks,
+--
+Carlos Llamas
