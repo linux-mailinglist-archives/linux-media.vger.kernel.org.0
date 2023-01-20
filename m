@@ -2,56 +2,58 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3F1ED674E1D
-	for <lists+linux-media@lfdr.de>; Fri, 20 Jan 2023 08:27:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 27A23674E27
+	for <lists+linux-media@lfdr.de>; Fri, 20 Jan 2023 08:29:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230157AbjATH1u (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 20 Jan 2023 02:27:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37430 "EHLO
+        id S229724AbjATH3N (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 20 Jan 2023 02:29:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39232 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229499AbjATH1r (ORCPT
+        with ESMTP id S230153AbjATH3L (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 20 Jan 2023 02:27:47 -0500
-Received: from mail-yb1-xb33.google.com (mail-yb1-xb33.google.com [IPv6:2607:f8b0:4864:20::b33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 23EB77AF12
-        for <linux-media@vger.kernel.org>; Thu, 19 Jan 2023 23:27:40 -0800 (PST)
-Received: by mail-yb1-xb33.google.com with SMTP id t16so1011469ybk.2
-        for <linux-media@vger.kernel.org>; Thu, 19 Jan 2023 23:27:40 -0800 (PST)
+        Fri, 20 Jan 2023 02:29:11 -0500
+Received: from mail-yw1-x1132.google.com (mail-yw1-x1132.google.com [IPv6:2607:f8b0:4864:20::1132])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 829B279E90
+        for <linux-media@vger.kernel.org>; Thu, 19 Jan 2023 23:29:10 -0800 (PST)
+Received: by mail-yw1-x1132.google.com with SMTP id 00721157ae682-4d19b2686a9so60824857b3.6
+        for <linux-media@vger.kernel.org>; Thu, 19 Jan 2023 23:29:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=QlUWiI5nTcVmF38kshYLIWxML+W7oEiyJGFqEIwOzso=;
-        b=yUvnFC7lkpJvy/2KC3TC6u8ENtkI2aT2j5b/jyuhIJlKC0RFwpWwj844Dl8T1/h9e9
-         yzmd/MwTb5/WN0w6zUsxzGD6ryc4aX09HnUY7ZwkzlW9ftkGv2ZK7YxlVUG+6EHvoXDt
-         hqIZTICglVjS0nCfNyLQ7lC4pPw8hNaOUAHGq7OFrxTrpaGeEZBTfqDv4NdYPik/SbQf
-         eNW3NMZP+lAKKT1LdbyAmguWqNCgh/cm4WPq9eOhjwK1/qrIahY8w5/BlE0CJcqNCE7/
-         5j3dY/+lJEqg7LdzT3wNbUBcBP8aNk0BZi0jtEgwU5nmcPDnSAOaBh/xA7VaENRSPXag
-         Fnhw==
+        bh=ltSsSC+JZto0JrpK+1L3ljWItyAcHL59PJv9eZdjARQ=;
+        b=r9lSpPFJUyFqK+rZATbzTPgn5Yc8YtOBMW4KLkAzpjSWswkhXZJpjiWsjjeiVcQpFM
+         V5KPEYhcAontmo+zEDpfxk8O0uA1/LSD8vLZK57M+rTOwADpxS/Mgs3hCVcijhTrvaKe
+         7sxv0cyUNErGDCyGUbJyiofUwVVWWyWKKd9cxsQh5+fUGPA8kNKR5iAOmv4JUJIIqols
+         SP8gDHlTHUycodsVMHASSwo9JMWYEhdXxzDnVIXUMhZU+sQyS0kuc11Xrhi4nvO4yOc/
+         8YIX35m82A7bfDpHsYJms/tVQvEdHDIoNPhk48p5+vbLuA5Zt7TugdJCHqh2pN1mIzVf
+         NfTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=QlUWiI5nTcVmF38kshYLIWxML+W7oEiyJGFqEIwOzso=;
-        b=LB8/rl50CG4tTXpze99tu4NVv3ChhQ7ghngkAFXe/SSrjB2HrskPNT6BmOXyLzgYYx
-         5ENX8qlZQu4TuKowVD17La6ymEA0v4pr5Kpu9RByY6RevgZzK8EDUWybVT1nl+qdCAvc
-         MMGBgw/JkeW54XJoRX1uYCE7DL9r9yMyRvAYPveGwPXBYmhHRvEnnhUdTx2ipW7IWP2k
-         fuN+6NGHWIDc/N95YgnjXBAfutQv7zosVq+9wc3zerNuK5qUqFmv+7QE0kEbPmzJgbE6
-         5EIaz8reSkVDycC8HZfoHZbdDoAcKX1l4hybkDQ9Pk/Qzqy+ryHy+//6hIXFVHq3/fL/
-         K/KQ==
-X-Gm-Message-State: AFqh2kpDcnKpUqU3kS0jQ0wbKip4cFT+IQ6FEk52+k0O6EX/CuMTf98E
-        UD/MRHmYmm74cgqbSKnwJzNe1gur3FqMUjJBtBgOLQ==
-X-Google-Smtp-Source: AMrXdXuOBtudLf5qWOjxyEQ40sEZuYzIhoeb6bXwF6E/nI3Vz0hd9m8Z18XeVvEZoJoX2c5ei7EYbeYNt4cCgjYOd24=
-X-Received: by 2002:a25:5303:0:b0:7e4:fa1:b33 with SMTP id h3-20020a255303000000b007e40fa10b33mr1337598ybb.460.1674199659336;
- Thu, 19 Jan 2023 23:27:39 -0800 (PST)
+        bh=ltSsSC+JZto0JrpK+1L3ljWItyAcHL59PJv9eZdjARQ=;
+        b=UXJin09O1w/nxXQnDKRzPo2Abc10y9/Y/BGZs4ysHsdcm7HxkReKGpYiyLZhFWjMjg
+         u7VSjKFCVlpv8PWOvnfBTi8UDm+XLK0dH4B1h2dVK6NV+a+bsPPN56O5x3q1FJizG2G9
+         JoB8C4TU6rQGz1Zjm8/h5irdesM5IfX+O0qsB5QHU15jN8jkYtYtarDRDOI5om56Ptla
+         8LyvwgkLsE/KRSzLwEiTnqc9cgUPX0ouvGf7pyAXA68Mk2bXBCnKsXchiQKfUQ8epeRs
+         wA49045J9bp5rgXKcRBAV/DCdNp3ke99EIwqykmlWVup+rhTz5akuk/cMow4NLhkrrRc
+         t6iA==
+X-Gm-Message-State: AFqh2kpGhYm6PZkaQICK7K6s/ZQQvxrGV6lammL+bAye//puxGKqmOf8
+        3HSZrYsC0IjuWzLa4GBluu1KlRa0uOlRlX/3F3FRWQ==
+X-Google-Smtp-Source: AMrXdXv61KRxB3MJe8D+CgvL02tEZ8sNctXqSNuBpAF0a2GrjwbkOe3n1BQQ52Glni04fOfiOrZusfZYB82ps5yhXbA=
+X-Received: by 2002:a81:6842:0:b0:4ff:e4bc:b56f with SMTP id
+ d63-20020a816842000000b004ffe4bcb56fmr115853ywc.488.1674199749676; Thu, 19
+ Jan 2023 23:29:09 -0800 (PST)
 MIME-Version: 1.0
-References: <20230119130053.111344-1-hdegoede@redhat.com> <20230119130053.111344-6-hdegoede@redhat.com>
-In-Reply-To: <20230119130053.111344-6-hdegoede@redhat.com>
+References: <20230119130053.111344-1-hdegoede@redhat.com>
+In-Reply-To: <20230119130053.111344-1-hdegoede@redhat.com>
 From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Fri, 20 Jan 2023 08:27:27 +0100
-Message-ID: <CACRpkdbB7nJZv=Ky9Z5CdgGns0VimStJK9fRtngDspX=TkPnuQ@mail.gmail.com>
-Subject: Re: [PATCH v4 05/11] [RFC] leds: led-class: Add devicetree support to led_get()
+Date:   Fri, 20 Jan 2023 08:28:58 +0100
+Message-ID: <CACRpkdbXRtJOGOvtzChay4_FKdztLvN1GScCTYXiVWAVWvbDGQ@mail.gmail.com>
+Subject: Re: [PATCH v4 00/11] leds: lookup-table support + int3472/media
+ privacy LED support
 To:     Hans de Goede <hdegoede@redhat.com>
 Cc:     Mark Gross <markgross@kernel.org>,
         Andy Shevchenko <andy@kernel.org>, Pavel Machek <pavel@ucw.cz>,
@@ -78,29 +80,20 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 On Thu, Jan 19, 2023 at 2:01 PM Hans de Goede <hdegoede@redhat.com> wrote:
 
-> Turn of_led_get() into a more generic __of_led_get() helper function,
-> which can lookup LEDs in devicetree by either name or index.
+> Here is my version 4 of my series to adjust the INT3472 code's handling of
+> the privacy LED on x86 laptops with MIPI camera(s) so that it will also
+> work on devices which have a privacy-LED GPIO but not a clk-enable GPIO
+> (so that we cannot just tie the LED state to the clk-enable state).
 >
-> And use this new helper to add devicetree support to the generic
-> (non devicetree specific) [devm_]led_get() function.
->
-> This uses the standard devicetree pattern of adding a -names string array
-> to map names to the indexes for an array of resources.
->
-> Note the new led-names property for LED consumers is not added
-> to the devicetree documentation because there seems to be no
-> documentation for the leds property itself to extend it with this.
-> It seems that how LED consumers should be described is not documented
-> at all ATM.
->
-> This patch is marked as RFC because of both the missing devicetree
-> documentation and because there are no devicetree users of
-> the generic [devm_]led_get() function for now.
->
-> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> Changes in v4:
 
-Same grumpiness about __functions but this is overall nice so:
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+I think this is good for merge, I reviewed the LED stuff that I understand,
+but for the rest in drivers/media FWIW:
+Acked-by: Linus Walleij <linus.walleij@linaro.org>
+as well.
+
+I really like how this developed to solve a real old outstanding hole
+in the implementation.
 
 Yours,
 Linus Walleij
