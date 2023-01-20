@@ -2,130 +2,165 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 843786759C8
-	for <lists+linux-media@lfdr.de>; Fri, 20 Jan 2023 17:21:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 88FC4675A10
+	for <lists+linux-media@lfdr.de>; Fri, 20 Jan 2023 17:35:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230057AbjATQVT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 20 Jan 2023 11:21:19 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56280 "EHLO
+        id S230336AbjATQfA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 20 Jan 2023 11:35:00 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43108 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229992AbjATQVQ (ORCPT
+        with ESMTP id S230057AbjATQe6 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 20 Jan 2023 11:21:16 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8EB3956483;
-        Fri, 20 Jan 2023 08:20:59 -0800 (PST)
-Received: from [192.168.1.15] (91-154-32-225.elisa-laajakaista.fi [91.154.32.225])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 259BC514;
-        Fri, 20 Jan 2023 17:20:56 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1674231657;
-        bh=TGw+9CqZ256cySJaKQjXSViSWw8UUagtG2DMuiJ6f30=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=pbKHdaPQw04NikCqa0MGBl4kIGWAHGvr7G2B7Y3X3Y4P3lzbBFCsdt4j7v8BDRra9
-         gd5yHuYhjjWZngkA5Fzz+9/4Kh9vyrR7FbNCTEzy02XnSxlab30cYuxwNlsK150csh
-         sbIZ46aA0Vy/saKhqeRuYsDSPkShvVLufNJTYiIw=
-Message-ID: <515a21fa-17f4-1f73-ed5c-adcc7f74ddb3@ideasonboard.com>
-Date:   Fri, 20 Jan 2023 18:20:53 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH v7 0/7] i2c-atr and FPDLink
-Content-Language: en-US
-To:     Luca Ceresoli <luca.ceresoli@bootlin.com>,
-        Andy Shevchenko <andriy.shevchenko@intel.com>
-Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Wolfram Sang <wsa@kernel.org>,
-        Matti Vaittinen <Matti.Vaittinen@fi.rohmeurope.com>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Fri, 20 Jan 2023 11:34:58 -0500
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E36E707ED
+        for <linux-media@vger.kernel.org>; Fri, 20 Jan 2023 08:34:22 -0800 (PST)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <pza@pengutronix.de>)
+        id 1pIuKH-0004MW-47; Fri, 20 Jan 2023 17:33:13 +0100
+Received: from pza by ptx.hi.pengutronix.de with local (Exim 4.92)
+        (envelope-from <pza@pengutronix.de>)
+        id 1pIuKF-0005Ti-88; Fri, 20 Jan 2023 17:33:11 +0100
+Date:   Fri, 20 Jan 2023 17:33:11 +0100
+From:   Philipp Zabel <p.zabel@pengutronix.de>
+To:     Aishwarya Kothari <aishwaryakothari75@gmail.com>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Peter Rosin <peda@axentia.se>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
+        linux-media@vger.kernel.org, kernel@pengutronix.de,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Michael Tretter <m.tretter@pengutronix.de>,
-        Shawn Tu <shawnx.tu@intel.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Mike Pagano <mpagano@gentoo.org>,
-        =?UTF-8?Q?Krzysztof_Ha=c5=82asa?= <khalasa@piap.pl>,
-        Marek Vasut <marex@denx.de>
-References: <20230118124031.788940-1-tomi.valkeinen@ideasonboard.com>
- <Y8gX0krXayfOa4Hi@smile.fi.intel.com>
- <bd6d6cc0-4e70-fa31-4b5e-e6bcddf62d36@ideasonboard.com>
- <Y8gvu/E5EoPqo8J1@smile.fi.intel.com> <20230119094358.010bc826@booty>
- <Y8q6ggmOsygyVdTT@smile.fi.intel.com> <20230120171718.3674af61@booty>
-From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-In-Reply-To: <20230120171718.3674af61@booty>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        francesco.dolcini@toradex.com, marcel.ziswiler@toradex.com
+Subject: Re: [PATCH] media: v4l2-async: fix binding async subdevs with
+ multiple source ports
+Message-ID: <20230120163311.GA15915@pengutronix.de>
+References: <20220810104848.846783-1-p.zabel@pengutronix.de>
+ <Y8afrhfjw+EhAH4o@paasikivi.fi.intel.com>
+ <Y8aivWrN6Hg/O7Wr@pendragon.ideasonboard.com>
+ <d45fa085-ce6f-2141-fba9-ac4e6094ef2a@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <d45fa085-ce6f-2141-fba9-ac4e6094ef2a@gmail.com>
+X-Sent-From: Pengutronix Hildesheim
+X-URL:  http://www.pengutronix.de/
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: pza@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 20/01/2023 18:17, Luca Ceresoli wrote:
-> Hi Andy,
-> 
-> On Fri, 20 Jan 2023 18:00:02 +0200
-> Andy Shevchenko <andriy.shevchenko@intel.com> wrote:
-> 
->> On Thu, Jan 19, 2023 at 09:43:58AM +0100, Luca Ceresoli wrote:
->>> On Wed, 18 Jan 2023 19:43:23 +0200
->>> Andy Shevchenko <andriy.shevchenko@intel.com> wrote:
->>>> On Wed, Jan 18, 2023 at 07:28:20PM +0200, Tomi Valkeinen wrote:
->>>>> On 18/01/2023 18:01, Andy Shevchenko wrote:
->>>>>> On Wed, Jan 18, 2023 at 02:40:24PM +0200, Tomi Valkeinen wrote:
->>
->> ...
->>
->>>>> Can you clarify what you mean here?
->>>>>
->>>>> The i2c_clients are not aware of the i2c-atr. They are normal i2c clients.
->>>>> The FPD-Link drivers are aware of the ATR, as the FPD-Link hardware contains
->>>>> the ATR support.
->>>>
->>>> Can't that hardware be represented as I2C adapter? In such case the ATR specifics
->>>> can be hidden from the client (drivers).
->>>>
->>>> I'm worrying about code duplication and other things that leak into drivers as
->>>> ATR callbacks.
->>>
->>> Which callbacks do you refer to? i2c_atr_ops? I don't think we can do
->>> without the attach/detach_client ones, it's where the driver-specific
->>> implementation is hooked for the generic ATR infra to call it.
->>>
->>> However now I noticed the select/deselect ops are still there. IIRC
->>> they are not used by any driver and in the past the plan was to just
->>> remove them. Tomi, do you think there is a good reason to keep them?
->>>    
->>>> It might be that I didn't get how hw exactly functioning on this
->>>> level and why we need those callbacks.
->>>
->>> As far as "how hw exactly works", in case you haven't seen that, the
->>> best explanation I was able to give is in my ELCE 2019 talk, at minute
->>> ~22. It's a 2-3 minute watch. The slides have pointers to other talks
->>> and discussion.
->>
->> Probably I have missed the URL in the discussion, care to resend?
-> 
-> I hadn't sent any URL :)
-> 
-> Here's the shortcut to go straight to the ATR description:
-> https://youtu.be/7hLv6fYAW-E?t=1350
-> 
-> Slides:
-> https://elinux.org/images/f/fc/Ceresoli-elce2019-video-serdes-linux.pdf
+Hi,
 
-A small note: the current implementation doesn't match the slides, as 
-the adapter is now (at least kind of) in the serializer (the "ideal 
-solution" in the slides.
+On Wed, Jan 18, 2023 at 02:14:54PM +0100, Aishwarya Kothari wrote:
+[...]
+> I stumbled over the commit 1f391df44607 ("media: v4l2-async: Use endpoints
+> in __v4l2_async_nf_add_fwnode_remote()") and started this discussion :
+> https://lore.kernel.org/linux-media/Y8AIRPd4RFYmssal@valkosipuli.retiisi.eu/
+> 
+> I applied this patch on top of the commit c1649ec55708.The hardware used is
+> Apalis iMX6 (i.MX 6Q) with ov5640 mipi-csi2 camera.
+> 
+> The /dev/media0 is created and pipeline was configured using below script :
+> root@apalis-imx6-10774951:~# cat ov5640.sh
+> media-ctl -l "'ov5640 1-003c':0 -> 'imx6-mipi-csi2':0[1]"
+> media-ctl -l "'imx6-mipi-csi2':2 -> 'ipu1_csi1':0[1]"
+> media-ctl -l "'ipu1_csi1':2 -> 'ipu1_csi1 capture':0[1]"
+> # Configure pads
+> media-ctl -V "'ov5640 1-003c':0 [fmt:UYVY8_1X16/1920x1080 field:none]"
+> media-ctl -V "'imx6-mipi-csi2':2 [fmt:UYVY8_1X16/1920x1080 field:none]"
+> media-ctl -V "'ipu1_csi1':2 [fmt:UYVY8_1X16/1920x1080 field:none]"
+> 
+> But it gives the following error when trying to set up the pipeline:
+> 
+> [   37.211276] ipu1_csi1: entity ov5640 1-003c does not implement
+> get_mbus_config()
+> [   37.218872] ipu1_csi1: failed to get upstream media bus configuration
+> 
+> When adding the missing functionality as follows:
+> 
+> diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
+> index e0f908af581b..618c677ec89b 100644
+> --- a/drivers/media/i2c/ov5640.c
+> +++ b/drivers/media/i2c/ov5640.c
+> @@ -3733,6 +3733,17 @@ static int ov5640_init_cfg(struct v4l2_subdev *sd,
+>         return 0;
+>  }
+> 
+> +static int ov5640_get_mbus_config(struct v4l2_subdev *sd,
+> +                                  unsigned int pad,
+> +                                  struct v4l2_mbus_config *cfg)
+> +{
+> +       cfg->type = V4L2_MBUS_CSI2_DPHY;
+> +       cfg->bus.mipi_csi2.num_data_lanes = 1;
 
-  Tomi
+Isn't OV5640 dual-lane by default?
 
+> +       cfg->bus.mipi_csi2.flags = 0;
+> +
+> +       return 0;
+> +}
+> +
+>  static const struct v4l2_subdev_core_ops ov5640_core_ops = {
+>         .log_status = v4l2_ctrl_subdev_log_status,
+>         .subscribe_event = v4l2_ctrl_subdev_subscribe_event,
+> @@ -3753,6 +3764,7 @@ static const struct v4l2_subdev_pad_ops ov5640_pad_ops
+> = {
+>         .get_selection = ov5640_get_selection,
+>         .enum_frame_size = ov5640_enum_frame_size,
+>         .enum_frame_interval = ov5640_enum_frame_interval,
+> +       .get_mbus_config = ov5640_get_mbus_config,
+>  };
+> 
+>  static const struct v4l2_subdev_ops ov5640_subdev_ops = {
+> 
+> The script was executed correctly without any errors and the links were
+> created. Now when running the Gstreamer it gives the below output :
+> 
+> root@apalis-imx6-10774951:~# gst-launch-1.0 v4l2src device='/dev/video3' !
+> videoconvert ! waylandsink
+> Setting pipeline to PAUSED ...
+> Pipeline is live and does not need PREROLL ...
+> Pipeline is PREROLLED ...
+> Setting pipeline to PLAYING ...
+> New clock: GstSystemClock
+> [  192.526110] imx6-mipi-csi2: LP-11 wait timeout, likely a sensor driver
+> bug, expect capture failures.
+> [  192.535550] imx6-mipi-csi2: phy_state = 0x00000200
+
+This is timing out in the imx6-mipi-csi2 driver, waiting for OV5640 to
+signal the LP-11 stop state on lane 0 (phy_state bit 4).
+
+> [  192.833456] ov5640 1-003c: ov5640_write_reg: error: reg=3008, val=2
+
+A write to the SYS_CTRL0 register failed, presumably trying to clear the
+software reset or power down bits. Could this be the reason that OV5640
+doesn't put the MIPI CSI-2 link into LP-11 as expected?
+
+All further errors follow from the timeout above.
+
+[...]
+> While going through the dmesg kernel logs I found this :
+> 
+>     4.333202] imx6-mipi-csi2 21dc000.mipi: Consider updating driver
+> imx6-mipi-csi2 to match on endpoints
+> [    4.347001] imx6-mipi-csi2 21dc000.mipi: Consider updating driver
+> imx6-mipi-csi2 to match on endpoints
+> [    5.173588] video-mux 20e0000.iomuxc-gpr:ipu2_csi1_mux: Consider updating
+> driver video-mux to match on endpoints
+
+These shouldn't cause any issue. These drivers should be updated
+to set the subdev->fwnode field to an endpoint fwnode before calling
+v4l2_async_register_subdev().
+
+regards
+Philipp
