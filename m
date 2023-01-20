@@ -2,145 +2,111 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 758386752B6
-	for <lists+linux-media@lfdr.de>; Fri, 20 Jan 2023 11:44:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CADF16752E6
+	for <lists+linux-media@lfdr.de>; Fri, 20 Jan 2023 12:01:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229515AbjATKoH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 20 Jan 2023 05:44:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51688 "EHLO
+        id S230017AbjATLBK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 20 Jan 2023 06:01:10 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60178 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229456AbjATKoG (ORCPT
+        with ESMTP id S229947AbjATLBI (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 20 Jan 2023 05:44:06 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A76E668420
-        for <linux-media@vger.kernel.org>; Fri, 20 Jan 2023 02:43:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1674211401;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=HRrN050GgXHRXbbu2KLh4d8G3uUBIckRfr97uwxP040=;
-        b=CqUbnRlxDokuAWbI8ckdZX0icGGbVF+blzsS4x8EggQkVStI+jtwDtMooMDrqPUpUG3x3J
-        enZ/vX/UxKZg6lQXOkVIBT/3mU4sLhQLp5vE5fvacMN6rKesKbETS0ewW143HIx5lolu/l
-        I5YYuhD0ZCnBFzjvY++v0WA3/V3g0zM=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-372-p4BmoEtMMQ6AyadMsKotgw-1; Fri, 20 Jan 2023 05:43:20 -0500
-X-MC-Unique: p4BmoEtMMQ6AyadMsKotgw-1
-Received: by mail-ed1-f72.google.com with SMTP id y20-20020a056402271400b0046c9a6ec30fso3604945edd.14
-        for <linux-media@vger.kernel.org>; Fri, 20 Jan 2023 02:43:20 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=HRrN050GgXHRXbbu2KLh4d8G3uUBIckRfr97uwxP040=;
-        b=GUIdt3OfAqKntT4RlQ740+6gogyjmnvG3KUmsrKTZlwTn6z74XJFGXjNLMV11JMGGj
-         ZhU4aINxTpfUNKA/bB77qvSqrMK+yG+zGd+wvU2nFIHFN7IUnXgT3C6ssfZmOj50BnM8
-         6+0LJs/1AhAONQcU83fgmuZ2VBQwWh6LdFFBZuBf9kwDT7wyN6UfZp3on4Dg/2xEY4Kr
-         62WdYsaL4piZDtKPPFvBAMnchI3PgmgL3Bh93YVxHhgbq4pbYO/YsE+PZ8Ad/NijmCET
-         mGGfS3QMOj91HNw3MyO9FC3ir+bCK/HKIchqls9xyK+SQFo4TjQkCmeRQg4SyvYsJcYy
-         GErw==
-X-Gm-Message-State: AFqh2korU0aq3aVIlQNr/IvS7Gkgbb8TECbt/6ZHbfFOHzz3DXTKO69L
-        65cUA2cUmGt0YG/kc77NI8XfTiYQPcp9Wk+fsw13HRCEL6iVy+KvlrLGIpbCL/Qskk+oc2svZz6
-        cdSnylRNXNMQk5BG4XZU/CXs=
-X-Received: by 2002:a17:906:2c49:b0:7c0:fd1e:972e with SMTP id f9-20020a1709062c4900b007c0fd1e972emr16808776ejh.46.1674211399362;
-        Fri, 20 Jan 2023 02:43:19 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXuJfsF0tTZl6ENN+WVUaG2RDJlxoNjReE/SLntnLila3nkrLcnCVXwSWNFe/ZZ+qTg0nC36Jw==
-X-Received: by 2002:a17:906:2c49:b0:7c0:fd1e:972e with SMTP id f9-20020a1709062c4900b007c0fd1e972emr16808762ejh.46.1674211399143;
-        Fri, 20 Jan 2023 02:43:19 -0800 (PST)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id 17-20020a170906059100b007933047f923sm17711093ejn.118.2023.01.20.02.43.18
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 20 Jan 2023 02:43:18 -0800 (PST)
-Message-ID: <815d6485-45f4-1f9c-0707-c2163ab32e0e@redhat.com>
-Date:   Fri, 20 Jan 2023 11:43:17 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH v4 06/11] media: v4l2-core: Built async and fwnode code
- into videodev.ko
-Content-Language: en-US, nl
-To:     kernel test robot <lkp@intel.com>,
-        Mark Gross <markgross@kernel.org>,
-        Andy Shevchenko <andy@kernel.org>, Pavel Machek <pavel@ucw.cz>,
-        Lee Jones <lee@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Daniel Scally <djrscally@gmail.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org, linux-leds@vger.kernel.org,
-        linux-gpio@vger.kernel.org, Kate Hsuan <hpa@redhat.com>,
-        Mark Pearson <markpearson@lenovo.com>,
-        Andy Yeh <andy.yeh@intel.com>, Hao Yao <hao.yao@intel.com>
-References: <20230119130053.111344-7-hdegoede@redhat.com>
- <202301200320.AbLvd1xh-lkp@intel.com>
-From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <202301200320.AbLvd1xh-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE
-        autolearn=ham autolearn_force=no version=3.4.6
+        Fri, 20 Jan 2023 06:01:08 -0500
+Received: from gate.crashing.org (gate.crashing.org [63.228.1.57])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 3CE7F81994;
+        Fri, 20 Jan 2023 03:01:01 -0800 (PST)
+Received: from gate.crashing.org (localhost.localdomain [127.0.0.1])
+        by gate.crashing.org (8.14.1/8.14.1) with ESMTP id 30KArkBe026992;
+        Fri, 20 Jan 2023 04:53:46 -0600
+Received: (from segher@localhost)
+        by gate.crashing.org (8.14.1/8.14.1/Submit) id 30KArgxi026991;
+        Fri, 20 Jan 2023 04:53:42 -0600
+X-Authentication-Warning: gate.crashing.org: segher set sender to segher@kernel.crashing.org using -f
+Date:   Fri, 20 Jan 2023 04:53:41 -0600
+From:   Segher Boessenkool <segher@kernel.crashing.org>
+To:     Rob Landley <rob@landley.net>
+Cc:     "Michael.Karcher" <Michael.Karcher@fu-berlin.de>,
+        John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        linux-xtensa@linux-xtensa.org, Arnd Bergmann <arnd@arndb.de>,
+        linux-sh@vger.kernel.org, linux-wireless@vger.kernel.org,
+        linux-mips@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+        linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com,
+        Michael Karcher <kernel@mkarcher.dialup.fu-berlin.de>,
+        linux-f2fs-devel@lists.sourceforge.net,
+        linuxppc-dev@lists.ozlabs.org,
+        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Subject: Re: Calculating array sizes in C - was: Re: Build regressions/improvements in v6.2-rc1
+Message-ID: <20230120105341.GI25951@gate.crashing.org>
+References: <alpine.DEB.2.22.394.2212270933530.311423@ramsan.of.borg> <c05bee5d-0d69-289b-fe4b-98f4cd31a4f5@physik.fu-berlin.de> <CAMuHMdXNJveXHeS=g-aHbnxtyACxq1wCeaTg8LbpYqJTCqk86g@mail.gmail.com> <3800eaa8-a4da-b2f0-da31-6627176cb92e@physik.fu-berlin.de> <CAMuHMdWbBRkhecrqcir92TgZnffMe8ku2t7PcVLqA6e6F-j=iw@mail.gmail.com> <429140e0-72fe-c91c-53bc-124d33ab5ffa@physik.fu-berlin.de> <CAMuHMdWpHSsAB3WosyCVgS6+t4pU35Xfj3tjmdCDoyS2QkS7iw@mail.gmail.com> <0d238f02-4d78-6f14-1b1b-f53f0317a910@physik.fu-berlin.de> <1732342f-49fe-c20e-b877-bc0a340e1a50@fu-berlin.de> <0f51dac4-836b-0ff2-38c6-5521745c1c88@landley.net>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <0f51dac4-836b-0ff2-38c6-5521745c1c88@landley.net>
+User-Agent: Mutt/1.4.2.3i
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_PASS,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+On Thu, Jan 19, 2023 at 09:31:21PM -0600, Rob Landley wrote:
+> On 1/19/23 16:11, Michael.Karcher wrote:
+> > I don't see a clear bug at this point. We are talking about the C expression
+> > 
+> >    __same_type((void*)0, (void*)0)? 0 : sizeof((void*)0)/sizeof(*((void*0))
 
-On 1/19/23 20:47, kernel test robot wrote:
-> Hi Hans,
-> 
-> I love your patch! Yet something to improve:
-> 
-> [auto build test ERROR on linus/master]
-> [also build test ERROR on v6.2-rc4]
-> [cannot apply to media-tree/master pavel-leds/for-next next-20230119]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Hans-de-Goede/leds-led-class-Add-missing-put_device-to-led_put/20230119-210441
-> patch link:    https://lore.kernel.org/r/20230119130053.111344-7-hdegoede%40redhat.com
-> patch subject: [PATCH v4 06/11] media: v4l2-core: Built async and fwnode code into videodev.ko
-> config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20230120/202301200320.AbLvd1xh-lkp@intel.com/config)
-> compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
-> reproduce (this is a W=1 build):
->         # https://github.com/intel-lab-lkp/linux/commit/adfeffb48aad34dd2148e22caaf13d67cd92c285
->         git remote add linux-review https://github.com/intel-lab-lkp/linux
->         git fetch --no-tags linux-review Hans-de-Goede/leds-led-class-Add-missing-put_device-to-led_put/20230119-210441
->         git checkout adfeffb48aad34dd2148e22caaf13d67cd92c285
->         # save the config file
->         mkdir build_dir && cp config build_dir/.config
->         make W=1 O=build_dir ARCH=x86_64 olddefconfig
->         make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
-> 
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
-> 
-> All errors (new ones prefixed by >>):
-> 
->    ld: vmlinux.o: in function `videodev_init':
->>> v4l2-dev.c:(.init.text+0x4c7c5): undefined reference to `v4l2_async_debugfs_init'
->    ld: vmlinux.o: in function `videodev_exit':
->>> v4l2-dev.c:(.exit.text+0x1f95): undefined reference to `v4l2_async_debugfs_exit'
+(__same_type is a kernel macro, it expands to something with
+__builtin_compatible_type()).
+
+> *(void*) is type "void" which does not have a size.
+
+It has size 1, in GCC, so that you can do arithmetic on pointers to
+void.  This is a long-standing and very widely used GCC extension.
+
+"""
+6.24 Arithmetic on 'void'- and Function-Pointers
+================================================
+
+In GNU C, addition and subtraction operations are supported on pointers
+to 'void' and on pointers to functions.  This is done by treating the
+size of a 'void' or of a function as 1.
+
+ A consequence of this is that 'sizeof' is also allowed on 'void' and on
+function types, and returns 1.
+
+ The option '-Wpointer-arith' requests a warning if these extensions are
+used.
+"""
+
+> The problem is gcc "optimizing out" an earlier type check, the same way it
+> "optimizes out" checks for signed integer math overflowing, or "optimizes out" a
+> comparison to pointers from two different local variables from different
+> function calls trying to calculate the amount of stack used, or "optimizes out"
+
+Are you saying something in the kernel code here is invalid code?
+Because your other examples are.
+
+> using char *x = (char *)1; as a flag value and then doing "if (!(x-1)) because
+> it can "never happen"...
+
+Like here.  And no, this is not allowed by -fno-strict-aliasing.
+
+> > I suggest to file a bug against gcc complaining about a "spurious 
+> > warning", and using "-Werror -Wno-error-sizeof-pointer-div" until gcc is 
+> > adapted to not emit the warning about the pointer division if the result 
+> > is not used.
+
+Yeah.  If the first operand of a conditional operator is non-zero, the
+second operand is not evaluated, and if the first is zero, the third
+operand is not evaluated.  It is better if we do not warn about
+something we do not evaluate.  In cases like here where it is clear at
+compile time which branch is taken, that shouldn't be too hard.
+
+Can someone please file a GCC PR?  With reduced testcase preferably.
 
 
-Right, v4l2_async_debugfs_init + v4l2_async_debugfs_exit need
-static inline stubs for when CONFIG_V4L2_ASYNC is not set,
-I will fix this in the next version.
-
-Regards,
-
-Hans
-
-
-
+Segher
