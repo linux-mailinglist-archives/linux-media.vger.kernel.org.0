@@ -2,208 +2,162 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 48A77675F04
-	for <lists+linux-media@lfdr.de>; Fri, 20 Jan 2023 21:38:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5AF43675F0F
+	for <lists+linux-media@lfdr.de>; Fri, 20 Jan 2023 21:44:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229755AbjATUi0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 20 Jan 2023 15:38:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44944 "EHLO
+        id S229712AbjATUoG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 20 Jan 2023 15:44:06 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46242 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229471AbjATUiZ (ORCPT
+        with ESMTP id S229494AbjATUoE (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 20 Jan 2023 15:38:25 -0500
-Received: from NAM04-BN8-obe.outbound.protection.outlook.com (mail-bn8nam04on2048.outbound.protection.outlook.com [40.107.100.48])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CDB54966FD;
-        Fri, 20 Jan 2023 12:38:23 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=jgbYVJU626le31ZRWXr2CPdZMKn686BILxA6T/cblLVWEA8mb9NQc/nvXfpTvTDKWF1xsgd/+SXtBdHBPyEkJ/De+O9PHRpaYywFG9rFlR8cXkhyU9UUvLEMvZv7uy/U1WMN0ph41p6d/dKPAocId2OZzgx9KLz8UeT0AE0cAbZyj77BYpbtpsxzLXqwHnyd62F8us6wijWwseNVbx/AsELyJ5rAuGMwX3J2xhml+jLRQzag+85jkXuaQna6Q57eyv/+GE2n+6NjBafW2UrWHHmKQApxSyfee+FL6Rgmfl/9erDISP1z19CNq+jqwC9ZQnY7J8NibC7V/z/tednb7A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=65YIash6zu+NspDmH4rIMcXSTVQi4mw9TTPwHsfeFN0=;
- b=IReNjXRMhtikCvbkuqQ1oo6ufdbweW2MZlDAgVN0MzQH8huEaSx0TITWr/t3AUg40y9qDL8NMJRfwHc7BzhEBk+PU+cUY5QenKjqVwcVg8OH+QUrhO+6feWdg3VRYr8xJryzmXMSzFc3GkX22yzUMpnwvbn4h0stfK99Qr6G5jwuUHjBdbhpGp7ADEnKXUub0aueLvNsoMpw7E0ipXQmeNLYcoW7OVqKBcn9xfIZg615Y+yzh2roR9cL7sdm75WU1h5/nNrswaFsgI4lSfks0K4Sm71Ja0VQOxB7a1xAnsgslJ7jA5Ma7JASwovEH0nVYHYHNqWiYDjQzu+lFL52+g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=65YIash6zu+NspDmH4rIMcXSTVQi4mw9TTPwHsfeFN0=;
- b=jU4Arc84rMDK1/GY9iwQq9jYNVYBfMlkjBmnuulc3fI9gav5Tydx9c9UmoOU8qTG2EqXZ37JTDfCNZ0AaNgwXOI3fFE+IpTRaIslxzn6i4Ht7qwJfSDJrfZPnXg42j6DQ19ttpBGHTpPbH7e6pWbZG1OhvG8/2Hjcwv7ReuAotaNqH7gInaj4m44wXsdcQIFN6CGT3r+iPf+TISKJeyFe3Jp3JYKmIOXs3c+6/z5JrlrZ6A1dXdmo5/xJ4rwCmDzvBDLqeS9DvXKGFTo79tgU/RkjSQNDCoXeyAbqitNUFUv52TQRcP/QmP+EB9p+m4KYLYDgqHApfwJsWH76sQslQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from LV2PR12MB5869.namprd12.prod.outlook.com (2603:10b6:408:176::16)
- by PH7PR12MB5832.namprd12.prod.outlook.com (2603:10b6:510:1d7::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6002.25; Fri, 20 Jan
- 2023 20:38:20 +0000
-Received: from LV2PR12MB5869.namprd12.prod.outlook.com
- ([fe80::f8b0:df13:5f8d:12a]) by LV2PR12MB5869.namprd12.prod.outlook.com
- ([fe80::f8b0:df13:5f8d:12a%9]) with mapi id 15.20.6002.013; Fri, 20 Jan 2023
- 20:38:19 +0000
-Date:   Fri, 20 Jan 2023 16:38:18 -0400
-From:   Jason Gunthorpe <jgg@nvidia.com>
-To:     Robin Murphy <robin.murphy@arm.com>
-Cc:     Lu Baolu <baolu.lu@linux.intel.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Kevin Tian <kevin.tian@intel.com>,
-        Matthew Rosato <mjrosato@linux.ibm.com>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        ath10k@lists.infradead.org, ath11k@lists.infradead.org,
-        Christian Borntraeger <borntraeger@linux.ibm.com>,
-        dri-devel@lists.freedesktop.org, iommu@lists.linux.dev,
-        kvm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-rdma@vger.kernel.org, linux-remoteproc@vger.kernel.org,
-        linux-s390@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-tegra@vger.kernel.org, linux-wireless@vger.kernel.org,
-        netdev@vger.kernel.org, nouveau@lists.freedesktop.org,
-        Niklas Schnelle <schnelle@linux.ibm.com>,
-        virtualization@lists.linux-foundation.org
-Subject: Re: [PATCH v2 04/10] iommu/dma: Use the gfp parameter in
- __iommu_dma_alloc_noncontiguous()
-Message-ID: <Y8r7ujD8BVgWiIH/@nvidia.com>
-References: <4-v2-ce66f632bd0d+484-iommu_map_gfp_jgg@nvidia.com>
- <f24fcba7-2fcb-ed43-05da-60763dbb07bf@arm.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <f24fcba7-2fcb-ed43-05da-60763dbb07bf@arm.com>
-X-ClientProxiedBy: BL1PR13CA0131.namprd13.prod.outlook.com
- (2603:10b6:208:2bb::16) To LV2PR12MB5869.namprd12.prod.outlook.com
- (2603:10b6:408:176::16)
+        Fri, 20 Jan 2023 15:44:04 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F89F94C98;
+        Fri, 20 Jan 2023 12:44:03 -0800 (PST)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 968B9514;
+        Fri, 20 Jan 2023 21:44:01 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1674247441;
+        bh=RGZWizV5aQWvvi9vM3wcSdZJlXGVRCw+kfzO4ZPIbP4=;
+        h=From:To:Cc:Subject:Date:From;
+        b=tpYpRQErh9OcXl0wugmLZ9WstE0uP+tQ5iJsL3jmt/Ov5WJzsZDPRY1+ono7MmFw9
+         uKhIHznC8KDv+I0lhxplgietpni+tOPm9DvXNp3g4D1J1pFNHlrtu76S3lmdq23Uk8
+         49kUvYIt4nemU/B4eF6PYrth3qETojJdEC4DF8xk=
+From:   Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+To:     linux-media@vger.kernel.org
+Cc:     Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-renesas-soc@vger.kernel.org,
+        Hans de Goede <hdegoede@redhat.com>
+Subject: [PATCH] media: vsp1: Replace vb2_is_streaming() with vb2_start_streaming_called()
+Date:   Fri, 20 Jan 2023 22:43:59 +0200
+Message-Id: <20230120204359.25114-1-laurent.pinchart+renesas@ideasonboard.com>
+X-Mailer: git-send-email 2.39.1
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LV2PR12MB5869:EE_|PH7PR12MB5832:EE_
-X-MS-Office365-Filtering-Correlation-Id: c7e236de-7c93-454f-b089-08dafb2643f8
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: HZRZHOHjF1dSv4pXCeo1eko9iM0cmlCnSjGxmQAchQ5Nv+g/kwgiWS8la+MpfnHKGwNmIdLt4tG2jhQROjRYejvJwrUka6rX5kz68qWrJ4snIJ5zcIIBYQplkQFqy9WAptn5Y8AlYKGoD+zjN+3YGT7FuBKDJtwzhPJjb3Ja+Rzf7CF8kpimOaIkYZSBQjYP1zdfA8Zb3quT1sQ0qXZ/qK73t9k0/LtHQANmHxlao2mUmkRKphysfXI4373eF7f0NshfofwG7P11XERGjO2HlqPas6bJKusEaYj6/s6Xu4WRzeBLhTBlUpwHHYbPwQsw0Xay4AOqKj0YC2TSY8JtaqbU0cNcdnIKXES2/yAbnuu+NDSg0bALk0oGaYzXmYjlC8VnkiquCrpT1kbek6+SPHZL6Ow0pxf6FJkDaeGKyGRnTQt5bYGkR/Mw1ZoNAdaHBaarZdTzkPq5TZ4Z4/Du8At7VsAatk8cfAE4GsMSrGq5sFrR+vY2J7tl2QbxQWrF2ThCtDdirPaFrKpo+D9wc9SIIZlDkS758YhRnygHl8BIV1TGa6BcSBP2RtCfOive7BWXSlN6ShWFnM7P7Xzs9/osIWB9yamZVVCIx/Uo/wPiup1e9k4ZbHqcC642yrNw07pjnMPcm2r5R1AUY/uIRg==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV2PR12MB5869.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(366004)(376002)(346002)(39860400002)(396003)(136003)(451199015)(8936002)(316002)(5660300002)(86362001)(6486002)(478600001)(36756003)(6506007)(53546011)(2906002)(2616005)(83380400001)(6512007)(54906003)(6916009)(4326008)(8676002)(66556008)(7416002)(186003)(26005)(66476007)(66946007)(41300700001)(38100700002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?eLNs2NpejaIlYGQJD7BSOOF8jqxbQLUwSjPxwiqPm8yOsE3TFBuR1dwsqnPh?=
- =?us-ascii?Q?fSjIvvzStUErWKQNWdKaVtTomJbu3DJ7HGP3mDx4NXVdmdMdMIDuh8yNQETW?=
- =?us-ascii?Q?6dsaFX6imCqqI6yte9AmOyJ65Obu8ODrxidy3RXFRLW5qiHg+lPyYmMSsJJL?=
- =?us-ascii?Q?Efi8Xk+wlLKtYpFHiTegMWy+YracsaRIM8voTm/MqHk0fNww5qtLK+3BXzov?=
- =?us-ascii?Q?BxgjBaapmzZVcQAz3rUO5Ba0XFglxDayN+ZRsiM5CQhLZdeubkxRTmfsb0oc?=
- =?us-ascii?Q?7Qf27NMo9/PayC4ppKZxobriQ04T1qglsklGzsSNZ8S3VVBKUsxxTyWl7ryE?=
- =?us-ascii?Q?lDYuOOVGW/ZF/LdSZL9+w/5Vl7jectcLANgN/897PMtVNXTFejPZZGYFqQEx?=
- =?us-ascii?Q?CE+SE3VtS+FoBL7NDv1gma247PitkjyOeTvv6i9nn4vH6I6ChQtzk7Uz+KuT?=
- =?us-ascii?Q?ZhSoJF1IoJ/eoIAGcmY0tM0QKZtgGvFFAkjISNbXyfKZB+4X/sqJAQoEIan3?=
- =?us-ascii?Q?4RL5qt/IPWpbKTMtqB88KFpEb2iPlGo0U1Oj++CZeXv25UG6M8TQQkno5VYA?=
- =?us-ascii?Q?6C27X1MXFwxaqaiTh7RUXoRJTSKvVoD8rxzkUEev8sMvQtZ9NiEUnzaIMeWM?=
- =?us-ascii?Q?N3LccgBMJz83qvT36sQv9Bv8u3CJCeR8RzuuWdwHJ500+tJML73WDk79zqaL?=
- =?us-ascii?Q?WxaR/lb+iaO8BMapdsipnlDUfbJD5i390CNjzbiNMlMdHGIkbB5akvxNrQI0?=
- =?us-ascii?Q?LZNSqwttNY1U+qyfQcGrQftKtNZmubAAEx6dMJEUpF2N7jT4siSQwlP3wPzP?=
- =?us-ascii?Q?ZfCsz4pYxrHjnRCLwjo+ba2MzCEn5PjhbtAoe2CnQjn3RCG8jkcbNNd/Sci2?=
- =?us-ascii?Q?Bzr/oQuAr528RcCjpl5h7H92rsTaq249xOkti/hpkOBBntfVH1qZGKxnNvtT?=
- =?us-ascii?Q?PV/CTrRdFguBy05/4CoSwXQFGIAi9nQkbYSEyhV2CLESw8lZ3QxfKbSBMVGK?=
- =?us-ascii?Q?YmdNkaZwNu8dzToq6GDnxUHsz0oEfid2UdCGQTgyjLiV9dHE03LU+GgjGnyV?=
- =?us-ascii?Q?Jbv60xIkvyiSW+7w6bCRVfyMvsSWGDnpN/60GKCDyilBoVPjYSA4RrWJFfEu?=
- =?us-ascii?Q?CxaqXkEZEclp/ejV33Fh87B5+bSbsXWjkDlDEfzDnleAdEcWTV0G93K5Y2RS?=
- =?us-ascii?Q?++aS9oMY/GdbEkoaVk5wFBMMrRTzg1C/y4RSbAgvmBA7y7mv/fC6kg2oZ/RP?=
- =?us-ascii?Q?MmCnZ8wc911dPtVTwzSCt++84PV/H/7IX4XajxVXivaudWDnRBnLyFjjLW8Q?=
- =?us-ascii?Q?+LgIozmeLyPN/fDPSNn3g3fJjss+oCyJqPhoS8ZaqDeAo6qcWfwvEdKTc9vF?=
- =?us-ascii?Q?4Nn5liLbUJXNAAT1eDk1hyJkhyV26doqKK89SZRAsuTZxutabe5H8sFkyrOA?=
- =?us-ascii?Q?PCMcq6tv2MaNOGTdvpv8qOpDZo9s+so/SzkEKTgZrRIkIT1irrKybAYwvgAS?=
- =?us-ascii?Q?Lp2hwsykuDIXrUtdyqEa+Lz/6EPg079r5+AlImISzXmrPjjq+g1EOES7A3ut?=
- =?us-ascii?Q?JJIDdfGelfYpkRWQJO5zNJEN2+e3reaZsTzzL05X?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c7e236de-7c93-454f-b089-08dafb2643f8
-X-MS-Exchange-CrossTenant-AuthSource: LV2PR12MB5869.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jan 2023 20:38:19.6234
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: K4oTXB2HGiakYi0h1ZGvqDZ0EKLD00yaUn4LwqJEODca1cuxfEW6JYt7EaHjMJ75
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB5832
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE
-        autolearn=no autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Jan 20, 2023 at 07:28:19PM +0000, Robin Murphy wrote:
-> On 2023-01-18 18:00, Jason Gunthorpe wrote:
-> > Change the sg_alloc_table_from_pages() allocation that was hardwired to
-> > GFP_KERNEL to use the gfp parameter like the other allocations in this
-> > function.
-> > 
-> > Auditing says this is never called from an atomic context, so it is safe
-> > as is, but reads wrong.
-> 
-> I think the point may have been that the sgtable metadata is a
-> logically-distinct allocation from the buffer pages themselves. Much like
-> the allocation of the pages array itself further down in
-> __iommu_dma_alloc_pages().
+The vsp1 driver uses the vb2_is_streaming() function in its .buf_queue()
+handler to check if the .start_streaming() operation has been called,
+and decide whether to just add the buffer to an internal queue, or also
+trigger a hardware run. vb2_is_streaming() relies on the vb2_queue
+structure's streaming field, which used to be set only after calling the
+.start_streaming() operation.
 
-That makes sense, and it is a good reason to mask off the allocation
-policy flags from the gfp.
+Commit a10b21532574 ("media: vb2: add (un)prepare_streaming queue ops")
+changed this, setting the .streaming field in vb2_core_streamon() before
+enqueuing buffers to the driver and calling .start_streaming(). This
+broke the vsp1 driver which now believes that .start_streaming() has
+been called when it hasn't, leading to a crash:
 
-On the other hand it also makes sense to continue to pass in things
-like NOWAIT|NOWARN to all the allocations. Even to the iommu driver.
+[  881.058705] Unable to handle kernel NULL pointer dereference at virtual address 0000000000000020
+[  881.067495] Mem abort info:
+[  881.070290]   ESR = 0x0000000096000006
+[  881.074042]   EC = 0x25: DABT (current EL), IL = 32 bits
+[  881.079358]   SET = 0, FnV = 0
+[  881.082414]   EA = 0, S1PTW = 0
+[  881.085558]   FSC = 0x06: level 2 translation fault
+[  881.090439] Data abort info:
+[  881.093320]   ISV = 0, ISS = 0x00000006
+[  881.097157]   CM = 0, WnR = 0
+[  881.100126] user pgtable: 4k pages, 48-bit VAs, pgdp=000000004fa51000
+[  881.106573] [0000000000000020] pgd=080000004f36e003, p4d=080000004f36e003, pud=080000004f7ec003, pmd=0000000000000000
+[  881.117217] Internal error: Oops: 0000000096000006 [#1] PREEMPT SMP
+[  881.123494] Modules linked in: rcar_fdp1 v4l2_mem2mem
+[  881.128572] CPU: 0 PID: 1271 Comm: yavta Tainted: G    B              6.2.0-rc1-00023-g6c94e2e99343 #556
+[  881.138061] Hardware name: Renesas Salvator-X 2nd version board based on r8a77965 (DT)
+[  881.145981] pstate: 400000c5 (nZcv daIF -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+[  881.152951] pc : vsp1_dl_list_add_body+0xa8/0xe0
+[  881.157580] lr : vsp1_dl_list_add_body+0x34/0xe0
+[  881.162206] sp : ffff80000c267710
+[  881.165522] x29: ffff80000c267710 x28: ffff000010938ae8 x27: ffff000013a8dd98
+[  881.172683] x26: ffff000010938098 x25: ffff000013a8dc00 x24: ffff000010ed6ba8
+[  881.179841] x23: ffff00000faa4000 x22: 0000000000000000 x21: 0000000000000020
+[  881.186998] x20: ffff00000faa4000 x19: 0000000000000000 x18: 0000000000000000
+[  881.194154] x17: 0000000000000000 x16: 0000000000000000 x15: 0000000000000000
+[  881.201309] x14: 0000000000000000 x13: 746e696174206c65 x12: ffff70000157043d
+[  881.208465] x11: 1ffff0000157043c x10: ffff70000157043c x9 : dfff800000000000
+[  881.215622] x8 : ffff80000ab821e7 x7 : 00008ffffea8fbc4 x6 : 0000000000000001
+[  881.222779] x5 : ffff80000ab821e0 x4 : ffff70000157043d x3 : 0000000000000020
+[  881.229936] x2 : 0000000000000020 x1 : ffff00000e4f6400 x0 : 0000000000000000
+[  881.237092] Call trace:
+[  881.239542]  vsp1_dl_list_add_body+0xa8/0xe0
+[  881.243822]  vsp1_video_pipeline_run+0x270/0x2a0
+[  881.248449]  vsp1_video_buffer_queue+0x1c0/0x1d0
+[  881.253076]  __enqueue_in_driver+0xbc/0x260
+[  881.257269]  vb2_start_streaming+0x48/0x200
+[  881.261461]  vb2_core_streamon+0x13c/0x280
+[  881.265565]  vb2_streamon+0x3c/0x90
+[  881.269064]  vsp1_video_streamon+0x2fc/0x3e0
+[  881.273344]  v4l_streamon+0x50/0x70
+[  881.276844]  __video_do_ioctl+0x2bc/0x5d0
+[  881.280861]  video_usercopy+0x2a8/0xc80
+[  881.284704]  video_ioctl2+0x20/0x40
+[  881.288201]  v4l2_ioctl+0xa4/0xc0
+[  881.291525]  __arm64_sys_ioctl+0xe8/0x110
+[  881.295543]  invoke_syscall+0x68/0x190
+[  881.299303]  el0_svc_common.constprop.0+0x88/0x170
+[  881.304105]  do_el0_svc+0x4c/0xf0
+[  881.307430]  el0_svc+0x4c/0xa0
+[  881.310494]  el0t_64_sync_handler+0xbc/0x140
+[  881.314773]  el0t_64_sync+0x190/0x194
+[  881.318450] Code: d50323bf d65f03c0 91008263 f9800071 (885f7c60)
+[  881.324551] ---[ end trace 0000000000000000 ]---
+[  881.329173] note: yavta[1271] exited with preempt_count 1
 
-So I'd prefer to change this to mask and make all the following calls
-consistently use the input gfp
+A different regression report sent to the linux-media mailing list ([1])
+was answered with a claim that the vb2_is_streaming() function has never
+been meant for this purpose. The document of the function, as well as of
+the struct vb2_queue streaming field, is sparse, so this claim may be
+hard to verify.
 
-> I'd say the more confusing thing about this particular context is why we're
-> using iommu_map_sg_atomic() further down - that seems to have been an
-> oversight in 781ca2de89ba, since this particular path has never supported
-> being called in atomic context.
+The information needed by the vsp1 driver to decide how to process
+queued buffers is also available from the vb2_start_streaming_called()
+function. Use it instead of vb2_is_streaming() to fix the problem.
 
-Huh. I had fixed that in v1, this patch was supposed to have that
-hunk, that was the main point of making this patch actually..
+[1] https://lore.kernel.org/linux-media/545610e7-3446-2b82-60dc-7385fea3774f@redhat.com/
 
-> Overall I'm starting to wonder if it might not be better to stick a "use
-> GFP_KERNEL_ACCOUNT if you allocate" flag in the domain for any level of the
-> API internals to pick up as appropriate, rather than propagate per-call gfp
-> flags everywhere. 
+Fixes: a10b21532574 ("media: vb2: add (un)prepare_streaming queue ops")
+Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+---
+Hans, I think many drivers may be affected by a10b21532574, and it would
+be difficult to test them all in time for the v6.2 release. Maybe the
+original behaviour of vb2_is_streaming() could be restored (I haven't
+checked), or maybe the commit should be reverted to give more time to
+fix the issue correctly.
 
-We might get to something like that, but it requires more parts that
-are not ready yet. Most likely this would take the form of some kind
-of 'this is an iommufd created domain' indication. This happens
-naturally as part of the nesting patches.
+In the meantime, this patch should be merged as a v6.2 fix, as I think
+it goes in the right direction in any case.
+---
+ drivers/media/platform/renesas/vsp1/vsp1_video.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Right now I want to get people to start testing with this because the
-charge from the IOPTEs is far and away the largest memory draw.  Parts
-like fixing the iommu drivers to actually use gfp are necessary to
-make it work.
+diff --git a/drivers/media/platform/renesas/vsp1/vsp1_video.c b/drivers/media/platform/renesas/vsp1/vsp1_video.c
+index 544012fd1fe9..3664c87e4afb 100644
+--- a/drivers/media/platform/renesas/vsp1/vsp1_video.c
++++ b/drivers/media/platform/renesas/vsp1/vsp1_video.c
+@@ -776,7 +776,7 @@ static void vsp1_video_buffer_queue(struct vb2_buffer *vb)
+ 	video->rwpf->mem = buf->mem;
+ 	pipe->buffers_ready |= 1 << video->pipe_index;
+ 
+-	if (vb2_is_streaming(&video->queue) &&
++	if (vb2_start_streaming_called(&video->queue) &&
+ 	    vsp1_pipeline_ready(pipe))
+ 		vsp1_video_pipeline_run(pipe);
+ 
 
-If we flip the two places using KERNEL_ACCOUNT to something else later
-it doesn't really matter. I think the removal of the two _atomic
-wrappers is still appropriate stand-alone.
+base-commit: 1b929c02afd37871d5afb9d498426f83432e71c2
+-- 
+Regards,
 
-> As it stands we're still missing potential pagetable and other
-> domain-related allocations by drivers in .attach_dev and even (in
+Laurent Pinchart
 
-Yes, I plan to get to those when we add an alloc_domain_iommufd() or
-whatever op. The driver will know the calling context and can set the
-gfp flags for any allocations under alloc_domain under that time.
-
-Then we can go and figure out if there are other allocations and if
-all or only some drivers need a flag - eg at attach time. Though this
-is less worrying because you can only scale attach up to num_pasids *
-num open vfios.
-
-iommufd will let userspace create and populate an unlimited number of
-iommu_domains, so everything linked to an unattached iommu_domain
-should be charged.
-
-> probably-shouldn't-really-happen cases) .unmap_pages...
-
-Gah, unmap_pages isn't allow to fail. There is no way to recover from
-this. iommufd will spew a warn and then have a small race where
-userspace can UAF kernel memory.
-
-I'd call such a driver implementation broken. Why would you need to do
-this?? :(
-
-Thanks,
-Jason
