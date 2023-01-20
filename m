@@ -2,206 +2,110 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 27F85675636
-	for <lists+linux-media@lfdr.de>; Fri, 20 Jan 2023 14:58:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3244667563D
+	for <lists+linux-media@lfdr.de>; Fri, 20 Jan 2023 14:59:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229883AbjATN6W (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 20 Jan 2023 08:58:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56950 "EHLO
+        id S229885AbjATN7p (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 20 Jan 2023 08:59:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57992 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229590AbjATN6V (ORCPT
+        with ESMTP id S229947AbjATN7p (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 20 Jan 2023 08:58:21 -0500
-Received: from relay10.mail.gandi.net (relay10.mail.gandi.net [217.70.178.230])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 40AEBC13ED;
-        Fri, 20 Jan 2023 05:58:19 -0800 (PST)
-Received: from booty (unknown [77.244.183.192])
-        (Authenticated sender: luca.ceresoli@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id CC29B24000C;
-        Fri, 20 Jan 2023 13:58:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1674223098;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=xBYq78I2WWdIhSVwdFS+MtioXi32020OtzEusyG00bE=;
-        b=HaZHBYt5XRz1FDzTs15mzYqO4zkIr1Z5cvQ0JJWSaAP6sZB67nm3RsW1g89Y+HJ/vbXCcV
-        s0o/VoX/94Gcy3/HhyeXqUbPhxsOSyDFiX2wVN51ld5PKHhD09yeVua9bkTyf/N9+KQKiQ
-        su8Vua4eXCQpr5OCva1JeccezlM1JTrfnPsty7xLDqRHHreUztv+Ujs51lAgO3jddjtvxr
-        G2tkvZJ2FP1bH0MjvYQ36Qhl+ph3YKSgUfHTPdLF2MUVHOIAKsxMlTPvSCRrwrUbIKOXQg
-        BBxp9kZLmDjHn7zQ91tR2eq5T5Jw9E5oi73H96cSA1FFoX/Uep5uNrXlSsUtSQ==
-Date:   Fri, 20 Jan 2023 14:58:12 +0100
-From:   Luca Ceresoli <luca.ceresoli@bootlin.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        Andy Shevchenko <andriy.shevchenko@intel.com>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Wolfram Sang <wsa@kernel.org>,
-        Matti Vaittinen <Matti.Vaittinen@fi.rohmeurope.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Peter Rosin <peda@axentia.se>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Michael Tretter <m.tretter@pengutronix.de>,
-        Shawn Tu <shawnx.tu@intel.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Mike Pagano <mpagano@gentoo.org>,
-        Krzysztof =?UTF-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>,
-        Marek Vasut <marex@denx.de>,
-        Luca Ceresoli <luca@lucaceresoli.net>
-Subject: Re: [PATCH v7 1/7] i2c: add I2C Address Translator (ATR) support
-Message-ID: <20230120145812.750e1fa2@booty>
-In-Reply-To: <Y8plCZ/27zy4J2Tk@pendragon.ideasonboard.com>
-References: <20230118124031.788940-1-tomi.valkeinen@ideasonboard.com>
-        <20230118124031.788940-2-tomi.valkeinen@ideasonboard.com>
-        <Y8gA+cz9m7PaEhfP@smile.fi.intel.com>
-        <20230118181753.7a325953@booty>
-        <Y8gu4mlXUlyiFKZD@smile.fi.intel.com>
-        <20230119092115.02cbbab3@booty>
-        <db2e7386-e625-5bad-0c99-bae633e96d80@ideasonboard.com>
-        <20230119123520.7f1aa680@booty>
-        <79331f60-0849-9d5a-822a-987df01a4b96@ideasonboard.com>
-        <20230119140056.686c0dea@booty>
-        <Y8plCZ/27zy4J2Tk@pendragon.ideasonboard.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+        Fri, 20 Jan 2023 08:59:45 -0500
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4BFC5C13ED;
+        Fri, 20 Jan 2023 05:59:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1674223184; x=1705759184;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=6hxlWeTZ3wO0s346jXlTNQvBt5F9mG2+mI8oEMzYhoI=;
+  b=HSi59Y3HZdH6kGJy1Gxb9unJaBtaDtnSp4KeRg3LVb4DtfPEdS4r38fz
+   zLy0EIim0eyYIRni0313tqZjJqfH029c+ApoS64p+ylRdPtBYWU/n3Zd/
+   ZJ3Zxy/cOqzFG/qT2k4DU9wGADb2+126ocUT2ej4g0URSWVPxfmEEuY/x
+   EPLkcxA+WaqxvAzWTaJPrTXXiRJ9tNASHdw0VwZB8DRhDjiRZA7Zmi0sL
+   JsgmPGDyEnQ9mMmSGHMup5v5yt76T+gBJY5h/gXgysklKgVSrdN4ZC5aI
+   i88oFvMGPSUUodO6fGG4rHJywVi1Hghs7+ZG5se2GS75XLtwBKAkkqDin
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10595"; a="327675533"
+X-IronPort-AV: E=Sophos;i="5.97,232,1669104000"; 
+   d="scan'208";a="327675533"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2023 05:59:43 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10595"; a="638161021"
+X-IronPort-AV: E=Sophos;i="5.97,232,1669104000"; 
+   d="scan'208";a="638161021"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by orsmga006.jf.intel.com with ESMTP; 20 Jan 2023 05:59:41 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1pIrvg-00CELW-1W;
+        Fri, 20 Jan 2023 15:59:40 +0200
+Date:   Fri, 20 Jan 2023 15:59:40 +0200
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     linux-acpi@vger.kernel.org, rafael@kernel.org,
+        linux-media@vger.kernel.org, heikki.krogerus@linux.intel.com
+Subject: Re: [PATCH 7/8] ACPI: property: Skip MIPI property table without
+ "mipi-img" prefix
+Message-ID: <Y8qeTK0I5C1Acy3m@smile.fi.intel.com>
+References: <20230117122244.2546597-1-sakari.ailus@linux.intel.com>
+ <20230117122244.2546597-8-sakari.ailus@linux.intel.com>
+ <Y8a+8q5hzkoPjpDO@smile.fi.intel.com>
+ <Y8lnBeamT90z4aKY@paasikivi.fi.intel.com>
+ <Y8lrNe9S4eIdWbXu@smile.fi.intel.com>
+ <Y8lrn0P0+CRPWUOV@smile.fi.intel.com>
+ <Y8qEDXxKS8VO8NLv@paasikivi.fi.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y8qEDXxKS8VO8NLv@paasikivi.fi.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
+On Fri, Jan 20, 2023 at 12:07:41PM +0000, Sakari Ailus wrote:
+> On Thu, Jan 19, 2023 at 06:11:11PM +0200, Andy Shevchenko wrote:
+> > On Thu, Jan 19, 2023 at 06:09:26PM +0200, Andy Shevchenko wrote:
+> > > On Thu, Jan 19, 2023 at 03:51:33PM +0000, Sakari Ailus wrote:
+> > > > On Tue, Jan 17, 2023 at 05:29:54PM +0200, Andy Shevchenko wrote:
+> > > > > On Tue, Jan 17, 2023 at 02:22:43PM +0200, Sakari Ailus wrote:
 
-On Fri, 20 Jan 2023 11:55:21 +0200
-Laurent Pinchart <laurent.pinchart@ideasonboard.com> wrote:
+...
 
-> Hello,
-> 
-> On Thu, Jan 19, 2023 at 02:00:56PM +0100, Luca Ceresoli wrote:
-> > On Thu, 19 Jan 2023 14:22:26 +0200 Tomi Valkeinen wrote:  
-> > > On 19/01/2023 13:35, Luca Ceresoli wrote:  
-> > > > On Thu, 19 Jan 2023 12:09:57 +0200 Tomi Valkeinen wrote:  
-> > > >> On 19/01/2023 10:21, Luca Ceresoli wrote:
-> > > >>
-> > > >> <snip>
-> > > >>    
-> > > >>>>>>> +void i2c_atr_set_driver_data(struct i2c_atr *atr, void *data)
-> > > >>>>>>> +{
-> > > >>>>>>> +	atr->priv = data;
-> > > >>>>>>> +}
-> > > >>>>>>> +EXPORT_SYMBOL_NS_GPL(i2c_atr_set_driver_data, I2C_ATR);
-> > > >>>>>>> +
-> > > >>>>>>> +void *i2c_atr_get_driver_data(struct i2c_atr *atr)
-> > > >>>>>>> +{
-> > > >>>>>>> +	return atr->priv;
-> > > >>>>>>> +}
-> > > >>>>>>> +EXPORT_SYMBOL_NS_GPL(i2c_atr_get_driver_data, I2C_ATR);    
-> > > >>>>>>
-> > > >>>>>> Just to be sure: Is it really _driver_ data and not _device instance_ data?    
-> > > >>>>>
-> > > >>>>> It is device instance data indeed. I don't remember why this got
-> > > >>>>> changed, but in v3 it was i2c_atr_set_clientdata().    
-> > > >>>>
-> > > >>>> It's me who was and is against calling it clientdata due to possible
-> > > >>>> confusion with i2c_set/get_clientdata() that is about *driver data*.
-> > > >>>> I missed that time the fact that this is about device instance data.
-> > > >>>> I dunno which name would be better in this case, i2c_atr_set/get_client_priv() ?    
-> > > >>>
-> > > >>> Not sure I'm following you here. The i2c_atr_set_clientdata() name was
-> > > >>> given for similarity with i2c_set_clientdata(). The latter wraps
-> > > >>> dev_set_drvdata(), which sets `struct device`->driver_data. There is
-> > > >>> one driver_data per each `struct device` instance, not per each driver.
-> > > >>> The same goes for i2c_atr_set_driver_data(): there is one priv pointer
-> > > >>> per each `struct i2c_atr` instance.    
-> > > >>
-> > > >> I'm a bit confused. What is "driver data" and what is "device instance
-> > > >> data"?
-> > > >>
-> > > >> This deals with the driver's private data, where the "driver" is the
-> > > >> owner/creator of the i2c-atr. The i2c-atr itself doesn't have a device
-> > > >> (it's kind of part of the owner's device), and there's no driver in
-> > > >> i2c-atr.c
-> > > >>
-> > > >> I don't like "client" here, as it reminds me of i2c_client (especially
-> > > >> as we're in i2c context).
-> > > >>
-> > > >> What about i2c_atr_set_user_data()? Or "owner_data"?    
+> > > > > > +	if (memcmp(elements[0].string.pointer, MIPI_IMG_PREFIX,
+> > > > > > +		   sizeof(MIPI_IMG_PREFIX) - 1))
+> > > > > 
+> > > > > str_has_prefix()
 > > > > 
-> > > > Ah, only now I got the point Andy made initially about "client" not
-> > > > being an appropriate word.
-> > > > 
-> > > > In i2c we have:
-> > > > 
-> > > >    i2c_set_clientdata(struct i2c_client *client, void *data)
-> > > >            ^^^^^^~~~~            ^^^^^^                ~~~~
-> > > > 
-> > > > so "client" clearly makes sense there, now here.    
+> > > > str_has_prefix() calls strlen() on prefix on every call. sizeof() will
+> > > > generate much less code --- it's just a number.
 > > > 
-> > > Isn't that also used by the i2c_client? A driver which handles an i2c 
-> > > device is the "i2c client", in a sense?
-> > >   
-> > > > The same logic applied here would lead to:
-> > > > 
-> > > >    i2c_atr_set_atrdata(struct i2c_atr *atr, void *data)
-> > > >                ^^^~~~~            ^^^             ~~~~
-> > > > 
-> > > > which makes sense but it is a ugly IMO.    
-> > > 
-> > > Here, I think, there's a bit of a difference to the i2c_client case, as 
-> > > we have a separate component for the i2c-atr. Although I guess one can 
-> > > argue that the top level driver is the ATR driver, as it handles the HW, 
-> > > and i2c-atr.c is just a set of helpers, so... I don't know =).
-> > >   
-> > > > So I think i2c_atr_get_driver_data() in this v7 makes sense, it's to
-> > > > set the data that the ATR driver instance needs.
-> > > > 
-> > > > This is coherent with logic in spi/spi.h:
-> > > > 
-> > > >    spi_set_drvdata(struct spi_device *spi, void *data)
-> > > > 
-> > > > except for the abbreviation ("_drvdata" vs "_driver_data").
-> > > > 
-> > > > Andy, Tomi, would i2c_atr_set_drvdata() be OK for you, just like SPI
-> > > > does?    
-> > > 
-> > > Well, I'm good with the current i2c_atr_set_driver_data(). If all agrees 
-> > > that it's "driver data", I'd rather keep it like that. I find this 
-> > > "drvdata" style very odd. Why no underscore between drv and data? Why 
-> > > abbreviate drv, it doesn't really help anything here?  
+> > > Have you tried that? Because the strlen() over const string literals will be
+> > > optimized away on compilation time.
 > > 
-> > Agreed, I'm OK with either form of "driver data".  
+> > Probably that's the reason behind __always_inline for that function.
 > 
-> Have you considered allowing drivers to embed i2c_atr in a larger
-> structure, instead of forcing allocation through i2c_atr_new() ? Drivers
-> could then use container_of() instead of the get/set driver/device data
-> accessors.
+> For str_has_prefix() the reason probably is that inlining that function
+> generates less code than when not doing so.
 
-Off the top of my head I don't see a good reason to not do it, and it
-would be nice to have indeed.
+Yes and also allows to optimize strlen() away.
+So I suggest to use that function.
 
-For the sake of historical discussion, I guess I didn't do initially
-just because my starting point was i2c-mux where allocation is dynamic.
-But i2c_mux_alloc() also takes a 'int sizeof_priv' parameter to
-allocate some extra space for private driver data. I don't love that
-approach but it probably makes sense for mux devices which tend to be
-very simple, not for the ATR where chips are definitely complex. Indeed
-embedded i2c_atr in the larger driver-specific struct seems the best
-option.
+If assembly is different (WRT strlen("...const literal...") case),
+I would like to know the exact configuration options and the code
+that makes a call to strlen().
 
 -- 
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+With Best Regards,
+Andy Shevchenko
+
+
