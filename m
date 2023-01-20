@@ -2,30 +2,30 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B989C6748CF
-	for <lists+linux-media@lfdr.de>; Fri, 20 Jan 2023 02:28:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 662886748D8
+	for <lists+linux-media@lfdr.de>; Fri, 20 Jan 2023 02:32:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229740AbjATB2T (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 19 Jan 2023 20:28:19 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44846 "EHLO
+        id S229608AbjATBcJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 19 Jan 2023 20:32:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46032 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229560AbjATB2Q (ORCPT
+        with ESMTP id S229526AbjATBcH (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 19 Jan 2023 20:28:16 -0500
+        Thu, 19 Jan 2023 20:32:07 -0500
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C59432511;
-        Thu, 19 Jan 2023 17:28:10 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D502386EE6;
+        Thu, 19 Jan 2023 17:32:04 -0800 (PST)
 Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0C919514;
-        Fri, 20 Jan 2023 02:28:07 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7EEF9514;
+        Fri, 20 Jan 2023 02:32:02 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1674178088;
-        bh=X0HOvhmLDrQGLDDPb3/eIBIXq95Sy11uu6swxZDUNro=;
+        s=mail; t=1674178322;
+        bh=SjQRrqIa+SgjNKwnY8mzZtkRapHgMrhshCu+Y2mVyQE=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=S/N1qMM20n53QIcvPqw6rjEWS4R4xGxt0TnZalAJmWqndBf8dn2eIVlyOhtICQUhq
-         eZXlkuEGIt8FeaI6R3jiQfO1Syg154omFYP1QIHwgyoowu1/NGZYy9IqpiQimlO9LK
-         Kry4gABVjr1Ix/L7r+kN78zDUXDIZEAHrJ0IJrqI=
-Date:   Fri, 20 Jan 2023 03:28:05 +0200
+        b=QZ3/7vtyMid+aFisGXGudSkwrnBOMjrlZNhPeBgOb4v9lq08Yj1Nw+YCQf7MuITTe
+         ug1Fj/wPhTI/EO/NB+iSHoTqS4HrkkQlccD5cQgR4vjjYUZAS1QboMx4LfDUMaC2e1
+         MkSm3JMkMtH8GDXAdivwVLIryhIZP5c7nAnmmKqI=
+Date:   Fri, 20 Jan 2023 03:32:00 +0200
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Umang Jain <umang.jain@ideasonboard.com>
 Cc:     linux-staging@lists.linux.dev,
@@ -40,15 +40,15 @@ Cc:     linux-staging@lists.linux.dev,
         Dave Stevenson <dave.stevenson@raspberrypi.com>,
         Kieran Bingham <kieran.bingham@ideasonboard.com>,
         Paul Elder <paul.elder@ideasonboard.com>
-Subject: Re: [PATCH v5 2/6] staging: vc04_services: bcm2835-audio: Drop
+Subject: Re: [PATCH v5 3/6] staging: vc04_services: bcm2835-camera: Drop
  include Makefile directive
-Message-ID: <Y8nuJfuzW9QBcSVd@pendragon.ideasonboard.com>
+Message-ID: <Y8nvEC9EVdHfCuNq@pendragon.ideasonboard.com>
 References: <20230119115503.268693-1-umang.jain@ideasonboard.com>
- <20230119115503.268693-3-umang.jain@ideasonboard.com>
+ <20230119115503.268693-4-umang.jain@ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230119115503.268693-3-umang.jain@ideasonboard.com>
+In-Reply-To: <20230119115503.268693-4-umang.jain@ideasonboard.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
         autolearn=ham autolearn_force=no version=3.4.6
@@ -62,69 +62,83 @@ Hi Umang,
 
 Thank you for the patch.
 
-On Thu, Jan 19, 2023 at 05:24:59PM +0530, Umang Jain wrote:
+On Thu, Jan 19, 2023 at 05:25:00PM +0530, Umang Jain wrote:
 > Drop the include directive they can break the build one only wants to
 > build a subdirectory. Replace with "../" for the includes, in the
-> bcm2835.h instead.
+> bcm2835-camera files instead.
 
-I assume you meant
-
-Drop the include directive. They can break the build, when one only
-wants to build a subdirectory.
+Same comment as in 2/6. I expect it applies to other patches in the
+series too.
 
 > Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 > Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
 > ---
->  drivers/staging/vc04_services/bcm2835-audio/Makefile  | 2 --
->  drivers/staging/vc04_services/bcm2835-audio/bcm2835.h | 3 ++-
->  2 files changed, 2 insertions(+), 3 deletions(-)
+>  drivers/staging/vc04_services/bcm2835-camera/Makefile  |  4 ----
+>  .../vc04_services/bcm2835-camera/bcm2835-camera.c      | 10 +++++-----
+>  .../staging/vc04_services/bcm2835-camera/controls.c    |  6 +++---
+>  3 files changed, 8 insertions(+), 12 deletions(-)
 > 
-> diff --git a/drivers/staging/vc04_services/bcm2835-audio/Makefile b/drivers/staging/vc04_services/bcm2835-audio/Makefile
-> index fc7ac6112a3e..01ceebdf88e7 100644
-> --- a/drivers/staging/vc04_services/bcm2835-audio/Makefile
-> +++ b/drivers/staging/vc04_services/bcm2835-audio/Makefile
-> @@ -1,5 +1,3 @@
->  # SPDX-License-Identifier: GPL-2.0
->  obj-$(CONFIG_SND_BCM2835)	+= snd-bcm2835.o
->  snd-bcm2835-objs		:= bcm2835.o bcm2835-ctl.o bcm2835-pcm.o bcm2835-vchiq.o
+> diff --git a/drivers/staging/vc04_services/bcm2835-camera/Makefile b/drivers/staging/vc04_services/bcm2835-camera/Makefile
+> index 3494c82b271a..203b93899b20 100644
+> --- a/drivers/staging/vc04_services/bcm2835-camera/Makefile
+> +++ b/drivers/staging/vc04_services/bcm2835-camera/Makefile
+> @@ -4,7 +4,3 @@ bcm2835-v4l2-$(CONFIG_VIDEO_BCM2835) := \
+>  	controls.o
+>  
+>  obj-$(CONFIG_VIDEO_BCM2835) += bcm2835-v4l2.o
 > -
-> -ccflags-y += -I $(srctree)/$(src)/../include
-
-The reason for this, I assume, is that the driver is in staging. The
-vchiq.h file should live in include/linux/raspberrypi/, not
-drivers/staging/vc04_services/include/linux/raspberrypi/, so an
-additional include directory is added in order to use
-
-#include <linux/raspberrypi/vchiq.h>
-
-When the code will get out of staging, vchiq.h will go to
-include/linux/raspberrypi/, the extra include directory will be dropped,
-and all will be well without having to change any source file.
-
-With this patch, we'll have to undo the change below to
-drivers/staging/vc04_services/bcm2835-audio/bcm2835.h when vc04_services
-will get out of staging.
-
-Greg, is that what you prefer ?
-
-> diff --git a/drivers/staging/vc04_services/bcm2835-audio/bcm2835.h b/drivers/staging/vc04_services/bcm2835-audio/bcm2835.h
-> index 38b7451d77b2..0a81383c475a 100644
-> --- a/drivers/staging/vc04_services/bcm2835-audio/bcm2835.h
-> +++ b/drivers/staging/vc04_services/bcm2835-audio/bcm2835.h
-> @@ -6,11 +6,12 @@
+> -ccflags-y += \
+> -	-I $(srctree)/$(src)/.. \
+> -	-I $(srctree)/$(src)/../vchiq-mmal/
+> diff --git a/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c b/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c
+> index 797ebe2a973a..4f81765912ea 100644
+> --- a/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c
+> +++ b/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c
+> @@ -26,11 +26,11 @@
+>  #include <linux/delay.h>
+>  #include <linux/platform_device.h>
 >  
->  #include <linux/device.h>
->  #include <linux/wait.h>
-> -#include <linux/raspberrypi/vchiq.h>
->  #include <sound/core.h>
->  #include <sound/pcm.h>
->  #include <sound/pcm-indirect.h>
+> -#include "mmal-common.h"
+> -#include "mmal-encodings.h"
+> -#include "mmal-vchiq.h"
+> -#include "mmal-msg.h"
+> -#include "mmal-parameters.h"
+> +#include "../vchiq-mmal/mmal-common.h"
+> +#include "../vchiq-mmal/mmal-encodings.h"
+> +#include "../vchiq-mmal/mmal-vchiq.h"
+> +#include "../vchiq-mmal/mmal-msg.h"
+> +#include "../vchiq-mmal/mmal-parameters.h"
+
+Unlike the change in 2/6 that we may want to reconsider, this looks good
+to me, even though it will be interesting to see what happens if we move
+the vchiq core out of staging first. I expect in that case that the
+headers will go to a directory under include/ (likely in
+include/linux/soc/ ?), and this will be modified accordingly.
+
+In the meantime, with the commit message updated,
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+>  #include "bcm2835-camera.h"
 >  
-> +#include "../include/linux/raspberrypi/vchiq.h"
-> +
->  #define MAX_SUBSTREAMS   (8)
->  #define AVAIL_SUBSTREAMS_MASK  (0xff)
+>  #define MIN_WIDTH 32
+> diff --git a/drivers/staging/vc04_services/bcm2835-camera/controls.c b/drivers/staging/vc04_services/bcm2835-camera/controls.c
+> index 5644d1d457b9..6bce45925bf1 100644
+> --- a/drivers/staging/vc04_services/bcm2835-camera/controls.c
+> +++ b/drivers/staging/vc04_services/bcm2835-camera/controls.c
+> @@ -23,9 +23,9 @@
+>  #include <media/v4l2-event.h>
+>  #include <media/v4l2-common.h>
 >  
+> -#include "mmal-common.h"
+> -#include "mmal-vchiq.h"
+> -#include "mmal-parameters.h"
+> +#include "../vchiq-mmal/mmal-common.h"
+> +#include "../vchiq-mmal/mmal-vchiq.h"
+> +#include "../vchiq-mmal/mmal-parameters.h"
+>  #include "bcm2835-camera.h"
+>  
+>  /* The supported V4L2_CID_AUTO_EXPOSURE_BIAS values are from -4.0 to +4.0.
 
 -- 
 Regards,
