@@ -2,139 +2,100 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EC929675D84
-	for <lists+linux-media@lfdr.de>; Fri, 20 Jan 2023 20:03:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 91B51675DB7
+	for <lists+linux-media@lfdr.de>; Fri, 20 Jan 2023 20:13:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229501AbjATTDt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 20 Jan 2023 14:03:49 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39894 "EHLO
+        id S230215AbjATTNt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 20 Jan 2023 14:13:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48408 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229484AbjATTDs (ORCPT
+        with ESMTP id S229379AbjATTNs (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 20 Jan 2023 14:03:48 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 65A002116
-        for <linux-media@vger.kernel.org>; Fri, 20 Jan 2023 11:03:28 -0800 (PST)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5BEFD514;
-        Fri, 20 Jan 2023 20:03:23 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1674241403;
-        bh=Wcjds+dYXT/N8+Xmb65JQjYwIwWVzKG/YQwYzJDjRk4=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=OoghPEosO9Sspv516aVKKyYpdks22sbsOQzXlO+I+BGPE3mP4221CrMeAJ01JZbLo
-         Wn5wkrFcDpCenrjG6qc87ouMHk47bOohVThtca7H4EqJIiHqCEX4w/RDydx7YQVcfm
-         ZNz6mekVVJu70oiQPR1E1YKIhVBEXPE+ECc2cNQM=
-Date:   Fri, 20 Jan 2023 21:03:20 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+        Fri, 20 Jan 2023 14:13:48 -0500
+Received: from wout2-smtp.messagingengine.com (wout2-smtp.messagingengine.com [64.147.123.25])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4AE4948A33
+        for <linux-media@vger.kernel.org>; Fri, 20 Jan 2023 11:13:47 -0800 (PST)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+        by mailout.west.internal (Postfix) with ESMTP id 4A0703200955;
+        Fri, 20 Jan 2023 14:13:46 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute5.internal (MEProxy); Fri, 20 Jan 2023 14:13:46 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+        :cc:content-transfer-encoding:content-type:date:date:from:from
+        :in-reply-to:in-reply-to:message-id:mime-version:references
+        :reply-to:sender:subject:subject:to:to; s=fm1; t=1674242025; x=
+        1674328425; bh=KDAu4lflKAilT2GeujzJmvpfE31X4Cxo27fbXFr0VBc=; b=a
+        xGlY6uH4dKzA5Ak0SqAdKXq/ZgWFop97HDOAFyzic+zQoUptBIDdnRlDw9uXICJ/
+        4NRFkSR5m0w7O+zgjJVihHOAnf06Wn/k++VvUHrrDCjpQeJ7kryo6ChXiNAFsqHz
+        nd0bM3k5gGTy74fzYp9lu/33iSwq9TPKGEHeFiFJoxo33H/KttiPnxsmbE+xhJpw
+        5PCFl89nSbfBCv+4MDCKHPF9vb6odcWJRppDPrINR5614W9/FY24CBZAAOdGUPmY
+        2XbfML5RPjBrJjVratqgTIHAxCo7meh4+Nq9a6aMWeKkkXAkPZB7hTy8+MO2/20U
+        bllpwyfpVU2O+u1x9ernQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-transfer-encoding
+        :content-type:date:date:feedback-id:feedback-id:from:from
+        :in-reply-to:in-reply-to:message-id:mime-version:references
+        :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+        :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1674242025; x=
+        1674328425; bh=KDAu4lflKAilT2GeujzJmvpfE31X4Cxo27fbXFr0VBc=; b=X
+        P0NbZCRrYM001QH5WcRFP8VKlwYWlrH2gpyHoEfpvyOHkJqYDwJI4s61BjBKo06F
+        2GppP+Q2cUWuvJqqTvhG9uDBIqnbc8gghkZWQl2Kyp4zvk9brlXjucmyM3pgbh3G
+        ItZJitmzNw57V9sWMcC5+XG0Tk740ZxfTHzkA13Jykk9965Y1NVrdc4kxdc82xMP
+        f+n4CR4uNM1+53L4gEy5mz47ZUQno1gZU0Tpc44RZS4xn7pzJ92K3iAjAN0e97WQ
+        rSi5Tmy0YfjD6naN+lv1HxHwP2nNslL1FBJYik+TSxh2/NuwzjIAnVUMoBgGQasS
+        nDxDgIOAd6tsHQG/jBUtw==
+X-ME-Sender: <xms:6efKY04FYgYDEnhZVDPd_YAAbTmplPgdvvs0S8wqOkE6st0yDWdHIA>
+    <xme:6efKY15yXpiNS-l2fn1YNh1ti4SDp9CetlrTF4iEGUDhijMz3l5Pxvu1CFbyB6RSE
+    8SDsCL3w6895V6NCVk>
+X-ME-Received: <xmr:6efKYzd-_6STEbxydb7L5Q7l41aic4l6raUpRHsacdQA-2Ac1BU8wl4Q1OCVtwAlhaYqs9vIkBt4W4xEdvVgzs5L4TSy-j1N07rS7CCk1fHaRw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudduvddguddvgecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+    enucfjughrpeffhffvvefukfhfgggtugfgjgesthhqredttddtvdenucfhrhhomhepofgr
+    gihimhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtf
+    frrghtthgvrhhnpeetgfelgefggeekkefggfeludeiudffjeffgeevveekjedukedtudeu
+    teefteefgfenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
+    hmpehmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:6efKY5KTxR3drEDWgRCVIFAc_WMiOgax68SczL9p6PbUIuKkfhldoQ>
+    <xmx:6efKY4LFkBK8qeTAqzqifiXfZVnjx6uG8ZDbqJ0AW5LWzrxtEnAjiw>
+    <xmx:6efKY6yA1UnlfUwofXSob7G9EPFf_fd9JcJp4i60B1c2Y0mYOswrPw>
+    <xmx:6efKY9FHfqdDTf8EEE8lOtRhTt1XMt07toEPWWAecUVlujG4nxCyiQ>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 20 Jan 2023 14:13:45 -0500 (EST)
+Date:   Fri, 20 Jan 2023 20:13:44 +0100
+From:   Maxime Ripard <maxime@cerno.tech>
 To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     Hans de Goede <hdegoede@redhat.com>,
+Cc:     "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
         Linux Media Mailing List <linux-media@vger.kernel.org>
-Subject: Re: "media: vb2: add (un)prepare_streaming queue ops" causes
- vb2_queue->streaming to be set earlier ?
-Message-ID: <Y8rleOkeKiO21DEb@pendragon.ideasonboard.com>
-References: <545610e7-3446-2b82-60dc-7385fea3774f@redhat.com>
- <51d24c79-867e-3e5b-df60-6ac4555e12bf@xs4all.nl>
+Subject: Re: [PATCH] drm/vc4: hdmi: make CEC adapter name unique
+Message-ID: <20230120191344.xldhudsmb4xar4u3@houat>
+References: <dcf1db75-d9cc-62cc-fa12-baf1b2b3bf31@xs4all.nl>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <51d24c79-867e-3e5b-df60-6ac4555e12bf@xs4all.nl>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <dcf1db75-d9cc-62cc-fa12-baf1b2b3bf31@xs4all.nl>
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Dec 08, 2022 at 08:40:05AM +0100, Hans Verkuil wrote:
-> Hi Hans,
-> 
-> On 07/12/2022 22:23, Hans de Goede wrote:
-> > Hi Hans,
-> > 
-> > I just fixed a crash in the out of tree driver which is caused by:
-> > 
-> > a10b21532574 ("media: vb2: add (un)prepare_streaming queue ops")
-> > 
-> > I know that breaking out of tree code is fine / not our problem,
-> > but I wonder if this maybe affects some in tree code too ?
-> > 
-> > The problem with the out of tree driver is that it
-> > used vb2_queue->streaming inside the buf_queue() callback
-> > to determine if the buffer was being pre-queued (from
-> > vb2_start_streaming() calling __enqueue_in_driver()) before
-> > the start_streaming queue-op is called.
-> > 
-> > Or if it was being queued after the start_streaming queue-op
-> > has been called.
-> > 
-> > With vb2_queue->streaming now being set before the
-> >  __enqueue_in_driver() calls in vb2_start_streaming() this
-> > broke and it went down the route to see if there was
-> > space available in the hw-queue which NULL pointer deref-ed
-> > because the hw-queue had not been setup yet (more or less).
-> > 
-> > This is fixed now as far as the ipu6 driver is concerned,
-> > but I wonder if we may not have in tree drivers making
-> > similar assumptions about vb2_queue->streaming in their
-> > buf_queue() callbacks ?
-> 
-> I checked, and there is nobody else that's doing that.
+Hi Hans,
 
-Unfortunately, commit a10b21532574 ("media: vb2: add
-(un)prepare_streaming queue ops") broke the vsp1 driver, which oopses
-when starting streaming due to the issue described above.
+On Thu, Jan 19, 2023 at 10:02:19AM +0100, Hans Verkuil wrote:
+> The bcm2711 has two HDMI outputs, each with their own CEC adapter.
+> The CEC adapter name has to be unique, but it is currently
+> hardcoded to "vc4" for both outputs. Change this to use the card_name
+> from the variant information in order to make the adapter name unique.
+>=20
+> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 
-> It's definitely wrong to use q->streaming like that, it was never
-> meant as a check for whether or not the buffer was pre-queued.
+The patch looks good but should we Cc stable and add a Fixes tag here?
 
-It's done though :-) The vsp1 .buf_queue() handler reads as
-
-static void vsp1_video_buffer_queue(struct vb2_buffer *vb)
-{
-	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
-	struct vsp1_video *video = vb2_get_drv_priv(vb->vb2_queue);
-	struct vsp1_pipeline *pipe = video->rwpf->entity.pipe;
-	struct vsp1_vb2_buffer *buf = to_vsp1_vb2_buffer(vbuf);
-	unsigned long flags;
-	bool empty;
-	
-	spin_lock_irqsave(&video->irqlock, flags);
-	empty = list_empty(&video->irqqueue);
-	list_add_tail(&buf->queue, &video->irqqueue);
-	spin_unlock_irqrestore(&video->irqlock, flags);
-	
-	if (!empty)
-		return;
-
-	spin_lock_irqsave(&pipe->irqlock, flags);
-
-	video->rwpf->mem = buf->mem;
-	pipe->buffers_ready |= 1 << video->pipe_index;
-	
-	if (vb2_is_streaming(&video->queue) &&
-	    vsp1_pipeline_ready(pipe))
-		vsp1_video_pipeline_run(pipe);
-
-	spin_unlock_irqrestore(&pipe->irqlock, flags);
-} 
-
-> Thanks for the heads-up, though! It is a real change in vb2 behavior
-> that I hadn't realized could cause problems.
-> 
-> It's a good change, since having buf_queue called when q->streaming is
-> false makes no sense. However, you can use q->start_streaming_called
-> instead if for some reason a driver needs to know.
-
-This fixes the issue in the vsp1 driver. I'll submit a patch, but I'm
-worried about other breakages thought, *lots* of drivers call
-vb2_is_streaming(), including in the .buf_queue() handler. Even the m2m
-core does so. I'm not sure we'll be able to fix all that in time for
-v6.2.
-
--- 
-Regards,
-
-Laurent Pinchart
+Thanks!
