@@ -2,199 +2,179 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CE28A675188
-	for <lists+linux-media@lfdr.de>; Fri, 20 Jan 2023 10:49:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B7E466751C8
+	for <lists+linux-media@lfdr.de>; Fri, 20 Jan 2023 10:56:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230032AbjATJtY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 20 Jan 2023 04:49:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40022 "EHLO
+        id S229740AbjATJ4R (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 20 Jan 2023 04:56:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47444 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229473AbjATJtX (ORCPT
+        with ESMTP id S229477AbjATJ4Q (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 20 Jan 2023 04:49:23 -0500
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 415143CE39;
-        Fri, 20 Jan 2023 01:49:20 -0800 (PST)
-Received: from ip5b412258.dynamic.kabel-deutschland.de ([91.65.34.88] helo=diego.localnet)
-        by gloria.sntech.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.94.2)
-        (envelope-from <heiko@sntech.de>)
-        id 1pInzo-0002mL-W5; Fri, 20 Jan 2023 10:47:41 +0100
-From:   Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
-To:     broonie@kernel.org, miquel.raynal@bootlin.com, richard@nod.at,
-        vigneshr@ti.com, jic23@kernel.org, tudor.ambarus@microchip.com,
-        pratyush@kernel.org, sanju.mehta@amd.com,
-        chin-ting_kuo@aspeedtech.com, clg@kaod.org, kdasu.kdev@gmail.com,
-        f.fainelli@gmail.com, rjui@broadcom.com, sbranden@broadcom.com,
-        eajames@linux.ibm.com, olteanv@gmail.com, han.xu@nxp.com,
-        john.garry@huawei.com, shawnguo@kernel.org, s.hauer@pengutronix.de,
-        narmstrong@baylibre.com, khilman@baylibre.com,
-        matthias.bgg@gmail.com, haibo.chen@nxp.com,
-        linus.walleij@linaro.org, daniel@zonque.org,
-        haojian.zhuang@gmail.com, robert.jarzmik@free.fr,
-        agross@kernel.org, bjorn.andersson@linaro.org,
-        krzysztof.kozlowski@linaro.org, andi@etezian.org,
-        mcoquelin.stm32@gmail.com, alexandre.torgue@foss.st.com,
-        wens@csie.org, jernej.skrabec@gmail.com, samuel@sholland.org,
-        masahisa.kojima@linaro.org, jaswinder.singh@linaro.org,
-        rostedt@goodmis.org, mingo@redhat.com, l.stelmach@samsung.com,
-        davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-        pabeni@redhat.com, alex.aring@gmail.com, stefan@datenfreihafen.org,
-        kvalo@kernel.org, thierry.reding@gmail.com, jonathanh@nvidia.com,
-        skomatineni@nvidia.com, sumit.semwal@linaro.org,
-        christian.koenig@amd.com, j.neuschaefer@gmx.net,
-        vireshk@kernel.org, rmfrfs@gmail.com, johan@kernel.org,
-        elder@kernel.org, gregkh@linuxfoundation.org,
-        Amit Kumar Mahapatra <amit.kumar-mahapatra@amd.com>
-Cc:     git@amd.com, linux-spi@vger.kernel.org,
-        linux-kernel@vger.kernel.org, joel@jms.id.au, andrew@aj.id.au,
-        radu_nicolae.pirea@upb.ro, nicolas.ferre@microchip.com,
-        alexandre.belloni@bootlin.com, claudiu.beznea@microchip.com,
-        bcm-kernel-feedback-list@broadcom.com, fancer.lancer@gmail.com,
-        kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
-        jbrunet@baylibre.com, martin.blumenstingl@googlemail.com,
-        avifishman70@gmail.com, tmaimon77@gmail.com, tali.perry1@gmail.com,
-        venture@google.com, yuenn@google.com, benjaminfair@google.com,
-        yogeshgaur.83@gmail.com, konrad.dybcio@somainline.org,
-        alim.akhtar@samsung.com, ldewangan@nvidia.com,
-        michal.simek@amd.com, linux-aspeed@lists.ozlabs.org,
-        openbmc@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org,
-        linux-rpi-kernel@lists.infradead.org,
-        linux-amlogic@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-        linux-rockchip@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
-        netdev@vger.kernel.org, linux-wpan@vger.kernel.org,
-        libertas-dev@lists.infradead.org, linux-wireless@vger.kernel.org,
-        linux-mtd@lists.infradead.org, lars@metafoo.de,
-        Michael.Hennerich@analog.com, linux-iio@vger.kernel.org,
-        michael@walle.cc, palmer@dabbelt.com,
-        linux-riscv@lists.infradead.org, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, greybus-dev@lists.linaro.org,
-        linux-staging@lists.linux.dev, amitrkcian2002@gmail.com
-Subject: Re: [PATCH v2 02/13] spi: Replace all spi->chip_select and spi->cs_gpiod
- references with function call
-Date:   Fri, 20 Jan 2023 10:47:37 +0100
-Message-ID: <3658396.MHq7AAxBmi@diego>
-In-Reply-To: <20230119185342.2093323-3-amit.kumar-mahapatra@amd.com>
-References: <20230119185342.2093323-1-amit.kumar-mahapatra@amd.com>
- <20230119185342.2093323-3-amit.kumar-mahapatra@amd.com>
+        Fri, 20 Jan 2023 04:56:16 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E9D9580B8C;
+        Fri, 20 Jan 2023 01:55:31 -0800 (PST)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id BE927514;
+        Fri, 20 Jan 2023 10:55:23 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1674208524;
+        bh=j8S6Gdb+RcZjpA9ccAUgC+Tk6AJVUMl0mpaT0mynImc=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=jNhQ48HPPsOaeB9aI7pdnX5VDQePaakBdq1CFGnCfyQwL93/CLURBMKH+tBaOTEME
+         66ABUXZMyJOIUiLJsn5YcjEcVnyjPQYEQH4XaJqHF4POlCEZ1S9HlyQzLhgGlbI1dW
+         6q/EY7KPoxXnkDEmDEKiNPJRDSW6IePWllJlNcTE=
+Date:   Fri, 20 Jan 2023 11:55:21 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Luca Ceresoli <luca.ceresoli@bootlin.com>
+Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        Andy Shevchenko <andriy.shevchenko@intel.com>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Wolfram Sang <wsa@kernel.org>,
+        Matti Vaittinen <Matti.Vaittinen@fi.rohmeurope.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Peter Rosin <peda@axentia.se>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Michael Tretter <m.tretter@pengutronix.de>,
+        Shawn Tu <shawnx.tu@intel.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Mike Pagano <mpagano@gentoo.org>,
+        Krzysztof =?utf-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>,
+        Marek Vasut <marex@denx.de>,
+        Luca Ceresoli <luca@lucaceresoli.net>
+Subject: Re: [PATCH v7 1/7] i2c: add I2C Address Translator (ATR) support
+Message-ID: <Y8plCZ/27zy4J2Tk@pendragon.ideasonboard.com>
+References: <20230118124031.788940-1-tomi.valkeinen@ideasonboard.com>
+ <20230118124031.788940-2-tomi.valkeinen@ideasonboard.com>
+ <Y8gA+cz9m7PaEhfP@smile.fi.intel.com>
+ <20230118181753.7a325953@booty>
+ <Y8gu4mlXUlyiFKZD@smile.fi.intel.com>
+ <20230119092115.02cbbab3@booty>
+ <db2e7386-e625-5bad-0c99-bae633e96d80@ideasonboard.com>
+ <20230119123520.7f1aa680@booty>
+ <79331f60-0849-9d5a-822a-987df01a4b96@ideasonboard.com>
+ <20230119140056.686c0dea@booty>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_PASS,
-        T_SPF_HELO_TEMPERROR autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20230119140056.686c0dea@booty>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am Donnerstag, 19. Januar 2023, 19:53:31 CET schrieb Amit Kumar Mahapatra:
-> Supporting multi-cs in spi drivers would require the chip_select & cs_gpiod
-> members of struct spi_device to be an array. But changing the type of these
-> members to array would break the spi driver functionality. To make the
-> transition smoother introduced four new APIs to get/set the
-> spi->chip_select & spi->cs_gpiod and replaced all spi->chip_select and
-> spi->cs_gpiod references with get or set API calls.
-> While adding multi-cs support in further patches the chip_select & cs_gpiod
-> members of the spi_device structure would be converted to arrays & the
-> "idx" parameter of the APIs would be used as array index i.e.,
-> spi->chip_select[idx] & spi->cs_gpiod[idx] respectively.
+Hello,
+
+On Thu, Jan 19, 2023 at 02:00:56PM +0100, Luca Ceresoli wrote:
+> On Thu, 19 Jan 2023 14:22:26 +0200 Tomi Valkeinen wrote:
+> > On 19/01/2023 13:35, Luca Ceresoli wrote:
+> > > On Thu, 19 Jan 2023 12:09:57 +0200 Tomi Valkeinen wrote:
+> > >> On 19/01/2023 10:21, Luca Ceresoli wrote:
+> > >>
+> > >> <snip>
+> > >>  
+> > >>>>>>> +void i2c_atr_set_driver_data(struct i2c_atr *atr, void *data)
+> > >>>>>>> +{
+> > >>>>>>> +	atr->priv = data;
+> > >>>>>>> +}
+> > >>>>>>> +EXPORT_SYMBOL_NS_GPL(i2c_atr_set_driver_data, I2C_ATR);
+> > >>>>>>> +
+> > >>>>>>> +void *i2c_atr_get_driver_data(struct i2c_atr *atr)
+> > >>>>>>> +{
+> > >>>>>>> +	return atr->priv;
+> > >>>>>>> +}
+> > >>>>>>> +EXPORT_SYMBOL_NS_GPL(i2c_atr_get_driver_data, I2C_ATR);  
+> > >>>>>>
+> > >>>>>> Just to be sure: Is it really _driver_ data and not _device instance_ data?  
+> > >>>>>
+> > >>>>> It is device instance data indeed. I don't remember why this got
+> > >>>>> changed, but in v3 it was i2c_atr_set_clientdata().  
+> > >>>>
+> > >>>> It's me who was and is against calling it clientdata due to possible
+> > >>>> confusion with i2c_set/get_clientdata() that is about *driver data*.
+> > >>>> I missed that time the fact that this is about device instance data.
+> > >>>> I dunno which name would be better in this case, i2c_atr_set/get_client_priv() ?  
+> > >>>
+> > >>> Not sure I'm following you here. The i2c_atr_set_clientdata() name was
+> > >>> given for similarity with i2c_set_clientdata(). The latter wraps
+> > >>> dev_set_drvdata(), which sets `struct device`->driver_data. There is
+> > >>> one driver_data per each `struct device` instance, not per each driver.
+> > >>> The same goes for i2c_atr_set_driver_data(): there is one priv pointer
+> > >>> per each `struct i2c_atr` instance.  
+> > >>
+> > >> I'm a bit confused. What is "driver data" and what is "device instance
+> > >> data"?
+> > >>
+> > >> This deals with the driver's private data, where the "driver" is the
+> > >> owner/creator of the i2c-atr. The i2c-atr itself doesn't have a device
+> > >> (it's kind of part of the owner's device), and there's no driver in
+> > >> i2c-atr.c
+> > >>
+> > >> I don't like "client" here, as it reminds me of i2c_client (especially
+> > >> as we're in i2c context).
+> > >>
+> > >> What about i2c_atr_set_user_data()? Or "owner_data"?  
+> > > 
+> > > Ah, only now I got the point Andy made initially about "client" not
+> > > being an appropriate word.
+> > > 
+> > > In i2c we have:
+> > > 
+> > >    i2c_set_clientdata(struct i2c_client *client, void *data)
+> > >            ^^^^^^~~~~            ^^^^^^                ~~~~
+> > > 
+> > > so "client" clearly makes sense there, now here.  
+> > 
+> > Isn't that also used by the i2c_client? A driver which handles an i2c 
+> > device is the "i2c client", in a sense?
+> > 
+> > > The same logic applied here would lead to:
+> > > 
+> > >    i2c_atr_set_atrdata(struct i2c_atr *atr, void *data)
+> > >                ^^^~~~~            ^^^             ~~~~
+> > > 
+> > > which makes sense but it is a ugly IMO.  
+> > 
+> > Here, I think, there's a bit of a difference to the i2c_client case, as 
+> > we have a separate component for the i2c-atr. Although I guess one can 
+> > argue that the top level driver is the ATR driver, as it handles the HW, 
+> > and i2c-atr.c is just a set of helpers, so... I don't know =).
+> > 
+> > > So I think i2c_atr_get_driver_data() in this v7 makes sense, it's to
+> > > set the data that the ATR driver instance needs.
+> > > 
+> > > This is coherent with logic in spi/spi.h:
+> > > 
+> > >    spi_set_drvdata(struct spi_device *spi, void *data)
+> > > 
+> > > except for the abbreviation ("_drvdata" vs "_driver_data").
+> > > 
+> > > Andy, Tomi, would i2c_atr_set_drvdata() be OK for you, just like SPI
+> > > does?  
+> > 
+> > Well, I'm good with the current i2c_atr_set_driver_data(). If all agrees 
+> > that it's "driver data", I'd rather keep it like that. I find this 
+> > "drvdata" style very odd. Why no underscore between drv and data? Why 
+> > abbreviate drv, it doesn't really help anything here?
 > 
-> Signed-off-by: Amit Kumar Mahapatra <amit.kumar-mahapatra@amd.com>
-> ---
+> Agreed, I'm OK with either form of "driver data".
 
-> diff --git a/drivers/spi/spi-rockchip-sfc.c b/drivers/spi/spi-rockchip-sfc.c
-> index bd87d3c92dd3..246e81453ec3 100644
-> --- a/drivers/spi/spi-rockchip-sfc.c
-> +++ b/drivers/spi/spi-rockchip-sfc.c
-> @@ -346,7 +346,7 @@ static int rockchip_sfc_xfer_setup(struct rockchip_sfc *sfc,
->  
->  	/* set the Controller */
->  	ctrl |= SFC_CTRL_PHASE_SEL_NEGETIVE;
-> -	cmd |= mem->spi->chip_select << SFC_CMD_CS_SHIFT;
-> +	cmd |= spi_get_chipselect(mem->spi, 0) << SFC_CMD_CS_SHIFT;
->  
->  	dev_dbg(sfc->dev, "sfc addr.nbytes=%x(x%d) dummy.nbytes=%x(x%d)\n",
->  		op->addr.nbytes, op->addr.buswidth,
-> diff --git a/drivers/spi/spi-rockchip.c b/drivers/spi/spi-rockchip.c
-> index 79242dc5272d..adc5638eff4b 100644
-> --- a/drivers/spi/spi-rockchip.c
-> +++ b/drivers/spi/spi-rockchip.c
-> @@ -246,28 +246,30 @@ static void rockchip_spi_set_cs(struct spi_device *spi, bool enable)
->  	bool cs_asserted = spi->mode & SPI_CS_HIGH ? enable : !enable;
->  
->  	/* Return immediately for no-op */
-> -	if (cs_asserted == rs->cs_asserted[spi->chip_select])
-> +	if (cs_asserted == rs->cs_asserted[spi_get_chipselect(spi, 0)])
->  		return;
->  
->  	if (cs_asserted) {
->  		/* Keep things powered as long as CS is asserted */
->  		pm_runtime_get_sync(rs->dev);
->  
-> -		if (spi->cs_gpiod)
-> +		if (spi_get_csgpiod(spi, 0))
->  			ROCKCHIP_SPI_SET_BITS(rs->regs + ROCKCHIP_SPI_SER, 1);
->  		else
-> -			ROCKCHIP_SPI_SET_BITS(rs->regs + ROCKCHIP_SPI_SER, BIT(spi->chip_select));
-> +			ROCKCHIP_SPI_SET_BITS(rs->regs + ROCKCHIP_SPI_SER,
-> +					      BIT(spi_get_chipselect(spi, 0)));
->  	} else {
-> -		if (spi->cs_gpiod)
-> +		if (spi_get_csgpiod(spi, 0))
->  			ROCKCHIP_SPI_CLR_BITS(rs->regs + ROCKCHIP_SPI_SER, 1);
->  		else
-> -			ROCKCHIP_SPI_CLR_BITS(rs->regs + ROCKCHIP_SPI_SER, BIT(spi->chip_select));
-> +			ROCKCHIP_SPI_CLR_BITS(rs->regs + ROCKCHIP_SPI_SER,
-> +					      BIT(spi_get_chipselect(spi, 0)));
->  
->  		/* Drop reference from when we first asserted CS */
->  		pm_runtime_put(rs->dev);
->  	}
->  
-> -	rs->cs_asserted[spi->chip_select] = cs_asserted;
-> +	rs->cs_asserted[spi_get_chipselect(spi, 0)] = cs_asserted;
->  }
->  
->  static void rockchip_spi_handle_err(struct spi_controller *ctlr,
-> @@ -541,7 +543,7 @@ static int rockchip_spi_config(struct rockchip_spi *rs,
->  	if (spi->mode & SPI_LSB_FIRST)
->  		cr0 |= CR0_FBM_LSB << CR0_FBM_OFFSET;
->  	if (spi->mode & SPI_CS_HIGH)
-> -		cr0 |= BIT(spi->chip_select) << CR0_SOI_OFFSET;
-> +		cr0 |= BIT(spi_get_chipselect(spi, 0)) << CR0_SOI_OFFSET;
->  
->  	if (xfer->rx_buf && xfer->tx_buf)
->  		cr0 |= CR0_XFM_TR << CR0_XFM_OFFSET;
-> @@ -724,7 +726,7 @@ static int rockchip_spi_setup(struct spi_device *spi)
->  	struct rockchip_spi *rs = spi_controller_get_devdata(spi->controller);
->  	u32 cr0;
->  
-> -	if (!spi->cs_gpiod && (spi->mode & SPI_CS_HIGH) && !rs->cs_high_supported) {
-> +	if (!spi_get_csgpiod(spi, 0) && (spi->mode & SPI_CS_HIGH) && !rs->cs_high_supported) {
->  		dev_warn(&spi->dev, "setup: non GPIO CS can't be active-high\n");
->  		return -EINVAL;
->  	}
-> @@ -735,10 +737,10 @@ static int rockchip_spi_setup(struct spi_device *spi)
->  
->  	cr0 &= ~(0x3 << CR0_SCPH_OFFSET);
->  	cr0 |= ((spi->mode & 0x3) << CR0_SCPH_OFFSET);
-> -	if (spi->mode & SPI_CS_HIGH && spi->chip_select <= 1)
-> -		cr0 |= BIT(spi->chip_select) << CR0_SOI_OFFSET;
-> -	else if (spi->chip_select <= 1)
-> -		cr0 &= ~(BIT(spi->chip_select) << CR0_SOI_OFFSET);
-> +	if (spi->mode & SPI_CS_HIGH && spi_get_chipselect(spi, 0) <= 1)
-> +		cr0 |= BIT(spi_get_chipselect(spi, 0)) << CR0_SOI_OFFSET;
-> +	else if (spi_get_chipselect(spi, 0) <= 1)
-> +		cr0 &= ~(BIT(spi_get_chipselect(spi, 0)) << CR0_SOI_OFFSET);
->  
->  	writel_relaxed(cr0, rs->regs + ROCKCHIP_SPI_CTRLR0);
+Have you considered allowing drivers to embed i2c_atr in a larger
+structure, instead of forcing allocation through i2c_atr_new() ? Drivers
+could then use container_of() instead of the get/set driver/device data
+accessors.
 
-for the two Rockchip drivers
-Acked-by: Heiko Stuebner <heiko@sntech.de>
+-- 
+Regards,
 
-
+Laurent Pinchart
