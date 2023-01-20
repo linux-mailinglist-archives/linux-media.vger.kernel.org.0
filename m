@@ -2,217 +2,206 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D7C6967551A
-	for <lists+linux-media@lfdr.de>; Fri, 20 Jan 2023 13:58:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 27F85675636
+	for <lists+linux-media@lfdr.de>; Fri, 20 Jan 2023 14:58:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230445AbjATM6M (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 20 Jan 2023 07:58:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52684 "EHLO
+        id S229883AbjATN6W (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 20 Jan 2023 08:58:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56950 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230424AbjATM6L (ORCPT
+        with ESMTP id S229590AbjATN6V (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 20 Jan 2023 07:58:11 -0500
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D26ECA57A6;
-        Fri, 20 Jan 2023 04:58:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674219489; x=1705755489;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=RokbqfGGIiirr07pIn8RB5Ap2jYFpoUIVx6SFqUq2EI=;
-  b=Jf0Cc70pdNzkUVDUbx3qHcGRyVGHgg3nizXtSJok3Z8UtAYQJptT3Gql
-   u+xUkd8FUWnXUZAYwnTdNh5EikCim9UuuhT0JQXpWMP2KEDLqKJRBKFCC
-   0fzxzbDCqXOKptAAY0xaQaG5tQ3NCWHD8hUpl6ZcjMb5E4QXPlI29mqeb
-   iqbzsTgKS9lV4K2jIHmGK7Wa/Au685snC/CmPel2cZThQTniYF9LkHRSL
-   MVQewSByhnDiKaxLlh/rp+DaQFsRhLhtR9MliAFaUQJj0G2LgQWdGRZFt
-   bUhvH5fbcVnj+2z7WO3hHeWQ0iVQuAK8UBrncMaSifkrlsev45BqEHtK0
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10595"; a="313458770"
-X-IronPort-AV: E=Sophos;i="5.97,232,1669104000"; 
-   d="scan'208";a="313458770"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2023 04:58:09 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10595"; a="660575097"
-X-IronPort-AV: E=Sophos;i="5.97,232,1669104000"; 
-   d="scan'208";a="660575097"
-Received: from turnipsi.fi.intel.com (HELO paasikivi.fi.intel.com) ([10.237.72.44])
-  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2023 04:58:04 -0800
-Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
-        by paasikivi.fi.intel.com (Postfix) with SMTP id D147B20397;
-        Fri, 20 Jan 2023 14:51:46 +0200 (EET)
-Date:   Fri, 20 Jan 2023 12:51:46 +0000
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Mark Gross <markgross@kernel.org>,
-        Andy Shevchenko <andy@kernel.org>, Pavel Machek <pavel@ucw.cz>,
-        Lee Jones <lee@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Daniel Scally <djrscally@gmail.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Fri, 20 Jan 2023 08:58:21 -0500
+Received: from relay10.mail.gandi.net (relay10.mail.gandi.net [217.70.178.230])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 40AEBC13ED;
+        Fri, 20 Jan 2023 05:58:19 -0800 (PST)
+Received: from booty (unknown [77.244.183.192])
+        (Authenticated sender: luca.ceresoli@bootlin.com)
+        by mail.gandi.net (Postfix) with ESMTPSA id CC29B24000C;
+        Fri, 20 Jan 2023 13:58:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1674223098;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=xBYq78I2WWdIhSVwdFS+MtioXi32020OtzEusyG00bE=;
+        b=HaZHBYt5XRz1FDzTs15mzYqO4zkIr1Z5cvQ0JJWSaAP6sZB67nm3RsW1g89Y+HJ/vbXCcV
+        s0o/VoX/94Gcy3/HhyeXqUbPhxsOSyDFiX2wVN51ld5PKHhD09yeVua9bkTyf/N9+KQKiQ
+        su8Vua4eXCQpr5OCva1JeccezlM1JTrfnPsty7xLDqRHHreUztv+Ujs51lAgO3jddjtvxr
+        G2tkvZJ2FP1bH0MjvYQ36Qhl+ph3YKSgUfHTPdLF2MUVHOIAKsxMlTPvSCRrwrUbIKOXQg
+        BBxp9kZLmDjHn7zQ91tR2eq5T5Jw9E5oi73H96cSA1FFoX/Uep5uNrXlSsUtSQ==
+Date:   Fri, 20 Jan 2023 14:58:12 +0100
+From:   Luca Ceresoli <luca.ceresoli@bootlin.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        Andy Shevchenko <andriy.shevchenko@intel.com>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Wolfram Sang <wsa@kernel.org>,
+        Matti Vaittinen <Matti.Vaittinen@fi.rohmeurope.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        platform-driver-x86@vger.kernel.org, linux-leds@vger.kernel.org,
-        linux-gpio@vger.kernel.org, Kate Hsuan <hpa@redhat.com>,
-        Mark Pearson <markpearson@lenovo.com>,
-        Andy Yeh <andy.yeh@intel.com>, Hao Yao <hao.yao@intel.com>,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH v5 07/11] media: v4l2-core: Make the v4l2-core code
- enable/disable the privacy LED if present
-Message-ID: <Y8qOYlAm4flqe1tp@paasikivi.fi.intel.com>
-References: <20230120114524.408368-1-hdegoede@redhat.com>
- <20230120114524.408368-8-hdegoede@redhat.com>
+        Peter Rosin <peda@axentia.se>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Michael Tretter <m.tretter@pengutronix.de>,
+        Shawn Tu <shawnx.tu@intel.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Mike Pagano <mpagano@gentoo.org>,
+        Krzysztof =?UTF-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>,
+        Marek Vasut <marex@denx.de>,
+        Luca Ceresoli <luca@lucaceresoli.net>
+Subject: Re: [PATCH v7 1/7] i2c: add I2C Address Translator (ATR) support
+Message-ID: <20230120145812.750e1fa2@booty>
+In-Reply-To: <Y8plCZ/27zy4J2Tk@pendragon.ideasonboard.com>
+References: <20230118124031.788940-1-tomi.valkeinen@ideasonboard.com>
+        <20230118124031.788940-2-tomi.valkeinen@ideasonboard.com>
+        <Y8gA+cz9m7PaEhfP@smile.fi.intel.com>
+        <20230118181753.7a325953@booty>
+        <Y8gu4mlXUlyiFKZD@smile.fi.intel.com>
+        <20230119092115.02cbbab3@booty>
+        <db2e7386-e625-5bad-0c99-bae633e96d80@ideasonboard.com>
+        <20230119123520.7f1aa680@booty>
+        <79331f60-0849-9d5a-822a-987df01a4b96@ideasonboard.com>
+        <20230119140056.686c0dea@booty>
+        <Y8plCZ/27zy4J2Tk@pendragon.ideasonboard.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230120114524.408368-8-hdegoede@redhat.com>
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans,
+Hi Laurent,
 
-On Fri, Jan 20, 2023 at 12:45:20PM +0100, Hans de Goede wrote:
-> Make v4l2_async_register_subdev_sensor() try to get a privacy LED
-> associated with the sensor and extend the call_s_stream() wrapper to
-> enable/disable the privacy LED if found.
+On Fri, 20 Jan 2023 11:55:21 +0200
+Laurent Pinchart <laurent.pinchart@ideasonboard.com> wrote:
+
+> Hello,
 > 
-> This makes the core handle privacy LED control, rather then having to
-> duplicate this code in all the sensor drivers.
+> On Thu, Jan 19, 2023 at 02:00:56PM +0100, Luca Ceresoli wrote:
+> > On Thu, 19 Jan 2023 14:22:26 +0200 Tomi Valkeinen wrote:  
+> > > On 19/01/2023 13:35, Luca Ceresoli wrote:  
+> > > > On Thu, 19 Jan 2023 12:09:57 +0200 Tomi Valkeinen wrote:  
+> > > >> On 19/01/2023 10:21, Luca Ceresoli wrote:
+> > > >>
+> > > >> <snip>
+> > > >>    
+> > > >>>>>>> +void i2c_atr_set_driver_data(struct i2c_atr *atr, void *data)
+> > > >>>>>>> +{
+> > > >>>>>>> +	atr->priv = data;
+> > > >>>>>>> +}
+> > > >>>>>>> +EXPORT_SYMBOL_NS_GPL(i2c_atr_set_driver_data, I2C_ATR);
+> > > >>>>>>> +
+> > > >>>>>>> +void *i2c_atr_get_driver_data(struct i2c_atr *atr)
+> > > >>>>>>> +{
+> > > >>>>>>> +	return atr->priv;
+> > > >>>>>>> +}
+> > > >>>>>>> +EXPORT_SYMBOL_NS_GPL(i2c_atr_get_driver_data, I2C_ATR);    
+> > > >>>>>>
+> > > >>>>>> Just to be sure: Is it really _driver_ data and not _device instance_ data?    
+> > > >>>>>
+> > > >>>>> It is device instance data indeed. I don't remember why this got
+> > > >>>>> changed, but in v3 it was i2c_atr_set_clientdata().    
+> > > >>>>
+> > > >>>> It's me who was and is against calling it clientdata due to possible
+> > > >>>> confusion with i2c_set/get_clientdata() that is about *driver data*.
+> > > >>>> I missed that time the fact that this is about device instance data.
+> > > >>>> I dunno which name would be better in this case, i2c_atr_set/get_client_priv() ?    
+> > > >>>
+> > > >>> Not sure I'm following you here. The i2c_atr_set_clientdata() name was
+> > > >>> given for similarity with i2c_set_clientdata(). The latter wraps
+> > > >>> dev_set_drvdata(), which sets `struct device`->driver_data. There is
+> > > >>> one driver_data per each `struct device` instance, not per each driver.
+> > > >>> The same goes for i2c_atr_set_driver_data(): there is one priv pointer
+> > > >>> per each `struct i2c_atr` instance.    
+> > > >>
+> > > >> I'm a bit confused. What is "driver data" and what is "device instance
+> > > >> data"?
+> > > >>
+> > > >> This deals with the driver's private data, where the "driver" is the
+> > > >> owner/creator of the i2c-atr. The i2c-atr itself doesn't have a device
+> > > >> (it's kind of part of the owner's device), and there's no driver in
+> > > >> i2c-atr.c
+> > > >>
+> > > >> I don't like "client" here, as it reminds me of i2c_client (especially
+> > > >> as we're in i2c context).
+> > > >>
+> > > >> What about i2c_atr_set_user_data()? Or "owner_data"?    
+> > > > 
+> > > > Ah, only now I got the point Andy made initially about "client" not
+> > > > being an appropriate word.
+> > > > 
+> > > > In i2c we have:
+> > > > 
+> > > >    i2c_set_clientdata(struct i2c_client *client, void *data)
+> > > >            ^^^^^^~~~~            ^^^^^^                ~~~~
+> > > > 
+> > > > so "client" clearly makes sense there, now here.    
+> > > 
+> > > Isn't that also used by the i2c_client? A driver which handles an i2c 
+> > > device is the "i2c client", in a sense?
+> > >   
+> > > > The same logic applied here would lead to:
+> > > > 
+> > > >    i2c_atr_set_atrdata(struct i2c_atr *atr, void *data)
+> > > >                ^^^~~~~            ^^^             ~~~~
+> > > > 
+> > > > which makes sense but it is a ugly IMO.    
+> > > 
+> > > Here, I think, there's a bit of a difference to the i2c_client case, as 
+> > > we have a separate component for the i2c-atr. Although I guess one can 
+> > > argue that the top level driver is the ATR driver, as it handles the HW, 
+> > > and i2c-atr.c is just a set of helpers, so... I don't know =).
+> > >   
+> > > > So I think i2c_atr_get_driver_data() in this v7 makes sense, it's to
+> > > > set the data that the ATR driver instance needs.
+> > > > 
+> > > > This is coherent with logic in spi/spi.h:
+> > > > 
+> > > >    spi_set_drvdata(struct spi_device *spi, void *data)
+> > > > 
+> > > > except for the abbreviation ("_drvdata" vs "_driver_data").
+> > > > 
+> > > > Andy, Tomi, would i2c_atr_set_drvdata() be OK for you, just like SPI
+> > > > does?    
+> > > 
+> > > Well, I'm good with the current i2c_atr_set_driver_data(). If all agrees 
+> > > that it's "driver data", I'd rather keep it like that. I find this 
+> > > "drvdata" style very odd. Why no underscore between drv and data? Why 
+> > > abbreviate drv, it doesn't really help anything here?  
+> > 
+> > Agreed, I'm OK with either form of "driver data".  
 > 
-> Suggested-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> Acked-by: Linus Walleij <linus.walleij@linaro.org>
-> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-> ---
-> Changes in v4 (requested by Laurent Pinchart):
-> - Move the led_get() call to v4l2_async_register_subdev_sensor() and
->   make errors other then -ENOENT fail the register() call.
-> - Move the led_disable_sysfs() call to be done at led_get() time, instead
->   of only disabling the sysfs interface when the sensor is streaming.
-> ---
->  drivers/media/v4l2-core/v4l2-fwnode.c | 15 +++++++++++++++
->  drivers/media/v4l2-core/v4l2-subdev.c | 18 ++++++++++++++++++
->  include/media/v4l2-subdev.h           |  3 +++
->  3 files changed, 36 insertions(+)
-> 
-> diff --git a/drivers/media/v4l2-core/v4l2-fwnode.c b/drivers/media/v4l2-core/v4l2-fwnode.c
-> index c8a2264262bc..cfac1e2ae501 100644
-> --- a/drivers/media/v4l2-core/v4l2-fwnode.c
-> +++ b/drivers/media/v4l2-core/v4l2-fwnode.c
-> @@ -16,6 +16,7 @@
->   */
->  #include <linux/acpi.h>
->  #include <linux/kernel.h>
-> +#include <linux/leds.h>
->  #include <linux/mm.h>
->  #include <linux/of.h>
->  #include <linux/property.h>
-> @@ -1295,6 +1296,20 @@ int v4l2_async_register_subdev_sensor(struct v4l2_subdev *sd)
->  	if (WARN_ON(!sd->dev))
->  		return -ENODEV;
->  
-> +#if IS_REACHABLE(CONFIG_LEDS_CLASS)
-> +	sd->privacy_led = led_get(sd->dev, "privacy-led");
-> +	if (IS_ERR(sd->privacy_led) && PTR_ERR(sd->privacy_led) != -ENOENT)
-> +		return dev_err_probe(sd->dev, PTR_ERR(sd->privacy_led), "getting privacy LED\n");
-> +
-> +	if (!IS_ERR_OR_NULL(sd->privacy_led)) {
-> +		mutex_lock(&sd->privacy_led->led_access);
-> +		led_sysfs_disable(sd->privacy_led);
-> +		led_trigger_remove(sd->privacy_led);
-> +		led_set_brightness(sd->privacy_led, 0);
-> +		mutex_unlock(&sd->privacy_led->led_access);
-> +	}
-> +#endif
-> +
->  	notifier = kzalloc(sizeof(*notifier), GFP_KERNEL);
->  	if (!notifier)
->  		return -ENOMEM;
-> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-> index 4988a25bd8f4..f33e943aab3f 100644
-> --- a/drivers/media/v4l2-core/v4l2-subdev.c
-> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
-> @@ -9,6 +9,7 @@
->   */
->  
->  #include <linux/ioctl.h>
-> +#include <linux/leds.h>
->  #include <linux/mm.h>
->  #include <linux/module.h>
->  #include <linux/slab.h>
-> @@ -322,6 +323,14 @@ static int call_s_stream(struct v4l2_subdev *sd, int enable)
->  {
->  	int ret;
->  
-> +#if IS_REACHABLE(CONFIG_LEDS_CLASS)
-> +	if (!IS_ERR_OR_NULL(sd->privacy_led)) {
-> +		if (enable)
-> +			led_set_brightness(sd->privacy_led, sd->privacy_led->max_brightness);
-> +		else
-> +			led_set_brightness(sd->privacy_led, 0);
-> +	}
-> +#endif
->  	ret = sd->ops->video->s_stream(sd, enable);
->  
->  	if (!enable && ret < 0) {
-> @@ -1050,6 +1059,14 @@ EXPORT_SYMBOL_GPL(__v4l2_subdev_init_finalize);
->  
->  void v4l2_subdev_cleanup(struct v4l2_subdev *sd)
+> Have you considered allowing drivers to embed i2c_atr in a larger
+> structure, instead of forcing allocation through i2c_atr_new() ? Drivers
+> could then use container_of() instead of the get/set driver/device data
+> accessors.
 
-v4l2_subdev_cleanup() is currently called by drivers using V4L2 subdev
-state at the moment, making it unsuitable for the purpose of releasing the
-privacy led.
+Off the top of my head I don't see a good reason to not do it, and it
+would be nice to have indeed.
 
-Could you move this to v4l2_async_unregister_subdev() instead?
-
->  {
-> +#if IS_REACHABLE(CONFIG_LEDS_CLASS)
-> +	if (!IS_ERR_OR_NULL(sd->privacy_led)) {
-> +		mutex_lock(&sd->privacy_led->led_access);
-> +		led_sysfs_enable(sd->privacy_led);
-> +		mutex_unlock(&sd->privacy_led->led_access);
-> +		led_put(sd->privacy_led);
-> +	}
-> +#endif
->  	__v4l2_subdev_state_free(sd->active_state);
->  	sd->active_state = NULL;
->  }
-> @@ -1090,6 +1107,7 @@ void v4l2_subdev_init(struct v4l2_subdev *sd, const struct v4l2_subdev_ops *ops)
->  	sd->grp_id = 0;
->  	sd->dev_priv = NULL;
->  	sd->host_priv = NULL;
-> +	sd->privacy_led = NULL;
->  #if defined(CONFIG_MEDIA_CONTROLLER)
->  	sd->entity.name = sd->name;
->  	sd->entity.obj_type = MEDIA_ENTITY_TYPE_V4L2_SUBDEV;
-> diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
-> index b15fa9930f30..0547313f98cc 100644
-> --- a/include/media/v4l2-subdev.h
-> +++ b/include/media/v4l2-subdev.h
-> @@ -38,6 +38,7 @@ struct v4l2_subdev;
->  struct v4l2_subdev_fh;
->  struct tuner_setup;
->  struct v4l2_mbus_frame_desc;
-> +struct led_classdev;
->  
->  /**
->   * struct v4l2_decode_vbi_line - used to decode_vbi_line
-> @@ -982,6 +983,8 @@ struct v4l2_subdev {
->  	 * appropriate functions.
->  	 */
->  
-> +	struct led_classdev *privacy_led;
-> +
->  	/*
->  	 * TODO: active_state should most likely be changed from a pointer to an
->  	 * embedded field. For the time being it's kept as a pointer to more
+For the sake of historical discussion, I guess I didn't do initially
+just because my starting point was i2c-mux where allocation is dynamic.
+But i2c_mux_alloc() also takes a 'int sizeof_priv' parameter to
+allocate some extra space for private driver data. I don't love that
+approach but it probably makes sense for mux devices which tend to be
+very simple, not for the ATR where chips are definitely complex. Indeed
+embedded i2c_atr in the larger driver-specific struct seems the best
+option.
 
 -- 
-Kind regards,
-
-Sakari Ailus
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
