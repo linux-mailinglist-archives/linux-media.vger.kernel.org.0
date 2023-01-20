@@ -2,495 +2,175 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6113A6752D7
-	for <lists+linux-media@lfdr.de>; Fri, 20 Jan 2023 11:56:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DFD73675391
+	for <lists+linux-media@lfdr.de>; Fri, 20 Jan 2023 12:46:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229947AbjATK4Q (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 20 Jan 2023 05:56:16 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58696 "EHLO
+        id S229766AbjATLqO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 20 Jan 2023 06:46:14 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55084 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229456AbjATK4O (ORCPT
+        with ESMTP id S229518AbjATLqN (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 20 Jan 2023 05:56:14 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D2715926F;
-        Fri, 20 Jan 2023 02:56:12 -0800 (PST)
-Received: from [192.168.1.103] (unknown [103.251.226.97])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 43C49514;
-        Fri, 20 Jan 2023 11:56:05 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1674212168;
-        bh=ZQxLPwXGvMCsjkDLfQ1ct2YrBF19e2aS9CcaQ2vBL7Q=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=RWkha56bG++8WdTb/WbJvsbebMd5lkfv+gBEZM9THWyz1t+JE1mCup8oGNkRJikwF
-         KaMuopbqezxSjSxhwKjX/vpV/aCXi23a6swSLAyZlV+0grEkW99tZWxuiUA+9FCbwj
-         usByc8E3sC6U36WzMtAZg6AhRSaNbEuvmoo/Frls=
-Message-ID: <26e85324-ac50-807d-d6ee-1fe04396d69e@ideasonboard.com>
-Date:   Fri, 20 Jan 2023 16:26:00 +0530
+        Fri, 20 Jan 2023 06:46:13 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C03C4917D3
+        for <linux-media@vger.kernel.org>; Fri, 20 Jan 2023 03:45:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1674215129;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=+xBTgrMv6S8fIj4ApiuQ/EJHLwe2ANp/pmA1QNvT0+4=;
+        b=E48d++NupgISC2ZddxLGv5Hj67geC/O3+M7DrCfum2+FMKxU+lLXBlwDy+NMpncHmbhGYg
+        VFNaYiOmmNkhgBN3NjG+GEbJTTMew/Fbfh1LaYENIC8T7fcDLJw3Y1GZktZDLYl1WTaL40
+        FagfhwodXLZUu5oF8uFY5BZDWMTo7WA=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-436-seib045dNIKrzp_1vQdwcA-1; Fri, 20 Jan 2023 06:45:28 -0500
+X-MC-Unique: seib045dNIKrzp_1vQdwcA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com [10.11.54.7])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 756773806108;
+        Fri, 20 Jan 2023 11:45:27 +0000 (UTC)
+Received: from shalem.redhat.com (unknown [10.39.195.101])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id C2CB6140EBF6;
+        Fri, 20 Jan 2023 11:45:24 +0000 (UTC)
+From:   Hans de Goede <hdegoede@redhat.com>
+To:     Mark Gross <markgross@kernel.org>,
+        Andy Shevchenko <andy@kernel.org>, Pavel Machek <pavel@ucw.cz>,
+        Lee Jones <lee@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Daniel Scally <djrscally@gmail.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     Hans de Goede <hdegoede@redhat.com>,
+        platform-driver-x86@vger.kernel.org, linux-leds@vger.kernel.org,
+        linux-gpio@vger.kernel.org, Kate Hsuan <hpa@redhat.com>,
+        Mark Pearson <markpearson@lenovo.com>,
+        Andy Yeh <andy.yeh@intel.com>, Hao Yao <hao.yao@intel.com>,
+        linux-media@vger.kernel.org
+Subject: [PATCH v5 00/11] leds: lookup-table support + int3472/media privacy LED support
+Date:   Fri, 20 Jan 2023 12:45:13 +0100
+Message-Id: <20230120114524.408368-1-hdegoede@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH v5 6/6] staging: vc04_services: vchiq: Register devices
- with a custom bus_type
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-staging@lists.linux.dev,
-        linux-rpi-kernel@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Stefan Wahren <stefan.wahren@i2se.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Adrien Thierry <athierry@redhat.com>,
-        Dan Carpenter <error27@gmail.com>,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Paul Elder <paul.elder@ideasonboard.com>
-References: <20230119115503.268693-1-umang.jain@ideasonboard.com>
- <20230119115503.268693-7-umang.jain@ideasonboard.com>
- <Y8nz1inld2Hwdc5i@pendragon.ideasonboard.com>
-Content-Language: en-US
-From:   Umang Jain <umang.jain@ideasonboard.com>
-In-Reply-To: <Y8nz1inld2Hwdc5i@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
+Hi All,
 
-On 1/20/23 7:22 AM, Laurent Pinchart wrote:
-> Hi Umang,
->
-> Thank you for the patch.
->
-> On Thu, Jan 19, 2023 at 05:25:03PM +0530, Umang Jain wrote:
->> The devices that the vchiq interface registers(bcm2835-audio,
-> Missing space before '('.
->
->> bcm2835-camera) are implemented and exposed by the VC04 firmware.
->> The device tree describes the VC04 itself with the resources
->> required to communicate with it through a mailbox interface. However,
->> the vchiq interface registers these devices as platform devices. This
->> also means the specific drivers for these devices are also getting
-> Drop one of the two "also".
->
->> registered as platform drivers. This is not correct and a blatant
->> abuse of platform device/driver.
->>
->> Replace the platform device/driver model with a standard device driver
->> model. A custom bus_type, vchiq_bus_type, is created in the vchiq
->> interface which matches the devices to their specific device drivers
->> thereby, establishing driver binding. A struct vchiq_device wraps the
->> struct device for each device being registered on the bus by the vchiq
->> interface.
->>
->> Each device registered will expose a 'name' read-only device attribute
->> in sysfs (/sys/bus/vchiq-bus/devices). New devices and drivers can be
->> added by registering on vchiq_bus_type and adding a corresponding
->> device name entry in the static list of devices, vchiq_devices. There
->> is currently no way to enumerate the VCHIQ devices that are available
->> from the firmware.
-> Greg, I don't know if you've followed the conversation in earlier mail
-> threads, so I'll try to summarize it here.
->
-> There are two layers involved: the VCHIQ layer, which has two clients
-> (audio and MMAL), and the MMAL layer, which has multiple clients
-> (camera, codec, ISP). The reason for this is that audio and mmal are
-> separate hardware, while camera, codec and ISP share some hardware
-> blocks.
->
-> The VCHIQ layer provides a mailbox API to its clients to communicate
-> with the firmware, and the MMAL layer provides another API implemented
-> on top of the VCHIQ layer. Neither APIs offer a way to discover devices
-> dynamically (that's not a feature implemented by the firmware). We've
-> decided that implementing two buses would be overkill, so Umang went for
-> a single vchiq_bus_type. The only value it provides is to stop abusing
-> platform_device. That's pretty much it.
->
-> Given the above explanation, do you still think the additional
-> complexity introduced by the vchiq bus type is worth it (it more or less
-> duplicates a small subset of the platform bus type implementation), and
-> are you fine with a single bus type, even if it doesn't exactly match
-> the firmware layers ?
->
->> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
->> ---
->>   .../vc04_services/bcm2835-audio/bcm2835.c     |  19 ++-
->>   .../bcm2835-camera/bcm2835-camera.c           |  17 ++-
->>   .../interface/vchiq_arm/vchiq_arm.c           | 121 +++++++++++++++---
->>   .../interface/vchiq_arm/vchiq_arm.h           |   1 +
->>   4 files changed, 117 insertions(+), 41 deletions(-)
->>
->> diff --git a/drivers/staging/vc04_services/bcm2835-audio/bcm2835.c b/drivers/staging/vc04_services/bcm2835-audio/bcm2835.c
->> index 00bc898b0189..9f3af84f5d5d 100644
->> --- a/drivers/staging/vc04_services/bcm2835-audio/bcm2835.c
->> +++ b/drivers/staging/vc04_services/bcm2835-audio/bcm2835.c
->> @@ -1,12 +1,11 @@
->>   // SPDX-License-Identifier: GPL-2.0
->>   /* Copyright 2011 Broadcom Corporation.  All rights reserved. */
->>   
->> -#include <linux/platform_device.h>
->> -
->>   #include <linux/init.h>
->>   #include <linux/slab.h>
->>   #include <linux/module.h>
->>   
->> +#include "../interface/vchiq_arm/vchiq_arm.h"
->>   #include "bcm2835.h"
->>   
->>   static bool enable_hdmi;
->> @@ -268,9 +267,8 @@ static int snd_add_child_devices(struct device *device, u32 numchans)
->>   	return 0;
->>   }
->>   
->> -static int snd_bcm2835_alsa_probe(struct platform_device *pdev)
->> +static int snd_bcm2835_alsa_probe(struct device *dev)
->>   {
->> -	struct device *dev = &pdev->dev;
->>   	int err;
->>   
->>   	if (num_channels <= 0 || num_channels > MAX_SUBSTREAMS) {
->> @@ -292,30 +290,29 @@ static int snd_bcm2835_alsa_probe(struct platform_device *pdev)
->>   
->>   #ifdef CONFIG_PM
->>   
->> -static int snd_bcm2835_alsa_suspend(struct platform_device *pdev,
->> +static int snd_bcm2835_alsa_suspend(struct device *pdev,
->>   				    pm_message_t state)
->>   {
->>   	return 0;
->>   }
->>   
->> -static int snd_bcm2835_alsa_resume(struct platform_device *pdev)
->> +static int snd_bcm2835_alsa_resume(struct device *pdev)
->>   {
->>   	return 0;
->>   }
->>   
->>   #endif
->>   
->> -static struct platform_driver bcm2835_alsa_driver = {
->> +static struct device_driver bcm2835_alsa_driver = {
->>   	.probe = snd_bcm2835_alsa_probe,
->>   #ifdef CONFIG_PM
->>   	.suspend = snd_bcm2835_alsa_suspend,
->>   	.resume = snd_bcm2835_alsa_resume,
->>   #endif
->> -	.driver = {
->> -		.name = "bcm2835_audio",
->> -	},
->> +	.name = "bcm2835_audio",
->> +	.bus = &vchiq_bus_type,
->>   };
->> -module_platform_driver(bcm2835_alsa_driver);
->> +module_driver(bcm2835_alsa_driver, driver_register, driver_unregister);
-> Shouldn't you create a struct vchiq_device that wraps struct device, a
-> struct vchiq_driver that wraps struct device_driver, and a
-> module_vchiq_driver() macro ? It shouldn't be up to individual drivers
-> to deal with the plumbing.
->
->>   
->>   MODULE_AUTHOR("Dom Cobley");
->>   MODULE_DESCRIPTION("Alsa driver for BCM2835 chip");
->> diff --git a/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c b/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c
->> index 4f81765912ea..199a49f9ec1e 100644
->> --- a/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c
->> +++ b/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c
->> @@ -24,8 +24,8 @@
->>   #include <media/v4l2-event.h>
->>   #include <media/v4l2-common.h>
->>   #include <linux/delay.h>
->> -#include <linux/platform_device.h>
->>   
->> +#include "../interface/vchiq_arm/vchiq_arm.h"
->>   #include "../vchiq-mmal/mmal-common.h"
->>   #include "../vchiq-mmal/mmal-encodings.h"
->>   #include "../vchiq-mmal/mmal-vchiq.h"
->> @@ -1841,7 +1841,7 @@ static struct v4l2_format default_v4l2_format = {
->>   	.fmt.pix.sizeimage = 1024 * 768,
->>   };
->>   
->> -static int bcm2835_mmal_probe(struct platform_device *pdev)
->> +static int bcm2835_mmal_probe(struct device *device)
->>   {
->>   	int ret;
->>   	struct bcm2835_mmal_dev *dev;
->> @@ -1896,7 +1896,7 @@ static int bcm2835_mmal_probe(struct platform_device *pdev)
->>   						       &camera_instance);
->>   		ret = v4l2_device_register(NULL, &dev->v4l2_dev);
->>   		if (ret) {
->> -			dev_err(&pdev->dev, "%s: could not register V4L2 device: %d\n",
->> +			dev_err(device, "%s: could not register V4L2 device: %d\n",
->>   				__func__, ret);
->>   			goto free_dev;
->>   		}
->> @@ -1976,7 +1976,7 @@ static int bcm2835_mmal_probe(struct platform_device *pdev)
->>   	return ret;
->>   }
->>   
->> -static int bcm2835_mmal_remove(struct platform_device *pdev)
->> +static int bcm2835_mmal_remove(struct device *device)
->>   {
->>   	int camera;
->>   	struct vchiq_mmal_instance *instance = gdev[0]->instance;
->> @@ -1990,15 +1990,14 @@ static int bcm2835_mmal_remove(struct platform_device *pdev)
->>   	return 0;
->>   }
->>   
->> -static struct platform_driver bcm2835_camera_driver = {
->> +static struct device_driver bcm2835_camera_driver = {
->> +	.name		= "bcm2835-camera",
->>   	.probe		= bcm2835_mmal_probe,
->>   	.remove		= bcm2835_mmal_remove,
->> -	.driver		= {
->> -		.name	= "bcm2835-camera",
->> -	},
->> +	.bus		= &vchiq_bus_type,
->>   };
->>   
->> -module_platform_driver(bcm2835_camera_driver)
->> +module_driver(bcm2835_camera_driver, driver_register, driver_unregister)
->>   
->>   MODULE_DESCRIPTION("Broadcom 2835 MMAL video capture");
->>   MODULE_AUTHOR("Vincent Sanders");
->> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
->> index 22de23f3af02..86c8e5df7cf6 100644
->> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
->> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
->> @@ -12,6 +12,8 @@
->>   #include <linux/cdev.h>
->>   #include <linux/fs.h>
->>   #include <linux/device.h>
->> +#include <linux/device/bus.h>
->> +#include <linux/string.h>
->>   #include <linux/mm.h>
->>   #include <linux/highmem.h>
->>   #include <linux/pagemap.h>
->> @@ -65,9 +67,6 @@ int vchiq_susp_log_level = VCHIQ_LOG_ERROR;
->>   DEFINE_SPINLOCK(msg_queue_spinlock);
->>   struct vchiq_state g_state;
->>   
->> -static struct platform_device *bcm2835_camera;
->> -static struct platform_device *bcm2835_audio;
->> -
->>   struct vchiq_drvdata {
->>   	const unsigned int cache_line_size;
->>   	struct rpi_firmware *fw;
->> @@ -132,6 +131,51 @@ struct vchiq_pagelist_info {
->>   	unsigned int scatterlist_mapped;
->>   };
->>   
->> +struct vchiq_device {
->> +	const char *name;
->> +	struct device dev;
->> +};
-> Ah there we go :-) Move this structure to a header file that drivers can
-> include. I'd name it vchiq_device.h. The code below should go to
-> vchiq_device.c.
->
-> I would also move the dev field first.
->
->> +
->> +static ssize_t vchiq_dev_show(struct device *dev,
->> +			      struct device_attribute *attr, char *buf)
->> +{
->> +	struct vchiq_device *device = container_of(dev, struct vchiq_device, dev);
->> +
->> +	return sprintf(buf, "%s", device->name);
->> +}
->> +
->> +static DEVICE_ATTR_RO(vchiq_dev);
->> +
->> +static struct attribute *vchiq_dev_attrs[] = {
->> +	&dev_attr_vchiq_dev.attr,
->> +	NULL
->> +};
->> +
->> +ATTRIBUTE_GROUPS(vchiq_dev);
->> +
->> +static const struct device_type vchiq_device_type = {
->> +	.groups         = vchiq_dev_groups
->> +};
->> +
->> +static int vchiq_bus_type_match(struct device *dev, struct device_driver *drv)
->> +{
->> +	if (dev->bus == &vchiq_bus_type &&
->> +	    strcmp(dev_name(dev), drv->name) == 0)
->> +		return 1;
->> +	return 0;
->> +}
->> +
->> +struct bus_type vchiq_bus_type = {
->> +	.name   = "vchiq-bus",
->> +	.match  = vchiq_bus_type_match,
->> +};
->> +EXPORT_SYMBOL(vchiq_bus_type);
-> EXPORT_SYMBOL_GPL ?
->
->> +
->> +static const char *const vchiq_devices[] = {
->> +	"bcm2835_audio",
->> +	"bcm2835-camera",
->> +};
-> This however should stay in this file.
->
->> +
->>   static void __iomem *g_regs;
->>   /* This value is the size of the L2 cache lines as understood by the
->>    * VPU firmware, which determines the required alignment of the
->> @@ -1763,26 +1807,52 @@ static const struct of_device_id vchiq_of_match[] = {
->>   };
->>   MODULE_DEVICE_TABLE(of, vchiq_of_match);
->>   
->> -static struct platform_device *
->> +static void
->> +vchiq_release_device(struct device *dev)
->> +{
->> +	struct vchiq_device *device;
->> +
->> +	device = container_of(dev, struct vchiq_device, dev);
->> +	kfree(device);
->> +}
->> +
->> +static int
->>   vchiq_register_child(struct platform_device *pdev, const char *name)
-> Pass a struct device * for the first argument, you don't need a platform
-> device. I'd also name the function vchiq_register_device, and rename the
-> pdev parameter to parent.
->
->>   {
->> -	struct platform_device_info pdevinfo;
->> -	struct platform_device *child;
->> +	struct vchiq_device *device = NULL;
->> +	int ret;
->>   
->> -	memset(&pdevinfo, 0, sizeof(pdevinfo));
->> +	device = kzalloc(sizeof(*device), GFP_KERNEL);
->> +	if (!device)
->> +		return -ENOMEM;
->>   
->> -	pdevinfo.parent = &pdev->dev;
->> -	pdevinfo.name = name;
->> -	pdevinfo.id = PLATFORM_DEVID_NONE;
->> -	pdevinfo.dma_mask = DMA_BIT_MASK(32);
->> +	device->name = name;
->> +	device->dev.init_name = name;
->> +	device->dev.parent = &pdev->dev;
->> +	device->dev.bus = &vchiq_bus_type;
->> +	device->dev.type = &vchiq_device_type;
->> +	device->dev.release = vchiq_release_device;
->> +
->> +	ret = dma_set_mask_and_coherent(&device->dev, DMA_BIT_MASK(32));
-> Do vchiq devices perform DMA ?
+Here is version 5 of my series to adjust the INT3472 code's handling of
+the privacy LED on x86 laptops with MIPI camera(s) so that it will also
+work on devices which have a privacy-LED GPIO but not a clk-enable GPIO
+(so that we cannot just tie the LED state to the clk-enable state).
 
-As far as I can tell, the devices right now (in the mainline) don't use 
-DMA allocation. So it's not relevant right now.
+Changes in v5:
+- Rename lookup-table names to match those from the gpio and reset lookups:
+  s/led_name/provider/
+  s/consumer_dev_name/dev_id/
+  s/consumer_function/con_id/
+- Add static inline wrappers for the v4l2_async debugfs init/exit funcs,
+  to fix build errors when CONFIG_V4L2_ASYNC is not enabled
 
-But looking at RPi's BSP - the vc-sm-cma driver does the DMA. So 
-probably we want to dma_set_mask_and_coherent() for that only?
+Changes in v4:
+- Rename new __led_get() helper to led_module_get()
+- Drop of/devicetree support from "led-class: Add generic [devm_]led_get()"
+- Add RFC patch to re-add of/devicetree support to show that the new
+  led_get() can easily be extended with dt support when the need for this
+  arises (proof-of-concept dt code, not intended for merging)
+- New patch to built async and fwnode code into videodev.ko,
+  to avoid issues with some of the new LED code getting builtin vs
+  other parts possibly being in a module
+- Move the led_get() call to v4l2_async_register_subdev_sensor()
+- Move the led_disable_sysfs() call to be done at led_get() time
+- Address some other minor review comments
 
->
->> +	if (ret < 0) {
->> +		vchiq_release_device(&device->dev);
->> +		return ret;
->> +	}
->>   
->> -	child = platform_device_register_full(&pdevinfo);
->> -	if (IS_ERR(child)) {
->> -		dev_warn(&pdev->dev, "%s not registered\n", name);
->> -		child = NULL;
->> +	ret = device_register(&device->dev);
->> +	if (ret) {
->> +		put_device(&device->dev);
->> +		return -EINVAL;
->>   	}
->>   
->> -	return child;
->> +	return 0;
->> +}
->> +
->> +static int
->> +vchiq_unregister_child(struct device *dev, void *data)
->> +{
->> +	device_unregister(dev);
->> +	return 0;
->>   }
->>   
->>   static int vchiq_probe(struct platform_device *pdev)
->> @@ -1790,7 +1860,7 @@ static int vchiq_probe(struct platform_device *pdev)
->>   	struct device_node *fw_node;
->>   	const struct of_device_id *of_id;
->>   	struct vchiq_drvdata *drvdata;
->> -	int err;
->> +	int i, err;
-> i can be an unsigned int.
->
->>   
->>   	of_id = of_match_node(vchiq_of_match, pdev->dev.of_node);
->>   	drvdata = (struct vchiq_drvdata *)of_id->data;
->> @@ -1832,8 +1902,12 @@ static int vchiq_probe(struct platform_device *pdev)
->>   		goto error_exit;
->>   	}
->>   
->> -	bcm2835_camera = vchiq_register_child(pdev, "bcm2835-camera");
->> -	bcm2835_audio = vchiq_register_child(pdev, "bcm2835_audio");
->> +	for (i = 0; i < ARRAY_SIZE(vchiq_devices); i++) {
->> +		err = vchiq_register_child(pdev, vchiq_devices[i]);
->> +		if (!err)
->> +			dev_err(&pdev->dev, "Failed to register %s vchiq device\n",
->> +				vchiq_devices[i]);
->> +	}
->>   
->>   	return 0;
->>   
->> @@ -1845,8 +1919,8 @@ static int vchiq_probe(struct platform_device *pdev)
->>   
->>   static int vchiq_remove(struct platform_device *pdev)
->>   {
->> -	platform_device_unregister(bcm2835_audio);
->> -	platform_device_unregister(bcm2835_camera);
->> +	bus_for_each_dev(&vchiq_bus_type, NULL, NULL, vchiq_unregister_child);
->> +
->>   	vchiq_debugfs_deinit();
->>   	vchiq_deregister_chrdev();
->>   
->> @@ -1866,6 +1940,10 @@ static int __init vchiq_driver_init(void)
->>   {
->>   	int ret;
->>   
->> +	ret = bus_register(&vchiq_bus_type);
->> +	if (ret)
->> +		pr_err("Failed to register %s\n", vchiq_bus_type.name);
-> This should be a fatal error, you should return an error value.
->
->> +
->>   	ret = platform_driver_register(&vchiq_driver);
->>   	if (ret)
->>   		pr_err("Failed to register vchiq driver\n");
->> @@ -1876,6 +1954,7 @@ module_init(vchiq_driver_init);
->>   
->>   static void __exit vchiq_driver_exit(void)
->>   {
->> +	bus_unregister(&vchiq_bus_type);
->>   	platform_driver_unregister(&vchiq_driver);
->>   }
->>   module_exit(vchiq_driver_exit);
->> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.h b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.h
->> index 2fb31f9b527f..98c3af32774a 100644
->> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.h
->> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.h
->> @@ -81,6 +81,7 @@ extern int vchiq_susp_log_level;
->>   
->>   extern spinlock_t msg_queue_spinlock;
->>   extern struct vchiq_state g_state;
->> +extern struct bus_type vchiq_bus_type;
->>   
->>   extern struct vchiq_state *
->>   vchiq_get_state(void);
+Changes in v3:
+- Due to popular request by multiple people this new version now models
+  the privacy LED as a LED class device. This requires being able to
+  "tie" the LED class device to a specific camera sensor (some devices
+  have multiple sensors + privacy-LEDs).
+
+Patches 1-5 are LED subsystem patches for this. 1 is a bug fix, 2-4 add
+the new [devm_]led_get() functions. Patch 5 is the RFC patch adding dt
+support to led_get() and is not intended for merging.
+
+Patch 6 + 7 add generic privacy-LED support to the v4l2-core/v4l2-subdev.c
+code automatically enabling the privacy-LED when s_stream(subdev, 1)
+is called. So that we don't need to add privacy-LED code to all the
+camera sensor drivers separately (as requested by Sakari).
+
+Patches 8-11 are patches to the platform specific INT3472 code to register
+privacy-LED class devices + lookup table entries for privacy-LEDs described
+in the special INT3472 ACPI nodes found on x86 devices with MIPI cameras.
+
+Assuming at least the LED maintainers are happy with the approach suggested
+here, the first step to merging this would be to merge patches 1-4 and then
+provide an immutable branch with those to merge for the other subsystems
+since the other changes depend on these.
+
+If you are one of the folks who requested the new LED lookup table +
+led_get() approach I would appreciate a Reviewed-by or Acked-by for
+patches 1-4.
+
+This series has been tested on:
+
+- Lenovo ThinkPad X1 Yoga gen 7, IPU6, front: ov2740 with privacy LED
+- Dell Latitude 9420, IPU 6, front: ov01a1s with privacy LED
+- Mirosoft Surface Go, IPU3, front: ov5693 with privacy LED
+                              back: ov8865 with privacy LED (pled not yet supported)
+
+Regards,
+
+Hans
+
+
+Hans de Goede (11):
+  leds: led-class: Add missing put_device() to led_put()
+  leds: led-class: Add led_module_get() helper
+  leds: led-class: Add __devm_led_get() helper
+  leds: led-class: Add generic [devm_]led_get()
+  [RFC] leds: led-class: Add devicetree support to led_get()
+  media: v4l2-core: Built async and fwnode code into videodev.ko
+  media: v4l2-core: Make the v4l2-core code enable/disable the privacy
+    LED if present
+  platform/x86: int3472/discrete: Refactor GPIO to sensor mapping
+  platform/x86: int3472/discrete: Create a LED class device for the
+    privacy LED
+  platform/x86: int3472/discrete: Move GPIO request to
+    skl_int3472_register_clock()
+  platform/x86: int3472/discrete: Get the polarity from the _DSM entry
+
+ drivers/leds/led-class.c                      | 173 +++++++++++++++---
+ drivers/media/v4l2-core/Kconfig               |   4 +-
+ drivers/media/v4l2-core/Makefile              |   4 +-
+ drivers/media/v4l2-core/v4l2-async.c          |  17 +-
+ drivers/media/v4l2-core/v4l2-dev-priv.h       |  19 ++
+ drivers/media/v4l2-core/v4l2-dev.c            |   8 +
+ drivers/media/v4l2-core/v4l2-fwnode.c         |  21 ++-
+ drivers/media/v4l2-core/v4l2-subdev.c         |  18 ++
+ drivers/platform/x86/intel/int3472/Makefile   |   2 +-
+ .../x86/intel/int3472/clk_and_regulator.c     |  34 +++-
+ drivers/platform/x86/intel/int3472/common.h   |  18 +-
+ drivers/platform/x86/intel/int3472/discrete.c | 100 +++++-----
+ drivers/platform/x86/intel/int3472/led.c      |  74 ++++++++
+ include/linux/leds.h                          |  21 +++
+ include/media/v4l2-subdev.h                   |   3 +
+ 15 files changed, 399 insertions(+), 117 deletions(-)
+ create mode 100644 drivers/media/v4l2-core/v4l2-dev-priv.h
+ create mode 100644 drivers/platform/x86/intel/int3472/led.c
+
+-- 
+2.39.0
 
