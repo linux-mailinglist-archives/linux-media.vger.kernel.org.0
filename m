@@ -2,150 +2,102 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4E6A267676F
-	for <lists+linux-media@lfdr.de>; Sat, 21 Jan 2023 17:39:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 822D1676893
+	for <lists+linux-media@lfdr.de>; Sat, 21 Jan 2023 20:44:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229907AbjAUQjP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 21 Jan 2023 11:39:15 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35016 "EHLO
+        id S229686AbjAUToq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 21 Jan 2023 14:44:46 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37948 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229637AbjAUQjO (ORCPT
+        with ESMTP id S229585AbjAUTop (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 21 Jan 2023 11:39:14 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8880827488;
-        Sat, 21 Jan 2023 08:39:13 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 2CD08B8075D;
-        Sat, 21 Jan 2023 16:39:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4FBD0C433D2;
-        Sat, 21 Jan 2023 16:38:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1674319150;
-        bh=gT/5AvVpeDrgKjkh47OXtzrBPwHm9WVXPk88PeHkYdg=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=T2T2vnT1Xs4tW5V/oTrCVF/YscJHiNq+7HTjvmQMO07kIVdALzUWUY/Lg7jgN8oeV
-         wDH/jrinV14zyuMq2EWtvqw0MJqCVYQkQmSM97I02rGKmkJT8mWnP+XySroZ4rplWG
-         RlAswjzAZLSIUe5xREEi1xk7mpGRJ+el+yXQps4AW3OLVqJhTAobryzkTKQ7IcmeFR
-         gz9n7eY4kKn03iiqGBkjRAI/u36bgFn5jBskRGSmm4cNBL/uaGM08TtLTQYXpHtqxx
-         meoZpovFIIHToxzFIsTk068dsFlMtc5YJ3ropDVVqr5LoNdkRAl4Bqac9L/I3U7BVM
-         lonUWh/lOpEIw==
-Date:   Sat, 21 Jan 2023 16:52:35 +0000
-From:   Jonathan Cameron <jic23@kernel.org>
-To:     Amit Kumar Mahapatra <amit.kumar-mahapatra@amd.com>
-Cc:     <broonie@kernel.org>, <miquel.raynal@bootlin.com>,
-        <richard@nod.at>, <vigneshr@ti.com>, <tudor.ambarus@microchip.com>,
-        <pratyush@kernel.org>, <sanju.mehta@amd.com>,
-        <chin-ting_kuo@aspeedtech.com>, <clg@kaod.org>,
-        <kdasu.kdev@gmail.com>, <f.fainelli@gmail.com>,
-        <rjui@broadcom.com>, <sbranden@broadcom.com>,
-        <eajames@linux.ibm.com>, <olteanv@gmail.com>, <han.xu@nxp.com>,
-        <john.garry@huawei.com>, <shawnguo@kernel.org>,
-        <s.hauer@pengutronix.de>, <narmstrong@baylibre.com>,
-        <khilman@baylibre.com>, <matthias.bgg@gmail.com>,
-        <haibo.chen@nxp.com>, <linus.walleij@linaro.org>,
-        <daniel@zonque.org>, <haojian.zhuang@gmail.com>,
-        <robert.jarzmik@free.fr>, <agross@kernel.org>,
-        <bjorn.andersson@linaro.org>, <heiko@sntech.de>,
-        <krzysztof.kozlowski@linaro.org>, <andi@etezian.org>,
-        <mcoquelin.stm32@gmail.com>, <alexandre.torgue@foss.st.com>,
-        <wens@csie.org>, <jernej.skrabec@gmail.com>, <samuel@sholland.org>,
-        <masahisa.kojima@linaro.org>, <jaswinder.singh@linaro.org>,
-        <rostedt@goodmis.org>, <mingo@redhat.com>,
-        <l.stelmach@samsung.com>, <davem@davemloft.net>,
-        <edumazet@google.com>, <kuba@kernel.org>, <pabeni@redhat.com>,
-        <alex.aring@gmail.com>, <stefan@datenfreihafen.org>,
-        <kvalo@kernel.org>, <thierry.reding@gmail.com>,
-        <jonathanh@nvidia.com>, <skomatineni@nvidia.com>,
-        <sumit.semwal@linaro.org>, <christian.koenig@amd.com>,
-        <j.neuschaefer@gmx.net>, <vireshk@kernel.org>, <rmfrfs@gmail.com>,
-        <johan@kernel.org>, <elder@kernel.org>,
-        <gregkh@linuxfoundation.org>, <git@amd.com>,
-        <linux-spi@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <joel@jms.id.au>, <andrew@aj.id.au>, <radu_nicolae.pirea@upb.ro>,
-        <nicolas.ferre@microchip.com>, <alexandre.belloni@bootlin.com>,
-        <claudiu.beznea@microchip.com>,
-        <bcm-kernel-feedback-list@broadcom.com>, <fancer.lancer@gmail.com>,
-        <kernel@pengutronix.de>, <festevam@gmail.com>, <linux-imx@nxp.com>,
-        <jbrunet@baylibre.com>, <martin.blumenstingl@googlemail.com>,
-        <avifishman70@gmail.com>, <tmaimon77@gmail.com>,
-        <tali.perry1@gmail.com>, <venture@google.com>, <yuenn@google.com>,
-        <benjaminfair@google.com>, <yogeshgaur.83@gmail.com>,
-        <konrad.dybcio@somainline.org>, <alim.akhtar@samsung.com>,
-        <ldewangan@nvidia.com>, <michal.simek@amd.com>,
-        <linux-aspeed@lists.ozlabs.org>, <openbmc@lists.ozlabs.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-rpi-kernel@lists.infradead.org>,
-        <linux-amlogic@lists.infradead.org>,
-        <linux-mediatek@lists.infradead.org>,
-        <linux-arm-msm@vger.kernel.org>,
-        <linux-rockchip@lists.infradead.org>,
-        <linux-samsung-soc@vger.kernel.org>,
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        <linux-sunxi@lists.linux.dev>, <linux-tegra@vger.kernel.org>,
-        <netdev@vger.kernel.org>, <linux-wpan@vger.kernel.org>,
-        <libertas-dev@lists.infradead.org>,
-        <linux-wireless@vger.kernel.org>, <linux-mtd@lists.infradead.org>,
-        <lars@metafoo.de>, <Michael.Hennerich@analog.com>,
-        <linux-iio@vger.kernel.org>, <michael@walle.cc>,
-        <palmer@dabbelt.com>, <linux-riscv@lists.infradead.org>,
-        <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
-        <greybus-dev@lists.linaro.org>, <linux-staging@lists.linux.dev>,
-        <amitrkcian2002@gmail.com>
-Subject: Re: [PATCH v2 04/13] iio: imu: Replace all spi->chip_select and
- spi->cs_gpiod references with function call
-Message-ID: <20230121165235.13da9db2@jic23-huawei>
-In-Reply-To: <20230119185342.2093323-5-amit.kumar-mahapatra@amd.com>
-References: <20230119185342.2093323-1-amit.kumar-mahapatra@amd.com>
-        <20230119185342.2093323-5-amit.kumar-mahapatra@amd.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.36; x86_64-pc-linux-gnu)
+        Sat, 21 Jan 2023 14:44:45 -0500
+Received: from mail-qt1-x835.google.com (mail-qt1-x835.google.com [IPv6:2607:f8b0:4864:20::835])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97AA71BAE1
+        for <linux-media@vger.kernel.org>; Sat, 21 Jan 2023 11:44:44 -0800 (PST)
+Received: by mail-qt1-x835.google.com with SMTP id e8so6833990qts.1
+        for <linux-media@vger.kernel.org>; Sat, 21 Jan 2023 11:44:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linux-foundation.org; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=wm9ahWozNRIfaLVLWYiXHQvmnl2IvBDsysjsc+WJQjQ=;
+        b=IQMz/2j+KF5OnHbv7DfggLA+aIo59zACuXNlEs65wsHK5S6basHLBYQhw0kOAn7Rsh
+         4nQ1VjfqUPCBTerulaHgPjDW6LRov5fyFXcm6OqeAosTlHlhHJsLppnfu+Boz3oRoubO
+         pz0rWDQ/nrqcSqGea0crmj5KPc1JW/ZjAUVWE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=wm9ahWozNRIfaLVLWYiXHQvmnl2IvBDsysjsc+WJQjQ=;
+        b=jcOivAo5iSEl6KjQcC+nye4MAUIgXYkO5qig34/auHyuI2fOprqz6krTQ2pyfXj0T+
+         s0Bq0nMQRY4WjP7Kiv8ZQb4AqLuQ+n0Wv8IwlHSWPas5IUBK0wbrJEfEmmRHLSGBdkcv
+         JhYfDj/odVD7BSfPsY8IXCvVwcsDcW3Cmx61Yu4drsdcX54Rhr6ZVtDmc2tnpHzuvJsd
+         wXCR6E1/WTWZIFTaraGx63dC9UxXEBil31Jlf0/Q1y5iVScFLUQO0HfbDk9kxsKeOHTJ
+         vQgcG/xVFR6vbAgdDlIAAzLHBSNidGqnn7AXytpzMZ+QPKYuI1SdHj4IOcF6He2PWowF
+         F+Lg==
+X-Gm-Message-State: AFqh2koWsXGTcyEblg7aeHGJM6tTSKwCM1B/uxLC4XimIKwTYVpdMiZS
+        v7ykyEOf3ijyT9QmP2XLKEuN8qwAUntM0713
+X-Google-Smtp-Source: AMrXdXtN65UVmXEZiJCLUdjk++VgougTbBi8q6KoHpoDupJknM3WLT0vJ4S+g2CAAoVB0zIKqAgq3g==
+X-Received: by 2002:ac8:48d9:0:b0:3b6:2f49:1acc with SMTP id l25-20020ac848d9000000b003b62f491accmr25457766qtr.16.1674330283510;
+        Sat, 21 Jan 2023 11:44:43 -0800 (PST)
+Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com. [209.85.222.172])
+        by smtp.gmail.com with ESMTPSA id y2-20020a05620a44c200b006e42a8e9f9bsm14852256qkp.121.2023.01.21.11.44.42
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 21 Jan 2023 11:44:42 -0800 (PST)
+Received: by mail-qk1-f172.google.com with SMTP id u7so4535601qkk.10
+        for <linux-media@vger.kernel.org>; Sat, 21 Jan 2023 11:44:42 -0800 (PST)
+X-Received: by 2002:a05:620a:144a:b0:6ff:cbda:a128 with SMTP id
+ i10-20020a05620a144a00b006ffcbdaa128mr1010910qkl.697.1674330282464; Sat, 21
+ Jan 2023 11:44:42 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+References: <0000000000003a5c4905ef1044d6@google.com> <000000000000107e1b05f2c19aa5@google.com>
+In-Reply-To: <000000000000107e1b05f2c19aa5@google.com>
+From:   Linus Torvalds <torvalds@linux-foundation.org>
+Date:   Sat, 21 Jan 2023 11:44:26 -0800
+X-Gmail-Original-Message-ID: <CAHk-=wh0=KdGcRGn4tMASp0ZMJH215Dw+5cFZgKZ=+ry5Kh7Rg@mail.gmail.com>
+Message-ID: <CAHk-=wh0=KdGcRGn4tMASp0ZMJH215Dw+5cFZgKZ=+ry5Kh7Rg@mail.gmail.com>
+Subject: Re: [syzbot] WARNING in get_vaddr_frames
+To:     syzbot <syzbot+59a71007ccac79e8bb69@syzkaller.appspotmail.com>
+Cc:     hverkuil@xs4all.nl, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, m.szyprowski@samsung.com,
+        mchehab@kernel.org, syzkaller-bugs@googlegroups.com,
+        tfiga@chromium.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=0.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,SORTED_RECIPS,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, 20 Jan 2023 00:23:33 +0530
-Amit Kumar Mahapatra <amit.kumar-mahapatra@amd.com> wrote:
+On Sat, Jan 21, 2023 at 12:03 AM syzbot
+<syzbot+59a71007ccac79e8bb69@syzkaller.appspotmail.com> wrote:
+>
+> syzbot has bisected this issue to:
+>
+> commit 6647e76ab623b2b3fb2efe03a86e9c9046c52c33
+> Author: Linus Torvalds <torvalds@linux-foundation.org>
+> Date:   Thu Dec 1 00:10:52 2022 +0000
+>
+>     v4l2: don't fall back to follow_pfn() if pin_user_pages_fast() fails
 
-> Supporting multi-cs in spi drivers would require the chip_select & cs_gpiod
-> members of struct spi_device to be an array. But changing the type of these
-> members to array would break the spi driver functionality. To make the
-> transition smoother introduced four new APIs to get/set the
-> spi->chip_select & spi->cs_gpiod and replaced all spi->chip_select and
-> spi->cs_gpiod references with get or set API calls.
-> While adding multi-cs support in further patches the chip_select & cs_gpiod
-> members of the spi_device structure would be converted to arrays & the
-> "idx" parameter of the APIs would be used as array index i.e.,
-> spi->chip_select[idx] & spi->cs_gpiod[idx] respectively.
-> 
-> Signed-off-by: Amit Kumar Mahapatra <amit.kumar-mahapatra@amd.com>
+Yeah, that warning is kind of expected.
 
-Acked-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> Reported-by: syzbot+59a71007ccac79e8bb69@syzkaller.appspotmail.com
+> Fixes: 6647e76ab623 ("v4l2: don't fall back to follow_pfn() if pin_user_pages_fast() fails")
 
-> ---
->  drivers/iio/imu/adis16400.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/iio/imu/adis16400.c b/drivers/iio/imu/adis16400.c
-> index c02fc35dceb4..3eda32e12a53 100644
-> --- a/drivers/iio/imu/adis16400.c
-> +++ b/drivers/iio/imu/adis16400.c
-> @@ -466,7 +466,7 @@ static int adis16400_initial_setup(struct iio_dev *indio_dev)
->  
->  		dev_info(&indio_dev->dev, "%s: prod_id 0x%04x at CS%d (irq %d)\n",
->  			indio_dev->name, prod_id,
-> -			st->adis.spi->chip_select, st->adis.spi->irq);
-> +			spi_get_chipselect(st->adis.spi, 0), st->adis.spi->irq);
->  	}
->  	/* use high spi speed if possible */
->  	if (st->variant->flags & ADIS16400_HAS_SLOW_MODE) {
+Is there a way to tell syzbot to ignore one particular warning?
 
+Because we could certainly turn it into a pr_warn_once(), but
+honestly, if a real use case sees this, I'd rather have the bigger
+splat for a while yet.
+
+Then we can remove it entirely (maybe in six months or something?)
+
+                Linus
