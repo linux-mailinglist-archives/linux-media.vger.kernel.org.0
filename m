@@ -2,102 +2,109 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 822D1676893
-	for <lists+linux-media@lfdr.de>; Sat, 21 Jan 2023 20:44:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 321D267698F
+	for <lists+linux-media@lfdr.de>; Sat, 21 Jan 2023 22:26:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229686AbjAUToq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 21 Jan 2023 14:44:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37948 "EHLO
+        id S229751AbjAUV0v (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 21 Jan 2023 16:26:51 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60768 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229585AbjAUTop (ORCPT
+        with ESMTP id S229526AbjAUV0u (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 21 Jan 2023 14:44:45 -0500
-Received: from mail-qt1-x835.google.com (mail-qt1-x835.google.com [IPv6:2607:f8b0:4864:20::835])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97AA71BAE1
-        for <linux-media@vger.kernel.org>; Sat, 21 Jan 2023 11:44:44 -0800 (PST)
-Received: by mail-qt1-x835.google.com with SMTP id e8so6833990qts.1
-        for <linux-media@vger.kernel.org>; Sat, 21 Jan 2023 11:44:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=wm9ahWozNRIfaLVLWYiXHQvmnl2IvBDsysjsc+WJQjQ=;
-        b=IQMz/2j+KF5OnHbv7DfggLA+aIo59zACuXNlEs65wsHK5S6basHLBYQhw0kOAn7Rsh
-         4nQ1VjfqUPCBTerulaHgPjDW6LRov5fyFXcm6OqeAosTlHlhHJsLppnfu+Boz3oRoubO
-         pz0rWDQ/nrqcSqGea0crmj5KPc1JW/ZjAUVWE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=wm9ahWozNRIfaLVLWYiXHQvmnl2IvBDsysjsc+WJQjQ=;
-        b=jcOivAo5iSEl6KjQcC+nye4MAUIgXYkO5qig34/auHyuI2fOprqz6krTQ2pyfXj0T+
-         s0Bq0nMQRY4WjP7Kiv8ZQb4AqLuQ+n0Wv8IwlHSWPas5IUBK0wbrJEfEmmRHLSGBdkcv
-         JhYfDj/odVD7BSfPsY8IXCvVwcsDcW3Cmx61Yu4drsdcX54Rhr6ZVtDmc2tnpHzuvJsd
-         wXCR6E1/WTWZIFTaraGx63dC9UxXEBil31Jlf0/Q1y5iVScFLUQO0HfbDk9kxsKeOHTJ
-         vQgcG/xVFR6vbAgdDlIAAzLHBSNidGqnn7AXytpzMZ+QPKYuI1SdHj4IOcF6He2PWowF
-         F+Lg==
-X-Gm-Message-State: AFqh2koWsXGTcyEblg7aeHGJM6tTSKwCM1B/uxLC4XimIKwTYVpdMiZS
-        v7ykyEOf3ijyT9QmP2XLKEuN8qwAUntM0713
-X-Google-Smtp-Source: AMrXdXtN65UVmXEZiJCLUdjk++VgougTbBi8q6KoHpoDupJknM3WLT0vJ4S+g2CAAoVB0zIKqAgq3g==
-X-Received: by 2002:ac8:48d9:0:b0:3b6:2f49:1acc with SMTP id l25-20020ac848d9000000b003b62f491accmr25457766qtr.16.1674330283510;
-        Sat, 21 Jan 2023 11:44:43 -0800 (PST)
-Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com. [209.85.222.172])
-        by smtp.gmail.com with ESMTPSA id y2-20020a05620a44c200b006e42a8e9f9bsm14852256qkp.121.2023.01.21.11.44.42
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 21 Jan 2023 11:44:42 -0800 (PST)
-Received: by mail-qk1-f172.google.com with SMTP id u7so4535601qkk.10
-        for <linux-media@vger.kernel.org>; Sat, 21 Jan 2023 11:44:42 -0800 (PST)
-X-Received: by 2002:a05:620a:144a:b0:6ff:cbda:a128 with SMTP id
- i10-20020a05620a144a00b006ffcbdaa128mr1010910qkl.697.1674330282464; Sat, 21
- Jan 2023 11:44:42 -0800 (PST)
+        Sat, 21 Jan 2023 16:26:50 -0500
+Received: from outpost1.zedat.fu-berlin.de (outpost1.zedat.fu-berlin.de [130.133.4.66])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED1531DBA8;
+        Sat, 21 Jan 2023 13:26:48 -0800 (PST)
+Received: from inpost2.zedat.fu-berlin.de ([130.133.4.69])
+          by outpost.zedat.fu-berlin.de (Exim 4.95)
+          with esmtps (TLS1.3)
+          tls TLS_AES_256_GCM_SHA384
+          (envelope-from <glaubitz@zedat.fu-berlin.de>)
+          id 1pJLNr-001fc4-Li; Sat, 21 Jan 2023 22:26:43 +0100
+Received: from dynamic-089-012-154-190.89.12.pool.telefonica.de ([89.12.154.190] helo=[192.168.1.11])
+          by inpost2.zedat.fu-berlin.de (Exim 4.95)
+          with esmtpsa (TLS1.3)
+          tls TLS_AES_128_GCM_SHA256
+          (envelope-from <glaubitz@physik.fu-berlin.de>)
+          id 1pJLNr-001xPR-F4; Sat, 21 Jan 2023 22:26:43 +0100
+Message-ID: <7c6b114a-38f8-1a0b-8623-d492f9cc2fb9@physik.fu-berlin.de>
+Date:   Sat, 21 Jan 2023 22:26:42 +0100
 MIME-Version: 1.0
-References: <0000000000003a5c4905ef1044d6@google.com> <000000000000107e1b05f2c19aa5@google.com>
-In-Reply-To: <000000000000107e1b05f2c19aa5@google.com>
-From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Sat, 21 Jan 2023 11:44:26 -0800
-X-Gmail-Original-Message-ID: <CAHk-=wh0=KdGcRGn4tMASp0ZMJH215Dw+5cFZgKZ=+ry5Kh7Rg@mail.gmail.com>
-Message-ID: <CAHk-=wh0=KdGcRGn4tMASp0ZMJH215Dw+5cFZgKZ=+ry5Kh7Rg@mail.gmail.com>
-Subject: Re: [syzbot] WARNING in get_vaddr_frames
-To:     syzbot <syzbot+59a71007ccac79e8bb69@syzkaller.appspotmail.com>
-Cc:     hverkuil@xs4all.nl, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, m.szyprowski@samsung.com,
-        mchehab@kernel.org, syzkaller-bugs@googlegroups.com,
-        tfiga@chromium.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=0.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,SORTED_RECIPS,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-        autolearn=no autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: Calculating array sizes in C - was: Re: Build
+ regressions/improvements in v6.2-rc1
+Content-Language: en-US
+To:     Michael Karcher <kernel@mkarcher.dialup.fu-berlin.de>,
+        Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+        linux-mips@vger.kernel.org, linux-wireless@vger.kernel.org,
+        linux-sh@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
+        linuxppc-dev@lists.ozlabs.org, kasan-dev@googlegroups.com,
+        linux-xtensa@linux-xtensa.org, Arnd Bergmann <arnd@arndb.de>
+References: <CAHk-=wgf929uGOVpiWALPyC7pv_9KbwB2EAvQ3C4woshZZ5zqQ@mail.gmail.com>
+ <20221227082932.798359-1-geert@linux-m68k.org>
+ <alpine.DEB.2.22.394.2212270933530.311423@ramsan.of.borg>
+ <c05bee5d-0d69-289b-fe4b-98f4cd31a4f5@physik.fu-berlin.de>
+ <CAMuHMdXNJveXHeS=g-aHbnxtyACxq1wCeaTg8LbpYqJTCqk86g@mail.gmail.com>
+ <3800eaa8-a4da-b2f0-da31-6627176cb92e@physik.fu-berlin.de>
+ <CAMuHMdWbBRkhecrqcir92TgZnffMe8ku2t7PcVLqA6e6F-j=iw@mail.gmail.com>
+ <429140e0-72fe-c91c-53bc-124d33ab5ffa@physik.fu-berlin.de>
+ <CAMuHMdWpHSsAB3WosyCVgS6+t4pU35Xfj3tjmdCDoyS2QkS7iw@mail.gmail.com>
+ <0d238f02-4d78-6f14-1b1b-f53f0317a910@physik.fu-berlin.de>
+ <1732342f-49fe-c20e-b877-bc0a340e1a50@fu-berlin.de>
+ <c1d233b9-bc85-dce9-ffa0-eb3170602c6c@physik.fu-berlin.de>
+ <def16c9b-7bb1-a454-0896-b063a9e85964@fu-berlin.de>
+From:   John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+In-Reply-To: <def16c9b-7bb1-a454-0896-b063a9e85964@fu-berlin.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Original-Sender: glaubitz@physik.fu-berlin.de
+X-Originating-IP: 89.12.154.190
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        RCVD_IN_DNSWL_MED,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sat, Jan 21, 2023 at 12:03 AM syzbot
-<syzbot+59a71007ccac79e8bb69@syzkaller.appspotmail.com> wrote:
->
-> syzbot has bisected this issue to:
->
-> commit 6647e76ab623b2b3fb2efe03a86e9c9046c52c33
-> Author: Linus Torvalds <torvalds@linux-foundation.org>
-> Date:   Thu Dec 1 00:10:52 2022 +0000
->
->     v4l2: don't fall back to follow_pfn() if pin_user_pages_fast() fails
+Hi!
 
-Yeah, that warning is kind of expected.
+On 1/20/23 20:29, Michael Karcher wrote:
+> Hello Adrian,
+>> Could you post a kernel patch for that? I would be happy to test it on my
+>> SH-7785CLR board. Also, I'm going to file a bug report against GCC.
+> 
+> I filed the bug already. It's https://gcc.gnu.org/bugzilla/show_bug.cgi?id=108483.
+> 
+> The diff is attached. It's published as CC0 in case anyone considers this trivial change copyrightable. This patch prevents this one specific warning from being upgraded to "error" even if you configure the kernel to use "-Werror". It still keeps it active as warning, though.
 
-> Reported-by: syzbot+59a71007ccac79e8bb69@syzkaller.appspotmail.com
-> Fixes: 6647e76ab623 ("v4l2: don't fall back to follow_pfn() if pin_user_pages_fast() fails")
+I used the following variant and it fixes the issue for me:
 
-Is there a way to tell syzbot to ignore one particular warning?
+diff --git a/arch/sh/Makefile b/arch/sh/Makefile
+index 5c8776482530..11b22f7167d2 100644
+--- a/arch/sh/Makefile
++++ b/arch/sh/Makefile
+@@ -167,7 +167,7 @@ drivers-y                   += arch/sh/drivers/
+  cflags-y       += $(foreach d, $(cpuincdir-y), -I $(srctree)/arch/sh/include/$(d)) \
+                    $(foreach d, $(machdir-y), -I $(srctree)/arch/sh/include/$(d))
+  
+-KBUILD_CFLAGS          += -pipe $(cflags-y)
++KBUILD_CFLAGS          += -pipe -Wno-error=sizeof-pointer-div $(cflags-y)
+  KBUILD_CPPFLAGS                += $(cflags-y)
+  KBUILD_AFLAGS          += $(cflags-y)
 
-Because we could certainly turn it into a pr_warn_once(), but
-honestly, if a real use case sees this, I'd rather have the bigger
-splat for a while yet.
+If you agree, can you post a patch to LKML so we can unbreak the SH build for CONFIG_WERROR?
 
-Then we can remove it entirely (maybe in six months or something?)
+Thanks,
+Adrian
 
-                Linus
+-- 
+  .''`.  John Paul Adrian Glaubitz
+: :' :  Debian Developer
+`. `'   Physicist
+   `-    GPG: 62FF 8A75 84E0 2956 9546  0006 7426 3B37 F5B5 F913
+
