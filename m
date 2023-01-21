@@ -2,102 +2,163 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D5B0267602E
-	for <lists+linux-media@lfdr.de>; Fri, 20 Jan 2023 23:34:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1C9E5676365
+	for <lists+linux-media@lfdr.de>; Sat, 21 Jan 2023 04:37:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229578AbjATWeM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 20 Jan 2023 17:34:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43886 "EHLO
+        id S229730AbjAUDh1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 20 Jan 2023 22:37:27 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48566 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229537AbjATWeL (ORCPT
+        with ESMTP id S229450AbjAUDh0 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 20 Jan 2023 17:34:11 -0500
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CCC6E63E3C;
-        Fri, 20 Jan 2023 14:34:07 -0800 (PST)
+        Fri, 20 Jan 2023 22:37:26 -0500
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1445873EDC;
+        Fri, 20 Jan 2023 19:37:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674254047; x=1705790047;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Zo5M3gHxFkisjU6k7e7ZgCPdIm/H9EaePh8Ny1GQ5KA=;
-  b=OloH04B/Qqh3dDQVPt12TJFB6rSqZGmwND5AP1E6nfMdhsRw5A1/wrK7
-   HYi767GMvmxwASEI3YkBNJUtAtZbwBrNgnP9QfaogLAq8G1ac7tyJ/03a
-   oejElFYASMhIuq2lYqThXhNebxmcD7m59IZTNDOiDk2eGliKWT2X4Fqed
-   ov2umFmg/Sa1JnNK0WAZmmQF/iBYH24GXYcjpP3j/S737zE+ZhH29uiyi
-   IO4ENv20vshXgdof9NOQqNDmO7gw8JOtctnTyZ11edMZD0UYthtRD3e3A
-   c35XuE82MVtG4j5JiNQCJ16i5OigBfUB2bng1y0dF5Y8Lxxj4KmwdsWjo
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10596"; a="327802019"
-X-IronPort-AV: E=Sophos;i="5.97,233,1669104000"; 
-   d="scan'208";a="327802019"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2023 14:34:06 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10596"; a="724104009"
-X-IronPort-AV: E=Sophos;i="5.97,233,1669104000"; 
-   d="scan'208";a="724104009"
-Received: from turnipsi.fi.intel.com (HELO paasikivi.fi.intel.com) ([10.237.72.44])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2023 14:34:05 -0800
-Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
-        by paasikivi.fi.intel.com (Postfix) with SMTP id 048A4201C4;
-        Sat, 21 Jan 2023 00:34:03 +0200 (EET)
-Date:   Fri, 20 Jan 2023 22:34:02 +0000
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     linux-acpi@vger.kernel.org, rafael@kernel.org,
-        linux-media@vger.kernel.org, heikki.krogerus@linux.intel.com
-Subject: Re: [PATCH 7/8] ACPI: property: Skip MIPI property table without
- "mipi-img" prefix
-Message-ID: <Y8sW2ud+Ae3VeSuM@paasikivi.fi.intel.com>
-References: <20230117122244.2546597-1-sakari.ailus@linux.intel.com>
- <20230117122244.2546597-8-sakari.ailus@linux.intel.com>
- <Y8a+8q5hzkoPjpDO@smile.fi.intel.com>
- <Y8lnBeamT90z4aKY@paasikivi.fi.intel.com>
- <Y8lrNe9S4eIdWbXu@smile.fi.intel.com>
- <Y8qB/B5NfTWRi7Ma@paasikivi.fi.intel.com>
- <Y8qvHzbs1J9pS9nj@smile.fi.intel.com>
+  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+  t=1674272244; x=1705808244;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=ncN+t8a6qI70TdLhJapTmutRmmgYOV3fWlsPXqJcTQ4=;
+  b=PepWcHPjq/sVi9ntzR+jCDnKumDLTaujmAElY1UOCOyE+e4yDFIxY5FJ
+   KL5Q9UUAui9t0BAZ3uCZEdZjusL4/y7NeCa4Y2kN+WjP2j16uDk0uOZck
+   YEyfBFnlEKC6y4mvlzdCh+ioj+osUKqMXS1gTDV63L4C06yze2AmGN2e8
+   GEqvM/ANCzv+qGDr1uWm2FCZSwug/Kv3/9Yek3mBWQzgie5Znf9bXDHP8
+   x0WEWFVm56yhjf28MFQ+niDq4OEpcPjPWjqxRAoeTRzLkSxCZ6iFaXLvy
+   lx88s3VvaqjB0A8h6n77+z/abZilkMQxJrBub2moH67A7AFL4rhFnJG6Y
+   A==;
+X-IronPort-AV: E=Sophos;i="5.97,234,1669100400"; 
+   d="scan'208";a="193243000"
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+  by esa4.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 20 Jan 2023 20:37:22 -0700
+Received: from chn-vm-ex02.mchp-main.com (10.10.87.72) by
+ chn-vm-ex02.mchp-main.com (10.10.87.72) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16; Fri, 20 Jan 2023 20:37:21 -0700
+Received: from microchip1-OptiPlex-9020.microchip.com (10.10.115.15) by
+ chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server id
+ 15.1.2507.16 via Frontend Transport; Fri, 20 Jan 2023 20:37:16 -0700
+From:   shravan kumar <shravan.chippa@microchip.com>
+To:     <paul.j.murphy@intel.com>, <daniele.alessandrelli@intel.com>,
+        <mchehab@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>,
+        <shawnguo@kernel.org>, <s.hauer@pengutronix.de>
+CC:     <festevam@gmail.com>, <kernel@pengutronix.de>, <linux-imx@nxp.com>,
+        <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <devicetree@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <shravan.chippa@microchip.com>, Jacopo Mondi <jacopo@jmondi.org>,
+        "Sakari Ailus" <sakari.ailus@iki.fi>
+Subject: [PATCH RESEND v10 0/5] media: i2c: imx334: support lower bandwidth mode
+Date:   Sat, 21 Jan 2023 09:07:08 +0530
+Message-ID: <20230121033713.3535351-1-shravan.chippa@microchip.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y8qvHzbs1J9pS9nj@smile.fi.intel.com>
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,URIBL_BLOCKED autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Jan 20, 2023 at 05:11:27PM +0200, Andy Shevchenko wrote:
-> On Fri, Jan 20, 2023 at 11:58:52AM +0000, Sakari Ailus wrote:
-> > On Thu, Jan 19, 2023 at 06:09:25PM +0200, Andy Shevchenko wrote:
-> > > On Thu, Jan 19, 2023 at 03:51:33PM +0000, Sakari Ailus wrote:
-> > > > On Tue, Jan 17, 2023 at 05:29:54PM +0200, Andy Shevchenko wrote:
-> > > > > On Tue, Jan 17, 2023 at 02:22:43PM +0200, Sakari Ailus wrote:
-> 
-> ...
-> 
-> > > > > > +	if (memcmp(elements[0].string.pointer, MIPI_IMG_PREFIX,
-> > > > > > +		   sizeof(MIPI_IMG_PREFIX) - 1))
-> > > > > 
-> > > > > str_has_prefix()
-> > > > 
-> > > > str_has_prefix() calls strlen() on prefix on every call. sizeof() will
-> > > > generate much less code --- it's just a number.
-> > > 
-> > > Have you tried that? Because the strlen() over const string literals will be
-> > > optimized away on compilation time.
-> > 
-> > Actually not. There seem to be an implementation of strlen() in
-> > include/linux/fortify-string.h that would seem to be capable of doing that.
-> > However its use is conditional to kernel configuration.
-> 
-> Ah, you missed probably the ability of the complier to find constant literals
-> and replace the strlen() with plain number.
+From: Shravan Chippa <shravan.chippa@microchip.com>
 
-It seems GCC does this if -foptimize-strlen (included in -O2) is given.
-Fair enough, I'll replace it with str_has_prefix() for v2.
+Hi
+
+This patch series is for imx334 sensor driver support for lower bandwidth
+
+Some platforms may not be capable of supporting the bandwidth
+required for 12 bit or 3840x2160@60 resolutions.
+
+Add support for dynamically selecting 10 bit and 1920x1080@30
+resolutions while leaving the existing configuration as default
+
+V10 -> V10
+PATCH RESEND
+
+V9 -> V10
+Added new dt-binding patch
+added support for handling multiple link-frequncy
+minor changes on coding style
+
+V8 -> V9
+-Updated all array values with samall later to get unifamity
+in mode array values
+-corrected hblank_min, hbalank, pix_clk for 1920x1080@30 updated 
+according to link frequency
+-corrected mutex use for imx334_get_format_code function 
+-corrected the fmt->format.code value assinment
+-in function imx334_get_format_code variable "i" value comparision
+corrected
+
+V7 -> V8
+-patch drop "mimx334-odify-link-frequency" as per the commnets
+linkfrquncy will be half of the line bandwidth
+
+-changed 1920x1080@30 mode link frequency from (891000000Mbps) 
+to (445500000Mbps). linkfrquncy will be half of the line bandwidth
+
+V6 -> V7
+Reloved: kernel test robot warning
+"drivers/media/i2c/imx334.c:767:15: warning: unused variable 'i' "
+
+V5 -> V6
+-Drop the dt-binding patch
+-Optimize the code to avoid duplicating the lines
+-Added proper mutex while imx334_mbus_codes array
+-Modified Function __v4l2_ctrl_modify_range arguments as per the review
+commants
+-Added hblank dummy set ctrl
+-Removed Redundant comment
+-corrected code alignment 
+-All commit msgs are re-written
+
+V4 -> V5
+-Added 5 more patchs as per the review comments witch has below updates
+-Updated 1782000000Mbps link frequency for 3840x2160@60 as per the mode
+values
+-Updated 1782000000Mbps link frequency in dt-bindings also
+-Updated 3840x2160@60 mode array with default(reset) values
+
+-Updated hblank __v4l2_ctrl_s_ctrl() to __v4l2_ctrl_modify_range()
+Suggested-by: Jacopo Mondi <jacopo@jmondi.org>
+
+-Current mode update only when we try to set V4L2_SUBDEV_FORMAT_ACTIVE
+-Added link frequency (891000000Mbps) and pixel rate (74250000) to
+1920x1080@30 mode
+Suggested-by: Sakari Ailus <sakari.ailus@iki.fi>
+
+-Updated commit message
+
+V3 -> V4
+- Make the 12 bit and 3840x2160 as default
+- Set bus code SRGGB12 if set format fails
+
+V2 -> V3
+- Fixed the warning reported by kernel test robot
+
+V1 -> V2
+- Addressed the review comment given by Jacopo Mondi,
+  Which has bug in imx334_enum_frame_size() loop function,
+- Renamed array codes[] to imx334_mbus_codes[]
+
+Shravan Chippa (5):
+  media: i2c: imx334: replace __v4l2_ctrl_s_ctrl to
+    __v4l2_ctrl_modify_range
+  media: i2c: imx334: add missing reset values for mode 3840x2160_regs[]
+  media: i2c: imx334: support lower bandwidth mode
+  dt-bindings: media: i2c: imx334 add new link_freq
+  media: i2c: imx334: update pixel and link frequency
+
+ .../bindings/media/i2c/sony,imx334.yaml       |   2 +-
+ drivers/media/i2c/imx334.c                    | 361 ++++++++++++++++--
+ 2 files changed, 324 insertions(+), 39 deletions(-)
 
 -- 
-Sakari Ailus
+2.34.1
+
