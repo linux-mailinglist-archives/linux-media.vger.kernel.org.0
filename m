@@ -2,166 +2,101 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 42DEB677367
-	for <lists+linux-media@lfdr.de>; Mon, 23 Jan 2023 00:13:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DB1BC677377
+	for <lists+linux-media@lfdr.de>; Mon, 23 Jan 2023 00:34:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230094AbjAVXNw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 22 Jan 2023 18:13:52 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48482 "EHLO
+        id S230087AbjAVXeo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 22 Jan 2023 18:34:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52136 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229811AbjAVXNv (ORCPT
+        with ESMTP id S229795AbjAVXen (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 22 Jan 2023 18:13:51 -0500
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 817111ABD0;
-        Sun, 22 Jan 2023 15:13:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674429230; x=1705965230;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=p4zihUGlUVon576ZG2MBamybWBvtrWsAIn3m0PxR2aY=;
-  b=mGhb+qUhRzbiyuT8zA6xr7ynWRrkQJ8jTweRZjDYFzvbu9pbNU6Quqbv
-   Bs2rfUA1Xxn9/yAnGDD2Zv5STp37eGjUeky8ckig9rTn9EHVMc1eYlllD
-   D3s4i/tbuUdQRofGiPrDDt0ZP6vVD82Q/L3u8URPdfgKBzSMwdy3mDAnK
-   /suatnXa2Yw5MIqpEHAjILiZB/clQj8ZeN12Oz+aX/bbDaNk/wbNjfHBS
-   ejtbdR/b7xawvCrRzuyx1dWdfTbxVTWzfXGt5qCUDdsiTAa4D0x2mbg5H
-   eFJmi11c25XMySq+nYlNPwgQFY/WAkIDXbQ7LiZnLA4k6tGxhnUrck0wG
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10598"; a="305611252"
-X-IronPort-AV: E=Sophos;i="5.97,238,1669104000"; 
-   d="scan'208";a="305611252"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jan 2023 15:13:49 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10598"; a="750137575"
-X-IronPort-AV: E=Sophos;i="5.97,238,1669104000"; 
-   d="scan'208";a="750137575"
-Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 22 Jan 2023 15:13:45 -0800
-Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1pJjWy-0005Ho-2A;
-        Sun, 22 Jan 2023 23:13:44 +0000
-Date:   Mon, 23 Jan 2023 07:13:06 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
-        mchehab@kernel.org, shawnguo@kernel.org, s.hauer@pengutronix.de,
-        kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
-        hverkuil-cisco@xs4all.nl, nicolas.dufresne@collabora.co.uk
-Cc:     llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        kernel@collabora.com,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: Re: [PATCH v3] media: verisilicon: HEVC: Only propose 10 bits
- compatible pixels formats
-Message-ID: <202301230653.0LvIKTcP-lkp@intel.com>
-References: <20230119084723.133576-1-benjamin.gaignard@collabora.com>
+        Sun, 22 Jan 2023 18:34:43 -0500
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 68D69CC3E;
+        Sun, 22 Jan 2023 15:34:41 -0800 (PST)
+Received: from [192.168.1.141] ([37.4.248.41]) by mrelayeu.kundenserver.de
+ (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis) id
+ 1MGxYh-1pXGEW2C0J-00E4jE; Mon, 23 Jan 2023 00:34:23 +0100
+Message-ID: <786df750-221e-82fc-a324-d30261296974@i2se.com>
+Date:   Mon, 23 Jan 2023 00:34:22 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230119084723.133576-1-benjamin.gaignard@collabora.com>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_PASS,SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH v6 0/6] staging: vc04_services: vchiq: Register devices
+ with a custom bus_type
+To:     Umang Jain <umang.jain@ideasonboard.com>,
+        linux-staging@lists.linux.dev,
+        linux-rpi-kernel@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Adrien Thierry <athierry@redhat.com>,
+        Dan Carpenter <error27@gmail.com>,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Paul Elder <paul.elder@ideasonboard.com>
+References: <20230120201104.606876-1-umang.jain@ideasonboard.com>
+Content-Language: en-US
+From:   Stefan Wahren <stefan.wahren@i2se.com>
+In-Reply-To: <20230120201104.606876-1-umang.jain@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:pwEGleuOvkGVLFNdWT9r9sYPRFmBi28YBzSb3MFzEHeB1TTN5rj
+ FM0eWiaEqvlPxR21qTOtFP1AtqZwEyU11wvK3J1XRU0Pn7by/YTj5i0pguOBzYxUHtxTFtF
+ Q1RBLA4aWqisAuHIuvKN1p9gdGnXS8mbJvwCBjSDRr5AtFGMuY0yNN77US5cX6J7hLXmT/U
+ LBfZAQYeA4IcMe7SKMUGg==
+UI-OutboundReport: notjunk:1;M01:P0:plyGRzBlSb8=;cZnlOFBpGjubLlzObuZBDdxpC6x
+ SNgLXlBG1bTLzX72skd7WwDTriTVVa0sgFPTKk5bjE6mLZdFiDgiVqrNEn4fJZyYY1BPrnAyL
+ wmcDboRjmc+xqCGNbykozpQJDjZkJt2kUV/rn1c56IqKdde/r0+Lm2Koep4VawgxSZHbNRpUM
+ R5bPgVaiZDVbYPYLsSGuX74L3bfS3lEva8XHQ6W4MIgtWL+eXeVhBa3TFCvlqrXUrQxR39iqN
+ 7Cwf5SJ2NbzkU8bs0QUVO1nc4n8ORD+zA9yJFOe+EeR7lTHX+qO4ie5XmjL2NJCL/q4QPESal
+ KAICWzeBseL3mugJowfAfrY20NvSX9uvHo6WL5QLMAeQy6MCX1lc0RxYR+4Z5tMaXKPnmgQ0E
+ jV+ZZB/f/K2djwt2miAqdBWv4SL6kxs9HSwzk3Ee8QCg/mq954sMXJEbKL5PF+MIe1kOB6AnL
+ k/S5514lv160Y7ylYA6IKJpo23AV94CUhpKQX9Jbka4rRhpIfmYOl8T0xNPx5INKu86jtqhRd
+ uUhih5OvLvrSgInn/OqbtVzoB6dyFnhvizXiEnGOslxFLQjMmZWqumFwHlgKreP1MQF57PmIe
+ xnriMKhwzKqFMWFR6GuHdbBc3zWV++xsioBK9omP64gyg57tOJhAF3BTv3sfefHpcLzo84Ude
+ TQUCf3TVdVo3oniguaZ0pn7Xo69HgSfys0D1keB3TQ==
+X-Spam-Status: No, score=-3.0 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Benjamin,
+Hi Umang,
 
-I love your patch! Yet something to improve:
+Am 20.01.23 um 21:10 schrieb Umang Jain:
+> This series just introduces five extra patches for dropping include
+> directives from Makefiles (suggested by Greg KH) and rebased.
+>
+> The main patch (6/6) removes platform device/driver abuse and moves
+> things to standard device/driver model using a custom_bus. Specific
+> details are elaborated in the commit message.
+>
+> The patch series is based on top of d514392f17fd (tag: next-20230120)
+> of linux-next.
 
-[auto build test ERROR on media-tree/master]
-[also build test ERROR on sailus-media-tree/streams linus/master v6.2-rc5 next-20230120]
-[cannot apply to pza/reset/next pza/imx-drm/next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+applied this series on top of linux-next and build it with 
+arm/multi_v7_defconfig plus the following:
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Benjamin-Gaignard/media-verisilicon-HEVC-Only-propose-10-bits-compatible-pixels-formats/20230119-164844
-base:   git://linuxtv.org/media_tree.git master
-patch link:    https://lore.kernel.org/r/20230119084723.133576-1-benjamin.gaignard%40collabora.com
-patch subject: [PATCH v3] media: verisilicon: HEVC: Only propose 10 bits compatible pixels formats
-config: arm-randconfig-r022-20230122 (https://download.01.org/0day-ci/archive/20230123/202301230653.0LvIKTcP-lkp@intel.com/config)
-compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 4196ca3278f78c6e19246e54ab0ecb364e37d66a)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
-        # https://github.com/intel-lab-lkp/linux/commit/11b698515c987afb9699f60be773dd7c52cea592
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Benjamin-Gaignard/media-verisilicon-HEVC-Only-propose-10-bits-compatible-pixels-formats/20230119-164844
-        git checkout 11b698515c987afb9699f60be773dd7c52cea592
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash drivers/media/platform/verisilicon/
+CONFIG_BCM_VIDEOCORE=y
+CONFIG_BCM2835_VCHIQ=m
+CONFIG_VCHIQ_CDEV=y
+CONFIG_SND_BCM2835=m
+CONFIG_VIDEO_BCM2835=m
+CONFIG_BCM2835_VCHIQ_MMAL=m
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
+and the devices doesn't register on Raspberry Pi 3 B Plus:
 
-All errors (new ones prefixed by >>):
+[   25.523337] vchiq: module is from the staging directory, the quality 
+is unknown, you have been warned.
+[   25.541647] bcm2835_vchiq 3f00b840.mailbox: Failed to register 
+bcm2835_audio vchiq device
+[   25.553692] bcm2835_vchiq 3f00b840.mailbox: Failed to register 
+bcm2835-camera vchiq device
 
-   In file included from drivers/media/platform/verisilicon/hantro_drv.c:20:
-   In file included from include/linux/videodev2.h:61:
-   include/uapi/linux/videodev2.h:1779:2: warning: field  within 'struct v4l2_ext_control' is less aligned than 'union v4l2_ext_control::(anonymous at include/uapi/linux/videodev2.h:1779:2)' and is usually due to 'struct v4l2_ext_control' being packed, which can lead to unaligned accesses [-Wunaligned-access]
-           union {
-           ^
->> drivers/media/platform/verisilicon/hantro_drv.c:293:3: error: expected expression
-                   const struct v4l2_ctrl_hevc_sps *sps = ctrl->p_new.p_hevc_sps;
-                   ^
->> drivers/media/platform/verisilicon/hantro_drv.c:294:19: error: use of undeclared identifier 'sps'
-                   int bit_depth = sps->bit_depth_luma_minus8 + 8;
-                                   ^
-   drivers/media/platform/verisilicon/hantro_drv.c:294:7: warning: mixing declarations and code is incompatible with standards before C99 [-Wdeclaration-after-statement]
-                   int bit_depth = sps->bit_depth_luma_minus8 + 8;
-                       ^
-   drivers/media/platform/verisilicon/hantro_drv.c:1004:46: warning: implicit conversion from 'unsigned long long' to 'unsigned int' changes value from 18446744073709551615 to 4294967295 [-Wconstant-conversion]
-           vb2_dma_contig_set_max_seg_size(&pdev->dev, DMA_BIT_MASK(32));
-           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~             ^~~~~~~~~~~~~~~~
-   include/linux/dma-mapping.h:76:40: note: expanded from macro 'DMA_BIT_MASK'
-   #define DMA_BIT_MASK(n) (((n) == 64) ? ~0ULL : ((1ULL<<(n))-1))
-                                          ^~~~~
-   3 warnings and 2 errors generated.
-
-
-vim +293 drivers/media/platform/verisilicon/hantro_drv.c
-
-   281	
-   282	static int hantro_hevc_s_ctrl(struct v4l2_ctrl *ctrl)
-   283	{
-   284		struct hantro_ctx *ctx;
-   285	
-   286		ctx = container_of(ctrl->handler,
-   287				   struct hantro_ctx, ctrl_handler);
-   288	
-   289		vpu_debug(1, "s_ctrl: id = %d, val = %d\n", ctrl->id, ctrl->val);
-   290	
-   291		switch (ctrl->id) {
-   292		case V4L2_CID_STATELESS_HEVC_SPS:
- > 293			const struct v4l2_ctrl_hevc_sps *sps = ctrl->p_new.p_hevc_sps;
- > 294			int bit_depth = sps->bit_depth_luma_minus8 + 8;
-   295	
-   296			if (ctx->bit_depth != bit_depth) {
-   297				ctx->bit_depth = bit_depth;
-   298				return hantro_reset_raw_fmt(ctx);
-   299			}
-   300			break;
-   301		default:
-   302			return -EINVAL;
-   303		}
-   304	
-   305		return 0;
-   306	}
-   307	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
