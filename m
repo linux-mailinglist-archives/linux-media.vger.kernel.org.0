@@ -2,98 +2,161 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1D90B676DA7
-	for <lists+linux-media@lfdr.de>; Sun, 22 Jan 2023 15:26:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DDCC4676DE9
+	for <lists+linux-media@lfdr.de>; Sun, 22 Jan 2023 15:59:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230061AbjAVO0j (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 22 Jan 2023 09:26:39 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47306 "EHLO
+        id S230038AbjAVO73 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 22 Jan 2023 09:59:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57174 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229888AbjAVO0i (ORCPT
+        with ESMTP id S230023AbjAVO73 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 22 Jan 2023 09:26:38 -0500
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.10])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 70B7714EAF;
-        Sun, 22 Jan 2023 06:26:37 -0800 (PST)
-Received: from [192.168.1.139] ([37.4.248.41]) by mrelayeu.kundenserver.de
- (mreue109 [212.227.15.183]) with ESMTPSA (Nemesis) id
- 1MAfQk-1pQF462FnU-00B3OM; Sun, 22 Jan 2023 15:21:06 +0100
-Message-ID: <d5363f85-44e1-eee1-f7a5-61102637ef53@i2se.com>
-Date:   Sun, 22 Jan 2023 15:21:05 +0100
+        Sun, 22 Jan 2023 09:59:29 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 146292D5C
+        for <linux-media@vger.kernel.org>; Sun, 22 Jan 2023 06:59:28 -0800 (PST)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 086C3308;
+        Sun, 22 Jan 2023 15:59:24 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1674399565;
+        bh=vcrgB+0vKI4pbED1sDrgG8JTgIJS9feGqRrfJ3kEK4E=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=JKFSdl+O4/8I0Qp7yT4SM1TMBTJgM8jrR8ApfIdcSHQLsP1SqbVrwLgtlFB8BxPzV
+         p0+0k/tV6sqqbSiOO9XAf2YbE+8SbZjpko/jIHm+LBlTIKPtysq7KjQGmRfaQACd0a
+         8PnwSICzGa7BYX5ue54hI5dCYjMOrAQZMIUSPqkg=
+Date:   Sun, 22 Jan 2023 16:59:23 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Michael Grzeschik <mgr@pengutronix.de>
+Cc:     Ricardo Ribalda <ribalda@chromium.org>,
+        Marek Vasut <marex@denx.de>, linux-media@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        William Manley <will@williammanley.net>
+Subject: Re: [PATCH v2] media: uvcvideo: Add GUID for BGRA/X 8:8:8:8
+Message-ID: <Y81PS0CggZMDNZs6@pendragon.ideasonboard.com>
+References: <20230116094032.4389-1-marex@denx.de>
+ <Y8Uq2EtsYi9kmdqw@pendragon.ideasonboard.com>
+ <CANiDSCtniqdwr7oqvcMfH9sKYMuTX7jyAA9P9ZeCFhEGq8Rnqw@mail.gmail.com>
+ <Y8VdpQGcqmoKESk8@pendragon.ideasonboard.com>
+ <20230122122815.GA20761@pengutronix.de>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [RFC PATCH 0/4] Drop custom logging
-To:     Umang Jain <umang.jain@ideasonboard.com>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Adrien Thierry <athierry@redhat.com>,
-        Dan Carpenter <error27@gmail.com>,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        linux-arm-kernel@lists.infradead.org,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-kernel@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
-        linux-staging@lists.linux.dev, linux-media@vger.kernel.org,
-        Phil Elwell <phil@raspberrypi.com>
-References: <20230118115810.21979-1-umang.jain@ideasonboard.com>
-Content-Language: en-US
-From:   Stefan Wahren <stefan.wahren@i2se.com>
-In-Reply-To: <20230118115810.21979-1-umang.jain@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Provags-ID: V03:K1:+K/hkG18/sgKmBAu93VyhrzGjSGV8+eUMDqkYyeM/O8q/ypb3jq
- G0J6OJ5W4OgwFC1Z3QH2Tq3deTqESekn8J17woustOqbuxJPAVauE12Go7VpPdjUhK2fug7
- SHFDwhJdOgFB0+r1mEI66LkQIP/71vVxRM5pE1oO9EiIi1zUuNNrFbtp54u6wPLC2N0aoig
- 3KMX4IKC8uVH3qhLg28CA==
-UI-OutboundReport: notjunk:1;M01:P0:vwI63V1V3WM=;SxYw6lsSCKLJWlC8TWM51b41N/C
- 46arB08+ShlPWqVQDGi50NtNc2kz/xfyUqQqfQPz8lPluLEic7k4FXonR+ncXvizb4jxNAlel
- F35rCJR5aKPbBpfRz6ULY+E8BAhpnrom+zjW1UUyv3TIB/5c15/XzLjVeSvKe0+bRfYNNd/W3
- 4Tze5zdWg/2UWbe6kUaAHPDfK2KjbSB2+aGlo9VdSf8CTaBLHgKO/TxxnE2/qoMLOYiQGnC3s
- AoHEMlqwhAQt/6wWJUzS5PfLS+dbFQdBkXCrCkxiwQqERALPbkZ82Ml9i1jM72AzbxKlQk02x
- kkYYlHm0sKRIGgyfgzualUedCKKlWrAYAN+y14zruaz5855r1+8kBmLVsGvvJ/PZg5xk0vPZR
- LJPxxuRJhLxiDS0W4YTwrKMOLuwfIWCHSAfQoDf+8B8rPFB6giGrg58lH5KD5yu/62WiZexxI
- 4uuReKS6Aru2ieVIxgyelr7/XO0vBGHpGdCz/045R3aIY+QV4Lvp6yFPEBusOJgK6rAyDLN1Z
- 7E2DjBCZeZtb7ckvYrrhIXxozIIexL3Gdk8htOc6RMdl9fGeOjlqNU4wMwFVKeJ98uahcgn58
- gfzn6mcmiAfoll8vCBywItbmbwQ215yedZbbNw5F1JCs+m9hHtTTs2GoF3hFEFamHI/qxMpWk
- stTFPHJErEDGFPyVnNBRW0+H11cofJ6egF1cwgnqyg==
-X-Spam-Status: No, score=-3.0 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20230122122815.GA20761@pengutronix.de>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Umang,
+Hi Michael,
 
-Am 18.01.23 um 12:58 schrieb Umang Jain:
-> Drop custom logging from the vchiq interface.
-> Mostly of them are replaced with dev_dbg and friends
-> and/or pr_info and friends.
->
-> The debugfs log levels (in 4/4) are mapped to kernel
-> logs levels (coming from include/linux/kern_levels.h)
-> Would like some thoughts on it as I am not sure (hence
-> marking this is RFC)
->
->  From drivers/staging/vc04_services/interface/TODO:
->
-> """
-> * Cleanup logging mechanism
->
-> The driver should probably be using the standard kernel logging mechanisms
-> such as dev_info, dev_dbg, and friends.
-> """
+On Sun, Jan 22, 2023 at 01:28:15PM +0100, Michael Grzeschik wrote:
+> On Mon, Jan 16, 2023 at 04:22:29PM +0200, Laurent Pinchart wrote:
+> > On Mon, Jan 16, 2023 at 02:20:40PM +0100, Ricardo Ribalda wrote:
+> >> Hi Marek!!!
+> >>
+> >> Why do they call MEDIASUBTYPE_RGB32 something that is BRG ? !
+> >>
+> >> Why do WE call XBGR something that is BGRX? !!
+> >>
+> >> Besides our insanity, your patch looks sane. Thanks for it :)
+> >>
+> >> There are some patches on the queue to remove the format definitions,
+> >> so your patch might not apply cleanly, I guess Laurent will take care
+> >> of it
+> >
+> > Ricardo meant [5].
+> >
+> > Michael, I'm waiting for Mauro to merge the uvcvideo pull request for
+> > v6.3 ([6]). Once done, you can use that as a base branch for your
+> > series, and send a pull request to Greg. Could you include Marek's
+> > patch, either at the bottom or the top of your series ? Alternatively I
+> > can send a v4 of the uvcvideo pull request with this patch included if
+> > you prefer.
+> >
+> > [5] https://lore.kernel.org/linux-media/20221215224514.2344656-1-m.grzeschik@pengutronix.de/
+> > [6] https://lore.kernel.org/linux-media/Y8R0yfSL+1BNi%2Ff3@pendragon.ideasonboard.com/
+> 
+> I sure will pick up this patch and create a pull request for my series.
 
-at first i want to thank you for the work on vchiq so far.
+Mauro has merged the media-uvc-next-20230115 tag from
+git://git.kernel.org/pub/scm/linux/kernel/git/pinchartl/linux.git, you
+can now use it as a base.
 
-There is something which is not directly related to this series, but it 
-is also about debugging. The driver has a buffer which is accessed by 
-it's own DEBUG_* macros. The content of this debug buffer can be dumped 
-via the /dev/vchiq which is also used by ioctl. I would appreciate to 
-move this dump feature into a new debugfs entry.
+> >> On Mon, 16 Jan 2023 at 11:50, Laurent Pinchart wrote:
+> >> > On Mon, Jan 16, 2023 at 10:40:32AM +0100, Marek Vasut wrote:
+> >> > > The Cypress EZUSB FX3 UVC example can be configured to report pixel
+> >> > > format "e436eb7e-524f-11ce-9f53-0020af0ba770". This is its GUID for
+> >> > > BGRA/X 8:8:8:8.
+> >> > >
+> >> > > The UVC 1.5 spec [1] only defines GUIDs for YUY2, NV12, M420 and I420.
+> >> > > This seems to be an extension documented in the Microsoft Windows Media
+> >> > > Format SDK[2]. This Media Format SDK defines this GUID as corresponding
+> >> > > to `MEDIASUBTYPE_RGB32`, which is confirmed by [4] as `MEDIASUBTYPE_ARGB32`
+> >> > > has different GUID.
+> >> > >
+> >> > > Note that in my case, the FX3 UVC can output either channel order,
+> >> > > BGR or RGB or any other mix for that matter. Since Linux commit
+> >> > > 1b8dc32286a1a ("[media] uvcvideo: Add GUID for BGR 8:8:8")
+> >> > > defined a GUID for `MEDIASUBTYPE_RGB24` channel order as BGR, keep
+> >> > > this change consistent and define `MEDIASUBTYPE_RGB32` as BGR as well.
+> >> > > Document [3] also indicates the channel order is BGR.
+> >> > >
+> >> > > [1] https://www.usb.org/document-library/video-class-v15-document-set
+> >> > > [2] https://learn.microsoft.com/en-us/windows/win32/wmformat/media-type-identifiers
+> >> > > [3] https://learn.microsoft.com/en-us/windows/win32/directshow/uncompressed-rgb-video-subtypes
+> >> > > [4] https://gix.github.io/media-types/
+> >> > >
+> >> > > Signed-off-by: Marek Vasut <marex@denx.de>
+> >> >
+> >> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> >>
+> >> Reviewed-by: Ricardo Ribalda <ricardo@ribalda.com>
+> >>
+> >> > > ---
+> >> > > Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> >> > > Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+> >> > > Cc: William Manley <will@williammanley.net>
+> >> > > ---
+> >> > > V2: - Reference document [3] confirming BGR channel order
+> >> > >     - Reference document [4] describing MEDIASUBTYPE_ARGB32 with different GUID
+> >> > >     - Use V4L2_PIX_FMT_XBGR32 instead of V4L2_PIX_FMT_BGR32 which is deprecated
+> >> > > ---
+> >> > >  include/media/v4l2-uvc.h | 8 ++++++++
+> >> > >  1 file changed, 8 insertions(+)
+> >> > >
+> >> > > diff --git a/include/media/v4l2-uvc.h b/include/media/v4l2-uvc.h
+> >> > > index f83e31661333b..b010a36fc1d95 100644
+> >> > > --- a/include/media/v4l2-uvc.h
+> >> > > +++ b/include/media/v4l2-uvc.h
+> >> > > @@ -99,6 +99,9 @@
+> >> > >  #define UVC_GUID_FORMAT_BGR3 \
+> >> > >       { 0x7d, 0xeb, 0x36, 0xe4, 0x4f, 0x52, 0xce, 0x11, \
+> >> > >        0x9f, 0x53, 0x00, 0x20, 0xaf, 0x0b, 0xa7, 0x70}
+> >> > > +#define UVC_GUID_FORMAT_BGR4 \
+> >> > > +     { 0x7e, 0xeb, 0x36, 0xe4, 0x4f, 0x52, 0xce, 0x11, \
+> >> > > +      0x9f, 0x53, 0x00, 0x20, 0xaf, 0x0b, 0xa7, 0x70}
+> >> > >  #define UVC_GUID_FORMAT_M420 \
+> >> > >       { 'M',  '4',  '2',  '0', 0x00, 0x00, 0x10, 0x00, \
+> >> > >        0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
+> >> > > @@ -266,6 +269,11 @@ static struct uvc_format_desc uvc_fmts[] = {
+> >> > >               .guid           = UVC_GUID_FORMAT_BGR3,
+> >> > >               .fcc            = V4L2_PIX_FMT_BGR24,
+> >> > >       },
+> >> > > +     {
+> >> > > +             .name           = "BGRA/X 8:8:8:8 (BGR4)",
+> >> > > +             .guid           = UVC_GUID_FORMAT_BGR4,
+> >> > > +             .fcc            = V4L2_PIX_FMT_XBGR32,
+> >> > > +     },
+> >> > >       {
+> >> > >               .name           = "H.264",
+> >> > >               .guid           = UVC_GUID_FORMAT_H264,
 
-Best regards
+-- 
+Regards,
 
+Laurent Pinchart
