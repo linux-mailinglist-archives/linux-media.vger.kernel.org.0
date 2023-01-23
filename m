@@ -2,35 +2,35 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 07CB36783B8
-	for <lists+linux-media@lfdr.de>; Mon, 23 Jan 2023 18:56:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 174AB6783D7
+	for <lists+linux-media@lfdr.de>; Mon, 23 Jan 2023 18:59:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232806AbjAWR4i (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 23 Jan 2023 12:56:38 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34866 "EHLO
+        id S233077AbjAWR7m (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 23 Jan 2023 12:59:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37920 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232786AbjAWR4h (ORCPT
+        with ESMTP id S232340AbjAWR7l (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 23 Jan 2023 12:56:37 -0500
+        Mon, 23 Jan 2023 12:59:41 -0500
 Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C085C2BECF
-        for <linux-media@vger.kernel.org>; Mon, 23 Jan 2023 09:56:36 -0800 (PST)
-X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="309680246"
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 47C852CFC1
+        for <linux-media@vger.kernel.org>; Mon, 23 Jan 2023 09:59:40 -0800 (PST)
+X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="309680999"
 X-IronPort-AV: E=Sophos;i="5.97,240,1669104000"; 
-   d="scan'208";a="309680246"
+   d="scan'208";a="309680999"
 Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2023 09:56:36 -0800
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2023 09:59:33 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="639284802"
+X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="639285890"
 X-IronPort-AV: E=Sophos;i="5.97,240,1669104000"; 
-   d="scan'208";a="639284802"
+   d="scan'208";a="639285890"
 Received: from smile.fi.intel.com ([10.237.72.54])
-  by orsmga006.jf.intel.com with ESMTP; 23 Jan 2023 09:56:33 -0800
+  by orsmga006.jf.intel.com with ESMTP; 23 Jan 2023 09:59:30 -0800
 Received: from andy by smile.fi.intel.com with local (Exim 4.96)
         (envelope-from <andy@kernel.org>)
-        id 1pK13X-00DrSD-1g;
-        Mon, 23 Jan 2023 19:56:31 +0200
-Date:   Mon, 23 Jan 2023 19:56:31 +0200
+        id 1pK16O-00DrVw-1G;
+        Mon, 23 Jan 2023 19:59:28 +0200
+Date:   Mon, 23 Jan 2023 19:59:28 +0200
 From:   Andy Shevchenko <andy@kernel.org>
 To:     Hans de Goede <hdegoede@redhat.com>
 Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -40,15 +40,15 @@ Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Nable <nable.maininbox@googlemail.com>,
         andrey.i.trufanov@gmail.com, Fabio Aiuto <fabioaiuto83@gmail.com>,
         linux-media@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH 23/57] media: atomisp: Fix WARN() when the vb2
- start_streaming callback fails
-Message-ID: <Y87KT+GFAbPiUJiJ@smile.fi.intel.com>
+Subject: Re: [PATCH 25/57] media: atomisp: Stop overriding padding w/h to 12
+ on BYT
+Message-ID: <Y87LAGnn+uenmkSV@smile.fi.intel.com>
 References: <20230123125205.622152-1-hdegoede@redhat.com>
- <20230123125205.622152-24-hdegoede@redhat.com>
+ <20230123125205.622152-26-hdegoede@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230123125205.622152-24-hdegoede@redhat.com>
+In-Reply-To: <20230123125205.622152-26-hdegoede@redhat.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
         SPF_SOFTFAIL autolearn=no autolearn_force=no version=3.4.6
@@ -58,120 +58,72 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Jan 23, 2023 at 01:51:31PM +0100, Hans de Goede wrote:
-> The videobuf2-core expects buffers to be put back in the queued state
-> when the vb2 start_streaming callback fails. But the atomisp
-> atomisp_flush_video_pipe() would unconditionally return them to the core
-> in an error state.
+On Mon, Jan 23, 2023 at 01:51:33PM +0100, Hans de Goede wrote:
+> atomisp_set_fmt() first does:
 > 
-> This triggers the following warning in the videobuf2-core:
+> 	v4l2_fill_mbus_format(&vformat.format, ...);
+>         vformat.format.height += padding_h;
+>         vformat.format.width += padding_w;
 > 
-> drivers/media/common/videobuf2/videobuf2-core.c:1652:
-> 	/*
-> 	 * If done_list is not empty, then start_streaming() didn't call
-> 	 * vb2_buffer_done(vb, VB2_BUF_STATE_QUEUED) but STATE_ERROR or
-> 	 * STATE_DONE.
-> 	 */
-> 	WARN_ON(!list_empty(&q->done_list));
+>         ret = v4l2_subdev_call(isp->inputs[asd->input_curr].camera, pad,
+>                                set_fmt, NULL, &vformat);
+>         if (ret)
+>                 return ret;
 > 
-> Fix this by adding a state argument to atomisp_flush_video_pipe() and use
-> VB2_BUF_STATE_QUEUED as state when atomisp_start_streaming() fails.
-
-Also sounds like a fix.
+> 	f->fmt.pix.width = vformat.format.width - padding_w;
+> 	f->fmt.pix.height = vformat.format.height - padding_h;
+> 
+> this happens with the original padding w/h = 16 values and then later
+> on it calls:
+> 
+>                 ret = atomisp_set_fmt_to_snr(vdev, &s_fmt,
+>                                              f->fmt.pix.pixelformat, padding_w,
+>                                              padding_h, dvs_env_w, dvs_env_h);
+> 
+> Which repeats the above structure. If at that point padding w/h are
+> changed to 12 then it will now request a different output-size of
+> the sensor driver.
+> 
+> The sensor drivers so far have actually been ignoring this since they use
+> v4l2_find_nearest_size() on a fixed resolution list and the nearest
+> resolution will be the one from the earlier calls where padding w/h
+> was 16.
+> 
+> But there really is no reason for sensor drivers to use a fixed
+> resolution list. They make lower resolutions using cropping so they
+> can make any resolution as long as width/height are even numbers.
+> 
+> Dropping the fixed-resolution list limit from sensors on BYT results
+> in trying to start streaming failing because the resolution set to
+> the sensor now no longer matches with the resolution used during
+> the initial part of the configuration done by atomisp_set_fmt().
+> 
+> Drop the BYT specific overriding of the padding_w/h to 12, so that
+> the padding in the first and second s_fmt calls made to the sensor
+> matches, to fix stream start failing when the fixed resolution list
+> is dropped.
 
 Reviewed-by: Andy Shevchenko <andy@kernel.org>
 
 > Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 > ---
->  drivers/staging/media/atomisp/pci/atomisp_cmd.c | 17 +++++++++--------
->  drivers/staging/media/atomisp/pci/atomisp_cmd.h |  3 ++-
->  .../staging/media/atomisp/pci/atomisp_ioctl.c   |  4 ++--
->  3 files changed, 13 insertions(+), 11 deletions(-)
+>  drivers/staging/media/atomisp/pci/atomisp_cmd.c | 3 ---
+>  1 file changed, 3 deletions(-)
 > 
 > diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-> index 01c9845b9f28..b9e7ad57040e 100644
+> index eb05288d8fb1..47f18ac5e40e 100644
 > --- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
 > +++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-> @@ -679,7 +679,8 @@ void atomisp_buffer_done(struct ia_css_frame *frame, enum vb2_buffer_state state
->  	vb2_buffer_done(&frame->vb.vb2_buf, state);
->  }
->  
-> -void atomisp_flush_video_pipe(struct atomisp_video_pipe *pipe, bool warn_on_css_frames)
-> +void atomisp_flush_video_pipe(struct atomisp_video_pipe *pipe, enum vb2_buffer_state state,
-> +			      bool warn_on_css_frames)
->  {
->  	struct ia_css_frame *frame, *_frame;
->  	unsigned long irqflags;
-> @@ -689,15 +690,15 @@ void atomisp_flush_video_pipe(struct atomisp_video_pipe *pipe, bool warn_on_css_
->  	list_for_each_entry_safe(frame, _frame, &pipe->buffers_in_css, queue) {
->  		if (warn_on_css_frames)
->  			dev_warn(pipe->isp->dev, "Warning: CSS frames queued on flush\n");
-> -		atomisp_buffer_done(frame, VB2_BUF_STATE_ERROR);
-> +		atomisp_buffer_done(frame, state);
+> @@ -5163,9 +5163,6 @@ int atomisp_set_fmt(struct video_device *vdev, struct v4l2_format *f)
+>  	if (!atomisp_subdev_format_conversion(asd, source_pad)) {
+>  		padding_w = 0;
+>  		padding_h = 0;
+> -	} else if (IS_BYT) {
+> -		padding_w = 12;
+> -		padding_h = 12;
 >  	}
 >  
->  	list_for_each_entry_safe(frame, _frame, &pipe->activeq, queue)
-> -		atomisp_buffer_done(frame, VB2_BUF_STATE_ERROR);
-> +		atomisp_buffer_done(frame, state);
->  
->  	list_for_each_entry_safe(frame, _frame, &pipe->buffers_waiting_for_param, queue) {
->  		pipe->frame_request_config_id[frame->vb.vb2_buf.index] = 0;
-> -		atomisp_buffer_done(frame, VB2_BUF_STATE_ERROR);
-> +		atomisp_buffer_done(frame, state);
->  	}
->  
->  	spin_unlock_irqrestore(&pipe->irq_lock, irqflags);
-> @@ -706,10 +707,10 @@ void atomisp_flush_video_pipe(struct atomisp_video_pipe *pipe, bool warn_on_css_
->  /* Returns queued buffers back to video-core */
->  void atomisp_flush_bufs_and_wakeup(struct atomisp_sub_device *asd)
->  {
-> -	atomisp_flush_video_pipe(&asd->video_out_capture, false);
-> -	atomisp_flush_video_pipe(&asd->video_out_vf, false);
-> -	atomisp_flush_video_pipe(&asd->video_out_preview, false);
-> -	atomisp_flush_video_pipe(&asd->video_out_video_capture, false);
-> +	atomisp_flush_video_pipe(&asd->video_out_capture, VB2_BUF_STATE_ERROR, false);
-> +	atomisp_flush_video_pipe(&asd->video_out_vf, VB2_BUF_STATE_ERROR, false);
-> +	atomisp_flush_video_pipe(&asd->video_out_preview, VB2_BUF_STATE_ERROR, false);
-> +	atomisp_flush_video_pipe(&asd->video_out_video_capture, VB2_BUF_STATE_ERROR, false);
->  }
->  
->  /* clean out the parameters that did not apply */
-> diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.h b/drivers/staging/media/atomisp/pci/atomisp_cmd.h
-> index a10577df10cb..733b9f8cd06f 100644
-> --- a/drivers/staging/media/atomisp/pci/atomisp_cmd.h
-> +++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.h
-> @@ -57,7 +57,8 @@ struct atomisp_video_pipe *atomisp_to_video_pipe(struct video_device *dev);
->  int atomisp_reset(struct atomisp_device *isp);
->  int atomisp_buffers_in_css(struct atomisp_video_pipe *pipe);
->  void atomisp_buffer_done(struct ia_css_frame *frame, enum vb2_buffer_state state);
-> -void atomisp_flush_video_pipe(struct atomisp_video_pipe *pipe, bool warn_on_css_frames);
-> +void atomisp_flush_video_pipe(struct atomisp_video_pipe *pipe, enum vb2_buffer_state state,
-> +			      bool warn_on_css_frames);
->  void atomisp_flush_bufs_and_wakeup(struct atomisp_sub_device *asd);
->  void atomisp_clear_css_buffer_counters(struct atomisp_sub_device *asd);
->  
-> diff --git a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-> index 77856cbc5ba7..c15bb0b7458b 100644
-> --- a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-> +++ b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-> @@ -1339,7 +1339,7 @@ int atomisp_start_streaming(struct vb2_queue *vq, unsigned int count)
->  
->  	ret = atomisp_css_start(asd, css_pipe_id, false);
->  	if (ret) {
-> -		atomisp_flush_video_pipe(pipe, true);
-> +		atomisp_flush_video_pipe(pipe, VB2_BUF_STATE_QUEUED, true);
->  		goto out_unlock;
->  	}
->  
-> @@ -1515,7 +1515,7 @@ void atomisp_stop_streaming(struct vb2_queue *vq)
->  	css_pipe_id = atomisp_get_css_pipe_id(asd);
->  	atomisp_css_stop(asd, css_pipe_id, false);
->  
-> -	atomisp_flush_video_pipe(pipe, true);
-> +	atomisp_flush_video_pipe(pipe, VB2_BUF_STATE_ERROR, true);
->  
->  	atomisp_subdev_cleanup_pending_events(asd);
->  stopsensor:
+>  	/* construct resolution supported by isp */
 > -- 
 > 2.39.0
 > 
