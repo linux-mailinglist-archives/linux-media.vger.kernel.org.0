@@ -2,42 +2,42 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 447F8677BC1
-	for <lists+linux-media@lfdr.de>; Mon, 23 Jan 2023 13:53:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EC4EE677BC0
+	for <lists+linux-media@lfdr.de>; Mon, 23 Jan 2023 13:53:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231862AbjAWMxa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 23 Jan 2023 07:53:30 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55042 "EHLO
+        id S231891AbjAWMx3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 23 Jan 2023 07:53:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55082 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231880AbjAWMx2 (ORCPT
+        with ESMTP id S231862AbjAWMx2 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Mon, 23 Jan 2023 07:53:28 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B9FD69012
-        for <linux-media@vger.kernel.org>; Mon, 23 Jan 2023 04:52:40 -0800 (PST)
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 56BD49038
+        for <linux-media@vger.kernel.org>; Mon, 23 Jan 2023 04:52:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
         s=mimecast20190719; t=1674478360;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=QvJYTeB3Wu8MhwvaaYZypd/b6miy5+15GFI2BoXs4X8=;
-        b=eSGAfzlHMSIvGB5Y0PPIr9K9tqvWcgw/i3WuH4iOUdAeupagzRhtI89O5FlN++xmqcXewT
-        cAoUN/5mymCge/5SS0rmBwBnGjNnnWn/rrsyp35MU1eWOGO6MlKg3PoEJee8eGmImPe9Ux
-        UTkA8nGwVBfYKjL2lHLO6hj9quK58Is=
+        bh=stIS5JOQ693HNs0oAW3y0abOdG9eOlu4B7iZ7lwQlFk=;
+        b=RXQO5rvGv+0AAREYrb/QhF6P7poIH+852Vf/8OLDhbVubyiSrnsFdIqSNLLTfmKI+QFmdX
+        cXMwCu9EVL2RDJRIpLBDg8/rA32eiBgZCMXlVhpsJhvWv15m2lel0bFtwzaz1rFrH2nWgO
+        bOBsJT22gwpywHhnTYR/RbEugLnR6kc=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-533-lHdRfIdwPLaGPR0rgyEJDA-1; Mon, 23 Jan 2023 07:52:34 -0500
-X-MC-Unique: lHdRfIdwPLaGPR0rgyEJDA-1
+ us-mta-108-bl_9rqG8Mcm2j5Rc6g1RIA-1; Mon, 23 Jan 2023 07:52:37 -0500
+X-MC-Unique: bl_9rqG8Mcm2j5Rc6g1RIA-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com [10.11.54.8])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A857A18A6464;
-        Mon, 23 Jan 2023 12:52:33 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 59F08858F0E;
+        Mon, 23 Jan 2023 12:52:36 +0000 (UTC)
 Received: from x1.localdomain.com (unknown [10.39.194.13])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 1AFC5C15BA0;
-        Mon, 23 Jan 2023 12:52:30 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 15B8AC15BA0;
+        Mon, 23 Jan 2023 12:52:33 +0000 (UTC)
 From:   Hans de Goede <hdegoede@redhat.com>
 To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Sakari Ailus <sakari.ailus@linux.intel.com>
@@ -48,9 +48,9 @@ Cc:     Hans de Goede <hdegoede@redhat.com>,
         Nable <nable.maininbox@googlemail.com>,
         andrey.i.trufanov@gmail.com, Fabio Aiuto <fabioaiuto83@gmail.com>,
         linux-media@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: [PATCH 08/57] media: atomisp: Remove custom ATOMISP_IOC_ISP_MAKERNOTE ioctl
-Date:   Mon, 23 Jan 2023 13:51:16 +0100
-Message-Id: <20230123125205.622152-9-hdegoede@redhat.com>
+Subject: [PATCH 09/57] media: atomisp: Remove custom ATOMISP_IOC_G_SENSOR_MODE_DATA ioctl
+Date:   Mon, 23 Jan 2023 13:51:17 +0100
+Message-Id: <20230123125205.622152-10-hdegoede@redhat.com>
 In-Reply-To: <20230123125205.622152-1-hdegoede@redhat.com>
 References: <20230123125205.622152-1-hdegoede@redhat.com>
 MIME-Version: 1.0
@@ -66,14 +66,17 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This ioctl simply returns a couple of fixed sensor parameters.
+This ioctl returns a number of fixed sensor parameters +
+a number of mode-specific parameters.
 
 With libcamera these fixed parameters are instead stored in a table
-with sensor-name to parameters mappings (camera_sensor_properties.cpp),
-so these custom ioctl is not necessary; and it currently has no users.
+with sensor-name to parameters mappings (camera_sensor_properties.cpp);
+and the variable parameters can be derived from the set fmt.
 
-Remove the ioctl and also remove the custom v4l2-ctrls underpinning
-the ioctl.
+So this custom ioctl is not necessary; and it currently has no users.
+
+Remove the ioctl and all the sensor drivers xxxx_get_intg_factor()
+helpers which return this info.
 
 This is part of a patch-series which tries to remove atomisp specific /
 custom code from the sensor drivers, with as end goal to make the atomisp
@@ -81,768 +84,944 @@ drivers regular camera sensor drivers.
 
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- .../media/atomisp/i2c/atomisp-gc0310.c        | 63 ------------------
- .../media/atomisp/i2c/atomisp-gc2235.c        | 63 ------------------
- .../media/atomisp/i2c/atomisp-mt9m114.c       | 64 -------------------
- .../media/atomisp/i2c/atomisp-ov2680.c        | 64 -------------------
- .../media/atomisp/i2c/atomisp-ov2722.c        | 63 ------------------
- drivers/staging/media/atomisp/i2c/gc0310.h    |  3 -
- drivers/staging/media/atomisp/i2c/gc2235.h    |  3 -
- drivers/staging/media/atomisp/i2c/mt9m114.h   |  3 -
- drivers/staging/media/atomisp/i2c/ov2680.h    |  3 -
- drivers/staging/media/atomisp/i2c/ov2722.h    |  3 -
- .../media/atomisp/i2c/ov5693/atomisp-ov5693.c | 63 ------------------
- .../media/atomisp/include/linux/atomisp.h     | 20 ------
- .../staging/media/atomisp/pci/atomisp_cmd.c   | 36 -----------
- .../staging/media/atomisp/pci/atomisp_cmd.h   |  3 -
- .../staging/media/atomisp/pci/atomisp_ioctl.c |  7 --
- 15 files changed, 461 deletions(-)
+ .../media/atomisp/i2c/atomisp-gc0310.c        | 140 ------------------
+ .../media/atomisp/i2c/atomisp-gc2235.c        | 113 --------------
+ .../media/atomisp/i2c/atomisp-mt9m114.c       |  96 ------------
+ .../media/atomisp/i2c/atomisp-ov2680.c        |  82 ----------
+ .../media/atomisp/i2c/atomisp-ov2722.c        | 111 --------------
+ drivers/staging/media/atomisp/i2c/gc0310.h    |   1 -
+ drivers/staging/media/atomisp/i2c/gc2235.h    |   1 -
+ drivers/staging/media/atomisp/i2c/ov2722.h    |   1 -
+ .../media/atomisp/i2c/ov5693/atomisp-ov5693.c |  86 -----------
+ .../staging/media/atomisp/i2c/ov5693/ov5693.h |   1 -
+ .../media/atomisp/include/linux/atomisp.h     |  26 ----
+ .../atomisp/include/linux/atomisp_platform.h  |   1 -
+ drivers/staging/media/atomisp/notes.txt       |   6 -
+ .../staging/media/atomisp/pci/atomisp_cmd.c   |  19 ---
+ .../staging/media/atomisp/pci/atomisp_cmd.h   |   3 -
+ .../staging/media/atomisp/pci/atomisp_ioctl.c |   4 -
+ 16 files changed, 691 deletions(-)
 
 diff --git a/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c b/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
-index 87a634bf9ff5..a9c4724a9358 100644
+index a9c4724a9358..4968ec51ff1b 100644
 --- a/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
 +++ b/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
-@@ -241,27 +241,6 @@ static int gc0310_write_reg_array(struct i2c_client *client,
- 	return __gc0310_flush_reg_array(client, &ctrl);
+@@ -259,140 +259,6 @@ static int gc0310_g_bin_factor_y(struct v4l2_subdev *sd, s32 *val)
+ 	return 0;
  }
  
--static int gc0310_g_focal(struct v4l2_subdev *sd, s32 *val)
+-static int gc0310_get_intg_factor(struct i2c_client *client,
+-				  struct camera_mipi_info *info,
+-				  const struct gc0310_resolution *res)
 -{
--	*val = (GC0310_FOCAL_LENGTH_NUM << 16) | GC0310_FOCAL_LENGTH_DEM;
+-	struct v4l2_subdev *sd = i2c_get_clientdata(client);
+-	struct gc0310_device *dev = to_gc0310_sensor(sd);
+-	struct atomisp_sensor_mode_data *buf = &info->data;
+-	u16 val;
+-	u8 reg_val;
+-	int ret;
+-	unsigned int hori_blanking;
+-	unsigned int vert_blanking;
+-	unsigned int sh_delay;
+-
+-	if (!info)
+-		return -EINVAL;
+-
+-	/* pixel clock calculattion */
+-	dev->vt_pix_clk_freq_mhz = 14400000; // 16.8MHz
+-	buf->vt_pix_clk_freq_mhz = dev->vt_pix_clk_freq_mhz;
+-	dev_dbg(&client->dev, "vt_pix_clk_freq_mhz=%d\n", buf->vt_pix_clk_freq_mhz);
+-
+-	/* get integration time */
+-	buf->coarse_integration_time_min = GC0310_COARSE_INTG_TIME_MIN;
+-	buf->coarse_integration_time_max_margin =
+-	    GC0310_COARSE_INTG_TIME_MAX_MARGIN;
+-
+-	buf->fine_integration_time_min = GC0310_FINE_INTG_TIME_MIN;
+-	buf->fine_integration_time_max_margin =
+-	    GC0310_FINE_INTG_TIME_MAX_MARGIN;
+-
+-	buf->fine_integration_time_def = GC0310_FINE_INTG_TIME_MIN;
+-	buf->read_mode = res->bin_mode;
+-
+-	/* get the cropping and output resolution to ISP for this mode. */
+-	/* Getting crop_horizontal_start */
+-	ret =  gc0310_read_reg(client, GC0310_8BIT,
+-			       GC0310_H_CROP_START_H, &reg_val);
+-	if (ret)
+-		return ret;
+-	val = (reg_val & 0xFF) << 8;
+-	ret =  gc0310_read_reg(client, GC0310_8BIT,
+-			       GC0310_H_CROP_START_L, &reg_val);
+-	if (ret)
+-		return ret;
+-	buf->crop_horizontal_start = val | (reg_val & 0xFF);
+-	dev_dbg(&client->dev, "crop_horizontal_start=%d\n", buf->crop_horizontal_start);
+-
+-	/* Getting crop_vertical_start */
+-	ret =  gc0310_read_reg(client, GC0310_8BIT,
+-			       GC0310_V_CROP_START_H, &reg_val);
+-	if (ret)
+-		return ret;
+-	val = (reg_val & 0xFF) << 8;
+-	ret =  gc0310_read_reg(client, GC0310_8BIT,
+-			       GC0310_V_CROP_START_L, &reg_val);
+-	if (ret)
+-		return ret;
+-	buf->crop_vertical_start = val | (reg_val & 0xFF);
+-	dev_dbg(&client->dev, "crop_vertical_start=%d\n", buf->crop_vertical_start);
+-
+-	/* Getting output_width */
+-	ret = gc0310_read_reg(client, GC0310_8BIT,
+-			      GC0310_H_OUTSIZE_H, &reg_val);
+-	if (ret)
+-		return ret;
+-	val = (reg_val & 0xFF) << 8;
+-	ret = gc0310_read_reg(client, GC0310_8BIT,
+-			      GC0310_H_OUTSIZE_L, &reg_val);
+-	if (ret)
+-		return ret;
+-	buf->output_width = val | (reg_val & 0xFF);
+-	dev_dbg(&client->dev, "output_width=%d\n", buf->output_width);
+-
+-	/* Getting output_height */
+-	ret = gc0310_read_reg(client, GC0310_8BIT,
+-			      GC0310_V_OUTSIZE_H, &reg_val);
+-	if (ret)
+-		return ret;
+-	val = (reg_val & 0xFF) << 8;
+-	ret = gc0310_read_reg(client, GC0310_8BIT,
+-			      GC0310_V_OUTSIZE_L, &reg_val);
+-	if (ret)
+-		return ret;
+-	buf->output_height = val | (reg_val & 0xFF);
+-	dev_dbg(&client->dev, "output_height=%d\n", buf->output_height);
+-
+-	buf->crop_horizontal_end = buf->crop_horizontal_start + buf->output_width - 1;
+-	buf->crop_vertical_end = buf->crop_vertical_start + buf->output_height - 1;
+-	dev_dbg(&client->dev, "crop_horizontal_end=%d\n", buf->crop_horizontal_end);
+-	dev_dbg(&client->dev, "crop_vertical_end=%d\n", buf->crop_vertical_end);
+-
+-	/* Getting line_length_pck */
+-	ret = gc0310_read_reg(client, GC0310_8BIT,
+-			      GC0310_H_BLANKING_H, &reg_val);
+-	if (ret)
+-		return ret;
+-	val = (reg_val & 0xFF) << 8;
+-	ret = gc0310_read_reg(client, GC0310_8BIT,
+-			      GC0310_H_BLANKING_L, &reg_val);
+-	if (ret)
+-		return ret;
+-	hori_blanking = val | (reg_val & 0xFF);
+-	ret = gc0310_read_reg(client, GC0310_8BIT,
+-			      GC0310_SH_DELAY, &reg_val);
+-	if (ret)
+-		return ret;
+-	sh_delay = reg_val;
+-	buf->line_length_pck = buf->output_width + hori_blanking + sh_delay + 4;
+-	dev_dbg(&client->dev, "hori_blanking=%d sh_delay=%d line_length_pck=%d\n", hori_blanking,
+-		sh_delay, buf->line_length_pck);
+-
+-	/* Getting frame_length_lines */
+-	ret = gc0310_read_reg(client, GC0310_8BIT,
+-			      GC0310_V_BLANKING_H, &reg_val);
+-	if (ret)
+-		return ret;
+-	val = (reg_val & 0xFF) << 8;
+-	ret = gc0310_read_reg(client, GC0310_8BIT,
+-			      GC0310_V_BLANKING_L, &reg_val);
+-	if (ret)
+-		return ret;
+-	vert_blanking = val | (reg_val & 0xFF);
+-	buf->frame_length_lines = buf->output_height + vert_blanking;
+-	dev_dbg(&client->dev, "vert_blanking=%d frame_length_lines=%d\n", vert_blanking,
+-		buf->frame_length_lines);
+-
+-	buf->binning_factor_x = res->bin_factor_x ?
+-				res->bin_factor_x : 1;
+-	buf->binning_factor_y = res->bin_factor_y ?
+-				res->bin_factor_y : 1;
 -	return 0;
 -}
 -
--static int gc0310_g_fnumber(struct v4l2_subdev *sd, s32 *val)
--{
--	/*const f number for imx*/
--	*val = (GC0310_F_NUMBER_DEFAULT_NUM << 16) | GC0310_F_NUMBER_DEM;
--	return 0;
--}
--
--static int gc0310_g_fnumber_range(struct v4l2_subdev *sd, s32 *val)
--{
--	*val = (GC0310_F_NUMBER_DEFAULT_NUM << 24) |
--	       (GC0310_F_NUMBER_DEM << 16) |
--	       (GC0310_F_NUMBER_DEFAULT_NUM << 8) | GC0310_F_NUMBER_DEM;
--	return 0;
--}
--
- static int gc0310_g_bin_factor_x(struct v4l2_subdev *sd, s32 *val)
+ static int gc0310_set_gain(struct v4l2_subdev *sd, int gain)
+ 
  {
- 	struct gc0310_device *dev = to_gc0310_sensor(sd);
-@@ -596,15 +575,6 @@ static int gc0310_g_volatile_ctrl(struct v4l2_ctrl *ctrl)
- 	case V4L2_CID_EXPOSURE_ABSOLUTE:
- 		ret = gc0310_q_exposure(&dev->sd, &ctrl->val);
- 		break;
--	case V4L2_CID_FOCAL_ABSOLUTE:
--		ret = gc0310_g_focal(&dev->sd, &ctrl->val);
--		break;
--	case V4L2_CID_FNUMBER_ABSOLUTE:
--		ret = gc0310_g_fnumber(&dev->sd, &ctrl->val);
--		break;
--	case V4L2_CID_FNUMBER_RANGE:
--		ret = gc0310_g_fnumber_range(&dev->sd, &ctrl->val);
--		break;
- 	case V4L2_CID_BIN_FACTOR_HORZ:
- 		ret = gc0310_g_bin_factor_x(&dev->sd, &ctrl->val);
- 		break;
-@@ -655,39 +625,6 @@ static const struct v4l2_ctrl_config gc0310_controls[] = {
- 		.step = 1,
- 		.def = 0,
- 	},
--	{
--		.ops = &ctrl_ops,
--		.id = V4L2_CID_FOCAL_ABSOLUTE,
--		.type = V4L2_CTRL_TYPE_INTEGER,
--		.name = "focal length",
--		.min = GC0310_FOCAL_LENGTH_DEFAULT,
--		.max = GC0310_FOCAL_LENGTH_DEFAULT,
--		.step = 0x01,
--		.def = GC0310_FOCAL_LENGTH_DEFAULT,
--		.flags = 0,
--	},
--	{
--		.ops = &ctrl_ops,
--		.id = V4L2_CID_FNUMBER_ABSOLUTE,
--		.type = V4L2_CTRL_TYPE_INTEGER,
--		.name = "f-number",
--		.min = GC0310_F_NUMBER_DEFAULT,
--		.max = GC0310_F_NUMBER_DEFAULT,
--		.step = 0x01,
--		.def = GC0310_F_NUMBER_DEFAULT,
--		.flags = 0,
--	},
--	{
--		.ops = &ctrl_ops,
--		.id = V4L2_CID_FNUMBER_RANGE,
--		.type = V4L2_CTRL_TYPE_INTEGER,
--		.name = "f-number range",
--		.min = GC0310_F_NUMBER_RANGE,
--		.max = GC0310_F_NUMBER_RANGE,
--		.step = 0x01,
--		.def = GC0310_F_NUMBER_RANGE,
--		.flags = 0,
--	},
- 	{
- 		.ops = &ctrl_ops,
- 		.id = V4L2_CID_BIN_FACTOR_HORZ,
+@@ -889,12 +755,6 @@ static int gc0310_set_fmt(struct v4l2_subdev *sd,
+ 		goto err;
+ 	}
+ 
+-	ret = gc0310_get_intg_factor(client, gc0310_info, dev->res);
+-	if (ret) {
+-		dev_err(&client->dev, "failed to get integration_factor\n");
+-		goto err;
+-	}
+-
+ err:
+ 	mutex_unlock(&dev->input_lock);
+ 	return ret;
 diff --git a/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c b/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
-index 4d5a7e335f85..e6df10bcab8c 100644
+index e6df10bcab8c..cb4c79b483ca 100644
 --- a/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
 +++ b/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
-@@ -220,27 +220,6 @@ static int gc2235_write_reg_array(struct i2c_client *client,
+@@ -220,114 +220,6 @@ static int gc2235_write_reg_array(struct i2c_client *client,
  	return __gc2235_flush_reg_array(client, &ctrl);
  }
  
--static int gc2235_g_focal(struct v4l2_subdev *sd, s32 *val)
+-static int gc2235_get_intg_factor(struct i2c_client *client,
+-				  struct camera_mipi_info *info,
+-				  const struct gc2235_resolution *res)
 -{
--	*val = (GC2235_FOCAL_LENGTH_NUM << 16) | GC2235_FOCAL_LENGTH_DEM;
+-	struct v4l2_subdev *sd = i2c_get_clientdata(client);
+-	struct gc2235_device *dev = to_gc2235_sensor(sd);
+-	struct atomisp_sensor_mode_data *buf = &info->data;
+-	u16 reg_val, reg_val_h;
+-	int ret;
+-
+-	if (!info)
+-		return -EINVAL;
+-
+-	/* pixel clock calculattion */
+-	buf->vt_pix_clk_freq_mhz = dev->vt_pix_clk_freq_mhz = 30000000;
+-
+-	/* get integration time */
+-	buf->coarse_integration_time_min = GC2235_COARSE_INTG_TIME_MIN;
+-	buf->coarse_integration_time_max_margin =
+-	    GC2235_COARSE_INTG_TIME_MAX_MARGIN;
+-
+-	buf->fine_integration_time_min = GC2235_FINE_INTG_TIME_MIN;
+-	buf->fine_integration_time_max_margin =
+-	    GC2235_FINE_INTG_TIME_MAX_MARGIN;
+-
+-	buf->fine_integration_time_def = GC2235_FINE_INTG_TIME_MIN;
+-	buf->frame_length_lines = res->lines_per_frame;
+-	buf->line_length_pck = res->pixels_per_line;
+-	buf->read_mode = res->bin_mode;
+-
+-	/* get the cropping and output resolution to ISP for this mode. */
+-	ret =  gc2235_read_reg(client, GC2235_8BIT,
+-			       GC2235_H_CROP_START_H, &reg_val_h);
+-	ret =  gc2235_read_reg(client, GC2235_8BIT,
+-			       GC2235_H_CROP_START_L, &reg_val);
+-	if (ret)
+-		return ret;
+-
+-	buf->crop_horizontal_start = (reg_val_h << 8) | reg_val;
+-
+-	ret =  gc2235_read_reg(client, GC2235_8BIT,
+-			       GC2235_V_CROP_START_H, &reg_val_h);
+-	ret =  gc2235_read_reg(client, GC2235_8BIT,
+-			       GC2235_V_CROP_START_L, &reg_val);
+-	if (ret)
+-		return ret;
+-
+-	buf->crop_vertical_start = (reg_val_h << 8) | reg_val;
+-
+-	ret = gc2235_read_reg(client, GC2235_8BIT,
+-			      GC2235_H_OUTSIZE_H, &reg_val_h);
+-	ret = gc2235_read_reg(client, GC2235_8BIT,
+-			      GC2235_H_OUTSIZE_L, &reg_val);
+-	if (ret)
+-		return ret;
+-	buf->output_width = (reg_val_h << 8) | reg_val;
+-
+-	ret = gc2235_read_reg(client, GC2235_8BIT,
+-			      GC2235_V_OUTSIZE_H, &reg_val_h);
+-	ret = gc2235_read_reg(client, GC2235_8BIT,
+-			      GC2235_V_OUTSIZE_L, &reg_val);
+-	if (ret)
+-		return ret;
+-	buf->output_height = (reg_val_h << 8) | reg_val;
+-
+-	buf->crop_horizontal_end = buf->crop_horizontal_start +
+-				   buf->output_width - 1;
+-	buf->crop_vertical_end = buf->crop_vertical_start +
+-				 buf->output_height - 1;
+-
+-	ret = gc2235_read_reg(client, GC2235_8BIT,
+-			      GC2235_HB_H, &reg_val_h);
+-	ret = gc2235_read_reg(client, GC2235_8BIT,
+-			      GC2235_HB_L, &reg_val);
+-	if (ret)
+-		return ret;
+-
+-#if 0
+-	u16 dummy = (reg_val_h << 8) | reg_val;
+-#endif
+-
+-	ret = gc2235_read_reg(client, GC2235_8BIT,
+-			      GC2235_SH_DELAY_H, &reg_val_h);
+-	ret = gc2235_read_reg(client, GC2235_8BIT,
+-			      GC2235_SH_DELAY_L, &reg_val);
+-
+-#if 0
+-	buf->line_length_pck = buf->output_width + 16 + dummy +
+-			       (((u16)reg_val_h << 8) | (u16)reg_val) + 4;
+-#endif
+-	ret = gc2235_read_reg(client, GC2235_8BIT,
+-			      GC2235_VB_H, &reg_val_h);
+-	ret = gc2235_read_reg(client, GC2235_8BIT,
+-			      GC2235_VB_L, &reg_val);
+-	if (ret)
+-		return ret;
+-
+-#if 0
+-	buf->frame_length_lines = buf->output_height + 32 +
+-				  (((u16)reg_val_h << 8) | (u16)reg_val);
+-#endif
+-	buf->binning_factor_x = res->bin_factor_x ?
+-				res->bin_factor_x : 1;
+-	buf->binning_factor_y = res->bin_factor_y ?
+-				res->bin_factor_y : 1;
 -	return 0;
 -}
 -
--static int gc2235_g_fnumber(struct v4l2_subdev *sd, s32 *val)
--{
--	/* const f number for imx */
--	*val = (GC2235_F_NUMBER_DEFAULT_NUM << 16) | GC2235_F_NUMBER_DEM;
--	return 0;
--}
--
--static int gc2235_g_fnumber_range(struct v4l2_subdev *sd, s32 *val)
--{
--	*val = (GC2235_F_NUMBER_DEFAULT_NUM << 24) |
--	       (GC2235_F_NUMBER_DEM << 16) |
--	       (GC2235_F_NUMBER_DEFAULT_NUM << 8) | GC2235_F_NUMBER_DEM;
--	return 0;
--}
--
- static int gc2235_get_intg_factor(struct i2c_client *client,
- 				  struct camera_mipi_info *info,
- 				  const struct gc2235_resolution *res)
-@@ -467,15 +446,6 @@ static int gc2235_g_volatile_ctrl(struct v4l2_ctrl *ctrl)
- 	case V4L2_CID_EXPOSURE_ABSOLUTE:
- 		ret = gc2235_q_exposure(&dev->sd, &ctrl->val);
- 		break;
--	case V4L2_CID_FOCAL_ABSOLUTE:
--		ret = gc2235_g_focal(&dev->sd, &ctrl->val);
--		break;
--	case V4L2_CID_FNUMBER_ABSOLUTE:
--		ret = gc2235_g_fnumber(&dev->sd, &ctrl->val);
--		break;
--	case V4L2_CID_FNUMBER_RANGE:
--		ret = gc2235_g_fnumber_range(&dev->sd, &ctrl->val);
--		break;
- 	default:
- 		ret = -EINVAL;
- 	}
-@@ -499,39 +469,6 @@ static struct v4l2_ctrl_config gc2235_controls[] = {
- 		.def = 0x00,
- 		.flags = 0,
- 	},
--	{
--		.ops = &ctrl_ops,
--		.id = V4L2_CID_FOCAL_ABSOLUTE,
--		.type = V4L2_CTRL_TYPE_INTEGER,
--		.name = "focal length",
--		.min = GC2235_FOCAL_LENGTH_DEFAULT,
--		.max = GC2235_FOCAL_LENGTH_DEFAULT,
--		.step = 0x01,
--		.def = GC2235_FOCAL_LENGTH_DEFAULT,
--		.flags = 0,
--	},
--	{
--		.ops = &ctrl_ops,
--		.id = V4L2_CID_FNUMBER_ABSOLUTE,
--		.type = V4L2_CTRL_TYPE_INTEGER,
--		.name = "f-number",
--		.min = GC2235_F_NUMBER_DEFAULT,
--		.max = GC2235_F_NUMBER_DEFAULT,
--		.step = 0x01,
--		.def = GC2235_F_NUMBER_DEFAULT,
--		.flags = 0,
--	},
--	{
--		.ops = &ctrl_ops,
--		.id = V4L2_CID_FNUMBER_RANGE,
--		.type = V4L2_CTRL_TYPE_INTEGER,
--		.name = "f-number range",
--		.min = GC2235_F_NUMBER_RANGE,
--		.max = GC2235_F_NUMBER_RANGE,
--		.step = 0x01,
--		.def = GC2235_F_NUMBER_RANGE,
--		.flags = 0,
--	},
- };
+ static long __gc2235_set_exposure(struct v4l2_subdev *sd, int coarse_itg,
+ 				  int gain, int digitgain)
  
- static int __gc2235_init(struct v4l2_subdev *sd)
+@@ -680,11 +572,6 @@ static int gc2235_set_fmt(struct v4l2_subdev *sd,
+ 		goto err;
+ 	}
+ 
+-	ret = gc2235_get_intg_factor(client, gc2235_info,
+-				     dev->res);
+-	if (ret)
+-		dev_err(&client->dev, "failed to get integration_factor\n");
+-
+ err:
+ 	mutex_unlock(&dev->input_lock);
+ 	return ret;
 diff --git a/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c b/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c
-index a0e8e94b2412..eb34b5cadb33 100644
+index eb34b5cadb33..1df38f5fe1f4 100644
 --- a/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c
 +++ b/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c
-@@ -841,28 +841,6 @@ static int mt9m114_set_fmt(struct v4l2_subdev *sd,
+@@ -612,96 +612,6 @@ static int mt9m114_res2size(struct v4l2_subdev *sd, int *h_size, int *v_size)
  	return 0;
  }
  
--/* TODO: Update to SOC functions, remove exposure and gain */
--static int mt9m114_g_focal(struct v4l2_subdev *sd, s32 *val)
+-static int mt9m114_get_intg_factor(struct i2c_client *client,
+-				   struct camera_mipi_info *info,
+-				   const struct mt9m114_res_struct *res)
 -{
--	*val = (MT9M114_FOCAL_LENGTH_NUM << 16) | MT9M114_FOCAL_LENGTH_DEM;
+-	struct atomisp_sensor_mode_data *buf;
+-	u32 reg_val;
+-	int ret;
+-
+-	if (!info)
+-		return -EINVAL;
+-
+-	buf = &info->data;
+-
+-	ret =  mt9m114_read_reg(client, MISENSOR_32BIT,
+-				REG_PIXEL_CLK, &reg_val);
+-	if (ret)
+-		return ret;
+-	buf->vt_pix_clk_freq_mhz = reg_val;
+-
+-	/* get integration time */
+-	buf->coarse_integration_time_min = MT9M114_COARSE_INTG_TIME_MIN;
+-	buf->coarse_integration_time_max_margin =
+-	    MT9M114_COARSE_INTG_TIME_MAX_MARGIN;
+-
+-	buf->fine_integration_time_min = MT9M114_FINE_INTG_TIME_MIN;
+-	buf->fine_integration_time_max_margin =
+-	    MT9M114_FINE_INTG_TIME_MAX_MARGIN;
+-
+-	buf->fine_integration_time_def = MT9M114_FINE_INTG_TIME_MIN;
+-
+-	buf->frame_length_lines = res->lines_per_frame;
+-	buf->line_length_pck = res->pixels_per_line;
+-	buf->read_mode = res->bin_mode;
+-
+-	/* get the cropping and output resolution to ISP for this mode. */
+-	ret =  mt9m114_read_reg(client, MISENSOR_16BIT,
+-				REG_H_START, &reg_val);
+-	if (ret)
+-		return ret;
+-	buf->crop_horizontal_start = reg_val;
+-
+-	ret =  mt9m114_read_reg(client, MISENSOR_16BIT,
+-				REG_V_START, &reg_val);
+-	if (ret)
+-		return ret;
+-	buf->crop_vertical_start = reg_val;
+-
+-	ret = mt9m114_read_reg(client, MISENSOR_16BIT,
+-			       REG_H_END, &reg_val);
+-	if (ret)
+-		return ret;
+-	buf->crop_horizontal_end = reg_val;
+-
+-	ret = mt9m114_read_reg(client, MISENSOR_16BIT,
+-			       REG_V_END, &reg_val);
+-	if (ret)
+-		return ret;
+-	buf->crop_vertical_end = reg_val;
+-
+-	ret = mt9m114_read_reg(client, MISENSOR_16BIT,
+-			       REG_WIDTH, &reg_val);
+-	if (ret)
+-		return ret;
+-	buf->output_width = reg_val;
+-
+-	ret = mt9m114_read_reg(client, MISENSOR_16BIT,
+-			       REG_HEIGHT, &reg_val);
+-	if (ret)
+-		return ret;
+-	buf->output_height = reg_val;
+-
+-	ret = mt9m114_read_reg(client, MISENSOR_16BIT,
+-			       REG_TIMING_HTS, &reg_val);
+-	if (ret)
+-		return ret;
+-	buf->line_length_pck = reg_val;
+-
+-	ret = mt9m114_read_reg(client, MISENSOR_16BIT,
+-			       REG_TIMING_VTS, &reg_val);
+-	if (ret)
+-		return ret;
+-	buf->frame_length_lines = reg_val;
+-
+-	buf->binning_factor_x = res->bin_factor_x ?
+-				res->bin_factor_x : 1;
+-	buf->binning_factor_y = res->bin_factor_y ?
+-				res->bin_factor_y : 1;
 -	return 0;
 -}
 -
--static int mt9m114_g_fnumber(struct v4l2_subdev *sd, s32 *val)
--{
--	/* const f number for mt9m114 */
--	*val = (MT9M114_F_NUMBER_DEFAULT_NUM << 16) | MT9M114_F_NUMBER_DEM;
--	return 0;
--}
--
--static int mt9m114_g_fnumber_range(struct v4l2_subdev *sd, s32 *val)
--{
--	*val = (MT9M114_F_NUMBER_DEFAULT_NUM << 24) |
--	       (MT9M114_F_NUMBER_DEM << 16) |
--	       (MT9M114_F_NUMBER_DEFAULT_NUM << 8) | MT9M114_F_NUMBER_DEM;
--	return 0;
--}
--
- /* Horizontal flip the image. */
- static int mt9m114_g_hflip(struct v4l2_subdev *sd, s32 *val)
- {
-@@ -1271,15 +1249,6 @@ static int mt9m114_g_volatile_ctrl(struct v4l2_ctrl *ctrl)
- 	case V4L2_CID_HFLIP:
- 		ret = mt9m114_g_hflip(&dev->sd, &ctrl->val);
- 		break;
--	case V4L2_CID_FOCAL_ABSOLUTE:
--		ret = mt9m114_g_focal(&dev->sd, &ctrl->val);
--		break;
--	case V4L2_CID_FNUMBER_ABSOLUTE:
--		ret = mt9m114_g_fnumber(&dev->sd, &ctrl->val);
--		break;
--	case V4L2_CID_FNUMBER_RANGE:
--		ret = mt9m114_g_fnumber_range(&dev->sd, &ctrl->val);
--		break;
- 	case V4L2_CID_EXPOSURE_ABSOLUTE:
- 		ret = mt9m114_g_exposure(&dev->sd, &ctrl->val);
- 		break;
-@@ -1331,39 +1300,6 @@ static struct v4l2_ctrl_config mt9m114_controls[] = {
- 		.step = 1,
- 		.def = 0,
- 	},
--	{
--		.ops = &ctrl_ops,
--		.id = V4L2_CID_FOCAL_ABSOLUTE,
--		.name = "focal length",
--		.type = V4L2_CTRL_TYPE_INTEGER,
--		.min = MT9M114_FOCAL_LENGTH_DEFAULT,
--		.max = MT9M114_FOCAL_LENGTH_DEFAULT,
--		.step = 1,
--		.def = MT9M114_FOCAL_LENGTH_DEFAULT,
--		.flags = 0,
--	},
--	{
--		.ops = &ctrl_ops,
--		.id = V4L2_CID_FNUMBER_ABSOLUTE,
--		.name = "f-number",
--		.type = V4L2_CTRL_TYPE_INTEGER,
--		.min = MT9M114_F_NUMBER_DEFAULT,
--		.max = MT9M114_F_NUMBER_DEFAULT,
--		.step = 1,
--		.def = MT9M114_F_NUMBER_DEFAULT,
--		.flags = 0,
--	},
--	{
--		.ops = &ctrl_ops,
--		.id = V4L2_CID_FNUMBER_RANGE,
--		.name = "f-number range",
--		.type = V4L2_CTRL_TYPE_INTEGER,
--		.min = MT9M114_F_NUMBER_RANGE,
--		.max = MT9M114_F_NUMBER_RANGE,
--		.step = 1,
--		.def = MT9M114_F_NUMBER_RANGE,
--		.flags = 0,
--	},
- 	{
- 		.ops = &ctrl_ops,
- 		.id = V4L2_CID_EXPOSURE_ABSOLUTE,
+ static int mt9m114_get_fmt(struct v4l2_subdev *sd,
+ 			   struct v4l2_subdev_state *sd_state,
+ 			   struct v4l2_subdev_format *format)
+@@ -823,12 +733,6 @@ static int mt9m114_set_fmt(struct v4l2_subdev *sd,
+ 			mt9m114_res[index].used = false;
+ 		}
+ 	}
+-	ret = mt9m114_get_intg_factor(c, mt9m114_info,
+-				      &mt9m114_res[res->res]);
+-	if (ret) {
+-		dev_err(&c->dev, "failed to get integration_factor\n");
+-		return -EINVAL;
+-	}
+ 	/*
+ 	 * mt9m114 - we don't poll for context switch
+ 	 * because it does not happen with streaming disabled.
 diff --git a/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c b/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c
-index fa1de45b7a2d..39f86c7fd12e 100644
+index 39f86c7fd12e..9379c25205b4 100644
 --- a/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c
 +++ b/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c
-@@ -119,28 +119,6 @@ static int ov2680_write_reg_array(struct i2c_client *client,
+@@ -140,82 +140,6 @@ static int ov2680_g_bin_factor_y(struct v4l2_subdev *sd, s32 *val)
  	return 0;
  }
  
--static int ov2680_g_focal(struct v4l2_subdev *sd, s32 *val)
+-static int ov2680_get_intg_factor(struct i2c_client *client,
+-				  struct camera_mipi_info *info,
+-				  const struct ov2680_resolution *res)
 -{
--	*val = (OV2680_FOCAL_LENGTH_NUM << 16) | OV2680_FOCAL_LENGTH_DEM;
+-	struct atomisp_sensor_mode_data *buf = &info->data;
+-	unsigned int pix_clk_freq_hz;
+-	u32 reg_val;
+-	int ret;
+-
+-	dev_dbg(&client->dev,  "++++ov2680_get_intg_factor\n");
+-	if (!info)
+-		return -EINVAL;
+-
+-	/* pixel clock */
+-	pix_clk_freq_hz = res->pix_clk_freq * 1000000;
+-
+-	buf->vt_pix_clk_freq_mhz = pix_clk_freq_hz;
+-
+-	/* get integration time */
+-	buf->coarse_integration_time_min = OV2680_COARSE_INTG_TIME_MIN;
+-	buf->coarse_integration_time_max_margin =
+-	    OV2680_COARSE_INTG_TIME_MAX_MARGIN;
+-
+-	buf->fine_integration_time_min = OV2680_FINE_INTG_TIME_MIN;
+-	buf->fine_integration_time_max_margin =
+-	    OV2680_FINE_INTG_TIME_MAX_MARGIN;
+-
+-	buf->fine_integration_time_def = OV2680_FINE_INTG_TIME_MIN;
+-	buf->frame_length_lines = res->lines_per_frame;
+-	buf->line_length_pck = res->pixels_per_line;
+-	buf->read_mode = res->bin_mode;
+-
+-	/* get the cropping and output resolution to ISP for this mode. */
+-	ret =  ov2680_read_reg(client, 2,
+-			       OV2680_HORIZONTAL_START_H, &reg_val);
+-	if (ret)
+-		return ret;
+-	buf->crop_horizontal_start = reg_val;
+-
+-	ret =  ov2680_read_reg(client, 2,
+-			       OV2680_VERTICAL_START_H, &reg_val);
+-	if (ret)
+-		return ret;
+-	buf->crop_vertical_start = reg_val;
+-
+-	ret = ov2680_read_reg(client, 2,
+-			      OV2680_HORIZONTAL_END_H, &reg_val);
+-	if (ret)
+-		return ret;
+-	buf->crop_horizontal_end = reg_val;
+-
+-	ret = ov2680_read_reg(client, 2,
+-			      OV2680_VERTICAL_END_H, &reg_val);
+-	if (ret)
+-		return ret;
+-	buf->crop_vertical_end = reg_val;
+-
+-	ret = ov2680_read_reg(client, 2,
+-			      OV2680_HORIZONTAL_OUTPUT_SIZE_H, &reg_val);
+-	if (ret)
+-		return ret;
+-	buf->output_width = reg_val;
+-
+-	ret = ov2680_read_reg(client, 2,
+-			      OV2680_VERTICAL_OUTPUT_SIZE_H, &reg_val);
+-	if (ret)
+-		return ret;
+-	buf->output_height = reg_val;
+-
+-	buf->binning_factor_x = res->bin_factor_x ?
+-				(res->bin_factor_x * 2) : 1;
+-	buf->binning_factor_y = res->bin_factor_y ?
+-				(res->bin_factor_y * 2) : 1;
 -	return 0;
 -}
 -
--static int ov2680_g_fnumber(struct v4l2_subdev *sd, s32 *val)
--{
--	/* const f number for ov2680 */
+ static long __ov2680_set_exposure(struct v4l2_subdev *sd, int coarse_itg,
+ 				  int gain, int digitgain)
+ 
+@@ -818,12 +742,6 @@ static int ov2680_set_fmt(struct v4l2_subdev *sd,
+ 		goto err;
+ 	}
+ 
+-	ret = ov2680_get_intg_factor(client, ov2680_info, res);
+-	if (ret) {
+-		dev_err(&client->dev, "failed to get integration factor\n");
+-		goto err;
+-	}
 -
--	*val = (OV2680_F_NUMBER_DEFAULT_NUM << 16) | OV2680_F_NUMBER_DEM;
--	return 0;
--}
--
--static int ov2680_g_fnumber_range(struct v4l2_subdev *sd, s32 *val)
--{
--	*val = (OV2680_F_NUMBER_DEFAULT_NUM << 24) |
--	       (OV2680_F_NUMBER_DEM << 16) |
--	       (OV2680_F_NUMBER_DEFAULT_NUM << 8) | OV2680_F_NUMBER_DEM;
--	return 0;
--}
--
- static int ov2680_g_bin_factor_x(struct v4l2_subdev *sd, s32 *val)
- {
- 	struct ov2680_device *dev = to_ov2680_sensor(sd);
-@@ -517,15 +495,6 @@ static int ov2680_g_volatile_ctrl(struct v4l2_ctrl *ctrl)
- 	case V4L2_CID_EXPOSURE_ABSOLUTE:
- 		ret = ov2680_q_exposure(&dev->sd, &ctrl->val);
- 		break;
--	case V4L2_CID_FOCAL_ABSOLUTE:
--		ret = ov2680_g_focal(&dev->sd, &ctrl->val);
--		break;
--	case V4L2_CID_FNUMBER_ABSOLUTE:
--		ret = ov2680_g_fnumber(&dev->sd, &ctrl->val);
--		break;
--	case V4L2_CID_FNUMBER_RANGE:
--		ret = ov2680_g_fnumber_range(&dev->sd, &ctrl->val);
--		break;
- 	case V4L2_CID_BIN_FACTOR_HORZ:
- 		ret = ov2680_g_bin_factor_x(&dev->sd, &ctrl->val);
- 		break;
-@@ -556,39 +525,6 @@ static const struct v4l2_ctrl_config ov2680_controls[] = {
- 		.def = 0x00,
- 		.flags = 0,
- 	},
--	{
--		.ops = &ctrl_ops,
--		.id = V4L2_CID_FOCAL_ABSOLUTE,
--		.type = V4L2_CTRL_TYPE_INTEGER,
--		.name = "focal length",
--		.min = OV2680_FOCAL_LENGTH_DEFAULT,
--		.max = OV2680_FOCAL_LENGTH_DEFAULT,
--		.step = 0x01,
--		.def = OV2680_FOCAL_LENGTH_DEFAULT,
--		.flags = 0,
--	},
--	{
--		.ops = &ctrl_ops,
--		.id = V4L2_CID_FNUMBER_ABSOLUTE,
--		.type = V4L2_CTRL_TYPE_INTEGER,
--		.name = "f-number",
--		.min = OV2680_F_NUMBER_DEFAULT,
--		.max = OV2680_F_NUMBER_DEFAULT,
--		.step = 0x01,
--		.def = OV2680_F_NUMBER_DEFAULT,
--		.flags = 0,
--	},
--	{
--		.ops = &ctrl_ops,
--		.id = V4L2_CID_FNUMBER_RANGE,
--		.type = V4L2_CTRL_TYPE_INTEGER,
--		.name = "f-number range",
--		.min = OV2680_F_NUMBER_RANGE,
--		.max = OV2680_F_NUMBER_RANGE,
--		.step = 0x01,
--		.def = OV2680_F_NUMBER_RANGE,
--		.flags = 0,
--	},
- 	{
- 		.ops = &ctrl_ops,
- 		.id = V4L2_CID_BIN_FACTOR_HORZ,
+ 	/*
+ 	 * recall flip functions to avoid flip registers
+ 	 * were overridden by default setting
 diff --git a/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c b/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c
-index 887b6f99f6ca..47eefaccbe0b 100644
+index 47eefaccbe0b..d819ab5de28a 100644
 --- a/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c
 +++ b/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c
-@@ -261,27 +261,6 @@ static int ov2722_write_reg_array(struct i2c_client *client,
+@@ -261,113 +261,6 @@ static int ov2722_write_reg_array(struct i2c_client *client,
  	return __ov2722_flush_reg_array(client, &ctrl);
  }
  
--static int ov2722_g_focal(struct v4l2_subdev *sd, s32 *val)
+-static int ov2722_get_intg_factor(struct i2c_client *client,
+-				  struct camera_mipi_info *info,
+-				  const struct ov2722_resolution *res)
 -{
--	*val = (OV2722_FOCAL_LENGTH_NUM << 16) | OV2722_FOCAL_LENGTH_DEM;
+-	struct v4l2_subdev *sd = i2c_get_clientdata(client);
+-	struct ov2722_device *dev = NULL;
+-	struct atomisp_sensor_mode_data *buf = &info->data;
+-	const unsigned int ext_clk_freq_hz = 19200000;
+-	const unsigned int pll_invariant_div = 10;
+-	unsigned int pix_clk_freq_hz;
+-	u16 pre_pll_clk_div;
+-	u16 pll_multiplier;
+-	u16 op_pix_clk_div;
+-	u16 reg_val;
+-	int ret;
+-
+-	if (!info)
+-		return -EINVAL;
+-
+-	dev = to_ov2722_sensor(sd);
+-
+-	/* pixel clock calculattion */
+-	ret =  ov2722_read_reg(client, OV2722_8BIT,
+-			       OV2722_SC_CMMN_PLL_CTRL3, &pre_pll_clk_div);
+-	if (ret)
+-		return ret;
+-
+-	ret =  ov2722_read_reg(client, OV2722_8BIT,
+-			       OV2722_SC_CMMN_PLL_MULTIPLIER, &pll_multiplier);
+-	if (ret)
+-		return ret;
+-
+-	ret =  ov2722_read_reg(client, OV2722_8BIT,
+-			       OV2722_SC_CMMN_PLL_DEBUG_OPT, &op_pix_clk_div);
+-	if (ret)
+-		return ret;
+-
+-	pre_pll_clk_div = (pre_pll_clk_div & 0x70) >> 4;
+-	if (!pre_pll_clk_div)
+-		return -EINVAL;
+-
+-	pll_multiplier = pll_multiplier & 0x7f;
+-	op_pix_clk_div = op_pix_clk_div & 0x03;
+-	pix_clk_freq_hz = ext_clk_freq_hz / pre_pll_clk_div * pll_multiplier
+-			  * op_pix_clk_div / pll_invariant_div;
+-
+-	dev->vt_pix_clk_freq_mhz = pix_clk_freq_hz;
+-	buf->vt_pix_clk_freq_mhz = pix_clk_freq_hz;
+-
+-	/* get integration time */
+-	buf->coarse_integration_time_min = OV2722_COARSE_INTG_TIME_MIN;
+-	buf->coarse_integration_time_max_margin =
+-	    OV2722_COARSE_INTG_TIME_MAX_MARGIN;
+-
+-	buf->fine_integration_time_min = OV2722_FINE_INTG_TIME_MIN;
+-	buf->fine_integration_time_max_margin =
+-	    OV2722_FINE_INTG_TIME_MAX_MARGIN;
+-
+-	buf->fine_integration_time_def = OV2722_FINE_INTG_TIME_MIN;
+-	buf->frame_length_lines = res->lines_per_frame;
+-	buf->line_length_pck = res->pixels_per_line;
+-	buf->read_mode = res->bin_mode;
+-
+-	/* get the cropping and output resolution to ISP for this mode. */
+-	ret =  ov2722_read_reg(client, OV2722_16BIT,
+-			       OV2722_H_CROP_START_H, &reg_val);
+-	if (ret)
+-		return ret;
+-	buf->crop_horizontal_start = reg_val;
+-
+-	ret =  ov2722_read_reg(client, OV2722_16BIT,
+-			       OV2722_V_CROP_START_H, &reg_val);
+-	if (ret)
+-		return ret;
+-	buf->crop_vertical_start = reg_val;
+-
+-	ret = ov2722_read_reg(client, OV2722_16BIT,
+-			      OV2722_H_CROP_END_H, &reg_val);
+-	if (ret)
+-		return ret;
+-	buf->crop_horizontal_end = reg_val;
+-
+-	ret = ov2722_read_reg(client, OV2722_16BIT,
+-			      OV2722_V_CROP_END_H, &reg_val);
+-	if (ret)
+-		return ret;
+-	buf->crop_vertical_end = reg_val;
+-
+-	ret = ov2722_read_reg(client, OV2722_16BIT,
+-			      OV2722_H_OUTSIZE_H, &reg_val);
+-	if (ret)
+-		return ret;
+-	buf->output_width = reg_val;
+-
+-	ret = ov2722_read_reg(client, OV2722_16BIT,
+-			      OV2722_V_OUTSIZE_H, &reg_val);
+-	if (ret)
+-		return ret;
+-	buf->output_height = reg_val;
+-
+-	buf->binning_factor_x = res->bin_factor_x ?
+-				res->bin_factor_x : 1;
+-	buf->binning_factor_y = res->bin_factor_y ?
+-				res->bin_factor_y : 1;
 -	return 0;
 -}
 -
--static int ov2722_g_fnumber(struct v4l2_subdev *sd, s32 *val)
--{
--	/*const f number for imx*/
--	*val = (OV2722_F_NUMBER_DEFAULT_NUM << 16) | OV2722_F_NUMBER_DEM;
--	return 0;
--}
+ static long __ov2722_set_exposure(struct v4l2_subdev *sd, int coarse_itg,
+ 				  int gain, int digitgain)
+ 
+@@ -812,10 +705,6 @@ static int ov2722_set_fmt(struct v4l2_subdev *sd,
+ 		}
+ 	}
+ 
+-	ret = ov2722_get_intg_factor(client, ov2722_info, dev->res);
+-	if (ret)
+-		dev_err(&client->dev, "failed to get integration_factor\n");
 -
--static int ov2722_g_fnumber_range(struct v4l2_subdev *sd, s32 *val)
--{
--	*val = (OV2722_F_NUMBER_DEFAULT_NUM << 24) |
--	       (OV2722_F_NUMBER_DEM << 16) |
--	       (OV2722_F_NUMBER_DEFAULT_NUM << 8) | OV2722_F_NUMBER_DEM;
--	return 0;
--}
--
- static int ov2722_get_intg_factor(struct i2c_client *client,
- 				  struct camera_mipi_info *info,
- 				  const struct ov2722_resolution *res)
-@@ -547,15 +526,6 @@ static int ov2722_g_volatile_ctrl(struct v4l2_ctrl *ctrl)
- 	case V4L2_CID_EXPOSURE_ABSOLUTE:
- 		ret = ov2722_q_exposure(&dev->sd, &ctrl->val);
- 		break;
--	case V4L2_CID_FOCAL_ABSOLUTE:
--		ret = ov2722_g_focal(&dev->sd, &ctrl->val);
--		break;
--	case V4L2_CID_FNUMBER_ABSOLUTE:
--		ret = ov2722_g_fnumber(&dev->sd, &ctrl->val);
--		break;
--	case V4L2_CID_FNUMBER_RANGE:
--		ret = ov2722_g_fnumber_range(&dev->sd, &ctrl->val);
--		break;
- 	case V4L2_CID_LINK_FREQ:
- 		val = dev->res->mipi_freq;
- 		if (val == 0)
-@@ -586,39 +556,6 @@ static const struct v4l2_ctrl_config ov2722_controls[] = {
- 		.def = 0x00,
- 		.flags = 0,
- 	},
--	{
--		.ops = &ctrl_ops,
--		.id = V4L2_CID_FOCAL_ABSOLUTE,
--		.type = V4L2_CTRL_TYPE_INTEGER,
--		.name = "focal length",
--		.min = OV2722_FOCAL_LENGTH_DEFAULT,
--		.max = OV2722_FOCAL_LENGTH_DEFAULT,
--		.step = 0x01,
--		.def = OV2722_FOCAL_LENGTH_DEFAULT,
--		.flags = 0,
--	},
--	{
--		.ops = &ctrl_ops,
--		.id = V4L2_CID_FNUMBER_ABSOLUTE,
--		.type = V4L2_CTRL_TYPE_INTEGER,
--		.name = "f-number",
--		.min = OV2722_F_NUMBER_DEFAULT,
--		.max = OV2722_F_NUMBER_DEFAULT,
--		.step = 0x01,
--		.def = OV2722_F_NUMBER_DEFAULT,
--		.flags = 0,
--	},
--	{
--		.ops = &ctrl_ops,
--		.id = V4L2_CID_FNUMBER_RANGE,
--		.type = V4L2_CTRL_TYPE_INTEGER,
--		.name = "f-number range",
--		.min = OV2722_F_NUMBER_RANGE,
--		.max = OV2722_F_NUMBER_RANGE,
--		.step = 0x01,
--		.def = OV2722_F_NUMBER_RANGE,
--		.flags = 0,
--	},
- 	{
- 		.ops = &ctrl_ops,
- 		.id = V4L2_CID_LINK_FREQ,
+ err:
+ 	mutex_unlock(&dev->input_lock);
+ 	return ret;
 diff --git a/drivers/staging/media/atomisp/i2c/gc0310.h b/drivers/staging/media/atomisp/i2c/gc0310.h
-index 4b9ce681bd93..52b4c07e5cf0 100644
+index 52b4c07e5cf0..2a559b0d474d 100644
 --- a/drivers/staging/media/atomisp/i2c/gc0310.h
 +++ b/drivers/staging/media/atomisp/i2c/gc0310.h
-@@ -38,9 +38,6 @@
- #define I2C_RETRY_COUNT		5
+@@ -146,7 +146,6 @@ struct gc0310_device {
+ 	struct v4l2_ctrl_handler ctrl_handler;
  
- #define GC0310_FOCAL_LENGTH_NUM	278	/*2.78mm*/
--#define GC0310_FOCAL_LENGTH_DEM	100
--#define GC0310_F_NUMBER_DEFAULT_NUM	26
--#define GC0310_F_NUMBER_DEM	10
- 
- #define MAX_FMTS		1
- 
+ 	struct camera_sensor_platform_data *platform_data;
+-	int vt_pix_clk_freq_mhz;
+ 	struct gc0310_resolution *res;
+ 	u8 type;
+ 	bool power_on;
 diff --git a/drivers/staging/media/atomisp/i2c/gc2235.h b/drivers/staging/media/atomisp/i2c/gc2235.h
-index 806be5dff7a5..dd2d44b40e22 100644
+index dd2d44b40e22..8e33eb166bed 100644
 --- a/drivers/staging/media/atomisp/i2c/gc2235.h
 +++ b/drivers/staging/media/atomisp/i2c/gc2235.h
-@@ -44,9 +44,6 @@
- #define I2C_RETRY_COUNT		5
+@@ -158,7 +158,6 @@ struct gc2235_device {
+ 	struct gc2235_resolution *res;
  
- #define GC2235_FOCAL_LENGTH_NUM	278	/*2.78mm*/
--#define GC2235_FOCAL_LENGTH_DEM	100
--#define GC2235_F_NUMBER_DEFAULT_NUM	26
--#define GC2235_F_NUMBER_DEM	10
- 
- #define MAX_FMTS		1
- 
-diff --git a/drivers/staging/media/atomisp/i2c/mt9m114.h b/drivers/staging/media/atomisp/i2c/mt9m114.h
-index bcce18b65fa6..831875071cbb 100644
---- a/drivers/staging/media/atomisp/i2c/mt9m114.h
-+++ b/drivers/staging/media/atomisp/i2c/mt9m114.h
-@@ -136,9 +136,6 @@
- #define MT9M114_BPAT_BGBGGRGR	BIT(3)
- 
- #define MT9M114_FOCAL_LENGTH_NUM	208	/*2.08mm*/
--#define MT9M114_FOCAL_LENGTH_DEM	100
--#define MT9M114_F_NUMBER_DEFAULT_NUM	24
--#define MT9M114_F_NUMBER_DEM	10
- #define MT9M114_WAIT_STAT_TIMEOUT	100
- #define MT9M114_FLICKER_MODE_50HZ	1
- #define MT9M114_FLICKER_MODE_60HZ	2
-diff --git a/drivers/staging/media/atomisp/i2c/ov2680.h b/drivers/staging/media/atomisp/i2c/ov2680.h
-index 7ab337b859ad..2bc350c67711 100644
---- a/drivers/staging/media/atomisp/i2c/ov2680.h
-+++ b/drivers/staging/media/atomisp/i2c/ov2680.h
-@@ -37,9 +37,6 @@
- #define I2C_RETRY_COUNT		5
- 
- #define OV2680_FOCAL_LENGTH_NUM	334	/*3.34mm*/
--#define OV2680_FOCAL_LENGTH_DEM	100
--#define OV2680_F_NUMBER_DEFAULT_NUM	24
--#define OV2680_F_NUMBER_DEM	10
- 
- #define OV2680_BIN_FACTOR_MAX 4
- 
-diff --git a/drivers/staging/media/atomisp/i2c/ov2722.h b/drivers/staging/media/atomisp/i2c/ov2722.h
-index d6e2510bc01c..d4cd6f27ee8d 100644
---- a/drivers/staging/media/atomisp/i2c/ov2722.h
-+++ b/drivers/staging/media/atomisp/i2c/ov2722.h
-@@ -39,9 +39,6 @@
- #define I2C_RETRY_COUNT		5
- 
- #define OV2722_FOCAL_LENGTH_NUM	278	/*2.78mm*/
--#define OV2722_FOCAL_LENGTH_DEM	100
--#define OV2722_F_NUMBER_DEFAULT_NUM	26
--#define OV2722_F_NUMBER_DEM	10
- 
- #define MAX_FMTS		1
- 
-diff --git a/drivers/staging/media/atomisp/i2c/ov5693/atomisp-ov5693.c b/drivers/staging/media/atomisp/i2c/ov5693/atomisp-ov5693.c
-index c1cd631455e6..9adaf2fc940a 100644
---- a/drivers/staging/media/atomisp/i2c/ov5693/atomisp-ov5693.c
-+++ b/drivers/staging/media/atomisp/i2c/ov5693/atomisp-ov5693.c
-@@ -415,27 +415,6 @@ static int ov5693_write_reg_array(struct i2c_client *client,
- 	return __ov5693_flush_reg_array(client, &ctrl);
- }
- 
--static int ov5693_g_focal(struct v4l2_subdev *sd, s32 *val)
--{
--	*val = (OV5693_FOCAL_LENGTH_NUM << 16) | OV5693_FOCAL_LENGTH_DEM;
--	return 0;
--}
--
--static int ov5693_g_fnumber(struct v4l2_subdev *sd, s32 *val)
--{
--	/*const f number for imx*/
--	*val = (OV5693_F_NUMBER_DEFAULT_NUM << 16) | OV5693_F_NUMBER_DEM;
--	return 0;
--}
--
--static int ov5693_g_fnumber_range(struct v4l2_subdev *sd, s32 *val)
--{
--	*val = (OV5693_F_NUMBER_DEFAULT_NUM << 24) |
--	       (OV5693_F_NUMBER_DEM << 16) |
--	       (OV5693_F_NUMBER_DEFAULT_NUM << 8) | OV5693_F_NUMBER_DEM;
--	return 0;
--}
--
- static int ov5693_g_bin_factor_x(struct v4l2_subdev *sd, s32 *val)
- {
- 	struct ov5693_device *dev = to_ov5693_sensor(sd);
-@@ -1107,15 +1086,6 @@ static int ov5693_g_volatile_ctrl(struct v4l2_ctrl *ctrl)
- 	case V4L2_CID_EXPOSURE_ABSOLUTE:
- 		ret = ov5693_q_exposure(&dev->sd, &ctrl->val);
- 		break;
--	case V4L2_CID_FOCAL_ABSOLUTE:
--		ret = ov5693_g_focal(&dev->sd, &ctrl->val);
--		break;
--	case V4L2_CID_FNUMBER_ABSOLUTE:
--		ret = ov5693_g_fnumber(&dev->sd, &ctrl->val);
--		break;
--	case V4L2_CID_FNUMBER_RANGE:
--		ret = ov5693_g_fnumber_range(&dev->sd, &ctrl->val);
--		break;
- 	case V4L2_CID_FOCUS_ABSOLUTE:
- 		ret = ov5693_q_focus_abs(&dev->sd, &ctrl->val);
- 		break;
-@@ -1152,39 +1122,6 @@ static const struct v4l2_ctrl_config ov5693_controls[] = {
- 		.def = 0x00,
- 		.flags = 0,
- 	},
--	{
--		.ops = &ctrl_ops,
--		.id = V4L2_CID_FOCAL_ABSOLUTE,
--		.type = V4L2_CTRL_TYPE_INTEGER,
--		.name = "focal length",
--		.min = OV5693_FOCAL_LENGTH_DEFAULT,
--		.max = OV5693_FOCAL_LENGTH_DEFAULT,
--		.step = 0x01,
--		.def = OV5693_FOCAL_LENGTH_DEFAULT,
--		.flags = 0,
--	},
--	{
--		.ops = &ctrl_ops,
--		.id = V4L2_CID_FNUMBER_ABSOLUTE,
--		.type = V4L2_CTRL_TYPE_INTEGER,
--		.name = "f-number",
--		.min = OV5693_F_NUMBER_DEFAULT,
--		.max = OV5693_F_NUMBER_DEFAULT,
--		.step = 0x01,
--		.def = OV5693_F_NUMBER_DEFAULT,
--		.flags = 0,
--	},
--	{
--		.ops = &ctrl_ops,
--		.id = V4L2_CID_FNUMBER_RANGE,
--		.type = V4L2_CTRL_TYPE_INTEGER,
--		.name = "f-number range",
--		.min = OV5693_F_NUMBER_RANGE,
--		.max = OV5693_F_NUMBER_RANGE,
--		.step = 0x01,
--		.def = OV5693_F_NUMBER_RANGE,
--		.flags = 0,
--	},
- 	{
- 		.ops = &ctrl_ops,
- 		.id = V4L2_CID_FOCUS_ABSOLUTE,
-diff --git a/drivers/staging/media/atomisp/include/linux/atomisp.h b/drivers/staging/media/atomisp/include/linux/atomisp.h
-index 3f602b5aaff9..e70e57695300 100644
---- a/drivers/staging/media/atomisp/include/linux/atomisp.h
-+++ b/drivers/staging/media/atomisp/include/linux/atomisp.h
-@@ -586,20 +586,6 @@ struct atomisp_shading_table {
- 	__u16 *data[ATOMISP_NUM_SC_COLORS];
+ 	struct camera_sensor_platform_data *platform_data;
+-	int vt_pix_clk_freq_mhz;
+ 	u8 type;
  };
  
--struct atomisp_makernote_info {
--	/* bits 31-16: numerator, bits 15-0: denominator */
--	unsigned int focal_length;
--	/* bits 31-16: numerator, bits 15-0: denominator*/
--	unsigned int f_number_curr;
--	/*
--	* bits 31-24: max f-number numerator
--	* bits 23-16: max f-number denominator
--	* bits 15-8: min f-number numerator
--	* bits 7-0: min f-number denominator
--	*/
--	unsigned int f_number_range;
--};
--
- /* parameter for MACC */
- #define ATOMISP_NUM_MACC_AXES           16
- struct atomisp_macc_table {
-@@ -914,8 +900,6 @@ struct atomisp_sensor_ae_bracketing_lut {
- 	_IOR('v', BASE_VIDIOC_PRIVATE + 10, struct atomisp_morph_table)
- #define ATOMISP_IOC_S_ISP_GDC_TAB \
- 	_IOW('v', BASE_VIDIOC_PRIVATE + 10, struct atomisp_morph_table)
--#define ATOMISP_IOC_ISP_MAKERNOTE \
--	_IOWR('v', BASE_VIDIOC_PRIVATE + 11, struct atomisp_makernote_info)
+diff --git a/drivers/staging/media/atomisp/i2c/ov2722.h b/drivers/staging/media/atomisp/i2c/ov2722.h
+index d4cd6f27ee8d..5802cdb0e90c 100644
+--- a/drivers/staging/media/atomisp/i2c/ov2722.h
++++ b/drivers/staging/media/atomisp/i2c/ov2722.h
+@@ -201,7 +201,6 @@ struct ov2722_device {
+ 	struct ov2722_resolution *res;
  
- /* macc parameter control*/
- #define ATOMISP_IOC_G_ISP_MACC \
-@@ -1093,10 +1077,6 @@ struct atomisp_sensor_ae_bracketing_lut {
-  * Exposure, Flash and privacy (indicator) light controls, to be upstreamed */
- #define V4L2_CID_CAMERA_LASTP1             (V4L2_CID_CAMERA_CLASS_BASE + 1024)
- 
--#define V4L2_CID_FOCAL_ABSOLUTE            (V4L2_CID_CAMERA_LASTP1 + 0)
--#define V4L2_CID_FNUMBER_ABSOLUTE          (V4L2_CID_CAMERA_LASTP1 + 1)
--#define V4L2_CID_FNUMBER_RANGE             (V4L2_CID_CAMERA_LASTP1 + 2)
--
- /* Flash related CIDs, see also:
-  * http://linuxtv.org/downloads/v4l-dvb-apis/extended-controls.html\
-  * #flash-controls */
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-index 5cea1df48b7d..b167ee32a952 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-@@ -5492,42 +5492,6 @@ int atomisp_set_shading_table(struct atomisp_sub_device *asd,
- 	return ret;
+ 	struct camera_sensor_platform_data *platform_data;
+-	int vt_pix_clk_freq_mhz;
+ 	int run_mode;
+ 	u16 pixels_per_line;
+ 	u16 lines_per_frame;
+diff --git a/drivers/staging/media/atomisp/i2c/ov5693/atomisp-ov5693.c b/drivers/staging/media/atomisp/i2c/ov5693/atomisp-ov5693.c
+index 9adaf2fc940a..e65759499d81 100644
+--- a/drivers/staging/media/atomisp/i2c/ov5693/atomisp-ov5693.c
++++ b/drivers/staging/media/atomisp/i2c/ov5693/atomisp-ov5693.c
+@@ -433,84 +433,6 @@ static int ov5693_g_bin_factor_y(struct v4l2_subdev *sd, s32 *val)
+ 	return 0;
  }
  
--int atomisp_exif_makernote(struct atomisp_sub_device *asd,
--			   struct atomisp_makernote_info *config)
+-static int ov5693_get_intg_factor(struct i2c_client *client,
+-				  struct camera_mipi_info *info,
+-				  const struct ov5693_resolution *res)
 -{
--	struct v4l2_control ctrl;
--	struct atomisp_device *isp = asd->isp;
+-	struct v4l2_subdev *sd = i2c_get_clientdata(client);
+-	struct ov5693_device *dev = to_ov5693_sensor(sd);
+-	struct atomisp_sensor_mode_data *buf = &info->data;
+-	unsigned int pix_clk_freq_hz;
+-	u16 reg_val;
+-	int ret;
 -
--	ctrl.id = V4L2_CID_FOCAL_ABSOLUTE;
--	if (v4l2_g_ctrl
--	    (isp->inputs[asd->input_curr].camera->ctrl_handler, &ctrl)) {
--		dev_warn(isp->dev, "failed to g_ctrl for focal length\n");
+-	if (!info)
 -		return -EINVAL;
--	} else {
--		config->focal_length = ctrl.value;
--	}
 -
--	ctrl.id = V4L2_CID_FNUMBER_ABSOLUTE;
--	if (v4l2_g_ctrl
--	    (isp->inputs[asd->input_curr].camera->ctrl_handler, &ctrl)) {
--		dev_warn(isp->dev, "failed to g_ctrl for f-number\n");
--		return -EINVAL;
--	} else {
--		config->f_number_curr = ctrl.value;
--	}
+-	/* pixel clock */
+-	pix_clk_freq_hz = res->pix_clk_freq * 1000000;
 -
--	ctrl.id = V4L2_CID_FNUMBER_RANGE;
--	if (v4l2_g_ctrl
--	    (isp->inputs[asd->input_curr].camera->ctrl_handler, &ctrl)) {
--		dev_warn(isp->dev, "failed to g_ctrl for f number range\n");
--		return -EINVAL;
--	} else {
--		config->f_number_range = ctrl.value;
--	}
+-	dev->vt_pix_clk_freq_mhz = pix_clk_freq_hz;
+-	buf->vt_pix_clk_freq_mhz = pix_clk_freq_hz;
 -
+-	/* get integration time */
+-	buf->coarse_integration_time_min = OV5693_COARSE_INTG_TIME_MIN;
+-	buf->coarse_integration_time_max_margin =
+-	    OV5693_COARSE_INTG_TIME_MAX_MARGIN;
+-
+-	buf->fine_integration_time_min = OV5693_FINE_INTG_TIME_MIN;
+-	buf->fine_integration_time_max_margin =
+-	    OV5693_FINE_INTG_TIME_MAX_MARGIN;
+-
+-	buf->fine_integration_time_def = OV5693_FINE_INTG_TIME_MIN;
+-	buf->frame_length_lines = res->lines_per_frame;
+-	buf->line_length_pck = res->pixels_per_line;
+-	buf->read_mode = res->bin_mode;
+-
+-	/* get the cropping and output resolution to ISP for this mode. */
+-	ret =  ov5693_read_reg(client, OV5693_16BIT,
+-			       OV5693_HORIZONTAL_START_H, &reg_val);
+-	if (ret)
+-		return ret;
+-	buf->crop_horizontal_start = reg_val;
+-
+-	ret =  ov5693_read_reg(client, OV5693_16BIT,
+-			       OV5693_VERTICAL_START_H, &reg_val);
+-	if (ret)
+-		return ret;
+-	buf->crop_vertical_start = reg_val;
+-
+-	ret = ov5693_read_reg(client, OV5693_16BIT,
+-			      OV5693_HORIZONTAL_END_H, &reg_val);
+-	if (ret)
+-		return ret;
+-	buf->crop_horizontal_end = reg_val;
+-
+-	ret = ov5693_read_reg(client, OV5693_16BIT,
+-			      OV5693_VERTICAL_END_H, &reg_val);
+-	if (ret)
+-		return ret;
+-	buf->crop_vertical_end = reg_val;
+-
+-	ret = ov5693_read_reg(client, OV5693_16BIT,
+-			      OV5693_HORIZONTAL_OUTPUT_SIZE_H, &reg_val);
+-	if (ret)
+-		return ret;
+-	buf->output_width = reg_val;
+-
+-	ret = ov5693_read_reg(client, OV5693_16BIT,
+-			      OV5693_VERTICAL_OUTPUT_SIZE_H, &reg_val);
+-	if (ret)
+-		return ret;
+-	buf->output_height = reg_val;
+-
+-	buf->binning_factor_x = res->bin_factor_x ?
+-				res->bin_factor_x : 1;
+-	buf->binning_factor_y = res->bin_factor_y ?
+-				res->bin_factor_y : 1;
 -	return 0;
 -}
 -
- int atomisp_offline_capture_configure(struct atomisp_sub_device *asd,
- 				      struct atomisp_cont_capture_conf *cvf_config)
+ static long __ov5693_set_exposure(struct v4l2_subdev *sd, int coarse_itg,
+ 				  int gain, int digitgain)
+ 
+@@ -1596,18 +1518,10 @@ static int ov5693_set_fmt(struct v4l2_subdev *sd,
+ 	if (ret)
+ 		dev_warn(&client->dev, "ov5693 stream off err\n");
+ 
+-	ret = ov5693_get_intg_factor(client, ov5693_info,
+-				     &ov5693_res[dev->fmt_idx]);
+-	if (ret) {
+-		dev_err(&client->dev, "failed to get integration_factor\n");
+-		goto err;
+-	}
+-
+ 	ov5693_info->metadata_width = fmt->width * 10 / 8;
+ 	ov5693_info->metadata_height = 1;
+ 	ov5693_info->metadata_effective_width = &ov5693_embedded_effective_size;
+ 
+-err:
+ 	mutex_unlock(&dev->input_lock);
+ 	return ret;
+ }
+diff --git a/drivers/staging/media/atomisp/i2c/ov5693/ov5693.h b/drivers/staging/media/atomisp/i2c/ov5693/ov5693.h
+index a1366666f49c..c9b9dc780f96 100644
+--- a/drivers/staging/media/atomisp/i2c/ov5693/ov5693.h
++++ b/drivers/staging/media/atomisp/i2c/ov5693/ov5693.h
+@@ -228,7 +228,6 @@ struct ov5693_device {
+ 
+ 	struct camera_sensor_platform_data *platform_data;
+ 	ktime_t timestamp_t_focus_abs;
+-	int vt_pix_clk_freq_mhz;
+ 	int fmt_idx;
+ 	int run_mode;
+ 	int otp_size;
+diff --git a/drivers/staging/media/atomisp/include/linux/atomisp.h b/drivers/staging/media/atomisp/include/linux/atomisp.h
+index e70e57695300..d6da776e9bf4 100644
+--- a/drivers/staging/media/atomisp/include/linux/atomisp.h
++++ b/drivers/staging/media/atomisp/include/linux/atomisp.h
+@@ -636,28 +636,6 @@ struct atomisp_overlay {
+ 	unsigned int overlay_start_y;
+ };
+ 
+-/* Sensor resolution specific data for AE calculation.*/
+-struct atomisp_sensor_mode_data {
+-	unsigned int coarse_integration_time_min;
+-	unsigned int coarse_integration_time_max_margin;
+-	unsigned int fine_integration_time_min;
+-	unsigned int fine_integration_time_max_margin;
+-	unsigned int fine_integration_time_def;
+-	unsigned int frame_length_lines;
+-	unsigned int line_length_pck;
+-	unsigned int read_mode;
+-	unsigned int vt_pix_clk_freq_mhz;
+-	unsigned int crop_horizontal_start; /* Sensor crop start cord. (x0,y0)*/
+-	unsigned int crop_vertical_start;
+-	unsigned int crop_horizontal_end; /* Sensor crop end cord. (x1,y1)*/
+-	unsigned int crop_vertical_end;
+-	unsigned int output_width; /* input size to ISP after binning/scaling */
+-	unsigned int output_height;
+-	u8 binning_factor_x; /* horizontal binning factor used */
+-	u8 binning_factor_y; /* vertical binning factor used */
+-	u16 hts;
+-};
+-
+ struct atomisp_exposure {
+ 	unsigned int integration_time[8];
+ 	unsigned int shutter_speed[8];
+@@ -945,10 +923,6 @@ struct atomisp_sensor_ae_bracketing_lut {
+ #define ATOMISP_IOC_CAMERA_BRIDGE \
+ 	_IOWR('v', BASE_VIDIOC_PRIVATE + 19, struct atomisp_bc_video_package)
+ 
+-/* Sensor resolution specific info for AE */
+-#define ATOMISP_IOC_G_SENSOR_MODE_DATA \
+-	_IOR('v', BASE_VIDIOC_PRIVATE + 20, struct atomisp_sensor_mode_data)
+-
+ #define ATOMISP_IOC_S_EXPOSURE \
+ 	_IOW('v', BASE_VIDIOC_PRIVATE + 21, struct atomisp_exposure)
+ 
+diff --git a/drivers/staging/media/atomisp/include/linux/atomisp_platform.h b/drivers/staging/media/atomisp/include/linux/atomisp_platform.h
+index 0253661d4332..559a497975c5 100644
+--- a/drivers/staging/media/atomisp/include/linux/atomisp_platform.h
++++ b/drivers/staging/media/atomisp/include/linux/atomisp_platform.h
+@@ -210,7 +210,6 @@ struct camera_mipi_info {
+ 	unsigned int                    num_lanes;
+ 	enum atomisp_input_format       input_format;
+ 	enum atomisp_bayer_order        raw_bayer_order;
+-	struct atomisp_sensor_mode_data data;
+ 	enum atomisp_input_format       metadata_format;
+ 	u32                             metadata_width;
+ 	u32                             metadata_height;
+diff --git a/drivers/staging/media/atomisp/notes.txt b/drivers/staging/media/atomisp/notes.txt
+index d3cf6ed547ae..c04c283ff438 100644
+--- a/drivers/staging/media/atomisp/notes.txt
++++ b/drivers/staging/media/atomisp/notes.txt
+@@ -36,12 +36,6 @@ a camera_mipi_info struct. This struct is allocated/managed by
+ the core atomisp code. The most important parts of the struct
+ are filled by the atomisp core itself, like e.g. the port number.
+ 
+-The sensor drivers on a set_fmt call do fill in camera_mipi_info.data
+-which is a atomisp_sensor_mode_data struct. This gets filled from
+-a function called <sensor_name>_get_intg_factor(). This struct is not
+-used by the atomisp code at all. It is returned to userspace by
+-a ATOMISP_IOC_G_SENSOR_MODE_DATA and the Android userspace does use this.
+-
+ Other members of camera_mipi_info which are set by some drivers are:
+ -metadata_width, metadata_height, metadata_effective_width, set by
+  the ov5693 driver (and used by the atomisp core)
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+index b167ee32a952..01c9845b9f28 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+@@ -4211,25 +4211,6 @@ int atomisp_digital_zoom(struct atomisp_sub_device *asd, int flag,
+ 	return 0;
+ }
+ 
+-/*
+- * Function to get sensor specific info for current resolution,
+- * which will be used for auto exposure conversion.
+- */
+-int atomisp_get_sensor_mode_data(struct atomisp_sub_device *asd,
+-				 struct atomisp_sensor_mode_data *config)
+-{
+-	struct camera_mipi_info *mipi_info;
+-	struct atomisp_device *isp = asd->isp;
+-
+-	mipi_info = atomisp_to_sensor_mipi_info(
+-			isp->inputs[asd->input_curr].camera);
+-	if (!mipi_info)
+-		return -EINVAL;
+-
+-	memcpy(config, &mipi_info->data, sizeof(*config));
+-	return 0;
+-}
+-
+ static void __atomisp_update_stream_env(struct atomisp_sub_device *asd,
+ 					u16 stream_index, struct atomisp_input_stream_info *stream_info)
  {
 diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.h b/drivers/staging/media/atomisp/pci/atomisp_cmd.h
-index b8911491581a..99bbab402c9c 100644
+index 99bbab402c9c..a10577df10cb 100644
 --- a/drivers/staging/media/atomisp/pci/atomisp_cmd.h
 +++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.h
-@@ -273,9 +273,6 @@ int atomisp_set_shading_table(struct atomisp_sub_device *asd,
- int atomisp_offline_capture_configure(struct atomisp_sub_device *asd,
- 				      struct atomisp_cont_capture_conf *cvf_config);
+@@ -258,9 +258,6 @@ int atomisp_makeup_css_parameters(struct atomisp_sub_device *asd,
+ int atomisp_compare_grid(struct atomisp_sub_device *asd,
+ 			 struct atomisp_grid_info *atomgrid);
  
--int atomisp_exif_makernote(struct atomisp_sub_device *asd,
--			   struct atomisp_makernote_info *config);
+-int atomisp_get_sensor_mode_data(struct atomisp_sub_device *asd,
+-				 struct atomisp_sensor_mode_data *config);
 -
- void atomisp_free_internal_buffers(struct atomisp_sub_device *asd);
- 
- int atomisp_s_ae_window(struct atomisp_sub_device *asd,
+ /* This function looks up the closest available resolution. */
+ int atomisp_try_fmt(struct video_device *vdev, struct v4l2_pix_format *f,
+ 		    bool *res_overflow);
 diff --git a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-index 4f35e8f8250a..faf65387df56 100644
+index faf65387df56..d202b2b9ae18 100644
 --- a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
 +++ b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-@@ -1631,7 +1631,6 @@ static int atomisp_g_ctrl(struct file *file, void *fh,
- 	switch (control->id) {
- 	case V4L2_CID_IRIS_ABSOLUTE:
- 	case V4L2_CID_EXPOSURE_ABSOLUTE:
--	case V4L2_CID_FNUMBER_ABSOLUTE:
- 	case V4L2_CID_2A_STATUS:
- 	case V4L2_CID_AUTO_N_PRESET_WHITE_BALANCE:
- 	case V4L2_CID_EXPOSURE:
-@@ -1828,7 +1827,6 @@ static int atomisp_camera_g_ext_ctrls(struct file *file, void *fh,
- 		case V4L2_CID_EXPOSURE_ABSOLUTE:
- 		case V4L2_CID_EXPOSURE_AUTO:
- 		case V4L2_CID_IRIS_ABSOLUTE:
--		case V4L2_CID_FNUMBER_ABSOLUTE:
- 		case V4L2_CID_BIN_FACTOR_HORZ:
- 		case V4L2_CID_BIN_FACTOR_VERT:
- 		case V4L2_CID_3A_LOCK:
-@@ -1940,7 +1938,6 @@ static int atomisp_camera_s_ext_ctrls(struct file *file, void *fh,
- 		case V4L2_CID_EXPOSURE_AUTO:
- 		case V4L2_CID_EXPOSURE_METERING:
- 		case V4L2_CID_IRIS_ABSOLUTE:
--		case V4L2_CID_FNUMBER_ABSOLUTE:
- 		case V4L2_CID_VCM_TIMING:
- 		case V4L2_CID_VCM_SLEW:
- 		case V4L2_CID_3A_LOCK:
-@@ -2276,10 +2273,6 @@ static long atomisp_vidioc_default(struct file *file, void *fh,
+@@ -2273,10 +2273,6 @@ static long atomisp_vidioc_default(struct file *file, void *fh,
  		err = atomisp_fixed_pattern_table(asd, arg);
  		break;
  
--	case ATOMISP_IOC_ISP_MAKERNOTE:
--		err = atomisp_exif_makernote(asd, arg);
+-	case ATOMISP_IOC_G_SENSOR_MODE_DATA:
+-		err = atomisp_get_sensor_mode_data(asd, arg);
 -		break;
 -
- 	case ATOMISP_IOC_G_SENSOR_MODE_DATA:
- 		err = atomisp_get_sensor_mode_data(asd, arg);
- 		break;
+ 	case ATOMISP_IOC_G_MOTOR_PRIV_INT_DATA:
+ 		if (motor)
+ 			err = v4l2_subdev_call(motor, core, ioctl, cmd, arg);
 -- 
 2.39.0
 
