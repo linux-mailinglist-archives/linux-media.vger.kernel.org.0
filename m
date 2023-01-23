@@ -2,35 +2,35 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A324F67852D
-	for <lists+linux-media@lfdr.de>; Mon, 23 Jan 2023 19:43:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 75E7467852E
+	for <lists+linux-media@lfdr.de>; Mon, 23 Jan 2023 19:43:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231501AbjAWSnd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 23 Jan 2023 13:43:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55252 "EHLO
+        id S231504AbjAWSnl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 23 Jan 2023 13:43:41 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55456 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231504AbjAWSnc (ORCPT
+        with ESMTP id S231706AbjAWSnj (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 23 Jan 2023 13:43:32 -0500
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DBB747A9C
-        for <linux-media@vger.kernel.org>; Mon, 23 Jan 2023 10:43:12 -0800 (PST)
-X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="305778880"
+        Mon, 23 Jan 2023 13:43:39 -0500
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6164B2139
+        for <linux-media@vger.kernel.org>; Mon, 23 Jan 2023 10:43:38 -0800 (PST)
+X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="306473576"
 X-IronPort-AV: E=Sophos;i="5.97,240,1669104000"; 
-   d="scan'208";a="305778880"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2023 10:42:10 -0800
+   d="scan'208";a="306473576"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2023 10:43:26 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="663775268"
+X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="694047430"
 X-IronPort-AV: E=Sophos;i="5.97,240,1669104000"; 
-   d="scan'208";a="663775268"
+   d="scan'208";a="694047430"
 Received: from smile.fi.intel.com ([10.237.72.54])
-  by fmsmga007.fm.intel.com with ESMTP; 23 Jan 2023 10:42:07 -0800
+  by orsmga001.jf.intel.com with ESMTP; 23 Jan 2023 10:43:23 -0800
 Received: from andy by smile.fi.intel.com with local (Exim 4.96)
         (envelope-from <andy@kernel.org>)
-        id 1pK1le-00DsTl-0I;
-        Mon, 23 Jan 2023 20:42:06 +0200
-Date:   Mon, 23 Jan 2023 20:42:05 +0200
+        id 1pK1mr-00DsVw-2z;
+        Mon, 23 Jan 2023 20:43:21 +0200
+Date:   Mon, 23 Jan 2023 20:43:21 +0200
 From:   Andy Shevchenko <andy@kernel.org>
 To:     Hans de Goede <hdegoede@redhat.com>
 Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -40,18 +40,18 @@ Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Nable <nable.maininbox@googlemail.com>,
         andrey.i.trufanov@gmail.com, Fabio Aiuto <fabioaiuto83@gmail.com>,
         linux-media@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH 54/57] media: atomisp: ov2722: Power on sensor from
- set_fmt() callback
-Message-ID: <Y87U/UGWKyW4soys@smile.fi.intel.com>
+Subject: Re: [PATCH 32/57] media: atomisp: ov2680: Add exposure and gain
+ controls
+Message-ID: <Y87VSRr/cgG7dMzW@smile.fi.intel.com>
 References: <20230123125205.622152-1-hdegoede@redhat.com>
- <20230123125205.622152-55-hdegoede@redhat.com>
+ <20230123125205.622152-33-hdegoede@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230123125205.622152-55-hdegoede@redhat.com>
+In-Reply-To: <20230123125205.622152-33-hdegoede@redhat.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-Spam-Status: No, score=-3.5 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_PASS,SPF_SOFTFAIL autolearn=ham autolearn_force=no
+        SPF_HELO_NONE,SPF_SOFTFAIL autolearn=ham autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -59,98 +59,113 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Jan 23, 2023 at 01:52:02PM +0100, Hans de Goede wrote:
-> Depending on which order userspace makes various v4l2 calls, the sensor
-> might still be powered down when set_fmt is called.
+On Mon, Jan 23, 2023 at 01:51:40PM +0100, Hans de Goede wrote:
+> Add exposure and gain controls. This allows controlling
+> the exposure and gain through standard v4l2 IOCTLs.
 > 
-> What should really happen here is delay the writing of the mode-related
-> registers till streaming is started, but for now use the same quick fix
-> as the atomisp_ov2680 / atomisp_gc0310 code and call power_up() from
-> set_fmt() in combination with keeping track of the power-state to avoid
-> doing the power-up sequence twice.
+> Note the register defines for the exposure and gain registers
+> are renamed to match the datasheet.
 
-OK.
 Reviewed-by: Andy Shevchenko <andy@kernel.org>
-
-Is there a plan to drop this hack from all of the (AtomISP) sensor drivers?
 
 > Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 > ---
->  drivers/staging/media/atomisp/i2c/atomisp-ov2722.c | 12 ++++++++++++
->  drivers/staging/media/atomisp/i2c/ov2722.h         |  2 +-
->  2 files changed, 13 insertions(+), 1 deletion(-)
+>  .../media/atomisp/i2c/atomisp-ov2680.c        | 27 +++++++++++++++----
+>  drivers/staging/media/atomisp/i2c/ov2680.h    |  9 +++----
+>  2 files changed, 26 insertions(+), 10 deletions(-)
 > 
-> diff --git a/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c b/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c
-> index e09c80d1f9ec..5d2e6e2e72f0 100644
-> --- a/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c
-> +++ b/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c
-> @@ -528,6 +528,9 @@ static int power_up(struct v4l2_subdev *sd)
->  		return -ENODEV;
->  	}
->  
-> +	if (dev->power_on == 1)
-> +		return 0; /* Already on */
-> +
->  	/* power control */
->  	ret = power_ctrl(sd, 1);
->  	if (ret)
-> @@ -552,6 +555,7 @@ static int power_up(struct v4l2_subdev *sd)
->  	/* according to DS, 20ms is needed between PWDN and i2c access */
->  	msleep(20);
->  
-> +	dev->power_on = 1;
+> diff --git a/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c b/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c
+> index d508c02444eb..14002a1c22d2 100644
+> --- a/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c
+> +++ b/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c
+> @@ -117,6 +117,16 @@ static int ov2680_set_hflip(struct ov2680_device *sensor, s32 val)
 >  	return 0;
->  
->  fail_clk:
-> @@ -575,6 +579,9 @@ static int power_down(struct v4l2_subdev *sd)
->  		return -ENODEV;
->  	}
->  
-> +	if (dev->power_on == 0)
-> +		return 0; /* Already off */
-> +
->  	ret = dev->platform_data->flisclk_ctrl(sd, 0);
->  	if (ret)
->  		dev_err(&client->dev, "flisclk failed\n");
-> @@ -592,6 +599,7 @@ static int power_down(struct v4l2_subdev *sd)
->  	if (ret)
->  		dev_err(&client->dev, "vprog failed.\n");
->  
-> +	dev->power_on = 0;
->  	return ret;
 >  }
 >  
-> @@ -669,6 +677,9 @@ static int ov2722_set_fmt(struct v4l2_subdev *sd,
->  
->  	mutex_lock(&dev->input_lock);
->  
-> +	/* s_power has not been called yet for std v4l2 clients (camorama) */
-> +	power_up(sd);
+> +static int ov2680_exposure_set(struct ov2680_device *sensor, u32 exp)
+> +{
+> +	return ovxxxx_write_reg24(sensor->client, OV2680_REG_EXPOSURE_PK_HIGH, exp << 4);
+> +}
 > +
->  	dev->pixels_per_line = dev->res->pixels_per_line;
->  	dev->lines_per_frame = dev->res->lines_per_frame;
+> +static int ov2680_gain_set(struct ov2680_device *sensor, u32 gain)
+> +{
+> +	return ovxxxx_write_reg16(sensor->client, OV2680_REG_GAIN_PK, gain);
+> +}
+> +
+>  static int ov2680_s_ctrl(struct v4l2_ctrl *ctrl)
+>  {
+>  	struct v4l2_subdev *sd = ctrl_to_sd(ctrl);
+> @@ -135,6 +145,12 @@ static int ov2680_s_ctrl(struct v4l2_ctrl *ctrl)
+>  	case V4L2_CID_HFLIP:
+>  		ret = ov2680_set_hflip(sensor, ctrl->val);
+>  		break;
+> +	case V4L2_CID_EXPOSURE:
+> +		ret = ov2680_exposure_set(sensor, ctrl->val);
+> +		break;
+> +	case V4L2_CID_GAIN:
+> +		ret = ov2680_gain_set(sensor, ctrl->val);
+> +		break;
+>  	default:
+>  		ret = -EINVAL;
+>  	}
+> @@ -392,10 +408,7 @@ static int ov2680_set_fmt(struct v4l2_subdev *sd,
+>  		goto err;
+>  	}
 >  
-> @@ -959,6 +970,7 @@ static int ov2722_probe(struct i2c_client *client)
->  		return -ENOMEM;
+> -	/*
+> -	 * recall flip functions to avoid flip registers
+> -	 * were overridden by default setting
+> -	 */
+> +	/* Restore value of all ctrls */
+>  	ret = __v4l2_ctrl_handler_setup(&dev->ctrls.handler);
+>  	if (ret < 0)
+>  		goto err;
+> @@ -634,13 +647,17 @@ static int ov2680_init_controls(struct ov2680_device *sensor)
+>  	const struct v4l2_ctrl_ops *ops = &ov2680_ctrl_ops;
+>  	struct ov2680_ctrls *ctrls = &sensor->ctrls;
+>  	struct v4l2_ctrl_handler *hdl = &ctrls->handler;
+> +	int exp_max = sensor->res->lines_per_frame - OV2680_INTEGRATION_TIME_MARGIN;
 >  
->  	mutex_init(&dev->input_lock);
-> +	dev->power_on = -1;
+> -	v4l2_ctrl_handler_init(hdl, 2);
+> +	v4l2_ctrl_handler_init(hdl, 4);
 >  
->  	dev->res = &ov2722_res_preview[0];
->  	v4l2_i2c_subdev_init(&dev->sd, client, &ov2722_ops);
-> diff --git a/drivers/staging/media/atomisp/i2c/ov2722.h b/drivers/staging/media/atomisp/i2c/ov2722.h
-> index 020743a944c4..640d3ffcaa5c 100644
-> --- a/drivers/staging/media/atomisp/i2c/ov2722.h
-> +++ b/drivers/staging/media/atomisp/i2c/ov2722.h
-> @@ -198,7 +198,7 @@ struct ov2722_device {
->  	struct ov2722_resolution *res;
+>  	hdl->lock = &sensor->input_lock;
 >  
->  	struct camera_sensor_platform_data *platform_data;
-> -	int run_mode;
-> +	int power_on;
->  	u16 pixels_per_line;
->  	u16 lines_per_frame;
->  	u8 type;
+>  	ctrls->hflip = v4l2_ctrl_new_std(hdl, ops, V4L2_CID_HFLIP, 0, 1, 1, 0);
+>  	ctrls->vflip = v4l2_ctrl_new_std(hdl, ops, V4L2_CID_VFLIP, 0, 1, 1, 0);
+> +	ctrls->exposure = v4l2_ctrl_new_std(hdl, ops, V4L2_CID_EXPOSURE,
+> +					    0, exp_max, 1, exp_max);
+> +	ctrls->gain = v4l2_ctrl_new_std(hdl, ops, V4L2_CID_GAIN, 0, 1023, 1, 250);
+>  
+>  	ctrls->hflip->flags |= V4L2_CTRL_FLAG_MODIFY_LAYOUT;
+>  	ctrls->vflip->flags |= V4L2_CTRL_FLAG_MODIFY_LAYOUT;
+> diff --git a/drivers/staging/media/atomisp/i2c/ov2680.h b/drivers/staging/media/atomisp/i2c/ov2680.h
+> index 45eb1f93b847..e3ad20a7ffd5 100644
+> --- a/drivers/staging/media/atomisp/i2c/ov2680.h
+> +++ b/drivers/staging/media/atomisp/i2c/ov2680.h
+> @@ -90,11 +90,8 @@
+>  
+>  #define OV2680_GROUP_ACCESS							0x3208 /*Bit[7:4] Group control, Bit[3:0] Group ID*/
+>  
+> -#define OV2680_EXPOSURE_H							0x3500 /*Bit[3:0] Bit[19:16] of exposure, remaining 16 bits lies in Reg0x3501&Reg0x3502*/
+> -#define OV2680_EXPOSURE_M							0x3501
+> -#define OV2680_EXPOSURE_L							0x3502
+> -#define OV2680_AGC_H								0x350A /*Bit[1:0] means Bit[9:8] of gain*/
+> -#define OV2680_AGC_L								0x350B /*Bit[7:0] of gain*/
+> +#define OV2680_REG_EXPOSURE_PK_HIGH		0x3500
+> +#define OV2680_REG_GAIN_PK			0x350a
+>  
+>  #define OV2680_HORIZONTAL_START_H					0x3800 /*Bit[11:8]*/
+>  #define OV2680_HORIZONTAL_START_L					0x3801 /*Bit[7:0]*/
+> @@ -172,6 +169,8 @@ struct ov2680_device {
+>  		struct v4l2_ctrl_handler handler;
+>  		struct v4l2_ctrl *hflip;
+>  		struct v4l2_ctrl *vflip;
+> +		struct v4l2_ctrl *exposure;
+> +		struct v4l2_ctrl *gain;
+>  	} ctrls;
+>  };
+>  
 > -- 
 > 2.39.0
 > 
