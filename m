@@ -2,169 +2,228 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 09F5B678842
-	for <lists+linux-media@lfdr.de>; Mon, 23 Jan 2023 21:36:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8F87C67895F
+	for <lists+linux-media@lfdr.de>; Mon, 23 Jan 2023 22:19:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232907AbjAWUgi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 23 Jan 2023 15:36:38 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37194 "EHLO
+        id S233085AbjAWVTy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 23 Jan 2023 16:19:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48914 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231602AbjAWUg2 (ORCPT
+        with ESMTP id S233072AbjAWVTx (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 23 Jan 2023 15:36:28 -0500
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2046.outbound.protection.outlook.com [40.107.94.46])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 059901DBB8;
-        Mon, 23 Jan 2023 12:36:24 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Mr14+TQpizbQz7B2pug/h8QyIJ2K4cADX3hvvE5e0zbx/eRyZD+mrXTOvL1IzLIVcZgoI03Ev5vRAm7P6GY4SeK/oawR7LrJJcR+fbTHiqbmgnBG8JSc7P4VSiLB6QITDMoucDroocLACc0HbhfyK5W7yNvejAcN9P9mLWCJtwpLlP1Zy+iKefjWD6i9bU6h+as0K7VCuF4DhhNBZeFZXF/kHqvSVWzOVgglrs3tKoeRkclAWskwQ9oba2uYAMpwyWmguLlOk438rSFrNBosEc54VueqrPvLJKBefioaJEO/7V+oF8CrLnX6IR1Ae3IX+59BNVs3WViweM8xsN8pPQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=E/5qhZMcxbuieGySe9aeptZ7GgD7dbsVtDHB1SonTkA=;
- b=TqhJqlZRDQ4tyoRP8t+WWT7ci2ZyhZaSYaboDGyBR0JRGHKkPRPEhQBxDyXT/TR0x8XrXCGbbT50i4Mpwd5gFtnaOfk+eg7sKa5CEHc62NCZLkzo1esQha/VpwpkvSQbkDLZQnSxnFNndoabVbRSqb+tYnpTG/U32Y/0PCJqWWJ5JnSrTBhyuddKCUSngbfJw5ryWC/cKrzUoXnYih3YHKa/aYE+peJmPTQXNUw3Bkbdpbl0KTeeLO6aq+PpeR0kZjL0r95ml1Yjv7+nroTgINOKO/RvSRVrngZ9xdlpJZa9tnaeLsK5IPJ89RSHFER376Nma05KSgGkSIjYfNl9xg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=E/5qhZMcxbuieGySe9aeptZ7GgD7dbsVtDHB1SonTkA=;
- b=H7Wk43EIbgaTZo4N/INcAfCFDYcZmr1DuuBiNbytKXn+UMIGTuPrTi1yETc03UBZ9SowJw13O+UUtCRZuZwRz0RArBvCi1qicj5gTYck1KY5dtEj0Exzmp8bKvnMHqbqCX6x6zBWqqqZKQs8pujvLuAwqc19cqkxIO/KwnZU8ni+IhU75yLabrSc40iRy6n7lUdUeBIz9KPVUYaJw5Pqim8vGbOtaz32wv3hYt1/voZg82y5n1zMDJicE9b9hyoa5gu/k8wWqrogL7zB2a/2TRK3ocKvVrKB/rEwNYMr/4EsaWB99JHk41YLNz1iCFSO9G2bnoD7NcyB/uwsNV8B3g==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from LV2PR12MB5869.namprd12.prod.outlook.com (2603:10b6:408:176::16)
- by BL3PR12MB6571.namprd12.prod.outlook.com (2603:10b6:208:38e::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6002.25; Mon, 23 Jan
- 2023 20:36:06 +0000
-Received: from LV2PR12MB5869.namprd12.prod.outlook.com
- ([fe80::3cb3:2fce:5c8f:82ee]) by LV2PR12MB5869.namprd12.prod.outlook.com
- ([fe80::3cb3:2fce:5c8f:82ee%4]) with mapi id 15.20.6002.033; Mon, 23 Jan 2023
- 20:36:06 +0000
-From:   Jason Gunthorpe <jgg@nvidia.com>
-To:     Lu Baolu <baolu.lu@linux.intel.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Kevin Tian <kevin.tian@intel.com>,
-        Matthew Rosato <mjrosato@linux.ibm.com>,
-        Robin Murphy <robin.murphy@arm.com>
-Cc:     Alex Williamson <alex.williamson@redhat.com>,
-        ath10k@lists.infradead.org, ath11k@lists.infradead.org,
-        Christian Borntraeger <borntraeger@linux.ibm.com>,
-        dri-devel@lists.freedesktop.org, iommu@lists.linux.dev,
-        kvm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-rdma@vger.kernel.org, linux-remoteproc@vger.kernel.org,
-        linux-s390@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-tegra@vger.kernel.org, linux-wireless@vger.kernel.org,
-        netdev@vger.kernel.org, nouveau@lists.freedesktop.org,
-        Niklas Schnelle <schnelle@linux.ibm.com>,
-        virtualization@lists.linux-foundation.org
-Subject: [PATCH v3 10/10] iommu/s390: Use GFP_KERNEL in sleepable contexts
-Date:   Mon, 23 Jan 2023 16:36:03 -0400
-Message-Id: <10-v3-76b587fe28df+6e3-iommu_map_gfp_jgg@nvidia.com>
-In-Reply-To: <0-v3-76b587fe28df+6e3-iommu_map_gfp_jgg@nvidia.com>
-References: 
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: MN2PR03CA0001.namprd03.prod.outlook.com
- (2603:10b6:208:23a::6) To LV2PR12MB5869.namprd12.prod.outlook.com
- (2603:10b6:408:176::16)
+        Mon, 23 Jan 2023 16:19:53 -0500
+Received: from mail-qt1-x836.google.com (mail-qt1-x836.google.com [IPv6:2607:f8b0:4864:20::836])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8DBC728850
+        for <linux-media@vger.kernel.org>; Mon, 23 Jan 2023 13:19:51 -0800 (PST)
+Received: by mail-qt1-x836.google.com with SMTP id a25so11438683qto.10
+        for <linux-media@vger.kernel.org>; Mon, 23 Jan 2023 13:19:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=jOlbvAaShmf8Gl0ikXZ8hcDrUygNc3QeMBJOc96K2us=;
+        b=erejwlCP2bmW0Ojwl2h58WxbHPnNj9a09So+KJi+0zQdpBL1zVGGSdZ3IRhnAaFr1Q
+         xgn8ZkCBIfQbE8uRg3Iqrj8mAmxNW+wtKK1sARsgdFXI/77oVKGS5OWOk7ok3zCGV+PY
+         skpTPQqIAWhvLq39H8AIp1OfzJlWrCVr0zG1Eejm8pKMhE1bOf2MfYNPIxWRR44PMJ77
+         7kTxgVgsl2xJdvC7leeh2Pig6uBKvj9BJ1QQWg2De8esjahcX8h3lPfyKU72hG2+K7vX
+         lr2yIt75ysB3yRR6Pj9D1FY7fdNrOBiNv0FOQmH4F1An2LlUoCBz+UxPOxt93UwOSZht
+         TEwA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=jOlbvAaShmf8Gl0ikXZ8hcDrUygNc3QeMBJOc96K2us=;
+        b=prpv6XlM7s+hr5kr4d8Jkuh1j5eXoNKChg7PmZppgiE2RtO0OmfjoBuuacjXfUZJKE
+         OcKWgTQ++UH641KljJpDyKEP3OvS4ngkpK4kSZIDKNTpzEpquCY51h7W/rnQuY3NPShX
+         cNecbARSaAsVrEPvrUVlWIQ4VVXpHxgKORgjuvtQOp0nwJ6FePOnYIXOkWDjTLweYyRm
+         MLviAU7Qcb9UOe7oZOp4chXY/e/qQAxBR6UFnqdIbw5eYK/ew3q0WdAvEKyj2yPyKa8q
+         eaqYAtFmzeQ1npUy4Dv8S6Bdln74KjVzvt2fEM/QGwfcS4a4fkxeZE0H7Pi68tAEOSod
+         saRw==
+X-Gm-Message-State: AFqh2kr+BE3BMflCzQG4Pw3St8l2FkiCYuYYtNkg+vxuEZKLNW3Dnjh/
+        GmxA8yDeeOGKskv25LTyYutJ4w==
+X-Google-Smtp-Source: AMrXdXsFa36HI7xanlHnzBtlzgwjn6luzlEWTBad7meoAEpQFxTrFcwyQDYekdABtweTxRliH/IA9Q==
+X-Received: by 2002:a05:622a:1f16:b0:3b6:369f:c219 with SMTP id ca22-20020a05622a1f1600b003b6369fc219mr41496552qtb.56.1674508790662;
+        Mon, 23 Jan 2023 13:19:50 -0800 (PST)
+Received: from nicolas-tpx395.localdomain (192-222-136-102.qc.cable.ebox.net. [192.222.136.102])
+        by smtp.gmail.com with ESMTPSA id 196-20020a3708cd000000b006fcab4da037sm218913qki.39.2023.01.23.13.19.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 23 Jan 2023 13:19:50 -0800 (PST)
+Message-ID: <13021588108e4e0c0c0c30723e867211fb913fe9.camel@ndufresne.ca>
+Subject: Re: [PATCH] media: verisilicon: HEVC: Only propose 10 bits
+ compatible pixels formats
+From:   Nicolas Dufresne <nicolas@ndufresne.ca>
+To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
+        mchehab@kernel.org, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, heiko@sntech.de,
+        nicolas.dufresne@collabora.co.uk
+Cc:     linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, kernel@collabora.com
+Date:   Mon, 23 Jan 2023 16:19:48 -0500
+In-Reply-To: <20230113101604.261429-1-benjamin.gaignard@collabora.com>
+References: <20230113101604.261429-1-benjamin.gaignard@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.2 (3.46.2-1.fc37) 
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LV2PR12MB5869:EE_|BL3PR12MB6571:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2516c879-d1d1-4824-29d9-08dafd817354
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: LVGshr4er2elL/unnZCOCqvxV70HIS4TLdoaezQkk/BGn29wHu9juFzGd4KlsMbViOkRAlHG/EEXd7ZxxxJROEhPTX1pARZxnMT6gu2yJgDfCwUtYf48F5g7DrsTsf4jxtPW5+Cz4FcPvJqPn8SWcFpV8eNSSe0IdUYw+6dLj7r7TFNJScqQmHB3yUArWSKxdyL7Uil5RV+Y7h0S0U6+KOJ90qv4YyIAK3ufIMKDnjVcLRRHGA0Ei6hOao0yiVlgxJZD1tEcA2R2dIV+u1+BSAtfgXiQXe2PHoMFrJM4yXNMNLUtDypRpMfhbsGw3NAYA2QTOZFuHpan0mC4Lp9JuvaxKrxrC9OZ6dz2E25lxYKSERJ+gQVoUR6lglgAnnLD3dQHd+RUwCrxO1yqY4aOhfqTSWUZyDNWcb69Q3DkKMijnU9reO1Pra48n1Q1n3InSYezVuYqkM2AEI1BUtAwfH8VcQFVuTRbaMGb8jBYngLDRnY7/BlFlFfuZSEcF44WOmvV4pnlFfp1Mvhugl13LVB2Jdje+pXpotG8cdXFyOwcr07EJOuRj7b8p2Xrqf/g/FKNDuKerFxS8KCbt85iz4A5mj1FTk/IPGR4MGo3hQ+0kGra0k/+BqQp4NaWD57+34B2CC/EsjNYbxLGJyGSjA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV2PR12MB5869.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(346002)(39860400002)(136003)(366004)(376002)(396003)(451199015)(5660300002)(316002)(8936002)(7416002)(41300700001)(38100700002)(110136005)(36756003)(186003)(83380400001)(478600001)(6666004)(86362001)(6512007)(6506007)(6486002)(26005)(66476007)(8676002)(66946007)(4326008)(2616005)(54906003)(2906002)(66556008);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?aX43Z3Qps0hqfTvWsm+MygYbBsHjUyNRMkSVvNFeWJ+E03PT1jnM5GOMlF4w?=
- =?us-ascii?Q?CISel+zjpLsbZUSsaY6sLYpR8ZPort2rw65kObQ3VLr8HlZK5Rbuqz/e+5nu?=
- =?us-ascii?Q?tz7Y+1z4gyXh8JxPMBo2gdmCZUCf2R5nUUOW8ClM+NGDmco3Yox4LU8jW8QF?=
- =?us-ascii?Q?7LmbMaEcjbh7RmAaqxCURMRYPRx63Jd4xQunPKfKpbFSW236EXIllcPDS5Zx?=
- =?us-ascii?Q?t3xgrLYmVBhO+0V7tOexQNHqCrSvsK2o+cQznAqK7J3C3NVAj6qvihvXLZmp?=
- =?us-ascii?Q?ByuoNMTbUlXXSiKuq2GzICiL59kfa9izQ4kCn7vynSfAvuYWsT/F9rK/F9gl?=
- =?us-ascii?Q?KmW+WvsuIYVE2dbu/BJ1QSFzeMiPVnxWInUfxKutpjoREBuUXV7pA40wYsFc?=
- =?us-ascii?Q?Jn2GSEbTJdFbtmaO2/kD2rVJaTKcb1yAOgjwqEfoF3rlWyKqwhD8KvG+AtlD?=
- =?us-ascii?Q?QAi6cfdZy/cFL6BkURQ828r2xxU/hdhFZRQHMkG+P1TkLZkUNN+Bb0/bTn4b?=
- =?us-ascii?Q?DKG696vrGtD9oh0lvfWwORhXIG9VBZg/bUPQ4FDCfIkmz28qdfymtHMqbQTc?=
- =?us-ascii?Q?YN8IdOqtPTyE6eeblJKV8wLFbt3BWCLSViEnHAJGPZDoYjs2qVhqEfkoNsF3?=
- =?us-ascii?Q?H594Txtvuf9FlbEo9TNLLm3wEW6bAPW3Y2Uc+wNARsCi+pKlWXaMP9+Lon47?=
- =?us-ascii?Q?4ahmUdV8HRkyPejdjM0GpW90VhWT9PJ2vSXJ5ICSIgQgizYzEmW0DlxGcpe1?=
- =?us-ascii?Q?N5q/lvZBJPTHSQNaf6HcJYHtWTEntkOXjnBgroH7RG4Mpn64oV+KN3cPL6ce?=
- =?us-ascii?Q?Hs7Vdw2aipJEFpVeQ5oMvF/tTN2jhata6hQwiQIpcHPu15DsxxbulrLq3YMt?=
- =?us-ascii?Q?OgyO7wgwhild+a2LzVx3G/8KeqSCSReg/xPbsLWJbg2r1RNgcXG+vLJsh5w0?=
- =?us-ascii?Q?I+JlXJ2BFE6ZTdL2wXn9BL8+PffxyB8DBeESoLCpanXJ9/SLKZhcfDiIFpof?=
- =?us-ascii?Q?QH1yugmma/Br8ZaQIc0R8msPK9uJd2iiUnn8cZZf75+k8l3S/w0AlJqyXuN6?=
- =?us-ascii?Q?yVmBfmrh/9dVj5UA6lPxw5ZIjSmg127B4a23hSyoYqXmj7MF36cMRnZNbLI+?=
- =?us-ascii?Q?S9XY9nnIldBDMEkgwCTOyEV4uzBSafzO1wzj4zQOqM+N6MDnXwxhy2FyKJG9?=
- =?us-ascii?Q?6AcxHrmHX4csojpjgbLTdMuG9MtLXqx1cUR2GEPCNMQuFwyr9dUrR8Os7MXd?=
- =?us-ascii?Q?bIJKGheUuwGk6CvyED8F8kE7c8oSXngJnzeyXmalYvhgD2/n6X6FiTQyUj7I?=
- =?us-ascii?Q?+GQCGJFDJzWYcpvg713y/k+WMnA3zvWZJblG2lN8euIfRXOSuCbt5F9YLbA5?=
- =?us-ascii?Q?Sdx3deB7eYSMaQ7IHOIOjhZOtVtQVkZA/EaEnYgsyMUnE9ice3+I7yRt83dW?=
- =?us-ascii?Q?/k5RXSif32PdF2EaNmgDJ+Bg72sIr+SZbx7waNPF9SJjqeNBHmigRqxw5nou?=
- =?us-ascii?Q?2J4Go3VCxHRgo9bEALVJYyfRozunEx9PBMOuOQaDraxogp4MKKqlHfc1IvYC?=
- =?us-ascii?Q?vfT/UQ102oNXq5OSxwx/l/hvYWMdrKgY9HE+itCT?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2516c879-d1d1-4824-29d9-08dafd817354
-X-MS-Exchange-CrossTenant-AuthSource: LV2PR12MB5869.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jan 2023 20:36:05.5413
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: pwNuQbrVCMq1U51lxXzJ35/JsQt/2JC5UMBINcUbkkaSZVvWTxcX9wF/dE86P867
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL3PR12MB6571
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE
-        autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-These contexts are sleepable, so use the proper annotation. The GFP_ATOMIC
-was added mechanically in the prior patches.
+Le vendredi 13 janvier 2023 =C3=A0 11:16 +0100, Benjamin Gaignard a =C3=A9c=
+rit=C2=A0:
+> When decoding a 10bits bitstreams HEVC driver should only expose
+> 10bits pixel formats.
+> To fulfill this requirement it is needed to call hantro_reset_raw_fmt()
+> when bit depth change and to correctly set match_depth in pixel formats
+> enumeration.
+>=20
+> Fixes: dc39473d0340 ("media: hantro: imx8m: Enable 10bit decoding")
+>=20
+> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 
-Reviewed-by: Niklas Schnelle <schnelle@linux.ibm.com>
-Reviewed-by: Matthew Rosato <mjrosato@linux.ibm.com>
-Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
----
- arch/s390/pci/pci_dma.c    | 2 +-
- drivers/iommu/s390-iommu.c | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+Tested with 8bit tiled / P010 linear, as that's what we have in GStreamer
+upstream and it fixed the badly selected format issue. No fluster hack was =
+used.
 
-diff --git a/arch/s390/pci/pci_dma.c b/arch/s390/pci/pci_dma.c
-index 2f6d05d6da4f76..2d9b01d7ca4c5c 100644
---- a/arch/s390/pci/pci_dma.c
-+++ b/arch/s390/pci/pci_dma.c
-@@ -579,7 +579,7 @@ int zpci_dma_init_device(struct zpci_dev *zdev)
- 
- 	spin_lock_init(&zdev->iommu_bitmap_lock);
- 
--	zdev->dma_table = dma_alloc_cpu_table(GFP_ATOMIC);
-+	zdev->dma_table = dma_alloc_cpu_table(GFP_KERNEL);
- 	if (!zdev->dma_table) {
- 		rc = -ENOMEM;
- 		goto out;
-diff --git a/drivers/iommu/s390-iommu.c b/drivers/iommu/s390-iommu.c
-index 654ec4411fe36c..7dcfffed260e6b 100644
---- a/drivers/iommu/s390-iommu.c
-+++ b/drivers/iommu/s390-iommu.c
-@@ -52,7 +52,7 @@ static struct iommu_domain *s390_domain_alloc(unsigned domain_type)
- 	if (!s390_domain)
- 		return NULL;
- 
--	s390_domain->dma_table = dma_alloc_cpu_table(GFP_ATOMIC);
-+	s390_domain->dma_table = dma_alloc_cpu_table(GFP_KERNEL);
- 	if (!s390_domain->dma_table) {
- 		kfree(s390_domain);
- 		return NULL;
--- 
-2.39.0
+Fluster score was: 141 / 147
+
+Tested-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+
+> ---
+>  .../media/platform/verisilicon/hantro_drv.c   | 35 +++++++++++++++++--
+>  .../media/platform/verisilicon/hantro_v4l2.c  |  2 +-
+>  .../media/platform/verisilicon/hantro_v4l2.h  |  1 +
+>  .../media/platform/verisilicon/imx8m_vpu_hw.c |  2 ++
+>  4 files changed, 36 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/drivers/media/platform/verisilicon/hantro_drv.c b/drivers/me=
+dia/platform/verisilicon/hantro_drv.c
+> index 8cb4a68c9119..78ea05294004 100644
+> --- a/drivers/media/platform/verisilicon/hantro_drv.c
+> +++ b/drivers/media/platform/verisilicon/hantro_drv.c
+> @@ -274,8 +274,6 @@ static int hantro_try_ctrl(struct v4l2_ctrl *ctrl)
+>  		if (sps->bit_depth_luma_minus8 !=3D 0 && sps->bit_depth_luma_minus8 !=
+=3D 2)
+>  			/* Only 8-bit and 10-bit are supported */
+>  			return -EINVAL;
+> -
+> -		ctx->bit_depth =3D sps->bit_depth_luma_minus8 + 8;
+>  	} else if (ctrl->id =3D=3D V4L2_CID_STATELESS_VP9_FRAME) {
+>  		const struct v4l2_ctrl_vp9_frame *dec_params =3D ctrl->p_new.p_vp9_fra=
+me;
+> =20
+> @@ -286,6 +284,32 @@ static int hantro_try_ctrl(struct v4l2_ctrl *ctrl)
+>  	return 0;
+>  }
+> =20
+> +static int hantro_hevc_s_ctrl(struct v4l2_ctrl *ctrl)
+> +{
+> +	struct hantro_ctx *ctx;
+> +
+> +	ctx =3D container_of(ctrl->handler,
+> +			   struct hantro_ctx, ctrl_handler);
+> +
+> +	vpu_debug(1, "s_ctrl: id =3D %d, val =3D %d\n", ctrl->id, ctrl->val);
+> +
+> +	switch (ctrl->id) {
+> +	case V4L2_CID_STATELESS_HEVC_SPS:
+> +		const struct v4l2_ctrl_hevc_sps *sps =3D ctrl->p_new.p_hevc_sps;
+> +		int bit_depth =3D sps->bit_depth_luma_minus8 + 8;
+> +
+> +		if (ctx->bit_depth !=3D bit_depth) {
+> +			ctx->bit_depth =3D bit_depth;
+> +			hantro_reset_raw_fmt(ctx);
+> +		}
+> +		break;
+> +	default:
+> +		return -EINVAL;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+>  static int hantro_jpeg_s_ctrl(struct v4l2_ctrl *ctrl)
+>  {
+>  	struct hantro_ctx *ctx;
+> @@ -328,6 +352,11 @@ static const struct v4l2_ctrl_ops hantro_ctrl_ops =
+=3D {
+>  	.try_ctrl =3D hantro_try_ctrl,
+>  };
+> =20
+> +static const struct v4l2_ctrl_ops hantro_hevc_ctrl_ops =3D {
+> +	.s_ctrl =3D hantro_hevc_s_ctrl,
+> +	.try_ctrl =3D hantro_try_ctrl,
+> +};
+> +
+>  static const struct v4l2_ctrl_ops hantro_jpeg_ctrl_ops =3D {
+>  	.s_ctrl =3D hantro_jpeg_s_ctrl,
+>  };
+> @@ -470,7 +499,7 @@ static const struct hantro_ctrl controls[] =3D {
+>  		.codec =3D HANTRO_HEVC_DECODER,
+>  		.cfg =3D {
+>  			.id =3D V4L2_CID_STATELESS_HEVC_SPS,
+> -			.ops =3D &hantro_ctrl_ops,
+> +			.ops =3D &hantro_hevc_ctrl_ops,
+>  		},
+>  	}, {
+>  		.codec =3D HANTRO_HEVC_DECODER,
+> diff --git a/drivers/media/platform/verisilicon/hantro_v4l2.c b/drivers/m=
+edia/platform/verisilicon/hantro_v4l2.c
+> index 2c7a805289e7..0025e049dd26 100644
+> --- a/drivers/media/platform/verisilicon/hantro_v4l2.c
+> +++ b/drivers/media/platform/verisilicon/hantro_v4l2.c
+> @@ -398,7 +398,7 @@ hantro_reset_encoded_fmt(struct hantro_ctx *ctx)
+>  		hantro_set_fmt_out(ctx, fmt);
+>  }
+> =20
+> -static void
+> +void
+>  hantro_reset_raw_fmt(struct hantro_ctx *ctx)
+>  {
+>  	const struct hantro_fmt *raw_vpu_fmt;
+> diff --git a/drivers/media/platform/verisilicon/hantro_v4l2.h b/drivers/m=
+edia/platform/verisilicon/hantro_v4l2.h
+> index 64f6f57e9d7a..f642560aed93 100644
+> --- a/drivers/media/platform/verisilicon/hantro_v4l2.h
+> +++ b/drivers/media/platform/verisilicon/hantro_v4l2.h
+> @@ -21,6 +21,7 @@
+>  extern const struct v4l2_ioctl_ops hantro_ioctl_ops;
+>  extern const struct vb2_ops hantro_queue_ops;
+> =20
+> +void hantro_reset_raw_fmt(struct hantro_ctx *ctx);
+>  void hantro_reset_fmts(struct hantro_ctx *ctx);
+>  int hantro_get_format_depth(u32 fourcc);
+>  const struct hantro_fmt *
+> diff --git a/drivers/media/platform/verisilicon/imx8m_vpu_hw.c b/drivers/=
+media/platform/verisilicon/imx8m_vpu_hw.c
+> index b390228fd3b4..f850d8bddef6 100644
+> --- a/drivers/media/platform/verisilicon/imx8m_vpu_hw.c
+> +++ b/drivers/media/platform/verisilicon/imx8m_vpu_hw.c
+> @@ -152,6 +152,7 @@ static const struct hantro_fmt imx8m_vpu_g2_postproc_=
+fmts[] =3D {
+>  	{
+>  		.fourcc =3D V4L2_PIX_FMT_NV12,
+>  		.codec_mode =3D HANTRO_MODE_NONE,
+> +		.match_depth =3D true,
+>  		.postprocessed =3D true,
+>  		.frmsize =3D {
+>  			.min_width =3D FMT_MIN_WIDTH,
+> @@ -165,6 +166,7 @@ static const struct hantro_fmt imx8m_vpu_g2_postproc_=
+fmts[] =3D {
+>  	{
+>  		.fourcc =3D V4L2_PIX_FMT_P010,
+>  		.codec_mode =3D HANTRO_MODE_NONE,
+> +		.match_depth =3D true,
+>  		.postprocessed =3D true,
+>  		.frmsize =3D {
+>  			.min_width =3D FMT_MIN_WIDTH,
 
