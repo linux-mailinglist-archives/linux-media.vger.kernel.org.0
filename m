@@ -2,129 +2,162 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9E2BA677794
-	for <lists+linux-media@lfdr.de>; Mon, 23 Jan 2023 10:43:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 174486777A3
+	for <lists+linux-media@lfdr.de>; Mon, 23 Jan 2023 10:46:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231680AbjAWJnJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 23 Jan 2023 04:43:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41096 "EHLO
+        id S231660AbjAWJqX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 23 Jan 2023 04:46:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42438 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230236AbjAWJnI (ORCPT
+        with ESMTP id S231493AbjAWJqV (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 23 Jan 2023 04:43:08 -0500
-Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10707DBEB;
-        Mon, 23 Jan 2023 01:43:07 -0800 (PST)
-Received: by mail-wr1-x429.google.com with SMTP id n7so10187271wrx.5;
-        Mon, 23 Jan 2023 01:43:06 -0800 (PST)
+        Mon, 23 Jan 2023 04:46:21 -0500
+Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A3DB31CAF2
+        for <linux-media@vger.kernel.org>; Mon, 23 Jan 2023 01:46:18 -0800 (PST)
+Received: by mail-wr1-x42a.google.com with SMTP id d14so6507021wrr.9
+        for <linux-media@vger.kernel.org>; Mon, 23 Jan 2023 01:46:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=S6BjjeXL8yTJMC0wJlFe+I8I2MsrGeDOh1B+2LIf6wU=;
-        b=agILq6o+GWk4tuFzspZR7fsDXjM2H4OVKJfjyuwFl2UcLwWyZ2gq7A11/LUvn1bsmn
-         cX41gI3USsqEo0h0SFKIGzPQ4sC3hNZ/K08K37HYaJzs6Z3ZhJjVH/uQvO1vLX4IDDHl
-         /g2DEbESv6pj+qqudSDlv6MAt+AlSpUR1KpXm+3FLQe5PpuJEGO3zY9lpIRDMqjKTeFO
-         XotsdfsHHtfNezyDvJY1OHuaoiJRpa0zmozqH+YyBYsujIa4rpPBtflaAaPtoOWR6iFu
-         RzXnWGgaFWcpcV1C48Jrgp7rvQNRLhEOgm3rdbgxY9gO9EJKf00fYME0iYTqR4FnwBNJ
-         ATXw==
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+         :content-language:subject:reply-to:from:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=60INGmxwRr+8yD/I9JtxQHZJy+MthHAPjebxgVXSq4A=;
+        b=F1RmlI6Jr+ymKyy8lqwEzZBkmqqB13nNXYBYvHtOeWRGeqsuz7xzXBmaWhSw3I8Ebm
+         TcBhF+tktlNXSXYa7GGd+4cSp7Mx1MA292zlI/YBhsesf8m2OPtOBU4CzkRYYDY+VJKD
+         rZKktCGYO6MieFBnhFrnXP96yNjjCazN4NtubEGY3US83//z/ammPRj/L4Pxrc2Z6tmr
+         QKPZ+KdqFIhF4uxc434VoygrrqrdBU0wTWSgMlQyI+fyCqgR08BCpwX5nBT4NXsRkGFu
+         8nu27yExklJVwN9h22VU1oVuSZqcQ+pTlG/IoT6VZa6i92mv0KfUGLb3dqJ4/aHoExHh
+         cArg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+         :content-language:subject:reply-to:from:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=S6BjjeXL8yTJMC0wJlFe+I8I2MsrGeDOh1B+2LIf6wU=;
-        b=MGZiz1yxpjI1SD6vv5JxOOXxZ+ghR0+F6vbfF0rZOx2Lyrc0anXfClnKcKP0dMIS3b
-         HnrhBBjx1Fo11bcLdkwkNHAsn9t+g5GULHY0ETJVgkB1O8uE83HDONtaq8VlZ9M2A4mB
-         epxAD8W3cQHV059DYmLIx1agXtbhJ4KIbC4xoMhpy/9FzvZTNAlzKVayfeieKW4myP+A
-         6x9p4IJkQpeIVDxu8Dz0XRdRaLlE9KEtvg1G2bIwlEc8H7uIWXTJOHxLE5JnJwsPEZxs
-         SLivoaVdjBelnfHanc7bjtirCP+Gfg8rOBsqjQJTJp9HIxIUV1LSe/IPLu5pOQc5KZWZ
-         HJZg==
-X-Gm-Message-State: AFqh2kqNZIk6acdlm8aMqI6m43OwQyWJNq+IIbiQFCGyLshEbnmClsAt
-        zlyVk06wqB1aNye7dvEGF4I=
-X-Google-Smtp-Source: AMrXdXt5fyhf1LiEcRZCoHd5aZVrC2fCwIs2S4ezPycbnFeLgplLPKiVW0DzdP6j8gCMA21I42WBZw==
-X-Received: by 2002:adf:ce01:0:b0:2bd:e208:1e4c with SMTP id p1-20020adfce01000000b002bde2081e4cmr23690706wrn.11.1674466985537;
-        Mon, 23 Jan 2023 01:43:05 -0800 (PST)
-Received: from toolbox.. ([87.200.95.144])
-        by smtp.gmail.com with ESMTPSA id e12-20020adffd0c000000b002bf95821372sm6178158wrr.42.2023.01.23.01.43.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Jan 2023 01:43:05 -0800 (PST)
-From:   Christian Hewitt <christianshewitt@gmail.com>
-To:     Neil Armstrong <neil.armstrong@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        bh=60INGmxwRr+8yD/I9JtxQHZJy+MthHAPjebxgVXSq4A=;
+        b=BXaxcECLKvzrWdsx/k99KOeKmdL5aVN92BYnLOLsQAPcwyNpYXzS0ACHayPfdfJrh3
+         kGmGeFUlJpuAIUPt7vTquwSq5kZDlQYBfwM+QzSUVsshjMrmlzcEPwH86JlhExeMS49J
+         l9yiU83SB7KVaijvmIw119c7Z84xyQWbYNSvMhXGnzGVuMbIOnw9i3yT8ygePJXrCCZo
+         73o1zAN1bPpkt6Q9fIDn0B+XmcgJe10z4Bknu+sdOrWxI75Q8P4jiLV7axfk96nZYpjQ
+         ZiOJnNad4N5xvfcuQLb3sv0dzQUxZCtim/++w0AksRp3fGlQ/F1/oQCP5cAWNjGm9rI8
+         LlUQ==
+X-Gm-Message-State: AFqh2kpeD9WyeivtxDypxeEH38QhOCDxc0zIPHfLPkyMApe+CJ5Ew/Xw
+        Ekl7PhOrap6Upbdc71RGZwubYg==
+X-Google-Smtp-Source: AMrXdXuHEVHo54bmjGJT3gC7SenPuHW6sVZSyn52AJ8UqKixwTSKOJoGk+qB0zPe/lhc1Ohi58pW5Q==
+X-Received: by 2002:a05:6000:98d:b0:2bd:c6ce:7bfb with SMTP id by13-20020a056000098d00b002bdc6ce7bfbmr23917833wrb.28.1674467177213;
+        Mon, 23 Jan 2023 01:46:17 -0800 (PST)
+Received: from [192.168.7.111] (679773502.box.freepro.com. [212.114.21.58])
+        by smtp.gmail.com with ESMTPSA id q12-20020adff50c000000b002bc83b85180sm7139415wro.114.2023.01.23.01.46.15
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 23 Jan 2023 01:46:16 -0800 (PST)
+Message-ID: <c590a842-0074-8f19-6bc7-5de101a88661@linaro.org>
+Date:   Mon, 23 Jan 2023 10:46:15 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+From:   Neil Armstrong <neil.armstrong@linaro.org>
+Reply-To: neil.armstrong@linaro.org
+Subject: Re: [PATCH v2 10/11] dt-bindings: PCI: convert amlogic,meson-pcie.txt
+ to dt-schema
+Content-Language: en-US
+To:     Bjorn Helgaas <helgaas@kernel.org>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Kevin Hilman <khilman@baylibre.com>,
         Jerome Brunet <jbrunet@baylibre.com>,
         Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        linux-media@vger.kernel.org, linux-amlogic@lists.infradead.org,
-        linux-staging@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Cc:     Christian Hewitt <christianshewitt@gmail.com>,
-        Neil Armstrong <narmstrong@baylibre.com>
-Subject: [PATCH] media: meson: vdec: esparser: check parsing state with hardware write pointer
-Date:   Mon, 23 Jan 2023 09:43:00 +0000
-Message-Id: <20230123094300.2816812-1-christianshewitt@gmail.com>
-X-Mailer: git-send-email 2.34.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Alessandro Zummo <a.zummo@towertech.it>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Vinod Koul <vkoul@kernel.org>,
+        Kishon Vijay Abraham I <kishon@kernel.org>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>, Andrew Lunn <andrew@lunn.ch>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Russell King <linux@armlinux.org.uk>,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-amlogic@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-watchdog@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-rtc@vger.kernel.org, linux-phy@lists.infradead.org,
+        linux-mmc@vger.kernel.org, linux-pci@vger.kernel.org,
+        netdev@vger.kernel.org,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+References: <20230110150328.GA1502381@bhelgaas>
+Organization: Linaro Developer Services
+In-Reply-To: <20230110150328.GA1502381@bhelgaas>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-3.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Neil Armstrong <narmstrong@baylibre.com>
+On 10/01/2023 16:03, Bjorn Helgaas wrote:
+> Is this the same sort of conversion done by one of these?
+> 
+>    e4dffb674cfd ("dt-bindings: PCI: tegra194: Convert to json-schema")
+>    075a9d55932e ("dt-bindings: PCI: qcom: Convert to YAML")
+> 
+> It's helpful to non-experts like me if the subject lines use similar
+> style (capitalized) and similar terminology ("dt-schema" vs
+> "json-schema" vs "YAML").
 
-Also check the hardware write pointer to check if ES Parser has stalled.
+Yes and honestly, I don't know what's the right name to use.
 
-Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
-Signed-off-by: Christian Hewitt <christianshewitt@gmail.com>
----
- drivers/staging/media/meson/vdec/esparser.c | 15 +++++++++++----
- 1 file changed, 11 insertions(+), 4 deletions(-)
+I use dt-schema since it's the "official" name of the tool
+used to validate those.
 
-diff --git a/drivers/staging/media/meson/vdec/esparser.c b/drivers/staging/media/meson/vdec/esparser.c
-index df5956c6141d..41b705f999b2 100644
---- a/drivers/staging/media/meson/vdec/esparser.c
-+++ b/drivers/staging/media/meson/vdec/esparser.c
-@@ -300,6 +300,7 @@ esparser_queue(struct amvdec_session *sess, struct vb2_v4l2_buffer *vbuf)
- 	u32 num_dst_bufs = 0;
- 	u32 offset;
- 	u32 pad_size;
-+	u32 wp, wp2;
- 
- 	/*
- 	 * When max ref frame is held by VP9, this should be -= 3 to prevent a
-@@ -354,15 +355,21 @@ esparser_queue(struct amvdec_session *sess, struct vb2_v4l2_buffer *vbuf)
- 	}
- 
- 	pad_size = esparser_pad_start_code(core, vb, payload_size);
-+	wp = amvdec_read_parser(core, PARSER_VIDEO_WP);
- 	ret = esparser_write_data(core, phy, payload_size + pad_size);
-+	wp2 = amvdec_read_parser(core, PARSER_VIDEO_WP);
- 
- 	if (ret <= 0) {
--		dev_warn(core->dev, "esparser: input parsing error\n");
--		amvdec_remove_ts(sess, vb->timestamp);
--		v4l2_m2m_buf_done(vbuf, VB2_BUF_STATE_ERROR);
- 		amvdec_write_parser(core, PARSER_FETCH_CMD, 0);
- 
--		return 0;
-+		if (ret < 0 || wp2 == wp) {
-+			dev_err(core->dev, "esparser: input parsing error ret %d (%x <=> %x)\n",
-+				ret, wp, wp2);
-+			amvdec_remove_ts(sess, vb->timestamp);
-+			v4l2_m2m_buf_done(vbuf, VB2_BUF_STATE_ERROR);
-+
-+			return 0;
-+		}
- 	}
- 
- 	atomic_inc(&sess->esparser_queued_bufs);
--- 
-2.34.1
+> 
+> On Mon, Jan 09, 2023 at 01:53:34PM +0100, Neil Armstrong wrote:
+>> Convert the Amlogic Meson AXG DWC PCIE SoC controller bindings to
+>> dt-schema.
+> 
+> Some references here and below are "PCIE" (inherited from the
+> original) and others are "PCIe".  Could be made consistent here.
+
+Ack
+
+> 
+>> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+>> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+>> ---
+>>   .../devicetree/bindings/pci/amlogic,axg-pcie.yaml  | 134 +++++++++++++++++++++
+>>   .../devicetree/bindings/pci/amlogic,meson-pcie.txt |  70 -----------
+>>   2 files changed, 134 insertions(+), 70 deletions(-)
+>>
+>> diff --git a/Documentation/devicetree/bindings/pci/amlogic,axg-pcie.yaml b/Documentation/devicetree/bindings/pci/amlogic,axg-pcie.yaml
+>> new file mode 100644
+>> index 000000000000..a08f15fe9a9a
+>> --- /dev/null
+>> +++ b/Documentation/devicetree/bindings/pci/amlogic,axg-pcie.yaml
+>> @@ -0,0 +1,134 @@
+>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+>> +%YAML 1.2
+>> +---
+>> +$id: http://devicetree.org/schemas/pci/amlogic,axg-pcie.yaml#
+>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>> +
+>> +title: Amlogic Meson AXG DWC PCIE SoC controller
+>> +
+>> +maintainers:
+>> +  - Neil Armstrong <neil.armstrong@linaro.org>
+>> +
+>> +description:
+>> +  Amlogic Meson PCIe host controller is based on the Synopsys DesignWare PCI core.
+>> ...
 
