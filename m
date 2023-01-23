@@ -2,68 +2,94 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 754BF6775F6
-	for <lists+linux-media@lfdr.de>; Mon, 23 Jan 2023 09:00:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4C2FF677640
+	for <lists+linux-media@lfdr.de>; Mon, 23 Jan 2023 09:26:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231602AbjAWIAs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 23 Jan 2023 03:00:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43148 "EHLO
+        id S231523AbjAWI0H (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 23 Jan 2023 03:26:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53240 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231601AbjAWIAr (ORCPT
+        with ESMTP id S230122AbjAWI0G (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 23 Jan 2023 03:00:47 -0500
-Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 496ED11EAC
-        for <linux-media@vger.kernel.org>; Mon, 23 Jan 2023 00:00:45 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by sin.source.kernel.org (Postfix) with ESMTPS id 93D22CE0A3A
-        for <linux-media@vger.kernel.org>; Mon, 23 Jan 2023 08:00:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0DF39C433EF;
-        Mon, 23 Jan 2023 08:00:40 +0000 (UTC)
-Message-ID: <b1c023b6-171a-fa19-de60-99ab943072a8@xs4all.nl>
-Date:   Mon, 23 Jan 2023 09:00:39 +0100
+        Mon, 23 Jan 2023 03:26:06 -0500
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 76165196A0;
+        Mon, 23 Jan 2023 00:26:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1674462365; x=1705998365;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=09s0OxVD4yELiygvPoXhquCBPkkmgctRJPXVCJBDnIg=;
+  b=a9S0FVlHK55JPB5BFNUmDocW0p46IS19CBw3tQJn9SeFcvbehtPr3rM7
+   zVGlCdHytqb3mYCJrZXxr6J+bCtMB3raziXdaaTbm7urJDvGRDRr8z8Ny
+   2CzAYKRBY4aeWt3sGdc7okNp6s6EiSPjypubUm27iCxAnzInMICqRDucl
+   sGVW1gOy7AKCuU/RXxgfklaR7nvVCxAAy2HQhw238WezU7t4bF4+htgQT
+   VGTOZYq/ceaPKqquvdmNoJO/vTQwOGrz4/VVjqW0SwKiFM3k0L68CzvpV
+   yqSSw79UDxWGA5JzYY/2i8+F6/AQjpiMftJrm4jzvq+govX1Bbs3NjKub
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10598"; a="412223323"
+X-IronPort-AV: E=Sophos;i="5.97,239,1669104000"; 
+   d="scan'208";a="412223323"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2023 00:26:04 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10598"; a="692050160"
+X-IronPort-AV: E=Sophos;i="5.97,239,1669104000"; 
+   d="scan'208";a="692050160"
+Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
+  by orsmga008.jf.intel.com with ESMTP; 23 Jan 2023 00:26:02 -0800
+Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1pJs9R-0005WO-19;
+        Mon, 23 Jan 2023 08:26:01 +0000
+Date:   Mon, 23 Jan 2023 16:25:33 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+        linux-kernel@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, Andy Shevchenko <andy@kernel.org>
+Subject: ld.lld: error: undefined symbol: vb2_vmalloc_memops
+Message-ID: <202301231611.IEV8PsyF-lkp@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH] drm/vc4: hdmi: make CEC adapter name unique
-Content-Language: en-US
-To:     Maxime Ripard <maxime@cerno.tech>
-Cc:     "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>
-References: <dcf1db75-d9cc-62cc-fa12-baf1b2b3bf31@xs4all.nl>
- <20230120191344.xldhudsmb4xar4u3@houat>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <20230120191344.xldhudsmb4xar4u3@houat>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-7.8 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 20/01/2023 20:13, Maxime Ripard wrote:
-> Hi Hans,
-> 
-> On Thu, Jan 19, 2023 at 10:02:19AM +0100, Hans Verkuil wrote:
->> The bcm2711 has two HDMI outputs, each with their own CEC adapter.
->> The CEC adapter name has to be unique, but it is currently
->> hardcoded to "vc4" for both outputs. Change this to use the card_name
->> from the variant information in order to make the adapter name unique.
->>
->> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> 
-> The patch looks good but should we Cc stable and add a Fixes tag here?
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   2475bf0250dee99b477e0c56d7dc9d7ac3f04117
+commit: cb48ae89be3b6e916fe1640a9ee23fe4c87a1ca6 media: atomisp: Convert to videobuf2
+date:   8 weeks ago
+config: i386-randconfig-r014-20230123 (https://download.01.org/0day-ci/archive/20230123/202301231611.IEV8PsyF-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=cb48ae89be3b6e916fe1640a9ee23fe4c87a1ca6
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout cb48ae89be3b6e916fe1640a9ee23fe4c87a1ca6
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
 
-Good idea:
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
 
-Fixes: 15b4511a4af6 ("drm/vc4: add HDMI CEC support")
+All errors (new ones prefixed by >>):
 
-Regards,
+>> ld.lld: error: undefined symbol: vb2_vmalloc_memops
+   >>> referenced by atomisp_fops.c:629 (drivers/staging/media/atomisp/pci/atomisp_fops.c:629)
+   >>>               drivers/staging/media/atomisp/pci/atomisp_fops.o:(atomisp_open) in archive vmlinux.a
 
-	Hans
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
