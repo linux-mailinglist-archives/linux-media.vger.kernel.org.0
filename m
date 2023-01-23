@@ -2,165 +2,144 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F1E28677755
-	for <lists+linux-media@lfdr.de>; Mon, 23 Jan 2023 10:24:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DE3EF67778E
+	for <lists+linux-media@lfdr.de>; Mon, 23 Jan 2023 10:42:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231475AbjAWJYY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 23 Jan 2023 04:24:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59816 "EHLO
+        id S231599AbjAWJm1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 23 Jan 2023 04:42:27 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40202 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230122AbjAWJYX (ORCPT
+        with ESMTP id S231491AbjAWJmZ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 23 Jan 2023 04:24:23 -0500
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8283915546
-        for <linux-media@vger.kernel.org>; Mon, 23 Jan 2023 01:24:22 -0800 (PST)
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <mfe@pengutronix.de>)
-        id 1pJt3f-0000OC-Dl; Mon, 23 Jan 2023 10:24:07 +0100
-Received: from mfe by ptx.hi.pengutronix.de with local (Exim 4.92)
-        (envelope-from <mfe@pengutronix.de>)
-        id 1pJt3d-0000se-BA; Mon, 23 Jan 2023 10:24:05 +0100
-Date:   Mon, 23 Jan 2023 10:24:05 +0100
-From:   Marco Felsch <m.felsch@pengutronix.de>
-To:     Deepak R Varma <drv@mailo.com>
-Cc:     Steve Longerbeam <slongerbeam@gmail.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        Praveen Kumar <kumarpraveen@linux.microsoft.com>,
-        Saurabh Singh Sengar <ssengar@microsoft.com>
-Subject: Re: [PATCH v2] staging: media: imx: change
- imx_media_fim_set_stream() to return void
-Message-ID: <20230123092405.lwaosnsnlj7tvnmt@pengutronix.de>
-References: <Y7RoDHnyHNnlPV71@qemulion>
- <Y82VVFFdUbww+BuS@ubun2204.myguest.virtualbox.org>
+        Mon, 23 Jan 2023 04:42:25 -0500
+Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com [IPv6:2a00:1450:4864:20::32b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C7C2C1631C
+        for <linux-media@vger.kernel.org>; Mon, 23 Jan 2023 01:42:22 -0800 (PST)
+Received: by mail-wm1-x32b.google.com with SMTP id k16so8492091wms.2
+        for <linux-media@vger.kernel.org>; Mon, 23 Jan 2023 01:42:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+         :content-language:subject:reply-to:from:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=bb3ehCbsmnDNOeIeuOp9X6FACVdZxwB9flFsEny7tkU=;
+        b=dV+vmkhPJupVDkDKPKw/2uJe9dhCfz2931ZZfmSlTiTucpZhV2Dz+B6f9Fv3oiI5Qg
+         xdALFShfLxjvVlVQ2K1bLQ5/4uPa6Q7gCQlFkO7bDQBoW/r8L1iBLX9dM/ZknvefkDGC
+         6iJRk6CRvJJo7qipP+9FC4RrGHDwX//qae/qj8wJurKg8c+1OHYsm56cHw4p7MWRyk1K
+         nfquz3KQcfaO9EzCTs/SUKrcWz3tEvEos7SFv6WhgRiugJpJ3DnoGoOyT8+BCgVZIzQS
+         gVFXE4RIK7gcAlT4NdXcPy1iZVBPSkMbc+B1+QYLkW51SQ6p0ODeYa+m2ek55Zj8+RQZ
+         DWEQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+         :content-language:subject:reply-to:from:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=bb3ehCbsmnDNOeIeuOp9X6FACVdZxwB9flFsEny7tkU=;
+        b=18tAI1BWi1hXLNyzg254e7vo4+wCDqQibbSjawSYCJa02ou0Tr/gmbvWWPsp6Erg5H
+         0hpBx3Buut9y+327rcvTdZGR4yQisCyB43e6WKZDrjBLCNJoTpSB6HuglN73C2xsNHWT
+         cEXpBiPYjQfE/Z0c9MwNJKkhVZ/UBQnq9yn5RTnNNmy0BxxBqAOnQh9hIUtqc/ek0aNU
+         tMDJr/ICQJ4rAgcaRL5cvfNfY/CULsTF+RmOMKADBtLSZzEQDBbKeK89EZFdF6rpmozd
+         RyVY2TMm5N5NY7RH8hKEcQCAlCEIebIU+X8AlYZjb3Pa+d8N0vvyCE0tocih69KSB/MG
+         aisg==
+X-Gm-Message-State: AFqh2koQ/kefdgzPJdnOYgBVB7O9d460PN9OeW6/j++30ymIGIteIf0U
+        Ake64Ewoo1JBrcf49CCiHX4K/w==
+X-Google-Smtp-Source: AMrXdXsm6TcBoxPPxS02VMNxznfImdfA7EnRpT/eJPmFB8AVCLXvlWQuATnvGBXA13pmaGAeWzaHKQ==
+X-Received: by 2002:a05:600c:1d12:b0:3db:53f:baea with SMTP id l18-20020a05600c1d1200b003db053fbaeamr23030706wms.6.1674466941329;
+        Mon, 23 Jan 2023 01:42:21 -0800 (PST)
+Received: from [192.168.7.111] (679773502.box.freepro.com. [212.114.21.58])
+        by smtp.gmail.com with ESMTPSA id t13-20020a1c770d000000b003db1ca20170sm9963482wmi.37.2023.01.23.01.42.19
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 23 Jan 2023 01:42:20 -0800 (PST)
+Message-ID: <d8f78a24-398c-8bb0-8964-778d8a0e8998@linaro.org>
+Date:   Mon, 23 Jan 2023 10:42:19 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y82VVFFdUbww+BuS@ubun2204.myguest.virtualbox.org>
-User-Agent: NeoMutt/20180716
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: mfe@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+From:   Neil Armstrong <neil.armstrong@linaro.org>
+Reply-To: neil.armstrong@linaro.org
+Subject: Re: [PATCH v2 04/11] dt-bindings: watchdog: convert meson-wdt.txt to
+ dt-schema
+Content-Language: en-US
+To:     Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Jerome Brunet <jbrunet@baylibre.com>,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Alessandro Zummo <a.zummo@towertech.it>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Vinod Koul <vkoul@kernel.org>,
+        Kishon Vijay Abraham I <kishon@kernel.org>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>, Andrew Lunn <andrew@lunn.ch>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Russell King <linux@armlinux.org.uk>,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-amlogic@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-watchdog@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-rtc@vger.kernel.org, linux-phy@lists.infradead.org,
+        linux-mmc@vger.kernel.org, linux-pci@vger.kernel.org,
+        netdev@vger.kernel.org,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+References: <20221117-b4-amlogic-bindings-convert-v2-0-36ad050bb625@linaro.org>
+ <20221117-b4-amlogic-bindings-convert-v2-4-36ad050bb625@linaro.org>
+ <CAFBinCDd1MJEmSHR1XPsfBoRasBq+cV1F+66sCBXALtCCmoyUA@mail.gmail.com>
+Organization: Linaro Developer Services
+In-Reply-To: <CAFBinCDd1MJEmSHR1XPsfBoRasBq+cV1F+66sCBXALtCCmoyUA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-3.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+On 10/01/2023 22:48, Martin Blumenstingl wrote:
+> Hi Neil,
+> 
+> On Mon, Jan 9, 2023 at 1:53 PM Neil Armstrong <neil.armstrong@linaro.org> wrote:
+> [...]
+>> +  compatible:
+>> +    oneOf:
+>> +      - enum:
+>> +          - amlogic,meson6-wdt
+>> +          - amlogic,meson8-wdt
+> Technically this is not an identical representation of what we had
+> before which was:
+> -       "amlogic,meson8-wdt" and "amlogic,meson6-wdt" on Meson8 SoCs
+> 
+> We're not using the "amlogic,meson8-wdt" compatible anywhere at the moment.
+> In the meson_wdt driver it's defined with the same per-SoC data as
+> "amlogic,meson6-wdt".
+> 
+> Long story short: In my opinion there's no need to change what you
+> have right now.
+> If you have to re-spin this then maybe you can add a note to the patch
+> description.
+> Please add my:
+> Reviewed-by: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
 
-the patch lgtm.
+Sorry I was distracted, I'll add a node on the commit message.
 
-On 23-01-23, Deepak R Varma wrote:
-> On Tue, Jan 03, 2023 at 11:08:20PM +0530, Deepak R Varma wrote:
-> > At present, the function imx_media_fim_set_stream() always returns 0.
-> > So, convert it to be a function returning void instead. Issue identified
-> > using the returnvar.cocci Coccinelle semantic patch.
-> > 
-> > Signed-off-by: Deepak R Varma <drv@mailo.com>
+Thanks,
+Neil
 
-Reviewed-by: Marco Felsch <m.felsch@pengutronix.de>
+> 
+> 
+> Best regards,
+> Martin
 
-> > ---
-> > Changes in v2:
-> >    1. Convert the function return type from int to void. Suggested by
-> >       Fabio Estevam <festevam@gmail.com>
-> >    2. Update patch subject and log accordingly.
-> 
-> Hello,
-> May I request a review and feedback comment on this patch proposal please?
-> 
-> Thank you,
-> ./drv
-> 
-> > 
-> > 
-> >  drivers/staging/media/imx/imx-media-csi.c | 7 ++-----
-> >  drivers/staging/media/imx/imx-media-fim.c | 8 +++-----
-> >  drivers/staging/media/imx/imx-media.h     | 6 +++---
-> >  3 files changed, 8 insertions(+), 13 deletions(-)
-> > 
-> > diff --git a/drivers/staging/media/imx/imx-media-csi.c b/drivers/staging/media/imx/imx-media-csi.c
-> > index 5c3cc7de209d..44d87fe30d52 100644
-> > --- a/drivers/staging/media/imx/imx-media-csi.c
-> > +++ b/drivers/staging/media/imx/imx-media-csi.c
-> > @@ -779,11 +779,8 @@ static int csi_start(struct csi_priv *priv)
-> >  		goto idmac_stop;
-> > 
-> >  	/* start the frame interval monitor */
-> > -	if (priv->fim && priv->dest == IPU_CSI_DEST_IDMAC) {
-> > -		ret = imx_media_fim_set_stream(priv->fim, output_fi, true);
-> > -		if (ret)
-> > -			goto idmac_stop;
-> > -	}
-> > +	if (priv->fim && priv->dest == IPU_CSI_DEST_IDMAC)
-> > +		imx_media_fim_set_stream(priv->fim, output_fi, true);
-> > 
-> >  	ret = ipu_csi_enable(priv->csi);
-> >  	if (ret) {
-> > diff --git a/drivers/staging/media/imx/imx-media-fim.c b/drivers/staging/media/imx/imx-media-fim.c
-> > index fb6590dcfc36..f456751f100a 100644
-> > --- a/drivers/staging/media/imx/imx-media-fim.c
-> > +++ b/drivers/staging/media/imx/imx-media-fim.c
-> > @@ -368,12 +368,11 @@ void imx_media_fim_eof_monitor(struct imx_media_fim *fim, ktime_t timestamp)
-> >  }
-> > 
-> >  /* Called by the subdev in its s_stream callback */
-> > -int imx_media_fim_set_stream(struct imx_media_fim *fim,
-> > -			     const struct v4l2_fract *fi,
-> > -			     bool on)
-> > +void imx_media_fim_set_stream(struct imx_media_fim *fim,
-> > +			      const struct v4l2_fract *fi,
-> > +			      bool on)
-> >  {
-> >  	unsigned long flags;
-> > -	int ret = 0;
-> > 
-> >  	v4l2_ctrl_lock(fim->ctrl[FIM_CL_ENABLE]);
-> > 
-> > @@ -393,7 +392,6 @@ int imx_media_fim_set_stream(struct imx_media_fim *fim,
-> >  	fim->stream_on = on;
-> >  out:
-> >  	v4l2_ctrl_unlock(fim->ctrl[FIM_CL_ENABLE]);
-> > -	return ret;
-> >  }
-> > 
-> >  int imx_media_fim_add_controls(struct imx_media_fim *fim)
-> > diff --git a/drivers/staging/media/imx/imx-media.h b/drivers/staging/media/imx/imx-media.h
-> > index f679249d82e4..6f9a46573edd 100644
-> > --- a/drivers/staging/media/imx/imx-media.h
-> > +++ b/drivers/staging/media/imx/imx-media.h
-> > @@ -246,9 +246,9 @@ int imx_media_dev_notifier_register(struct imx_media_dev *imxmd,
-> >  /* imx-media-fim.c */
-> >  struct imx_media_fim;
-> >  void imx_media_fim_eof_monitor(struct imx_media_fim *fim, ktime_t timestamp);
-> > -int imx_media_fim_set_stream(struct imx_media_fim *fim,
-> > -			     const struct v4l2_fract *frame_interval,
-> > -			     bool on);
-> > +void imx_media_fim_set_stream(struct imx_media_fim *fim,
-> > +			      const struct v4l2_fract *frame_interval,
-> > +			      bool on);
-> >  int imx_media_fim_add_controls(struct imx_media_fim *fim);
-> >  struct imx_media_fim *imx_media_fim_init(struct v4l2_subdev *sd);
-> >  void imx_media_fim_free(struct imx_media_fim *fim);
-> > --
-> > 2.34.1
-> > 
-> 
-> 
-> 
-> 
