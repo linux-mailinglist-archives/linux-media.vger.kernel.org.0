@@ -2,201 +2,266 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6E529678031
-	for <lists+linux-media@lfdr.de>; Mon, 23 Jan 2023 16:42:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5435A677FC4
+	for <lists+linux-media@lfdr.de>; Mon, 23 Jan 2023 16:30:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232844AbjAWPmz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 23 Jan 2023 10:42:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49888 "EHLO
+        id S231537AbjAWPaT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 23 Jan 2023 10:30:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37316 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232852AbjAWPmw (ORCPT
+        with ESMTP id S230428AbjAWPaR (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 23 Jan 2023 10:42:52 -0500
-X-Greylist: delayed 473 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 23 Jan 2023 07:42:34 PST
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.13])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB9EB2BEE1;
-        Mon, 23 Jan 2023 07:42:34 -0800 (PST)
-Received: from [192.168.1.141] ([37.4.248.41]) by mrelayeu.kundenserver.de
- (mreue106 [212.227.15.183]) with ESMTPSA (Nemesis) id
- 1N5W0q-1odYGM3rcA-016zDA; Mon, 23 Jan 2023 16:29:01 +0100
-Message-ID: <40196216-79bc-0dff-d7d2-dee3bc53a38d@i2se.com>
-Date:   Mon, 23 Jan 2023 16:28:58 +0100
+        Mon, 23 Jan 2023 10:30:17 -0500
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 95DC410258
+        for <linux-media@vger.kernel.org>; Mon, 23 Jan 2023 07:30:16 -0800 (PST)
+X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="388416622"
+X-IronPort-AV: E=Sophos;i="5.97,239,1669104000"; 
+   d="scan'208";a="388416622"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2023 07:30:11 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="693941400"
+X-IronPort-AV: E=Sophos;i="5.97,239,1669104000"; 
+   d="scan'208";a="693941400"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by orsmga001.jf.intel.com with ESMTP; 23 Jan 2023 07:30:07 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+        (envelope-from <andy@kernel.org>)
+        id 1pJylq-00Dnkq-0E;
+        Mon, 23 Jan 2023 17:30:06 +0200
+Date:   Mon, 23 Jan 2023 17:30:05 +0200
+From:   Andy Shevchenko <andy@kernel.org>
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Tsuchiya Yuto <kitakar@gmail.com>,
+        Yury Luneff <yury.lunev@gmail.com>,
+        Nable <nable.maininbox@googlemail.com>,
+        andrey.i.trufanov@gmail.com, Fabio Aiuto <fabioaiuto83@gmail.com>,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH 15/57] media: atomisp: Drop atomisp_init_pipe()
+Message-ID: <Y86n/Wz5Ed45Ve1d@smile.fi.intel.com>
+References: <20230123125205.622152-1-hdegoede@redhat.com>
+ <20230123125205.622152-16-hdegoede@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH v6 0/6] staging: vc04_services: vchiq: Register devices
- with a custom bus_type
-To:     Umang Jain <umang.jain@ideasonboard.com>,
-        linux-staging@lists.linux.dev,
-        linux-rpi-kernel@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Adrien Thierry <athierry@redhat.com>,
-        Dan Carpenter <error27@gmail.com>,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Paul Elder <paul.elder@ideasonboard.com>
-References: <20230120201104.606876-1-umang.jain@ideasonboard.com>
- <786df750-221e-82fc-a324-d30261296974@i2se.com>
- <62644cd8-c871-aee0-30b7-2fbab097504c@ideasonboard.com>
- <912601ba-c60d-8d69-f061-62b854c5d9ce@i2se.com>
- <4e4215a7-c733-9ea6-dad8-9bf53dc9e891@ideasonboard.com>
-Content-Language: en-US
-From:   Stefan Wahren <stefan.wahren@i2se.com>
-In-Reply-To: <4e4215a7-c733-9ea6-dad8-9bf53dc9e891@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:Nwv1a9eVEttVMa+Xetvukvdky5ojIjEy6AquHuhtGboW48xcu8l
- 3VQHVQlEdDd+Vg8yaFi7X+CNX5L2+z6wfLPLRcfYQNtapy4DYgl2d62MPFuq2d03sdJEq5b
- nTE0QMYUAkA/8KyWQeEW101uizo9dIJD3bus8TBUjvBfwipwdXr3VzcLni4YHyRE/ot7tfB
- z11S8n1XOEi1GxImLlaaQ==
-UI-OutboundReport: notjunk:1;M01:P0:hxl28o865m0=;SBm4v7KbfyiekMbUvL5IWQLYbv8
- nfi/HLyPxlYoCq52ziiPpMAOtNEY7KU0wEppwdCUctIJSOH6PEt4DHn47qFXAe/b8Jz3YbDA2
- Q7oPYur+T3sdR4g6VixuPDu70to1Eh8uiL39GFR6M6sYdlQEyCcpH/c2wOcbbuwWGkNeMpTON
- AT/Z7YOiXjNOjMAaw837L70BgxV5cOoP8EpmXOhorT2GxTex5lWxquIsBC47mmcCFL0jCZ7NO
- isqYqqiTlIo4fnpgvc6Fe5da98Z7lWApm5BIE73xGSRwtDxDEfvZ+/z94jKdHgP/swSbk76S8
- C4JY3WnKqIU6MBTL+vvOFBMFiW+rwS+Jd8RdfTQDpOrcg41UL5RmGpHKcBgJOL1vjdyTBcsqa
- H1baNF3vl3LiY4WAL1OGLr6tBmAeEghGtcvsusDBN01fkjgOKZvh6nSmsxY/5XqAN7NMx7i1I
- YomlvBrozipGY84SdgUM5wrfFbFT0m850tTDz4LnMwvFNH5UbkI/ayukr3Hvd9dn6fJXzw6Np
- G9D1bFn1mcpQBOm2uNrpq0FtjIeWNeFka4cy4CXBgQC9GYGjAVl4yWpBCLVZ4/kKu1v7l+6PI
- sMazgd7ziHkhi9FjaDGyAQnKWgLpsgNv9e8WorLZFIzijZFDrbDHgYN3x4ufCHOmNy5UIddyB
- 4enEzqohw0y2nWsb4rgJHDpmtIWL5SZcBZLCsCzXsA==
-X-Spam-Status: No, score=-3.0 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230123125205.622152-16-hdegoede@redhat.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-Spam-Status: No, score=-3.5 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_SOFTFAIL autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Umang,
+On Mon, Jan 23, 2023 at 01:51:23PM +0100, Hans de Goede wrote:
+> atomisp_init_pipe() does 3 things:
+> 
+> 1. Init a bunch of list-heads / locks
+> 2. Init the vb_queue for the videodev (aka pipe)
+> 3. zero the per-frame parameters related variables of the pipe
+> 
+> 1. and 2. really should not be done at file-open time, but once at probe.
+> Currently the code is getting away with doing this on every videodev-open
+> because only 1 open is allowed at a time.
+> 
+> 1. is already done at probe time by atomisp_init_subdev_pipe(), move 2. to
+> atomisp_init_subdev_pipe() so that it is also done once at probe.
+> 
+> As for 3. The per-frame parameters can only be set from a qbuf ioctl,
+> which can only happen after a reqbufs ioctl and atomisp_buf_cleanup
+> already zeros the per-frame parameters when the buffers are released,
+> so 3. is not necessary at all.
 
-Am 23.01.23 um 15:12 schrieb Umang Jain:
-> Hi Stefan
->
-> On 1/23/23 5:16 PM, Stefan Wahren wrote:
->> Hi Umang,
->>
->> Am 23.01.23 um 08:48 schrieb Umang Jain:
->>> Hi Stefan,
->>>
->>> Thank for the testing.
->>>
->>> On 1/23/23 5:04 AM, Stefan Wahren wrote:
->>>> Hi Umang,
->>>>
->>>> Am 20.01.23 um 21:10 schrieb Umang Jain:
->>>>> This series just introduces five extra patches for dropping include
->>>>> directives from Makefiles (suggested by Greg KH) and rebased.
->>>>>
->>>>> The main patch (6/6) removes platform device/driver abuse and moves
->>>>> things to standard device/driver model using a custom_bus. Specific
->>>>> details are elaborated in the commit message.
->>>>>
->>>>> The patch series is based on top of d514392f17fd (tag: next-20230120)
->>>>> of linux-next.
->>>>
->>>> applied this series on top of linux-next and build it with 
->>>> arm/multi_v7_defconfig plus the following:
->>>>
->>>> CONFIG_BCM_VIDEOCORE=y
->>>> CONFIG_BCM2835_VCHIQ=m
->>>> CONFIG_VCHIQ_CDEV=y
->>>> CONFIG_SND_BCM2835=m
->>>> CONFIG_VIDEO_BCM2835=m
->>>> CONFIG_BCM2835_VCHIQ_MMAL=m
->>>>
->>>> and the devices doesn't register on Raspberry Pi 3 B Plus:
->>>>
->>>> [   25.523337] vchiq: module is from the staging directory, the 
->>>> quality is unknown, you have been warned.
->>>> [   25.541647] bcm2835_vchiq 3f00b840.mailbox: Failed to register 
->>>> bcm2835_audio vchiq device
->>>> [   25.553692] bcm2835_vchiq 3f00b840.mailbox: Failed to register 
->>>> bcm2835-camera vchiq device
->>>
->>> I was able to reproduce and it seems the issue here is the change 
->>> mentioned in the cover
->>>
->>> - drop dma_set_mask_and_coherent
->>>
->>> in V6.
->>>
->>> (I usually test patches on RPi 4B with vcsm-cma and bcm2835-isp 
->>> applied so my branch has the DMA hunk included while I was testing V6)
->>
->> just to avoid misunderstandings, did you read 
->> drivers/staging/vc04_services/interface/TESTING ?
->
-> Yes, but it's not geared towards the hardware I have (Rpi Model 4B)
->>
->> The Raspberry Pi 4 is currently not fully supported for VCHIQ in 
->> mainline. From my limited understanding the DMA controller driver 
->> needs 40 bit support, so VCHIQ on BCM2711 can use it. This part is 
->> currently only available in the vendor tree. The reason why the 
->> driver is unexpectedly probing is a historical issue in the 
->> devicetree :-(
->>
->> Raspberry Pi 4 support is not considered as necessary for moving out 
->> of staging.
->>
->
-> While I am looking into what's the reason behind the hunk, without 
-> which the devices cannot get registered... This is not related to the 
-> 40bit support for DMA. I remember that it worked without it during the 
-> bcm2835-isp development.
->
-> Are you implying that I should not use RPi Model 4B for testing ? 
-> Because that's the only RPi hardware I own.
+Reviewed-by: Andy Shevchenko <andy@kernel.org>
 
-No, i didn't want to imply this. It's just a warning that's currently 
-not the best platform for testing. But i also understand that nowadays 
-users have a BCM2711 based Raspberry Pi.
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> ---
+>  .../staging/media/atomisp/pci/atomisp_fops.c  | 40 +--------------
+>  .../staging/media/atomisp/pci/atomisp_fops.h  |  1 +
+>  .../media/atomisp/pci/atomisp_subdev.c        | 49 +++++++++++++++----
+>  3 files changed, 41 insertions(+), 49 deletions(-)
+> 
+> diff --git a/drivers/staging/media/atomisp/pci/atomisp_fops.c b/drivers/staging/media/atomisp/pci/atomisp_fops.c
+> index 036ad339b344..7f4934ff9cab 100644
+> --- a/drivers/staging/media/atomisp/pci/atomisp_fops.c
+> +++ b/drivers/staging/media/atomisp/pci/atomisp_fops.c
+> @@ -624,7 +624,7 @@ static void atomisp_buf_cleanup(struct vb2_buffer *vb)
+>  	hmm_free(frame->data);
+>  }
+>  
+> -static const struct vb2_ops atomisp_vb2_ops = {
+> +const struct vb2_ops atomisp_vb2_ops = {
+>  	.queue_setup		= atomisp_queue_setup,
+>  	.buf_init		= atomisp_buf_init,
+>  	.buf_cleanup		= atomisp_buf_cleanup,
+> @@ -633,40 +633,6 @@ static const struct vb2_ops atomisp_vb2_ops = {
+>  	.stop_streaming		= atomisp_stop_streaming,
+>  };
+>  
+> -static int atomisp_init_pipe(struct atomisp_video_pipe *pipe)
+> -{
+> -	int ret;
+> -
+> -	/* init locks */
+> -	spin_lock_init(&pipe->irq_lock);
+> -	mutex_init(&pipe->vb_queue_mutex);
+> -
+> -	/* Init videobuf2 queue structure */
+> -	pipe->vb_queue.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
+> -	pipe->vb_queue.io_modes = VB2_MMAP | VB2_USERPTR;
+> -	pipe->vb_queue.buf_struct_size = sizeof(struct ia_css_frame);
+> -	pipe->vb_queue.ops = &atomisp_vb2_ops;
+> -	pipe->vb_queue.mem_ops = &vb2_vmalloc_memops;
+> -	pipe->vb_queue.timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
+> -	ret = vb2_queue_init(&pipe->vb_queue);
+> -	if (ret)
+> -		return ret;
+> -
+> -	pipe->vdev.queue = &pipe->vb_queue;
+> -	pipe->vdev.queue->lock = &pipe->vb_queue_mutex;
+> -
+> -	INIT_LIST_HEAD(&pipe->activeq);
+> -	INIT_LIST_HEAD(&pipe->buffers_waiting_for_param);
+> -	INIT_LIST_HEAD(&pipe->per_frame_params);
+> -	memset(pipe->frame_request_config_id, 0,
+> -	       VIDEO_MAX_FRAME * sizeof(unsigned int));
+> -	memset(pipe->frame_params, 0,
+> -	       VIDEO_MAX_FRAME *
+> -	       sizeof(struct atomisp_css_params_with_list *));
+> -
+> -	return 0;
+> -}
+> -
+>  static void atomisp_dev_init_struct(struct atomisp_device *isp)
+>  {
+>  	unsigned int i;
+> @@ -773,10 +739,6 @@ static int atomisp_open(struct file *file)
+>  		return -EBUSY;
+>  	}
+>  
+> -	ret = atomisp_init_pipe(pipe);
+> -	if (ret)
+> -		goto error;
+> -
+>  	if (atomisp_dev_users(isp)) {
+>  		dev_dbg(isp->dev, "skip init isp in open\n");
+>  		goto init_subdev;
+> diff --git a/drivers/staging/media/atomisp/pci/atomisp_fops.h b/drivers/staging/media/atomisp/pci/atomisp_fops.h
+> index 2efc5245e571..883c1851c1c9 100644
+> --- a/drivers/staging/media/atomisp/pci/atomisp_fops.h
+> +++ b/drivers/staging/media/atomisp/pci/atomisp_fops.h
+> @@ -31,6 +31,7 @@ unsigned int atomisp_sub_dev_users(struct atomisp_sub_device *asd);
+>  
+>  int atomisp_qbuffers_to_css(struct atomisp_sub_device *asd);
+>  
+> +extern const struct vb2_ops atomisp_vb2_ops;
+>  extern const struct v4l2_file_operations atomisp_fops;
+>  
+>  #endif /* __ATOMISP_FOPS_H__ */
+> diff --git a/drivers/staging/media/atomisp/pci/atomisp_subdev.c b/drivers/staging/media/atomisp/pci/atomisp_subdev.c
+> index fc9e07bf63ae..c32db4ffb778 100644
+> --- a/drivers/staging/media/atomisp/pci/atomisp_subdev.c
+> +++ b/drivers/staging/media/atomisp/pci/atomisp_subdev.c
+> @@ -25,9 +25,11 @@
+>  
+>  #include <media/v4l2-event.h>
+>  #include <media/v4l2-mediabus.h>
+> +#include <media/videobuf2-vmalloc.h>
+>  #include "atomisp_cmd.h"
+>  #include "atomisp_common.h"
+>  #include "atomisp_compat.h"
+> +#include "atomisp_fops.h"
+>  #include "atomisp_internal.h"
+>  
+>  const struct atomisp_in_fmt_conv atomisp_in_fmt_conv[] = {
+> @@ -1023,14 +1025,31 @@ static const struct v4l2_ctrl_config ctrl_depth_mode = {
+>  	.def = 0,
+>  };
+>  
+> -static void atomisp_init_subdev_pipe(struct atomisp_sub_device *asd,
+> -				     struct atomisp_video_pipe *pipe, enum v4l2_buf_type buf_type)
+> +static int atomisp_init_subdev_pipe(struct atomisp_sub_device *asd,
+> +				    struct atomisp_video_pipe *pipe, enum v4l2_buf_type buf_type)
+>  {
+> +	int ret;
+> +
+>  	pipe->type = buf_type;
+>  	pipe->asd = asd;
+>  	pipe->isp = asd->isp;
+>  	spin_lock_init(&pipe->irq_lock);
+>  	mutex_init(&pipe->vb_queue_mutex);
+> +
+> +	/* Init videobuf2 queue structure */
+> +	pipe->vb_queue.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
+> +	pipe->vb_queue.io_modes = VB2_MMAP | VB2_USERPTR;
+> +	pipe->vb_queue.buf_struct_size = sizeof(struct ia_css_frame);
+> +	pipe->vb_queue.ops = &atomisp_vb2_ops;
+> +	pipe->vb_queue.mem_ops = &vb2_vmalloc_memops;
+> +	pipe->vb_queue.timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
+> +	ret = vb2_queue_init(&pipe->vb_queue);
+> +	if (ret)
+> +		return ret;
+> +
+> +	pipe->vdev.queue = &pipe->vb_queue;
+> +	pipe->vdev.queue->lock = &pipe->vb_queue_mutex;
+> +
+>  	INIT_LIST_HEAD(&pipe->buffers_in_css);
+>  	INIT_LIST_HEAD(&pipe->activeq);
+>  	INIT_LIST_HEAD(&pipe->buffers_waiting_for_param);
+> @@ -1040,6 +1059,8 @@ static void atomisp_init_subdev_pipe(struct atomisp_sub_device *asd,
+>  	memset(pipe->frame_params,
+>  	       0, VIDEO_MAX_FRAME *
+>  	       sizeof(struct atomisp_css_params_with_list *));
+> +
+> +	return 0;
+>  }
+>  
+>  /*
+> @@ -1085,17 +1106,25 @@ static int isp_subdev_init_entities(struct atomisp_sub_device *asd)
+>  	if (ret < 0)
+>  		return ret;
+>  
+> -	atomisp_init_subdev_pipe(asd, &asd->video_out_preview,
+> -				 V4L2_BUF_TYPE_VIDEO_CAPTURE);
+> +	ret = atomisp_init_subdev_pipe(asd, &asd->video_out_preview,
+> +				       V4L2_BUF_TYPE_VIDEO_CAPTURE);
+> +	if (ret)
+> +		return ret;
+>  
+> -	atomisp_init_subdev_pipe(asd, &asd->video_out_vf,
+> -				 V4L2_BUF_TYPE_VIDEO_CAPTURE);
+> +	ret = atomisp_init_subdev_pipe(asd, &asd->video_out_vf,
+> +				       V4L2_BUF_TYPE_VIDEO_CAPTURE);
+> +	if (ret)
+> +		return ret;
+>  
+> -	atomisp_init_subdev_pipe(asd, &asd->video_out_capture,
+> -				 V4L2_BUF_TYPE_VIDEO_CAPTURE);
+> +	ret = atomisp_init_subdev_pipe(asd, &asd->video_out_capture,
+> +				       V4L2_BUF_TYPE_VIDEO_CAPTURE);
+> +	if (ret)
+> +		return ret;
+>  
+> -	atomisp_init_subdev_pipe(asd, &asd->video_out_video_capture,
+> -				 V4L2_BUF_TYPE_VIDEO_CAPTURE);
+> +	ret = atomisp_init_subdev_pipe(asd, &asd->video_out_video_capture,
+> +				       V4L2_BUF_TYPE_VIDEO_CAPTURE);
+> +	if (ret)
+> +		return ret;
+>  
+>  	ret = atomisp_video_init(&asd->video_out_capture, "CAPTURE",
+>  				 ATOMISP_RUN_MODE_STILL_CAPTURE);
+> -- 
+> 2.39.0
+> 
 
-This leads to another question which device tree do you use for testing, 
-since the mainline one doesn't have the right compatible for BCM2711?
+-- 
+With Best Regards,
+Andy Shevchenko
 
->>>
->>> Below is the hunk which should resolve the issue.
->>>
->>> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_device.c
->>> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_device.c
->>> @@ -6,6 +6,7 @@
->>>   */
->>>
->>>  #include <linux/device/bus.h>
->>> +#include <linux/dma-mapping.h>
->>>  #include <linux/slab.h>
->>>  #include <linux/string.h>
->>>
->>> @@ -72,6 +73,12 @@ int vchiq_device_register(struct device *parent, 
->>> const char *name)
->>>         device->dev.type = &vchiq_device_type;
->>>         device->dev.release = vchiq_device_release;
->>>
->>> +       ret = dma_set_mask_and_coherent(&device->dev, 
->>> DMA_BIT_MASK(32));
->>> +       if (ret < 0) {
->>> +               vchiq_device_release(&device->dev);
->>> +               return ret;
->>> +       }
->>> +
->>>         ret = device_register(&device->dev);
->>>         if (ret) {
->>>                 put_device(&device->dev);
->>>
->>> It seems we need to include the dma_set_mask_and_coherent() even if 
->>> bcm2835-audio, bcm2835-camera device doesn't do DMA? I need to look 
->>> into why is that/
->>>
->>>  Laurent, any thoughts on this please?
->
->
-> _______________________________________________
-> linux-arm-kernel mailing list
-> linux-arm-kernel@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
+
