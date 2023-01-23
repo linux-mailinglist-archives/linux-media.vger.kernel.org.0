@@ -2,42 +2,42 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C0E68677BF4
-	for <lists+linux-media@lfdr.de>; Mon, 23 Jan 2023 13:55:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EF407677BF3
+	for <lists+linux-media@lfdr.de>; Mon, 23 Jan 2023 13:55:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231979AbjAWMzw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        id S231978AbjAWMzw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
         Mon, 23 Jan 2023 07:55:52 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56984 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55484 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231967AbjAWMzv (ORCPT
+        with ESMTP id S231976AbjAWMzu (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 23 Jan 2023 07:55:51 -0500
+        Mon, 23 Jan 2023 07:55:50 -0500
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3057610242
-        for <linux-media@vger.kernel.org>; Mon, 23 Jan 2023 04:55:00 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F23D912050
+        for <linux-media@vger.kernel.org>; Mon, 23 Jan 2023 04:55:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1674478499;
+        s=mimecast20190719; t=1674478503;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=n6jh7l4Ac7bZgyhvHj1SvpODNBVaS174AfoY/F7nqAQ=;
-        b=SsxcqT+K9kJWap2usnC65StaEiJEJciyAJqQby64j6bH0r9v28OpFF/+T82MqMykQXc+RP
-        2YGIMT8lps5Alq2v1JfersIMO0LfLsOSnuIccGg7XbD7uZvO7MS9BwsMpVkSV3sSsxQCD1
-        FQBfim5ID55HSKkdI89KLSPX4O3uanM=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=16MnBMk2IU1/t2ec244aWVhCzqiNnyAcC3F8mtqfB38=;
+        b=Cq/O8uceICOs9KP1BXt3HK3Y9x8OJnPs3zfRFbYHVeFriC9hRy7bv1ppvjMyIZUcKrNKGf
+        7HV8T8hhyQqNleXDDlVXU+9Uu2239cym0RJBINwxiK0Gzb+Y+dsu1W2gwinuKa8id9cfMZ
+        uP45HvvytpLPFuahkEu1nNuNFudCDxw=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-516-_kwng64HNlu_HKyoDaxJpw-1; Mon, 23 Jan 2023 07:54:56 -0500
-X-MC-Unique: _kwng64HNlu_HKyoDaxJpw-1
+ us-mta-386-sXXPwZ77MW6y-vZjVmJkNg-1; Mon, 23 Jan 2023 07:54:59 -0500
+X-MC-Unique: sXXPwZ77MW6y-vZjVmJkNg-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com [10.11.54.8])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B5E93101A55E;
-        Mon, 23 Jan 2023 12:54:55 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2F9471C07540;
+        Mon, 23 Jan 2023 12:54:59 +0000 (UTC)
 Received: from x1.localdomain.com (unknown [10.39.194.13])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 44D7BC15BA0;
-        Mon, 23 Jan 2023 12:54:53 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 00C62C15BA0;
+        Mon, 23 Jan 2023 12:54:55 +0000 (UTC)
 From:   Hans de Goede <hdegoede@redhat.com>
 To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Sakari Ailus <sakari.ailus@linux.intel.com>
@@ -48,10 +48,12 @@ Cc:     Hans de Goede <hdegoede@redhat.com>,
         Nable <nable.maininbox@googlemail.com>,
         andrey.i.trufanov@gmail.com, Fabio Aiuto <fabioaiuto83@gmail.com>,
         linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        Brent Pappas <bpappas@pappasbrent.com>
-Subject: [PATCH 56/57] media: atomisp: pci: hive_isp_css_common: host: vmem: Replace SUBWORD macros with functions
-Date:   Mon, 23 Jan 2023 13:52:04 +0100
-Message-Id: <20230123125205.622152-57-hdegoede@redhat.com>
+        Brent Pappas <bpappas@pappasbrent.com>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Dan Carpenter <error27@gmail.com>
+Subject: [PATCH 57/57] media: atomisp: pci: sh_css: Inline single invocation of macro STATS_ENABLED()
+Date:   Mon, 23 Jan 2023 13:52:05 +0100
+Message-Id: <20230123125205.622152-58-hdegoede@redhat.com>
 In-Reply-To: <20230123125205.622152-1-hdegoede@redhat.com>
 References: <20230123125205.622152-1-hdegoede@redhat.com>
 MIME-Version: 1.0
@@ -69,65 +71,45 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 From: Brent Pappas <bpappas@pappasbrent.com>
 
-Replace the macros SUBWORD() and INV_SUBWORD() with functions to comply
-with Linux coding style standards.
+Inline the single invocation of the macro STATS_ENABLED().
+The macro abstraction is not necessary because the logic behind it is only
+used once.
 
 Signed-off-by: Brent Pappas <bpappas@pappasbrent.com>
-Link: https://lore.kernel.org/r/20230120182625.23227-1-bpappas@pappasbrent.com
+Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+Reviewed-by: Dan Carpenter <error27@gmail.com>
+Link: https://lore.kernel.org/r/20230120171408.16099-1-bpappas@pappasbrent.com
 Reviewed-by: Hans de Goede <hdegoede@redhat.com>
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- .../pci/hive_isp_css_common/host/vmem.c       | 20 +++++++++++++------
- 1 file changed, 14 insertions(+), 6 deletions(-)
+ drivers/staging/media/atomisp/pci/sh_css.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/vmem.c b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/vmem.c
-index 6620f091442f..d9cdfbc50197 100644
---- a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/vmem.c
-+++ b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/vmem.c
-@@ -28,10 +28,18 @@ typedef hive_uedge *hive_wide;
- /* Copied from SDK: sim_semantics.c */
+diff --git a/drivers/staging/media/atomisp/pci/sh_css.c b/drivers/staging/media/atomisp/pci/sh_css.c
+index 726cb7aa4ecd..93789500416f 100644
+--- a/drivers/staging/media/atomisp/pci/sh_css.c
++++ b/drivers/staging/media/atomisp/pci/sh_css.c
+@@ -97,9 +97,6 @@
+  */
+ #define JPEG_BYTES (16 * 1024 * 1024)
  
- /* subword bits move like this:         MSB[____xxxx____]LSB -> MSB[00000000xxxx]LSB */
--#define SUBWORD(w, start, end)     (((w) & (((1ULL << ((end) - 1)) - 1) << 1 | 1)) >> (start))
-+static inline hive_uedge
-+subword(hive_uedge w, unsigned int start, unsigned int end)
-+{
-+	return (w & (((1ULL << (end - 1)) - 1) << 1 | 1)) >> start;
-+}
+-#define STATS_ENABLED(stage) (stage && stage->binary && stage->binary->info && \
+-	(stage->binary->info->sp.enable.s3a || stage->binary->info->sp.enable.dis))
+-
+ struct sh_css my_css;
  
- /* inverse subword bits move like this: MSB[xxxx____xxxx]LSB -> MSB[xxxx0000xxxx]LSB */
--#define INV_SUBWORD(w, start, end) ((w) & (~(((1ULL << ((end) - 1)) - 1) << 1 | 1) | ((1ULL << (start)) - 1)))
-+static inline hive_uedge
-+inv_subword(hive_uedge w, unsigned int start, unsigned int end)
-+{
-+	return w & (~(((1ULL << (end - 1)) - 1) << 1 | 1) | ((1ULL << start) - 1));
-+}
- 
- #define uedge_bits (8 * sizeof(hive_uedge))
- #define move_lower_bits(target, target_bit, src, src_bit) move_subword(target, target_bit, src, 0, src_bit)
-@@ -50,18 +58,18 @@ move_subword(
- 	unsigned int start_bit  = target_bit % uedge_bits;
- 	unsigned int subword_width = src_end - src_start;
- 
--	hive_uedge src_subword = SUBWORD(src, src_start, src_end);
-+	hive_uedge src_subword = subword(src, src_start, src_end);
- 
- 	if (subword_width + start_bit > uedge_bits) { /* overlap */
- 		hive_uedge old_val1;
--		hive_uedge old_val0 = INV_SUBWORD(target[start_elem], start_bit, uedge_bits);
-+		hive_uedge old_val0 = inv_subword(target[start_elem], start_bit, uedge_bits);
- 
- 		target[start_elem] = old_val0 | (src_subword << start_bit);
--		old_val1 = INV_SUBWORD(target[start_elem + 1], 0,
-+		old_val1 = inv_subword(target[start_elem + 1], 0,
- 				       subword_width + start_bit - uedge_bits);
- 		target[start_elem + 1] = old_val1 | (src_subword >> (uedge_bits - start_bit));
- 	} else {
--		hive_uedge old_val = INV_SUBWORD(target[start_elem], start_bit,
-+		hive_uedge old_val = inv_subword(target[start_elem], start_bit,
- 						 start_bit + subword_width);
- 
- 		target[start_elem] = old_val | (src_subword << start_bit);
+ int  __printf(1, 0) (*sh_css_printf)(const char *fmt, va_list args) = NULL;
+@@ -3743,7 +3740,9 @@ ia_css_pipe_enqueue_buffer(struct ia_css_pipe *pipe,
+ 			 * The SP will read the params after it got
+ 			 * empty 3a and dis
+ 			 */
+-			if (STATS_ENABLED(stage)) {
++			if (stage->binary && stage->binary->info &&
++			    (stage->binary->info->sp.enable.s3a ||
++			     stage->binary->info->sp.enable.dis)) {
+ 				/* there is a stage that needs it */
+ 				return_err = ia_css_bufq_enqueue_buffer(thread_id,
+ 									queue_id,
 -- 
 2.39.0
 
