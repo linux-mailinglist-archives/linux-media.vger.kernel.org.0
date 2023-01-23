@@ -2,155 +2,160 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E6F7D677E66
-	for <lists+linux-media@lfdr.de>; Mon, 23 Jan 2023 15:51:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 697DA677E8E
+	for <lists+linux-media@lfdr.de>; Mon, 23 Jan 2023 16:01:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231953AbjAWOvj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 23 Jan 2023 09:51:39 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55568 "EHLO
+        id S232053AbjAWPBf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 23 Jan 2023 10:01:35 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59238 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231775AbjAWOvi (ORCPT
+        with ESMTP id S231620AbjAWPBe (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 23 Jan 2023 09:51:38 -0500
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B0DAF1027A;
-        Mon, 23 Jan 2023 06:51:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674485497; x=1706021497;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=VBFVwFnSB+4lhqJQw2QnUrOxODVr0i8sRcjTBzPVaPo=;
-  b=UFg2ufSIoyiFgdBjdAJ5aXO66/d6jUxWLgieM7BXiM8W4KMJnOHC76xP
-   M30m6PSG6Y3ltQINMpXx5Q/tdOTVwKsqmi3qDeJ+8uMw8Qg0xaFsCkkHD
-   ewxjCUuY8lJzoBM6hoINgvDSytacT3fOSdmNf5bQ6gFjZEO8uY0fAv/HY
-   7OMo9a5dFo6FGUY9wJCAtu8ADOt2WcW5llHJV9q4y4mfvEyRAQKCAFkwa
-   RyS0GTlzi38IcoxVN2XVYSHn7/hlQlanxH7dJc46K+7QX42TB3qMuU0z1
-   lcT+vbQw21bbyAySwrozsnsVyVFeorsnOhZUuCh85gVBV69fP9wTxSYHC
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10598"; a="327313954"
-X-IronPort-AV: E=Sophos;i="5.97,239,1669104000"; 
-   d="scan'208";a="327313954"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2023 06:51:36 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10598"; a="654980482"
-X-IronPort-AV: E=Sophos;i="5.97,239,1669104000"; 
-   d="scan'208";a="654980482"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by orsmga007.jf.intel.com with ESMTP; 23 Jan 2023 06:51:35 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1pJyAX-00DmrJ-1z;
-        Mon, 23 Jan 2023 16:51:33 +0200
-Date:   Mon, 23 Jan 2023 16:51:33 +0200
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     linux-acpi@vger.kernel.org, linux-media@vger.kernel.org,
-        rafael@kernel.org, heikki.krogerus@linux.intel.com
-Subject: Re: [PATCH v2 1/8] ACPI: property: Parse data node string references
- in properties
-Message-ID: <Y86e9YeHXrNLfwHY@smile.fi.intel.com>
-References: <20230123134617.265382-1-sakari.ailus@linux.intel.com>
- <20230123134617.265382-2-sakari.ailus@linux.intel.com>
+        Mon, 23 Jan 2023 10:01:34 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E2027DB5;
+        Mon, 23 Jan 2023 07:01:33 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 1B19460F52;
+        Mon, 23 Jan 2023 15:01:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F3FE9C433D2;
+        Mon, 23 Jan 2023 15:01:30 +0000 (UTC)
+Message-ID: <068ee5ec-6863-2c1d-39a9-b18156d4e57d@xs4all.nl>
+Date:   Mon, 23 Jan 2023 16:01:29 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230123134617.265382-2-sakari.ailus@linux.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
-        autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH v5 02/12] media: platform: mtk-mdp3: add chip
+ configuration header file
+Content-Language: en-US
+To:     Moudy Ho <moudy.ho@mediatek.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>
+Cc:     Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+        linux-media@vger.kernel.org, linux-mediatek@lists.infradead.org,
+        linux-kernel@vger.kernel.org,
+        Project_Global_Chrome_Upstream_Group@mediatek.com
+References: <20230113064104.22402-1-moudy.ho@mediatek.com>
+ <20230113064104.22402-3-moudy.ho@mediatek.com>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <20230113064104.22402-3-moudy.ho@mediatek.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-7.8 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Jan 23, 2023 at 03:46:10PM +0200, Sakari Ailus wrote:
-> Add support for parsing property references using strings, besides
-> reference objects that were previously supported. This allows also
-> referencing data nodes which was not possible with reference objects.
+On 13/01/2023 07:40, Moudy Ho wrote:
+> In order to be compatible with more MDP3 chip settings in the future,
+> move the chip-related configuration to a separate header file.
 > 
-> Also add pr_fmt() macro to prefix printouts.
+> Signed-off-by: Moudy Ho <moudy.ho@mediatek.com>
+> ---
+>  .../mediatek/mdp3/mt8183/mdp3-plat-mt8183.h   | 35 +++++++++++++++++++
+>  .../platform/mediatek/mdp3/mtk-mdp3-core.c    | 27 ++------------
+>  2 files changed, 37 insertions(+), 25 deletions(-)
+>  create mode 100644 drivers/media/platform/mediatek/mdp3/mt8183/mdp3-plat-mt8183.h
 > 
-> While at it, update copyright.
-
-...
-
-> - * Copyright (C) 2014, Intel Corporation
-> + * Copyright (C) 2014--2023, Intel Corporation
-
-Isn't one dash enough? 
-
-$ git grep -n 'opyright.*[0-9]--[0-9]' | wc -l
-37
-
-$ git grep -n 'opyright.*[0-9]-[0-9]' | wc -l
-15064
-
-
->   * All rights reserved.
->   *
->   * Authors: Mika Westerberg <mika.westerberg@linux.intel.com>
->   *          Darren Hart <dvhart@linux.intel.com>
->   *          Rafael J. Wysocki <rafael.j.wysocki@intel.com>
-> + *	    Sakari Ailus <sakari.ailus@linux.intel.com>
-
-Seems wrong indentation in comparison to the others.
-
->   */
-
-...
-
-> +static struct fwnode_handle *
-> +acpi_parse_string_ref(const struct fwnode_handle *fwnode, const char *refstring)
-> +{
-> +	acpi_handle scope, handle;
-> +	struct acpi_data_node *dn;
-> +	struct acpi_device *device;
-> +	acpi_status status;
+> diff --git a/drivers/media/platform/mediatek/mdp3/mt8183/mdp3-plat-mt8183.h b/drivers/media/platform/mediatek/mdp3/mt8183/mdp3-plat-mt8183.h
+> new file mode 100644
+> index 000000000000..3084f62e7df5
+> --- /dev/null
+> +++ b/drivers/media/platform/mediatek/mdp3/mt8183/mdp3-plat-mt8183.h
+> @@ -0,0 +1,35 @@
+> +/* SPDX-License-Identifier: GPL-2.0-only */
+> +/*
+> + * Copyright (c) 2022 MediaTek Inc.
+> + * Author: Ping-Hsun Wu <ping-hsun.wu@mediatek.com>
+> + */
 > +
-> +	if (is_acpi_device_node(fwnode)) {
-
-> +		scope = to_acpi_device_node(fwnode)->handle;
-
-Interestingly that we have a helper for this -- ACPI_HANDLE_FWNODE()...
-
-> +	} else if (is_acpi_data_node(fwnode)) {
-
-> +		scope = to_acpi_data_node(fwnode)->handle;
-
-...but not for this.
-
-> +	} else {
-> +		pr_err("bad node type for node %pfw\n", fwnode);
-> +		return ERR_PTR(-EINVAL);
-> +	}
+> +#ifndef __MDP3_PLAT_MT8183_H__
+> +#define __MDP3_PLAT_MT8183_H__
 > +
-> +	status = acpi_get_handle(scope, refstring, &handle);
-> +	if (ACPI_FAILURE(status)) {
-> +		acpi_handle_debug(scope, "can't get handle for %s", refstring);
-> +		return ERR_PTR(-EINVAL);
-> +	}
+> +static const struct mdp_platform_config mt8183_plat_cfg = {
+> +	.rdma_support_10bit		= true,
+> +	.rdma_rsz1_sram_sharing		= true,
+> +	.rdma_upsample_repeat_only	= true,
+> +	.rsz_disable_dcm_small_sample	= false,
+> +	.wrot_filter_constraint		= false,
+> +};
 > +
-> +	device = acpi_fetch_acpi_dev(handle);
-> +	if (device)
-> +		return acpi_fwnode_handle(device);
+> +static const struct of_device_id mt8183_mdp_probe_infra[MDP_INFRA_MAX] = {
+> +	[MDP_INFRA_MMSYS] = { .compatible = "mediatek,mt8183-mmsys" },
+> +	[MDP_INFRA_MUTEX] = { .compatible = "mediatek,mt8183-disp-mutex" },
+> +	[MDP_INFRA_SCP] = { .compatible = "mediatek,mt8183-scp" }
+> +};
 > +
-> +	status = acpi_get_data_full(handle, acpi_nondev_subnode_tag,
-> +				    (void **)&dn, NULL);
-> +	if (ACPI_FAILURE(status) || !dn) {
-> +		acpi_handle_debug(handle, "can't find subnode");
-> +		return ERR_PTR(-EINVAL);
-> +	}
-> +
-> +	return &dn->fwnode;
-> +}
+> +static const u32 mt8183_mutex_idx[MDP_MAX_COMP_COUNT] = {
+> +	[MDP_COMP_RDMA0] = MUTEX_MOD_IDX_MDP_RDMA0,
+> +	[MDP_COMP_RSZ0] = MUTEX_MOD_IDX_MDP_RSZ0,
+> +	[MDP_COMP_RSZ1] = MUTEX_MOD_IDX_MDP_RSZ1,
+> +	[MDP_COMP_TDSHP0] = MUTEX_MOD_IDX_MDP_TDSHP0,
+> +	[MDP_COMP_WROT0] = MUTEX_MOD_IDX_MDP_WROT0,
+> +	[MDP_COMP_WDMA] = MUTEX_MOD_IDX_MDP_WDMA,
+> +	[MDP_COMP_AAL0] = MUTEX_MOD_IDX_MDP_AAL0,
+> +	[MDP_COMP_CCORR0] = MUTEX_MOD_IDX_MDP_CCORR0,
+> +};
 
--- 
-With Best Regards,
-Andy Shevchenko
+I am really not keen on storing variable declarations in a header. This belongs
+in a source.
 
+What you typically do is put this in a source together with the declaration
+of the mt8183_mdp_driver_data struct for the chip config, and just export that
+top-level struct as an extern.
+
+An example of how to do this is drivers/media/platform/verisilicon/imx8m_vpu_hw.c.
+
+Regards,
+
+	Hans
+
+> +
+> +#endif  /* __MDP3_PLAT_MT8183_H__ */
+> diff --git a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-core.c b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-core.c
+> index 2d1f6ae9f080..658037d06250 100644
+> --- a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-core.c
+> +++ b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-core.c
+> @@ -12,33 +12,10 @@
+>  #include <linux/remoteproc.h>
+>  #include <linux/remoteproc/mtk_scp.h>
+>  #include <media/videobuf2-dma-contig.h>
+> +
+>  #include "mtk-mdp3-core.h"
+>  #include "mtk-mdp3-m2m.h"
+> -
+> -static const struct mdp_platform_config mt8183_plat_cfg = {
+> -	.rdma_support_10bit		= true,
+> -	.rdma_rsz1_sram_sharing		= true,
+> -	.rdma_upsample_repeat_only	= true,
+> -	.rsz_disable_dcm_small_sample	= false,
+> -	.wrot_filter_constraint		= false,
+> -};
+> -
+> -static const struct of_device_id mt8183_mdp_probe_infra[MDP_INFRA_MAX] = {
+> -	[MDP_INFRA_MMSYS] = { .compatible = "mediatek,mt8183-mmsys" },
+> -	[MDP_INFRA_MUTEX] = { .compatible = "mediatek,mt8183-disp-mutex" },
+> -	[MDP_INFRA_SCP] = { .compatible = "mediatek,mt8183-scp" }
+> -};
+> -
+> -static const u32 mt8183_mutex_idx[MDP_MAX_COMP_COUNT] = {
+> -	[MDP_COMP_RDMA0] = MUTEX_MOD_IDX_MDP_RDMA0,
+> -	[MDP_COMP_RSZ0] = MUTEX_MOD_IDX_MDP_RSZ0,
+> -	[MDP_COMP_RSZ1] = MUTEX_MOD_IDX_MDP_RSZ1,
+> -	[MDP_COMP_TDSHP0] = MUTEX_MOD_IDX_MDP_TDSHP0,
+> -	[MDP_COMP_WROT0] = MUTEX_MOD_IDX_MDP_WROT0,
+> -	[MDP_COMP_WDMA] = MUTEX_MOD_IDX_MDP_WDMA,
+> -	[MDP_COMP_AAL0] = MUTEX_MOD_IDX_MDP_AAL0,
+> -	[MDP_COMP_CCORR0] = MUTEX_MOD_IDX_MDP_CCORR0,
+> -};
+> +#include "mt8183/mdp3-plat-mt8183.h"
+>  
+>  static const struct mtk_mdp_driver_data mt8183_mdp_driver_data = {
+>  	.mdp_probe_infra = mt8183_mdp_probe_infra,
 
