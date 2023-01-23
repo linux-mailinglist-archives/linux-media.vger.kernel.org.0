@@ -2,179 +2,166 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 441376779EF
-	for <lists+linux-media@lfdr.de>; Mon, 23 Jan 2023 12:15:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D8E0D677A53
+	for <lists+linux-media@lfdr.de>; Mon, 23 Jan 2023 12:46:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231663AbjAWLP5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 23 Jan 2023 06:15:57 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51014 "EHLO
+        id S231287AbjAWLqd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 23 Jan 2023 06:46:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41792 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231694AbjAWLPx (ORCPT
+        with ESMTP id S231489AbjAWLqa (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 23 Jan 2023 06:15:53 -0500
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 620E2C173;
-        Mon, 23 Jan 2023 03:15:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674472548; x=1706008548;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=NOX55dF+ZFRgnsP31/lh7fPCVLV26VLen72klqgd68o=;
-  b=IjwtOxyuTSf6+/ZHrKCtlO+B9BaGEeqNZwY6/wJwrAq2+lAzKf0+8TZx
-   Pjb9DTO5M/muTyyXXUYlrArLJYIVTK+YYC3U7fpe2652jpCWSXxcyKVkm
-   WCPe5sGCaOxpnU17niwEGYFU3MsAZrONhGra4fdqoz+mwHsAx1OXrtwxh
-   eZFK2S7PgCjbSBiiMYaKPrB8wnFgao38N2Lw85bzRBZjB25iA7/Y3DiAo
-   Mgu6vRFlJYYRaHxYPfPlRej7jmy35e/jckle/bqkV3Rcz92uWsZiGOAgu
-   PbpS0RDbieIwrCFxgDYTKBFezw+5p48MACYAfyhStI1miykABnH63FgbD
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10598"; a="388371131"
-X-IronPort-AV: E=Sophos;i="5.97,239,1669104000"; 
-   d="scan'208";a="388371131"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2023 03:15:47 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10598"; a="693805792"
-X-IronPort-AV: E=Sophos;i="5.97,239,1669104000"; 
-   d="scan'208";a="693805792"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2023 03:15:46 -0800
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-        by kekkonen.fi.intel.com (Postfix) with SMTP id B762C11F70E;
-        Mon, 23 Jan 2023 13:15:43 +0200 (EET)
-Date:   Mon, 23 Jan 2023 13:15:43 +0200
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     linux-acpi@vger.kernel.org, rafael@kernel.org,
-        linux-media@vger.kernel.org, heikki.krogerus@linux.intel.com
-Subject: Re: [PATCH 4/8] ACPI: property: Generate camera swnodes for ACPI and
- DisCo for Imaging
-Message-ID: <Y85sX/rlWREqFJhv@kekkonen.localdomain>
-References: <20230117122244.2546597-1-sakari.ailus@linux.intel.com>
- <20230117122244.2546597-5-sakari.ailus@linux.intel.com>
- <Y8a3xixlrr4AVBjJ@smile.fi.intel.com>
- <Y8lb1BIh7+4x9hFc@paasikivi.fi.intel.com>
- <Y8lld1G0qN4qbCUe@smile.fi.intel.com>
+        Mon, 23 Jan 2023 06:46:30 -0500
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.187])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C70EF23675;
+        Mon, 23 Jan 2023 03:46:28 -0800 (PST)
+Received: from [192.168.1.141] ([37.4.248.41]) by mrelayeu.kundenserver.de
+ (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis) id
+ 1MF2YC-1pUsaB2IKe-00FSdM; Mon, 23 Jan 2023 12:46:11 +0100
+Message-ID: <912601ba-c60d-8d69-f061-62b854c5d9ce@i2se.com>
+Date:   Mon, 23 Jan 2023 12:46:10 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y8lld1G0qN4qbCUe@smile.fi.intel.com>
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH v6 0/6] staging: vc04_services: vchiq: Register devices
+ with a custom bus_type
+To:     Umang Jain <umang.jain@ideasonboard.com>,
+        linux-staging@lists.linux.dev,
+        linux-rpi-kernel@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Adrien Thierry <athierry@redhat.com>,
+        Dan Carpenter <error27@gmail.com>,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Paul Elder <paul.elder@ideasonboard.com>
+References: <20230120201104.606876-1-umang.jain@ideasonboard.com>
+ <786df750-221e-82fc-a324-d30261296974@i2se.com>
+ <62644cd8-c871-aee0-30b7-2fbab097504c@ideasonboard.com>
+Content-Language: en-US
+From:   Stefan Wahren <stefan.wahren@i2se.com>
+In-Reply-To: <62644cd8-c871-aee0-30b7-2fbab097504c@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:+R3UJJt/WDOIvOqTLBRMd/AqBcSHfH+F/XGKM96E6xrUiQBcPLY
+ 8PFbxnmz7u5V6B71A49jjMxtTdnjxJ32W+tojtnYK+pTQsyXsS++fMD+nfEJU9FIlC28pla
+ MzXDdqmolWYD/rCGNS/fpERsBlmOIl/ICMiTy22axhT+6C5FcQF2Mi0Wb/WyfTEjRlfNBHg
+ IhC68m5Tc+DOZb0lzcJUQ==
+UI-OutboundReport: notjunk:1;M01:P0:5cKi6XN6ZU4=;cu78978R03AYtqAA5hH1Q9BJ452
+ fuRW82dLyRjofuPJMETrLiEADChRpyBUYzyzsRDz2eKAj2vVBFC4A0WBlhr3rbV6vPQBOILiD
+ kkEM5P6Px1iWGB7qxRUR2Uvbn/gJIPynR+dJCDvFq5gH5iuBMvfJHS316GsejK4L/R04V1JlP
+ 5DvOBSQegue6/qfl5BICK0Aj4siPmAgiR9+J4yvQZmWpf3ndJqjbugsGz/CoionpCpFaCvble
+ TCAs4Yva02BON3r7XiepjceJ4YRBH8BOaW6w1BacmcRlZZN0q56PhBpfWx5dFhaavFFsdzKLK
+ aB590mC46zniwSHBW3smRGxGfWBUFchgEpR1E662mZGLnozFaIiw4/VY9L534bC+ZvLdVu9/h
+ 4ARbVu9eHTrAMonvqidZVFZHAyJuUdG2nHk1/l5FOnH8KqrfmQ769iXwyeKSxzTHrEiqRI1HE
+ 9jj8s97+dCMOHtG24UQV7RK0UxFGYVeDIHaZUQFlhlq8Tqfy2HCLLP4n/70uCfKXxUDpXsaCC
+ K5EkBtiexEO3pF6Zi/JJGiJHLxMtCf6QsJ/4Zpu5k1HhZNa+mUfKYli/nrzlcNzZ1zbOVFASy
+ rH9hRTxBQx0uril+jMBYvR+GsSdVwD1I4OYLFxvfAa6CnG64WbS87giAFnn9wTVEpx6CUzAN2
+ m1zAnrF7hJeaeuOgweCmYpO79Yri6PQbh2yjOEValQ==
+X-Spam-Status: No, score=-3.0 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Andy,
+Hi Umang,
 
-On Thu, Jan 19, 2023 at 05:44:55PM +0200, Andy Shevchenko wrote:
-> On Thu, Jan 19, 2023 at 03:03:48PM +0000, Sakari Ailus wrote:
-> > On Tue, Jan 17, 2023 at 04:59:18PM +0200, Andy Shevchenko wrote:
-> > > On Tue, Jan 17, 2023 at 02:22:40PM +0200, Sakari Ailus wrote:
-> 
-> ...
-> 
-> > > > +#define GRAPH_PORT_NAME(var, num) \
-> > > > +	(snprintf((var), sizeof(var), "port@%u", (num)) > sizeof(var))
-> > > 
-> > > SWNODE_GRAPH_PORT_NAME_FMT ?
-> > 
-> > The name is not used anywhere else. I would keep it as-is.
-> 
-> It repeats the same string literal which is the part of the firmware node graph
-> representation, right? I think you can rename the above mentioned format macro
-> and use it in your code. We will reduce the possible deviation and amount of
-> points of error.
+Am 23.01.23 um 08:48 schrieb Umang Jain:
+> Hi Stefan,
+>
+> Thank for the testing.
+>
+> On 1/23/23 5:04 AM, Stefan Wahren wrote:
+>> Hi Umang,
+>>
+>> Am 20.01.23 um 21:10 schrieb Umang Jain:
+>>> This series just introduces five extra patches for dropping include
+>>> directives from Makefiles (suggested by Greg KH) and rebased.
+>>>
+>>> The main patch (6/6) removes platform device/driver abuse and moves
+>>> things to standard device/driver model using a custom_bus. Specific
+>>> details are elaborated in the commit message.
+>>>
+>>> The patch series is based on top of d514392f17fd (tag: next-20230120)
+>>> of linux-next.
+>>
+>> applied this series on top of linux-next and build it with 
+>> arm/multi_v7_defconfig plus the following:
+>>
+>> CONFIG_BCM_VIDEOCORE=y
+>> CONFIG_BCM2835_VCHIQ=m
+>> CONFIG_VCHIQ_CDEV=y
+>> CONFIG_SND_BCM2835=m
+>> CONFIG_VIDEO_BCM2835=m
+>> CONFIG_BCM2835_VCHIQ_MMAL=m
+>>
+>> and the devices doesn't register on Raspberry Pi 3 B Plus:
+>>
+>> [   25.523337] vchiq: module is from the staging directory, the 
+>> quality is unknown, you have been warned.
+>> [   25.541647] bcm2835_vchiq 3f00b840.mailbox: Failed to register 
+>> bcm2835_audio vchiq device
+>> [   25.553692] bcm2835_vchiq 3f00b840.mailbox: Failed to register 
+>> bcm2835-camera vchiq device
+>
+> I was able to reproduce and it seems the issue here is the change 
+> mentioned in the cover
+>
+> - drop dma_set_mask_and_coherent
+>
+> in V6.
+>
+> (I usually test patches on RPi 4B with vcsm-cma and bcm2835-isp 
+> applied so my branch has the DMA hunk included while I was testing V6)
 
-Ah, I thought you had suggested using a new one. Yes, I'll use the existing
-macro.
+just to avoid misunderstandings, did you read 
+drivers/staging/vc04_services/interface/TESTING ?
 
-> 
-> ...
-> 
-> > > > +	static const char mipi_port_prefix[] = "mipi-img-port-";
-> > > 
-> > > It's harder to read in the code, please put it in place.
-> > 
-> > There are multiple uses of it. It's better there's a single definition.
-> 
-> Yes and without this definition one read exact value of the property without
-> too much brain power, now I need to go first to remember the prefix, then
-> concatenate it without typo in my brain and think about the result.
+The Raspberry Pi 4 is currently not fully supported for VCHIQ in 
+mainline. From my limited understanding the DMA controller driver needs 
+40 bit support, so VCHIQ on BCM2711 can use it. This part is currently 
+only available in the vendor tree. The reason why the driver is 
+unexpectedly probing is a historical issue in the devicetree :-(
 
-Still having them exactly the same is of utmost importance and a common
-definition reliably achieves that. What the string actually is is of
-secondary importance.
+Raspberry Pi 4 support is not considered as necessary for moving out of 
+staging.
 
-> 
-> ...
-> 
-> > > > +			port->ep_props[NEXT_PROPERTY(*ep_prop_index,
-> > > > +						     EP_DATA_LANES)] =
-> > > 
-> > > It's hard to read, taking into account that you split on index of the array.
-> > > 
-> > > How much a new monitor costs for you? Maybe I can donate to make you use more
-> > > than 80 from time to time? :-)
-> > 
-> > You know newspaper pages are split into multiple columns for a reason,
-> > similarly web pages with text columns very seldom span the entire page
-> > width. The number of characters per line tends to be less than --- you
-> > might be surprised --- 80. The reason is readability.
-> 
-> Surprisingly to you, the newspaper and the limit is for quick reading the
-> text. The code differs to the SciFi book, for example. And doesn't have
-> same requirements. Code has different tokenisation which you break when
-> splitting in the middle of the token. That's why one line is better than
-> silly 80 characters limit. It _increases_ readability of the *code*.
-
-I disagree. Do you know if studies have been made on the topic?
-
-I can make some a little longer if that makes you happy (depending on other
-comments, too), but I won't make the lines e.g.  200 characters long.
-
-> 
-> > > > +				PROPERTY_ENTRY_U32_ARRAY_LEN("data-lanes",
-> > > > +							     port->data_lanes,
-> > > > +							     num_lanes);
-> 
-> Ditto for all other similar cases.
-> 
-> ...
-> 
-> > > > +		if (!ret)
-> > > 
-> > > Why not positive conditional?
-> > 
-> > The success case is handled first.
-> 
-> And in kernel we usually check for error first. Esp. taking into account that
-> here you have both cases under 'if'.
-
-The other assignments take place just before this, so it's closer to them. I
-can change this though.
-
-> 
-> ...
-> 
-> > > > +	if (acpi_get_name(device->handle, ACPI_FULL_PATHNAME, &buffer) != AE_OK) {
-> > > 
-> > > We have ACPI_SUCCESS() / ACPI_FAILURE()
-> > 
-> > Yes.
-> 
-> Why not using them?
-
-Yes, in v2.
-
-> 
-> > > > +		acpi_handle_warn(acpi_device_handle(device), "cannot get path name\n");
-> > > > +		return;
-> > > > +	}
-
--- 
-Kind regards,
-
-Sakari Ailus
+>
+> Below is the hunk which should resolve the issue.
+>
+> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_device.c
+> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_device.c
+> @@ -6,6 +6,7 @@
+>   */
+>
+>  #include <linux/device/bus.h>
+> +#include <linux/dma-mapping.h>
+>  #include <linux/slab.h>
+>  #include <linux/string.h>
+>
+> @@ -72,6 +73,12 @@ int vchiq_device_register(struct device *parent, 
+> const char *name)
+>         device->dev.type = &vchiq_device_type;
+>         device->dev.release = vchiq_device_release;
+>
+> +       ret = dma_set_mask_and_coherent(&device->dev, DMA_BIT_MASK(32));
+> +       if (ret < 0) {
+> +               vchiq_device_release(&device->dev);
+> +               return ret;
+> +       }
+> +
+>         ret = device_register(&device->dev);
+>         if (ret) {
+>                 put_device(&device->dev);
+>
+> It seems we need to include the dma_set_mask_and_coherent() even if 
+> bcm2835-audio, bcm2835-camera device doesn't do DMA? I need to look 
+> into why is that/
+>
+>  Laurent, any thoughts on this please?
