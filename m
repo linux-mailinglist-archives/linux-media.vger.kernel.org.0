@@ -2,42 +2,42 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BE2E4677BBF
-	for <lists+linux-media@lfdr.de>; Mon, 23 Jan 2023 13:53:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 277C5677BBD
+	for <lists+linux-media@lfdr.de>; Mon, 23 Jan 2023 13:53:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231613AbjAWMx2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 23 Jan 2023 07:53:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54848 "EHLO
+        id S231868AbjAWMxZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 23 Jan 2023 07:53:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54826 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231859AbjAWMx1 (ORCPT
+        with ESMTP id S231878AbjAWMxY (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 23 Jan 2023 07:53:27 -0500
+        Mon, 23 Jan 2023 07:53:24 -0500
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3EEFD7EE8
-        for <linux-media@vger.kernel.org>; Mon, 23 Jan 2023 04:52:39 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4ED886E91
+        for <linux-media@vger.kernel.org>; Mon, 23 Jan 2023 04:52:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1674478358;
+        s=mimecast20190719; t=1674478354;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=CZ12ejeYl100/U4BG3/nBetZC8aAp4eDcs4J6fKaeyE=;
-        b=jMWY0e8A6xTkgmckLkyDCgi5gX3rQvCEQ2378teoCNzApj0pdi5xW85od4cjhTs2dDowLm
-        2QSgfjCUd8fzb/UR1ORpN6o9dEYZePdPMEFEoxpU81xm/Bk0n3pPIbq6BRK++2Z0hTD54X
-        266GWFJ2yxtd/pyUC5g+/KW32ufglp4=
+        bh=5XYtcdXj+XG93FnkZUSXSf7r0zy7YW2dQ8xxWVppmtA=;
+        b=haLuvlOtwvxqfmOay5iulqvgZdBTQpH2DVNygDiWGKnj8Z8WxE/Av+LOGOh2Qx6CetsNnO
+        0fnWHq9wGxj3y4msjWfFidN/mFj1YIb+MGNfvGn2Kly4coIHFRfQ3doKpi9NvlqU3NrNfh
+        DwxejjHIoqjpJJPXbGuPvk5xhWmZM9w=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-329-5w0J3MQGPPuXMH3r-F2eWw-1; Mon, 23 Jan 2023 07:52:28 -0500
-X-MC-Unique: 5w0J3MQGPPuXMH3r-F2eWw-1
+ us-mta-437-OwON5N0hMUSEVPbE0n5XZw-1; Mon, 23 Jan 2023 07:52:31 -0500
+X-MC-Unique: OwON5N0hMUSEVPbE0n5XZw-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com [10.11.54.8])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9D557811E6E;
-        Mon, 23 Jan 2023 12:52:27 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 95A49858F09;
+        Mon, 23 Jan 2023 12:52:30 +0000 (UTC)
 Received: from x1.localdomain.com (unknown [10.39.194.13])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 10C5BC15BA0;
-        Mon, 23 Jan 2023 12:52:24 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 095FCC15BAD;
+        Mon, 23 Jan 2023 12:52:27 +0000 (UTC)
 From:   Hans de Goede <hdegoede@redhat.com>
 To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Sakari Ailus <sakari.ailus@linux.intel.com>
@@ -48,9 +48,9 @@ Cc:     Hans de Goede <hdegoede@redhat.com>,
         Nable <nable.maininbox@googlemail.com>,
         andrey.i.trufanov@gmail.com, Fabio Aiuto <fabioaiuto83@gmail.com>,
         linux-media@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: [PATCH 06/57] media: atomisp: Remove non working doorbell check from punit_ddr_dvfs_enable()
-Date:   Mon, 23 Jan 2023 13:51:14 +0100
-Message-Id: <20230123125205.622152-7-hdegoede@redhat.com>
+Subject: [PATCH 07/57] media: atomisp: Remove useless msleep(10) before power-on on BYT
+Date:   Mon, 23 Jan 2023 13:51:15 +0100
+Message-Id: <20230123125205.622152-8-hdegoede@redhat.com>
 In-Reply-To: <20230123125205.622152-1-hdegoede@redhat.com>
 References: <20230123125205.622152-1-hdegoede@redhat.com>
 MIME-Version: 1.0
@@ -66,73 +66,46 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-punit_ddr_dvfs_enable() is only used on CHT devices and there dmesg
-gets filled with: "DDR DVFS, door bell is not cleared within 3ms"
-messages, so clearly the doorbell checking is not working.
+On BYT on poweron/runtime-resume the code is doing:
 
-This check was added by:
-https://github.com/intel/ProductionKernelQuilts/blob/master/uefi/cht-m1stable/patches/cam-0340-atomisp-add-door-bell-for-ddr-dvfs-on-cht.patch
+1. Do nothing
+2. msleep(10)
+3. Start actual poweron sequence
 
-Which commit message says: "PUNIT interface added to check Req_ACK
-of freq status". This suggests that the doorbell mechanism may only
-be available with certain PUNIT fw versions and it seems that
-many CHT devices do not have this fw version; that or the doorbell
-mechanism is not working for other reasons.
+Since the runtime resume can happen at any moment, waiting 10ms
+after it does not really make any sense.
 
-Revert cam-0340-atomisp-add-door-bell-for-ddr-dvfs-on-cht.patch,
-replacing the doorbell check with a msleep(20) this fixes dmesg
-getting filled with error messages.
+According to both the comment and to:
+https://github.com/intel/ProductionKernelQuilts/blob/master/uefi/cht-m1stable/patches/cam-0341-atomisp-WA-sleep-10ms-when-power-up-ISP-on-byt.patch
+
+Which is the patch which originally added this this was added
+as a workaround for a single test failing on a single model
+tablet/laptop. So lets just drop this.
 
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- .../staging/media/atomisp/pci/atomisp_v4l2.c    | 17 ++++-------------
- 1 file changed, 4 insertions(+), 13 deletions(-)
+ drivers/staging/media/atomisp/pci/atomisp_v4l2.c | 8 --------
+ 1 file changed, 8 deletions(-)
 
 diff --git a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-index e994a4a5284e..9eea8ffbc3d6 100644
+index 9eea8ffbc3d6..aa05c69a5c6b 100644
 --- a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
 +++ b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-@@ -638,27 +638,16 @@ static int atomisp_mrfld_pre_power_down(struct atomisp_device *isp)
- */
- static void punit_ddr_dvfs_enable(bool enable)
- {
--	int door_bell = 1 << 8;
--	int max_wait = 30;
- 	int reg;
- 
- 	iosf_mbi_read(BT_MBI_UNIT_PMC, MBI_REG_READ, MRFLD_ISPSSDVFS, &reg);
- 	if (enable) {
- 		reg &= ~(MRFLD_BIT0 | MRFLD_BIT1);
- 	} else {
--		reg |= (MRFLD_BIT1 | door_bell);
-+		reg |= MRFLD_BIT1;
- 		reg &= ~(MRFLD_BIT0);
+@@ -665,14 +665,6 @@ static int atomisp_mrfld_power(struct atomisp_device *isp, bool enable)
+ 		msleep(20);
  	}
- 	iosf_mbi_write(BT_MBI_UNIT_PMC, MBI_REG_WRITE, MRFLD_ISPSSDVFS, reg);
+ 
+-	/*
+-	 * FIXME:WA for ECS28A, with this sleep, CTS
+-	 * android.hardware.camera2.cts.CameraDeviceTest#testCameraDeviceAbort
+-	 * PASS, no impact on other platforms
+-	 */
+-	if (IS_BYT && enable)
+-		msleep(10);
 -
--	/* Check Req_ACK to see freq status, wait until door_bell is cleared */
--	while ((reg & door_bell) && max_wait--) {
--		iosf_mbi_read(BT_MBI_UNIT_PMC, MBI_REG_READ, MRFLD_ISPSSDVFS, &reg);
--		usleep_range(100, 500);
--	}
--
--	if (max_wait == -1)
--		pr_info("DDR DVFS, door bell is not cleared within 3ms\n");
- }
- 
- static int atomisp_mrfld_power(struct atomisp_device *isp, bool enable)
-@@ -671,8 +660,10 @@ static int atomisp_mrfld_power(struct atomisp_device *isp, bool enable)
- 	dev_dbg(isp->dev, "IUNIT power-%s.\n", enable ? "on" : "off");
- 
- 	/* WA for P-Unit, if DVFS enabled, ISP timeout observed */
--	if (IS_CHT && enable)
-+	if (IS_CHT && enable) {
- 		punit_ddr_dvfs_enable(false);
-+		msleep(20);
-+	}
- 
- 	/*
- 	 * FIXME:WA for ECS28A, with this sleep, CTS
+ 	/* Write to ISPSSPM0 bit[1:0] to power on/off the IUNIT */
+ 	iosf_mbi_modify(BT_MBI_UNIT_PMC, MBI_REG_READ, MRFLD_ISPSSPM0,
+ 			val, MRFLD_ISPSSPM0_ISPSSC_MASK);
 -- 
 2.39.0
 
