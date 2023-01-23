@@ -2,118 +2,96 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E28D0678969
-	for <lists+linux-media@lfdr.de>; Mon, 23 Jan 2023 22:20:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A51926789FC
+	for <lists+linux-media@lfdr.de>; Mon, 23 Jan 2023 22:51:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231661AbjAWVUn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 23 Jan 2023 16:20:43 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49326 "EHLO
+        id S231601AbjAWVvw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 23 Jan 2023 16:51:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39286 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229930AbjAWVUm (ORCPT
+        with ESMTP id S230062AbjAWVvv (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 23 Jan 2023 16:20:42 -0500
-Received: from mail-oi1-f169.google.com (mail-oi1-f169.google.com [209.85.167.169])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4E011ABF0;
-        Mon, 23 Jan 2023 13:20:39 -0800 (PST)
-Received: by mail-oi1-f169.google.com with SMTP id p185so11596935oif.2;
-        Mon, 23 Jan 2023 13:20:39 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=UJETK3OSsznW7YVJ84aqO5Pm3VovO6KPLRPmFaeGzU8=;
-        b=xo+j1wWbOAgopWBLhc2RMVlS/ylXH0Wj93ImWz3bu2v221bkDTP20QwlqSkcF/pk7G
-         7VBbNIcuGG1t7vOaQnnKFkROtVqIDvkN8gzcS46ndjbBELjbqa1SbKLrdKlmvldNCreo
-         NHGfU2Mogp9hgt5vEeZlAofa5iODky+NI6s3YC4w1xr7pK8NYTzT4Vtbs8em+hxXneYu
-         9u3IkXf9HXPsiVkLnZqDDsB3xXX9f250ayy3wtvPK5LQwZ6Wr0XgOkZ6lOpsTFTzuSMV
-         oTPZ1dbLBiWMgAQh5YS2l356hr5ZgIst2gntqWOcQAWinUTRaTGORjJ+6Tiz52Cot7xZ
-         1BtQ==
-X-Gm-Message-State: AFqh2krf8zqL9WOcL+/z0pcsKV4PNYjsaYkbZBpr1r2lXV2aoj78Vuhx
-        O66QItm53tqYBrMtMfdxAg==
-X-Google-Smtp-Source: AMrXdXtJ9Hc6xSNFXIXyN/NZ/8XRuK8JDpzti/x/t7iLm86yGhXfW5m3KZ4+rQbjzmzC3AT4qN3p0g==
-X-Received: by 2002:a05:6808:404b:b0:36c:cc25:8bc4 with SMTP id cz11-20020a056808404b00b0036ccc258bc4mr9393700oib.26.1674508838860;
-        Mon, 23 Jan 2023 13:20:38 -0800 (PST)
-Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id o8-20020a0568080bc800b003646062e83bsm218464oik.29.2023.01.23.13.20.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Jan 2023 13:20:38 -0800 (PST)
-Received: (nullmailer pid 2659455 invoked by uid 1000);
-        Mon, 23 Jan 2023 21:20:37 -0000
-Date:   Mon, 23 Jan 2023 15:20:37 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc:     Daniel Vetter <daniel@ffwll.ch>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        =?utf-8?q?=2C?=linux-mmc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Rob Clark <robdclark@gmail.com>,
-        Kuogee Hsieh <quic_khsieh@quicinc.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
-        Sowjanya Komatineni <skomatineni@nvidia.com>,
-        linux-arm-msm@vger.kernel.org, linux-pwm@vger.kernel.org,
-        linux-tegra@vger.kernel.org, Sean Paul <sean@poorly.run>,
-        freedreno@lists.freedesktop.org, linux-pm@vger.kernel.org,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        devicetree@vger.kernel.org,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        David Airlie <airlied@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        ", Kevin Hilman" <khilman@kernel.org>,
-        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Abhinav Kumar <quic_abhinavk@quicinc.com>
-Subject: Re: [PATCH] dt-bindings: drop type for operating-points-v2
-Message-ID: <167450883575.2659375.17323544164739111670.robh@kernel.org>
-References: <20230119131033.117324-1-krzysztof.kozlowski@linaro.org>
+        Mon, 23 Jan 2023 16:51:51 -0500
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7B0834C15
+        for <linux-media@vger.kernel.org>; Mon, 23 Jan 2023 13:51:41 -0800 (PST)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <mfe@pengutronix.de>)
+        id 1pK4ia-0004ba-5k; Mon, 23 Jan 2023 22:51:08 +0100
+Received: from mfe by ptx.hi.pengutronix.de with local (Exim 4.92)
+        (envelope-from <mfe@pengutronix.de>)
+        id 1pK4iX-00063k-F7; Mon, 23 Jan 2023 22:51:05 +0100
+Date:   Mon, 23 Jan 2023 22:51:05 +0100
+From:   Marco Felsch <m.felsch@pengutronix.de>
+To:     Brent Pappas <bpappas@pappasbrent.com>
+Cc:     slongerbeam@gmail.com, festevam@gmail.com, p.zabel@pengutronix.de,
+        gregkh@linuxfoundation.org, s.hauer@pengutronix.de,
+        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+        linux-imx@nxp.com, kernel@pengutronix.de, mchehab@kernel.org,
+        shawnguo@kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH] media: imx: imx-media-fim: Replace macro icap_enabled()
+ with function
+Message-ID: <20230123215105.fbfzxueegtnbu4ym@pengutronix.de>
+References: <20230123191714.22430-1-bpappas@pappasbrent.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230119131033.117324-1-krzysztof.kozlowski@linaro.org>
-X-Spam-Status: No, score=-1.3 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+In-Reply-To: <20230123191714.22430-1-bpappas@pappasbrent.com>
+User-Agent: NeoMutt/20180716
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: mfe@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi,
 
-On Thu, 19 Jan 2023 14:10:33 +0100, Krzysztof Kozlowski wrote:
-> The type for operating-points-v2 property is coming from dtschema
-> (/schemas/opp/opp.yaml), so individual bindings can just use simple
-> "true".
-> 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> 
-> ---
-> 
-> This depends on my pull request, at least logically:
-> https://github.com/devicetree-org/dt-schema/pull/95
-> 
-> Patch could be applied in parallel but only if above PULL is
-> accepted/correct.
-> ---
->  .../devicetree/bindings/display/msm/dp-controller.yaml         | 3 +--
->  .../devicetree/bindings/display/tegra/nvidia,tegra20-dc.yaml   | 3 +--
->  .../devicetree/bindings/display/tegra/nvidia,tegra20-dsi.yaml  | 3 +--
->  .../devicetree/bindings/display/tegra/nvidia,tegra20-epp.yaml  | 3 +--
->  .../devicetree/bindings/display/tegra/nvidia,tegra20-gr2d.yaml | 3 +--
->  .../devicetree/bindings/display/tegra/nvidia,tegra20-gr3d.yaml | 3 +--
->  .../devicetree/bindings/display/tegra/nvidia,tegra20-hdmi.yaml | 3 +--
->  .../bindings/display/tegra/nvidia,tegra20-host1x.yaml          | 3 +--
->  .../devicetree/bindings/display/tegra/nvidia,tegra20-mpe.yaml  | 3 +--
->  .../devicetree/bindings/display/tegra/nvidia,tegra20-tvo.yaml  | 3 +--
->  .../devicetree/bindings/display/tegra/nvidia,tegra20-vi.yaml   | 3 +--
->  .../devicetree/bindings/fuse/nvidia,tegra20-fuse.yaml          | 3 +--
->  .../devicetree/bindings/mmc/nvidia,tegra20-sdhci.yaml          | 3 +--
->  Documentation/devicetree/bindings/power/power-domain.yaml      | 3 ---
->  Documentation/devicetree/bindings/pwm/nvidia,tegra20-pwm.yaml  | 3 +--
->  15 files changed, 14 insertions(+), 31 deletions(-)
-> 
+thank you for the patch.
 
-Applied, thanks!
+On 23-01-23, Brent Pappas wrote:
+> Replace the macro icap_enabled() with a static function to comply
+> with Linux coding style standards.
+> 
+> Signed-off-by: Brent Pappas <bpappas@pappasbrent.com>
+> ---
+>  drivers/staging/media/imx/imx-media-fim.c | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/staging/media/imx/imx-media-fim.c b/drivers/staging/media/imx/imx-media-fim.c
+> index fb6590dcfc36..ccb35d098a19 100644
+> --- a/drivers/staging/media/imx/imx-media-fim.c
+> +++ b/drivers/staging/media/imx/imx-media-fim.c
+> @@ -68,7 +68,10 @@ struct imx_media_fim {
+>  	bool              stream_on;
+>  };
+>  
+> -#define icap_enabled(fim) ((fim)->icap_flags != IRQ_TYPE_NONE)
+> +static bool icap_enabled(struct imx_media_fim *fim)
+> +{
+> +	return fim->icap_flags != IRQ_TYPE_NONE;
+> +}
+
+Nit: I would make it inline but recent compiler may do the job for us.
+
+Reviewed-by: Marco Felsch <m.felsch@pengutronix.de>
+
+Regards,
+  Marco
+
+>  static void update_fim_nominal(struct imx_media_fim *fim,
+>  			       const struct v4l2_fract *fi)
+> -- 
+> 2.34.1
+> 
+> 
+> 
