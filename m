@@ -2,140 +2,115 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 657DC6786D7
-	for <lists+linux-media@lfdr.de>; Mon, 23 Jan 2023 20:50:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CC11A6787B5
+	for <lists+linux-media@lfdr.de>; Mon, 23 Jan 2023 21:26:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231712AbjAWTur (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 23 Jan 2023 14:50:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54738 "EHLO
+        id S232138AbjAWU0t (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 23 Jan 2023 15:26:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56818 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233066AbjAWTuF (ORCPT
+        with ESMTP id S232266AbjAWU0o (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 23 Jan 2023 14:50:05 -0500
-Received: from mail-qv1-xf2e.google.com (mail-qv1-xf2e.google.com [IPv6:2607:f8b0:4864:20::f2e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC6BF2DE7E
-        for <linux-media@vger.kernel.org>; Mon, 23 Jan 2023 11:50:01 -0800 (PST)
-Received: by mail-qv1-xf2e.google.com with SMTP id i12so9952008qvs.2
-        for <linux-media@vger.kernel.org>; Mon, 23 Jan 2023 11:50:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=rGE93gPkAvU6p1g6zMI0ZGEEXbMUYmA6Yp6gqSuvvww=;
-        b=JC7Ly8pZDPQTNo3K1tQHv+sSYUXo//MGnfsKJgowshH4fueBckQk0UMvGHMjxH6f5+
-         7f18QnmMsJ7SZnBI4yNFw/69kxVaralcZtCpLimACvpSfTVeP3ymesdBwdbPZvUEwpnV
-         mw59hgJ1P4k0KWyYwxp9/szWNZ6AZZIWacpC6/SXXH524y84tXbrwsltUjuiFP0HORFd
-         BascxnfgUZWEui4L5G2GnqnpQirCorVXlsSXXeitcLdSJ/itjcyRvT2w2oX4Exuegi7N
-         as/sQTcUgVr7VR3BO7xnQXs8Xi0OQUxF9SS8TigQVQDj0iPUDa7UUAaKmwktKTmr+emu
-         0H1A==
+        Mon, 23 Jan 2023 15:26:44 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7024834C1E
+        for <linux-media@vger.kernel.org>; Mon, 23 Jan 2023 12:25:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1674505556;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=wI+uwRrseHkDD2f7fdidODPj/+sMoA2eg3871tB7+XY=;
+        b=ZAATYqUe3KEohzlh6msigthOocgaHHzRG+3JU7zXhYjV+9lVc8HtqkC93uWtHeDcz6L5Ld
+        iPRvPdBh56Fo+zu9I9VfKWDfxRzEKmEAa5KcmHCAOXLHpanwEAkb47qfxmNYqZifx0BtAB
+        zy+cR+lAy6RVCiqwT8uGkrTs2gA8JPw=
+Received: from mail-lf1-f71.google.com (mail-lf1-f71.google.com
+ [209.85.167.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-634-8STTk9K0OTKvGyXEcDGB5Q-1; Mon, 23 Jan 2023 15:25:55 -0500
+X-MC-Unique: 8STTk9K0OTKvGyXEcDGB5Q-1
+Received: by mail-lf1-f71.google.com with SMTP id l15-20020a056512110f00b004b6fe4513b7so5514624lfg.23
+        for <linux-media@vger.kernel.org>; Mon, 23 Jan 2023 12:25:55 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=rGE93gPkAvU6p1g6zMI0ZGEEXbMUYmA6Yp6gqSuvvww=;
-        b=x3M/1Y7GXUtLyM/u+kabr8jUgz3gF20ZEPZhwlbXZoaFHYQjn+f93bgHaCHCop1A6B
-         VNBMmnA5D2C7bEtYZa+jLrsiW4lGdnJ7fsuESrPnk/j+JT71UMaoKlzENyivJ9fsoUcF
-         WaeNCZY8FxwoTWXrQgWApl7MqiXUmy6++69MKrIcErCcAenu5qbkKUwzC5/LkhCv4KGk
-         EreD77vviYb3m+Q6652SNyl46gziME41mXL+58BvtGsD+IcJxGHawQtybdLuozY6JBlQ
-         lEfHJHdBgr3YM2FUkc436E99En6zeqMEM6AyE2/sK2I2kZcHvFli51hPRZ/kDwOxAT5l
-         N5mQ==
-X-Gm-Message-State: AFqh2kpn0NTR5DmUQMu3OQDCP88YlDkBijDP396jFyYMiDML2EmcQ2nA
-        GTNSEwGrk93CBxNFrQ2sSUIZLw==
-X-Google-Smtp-Source: AMrXdXvZjnmLfOqTE0yM40ZLDkWU26o0u88ybKg/YPkagVEAyWBdG8miScE/MquEbFPqLcKaW6B8fQ==
-X-Received: by 2002:a05:6214:5f09:b0:4c7:5b:75ba with SMTP id lx9-20020a0562145f0900b004c7005b75bamr45249216qvb.31.1674503401130;
-        Mon, 23 Jan 2023 11:50:01 -0800 (PST)
-Received: from nicolas-tpx395.localdomain (192-222-136-102.qc.cable.ebox.net. [192.222.136.102])
-        by smtp.gmail.com with ESMTPSA id 198-20020a3705cf000000b006fed58fc1a3sm24016qkf.119.2023.01.23.11.49.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Jan 2023 11:50:00 -0800 (PST)
-Message-ID: <2517e0aef49a934efa7c1a90e32fa811d060771d.camel@ndufresne.ca>
-Subject: Re: [PATCH RESEND 0/2] media: rockchip: rga: Add rk3568 support
-From:   Nicolas Dufresne <nicolas@ndufresne.ca>
-To:     Michael Tretter <m.tretter@pengutronix.de>,
-        Jacob Chen <jacob-chen@iotwrt.com>,
-        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Heiko Stuebner <heiko@sntech.de>
-Cc:     linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Nicolas Frattaroli <frattaroli.nicolas@gmail.com>
-Date:   Mon, 23 Jan 2023 14:49:59 -0500
-In-Reply-To: <20230119-rk3568-rga-v1-0-43d4d14365e6@pengutronix.de>
-References: <20230119-rk3568-rga-v1-0-43d4d14365e6@pengutronix.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.2 (3.46.2-1.fc37) 
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=wI+uwRrseHkDD2f7fdidODPj/+sMoA2eg3871tB7+XY=;
+        b=djMxA/NH9fqoIy8M6i26FZRzNx8Ti2t6PS9Fk8hGZ/7ehYOH8TB0mJ6GoD/fKQa8La
+         7HburC4y1QxmUcGrVSjXGmZeSjieX+GEmdkXFoMje+Nfb6WAGL/XK/tOvZBL4VK2JrRp
+         Of4rgG23vWltMZqDxfiRwpdlgB53gVMRh6rok9oj09JW9hRAkL5k3Q5b3vUMVe3XGiyI
+         0kvxj7+VwQnUrPzB8e81rQSKKMuGxGRebPtsN0rEszNbJQbds+hE4KrsVf8DjssT9ro/
+         vhFwJx42XiKwEdUds4/NAqimM5gDrr1sxO9BHvnTXYu0ukhm5ec1IyiAQ3SeZqfqhtCt
+         KfPw==
+X-Gm-Message-State: AFqh2krPUDiN4L8uxeUKevYIngjZDR8z/x/fvq98bYpF8itrjjFk++ha
+        VBwlh4WnerWG3Vk3LGbcTKqSQRbDe+/bFK7e1TirK0M0L+aa6y+CgKp8jiUd5B4YhHZkChim1FK
+        8gH2VyHHTbNFOY1N2+L1eAlQIlDDkQCeub/HISIw=
+X-Received: by 2002:a05:6512:3984:b0:4ca:faca:5b59 with SMTP id j4-20020a056512398400b004cafaca5b59mr2145941lfu.615.1674505553734;
+        Mon, 23 Jan 2023 12:25:53 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXs0sGio3mJgM/GrhOs7qNkqL6NME3XT0conpfnpdJIhsniT/NQ5+lS64DwEnKBw4hn9ZTBwS451C36ca3tv9Jg=
+X-Received: by 2002:a05:6512:3984:b0:4ca:faca:5b59 with SMTP id
+ j4-20020a056512398400b004cafaca5b59mr2145938lfu.615.1674505553487; Mon, 23
+ Jan 2023 12:25:53 -0800 (PST)
 MIME-Version: 1.0
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE
-        autolearn=unavailable autolearn_force=no version=3.4.6
+References: <nn8qWh16AviRPuLVOg_I-Nn747ncRsuJsZU_VZHvKhxp2hoFBCFsAfezBDkiwM-yn-CXAW_Vos121VKtETNsSZU3EuCuVzcgHBnnWNnww-g=@emersion.fr>
+ <Y86skCbxY5kZglo8@pendragon.ideasonboard.com>
+In-Reply-To: <Y86skCbxY5kZglo8@pendragon.ideasonboard.com>
+From:   Sebastian Wick <sebastian.wick@redhat.com>
+Date:   Mon, 23 Jan 2023 21:25:42 +0100
+Message-ID: <CA+hFU4z-3iotNkUVr=aHrQ9GFNnGLrvL2B1isnx2x2UnnO+qXA@mail.gmail.com>
+Subject: Re: [ANNOUNCE] pixfmtdb
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Simon Ser <contact@emersion.fr>, linux-media@vger.kernel.org,
+        DRI Development <dri-devel@lists.freedesktop.org>,
+        wayland-devel <wayland-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Micheal,
+Why is the TF defined for GL formats and both the primaries and TF for
+Vulkan formats? The only exception here should be sRGB formats. Where
+did you get the information from?
 
-Le vendredi 20 janvier 2023 =C3=A0 10:14 +0100, Michael Tretter a =C3=A9cri=
-t=C2=A0:
-> The RGA2 on the Rockchip rk3568 is the same core as the RGA2 on the Rockc=
-hip
-> rk3288.
->=20
-> This series adds the necessary device tree binding and node in the device=
- tree
-> to enable the RGA2 on the Rockchip rk3568.
->=20
-> I tested the driver with the GStreamer v4l2convert element on a Rock3 Mod=
-el A
-> board.
->=20
-> This is a RESEND including the linux-media list, as Heiko asked for an
-> Acked-by from someone from media.
-
-I don't think there will be any concern about this on media side.
-
-Acked-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-
->=20
->=20
->=20
-> Michael
->=20
-> To: Jacob Chen <jacob-chen@iotwrt.com>
-> To: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-> To: Mauro Carvalho Chehab <mchehab@kernel.org>
-> To: Rob Herring <robh+dt@kernel.org>
-> To: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-> To: Heiko Stuebner <heiko@sntech.de>
-> Cc: linux-media@vger.kernel.org
-> Cc: linux-rockchip@lists.infradead.org
-> Cc: devicetree@vger.kernel.org
-> Cc: linux-arm-kernel@lists.infradead.org
-> Cc: linux-kernel@vger.kernel.org
-> Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> Cc: Nicolas Frattaroli <frattaroli.nicolas@gmail.com>
-> Signed-off-by: Michael Tretter <m.tretter@pengutronix.de>
->=20
-> ---
-> Michael Tretter (2):
->       media: dt-bindings: media: rockchip-rga: add rockchip,rk3568-rga
->       arm64: dts: rockchip: Add RGA2 support to rk356x
->=20
->  Documentation/devicetree/bindings/media/rockchip-rga.yaml |  4 +++-
->  arch/arm64/boot/dts/rockchip/rk356x.dtsi                  | 11 +++++++++=
-++
->  2 files changed, 14 insertions(+), 1 deletion(-)
-> ---
-> base-commit: 5dc4c995db9eb45f6373a956eb1f69460e69e6d4
-> change-id: 20230119-rk3568-rga-d1b0cccc7b82
->=20
-> Best regards,
+On Mon, Jan 23, 2023 at 4:51 PM Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+>
+> CC'ing the linux-media mailing list.
+>
+> On Mon, Jan 23, 2023 at 02:10:58PM +0000, Simon Ser wrote:
+> > Hi all,
+> >
+> > In the last few days I've been working on a small new project, pixfmtdb [1].
+> > It's a Web database of pixel format guides, it can be useful to understand
+> > how pixels are laid out in memory for a given format and which formats from
+> > various APIs are compatible with each other.
+> >
+> > pixfmtdb relies on the Khronos Data Format Specification [2] to describe
+> > each format. This means that each format is described with a standardized
+> > data blob, which can be re-used with other tools for other purposes.
+> >
+> > My future plans include adding more formats and format families to pixfmtdb,
+> > and make it easy to use the data for code generation, in particular for
+> > automatically generating tables containing metadata about formats, as used
+> > in Wayland compositors and other projects.
+> >
+> > I hope some of you can find this work useful,
+> >
+> > Simon
+> >
+> > [1]: https://pixfmtdb.emersion.fr
+> > [2]: https://www.khronos.org/dataformat
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
+>
 
