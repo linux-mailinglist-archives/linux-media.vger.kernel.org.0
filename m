@@ -2,42 +2,42 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F1DE7677BBC
-	for <lists+linux-media@lfdr.de>; Mon, 23 Jan 2023 13:53:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 457B2677BBA
+	for <lists+linux-media@lfdr.de>; Mon, 23 Jan 2023 13:53:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231848AbjAWMxV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 23 Jan 2023 07:53:21 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54832 "EHLO
+        id S231851AbjAWMxP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 23 Jan 2023 07:53:15 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54814 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231859AbjAWMxU (ORCPT
+        with ESMTP id S231848AbjAWMxN (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 23 Jan 2023 07:53:20 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C0F596EA0
-        for <linux-media@vger.kernel.org>; Mon, 23 Jan 2023 04:52:36 -0800 (PST)
+        Mon, 23 Jan 2023 07:53:13 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BCA8B10F2
+        for <linux-media@vger.kernel.org>; Mon, 23 Jan 2023 04:52:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1674478356;
+        s=mimecast20190719; t=1674478347;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=k49w3FB7U89RPB+dgCfbA6Xcr5aEbMfG4yU0fCOxZKU=;
-        b=esbfd9xL1s0ION9EIVGGByAC1rM5D+nqcGEI+mlbBDU3aMLXy6E6WIn9pTNeMtfzD7fVA1
-        7ZQGk0Kz8YbwQ8gr7tBkhQs7hqmitX3toEB61q7JQUgM/qKFpHQDBp2b3SDj2RW3dMVxhw
-        1c0CThr2bxLU7gWz7blTlL2pffvSw98=
+        bh=ZOiLEgNt8V0MMRu99NAtZIsMApLnONu+A8O0onIE4TU=;
+        b=axsI1vLZZoXjs7209N0Z+O0g7bLPV1FPaElK2EziadYUwznsgoytU0Sd4vAUwn4AL0QGEW
+        Vx/6eNoxnqGrWtR3g6BN2tA0Fz5B9GL50RN/I54rfjzdXuweSMVm9tY6jwDb5lxDU4DbGp
+        KPsnT0XRWmJCh3wunPzEyh0u0l1gPV8=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-132-hLtaUlsuOvydlbVjrYXanw-1; Mon, 23 Jan 2023 07:52:19 -0500
-X-MC-Unique: hLtaUlsuOvydlbVjrYXanw-1
+ us-mta-671-PGG4YroHOX-sT086sd5fZw-1; Mon, 23 Jan 2023 07:52:22 -0500
+X-MC-Unique: PGG4YroHOX-sT086sd5fZw-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com [10.11.54.8])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0B71F18A6463;
-        Mon, 23 Jan 2023 12:52:19 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DD46218A6460;
+        Mon, 23 Jan 2023 12:52:21 +0000 (UTC)
 Received: from x1.localdomain.com (unknown [10.39.194.13])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 71C9FC15BA0;
-        Mon, 23 Jan 2023 12:52:16 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 6A70FC15BA0;
+        Mon, 23 Jan 2023 12:52:19 +0000 (UTC)
 From:   Hans de Goede <hdegoede@redhat.com>
 To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Sakari Ailus <sakari.ailus@linux.intel.com>
@@ -48,9 +48,9 @@ Cc:     Hans de Goede <hdegoede@redhat.com>,
         Nable <nable.maininbox@googlemail.com>,
         andrey.i.trufanov@gmail.com, Fabio Aiuto <fabioaiuto83@gmail.com>,
         linux-media@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: [PATCH 03/57] media: atomisp: Remove atomisp_sw_contex struct
-Date:   Mon, 23 Jan 2023 13:51:11 +0100
-Message-Id: <20230123125205.622152-4-hdegoede@redhat.com>
+Subject: [PATCH 04/57] media: atomisp: Move power-management over to a custom pm-domain
+Date:   Mon, 23 Jan 2023 13:51:12 +0100
+Message-Id: <20230123125205.622152-5-hdegoede@redhat.com>
 In-Reply-To: <20230123125205.622152-1-hdegoede@redhat.com>
 References: <20230123125205.622152-1-hdegoede@redhat.com>
 MIME-Version: 1.0
@@ -66,85 +66,177 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Remove the atomisp_sw_contex struct, it has only 1 member: running_freq,
-instead store running_freq directly.
+The atomisp does not use standard PCI power-management through the
+PCI config space. Instead this driver directly tells the P-Unit to
+disable the ISP over the IOSF. The standard PCI subsystem pm_ops will
+try to access the config space before (resume) / after (suspend) this
+driver has turned the ISP on / off, resulting in the following errors:
 
-While at it also change running_freq from an int to an unsigned int,
-all values stored in it are unsigned and it is compared to the also
-unsigned new_freq variable.
+ Unable to change power state from D0 to D3hot, device inaccessible
+ Unable to change power state from D3cold to D0, device inaccessible
+
+Getting logged into dmesg a whole bunch of time during boot as well as
+every time the camera is used.
+
+To avoid these errors use a custom pm_domain instead of standard driver
+pm-callbacks so that all the PCI subsys suspend / resume handling is
+skipped and call pci_save_state() / pci_restore_state() ourselves.
 
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- drivers/staging/media/atomisp/pci/atomisp_cmd.c      | 4 ++--
- drivers/staging/media/atomisp/pci/atomisp_fops.c     | 2 +-
- drivers/staging/media/atomisp/pci/atomisp_internal.h | 6 +-----
- 3 files changed, 4 insertions(+), 8 deletions(-)
+ .../media/atomisp/pci/atomisp_internal.h      |  1 +
+ .../staging/media/atomisp/pci/atomisp_v4l2.c  | 44 ++++++++++++++-----
+ 2 files changed, 33 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-index d8c7e7367386..5cea1df48b7d 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-@@ -280,14 +280,14 @@ int atomisp_freq_scaling(struct atomisp_device *isp,
- done:
- 	dev_dbg(isp->dev, "DFS target frequency=%d.\n", new_freq);
- 
--	if ((new_freq == isp->sw_contex.running_freq) && !force)
-+	if ((new_freq == isp->running_freq) && !force)
- 		return 0;
- 
- 	dev_dbg(isp->dev, "Programming DFS frequency to %d\n", new_freq);
- 
- 	ret = write_target_freq_to_hw(isp, new_freq);
- 	if (!ret) {
--		isp->sw_contex.running_freq = new_freq;
-+		isp->running_freq = new_freq;
- 		trace_ipu_pstate(new_freq, -1);
- 	}
- 	return ret;
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_fops.c b/drivers/staging/media/atomisp/pci/atomisp_fops.c
-index acea7492847d..4643bb0db995 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_fops.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_fops.c
-@@ -681,7 +681,7 @@ static void atomisp_dev_init_struct(struct atomisp_device *isp)
- 	 * For Merrifield, frequency is scalable.
- 	 * After boot-up, the default frequency is 200MHz.
- 	 */
--	isp->sw_contex.running_freq = ISP_FREQ_200MHZ;
-+	isp->running_freq = ISP_FREQ_200MHZ;
- }
- 
- static void atomisp_subdev_init_struct(struct atomisp_sub_device *asd)
 diff --git a/drivers/staging/media/atomisp/pci/atomisp_internal.h b/drivers/staging/media/atomisp/pci/atomisp_internal.h
-index 653e6d74a966..675007d7d9af 100644
+index 675007d7d9af..fa38d91420cf 100644
 --- a/drivers/staging/media/atomisp/pci/atomisp_internal.h
 +++ b/drivers/staging/media/atomisp/pci/atomisp_internal.h
-@@ -194,10 +194,6 @@ struct atomisp_regs {
- 	u32 csi_access_viol;
- };
+@@ -210,6 +210,7 @@ struct atomisp_device {
+ 	void __iomem *base;
+ 	const struct firmware *firmware;
  
--struct atomisp_sw_contex {
--	int running_freq;
++	struct dev_pm_domain pm_domain;
+ 	struct pm_qos_request pm_qos;
+ 	s32 max_isr_latency;
+ 
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
+index e786b81921da..e994a4a5284e 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
+@@ -19,6 +19,7 @@
+  */
+ #include <linux/module.h>
+ #include <linux/pci.h>
++#include <linux/pm_domain.h>
+ #include <linux/pm_runtime.h>
+ #include <linux/pm_qos.h>
+ #include <linux/timer.h>
+@@ -524,7 +525,7 @@ static int atomisp_save_iunit_reg(struct atomisp_device *isp)
+ 	return 0;
+ }
+ 
+-static int __maybe_unused atomisp_restore_iunit_reg(struct atomisp_device *isp)
++static int atomisp_restore_iunit_reg(struct atomisp_device *isp)
+ {
+ 	struct pci_dev *pdev = to_pci_dev(isp->dev);
+ 
+@@ -662,6 +663,7 @@ static void punit_ddr_dvfs_enable(bool enable)
+ 
+ static int atomisp_mrfld_power(struct atomisp_device *isp, bool enable)
+ {
++	struct pci_dev *pdev = to_pci_dev(isp->dev);
+ 	unsigned long timeout;
+ 	u32 val = enable ? MRFLD_ISPSSPM0_IUNIT_POWER_ON :
+ 			   MRFLD_ISPSSPM0_IUNIT_POWER_OFF;
+@@ -703,6 +705,7 @@ static int atomisp_mrfld_power(struct atomisp_device *isp, bool enable)
+ 		tmp = (tmp >> MRFLD_ISPSSPM0_ISPSSS_OFFSET) & MRFLD_ISPSSPM0_ISPSSC_MASK;
+ 		if (tmp == val) {
+ 			trace_ipu_cstate(enable);
++			pdev->current_state = enable ? PCI_D0 : PCI_D3cold;
+ 			return 0;
+ 		}
+ 
+@@ -743,6 +746,7 @@ int atomisp_power_off(struct device *dev)
+ 	pci_write_config_dword(pdev, MRFLD_PCI_CSI_CONTROL, reg);
+ 
+ 	cpu_latency_qos_update_request(&isp->pm_qos, PM_QOS_DEFAULT_VALUE);
++	pci_save_state(pdev);
+ 	return atomisp_mrfld_power(isp, false);
+ }
+ 
+@@ -756,6 +760,7 @@ int atomisp_power_on(struct device *dev)
+ 	if (ret)
+ 		return ret;
+ 
++	pci_restore_state(to_pci_dev(dev));
+ 	cpu_latency_qos_update_request(&isp->pm_qos, isp->max_isr_latency);
+ 
+ 	/*restore register values for iUnit and iUnitPHY registers*/
+@@ -767,7 +772,7 @@ int atomisp_power_on(struct device *dev)
+ 	return atomisp_css_init(isp);
+ }
+ 
+-static int __maybe_unused atomisp_suspend(struct device *dev)
++static int atomisp_suspend(struct device *dev)
+ {
+ 	struct atomisp_device *isp = (struct atomisp_device *)
+ 				     dev_get_drvdata(dev);
+@@ -790,10 +795,12 @@ static int __maybe_unused atomisp_suspend(struct device *dev)
+ 	}
+ 	spin_unlock_irqrestore(&isp->lock, flags);
+ 
++	pm_runtime_resume(dev);
++
+ 	return atomisp_power_off(dev);
+ }
+ 
+-static int __maybe_unused atomisp_resume(struct device *dev)
++static int atomisp_resume(struct device *dev)
+ {
+ 	return atomisp_power_on(dev);
+ }
+@@ -1603,6 +1610,26 @@ static int atomisp_pci_probe(struct pci_dev *pdev, const struct pci_device_id *i
+ 	/* save the iunit context only once after all the values are init'ed. */
+ 	atomisp_save_iunit_reg(isp);
+ 
++	/*
++	 * The atomisp does not use standard PCI power-management through the
++	 * PCI config space. Instead this driver directly tells the P-Unit to
++	 * disable the ISP over the IOSF. The standard PCI subsystem pm_ops will
++	 * try to access the config space before (resume) / after (suspend) this
++	 * driver has turned the ISP on / off, resulting in the following errors:
++	 *
++	 * "Unable to change power state from D0 to D3hot, device inaccessible"
++	 * "Unable to change power state from D3cold to D0, device inaccessible"
++	 *
++	 * To avoid these errors override the pm_domain so that all the PCI
++	 * subsys suspend / resume handling is skipped.
++	 */
++	isp->pm_domain.ops.runtime_suspend = atomisp_power_off;
++	isp->pm_domain.ops.runtime_resume = atomisp_power_on;
++	isp->pm_domain.ops.suspend = atomisp_suspend;
++	isp->pm_domain.ops.resume = atomisp_resume;
++
++	dev_pm_domain_set(&pdev->dev, &isp->pm_domain);
++
+ 	pm_runtime_put_noidle(&pdev->dev);
+ 	pm_runtime_allow(&pdev->dev);
+ 
+@@ -1645,6 +1672,7 @@ static int atomisp_pci_probe(struct pci_dev *pdev, const struct pci_device_id *i
+ request_irq_fail:
+ 	hmm_cleanup();
+ 	pm_runtime_get_noresume(&pdev->dev);
++	dev_pm_domain_set(&pdev->dev, NULL);
+ 	atomisp_unregister_entities(isp);
+ register_entities_fail:
+ 	atomisp_uninitialize_modules(isp);
+@@ -1697,6 +1725,7 @@ static void atomisp_pci_remove(struct pci_dev *pdev)
+ 
+ 	pm_runtime_forbid(&pdev->dev);
+ 	pm_runtime_get_noresume(&pdev->dev);
++	dev_pm_domain_set(&pdev->dev, NULL);
+ 	cpu_latency_qos_remove_request(&isp->pm_qos);
+ 
+ 	atomisp_msi_irq_uninit(isp);
+@@ -1721,17 +1750,8 @@ static const struct pci_device_id atomisp_pci_tbl[] = {
+ 
+ MODULE_DEVICE_TABLE(pci, atomisp_pci_tbl);
+ 
+-static const struct dev_pm_ops atomisp_pm_ops = {
+-	.runtime_suspend = atomisp_power_off,
+-	.runtime_resume = atomisp_power_on,
+-	.suspend = atomisp_suspend,
+-	.resume = atomisp_resume,
 -};
--
- #define ATOMISP_DEVICE_STREAMING_DISABLED	0
- #define ATOMISP_DEVICE_STREAMING_ENABLED	1
- #define ATOMISP_DEVICE_STREAMING_STOPPING	2
-@@ -242,7 +238,6 @@ struct atomisp_device {
- 	struct v4l2_subdev *motor;
  
- 	struct atomisp_regs saved_regs;
--	struct atomisp_sw_contex sw_contex;
- 	struct atomisp_css_env css_env;
- 
- 	/* isp timeout status flag */
-@@ -257,6 +252,7 @@ struct atomisp_device {
- 	unsigned int mipi_frame_size;
- 	const struct atomisp_dfs_config *dfs;
- 	unsigned int hpll_freq;
-+	unsigned int running_freq;
- 
- 	bool css_initialized;
- };
+ static struct pci_driver atomisp_pci_driver = {
+-	.driver = {
+-		.pm = &atomisp_pm_ops,
+-	},
+ 	.name = "atomisp-isp2",
+ 	.id_table = atomisp_pci_tbl,
+ 	.probe = atomisp_pci_probe,
 -- 
 2.39.0
 
