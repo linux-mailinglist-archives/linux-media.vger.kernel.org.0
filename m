@@ -2,261 +2,140 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EB29F6786AF
-	for <lists+linux-media@lfdr.de>; Mon, 23 Jan 2023 20:46:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 657DC6786D7
+	for <lists+linux-media@lfdr.de>; Mon, 23 Jan 2023 20:50:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232789AbjAWTqM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 23 Jan 2023 14:46:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51262 "EHLO
+        id S231712AbjAWTur (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 23 Jan 2023 14:50:47 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54738 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231968AbjAWTqL (ORCPT
+        with ESMTP id S233066AbjAWTuF (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 23 Jan 2023 14:46:11 -0500
-Received: from mail-qt1-x82f.google.com (mail-qt1-x82f.google.com [IPv6:2607:f8b0:4864:20::82f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 671E02658B
-        for <linux-media@vger.kernel.org>; Mon, 23 Jan 2023 11:46:05 -0800 (PST)
-Received: by mail-qt1-x82f.google.com with SMTP id x7so10826693qtv.13
-        for <linux-media@vger.kernel.org>; Mon, 23 Jan 2023 11:46:05 -0800 (PST)
+        Mon, 23 Jan 2023 14:50:05 -0500
+Received: from mail-qv1-xf2e.google.com (mail-qv1-xf2e.google.com [IPv6:2607:f8b0:4864:20::f2e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC6BF2DE7E
+        for <linux-media@vger.kernel.org>; Mon, 23 Jan 2023 11:50:01 -0800 (PST)
+Received: by mail-qv1-xf2e.google.com with SMTP id i12so9952008qvs.2
+        for <linux-media@vger.kernel.org>; Mon, 23 Jan 2023 11:50:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=mUY+K/gEms4vfsNGwjElIC9Y1rJValU7AjQ/+P7XQGU=;
-        b=M7vkSBADLg68yS5WFEvjM5Lx2R90zGRvw7OZ+Ot2DOA0cEw39ThzNEfTeqFJhgjMtr
-         Pt9f8aooYdhoLWi5ap1uY7xiKGe4NPitD8MVA+vr1ecmeK8kXG0Bx4OwKy23QZmIQO7K
-         D5WSlBRqYNTyWpzyDWpb+imz/9IBRGxcqQStVWyzLrfkfTOtqMFj9Xriae6/wRVAjCLs
-         JmZ7LOc1DmQCU8D78MfaVAK2RU92npGK2Uct0mc8J9/lVMqA7ScFIUQInj8G5p3fEFss
-         mtO23tXEGSRCpI1Wj6I2qLAicwMQnR/yrC+KzMv2Zt6Cci/UMjESOm+xJvFgutkmfoG5
-         +Azw==
+        bh=rGE93gPkAvU6p1g6zMI0ZGEEXbMUYmA6Yp6gqSuvvww=;
+        b=JC7Ly8pZDPQTNo3K1tQHv+sSYUXo//MGnfsKJgowshH4fueBckQk0UMvGHMjxH6f5+
+         7f18QnmMsJ7SZnBI4yNFw/69kxVaralcZtCpLimACvpSfTVeP3ymesdBwdbPZvUEwpnV
+         mw59hgJ1P4k0KWyYwxp9/szWNZ6AZZIWacpC6/SXXH524y84tXbrwsltUjuiFP0HORFd
+         BascxnfgUZWEui4L5G2GnqnpQirCorVXlsSXXeitcLdSJ/itjcyRvT2w2oX4Exuegi7N
+         as/sQTcUgVr7VR3BO7xnQXs8Xi0OQUxF9SS8TigQVQDj0iPUDa7UUAaKmwktKTmr+emu
+         0H1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=mUY+K/gEms4vfsNGwjElIC9Y1rJValU7AjQ/+P7XQGU=;
-        b=TQpNSHbEsm26i8BMW4BIK8/GBNVeojVCFGjnv6oMk7mYplDVd4l8tSWebCdL/cWtah
-         Dt5RHHCYxvqsFJ4ASjcjVP4t69eP7WuYHkRbgNG1n3Xb4YDWt1EnNXyh09GOUEa42tb3
-         204FExbzbdRb88E9K9CBWDZz9wcoQdxZ4XFQnuDtGLuoQTO5g6A1vpzuWALcX6ueqxf4
-         IJo7t3lk/6R61lhoiD5+ix8P0BZMqVOgUwCWWNXlk3WsuhViU/iNl/vonO6FUb1Ot+4j
-         2YAgIdi37Fly+FYlkapL4x/iXuThmbZ9EjIrx6Q1nCqDzR50OmejJ44yPKal5Zqm6hNg
-         WY1Q==
-X-Gm-Message-State: AFqh2kpfxZnUZwPOhT1IjqoGRenXO42k2Md7UuVnYXnetBo6+RTsaBe9
-        mVIDWP5gvNV9Z1sP9RKcHzIHKw==
-X-Google-Smtp-Source: AMrXdXsK65R6/0BvIy5WSEzZ1awjWS2XHY8JYoDof3t2VDl8/Bdi0DMByDP+4TK9lSQkfcOvjuExvA==
-X-Received: by 2002:a05:622a:a07:b0:3b6:2fd2:84b5 with SMTP id bv7-20020a05622a0a0700b003b62fd284b5mr41539393qtb.57.1674503164528;
-        Mon, 23 Jan 2023 11:46:04 -0800 (PST)
+        bh=rGE93gPkAvU6p1g6zMI0ZGEEXbMUYmA6Yp6gqSuvvww=;
+        b=x3M/1Y7GXUtLyM/u+kabr8jUgz3gF20ZEPZhwlbXZoaFHYQjn+f93bgHaCHCop1A6B
+         VNBMmnA5D2C7bEtYZa+jLrsiW4lGdnJ7fsuESrPnk/j+JT71UMaoKlzENyivJ9fsoUcF
+         WaeNCZY8FxwoTWXrQgWApl7MqiXUmy6++69MKrIcErCcAenu5qbkKUwzC5/LkhCv4KGk
+         EreD77vviYb3m+Q6652SNyl46gziME41mXL+58BvtGsD+IcJxGHawQtybdLuozY6JBlQ
+         lEfHJHdBgr3YM2FUkc436E99En6zeqMEM6AyE2/sK2I2kZcHvFli51hPRZ/kDwOxAT5l
+         N5mQ==
+X-Gm-Message-State: AFqh2kpn0NTR5DmUQMu3OQDCP88YlDkBijDP396jFyYMiDML2EmcQ2nA
+        GTNSEwGrk93CBxNFrQ2sSUIZLw==
+X-Google-Smtp-Source: AMrXdXvZjnmLfOqTE0yM40ZLDkWU26o0u88ybKg/YPkagVEAyWBdG8miScE/MquEbFPqLcKaW6B8fQ==
+X-Received: by 2002:a05:6214:5f09:b0:4c7:5b:75ba with SMTP id lx9-20020a0562145f0900b004c7005b75bamr45249216qvb.31.1674503401130;
+        Mon, 23 Jan 2023 11:50:01 -0800 (PST)
 Received: from nicolas-tpx395.localdomain (192-222-136-102.qc.cable.ebox.net. [192.222.136.102])
-        by smtp.gmail.com with ESMTPSA id 188-20020a3703c5000000b006fb112f512csm42350qkd.74.2023.01.23.11.46.02
+        by smtp.gmail.com with ESMTPSA id 198-20020a3705cf000000b006fed58fc1a3sm24016qkf.119.2023.01.23.11.49.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Jan 2023 11:46:03 -0800 (PST)
-Message-ID: <6e1cf4ee9bda46f0e15f715ed97dc46d06ffd735.camel@ndufresne.ca>
-Subject: Re: [EXT] Re: [PATCH v2 2/2] media: amphion: support to decode
- sorenson spark video
+        Mon, 23 Jan 2023 11:50:00 -0800 (PST)
+Message-ID: <2517e0aef49a934efa7c1a90e32fa811d060771d.camel@ndufresne.ca>
+Subject: Re: [PATCH RESEND 0/2] media: rockchip: rga: Add rk3568 support
 From:   Nicolas Dufresne <nicolas@ndufresne.ca>
-To:     Ming Qian <ming.qian@nxp.com>,
-        "mchehab@kernel.org" <mchehab@kernel.org>,
-        "hverkuil-cisco@xs4all.nl" <hverkuil-cisco@xs4all.nl>
-Cc:     "shawnguo@kernel.org" <shawnguo@kernel.org>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "s.hauer@pengutronix.de" <s.hauer@pengutronix.de>,
-        "kernel@pengutronix.de" <kernel@pengutronix.de>,
-        "festevam@gmail.com" <festevam@gmail.com>,
-        dl-linux-imx <linux-imx@nxp.com>,
-        "X.H. Bao" <xiahong.bao@nxp.com>, Eagle Zhou <eagle.zhou@nxp.com>,
-        Tao Jiang <tao.jiang_2@nxp.com>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>
-Date:   Mon, 23 Jan 2023 14:46:01 -0500
-In-Reply-To: <AM6PR04MB6341EEFACA1BAD7DC4E82B71E7C59@AM6PR04MB6341.eurprd04.prod.outlook.com>
-References: <cover.1673513975.git.ming.qian@nxp.com>
-         <ab85e597c37aad849480bfe912d5e06aebc51726.1673513975.git.ming.qian@nxp.com>
-         <bb9fb55bf81b978041e44e04d619adf43488f467.camel@ndufresne.ca>
-         <AM6PR04MB6341EEFACA1BAD7DC4E82B71E7C59@AM6PR04MB6341.eurprd04.prod.outlook.com>
+To:     Michael Tretter <m.tretter@pengutronix.de>,
+        Jacob Chen <jacob-chen@iotwrt.com>,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Heiko Stuebner <heiko@sntech.de>
+Cc:     linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Nicolas Frattaroli <frattaroli.nicolas@gmail.com>
+Date:   Mon, 23 Jan 2023 14:49:59 -0500
+In-Reply-To: <20230119-rk3568-rga-v1-0-43d4d14365e6@pengutronix.de>
+References: <20230119-rk3568-rga-v1-0-43d4d14365e6@pengutronix.de>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.46.2 (3.46.2-1.fc37) 
 MIME-Version: 1.0
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE autolearn=ham
-        autolearn_force=no version=3.4.6
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Le vendredi 20 janvier 2023 =C3=A0 09:59 +0000, Ming Qian a =C3=A9crit=C2=
-=A0:
-> > From: Nicolas Dufresne <nicolas@ndufresne.ca>
-> > Sent: 2023=E5=B9=B41=E6=9C=8820=E6=97=A5 4:41
-> > To: Ming Qian <ming.qian@nxp.com>; mchehab@kernel.org; hverkuil-
-> > cisco@xs4all.nl
-> > Cc: shawnguo@kernel.org; robh+dt@kernel.org; s.hauer@pengutronix.de;
-> > kernel@pengutronix.de; festevam@gmail.com; dl-linux-imx <linux-
-> > imx@nxp.com>; X.H. Bao <xiahong.bao@nxp.com>; Eagle Zhou
-> > <eagle.zhou@nxp.com>; Tao Jiang <tao.jiang_2@nxp.com>; linux-
-> > media@vger.kernel.org; linux-kernel@vger.kernel.org; linux-arm-
-> > kernel@lists.infradead.org
-> > Subject: [EXT] Re: [PATCH v2 2/2] media: amphion: support to decode
-> > sorenson spark video
-> >=20
-> > Caution: EXT Email
-> >=20
-> > Le jeudi 12 janvier 2023 =C3=A0 17:04 +0800, Ming Qian a =C3=A9crit :
-> > > Sorenson Spark is an implementation of H.263 for use in Flash Video
-> > > and Adobe Flash files.
-> > > amphion decoder can support it by insert some startcode before
-> > > sequence and picture.
-> >=20
-> > Its historical codec, but I'm surprise it does not also support H263 (a=
-nd
-> > possibly H263+). Note a review comment of course, just a curiosity.
-> >=20
->=20
-> Hi Nicolas,
-> =C2=A0=C2=A0=C2=A0=C2=A0The decoder does support H263, but for sorenson s=
-park, the vpu requires
-> extra startcode, but H263 doesn't.
-> So driver can't reuse H263 for format spark, as driver need to insert the
-> startcode for format spark.
+Hi Micheal,
 
-Ack.
+Le vendredi 20 janvier 2023 =C3=A0 10:14 +0100, Michael Tretter a =C3=A9cri=
+t=C2=A0:
+> The RGA2 on the Rockchip rk3568 is the same core as the RGA2 on the Rockc=
+hip
+> rk3288.
+>=20
+> This series adds the necessary device tree binding and node in the device=
+ tree
+> to enable the RGA2 on the Rockchip rk3568.
+>=20
+> I tested the driver with the GStreamer v4l2convert element on a Rock3 Mod=
+el A
+> board.
+>=20
+> This is a RESEND including the linux-media list, as Heiko asked for an
+> Acked-by from someone from media.
 
-I noticed later that it was supported and it make sense to make this a spec=
-ific
-formats, its not compatible, even though both are H264.
+I don't think there will be any concern about this on media side.
+
+Acked-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+
 >=20
-> Ming
 >=20
-> > >=20
-> > > Signed-off-by: Ming Qian <ming.qian@nxp.com>
-> > > ---
-> > > =C2=A0drivers/media/platform/amphion/vdec.c       |  7 +++++++
-> > > =C2=A0drivers/media/platform/amphion/vpu_malone.c | 18 ++++++++++++++=
-++++
-> > > =C2=A02 files changed, 25 insertions(+)
-> > >=20
-> > > diff --git a/drivers/media/platform/amphion/vdec.c
-> > > b/drivers/media/platform/amphion/vdec.c
-> > > index 87f9f8e90ab1..09304b96f40d 100644
-> > > --- a/drivers/media/platform/amphion/vdec.c
-> > > +++ b/drivers/media/platform/amphion/vdec.c
-> > > @@ -165,6 +165,13 @@ static const struct vpu_format vdec_formats[] =
-=3D {
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0.type =3D V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE,
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0.flags =3D V4L2_FMT_FLAG_DYN_RESOLUTION |
-> > V4L2_FMT_FLAG_COMPRESSED
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0},
-> > > +     {
-> > > +             .pixfmt =3D V4L2_PIX_FMT_SPK,
-> > > +             .mem_planes =3D 1,
-> > > +             .comp_planes =3D 1,
-> > > +             .type =3D V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE,
-> > > +             .flags =3D V4L2_FMT_FLAG_DYN_RESOLUTION |
-> > V4L2_FMT_FLAG_COMPRESSED
-> > > +     },
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0{0, 0, 0, 0},
-> > > =C2=A0};
-> > >=20
-> > > diff --git a/drivers/media/platform/amphion/vpu_malone.c
-> > > b/drivers/media/platform/amphion/vpu_malone.c
-> > > index 2c9bfc6a5a72..67ba637c4c7f 100644
-> > > --- a/drivers/media/platform/amphion/vpu_malone.c
-> > > +++ b/drivers/media/platform/amphion/vpu_malone.c
-> > > @@ -562,6 +562,7 @@ static struct malone_fmt_mapping fmt_mappings[] =
-=3D
-> > {
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0{V4L2_PIX_FMT_H263,        MALONE=
-_FMT_ASP},
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0{V4L2_PIX_FMT_JPEG,        MALONE=
-_FMT_JPG},
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0{V4L2_PIX_FMT_VP8,         MALONE=
-_FMT_VP8},
-> > > +     {V4L2_PIX_FMT_SPK,         MALONE_FMT_SPK},
-> > > =C2=A0};
-> > >=20
-> > > =C2=A0static enum vpu_malone_format vpu_malone_format_remap(u32
-> > > pixelformat) @@ -987,6 +988,7 @@ static const struct
-> > malone_padding_scode padding_scodes[] =3D {
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0{SCODE_PADDING_EOS,      V4L2_PIX=
-_FMT_XVID,        {0xb1010000,
-> > > 0x0}},
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0{SCODE_PADDING_EOS,      V4L2_PIX=
-_FMT_H263,        {0xb1010000,
-> > > 0x0}},
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0{SCODE_PADDING_EOS,      V4L2_PIX=
-_FMT_VP8,         {0x34010000,
-> > > 0x0}},
-> > > +     {SCODE_PADDING_EOS,      V4L2_PIX_FMT_SPK,         {0x34010000,
-> > > 0x0}},
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0{SCODE_PADDING_EOS,      V4L2_PIX=
-_FMT_JPEG,        {0xefff0000,
-> > > 0x0}},
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0{SCODE_PADDING_ABORT,    V4L2_PIX=
-_FMT_H264,        {0x0B010000, 0}},
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0{SCODE_PADDING_ABORT,    V4L2_PIX=
-_FMT_H264_MVC,    {0x0B010000,
-> > 0}},
-> > > @@ -998,6 +1000,7 @@ static const struct malone_padding_scode
-> > padding_scodes[] =3D {
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0{SCODE_PADDING_ABORT,    V4L2_PIX=
-_FMT_XVID,        {0xb1010000,
-> > 0x0}},
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0{SCODE_PADDING_ABORT,    V4L2_PIX=
-_FMT_H263,        {0xb1010000,
-> > 0x0}},
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0{SCODE_PADDING_ABORT,    V4L2_PIX=
-_FMT_VP8,         {0x34010000,
-> > 0x0}},
-> > > +     {SCODE_PADDING_ABORT,    V4L2_PIX_FMT_SPK,         {0x34010000,
-> > 0x0}},
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0{SCODE_PADDING_EOS,      V4L2_PIX=
-_FMT_JPEG,        {0x0, 0x0}},
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0{SCODE_PADDING_BUFFLUSH, V4L2_PIX=
-_FMT_H264,        {0x15010000,
-> > 0x0}},
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0{SCODE_PADDING_BUFFLUSH, V4L2_PIX=
-_FMT_H264_MVC,
-> > {0x15010000, 0x0}},
-> > > @@ -1411,6 +1414,16 @@ static int
-> > vpu_malone_insert_scode_vp8_pic(struct malone_scode_t *scode)
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0return size;
-> > > =C2=A0}
-> > >=20
-> > > +static int vpu_malone_insert_scode_spk_seq(struct malone_scode_t
-> > > +*scode) {
-> > > +     return vpu_malone_insert_scode_seq(scode, MALONE_CODEC_ID_SPK,
-> > > +0); }
-> > > +
-> > > +static int vpu_malone_insert_scode_spk_pic(struct malone_scode_t
-> > > +*scode) {
-> > > +     return vpu_malone_insert_scode_pic(scode, MALONE_CODEC_ID_SPK,
-> > > +0); }
-> > > +
-> > > =C2=A0static const struct malone_scode_handler scode_handlers[] =3D {
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0{
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0/* fix me, need to swap return operation after gstreamer
-> > > swap */ @@ -1427,6 +1440,11 @@ static const struct
-> > malone_scode_handler scode_handlers[] =3D {
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0.insert_scode_seq =3D vpu_malone_insert_scode_vp8_seq,
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0.insert_scode_pic =3D vpu_malone_insert_scode_vp8_pic,
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0},
-> > > +     {
-> > > +             .pixelformat =3D V4L2_PIX_FMT_SPK,
-> > > +             .insert_scode_seq =3D vpu_malone_insert_scode_spk_seq,
-> > > +             .insert_scode_pic =3D vpu_malone_insert_scode_spk_pic,
-> > > +     },
-> > > =C2=A0};
-> > >=20
-> > > =C2=A0static const struct malone_scode_handler *get_scode_handler(u32
-> > > pixelformat)
 >=20
+> Michael
+>=20
+> To: Jacob Chen <jacob-chen@iotwrt.com>
+> To: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+> To: Mauro Carvalho Chehab <mchehab@kernel.org>
+> To: Rob Herring <robh+dt@kernel.org>
+> To: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+> To: Heiko Stuebner <heiko@sntech.de>
+> Cc: linux-media@vger.kernel.org
+> Cc: linux-rockchip@lists.infradead.org
+> Cc: devicetree@vger.kernel.org
+> Cc: linux-arm-kernel@lists.infradead.org
+> Cc: linux-kernel@vger.kernel.org
+> Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> Cc: Nicolas Frattaroli <frattaroli.nicolas@gmail.com>
+> Signed-off-by: Michael Tretter <m.tretter@pengutronix.de>
+>=20
+> ---
+> Michael Tretter (2):
+>       media: dt-bindings: media: rockchip-rga: add rockchip,rk3568-rga
+>       arm64: dts: rockchip: Add RGA2 support to rk356x
+>=20
+>  Documentation/devicetree/bindings/media/rockchip-rga.yaml |  4 +++-
+>  arch/arm64/boot/dts/rockchip/rk356x.dtsi                  | 11 +++++++++=
+++
+>  2 files changed, 14 insertions(+), 1 deletion(-)
+> ---
+> base-commit: 5dc4c995db9eb45f6373a956eb1f69460e69e6d4
+> change-id: 20230119-rk3568-rga-d1b0cccc7b82
+>=20
+> Best regards,
 
