@@ -2,106 +2,141 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 36678677577
-	for <lists+linux-media@lfdr.de>; Mon, 23 Jan 2023 08:17:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 141266775CA
+	for <lists+linux-media@lfdr.de>; Mon, 23 Jan 2023 08:48:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231300AbjAWHRR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 23 Jan 2023 02:17:17 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52564 "EHLO
+        id S231488AbjAWHsr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 23 Jan 2023 02:48:47 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37634 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229817AbjAWHRQ (ORCPT
+        with ESMTP id S231378AbjAWHsp (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 23 Jan 2023 02:17:16 -0500
-Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 239AD1A480;
-        Sun, 22 Jan 2023 23:17:14 -0800 (PST)
-Received: by mail-wr1-x42e.google.com with SMTP id n7so9853438wrx.5;
-        Sun, 22 Jan 2023 23:17:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=orgUUcijT9HAApybCZNzBbAQbGQJs54lfazjlNmvor4=;
-        b=WRCsLiXIOEL4Z1N86sUMV6M5XLpBKylpzBAmHT2JzYCDncyvy3j/2S4bjMMfg7qFKA
-         0t/8RMvcLyZ7Hm9n96j07NCQiO0W+kmPVRWXVr+h89ghY/sTHrxYPc+OS8d29zTk5YkL
-         R2V99J6yTedGvuffOXjjSPdOzMpw3ulfv1FGRRhKw+rs9DPPR/2HHXTGbaAE8VEord0k
-         L1jrrYxn0HpQiAaH7N57dxlP7Mota1QnShp2jTLcf6hdindbQiKhv+eA9iTK69PNKT6+
-         1Tc1h4oL75lIoqP1tBYZeVCtVO81vEHJyaCuYYKfsOCbx7toPCmVdZmurYF1CZhOdZGC
-         XtgA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=orgUUcijT9HAApybCZNzBbAQbGQJs54lfazjlNmvor4=;
-        b=3x8q3qxrFr8WJIDbdvfIV3E4pv2MvNIcghNoddNLjDL8mHiPRjGLnRfLvF8Lwh5y1H
-         MRwnpds4zPfuZX8t58mi3cniLAtgMTtrTTaBJEeJNr26/memcN6va8NP5aKRtiqSvQDS
-         dZKWyfWHntx/+QPu/4WFVuEFw1G7x3vYsEmY84pHIjpGHWmBry4hA1So4TP+GRgxdU3U
-         i4MlZivFeU5pmBTLc6Irnmw0R7KluI/onQnfOIEXvRjR9030gEItOaX3Bwc/aaxDwkx8
-         MKp5Tiox021kbB0zQlvqVVt2A5ovTP+Qb/1C7GOntbwx1i0X2hAvpVdTYeoWktXEA0zE
-         u4Ow==
-X-Gm-Message-State: AFqh2kogrDYTEqCyXElrKFAOiHzWWIm+bAADexP6i8joGuFYdp2lRw4h
-        9++gizEGWvrxkW9US6dqWoI=
-X-Google-Smtp-Source: AMrXdXvWh4N79aN3+Zbpk2+4tvBaV8mZGbORgIeWR2mMNB6qANbMFGt0GeFzVFZKjCoaUSqoZ0vkbg==
-X-Received: by 2002:adf:f790:0:b0:2bd:ebc0:6f79 with SMTP id q16-20020adff790000000b002bdebc06f79mr20538950wrp.46.1674458232520;
-        Sun, 22 Jan 2023 23:17:12 -0800 (PST)
-Received: from toolbox.. ([87.200.95.144])
-        by smtp.gmail.com with ESMTPSA id f2-20020adff982000000b002bde537721dsm23713801wrr.20.2023.01.22.23.17.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 22 Jan 2023 23:17:12 -0800 (PST)
-From:   Christian Hewitt <christianshewitt@gmail.com>
-To:     Neil Armstrong <neil.armstrong@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        linux-media@vger.kernel.org, linux-amlogic@lists.infradead.org,
-        linux-staging@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Cc:     Christian Hewitt <christianshewitt@gmail.com>,
-        Benjamin Roszak <benjamin545@gmail.com>
-Subject: [PATCH] media: meson: vdec: remove redundant if statement
-Date:   Mon, 23 Jan 2023 07:17:08 +0000
-Message-Id: <20230123071708.2670751-1-christianshewitt@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        Mon, 23 Jan 2023 02:48:45 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 29ECFEB6C;
+        Sun, 22 Jan 2023 23:48:41 -0800 (PST)
+Received: from [192.168.1.103] (unknown [103.86.18.176])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 030D72B3;
+        Mon, 23 Jan 2023 08:48:34 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1674460117;
+        bh=Yf7dMr2OR4TnIoULBmpOCg94iMGE3jqxfzU/ffcRV/I=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=o53JBhnbczTfiUKuw7d/YRbuRKZsbdnxanySZPPuDITzrsRJ6OWIziWZ8UPShIT6b
+         tst1WUj/iaYTDMKpeUvEfsFJKliwtX3q+L24qDzinypwhu5gbbdZJLhdOvIrpWYtG1
+         0ZGIBhdRHyXg7k29yVg1Zu0sqsu6HfFgruXgm2To=
+Message-ID: <62644cd8-c871-aee0-30b7-2fbab097504c@ideasonboard.com>
+Date:   Mon, 23 Jan 2023 13:18:30 +0530
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH v6 0/6] staging: vc04_services: vchiq: Register devices
+ with a custom bus_type
+Content-Language: en-US
+To:     Stefan Wahren <stefan.wahren@i2se.com>,
+        linux-staging@lists.linux.dev,
+        linux-rpi-kernel@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Adrien Thierry <athierry@redhat.com>,
+        Dan Carpenter <error27@gmail.com>,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Paul Elder <paul.elder@ideasonboard.com>
+References: <20230120201104.606876-1-umang.jain@ideasonboard.com>
+ <786df750-221e-82fc-a324-d30261296974@i2se.com>
+From:   Umang Jain <umang.jain@ideasonboard.com>
+In-Reply-To: <786df750-221e-82fc-a324-d30261296974@i2se.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-3.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Benjamin Roszak <benjamin545@gmail.com>
+Hi Stefan,
 
-Checking if sess->fmt_out->pixfmt is V4L2_PIX_FMT_VP9 was already done as a
-condition to enter the if statement where this additional check is made.
+Thank for the testing.
 
-Signed-off-by: Benjamin Roszak <benjamin545@gmail.com>
-Signed-off-by: Christian Hewitt <christianshewitt@gmail.com>
----
- drivers/staging/media/meson/vdec/esparser.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+On 1/23/23 5:04 AM, Stefan Wahren wrote:
+> Hi Umang,
+>
+> Am 20.01.23 um 21:10 schrieb Umang Jain:
+>> This series just introduces five extra patches for dropping include
+>> directives from Makefiles (suggested by Greg KH) and rebased.
+>>
+>> The main patch (6/6) removes platform device/driver abuse and moves
+>> things to standard device/driver model using a custom_bus. Specific
+>> details are elaborated in the commit message.
+>>
+>> The patch series is based on top of d514392f17fd (tag: next-20230120)
+>> of linux-next.
+>
+> applied this series on top of linux-next and build it with 
+> arm/multi_v7_defconfig plus the following:
+>
+> CONFIG_BCM_VIDEOCORE=y
+> CONFIG_BCM2835_VCHIQ=m
+> CONFIG_VCHIQ_CDEV=y
+> CONFIG_SND_BCM2835=m
+> CONFIG_VIDEO_BCM2835=m
+> CONFIG_BCM2835_VCHIQ_MMAL=m
+>
+> and the devices doesn't register on Raspberry Pi 3 B Plus:
+>
+> [   25.523337] vchiq: module is from the staging directory, the 
+> quality is unknown, you have been warned.
+> [   25.541647] bcm2835_vchiq 3f00b840.mailbox: Failed to register 
+> bcm2835_audio vchiq device
+> [   25.553692] bcm2835_vchiq 3f00b840.mailbox: Failed to register 
+> bcm2835-camera vchiq device
 
-diff --git a/drivers/staging/media/meson/vdec/esparser.c b/drivers/staging/media/meson/vdec/esparser.c
-index 86ccc8937afc..7b15fc54efe4 100644
---- a/drivers/staging/media/meson/vdec/esparser.c
-+++ b/drivers/staging/media/meson/vdec/esparser.c
-@@ -314,8 +314,7 @@ esparser_queue(struct amvdec_session *sess, struct vb2_v4l2_buffer *vbuf)
- 			num_dst_bufs = codec_ops->num_pending_bufs(sess);
- 
- 		num_dst_bufs += v4l2_m2m_num_dst_bufs_ready(sess->m2m_ctx);
--		if (sess->fmt_out->pixfmt == V4L2_PIX_FMT_VP9)
--			num_dst_bufs -= 3;
-+		num_dst_bufs -= 3;
- 
- 		if (esparser_vififo_get_free_space(sess) < payload_size ||
- 		    atomic_read(&sess->esparser_queued_bufs) >= num_dst_bufs)
--- 
-2.34.1
+I was able to reproduce and it seems the issue here is the change 
+mentioned in the cover
 
+- drop dma_set_mask_and_coherent
+
+in V6.
+
+(I usually test patches on RPi 4B with vcsm-cma and bcm2835-isp applied 
+so my branch has the DMA hunk included while I was testing V6)
+
+Below is the hunk which should resolve the issue.
+
+--- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_device.c
++++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_device.c
+@@ -6,6 +6,7 @@
+   */
+
+  #include <linux/device/bus.h>
++#include <linux/dma-mapping.h>
+  #include <linux/slab.h>
+  #include <linux/string.h>
+
+@@ -72,6 +73,12 @@ int vchiq_device_register(struct device *parent, 
+const char *name)
+         device->dev.type = &vchiq_device_type;
+         device->dev.release = vchiq_device_release;
+
++       ret = dma_set_mask_and_coherent(&device->dev, DMA_BIT_MASK(32));
++       if (ret < 0) {
++               vchiq_device_release(&device->dev);
++               return ret;
++       }
++
+         ret = device_register(&device->dev);
+         if (ret) {
+                 put_device(&device->dev);
+
+It seems we need to include the dma_set_mask_and_coherent() even if 
+bcm2835-audio, bcm2835-camera device doesn't do DMA? I need to look into 
+why is that/
+
+  Laurent, any thoughts on this please?
