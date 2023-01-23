@@ -2,324 +2,106 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AAEE16778BB
-	for <lists+linux-media@lfdr.de>; Mon, 23 Jan 2023 11:10:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 43723677965
+	for <lists+linux-media@lfdr.de>; Mon, 23 Jan 2023 11:43:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232014AbjAWKKo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 23 Jan 2023 05:10:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37414 "EHLO
+        id S230486AbjAWKnx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 23 Jan 2023 05:43:53 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59692 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231953AbjAWKK1 (ORCPT
+        with ESMTP id S229777AbjAWKnw (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 23 Jan 2023 05:10:27 -0500
-Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com [IPv6:2a00:1450:4864:20::42d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0529C22DE7
-        for <linux-media@vger.kernel.org>; Mon, 23 Jan 2023 02:10:11 -0800 (PST)
-Received: by mail-wr1-x42d.google.com with SMTP id n7so10258419wrx.5
-        for <linux-media@vger.kernel.org>; Mon, 23 Jan 2023 02:10:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=/pQr6KmTdUgnaHE8iXfJ0bvx2pGOLcHh3rodgiE7+Kk=;
-        b=fNsjAacdBPOR5DiDkCUpjezb9Dvezn7/R1FOw2oZ6QwPNBVsWcDPdfYkSTPbKULF5H
-         L6X8evzYtigZvdTanLyQe7YKEypW1MmUWAFSXc/OX09EViqzK6jhSEbwUFE0CXqf6ClZ
-         xecJS89i7tQY3WnNwOsN2PxhADwmM9yP2wOXtSSOciODP5/ZScoY8iJRrd9rCWSQWr+I
-         6S2U+eXdSVoQ2hLeHBv4+RRBYOoGqIlisoiMjDNUQEm0Amv4dzcoL/6Se6PRpm8aNmlZ
-         0ahovNgqgULX1nnl+wkzFGtG/sy1fWqs6a8s0NEEargwtSBytuV/rX2GJW1zF3/gReFF
-         UDpw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=/pQr6KmTdUgnaHE8iXfJ0bvx2pGOLcHh3rodgiE7+Kk=;
-        b=TCjDhNyZOVJRwZkh5zW6A7ejevU5kKiZWVlHjgolp/C8fRZf3Vig0NStv7KoLPMabK
-         h58yk6QeGGOf+KAqADcVakufNOGfutdkVU28nJV8KurdYezQZngKGEv0lb9Pm0xia0k/
-         xqyKTEpDkNnyAE9fmG3JZlWNBwmBml2L4g0Fporrsyvor9Z1PLqqMkCZm/wmTDR5wl8H
-         NfpfUzFTwxRgZe3Igy8FAXfObzSb3WvyluxisbJU/XUGZPA8kv3Be7K5lOfG4baRIzmD
-         bLDU6VwnxXFSYOiqmnl4sQoR86Ik1IzkU4EAnG9Q++oITuaA2zPfy55xsqwuvze30EOY
-         bGHg==
-X-Gm-Message-State: AFqh2koTdAmILY+j+R+3UvX7xpEXGq9umHN23BSpGyHDnK6++SWfpc4w
-        wQdGxXVn+tC9pD8+ZXvW6ddVTw==
-X-Google-Smtp-Source: AMrXdXtX4ayB4/SYIKN3tEBT6oVM/Ouxw56XQljpQcVZlok0nl5I8ryh0pMDyUY+HyWaFPo2iskQvQ==
-X-Received: by 2002:a5d:4bce:0:b0:2be:4ae1:215a with SMTP id l14-20020a5d4bce000000b002be4ae1215amr11722277wrt.16.1674468609550;
-        Mon, 23 Jan 2023 02:10:09 -0800 (PST)
-Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:52eb:f6ff:feb3:451a])
-        by smtp.gmail.com with ESMTPSA id m9-20020a056000024900b002bdec340a1csm22670403wrz.110.2023.01.23.02.10.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Jan 2023 02:10:09 -0800 (PST)
-From:   Neil Armstrong <neil.armstrong@linaro.org>
-Date:   Mon, 23 Jan 2023 11:10:04 +0100
-Subject: [PATCH v3 7/7] dt-bindings: PCI: convert amlogic,meson-pcie.txt to
- dt-schema
+        Mon, 23 Jan 2023 05:43:52 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 281A612F04
+        for <linux-media@vger.kernel.org>; Mon, 23 Jan 2023 02:43:51 -0800 (PST)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1A28210B;
+        Mon, 23 Jan 2023 11:43:48 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1674470628;
+        bh=mD1tovL0lFqrn1bCVN3gw29U67sNo4nzvqC6XW/MukE=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=EdunOTgdr4MBdvodPJ+U6wFHQj3t3cVz5fIecg5Bl6E84UHGiMvucshVdxQwiSaBX
+         Dl5tJYSa2z7a3gWdLo76krMj0r5z1+DNg1XyvLx6XxRRAK/tWwy2Kg3aY8lX4ecqre
+         iyXY1bLQXFdyH+tgJS34wc/U7arMw5sg7N6VC6FI=
+Date:   Mon, 23 Jan 2023 12:43:45 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>
+Subject: Re: [PATCH for v6.2] media: videobuf2: set q->streaming later
+Message-ID: <Y85k4aNaoPaBbvYD@pendragon.ideasonboard.com>
+References: <c12cfcc5-1d46-7b5f-4a27-f4cd52a1b885@xs4all.nl>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20221117-b4-amlogic-bindings-convert-v3-7-e28dd31e3bed@linaro.org>
-References: <20221117-b4-amlogic-bindings-convert-v3-0-e28dd31e3bed@linaro.org>
-In-Reply-To: <20221117-b4-amlogic-bindings-convert-v3-0-e28dd31e3bed@linaro.org>
-To:     Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Lorenzo Pieralisi <lpieralisi@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>
-Cc:     devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-amlogic@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-watchdog@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-mmc@vger.kernel.org, linux-pci@vger.kernel.org,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-X-Mailer: b4 0.12.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <c12cfcc5-1d46-7b5f-4a27-f4cd52a1b885@xs4all.nl>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Convert the Amlogic Meson AXG DWC PCIe SoC controller bindings to
-dt-schema.
+Hi Hans,
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
----
- .../devicetree/bindings/pci/amlogic,axg-pcie.yaml  | 134 +++++++++++++++++++++
- .../devicetree/bindings/pci/amlogic,meson-pcie.txt |  70 -----------
- 2 files changed, 134 insertions(+), 70 deletions(-)
+Thank you for the patch.
 
-diff --git a/Documentation/devicetree/bindings/pci/amlogic,axg-pcie.yaml b/Documentation/devicetree/bindings/pci/amlogic,axg-pcie.yaml
-new file mode 100644
-index 000000000000..a5bd90bc0712
---- /dev/null
-+++ b/Documentation/devicetree/bindings/pci/amlogic,axg-pcie.yaml
-@@ -0,0 +1,134 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/pci/amlogic,axg-pcie.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Amlogic Meson AXG DWC PCIe SoC controller
-+
-+maintainers:
-+  - Neil Armstrong <neil.armstrong@linaro.org>
-+
-+description:
-+  Amlogic Meson PCIe host controller is based on the Synopsys DesignWare PCI core.
-+
-+allOf:
-+  - $ref: /schemas/pci/pci-bus.yaml#
-+  - $ref: /schemas/pci/snps,dw-pcie-common.yaml#
-+
-+# We need a select here so we don't match all nodes with 'snps,dw-pcie'
-+select:
-+  properties:
-+    compatible:
-+      enum:
-+        - amlogic,axg-pcie
-+        - amlogic,g12a-pcie
-+  required:
-+    - compatible
-+
-+properties:
-+  compatible:
-+    items:
-+      - enum:
-+          - amlogic,axg-pcie
-+          - amlogic,g12a-pcie
-+      - const: snps,dw-pcie
-+
-+  reg:
-+    items:
-+      - description: External local bus interface registers
-+      - description: Meson designed configuration registers
-+      - description: PCIe configuration space
-+
-+  reg-names:
-+    items:
-+      - const: elbi
-+      - const: cfg
-+      - const: config
-+
-+  interrupts:
-+    maxItems: 1
-+
-+  clocks:
-+    items:
-+      - description: PCIe GEN 100M PLL clock
-+      - description: PCIe RC clock gate
-+      - description: PCIe PHY clock
-+
-+  clock-names:
-+    items:
-+      - const: pclk
-+      - const: port
-+      - const: general
-+
-+  phys:
-+    maxItems: 1
-+
-+  phy-names:
-+    const: pcie
-+
-+  resets:
-+    items:
-+      - description: Port Reset
-+      - description: Shared APB reset
-+
-+  reset-names:
-+    items:
-+      - const: port
-+      - const: apb
-+
-+  num-lanes:
-+    const: 1
-+
-+  power-domains:
-+    maxItems: 1
-+
-+required:
-+  - compatible
-+  - reg
-+  - reg-names
-+  - interrupts
-+  - clock
-+  - clock-names
-+  - "#address-cells"
-+  - "#size-cells"
-+  - "#interrupt-cells"
-+  - interrupt-map
-+  - interrupt-map-mask
-+  - ranges
-+  - bus-range
-+  - device_type
-+  - num-lanes
-+  - phys
-+  - phy-names
-+  - resets
-+  - reset-names
-+
-+unevaluatedProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/interrupt-controller/irq.h>
-+    #include <dt-bindings/interrupt-controller/arm-gic.h>
-+    pcie: pcie@f9800000 {
-+        compatible = "amlogic,axg-pcie", "snps,dw-pcie";
-+        reg = <0xf9800000 0x400000>, <0xff646000 0x2000>, <0xf9f00000 0x100000>;
-+        reg-names = "elbi", "cfg", "config";
-+        interrupts = <GIC_SPI 177 IRQ_TYPE_EDGE_RISING>;
-+        clocks = <&pclk>, <&clk_port>, <&clk_phy>;
-+        clock-names = "pclk", "port", "general";
-+        resets = <&reset_pcie_port>, <&reset_pcie_apb>;
-+        reset-names = "port", "apb";
-+        phys = <&pcie_phy>;
-+        phy-names = "pcie";
-+        #interrupt-cells = <1>;
-+        interrupt-map-mask = <0 0 0 0>;
-+        interrupt-map = <0 0 0 0 &gic GIC_SPI 179 IRQ_TYPE_EDGE_RISING>;
-+        bus-range = <0x0 0xff>;
-+        #address-cells = <3>;
-+        #size-cells = <2>;
-+        device_type = "pci";
-+        num-lanes = <1>;
-+        ranges = <0x82000000 0 0 0xf9c00000 0 0x00300000>;
-+    };
-+...
-diff --git a/Documentation/devicetree/bindings/pci/amlogic,meson-pcie.txt b/Documentation/devicetree/bindings/pci/amlogic,meson-pcie.txt
-deleted file mode 100644
-index c3a75ac6e59d..000000000000
---- a/Documentation/devicetree/bindings/pci/amlogic,meson-pcie.txt
-+++ /dev/null
-@@ -1,70 +0,0 @@
--Amlogic Meson AXG DWC PCIE SoC controller
--
--Amlogic Meson PCIe host controller is based on the Synopsys DesignWare PCI core.
--It shares common functions with the PCIe DesignWare core driver and
--inherits common properties defined in
--Documentation/devicetree/bindings/pci/snps,dw-pcie.yaml.
--
--Additional properties are described here:
--
--Required properties:
--- compatible:
--	should contain :
--	- "amlogic,axg-pcie" for AXG SoC Family
--	- "amlogic,g12a-pcie" for G12A SoC Family
--	to identify the core.
--- reg:
--	should contain the configuration address space.
--- reg-names: Must be
--	- "elbi"	External local bus interface registers
--	- "cfg"		Meson specific registers
--	- "config"	PCIe configuration space
--- reset-gpios: The GPIO to generate PCIe PERST# assert and deassert signal.
--- clocks: Must contain an entry for each entry in clock-names.
--- clock-names: Must include the following entries:
--	- "pclk"       PCIe GEN 100M PLL clock
--	- "port"       PCIe_x(A or B) RC clock gate
--	- "general"    PCIe Phy clock
--- resets: phandle to the reset lines.
--- reset-names: must contain "port" and "apb"
--       - "port"        Port A or B reset
--       - "apb"         Share APB reset
--- phys: should contain a phandle to the PCIE phy
--- phy-names: must contain "pcie"
--
--- device_type:
--	should be "pci". As specified in snps,dw-pcie.yaml
--
--
--Example configuration:
--
--	pcie: pcie@f9800000 {
--			compatible = "amlogic,axg-pcie", "snps,dw-pcie";
--			reg = <0x0 0xf9800000 0x0 0x400000
--					0x0 0xff646000 0x0 0x2000
--					0x0 0xf9f00000 0x0 0x100000>;
--			reg-names = "elbi", "cfg", "config";
--			reset-gpios = <&gpio GPIOX_19 GPIO_ACTIVE_HIGH>;
--			interrupts = <GIC_SPI 177 IRQ_TYPE_EDGE_RISING>;
--			#interrupt-cells = <1>;
--			interrupt-map-mask = <0 0 0 0>;
--			interrupt-map = <0 0 0 0 &gic GIC_SPI 179 IRQ_TYPE_EDGE_RISING>;
--			bus-range = <0x0 0xff>;
--			#address-cells = <3>;
--			#size-cells = <2>;
--			device_type = "pci";
--			ranges = <0x82000000 0 0 0x0 0xf9c00000 0 0x00300000>;
--
--			clocks = <&clkc CLKID_USB
--					&clkc CLKID_PCIE_A
--					&clkc CLKID_PCIE_CML_EN0>;
--			clock-names = "general",
--					"pclk",
--					"port";
--			resets = <&reset RESET_PCIE_A>,
--				<&reset RESET_PCIE_APB>;
--			reset-names = "port",
--					"apb";
--			phys = <&pcie_phy>;
--			phy-names = "pcie";
--	};
+On Mon, Jan 23, 2023 at 09:45:49AM +0100, Hans Verkuil wrote:
+> Commit a10b21532574 ("media: vb2: add (un)prepare_streaming queue ops") moved
+> up the q->streaming = 1 assignment to before the call to vb2_start_streaming().
+> 
+> This does make sense since q->streaming indicates that VIDIOC_STREAMON is called,
+> and the call to start_streaming happens either at that time or later if
+> q->min_buffers_needed > 0. So q->streaming should be 1 before start_streaming
+> is called.
+> 
+> However, it turned out that some drivers use vb2_is_streaming() in buf_queue,
+> and if q->min_buffers_needed == 0, then that will now return true instead of
+> false.
+> 
+> So for the time being revert to the original behavior.
+> 
+> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> Fixes: a10b21532574 ("media: vb2: add (un)prepare_streaming queue ops")
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+
+I'll test it shortly to see if it fixes the VSP1 breakage.
+
+> ---
+> diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
+> index fc3758a5bc1c..53e495223ea0 100644
+> --- a/drivers/media/common/videobuf2/videobuf2-core.c
+> +++ b/drivers/media/common/videobuf2/videobuf2-core.c
+> @@ -2149,8 +2149,6 @@ int vb2_core_streamon(struct vb2_queue *q, unsigned int type)
+>  	if (ret)
+>  		return ret;
+> 
+> -	q->streaming = 1;
+> -
+>  	/*
+>  	 * Tell driver to start streaming provided sufficient buffers
+>  	 * are available.
+> @@ -2161,12 +2159,13 @@ int vb2_core_streamon(struct vb2_queue *q, unsigned int type)
+>  			goto unprepare;
+>  	}
+> 
+> +	q->streaming = 1;
+> +
+>  	dprintk(q, 3, "successful\n");
+>  	return 0;
+> 
+>  unprepare:
+>  	call_void_qop(q, unprepare_streaming, q);
+> -	q->streaming = 0;
+>  	return ret;
+>  }
+>  EXPORT_SYMBOL_GPL(vb2_core_streamon);
 
 -- 
-2.34.1
+Regards,
 
+Laurent Pinchart
