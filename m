@@ -2,227 +2,124 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EFF8F678BA2
-	for <lists+linux-media@lfdr.de>; Tue, 24 Jan 2023 00:03:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EF606678C46
+	for <lists+linux-media@lfdr.de>; Tue, 24 Jan 2023 00:55:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232088AbjAWXDW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 23 Jan 2023 18:03:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37380 "EHLO
+        id S231671AbjAWXzL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 23 Jan 2023 18:55:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33558 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232049AbjAWXDV (ORCPT
+        with ESMTP id S231910AbjAWXzJ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 23 Jan 2023 18:03:21 -0500
-Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [IPv6:2a0b:5c81:1c1::37])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2CC75CF;
-        Mon, 23 Jan 2023 15:02:56 -0800 (PST)
-Received: from hillosipuli.retiisi.eu (82-181-192-243.bb.dnainternet.fi [82.181.192.243])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: sailus)
-        by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 6B3441B001B6;
-        Tue, 24 Jan 2023 01:02:52 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
-        t=1674514972;
+        Mon, 23 Jan 2023 18:55:09 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E8A062CFD8
+        for <linux-media@vger.kernel.org>; Mon, 23 Jan 2023 15:54:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1674518061;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=SdBaEzr7j1gDVD9iWeHG1WuRGZa27boW/e/GLhdfJ/Y=;
-        b=hNnpjGda4cF0MQHO16dyWg1YS7ztRoH++B5lUJEApTpAL717Zv4eYVvRrntGB3+nEEaIXt
-        6LFGFIc0bgCnESFL08TMZG6TAPokij/MNvg2Fs15goxSJQbfYXVoDsZw7KUoh1jjmMg7SA
-        z7i7yb4xaOVJFuvuUweCdf3qWc8rFcpnj7X9g/9nnODQLc2D8ecVhfBrRceIhMCmwa9PTz
-        3hkCrd+jTpZFp2B9cz/y/vgwcFIVcIzzxAeMziJjd6QJ3cj8kE+owAZAnZrxxejfvEAmYz
-        kTMokF+stu/NoBx9S/iSxGygK3jWv+TshNdev3PFyxcCdKWCergG2TdmFJaQ5Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-        s=lahtoruutu; t=1674514972;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=SdBaEzr7j1gDVD9iWeHG1WuRGZa27boW/e/GLhdfJ/Y=;
-        b=SBdnssJgwx/+gWpmxyjwZPXSiBqtXzJrw0aWDf9VDPF029aJc33VaYyg7FDSi9PF91i3ef
-        4sHvmw8ucUC60fPrGPpdFqmpEC0DY/A1DqNMVWoeNZkARqHuqgneg/Txy5/o4VO4eyYZte
-        6ik7ykclLNznyoXKDXZMZ/5y7F38EcrTwSWTVJLjwo1S7lnyN164hr2+tMbiVXbVm024TL
-        t1Dt1EdMlG7V2Dy+LWrJxuGtXUj/nN5DOM4gSKzRA+bOl+Y50guz/DmW59iKx7o8b8BAnu
-        gG3BZSF23XLt0ioNez7fihMbdLZkGoXOjpi4zL+VXEvTkqUE9CiRWH7BvL+AgA==
-ARC-Authentication-Results: i=1;
-        ORIGINATING;
-        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1674514972; a=rsa-sha256;
-        cv=none;
-        b=KQROd3yXYLpKjCPiFME6s30HhTgl8+qKg8GZlg4DmpCLOmn2UwQ/k2SJkDRGLGtm1yNeiV
-        YGsnfD/U9hR270yfi/LmEJcfI4Agewv6KMltZz18PHocUDahw3Yb2fG9ZD0eoQNrXfNEAB
-        gW/rDqgyHi+2kYwUjAdlGVCJL4un4fqMImbV5kr3VpnrpY7s2JoKBSMrQ+DEDHzq2EhhGR
-        UmD1pufX6rD2IR8I3k6FIe/YcWOH/W15UOALHBkQPOGpL60JOLbcfA7plezHz7rue+QW3c
-        lCQZFexuu9A9qt/LIdyArtVaLrN/2BxqAVcQKiPuBgUZGsIZUHDT2C1k0QZ8Tw==
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 6FCB7634C91;
-        Tue, 24 Jan 2023 01:02:51 +0200 (EET)
-Date:   Tue, 24 Jan 2023 01:02:51 +0200
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     shravan kumar <shravan.chippa@microchip.com>
-Cc:     paul.j.murphy@intel.com, daniele.alessandrelli@intel.com,
-        mchehab@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-        shawnguo@kernel.org, s.hauer@pengutronix.de, festevam@gmail.com,
-        kernel@pengutronix.de, linux-imx@nxp.com,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH RESEND v10 5/5] media: i2c: imx334: update pixel and link
- frequency
-Message-ID: <Y88SG5ndXjQ9AjZg@valkosipuli.retiisi.eu>
-References: <20230121033713.3535351-1-shravan.chippa@microchip.com>
- <20230121033713.3535351-6-shravan.chippa@microchip.com>
+        bh=lNxk5DC/yGhXC60vpQiNIfe/JhxgHiPlqLfRlRn3ULE=;
+        b=Bz7Y73GlIuv8dRCg2mv/4HTK+pPUrnA991HgEWeLf3W18ldBMeHmyvb2kRzn38XrWF48mm
+        uh5QaUfm9G5MFswCoxPayJCyuYmymEBYwrz6AdSn/D03JU5ceGnIoCQX+2FMnjgSRhMFqk
+        0tM4AYoT0DJ6KgIcTKiMWVPDXcgHedA=
+Received: from mail-lf1-f69.google.com (mail-lf1-f69.google.com
+ [209.85.167.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-610-nL2ZBYJiOduuWyR4XIbNiw-1; Mon, 23 Jan 2023 18:54:19 -0500
+X-MC-Unique: nL2ZBYJiOduuWyR4XIbNiw-1
+Received: by mail-lf1-f69.google.com with SMTP id u13-20020a056512128d00b004b53d7241f6so5670918lfs.4
+        for <linux-media@vger.kernel.org>; Mon, 23 Jan 2023 15:54:19 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=lNxk5DC/yGhXC60vpQiNIfe/JhxgHiPlqLfRlRn3ULE=;
+        b=i/3do4KShiyvhc7OSqfQechbQFh3uYyhvk4qmP0QAPDuEjxsTDUkgqynQqDsf8hPrt
+         lqU6/KWCEUnXaBm5o1LDJxDGEIIRZXy1e/G4v/XeJquFlxMLU3M3DEzf4cs4W5v3kshC
+         tZBg0VynhAVH/epViwMHClPdFYZg2bNNZ72y9NpwzmzUDujf82NK8Xozof+oOVtB0OpT
+         EZe37hEUNHrDvLnzX9H2p9ZtdB9syu51g8jrjPmBx9XhZomzBOwMdnox2hrXMwlhfp3V
+         yQLH68CETfxZW6c908+r2L/HrLhztIpYTE8Pb2PXddKIq6DaJpV71aEJs9LfTIpRbMFl
+         enxQ==
+X-Gm-Message-State: AFqh2kqlr2CCENcvlnWZplMyL0x2SJUApQOYFa+5sD7CbjOjMQtytY+e
+        pWu6/K42z0RV4DyYwmEm6YQ+xMtZJkFtal6zQW0VGL+Krs6Q9LfILnGAl/SxccyIGWnKEzTJPQc
+        nYwtGUrvFTX/uDZKkzU8adCt0C3LV7sUmkB7peGI=
+X-Received: by 2002:a2e:9446:0:b0:283:9a0a:a0f7 with SMTP id o6-20020a2e9446000000b002839a0aa0f7mr1967697ljh.81.1674518058540;
+        Mon, 23 Jan 2023 15:54:18 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXuNP8GPUIGSSJRf1EmIBEmZDEGtcqTHSreBbrxLLxfFznJMgOAqy0X72jFZfRkQokwUrc7DclRouJIA55tCoMM=
+X-Received: by 2002:a2e:9446:0:b0:283:9a0a:a0f7 with SMTP id
+ o6-20020a2e9446000000b002839a0aa0f7mr1967695ljh.81.1674518058318; Mon, 23 Jan
+ 2023 15:54:18 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230121033713.3535351-6-shravan.chippa@microchip.com>
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+References: <nn8qWh16AviRPuLVOg_I-Nn747ncRsuJsZU_VZHvKhxp2hoFBCFsAfezBDkiwM-yn-CXAW_Vos121VKtETNsSZU3EuCuVzcgHBnnWNnww-g=@emersion.fr>
+ <Y86skCbxY5kZglo8@pendragon.ideasonboard.com> <CA+hFU4z-3iotNkUVr=aHrQ9GFNnGLrvL2B1isnx2x2UnnO+qXA@mail.gmail.com>
+ <B55u__QnPBXyk6SrEEYETx1ugeGjZHT9Fva6b9fpZazX-v7nTFJqnKH9Y7OebmOTQ51zffSYMnrfnfYutoWSLzpt-bWk2K8V69Ru7327VlM=@emersion.fr>
+In-Reply-To: <B55u__QnPBXyk6SrEEYETx1ugeGjZHT9Fva6b9fpZazX-v7nTFJqnKH9Y7OebmOTQ51zffSYMnrfnfYutoWSLzpt-bWk2K8V69Ru7327VlM=@emersion.fr>
+From:   Sebastian Wick <sebastian.wick@redhat.com>
+Date:   Tue, 24 Jan 2023 00:54:07 +0100
+Message-ID: <CA+hFU4wQ14fn-giuL6oxMmXfg0WPPrXcHHeT5-7tagP54xuXFg@mail.gmail.com>
+Subject: Re: [ANNOUNCE] pixfmtdb
+To:     Simon Ser <contact@emersion.fr>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-media@vger.kernel.org,
+        DRI Development <dri-devel@lists.freedesktop.org>,
+        wayland-devel <wayland-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Shravan,
+On Mon, Jan 23, 2023 at 11:43 PM Simon Ser <contact@emersion.fr> wrote:
+>
+> On Monday, January 23rd, 2023 at 21:25, Sebastian Wick <sebastian.wick@redhat.com> wrote:
+>
+> > Why is the TF defined for GL formats and both the primaries and TF for
+> > Vulkan formats? The only exception here should be sRGB formats. Where
+> > did you get the information from?
+>
+> This is what upstream dfdutils does [1]. Can you explain why you think
+> it should be undefined instead of linear?
 
-On Sat, Jan 21, 2023 at 09:07:13AM +0530, shravan kumar wrote:
-> From: Shravan Chippa <shravan.chippa@microchip.com>
-> 
-> Update pixel_rate and link frequency for 1920x1080@30
-> while changing mode.
-> 
-> Add dummy ctrl cases for pixel_rate and link frequency
-> to avoid error while changing the modes dynamically.
-> 
-> Add support to handle multiple link frequencies.
-> 
-> Suggested-by: Sakari Ailus <sakari.ailus@iki.fi>
-> Signed-off-by: Shravan Chippa <shravan.chippa@microchip.com>
-> ---
->  drivers/media/i2c/imx334.c | 41 ++++++++++++++++++++++++++++----------
->  1 file changed, 30 insertions(+), 11 deletions(-)
-> 
-> diff --git a/drivers/media/i2c/imx334.c b/drivers/media/i2c/imx334.c
-> index 309c706114d2..62b104eaa437 100644
-> --- a/drivers/media/i2c/imx334.c
-> +++ b/drivers/media/i2c/imx334.c
-> @@ -49,7 +49,8 @@
->  #define IMX334_INCLK_RATE	24000000
->  
->  /* CSI2 HW configuration */
-> -#define IMX334_LINK_FREQ	891000000
-> +#define IMX334_LINK_FREQ_891M	891000000
-> +#define IMX334_LINK_FREQ_445M	445500000
->  #define IMX334_NUM_DATA_LANES	4
->  
->  #define IMX334_REG_MIN		0x00
-> @@ -139,12 +140,14 @@ struct imx334 {
->  	u32 vblank;
->  	const struct imx334_mode *cur_mode;
->  	struct mutex mutex;
-> +	unsigned long menu_skip_mask;
->  	u32 cur_code;
->  	bool streaming;
->  };
->  
->  static const s64 link_freq[] = {
-> -	IMX334_LINK_FREQ,
-> +	IMX334_LINK_FREQ_891M,
-> +	IMX334_LINK_FREQ_445M,
->  };
->  
->  /* Sensor mode registers for 1920x1080@30fps */
-> @@ -468,7 +471,7 @@ static const struct imx334_mode supported_modes[] = {
->  		.vblank_min = 45,
->  		.vblank_max = 132840,
->  		.pclk = 297000000,
-> -		.link_freq_idx = 0,
-> +		.link_freq_idx = 1,
->  		.reg_list = {
->  			.num_of_regs = ARRAY_SIZE(mode_1920x1080_regs),
->  			.regs = mode_1920x1080_regs,
-> @@ -598,6 +601,11 @@ static int imx334_update_controls(struct imx334 *imx334,
->  	if (ret)
->  		return ret;
->  
-> +	ret = __v4l2_ctrl_modify_range(imx334->pclk_ctrl, mode->pclk,
-> +				       mode->pclk, 1, mode->pclk);
-> +	if (ret)
-> +		return ret;
-> +
->  	ret = __v4l2_ctrl_modify_range(imx334->hblank_ctrl, mode->hblank,
->  				       mode->hblank, 1, mode->hblank);
->  	if (ret)
-> @@ -698,6 +706,8 @@ static int imx334_set_ctrl(struct v4l2_ctrl *ctrl)
->  		pm_runtime_put(imx334->dev);
->  
->  		break;
-> +	case V4L2_CID_PIXEL_RATE:
-> +	case V4L2_CID_LINK_FREQ:
->  	case V4L2_CID_HBLANK:
->  		ret = 0;
->  		break;
-> @@ -1047,7 +1057,7 @@ static int imx334_parse_hw_config(struct imx334 *imx334)
->  	struct fwnode_handle *ep;
->  	unsigned long rate;
->  	int ret;
-> -	int i;
-> +	int i, j;
+The channels have no meaning. You can put whatever you want in there.
+It doesn't have to be linear, it doesn't have to be colors and
+especially not colors with specific primaries. It's only when it's
+used to form an image that the TF and primaries are known. Vulkan
+specifically requires you to explicitly provide this information to
+the WSI and YCC samplers (generally everywhere where knowing them is
+required) and never assumes that certain pixel formats imply certain
+TFs and primaries (exception being the sRGB variants).
 
-unsigned int would be nicer.
 
->  
->  	if (!fwnode)
->  		return -ENXIO;
-> @@ -1097,11 +1107,20 @@ static int imx334_parse_hw_config(struct imx334 *imx334)
->  		goto done_endpoint_free;
->  	}
->  
-> -	for (i = 0; i < bus_cfg.nr_of_link_frequencies; i++)
-> -		if (bus_cfg.link_frequencies[i] == IMX334_LINK_FREQ)
-> +	for (i = 0; i < bus_cfg.nr_of_link_frequencies; i++) {
-> +		for (j = 0; j < ARRAY_SIZE(link_freq); j++) {
-> +			if (bus_cfg.link_frequencies[i] == link_freq[j]) {
-> +				set_bit(j, &imx334->menu_skip_mask);
+(See also https://registry.khronos.org/vulkan/specs/1.3-extensions/html/vkspec.html#_issues_26,
+Q 23)
 
-Is there a guarantee that you'll only be using the modes with the listed
-frequencies? I don't see one but I might have missed it.
+The problem here seems to be that the Data Format spec describes more
+than the pixel format. If you want to share an image, the TF and
+primaries are essential but they are not an inherent part of the pixel
+format of the image. So yeah, I think what dfdutils does is...
+probably not wrong but not what you're after.
 
-> +				break;
-> +			}
-> +		}
-> +
-> +		if (j == ARRAY_SIZE(link_freq)) {
-> +			ret = dev_err_probe(imx334->dev, -EINVAL,
-> +					    "no supported link freq found\n");
->  			goto done_endpoint_free;
-> -
-> -	ret = -EINVAL;
-> +		}
-> +	}
->  
->  done_endpoint_free:
->  	v4l2_fwnode_endpoint_free(&bus_cfg);
-> @@ -1232,10 +1251,10 @@ static int imx334_init_controls(struct imx334 *imx334)
->  	imx334->link_freq_ctrl = v4l2_ctrl_new_int_menu(ctrl_hdlr,
->  							&imx334_ctrl_ops,
->  							V4L2_CID_LINK_FREQ,
-> -							ARRAY_SIZE(link_freq) -
-> -							1,
-> -							mode->link_freq_idx,
-> +							__fls(imx334->menu_skip_mask),
-> +							__ffs(imx334->menu_skip_mask),
->  							link_freq);
-> +
->  	if (imx334->link_freq_ctrl)
->  		imx334->link_freq_ctrl->flags |= V4L2_CTRL_FLAG_READ_ONLY;
->  
+>
+> I was wondering what to do for DRM formats regarding these. I think it
+> would be worthwhile to do like Vulkan: set TF = linear, primaries =
+> BT.709, pre-multiplied alpha = yes. These are the things KMS assume
+> when there is no override (ie, when there is no KMS property saying
+> otherwise).
 
--- 
-Kind regards,
+Please no. All undefined is absolutely the right thing to do. Adding
+any more meaning to pixel formats is a horrible idea. The KMS
+properties are also not an override, they describe the image and the
+description has default values.
 
-Sakari Ailus
+>
+> [1]: https://github.com/KhronosGroup/dfdutils/blob/5cd41cbdf63e80b00c085c6906a1152709e4c0f2/createdfd.c#L47
+>
+
