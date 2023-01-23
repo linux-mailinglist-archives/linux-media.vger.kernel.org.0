@@ -2,124 +2,193 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EF606678C46
-	for <lists+linux-media@lfdr.de>; Tue, 24 Jan 2023 00:55:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C76CC678C5A
+	for <lists+linux-media@lfdr.de>; Tue, 24 Jan 2023 00:59:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231671AbjAWXzL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 23 Jan 2023 18:55:11 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33558 "EHLO
+        id S231584AbjAWX7k (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 23 Jan 2023 18:59:40 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37448 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231910AbjAWXzJ (ORCPT
+        with ESMTP id S229476AbjAWX7j (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 23 Jan 2023 18:55:09 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E8A062CFD8
-        for <linux-media@vger.kernel.org>; Mon, 23 Jan 2023 15:54:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1674518061;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=lNxk5DC/yGhXC60vpQiNIfe/JhxgHiPlqLfRlRn3ULE=;
-        b=Bz7Y73GlIuv8dRCg2mv/4HTK+pPUrnA991HgEWeLf3W18ldBMeHmyvb2kRzn38XrWF48mm
-        uh5QaUfm9G5MFswCoxPayJCyuYmymEBYwrz6AdSn/D03JU5ceGnIoCQX+2FMnjgSRhMFqk
-        0tM4AYoT0DJ6KgIcTKiMWVPDXcgHedA=
-Received: from mail-lf1-f69.google.com (mail-lf1-f69.google.com
- [209.85.167.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-610-nL2ZBYJiOduuWyR4XIbNiw-1; Mon, 23 Jan 2023 18:54:19 -0500
-X-MC-Unique: nL2ZBYJiOduuWyR4XIbNiw-1
-Received: by mail-lf1-f69.google.com with SMTP id u13-20020a056512128d00b004b53d7241f6so5670918lfs.4
-        for <linux-media@vger.kernel.org>; Mon, 23 Jan 2023 15:54:19 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=lNxk5DC/yGhXC60vpQiNIfe/JhxgHiPlqLfRlRn3ULE=;
-        b=i/3do4KShiyvhc7OSqfQechbQFh3uYyhvk4qmP0QAPDuEjxsTDUkgqynQqDsf8hPrt
-         lqU6/KWCEUnXaBm5o1LDJxDGEIIRZXy1e/G4v/XeJquFlxMLU3M3DEzf4cs4W5v3kshC
-         tZBg0VynhAVH/epViwMHClPdFYZg2bNNZ72y9NpwzmzUDujf82NK8Xozof+oOVtB0OpT
-         EZe37hEUNHrDvLnzX9H2p9ZtdB9syu51g8jrjPmBx9XhZomzBOwMdnox2hrXMwlhfp3V
-         yQLH68CETfxZW6c908+r2L/HrLhztIpYTE8Pb2PXddKIq6DaJpV71aEJs9LfTIpRbMFl
-         enxQ==
-X-Gm-Message-State: AFqh2kqlr2CCENcvlnWZplMyL0x2SJUApQOYFa+5sD7CbjOjMQtytY+e
-        pWu6/K42z0RV4DyYwmEm6YQ+xMtZJkFtal6zQW0VGL+Krs6Q9LfILnGAl/SxccyIGWnKEzTJPQc
-        nYwtGUrvFTX/uDZKkzU8adCt0C3LV7sUmkB7peGI=
-X-Received: by 2002:a2e:9446:0:b0:283:9a0a:a0f7 with SMTP id o6-20020a2e9446000000b002839a0aa0f7mr1967697ljh.81.1674518058540;
-        Mon, 23 Jan 2023 15:54:18 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXuNP8GPUIGSSJRf1EmIBEmZDEGtcqTHSreBbrxLLxfFznJMgOAqy0X72jFZfRkQokwUrc7DclRouJIA55tCoMM=
-X-Received: by 2002:a2e:9446:0:b0:283:9a0a:a0f7 with SMTP id
- o6-20020a2e9446000000b002839a0aa0f7mr1967695ljh.81.1674518058318; Mon, 23 Jan
- 2023 15:54:18 -0800 (PST)
+        Mon, 23 Jan 2023 18:59:39 -0500
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 731042CC7D
+        for <linux-media@vger.kernel.org>; Mon, 23 Jan 2023 15:59:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1674518374; x=1706054374;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=QAMUQ1C9nh+0FsG2N/002dB6YDeAObemhBwJPCkLwIw=;
+  b=gbxv5ZJtIJsRiSACq5arM8ns1MOtjSTgKMquouDvNRD6JXRehHiJLbf2
+   uyhgJfWd4UD4TeGxCyZTmgP1A4CgrcmyCHLHgxXzWhr6/LVSNak2yuqnR
+   tKwfBOgOCEw8LfiOAElrSaf6HtRaQ4GVUmA9UkelYijlKyOUPUtJM0mXr
+   1zYATmgIXGWzQUK4M6GnXMvyRmciX81YKJ/Cvkst9TalbarX2HPTawIWr
+   fON+IQmOBQkR6L//emmjrXMS44ATAnDn1mltatsul6VoaIGyTSq492dIT
+   HUMZdzrSt9oaNiduM/+prsDFY52oskDCtLkuSaAd0sFYT8o/6k7ufA7tq
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="390698556"
+X-IronPort-AV: E=Sophos;i="5.97,240,1669104000"; 
+   d="scan'208";a="390698556"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2023 15:59:33 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="694139295"
+X-IronPort-AV: E=Sophos;i="5.97,240,1669104000"; 
+   d="scan'208";a="694139295"
+Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
+  by orsmga001.jf.intel.com with ESMTP; 23 Jan 2023 15:59:27 -0800
+Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1pK6ik-0005xg-39;
+        Mon, 23 Jan 2023 23:59:27 +0000
+Date:   Tue, 24 Jan 2023 07:58:37 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Christian =?iso-8859-1?Q?K=F6nig?= 
+        <ckoenig.leichtzumerken@gmail.com>, l.stach@pengutronix.de,
+        nicolas@ndufresne.ca, ppaalanen@gmail.com, sumit.semwal@linaro.org,
+        daniel@ffwll.ch, robdclark@gmail.com, tfiga@chromium.org,
+        sebastian.wick@redhat.com, hverkuil@xs4all.nl,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+        linux-media@vger.kernel.org, benjamin.gaignard@collabora.com,
+        lmark@codeaurora.org, labbott@redhat.com, Brian.Starkey@arm.com,
+        jstultz@google.com, laurent.pinchart@ideasonboard.com,
+        mchehab@kernel.org
+Cc:     llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH 2/2] media: uvcvideo: expose dma-heap hint to userspace
+Message-ID: <202301240717.tim1ggHo-lkp@intel.com>
+References: <20230123123756.401692-3-christian.koenig@amd.com>
 MIME-Version: 1.0
-References: <nn8qWh16AviRPuLVOg_I-Nn747ncRsuJsZU_VZHvKhxp2hoFBCFsAfezBDkiwM-yn-CXAW_Vos121VKtETNsSZU3EuCuVzcgHBnnWNnww-g=@emersion.fr>
- <Y86skCbxY5kZglo8@pendragon.ideasonboard.com> <CA+hFU4z-3iotNkUVr=aHrQ9GFNnGLrvL2B1isnx2x2UnnO+qXA@mail.gmail.com>
- <B55u__QnPBXyk6SrEEYETx1ugeGjZHT9Fva6b9fpZazX-v7nTFJqnKH9Y7OebmOTQ51zffSYMnrfnfYutoWSLzpt-bWk2K8V69Ru7327VlM=@emersion.fr>
-In-Reply-To: <B55u__QnPBXyk6SrEEYETx1ugeGjZHT9Fva6b9fpZazX-v7nTFJqnKH9Y7OebmOTQ51zffSYMnrfnfYutoWSLzpt-bWk2K8V69Ru7327VlM=@emersion.fr>
-From:   Sebastian Wick <sebastian.wick@redhat.com>
-Date:   Tue, 24 Jan 2023 00:54:07 +0100
-Message-ID: <CA+hFU4wQ14fn-giuL6oxMmXfg0WPPrXcHHeT5-7tagP54xuXFg@mail.gmail.com>
-Subject: Re: [ANNOUNCE] pixfmtdb
-To:     Simon Ser <contact@emersion.fr>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-media@vger.kernel.org,
-        DRI Development <dri-devel@lists.freedesktop.org>,
-        wayland-devel <wayland-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230123123756.401692-3-christian.koenig@amd.com>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Jan 23, 2023 at 11:43 PM Simon Ser <contact@emersion.fr> wrote:
->
-> On Monday, January 23rd, 2023 at 21:25, Sebastian Wick <sebastian.wick@redhat.com> wrote:
->
-> > Why is the TF defined for GL formats and both the primaries and TF for
-> > Vulkan formats? The only exception here should be sRGB formats. Where
-> > did you get the information from?
->
-> This is what upstream dfdutils does [1]. Can you explain why you think
-> it should be undefined instead of linear?
+Hi Christian,
 
-The channels have no meaning. You can put whatever you want in there.
-It doesn't have to be linear, it doesn't have to be colors and
-especially not colors with specific primaries. It's only when it's
-used to form an image that the TF and primaries are known. Vulkan
-specifically requires you to explicitly provide this information to
-the WSI and YCC samplers (generally everywhere where knowing them is
-required) and never assumes that certain pixel formats imply certain
-TFs and primaries (exception being the sRGB variants).
+I love your patch! Perhaps something to improve:
+
+[auto build test WARNING on drm-misc/drm-misc-next]
+[also build test WARNING on media-tree/master drm-tip/drm-tip linus/master v6.2-rc5]
+[cannot apply to next-20230123]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Christian-K-nig/media-uvcvideo-expose-dma-heap-hint-to-userspace/20230123-213836
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20230123123756.401692-3-christian.koenig%40amd.com
+patch subject: [PATCH 2/2] media: uvcvideo: expose dma-heap hint to userspace
+config: hexagon-randconfig-r032-20230123 (https://download.01.org/0day-ci/archive/20230124/202301240717.tim1ggHo-lkp@intel.com/config)
+compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 4196ca3278f78c6e19246e54ab0ecb364e37d66a)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/adc04dccd892eec7f84c6ec112b48df376172e48
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Christian-K-nig/media-uvcvideo-expose-dma-heap-hint-to-userspace/20230123-213836
+        git checkout adc04dccd892eec7f84c6ec112b48df376172e48
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash drivers/media/usb/uvc/
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+
+All warnings (new ones prefixed by >>):
+
+   In file included from drivers/media/usb/uvc/uvc_driver.c:10:
+>> include/linux/dma-heap.h:92:5: warning: no previous prototype for function 'dma_heap_create_device_link' [-Wmissing-prototypes]
+   int dma_heap_create_device_link(struct device *dev, const char *heap)
+       ^
+   include/linux/dma-heap.h:92:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int dma_heap_create_device_link(struct device *dev, const char *heap)
+   ^
+   static 
+>> include/linux/dma-heap.h:97:6: warning: no previous prototype for function 'dma_heap_remove_device_link' [-Wmissing-prototypes]
+   void dma_heap_remove_device_link(struct device *dev)
+        ^
+   include/linux/dma-heap.h:97:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   void dma_heap_remove_device_link(struct device *dev)
+   ^
+   static 
+   In file included from drivers/media/usb/uvc/uvc_driver.c:16:
+   In file included from include/linux/usb.h:16:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __raw_readb(PCI_IOBASE + addr);
+                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+                                                     ^
+   In file included from drivers/media/usb/uvc/uvc_driver.c:16:
+   In file included from include/linux/usb.h:16:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+                                                     ^
+   In file included from drivers/media/usb/uvc/uvc_driver.c:16:
+   In file included from include/linux/usb.h:16:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writeb(value, PCI_IOBASE + addr);
+                               ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   8 warnings generated.
 
 
-(See also https://registry.khronos.org/vulkan/specs/1.3-extensions/html/vkspec.html#_issues_26,
-Q 23)
+vim +/dma_heap_create_device_link +92 include/linux/dma-heap.h
 
-The problem here seems to be that the Data Format spec describes more
-than the pixel format. If you want to share an image, the TF and
-primaries are essential but they are not an inherent part of the pixel
-format of the image. So yeah, I think what dfdutils does is...
-probably not wrong but not what you're after.
+4ce5c5c0cf31f4 Christian König 2023-01-23   91  
+4ce5c5c0cf31f4 Christian König 2023-01-23  @92  int dma_heap_create_device_link(struct device *dev, const char *heap)
+4ce5c5c0cf31f4 Christian König 2023-01-23   93  {
+4ce5c5c0cf31f4 Christian König 2023-01-23   94  	return 0;
+4ce5c5c0cf31f4 Christian König 2023-01-23   95  }
+4ce5c5c0cf31f4 Christian König 2023-01-23   96  
+4ce5c5c0cf31f4 Christian König 2023-01-23  @97  void dma_heap_remove_device_link(struct device *dev)
+4ce5c5c0cf31f4 Christian König 2023-01-23   98  {
+4ce5c5c0cf31f4 Christian König 2023-01-23   99  }
+4ce5c5c0cf31f4 Christian König 2023-01-23  100  
 
->
-> I was wondering what to do for DRM formats regarding these. I think it
-> would be worthwhile to do like Vulkan: set TF = linear, primaries =
-> BT.709, pre-multiplied alpha = yes. These are the things KMS assume
-> when there is no override (ie, when there is no KMS property saying
-> otherwise).
-
-Please no. All undefined is absolutely the right thing to do. Adding
-any more meaning to pixel formats is a horrible idea. The KMS
-properties are also not an override, they describe the image and the
-description has default values.
-
->
-> [1]: https://github.com/KhronosGroup/dfdutils/blob/5cd41cbdf63e80b00c085c6906a1152709e4c0f2/createdfd.c#L47
->
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
