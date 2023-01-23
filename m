@@ -2,42 +2,42 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C701F677BB7
-	for <lists+linux-media@lfdr.de>; Mon, 23 Jan 2023 13:53:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1392A677BB8
+	for <lists+linux-media@lfdr.de>; Mon, 23 Jan 2023 13:53:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231701AbjAWMxD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 23 Jan 2023 07:53:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54784 "EHLO
+        id S231776AbjAWMxG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 23 Jan 2023 07:53:06 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54782 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231529AbjAWMxB (ORCPT
+        with ESMTP id S231529AbjAWMxF (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 23 Jan 2023 07:53:01 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C2B055B9C
+        Mon, 23 Jan 2023 07:53:05 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5F7183A97
         for <linux-media@vger.kernel.org>; Mon, 23 Jan 2023 04:52:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1674478339;
+        s=mimecast20190719; t=1674478338;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=7EXKqOmQ6tBEmWnWsUTo/7iQPF4r/k3m/kS7MniM/So=;
-        b=HJ6yDDzxajEbl+2pBupvb6R3Mc1ckpx9+P1ndtaVTaRFVFR+Kf+JcTJ+MwOe0K4XuMHVqp
-        0zexaXtEcE/dDyRyC3gL9ox8zGZcrJTaAoBqUmGkHMw2wfDHnF1+on2i+35QP2ClTevbc7
-        P+A19yZ1XlO8Ncd2b+AEDsz30CIBJco=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=ZB/ISPaSIj9SIRxYCE7mVvFn8pcCnYATENe+7tfG6AU=;
+        b=aivVQnF70ne9UOxzbukKboc1agZLrdEbpyyCTXj5Rw2s2j3J7cdSEjntfz15/OIWQL6hX7
+        1L8JfCgrV7k7yNtBlbzm8rTwmh6e4G0AAzkoj2Yzj573KjoqluF9FLSQF7G28VRNjLieKO
+        x3NVEBFHP6d2GyUSJyT1SH2MQrGmL4E=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-220-AtlCwY_GNfCdmNmcSjlzrg-1; Mon, 23 Jan 2023 07:52:13 -0500
-X-MC-Unique: AtlCwY_GNfCdmNmcSjlzrg-1
+ us-mta-655-Ef0s4yufOy6eoN1_SZ7x1Q-1; Mon, 23 Jan 2023 07:52:16 -0500
+X-MC-Unique: Ef0s4yufOy6eoN1_SZ7x1Q-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com [10.11.54.8])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 19EFA877CA3;
-        Mon, 23 Jan 2023 12:52:13 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 148223C02533;
+        Mon, 23 Jan 2023 12:52:16 +0000 (UTC)
 Received: from x1.localdomain.com (unknown [10.39.194.13])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 3DB33C15BA0;
-        Mon, 23 Jan 2023 12:52:10 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 7AAEDC15BAD;
+        Mon, 23 Jan 2023 12:52:13 +0000 (UTC)
 From:   Hans de Goede <hdegoede@redhat.com>
 To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Sakari Ailus <sakari.ailus@linux.intel.com>
@@ -48,10 +48,11 @@ Cc:     Hans de Goede <hdegoede@redhat.com>,
         Nable <nable.maininbox@googlemail.com>,
         andrey.i.trufanov@gmail.com, Fabio Aiuto <fabioaiuto83@gmail.com>,
         linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        Arnd Bergmann <arnd@arndb.de>
-Subject: [PATCH 01/57] media: atomisp: fix videobuf2 Kconfig depenendency
-Date:   Mon, 23 Jan 2023 13:51:09 +0100
-Message-Id: <20230123125205.622152-2-hdegoede@redhat.com>
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Subject: [PATCH 02/57] media: atomisp: use vb2_start_streaming_called()
+Date:   Mon, 23 Jan 2023 13:51:10 +0100
+Message-Id: <20230123125205.622152-3-hdegoede@redhat.com>
 In-Reply-To: <20230123125205.622152-1-hdegoede@redhat.com>
 References: <20230123125205.622152-1-hdegoede@redhat.com>
 MIME-Version: 1.0
@@ -67,37 +68,37 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Arnd Bergmann <arnd@arndb.de>
+From: Hans Verkuil <hverkuil@xs4all.nl>
 
-The recent conversion missed the Kconfig bit, so it can now
-end up in a link error on randconfig builds:
+Don't touch q->start_streaming_called directly, use the
+vb2_start_streaming_called() function instead.
 
-ld.lld: error: undefined symbol: vb2_vmalloc_memops
->>> referenced by atomisp_fops.c
->>>               drivers/staging/media/atomisp/pci/atomisp_fops.o:(atomisp_open) in archive vmlinux.a
-
-Fixes: cb48ae89be3b ("media: atomisp: Convert to videobuf2")
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-Link: https://lore.kernel.org/r/20230104082212.3770415-1-arnd@kernel.org
-Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Link: https://lore.kernel.org/r/bc6c24ec-72ea-64a1-9061-311cc7339827@xs4all.nl
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- drivers/staging/media/atomisp/Kconfig | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/staging/media/atomisp/pci/atomisp_ioctl.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/Kconfig b/drivers/staging/media/atomisp/Kconfig
-index 2c8d7fdcc5f7..c9bff98e5309 100644
---- a/drivers/staging/media/atomisp/Kconfig
-+++ b/drivers/staging/media/atomisp/Kconfig
-@@ -14,7 +14,7 @@ config VIDEO_ATOMISP
- 	depends on VIDEO_DEV && INTEL_ATOMISP
- 	depends on PMIC_OPREGION
- 	select IOSF_MBI
--	select VIDEOBUF_VMALLOC
-+	select VIDEOBUF2_VMALLOC
- 	select VIDEO_V4L2_SUBDEV_API
- 	help
- 	  Say Y here if your platform supports Intel Atom SoC
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
+index cb01ba65c88f..4f35e8f8250a 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
+@@ -636,10 +636,10 @@ static int atomisp_enum_input(struct file *file, void *fh,
+ static unsigned int
+ atomisp_subdev_streaming_count(struct atomisp_sub_device *asd)
+ {
+-	return asd->video_out_preview.vb_queue.start_streaming_called
+-	       + asd->video_out_capture.vb_queue.start_streaming_called
+-	       + asd->video_out_video_capture.vb_queue.start_streaming_called
+-	       + asd->video_out_vf.vb_queue.start_streaming_called;
++	return vb2_start_streaming_called(&asd->video_out_preview.vb_queue) +
++	       vb2_start_streaming_called(&asd->video_out_capture.vb_queue) +
++	       vb2_start_streaming_called(&asd->video_out_video_capture.vb_queue) +
++	       vb2_start_streaming_called(&asd->video_out_vf.vb_queue);
+ }
+ 
+ unsigned int atomisp_streaming_count(struct atomisp_device *isp)
 -- 
 2.39.0
 
