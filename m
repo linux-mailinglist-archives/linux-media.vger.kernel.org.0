@@ -2,57 +2,45 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 535DA6776E2
-	for <lists+linux-media@lfdr.de>; Mon, 23 Jan 2023 09:58:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9B5BD677746
+	for <lists+linux-media@lfdr.de>; Mon, 23 Jan 2023 10:19:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231509AbjAWI6k (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 23 Jan 2023 03:58:40 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44320 "EHLO
+        id S231809AbjAWJTZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 23 Jan 2023 04:19:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57332 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231482AbjAWI6j (ORCPT
+        with ESMTP id S231793AbjAWJTN (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 23 Jan 2023 03:58:39 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A74B5EB58;
-        Mon, 23 Jan 2023 00:58:38 -0800 (PST)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 047CC2B3;
-        Mon, 23 Jan 2023 09:58:35 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1674464316;
-        bh=lw5ZoZGd0JjnnsdpQ85HbvHHq83hF6MA1T6umOobxfI=;
+        Mon, 23 Jan 2023 04:19:13 -0500
+Received: from gofer.mess.org (gofer.mess.org [IPv6:2a02:8011:d000:212::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C32184202
+        for <linux-media@vger.kernel.org>; Mon, 23 Jan 2023 01:19:09 -0800 (PST)
+Received: by gofer.mess.org (Postfix, from userid 1000)
+        id 467C6100064; Mon, 23 Jan 2023 09:10:01 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
+        t=1674465001; bh=/b2WVrJNDLLQpiJcqhoKXqMkoxkhDRDzegq1+1WEz2k=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=HbUpt0++foq2zNyIboCH9YHJlz54AlYhOeFSKrs4wdTONGxn4EPdx4O80QLaVrJqm
-         8pjdhOlD1azPnFZmGkHhbGHbP8kmjEtYvNsOaLCSb4j+NGtCDN8bjX85sawYQ/LsVT
-         LQ4zPJSlEDeky41pnmmjxQjgeuy3aiuUo6AZFmqM=
-Date:   Mon, 23 Jan 2023 10:58:33 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Umang Jain <umang.jain@ideasonboard.com>
-Cc:     Stefan Wahren <stefan.wahren@i2se.com>,
-        linux-staging@lists.linux.dev,
-        linux-rpi-kernel@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Adrien Thierry <athierry@redhat.com>,
-        Dan Carpenter <error27@gmail.com>,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Paul Elder <paul.elder@ideasonboard.com>
-Subject: Re: [PATCH v6 0/6] staging: vc04_services: vchiq: Register devices
- with a custom bus_type
-Message-ID: <Y85MOdAVh/fv5HRt@pendragon.ideasonboard.com>
-References: <20230120201104.606876-1-umang.jain@ideasonboard.com>
- <786df750-221e-82fc-a324-d30261296974@i2se.com>
- <62644cd8-c871-aee0-30b7-2fbab097504c@ideasonboard.com>
+        b=Q84c1lVdBo0zuY1d2hey/opfrGWvcylgP/Zr0p1V9iFqbbUX7gtgEbVvrxhXrbXdH
+         hddiAqoUyQZDHF4kDZZ1jcIdSs30Jpglca7Tl0JmZw+FsiahqG4U3Dq5TP/a9kkcAo
+         VsgG4U3IbNcuXRo3wgJzO7I4wDkN58zJYZgHO+Nnn8K4bod54PDTarVlL3X4JR+V9k
+         OFdhVcmf2ECvinQFByyfi9y5HYiFJJDAUtNX0y0VKVQrnqdpwrdoxHXwU/DL+CH0Ql
+         4dYH+ObdnOEpvQL6YhLAlzFe03ngEeyyvlqcOFoQLIqhayHPfPPG9ZmIpMxCeGNeJA
+         6RTNK49f6sFNQ==
+Date:   Mon, 23 Jan 2023 09:10:01 +0000
+From:   Sean Young <sean@mess.org>
+To:     Duoming Zhou <duoming@zju.edu.cn>
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        maximlevitsky@gmail.com, mchehab@kernel.org
+Subject: Re: [PATCH] media: rc: Fix use-after-free bugs caused by
+ ene_tx_irqsim()
+Message-ID: <Y85O6XqiiyRZqHnE@gofer.mess.org>
+References: <20230123011223.23804-1-duoming@zju.edu.cn>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <62644cd8-c871-aee0-30b7-2fbab097504c@ideasonboard.com>
+In-Reply-To: <20230123011223.23804-1-duoming@zju.edu.cn>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -60,87 +48,47 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Jan 23, 2023 at 01:18:30PM +0530, Umang Jain wrote:
-> Hi Stefan,
+On Mon, Jan 23, 2023 at 09:12:23AM +0800, Duoming Zhou wrote:
+> When the ene device is detaching, function ene_remove() will
+> be called. But there is no function to cancel tx_sim_timer
+> in ene_remove(), the timer handler ene_tx_irqsim() could race
+> with ene_remove(). As a result, the UAF bugs could happen,
+> the process is shown below.
 > 
-> Thank for the testing.
+>     (cleanup routine)          |        (timer routine)
+>                                | mod_timer(&dev->tx_sim_timer, ..)
+> ene_remove()                   | (wait a time)
+>   kfree(dev) //FREE            |
+>                                | ene_tx_irqsim()
+>                                |   dev->hw_lock //USE
+>                                |   ene_tx_sample(dev) //USE
 > 
-> On 1/23/23 5:04 AM, Stefan Wahren wrote:
-> > Hi Umang,
-> >
-> > Am 20.01.23 um 21:10 schrieb Umang Jain:
-> >> This series just introduces five extra patches for dropping include
-> >> directives from Makefiles (suggested by Greg KH) and rebased.
-> >>
-> >> The main patch (6/6) removes platform device/driver abuse and moves
-> >> things to standard device/driver model using a custom_bus. Specific
-> >> details are elaborated in the commit message.
-> >>
-> >> The patch series is based on top of d514392f17fd (tag: next-20230120)
-> >> of linux-next.
-> >
-> > applied this series on top of linux-next and build it with 
-> > arm/multi_v7_defconfig plus the following:
-> >
-> > CONFIG_BCM_VIDEOCORE=y
-> > CONFIG_BCM2835_VCHIQ=m
-> > CONFIG_VCHIQ_CDEV=y
-> > CONFIG_SND_BCM2835=m
-> > CONFIG_VIDEO_BCM2835=m
-> > CONFIG_BCM2835_VCHIQ_MMAL=m
-> >
-> > and the devices doesn't register on Raspberry Pi 3 B Plus:
-> >
-> > [   25.523337] vchiq: module is from the staging directory, the quality is unknown, you have been warned.
-> > [   25.541647] bcm2835_vchiq 3f00b840.mailbox: Failed to register bcm2835_audio vchiq device
-> > [   25.553692] bcm2835_vchiq 3f00b840.mailbox: Failed to register bcm2835-camera vchiq device
+> Fix by adding del_timer_sync(&dev->tx_sim_timer) in ene_remove(),
+> The tx_sim_timer could stop before ene device is deallocated.
 > 
-> I was able to reproduce and it seems the issue here is the change 
-> mentioned in the cover
+> This problem is found by static analysis.
 > 
-> - drop dma_set_mask_and_coherent
+> Fixes: 9ea53b74df9c ("V4L/DVB: STAGING: remove lirc_ene0100 driver")
+> Signed-off-by: Duoming Zhou <duoming@zju.edu.cn>
+> ---
+>  drivers/media/rc/ene_ir.c | 1 +
+>  1 file changed, 1 insertion(+)
 > 
-> in V6.
-> 
-> (I usually test patches on RPi 4B with vcsm-cma and bcm2835-isp applied 
-> so my branch has the DMA hunk included while I was testing V6)
-> 
-> Below is the hunk which should resolve the issue.
-> 
-> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_device.c
-> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_device.c
-> @@ -6,6 +6,7 @@
->    */
-> 
->   #include <linux/device/bus.h>
-> +#include <linux/dma-mapping.h>
->   #include <linux/slab.h>
->   #include <linux/string.h>
-> 
-> @@ -72,6 +73,12 @@ int vchiq_device_register(struct device *parent, 
-> const char *name)
->          device->dev.type = &vchiq_device_type;
->          device->dev.release = vchiq_device_release;
-> 
-> +       ret = dma_set_mask_and_coherent(&device->dev, DMA_BIT_MASK(32));
-> +       if (ret < 0) {
-> +               vchiq_device_release(&device->dev);
-> +               return ret;
-> +       }
-> +
->          ret = device_register(&device->dev);
->          if (ret) {
->                  put_device(&device->dev);
-> 
-> It seems we need to include the dma_set_mask_and_coherent() even if 
-> bcm2835-audio, bcm2835-camera device doesn't do DMA? I need to look into 
-> why is that/
-> 
->   Laurent, any thoughts on this please?
+> diff --git a/drivers/media/rc/ene_ir.c b/drivers/media/rc/ene_ir.c
+> index e09270916fb..716b72a048f 100644
+> --- a/drivers/media/rc/ene_ir.c
+> +++ b/drivers/media/rc/ene_ir.c
+> @@ -1114,6 +1114,7 @@ static void ene_remove(struct pnp_dev *pnp_dev)
+>  	free_irq(dev->irq, dev);
+>  	release_region(dev->hw_io, ENE_IO_SIZE);
+>  	rc_unregister_device(dev->rdev);
+> +	del_timer_sync(&dev->tx_sim_timer);
 
-Nothing that immediately springs to my mind. Can you investigate ?
+Great catch!
 
--- 
-Regards,
+The timer can call ene_tx_sample() which can write to the io ports, so the
+ordering still is not quite right. I think the rc_unregister_device() and
+del_timer_sync() should be call first in ene_remove().
 
-Laurent Pinchart
+
+Sean
