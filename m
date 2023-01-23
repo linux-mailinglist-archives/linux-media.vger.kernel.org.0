@@ -2,70 +2,85 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5CA7D678608
-	for <lists+linux-media@lfdr.de>; Mon, 23 Jan 2023 20:18:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EB29F6786AF
+	for <lists+linux-media@lfdr.de>; Mon, 23 Jan 2023 20:46:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232284AbjAWTSS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 23 Jan 2023 14:18:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55258 "EHLO
+        id S232789AbjAWTqM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 23 Jan 2023 14:46:12 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51262 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232283AbjAWTSL (ORCPT
+        with ESMTP id S231968AbjAWTqL (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 23 Jan 2023 14:18:11 -0500
-Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com [IPv6:2607:f8b0:4864:20::b4a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A40C7DBD
-        for <linux-media@vger.kernel.org>; Mon, 23 Jan 2023 11:18:04 -0800 (PST)
-Received: by mail-yb1-xb4a.google.com with SMTP id z17-20020a256651000000b007907852ca4dso14124950ybm.16
-        for <linux-media@vger.kernel.org>; Mon, 23 Jan 2023 11:18:04 -0800 (PST)
+        Mon, 23 Jan 2023 14:46:11 -0500
+Received: from mail-qt1-x82f.google.com (mail-qt1-x82f.google.com [IPv6:2607:f8b0:4864:20::82f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 671E02658B
+        for <linux-media@vger.kernel.org>; Mon, 23 Jan 2023 11:46:05 -0800 (PST)
+Received: by mail-qt1-x82f.google.com with SMTP id x7so10826693qtv.13
+        for <linux-media@vger.kernel.org>; Mon, 23 Jan 2023 11:46:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=9WOZzSEfhu/PT9TWBWMQDCCNsrofWV34oFDU/0sj1mQ=;
-        b=CLJ2JxK/Tm4oa2T67r1/7AoCewa4cPoaCpXx/gVHbZ1m+FYlbdBISpcie92wke9qiT
-         ywnZGTRRWgUyvtV2GeIN6CSF1A1BpACoPsOvCJSqkdka36IG7lwA9jHJB0/1Y37BiDn6
-         UZyz4QR44eh7OHGKOjLnRuXG7qELlMRlfRNYaxnDlTMYAnQZZAKF7GLGFraikV5q7pPa
-         PqEGE55YfXGgQoOaL42PCJmSLM5OLIrr2pXTamoSK+ZBJQZ3xablgI1e6ZxykShX+C1V
-         OGCeujU9/+VSQurUIb0N4LKyFw0PX0Xvt3l2bOlWDy6qNiZqzVXsJcA5m/zeCrF4rUUR
-         ohNg==
+        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=mUY+K/gEms4vfsNGwjElIC9Y1rJValU7AjQ/+P7XQGU=;
+        b=M7vkSBADLg68yS5WFEvjM5Lx2R90zGRvw7OZ+Ot2DOA0cEw39ThzNEfTeqFJhgjMtr
+         Pt9f8aooYdhoLWi5ap1uY7xiKGe4NPitD8MVA+vr1ecmeK8kXG0Bx4OwKy23QZmIQO7K
+         D5WSlBRqYNTyWpzyDWpb+imz/9IBRGxcqQStVWyzLrfkfTOtqMFj9Xriae6/wRVAjCLs
+         JmZ7LOc1DmQCU8D78MfaVAK2RU92npGK2Uct0mc8J9/lVMqA7ScFIUQInj8G5p3fEFss
+         mtO23tXEGSRCpI1Wj6I2qLAicwMQnR/yrC+KzMv2Zt6Cci/UMjESOm+xJvFgutkmfoG5
+         +Azw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=9WOZzSEfhu/PT9TWBWMQDCCNsrofWV34oFDU/0sj1mQ=;
-        b=z1RyOEtAZldax3EZVdvNbZ6SmSILN6GC6ibNd6nV3HcspOJRHMUxwiFlx/ZynShCR8
-         NpO/CGCPQxE/t6zh16wVBZdVDXdCIMiT1RU+vw1JL6Qzuj7IkCScnlcu98GCiW1KcRcx
-         CW4Bok9i8DbERo2CmAe9kVR8n2FWKVX2NMBTGJ+kELS0ydA5Wy42wSoLGnu9nRjCs98e
-         IDyS9XhVv/DY96Q12JIK0dCIQ2Cx+c92wTyZpbhZ/OGo/1yjhdM7OAOozMUVVeTM2zAr
-         eEnlDbNvrS8c+LNhn/U5/4faxWapZCObqmOtgdA/B2kiK+jI/dGCOwt9w0quvwI0tx6w
-         Y1Gw==
-X-Gm-Message-State: AFqh2kpJmAU7lLG9KaZX8ozRUxCCdrFmVVdYceCi3YGqGJRMO3FJM3Vd
-        8UqnTNPf4ak8E4p++8Q6xocnm2Sg4Z6A6dY=
-X-Google-Smtp-Source: AMrXdXt5UsJV8XnGROzCqwUjMEtxGJTY0AAa2SUnm4rAwiP8wDQKiwcGvs1ceYITQIG6UCVtpU2h3/VNxLbuwi8=
-X-Received: from tj.c.googlers.com ([fda3:e722:ac3:cc00:20:ed76:c0a8:53a])
- (user=tjmercier job=sendgmr) by 2002:a25:dc92:0:b0:7b0:3379:9c00 with SMTP id
- y140-20020a25dc92000000b007b033799c00mr3149691ybe.359.1674501483256; Mon, 23
- Jan 2023 11:18:03 -0800 (PST)
-Date:   Mon, 23 Jan 2023 19:17:24 +0000
-In-Reply-To: <20230123191728.2928839-1-tjmercier@google.com>
-Mime-Version: 1.0
-References: <20230123191728.2928839-1-tjmercier@google.com>
-X-Mailer: git-send-email 2.39.0.246.g2a6d74b583-goog
-Message-ID: <20230123191728.2928839-3-tjmercier@google.com>
-Subject: [PATCH v2 2/4] dmabuf: Add cgroup charge transfer function
-From:   "T.J. Mercier" <tjmercier@google.com>
-To:     tjmercier@google.com, Sumit Semwal <sumit.semwal@linaro.org>,
-        "=?UTF-8?q?Christian=20K=C3=B6nig?=" <christian.koenig@amd.com>
-Cc:     hannes@cmpxchg.org, daniel.vetter@ffwll.ch, android-mm@google.com,
-        jstultz@google.com, jeffv@google.com, cmllamas@google.com,
-        linux-security-module@vger.kernel.org, selinux@vger.kernel.org,
-        cgroups@vger.kernel.org, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-        linux-kernel@vger.kernel.org
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=mUY+K/gEms4vfsNGwjElIC9Y1rJValU7AjQ/+P7XQGU=;
+        b=TQpNSHbEsm26i8BMW4BIK8/GBNVeojVCFGjnv6oMk7mYplDVd4l8tSWebCdL/cWtah
+         Dt5RHHCYxvqsFJ4ASjcjVP4t69eP7WuYHkRbgNG1n3Xb4YDWt1EnNXyh09GOUEa42tb3
+         204FExbzbdRb88E9K9CBWDZz9wcoQdxZ4XFQnuDtGLuoQTO5g6A1vpzuWALcX6ueqxf4
+         IJo7t3lk/6R61lhoiD5+ix8P0BZMqVOgUwCWWNXlk3WsuhViU/iNl/vonO6FUb1Ot+4j
+         2YAgIdi37Fly+FYlkapL4x/iXuThmbZ9EjIrx6Q1nCqDzR50OmejJ44yPKal5Zqm6hNg
+         WY1Q==
+X-Gm-Message-State: AFqh2kpfxZnUZwPOhT1IjqoGRenXO42k2Md7UuVnYXnetBo6+RTsaBe9
+        mVIDWP5gvNV9Z1sP9RKcHzIHKw==
+X-Google-Smtp-Source: AMrXdXsK65R6/0BvIy5WSEzZ1awjWS2XHY8JYoDof3t2VDl8/Bdi0DMByDP+4TK9lSQkfcOvjuExvA==
+X-Received: by 2002:a05:622a:a07:b0:3b6:2fd2:84b5 with SMTP id bv7-20020a05622a0a0700b003b62fd284b5mr41539393qtb.57.1674503164528;
+        Mon, 23 Jan 2023 11:46:04 -0800 (PST)
+Received: from nicolas-tpx395.localdomain (192-222-136-102.qc.cable.ebox.net. [192.222.136.102])
+        by smtp.gmail.com with ESMTPSA id 188-20020a3703c5000000b006fb112f512csm42350qkd.74.2023.01.23.11.46.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 23 Jan 2023 11:46:03 -0800 (PST)
+Message-ID: <6e1cf4ee9bda46f0e15f715ed97dc46d06ffd735.camel@ndufresne.ca>
+Subject: Re: [EXT] Re: [PATCH v2 2/2] media: amphion: support to decode
+ sorenson spark video
+From:   Nicolas Dufresne <nicolas@ndufresne.ca>
+To:     Ming Qian <ming.qian@nxp.com>,
+        "mchehab@kernel.org" <mchehab@kernel.org>,
+        "hverkuil-cisco@xs4all.nl" <hverkuil-cisco@xs4all.nl>
+Cc:     "shawnguo@kernel.org" <shawnguo@kernel.org>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "s.hauer@pengutronix.de" <s.hauer@pengutronix.de>,
+        "kernel@pengutronix.de" <kernel@pengutronix.de>,
+        "festevam@gmail.com" <festevam@gmail.com>,
+        dl-linux-imx <linux-imx@nxp.com>,
+        "X.H. Bao" <xiahong.bao@nxp.com>, Eagle Zhou <eagle.zhou@nxp.com>,
+        Tao Jiang <tao.jiang_2@nxp.com>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>
+Date:   Mon, 23 Jan 2023 14:46:01 -0500
+In-Reply-To: <AM6PR04MB6341EEFACA1BAD7DC4E82B71E7C59@AM6PR04MB6341.eurprd04.prod.outlook.com>
+References: <cover.1673513975.git.ming.qian@nxp.com>
+         <ab85e597c37aad849480bfe912d5e06aebc51726.1673513975.git.ming.qian@nxp.com>
+         <bb9fb55bf81b978041e44e04d619adf43488f467.camel@ndufresne.ca>
+         <AM6PR04MB6341EEFACA1BAD7DC4E82B71E7C59@AM6PR04MB6341.eurprd04.prod.outlook.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-9.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=unavailable
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.2 (3.46.2-1.fc37) 
+MIME-Version: 1.0
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -73,119 +88,175 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The dma_buf_transfer_charge function provides a way for processes to
-transfer charge of a buffer to a different cgroup. This is essential
-for the cases where a central allocator process does allocations for
-various subsystems, hands over the fd to the client who requested the
-memory, and drops all references to the allocated memory.
+Le vendredi 20 janvier 2023 =C3=A0 09:59 +0000, Ming Qian a =C3=A9crit=C2=
+=A0:
+> > From: Nicolas Dufresne <nicolas@ndufresne.ca>
+> > Sent: 2023=E5=B9=B41=E6=9C=8820=E6=97=A5 4:41
+> > To: Ming Qian <ming.qian@nxp.com>; mchehab@kernel.org; hverkuil-
+> > cisco@xs4all.nl
+> > Cc: shawnguo@kernel.org; robh+dt@kernel.org; s.hauer@pengutronix.de;
+> > kernel@pengutronix.de; festevam@gmail.com; dl-linux-imx <linux-
+> > imx@nxp.com>; X.H. Bao <xiahong.bao@nxp.com>; Eagle Zhou
+> > <eagle.zhou@nxp.com>; Tao Jiang <tao.jiang_2@nxp.com>; linux-
+> > media@vger.kernel.org; linux-kernel@vger.kernel.org; linux-arm-
+> > kernel@lists.infradead.org
+> > Subject: [EXT] Re: [PATCH v2 2/2] media: amphion: support to decode
+> > sorenson spark video
+> >=20
+> > Caution: EXT Email
+> >=20
+> > Le jeudi 12 janvier 2023 =C3=A0 17:04 +0800, Ming Qian a =C3=A9crit :
+> > > Sorenson Spark is an implementation of H.263 for use in Flash Video
+> > > and Adobe Flash files.
+> > > amphion decoder can support it by insert some startcode before
+> > > sequence and picture.
+> >=20
+> > Its historical codec, but I'm surprise it does not also support H263 (a=
+nd
+> > possibly H263+). Note a review comment of course, just a curiosity.
+> >=20
+>=20
+> Hi Nicolas,
+> =C2=A0=C2=A0=C2=A0=C2=A0The decoder does support H263, but for sorenson s=
+park, the vpu requires
+> extra startcode, but H263 doesn't.
+> So driver can't reuse H263 for format spark, as driver need to insert the
+> startcode for format spark.
 
-Signed-off-by: T.J. Mercier <tjmercier@google.com>
----
- drivers/dma-buf/dma-buf.c  | 56 ++++++++++++++++++++++++++++++++++++++
- include/linux/dma-buf.h    |  1 +
- include/linux/memcontrol.h |  5 ++++
- 3 files changed, 62 insertions(+)
+Ack.
 
-diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-index a6a8cb5cb32d..ac3d02a7ecf8 100644
---- a/drivers/dma-buf/dma-buf.c
-+++ b/drivers/dma-buf/dma-buf.c
-@@ -11,6 +11,7 @@
-  * refining of this idea.
-  */
- 
-+#include <linux/atomic.h>
- #include <linux/fs.h>
- #include <linux/slab.h>
- #include <linux/dma-buf.h>
-@@ -1626,6 +1627,61 @@ void dma_buf_vunmap_unlocked(struct dma_buf *dmabuf, struct iosys_map *map)
- }
- EXPORT_SYMBOL_NS_GPL(dma_buf_vunmap_unlocked, DMA_BUF);
- 
-+/**
-+ * dma_buf_transfer_charge - Change the cgroup to which the provided dma_buf is charged.
-+ * @dmabuf_file:	[in]	file for buffer whose charge will be migrated to a different cgroup
-+ * @target:		[in]	the task_struct of the destination process for the cgroup charge
-+ *
-+ * Only tasks that belong to the same cgroup the buffer is currently charged to
-+ * may call this function, otherwise it will return -EPERM.
-+ *
-+ * Returns 0 on success, or a negative errno code otherwise.
-+ */
-+int dma_buf_transfer_charge(struct file *dmabuf_file, struct task_struct *target)
-+{
-+	struct mem_cgroup *current_cg, *target_cg;
-+	struct dma_buf *dmabuf;
-+	unsigned int nr_pages;
-+	int ret = 0;
-+
-+	if (!IS_ENABLED(CONFIG_MEMCG))
-+		return 0;
-+
-+	if (WARN_ON(!dmabuf_file) || WARN_ON(!target))
-+		return -EINVAL;
-+
-+	if (!is_dma_buf_file(dmabuf_file))
-+		return -EBADF;
-+	dmabuf = dmabuf_file->private_data;
-+
-+	nr_pages = PAGE_ALIGN(dmabuf->size) / PAGE_SIZE;
-+	current_cg = mem_cgroup_from_task(current);
-+	target_cg = get_mem_cgroup_from_mm(target->mm);
-+
-+	if (current_cg == target_cg)
-+		goto skip_transfer;
-+
-+	if (!mem_cgroup_charge_dmabuf(target_cg, nr_pages, GFP_KERNEL)) {
-+		ret = -ENOMEM;
-+		goto skip_transfer;
-+	}
-+
-+	if (cmpxchg(&dmabuf->memcg, current_cg, target_cg) != current_cg) {
-+		/* Only the current owner can transfer the charge */
-+		ret = -EPERM;
-+		mem_cgroup_uncharge_dmabuf(target_cg, nr_pages);
-+		goto skip_transfer;
-+	}
-+
-+	mem_cgroup_uncharge_dmabuf(current_cg, nr_pages);
-+	mem_cgroup_put(current_cg); /* unref from buffer - buffer keeps new ref to target_cg */
-+	return 0;
-+
-+skip_transfer:
-+	mem_cgroup_put(target_cg);
-+	return ret;
-+}
-+
- #ifdef CONFIG_DEBUG_FS
- static int dma_buf_debug_show(struct seq_file *s, void *unused)
- {
-diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
-index 1f0ffb8e4bf5..f25eb8e60fb2 100644
---- a/include/linux/dma-buf.h
-+++ b/include/linux/dma-buf.h
-@@ -634,4 +634,5 @@ int dma_buf_vmap(struct dma_buf *dmabuf, struct iosys_map *map);
- void dma_buf_vunmap(struct dma_buf *dmabuf, struct iosys_map *map);
- int dma_buf_vmap_unlocked(struct dma_buf *dmabuf, struct iosys_map *map);
- void dma_buf_vunmap_unlocked(struct dma_buf *dmabuf, struct iosys_map *map);
-+int dma_buf_transfer_charge(struct file *dmabuf_file, struct task_struct *target);
- #endif /* __DMA_BUF_H__ */
-diff --git a/include/linux/memcontrol.h b/include/linux/memcontrol.h
-index c10b8565fdbf..009298a446fe 100644
---- a/include/linux/memcontrol.h
-+++ b/include/linux/memcontrol.h
-@@ -1335,6 +1335,11 @@ struct mem_cgroup *mem_cgroup_from_css(struct cgroup_subsys_state *css)
- 	return NULL;
- }
- 
-+static inline struct mem_cgroup *mem_cgroup_from_task(struct task_struct *p)
-+{
-+	return NULL;
-+}
-+
- static inline void obj_cgroup_put(struct obj_cgroup *objcg)
- {
- }
--- 
-2.39.0.246.g2a6d74b583-goog
+I noticed later that it was supported and it make sense to make this a spec=
+ific
+formats, its not compatible, even though both are H264.
+>=20
+> Ming
+>=20
+> > >=20
+> > > Signed-off-by: Ming Qian <ming.qian@nxp.com>
+> > > ---
+> > > =C2=A0drivers/media/platform/amphion/vdec.c       |  7 +++++++
+> > > =C2=A0drivers/media/platform/amphion/vpu_malone.c | 18 ++++++++++++++=
+++++
+> > > =C2=A02 files changed, 25 insertions(+)
+> > >=20
+> > > diff --git a/drivers/media/platform/amphion/vdec.c
+> > > b/drivers/media/platform/amphion/vdec.c
+> > > index 87f9f8e90ab1..09304b96f40d 100644
+> > > --- a/drivers/media/platform/amphion/vdec.c
+> > > +++ b/drivers/media/platform/amphion/vdec.c
+> > > @@ -165,6 +165,13 @@ static const struct vpu_format vdec_formats[] =
+=3D {
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0.type =3D V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE,
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0.flags =3D V4L2_FMT_FLAG_DYN_RESOLUTION |
+> > V4L2_FMT_FLAG_COMPRESSED
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0},
+> > > +     {
+> > > +             .pixfmt =3D V4L2_PIX_FMT_SPK,
+> > > +             .mem_planes =3D 1,
+> > > +             .comp_planes =3D 1,
+> > > +             .type =3D V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE,
+> > > +             .flags =3D V4L2_FMT_FLAG_DYN_RESOLUTION |
+> > V4L2_FMT_FLAG_COMPRESSED
+> > > +     },
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0{0, 0, 0, 0},
+> > > =C2=A0};
+> > >=20
+> > > diff --git a/drivers/media/platform/amphion/vpu_malone.c
+> > > b/drivers/media/platform/amphion/vpu_malone.c
+> > > index 2c9bfc6a5a72..67ba637c4c7f 100644
+> > > --- a/drivers/media/platform/amphion/vpu_malone.c
+> > > +++ b/drivers/media/platform/amphion/vpu_malone.c
+> > > @@ -562,6 +562,7 @@ static struct malone_fmt_mapping fmt_mappings[] =
+=3D
+> > {
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0{V4L2_PIX_FMT_H263,        MALONE=
+_FMT_ASP},
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0{V4L2_PIX_FMT_JPEG,        MALONE=
+_FMT_JPG},
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0{V4L2_PIX_FMT_VP8,         MALONE=
+_FMT_VP8},
+> > > +     {V4L2_PIX_FMT_SPK,         MALONE_FMT_SPK},
+> > > =C2=A0};
+> > >=20
+> > > =C2=A0static enum vpu_malone_format vpu_malone_format_remap(u32
+> > > pixelformat) @@ -987,6 +988,7 @@ static const struct
+> > malone_padding_scode padding_scodes[] =3D {
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0{SCODE_PADDING_EOS,      V4L2_PIX=
+_FMT_XVID,        {0xb1010000,
+> > > 0x0}},
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0{SCODE_PADDING_EOS,      V4L2_PIX=
+_FMT_H263,        {0xb1010000,
+> > > 0x0}},
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0{SCODE_PADDING_EOS,      V4L2_PIX=
+_FMT_VP8,         {0x34010000,
+> > > 0x0}},
+> > > +     {SCODE_PADDING_EOS,      V4L2_PIX_FMT_SPK,         {0x34010000,
+> > > 0x0}},
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0{SCODE_PADDING_EOS,      V4L2_PIX=
+_FMT_JPEG,        {0xefff0000,
+> > > 0x0}},
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0{SCODE_PADDING_ABORT,    V4L2_PIX=
+_FMT_H264,        {0x0B010000, 0}},
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0{SCODE_PADDING_ABORT,    V4L2_PIX=
+_FMT_H264_MVC,    {0x0B010000,
+> > 0}},
+> > > @@ -998,6 +1000,7 @@ static const struct malone_padding_scode
+> > padding_scodes[] =3D {
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0{SCODE_PADDING_ABORT,    V4L2_PIX=
+_FMT_XVID,        {0xb1010000,
+> > 0x0}},
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0{SCODE_PADDING_ABORT,    V4L2_PIX=
+_FMT_H263,        {0xb1010000,
+> > 0x0}},
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0{SCODE_PADDING_ABORT,    V4L2_PIX=
+_FMT_VP8,         {0x34010000,
+> > 0x0}},
+> > > +     {SCODE_PADDING_ABORT,    V4L2_PIX_FMT_SPK,         {0x34010000,
+> > 0x0}},
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0{SCODE_PADDING_EOS,      V4L2_PIX=
+_FMT_JPEG,        {0x0, 0x0}},
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0{SCODE_PADDING_BUFFLUSH, V4L2_PIX=
+_FMT_H264,        {0x15010000,
+> > 0x0}},
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0{SCODE_PADDING_BUFFLUSH, V4L2_PIX=
+_FMT_H264_MVC,
+> > {0x15010000, 0x0}},
+> > > @@ -1411,6 +1414,16 @@ static int
+> > vpu_malone_insert_scode_vp8_pic(struct malone_scode_t *scode)
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0return size;
+> > > =C2=A0}
+> > >=20
+> > > +static int vpu_malone_insert_scode_spk_seq(struct malone_scode_t
+> > > +*scode) {
+> > > +     return vpu_malone_insert_scode_seq(scode, MALONE_CODEC_ID_SPK,
+> > > +0); }
+> > > +
+> > > +static int vpu_malone_insert_scode_spk_pic(struct malone_scode_t
+> > > +*scode) {
+> > > +     return vpu_malone_insert_scode_pic(scode, MALONE_CODEC_ID_SPK,
+> > > +0); }
+> > > +
+> > > =C2=A0static const struct malone_scode_handler scode_handlers[] =3D {
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0{
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0/* fix me, need to swap return operation after gstreamer
+> > > swap */ @@ -1427,6 +1440,11 @@ static const struct
+> > malone_scode_handler scode_handlers[] =3D {
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0.insert_scode_seq =3D vpu_malone_insert_scode_vp8_seq,
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0.insert_scode_pic =3D vpu_malone_insert_scode_vp8_pic,
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0},
+> > > +     {
+> > > +             .pixelformat =3D V4L2_PIX_FMT_SPK,
+> > > +             .insert_scode_seq =3D vpu_malone_insert_scode_spk_seq,
+> > > +             .insert_scode_pic =3D vpu_malone_insert_scode_spk_pic,
+> > > +     },
+> > > =C2=A0};
+> > >=20
+> > > =C2=A0static const struct malone_scode_handler *get_scode_handler(u32
+> > > pixelformat)
+>=20
 
