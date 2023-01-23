@@ -2,67 +2,56 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E4C2D67831B
-	for <lists+linux-media@lfdr.de>; Mon, 23 Jan 2023 18:29:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9094367837B
+	for <lists+linux-media@lfdr.de>; Mon, 23 Jan 2023 18:41:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233724AbjAWR3K (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 23 Jan 2023 12:29:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37176 "EHLO
+        id S232476AbjAWRlm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 23 Jan 2023 12:41:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52138 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233722AbjAWR3J (ORCPT
+        with ESMTP id S232501AbjAWRll (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 23 Jan 2023 12:29:09 -0500
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9DC922D16F;
-        Mon, 23 Jan 2023 09:29:04 -0800 (PST)
-Received: from [192.168.1.141] ([37.4.248.41]) by mrelayeu.kundenserver.de
- (mreue109 [212.227.15.183]) with ESMTPSA (Nemesis) id
- 1McpW8-1ok7ZX04pO-00ZuiV; Mon, 23 Jan 2023 18:28:37 +0100
-Message-ID: <53a8f159-22ab-b280-17b2-b80f59256342@i2se.com>
-Date:   Mon, 23 Jan 2023 18:28:36 +0100
+        Mon, 23 Jan 2023 12:41:41 -0500
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9031D298F4
+        for <linux-media@vger.kernel.org>; Mon, 23 Jan 2023 09:41:40 -0800 (PST)
+X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="353369142"
+X-IronPort-AV: E=Sophos;i="5.97,240,1669104000"; 
+   d="scan'208";a="353369142"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2023 09:41:16 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="785750090"
+X-IronPort-AV: E=Sophos;i="5.97,240,1669104000"; 
+   d="scan'208";a="785750090"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by orsmga004.jf.intel.com with ESMTP; 23 Jan 2023 09:41:04 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+        (envelope-from <andy@kernel.org>)
+        id 1pK0oY-00Dr6x-1X;
+        Mon, 23 Jan 2023 19:41:02 +0200
+Date:   Mon, 23 Jan 2023 19:41:02 +0200
+From:   Andy Shevchenko <andy@kernel.org>
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Tsuchiya Yuto <kitakar@gmail.com>,
+        Yury Luneff <yury.lunev@gmail.com>,
+        Nable <nable.maininbox@googlemail.com>,
+        andrey.i.trufanov@gmail.com, Fabio Aiuto <fabioaiuto83@gmail.com>,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH 16/57] media: atomisp: Remove unnecessary memset(foo, 0,
+ sizeof(foo)) calls
+Message-ID: <Y87GrtbFaVJYs95e@smile.fi.intel.com>
+References: <20230123125205.622152-1-hdegoede@redhat.com>
+ <20230123125205.622152-17-hdegoede@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH v6 0/6] staging: vc04_services: vchiq: Register devices
- with a custom bus_type
-Content-Language: en-US
-To:     Umang Jain <umang.jain@ideasonboard.com>,
-        linux-staging@lists.linux.dev,
-        linux-rpi-kernel@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Adrien Thierry <athierry@redhat.com>,
-        Dan Carpenter <error27@gmail.com>,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Paul Elder <paul.elder@ideasonboard.com>
-References: <20230120201104.606876-1-umang.jain@ideasonboard.com>
- <786df750-221e-82fc-a324-d30261296974@i2se.com>
- <62644cd8-c871-aee0-30b7-2fbab097504c@ideasonboard.com>
-From:   Stefan Wahren <stefan.wahren@i2se.com>
-In-Reply-To: <62644cd8-c871-aee0-30b7-2fbab097504c@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:7nTGGc5lX0c+L6/nAxWYVWYD4u9G64oQU2WhKE98wTjP7dTDi7r
- kdmhtVJ8fB1A9KCpRupZP2fS4gelboHYpq4Ckzs98JDMHgyfTjWgNkNjACSKq6vZl6sptAz
- +IcH0T3VrsIsyXNTwM+dmjTg1C/NazaD1N4uBQSnT0pTTWRWIxdWq/DhKMnHQcNvYwCFxzU
- HlkFXi2OHCgZAt4quBAsQ==
-UI-OutboundReport: notjunk:1;M01:P0:EVGuaTAFbUA=;KFEjkEtKNrpv8H13g0IwuLkXzUN
- NaficCkLufcSy63olrRh2X6wo12VDYIls42pH0dnIlbXgyW/yz3vq+M78+rG/fXc6U1HrtLb9
- i0huFGuCKngc9MQUyd42vZEMfKWkvchLE9BBDom1iPnEmYR+nMg5mjk7BGRhrF1Phvd8h1uh3
- LhNgW0eMaYp0WSsFsCeKFdga4HEwRD/8itxAmvTe9CYn22ZkgGNeNrXe0/Tfee2VRZhQBoXL4
- RFFbx9Smw6Oo91baDDnsdVG5EZq5ZmdUDFith/deIzQdXUIaxXPZdveD+bqYDKYioe8kI+YNu
- zfWdviQPZc3jCEbuX8vdVaoYB/+Iiu+mHU1fr48wkLSl+V5+gBCHGCcs0uhiO9rWBa6m3QA71
- ocsuUh5NSXf4gxcIPDzTC/0Ma47/r2hKqszMU/a5r14UtLkvbMaEXN95qgKSGLbYUEII4of2R
- rJUDAKkCW8bzCnBKv7/JsMJ/Bi9y95hPl9q65ev84Q8Oj4V8EFVZ6YyA3vVRB5VpxJEi317v4
- Xt9eW3hU7ow6djMr+4gyKTbsXtxKbndMh3phuCO4PPuGpf0P3zI3oXjdBF1WlLyxMDbfndfbR
- G7IQ5MVI62vZra6wajKiWVhrtw6c9/TcTHCioGCEg2WgfXl+0WY+b9UVaOSHF3l9fv4OQy8vW
- zWhnum4nmbNijxX+88SzQLPurJnU6LyuxFlNmaZ0JA==
-X-Spam-Status: No, score=-3.0 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230123125205.622152-17-hdegoede@redhat.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-Spam-Status: No, score=-3.5 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_SOFTFAIL
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -70,92 +59,40 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Umang,
+On Mon, Jan 23, 2023 at 01:51:24PM +0100, Hans de Goede wrote:
+> The memory for all of struct atomisp_video_pipe is kzalloc()-ed in
+> atomisp_subdev_init() so there is no need to memset parts of
+> struct atomisp_video_pipe to 0.
 
-Am 23.01.23 um 08:48 schrieb Umang Jain:
-> Hi Stefan,
->
-> Thank for the testing.
->
-> On 1/23/23 5:04 AM, Stefan Wahren wrote:
->> Hi Umang,
->>
->> Am 20.01.23 um 21:10 schrieb Umang Jain:
->>> This series just introduces five extra patches for dropping include
->>> directives from Makefiles (suggested by Greg KH) and rebased.
->>>
->>> The main patch (6/6) removes platform device/driver abuse and moves
->>> things to standard device/driver model using a custom_bus. Specific
->>> details are elaborated in the commit message.
->>>
->>> The patch series is based on top of d514392f17fd (tag: next-20230120)
->>> of linux-next.
->>
->> applied this series on top of linux-next and build it with 
->> arm/multi_v7_defconfig plus the following:
->>
->> CONFIG_BCM_VIDEOCORE=y
->> CONFIG_BCM2835_VCHIQ=m
->> CONFIG_VCHIQ_CDEV=y
->> CONFIG_SND_BCM2835=m
->> CONFIG_VIDEO_BCM2835=m
->> CONFIG_BCM2835_VCHIQ_MMAL=m
->>
->> and the devices doesn't register on Raspberry Pi 3 B Plus:
->>
->> [   25.523337] vchiq: module is from the staging directory, the 
->> quality is unknown, you have been warned.
->> [   25.541647] bcm2835_vchiq 3f00b840.mailbox: Failed to register 
->> bcm2835_audio vchiq device
->> [   25.553692] bcm2835_vchiq 3f00b840.mailbox: Failed to register 
->> bcm2835-camera vchiq device
->
-> I was able to reproduce and it seems the issue here is the change 
-> mentioned in the cover
->
-> - drop dma_set_mask_and_coherent
->
-> in V6.
->
-> (I usually test patches on RPi 4B with vcsm-cma and bcm2835-isp 
-> applied so my branch has the DMA hunk included while I was testing V6)
->
-> Below is the hunk which should resolve the issue.
->
-> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_device.c
-> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_device.c
-> @@ -6,6 +6,7 @@
->   */
->
->  #include <linux/device/bus.h>
-> +#include <linux/dma-mapping.h>
->  #include <linux/slab.h>
->  #include <linux/string.h>
->
-> @@ -72,6 +73,12 @@ int vchiq_device_register(struct device *parent, 
-> const char *name)
->         device->dev.type = &vchiq_device_type;
->         device->dev.release = vchiq_device_release;
->
-> +       ret = dma_set_mask_and_coherent(&device->dev, DMA_BIT_MASK(32));
-> +       if (ret < 0) {
-> +               vchiq_device_release(&device->dev);
-> +               return ret;
-> +       }
-> +
->         ret = device_register(&device->dev);
->         if (ret) {
->                 put_device(&device->dev);
-Yes, this patch fixes the errors above. But i noticed that the series 
-also break autoprobing of bcm2835-audio and bcm2835-camera.
->
-> It seems we need to include the dma_set_mask_and_coherent() even if 
-> bcm2835-audio, bcm2835-camera device doesn't do DMA? I need to look 
-> into why is that/
->
->  Laurent, any thoughts on this please?
->
-> _______________________________________________
-> linux-arm-kernel mailing list
-> linux-arm-kernel@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
+Reviewed-by: Andy Shevchenko <andy@kernel.org>
+
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> ---
+>  drivers/staging/media/atomisp/pci/atomisp_subdev.c | 5 -----
+>  1 file changed, 5 deletions(-)
+> 
+> diff --git a/drivers/staging/media/atomisp/pci/atomisp_subdev.c b/drivers/staging/media/atomisp/pci/atomisp_subdev.c
+> index c32db4ffb778..eb8f319fca5c 100644
+> --- a/drivers/staging/media/atomisp/pci/atomisp_subdev.c
+> +++ b/drivers/staging/media/atomisp/pci/atomisp_subdev.c
+> @@ -1054,11 +1054,6 @@ static int atomisp_init_subdev_pipe(struct atomisp_sub_device *asd,
+>  	INIT_LIST_HEAD(&pipe->activeq);
+>  	INIT_LIST_HEAD(&pipe->buffers_waiting_for_param);
+>  	INIT_LIST_HEAD(&pipe->per_frame_params);
+> -	memset(pipe->frame_request_config_id,
+> -	       0, VIDEO_MAX_FRAME * sizeof(unsigned int));
+> -	memset(pipe->frame_params,
+> -	       0, VIDEO_MAX_FRAME *
+> -	       sizeof(struct atomisp_css_params_with_list *));
+>  
+>  	return 0;
+>  }
+> -- 
+> 2.39.0
+> 
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
