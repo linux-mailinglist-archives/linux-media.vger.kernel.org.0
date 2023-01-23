@@ -2,109 +2,187 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 14620677F2E
-	for <lists+linux-media@lfdr.de>; Mon, 23 Jan 2023 16:15:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2CEBF677F9D
+	for <lists+linux-media@lfdr.de>; Mon, 23 Jan 2023 16:25:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232487AbjAWPPQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 23 Jan 2023 10:15:16 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40792 "EHLO
+        id S232191AbjAWPZR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 23 Jan 2023 10:25:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54396 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232571AbjAWPO5 (ORCPT
+        with ESMTP id S232748AbjAWPYq (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 23 Jan 2023 10:14:57 -0500
-X-Greylist: delayed 21305 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 23 Jan 2023 07:14:12 PST
-Received: from gofer.mess.org (gofer.mess.org [88.97.38.141])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5EC9B29417;
-        Mon, 23 Jan 2023 07:14:11 -0800 (PST)
-Received: by gofer.mess.org (Postfix, from userid 1000)
-        id 803FE100064; Mon, 23 Jan 2023 15:13:40 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
-        t=1674486820; bh=XBfeNcvL0gBZunmR/ouv0dm+YbS9YhQ7uTwZygr49mI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=O8HJ5Palc1WEhJWFAznvEyA2o4FVaNlYlwmdpNAy9F8X7Y55W33desX9ZCDFWGel0
-         KBXsU5VPC8TpuzMwDi1VSPLXLuMAUKIXeO1OLOpZcTopUSg1JQjqeh51BVLOHdBivn
-         ugZ5enmLNU0A2tqRkEw0B2jXP4atuyaeLO9+zky1pM4gA+QrOYsZO1m0gk5iCPUaq4
-         2LKSpwNAHHEMXaNzkjMOrl0fRTcyQ1Z6Ws1krSVvZyHMMTo+AhrDP/+HiMBJ+fiN6H
-         1627g+l4DyMlMFOT4l0+NOAIT70YeGXS1s63+/qv9XEF79V0ttsBx7OD63kTpySoWK
-         csSlU/pGm7lRA==
-Date:   Mon, 23 Jan 2023 15:13:40 +0000
-From:   Sean Young <sean@mess.org>
-To:     Duoming Zhou <duoming@zju.edu.cn>
-Cc:     linux-media@vger.kernel.org, maximlevitsky@gmail.com,
-        mchehab@kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] media: rc: Fix use-after-free bugs caused by
- ene_tx_irqsim()
-Message-ID: <Y86kJKofh+tLYl6A@gofer.mess.org>
-References: <20230123142123.58870-1-duoming@zju.edu.cn>
+        Mon, 23 Jan 2023 10:24:46 -0500
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD94228D2B;
+        Mon, 23 Jan 2023 07:24:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1674487465; x=1706023465;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=DRDJqfSjegh3mnRuJBsIdTku5kJeEacaR1GSblr7dDw=;
+  b=nyewBIAh/kcZNzFJGPFLnDz3t6hPvA4f7nXN8mEEEwjxXU61DCD9jyxJ
+   C0osTr9sSe23u3nlPCdxmmc2IXjNA6uP1sDF85DVHjDOW5a2RCSZmvWHK
+   zfhBoa7XAlWOESID4yAjr8AyWV+3aLsgvqTbDs575anC0poibU/WJQwsG
+   kepeAtI5oX/989TsT8F60vvro/+SZn0Fs5+cfdOeMX8JEpK/epS4rOw/A
+   gu+snGzuASKUSxuiGBz++ja6jPbe05Kod5ue0WgokmIICGl0SDPmTfB7t
+   VYGu9Lake8HCmdF8HaqXHgN/96t8ldIn2iIzxO11UDGkis2eS+GdKjjHT
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="326098609"
+X-IronPort-AV: E=Sophos;i="5.97,239,1669104000"; 
+   d="scan'208";a="326098609"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2023 07:23:52 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="835562114"
+X-IronPort-AV: E=Sophos;i="5.97,239,1669104000"; 
+   d="scan'208";a="835562114"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by orsmga005.jf.intel.com with ESMTP; 23 Jan 2023 07:23:51 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1pJyfl-00DncG-2S;
+        Mon, 23 Jan 2023 17:23:49 +0200
+Date:   Mon, 23 Jan 2023 17:23:49 +0200
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     linux-acpi@vger.kernel.org, linux-media@vger.kernel.org,
+        rafael@kernel.org, heikki.krogerus@linux.intel.com
+Subject: Re: [PATCH v2 4/8] ACPI: property: Generate camera swnodes for ACPI
+ and DisCo for Imaging
+Message-ID: <Y86mhdQrcWMr58wV@smile.fi.intel.com>
+References: <20230123134617.265382-1-sakari.ailus@linux.intel.com>
+ <20230123134617.265382-5-sakari.ailus@linux.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230123142123.58870-1-duoming@zju.edu.cn>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <20230123134617.265382-5-sakari.ailus@linux.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Jan 23, 2023 at 10:21:23PM +0800, Duoming Zhou wrote:
-> When the ene device is detaching, function ene_remove() will
-> be called. But there is no function to cancel tx_sim_timer
-> in ene_remove(), the timer handler ene_tx_irqsim() could race
-> with ene_remove(). As a result, the UAF bugs could happen,
-> the process is shown below.
-> 
->     (cleanup routine)          |        (timer routine)
->                                | mod_timer(&dev->tx_sim_timer, ..)
-> ene_remove()                   | (wait a time)
->   kfree(dev) //FREE            |
->                                | ene_tx_irqsim()
->                                |   dev->hw_lock //USE
->                                |   ene_tx_sample(dev) //USE
-> 
-> Fix by adding del_timer_sync(&dev->tx_sim_timer) in ene_remove(),
-> The tx_sim_timer could stop before ene device is deallocated.
-> 
-> What's more, the timer can call ene_tx_sample() which can write
-> to the io ports. So we should put rc_unregister_device() and
-> del_timer_sync(&dev->tx_sim_timer) before release_region() in
-> ene_remove().
-> 
-> Fixes: 9ea53b74df9c ("V4L/DVB: STAGING: remove lirc_ene0100 driver")
-> Signed-off-by: Duoming Zhou <duoming@zju.edu.cn>
-> ---
-> Changes in v2:
->   - Move rc_unregister_device() and del_timer_sync() before release_region().
-> 
->  drivers/media/rc/ene_ir.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/rc/ene_ir.c b/drivers/media/rc/ene_ir.c
-> index e09270916fb..2864360af9e 100644
-> --- a/drivers/media/rc/ene_ir.c
-> +++ b/drivers/media/rc/ene_ir.c
-> @@ -1112,8 +1112,9 @@ static void ene_remove(struct pnp_dev *pnp_dev)
->  	spin_unlock_irqrestore(&dev->hw_lock, flags);
->  
->  	free_irq(dev->irq, dev);
-> -	release_region(dev->hw_io, ENE_IO_SIZE);
->  	rc_unregister_device(dev->rdev);
-> +	del_timer_sync(&dev->tx_sim_timer);
-> +	release_region(dev->hw_io, ENE_IO_SIZE);
->  	kfree(dev);
->  }
+On Mon, Jan 23, 2023 at 03:46:13PM +0200, Sakari Ailus wrote:
+> Generate software nodes for information parsed from ACPI _CRS for CSI-2 as
+> well as MIPI DisCo for Imaging spec. The software nodes are compliant with
+> existing ACPI or DT definitions and are parsed by relevant drivers without
+> changes.
 
-I'm sorry, I think there might be a problem there: the irq is freed before
-the rc device is unregistered.
+...
 
-The rx receiver is disabled with ene_rx_disable() before rc_unregister_device()
-is called, which means it can be enabled again if a process opens /dev/lirc0
-between ene_rx_disable() and rc_unregister_device().
+> +static struct acpi_device_software_nodes *
+> +crs_csi2_swnode_get(acpi_handle handle)
 
-ene_remove() should call rc_unregister_device() and del_timer_sync() before
-anything else.
+It's 81 on one line. Why not to join?
+
+> +{
+> +	struct crs_csi2_swnodes *swnodes;
+> +
+> +	list_for_each_entry(swnodes, &crs_csi2_swnodes, list)
+> +		if (swnodes->handle == handle)
+> +			return swnodes->ads;
+> +
+> +	return NULL;
+> +}
+
+...
+
+> +#define GRAPH_PORT_NAME(var, num)					   \
+> +	(snprintf((var), sizeof(var), SWNODE_GRAPH_PORT_NAME_FMT, (num)) > \
+> +	 sizeof(var))
+
+>= ?
+
+("excluding the trailing '\0'")
+
+...
+
+> +static struct fwnode_handle *get_mipi_port_handle(struct acpi_device *device,
+> +						  unsigned int port)
+> +{
+
+> +	static const char mipi_port_prefix[] = "mipi-img-port-";
+
+It's used only once in this function, why not keeping it in the format string?
+
+> +	char mipi_port_name[sizeof(mipi_port_prefix) + 2];
+> +
+> +	if (snprintf(mipi_port_name, sizeof(mipi_port_name), "%s%u",
+> +		     mipi_port_prefix, port) > sizeof(mipi_port_name)) {
+> +		acpi_handle_info(acpi_device_handle(device),
+> +				 "mipi port name too long for port %u\n", port);
+> +		return NULL;
+> +	}
+> +
+> +	return fwnode_get_named_child_node(acpi_fwnode_handle(device),
+> +					   mipi_port_name);
+> +}
+
+...
+
+> +			/* Move polarity bits to the lane polarity u32 array */
+> +			for (i = 0; i < 1 + num_lanes; i++)
+> +				port->lane_polarities[i] =
+> +					(u.val8[i >> 3] & (1 << (i & 7))) ?
+> +					1U : 0U;
+
+Wouldn't
+
+				port->lane_polarities[i] =
+					!!(u.val8[i >> 3] & (1 << (i & 7)));
+
+be better?
+
+...
+
+> +	ret = software_node_register_node_group(ads->nodeptrs);
+> +	if (ret < 0) {
+> +		acpi_handle_warn(acpi_device_handle(device),
+> +				 "cannot register software nodes (%d)!\n", ret);
+> +		device->swnodes = NULL;
+> +		return;
+> +	}
+
+> +	device->fwnode.secondary = software_node_fwnode(ads->nodes);
+
+	struct fwnode_handle *primary;
+	...
+	primary = acpi_fwnode_handle(device);
+	primary->secondary = ...
+
+?
+
+The point is to avoid direct dereferences of fwnode in struct acpi_device.
 
 
-Sean
+...
+
+> +static void acpi_free_swnodes(struct acpi_device *device)
+> +{
+> +	struct acpi_device_software_nodes *ads = device->swnodes;
+> +
+> +	if (!ads)
+> +		return;
+> +
+> +	software_node_unregister_node_group(ads->nodeptrs);
+
+> +	set_secondary_fwnode(&device->dev, NULL);
+
+Interestingly you are not use same API above. Why?
+
+> +	kfree(ads->nodes[ACPI_DEVICE_SWNODE_ROOT].name);
+> +	kfree(ads);
+> +
+> +	device->swnodes = NULL;
+> +}
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
