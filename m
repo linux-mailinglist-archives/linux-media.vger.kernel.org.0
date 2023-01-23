@@ -2,194 +2,163 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A1A276780F2
-	for <lists+linux-media@lfdr.de>; Mon, 23 Jan 2023 17:08:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C2F89678139
+	for <lists+linux-media@lfdr.de>; Mon, 23 Jan 2023 17:19:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233052AbjAWQIL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 23 Jan 2023 11:08:11 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44912 "EHLO
+        id S231859AbjAWQTY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 23 Jan 2023 11:19:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53482 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232867AbjAWQIK (ORCPT
+        with ESMTP id S233125AbjAWQTX (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 23 Jan 2023 11:08:10 -0500
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 772BA23D9F;
-        Mon, 23 Jan 2023 08:08:09 -0800 (PST)
+        Mon, 23 Jan 2023 11:19:23 -0500
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD046EC7D;
+        Mon, 23 Jan 2023 08:19:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674490089; x=1706026089;
+  t=1674490762; x=1706026762;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=Gm/h4JqSPjmuC0rKybWIYbjPhlw06c8HPm9jqSJ6Yd8=;
-  b=MibJlaoCSgoS5kVsDq2iuM1oqBEVBoOUlyDpE+iSJ08MAJODqKMFUf5D
-   EPWiRTSvhrSMBDFYK/o5ACvFBPiyNagNYqouq8lOKh7i0XFNZ3L/eqEc8
-   OqBsUUzKbh2wmPOutm/vI77csuqZdfYObhGYNXhpZoM3kXPRFf4kD01N1
-   LWzcPkxCamhwCa9z/SJE+FrDq8yJ1OV5cXAsfE23HPkhNH4+2OrIuJZzo
-   6pNMioXW6M9LzZkCiwhH95nP/uQdRxLx+juB/lGiX7vNAe9AU/ahEg7Oh
-   Q9hNAHcpbOf9lyvYQHmNOywigQdq+GdWixjNthnUSPj41n3SpLaffPdqd
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="328163400"
+  bh=lmu2v7OpTbu6dqk7bQ9CsXmK8c+nQata6XlQ8c9vCME=;
+  b=fRcHElqMEi/4o2Aenro818D6o3Ist4rPAUDfDu/Tq0xh9PfPVR8j1iWI
+   +j3QX8DGa20u+pVVqwgHG/EMxKhCgePPBnCMnCo5hLGbRbdKDWkEPDfyv
+   Sw5xIEGhZJVP0aTM+FLZY5WcMS0JRZFwDoXhunmmxPnVCIq+bDnI98WjG
+   b6UlZkjTmMK76ACFUUK8wIVpyDG0y3xJM0ZNFW6u/3wJ5tzFM9v/XtZ8T
+   PBZsuV0Rkw3dD++hlC3NQWY6IE+oC0Hgkxqo8sAYYgjaIweiRWU9wCV7G
+   dhqoUmbuLXGIe/j0N+ydHf56n73NX7yRgIa9k1UTJiuSbEnqAXrQKok9/
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="327340445"
 X-IronPort-AV: E=Sophos;i="5.97,240,1669104000"; 
-   d="scan'208";a="328163400"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2023 08:07:47 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="835608238"
+   d="scan'208";a="327340445"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2023 08:19:21 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="663690168"
 X-IronPort-AV: E=Sophos;i="5.97,240,1669104000"; 
-   d="scan'208";a="835608238"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2023 08:07:46 -0800
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-        by kekkonen.fi.intel.com (Postfix) with SMTP id 77D2211F782;
-        Mon, 23 Jan 2023 18:07:43 +0200 (EET)
-Date:   Mon, 23 Jan 2023 18:07:43 +0200
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     linux-acpi@vger.kernel.org, linux-media@vger.kernel.org,
-        rafael@kernel.org, heikki.krogerus@linux.intel.com
-Subject: Re: [PATCH v2 2/8] ACPI: property: Parse _CRS CSI-2 descriptor
-Message-ID: <Y86wzwrlvro3RFto@kekkonen.localdomain>
-References: <20230123134617.265382-1-sakari.ailus@linux.intel.com>
- <20230123134617.265382-3-sakari.ailus@linux.intel.com>
- <Y86inXQ+nEoFiosr@smile.fi.intel.com>
+   d="scan'208";a="663690168"
+Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
+  by fmsmga007.fm.intel.com with ESMTP; 23 Jan 2023 08:19:17 -0800
+Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1pJzXN-0005lU-1V;
+        Mon, 23 Jan 2023 16:19:13 +0000
+Date:   Tue, 24 Jan 2023 00:18:33 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Christian Hewitt <christianshewitt@gmail.com>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Jerome Brunet <jbrunet@baylibre.com>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        linux-amlogic@lists.infradead.org, linux-staging@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Cc:     oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+        Christian Hewitt <christianshewitt@gmail.com>,
+        Maxime Jourdan <mjourdan@baylibre.com>,
+        Benjamin Roszak <benjamin545@gmail.com>
+Subject: Re: [PATCH 2/2] media: meson: vdec: add HEVC decode codec
+Message-ID: <202301240007.NkZA19qq-lkp@intel.com>
+References: <20230123133113.3254659-3-christianshewitt@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Y86inXQ+nEoFiosr@smile.fi.intel.com>
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <20230123133113.3254659-3-christianshewitt@gmail.com>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Andy,
+Hi Christian,
 
-On Mon, Jan 23, 2023 at 05:07:09PM +0200, Andy Shevchenko wrote:
-> On Mon, Jan 23, 2023 at 03:46:11PM +0200, Sakari Ailus wrote:
-> > Parse newly added ACPI _CRS CSI-2 descriptor for CSI-2 and camera
-> > configuration. For now, only figure out where the descriptor is present in
-> > order to allow adding information from it to related devices.
-> 
-> ...
-> 
-> > +	memcpy(inst->remote_name, csi2->resource_source.string_ptr,
-> > +	       csi2->resource_source.string_length);
-> 
-> Why don't we use strscpy()? Is it really strings? Or is it some abuse of
-> the ACPI object type?
+Thank you for the patch! Perhaps something to improve:
 
-I didn't find a guarantee it would be nil terminated. Albeit I'm fine
-switching to strscpy() if there's such a guarantee.
+[auto build test WARNING on media-tree/master]
+[also build test WARNING on linus/master v6.2-rc5 next-20230123]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-> 
-> ...
-> 
-> > +static acpi_status scan_check_crs_csi2(acpi_handle handle, u32 nesting_level,
-> > +				       void *context, void **ret)
-> > +{
-> > +	struct scan_check_crs_csi2_context inst_context = {
-> > +		.handle = handle,
-> > +		.res_list = LIST_HEAD_INIT(inst_context.res_list),
-> > +	};
-> > +	struct list_head *list = context;
-> > +	struct crs_csi2 *csi2;
-> 
-> > +	INIT_LIST_HEAD(&inst_context.res_list);
-> 
-> Why do you need this? I don't see that variable is static...
+url:    https://github.com/intel-lab-lkp/linux/commits/Christian-Hewitt/media-meson-vdec-implement-10bit-bitstream-handling/20230123-213323
+base:   git://linuxtv.org/media_tree.git master
+patch link:    https://lore.kernel.org/r/20230123133113.3254659-3-christianshewitt%40gmail.com
+patch subject: [PATCH 2/2] media: meson: vdec: add HEVC decode codec
+config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20230124/202301240007.NkZA19qq-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/498d420e9c7cdc6e694be643c47ee69c8b5b2142
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Christian-Hewitt/media-meson-vdec-implement-10bit-bitstream-handling/20230123-213323
+        git checkout 498d420e9c7cdc6e694be643c47ee69c8b5b2142
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc SHELL=/bin/bash drivers/staging/
 
-Ah. It's not static. But this is a leftover from development time and can
-be removed, it's initialised in variable declaration.
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
 
-> 
-> > +	acpi_walk_resources(handle, METHOD_NAME__CRS,
-> > +			    scan_check_crs_csi2_instance, &inst_context);
-> > +
-> > +	if (list_empty(&inst_context.res_list))
-> > +		return AE_OK;
-> > +
-> > +	csi2 = kmalloc(sizeof(*csi2), GFP_KERNEL);
-> > +	if (!csi2)
-> > +		return AE_OK;
-> > +
-> > +	csi2->handle = handle;
-> > +	list_replace(&inst_context.res_list, &csi2->buses);
-> > +	list_add(&csi2->list, list);
-> 
-> Hmm... Can list_swap() be used here?
+All warnings (new ones prefixed by >>):
 
-We're replacing an entry in a list and then adding an entry to another. How
-would you use list_swap() here?
+   drivers/staging/media/meson/vdec/codec_hevc.c: In function 'codec_hevc_set_mpred_mv':
+>> drivers/staging/media/meson/vdec/codec_hevc.c:1002:13: warning: variable 'val' set but not used [-Wunused-but-set-variable]
+    1002 |         u32 val;
+         |             ^~~
 
-> 
-> > +	return AE_OK;
-> > +}
-> 
-> ...
-> 
-> > +	/*
-> > +	 * Figure out how much temporary storage we need for counting
-> > +	 * connections in each device.
-> > +	 */
-> > +	list_for_each_entry(csi2, &crs_csi2_handles, list) {
-> > +		struct crs_csi2_instance *inst;
-> > +
-> > +		handle_count++;
-> 
-> > +		list_for_each_entry(inst, &csi2->buses, list)
-> > +			handle_count++;
-> 
-> list_count_nodes()?
 
-Are you suggesting adding a new list API function or using one that's not
-in the linux-acpi/testing branch yet?
+vim +/val +1002 drivers/staging/media/meson/vdec/codec_hevc.c
 
-> 
-> > +	}
-> 
-> ...
-> 
-> > +	sort(handle_refs, handle_count, sizeof(*handle_refs), crs_handle_cmp,
-> > +	     NULL);
-> 
-> Yes, I would leave it on one line.
-
-Works for me.
-
-> 
-> ...
-> 
-> > +		if (check_mul_overflow(sizeof(*ads->ports) +
-> > +				       sizeof(*ads->nodes) * 2 +
-> > +				       sizeof(*ads->nodeptrs) * 2,
-> > +				       (size_t)this_count, &alloc_size) ||
-> 
-> Can this_count be of size_t type from the beginning?
-
-I think so.
-
-> 
-> > +		    check_add_overflow(sizeof(*ads) + sizeof(*ads->nodes) +
-> > +				       sizeof(*ads->nodeptrs) * 2,
-> > +				       alloc_size, &alloc_size)) {
-> > +			acpi_handle_warn(handle, "too many handles (%u)",
-> > +					 this_count);
-> > +			continue;
-> > +		}
-> 
-> ...
-> 
-> > +		ads->nodeptrs = (void *)(ads->nodes +
-> > +					 this_count * 2 + 1);
-> 
-> Why this is not on one line? (I have got less than 80).
-
-Probably there was more on that line but I forgot to unwrap when removing
-whatever was there. I'll address this for v3.
+   990	
+   991	static void codec_hevc_set_mpred_mv(struct amvdec_core *core,
+   992					    struct codec_hevc *hevc,
+   993					    struct hevc_frame *frame,
+   994					    struct hevc_frame *col_frame)
+   995	{
+   996		union rpm_param *param = &hevc->rpm_param;
+   997		u32 lcu_size_log2 = ilog2(hevc->lcu_size);
+   998		u32 mv_mem_unit = lcu_size_log2 == 6 ? 0x200 :
+   999				  lcu_size_log2 == 5 ? 0x80 : 0x20;
+  1000		dma_addr_t col_mv_rd_start_addr, col_mv_rd_ptr, col_mv_rd_end_addr;
+  1001		dma_addr_t mpred_mv_wr_ptr;
+> 1002		u32 val;
+  1003	
+  1004		val = amvdec_read_dos(core, HEVC_MPRED_CURR_LCU);
+  1005	
+  1006		col_mv_rd_start_addr = codec_hevc_get_frame_mv_paddr(hevc, col_frame);
+  1007		mpred_mv_wr_ptr = codec_hevc_get_frame_mv_paddr(hevc, frame) +
+  1008				  (hevc->slice_addr * mv_mem_unit);
+  1009		col_mv_rd_ptr = col_mv_rd_start_addr +
+  1010				(hevc->slice_addr * mv_mem_unit);
+  1011		col_mv_rd_end_addr = col_mv_rd_start_addr +
+  1012				     (hevc->lcu_total * mv_mem_unit);
+  1013	
+  1014		amvdec_write_dos(core, HEVC_MPRED_MV_WR_START_ADDR,
+  1015				 codec_hevc_get_frame_mv_paddr(hevc, frame));
+  1016		amvdec_write_dos(core, HEVC_MPRED_MV_RD_START_ADDR,
+  1017				 col_mv_rd_start_addr);
+  1018	
+  1019		if (param->p.slice_segment_address == 0) {
+  1020			amvdec_write_dos(core, HEVC_MPRED_ABV_START_ADDR,
+  1021					 hevc->workspace_paddr + MPRED_ABV_OFFSET);
+  1022			amvdec_write_dos(core, HEVC_MPRED_MV_WPTR, mpred_mv_wr_ptr);
+  1023			amvdec_write_dos(core, HEVC_MPRED_MV_RPTR,
+  1024					 col_mv_rd_start_addr);
+  1025		} else {
+  1026			amvdec_write_dos(core, HEVC_MPRED_MV_RPTR, col_mv_rd_ptr);
+  1027		}
+  1028	
+  1029		amvdec_write_dos(core, HEVC_MPRED_MV_RD_END_ADDR, col_mv_rd_end_addr);
+  1030	}
+  1031	
 
 -- 
-Kind regards,
-
-Sakari Ailus
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
