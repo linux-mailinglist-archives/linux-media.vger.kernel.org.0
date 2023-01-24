@@ -2,220 +2,118 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 51C8B679B57
-	for <lists+linux-media@lfdr.de>; Tue, 24 Jan 2023 15:16:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A8FFE679C3D
+	for <lists+linux-media@lfdr.de>; Tue, 24 Jan 2023 15:43:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234601AbjAXOQ1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 24 Jan 2023 09:16:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55028 "EHLO
+        id S235058AbjAXOnD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 24 Jan 2023 09:43:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55518 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234833AbjAXOQU (ORCPT
+        with ESMTP id S234912AbjAXOmm (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 24 Jan 2023 09:16:20 -0500
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F329B47EFE;
-        Tue, 24 Jan 2023 06:16:17 -0800 (PST)
-Received: from nicolas-tpx395.localdomain (192-222-136-102.qc.cable.ebox.net [192.222.136.102])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits))
-        (No client certificate requested)
-        (Authenticated sender: nicolas)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id E444D66018E4;
-        Tue, 24 Jan 2023 14:16:14 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1674569776;
-        bh=s47CGVJ4e+M+0waJGcv4TlZkKgbgs+1KN4fTvbSmCw4=;
-        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-        b=T5quUrXp5EMyS+m5En1TAtvR5bnV7h56/mMlGRbDIVb8fKHyJM8J4llOCgQOM0Oa8
-         QyO15DDdK3DACIHrjbDozZc/ubjiKB/ht4WipqKrT0TqHt12Aoq9Y9iox/ZQFwn8LH
-         pZIDRWLouYq6SIjK68Fo9hQyx5Mj0489Y8e0rzmruf9na0Vk86FwKtHZs+D3Bf6RUt
-         qlrkeQOfTaQlVYilurRa+1eLgB3WJWEYUJYBwgB1Sczbsh3gQYhzNTCtDqGOadgoDL
-         M3oMSTa0jBZ6DcWAXQtYiN8OFI8di113yfBn9w9O43oWFjAZQFerh28pjUr6i4QszG
-         Dfr6WPpIZACAw==
-Message-ID: <b31a3327aa2a500c6509f8f54632954bf2cea19b.camel@collabora.com>
-Subject: Re: [PATCH v3 1/7] media: Add P010 tiled format
-From:   Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To:     Jernej Skrabec <jernej.skrabec@gmail.com>,
-        ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de
-Cc:     mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
-        benjamin.gaignard@collabora.com, gregkh@linuxfoundation.org,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-rockchip@lists.infradead.org
-Date:   Tue, 24 Jan 2023 09:16:06 -0500
-In-Reply-To: <20220706182901.78949-2-jernej.skrabec@gmail.com>
-References: <20220706182901.78949-1-jernej.skrabec@gmail.com>
-         <20220706182901.78949-2-jernej.skrabec@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.2 (3.46.2-1.fc37) 
+        Tue, 24 Jan 2023 09:42:42 -0500
+Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 173EA4A1DC;
+        Tue, 24 Jan 2023 06:42:27 -0800 (PST)
+Received: by mail-wr1-x42a.google.com with SMTP id t18so1281353wro.1;
+        Tue, 24 Jan 2023 06:42:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=ULYuWXV/gOEakuXjYyzzPaFAF/ufwa1YfwMolryeGUM=;
+        b=cgw3mJmyiwBWjJtV9xeWFnFIArTiv+hIHox3q8JHJd1tEiIc95OhiLNb+Esl7v2uk/
+         l9j6UQA8fmquOTUmBmWw46iI+3ZFYjM2z0RFxDxwYqDwIS1IGjUUpEvCn8YsHdIYBfR4
+         GBcLi0y+5KVuNclKgoHqAK8kw4w7BUjWIHPa/iaNCtCZ9UhDIwHGSmSiGPxJ62ycV8Ly
+         MCJu5HZI4GzabKTMv+82IT+Eh7AzcsrMrffut+SJPkINivgb9UKhY6y0k/G+JJx0zIk5
+         qACMp3TpagVHMu0zMZghJnAqfl8Pfbi7aaY6qUBj1E/r4XofX+oEk09Yy+UswNOQvfSs
+         gqTQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ULYuWXV/gOEakuXjYyzzPaFAF/ufwa1YfwMolryeGUM=;
+        b=ASjZcVoFx5yT2HJxL5O/jLI9I5bxOM/k9LbREdGdVTnO6gPhvyKeHfEEi0Z9UnI8iM
+         Ci+KAmYTd9hoMtA1LSw09ioeziCYhfB3+c0zDD3Z4dQZ+LoHdWZg5qkDc7xJ8UfyqeFB
+         lDkefvjH0yXKTkf5pseNoY9psZBAsEKhPej34e9aL2E9+1kLngJMCuUDk53x5zH1EBz0
+         HZbbbTIYJ/qrHNHwV9DXcL5Snuj6aBXfQ4zvSQybhhjMoWmf5Xl+f5z9ai5ImreD7cRt
+         3EpXcjPfjNcw+qWd3DLED8szvzOYR2n+A4Z6WE/jyPVj3OmtEz5u30O87sy04tHgSj00
+         m1xg==
+X-Gm-Message-State: AFqh2koGlr0oP/aWJII5uYP42pFdGc46scRBATz/wlAcjmLF3WC1DK2g
+        szxBbfvzA3kz4zK7T/XoJaY=
+X-Google-Smtp-Source: AMrXdXskPF1ZD0ZmfencZ5tEi8M4YEL2aTheDKQMrqEBrm7RB+dZMcEceObH2/QvJlVxFhODeOG0wg==
+X-Received: by 2002:a05:6000:549:b0:2be:184a:5d5c with SMTP id b9-20020a056000054900b002be184a5d5cmr21672099wrf.59.1674571345340;
+        Tue, 24 Jan 2023 06:42:25 -0800 (PST)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id m14-20020adffa0e000000b00287da7ee033sm2098028wrr.46.2023.01.24.06.42.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 24 Jan 2023 06:42:24 -0800 (PST)
+Date:   Tue, 24 Jan 2023 17:42:21 +0300
+From:   Dan Carpenter <error27@gmail.com>
+To:     Brent Pappas <bpappas@pappasbrent.com>
+Cc:     sakari.ailus@linux.intel.com, bingbu.cao@intel.com,
+        tian.shu.qiu@intel.com, mchehab@kernel.org,
+        gregkh@linuxfoundation.org, linux-media@vger.kernel.org,
+        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] mdeia: ipu3: ipu33-mmu: Replace macro IPU3_ADDR2PTE()
+ with a function
+Message-ID: <Y8/uTYK7qmYD5MSA@kadam>
+References: <20230124135554.13787-1-bpappas@pappasbrent.com>
 MIME-Version: 1.0
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230124135554.13787-1-bpappas@pappasbrent.com>
+X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Ezequiel, Benjamin,
+On Tue, Jan 24, 2023 at 08:55:54AM -0500, Brent Pappas wrote:
+> Replace the macro IPU3_ADDR2PTE() with a static function to match
+> Linux coding style standards.
 
-Le mercredi 06 juillet 2022 =C3=A0 20:28 +0200, Jernej Skrabec a =C3=A9crit=
-=C2=A0:
-> From: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
->=20
-> Add P010 tiled format
->=20
-> Tested-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+When you say "Linux coding style standards" what exactly does that mean?
+I've just re-read the Documentation/process/coding-style.rst section on
+"Macros, Enums and RTL" and I don't see an issue with the macro.
 
-I just tested Hantro G2 myself, and that highlights that this was not reall=
-y
-tested. I believe no-one had written software detiler to verify this, so te=
-sted
-meant something like "its producing data". In fact, it seems that P010_4L4 =
-is
-not a pixel formats, at least not one covered by Hantro driver.
+This code is in the middle of a big section full of macros.  Why did you
+pick this particular macro?  Now it doesn't mirror the IPU3_PTE2ADDR()
+so this patch hurts readability.
 
-I've dumped the tiled data, and the per tile format is not made of 16bit
-components, but instead its similar to Rockchip format, where 4 pixels are
-packed  over. As part of the AV1 driver writing, I made a detiler for that
-format.
-
-https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/3447
-
-Let's be more careful next time, pixels formats are frozen into our API, an=
-d
-there is a lot of them already, lets not invent any.
-
-Hans, what should we do about this one ? I can split off the NV12_10LE40_4L=
-4
-format from the AV1 patchset, and port G2 to use that instead. That would l=
-eave
-behind P010_4L4 as unused (actually unexistant). Any better ideas ? Perhaps=
- we
-could steal the fourcc, its not terribly meaningful, and make P010_4L4 an a=
-lias
-?
-
-Nicolas
-
-> Signed-off-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-> [rebased, updated pixel format name and added description]
-> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+> 
+> Signed-off-by: Brent Pappas <bpappas@pappasbrent.com>
 > ---
->  .../media/v4l/pixfmt-yuv-planar.rst            | 18 +++++++++++++++---
->  drivers/media/v4l2-core/v4l2-common.c          |  1 +
->  drivers/media/v4l2-core/v4l2-ioctl.c           |  1 +
->  include/uapi/linux/videodev2.h                 |  1 +
->  4 files changed, 18 insertions(+), 3 deletions(-)
->=20
-> diff --git a/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst =
-b/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst
-> index a900ff66911a..faba259a2b92 100644
-> --- a/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst
-> +++ b/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst
-> @@ -116,6 +116,13 @@ All components are stored with the same number of bi=
-ts per component.
->        - Cb, Cr
->        - Yes
->        - Linear
-> +    * - V4L2_PIX_FMT_P010_4L4
-> +      - 'T010'
-> +      - 10
-> +      - 4:2:0
-> +      - Cb, Cr
-> +      - Yes
-> +      - 4x4 tiles
->      * - V4L2_PIX_FMT_NV16
->        - 'NV16'
->        - 8
-> @@ -528,11 +535,12 @@ number of lines as the luma plane.
->        - Cr\ :sub:`33`
-> =20
->  .. _V4L2_PIX_FMT_P010:
-> +.. _V4L2-PIX-FMT-P010-4L4:
-> =20
-> -P010
-> -----
-> +P010 and tiled P010
-> +-------------------
-> =20
-> -Like NV12 with 10 bits per component, expanded to 16 bits.
-> +P010 is like NV12 with 10 bits per component, expanded to 16 bits.
->  Data in the 10 high bits, zeros in the 6 low bits, arranged in little en=
-dian order.
-> =20
->  .. flat-table:: Sample 4x4 P010 Image
-> @@ -570,6 +578,10 @@ Data in the 10 high bits, zeros in the 6 low bits, a=
-rranged in little endian ord
->        - Cb\ :sub:`11`
->        - Cr\ :sub:`11`
-> =20
-> +``V4L2_PIX_FMT_P010_4L4`` stores pixels in 4x4 tiles, and stores tiles l=
-inearly
-> +in memory. The line stride must be aligned to multiple of 8 and image he=
-ight to
-> +a multiple of 4. The layouts of the luma and chroma planes are identical=
-.
-> +
->  .. raw:: latex
-> =20
->      \endgroup
-> diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-c=
-ore/v4l2-common.c
-> index 1e38ad8906a2..e0fbe6ba4b6c 100644
-> --- a/drivers/media/v4l2-core/v4l2-common.c
-> +++ b/drivers/media/v4l2-core/v4l2-common.c
-> @@ -278,6 +278,7 @@ const struct v4l2_format_info *v4l2_format_info(u32 f=
-ormat)
-> =20
->  		/* Tiled YUV formats */
->  		{ .format =3D V4L2_PIX_FMT_NV12_4L4, .pixel_enc =3D V4L2_PIXEL_ENC_YUV=
-, .mem_planes =3D 1, .comp_planes =3D 2, .bpp =3D { 1, 2, 0, 0 }, .hdiv =3D=
- 2, .vdiv =3D 2 },
-> +		{ .format =3D V4L2_PIX_FMT_P010_4L4, .pixel_enc =3D V4L2_PIXEL_ENC_YUV=
-, .mem_planes =3D 1, .comp_planes =3D 2, .bpp =3D { 2, 4, 0, 0 }, .hdiv =3D=
- 2, .vdiv =3D 2 },
-> =20
->  		/* YUV planar formats, non contiguous variant */
->  		{ .format =3D V4L2_PIX_FMT_YUV420M, .pixel_enc =3D V4L2_PIXEL_ENC_YUV,=
- .mem_planes =3D 3, .comp_planes =3D 3, .bpp =3D { 1, 1, 1, 0 }, .hdiv =3D =
-2, .vdiv =3D 2 },
-> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-co=
-re/v4l2-ioctl.c
-> index e2526701294e..7aa3af389b51 100644
-> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
-> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-> @@ -1310,6 +1310,7 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *f=
-mt)
->  	case V4L2_PIX_FMT_NV12_4L4:	descr =3D "Y/CbCr 4:2:0 (4x4 Linear)"; brea=
-k;
->  	case V4L2_PIX_FMT_NV12_16L16:	descr =3D "Y/CbCr 4:2:0 (16x16 Linear)"; =
-break;
->  	case V4L2_PIX_FMT_NV12_32L32:   descr =3D "Y/CbCr 4:2:0 (32x32 Linear)"=
-; break;
-> +	case V4L2_PIX_FMT_P010_4L4:	descr =3D "10-bit Y/CbCr 4:2:0 (4x4 Linear)=
-"; break;
->  	case V4L2_PIX_FMT_NV12M:	descr =3D "Y/CbCr 4:2:0 (N-C)"; break;
->  	case V4L2_PIX_FMT_NV21M:	descr =3D "Y/CrCb 4:2:0 (N-C)"; break;
->  	case V4L2_PIX_FMT_NV16M:	descr =3D "Y/CbCr 4:2:2 (N-C)"; break;
-> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev=
-2.h
-> index 5311ac4fde35..32bedeb04152 100644
-> --- a/include/uapi/linux/videodev2.h
-> +++ b/include/uapi/linux/videodev2.h
-> @@ -630,6 +630,7 @@ struct v4l2_pix_format {
->  #define V4L2_PIX_FMT_NV12_4L4 v4l2_fourcc('V', 'T', '1', '2')   /* 12  Y=
-/CbCr 4:2:0  4x4 tiles */
->  #define V4L2_PIX_FMT_NV12_16L16 v4l2_fourcc('H', 'M', '1', '2') /* 12  Y=
-/CbCr 4:2:0 16x16 tiles */
->  #define V4L2_PIX_FMT_NV12_32L32 v4l2_fourcc('S', 'T', '1', '2') /* 12  Y=
-/CbCr 4:2:0 32x32 tiles */
-> +#define V4L2_PIX_FMT_P010_4L4 v4l2_fourcc('T', '0', '1', '0') /* 12  Y/C=
-bCr 4:2:0 10-bit 4x4 macroblocks */
-> =20
->  /* Tiled YUV formats, non contiguous planes */
->  #define V4L2_PIX_FMT_NV12MT  v4l2_fourcc('T', 'M', '1', '2') /* 12  Y/Cb=
-Cr 4:2:0 64x32 tiles */
+>  drivers/staging/media/ipu3/ipu3-mmu.c | 18 +++++++++++-------
+>  1 file changed, 11 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/staging/media/ipu3/ipu3-mmu.c b/drivers/staging/media/ipu3/ipu3-mmu.c
+> index cb9bf5fb29a5..d2d603c32773 100644
+> --- a/drivers/staging/media/ipu3/ipu3-mmu.c
+> +++ b/drivers/staging/media/ipu3/ipu3-mmu.c
+> @@ -25,7 +25,11 @@
+>  #define IPU3_PT_SIZE		(IPU3_PT_PTES << 2)
+>  #define IPU3_PT_ORDER		(IPU3_PT_SIZE >> PAGE_SHIFT)
+>  
+> -#define IPU3_ADDR2PTE(addr)	((addr) >> IPU3_PAGE_SHIFT)
+> +static u32 ipu3_addr2pte(phys_addr_t addr)
+> +{
+> +	return addr >> IPU3_PAGE_SHIFT;
+> +}
+
+To me the original macro is fine.  The inline would also be fine if it
+were done consistently.  But I guess I just don't see a lot of value in
+changing the existing code.
+
+If you were taking ownership of this driver in a more meaningful way
+then I would defer to your taste...  But I just don't see a lot of value
+in the patch.
+
+regards,
+dan carpenter
 
