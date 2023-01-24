@@ -2,106 +2,256 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A62D7679F8A
-	for <lists+linux-media@lfdr.de>; Tue, 24 Jan 2023 18:03:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F088F679F98
+	for <lists+linux-media@lfdr.de>; Tue, 24 Jan 2023 18:05:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234786AbjAXRDq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 24 Jan 2023 12:03:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35230 "EHLO
+        id S233417AbjAXRF3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 24 Jan 2023 12:05:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36434 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234788AbjAXRDQ (ORCPT
+        with ESMTP id S233508AbjAXRFZ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 24 Jan 2023 12:03:16 -0500
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF3C0DBE7;
-        Tue, 24 Jan 2023 09:02:46 -0800 (PST)
-Received: from [192.168.2.197] (unknown [109.252.117.89])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        Tue, 24 Jan 2023 12:05:25 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 91D834DE16;
+        Tue, 24 Jan 2023 09:05:00 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        (Authenticated sender: dmitry.osipenko)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 2DAD86602E22;
-        Tue, 24 Jan 2023 17:02:43 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1674579765;
-        bh=VAJAGj9mDF7o3WZ3VOmzDTm34wwnrr+/a3gGZ+27DcI=;
+        by ams.source.kernel.org (Postfix) with ESMTPS id A4B89B8110F;
+        Tue, 24 Jan 2023 17:04:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E94CAC433D2;
+        Tue, 24 Jan 2023 17:04:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1674579859;
+        bh=NH0vwjYHuVoJyfCc0IFYChVcGaOjWHhovN7LOhiKaOs=;
         h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=OqA6JBs5LLnbiF3bNfeASDGBc4uGRUfEr6zBijDjjsUF63mSKkRq61H+Ogw9Va3U5
-         nXK1JWLUho68iAggIZRLRUaU3vAJzpDl7Ea9j/EXVA2YnShDKFWGszLSNQ5aex2/xt
-         lRC2qqNKV84Q6dsmY94S3inYxg+tY1jgQlEbBChdhQVKfylFuG97e6KJny1mjhgtxc
-         v49Ei6tcwTPI+78x+xVmsZGn59CmY6jUoag06XVedrIQtZHKceH2Ao8SQSqvCwUYKf
-         fQ8fSgDT+4wrTCWXwjeeQ62Dt0ZXeCrrALllFMtrGu5qpGKWVPxKfr2x2hqhJnd0GO
-         EchjENhVjcddg==
-Message-ID: <cdc91bc4-aa76-f824-36c9-d2995c17fb18@collabora.com>
-Date:   Tue, 24 Jan 2023 20:02:39 +0300
+        b=J5qhTjd6C6ZhzhuJUw156CyxTcxk++1NMk+NpyhVk1zqJJN3LCcYRYDKCHQPfjTYD
+         WzfaLX7zygQgXpcBs27FHcNIrozRf2wszdq+jEE/MWzkNAhpOJ0tqHf0n5VfDEwGWc
+         Ss8bExmIufr2BdC506sMdodM/L+dUWRE78G+GcDXpLbpwtfdB2Rwi/63ibioWABvcp
+         EO6tjSTiy2u6MpENRyZ2GvRSzr/DJoyu11NbOa3/HIijOtYExNppc0PQAYpjNcD5dq
+         VjaxxwgRQwDpYo52G3PRb4YnqTq/QkCJmW1t/28PNGeBufZaOINGRwlRVtrhHP88QQ
+         Js9S10UKRYq4Q==
+Message-ID: <949e3330-8c3d-6106-fbf8-cab820801cfc@kernel.org>
+Date:   Tue, 24 Jan 2023 18:04:14 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH v3 02/21] dt-bindings: display: tegra: vi: add 'vip'
- property and example
-To:     Luca Ceresoli <luca.ceresoli@bootlin.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Sowjanya Komatineni <skomatineni@nvidia.com>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Dmitry Osipenko <digetx@gmail.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Richard Leitner <richard.leitner@skidata.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-References: <20221229133205.981397-1-luca.ceresoli@bootlin.com>
- <20221229133205.981397-3-luca.ceresoli@bootlin.com>
+ Thunderbird/102.7.0
+Subject: Re: [PATCH v1 1/2] dtbindings: media: i2c: Add IMX708 CMOS sensor
+ binding
 Content-Language: en-US
-From:   Dmitry Osipenko <dmitry.osipenko@collabora.com>
-In-Reply-To: <20221229133205.981397-3-luca.ceresoli@bootlin.com>
+To:     Naushir Patuck <naush@raspberrypi.com>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org
+Cc:     Dave Stevenson <dave.stevenson@raspberrypi.com>
+References: <20230124150546.12876-1-naush@raspberrypi.com>
+ <20230124150546.12876-2-naush@raspberrypi.com>
+From:   Krzysztof Kozlowski <krzk@kernel.org>
+In-Reply-To: <20230124150546.12876-2-naush@raspberrypi.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-8.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 12/29/22 16:31, Luca Ceresoli wrote:
-> +        vip {
-> +            compatible = "nvidia,tegra20-vip";
-> +            #address-cells = <1>;
-> +            #size-cells = <0>;
-> +            channel@0 {
-> +                reg = <0>;
-> +                ports {
-> +                    #address-cells = <1>;
-> +                    #size-cells = <0>;
-> +                    port@0 {
-> +                        reg = <0>;
-> +                        vi_vip_in: endpoint {
-> +                            remote-endpoint = <&mt9v111_out>;
-> +                        };
-> +                    };
-> +                    port@1 {
-> +                        reg = <1>;
-> +                        vi_vip_out: endpoint {
-> +                            remote-endpoint = <&vi_in>;
-> +                        };
-> +                    };
+On 24/01/2023 16:05, Naushir Patuck wrote:
+> From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+
+Please use scripts/get_maintainers.pl to get a list of necessary people
+and lists to CC.  It might happen, that command when run on an older
+kernel, gives you outdated entries.  Therefore please be sure you base
+your patches on recent Linux kernel.
+
+> 
+> Add YAML devicetree binding for IMX708 CMOS image sensor.
+> Let's also add a MAINTAINERS entry for the binding and driver.
+> 
+
+1. Use subject prefixes matching the subsystem (which you can get for
+example with `git log --oneline -- DIRECTORY_OR_FILE` on the directory
+your patch is touching).
+
+2/ Subject: drop second/last, redundant "binding". The "dt-bindings"
+prefix is already stating that these are bindings.
+
+> Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> Signed-off-by: Naushir Patuck <naush@raspberrypi.com>
+> ---
+>  .../devicetree/bindings/media/i2c/imx708.yaml | 119 ++++++++++++++++++
+>  MAINTAINERS                                   |   7 ++
+>  2 files changed, 126 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/i2c/imx708.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/media/i2c/imx708.yaml b/Documentation/devicetree/bindings/media/i2c/imx708.yaml
+> new file mode 100644
+> index 000000000000..db1331951fce
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/i2c/imx708.yaml
+
+This must match compatible - missing vendor prefix.
+
+> @@ -0,0 +1,119 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/i2c/imx708.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Sony 1/2.3-Inch 12Mpixel CMOS Digital Image Sensor
+> +
+> +maintainers:
+> +  - Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>
+> +
+> +description: |-
+> +  The Sony IMX708 is a 1/2.3-inch CMOS active pixel digital image sensor
+> +  with an active array size of 4608H x 2592V. It is programmable through
+> +  I2C interface. The I2C address is fixed to 0x1A as per sensor data sheet.
+> +  Image data is sent through MIPI CSI-2, which is configured as either 2 or
+> +  4 data lanes.
+> +
+> +properties:
+> +  compatible:
+> +    const: sony,imx708
+> +
+> +  reg:
+> +    description: I2C device address
+
+Drop description.
+
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    maxItems: 1
+> +
+> +  VDIG-supply:
+
+lowercase, also in other places
+
+> +    description:
+> +      Digital I/O voltage supply, 1.1 volts
+> +
+> +  VANA1-supply:
+> +    description:
+> +      Analog1 voltage supply, 2.8 volts
+> +
+> +  VANA2-supply:
+> +    description:
+> +      Analog2 voltage supply, 1.8 volts
+> +
+> +  VDDL-supply:
+> +    description:
+> +      Digital core voltage supply, 1.8 volts
+> +
+> +  reset-gpios:
+
+maxItems: 1
+
+> +    description: |-
+> +      Reference to the GPIO connected to the xclr pin, if any.
+> +      Must be released (set high) after all supplies and INCK are applied.
+> +
+> +  # See ../video-interfaces.txt for more details
+
+I don't think we have this file.
+
+> +  port:
+> +    type: object
+> +    properties:
+> +      endpoint:
+> +        type: object
+> +        properties:
+
+Take a look at new bindings and use them as example. This is all done
+differently.
+
+> +          data-lanes:
+> +            description: |-
+> +              The sensor supports either two-lane, or four-lane operation.
+> +              For two-lane operation the property must be set to <1 2>.
+> +            items:
+> +              - const: 1
+> +              - const: 2
+> +
+> +          clock-noncontinuous:
+> +            type: boolean
+> +            description: |-
+> +              MIPI CSI-2 clock is non-continuous if this property is present,
+> +              otherwise it's continuous.
+> +
+> +          link-frequencies:
+> +            allOf:
+> +              - $ref: /schemas/types.yaml#/definitions/uint64-array
+> +            description:
+> +              Allowed data bus frequencies.
+> +
+> +        required:
+> +          - link-frequencies
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - clocks
+> +  - VANA1-supply
+> +  - VANA2-supply
+> +  - VDIG-supply
+> +  - VDDL-supply
+> +  - port
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    i2c0 {
+
+Drop 0
+
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +
+> +        imx708: sensor@1a {
+> +            compatible = "sony,imx708";
+> +            reg = <0x1a>;
+> +            clocks = <&imx708_clk>;
+> +            VANA1-supply = <&imx708_vana1>; /* 1.8v */
+> +            VANA2-supply = <&imx708_vana2>; /* 2.8v */
+> +            VDIG-supply = <&imx708_vdig>;   /* 1.1v */
+> +            VDDL-supply = <&imx708_vddl>;   /* 1.8v */
+> +
+> +            port {
+> +                imx708_0: endpoint {
+> +                    remote-endpoint = <&csi1_ep>;
+> +                    data-lanes = <1 2>;
+> +                    clock-noncontinuous;
+> +                    link-frequencies = /bits/ 64 <450000000>;
 > +                };
 > +            };
+> +        };
+> +    };
+> +
+> +...
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index f1c9aa89f6a4..7edeed53de4e 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -19503,6 +19503,13 @@ T:	git git://linuxtv.org/media_tree.git
+>  F:	Documentation/devicetree/bindings/media/i2c/sony,imx412.yaml
+>  F:	drivers/media/i2c/imx412.c
+>  
+> +M:	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>
+> +L:	linux-media@vger.kernel.org
+> +S:	Maintained
+> +T:	git git://linuxtv.org/media_tree.git
+> +F:	Documentation/devicetree/bindings/media/i2c/imx708.yaml
+> +F:	drivers/media/i2c/imx708.c
 
-In the changelog you said that the channel@0 node is removed
+There is no such file.
 
--- 
+
 Best regards,
-Dmitry
+Krzysztof
 
