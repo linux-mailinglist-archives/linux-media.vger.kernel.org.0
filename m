@@ -2,83 +2,95 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 33A03678D6D
-	for <lists+linux-media@lfdr.de>; Tue, 24 Jan 2023 02:30:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E5F7D678E7D
+	for <lists+linux-media@lfdr.de>; Tue, 24 Jan 2023 03:44:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232250AbjAXBaT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 23 Jan 2023 20:30:19 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54724 "EHLO
+        id S232161AbjAXCo0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 23 Jan 2023 21:44:26 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60678 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231760AbjAXBaS (ORCPT
+        with ESMTP id S232420AbjAXCoY (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 23 Jan 2023 20:30:18 -0500
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 206D312869;
-        Mon, 23 Jan 2023 17:30:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
-        Content-ID:Content-Description:In-Reply-To:References;
-        bh=nSp19ujQ+ktxCD6Dze1xGnN3rj3fGXlTk3QIIyKXR7Q=; b=RKmQLDt+q2mx7+HZ2KoFnjklUW
-        uiYSwBVvbxB9kllH9g46k8r3ryyb7gIDxzK5XqU9xan0Fpog1a8yc+YHqBw/2yeXD+jgKxUAQAwGA
-        6zSVJQh7syc6nN0q0FoK6d5I7A7Lk4OYe32BRvosylNjP0v0KzH9uwroW4V4nFkQPyHhbXL4oOvAv
-        6ai0v/4W/7Wiirl68/E5FJ6d/X+Ezekwtjka2ZtsBCsGCYDaotELoBqUzjYJYIJZkTcRi4vSu6WiG
-        CeJN++U+0RH5HMC3y+hoCm4Racd2ONn1BNVQkZNeopViJ7sC0o7PBfpi3JNPSH+8fyk11Hy2Y3nKv
-        QAgDymaA==;
-Received: from [2601:1c2:d80:3110::9307] (helo=bombadil.infradead.org)
-        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1pK88d-00223C-T5; Tue, 24 Jan 2023 01:30:15 +0000
-From:   Randy Dunlap <rdunlap@infradead.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        kernel test robot <lkp@intel.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-media@vger.kernel.org
-Subject: [PATCH] media: atomisp: fix build error, use vb2 interfaces
-Date:   Mon, 23 Jan 2023 17:30:14 -0800
-Message-Id: <20230124013014.23578-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.39.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+        Mon, 23 Jan 2023 21:44:24 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 55466E7
+        for <linux-media@vger.kernel.org>; Mon, 23 Jan 2023 18:44:17 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 07210B80EBB
+        for <linux-media@vger.kernel.org>; Tue, 24 Jan 2023 02:44:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 51D21C433D2
+        for <linux-media@vger.kernel.org>; Tue, 24 Jan 2023 02:44:14 +0000 (UTC)
+Date:   Tue, 24 Jan 2023 03:44:12 +0100
+Message-ID: <4cb906a99571ab1b8a831fb0543311c9.hverkuil@xs4all.nl>
+From:   "Hans Verkuil" <hverkuil-cisco@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The atomisp driver uses functions that are provided by VIDEOBUF2_VMALLOC
-instead of VIDEOBUF_VMALLOC, so change the 'select' so that the correct
-interfaces are built.
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-ld: drivers/staging/media/atomisp/pci/atomisp_fops.o: in function `atomisp_init_pipe':
-drivers/staging/media/atomisp/pci/atomisp_fops.c:649: undefined reference to `vb2_vmalloc_memops'
+Results of the daily build of media_tree:
 
-Reported-by: kernel test robot <lkp@intel.com>
-Fixes: 9d4fa1a16b28 ("media: atomisp: cleanup directory hierarchy")
-Fixes: ad85094b293e ("Revert "media: staging: atomisp: Remove driver"")
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Hans de Goede <hdegoede@redhat.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-media@vger.kernel.org
----
- drivers/staging/media/atomisp/Kconfig |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+date:			Tue Jan 24 03:00:09 CET 2023
+media-tree git hash:	7120d6bfd6d0b26b49958f429701996f2d3e2c2a
+media_build git hash:	0fe857b86addf382f6fd383948bd7736a3201403
+v4l-utils git hash:	9124a71fb8e79cafc16af32c9a9d1f2a7e59dce7
+edid-decode git hash:	e052f5f9fdf74ca11aa1a8edfa62eff8d0aa3d0d
+gcc version:		i686-linux-gcc (GCC) 12.2.0
+sparse repo:            git://git.kernel.org/pub/scm/devel/sparse/sparse.git
+sparse version:		v0.6.4-39-gce1a6720-dirty
+smatch repo:            git://repo.or.cz/smatch.git
+smatch version:		v0.5.0-8227-g70ee7aa1-dirty
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: f1aec0a671803cde629548a2e34c252cce5b4799
+host hardware:		x86_64
+host os:		6.0.0-6-amd64
 
-diff -- a/drivers/staging/media/atomisp/Kconfig b/drivers/staging/media/atomisp/Kconfig
---- a/drivers/staging/media/atomisp/Kconfig
-+++ b/drivers/staging/media/atomisp/Kconfig
-@@ -14,7 +14,7 @@ config VIDEO_ATOMISP
- 	depends on VIDEO_DEV && INTEL_ATOMISP
- 	depends on PMIC_OPREGION
- 	select IOSF_MBI
--	select VIDEOBUF_VMALLOC
-+	select VIDEOBUF2_VMALLOC
- 	select VIDEO_V4L2_SUBDEV_API
- 	help
- 	  Say Y here if your platform supports Intel Atom SoC
+linux-git-sh: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-powerpc64: OK
+linux-git-mips: OK
+linux-git-arm-multi: OK
+linux-git-arm64: OK
+linux-git-x86_64: OK
+linux-git-i686: OK
+Check COMPILE_TEST: WARNINGS: VIDEOBUF_DMA_CONTIG
+Check for strcpy/strncpy/strlcpy: OK
+apps: OK
+spec-git: OK
+virtme: ERRORS
+virtme-32: ERRORS
+sparse: WARNINGS
+smatch: WARNINGS
+kerneldoc: OK
+
+Detailed results are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Tuesday.log
+
+Detailed regression test results are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Tuesday-test-media.log
+https://hverkuil.home.xs4all.nl/logs/Tuesday-test-media-32.log
+https://hverkuil.home.xs4all.nl/logs/Tuesday-test-media-dmesg.log
+
+Full logs are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Tuesday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+https://hverkuil.home.xs4all.nl/spec/index.html
