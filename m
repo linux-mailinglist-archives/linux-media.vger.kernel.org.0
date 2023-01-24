@@ -2,267 +2,80 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5AA73679D83
-	for <lists+linux-media@lfdr.de>; Tue, 24 Jan 2023 16:31:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A63DA679D9C
+	for <lists+linux-media@lfdr.de>; Tue, 24 Jan 2023 16:35:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235120AbjAXPbK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 24 Jan 2023 10:31:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43712 "EHLO
+        id S234647AbjAXPfb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 24 Jan 2023 10:35:31 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48098 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233939AbjAXPbJ (ORCPT
+        with ESMTP id S234158AbjAXPfa (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 24 Jan 2023 10:31:09 -0500
-Received: from mail-oa1-x2c.google.com (mail-oa1-x2c.google.com [IPv6:2001:4860:4864:20::2c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88F8410A90
-        for <linux-media@vger.kernel.org>; Tue, 24 Jan 2023 07:31:08 -0800 (PST)
-Received: by mail-oa1-x2c.google.com with SMTP id 586e51a60fabf-15ff0a1f735so9809922fac.5
-        for <linux-media@vger.kernel.org>; Tue, 24 Jan 2023 07:31:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=1TAHlxRWlXfSC7RrW8QeHVULz1fB6gmmyRVgz9FwIe8=;
-        b=DzPYiYBgIgRXXOIJ+LOTsPaQGvAiWAMYe7hWqSqnnqHyadwcZ60u+JAv/gk4ViEEfM
-         BE9aXmb4G79sz042f5UsF7O3XDhRykZ3Yqis4Z3eoR6Y272F1eA4B9tYJ38SvXiiYErT
-         cYxJfAkttgrGXxdi3m3DykTp/tHnN+e2yW7VdqcrjbzEGBoSLTnSt2pXUL5dxz27K1ca
-         n0AoPVAzZMO27PfKeUkHiwcZ68kXsWkbt1E2W36Lm820yn1IF6n4notPeriYRgcncNPf
-         MGm4wnN7kVGMZZWZK2xHRWTohpXy5pfcokmHguXQK2bCjS3Btq3uS6I2+nyB6jpZRhBo
-         rWKw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=1TAHlxRWlXfSC7RrW8QeHVULz1fB6gmmyRVgz9FwIe8=;
-        b=4AEILn0+fvHRXrOl6W3+aDqj5ZkAu86gckTfAhY7vFL/BTk9bYvIkZqtFa5y4dji95
-         y97QZd5WE0mEPI6fjUOxBG0lKhO3Dcz5N6Q1fdtKKrimZDW5qcqGKWjSEdg8w/xcjwso
-         Da86d040cuPZumYrJZENEuUC4/5L/+nrjPE8ZFpc8Ybbxqq1CDDQ9DelSh1Dh0sUfURa
-         qOcznpnI8MFvUUURSMZMNaQVTUTtdp9OOvpdkT7jRWH9RVqZD7ILlEB49GILlOq98LL6
-         mFw5ukDBuly/4b/01OCynaGHB0zfRiGNsaP8fp9LRC34DY3llpnqN8dwLyaFiebmYvck
-         ttbw==
-X-Gm-Message-State: AFqh2kp2h5aiMVpS54mFz6ab95TzXaeVW2fx0+oTxQvcalfru6hxk4gC
-        CFh7c66bWsL4IzN/ZyU3UKL1KQ==
-X-Google-Smtp-Source: AK7set9QgHtsyYeR0CMSh+bhyPFIsdp2RejJr6q7h0apUzfkTTnHEMaVHEQkkjFuy/fOXUiCfGCPKA==
-X-Received: by 2002:a05:6870:a916:b0:160:3390:38b3 with SMTP id eq22-20020a056870a91600b00160339038b3mr2207612oab.5.1674574267600;
-        Tue, 24 Jan 2023 07:31:07 -0800 (PST)
-Received: from nicolas-tpx395.localdomain (192-222-136-102.qc.cable.ebox.net. [192.222.136.102])
-        by smtp.gmail.com with ESMTPSA id b5-20020a378005000000b00704a2a40cf2sm1589618qkd.38.2023.01.24.07.31.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Jan 2023 07:31:07 -0800 (PST)
-Message-ID: <4b8053c17452de7477dea179be0bf2e02be7462d.camel@ndufresne.ca>
-Subject: Re: [PATCH v3] media: verisilicon: HEVC: Only propose 10 bits
- compatible pixels formats
-From:   Nicolas Dufresne <nicolas@ndufresne.ca>
-To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
-        mchehab@kernel.org, shawnguo@kernel.org, s.hauer@pengutronix.de,
-        kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
-        hverkuil-cisco@xs4all.nl, nicolas.dufresne@collabora.co.uk
-Cc:     linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        kernel@collabora.com
-Date:   Tue, 24 Jan 2023 10:31:05 -0500
-In-Reply-To: <20230119084723.133576-1-benjamin.gaignard@collabora.com>
-References: <20230119084723.133576-1-benjamin.gaignard@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.2 (3.46.2-1.fc37) 
+        Tue, 24 Jan 2023 10:35:30 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B45811E85
+        for <linux-media@vger.kernel.org>; Tue, 24 Jan 2023 07:35:30 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id DB009612AC
+        for <linux-media@vger.kernel.org>; Tue, 24 Jan 2023 15:35:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD5ADC433D2;
+        Tue, 24 Jan 2023 15:35:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1674574529;
+        bh=JuTJarKM0keJT9kOjgnkNTig8/hg3BaBY3T0ftkuWdM=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=0q6IdGxucGHQ8MF66qwpKClseD5z+B1obOmZKINn74W3YwEAyubE4WEodnu2jCKBv
+         X18oWi0RoPy7Vrsew+3DG8SpQSRrxewJyYoezbEYFoT/p9mzs5XDm9VknTGuDrp16K
+         S6zOM849smIxWIGky0vRFtT7UHc5X97vp2WZ1K/c=
+Date:   Tue, 24 Jan 2023 16:35:24 +0100
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Michael Grzeschik <mgr@pengutronix.de>
+Cc:     linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com,
+        marex@denx.de, kernel@pengutronix.de
+Subject: Re: [GIT PULL FOR v6.3] uvcgadget changes
+Message-ID: <Y8/6vHUoB4WjbLk2@kroah.com>
+References: <20230124144929.GB19219@pengutronix.de>
 MIME-Version: 1.0
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230124144929.GB19219@pengutronix.de>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Le jeudi 19 janvier 2023 =C3=A0 09:47 +0100, Benjamin Gaignard a =C3=A9crit=
-=C2=A0:
-> When decoding a 10bits bitstreams HEVC driver should only expose
-> 10bits pixel formats.
-> To fulfill this requirement it is needed to call hantro_reset_raw_fmt()
-> when bit depth change and to correctly set match_depth in pixel formats
-> enumeration.
->=20
-> Fixes: dc39473d0340 ("media: hantro: imx8m: Enable 10bit decoding")
->=20
-> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-> ---
-> version 3:
-> - Propagate hantro_reset_raw_fmt() error.
->   I hope I have correctly understood Ezekiel's thoughts=20
->   in the way I have implemented them.
->=20
-> version 2:
-> - Remove struct hantro_ctx *ctx variable in hantro_try_ctrl()
->   because it isn't used anymore.
->=20
->  .../media/platform/verisilicon/hantro_drv.c   | 40 +++++++++++++++----
->  .../media/platform/verisilicon/hantro_v4l2.c  |  6 +--
->  .../media/platform/verisilicon/hantro_v4l2.h  |  1 +
->  .../media/platform/verisilicon/imx8m_vpu_hw.c |  2 +
->  4 files changed, 38 insertions(+), 11 deletions(-)
->=20
-> diff --git a/drivers/media/platform/verisilicon/hantro_drv.c b/drivers/me=
-dia/platform/verisilicon/hantro_drv.c
-> index 8cb4a68c9119..a713a45c0108 100644
-> --- a/drivers/media/platform/verisilicon/hantro_drv.c
-> +++ b/drivers/media/platform/verisilicon/hantro_drv.c
-> @@ -251,11 +251,6 @@ queue_init(void *priv, struct vb2_queue *src_vq, str=
-uct vb2_queue *dst_vq)
-> =20
->  static int hantro_try_ctrl(struct v4l2_ctrl *ctrl)
->  {
-> -	struct hantro_ctx *ctx;
-> -
-> -	ctx =3D container_of(ctrl->handler,
-> -			   struct hantro_ctx, ctrl_handler);
-> -
->  	if (ctrl->id =3D=3D V4L2_CID_STATELESS_H264_SPS) {
->  		const struct v4l2_ctrl_h264_sps *sps =3D ctrl->p_new.p_h264_sps;
-> =20
-> @@ -274,8 +269,6 @@ static int hantro_try_ctrl(struct v4l2_ctrl *ctrl)
->  		if (sps->bit_depth_luma_minus8 !=3D 0 && sps->bit_depth_luma_minus8 !=
-=3D 2)
->  			/* Only 8-bit and 10-bit are supported */
->  			return -EINVAL;
-> -
-> -		ctx->bit_depth =3D sps->bit_depth_luma_minus8 + 8;
->  	} else if (ctrl->id =3D=3D V4L2_CID_STATELESS_VP9_FRAME) {
->  		const struct v4l2_ctrl_vp9_frame *dec_params =3D ctrl->p_new.p_vp9_fra=
-me;
-> =20
-> @@ -286,6 +279,32 @@ static int hantro_try_ctrl(struct v4l2_ctrl *ctrl)
->  	return 0;
->  }
-> =20
-> +static int hantro_hevc_s_ctrl(struct v4l2_ctrl *ctrl)
-> +{
-> +	struct hantro_ctx *ctx;
-> +
-> +	ctx =3D container_of(ctrl->handler,
-> +			   struct hantro_ctx, ctrl_handler);
-> +
-> +	vpu_debug(1, "s_ctrl: id =3D %d, val =3D %d\n", ctrl->id, ctrl->val);
-> +
-> +	switch (ctrl->id) {
-> +	case V4L2_CID_STATELESS_HEVC_SPS:
-> +		const struct v4l2_ctrl_hevc_sps *sps =3D ctrl->p_new.p_hevc_sps;
-> +		int bit_depth =3D sps->bit_depth_luma_minus8 + 8;
-> +
-> +		if (ctx->bit_depth !=3D bit_depth) {
-> +			ctx->bit_depth =3D bit_depth;
-> +			return hantro_reset_raw_fmt(ctx);
+On Tue, Jan 24, 2023 at 03:49:29PM +0100, Michael Grzeschik wrote:
+> The following changes since commit 82adfe34694c98f1115a7b75cff6af9c4a35dba9:
+> 
+>  Merge tag 'media-uvc-next-20230115' of git://git.kernel.org/pub/scm/linux/kernel/git/pinchartl/linux into media_stage (2023-01-22 08:43:14 +0100)
+> 
+> are available in the Git repository at:
+> 
+>  git://git.pengutronix.de/mgr/linux tags/uvc-gadget-next-20230124
+> 
+> for you to fetch changes up to e88f760d0f7054f49aa68b75bf0530840f031d34:
+> 
+>  usb: uvc: use v4l2_fill_fmtdesc instead of open coded format name (2023-01-24 15:26:07 +0100)
+> 
+> ----------------------------------------------------------------
+> Marek Vasut (1):
+>      media: uvcvideo: Add GUID for BGRA/X 8:8:8:8
+> 
+> Michael Grzeschik (4):
+>      usb: uvc: move media/v4l2-uvc.h to usb/uvc.h
+>      usb: uvc: move uvc_fmts and uvc_format_by_guid to own compile unit
+>      usb: uvc: make uvc_format_desc table const
+>      usb: uvc: use v4l2_fill_fmtdesc instead of open coded format name
 
-While this match 1:1 with the review comment (chain EBUSY), it does not
-conceptually solved the problem since we always modify ctx here, and then m=
-odify
-it futher into hantro_reset_raw_fmt() before we actually check if the queue=
- is
-busy. The code needs to be reorganize to check first, and modify after. Its
-quite likely that bit_depth should be a parameter to hantro_reset_raw_fmt()=
- so
-we don't spread out the logic.
+Sorry, but I can't take patches like this as a pull request.  I want to
+see the real patches and get people to review them properly that way.
 
-regards,
-Nicolas
+thanks,
 
-> +		}
-> +		break;
-> +	default:
-> +		return -EINVAL;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
->  static int hantro_jpeg_s_ctrl(struct v4l2_ctrl *ctrl)
->  {
->  	struct hantro_ctx *ctx;
-> @@ -328,6 +347,11 @@ static const struct v4l2_ctrl_ops hantro_ctrl_ops =
-=3D {
->  	.try_ctrl =3D hantro_try_ctrl,
->  };
-> =20
-> +static const struct v4l2_ctrl_ops hantro_hevc_ctrl_ops =3D {
-> +	.s_ctrl =3D hantro_hevc_s_ctrl,
-> +	.try_ctrl =3D hantro_try_ctrl,
-> +};
-> +
->  static const struct v4l2_ctrl_ops hantro_jpeg_ctrl_ops =3D {
->  	.s_ctrl =3D hantro_jpeg_s_ctrl,
->  };
-> @@ -470,7 +494,7 @@ static const struct hantro_ctrl controls[] =3D {
->  		.codec =3D HANTRO_HEVC_DECODER,
->  		.cfg =3D {
->  			.id =3D V4L2_CID_STATELESS_HEVC_SPS,
-> -			.ops =3D &hantro_ctrl_ops,
-> +			.ops =3D &hantro_hevc_ctrl_ops,
->  		},
->  	}, {
->  		.codec =3D HANTRO_HEVC_DECODER,
-> diff --git a/drivers/media/platform/verisilicon/hantro_v4l2.c b/drivers/m=
-edia/platform/verisilicon/hantro_v4l2.c
-> index 2c7a805289e7..cd85877bbbe2 100644
-> --- a/drivers/media/platform/verisilicon/hantro_v4l2.c
-> +++ b/drivers/media/platform/verisilicon/hantro_v4l2.c
-> @@ -398,7 +398,7 @@ hantro_reset_encoded_fmt(struct hantro_ctx *ctx)
->  		hantro_set_fmt_out(ctx, fmt);
->  }
-> =20
-> -static void
-> +int
->  hantro_reset_raw_fmt(struct hantro_ctx *ctx)
->  {
->  	const struct hantro_fmt *raw_vpu_fmt;
-> @@ -420,9 +420,9 @@ hantro_reset_raw_fmt(struct hantro_ctx *ctx)
->  	raw_fmt->width =3D encoded_fmt->width;
->  	raw_fmt->height =3D encoded_fmt->height;
->  	if (ctx->is_encoder)
-> -		hantro_set_fmt_out(ctx, raw_fmt);
-> +		return hantro_set_fmt_out(ctx, raw_fmt);
->  	else
-> -		hantro_set_fmt_cap(ctx, raw_fmt);
-> +		return hantro_set_fmt_cap(ctx, raw_fmt);
->  }
-> =20
->  void hantro_reset_fmts(struct hantro_ctx *ctx)
-> diff --git a/drivers/media/platform/verisilicon/hantro_v4l2.h b/drivers/m=
-edia/platform/verisilicon/hantro_v4l2.h
-> index 64f6f57e9d7a..cb8e1fe3422d 100644
-> --- a/drivers/media/platform/verisilicon/hantro_v4l2.h
-> +++ b/drivers/media/platform/verisilicon/hantro_v4l2.h
-> @@ -21,6 +21,7 @@
->  extern const struct v4l2_ioctl_ops hantro_ioctl_ops;
->  extern const struct vb2_ops hantro_queue_ops;
-> =20
-> +int hantro_reset_raw_fmt(struct hantro_ctx *ctx);
->  void hantro_reset_fmts(struct hantro_ctx *ctx);
->  int hantro_get_format_depth(u32 fourcc);
->  const struct hantro_fmt *
-> diff --git a/drivers/media/platform/verisilicon/imx8m_vpu_hw.c b/drivers/=
-media/platform/verisilicon/imx8m_vpu_hw.c
-> index b390228fd3b4..f850d8bddef6 100644
-> --- a/drivers/media/platform/verisilicon/imx8m_vpu_hw.c
-> +++ b/drivers/media/platform/verisilicon/imx8m_vpu_hw.c
-> @@ -152,6 +152,7 @@ static const struct hantro_fmt imx8m_vpu_g2_postproc_=
-fmts[] =3D {
->  	{
->  		.fourcc =3D V4L2_PIX_FMT_NV12,
->  		.codec_mode =3D HANTRO_MODE_NONE,
-> +		.match_depth =3D true,
->  		.postprocessed =3D true,
->  		.frmsize =3D {
->  			.min_width =3D FMT_MIN_WIDTH,
-> @@ -165,6 +166,7 @@ static const struct hantro_fmt imx8m_vpu_g2_postproc_=
-fmts[] =3D {
->  	{
->  		.fourcc =3D V4L2_PIX_FMT_P010,
->  		.codec_mode =3D HANTRO_MODE_NONE,
-> +		.match_depth =3D true,
->  		.postprocessed =3D true,
->  		.frmsize =3D {
->  			.min_width =3D FMT_MIN_WIDTH,
-
+greg k-h
