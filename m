@@ -2,95 +2,127 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E5F7D678E7D
-	for <lists+linux-media@lfdr.de>; Tue, 24 Jan 2023 03:44:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1BFC1678F0C
+	for <lists+linux-media@lfdr.de>; Tue, 24 Jan 2023 04:41:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232161AbjAXCo0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 23 Jan 2023 21:44:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60678 "EHLO
+        id S230191AbjAXDlK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 23 Jan 2023 22:41:10 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59662 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232420AbjAXCoY (ORCPT
+        with ESMTP id S229502AbjAXDlJ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 23 Jan 2023 21:44:24 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 55466E7
-        for <linux-media@vger.kernel.org>; Mon, 23 Jan 2023 18:44:17 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 07210B80EBB
-        for <linux-media@vger.kernel.org>; Tue, 24 Jan 2023 02:44:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 51D21C433D2
-        for <linux-media@vger.kernel.org>; Tue, 24 Jan 2023 02:44:14 +0000 (UTC)
-Date:   Tue, 24 Jan 2023 03:44:12 +0100
-Message-ID: <4cb906a99571ab1b8a831fb0543311c9.hverkuil@xs4all.nl>
-From:   "Hans Verkuil" <hverkuil-cisco@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+        Mon, 23 Jan 2023 22:41:09 -0500
+Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com [IPv6:2a00:1450:4864:20::334])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE0CC39CC3;
+        Mon, 23 Jan 2023 19:41:04 -0800 (PST)
+Received: by mail-wm1-x334.google.com with SMTP id q8so10450648wmo.5;
+        Mon, 23 Jan 2023 19:41:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=YW+j1R20ctI265KRNSOjTxDVRq8qUoJJnec9sKEjc5I=;
+        b=QacssvAIDku6BBhYk5HElUe/kzNss/+aIhsXY8hmtP+KEGGe0qI7X/+MARPfamJwAG
+         XTJv6wtwpO728nUqacxcsgC6T+eb6lhvHJ0CYT6lueg7SxxPxerA5cUQpG2bW1Z0gUtc
+         cvoSwfAwwTV4aj6AoRr2U0gHPXzOD4uU1zzA4lMS4oPxChIMfV10Sjiolq4gWqJlMYjw
+         Z3OjZAB8PT0sG0yaVwhd3wvFQhTrZLyGXcoG5WLLngsfV294biZZN1UwZ49JONXK2110
+         y+M9mg2tjE/kX+UF9AhnUHty3WbhGl2dtlY5PainLNb1LsDhn2HGMt5MUmor3rYFKEza
+         q0eA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=YW+j1R20ctI265KRNSOjTxDVRq8qUoJJnec9sKEjc5I=;
+        b=54ClSUs/bQlpIkfgOWC0SoAFwuOJf9LBp0s634Xn38I2jpT8Ed/ckFPjZZ1XyDJBPO
+         B/EuVEwJWTYY9utYyu/cCqlVwMOA0xVKTYWsedamfqQiQ5aRnfU5vCfrm12y2FjAtcTd
+         PlDAhO/jm0ldQ1JyI3LSBuUL+oP91SgdM88VB/PigZCdPIr5Q0vrLlPygtkmm9M6XORk
+         Agfaut2csqaMxTeec2HXnVlNz33gU2Fm4SvjK4UE5w4dBfNTh8QO/w7GMOjufjjITMZr
+         oePVjlAl0W3jXOYGUglg1rC3t3iomBRh23+hu67Vw4B4QsUcVpm5ZYGgcaAihrSj28Xp
+         VoHg==
+X-Gm-Message-State: AFqh2kpahDZidflUV4BTTatJelRD/xr7xT5u3EKf6sabEwMk0rRtmKqb
+        GP6q3X7AzKE5uvbQTWZMgrY=
+X-Google-Smtp-Source: AMrXdXtpg88sRjLNXZmZB6PBI4TM0NJziEBJ3T2qGyFoH8GRcylSlT26sY+YVnwuzJOACkipiigiEA==
+X-Received: by 2002:a05:600c:ad4:b0:3db:11d0:21e2 with SMTP id c20-20020a05600c0ad400b003db11d021e2mr22920790wmr.29.1674531663179;
+        Mon, 23 Jan 2023 19:41:03 -0800 (PST)
+Received: from toolbox.. ([87.200.95.144])
+        by smtp.gmail.com with ESMTPSA id g12-20020a05600c310c00b003db012d49b7sm1085132wmo.2.2023.01.23.19.41.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 23 Jan 2023 19:41:02 -0800 (PST)
+From:   Christian Hewitt <christianshewitt@gmail.com>
+To:     Neil Armstrong <neil.armstrong@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Jerome Brunet <jbrunet@baylibre.com>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        linux-media@vger.kernel.org, linux-amlogic@lists.infradead.org,
+        linux-staging@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Cc:     Christian Hewitt <christianshewitt@gmail.com>
+Subject: [PATCH v2 0/2] media: meson: vdec: add HEVC decode codec
+Date:   Tue, 24 Jan 2023 03:40:56 +0000
+Message-Id: <20230124034058.3407235-1-christianshewitt@gmail.com>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+This mini-series adds support for HEVC decoding. It combines the original codec
+work done by Maxime Jourdan in 2019 [0] and improvements by Benjamin Roszak in
+2021 [1]. Only GXBB/GXL/GXM are enabled as decoding currently crashes on G12A
+and later SoCs when trying to decode a 10-bit HEVC stream.
 
-Results of the daily build of media_tree:
+The goal of upstreaming the driver in its current state is to encourage greater
+community contribution towards adding missing features, and fixing the bugs and
+conformance issues necessary to get out of staging.
 
-date:			Tue Jan 24 03:00:09 CET 2023
-media-tree git hash:	7120d6bfd6d0b26b49958f429701996f2d3e2c2a
-media_build git hash:	0fe857b86addf382f6fd383948bd7736a3201403
-v4l-utils git hash:	9124a71fb8e79cafc16af32c9a9d1f2a7e59dce7
-edid-decode git hash:	e052f5f9fdf74ca11aa1a8edfa62eff8d0aa3d0d
-gcc version:		i686-linux-gcc (GCC) 12.2.0
-sparse repo:            git://git.kernel.org/pub/scm/devel/sparse/sparse.git
-sparse version:		v0.6.4-39-gce1a6720-dirty
-smatch repo:            git://repo.or.cz/smatch.git
-smatch version:		v0.5.0-8227-g70ee7aa1-dirty
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: f1aec0a671803cde629548a2e34c252cce5b4799
-host hardware:		x86_64
-host os:		6.0.0-6-amd64
+The HEVC codec presented here is generally partnered with FFMpeg sources that
+are being maintained by the Raspberry Pi Foundation [2] and [3] that contain
+numerous improvements to v4l2_m2m (and v4l2_request) support. There is active
+work in progress to refine the changeset and send it upstream.
 
-linux-git-sh: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-powerpc64: OK
-linux-git-mips: OK
-linux-git-arm-multi: OK
-linux-git-arm64: OK
-linux-git-x86_64: OK
-linux-git-i686: OK
-Check COMPILE_TEST: WARNINGS: VIDEOBUF_DMA_CONTIG
-Check for strcpy/strncpy/strlcpy: OK
-apps: OK
-spec-git: OK
-virtme: ERRORS
-virtme-32: ERRORS
-sparse: WARNINGS
-smatch: WARNINGS
-kerneldoc: OK
+Christian
 
-Detailed results are available here:
+[0] https://github.com/Elyotna/linux/commits/4.20/v4l2-m2m-pr
+[1] https://gitlab.com/benjamin545/linux-amlogic/-/commits/aml-hevc
+[2] https://github.com/jc-kynesim/rpi-ffmpeg/commits/release/4.4/rpi_import_1
+[3] https://github.com/jc-kynesim/rpi-ffmpeg/tree/dev/5.1.2/rpi_import_1
 
-https://hverkuil.home.xs4all.nl/logs/Tuesday.log
+Changes from v1:
+- Fix unused val warning reported by kernel test robot <lkp@intel.com>
 
-Detailed regression test results are available here:
+Benjamin Roszak (1):
+  media: meson: vdec: implement 10bit bitstream handling
 
-https://hverkuil.home.xs4all.nl/logs/Tuesday-test-media.log
-https://hverkuil.home.xs4all.nl/logs/Tuesday-test-media-32.log
-https://hverkuil.home.xs4all.nl/logs/Tuesday-test-media-dmesg.log
+Maxime Jourdan (1):
+  media: meson: vdec: add HEVC decode codec
 
-Full logs are available here:
+ drivers/staging/media/meson/vdec/Makefile     |    2 +-
+ drivers/staging/media/meson/vdec/codec_h264.c |    3 +-
+ drivers/staging/media/meson/vdec/codec_hevc.c | 1462 +++++++++++++++++
+ drivers/staging/media/meson/vdec/codec_hevc.h |   13 +
+ .../media/meson/vdec/codec_hevc_common.c      |  161 +-
+ .../media/meson/vdec/codec_hevc_common.h      |    3 +-
+ drivers/staging/media/meson/vdec/codec_vp9.c  |   35 +-
+ drivers/staging/media/meson/vdec/esparser.c   |    4 +-
+ drivers/staging/media/meson/vdec/hevc_regs.h  |    1 +
+ drivers/staging/media/meson/vdec/vdec.h       |    1 +
+ .../staging/media/meson/vdec/vdec_helpers.c   |   44 +-
+ .../staging/media/meson/vdec/vdec_helpers.h   |   10 +-
+ .../staging/media/meson/vdec/vdec_platform.c  |   37 +
+ 13 files changed, 1677 insertions(+), 99 deletions(-)
+ create mode 100644 drivers/staging/media/meson/vdec/codec_hevc.c
+ create mode 100644 drivers/staging/media/meson/vdec/codec_hevc.h
 
-https://hverkuil.home.xs4all.nl/logs/Tuesday.tar.bz2
+-- 
+2.34.1
 
-The Media Infrastructure API from this daily build is here:
-
-https://hverkuil.home.xs4all.nl/spec/index.html
