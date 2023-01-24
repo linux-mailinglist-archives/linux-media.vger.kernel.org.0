@@ -2,66 +2,68 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 87B0D678F6F
-	for <lists+linux-media@lfdr.de>; Tue, 24 Jan 2023 05:46:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 34CA4678FAF
+	for <lists+linux-media@lfdr.de>; Tue, 24 Jan 2023 06:08:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231838AbjAXEqD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 23 Jan 2023 23:46:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46174 "EHLO
+        id S230435AbjAXFIe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 24 Jan 2023 00:08:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55548 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231760AbjAXEqB (ORCPT
+        with ESMTP id S231593AbjAXFIc (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 23 Jan 2023 23:46:01 -0500
-Received: from mail-yw1-x112f.google.com (mail-yw1-x112f.google.com [IPv6:2607:f8b0:4864:20::112f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 84FA139298
-        for <linux-media@vger.kernel.org>; Mon, 23 Jan 2023 20:45:55 -0800 (PST)
-Received: by mail-yw1-x112f.google.com with SMTP id 00721157ae682-4a2f8ad29d5so201581707b3.8
-        for <linux-media@vger.kernel.org>; Mon, 23 Jan 2023 20:45:55 -0800 (PST)
+        Tue, 24 Jan 2023 00:08:32 -0500
+Received: from mail-yw1-x112a.google.com (mail-yw1-x112a.google.com [IPv6:2607:f8b0:4864:20::112a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CBAEC3B3FB
+        for <linux-media@vger.kernel.org>; Mon, 23 Jan 2023 21:08:08 -0800 (PST)
+Received: by mail-yw1-x112a.google.com with SMTP id 00721157ae682-4c131bede4bso202311057b3.5
+        for <linux-media@vger.kernel.org>; Mon, 23 Jan 2023 21:08:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=vpDuDoUmAharZ6gl8wrxfOGmWcIqGpZbtAgCtCtKKLE=;
-        b=Tvm51t9nJyP5NJhhaS/ZGI0R/NlPYvz5bpxgJfthc8I6LZbmT3ZTAU6Js9JosvVmNH
-         C0PKQYWKkkaGDJNQZ/v6SVtKE8git3A7oLNETlGr8cpXpDmldcZ5YArR6++7eQ1X1cur
-         L9uy07Q/qOMNBp9/SrYYRTMo+1y25L4w6kKCLqzXY3uaKXFcY4HpxV9xU7EnmuyA0j0A
-         JDHkQTSJEYsrqAHhFkSWNERYxM5eVX53LgWbNhyxzaJuViBiVE/Y+xRp1/+a03u8+nfW
-         cMI2u31cFbxCpNR1QfOdeoTutka9CIu8Oj4CsVENc59YK8AlA9pC00pVmR1uiuKoJnp5
-         bxRg==
+        bh=lFk9/LshyOazerQVNiA1ja62Zlj7Q7aVCq7uUOqwpN8=;
+        b=jWMM2g4EqTlOLHIdIRNr92DUTwy+cxhiq92I36/xLpO2fKDlTQEeawrgNWk1cNglNz
+         HaSmx4C64CfW2zynwWotoDfF92hmHlYZ7csRlnQkKEO16w/3/hJt3WMyRiWTzJwvvOgy
+         MHwd0TO4pgsGOmAlp+LNdqlaaLbeax3Ey6DCczfnACtBXL5WR6rucDf502jnjFu6T4qf
+         UTKIy7j+a7uYpAfJFh3jdutt/zuVun6e4qYT+L9997QhmemYtvbdyyG8cl1jWs5o0iOh
+         /6SZcX/YB4ZCdGZIw9kIASt3IePBUvl1ScLvtygWR2PsCRVwf2jh1y236nDIZdEQiumL
+         RJIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=vpDuDoUmAharZ6gl8wrxfOGmWcIqGpZbtAgCtCtKKLE=;
-        b=ZEFkwESu28ax9nT+IZMjfVxTei7qD/X3/3DDA+/P1jeUP7jFJDadD6RUWT7b1OmNcy
-         vbMFOLFvgLuBF3tF0Nz5hv3t7KQLlyAVeQwiqBjHji9uHuaCndxFIGDlnLAyKjHIkdtN
-         174UQDHF/ATlpcIxSQTvivwQAM2AESKx7Uv9xNbPU72AhW/poWCnyzk5Ay/LwzziWtmT
-         AlW0JlUSTXNXvX8Q185OsOd8CoUJtDgeZxDoUIl9vL3SRbmEgoG5nmRm+h6xwW2chzIN
-         4mNIX1RtaUl8KgkfrWjb49FEvqCWFBWHw5b3v+NhasEh7GYHt/Gjv5NFI66bn8fW4CvL
-         lSdw==
-X-Gm-Message-State: AFqh2kon7IlX8cwP1NzHzSSoQQvJ0e0mi9DhFgLsuEEz1m4Bz3am/Fmo
-        ZqGYZgpm75GE6v0IlOoD8kRGymdK9as+sSy+bQBJ
-X-Google-Smtp-Source: AMrXdXtWz4zPSzmzj1jg67d48nmLGEWV/YMdXmAzJach/udjMYLSlzxrS/AMfRarkB5p7ok+TfCRWhh2bFqBa/fVwVE=
+        bh=lFk9/LshyOazerQVNiA1ja62Zlj7Q7aVCq7uUOqwpN8=;
+        b=bnux/QdyOiSr/Pb0ZmePK7mQMd7aRzDxA6XPXFsapW272uffCJPO1//SH44RmCrkCV
+         6s/inmOyAg5F/t38Ic80lzTeJPCHDzn9Fuxq3alOxj1dRk3G/zjN1CiL3AxpS7eJ5hal
+         p6nQdyzJWcohdkSDLKGDB6xYmKNyFQ9ctxAPEvIVTx8QHjJkVmV62DBAaNY7jP+QqqzG
+         WL1H+uzON1Y2nT4u4y2kgtwK2Yon/e/D4Ssd/dU+UDcY3txLQJdtcvkcStlsK6J/zfpY
+         cd5qI609dpunx2IRJCm+h8W6HofWapHN1cUogPD/bg72Zllje1fhaoO5eoG+d90FVTao
+         f3fw==
+X-Gm-Message-State: AFqh2koHjCAKZMiG2F1AvfWbMbWhQ49AkbTaIv7BN8RDRGShehO8IDeL
+        yv+M3pS5giETPWUJhBM5tq6MMPiW57Ac9R8jpkmK
+X-Google-Smtp-Source: AMrXdXuJplsF/hX9gNzVeObQYMpCkfsRYCF+rGhiiMoM/7wmLL3IjeJ1EgQlsSmxNfFFlrsah0cpLT3QyuPcUSvB5CI=
 X-Received: by 2002:a81:9ace:0:b0:4ed:5f50:1a43 with SMTP id
- r197-20020a819ace000000b004ed5f501a43mr3696499ywg.291.1674535554577; Mon, 23
- Jan 2023 20:45:54 -0800 (PST)
+ r197-20020a819ace000000b004ed5f501a43mr3704793ywg.291.1674536885984; Mon, 23
+ Jan 2023 21:08:05 -0800 (PST)
 MIME-Version: 1.0
-References: <20230123123756.401692-1-christian.koenig@amd.com> <20230123123756.401692-2-christian.koenig@amd.com>
-In-Reply-To: <20230123123756.401692-2-christian.koenig@amd.com>
+References: <20230123123756.401692-1-christian.koenig@amd.com> <Y86R3vQX+vW0+oxw@pendragon.ideasonboard.com>
+In-Reply-To: <Y86R3vQX+vW0+oxw@pendragon.ideasonboard.com>
 From:   John Stultz <jstultz@google.com>
-Date:   Mon, 23 Jan 2023 20:45:43 -0800
-Message-ID: <CANDhNCoxiX7Lc0qECEQOn3c2gP26ju5zdYuQfoTbPjqpjwebsA@mail.gmail.com>
-Subject: Re: [PATCH 1/2] dma-heap: add device link and unlink functions
-To:     =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
-Cc:     l.stach@pengutronix.de, nicolas@ndufresne.ca, ppaalanen@gmail.com,
+Date:   Mon, 23 Jan 2023 21:07:54 -0800
+Message-ID: <CANDhNCoppG0oXHu-Cc8s1WJNWZTXmV9Z1d+5qrHSEDEGsFf1ag@mail.gmail.com>
+Subject: Re: DMA-heap driver hints
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+        l.stach@pengutronix.de, nicolas@ndufresne.ca, ppaalanen@gmail.com,
         sumit.semwal@linaro.org, daniel@ffwll.ch, robdclark@gmail.com,
         tfiga@chromium.org, sebastian.wick@redhat.com, hverkuil@xs4all.nl,
         dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
         linux-media@vger.kernel.org, benjamin.gaignard@collabora.com,
-        Brian.Starkey@arm.com, laurent.pinchart@ideasonboard.com,
-        mchehab@kernel.org, "T.J. Mercier" <tjmercier@google.com>
+        Brian.Starkey@arm.com, mchehab@kernel.org,
+        James Jones <jajones@nvidia.com>,
+        "T.J. Mercier" <tjmercier@google.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
@@ -75,95 +77,101 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Jan 23, 2023 at 4:38 AM Christian K=C3=B6nig
-<ckoenig.leichtzumerken@gmail.com> wrote:
+On Mon, Jan 23, 2023 at 5:55 AM Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
 >
-> This allows device drivers to specify a DMA-heap where they want their
-> buffers to be allocated from. This information is then exposed as
-> sysfs link between the device and the DMA-heap.
+> Hi Christian,
 >
-> Useful for userspace when in need to decide from which provider to
-> allocate a buffer.
+> CC'ing James as I think this is related to his work on the unix device
+> memory allocator ([1]).
 >
-> Signed-off-by: Christian K=C3=B6nig <christian.koenig@amd.com>
-
-Hey Christian!
-  Thanks so much for sending this out and also thanks for including me
-(Adding TJ as well)!
-
-This looks like a really interesting approach, but I have a few thoughts be=
-low.
-
-> ---
->  drivers/dma-buf/dma-heap.c | 41 ++++++++++++++++++++++++++++++--------
->  include/linux/dma-heap.h   | 35 ++++++++++++++++++++++++++++++++
->  2 files changed, 68 insertions(+), 8 deletions(-)
+> [1] https://lore.kernel.org/dri-devel/8b555674-1c5b-c791-4547-2ea7c16aee6=
+c@nvidia.com/
 >
-> diff --git a/drivers/dma-buf/dma-heap.c b/drivers/dma-buf/dma-heap.c
-> index c9e41e8a9e27..0f7cf713c22f 100644
-> --- a/drivers/dma-buf/dma-heap.c
-> +++ b/drivers/dma-buf/dma-heap.c
-> @@ -31,6 +31,7 @@
->   * @heap_devt          heap device node
->   * @list               list head connecting to list of heaps
->   * @heap_cdev          heap char device
-> + * @dev:               heap device in sysfs
->   *
->   * Represents a heap of memory from which buffers can be made.
->   */
-> @@ -41,6 +42,7 @@ struct dma_heap {
->         dev_t heap_devt;
->         struct list_head list;
->         struct cdev heap_cdev;
-> +       struct device *dev;
->  };
+> On Mon, Jan 23, 2023 at 01:37:54PM +0100, Christian K=C3=B6nig wrote:
+> > Hi guys,
+> >
+> > this is just an RFC! The last time we discussed the DMA-buf coherency
+> > problem [1] we concluded that DMA-heap first needs a better way to
+> > communicate to userspace which heap to use for a certain device.
+> >
+> > As far as I know userspace currently just hard codes that information
+> > which is certainly not desirable considering that we should have this
+> > inside the kernel as well.
+> >
+> > So what those two patches here do is to first add some
+> > dma_heap_create_device_link() and  dma_heap_remove_device_link()
+> > function and then demonstrating the functionality with uvcvideo
+> > driver.
+> >
+> > The preferred DMA-heap is represented with a symlink in sysfs between
+> > the device and the virtual DMA-heap device node.
 >
->  static LIST_HEAD(heap_list);
-> @@ -49,6 +51,33 @@ static dev_t dma_heap_devt;
->  static struct class *dma_heap_class;
->  static DEFINE_XARRAY_ALLOC(dma_heap_minors);
+> I'll start with a few high-level comments/questions:
 >
-> +int dma_heap_create_device_link(struct device *dev, const char *heap)
-> +{
-> +       struct dma_heap *h;
-> +
-> +       /* check the name is valid */
-> +       mutex_lock(&heap_list_lock);
-> +       list_for_each_entry(h, &heap_list, list) {
-> +               if (!strcmp(h->name, heap))
-> +                       break;
-> +       }
-> +       mutex_unlock(&heap_list_lock);
-> +
-> +       if (list_entry_is_head(h, &heap_list, list)) {
-> +               pr_err("dma_heap: Link to invalid heap requested %s\n", h=
-eap);
-> +               return -EINVAL;
-> +       }
-> +
-> +       return sysfs_create_link(&dev->kobj, &h->dev->kobj, DEVNAME);
-> +}
+> - Instead of tying drivers to heaps, have you considered a system where
+>   a driver would expose constraints, and a heap would then be selected
+>   based on those constraints ? A tight coupling between heaps and
+>   drivers means downstream patches to drivers in order to use
+>   vendor-specific heaps, that sounds painful.
 
-So, one concern with this (if I'm reading this right) is it seems like
-a single heap link may be insufficient.
+Though, maybe it should be in that case. More motivation to get your
+heap (and its users) upstream. :)
 
-There may be multiple heaps that a driver could work with (especially
-if the device isn't very constrained), so when sharing a buffer with a
-second device that is more constrained we'd have the same problem we
-have now where userspace just needs to know which device is the more
-constrained one to allocate for.
 
-So it might be useful to have a sysfs "dma_heaps" directory with the
-supported heaps linked from there? That way userland could find across
-the various devices the heap-link that was common.
+>   A constraint-based system would also, I think, be easier to extend
+>   with additional constraints in the future.
 
-This still has the downside that every driver needs to be aware of
-every heap, and when new heaps are added, it may take awhile before
-folks might be able to assess if a device is compatible or not to
-update it, so I suspect we'll have eventually some loose
-constraint-based helpers to register links. But I think this at least
-moves us in a workable direction, so again, I'm really glad to see you
-send this out!
+I think the issue of enumerating and exposing constraints to userland
+is just really tough.  While on any one system there is a fixed number
+of constraints, it's not clear we could come up with a bounded set for
+all systems.
+To avoid this back in the ION days I had proposed an idea of userland
+having devices share an opaque constraint cookie, which userland could
+mask together between devices and then find a heap that matches the
+combined cookie, which would avoid exposing specific constraints to
+userland, but the processes of using it seemed like such a mess to
+explain.
+
+So I think this driver driven links approach is pretty reasonable. I
+do worry we might get situations where the drivers ability to use a
+heap depends on some other factor (dts iommu setup maybe?), which the
+driver might not know on its own, but I think having the driver
+special-case that to resolve it would be doable.
+
+
+> - I assume some drivers will be able to support multiple heaps. How do
+>   you envision this being implemented ?
+
+Yeah. I also agree we need to have multiple heap links.
+
+> - Devices could have different constraints based on particular
+>   configurations. For instance, a device may require specific memory
+>   layout for multi-planar YUV formats only (as in allocating the Y and C
+>   planes of NV12 from different memory banks). A dynamic API may thus be
+>   needed (but may also be very painful to use from userspace).
+
+Yeah. While I know folks really don't like the static userspace config
+model that Android uses, I do fret that once we get past what a
+workable heap is, it still won't address what the ideal heap is.
+
+For instance, we might find that the system heap works for a given
+pipeline, but because the cpu doesn't use the buffer in one case, the
+system-uncached heap is really the best choice for performance. But in
+another pipeline with the same devices, if the cpu is reading and
+writing the buffer quite a bit, one would want the standard system
+heap.
+
+Because userland is the only one who can know the path a buffer will
+take, userland is really the best place to choose the ideal allocation
+type.
+
+So while I don't object to this link based approach just to allow a
+generic userland to find a working buffer type for a given set of
+devices, I don't think it will be able to replace having device
+specific userland policy (like gralloc), though it's my personal hope
+the policy can be formalized to a config file rather then having
+device specific binaries.
 
 thanks
 -john
