@@ -2,732 +2,434 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D77DC67A68F
-	for <lists+linux-media@lfdr.de>; Wed, 25 Jan 2023 00:02:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C4CC267A6BB
+	for <lists+linux-media@lfdr.de>; Wed, 25 Jan 2023 00:14:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233425AbjAXXCe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 24 Jan 2023 18:02:34 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52322 "EHLO
+        id S234126AbjAXXOh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 24 Jan 2023 18:14:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58766 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229740AbjAXXCd (ORCPT
+        with ESMTP id S229933AbjAXXOg (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 24 Jan 2023 18:02:33 -0500
-Received: from mail-oi1-f169.google.com (mail-oi1-f169.google.com [209.85.167.169])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D06FA4391C;
-        Tue, 24 Jan 2023 15:02:30 -0800 (PST)
-Received: by mail-oi1-f169.google.com with SMTP id r9so14763522oie.13;
-        Tue, 24 Jan 2023 15:02:30 -0800 (PST)
+        Tue, 24 Jan 2023 18:14:36 -0500
+Received: from mail-yb1-xb2d.google.com (mail-yb1-xb2d.google.com [IPv6:2607:f8b0:4864:20::b2d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F55930DE
+        for <linux-media@vger.kernel.org>; Tue, 24 Jan 2023 15:14:33 -0800 (PST)
+Received: by mail-yb1-xb2d.google.com with SMTP id t16so16285608ybk.2
+        for <linux-media@vger.kernel.org>; Tue, 24 Jan 2023 15:14:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=krDGb1uU0XHSs1OnKklnaD4UaHKK3uJv8fDw9pZZXWY=;
+        b=QJLIIsqDx5aF75RhrTgSXc88brM8P88THPq/9Ks/gGtMI6/ruL7ih5m5TKdPmzFe8v
+         r3GgHKG7J+BvhtQS7v+gGM86NRt3vR5l7fX2ImGSWCReg/ableZF5jFnqoRKYug/m3g9
+         KuYJRXs6GVCbmIPfHjrwwvX5Hme4xkkzeDx3tGpQj9guG0aUGeJI5+ghe0zpU+COcUwz
+         3ldPV7o5TN7MG4BtWLx252cjPUpqsg0RprhxjzD8E7QnN+I2mcUkjo7BhDIhJe4DmQfz
+         iJIc8H+AWSOU5lpjONDYFN/vvT+rPBfiEyK/NBfrciqmf+qvJP4xceczLYl60L94iRaW
+         DJEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=GI/5UOaSfmciN645orkiQBi7mLRaRF0ZS1ZUuYBdNvc=;
-        b=EpefCg/H5v65djKr/1q8mYN3RWqIJ9Ds1MPza/8T8cEcW6lmUGhVPXqXgV708a2qVR
-         AoGzVbEO6QhUuxjHTvn2H+2FyPyd/aXl+a5tfsdJ9BIMbpIUbjD1OkGktb+voE87MFI8
-         EO4KgjUhM/4udrXLDIFVeaKErAXuA36cw8XJ3rKcrACetl+rROPkeOaJ6Tp4IoNXZG1d
-         zvgd39GCGETlkVFtrRphYVue1COrZ0StEdGdb4krgvQIzFAf24oHxNJoW5CMJeGYMpyw
-         KAZrJ1HZ+WWZ6hBsIzS1Sxm/VpHlIA9Z7Z13RZrGlHqHMHkdRS4uCbdZEwed6+ygRZGT
-         AUyw==
-X-Gm-Message-State: AFqh2kobiof0CmffllBjBaGQ8M1Yc7MPz75CjtEhp1mSI5Y0nC9GYOVV
-        HrwvrCAZ1oMs7Nen7ZkC2A==
-X-Google-Smtp-Source: AMrXdXvdr0agArHpsAjC0SYwsKJoe5IWZplu6bM//bvuJYMGkb3h85lvSOD5D3tM8CDFXlVRI5Kcdw==
-X-Received: by 2002:a05:6808:2191:b0:361:8570:d3cf with SMTP id be17-20020a056808219100b003618570d3cfmr19282175oib.6.1674601349894;
-        Tue, 24 Jan 2023 15:02:29 -0800 (PST)
-Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id q64-20020acac043000000b0035e7ed5daa1sm1555463oif.26.2023.01.24.15.02.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Jan 2023 15:02:29 -0800 (PST)
-Received: (nullmailer pid 373886 invoked by uid 1000);
-        Tue, 24 Jan 2023 23:02:28 -0000
-From:   Rob Herring <robh@kernel.org>
-To:     Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Marc Zyngier <maz@kernel.org>,
-        Jassi Brar <jassisinghbrar@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Lee Jones <lee@kernel.org>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Richard Weinberger <richard@nod.at>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Sebastian Reichel <sre@kernel.org>,
-        Mark Brown <broonie@kernel.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     linux-arm-kernel@lists.infradead.org,
-        dri-devel@lists.freedesktop.org, linux-gpio@vger.kernel.org,
-        linux-hwmon@vger.kernel.org, linux-media@vger.kernel.org,
-        openbmc@lists.ozlabs.org, linux-mmc@vger.kernel.org,
-        linux-mtd@lists.infradead.org, linux-pm@vger.kernel.org,
-        alsa-devel@alsa-project.org, linux-spi@vger.kernel.org,
-        linux-usb@vger.kernel.org
-Subject: [PATCH] dt-bindings: Add missing (unevaluated|additional)Properties on child node schemas
-Date:   Tue, 24 Jan 2023 17:02:28 -0600
-Message-Id: <20230124230228.372305-1-robh@kernel.org>
-X-Mailer: git-send-email 2.39.0
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=krDGb1uU0XHSs1OnKklnaD4UaHKK3uJv8fDw9pZZXWY=;
+        b=aqSjziDZ2+OVToDxTDysdENZUK8bXM6z14YIjrw4D+WA3JxNJlPWEX+Ml8DQe4B+zK
+         1Yc097Nlw3OSj5KrrnzPxa+1FFmW/O4gJv/YYV0bNvOljsWnaZDiYZzC7A5NLB/qSDQc
+         kAhkokOg0s9lhUDv58i36bbzZ6ssS/CBpedmKUzGsu+H7Rxn0zq9EHYrhIM+f4Bue249
+         xjT2SAuPzHqjRGTJUL6o+mBWISHIX4WFV77ZIEiGKLU7S0vjYMOJCaY6oE+B/SGyL+sZ
+         MUWp0gJ/Rz1C/EH625rMoFiB7pDRhzt+HOZ1zWaZXZW2psmNcVKAMXbGqAS3dtNFrszL
+         f8Ug==
+X-Gm-Message-State: AFqh2koVaRGI/NWezXb9uy5IHaxE/l36PpwZf1S5sYqa7YhohhJgPak2
+        pKuNTiVh374lZcZGODOi7onfGXwVtQ6qQ+3yBdHjmQ==
+X-Google-Smtp-Source: AMrXdXubk+Lhh+dwul+T/ENR0j11N91K9dth8kAHH0RZnrUK5eD84S4y2OMxqlPJsIRr6fpzEPZDFosLo2Ap7VrIZBE=
+X-Received: by 2002:a25:4d54:0:b0:7b3:d193:23ac with SMTP id
+ a81-20020a254d54000000b007b3d19323acmr3387694ybb.97.1674602071880; Tue, 24
+ Jan 2023 15:14:31 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.3 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+References: <20230123123756.401692-1-christian.koenig@amd.com>
+ <Y86R3vQX+vW0+oxw@pendragon.ideasonboard.com> <1f4a1a5c-e0d5-7f0e-353c-daa89f1369ea@amd.com>
+ <Y868mG7Oa5bI1wB7@pendragon.ideasonboard.com> <349797d3-2406-cb78-4d3d-61a4628f762b@nvidia.com>
+ <ece8638d-01a3-6e25-c68c-c9e225200b08@amd.com>
+In-Reply-To: <ece8638d-01a3-6e25-c68c-c9e225200b08@amd.com>
+From:   "T.J. Mercier" <tjmercier@google.com>
+Date:   Tue, 24 Jan 2023 15:14:20 -0800
+Message-ID: <CABdmKX2ufe2ufuoZL8GzSJAT8mNGOcrb2P2=Of27cWhCNtLEPg@mail.gmail.com>
+Subject: Re: DMA-heap driver hints
+To:     =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc:     James Jones <jajones@nvidia.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linaro-mm-sig@lists.linaro.org, sebastian.wick@redhat.com,
+        labbott@redhat.com, benjamin.gaignard@collabora.com,
+        linux-media@vger.kernel.org, mchehab@kernel.org,
+        ppaalanen@gmail.com, dri-devel@lists.freedesktop.org,
+        nicolas@ndufresne.ca, hverkuil@xs4all.nl, jstultz@google.com,
+        lmark@codeaurora.org, tfiga@chromium.org, sumit.semwal@linaro.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Just as unevaluatedProperties or additionalProperties are required at
-the top level of schemas, they should (and will) also be required for
-child node schemas. That ensures only documented properties are
-present.
+On Mon, Jan 23, 2023 at 11:49 PM Christian K=C3=B6nig
+<christian.koenig@amd.com> wrote:
+>
+> Am 24.01.23 um 04:56 schrieb James Jones:
+> > On 1/23/23 08:58, Laurent Pinchart wrote:
+> >> Hi Christian,
+> >>
+> >> On Mon, Jan 23, 2023 at 05:29:18PM +0100, Christian K=C3=B6nig wrote:
+> >>> Am 23.01.23 um 14:55 schrieb Laurent Pinchart:
+> >>>> Hi Christian,
+> >>>>
+> >>>> CC'ing James as I think this is related to his work on the unix devi=
+ce
+> >>>> memory allocator ([1]).
+> >
+> > Thank you for including me.
+>
+> Sorry for not having you in initially. I wasn't aware of your previous
+> work in this area.
+>
+> >
+> >>>> [1]
+> >>>> https://lore.kernel.org/dri-devel/8b555674-1c5b-c791-4547-2ea7c16aee=
+6c@nvidia.com/
+> >>>>
+> >>>> On Mon, Jan 23, 2023 at 01:37:54PM +0100, Christian K=C3=B6nig wrote=
+:
+> >>>>> Hi guys,
+> >>>>>
+> >>>>> this is just an RFC! The last time we discussed the DMA-buf coheren=
+cy
+> >>>>> problem [1] we concluded that DMA-heap first needs a better way to
+> >>>>> communicate to userspace which heap to use for a certain device.
+> >>>>>
+> >>>>> As far as I know userspace currently just hard codes that informati=
+on
+> >>>>> which is certainly not desirable considering that we should have th=
+is
+> >>>>> inside the kernel as well.
+> >>>>>
+> >>>>> So what those two patches here do is to first add some
+> >>>>> dma_heap_create_device_link() and dma_heap_remove_device_link()
+> >>>>> function and then demonstrating the functionality with uvcvideo
+> >>>>> driver.
+> >>>>>
+> >>>>> The preferred DMA-heap is represented with a symlink in sysfs betwe=
+en
+> >>>>> the device and the virtual DMA-heap device node.
+> >>>>
+> >>>> I'll start with a few high-level comments/questions:
+> >>>>
+> >>>> - Instead of tying drivers to heaps, have you considered a system
+> >>>> where
+> >>>>     a driver would expose constraints, and a heap would then be
+> >>>> selected
+> >>>>     based on those constraints ? A tight coupling between heaps and
+> >>>>     drivers means downstream patches to drivers in order to use
+> >>>>     vendor-specific heaps, that sounds painful.
+> >>>
+> >>> I was wondering the same thing as well, but came to the conclusion th=
+at
+> >>> just the other way around is the less painful approach.
+> >>
+> >>  From a kernel point of view, sure, it's simpler and thus less painful=
+.
+> >>  From the point of view of solving the whole issue, I'm not sure :-)
+> >>
+> >>> The problem is that there are so many driver specific constrains that=
+ I
+> >>> don't even know where to start from.
+> >>
+> >> That's where I was hoping James would have some feedback for us, based
+> >> on the work he did on the Unix device memory allocator. If that's not
+> >> the case, we can brainstorm this from scratch.
+> >
+> > Simon Ser's and my presentation from XDC 2020 focused entirely on
+> > this. The idea was not to try to enumerate every constraint up front,
+> > but rather to develop an extensible mechanism that would be flexible
+> > enough to encapsulate many disparate types of constraints and perform
+> > set operations on them (merging sets was the only operation we tried
+> > to solve). Simon implemented a prototype header-only library to
+> > implement the mechanism:
+> >
+> > https://gitlab.freedesktop.org/emersion/drm-constraints
+> >
+> > The links to the presentation and talk are below, along with notes
+> > from the follow-up workshop.
+> >
+> > https://lpc.events/event/9/contributions/615/attachments/704/1301/XDC_2=
+020__Allocation_Constraints.pdf
+> >
+> > https://www.youtube.com/watch?v=3DHZEClOP5TIk
+> > https://paste.sr.ht/~emersion/c43b30be08bab1882f1b107402074462bba3b64a
+> >
+> > Note one of the hard parts of this was figuring out how to express a
+> > device or heap within the constraint structs. One of the better ideas
+> > proposed back then was something like heap IDs, where dma heaps would
+> > each have one,
+>
+> We already have that. Each dma_heap has it's own unique name.
+>
+> > and devices could register their own heaps (or even just themselves?)
+> > with the heap subsystem and be assigned a locally-unique ID that
+> > userspace could pass around.
+>
+> I was more considering that we expose some kind of flag noting that a
+> certain device needs its buffer allocated from that device to utilize
+> all use cases.
+>
+> > This sounds similar to what you're proposing. Perhaps a reasonable
+> > identifier is a device (major, minor) pair. Such a constraint could be
+> > expressed as a symlink for easy visualization/discoverability from
+> > userspace, but might be easier to serialize over the wire as the
+> > (major, minor) pair. I'm not clear which direction is better to
+> > express this either: As a link from heap->device, or device->heap.
+> >
+> >>>>     A constraint-based system would also, I think, be easier to exte=
+nd
+> >>>>     with additional constraints in the future.
+> >>>>
+> >>>> - I assume some drivers will be able to support multiple heaps. How =
+do
+> >>>>     you envision this being implemented ?
+> >>>
+> >>> I don't really see an use case for this.
+> >
+> > One use case I know of here is same-vendor GPU local memory on
+> > different GPUs. NVIDIA GPUs have certain things they can only do on
+> > local memory, certain things they can do on all memory, and certain
+> > things they can only do on memory local to another NVIDIA GPU,
+> > especially when there exists an NVLink interface between the two. So
+> > they'd ideally express different constraints for heap representing
+> > each of those.
+>
+> I strongly think that exposing this complexity is overkill. We have
+> pretty much the same on AMD GPUs with XGMI, but this is so vendor
+> specific that I'm pretty sure we shouldn't have that in a common framewor=
+k.
+>
+> We should concentrate on solving the problem at hand and not trying to
+> come up with something to complex to be implementable by everybody.
+> Extensibility is the key here not getting everything handled in the
+> initial code drop.
+>
+> >
+> > The same thing is often true of memory on remote devices that are at
+> > various points in a PCIe topology. We've had situations where we could
+> > only get enough bandwidth between two PCIe devices when they were less
+> > than some number of hops away on the PCI tree. We hard-coded logic to
+> > detect that in our userspace drivers, but we could instead expose it
+> > as a constraint on heaps that would express which devices can
+> > accomplish certain operations as pairs.
+> >
+> > Similarly to the last one, I would assume (But haven't yet run into in
+> > my personal experience) similar limitations arise when you have a NUMA
+> > memory configuration, if you had a heap representing each NUMA node or
+> > something, some might have more coherency than others, or might have
+> > different bandwidth limitations that you could express through
+> > something like device tree, etc. This is more speculative, but seems
+> > like a generalization of the above two cases.
+> >
+> >>> We do have some drivers which say: for this use case you can use
+> >>> whatever you want, but for that use case you need to use specific
+> >>> memory
+> >>> (scan out on GPUs for example works like this).
+> >>>
+> >>> But those specific use cases are exactly that, very specific. And
+> >>> exposing all the constrains for them inside a kernel UAPI is a futile
+> >>> effort (at least for the GPU scan out case). In those situations it's
+> >>> just better to have the allocator in userspace deal with device
+> >>> specific
+> >>> stuff.
+> >>
+> >> While the exact constraints will certainly be device-specific, is that
+> >> also true of the type of constraints, or the existence of constraints =
+in
+> >> the first place ? To give an example, with a video decoder producing
+> >> frames that are then rendered by a GPU, the tiling format that would
+> >> produce the best result is device-specific, but the fact that the
+> >> decoder can produce a tiled format that would work better for the GPU,
+> >> or a non-tiled format for other consumers, is a very common constraint=
+.
+> >> I don't think we'll be able to do away completely with the
+> >> device-specific code in userspace, but I think we should be able to
+> >> expose constraints in a generic-enough way that many simple use cases
+> >> will be covered by generic code.
+> >
+> > Yes, agreed, the design we proposed took pains to allow
+> > vendor-specific constraints via a general mechanism. We supported both
+> > vendor-specific types of constraints, and vendor-specific values for
+> > general constraints. Some code repository would act as the central
+> > registry of constraint types, similar to the Linux kernel's
+> > drm_fourcc.h for modifiers, or the Khronos github repository for
+> > Vulkan vendor IDs. If the definition needs to be used by the kernel,
+> > the kernel is the logical repository for that role IMHO.
+> >
+> > In our 2020 discussion, there was some debate over whether the kernel
+> > should expose and/or consume constraints directly, or whether it's
+> > sufficient to expose lower-level mechanisms from the kernel and keep
+> > the translation of constraints to the correct mechanism in userspace.
+> > There are pros/cons to both. I don't know that we bottomed out on that
+> > part of the discussion, and it could be the right answer is some
+> > combination of the two, as suggested below.
+> >
+> >>> What I want to do is to separate the problem. The kernel only provide=
+s
+> >>> the information where to allocate from, figuring out the details like
+> >>> how many bytes, which format, plane layout etc.. is still the job of
+> >>> userspace.
+> >>
+> >> Even with UVC, where to allocate memory from will depend on the use
+> >> case. If the consumer is a device that doesn't support non-contiguous
+> >> DMA, the system heap won't work.
+> >>
+> >> Actually, could you explain why UVC works better with the system heap =
+?
+> >> I'm looking at videobuf2 as an importer, and it doesn't call the dmabu=
+f
+> >> as far as I can tell, so cache management provided by the exporter see=
+ms
+> >> to be bypassed in any case.
+> >>
+> >>> What we do have is compatibility between heaps. E.g. a CMA heap is
+> >>> usually compatible with the system heap or might even be a subset of
+> >>> another CMA heap. But I wanted to add that as next step to the heaps
+> >>> framework itself.
+> >>>
+> >>>> - Devices could have different constraints based on particular
+> >>>>     configurations. For instance, a device may require specific memo=
+ry
+> >>>>     layout for multi-planar YUV formats only (as in allocating the
+> >>>> Y and C
+> >>>>     planes of NV12 from different memory banks). A dynamic API may
+> >>>> thus be
+> >>>>     needed (but may also be very painful to use from userspace).
+> >>>
+> >>> Uff, good to know. But I'm not sure how to expose stuff like that.
+> >>
+> >> Let's see if James has anything to share with us :-) With a bit of luc=
+k
+> >> we won't have to start from scratch.
+> >
+> > Well, this is the hard example we keep using as a measure of success
+> > for whatever we come up with. I don't know that someone ever sat down
+> > and tried to express this in the mechanism Simon and I proposed in
+> > 2020, but allowing the expression of something that complex was
+> > certainly our goal. How to resolve it down to an allocation mechanism,
+> > I believe, was further than we got, but we weren't that well versed in
+> > DMA heaps back then, or at least I wasn't.
+> >
+> >>>>> What's still missing is certainly matching userspace for this since=
+ I
+> >>>>> wanted to discuss the initial kernel approach first.
+> >>>>
+> >>>> https://git.libcamera.org/libcamera/libcamera.git/ would be a good
+> >>>> place
+> >>>> to prototype userspace support :-)
+> >>>
+> >>> Thanks for the pointer and the review,
+> >>
+> >> By the way, side question, does anyone know what the status of dma hea=
+ps
+> >> support is in major distributions ? On my Gentoo box,
+> >> /dev/dma_heap/system is 0600 root:root. That's easy to change for a
+> >> developer, but not friendly to end-users. If we want to move forward
+> >> with dma heaps as standard multimedia allocators (and I would really
+> >> like to see that happening), we have to make sure they can be used.
+> >
+> > We seem to have reached a world where display (primary nodes) are
+> > carefully guarded, and some mildly trusted group of folks (video) can
+> > access render nodes, but then there's some separate group generally
+> > for camera/video/v4l and whatnot from what I've seen (I don't survey
+> > this stuff that often. I live in my developer bubble). I'm curious
+> > whether the right direction is a broader group that encompasses all of
+> > render nodes, multimedia, and heaps, or if a more segmented design is
+> > right. The latter is probably the better design from first principles,
+> > but might lead to headaches if the permissions diverge.
+>
+> The main argument is that this memory is not properly accounted, but
+> this also counts for things like memory file descriptors returned by
+> memfd_create().
+>
+> I have proposed multiple times now that we extend the OOM handling to
+> take memory allocated through file descriptors into account as well, but
+> I can't find the time to fully upstream this.
+>
+> T.J. Mercier is working on some memcg based tracking which sounds like
+> it might resolve this problem as well.
+>
+Gosh I hope so. How Android currently does this is with heavy use of
+sepolicy to control access to the individual heaps, sometimes even at
+a per-application/service level:
 
-Add unevaluatedProperties or additionalProperties as appropriate, and
-then add any missing properties flagged by the addition.
+raven:/dev/dma_heap # ls -lZ
+total 0
+cr--r--r-- 1 system audio    u:object_r:dmabuf_heap_device:s0
+      248,  15 2023-01-23 16:14 aaudio_capture_heap
+cr--r--r-- 1 system audio    u:object_r:dmabuf_heap_device:s0
+      248,  14 2023-01-23 16:14 aaudio_playback_heap
+cr--r--r-- 1 system graphics u:object_r:faceauth_heap_device:s0
+      248,   3 2023-01-23 16:14 faceauth_tpu-secure
+cr--r--r-- 1 system graphics u:object_r:faceauth_heap_device:s0
+      248,   4 2023-01-23 16:14 faimg-secure
+cr--r--r-- 1 system graphics u:object_r:faceauth_heap_device:s0
+      248,   7 2023-01-23 16:14 famodel-secure
+cr--r--r-- 1 system graphics u:object_r:faceauth_heap_device:s0
+      248,   6 2023-01-23 16:14 faprev-secure
+cr--r--r-- 1 system graphics u:object_r:faceauth_heap_device:s0
+      248,   5 2023-01-23 16:14 farawimg-secure
+cr--r--r-- 1 system graphics u:object_r:sensor_direct_heap_device:s0
+      248,  13 2023-01-23 16:14 sensor_direct_heap
+cr--r--r-- 1 system system   u:object_r:dmabuf_system_heap_device:s0
+      248,   9 2023-01-23 16:14 system
+cr--r--r-- 1 system system   u:object_r:dmabuf_system_heap_device:s0
+      248,  10 2023-01-23 16:14 system-uncached
+cr--r--r-- 1 system graphics u:object_r:dmabuf_heap_device:s0
+      248,   8 2023-01-23 16:14 tui-secure
+cr--r--r-- 1 system drmrpc
+u:object_r:dmabuf_system_secure_heap_device:s0  248,   1 2023-01-23
+16:14 vframe-secure
+cr--r--r-- 1 system drmrpc   u:object_r:dmabuf_heap_device:s0
+      248,  11 2023-01-23 16:14 video_system
+cr--r--r-- 1 system drmrpc   u:object_r:dmabuf_heap_device:s0
+      248,  12 2023-01-23 16:14 video_system-uncached
+cr--r--r-- 1 system graphics u:object_r:vscaler_heap_device:s0
+      248,   2 2023-01-23 16:14 vscaler-secure
+cr--r--r-- 1 system drmrpc
+u:object_r:dmabuf_system_secure_heap_device:s0  248,   0 2023-01-23
+16:14 vstream-secure
 
-Signed-off-by: Rob Herring <robh@kernel.org>
----
-To: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-To: David Airlie <airlied@gmail.com>
-To: Daniel Vetter <daniel@ffwll.ch>
-To: Bartosz Golaszewski <brgl@bgdev.pl>
-To: Jean Delvare <jdelvare@suse.com>
-To: Guenter Roeck <linux@roeck-us.net>
-To: Thomas Gleixner <tglx@linutronix.de>
-To: Marc Zyngier <maz@kernel.org>
-To: Jassi Brar <jassisinghbrar@gmail.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>
-To: Lee Jones <lee@kernel.org>
-To: Ulf Hansson <ulf.hansson@linaro.org>
-To: Richard Weinberger <richard@nod.at>
-To: Vignesh Raghavendra <vigneshr@ti.com>
-To: Sebastian Reichel <sre@kernel.org>
-To: Mark Brown <broonie@kernel.org>
-To: "Rafael J. Wysocki" <rafael@kernel.org>
-To: Daniel Lezcano <daniel.lezcano@linaro.org>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-arm-kernel@lists.infradead.org
-Cc: dri-devel@lists.freedesktop.org
-Cc: linux-gpio@vger.kernel.org
-Cc: linux-hwmon@vger.kernel.org
-Cc: linux-media@vger.kernel.org
-Cc: openbmc@lists.ozlabs.org
-Cc: linux-mmc@vger.kernel.org
-Cc: linux-mtd@lists.infradead.org
-Cc: linux-pm@vger.kernel.org
-Cc: alsa-devel@alsa-project.org
-Cc: linux-spi@vger.kernel.org
-Cc: linux-usb@vger.kernel.org
----
- .../devicetree/bindings/arm/arm,vexpress-juno.yaml     |  1 +
- .../bindings/arm/bcm/raspberrypi,bcm2835-firmware.yaml |  5 +++--
- .../bindings/arm/tegra/nvidia,tegra20-pmc.yaml         |  4 ++++
- .../bindings/bus/allwinner,sun50i-a64-de2.yaml         |  1 +
- .../bindings/bus/allwinner,sun8i-a23-rsb.yaml          |  1 +
- .../bus/intel,ixp4xx-expansion-bus-controller.yaml     |  6 ++++++
- Documentation/devicetree/bindings/bus/palmbus.yaml     |  1 +
- .../devicetree/bindings/display/msm/qcom,mdss.yaml     |  5 +++++
- Documentation/devicetree/bindings/example-schema.yaml  |  2 ++
- .../devicetree/bindings/gpio/x-powers,axp209-gpio.yaml |  1 +
- .../devicetree/bindings/hwmon/adi,ltc2992.yaml         |  1 +
- .../bindings/interrupt-controller/arm,gic-v3.yaml      |  2 ++
- .../bindings/mailbox/xlnx,zynqmp-ipi-mailbox.yaml      |  1 +
- .../devicetree/bindings/media/i2c/maxim,max9286.yaml   |  7 +++++++
- .../bindings/memory-controllers/arm,pl35x-smc.yaml     |  1 +
- .../bindings/memory-controllers/exynos-srom.yaml       |  1 +
- .../memory-controllers/nvidia,tegra124-emc.yaml        |  1 +
- .../bindings/memory-controllers/st,stm32-fmc2-ebi.yaml |  1 +
- .../devicetree/bindings/mfd/mediatek,mt6370.yaml       |  2 ++
- .../devicetree/bindings/mmc/aspeed,sdhci.yaml          |  1 +
- Documentation/devicetree/bindings/mtd/mtd.yaml         |  1 +
- .../devicetree/bindings/power/supply/ti,lp8727.yaml    |  1 +
- .../devicetree/bindings/soc/imx/fsl,imx93-src.yaml     |  3 ++-
- .../bindings/soc/microchip/atmel,at91rm9200-tcb.yaml   |  1 +
- Documentation/devicetree/bindings/soc/ti/ti,pruss.yaml |  1 +
- .../devicetree/bindings/sound/marvell,mmp-sspa.yaml    |  1 +
- .../devicetree/bindings/sound/qcom,wcd934x.yaml        |  1 +
- .../devicetree/bindings/sound/samsung,odroid.yaml      |  2 ++
- .../devicetree/bindings/soundwire/qcom,soundwire.yaml  |  1 +
- .../bindings/spi/allwinner,sun4i-a10-spi.yaml          |  1 +
- .../bindings/spi/allwinner,sun6i-a31-spi.yaml          |  1 +
- .../devicetree/bindings/spi/spi-controller.yaml        |  1 +
- .../sram/allwinner,sun4i-a10-system-control.yaml       | 10 +++++-----
- Documentation/devicetree/bindings/sram/qcom,ocmem.yaml |  1 +
- .../devicetree/bindings/thermal/thermal-zones.yaml     |  1 +
- Documentation/devicetree/bindings/usb/qcom,dwc3.yaml   |  1 +
- 36 files changed, 65 insertions(+), 8 deletions(-)
+I hope we can get to a point where we don't actually need to protect
+anything but the unicorns. One of my earlier attempts involved a
+counter for each heap that would allow you to limit each one
+individually, but that's not what's proposed now.
 
-diff --git a/Documentation/devicetree/bindings/arm/arm,vexpress-juno.yaml b/Documentation/devicetree/bindings/arm/arm,vexpress-juno.yaml
-index eec190a96225..09c319f803ba 100644
---- a/Documentation/devicetree/bindings/arm/arm,vexpress-juno.yaml
-+++ b/Documentation/devicetree/bindings/arm/arm,vexpress-juno.yaml
-@@ -144,6 +144,7 @@ patternProperties:
-       it is stricter and always has two compatibles.
-     type: object
-     $ref: '/schemas/simple-bus.yaml'
-+    unevaluatedProperties: false
- 
-     properties:
-       compatible:
-diff --git a/Documentation/devicetree/bindings/arm/bcm/raspberrypi,bcm2835-firmware.yaml b/Documentation/devicetree/bindings/arm/bcm/raspberrypi,bcm2835-firmware.yaml
-index b369b374fc4a..39e3c248f5b7 100644
---- a/Documentation/devicetree/bindings/arm/bcm/raspberrypi,bcm2835-firmware.yaml
-+++ b/Documentation/devicetree/bindings/arm/bcm/raspberrypi,bcm2835-firmware.yaml
-@@ -30,6 +30,7 @@ properties:
- 
-   clocks:
-     type: object
-+    additionalProperties: false
- 
-     properties:
-       compatible:
-@@ -47,6 +48,7 @@ properties:
- 
-   reset:
-     type: object
-+    additionalProperties: false
- 
-     properties:
-       compatible:
-@@ -63,6 +65,7 @@ properties:
- 
-   pwm:
-     type: object
-+    additionalProperties: false
- 
-     properties:
-       compatible:
-@@ -76,8 +79,6 @@ properties:
-       - compatible
-       - "#pwm-cells"
- 
--    additionalProperties: false
--
- required:
-   - compatible
-   - mboxes
-diff --git a/Documentation/devicetree/bindings/arm/tegra/nvidia,tegra20-pmc.yaml b/Documentation/devicetree/bindings/arm/tegra/nvidia,tegra20-pmc.yaml
-index 4a00593b9f7f..89191cfdf619 100644
---- a/Documentation/devicetree/bindings/arm/tegra/nvidia,tegra20-pmc.yaml
-+++ b/Documentation/devicetree/bindings/arm/tegra/nvidia,tegra20-pmc.yaml
-@@ -234,6 +234,7 @@ properties:
-     patternProperties:
-       "^[a-z0-9]+$":
-         type: object
-+        additionalProperties: false
- 
-         properties:
-           clocks:
-@@ -252,6 +253,9 @@ properties:
-               for controlling a power-gate.
-               See ../reset/reset.txt for more details.
- 
-+          power-domains:
-+            maxItems: 1
-+
-           '#power-domain-cells':
-             const: 0
-             description: Must be 0.
-diff --git a/Documentation/devicetree/bindings/bus/allwinner,sun50i-a64-de2.yaml b/Documentation/devicetree/bindings/bus/allwinner,sun50i-a64-de2.yaml
-index 85c4a979aec4..9845a187bdf6 100644
---- a/Documentation/devicetree/bindings/bus/allwinner,sun50i-a64-de2.yaml
-+++ b/Documentation/devicetree/bindings/bus/allwinner,sun50i-a64-de2.yaml
-@@ -46,6 +46,7 @@ patternProperties:
-   # All other properties should be child nodes with unit-address and 'reg'
-   "^[a-zA-Z][a-zA-Z0-9,+\\-._]{0,63}@[0-9a-fA-F]+$":
-     type: object
-+    additionalProperties: true
-     properties:
-       reg:
-         maxItems: 1
-diff --git a/Documentation/devicetree/bindings/bus/allwinner,sun8i-a23-rsb.yaml b/Documentation/devicetree/bindings/bus/allwinner,sun8i-a23-rsb.yaml
-index bee5f53f837f..24c939f59091 100644
---- a/Documentation/devicetree/bindings/bus/allwinner,sun8i-a23-rsb.yaml
-+++ b/Documentation/devicetree/bindings/bus/allwinner,sun8i-a23-rsb.yaml
-@@ -45,6 +45,7 @@ properties:
- patternProperties:
-   "^.*@[0-9a-fA-F]+$":
-     type: object
-+    additionalProperties: true
-     properties:
-       reg:
-         maxItems: 1
-diff --git a/Documentation/devicetree/bindings/bus/intel,ixp4xx-expansion-bus-controller.yaml b/Documentation/devicetree/bindings/bus/intel,ixp4xx-expansion-bus-controller.yaml
-index 5fb4e7bfa4da..8073988937a8 100644
---- a/Documentation/devicetree/bindings/bus/intel,ixp4xx-expansion-bus-controller.yaml
-+++ b/Documentation/devicetree/bindings/bus/intel,ixp4xx-expansion-bus-controller.yaml
-@@ -56,8 +56,11 @@ patternProperties:
-     description: Devices attached to chip selects are represented as
-       subnodes.
-     type: object
-+    additionalProperties: true
- 
-     properties:
-+      reg: true
-+
-       intel,ixp4xx-eb-t1:
-         description: Address timing, extend address phase with n cycles.
-         $ref: /schemas/types.yaml#/definitions/uint32
-@@ -120,6 +123,9 @@ patternProperties:
-         $ref: /schemas/types.yaml#/definitions/uint32
-         enum: [0, 1]
- 
-+    required:
-+      - reg
-+
- required:
-   - compatible
-   - reg
-diff --git a/Documentation/devicetree/bindings/bus/palmbus.yaml b/Documentation/devicetree/bindings/bus/palmbus.yaml
-index 30fa6526cfc2..c36c1e92a573 100644
---- a/Documentation/devicetree/bindings/bus/palmbus.yaml
-+++ b/Documentation/devicetree/bindings/bus/palmbus.yaml
-@@ -36,6 +36,7 @@ patternProperties:
-   # All other properties should be child nodes with unit-address and 'reg'
-   "@[0-9a-f]+$":
-     type: object
-+    additionalProperties: true
-     properties:
-       reg:
-         maxItems: 1
-diff --git a/Documentation/devicetree/bindings/display/msm/qcom,mdss.yaml b/Documentation/devicetree/bindings/display/msm/qcom,mdss.yaml
-index ba0460268731..14380596027b 100644
---- a/Documentation/devicetree/bindings/display/msm/qcom,mdss.yaml
-+++ b/Documentation/devicetree/bindings/display/msm/qcom,mdss.yaml
-@@ -86,18 +86,21 @@ required:
- patternProperties:
-   "^mdp@[1-9a-f][0-9a-f]*$":
-     type: object
-+    additionalProperties: true
-     properties:
-       compatible:
-         const: qcom,mdp5
- 
-   "^dsi@[1-9a-f][0-9a-f]*$":
-     type: object
-+    additionalProperties: true
-     properties:
-       compatible:
-         const: qcom,mdss-dsi-ctrl
- 
-   "^phy@[1-9a-f][0-9a-f]*$":
-     type: object
-+    additionalProperties: true
-     properties:
-       compatible:
-         enum:
-@@ -110,6 +113,7 @@ patternProperties:
- 
-   "^hdmi-phy@[1-9a-f][0-9a-f]*$":
-     type: object
-+    additionalProperties: true
-     properties:
-       compatible:
-         enum:
-@@ -121,6 +125,7 @@ patternProperties:
- 
-   "^hdmi-tx@[1-9a-f][0-9a-f]*$":
-     type: object
-+    additionalProperties: true
-     properties:
-       compatible:
-         enum:
-diff --git a/Documentation/devicetree/bindings/example-schema.yaml b/Documentation/devicetree/bindings/example-schema.yaml
-index dfcf4c27d44a..f4eec4c42fb3 100644
---- a/Documentation/devicetree/bindings/example-schema.yaml
-+++ b/Documentation/devicetree/bindings/example-schema.yaml
-@@ -176,6 +176,8 @@ properties:
-     description: Child nodes are just another property from a json-schema
-       perspective.
-     type: object  # DT nodes are json objects
-+    # Child nodes also need additionalProperties or unevaluatedProperties
-+    additionalProperties: false
-     properties:
-       vendor,a-child-node-property:
-         description: Child node properties have all the same schema
-diff --git a/Documentation/devicetree/bindings/gpio/x-powers,axp209-gpio.yaml b/Documentation/devicetree/bindings/gpio/x-powers,axp209-gpio.yaml
-index 7f26f6b1eea1..31906c253940 100644
---- a/Documentation/devicetree/bindings/gpio/x-powers,axp209-gpio.yaml
-+++ b/Documentation/devicetree/bindings/gpio/x-powers,axp209-gpio.yaml
-@@ -35,6 +35,7 @@ properties:
- patternProperties:
-   "^.*-pins?$":
-     $ref: /schemas/pinctrl/pinmux-node.yaml#
-+    additionalProperties: false
- 
-     properties:
-       pins:
-diff --git a/Documentation/devicetree/bindings/hwmon/adi,ltc2992.yaml b/Documentation/devicetree/bindings/hwmon/adi,ltc2992.yaml
-index 64a8fcb7bc46..14142b59ee9c 100644
---- a/Documentation/devicetree/bindings/hwmon/adi,ltc2992.yaml
-+++ b/Documentation/devicetree/bindings/hwmon/adi,ltc2992.yaml
-@@ -32,6 +32,7 @@ properties:
- patternProperties:
-   "^channel@([0-1])$":
-     type: object
-+    additionalProperties: false
-     description: |
-       Represents the two supplies to be monitored.
- 
-diff --git a/Documentation/devicetree/bindings/interrupt-controller/arm,gic-v3.yaml b/Documentation/devicetree/bindings/interrupt-controller/arm,gic-v3.yaml
-index 9f7d3e11aacb..2e72d0acc13d 100644
---- a/Documentation/devicetree/bindings/interrupt-controller/arm,gic-v3.yaml
-+++ b/Documentation/devicetree/bindings/interrupt-controller/arm,gic-v3.yaml
-@@ -133,12 +133,14 @@ properties:
- 
-   ppi-partitions:
-     type: object
-+    additionalProperties: false
-     description:
-       PPI affinity can be expressed as a single "ppi-partitions" node,
-       containing a set of sub-nodes.
-     patternProperties:
-       "^interrupt-partition-[0-9]+$":
-         type: object
-+        additionalProperties: false
-         properties:
-           affinity:
-             $ref: /schemas/types.yaml#/definitions/phandle-array
-diff --git a/Documentation/devicetree/bindings/mailbox/xlnx,zynqmp-ipi-mailbox.yaml b/Documentation/devicetree/bindings/mailbox/xlnx,zynqmp-ipi-mailbox.yaml
-index 2193141dd7fd..d546b9e0744d 100644
---- a/Documentation/devicetree/bindings/mailbox/xlnx,zynqmp-ipi-mailbox.yaml
-+++ b/Documentation/devicetree/bindings/mailbox/xlnx,zynqmp-ipi-mailbox.yaml
-@@ -72,6 +72,7 @@ patternProperties:
-   '^mailbox@[0-9a-f]+$':
-     description: Internal ipi mailbox node
-     type: object  # DT nodes are json objects
-+    additionalProperties: false
-     properties:
-       xlnx,ipi-id:
-         description:
-diff --git a/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml b/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml
-index 90315e217003..13681748559e 100644
---- a/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml
-+++ b/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml
-@@ -141,6 +141,7 @@ properties:
-     patternProperties:
-       "^i2c@[0-3]$":
-         type: object
-+        additionalProperties: false
-         description: |
-           Child node of the i2c bus multiplexer which represents a GMSL link.
-           Each serializer device on the GMSL link remote end is represented with
-@@ -152,6 +153,12 @@ properties:
-             description: The index of the GMSL channel.
-             maxItems: 1
- 
-+          '#address-cells':
-+            const: 1
-+
-+          '#size-cells':
-+            const: 0
-+
-         patternProperties:
-           "^camera@[a-f0-9]+$":
-             type: object
-diff --git a/Documentation/devicetree/bindings/memory-controllers/arm,pl35x-smc.yaml b/Documentation/devicetree/bindings/memory-controllers/arm,pl35x-smc.yaml
-index bd23257fe021..6d3962a17e49 100644
---- a/Documentation/devicetree/bindings/memory-controllers/arm,pl35x-smc.yaml
-+++ b/Documentation/devicetree/bindings/memory-controllers/arm,pl35x-smc.yaml
-@@ -73,6 +73,7 @@ properties:
- patternProperties:
-   "@[0-7],[a-f0-9]+$":
-     type: object
-+    additionalProperties: true
-     description: |
-       The child device node represents the controller connected to the SMC
-       bus. The controller can be a NAND controller or a pair of any memory
-diff --git a/Documentation/devicetree/bindings/memory-controllers/exynos-srom.yaml b/Documentation/devicetree/bindings/memory-controllers/exynos-srom.yaml
-index c6e44f47ce7c..10a2d97e5f8b 100644
---- a/Documentation/devicetree/bindings/memory-controllers/exynos-srom.yaml
-+++ b/Documentation/devicetree/bindings/memory-controllers/exynos-srom.yaml
-@@ -38,6 +38,7 @@ properties:
- patternProperties:
-   "^.*@[0-3],[a-f0-9]+$":
-     type: object
-+    additionalProperties: true
-     description:
-       The actual device nodes should be added as subnodes to the SROMc node.
-       These subnodes, in addition to regular device specification, should
-diff --git a/Documentation/devicetree/bindings/memory-controllers/nvidia,tegra124-emc.yaml b/Documentation/devicetree/bindings/memory-controllers/nvidia,tegra124-emc.yaml
-index 9163c3f12a85..f5f03bf36413 100644
---- a/Documentation/devicetree/bindings/memory-controllers/nvidia,tegra124-emc.yaml
-+++ b/Documentation/devicetree/bindings/memory-controllers/nvidia,tegra124-emc.yaml
-@@ -50,6 +50,7 @@ properties:
- patternProperties:
-   "^emc-timings-[0-9]+$":
-     type: object
-+    additionalProperties: false
-     properties:
-       nvidia,ram-code:
-         $ref: /schemas/types.yaml#/definitions/uint32
-diff --git a/Documentation/devicetree/bindings/memory-controllers/st,stm32-fmc2-ebi.yaml b/Documentation/devicetree/bindings/memory-controllers/st,stm32-fmc2-ebi.yaml
-index e76ba767dfd2..14f1833d37c9 100644
---- a/Documentation/devicetree/bindings/memory-controllers/st,stm32-fmc2-ebi.yaml
-+++ b/Documentation/devicetree/bindings/memory-controllers/st,stm32-fmc2-ebi.yaml
-@@ -47,6 +47,7 @@ properties:
- 
- patternProperties:
-   "^.*@[0-4],[a-f0-9]+$":
-+    additionalProperties: true
-     type: object
-     $ref: mc-peripheral-props.yaml#
- 
-diff --git a/Documentation/devicetree/bindings/mfd/mediatek,mt6370.yaml b/Documentation/devicetree/bindings/mfd/mediatek,mt6370.yaml
-index 5644882db2e8..c9574b243046 100644
---- a/Documentation/devicetree/bindings/mfd/mediatek,mt6370.yaml
-+++ b/Documentation/devicetree/bindings/mfd/mediatek,mt6370.yaml
-@@ -35,6 +35,7 @@ properties:
- 
-   adc:
-     type: object
-+    additionalProperties: false
-     description: |
-       Provides 9 channels for system monitoring, including VBUSDIV5 (lower
-       accuracy, higher measure range), VBUSDIV2 (higher accuracy, lower
-@@ -73,6 +74,7 @@ properties:
- 
-   regulators:
-     type: object
-+    additionalProperties: false
-     description: |
-       List all supported regulators, which support the control for DisplayBias
-       voltages and one general purpose LDO which commonly used to drive the
-diff --git a/Documentation/devicetree/bindings/mmc/aspeed,sdhci.yaml b/Documentation/devicetree/bindings/mmc/aspeed,sdhci.yaml
-index 987b287f3bff..9fce8cd7b0b6 100644
---- a/Documentation/devicetree/bindings/mmc/aspeed,sdhci.yaml
-+++ b/Documentation/devicetree/bindings/mmc/aspeed,sdhci.yaml
-@@ -42,6 +42,7 @@ patternProperties:
-   "^sdhci@[0-9a-f]+$":
-     type: object
-     $ref: mmc-controller.yaml
-+    unevaluatedProperties: false
- 
-     properties:
-       compatible:
-diff --git a/Documentation/devicetree/bindings/mtd/mtd.yaml b/Documentation/devicetree/bindings/mtd/mtd.yaml
-index 78da129e9985..da3d488c335f 100644
---- a/Documentation/devicetree/bindings/mtd/mtd.yaml
-+++ b/Documentation/devicetree/bindings/mtd/mtd.yaml
-@@ -44,6 +44,7 @@ patternProperties:
- 
-   "^otp(-[0-9]+)?$":
-     $ref: ../nvmem/nvmem.yaml#
-+    unevaluatedProperties: false
- 
-     description: |
-       An OTP memory region. Some flashes provide a one-time-programmable
-diff --git a/Documentation/devicetree/bindings/power/supply/ti,lp8727.yaml b/Documentation/devicetree/bindings/power/supply/ti,lp8727.yaml
-index ce6fbdba8f6b..0542d4126cf5 100644
---- a/Documentation/devicetree/bindings/power/supply/ti,lp8727.yaml
-+++ b/Documentation/devicetree/bindings/power/supply/ti,lp8727.yaml
-@@ -28,6 +28,7 @@ properties:
- patternProperties:
-   '^(ac|usb)$':
-     type: object
-+    additionalProperties: false
-     description: USB/AC charging parameters
-     properties:
-       charger-type:
-diff --git a/Documentation/devicetree/bindings/soc/imx/fsl,imx93-src.yaml b/Documentation/devicetree/bindings/soc/imx/fsl,imx93-src.yaml
-index c1cc69b51981..9ce8d8b427fa 100644
---- a/Documentation/devicetree/bindings/soc/imx/fsl,imx93-src.yaml
-+++ b/Documentation/devicetree/bindings/soc/imx/fsl,imx93-src.yaml
-@@ -38,8 +38,9 @@ properties:
- 
- patternProperties:
-   "power-domain@[0-9a-f]+$":
--
-     type: object
-+    additionalProperties: false
-+
-     properties:
-       compatible:
-         items:
-diff --git a/Documentation/devicetree/bindings/soc/microchip/atmel,at91rm9200-tcb.yaml b/Documentation/devicetree/bindings/soc/microchip/atmel,at91rm9200-tcb.yaml
-index 33748a061898..a46411149571 100644
---- a/Documentation/devicetree/bindings/soc/microchip/atmel,at91rm9200-tcb.yaml
-+++ b/Documentation/devicetree/bindings/soc/microchip/atmel,at91rm9200-tcb.yaml
-@@ -54,6 +54,7 @@ patternProperties:
-   "^timer@[0-2]$":
-     description: The timer block channels that are used as timers or counters.
-     type: object
-+    additionalProperties: false
-     properties:
-       compatible:
-         items:
-diff --git a/Documentation/devicetree/bindings/soc/ti/ti,pruss.yaml b/Documentation/devicetree/bindings/soc/ti/ti,pruss.yaml
-index 847873289f25..7ab96baf2064 100644
---- a/Documentation/devicetree/bindings/soc/ti/ti,pruss.yaml
-+++ b/Documentation/devicetree/bindings/soc/ti/ti,pruss.yaml
-@@ -130,6 +130,7 @@ patternProperties:
-       PRU-ICSS configuration space. CFG sub-module represented as a SysCon.
- 
-     type: object
-+    additionalProperties: false
- 
-     properties:
-       compatible:
-diff --git a/Documentation/devicetree/bindings/sound/marvell,mmp-sspa.yaml b/Documentation/devicetree/bindings/sound/marvell,mmp-sspa.yaml
-index f302fe89a253..4193d17d1c62 100644
---- a/Documentation/devicetree/bindings/sound/marvell,mmp-sspa.yaml
-+++ b/Documentation/devicetree/bindings/sound/marvell,mmp-sspa.yaml
-@@ -60,6 +60,7 @@ properties:
-     properties:
-       endpoint:
-         type: object
-+        additionalProperties: true
- 
-         properties:
-           dai-format:
-diff --git a/Documentation/devicetree/bindings/sound/qcom,wcd934x.yaml b/Documentation/devicetree/bindings/sound/qcom,wcd934x.yaml
-index 184e8ccbdd13..19c4deae74b8 100644
---- a/Documentation/devicetree/bindings/sound/qcom,wcd934x.yaml
-+++ b/Documentation/devicetree/bindings/sound/qcom,wcd934x.yaml
-@@ -132,6 +132,7 @@ properties:
- patternProperties:
-   "^.*@[0-9a-f]+$":
-     type: object
-+    additionalProperties: true
-     description: |
-       WCD934x subnode for each slave devices. Bindings of each subnodes
-       depends on the specific driver providing the functionality and
-diff --git a/Documentation/devicetree/bindings/sound/samsung,odroid.yaml b/Documentation/devicetree/bindings/sound/samsung,odroid.yaml
-index 7b4e08ddef6a..51a101558c7b 100644
---- a/Documentation/devicetree/bindings/sound/samsung,odroid.yaml
-+++ b/Documentation/devicetree/bindings/sound/samsung,odroid.yaml
-@@ -35,12 +35,14 @@ properties:
- 
-   cpu:
-     type: object
-+    additionalProperties: false
-     properties:
-       sound-dai:
-         description: phandles to the I2S controllers
- 
-   codec:
-     type: object
-+    additionalProperties: false
-     properties:
-       sound-dai:
-         items:
-diff --git a/Documentation/devicetree/bindings/soundwire/qcom,soundwire.yaml b/Documentation/devicetree/bindings/soundwire/qcom,soundwire.yaml
-index bcbfa71536cd..a191a966cf64 100644
---- a/Documentation/devicetree/bindings/soundwire/qcom,soundwire.yaml
-+++ b/Documentation/devicetree/bindings/soundwire/qcom,soundwire.yaml
-@@ -200,6 +200,7 @@ properties:
- patternProperties:
-   "^.*@[0-9a-f],[0-9a-f]$":
-     type: object
-+    additionalProperties: true
-     description:
-       Child nodes for a standalone audio codec or speaker amplifier IC.
-       It has RX and TX Soundwire secondary devices.
-diff --git a/Documentation/devicetree/bindings/spi/allwinner,sun4i-a10-spi.yaml b/Documentation/devicetree/bindings/spi/allwinner,sun4i-a10-spi.yaml
-index f1176a28fd87..c18eafbfde8c 100644
---- a/Documentation/devicetree/bindings/spi/allwinner,sun4i-a10-spi.yaml
-+++ b/Documentation/devicetree/bindings/spi/allwinner,sun4i-a10-spi.yaml
-@@ -51,6 +51,7 @@ properties:
- patternProperties:
-   "^.*@[0-9a-f]+":
-     type: object
-+    additionalProperties: true
-     properties:
-       reg:
-         items:
-diff --git a/Documentation/devicetree/bindings/spi/allwinner,sun6i-a31-spi.yaml b/Documentation/devicetree/bindings/spi/allwinner,sun6i-a31-spi.yaml
-index 58b7056f4a70..e2187d395bd1 100644
---- a/Documentation/devicetree/bindings/spi/allwinner,sun6i-a31-spi.yaml
-+++ b/Documentation/devicetree/bindings/spi/allwinner,sun6i-a31-spi.yaml
-@@ -63,6 +63,7 @@ properties:
- patternProperties:
-   "^.*@[0-9a-f]+":
-     type: object
-+    additionalProperties: true
-     properties:
-       reg:
-         items:
-diff --git a/Documentation/devicetree/bindings/spi/spi-controller.yaml b/Documentation/devicetree/bindings/spi/spi-controller.yaml
-index 5a7c72cadf76..90945f59b7e8 100644
---- a/Documentation/devicetree/bindings/spi/spi-controller.yaml
-+++ b/Documentation/devicetree/bindings/spi/spi-controller.yaml
-@@ -94,6 +94,7 @@ patternProperties:
-   "^.*@[0-9a-f]+$":
-     type: object
-     $ref: spi-peripheral-props.yaml
-+    additionalProperties: true
- 
-     properties:
-       spi-3wire:
-diff --git a/Documentation/devicetree/bindings/sram/allwinner,sun4i-a10-system-control.yaml b/Documentation/devicetree/bindings/sram/allwinner,sun4i-a10-system-control.yaml
-index 98a7dc7f467d..a1c96985951f 100644
---- a/Documentation/devicetree/bindings/sram/allwinner,sun4i-a10-system-control.yaml
-+++ b/Documentation/devicetree/bindings/sram/allwinner,sun4i-a10-system-control.yaml
-@@ -57,17 +57,17 @@ properties:
- 
- patternProperties:
-   "^sram@[a-z0-9]+":
--    type: object
--
--    properties:
--      compatible:
--        const: mmio-sram
-+    $ref: /schemas/sram/sram.yaml#
-+    unevaluatedProperties: false
- 
-     patternProperties:
-       "^sram-section?@[a-f0-9]+$":
-         type: object
-+        additionalProperties: false
- 
-         properties:
-+          reg: true
-+
-           compatible:
-             oneOf:
-               - const: allwinner,sun4i-a10-sram-a3-a4
-diff --git a/Documentation/devicetree/bindings/sram/qcom,ocmem.yaml b/Documentation/devicetree/bindings/sram/qcom,ocmem.yaml
-index 071f2d676196..4bbf6db0b6bd 100644
---- a/Documentation/devicetree/bindings/sram/qcom,ocmem.yaml
-+++ b/Documentation/devicetree/bindings/sram/qcom,ocmem.yaml
-@@ -61,6 +61,7 @@ additionalProperties: false
- patternProperties:
-   "-sram@[0-9a-f]+$":
-     type: object
-+    additionalProperties: false
-     description: A region of reserved memory.
- 
-     properties:
-diff --git a/Documentation/devicetree/bindings/thermal/thermal-zones.yaml b/Documentation/devicetree/bindings/thermal/thermal-zones.yaml
-index 8581821fa4e1..4f3acdc4dec0 100644
---- a/Documentation/devicetree/bindings/thermal/thermal-zones.yaml
-+++ b/Documentation/devicetree/bindings/thermal/thermal-zones.yaml
-@@ -171,6 +171,7 @@ patternProperties:
- 
-       cooling-maps:
-         type: object
-+        additionalProperties: false
-         description:
-           This node describes the action to be taken when a thermal zone
-           crosses one of the temperature thresholds described in the trips
-diff --git a/Documentation/devicetree/bindings/usb/qcom,dwc3.yaml b/Documentation/devicetree/bindings/usb/qcom,dwc3.yaml
-index a3f8a3f49852..3cdd40f8acc0 100644
---- a/Documentation/devicetree/bindings/usb/qcom,dwc3.yaml
-+++ b/Documentation/devicetree/bindings/usb/qcom,dwc3.yaml
-@@ -118,6 +118,7 @@ properties:
- patternProperties:
-   "^usb@[0-9a-f]+$":
-     $ref: snps,dwc3.yaml#
-+    unevaluatedProperties: false
- 
-     properties:
-       wakeup-source: false
--- 
-2.39.0
-
+> Regards,
+> Christian.
+>
+>
+> >
+> > Thanks,
+> > -James
+> >
+> >>>>> Please take a look and comment.
+> >>>>>
+> >>>>> Thanks,
+> >>>>> Christian.
+> >>>>>
+> >>>>> [1]
+> >>>>> https://lore.kernel.org/all/11a6f97c-e45f-f24b-8a73-48d5a388a2cc@gm=
+ail.com/T/
+> >>
+> >
+>
