@@ -2,66 +2,66 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9F6B767968D
-	for <lists+linux-media@lfdr.de>; Tue, 24 Jan 2023 12:25:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 853AC679697
+	for <lists+linux-media@lfdr.de>; Tue, 24 Jan 2023 12:28:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233302AbjAXLZ5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 24 Jan 2023 06:25:57 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52050 "EHLO
+        id S233955AbjAXL2r (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 24 Jan 2023 06:28:47 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53532 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233565AbjAXLZ4 (ORCPT
+        with ESMTP id S233953AbjAXL2q (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 24 Jan 2023 06:25:56 -0500
+        Tue, 24 Jan 2023 06:28:46 -0500
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 304728694
-        for <linux-media@vger.kernel.org>; Tue, 24 Jan 2023 03:25:09 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 38FF7B74D
+        for <linux-media@vger.kernel.org>; Tue, 24 Jan 2023 03:28:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1674559508;
+        s=mimecast20190719; t=1674559680;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=v1PHsqg4+jSCeazkAX0hBPJun41mBhpJj7P6tW7D+3E=;
-        b=LN5itjXEFKvTBUr9YOOOb8Wvw4vO/mZtoay6sVff3sud1AnNe+bujqtdwEdWA7CnpUiHiO
-        32aTX58JAgrp6p2iSDpFf5Z5rAs4ysO2kJ0Fqg9dn0zeN6Mzfl18aHHaq6hiff/2BBimgN
-        idzpu5hIrOPSgKi1O2wHyX2hlSAk98w=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=4Zkae+FgVlE7g6XLQPiu3EfFAeSDxJ80lJZYiQevrd0=;
+        b=YxdX9vctdAXLbMSeigIUn3uLJ/6JkPjnREdiIfpLd1CpgvFaLr/c+bKkkeTqZRw2bhFs46
+        1kZ/43G1jcwqd/vFv6BtZcRYiIar+MOZFgXGco3acgFU6+sZFoHSHB28wZ9ib21y5TJlkW
+        fct00DZfU4km7WY9SH38NWLaCGSxhaQ=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-621-Yuw54DW3PNeIHnFWqBZnUw-1; Tue, 24 Jan 2023 06:25:07 -0500
-X-MC-Unique: Yuw54DW3PNeIHnFWqBZnUw-1
-Received: by mail-ed1-f69.google.com with SMTP id z20-20020a05640240d400b0049e1b5f6175so10411525edb.8
-        for <linux-media@vger.kernel.org>; Tue, 24 Jan 2023 03:25:06 -0800 (PST)
+ us-mta-349-ogOuseObMpGV61lGCkdNxQ-1; Tue, 24 Jan 2023 06:27:59 -0500
+X-MC-Unique: ogOuseObMpGV61lGCkdNxQ-1
+Received: by mail-ej1-f69.google.com with SMTP id nb4-20020a1709071c8400b0084d4712780bso9708999ejc.18
+        for <linux-media@vger.kernel.org>; Tue, 24 Jan 2023 03:27:58 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=v1PHsqg4+jSCeazkAX0hBPJun41mBhpJj7P6tW7D+3E=;
-        b=2zOSVi/BZPRX0xKsq8bIHQYEsmwuuD4t2y/VRsgp2uH+y59zafJsU8y1YStUUNojDM
-         3Vqe0bhL+jkQ1vxfJ7no3240a0CD6yYrAEs+ZMuXc8NHrHVxIwxBIv3myto7tuuwxNve
-         wbwduH8wlBn2SFSnTIvACkFBDM/gim2jjvATGvQF5ct9m2+e43fUGKcYOPe1VF2yLH6l
-         zf52IEHPdaM93hdOWwxZOsGv9GAVFWEQRdCIGvAJlXt49YwiWSDuerS/f2eg5LXX5oe8
-         0M4dJ+f9ZoGeQ+Sd6jLhQramQPasJAvRbZoNTeEp+GtG3VNYcYlCS/L4yD3QqUMhDwn3
-         VQEQ==
-X-Gm-Message-State: AFqh2kohleysZRQYnSPkbguDMSlNjpd7Vmr+VQ2L/JLRLbY+xNd0gjxu
-        5poNSKKOK7ZvSv9/f1MtoGCDOWYsCu7EaqE4t10/VD0GKA+4eNrTFwoJPAFkN+s1YIST5D13rf/
-        Q3maWvJqEbBejLvNlnnaPjhA=
-X-Received: by 2002:a05:6402:28c7:b0:47e:f535:e9a0 with SMTP id ef7-20020a05640228c700b0047ef535e9a0mr31843231edb.24.1674559505962;
-        Tue, 24 Jan 2023 03:25:05 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXsEFtNuB3c2wqgZpNfJzICpWBfxb1idZ0g6D8jIT2Hw2sPJ9WTJtO+hBa5lpWDccCMJKC9yAQ==
-X-Received: by 2002:a05:6402:28c7:b0:47e:f535:e9a0 with SMTP id ef7-20020a05640228c700b0047ef535e9a0mr31843216edb.24.1674559505773;
-        Tue, 24 Jan 2023 03:25:05 -0800 (PST)
+        bh=4Zkae+FgVlE7g6XLQPiu3EfFAeSDxJ80lJZYiQevrd0=;
+        b=fSPkT7a93fOb0MJcgKNnwUNlayhkwNOmcrlw2pH9OuJpXt+YbuS/VY3gNmKQNSdKnO
+         JXlfBl/xwU4+UgHv8WMPpKurRL5eM7SjxumdZVUIGl7qTtN5Jy5e17e19PXxYJZUP6i+
+         XNJis1VJ6VGRgpgqC4+VFNMUoW5+8CpcTOX2l9XhDXcGl1x3jaxZddPdCgsdNHTv/GS2
+         jX61sdPPq8Ice02yoAjC3dwFLVzcmIjqsLe5ZsRCCkbuigAKYZ2MPZgOr+63xqmOU478
+         FV/sIYCQ8u5cKmrtuFprIjUYu5HUKvcIoAV89I/B9P9VdRbW8WC13SXfeSGMLG5Hjpye
+         MZUQ==
+X-Gm-Message-State: AFqh2krLiu+qz9GcsNr9AhHyG4aBqv6f393BUI/kx0UClXimTVBCqiuX
+        0JB1D+0etMOHEEw3uISEGR8vphQ4YQuTuM+wwLZ1C3rcQmmEvkYt/CoivlHzVGoXzNt7SiPs1+z
+        +EcyjsIKBAugXtxoT2lWqpeI=
+X-Received: by 2002:a17:907:3f24:b0:86e:f629:6c9b with SMTP id hq36-20020a1709073f2400b0086ef6296c9bmr36823003ejc.42.1674559676743;
+        Tue, 24 Jan 2023 03:27:56 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXvUUhTR9SRUdyg/OuJDhJkQSG9osf6ZmlYWD/1hMCG3R19kdz4Iwvwk3+Jfp00h+IgXB9g1IQ==
+X-Received: by 2002:a17:907:3f24:b0:86e:f629:6c9b with SMTP id hq36-20020a1709073f2400b0086ef6296c9bmr36822985ejc.42.1674559676556;
+        Tue, 24 Jan 2023 03:27:56 -0800 (PST)
 Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id g16-20020aa7c850000000b00494dcc5047asm917861edt.22.2023.01.24.03.25.04
+        by smtp.gmail.com with ESMTPSA id k11-20020a1709065fcb00b0087190b46ab0sm766241ejv.76.2023.01.24.03.27.55
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 24 Jan 2023 03:25:05 -0800 (PST)
-Message-ID: <1645ddd5-0f08-fe1f-dfaa-45f3978a7416@redhat.com>
-Date:   Tue, 24 Jan 2023 12:25:04 +0100
+        Tue, 24 Jan 2023 03:27:56 -0800 (PST)
+Message-ID: <ed0aa535-d4c5-5d5a-1964-991cbd1d8d45@redhat.com>
+Date:   Tue, 24 Jan 2023 12:27:55 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.6.0
-Subject: Re: [PATCH 28/57] media: Add ovxxxx_16bit_addr_reg_helpers.h
+Subject: Re: [PATCH 33/57] media: atomisp: ov2680: Add test pattern control
 Content-Language: en-US, nl
 To:     Andy Shevchenko <andy@kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -72,10 +72,10 @@ Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         andrey.i.trufanov@gmail.com, Fabio Aiuto <fabioaiuto83@gmail.com>,
         linux-media@vger.kernel.org, linux-staging@lists.linux.dev
 References: <20230123125205.622152-1-hdegoede@redhat.com>
- <20230123125205.622152-29-hdegoede@redhat.com>
- <Y87QvdlvLLLDhve/@smile.fi.intel.com>
+ <20230123125205.622152-34-hdegoede@redhat.com>
+ <Y87WBHnxz7atGdge@smile.fi.intel.com>
 From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <Y87QvdlvLLLDhve/@smile.fi.intel.com>
+In-Reply-To: <Y87WBHnxz7atGdge@smile.fi.intel.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-3.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
@@ -90,51 +90,132 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Hi,
 
-On 1/23/23 19:23, Andy Shevchenko wrote:
-> On Mon, Jan 23, 2023 at 01:51:36PM +0100, Hans de Goede wrote:
->> The following drivers under drivers/media/i2c: ov08x40.c, ov13858.c,
->> ov13b10.c, ov2680.c, ov2685.c, ov2740.c, ov4689.c, ov5670.c,
->> ov5675.c, ov5695.c, ov8856.c, ov9282.c and ov9734.c,
->>
->> as well as various "atomisp" sensor drivers in drivers/staging, *all*
->> use register access helpers with the following function prototypes:
->>
->> int ovxxxx_read_reg(struct ovxxxx_dev *sensor, u16 reg,
->>                     unsigned int len, u32 *val);
->>
->> int ovxxxx_write_reg(struct ovxxxx_dev *sensor, u16 reg,
->>                      unsigned int len, u32 val);
->>
->> To read/write registers on Omnivision OVxxxx image sensors wich expect
->> a 16 bit register address in big-endian format and which have 1-3 byte
->> wide registers, in big-endian format (for the higher width registers).
->>
->> Add a new ovxxxx_16bit_addr_reg_helpers.h header file with static inline
->> versions of these register access helpers, so that this code duplication
->> can be removed.
+On 1/23/23 19:46, Andy Shevchenko wrote:
+> On Mon, Jan 23, 2023 at 01:51:41PM +0100, Hans de Goede wrote:
+>> Add a test pattern control. This is a 1:1 copy of the test pattern
+>> control in the main drivers/media/i2c/ov2680.c driver.
 > 
-> 
-> A couple more comments.
-> 
-> ...
-> 
->> +#define ovxxxx_write_reg8(s, r, v)	ovxxxx_write_reg(s, r, 1, v)
->> +#define ovxxxx_write_reg16(s, r, v)	ovxxxx_write_reg(s, r, 2, v)
->> +#define ovxxxx_write_reg24(s, r, v)	ovxxxx_write_reg(s, r, 3, v)
-> 
-> Btw, we probably can use _Generic() for these...
-> 
-> ...
-> 
->> +static inline int ovxxxx_mod_reg(struct i2c_client *client, u16 reg, u8 mask, u8 val)
-> 
-> Can we actually s/mod/update/ as it's more regular when we talk about IO
-> accessor APIs?
+> Hmm... I'm not sure I understand the trend of the changes.
+> We have two drivers of the same sensor, correct?
+> So, the idea is to move the AtomISP-specific one to be like
+> the generic and then kill it eventually?
 
-Ack, I'll replace the mod with update.
+The goal is to kill one eventually yes. I'm not sure which
+one to kill yet though. I have actually found a whole bunch
+of bugs in the main drivers/media/i2c/ov2680.c code and
+given its buggy-ness I wonder if anyone is actually using it.
+
+I need to start an email thread about this (and a couple of
+other open questions which I have), I have a bunch of notes
+which I need to turn into emails for this.
+
+> If so, why do we add something here?
+
+Because I suspect that the atomisp version might eventually
+be the one we want to keep (and move to drivers/media/i2c).
 
 Regards,
 
 Hans
 
+
+> Code-wise it's okay change, but see above.
+> Reviewed-by: Andy Shevchenko <andy@kernel.org>
+> 
+>> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+>> ---
+>>  .../media/atomisp/i2c/atomisp-ov2680.c        | 33 +++++++++++++++++++
+>>  drivers/staging/media/atomisp/i2c/ov2680.h    |  3 ++
+>>  2 files changed, 36 insertions(+)
+>>
+>> diff --git a/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c b/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c
+>> index 14002a1c22d2..6ca2a5bb0700 100644
+>> --- a/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c
+>> +++ b/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c
+>> @@ -127,6 +127,24 @@ static int ov2680_gain_set(struct ov2680_device *sensor, u32 gain)
+>>  	return ovxxxx_write_reg16(sensor->client, OV2680_REG_GAIN_PK, gain);
+>>  }
+>>  
+>> +static int ov2680_test_pattern_set(struct ov2680_device *sensor, int value)
+>> +{
+>> +	int ret;
+>> +
+>> +	if (!value)
+>> +		return ovxxxx_mod_reg(sensor->client, OV2680_REG_ISP_CTRL00, BIT(7), 0);
+>> +
+>> +	ret = ovxxxx_mod_reg(sensor->client, OV2680_REG_ISP_CTRL00, 0x03, value - 1);
+>> +	if (ret < 0)
+>> +		return ret;
+>> +
+>> +	ret = ovxxxx_mod_reg(sensor->client, OV2680_REG_ISP_CTRL00, BIT(7), BIT(7));
+>> +	if (ret < 0)
+>> +		return ret;
+>> +
+>> +	return 0;
+>> +}
+>> +
+>>  static int ov2680_s_ctrl(struct v4l2_ctrl *ctrl)
+>>  {
+>>  	struct v4l2_subdev *sd = ctrl_to_sd(ctrl);
+>> @@ -151,6 +169,9 @@ static int ov2680_s_ctrl(struct v4l2_ctrl *ctrl)
+>>  	case V4L2_CID_GAIN:
+>>  		ret = ov2680_gain_set(sensor, ctrl->val);
+>>  		break;
+>> +	case V4L2_CID_TEST_PATTERN:
+>> +		ret = ov2680_test_pattern_set(sensor, ctrl->val);
+>> +		break;
+>>  	default:
+>>  		ret = -EINVAL;
+>>  	}
+>> @@ -644,6 +665,13 @@ static const struct v4l2_subdev_ops ov2680_ops = {
+>>  
+>>  static int ov2680_init_controls(struct ov2680_device *sensor)
+>>  {
+>> +	static const char * const test_pattern_menu[] = {
+>> +		"Disabled",
+>> +		"Color Bars",
+>> +		"Random Data",
+>> +		"Square",
+>> +		"Black Image",
+>> +	};
+>>  	const struct v4l2_ctrl_ops *ops = &ov2680_ctrl_ops;
+>>  	struct ov2680_ctrls *ctrls = &sensor->ctrls;
+>>  	struct v4l2_ctrl_handler *hdl = &ctrls->handler;
+>> @@ -658,6 +686,11 @@ static int ov2680_init_controls(struct ov2680_device *sensor)
+>>  	ctrls->exposure = v4l2_ctrl_new_std(hdl, ops, V4L2_CID_EXPOSURE,
+>>  					    0, exp_max, 1, exp_max);
+>>  	ctrls->gain = v4l2_ctrl_new_std(hdl, ops, V4L2_CID_GAIN, 0, 1023, 1, 250);
+>> +	ctrls->test_pattern =
+>> +		v4l2_ctrl_new_std_menu_items(hdl,
+>> +					     &ov2680_ctrl_ops, V4L2_CID_TEST_PATTERN,
+>> +					     ARRAY_SIZE(test_pattern_menu) - 1,
+>> +					     0, 0, test_pattern_menu);
+>>  
+>>  	ctrls->hflip->flags |= V4L2_CTRL_FLAG_MODIFY_LAYOUT;
+>>  	ctrls->vflip->flags |= V4L2_CTRL_FLAG_MODIFY_LAYOUT;
+>> diff --git a/drivers/staging/media/atomisp/i2c/ov2680.h b/drivers/staging/media/atomisp/i2c/ov2680.h
+>> index e3ad20a7ffd5..45526477b612 100644
+>> --- a/drivers/staging/media/atomisp/i2c/ov2680.h
+>> +++ b/drivers/staging/media/atomisp/i2c/ov2680.h
+>> @@ -120,6 +120,8 @@
+>>  #define OV2680_MWB_BLUE_GAIN_H			0x5008/*0x3404*/
+>>  #define OV2680_MWB_GAIN_MAX				0x0fff
+>>  
+>> +#define OV2680_REG_ISP_CTRL00			0x5080
+>> +
+>>  #define OV2680_START_STREAMING			0x01
+>>  #define OV2680_STOP_STREAMING			0x00
+>>  
+>> @@ -171,6 +173,7 @@ struct ov2680_device {
+>>  		struct v4l2_ctrl *vflip;
+>>  		struct v4l2_ctrl *exposure;
+>>  		struct v4l2_ctrl *gain;
+>> +		struct v4l2_ctrl *test_pattern;
+>>  	} ctrls;
+>>  };
+>>  
+>> -- 
+>> 2.39.0
+>>
+> 
 
