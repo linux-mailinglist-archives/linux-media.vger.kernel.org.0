@@ -2,58 +2,82 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4FAEB6798A0
-	for <lists+linux-media@lfdr.de>; Tue, 24 Jan 2023 13:53:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E30C96798C5
+	for <lists+linux-media@lfdr.de>; Tue, 24 Jan 2023 13:58:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234160AbjAXMxP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 24 Jan 2023 07:53:15 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56746 "EHLO
+        id S234078AbjAXM6D (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 24 Jan 2023 07:58:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34426 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234159AbjAXMxD (ORCPT
+        with ESMTP id S233796AbjAXM5x (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 24 Jan 2023 07:53:03 -0500
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6866C2CC5E
-        for <linux-media@vger.kernel.org>; Tue, 24 Jan 2023 04:52:26 -0800 (PST)
-X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="412517486"
-X-IronPort-AV: E=Sophos;i="5.97,242,1669104000"; 
-   d="scan'208";a="412517486"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2023 04:52:12 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="725460542"
-X-IronPort-AV: E=Sophos;i="5.97,242,1669104000"; 
-   d="scan'208";a="725460542"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by fmsmga008.fm.intel.com with ESMTP; 24 Jan 2023 04:52:10 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-        (envelope-from <andy@kernel.org>)
-        id 1pKImW-00ELRL-13;
-        Tue, 24 Jan 2023 14:52:08 +0200
-Date:   Tue, 24 Jan 2023 14:52:08 +0200
-From:   Andy Shevchenko <andy@kernel.org>
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Tsuchiya Yuto <kitakar@gmail.com>,
-        Yury Luneff <yury.lunev@gmail.com>,
-        Nable <nable.maininbox@googlemail.com>,
-        andrey.i.trufanov@gmail.com, Fabio Aiuto <fabioaiuto83@gmail.com>,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH 46/57] media: atomisp: ov2680: Delay power-on till
- streaming is started
-Message-ID: <Y8/UeKTin7fyUrLl@smile.fi.intel.com>
-References: <20230123125205.622152-1-hdegoede@redhat.com>
- <20230123125205.622152-47-hdegoede@redhat.com>
- <Y8+4SZzMpgI1yNaU@smile.fi.intel.com>
- <1bd8ac47-03f8-245b-7708-defd150eff00@redhat.com>
+        Tue, 24 Jan 2023 07:57:53 -0500
+Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C52A6A4A
+        for <linux-media@vger.kernel.org>; Tue, 24 Jan 2023 04:57:51 -0800 (PST)
+Received: by mail-pl1-x635.google.com with SMTP id be8so1740867plb.7
+        for <linux-media@vger.kernel.org>; Tue, 24 Jan 2023 04:57:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=Lbga1PekNQG7Wr08X5AD8bYyGj914Yhe8xMoadj6ep8=;
+        b=Wkgvt7M/3VLY+FML2DA+LVjnEPI6mopPmwB+jdxBTvY1cW+hfiTbvwPmfPCRqxGI/5
+         U3eRsnTqOG/OKrTOaCjpI+jKcytHrjhZx6z39hTcQlghqpfQlhf29szyk26EOPQ81aqv
+         RvwwXVDt+PD6CF73FMYrpZEPqnV75wK6k25xYKamIq9l28L6Gp65toSLr+8cLL6q0TLO
+         ccCO/h/ArwS/JoxxHnTzcPk2iEfgeIx30Ctb7nPpqPE37BtQA8X64Bv2FTfaU609ago/
+         JAZdxoMS/9mYTNvfvzHD4f1RyngBXoDNWTOYRxudbM0n2u2AKtqYXULrUqbNAOiL/GbG
+         s51Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Lbga1PekNQG7Wr08X5AD8bYyGj914Yhe8xMoadj6ep8=;
+        b=OuNEnl/24wqF6NWf+aVLMeF6W9F0Am50duL8hIi7NMC3QDrY1LSi0TLbZtIvt10sWM
+         GAEfRE0xk4vvxVDFc7UNlJQZDDobPgjQLUebQo1mivqwmCZKeLux3gSu3z9zOw+E6KnS
+         EQjWRZSNXtm96LxYChE2u0Z8NbhAqh8VFGfzOXkIGOwOcsmVYILWVhO2ieCCJsIzULfv
+         NgRA/CSMv5dsyLQk5P2XHYJ5VowoVKYmw9jQluZcrrMVvkGhqS4d6pbXus5oJg2HAkWx
+         ji771ivCMypX+IXOQWod5Xoj5J5ZorIP3HkbRlvm8C8eqKUxqwH10sNbpcPVIQUmCsGY
+         eXVw==
+X-Gm-Message-State: AFqh2ko6mSBelNjTouf0vyNHzUl9QRLH37Sz/VtrYJ5GKoDaE5GCJi6e
+        E1bE1NNIAqPlUUqLzJc0vHNavWSKWv4hb0OnyBK7aw==
+X-Google-Smtp-Source: AMrXdXtCakx+gDCZWxcq7+x+5SmE+6G1+2IncnakyeXGIZcRncfenaixWLy34xEgyDCGALWUs3tkMTZmGb6hw3x1WUo=
+X-Received: by 2002:a17:90a:1d07:b0:228:f08f:a9b3 with SMTP id
+ c7-20020a17090a1d0700b00228f08fa9b3mr3625899pjd.202.1674565070644; Tue, 24
+ Jan 2023 04:57:50 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1bd8ac47-03f8-245b-7708-defd150eff00@redhat.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-X-Spam-Status: No, score=-3.5 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_SOFTFAIL autolearn=ham autolearn_force=no
+References: <20221117-b4-amlogic-bindings-convert-v3-0-e28dd31e3bed@linaro.org>
+ <20221117-b4-amlogic-bindings-convert-v3-6-e28dd31e3bed@linaro.org>
+In-Reply-To: <20221117-b4-amlogic-bindings-convert-v3-6-e28dd31e3bed@linaro.org>
+From:   Ulf Hansson <ulf.hansson@linaro.org>
+Date:   Tue, 24 Jan 2023 13:57:14 +0100
+Message-ID: <CAPDyKFrRN-+fhvWQNmQfD2u-0+2iqP-iONaKx61K685ZqcrZOg@mail.gmail.com>
+Subject: Re: [PATCH v3 6/7] dt-bindings: mmc: convert amlogic,meson-gx.txt to dt-schema
+To:     Neil Armstrong <neil.armstrong@linaro.org>
+Cc:     Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Jerome Brunet <jbrunet@baylibre.com>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Lorenzo Pieralisi <lpieralisi@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-amlogic@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-watchdog@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-mmc@vger.kernel.org, linux-pci@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -61,24 +85,151 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Jan 24, 2023 at 12:31:14PM +0100, Hans de Goede wrote:
-> On 1/24/23 11:51, Andy Shevchenko wrote:
-> > On Mon, Jan 23, 2023 at 01:51:54PM +0100, Hans de Goede wrote:
+On Mon, 23 Jan 2023 at 11:10, Neil Armstrong <neil.armstrong@linaro.org> wrote:
+>
+> Convert the Amlogic SD / eMMC controller for S905/GXBB family SoCs
+> to dt-schema.
+>
+> Take in account the used variant with amlogic,meson-gx-mmc.
+>
+> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
 
-...
+Applied for next, thanks!
 
-> >> +	if (sensor->is_streaming == enable) {
-> >> +		dev_warn(&client->dev, "stream already %sed\n", enable ? "start" : "stopp");
-> > 
-> > stopP ?!
-> 
-> Yes the format string is "%sed" so "stopp" gives us "stopped".
-
-Can we, please, use full words, so it will be easier to find a candidate for
-including into string_choices.h or so?
-
--- 
-With Best Regards,
-Andy Shevchenko
+Kind regards
+Uffe
 
 
+> ---
+>  .../bindings/mmc/amlogic,meson-gx-mmc.yaml         | 73 ++++++++++++++++++++++
+>  .../devicetree/bindings/mmc/amlogic,meson-gx.txt   | 39 ------------
+>  2 files changed, 73 insertions(+), 39 deletions(-)
+>
+> diff --git a/Documentation/devicetree/bindings/mmc/amlogic,meson-gx-mmc.yaml b/Documentation/devicetree/bindings/mmc/amlogic,meson-gx-mmc.yaml
+> new file mode 100644
+> index 000000000000..46e235bf228b
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/mmc/amlogic,meson-gx-mmc.yaml
+> @@ -0,0 +1,73 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/mmc/amlogic,meson-gx-mmc.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Amlogic SD / eMMC controller for S905/GXBB family SoCs
+> +
+> +description:
+> +  The MMC 5.1 compliant host controller on Amlogic provides the
+> +  interface for SD, eMMC and SDIO devices
+> +
+> +maintainers:
+> +  - Neil Armstrong <neil.armstrong@linaro.org>
+> +
+> +allOf:
+> +  - $ref: mmc-controller.yaml#
+> +
+> +properties:
+> +  compatible:
+> +    oneOf:
+> +      - const: amlogic,meson-axg-mmc
+> +      - items:
+> +          - const: amlogic,meson-gx-mmc
+> +          - const: amlogic,meson-gxbb-mmc
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    maxItems: 3
+> +
+> +  clock-names:
+> +    items:
+> +      - const: core
+> +      - const: clkin0
+> +      - const: clkin1
+> +
+> +  resets:
+> +    maxItems: 1
+> +
+> +  amlogic,dram-access-quirk:
+> +    type: boolean
+> +    description:
+> +      set when controller's internal DMA engine cannot access the DRAM memory,
+> +      like on the G12A dedicated SDIO controller.
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +  - clocks
+> +  - clock-names
+> +  - resets
+> +
+> +unevaluatedProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/irq.h>
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +    mmc@70000 {
+> +        compatible = "amlogic,meson-gx-mmc", "amlogic,meson-gxbb-mmc";
+> +        reg = <0x70000 0x2000>;
+> +        interrupts = <GIC_SPI 216 IRQ_TYPE_EDGE_RISING>;
+> +        clocks = <&clk_mmc>, <&xtal>, <&clk_div>;
+> +        clock-names = "core", "clkin0", "clkin1";
+> +        pinctrl-0 = <&emm_pins>;
+> +        resets = <&reset_mmc>;
+> +    };
+> diff --git a/Documentation/devicetree/bindings/mmc/amlogic,meson-gx.txt b/Documentation/devicetree/bindings/mmc/amlogic,meson-gx.txt
+> deleted file mode 100644
+> index ccc5358db131..000000000000
+> --- a/Documentation/devicetree/bindings/mmc/amlogic,meson-gx.txt
+> +++ /dev/null
+> @@ -1,39 +0,0 @@
+> -Amlogic SD / eMMC controller for S905/GXBB family SoCs
+> -
+> -The MMC 5.1 compliant host controller on Amlogic provides the
+> -interface for SD, eMMC and SDIO devices.
+> -
+> -This file documents the properties in addition to those available in
+> -the MMC core bindings, documented by mmc.txt.
+> -
+> -Required properties:
+> -- compatible : contains one of:
+> -  - "amlogic,meson-gx-mmc"
+> -  - "amlogic,meson-gxbb-mmc"
+> -  - "amlogic,meson-gxl-mmc"
+> -  - "amlogic,meson-gxm-mmc"
+> -  - "amlogic,meson-axg-mmc"
+> -- clocks     : A list of phandle + clock-specifier pairs for the clocks listed in clock-names.
+> -- clock-names: Should contain the following:
+> -       "core" - Main peripheral bus clock
+> -       "clkin0" - Parent clock of internal mux
+> -       "clkin1" - Other parent clock of internal mux
+> -  The driver has an internal mux clock which switches between clkin0 and clkin1 depending on the
+> -  clock rate requested by the MMC core.
+> -- resets     : phandle of the internal reset line
+> -
+> -Optional properties:
+> -- amlogic,dram-access-quirk: set when controller's internal DMA engine cannot access the
+> -  DRAM memory, like on the G12A dedicated SDIO controller.
+> -
+> -Example:
+> -
+> -       sd_emmc_a: mmc@70000 {
+> -               compatible = "amlogic,meson-gxbb-mmc";
+> -               reg = <0x0 0x70000 0x0 0x2000>;
+> -               interrupts = < GIC_SPI 216 IRQ_TYPE_EDGE_RISING>;
+> -               clocks = <&clkc CLKID_SD_EMMC_A>, <&xtal>, <&clkc CLKID_FCLK_DIV2>;
+> -               clock-names = "core", "clkin0", "clkin1";
+> -               pinctrl-0 = <&emmc_pins>;
+> -               resets = <&reset RESET_SD_EMMC_A>;
+> -       };
+>
+> --
+> 2.34.1
+>
