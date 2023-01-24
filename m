@@ -2,95 +2,130 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C3FCA679E02
-	for <lists+linux-media@lfdr.de>; Tue, 24 Jan 2023 16:54:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 19C04679E63
+	for <lists+linux-media@lfdr.de>; Tue, 24 Jan 2023 17:17:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233302AbjAXPyG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 24 Jan 2023 10:54:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60820 "EHLO
+        id S233050AbjAXQRO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 24 Jan 2023 11:17:14 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50330 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232977AbjAXPyG (ORCPT
+        with ESMTP id S232855AbjAXQRN (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 24 Jan 2023 10:54:06 -0500
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4480F47EDE;
-        Tue, 24 Jan 2023 07:54:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674575645; x=1706111645;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=H3zPqbv+ZDrlbEa+l2wWi8EQBaBRzTzGbvV/PRP5/6Q=;
-  b=DUD15fHkDGu7N5LkqVFFEj8hffanuZUCl2QLAeM3hUCyH7NDEtBJjmES
-   XjhR4HW8o0XdJP/1tiWDSISpXluXVK6piA3NNjCwmtX47KZhRFtE8/4eC
-   CuufLezB3oAMsxWrfatIjdIZapaBfjLzfiPI3eTOh7vCiNsTWpzepqgv/
-   cEeMTj0sTAHhAQRPShwPAYxSAuNIzmgBNdQhGkSMerQ2nUxcNLyPwuDrI
-   O1DQjmb5NG0ukwIKf45174oXofZbh3ACFYtLuYXYV/Kc5CmHxIax3CvKo
-   zsRteI/D7iU9WaVxuh/jIPss14g/0B1U1nOtLnKIoF8zSigkJRKp5lIic
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10600"; a="327582418"
-X-IronPort-AV: E=Sophos;i="5.97,242,1669104000"; 
-   d="scan'208";a="327582418"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2023 07:54:04 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10600"; a="692629996"
-X-IronPort-AV: E=Sophos;i="5.97,242,1669104000"; 
-   d="scan'208";a="692629996"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2023 07:54:03 -0800
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-        by kekkonen.fi.intel.com (Postfix) with SMTP id 7F4A3122501;
-        Tue, 24 Jan 2023 17:54:00 +0200 (EET)
-Date:   Tue, 24 Jan 2023 17:54:00 +0200
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     linux-acpi@vger.kernel.org, linux-media@vger.kernel.org,
-        rafael@kernel.org, heikki.krogerus@linux.intel.com
-Subject: Re: [PATCH v2 7/8] ACPI: property: Skip MIPI property table without
- "mipi-img" prefix
-Message-ID: <Y8//GN6Eud77cicF@kekkonen.localdomain>
-References: <20230123134617.265382-1-sakari.ailus@linux.intel.com>
- <20230123134617.265382-8-sakari.ailus@linux.intel.com>
- <Y86ncn54H30xyjJU@smile.fi.intel.com>
+        Tue, 24 Jan 2023 11:17:13 -0500
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B28C45F6D
+        for <linux-media@vger.kernel.org>; Tue, 24 Jan 2023 08:17:12 -0800 (PST)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <mgr@pengutronix.de>)
+        id 1pKLyw-0005I1-HH; Tue, 24 Jan 2023 17:17:10 +0100
+Received: from mgr by ptx.hi.pengutronix.de with local (Exim 4.92)
+        (envelope-from <mgr@pengutronix.de>)
+        id 1pKLyv-0006Ip-Qi; Tue, 24 Jan 2023 17:17:09 +0100
+Date:   Tue, 24 Jan 2023 17:17:09 +0100
+From:   Michael Grzeschik <mgr@pengutronix.de>
+To:     Greg KH <gregkh@linuxfoundation.org>
+Cc:     linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com,
+        marex@denx.de, kernel@pengutronix.de
+Subject: Re: [GIT PULL FOR v6.3] uvcgadget changes
+Message-ID: <20230124161709.GA23507@pengutronix.de>
+References: <20230124144929.GB19219@pengutronix.de>
+ <Y8/6vHUoB4WjbLk2@kroah.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="NzB8fVQJ5HfG6fxh"
 Content-Disposition: inline
-In-Reply-To: <Y86ncn54H30xyjJU@smile.fi.intel.com>
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
-        autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <Y8/6vHUoB4WjbLk2@kroah.com>
+X-Sent-From: Pengutronix Hildesheim
+X-URL:  http://www.pengutronix.de/
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: mgr@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Jan 23, 2023 at 05:27:46PM +0200, Andy Shevchenko wrote:
-> On Mon, Jan 23, 2023 at 03:46:16PM +0200, Sakari Ailus wrote:
-> > For all _DSD properties, skip going through the MIPI DisCo for Imaging
-> > property name substitution table if the property doesn't have "mipi-img-"
-> > prefix.
-> 
-> ...
-> 
-> > -	{ "mipi-img-lens-focus", "lens-focus" },
-> > -	{ "mipi-img-flash-leds", "flash-leds" },
-> > -	{ "mipi-img-clock-frequency", "clock-frequency" },
-> > -	{ "mipi-img-led-max-current", "led-max-microamp" },
-> > -	{ "mipi-img-flash-max-current", "flash-max-microamp" },
-> > -	{ "mipi-img-flash-max-timeout", "flash-max-timeout-us" },
-> > +	{ MIPI_IMG_PREFIX "lens-focus", "lens-focus" },
-> > +	{ MIPI_IMG_PREFIX "flash-leds", "flash-leds" },
-> > +	{ MIPI_IMG_PREFIX "clock-frequency", "clock-frequency" },
-> > +	{ MIPI_IMG_PREFIX "led-max-current", "led-max-microamp" },
-> > +	{ MIPI_IMG_PREFIX "flash-max-current", "flash-max-microamp" },
-> > +	{ MIPI_IMG_PREFIX "flash-max-timeout", "flash-max-timeout-us" },
-> 
-> I don't thing it ads to the readability, so I don't know why this (part of the)
-> change is needed.
 
-Ok, I'll drop this chunk.
+--NzB8fVQJ5HfG6fxh
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
--- 
-Sakari Ailus
+On Tue, Jan 24, 2023 at 04:35:24PM +0100, Greg KH wrote:
+>On Tue, Jan 24, 2023 at 03:49:29PM +0100, Michael Grzeschik wrote:
+>> The following changes since commit 82adfe34694c98f1115a7b75cff6af9c4a35d=
+ba9:
+>>
+>>  Merge tag 'media-uvc-next-20230115' of git://git.kernel.org/pub/scm/lin=
+ux/kernel/git/pinchartl/linux into media_stage (2023-01-22 08:43:14 +0100)
+>>
+>> are available in the Git repository at:
+>>
+>>  git://git.pengutronix.de/mgr/linux tags/uvc-gadget-next-20230124
+>>
+>> for you to fetch changes up to e88f760d0f7054f49aa68b75bf0530840f031d34:
+>>
+>>  usb: uvc: use v4l2_fill_fmtdesc instead of open coded format name (2023=
+-01-24 15:26:07 +0100)
+>>
+>> ----------------------------------------------------------------
+>> Marek Vasut (1):
+>>      media: uvcvideo: Add GUID for BGRA/X 8:8:8:8
+>>
+>> Michael Grzeschik (4):
+>>      usb: uvc: move media/v4l2-uvc.h to usb/uvc.h
+>>      usb: uvc: move uvc_fmts and uvc_format_by_guid to own compile unit
+>>      usb: uvc: make uvc_format_desc table const
+>>      usb: uvc: use v4l2_fill_fmtdesc instead of open coded format name
+>
+>Sorry, but I can't take patches like this as a pull request.  I want to
+>see the real patches and get people to review them properly that way.
+
+I just did like Laurent suggested. Since the series was already properly
+reviewed I also thought this would be fine.
+
+https://lore.kernel.org/linux-media/Y8VdpQGcqmoKESk8@pendragon.ideasonboard=
+=2Ecom/
+
+Anyway. I can send another round with the patch from Marek in the
+series.
+
+Thanks,
+Michael
+
+--=20
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+
+--NzB8fVQJ5HfG6fxh
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIyBAABCgAdFiEElXvEUs6VPX6mDPT8C+njFXoeLGQFAmPQBIIACgkQC+njFXoe
+LGS/5w/3ZREhp8EY4DJzXQLx5jQuKsEk/8jAxSDKkJGsY3QgayYwZbSuYcZYbUc7
+PjTkhhqQBpkVg5DiAc0qxT50ZS1M29OU1w6F5q4OkO3JaQdZ/AoVoeHeE9Uki7zY
+YRK8fUdXS8INw9rr5T8PjeFpEsqh4HlCjnKrozCnTlgBrrrXcjmCbGtD1fx5qrAU
+hwJr7mYMwlBSqOtN6zfm1dRX8hM18XfCNd8608qUIai9AhwrbVblyWVg7LsFsLlq
+BMqZLlCjiWj9HR0roR9JXu+vkVeShnzny6kYoYtDPuOB56CRePo/++7znj/i3UsB
+qHzQsT4bD+VOyoNmYzHuCk2R2uUQ4qWEfOel360m6+r4CeJGLDXupllRsIgGDzx3
++f8cCjU8U6b/VFpv+NkhHUVx5bazcRBELoq35TMGvPYgZwuxqBE45bI+aBSkyWup
+YwmqTROYK6+OEM3+DwlZLjzdY4Q7P6DWvnFl5QDLbQWTb1uxt4JgYqcpYpFSqTh9
+P7csFE1+rd/Uvy3CoKSDI49gDr/DgMeiZ8PdxSAUjX8Xnj/0MFhXBgc8tM8E11zZ
+w4d/2DPL7uF09ph8muVzpTYF2W6ojq86780RFc99DF8hM3Bvv9YT2zYBZ2EGLu6O
+bilKvoeCJJ+BZg6E+FxjviEeYCQ8MxM82ktQMBWwQdKp0e3Bdg==
+=lH9H
+-----END PGP SIGNATURE-----
+
+--NzB8fVQJ5HfG6fxh--
