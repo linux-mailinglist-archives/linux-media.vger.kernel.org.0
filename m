@@ -2,291 +2,222 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A89D0679DA8
-	for <lists+linux-media@lfdr.de>; Tue, 24 Jan 2023 16:37:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3145A679DCF
+	for <lists+linux-media@lfdr.de>; Tue, 24 Jan 2023 16:44:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235259AbjAXPhb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 24 Jan 2023 10:37:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49592 "EHLO
+        id S234879AbjAXPoA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 24 Jan 2023 10:44:00 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56146 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234172AbjAXPh3 (ORCPT
+        with ESMTP id S235264AbjAXPn6 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 24 Jan 2023 10:37:29 -0500
-Received: from mail-ot1-x332.google.com (mail-ot1-x332.google.com [IPv6:2607:f8b0:4864:20::332])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 184134B4AB
-        for <linux-media@vger.kernel.org>; Tue, 24 Jan 2023 07:37:24 -0800 (PST)
-Received: by mail-ot1-x332.google.com with SMTP id n24-20020a0568301e9800b006865671a9d5so9411409otr.6
-        for <linux-media@vger.kernel.org>; Tue, 24 Jan 2023 07:37:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:references:in-reply-to:message-id:cc:to:subject:from
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=uZs4QBKM1DAEVrzUs2jgyYCzPM0eV7x/4GAFS4lm3sQ=;
-        b=l9Z8T0E2m5/mSQ3JKltSSk5jXmaDoT8SCPv2k/xVjK3bo2HCD4bGJS5eS8HeMMnDxZ
-         uaXs8u1YOJ0IgfRx4WonW12V3wa1/mGM9GHQAHfB5zaIjpXJSo40R4Ktsht8VINaLzCA
-         Nr6S64pRCKqNt4kBz1JGkQhtB3Pu+YVAShmrIg1o5yTY7IuYJszLTS/ET/kXdz8TP6+s
-         vb00KOToHsQJR+ZtVJDciiDT57IGFoqGkyXM/WxQxhSv2VrAymz9sXwU5LhrC4u4H+vH
-         wmjlyzQAgXNKc34tWPMBJ3IUnPr8NlJhhQTIk3km3Zg2+i98zQhbSmXEB4QnrQ2+Zojc
-         TNxQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=mime-version:references:in-reply-to:message-id:cc:to:subject:from
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=uZs4QBKM1DAEVrzUs2jgyYCzPM0eV7x/4GAFS4lm3sQ=;
-        b=b4KUnGNF/48jFYX4c9hUNUO17TN3qbp3P7vvyS60zzpOTy1EaVBiVYgeTGNHps5q8B
-         N+6qrIwYPKlPIIWecBdFk3YyGmLaeZXQtR2SI/51ULBYV+rRFJ3tpon/EQ/pKnWUI8KA
-         GaWMIamFQ/gRa0fFTH6L/R27QtVgvKzzGCbAJYpUX2vq1BrqnKLccUHq891jHStOssSd
-         ec71z8CIBY8PTrPP1uCtNtBRgV37HcWYXko+3lFcaBlfJzTXdV7HuS8Nnd7mkPU7gFp3
-         ZRFdbS7zK2m5oExN1g5U4UHvmaYq/KcppR4IzODni5JgRNBC0W7VcwTvg1oWg5oag0VB
-         CF1Q==
-X-Gm-Message-State: AFqh2kodTqCJZqL6DJECyULvlqwxBZfPz1xu5nnjI8sebFF5Bya6J9fW
-        +6SrZQQMMFwm8dePLxwhIZ5U3Q==
-X-Google-Smtp-Source: AMrXdXu8iW/3doONUVQAUXPJo0FcqzleAkSPPX1xT9hUa07o6/qMBY63nUdCriPGj4RXhUCLdfr3Vg==
-X-Received: by 2002:a9d:4c95:0:b0:686:5246:acd7 with SMTP id m21-20020a9d4c95000000b006865246acd7mr12336918otf.3.1674574643339;
-        Tue, 24 Jan 2023 07:37:23 -0800 (PST)
-Received: from [192.168.10.175] ([190.106.125.253])
-        by smtp.gmail.com with ESMTPSA id m1-20020a9d6ac1000000b0068655f477a6sm1035562otq.50.2023.01.24.07.37.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Jan 2023 07:37:22 -0800 (PST)
-Date:   Tue, 24 Jan 2023 12:37:11 -0300
-From:   Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-Subject: Re: [PATCH v3] media: verisilicon: HEVC: Only propose 10 bits
- compatible pixels formats
-To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Cc:     p.zabel@pengutronix.de, mchehab@kernel.org, shawnguo@kernel.org,
-        s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
-        linux-imx@nxp.com, hverkuil-cisco@xs4all.nl,
-        nicolas.dufresne@collabora.co.uk, linux-media@vger.kernel.org,
-        linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, kernel@collabora.com
-Message-Id: <Z1YZOR.ZWVAJWRXN40J@vanguardiasur.com.ar>
-In-Reply-To: <-263646320144248448@unknownmsgid>
-References: <20230119084723.133576-1-benjamin.gaignard@collabora.com>
-        <-263646320144248448@unknownmsgid>
-X-Mailer: geary/43.0
+        Tue, 24 Jan 2023 10:43:58 -0500
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D3F9B6A45;
+        Tue, 24 Jan 2023 07:43:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1674575036; x=1706111036;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=KwSmSzXNDFzeQhf+d70xYTh76xHp2WPVcGIoNfs08vs=;
+  b=HGh1m3o95PRieB9rq0hok2/VfvRFKKCoCPPDtZv3NzebBFRQfe9J13ky
+   YClHmnDfkzLONXfaumoOIVO2VNvMe0I6RpLh1UH1wMliFWVML5QIJnqAv
+   ALzGGwyDDEkIoeq532Il/vnegnEjJv4AXQLAJqib/Qam5Poq2xkNFcECT
+   f6humRrlAxQE20ecwV6detvFxU1NHPdhqC4tBCFz8EN8HZNNXyEjnrgLz
+   jJ89seVOpl7ZMjv5fjFMx6u1CRhTTrSSUo/nfeJ9bq31W8vv1dUSw9A2h
+   nh+EYMrmk58huHGXUpkAsfdnRz8M0RGfgQP29JuBl3eAs41ugB3tip8DH
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10600"; a="314223584"
+X-IronPort-AV: E=Sophos;i="5.97,242,1669104000"; 
+   d="scan'208";a="314223584"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2023 07:43:27 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10600"; a="612083442"
+X-IronPort-AV: E=Sophos;i="5.97,242,1669104000"; 
+   d="scan'208";a="612083442"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2023 07:43:26 -0800
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+        by kekkonen.fi.intel.com (Postfix) with SMTP id 094DB122501;
+        Tue, 24 Jan 2023 17:43:23 +0200 (EET)
+Date:   Tue, 24 Jan 2023 17:43:22 +0200
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc:     linux-acpi@vger.kernel.org, linux-media@vger.kernel.org,
+        rafael@kernel.org, heikki.krogerus@linux.intel.com
+Subject: Re: [PATCH v2 4/8] ACPI: property: Generate camera swnodes for ACPI
+ and DisCo for Imaging
+Message-ID: <Y8/8moorDUIseO3/@kekkonen.localdomain>
+References: <20230123134617.265382-1-sakari.ailus@linux.intel.com>
+ <20230123134617.265382-5-sakari.ailus@linux.intel.com>
+ <Y86mhdQrcWMr58wV@smile.fi.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y86mhdQrcWMr58wV@smile.fi.intel.com>
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Benjamin,
+Hi Andy,
 
-Thanks for the patch.
+On Mon, Jan 23, 2023 at 05:23:49PM +0200, Andy Shevchenko wrote:
+> On Mon, Jan 23, 2023 at 03:46:13PM +0200, Sakari Ailus wrote:
+> > Generate software nodes for information parsed from ACPI _CRS for CSI-2 as
+> > well as MIPI DisCo for Imaging spec. The software nodes are compliant with
+> > existing ACPI or DT definitions and are parsed by relevant drivers without
+> > changes.
+> 
+> ...
+> 
+> > +static struct acpi_device_software_nodes *
+> > +crs_csi2_swnode_get(acpi_handle handle)
+> 
+> It's 81 on one line. Why not to join?
 
-On Tue, Jan 24 2023 at 12:04:25 PM -0300, Ezequiel Garcia 
-<ezequiel@vanguardiasur.com.ar> wrote:
+Works for me.
+
+> 
+> > +{
+> > +	struct crs_csi2_swnodes *swnodes;
+> > +
+> > +	list_for_each_entry(swnodes, &crs_csi2_swnodes, list)
+> > +		if (swnodes->handle == handle)
+> > +			return swnodes->ads;
+> > +
+> > +	return NULL;
+> > +}
+> 
+> ...
+> 
+> > +#define GRAPH_PORT_NAME(var, num)					   \
+> > +	(snprintf((var), sizeof(var), SWNODE_GRAPH_PORT_NAME_FMT, (num)) > \
+> > +	 sizeof(var))
+> 
+> >= ?
+> 
+> ("excluding the trailing '\0'")
+
+Thanks, indeed. A bug introduced in v2.
+
+> 
+> ...
+> 
+> > +static struct fwnode_handle *get_mipi_port_handle(struct acpi_device *device,
+> > +						  unsigned int port)
+> > +{
+> 
+> > +	static const char mipi_port_prefix[] = "mipi-img-port-";
+> 
+> It's used only once in this function, why not keeping it in the format string?
+
+Twice, not once. My point was that it's critical the strings remain the
+same length, and certainly what that string actually is, is less important.
+
+> 
+> > +	char mipi_port_name[sizeof(mipi_port_prefix) + 2];
+> > +
+> > +	if (snprintf(mipi_port_name, sizeof(mipi_port_name), "%s%u",
+> > +		     mipi_port_prefix, port) > sizeof(mipi_port_name)) {
+> > +		acpi_handle_info(acpi_device_handle(device),
+> > +				 "mipi port name too long for port %u\n", port);
+> > +		return NULL;
+> > +	}
+> > +
+> > +	return fwnode_get_named_child_node(acpi_fwnode_handle(device),
+> > +					   mipi_port_name);
+> > +}
+> 
+> ...
+> 
+> > +			/* Move polarity bits to the lane polarity u32 array */
+> > +			for (i = 0; i < 1 + num_lanes; i++)
+> > +				port->lane_polarities[i] =
+> > +					(u.val8[i >> 3] & (1 << (i & 7))) ?
+> > +					1U : 0U;
+> 
+> Wouldn't
+> 
+> 				port->lane_polarities[i] =
+> 					!!(u.val8[i >> 3] & (1 << (i & 7)));
+> 
+> be better?
+
+It would work, yes, although the target is a u32. Casting to bool would
+look nicer to me. I lean towards what it is at the moment but bool seems
+fairly reasonable, too.
+
+> 
+> ...
+> 
+> > +	ret = software_node_register_node_group(ads->nodeptrs);
+> > +	if (ret < 0) {
+> > +		acpi_handle_warn(acpi_device_handle(device),
+> > +				 "cannot register software nodes (%d)!\n", ret);
+> > +		device->swnodes = NULL;
+> > +		return;
+> > +	}
+> 
+> > +	device->fwnode.secondary = software_node_fwnode(ads->nodes);
+> 
+> 	struct fwnode_handle *primary;
+> 	...
+> 	primary = acpi_fwnode_handle(device);
+> 	primary->secondary = ...
+> 
+> ?
+> 
+> The point is to avoid direct dereferences of fwnode in struct acpi_device.
+
+Yes.
+
 > 
 > 
-> On Thu, Jan 19 2023 at 09:47:23 AM +0100, Benjamin Gaignard 
-> <benjamin.gaignard@collabora.com> wrote:
->> When decoding a 10bits bitstreams HEVC driver should only expose
->> 10bits pixel formats.
->> To fulfill this requirement it is needed to call 
->> hantro_reset_raw_fmt()
->> when bit depth change and to correctly set match_depth in pixel 
->> formats
->> enumeration.
->> 
->> Fixes: dc39473d0340 ("media: hantro: imx8m: Enable 10bit decoding")
->> 
->> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
->> 
->> ---
->> version 3:
->> - Propagate hantro_reset_raw_fmt() error.
->>   I hope I have correctly understood Ezekiel's thoughts
->>   in the way I have implemented them.
->> 
->> version 2:
->> - Remove struct hantro_ctx *ctx variable in hantro_try_ctrl()
->>   because it isn't used anymore.
->> 
->>  .../media/platform/verisilicon/hantro_drv.c   | 40 
->> +++++++++++++++----
->>  .../media/platform/verisilicon/hantro_v4l2.c  |  6 +--
->>  .../media/platform/verisilicon/hantro_v4l2.h  |  1 +
->>  .../media/platform/verisilicon/imx8m_vpu_hw.c |  2 +
->>  4 files changed, 38 insertions(+), 11 deletions(-)
->> 
->> diff --git a/drivers/media/platform/verisilicon/hantro_drv.c 
->> b/drivers/media/platform/verisilicon/hantro_drv.c
->> index 8cb4a68c9119..a713a45c0108 100644
->> --- a/drivers/media/platform/verisilicon/hantro_drv.c
->> +++ b/drivers/media/platform/verisilicon/hantro_drv.c
->> @@ -251,11 +251,6 @@ queue_init(void *priv, struct vb2_queue 
->> *src_vq, struct vb2_queue *dst_vq)
->> 
->>  static int hantro_try_ctrl(struct v4l2_ctrl *ctrl)
->>  {
->> -	struct hantro_ctx *ctx;
->> -
->> -	ctx = container_of(ctrl->handler,
->> -			   struct hantro_ctx, ctrl_handler);
->> -
->>  	if (ctrl->id == V4L2_CID_STATELESS_H264_SPS) {
->>  		const struct v4l2_ctrl_h264_sps *sps = ctrl->p_new.p_h264_sps;
->> 
->> @@ -274,8 +269,6 @@ static int hantro_try_ctrl(struct v4l2_ctrl 
->> *ctrl)
->>  		if (sps->bit_depth_luma_minus8 != 0 && sps->bit_depth_luma_minus8 
->> != 2)
->>  			/* Only 8-bit and 10-bit are supported */
->>  			return -EINVAL;
->> -
->> -		ctx->bit_depth = sps->bit_depth_luma_minus8 + 8;
+> ...
+> 
+> > +static void acpi_free_swnodes(struct acpi_device *device)
+> > +{
+> > +	struct acpi_device_software_nodes *ads = device->swnodes;
+> > +
+> > +	if (!ads)
+> > +		return;
+> > +
+> > +	software_node_unregister_node_group(ads->nodeptrs);
+> 
+> > +	set_secondary_fwnode(&device->dev, NULL);
+> 
+> Interestingly you are not use same API above. Why?
 
-Oh dammit this is wrong! The try_ctrl shouldn't be changing state!
-I missed this when I reviewed the patch.
+Good question.
 
-Please keep in mind, a "try" API in V4L2 typically just
-validates but shouldn't set state.
+dev->fwnode hasn't been set when assigning the secondary fwnode in
+acpi_init_swnodes(), therefore set_secondary_fwnode() won't do what it
+should.
 
-I'm sure we will soon have a Hantro Rust driver and we will be able
-to enforce state mutation rules :)
+It can be still called here as it just sets dev->fwnode->secondary NULL.
 
->>  	} else if (ctrl->id == V4L2_CID_STATELESS_VP9_FRAME) {
->>  		const struct v4l2_ctrl_vp9_frame *dec_params = 
->> ctrl->p_new.p_vp9_frame;
->> 
->> @@ -286,6 +279,32 @@ static int hantro_try_ctrl(struct v4l2_ctrl 
->> *ctrl)
->>  	return 0;
->>  }
->> 
->> +static int hantro_hevc_s_ctrl(struct v4l2_ctrl *ctrl)
->> +{
->> +	struct hantro_ctx *ctx;
->> +
->> +	ctx = container_of(ctrl->handler,
->> +			   struct hantro_ctx, ctrl_handler);
->> +
->> +	vpu_debug(1, "s_ctrl: id = %d, val = %d\n", ctrl->id, ctrl->val);
->> +
->> +	switch (ctrl->id) {
->> +	case V4L2_CID_STATELESS_HEVC_SPS:
->> +		const struct v4l2_ctrl_hevc_sps *sps = ctrl->p_new.p_hevc_sps;
->> +		int bit_depth = sps->bit_depth_luma_minus8 + 8;
->> +
->> +		if (ctx->bit_depth != bit_depth) {
->> +			ctx->bit_depth = bit_depth;
->> +			return hantro_reset_raw_fmt(ctx);
+I can add a comment mentioning this.
 
-You cannot simply return hantro_reset_raw() and set the bit_depth
-in hantro_ctx.
+I think it'd be better to have a set of fwnodes attached to a device rather
+than one primary and another secondary, with various levels of success
+depending on the order of assigning them. But I think it's out of scope of
+this set.
 
-If hantro_reset_raw fails, you would leave a bad state behind.
+> 
+> > +	kfree(ads->nodes[ACPI_DEVICE_SWNODE_ROOT].name);
+> > +	kfree(ads);
+> > +
+> > +	device->swnodes = NULL;
+> > +}
 
->> +		}
->> +		break;
->> +	default:
->> +		return -EINVAL;
->> +	}
->> +
->> +	return 0;
->> +}
->> +
->>  static int hantro_jpeg_s_ctrl(struct v4l2_ctrl *ctrl)
->>  {
->>  	struct hantro_ctx *ctx;
->> @@ -328,6 +347,11 @@ static const struct v4l2_ctrl_ops 
->> hantro_ctrl_ops = {
->>  	.try_ctrl = hantro_try_ctrl,
->>  };
->> 
->> +static const struct v4l2_ctrl_ops hantro_hevc_ctrl_ops = {
->> +	.s_ctrl = hantro_hevc_s_ctrl,
->> +	.try_ctrl = hantro_try_ctrl,
->> +};
->> +
->>  static const struct v4l2_ctrl_ops hantro_jpeg_ctrl_ops = {
->>  	.s_ctrl = hantro_jpeg_s_ctrl,
->>  };
->> @@ -470,7 +494,7 @@ static const struct hantro_ctrl controls[] = {
->>  		.codec = HANTRO_HEVC_DECODER,
->>  		.cfg = {
->>  			.id = V4L2_CID_STATELESS_HEVC_SPS,
->> -			.ops = &hantro_ctrl_ops,
->> +			.ops = &hantro_hevc_ctrl_ops,
->>  		},
->>  	}, {
->>  		.codec = HANTRO_HEVC_DECODER,
->> diff --git a/drivers/media/platform/verisilicon/hantro_v4l2.c 
->> b/drivers/media/platform/verisilicon/hantro_v4l2.c
->> index 2c7a805289e7..cd85877bbbe2 100644
->> --- a/drivers/media/platform/verisilicon/hantro_v4l2.c
->> +++ b/drivers/media/platform/verisilicon/hantro_v4l2.c
->> @@ -398,7 +398,7 @@ hantro_reset_encoded_fmt(struct hantro_ctx *ctx)
->>  		hantro_set_fmt_out(ctx, fmt);
->>  }
->> 
->> -static void
->> +int
->>  hantro_reset_raw_fmt(struct hantro_ctx *ctx)
->>  {
->>  	const struct hantro_fmt *raw_vpu_fmt;
->> @@ -420,9 +420,9 @@ hantro_reset_raw_fmt(struct hantro_ctx *ctx)
->>  	raw_fmt->width = encoded_fmt->width;
->>  	raw_fmt->height = encoded_fmt->height;
->>  	if (ctx->is_encoder)
->> -		hantro_set_fmt_out(ctx, raw_fmt);
->> +		return hantro_set_fmt_out(ctx, raw_fmt);
->>  	else
->> -		hantro_set_fmt_cap(ctx, raw_fmt);
->> +		return hantro_set_fmt_cap(ctx, raw_fmt);
+-- 
+Kind regards,
 
-And same here, you cannot simply return from hantro_reset_raw_fmt.
-You need to unroll the changes to ctx->vpu_dst_fmt,
-and ctx->vpu_src_fmt.
-
-Thanks!
-
->>  }
->> 
->>  void hantro_reset_fmts(struct hantro_ctx *ctx)
->> diff --git a/drivers/media/platform/verisilicon/hantro_v4l2.h 
->> b/drivers/media/platform/verisilicon/hantro_v4l2.h
->> index 64f6f57e9d7a..cb8e1fe3422d 100644
->> --- a/drivers/media/platform/verisilicon/hantro_v4l2.h
->> +++ b/drivers/media/platform/verisilicon/hantro_v4l2.h
->> @@ -21,6 +21,7 @@
->>  extern const struct v4l2_ioctl_ops hantro_ioctl_ops;
->>  extern const struct vb2_ops hantro_queue_ops;
->> 
->> +int hantro_reset_raw_fmt(struct hantro_ctx *ctx);
->>  void hantro_reset_fmts(struct hantro_ctx *ctx);
->>  int hantro_get_format_depth(u32 fourcc);
->>  const struct hantro_fmt *
->> diff --git a/drivers/media/platform/verisilicon/imx8m_vpu_hw.c 
->> b/drivers/media/platform/verisilicon/imx8m_vpu_hw.c
->> index b390228fd3b4..f850d8bddef6 100644
->> --- a/drivers/media/platform/verisilicon/imx8m_vpu_hw.c
->> +++ b/drivers/media/platform/verisilicon/imx8m_vpu_hw.c
->> @@ -152,6 +152,7 @@ static const struct hantro_fmt 
->> imx8m_vpu_g2_postproc_fmts[] = {
->>  	{
->>  		.fourcc = V4L2_PIX_FMT_NV12,
->>  		.codec_mode = HANTRO_MODE_NONE,
->> +		.match_depth = true,
->>  		.postprocessed = true,
->>  		.frmsize = {
->>  			.min_width = FMT_MIN_WIDTH,
->> @@ -165,6 +166,7 @@ static const struct hantro_fmt 
->> imx8m_vpu_g2_postproc_fmts[] = {
->>  	{
->>  		.fourcc = V4L2_PIX_FMT_P010,
->>  		.codec_mode = HANTRO_MODE_NONE,
->> +		.match_depth = true,
->>  		.postprocessed = true,
->>  		.frmsize = {
->>  			.min_width = FMT_MIN_WIDTH,
->> --
->> 2.34.1
->> 
-
-
+Sakari Ailus
