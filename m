@@ -2,112 +2,125 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5923A67A4D7
-	for <lists+linux-media@lfdr.de>; Tue, 24 Jan 2023 22:19:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9CF1267A568
+	for <lists+linux-media@lfdr.de>; Tue, 24 Jan 2023 23:09:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234991AbjAXVTh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 24 Jan 2023 16:19:37 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48654 "EHLO
+        id S235178AbjAXWJL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 24 Jan 2023 17:09:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46932 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235010AbjAXVT0 (ORCPT
+        with ESMTP id S232601AbjAXWJK (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 24 Jan 2023 16:19:26 -0500
-Received: from mail-qt1-x82e.google.com (mail-qt1-x82e.google.com [IPv6:2607:f8b0:4864:20::82e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 502A9474F2
-        for <linux-media@vger.kernel.org>; Tue, 24 Jan 2023 13:19:14 -0800 (PST)
-Received: by mail-qt1-x82e.google.com with SMTP id a25so14303163qto.10
-        for <linux-media@vger.kernel.org>; Tue, 24 Jan 2023 13:19:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=K8tBkVDcR3cIjvCGSV7pCzotu/GYoRW4uPdPyTobpUU=;
-        b=q/9e3e2NeK80DecsM1DxuwcETnH6bT2rG52Bz4kbxpn9ZUDkALoLB/GXpmZoTETo3u
-         ZXWm/Y/fmSX/kQyrHvV20YZQMs6JQ6Sv9WnFxs0h8Vb/wNoXLt9n+bjCzB7Tu7QAtLZu
-         CphXsH2+n8rm0whA1MrKA/9G7ZIUvx5OyeW2yY1CL8d+ZudMrtoaVSPZgjTh6cjycO3K
-         CpQ+tnxejzvBgLmnrJjgTB2YCsA64fDR0qKx9NbotZOJrwSu4OEI+75HS8Q1t8Lip+h9
-         xx5k9FZo0LIWwoLSrE8fk5zFe2yJYpbldsvt0WmLZ7b3jbz6ggh+xGtIyvyT19rsgUiS
-         r3ZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=K8tBkVDcR3cIjvCGSV7pCzotu/GYoRW4uPdPyTobpUU=;
-        b=pVb5mNAkoNCSVMbd5Gnzs+WJBvGo7TAwtfWHsuZudUMd/sa+Fp90Dni2jSLvqTMAzj
-         yyHngJDWCkE/8njQPORNT34NdezHEPnah3DQSBqwZoWQy/OZk95wA1nye9G9ydsQ0KH+
-         BC/sH2KcZyzjPzb5/BX5IbdESiHFIphdS6uUrnVVIu5sTaNhCFeA8uU2r+I/Z/bVH4f1
-         9JRg9+kAk46yOcO+lNwgtAFKu3MS4IoGW/X9fQMg0WbgpALHsnwg4hxs9LpIbajqNdqs
-         ElZIAyiddXleuQU8H8h+jTb6YvRhvJxKZU53YmJDj9AMbLXQ8anNA7WPyaRkKVr6pWh7
-         ZgbA==
-X-Gm-Message-State: AFqh2kr3yzRfTSQ46sa8b2Kzt5KDWUBgF5RK1Rwo0jc0fvc3GdzlP8yt
-        TqAWUJ7MMkHbg3aw7GjQ+Sxl0Q==
-X-Google-Smtp-Source: AMrXdXvVfqjmstskpsb+7KNHHK7XTOLpCh5jIf1Zf8VZzT8oMkYcJQXg4wGwRvhcYM63kTu9+3C+7Q==
-X-Received: by 2002:ac8:6792:0:b0:3a8:1793:76d6 with SMTP id b18-20020ac86792000000b003a8179376d6mr40904443qtp.68.1674595153462;
-        Tue, 24 Jan 2023 13:19:13 -0800 (PST)
-Received: from nicolas-tpx395.localdomain (192-222-136-102.qc.cable.ebox.net. [192.222.136.102])
-        by smtp.gmail.com with ESMTPSA id i7-20020ac84887000000b003b6a17e1996sm1965508qtq.83.2023.01.24.13.19.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Jan 2023 13:19:12 -0800 (PST)
-Message-ID: <40a7e1171d7777128c0728a28a029e6f3643145a.camel@ndufresne.ca>
-Subject: Re: [PATCH v2 1/2] media: meson: vdec: implement 10bit bitstream
- handling
-From:   Nicolas Dufresne <nicolas@ndufresne.ca>
-To:     neil.armstrong@linaro.org,
-        Christian Hewitt <christianshewitt@gmail.com>,
+        Tue, 24 Jan 2023 17:09:10 -0500
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B07F11F909;
+        Tue, 24 Jan 2023 14:09:09 -0800 (PST)
+Received: from [192.168.2.197] (unknown [109.252.117.89])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: dmitry.osipenko)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 817406602E22;
+        Tue, 24 Jan 2023 22:09:06 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1674598148;
+        bh=1zr7qfrQPqMx8+ESoAypSrnPHB7w9ZVQOi/B07+18JM=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=SDARVLb5YiWptwh6L3DVv0MFnmaAm45m1TQew0cK6L2fC/SlMd37DVjpBrEGvH9yV
+         qW3E4riaTEwEeBUJGjh+8xbbyMceXQuN2XBDJooc1WsQubHF9E+NaKldlRqjv4ui/8
+         NpSefHwxNO7lLlo/Sivx6+aGjBTqtRj7PiW9xViUS8HYYe691iOXfpQESk4pRUQ8Jz
+         4/purXnCJu/tKKiR3PzmNBPrgrfSrcVlmff+DiCZqCOFsOOO3fu0JvAnRiq1XUsMPE
+         pz87Zaaf7g7Qvy3UO9FhKBw914eGk/j7agbNG8bD410pT6xk9VHSORcfhEiSwezLHm
+         FhyfVO1Tm+syQ==
+Message-ID: <90f005c1-effa-2117-8b57-fb8f2cf9d71b@collabora.com>
+Date:   Wed, 25 Jan 2023 01:09:03 +0300
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH v3 02/21] dt-bindings: display: tegra: vi: add 'vip'
+ property and example
+Content-Language: en-US
+To:     Luca Ceresoli <luca.ceresoli@bootlin.com>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Sowjanya Komatineni <skomatineni@nvidia.com>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        linux-media@vger.kernel.org, linux-amlogic@lists.infradead.org,
-        linux-staging@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Cc:     Benjamin Roszak <benjamin545@gmail.com>
-Date:   Tue, 24 Jan 2023 16:19:11 -0500
-In-Reply-To: <95132025-8f0f-8179-40b7-8bf83458886a@linaro.org>
-References: <20230124034058.3407235-1-christianshewitt@gmail.com>
-         <20230124034058.3407235-2-christianshewitt@gmail.com>
-         <6ff68c4bea9d48980853e9af9db1fc0bf13976ae.camel@ndufresne.ca>
-         <07933226-fbab-fa78-6b96-38e365577605@linaro.org>
-         <478d5a7569b7879aa3410a5b3049d745867df780.camel@ndufresne.ca>
-         <95132025-8f0f-8179-40b7-8bf83458886a@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.2 (3.46.2-1.fc37) 
-MIME-Version: 1.0
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE autolearn=ham
-        autolearn_force=no version=3.4.6
+        Dmitry Osipenko <digetx@gmail.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Richard Leitner <richard.leitner@skidata.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+References: <20221229133205.981397-1-luca.ceresoli@bootlin.com>
+ <20221229133205.981397-3-luca.ceresoli@bootlin.com>
+ <cdc91bc4-aa76-f824-36c9-d2995c17fb18@collabora.com>
+ <20230124221421.2d45a532@booty>
+From:   Dmitry Osipenko <dmitry.osipenko@collabora.com>
+In-Reply-To: <20230124221421.2d45a532@booty>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-3.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Neil,
+On 1/25/23 00:14, Luca Ceresoli wrote:
+> Hi Dmitry,
+> 
+> On Tue, 24 Jan 2023 20:02:39 +0300
+> Dmitry Osipenko <dmitry.osipenko@collabora.com> wrote:
+> 
+>> On 12/29/22 16:31, Luca Ceresoli wrote:
+>>> +        vip {
+>>> +            compatible = "nvidia,tegra20-vip";
+>>> +            #address-cells = <1>;
+>>> +            #size-cells = <0>;
+>>> +            channel@0 {
+>>> +                reg = <0>;
+>>> +                ports {
+>>> +                    #address-cells = <1>;
+>>> +                    #size-cells = <0>;
+>>> +                    port@0 {
+>>> +                        reg = <0>;
+>>> +                        vi_vip_in: endpoint {
+>>> +                            remote-endpoint = <&mt9v111_out>;
+>>> +                        };
+>>> +                    };
+>>> +                    port@1 {
+>>> +                        reg = <1>;
+>>> +                        vi_vip_out: endpoint {
+>>> +                            remote-endpoint = <&vi_in>;
+>>> +                        };
+>>> +                    };
+>>> +                };
+>>> +            };  
+>>
+>> In the changelog you said that the channel@0 node is removed
+> 
+> Thanks, you are right, this is a leftover. I must have forgotten about
+> updating the example. :-\
+> 
+> It will be fixed in v4 obviously, I was waiting before sending it in
+> case of any feedback on the other patches.
 
-Le mardi 24 janvier 2023 =C3=A0 17:51 +0100, neil.armstrong@linaro.org a =
-=C3=A9crit=C2=A0:
-> We hoped we could use the same modifier as DRM, but it seems this is now =
-out of scope.
->=20
-> Neil
+The rest of the patches look okay. The patchset should get testing on
+T210 and then will be good to apply it, IMO. If nobody will volunteer to
+test T210 then should be good to apply it too, we can always fix the
+code later on.
 
-Its not out of scope, its just not being worked on. There is no infra to su=
-pport
-an extra 64bit modifier in V4L2 atm, or to use DRM formats in general. Folk=
-s
-form Qualcomm or Mediatek didn't want to do it, so they worked around by ad=
-ding
-their strictly needed subset of compressed formats. If you don't want this,=
- then
-fine, but I'm not aware of someone actively working on that today.
-
-I was just curious if there was anything other then NV12 (something 10bit) =
-on
-the secondary buffer case, that was my initial question here ;-D.
-
-Nicolas
+-- 
+Best regards,
+Dmitry
 
