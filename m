@@ -2,51 +2,50 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9CEB2679AE0
-	for <lists+linux-media@lfdr.de>; Tue, 24 Jan 2023 15:00:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 51C8B679B57
+	for <lists+linux-media@lfdr.de>; Tue, 24 Jan 2023 15:16:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233977AbjAXOAX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 24 Jan 2023 09:00:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35636 "EHLO
+        id S234601AbjAXOQ1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 24 Jan 2023 09:16:27 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55028 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229791AbjAXOAW (ORCPT
+        with ESMTP id S234833AbjAXOQU (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 24 Jan 2023 09:00:22 -0500
+        Tue, 24 Jan 2023 09:16:20 -0500
 Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3E0822DE4F;
-        Tue, 24 Jan 2023 06:00:00 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F329B47EFE;
+        Tue, 24 Jan 2023 06:16:17 -0800 (PST)
 Received: from nicolas-tpx395.localdomain (192-222-136-102.qc.cable.ebox.net [192.222.136.102])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits))
         (No client certificate requested)
         (Authenticated sender: nicolas)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 5BBCD6600873;
-        Tue, 24 Jan 2023 13:59:50 +0000 (GMT)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id E444D66018E4;
+        Tue, 24 Jan 2023 14:16:14 +0000 (GMT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1674568792;
-        bh=z3ae2aJrkDKs0x9aM9FMDM/K/JTjA3N2jCEWNV/JUK8=;
+        s=mail; t=1674569776;
+        bh=s47CGVJ4e+M+0waJGcv4TlZkKgbgs+1KN4fTvbSmCw4=;
         h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-        b=iypm5ITy3qAfWbwMUXF29+XbarXwovrgib838VEmaX7nPU4Q58zG8K5AcGBSlDdyJ
-         XOWHn3Zi0feeGeYa28m8gXhOAjrP3QOSmwuZXPklofSWmiYmfDj7FW4RZJzjMGiP0S
-         0FvqL6Ky8iSDQvjcqubmAioc2PyiMh69sEEwVvtyEFiyQ8EM+vr7qOaANddq0BrbP9
-         7Xnr7i3Cr1h7ezRNMgExvEzp6O+i7ac3yJbmZbbtS09wgRfRXOrSJ8aLrX6AZMbtB8
-         vvkfJ8wsZUTi7he8reSAhW/+h2sgQgej3KXsqwDtKaz7gRZOZQmVfJytgvzqHoGsDy
-         Hfp/asYpNYBdw==
-Message-ID: <5935520157460c156ab61860054c05ae6af4dd09.camel@collabora.com>
-Subject: Re: [PATCH v3] media: verisilicon: HEVC: Only propose 10 bits
- compatible pixels formats
+        b=T5quUrXp5EMyS+m5En1TAtvR5bnV7h56/mMlGRbDIVb8fKHyJM8J4llOCgQOM0Oa8
+         QyO15DDdK3DACIHrjbDozZc/ubjiKB/ht4WipqKrT0TqHt12Aoq9Y9iox/ZQFwn8LH
+         pZIDRWLouYq6SIjK68Fo9hQyx5Mj0489Y8e0rzmruf9na0Vk86FwKtHZs+D3Bf6RUt
+         qlrkeQOfTaQlVYilurRa+1eLgB3WJWEYUJYBwgB1Sczbsh3gQYhzNTCtDqGOadgoDL
+         M3oMSTa0jBZ6DcWAXQtYiN8OFI8di113yfBn9w9O43oWFjAZQFerh28pjUr6i4QszG
+         Dfr6WPpIZACAw==
+Message-ID: <b31a3327aa2a500c6509f8f54632954bf2cea19b.camel@collabora.com>
+Subject: Re: [PATCH v3 1/7] media: Add P010 tiled format
 From:   Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
-        mchehab@kernel.org, shawnguo@kernel.org, s.hauer@pengutronix.de,
-        kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
-        hverkuil-cisco@xs4all.nl, nicolas.dufresne@collabora.co.uk
-Cc:     linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        kernel@collabora.com
-Date:   Tue, 24 Jan 2023 08:59:41 -0500
-In-Reply-To: <20230119084723.133576-1-benjamin.gaignard@collabora.com>
-References: <20230119084723.133576-1-benjamin.gaignard@collabora.com>
+To:     Jernej Skrabec <jernej.skrabec@gmail.com>,
+        ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de
+Cc:     mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
+        benjamin.gaignard@collabora.com, gregkh@linuxfoundation.org,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-rockchip@lists.infradead.org
+Date:   Tue, 24 Jan 2023 09:16:06 -0500
+In-Reply-To: <20220706182901.78949-2-jernej.skrabec@gmail.com>
+References: <20220706182901.78949-1-jernej.skrabec@gmail.com>
+         <20220706182901.78949-2-jernej.skrabec@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.46.2 (3.46.2-1.fc37) 
@@ -60,191 +59,163 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Le jeudi 19 janvier 2023 =C3=A0 09:47 +0100, Benjamin Gaignard a =C3=A9crit=
+Hi Ezequiel, Benjamin,
+
+Le mercredi 06 juillet 2022 =C3=A0 20:28 +0200, Jernej Skrabec a =C3=A9crit=
 =C2=A0:
-> When decoding a 10bits bitstreams HEVC driver should only expose
-> 10bits pixel formats.
-> To fulfill this requirement it is needed to call hantro_reset_raw_fmt()
-> when bit depth change and to correctly set match_depth in pixel formats
-> enumeration.
+> From: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
 >=20
-> Fixes: dc39473d0340 ("media: hantro: imx8m: Enable 10bit decoding")
-
-
-I actually tested v3, not v1:
-
-
-Tested with 8bit tiled / P010 linear, as that's what we have in GStreamer
-upstream and it fixed the badly selected format issue. No fluster hack was =
-used.
-
-Fluster score was: 141 / 147
-
-Tested-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-
-
+> Add P010 tiled format
 >=20
-> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> Tested-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+
+I just tested Hantro G2 myself, and that highlights that this was not reall=
+y
+tested. I believe no-one had written software detiler to verify this, so te=
+sted
+meant something like "its producing data". In fact, it seems that P010_4L4 =
+is
+not a pixel formats, at least not one covered by Hantro driver.
+
+I've dumped the tiled data, and the per tile format is not made of 16bit
+components, but instead its similar to Rockchip format, where 4 pixels are
+packed  over. As part of the AV1 driver writing, I made a detiler for that
+format.
+
+https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/3447
+
+Let's be more careful next time, pixels formats are frozen into our API, an=
+d
+there is a lot of them already, lets not invent any.
+
+Hans, what should we do about this one ? I can split off the NV12_10LE40_4L=
+4
+format from the AV1 patchset, and port G2 to use that instead. That would l=
+eave
+behind P010_4L4 as unused (actually unexistant). Any better ideas ? Perhaps=
+ we
+could steal the fourcc, its not terribly meaningful, and make P010_4L4 an a=
+lias
+?
+
+Nicolas
+
+> Signed-off-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+> [rebased, updated pixel format name and added description]
+> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 > ---
-> version 3:
-> - Propagate hantro_reset_raw_fmt() error.
->   I hope I have correctly understood Ezekiel's thoughts=20
->   in the way I have implemented them.
+>  .../media/v4l/pixfmt-yuv-planar.rst            | 18 +++++++++++++++---
+>  drivers/media/v4l2-core/v4l2-common.c          |  1 +
+>  drivers/media/v4l2-core/v4l2-ioctl.c           |  1 +
+>  include/uapi/linux/videodev2.h                 |  1 +
+>  4 files changed, 18 insertions(+), 3 deletions(-)
 >=20
-> version 2:
-> - Remove struct hantro_ctx *ctx variable in hantro_try_ctrl()
->   because it isn't used anymore.
->=20
->  .../media/platform/verisilicon/hantro_drv.c   | 40 +++++++++++++++----
->  .../media/platform/verisilicon/hantro_v4l2.c  |  6 +--
->  .../media/platform/verisilicon/hantro_v4l2.h  |  1 +
->  .../media/platform/verisilicon/imx8m_vpu_hw.c |  2 +
->  4 files changed, 38 insertions(+), 11 deletions(-)
->=20
-> diff --git a/drivers/media/platform/verisilicon/hantro_drv.c b/drivers/me=
-dia/platform/verisilicon/hantro_drv.c
-> index 8cb4a68c9119..a713a45c0108 100644
-> --- a/drivers/media/platform/verisilicon/hantro_drv.c
-> +++ b/drivers/media/platform/verisilicon/hantro_drv.c
-> @@ -251,11 +251,6 @@ queue_init(void *priv, struct vb2_queue *src_vq, str=
-uct vb2_queue *dst_vq)
+> diff --git a/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst =
+b/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst
+> index a900ff66911a..faba259a2b92 100644
+> --- a/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst
+> +++ b/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst
+> @@ -116,6 +116,13 @@ All components are stored with the same number of bi=
+ts per component.
+>        - Cb, Cr
+>        - Yes
+>        - Linear
+> +    * - V4L2_PIX_FMT_P010_4L4
+> +      - 'T010'
+> +      - 10
+> +      - 4:2:0
+> +      - Cb, Cr
+> +      - Yes
+> +      - 4x4 tiles
+>      * - V4L2_PIX_FMT_NV16
+>        - 'NV16'
+>        - 8
+> @@ -528,11 +535,12 @@ number of lines as the luma plane.
+>        - Cr\ :sub:`33`
 > =20
->  static int hantro_try_ctrl(struct v4l2_ctrl *ctrl)
->  {
-> -	struct hantro_ctx *ctx;
-> -
-> -	ctx =3D container_of(ctrl->handler,
-> -			   struct hantro_ctx, ctrl_handler);
-> -
->  	if (ctrl->id =3D=3D V4L2_CID_STATELESS_H264_SPS) {
->  		const struct v4l2_ctrl_h264_sps *sps =3D ctrl->p_new.p_h264_sps;
+>  .. _V4L2_PIX_FMT_P010:
+> +.. _V4L2-PIX-FMT-P010-4L4:
 > =20
-> @@ -274,8 +269,6 @@ static int hantro_try_ctrl(struct v4l2_ctrl *ctrl)
->  		if (sps->bit_depth_luma_minus8 !=3D 0 && sps->bit_depth_luma_minus8 !=
-=3D 2)
->  			/* Only 8-bit and 10-bit are supported */
->  			return -EINVAL;
-> -
-> -		ctx->bit_depth =3D sps->bit_depth_luma_minus8 + 8;
->  	} else if (ctrl->id =3D=3D V4L2_CID_STATELESS_VP9_FRAME) {
->  		const struct v4l2_ctrl_vp9_frame *dec_params =3D ctrl->p_new.p_vp9_fra=
-me;
+> -P010
+> -----
+> +P010 and tiled P010
+> +-------------------
 > =20
-> @@ -286,6 +279,32 @@ static int hantro_try_ctrl(struct v4l2_ctrl *ctrl)
->  	return 0;
->  }
+> -Like NV12 with 10 bits per component, expanded to 16 bits.
+> +P010 is like NV12 with 10 bits per component, expanded to 16 bits.
+>  Data in the 10 high bits, zeros in the 6 low bits, arranged in little en=
+dian order.
 > =20
-> +static int hantro_hevc_s_ctrl(struct v4l2_ctrl *ctrl)
-> +{
-> +	struct hantro_ctx *ctx;
+>  .. flat-table:: Sample 4x4 P010 Image
+> @@ -570,6 +578,10 @@ Data in the 10 high bits, zeros in the 6 low bits, a=
+rranged in little endian ord
+>        - Cb\ :sub:`11`
+>        - Cr\ :sub:`11`
+> =20
+> +``V4L2_PIX_FMT_P010_4L4`` stores pixels in 4x4 tiles, and stores tiles l=
+inearly
+> +in memory. The line stride must be aligned to multiple of 8 and image he=
+ight to
+> +a multiple of 4. The layouts of the luma and chroma planes are identical=
+.
 > +
-> +	ctx =3D container_of(ctrl->handler,
-> +			   struct hantro_ctx, ctrl_handler);
-> +
-> +	vpu_debug(1, "s_ctrl: id =3D %d, val =3D %d\n", ctrl->id, ctrl->val);
-> +
-> +	switch (ctrl->id) {
-> +	case V4L2_CID_STATELESS_HEVC_SPS:
-> +		const struct v4l2_ctrl_hevc_sps *sps =3D ctrl->p_new.p_hevc_sps;
-> +		int bit_depth =3D sps->bit_depth_luma_minus8 + 8;
-> +
-> +		if (ctx->bit_depth !=3D bit_depth) {
-> +			ctx->bit_depth =3D bit_depth;
-> +			return hantro_reset_raw_fmt(ctx);
-> +		}
-> +		break;
-> +	default:
-> +		return -EINVAL;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
->  static int hantro_jpeg_s_ctrl(struct v4l2_ctrl *ctrl)
->  {
->  	struct hantro_ctx *ctx;
-> @@ -328,6 +347,11 @@ static const struct v4l2_ctrl_ops hantro_ctrl_ops =
-=3D {
->  	.try_ctrl =3D hantro_try_ctrl,
->  };
+>  .. raw:: latex
 > =20
-> +static const struct v4l2_ctrl_ops hantro_hevc_ctrl_ops =3D {
-> +	.s_ctrl =3D hantro_hevc_s_ctrl,
-> +	.try_ctrl =3D hantro_try_ctrl,
-> +};
-> +
->  static const struct v4l2_ctrl_ops hantro_jpeg_ctrl_ops =3D {
->  	.s_ctrl =3D hantro_jpeg_s_ctrl,
->  };
-> @@ -470,7 +494,7 @@ static const struct hantro_ctrl controls[] =3D {
->  		.codec =3D HANTRO_HEVC_DECODER,
->  		.cfg =3D {
->  			.id =3D V4L2_CID_STATELESS_HEVC_SPS,
-> -			.ops =3D &hantro_ctrl_ops,
-> +			.ops =3D &hantro_hevc_ctrl_ops,
->  		},
->  	}, {
->  		.codec =3D HANTRO_HEVC_DECODER,
-> diff --git a/drivers/media/platform/verisilicon/hantro_v4l2.c b/drivers/m=
-edia/platform/verisilicon/hantro_v4l2.c
-> index 2c7a805289e7..cd85877bbbe2 100644
-> --- a/drivers/media/platform/verisilicon/hantro_v4l2.c
-> +++ b/drivers/media/platform/verisilicon/hantro_v4l2.c
-> @@ -398,7 +398,7 @@ hantro_reset_encoded_fmt(struct hantro_ctx *ctx)
->  		hantro_set_fmt_out(ctx, fmt);
->  }
+>      \endgroup
+> diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-c=
+ore/v4l2-common.c
+> index 1e38ad8906a2..e0fbe6ba4b6c 100644
+> --- a/drivers/media/v4l2-core/v4l2-common.c
+> +++ b/drivers/media/v4l2-core/v4l2-common.c
+> @@ -278,6 +278,7 @@ const struct v4l2_format_info *v4l2_format_info(u32 f=
+ormat)
 > =20
-> -static void
-> +int
->  hantro_reset_raw_fmt(struct hantro_ctx *ctx)
->  {
->  	const struct hantro_fmt *raw_vpu_fmt;
-> @@ -420,9 +420,9 @@ hantro_reset_raw_fmt(struct hantro_ctx *ctx)
->  	raw_fmt->width =3D encoded_fmt->width;
->  	raw_fmt->height =3D encoded_fmt->height;
->  	if (ctx->is_encoder)
-> -		hantro_set_fmt_out(ctx, raw_fmt);
-> +		return hantro_set_fmt_out(ctx, raw_fmt);
->  	else
-> -		hantro_set_fmt_cap(ctx, raw_fmt);
-> +		return hantro_set_fmt_cap(ctx, raw_fmt);
->  }
+>  		/* Tiled YUV formats */
+>  		{ .format =3D V4L2_PIX_FMT_NV12_4L4, .pixel_enc =3D V4L2_PIXEL_ENC_YUV=
+, .mem_planes =3D 1, .comp_planes =3D 2, .bpp =3D { 1, 2, 0, 0 }, .hdiv =3D=
+ 2, .vdiv =3D 2 },
+> +		{ .format =3D V4L2_PIX_FMT_P010_4L4, .pixel_enc =3D V4L2_PIXEL_ENC_YUV=
+, .mem_planes =3D 1, .comp_planes =3D 2, .bpp =3D { 2, 4, 0, 0 }, .hdiv =3D=
+ 2, .vdiv =3D 2 },
 > =20
->  void hantro_reset_fmts(struct hantro_ctx *ctx)
-> diff --git a/drivers/media/platform/verisilicon/hantro_v4l2.h b/drivers/m=
-edia/platform/verisilicon/hantro_v4l2.h
-> index 64f6f57e9d7a..cb8e1fe3422d 100644
-> --- a/drivers/media/platform/verisilicon/hantro_v4l2.h
-> +++ b/drivers/media/platform/verisilicon/hantro_v4l2.h
-> @@ -21,6 +21,7 @@
->  extern const struct v4l2_ioctl_ops hantro_ioctl_ops;
->  extern const struct vb2_ops hantro_queue_ops;
+>  		/* YUV planar formats, non contiguous variant */
+>  		{ .format =3D V4L2_PIX_FMT_YUV420M, .pixel_enc =3D V4L2_PIXEL_ENC_YUV,=
+ .mem_planes =3D 3, .comp_planes =3D 3, .bpp =3D { 1, 1, 1, 0 }, .hdiv =3D =
+2, .vdiv =3D 2 },
+> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-co=
+re/v4l2-ioctl.c
+> index e2526701294e..7aa3af389b51 100644
+> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
+> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+> @@ -1310,6 +1310,7 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *f=
+mt)
+>  	case V4L2_PIX_FMT_NV12_4L4:	descr =3D "Y/CbCr 4:2:0 (4x4 Linear)"; brea=
+k;
+>  	case V4L2_PIX_FMT_NV12_16L16:	descr =3D "Y/CbCr 4:2:0 (16x16 Linear)"; =
+break;
+>  	case V4L2_PIX_FMT_NV12_32L32:   descr =3D "Y/CbCr 4:2:0 (32x32 Linear)"=
+; break;
+> +	case V4L2_PIX_FMT_P010_4L4:	descr =3D "10-bit Y/CbCr 4:2:0 (4x4 Linear)=
+"; break;
+>  	case V4L2_PIX_FMT_NV12M:	descr =3D "Y/CbCr 4:2:0 (N-C)"; break;
+>  	case V4L2_PIX_FMT_NV21M:	descr =3D "Y/CrCb 4:2:0 (N-C)"; break;
+>  	case V4L2_PIX_FMT_NV16M:	descr =3D "Y/CbCr 4:2:2 (N-C)"; break;
+> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev=
+2.h
+> index 5311ac4fde35..32bedeb04152 100644
+> --- a/include/uapi/linux/videodev2.h
+> +++ b/include/uapi/linux/videodev2.h
+> @@ -630,6 +630,7 @@ struct v4l2_pix_format {
+>  #define V4L2_PIX_FMT_NV12_4L4 v4l2_fourcc('V', 'T', '1', '2')   /* 12  Y=
+/CbCr 4:2:0  4x4 tiles */
+>  #define V4L2_PIX_FMT_NV12_16L16 v4l2_fourcc('H', 'M', '1', '2') /* 12  Y=
+/CbCr 4:2:0 16x16 tiles */
+>  #define V4L2_PIX_FMT_NV12_32L32 v4l2_fourcc('S', 'T', '1', '2') /* 12  Y=
+/CbCr 4:2:0 32x32 tiles */
+> +#define V4L2_PIX_FMT_P010_4L4 v4l2_fourcc('T', '0', '1', '0') /* 12  Y/C=
+bCr 4:2:0 10-bit 4x4 macroblocks */
 > =20
-> +int hantro_reset_raw_fmt(struct hantro_ctx *ctx);
->  void hantro_reset_fmts(struct hantro_ctx *ctx);
->  int hantro_get_format_depth(u32 fourcc);
->  const struct hantro_fmt *
-> diff --git a/drivers/media/platform/verisilicon/imx8m_vpu_hw.c b/drivers/=
-media/platform/verisilicon/imx8m_vpu_hw.c
-> index b390228fd3b4..f850d8bddef6 100644
-> --- a/drivers/media/platform/verisilicon/imx8m_vpu_hw.c
-> +++ b/drivers/media/platform/verisilicon/imx8m_vpu_hw.c
-> @@ -152,6 +152,7 @@ static const struct hantro_fmt imx8m_vpu_g2_postproc_=
-fmts[] =3D {
->  	{
->  		.fourcc =3D V4L2_PIX_FMT_NV12,
->  		.codec_mode =3D HANTRO_MODE_NONE,
-> +		.match_depth =3D true,
->  		.postprocessed =3D true,
->  		.frmsize =3D {
->  			.min_width =3D FMT_MIN_WIDTH,
-> @@ -165,6 +166,7 @@ static const struct hantro_fmt imx8m_vpu_g2_postproc_=
-fmts[] =3D {
->  	{
->  		.fourcc =3D V4L2_PIX_FMT_P010,
->  		.codec_mode =3D HANTRO_MODE_NONE,
-> +		.match_depth =3D true,
->  		.postprocessed =3D true,
->  		.frmsize =3D {
->  			.min_width =3D FMT_MIN_WIDTH,
+>  /* Tiled YUV formats, non contiguous planes */
+>  #define V4L2_PIX_FMT_NV12MT  v4l2_fourcc('T', 'M', '1', '2') /* 12  Y/Cb=
+Cr 4:2:0 64x32 tiles */
 
