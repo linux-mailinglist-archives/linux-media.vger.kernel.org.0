@@ -2,142 +2,221 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A616867A1F3
-	for <lists+linux-media@lfdr.de>; Tue, 24 Jan 2023 19:56:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2C3B967A2A4
+	for <lists+linux-media@lfdr.de>; Tue, 24 Jan 2023 20:26:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234341AbjAXS4X (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 24 Jan 2023 13:56:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33722 "EHLO
+        id S233279AbjAXT0g (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 24 Jan 2023 14:26:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58672 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234323AbjAXS4V (ORCPT
+        with ESMTP id S233239AbjAXT0f (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 24 Jan 2023 13:56:21 -0500
-Received: from mail-yw1-x1130.google.com (mail-yw1-x1130.google.com [IPv6:2607:f8b0:4864:20::1130])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A3374E508
-        for <linux-media@vger.kernel.org>; Tue, 24 Jan 2023 10:55:57 -0800 (PST)
-Received: by mail-yw1-x1130.google.com with SMTP id 00721157ae682-4fda31c3351so202932807b3.11
-        for <linux-media@vger.kernel.org>; Tue, 24 Jan 2023 10:55:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=5iP8zaH4qhJm7u23Me24MfP0ksC5myih/koifVjd6bQ=;
-        b=L97ftDdvRyPqQWji9bbudEKZD0LDLmKOVOT0VCiZU2LCV4qkff4lF/IdPTXrUURWIL
-         ff9SdNebMBFiJK7tO0W11Q1G3UAXgTPUqwqhK5wAl6n35fMRrabPmvj7OKd4VEXabKNe
-         fPfG1+wRSo+CGN8gb1ygCJ4/kEeW/hVXaBUNrg4mvfNQT/BKe7VDh8MR1pAOAXvVpeRH
-         iSMTwWB8dLyPnn97HzVO9MptWE6TkOpSAkEtIzxtQqNOTsOqkk7JQsVXrGtclwnaZu3B
-         HwIb13tYMPFn1tPWBxylMI8CnFv9i3PBeFrmGSlZCW+l6NJP5u3gl1vi0n9snU8rYOV/
-         xPKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=5iP8zaH4qhJm7u23Me24MfP0ksC5myih/koifVjd6bQ=;
-        b=n9nVYUaBnVOIov7vlKQkpIha9m9EkNdtHeXisL4hdeONc0JV0AneMsdfDGOP/uxOcN
-         C0k4hs/Z1tQwsLrg6coq5F/QDAUr37u5eO/aK4pOy9aLTFPM08RqxkTJQg/vB/6BdtFK
-         U50NSmeUtmPkTRy4VYahmZVvCGxGpP+qDF2dPiIjNqglBhtwCFNwTblHGaeFZ2BvxAMv
-         4dmlTSod1Sx7J4BiLQqeb1LZNgpJL+R+GdY8lrwM46J8LgEJFOJig/ua4oaMElYHUwdJ
-         sIh5gnrOX6OG6pBtdoyB7tcVphrHwCq2bZcLUOsEX/QzcjtFDMzev2qKLh1xk+zoky2i
-         LK2A==
-X-Gm-Message-State: AFqh2koWLoVybzdw/1iFzhgEAOLAXSRZC81NHCpmGyTflSgLHhZi3c23
-        Zdot+8W5VKTLHVUFplG018SqQ9AIsfJCzdC/XIKNzg==
-X-Google-Smtp-Source: AMrXdXvYfqSwoaAvj+x6Y8rOABSC1o3UELoBjL8mxdEcOy8itZdY1Gyy4qtRJtS0OI19YGFM9lWbjo9sqQUT8b8rESs=
-X-Received: by 2002:a81:ee03:0:b0:4ec:8f55:59f7 with SMTP id
- l3-20020a81ee03000000b004ec8f5559f7mr3333976ywm.317.1674586532265; Tue, 24
- Jan 2023 10:55:32 -0800 (PST)
+        Tue, 24 Jan 2023 14:26:35 -0500
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69C3E49410;
+        Tue, 24 Jan 2023 11:26:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1674588394; x=1706124394;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=f87d/zZp24KkZDTptfKewrZv/NUpZ83pjn5jl9dytgk=;
+  b=BRXOheT0tNuVXjlGrSFymz9vCSAehuevveGhwlN32174DCLxYGcwTsPU
+   L2sDYP3ZtjJj8fXO8aT56bPhoWbyCVNbKfUlOrkFgTYOrhoVjePdg6azw
+   mDHGeuSSGkoOv/WTeyn0Fuy3A26HnkbqWfiIOy8c2fckl12OY7+bDZ/CM
+   Lm4xiKG4YbYXdwQUzIizH7Jf9KgQsUW5+R9EZLyOuKXXoo00K656+lhjo
+   lRZTY5aWWz86M4b19RHopfGNI7+c6VW2MDVjz6xiba69EKb+H0MJwZYqR
+   zee48ZcksmvtBOcr5VSOl+ukG/PsQNilB0Ws0te18qHUXiIZmRxVlv/we
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10600"; a="324084949"
+X-IronPort-AV: E=Sophos;i="5.97,243,1669104000"; 
+   d="scan'208";a="324084949"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2023 11:26:34 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10600"; a="730796601"
+X-IronPort-AV: E=Sophos;i="5.97,243,1669104000"; 
+   d="scan'208";a="730796601"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by fmsmga004.fm.intel.com with ESMTP; 24 Jan 2023 11:26:32 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1pKOwB-00EVWP-1E;
+        Tue, 24 Jan 2023 21:26:31 +0200
+Date:   Tue, 24 Jan 2023 21:26:31 +0200
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     linux-acpi@vger.kernel.org, linux-media@vger.kernel.org,
+        rafael@kernel.org, heikki.krogerus@linux.intel.com
+Subject: Re: [PATCH v2 4/8] ACPI: property: Generate camera swnodes for ACPI
+ and DisCo for Imaging
+Message-ID: <Y9Aw5/mSYEadHRKK@smile.fi.intel.com>
+References: <20230123134617.265382-1-sakari.ailus@linux.intel.com>
+ <20230123134617.265382-5-sakari.ailus@linux.intel.com>
 MIME-Version: 1.0
-References: <20230123191728.2928839-1-tjmercier@google.com>
- <20230123191728.2928839-2-tjmercier@google.com> <Y8/ybgp2FW+e3bjc@dhcp22.suse.cz>
-In-Reply-To: <Y8/ybgp2FW+e3bjc@dhcp22.suse.cz>
-From:   "T.J. Mercier" <tjmercier@google.com>
-Date:   Tue, 24 Jan 2023 10:55:21 -0800
-Message-ID: <CABdmKX1c_8LdJJboENnZhwGjrszDWOOVt-Do93-sJW46mZMD6A@mail.gmail.com>
-Subject: Re: [PATCH v2 1/4] memcg: Track exported dma-buffers
-To:     Michal Hocko <mhocko@suse.com>
-Cc:     Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        Roman Gushchin <roman.gushchin@linux.dev>,
-        Shakeel Butt <shakeelb@google.com>,
-        Muchun Song <muchun.song@linux.dev>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        daniel.vetter@ffwll.ch, android-mm@google.com, jstultz@google.com,
-        jeffv@google.com, cmllamas@google.com,
-        linux-security-module@vger.kernel.org, selinux@vger.kernel.org,
-        cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-        linux-mm@kvack.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=unavailable
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230123134617.265382-5-sakari.ailus@linux.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Jan 24, 2023 at 7:00 AM Michal Hocko <mhocko@suse.com> wrote:
->
-> On Mon 23-01-23 19:17:23, T.J. Mercier wrote:
-> > When a buffer is exported to userspace, use memcg to attribute the
-> > buffer to the allocating cgroup until all buffer references are
-> > released.
->
-> Is there any reason why this memory cannot be charged during the
-> allocation (__GFP_ACCOUNT used)?
+On Mon, Jan 23, 2023 at 03:46:13PM +0200, Sakari Ailus wrote:
 
-My main motivation was to keep code changes away from exporters and
-implement the accounting in one common spot for all of them. This is a
-bit of a carryover from a previous approach [1] where there was some
-objection to pushing off this work onto exporters and forcing them to
-adapt, but __GFP_ACCOUNT does seem like a smaller burden than before
-at least initially. However in order to support charge transfer
-between cgroups with __GFP_ACCOUNT we'd need to be able to get at the
-pages backing dmabuf objects, and the exporters are the ones with that
-access. Meaning I think we'd have to add some additional dma_buf_ops
-to achieve that, which was the objection from [1].
+As promised the idea of bitmap APIs.
 
-[1] https://lore.kernel.org/lkml/5cc27a05-8131-ce9b-dea1-5c75e994216d@amd.com/
+Also I have stumbled over couple of suspicious places. See below.
 
->
-> Also you do charge and account the memory but underlying pages do not
-> know about their memcg (this is normally done with commit_charge for
-> user mapped pages). This would become a problem if the memory is
-> migrated for example.
+...
 
-Hmm, what problem do you see in this situation? If the backing pages
-are to be migrated that requires the cooperation of the exporter,
-which currently has no influence on how the cgroup charging is done
-and that seems fine. (Unless you mean migrating the charge across
-cgroups? In which case that's the next patch.)
+> +static void init_port_csi2_common(struct acpi_device *device,
+> +				  struct fwnode_handle *mipi_port_fwnode,
+> +				  unsigned int *ep_prop_index,
+> +				  unsigned int port_nr)
+> +{
+> +	unsigned int port_index = next_csi2_port_index(device->swnodes, port_nr);
+> +	struct acpi_device_software_nodes *ads = device->swnodes;
+> +	struct acpi_device_software_node_port *port = &ads->ports[port_index];
+> +	unsigned int num_lanes = 0;
+> +	union {
+> +		u32 val;
 
-> This also means that you have to maintain memcg
-> reference outside of the memcg proper which is not really nice either.
-> This mimicks tcp kmem limit implementation which I really have to say I
-> am not a great fan of and this pattern shouldn't be coppied.
->
-Ah, what can I say. This way looked simple to me. I think otherwise
-we're back to making all exporters do more stuff for the accounting.
+// Not sure why this even exists.
+// And hence why do we need union?
 
-> Also you are not really saying anything about the oom behavior. With
-> this implementation the kernel will try to reclaim the memory and even
-> trigger the memcg oom killer if the request size is <= 8 pages. Is this
-> a desirable behavior?
+> +		/* Data lanes + the clock lane */
+> +		u8 val8[BITS_TO_BYTES(ARRAY_SIZE(port->data_lanes) + 1)];
+> +	} u;
 
-It will try to reclaim some memory, but not the dmabuf pages right?
-Not *yet* anyway. This behavior sounds expected to me. I would only
-expect it to be surprising for cgroups making heavy use of dmabufs
-(that weren't accounted before) *and* with hard limits already very
-close to actual usage. I remember Johannes mentioning that what counts
-under memcg use is already a bit of a moving target.
+Somewhere
 
-> --
-> Michal Hocko
-> SUSE Labs
+#define MAX_LANES(port)		(ARRAY_SIZE((port)->data_lanes) + 1)
+
+	u8 val8[BITS_TO_BYTES(MAX_LANES(port))];
+
+...
+
+	/* Data lanes + the clock lane */
+	DECLARE_BITMAP(polarity, MAX_LANES(port)));
+
+> +	int ret;
+> +
+> +	*ep_prop_index = ACPI_DEVICE_SWNODE_EP_CLOCK_LANES;
+> +
+> +	if (GRAPH_PORT_NAME(port->port_name, port_nr))
+> +		return;
+> +
+> +	ads->nodes[ACPI_DEVICE_SWNODE_PRT(port_index)] =
+> +		SOFTWARE_NODE(port->port_name, port->port_props,
+> +			      &ads->nodes[ACPI_DEVICE_SWNODE_ROOT]);
+> +
+> +	ret = fwnode_property_read_u8(mipi_port_fwnode, "mipi-img-clock-lane", u.val8);
+> +	if (!ret) {
+> +		port->ep_props[NEXT_PROPERTY(*ep_prop_index, EP_CLOCK_LANES)] =
+> +			PROPERTY_ENTRY_U32("clock-lanes", *u.val8);
+> +	}
+
+> +	ret = fwnode_property_count_u8(mipi_port_fwnode, "mipi-img-data-lanes");
+> +	if (ret > 0) {
+> +		num_lanes = ret;
+> +
+> +		if (num_lanes > ARRAY_SIZE(port->data_lanes)) {
+
+		>= MAX_LANES(port)
+
+> +			acpi_handle_warn(acpi_device_handle(device),
+> +					 "too many data lanes (%u)\n",
+> +					 num_lanes);
+> +			num_lanes = ARRAY_SIZE(port->data_lanes);
+
+			= MAX_LANES(port) - 1;
+
+> +		}
+> +
+> +		ret = fwnode_property_read_u8_array(mipi_port_fwnode, "mipi-img-data-lanes",
+> +						    u.val8, num_lanes);
+
+> +		if (!ret) {
+> +			unsigned int i;
+> +
+> +			for (i = 0; i < num_lanes; i++)
+> +				port->data_lanes[i] = u.val8[i];
+> +
+> +			port->ep_props[NEXT_PROPERTY(*ep_prop_index, EP_DATA_LANES)] =
+> +				PROPERTY_ENTRY_U32_ARRAY_LEN("data-lanes", port->data_lanes,
+> +							     num_lanes);
+> +		}
+> +	}
+
+> +	ret = fwnode_property_read_u8_array(mipi_port_fwnode,
+> +					    "mipi-img-lane-polarities",
+> +					    u.val8, sizeof(u.val8));
+> +	if (ret > 0) {
+
+How is it supposed to work?!
+
+> +		unsigned int bytes = ret;
+> +
+> +		/* Total number of lanes here is clock lane + data lanes */
+> +		if (bytes * BITS_PER_TYPE(u8) >= 1 + num_lanes) {
+> +			unsigned int i;
+> +
+> +			/* Move polarity bits to the lane polarity u32 array */
+> +			for (i = 0; i < 1 + num_lanes; i++)
+> +				port->lane_polarities[i] =
+> +					(u.val8[i >> 3] & (1 << (i & 7))) ?
+> +					1U : 0U;
+> +
+> +			port->ep_props[NEXT_PROPERTY(*ep_prop_index, EP_LANE_POLARITIES)] =
+> +				PROPERTY_ENTRY_U32_ARRAY_LEN("lane-polarities",
+> +							     port->lane_polarities,
+> +							     1 + num_lanes);
+> +		} else {
+> +			acpi_handle_warn(acpi_device_handle(device),
+> +					 "too few lane polarity bytes (%u)\n",
+> +					 bytes);
+> +		}
+> +	}
+
+	ret = fwnode_property_count_u8(mipi_port_fwnode, "mipi-img-dlane-polarities");
+	if (ret < 0) {
+		acpi_handle_debug(acpi_device_handle(device),
+				  "no lane polarity provided\n");
+	} else if (ret < 1 + num_lanes) {
+		acpi_handle_warn(acpi_device_handle(device),
+				 "too few lane polarity bytes (%u)\n", bytes);
+	} else {
+		// assuming we dropped the union and renamed to val...
+		ret = fwnode_property_read_u8_array(mipi_port_fwnode,
+						    "mipi-img-lane-polarities",
+						    val, sizeof(val));
+		if (ret) {
+			...can't read... (debug message?)
+		} else {
+			unsigned int i;
+
+			for (i = 0; i < 1 + num_lanes; i++)
+				bitmap_set_value8(polarity, val[i], i * BITS_PER_BYTE);
+
+			// assuming that lane_polarities is zeroed by default...
+			for_each_set_bit(i, polarity, 1 + num_lanes)
+				port->lane_polarities[i] = 1;
+		}
+	}
+
+> +	ads->nodes[ACPI_DEVICE_SWNODE_EP(port_index)] =
+> +		SOFTWARE_NODE("endpoint@0", ads->ports[port_index].ep_props,
+> +			      &ads->nodes[ACPI_DEVICE_SWNODE_PRT(port_index)]);
+> +}
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
