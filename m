@@ -2,165 +2,155 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2301F67B7D0
-	for <lists+linux-media@lfdr.de>; Wed, 25 Jan 2023 18:05:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1E13E67B7FF
+	for <lists+linux-media@lfdr.de>; Wed, 25 Jan 2023 18:09:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235950AbjAYRFO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 25 Jan 2023 12:05:14 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55860 "EHLO
+        id S236156AbjAYRJg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 25 Jan 2023 12:09:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60550 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235688AbjAYRFN (ORCPT
+        with ESMTP id S236105AbjAYRJK (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 25 Jan 2023 12:05:13 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03B1183CC;
-        Wed, 25 Jan 2023 09:05:12 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        Wed, 25 Jan 2023 12:09:10 -0500
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F2C2E5AA4D;
+        Wed, 25 Jan 2023 09:08:37 -0800 (PST)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id AC48BB81B44;
-        Wed, 25 Jan 2023 17:05:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A186C433EF;
-        Wed, 25 Jan 2023 17:05:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1674666309;
-        bh=KCgquHBBE3i32DY08dZlQY8oNliwvemLJmq1BLIltXY=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:From;
-        b=rvk2iA8pOJhX6AySAr56h3sa54DxzdmfY9i5WuM501Wd1mNsKW2iOkzkfUk1HnGhQ
-         fcXZ1tXfgy1+iteHg1xoxwgQqYrngP6I8DFlYjGkYzXHPxcZWC6m5zhM7YF1UuiA0l
-         TziucBvFB70zD9yrad7zBhej/nswthz1AtU9xK8SPCq1Uu6aGA75iTMLyfqe3fbhfK
-         8PNp1OA66uRHyR6bSMlXwkFyoOWrqXroiCFm2aX/aXa2KX4msX+TNqpXUo0wBJ2ry5
-         2n8/KAzsbFFJuPzmTR/HanO1nPIulfnR4eiliFbC+M/GewjlXC92TsMjvY8X2+5aps
-         5yhA7ses57mjQ==
-Date:   Wed, 25 Jan 2023 11:05:06 -0600
-From:   Bjorn Helgaas <helgaas@kernel.org>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Daniel Scheller <d.scheller@gmx.net>
-Cc:     linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Berni <bernhard@turmann.eu>,
-        Salvatore Bonaccorso <carnil@debian.org>,
-        Sean V Kelley <sean.v.kelley@linux.intel.com>,
-        linux-media@vger.kernel.org
-Subject: Re: [bugzilla-daemon@bugzilla.kernel.org: [Bug 208507] New:
- BISECTED: i2c timeout loading module ddbridge with commit
- d2345d1231d80ecbea5fb764eb43123440861462]
-Message-ID: <20230125170506.GA1175690@bhelgaas>
+        by smtp-out1.suse.de (Postfix) with ESMTPS id C730421CA3;
+        Wed, 25 Jan 2023 17:08:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1674666487; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=FNzsO8QkHd4bwcFXjgFFOOBC/xElVC4T91KIaFtN0Io=;
+        b=D/br1xSsxQfk6apBfZHBB6RWB236iiiYqtOZ2eZ95J8WjWhuYAEVV+tXTEh0QKRmA1b4xH
+        QN55Gxk1acvIRqe6qMTQwSbVuwI9C24RIc9UEoj8Q4rbZSCTfRh25I8IC+VWb1YjIErqcg
+        9b1EbAjGibksBO3NPm+wpmCzLKQPsIY=
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 7757F1358F;
+        Wed, 25 Jan 2023 17:08:07 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id T+qcHPdh0WP1JAAAMHmgww
+        (envelope-from <mhocko@suse.com>); Wed, 25 Jan 2023 17:08:07 +0000
+Date:   Wed, 25 Jan 2023 18:08:06 +0100
+From:   Michal Hocko <mhocko@suse.com>
+To:     Suren Baghdasaryan <surenb@google.com>
+Cc:     akpm@linux-foundation.org, michel@lespinasse.org,
+        jglisse@google.com, vbabka@suse.cz, hannes@cmpxchg.org,
+        mgorman@techsingularity.net, dave@stgolabs.net,
+        willy@infradead.org, liam.howlett@oracle.com, peterz@infradead.org,
+        ldufour@linux.ibm.com, paulmck@kernel.org, luto@kernel.org,
+        songliubraving@fb.com, peterx@redhat.com, david@redhat.com,
+        dhowells@redhat.com, hughd@google.com, bigeasy@linutronix.de,
+        kent.overstreet@linux.dev, punit.agrawal@bytedance.com,
+        lstoakes@gmail.com, peterjung1337@gmail.com, rientjes@google.com,
+        axelrasmussen@google.com, joelaf@google.com, minchan@google.com,
+        jannh@google.com, shakeelb@google.com, tatashin@google.com,
+        edumazet@google.com, gthelen@google.com, gurua@google.com,
+        arjunroy@google.com, soheil@google.com, hughlynch@google.com,
+        leewalsh@google.com, posk@google.com, will@kernel.org,
+        aneesh.kumar@linux.ibm.com, npiggin@gmail.com,
+        chenhuacai@kernel.org, tglx@linutronix.de, mingo@redhat.com,
+        bp@alien8.de, dave.hansen@linux.intel.com, richard@nod.at,
+        anton.ivanov@cambridgegreys.com, johannes@sipsolutions.net,
+        qianweili@huawei.com, wangzhou1@hisilicon.com,
+        herbert@gondor.apana.org.au, davem@davemloft.net, vkoul@kernel.org,
+        airlied@gmail.com, daniel@ffwll.ch,
+        maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+        tzimmermann@suse.de, l.stach@pengutronix.de,
+        krzysztof.kozlowski@linaro.org, patrik.r.jakobsson@gmail.com,
+        matthias.bgg@gmail.com, robdclark@gmail.com,
+        quic_abhinavk@quicinc.com, dmitry.baryshkov@linaro.org,
+        tomba@kernel.org, hjc@rock-chips.com, heiko@sntech.de,
+        ray.huang@amd.com, kraxel@redhat.com, sre@kernel.org,
+        mcoquelin.stm32@gmail.com, alexandre.torgue@foss.st.com,
+        tfiga@chromium.org, m.szyprowski@samsung.com, mchehab@kernel.org,
+        dimitri.sivanich@hpe.com, zhangfei.gao@linaro.org,
+        jejb@linux.ibm.com, martin.petersen@oracle.com,
+        dgilbert@interlog.com, hdegoede@redhat.com, mst@redhat.com,
+        jasowang@redhat.com, alex.williamson@redhat.com, deller@gmx.de,
+        jayalk@intworks.biz, viro@zeniv.linux.org.uk, nico@fluxnic.net,
+        xiang@kernel.org, chao@kernel.org, tytso@mit.edu,
+        adilger.kernel@dilger.ca, miklos@szeredi.hu,
+        mike.kravetz@oracle.com, muchun.song@linux.dev, bhe@redhat.com,
+        andrii@kernel.org, yoshfuji@linux-ipv6.org, dsahern@kernel.org,
+        kuba@kernel.org, pabeni@redhat.com, perex@perex.cz, tiwai@suse.com,
+        haojian.zhuang@gmail.com, robert.jarzmik@free.fr,
+        linux-mm@kvack.org, linux-arm-kernel@lists.infradead.org,
+        linuxppc-dev@lists.ozlabs.org, x86@kernel.org,
+        linux-kernel@vger.kernel.org, linux-graphics-maintainer@vmware.com,
+        linux-ia64@vger.kernel.org, linux-arch@vger.kernel.org,
+        loongarch@lists.linux.dev, kvm@vger.kernel.org,
+        linux-s390@vger.kernel.org, linux-sgx@vger.kernel.org,
+        linux-um@lists.infradead.org, linux-acpi@vger.kernel.org,
+        linux-crypto@vger.kernel.org, nvdimm@lists.linux.dev,
+        dmaengine@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+        dri-devel@lists.freedesktop.org, etnaviv@lists.freedesktop.org,
+        linux-samsung-soc@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+        linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+        freedreno@lists.freedesktop.org,
+        linux-rockchip@lists.infradead.org, linux-tegra@vger.kernel.org,
+        virtualization@lists.linux-foundation.org,
+        xen-devel@lists.xenproject.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-rdma@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-accelerators@lists.ozlabs.org, sparclinux@vger.kernel.org,
+        linux-scsi@vger.kernel.org, linux-staging@lists.linux.dev,
+        target-devel@vger.kernel.org, linux-usb@vger.kernel.org,
+        netdev@vger.kernel.org, linux-fbdev@vger.kernel.org,
+        linux-aio@kvack.org, linux-fsdevel@vger.kernel.org,
+        linux-erofs@lists.ozlabs.org, linux-ext4@vger.kernel.org,
+        devel@lists.orangefs.org, kexec@lists.infradead.org,
+        linux-xfs@vger.kernel.org, bpf@vger.kernel.org,
+        linux-perf-users@vger.kernel.org, kasan-dev@googlegroups.com,
+        selinux@vger.kernel.org, alsa-devel@alsa-project.org,
+        kernel-team@android.com
+Subject: Re: [PATCH v2 4/6] mm: replace vma->vm_flags indirect modification
+ in ksm_madvise
+Message-ID: <Y9Fh9joU3vTCwYbX@dhcp22.suse.cz>
+References: <20230125083851.27759-1-surenb@google.com>
+ <20230125083851.27759-5-surenb@google.com>
+ <Y9D4rWEsajV/WfNx@dhcp22.suse.cz>
+ <CAJuCfpGd2eG0RSMte9OVgsRVWPo+Sj7+t8EOo8o_iKzZoh1MXA@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200709191722.GA6054@bjorn-Precision-5520>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <CAJuCfpGd2eG0RSMte9OVgsRVWPo+Sj7+t8EOo8o_iKzZoh1MXA@mail.gmail.com>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-[+cc Salvatore, Mauro, Daniel, linux-media]
-
-On Thu, Jul 09, 2020 at 02:17:22PM -0500, Bjorn Helgaas wrote:
-> Bisected to Debian commit d2345d1231d8, which is a backport of the
-> upstream commit b88bf6c3b6ff ("PCI: Add boot interrupt quirk mechanism
-> for Xeon chipsets").
+On Wed 25-01-23 08:57:48, Suren Baghdasaryan wrote:
+> On Wed, Jan 25, 2023 at 1:38 AM 'Michal Hocko' via kernel-team
+> <kernel-team@android.com> wrote:
+> >
+> > On Wed 25-01-23 00:38:49, Suren Baghdasaryan wrote:
+> > > Replace indirect modifications to vma->vm_flags with calls to modifier
+> > > functions to be able to track flag changes and to keep vma locking
+> > > correctness. Add a BUG_ON check in ksm_madvise() to catch indirect
+> > > vm_flags modification attempts.
+> >
+> > Those BUG_ONs scream to much IMHO. KSM is an MM internal code so I
+> > gueess we should be willing to trust it.
 > 
-> Reporter confirmed that reverting the Debian backport from 4.19.132
-> fixes the problem.
->
-> ----- Forwarded message from bugzilla-daemon@bugzilla.kernel.org -----
-> 
-> Date: Thu, 09 Jul 2020 15:01:11 +0000
-> From: bugzilla-daemon@bugzilla.kernel.org
-> To: bjorn@helgaas.com
-> Subject: [Bug 208507] New: BISECTED: i2c timeout loading module ddbridge with
-> 	commit d2345d1231d80ecbea5fb764eb43123440861462
-> Message-ID: <bug-208507-41252@https.bugzilla.kernel.org/>
-> 
-> https://bugzilla.kernel.org/show_bug.cgi?id=208507
-> 
->             Bug ID: 208507
->            Summary: BISECTED: i2c timeout loading module ddbridge with
->                     commit d2345d1231d80ecbea5fb764eb43123440861462
->            Product: Drivers
->            Version: 2.5
->     Kernel Version: 4.19.132
->           Hardware: x86-64
->                 OS: Linux
->               Tree: Mainline
->             Status: NEW
->           Severity: normal
->           Priority: P1
->          Component: PCI
->           Assignee: drivers_pci@kernel-bugs.osdl.org
->           Reporter: bernhard@turmann.eu
->         Regression: Yes
-> 
-> Created attachment 290179
->   --> https://bugzilla.kernel.org/attachment.cgi?id=290179&action=edit
-> dmesg on 4.19.132
-> 
-> OS: Debian 10.4 Buster
-> CPU: Intel(R) Xeon(R) CPU D-1541 @ 2.10GHz
-> Hardware: Supermicro  Super Server
-> Mainboard: Supermicro X10SDV
-> DVB card: Digital Devices Cine S2 V7 Advanced DVB adapter
-> 
-> Issue:
-> =====
-> Loading kernel module ddbridge fails with i2c timeouts, see attached dmesg. The
-> dvb media adapter is unusable.
-> This happened after Linux kernel upgrade from 4.19.98-1+deb10u1 to
-> 4.19.118-2+deb10u1.
-> 
-> A git bisect based on the Debian kernel repo on branch buster identified as
-> first bad commit: [1fb0eb795661ab9e697c3a053b35aa4dc3b81165] Update to
-> 4.19.116.
-> 
-> Another git bisect based on upstream Linux kernel repo on branch v4.19.y
-> identified as first bad commit: [d2345d1231d80ecbea5fb764eb43123440861462] PCI:
-> Add boot interrupt quirk mechanism for Xeon chipsets.
-> 
-> Other affected Debian kernel version: 5.6.14+2~bpo10+1
-> I tested this version via buster-backports, because so far I was unable to
-> build my own kernel from 5.6.y or even 5.7.y.
-> 
-> Workaround:
-> ==========
-> Reverting the mentioned commit d2345d1231d80ecbea5fb764eb43123440861462 on top
-> of 4.19.132 is fixing the problem. Reverting the same commit on 4.19.118 or
-> 4.19.116 is also fixing the problem.
+> Yes, but I really want to prevent an indirect misuse since it was not
+> easy to find these. If you feel strongly about it I will remove them
+> or if you have a better suggestion I'm all for it.
 
-Sorry, I dropped the ball on this.
+You can avoid that by making flags inaccesible directly, right?
 
-Berni has verified that this problem still exists in v6.1.4, and has
-attached current dmesg logs and lspci output.  
-
-Sean's comment (https://bugzilla.kernel.org/show_bug.cgi?id=208507#c18)
-suggests this is actually a ddbridge driver issue related to INTx
-emulation or MSI support.
-
-Berni confirmed that the i2c timeouts happen when
-CONFIG_DVB_DDBRIDGE_MSIENABLE is not enabled, and that enabling MSI
-via the "ddbridge.msi=1" module parameter avoids the i2c timeouts.
-
-The Kconfig help for DVB_DDBRIDGE_MSIENABLE:
-
-  Use PCI MSI (Message Signaled Interrupts) per default. Enabling this
-  might lead to I2C errors originating from the bridge in conjunction
-  with certain SATA controllers, requiring a reload of the ddbridge
-  module. MSI can still be disabled by passing msi=0 as option, as
-  this will just change the msi option default value.
-
-suggests that there may be an i2c or SATA issue that could be fixed so
-ddbridge MSI could be always enabled.  But I don't know about that
-underlying issue.
-
-Per MAINTAINERS, the ddbridge driver looks orphaned, so I cc'd the
-media folks and Daniel, who might know something about the MSI issues,
-based on adaf4df70521 ("media: ddbridge: Kconfig option to control the
-MSI modparam default").
-
-Bjorn
-
+-- 
+Michal Hocko
+SUSE Labs
