@@ -2,87 +2,108 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8D48267B4CA
-	for <lists+linux-media@lfdr.de>; Wed, 25 Jan 2023 15:36:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9D14767B50E
+	for <lists+linux-media@lfdr.de>; Wed, 25 Jan 2023 15:46:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235927AbjAYOgs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 25 Jan 2023 09:36:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38696 "EHLO
+        id S235892AbjAYOp7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 25 Jan 2023 09:45:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50528 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235775AbjAYOgI (ORCPT
+        with ESMTP id S235846AbjAYOpx (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 25 Jan 2023 09:36:08 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 000E6599A3;
-        Wed, 25 Jan 2023 06:35:40 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        Wed, 25 Jan 2023 09:45:53 -0500
+Received: from h7.fbrelay.privateemail.com (h7.fbrelay.privateemail.com [162.0.218.230])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A80246BC;
+        Wed, 25 Jan 2023 06:45:40 -0800 (PST)
+Received: from MTA-13-3.privateemail.com (mta-13-1.privateemail.com [198.54.122.107])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id C28FC61515;
-        Wed, 25 Jan 2023 14:35:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ADA0EC433D2;
-        Wed, 25 Jan 2023 14:35:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1674657328;
-        bh=f6ppKayRUr7vsPgDqYxYeWCDPUB24nWR6oxyS6RxttI=;
+        by h7.fbrelay.privateemail.com (Postfix) with ESMTPS id A076A6043A;
+        Wed, 25 Jan 2023 09:37:20 -0500 (EST)
+Received: from mta-13.privateemail.com (localhost [127.0.0.1])
+        by mta-13.privateemail.com (Postfix) with ESMTP id 7B14018000AD;
+        Wed, 25 Jan 2023 09:36:49 -0500 (EST)
+Received: from pappasbrent.com (rrcs-24-173-168-34.se.biz.rr.com [24.173.168.34])
+        by mta-13.privateemail.com (Postfix) with ESMTPA id D950B18000A5;
+        Wed, 25 Jan 2023 09:36:39 -0500 (EST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=pappasbrent.com;
+        s=default; t=1674657409;
+        bh=PbvZ1odo1oP/yBqbXfOr0eqNv09YjB8du1ZosZ2PEho=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=iXRlm+7XLdqQ3M8qH34O78lITOWuy66dXjDG9k9FX7094bxbfiTNoqEck+RGgGUdW
-         Mu3UaoPgDoGhMuPYS1vFqTdkS82zEchYur6y7DkBRvU5GGWn7orW2gVyIj7oYnX0Li
-         a4g4b1uHK4Um9Ae1Sbyh4u9sDkYGMHuHE3BCky4A=
-Date:   Wed, 25 Jan 2023 15:35:25 +0100
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Rob Herring <robh@kernel.org>
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Marc Zyngier <maz@kernel.org>,
-        Jassi Brar <jassisinghbrar@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Lee Jones <lee@kernel.org>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Richard Weinberger <richard@nod.at>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Sebastian Reichel <sre@kernel.org>,
-        Mark Brown <broonie@kernel.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        linux-arm-kernel@lists.infradead.org,
-        dri-devel@lists.freedesktop.org, linux-gpio@vger.kernel.org,
-        linux-hwmon@vger.kernel.org, linux-media@vger.kernel.org,
-        openbmc@lists.ozlabs.org, linux-mmc@vger.kernel.org,
-        linux-mtd@lists.infradead.org, linux-pm@vger.kernel.org,
-        alsa-devel@alsa-project.org, linux-spi@vger.kernel.org,
-        linux-usb@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: Add missing
- (unevaluated|additional)Properties on child node schemas
-Message-ID: <Y9E+LX0/wQ894SiU@kroah.com>
-References: <20230124230228.372305-1-robh@kernel.org>
+        b=V1nwQXuWITg+Cio0nlnrTLzC+3/vvLkblscPhaiUP8QPgYEUk1ecvU4tVlfgWjQg6
+         X5SMEfL4IIKen53Nn6XBDkvYG172efPdees0D0on6S7XnEkZ0DW3/6zL34TjXdu4HL
+         ZIURAtAplvjGGRFuKSwsdiZ0oRQscJ9pQbom0YIPLUaQxwoL2HhSI1nZCX7R+pXe1E
+         1MHGzAn3qulPwvtnKfO9IJDGZanQHe5H/OM9OpqMyZc2nX7f1+oEPBMlnJzjQA0KZq
+         4+06rG+lxFTdIiJM+wNnTA9vnF97mf+M1pxuCJpX0mm70TP3IS1AwOD4KqfqmyKvyr
+         eai5npi4tZsWA==
+Date:   Wed, 25 Jan 2023 09:36:36 -0500
+From:   Brent Pappas <bpappas@pappasbrent.com>
+To:     Dan Carpenter <error27@gmail.com>
+Cc:     sakari.ailus@linux.intel.com, bingbu.cao@intel.com,
+        tian.shu.qiu@intel.com, mchehab@kernel.org,
+        gregkh@linuxfoundation.org, linux-media@vger.kernel.org,
+        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] mdeia: ipu3: ipu33-mmu: Replace macro IPU3_ADDR2PTE()
+ with a function
+Message-ID: <Y9E+dGgQXFUQnIb8@pappasbrent.com>
+References: <20230124135554.13787-1-bpappas@pappasbrent.com>
+ <Y8/uTYK7qmYD5MSA@kadam>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230124230228.372305-1-robh@kernel.org>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <Y8/uTYK7qmYD5MSA@kadam>
+X-Virus-Scanned: ClamAV using ClamSMTP
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Jan 24, 2023 at 05:02:28PM -0600, Rob Herring wrote:
-> Just as unevaluatedProperties or additionalProperties are required at
-> the top level of schemas, they should (and will) also be required for
-> child node schemas. That ensures only documented properties are
-> present.
-> 
-> Add unevaluatedProperties or additionalProperties as appropriate, and
-> then add any missing properties flagged by the addition.
-> 
-> Signed-off-by: Rob Herring <robh@kernel.org>
+Hi Dan,
 
-Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> When you say "Linux coding style standards" what exactly does that mean?
+
+I am specifically referring to this line of
+Documentation/process/coding-style.rst, from the section "Macros, Enums,
+and RTL":
+
+> Generally, inline functions are preferable to macros resembling
+> functions.
+
+This is the first reason I chose this specific macro.
+IPU3_ADD2PTE() would behave the same as a function, so based on my
+reading of coding-style.rst, I thought it would be appropriate to
+proprose turning it into a function.
+
+Full disclosure, I am university student, and my current research
+project is on creating a static analysis framework for finding macros
+that can be easily turned into functions.
+I want this project to have an impact on widely-used code,
+and so I have been using this framework to find such macros in Linux.
+That is why I have recently been submitting patches to turn macros into
+functions.
+So the second reason I chose this macro was because my framework
+identifies it as transformable.
+
+> This code is in the middle of a big section full of macros.  Why did you
+> pick this particular macro?  Now it doesn't mirror the IPU3_PTE2ADDR()
+> so this patch hurts readability.
+
+The reason why I did not try to turn the macro IPU3_PTE2ADDR() into a
+function is that it is never invoked, and my framework does not identify
+uninvoked macros as transformable.
+
+There are more macros in drivers/staging that I think could be turned
+into functions, and I would like to continue submitting patches to do
+so.
+However, if you would rather I change the way I am doing this,
+or that I stop submitting these sorts of patches altogether,
+please let me know.
+
+Thank you,
+Brent
+
