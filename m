@@ -2,75 +2,135 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D15DA67BA06
-	for <lists+linux-media@lfdr.de>; Wed, 25 Jan 2023 19:59:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 11CFC67BAAC
+	for <lists+linux-media@lfdr.de>; Wed, 25 Jan 2023 20:22:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235506AbjAYS7l (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 25 Jan 2023 13:59:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50670 "EHLO
+        id S236102AbjAYTWU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 25 Jan 2023 14:22:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37422 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235065AbjAYS7l (ORCPT
+        with ESMTP id S236092AbjAYTWM (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 25 Jan 2023 13:59:41 -0500
-Received: from mail-yw1-x112e.google.com (mail-yw1-x112e.google.com [IPv6:2607:f8b0:4864:20::112e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DFE893D09C
-        for <linux-media@vger.kernel.org>; Wed, 25 Jan 2023 10:59:37 -0800 (PST)
-Received: by mail-yw1-x112e.google.com with SMTP id 00721157ae682-4c24993965eso277193247b3.12
-        for <linux-media@vger.kernel.org>; Wed, 25 Jan 2023 10:59:37 -0800 (PST)
+        Wed, 25 Jan 2023 14:22:12 -0500
+Received: from mail-yb1-xb2e.google.com (mail-yb1-xb2e.google.com [IPv6:2607:f8b0:4864:20::b2e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 36F325B5BB
+        for <linux-media@vger.kernel.org>; Wed, 25 Jan 2023 11:22:09 -0800 (PST)
+Received: by mail-yb1-xb2e.google.com with SMTP id b1so19080933ybn.11
+        for <linux-media@vger.kernel.org>; Wed, 25 Jan 2023 11:22:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=eLlms4Kx5vtQ9Fqt9wbpRXCgK+qb1Gc1PtzXNbXDWiQ=;
-        b=oW141OhoLlhkN7P7P4m5FqxC/TEGDkgb/Ockie9M23a7TTIJgZvvdwy2Ca3/5yv0lq
-         837pBESR0EJqT13sZWZr8pm0CaIIaWs3S/lqr4cMavpJEGm9XsQHi2XHfxN+MGX+UjV7
-         YyLpw/2izmO88NzweP6HvSZz0mAh+wx/Jmc6BJKzvS2U8TPusH4yKNAvPGYLiGTrKR+I
-         5o5LI1Lw65sklcBme440kz4uCTg8XYjKZAdBymMw3WaZE+TtnJdwbGv0c0vUbNQtXADp
-         uTs65B/8qsRuqv+nKRcUfVkfO4HG0LVDSKTkM4uThP+XmDStcffdEO1KqpXSMYoKtAHX
-         XItw==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=azRxZ4iz/UmvW0JqPrqtZcKNmaFt9MhDUKzgc4KSKbs=;
+        b=idbJO946IIJ5xclJl8K3ScrKphDS9TF1tg1AgsB8MPco32Ta3+qR61NnmqeUtsnx6v
+         goCUeETP5lzAzmASwAR43MDdzy2mxaLRi4K6yZE3Q+T5C1FUbuWCmQDSDtqKn5s2e6iw
+         g3L5+Ey8VBu5ZDVtB0a1Axssd66xmU+yYweeF+hE6jQwYilC1xMJq5jCj+NjIEVUsfL4
+         tw7nY9DM/DzPYd8vrkO+1JZY6FVSYBMjhRJz+WIxF8k5j1BI+Qpdb88Is7APtmnyodC7
+         tcl2VYHmnzhTEoT5QVoxpB++zHDpcXCuz10aLB8wrCQNw685txpV1MvZDG3GANSg7b1j
+         9Xwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=eLlms4Kx5vtQ9Fqt9wbpRXCgK+qb1Gc1PtzXNbXDWiQ=;
-        b=uA+9SIZ5smI6QRtnMz3XPZXXBFqUgteYjJLHfgfnQbnmBCiQ813+Tr5T8bvi2wSI8e
-         Zoq/LiIcxMblrrIaK/ZfsufXYxLPYghui0zRyAhLclE8RxieppJZFf6/mVXcWD1bjYTN
-         zS6ECtiZCfCQSnMe0rEQz06+dR1heYGvXb40aGZLAzMnldfuftY+WCwvAsbuzSkTDd+z
-         +XvVY80bt/gA+C5WodAv0vV9xeJVM0CnYaXbuevveMqykjDNNPDBLJ19njMBNuXLZLzZ
-         UCJ6z/nrCmAYfZhElRmr/E0rBR9FoW/YnBFA7p+q27KhtMmp/X2yH/DiPWnVYEJog+2f
-         dDeQ==
-X-Gm-Message-State: AFqh2kow8Gv5lGS+43KVPim+0+D9D4cW6vhroctxgrVxaWGGCxmzaoXk
-        AYUkyM49Ao6Azq5jTW8QNANxenRgs1B2rDEpyguV
-X-Google-Smtp-Source: AMrXdXuiYoFGbypVm5Yp+UoATXO7zfbhtqwEeCvO/6KX5uo/itZBEBOcQqjtb/5xvWU2ArNv/Sz81iQlWcbFUcxO5lg=
-X-Received: by 2002:a0d:dd06:0:b0:4ff:774b:80dd with SMTP id
- g6-20020a0ddd06000000b004ff774b80ddmr2049749ywe.14.1674673176939; Wed, 25 Jan
- 2023 10:59:36 -0800 (PST)
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=azRxZ4iz/UmvW0JqPrqtZcKNmaFt9MhDUKzgc4KSKbs=;
+        b=ABYPRoDXG25PXZbPcngKHYGtkFvp35u20Mb6ciy9jZ0DwdA6NtS+9IyOe6hykiphve
+         nSvQWR+LdeANWCTSbQLWbPNQJpYnjkMRrzsRmbLUMeapkiln7n7wDth8fbVfa32s6LX6
+         DB2OxmgpAHiqkwpMFId++F/P3LW7lF1bkLQDhEN+DjOvAY7DJQNvAm7zYfhIvlXBwLrD
+         +LX8FOW8wD2LOnh5F1E0J13+SOu3NAyEo+AEPPMqNLRwuXpgZqoRjKzfxQn4FQ8S6fdJ
+         eywfE0kQPLh7cGNKcKFSQ1dfS0Sw9FrzDwXrkVTvMIXTEva1tQ49CDOETjYFC2xVsmpO
+         f3lw==
+X-Gm-Message-State: AO0yUKUvG+ZQItes4sWGX58i3LR4kqVQUenwmZhpIjLSEbTwpEKTfQDG
+        HaQTh2zinpmigRIOL2GoC4iJNNl4AenWScXgANrltg==
+X-Google-Smtp-Source: AK7set9Keebho/efVX9+GO9rxFk2PCEOZWbQBvt6Ld/Tpsz3uuvCSMXu6oGPdxC/ITtQ87qnzhMkMAEzeywlAhveKx4=
+X-Received: by 2002:a25:c247:0:b0:80b:6201:bee7 with SMTP id
+ s68-20020a25c247000000b0080b6201bee7mr946541ybf.340.1674674527537; Wed, 25
+ Jan 2023 11:22:07 -0800 (PST)
 MIME-Version: 1.0
-References: <20230123123756.401692-1-christian.koenig@amd.com>
- <Y86R3vQX+vW0+oxw@pendragon.ideasonboard.com> <1f4a1a5c-e0d5-7f0e-353c-daa89f1369ea@amd.com>
- <CANDhNCoVkq4pQJvtgmvJJe=68ZoQOdjYFkbGG-PXVujX1py4aw@mail.gmail.com> <33f87d88-b05d-e524-54fb-d5fd2f676217@amd.com>
-In-Reply-To: <33f87d88-b05d-e524-54fb-d5fd2f676217@amd.com>
-From:   John Stultz <jstultz@google.com>
-Date:   Wed, 25 Jan 2023 10:59:25 -0800
-Message-ID: <CANDhNCqiP1cF2j-A_brM5kSh7je6r3MK5534YaHBYkVsNjLtWQ@mail.gmail.com>
-Subject: Re: DMA-heap driver hints
-To:     =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        l.stach@pengutronix.de, nicolas@ndufresne.ca, ppaalanen@gmail.com,
-        sumit.semwal@linaro.org, daniel@ffwll.ch, robdclark@gmail.com,
-        tfiga@chromium.org, sebastian.wick@redhat.com, hverkuil@xs4all.nl,
-        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-        linux-media@vger.kernel.org, benjamin.gaignard@collabora.com,
-        lmark@codeaurora.org, labbott@redhat.com, Brian.Starkey@arm.com,
-        mchehab@kernel.org, James Jones <jajones@nvidia.com>
+References: <20230125083851.27759-1-surenb@google.com> <20230125083851.27759-2-surenb@google.com>
+ <Y9Dx0cPXF2yoLwww@hirez.programming.kicks-ass.net> <CAJuCfpEcVCZaCGzc-Wim25eaV5e6YG1YJAAdKwZ6JHViB0z8aw@mail.gmail.com>
+ <Y9F28J9njAtwifuL@casper.infradead.org>
+In-Reply-To: <Y9F28J9njAtwifuL@casper.infradead.org>
+From:   Suren Baghdasaryan <surenb@google.com>
+Date:   Wed, 25 Jan 2023 11:21:56 -0800
+Message-ID: <CAJuCfpHO7g-5GZep0e7r=dFTBhVHpN3R_pHMGOqetgrKyYzMFQ@mail.gmail.com>
+Subject: Re: [PATCH v2 1/6] mm: introduce vma->vm_flags modifier functions
+To:     Matthew Wilcox <willy@infradead.org>
+Cc:     Peter Zijlstra <peterz@infradead.org>, akpm@linux-foundation.org,
+        michel@lespinasse.org, jglisse@google.com, mhocko@suse.com,
+        vbabka@suse.cz, hannes@cmpxchg.org, mgorman@techsingularity.net,
+        dave@stgolabs.net, liam.howlett@oracle.com, ldufour@linux.ibm.com,
+        paulmck@kernel.org, luto@kernel.org, songliubraving@fb.com,
+        peterx@redhat.com, david@redhat.com, dhowells@redhat.com,
+        hughd@google.com, bigeasy@linutronix.de, kent.overstreet@linux.dev,
+        punit.agrawal@bytedance.com, lstoakes@gmail.com,
+        peterjung1337@gmail.com, rientjes@google.com,
+        axelrasmussen@google.com, joelaf@google.com, minchan@google.com,
+        jannh@google.com, shakeelb@google.com, tatashin@google.com,
+        edumazet@google.com, gthelen@google.com, gurua@google.com,
+        arjunroy@google.com, soheil@google.com, hughlynch@google.com,
+        leewalsh@google.com, posk@google.com, will@kernel.org,
+        aneesh.kumar@linux.ibm.com, npiggin@gmail.com,
+        chenhuacai@kernel.org, tglx@linutronix.de, mingo@redhat.com,
+        bp@alien8.de, dave.hansen@linux.intel.com, richard@nod.at,
+        anton.ivanov@cambridgegreys.com, johannes@sipsolutions.net,
+        qianweili@huawei.com, wangzhou1@hisilicon.com,
+        herbert@gondor.apana.org.au, davem@davemloft.net, vkoul@kernel.org,
+        airlied@gmail.com, daniel@ffwll.ch,
+        maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+        tzimmermann@suse.de, l.stach@pengutronix.de,
+        krzysztof.kozlowski@linaro.org, patrik.r.jakobsson@gmail.com,
+        matthias.bgg@gmail.com, robdclark@gmail.com,
+        quic_abhinavk@quicinc.com, dmitry.baryshkov@linaro.org,
+        tomba@kernel.org, hjc@rock-chips.com, heiko@sntech.de,
+        ray.huang@amd.com, kraxel@redhat.com, sre@kernel.org,
+        mcoquelin.stm32@gmail.com, alexandre.torgue@foss.st.com,
+        tfiga@chromium.org, m.szyprowski@samsung.com, mchehab@kernel.org,
+        dimitri.sivanich@hpe.com, zhangfei.gao@linaro.org,
+        jejb@linux.ibm.com, martin.petersen@oracle.com,
+        dgilbert@interlog.com, hdegoede@redhat.com, mst@redhat.com,
+        jasowang@redhat.com, alex.williamson@redhat.com, deller@gmx.de,
+        jayalk@intworks.biz, viro@zeniv.linux.org.uk, nico@fluxnic.net,
+        xiang@kernel.org, chao@kernel.org, tytso@mit.edu,
+        adilger.kernel@dilger.ca, miklos@szeredi.hu,
+        mike.kravetz@oracle.com, muchun.song@linux.dev, bhe@redhat.com,
+        andrii@kernel.org, yoshfuji@linux-ipv6.org, dsahern@kernel.org,
+        kuba@kernel.org, pabeni@redhat.com, perex@perex.cz, tiwai@suse.com,
+        haojian.zhuang@gmail.com, robert.jarzmik@free.fr,
+        linux-mm@kvack.org, linux-arm-kernel@lists.infradead.org,
+        linuxppc-dev@lists.ozlabs.org, x86@kernel.org,
+        linux-kernel@vger.kernel.org, linux-graphics-maintainer@vmware.com,
+        linux-ia64@vger.kernel.org, linux-arch@vger.kernel.org,
+        loongarch@lists.linux.dev, kvm@vger.kernel.org,
+        linux-s390@vger.kernel.org, linux-sgx@vger.kernel.org,
+        linux-um@lists.infradead.org, linux-acpi@vger.kernel.org,
+        linux-crypto@vger.kernel.org, nvdimm@lists.linux.dev,
+        dmaengine@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+        dri-devel@lists.freedesktop.org, etnaviv@lists.freedesktop.org,
+        linux-samsung-soc@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+        linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+        freedreno@lists.freedesktop.org,
+        linux-rockchip@lists.infradead.org, linux-tegra@vger.kernel.org,
+        virtualization@lists.linux-foundation.org,
+        xen-devel@lists.xenproject.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-rdma@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-accelerators@lists.ozlabs.org, sparclinux@vger.kernel.org,
+        linux-scsi@vger.kernel.org, linux-staging@lists.linux.dev,
+        target-devel@vger.kernel.org, linux-usb@vger.kernel.org,
+        netdev@vger.kernel.org, linux-fbdev@vger.kernel.org,
+        linux-aio@kvack.org, linux-fsdevel@vger.kernel.org,
+        linux-erofs@lists.ozlabs.org, linux-ext4@vger.kernel.org,
+        devel@lists.orangefs.org, kexec@lists.infradead.org,
+        linux-xfs@vger.kernel.org, bpf@vger.kernel.org,
+        linux-perf-users@vger.kernel.org, kasan-dev@googlegroups.com,
+        selinux@vger.kernel.org, alsa-devel@alsa-project.org,
+        kernel-team@android.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
         ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=ham
+        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -78,118 +138,36 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Sorry for the delay, this was almost ready to send, but then got
-forgotten in my drafts folder.
-
-On Mon, Jan 23, 2023 at 11:15 PM Christian K=C3=B6nig
-<christian.koenig@amd.com> wrote:
-> Am 24.01.23 um 06:19 schrieb John Stultz:
-> > On Mon, Jan 23, 2023 at 8:29 AM Christian K=C3=B6nig
-> > <christian.koenig@amd.com> wrote:
-> >> Am 23.01.23 um 14:55 schrieb Laurent Pinchart:
-> >>> - I assume some drivers will be able to support multiple heaps. How d=
-o
-> >>>     you envision this being implemented ?
-> >> I don't really see an use case for this.
-> >>
-> >> We do have some drivers which say: for this use case you can use
-> >> whatever you want, but for that use case you need to use specific memo=
-ry
-> >> (scan out on GPUs for example works like this).
-> >>
-> > [snipping the constraints argument, which I agree with]
-> >> What we do have is compatibility between heaps. E.g. a CMA heap is
-> >> usually compatible with the system heap or might even be a subset of
-> >> another CMA heap. But I wanted to add that as next step to the heaps
-> >> framework itself.
-> > So the difficult question is how is userland supposed to know which
-> > heap is compatible with which?
+On Wed, Jan 25, 2023 at 10:37 AM Matthew Wilcox <willy@infradead.org> wrote:
 >
-> The heaps should know which other heap they are compatible with.
->
-> E.g. the CMA heap should have a link to the system heap because it can
-> handle all system memory allocations as well.
->
-> If we have a specialized CMA heap (for example for 32bit DMA) it should
-> have a link to the general CMA heap.
-
-This is an interesting idea, but it seems to assume a linear or at
-least converging "compatibility" order, which I don't think is always
-the case.
-(For instance, there may be secure heaps which a small set of devices
-have access to, but supporting secure memory doesn't imply system
-memory for all devices or vice versa).
-
-So I really think being able to express support for multiple heaps
-would be important to resolve the majority of these edge cases.
-
-Also to have a single link ordering, it means the constraints have to
-go from the heap that satisfies more constraints to the heap that
-satisfies less (which is sort of reverse of how I'd think of
-compatibility). Which makes the solving logic for userland doable, but
-somewhat complex/non-intuitive (as you're searching for the most
-"satisfying" heap from the set which will be one of the starting
-points).
-
-Whereas finding the intersection of lists seems a bit more straightforward.
-
-
-> > If you have two devices, one that points to heap "foo" and the other
-> > points to heap "bar", how does userland know that "foo" satisfies the
-> > constraints of "bar" but "bar" doesn't satisfy the constraints of
-> > "foo".
-> > (foo =3D"cma",  bar=3D"system")
+> On Wed, Jan 25, 2023 at 08:49:50AM -0800, Suren Baghdasaryan wrote:
+> > On Wed, Jan 25, 2023 at 1:10 AM Peter Zijlstra <peterz@infradead.org> wrote:
+> > > > +     /*
+> > > > +      * Flags, see mm.h.
+> > > > +      * WARNING! Do not modify directly.
+> > > > +      * Use {init|reset|set|clear|mod}_vm_flags() functions instead.
+> > > > +      */
+> > > > +     unsigned long vm_flags;
+> > >
+> > > We have __private and ACCESS_PRIVATE() to help with enforcing this.
 > >
-> > I think it would be much better for device 1 to list "foo" and device
-> > 2 to list "foo" and "bar", so you can find that "foo" is the common
-> > heap which will solve both devices' needs.
+> > Thanks for pointing this out, Peter! I guess for that I'll need to
+> > convert all read accesses and provide get_vm_flags() too? That will
+> > cause some additional churt (a quick search shows 801 hits over 248
+> > files) but maybe it's worth it? I think Michal suggested that too in
+> > another patch. Should I do that while we are at it?
 >
-> I think that this would be a rather bad idea because then all devices
-> need to know about all the possible different heaps they are compatible
-> with.
-
-I agree it is somewhat burdensome, but I suspect we'd eventually want
-registration helpers to abstract out some of the relationships you
-mention above (ie: system supporting devices will accept CMA buffers,
-dma32 buffers, etc). But at least that logic would be in-kernel and
-not exposed to userland.
-
-> >>> - Devices could have different constraints based on particular
-> >>>     configurations. For instance, a device may require specific memor=
-y
-> >>>     layout for multi-planar YUV formats only (as in allocating the Y =
-and C
-> >>>     planes of NV12 from different memory banks). A dynamic API may th=
-us be
-> >>>     needed (but may also be very painful to use from userspace).
-> >> Uff, good to know. But I'm not sure how to expose stuff like that.
-> > Yeah. These edge cases are really hard to solve generically.  And
-> > single devices that have separate constraints for different uses are
-> > also not going to be solvable with a simple linking approach.
-> >
-> > But I do wonder if a generic solution to all cases is needed
-> > (especially if it really isn't possible)? If we leave the option for
-> > gralloc like omniscient device-specific userland policy, those edge
-> > cases can be handled by those devices that can't run generic logic.
-> > And those devices just won't be able to be supported by generic
-> > distros, hopefully motivating future designs to have less odd
-> > constraints?
+> Here's a trick I saw somewhere in the VFS:
 >
-> Potentially yes, but I think that anything more complex than "please
-> allocate from this piece of memory for me" is not something which should
-> be handled inside the device independent framework.
+>         union {
+>                 const vm_flags_t vm_flags;
+>                 vm_flags_t __private __vm_flags;
+>         };
 >
-> Especially device specific memory and allocation constrains (e.g. things
-> like don't put those two things on the same memory channel) is *not*
-> something we should have in an inter device framework.
->
-> In those cases we should just be able to say that an allocation should
-> be made from a specific device and then let the device specific drivers
-> deal with the constrain.
+> Now it can be read by anybody but written only by those using
+> ACCESS_PRIVATE.
 
-Yeah. I don't think we can get away from needing omniscient userland,
-but hopefully we can solve a large chunk of the issue with something
-like your approach.
-
-thanks
--john
+Huh, this is quite nice! I think it does not save us from the cases
+when vma->vm_flags is passed by a reference and modified indirectly,
+like in ksm_madvise()? Though maybe such usecases are so rare (I found
+only 2 cases) that we can ignore this?
