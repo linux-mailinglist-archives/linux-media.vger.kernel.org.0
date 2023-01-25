@@ -2,167 +2,86 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 994E967B85C
-	for <lists+linux-media@lfdr.de>; Wed, 25 Jan 2023 18:22:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4AD3867B883
+	for <lists+linux-media@lfdr.de>; Wed, 25 Jan 2023 18:28:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236020AbjAYRWy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 25 Jan 2023 12:22:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47650 "EHLO
+        id S235590AbjAYR2K (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 25 Jan 2023 12:28:10 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52228 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236216AbjAYRWr (ORCPT
+        with ESMTP id S235311AbjAYR2J (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 25 Jan 2023 12:22:47 -0500
-Received: from mail-yb1-xb36.google.com (mail-yb1-xb36.google.com [IPv6:2607:f8b0:4864:20::b36])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 240C0539AE
-        for <linux-media@vger.kernel.org>; Wed, 25 Jan 2023 09:22:36 -0800 (PST)
-Received: by mail-yb1-xb36.google.com with SMTP id b1so18639978ybn.11
-        for <linux-media@vger.kernel.org>; Wed, 25 Jan 2023 09:22:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=IqJXv+IInDU1mKTOWecSjx46uIp9RhIiEah7PjvPLrg=;
-        b=QlZyecSvRJAlH7daZiVbTmdMCDJawwIkjqybbPcYd50INvCOOFwycJjGFsDCENBvPF
-         JeBM9yeOQDknmaZC6LT0p7wlzLAJo3QYgAn7K1xQNCTJjPrh6oinOxgRNGwGedAqUfeH
-         4EF6oknHwKU0N6BIZOc0CJi1hrgM4W0zxm3gicvvOuEGF7JC9HCNICDdMPEAz6Lz/B5y
-         FN2dpyuojKkpe3r7ipsFxRIyHaJ4nJmkiiUGkQy6aOsuBhBZ3WzwUsGkq0uXDlGTKFEH
-         iRh4N/trPN148wcbBUC1DmqB3ErHQLF9n9pkmMXooLK6oXyXf0aS41iIJv2buhnN7zSu
-         X8Bw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=IqJXv+IInDU1mKTOWecSjx46uIp9RhIiEah7PjvPLrg=;
-        b=0gtVry4Dd+jVhPpr6/TRHNDL8F+uaWJwSS9eSdzwA1DyQZ8DKV/jL4Co+7pvFYY4dV
-         USBGq7IbDdJQ+C/5wLdTQrq+6ZvV7QvXVi3taAhafGeW3b0LyOHHUwdmYeMJVkJrQ6aX
-         alMoftAeWk3x0jwkjGgQgB3h4KzlXx/UNfwzDIbT1G0a733FGqZ+1Bzq+uOW7EOxIc7X
-         BW6KCwNCxCtnJ664TGDe6VGyggBXoo8pD0gSMJBF4dAZrgimKeed94P3b/9cKHbYOJV1
-         uvh8Zp6WTENBrI87qkmBTWk5Ftt32WLOqLm1ftPcP7XGKTNHL9smjXG+prINfxc0A919
-         CirQ==
-X-Gm-Message-State: AFqh2kpp5G03tKJB9C/ROgueKxEhtfKf+g5aL65ug68K7FDeTX+jF+Jm
-        Gckd2kzZ52TMwLsa6aGU8aJBtCfiYK2m+mSqBgANeg==
-X-Google-Smtp-Source: AMrXdXv634nY3BrnZ3PlTUGlyUi8i7L3YenO2gMgxW5qJ4tF6Xha6yZp+2FFeWeU8OQrXrCFeHpomo5nr++haHZW7UI=
-X-Received: by 2002:a25:a408:0:b0:800:28d4:6936 with SMTP id
- f8-20020a25a408000000b0080028d46936mr2303639ybi.431.1674667354997; Wed, 25
- Jan 2023 09:22:34 -0800 (PST)
+        Wed, 25 Jan 2023 12:28:09 -0500
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A94B2CFE7;
+        Wed, 25 Jan 2023 09:28:04 -0800 (PST)
+Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:ad6f:c6af:709d:745c])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: benjamin.gaignard)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 885DB66003B1;
+        Wed, 25 Jan 2023 17:28:02 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1674667682;
+        bh=ftbq0IBc4A40w5QgdUFCSat4ox2AWsD9fPmQCdsmw6k=;
+        h=From:To:Cc:Subject:Date:From;
+        b=VB2gMay4GS5sLnQPt9uV9LenFUkipBbqBwJINSnafY3wku3dpqUw7K92UXmKNrDPZ
+         7QxG840PgQRqLsYJkQY0OM9Xtl7lBHcKFMIRbZUXo5QGf4mNB0Qz3vCJVXwm7S69NP
+         YWOIZ0zKs/2h1U+ybVistGvQmVdR7lAR+8FhpPfyRPY7istkbKzbAaLfIsyQ8WHwed
+         9TqBeYF7FY8/cmMy5Vlu6+F+kKGQ8eAcRzEZVtRUCW64lfppbHRkj4kPZlPi4rS2qI
+         Vv+pMmRvIBDVBAeE2Vj37Ww9m0aIQ530Psc6VVqegYI97BfyBSyye3b0JmQGJGBLFB
+         +/3GKvF1aqM5g==
+From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
+To:     ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
+        mchehab@kernel.org, shawnguo@kernel.org, s.hauer@pengutronix.de,
+        kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
+        hverkuil-cisco@xs4all.nl, nicolas.dufresne@collabora.co.uk
+Cc:     linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        kernel@collabora.com,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Subject: [PATCH v4 0/2] media: verisilicon: HEVC: fix 10bits handling
+Date:   Wed, 25 Jan 2023 18:27:53 +0100
+Message-Id: <20230125172755.1498973-1-benjamin.gaignard@collabora.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20230125083851.27759-1-surenb@google.com> <20230125083851.27759-5-surenb@google.com>
- <Y9D4rWEsajV/WfNx@dhcp22.suse.cz> <CAJuCfpGd2eG0RSMte9OVgsRVWPo+Sj7+t8EOo8o_iKzZoh1MXA@mail.gmail.com>
- <Y9Fh9joU3vTCwYbX@dhcp22.suse.cz>
-In-Reply-To: <Y9Fh9joU3vTCwYbX@dhcp22.suse.cz>
-From:   Suren Baghdasaryan <surenb@google.com>
-Date:   Wed, 25 Jan 2023 09:22:23 -0800
-Message-ID: <CAJuCfpEJ1U2UHBNhLx4gggN3PLZKP5RejiZL_U5ZLxU_wdviVg@mail.gmail.com>
-Subject: Re: [PATCH v2 4/6] mm: replace vma->vm_flags indirect modification in ksm_madvise
-To:     Michal Hocko <mhocko@suse.com>
-Cc:     akpm@linux-foundation.org, michel@lespinasse.org,
-        jglisse@google.com, vbabka@suse.cz, hannes@cmpxchg.org,
-        mgorman@techsingularity.net, dave@stgolabs.net,
-        willy@infradead.org, liam.howlett@oracle.com, peterz@infradead.org,
-        ldufour@linux.ibm.com, paulmck@kernel.org, luto@kernel.org,
-        songliubraving@fb.com, peterx@redhat.com, david@redhat.com,
-        dhowells@redhat.com, hughd@google.com, bigeasy@linutronix.de,
-        kent.overstreet@linux.dev, punit.agrawal@bytedance.com,
-        lstoakes@gmail.com, peterjung1337@gmail.com, rientjes@google.com,
-        axelrasmussen@google.com, joelaf@google.com, minchan@google.com,
-        jannh@google.com, shakeelb@google.com, tatashin@google.com,
-        edumazet@google.com, gthelen@google.com, gurua@google.com,
-        arjunroy@google.com, soheil@google.com, hughlynch@google.com,
-        leewalsh@google.com, posk@google.com, will@kernel.org,
-        aneesh.kumar@linux.ibm.com, npiggin@gmail.com,
-        chenhuacai@kernel.org, tglx@linutronix.de, mingo@redhat.com,
-        bp@alien8.de, dave.hansen@linux.intel.com, richard@nod.at,
-        anton.ivanov@cambridgegreys.com, johannes@sipsolutions.net,
-        qianweili@huawei.com, wangzhou1@hisilicon.com,
-        herbert@gondor.apana.org.au, davem@davemloft.net, vkoul@kernel.org,
-        airlied@gmail.com, daniel@ffwll.ch,
-        maarten.lankhorst@linux.intel.com, mripard@kernel.org,
-        tzimmermann@suse.de, l.stach@pengutronix.de,
-        krzysztof.kozlowski@linaro.org, patrik.r.jakobsson@gmail.com,
-        matthias.bgg@gmail.com, robdclark@gmail.com,
-        quic_abhinavk@quicinc.com, dmitry.baryshkov@linaro.org,
-        tomba@kernel.org, hjc@rock-chips.com, heiko@sntech.de,
-        ray.huang@amd.com, kraxel@redhat.com, sre@kernel.org,
-        mcoquelin.stm32@gmail.com, alexandre.torgue@foss.st.com,
-        tfiga@chromium.org, m.szyprowski@samsung.com, mchehab@kernel.org,
-        dimitri.sivanich@hpe.com, zhangfei.gao@linaro.org,
-        jejb@linux.ibm.com, martin.petersen@oracle.com,
-        dgilbert@interlog.com, hdegoede@redhat.com, mst@redhat.com,
-        jasowang@redhat.com, alex.williamson@redhat.com, deller@gmx.de,
-        jayalk@intworks.biz, viro@zeniv.linux.org.uk, nico@fluxnic.net,
-        xiang@kernel.org, chao@kernel.org, tytso@mit.edu,
-        adilger.kernel@dilger.ca, miklos@szeredi.hu,
-        mike.kravetz@oracle.com, muchun.song@linux.dev, bhe@redhat.com,
-        andrii@kernel.org, yoshfuji@linux-ipv6.org, dsahern@kernel.org,
-        kuba@kernel.org, pabeni@redhat.com, perex@perex.cz, tiwai@suse.com,
-        haojian.zhuang@gmail.com, robert.jarzmik@free.fr,
-        linux-mm@kvack.org, linux-arm-kernel@lists.infradead.org,
-        linuxppc-dev@lists.ozlabs.org, x86@kernel.org,
-        linux-kernel@vger.kernel.org, linux-graphics-maintainer@vmware.com,
-        linux-ia64@vger.kernel.org, linux-arch@vger.kernel.org,
-        loongarch@lists.linux.dev, kvm@vger.kernel.org,
-        linux-s390@vger.kernel.org, linux-sgx@vger.kernel.org,
-        linux-um@lists.infradead.org, linux-acpi@vger.kernel.org,
-        linux-crypto@vger.kernel.org, nvdimm@lists.linux.dev,
-        dmaengine@vger.kernel.org, amd-gfx@lists.freedesktop.org,
-        dri-devel@lists.freedesktop.org, etnaviv@lists.freedesktop.org,
-        linux-samsung-soc@vger.kernel.org, intel-gfx@lists.freedesktop.org,
-        linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-        freedreno@lists.freedesktop.org,
-        linux-rockchip@lists.infradead.org, linux-tegra@vger.kernel.org,
-        virtualization@lists.linux-foundation.org,
-        xen-devel@lists.xenproject.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-rdma@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-accelerators@lists.ozlabs.org, sparclinux@vger.kernel.org,
-        linux-scsi@vger.kernel.org, linux-staging@lists.linux.dev,
-        target-devel@vger.kernel.org, linux-usb@vger.kernel.org,
-        netdev@vger.kernel.org, linux-fbdev@vger.kernel.org,
-        linux-aio@kvack.org, linux-fsdevel@vger.kernel.org,
-        linux-erofs@lists.ozlabs.org, linux-ext4@vger.kernel.org,
-        devel@lists.orangefs.org, kexec@lists.infradead.org,
-        linux-xfs@vger.kernel.org, bpf@vger.kernel.org,
-        linux-perf-users@vger.kernel.org, kasan-dev@googlegroups.com,
-        selinux@vger.kernel.org, alsa-devel@alsa-project.org,
-        kernel-team@android.com
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=unavailable
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Jan 25, 2023 at 9:08 AM Michal Hocko <mhocko@suse.com> wrote:
->
-> On Wed 25-01-23 08:57:48, Suren Baghdasaryan wrote:
-> > On Wed, Jan 25, 2023 at 1:38 AM 'Michal Hocko' via kernel-team
-> > <kernel-team@android.com> wrote:
-> > >
-> > > On Wed 25-01-23 00:38:49, Suren Baghdasaryan wrote:
-> > > > Replace indirect modifications to vma->vm_flags with calls to modifier
-> > > > functions to be able to track flag changes and to keep vma locking
-> > > > correctness. Add a BUG_ON check in ksm_madvise() to catch indirect
-> > > > vm_flags modification attempts.
-> > >
-> > > Those BUG_ONs scream to much IMHO. KSM is an MM internal code so I
-> > > gueess we should be willing to trust it.
-> >
-> > Yes, but I really want to prevent an indirect misuse since it was not
-> > easy to find these. If you feel strongly about it I will remove them
-> > or if you have a better suggestion I'm all for it.
->
-> You can avoid that by making flags inaccesible directly, right?
+When decoding a 10bits bitstreams HEVC driver should only expose 10bits pixel formats.
+To fulfill this requirement it is needed to call hantro_reset_raw_fmt()
+and to only change driver internal state in case of success.
 
-Ah, you mean Peter's suggestion of using __private? I guess that would
-cover it. I'll drop these BUG_ONs in the next version. Thanks!
+Fluster score (140/147) doesn't change after this series.
 
->
-> --
-> Michal Hocko
-> SUSE Labs
+version 4:
+- Split the change in 2 patches.
+- Change hantro_check_depth_match() prototype to avoid using
+  ctx->bit_depth
+- Return the result of hantro_reset_raw_fmt() to the caller.
+- Only set ctx->bit_depth when hantro_reset_raw_fmt() returns is ok.
+
+Benjamin Gaignard (2):
+  media: verisilicon: Do not change context bit depth before validating
+    the format
+  media: verisilicon: HEVC: Only propose 10 bits compatible pixels
+    formats
+
+ .../media/platform/verisilicon/hantro_drv.c   | 46 +++++++++++++---
+ .../platform/verisilicon/hantro_postproc.c    |  2 +-
+ .../media/platform/verisilicon/hantro_v4l2.c  | 53 +++++++++----------
+ .../media/platform/verisilicon/hantro_v4l2.h  |  3 +-
+ .../media/platform/verisilicon/imx8m_vpu_hw.c |  2 +
+ 5 files changed, 68 insertions(+), 38 deletions(-)
+
+-- 
+2.34.1
+
