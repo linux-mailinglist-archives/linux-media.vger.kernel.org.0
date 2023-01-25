@@ -2,2260 +2,844 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BAD8867C026
-	for <lists+linux-media@lfdr.de>; Wed, 25 Jan 2023 23:49:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 42C8167C027
+	for <lists+linux-media@lfdr.de>; Wed, 25 Jan 2023 23:49:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229721AbjAYWtM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 25 Jan 2023 17:49:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46782 "EHLO
+        id S235221AbjAYWtN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 25 Jan 2023 17:49:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46792 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229453AbjAYWtL (ORCPT
+        with ESMTP id S229453AbjAYWtM (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 25 Jan 2023 17:49:11 -0500
+        Wed, 25 Jan 2023 17:49:12 -0500
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA20E43475
-        for <linux-media@vger.kernel.org>; Wed, 25 Jan 2023 14:49:05 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4577B457C0
+        for <linux-media@vger.kernel.org>; Wed, 25 Jan 2023 14:49:09 -0800 (PST)
 Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 80C881204;
-        Wed, 25 Jan 2023 23:49:03 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2D6B815D6
+        for <linux-media@vger.kernel.org>; Wed, 25 Jan 2023 23:49:05 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1674686944;
-        bh=v+ytoVHGCiQcU5+bo54Nnaqnib6p4f1psiClzHQLSQk=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Yyi/Cd7kM/E96v4HM9+xtXMeDjJ/l/E4o2mr/80c6K0KbL8ecmIoURGOuprDJ2/DO
-         WRtQuQ7Cnv5LeK87QtBfaLX21oOYS3rwcDzIJ2CcdZq/VGFQVHzONK/XCLa4jWHRPv
-         PeIcaTuNR/QgdJGc6kG/egyGJQ09ZLH7utPdQEIo=
+        s=mail; t=1674686945;
+        bh=dSJ0IKzqypZWf0gtD05ksyrmMiiBgGZP6OI+vAVr7js=;
+        h=From:To:Subject:Date:In-Reply-To:References:From;
+        b=j72CR3GOuDOpvsBdBZxalE2zQ0aAeXr+0giRNMAAs9NgV5ZrSv6cxJ8/Df/J+9AiX
+         A2yzFdnA61NOmp0eCZAFPCWqqh5cZlLNMGsnOf+GcfsEgfYBd96bYxIBl3XrqI+Qym
+         hWyTuRK4lQotKpGOIaA7Qp90O73JlU387Z6/k1vI=
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     linux-media@vger.kernel.org
-Cc:     Kyungmin Park <kyungmin.park@samsung.com>,
-        Heungjun Kim <riverful.kim@samsung.com>
-Subject: [RFC PATCH 2/8] media: i2c: Drop unused m5mols camera sensor driver
-Date:   Thu, 26 Jan 2023 00:48:50 +0200
-Message-Id: <20230125224856.22266-3-laurent.pinchart@ideasonboard.com>
+Subject: [RFC PATCH 3/8] media: i2c: Drop unused mt9m032 camera sensor driver
+Date:   Thu, 26 Jan 2023 00:48:51 +0200
+Message-Id: <20230125224856.22266-4-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230125224856.22266-1-laurent.pinchart@ideasonboard.com>
 References: <20230125224856.22266-1-laurent.pinchart@ideasonboard.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_PDS_OTHER_BAD_TLD autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The m5mols camera sensor driver doesn't support DT and relies on
-platform data. The last board files supplying platform data for that
-device have been removed from the kernel in v3.11. The driver hasn't
-been used since them. Drop it.
+The mt9m032 camera sensor driver doesn't support DT and relies on
+platform data. No board file has ever provided platform data for that
+device. The driver has thus never been used in the mainline kernel since
+its introduction in v3.4. Drop it.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- .../admin-guide/media/i2c-cardlist.rst        |    1 -
- MAINTAINERS                                   |    8 -
- drivers/media/i2c/Kconfig                     |    1 -
- drivers/media/i2c/Makefile                    |    1 -
- drivers/media/i2c/m5mols/Kconfig              |    8 -
- drivers/media/i2c/m5mols/Makefile             |    4 -
- drivers/media/i2c/m5mols/m5mols.h             |  349 ------
- drivers/media/i2c/m5mols/m5mols_capture.c     |  158 ---
- drivers/media/i2c/m5mols/m5mols_controls.c    |  625 ----------
- drivers/media/i2c/m5mols/m5mols_core.c        | 1051 -----------------
- drivers/media/i2c/m5mols/m5mols_reg.h         |  359 ------
- include/media/i2c/m5mols.h                    |   25 -
- 12 files changed, 2590 deletions(-)
- delete mode 100644 drivers/media/i2c/m5mols/Kconfig
- delete mode 100644 drivers/media/i2c/m5mols/Makefile
- delete mode 100644 drivers/media/i2c/m5mols/m5mols.h
- delete mode 100644 drivers/media/i2c/m5mols/m5mols_capture.c
- delete mode 100644 drivers/media/i2c/m5mols/m5mols_controls.c
- delete mode 100644 drivers/media/i2c/m5mols/m5mols_core.c
- delete mode 100644 drivers/media/i2c/m5mols/m5mols_reg.h
- delete mode 100644 include/media/i2c/m5mols.h
+ .../admin-guide/media/i2c-cardlist.rst        |   1 -
+ MAINTAINERS                                   |   8 -
+ drivers/media/i2c/Kconfig                     |  10 -
+ drivers/media/i2c/Makefile                    |   1 -
+ drivers/media/i2c/mt9m032.c                   | 891 ------------------
+ include/media/i2c/mt9m032.h                   |  22 -
+ 6 files changed, 933 deletions(-)
+ delete mode 100644 drivers/media/i2c/mt9m032.c
+ delete mode 100644 include/media/i2c/mt9m032.h
 
 diff --git a/Documentation/admin-guide/media/i2c-cardlist.rst b/Documentation/admin-guide/media/i2c-cardlist.rst
-index 4819d9aa55f1..26827f4b4a3d 100644
+index 26827f4b4a3d..6db642460e25 100644
 --- a/Documentation/admin-guide/media/i2c-cardlist.rst
 +++ b/Documentation/admin-guide/media/i2c-cardlist.rst
-@@ -72,7 +72,6 @@ imx319        Sony IMX319 sensor
- imx334        Sony IMX334 sensor
+@@ -73,7 +73,6 @@ imx334        Sony IMX334 sensor
  imx355        Sony IMX355 sensor
  imx412        Sony IMX412 sensor
--m5mols        Fujitsu M-5MOLS 8MP sensor
  mt9m001       mt9m001
- mt9m032       MT9M032 camera sensor
+-mt9m032       MT9M032 camera sensor
  mt9m111       mt9m111, mt9m112 and mt9m131
+ mt9p031       Aptina MT9P031
+ mt9t001       Aptina MT9T001
 diff --git a/MAINTAINERS b/MAINTAINERS
-index a190a2c13cdb..426815e3c6ed 100644
+index 426815e3c6ed..dd63f8ed9a1b 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -8536,14 +8536,6 @@ L:	platform-driver-x86@vger.kernel.org
+@@ -14206,14 +14206,6 @@ L:	linux-mtd@lists.infradead.org
  S:	Maintained
- F:	drivers/platform/x86/fujitsu-laptop.c
+ F:	drivers/mtd/devices/docg3*
  
--FUJITSU M-5MO LS CAMERA ISP DRIVER
--M:	Kyungmin Park <kyungmin.park@samsung.com>
--M:	Heungjun Kim <riverful.kim@samsung.com>
+-MT9M032 APTINA SENSOR DRIVER
+-M:	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 -L:	linux-media@vger.kernel.org
 -S:	Maintained
--F:	drivers/media/i2c/m5mols/
--F:	include/media/i2c/m5mols.h
+-T:	git git://linuxtv.org/media_tree.git
+-F:	drivers/media/i2c/mt9m032.c
+-F:	include/media/i2c/mt9m032.h
 -
- FUJITSU TABLET EXTRAS
- M:	Robert Gerlach <khnz@gmx.de>
- L:	platform-driver-x86@vger.kernel.org
+ MT9P031 APTINA CAMERA SENSOR
+ M:	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+ L:	linux-media@vger.kernel.org
 diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
-index 3c1a880dc793..1646808526b3 100644
+index 1646808526b3..6d365c5505c9 100644
 --- a/drivers/media/i2c/Kconfig
 +++ b/drivers/media/i2c/Kconfig
-@@ -807,7 +807,6 @@ config VIDEO_VS6624
+@@ -240,16 +240,6 @@ config VIDEO_MT9M001
+ 	  This driver supports MT9M001 cameras from Micron, monochrome
+ 	  and colour models.
  
- source "drivers/media/i2c/ccs/Kconfig"
- source "drivers/media/i2c/et8ek8/Kconfig"
--source "drivers/media/i2c/m5mols/Kconfig"
- 
- endmenu
- 
-diff --git a/drivers/media/i2c/Makefile b/drivers/media/i2c/Makefile
-index bb0cce8c222c..6f1d0d5be0c1 100644
---- a/drivers/media/i2c/Makefile
-+++ b/drivers/media/i2c/Makefile
-@@ -53,7 +53,6 @@ obj-$(CONFIG_VIDEO_KS0127) += ks0127.o
- obj-$(CONFIG_VIDEO_LM3560) += lm3560.o
- obj-$(CONFIG_VIDEO_LM3646) += lm3646.o
- obj-$(CONFIG_VIDEO_M52790) += m52790.o
--obj-$(CONFIG_VIDEO_M5MOLS) += m5mols/
- obj-$(CONFIG_VIDEO_MAX9271_LIB) += max9271.o
- obj-$(CONFIG_VIDEO_MAX9286) += max9286.o
- obj-$(CONFIG_VIDEO_ML86V7667) += ml86v7667.o
-diff --git a/drivers/media/i2c/m5mols/Kconfig b/drivers/media/i2c/m5mols/Kconfig
-deleted file mode 100644
-index 7f0af32f4376..000000000000
---- a/drivers/media/i2c/m5mols/Kconfig
-+++ /dev/null
-@@ -1,8 +0,0 @@
--# SPDX-License-Identifier: GPL-2.0-only
--config VIDEO_M5MOLS
--	tristate "Fujitsu M-5MOLS 8MP sensor support"
+-config VIDEO_MT9M032
+-	tristate "MT9M032 camera sensor support"
 -	depends on I2C && VIDEO_DEV
 -	select MEDIA_CONTROLLER
 -	select VIDEO_V4L2_SUBDEV_API
+-	select VIDEO_APTINA_PLL
 -	help
--	  This driver supports Fujitsu M-5MOLS camera sensor with ISP
-diff --git a/drivers/media/i2c/m5mols/Makefile b/drivers/media/i2c/m5mols/Makefile
+-	  This driver supports MT9M032 camera sensors from Aptina, monochrome
+-	  models only.
+-
+ config VIDEO_MT9M111
+ 	tristate "mt9m111, mt9m112 and mt9m131 support"
+ 	depends on I2C && VIDEO_DEV
+diff --git a/drivers/media/i2c/Makefile b/drivers/media/i2c/Makefile
+index 6f1d0d5be0c1..1c4cc791fd57 100644
+--- a/drivers/media/i2c/Makefile
++++ b/drivers/media/i2c/Makefile
+@@ -58,7 +58,6 @@ obj-$(CONFIG_VIDEO_MAX9286) += max9286.o
+ obj-$(CONFIG_VIDEO_ML86V7667) += ml86v7667.o
+ obj-$(CONFIG_VIDEO_MSP3400) += msp3400.o
+ obj-$(CONFIG_VIDEO_MT9M001) += mt9m001.o
+-obj-$(CONFIG_VIDEO_MT9M032) += mt9m032.o
+ obj-$(CONFIG_VIDEO_MT9M111) += mt9m111.o
+ obj-$(CONFIG_VIDEO_MT9P031) += mt9p031.o
+ obj-$(CONFIG_VIDEO_MT9T001) += mt9t001.o
+diff --git a/drivers/media/i2c/mt9m032.c b/drivers/media/i2c/mt9m032.c
 deleted file mode 100644
-index 13fa8ec29ac0..000000000000
---- a/drivers/media/i2c/m5mols/Makefile
+index 958cfdd73d57..000000000000
+--- a/drivers/media/i2c/mt9m032.c
 +++ /dev/null
-@@ -1,4 +0,0 @@
--# SPDX-License-Identifier: GPL-2.0-only
--m5mols-objs	:= m5mols_core.o m5mols_controls.o m5mols_capture.o
--
--obj-$(CONFIG_VIDEO_M5MOLS)		+= m5mols.o
-diff --git a/drivers/media/i2c/m5mols/m5mols.h b/drivers/media/i2c/m5mols/m5mols.h
-deleted file mode 100644
-index d8545d2280af..000000000000
---- a/drivers/media/i2c/m5mols/m5mols.h
-+++ /dev/null
-@@ -1,349 +0,0 @@
--/* SPDX-License-Identifier: GPL-2.0-or-later */
+@@ -1,891 +0,0 @@
+-// SPDX-License-Identifier: GPL-2.0-only
 -/*
-- * Header for M-5MOLS 8M Pixel camera sensor with ISP
+- * Driver for MT9M032 CMOS Image Sensor from Micron
 - *
-- * Copyright (C) 2011 Samsung Electronics Co., Ltd.
-- * Author: HeungJun Kim <riverful.kim@samsung.com>
-- *
-- * Copyright (C) 2009 Samsung Electronics Co., Ltd.
-- * Author: Dongsoo Nathaniel Kim <dongsoo45.kim@samsung.com>
+- * Copyright (C) 2010-2011 Lund Engineering
+- * Contact: Gil Lund <gwlund@lundeng.com>
+- * Author: Martin Hostettler <martin@neutronstar.dyndns.org>
 - */
 -
--#ifndef M5MOLS_H
--#define M5MOLS_H
--
--#include <linux/sizes.h>
--#include <linux/gpio/consumer.h>
--#include <media/v4l2-subdev.h>
--#include "m5mols_reg.h"
--
--
--/* An amount of data transmitted in addition to the value
-- * determined by CAPP_JPEG_SIZE_MAX register.
-- */
--#define M5MOLS_JPEG_TAGS_SIZE		0x20000
--#define M5MOLS_MAIN_JPEG_SIZE_MAX	(5 * SZ_1M)
--
--extern int m5mols_debug;
--
--enum m5mols_restype {
--	M5MOLS_RESTYPE_MONITOR,
--	M5MOLS_RESTYPE_CAPTURE,
--	M5MOLS_RESTYPE_MAX,
--};
--
--/**
-- * struct m5mols_resolution - structure for the resolution
-- * @type: resolution type according to the pixel code
-- * @width: width of the resolution
-- * @height: height of the resolution
-- * @reg: resolution preset register value
-- */
--struct m5mols_resolution {
--	u8 reg;
--	enum m5mols_restype type;
--	u16 width;
--	u16 height;
--};
--
--/**
-- * struct m5mols_exif - structure for the EXIF information of M-5MOLS
-- * @exposure_time: exposure time register value
-- * @shutter_speed: speed of the shutter register value
-- * @aperture: aperture register value
-- * @brightness: brightness register value
-- * @exposure_bias: it calls also EV bias
-- * @iso_speed: ISO register value
-- * @flash: status register value of the flash
-- * @sdr: status register value of the Subject Distance Range
-- * @qval: not written exact meaning in document
-- */
--struct m5mols_exif {
--	u32 exposure_time;
--	u32 shutter_speed;
--	u32 aperture;
--	u32 brightness;
--	u32 exposure_bias;
--	u16 iso_speed;
--	u16 flash;
--	u16 sdr;
--	u16 qval;
--};
--
--/**
-- * struct m5mols_capture - Structure for the capture capability
-- * @exif: EXIF information
-- * @buf_size: internal JPEG frame buffer size, in bytes
-- * @main: size in bytes of the main image
-- * @thumb: size in bytes of the thumb image, if it was accompanied
-- * @total: total size in bytes of the produced image
-- */
--struct m5mols_capture {
--	struct m5mols_exif exif;
--	unsigned int buf_size;
--	u32 main;
--	u32 thumb;
--	u32 total;
--};
--
--/**
-- * struct m5mols_scenemode - structure for the scenemode capability
-- * @metering: metering light register value
-- * @ev_bias: EV bias register value
-- * @wb_mode: mode which means the WhiteBalance is Auto or Manual
-- * @wb_preset: whitebalance preset register value in the Manual mode
-- * @chroma_en: register value whether the Chroma capability is enabled or not
-- * @chroma_lvl: chroma's level register value
-- * @edge_en: register value Whether the Edge capability is enabled or not
-- * @edge_lvl: edge's level register value
-- * @af_range: Auto Focus's range
-- * @fd_mode: Face Detection mode
-- * @mcc: Multi-axis Color Conversion which means emotion color
-- * @light: status of the Light
-- * @flash: status of the Flash
-- * @tone: Tone color which means Contrast
-- * @iso: ISO register value
-- * @capt_mode: Mode of the Image Stabilization while the camera capturing
-- * @wdr: Wide Dynamic Range register value
-- *
-- * The each value according to each scenemode is recommended in the documents.
-- */
--struct m5mols_scenemode {
--	u8 metering;
--	u8 ev_bias;
--	u8 wb_mode;
--	u8 wb_preset;
--	u8 chroma_en;
--	u8 chroma_lvl;
--	u8 edge_en;
--	u8 edge_lvl;
--	u8 af_range;
--	u8 fd_mode;
--	u8 mcc;
--	u8 light;
--	u8 flash;
--	u8 tone;
--	u8 iso;
--	u8 capt_mode;
--	u8 wdr;
--};
--
--#define VERSION_STRING_SIZE	22
--
--/**
-- * struct m5mols_version - firmware version information
-- * @customer:	customer information
-- * @project:	version of project information according to customer
-- * @fw:		firmware revision
-- * @hw:		hardware revision
-- * @param:	version of the parameter
-- * @awb:	Auto WhiteBalance algorithm version
-- * @str:	information about manufacturer and packaging vendor
-- * @af:		Auto Focus version
-- *
-- * The register offset starts the customer version at 0x0, and it ends
-- * the awb version at 0x09. The customer, project information occupies 1 bytes
-- * each. And also the fw, hw, param, awb each requires 2 bytes. The str is
-- * unique string associated with firmware's version. It includes information
-- * about manufacturer and the vendor of the sensor's packaging. The least
-- * significant 2 bytes of the string indicate packaging manufacturer.
-- */
--struct m5mols_version {
--	u8	customer;
--	u8	project;
--	u16	fw;
--	u16	hw;
--	u16	param;
--	u16	awb;
--	u8	str[VERSION_STRING_SIZE];
--	u8	af;
--};
--
--/**
-- * struct m5mols_info - M-5MOLS driver data structure
-- * @pdata: platform data
-- * @sd: v4l-subdev instance
-- * @pad: media pad
-- * @irq_waitq: waitqueue for the capture
-- * @irq_done: set to 1 in the interrupt handler
-- * @handle: control handler
-- * @auto_exposure: auto/manual exposure control
-- * @exposure_bias: exposure compensation control
-- * @exposure: manual exposure control
-- * @metering: exposure metering control
-- * @auto_iso: auto/manual ISO sensitivity control
-- * @iso: manual ISO sensitivity control
-- * @auto_wb: auto white balance control
-- * @lock_3a: 3A lock control
-- * @colorfx: color effect control
-- * @saturation: saturation control
-- * @zoom: zoom control
-- * @wdr: wide dynamic range control
-- * @stabilization: image stabilization control
-- * @jpeg_quality: JPEG compression quality control
-- * @set_power: optional power callback to the board code
-- * @reset: GPIO driving the reset pin of M-5MOLS
-- * @lock: mutex protecting the structure fields below
-- * @ffmt: current fmt according to resolution type
-- * @res_type: current resolution type
-- * @ver: information of the version
-- * @cap: the capture mode attributes
-- * @isp_ready: 1 when the ISP controller has completed booting
-- * @power: current sensor's power status
-- * @ctrl_sync: 1 when the control handler state is restored in H/W
-- * @resolution:	register value for current resolution
-- * @mode: register value for current operation mode
-- */
--struct m5mols_info {
--	const struct m5mols_platform_data *pdata;
--	struct v4l2_subdev sd;
--	struct media_pad pad;
--
--	wait_queue_head_t irq_waitq;
--	atomic_t irq_done;
--
--	struct v4l2_ctrl_handler handle;
--	struct {
--		/* exposure/exposure bias/auto exposure cluster */
--		struct v4l2_ctrl *auto_exposure;
--		struct v4l2_ctrl *exposure_bias;
--		struct v4l2_ctrl *exposure;
--		struct v4l2_ctrl *metering;
--	};
--	struct {
--		/* iso/auto iso cluster */
--		struct v4l2_ctrl *auto_iso;
--		struct v4l2_ctrl *iso;
--	};
--	struct v4l2_ctrl *auto_wb;
--
--	struct v4l2_ctrl *lock_3a;
--	struct v4l2_ctrl *colorfx;
--	struct v4l2_ctrl *saturation;
--	struct v4l2_ctrl *zoom;
--	struct v4l2_ctrl *wdr;
--	struct v4l2_ctrl *stabilization;
--	struct v4l2_ctrl *jpeg_quality;
--
--	int (*set_power)(struct device *dev, int on);
--	struct gpio_desc *reset;
--
--	struct mutex lock;
--
--	struct v4l2_mbus_framefmt ffmt[M5MOLS_RESTYPE_MAX];
--	int res_type;
--
--	struct m5mols_version ver;
--	struct m5mols_capture cap;
--
--	unsigned int isp_ready:1;
--	unsigned int power:1;
--	unsigned int ctrl_sync:1;
--
--	u8 resolution;
--	u8 mode;
--};
--
--#define is_available_af(__info)	(__info->ver.af)
--#define is_code(__code, __type) (__code == m5mols_default_ffmt[__type].code)
--#define is_manufacturer(__info, __manufacturer)	\
--				(__info->ver.str[0] == __manufacturer[0] && \
--				 __info->ver.str[1] == __manufacturer[1])
--/*
-- * I2C operation of the M-5MOLS
-- *
-- * The I2C read operation of the M-5MOLS requires 2 messages. The first
-- * message sends the information about the command, command category, and total
-- * message size. The second message is used to retrieve the data specified in
-- * the first message
-- *
-- *   1st message                                2nd message
-- *   +-------+---+----------+-----+-------+     +------+------+------+------+
-- *   | size1 | R | category | cmd | size2 |     | d[0] | d[1] | d[2] | d[3] |
-- *   +-------+---+----------+-----+-------+     +------+------+------+------+
-- *   - size1: message data size(5 in this case)
-- *   - size2: desired buffer size of the 2nd message
-- *   - d[0..3]: according to size2
-- *
-- * The I2C write operation needs just one message. The message includes
-- * category, command, total size, and desired data.
-- *
-- *   1st message
-- *   +-------+---+----------+-----+------+------+------+------+
-- *   | size1 | W | category | cmd | d[0] | d[1] | d[2] | d[3] |
-- *   +-------+---+----------+-----+------+------+------+------+
-- *   - d[0..3]: according to size1
-- */
--int m5mols_read_u8(struct v4l2_subdev *sd, u32 reg_comb, u8 *val);
--int m5mols_read_u16(struct v4l2_subdev *sd, u32 reg_comb, u16 *val);
--int m5mols_read_u32(struct v4l2_subdev *sd, u32 reg_comb, u32 *val);
--int m5mols_write(struct v4l2_subdev *sd, u32 reg_comb, u32 val);
--
--int m5mols_busy_wait(struct v4l2_subdev *sd, u32 reg, u32 value, u32 mask,
--		     int timeout);
--
--/* Mask value for busy waiting until M-5MOLS I2C interface is initialized */
--#define M5MOLS_I2C_RDY_WAIT_FL		(1 << 16)
--/* ISP state transition timeout, in ms */
--#define M5MOLS_MODE_CHANGE_TIMEOUT	200
--#define M5MOLS_BUSY_WAIT_DEF_TIMEOUT	250
--
--/*
-- * Mode operation of the M-5MOLS
-- *
-- * Changing the mode of the M-5MOLS is needed right executing order.
-- * There are three modes(PARAMETER, MONITOR, CAPTURE) which can be changed
-- * by user. There are various categories associated with each mode.
-- *
-- * +============================================================+
-- * | mode	| category					|
-- * +============================================================+
-- * | FLASH	| FLASH(only after Stand-by or Power-on)	|
-- * | SYSTEM	| SYSTEM(only after sensor arm-booting)		|
-- * | PARAMETER	| PARAMETER					|
-- * | MONITOR	| MONITOR(preview), Auto Focus, Face Detection	|
-- * | CAPTURE	| Single CAPTURE, Preview(recording)		|
-- * +============================================================+
-- *
-- * The available executing order between each modes are as follows:
-- *   PARAMETER <---> MONITOR <---> CAPTURE
-- */
--int m5mols_set_mode(struct m5mols_info *info, u8 mode);
--
--int m5mols_enable_interrupt(struct v4l2_subdev *sd, u8 reg);
--int m5mols_wait_interrupt(struct v4l2_subdev *sd, u8 condition, u32 timeout);
--int m5mols_restore_controls(struct m5mols_info *info);
--int m5mols_start_capture(struct m5mols_info *info);
--int m5mols_do_scenemode(struct m5mols_info *info, u8 mode);
--int m5mols_lock_3a(struct m5mols_info *info, bool lock);
--int m5mols_set_ctrl(struct v4l2_ctrl *ctrl);
--int m5mols_init_controls(struct v4l2_subdev *sd);
--
--/* The firmware function */
--int m5mols_update_fw(struct v4l2_subdev *sd,
--		     int (*set_power)(struct m5mols_info *, bool));
--
--static inline struct m5mols_info *to_m5mols(struct v4l2_subdev *subdev)
--{
--	return container_of(subdev, struct m5mols_info, sd);
--}
--
--static inline struct v4l2_subdev *to_sd(struct v4l2_ctrl *ctrl)
--{
--	struct m5mols_info *info = container_of(ctrl->handler,
--						struct m5mols_info, handle);
--	return &info->sd;
--}
--
--static inline void m5mols_set_ctrl_mode(struct v4l2_ctrl *ctrl,
--					unsigned int mode)
--{
--	ctrl->priv = (void *)(uintptr_t)mode;
--}
--
--static inline unsigned int m5mols_get_ctrl_mode(struct v4l2_ctrl *ctrl)
--{
--	return (unsigned int)(uintptr_t)ctrl->priv;
--}
--
--#endif	/* M5MOLS_H */
-diff --git a/drivers/media/i2c/m5mols/m5mols_capture.c b/drivers/media/i2c/m5mols/m5mols_capture.c
-deleted file mode 100644
-index 275c5b2539fd..000000000000
---- a/drivers/media/i2c/m5mols/m5mols_capture.c
-+++ /dev/null
-@@ -1,158 +0,0 @@
--// SPDX-License-Identifier: GPL-2.0-or-later
--
--/*
-- * The Capture code for Fujitsu M-5MOLS ISP
-- *
-- * Copyright (C) 2011 Samsung Electronics Co., Ltd.
-- * Author: HeungJun Kim <riverful.kim@samsung.com>
-- *
-- * Copyright (C) 2009 Samsung Electronics Co., Ltd.
-- * Author: Dongsoo Nathaniel Kim <dongsoo45.kim@samsung.com>
-- */
--
--#include <linux/i2c.h>
--#include <linux/slab.h>
--#include <linux/irq.h>
--#include <linux/interrupt.h>
 -#include <linux/delay.h>
--#include <linux/regulator/consumer.h>
--#include <linux/videodev2.h>
--#include <media/v4l2-ctrls.h>
--#include <media/v4l2-device.h>
--#include <media/v4l2-subdev.h>
--#include <media/i2c/m5mols.h>
--#include <media/drv-intf/exynos-fimc.h>
--
--#include "m5mols.h"
--#include "m5mols_reg.h"
--
--/**
-- * m5mols_read_rational - I2C read of a rational number
-- * @sd: sub-device, as pointed by struct v4l2_subdev
-- * @addr_num: numerator register
-- * @addr_den: denominator register
-- * @val: place to store the division result
-- *
-- * Read numerator and denominator from registers @addr_num and @addr_den
-- * respectively and return the division result in @val.
-- */
--static int m5mols_read_rational(struct v4l2_subdev *sd, u32 addr_num,
--				u32 addr_den, u32 *val)
--{
--	u32 num, den;
--
--	int ret = m5mols_read_u32(sd, addr_num, &num);
--	if (!ret)
--		ret = m5mols_read_u32(sd, addr_den, &den);
--	if (ret)
--		return ret;
--	*val = den == 0 ? 0 : num / den;
--	return ret;
--}
--
--/**
-- * m5mols_capture_info - Gather captured image information
-- * @info: M-5MOLS driver data structure
-- *
-- * For now it gathers only EXIF information and file size.
-- */
--static int m5mols_capture_info(struct m5mols_info *info)
--{
--	struct m5mols_exif *exif = &info->cap.exif;
--	struct v4l2_subdev *sd = &info->sd;
--	int ret;
--
--	ret = m5mols_read_rational(sd, EXIF_INFO_EXPTIME_NU,
--				   EXIF_INFO_EXPTIME_DE, &exif->exposure_time);
--	if (ret)
--		return ret;
--	ret = m5mols_read_rational(sd, EXIF_INFO_TV_NU, EXIF_INFO_TV_DE,
--				   &exif->shutter_speed);
--	if (ret)
--		return ret;
--	ret = m5mols_read_rational(sd, EXIF_INFO_AV_NU, EXIF_INFO_AV_DE,
--				   &exif->aperture);
--	if (ret)
--		return ret;
--	ret = m5mols_read_rational(sd, EXIF_INFO_BV_NU, EXIF_INFO_BV_DE,
--				   &exif->brightness);
--	if (ret)
--		return ret;
--	ret = m5mols_read_rational(sd, EXIF_INFO_EBV_NU, EXIF_INFO_EBV_DE,
--				   &exif->exposure_bias);
--	if (ret)
--		return ret;
--
--	ret = m5mols_read_u16(sd, EXIF_INFO_ISO, &exif->iso_speed);
--	if (!ret)
--		ret = m5mols_read_u16(sd, EXIF_INFO_FLASH, &exif->flash);
--	if (!ret)
--		ret = m5mols_read_u16(sd, EXIF_INFO_SDR, &exif->sdr);
--	if (!ret)
--		ret = m5mols_read_u16(sd, EXIF_INFO_QVAL, &exif->qval);
--	if (ret)
--		return ret;
--
--	if (!ret)
--		ret = m5mols_read_u32(sd, CAPC_IMAGE_SIZE, &info->cap.main);
--	if (!ret)
--		ret = m5mols_read_u32(sd, CAPC_THUMB_SIZE, &info->cap.thumb);
--	if (!ret)
--		info->cap.total = info->cap.main + info->cap.thumb;
--
--	return ret;
--}
--
--int m5mols_start_capture(struct m5mols_info *info)
--{
--	unsigned int framesize = info->cap.buf_size - M5MOLS_JPEG_TAGS_SIZE;
--	struct v4l2_subdev *sd = &info->sd;
--	int ret;
--
--	/*
--	 * Synchronize the controls, set the capture frame resolution and color
--	 * format. The frame capture is initiated during switching from Monitor
--	 * to Capture mode.
--	 */
--	ret = m5mols_set_mode(info, REG_MONITOR);
--	if (!ret)
--		ret = m5mols_restore_controls(info);
--	if (!ret)
--		ret = m5mols_write(sd, CAPP_YUVOUT_MAIN, REG_JPEG);
--	if (!ret)
--		ret = m5mols_write(sd, CAPP_MAIN_IMAGE_SIZE, info->resolution);
--	if (!ret)
--		ret = m5mols_write(sd, CAPP_JPEG_SIZE_MAX, framesize);
--	if (!ret)
--		ret = m5mols_set_mode(info, REG_CAPTURE);
--	if (!ret)
--		/* Wait until a frame is captured to ISP internal memory */
--		ret = m5mols_wait_interrupt(sd, REG_INT_CAPTURE, 2000);
--	if (ret)
--		return ret;
--
--	/*
--	 * Initiate the captured data transfer to a MIPI-CSI receiver.
--	 */
--	ret = m5mols_write(sd, CAPC_SEL_FRAME, 1);
--	if (!ret)
--		ret = m5mols_write(sd, CAPC_START, REG_CAP_START_MAIN);
--	if (!ret) {
--		bool captured = false;
--		unsigned int size;
--
--		/* Wait for the capture completion interrupt */
--		ret = m5mols_wait_interrupt(sd, REG_INT_CAPTURE, 2000);
--		if (!ret) {
--			captured = true;
--			ret = m5mols_capture_info(info);
--		}
--		size = captured ? info->cap.main : 0;
--		v4l2_dbg(1, m5mols_debug, sd, "%s: size: %d, thumb.: %d B\n",
--			 __func__, size, info->cap.thumb);
--
--		v4l2_subdev_notify(sd, S5P_FIMC_TX_END_NOTIFY, &size);
--	}
--
--	return ret;
--}
-diff --git a/drivers/media/i2c/m5mols/m5mols_controls.c b/drivers/media/i2c/m5mols/m5mols_controls.c
-deleted file mode 100644
-index b45e0e08b6c8..000000000000
---- a/drivers/media/i2c/m5mols/m5mols_controls.c
-+++ /dev/null
-@@ -1,625 +0,0 @@
--// SPDX-License-Identifier: GPL-2.0-or-later
--/*
-- * Controls for M-5MOLS 8M Pixel camera sensor with ISP
-- *
-- * Copyright (C) 2011 Samsung Electronics Co., Ltd.
-- * Author: HeungJun Kim <riverful.kim@samsung.com>
-- *
-- * Copyright (C) 2009 Samsung Electronics Co., Ltd.
-- * Author: Dongsoo Nathaniel Kim <dongsoo45.kim@samsung.com>
-- */
--
 -#include <linux/i2c.h>
--#include <linux/delay.h>
--#include <linux/videodev2.h>
--#include <media/v4l2-ctrls.h>
--
--#include "m5mols.h"
--#include "m5mols_reg.h"
--
--static struct m5mols_scenemode m5mols_default_scenemode[] = {
--	[REG_SCENE_NORMAL] = {
--		REG_AE_CENTER, REG_AE_INDEX_00, REG_AWB_AUTO, 0,
--		REG_CHROMA_ON, 3, REG_EDGE_ON, 5,
--		REG_AF_NORMAL, REG_FD_OFF,
--		REG_MCC_NORMAL, REG_LIGHT_OFF, REG_FLASH_OFF,
--		5, REG_ISO_AUTO, REG_CAP_NONE, REG_WDR_OFF,
--	},
--	[REG_SCENE_PORTRAIT] = {
--		REG_AE_CENTER, REG_AE_INDEX_00, REG_AWB_AUTO, 0,
--		REG_CHROMA_ON, 3, REG_EDGE_ON, 4,
--		REG_AF_NORMAL, BIT_FD_EN | BIT_FD_DRAW_FACE_FRAME,
--		REG_MCC_OFF, REG_LIGHT_OFF, REG_FLASH_OFF,
--		6, REG_ISO_AUTO, REG_CAP_NONE, REG_WDR_OFF,
--	},
--	[REG_SCENE_LANDSCAPE] = {
--		REG_AE_ALL, REG_AE_INDEX_00, REG_AWB_AUTO, 0,
--		REG_CHROMA_ON, 4, REG_EDGE_ON, 6,
--		REG_AF_NORMAL, REG_FD_OFF,
--		REG_MCC_OFF, REG_LIGHT_OFF, REG_FLASH_OFF,
--		6, REG_ISO_AUTO, REG_CAP_NONE, REG_WDR_OFF,
--	},
--	[REG_SCENE_SPORTS] = {
--		REG_AE_CENTER, REG_AE_INDEX_00, REG_AWB_AUTO, 0,
--		REG_CHROMA_ON, 3, REG_EDGE_ON, 5,
--		REG_AF_NORMAL, REG_FD_OFF,
--		REG_MCC_OFF, REG_LIGHT_OFF, REG_FLASH_OFF,
--		6, REG_ISO_AUTO, REG_CAP_NONE, REG_WDR_OFF,
--	},
--	[REG_SCENE_PARTY_INDOOR] = {
--		REG_AE_CENTER, REG_AE_INDEX_00, REG_AWB_AUTO, 0,
--		REG_CHROMA_ON, 4, REG_EDGE_ON, 5,
--		REG_AF_NORMAL, REG_FD_OFF,
--		REG_MCC_OFF, REG_LIGHT_OFF, REG_FLASH_OFF,
--		6, REG_ISO_200, REG_CAP_NONE, REG_WDR_OFF,
--	},
--	[REG_SCENE_BEACH_SNOW] = {
--		REG_AE_CENTER, REG_AE_INDEX_10_POS, REG_AWB_AUTO, 0,
--		REG_CHROMA_ON, 4, REG_EDGE_ON, 5,
--		REG_AF_NORMAL, REG_FD_OFF,
--		REG_MCC_OFF, REG_LIGHT_OFF, REG_FLASH_OFF,
--		6, REG_ISO_50, REG_CAP_NONE, REG_WDR_OFF,
--	},
--	[REG_SCENE_SUNSET] = {
--		REG_AE_CENTER, REG_AE_INDEX_00, REG_AWB_PRESET,
--		REG_AWB_DAYLIGHT,
--		REG_CHROMA_ON, 3, REG_EDGE_ON, 5,
--		REG_AF_NORMAL, REG_FD_OFF,
--		REG_MCC_OFF, REG_LIGHT_OFF, REG_FLASH_OFF,
--		6, REG_ISO_AUTO, REG_CAP_NONE, REG_WDR_OFF,
--	},
--	[REG_SCENE_DAWN_DUSK] = {
--		REG_AE_CENTER, REG_AE_INDEX_00, REG_AWB_PRESET,
--		REG_AWB_FLUORESCENT_1,
--		REG_CHROMA_ON, 3, REG_EDGE_ON, 5,
--		REG_AF_NORMAL, REG_FD_OFF,
--		REG_MCC_OFF, REG_LIGHT_OFF, REG_FLASH_OFF,
--		6, REG_ISO_AUTO, REG_CAP_NONE, REG_WDR_OFF,
--	},
--	[REG_SCENE_FALL] = {
--		REG_AE_CENTER, REG_AE_INDEX_00, REG_AWB_AUTO, 0,
--		REG_CHROMA_ON, 5, REG_EDGE_ON, 5,
--		REG_AF_NORMAL, REG_FD_OFF,
--		REG_MCC_OFF, REG_LIGHT_OFF, REG_FLASH_OFF,
--		6, REG_ISO_AUTO, REG_CAP_NONE, REG_WDR_OFF,
--	},
--	[REG_SCENE_NIGHT] = {
--		REG_AE_CENTER, REG_AE_INDEX_00, REG_AWB_AUTO, 0,
--		REG_CHROMA_ON, 3, REG_EDGE_ON, 5,
--		REG_AF_NORMAL, REG_FD_OFF,
--		REG_MCC_OFF, REG_LIGHT_OFF, REG_FLASH_OFF,
--		6, REG_ISO_AUTO, REG_CAP_NONE, REG_WDR_OFF,
--	},
--	[REG_SCENE_AGAINST_LIGHT] = {
--		REG_AE_CENTER, REG_AE_INDEX_00, REG_AWB_AUTO, 0,
--		REG_CHROMA_ON, 3, REG_EDGE_ON, 5,
--		REG_AF_NORMAL, REG_FD_OFF,
--		REG_MCC_OFF, REG_LIGHT_OFF, REG_FLASH_OFF,
--		6, REG_ISO_AUTO, REG_CAP_NONE, REG_WDR_OFF,
--	},
--	[REG_SCENE_FIRE] = {
--		REG_AE_CENTER, REG_AE_INDEX_00, REG_AWB_AUTO, 0,
--		REG_CHROMA_ON, 3, REG_EDGE_ON, 5,
--		REG_AF_NORMAL, REG_FD_OFF,
--		REG_MCC_OFF, REG_LIGHT_OFF, REG_FLASH_OFF,
--		6, REG_ISO_50, REG_CAP_NONE, REG_WDR_OFF,
--	},
--	[REG_SCENE_TEXT] = {
--		REG_AE_CENTER, REG_AE_INDEX_00, REG_AWB_AUTO, 0,
--		REG_CHROMA_ON, 3, REG_EDGE_ON, 7,
--		REG_AF_MACRO, REG_FD_OFF,
--		REG_MCC_OFF, REG_LIGHT_OFF, REG_FLASH_OFF,
--		6, REG_ISO_AUTO, REG_CAP_ANTI_SHAKE, REG_WDR_ON,
--	},
--	[REG_SCENE_CANDLE] = {
--		REG_AE_CENTER, REG_AE_INDEX_00, REG_AWB_AUTO, 0,
--		REG_CHROMA_ON, 3, REG_EDGE_ON, 5,
--		REG_AF_NORMAL, REG_FD_OFF,
--		REG_MCC_OFF, REG_LIGHT_OFF, REG_FLASH_OFF,
--		6, REG_ISO_AUTO, REG_CAP_NONE, REG_WDR_OFF,
--	},
--};
--
--/**
-- * m5mols_do_scenemode() - Change current scenemode
-- * @info: M-5MOLS driver data structure
-- * @mode:	Desired mode of the scenemode
-- *
-- * WARNING: The execution order is important. Do not change the order.
-- */
--int m5mols_do_scenemode(struct m5mols_info *info, u8 mode)
--{
--	struct v4l2_subdev *sd = &info->sd;
--	struct m5mols_scenemode scenemode = m5mols_default_scenemode[mode];
--	int ret;
--
--	if (mode > REG_SCENE_CANDLE)
--		return -EINVAL;
--
--	ret = v4l2_ctrl_s_ctrl(info->lock_3a, 0);
--	if (!ret)
--		ret = m5mols_write(sd, AE_EV_PRESET_MONITOR, mode);
--	if (!ret)
--		ret = m5mols_write(sd, AE_EV_PRESET_CAPTURE, mode);
--	if (!ret)
--		ret = m5mols_write(sd, AE_MODE, scenemode.metering);
--	if (!ret)
--		ret = m5mols_write(sd, AE_INDEX, scenemode.ev_bias);
--	if (!ret)
--		ret = m5mols_write(sd, AWB_MODE, scenemode.wb_mode);
--	if (!ret)
--		ret = m5mols_write(sd, AWB_MANUAL, scenemode.wb_preset);
--	if (!ret)
--		ret = m5mols_write(sd, MON_CHROMA_EN, scenemode.chroma_en);
--	if (!ret)
--		ret = m5mols_write(sd, MON_CHROMA_LVL, scenemode.chroma_lvl);
--	if (!ret)
--		ret = m5mols_write(sd, MON_EDGE_EN, scenemode.edge_en);
--	if (!ret)
--		ret = m5mols_write(sd, MON_EDGE_LVL, scenemode.edge_lvl);
--	if (!ret && is_available_af(info))
--		ret = m5mols_write(sd, AF_MODE, scenemode.af_range);
--	if (!ret && is_available_af(info))
--		ret = m5mols_write(sd, FD_CTL, scenemode.fd_mode);
--	if (!ret)
--		ret = m5mols_write(sd, MON_TONE_CTL, scenemode.tone);
--	if (!ret)
--		ret = m5mols_write(sd, AE_ISO, scenemode.iso);
--	if (!ret)
--		ret = m5mols_set_mode(info, REG_CAPTURE);
--	if (!ret)
--		ret = m5mols_write(sd, CAPP_WDR_EN, scenemode.wdr);
--	if (!ret)
--		ret = m5mols_write(sd, CAPP_MCC_MODE, scenemode.mcc);
--	if (!ret)
--		ret = m5mols_write(sd, CAPP_LIGHT_CTRL, scenemode.light);
--	if (!ret)
--		ret = m5mols_write(sd, CAPP_FLASH_CTRL, scenemode.flash);
--	if (!ret)
--		ret = m5mols_write(sd, CAPC_MODE, scenemode.capt_mode);
--	if (!ret)
--		ret = m5mols_set_mode(info, REG_MONITOR);
--
--	return ret;
--}
--
--static int m5mols_3a_lock(struct m5mols_info *info, struct v4l2_ctrl *ctrl)
--{
--	bool af_lock = ctrl->val & V4L2_LOCK_FOCUS;
--	int ret = 0;
--
--	if ((ctrl->val ^ ctrl->cur.val) & V4L2_LOCK_EXPOSURE) {
--		bool ae_lock = ctrl->val & V4L2_LOCK_EXPOSURE;
--
--		ret = m5mols_write(&info->sd, AE_LOCK, ae_lock ?
--				   REG_AE_LOCK : REG_AE_UNLOCK);
--		if (ret)
--			return ret;
--	}
--
--	if (((ctrl->val ^ ctrl->cur.val) & V4L2_LOCK_WHITE_BALANCE)
--	    && info->auto_wb->val) {
--		bool awb_lock = ctrl->val & V4L2_LOCK_WHITE_BALANCE;
--
--		ret = m5mols_write(&info->sd, AWB_LOCK, awb_lock ?
--				   REG_AWB_LOCK : REG_AWB_UNLOCK);
--		if (ret)
--			return ret;
--	}
--
--	if (!info->ver.af || !af_lock)
--		return ret;
--
--	if ((ctrl->val ^ ctrl->cur.val) & V4L2_LOCK_FOCUS)
--		ret = m5mols_write(&info->sd, AF_EXECUTE, REG_AF_STOP);
--
--	return ret;
--}
--
--static int m5mols_set_metering_mode(struct m5mols_info *info, int mode)
--{
--	unsigned int metering;
--
--	switch (mode) {
--	case V4L2_EXPOSURE_METERING_CENTER_WEIGHTED:
--		metering = REG_AE_CENTER;
--		break;
--	case V4L2_EXPOSURE_METERING_SPOT:
--		metering = REG_AE_SPOT;
--		break;
--	default:
--		metering = REG_AE_ALL;
--		break;
--	}
--
--	return m5mols_write(&info->sd, AE_MODE, metering);
--}
--
--static int m5mols_set_exposure(struct m5mols_info *info, int exposure)
--{
--	struct v4l2_subdev *sd = &info->sd;
--	int ret = 0;
--
--	if (exposure == V4L2_EXPOSURE_AUTO) {
--		/* Unlock auto exposure */
--		info->lock_3a->val &= ~V4L2_LOCK_EXPOSURE;
--		m5mols_3a_lock(info, info->lock_3a);
--
--		ret = m5mols_set_metering_mode(info, info->metering->val);
--		if (ret < 0)
--			return ret;
--
--		v4l2_dbg(1, m5mols_debug, sd,
--			 "%s: exposure bias: %#x, metering: %#x\n",
--			 __func__, info->exposure_bias->val,
--			 info->metering->val);
--
--		return m5mols_write(sd, AE_INDEX, info->exposure_bias->val);
--	}
--
--	if (exposure == V4L2_EXPOSURE_MANUAL) {
--		ret = m5mols_write(sd, AE_MODE, REG_AE_OFF);
--		if (ret == 0)
--			ret = m5mols_write(sd, AE_MAN_GAIN_MON,
--					   info->exposure->val);
--		if (ret == 0)
--			ret = m5mols_write(sd, AE_MAN_GAIN_CAP,
--					   info->exposure->val);
--
--		v4l2_dbg(1, m5mols_debug, sd, "%s: exposure: %#x\n",
--			 __func__, info->exposure->val);
--	}
--
--	return ret;
--}
--
--static int m5mols_set_white_balance(struct m5mols_info *info, int val)
--{
--	static const unsigned short wb[][2] = {
--		{ V4L2_WHITE_BALANCE_INCANDESCENT,  REG_AWB_INCANDESCENT },
--		{ V4L2_WHITE_BALANCE_FLUORESCENT,   REG_AWB_FLUORESCENT_1 },
--		{ V4L2_WHITE_BALANCE_FLUORESCENT_H, REG_AWB_FLUORESCENT_2 },
--		{ V4L2_WHITE_BALANCE_HORIZON,       REG_AWB_HORIZON },
--		{ V4L2_WHITE_BALANCE_DAYLIGHT,      REG_AWB_DAYLIGHT },
--		{ V4L2_WHITE_BALANCE_FLASH,         REG_AWB_LEDLIGHT },
--		{ V4L2_WHITE_BALANCE_CLOUDY,        REG_AWB_CLOUDY },
--		{ V4L2_WHITE_BALANCE_SHADE,         REG_AWB_SHADE },
--		{ V4L2_WHITE_BALANCE_AUTO,          REG_AWB_AUTO },
--	};
--	int i;
--	struct v4l2_subdev *sd = &info->sd;
--	int ret = -EINVAL;
--
--	for (i = 0; i < ARRAY_SIZE(wb); i++) {
--		int awb;
--		if (wb[i][0] != val)
--			continue;
--
--		v4l2_dbg(1, m5mols_debug, sd,
--			 "Setting white balance to: %#x\n", wb[i][0]);
--
--		awb = wb[i][0] == V4L2_WHITE_BALANCE_AUTO;
--		ret = m5mols_write(sd, AWB_MODE, awb ? REG_AWB_AUTO :
--						 REG_AWB_PRESET);
--		if (ret < 0)
--			return ret;
--
--		if (!awb)
--			ret = m5mols_write(sd, AWB_MANUAL, wb[i][1]);
--	}
--
--	return ret;
--}
--
--static int m5mols_set_saturation(struct m5mols_info *info, int val)
--{
--	int ret = m5mols_write(&info->sd, MON_CHROMA_LVL, val);
--	if (ret < 0)
--		return ret;
--
--	return m5mols_write(&info->sd, MON_CHROMA_EN, REG_CHROMA_ON);
--}
--
--static int m5mols_set_color_effect(struct m5mols_info *info, int val)
--{
--	unsigned int m_effect = REG_COLOR_EFFECT_OFF;
--	unsigned int p_effect = REG_EFFECT_OFF;
--	unsigned int cfix_r = 0, cfix_b = 0;
--	struct v4l2_subdev *sd = &info->sd;
--	int ret = 0;
--
--	switch (val) {
--	case V4L2_COLORFX_BW:
--		m_effect = REG_COLOR_EFFECT_ON;
--		break;
--	case V4L2_COLORFX_NEGATIVE:
--		p_effect = REG_EFFECT_NEGA;
--		break;
--	case V4L2_COLORFX_EMBOSS:
--		p_effect = REG_EFFECT_EMBOSS;
--		break;
--	case V4L2_COLORFX_SEPIA:
--		m_effect = REG_COLOR_EFFECT_ON;
--		cfix_r = REG_CFIXR_SEPIA;
--		cfix_b = REG_CFIXB_SEPIA;
--		break;
--	}
--
--	ret = m5mols_write(sd, PARM_EFFECT, p_effect);
--	if (!ret)
--		ret = m5mols_write(sd, MON_EFFECT, m_effect);
--
--	if (ret == 0 && m_effect == REG_COLOR_EFFECT_ON) {
--		ret = m5mols_write(sd, MON_CFIXR, cfix_r);
--		if (!ret)
--			ret = m5mols_write(sd, MON_CFIXB, cfix_b);
--	}
--
--	v4l2_dbg(1, m5mols_debug, sd,
--		 "p_effect: %#x, m_effect: %#x, r: %#x, b: %#x (%d)\n",
--		 p_effect, m_effect, cfix_r, cfix_b, ret);
--
--	return ret;
--}
--
--static int m5mols_set_iso(struct m5mols_info *info, int auto_iso)
--{
--	u32 iso = auto_iso ? 0 : info->iso->val + 1;
--
--	return m5mols_write(&info->sd, AE_ISO, iso);
--}
--
--static int m5mols_set_wdr(struct m5mols_info *info, int wdr)
--{
--	int ret;
--
--	ret = m5mols_write(&info->sd, MON_TONE_CTL, wdr ? 9 : 5);
--	if (ret < 0)
--		return ret;
--
--	ret = m5mols_set_mode(info, REG_CAPTURE);
--	if (ret < 0)
--		return ret;
--
--	return m5mols_write(&info->sd, CAPP_WDR_EN, wdr);
--}
--
--static int m5mols_set_stabilization(struct m5mols_info *info, int val)
--{
--	struct v4l2_subdev *sd = &info->sd;
--	unsigned int evp = val ? 0xe : 0x0;
--	int ret;
--
--	ret = m5mols_write(sd, AE_EV_PRESET_MONITOR, evp);
--	if (ret < 0)
--		return ret;
--
--	return m5mols_write(sd, AE_EV_PRESET_CAPTURE, evp);
--}
--
--static int m5mols_g_volatile_ctrl(struct v4l2_ctrl *ctrl)
--{
--	struct v4l2_subdev *sd = to_sd(ctrl);
--	struct m5mols_info *info = to_m5mols(sd);
--	int ret = 0;
--	u8 status = REG_ISO_AUTO;
--
--	v4l2_dbg(1, m5mols_debug, sd, "%s: ctrl: %s (%d)\n",
--		 __func__, ctrl->name, info->isp_ready);
--
--	if (!info->isp_ready)
--		return -EBUSY;
--
--	switch (ctrl->id) {
--	case V4L2_CID_ISO_SENSITIVITY_AUTO:
--		ret = m5mols_read_u8(sd, AE_ISO, &status);
--		if (ret == 0)
--			ctrl->val = !status;
--		if (status != REG_ISO_AUTO)
--			info->iso->val = status - 1;
--		break;
--
--	case V4L2_CID_3A_LOCK:
--		ctrl->val &= ~0x7;
--
--		ret = m5mols_read_u8(sd, AE_LOCK, &status);
--		if (ret)
--			return ret;
--		if (status)
--			info->lock_3a->val |= V4L2_LOCK_EXPOSURE;
--
--		ret = m5mols_read_u8(sd, AWB_LOCK, &status);
--		if (ret)
--			return ret;
--		if (status)
--			info->lock_3a->val |= V4L2_LOCK_EXPOSURE;
--
--		ret = m5mols_read_u8(sd, AF_EXECUTE, &status);
--		if (!status)
--			info->lock_3a->val |= V4L2_LOCK_EXPOSURE;
--		break;
--	}
--
--	return ret;
--}
--
--static int m5mols_s_ctrl(struct v4l2_ctrl *ctrl)
--{
--	unsigned int ctrl_mode = m5mols_get_ctrl_mode(ctrl);
--	struct v4l2_subdev *sd = to_sd(ctrl);
--	struct m5mols_info *info = to_m5mols(sd);
--	int last_mode = info->mode;
--	int ret = 0;
--
--	/*
--	 * If needed, defer restoring the controls until
--	 * the device is fully initialized.
--	 */
--	if (!info->isp_ready) {
--		info->ctrl_sync = 0;
--		return 0;
--	}
--
--	v4l2_dbg(1, m5mols_debug, sd, "%s: %s, val: %d, priv: %p\n",
--		 __func__, ctrl->name, ctrl->val, ctrl->priv);
--
--	if (ctrl_mode && ctrl_mode != info->mode) {
--		ret = m5mols_set_mode(info, ctrl_mode);
--		if (ret < 0)
--			return ret;
--	}
--
--	switch (ctrl->id) {
--	case V4L2_CID_3A_LOCK:
--		ret = m5mols_3a_lock(info, ctrl);
--		break;
--
--	case V4L2_CID_ZOOM_ABSOLUTE:
--		ret = m5mols_write(sd, MON_ZOOM, ctrl->val);
--		break;
--
--	case V4L2_CID_EXPOSURE_AUTO:
--		ret = m5mols_set_exposure(info, ctrl->val);
--		break;
--
--	case V4L2_CID_ISO_SENSITIVITY:
--		ret = m5mols_set_iso(info, ctrl->val);
--		break;
--
--	case V4L2_CID_AUTO_N_PRESET_WHITE_BALANCE:
--		ret = m5mols_set_white_balance(info, ctrl->val);
--		break;
--
--	case V4L2_CID_SATURATION:
--		ret = m5mols_set_saturation(info, ctrl->val);
--		break;
--
--	case V4L2_CID_COLORFX:
--		ret = m5mols_set_color_effect(info, ctrl->val);
--		break;
--
--	case V4L2_CID_WIDE_DYNAMIC_RANGE:
--		ret = m5mols_set_wdr(info, ctrl->val);
--		break;
--
--	case V4L2_CID_IMAGE_STABILIZATION:
--		ret = m5mols_set_stabilization(info, ctrl->val);
--		break;
--
--	case V4L2_CID_JPEG_COMPRESSION_QUALITY:
--		ret = m5mols_write(sd, CAPP_JPEG_RATIO, ctrl->val);
--		break;
--	}
--
--	if (ret == 0 && info->mode != last_mode)
--		ret = m5mols_set_mode(info, last_mode);
--
--	return ret;
--}
--
--static const struct v4l2_ctrl_ops m5mols_ctrl_ops = {
--	.g_volatile_ctrl	= m5mols_g_volatile_ctrl,
--	.s_ctrl			= m5mols_s_ctrl,
--};
--
--/* Supported manual ISO values */
--static const s64 iso_qmenu[] = {
--	/* AE_ISO: 0x01...0x07 (ISO: 50...3200) */
--	50000, 100000, 200000, 400000, 800000, 1600000, 3200000
--};
--
--/* Supported Exposure Bias values, -2.0EV...+2.0EV */
--static const s64 ev_bias_qmenu[] = {
--	/* AE_INDEX: 0x00...0x08 */
--	-2000, -1500, -1000, -500, 0, 500, 1000, 1500, 2000
--};
--
--int m5mols_init_controls(struct v4l2_subdev *sd)
--{
--	struct m5mols_info *info = to_m5mols(sd);
--	u16 exposure_max;
--	u16 zoom_step;
--	int ret;
--
--	/* Determine the firmware dependent control range and step values */
--	ret = m5mols_read_u16(sd, AE_MAX_GAIN_MON, &exposure_max);
--	if (ret < 0)
--		return ret;
--
--	zoom_step = is_manufacturer(info, REG_SAMSUNG_OPTICS) ? 31 : 1;
--	v4l2_ctrl_handler_init(&info->handle, 20);
--
--	info->auto_wb = v4l2_ctrl_new_std_menu(&info->handle,
--			&m5mols_ctrl_ops, V4L2_CID_AUTO_N_PRESET_WHITE_BALANCE,
--			9, ~0x3fe, V4L2_WHITE_BALANCE_AUTO);
--
--	/* Exposure control cluster */
--	info->auto_exposure = v4l2_ctrl_new_std_menu(&info->handle,
--			&m5mols_ctrl_ops, V4L2_CID_EXPOSURE_AUTO,
--			1, ~0x03, V4L2_EXPOSURE_AUTO);
--
--	info->exposure = v4l2_ctrl_new_std(&info->handle,
--			&m5mols_ctrl_ops, V4L2_CID_EXPOSURE,
--			0, exposure_max, 1, exposure_max / 2);
--
--	info->exposure_bias = v4l2_ctrl_new_int_menu(&info->handle,
--			&m5mols_ctrl_ops, V4L2_CID_AUTO_EXPOSURE_BIAS,
--			ARRAY_SIZE(ev_bias_qmenu) - 1,
--			ARRAY_SIZE(ev_bias_qmenu)/2 - 1,
--			ev_bias_qmenu);
--
--	info->metering = v4l2_ctrl_new_std_menu(&info->handle,
--			&m5mols_ctrl_ops, V4L2_CID_EXPOSURE_METERING,
--			2, ~0x7, V4L2_EXPOSURE_METERING_AVERAGE);
--
--	/* ISO control cluster */
--	info->auto_iso = v4l2_ctrl_new_std_menu(&info->handle, &m5mols_ctrl_ops,
--			V4L2_CID_ISO_SENSITIVITY_AUTO, 1, ~0x03, 1);
--
--	info->iso = v4l2_ctrl_new_int_menu(&info->handle, &m5mols_ctrl_ops,
--			V4L2_CID_ISO_SENSITIVITY, ARRAY_SIZE(iso_qmenu) - 1,
--			ARRAY_SIZE(iso_qmenu)/2 - 1, iso_qmenu);
--
--	info->saturation = v4l2_ctrl_new_std(&info->handle, &m5mols_ctrl_ops,
--			V4L2_CID_SATURATION, 1, 5, 1, 3);
--
--	info->zoom = v4l2_ctrl_new_std(&info->handle, &m5mols_ctrl_ops,
--			V4L2_CID_ZOOM_ABSOLUTE, 1, 70, zoom_step, 1);
--
--	info->colorfx = v4l2_ctrl_new_std_menu(&info->handle, &m5mols_ctrl_ops,
--			V4L2_CID_COLORFX, 4, 0, V4L2_COLORFX_NONE);
--
--	info->wdr = v4l2_ctrl_new_std(&info->handle, &m5mols_ctrl_ops,
--			V4L2_CID_WIDE_DYNAMIC_RANGE, 0, 1, 1, 0);
--
--	info->stabilization = v4l2_ctrl_new_std(&info->handle, &m5mols_ctrl_ops,
--			V4L2_CID_IMAGE_STABILIZATION, 0, 1, 1, 0);
--
--	info->jpeg_quality = v4l2_ctrl_new_std(&info->handle, &m5mols_ctrl_ops,
--			V4L2_CID_JPEG_COMPRESSION_QUALITY, 1, 100, 1, 80);
--
--	info->lock_3a = v4l2_ctrl_new_std(&info->handle, &m5mols_ctrl_ops,
--			V4L2_CID_3A_LOCK, 0, 0x7, 0, 0);
--
--	if (info->handle.error) {
--		int ret = info->handle.error;
--		v4l2_err(sd, "Failed to initialize controls: %d\n", ret);
--		v4l2_ctrl_handler_free(&info->handle);
--		return ret;
--	}
--
--	v4l2_ctrl_auto_cluster(4, &info->auto_exposure, 1, false);
--	info->auto_iso->flags |= V4L2_CTRL_FLAG_VOLATILE |
--				V4L2_CTRL_FLAG_UPDATE;
--	v4l2_ctrl_auto_cluster(2, &info->auto_iso, 0, false);
--
--	info->lock_3a->flags |= V4L2_CTRL_FLAG_VOLATILE;
--
--	m5mols_set_ctrl_mode(info->auto_exposure, REG_PARAMETER);
--	m5mols_set_ctrl_mode(info->auto_wb, REG_PARAMETER);
--	m5mols_set_ctrl_mode(info->colorfx, REG_MONITOR);
--
--	sd->ctrl_handler = &info->handle;
--
--	return 0;
--}
-diff --git a/drivers/media/i2c/m5mols/m5mols_core.c b/drivers/media/i2c/m5mols/m5mols_core.c
-deleted file mode 100644
-index 2b01873ba0db..000000000000
---- a/drivers/media/i2c/m5mols/m5mols_core.c
-+++ /dev/null
-@@ -1,1051 +0,0 @@
--// SPDX-License-Identifier: GPL-2.0-or-later
--/*
-- * Driver for M-5MOLS 8M Pixel camera sensor with ISP
-- *
-- * Copyright (C) 2011 Samsung Electronics Co., Ltd.
-- * Author: HeungJun Kim <riverful.kim@samsung.com>
-- *
-- * Copyright (C) 2009 Samsung Electronics Co., Ltd.
-- * Author: Dongsoo Nathaniel Kim <dongsoo45.kim@samsung.com>
-- */
--
--#include <linux/i2c.h>
--#include <linux/slab.h>
--#include <linux/irq.h>
--#include <linux/interrupt.h>
--#include <linux/delay.h>
--#include <linux/gpio/consumer.h>
--#include <linux/regulator/consumer.h>
--#include <linux/videodev2.h>
+-#include <linux/init.h>
+-#include <linux/kernel.h>
+-#include <linux/math64.h>
 -#include <linux/module.h>
+-#include <linux/mutex.h>
+-#include <linux/slab.h>
+-#include <linux/v4l2-mediabus.h>
+-
+-#include <media/media-entity.h>
+-#include <media/i2c/mt9m032.h>
 -#include <media/v4l2-ctrls.h>
 -#include <media/v4l2-device.h>
 -#include <media/v4l2-subdev.h>
--#include <media/i2c/m5mols.h>
 -
--#include "m5mols.h"
--#include "m5mols_reg.h"
--
--int m5mols_debug;
--module_param(m5mols_debug, int, 0644);
--
--#define MODULE_NAME		"M5MOLS"
--#define M5MOLS_I2C_CHECK_RETRY	500
--
--/* The regulator consumer names for external voltage regulators */
--static struct regulator_bulk_data supplies[] = {
--	{
--		.supply = "core",	/* ARM core power, 1.2V */
--	}, {
--		.supply	= "dig_18",	/* digital power 1, 1.8V */
--	}, {
--		.supply	= "d_sensor",	/* sensor power 1, 1.8V */
--	}, {
--		.supply	= "dig_28",	/* digital power 2, 2.8V */
--	}, {
--		.supply	= "a_sensor",	/* analog power */
--	}, {
--		.supply	= "dig_12",	/* digital power 3, 1.2V */
--	},
--};
--
--static struct v4l2_mbus_framefmt m5mols_default_ffmt[M5MOLS_RESTYPE_MAX] = {
--	[M5MOLS_RESTYPE_MONITOR] = {
--		.width		= 1920,
--		.height		= 1080,
--		.code		= MEDIA_BUS_FMT_VYUY8_2X8,
--		.field		= V4L2_FIELD_NONE,
--		.colorspace	= V4L2_COLORSPACE_JPEG,
--	},
--	[M5MOLS_RESTYPE_CAPTURE] = {
--		.width		= 1920,
--		.height		= 1080,
--		.code		= MEDIA_BUS_FMT_JPEG_1X8,
--		.field		= V4L2_FIELD_NONE,
--		.colorspace	= V4L2_COLORSPACE_JPEG,
--	},
--};
--#define SIZE_DEFAULT_FFMT	ARRAY_SIZE(m5mols_default_ffmt)
--
--static const struct m5mols_resolution m5mols_reg_res[] = {
--	{ 0x01, M5MOLS_RESTYPE_MONITOR, 128, 96 },	/* SUB-QCIF */
--	{ 0x03, M5MOLS_RESTYPE_MONITOR, 160, 120 },	/* QQVGA */
--	{ 0x05, M5MOLS_RESTYPE_MONITOR, 176, 144 },	/* QCIF */
--	{ 0x06, M5MOLS_RESTYPE_MONITOR, 176, 176 },
--	{ 0x08, M5MOLS_RESTYPE_MONITOR, 240, 320 },	/* QVGA */
--	{ 0x09, M5MOLS_RESTYPE_MONITOR, 320, 240 },	/* QVGA */
--	{ 0x0c, M5MOLS_RESTYPE_MONITOR, 240, 400 },	/* WQVGA */
--	{ 0x0d, M5MOLS_RESTYPE_MONITOR, 400, 240 },	/* WQVGA */
--	{ 0x0e, M5MOLS_RESTYPE_MONITOR, 352, 288 },	/* CIF */
--	{ 0x13, M5MOLS_RESTYPE_MONITOR, 480, 360 },
--	{ 0x15, M5MOLS_RESTYPE_MONITOR, 640, 360 },	/* qHD */
--	{ 0x17, M5MOLS_RESTYPE_MONITOR, 640, 480 },	/* VGA */
--	{ 0x18, M5MOLS_RESTYPE_MONITOR, 720, 480 },
--	{ 0x1a, M5MOLS_RESTYPE_MONITOR, 800, 480 },	/* WVGA */
--	{ 0x1f, M5MOLS_RESTYPE_MONITOR, 800, 600 },	/* SVGA */
--	{ 0x21, M5MOLS_RESTYPE_MONITOR, 1280, 720 },	/* HD */
--	{ 0x25, M5MOLS_RESTYPE_MONITOR, 1920, 1080 },	/* 1080p */
--	{ 0x29, M5MOLS_RESTYPE_MONITOR, 3264, 2448 },	/* 2.63fps 8M */
--	{ 0x39, M5MOLS_RESTYPE_MONITOR, 800, 602 },	/* AHS_MON debug */
--
--	{ 0x02, M5MOLS_RESTYPE_CAPTURE, 320, 240 },	/* QVGA */
--	{ 0x04, M5MOLS_RESTYPE_CAPTURE, 400, 240 },	/* WQVGA */
--	{ 0x07, M5MOLS_RESTYPE_CAPTURE, 480, 360 },
--	{ 0x08, M5MOLS_RESTYPE_CAPTURE, 640, 360 },	/* qHD */
--	{ 0x09, M5MOLS_RESTYPE_CAPTURE, 640, 480 },	/* VGA */
--	{ 0x0a, M5MOLS_RESTYPE_CAPTURE, 800, 480 },	/* WVGA */
--	{ 0x10, M5MOLS_RESTYPE_CAPTURE, 1280, 720 },	/* HD */
--	{ 0x14, M5MOLS_RESTYPE_CAPTURE, 1280, 960 },	/* 1M */
--	{ 0x17, M5MOLS_RESTYPE_CAPTURE, 1600, 1200 },	/* 2M */
--	{ 0x19, M5MOLS_RESTYPE_CAPTURE, 1920, 1080 },	/* Full-HD */
--	{ 0x1a, M5MOLS_RESTYPE_CAPTURE, 2048, 1152 },	/* 3Mega */
--	{ 0x1b, M5MOLS_RESTYPE_CAPTURE, 2048, 1536 },
--	{ 0x1c, M5MOLS_RESTYPE_CAPTURE, 2560, 1440 },	/* 4Mega */
--	{ 0x1d, M5MOLS_RESTYPE_CAPTURE, 2560, 1536 },
--	{ 0x1f, M5MOLS_RESTYPE_CAPTURE, 2560, 1920 },	/* 5Mega */
--	{ 0x21, M5MOLS_RESTYPE_CAPTURE, 3264, 1836 },	/* 6Mega */
--	{ 0x22, M5MOLS_RESTYPE_CAPTURE, 3264, 1960 },
--	{ 0x25, M5MOLS_RESTYPE_CAPTURE, 3264, 2448 },	/* 8Mega */
--};
--
--/**
-- * m5mols_swap_byte - an byte array to integer conversion function
-- * @data: byte array
-- * @length: size in bytes of I2C packet defined in the M-5MOLS datasheet
-- *
-- * Convert I2C data byte array with performing any required byte
-- * reordering to assure proper values for each data type, regardless
-- * of the architecture endianness.
-- */
--static u32 m5mols_swap_byte(u8 *data, u8 length)
--{
--	if (length == 1)
--		return *data;
--	else if (length == 2)
--		return be16_to_cpu(*((__be16 *)data));
--	else
--		return be32_to_cpu(*((__be32 *)data));
--}
--
--/**
-- * m5mols_read -  I2C read function
-- * @sd: sub-device, as pointed by struct v4l2_subdev
-- * @size: desired size of I2C packet
-- * @reg: combination of size, category and command for the I2C packet
-- * @val: read value
-- *
-- * Returns 0 on success, or else negative errno.
-- */
--static int m5mols_read(struct v4l2_subdev *sd, u32 size, u32 reg, u32 *val)
--{
--	struct i2c_client *client = v4l2_get_subdevdata(sd);
--	struct m5mols_info *info = to_m5mols(sd);
--	u8 rbuf[M5MOLS_I2C_MAX_SIZE + 1];
--	u8 category = I2C_CATEGORY(reg);
--	u8 cmd = I2C_COMMAND(reg);
--	struct i2c_msg msg[2];
--	u8 wbuf[5];
--	int ret;
--
--	if (!client->adapter)
--		return -ENODEV;
--
--	msg[0].addr = client->addr;
--	msg[0].flags = 0;
--	msg[0].len = 5;
--	msg[0].buf = wbuf;
--	wbuf[0] = 5;
--	wbuf[1] = M5MOLS_BYTE_READ;
--	wbuf[2] = category;
--	wbuf[3] = cmd;
--	wbuf[4] = size;
--
--	msg[1].addr = client->addr;
--	msg[1].flags = I2C_M_RD;
--	msg[1].len = size + 1;
--	msg[1].buf = rbuf;
--
--	/* minimum stabilization time */
--	usleep_range(200, 300);
--
--	ret = i2c_transfer(client->adapter, msg, 2);
--
--	if (ret == 2) {
--		*val = m5mols_swap_byte(&rbuf[1], size);
--		return 0;
--	}
--
--	if (info->isp_ready)
--		v4l2_err(sd, "read failed: size:%d cat:%02x cmd:%02x. %d\n",
--			 size, category, cmd, ret);
--
--	return ret < 0 ? ret : -EIO;
--}
--
--int m5mols_read_u8(struct v4l2_subdev *sd, u32 reg, u8 *val)
--{
--	u32 val_32;
--	int ret;
--
--	if (I2C_SIZE(reg) != 1) {
--		v4l2_err(sd, "Wrong data size\n");
--		return -EINVAL;
--	}
--
--	ret = m5mols_read(sd, I2C_SIZE(reg), reg, &val_32);
--	if (ret)
--		return ret;
--
--	*val = (u8)val_32;
--	return ret;
--}
--
--int m5mols_read_u16(struct v4l2_subdev *sd, u32 reg, u16 *val)
--{
--	u32 val_32;
--	int ret;
--
--	if (I2C_SIZE(reg) != 2) {
--		v4l2_err(sd, "Wrong data size\n");
--		return -EINVAL;
--	}
--
--	ret = m5mols_read(sd, I2C_SIZE(reg), reg, &val_32);
--	if (ret)
--		return ret;
--
--	*val = (u16)val_32;
--	return ret;
--}
--
--int m5mols_read_u32(struct v4l2_subdev *sd, u32 reg, u32 *val)
--{
--	if (I2C_SIZE(reg) != 4) {
--		v4l2_err(sd, "Wrong data size\n");
--		return -EINVAL;
--	}
--
--	return m5mols_read(sd, I2C_SIZE(reg), reg, val);
--}
--
--/**
-- * m5mols_write - I2C command write function
-- * @sd: sub-device, as pointed by struct v4l2_subdev
-- * @reg: combination of size, category and command for the I2C packet
-- * @val: value to write
-- *
-- * Returns 0 on success, or else negative errno.
-- */
--int m5mols_write(struct v4l2_subdev *sd, u32 reg, u32 val)
--{
--	struct i2c_client *client = v4l2_get_subdevdata(sd);
--	struct m5mols_info *info = to_m5mols(sd);
--	u8 wbuf[M5MOLS_I2C_MAX_SIZE + 4];
--	u8 category = I2C_CATEGORY(reg);
--	u8 cmd = I2C_COMMAND(reg);
--	u8 size	= I2C_SIZE(reg);
--	u32 *buf = (u32 *)&wbuf[4];
--	struct i2c_msg msg[1];
--	int ret;
--
--	if (!client->adapter)
--		return -ENODEV;
--
--	if (size != 1 && size != 2 && size != 4) {
--		v4l2_err(sd, "Wrong data size\n");
--		return -EINVAL;
--	}
--
--	msg->addr = client->addr;
--	msg->flags = 0;
--	msg->len = (u16)size + 4;
--	msg->buf = wbuf;
--	wbuf[0] = size + 4;
--	wbuf[1] = M5MOLS_BYTE_WRITE;
--	wbuf[2] = category;
--	wbuf[3] = cmd;
--
--	*buf = m5mols_swap_byte((u8 *)&val, size);
--
--	/* minimum stabilization time */
--	usleep_range(200, 300);
--
--	ret = i2c_transfer(client->adapter, msg, 1);
--	if (ret == 1)
--		return 0;
--
--	if (info->isp_ready)
--		v4l2_err(sd, "write failed: cat:%02x cmd:%02x ret:%d\n",
--			 category, cmd, ret);
--
--	return ret < 0 ? ret : -EIO;
--}
--
--/**
-- * m5mols_busy_wait - Busy waiting with I2C register polling
-- * @sd: sub-device, as pointed by struct v4l2_subdev
-- * @reg: the I2C_REG() address of an 8-bit status register to check
-- * @value: expected status register value
-- * @mask: bit mask for the read status register value
-- * @timeout: timeout in milliseconds, or -1 for default timeout
-- *
-- * The @reg register value is ORed with @mask before comparing with @value.
-- *
-- * Return: 0 if the requested condition became true within less than
-- *         @timeout ms, or else negative errno.
-- */
--int m5mols_busy_wait(struct v4l2_subdev *sd, u32 reg, u32 value, u32 mask,
--		     int timeout)
--{
--	int ms = timeout < 0 ? M5MOLS_BUSY_WAIT_DEF_TIMEOUT : timeout;
--	unsigned long end = jiffies + msecs_to_jiffies(ms);
--	u8 status;
--
--	do {
--		int ret = m5mols_read_u8(sd, reg, &status);
--
--		if (ret < 0 && !(mask & M5MOLS_I2C_RDY_WAIT_FL))
--			return ret;
--		if (!ret && (status & mask & 0xff) == (value & 0xff))
--			return 0;
--		usleep_range(100, 250);
--	} while (ms > 0 && time_is_after_jiffies(end));
--
--	return -EBUSY;
--}
--
--/**
-- * m5mols_enable_interrupt - Clear interrupt pending bits and unmask interrupts
-- * @sd: sub-device, as pointed by struct v4l2_subdev
-- * @reg: combination of size, category and command for the I2C packet
-- *
-- * Before writing desired interrupt value the INT_FACTOR register should
-- * be read to clear pending interrupts.
-- */
--int m5mols_enable_interrupt(struct v4l2_subdev *sd, u8 reg)
--{
--	struct m5mols_info *info = to_m5mols(sd);
--	u8 mask = is_available_af(info) ? REG_INT_AF : 0;
--	u8 dummy;
--	int ret;
--
--	ret = m5mols_read_u8(sd, SYSTEM_INT_FACTOR, &dummy);
--	if (!ret)
--		ret = m5mols_write(sd, SYSTEM_INT_ENABLE, reg & ~mask);
--	return ret;
--}
--
--int m5mols_wait_interrupt(struct v4l2_subdev *sd, u8 irq_mask, u32 timeout)
--{
--	struct m5mols_info *info = to_m5mols(sd);
--
--	int ret = wait_event_interruptible_timeout(info->irq_waitq,
--				atomic_add_unless(&info->irq_done, -1, 0),
--				msecs_to_jiffies(timeout));
--	if (ret <= 0)
--		return ret ? ret : -ETIMEDOUT;
--
--	return m5mols_busy_wait(sd, SYSTEM_INT_FACTOR, irq_mask,
--				M5MOLS_I2C_RDY_WAIT_FL | irq_mask, -1);
--}
--
--/**
-- * m5mols_reg_mode - Write the mode and check busy status
-- * @sd: sub-device, as pointed by struct v4l2_subdev
-- * @mode: the required operation mode
-- *
-- * It always accompanies a little delay changing the M-5MOLS mode, so it is
-- * needed checking current busy status to guarantee right mode.
-- */
--static int m5mols_reg_mode(struct v4l2_subdev *sd, u8 mode)
--{
--	int ret = m5mols_write(sd, SYSTEM_SYSMODE, mode);
--	if (ret < 0)
--		return ret;
--	return m5mols_busy_wait(sd, SYSTEM_SYSMODE, mode, 0xff,
--				M5MOLS_MODE_CHANGE_TIMEOUT);
--}
--
--/**
-- * m5mols_set_mode - set the M-5MOLS controller mode
-- * @info: M-5MOLS driver data structure
-- * @mode: the required operation mode
-- *
-- * The commands of M-5MOLS are grouped into specific modes. Each functionality
-- * can be guaranteed only when the sensor is operating in mode which a command
-- * belongs to.
-- */
--int m5mols_set_mode(struct m5mols_info *info, u8 mode)
--{
--	struct v4l2_subdev *sd = &info->sd;
--	int ret = -EINVAL;
--	u8 reg;
--
--	if (mode < REG_PARAMETER || mode > REG_CAPTURE)
--		return ret;
--
--	ret = m5mols_read_u8(sd, SYSTEM_SYSMODE, &reg);
--	if (ret || reg == mode)
--		return ret;
--
--	switch (reg) {
--	case REG_PARAMETER:
--		ret = m5mols_reg_mode(sd, REG_MONITOR);
--		if (mode == REG_MONITOR)
--			break;
--		if (!ret)
--			ret = m5mols_reg_mode(sd, REG_CAPTURE);
--		break;
--
--	case REG_MONITOR:
--		if (mode == REG_PARAMETER) {
--			ret = m5mols_reg_mode(sd, REG_PARAMETER);
--			break;
--		}
--
--		ret = m5mols_reg_mode(sd, REG_CAPTURE);
--		break;
--
--	case REG_CAPTURE:
--		ret = m5mols_reg_mode(sd, REG_MONITOR);
--		if (mode == REG_MONITOR)
--			break;
--		if (!ret)
--			ret = m5mols_reg_mode(sd, REG_PARAMETER);
--		break;
--
--	default:
--		v4l2_warn(sd, "Wrong mode: %d\n", mode);
--	}
--
--	if (!ret)
--		info->mode = mode;
--
--	return ret;
--}
--
--/**
-- * m5mols_get_version - retrieve full revisions information of M-5MOLS
-- * @sd: sub-device, as pointed by struct v4l2_subdev
-- *
-- * The version information includes revisions of hardware and firmware,
-- * AutoFocus alghorithm version and the version string.
-- */
--static int m5mols_get_version(struct v4l2_subdev *sd)
--{
--	struct m5mols_info *info = to_m5mols(sd);
--	struct m5mols_version *ver = &info->ver;
--	u8 *str = ver->str;
--	int i;
--	int ret;
--
--	ret = m5mols_read_u8(sd, SYSTEM_VER_CUSTOMER, &ver->customer);
--	if (!ret)
--		ret = m5mols_read_u8(sd, SYSTEM_VER_PROJECT, &ver->project);
--	if (!ret)
--		ret = m5mols_read_u16(sd, SYSTEM_VER_FIRMWARE, &ver->fw);
--	if (!ret)
--		ret = m5mols_read_u16(sd, SYSTEM_VER_HARDWARE, &ver->hw);
--	if (!ret)
--		ret = m5mols_read_u16(sd, SYSTEM_VER_PARAMETER, &ver->param);
--	if (!ret)
--		ret = m5mols_read_u16(sd, SYSTEM_VER_AWB, &ver->awb);
--	if (!ret)
--		ret = m5mols_read_u8(sd, AF_VERSION, &ver->af);
--	if (ret)
--		return ret;
--
--	for (i = 0; i < VERSION_STRING_SIZE; i++) {
--		ret = m5mols_read_u8(sd, SYSTEM_VER_STRING, &str[i]);
--		if (ret)
--			return ret;
--	}
--
--	v4l2_info(sd, "Manufacturer\t[%s]\n",
--			is_manufacturer(info, REG_SAMSUNG_ELECTRO) ?
--			"Samsung Electro-Mechanics" :
--			is_manufacturer(info, REG_SAMSUNG_OPTICS) ?
--			"Samsung Fiber-Optics" :
--			is_manufacturer(info, REG_SAMSUNG_TECHWIN) ?
--			"Samsung Techwin" : "None");
--	v4l2_info(sd, "Customer/Project\t[0x%02x/0x%02x]\n",
--			info->ver.customer, info->ver.project);
--
--	if (!is_available_af(info))
--		v4l2_info(sd, "No support Auto Focus on this firmware\n");
--
--	return ret;
--}
--
--/**
-- * __find_restype - Lookup M-5MOLS resolution type according to pixel code
-- * @code: pixel code
-- */
--static enum m5mols_restype __find_restype(u32 code)
--{
--	enum m5mols_restype type = M5MOLS_RESTYPE_MONITOR;
--
--	do {
--		if (code == m5mols_default_ffmt[type].code)
--			return type;
--	} while (type++ != SIZE_DEFAULT_FFMT);
--
--	return 0;
--}
--
--/**
-- * __find_resolution - Lookup preset and type of M-5MOLS's resolution
-- * @sd: sub-device, as pointed by struct v4l2_subdev
-- * @mf: pixel format to find/negotiate the resolution preset for
-- * @type: M-5MOLS resolution type
-- * @resolution:	M-5MOLS resolution preset register value
-- *
-- * Find nearest resolution matching resolution preset and adjust mf
-- * to supported values.
-- */
--static int __find_resolution(struct v4l2_subdev *sd,
--			     struct v4l2_mbus_framefmt *mf,
--			     enum m5mols_restype *type,
--			     u32 *resolution)
--{
--	const struct m5mols_resolution *fsize = &m5mols_reg_res[0];
--	const struct m5mols_resolution *match = NULL;
--	enum m5mols_restype stype = __find_restype(mf->code);
--	int i = ARRAY_SIZE(m5mols_reg_res);
--	unsigned int min_err = ~0;
--
--	while (i--) {
--		int err;
--		if (stype == fsize->type) {
--			err = abs(fsize->width - mf->width)
--				+ abs(fsize->height - mf->height);
--
--			if (err < min_err) {
--				min_err = err;
--				match = fsize;
--			}
--		}
--		fsize++;
--	}
--	if (match) {
--		mf->width  = match->width;
--		mf->height = match->height;
--		*resolution = match->reg;
--		*type = stype;
--		return 0;
--	}
--
--	return -EINVAL;
--}
--
--static struct v4l2_mbus_framefmt *__find_format(struct m5mols_info *info,
--				struct v4l2_subdev_state *sd_state,
--				enum v4l2_subdev_format_whence which,
--				enum m5mols_restype type)
--{
--	if (which == V4L2_SUBDEV_FORMAT_TRY)
--		return sd_state ? v4l2_subdev_get_try_format(&info->sd,
--							     sd_state, 0) : NULL;
--
--	return &info->ffmt[type];
--}
--
--static int m5mols_get_fmt(struct v4l2_subdev *sd,
--			  struct v4l2_subdev_state *sd_state,
--			  struct v4l2_subdev_format *fmt)
--{
--	struct m5mols_info *info = to_m5mols(sd);
--	struct v4l2_mbus_framefmt *format;
--	int ret = 0;
--
--	mutex_lock(&info->lock);
--
--	format = __find_format(info, sd_state, fmt->which, info->res_type);
--	if (format)
--		fmt->format = *format;
--	else
--		ret = -EINVAL;
--
--	mutex_unlock(&info->lock);
--	return ret;
--}
--
--static int m5mols_set_fmt(struct v4l2_subdev *sd,
--			  struct v4l2_subdev_state *sd_state,
--			  struct v4l2_subdev_format *fmt)
--{
--	struct m5mols_info *info = to_m5mols(sd);
--	struct v4l2_mbus_framefmt *format = &fmt->format;
--	struct v4l2_mbus_framefmt *sfmt;
--	enum m5mols_restype type;
--	u32 resolution = 0;
--	int ret;
--
--	ret = __find_resolution(sd, format, &type, &resolution);
--	if (ret < 0)
--		return ret;
--
--	sfmt = __find_format(info, sd_state, fmt->which, type);
--	if (!sfmt)
--		return 0;
--
--	mutex_lock(&info->lock);
--
--	format->code = m5mols_default_ffmt[type].code;
--	format->colorspace = V4L2_COLORSPACE_JPEG;
--	format->field = V4L2_FIELD_NONE;
--
--	if (fmt->which == V4L2_SUBDEV_FORMAT_ACTIVE) {
--		*sfmt = *format;
--		info->resolution = resolution;
--		info->res_type = type;
--	}
--
--	mutex_unlock(&info->lock);
--	return ret;
--}
--
--static int m5mols_get_frame_desc(struct v4l2_subdev *sd, unsigned int pad,
--				 struct v4l2_mbus_frame_desc *fd)
--{
--	struct m5mols_info *info = to_m5mols(sd);
--
--	if (pad != 0 || fd == NULL)
--		return -EINVAL;
--
--	mutex_lock(&info->lock);
--	/*
--	 * .get_frame_desc is only used for compressed formats,
--	 * thus we always return the capture frame parameters here.
--	 */
--	fd->entry[0].length = info->cap.buf_size;
--	fd->entry[0].pixelcode = info->ffmt[M5MOLS_RESTYPE_CAPTURE].code;
--	mutex_unlock(&info->lock);
--
--	fd->entry[0].flags = V4L2_MBUS_FRAME_DESC_FL_LEN_MAX;
--	fd->num_entries = 1;
--
--	return 0;
--}
--
--static int m5mols_set_frame_desc(struct v4l2_subdev *sd, unsigned int pad,
--				 struct v4l2_mbus_frame_desc *fd)
--{
--	struct m5mols_info *info = to_m5mols(sd);
--	struct v4l2_mbus_framefmt *mf = &info->ffmt[M5MOLS_RESTYPE_CAPTURE];
--
--	if (pad != 0 || fd == NULL)
--		return -EINVAL;
--
--	fd->entry[0].flags = V4L2_MBUS_FRAME_DESC_FL_LEN_MAX;
--	fd->num_entries = 1;
--	fd->entry[0].length = clamp_t(u32, fd->entry[0].length,
--				      mf->width * mf->height,
--				      M5MOLS_MAIN_JPEG_SIZE_MAX);
--	mutex_lock(&info->lock);
--	info->cap.buf_size = fd->entry[0].length;
--	mutex_unlock(&info->lock);
--
--	return 0;
--}
--
--
--static int m5mols_enum_mbus_code(struct v4l2_subdev *sd,
--				 struct v4l2_subdev_state *sd_state,
--				 struct v4l2_subdev_mbus_code_enum *code)
--{
--	if (!code || code->index >= SIZE_DEFAULT_FFMT)
--		return -EINVAL;
--
--	code->code = m5mols_default_ffmt[code->index].code;
--
--	return 0;
--}
--
--static const struct v4l2_subdev_pad_ops m5mols_pad_ops = {
--	.enum_mbus_code	= m5mols_enum_mbus_code,
--	.get_fmt	= m5mols_get_fmt,
--	.set_fmt	= m5mols_set_fmt,
--	.get_frame_desc	= m5mols_get_frame_desc,
--	.set_frame_desc	= m5mols_set_frame_desc,
--};
--
--/**
-- * m5mols_restore_controls - Apply current control values to the registers
-- * @info: M-5MOLS driver data structure
-- *
-- * m5mols_do_scenemode() handles all parameters for which there is yet no
-- * individual control. It should be replaced at some point by setting each
-- * control individually, in required register set up order.
-- */
--int m5mols_restore_controls(struct m5mols_info *info)
--{
--	int ret;
--
--	if (info->ctrl_sync)
--		return 0;
--
--	ret = m5mols_do_scenemode(info, REG_SCENE_NORMAL);
--	if (ret)
--		return ret;
--
--	ret = v4l2_ctrl_handler_setup(&info->handle);
--	info->ctrl_sync = !ret;
--
--	return ret;
--}
--
--/**
-- * m5mols_start_monitor - Start the monitor mode
-- * @info: M-5MOLS driver data structure
-- *
-- * Before applying the controls setup the resolution and frame rate
-- * in PARAMETER mode, and then switch over to MONITOR mode.
-- */
--static int m5mols_start_monitor(struct m5mols_info *info)
--{
--	struct v4l2_subdev *sd = &info->sd;
--	int ret;
--
--	ret = m5mols_set_mode(info, REG_PARAMETER);
--	if (!ret)
--		ret = m5mols_write(sd, PARM_MON_SIZE, info->resolution);
--	if (!ret)
--		ret = m5mols_write(sd, PARM_MON_FPS, REG_FPS_30);
--	if (!ret)
--		ret = m5mols_set_mode(info, REG_MONITOR);
--	if (!ret)
--		ret = m5mols_restore_controls(info);
--
--	return ret;
--}
--
--static int m5mols_s_stream(struct v4l2_subdev *sd, int enable)
--{
--	struct m5mols_info *info = to_m5mols(sd);
--	u32 code;
--	int ret;
--
--	mutex_lock(&info->lock);
--	code = info->ffmt[info->res_type].code;
--
--	if (enable) {
--		if (is_code(code, M5MOLS_RESTYPE_MONITOR))
--			ret = m5mols_start_monitor(info);
--		else if (is_code(code, M5MOLS_RESTYPE_CAPTURE))
--			ret = m5mols_start_capture(info);
--		else
--			ret = -EINVAL;
--	} else {
--		ret = m5mols_set_mode(info, REG_PARAMETER);
--	}
--
--	mutex_unlock(&info->lock);
--	return ret;
--}
--
--static const struct v4l2_subdev_video_ops m5mols_video_ops = {
--	.s_stream	= m5mols_s_stream,
--};
--
--static int m5mols_sensor_power(struct m5mols_info *info, bool enable)
--{
--	struct v4l2_subdev *sd = &info->sd;
--	struct i2c_client *client = v4l2_get_subdevdata(sd);
--	int ret;
--
--	if (info->power == enable)
--		return 0;
--
--	if (enable) {
--		if (info->set_power) {
--			ret = info->set_power(&client->dev, 1);
--			if (ret)
--				return ret;
--		}
--
--		ret = regulator_bulk_enable(ARRAY_SIZE(supplies), supplies);
--		if (ret) {
--			if (info->set_power)
--				info->set_power(&client->dev, 0);
--			return ret;
--		}
--
--		gpiod_set_value(info->reset, 0);
--		info->power = 1;
--
--		return ret;
--	}
--
--	ret = regulator_bulk_disable(ARRAY_SIZE(supplies), supplies);
--	if (ret)
--		return ret;
--
--	if (info->set_power)
--		info->set_power(&client->dev, 0);
--
--	gpiod_set_value(info->reset, 1);
--
--	info->isp_ready = 0;
--	info->power = 0;
--
--	return ret;
--}
--
--/* m5mols_update_fw - optional firmware update routine */
--int __attribute__ ((weak)) m5mols_update_fw(struct v4l2_subdev *sd,
--		int (*set_power)(struct m5mols_info *, bool))
--{
--	return 0;
--}
--
--/**
-- * m5mols_fw_start - M-5MOLS internal ARM controller initialization
-- * @sd: sub-device, as pointed by struct v4l2_subdev
-- *
-- * Execute the M-5MOLS internal ARM controller initialization sequence.
-- * This function should be called after the supply voltage has been
-- * applied and before any requests to the device are made.
-- */
--static int m5mols_fw_start(struct v4l2_subdev *sd)
--{
--	struct m5mols_info *info = to_m5mols(sd);
--	int ret;
--
--	atomic_set(&info->irq_done, 0);
--	/* Wait until I2C slave is initialized in Flash Writer mode */
--	ret = m5mols_busy_wait(sd, FLASH_CAM_START, REG_IN_FLASH_MODE,
--			       M5MOLS_I2C_RDY_WAIT_FL | 0xff, -1);
--	if (!ret)
--		ret = m5mols_write(sd, FLASH_CAM_START, REG_START_ARM_BOOT);
--	if (!ret)
--		ret = m5mols_wait_interrupt(sd, REG_INT_MODE, 2000);
--	if (ret < 0)
--		return ret;
--
--	info->isp_ready = 1;
--
--	ret = m5mols_get_version(sd);
--	if (!ret)
--		ret = m5mols_update_fw(sd, m5mols_sensor_power);
--	if (ret)
--		return ret;
--
--	v4l2_dbg(1, m5mols_debug, sd, "Success ARM Booting\n");
--
--	ret = m5mols_write(sd, PARM_INTERFACE, REG_INTERFACE_MIPI);
--	if (!ret)
--		ret = m5mols_enable_interrupt(sd,
--				REG_INT_AF | REG_INT_CAPTURE);
--
--	return ret;
--}
--
--/* Execute the lens soft-landing algorithm */
--static int m5mols_auto_focus_stop(struct m5mols_info *info)
--{
--	int ret;
--
--	ret = m5mols_write(&info->sd, AF_EXECUTE, REG_AF_STOP);
--	if (!ret)
--		ret = m5mols_write(&info->sd, AF_MODE, REG_AF_POWEROFF);
--	if (!ret)
--		ret = m5mols_busy_wait(&info->sd, SYSTEM_STATUS, REG_AF_IDLE,
--				       0xff, -1);
--	return ret;
--}
--
--/**
-- * m5mols_s_power - Main sensor power control function
-- * @sd: sub-device, as pointed by struct v4l2_subdev
-- * @on: if true, powers on the device; powers off otherwise.
-- *
-- * To prevent breaking the lens when the sensor is powered off the Soft-Landing
-- * algorithm is called where available. The Soft-Landing algorithm availability
-- * dependends on the firmware provider.
-- */
--static int m5mols_s_power(struct v4l2_subdev *sd, int on)
--{
--	struct m5mols_info *info = to_m5mols(sd);
--	int ret;
--
--	mutex_lock(&info->lock);
--
--	if (on) {
--		ret = m5mols_sensor_power(info, true);
--		if (!ret)
--			ret = m5mols_fw_start(sd);
--	} else {
--		if (is_manufacturer(info, REG_SAMSUNG_TECHWIN)) {
--			ret = m5mols_set_mode(info, REG_MONITOR);
--			if (!ret)
--				ret = m5mols_auto_focus_stop(info);
--			if (ret < 0)
--				v4l2_warn(sd, "Soft landing lens failed\n");
--		}
--		ret = m5mols_sensor_power(info, false);
--
--		info->ctrl_sync = 0;
--	}
--
--	mutex_unlock(&info->lock);
--	return ret;
--}
--
--static int m5mols_log_status(struct v4l2_subdev *sd)
--{
--	struct m5mols_info *info = to_m5mols(sd);
--
--	v4l2_ctrl_handler_log_status(&info->handle, sd->name);
--
--	return 0;
--}
--
--static const struct v4l2_subdev_core_ops m5mols_core_ops = {
--	.s_power	= m5mols_s_power,
--	.log_status	= m5mols_log_status,
--};
+-#include "aptina-pll.h"
 -
 -/*
-- * V4L2 subdev internal operations
+- * width and height include active boundary and black parts
+- *
+- * column    0-  15 active boundary
+- * column   16-1455 image
+- * column 1456-1471 active boundary
+- * column 1472-1599 black
+- *
+- * row       0-  51 black
+- * row      53-  59 active boundary
+- * row      60-1139 image
+- * row    1140-1147 active boundary
+- * row    1148-1151 black
 - */
--static int m5mols_open(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
--{
--	struct v4l2_mbus_framefmt *format = v4l2_subdev_get_try_format(sd,
--								       fh->state,
--								       0);
 -
--	*format = m5mols_default_ffmt[0];
+-#define MT9M032_PIXEL_ARRAY_WIDTH			1600
+-#define MT9M032_PIXEL_ARRAY_HEIGHT			1152
+-
+-#define MT9M032_CHIP_VERSION				0x00
+-#define		MT9M032_CHIP_VERSION_VALUE		0x1402
+-#define MT9M032_ROW_START				0x01
+-#define		MT9M032_ROW_START_MIN			0
+-#define		MT9M032_ROW_START_MAX			1152
+-#define		MT9M032_ROW_START_DEF			60
+-#define MT9M032_COLUMN_START				0x02
+-#define		MT9M032_COLUMN_START_MIN		0
+-#define		MT9M032_COLUMN_START_MAX		1600
+-#define		MT9M032_COLUMN_START_DEF		16
+-#define MT9M032_ROW_SIZE				0x03
+-#define		MT9M032_ROW_SIZE_MIN			32
+-#define		MT9M032_ROW_SIZE_MAX			1152
+-#define		MT9M032_ROW_SIZE_DEF			1080
+-#define MT9M032_COLUMN_SIZE				0x04
+-#define		MT9M032_COLUMN_SIZE_MIN			32
+-#define		MT9M032_COLUMN_SIZE_MAX			1600
+-#define		MT9M032_COLUMN_SIZE_DEF			1440
+-#define MT9M032_HBLANK					0x05
+-#define MT9M032_VBLANK					0x06
+-#define		MT9M032_VBLANK_MAX			0x7ff
+-#define MT9M032_SHUTTER_WIDTH_HIGH			0x08
+-#define MT9M032_SHUTTER_WIDTH_LOW			0x09
+-#define		MT9M032_SHUTTER_WIDTH_MIN		1
+-#define		MT9M032_SHUTTER_WIDTH_MAX		1048575
+-#define		MT9M032_SHUTTER_WIDTH_DEF		1943
+-#define MT9M032_PIX_CLK_CTRL				0x0a
+-#define		MT9M032_PIX_CLK_CTRL_INV_PIXCLK		0x8000
+-#define MT9M032_RESTART					0x0b
+-#define MT9M032_RESET					0x0d
+-#define MT9M032_PLL_CONFIG1				0x11
+-#define		MT9M032_PLL_CONFIG1_PREDIV_MASK		0x3f
+-#define		MT9M032_PLL_CONFIG1_MUL_SHIFT		8
+-#define MT9M032_READ_MODE1				0x1e
+-#define		MT9M032_READ_MODE1_OUTPUT_BAD_FRAMES	(1 << 13)
+-#define		MT9M032_READ_MODE1_MAINTAIN_FRAME_RATE	(1 << 12)
+-#define		MT9M032_READ_MODE1_XOR_LINE_VALID	(1 << 11)
+-#define		MT9M032_READ_MODE1_CONT_LINE_VALID	(1 << 10)
+-#define		MT9M032_READ_MODE1_INVERT_TRIGGER	(1 << 9)
+-#define		MT9M032_READ_MODE1_SNAPSHOT		(1 << 8)
+-#define		MT9M032_READ_MODE1_GLOBAL_RESET		(1 << 7)
+-#define		MT9M032_READ_MODE1_BULB_EXPOSURE	(1 << 6)
+-#define		MT9M032_READ_MODE1_INVERT_STROBE	(1 << 5)
+-#define		MT9M032_READ_MODE1_STROBE_ENABLE	(1 << 4)
+-#define		MT9M032_READ_MODE1_STROBE_START_TRIG1	(0 << 2)
+-#define		MT9M032_READ_MODE1_STROBE_START_EXP	(1 << 2)
+-#define		MT9M032_READ_MODE1_STROBE_START_SHUTTER	(2 << 2)
+-#define		MT9M032_READ_MODE1_STROBE_START_TRIG2	(3 << 2)
+-#define		MT9M032_READ_MODE1_STROBE_END_TRIG1	(0 << 0)
+-#define		MT9M032_READ_MODE1_STROBE_END_EXP	(1 << 0)
+-#define		MT9M032_READ_MODE1_STROBE_END_SHUTTER	(2 << 0)
+-#define		MT9M032_READ_MODE1_STROBE_END_TRIG2	(3 << 0)
+-#define MT9M032_READ_MODE2				0x20
+-#define		MT9M032_READ_MODE2_VFLIP_SHIFT		15
+-#define		MT9M032_READ_MODE2_HFLIP_SHIFT		14
+-#define		MT9M032_READ_MODE2_ROW_BLC		0x40
+-#define MT9M032_GAIN_GREEN1				0x2b
+-#define MT9M032_GAIN_BLUE				0x2c
+-#define MT9M032_GAIN_RED				0x2d
+-#define MT9M032_GAIN_GREEN2				0x2e
+-
+-/* write only */
+-#define MT9M032_GAIN_ALL				0x35
+-#define		MT9M032_GAIN_DIGITAL_MASK		0x7f
+-#define		MT9M032_GAIN_DIGITAL_SHIFT		8
+-#define		MT9M032_GAIN_AMUL_SHIFT			6
+-#define		MT9M032_GAIN_ANALOG_MASK		0x3f
+-#define MT9M032_FORMATTER1				0x9e
+-#define		MT9M032_FORMATTER1_PLL_P1_6		(1 << 8)
+-#define		MT9M032_FORMATTER1_PARALLEL		(1 << 12)
+-#define MT9M032_FORMATTER2				0x9f
+-#define		MT9M032_FORMATTER2_DOUT_EN		0x1000
+-#define		MT9M032_FORMATTER2_PIXCLK_EN		0x2000
+-
+-/*
+- * The available MT9M032 datasheet is missing documentation for register 0x10
+- * MT9P031 seems to be close enough, so use constants from that datasheet for
+- * now.
+- * But keep the name MT9P031 to remind us, that this isn't really confirmed
+- * for this sensor.
+- */
+-#define MT9P031_PLL_CONTROL				0x10
+-#define		MT9P031_PLL_CONTROL_PWROFF		0x0050
+-#define		MT9P031_PLL_CONTROL_PWRON		0x0051
+-#define		MT9P031_PLL_CONTROL_USEPLL		0x0052
+-
+-struct mt9m032 {
+-	struct v4l2_subdev subdev;
+-	struct media_pad pad;
+-	struct mt9m032_platform_data *pdata;
+-
+-	unsigned int pix_clock;
+-
+-	struct v4l2_ctrl_handler ctrls;
+-	struct {
+-		struct v4l2_ctrl *hflip;
+-		struct v4l2_ctrl *vflip;
+-	};
+-
+-	struct mutex lock; /* Protects streaming, format, interval and crop */
+-
+-	bool streaming;
+-
+-	struct v4l2_mbus_framefmt format;
+-	struct v4l2_rect crop;
+-	struct v4l2_fract frame_interval;
+-};
+-
+-#define to_mt9m032(sd)	container_of(sd, struct mt9m032, subdev)
+-#define to_dev(sensor) \
+-	(&((struct i2c_client *)v4l2_get_subdevdata(&(sensor)->subdev))->dev)
+-
+-static int mt9m032_read(struct i2c_client *client, u8 reg)
+-{
+-	return i2c_smbus_read_word_swapped(client, reg);
+-}
+-
+-static int mt9m032_write(struct i2c_client *client, u8 reg, const u16 data)
+-{
+-	return i2c_smbus_write_word_swapped(client, reg, data);
+-}
+-
+-static u32 mt9m032_row_time(struct mt9m032 *sensor, unsigned int width)
+-{
+-	unsigned int effective_width;
+-	u32 ns;
+-
+-	effective_width = width + 716; /* empirical value */
+-	ns = div_u64(1000000000ULL * effective_width, sensor->pix_clock);
+-	dev_dbg(to_dev(sensor),	"MT9M032 line time: %u ns\n", ns);
+-	return ns;
+-}
+-
+-static int mt9m032_update_timing(struct mt9m032 *sensor,
+-				 struct v4l2_fract *interval)
+-{
+-	struct i2c_client *client = v4l2_get_subdevdata(&sensor->subdev);
+-	struct v4l2_rect *crop = &sensor->crop;
+-	unsigned int min_vblank;
+-	unsigned int vblank;
+-	u32 row_time;
+-
+-	if (!interval)
+-		interval = &sensor->frame_interval;
+-
+-	row_time = mt9m032_row_time(sensor, crop->width);
+-
+-	vblank = div_u64(1000000000ULL * interval->numerator,
+-			 (u64)row_time * interval->denominator)
+-	       - crop->height;
+-
+-	if (vblank > MT9M032_VBLANK_MAX) {
+-		/* hardware limits to 11 bit values */
+-		interval->denominator = 1000;
+-		interval->numerator =
+-			div_u64((crop->height + MT9M032_VBLANK_MAX) *
+-				(u64)row_time * interval->denominator,
+-				1000000000ULL);
+-		vblank = div_u64(1000000000ULL * interval->numerator,
+-				 (u64)row_time * interval->denominator)
+-		       - crop->height;
+-	}
+-	/* enforce minimal 1.6ms blanking time. */
+-	min_vblank = 1600000 / row_time;
+-	vblank = clamp_t(unsigned int, vblank, min_vblank, MT9M032_VBLANK_MAX);
+-
+-	return mt9m032_write(client, MT9M032_VBLANK, vblank);
+-}
+-
+-static int mt9m032_update_geom_timing(struct mt9m032 *sensor)
+-{
+-	struct i2c_client *client = v4l2_get_subdevdata(&sensor->subdev);
+-	int ret;
+-
+-	ret = mt9m032_write(client, MT9M032_COLUMN_SIZE,
+-			    sensor->crop.width - 1);
+-	if (!ret)
+-		ret = mt9m032_write(client, MT9M032_ROW_SIZE,
+-				    sensor->crop.height - 1);
+-	if (!ret)
+-		ret = mt9m032_write(client, MT9M032_COLUMN_START,
+-				    sensor->crop.left);
+-	if (!ret)
+-		ret = mt9m032_write(client, MT9M032_ROW_START,
+-				    sensor->crop.top);
+-	if (!ret)
+-		ret = mt9m032_update_timing(sensor, NULL);
+-	return ret;
+-}
+-
+-static int update_formatter2(struct mt9m032 *sensor, bool streaming)
+-{
+-	struct i2c_client *client = v4l2_get_subdevdata(&sensor->subdev);
+-	u16 reg_val =   MT9M032_FORMATTER2_DOUT_EN
+-		      | 0x0070;  /* parts reserved! */
+-				 /* possibly for changing to 14-bit mode */
+-
+-	if (streaming)
+-		reg_val |= MT9M032_FORMATTER2_PIXCLK_EN;   /* pixclock enable */
+-
+-	return mt9m032_write(client, MT9M032_FORMATTER2, reg_val);
+-}
+-
+-static int mt9m032_setup_pll(struct mt9m032 *sensor)
+-{
+-	static const struct aptina_pll_limits limits = {
+-		.ext_clock_min = 8000000,
+-		.ext_clock_max = 16500000,
+-		.int_clock_min = 2000000,
+-		.int_clock_max = 24000000,
+-		.out_clock_min = 322000000,
+-		.out_clock_max = 693000000,
+-		.pix_clock_max = 99000000,
+-		.n_min = 1,
+-		.n_max = 64,
+-		.m_min = 16,
+-		.m_max = 255,
+-		.p1_min = 6,
+-		.p1_max = 7,
+-	};
+-
+-	struct i2c_client *client = v4l2_get_subdevdata(&sensor->subdev);
+-	struct mt9m032_platform_data *pdata = sensor->pdata;
+-	struct aptina_pll pll;
+-	u16 reg_val;
+-	int ret;
+-
+-	pll.ext_clock = pdata->ext_clock;
+-	pll.pix_clock = pdata->pix_clock;
+-
+-	ret = aptina_pll_calculate(&client->dev, &limits, &pll);
+-	if (ret < 0)
+-		return ret;
+-
+-	sensor->pix_clock = pdata->pix_clock;
+-
+-	ret = mt9m032_write(client, MT9M032_PLL_CONFIG1,
+-			    (pll.m << MT9M032_PLL_CONFIG1_MUL_SHIFT) |
+-			    ((pll.n - 1) & MT9M032_PLL_CONFIG1_PREDIV_MASK));
+-	if (!ret)
+-		ret = mt9m032_write(client, MT9P031_PLL_CONTROL,
+-				    MT9P031_PLL_CONTROL_PWRON |
+-				    MT9P031_PLL_CONTROL_USEPLL);
+-	if (!ret)		/* more reserved, Continuous, Master Mode */
+-		ret = mt9m032_write(client, MT9M032_READ_MODE1, 0x8000 |
+-				    MT9M032_READ_MODE1_STROBE_START_EXP |
+-				    MT9M032_READ_MODE1_STROBE_END_SHUTTER);
+-	if (!ret) {
+-		reg_val = (pll.p1 == 6 ? MT9M032_FORMATTER1_PLL_P1_6 : 0)
+-			| MT9M032_FORMATTER1_PARALLEL | 0x001e; /* 14-bit */
+-		ret = mt9m032_write(client, MT9M032_FORMATTER1, reg_val);
+-	}
+-
+-	return ret;
+-}
+-
+-/* -----------------------------------------------------------------------------
+- * Subdev pad operations
+- */
+-
+-static int mt9m032_enum_mbus_code(struct v4l2_subdev *subdev,
+-				  struct v4l2_subdev_state *sd_state,
+-				  struct v4l2_subdev_mbus_code_enum *code)
+-{
+-	if (code->index != 0)
+-		return -EINVAL;
+-
+-	code->code = MEDIA_BUS_FMT_Y8_1X8;
 -	return 0;
 -}
 -
--static const struct v4l2_subdev_internal_ops m5mols_subdev_internal_ops = {
--	.open		= m5mols_open,
--};
--
--static const struct v4l2_subdev_ops m5mols_ops = {
--	.core		= &m5mols_core_ops,
--	.pad		= &m5mols_pad_ops,
--	.video		= &m5mols_video_ops,
--};
--
--static irqreturn_t m5mols_irq_handler(int irq, void *data)
+-static int mt9m032_enum_frame_size(struct v4l2_subdev *subdev,
+-				   struct v4l2_subdev_state *sd_state,
+-				   struct v4l2_subdev_frame_size_enum *fse)
 -{
--	struct m5mols_info *info = to_m5mols(data);
+-	if (fse->index != 0 || fse->code != MEDIA_BUS_FMT_Y8_1X8)
+-		return -EINVAL;
 -
--	atomic_set(&info->irq_done, 1);
--	wake_up_interruptible(&info->irq_waitq);
+-	fse->min_width = MT9M032_COLUMN_SIZE_DEF;
+-	fse->max_width = MT9M032_COLUMN_SIZE_DEF;
+-	fse->min_height = MT9M032_ROW_SIZE_DEF;
+-	fse->max_height = MT9M032_ROW_SIZE_DEF;
 -
--	return IRQ_HANDLED;
+-	return 0;
 -}
 -
--static int m5mols_probe(struct i2c_client *client)
+-/**
+- * __mt9m032_get_pad_crop() - get crop rect
+- * @sensor: pointer to the sensor struct
+- * @sd_state: v4l2_subdev_state for getting the try crop rect from
+- * @which: select try or active crop rect
+- *
+- * Returns a pointer the current active or fh relative try crop rect
+- */
+-static struct v4l2_rect *
+-__mt9m032_get_pad_crop(struct mt9m032 *sensor,
+-		       struct v4l2_subdev_state *sd_state,
+-		       enum v4l2_subdev_format_whence which)
 -{
--	const struct m5mols_platform_data *pdata = client->dev.platform_data;
--	struct m5mols_info *info;
--	struct v4l2_subdev *sd;
+-	switch (which) {
+-	case V4L2_SUBDEV_FORMAT_TRY:
+-		return v4l2_subdev_get_try_crop(&sensor->subdev, sd_state, 0);
+-	case V4L2_SUBDEV_FORMAT_ACTIVE:
+-		return &sensor->crop;
+-	default:
+-		return NULL;
+-	}
+-}
+-
+-/**
+- * __mt9m032_get_pad_format() - get format
+- * @sensor: pointer to the sensor struct
+- * @sd_state: v4l2_subdev_state for getting the try format from
+- * @which: select try or active format
+- *
+- * Returns a pointer the current active or fh relative try format
+- */
+-static struct v4l2_mbus_framefmt *
+-__mt9m032_get_pad_format(struct mt9m032 *sensor,
+-			 struct v4l2_subdev_state *sd_state,
+-			 enum v4l2_subdev_format_whence which)
+-{
+-	switch (which) {
+-	case V4L2_SUBDEV_FORMAT_TRY:
+-		return v4l2_subdev_get_try_format(&sensor->subdev, sd_state,
+-						  0);
+-	case V4L2_SUBDEV_FORMAT_ACTIVE:
+-		return &sensor->format;
+-	default:
+-		return NULL;
+-	}
+-}
+-
+-static int mt9m032_get_pad_format(struct v4l2_subdev *subdev,
+-				  struct v4l2_subdev_state *sd_state,
+-				  struct v4l2_subdev_format *fmt)
+-{
+-	struct mt9m032 *sensor = to_mt9m032(subdev);
+-
+-	mutex_lock(&sensor->lock);
+-	fmt->format = *__mt9m032_get_pad_format(sensor, sd_state, fmt->which);
+-	mutex_unlock(&sensor->lock);
+-
+-	return 0;
+-}
+-
+-static int mt9m032_set_pad_format(struct v4l2_subdev *subdev,
+-				  struct v4l2_subdev_state *sd_state,
+-				  struct v4l2_subdev_format *fmt)
+-{
+-	struct mt9m032 *sensor = to_mt9m032(subdev);
+-	int ret;
+-
+-	mutex_lock(&sensor->lock);
+-
+-	if (sensor->streaming && fmt->which == V4L2_SUBDEV_FORMAT_ACTIVE) {
+-		ret = -EBUSY;
+-		goto done;
+-	}
+-
+-	/* Scaling is not supported, the format is thus fixed. */
+-	fmt->format = *__mt9m032_get_pad_format(sensor, sd_state, fmt->which);
+-	ret = 0;
+-
+-done:
+-	mutex_unlock(&sensor->lock);
+-	return ret;
+-}
+-
+-static int mt9m032_get_pad_selection(struct v4l2_subdev *subdev,
+-				     struct v4l2_subdev_state *sd_state,
+-				     struct v4l2_subdev_selection *sel)
+-{
+-	struct mt9m032 *sensor = to_mt9m032(subdev);
+-
+-	if (sel->target != V4L2_SEL_TGT_CROP)
+-		return -EINVAL;
+-
+-	mutex_lock(&sensor->lock);
+-	sel->r = *__mt9m032_get_pad_crop(sensor, sd_state, sel->which);
+-	mutex_unlock(&sensor->lock);
+-
+-	return 0;
+-}
+-
+-static int mt9m032_set_pad_selection(struct v4l2_subdev *subdev,
+-				     struct v4l2_subdev_state *sd_state,
+-				     struct v4l2_subdev_selection *sel)
+-{
+-	struct mt9m032 *sensor = to_mt9m032(subdev);
+-	struct v4l2_mbus_framefmt *format;
+-	struct v4l2_rect *__crop;
+-	struct v4l2_rect rect;
+-	int ret = 0;
+-
+-	if (sel->target != V4L2_SEL_TGT_CROP)
+-		return -EINVAL;
+-
+-	mutex_lock(&sensor->lock);
+-
+-	if (sensor->streaming && sel->which == V4L2_SUBDEV_FORMAT_ACTIVE) {
+-		ret = -EBUSY;
+-		goto done;
+-	}
+-
+-	/* Clamp the crop rectangle boundaries and align them to a multiple of 2
+-	 * pixels to ensure a GRBG Bayer pattern.
+-	 */
+-	rect.left = clamp(ALIGN(sel->r.left, 2), MT9M032_COLUMN_START_MIN,
+-			  MT9M032_COLUMN_START_MAX);
+-	rect.top = clamp(ALIGN(sel->r.top, 2), MT9M032_ROW_START_MIN,
+-			 MT9M032_ROW_START_MAX);
+-	rect.width = clamp_t(unsigned int, ALIGN(sel->r.width, 2),
+-			     MT9M032_COLUMN_SIZE_MIN, MT9M032_COLUMN_SIZE_MAX);
+-	rect.height = clamp_t(unsigned int, ALIGN(sel->r.height, 2),
+-			      MT9M032_ROW_SIZE_MIN, MT9M032_ROW_SIZE_MAX);
+-
+-	rect.width = min_t(unsigned int, rect.width,
+-			   MT9M032_PIXEL_ARRAY_WIDTH - rect.left);
+-	rect.height = min_t(unsigned int, rect.height,
+-			    MT9M032_PIXEL_ARRAY_HEIGHT - rect.top);
+-
+-	__crop = __mt9m032_get_pad_crop(sensor, sd_state, sel->which);
+-
+-	if (rect.width != __crop->width || rect.height != __crop->height) {
+-		/* Reset the output image size if the crop rectangle size has
+-		 * been modified.
+-		 */
+-		format = __mt9m032_get_pad_format(sensor, sd_state,
+-						  sel->which);
+-		format->width = rect.width;
+-		format->height = rect.height;
+-	}
+-
+-	*__crop = rect;
+-	sel->r = rect;
+-
+-	if (sel->which == V4L2_SUBDEV_FORMAT_ACTIVE)
+-		ret = mt9m032_update_geom_timing(sensor);
+-
+-done:
+-	mutex_unlock(&sensor->lock);
+-	return ret;
+-}
+-
+-static int mt9m032_get_frame_interval(struct v4l2_subdev *subdev,
+-				      struct v4l2_subdev_frame_interval *fi)
+-{
+-	struct mt9m032 *sensor = to_mt9m032(subdev);
+-
+-	mutex_lock(&sensor->lock);
+-	memset(fi, 0, sizeof(*fi));
+-	fi->interval = sensor->frame_interval;
+-	mutex_unlock(&sensor->lock);
+-
+-	return 0;
+-}
+-
+-static int mt9m032_set_frame_interval(struct v4l2_subdev *subdev,
+-				      struct v4l2_subdev_frame_interval *fi)
+-{
+-	struct mt9m032 *sensor = to_mt9m032(subdev);
+-	int ret;
+-
+-	mutex_lock(&sensor->lock);
+-
+-	if (sensor->streaming) {
+-		ret = -EBUSY;
+-		goto done;
+-	}
+-
+-	/* Avoid divisions by 0. */
+-	if (fi->interval.denominator == 0)
+-		fi->interval.denominator = 1;
+-
+-	ret = mt9m032_update_timing(sensor, &fi->interval);
+-	if (!ret)
+-		sensor->frame_interval = fi->interval;
+-
+-done:
+-	mutex_unlock(&sensor->lock);
+-	return ret;
+-}
+-
+-static int mt9m032_s_stream(struct v4l2_subdev *subdev, int streaming)
+-{
+-	struct mt9m032 *sensor = to_mt9m032(subdev);
+-	int ret;
+-
+-	mutex_lock(&sensor->lock);
+-	ret = update_formatter2(sensor, streaming);
+-	if (!ret)
+-		sensor->streaming = streaming;
+-	mutex_unlock(&sensor->lock);
+-
+-	return ret;
+-}
+-
+-/* -----------------------------------------------------------------------------
+- * V4L2 subdev core operations
+- */
+-
+-#ifdef CONFIG_VIDEO_ADV_DEBUG
+-static int mt9m032_g_register(struct v4l2_subdev *sd,
+-			      struct v4l2_dbg_register *reg)
+-{
+-	struct mt9m032 *sensor = to_mt9m032(sd);
+-	struct i2c_client *client = v4l2_get_subdevdata(&sensor->subdev);
+-	int val;
+-
+-	if (reg->reg > 0xff)
+-		return -EINVAL;
+-
+-	val = mt9m032_read(client, reg->reg);
+-	if (val < 0)
+-		return -EIO;
+-
+-	reg->size = 2;
+-	reg->val = val;
+-
+-	return 0;
+-}
+-
+-static int mt9m032_s_register(struct v4l2_subdev *sd,
+-			      const struct v4l2_dbg_register *reg)
+-{
+-	struct mt9m032 *sensor = to_mt9m032(sd);
+-	struct i2c_client *client = v4l2_get_subdevdata(&sensor->subdev);
+-
+-	if (reg->reg > 0xff)
+-		return -EINVAL;
+-
+-	return mt9m032_write(client, reg->reg, reg->val);
+-}
+-#endif
+-
+-/* -----------------------------------------------------------------------------
+- * V4L2 subdev control operations
+- */
+-
+-static int update_read_mode2(struct mt9m032 *sensor, bool vflip, bool hflip)
+-{
+-	struct i2c_client *client = v4l2_get_subdevdata(&sensor->subdev);
+-	int reg_val = (vflip << MT9M032_READ_MODE2_VFLIP_SHIFT)
+-		    | (hflip << MT9M032_READ_MODE2_HFLIP_SHIFT)
+-		    | MT9M032_READ_MODE2_ROW_BLC
+-		    | 0x0007;
+-
+-	return mt9m032_write(client, MT9M032_READ_MODE2, reg_val);
+-}
+-
+-static int mt9m032_set_gain(struct mt9m032 *sensor, s32 val)
+-{
+-	struct i2c_client *client = v4l2_get_subdevdata(&sensor->subdev);
+-	int digital_gain_val;	/* in 1/8th (0..127) */
+-	int analog_mul;		/* 0 or 1 */
+-	int analog_gain_val;	/* in 1/16th. (0..63) */
+-	u16 reg_val;
+-
+-	digital_gain_val = 51; /* from setup example */
+-
+-	if (val < 63) {
+-		analog_mul = 0;
+-		analog_gain_val = val;
+-	} else {
+-		analog_mul = 1;
+-		analog_gain_val = val / 2;
+-	}
+-
+-	/* a_gain = (1 + analog_mul) + (analog_gain_val + 1) / 16 */
+-	/* overall_gain = a_gain * (1 + digital_gain_val / 8) */
+-
+-	reg_val = ((digital_gain_val & MT9M032_GAIN_DIGITAL_MASK)
+-		   << MT9M032_GAIN_DIGITAL_SHIFT)
+-		| ((analog_mul & 1) << MT9M032_GAIN_AMUL_SHIFT)
+-		| (analog_gain_val & MT9M032_GAIN_ANALOG_MASK);
+-
+-	return mt9m032_write(client, MT9M032_GAIN_ALL, reg_val);
+-}
+-
+-static int mt9m032_try_ctrl(struct v4l2_ctrl *ctrl)
+-{
+-	if (ctrl->id == V4L2_CID_GAIN && ctrl->val >= 63) {
+-		/* round because of multiplier used for values >= 63 */
+-		ctrl->val &= ~1;
+-	}
+-
+-	return 0;
+-}
+-
+-static int mt9m032_set_ctrl(struct v4l2_ctrl *ctrl)
+-{
+-	struct mt9m032 *sensor =
+-		container_of(ctrl->handler, struct mt9m032, ctrls);
+-	struct i2c_client *client = v4l2_get_subdevdata(&sensor->subdev);
+-	int ret;
+-
+-	switch (ctrl->id) {
+-	case V4L2_CID_GAIN:
+-		return mt9m032_set_gain(sensor, ctrl->val);
+-
+-	case V4L2_CID_HFLIP:
+-	/* case V4L2_CID_VFLIP: -- In the same cluster */
+-		return update_read_mode2(sensor, sensor->vflip->val,
+-					 sensor->hflip->val);
+-
+-	case V4L2_CID_EXPOSURE:
+-		ret = mt9m032_write(client, MT9M032_SHUTTER_WIDTH_HIGH,
+-				    (ctrl->val >> 16) & 0xffff);
+-		if (ret < 0)
+-			return ret;
+-
+-		return mt9m032_write(client, MT9M032_SHUTTER_WIDTH_LOW,
+-				     ctrl->val & 0xffff);
+-	}
+-
+-	return 0;
+-}
+-
+-static const struct v4l2_ctrl_ops mt9m032_ctrl_ops = {
+-	.s_ctrl = mt9m032_set_ctrl,
+-	.try_ctrl = mt9m032_try_ctrl,
+-};
+-
+-/* -------------------------------------------------------------------------- */
+-
+-static const struct v4l2_subdev_core_ops mt9m032_core_ops = {
+-#ifdef CONFIG_VIDEO_ADV_DEBUG
+-	.g_register = mt9m032_g_register,
+-	.s_register = mt9m032_s_register,
+-#endif
+-};
+-
+-static const struct v4l2_subdev_video_ops mt9m032_video_ops = {
+-	.s_stream = mt9m032_s_stream,
+-	.g_frame_interval = mt9m032_get_frame_interval,
+-	.s_frame_interval = mt9m032_set_frame_interval,
+-};
+-
+-static const struct v4l2_subdev_pad_ops mt9m032_pad_ops = {
+-	.enum_mbus_code = mt9m032_enum_mbus_code,
+-	.enum_frame_size = mt9m032_enum_frame_size,
+-	.get_fmt = mt9m032_get_pad_format,
+-	.set_fmt = mt9m032_set_pad_format,
+-	.set_selection = mt9m032_set_pad_selection,
+-	.get_selection = mt9m032_get_pad_selection,
+-};
+-
+-static const struct v4l2_subdev_ops mt9m032_ops = {
+-	.core = &mt9m032_core_ops,
+-	.video = &mt9m032_video_ops,
+-	.pad = &mt9m032_pad_ops,
+-};
+-
+-/* -----------------------------------------------------------------------------
+- * Driver initialization and probing
+- */
+-
+-static int mt9m032_probe(struct i2c_client *client)
+-{
+-	struct mt9m032_platform_data *pdata = client->dev.platform_data;
+-	struct i2c_adapter *adapter = client->adapter;
+-	struct mt9m032 *sensor;
+-	int chip_version;
 -	int ret;
 -
 -	if (pdata == NULL) {
@@ -2263,500 +847,209 @@ index 2b01873ba0db..000000000000
 -		return -EINVAL;
 -	}
 -
--	if (!client->irq) {
--		dev_err(&client->dev, "Interrupt not assigned\n");
--		return -EINVAL;
+-	if (!i2c_check_functionality(adapter, I2C_FUNC_SMBUS_WORD_DATA)) {
+-		dev_warn(&client->dev,
+-			 "I2C-Adapter doesn't support I2C_FUNC_SMBUS_WORD\n");
+-		return -EIO;
 -	}
 -
--	info = devm_kzalloc(&client->dev, sizeof(*info), GFP_KERNEL);
--	if (!info)
+-	if (!client->dev.platform_data)
+-		return -ENODEV;
+-
+-	sensor = devm_kzalloc(&client->dev, sizeof(*sensor), GFP_KERNEL);
+-	if (sensor == NULL)
 -		return -ENOMEM;
 -
--	/* This asserts reset, descriptor shall have polarity specified */
--	info->reset = devm_gpiod_get(&client->dev, "reset", GPIOD_OUT_HIGH);
--	if (IS_ERR(info->reset))
--		return PTR_ERR(info->reset);
--	/* Notice: the "N" in M5MOLS_NRST implies active low */
--	gpiod_set_consumer_name(info->reset, "M5MOLS_NRST");
+-	mutex_init(&sensor->lock);
 -
--	info->pdata = pdata;
--	info->set_power	= pdata->set_power;
+-	sensor->pdata = pdata;
 -
--	ret = devm_regulator_bulk_get(&client->dev, ARRAY_SIZE(supplies),
--				      supplies);
--	if (ret) {
--		dev_err(&client->dev, "Failed to get regulators: %d\n", ret);
--		return ret;
+-	v4l2_i2c_subdev_init(&sensor->subdev, client, &mt9m032_ops);
+-	sensor->subdev.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
+-
+-	chip_version = mt9m032_read(client, MT9M032_CHIP_VERSION);
+-	if (chip_version != MT9M032_CHIP_VERSION_VALUE) {
+-		dev_err(&client->dev, "MT9M032 not detected, wrong version "
+-			"0x%04x\n", chip_version);
+-		ret = -ENODEV;
+-		goto error_sensor;
 -	}
 -
--	sd = &info->sd;
--	v4l2_i2c_subdev_init(sd, client, &m5mols_ops);
--	/* Static name; NEVER use in new drivers! */
--	strscpy(sd->name, MODULE_NAME, sizeof(sd->name));
--	sd->flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
+-	dev_info(&client->dev, "MT9M032 detected at address 0x%02x\n",
+-		 client->addr);
 -
--	sd->internal_ops = &m5mols_subdev_internal_ops;
--	info->pad.flags = MEDIA_PAD_FL_SOURCE;
--	ret = media_entity_pads_init(&sd->entity, 1, &info->pad);
+-	sensor->frame_interval.numerator = 1;
+-	sensor->frame_interval.denominator = 30;
+-
+-	sensor->crop.left = MT9M032_COLUMN_START_DEF;
+-	sensor->crop.top = MT9M032_ROW_START_DEF;
+-	sensor->crop.width = MT9M032_COLUMN_SIZE_DEF;
+-	sensor->crop.height = MT9M032_ROW_SIZE_DEF;
+-
+-	sensor->format.width = sensor->crop.width;
+-	sensor->format.height = sensor->crop.height;
+-	sensor->format.code = MEDIA_BUS_FMT_Y8_1X8;
+-	sensor->format.field = V4L2_FIELD_NONE;
+-	sensor->format.colorspace = V4L2_COLORSPACE_SRGB;
+-
+-	v4l2_ctrl_handler_init(&sensor->ctrls, 5);
+-
+-	v4l2_ctrl_new_std(&sensor->ctrls, &mt9m032_ctrl_ops,
+-			  V4L2_CID_GAIN, 0, 127, 1, 64);
+-
+-	sensor->hflip = v4l2_ctrl_new_std(&sensor->ctrls,
+-					  &mt9m032_ctrl_ops,
+-					  V4L2_CID_HFLIP, 0, 1, 1, 0);
+-	sensor->vflip = v4l2_ctrl_new_std(&sensor->ctrls,
+-					  &mt9m032_ctrl_ops,
+-					  V4L2_CID_VFLIP, 0, 1, 1, 0);
+-
+-	v4l2_ctrl_new_std(&sensor->ctrls, &mt9m032_ctrl_ops,
+-			  V4L2_CID_EXPOSURE, MT9M032_SHUTTER_WIDTH_MIN,
+-			  MT9M032_SHUTTER_WIDTH_MAX, 1,
+-			  MT9M032_SHUTTER_WIDTH_DEF);
+-	v4l2_ctrl_new_std(&sensor->ctrls, &mt9m032_ctrl_ops,
+-			  V4L2_CID_PIXEL_RATE, pdata->pix_clock,
+-			  pdata->pix_clock, 1, pdata->pix_clock);
+-
+-	if (sensor->ctrls.error) {
+-		ret = sensor->ctrls.error;
+-		dev_err(&client->dev, "control initialization error %d\n", ret);
+-		goto error_ctrl;
+-	}
+-
+-	v4l2_ctrl_cluster(2, &sensor->hflip);
+-
+-	sensor->subdev.ctrl_handler = &sensor->ctrls;
+-	sensor->subdev.entity.function = MEDIA_ENT_F_CAM_SENSOR;
+-	sensor->pad.flags = MEDIA_PAD_FL_SOURCE;
+-	ret = media_entity_pads_init(&sensor->subdev.entity, 1, &sensor->pad);
 -	if (ret < 0)
--		return ret;
--	sd->entity.function = MEDIA_ENT_F_CAM_SENSOR;
+-		goto error_ctrl;
 -
--	init_waitqueue_head(&info->irq_waitq);
--	mutex_init(&info->lock);
+-	ret = mt9m032_write(client, MT9M032_RESET, 1);	/* reset on */
+-	if (ret < 0)
+-		goto error_entity;
+-	ret = mt9m032_write(client, MT9M032_RESET, 0);	/* reset off */
+-	if (ret < 0)
+-		goto error_entity;
 -
--	ret = devm_request_irq(&client->dev, client->irq, m5mols_irq_handler,
--			       IRQF_TRIGGER_RISING, MODULE_NAME, sd);
--	if (ret) {
--		dev_err(&client->dev, "Interrupt request failed: %d\n", ret);
--		goto error;
+-	ret = mt9m032_setup_pll(sensor);
+-	if (ret < 0)
+-		goto error_entity;
+-	usleep_range(10000, 11000);
+-
+-	ret = v4l2_ctrl_handler_setup(&sensor->ctrls);
+-	if (ret < 0)
+-		goto error_entity;
+-
+-	/* SIZE */
+-	ret = mt9m032_update_geom_timing(sensor);
+-	if (ret < 0)
+-		goto error_entity;
+-
+-	ret = mt9m032_write(client, 0x41, 0x0000);	/* reserved !!! */
+-	if (ret < 0)
+-		goto error_entity;
+-	ret = mt9m032_write(client, 0x42, 0x0003);	/* reserved !!! */
+-	if (ret < 0)
+-		goto error_entity;
+-	ret = mt9m032_write(client, 0x43, 0x0003);	/* reserved !!! */
+-	if (ret < 0)
+-		goto error_entity;
+-	ret = mt9m032_write(client, 0x7f, 0x0000);	/* reserved !!! */
+-	if (ret < 0)
+-		goto error_entity;
+-	if (sensor->pdata->invert_pixclock) {
+-		ret = mt9m032_write(client, MT9M032_PIX_CLK_CTRL,
+-				    MT9M032_PIX_CLK_CTRL_INV_PIXCLK);
+-		if (ret < 0)
+-			goto error_entity;
 -	}
--	info->res_type = M5MOLS_RESTYPE_MONITOR;
--	info->ffmt[0] = m5mols_default_ffmt[0];
--	info->ffmt[1] =	m5mols_default_ffmt[1];
 -
--	ret = m5mols_sensor_power(info, true);
--	if (ret)
--		goto error;
+-	ret = mt9m032_write(client, MT9M032_RESTART, 1); /* Restart on */
+-	if (ret < 0)
+-		goto error_entity;
+-	msleep(100);
+-	ret = mt9m032_write(client, MT9M032_RESTART, 0); /* Restart off */
+-	if (ret < 0)
+-		goto error_entity;
+-	msleep(100);
+-	ret = update_formatter2(sensor, false);
+-	if (ret < 0)
+-		goto error_entity;
 -
--	ret = m5mols_fw_start(sd);
--	if (!ret)
--		ret = m5mols_init_controls(sd);
+-	return ret;
 -
--	ret = m5mols_sensor_power(info, false);
--	if (!ret)
--		return 0;
--error:
--	media_entity_cleanup(&sd->entity);
+-error_entity:
+-	media_entity_cleanup(&sensor->subdev.entity);
+-error_ctrl:
+-	v4l2_ctrl_handler_free(&sensor->ctrls);
+-error_sensor:
+-	mutex_destroy(&sensor->lock);
 -	return ret;
 -}
 -
--static void m5mols_remove(struct i2c_client *client)
+-static void mt9m032_remove(struct i2c_client *client)
 -{
--	struct v4l2_subdev *sd = i2c_get_clientdata(client);
+-	struct v4l2_subdev *subdev = i2c_get_clientdata(client);
+-	struct mt9m032 *sensor = to_mt9m032(subdev);
 -
--	v4l2_device_unregister_subdev(sd);
--	v4l2_ctrl_handler_free(sd->ctrl_handler);
--	media_entity_cleanup(&sd->entity);
+-	v4l2_device_unregister_subdev(subdev);
+-	v4l2_ctrl_handler_free(&sensor->ctrls);
+-	media_entity_cleanup(&subdev->entity);
+-	mutex_destroy(&sensor->lock);
 -}
 -
--static const struct i2c_device_id m5mols_id[] = {
--	{ MODULE_NAME, 0 },
--	{ },
+-static const struct i2c_device_id mt9m032_id_table[] = {
+-	{ MT9M032_NAME, 0 },
+-	{ }
 -};
--MODULE_DEVICE_TABLE(i2c, m5mols_id);
 -
--static struct i2c_driver m5mols_i2c_driver = {
+-MODULE_DEVICE_TABLE(i2c, mt9m032_id_table);
+-
+-static struct i2c_driver mt9m032_i2c_driver = {
 -	.driver = {
--		.name	= MODULE_NAME,
+-		.name = MT9M032_NAME,
 -	},
--	.probe_new	= m5mols_probe,
--	.remove		= m5mols_remove,
--	.id_table	= m5mols_id,
+-	.probe_new = mt9m032_probe,
+-	.remove = mt9m032_remove,
+-	.id_table = mt9m032_id_table,
 -};
 -
--module_i2c_driver(m5mols_i2c_driver);
+-module_i2c_driver(mt9m032_i2c_driver);
 -
--MODULE_AUTHOR("HeungJun Kim <riverful.kim@samsung.com>");
--MODULE_AUTHOR("Dongsoo Kim <dongsoo45.kim@samsung.com>");
--MODULE_DESCRIPTION("Fujitsu M-5MOLS 8M Pixel camera driver");
--MODULE_LICENSE("GPL");
-diff --git a/drivers/media/i2c/m5mols/m5mols_reg.h b/drivers/media/i2c/m5mols/m5mols_reg.h
+-MODULE_AUTHOR("Martin Hostettler <martin@neutronstar.dyndns.org>");
+-MODULE_DESCRIPTION("MT9M032 camera sensor driver");
+-MODULE_LICENSE("GPL v2");
+diff --git a/include/media/i2c/mt9m032.h b/include/media/i2c/mt9m032.h
 deleted file mode 100644
-index 947ee33812d3..000000000000
---- a/drivers/media/i2c/m5mols/m5mols_reg.h
+index 1bd58757717a..000000000000
+--- a/include/media/i2c/mt9m032.h
 +++ /dev/null
-@@ -1,359 +0,0 @@
--/* SPDX-License-Identifier: GPL-2.0-or-later */
+@@ -1,22 +0,0 @@
+-/* SPDX-License-Identifier: GPL-2.0-only */
 -/*
-- * Register map for M-5MOLS 8M Pixel camera sensor with ISP
+- * Driver for MT9M032 CMOS Image Sensor from Micron
 - *
-- * Copyright (C) 2011 Samsung Electronics Co., Ltd.
-- * Author: HeungJun Kim <riverful.kim@samsung.com>
-- *
-- * Copyright (C) 2009 Samsung Electronics Co., Ltd.
-- * Author: Dongsoo Nathaniel Kim <dongsoo45.kim@samsung.com>
+- * Copyright (C) 2010-2011 Lund Engineering
+- * Contact: Gil Lund <gwlund@lundeng.com>
+- * Author: Martin Hostettler <martin@neutronstar.dyndns.org>
 - */
 -
--#ifndef M5MOLS_REG_H
--#define M5MOLS_REG_H
+-#ifndef MT9M032_H
+-#define MT9M032_H
 -
--#define M5MOLS_I2C_MAX_SIZE	4
--#define M5MOLS_BYTE_READ	0x01
--#define M5MOLS_BYTE_WRITE	0x02
+-#define MT9M032_NAME		"mt9m032"
+-#define MT9M032_I2C_ADDR	(0xb8 >> 1)
 -
--#define I2C_CATEGORY(__cat)		((__cat >> 16) & 0xff)
--#define I2C_COMMAND(__comm)		((__comm >> 8) & 0xff)
--#define I2C_SIZE(__reg_s)		((__reg_s) & 0xff)
--#define I2C_REG(__cat, __cmd, __reg_s)	((__cat << 16) | (__cmd << 8) | __reg_s)
+-struct mt9m032_platform_data {
+-	u32 ext_clock;
+-	u32 pix_clock;
+-	bool invert_pixclock;
 -
--/*
-- * Category section register
-- *
-- * The category means set including relevant command of M-5MOLS.
-- */
--#define CAT_SYSTEM		0x00
--#define CAT_PARAM		0x01
--#define CAT_MONITOR		0x02
--#define CAT_AE			0x03
--#define CAT_WB			0x06
--#define CAT_EXIF		0x07
--#define CAT_FD			0x09
--#define CAT_LENS		0x0a
--#define CAT_CAPT_PARM		0x0b
--#define CAT_CAPT_CTRL		0x0c
--#define CAT_FLASH		0x0f	/* related to FW, revisions, booting */
--
--/*
-- * Category 0 - SYSTEM mode
-- *
-- * The SYSTEM mode in the M-5MOLS means area available to handle with the whole
-- * & all-round system of sensor. It deals with version/interrupt/setting mode &
-- * even sensor's status. Especially, the M-5MOLS sensor with ISP varies by
-- * packaging & manufacturer, even the customer and project code. And the
-- * function details may vary among them. The version information helps to
-- * determine what methods shall be used in the driver.
-- *
-- * There is many registers between customer version address and awb one. For
-- * more specific contents, see definition if file m5mols.h.
-- */
--#define SYSTEM_VER_CUSTOMER	I2C_REG(CAT_SYSTEM, 0x00, 1)
--#define SYSTEM_VER_PROJECT	I2C_REG(CAT_SYSTEM, 0x01, 1)
--#define SYSTEM_VER_FIRMWARE	I2C_REG(CAT_SYSTEM, 0x02, 2)
--#define SYSTEM_VER_HARDWARE	I2C_REG(CAT_SYSTEM, 0x04, 2)
--#define SYSTEM_VER_PARAMETER	I2C_REG(CAT_SYSTEM, 0x06, 2)
--#define SYSTEM_VER_AWB		I2C_REG(CAT_SYSTEM, 0x08, 2)
--
--#define SYSTEM_SYSMODE		I2C_REG(CAT_SYSTEM, 0x0b, 1)
--#define REG_SYSINIT		0x00	/* SYSTEM mode */
--#define REG_PARAMETER		0x01	/* PARAMETER mode */
--#define REG_MONITOR		0x02	/* MONITOR mode */
--#define REG_CAPTURE		0x03	/* CAPTURE mode */
--
--#define SYSTEM_CMD(__cmd)	I2C_REG(CAT_SYSTEM, cmd, 1)
--#define SYSTEM_VER_STRING	I2C_REG(CAT_SYSTEM, 0x0a, 1)
--#define REG_SAMSUNG_ELECTRO	"SE"	/* Samsung Electro-Mechanics */
--#define REG_SAMSUNG_OPTICS	"OP"	/* Samsung Fiber-Optics */
--#define REG_SAMSUNG_TECHWIN	"TB"	/* Samsung Techwin */
--/* SYSTEM mode status */
--#define SYSTEM_STATUS	I2C_REG(CAT_SYSTEM, 0x0c, 1)
--
--/* Interrupt pending register */
--#define SYSTEM_INT_FACTOR	I2C_REG(CAT_SYSTEM, 0x10, 1)
--/* interrupt enable register */
--#define SYSTEM_INT_ENABLE	I2C_REG(CAT_SYSTEM, 0x11, 1)
--#define REG_INT_MODE		(1 << 0)
--#define REG_INT_AF		(1 << 1)
--#define REG_INT_ZOOM		(1 << 2)
--#define REG_INT_CAPTURE		(1 << 3)
--#define REG_INT_FRAMESYNC	(1 << 4)
--#define REG_INT_FD		(1 << 5)
--#define REG_INT_LENS_INIT	(1 << 6)
--#define REG_INT_SOUND		(1 << 7)
--#define REG_INT_MASK		0x0f
--
--/*
-- * category 1 - PARAMETER mode
-- *
-- * This category supports function of camera features of M-5MOLS. It means we
-- * can handle with preview(MONITOR) resolution size/frame per second/interface
-- * between the sensor and the Application Processor/even the image effect.
-- */
--
--/* Resolution in the MONITOR mode */
--#define PARM_MON_SIZE		I2C_REG(CAT_PARAM, 0x01, 1)
--
--/* Frame rate */
--#define PARM_MON_FPS		I2C_REG(CAT_PARAM, 0x02, 1)
--#define REG_FPS_30		0x02
--
--/* Video bus between the sensor and a host processor */
--#define PARM_INTERFACE		I2C_REG(CAT_PARAM, 0x00, 1)
--#define REG_INTERFACE_MIPI	0x02
--
--/* Image effects */
--#define PARM_EFFECT		I2C_REG(CAT_PARAM, 0x0b, 1)
--#define REG_EFFECT_OFF		0x00
--#define REG_EFFECT_NEGA		0x01
--#define REG_EFFECT_EMBOSS	0x06
--#define REG_EFFECT_OUTLINE	0x07
--#define REG_EFFECT_WATERCOLOR	0x08
--
--/*
-- * Category 2 - MONITOR mode
-- *
-- * The MONITOR mode is same as preview mode as we said. The M-5MOLS has another
-- * mode named "Preview", but this preview mode is used at the case specific
-- * vider-recording mode. This mmode supports only YUYV format. On the other
-- * hand, the JPEG & RAW formats is supports by CAPTURE mode. And, there are
-- * another options like zoom/color effect(different with effect in PARAMETER
-- * mode)/anti hand shaking algorithm.
-- */
--
--/* Target digital zoom position */
--#define MON_ZOOM		I2C_REG(CAT_MONITOR, 0x01, 1)
--
--/* CR value for color effect */
--#define MON_CFIXR		I2C_REG(CAT_MONITOR, 0x0a, 1)
--/* CB value for color effect */
--#define MON_CFIXB		I2C_REG(CAT_MONITOR, 0x09, 1)
--#define REG_CFIXB_SEPIA		0xd8
--#define REG_CFIXR_SEPIA		0x18
--
--#define MON_EFFECT		I2C_REG(CAT_MONITOR, 0x0b, 1)
--#define REG_COLOR_EFFECT_OFF	0x00
--#define REG_COLOR_EFFECT_ON	0x01
--
--/* Chroma enable */
--#define MON_CHROMA_EN		I2C_REG(CAT_MONITOR, 0x10, 1)
--/* Chroma level */
--#define MON_CHROMA_LVL		I2C_REG(CAT_MONITOR, 0x0f, 1)
--#define REG_CHROMA_OFF		0x00
--#define REG_CHROMA_ON		0x01
--
--/* Sharpness on/off */
--#define MON_EDGE_EN		I2C_REG(CAT_MONITOR, 0x12, 1)
--/* Sharpness level */
--#define MON_EDGE_LVL		I2C_REG(CAT_MONITOR, 0x11, 1)
--#define REG_EDGE_OFF		0x00
--#define REG_EDGE_ON		0x01
--
--/* Set color tone (contrast) */
--#define MON_TONE_CTL		I2C_REG(CAT_MONITOR, 0x25, 1)
--
--/*
-- * Category 3 - Auto Exposure
-- *
-- * The M-5MOLS exposure capbility is detailed as which is similar to digital
-- * camera. This category supports AE locking/various AE mode(range of exposure)
-- * /ISO/flickering/EV bias/shutter/meteoring, and anything else. And the
-- * maximum/minimum exposure gain value depending on M-5MOLS firmware, may be
-- * different. So, this category also provide getting the max/min values. And,
-- * each MONITOR and CAPTURE mode has each gain/shutter/max exposure values.
-- */
--
--/* Auto Exposure locking */
--#define AE_LOCK			I2C_REG(CAT_AE, 0x00, 1)
--#define REG_AE_UNLOCK		0x00
--#define REG_AE_LOCK		0x01
--
--/* Auto Exposure algorithm mode */
--#define AE_MODE			I2C_REG(CAT_AE, 0x01, 1)
--#define REG_AE_OFF		0x00	/* AE off */
--#define REG_AE_ALL		0x01	/* calc AE in all block integral */
--#define REG_AE_CENTER		0x03	/* calc AE in center weighted */
--#define REG_AE_SPOT		0x06	/* calc AE in specific spot */
--
--#define AE_ISO			I2C_REG(CAT_AE, 0x05, 1)
--#define REG_ISO_AUTO		0x00
--#define REG_ISO_50		0x01
--#define REG_ISO_100		0x02
--#define REG_ISO_200		0x03
--#define REG_ISO_400		0x04
--#define REG_ISO_800		0x05
--
--/* EV (scenemode) preset for MONITOR */
--#define AE_EV_PRESET_MONITOR	I2C_REG(CAT_AE, 0x0a, 1)
--/* EV (scenemode) preset for CAPTURE */
--#define AE_EV_PRESET_CAPTURE	I2C_REG(CAT_AE, 0x0b, 1)
--#define REG_SCENE_NORMAL	0x00
--#define REG_SCENE_PORTRAIT	0x01
--#define REG_SCENE_LANDSCAPE	0x02
--#define REG_SCENE_SPORTS	0x03
--#define REG_SCENE_PARTY_INDOOR	0x04
--#define REG_SCENE_BEACH_SNOW	0x05
--#define REG_SCENE_SUNSET	0x06
--#define REG_SCENE_DAWN_DUSK	0x07
--#define REG_SCENE_FALL		0x08
--#define REG_SCENE_NIGHT		0x09
--#define REG_SCENE_AGAINST_LIGHT	0x0a
--#define REG_SCENE_FIRE		0x0b
--#define REG_SCENE_TEXT		0x0c
--#define REG_SCENE_CANDLE	0x0d
--
--/* Manual gain in MONITOR mode */
--#define AE_MAN_GAIN_MON		I2C_REG(CAT_AE, 0x12, 2)
--/* Maximum gain in MONITOR mode */
--#define AE_MAX_GAIN_MON		I2C_REG(CAT_AE, 0x1a, 2)
--/* Manual gain in CAPTURE mode */
--#define AE_MAN_GAIN_CAP		I2C_REG(CAT_AE, 0x26, 2)
--
--#define AE_INDEX		I2C_REG(CAT_AE, 0x38, 1)
--#define REG_AE_INDEX_20_NEG	0x00
--#define REG_AE_INDEX_15_NEG	0x01
--#define REG_AE_INDEX_10_NEG	0x02
--#define REG_AE_INDEX_05_NEG	0x03
--#define REG_AE_INDEX_00		0x04
--#define REG_AE_INDEX_05_POS	0x05
--#define REG_AE_INDEX_10_POS	0x06
--#define REG_AE_INDEX_15_POS	0x07
--#define REG_AE_INDEX_20_POS	0x08
--
--/*
-- * Category 6 - White Balance
-- */
--
--/* Auto Whitebalance locking */
--#define AWB_LOCK		I2C_REG(CAT_WB, 0x00, 1)
--#define REG_AWB_UNLOCK		0x00
--#define REG_AWB_LOCK		0x01
--
--#define AWB_MODE		I2C_REG(CAT_WB, 0x02, 1)
--#define REG_AWB_AUTO		0x01	/* AWB off */
--#define REG_AWB_PRESET		0x02	/* AWB preset */
--
--/* Manual WB (preset) */
--#define AWB_MANUAL		I2C_REG(CAT_WB, 0x03, 1)
--#define REG_AWB_INCANDESCENT	0x01
--#define REG_AWB_FLUORESCENT_1	0x02
--#define REG_AWB_FLUORESCENT_2	0x03
--#define REG_AWB_DAYLIGHT	0x04
--#define REG_AWB_CLOUDY		0x05
--#define REG_AWB_SHADE		0x06
--#define REG_AWB_HORIZON		0x07
--#define REG_AWB_LEDLIGHT	0x09
--
--/*
-- * Category 7 - EXIF information
-- */
--#define EXIF_INFO_EXPTIME_NU	I2C_REG(CAT_EXIF, 0x00, 4)
--#define EXIF_INFO_EXPTIME_DE	I2C_REG(CAT_EXIF, 0x04, 4)
--#define EXIF_INFO_TV_NU		I2C_REG(CAT_EXIF, 0x08, 4)
--#define EXIF_INFO_TV_DE		I2C_REG(CAT_EXIF, 0x0c, 4)
--#define EXIF_INFO_AV_NU		I2C_REG(CAT_EXIF, 0x10, 4)
--#define EXIF_INFO_AV_DE		I2C_REG(CAT_EXIF, 0x14, 4)
--#define EXIF_INFO_BV_NU		I2C_REG(CAT_EXIF, 0x18, 4)
--#define EXIF_INFO_BV_DE		I2C_REG(CAT_EXIF, 0x1c, 4)
--#define EXIF_INFO_EBV_NU	I2C_REG(CAT_EXIF, 0x20, 4)
--#define EXIF_INFO_EBV_DE	I2C_REG(CAT_EXIF, 0x24, 4)
--#define EXIF_INFO_ISO		I2C_REG(CAT_EXIF, 0x28, 2)
--#define EXIF_INFO_FLASH		I2C_REG(CAT_EXIF, 0x2a, 2)
--#define EXIF_INFO_SDR		I2C_REG(CAT_EXIF, 0x2c, 2)
--#define EXIF_INFO_QVAL		I2C_REG(CAT_EXIF, 0x2e, 2)
--
--/*
-- * Category 9 - Face Detection
-- */
--#define FD_CTL			I2C_REG(CAT_FD, 0x00, 1)
--#define BIT_FD_EN		0
--#define BIT_FD_DRAW_FACE_FRAME	4
--#define BIT_FD_DRAW_SMILE_LVL	6
--#define REG_FD(shift)		(1 << shift)
--#define REG_FD_OFF		0x0
--
--/*
-- * Category A - Lens Parameter
-- */
--#define AF_MODE			I2C_REG(CAT_LENS, 0x01, 1)
--#define REG_AF_NORMAL		0x00	/* Normal AF, one time */
--#define REG_AF_MACRO		0x01	/* Macro AF, one time */
--#define REG_AF_POWEROFF		0x07
--
--#define AF_EXECUTE		I2C_REG(CAT_LENS, 0x02, 1)
--#define REG_AF_STOP		0x00
--#define REG_AF_EXE_AUTO		0x01
--#define REG_AF_EXE_CAF		0x02
--
--#define AF_STATUS		I2C_REG(CAT_LENS, 0x03, 1)
--#define REG_AF_FAIL		0x00
--#define REG_AF_SUCCESS		0x02
--#define REG_AF_IDLE		0x04
--#define REG_AF_BUSY		0x05
--
--#define AF_VERSION		I2C_REG(CAT_LENS, 0x0a, 1)
--
--/*
-- * Category B - CAPTURE Parameter
-- */
--#define CAPP_YUVOUT_MAIN	I2C_REG(CAT_CAPT_PARM, 0x00, 1)
--#define REG_YUV422		0x00
--#define REG_BAYER10		0x05
--#define REG_BAYER8		0x06
--#define REG_JPEG		0x10
--
--#define CAPP_MAIN_IMAGE_SIZE	I2C_REG(CAT_CAPT_PARM, 0x01, 1)
--#define CAPP_JPEG_SIZE_MAX	I2C_REG(CAT_CAPT_PARM, 0x0f, 4)
--#define CAPP_JPEG_RATIO		I2C_REG(CAT_CAPT_PARM, 0x17, 1)
--
--#define CAPP_MCC_MODE		I2C_REG(CAT_CAPT_PARM, 0x1d, 1)
--#define REG_MCC_OFF		0x00
--#define REG_MCC_NORMAL		0x01
--
--#define CAPP_WDR_EN		I2C_REG(CAT_CAPT_PARM, 0x2c, 1)
--#define REG_WDR_OFF		0x00
--#define REG_WDR_ON		0x01
--#define REG_WDR_AUTO		0x02
--
--#define CAPP_LIGHT_CTRL		I2C_REG(CAT_CAPT_PARM, 0x40, 1)
--#define REG_LIGHT_OFF		0x00
--#define REG_LIGHT_ON		0x01
--#define REG_LIGHT_AUTO		0x02
--
--#define CAPP_FLASH_CTRL		I2C_REG(CAT_CAPT_PARM, 0x41, 1)
--#define REG_FLASH_OFF		0x00
--#define REG_FLASH_ON		0x01
--#define REG_FLASH_AUTO		0x02
--
--/*
-- * Category C - CAPTURE Control
-- */
--#define CAPC_MODE		I2C_REG(CAT_CAPT_CTRL, 0x00, 1)
--#define REG_CAP_NONE		0x00
--#define REG_CAP_ANTI_SHAKE	0x02
--
--/* Select single- or multi-shot capture */
--#define CAPC_SEL_FRAME		I2C_REG(CAT_CAPT_CTRL, 0x06, 1)
--
--#define CAPC_START		I2C_REG(CAT_CAPT_CTRL, 0x09, 1)
--#define REG_CAP_START_MAIN	0x01
--#define REG_CAP_START_THUMB	0x03
--
--#define CAPC_IMAGE_SIZE		I2C_REG(CAT_CAPT_CTRL, 0x0d, 4)
--#define CAPC_THUMB_SIZE		I2C_REG(CAT_CAPT_CTRL, 0x11, 4)
--
--/*
-- * Category F - Flash
-- *
-- * This mode provides functions about internal flash stuff and system startup.
-- */
--
--/* Starts internal ARM core booting after power-up */
--#define FLASH_CAM_START		I2C_REG(CAT_FLASH, 0x12, 1)
--#define REG_START_ARM_BOOT	0x01	/* write value */
--#define REG_IN_FLASH_MODE	0x00	/* read value */
--
--#endif	/* M5MOLS_REG_H */
-diff --git a/include/media/i2c/m5mols.h b/include/media/i2c/m5mols.h
-deleted file mode 100644
-index a56ae353c891..000000000000
---- a/include/media/i2c/m5mols.h
-+++ /dev/null
-@@ -1,25 +0,0 @@
--/* SPDX-License-Identifier: GPL-2.0-or-later */
--/*
-- * Driver header for M-5MOLS 8M Pixel camera sensor with ISP
-- *
-- * Copyright (C) 2011 Samsung Electronics Co., Ltd.
-- * Author: HeungJun Kim <riverful.kim@samsung.com>
-- *
-- * Copyright (C) 2009 Samsung Electronics Co., Ltd.
-- * Author: Dongsoo Nathaniel Kim <dongsoo45.kim@samsung.com>
-- */
--
--#ifndef MEDIA_M5MOLS_H
--#define MEDIA_M5MOLS_H
--
--/**
-- * struct m5mols_platform_data - platform data for M-5MOLS driver
-- * @set_power:	an additional callback to the board setup code
-- *		to be called after enabling and before disabling
-- *		the sensor's supply regulators
-- */
--struct m5mols_platform_data {
--	int (*set_power)(struct device *dev, int on);
 -};
--
--#endif	/* MEDIA_M5MOLS_H */
+-#endif /* MT9M032_H */
 -- 
 Regards,
 
