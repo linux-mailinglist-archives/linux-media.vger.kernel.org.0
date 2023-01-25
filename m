@@ -2,123 +2,156 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7169467B1DC
-	for <lists+linux-media@lfdr.de>; Wed, 25 Jan 2023 12:47:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7A7CB67B204
+	for <lists+linux-media@lfdr.de>; Wed, 25 Jan 2023 12:52:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235765AbjAYLru (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 25 Jan 2023 06:47:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38432 "EHLO
+        id S235781AbjAYLwb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 25 Jan 2023 06:52:31 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39852 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230146AbjAYLrs (ORCPT
+        with ESMTP id S233330AbjAYLw3 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 25 Jan 2023 06:47:48 -0500
-Received: from mail-ot1-x32b.google.com (mail-ot1-x32b.google.com [IPv6:2607:f8b0:4864:20::32b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB7F54684
-        for <linux-media@vger.kernel.org>; Wed, 25 Jan 2023 03:47:46 -0800 (PST)
-Received: by mail-ot1-x32b.google.com with SMTP id 39-20020a9d032a000000b006884aad0b15so1002027otv.12
-        for <linux-media@vger.kernel.org>; Wed, 25 Jan 2023 03:47:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:references:in-reply-to:message-id:cc:to:subject:from
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=282ayFkuAOjZoYUDc0aDlm7l4Ua6SR1w7Gvov+9rFIo=;
-        b=7ELM5ELNmfhBRPR/Gs+cgstult7RW0LN78AkkyDVzlQEWt0GUDxu/Z1adhsy541aaJ
-         clw/v2+j7rpa5cc6At+6fuUjKE4eoFWJ8FGlAzgdcz5nCez3XyHGph+9fB6Q46PuV6wv
-         gIz4jvZGkGPUsvAWJIH2J0jxt1PXPRxNxErbXAMGijsU1FuA6EqFitii0bMHB9gYMGa8
-         eHV6fIi57rwPF1MA2yLbW13Szmx8/AvHaAtiTx9aGvVf6XWpbc4sbUVTnCAqeKWlCqnH
-         WwQCqvR8az6nwIfdxgMNaqdv6dBJg/lMo13+VzEEY5TZURD/eBbX1/e5Kznopobke6jP
-         3UUg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=mime-version:references:in-reply-to:message-id:cc:to:subject:from
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=282ayFkuAOjZoYUDc0aDlm7l4Ua6SR1w7Gvov+9rFIo=;
-        b=V6ibGGMx5IilsCI3pU2cO3GFO8TKugIBtFryC2g1lW0zI6S1jV4OrNqhCulRHafU7n
-         nzLKWx3oz/wMYPLNeWCmmwryMb9yo0y0GSZDYEpoWE9hNWaK7c6ifN6ib+NwaNlARe/T
-         94dBeMCiBVkNcOHCk1vUdf6vqdoF4Wq+ZQCS18Do8HWm7AKGImQmHQ9OQBRrEpYbLDxI
-         rjVkfgeHymxDLO2C/Bs/LrrMMHlTFnYTxvTEaECxpgal7dAK6r25NxiyxDMr1Cka8iUX
-         FWB3ZU60IfzT3L6iZaDWu821T8PDQD2MCU/v9N5bTYK3kNXzhCrljZHrG90Wlx/PzErQ
-         BWUg==
-X-Gm-Message-State: AFqh2koFeKzb2l44rmt7Hjr6bq9x1hHnLRFYxIvNqsquTHBoFoTPg5Ln
-        t0lzzLBFVAAmgib6RjRAk2sqV/+VI6o2xhsB
-X-Google-Smtp-Source: AMrXdXsYy9M6zgykl3pQp5N8QV8MvjKvA7HOSfsVgIVVtJXWaGCQrLAWP+1ET0/QECBTiYPNT25iQw==
-X-Received: by 2002:a9d:6e07:0:b0:686:3a34:4997 with SMTP id e7-20020a9d6e07000000b006863a344997mr16134224otr.22.1674647266317;
-        Wed, 25 Jan 2023 03:47:46 -0800 (PST)
-Received: from [192.168.10.175] ([190.106.125.253])
-        by smtp.gmail.com with ESMTPSA id u81-20020aca6054000000b0036cbde661ecsm2104012oib.54.2023.01.25.03.47.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Jan 2023 03:47:45 -0800 (PST)
-Date:   Wed, 25 Jan 2023 08:47:34 -0300
-From:   Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-Subject: Re: [PATCH RESEND 1/2] media: dt-bindings: media: rockchip-rga: add
- rockchip,rk3568-rga
-To:     Michael Tretter <m.tretter@pengutronix.de>
-Cc:     Jacob Chen <jacob-chen@iotwrt.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Heiko Stuebner <heiko@sntech.de>, linux-media@vger.kernel.org,
-        linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Nicolas Frattaroli <frattaroli.nicolas@gmail.com>
-Message-Id: <A3I1PR.VPFD55TNUYE81@vanguardiasur.com.ar>
-In-Reply-To: <20230119-rk3568-rga-v1-1-43d4d14365e6@pengutronix.de>
-References: <20230119-rk3568-rga-v1-0-43d4d14365e6@pengutronix.de>
-        <20230119-rk3568-rga-v1-1-43d4d14365e6@pengutronix.de>
-X-Mailer: geary/43.0
+        Wed, 25 Jan 2023 06:52:29 -0500
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 60B4F4617C;
+        Wed, 25 Jan 2023 03:52:28 -0800 (PST)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out2.suse.de (Postfix) with ESMTPS id F356B1FF27;
+        Wed, 25 Jan 2023 11:52:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1674647547; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=SJ/Hov8dA5AtQwjazEvVbMXGIJ9ndLLp47N7ofQ4cx4=;
+        b=pXgacsTdHgiGYyBVN9vgcoDkHPc99KMqxN2lHF4x8BCAe49JWYrvjhluYPBo8Aeiyuau/n
+        HZpptJzXCIUorXumCdWJLU1ZdriRaVaJLMK8evnFcYo8OX8aItgG9bo+TU9MqtAEMbhTxh
+        0FmX6ijtqb1rsOdAc8WxYlw22VbBysI=
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id CFD3E1358F;
+        Wed, 25 Jan 2023 11:52:26 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id YZ4UMvoX0WP4bAAAMHmgww
+        (envelope-from <mhocko@suse.com>); Wed, 25 Jan 2023 11:52:26 +0000
+Date:   Wed, 25 Jan 2023 12:52:26 +0100
+From:   Michal Hocko <mhocko@suse.com>
+To:     Shakeel Butt <shakeelb@google.com>
+Cc:     "T.J. Mercier" <tjmercier@google.com>, Tejun Heo <tj@kernel.org>,
+        Zefan Li <lizefan.x@bytedance.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        Roman Gushchin <roman.gushchin@linux.dev>,
+        Muchun Song <muchun.song@linux.dev>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        daniel.vetter@ffwll.ch, android-mm@google.com, jstultz@google.com,
+        jeffv@google.com, cmllamas@google.com,
+        linux-security-module@vger.kernel.org, selinux@vger.kernel.org,
+        cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+        linux-mm@kvack.org
+Subject: Re: [PATCH v2 1/4] memcg: Track exported dma-buffers
+Message-ID: <Y9EX+usSpAjZ/8LS@dhcp22.suse.cz>
+References: <20230123191728.2928839-1-tjmercier@google.com>
+ <20230123191728.2928839-2-tjmercier@google.com>
+ <Y8/ybgp2FW+e3bjc@dhcp22.suse.cz>
+ <20230124194628.d44rtcfsv23fndxw@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230124194628.d44rtcfsv23fndxw@google.com>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-
-
-On Fri, Jan 20 2023 at 10:14:21 AM +0100, Michael Tretter 
-<m.tretter@pengutronix.de> wrote:
-> Add a new compatible for the rk3568 Rockchip SoC, which also features 
-> an
-> RGA, which is called RGA2 in the TRM Part2. It is the same core as 
-> used
-> on the rk3288, which documents the same RGA2.
+On Tue 24-01-23 19:46:28, Shakeel Butt wrote:
+> On Tue, Jan 24, 2023 at 03:59:58PM +0100, Michal Hocko wrote:
+> > On Mon 23-01-23 19:17:23, T.J. Mercier wrote:
+> > > When a buffer is exported to userspace, use memcg to attribute the
+> > > buffer to the allocating cgroup until all buffer references are
+> > > released.
+> > 
+> > Is there any reason why this memory cannot be charged during the
+> > allocation (__GFP_ACCOUNT used)?
+> > Also you do charge and account the memory but underlying pages do not
+> > know about their memcg (this is normally done with commit_charge for
+> > user mapped pages). This would become a problem if the memory is
+> > migrated for example.
 > 
-> Specify a new compatible for the rk3568 to be able to handle unknown
-> SoC-specific differences in the driver.
+> I don't think this is movable memory.
 > 
-> Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> Signed-off-by: Michael Tretter <m.tretter@pengutronix.de>
-
-Reviewed-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-
-> ---
->  Documentation/devicetree/bindings/media/rockchip-rga.yaml | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
+> > This also means that you have to maintain memcg
+> > reference outside of the memcg proper which is not really nice either.
+> > This mimicks tcp kmem limit implementation which I really have to say I
+> > am not a great fan of and this pattern shouldn't be coppied.
+> > 
 > 
-> diff --git 
-> a/Documentation/devicetree/bindings/media/rockchip-rga.yaml 
-> b/Documentation/devicetree/bindings/media/rockchip-rga.yaml
-> index dd645ddccb07..ea2342222408 100644
-> --- a/Documentation/devicetree/bindings/media/rockchip-rga.yaml
-> +++ b/Documentation/devicetree/bindings/media/rockchip-rga.yaml
-> @@ -21,7 +21,9 @@ properties:
->        - const: rockchip,rk3288-rga
->        - const: rockchip,rk3399-rga
->        - items:
-> -          - const: rockchip,rk3228-rga
-> +          - enum:
-> +              - rockchip,rk3228-rga
-> +              - rockchip,rk3568-rga
->            - const: rockchip,rk3288-rga
-> 
->    reg:
-> 
-> --
-> 2.30.2
+> I think we should keep the discussion on technical merits instead of
+> personal perference. To me using skmem like interface is totally fine
+> but the pros/cons need to be very explicit and the clear reasons to
+> select that option should be included.
 
+I do agree with that. I didn't want sound to be personal wrt tcp kmem
+accounting but the overall code maintenance cost is higher because
+of how tcp take on accounting differs from anything else in the memcg
+proper. I would prefer to not grow another example like that.
 
+> To me there are two options:
+> 
+> 1. Using skmem like interface as this patch series:
+> 
+> The main pros of this option is that it is very simple. Let me list down
+> the cons of this approach:
+> 
+> a. There is time window between the actual memory allocation/free and
+> the charge and uncharge and [un]charge happen when the whole memory is
+> allocated or freed. I think for the charge path that might not be a big
+> issue but on the uncharge, this can cause issues. The application and
+> the potential shrinkers have freed some of this dmabuf memory but until
+> the whole dmabuf is freed, the memcg uncharge will not happen. This can
+> consequences on reclaim and oom behavior of the application.
+> 
+> b. Due to the usage model i.e. a central daemon allocating the dmabuf
+> memory upfront, there is a requirement to have a memcg charge transfer
+> functionality to transfer the charge from the central daemon to the
+> client applications. This does introduce complexity and avenues of weird
+> reclaim and oom behavior.
+> 
+> 
+> 2. Allocate and charge the memory on page fault by actual user
+> 
+> In this approach, the memory is not allocated upfront by the central
+> daemon but rather on the page fault by the client application and the
+> memcg charge happen at the same time.
+> 
+> The only cons I can think of is this approach is more involved and may
+> need some clever tricks to track the page on the free patch i.e. we to
+> decrement the dmabuf memcg stat on free path. Maybe a page flag.
+> 
+> The pros of this approach is there is no need have a charge transfer
+> functionality and the charge/uncharge being closely tied to the actual
+> memory allocation and free.
+> 
+> Personally I would prefer the second approach but I don't want to just
+> block this work if the dmabuf folks are ok with the cons mentioned of
+> the first approach.
+
+I am not familiar with dmabuf internals to judge complexity on their end
+but I fully agree that charge-when-used is much more easier to reason
+about and it should have less subtle surprises.
+-- 
+Michal Hocko
+SUSE Labs
