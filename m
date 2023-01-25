@@ -2,229 +2,203 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E2B1667B355
-	for <lists+linux-media@lfdr.de>; Wed, 25 Jan 2023 14:33:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2556567B46C
+	for <lists+linux-media@lfdr.de>; Wed, 25 Jan 2023 15:28:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235362AbjAYNdo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 25 Jan 2023 08:33:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58584 "EHLO
+        id S235388AbjAYO2N (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 25 Jan 2023 09:28:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33438 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233330AbjAYNdn (ORCPT
+        with ESMTP id S235086AbjAYO2K (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 25 Jan 2023 08:33:43 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E645C366B1;
-        Wed, 25 Jan 2023 05:33:41 -0800 (PST)
-Received: from [192.168.1.15] (91-154-32-225.elisa-laajakaista.fi [91.154.32.225])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 980076E0;
-        Wed, 25 Jan 2023 14:33:38 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1674653619;
-        bh=dKBgju70MFJqf2CRYXDiM5DEgZzSi9XFzToHAh5eN0A=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=e6IMWJsVU8C5HlyGuTDDLApH6HtDir3PTAkQ9Bhj8rpttoIHWv96F4/s2LTAIHk6O
-         OiH/ceRHwNc5aaB5YB466v3JR/lu/F7ly+gf+TYd4xNsau2P4MWeiVNj488HhjTnp0
-         Ti/EfYbyMX+Uq+JEcQfchcgRGZW8FPiX4JCvWcDM=
-Message-ID: <cad92dbb-43ef-fa8c-1962-13c4a8578899@ideasonboard.com>
-Date:   Wed, 25 Jan 2023 15:33:35 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH v7 5/7] media: i2c: add DS90UB960 driver
-Content-Language: en-US
-To:     Andy Shevchenko <andriy.shevchenko@intel.com>
-Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Wolfram Sang <wsa@kernel.org>,
-        Luca Ceresoli <luca.ceresoli@bootlin.com>,
-        Matti Vaittinen <Matti.Vaittinen@fi.rohmeurope.com>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Wed, 25 Jan 2023 09:28:10 -0500
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 68CC718B12;
+        Wed, 25 Jan 2023 06:28:03 -0800 (PST)
+Received: from nicolas-tpx395.localdomain (192-222-136-102.qc.cable.ebox.net [192.222.136.102])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: nicolas)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 1CC8B6602E00;
+        Wed, 25 Jan 2023 14:28:01 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1674656882;
+        bh=rJyQR0v8iKrJWtNCwmnLS2MPNx/i9JuopJQn6g7HfHo=;
+        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+        b=e4kCLdzLbodn4ePgll8WwdPnbAuQkmut++zrt+qx8TBYx9Mjr3g977GWWM6coPMwr
+         yY7hLiYQwcoytxDP5p08n83DzKzpY3BjjexkZ6BJHaIVIDkNtIkghykFjvBPzJ/9kZ
+         D5b/A8rheAUNY8osRPtr1MWvD29fuahDTr2TujuqsdjdaDeS7bvSO61E82Q7C4iNJj
+         S8553kwdOEQ7lMgWa0jsGfnvgN2Z1HbyT8z19VHMqDjlJEOt2lHfFW6wLETAaceoF5
+         lcxKkTgygJpptXNsndEAyaV7J2z77FD3kk1zz31dl3vNLHz22D0DrKNriyZCt4wK/d
+         MU4CC2zvyHzrQ==
+Message-ID: <dc550ea69488a53e108a31bd0574e63e18704a0b.camel@collabora.com>
+Subject: Re: [PATCH] hantro: Fix JPEG encoder ENUM_FRAMESIZE on RK3399
+From:   Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To:     Michael Grzeschik <mgr@pengutronix.de>
+Cc:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Peter Rosin <peda@axentia.se>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Michael Tretter <m.tretter@pengutronix.de>,
-        Shawn Tu <shawnx.tu@intel.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Mike Pagano <mpagano@gentoo.org>,
-        =?UTF-8?Q?Krzysztof_Ha=c5=82asa?= <khalasa@piap.pl>,
-        Marek Vasut <marex@denx.de>
-References: <20230118124031.788940-1-tomi.valkeinen@ideasonboard.com>
- <20230118124031.788940-6-tomi.valkeinen@ideasonboard.com>
- <Y8gUuqLBXsXQoNUC@smile.fi.intel.com>
- <aba49d82-c76f-7ff2-751c-d1be7b8f3bca@ideasonboard.com>
- <Y8rFh6zO7Hp9mLxE@smile.fi.intel.com>
- <4286abe2-f23f-d4c9-ef18-f351af7a3a8b@ideasonboard.com>
- <Y9EcRlooHwIjOqiZ@smile.fi.intel.com>
-From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-In-Reply-To: <Y9EcRlooHwIjOqiZ@smile.fi.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        Heiko Stuebner <heiko@sntech.de>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>, kernel@collabora.com,
+        Robert Mader <robert.mader@collabora.com>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Date:   Wed, 25 Jan 2023 09:27:50 -0500
+In-Reply-To: <20230124223855.GD7611@pengutronix.de>
+References: <20221223141644.703088-1-nicolas.dufresne@collabora.com>
+         <CAAEAJfATk+jOq3qt-m2CZEbCVumHHWDFfuEXKA7k0NZQXajCRg@mail.gmail.com>
+         <6449640fcfbbfd4b72e619f03704b7e9031a8a17.camel@collabora.com>
+         <20230124223855.GD7611@pengutronix.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.2 (3.46.2-1.fc37) 
+MIME-Version: 1.0
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 25/01/2023 14:10, Andy Shevchenko wrote:
-> On Wed, Jan 25, 2023 at 01:15:34PM +0200, Tomi Valkeinen wrote:
->> On 20/01/2023 18:47, Andy Shevchenko wrote:
-> 
-> ...
-> 
->>>>> Esp. taking into account that some of them are using actually
->>>>> post-inc. Why this difference?
->>>>
->>>> Possibly a different person has written that particular piece of code, or
->>>> maybe a copy paste from somewhere.
->>>>
->>>> I'm personally fine with seeing both post and pre increments in code.
->>>
->>> I'm not :-), if it's not required by the code. Pre-increment always puzzles
->>> me: Is here anything I have to pay an additional attention to?
->>
->> That is interesting, as to me pre-increment is the simpler, more obvious
->> case. It's just:
->>
->> v = v + 1
->> v
->>
->> Whereas post-increment is:
->>
->> temp = v
->> v = v + 1
->> temp
->>
->> In any case, we're side-tracking here, I think =).
-> 
-> Yes, just see the statistics of use below.
-> 
-> ...
-> 
->>>>>> +	for (nport = 0; nport < priv->hw_data->num_rxports; ++nport) {
->>>>>
->>>>> Post-inc?
->>>>
->>>> I still like pre-inc =).
->>>>
->>>> I see there's a mix os post and pre incs in the code. I'll align those when
->>>> I encounter them, but I don't think it's worth the effort to methodically go
->>>> through all of them to change them use the same style.
->>>
->>> Kernel uses post-inc is an idiom for loops:
->>>
->>> $ git grep -n -w '[_a-z0-9]\+++' | wc -l
->>> 148693
->>>
->>> $ git grep -n -w ' ++[a-z0-9_]\+' | wc -l
->>> 8701
->>>
->>> So, non-standard pattern needs to be explained.
-> 
->>>>>> +	}
-> 
-> ...
-> 
->>>>>> +	ret = fwnode_property_read_u32(link_fwnode, "ti,eq-level", &eq_level);
->>>>>> +	if (ret) {
->>>>>> +		if (ret != -EINVAL) {
->>>>>> +			dev_err(dev, "rx%u: failed to read 'ti,eq-level': %d\n",
->>>>>> +				nport, ret);
->>>>>> +			return ret;
->>>>>> +		}
->>>
->>> This seems like trying to handle special cases, if you want it to be optional,
->>> why not ignoring all errors?
->>
->> I don't follow. Why would we ignore all errors even if the property is
->> optional? If there's a failure in reading the property, or checking if it
->> exists or not, surely that's an actual error to be handled, not to be
->> ignored?
-> 
-> What the problem to ignore them?
+Le mardi 24 janvier 2023 =C3=A0 23:38 +0100, Michael Grzeschik a =C3=A9crit=
+=C2=A0:
+> On Fri, Dec 23, 2022 at 12:05:21PM -0500, Nicolas Dufresne wrote:
+> > Le vendredi 23 d=C3=A9cembre 2022 =C3=A0 13:28 -0300, Ezequiel Garcia a=
+ =C3=A9crit=C2=A0:
+> > > Hi everyone,
+> > >=20
+> > > On Fri, Dec 23, 2022 at 11:17 AM Nicolas Dufresne
+> > > <nicolas.dufresne@collabora.com> wrote:
+> > > >=20
+> > > > The frmsize structure was left initialize to 0, as side effect, the=
+ driver was
+> > > > reporting an invalid frmsize.
+> > > >=20
+> > > >   Size: Stepwise 0x0 - 0x0 with step 0/0
+> > > >=20
+> > > > Fix this by replicating the constraints in the raw formats too. Thi=
+s fixes
+> > > > taking picture in Gnome Cheese Software, or any software using GSte=
+amer
+> > > > encodebin feature.
+> > > >=20
+> > > > Fixes: 775fec69008d30 ("media: add Rockchip VPU JPEG encoder driver=
+")
+> > >=20
+> > > The frmsize is only for bitstream formats (see comment in struct hant=
+ro_fmt).
+> > > If I can read code correctly, this was broken by this commit:
+> > >=20
+> > > commit 79c987de8b35421a2a975982929f150dd415f8f7
+> > > Author: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> > > Date:   Mon Apr 4 18:06:40 2022 +0200
+> > >=20
+> > >     media: hantro: Use post processor scaling capacities
+> > >=20
+> > > Before that commit we used to return EINVAL for enum_framesizes
+> > > in RAW formats. I guess we missed that :-)
+> >=20
+> > I see, and gstreamer had a quirk for such a bogus response. Let me expl=
+ain why
+> > its bogus, for the general knowlege. A driver that supports ENUM_FRAMES=
+IZE but
+> > does not return any sizes, is in theory a driver that does not support =
+anything.
+> > Fortunaly, GStreamer considered not having a single framesize bogus, an=
+d would
+> > fallback to the old school try_fmt() dance to find the supported sizes.
+> >=20
+> > So yes, it used to work in gstreamer, and its indeed
+> > 79c987de8b35421a2a975982929f150dd415f8f7 that broke it. I'll correct hi=
+s in V2.
+> >=20
+> > >=20
+> > > To be completely honest, I'm not sure if we used to support encodebin=
+,
+> > > and I'm not too sure how to approach this issue, but I would really
+> > > love to start with something super simple like:
+> > >=20
+> > > diff --git a/drivers/media/platform/verisilicon/hantro_v4l2.c
+> > > b/drivers/media/platform/verisilicon/hantro_v4l2.c
+> > > index 2c7a805289e7..0b28f86b7463 100644
+> > > --- a/drivers/media/platform/verisilicon/hantro_v4l2.c
+> > > +++ b/drivers/media/platform/verisilicon/hantro_v4l2.c
+> > > @@ -161,8 +161,11 @@ static int vidioc_enum_framesizes(struct file
+> > > *file, void *priv,
+> > >         }
+> > >=20
+> > >         /* For non-coded formats check if postprocessing scaling is p=
+ossible */
+> > > -       if (fmt->codec_mode =3D=3D HANTRO_MODE_NONE &&
+> > > hantro_needs_postproc(ctx, fmt)) {
+> > > -               return hanto_postproc_enum_framesizes(ctx, fsize);
+> > > +       if (fmt->codec_mode =3D=3D HANTRO_MODE_NONE)
+> > > +        if (hantro_needs_postproc(ctx, fmt))
+> > > +            return hanto_postproc_enum_framesizes(ctx, fsize);
+> > > +        else
+> > > +            return -ENOTTY;
+> > >         } else if (fsize->index !=3D 0) {
+> > >                 vpu_debug(0, "invalid frame size index (expected 0, g=
+ot %d)\n",
+> > >                           fsize->index);
+> > >=20
+> > > (ENOTTY was suggested by Nicolas on IRC)
+> > >=20
+> > > Nicolas also pointed out that our current handling of frmsize is not =
+correct,
+> > > as we cannot express different constraints on combinations of RAW
+> > > and bitstream formats.
+> > >=20
+> > > This seems to call for a rework of enum_framesizes, so frmsize
+> > > is not static but somehow obtained per-codec.
+> >=20
+> > So I'll respin along these line to we more or less "revert back" to wor=
+king
+> > state. Though having a framesize enumeration on encoder raw (OUTPUT que=
+ue) is
+> > what makes most sense so that will have to be revisited with a correcte=
+d
+> > mechanism, as whenever we add VP8 and H.264 encoding, we'll need differ=
+ent range
+> > per codec. I'll check in January with my colleague, we might do that in=
+side the
+> > VP8 encoder branch (that is nearly ready and will be sent after the hol=
+idays),
+> > or could be an intermediate set.
+>=20
+> I just came across this discussion and found my very similar and somehow
+> forgotten patch the other day.
+>=20
+> https://lore.kernel.org/linux-media/66839e0c4b19eb4faba5fbed5cd0a4ec0c841=
+5f8.camel@ndufresne.ca/
+>=20
+> Should I just send a v2 with the ENOTTY for now?
 
-Well, probably nothing will explode if we just ignore them. But... Why 
-would we ignore them?
+I was forgetting about this, sorry, ok if you have bandwidth, just update y=
+our
+patch with ENOTTY, can you extend your comment with what was wrong with the=
+ ENUM
+(like I did in my patch) ? Also don't forget to add a Fixes tag, this needs
+backporting.
 
-> But if you are really pedantic about it, perhaps the proper way is to add
-> 
-> fwnode_property_*_optional()
-> 
-> APIs to the set where you take default and return 0 in case default had been
-> used for the absent property.
-
-Perhaps, but I don't have a default value here.
-
-In any case, I'm not quite sure what you are arguing here. Is it just 
-that you don't think the error check is necessary and should be dropped?
-
->>>>>> +	} else if (eq_level > UB960_MAX_EQ_LEVEL) {
->>>>>> +		dev_err(dev, "rx%u: illegal 'ti,eq-level' value: %d\n", nport,
->>>>>> +			eq_level);
->>>
->>> This part is a validation of DT again, but we discussed above this.
->>>
->>>>>> +	} else {
->>>>>> +		rxport->eq.manual_eq = true;
->>>>>> +		rxport->eq.manual.eq_level = eq_level;
->>>>>> +	}
-> 
-> ...
-> 
->>>>>> +struct ds90ub9xx_platform_data {
->>>>>> +	u32 port;
->>>>>> +	struct i2c_atr *atr;
->>>>>> +	unsigned long bc_rate;
->>>>>
->>>>> Not sure why we need this to be public except, probably, atr...
->>>>
->>>> The port and atr are used by the serializers, for atr. The bc_rate is used
->>>> by the serializers to figure out the clocking (they may use the FPD-Link's
->>>> frequency internally).
->>>
->>> The plain numbers can be passed as device properties. That's why the question
->>> about platform data. Platform data in general is discouraged to be used in a
->>> new code.
->>
->> Device properties, as in, coming from DT?
-> 
->  From anywhere.
-> 
->> The port could be in the DT, but
->> the others are not hardware properties.
-> 
-> Why do we need them? For example, bc_rate.
-
-The atr pointer is needed so that the serializers (ub913, ub953) can add 
-their i2c adapter to the deserializer's i2c-atr. The port is also needed 
-for that.
-
-The bc rate (back-channel rate) is the FPD-Link back-channel rate which 
-the serializers use for various functionalities. At the moment only the 
-ub953 uses it for calculating an output clock rate.
-
-The bc-rate could be implemented using the clock framework, even if it's 
-not quite a plain clock. I had that code at some point, but it felt a 
-bit off and as we needed the pdata for the ATR, I added the bc-rate there.
-
->> Yes, I don't like using platform data. We need some way to pass information
->> between the drivers.
-> 
-> Device properties allow that and targeting to remove the legacy platform data
-> in zillions of the drivers.
-
-Do you have any pointers to guide me into the right direction? I 
-couldn't find anything with some grepping and googling.
-
-If you mean "device properties" as in ACPI, and so similar to DT 
-properties, aren't those hardware properties? Only the port here is 
-about the hardware.
-
-  Tomi
+>=20
+> Thanks,
+> Michael
+>=20
+> > > > Reported-by: Robert Mader <robert.mader@collabora.com>
+> > > > Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+> > >=20
+> > > And thanks a lot for the report and the patch!
+> > >=20
+> >=20
+> >=20
+> > _______________________________________________
+> > linux-arm-kernel mailing list
+> > linux-arm-kernel@lists.infradead.org
+> > http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
+>=20
 
