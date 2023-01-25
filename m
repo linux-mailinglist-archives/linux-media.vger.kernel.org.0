@@ -2,74 +2,108 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8601567AEF5
-	for <lists+linux-media@lfdr.de>; Wed, 25 Jan 2023 10:55:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D3FF367AF30
+	for <lists+linux-media@lfdr.de>; Wed, 25 Jan 2023 11:02:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235229AbjAYJzg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 25 Jan 2023 04:55:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41118 "EHLO
+        id S235259AbjAYKCe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 25 Jan 2023 05:02:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47028 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235226AbjAYJzb (ORCPT
+        with ESMTP id S234689AbjAYKCd (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 25 Jan 2023 04:55:31 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 026412726
-        for <linux-media@vger.kernel.org>; Wed, 25 Jan 2023 01:55:29 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id A0BDBB81732
-        for <linux-media@vger.kernel.org>; Wed, 25 Jan 2023 09:55:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A9069C433D2;
-        Wed, 25 Jan 2023 09:55:26 +0000 (UTC)
-Message-ID: <f37435e9-fa32-6a6e-5306-f81241db6137@xs4all.nl>
-Date:   Wed, 25 Jan 2023 10:55:25 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH v4] media: Add AV1 uAPI
-Content-Language: en-US
-To:     Daniel Almeida <daniel.almeida@collabora.com>
-Cc:     linux-media@vger.kernel.org,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>
-References: <20230103154832.6982-1-daniel.almeida@collabora.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-In-Reply-To: <20230103154832.6982-1-daniel.almeida@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-7.8 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        Wed, 25 Jan 2023 05:02:33 -0500
+Received: from sender4-op-o14.zoho.com (sender4-op-o14.zoho.com [136.143.188.14])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 749B253B20;
+        Wed, 25 Jan 2023 02:02:27 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1674640935; cv=none; 
+        d=zohomail.com; s=zohoarc; 
+        b=bO0Jgi+NMLPOKv1n67AGYFqKmCmzSrXf+YbOLqb3lcnnMWBHWDOtPFf10qsY5r8Oyq6MU0l5ytB505qxUgElHtFhDNVPlqG1NmidiClxPMAV5qqPOGI5s3RXAM9pzB7cK7p0j6wxEbj6JrUrJen33B51iCkPGR9UEK+GPFyvdcQ=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+        t=1674640935; h=Content-Type:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To; 
+        bh=8T0jm15KjYlDRi1z8VGf6mV8Jc1j+El4vs+3OWm4xCQ=; 
+        b=K4rpu+Lm1I4RyX/haKCf4eFEA3j1w8Hnb/vYLU924EwdpvgcSpntciqqgsPVWpWUGlgkYdYLwts8cJGKGvXPtC8sw7W3wU4hsZRF2i7zlDTiBBQlfv+/NrxGHg1bsGqcpGkPoPD94Qcf/TeAh6K/SIg2ZzmrWo//NqU8zQetpzU=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+        dkim=pass  header.i=linux.beauty;
+        spf=pass  smtp.mailfrom=me@linux.beauty;
+        dmarc=pass header.from=<me@linux.beauty>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1674640935;
+        s=zmail; d=linux.beauty; i=me@linux.beauty;
+        h=Date:Date:Message-ID:From:From:To:To:Cc:Cc:Subject:Subject:In-Reply-To:References:MIME-Version:Content-Type:Message-Id:Reply-To;
+        bh=8T0jm15KjYlDRi1z8VGf6mV8Jc1j+El4vs+3OWm4xCQ=;
+        b=TZmf638uRJ8i5kzEqJGwyC9lylJZDkugjFhadj2uJgHqErwhmlyxoI6IERd3bbhu
+        NEaH+mS+5DcVlZavIYXvUUHJd4q1LaocsJxMrst0I0jYW33iTQ+rMUweGjxkW5aY/VS
+        Sgosb8uQJRZQUrEJv18D1luK5zPaWxLeeYkcjXco=
+Received: from lchen-xiaoxin.linux.beauty (221.225.241.248 [221.225.241.248]) by mx.zohomail.com
+        with SMTPS id 1674640933874576.2974511908947; Wed, 25 Jan 2023 02:02:13 -0800 (PST)
+Date:   Wed, 25 Jan 2023 18:01:25 +0800
+Message-ID: <87v8kvgcga.wl-me@linux.beauty>
+From:   Li Chen <me@linux.beauty>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Li Chen <lchen@ambarella.com>, Jiri Slaby <jirislaby@kernel.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        open list <linux-kernel@vger.kernel.org>,
+        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
+        "moderated list:ARM/Ambarella SoC support" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <dri-devel@lists.freedesktop.org>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>
+Subject: Re: [PATCH 10/15] serial: ambarella: add support for Ambarella uart_port
+In-Reply-To: <Y85YncUCtRyVnpvt@kroah.com>
+References: <20230123073305.149940-1-lchen@ambarella.com>
+        <20230123073305.149940-11-lchen@ambarella.com>
+        <Y85YncUCtRyVnpvt@kroah.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?ISO-8859-4?Q?Goj=F2?=) APEL-LB/10.8 EasyPG/1.0.0
+ Emacs/28.2 (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-ZohoMailClient: External
+X-Spam-Status: No, score=0.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_BL_SPAMCOP_NET,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+        URIBL_BLACK autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 1/3/23 16:48, Daniel Almeida wrote:
-> This patch adds the  AOMedia Video 1 (AV1) kernel uAPI.
-> 
-> This design is based on currently available AV1 API implementations and
-> aims to support the development of AV1 stateless video codecs
-> on Linux.
-> 
-> Signed-off-by: Daniel Almeida <daniel.almeida@collabora.com>
-> Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-> Co-Developed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-> ---
+On Mon, 23 Jan 2023 17:51:25 +0800,
 
-Also some kerneldoc errors/warnings:
+Hi Greg,
 
-include/uapi/linux/v4l2-controls.h:819: error: Cannot parse enum!
-include/uapi/linux/v4l2-controls.h:855: error: Cannot parse enum!
-include/uapi/linux/v4l2-controls.h:3080: warning: Enum value 'V4L2_AV1_SEG_LVL_REF_SKIP' not described in enum 'v4l2_av1_segment_feature'
-include/uapi/linux/v4l2-controls.h:3080: warning: Enum value 'V4L2_AV1_SEG_LVL_REF_GLOBALMV' not described in enum 'v4l2_av1_segment_feature'
-include/uapi/linux/v4l2-controls.h:3080: warning: Excess enum value 'V4L2_AV1_SEG_LVL_GLOBALMV' description in 'v4l2_av1_segment_feature'
-include/uapi/linux/v4l2-controls.h:3080: warning: Excess enum value 'V4L2_AV1_SEG_LVL_SKIP' description in 'v4l2_av1_segment_feature'
-include/uapi/linux/v4l2-controls.h:3365: warning: Function parameter or member 'buffer_removal_time' not described in 'v4l2_ctrl_av1_frame'
-include/uapi/linux/v4l2-controls.h:3377: warning: bad line:    Specification.
-include/uapi/linux/v4l2-controls.h:3438: error: Cannot parse struct or union!
+Sorry for my late reply.
+
+Greg Kroah-Hartman wrote:
+> 
+> On Mon, Jan 23, 2023 at 03:32:25PM +0800, Li Chen wrote:
+> > This driver add support for Ambarella's uart, which
+> > can be used for console and etc.
+> > 
+> > Signed-off-by: Li Chen <lchen@ambarella.com>
+> > Change-Id: Ie68af7ad2187e21853e58d52cd97fd7145303730
+> > ---
+> >  MAINTAINERS                         |    1 +
+> >  drivers/tty/serial/Kconfig          |   16 +
+> >  drivers/tty/serial/Makefile         |    1 +
+> >  drivers/tty/serial/ambarella_uart.c | 1581 +++++++++++++++++++++++++++
+> >  drivers/tty/serial/ambarella_uart.h |  120 ++
+> 
+> Why do you need a .h file for a single .c file?  They should all be in
+> one file please.
+
+Ok, I will combine them into single source file.
+
+> Also, no change-id, you know this...
+> 
+> thanks,
+> 
+> greg k-h
 
 Regards,
-
-	Hans
+Li
