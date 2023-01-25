@@ -2,133 +2,150 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 958F467B23A
-	for <lists+linux-media@lfdr.de>; Wed, 25 Jan 2023 13:03:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6E1BB67B24A
+	for <lists+linux-media@lfdr.de>; Wed, 25 Jan 2023 13:06:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235458AbjAYMDn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 25 Jan 2023 07:03:43 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44434 "EHLO
+        id S234969AbjAYMGU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 25 Jan 2023 07:06:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47492 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235700AbjAYMDh (ORCPT
+        with ESMTP id S229573AbjAYMGS (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 25 Jan 2023 07:03:37 -0500
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D2243568A2;
-        Wed, 25 Jan 2023 04:03:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674648203; x=1706184203;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ufZBtV8rcVPX6XXmjP2FHCWksjUH0Yche381zHYKepU=;
-  b=GBQCG9JiOUMBUf260xQckzM6F4ntZ9m0oRdiY+gLUxN+BcmvhO37cJ21
-   Gp17qq8+BO7B09e/UwArf9oPe9zpjQcp7LYRH9PjEHV05VhjjjtO5tMqE
-   tWcMw4FDAz8Wv8/eAU8VsUWvJfixJb0UNUvALEfusUR7f7AaZAJy6ooIw
-   iVji/R6+Fg/BaIMJmOtWw62FjImk6NkK/jMRyMHOYZGImyMwjkNKX+V+a
-   HzcMo9BZi6ny6srEP4ymVqFTRC0oD0FSgH57ZA21cVx8h3NDsYibl6YQR
-   eKA1BF//54f4pd/gvoiHEFFFMzgj8e8fVZ7wbZawX0KpojH4HsrL8TrYE
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10600"; a="388885124"
-X-IronPort-AV: E=Sophos;i="5.97,245,1669104000"; 
-   d="scan'208";a="388885124"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jan 2023 04:03:02 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10600"; a="664428036"
-X-IronPort-AV: E=Sophos;i="5.97,245,1669104000"; 
-   d="scan'208";a="664428036"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by fmsmga007.fm.intel.com with ESMTP; 25 Jan 2023 04:03:00 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1pKeUV-00EpqY-1e;
-        Wed, 25 Jan 2023 14:02:59 +0200
-Date:   Wed, 25 Jan 2023 14:02:59 +0200
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     linux-acpi@vger.kernel.org, linux-media@vger.kernel.org,
-        rafael@kernel.org, heikki.krogerus@linux.intel.com
-Subject: Re: [PATCH v2 4/8] ACPI: property: Generate camera swnodes for ACPI
- and DisCo for Imaging
-Message-ID: <Y9Eac0awIyK8KJEc@smile.fi.intel.com>
-References: <20230123134617.265382-1-sakari.ailus@linux.intel.com>
- <20230123134617.265382-5-sakari.ailus@linux.intel.com>
- <Y9Aw5/mSYEadHRKK@smile.fi.intel.com>
- <Y9DuyZUr3McCPGuh@kekkonen.localdomain>
- <Y9EWjBEwu4s96DPa@smile.fi.intel.com>
- <Y9EYPOmy2vEIzP7i@kekkonen.localdomain>
- <Y9EZ2eoQxnvQJPtd@smile.fi.intel.com>
+        Wed, 25 Jan 2023 07:06:18 -0500
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A7DED58675;
+        Wed, 25 Jan 2023 04:05:53 -0800 (PST)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out1.suse.de (Postfix) with ESMTPS id BDBC621DAC;
+        Wed, 25 Jan 2023 12:05:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1674648350; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=M6ZhLLcIfUWj0Dx+OmAWrztylazBquGZXcGl1z85yuQ=;
+        b=tjJPeQ8m8W5P71g2m3JXDLxSp72HbJQftZy3vAdP9Nl5ZEHWbqPcQpFn4uWOw77aDGRZxH
+        61qkk+aV/38b489Z7WPEGg5c6TfyGOai2/nQeNkVYrNH/43gA/P/ON4+Sm72XqAf9C3oEF
+        fsOYWoE2wspY0mKU/zUs0DzufjAsLUw=
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 96D241358F;
+        Wed, 25 Jan 2023 12:05:50 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id WtVTJB4b0WMbdgAAMHmgww
+        (envelope-from <mhocko@suse.com>); Wed, 25 Jan 2023 12:05:50 +0000
+Date:   Wed, 25 Jan 2023 13:05:49 +0100
+From:   Michal Hocko <mhocko@suse.com>
+To:     "T.J. Mercier" <tjmercier@google.com>
+Cc:     Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        Roman Gushchin <roman.gushchin@linux.dev>,
+        Shakeel Butt <shakeelb@google.com>,
+        Muchun Song <muchun.song@linux.dev>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        daniel.vetter@ffwll.ch, android-mm@google.com, jstultz@google.com,
+        jeffv@google.com, cmllamas@google.com,
+        linux-security-module@vger.kernel.org, selinux@vger.kernel.org,
+        cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+        linux-mm@kvack.org
+Subject: Re: [PATCH v2 1/4] memcg: Track exported dma-buffers
+Message-ID: <Y9EbHW84ydBzpTTO@dhcp22.suse.cz>
+References: <20230123191728.2928839-1-tjmercier@google.com>
+ <20230123191728.2928839-2-tjmercier@google.com>
+ <Y8/ybgp2FW+e3bjc@dhcp22.suse.cz>
+ <CABdmKX1c_8LdJJboENnZhwGjrszDWOOVt-Do93-sJW46mZMD6A@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Y9EZ2eoQxnvQJPtd@smile.fi.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <CABdmKX1c_8LdJJboENnZhwGjrszDWOOVt-Do93-sJW46mZMD6A@mail.gmail.com>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Jan 25, 2023 at 02:00:25PM +0200, Andy Shevchenko wrote:
-> On Wed, Jan 25, 2023 at 01:53:32PM +0200, Sakari Ailus wrote:
-> > On Wed, Jan 25, 2023 at 01:46:20PM +0200, Andy Shevchenko wrote:
-> > > On Wed, Jan 25, 2023 at 10:56:41AM +0200, Sakari Ailus wrote:
-> > > > On Tue, Jan 24, 2023 at 09:26:31PM +0200, Andy Shevchenko wrote:
-> > > > > On Mon, Jan 23, 2023 at 03:46:13PM +0200, Sakari Ailus wrote:
-
-...
-
-> > > > > 		// assuming we dropped the union and renamed to val...
-> > > > > 		ret = fwnode_property_read_u8_array(mipi_port_fwnode,
-> > > > > 						    "mipi-img-lane-polarities",
-> > > > > 						    val, sizeof(val));
-> > > > > 		if (ret) {
-> > > > > 			...can't read... (debug message?)
-> > > > > 		} else {
-> > > > > 			unsigned int i;
-> > > > > 
-> > > > > 			for (i = 0; i < 1 + num_lanes; i++)
-> > > > > 				bitmap_set_value8(polarity, val[i], i * BITS_PER_BYTE);
-> > > > 
-> > > > You'll still needed to access invididual bits in val.
-> > > 
-> > > I didn't get this. The below is what it does in most efficient way.
-> > 
-> > Ah. You're assining eight bits at a time.
+On Tue 24-01-23 10:55:21, T.J. Mercier wrote:
+> On Tue, Jan 24, 2023 at 7:00 AM Michal Hocko <mhocko@suse.com> wrote:
+> >
+> > On Mon 23-01-23 19:17:23, T.J. Mercier wrote:
+> > > When a buffer is exported to userspace, use memcg to attribute the
+> > > buffer to the allocating cgroup until all buffer references are
+> > > released.
+> >
+> > Is there any reason why this memory cannot be charged during the
+> > allocation (__GFP_ACCOUNT used)?
 > 
-> > Then the loop ends too late as i refers to a byte, not bit. This can be
-> > addressed though. And a BUILD_BUG_ON() check for polarity being large
-> > enough will be needed.
+> My main motivation was to keep code changes away from exporters and
+> implement the accounting in one common spot for all of them. This is a
+> bit of a carryover from a previous approach [1] where there was some
+> objection to pushing off this work onto exporters and forcing them to
+> adapt, but __GFP_ACCOUNT does seem like a smaller burden than before
+> at least initially. However in order to support charge transfer
+> between cgroups with __GFP_ACCOUNT we'd need to be able to get at the
+> pages backing dmabuf objects, and the exporters are the ones with that
+> access. Meaning I think we'd have to add some additional dma_buf_ops
+> to achieve that, which was the objection from [1].
 > 
-> You probably meant static_assert(), but see my reply to my reply where
-> I caught up this. Yes, the loop conditional should rely on byte count.
+> [1] https://lore.kernel.org/lkml/5cc27a05-8131-ce9b-dea1-5c75e994216d@amd.com/
 > 
-> > I still find this more complicated than the original code that also does
-> > not need a temporary buffer.
+> >
+> > Also you do charge and account the memory but underlying pages do not
+> > know about their memcg (this is normally done with commit_charge for
+> > user mapped pages). This would become a problem if the memory is
+> > migrated for example.
 > 
-> Your magic formula with bit shifts and conjunctions is so hard to read
-> and error prone, that makes me think of the proper APIs in the first place.
-> That's why I'm tending to use this code, because it's much easier to get
-> and maintain.
+> Hmm, what problem do you see in this situation? If the backing pages
+> are to be migrated that requires the cooperation of the exporter,
+> which currently has no influence on how the cgroup charging is done
+> and that seems fine. (Unless you mean migrating the charge across
+> cgroups? In which case that's the next patch.)
+
+My main concern was that page migration could lose the external tracking
+without some additional steps on the dmabuf front.
+
+> > This also means that you have to maintain memcg
+> > reference outside of the memcg proper which is not really nice either.
+> > This mimicks tcp kmem limit implementation which I really have to say I
+> > am not a great fan of and this pattern shouldn't be coppied.
+> >
+> Ah, what can I say. This way looked simple to me. I think otherwise
+> we're back to making all exporters do more stuff for the accounting.
 > 
-> > > > > 			// assuming that lane_polarities is zeroed by default...
-> > > > > 			for_each_set_bit(i, polarity, 1 + num_lanes)
-> > > > > 				port->lane_polarities[i] = 1;
+> > Also you are not really saying anything about the oom behavior. With
+> > this implementation the kernel will try to reclaim the memory and even
+> > trigger the memcg oom killer if the request size is <= 8 pages. Is this
+> > a desirable behavior?
+> 
+> It will try to reclaim some memory, but not the dmabuf pages right?
+> Not *yet* anyway. This behavior sounds expected to me.
 
-This even can be optimized much more if we put a constant bit numbers and if
-it's less than or equal to BITS_PER_LONG.
+Yes, we have discussed that shrinkers will follow up later which is
+fine. The question is how much reclaim actually makes sense at this
+stage. Charging interface usually copes with sizes resulting from
+allocation requests (so usually 1<<order based). I can imagine that a
+batch charge like implemented here could easily be 100s of MBs and it is
+much harder to define reclaim targets for. At least that is something
+the memcg charging hasn't really considered yet.  Maybe the existing
+try_charge implementation can cope with that just fine but it would be
+really great to have the expected behavior described.
 
-			for_each_set_bit(i, polarity, MAX_LANES(port))
-
-> > > Note that his code lacks of endianess issues.
-> > > 
-> > > > > 		}
-
+E.g. should be memcg OOM killer be invoked? Should reclaim really target
+regular memory at all costs or just a lightweight memory reclaim is
+preferred (is the dmabuf charge failure an expensive operation wrt.
+memory refault due to reclaim).
 -- 
-With Best Regards,
-Andy Shevchenko
-
-
+Michal Hocko
+SUSE Labs
