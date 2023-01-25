@@ -2,368 +2,178 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CBF6867AF67
-	for <lists+linux-media@lfdr.de>; Wed, 25 Jan 2023 11:13:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 46AE867AF79
+	for <lists+linux-media@lfdr.de>; Wed, 25 Jan 2023 11:16:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235270AbjAYKNf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 25 Jan 2023 05:13:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52658 "EHLO
+        id S235270AbjAYKQm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 25 Jan 2023 05:16:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55910 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235282AbjAYKNe (ORCPT
+        with ESMTP id S230160AbjAYKQl (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 25 Jan 2023 05:13:34 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 43C48241F1;
-        Wed, 25 Jan 2023 02:13:30 -0800 (PST)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 82D546E0;
-        Wed, 25 Jan 2023 11:13:26 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1674641606;
-        bh=LnwJ2Up/FLzmG7OYUnL3pp9pHtl+LHPjE32uPckwnEM=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Py5pC7HnLduNUqkHQxHZwWUQgsFypd92Ahtj/qzvsoE7zb9vNoMZZ3M0tpSREB2FQ
-         5gF0ZCI/Quztp6YIW4eZA01WNweGiC7887qCazDbP3shwFNKU1TfyqXac/r2y29fxE
-         BNGk6pDhegcEZQIfQNuPHLCFMPGVLob6fSa73Trg=
-Date:   Wed, 25 Jan 2023 12:13:23 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Wolfram Sang <wsa@kernel.org>,
-        Luca Ceresoli <luca.ceresoli@bootlin.com>,
-        Andy Shevchenko <andriy.shevchenko@intel.com>,
-        Matti Vaittinen <Matti.Vaittinen@fi.rohmeurope.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Peter Rosin <peda@axentia.se>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Michael Tretter <m.tretter@pengutronix.de>,
-        Shawn Tu <shawnx.tu@intel.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Mike Pagano <mpagano@gentoo.org>,
-        Krzysztof =?utf-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>,
-        Marek Vasut <marex@denx.de>,
-        Satish Nagireddy <satish.nagireddy@getcruise.com>
-Subject: Re: [PATCH v8 5/7] media: i2c: add DS90UB960 driver
-Message-ID: <Y9EAw+PUwZJFH+NO@pendragon.ideasonboard.com>
-References: <20230120153417.1156207-1-tomi.valkeinen@ideasonboard.com>
- <20230120153417.1156207-6-tomi.valkeinen@ideasonboard.com>
- <Y88EhodG7b+oSvtE@pendragon.ideasonboard.com>
- <beaebec6-4ec5-8041-5f70-a974ae417a78@ideasonboard.com>
- <Y9AjFcsQQZqZBhAb@pendragon.ideasonboard.com>
- <ead8904b-0e17-81e7-98a8-19e4abfdf281@ideasonboard.com>
+        Wed, 25 Jan 2023 05:16:41 -0500
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 19541F773;
+        Wed, 25 Jan 2023 02:16:40 -0800 (PST)
+Received: from [IPV6:2a01:e0a:120:3210:ad6f:c6af:709d:745c] (unknown [IPv6:2a01:e0a:120:3210:ad6f:c6af:709d:745c])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: benjamin.gaignard)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 1B2216602E3B;
+        Wed, 25 Jan 2023 10:16:38 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1674641798;
+        bh=ZyVJD8SXegxLi3qEwUpYLu3ZwE/l6XInFEYEi6ZpEH0=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=QpYPEJu8bdnmcvpvf0LEFJABS7N3CKLOuaTam+BgKa4z4+lUyNnNDlMcwrVa1y5V9
+         fc2uKmJUVv8Pk7r3mQZAPbK+Hz600vr82xey3ImK3CJm5xNwQdgycYOn8+ZwsdEvN/
+         0FyLgWfYWg2UhZLAJa0mJLC/wxgV738dCmYdCjYOMU35yM7E8GxulhkCxE6ktAhtO7
+         JE2D9fBGgwGRzvQwjTk7CynRVj5sq0F3hbCvq2A6juBZT+v85e/097ngH+u+BK1q3P
+         oEOdqZD/KwrEbzgnHxW1012Uz5Gwf61Qvvcf8ecdjzgRNMLirr9Tw5AX7TqkKE0jyZ
+         Mms9YoM6TpA/w==
+Message-ID: <106f7d11-a9fb-8755-b2e8-4173b86f0cc4@collabora.com>
+Date:   Wed, 25 Jan 2023 11:16:35 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <ead8904b-0e17-81e7-98a8-19e4abfdf281@ideasonboard.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH v3 00/13] AV1 stateless decoder for RK3588
+Content-Language: en-US
+To:     Hans Verkuil <hverkuil@xs4all.nl>, ezequiel@vanguardiasur.com.ar,
+        p.zabel@pengutronix.de, mchehab@kernel.org, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, heiko@sntech.de,
+        daniel.almeida@collabora.com, nicolas.dufresne@collabora.co.uk
+Cc:     linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, kernel@collabora.com
+References: <20230111165931.753763-1-benjamin.gaignard@collabora.com>
+ <b4553096-330f-2e6e-239b-bee519140810@xs4all.nl>
+From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
+In-Reply-To: <b4553096-330f-2e6e-239b-bee519140810@xs4all.nl>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-3.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Tomi,
 
-On Wed, Jan 25, 2023 at 09:39:57AM +0200, Tomi Valkeinen wrote:
-> On 24/01/2023 20:27, Laurent Pinchart wrote:
-> 
-> >>>> +	} else if (ret < 0) {
-> >>>> +		dev_err(dev, "rx%u: failed to read 'ti,cdr-mode': %d\n", nport,
-> >>>
-> >>> If you moved the "ti,cdr-mode" to an argument, printed with %s, the same
-> >>> format string would be used for the other properties below, and should
-> >>> thus be de-duplicated by the compiler.
-> >>
-> >> I'm not quite sure if this is a sensible optimization or not, but I did
-> >> it so that I introduce:
-> >>
-> >> const char *read_err_str = "rx%u: failed to read '%s': %d\n";
-> > 
-> > static
-> > 
-> >> and then use that in the function, which makes the lines much shorter
-> >> and, I think, a bit more readable.
-> > 
-> > If you use the same string literal multiple times, the compiler should
-> > de-duplicate it automatically, so you don't have to create a variable
-> > manually.
-> 
-> Yes, but I think this looked better, as it made the code look less 
-> cluttered, and the point is more obvious. Otherwise, looking at the 
-> code, seeing dev_dbg(dev, "Foo %s\n", "bar"); looks pretty weird.
+Le 25/01/2023 à 10:54, Hans Verkuil a écrit :
+> On 1/11/23 17:59, Benjamin Gaignard wrote:
+>> This series implement AV1 stateless decoder for RK3588 SoC.
+>> The hardware support 8 and 10 bits bitstreams up to 7680x4320.
+>> AV1 feature like film grain or scaling are done by the postprocessor.
+>> The driver can produce NV12_4L4, NV12_10LE40_4L4, NV12 and P010 pixels formats.
+>> Even if Rockchip have named the hardware VPU981 it looks like a VC9000 but
+>> with a different registers mapping.
+>>
+>> It is based on Daniel's "[PATCH v4] media: Add AV1 uAPI" [1] patches.
+>>
+>> The full branch can be found here:
+>> https://gitlab.collabora.com/linux/for-upstream/-/commits/rk3588_av1_decoder_v3
+>>
+>> Fluster score is: 200/239 while testing AV1-TEST-VECTORS with GStreamer-AV1-V4L2SL-Gst1.0.
+>> The failing tests are:
+>> - the 2 tests with 2 spatial layers: few errors in luma/chroma values
+>> - tests with resolution < hardware limit (64x64)
+>> - 10bits film grain test: bad macroblocks while decoding, the same 8bits
+>>    test is working fine.
+>>
+>> Changes in v3:
+>> - Fix arrays loops limites.
+>> - Remove unused field.
+>> - Reset raw pixel formats list when bit depth or film grain feature
+>>    values change.
+>> - Enable post-processor P010 support
+>>
+>> Changes in v2:
+>> - Remove useless +1 in sbs computation.
+>> - Describe NV12_10LE40_4L4 pixels format.
+>> - Post-processor could generate P010.
+>> - Fix comments done on v1.
+>> - The last patch make sure that only post-processed formats are used when film
+>>    grain feature is enabled.
+>>
+>> Benjamin
+>>
+> I have a bunch of sparse errors:
+>
+> SPARSE:drivers/media/platform/verisilicon/hantro_drv.c:342:17: error: typename in expression
+> SPARSE:drivers/media/platform/verisilicon/hantro_drv.c:342:21: error: Expected ; at end of statement
+> SPARSE:drivers/media/platform/verisilicon/hantro_drv.c:342:21: error: got bit_depth
+> SPARSE:drivers/media/platform/verisilicon/hantro_drv.c:342:17: error: undefined identifier 'int'
+> SPARSE:drivers/media/platform/verisilicon/hantro_drv.c:346:47: error: undefined identifier 'bit_depth'
+> SPARSE:drivers/media/platform/verisilicon/hantro_drv.c:353:39: error: undefined identifier 'bit_depth'
+> SPARSE:drivers/media/platform/verisilicon/hantro_drv.c:354:42: error: undefined identifier 'bit_depth'
+>
+> Also some smatch errors:
+>
+> SMATCH:drivers/media/platform/verisilicon/hantro_drv.c:342:17: :error: typename in expression
+> SMATCH:drivers/media/platform/verisilicon/hantro_drv.c:342:21: :error: Expected ; at end of statement
+> SMATCH:drivers/media/platform/verisilicon/hantro_drv.c:342:21: :error: got bit_depth
+> drivers/media/platform/verisilicon/hantro_drv.c:342 hantro_av1_s_ctrl() warn: statement has no effect 3
+> drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:227:6: warning: no previous prototype for 'rockchip_vpu981_av1_dec_tiles_free' [-Wmissing-prototypes]
+> drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:802:47: warning: variable 'chroma_addr' set but not used [-Wunused-but-set-variable]
 
-I find
+I have fix that in v4.
+I will send v4 once Hantro bit depth problem will be fixed for HEVC since the root cause are the same.
 
-	dev_dbg(dev, read_err_str, port, "ti,cdr-mode", ret);
+Thanks,
+Benjamin
 
-less readable as I then have to look up the read_err_str string to
-understand that line. I also wonder, in that case, if the compiler can
-still warn if the format string doesn't match the argument types.
-
-> >>>> +static void ub960_notify_unbind(struct v4l2_async_notifier *notifier,
-> >>>> +				struct v4l2_subdev *subdev,
-> >>>> +				struct v4l2_async_subdev *asd)
-> >>>> +{
-> >>>> +	struct ub960_rxport *rxport = to_ub960_asd(asd)->rxport;
-> >>>> +
-> >>>> +	rxport->source_sd = NULL;
-> >>>
-> >>> Does this serve any purpose ? If not, I'd drop the unbind handler.
-> >>
-> >> It makes sure we don't access the source subdev after it has been
-> >> unbound. I don't see much harm with this function, but can catch cleanup
-> >> errors.
-> > 
-> > Do you mean we'll crash on a NULL pointer dereference instead of
-> > accessing freed memory if this happens ? I suppose it's marginally
-> > better :-)
-> 
-> Generally speaking I think it's significantly better. Accessing freed 
-> memory might go unnoticed for a long time, and might not cause any 
-> errors or cause randomly some minor errors. Here we might not even be 
-> accessing freed memory, as the source sd is probably still there, so 
-> KASAN wouldn't catch it.
-> 
-> In this particular case it might not matter that much. The source_sd is 
-> only used when starting streaming, so the chances are quite small that 
-> we'd end up there after the unbind.
-> 
-> Still, I think it's a very good practice to NULL the pointers when 
-> they're no longer valid.
-
-Fine with me.
-
-> >>>> +}
-> > 
-> > [snip]
-> > 
-> >>>> +static int ub960_create_subdev(struct ub960_data *priv)
-> >>>> +{
-> >>>> +	struct device *dev = &priv->client->dev;
-> >>>> +	unsigned int i;
-> >>>> +	int ret;
-> >>>> +
-> >>>> +	v4l2_i2c_subdev_init(&priv->sd, priv->client, &ub960_subdev_ops);
-> >>>
-> >>> A blank line would be nice.
-> >>
-> >> Ok.
-> >>
-> >>>> +	v4l2_ctrl_handler_init(&priv->ctrl_handler, 1);
-> >>>
-> >>> You create two controls.
-> >>
-> >> Yep. Although I dropped TPG, so only one again.
-> >>
-> >>>> +	priv->sd.ctrl_handler = &priv->ctrl_handler;
-> >>>> +
-> >>>> +	v4l2_ctrl_new_std_menu_items(&priv->ctrl_handler, &ub960_ctrl_ops,
-> >>>> +				     V4L2_CID_TEST_PATTERN,
-> >>>> +				     ARRAY_SIZE(ub960_tpg_qmenu) - 1, 0, 0,
-> >>>> +				     ub960_tpg_qmenu);
-> >>>> +
-> >>>> +	v4l2_ctrl_new_int_menu(&priv->ctrl_handler, NULL, V4L2_CID_LINK_FREQ,
-> >>>> +			       ARRAY_SIZE(priv->tx_link_freq) - 1, 0,
-> >>>> +			       priv->tx_link_freq);
-> >>>> +
-> >>>> +	if (priv->ctrl_handler.error) {
-> >>>> +		ret = priv->ctrl_handler.error;
-> >>>> +		goto err_free_ctrl;
-> >>>> +	}
-> >>>> +
-> >>>> +	priv->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE |
-> >>>> +			  V4L2_SUBDEV_FL_HAS_EVENTS | V4L2_SUBDEV_FL_STREAMS;
-> >>>> +	priv->sd.entity.function = MEDIA_ENT_F_VID_IF_BRIDGE;
-> >>>> +	priv->sd.entity.ops = &ub960_entity_ops;
-> >>>> +
-> >>>> +	for (i = 0; i < priv->hw_data->num_rxports + priv->hw_data->num_txports; i++) {
-> >>>> +		priv->pads[i].flags = ub960_pad_is_sink(priv, i) ?
-> >>>> +					      MEDIA_PAD_FL_SINK :
-> >>>> +					      MEDIA_PAD_FL_SOURCE;
-> >>>> +	}
-> >>>> +
-> >>>> +	ret = media_entity_pads_init(&priv->sd.entity,
-> >>>> +				     priv->hw_data->num_rxports +
-> >>>> +					     priv->hw_data->num_txports,
-> >>>
-> >>> :-(
-> >>
-> >> I don't have strong opinion on this, but don't you find it a bit
-> >> confusing if a single argument spans multiple lines but without any indent?
-> >>
-> >> With a quick look, this looks like a call with 4 arguments:
-> >>
-> >> ret = media_entity_pads_init(&priv->sd.entity,
-> >> 			     priv->hw_data->num_rxports +
-> >> 			     priv->hw_data->num_txports,
-> >> 			     priv->pads);
-> > 
-> > I suppose I'm used to it, so it appears more readable to me. It's also
-> > the style used through most of the kernel. There's of course always the
-> > option of storing the result of the computation in a local variable.
-> 
-> I'll be happy to indent like that if someone tells me how to configure 
-> clang-format to do that =). I didn't figure it out.
-
-Setting ContinuationIndentWidth to 0 "fixes" it, but I suspect it may
-have other side effects.
-
-This being said, running clang-format on this file gives me a diffstat
-of 450 insertions(+), 365 deletions(-), so I don't think you can rely on
-it blindly...
-
-> >>>> +				     priv->pads);
-> >>>> +	if (ret)
-> >>>> +		goto err_free_ctrl;
-> >>>> +
-> >>>> +	priv->sd.state_lock = priv->sd.ctrl_handler->lock;
-> >>>> +
-> >>>> +	ret = v4l2_subdev_init_finalize(&priv->sd);
-> >>>> +	if (ret)
-> >>>> +		goto err_entity_cleanup;
-> >>>> +
-> >>>> +	ret = ub960_v4l2_notifier_register(priv);
-> >>>> +	if (ret) {
-> >>>> +		dev_err(dev, "v4l2 subdev notifier register failed: %d\n", ret);
-> >>>> +		goto err_free_state;
-> >>>> +	}
-> >>>> +
-> >>>> +	ret = v4l2_async_register_subdev(&priv->sd);
-> >>>> +	if (ret) {
-> >>>> +		dev_err(dev, "v4l2_async_register_subdev error: %d\n", ret);
-> >>>> +		goto err_unreg_notif;
-> >>>> +	}
-> >>>> +
-> >>>> +	return 0;
-> >>>> +
-> >>>> +err_unreg_notif:
-> >>>> +	ub960_v4l2_notifier_unregister(priv);
-> >>>> +err_free_state:
-> >>>
-> >>> err_subdev_cleanup:
-> >>
-> >> Yep.
-> >>
-> >>>> +	v4l2_subdev_cleanup(&priv->sd);
-> >>>> +err_entity_cleanup:
-> >>>> +	media_entity_cleanup(&priv->sd.entity);
-> >>>> +err_free_ctrl:
-> >>>> +	v4l2_ctrl_handler_free(&priv->ctrl_handler);
-> >>>> +
-> >>>> +	return ret;
-> >>>> +}
-> > 
-> > [snip]
-> > 
-> >>>> +static int ub960_probe(struct i2c_client *client)
-> >>>> +{
-> >>>> +	struct device *dev = &client->dev;
-> >>>> +	struct ub960_data *priv;
-> >>>> +	int ret;
-> >>>> +
-> >>>> +	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
-> >>>> +	if (!priv)
-> >>>> +		return -ENOMEM;
-> >>>> +
-> >>>> +	priv->client = client;
-> >>>> +
-> >>>> +	priv->hw_data = device_get_match_data(dev);
-> >>>> +
-> >>>> +	mutex_init(&priv->reg_lock);
-> >>>> +	mutex_init(&priv->atr_alias_table.lock);
-> >>>> +
-> >>>> +	INIT_DELAYED_WORK(&priv->poll_work, ub960_handler_work);
-> >>>> +
-> >>>> +	/*
-> >>>> +	 * Initialize these to invalid values so that the first reg writes will
-> >>>> +	 * configure the target.
-> >>>> +	 */
-> >>>> +	priv->current_indirect_target = 0xff;
-> >>>> +	priv->current_read_rxport = 0xff;
-> >>>> +	priv->current_write_rxport_mask = 0xff;
-> >>>> +	priv->current_read_csiport = 0xff;
-> >>>> +	priv->current_write_csiport_mask = 0xff;
-> >>>> +
-> >>>> +	ret = ub960_get_hw_resources(priv);
-> >>>> +	if (ret)
-> >>>> +		goto err_mutex_destroy;
-> >>>> +
-> >>>> +	ret = ub960_enable_core_hw(priv);
-> >>>> +	if (ret)
-> >>>> +		goto err_mutex_destroy;
-> >>>> +
-> >>>> +	/* release GPIO lock */
-> >>>> +	if (priv->hw_data->is_ub9702)
-> >>>> +		ub960_update_bits(priv, UB960_SR_RESET,
-> >>>> +				  UB960_SR_RESET_GPIO_LOCK_RELEASE,
-> >>>> +				  UB960_SR_RESET_GPIO_LOCK_RELEASE);
-> >>>
-> >>> Could this be moved to ub960_enable_core_hw() ?
-> >>
-> >> Yes.
-> >>
-> >>>> +
-> >>>> +	ret = ub960_parse_dt(priv);
-> >>>> +	if (ret)
-> >>>> +		goto err_disable_core_hw;
-> >>>> +
-> >>>> +	ret = ub960_init_tx_ports(priv);
-> >>>> +	if (ret)
-> >>>> +		goto err_free_ports;
-> >>>> +
-> >>>> +	ret = ub960_rxport_enable_vpocs(priv);
-> >>>> +	if (ret)
-> >>>> +		goto err_free_ports;
-> >>>> +
-> >>>> +	ret = ub960_init_rx_ports(priv);
-> >>>> +	if (ret)
-> >>>> +		goto err_disable_vpocs;
-> >>>> +
-> >>>> +	ub960_reset(priv, false);
-> >>>> +
-> >>>> +	ub960_rxport_wait_locks(priv, GENMASK(3, 0), NULL);
-> >>>> +
-> >>>> +	/*
-> >>>> +	 * Clear any errors caused by switching the RX port settings while
-> >>>> +	 * probing.
-> >>>> +	 */
-> >>>> +	ub960_clear_rx_errors(priv);
-> >>>> +
-> >>>> +	ret = ub960_init_atr(priv);
-> >>>> +	if (ret)
-> >>>> +		goto err_disable_vpocs;
-> >>>> +
-> >>>> +	ret = ub960_rxport_add_serializers(priv);
-> >>>> +	if (ret)
-> >>>> +		goto err_uninit_atr;
-> >>>> +
-> >>>> +	ret = ub960_create_subdev(priv);
-> >>>> +	if (ret)
-> >>>> +		goto err_free_sers;
-> >>>> +
-> >>>> +	if (client->irq)
-> >>>> +		dev_warn(dev, "irq support not implemented, using polling\n");
-> >>>
-> >>> That's not nice :-( Can it be fixed ? I'm OK if you do so on top.
-> >>
-> >> Fixed? You mean implemented? I don't have HW, so I'd rather leave it to
-> >> someone who has.
-> > 
-> > Yes, I meant implemented. The fact that we wake up the system every
-> > 500ms for I2C transfers isn't great, although I suppose in systems that
-> > use FPD-Link, that may not matter that much.
-> 
-> I agree, polling is annoying. But again, when there's a platform that 
-> uses IRQs, I think irq handling can be added (and tested) easily.
-
--- 
-Regards,
-
-Laurent Pinchart
+>
+> Regards,
+>
+> 	Hans
+>
+>> [1] https://lore.kernel.org/linux-media/20230103154832.6982-1-daniel.almeida@collabora.com/T/#u
+>>
+>> Benjamin Gaignard (12):
+>>    dt-bindings: media: rockchip-vpu: Add rk3588 vpu compatible
+>>    media: Add NV12_10LE40_4L4 pixel format
+>>    media: verisilicon: Get bit depth for V4L2_PIX_FMT_NV12_10LE40_4L4
+>>    media: verisilicon: Add AV1 decoder mode and controls
+>>    media: verisilicon: Save bit depth for AV1 decoder
+>>    media: verisilicon: Check AV1 bitstreams bit depth
+>>    media: verisilicon: Compute motion vectors size for AV1 frames
+>>    media: verisilicon: Add AV1 entropy helpers
+>>    media: verisilicon: Add Rockchip AV1 decoder
+>>    media: verisilicon: Add film grain feature to AV1 driver
+>>    media: verisilicon: Enable AV1 decoder on rk3588
+>>    media: verisilicon: Conditionnaly ignore native formats
+>>
+>> Nicolas Dufresne (1):
+>>    v4l2-common: Add support for fractional bpp
+>>
+>>   .../bindings/media/rockchip-vpu.yaml          |    1 +
+>>   .../media/v4l/pixfmt-yuv-planar.rst           |    4 +
+>>   drivers/media/platform/verisilicon/Makefile   |    3 +
+>>   drivers/media/platform/verisilicon/hantro.h   |    8 +
+>>   .../media/platform/verisilicon/hantro_drv.c   |   69 +
+>>   .../media/platform/verisilicon/hantro_hw.h    |  102 +
+>>   .../platform/verisilicon/hantro_postproc.c    |    7 +
+>>   .../media/platform/verisilicon/hantro_v4l2.c  |   22 +-
+>>   .../media/platform/verisilicon/hantro_v4l2.h  |    1 +
+>>   .../verisilicon/rockchip_av1_entropymode.c    | 4546 +++++++++++++++++
+>>   .../verisilicon/rockchip_av1_entropymode.h    |  272 +
+>>   .../verisilicon/rockchip_av1_filmgrain.c      |  401 ++
+>>   .../verisilicon/rockchip_av1_filmgrain.h      |   36 +
+>>   .../verisilicon/rockchip_vpu981_hw_av1_dec.c  | 2278 +++++++++
+>>   .../verisilicon/rockchip_vpu981_regs.h        |  477 ++
+>>   .../platform/verisilicon/rockchip_vpu_hw.c    |  134 +
+>>   drivers/media/v4l2-core/v4l2-common.c         |  149 +-
+>>   drivers/media/v4l2-core/v4l2-ioctl.c          |    1 +
+>>   include/media/v4l2-common.h                   |    2 +
+>>   include/uapi/linux/videodev2.h                |    1 +
+>>   20 files changed, 8439 insertions(+), 75 deletions(-)
+>>   create mode 100644 drivers/media/platform/verisilicon/rockchip_av1_entropymode.c
+>>   create mode 100644 drivers/media/platform/verisilicon/rockchip_av1_entropymode.h
+>>   create mode 100644 drivers/media/platform/verisilicon/rockchip_av1_filmgrain.c
+>>   create mode 100644 drivers/media/platform/verisilicon/rockchip_av1_filmgrain.h
+>>   create mode 100644 drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c
+>>   create mode 100644 drivers/media/platform/verisilicon/rockchip_vpu981_regs.h
+>>
