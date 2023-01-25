@@ -2,348 +2,277 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 309F867B281
-	for <lists+linux-media@lfdr.de>; Wed, 25 Jan 2023 13:19:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4FFAD67B28D
+	for <lists+linux-media@lfdr.de>; Wed, 25 Jan 2023 13:26:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235348AbjAYMSu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 25 Jan 2023 07:18:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55170 "EHLO
+        id S235237AbjAYM0I (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 25 Jan 2023 07:26:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57996 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235319AbjAYMSs (ORCPT
+        with ESMTP id S234833AbjAYM0H (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 25 Jan 2023 07:18:48 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73C4D72BD;
-        Wed, 25 Jan 2023 04:18:40 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 0608FB819A9;
-        Wed, 25 Jan 2023 12:18:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 538E1C433D2;
-        Wed, 25 Jan 2023 12:18:34 +0000 (UTC)
-Message-ID: <48ac2eb8-42e8-4faf-edd6-8b4dd590ded4@xs4all.nl>
-Date:   Wed, 25 Jan 2023 13:18:32 +0100
+        Wed, 25 Jan 2023 07:26:07 -0500
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A5B94AD21;
+        Wed, 25 Jan 2023 04:26:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1674649563; x=1706185563;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=yrSmmLc3DVdQTD12Kpyaer5iKdyd+7tY7IvnduKXdIk=;
+  b=RKQLwS3og08tKZxYM2jGIg8PSZ1ryyfhT7KN5rnEvIdYUs55VNId5ZFK
+   qwo5iD9bxBxsZ0Ve3F28Cv61dxzviaYj/gYHaqyROZwbShIkyH0wbO6Bx
+   LIpILRBfRMOY9nww8yzAWhH4dK8wgD7fakKNyKivmZhq/aC9CRARDHs9z
+   ULJVlk3fbJr7oQZLLGQs1C63B7imf7kzy/qHBnf/IPqLK0vF71ZO3Zh0r
+   mBosAiAX3kFFoqyB5jxIEPF2nna55TfMBv8F6lZkFtPz7UbJFWSkmJaDl
+   LFzMwaARazcZlVV7n5UbbQ2Zs2O/fm5f/dTaw9K3Tdl5xRvCWwhkOvm/0
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10600"; a="314446106"
+X-IronPort-AV: E=Sophos;i="5.97,245,1669104000"; 
+   d="scan'208";a="314446106"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jan 2023 04:26:03 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10600"; a="836329640"
+X-IronPort-AV: E=Sophos;i="5.97,245,1669104000"; 
+   d="scan'208";a="836329640"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jan 2023 04:25:58 -0800
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+        by kekkonen.fi.intel.com (Postfix) with SMTP id 4CDEE120C31;
+        Wed, 25 Jan 2023 14:25:55 +0200 (EET)
+Date:   Wed, 25 Jan 2023 14:25:55 +0200
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Marco Felsch <m.felsch@pengutronix.de>
+Cc:     Michael Riesch <michael.riesch@wolfvision.net>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        Gerald Loacker <gerald.loacker@wolfvision.net>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Mikhail Rudenko <mike.rudenko@gmail.com>,
+        Krzysztof =?utf-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>,
+        Marek Vasut <marex@denx.de>
+Subject: Re: [PATCH v2 1/2] dt-bindings: media: i2c: add imx415 cmos image
+ sensor
+Message-ID: <Y9Ef0/lxLS564JT5@kekkonen.localdomain>
+References: <20230124060107.3922237-1-michael.riesch@wolfvision.net>
+ <20230124060107.3922237-2-michael.riesch@wolfvision.net>
+ <20230125112111.hnjf57gecch4ddi5@pengutronix.de>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH v3 09/13] media: verisilicon: Add AV1 entropy helpers
-Content-Language: en-US
-To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
-        mchehab@kernel.org, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, heiko@sntech.de,
-        daniel.almeida@collabora.com, nicolas.dufresne@collabora.co.uk
-Cc:     linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, kernel@collabora.com
-References: <20230111165931.753763-1-benjamin.gaignard@collabora.com>
- <20230111165931.753763-10-benjamin.gaignard@collabora.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-In-Reply-To: <20230111165931.753763-10-benjamin.gaignard@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-7.8 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230125112111.hnjf57gecch4ddi5@pengutronix.de>
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Some review comments:
+Hi Marco,
 
-On 1/11/23 17:59, Benjamin Gaignard wrote:
-> AV1 hardware decoder needs entropy parameters to decode frames.
-> They are computed from various arrays defined in AV1 section
-> "9.4. Default CDF tables".
+On Wed, Jan 25, 2023 at 12:21:11PM +0100, Marco Felsch wrote:
+> Hi Michael,
 > 
-> Add helpers functions to init, store and get these parameters.
+> On 23-01-24, Michael Riesch wrote:
+> > Add devicetree binding for the Sony IMX415 CMOS image sensor.
+> > 
+> > Signed-off-by: Michael Riesch <michael.riesch@wolfvision.net>
+> > ---
+> > v2:
+> >  - fix reference in port (must be /$defs/port-base)
+> >  - describe data-lanes in more detail
+> >  - remove unexpected property clock-lanes from example
+> >  - sort properties in example alphabetically
+> > 
+> >  .../bindings/media/i2c/sony,imx415.yaml       | 130 ++++++++++++++++++
+> >  MAINTAINERS                                   |   7 +
+> >  2 files changed, 137 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/media/i2c/sony,imx415.yaml
+> > 
+> > diff --git a/Documentation/devicetree/bindings/media/i2c/sony,imx415.yaml b/Documentation/devicetree/bindings/media/i2c/sony,imx415.yaml
+> > new file mode 100644
+> > index 000000000000..104c36b64c09
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/media/i2c/sony,imx415.yaml
+> > @@ -0,0 +1,130 @@
+> > +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/media/i2c/sony,imx415.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: Sony IMX415 CMOS Image Sensor
+> > +
+> > +maintainers:
+> > +  - Michael Riesch <michael.riesch@wolfvision.net>
+> > +
+> > +description: |-
+> > +  The Sony IMX415 is a diagonal 6.4 mm (Type 1/2.8) CMOS active pixel type
+> > +  solid-state image sensor with a square pixel array and 8.46 M effective
+> > +  pixels. This chip operates with analog 2.9 V, digital 1.1 V, and interface
+> > +  1.8 V triple power supply, and has low power consumption.
+> > +  The IMX415 is programmable through I2C interface. The sensor output is
+> > +  available via CSI-2 serial data output (two or four lanes).
+> > +
+> > +allOf:
+> > +  - $ref: ../video-interface-devices.yaml#
+> > +
+> > +properties:
+> > +  compatible:
+> > +    const: sony,imx415
+> > +
+> > +  reg:
+> > +    maxItems: 1
+> > +
+> > +  clocks:
+> > +    maxItems: 1
+> > +
+> > +  clock-names:
+> > +    description: Input clock (24 MHz, 27 MHz, 37.125 MHz, 72 MHz or 74.25 MHz)
 > 
-> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-> ---
->  drivers/media/platform/verisilicon/Makefile   |    1 +
->  drivers/media/platform/verisilicon/hantro.h   |    2 +
->  .../media/platform/verisilicon/hantro_hw.h    |   20 +
->  .../verisilicon/rockchip_av1_entropymode.c    | 4546 +++++++++++++++++
->  .../verisilicon/rockchip_av1_entropymode.h    |  272 +
->  5 files changed, 4841 insertions(+)
->  create mode 100644 drivers/media/platform/verisilicon/rockchip_av1_entropymode.c
->  create mode 100644 drivers/media/platform/verisilicon/rockchip_av1_entropymode.h
+> I would move this description to the clocks property.
 > 
-> diff --git a/drivers/media/platform/verisilicon/Makefile b/drivers/media/platform/verisilicon/Makefile
-> index ebd5ede7bef7..d2b2679c00eb 100644
-> --- a/drivers/media/platform/verisilicon/Makefile
-> +++ b/drivers/media/platform/verisilicon/Makefile
-> @@ -18,6 +18,7 @@ hantro-vpu-y += \
->  		rockchip_vpu2_hw_h264_dec.o \
->  		rockchip_vpu2_hw_mpeg2_dec.o \
->  		rockchip_vpu2_hw_vp8_dec.o \
-> +		rockchip_av1_entropymode.o \
->  		hantro_jpeg.o \
->  		hantro_h264.o \
->  		hantro_hevc.o \
-> diff --git a/drivers/media/platform/verisilicon/hantro.h b/drivers/media/platform/verisilicon/hantro.h
-> index 61480825b856..a98cb40a8d3b 100644
-> --- a/drivers/media/platform/verisilicon/hantro.h
-> +++ b/drivers/media/platform/verisilicon/hantro.h
-> @@ -240,6 +240,7 @@ struct hantro_dev {
->   * @vp8_dec:		VP8-decoding context.
->   * @hevc_dec:		HEVC-decoding context.
->   * @vp9_dec:		VP9-decoding context.
-> + * @av1_dec:		AV1-decoding context.
->   */
->  struct hantro_ctx {
->  	struct hantro_dev *dev;
-> @@ -268,6 +269,7 @@ struct hantro_ctx {
->  		struct hantro_vp8_dec_hw_ctx vp8_dec;
->  		struct hantro_hevc_dec_hw_ctx hevc_dec;
->  		struct hantro_vp9_dec_hw_ctx vp9_dec;
-> +		struct hantro_av1_dec_hw_ctx av1_dec;
->  	};
->  };
->  
-> diff --git a/drivers/media/platform/verisilicon/hantro_hw.h b/drivers/media/platform/verisilicon/hantro_hw.h
-> index 201f8679ca11..c7438e197d85 100644
-> --- a/drivers/media/platform/verisilicon/hantro_hw.h
-> +++ b/drivers/media/platform/verisilicon/hantro_hw.h
-> @@ -15,6 +15,8 @@
->  #include <media/v4l2-vp9.h>
->  #include <media/videobuf2-core.h>
->  
-> +#include "rockchip_av1_entropymode.h"
-> +
->  #define DEC_8190_ALIGN_MASK	0x07U
->  
->  #define MB_DIM			16
-> @@ -247,6 +249,24 @@ struct hantro_vp9_dec_hw_ctx {
->  	s16 feature_data[8][4];
->  };
->  
-> +/**
-> + * hantro_av1_dec_hw_ctx
-> + * @cdfs:		current probabilities structure
-> + * @cdfs_ndvc:		current mv probabilities structure
-> + * @default_cdfs:	default probabilities structure
-> + * @default_cdfs_ndvc:	default mv probabilties structure
-> + * @cdfs_last:		stored probabilities structures
-> + * @cdfs_last_ndvc:	stored mv probabilities structures
-> + */
-> +struct hantro_av1_dec_hw_ctx {
-> +	struct av1cdfs *cdfs;
-> +	struct mvcdfs  *cdfs_ndvc;
-> +	struct av1cdfs default_cdfs;
-> +	struct mvcdfs  default_cdfs_ndvc;
-> +	struct av1cdfs cdfs_last[NUM_REF_FRAMES];
-> +	struct mvcdfs  cdfs_last_ndvc[NUM_REF_FRAMES];
-> +};
-> +
->  /**
->   * struct hantro_postproc_ctx
->   *
-> diff --git a/drivers/media/platform/verisilicon/rockchip_av1_entropymode.c b/drivers/media/platform/verisilicon/rockchip_av1_entropymode.c
-> new file mode 100644
-> index 000000000000..2b5499a6d995
-> --- /dev/null
-> +++ b/drivers/media/platform/verisilicon/rockchip_av1_entropymode.c
-> @@ -0,0 +1,4546 @@
-> +// SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
+> > +    items:
+> > +      - const: inck
+> 
+> If there is only one clock we could remove the clock-names property to
+> not bother the user to specify this.
+> 
+> > +
+> > +  avdd-supply:
+> > +    description: Analog power supply (2.9 V)
+> > +
+> > +  dvdd-supply:
+> > +    description: Digital power supply (1.1 V)
+> > +
+> > +  ovdd-supply:
+> > +    description: Interface power supply (1.8 V)
+> > +
+> > +  reset-gpios:
+> > +    description: Sensor reset (XCLR) GPIO
+> > +    maxItems: 1
+> > +
+> > +  flash-leds: true
+> > +
+> > +  lens-focus: true
+> > +
+> > +  orientation: true
+> > +
+> > +  rotation: true
+> > +
+> > +  port:
+> > +    $ref: /schemas/graph.yaml#/$defs/port-base
+> > +
+> > +    properties:
+> > +      endpoint:
+> > +        $ref: /schemas/media/video-interfaces.yaml#
+> > +        unevaluatedProperties: false
+> > +
+> > +        properties:
+> > +          data-lanes:
+> > +            oneOf:
+> > +              - items:
+> > +                  - const: 1
+> > +                  - const: 2
+> > +              - items:
+> > +                  - const: 1
+> > +                  - const: 2
+> > +                  - const: 3
+> > +                  - const: 4
+> > +
+> > +          link-frequencies: true
+> > +
+> > +        required:
+> > +          - data-lanes
+> > +          - link-frequencies
+> > +
+> > +    required:
+> > +      - endpoint
+> > +
+> > +required:
+> > +  - compatible
+> > +  - reg
+> > +  - clocks
+> > +  - clock-names
+> > +  - avdd-supply
+> > +  - dvdd-supply
+> > +  - ovdd-supply
+> > +  - port
+> > +
+> > +additionalProperties: false
+> > +
+> > +examples:
+> > +  - |
+> > +    #include <dt-bindings/gpio/gpio.h>
+> > +
+> > +    i2c {
+> > +        #address-cells = <1>;
+> > +        #size-cells = <0>;
+> > +
+> > +        imx415: camera-sensor@1a {
+> > +            compatible = "sony,imx415";
+> > +            reg = <0x1a>;
+> > +            avdd-supply = <&vcc2v9_cam>;
+> > +            clocks = <&clock_cam>;
+> > +            clock-names = "inck";
+> > +            dvdd-supply = <&vcc1v1_cam>;
+> > +            lens-focus = <&vcm>;
+> > +            orientation = <2>;
+> > +            ovdd-supply = <&vcc1v8_cam>;
+> > +            reset-gpios = <&gpio_expander 14 GPIO_ACTIVE_LOW>;
+> > +            rotation = <180>;
+> > +
+> > +            port {
+> > +                imx415_ep: endpoint {
+> > +                    data-lanes = <1 2 3 4>;
+> > +                    link-frequencies = /bits/ 64 <445500000>;
+> > +                    remote-endpoint = <&mipi_in>;
+> > +                };
+> > +            };
+> > +        };
+> > +    };
+> 
+> Nit albeit I'm not quite sure but I think the indent should be two spaces.
 
-Is 'GPL-2.0-only' correct?
+I'm not sure either but AFAIR all the other examples I've seen use four
+spaces.
 
-> +/*
-> + * Copyright (c) 2016, Alliance for Open Media. All rights reserved
-> + *
-> + * This source code is subject to the terms of the BSD 2 Clause License and
-> + * the Alliance for Open Media Patent License 1.0. If the BSD 2 Clause License
+> 
+> > +...
+> > diff --git a/MAINTAINERS b/MAINTAINERS
+> > index f61eb221415b..c9fa893bf649 100644
+> > --- a/MAINTAINERS
+> > +++ b/MAINTAINERS
+> > @@ -19493,6 +19493,13 @@ T:	git git://linuxtv.org/media_tree.git
+> >  F:	Documentation/devicetree/bindings/media/i2c/sony,imx412.yaml
+> >  F:	drivers/media/i2c/imx412.c
+> >  
+> > +SONY IMX415 SENSOR DRIVER
+> > +M:	Michael Riesch <michael.riesch@wolfvision.net>
+> > +L:	linux-media@vger.kernel.org
+> > +S:	Maintained
+> > +T:	git git://linuxtv.org/media_tree.git
+> > +F:	Documentation/devicetree/bindings/media/i2c/sony,imx415.yaml
+> 
+> I'm not sure if you should add an entry here since you're already listed
+> as maintainer within the binding file.
 
-There is no mention of GPL here.
+Should be here as well.
 
-> + * was not distributed with this source code in the LICENSE file, you can
-> + * obtain it at www.aomedia.org/license/software. If the Alliance for Open
-> + * Media Patent License 1.0 was not distributed with this source code in the
-> + * PATENTS file, you can obtain it at www.aomedia.org/license/patent.
-> + */
-> +
-> +#include "hantro.h"
-> +#include "rockchip_av1_entropymode.h"
-> +
-> +#define AOM_ICDF ICDF
-> +#define AOM_CDF2(a0) AOM_ICDF(a0)
-> +#define AOM_CDF3(a0, a1) \
-> +	AOM_ICDF(a0), AOM_ICDF(a1)
-> +#define AOM_CDF4(a0, a1, a2) \
-> +	AOM_ICDF(a0), AOM_ICDF(a1), AOM_ICDF(a2)
-> +#define AOM_CDF5(a0, a1, a2, a3) \
-> +	AOM_ICDF(a0), AOM_ICDF(a1), AOM_ICDF(a2), AOM_ICDF(a3)
-> +#define AOM_CDF6(a0, a1, a2, a3, a4) \
-> +	AOM_ICDF(a0), AOM_ICDF(a1), AOM_ICDF(a2), AOM_ICDF(a3), AOM_ICDF(a4)
-> +#define AOM_CDF7(a0, a1, a2, a3, a4, a5) \
-> +	AOM_ICDF(a0), AOM_ICDF(a1), AOM_ICDF(a2), \
-> +	AOM_ICDF(a3), AOM_ICDF(a4), AOM_ICDF(a5)
-> +#define AOM_CDF8(a0, a1, a2, a3, a4, a5, a6) \
-> +	AOM_ICDF(a0), AOM_ICDF(a1), AOM_ICDF(a2), \
-> +	AOM_ICDF(a3), AOM_ICDF(a4), AOM_ICDF(a5), AOM_ICDF(a6)
-> +#define AOM_CDF9(a0, a1, a2, a3, a4, a5, a6, a7) \
-> +	AOM_ICDF(a0), AOM_ICDF(a1), AOM_ICDF(a2), AOM_ICDF(a3), \
-> +	AOM_ICDF(a4), AOM_ICDF(a5), AOM_ICDF(a6), AOM_ICDF(a7)
-> +#define AOM_CDF10(a0, a1, a2, a3, a4, a5, a6, a7, a8) \
-> +	AOM_ICDF(a0), AOM_ICDF(a1), AOM_ICDF(a2), AOM_ICDF(a3), \
-> +	AOM_ICDF(a4), AOM_ICDF(a5), AOM_ICDF(a6), AOM_ICDF(a7), AOM_ICDF(a8)
-> +#define AOM_CDF11(a0, a1, a2, a3, a4, a5, a6, a7, a8, a9) \
-> +	AOM_ICDF(a0), AOM_ICDF(a1), AOM_ICDF(a2), AOM_ICDF(a3), AOM_ICDF(a4), \
-> +	AOM_ICDF(a5), AOM_ICDF(a6), AOM_ICDF(a7), AOM_ICDF(a8), AOM_ICDF(a9)
-> +#define AOM_CDF12(a0, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10) \
-> +	AOM_ICDF(a0), AOM_ICDF(a1), AOM_ICDF(a2), AOM_ICDF(a3), AOM_ICDF(a4), AOM_ICDF(a5), \
-> +	AOM_ICDF(a6), AOM_ICDF(a7), AOM_ICDF(a8), AOM_ICDF(a9), AOM_ICDF(a10)
-> +#define AOM_CDF13(a0, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11) \
-> +	AOM_ICDF(a0), AOM_ICDF(a1), AOM_ICDF(a2), AOM_ICDF(a3), AOM_ICDF(a4), AOM_ICDF(a5), \
-> +	AOM_ICDF(a6), AOM_ICDF(a7), AOM_ICDF(a8), AOM_ICDF(a9), AOM_ICDF(a10), AOM_ICDF(a11)
-> +#define AOM_CDF14(a0, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12) \
-> +	AOM_ICDF(a0), AOM_ICDF(a1), AOM_ICDF(a2), AOM_ICDF(a3), AOM_ICDF(a4), \
-> +	AOM_ICDF(a5), AOM_ICDF(a6), AOM_ICDF(a7), AOM_ICDF(a8), AOM_ICDF(a9), \
-> +	AOM_ICDF(a10), AOM_ICDF(a11), AOM_ICDF(a12)
-> +#define AOM_CDF15(a0, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, a13) \
-> +	AOM_ICDF(a0), AOM_ICDF(a1), AOM_ICDF(a2), AOM_ICDF(a3), AOM_ICDF(a4), \
-> +	AOM_ICDF(a5), AOM_ICDF(a6), AOM_ICDF(a7), AOM_ICDF(a8), AOM_ICDF(a9), \
-> +	AOM_ICDF(a10), AOM_ICDF(a11), AOM_ICDF(a12), AOM_ICDF(a13)
-> +#define AOM_CDF16(a0, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, a13, a14) \
-> +	AOM_ICDF(a0), AOM_ICDF(a1), AOM_ICDF(a2), AOM_ICDF(a3), AOM_ICDF(a4), \
-> +	AOM_ICDF(a5), AOM_ICDF(a6), AOM_ICDF(a7), AOM_ICDF(a8), AOM_ICDF(a9), \
-> +	AOM_ICDF(a10), AOM_ICDF(a11), AOM_ICDF(a12), AOM_ICDF(a13), AOM_ICDF(a14)
-> +
-> +const uint8_t av1_partition_probs[NUM_FRAME_TYPES][NUM_PARTITION_CONTEXTS][PARTITION_TYPES] = {
-
-Weird, this doesn't seem to be used. I would expect this to be static as well.
-
-> +	/* 1 byte padding */
-> +	{
-> +		/* frame_type = keyframe */
-> +		/* 8x8 -> 4x4 */
-> +		{ 158, 97, 94, 0} /* a/l both not split */,
-> +		{ 93, 24, 99, 0} /* a split, l not split */,
-> +		{ 85, 119, 44, 0} /* l split, a not split */,
-> +		{ 62, 59, 67, 0} /* a/l both split */,
-> +		/* 16x16 -> 8x8 */
-> +		{ 149, 53, 53, 0} /* a/l both not split */,
-> +		{ 94, 20, 48, 0} /* a split, l not split */,
-> +		{ 83, 53, 24, 0} /* l split, a not split */,
-> +		{ 52, 18, 18, 0} /* a/l both split */,
-> +		/* 32x32 -> 16x16 */
-> +		{ 150, 40, 39, 0} /* a/l both not split */,
-> +		{ 78, 12, 26, 0} /* a split, l not split */,
-> +		{ 67, 33, 11, 0} /* l split, a not split */,
-> +		{ 24, 7, 5, 0} /* a/l both split */,
-> +		/* 64x64 -> 32x32 */
-> +		{ 174, 35, 49, 0} /* a/l both not split */,
-> +		{ 68, 11, 27, 0} /* a split, l not split */,
-> +		{ 57, 15, 9, 0} /* l split, a not split */,
-> +		{ 12, 3, 3, 0} /* a/l both split */
-> +	},
-> +	{
-> +		/* frame_type = interframe */
-> +		/* 8x8 -> 4x4 */
-> +		{ 199, 122, 141, 0} /* a/l both not split */,
-> +		{ 147, 63, 159, 0} /* a split, l not split */,
-> +		{ 148, 133, 118, 0} /* l split, a not split */,
-> +		{ 121, 104, 114, 0} /* a/l both split */,
-> +		/* 16x16 -> 8x8 */
-> +		{ 174, 73, 87, 0} /* a/l both not split */,
-> +		{ 92, 41, 83, 0} /* a split, l not split */,
-> +		{ 82, 99, 50, 0} /* l split, a not split */,
-> +		{ 53, 39, 39, 0} /* a/l both split */,
-> +		/* 32x32 -> 16x16 */
-> +		{ 177, 58, 59, 0} /* a/l both not split */,
-> +		{ 68, 26, 63, 0} /* a split, l not split */,
-> +		{ 52, 79, 25, 0} /* l split, a not split */,
-> +		{ 17, 14, 12, 0} /* a/l both split */,
-> +		/* 64x64 -> 32x32 */
-> +		{ 222, 34, 30, 0} /* a/l both not split */,
-> +		{ 72, 16, 44, 0} /* a split, l not split */,
-> +		{ 58, 32, 12, 0} /* l split, a not split */,
-> +		{ 10, 7, 6, 0} /* a/l both split */
-> +	}
-> +};
-> +
-> +/* Array indices are identical to previously-existing INTRAMODECONTEXTNODES. */
-> +const int8_t av1hwd_intra_mode_tree[] = {
-
-Ditto.
-
-> +	-DC_PRED,
-> +	2,			/* 0 = DC_NODE */
-> +	-TM_PRED_AV1,
-> +	4,			/* 1 = TM_NODE */
-> +	-V_PRED,
-> +	6,			/* 2 = V_NODE */
-> +	8,
-> +	12,			/* 3 = COM_NODE */
-> +	-H_PRED,
-> +	10,			/* 4 = H_NODE */
-> +	-D135_PRED,
-> +	-D117_PRED,		/* 5 = D135_NODE */
-> +	-D45_PRED,
-> +	14,			/* 6 = D45_NODE */
-> +	-D63_PRED,
-> +	16,			/* 7 = D63_NODE */
-> +	-D153_PRED,
-> +	-D27_PRED		/* 8 = D153_NODE */
-> +};
-> +
-> +const int8_t av1_sb_mv_ref_tree[6] = {
-> +	-ZEROMV, 2, -NEARESTMV,
-> +	4, -NEARMV, -NEWMV
-> +};
-> +
-> +const int8_t av1hwd_partition_tree[6] = {
-> +	-PARTITION_NONE, 2, -PARTITION_HORZ,
-> +	4, -PARTITION_VERT, -PARTITION_SPLIT
-> +};
-> +
-> +const int8_t av1_segment_tree[2 * MAX_MB_SEGMENTS - 2] = {
-> +	2, 4, 6, 8, 10, 12, 0, -1, -2, -3, -4, -5, -6, -7
-> +};
-> +
-> +const uint8_t av1_default_tx_probs_32x32p[TX_SIZE_CONTEXTS][TX_SIZE_MAX_SB - 1] = {
-> +	{ 3, 136, 37, },
-> +	{ 5, 52, 13, },
-> +};
-> +
-> +const uint8_t av1_default_tx_probs_16x16p[TX_SIZE_CONTEXTS][TX_SIZE_MAX_SB - 2] = {
-> +	{ 20, 152, },
-> +	{ 15, 101, },
-> +};
-> +
-> +const uint8_t av1_default_tx_probs_8x8p[TX_SIZE_CONTEXTS][TX_SIZE_MAX_SB - 3] = {
-> +	{ 100, },
-> +	{ 66, },
-> +};
-> +
-> +const uint8_t av1_default_mbskip_probs[MBSKIP_CONTEXTS] = { 192, 128, 64};
-> +
-> +const uint8_t av1_default_intra_ext_tx_prob[EXT_TX_SIZES][TX_TYPES][TX_TYPES - 1] = {
-> +	{ { 240, 85, 128}, { 4, 1, 248}, { 4, 1, 8}, { 4, 248, 128} },
-> +	{ { 244, 85, 128}, { 8, 2, 248}, { 8, 2, 8}, { 8, 248, 128} },
-> +	{ { 248, 85, 128}, { 16, 4, 248}, { 16, 4, 8}, { 16, 248, 128} },
-> +};
-> +
-> +const uint8_t av1_default_inter_ext_tx_prob[EXT_TX_SIZES][TX_TYPES - 1] = {
-> +	{ 160, 85, 128 },
-> +	{ 176, 85, 128 },
-> +	{ 192, 85, 128 },
-> +};
-> +
-> +const uint8_t av1_default_motion_mode_prob[MOTION_MODE_CONTEXTS][MOTION_MODE_COUNT - 1] = {
-> +	{ 151 }, { 153 }, { 144 }, { 178 },
-> +	{ 165 }, { 160 }, { 207 }, { 195 },
-> +	{ 168 }, { 244 }
-> +};
-
-Same for (I think) all these non-static arrays above.
-
-What's going on with that?
-
+-- 
 Regards,
 
-	Hans
+Sakari Ailus
