@@ -2,216 +2,165 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 214BE67B51A
-	for <lists+linux-media@lfdr.de>; Wed, 25 Jan 2023 15:50:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 16B7C67B572
+	for <lists+linux-media@lfdr.de>; Wed, 25 Jan 2023 16:09:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235807AbjAYOuH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 25 Jan 2023 09:50:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53452 "EHLO
+        id S235799AbjAYPJH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 25 Jan 2023 10:09:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37468 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235046AbjAYOuG (ORCPT
+        with ESMTP id S234279AbjAYPJG (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 25 Jan 2023 09:50:06 -0500
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1A3953565;
-        Wed, 25 Jan 2023 06:50:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674658205; x=1706194205;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=6jf1bNTrhj6D0nCykWgjt9rnuHcE/6UtVJUKNcFDub4=;
-  b=kZ6JtyojOSdIjw5b4UobTGjDXm/SisAPqW9KI6NPtO5CXAqPa7HCnHjQ
-   rZ4trpb6ihXDLjNkkXA6LbIOgCmqSAv57K9AiWTp89XH8sZl40wtpR6ke
-   8igZl5lY500NnukikEG6YbZ8LwqHkt601zrEDksLeAgUuCxpJp3RzQ5af
-   JzipEsPfRsfz5KxzyIiIAkSajw4l42odV+rJG4SBhvUSm6VLFnNOmBBeu
-   9lh8HwKS/DIdl8dHYseYelzEibh88k6r9RdjK+CyxXvgqcSVQnz+wowVm
-   KF5V2rziIVHkIqBcKIHFFTJWQohSPpl2avpF0roGq8NIaTXIfRF83AmCD
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10601"; a="310143251"
-X-IronPort-AV: E=Sophos;i="5.97,245,1669104000"; 
-   d="scan'208";a="310143251"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jan 2023 06:50:05 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10601"; a="725874957"
-X-IronPort-AV: E=Sophos;i="5.97,245,1669104000"; 
-   d="scan'208";a="725874957"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by fmsmga008.fm.intel.com with ESMTP; 25 Jan 2023 06:49:59 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-        (envelope-from <andriy.shevchenko@intel.com>)
-        id 1pKh64-00Etdz-1w;
-        Wed, 25 Jan 2023 16:49:56 +0200
-Date:   Wed, 25 Jan 2023 16:49:56 +0200
-From:   Andy Shevchenko <andriy.shevchenko@intel.com>
-To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Wolfram Sang <wsa@kernel.org>,
-        Luca Ceresoli <luca.ceresoli@bootlin.com>,
-        Matti Vaittinen <Matti.Vaittinen@fi.rohmeurope.com>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Wed, 25 Jan 2023 10:09:06 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 74CAB1BE0;
+        Wed, 25 Jan 2023 07:09:05 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 0EF9761547;
+        Wed, 25 Jan 2023 15:09:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5FC81C433EF;
+        Wed, 25 Jan 2023 15:08:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1674659344;
+        bh=v+B+KDBEA50AHtVt9lQ1BTuMYwoPUgbIgH8/Amio1lE=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=hSoessefOv16Xt7Qbj98AdgmJicOcikMVtEdI8hVuvfe5IRYVPezihO/irb3buQZt
+         3ZFdNvsViDwPHeE3Jm/XuN6iGzIm1ESIZsv0lbDa1vk4s6rEEf6cKYM+bN/iuQe9VW
+         P/Svjep8k+fSgfN9zyFG7lQqfCHheo29BxDr+K+4T3lE67taLSodJ3E7d4EG4RrRqe
+         73RJMrkg3YqzKBZH4GY2t14YGyMJND9cOXmrIKdYBcHjYwCgCzhERtbbPGPR5fu5EG
+         NLAP3xoucfO28ZdQF16a1/t4V81l7sTg4luWlxs+aH+wX1wDHuET+t7+76hhEK6te3
+         8HtxOatriltJw==
+Date:   Wed, 25 Jan 2023 15:08:54 +0000
+From:   Lee Jones <lee@kernel.org>
+To:     Rob Herring <robh@kernel.org>
+Cc:     Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Marc Zyngier <maz@kernel.org>,
+        Jassi Brar <jassisinghbrar@gmail.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Peter Rosin <peda@axentia.se>,
-        Liam Girdwood <lgirdwood@gmail.com>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Richard Weinberger <richard@nod.at>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        Sebastian Reichel <sre@kernel.org>,
         Mark Brown <broonie@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Michael Tretter <m.tretter@pengutronix.de>,
-        Shawn Tu <shawnx.tu@intel.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Mike Pagano <mpagano@gentoo.org>,
-        Krzysztof =?utf-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>,
-        Marek Vasut <marex@denx.de>
-Subject: Re: [PATCH v7 5/7] media: i2c: add DS90UB960 driver
-Message-ID: <Y9FBlMl4b3l1zVck@smile.fi.intel.com>
-References: <20230118124031.788940-1-tomi.valkeinen@ideasonboard.com>
- <20230118124031.788940-6-tomi.valkeinen@ideasonboard.com>
- <Y8gUuqLBXsXQoNUC@smile.fi.intel.com>
- <aba49d82-c76f-7ff2-751c-d1be7b8f3bca@ideasonboard.com>
- <Y8rFh6zO7Hp9mLxE@smile.fi.intel.com>
- <4286abe2-f23f-d4c9-ef18-f351af7a3a8b@ideasonboard.com>
- <Y9EcRlooHwIjOqiZ@smile.fi.intel.com>
- <cad92dbb-43ef-fa8c-1962-13c4a8578899@ideasonboard.com>
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-arm-kernel@lists.infradead.org,
+        dri-devel@lists.freedesktop.org, linux-gpio@vger.kernel.org,
+        linux-hwmon@vger.kernel.org, linux-media@vger.kernel.org,
+        openbmc@lists.ozlabs.org, linux-mmc@vger.kernel.org,
+        linux-mtd@lists.infradead.org, linux-pm@vger.kernel.org,
+        alsa-devel@alsa-project.org, linux-spi@vger.kernel.org,
+        linux-usb@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: Add missing
+ (unevaluated|additional)Properties on child node schemas
+Message-ID: <Y9FGBqFKMxL3XraK@google.com>
+References: <20230124230228.372305-1-robh@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <cad92dbb-43ef-fa8c-1962-13c4a8578899@ideasonboard.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230124230228.372305-1-robh@kernel.org>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Jan 25, 2023 at 03:33:35PM +0200, Tomi Valkeinen wrote:
-> On 25/01/2023 14:10, Andy Shevchenko wrote:
-> > On Wed, Jan 25, 2023 at 01:15:34PM +0200, Tomi Valkeinen wrote:
-> > > On 20/01/2023 18:47, Andy Shevchenko wrote:
+On Tue, 24 Jan 2023, Rob Herring wrote:
 
-...
-
-> > > > > > > +	ret = fwnode_property_read_u32(link_fwnode, "ti,eq-level", &eq_level);
-> > > > > > > +	if (ret) {
-> > > > > > > +		if (ret != -EINVAL) {
-> > > > > > > +			dev_err(dev, "rx%u: failed to read 'ti,eq-level': %d\n",
-> > > > > > > +				nport, ret);
-> > > > > > > +			return ret;
-> > > > > > > +		}
-> > > > 
-> > > > This seems like trying to handle special cases, if you want it to be optional,
-> > > > why not ignoring all errors?
-> > > 
-> > > I don't follow. Why would we ignore all errors even if the property is
-> > > optional? If there's a failure in reading the property, or checking if it
-> > > exists or not, surely that's an actual error to be handled, not to be
-> > > ignored?
-> > 
-> > What the problem to ignore them?
+> Just as unevaluatedProperties or additionalProperties are required at
+> the top level of schemas, they should (and will) also be required for
+> child node schemas. That ensures only documented properties are
+> present.
 > 
-> Well, probably nothing will explode if we just ignore them. But... Why would
-> we ignore them?
+> Add unevaluatedProperties or additionalProperties as appropriate, and
+> then add any missing properties flagged by the addition.
 > 
-> > But if you are really pedantic about it, perhaps the proper way is to add
-> > 
-> > fwnode_property_*_optional()
-> > 
-> > APIs to the set where you take default and return 0 in case default had been
-> > used for the absent property.
-> 
-> Perhaps, but I don't have a default value here.
+> Signed-off-by: Rob Herring <robh@kernel.org>
+> ---
+> To: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+> To: David Airlie <airlied@gmail.com>
+> To: Daniel Vetter <daniel@ffwll.ch>
+> To: Bartosz Golaszewski <brgl@bgdev.pl>
+> To: Jean Delvare <jdelvare@suse.com>
+> To: Guenter Roeck <linux@roeck-us.net>
+> To: Thomas Gleixner <tglx@linutronix.de>
+> To: Marc Zyngier <maz@kernel.org>
+> To: Jassi Brar <jassisinghbrar@gmail.com>
+> To: Mauro Carvalho Chehab <mchehab@kernel.org>
+> To: Lee Jones <lee@kernel.org>
+> To: Ulf Hansson <ulf.hansson@linaro.org>
+> To: Richard Weinberger <richard@nod.at>
+> To: Vignesh Raghavendra <vigneshr@ti.com>
+> To: Sebastian Reichel <sre@kernel.org>
+> To: Mark Brown <broonie@kernel.org>
+> To: "Rafael J. Wysocki" <rafael@kernel.org>
+> To: Daniel Lezcano <daniel.lezcano@linaro.org>
+> To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Cc: linux-arm-kernel@lists.infradead.org
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: linux-gpio@vger.kernel.org
+> Cc: linux-hwmon@vger.kernel.org
+> Cc: linux-media@vger.kernel.org
+> Cc: openbmc@lists.ozlabs.org
+> Cc: linux-mmc@vger.kernel.org
+> Cc: linux-mtd@lists.infradead.org
+> Cc: linux-pm@vger.kernel.org
+> Cc: alsa-devel@alsa-project.org
+> Cc: linux-spi@vger.kernel.org
+> Cc: linux-usb@vger.kernel.org
+> ---
+>  .../devicetree/bindings/arm/arm,vexpress-juno.yaml     |  1 +
+>  .../bindings/arm/bcm/raspberrypi,bcm2835-firmware.yaml |  5 +++--
+>  .../bindings/arm/tegra/nvidia,tegra20-pmc.yaml         |  4 ++++
+>  .../bindings/bus/allwinner,sun50i-a64-de2.yaml         |  1 +
+>  .../bindings/bus/allwinner,sun8i-a23-rsb.yaml          |  1 +
+>  .../bus/intel,ixp4xx-expansion-bus-controller.yaml     |  6 ++++++
+>  Documentation/devicetree/bindings/bus/palmbus.yaml     |  1 +
+>  .../devicetree/bindings/display/msm/qcom,mdss.yaml     |  5 +++++
+>  Documentation/devicetree/bindings/example-schema.yaml  |  2 ++
+>  .../devicetree/bindings/gpio/x-powers,axp209-gpio.yaml |  1 +
+>  .../devicetree/bindings/hwmon/adi,ltc2992.yaml         |  1 +
+>  .../bindings/interrupt-controller/arm,gic-v3.yaml      |  2 ++
+>  .../bindings/mailbox/xlnx,zynqmp-ipi-mailbox.yaml      |  1 +
+>  .../devicetree/bindings/media/i2c/maxim,max9286.yaml   |  7 +++++++
+>  .../bindings/memory-controllers/arm,pl35x-smc.yaml     |  1 +
+>  .../bindings/memory-controllers/exynos-srom.yaml       |  1 +
+>  .../memory-controllers/nvidia,tegra124-emc.yaml        |  1 +
+>  .../bindings/memory-controllers/st,stm32-fmc2-ebi.yaml |  1 +
+>  .../devicetree/bindings/mfd/mediatek,mt6370.yaml       |  2 ++
+>  .../devicetree/bindings/mmc/aspeed,sdhci.yaml          |  1 +
+>  Documentation/devicetree/bindings/mtd/mtd.yaml         |  1 +
+>  .../devicetree/bindings/power/supply/ti,lp8727.yaml    |  1 +
+>  .../devicetree/bindings/soc/imx/fsl,imx93-src.yaml     |  3 ++-
+>  .../bindings/soc/microchip/atmel,at91rm9200-tcb.yaml   |  1 +
+>  Documentation/devicetree/bindings/soc/ti/ti,pruss.yaml |  1 +
+>  .../devicetree/bindings/sound/marvell,mmp-sspa.yaml    |  1 +
+>  .../devicetree/bindings/sound/qcom,wcd934x.yaml        |  1 +
+>  .../devicetree/bindings/sound/samsung,odroid.yaml      |  2 ++
+>  .../devicetree/bindings/soundwire/qcom,soundwire.yaml  |  1 +
+>  .../bindings/spi/allwinner,sun4i-a10-spi.yaml          |  1 +
+>  .../bindings/spi/allwinner,sun6i-a31-spi.yaml          |  1 +
+>  .../devicetree/bindings/spi/spi-controller.yaml        |  1 +
+>  .../sram/allwinner,sun4i-a10-system-control.yaml       | 10 +++++-----
+>  Documentation/devicetree/bindings/sram/qcom,ocmem.yaml |  1 +
+>  .../devicetree/bindings/thermal/thermal-zones.yaml     |  1 +
+>  Documentation/devicetree/bindings/usb/qcom,dwc3.yaml   |  1 +
+>  36 files changed, 65 insertions(+), 8 deletions(-)
 
-It's impossible. You have one. 0 is also can be default.
-
-> In any case, I'm not quite sure what you are arguing here. Is it just that
-> you don't think the error check is necessary and should be dropped?
-
-Yes, I do not see the value of these complex error checking.
-Dropping that makes it KISS. I.o.w. why do we care about errors
-if the property is optional? Make it mandatory otherwise.
-
-> > > > > > > +	} else if (eq_level > UB960_MAX_EQ_LEVEL) {
-> > > > > > > +		dev_err(dev, "rx%u: illegal 'ti,eq-level' value: %d\n", nport,
-> > > > > > > +			eq_level);
-> > > > 
-> > > > This part is a validation of DT again, but we discussed above this.
-> > > > 
-> > > > > > > +	} else {
-> > > > > > > +		rxport->eq.manual_eq = true;
-> > > > > > > +		rxport->eq.manual.eq_level = eq_level;
-> > > > > > > +	}
-> > 
-> > ...
-> > 
-> > > > > > > +struct ds90ub9xx_platform_data {
-> > > > > > > +	u32 port;
-> > > > > > > +	struct i2c_atr *atr;
-> > > > > > > +	unsigned long bc_rate;
-> > > > > > 
-> > > > > > Not sure why we need this to be public except, probably, atr...
-> > > > > 
-> > > > > The port and atr are used by the serializers, for atr. The bc_rate is used
-> > > > > by the serializers to figure out the clocking (they may use the FPD-Link's
-> > > > > frequency internally).
-> > > > 
-> > > > The plain numbers can be passed as device properties. That's why the question
-> > > > about platform data. Platform data in general is discouraged to be used in a
-> > > > new code.
-> > > 
-> > > Device properties, as in, coming from DT?
-> > 
-> >  From anywhere.
-> > 
-> > > The port could be in the DT, but
-> > > the others are not hardware properties.
-> > 
-> > Why do we need them? For example, bc_rate.
-> 
-> The atr pointer is needed so that the serializers (ub913, ub953) can add
-> their i2c adapter to the deserializer's i2c-atr. The port is also needed for
-> that.
-> 
-> The bc rate (back-channel rate) is the FPD-Link back-channel rate which the
-> serializers use for various functionalities. At the moment only the ub953
-> uses it for calculating an output clock rate.
-> 
-> The bc-rate could be implemented using the clock framework, even if it's not
-> quite a plain clock. I had that code at some point, but it felt a bit off
-> and as we needed the pdata for the ATR, I added the bc-rate there.
-
-And I don't see why it is not a property of the device.
-
-> > > Yes, I don't like using platform data. We need some way to pass information
-> > > between the drivers.
-> > 
-> > Device properties allow that and targeting to remove the legacy platform data
-> > in zillions of the drivers.
-> 
-> Do you have any pointers to guide me into the right direction? I couldn't
-> find anything with some grepping and googling.
-> 
-> If you mean "device properties" as in ACPI, and so similar to DT properties,
-> aren't those hardware properties? Only the port here is about the hardware.
-
-About hardware, or PCB, or as quirks for missing DT/ACPI/any FW properties,
-like clock rates.
-
-The Linux kernel layer for that is called software nodes. The rough
-approximation to see where and how it's being used can be achieved
-by grepping for specific macros:
-
-	git grep -lw PROPERTY_ENTRY_.*
-
-E.g. arch/arm/mach-tegra/board-paz00.c tegra_paz00_wifikill_init()
-implementation.
+Acked-by: Lee Jones <lee@kernel.org>
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
-
+Lee Jones [李琼斯]
