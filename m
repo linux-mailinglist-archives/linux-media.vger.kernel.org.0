@@ -2,163 +2,259 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B0B8C67BAC1
-	for <lists+linux-media@lfdr.de>; Wed, 25 Jan 2023 20:23:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5518B67BB9C
+	for <lists+linux-media@lfdr.de>; Wed, 25 Jan 2023 21:03:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236220AbjAYTXT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 25 Jan 2023 14:23:19 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38602 "EHLO
+        id S236128AbjAYUDX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 25 Jan 2023 15:03:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35088 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236160AbjAYTXF (ORCPT
+        with ESMTP id S236156AbjAYUDU (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 25 Jan 2023 14:23:05 -0500
-Received: from mail-yw1-x112b.google.com (mail-yw1-x112b.google.com [IPv6:2607:f8b0:4864:20::112b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2F5072BD
-        for <linux-media@vger.kernel.org>; Wed, 25 Jan 2023 11:22:50 -0800 (PST)
-Received: by mail-yw1-x112b.google.com with SMTP id 00721157ae682-506609635cbso63624177b3.4
-        for <linux-media@vger.kernel.org>; Wed, 25 Jan 2023 11:22:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=PCnMypYs8jymH6Ufuva+9r/69Y/DZs8kYxwQEYrzQFk=;
-        b=hXTUs83qvSMCw0sqrewtph/1zyRGQA8EwV9VOqASoIhN1O27YlTeLHvU30LwpkaPKE
-         6ZtbduOBpeU0Mk6yScQyxHGjdOZ8W8NbAK7HCSbKR2qQVwpslpoP2Mqh8DnM60UrkSEV
-         Fy/rJx/xAj6ReR1yQheSDvUeiLsUOZe36GsXUe+/pA5dp4+pot+ScO1k5jhTafZOkoJo
-         vEjMe7B3/0BupSIQn5CSlkYjolaKBFMYB73xyId061H8p1ZYZbkvvK9SPdZltanRDpUl
-         vOuM+M/xFo7tmOP85pcv8h038+SVqlBqYWxO3Lgun0O5W06va+PJHK2pFsHgrhvmIiGL
-         lvow==
+        Wed, 25 Jan 2023 15:03:20 -0500
+Received: from mail-oa1-f47.google.com (mail-oa1-f47.google.com [209.85.160.47])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6EDE59769;
+        Wed, 25 Jan 2023 12:03:17 -0800 (PST)
+Received: by mail-oa1-f47.google.com with SMTP id 586e51a60fabf-142b72a728fso22705909fac.9;
+        Wed, 25 Jan 2023 12:03:17 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=PCnMypYs8jymH6Ufuva+9r/69Y/DZs8kYxwQEYrzQFk=;
-        b=pW/WsqxRMyo2TmRxwCXRh/HSc3KmsMK3CI4KTI0njr8L5jW9vj9IJqz53ESms0CjYR
-         a+d5T3TWakPUgENlgMMEuGbqapl/rQkfFMQZZJTQur1mQ/Ihh/5HOAWQPO4W6UlOWnMo
-         UNNxdVpPiVU3ABSTYctDLc5p+sIvCDBEoM2ap+c7o0yngJ1uIv5f/ajA5RUZmQsvegZr
-         bzyPCGk2EKs4evjV0Wwy25jF5q1rAGwIKzzc7t/RxUW6lqUGLbLDkcMB0X1YgfYLSHxD
-         m9e/koHvJGpaDgqUoMs/Vs1mUFFFN2/8gnMwKw5vSt13gNDcSDqz6bn6iQ2BPt/OcsIe
-         /y/w==
-X-Gm-Message-State: AO0yUKU46vc6+H5lpgJxz1m3p/fVqComPwVyiZvVe2ToWAYbq+uB38OB
-        6gXyxje3kLJThkk5/ViuLEkUgvm8KmHE5F6nqXhdpw==
-X-Google-Smtp-Source: AK7set/Rj29H3r8vHaYccCmp943Un+QyMRF/w8dcRdt99GFw8apI+/L+5tSmXBTsBLdlTBniti7hA8kyFbpjr3H10kc=
-X-Received: by 2002:a0d:d456:0:b0:507:26dc:ebd with SMTP id
- w83-20020a0dd456000000b0050726dc0ebdmr298632ywd.455.1674674569763; Wed, 25
- Jan 2023 11:22:49 -0800 (PST)
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=JS9Ato+g82YCx7GpbdLV1/5UEFGfDZ+Ro556mCRT4BQ=;
+        b=hUUY+a7uLWV06u7LTsD1MykpuBeSa6cEjCzXyLiKTcr6QoEqNtJLZksjw+RZLuBqGW
+         GCIPVgmwoGBbzzLbhAfwwBTep4AL/cZarhcen0UReHJ4JbogkPBw3wkvrbjQZfrswUvF
+         vCsUyxQIpz5ams3V2Pa0V4+B/O41+Iy6hPvpx46YicZg1/KXr/+FiUidUcD8QTCdvR0W
+         OUO1KPobXOwMXuFEqo9edU/UTwZgHg+Hqzdm8506thXabWmNySsKSsYCMaGln/+s86re
+         4wl5Mu6FxV8QiapIpNL0ERAOsCSsoQYwf2OTcSkocN6LDpxyrwSw5hc3tRtBFP/QGv+z
+         J6FA==
+X-Gm-Message-State: AFqh2krecKCnHhv4fgPY7WjWA8y6v8lHUAKrnw1x9JkyP6rdrONoIe6o
+        KNH8JhB2Ol3WXfyoqdZWfA==
+X-Google-Smtp-Source: AMrXdXvLvf6NAvbOfoqjWJQWiNhdcYmjmN2lD36v7XVDRhMDG0lA69m7W0gqW6Yy/gq48k07wdLhpQ==
+X-Received: by 2002:a05:6870:b4a5:b0:158:910:8956 with SMTP id y37-20020a056870b4a500b0015809108956mr19026430oap.54.1674676996710;
+        Wed, 25 Jan 2023 12:03:16 -0800 (PST)
+Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id fw9-20020a056870080900b00143ae7d4ccesm1882540oab.45.2023.01.25.12.03.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 Jan 2023 12:03:16 -0800 (PST)
+Received: (nullmailer pid 2760041 invoked by uid 1000);
+        Wed, 25 Jan 2023 20:03:15 -0000
+Date:   Wed, 25 Jan 2023 14:03:15 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Michael Riesch <michael.riesch@wolfvision.net>
+Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        Gerald Loacker <gerald.loacker@wolfvision.net>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Marco Felsch <m.felsch@pengutronix.de>,
+        Mikhail Rudenko <mike.rudenko@gmail.com>,
+        Krzysztof =?utf-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>,
+        Marek Vasut <marex@denx.de>
+Subject: Re: [PATCH v2 1/2] dt-bindings: media: i2c: add imx415 cmos image
+ sensor
+Message-ID: <20230125200315.GA2755157-robh@kernel.org>
+References: <20230124060107.3922237-1-michael.riesch@wolfvision.net>
+ <20230124060107.3922237-2-michael.riesch@wolfvision.net>
 MIME-Version: 1.0
-References: <20230125083851.27759-1-surenb@google.com> <20230125083851.27759-2-surenb@google.com>
- <Y9F19QEDX5d/44EV@casper.infradead.org>
-In-Reply-To: <Y9F19QEDX5d/44EV@casper.infradead.org>
-From:   Suren Baghdasaryan <surenb@google.com>
-Date:   Wed, 25 Jan 2023 11:22:38 -0800
-Message-ID: <CAJuCfpH+LMFX=TT04gSMA05cz_-CXMum6fobRrduWvzm1HWPmQ@mail.gmail.com>
-Subject: Re: [PATCH v2 1/6] mm: introduce vma->vm_flags modifier functions
-To:     Matthew Wilcox <willy@infradead.org>
-Cc:     akpm@linux-foundation.org, michel@lespinasse.org,
-        jglisse@google.com, mhocko@suse.com, vbabka@suse.cz,
-        hannes@cmpxchg.org, mgorman@techsingularity.net, dave@stgolabs.net,
-        liam.howlett@oracle.com, peterz@infradead.org,
-        ldufour@linux.ibm.com, paulmck@kernel.org, luto@kernel.org,
-        songliubraving@fb.com, peterx@redhat.com, david@redhat.com,
-        dhowells@redhat.com, hughd@google.com, bigeasy@linutronix.de,
-        kent.overstreet@linux.dev, punit.agrawal@bytedance.com,
-        lstoakes@gmail.com, peterjung1337@gmail.com, rientjes@google.com,
-        axelrasmussen@google.com, joelaf@google.com, minchan@google.com,
-        jannh@google.com, shakeelb@google.com, tatashin@google.com,
-        edumazet@google.com, gthelen@google.com, gurua@google.com,
-        arjunroy@google.com, soheil@google.com, hughlynch@google.com,
-        leewalsh@google.com, posk@google.com, will@kernel.org,
-        aneesh.kumar@linux.ibm.com, npiggin@gmail.com,
-        chenhuacai@kernel.org, tglx@linutronix.de, mingo@redhat.com,
-        bp@alien8.de, dave.hansen@linux.intel.com, richard@nod.at,
-        anton.ivanov@cambridgegreys.com, johannes@sipsolutions.net,
-        qianweili@huawei.com, wangzhou1@hisilicon.com,
-        herbert@gondor.apana.org.au, davem@davemloft.net, vkoul@kernel.org,
-        airlied@gmail.com, daniel@ffwll.ch,
-        maarten.lankhorst@linux.intel.com, mripard@kernel.org,
-        tzimmermann@suse.de, l.stach@pengutronix.de,
-        krzysztof.kozlowski@linaro.org, patrik.r.jakobsson@gmail.com,
-        matthias.bgg@gmail.com, robdclark@gmail.com,
-        quic_abhinavk@quicinc.com, dmitry.baryshkov@linaro.org,
-        tomba@kernel.org, hjc@rock-chips.com, heiko@sntech.de,
-        ray.huang@amd.com, kraxel@redhat.com, sre@kernel.org,
-        mcoquelin.stm32@gmail.com, alexandre.torgue@foss.st.com,
-        tfiga@chromium.org, m.szyprowski@samsung.com, mchehab@kernel.org,
-        dimitri.sivanich@hpe.com, zhangfei.gao@linaro.org,
-        jejb@linux.ibm.com, martin.petersen@oracle.com,
-        dgilbert@interlog.com, hdegoede@redhat.com, mst@redhat.com,
-        jasowang@redhat.com, alex.williamson@redhat.com, deller@gmx.de,
-        jayalk@intworks.biz, viro@zeniv.linux.org.uk, nico@fluxnic.net,
-        xiang@kernel.org, chao@kernel.org, tytso@mit.edu,
-        adilger.kernel@dilger.ca, miklos@szeredi.hu,
-        mike.kravetz@oracle.com, muchun.song@linux.dev, bhe@redhat.com,
-        andrii@kernel.org, yoshfuji@linux-ipv6.org, dsahern@kernel.org,
-        kuba@kernel.org, pabeni@redhat.com, perex@perex.cz, tiwai@suse.com,
-        haojian.zhuang@gmail.com, robert.jarzmik@free.fr,
-        linux-mm@kvack.org, linux-arm-kernel@lists.infradead.org,
-        linuxppc-dev@lists.ozlabs.org, x86@kernel.org,
-        linux-kernel@vger.kernel.org, linux-graphics-maintainer@vmware.com,
-        linux-ia64@vger.kernel.org, linux-arch@vger.kernel.org,
-        loongarch@lists.linux.dev, kvm@vger.kernel.org,
-        linux-s390@vger.kernel.org, linux-sgx@vger.kernel.org,
-        linux-um@lists.infradead.org, linux-acpi@vger.kernel.org,
-        linux-crypto@vger.kernel.org, nvdimm@lists.linux.dev,
-        dmaengine@vger.kernel.org, amd-gfx@lists.freedesktop.org,
-        dri-devel@lists.freedesktop.org, etnaviv@lists.freedesktop.org,
-        linux-samsung-soc@vger.kernel.org, intel-gfx@lists.freedesktop.org,
-        linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-        freedreno@lists.freedesktop.org,
-        linux-rockchip@lists.infradead.org, linux-tegra@vger.kernel.org,
-        virtualization@lists.linux-foundation.org,
-        xen-devel@lists.xenproject.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-rdma@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-accelerators@lists.ozlabs.org, sparclinux@vger.kernel.org,
-        linux-scsi@vger.kernel.org, linux-staging@lists.linux.dev,
-        target-devel@vger.kernel.org, linux-usb@vger.kernel.org,
-        netdev@vger.kernel.org, linux-fbdev@vger.kernel.org,
-        linux-aio@kvack.org, linux-fsdevel@vger.kernel.org,
-        linux-erofs@lists.ozlabs.org, linux-ext4@vger.kernel.org,
-        devel@lists.orangefs.org, kexec@lists.infradead.org,
-        linux-xfs@vger.kernel.org, bpf@vger.kernel.org,
-        linux-perf-users@vger.kernel.org, kasan-dev@googlegroups.com,
-        selinux@vger.kernel.org, alsa-devel@alsa-project.org,
-        kernel-team@android.com
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=unavailable
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230124060107.3922237-2-michael.riesch@wolfvision.net>
+X-Spam-Status: No, score=-1.3 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Jan 25, 2023 at 10:33 AM Matthew Wilcox <willy@infradead.org> wrote:
->
-> On Wed, Jan 25, 2023 at 12:38:46AM -0800, Suren Baghdasaryan wrote:
-> > +/* Use when VMA is not part of the VMA tree and needs no locking */
-> > +static inline void init_vm_flags(struct vm_area_struct *vma,
-> > +                              unsigned long flags)
-> > +{
-> > +     vma->vm_flags = flags;
->
-> vm_flags are supposed to have type vm_flags_t.  That's not been
-> fully realised yet, but perhaps we could avoid making it worse?
->
-> >       pgprot_t vm_page_prot;
-> > -     unsigned long vm_flags;         /* Flags, see mm.h. */
-> > +
-> > +     /*
-> > +      * Flags, see mm.h.
-> > +      * WARNING! Do not modify directly.
-> > +      * Use {init|reset|set|clear|mod}_vm_flags() functions instead.
-> > +      */
-> > +     unsigned long vm_flags;
->
-> Including changing this line to vm_flags_t
+On Tue, Jan 24, 2023 at 07:01:06AM +0100, Michael Riesch wrote:
+> Add devicetree binding for the Sony IMX415 CMOS image sensor.
+> 
+> Signed-off-by: Michael Riesch <michael.riesch@wolfvision.net>
+> ---
+> v2:
+>  - fix reference in port (must be /$defs/port-base)
+>  - describe data-lanes in more detail
+>  - remove unexpected property clock-lanes from example
+>  - sort properties in example alphabetically
+> 
+>  .../bindings/media/i2c/sony,imx415.yaml       | 130 ++++++++++++++++++
+>  MAINTAINERS                                   |   7 +
+>  2 files changed, 137 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/i2c/sony,imx415.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/media/i2c/sony,imx415.yaml b/Documentation/devicetree/bindings/media/i2c/sony,imx415.yaml
+> new file mode 100644
+> index 000000000000..104c36b64c09
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/i2c/sony,imx415.yaml
+> @@ -0,0 +1,130 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/i2c/sony,imx415.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Sony IMX415 CMOS Image Sensor
+> +
+> +maintainers:
+> +  - Michael Riesch <michael.riesch@wolfvision.net>
+> +
+> +description: |-
+> +  The Sony IMX415 is a diagonal 6.4 mm (Type 1/2.8) CMOS active pixel type
+> +  solid-state image sensor with a square pixel array and 8.46 M effective
+> +  pixels. This chip operates with analog 2.9 V, digital 1.1 V, and interface
+> +  1.8 V triple power supply, and has low power consumption.
+> +  The IMX415 is programmable through I2C interface. The sensor output is
+> +  available via CSI-2 serial data output (two or four lanes).
+> +
+> +allOf:
+> +  - $ref: ../video-interface-devices.yaml#
+> +
+> +properties:
+> +  compatible:
+> +    const: sony,imx415
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    maxItems: 1
+> +
+> +  clock-names:
+> +    description: Input clock (24 MHz, 27 MHz, 37.125 MHz, 72 MHz or 74.25 MHz)
+> +    items:
+> +      - const: inck
 
-Good point. Will make the change. Thanks!
+I agree with dropping it.
+
+> +
+> +  avdd-supply:
+> +    description: Analog power supply (2.9 V)
+> +
+> +  dvdd-supply:
+> +    description: Digital power supply (1.1 V)
+> +
+> +  ovdd-supply:
+> +    description: Interface power supply (1.8 V)
+> +
+> +  reset-gpios:
+> +    description: Sensor reset (XCLR) GPIO
+> +    maxItems: 1
+> +
+> +  flash-leds: true
+> +
+> +  lens-focus: true
+> +
+> +  orientation: true
+> +
+> +  rotation: true
+> +
+> +  port:
+> +    $ref: /schemas/graph.yaml#/$defs/port-base
+> +
+> +    properties:
+> +      endpoint:
+> +        $ref: /schemas/media/video-interfaces.yaml#
+> +        unevaluatedProperties: false
+> +
+> +        properties:
+> +          data-lanes:
+> +            oneOf:
+> +              - items:
+> +                  - const: 1
+> +                  - const: 2
+> +              - items:
+> +                  - const: 1
+> +                  - const: 2
+> +                  - const: 3
+> +                  - const: 4
+> +
+> +          link-frequencies: true
+
+Don't need to list this here.
+
+> +
+> +        required:
+> +          - data-lanes
+> +          - link-frequencies
+> +
+> +    required:
+> +      - endpoint
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - clocks
+> +  - clock-names
+> +  - avdd-supply
+> +  - dvdd-supply
+> +  - ovdd-supply
+> +  - port
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/gpio/gpio.h>
+> +
+> +    i2c {
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +
+> +        imx415: camera-sensor@1a {
+> +            compatible = "sony,imx415";
+> +            reg = <0x1a>;
+> +            avdd-supply = <&vcc2v9_cam>;
+> +            clocks = <&clock_cam>;
+> +            clock-names = "inck";
+> +            dvdd-supply = <&vcc1v1_cam>;
+> +            lens-focus = <&vcm>;
+> +            orientation = <2>;
+> +            ovdd-supply = <&vcc1v8_cam>;
+> +            reset-gpios = <&gpio_expander 14 GPIO_ACTIVE_LOW>;
+> +            rotation = <180>;
+> +
+> +            port {
+> +                imx415_ep: endpoint {
+> +                    data-lanes = <1 2 3 4>;
+> +                    link-frequencies = /bits/ 64 <445500000>;
+> +                    remote-endpoint = <&mipi_in>;
+> +                };
+> +            };
+> +        };
+> +    };
+> +...
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index f61eb221415b..c9fa893bf649 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -19493,6 +19493,13 @@ T:	git git://linuxtv.org/media_tree.git
+>  F:	Documentation/devicetree/bindings/media/i2c/sony,imx412.yaml
+>  F:	drivers/media/i2c/imx412.c
+>  
+> +SONY IMX415 SENSOR DRIVER
+> +M:	Michael Riesch <michael.riesch@wolfvision.net>
+> +L:	linux-media@vger.kernel.org
+> +S:	Maintained
+> +T:	git git://linuxtv.org/media_tree.git
+> +F:	Documentation/devicetree/bindings/media/i2c/sony,imx415.yaml
+> +
+>  SONY MEMORYSTICK SUBSYSTEM
+>  M:	Maxim Levitsky <maximlevitsky@gmail.com>
+>  M:	Alex Dubov <oakad@yahoo.com>
+> -- 
+> 2.30.2
+> 
