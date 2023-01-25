@@ -2,398 +2,165 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8AEB067B7B1
-	for <lists+linux-media@lfdr.de>; Wed, 25 Jan 2023 18:00:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2301F67B7D0
+	for <lists+linux-media@lfdr.de>; Wed, 25 Jan 2023 18:05:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235840AbjAYRAT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 25 Jan 2023 12:00:19 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53180 "EHLO
+        id S235950AbjAYRFO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 25 Jan 2023 12:05:14 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55860 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235707AbjAYRAR (ORCPT
+        with ESMTP id S235688AbjAYRFN (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 25 Jan 2023 12:00:17 -0500
-Received: from mail-yw1-x1133.google.com (mail-yw1-x1133.google.com [IPv6:2607:f8b0:4864:20::1133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 70DCA5FEC
-        for <linux-media@vger.kernel.org>; Wed, 25 Jan 2023 09:00:14 -0800 (PST)
-Received: by mail-yw1-x1133.google.com with SMTP id 00721157ae682-4fd37a1551cso247684857b3.13
-        for <linux-media@vger.kernel.org>; Wed, 25 Jan 2023 09:00:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=L4MXGiF0uBNS4YdEO04YxfSu/PH3d6GEYxinGGkJ0l0=;
-        b=W2wM+2B23DX4UFGjrNjz2QhZIRJJ0rJbNeAj16MEZr1nVm+y2drgVLMWhYKM+RXZwl
-         LyA9Ln6ru3ELYSr9r7So/z16X90Zls60BXzg/QzJqLOLV/j0Tixqf16TWNyXZGnACB9E
-         QkGJl1ScGfsTp7c4ttit0pgHNn4ey7S424sXU9dWBD5cTrLynb/1YBuhhrezEYSZhLSi
-         3eb09az3BMlgAYXh3d2+5Q7sC0FqvrC0NX040NYjkqv/h2gdKBNO3YpN4EQOf23xtORi
-         NxWfmFe951E1Au7ZDRJqODWALmTWnaVbj7QqRA33jeb/AA79tsFrFPyzpW0c4v2lui2R
-         IvJQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=L4MXGiF0uBNS4YdEO04YxfSu/PH3d6GEYxinGGkJ0l0=;
-        b=jlH6zjhUI7Sqats81S+uepzXM81XiNNYnlSgaWVuHJ6J+s11PZykgifnWf7DDq+3+D
-         XD7Qw9r1qsGExCbVr6VrKO4uGYNiCqZEesu2ad8LDiwY834CKCkjxBKJ2q4U2b7piQnc
-         dUtq7KdXxAngcKLDLgLUYRjilD838aaMiWilODGa0VHDpk9qBg2MLcWfHgMb+r1reg1o
-         1p+pznW9LN6cr/15cQgceg4KM7J7dxpWjDR5gKSVtLgr4lg7qD7cF8gibOUJJYzfZbCS
-         i9IYBEn/glQlwSAtQ9/555udwBFtbBT06z9GCQx8tTzzlauKOsw4UtULUzSPgYxEYrpg
-         D6Zw==
-X-Gm-Message-State: AFqh2krwMyrc6tN8ksL4XLfQeUQ3EnaFYzEBx5uiutBkcquO/6vSzvRO
-        sBK5hDy7KaT8p0rkfBxWQJrImFMHqW3lwhWbkFsbYA==
-X-Google-Smtp-Source: AMrXdXv6WFpwQ2RivVVjLGZIQcqOZe35ABaf7/kGtBR6QRxHke62z7D7Nf0zd78A9HxP1avFtZlnWBmbm7RD5GZUdQA=
-X-Received: by 2002:a0d:c0c7:0:b0:502:30d7:5fff with SMTP id
- b190-20020a0dc0c7000000b0050230d75fffmr2052050ywd.347.1674666013171; Wed, 25
- Jan 2023 09:00:13 -0800 (PST)
+        Wed, 25 Jan 2023 12:05:13 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03B1183CC;
+        Wed, 25 Jan 2023 09:05:12 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id AC48BB81B44;
+        Wed, 25 Jan 2023 17:05:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A186C433EF;
+        Wed, 25 Jan 2023 17:05:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1674666309;
+        bh=KCgquHBBE3i32DY08dZlQY8oNliwvemLJmq1BLIltXY=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:From;
+        b=rvk2iA8pOJhX6AySAr56h3sa54DxzdmfY9i5WuM501Wd1mNsKW2iOkzkfUk1HnGhQ
+         fcXZ1tXfgy1+iteHg1xoxwgQqYrngP6I8DFlYjGkYzXHPxcZWC6m5zhM7YF1UuiA0l
+         TziucBvFB70zD9yrad7zBhej/nswthz1AtU9xK8SPCq1Uu6aGA75iTMLyfqe3fbhfK
+         8PNp1OA66uRHyR6bSMlXwkFyoOWrqXroiCFm2aX/aXa2KX4msX+TNqpXUo0wBJ2ry5
+         2n8/KAzsbFFJuPzmTR/HanO1nPIulfnR4eiliFbC+M/GewjlXC92TsMjvY8X2+5aps
+         5yhA7ses57mjQ==
+Date:   Wed, 25 Jan 2023 11:05:06 -0600
+From:   Bjorn Helgaas <helgaas@kernel.org>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Daniel Scheller <d.scheller@gmx.net>
+Cc:     linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Berni <bernhard@turmann.eu>,
+        Salvatore Bonaccorso <carnil@debian.org>,
+        Sean V Kelley <sean.v.kelley@linux.intel.com>,
+        linux-media@vger.kernel.org
+Subject: Re: [bugzilla-daemon@bugzilla.kernel.org: [Bug 208507] New:
+ BISECTED: i2c timeout loading module ddbridge with commit
+ d2345d1231d80ecbea5fb764eb43123440861462]
+Message-ID: <20230125170506.GA1175690@bhelgaas>
 MIME-Version: 1.0
-References: <20230125083851.27759-1-surenb@google.com> <20230125083851.27759-6-surenb@google.com>
- <Y9D5hjcprLI92VKf@dhcp22.suse.cz>
-In-Reply-To: <Y9D5hjcprLI92VKf@dhcp22.suse.cz>
-From:   Suren Baghdasaryan <surenb@google.com>
-Date:   Wed, 25 Jan 2023 09:00:00 -0800
-Message-ID: <CAJuCfpHHPB=VE7Q=hoxVj7GBF18rpSQ-O-5+S3EPxOB5rHOrDg@mail.gmail.com>
-Subject: Re: [PATCH v2 5/6] mm: introduce mod_vm_flags_nolock and use it in untrack_pfn
-To:     Michal Hocko <mhocko@suse.com>
-Cc:     akpm@linux-foundation.org, michel@lespinasse.org,
-        jglisse@google.com, vbabka@suse.cz, hannes@cmpxchg.org,
-        mgorman@techsingularity.net, dave@stgolabs.net,
-        willy@infradead.org, liam.howlett@oracle.com, peterz@infradead.org,
-        ldufour@linux.ibm.com, paulmck@kernel.org, luto@kernel.org,
-        songliubraving@fb.com, peterx@redhat.com, david@redhat.com,
-        dhowells@redhat.com, hughd@google.com, bigeasy@linutronix.de,
-        kent.overstreet@linux.dev, punit.agrawal@bytedance.com,
-        lstoakes@gmail.com, peterjung1337@gmail.com, rientjes@google.com,
-        axelrasmussen@google.com, joelaf@google.com, minchan@google.com,
-        jannh@google.com, shakeelb@google.com, tatashin@google.com,
-        edumazet@google.com, gthelen@google.com, gurua@google.com,
-        arjunroy@google.com, soheil@google.com, hughlynch@google.com,
-        leewalsh@google.com, posk@google.com, will@kernel.org,
-        aneesh.kumar@linux.ibm.com, npiggin@gmail.com,
-        chenhuacai@kernel.org, tglx@linutronix.de, mingo@redhat.com,
-        bp@alien8.de, dave.hansen@linux.intel.com, richard@nod.at,
-        anton.ivanov@cambridgegreys.com, johannes@sipsolutions.net,
-        qianweili@huawei.com, wangzhou1@hisilicon.com,
-        herbert@gondor.apana.org.au, davem@davemloft.net, vkoul@kernel.org,
-        airlied@gmail.com, daniel@ffwll.ch,
-        maarten.lankhorst@linux.intel.com, mripard@kernel.org,
-        tzimmermann@suse.de, l.stach@pengutronix.de,
-        krzysztof.kozlowski@linaro.org, patrik.r.jakobsson@gmail.com,
-        matthias.bgg@gmail.com, robdclark@gmail.com,
-        quic_abhinavk@quicinc.com, dmitry.baryshkov@linaro.org,
-        tomba@kernel.org, hjc@rock-chips.com, heiko@sntech.de,
-        ray.huang@amd.com, kraxel@redhat.com, sre@kernel.org,
-        mcoquelin.stm32@gmail.com, alexandre.torgue@foss.st.com,
-        tfiga@chromium.org, m.szyprowski@samsung.com, mchehab@kernel.org,
-        dimitri.sivanich@hpe.com, zhangfei.gao@linaro.org,
-        jejb@linux.ibm.com, martin.petersen@oracle.com,
-        dgilbert@interlog.com, hdegoede@redhat.com, mst@redhat.com,
-        jasowang@redhat.com, alex.williamson@redhat.com, deller@gmx.de,
-        jayalk@intworks.biz, viro@zeniv.linux.org.uk, nico@fluxnic.net,
-        xiang@kernel.org, chao@kernel.org, tytso@mit.edu,
-        adilger.kernel@dilger.ca, miklos@szeredi.hu,
-        mike.kravetz@oracle.com, muchun.song@linux.dev, bhe@redhat.com,
-        andrii@kernel.org, yoshfuji@linux-ipv6.org, dsahern@kernel.org,
-        kuba@kernel.org, pabeni@redhat.com, perex@perex.cz, tiwai@suse.com,
-        haojian.zhuang@gmail.com, robert.jarzmik@free.fr,
-        linux-mm@kvack.org, linux-arm-kernel@lists.infradead.org,
-        linuxppc-dev@lists.ozlabs.org, x86@kernel.org,
-        linux-kernel@vger.kernel.org, linux-graphics-maintainer@vmware.com,
-        linux-ia64@vger.kernel.org, linux-arch@vger.kernel.org,
-        loongarch@lists.linux.dev, kvm@vger.kernel.org,
-        linux-s390@vger.kernel.org, linux-sgx@vger.kernel.org,
-        linux-um@lists.infradead.org, linux-acpi@vger.kernel.org,
-        linux-crypto@vger.kernel.org, nvdimm@lists.linux.dev,
-        dmaengine@vger.kernel.org, amd-gfx@lists.freedesktop.org,
-        dri-devel@lists.freedesktop.org, etnaviv@lists.freedesktop.org,
-        linux-samsung-soc@vger.kernel.org, intel-gfx@lists.freedesktop.org,
-        linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-        freedreno@lists.freedesktop.org,
-        linux-rockchip@lists.infradead.org, linux-tegra@vger.kernel.org,
-        virtualization@lists.linux-foundation.org,
-        xen-devel@lists.xenproject.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-rdma@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-accelerators@lists.ozlabs.org, sparclinux@vger.kernel.org,
-        linux-scsi@vger.kernel.org, linux-staging@lists.linux.dev,
-        target-devel@vger.kernel.org, linux-usb@vger.kernel.org,
-        netdev@vger.kernel.org, linux-fbdev@vger.kernel.org,
-        linux-aio@kvack.org, linux-fsdevel@vger.kernel.org,
-        linux-erofs@lists.ozlabs.org, linux-ext4@vger.kernel.org,
-        devel@lists.orangefs.org, kexec@lists.infradead.org,
-        linux-xfs@vger.kernel.org, bpf@vger.kernel.org,
-        linux-perf-users@vger.kernel.org, kasan-dev@googlegroups.com,
-        selinux@vger.kernel.org, alsa-devel@alsa-project.org,
-        kernel-team@android.com
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=unavailable
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200709191722.GA6054@bjorn-Precision-5520>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Jan 25, 2023 at 1:42 AM Michal Hocko <mhocko@suse.com> wrote:
->
-> On Wed 25-01-23 00:38:50, Suren Baghdasaryan wrote:
-> > In cases when VMA flags are modified after VMA was isolated and mmap_lock
-> > was downgraded, flags modifications would result in an assertion because
-> > mmap write lock is not held.
-> > Introduce mod_vm_flags_nolock to be used in such situation.
-> > Pass a hint to untrack_pfn to conditionally use mod_vm_flags_nolock for
-> > flags modification and to avoid assertion.
->
-> The changelog nor the documentation of mod_vm_flags_nolock
-> really explain when it is safe to use it. This is really important for
-> future potential users.
+[+cc Salvatore, Mauro, Daniel, linux-media]
 
-True. I'll add clarification in the comments and in the changelog. Thanks!
+On Thu, Jul 09, 2020 at 02:17:22PM -0500, Bjorn Helgaas wrote:
+> Bisected to Debian commit d2345d1231d8, which is a backport of the
+> upstream commit b88bf6c3b6ff ("PCI: Add boot interrupt quirk mechanism
+> for Xeon chipsets").
+> 
+> Reporter confirmed that reverting the Debian backport from 4.19.132
+> fixes the problem.
+>
+> ----- Forwarded message from bugzilla-daemon@bugzilla.kernel.org -----
+> 
+> Date: Thu, 09 Jul 2020 15:01:11 +0000
+> From: bugzilla-daemon@bugzilla.kernel.org
+> To: bjorn@helgaas.com
+> Subject: [Bug 208507] New: BISECTED: i2c timeout loading module ddbridge with
+> 	commit d2345d1231d80ecbea5fb764eb43123440861462
+> Message-ID: <bug-208507-41252@https.bugzilla.kernel.org/>
+> 
+> https://bugzilla.kernel.org/show_bug.cgi?id=208507
+> 
+>             Bug ID: 208507
+>            Summary: BISECTED: i2c timeout loading module ddbridge with
+>                     commit d2345d1231d80ecbea5fb764eb43123440861462
+>            Product: Drivers
+>            Version: 2.5
+>     Kernel Version: 4.19.132
+>           Hardware: x86-64
+>                 OS: Linux
+>               Tree: Mainline
+>             Status: NEW
+>           Severity: normal
+>           Priority: P1
+>          Component: PCI
+>           Assignee: drivers_pci@kernel-bugs.osdl.org
+>           Reporter: bernhard@turmann.eu
+>         Regression: Yes
+> 
+> Created attachment 290179
+>   --> https://bugzilla.kernel.org/attachment.cgi?id=290179&action=edit
+> dmesg on 4.19.132
+> 
+> OS: Debian 10.4 Buster
+> CPU: Intel(R) Xeon(R) CPU D-1541 @ 2.10GHz
+> Hardware: Supermicro  Super Server
+> Mainboard: Supermicro X10SDV
+> DVB card: Digital Devices Cine S2 V7 Advanced DVB adapter
+> 
+> Issue:
+> =====
+> Loading kernel module ddbridge fails with i2c timeouts, see attached dmesg. The
+> dvb media adapter is unusable.
+> This happened after Linux kernel upgrade from 4.19.98-1+deb10u1 to
+> 4.19.118-2+deb10u1.
+> 
+> A git bisect based on the Debian kernel repo on branch buster identified as
+> first bad commit: [1fb0eb795661ab9e697c3a053b35aa4dc3b81165] Update to
+> 4.19.116.
+> 
+> Another git bisect based on upstream Linux kernel repo on branch v4.19.y
+> identified as first bad commit: [d2345d1231d80ecbea5fb764eb43123440861462] PCI:
+> Add boot interrupt quirk mechanism for Xeon chipsets.
+> 
+> Other affected Debian kernel version: 5.6.14+2~bpo10+1
+> I tested this version via buster-backports, because so far I was unable to
+> build my own kernel from 5.6.y or even 5.7.y.
+> 
+> Workaround:
+> ==========
+> Reverting the mentioned commit d2345d1231d80ecbea5fb764eb43123440861462 on top
+> of 4.19.132 is fixing the problem. Reverting the same commit on 4.19.118 or
+> 4.19.116 is also fixing the problem.
 
->
-> > Signed-off-by: Suren Baghdasaryan <surenb@google.com>
-> > ---
-> >  arch/x86/mm/pat/memtype.c | 10 +++++++---
-> >  include/linux/mm.h        | 12 +++++++++---
-> >  include/linux/pgtable.h   |  5 +++--
-> >  mm/memory.c               | 13 +++++++------
-> >  mm/memremap.c             |  4 ++--
-> >  mm/mmap.c                 | 16 ++++++++++------
-> >  6 files changed, 38 insertions(+), 22 deletions(-)
-> >
-> > diff --git a/arch/x86/mm/pat/memtype.c b/arch/x86/mm/pat/memtype.c
-> > index ae9645c900fa..d8adc0b42cf2 100644
-> > --- a/arch/x86/mm/pat/memtype.c
-> > +++ b/arch/x86/mm/pat/memtype.c
-> > @@ -1046,7 +1046,7 @@ void track_pfn_insert(struct vm_area_struct *vma, pgprot_t *prot, pfn_t pfn)
-> >   * can be for the entire vma (in which case pfn, size are zero).
-> >   */
-> >  void untrack_pfn(struct vm_area_struct *vma, unsigned long pfn,
-> > -              unsigned long size)
-> > +              unsigned long size, bool mm_wr_locked)
-> >  {
-> >       resource_size_t paddr;
-> >       unsigned long prot;
-> > @@ -1065,8 +1065,12 @@ void untrack_pfn(struct vm_area_struct *vma, unsigned long pfn,
-> >               size = vma->vm_end - vma->vm_start;
-> >       }
-> >       free_pfn_range(paddr, size);
-> > -     if (vma)
-> > -             clear_vm_flags(vma, VM_PAT);
-> > +     if (vma) {
-> > +             if (mm_wr_locked)
-> > +                     clear_vm_flags(vma, VM_PAT);
-> > +             else
-> > +                     mod_vm_flags_nolock(vma, 0, VM_PAT);
-> > +     }
-> >  }
-> >
-> >  /*
-> > diff --git a/include/linux/mm.h b/include/linux/mm.h
-> > index 55335edd1373..48d49930c411 100644
-> > --- a/include/linux/mm.h
-> > +++ b/include/linux/mm.h
-> > @@ -656,12 +656,18 @@ static inline void clear_vm_flags(struct vm_area_struct *vma,
-> >       vma->vm_flags &= ~flags;
-> >  }
-> >
-> > +static inline void mod_vm_flags_nolock(struct vm_area_struct *vma,
-> > +                                    unsigned long set, unsigned long clear)
-> > +{
-> > +     vma->vm_flags |= set;
-> > +     vma->vm_flags &= ~clear;
-> > +}
-> > +
-> >  static inline void mod_vm_flags(struct vm_area_struct *vma,
-> >                               unsigned long set, unsigned long clear)
-> >  {
-> >       mmap_assert_write_locked(vma->vm_mm);
-> > -     vma->vm_flags |= set;
-> > -     vma->vm_flags &= ~clear;
-> > +     mod_vm_flags_nolock(vma, set, clear);
-> >  }
-> >
-> >  static inline void vma_set_anonymous(struct vm_area_struct *vma)
-> > @@ -2087,7 +2093,7 @@ static inline void zap_vma_pages(struct vm_area_struct *vma)
-> >  }
-> >  void unmap_vmas(struct mmu_gather *tlb, struct maple_tree *mt,
-> >               struct vm_area_struct *start_vma, unsigned long start,
-> > -             unsigned long end);
-> > +             unsigned long end, bool mm_wr_locked);
-> >
-> >  struct mmu_notifier_range;
-> >
-> > diff --git a/include/linux/pgtable.h b/include/linux/pgtable.h
-> > index 5fd45454c073..c63cd44777ec 100644
-> > --- a/include/linux/pgtable.h
-> > +++ b/include/linux/pgtable.h
-> > @@ -1185,7 +1185,8 @@ static inline int track_pfn_copy(struct vm_area_struct *vma)
-> >   * can be for the entire vma (in which case pfn, size are zero).
-> >   */
-> >  static inline void untrack_pfn(struct vm_area_struct *vma,
-> > -                            unsigned long pfn, unsigned long size)
-> > +                            unsigned long pfn, unsigned long size,
-> > +                            bool mm_wr_locked)
-> >  {
-> >  }
-> >
-> > @@ -1203,7 +1204,7 @@ extern void track_pfn_insert(struct vm_area_struct *vma, pgprot_t *prot,
-> >                            pfn_t pfn);
-> >  extern int track_pfn_copy(struct vm_area_struct *vma);
-> >  extern void untrack_pfn(struct vm_area_struct *vma, unsigned long pfn,
-> > -                     unsigned long size);
-> > +                     unsigned long size, bool mm_wr_locked);
-> >  extern void untrack_pfn_moved(struct vm_area_struct *vma);
-> >  #endif
-> >
-> > diff --git a/mm/memory.c b/mm/memory.c
-> > index d6902065e558..5b11b50e2c4a 100644
-> > --- a/mm/memory.c
-> > +++ b/mm/memory.c
-> > @@ -1613,7 +1613,7 @@ void unmap_page_range(struct mmu_gather *tlb,
-> >  static void unmap_single_vma(struct mmu_gather *tlb,
-> >               struct vm_area_struct *vma, unsigned long start_addr,
-> >               unsigned long end_addr,
-> > -             struct zap_details *details)
-> > +             struct zap_details *details, bool mm_wr_locked)
-> >  {
-> >       unsigned long start = max(vma->vm_start, start_addr);
-> >       unsigned long end;
-> > @@ -1628,7 +1628,7 @@ static void unmap_single_vma(struct mmu_gather *tlb,
-> >               uprobe_munmap(vma, start, end);
-> >
-> >       if (unlikely(vma->vm_flags & VM_PFNMAP))
-> > -             untrack_pfn(vma, 0, 0);
-> > +             untrack_pfn(vma, 0, 0, mm_wr_locked);
-> >
-> >       if (start != end) {
-> >               if (unlikely(is_vm_hugetlb_page(vma))) {
-> > @@ -1675,7 +1675,7 @@ static void unmap_single_vma(struct mmu_gather *tlb,
-> >   */
-> >  void unmap_vmas(struct mmu_gather *tlb, struct maple_tree *mt,
-> >               struct vm_area_struct *vma, unsigned long start_addr,
-> > -             unsigned long end_addr)
-> > +             unsigned long end_addr, bool mm_wr_locked)
-> >  {
-> >       struct mmu_notifier_range range;
-> >       struct zap_details details = {
-> > @@ -1689,7 +1689,8 @@ void unmap_vmas(struct mmu_gather *tlb, struct maple_tree *mt,
-> >                               start_addr, end_addr);
-> >       mmu_notifier_invalidate_range_start(&range);
-> >       do {
-> > -             unmap_single_vma(tlb, vma, start_addr, end_addr, &details);
-> > +             unmap_single_vma(tlb, vma, start_addr, end_addr, &details,
-> > +                              mm_wr_locked);
-> >       } while ((vma = mas_find(&mas, end_addr - 1)) != NULL);
-> >       mmu_notifier_invalidate_range_end(&range);
-> >  }
-> > @@ -1723,7 +1724,7 @@ void zap_page_range_single(struct vm_area_struct *vma, unsigned long address,
-> >        * unmap 'address-end' not 'range.start-range.end' as range
-> >        * could have been expanded for hugetlb pmd sharing.
-> >        */
-> > -     unmap_single_vma(&tlb, vma, address, end, details);
-> > +     unmap_single_vma(&tlb, vma, address, end, details, false);
-> >       mmu_notifier_invalidate_range_end(&range);
-> >       tlb_finish_mmu(&tlb);
-> >  }
-> > @@ -2492,7 +2493,7 @@ int remap_pfn_range(struct vm_area_struct *vma, unsigned long addr,
-> >
-> >       err = remap_pfn_range_notrack(vma, addr, pfn, size, prot);
-> >       if (err)
-> > -             untrack_pfn(vma, pfn, PAGE_ALIGN(size));
-> > +             untrack_pfn(vma, pfn, PAGE_ALIGN(size), true);
-> >       return err;
-> >  }
-> >  EXPORT_SYMBOL(remap_pfn_range);
-> > diff --git a/mm/memremap.c b/mm/memremap.c
-> > index 08cbf54fe037..2f88f43d4a01 100644
-> > --- a/mm/memremap.c
-> > +++ b/mm/memremap.c
-> > @@ -129,7 +129,7 @@ static void pageunmap_range(struct dev_pagemap *pgmap, int range_id)
-> >       }
-> >       mem_hotplug_done();
-> >
-> > -     untrack_pfn(NULL, PHYS_PFN(range->start), range_len(range));
-> > +     untrack_pfn(NULL, PHYS_PFN(range->start), range_len(range), true);
-> >       pgmap_array_delete(range);
-> >  }
-> >
-> > @@ -276,7 +276,7 @@ static int pagemap_range(struct dev_pagemap *pgmap, struct mhp_params *params,
-> >       if (!is_private)
-> >               kasan_remove_zero_shadow(__va(range->start), range_len(range));
-> >  err_kasan:
-> > -     untrack_pfn(NULL, PHYS_PFN(range->start), range_len(range));
-> > +     untrack_pfn(NULL, PHYS_PFN(range->start), range_len(range), true);
-> >  err_pfn_remap:
-> >       pgmap_array_delete(range);
-> >       return error;
-> > diff --git a/mm/mmap.c b/mm/mmap.c
-> > index 2c6e9072e6a8..69d440997648 100644
-> > --- a/mm/mmap.c
-> > +++ b/mm/mmap.c
-> > @@ -78,7 +78,7 @@ core_param(ignore_rlimit_data, ignore_rlimit_data, bool, 0644);
-> >  static void unmap_region(struct mm_struct *mm, struct maple_tree *mt,
-> >               struct vm_area_struct *vma, struct vm_area_struct *prev,
-> >               struct vm_area_struct *next, unsigned long start,
-> > -             unsigned long end);
-> > +             unsigned long end, bool mm_wr_locked);
-> >
-> >  static pgprot_t vm_pgprot_modify(pgprot_t oldprot, unsigned long vm_flags)
-> >  {
-> > @@ -2136,14 +2136,14 @@ static inline void remove_mt(struct mm_struct *mm, struct ma_state *mas)
-> >  static void unmap_region(struct mm_struct *mm, struct maple_tree *mt,
-> >               struct vm_area_struct *vma, struct vm_area_struct *prev,
-> >               struct vm_area_struct *next,
-> > -             unsigned long start, unsigned long end)
-> > +             unsigned long start, unsigned long end, bool mm_wr_locked)
-> >  {
-> >       struct mmu_gather tlb;
-> >
-> >       lru_add_drain();
-> >       tlb_gather_mmu(&tlb, mm);
-> >       update_hiwater_rss(mm);
-> > -     unmap_vmas(&tlb, mt, vma, start, end);
-> > +     unmap_vmas(&tlb, mt, vma, start, end, mm_wr_locked);
-> >       free_pgtables(&tlb, mt, vma, prev ? prev->vm_end : FIRST_USER_ADDRESS,
-> >                                next ? next->vm_start : USER_PGTABLES_CEILING);
-> >       tlb_finish_mmu(&tlb);
-> > @@ -2391,7 +2391,11 @@ do_vmi_align_munmap(struct vma_iterator *vmi, struct vm_area_struct *vma,
-> >                       mmap_write_downgrade(mm);
-> >       }
-> >
-> > -     unmap_region(mm, &mt_detach, vma, prev, next, start, end);
-> > +     /*
-> > +      * We can free page tables without write-locking mmap_lock because VMAs
-> > +      * were isolated before we downgraded mmap_lock.
-> > +      */
-> > +     unmap_region(mm, &mt_detach, vma, prev, next, start, end, !downgrade);
-> >       /* Statistics and freeing VMAs */
-> >       mas_set(&mas_detach, start);
-> >       remove_mt(mm, &mas_detach);
-> > @@ -2704,7 +2708,7 @@ unsigned long mmap_region(struct file *file, unsigned long addr,
-> >
-> >               /* Undo any partial mapping done by a device driver. */
-> >               unmap_region(mm, &mm->mm_mt, vma, prev, next, vma->vm_start,
-> > -                          vma->vm_end);
-> > +                          vma->vm_end, true);
-> >       }
-> >       if (file && (vm_flags & VM_SHARED))
-> >               mapping_unmap_writable(file->f_mapping);
-> > @@ -3031,7 +3035,7 @@ void exit_mmap(struct mm_struct *mm)
-> >       tlb_gather_mmu_fullmm(&tlb, mm);
-> >       /* update_hiwater_rss(mm) here? but nobody should be looking */
-> >       /* Use ULONG_MAX here to ensure all VMAs in the mm are unmapped */
-> > -     unmap_vmas(&tlb, &mm->mm_mt, vma, 0, ULONG_MAX);
-> > +     unmap_vmas(&tlb, &mm->mm_mt, vma, 0, ULONG_MAX, false);
-> >       mmap_read_unlock(mm);
-> >
-> >       /*
-> > --
-> > 2.39.1
->
-> --
-> Michal Hocko
-> SUSE Labs
+Sorry, I dropped the ball on this.
+
+Berni has verified that this problem still exists in v6.1.4, and has
+attached current dmesg logs and lspci output.  
+
+Sean's comment (https://bugzilla.kernel.org/show_bug.cgi?id=208507#c18)
+suggests this is actually a ddbridge driver issue related to INTx
+emulation or MSI support.
+
+Berni confirmed that the i2c timeouts happen when
+CONFIG_DVB_DDBRIDGE_MSIENABLE is not enabled, and that enabling MSI
+via the "ddbridge.msi=1" module parameter avoids the i2c timeouts.
+
+The Kconfig help for DVB_DDBRIDGE_MSIENABLE:
+
+  Use PCI MSI (Message Signaled Interrupts) per default. Enabling this
+  might lead to I2C errors originating from the bridge in conjunction
+  with certain SATA controllers, requiring a reload of the ddbridge
+  module. MSI can still be disabled by passing msi=0 as option, as
+  this will just change the msi option default value.
+
+suggests that there may be an i2c or SATA issue that could be fixed so
+ddbridge MSI could be always enabled.  But I don't know about that
+underlying issue.
+
+Per MAINTAINERS, the ddbridge driver looks orphaned, so I cc'd the
+media folks and Daniel, who might know something about the MSI issues,
+based on adaf4df70521 ("media: ddbridge: Kconfig option to control the
+MSI modparam default").
+
+Bjorn
+
