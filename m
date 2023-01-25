@@ -2,39 +2,40 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7D01A67C02C
-	for <lists+linux-media@lfdr.de>; Wed, 25 Jan 2023 23:49:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A82D267C0A3
+	for <lists+linux-media@lfdr.de>; Thu, 26 Jan 2023 00:12:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235938AbjAYWt2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 25 Jan 2023 17:49:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46988 "EHLO
+        id S230233AbjAYXMN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 25 Jan 2023 18:12:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56050 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235570AbjAYWt0 (ORCPT
+        with ESMTP id S229472AbjAYXMM (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 25 Jan 2023 17:49:26 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 84DF345235
-        for <linux-media@vger.kernel.org>; Wed, 25 Jan 2023 14:49:22 -0800 (PST)
+        Wed, 25 Jan 2023 18:12:12 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3384A442E0
+        for <linux-media@vger.kernel.org>; Wed, 25 Jan 2023 15:12:11 -0800 (PST)
 Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id AE65915D6;
-        Wed, 25 Jan 2023 23:49:12 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7F8E9105;
+        Thu, 26 Jan 2023 00:12:09 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1674686953;
-        bh=qVJDHyeD0Ufh31G2LF3QwIx6zZdEuvHJ7uLVLS+Ke4w=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=iPrhxBWrDZmFXOCx2VJL541e2b6wasdjkXr0vsjvKpJQUzRRdYqkRbWPfuBht6E1A
-         38AEjdiTmrx/MmSTuDTZtxmB3WJMvCRwvsVuksA0VqE/1hRVPYna2U+CcSwZx2zAMR
-         CdODlA8Se0vvmn5tw7naWdP9H6f5AnRkRRTT3t9U=
+        s=mail; t=1674688329;
+        bh=bkRWZzT160rU09NcKUl6MjMRqQ/DOT0kfxEpNoCNo8w=;
+        h=Date:From:To:Cc:Subject:From;
+        b=Pfb3u0mCUmeiiqJSkgC5WZN9X3wTFIo2cSbNpr5UQWQGXU0WptDzSLswhYq4b8ius
+         oPhSVnJ34vd5pb+uj+bBWYUAFjyWzoJBZvoRBirX51uhAL2X4A0/8OVCldJEIIg4sq
+         jqthlY72q72JjRGvFFmUgpGSH0S1bj8IckEGgLBo=
+Date:   Thu, 26 Jan 2023 01:12:05 +0200
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     linux-media@vger.kernel.org
-Cc:     Scott Jiang <scott.jiang.linux@gmail.com>
-Subject: [RFC PATCH 8/8] media: i2c: Drop unused vs6624 camera sensor driver
-Date:   Thu, 26 Jan 2023 00:48:56 +0200
-Message-Id: <20230125224856.22266-9-laurent.pinchart@ideasonboard.com>
-X-Mailer: git-send-email 2.39.1
-In-Reply-To: <20230125224856.22266-1-laurent.pinchart@ideasonboard.com>
-References: <20230125224856.22266-1-laurent.pinchart@ideasonboard.com>
+Cc:     Sakari Ailus <sakari.ailus@iki.fi>,
+        Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>
+Subject: [RFC] Interactions between camera sensor rotation and flip controls
+Message-ID: <Y9G3RV1+Tz23GTA5@pendragon.ideasonboard.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
@@ -45,1259 +46,169 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The vs6624 camera sensor driver doesn't support DT and relies on
-platform data. The last board files supplying platform data for that
-device have been removed from the kernel in v4.17. The driver hasn't
-been used since them. Drop it.
+Hello,
 
-Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
----
- .../admin-guide/media/i2c-cardlist.rst        |   1 -
- drivers/media/i2c/Kconfig                     |  10 -
- drivers/media/i2c/Makefile                    |   1 -
- drivers/media/i2c/vs6624.c                    | 854 ------------------
- drivers/media/i2c/vs6624_regs.h               | 325 -------
- 5 files changed, 1191 deletions(-)
- delete mode 100644 drivers/media/i2c/vs6624.c
- delete mode 100644 drivers/media/i2c/vs6624_regs.h
+Jacopo, Sakari and I ended up having a long discussion today about the
+interactions between sensor rotation (as described in the device tree)
+and the V4L2 flip controls. The conversation started from the imx258
+series that Jacopo recently posted ([1]) and ended up as an in-depth
+analysis of the problem.
 
-diff --git a/Documentation/admin-guide/media/i2c-cardlist.rst b/Documentation/admin-guide/media/i2c-cardlist.rst
-index ada06fd8a377..1825a0bb47bd 100644
---- a/Documentation/admin-guide/media/i2c-cardlist.rst
-+++ b/Documentation/admin-guide/media/i2c-cardlist.rst
-@@ -105,7 +105,6 @@ s5c73m3       Samsung S5C73M3 sensor
- s5k4ecgx      Samsung S5K4ECGX sensor
- s5k5baf       Samsung S5K5BAF sensor
- s5k6a3        Samsung S5K6A3 sensor
--vs6624        ST VS6624 sensor
- ============  ==========================================================
- 
- Flash devices
-diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
-index 062cae8976ab..de51c43e3f5b 100644
---- a/drivers/media/i2c/Kconfig
-+++ b/drivers/media/i2c/Kconfig
-@@ -753,16 +753,6 @@ config VIDEO_ST_VGXY61
- 	  This is a Video4Linux2 sensor driver for the ST VGXY61
- 	  camera sensor.
- 
--config VIDEO_VS6624
--	tristate "ST VS6624 sensor support"
--	depends on VIDEO_DEV && I2C
--	help
--	  This is a Video4Linux2 sensor driver for the ST VS6624
--	  camera.
--
--	  To compile this driver as a module, choose M here: the
--	  module will be called vs6624.
--
- source "drivers/media/i2c/ccs/Kconfig"
- source "drivers/media/i2c/et8ek8/Kconfig"
- 
-diff --git a/drivers/media/i2c/Makefile b/drivers/media/i2c/Makefile
-index 3076dec9e655..c68f99649221 100644
---- a/drivers/media/i2c/Makefile
-+++ b/drivers/media/i2c/Makefile
-@@ -135,6 +135,5 @@ obj-$(CONFIG_VIDEO_UPD64031A) += upd64031a.o
- obj-$(CONFIG_VIDEO_UPD64083) += upd64083.o
- obj-$(CONFIG_VIDEO_VP27SMPX) += vp27smpx.o
- obj-$(CONFIG_VIDEO_VPX3220) += vpx3220.o
--obj-$(CONFIG_VIDEO_VS6624) += vs6624.o
- obj-$(CONFIG_VIDEO_WM8739) += wm8739.o
- obj-$(CONFIG_VIDEO_WM8775) += wm8775.o
-diff --git a/drivers/media/i2c/vs6624.c b/drivers/media/i2c/vs6624.c
-deleted file mode 100644
-index d35c5ec148f4..000000000000
---- a/drivers/media/i2c/vs6624.c
-+++ /dev/null
-@@ -1,854 +0,0 @@
--// SPDX-License-Identifier: GPL-2.0-only
--/*
-- * vs6624.c ST VS6624 CMOS image sensor driver
-- *
-- * Copyright (c) 2011 Analog Devices Inc.
-- */
--
--#include <linux/delay.h>
--#include <linux/errno.h>
--#include <linux/gpio.h>
--#include <linux/i2c.h>
--#include <linux/init.h>
--#include <linux/module.h>
--#include <linux/slab.h>
--#include <linux/types.h>
--#include <linux/videodev2.h>
--
--#include <media/v4l2-ctrls.h>
--#include <media/v4l2-device.h>
--#include <media/v4l2-mediabus.h>
--#include <media/v4l2-image-sizes.h>
--
--#include "vs6624_regs.h"
--
--#define MAX_FRAME_RATE  30
--
--struct vs6624 {
--	struct v4l2_subdev sd;
--	struct v4l2_ctrl_handler hdl;
--	struct v4l2_fract frame_rate;
--	struct v4l2_mbus_framefmt fmt;
--	unsigned ce_pin;
--};
--
--static const struct vs6624_format {
--	u32 mbus_code;
--	enum v4l2_colorspace colorspace;
--} vs6624_formats[] = {
--	{
--		.mbus_code      = MEDIA_BUS_FMT_UYVY8_2X8,
--		.colorspace     = V4L2_COLORSPACE_JPEG,
--	},
--	{
--		.mbus_code      = MEDIA_BUS_FMT_YUYV8_2X8,
--		.colorspace     = V4L2_COLORSPACE_JPEG,
--	},
--	{
--		.mbus_code      = MEDIA_BUS_FMT_RGB565_2X8_LE,
--		.colorspace     = V4L2_COLORSPACE_SRGB,
--	},
--};
--
--static const struct v4l2_mbus_framefmt vs6624_default_fmt = {
--	.width = VGA_WIDTH,
--	.height = VGA_HEIGHT,
--	.code = MEDIA_BUS_FMT_UYVY8_2X8,
--	.field = V4L2_FIELD_NONE,
--	.colorspace = V4L2_COLORSPACE_JPEG,
--};
--
--static const u16 vs6624_p1[] = {
--	0x8104, 0x03,
--	0x8105, 0x01,
--	0xc900, 0x03,
--	0xc904, 0x47,
--	0xc905, 0x10,
--	0xc906, 0x80,
--	0xc907, 0x3a,
--	0x903a, 0x02,
--	0x903b, 0x47,
--	0x903c, 0x15,
--	0xc908, 0x31,
--	0xc909, 0xdc,
--	0xc90a, 0x80,
--	0xc90b, 0x44,
--	0x9044, 0x02,
--	0x9045, 0x31,
--	0x9046, 0xe2,
--	0xc90c, 0x07,
--	0xc90d, 0xe0,
--	0xc90e, 0x80,
--	0xc90f, 0x47,
--	0x9047, 0x90,
--	0x9048, 0x83,
--	0x9049, 0x81,
--	0x904a, 0xe0,
--	0x904b, 0x60,
--	0x904c, 0x08,
--	0x904d, 0x90,
--	0x904e, 0xc0,
--	0x904f, 0x43,
--	0x9050, 0x74,
--	0x9051, 0x01,
--	0x9052, 0xf0,
--	0x9053, 0x80,
--	0x9054, 0x05,
--	0x9055, 0xE4,
--	0x9056, 0x90,
--	0x9057, 0xc0,
--	0x9058, 0x43,
--	0x9059, 0xf0,
--	0x905a, 0x02,
--	0x905b, 0x07,
--	0x905c, 0xec,
--	0xc910, 0x5d,
--	0xc911, 0xca,
--	0xc912, 0x80,
--	0xc913, 0x5d,
--	0x905d, 0xa3,
--	0x905e, 0x04,
--	0x905f, 0xf0,
--	0x9060, 0xa3,
--	0x9061, 0x04,
--	0x9062, 0xf0,
--	0x9063, 0x22,
--	0xc914, 0x72,
--	0xc915, 0x92,
--	0xc916, 0x80,
--	0xc917, 0x64,
--	0x9064, 0x74,
--	0x9065, 0x01,
--	0x9066, 0x02,
--	0x9067, 0x72,
--	0x9068, 0x95,
--	0xc918, 0x47,
--	0xc919, 0xf2,
--	0xc91a, 0x81,
--	0xc91b, 0x69,
--	0x9169, 0x74,
--	0x916a, 0x02,
--	0x916b, 0xf0,
--	0x916c, 0xec,
--	0x916d, 0xb4,
--	0x916e, 0x10,
--	0x916f, 0x0a,
--	0x9170, 0x90,
--	0x9171, 0x80,
--	0x9172, 0x16,
--	0x9173, 0xe0,
--	0x9174, 0x70,
--	0x9175, 0x04,
--	0x9176, 0x90,
--	0x9177, 0xd3,
--	0x9178, 0xc4,
--	0x9179, 0xf0,
--	0x917a, 0x22,
--	0xc91c, 0x0a,
--	0xc91d, 0xbe,
--	0xc91e, 0x80,
--	0xc91f, 0x73,
--	0x9073, 0xfc,
--	0x9074, 0xa3,
--	0x9075, 0xe0,
--	0x9076, 0xf5,
--	0x9077, 0x82,
--	0x9078, 0x8c,
--	0x9079, 0x83,
--	0x907a, 0xa3,
--	0x907b, 0xa3,
--	0x907c, 0xe0,
--	0x907d, 0xfc,
--	0x907e, 0xa3,
--	0x907f, 0xe0,
--	0x9080, 0xc3,
--	0x9081, 0x9f,
--	0x9082, 0xff,
--	0x9083, 0xec,
--	0x9084, 0x9e,
--	0x9085, 0xfe,
--	0x9086, 0x02,
--	0x9087, 0x0a,
--	0x9088, 0xea,
--	0xc920, 0x47,
--	0xc921, 0x38,
--	0xc922, 0x80,
--	0xc923, 0x89,
--	0x9089, 0xec,
--	0x908a, 0xd3,
--	0x908b, 0x94,
--	0x908c, 0x20,
--	0x908d, 0x40,
--	0x908e, 0x01,
--	0x908f, 0x1c,
--	0x9090, 0x90,
--	0x9091, 0xd3,
--	0x9092, 0xd4,
--	0x9093, 0xec,
--	0x9094, 0xf0,
--	0x9095, 0x02,
--	0x9096, 0x47,
--	0x9097, 0x3d,
--	0xc924, 0x45,
--	0xc925, 0xca,
--	0xc926, 0x80,
--	0xc927, 0x98,
--	0x9098, 0x12,
--	0x9099, 0x77,
--	0x909a, 0xd6,
--	0x909b, 0x02,
--	0x909c, 0x45,
--	0x909d, 0xcd,
--	0xc928, 0x20,
--	0xc929, 0xd5,
--	0xc92a, 0x80,
--	0xc92b, 0x9e,
--	0x909e, 0x90,
--	0x909f, 0x82,
--	0x90a0, 0x18,
--	0x90a1, 0xe0,
--	0x90a2, 0xb4,
--	0x90a3, 0x03,
--	0x90a4, 0x0e,
--	0x90a5, 0x90,
--	0x90a6, 0x83,
--	0x90a7, 0xbf,
--	0x90a8, 0xe0,
--	0x90a9, 0x60,
--	0x90aa, 0x08,
--	0x90ab, 0x90,
--	0x90ac, 0x81,
--	0x90ad, 0xfc,
--	0x90ae, 0xe0,
--	0x90af, 0xff,
--	0x90b0, 0xc3,
--	0x90b1, 0x13,
--	0x90b2, 0xf0,
--	0x90b3, 0x90,
--	0x90b4, 0x81,
--	0x90b5, 0xfc,
--	0x90b6, 0xe0,
--	0x90b7, 0xff,
--	0x90b8, 0x02,
--	0x90b9, 0x20,
--	0x90ba, 0xda,
--	0xc92c, 0x70,
--	0xc92d, 0xbc,
--	0xc92e, 0x80,
--	0xc92f, 0xbb,
--	0x90bb, 0x90,
--	0x90bc, 0x82,
--	0x90bd, 0x18,
--	0x90be, 0xe0,
--	0x90bf, 0xb4,
--	0x90c0, 0x03,
--	0x90c1, 0x06,
--	0x90c2, 0x90,
--	0x90c3, 0xc1,
--	0x90c4, 0x06,
--	0x90c5, 0x74,
--	0x90c6, 0x05,
--	0x90c7, 0xf0,
--	0x90c8, 0x90,
--	0x90c9, 0xd3,
--	0x90ca, 0xa0,
--	0x90cb, 0x02,
--	0x90cc, 0x70,
--	0x90cd, 0xbf,
--	0xc930, 0x72,
--	0xc931, 0x21,
--	0xc932, 0x81,
--	0xc933, 0x3b,
--	0x913b, 0x7d,
--	0x913c, 0x02,
--	0x913d, 0x7f,
--	0x913e, 0x7b,
--	0x913f, 0x02,
--	0x9140, 0x72,
--	0x9141, 0x25,
--	0xc934, 0x28,
--	0xc935, 0xae,
--	0xc936, 0x80,
--	0xc937, 0xd2,
--	0x90d2, 0xf0,
--	0x90d3, 0x90,
--	0x90d4, 0xd2,
--	0x90d5, 0x0a,
--	0x90d6, 0x02,
--	0x90d7, 0x28,
--	0x90d8, 0xb4,
--	0xc938, 0x28,
--	0xc939, 0xb1,
--	0xc93a, 0x80,
--	0xc93b, 0xd9,
--	0x90d9, 0x90,
--	0x90da, 0x83,
--	0x90db, 0xba,
--	0x90dc, 0xe0,
--	0x90dd, 0xff,
--	0x90de, 0x90,
--	0x90df, 0xd2,
--	0x90e0, 0x08,
--	0x90e1, 0xe0,
--	0x90e2, 0xe4,
--	0x90e3, 0xef,
--	0x90e4, 0xf0,
--	0x90e5, 0xa3,
--	0x90e6, 0xe0,
--	0x90e7, 0x74,
--	0x90e8, 0xff,
--	0x90e9, 0xf0,
--	0x90ea, 0x90,
--	0x90eb, 0xd2,
--	0x90ec, 0x0a,
--	0x90ed, 0x02,
--	0x90ee, 0x28,
--	0x90ef, 0xb4,
--	0xc93c, 0x29,
--	0xc93d, 0x79,
--	0xc93e, 0x80,
--	0xc93f, 0xf0,
--	0x90f0, 0xf0,
--	0x90f1, 0x90,
--	0x90f2, 0xd2,
--	0x90f3, 0x0e,
--	0x90f4, 0x02,
--	0x90f5, 0x29,
--	0x90f6, 0x7f,
--	0xc940, 0x29,
--	0xc941, 0x7c,
--	0xc942, 0x80,
--	0xc943, 0xf7,
--	0x90f7, 0x90,
--	0x90f8, 0x83,
--	0x90f9, 0xba,
--	0x90fa, 0xe0,
--	0x90fb, 0xff,
--	0x90fc, 0x90,
--	0x90fd, 0xd2,
--	0x90fe, 0x0c,
--	0x90ff, 0xe0,
--	0x9100, 0xe4,
--	0x9101, 0xef,
--	0x9102, 0xf0,
--	0x9103, 0xa3,
--	0x9104, 0xe0,
--	0x9105, 0x74,
--	0x9106, 0xff,
--	0x9107, 0xf0,
--	0x9108, 0x90,
--	0x9109, 0xd2,
--	0x910a, 0x0e,
--	0x910b, 0x02,
--	0x910c, 0x29,
--	0x910d, 0x7f,
--	0xc944, 0x2a,
--	0xc945, 0x42,
--	0xc946, 0x81,
--	0xc947, 0x0e,
--	0x910e, 0xf0,
--	0x910f, 0x90,
--	0x9110, 0xd2,
--	0x9111, 0x12,
--	0x9112, 0x02,
--	0x9113, 0x2a,
--	0x9114, 0x48,
--	0xc948, 0x2a,
--	0xc949, 0x45,
--	0xc94a, 0x81,
--	0xc94b, 0x15,
--	0x9115, 0x90,
--	0x9116, 0x83,
--	0x9117, 0xba,
--	0x9118, 0xe0,
--	0x9119, 0xff,
--	0x911a, 0x90,
--	0x911b, 0xd2,
--	0x911c, 0x10,
--	0x911d, 0xe0,
--	0x911e, 0xe4,
--	0x911f, 0xef,
--	0x9120, 0xf0,
--	0x9121, 0xa3,
--	0x9122, 0xe0,
--	0x9123, 0x74,
--	0x9124, 0xff,
--	0x9125, 0xf0,
--	0x9126, 0x90,
--	0x9127, 0xd2,
--	0x9128, 0x12,
--	0x9129, 0x02,
--	0x912a, 0x2a,
--	0x912b, 0x48,
--	0xc900, 0x01,
--	0x0000, 0x00,
--};
--
--static const u16 vs6624_p2[] = {
--	0x806f, 0x01,
--	0x058c, 0x01,
--	0x0000, 0x00,
--};
--
--static const u16 vs6624_run_setup[] = {
--	0x1d18, 0x00,				/* Enableconstrainedwhitebalance */
--	VS6624_PEAK_MIN_OUT_G_MSB, 0x3c,	/* Damper PeakGain Output MSB */
--	VS6624_PEAK_MIN_OUT_G_LSB, 0x66,	/* Damper PeakGain Output LSB */
--	VS6624_CM_LOW_THR_MSB, 0x65,		/* Damper Low MSB */
--	VS6624_CM_LOW_THR_LSB, 0xd1,		/* Damper Low LSB */
--	VS6624_CM_HIGH_THR_MSB, 0x66,		/* Damper High MSB */
--	VS6624_CM_HIGH_THR_LSB, 0x62,		/* Damper High LSB */
--	VS6624_CM_MIN_OUT_MSB, 0x00,		/* Damper Min output MSB */
--	VS6624_CM_MIN_OUT_LSB, 0x00,		/* Damper Min output LSB */
--	VS6624_NORA_DISABLE, 0x00,		/* Nora fDisable */
--	VS6624_NORA_USAGE, 0x04,		/* Nora usage */
--	VS6624_NORA_LOW_THR_MSB, 0x63,		/* Damper Low MSB Changed 0x63 to 0x65 */
--	VS6624_NORA_LOW_THR_LSB, 0xd1,		/* Damper Low LSB */
--	VS6624_NORA_HIGH_THR_MSB, 0x68,		/* Damper High MSB */
--	VS6624_NORA_HIGH_THR_LSB, 0xdd,		/* Damper High LSB */
--	VS6624_NORA_MIN_OUT_MSB, 0x3a,		/* Damper Min output MSB */
--	VS6624_NORA_MIN_OUT_LSB, 0x00,		/* Damper Min output LSB */
--	VS6624_F2B_DISABLE, 0x00,		/* Disable */
--	0x1d8a, 0x30,				/* MAXWeightHigh */
--	0x1d91, 0x62,				/* fpDamperLowThresholdHigh MSB */
--	0x1d92, 0x4a,				/* fpDamperLowThresholdHigh LSB */
--	0x1d95, 0x65,				/* fpDamperHighThresholdHigh MSB */
--	0x1d96, 0x0e,				/* fpDamperHighThresholdHigh LSB */
--	0x1da1, 0x3a,				/* fpMinimumDamperOutputLow MSB */
--	0x1da2, 0xb8,				/* fpMinimumDamperOutputLow LSB */
--	0x1e08, 0x06,				/* MAXWeightLow */
--	0x1e0a, 0x0a,				/* MAXWeightHigh */
--	0x1601, 0x3a,				/* Red A MSB */
--	0x1602, 0x14,				/* Red A LSB */
--	0x1605, 0x3b,				/* Blue A MSB */
--	0x1606, 0x85,				/* BLue A LSB */
--	0x1609, 0x3b,				/* RED B MSB */
--	0x160a, 0x85,				/* RED B LSB */
--	0x160d, 0x3a,				/* Blue B MSB */
--	0x160e, 0x14,				/* Blue B LSB */
--	0x1611, 0x30,				/* Max Distance from Locus MSB */
--	0x1612, 0x8f,				/* Max Distance from Locus MSB */
--	0x1614, 0x01,				/* Enable constrainer */
--	0x0000, 0x00,
--};
--
--static const u16 vs6624_default[] = {
--	VS6624_CONTRAST0, 0x84,
--	VS6624_SATURATION0, 0x75,
--	VS6624_GAMMA0, 0x11,
--	VS6624_CONTRAST1, 0x84,
--	VS6624_SATURATION1, 0x75,
--	VS6624_GAMMA1, 0x11,
--	VS6624_MAN_RG, 0x80,
--	VS6624_MAN_GG, 0x80,
--	VS6624_MAN_BG, 0x80,
--	VS6624_WB_MODE, 0x1,
--	VS6624_EXPO_COMPENSATION, 0xfe,
--	VS6624_EXPO_METER, 0x0,
--	VS6624_LIGHT_FREQ, 0x64,
--	VS6624_PEAK_GAIN, 0xe,
--	VS6624_PEAK_LOW_THR, 0x28,
--	VS6624_HMIRROR0, 0x0,
--	VS6624_VFLIP0, 0x0,
--	VS6624_ZOOM_HSTEP0_MSB, 0x0,
--	VS6624_ZOOM_HSTEP0_LSB, 0x1,
--	VS6624_ZOOM_VSTEP0_MSB, 0x0,
--	VS6624_ZOOM_VSTEP0_LSB, 0x1,
--	VS6624_PAN_HSTEP0_MSB, 0x0,
--	VS6624_PAN_HSTEP0_LSB, 0xf,
--	VS6624_PAN_VSTEP0_MSB, 0x0,
--	VS6624_PAN_VSTEP0_LSB, 0xf,
--	VS6624_SENSOR_MODE, 0x1,
--	VS6624_SYNC_CODE_SETUP, 0x21,
--	VS6624_DISABLE_FR_DAMPER, 0x0,
--	VS6624_FR_DEN, 0x1,
--	VS6624_FR_NUM_LSB, 0xf,
--	VS6624_INIT_PIPE_SETUP, 0x0,
--	VS6624_IMG_FMT0, 0x0,
--	VS6624_YUV_SETUP, 0x1,
--	VS6624_IMAGE_SIZE0, 0x2,
--	0x0000, 0x00,
--};
--
--static inline struct vs6624 *to_vs6624(struct v4l2_subdev *sd)
--{
--	return container_of(sd, struct vs6624, sd);
--}
--static inline struct v4l2_subdev *to_sd(struct v4l2_ctrl *ctrl)
--{
--	return &container_of(ctrl->handler, struct vs6624, hdl)->sd;
--}
--
--#ifdef CONFIG_VIDEO_ADV_DEBUG
--static int vs6624_read(struct v4l2_subdev *sd, u16 index)
--{
--	struct i2c_client *client = v4l2_get_subdevdata(sd);
--	u8 buf[2];
--
--	buf[0] = index >> 8;
--	buf[1] = index;
--	i2c_master_send(client, buf, 2);
--	i2c_master_recv(client, buf, 1);
--
--	return buf[0];
--}
--#endif
--
--static int vs6624_write(struct v4l2_subdev *sd, u16 index,
--				u8 value)
--{
--	struct i2c_client *client = v4l2_get_subdevdata(sd);
--	u8 buf[3];
--
--	buf[0] = index >> 8;
--	buf[1] = index;
--	buf[2] = value;
--
--	return i2c_master_send(client, buf, 3);
--}
--
--static int vs6624_writeregs(struct v4l2_subdev *sd, const u16 *regs)
--{
--	u16 reg;
--	u8 data;
--
--	while (*regs != 0x00) {
--		reg = *regs++;
--		data = *regs++;
--
--		vs6624_write(sd, reg, data);
--	}
--	return 0;
--}
--
--static int vs6624_s_ctrl(struct v4l2_ctrl *ctrl)
--{
--	struct v4l2_subdev *sd = to_sd(ctrl);
--
--	switch (ctrl->id) {
--	case V4L2_CID_CONTRAST:
--		vs6624_write(sd, VS6624_CONTRAST0, ctrl->val);
--		break;
--	case V4L2_CID_SATURATION:
--		vs6624_write(sd, VS6624_SATURATION0, ctrl->val);
--		break;
--	case V4L2_CID_HFLIP:
--		vs6624_write(sd, VS6624_HMIRROR0, ctrl->val);
--		break;
--	case V4L2_CID_VFLIP:
--		vs6624_write(sd, VS6624_VFLIP0, ctrl->val);
--		break;
--	default:
--		return -EINVAL;
--	}
--
--	return 0;
--}
--
--static int vs6624_enum_mbus_code(struct v4l2_subdev *sd,
--		struct v4l2_subdev_state *sd_state,
--		struct v4l2_subdev_mbus_code_enum *code)
--{
--	if (code->pad || code->index >= ARRAY_SIZE(vs6624_formats))
--		return -EINVAL;
--
--	code->code = vs6624_formats[code->index].mbus_code;
--	return 0;
--}
--
--static int vs6624_set_fmt(struct v4l2_subdev *sd,
--		struct v4l2_subdev_state *sd_state,
--		struct v4l2_subdev_format *format)
--{
--	struct v4l2_mbus_framefmt *fmt = &format->format;
--	struct vs6624 *sensor = to_vs6624(sd);
--	int index;
--
--	if (format->pad)
--		return -EINVAL;
--
--	for (index = 0; index < ARRAY_SIZE(vs6624_formats); index++)
--		if (vs6624_formats[index].mbus_code == fmt->code)
--			break;
--	if (index >= ARRAY_SIZE(vs6624_formats)) {
--		/* default to first format */
--		index = 0;
--		fmt->code = vs6624_formats[0].mbus_code;
--	}
--
--	/* sensor mode is VGA */
--	if (fmt->width > VGA_WIDTH)
--		fmt->width = VGA_WIDTH;
--	if (fmt->height > VGA_HEIGHT)
--		fmt->height = VGA_HEIGHT;
--	fmt->width = fmt->width & (~3);
--	fmt->height = fmt->height & (~3);
--	fmt->field = V4L2_FIELD_NONE;
--	fmt->colorspace = vs6624_formats[index].colorspace;
--
--	if (format->which == V4L2_SUBDEV_FORMAT_TRY) {
--		sd_state->pads->try_fmt = *fmt;
--		return 0;
--	}
--
--	/* set image format */
--	switch (fmt->code) {
--	case MEDIA_BUS_FMT_UYVY8_2X8:
--		vs6624_write(sd, VS6624_IMG_FMT0, 0x0);
--		vs6624_write(sd, VS6624_YUV_SETUP, 0x1);
--		break;
--	case MEDIA_BUS_FMT_YUYV8_2X8:
--		vs6624_write(sd, VS6624_IMG_FMT0, 0x0);
--		vs6624_write(sd, VS6624_YUV_SETUP, 0x3);
--		break;
--	case MEDIA_BUS_FMT_RGB565_2X8_LE:
--		vs6624_write(sd, VS6624_IMG_FMT0, 0x4);
--		vs6624_write(sd, VS6624_RGB_SETUP, 0x0);
--		break;
--	default:
--		return -EINVAL;
--	}
--
--	/* set image size */
--	if ((fmt->width == VGA_WIDTH) && (fmt->height == VGA_HEIGHT))
--		vs6624_write(sd, VS6624_IMAGE_SIZE0, 0x2);
--	else if ((fmt->width == QVGA_WIDTH) && (fmt->height == QVGA_HEIGHT))
--		vs6624_write(sd, VS6624_IMAGE_SIZE0, 0x4);
--	else if ((fmt->width == QQVGA_WIDTH) && (fmt->height == QQVGA_HEIGHT))
--		vs6624_write(sd, VS6624_IMAGE_SIZE0, 0x6);
--	else if ((fmt->width == CIF_WIDTH) && (fmt->height == CIF_HEIGHT))
--		vs6624_write(sd, VS6624_IMAGE_SIZE0, 0x3);
--	else if ((fmt->width == QCIF_WIDTH) && (fmt->height == QCIF_HEIGHT))
--		vs6624_write(sd, VS6624_IMAGE_SIZE0, 0x5);
--	else if ((fmt->width == QQCIF_WIDTH) && (fmt->height == QQCIF_HEIGHT))
--		vs6624_write(sd, VS6624_IMAGE_SIZE0, 0x7);
--	else {
--		vs6624_write(sd, VS6624_IMAGE_SIZE0, 0x8);
--		vs6624_write(sd, VS6624_MAN_HSIZE0_MSB, fmt->width >> 8);
--		vs6624_write(sd, VS6624_MAN_HSIZE0_LSB, fmt->width & 0xFF);
--		vs6624_write(sd, VS6624_MAN_VSIZE0_MSB, fmt->height >> 8);
--		vs6624_write(sd, VS6624_MAN_VSIZE0_LSB, fmt->height & 0xFF);
--		vs6624_write(sd, VS6624_CROP_CTRL0, 0x1);
--	}
--
--	sensor->fmt = *fmt;
--
--	return 0;
--}
--
--static int vs6624_get_fmt(struct v4l2_subdev *sd,
--		struct v4l2_subdev_state *sd_state,
--		struct v4l2_subdev_format *format)
--{
--	struct vs6624 *sensor = to_vs6624(sd);
--
--	if (format->pad)
--		return -EINVAL;
--
--	format->format = sensor->fmt;
--	return 0;
--}
--
--static int vs6624_g_frame_interval(struct v4l2_subdev *sd,
--				   struct v4l2_subdev_frame_interval *ival)
--{
--	struct vs6624 *sensor = to_vs6624(sd);
--
--	ival->interval.numerator = sensor->frame_rate.denominator;
--	ival->interval.denominator = sensor->frame_rate.numerator;
--	return 0;
--}
--
--static int vs6624_s_frame_interval(struct v4l2_subdev *sd,
--				   struct v4l2_subdev_frame_interval *ival)
--{
--	struct vs6624 *sensor = to_vs6624(sd);
--	struct v4l2_fract *tpf = &ival->interval;
--
--
--	if (tpf->numerator == 0 || tpf->denominator == 0
--		|| (tpf->denominator > tpf->numerator * MAX_FRAME_RATE)) {
--		/* reset to max frame rate */
--		tpf->numerator = 1;
--		tpf->denominator = MAX_FRAME_RATE;
--	}
--	sensor->frame_rate.numerator = tpf->denominator;
--	sensor->frame_rate.denominator = tpf->numerator;
--	vs6624_write(sd, VS6624_DISABLE_FR_DAMPER, 0x0);
--	vs6624_write(sd, VS6624_FR_NUM_MSB,
--			sensor->frame_rate.numerator >> 8);
--	vs6624_write(sd, VS6624_FR_NUM_LSB,
--			sensor->frame_rate.numerator & 0xFF);
--	vs6624_write(sd, VS6624_FR_DEN,
--			sensor->frame_rate.denominator & 0xFF);
--	return 0;
--}
--
--static int vs6624_s_stream(struct v4l2_subdev *sd, int enable)
--{
--	if (enable)
--		vs6624_write(sd, VS6624_USER_CMD, 0x2);
--	else
--		vs6624_write(sd, VS6624_USER_CMD, 0x4);
--	udelay(100);
--	return 0;
--}
--
--#ifdef CONFIG_VIDEO_ADV_DEBUG
--static int vs6624_g_register(struct v4l2_subdev *sd, struct v4l2_dbg_register *reg)
--{
--	reg->val = vs6624_read(sd, reg->reg & 0xffff);
--	reg->size = 1;
--	return 0;
--}
--
--static int vs6624_s_register(struct v4l2_subdev *sd, const struct v4l2_dbg_register *reg)
--{
--	vs6624_write(sd, reg->reg & 0xffff, reg->val & 0xff);
--	return 0;
--}
--#endif
--
--static const struct v4l2_ctrl_ops vs6624_ctrl_ops = {
--	.s_ctrl = vs6624_s_ctrl,
--};
--
--static const struct v4l2_subdev_core_ops vs6624_core_ops = {
--#ifdef CONFIG_VIDEO_ADV_DEBUG
--	.g_register = vs6624_g_register,
--	.s_register = vs6624_s_register,
--#endif
--};
--
--static const struct v4l2_subdev_video_ops vs6624_video_ops = {
--	.s_frame_interval = vs6624_s_frame_interval,
--	.g_frame_interval = vs6624_g_frame_interval,
--	.s_stream = vs6624_s_stream,
--};
--
--static const struct v4l2_subdev_pad_ops vs6624_pad_ops = {
--	.enum_mbus_code = vs6624_enum_mbus_code,
--	.get_fmt = vs6624_get_fmt,
--	.set_fmt = vs6624_set_fmt,
--};
--
--static const struct v4l2_subdev_ops vs6624_ops = {
--	.core = &vs6624_core_ops,
--	.video = &vs6624_video_ops,
--	.pad = &vs6624_pad_ops,
--};
--
--static int vs6624_probe(struct i2c_client *client)
--{
--	struct vs6624 *sensor;
--	struct v4l2_subdev *sd;
--	struct v4l2_ctrl_handler *hdl;
--	const unsigned *ce;
--	int ret;
--
--	/* Check if the adapter supports the needed features */
--	if (!i2c_check_functionality(client->adapter, I2C_FUNC_I2C))
--		return -EIO;
--
--	ce = client->dev.platform_data;
--	if (ce == NULL)
--		return -EINVAL;
--
--	ret = devm_gpio_request_one(&client->dev, *ce, GPIOF_OUT_INIT_HIGH,
--				    "VS6624 Chip Enable");
--	if (ret) {
--		v4l_err(client, "failed to request GPIO %d\n", *ce);
--		return ret;
--	}
--	/* wait 100ms before any further i2c writes are performed */
--	msleep(100);
--
--	sensor = devm_kzalloc(&client->dev, sizeof(*sensor), GFP_KERNEL);
--	if (sensor == NULL)
--		return -ENOMEM;
--
--	sd = &sensor->sd;
--	v4l2_i2c_subdev_init(sd, client, &vs6624_ops);
--
--	vs6624_writeregs(sd, vs6624_p1);
--	vs6624_write(sd, VS6624_MICRO_EN, 0x2);
--	vs6624_write(sd, VS6624_DIO_EN, 0x1);
--	usleep_range(10000, 11000);
--	vs6624_writeregs(sd, vs6624_p2);
--
--	vs6624_writeregs(sd, vs6624_default);
--	vs6624_write(sd, VS6624_HSYNC_SETUP, 0xF);
--	vs6624_writeregs(sd, vs6624_run_setup);
--
--	/* set frame rate */
--	sensor->frame_rate.numerator = MAX_FRAME_RATE;
--	sensor->frame_rate.denominator = 1;
--	vs6624_write(sd, VS6624_DISABLE_FR_DAMPER, 0x0);
--	vs6624_write(sd, VS6624_FR_NUM_MSB,
--			sensor->frame_rate.numerator >> 8);
--	vs6624_write(sd, VS6624_FR_NUM_LSB,
--			sensor->frame_rate.numerator & 0xFF);
--	vs6624_write(sd, VS6624_FR_DEN,
--			sensor->frame_rate.denominator & 0xFF);
--
--	sensor->fmt = vs6624_default_fmt;
--	sensor->ce_pin = *ce;
--
--	v4l_info(client, "chip found @ 0x%02x (%s)\n",
--			client->addr << 1, client->adapter->name);
--
--	hdl = &sensor->hdl;
--	v4l2_ctrl_handler_init(hdl, 4);
--	v4l2_ctrl_new_std(hdl, &vs6624_ctrl_ops,
--			V4L2_CID_CONTRAST, 0, 0xFF, 1, 0x87);
--	v4l2_ctrl_new_std(hdl, &vs6624_ctrl_ops,
--			V4L2_CID_SATURATION, 0, 0xFF, 1, 0x78);
--	v4l2_ctrl_new_std(hdl, &vs6624_ctrl_ops,
--			V4L2_CID_HFLIP, 0, 1, 1, 0);
--	v4l2_ctrl_new_std(hdl, &vs6624_ctrl_ops,
--			V4L2_CID_VFLIP, 0, 1, 1, 0);
--	/* hook the control handler into the driver */
--	sd->ctrl_handler = hdl;
--	if (hdl->error) {
--		int err = hdl->error;
--
--		v4l2_ctrl_handler_free(hdl);
--		return err;
--	}
--
--	/* initialize the hardware to the default control values */
--	ret = v4l2_ctrl_handler_setup(hdl);
--	if (ret)
--		v4l2_ctrl_handler_free(hdl);
--	return ret;
--}
--
--static void vs6624_remove(struct i2c_client *client)
--{
--	struct v4l2_subdev *sd = i2c_get_clientdata(client);
--
--	v4l2_device_unregister_subdev(sd);
--	v4l2_ctrl_handler_free(sd->ctrl_handler);
--}
--
--static const struct i2c_device_id vs6624_id[] = {
--	{"vs6624", 0},
--	{},
--};
--
--MODULE_DEVICE_TABLE(i2c, vs6624_id);
--
--static struct i2c_driver vs6624_driver = {
--	.driver = {
--		.name   = "vs6624",
--	},
--	.probe_new      = vs6624_probe,
--	.remove         = vs6624_remove,
--	.id_table       = vs6624_id,
--};
--
--module_i2c_driver(vs6624_driver);
--
--MODULE_DESCRIPTION("VS6624 sensor driver");
--MODULE_AUTHOR("Scott Jiang <Scott.Jiang.Linux@gmail.com>");
--MODULE_LICENSE("GPL v2");
-diff --git a/drivers/media/i2c/vs6624_regs.h b/drivers/media/i2c/vs6624_regs.h
-deleted file mode 100644
-index 76c9ed0f2c89..000000000000
---- a/drivers/media/i2c/vs6624_regs.h
-+++ /dev/null
-@@ -1,325 +0,0 @@
--/* SPDX-License-Identifier: GPL-2.0-only */
--/*
-- * vs6624 - ST VS6624 CMOS image sensor registers
-- *
-- * Copyright (c) 2011 Analog Devices Inc.
-- */
--
--#ifndef _VS6624_REGS_H_
--#define _VS6624_REGS_H_
--
--/* low level control registers */
--#define VS6624_MICRO_EN               0xC003 /* power enable for all MCU clock */
--#define VS6624_DIO_EN                 0xC044 /* enable digital I/O */
--/* device parameters */
--#define VS6624_DEV_ID_MSB             0x0001 /* device id MSB */
--#define VS6624_DEV_ID_LSB             0x0002 /* device id LSB */
--#define VS6624_FW_VSN_MAJOR           0x0004 /* firmware version major */
--#define VS6624_FW_VSN_MINOR           0x0006 /* firmware version minor */
--#define VS6624_PATCH_VSN_MAJOR        0x0008 /* patch version major */
--#define VS6624_PATCH_VSN_MINOR        0x000A /* patch version minor */
--/* host interface manager control */
--#define VS6624_USER_CMD               0x0180 /* user level control of operating states */
--/* host interface manager status */
--#define VS6624_STATE                  0x0202 /* current state of the mode manager */
--/* run mode control */
--#define VS6624_METER_ON               0x0280 /* if false AE and AWB are disabled */
--/* mode setup */
--#define VS6624_ACTIVE_PIPE_SETUP      0x0302 /* select the active bank for non view live mode */
--#define VS6624_SENSOR_MODE            0x0308 /* select the different sensor mode */
--/* pipe setup bank0 */
--#define VS6624_IMAGE_SIZE0            0x0380 /* required output dimension */
--#define VS6624_MAN_HSIZE0_MSB         0x0383 /* input required manual H size MSB */
--#define VS6624_MAN_HSIZE0_LSB         0x0384 /* input required manual H size LSB */
--#define VS6624_MAN_VSIZE0_MSB         0x0387 /* input required manual V size MSB */
--#define VS6624_MAN_VSIZE0_LSB         0x0388 /* input required manual V size LSB */
--#define VS6624_ZOOM_HSTEP0_MSB        0x038B /* set the zoom H step MSB */
--#define VS6624_ZOOM_HSTEP0_LSB        0x038C /* set the zoom H step LSB */
--#define VS6624_ZOOM_VSTEP0_MSB        0x038F /* set the zoom V step MSB */
--#define VS6624_ZOOM_VSTEP0_LSB        0x0390 /* set the zoom V step LSB */
--#define VS6624_ZOOM_CTRL0             0x0392 /* control zoon in, out and stop */
--#define VS6624_PAN_HSTEP0_MSB         0x0395 /* set the pan H step MSB */
--#define VS6624_PAN_HSTEP0_LSB         0x0396 /* set the pan H step LSB */
--#define VS6624_PAN_VSTEP0_MSB         0x0399 /* set the pan V step MSB */
--#define VS6624_PAN_VSTEP0_LSB         0x039A /* set the pan V step LSB */
--#define VS6624_PAN_CTRL0              0x039C /* control pan operation */
--#define VS6624_CROP_CTRL0             0x039E /* select cropping mode */
--#define VS6624_CROP_HSTART0_MSB       0x03A1 /* set the cropping H start address MSB */
--#define VS6624_CROP_HSTART0_LSB       0x03A2 /* set the cropping H start address LSB */
--#define VS6624_CROP_HSIZE0_MSB        0x03A5 /* set the cropping H size MSB */
--#define VS6624_CROP_HSIZE0_LSB        0x03A6 /* set the cropping H size LSB */
--#define VS6624_CROP_VSTART0_MSB       0x03A9 /* set the cropping V start address MSB */
--#define VS6624_CROP_VSTART0_LSB       0x03AA /* set the cropping V start address LSB */
--#define VS6624_CROP_VSIZE0_MSB        0x03AD /* set the cropping V size MSB */
--#define VS6624_CROP_VSIZE0_LSB        0x03AE /* set the cropping V size LSB */
--#define VS6624_IMG_FMT0               0x03B0 /* select required output image format */
--#define VS6624_BAYER_OUT_ALIGN0       0x03B2 /* set bayer output alignment */
--#define VS6624_CONTRAST0              0x03B4 /* contrast control for output */
--#define VS6624_SATURATION0            0x03B6 /* saturation control for output */
--#define VS6624_GAMMA0                 0x03B8 /* gamma settings */
--#define VS6624_HMIRROR0               0x03BA /* horizontal image orientation flip */
--#define VS6624_VFLIP0                 0x03BC /* vertical image orientation flip */
--#define VS6624_CHANNEL_ID0            0x03BE /* logical DMA channel number */
--/* pipe setup bank1 */
--#define VS6624_IMAGE_SIZE1            0x0400 /* required output dimension */
--#define VS6624_MAN_HSIZE1_MSB         0x0403 /* input required manual H size MSB */
--#define VS6624_MAN_HSIZE1_LSB         0x0404 /* input required manual H size LSB */
--#define VS6624_MAN_VSIZE1_MSB         0x0407 /* input required manual V size MSB */
--#define VS6624_MAN_VSIZE1_LSB         0x0408 /* input required manual V size LSB */
--#define VS6624_ZOOM_HSTEP1_MSB        0x040B /* set the zoom H step MSB */
--#define VS6624_ZOOM_HSTEP1_LSB        0x040C /* set the zoom H step LSB */
--#define VS6624_ZOOM_VSTEP1_MSB        0x040F /* set the zoom V step MSB */
--#define VS6624_ZOOM_VSTEP1_LSB        0x0410 /* set the zoom V step LSB */
--#define VS6624_ZOOM_CTRL1             0x0412 /* control zoon in, out and stop */
--#define VS6624_PAN_HSTEP1_MSB         0x0415 /* set the pan H step MSB */
--#define VS6624_PAN_HSTEP1_LSB         0x0416 /* set the pan H step LSB */
--#define VS6624_PAN_VSTEP1_MSB         0x0419 /* set the pan V step MSB */
--#define VS6624_PAN_VSTEP1_LSB         0x041A /* set the pan V step LSB */
--#define VS6624_PAN_CTRL1              0x041C /* control pan operation */
--#define VS6624_CROP_CTRL1             0x041E /* select cropping mode */
--#define VS6624_CROP_HSTART1_MSB       0x0421 /* set the cropping H start address MSB */
--#define VS6624_CROP_HSTART1_LSB       0x0422 /* set the cropping H start address LSB */
--#define VS6624_CROP_HSIZE1_MSB        0x0425 /* set the cropping H size MSB */
--#define VS6624_CROP_HSIZE1_LSB        0x0426 /* set the cropping H size LSB */
--#define VS6624_CROP_VSTART1_MSB       0x0429 /* set the cropping V start address MSB */
--#define VS6624_CROP_VSTART1_LSB       0x042A /* set the cropping V start address LSB */
--#define VS6624_CROP_VSIZE1_MSB        0x042D /* set the cropping V size MSB */
--#define VS6624_CROP_VSIZE1_LSB        0x042E /* set the cropping V size LSB */
--#define VS6624_IMG_FMT1               0x0430 /* select required output image format */
--#define VS6624_BAYER_OUT_ALIGN1       0x0432 /* set bayer output alignment */
--#define VS6624_CONTRAST1              0x0434 /* contrast control for output */
--#define VS6624_SATURATION1            0x0436 /* saturation control for output */
--#define VS6624_GAMMA1                 0x0438 /* gamma settings */
--#define VS6624_HMIRROR1               0x043A /* horizontal image orientation flip */
--#define VS6624_VFLIP1                 0x043C /* vertical image orientation flip */
--#define VS6624_CHANNEL_ID1            0x043E /* logical DMA channel number */
--/* view live control */
--#define VS6624_VIEW_LIVE_EN           0x0480 /* enable view live mode */
--#define VS6624_INIT_PIPE_SETUP        0x0482 /* select initial pipe setup bank */
--/* view live status */
--#define VS6624_CUR_PIPE_SETUP         0x0500 /* indicates most recently applied setup bank */
--/* power management */
--#define VS6624_TIME_TO_POWER_DOWN     0x0580 /* automatically transition time to stop mode */
--/* video timing parameter host inputs */
--#define VS6624_EXT_CLK_FREQ_NUM_MSB   0x0605 /* external clock frequency numerator MSB */
--#define VS6624_EXT_CLK_FREQ_NUM_LSB   0x0606 /* external clock frequency numerator LSB */
--#define VS6624_EXT_CLK_FREQ_DEN       0x0608 /* external clock frequency denominator */
--/* video timing control */
--#define VS6624_SYS_CLK_MODE           0x0880 /* decides system clock frequency */
--/* frame dimension parameter host inputs */
--#define VS6624_LIGHT_FREQ             0x0C80 /* AC frequency used for flicker free time */
--#define VS6624_FLICKER_COMPAT         0x0C82 /* flicker compatible frame length */
--/* static frame rate control */
--#define VS6624_FR_NUM_MSB             0x0D81 /* desired frame rate numerator MSB */
--#define VS6624_FR_NUM_LSB             0x0D82 /* desired frame rate numerator LSB */
--#define VS6624_FR_DEN                 0x0D84 /* desired frame rate denominator */
--/* automatic frame rate control */
--#define VS6624_DISABLE_FR_DAMPER      0x0E80 /* defines frame rate mode */
--#define VS6624_MIN_DAMPER_OUT_MSB     0x0E8C /* minimum frame rate MSB */
--#define VS6624_MIN_DAMPER_OUT_LSB     0x0E8A /* minimum frame rate LSB */
--/* exposure controls */
--#define VS6624_EXPO_MODE              0x1180 /* exposure mode */
--#define VS6624_EXPO_METER             0x1182 /* weights to be associated with the zones */
--#define VS6624_EXPO_TIME_NUM          0x1184 /* exposure time numerator */
--#define VS6624_EXPO_TIME_DEN          0x1186 /* exposure time denominator */
--#define VS6624_EXPO_TIME_MSB          0x1189 /* exposure time for the Manual Mode MSB */
--#define VS6624_EXPO_TIME_LSB          0x118A /* exposure time for the Manual Mode LSB */
--#define VS6624_EXPO_COMPENSATION      0x1190 /* exposure compensation */
--#define VS6624_DIRECT_COARSE_MSB      0x1195 /* coarse integration lines for Direct Mode MSB */
--#define VS6624_DIRECT_COARSE_LSB      0x1196 /* coarse integration lines for Direct Mode LSB */
--#define VS6624_DIRECT_FINE_MSB        0x1199 /* fine integration pixels for Direct Mode MSB */
--#define VS6624_DIRECT_FINE_LSB        0x119A /* fine integration pixels for Direct Mode LSB */
--#define VS6624_DIRECT_ANAL_GAIN_MSB   0x119D /* analog gain for Direct Mode MSB */
--#define VS6624_DIRECT_ANAL_GAIN_LSB   0x119E /* analog gain for Direct Mode LSB */
--#define VS6624_DIRECT_DIGI_GAIN_MSB   0x11A1 /* digital gain for Direct Mode MSB */
--#define VS6624_DIRECT_DIGI_GAIN_LSB   0x11A2 /* digital gain for Direct Mode LSB */
--#define VS6624_FLASH_COARSE_MSB       0x11A5 /* coarse integration lines for Flash Gun Mode MSB */
--#define VS6624_FLASH_COARSE_LSB       0x11A6 /* coarse integration lines for Flash Gun Mode LSB */
--#define VS6624_FLASH_FINE_MSB         0x11A9 /* fine integration pixels for Flash Gun Mode MSB */
--#define VS6624_FLASH_FINE_LSB         0x11AA /* fine integration pixels for Flash Gun Mode LSB */
--#define VS6624_FLASH_ANAL_GAIN_MSB    0x11AD /* analog gain for Flash Gun Mode MSB */
--#define VS6624_FLASH_ANAL_GAIN_LSB    0x11AE /* analog gain for Flash Gun Mode LSB */
--#define VS6624_FLASH_DIGI_GAIN_MSB    0x11B1 /* digital gain for Flash Gun Mode MSB */
--#define VS6624_FLASH_DIGI_GAIN_LSB    0x11B2 /* digital gain for Flash Gun Mode LSB */
--#define VS6624_FREEZE_AE              0x11B4 /* freeze auto exposure */
--#define VS6624_MAX_INT_TIME_MSB       0x11B7 /* user maximum integration time MSB */
--#define VS6624_MAX_INT_TIME_LSB       0x11B8 /* user maximum integration time LSB */
--#define VS6624_FLASH_AG_THR_MSB       0x11BB /* recommend flash gun analog gain threshold MSB */
--#define VS6624_FLASH_AG_THR_LSB       0x11BC /* recommend flash gun analog gain threshold LSB */
--#define VS6624_ANTI_FLICKER_MODE      0x11C0 /* anti flicker mode */
--/* white balance control */
--#define VS6624_WB_MODE                0x1480 /* set white balance mode */
--#define VS6624_MAN_RG                 0x1482 /* user setting for red channel gain */
--#define VS6624_MAN_GG                 0x1484 /* user setting for green channel gain */
--#define VS6624_MAN_BG                 0x1486 /* user setting for blue channel gain */
--#define VS6624_FLASH_RG_MSB           0x148B /* red gain for Flash Gun MSB */
--#define VS6624_FLASH_RG_LSB           0x148C /* red gain for Flash Gun LSB */
--#define VS6624_FLASH_GG_MSB           0x148F /* green gain for Flash Gun MSB */
--#define VS6624_FLASH_GG_LSB           0x1490 /* green gain for Flash Gun LSB */
--#define VS6624_FLASH_BG_MSB           0x1493 /* blue gain for Flash Gun MSB */
--#define VS6624_FLASH_BG_LSB           0x1494 /* blue gain for Flash Gun LSB */
--/* sensor setup */
--#define VS6624_BC_OFFSET              0x1990 /* Black Correction Offset */
--/* image stability */
--#define VS6624_STABLE_WB              0x1900 /* white balance stable */
--#define VS6624_STABLE_EXPO            0x1902 /* exposure stable */
--#define VS6624_STABLE                 0x1906 /* system stable */
--/* flash control */
--#define VS6624_FLASH_MODE             0x1A80 /* flash mode */
--#define VS6624_FLASH_OFF_LINE_MSB     0x1A83 /* off line at flash pulse mode MSB */
--#define VS6624_FLASH_OFF_LINE_LSB     0x1A84 /* off line at flash pulse mode LSB */
--/* flash status */
--#define VS6624_FLASH_RECOM            0x1B00 /* flash gun is recommended */
--#define VS6624_FLASH_GRAB_COMPLETE    0x1B02 /* flash gun image has been grabbed */
--/* scythe filter controls */
--#define VS6624_SCYTHE_FILTER          0x1D80 /* disable scythe defect correction */
--/* jack filter controls */
--#define VS6624_JACK_FILTER            0x1E00 /* disable jack defect correction */
--/* demosaic control */
--#define VS6624_ANTI_ALIAS_FILTER      0x1E80 /* anti alias filter suppress */
--/* color matrix dampers */
--#define VS6624_CM_DISABLE             0x1F00 /* disable color matrix damper */
--#define VS6624_CM_LOW_THR_MSB         0x1F03 /* low threshold for exposure MSB */
--#define VS6624_CM_LOW_THR_LSB         0x1F04 /* low threshold for exposure LSB */
--#define VS6624_CM_HIGH_THR_MSB        0x1F07 /* high threshold for exposure MSB */
--#define VS6624_CM_HIGH_THR_LSB        0x1F08 /* high threshold for exposure LSB */
--#define VS6624_CM_MIN_OUT_MSB         0x1F0B /* minimum possible damper output MSB */
--#define VS6624_CM_MIN_OUT_LSB         0x1F0C /* minimum possible damper output LSB */
--/* peaking control */
--#define VS6624_PEAK_GAIN              0x2000 /* controls peaking gain */
--#define VS6624_PEAK_G_DISABLE         0x2002 /* disable peak gain damping */
--#define VS6624_PEAK_LOW_THR_G_MSB     0x2005 /* low threshold for exposure for gain MSB */
--#define VS6624_PEAK_LOW_THR_G_LSB     0x2006 /* low threshold for exposure for gain LSB */
--#define VS6624_PEAK_HIGH_THR_G_MSB    0x2009 /* high threshold for exposure for gain MSB */
--#define VS6624_PEAK_HIGH_THR_G_LSB    0x200A /* high threshold for exposure for gain LSB */
--#define VS6624_PEAK_MIN_OUT_G_MSB     0x200D /* minimum damper output for gain MSB */
--#define VS6624_PEAK_MIN_OUT_G_LSB     0x200E /* minimum damper output for gain LSB */
--#define VS6624_PEAK_LOW_THR           0x2010 /* adjust degree of coring */
--#define VS6624_PEAK_C_DISABLE         0x2012 /* disable coring damping */
--#define VS6624_PEAK_HIGH_THR          0x2014 /* adjust maximum gain */
--#define VS6624_PEAK_LOW_THR_C_MSB     0x2017 /* low threshold for exposure for coring MSB */
--#define VS6624_PEAK_LOW_THR_C_LSB     0x2018 /* low threshold for exposure for coring LSB */
--#define VS6624_PEAK_HIGH_THR_C_MSB    0x201B /* high threshold for exposure for coring MSB */
--#define VS6624_PEAK_HIGH_THR_C_LSB    0x201C /* high threshold for exposure for coring LSB */
--#define VS6624_PEAK_MIN_OUT_C_MSB     0x201F /* minimum damper output for coring MSB */
--#define VS6624_PEAK_MIN_OUT_C_LSB     0x2020 /* minimum damper output for coring LSB */
--/* pipe 0 RGB to YUV matrix manual control */
--#define VS6624_RYM0_MAN_CTRL          0x2180 /* enable manual RGB to YUV matrix */
--#define VS6624_RYM0_W00_MSB           0x2183 /* row 0 column 0 of YUV matrix MSB */
--#define VS6624_RYM0_W00_LSB           0x2184 /* row 0 column 0 of YUV matrix LSB */
--#define VS6624_RYM0_W01_MSB           0x2187 /* row 0 column 1 of YUV matrix MSB */
--#define VS6624_RYM0_W01_LSB           0x2188 /* row 0 column 1 of YUV matrix LSB */
--#define VS6624_RYM0_W02_MSB           0x218C /* row 0 column 2 of YUV matrix MSB */
--#define VS6624_RYM0_W02_LSB           0x218D /* row 0 column 2 of YUV matrix LSB */
--#define VS6624_RYM0_W10_MSB           0x2190 /* row 1 column 0 of YUV matrix MSB */
--#define VS6624_RYM0_W10_LSB           0x218F /* row 1 column 0 of YUV matrix LSB */
--#define VS6624_RYM0_W11_MSB           0x2193 /* row 1 column 1 of YUV matrix MSB */
--#define VS6624_RYM0_W11_LSB           0x2194 /* row 1 column 1 of YUV matrix LSB */
--#define VS6624_RYM0_W12_MSB           0x2197 /* row 1 column 2 of YUV matrix MSB */
--#define VS6624_RYM0_W12_LSB           0x2198 /* row 1 column 2 of YUV matrix LSB */
--#define VS6624_RYM0_W20_MSB           0x219B /* row 2 column 0 of YUV matrix MSB */
--#define VS6624_RYM0_W20_LSB           0x219C /* row 2 column 0 of YUV matrix LSB */
--#define VS6624_RYM0_W21_MSB           0x21A0 /* row 2 column 1 of YUV matrix MSB */
--#define VS6624_RYM0_W21_LSB           0x219F /* row 2 column 1 of YUV matrix LSB */
--#define VS6624_RYM0_W22_MSB           0x21A3 /* row 2 column 2 of YUV matrix MSB */
--#define VS6624_RYM0_W22_LSB           0x21A4 /* row 2 column 2 of YUV matrix LSB */
--#define VS6624_RYM0_YINY_MSB          0x21A7 /* Y in Y MSB */
--#define VS6624_RYM0_YINY_LSB          0x21A8 /* Y in Y LSB */
--#define VS6624_RYM0_YINCB_MSB         0x21AB /* Y in Cb MSB */
--#define VS6624_RYM0_YINCB_LSB         0x21AC /* Y in Cb LSB */
--#define VS6624_RYM0_YINCR_MSB         0x21B0 /* Y in Cr MSB */
--#define VS6624_RYM0_YINCR_LSB         0x21AF /* Y in Cr LSB */
--/* pipe 1 RGB to YUV matrix manual control */
--#define VS6624_RYM1_MAN_CTRL          0x2200 /* enable manual RGB to YUV matrix */
--#define VS6624_RYM1_W00_MSB           0x2203 /* row 0 column 0 of YUV matrix MSB */
--#define VS6624_RYM1_W00_LSB           0x2204 /* row 0 column 0 of YUV matrix LSB */
--#define VS6624_RYM1_W01_MSB           0x2207 /* row 0 column 1 of YUV matrix MSB */
--#define VS6624_RYM1_W01_LSB           0x2208 /* row 0 column 1 of YUV matrix LSB */
--#define VS6624_RYM1_W02_MSB           0x220C /* row 0 column 2 of YUV matrix MSB */
--#define VS6624_RYM1_W02_LSB           0x220D /* row 0 column 2 of YUV matrix LSB */
--#define VS6624_RYM1_W10_MSB           0x2210 /* row 1 column 0 of YUV matrix MSB */
--#define VS6624_RYM1_W10_LSB           0x220F /* row 1 column 0 of YUV matrix LSB */
--#define VS6624_RYM1_W11_MSB           0x2213 /* row 1 column 1 of YUV matrix MSB */
--#define VS6624_RYM1_W11_LSB           0x2214 /* row 1 column 1 of YUV matrix LSB */
--#define VS6624_RYM1_W12_MSB           0x2217 /* row 1 column 2 of YUV matrix MSB */
--#define VS6624_RYM1_W12_LSB           0x2218 /* row 1 column 2 of YUV matrix LSB */
--#define VS6624_RYM1_W20_MSB           0x221B /* row 2 column 0 of YUV matrix MSB */
--#define VS6624_RYM1_W20_LSB           0x221C /* row 2 column 0 of YUV matrix LSB */
--#define VS6624_RYM1_W21_MSB           0x2220 /* row 2 column 1 of YUV matrix MSB */
--#define VS6624_RYM1_W21_LSB           0x221F /* row 2 column 1 of YUV matrix LSB */
--#define VS6624_RYM1_W22_MSB           0x2223 /* row 2 column 2 of YUV matrix MSB */
--#define VS6624_RYM1_W22_LSB           0x2224 /* row 2 column 2 of YUV matrix LSB */
--#define VS6624_RYM1_YINY_MSB          0x2227 /* Y in Y MSB */
--#define VS6624_RYM1_YINY_LSB          0x2228 /* Y in Y LSB */
--#define VS6624_RYM1_YINCB_MSB         0x222B /* Y in Cb MSB */
--#define VS6624_RYM1_YINCB_LSB         0x222C /* Y in Cb LSB */
--#define VS6624_RYM1_YINCR_MSB         0x2220 /* Y in Cr MSB */
--#define VS6624_RYM1_YINCR_LSB         0x222F /* Y in Cr LSB */
--/* pipe 0 gamma manual control */
--#define VS6624_GAMMA_MAN_CTRL0        0x2280 /* enable manual gamma setup */
--#define VS6624_GAMMA_PEAK_R0          0x2282 /* peaked red channel gamma value */
--#define VS6624_GAMMA_PEAK_G0          0x2284 /* peaked green channel gamma value */
--#define VS6624_GAMMA_PEAK_B0          0x2286 /* peaked blue channel gamma value */
--#define VS6624_GAMMA_UNPEAK_R0        0x2288 /* unpeaked red channel gamma value */
--#define VS6624_GAMMA_UNPEAK_G0        0x228A /* unpeaked green channel gamma value */
--#define VS6624_GAMMA_UNPEAK_B0        0x228C /* unpeaked blue channel gamma value */
--/* pipe 1 gamma manual control */
--#define VS6624_GAMMA_MAN_CTRL1        0x2300 /* enable manual gamma setup */
--#define VS6624_GAMMA_PEAK_R1          0x2302 /* peaked red channel gamma value */
--#define VS6624_GAMMA_PEAK_G1          0x2304 /* peaked green channel gamma value */
--#define VS6624_GAMMA_PEAK_B1          0x2306 /* peaked blue channel gamma value */
--#define VS6624_GAMMA_UNPEAK_R1        0x2308 /* unpeaked red channel gamma value */
--#define VS6624_GAMMA_UNPEAK_G1        0x230A /* unpeaked green channel gamma value */
--#define VS6624_GAMMA_UNPEAK_B1        0x230C /* unpeaked blue channel gamma value */
--/* fade to black */
--#define VS6624_F2B_DISABLE            0x2480 /* disable fade to black */
--#define VS6624_F2B_BLACK_VAL_MSB      0x2483 /* black value MSB */
--#define VS6624_F2B_BLACK_VAL_LSB      0x2484 /* black value LSB */
--#define VS6624_F2B_LOW_THR_MSB        0x2487 /* low threshold for exposure MSB */
--#define VS6624_F2B_LOW_THR_LSB        0x2488 /* low threshold for exposure LSB */
--#define VS6624_F2B_HIGH_THR_MSB       0x248B /* high threshold for exposure MSB */
--#define VS6624_F2B_HIGH_THR_LSB       0x248C /* high threshold for exposure LSB */
--#define VS6624_F2B_MIN_OUT_MSB        0x248F /* minimum damper output MSB */
--#define VS6624_F2B_MIN_OUT_LSB        0x2490 /* minimum damper output LSB */
--/* output formatter control */
--#define VS6624_CODE_CK_EN             0x2580 /* code check enable */
--#define VS6624_BLANK_FMT              0x2582 /* blank format */
--#define VS6624_SYNC_CODE_SETUP        0x2584 /* sync code setup */
--#define VS6624_HSYNC_SETUP            0x2586 /* H sync setup */
--#define VS6624_VSYNC_SETUP            0x2588 /* V sync setup */
--#define VS6624_PCLK_SETUP             0x258A /* PCLK setup */
--#define VS6624_PCLK_EN                0x258C /* PCLK enable */
--#define VS6624_OPF_SP_SETUP           0x258E /* output formatter sp setup */
--#define VS6624_BLANK_DATA_MSB         0x2590 /* blank data MSB */
--#define VS6624_BLANK_DATA_LSB         0x2592 /* blank data LSB */
--#define VS6624_RGB_SETUP              0x2594 /* RGB setup */
--#define VS6624_YUV_SETUP              0x2596 /* YUV setup */
--#define VS6624_VSYNC_RIS_COARSE_H     0x2598 /* V sync rising coarse high */
--#define VS6624_VSYNC_RIS_COARSE_L     0x259A /* V sync rising coarse low */
--#define VS6624_VSYNC_RIS_FINE_H       0x259C /* V sync rising fine high */
--#define VS6624_VSYNC_RIS_FINE_L       0x259E /* V sync rising fine low */
--#define VS6624_VSYNC_FALL_COARSE_H    0x25A0 /* V sync falling coarse high */
--#define VS6624_VSYNC_FALL_COARSE_L    0x25A2 /* V sync falling coarse low */
--#define VS6624_VSYNC_FALL_FINE_H      0x25A4 /* V sync falling fine high */
--#define VS6624_VSYNC_FALL_FINE_L      0x25A6 /* V sync falling fine low */
--#define VS6624_HSYNC_RIS_H            0x25A8 /* H sync rising high */
--#define VS6624_HSYNC_RIS_L            0x25AA /* H sync rising low */
--#define VS6624_HSYNC_FALL_H           0x25AC /* H sync falling high */
--#define VS6624_HSYNC_FALL_L           0x25AE /* H sync falling low */
--#define VS6624_OUT_IF                 0x25B0 /* output interface */
--#define VS6624_CCP_EXT_DATA           0x25B2 /* CCP extra data */
--/* NoRA controls */
--#define VS6624_NORA_DISABLE           0x2600 /* NoRA control mode */
--#define VS6624_NORA_USAGE             0x2602 /* usage */
--#define VS6624_NORA_SPLIT_KN          0x2604 /* split kn */
--#define VS6624_NORA_SPLIT_NI          0x2606 /* split ni */
--#define VS6624_NORA_TIGHT_G           0x2608 /* tight green */
--#define VS6624_NORA_DISABLE_NP        0x260A /* disable noro promoting */
--#define VS6624_NORA_LOW_THR_MSB       0x260D /* low threshold for exposure MSB */
--#define VS6624_NORA_LOW_THR_LSB       0x260E /* low threshold for exposure LSB */
--#define VS6624_NORA_HIGH_THR_MSB      0x2611 /* high threshold for exposure MSB */
--#define VS6624_NORA_HIGH_THR_LSB      0x2612 /* high threshold for exposure LSB */
--#define VS6624_NORA_MIN_OUT_MSB       0x2615 /* minimum damper output MSB */
--#define VS6624_NORA_MIN_OUT_LSB       0x2616 /* minimum damper output LSB */
--
--#endif
+The notes we have taken are copied below. Feedback would be appreciated,
+I will then translate that into patches for the kernel documentation.
+
+[1] https://lore.kernel.org/linux-media/20230117100603.51631-1-jacopo.mondi@ideasonboard.com/
+
+## Problem description
+
+V4L2 has five different elements that related to flipping and rotation:
+
+- Device tree "rotation" property
+- V4L2_CID_CAMERA_SENSOR_ROTATION control
+- V4L2_CID_ROTATE control
+- V4L2_CID_HFLIP and V4L2_CID_VFLIP controls
+- Bayer pattern exposed through media bus codes
+
+While all those components are (more or less) well-defined in the API, their
+interactions have never been defined. This has led to different drivers
+implementing different behaviours.
+
+### Full-featured drivers
+
+List of drivers that parse the DT rotation property and expose
+V4L2_CID_CAMERA_SENSOR_ROTATION, V4L2_CID_HFLIP and V4L2_CID_VFLIP:
+
+$ git grep -l FLIP $(git grep -l v4l2_ctrl_new_fwnode_properties -- drivers/media/i2c/)
+- drivers/media/i2c/imx219.c
+- drivers/media/i2c/ov08x40.c
+- drivers/media/i2c/ov13b10.c
+- drivers/media/i2c/ov5640.c
+- drivers/media/i2c/ov5675.c (to be upstreamed)
+- drivers/media/i2c/ov5693.c
+- drivers/media/i2c/ov8865.c
+- drivers/media/i2c/ov9282.c
+
+All those drivers by ov5640 program the sensor with the HFLIP and VFLIP values
+as-is, without taking the rotation property into account. ov5640 inverts the
+flipping controls transparently when the rotation is 180, but does still expose
+the rotation value to userspace unmodified (commit
+1066fc1c2afdbe5977eae37314f0c21462e82b9a, merged in v6.0).
+
+### Flip-enabled drivers
+
+List of drivers that expose the V4L2_CID_HFLIP and V4L2_CID_VFLIP but not
+V4L2_CID_CAMERA_SENSOR_ROTATION:
+
+$ git grep -vl v4l2_ctrl_new_fwnode_properties $(git grep -l V4L2_CID_HFLIP -- drivers/media/i2c/)
+- drivers/media/i2c/ccs/ccs-core.c
+- drivers/media/i2c/hi847.c
+- drivers/media/i2c/imx208.c
+- drivers/media/i2c/imx219.c
+- drivers/media/i2c/imx319.c
+- drivers/media/i2c/imx355.c
+- drivers/media/i2c/mt9m032.c
+- drivers/media/i2c/mt9m111.c
+- drivers/media/i2c/mt9p031.c
+- drivers/media/i2c/mt9v011.c
+- drivers/media/i2c/ov08d10.c
+- drivers/media/i2c/ov08x40.c
+- drivers/media/i2c/ov13b10.c
+- drivers/media/i2c/ov2640.c
+- drivers/media/i2c/ov2680.c
+- drivers/media/i2c/ov5640.c
+- drivers/media/i2c/ov5645.c
+- drivers/media/i2c/ov5648.c
+- drivers/media/i2c/ov5675.c
+- drivers/media/i2c/ov5693.c
+- drivers/media/i2c/ov6650.c
+- drivers/media/i2c/ov7251.c
+- drivers/media/i2c/ov7670.c
+- drivers/media/i2c/ov772x.c
+- drivers/media/i2c/ov7740.c
+- drivers/media/i2c/ov8856.c
+- drivers/media/i2c/ov8865.c
+- drivers/media/i2c/ov9282.c
+- drivers/media/i2c/ov9640.c
+- drivers/media/i2c/ov9650.c
+- drivers/media/i2c/rj54n1cb0c.c
+- drivers/media/i2c/s5k5baf.c
+- drivers/media/i2c/s5k6aa.c
+- drivers/media/i2c/st-vgxy61.c
+- drivers/media/i2c/vs6624.c
+
+Among those, the ccs driver parses the DT rotation property manually and
+compensates for it transparently by inverting the flip values. The ov772x and
+s5k6aa use a similar mechanism, but based on platform data instead of DT.
+
+### Rotation-aware drivers
+
+List of drivers that parse the DT rotation property manually:
+
+$ git grep -l '"rotation"' -- drivers/media/i2c/
+- drivers/media/i2c/ccs/ccs-core.c
+- drivers/media/i2c/imx258.c
+- drivers/media/i2c/ov02a10.c
+
+All those drivers parse the DT rotation property and compensates for it
+transparently. The ccs driver inverts the HFLIP and VFLIP controls exposed to
+userspace, while the imx258 and ov02a10 flip the image internally but do not
+expose the HFLIP and VFLIP controls.
+
+## API standardization
+
+There is a consensus that a standardized API is required. There is also a
+consensus that the V4L2_CID_ROTATE control must *not* be used by any sensor
+driver. No sensor driver expose that control at the moment, so this shouldn't be
+a problem.
+
+### API for new drivers
+
+- Expose the rotation property through V4L2_CID_CAMERA_SENSOR_ROTATION as-is.
+- Expose the V4L2_CID_HFLIP and V4L2_CID_VFLIP controls as-is.
+- A sensor driver that enables horizontal or vertical flipping *must* expose the
+  HFLIP and VFLIP controls. It *should* expose them writable, but *may* expose
+  them read-only if not enough information is available to implement them as
+  writable in the driver.
+
+### Backward-compatibility
+
+For drivers:
+
+- We don't care about existing drivers that use platform data (ov772x and
+  s5k6aa). The s5k6aa driver requires platform data, so it could be dropped as
+  nobody is supplying platform data in mainline.
+- The full-featured drivers comply with the API for new drivers except for
+  ov5640. Those are thus fine.
+- The ov5640 gained V4L2_CID_CAMERA_SENSOR_ROTATION support in v6.0, we should
+  fix it, even if it changes the userspace-visible behaviour.
+  - Dropping the internal flip has a higher risk of breaking applications.
+  - Overriding the V4L2_CID_CAMERA_SENSOR_ROTATION value and setting it
+    to 0 when it is 180 is less risky.
+- ccs should expose the V4L2_CID_CAMERA_SENSOR_ROTATION control, and modify it
+  internally to account the transparent 180° compensation.
+- For imx258 and ov02a10, two options are possible:
+  - Expose the V4L2_CID_CAMERA_SENSOR_ROTATION control as-is, and expose the
+    HFLIP and VFLIP controls read-only and hardcoded to enabled (for imx258) or
+    set based on the rotation (for ov02a10). The controls could later be made
+    writable. This only risk of userspace breakage would be with applications
+    that consider the V4L2_CID_CAMERA_SENSOR_ROTATION control but not the flip
+    controls. This is considered to be low-risk.
+  - Do as ccs (overriding the V4L2_CID_CAMERA_SENSOR_ROTATION value).
+    This is the option preferred by Sakari as it would unify the
+    behaviour of the ccs, imx258 and ov02a10 drivers.
+
+For userspace:
+
+- If the V4L2_CID_CAMERA_SENSOR_ROTATION control is not exposed, userspace
+  *must* assume that the rotation is 0.
+- If the HFLIP and VFLIP controls are not exposed, userspace *must* assume that
+  no flipping occurs.
+- The captured video is upright if rotation == 0 and both flipping controls are
+  disabled or rotation == 180 and both flipping controls are enabled.
+- Userspace *must* support read-only HFLIP and VFLIP controls.
+
+
 -- 
 Regards,
 
 Laurent Pinchart
-
