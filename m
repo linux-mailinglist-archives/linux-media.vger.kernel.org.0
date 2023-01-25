@@ -2,35 +2,36 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 265A567C025
-	for <lists+linux-media@lfdr.de>; Wed, 25 Jan 2023 23:49:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BAD8867C026
+	for <lists+linux-media@lfdr.de>; Wed, 25 Jan 2023 23:49:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230282AbjAYWtI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 25 Jan 2023 17:49:08 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46744 "EHLO
+        id S229721AbjAYWtM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 25 Jan 2023 17:49:12 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46782 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229453AbjAYWtI (ORCPT
+        with ESMTP id S229453AbjAYWtL (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 25 Jan 2023 17:49:08 -0500
+        Wed, 25 Jan 2023 17:49:11 -0500
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 00E6D45235
-        for <linux-media@vger.kernel.org>; Wed, 25 Jan 2023 14:49:03 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA20E43475
+        for <linux-media@vger.kernel.org>; Wed, 25 Jan 2023 14:49:05 -0800 (PST)
 Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0A67A98C;
-        Wed, 25 Jan 2023 23:49:01 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 80C881204;
+        Wed, 25 Jan 2023 23:49:03 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1674686942;
-        bh=1abesACfGgbUCqWhh0JYoy9rhmrZcRubB4s3DioelLA=;
+        s=mail; t=1674686944;
+        bh=v+ytoVHGCiQcU5+bo54Nnaqnib6p4f1psiClzHQLSQk=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=P4mtx8KA/Q013WiJbFrKzOamJJP9QnbC1W9Z3POuxRHgokZ5QJInmCV3jB4eNVKLN
-         DoaC0t1/koY01YgWs/QsCKX3KUwHifmzfUIovzMlu8adq/UoPTqhOA/FbpXG73fC/n
-         Zvlw7/m4WnHuOvhkV7JyKa2dmELgZPIrppu3Wyyg=
+        b=Yyi/Cd7kM/E96v4HM9+xtXMeDjJ/l/E4o2mr/80c6K0KbL8ecmIoURGOuprDJ2/DO
+         WRtQuQ7Cnv5LeK87QtBfaLX21oOYS3rwcDzIJ2CcdZq/VGFQVHzONK/XCLa4jWHRPv
+         PeIcaTuNR/QgdJGc6kG/egyGJQ09ZLH7utPdQEIo=
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     linux-media@vger.kernel.org
-Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: [RFC PATCH 1/8] media: i2c: Drop unused ad9389b video encoder driver
-Date:   Thu, 26 Jan 2023 00:48:49 +0200
-Message-Id: <20230125224856.22266-2-laurent.pinchart@ideasonboard.com>
+Cc:     Kyungmin Park <kyungmin.park@samsung.com>,
+        Heungjun Kim <riverful.kim@samsung.com>
+Subject: [RFC PATCH 2/8] media: i2c: Drop unused m5mols camera sensor driver
+Date:   Thu, 26 Jan 2023 00:48:50 +0200
+Message-Id: <20230125224856.22266-3-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230125224856.22266-1-laurent.pinchart@ideasonboard.com>
 References: <20230125224856.22266-1-laurent.pinchart@ideasonboard.com>
@@ -45,1353 +46,2717 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The ad9389b video encoder driver doesn't support DT and relies on
-platform data. No board file has ever provided platform data for that
-device. The driver has thus never been used in the mainline kernel since
-its introduction in v3.7. Drop it.
+The m5mols camera sensor driver doesn't support DT and relies on
+platform data. The last board files supplying platform data for that
+device have been removed from the kernel in v3.11. The driver hasn't
+been used since them. Drop it.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
  .../admin-guide/media/i2c-cardlist.rst        |    1 -
- MAINTAINERS                                   |    6 -
- drivers/media/i2c/Kconfig                     |   14 -
+ MAINTAINERS                                   |    8 -
+ drivers/media/i2c/Kconfig                     |    1 -
  drivers/media/i2c/Makefile                    |    1 -
- drivers/media/i2c/ad9389b.c                   | 1215 -----------------
- include/media/i2c/ad9389b.h                   |   37 -
- 6 files changed, 1274 deletions(-)
- delete mode 100644 drivers/media/i2c/ad9389b.c
- delete mode 100644 include/media/i2c/ad9389b.h
+ drivers/media/i2c/m5mols/Kconfig              |    8 -
+ drivers/media/i2c/m5mols/Makefile             |    4 -
+ drivers/media/i2c/m5mols/m5mols.h             |  349 ------
+ drivers/media/i2c/m5mols/m5mols_capture.c     |  158 ---
+ drivers/media/i2c/m5mols/m5mols_controls.c    |  625 ----------
+ drivers/media/i2c/m5mols/m5mols_core.c        | 1051 -----------------
+ drivers/media/i2c/m5mols/m5mols_reg.h         |  359 ------
+ include/media/i2c/m5mols.h                    |   25 -
+ 12 files changed, 2590 deletions(-)
+ delete mode 100644 drivers/media/i2c/m5mols/Kconfig
+ delete mode 100644 drivers/media/i2c/m5mols/Makefile
+ delete mode 100644 drivers/media/i2c/m5mols/m5mols.h
+ delete mode 100644 drivers/media/i2c/m5mols/m5mols_capture.c
+ delete mode 100644 drivers/media/i2c/m5mols/m5mols_controls.c
+ delete mode 100644 drivers/media/i2c/m5mols/m5mols_core.c
+ delete mode 100644 drivers/media/i2c/m5mols/m5mols_reg.h
+ delete mode 100644 include/media/i2c/m5mols.h
 
 diff --git a/Documentation/admin-guide/media/i2c-cardlist.rst b/Documentation/admin-guide/media/i2c-cardlist.rst
-index ef3b5fff3b01..4819d9aa55f1 100644
+index 4819d9aa55f1..26827f4b4a3d 100644
 --- a/Documentation/admin-guide/media/i2c-cardlist.rst
 +++ b/Documentation/admin-guide/media/i2c-cardlist.rst
-@@ -222,7 +222,6 @@ Video encoders
- ============  ==========================================================
- Driver        Name
- ============  ==========================================================
--ad9389b       Analog Devices AD9389B encoder
- adv7170       Analog Devices ADV7170 video encoder
- adv7175       Analog Devices ADV7175 video encoder
- adv7343       ADV7343 video encoder
+@@ -72,7 +72,6 @@ imx319        Sony IMX319 sensor
+ imx334        Sony IMX334 sensor
+ imx355        Sony IMX355 sensor
+ imx412        Sony IMX412 sensor
+-m5mols        Fujitsu M-5MOLS 8MP sensor
+ mt9m001       mt9m001
+ mt9m032       MT9M032 camera sensor
+ mt9m111       mt9m111, mt9m112 and mt9m131
 diff --git a/MAINTAINERS b/MAINTAINERS
-index ba5254cd1002..a190a2c13cdb 100644
+index a190a2c13cdb..426815e3c6ed 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -1227,12 +1227,6 @@ F:	Documentation/devicetree/bindings/iio/addac/adi,ad74413r.yaml
- F:	drivers/iio/addac/ad74413r.c
- F:	include/dt-bindings/iio/addac/adi,ad74413r.h
+@@ -8536,14 +8536,6 @@ L:	platform-driver-x86@vger.kernel.org
+ S:	Maintained
+ F:	drivers/platform/x86/fujitsu-laptop.c
  
--ANALOG DEVICES INC AD9389B DRIVER
--M:	Hans Verkuil <hverkuil-cisco@xs4all.nl>
+-FUJITSU M-5MO LS CAMERA ISP DRIVER
+-M:	Kyungmin Park <kyungmin.park@samsung.com>
+-M:	Heungjun Kim <riverful.kim@samsung.com>
 -L:	linux-media@vger.kernel.org
 -S:	Maintained
--F:	drivers/media/i2c/ad9389b*
+-F:	drivers/media/i2c/m5mols/
+-F:	include/media/i2c/m5mols.h
 -
- ANALOG DEVICES INC ADA4250 DRIVER
- M:	Antoniu Miclaus <antoniu.miclaus@analog.com>
- L:	linux-iio@vger.kernel.org
+ FUJITSU TABLET EXTRAS
+ M:	Robert Gerlach <khnz@gmx.de>
+ L:	platform-driver-x86@vger.kernel.org
 diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
-index 833241897d63..3c1a880dc793 100644
+index 3c1a880dc793..1646808526b3 100644
 --- a/drivers/media/i2c/Kconfig
 +++ b/drivers/media/i2c/Kconfig
-@@ -1413,20 +1413,6 @@ endmenu
- menu "Video encoders"
- 	visible if !MEDIA_HIDE_ANCILLARY_SUBDRV
+@@ -807,7 +807,6 @@ config VIDEO_VS6624
  
--config VIDEO_AD9389B
--	tristate "Analog Devices AD9389B encoder"
--	depends on VIDEO_DEV && I2C
--	select MEDIA_CONTROLLER
--	select VIDEO_V4L2_SUBDEV_API
--
--	help
--	  Support for the Analog Devices AD9389B video encoder.
--
--	  This is a Analog Devices HDMI transmitter.
--
--	  To compile this driver as a module, choose M here: the
--	  module will be called ad9389b.
--
- config VIDEO_ADV7170
- 	tristate "Analog Devices ADV7170 video encoder"
- 	depends on VIDEO_DEV && I2C
+ source "drivers/media/i2c/ccs/Kconfig"
+ source "drivers/media/i2c/et8ek8/Kconfig"
+-source "drivers/media/i2c/m5mols/Kconfig"
+ 
+ endmenu
+ 
 diff --git a/drivers/media/i2c/Makefile b/drivers/media/i2c/Makefile
-index 4d6c052bb5a7..bb0cce8c222c 100644
+index bb0cce8c222c..6f1d0d5be0c1 100644
 --- a/drivers/media/i2c/Makefile
 +++ b/drivers/media/i2c/Makefile
-@@ -4,7 +4,6 @@ msp3400-objs	:=	msp3400-driver.o msp3400-kthreads.o
- 
- obj-$(CONFIG_SDR_MAX2175) += max2175.o
- obj-$(CONFIG_VIDEO_AD5820) += ad5820.o
--obj-$(CONFIG_VIDEO_AD9389B) += ad9389b.o
- obj-$(CONFIG_VIDEO_ADP1653) += adp1653.o
- obj-$(CONFIG_VIDEO_ADV7170) += adv7170.o
- obj-$(CONFIG_VIDEO_ADV7175) += adv7175.o
-diff --git a/drivers/media/i2c/ad9389b.c b/drivers/media/i2c/ad9389b.c
+@@ -53,7 +53,6 @@ obj-$(CONFIG_VIDEO_KS0127) += ks0127.o
+ obj-$(CONFIG_VIDEO_LM3560) += lm3560.o
+ obj-$(CONFIG_VIDEO_LM3646) += lm3646.o
+ obj-$(CONFIG_VIDEO_M52790) += m52790.o
+-obj-$(CONFIG_VIDEO_M5MOLS) += m5mols/
+ obj-$(CONFIG_VIDEO_MAX9271_LIB) += max9271.o
+ obj-$(CONFIG_VIDEO_MAX9286) += max9286.o
+ obj-$(CONFIG_VIDEO_ML86V7667) += ml86v7667.o
+diff --git a/drivers/media/i2c/m5mols/Kconfig b/drivers/media/i2c/m5mols/Kconfig
 deleted file mode 100644
-index ad17097a2d25..000000000000
---- a/drivers/media/i2c/ad9389b.c
+index 7f0af32f4376..000000000000
+--- a/drivers/media/i2c/m5mols/Kconfig
 +++ /dev/null
-@@ -1,1215 +0,0 @@
--// SPDX-License-Identifier: GPL-2.0-only
+@@ -1,8 +0,0 @@
+-# SPDX-License-Identifier: GPL-2.0-only
+-config VIDEO_M5MOLS
+-	tristate "Fujitsu M-5MOLS 8MP sensor support"
+-	depends on I2C && VIDEO_DEV
+-	select MEDIA_CONTROLLER
+-	select VIDEO_V4L2_SUBDEV_API
+-	help
+-	  This driver supports Fujitsu M-5MOLS camera sensor with ISP
+diff --git a/drivers/media/i2c/m5mols/Makefile b/drivers/media/i2c/m5mols/Makefile
+deleted file mode 100644
+index 13fa8ec29ac0..000000000000
+--- a/drivers/media/i2c/m5mols/Makefile
++++ /dev/null
+@@ -1,4 +0,0 @@
+-# SPDX-License-Identifier: GPL-2.0-only
+-m5mols-objs	:= m5mols_core.o m5mols_controls.o m5mols_capture.o
+-
+-obj-$(CONFIG_VIDEO_M5MOLS)		+= m5mols.o
+diff --git a/drivers/media/i2c/m5mols/m5mols.h b/drivers/media/i2c/m5mols/m5mols.h
+deleted file mode 100644
+index d8545d2280af..000000000000
+--- a/drivers/media/i2c/m5mols/m5mols.h
++++ /dev/null
+@@ -1,349 +0,0 @@
+-/* SPDX-License-Identifier: GPL-2.0-or-later */
 -/*
-- * Analog Devices AD9389B/AD9889B video encoder driver
+- * Header for M-5MOLS 8M Pixel camera sensor with ISP
 - *
-- * Copyright 2012 Cisco Systems, Inc. and/or its affiliates. All rights reserved.
+- * Copyright (C) 2011 Samsung Electronics Co., Ltd.
+- * Author: HeungJun Kim <riverful.kim@samsung.com>
+- *
+- * Copyright (C) 2009 Samsung Electronics Co., Ltd.
+- * Author: Dongsoo Nathaniel Kim <dongsoo45.kim@samsung.com>
 - */
 -
--/*
-- * References (c = chapter, p = page):
-- * REF_01 - Analog Devices, Programming Guide, AD9889B/AD9389B,
-- * HDMI Transitter, Rev. A, October 2010
+-#ifndef M5MOLS_H
+-#define M5MOLS_H
+-
+-#include <linux/sizes.h>
+-#include <linux/gpio/consumer.h>
+-#include <media/v4l2-subdev.h>
+-#include "m5mols_reg.h"
+-
+-
+-/* An amount of data transmitted in addition to the value
+- * determined by CAPP_JPEG_SIZE_MAX register.
 - */
+-#define M5MOLS_JPEG_TAGS_SIZE		0x20000
+-#define M5MOLS_MAIN_JPEG_SIZE_MAX	(5 * SZ_1M)
 -
--#include <linux/kernel.h>
--#include <linux/module.h>
--#include <linux/slab.h>
--#include <linux/i2c.h>
--#include <linux/delay.h>
--#include <linux/videodev2.h>
--#include <linux/workqueue.h>
--#include <linux/v4l2-dv-timings.h>
--#include <media/v4l2-device.h>
--#include <media/v4l2-common.h>
--#include <media/v4l2-dv-timings.h>
--#include <media/v4l2-ctrls.h>
--#include <media/i2c/ad9389b.h>
+-extern int m5mols_debug;
 -
--static int debug;
--module_param(debug, int, 0644);
--MODULE_PARM_DESC(debug, "debug level (0-2)");
--
--MODULE_DESCRIPTION("Analog Devices AD9389B/AD9889B video encoder driver");
--MODULE_AUTHOR("Hans Verkuil <hans.verkuil@cisco.com>");
--MODULE_AUTHOR("Martin Bugge <marbugge@cisco.com>");
--MODULE_LICENSE("GPL");
--
--#define MASK_AD9389B_EDID_RDY_INT   0x04
--#define MASK_AD9389B_MSEN_INT       0x40
--#define MASK_AD9389B_HPD_INT        0x80
--
--#define MASK_AD9389B_HPD_DETECT     0x40
--#define MASK_AD9389B_MSEN_DETECT    0x20
--#define MASK_AD9389B_EDID_RDY       0x10
--
--#define EDID_MAX_RETRIES (8)
--#define EDID_DELAY 250
--#define EDID_MAX_SEGM 8
--
--/*
--**********************************************************************
--*
--*  Arrays with configuration parameters for the AD9389B
--*
--**********************************************************************
--*/
--
--struct ad9389b_state_edid {
--	/* total number of blocks */
--	u32 blocks;
--	/* Number of segments read */
--	u32 segments;
--	u8 data[EDID_MAX_SEGM * 256];
--	/* Number of EDID read retries left */
--	unsigned read_retries;
+-enum m5mols_restype {
+-	M5MOLS_RESTYPE_MONITOR,
+-	M5MOLS_RESTYPE_CAPTURE,
+-	M5MOLS_RESTYPE_MAX,
 -};
 -
--struct ad9389b_state {
--	struct ad9389b_platform_data pdata;
+-/**
+- * struct m5mols_resolution - structure for the resolution
+- * @type: resolution type according to the pixel code
+- * @width: width of the resolution
+- * @height: height of the resolution
+- * @reg: resolution preset register value
+- */
+-struct m5mols_resolution {
+-	u8 reg;
+-	enum m5mols_restype type;
+-	u16 width;
+-	u16 height;
+-};
+-
+-/**
+- * struct m5mols_exif - structure for the EXIF information of M-5MOLS
+- * @exposure_time: exposure time register value
+- * @shutter_speed: speed of the shutter register value
+- * @aperture: aperture register value
+- * @brightness: brightness register value
+- * @exposure_bias: it calls also EV bias
+- * @iso_speed: ISO register value
+- * @flash: status register value of the flash
+- * @sdr: status register value of the Subject Distance Range
+- * @qval: not written exact meaning in document
+- */
+-struct m5mols_exif {
+-	u32 exposure_time;
+-	u32 shutter_speed;
+-	u32 aperture;
+-	u32 brightness;
+-	u32 exposure_bias;
+-	u16 iso_speed;
+-	u16 flash;
+-	u16 sdr;
+-	u16 qval;
+-};
+-
+-/**
+- * struct m5mols_capture - Structure for the capture capability
+- * @exif: EXIF information
+- * @buf_size: internal JPEG frame buffer size, in bytes
+- * @main: size in bytes of the main image
+- * @thumb: size in bytes of the thumb image, if it was accompanied
+- * @total: total size in bytes of the produced image
+- */
+-struct m5mols_capture {
+-	struct m5mols_exif exif;
+-	unsigned int buf_size;
+-	u32 main;
+-	u32 thumb;
+-	u32 total;
+-};
+-
+-/**
+- * struct m5mols_scenemode - structure for the scenemode capability
+- * @metering: metering light register value
+- * @ev_bias: EV bias register value
+- * @wb_mode: mode which means the WhiteBalance is Auto or Manual
+- * @wb_preset: whitebalance preset register value in the Manual mode
+- * @chroma_en: register value whether the Chroma capability is enabled or not
+- * @chroma_lvl: chroma's level register value
+- * @edge_en: register value Whether the Edge capability is enabled or not
+- * @edge_lvl: edge's level register value
+- * @af_range: Auto Focus's range
+- * @fd_mode: Face Detection mode
+- * @mcc: Multi-axis Color Conversion which means emotion color
+- * @light: status of the Light
+- * @flash: status of the Flash
+- * @tone: Tone color which means Contrast
+- * @iso: ISO register value
+- * @capt_mode: Mode of the Image Stabilization while the camera capturing
+- * @wdr: Wide Dynamic Range register value
+- *
+- * The each value according to each scenemode is recommended in the documents.
+- */
+-struct m5mols_scenemode {
+-	u8 metering;
+-	u8 ev_bias;
+-	u8 wb_mode;
+-	u8 wb_preset;
+-	u8 chroma_en;
+-	u8 chroma_lvl;
+-	u8 edge_en;
+-	u8 edge_lvl;
+-	u8 af_range;
+-	u8 fd_mode;
+-	u8 mcc;
+-	u8 light;
+-	u8 flash;
+-	u8 tone;
+-	u8 iso;
+-	u8 capt_mode;
+-	u8 wdr;
+-};
+-
+-#define VERSION_STRING_SIZE	22
+-
+-/**
+- * struct m5mols_version - firmware version information
+- * @customer:	customer information
+- * @project:	version of project information according to customer
+- * @fw:		firmware revision
+- * @hw:		hardware revision
+- * @param:	version of the parameter
+- * @awb:	Auto WhiteBalance algorithm version
+- * @str:	information about manufacturer and packaging vendor
+- * @af:		Auto Focus version
+- *
+- * The register offset starts the customer version at 0x0, and it ends
+- * the awb version at 0x09. The customer, project information occupies 1 bytes
+- * each. And also the fw, hw, param, awb each requires 2 bytes. The str is
+- * unique string associated with firmware's version. It includes information
+- * about manufacturer and the vendor of the sensor's packaging. The least
+- * significant 2 bytes of the string indicate packaging manufacturer.
+- */
+-struct m5mols_version {
+-	u8	customer;
+-	u8	project;
+-	u16	fw;
+-	u16	hw;
+-	u16	param;
+-	u16	awb;
+-	u8	str[VERSION_STRING_SIZE];
+-	u8	af;
+-};
+-
+-/**
+- * struct m5mols_info - M-5MOLS driver data structure
+- * @pdata: platform data
+- * @sd: v4l-subdev instance
+- * @pad: media pad
+- * @irq_waitq: waitqueue for the capture
+- * @irq_done: set to 1 in the interrupt handler
+- * @handle: control handler
+- * @auto_exposure: auto/manual exposure control
+- * @exposure_bias: exposure compensation control
+- * @exposure: manual exposure control
+- * @metering: exposure metering control
+- * @auto_iso: auto/manual ISO sensitivity control
+- * @iso: manual ISO sensitivity control
+- * @auto_wb: auto white balance control
+- * @lock_3a: 3A lock control
+- * @colorfx: color effect control
+- * @saturation: saturation control
+- * @zoom: zoom control
+- * @wdr: wide dynamic range control
+- * @stabilization: image stabilization control
+- * @jpeg_quality: JPEG compression quality control
+- * @set_power: optional power callback to the board code
+- * @reset: GPIO driving the reset pin of M-5MOLS
+- * @lock: mutex protecting the structure fields below
+- * @ffmt: current fmt according to resolution type
+- * @res_type: current resolution type
+- * @ver: information of the version
+- * @cap: the capture mode attributes
+- * @isp_ready: 1 when the ISP controller has completed booting
+- * @power: current sensor's power status
+- * @ctrl_sync: 1 when the control handler state is restored in H/W
+- * @resolution:	register value for current resolution
+- * @mode: register value for current operation mode
+- */
+-struct m5mols_info {
+-	const struct m5mols_platform_data *pdata;
 -	struct v4l2_subdev sd;
 -	struct media_pad pad;
--	struct v4l2_ctrl_handler hdl;
--	int chip_revision;
--	/* Is the ad9389b powered on? */
--	bool power_on;
--	/* Did we receive hotplug and rx-sense signals? */
--	bool have_monitor;
--	/* timings from s_dv_timings */
--	struct v4l2_dv_timings dv_timings;
--	/* controls */
--	struct v4l2_ctrl *hdmi_mode_ctrl;
--	struct v4l2_ctrl *hotplug_ctrl;
--	struct v4l2_ctrl *rx_sense_ctrl;
--	struct v4l2_ctrl *have_edid0_ctrl;
--	struct v4l2_ctrl *rgb_quantization_range_ctrl;
--	struct i2c_client *edid_i2c_client;
--	struct ad9389b_state_edid edid;
--	/* Running counter of the number of detected EDIDs (for debugging) */
--	unsigned edid_detect_counter;
--	struct delayed_work edid_handler; /* work entry */
+-
+-	wait_queue_head_t irq_waitq;
+-	atomic_t irq_done;
+-
+-	struct v4l2_ctrl_handler handle;
+-	struct {
+-		/* exposure/exposure bias/auto exposure cluster */
+-		struct v4l2_ctrl *auto_exposure;
+-		struct v4l2_ctrl *exposure_bias;
+-		struct v4l2_ctrl *exposure;
+-		struct v4l2_ctrl *metering;
+-	};
+-	struct {
+-		/* iso/auto iso cluster */
+-		struct v4l2_ctrl *auto_iso;
+-		struct v4l2_ctrl *iso;
+-	};
+-	struct v4l2_ctrl *auto_wb;
+-
+-	struct v4l2_ctrl *lock_3a;
+-	struct v4l2_ctrl *colorfx;
+-	struct v4l2_ctrl *saturation;
+-	struct v4l2_ctrl *zoom;
+-	struct v4l2_ctrl *wdr;
+-	struct v4l2_ctrl *stabilization;
+-	struct v4l2_ctrl *jpeg_quality;
+-
+-	int (*set_power)(struct device *dev, int on);
+-	struct gpio_desc *reset;
+-
+-	struct mutex lock;
+-
+-	struct v4l2_mbus_framefmt ffmt[M5MOLS_RESTYPE_MAX];
+-	int res_type;
+-
+-	struct m5mols_version ver;
+-	struct m5mols_capture cap;
+-
+-	unsigned int isp_ready:1;
+-	unsigned int power:1;
+-	unsigned int ctrl_sync:1;
+-
+-	u8 resolution;
+-	u8 mode;
 -};
 -
--static void ad9389b_check_monitor_present_status(struct v4l2_subdev *sd);
--static bool ad9389b_check_edid_status(struct v4l2_subdev *sd);
--static void ad9389b_setup(struct v4l2_subdev *sd);
--static int ad9389b_s_i2s_clock_freq(struct v4l2_subdev *sd, u32 freq);
--static int ad9389b_s_clock_freq(struct v4l2_subdev *sd, u32 freq);
+-#define is_available_af(__info)	(__info->ver.af)
+-#define is_code(__code, __type) (__code == m5mols_default_ffmt[__type].code)
+-#define is_manufacturer(__info, __manufacturer)	\
+-				(__info->ver.str[0] == __manufacturer[0] && \
+-				 __info->ver.str[1] == __manufacturer[1])
+-/*
+- * I2C operation of the M-5MOLS
+- *
+- * The I2C read operation of the M-5MOLS requires 2 messages. The first
+- * message sends the information about the command, command category, and total
+- * message size. The second message is used to retrieve the data specified in
+- * the first message
+- *
+- *   1st message                                2nd message
+- *   +-------+---+----------+-----+-------+     +------+------+------+------+
+- *   | size1 | R | category | cmd | size2 |     | d[0] | d[1] | d[2] | d[3] |
+- *   +-------+---+----------+-----+-------+     +------+------+------+------+
+- *   - size1: message data size(5 in this case)
+- *   - size2: desired buffer size of the 2nd message
+- *   - d[0..3]: according to size2
+- *
+- * The I2C write operation needs just one message. The message includes
+- * category, command, total size, and desired data.
+- *
+- *   1st message
+- *   +-------+---+----------+-----+------+------+------+------+
+- *   | size1 | W | category | cmd | d[0] | d[1] | d[2] | d[3] |
+- *   +-------+---+----------+-----+------+------+------+------+
+- *   - d[0..3]: according to size1
+- */
+-int m5mols_read_u8(struct v4l2_subdev *sd, u32 reg_comb, u8 *val);
+-int m5mols_read_u16(struct v4l2_subdev *sd, u32 reg_comb, u16 *val);
+-int m5mols_read_u32(struct v4l2_subdev *sd, u32 reg_comb, u32 *val);
+-int m5mols_write(struct v4l2_subdev *sd, u32 reg_comb, u32 val);
 -
--static inline struct ad9389b_state *get_ad9389b_state(struct v4l2_subdev *sd)
+-int m5mols_busy_wait(struct v4l2_subdev *sd, u32 reg, u32 value, u32 mask,
+-		     int timeout);
+-
+-/* Mask value for busy waiting until M-5MOLS I2C interface is initialized */
+-#define M5MOLS_I2C_RDY_WAIT_FL		(1 << 16)
+-/* ISP state transition timeout, in ms */
+-#define M5MOLS_MODE_CHANGE_TIMEOUT	200
+-#define M5MOLS_BUSY_WAIT_DEF_TIMEOUT	250
+-
+-/*
+- * Mode operation of the M-5MOLS
+- *
+- * Changing the mode of the M-5MOLS is needed right executing order.
+- * There are three modes(PARAMETER, MONITOR, CAPTURE) which can be changed
+- * by user. There are various categories associated with each mode.
+- *
+- * +============================================================+
+- * | mode	| category					|
+- * +============================================================+
+- * | FLASH	| FLASH(only after Stand-by or Power-on)	|
+- * | SYSTEM	| SYSTEM(only after sensor arm-booting)		|
+- * | PARAMETER	| PARAMETER					|
+- * | MONITOR	| MONITOR(preview), Auto Focus, Face Detection	|
+- * | CAPTURE	| Single CAPTURE, Preview(recording)		|
+- * +============================================================+
+- *
+- * The available executing order between each modes are as follows:
+- *   PARAMETER <---> MONITOR <---> CAPTURE
+- */
+-int m5mols_set_mode(struct m5mols_info *info, u8 mode);
+-
+-int m5mols_enable_interrupt(struct v4l2_subdev *sd, u8 reg);
+-int m5mols_wait_interrupt(struct v4l2_subdev *sd, u8 condition, u32 timeout);
+-int m5mols_restore_controls(struct m5mols_info *info);
+-int m5mols_start_capture(struct m5mols_info *info);
+-int m5mols_do_scenemode(struct m5mols_info *info, u8 mode);
+-int m5mols_lock_3a(struct m5mols_info *info, bool lock);
+-int m5mols_set_ctrl(struct v4l2_ctrl *ctrl);
+-int m5mols_init_controls(struct v4l2_subdev *sd);
+-
+-/* The firmware function */
+-int m5mols_update_fw(struct v4l2_subdev *sd,
+-		     int (*set_power)(struct m5mols_info *, bool));
+-
+-static inline struct m5mols_info *to_m5mols(struct v4l2_subdev *subdev)
 -{
--	return container_of(sd, struct ad9389b_state, sd);
+-	return container_of(subdev, struct m5mols_info, sd);
 -}
 -
 -static inline struct v4l2_subdev *to_sd(struct v4l2_ctrl *ctrl)
 -{
--	return &container_of(ctrl->handler, struct ad9389b_state, hdl)->sd;
+-	struct m5mols_info *info = container_of(ctrl->handler,
+-						struct m5mols_info, handle);
+-	return &info->sd;
 -}
 -
--/* ------------------------ I2C ----------------------------------------------- */
--
--static int ad9389b_rd(struct v4l2_subdev *sd, u8 reg)
+-static inline void m5mols_set_ctrl_mode(struct v4l2_ctrl *ctrl,
+-					unsigned int mode)
 -{
--	struct i2c_client *client = v4l2_get_subdevdata(sd);
--
--	return i2c_smbus_read_byte_data(client, reg);
+-	ctrl->priv = (void *)(uintptr_t)mode;
 -}
 -
--static int ad9389b_wr(struct v4l2_subdev *sd, u8 reg, u8 val)
+-static inline unsigned int m5mols_get_ctrl_mode(struct v4l2_ctrl *ctrl)
 -{
--	struct i2c_client *client = v4l2_get_subdevdata(sd);
--	int ret;
--	int i;
+-	return (unsigned int)(uintptr_t)ctrl->priv;
+-}
 -
--	for (i = 0; i < 3; i++) {
--		ret = i2c_smbus_write_byte_data(client, reg, val);
--		if (ret == 0)
--			return 0;
--	}
--	v4l2_err(sd, "%s: failed reg 0x%x, val 0x%x\n", __func__, reg, val);
+-#endif	/* M5MOLS_H */
+diff --git a/drivers/media/i2c/m5mols/m5mols_capture.c b/drivers/media/i2c/m5mols/m5mols_capture.c
+deleted file mode 100644
+index 275c5b2539fd..000000000000
+--- a/drivers/media/i2c/m5mols/m5mols_capture.c
++++ /dev/null
+@@ -1,158 +0,0 @@
+-// SPDX-License-Identifier: GPL-2.0-or-later
+-
+-/*
+- * The Capture code for Fujitsu M-5MOLS ISP
+- *
+- * Copyright (C) 2011 Samsung Electronics Co., Ltd.
+- * Author: HeungJun Kim <riverful.kim@samsung.com>
+- *
+- * Copyright (C) 2009 Samsung Electronics Co., Ltd.
+- * Author: Dongsoo Nathaniel Kim <dongsoo45.kim@samsung.com>
+- */
+-
+-#include <linux/i2c.h>
+-#include <linux/slab.h>
+-#include <linux/irq.h>
+-#include <linux/interrupt.h>
+-#include <linux/delay.h>
+-#include <linux/regulator/consumer.h>
+-#include <linux/videodev2.h>
+-#include <media/v4l2-ctrls.h>
+-#include <media/v4l2-device.h>
+-#include <media/v4l2-subdev.h>
+-#include <media/i2c/m5mols.h>
+-#include <media/drv-intf/exynos-fimc.h>
+-
+-#include "m5mols.h"
+-#include "m5mols_reg.h"
+-
+-/**
+- * m5mols_read_rational - I2C read of a rational number
+- * @sd: sub-device, as pointed by struct v4l2_subdev
+- * @addr_num: numerator register
+- * @addr_den: denominator register
+- * @val: place to store the division result
+- *
+- * Read numerator and denominator from registers @addr_num and @addr_den
+- * respectively and return the division result in @val.
+- */
+-static int m5mols_read_rational(struct v4l2_subdev *sd, u32 addr_num,
+-				u32 addr_den, u32 *val)
+-{
+-	u32 num, den;
+-
+-	int ret = m5mols_read_u32(sd, addr_num, &num);
+-	if (!ret)
+-		ret = m5mols_read_u32(sd, addr_den, &den);
+-	if (ret)
+-		return ret;
+-	*val = den == 0 ? 0 : num / den;
 -	return ret;
 -}
 -
--/* To set specific bits in the register, a clear-mask is given (to be AND-ed),
--   and then the value-mask (to be OR-ed). */
--static inline void ad9389b_wr_and_or(struct v4l2_subdev *sd, u8 reg,
--				     u8 clr_mask, u8 val_mask)
+-/**
+- * m5mols_capture_info - Gather captured image information
+- * @info: M-5MOLS driver data structure
+- *
+- * For now it gathers only EXIF information and file size.
+- */
+-static int m5mols_capture_info(struct m5mols_info *info)
 -{
--	ad9389b_wr(sd, reg, (ad9389b_rd(sd, reg) & clr_mask) | val_mask);
+-	struct m5mols_exif *exif = &info->cap.exif;
+-	struct v4l2_subdev *sd = &info->sd;
+-	int ret;
+-
+-	ret = m5mols_read_rational(sd, EXIF_INFO_EXPTIME_NU,
+-				   EXIF_INFO_EXPTIME_DE, &exif->exposure_time);
+-	if (ret)
+-		return ret;
+-	ret = m5mols_read_rational(sd, EXIF_INFO_TV_NU, EXIF_INFO_TV_DE,
+-				   &exif->shutter_speed);
+-	if (ret)
+-		return ret;
+-	ret = m5mols_read_rational(sd, EXIF_INFO_AV_NU, EXIF_INFO_AV_DE,
+-				   &exif->aperture);
+-	if (ret)
+-		return ret;
+-	ret = m5mols_read_rational(sd, EXIF_INFO_BV_NU, EXIF_INFO_BV_DE,
+-				   &exif->brightness);
+-	if (ret)
+-		return ret;
+-	ret = m5mols_read_rational(sd, EXIF_INFO_EBV_NU, EXIF_INFO_EBV_DE,
+-				   &exif->exposure_bias);
+-	if (ret)
+-		return ret;
+-
+-	ret = m5mols_read_u16(sd, EXIF_INFO_ISO, &exif->iso_speed);
+-	if (!ret)
+-		ret = m5mols_read_u16(sd, EXIF_INFO_FLASH, &exif->flash);
+-	if (!ret)
+-		ret = m5mols_read_u16(sd, EXIF_INFO_SDR, &exif->sdr);
+-	if (!ret)
+-		ret = m5mols_read_u16(sd, EXIF_INFO_QVAL, &exif->qval);
+-	if (ret)
+-		return ret;
+-
+-	if (!ret)
+-		ret = m5mols_read_u32(sd, CAPC_IMAGE_SIZE, &info->cap.main);
+-	if (!ret)
+-		ret = m5mols_read_u32(sd, CAPC_THUMB_SIZE, &info->cap.thumb);
+-	if (!ret)
+-		info->cap.total = info->cap.main + info->cap.thumb;
+-
+-	return ret;
 -}
 -
--static void ad9389b_edid_rd(struct v4l2_subdev *sd, u16 len, u8 *buf)
+-int m5mols_start_capture(struct m5mols_info *info)
 -{
--	struct ad9389b_state *state = get_ad9389b_state(sd);
--	int i;
+-	unsigned int framesize = info->cap.buf_size - M5MOLS_JPEG_TAGS_SIZE;
+-	struct v4l2_subdev *sd = &info->sd;
+-	int ret;
 -
--	v4l2_dbg(1, debug, sd, "%s:\n", __func__);
+-	/*
+-	 * Synchronize the controls, set the capture frame resolution and color
+-	 * format. The frame capture is initiated during switching from Monitor
+-	 * to Capture mode.
+-	 */
+-	ret = m5mols_set_mode(info, REG_MONITOR);
+-	if (!ret)
+-		ret = m5mols_restore_controls(info);
+-	if (!ret)
+-		ret = m5mols_write(sd, CAPP_YUVOUT_MAIN, REG_JPEG);
+-	if (!ret)
+-		ret = m5mols_write(sd, CAPP_MAIN_IMAGE_SIZE, info->resolution);
+-	if (!ret)
+-		ret = m5mols_write(sd, CAPP_JPEG_SIZE_MAX, framesize);
+-	if (!ret)
+-		ret = m5mols_set_mode(info, REG_CAPTURE);
+-	if (!ret)
+-		/* Wait until a frame is captured to ISP internal memory */
+-		ret = m5mols_wait_interrupt(sd, REG_INT_CAPTURE, 2000);
+-	if (ret)
+-		return ret;
 -
--	for (i = 0; i < len; i++)
--		buf[i] = i2c_smbus_read_byte_data(state->edid_i2c_client, i);
--}
+-	/*
+-	 * Initiate the captured data transfer to a MIPI-CSI receiver.
+-	 */
+-	ret = m5mols_write(sd, CAPC_SEL_FRAME, 1);
+-	if (!ret)
+-		ret = m5mols_write(sd, CAPC_START, REG_CAP_START_MAIN);
+-	if (!ret) {
+-		bool captured = false;
+-		unsigned int size;
 -
--static inline bool ad9389b_have_hotplug(struct v4l2_subdev *sd)
--{
--	return ad9389b_rd(sd, 0x42) & MASK_AD9389B_HPD_DETECT;
--}
--
--static inline bool ad9389b_have_rx_sense(struct v4l2_subdev *sd)
--{
--	return ad9389b_rd(sd, 0x42) & MASK_AD9389B_MSEN_DETECT;
--}
--
--static void ad9389b_csc_conversion_mode(struct v4l2_subdev *sd, u8 mode)
--{
--	ad9389b_wr_and_or(sd, 0x17, 0xe7, (mode & 0x3)<<3);
--	ad9389b_wr_and_or(sd, 0x18, 0x9f, (mode & 0x3)<<5);
--}
--
--static void ad9389b_csc_coeff(struct v4l2_subdev *sd,
--			      u16 A1, u16 A2, u16 A3, u16 A4,
--			      u16 B1, u16 B2, u16 B3, u16 B4,
--			      u16 C1, u16 C2, u16 C3, u16 C4)
--{
--	/* A */
--	ad9389b_wr_and_or(sd, 0x18, 0xe0, A1>>8);
--	ad9389b_wr(sd, 0x19, A1);
--	ad9389b_wr_and_or(sd, 0x1A, 0xe0, A2>>8);
--	ad9389b_wr(sd, 0x1B, A2);
--	ad9389b_wr_and_or(sd, 0x1c, 0xe0, A3>>8);
--	ad9389b_wr(sd, 0x1d, A3);
--	ad9389b_wr_and_or(sd, 0x1e, 0xe0, A4>>8);
--	ad9389b_wr(sd, 0x1f, A4);
--
--	/* B */
--	ad9389b_wr_and_or(sd, 0x20, 0xe0, B1>>8);
--	ad9389b_wr(sd, 0x21, B1);
--	ad9389b_wr_and_or(sd, 0x22, 0xe0, B2>>8);
--	ad9389b_wr(sd, 0x23, B2);
--	ad9389b_wr_and_or(sd, 0x24, 0xe0, B3>>8);
--	ad9389b_wr(sd, 0x25, B3);
--	ad9389b_wr_and_or(sd, 0x26, 0xe0, B4>>8);
--	ad9389b_wr(sd, 0x27, B4);
--
--	/* C */
--	ad9389b_wr_and_or(sd, 0x28, 0xe0, C1>>8);
--	ad9389b_wr(sd, 0x29, C1);
--	ad9389b_wr_and_or(sd, 0x2A, 0xe0, C2>>8);
--	ad9389b_wr(sd, 0x2B, C2);
--	ad9389b_wr_and_or(sd, 0x2C, 0xe0, C3>>8);
--	ad9389b_wr(sd, 0x2D, C3);
--	ad9389b_wr_and_or(sd, 0x2E, 0xe0, C4>>8);
--	ad9389b_wr(sd, 0x2F, C4);
--}
--
--static void ad9389b_csc_rgb_full2limit(struct v4l2_subdev *sd, bool enable)
--{
--	if (enable) {
--		u8 csc_mode = 0;
--
--		ad9389b_csc_conversion_mode(sd, csc_mode);
--		ad9389b_csc_coeff(sd,
--				  4096-564, 0, 0, 256,
--				  0, 4096-564, 0, 256,
--				  0, 0, 4096-564, 256);
--		/* enable CSC */
--		ad9389b_wr_and_or(sd, 0x3b, 0xfe, 0x1);
--		/* AVI infoframe: Limited range RGB (16-235) */
--		ad9389b_wr_and_or(sd, 0xcd, 0xf9, 0x02);
--	} else {
--		/* disable CSC */
--		ad9389b_wr_and_or(sd, 0x3b, 0xfe, 0x0);
--		/* AVI infoframe: Full range RGB (0-255) */
--		ad9389b_wr_and_or(sd, 0xcd, 0xf9, 0x04);
--	}
--}
--
--static void ad9389b_set_IT_content_AVI_InfoFrame(struct v4l2_subdev *sd)
--{
--	struct ad9389b_state *state = get_ad9389b_state(sd);
--
--	if (state->dv_timings.bt.flags & V4L2_DV_FL_IS_CE_VIDEO) {
--		/* CE format, not IT  */
--		ad9389b_wr_and_or(sd, 0xcd, 0xbf, 0x00);
--	} else {
--		/* IT format */
--		ad9389b_wr_and_or(sd, 0xcd, 0xbf, 0x40);
--	}
--}
--
--static int ad9389b_set_rgb_quantization_mode(struct v4l2_subdev *sd, struct v4l2_ctrl *ctrl)
--{
--	struct ad9389b_state *state = get_ad9389b_state(sd);
--
--	switch (ctrl->val) {
--	case V4L2_DV_RGB_RANGE_AUTO:
--		/* automatic */
--		if (state->dv_timings.bt.flags & V4L2_DV_FL_IS_CE_VIDEO) {
--			/* CE format, RGB limited range (16-235) */
--			ad9389b_csc_rgb_full2limit(sd, true);
--		} else {
--			/* not CE format, RGB full range (0-255) */
--			ad9389b_csc_rgb_full2limit(sd, false);
+-		/* Wait for the capture completion interrupt */
+-		ret = m5mols_wait_interrupt(sd, REG_INT_CAPTURE, 2000);
+-		if (!ret) {
+-			captured = true;
+-			ret = m5mols_capture_info(info);
 -		}
+-		size = captured ? info->cap.main : 0;
+-		v4l2_dbg(1, m5mols_debug, sd, "%s: size: %d, thumb.: %d B\n",
+-			 __func__, size, info->cap.thumb);
+-
+-		v4l2_subdev_notify(sd, S5P_FIMC_TX_END_NOTIFY, &size);
+-	}
+-
+-	return ret;
+-}
+diff --git a/drivers/media/i2c/m5mols/m5mols_controls.c b/drivers/media/i2c/m5mols/m5mols_controls.c
+deleted file mode 100644
+index b45e0e08b6c8..000000000000
+--- a/drivers/media/i2c/m5mols/m5mols_controls.c
++++ /dev/null
+@@ -1,625 +0,0 @@
+-// SPDX-License-Identifier: GPL-2.0-or-later
+-/*
+- * Controls for M-5MOLS 8M Pixel camera sensor with ISP
+- *
+- * Copyright (C) 2011 Samsung Electronics Co., Ltd.
+- * Author: HeungJun Kim <riverful.kim@samsung.com>
+- *
+- * Copyright (C) 2009 Samsung Electronics Co., Ltd.
+- * Author: Dongsoo Nathaniel Kim <dongsoo45.kim@samsung.com>
+- */
+-
+-#include <linux/i2c.h>
+-#include <linux/delay.h>
+-#include <linux/videodev2.h>
+-#include <media/v4l2-ctrls.h>
+-
+-#include "m5mols.h"
+-#include "m5mols_reg.h"
+-
+-static struct m5mols_scenemode m5mols_default_scenemode[] = {
+-	[REG_SCENE_NORMAL] = {
+-		REG_AE_CENTER, REG_AE_INDEX_00, REG_AWB_AUTO, 0,
+-		REG_CHROMA_ON, 3, REG_EDGE_ON, 5,
+-		REG_AF_NORMAL, REG_FD_OFF,
+-		REG_MCC_NORMAL, REG_LIGHT_OFF, REG_FLASH_OFF,
+-		5, REG_ISO_AUTO, REG_CAP_NONE, REG_WDR_OFF,
+-	},
+-	[REG_SCENE_PORTRAIT] = {
+-		REG_AE_CENTER, REG_AE_INDEX_00, REG_AWB_AUTO, 0,
+-		REG_CHROMA_ON, 3, REG_EDGE_ON, 4,
+-		REG_AF_NORMAL, BIT_FD_EN | BIT_FD_DRAW_FACE_FRAME,
+-		REG_MCC_OFF, REG_LIGHT_OFF, REG_FLASH_OFF,
+-		6, REG_ISO_AUTO, REG_CAP_NONE, REG_WDR_OFF,
+-	},
+-	[REG_SCENE_LANDSCAPE] = {
+-		REG_AE_ALL, REG_AE_INDEX_00, REG_AWB_AUTO, 0,
+-		REG_CHROMA_ON, 4, REG_EDGE_ON, 6,
+-		REG_AF_NORMAL, REG_FD_OFF,
+-		REG_MCC_OFF, REG_LIGHT_OFF, REG_FLASH_OFF,
+-		6, REG_ISO_AUTO, REG_CAP_NONE, REG_WDR_OFF,
+-	},
+-	[REG_SCENE_SPORTS] = {
+-		REG_AE_CENTER, REG_AE_INDEX_00, REG_AWB_AUTO, 0,
+-		REG_CHROMA_ON, 3, REG_EDGE_ON, 5,
+-		REG_AF_NORMAL, REG_FD_OFF,
+-		REG_MCC_OFF, REG_LIGHT_OFF, REG_FLASH_OFF,
+-		6, REG_ISO_AUTO, REG_CAP_NONE, REG_WDR_OFF,
+-	},
+-	[REG_SCENE_PARTY_INDOOR] = {
+-		REG_AE_CENTER, REG_AE_INDEX_00, REG_AWB_AUTO, 0,
+-		REG_CHROMA_ON, 4, REG_EDGE_ON, 5,
+-		REG_AF_NORMAL, REG_FD_OFF,
+-		REG_MCC_OFF, REG_LIGHT_OFF, REG_FLASH_OFF,
+-		6, REG_ISO_200, REG_CAP_NONE, REG_WDR_OFF,
+-	},
+-	[REG_SCENE_BEACH_SNOW] = {
+-		REG_AE_CENTER, REG_AE_INDEX_10_POS, REG_AWB_AUTO, 0,
+-		REG_CHROMA_ON, 4, REG_EDGE_ON, 5,
+-		REG_AF_NORMAL, REG_FD_OFF,
+-		REG_MCC_OFF, REG_LIGHT_OFF, REG_FLASH_OFF,
+-		6, REG_ISO_50, REG_CAP_NONE, REG_WDR_OFF,
+-	},
+-	[REG_SCENE_SUNSET] = {
+-		REG_AE_CENTER, REG_AE_INDEX_00, REG_AWB_PRESET,
+-		REG_AWB_DAYLIGHT,
+-		REG_CHROMA_ON, 3, REG_EDGE_ON, 5,
+-		REG_AF_NORMAL, REG_FD_OFF,
+-		REG_MCC_OFF, REG_LIGHT_OFF, REG_FLASH_OFF,
+-		6, REG_ISO_AUTO, REG_CAP_NONE, REG_WDR_OFF,
+-	},
+-	[REG_SCENE_DAWN_DUSK] = {
+-		REG_AE_CENTER, REG_AE_INDEX_00, REG_AWB_PRESET,
+-		REG_AWB_FLUORESCENT_1,
+-		REG_CHROMA_ON, 3, REG_EDGE_ON, 5,
+-		REG_AF_NORMAL, REG_FD_OFF,
+-		REG_MCC_OFF, REG_LIGHT_OFF, REG_FLASH_OFF,
+-		6, REG_ISO_AUTO, REG_CAP_NONE, REG_WDR_OFF,
+-	},
+-	[REG_SCENE_FALL] = {
+-		REG_AE_CENTER, REG_AE_INDEX_00, REG_AWB_AUTO, 0,
+-		REG_CHROMA_ON, 5, REG_EDGE_ON, 5,
+-		REG_AF_NORMAL, REG_FD_OFF,
+-		REG_MCC_OFF, REG_LIGHT_OFF, REG_FLASH_OFF,
+-		6, REG_ISO_AUTO, REG_CAP_NONE, REG_WDR_OFF,
+-	},
+-	[REG_SCENE_NIGHT] = {
+-		REG_AE_CENTER, REG_AE_INDEX_00, REG_AWB_AUTO, 0,
+-		REG_CHROMA_ON, 3, REG_EDGE_ON, 5,
+-		REG_AF_NORMAL, REG_FD_OFF,
+-		REG_MCC_OFF, REG_LIGHT_OFF, REG_FLASH_OFF,
+-		6, REG_ISO_AUTO, REG_CAP_NONE, REG_WDR_OFF,
+-	},
+-	[REG_SCENE_AGAINST_LIGHT] = {
+-		REG_AE_CENTER, REG_AE_INDEX_00, REG_AWB_AUTO, 0,
+-		REG_CHROMA_ON, 3, REG_EDGE_ON, 5,
+-		REG_AF_NORMAL, REG_FD_OFF,
+-		REG_MCC_OFF, REG_LIGHT_OFF, REG_FLASH_OFF,
+-		6, REG_ISO_AUTO, REG_CAP_NONE, REG_WDR_OFF,
+-	},
+-	[REG_SCENE_FIRE] = {
+-		REG_AE_CENTER, REG_AE_INDEX_00, REG_AWB_AUTO, 0,
+-		REG_CHROMA_ON, 3, REG_EDGE_ON, 5,
+-		REG_AF_NORMAL, REG_FD_OFF,
+-		REG_MCC_OFF, REG_LIGHT_OFF, REG_FLASH_OFF,
+-		6, REG_ISO_50, REG_CAP_NONE, REG_WDR_OFF,
+-	},
+-	[REG_SCENE_TEXT] = {
+-		REG_AE_CENTER, REG_AE_INDEX_00, REG_AWB_AUTO, 0,
+-		REG_CHROMA_ON, 3, REG_EDGE_ON, 7,
+-		REG_AF_MACRO, REG_FD_OFF,
+-		REG_MCC_OFF, REG_LIGHT_OFF, REG_FLASH_OFF,
+-		6, REG_ISO_AUTO, REG_CAP_ANTI_SHAKE, REG_WDR_ON,
+-	},
+-	[REG_SCENE_CANDLE] = {
+-		REG_AE_CENTER, REG_AE_INDEX_00, REG_AWB_AUTO, 0,
+-		REG_CHROMA_ON, 3, REG_EDGE_ON, 5,
+-		REG_AF_NORMAL, REG_FD_OFF,
+-		REG_MCC_OFF, REG_LIGHT_OFF, REG_FLASH_OFF,
+-		6, REG_ISO_AUTO, REG_CAP_NONE, REG_WDR_OFF,
+-	},
+-};
+-
+-/**
+- * m5mols_do_scenemode() - Change current scenemode
+- * @info: M-5MOLS driver data structure
+- * @mode:	Desired mode of the scenemode
+- *
+- * WARNING: The execution order is important. Do not change the order.
+- */
+-int m5mols_do_scenemode(struct m5mols_info *info, u8 mode)
+-{
+-	struct v4l2_subdev *sd = &info->sd;
+-	struct m5mols_scenemode scenemode = m5mols_default_scenemode[mode];
+-	int ret;
+-
+-	if (mode > REG_SCENE_CANDLE)
+-		return -EINVAL;
+-
+-	ret = v4l2_ctrl_s_ctrl(info->lock_3a, 0);
+-	if (!ret)
+-		ret = m5mols_write(sd, AE_EV_PRESET_MONITOR, mode);
+-	if (!ret)
+-		ret = m5mols_write(sd, AE_EV_PRESET_CAPTURE, mode);
+-	if (!ret)
+-		ret = m5mols_write(sd, AE_MODE, scenemode.metering);
+-	if (!ret)
+-		ret = m5mols_write(sd, AE_INDEX, scenemode.ev_bias);
+-	if (!ret)
+-		ret = m5mols_write(sd, AWB_MODE, scenemode.wb_mode);
+-	if (!ret)
+-		ret = m5mols_write(sd, AWB_MANUAL, scenemode.wb_preset);
+-	if (!ret)
+-		ret = m5mols_write(sd, MON_CHROMA_EN, scenemode.chroma_en);
+-	if (!ret)
+-		ret = m5mols_write(sd, MON_CHROMA_LVL, scenemode.chroma_lvl);
+-	if (!ret)
+-		ret = m5mols_write(sd, MON_EDGE_EN, scenemode.edge_en);
+-	if (!ret)
+-		ret = m5mols_write(sd, MON_EDGE_LVL, scenemode.edge_lvl);
+-	if (!ret && is_available_af(info))
+-		ret = m5mols_write(sd, AF_MODE, scenemode.af_range);
+-	if (!ret && is_available_af(info))
+-		ret = m5mols_write(sd, FD_CTL, scenemode.fd_mode);
+-	if (!ret)
+-		ret = m5mols_write(sd, MON_TONE_CTL, scenemode.tone);
+-	if (!ret)
+-		ret = m5mols_write(sd, AE_ISO, scenemode.iso);
+-	if (!ret)
+-		ret = m5mols_set_mode(info, REG_CAPTURE);
+-	if (!ret)
+-		ret = m5mols_write(sd, CAPP_WDR_EN, scenemode.wdr);
+-	if (!ret)
+-		ret = m5mols_write(sd, CAPP_MCC_MODE, scenemode.mcc);
+-	if (!ret)
+-		ret = m5mols_write(sd, CAPP_LIGHT_CTRL, scenemode.light);
+-	if (!ret)
+-		ret = m5mols_write(sd, CAPP_FLASH_CTRL, scenemode.flash);
+-	if (!ret)
+-		ret = m5mols_write(sd, CAPC_MODE, scenemode.capt_mode);
+-	if (!ret)
+-		ret = m5mols_set_mode(info, REG_MONITOR);
+-
+-	return ret;
+-}
+-
+-static int m5mols_3a_lock(struct m5mols_info *info, struct v4l2_ctrl *ctrl)
+-{
+-	bool af_lock = ctrl->val & V4L2_LOCK_FOCUS;
+-	int ret = 0;
+-
+-	if ((ctrl->val ^ ctrl->cur.val) & V4L2_LOCK_EXPOSURE) {
+-		bool ae_lock = ctrl->val & V4L2_LOCK_EXPOSURE;
+-
+-		ret = m5mols_write(&info->sd, AE_LOCK, ae_lock ?
+-				   REG_AE_LOCK : REG_AE_UNLOCK);
+-		if (ret)
+-			return ret;
+-	}
+-
+-	if (((ctrl->val ^ ctrl->cur.val) & V4L2_LOCK_WHITE_BALANCE)
+-	    && info->auto_wb->val) {
+-		bool awb_lock = ctrl->val & V4L2_LOCK_WHITE_BALANCE;
+-
+-		ret = m5mols_write(&info->sd, AWB_LOCK, awb_lock ?
+-				   REG_AWB_LOCK : REG_AWB_UNLOCK);
+-		if (ret)
+-			return ret;
+-	}
+-
+-	if (!info->ver.af || !af_lock)
+-		return ret;
+-
+-	if ((ctrl->val ^ ctrl->cur.val) & V4L2_LOCK_FOCUS)
+-		ret = m5mols_write(&info->sd, AF_EXECUTE, REG_AF_STOP);
+-
+-	return ret;
+-}
+-
+-static int m5mols_set_metering_mode(struct m5mols_info *info, int mode)
+-{
+-	unsigned int metering;
+-
+-	switch (mode) {
+-	case V4L2_EXPOSURE_METERING_CENTER_WEIGHTED:
+-		metering = REG_AE_CENTER;
 -		break;
--	case V4L2_DV_RGB_RANGE_LIMITED:
--		/* RGB limited range (16-235) */
--		ad9389b_csc_rgb_full2limit(sd, true);
--		break;
--	case V4L2_DV_RGB_RANGE_FULL:
--		/* RGB full range (0-255) */
--		ad9389b_csc_rgb_full2limit(sd, false);
+-	case V4L2_EXPOSURE_METERING_SPOT:
+-		metering = REG_AE_SPOT;
 -		break;
 -	default:
+-		metering = REG_AE_ALL;
+-		break;
+-	}
+-
+-	return m5mols_write(&info->sd, AE_MODE, metering);
+-}
+-
+-static int m5mols_set_exposure(struct m5mols_info *info, int exposure)
+-{
+-	struct v4l2_subdev *sd = &info->sd;
+-	int ret = 0;
+-
+-	if (exposure == V4L2_EXPOSURE_AUTO) {
+-		/* Unlock auto exposure */
+-		info->lock_3a->val &= ~V4L2_LOCK_EXPOSURE;
+-		m5mols_3a_lock(info, info->lock_3a);
+-
+-		ret = m5mols_set_metering_mode(info, info->metering->val);
+-		if (ret < 0)
+-			return ret;
+-
+-		v4l2_dbg(1, m5mols_debug, sd,
+-			 "%s: exposure bias: %#x, metering: %#x\n",
+-			 __func__, info->exposure_bias->val,
+-			 info->metering->val);
+-
+-		return m5mols_write(sd, AE_INDEX, info->exposure_bias->val);
+-	}
+-
+-	if (exposure == V4L2_EXPOSURE_MANUAL) {
+-		ret = m5mols_write(sd, AE_MODE, REG_AE_OFF);
+-		if (ret == 0)
+-			ret = m5mols_write(sd, AE_MAN_GAIN_MON,
+-					   info->exposure->val);
+-		if (ret == 0)
+-			ret = m5mols_write(sd, AE_MAN_GAIN_CAP,
+-					   info->exposure->val);
+-
+-		v4l2_dbg(1, m5mols_debug, sd, "%s: exposure: %#x\n",
+-			 __func__, info->exposure->val);
+-	}
+-
+-	return ret;
+-}
+-
+-static int m5mols_set_white_balance(struct m5mols_info *info, int val)
+-{
+-	static const unsigned short wb[][2] = {
+-		{ V4L2_WHITE_BALANCE_INCANDESCENT,  REG_AWB_INCANDESCENT },
+-		{ V4L2_WHITE_BALANCE_FLUORESCENT,   REG_AWB_FLUORESCENT_1 },
+-		{ V4L2_WHITE_BALANCE_FLUORESCENT_H, REG_AWB_FLUORESCENT_2 },
+-		{ V4L2_WHITE_BALANCE_HORIZON,       REG_AWB_HORIZON },
+-		{ V4L2_WHITE_BALANCE_DAYLIGHT,      REG_AWB_DAYLIGHT },
+-		{ V4L2_WHITE_BALANCE_FLASH,         REG_AWB_LEDLIGHT },
+-		{ V4L2_WHITE_BALANCE_CLOUDY,        REG_AWB_CLOUDY },
+-		{ V4L2_WHITE_BALANCE_SHADE,         REG_AWB_SHADE },
+-		{ V4L2_WHITE_BALANCE_AUTO,          REG_AWB_AUTO },
+-	};
+-	int i;
+-	struct v4l2_subdev *sd = &info->sd;
+-	int ret = -EINVAL;
+-
+-	for (i = 0; i < ARRAY_SIZE(wb); i++) {
+-		int awb;
+-		if (wb[i][0] != val)
+-			continue;
+-
+-		v4l2_dbg(1, m5mols_debug, sd,
+-			 "Setting white balance to: %#x\n", wb[i][0]);
+-
+-		awb = wb[i][0] == V4L2_WHITE_BALANCE_AUTO;
+-		ret = m5mols_write(sd, AWB_MODE, awb ? REG_AWB_AUTO :
+-						 REG_AWB_PRESET);
+-		if (ret < 0)
+-			return ret;
+-
+-		if (!awb)
+-			ret = m5mols_write(sd, AWB_MANUAL, wb[i][1]);
+-	}
+-
+-	return ret;
+-}
+-
+-static int m5mols_set_saturation(struct m5mols_info *info, int val)
+-{
+-	int ret = m5mols_write(&info->sd, MON_CHROMA_LVL, val);
+-	if (ret < 0)
+-		return ret;
+-
+-	return m5mols_write(&info->sd, MON_CHROMA_EN, REG_CHROMA_ON);
+-}
+-
+-static int m5mols_set_color_effect(struct m5mols_info *info, int val)
+-{
+-	unsigned int m_effect = REG_COLOR_EFFECT_OFF;
+-	unsigned int p_effect = REG_EFFECT_OFF;
+-	unsigned int cfix_r = 0, cfix_b = 0;
+-	struct v4l2_subdev *sd = &info->sd;
+-	int ret = 0;
+-
+-	switch (val) {
+-	case V4L2_COLORFX_BW:
+-		m_effect = REG_COLOR_EFFECT_ON;
+-		break;
+-	case V4L2_COLORFX_NEGATIVE:
+-		p_effect = REG_EFFECT_NEGA;
+-		break;
+-	case V4L2_COLORFX_EMBOSS:
+-		p_effect = REG_EFFECT_EMBOSS;
+-		break;
+-	case V4L2_COLORFX_SEPIA:
+-		m_effect = REG_COLOR_EFFECT_ON;
+-		cfix_r = REG_CFIXR_SEPIA;
+-		cfix_b = REG_CFIXB_SEPIA;
+-		break;
+-	}
+-
+-	ret = m5mols_write(sd, PARM_EFFECT, p_effect);
+-	if (!ret)
+-		ret = m5mols_write(sd, MON_EFFECT, m_effect);
+-
+-	if (ret == 0 && m_effect == REG_COLOR_EFFECT_ON) {
+-		ret = m5mols_write(sd, MON_CFIXR, cfix_r);
+-		if (!ret)
+-			ret = m5mols_write(sd, MON_CFIXB, cfix_b);
+-	}
+-
+-	v4l2_dbg(1, m5mols_debug, sd,
+-		 "p_effect: %#x, m_effect: %#x, r: %#x, b: %#x (%d)\n",
+-		 p_effect, m_effect, cfix_r, cfix_b, ret);
+-
+-	return ret;
+-}
+-
+-static int m5mols_set_iso(struct m5mols_info *info, int auto_iso)
+-{
+-	u32 iso = auto_iso ? 0 : info->iso->val + 1;
+-
+-	return m5mols_write(&info->sd, AE_ISO, iso);
+-}
+-
+-static int m5mols_set_wdr(struct m5mols_info *info, int wdr)
+-{
+-	int ret;
+-
+-	ret = m5mols_write(&info->sd, MON_TONE_CTL, wdr ? 9 : 5);
+-	if (ret < 0)
+-		return ret;
+-
+-	ret = m5mols_set_mode(info, REG_CAPTURE);
+-	if (ret < 0)
+-		return ret;
+-
+-	return m5mols_write(&info->sd, CAPP_WDR_EN, wdr);
+-}
+-
+-static int m5mols_set_stabilization(struct m5mols_info *info, int val)
+-{
+-	struct v4l2_subdev *sd = &info->sd;
+-	unsigned int evp = val ? 0xe : 0x0;
+-	int ret;
+-
+-	ret = m5mols_write(sd, AE_EV_PRESET_MONITOR, evp);
+-	if (ret < 0)
+-		return ret;
+-
+-	return m5mols_write(sd, AE_EV_PRESET_CAPTURE, evp);
+-}
+-
+-static int m5mols_g_volatile_ctrl(struct v4l2_ctrl *ctrl)
+-{
+-	struct v4l2_subdev *sd = to_sd(ctrl);
+-	struct m5mols_info *info = to_m5mols(sd);
+-	int ret = 0;
+-	u8 status = REG_ISO_AUTO;
+-
+-	v4l2_dbg(1, m5mols_debug, sd, "%s: ctrl: %s (%d)\n",
+-		 __func__, ctrl->name, info->isp_ready);
+-
+-	if (!info->isp_ready)
+-		return -EBUSY;
+-
+-	switch (ctrl->id) {
+-	case V4L2_CID_ISO_SENSITIVITY_AUTO:
+-		ret = m5mols_read_u8(sd, AE_ISO, &status);
+-		if (ret == 0)
+-			ctrl->val = !status;
+-		if (status != REG_ISO_AUTO)
+-			info->iso->val = status - 1;
+-		break;
+-
+-	case V4L2_CID_3A_LOCK:
+-		ctrl->val &= ~0x7;
+-
+-		ret = m5mols_read_u8(sd, AE_LOCK, &status);
+-		if (ret)
+-			return ret;
+-		if (status)
+-			info->lock_3a->val |= V4L2_LOCK_EXPOSURE;
+-
+-		ret = m5mols_read_u8(sd, AWB_LOCK, &status);
+-		if (ret)
+-			return ret;
+-		if (status)
+-			info->lock_3a->val |= V4L2_LOCK_EXPOSURE;
+-
+-		ret = m5mols_read_u8(sd, AF_EXECUTE, &status);
+-		if (!status)
+-			info->lock_3a->val |= V4L2_LOCK_EXPOSURE;
+-		break;
+-	}
+-
+-	return ret;
+-}
+-
+-static int m5mols_s_ctrl(struct v4l2_ctrl *ctrl)
+-{
+-	unsigned int ctrl_mode = m5mols_get_ctrl_mode(ctrl);
+-	struct v4l2_subdev *sd = to_sd(ctrl);
+-	struct m5mols_info *info = to_m5mols(sd);
+-	int last_mode = info->mode;
+-	int ret = 0;
+-
+-	/*
+-	 * If needed, defer restoring the controls until
+-	 * the device is fully initialized.
+-	 */
+-	if (!info->isp_ready) {
+-		info->ctrl_sync = 0;
+-		return 0;
+-	}
+-
+-	v4l2_dbg(1, m5mols_debug, sd, "%s: %s, val: %d, priv: %p\n",
+-		 __func__, ctrl->name, ctrl->val, ctrl->priv);
+-
+-	if (ctrl_mode && ctrl_mode != info->mode) {
+-		ret = m5mols_set_mode(info, ctrl_mode);
+-		if (ret < 0)
+-			return ret;
+-	}
+-
+-	switch (ctrl->id) {
+-	case V4L2_CID_3A_LOCK:
+-		ret = m5mols_3a_lock(info, ctrl);
+-		break;
+-
+-	case V4L2_CID_ZOOM_ABSOLUTE:
+-		ret = m5mols_write(sd, MON_ZOOM, ctrl->val);
+-		break;
+-
+-	case V4L2_CID_EXPOSURE_AUTO:
+-		ret = m5mols_set_exposure(info, ctrl->val);
+-		break;
+-
+-	case V4L2_CID_ISO_SENSITIVITY:
+-		ret = m5mols_set_iso(info, ctrl->val);
+-		break;
+-
+-	case V4L2_CID_AUTO_N_PRESET_WHITE_BALANCE:
+-		ret = m5mols_set_white_balance(info, ctrl->val);
+-		break;
+-
+-	case V4L2_CID_SATURATION:
+-		ret = m5mols_set_saturation(info, ctrl->val);
+-		break;
+-
+-	case V4L2_CID_COLORFX:
+-		ret = m5mols_set_color_effect(info, ctrl->val);
+-		break;
+-
+-	case V4L2_CID_WIDE_DYNAMIC_RANGE:
+-		ret = m5mols_set_wdr(info, ctrl->val);
+-		break;
+-
+-	case V4L2_CID_IMAGE_STABILIZATION:
+-		ret = m5mols_set_stabilization(info, ctrl->val);
+-		break;
+-
+-	case V4L2_CID_JPEG_COMPRESSION_QUALITY:
+-		ret = m5mols_write(sd, CAPP_JPEG_RATIO, ctrl->val);
+-		break;
+-	}
+-
+-	if (ret == 0 && info->mode != last_mode)
+-		ret = m5mols_set_mode(info, last_mode);
+-
+-	return ret;
+-}
+-
+-static const struct v4l2_ctrl_ops m5mols_ctrl_ops = {
+-	.g_volatile_ctrl	= m5mols_g_volatile_ctrl,
+-	.s_ctrl			= m5mols_s_ctrl,
+-};
+-
+-/* Supported manual ISO values */
+-static const s64 iso_qmenu[] = {
+-	/* AE_ISO: 0x01...0x07 (ISO: 50...3200) */
+-	50000, 100000, 200000, 400000, 800000, 1600000, 3200000
+-};
+-
+-/* Supported Exposure Bias values, -2.0EV...+2.0EV */
+-static const s64 ev_bias_qmenu[] = {
+-	/* AE_INDEX: 0x00...0x08 */
+-	-2000, -1500, -1000, -500, 0, 500, 1000, 1500, 2000
+-};
+-
+-int m5mols_init_controls(struct v4l2_subdev *sd)
+-{
+-	struct m5mols_info *info = to_m5mols(sd);
+-	u16 exposure_max;
+-	u16 zoom_step;
+-	int ret;
+-
+-	/* Determine the firmware dependent control range and step values */
+-	ret = m5mols_read_u16(sd, AE_MAX_GAIN_MON, &exposure_max);
+-	if (ret < 0)
+-		return ret;
+-
+-	zoom_step = is_manufacturer(info, REG_SAMSUNG_OPTICS) ? 31 : 1;
+-	v4l2_ctrl_handler_init(&info->handle, 20);
+-
+-	info->auto_wb = v4l2_ctrl_new_std_menu(&info->handle,
+-			&m5mols_ctrl_ops, V4L2_CID_AUTO_N_PRESET_WHITE_BALANCE,
+-			9, ~0x3fe, V4L2_WHITE_BALANCE_AUTO);
+-
+-	/* Exposure control cluster */
+-	info->auto_exposure = v4l2_ctrl_new_std_menu(&info->handle,
+-			&m5mols_ctrl_ops, V4L2_CID_EXPOSURE_AUTO,
+-			1, ~0x03, V4L2_EXPOSURE_AUTO);
+-
+-	info->exposure = v4l2_ctrl_new_std(&info->handle,
+-			&m5mols_ctrl_ops, V4L2_CID_EXPOSURE,
+-			0, exposure_max, 1, exposure_max / 2);
+-
+-	info->exposure_bias = v4l2_ctrl_new_int_menu(&info->handle,
+-			&m5mols_ctrl_ops, V4L2_CID_AUTO_EXPOSURE_BIAS,
+-			ARRAY_SIZE(ev_bias_qmenu) - 1,
+-			ARRAY_SIZE(ev_bias_qmenu)/2 - 1,
+-			ev_bias_qmenu);
+-
+-	info->metering = v4l2_ctrl_new_std_menu(&info->handle,
+-			&m5mols_ctrl_ops, V4L2_CID_EXPOSURE_METERING,
+-			2, ~0x7, V4L2_EXPOSURE_METERING_AVERAGE);
+-
+-	/* ISO control cluster */
+-	info->auto_iso = v4l2_ctrl_new_std_menu(&info->handle, &m5mols_ctrl_ops,
+-			V4L2_CID_ISO_SENSITIVITY_AUTO, 1, ~0x03, 1);
+-
+-	info->iso = v4l2_ctrl_new_int_menu(&info->handle, &m5mols_ctrl_ops,
+-			V4L2_CID_ISO_SENSITIVITY, ARRAY_SIZE(iso_qmenu) - 1,
+-			ARRAY_SIZE(iso_qmenu)/2 - 1, iso_qmenu);
+-
+-	info->saturation = v4l2_ctrl_new_std(&info->handle, &m5mols_ctrl_ops,
+-			V4L2_CID_SATURATION, 1, 5, 1, 3);
+-
+-	info->zoom = v4l2_ctrl_new_std(&info->handle, &m5mols_ctrl_ops,
+-			V4L2_CID_ZOOM_ABSOLUTE, 1, 70, zoom_step, 1);
+-
+-	info->colorfx = v4l2_ctrl_new_std_menu(&info->handle, &m5mols_ctrl_ops,
+-			V4L2_CID_COLORFX, 4, 0, V4L2_COLORFX_NONE);
+-
+-	info->wdr = v4l2_ctrl_new_std(&info->handle, &m5mols_ctrl_ops,
+-			V4L2_CID_WIDE_DYNAMIC_RANGE, 0, 1, 1, 0);
+-
+-	info->stabilization = v4l2_ctrl_new_std(&info->handle, &m5mols_ctrl_ops,
+-			V4L2_CID_IMAGE_STABILIZATION, 0, 1, 1, 0);
+-
+-	info->jpeg_quality = v4l2_ctrl_new_std(&info->handle, &m5mols_ctrl_ops,
+-			V4L2_CID_JPEG_COMPRESSION_QUALITY, 1, 100, 1, 80);
+-
+-	info->lock_3a = v4l2_ctrl_new_std(&info->handle, &m5mols_ctrl_ops,
+-			V4L2_CID_3A_LOCK, 0, 0x7, 0, 0);
+-
+-	if (info->handle.error) {
+-		int ret = info->handle.error;
+-		v4l2_err(sd, "Failed to initialize controls: %d\n", ret);
+-		v4l2_ctrl_handler_free(&info->handle);
+-		return ret;
+-	}
+-
+-	v4l2_ctrl_auto_cluster(4, &info->auto_exposure, 1, false);
+-	info->auto_iso->flags |= V4L2_CTRL_FLAG_VOLATILE |
+-				V4L2_CTRL_FLAG_UPDATE;
+-	v4l2_ctrl_auto_cluster(2, &info->auto_iso, 0, false);
+-
+-	info->lock_3a->flags |= V4L2_CTRL_FLAG_VOLATILE;
+-
+-	m5mols_set_ctrl_mode(info->auto_exposure, REG_PARAMETER);
+-	m5mols_set_ctrl_mode(info->auto_wb, REG_PARAMETER);
+-	m5mols_set_ctrl_mode(info->colorfx, REG_MONITOR);
+-
+-	sd->ctrl_handler = &info->handle;
+-
+-	return 0;
+-}
+diff --git a/drivers/media/i2c/m5mols/m5mols_core.c b/drivers/media/i2c/m5mols/m5mols_core.c
+deleted file mode 100644
+index 2b01873ba0db..000000000000
+--- a/drivers/media/i2c/m5mols/m5mols_core.c
++++ /dev/null
+@@ -1,1051 +0,0 @@
+-// SPDX-License-Identifier: GPL-2.0-or-later
+-/*
+- * Driver for M-5MOLS 8M Pixel camera sensor with ISP
+- *
+- * Copyright (C) 2011 Samsung Electronics Co., Ltd.
+- * Author: HeungJun Kim <riverful.kim@samsung.com>
+- *
+- * Copyright (C) 2009 Samsung Electronics Co., Ltd.
+- * Author: Dongsoo Nathaniel Kim <dongsoo45.kim@samsung.com>
+- */
+-
+-#include <linux/i2c.h>
+-#include <linux/slab.h>
+-#include <linux/irq.h>
+-#include <linux/interrupt.h>
+-#include <linux/delay.h>
+-#include <linux/gpio/consumer.h>
+-#include <linux/regulator/consumer.h>
+-#include <linux/videodev2.h>
+-#include <linux/module.h>
+-#include <media/v4l2-ctrls.h>
+-#include <media/v4l2-device.h>
+-#include <media/v4l2-subdev.h>
+-#include <media/i2c/m5mols.h>
+-
+-#include "m5mols.h"
+-#include "m5mols_reg.h"
+-
+-int m5mols_debug;
+-module_param(m5mols_debug, int, 0644);
+-
+-#define MODULE_NAME		"M5MOLS"
+-#define M5MOLS_I2C_CHECK_RETRY	500
+-
+-/* The regulator consumer names for external voltage regulators */
+-static struct regulator_bulk_data supplies[] = {
+-	{
+-		.supply = "core",	/* ARM core power, 1.2V */
+-	}, {
+-		.supply	= "dig_18",	/* digital power 1, 1.8V */
+-	}, {
+-		.supply	= "d_sensor",	/* sensor power 1, 1.8V */
+-	}, {
+-		.supply	= "dig_28",	/* digital power 2, 2.8V */
+-	}, {
+-		.supply	= "a_sensor",	/* analog power */
+-	}, {
+-		.supply	= "dig_12",	/* digital power 3, 1.2V */
+-	},
+-};
+-
+-static struct v4l2_mbus_framefmt m5mols_default_ffmt[M5MOLS_RESTYPE_MAX] = {
+-	[M5MOLS_RESTYPE_MONITOR] = {
+-		.width		= 1920,
+-		.height		= 1080,
+-		.code		= MEDIA_BUS_FMT_VYUY8_2X8,
+-		.field		= V4L2_FIELD_NONE,
+-		.colorspace	= V4L2_COLORSPACE_JPEG,
+-	},
+-	[M5MOLS_RESTYPE_CAPTURE] = {
+-		.width		= 1920,
+-		.height		= 1080,
+-		.code		= MEDIA_BUS_FMT_JPEG_1X8,
+-		.field		= V4L2_FIELD_NONE,
+-		.colorspace	= V4L2_COLORSPACE_JPEG,
+-	},
+-};
+-#define SIZE_DEFAULT_FFMT	ARRAY_SIZE(m5mols_default_ffmt)
+-
+-static const struct m5mols_resolution m5mols_reg_res[] = {
+-	{ 0x01, M5MOLS_RESTYPE_MONITOR, 128, 96 },	/* SUB-QCIF */
+-	{ 0x03, M5MOLS_RESTYPE_MONITOR, 160, 120 },	/* QQVGA */
+-	{ 0x05, M5MOLS_RESTYPE_MONITOR, 176, 144 },	/* QCIF */
+-	{ 0x06, M5MOLS_RESTYPE_MONITOR, 176, 176 },
+-	{ 0x08, M5MOLS_RESTYPE_MONITOR, 240, 320 },	/* QVGA */
+-	{ 0x09, M5MOLS_RESTYPE_MONITOR, 320, 240 },	/* QVGA */
+-	{ 0x0c, M5MOLS_RESTYPE_MONITOR, 240, 400 },	/* WQVGA */
+-	{ 0x0d, M5MOLS_RESTYPE_MONITOR, 400, 240 },	/* WQVGA */
+-	{ 0x0e, M5MOLS_RESTYPE_MONITOR, 352, 288 },	/* CIF */
+-	{ 0x13, M5MOLS_RESTYPE_MONITOR, 480, 360 },
+-	{ 0x15, M5MOLS_RESTYPE_MONITOR, 640, 360 },	/* qHD */
+-	{ 0x17, M5MOLS_RESTYPE_MONITOR, 640, 480 },	/* VGA */
+-	{ 0x18, M5MOLS_RESTYPE_MONITOR, 720, 480 },
+-	{ 0x1a, M5MOLS_RESTYPE_MONITOR, 800, 480 },	/* WVGA */
+-	{ 0x1f, M5MOLS_RESTYPE_MONITOR, 800, 600 },	/* SVGA */
+-	{ 0x21, M5MOLS_RESTYPE_MONITOR, 1280, 720 },	/* HD */
+-	{ 0x25, M5MOLS_RESTYPE_MONITOR, 1920, 1080 },	/* 1080p */
+-	{ 0x29, M5MOLS_RESTYPE_MONITOR, 3264, 2448 },	/* 2.63fps 8M */
+-	{ 0x39, M5MOLS_RESTYPE_MONITOR, 800, 602 },	/* AHS_MON debug */
+-
+-	{ 0x02, M5MOLS_RESTYPE_CAPTURE, 320, 240 },	/* QVGA */
+-	{ 0x04, M5MOLS_RESTYPE_CAPTURE, 400, 240 },	/* WQVGA */
+-	{ 0x07, M5MOLS_RESTYPE_CAPTURE, 480, 360 },
+-	{ 0x08, M5MOLS_RESTYPE_CAPTURE, 640, 360 },	/* qHD */
+-	{ 0x09, M5MOLS_RESTYPE_CAPTURE, 640, 480 },	/* VGA */
+-	{ 0x0a, M5MOLS_RESTYPE_CAPTURE, 800, 480 },	/* WVGA */
+-	{ 0x10, M5MOLS_RESTYPE_CAPTURE, 1280, 720 },	/* HD */
+-	{ 0x14, M5MOLS_RESTYPE_CAPTURE, 1280, 960 },	/* 1M */
+-	{ 0x17, M5MOLS_RESTYPE_CAPTURE, 1600, 1200 },	/* 2M */
+-	{ 0x19, M5MOLS_RESTYPE_CAPTURE, 1920, 1080 },	/* Full-HD */
+-	{ 0x1a, M5MOLS_RESTYPE_CAPTURE, 2048, 1152 },	/* 3Mega */
+-	{ 0x1b, M5MOLS_RESTYPE_CAPTURE, 2048, 1536 },
+-	{ 0x1c, M5MOLS_RESTYPE_CAPTURE, 2560, 1440 },	/* 4Mega */
+-	{ 0x1d, M5MOLS_RESTYPE_CAPTURE, 2560, 1536 },
+-	{ 0x1f, M5MOLS_RESTYPE_CAPTURE, 2560, 1920 },	/* 5Mega */
+-	{ 0x21, M5MOLS_RESTYPE_CAPTURE, 3264, 1836 },	/* 6Mega */
+-	{ 0x22, M5MOLS_RESTYPE_CAPTURE, 3264, 1960 },
+-	{ 0x25, M5MOLS_RESTYPE_CAPTURE, 3264, 2448 },	/* 8Mega */
+-};
+-
+-/**
+- * m5mols_swap_byte - an byte array to integer conversion function
+- * @data: byte array
+- * @length: size in bytes of I2C packet defined in the M-5MOLS datasheet
+- *
+- * Convert I2C data byte array with performing any required byte
+- * reordering to assure proper values for each data type, regardless
+- * of the architecture endianness.
+- */
+-static u32 m5mols_swap_byte(u8 *data, u8 length)
+-{
+-	if (length == 1)
+-		return *data;
+-	else if (length == 2)
+-		return be16_to_cpu(*((__be16 *)data));
+-	else
+-		return be32_to_cpu(*((__be32 *)data));
+-}
+-
+-/**
+- * m5mols_read -  I2C read function
+- * @sd: sub-device, as pointed by struct v4l2_subdev
+- * @size: desired size of I2C packet
+- * @reg: combination of size, category and command for the I2C packet
+- * @val: read value
+- *
+- * Returns 0 on success, or else negative errno.
+- */
+-static int m5mols_read(struct v4l2_subdev *sd, u32 size, u32 reg, u32 *val)
+-{
+-	struct i2c_client *client = v4l2_get_subdevdata(sd);
+-	struct m5mols_info *info = to_m5mols(sd);
+-	u8 rbuf[M5MOLS_I2C_MAX_SIZE + 1];
+-	u8 category = I2C_CATEGORY(reg);
+-	u8 cmd = I2C_COMMAND(reg);
+-	struct i2c_msg msg[2];
+-	u8 wbuf[5];
+-	int ret;
+-
+-	if (!client->adapter)
+-		return -ENODEV;
+-
+-	msg[0].addr = client->addr;
+-	msg[0].flags = 0;
+-	msg[0].len = 5;
+-	msg[0].buf = wbuf;
+-	wbuf[0] = 5;
+-	wbuf[1] = M5MOLS_BYTE_READ;
+-	wbuf[2] = category;
+-	wbuf[3] = cmd;
+-	wbuf[4] = size;
+-
+-	msg[1].addr = client->addr;
+-	msg[1].flags = I2C_M_RD;
+-	msg[1].len = size + 1;
+-	msg[1].buf = rbuf;
+-
+-	/* minimum stabilization time */
+-	usleep_range(200, 300);
+-
+-	ret = i2c_transfer(client->adapter, msg, 2);
+-
+-	if (ret == 2) {
+-		*val = m5mols_swap_byte(&rbuf[1], size);
+-		return 0;
+-	}
+-
+-	if (info->isp_ready)
+-		v4l2_err(sd, "read failed: size:%d cat:%02x cmd:%02x. %d\n",
+-			 size, category, cmd, ret);
+-
+-	return ret < 0 ? ret : -EIO;
+-}
+-
+-int m5mols_read_u8(struct v4l2_subdev *sd, u32 reg, u8 *val)
+-{
+-	u32 val_32;
+-	int ret;
+-
+-	if (I2C_SIZE(reg) != 1) {
+-		v4l2_err(sd, "Wrong data size\n");
 -		return -EINVAL;
 -	}
+-
+-	ret = m5mols_read(sd, I2C_SIZE(reg), reg, &val_32);
+-	if (ret)
+-		return ret;
+-
+-	*val = (u8)val_32;
+-	return ret;
+-}
+-
+-int m5mols_read_u16(struct v4l2_subdev *sd, u32 reg, u16 *val)
+-{
+-	u32 val_32;
+-	int ret;
+-
+-	if (I2C_SIZE(reg) != 2) {
+-		v4l2_err(sd, "Wrong data size\n");
+-		return -EINVAL;
+-	}
+-
+-	ret = m5mols_read(sd, I2C_SIZE(reg), reg, &val_32);
+-	if (ret)
+-		return ret;
+-
+-	*val = (u16)val_32;
+-	return ret;
+-}
+-
+-int m5mols_read_u32(struct v4l2_subdev *sd, u32 reg, u32 *val)
+-{
+-	if (I2C_SIZE(reg) != 4) {
+-		v4l2_err(sd, "Wrong data size\n");
+-		return -EINVAL;
+-	}
+-
+-	return m5mols_read(sd, I2C_SIZE(reg), reg, val);
+-}
+-
+-/**
+- * m5mols_write - I2C command write function
+- * @sd: sub-device, as pointed by struct v4l2_subdev
+- * @reg: combination of size, category and command for the I2C packet
+- * @val: value to write
+- *
+- * Returns 0 on success, or else negative errno.
+- */
+-int m5mols_write(struct v4l2_subdev *sd, u32 reg, u32 val)
+-{
+-	struct i2c_client *client = v4l2_get_subdevdata(sd);
+-	struct m5mols_info *info = to_m5mols(sd);
+-	u8 wbuf[M5MOLS_I2C_MAX_SIZE + 4];
+-	u8 category = I2C_CATEGORY(reg);
+-	u8 cmd = I2C_COMMAND(reg);
+-	u8 size	= I2C_SIZE(reg);
+-	u32 *buf = (u32 *)&wbuf[4];
+-	struct i2c_msg msg[1];
+-	int ret;
+-
+-	if (!client->adapter)
+-		return -ENODEV;
+-
+-	if (size != 1 && size != 2 && size != 4) {
+-		v4l2_err(sd, "Wrong data size\n");
+-		return -EINVAL;
+-	}
+-
+-	msg->addr = client->addr;
+-	msg->flags = 0;
+-	msg->len = (u16)size + 4;
+-	msg->buf = wbuf;
+-	wbuf[0] = size + 4;
+-	wbuf[1] = M5MOLS_BYTE_WRITE;
+-	wbuf[2] = category;
+-	wbuf[3] = cmd;
+-
+-	*buf = m5mols_swap_byte((u8 *)&val, size);
+-
+-	/* minimum stabilization time */
+-	usleep_range(200, 300);
+-
+-	ret = i2c_transfer(client->adapter, msg, 1);
+-	if (ret == 1)
+-		return 0;
+-
+-	if (info->isp_ready)
+-		v4l2_err(sd, "write failed: cat:%02x cmd:%02x ret:%d\n",
+-			 category, cmd, ret);
+-
+-	return ret < 0 ? ret : -EIO;
+-}
+-
+-/**
+- * m5mols_busy_wait - Busy waiting with I2C register polling
+- * @sd: sub-device, as pointed by struct v4l2_subdev
+- * @reg: the I2C_REG() address of an 8-bit status register to check
+- * @value: expected status register value
+- * @mask: bit mask for the read status register value
+- * @timeout: timeout in milliseconds, or -1 for default timeout
+- *
+- * The @reg register value is ORed with @mask before comparing with @value.
+- *
+- * Return: 0 if the requested condition became true within less than
+- *         @timeout ms, or else negative errno.
+- */
+-int m5mols_busy_wait(struct v4l2_subdev *sd, u32 reg, u32 value, u32 mask,
+-		     int timeout)
+-{
+-	int ms = timeout < 0 ? M5MOLS_BUSY_WAIT_DEF_TIMEOUT : timeout;
+-	unsigned long end = jiffies + msecs_to_jiffies(ms);
+-	u8 status;
+-
+-	do {
+-		int ret = m5mols_read_u8(sd, reg, &status);
+-
+-		if (ret < 0 && !(mask & M5MOLS_I2C_RDY_WAIT_FL))
+-			return ret;
+-		if (!ret && (status & mask & 0xff) == (value & 0xff))
+-			return 0;
+-		usleep_range(100, 250);
+-	} while (ms > 0 && time_is_after_jiffies(end));
+-
+-	return -EBUSY;
+-}
+-
+-/**
+- * m5mols_enable_interrupt - Clear interrupt pending bits and unmask interrupts
+- * @sd: sub-device, as pointed by struct v4l2_subdev
+- * @reg: combination of size, category and command for the I2C packet
+- *
+- * Before writing desired interrupt value the INT_FACTOR register should
+- * be read to clear pending interrupts.
+- */
+-int m5mols_enable_interrupt(struct v4l2_subdev *sd, u8 reg)
+-{
+-	struct m5mols_info *info = to_m5mols(sd);
+-	u8 mask = is_available_af(info) ? REG_INT_AF : 0;
+-	u8 dummy;
+-	int ret;
+-
+-	ret = m5mols_read_u8(sd, SYSTEM_INT_FACTOR, &dummy);
+-	if (!ret)
+-		ret = m5mols_write(sd, SYSTEM_INT_ENABLE, reg & ~mask);
+-	return ret;
+-}
+-
+-int m5mols_wait_interrupt(struct v4l2_subdev *sd, u8 irq_mask, u32 timeout)
+-{
+-	struct m5mols_info *info = to_m5mols(sd);
+-
+-	int ret = wait_event_interruptible_timeout(info->irq_waitq,
+-				atomic_add_unless(&info->irq_done, -1, 0),
+-				msecs_to_jiffies(timeout));
+-	if (ret <= 0)
+-		return ret ? ret : -ETIMEDOUT;
+-
+-	return m5mols_busy_wait(sd, SYSTEM_INT_FACTOR, irq_mask,
+-				M5MOLS_I2C_RDY_WAIT_FL | irq_mask, -1);
+-}
+-
+-/**
+- * m5mols_reg_mode - Write the mode and check busy status
+- * @sd: sub-device, as pointed by struct v4l2_subdev
+- * @mode: the required operation mode
+- *
+- * It always accompanies a little delay changing the M-5MOLS mode, so it is
+- * needed checking current busy status to guarantee right mode.
+- */
+-static int m5mols_reg_mode(struct v4l2_subdev *sd, u8 mode)
+-{
+-	int ret = m5mols_write(sd, SYSTEM_SYSMODE, mode);
+-	if (ret < 0)
+-		return ret;
+-	return m5mols_busy_wait(sd, SYSTEM_SYSMODE, mode, 0xff,
+-				M5MOLS_MODE_CHANGE_TIMEOUT);
+-}
+-
+-/**
+- * m5mols_set_mode - set the M-5MOLS controller mode
+- * @info: M-5MOLS driver data structure
+- * @mode: the required operation mode
+- *
+- * The commands of M-5MOLS are grouped into specific modes. Each functionality
+- * can be guaranteed only when the sensor is operating in mode which a command
+- * belongs to.
+- */
+-int m5mols_set_mode(struct m5mols_info *info, u8 mode)
+-{
+-	struct v4l2_subdev *sd = &info->sd;
+-	int ret = -EINVAL;
+-	u8 reg;
+-
+-	if (mode < REG_PARAMETER || mode > REG_CAPTURE)
+-		return ret;
+-
+-	ret = m5mols_read_u8(sd, SYSTEM_SYSMODE, &reg);
+-	if (ret || reg == mode)
+-		return ret;
+-
+-	switch (reg) {
+-	case REG_PARAMETER:
+-		ret = m5mols_reg_mode(sd, REG_MONITOR);
+-		if (mode == REG_MONITOR)
+-			break;
+-		if (!ret)
+-			ret = m5mols_reg_mode(sd, REG_CAPTURE);
+-		break;
+-
+-	case REG_MONITOR:
+-		if (mode == REG_PARAMETER) {
+-			ret = m5mols_reg_mode(sd, REG_PARAMETER);
+-			break;
+-		}
+-
+-		ret = m5mols_reg_mode(sd, REG_CAPTURE);
+-		break;
+-
+-	case REG_CAPTURE:
+-		ret = m5mols_reg_mode(sd, REG_MONITOR);
+-		if (mode == REG_MONITOR)
+-			break;
+-		if (!ret)
+-			ret = m5mols_reg_mode(sd, REG_PARAMETER);
+-		break;
+-
+-	default:
+-		v4l2_warn(sd, "Wrong mode: %d\n", mode);
+-	}
+-
+-	if (!ret)
+-		info->mode = mode;
+-
+-	return ret;
+-}
+-
+-/**
+- * m5mols_get_version - retrieve full revisions information of M-5MOLS
+- * @sd: sub-device, as pointed by struct v4l2_subdev
+- *
+- * The version information includes revisions of hardware and firmware,
+- * AutoFocus alghorithm version and the version string.
+- */
+-static int m5mols_get_version(struct v4l2_subdev *sd)
+-{
+-	struct m5mols_info *info = to_m5mols(sd);
+-	struct m5mols_version *ver = &info->ver;
+-	u8 *str = ver->str;
+-	int i;
+-	int ret;
+-
+-	ret = m5mols_read_u8(sd, SYSTEM_VER_CUSTOMER, &ver->customer);
+-	if (!ret)
+-		ret = m5mols_read_u8(sd, SYSTEM_VER_PROJECT, &ver->project);
+-	if (!ret)
+-		ret = m5mols_read_u16(sd, SYSTEM_VER_FIRMWARE, &ver->fw);
+-	if (!ret)
+-		ret = m5mols_read_u16(sd, SYSTEM_VER_HARDWARE, &ver->hw);
+-	if (!ret)
+-		ret = m5mols_read_u16(sd, SYSTEM_VER_PARAMETER, &ver->param);
+-	if (!ret)
+-		ret = m5mols_read_u16(sd, SYSTEM_VER_AWB, &ver->awb);
+-	if (!ret)
+-		ret = m5mols_read_u8(sd, AF_VERSION, &ver->af);
+-	if (ret)
+-		return ret;
+-
+-	for (i = 0; i < VERSION_STRING_SIZE; i++) {
+-		ret = m5mols_read_u8(sd, SYSTEM_VER_STRING, &str[i]);
+-		if (ret)
+-			return ret;
+-	}
+-
+-	v4l2_info(sd, "Manufacturer\t[%s]\n",
+-			is_manufacturer(info, REG_SAMSUNG_ELECTRO) ?
+-			"Samsung Electro-Mechanics" :
+-			is_manufacturer(info, REG_SAMSUNG_OPTICS) ?
+-			"Samsung Fiber-Optics" :
+-			is_manufacturer(info, REG_SAMSUNG_TECHWIN) ?
+-			"Samsung Techwin" : "None");
+-	v4l2_info(sd, "Customer/Project\t[0x%02x/0x%02x]\n",
+-			info->ver.customer, info->ver.project);
+-
+-	if (!is_available_af(info))
+-		v4l2_info(sd, "No support Auto Focus on this firmware\n");
+-
+-	return ret;
+-}
+-
+-/**
+- * __find_restype - Lookup M-5MOLS resolution type according to pixel code
+- * @code: pixel code
+- */
+-static enum m5mols_restype __find_restype(u32 code)
+-{
+-	enum m5mols_restype type = M5MOLS_RESTYPE_MONITOR;
+-
+-	do {
+-		if (code == m5mols_default_ffmt[type].code)
+-			return type;
+-	} while (type++ != SIZE_DEFAULT_FFMT);
+-
 -	return 0;
 -}
 -
--static void ad9389b_set_manual_pll_gear(struct v4l2_subdev *sd, u32 pixelclock)
+-/**
+- * __find_resolution - Lookup preset and type of M-5MOLS's resolution
+- * @sd: sub-device, as pointed by struct v4l2_subdev
+- * @mf: pixel format to find/negotiate the resolution preset for
+- * @type: M-5MOLS resolution type
+- * @resolution:	M-5MOLS resolution preset register value
+- *
+- * Find nearest resolution matching resolution preset and adjust mf
+- * to supported values.
+- */
+-static int __find_resolution(struct v4l2_subdev *sd,
+-			     struct v4l2_mbus_framefmt *mf,
+-			     enum m5mols_restype *type,
+-			     u32 *resolution)
 -{
--	u8 gear;
+-	const struct m5mols_resolution *fsize = &m5mols_reg_res[0];
+-	const struct m5mols_resolution *match = NULL;
+-	enum m5mols_restype stype = __find_restype(mf->code);
+-	int i = ARRAY_SIZE(m5mols_reg_res);
+-	unsigned int min_err = ~0;
 -
--	/* Workaround for TMDS PLL problem
--	 * The TMDS PLL in AD9389b change gear when the chip is heated above a
--	 * certain temperature. The output is disabled when the PLL change gear
--	 * so the monitor has to lock on the signal again. A workaround for
--	 * this is to use the manual PLL gears. This is a solution from Analog
--	 * Devices that is not documented in the datasheets.
--	 * 0x98 [7] = enable manual gearing. 0x98 [6:4] = gear
--	 *
--	 * The pixel frequency ranges are based on readout of the gear the
--	 * automatic gearing selects for different pixel clocks
--	 * (read from 0x9e [3:1]).
--	 */
+-	while (i--) {
+-		int err;
+-		if (stype == fsize->type) {
+-			err = abs(fsize->width - mf->width)
+-				+ abs(fsize->height - mf->height);
 -
--	if (pixelclock > 140000000)
--		gear = 0xc0; /* 4th gear */
--	else if (pixelclock > 117000000)
--		gear = 0xb0; /* 3rd gear */
--	else if (pixelclock > 87000000)
--		gear = 0xa0; /* 2nd gear */
--	else if (pixelclock > 60000000)
--		gear = 0x90; /* 1st gear */
--	else
--		gear = 0x80; /* 0th gear */
--
--	ad9389b_wr_and_or(sd, 0x98, 0x0f, gear);
--}
--
--/* ------------------------------ CTRL OPS ------------------------------ */
--
--static int ad9389b_s_ctrl(struct v4l2_ctrl *ctrl)
--{
--	struct v4l2_subdev *sd = to_sd(ctrl);
--	struct ad9389b_state *state = get_ad9389b_state(sd);
--
--	v4l2_dbg(1, debug, sd,
--		 "%s: ctrl id: %d, ctrl->val %d\n", __func__, ctrl->id, ctrl->val);
--
--	if (state->hdmi_mode_ctrl == ctrl) {
--		/* Set HDMI or DVI-D */
--		ad9389b_wr_and_or(sd, 0xaf, 0xfd,
--				  ctrl->val == V4L2_DV_TX_MODE_HDMI ? 0x02 : 0x00);
+-			if (err < min_err) {
+-				min_err = err;
+-				match = fsize;
+-			}
+-		}
+-		fsize++;
+-	}
+-	if (match) {
+-		mf->width  = match->width;
+-		mf->height = match->height;
+-		*resolution = match->reg;
+-		*type = stype;
 -		return 0;
 -	}
--	if (state->rgb_quantization_range_ctrl == ctrl)
--		return ad9389b_set_rgb_quantization_mode(sd, ctrl);
+-
 -	return -EINVAL;
 -}
 -
--static const struct v4l2_ctrl_ops ad9389b_ctrl_ops = {
--	.s_ctrl = ad9389b_s_ctrl,
--};
--
--/* ---------------------------- CORE OPS ------------------------------------------- */
--
--#ifdef CONFIG_VIDEO_ADV_DEBUG
--static int ad9389b_g_register(struct v4l2_subdev *sd, struct v4l2_dbg_register *reg)
+-static struct v4l2_mbus_framefmt *__find_format(struct m5mols_info *info,
+-				struct v4l2_subdev_state *sd_state,
+-				enum v4l2_subdev_format_whence which,
+-				enum m5mols_restype type)
 -{
--	reg->val = ad9389b_rd(sd, reg->reg & 0xff);
--	reg->size = 1;
--	return 0;
+-	if (which == V4L2_SUBDEV_FORMAT_TRY)
+-		return sd_state ? v4l2_subdev_get_try_format(&info->sd,
+-							     sd_state, 0) : NULL;
+-
+-	return &info->ffmt[type];
 -}
 -
--static int ad9389b_s_register(struct v4l2_subdev *sd, const struct v4l2_dbg_register *reg)
+-static int m5mols_get_fmt(struct v4l2_subdev *sd,
+-			  struct v4l2_subdev_state *sd_state,
+-			  struct v4l2_subdev_format *fmt)
 -{
--	ad9389b_wr(sd, reg->reg & 0xff, reg->val & 0xff);
--	return 0;
--}
--#endif
+-	struct m5mols_info *info = to_m5mols(sd);
+-	struct v4l2_mbus_framefmt *format;
+-	int ret = 0;
 -
--static int ad9389b_log_status(struct v4l2_subdev *sd)
--{
--	struct ad9389b_state *state = get_ad9389b_state(sd);
--	struct ad9389b_state_edid *edid = &state->edid;
+-	mutex_lock(&info->lock);
 -
--	static const char * const states[] = {
--		"in reset",
--		"reading EDID",
--		"idle",
--		"initializing HDCP",
--		"HDCP enabled",
--		"initializing HDCP repeater",
--		"6", "7", "8", "9", "A", "B", "C", "D", "E", "F"
--	};
--	static const char * const errors[] = {
--		"no error",
--		"bad receiver BKSV",
--		"Ri mismatch",
--		"Pj mismatch",
--		"i2c error",
--		"timed out",
--		"max repeater cascade exceeded",
--		"hash check failed",
--		"too many devices",
--		"9", "A", "B", "C", "D", "E", "F"
--	};
--
--	u8 manual_gear;
--
--	v4l2_info(sd, "chip revision %d\n", state->chip_revision);
--	v4l2_info(sd, "power %s\n", state->power_on ? "on" : "off");
--	v4l2_info(sd, "%s hotplug, %s Rx Sense, %s EDID (%d block(s))\n",
--		  (ad9389b_rd(sd, 0x42) & MASK_AD9389B_HPD_DETECT) ?
--		  "detected" : "no",
--		  (ad9389b_rd(sd, 0x42) & MASK_AD9389B_MSEN_DETECT) ?
--		  "detected" : "no",
--		  edid->segments ? "found" : "no", edid->blocks);
--	v4l2_info(sd, "%s output %s\n",
--		  (ad9389b_rd(sd, 0xaf) & 0x02) ?
--		  "HDMI" : "DVI-D",
--		  (ad9389b_rd(sd, 0xa1) & 0x3c) ?
--		  "disabled" : "enabled");
--	v4l2_info(sd, "ad9389b: %s\n", (ad9389b_rd(sd, 0xb8) & 0x40) ?
--		  "encrypted" : "no encryption");
--	v4l2_info(sd, "state: %s, error: %s, detect count: %u, msk/irq: %02x/%02x\n",
--		  states[ad9389b_rd(sd, 0xc8) & 0xf],
--		  errors[ad9389b_rd(sd, 0xc8) >> 4],
--		  state->edid_detect_counter,
--		  ad9389b_rd(sd, 0x94), ad9389b_rd(sd, 0x96));
--	manual_gear = ad9389b_rd(sd, 0x98) & 0x80;
--	v4l2_info(sd, "ad9389b: RGB quantization: %s range\n",
--		  ad9389b_rd(sd, 0x3b) & 0x01 ? "limited" : "full");
--	v4l2_info(sd, "ad9389b: %s gear %d\n",
--		  manual_gear ? "manual" : "automatic",
--		  manual_gear ? ((ad9389b_rd(sd, 0x98) & 0x70) >> 4) :
--		  ((ad9389b_rd(sd, 0x9e) & 0x0e) >> 1));
--	if (ad9389b_rd(sd, 0xaf) & 0x02) {
--		/* HDMI only */
--		u8 manual_cts = ad9389b_rd(sd, 0x0a) & 0x80;
--		u32 N = (ad9389b_rd(sd, 0x01) & 0xf) << 16 |
--			ad9389b_rd(sd, 0x02) << 8 |
--			ad9389b_rd(sd, 0x03);
--		u8 vic_detect = ad9389b_rd(sd, 0x3e) >> 2;
--		u8 vic_sent = ad9389b_rd(sd, 0x3d) & 0x3f;
--		u32 CTS;
--
--		if (manual_cts)
--			CTS = (ad9389b_rd(sd, 0x07) & 0xf) << 16 |
--			      ad9389b_rd(sd, 0x08) << 8 |
--			      ad9389b_rd(sd, 0x09);
--		else
--			CTS = (ad9389b_rd(sd, 0x04) & 0xf) << 16 |
--			      ad9389b_rd(sd, 0x05) << 8 |
--			      ad9389b_rd(sd, 0x06);
--		N = (ad9389b_rd(sd, 0x01) & 0xf) << 16 |
--		    ad9389b_rd(sd, 0x02) << 8 |
--		    ad9389b_rd(sd, 0x03);
--
--		v4l2_info(sd, "ad9389b: CTS %s mode: N %d, CTS %d\n",
--			  manual_cts ? "manual" : "automatic", N, CTS);
--
--		v4l2_info(sd, "ad9389b: VIC: detected %d, sent %d\n",
--			  vic_detect, vic_sent);
--	}
--	if (state->dv_timings.type == V4L2_DV_BT_656_1120)
--		v4l2_print_dv_timings(sd->name, "timings: ",
--				&state->dv_timings, false);
+-	format = __find_format(info, sd_state, fmt->which, info->res_type);
+-	if (format)
+-		fmt->format = *format;
 -	else
--		v4l2_info(sd, "no timings set\n");
--	return 0;
+-		ret = -EINVAL;
+-
+-	mutex_unlock(&info->lock);
+-	return ret;
 -}
 -
--/* Power up/down ad9389b */
--static int ad9389b_s_power(struct v4l2_subdev *sd, int on)
+-static int m5mols_set_fmt(struct v4l2_subdev *sd,
+-			  struct v4l2_subdev_state *sd_state,
+-			  struct v4l2_subdev_format *fmt)
 -{
--	struct ad9389b_state *state = get_ad9389b_state(sd);
--	struct ad9389b_platform_data *pdata = &state->pdata;
--	const int retries = 20;
--	int i;
+-	struct m5mols_info *info = to_m5mols(sd);
+-	struct v4l2_mbus_framefmt *format = &fmt->format;
+-	struct v4l2_mbus_framefmt *sfmt;
+-	enum m5mols_restype type;
+-	u32 resolution = 0;
+-	int ret;
 -
--	v4l2_dbg(1, debug, sd, "%s: power %s\n", __func__, on ? "on" : "off");
+-	ret = __find_resolution(sd, format, &type, &resolution);
+-	if (ret < 0)
+-		return ret;
 -
--	state->power_on = on;
+-	sfmt = __find_format(info, sd_state, fmt->which, type);
+-	if (!sfmt)
+-		return 0;
 -
--	if (!on) {
--		/* Power down */
--		ad9389b_wr_and_or(sd, 0x41, 0xbf, 0x40);
--		return true;
+-	mutex_lock(&info->lock);
+-
+-	format->code = m5mols_default_ffmt[type].code;
+-	format->colorspace = V4L2_COLORSPACE_JPEG;
+-	format->field = V4L2_FIELD_NONE;
+-
+-	if (fmt->which == V4L2_SUBDEV_FORMAT_ACTIVE) {
+-		*sfmt = *format;
+-		info->resolution = resolution;
+-		info->res_type = type;
 -	}
 -
--	/* Power up */
--	/* The ad9389b does not always come up immediately.
--	   Retry multiple times. */
--	for (i = 0; i < retries; i++) {
--		ad9389b_wr_and_or(sd, 0x41, 0xbf, 0x0);
--		if ((ad9389b_rd(sd, 0x41) & 0x40) == 0)
--			break;
--		ad9389b_wr_and_or(sd, 0x41, 0xbf, 0x40);
--		msleep(10);
--	}
--	if (i == retries) {
--		v4l2_dbg(1, debug, sd, "failed to powerup the ad9389b\n");
--		ad9389b_s_power(sd, 0);
--		return false;
--	}
--	if (i > 1)
--		v4l2_dbg(1, debug, sd,
--			 "needed %d retries to powerup the ad9389b\n", i);
--
--	/* Select chip: AD9389B */
--	ad9389b_wr_and_or(sd, 0xba, 0xef, 0x10);
--
--	/* Reserved registers that must be set according to REF_01 p. 11*/
--	ad9389b_wr_and_or(sd, 0x98, 0xf0, 0x07);
--	ad9389b_wr(sd, 0x9c, 0x38);
--	ad9389b_wr_and_or(sd, 0x9d, 0xfc, 0x01);
--
--	/* Differential output drive strength */
--	if (pdata->diff_data_drive_strength > 0)
--		ad9389b_wr(sd, 0xa2, pdata->diff_data_drive_strength);
--	else
--		ad9389b_wr(sd, 0xa2, 0x87);
--
--	if (pdata->diff_clk_drive_strength > 0)
--		ad9389b_wr(sd, 0xa3, pdata->diff_clk_drive_strength);
--	else
--		ad9389b_wr(sd, 0xa3, 0x87);
--
--	ad9389b_wr(sd, 0x0a, 0x01);
--	ad9389b_wr(sd, 0xbb, 0xff);
--
--	/* Set number of attempts to read the EDID */
--	ad9389b_wr(sd, 0xc9, 0xf);
--	return true;
+-	mutex_unlock(&info->lock);
+-	return ret;
 -}
 -
--/* Enable interrupts */
--static void ad9389b_set_isr(struct v4l2_subdev *sd, bool enable)
+-static int m5mols_get_frame_desc(struct v4l2_subdev *sd, unsigned int pad,
+-				 struct v4l2_mbus_frame_desc *fd)
 -{
--	u8 irqs = MASK_AD9389B_HPD_INT | MASK_AD9389B_MSEN_INT;
--	u8 irqs_rd;
--	int retries = 100;
+-	struct m5mols_info *info = to_m5mols(sd);
 -
--	/* The datasheet says that the EDID ready interrupt should be
--	   disabled if there is no hotplug. */
--	if (!enable)
--		irqs = 0;
--	else if (ad9389b_have_hotplug(sd))
--		irqs |= MASK_AD9389B_EDID_RDY_INT;
+-	if (pad != 0 || fd == NULL)
+-		return -EINVAL;
 -
+-	mutex_lock(&info->lock);
 -	/*
--	 * This i2c write can fail (approx. 1 in 1000 writes). But it
--	 * is essential that this register is correct, so retry it
--	 * multiple times.
--	 *
--	 * Note that the i2c write does not report an error, but the readback
--	 * clearly shows the wrong value.
+-	 * .get_frame_desc is only used for compressed formats,
+-	 * thus we always return the capture frame parameters here.
 -	 */
--	do {
--		ad9389b_wr(sd, 0x94, irqs);
--		irqs_rd = ad9389b_rd(sd, 0x94);
--	} while (retries-- && irqs_rd != irqs);
+-	fd->entry[0].length = info->cap.buf_size;
+-	fd->entry[0].pixelcode = info->ffmt[M5MOLS_RESTYPE_CAPTURE].code;
+-	mutex_unlock(&info->lock);
 -
--	if (irqs_rd != irqs)
--		v4l2_err(sd, "Could not set interrupts: hw failure?\n");
--}
+-	fd->entry[0].flags = V4L2_MBUS_FRAME_DESC_FL_LEN_MAX;
+-	fd->num_entries = 1;
 -
--/* Interrupt handler */
--static int ad9389b_isr(struct v4l2_subdev *sd, u32 status, bool *handled)
--{
--	u8 irq_status;
--
--	/* disable interrupts to prevent a race condition */
--	ad9389b_set_isr(sd, false);
--	irq_status = ad9389b_rd(sd, 0x96);
--	/* clear detected interrupts */
--	ad9389b_wr(sd, 0x96, irq_status);
--	/* enable interrupts */
--	ad9389b_set_isr(sd, true);
--
--	v4l2_dbg(1, debug, sd, "%s: irq_status 0x%x\n", __func__, irq_status);
--
--	if (irq_status & (MASK_AD9389B_HPD_INT))
--		ad9389b_check_monitor_present_status(sd);
--	if (irq_status & MASK_AD9389B_EDID_RDY_INT)
--		ad9389b_check_edid_status(sd);
--
--	*handled = true;
 -	return 0;
 -}
 -
--static const struct v4l2_subdev_core_ops ad9389b_core_ops = {
--	.log_status = ad9389b_log_status,
--#ifdef CONFIG_VIDEO_ADV_DEBUG
--	.g_register = ad9389b_g_register,
--	.s_register = ad9389b_s_register,
--#endif
--	.s_power = ad9389b_s_power,
--	.interrupt_service_routine = ad9389b_isr,
+-static int m5mols_set_frame_desc(struct v4l2_subdev *sd, unsigned int pad,
+-				 struct v4l2_mbus_frame_desc *fd)
+-{
+-	struct m5mols_info *info = to_m5mols(sd);
+-	struct v4l2_mbus_framefmt *mf = &info->ffmt[M5MOLS_RESTYPE_CAPTURE];
+-
+-	if (pad != 0 || fd == NULL)
+-		return -EINVAL;
+-
+-	fd->entry[0].flags = V4L2_MBUS_FRAME_DESC_FL_LEN_MAX;
+-	fd->num_entries = 1;
+-	fd->entry[0].length = clamp_t(u32, fd->entry[0].length,
+-				      mf->width * mf->height,
+-				      M5MOLS_MAIN_JPEG_SIZE_MAX);
+-	mutex_lock(&info->lock);
+-	info->cap.buf_size = fd->entry[0].length;
+-	mutex_unlock(&info->lock);
+-
+-	return 0;
+-}
+-
+-
+-static int m5mols_enum_mbus_code(struct v4l2_subdev *sd,
+-				 struct v4l2_subdev_state *sd_state,
+-				 struct v4l2_subdev_mbus_code_enum *code)
+-{
+-	if (!code || code->index >= SIZE_DEFAULT_FFMT)
+-		return -EINVAL;
+-
+-	code->code = m5mols_default_ffmt[code->index].code;
+-
+-	return 0;
+-}
+-
+-static const struct v4l2_subdev_pad_ops m5mols_pad_ops = {
+-	.enum_mbus_code	= m5mols_enum_mbus_code,
+-	.get_fmt	= m5mols_get_fmt,
+-	.set_fmt	= m5mols_set_fmt,
+-	.get_frame_desc	= m5mols_get_frame_desc,
+-	.set_frame_desc	= m5mols_set_frame_desc,
 -};
 -
--/* ------------------------------ VIDEO OPS ------------------------------ */
--
--/* Enable/disable ad9389b output */
--static int ad9389b_s_stream(struct v4l2_subdev *sd, int enable)
+-/**
+- * m5mols_restore_controls - Apply current control values to the registers
+- * @info: M-5MOLS driver data structure
+- *
+- * m5mols_do_scenemode() handles all parameters for which there is yet no
+- * individual control. It should be replaced at some point by setting each
+- * control individually, in required register set up order.
+- */
+-int m5mols_restore_controls(struct m5mols_info *info)
 -{
--	v4l2_dbg(1, debug, sd, "%s: %sable\n", __func__, (enable ? "en" : "dis"));
+-	int ret;
 -
--	ad9389b_wr_and_or(sd, 0xa1, ~0x3c, (enable ? 0 : 0x3c));
+-	if (info->ctrl_sync)
+-		return 0;
+-
+-	ret = m5mols_do_scenemode(info, REG_SCENE_NORMAL);
+-	if (ret)
+-		return ret;
+-
+-	ret = v4l2_ctrl_handler_setup(&info->handle);
+-	info->ctrl_sync = !ret;
+-
+-	return ret;
+-}
+-
+-/**
+- * m5mols_start_monitor - Start the monitor mode
+- * @info: M-5MOLS driver data structure
+- *
+- * Before applying the controls setup the resolution and frame rate
+- * in PARAMETER mode, and then switch over to MONITOR mode.
+- */
+-static int m5mols_start_monitor(struct m5mols_info *info)
+-{
+-	struct v4l2_subdev *sd = &info->sd;
+-	int ret;
+-
+-	ret = m5mols_set_mode(info, REG_PARAMETER);
+-	if (!ret)
+-		ret = m5mols_write(sd, PARM_MON_SIZE, info->resolution);
+-	if (!ret)
+-		ret = m5mols_write(sd, PARM_MON_FPS, REG_FPS_30);
+-	if (!ret)
+-		ret = m5mols_set_mode(info, REG_MONITOR);
+-	if (!ret)
+-		ret = m5mols_restore_controls(info);
+-
+-	return ret;
+-}
+-
+-static int m5mols_s_stream(struct v4l2_subdev *sd, int enable)
+-{
+-	struct m5mols_info *info = to_m5mols(sd);
+-	u32 code;
+-	int ret;
+-
+-	mutex_lock(&info->lock);
+-	code = info->ffmt[info->res_type].code;
+-
 -	if (enable) {
--		ad9389b_check_monitor_present_status(sd);
+-		if (is_code(code, M5MOLS_RESTYPE_MONITOR))
+-			ret = m5mols_start_monitor(info);
+-		else if (is_code(code, M5MOLS_RESTYPE_CAPTURE))
+-			ret = m5mols_start_capture(info);
+-		else
+-			ret = -EINVAL;
 -	} else {
--		ad9389b_s_power(sd, 0);
--	}
--	return 0;
--}
--
--static const struct v4l2_dv_timings_cap ad9389b_timings_cap = {
--	.type = V4L2_DV_BT_656_1120,
--	/* keep this initialization for compatibility with GCC < 4.4.6 */
--	.reserved = { 0 },
--	V4L2_INIT_BT_TIMINGS(640, 1920, 350, 1200, 25000000, 170000000,
--		V4L2_DV_BT_STD_CEA861 | V4L2_DV_BT_STD_DMT |
--			V4L2_DV_BT_STD_GTF | V4L2_DV_BT_STD_CVT,
--		V4L2_DV_BT_CAP_PROGRESSIVE | V4L2_DV_BT_CAP_REDUCED_BLANKING |
--		V4L2_DV_BT_CAP_CUSTOM)
--};
--
--static int ad9389b_s_dv_timings(struct v4l2_subdev *sd,
--				struct v4l2_dv_timings *timings)
--{
--	struct ad9389b_state *state = get_ad9389b_state(sd);
--
--	v4l2_dbg(1, debug, sd, "%s:\n", __func__);
--
--	/* quick sanity check */
--	if (!v4l2_valid_dv_timings(timings, &ad9389b_timings_cap, NULL, NULL))
--		return -EINVAL;
--
--	/* Fill the optional fields .standards and .flags in struct v4l2_dv_timings
--	   if the format is one of the CEA or DMT timings. */
--	v4l2_find_dv_timings_cap(timings, &ad9389b_timings_cap, 0, NULL, NULL);
--
--	timings->bt.flags &= ~V4L2_DV_FL_REDUCED_FPS;
--
--	/* save timings */
--	state->dv_timings = *timings;
--
--	/* update quantization range based on new dv_timings */
--	ad9389b_set_rgb_quantization_mode(sd, state->rgb_quantization_range_ctrl);
--
--	/* update PLL gear based on new dv_timings */
--	if (state->pdata.tmds_pll_gear == AD9389B_TMDS_PLL_GEAR_SEMI_AUTOMATIC)
--		ad9389b_set_manual_pll_gear(sd, (u32)timings->bt.pixelclock);
--
--	/* update AVI infoframe */
--	ad9389b_set_IT_content_AVI_InfoFrame(sd);
--
--	return 0;
--}
--
--static int ad9389b_g_dv_timings(struct v4l2_subdev *sd,
--				struct v4l2_dv_timings *timings)
--{
--	struct ad9389b_state *state = get_ad9389b_state(sd);
--
--	v4l2_dbg(1, debug, sd, "%s:\n", __func__);
--
--	if (!timings)
--		return -EINVAL;
--
--	*timings = state->dv_timings;
--
--	return 0;
--}
--
--static int ad9389b_enum_dv_timings(struct v4l2_subdev *sd,
--				   struct v4l2_enum_dv_timings *timings)
--{
--	if (timings->pad != 0)
--		return -EINVAL;
--
--	return v4l2_enum_dv_timings_cap(timings, &ad9389b_timings_cap,
--			NULL, NULL);
--}
--
--static int ad9389b_dv_timings_cap(struct v4l2_subdev *sd,
--				  struct v4l2_dv_timings_cap *cap)
--{
--	if (cap->pad != 0)
--		return -EINVAL;
--
--	*cap = ad9389b_timings_cap;
--	return 0;
--}
--
--static const struct v4l2_subdev_video_ops ad9389b_video_ops = {
--	.s_stream = ad9389b_s_stream,
--	.s_dv_timings = ad9389b_s_dv_timings,
--	.g_dv_timings = ad9389b_g_dv_timings,
--};
--
--/* ------------------------------ PAD OPS ------------------------------ */
--
--static int ad9389b_get_edid(struct v4l2_subdev *sd, struct v4l2_edid *edid)
--{
--	struct ad9389b_state *state = get_ad9389b_state(sd);
--
--	if (edid->pad != 0)
--		return -EINVAL;
--	if (edid->blocks == 0 || edid->blocks > 256)
--		return -EINVAL;
--	if (!state->edid.segments) {
--		v4l2_dbg(1, debug, sd, "EDID segment 0 not found\n");
--		return -ENODATA;
--	}
--	if (edid->start_block >= state->edid.segments * 2)
--		return -E2BIG;
--	if (edid->blocks + edid->start_block >= state->edid.segments * 2)
--		edid->blocks = state->edid.segments * 2 - edid->start_block;
--	memcpy(edid->edid, &state->edid.data[edid->start_block * 128],
--	       128 * edid->blocks);
--	return 0;
--}
--
--static const struct v4l2_subdev_pad_ops ad9389b_pad_ops = {
--	.get_edid = ad9389b_get_edid,
--	.enum_dv_timings = ad9389b_enum_dv_timings,
--	.dv_timings_cap = ad9389b_dv_timings_cap,
--};
--
--/* ------------------------------ AUDIO OPS ------------------------------ */
--
--static int ad9389b_s_audio_stream(struct v4l2_subdev *sd, int enable)
--{
--	v4l2_dbg(1, debug, sd, "%s: %sable\n", __func__, (enable ? "en" : "dis"));
--
--	if (enable)
--		ad9389b_wr_and_or(sd, 0x45, 0x3f, 0x80);
--	else
--		ad9389b_wr_and_or(sd, 0x45, 0x3f, 0x40);
--
--	return 0;
--}
--
--static int ad9389b_s_clock_freq(struct v4l2_subdev *sd, u32 freq)
--{
--	u32 N;
--
--	switch (freq) {
--	case 32000:  N = 4096;  break;
--	case 44100:  N = 6272;  break;
--	case 48000:  N = 6144;  break;
--	case 88200:  N = 12544; break;
--	case 96000:  N = 12288; break;
--	case 176400: N = 25088; break;
--	case 192000: N = 24576; break;
--	default:
--	     return -EINVAL;
+-		ret = m5mols_set_mode(info, REG_PARAMETER);
 -	}
 -
--	/* Set N (used with CTS to regenerate the audio clock) */
--	ad9389b_wr(sd, 0x01, (N >> 16) & 0xf);
--	ad9389b_wr(sd, 0x02, (N >> 8) & 0xff);
--	ad9389b_wr(sd, 0x03, N & 0xff);
--
--	return 0;
+-	mutex_unlock(&info->lock);
+-	return ret;
 -}
 -
--static int ad9389b_s_i2s_clock_freq(struct v4l2_subdev *sd, u32 freq)
--{
--	u32 i2s_sf;
--
--	switch (freq) {
--	case 32000:  i2s_sf = 0x30; break;
--	case 44100:  i2s_sf = 0x00; break;
--	case 48000:  i2s_sf = 0x20; break;
--	case 88200:  i2s_sf = 0x80; break;
--	case 96000:  i2s_sf = 0xa0; break;
--	case 176400: i2s_sf = 0xc0; break;
--	case 192000: i2s_sf = 0xe0; break;
--	default:
--	     return -EINVAL;
--	}
--
--	/* Set sampling frequency for I2S audio to 48 kHz */
--	ad9389b_wr_and_or(sd, 0x15, 0xf, i2s_sf);
--
--	return 0;
--}
--
--static int ad9389b_s_routing(struct v4l2_subdev *sd, u32 input, u32 output, u32 config)
--{
--	/* TODO based on input/output/config */
--	/* TODO See datasheet "Programmers guide" p. 39-40 */
--
--	/* Only 2 channels in use for application */
--	ad9389b_wr_and_or(sd, 0x50, 0x1f, 0x20);
--	/* Speaker mapping */
--	ad9389b_wr(sd, 0x51, 0x00);
--
--	/* TODO Where should this be placed? */
--	/* 16 bit audio word length */
--	ad9389b_wr_and_or(sd, 0x14, 0xf0, 0x02);
--
--	return 0;
--}
--
--static const struct v4l2_subdev_audio_ops ad9389b_audio_ops = {
--	.s_stream = ad9389b_s_audio_stream,
--	.s_clock_freq = ad9389b_s_clock_freq,
--	.s_i2s_clock_freq = ad9389b_s_i2s_clock_freq,
--	.s_routing = ad9389b_s_routing,
+-static const struct v4l2_subdev_video_ops m5mols_video_ops = {
+-	.s_stream	= m5mols_s_stream,
 -};
 -
--/* --------------------- SUBDEV OPS --------------------------------------- */
--
--static const struct v4l2_subdev_ops ad9389b_ops = {
--	.core  = &ad9389b_core_ops,
--	.video = &ad9389b_video_ops,
--	.audio = &ad9389b_audio_ops,
--	.pad = &ad9389b_pad_ops,
--};
--
--/* ----------------------------------------------------------------------- */
--static void ad9389b_dbg_dump_edid(int lvl, int debug, struct v4l2_subdev *sd,
--				  int segment, u8 *buf)
+-static int m5mols_sensor_power(struct m5mols_info *info, bool enable)
 -{
--	int i, j;
+-	struct v4l2_subdev *sd = &info->sd;
+-	struct i2c_client *client = v4l2_get_subdevdata(sd);
+-	int ret;
 -
--	if (debug < lvl)
--		return;
+-	if (info->power == enable)
+-		return 0;
 -
--	v4l2_dbg(lvl, debug, sd, "edid segment %d\n", segment);
--	for (i = 0; i < 256; i += 16) {
--		u8 b[128];
--		u8 *bp = b;
--
--		if (i == 128)
--			v4l2_dbg(lvl, debug, sd, "\n");
--		for (j = i; j < i + 16; j++) {
--			sprintf(bp, "0x%02x, ", buf[j]);
--			bp += 6;
+-	if (enable) {
+-		if (info->set_power) {
+-			ret = info->set_power(&client->dev, 1);
+-			if (ret)
+-				return ret;
 -		}
--		bp[0] = '\0';
--		v4l2_dbg(lvl, debug, sd, "%s\n", b);
--	}
--}
 -
--static void ad9389b_edid_handler(struct work_struct *work)
--{
--	struct delayed_work *dwork = to_delayed_work(work);
--	struct ad9389b_state *state =
--		container_of(dwork, struct ad9389b_state, edid_handler);
--	struct v4l2_subdev *sd = &state->sd;
--	struct ad9389b_edid_detect ed;
--
--	v4l2_dbg(1, debug, sd, "%s:\n", __func__);
--
--	if (ad9389b_check_edid_status(sd)) {
--		/* Return if we received the EDID. */
--		return;
--	}
--
--	if (ad9389b_have_hotplug(sd)) {
--		/* We must retry reading the EDID several times, it is possible
--		 * that initially the EDID couldn't be read due to i2c errors
--		 * (DVI connectors are particularly prone to this problem). */
--		if (state->edid.read_retries) {
--			state->edid.read_retries--;
--			v4l2_dbg(1, debug, sd, "%s: edid read failed\n", __func__);
--			ad9389b_s_power(sd, false);
--			ad9389b_s_power(sd, true);
--			schedule_delayed_work(&state->edid_handler, EDID_DELAY);
--			return;
+-		ret = regulator_bulk_enable(ARRAY_SIZE(supplies), supplies);
+-		if (ret) {
+-			if (info->set_power)
+-				info->set_power(&client->dev, 0);
+-			return ret;
 -		}
+-
+-		gpiod_set_value(info->reset, 0);
+-		info->power = 1;
+-
+-		return ret;
 -	}
 -
--	/* We failed to read the EDID, so send an event for this. */
--	ed.present = false;
--	ed.segment = ad9389b_rd(sd, 0xc4);
--	v4l2_subdev_notify(sd, AD9389B_EDID_DETECT, (void *)&ed);
--	v4l2_dbg(1, debug, sd, "%s: no edid found\n", __func__);
+-	ret = regulator_bulk_disable(ARRAY_SIZE(supplies), supplies);
+-	if (ret)
+-		return ret;
+-
+-	if (info->set_power)
+-		info->set_power(&client->dev, 0);
+-
+-	gpiod_set_value(info->reset, 1);
+-
+-	info->isp_ready = 0;
+-	info->power = 0;
+-
+-	return ret;
 -}
 -
--static void ad9389b_audio_setup(struct v4l2_subdev *sd)
+-/* m5mols_update_fw - optional firmware update routine */
+-int __attribute__ ((weak)) m5mols_update_fw(struct v4l2_subdev *sd,
+-		int (*set_power)(struct m5mols_info *, bool))
 -{
--	v4l2_dbg(1, debug, sd, "%s\n", __func__);
--
--	ad9389b_s_i2s_clock_freq(sd, 48000);
--	ad9389b_s_clock_freq(sd, 48000);
--	ad9389b_s_routing(sd, 0, 0, 0);
+-	return 0;
 -}
 -
--/* Initial setup of AD9389b */
--
--/* Configure hdmi transmitter. */
--static void ad9389b_setup(struct v4l2_subdev *sd)
+-/**
+- * m5mols_fw_start - M-5MOLS internal ARM controller initialization
+- * @sd: sub-device, as pointed by struct v4l2_subdev
+- *
+- * Execute the M-5MOLS internal ARM controller initialization sequence.
+- * This function should be called after the supply voltage has been
+- * applied and before any requests to the device are made.
+- */
+-static int m5mols_fw_start(struct v4l2_subdev *sd)
 -{
--	struct ad9389b_state *state = get_ad9389b_state(sd);
+-	struct m5mols_info *info = to_m5mols(sd);
+-	int ret;
 -
--	v4l2_dbg(1, debug, sd, "%s\n", __func__);
+-	atomic_set(&info->irq_done, 0);
+-	/* Wait until I2C slave is initialized in Flash Writer mode */
+-	ret = m5mols_busy_wait(sd, FLASH_CAM_START, REG_IN_FLASH_MODE,
+-			       M5MOLS_I2C_RDY_WAIT_FL | 0xff, -1);
+-	if (!ret)
+-		ret = m5mols_write(sd, FLASH_CAM_START, REG_START_ARM_BOOT);
+-	if (!ret)
+-		ret = m5mols_wait_interrupt(sd, REG_INT_MODE, 2000);
+-	if (ret < 0)
+-		return ret;
 -
--	/* Input format: RGB 4:4:4 */
--	ad9389b_wr_and_or(sd, 0x15, 0xf1, 0x0);
--	/* Output format: RGB 4:4:4 */
--	ad9389b_wr_and_or(sd, 0x16, 0x3f, 0x0);
--	/* 1st order interpolation 4:2:2 -> 4:4:4 up conversion,
--	   Aspect ratio: 16:9 */
--	ad9389b_wr_and_or(sd, 0x17, 0xf9, 0x06);
--	/* Output format: RGB 4:4:4, Active Format Information is valid. */
--	ad9389b_wr_and_or(sd, 0x45, 0xc7, 0x08);
--	/* Underscanned */
--	ad9389b_wr_and_or(sd, 0x46, 0x3f, 0x80);
--	/* Setup video format */
--	ad9389b_wr(sd, 0x3c, 0x0);
--	/* Active format aspect ratio: same as picure. */
--	ad9389b_wr(sd, 0x47, 0x80);
--	/* No encryption */
--	ad9389b_wr_and_or(sd, 0xaf, 0xef, 0x0);
--	/* Positive clk edge capture for input video clock */
--	ad9389b_wr_and_or(sd, 0xba, 0x1f, 0x60);
+-	info->isp_ready = 1;
 -
--	ad9389b_audio_setup(sd);
+-	ret = m5mols_get_version(sd);
+-	if (!ret)
+-		ret = m5mols_update_fw(sd, m5mols_sensor_power);
+-	if (ret)
+-		return ret;
 -
--	v4l2_ctrl_handler_setup(&state->hdl);
+-	v4l2_dbg(1, m5mols_debug, sd, "Success ARM Booting\n");
 -
--	ad9389b_set_IT_content_AVI_InfoFrame(sd);
+-	ret = m5mols_write(sd, PARM_INTERFACE, REG_INTERFACE_MIPI);
+-	if (!ret)
+-		ret = m5mols_enable_interrupt(sd,
+-				REG_INT_AF | REG_INT_CAPTURE);
+-
+-	return ret;
 -}
 -
--static void ad9389b_notify_monitor_detect(struct v4l2_subdev *sd)
+-/* Execute the lens soft-landing algorithm */
+-static int m5mols_auto_focus_stop(struct m5mols_info *info)
 -{
--	struct ad9389b_monitor_detect mdt;
--	struct ad9389b_state *state = get_ad9389b_state(sd);
+-	int ret;
 -
--	mdt.present = state->have_monitor;
--	v4l2_subdev_notify(sd, AD9389B_MONITOR_DETECT, (void *)&mdt);
+-	ret = m5mols_write(&info->sd, AF_EXECUTE, REG_AF_STOP);
+-	if (!ret)
+-		ret = m5mols_write(&info->sd, AF_MODE, REG_AF_POWEROFF);
+-	if (!ret)
+-		ret = m5mols_busy_wait(&info->sd, SYSTEM_STATUS, REG_AF_IDLE,
+-				       0xff, -1);
+-	return ret;
 -}
 -
--static void ad9389b_update_monitor_present_status(struct v4l2_subdev *sd)
+-/**
+- * m5mols_s_power - Main sensor power control function
+- * @sd: sub-device, as pointed by struct v4l2_subdev
+- * @on: if true, powers on the device; powers off otherwise.
+- *
+- * To prevent breaking the lens when the sensor is powered off the Soft-Landing
+- * algorithm is called where available. The Soft-Landing algorithm availability
+- * dependends on the firmware provider.
+- */
+-static int m5mols_s_power(struct v4l2_subdev *sd, int on)
 -{
--	struct ad9389b_state *state = get_ad9389b_state(sd);
--	/* read hotplug and rx-sense state */
--	u8 status = ad9389b_rd(sd, 0x42);
+-	struct m5mols_info *info = to_m5mols(sd);
+-	int ret;
 -
--	v4l2_dbg(1, debug, sd, "%s: status: 0x%x%s%s\n",
--		 __func__,
--		 status,
--		 status & MASK_AD9389B_HPD_DETECT ? ", hotplug" : "",
--		 status & MASK_AD9389B_MSEN_DETECT ? ", rx-sense" : "");
+-	mutex_lock(&info->lock);
 -
--	if (status & MASK_AD9389B_HPD_DETECT) {
--		v4l2_dbg(1, debug, sd, "%s: hotplug detected\n", __func__);
--		state->have_monitor = true;
--		if (!ad9389b_s_power(sd, true)) {
--			v4l2_dbg(1, debug, sd,
--				 "%s: monitor detected, powerup failed\n", __func__);
--			return;
+-	if (on) {
+-		ret = m5mols_sensor_power(info, true);
+-		if (!ret)
+-			ret = m5mols_fw_start(sd);
+-	} else {
+-		if (is_manufacturer(info, REG_SAMSUNG_TECHWIN)) {
+-			ret = m5mols_set_mode(info, REG_MONITOR);
+-			if (!ret)
+-				ret = m5mols_auto_focus_stop(info);
+-			if (ret < 0)
+-				v4l2_warn(sd, "Soft landing lens failed\n");
 -		}
--		ad9389b_setup(sd);
--		ad9389b_notify_monitor_detect(sd);
--		state->edid.read_retries = EDID_MAX_RETRIES;
--		schedule_delayed_work(&state->edid_handler, EDID_DELAY);
--	} else if (!(status & MASK_AD9389B_HPD_DETECT)) {
--		v4l2_dbg(1, debug, sd, "%s: hotplug not detected\n", __func__);
--		state->have_monitor = false;
--		ad9389b_notify_monitor_detect(sd);
--		ad9389b_s_power(sd, false);
--		memset(&state->edid, 0, sizeof(struct ad9389b_state_edid));
+-		ret = m5mols_sensor_power(info, false);
+-
+-		info->ctrl_sync = 0;
 -	}
 -
--	/* update read only ctrls */
--	v4l2_ctrl_s_ctrl(state->hotplug_ctrl, ad9389b_have_hotplug(sd) ? 0x1 : 0x0);
--	v4l2_ctrl_s_ctrl(state->rx_sense_ctrl, ad9389b_have_rx_sense(sd) ? 0x1 : 0x0);
--	v4l2_ctrl_s_ctrl(state->have_edid0_ctrl, state->edid.segments ? 0x1 : 0x0);
--
--	/* update with setting from ctrls */
--	ad9389b_s_ctrl(state->rgb_quantization_range_ctrl);
--	ad9389b_s_ctrl(state->hdmi_mode_ctrl);
+-	mutex_unlock(&info->lock);
+-	return ret;
 -}
 -
--static void ad9389b_check_monitor_present_status(struct v4l2_subdev *sd)
+-static int m5mols_log_status(struct v4l2_subdev *sd)
 -{
--	struct ad9389b_state *state = get_ad9389b_state(sd);
--	int retry = 0;
+-	struct m5mols_info *info = to_m5mols(sd);
 -
--	ad9389b_update_monitor_present_status(sd);
+-	v4l2_ctrl_handler_log_status(&info->handle, sd->name);
 -
--	/*
--	 * Rapid toggling of the hotplug may leave the chip powered off,
--	 * even if we think it is on. In that case reset and power up again.
--	 */
--	while (state->power_on && (ad9389b_rd(sd, 0x41) & 0x40)) {
--		if (++retry > 5) {
--			v4l2_err(sd, "retried %d times, give up\n", retry);
--			return;
--		}
--		v4l2_dbg(1, debug, sd, "%s: reset and re-check status (%d)\n", __func__, retry);
--		ad9389b_notify_monitor_detect(sd);
--		cancel_delayed_work_sync(&state->edid_handler);
--		memset(&state->edid, 0, sizeof(struct ad9389b_state_edid));
--		ad9389b_s_power(sd, false);
--		ad9389b_update_monitor_present_status(sd);
--	}
+-	return 0;
 -}
 -
--static bool edid_block_verify_crc(u8 *edid_block)
--{
--	u8 sum = 0;
--	int i;
+-static const struct v4l2_subdev_core_ops m5mols_core_ops = {
+-	.s_power	= m5mols_s_power,
+-	.log_status	= m5mols_log_status,
+-};
 -
--	for (i = 0; i < 128; i++)
--		sum += edid_block[i];
--	return sum == 0;
+-/*
+- * V4L2 subdev internal operations
+- */
+-static int m5mols_open(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
+-{
+-	struct v4l2_mbus_framefmt *format = v4l2_subdev_get_try_format(sd,
+-								       fh->state,
+-								       0);
+-
+-	*format = m5mols_default_ffmt[0];
+-	return 0;
 -}
 -
--static bool edid_verify_crc(struct v4l2_subdev *sd, u32 segment)
--{
--	struct ad9389b_state *state = get_ad9389b_state(sd);
--	u32 blocks = state->edid.blocks;
--	u8 *data = state->edid.data;
+-static const struct v4l2_subdev_internal_ops m5mols_subdev_internal_ops = {
+-	.open		= m5mols_open,
+-};
 -
--	if (edid_block_verify_crc(&data[segment * 256])) {
--		if ((segment + 1) * 2 <= blocks)
--			return edid_block_verify_crc(&data[segment * 256 + 128]);
--		return true;
--	}
--	return false;
+-static const struct v4l2_subdev_ops m5mols_ops = {
+-	.core		= &m5mols_core_ops,
+-	.pad		= &m5mols_pad_ops,
+-	.video		= &m5mols_video_ops,
+-};
+-
+-static irqreturn_t m5mols_irq_handler(int irq, void *data)
+-{
+-	struct m5mols_info *info = to_m5mols(data);
+-
+-	atomic_set(&info->irq_done, 1);
+-	wake_up_interruptible(&info->irq_waitq);
+-
+-	return IRQ_HANDLED;
 -}
 -
--static bool edid_verify_header(struct v4l2_subdev *sd, u32 segment)
+-static int m5mols_probe(struct i2c_client *client)
 -{
--	static const u8 hdmi_header[] = {
--		0x00, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x00
--	};
--	struct ad9389b_state *state = get_ad9389b_state(sd);
--	u8 *data = state->edid.data;
--	int i;
--
--	if (segment)
--		return true;
--
--	for (i = 0; i < ARRAY_SIZE(hdmi_header); i++)
--		if (data[i] != hdmi_header[i])
--			return false;
--
--	return true;
--}
--
--static bool ad9389b_check_edid_status(struct v4l2_subdev *sd)
--{
--	struct ad9389b_state *state = get_ad9389b_state(sd);
--	struct ad9389b_edid_detect ed;
--	int segment;
--	u8 edidRdy = ad9389b_rd(sd, 0xc5);
--
--	v4l2_dbg(1, debug, sd, "%s: edid ready (retries: %d)\n",
--		 __func__, EDID_MAX_RETRIES - state->edid.read_retries);
--
--	if (!(edidRdy & MASK_AD9389B_EDID_RDY))
--		return false;
--
--	segment = ad9389b_rd(sd, 0xc4);
--	if (segment >= EDID_MAX_SEGM) {
--		v4l2_err(sd, "edid segment number too big\n");
--		return false;
--	}
--	v4l2_dbg(1, debug, sd, "%s: got segment %d\n", __func__, segment);
--	ad9389b_edid_rd(sd, 256, &state->edid.data[segment * 256]);
--	ad9389b_dbg_dump_edid(2, debug, sd, segment,
--			      &state->edid.data[segment * 256]);
--	if (segment == 0) {
--		state->edid.blocks = state->edid.data[0x7e] + 1;
--		v4l2_dbg(1, debug, sd, "%s: %d blocks in total\n",
--			 __func__, state->edid.blocks);
--	}
--	if (!edid_verify_crc(sd, segment) ||
--	    !edid_verify_header(sd, segment)) {
--		/* edid crc error, force reread of edid segment */
--		v4l2_err(sd, "%s: edid crc or header error\n", __func__);
--		ad9389b_s_power(sd, false);
--		ad9389b_s_power(sd, true);
--		return false;
--	}
--	/* one more segment read ok */
--	state->edid.segments = segment + 1;
--	if (((state->edid.data[0x7e] >> 1) + 1) > state->edid.segments) {
--		/* Request next EDID segment */
--		v4l2_dbg(1, debug, sd, "%s: request segment %d\n",
--			 __func__, state->edid.segments);
--		ad9389b_wr(sd, 0xc9, 0xf);
--		ad9389b_wr(sd, 0xc4, state->edid.segments);
--		state->edid.read_retries = EDID_MAX_RETRIES;
--		schedule_delayed_work(&state->edid_handler, EDID_DELAY);
--		return false;
--	}
--
--	/* report when we have all segments but report only for segment 0 */
--	ed.present = true;
--	ed.segment = 0;
--	v4l2_subdev_notify(sd, AD9389B_EDID_DETECT, (void *)&ed);
--	state->edid_detect_counter++;
--	v4l2_ctrl_s_ctrl(state->have_edid0_ctrl, state->edid.segments ? 0x1 : 0x0);
--	return ed.present;
--}
--
--/* ----------------------------------------------------------------------- */
--
--static void ad9389b_init_setup(struct v4l2_subdev *sd)
--{
--	struct ad9389b_state *state = get_ad9389b_state(sd);
--	struct ad9389b_state_edid *edid = &state->edid;
--
--	v4l2_dbg(1, debug, sd, "%s\n", __func__);
--
--	/* clear all interrupts */
--	ad9389b_wr(sd, 0x96, 0xff);
--
--	memset(edid, 0, sizeof(struct ad9389b_state_edid));
--	state->have_monitor = false;
--	ad9389b_set_isr(sd, false);
--}
--
--static int ad9389b_probe(struct i2c_client *client)
--{
--	const struct v4l2_dv_timings dv1080p60 = V4L2_DV_BT_CEA_1920X1080P60;
--	struct ad9389b_state *state;
--	struct ad9389b_platform_data *pdata = client->dev.platform_data;
--	struct v4l2_ctrl_handler *hdl;
+-	const struct m5mols_platform_data *pdata = client->dev.platform_data;
+-	struct m5mols_info *info;
 -	struct v4l2_subdev *sd;
--	int err = -EIO;
+-	int ret;
 -
--	/* Check if the adapter supports the needed features */
--	if (!i2c_check_functionality(client->adapter, I2C_FUNC_SMBUS_BYTE_DATA))
--		return -EIO;
+-	if (pdata == NULL) {
+-		dev_err(&client->dev, "No platform data\n");
+-		return -EINVAL;
+-	}
 -
--	v4l_dbg(1, debug, client, "detecting ad9389b client on address 0x%x\n",
--		client->addr << 1);
+-	if (!client->irq) {
+-		dev_err(&client->dev, "Interrupt not assigned\n");
+-		return -EINVAL;
+-	}
 -
--	state = devm_kzalloc(&client->dev, sizeof(*state), GFP_KERNEL);
--	if (!state)
+-	info = devm_kzalloc(&client->dev, sizeof(*info), GFP_KERNEL);
+-	if (!info)
 -		return -ENOMEM;
 -
--	/* Platform data */
--	if (pdata == NULL) {
--		v4l_err(client, "No platform data!\n");
--		return -ENODEV;
--	}
--	memcpy(&state->pdata, pdata, sizeof(state->pdata));
+-	/* This asserts reset, descriptor shall have polarity specified */
+-	info->reset = devm_gpiod_get(&client->dev, "reset", GPIOD_OUT_HIGH);
+-	if (IS_ERR(info->reset))
+-		return PTR_ERR(info->reset);
+-	/* Notice: the "N" in M5MOLS_NRST implies active low */
+-	gpiod_set_consumer_name(info->reset, "M5MOLS_NRST");
 -
--	sd = &state->sd;
--	v4l2_i2c_subdev_init(sd, client, &ad9389b_ops);
+-	info->pdata = pdata;
+-	info->set_power	= pdata->set_power;
+-
+-	ret = devm_regulator_bulk_get(&client->dev, ARRAY_SIZE(supplies),
+-				      supplies);
+-	if (ret) {
+-		dev_err(&client->dev, "Failed to get regulators: %d\n", ret);
+-		return ret;
+-	}
+-
+-	sd = &info->sd;
+-	v4l2_i2c_subdev_init(sd, client, &m5mols_ops);
+-	/* Static name; NEVER use in new drivers! */
+-	strscpy(sd->name, MODULE_NAME, sizeof(sd->name));
 -	sd->flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
 -
--	hdl = &state->hdl;
--	v4l2_ctrl_handler_init(hdl, 5);
+-	sd->internal_ops = &m5mols_subdev_internal_ops;
+-	info->pad.flags = MEDIA_PAD_FL_SOURCE;
+-	ret = media_entity_pads_init(&sd->entity, 1, &info->pad);
+-	if (ret < 0)
+-		return ret;
+-	sd->entity.function = MEDIA_ENT_F_CAM_SENSOR;
 -
--	state->hdmi_mode_ctrl = v4l2_ctrl_new_std_menu(hdl, &ad9389b_ctrl_ops,
--			V4L2_CID_DV_TX_MODE, V4L2_DV_TX_MODE_HDMI,
--			0, V4L2_DV_TX_MODE_DVI_D);
--	state->hotplug_ctrl = v4l2_ctrl_new_std(hdl, NULL,
--			V4L2_CID_DV_TX_HOTPLUG, 0, 1, 0, 0);
--	state->rx_sense_ctrl = v4l2_ctrl_new_std(hdl, NULL,
--			V4L2_CID_DV_TX_RXSENSE, 0, 1, 0, 0);
--	state->have_edid0_ctrl = v4l2_ctrl_new_std(hdl, NULL,
--			V4L2_CID_DV_TX_EDID_PRESENT, 0, 1, 0, 0);
--	state->rgb_quantization_range_ctrl =
--		v4l2_ctrl_new_std_menu(hdl, &ad9389b_ctrl_ops,
--			V4L2_CID_DV_TX_RGB_RANGE, V4L2_DV_RGB_RANGE_FULL,
--			0, V4L2_DV_RGB_RANGE_AUTO);
--	sd->ctrl_handler = hdl;
--	if (hdl->error) {
--		err = hdl->error;
+-	init_waitqueue_head(&info->irq_waitq);
+-	mutex_init(&info->lock);
 -
--		goto err_hdl;
+-	ret = devm_request_irq(&client->dev, client->irq, m5mols_irq_handler,
+-			       IRQF_TRIGGER_RISING, MODULE_NAME, sd);
+-	if (ret) {
+-		dev_err(&client->dev, "Interrupt request failed: %d\n", ret);
+-		goto error;
 -	}
--	state->pad.flags = MEDIA_PAD_FL_SINK;
--	sd->entity.function = MEDIA_ENT_F_DV_ENCODER;
--	err = media_entity_pads_init(&sd->entity, 1, &state->pad);
--	if (err)
--		goto err_hdl;
+-	info->res_type = M5MOLS_RESTYPE_MONITOR;
+-	info->ffmt[0] = m5mols_default_ffmt[0];
+-	info->ffmt[1] =	m5mols_default_ffmt[1];
 -
--	state->chip_revision = ad9389b_rd(sd, 0x0);
--	if (state->chip_revision != 2) {
--		v4l2_err(sd, "chip_revision %d != 2\n", state->chip_revision);
--		err = -EIO;
--		goto err_entity;
--	}
--	v4l2_dbg(1, debug, sd, "reg 0x41 0x%x, chip version (reg 0x00) 0x%x\n",
--		 ad9389b_rd(sd, 0x41), state->chip_revision);
+-	ret = m5mols_sensor_power(info, true);
+-	if (ret)
+-		goto error;
 -
--	state->edid_i2c_client = i2c_new_dummy_device(client->adapter, (0x7e >> 1));
--	if (IS_ERR(state->edid_i2c_client)) {
--		v4l2_err(sd, "failed to register edid i2c client\n");
--		err = PTR_ERR(state->edid_i2c_client);
--		goto err_entity;
--	}
+-	ret = m5mols_fw_start(sd);
+-	if (!ret)
+-		ret = m5mols_init_controls(sd);
 -
--	INIT_DELAYED_WORK(&state->edid_handler, ad9389b_edid_handler);
--	state->dv_timings = dv1080p60;
--
--	ad9389b_init_setup(sd);
--	ad9389b_set_isr(sd, true);
--
--	v4l2_info(sd, "%s found @ 0x%x (%s)\n", client->name,
--		  client->addr << 1, client->adapter->name);
--	return 0;
--
--err_entity:
+-	ret = m5mols_sensor_power(info, false);
+-	if (!ret)
+-		return 0;
+-error:
 -	media_entity_cleanup(&sd->entity);
--err_hdl:
--	v4l2_ctrl_handler_free(&state->hdl);
--	return err;
+-	return ret;
 -}
 -
--/* ----------------------------------------------------------------------- */
--
--static void ad9389b_remove(struct i2c_client *client)
+-static void m5mols_remove(struct i2c_client *client)
 -{
 -	struct v4l2_subdev *sd = i2c_get_clientdata(client);
--	struct ad9389b_state *state = get_ad9389b_state(sd);
 -
--	state->chip_revision = -1;
--
--	v4l2_dbg(1, debug, sd, "%s removed @ 0x%x (%s)\n", client->name,
--		 client->addr << 1, client->adapter->name);
--
--	ad9389b_s_stream(sd, false);
--	ad9389b_s_audio_stream(sd, false);
--	ad9389b_init_setup(sd);
--	cancel_delayed_work_sync(&state->edid_handler);
--	i2c_unregister_device(state->edid_i2c_client);
 -	v4l2_device_unregister_subdev(sd);
--	media_entity_cleanup(&sd->entity);
 -	v4l2_ctrl_handler_free(sd->ctrl_handler);
+-	media_entity_cleanup(&sd->entity);
 -}
 -
--/* ----------------------------------------------------------------------- */
--
--static const struct i2c_device_id ad9389b_id[] = {
--	{ "ad9389b", 0 },
--	{ "ad9889b", 0 },
--	{ }
+-static const struct i2c_device_id m5mols_id[] = {
+-	{ MODULE_NAME, 0 },
+-	{ },
 -};
--MODULE_DEVICE_TABLE(i2c, ad9389b_id);
+-MODULE_DEVICE_TABLE(i2c, m5mols_id);
 -
--static struct i2c_driver ad9389b_driver = {
+-static struct i2c_driver m5mols_i2c_driver = {
 -	.driver = {
--		.name = "ad9389b",
+-		.name	= MODULE_NAME,
 -	},
--	.probe_new = ad9389b_probe,
--	.remove = ad9389b_remove,
--	.id_table = ad9389b_id,
+-	.probe_new	= m5mols_probe,
+-	.remove		= m5mols_remove,
+-	.id_table	= m5mols_id,
 -};
 -
--module_i2c_driver(ad9389b_driver);
-diff --git a/include/media/i2c/ad9389b.h b/include/media/i2c/ad9389b.h
+-module_i2c_driver(m5mols_i2c_driver);
+-
+-MODULE_AUTHOR("HeungJun Kim <riverful.kim@samsung.com>");
+-MODULE_AUTHOR("Dongsoo Kim <dongsoo45.kim@samsung.com>");
+-MODULE_DESCRIPTION("Fujitsu M-5MOLS 8M Pixel camera driver");
+-MODULE_LICENSE("GPL");
+diff --git a/drivers/media/i2c/m5mols/m5mols_reg.h b/drivers/media/i2c/m5mols/m5mols_reg.h
 deleted file mode 100644
-index 30f9ea9a1273..000000000000
---- a/include/media/i2c/ad9389b.h
+index 947ee33812d3..000000000000
+--- a/drivers/media/i2c/m5mols/m5mols_reg.h
 +++ /dev/null
-@@ -1,37 +0,0 @@
--/* SPDX-License-Identifier: GPL-2.0-only */
+@@ -1,359 +0,0 @@
+-/* SPDX-License-Identifier: GPL-2.0-or-later */
 -/*
-- * Analog Devices AD9389B/AD9889B video encoder driver header
+- * Register map for M-5MOLS 8M Pixel camera sensor with ISP
 - *
-- * Copyright 2012 Cisco Systems, Inc. and/or its affiliates. All rights reserved.
+- * Copyright (C) 2011 Samsung Electronics Co., Ltd.
+- * Author: HeungJun Kim <riverful.kim@samsung.com>
+- *
+- * Copyright (C) 2009 Samsung Electronics Co., Ltd.
+- * Author: Dongsoo Nathaniel Kim <dongsoo45.kim@samsung.com>
 - */
 -
--#ifndef AD9389B_H
--#define AD9389B_H
+-#ifndef M5MOLS_REG_H
+-#define M5MOLS_REG_H
 -
--enum ad9389b_tmds_pll_gear {
--	AD9389B_TMDS_PLL_GEAR_AUTOMATIC,
--	AD9389B_TMDS_PLL_GEAR_SEMI_AUTOMATIC,
+-#define M5MOLS_I2C_MAX_SIZE	4
+-#define M5MOLS_BYTE_READ	0x01
+-#define M5MOLS_BYTE_WRITE	0x02
+-
+-#define I2C_CATEGORY(__cat)		((__cat >> 16) & 0xff)
+-#define I2C_COMMAND(__comm)		((__comm >> 8) & 0xff)
+-#define I2C_SIZE(__reg_s)		((__reg_s) & 0xff)
+-#define I2C_REG(__cat, __cmd, __reg_s)	((__cat << 16) | (__cmd << 8) | __reg_s)
+-
+-/*
+- * Category section register
+- *
+- * The category means set including relevant command of M-5MOLS.
+- */
+-#define CAT_SYSTEM		0x00
+-#define CAT_PARAM		0x01
+-#define CAT_MONITOR		0x02
+-#define CAT_AE			0x03
+-#define CAT_WB			0x06
+-#define CAT_EXIF		0x07
+-#define CAT_FD			0x09
+-#define CAT_LENS		0x0a
+-#define CAT_CAPT_PARM		0x0b
+-#define CAT_CAPT_CTRL		0x0c
+-#define CAT_FLASH		0x0f	/* related to FW, revisions, booting */
+-
+-/*
+- * Category 0 - SYSTEM mode
+- *
+- * The SYSTEM mode in the M-5MOLS means area available to handle with the whole
+- * & all-round system of sensor. It deals with version/interrupt/setting mode &
+- * even sensor's status. Especially, the M-5MOLS sensor with ISP varies by
+- * packaging & manufacturer, even the customer and project code. And the
+- * function details may vary among them. The version information helps to
+- * determine what methods shall be used in the driver.
+- *
+- * There is many registers between customer version address and awb one. For
+- * more specific contents, see definition if file m5mols.h.
+- */
+-#define SYSTEM_VER_CUSTOMER	I2C_REG(CAT_SYSTEM, 0x00, 1)
+-#define SYSTEM_VER_PROJECT	I2C_REG(CAT_SYSTEM, 0x01, 1)
+-#define SYSTEM_VER_FIRMWARE	I2C_REG(CAT_SYSTEM, 0x02, 2)
+-#define SYSTEM_VER_HARDWARE	I2C_REG(CAT_SYSTEM, 0x04, 2)
+-#define SYSTEM_VER_PARAMETER	I2C_REG(CAT_SYSTEM, 0x06, 2)
+-#define SYSTEM_VER_AWB		I2C_REG(CAT_SYSTEM, 0x08, 2)
+-
+-#define SYSTEM_SYSMODE		I2C_REG(CAT_SYSTEM, 0x0b, 1)
+-#define REG_SYSINIT		0x00	/* SYSTEM mode */
+-#define REG_PARAMETER		0x01	/* PARAMETER mode */
+-#define REG_MONITOR		0x02	/* MONITOR mode */
+-#define REG_CAPTURE		0x03	/* CAPTURE mode */
+-
+-#define SYSTEM_CMD(__cmd)	I2C_REG(CAT_SYSTEM, cmd, 1)
+-#define SYSTEM_VER_STRING	I2C_REG(CAT_SYSTEM, 0x0a, 1)
+-#define REG_SAMSUNG_ELECTRO	"SE"	/* Samsung Electro-Mechanics */
+-#define REG_SAMSUNG_OPTICS	"OP"	/* Samsung Fiber-Optics */
+-#define REG_SAMSUNG_TECHWIN	"TB"	/* Samsung Techwin */
+-/* SYSTEM mode status */
+-#define SYSTEM_STATUS	I2C_REG(CAT_SYSTEM, 0x0c, 1)
+-
+-/* Interrupt pending register */
+-#define SYSTEM_INT_FACTOR	I2C_REG(CAT_SYSTEM, 0x10, 1)
+-/* interrupt enable register */
+-#define SYSTEM_INT_ENABLE	I2C_REG(CAT_SYSTEM, 0x11, 1)
+-#define REG_INT_MODE		(1 << 0)
+-#define REG_INT_AF		(1 << 1)
+-#define REG_INT_ZOOM		(1 << 2)
+-#define REG_INT_CAPTURE		(1 << 3)
+-#define REG_INT_FRAMESYNC	(1 << 4)
+-#define REG_INT_FD		(1 << 5)
+-#define REG_INT_LENS_INIT	(1 << 6)
+-#define REG_INT_SOUND		(1 << 7)
+-#define REG_INT_MASK		0x0f
+-
+-/*
+- * category 1 - PARAMETER mode
+- *
+- * This category supports function of camera features of M-5MOLS. It means we
+- * can handle with preview(MONITOR) resolution size/frame per second/interface
+- * between the sensor and the Application Processor/even the image effect.
+- */
+-
+-/* Resolution in the MONITOR mode */
+-#define PARM_MON_SIZE		I2C_REG(CAT_PARAM, 0x01, 1)
+-
+-/* Frame rate */
+-#define PARM_MON_FPS		I2C_REG(CAT_PARAM, 0x02, 1)
+-#define REG_FPS_30		0x02
+-
+-/* Video bus between the sensor and a host processor */
+-#define PARM_INTERFACE		I2C_REG(CAT_PARAM, 0x00, 1)
+-#define REG_INTERFACE_MIPI	0x02
+-
+-/* Image effects */
+-#define PARM_EFFECT		I2C_REG(CAT_PARAM, 0x0b, 1)
+-#define REG_EFFECT_OFF		0x00
+-#define REG_EFFECT_NEGA		0x01
+-#define REG_EFFECT_EMBOSS	0x06
+-#define REG_EFFECT_OUTLINE	0x07
+-#define REG_EFFECT_WATERCOLOR	0x08
+-
+-/*
+- * Category 2 - MONITOR mode
+- *
+- * The MONITOR mode is same as preview mode as we said. The M-5MOLS has another
+- * mode named "Preview", but this preview mode is used at the case specific
+- * vider-recording mode. This mmode supports only YUYV format. On the other
+- * hand, the JPEG & RAW formats is supports by CAPTURE mode. And, there are
+- * another options like zoom/color effect(different with effect in PARAMETER
+- * mode)/anti hand shaking algorithm.
+- */
+-
+-/* Target digital zoom position */
+-#define MON_ZOOM		I2C_REG(CAT_MONITOR, 0x01, 1)
+-
+-/* CR value for color effect */
+-#define MON_CFIXR		I2C_REG(CAT_MONITOR, 0x0a, 1)
+-/* CB value for color effect */
+-#define MON_CFIXB		I2C_REG(CAT_MONITOR, 0x09, 1)
+-#define REG_CFIXB_SEPIA		0xd8
+-#define REG_CFIXR_SEPIA		0x18
+-
+-#define MON_EFFECT		I2C_REG(CAT_MONITOR, 0x0b, 1)
+-#define REG_COLOR_EFFECT_OFF	0x00
+-#define REG_COLOR_EFFECT_ON	0x01
+-
+-/* Chroma enable */
+-#define MON_CHROMA_EN		I2C_REG(CAT_MONITOR, 0x10, 1)
+-/* Chroma level */
+-#define MON_CHROMA_LVL		I2C_REG(CAT_MONITOR, 0x0f, 1)
+-#define REG_CHROMA_OFF		0x00
+-#define REG_CHROMA_ON		0x01
+-
+-/* Sharpness on/off */
+-#define MON_EDGE_EN		I2C_REG(CAT_MONITOR, 0x12, 1)
+-/* Sharpness level */
+-#define MON_EDGE_LVL		I2C_REG(CAT_MONITOR, 0x11, 1)
+-#define REG_EDGE_OFF		0x00
+-#define REG_EDGE_ON		0x01
+-
+-/* Set color tone (contrast) */
+-#define MON_TONE_CTL		I2C_REG(CAT_MONITOR, 0x25, 1)
+-
+-/*
+- * Category 3 - Auto Exposure
+- *
+- * The M-5MOLS exposure capbility is detailed as which is similar to digital
+- * camera. This category supports AE locking/various AE mode(range of exposure)
+- * /ISO/flickering/EV bias/shutter/meteoring, and anything else. And the
+- * maximum/minimum exposure gain value depending on M-5MOLS firmware, may be
+- * different. So, this category also provide getting the max/min values. And,
+- * each MONITOR and CAPTURE mode has each gain/shutter/max exposure values.
+- */
+-
+-/* Auto Exposure locking */
+-#define AE_LOCK			I2C_REG(CAT_AE, 0x00, 1)
+-#define REG_AE_UNLOCK		0x00
+-#define REG_AE_LOCK		0x01
+-
+-/* Auto Exposure algorithm mode */
+-#define AE_MODE			I2C_REG(CAT_AE, 0x01, 1)
+-#define REG_AE_OFF		0x00	/* AE off */
+-#define REG_AE_ALL		0x01	/* calc AE in all block integral */
+-#define REG_AE_CENTER		0x03	/* calc AE in center weighted */
+-#define REG_AE_SPOT		0x06	/* calc AE in specific spot */
+-
+-#define AE_ISO			I2C_REG(CAT_AE, 0x05, 1)
+-#define REG_ISO_AUTO		0x00
+-#define REG_ISO_50		0x01
+-#define REG_ISO_100		0x02
+-#define REG_ISO_200		0x03
+-#define REG_ISO_400		0x04
+-#define REG_ISO_800		0x05
+-
+-/* EV (scenemode) preset for MONITOR */
+-#define AE_EV_PRESET_MONITOR	I2C_REG(CAT_AE, 0x0a, 1)
+-/* EV (scenemode) preset for CAPTURE */
+-#define AE_EV_PRESET_CAPTURE	I2C_REG(CAT_AE, 0x0b, 1)
+-#define REG_SCENE_NORMAL	0x00
+-#define REG_SCENE_PORTRAIT	0x01
+-#define REG_SCENE_LANDSCAPE	0x02
+-#define REG_SCENE_SPORTS	0x03
+-#define REG_SCENE_PARTY_INDOOR	0x04
+-#define REG_SCENE_BEACH_SNOW	0x05
+-#define REG_SCENE_SUNSET	0x06
+-#define REG_SCENE_DAWN_DUSK	0x07
+-#define REG_SCENE_FALL		0x08
+-#define REG_SCENE_NIGHT		0x09
+-#define REG_SCENE_AGAINST_LIGHT	0x0a
+-#define REG_SCENE_FIRE		0x0b
+-#define REG_SCENE_TEXT		0x0c
+-#define REG_SCENE_CANDLE	0x0d
+-
+-/* Manual gain in MONITOR mode */
+-#define AE_MAN_GAIN_MON		I2C_REG(CAT_AE, 0x12, 2)
+-/* Maximum gain in MONITOR mode */
+-#define AE_MAX_GAIN_MON		I2C_REG(CAT_AE, 0x1a, 2)
+-/* Manual gain in CAPTURE mode */
+-#define AE_MAN_GAIN_CAP		I2C_REG(CAT_AE, 0x26, 2)
+-
+-#define AE_INDEX		I2C_REG(CAT_AE, 0x38, 1)
+-#define REG_AE_INDEX_20_NEG	0x00
+-#define REG_AE_INDEX_15_NEG	0x01
+-#define REG_AE_INDEX_10_NEG	0x02
+-#define REG_AE_INDEX_05_NEG	0x03
+-#define REG_AE_INDEX_00		0x04
+-#define REG_AE_INDEX_05_POS	0x05
+-#define REG_AE_INDEX_10_POS	0x06
+-#define REG_AE_INDEX_15_POS	0x07
+-#define REG_AE_INDEX_20_POS	0x08
+-
+-/*
+- * Category 6 - White Balance
+- */
+-
+-/* Auto Whitebalance locking */
+-#define AWB_LOCK		I2C_REG(CAT_WB, 0x00, 1)
+-#define REG_AWB_UNLOCK		0x00
+-#define REG_AWB_LOCK		0x01
+-
+-#define AWB_MODE		I2C_REG(CAT_WB, 0x02, 1)
+-#define REG_AWB_AUTO		0x01	/* AWB off */
+-#define REG_AWB_PRESET		0x02	/* AWB preset */
+-
+-/* Manual WB (preset) */
+-#define AWB_MANUAL		I2C_REG(CAT_WB, 0x03, 1)
+-#define REG_AWB_INCANDESCENT	0x01
+-#define REG_AWB_FLUORESCENT_1	0x02
+-#define REG_AWB_FLUORESCENT_2	0x03
+-#define REG_AWB_DAYLIGHT	0x04
+-#define REG_AWB_CLOUDY		0x05
+-#define REG_AWB_SHADE		0x06
+-#define REG_AWB_HORIZON		0x07
+-#define REG_AWB_LEDLIGHT	0x09
+-
+-/*
+- * Category 7 - EXIF information
+- */
+-#define EXIF_INFO_EXPTIME_NU	I2C_REG(CAT_EXIF, 0x00, 4)
+-#define EXIF_INFO_EXPTIME_DE	I2C_REG(CAT_EXIF, 0x04, 4)
+-#define EXIF_INFO_TV_NU		I2C_REG(CAT_EXIF, 0x08, 4)
+-#define EXIF_INFO_TV_DE		I2C_REG(CAT_EXIF, 0x0c, 4)
+-#define EXIF_INFO_AV_NU		I2C_REG(CAT_EXIF, 0x10, 4)
+-#define EXIF_INFO_AV_DE		I2C_REG(CAT_EXIF, 0x14, 4)
+-#define EXIF_INFO_BV_NU		I2C_REG(CAT_EXIF, 0x18, 4)
+-#define EXIF_INFO_BV_DE		I2C_REG(CAT_EXIF, 0x1c, 4)
+-#define EXIF_INFO_EBV_NU	I2C_REG(CAT_EXIF, 0x20, 4)
+-#define EXIF_INFO_EBV_DE	I2C_REG(CAT_EXIF, 0x24, 4)
+-#define EXIF_INFO_ISO		I2C_REG(CAT_EXIF, 0x28, 2)
+-#define EXIF_INFO_FLASH		I2C_REG(CAT_EXIF, 0x2a, 2)
+-#define EXIF_INFO_SDR		I2C_REG(CAT_EXIF, 0x2c, 2)
+-#define EXIF_INFO_QVAL		I2C_REG(CAT_EXIF, 0x2e, 2)
+-
+-/*
+- * Category 9 - Face Detection
+- */
+-#define FD_CTL			I2C_REG(CAT_FD, 0x00, 1)
+-#define BIT_FD_EN		0
+-#define BIT_FD_DRAW_FACE_FRAME	4
+-#define BIT_FD_DRAW_SMILE_LVL	6
+-#define REG_FD(shift)		(1 << shift)
+-#define REG_FD_OFF		0x0
+-
+-/*
+- * Category A - Lens Parameter
+- */
+-#define AF_MODE			I2C_REG(CAT_LENS, 0x01, 1)
+-#define REG_AF_NORMAL		0x00	/* Normal AF, one time */
+-#define REG_AF_MACRO		0x01	/* Macro AF, one time */
+-#define REG_AF_POWEROFF		0x07
+-
+-#define AF_EXECUTE		I2C_REG(CAT_LENS, 0x02, 1)
+-#define REG_AF_STOP		0x00
+-#define REG_AF_EXE_AUTO		0x01
+-#define REG_AF_EXE_CAF		0x02
+-
+-#define AF_STATUS		I2C_REG(CAT_LENS, 0x03, 1)
+-#define REG_AF_FAIL		0x00
+-#define REG_AF_SUCCESS		0x02
+-#define REG_AF_IDLE		0x04
+-#define REG_AF_BUSY		0x05
+-
+-#define AF_VERSION		I2C_REG(CAT_LENS, 0x0a, 1)
+-
+-/*
+- * Category B - CAPTURE Parameter
+- */
+-#define CAPP_YUVOUT_MAIN	I2C_REG(CAT_CAPT_PARM, 0x00, 1)
+-#define REG_YUV422		0x00
+-#define REG_BAYER10		0x05
+-#define REG_BAYER8		0x06
+-#define REG_JPEG		0x10
+-
+-#define CAPP_MAIN_IMAGE_SIZE	I2C_REG(CAT_CAPT_PARM, 0x01, 1)
+-#define CAPP_JPEG_SIZE_MAX	I2C_REG(CAT_CAPT_PARM, 0x0f, 4)
+-#define CAPP_JPEG_RATIO		I2C_REG(CAT_CAPT_PARM, 0x17, 1)
+-
+-#define CAPP_MCC_MODE		I2C_REG(CAT_CAPT_PARM, 0x1d, 1)
+-#define REG_MCC_OFF		0x00
+-#define REG_MCC_NORMAL		0x01
+-
+-#define CAPP_WDR_EN		I2C_REG(CAT_CAPT_PARM, 0x2c, 1)
+-#define REG_WDR_OFF		0x00
+-#define REG_WDR_ON		0x01
+-#define REG_WDR_AUTO		0x02
+-
+-#define CAPP_LIGHT_CTRL		I2C_REG(CAT_CAPT_PARM, 0x40, 1)
+-#define REG_LIGHT_OFF		0x00
+-#define REG_LIGHT_ON		0x01
+-#define REG_LIGHT_AUTO		0x02
+-
+-#define CAPP_FLASH_CTRL		I2C_REG(CAT_CAPT_PARM, 0x41, 1)
+-#define REG_FLASH_OFF		0x00
+-#define REG_FLASH_ON		0x01
+-#define REG_FLASH_AUTO		0x02
+-
+-/*
+- * Category C - CAPTURE Control
+- */
+-#define CAPC_MODE		I2C_REG(CAT_CAPT_CTRL, 0x00, 1)
+-#define REG_CAP_NONE		0x00
+-#define REG_CAP_ANTI_SHAKE	0x02
+-
+-/* Select single- or multi-shot capture */
+-#define CAPC_SEL_FRAME		I2C_REG(CAT_CAPT_CTRL, 0x06, 1)
+-
+-#define CAPC_START		I2C_REG(CAT_CAPT_CTRL, 0x09, 1)
+-#define REG_CAP_START_MAIN	0x01
+-#define REG_CAP_START_THUMB	0x03
+-
+-#define CAPC_IMAGE_SIZE		I2C_REG(CAT_CAPT_CTRL, 0x0d, 4)
+-#define CAPC_THUMB_SIZE		I2C_REG(CAT_CAPT_CTRL, 0x11, 4)
+-
+-/*
+- * Category F - Flash
+- *
+- * This mode provides functions about internal flash stuff and system startup.
+- */
+-
+-/* Starts internal ARM core booting after power-up */
+-#define FLASH_CAM_START		I2C_REG(CAT_FLASH, 0x12, 1)
+-#define REG_START_ARM_BOOT	0x01	/* write value */
+-#define REG_IN_FLASH_MODE	0x00	/* read value */
+-
+-#endif	/* M5MOLS_REG_H */
+diff --git a/include/media/i2c/m5mols.h b/include/media/i2c/m5mols.h
+deleted file mode 100644
+index a56ae353c891..000000000000
+--- a/include/media/i2c/m5mols.h
++++ /dev/null
+@@ -1,25 +0,0 @@
+-/* SPDX-License-Identifier: GPL-2.0-or-later */
+-/*
+- * Driver header for M-5MOLS 8M Pixel camera sensor with ISP
+- *
+- * Copyright (C) 2011 Samsung Electronics Co., Ltd.
+- * Author: HeungJun Kim <riverful.kim@samsung.com>
+- *
+- * Copyright (C) 2009 Samsung Electronics Co., Ltd.
+- * Author: Dongsoo Nathaniel Kim <dongsoo45.kim@samsung.com>
+- */
+-
+-#ifndef MEDIA_M5MOLS_H
+-#define MEDIA_M5MOLS_H
+-
+-/**
+- * struct m5mols_platform_data - platform data for M-5MOLS driver
+- * @set_power:	an additional callback to the board setup code
+- *		to be called after enabling and before disabling
+- *		the sensor's supply regulators
+- */
+-struct m5mols_platform_data {
+-	int (*set_power)(struct device *dev, int on);
 -};
 -
--/* Platform dependent definitions */
--struct ad9389b_platform_data {
--	enum ad9389b_tmds_pll_gear tmds_pll_gear ;
--	/* Differential Data/Clock Output Drive Strength (reg. 0xa2/0xa3) */
--	u8 diff_data_drive_strength;
--	u8 diff_clk_drive_strength;
--};
--
--/* notify events */
--#define AD9389B_MONITOR_DETECT 0
--#define AD9389B_EDID_DETECT 1
--
--struct ad9389b_monitor_detect {
--	int present;
--};
--
--struct ad9389b_edid_detect {
--	int present;
--	int segment;
--};
--
--#endif
+-#endif	/* MEDIA_M5MOLS_H */
 -- 
 Regards,
 
