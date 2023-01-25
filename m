@@ -2,434 +2,305 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C4CC267A6BB
-	for <lists+linux-media@lfdr.de>; Wed, 25 Jan 2023 00:14:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 87D5967A80E
+	for <lists+linux-media@lfdr.de>; Wed, 25 Jan 2023 01:57:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234126AbjAXXOh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 24 Jan 2023 18:14:37 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58766 "EHLO
+        id S229931AbjAYA55 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 24 Jan 2023 19:57:57 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55692 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229933AbjAXXOg (ORCPT
+        with ESMTP id S229545AbjAYA54 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 24 Jan 2023 18:14:36 -0500
-Received: from mail-yb1-xb2d.google.com (mail-yb1-xb2d.google.com [IPv6:2607:f8b0:4864:20::b2d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F55930DE
-        for <linux-media@vger.kernel.org>; Tue, 24 Jan 2023 15:14:33 -0800 (PST)
-Received: by mail-yb1-xb2d.google.com with SMTP id t16so16285608ybk.2
-        for <linux-media@vger.kernel.org>; Tue, 24 Jan 2023 15:14:33 -0800 (PST)
+        Tue, 24 Jan 2023 19:57:56 -0500
+Received: from mail-vs1-xe2a.google.com (mail-vs1-xe2a.google.com [IPv6:2607:f8b0:4864:20::e2a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2881D233D7
+        for <linux-media@vger.kernel.org>; Tue, 24 Jan 2023 16:57:55 -0800 (PST)
+Received: by mail-vs1-xe2a.google.com with SMTP id k6so18353711vsk.1
+        for <linux-media@vger.kernel.org>; Tue, 24 Jan 2023 16:57:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=krDGb1uU0XHSs1OnKklnaD4UaHKK3uJv8fDw9pZZXWY=;
-        b=QJLIIsqDx5aF75RhrTgSXc88brM8P88THPq/9Ks/gGtMI6/ruL7ih5m5TKdPmzFe8v
-         r3GgHKG7J+BvhtQS7v+gGM86NRt3vR5l7fX2ImGSWCReg/ableZF5jFnqoRKYug/m3g9
-         KuYJRXs6GVCbmIPfHjrwwvX5Hme4xkkzeDx3tGpQj9guG0aUGeJI5+ghe0zpU+COcUwz
-         3ldPV7o5TN7MG4BtWLx252cjPUpqsg0RprhxjzD8E7QnN+I2mcUkjo7BhDIhJe4DmQfz
-         iJIc8H+AWSOU5lpjONDYFN/vvT+rPBfiEyK/NBfrciqmf+qvJP4xceczLYl60L94iRaW
-         DJEg==
+        d=broadcom.com; s=google;
+        h=cc:to:subject:message-id:date:thread-index:mime-version:in-reply-to
+         :references:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=jxhbo1XjDdn+53LYTdfFnaGocqpa3IGv2+GjpWmRb20=;
+        b=SMGjBsOJ+NKyvU8xTd0bYbOcN9nH88PIzrD2tpOgrmWXeq9hUt5xeS5fWNJSxGEAil
+         HpZ/9atmeIxVFAQDSeN13IXFe5W2aJfwNWv6QXcnJpPpoOOqFyNqRYtjYeXCreNRjakb
+         pTwT02IL+lp7WcXoEEjxnDg0J01DHSYXpp7fY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=krDGb1uU0XHSs1OnKklnaD4UaHKK3uJv8fDw9pZZXWY=;
-        b=aqSjziDZ2+OVToDxTDysdENZUK8bXM6z14YIjrw4D+WA3JxNJlPWEX+Ml8DQe4B+zK
-         1Yc097Nlw3OSj5KrrnzPxa+1FFmW/O4gJv/YYV0bNvOljsWnaZDiYZzC7A5NLB/qSDQc
-         kAhkokOg0s9lhUDv58i36bbzZ6ssS/CBpedmKUzGsu+H7Rxn0zq9EHYrhIM+f4Bue249
-         xjT2SAuPzHqjRGTJUL6o+mBWISHIX4WFV77ZIEiGKLU7S0vjYMOJCaY6oE+B/SGyL+sZ
-         MUWp0gJ/Rz1C/EH625rMoFiB7pDRhzt+HOZ1zWaZXZW2psmNcVKAMXbGqAS3dtNFrszL
-         f8Ug==
-X-Gm-Message-State: AFqh2koVaRGI/NWezXb9uy5IHaxE/l36PpwZf1S5sYqa7YhohhJgPak2
-        pKuNTiVh374lZcZGODOi7onfGXwVtQ6qQ+3yBdHjmQ==
-X-Google-Smtp-Source: AMrXdXubk+Lhh+dwul+T/ENR0j11N91K9dth8kAHH0RZnrUK5eD84S4y2OMxqlPJsIRr6fpzEPZDFosLo2Ap7VrIZBE=
-X-Received: by 2002:a25:4d54:0:b0:7b3:d193:23ac with SMTP id
- a81-20020a254d54000000b007b3d19323acmr3387694ybb.97.1674602071880; Tue, 24
- Jan 2023 15:14:31 -0800 (PST)
+        h=cc:to:subject:message-id:date:thread-index:mime-version:in-reply-to
+         :references:from:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=jxhbo1XjDdn+53LYTdfFnaGocqpa3IGv2+GjpWmRb20=;
+        b=4voAunxff+OKwSq1Y3qoqnyFQKOO+h/lYt8+M17l6/WfcSDqlEaWcFuqCBudFKyQb5
+         DJJySw6F35SNFSAJUTg8knnytcwWZumFOwbPcq9jnsDCvS9E9wQ6J7LJEztuHUQNA/iZ
+         vkZ50Dg3m7yXl4VH+V0NHaIAv9tLgnA/eSjXw6J59pE0buzUlGIkIYQU9sFcJXhVNQWS
+         GQJsEL421McmEhQJy5KzSCdm6UQdlIMoXZVOK5UnulYEbIpSy94ufLqrasG64sc55ow2
+         iKhEQPeeXf8Zt0luNVRUH/d8tvyFH34QMQJq/OONqILhqQz0v0VBoZDiGA9gWdNgY44C
+         kqQA==
+X-Gm-Message-State: AFqh2kq4qr2JTokWP/wCoFR/iNdbevnoTbjvYbRb30il82ax/4JuM1yh
+        KUu+ZUvAd4T3BGGGP5S8b2/0eLzwerm76QnSQHNoYw==
+X-Google-Smtp-Source: AMrXdXu0WEVAHtkl/7WrGp7gsGmIxeNAjZACQY1znOQilpBjqALn5uFkSCuep3Y6cqMY533KDesP8Mmq99uNyBp2hTA=
+X-Received: by 2002:a67:f246:0:b0:3b1:5690:a240 with SMTP id
+ y6-20020a67f246000000b003b15690a240mr3921552vsm.68.1674608274113; Tue, 24 Jan
+ 2023 16:57:54 -0800 (PST)
+From:   William Zhang <william.zhang@broadcom.com>
+References: <20230119185342.2093323-1-amit.kumar-mahapatra@amd.com> <20230119185342.2093323-3-amit.kumar-mahapatra@amd.com>
+In-Reply-To: <20230119185342.2093323-3-amit.kumar-mahapatra@amd.com>
 MIME-Version: 1.0
-References: <20230123123756.401692-1-christian.koenig@amd.com>
- <Y86R3vQX+vW0+oxw@pendragon.ideasonboard.com> <1f4a1a5c-e0d5-7f0e-353c-daa89f1369ea@amd.com>
- <Y868mG7Oa5bI1wB7@pendragon.ideasonboard.com> <349797d3-2406-cb78-4d3d-61a4628f762b@nvidia.com>
- <ece8638d-01a3-6e25-c68c-c9e225200b08@amd.com>
-In-Reply-To: <ece8638d-01a3-6e25-c68c-c9e225200b08@amd.com>
-From:   "T.J. Mercier" <tjmercier@google.com>
-Date:   Tue, 24 Jan 2023 15:14:20 -0800
-Message-ID: <CABdmKX2ufe2ufuoZL8GzSJAT8mNGOcrb2P2=Of27cWhCNtLEPg@mail.gmail.com>
-Subject: Re: DMA-heap driver hints
-To:     =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc:     James Jones <jajones@nvidia.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linaro-mm-sig@lists.linaro.org, sebastian.wick@redhat.com,
-        labbott@redhat.com, benjamin.gaignard@collabora.com,
-        linux-media@vger.kernel.org, mchehab@kernel.org,
-        ppaalanen@gmail.com, dri-devel@lists.freedesktop.org,
-        nicolas@ndufresne.ca, hverkuil@xs4all.nl, jstultz@google.com,
-        lmark@codeaurora.org, tfiga@chromium.org, sumit.semwal@linaro.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Mailer: Microsoft Outlook 16.0
+Thread-Index: AQGsd40KKMSPSaowQedOCmq8Q0lhhQIBWekOAbfQgXk=
+Date:   Tue, 24 Jan 2023 16:57:49 -0800
+Message-ID: <36840e0caeca5f53eef4fab615fc7976@mail.gmail.com>
+Subject: Re: [PATCH v2 02/13] spi: Replace all spi->chip_select and
+ spi->cs_gpiod references with function call
+To:     Amit Kumar Mahapatra <amit.kumar-mahapatra@amd.com>,
+        broonie@kernel.org, miquel.raynal@bootlin.com, richard@nod.at,
+        vigneshr@ti.com, jic23@kernel.org, tudor.ambarus@microchip.com,
+        pratyush@kernel.org, sanju.mehta@amd.com,
+        chin-ting_kuo@aspeedtech.com, clg@kaod.org, kdasu.kdev@gmail.com,
+        f.fainelli@gmail.com, rjui@broadcom.com, sbranden@broadcom.com,
+        eajames@linux.ibm.com, olteanv@gmail.com, han.xu@nxp.com,
+        john.garry@huawei.com, shawnguo@kernel.org, s.hauer@pengutronix.de,
+        narmstrong@baylibre.com, khilman@baylibre.com,
+        matthias.bgg@gmail.com, haibo.chen@nxp.com,
+        linus.walleij@linaro.org, daniel@zonque.org,
+        haojian.zhuang@gmail.com, robert.jarzmik@free.fr,
+        agross@kernel.org, bjorn.andersson@linaro.org, heiko@sntech.de,
+        krzysztof.kozlowski@linaro.org, andi@etezian.org,
+        mcoquelin.stm32@gmail.com, alexandre.torgue@foss.st.com,
+        wens@csie.org, jernej.skrabec@gmail.com, samuel@sholland.org,
+        masahisa.kojima@linaro.org, jaswinder.singh@linaro.org,
+        rostedt@goodmis.org, mingo@redhat.com, l.stelmach@samsung.com,
+        davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+        pabeni@redhat.com, alex.aring@gmail.com, stefan@datenfreihafen.org,
+        kvalo@kernel.org, thierry.reding@gmail.com, jonathanh@nvidia.com,
+        skomatineni@nvidia.com, sumit.semwal@linaro.org,
+        christian.koenig@amd.com, j.neuschaefer@gmx.net,
+        vireshk@kernel.org, rmfrfs@gmail.com, johan@kernel.org,
+        elder@kernel.org, gregkh@linuxfoundation.org
+Cc:     git@amd.com, linux-spi@vger.kernel.org,
+        linux-kernel@vger.kernel.org, joel@jms.id.au, andrew@aj.id.au,
+        radu_nicolae.pirea@upb.ro, nicolas.ferre@microchip.com,
+        alexandre.belloni@bootlin.com, claudiu.beznea@microchip.com,
+        bcm-kernel-feedback-list@broadcom.com, fancer.lancer@gmail.com,
+        kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
+        jbrunet@baylibre.com, martin.blumenstingl@googlemail.com,
+        avifishman70@gmail.com, tmaimon77@gmail.com, tali.perry1@gmail.com,
+        venture@google.com, yuenn@google.com, benjaminfair@google.com,
+        yogeshgaur.83@gmail.com, konrad.dybcio@somainline.org,
+        alim.akhtar@samsung.com, ldewangan@nvidia.com,
+        michal.simek@amd.com, linux-aspeed@lists.ozlabs.org,
+        openbmc@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org,
+        linux-rpi-kernel@lists.infradead.org,
+        linux-amlogic@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+        linux-rockchip@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
+        netdev@vger.kernel.org, linux-wpan@vger.kernel.org,
+        libertas-dev@lists.infradead.org, linux-wireless@vger.kernel.org,
+        linux-mtd@lists.infradead.org, lars@metafoo.de,
+        Michael.Hennerich@analog.com, linux-iio@vger.kernel.org,
+        michael@walle.cc, palmer@dabbelt.com,
+        linux-riscv@lists.infradead.org, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, greybus-dev@lists.linaro.org,
+        linux-staging@lists.linux.dev, amitrkcian2002@gmail.com
+Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
+        boundary="00000000000056650a05f30c1f1c"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Jan 23, 2023 at 11:49 PM Christian K=C3=B6nig
-<christian.koenig@amd.com> wrote:
->
-> Am 24.01.23 um 04:56 schrieb James Jones:
-> > On 1/23/23 08:58, Laurent Pinchart wrote:
-> >> Hi Christian,
-> >>
-> >> On Mon, Jan 23, 2023 at 05:29:18PM +0100, Christian K=C3=B6nig wrote:
-> >>> Am 23.01.23 um 14:55 schrieb Laurent Pinchart:
-> >>>> Hi Christian,
-> >>>>
-> >>>> CC'ing James as I think this is related to his work on the unix devi=
-ce
-> >>>> memory allocator ([1]).
-> >
-> > Thank you for including me.
->
-> Sorry for not having you in initially. I wasn't aware of your previous
-> work in this area.
->
-> >
-> >>>> [1]
-> >>>> https://lore.kernel.org/dri-devel/8b555674-1c5b-c791-4547-2ea7c16aee=
-6c@nvidia.com/
-> >>>>
-> >>>> On Mon, Jan 23, 2023 at 01:37:54PM +0100, Christian K=C3=B6nig wrote=
-:
-> >>>>> Hi guys,
-> >>>>>
-> >>>>> this is just an RFC! The last time we discussed the DMA-buf coheren=
-cy
-> >>>>> problem [1] we concluded that DMA-heap first needs a better way to
-> >>>>> communicate to userspace which heap to use for a certain device.
-> >>>>>
-> >>>>> As far as I know userspace currently just hard codes that informati=
-on
-> >>>>> which is certainly not desirable considering that we should have th=
-is
-> >>>>> inside the kernel as well.
-> >>>>>
-> >>>>> So what those two patches here do is to first add some
-> >>>>> dma_heap_create_device_link() and dma_heap_remove_device_link()
-> >>>>> function and then demonstrating the functionality with uvcvideo
-> >>>>> driver.
-> >>>>>
-> >>>>> The preferred DMA-heap is represented with a symlink in sysfs betwe=
-en
-> >>>>> the device and the virtual DMA-heap device node.
-> >>>>
-> >>>> I'll start with a few high-level comments/questions:
-> >>>>
-> >>>> - Instead of tying drivers to heaps, have you considered a system
-> >>>> where
-> >>>>     a driver would expose constraints, and a heap would then be
-> >>>> selected
-> >>>>     based on those constraints ? A tight coupling between heaps and
-> >>>>     drivers means downstream patches to drivers in order to use
-> >>>>     vendor-specific heaps, that sounds painful.
-> >>>
-> >>> I was wondering the same thing as well, but came to the conclusion th=
-at
-> >>> just the other way around is the less painful approach.
-> >>
-> >>  From a kernel point of view, sure, it's simpler and thus less painful=
-.
-> >>  From the point of view of solving the whole issue, I'm not sure :-)
-> >>
-> >>> The problem is that there are so many driver specific constrains that=
- I
-> >>> don't even know where to start from.
-> >>
-> >> That's where I was hoping James would have some feedback for us, based
-> >> on the work he did on the Unix device memory allocator. If that's not
-> >> the case, we can brainstorm this from scratch.
-> >
-> > Simon Ser's and my presentation from XDC 2020 focused entirely on
-> > this. The idea was not to try to enumerate every constraint up front,
-> > but rather to develop an extensible mechanism that would be flexible
-> > enough to encapsulate many disparate types of constraints and perform
-> > set operations on them (merging sets was the only operation we tried
-> > to solve). Simon implemented a prototype header-only library to
-> > implement the mechanism:
-> >
-> > https://gitlab.freedesktop.org/emersion/drm-constraints
-> >
-> > The links to the presentation and talk are below, along with notes
-> > from the follow-up workshop.
-> >
-> > https://lpc.events/event/9/contributions/615/attachments/704/1301/XDC_2=
-020__Allocation_Constraints.pdf
-> >
-> > https://www.youtube.com/watch?v=3DHZEClOP5TIk
-> > https://paste.sr.ht/~emersion/c43b30be08bab1882f1b107402074462bba3b64a
-> >
-> > Note one of the hard parts of this was figuring out how to express a
-> > device or heap within the constraint structs. One of the better ideas
-> > proposed back then was something like heap IDs, where dma heaps would
-> > each have one,
->
-> We already have that. Each dma_heap has it's own unique name.
->
-> > and devices could register their own heaps (or even just themselves?)
-> > with the heap subsystem and be assigned a locally-unique ID that
-> > userspace could pass around.
->
-> I was more considering that we expose some kind of flag noting that a
-> certain device needs its buffer allocated from that device to utilize
-> all use cases.
->
-> > This sounds similar to what you're proposing. Perhaps a reasonable
-> > identifier is a device (major, minor) pair. Such a constraint could be
-> > expressed as a symlink for easy visualization/discoverability from
-> > userspace, but might be easier to serialize over the wire as the
-> > (major, minor) pair. I'm not clear which direction is better to
-> > express this either: As a link from heap->device, or device->heap.
-> >
-> >>>>     A constraint-based system would also, I think, be easier to exte=
-nd
-> >>>>     with additional constraints in the future.
-> >>>>
-> >>>> - I assume some drivers will be able to support multiple heaps. How =
-do
-> >>>>     you envision this being implemented ?
-> >>>
-> >>> I don't really see an use case for this.
-> >
-> > One use case I know of here is same-vendor GPU local memory on
-> > different GPUs. NVIDIA GPUs have certain things they can only do on
-> > local memory, certain things they can do on all memory, and certain
-> > things they can only do on memory local to another NVIDIA GPU,
-> > especially when there exists an NVLink interface between the two. So
-> > they'd ideally express different constraints for heap representing
-> > each of those.
->
-> I strongly think that exposing this complexity is overkill. We have
-> pretty much the same on AMD GPUs with XGMI, but this is so vendor
-> specific that I'm pretty sure we shouldn't have that in a common framewor=
-k.
->
-> We should concentrate on solving the problem at hand and not trying to
-> come up with something to complex to be implementable by everybody.
-> Extensibility is the key here not getting everything handled in the
-> initial code drop.
->
-> >
-> > The same thing is often true of memory on remote devices that are at
-> > various points in a PCIe topology. We've had situations where we could
-> > only get enough bandwidth between two PCIe devices when they were less
-> > than some number of hops away on the PCI tree. We hard-coded logic to
-> > detect that in our userspace drivers, but we could instead expose it
-> > as a constraint on heaps that would express which devices can
-> > accomplish certain operations as pairs.
-> >
-> > Similarly to the last one, I would assume (But haven't yet run into in
-> > my personal experience) similar limitations arise when you have a NUMA
-> > memory configuration, if you had a heap representing each NUMA node or
-> > something, some might have more coherency than others, or might have
-> > different bandwidth limitations that you could express through
-> > something like device tree, etc. This is more speculative, but seems
-> > like a generalization of the above two cases.
-> >
-> >>> We do have some drivers which say: for this use case you can use
-> >>> whatever you want, but for that use case you need to use specific
-> >>> memory
-> >>> (scan out on GPUs for example works like this).
-> >>>
-> >>> But those specific use cases are exactly that, very specific. And
-> >>> exposing all the constrains for them inside a kernel UAPI is a futile
-> >>> effort (at least for the GPU scan out case). In those situations it's
-> >>> just better to have the allocator in userspace deal with device
-> >>> specific
-> >>> stuff.
-> >>
-> >> While the exact constraints will certainly be device-specific, is that
-> >> also true of the type of constraints, or the existence of constraints =
-in
-> >> the first place ? To give an example, with a video decoder producing
-> >> frames that are then rendered by a GPU, the tiling format that would
-> >> produce the best result is device-specific, but the fact that the
-> >> decoder can produce a tiled format that would work better for the GPU,
-> >> or a non-tiled format for other consumers, is a very common constraint=
-.
-> >> I don't think we'll be able to do away completely with the
-> >> device-specific code in userspace, but I think we should be able to
-> >> expose constraints in a generic-enough way that many simple use cases
-> >> will be covered by generic code.
-> >
-> > Yes, agreed, the design we proposed took pains to allow
-> > vendor-specific constraints via a general mechanism. We supported both
-> > vendor-specific types of constraints, and vendor-specific values for
-> > general constraints. Some code repository would act as the central
-> > registry of constraint types, similar to the Linux kernel's
-> > drm_fourcc.h for modifiers, or the Khronos github repository for
-> > Vulkan vendor IDs. If the definition needs to be used by the kernel,
-> > the kernel is the logical repository for that role IMHO.
-> >
-> > In our 2020 discussion, there was some debate over whether the kernel
-> > should expose and/or consume constraints directly, or whether it's
-> > sufficient to expose lower-level mechanisms from the kernel and keep
-> > the translation of constraints to the correct mechanism in userspace.
-> > There are pros/cons to both. I don't know that we bottomed out on that
-> > part of the discussion, and it could be the right answer is some
-> > combination of the two, as suggested below.
-> >
-> >>> What I want to do is to separate the problem. The kernel only provide=
-s
-> >>> the information where to allocate from, figuring out the details like
-> >>> how many bytes, which format, plane layout etc.. is still the job of
-> >>> userspace.
-> >>
-> >> Even with UVC, where to allocate memory from will depend on the use
-> >> case. If the consumer is a device that doesn't support non-contiguous
-> >> DMA, the system heap won't work.
-> >>
-> >> Actually, could you explain why UVC works better with the system heap =
-?
-> >> I'm looking at videobuf2 as an importer, and it doesn't call the dmabu=
-f
-> >> as far as I can tell, so cache management provided by the exporter see=
-ms
-> >> to be bypassed in any case.
-> >>
-> >>> What we do have is compatibility between heaps. E.g. a CMA heap is
-> >>> usually compatible with the system heap or might even be a subset of
-> >>> another CMA heap. But I wanted to add that as next step to the heaps
-> >>> framework itself.
-> >>>
-> >>>> - Devices could have different constraints based on particular
-> >>>>     configurations. For instance, a device may require specific memo=
-ry
-> >>>>     layout for multi-planar YUV formats only (as in allocating the
-> >>>> Y and C
-> >>>>     planes of NV12 from different memory banks). A dynamic API may
-> >>>> thus be
-> >>>>     needed (but may also be very painful to use from userspace).
-> >>>
-> >>> Uff, good to know. But I'm not sure how to expose stuff like that.
-> >>
-> >> Let's see if James has anything to share with us :-) With a bit of luc=
-k
-> >> we won't have to start from scratch.
-> >
-> > Well, this is the hard example we keep using as a measure of success
-> > for whatever we come up with. I don't know that someone ever sat down
-> > and tried to express this in the mechanism Simon and I proposed in
-> > 2020, but allowing the expression of something that complex was
-> > certainly our goal. How to resolve it down to an allocation mechanism,
-> > I believe, was further than we got, but we weren't that well versed in
-> > DMA heaps back then, or at least I wasn't.
-> >
-> >>>>> What's still missing is certainly matching userspace for this since=
- I
-> >>>>> wanted to discuss the initial kernel approach first.
-> >>>>
-> >>>> https://git.libcamera.org/libcamera/libcamera.git/ would be a good
-> >>>> place
-> >>>> to prototype userspace support :-)
-> >>>
-> >>> Thanks for the pointer and the review,
-> >>
-> >> By the way, side question, does anyone know what the status of dma hea=
-ps
-> >> support is in major distributions ? On my Gentoo box,
-> >> /dev/dma_heap/system is 0600 root:root. That's easy to change for a
-> >> developer, but not friendly to end-users. If we want to move forward
-> >> with dma heaps as standard multimedia allocators (and I would really
-> >> like to see that happening), we have to make sure they can be used.
-> >
-> > We seem to have reached a world where display (primary nodes) are
-> > carefully guarded, and some mildly trusted group of folks (video) can
-> > access render nodes, but then there's some separate group generally
-> > for camera/video/v4l and whatnot from what I've seen (I don't survey
-> > this stuff that often. I live in my developer bubble). I'm curious
-> > whether the right direction is a broader group that encompasses all of
-> > render nodes, multimedia, and heaps, or if a more segmented design is
-> > right. The latter is probably the better design from first principles,
-> > but might lead to headaches if the permissions diverge.
->
-> The main argument is that this memory is not properly accounted, but
-> this also counts for things like memory file descriptors returned by
-> memfd_create().
->
-> I have proposed multiple times now that we extend the OOM handling to
-> take memory allocated through file descriptors into account as well, but
-> I can't find the time to fully upstream this.
->
-> T.J. Mercier is working on some memcg based tracking which sounds like
-> it might resolve this problem as well.
->
-Gosh I hope so. How Android currently does this is with heavy use of
-sepolicy to control access to the individual heaps, sometimes even at
-a per-application/service level:
+--00000000000056650a05f30c1f1c
+Content-Type: text/plain; charset="UTF-8"
 
-raven:/dev/dma_heap # ls -lZ
-total 0
-cr--r--r-- 1 system audio    u:object_r:dmabuf_heap_device:s0
-      248,  15 2023-01-23 16:14 aaudio_capture_heap
-cr--r--r-- 1 system audio    u:object_r:dmabuf_heap_device:s0
-      248,  14 2023-01-23 16:14 aaudio_playback_heap
-cr--r--r-- 1 system graphics u:object_r:faceauth_heap_device:s0
-      248,   3 2023-01-23 16:14 faceauth_tpu-secure
-cr--r--r-- 1 system graphics u:object_r:faceauth_heap_device:s0
-      248,   4 2023-01-23 16:14 faimg-secure
-cr--r--r-- 1 system graphics u:object_r:faceauth_heap_device:s0
-      248,   7 2023-01-23 16:14 famodel-secure
-cr--r--r-- 1 system graphics u:object_r:faceauth_heap_device:s0
-      248,   6 2023-01-23 16:14 faprev-secure
-cr--r--r-- 1 system graphics u:object_r:faceauth_heap_device:s0
-      248,   5 2023-01-23 16:14 farawimg-secure
-cr--r--r-- 1 system graphics u:object_r:sensor_direct_heap_device:s0
-      248,  13 2023-01-23 16:14 sensor_direct_heap
-cr--r--r-- 1 system system   u:object_r:dmabuf_system_heap_device:s0
-      248,   9 2023-01-23 16:14 system
-cr--r--r-- 1 system system   u:object_r:dmabuf_system_heap_device:s0
-      248,  10 2023-01-23 16:14 system-uncached
-cr--r--r-- 1 system graphics u:object_r:dmabuf_heap_device:s0
-      248,   8 2023-01-23 16:14 tui-secure
-cr--r--r-- 1 system drmrpc
-u:object_r:dmabuf_system_secure_heap_device:s0  248,   1 2023-01-23
-16:14 vframe-secure
-cr--r--r-- 1 system drmrpc   u:object_r:dmabuf_heap_device:s0
-      248,  11 2023-01-23 16:14 video_system
-cr--r--r-- 1 system drmrpc   u:object_r:dmabuf_heap_device:s0
-      248,  12 2023-01-23 16:14 video_system-uncached
-cr--r--r-- 1 system graphics u:object_r:vscaler_heap_device:s0
-      248,   2 2023-01-23 16:14 vscaler-secure
-cr--r--r-- 1 system drmrpc
-u:object_r:dmabuf_system_secure_heap_device:s0  248,   0 2023-01-23
-16:14 vstream-secure
+On 01/19/2023 10:53 AM, 'Amit Kumar Mahapatra' via
+BCM-KERNEL-FEEDBACK-LIST,PDL wrote:
+> diff --git a/drivers/spi/spi-bcm63xx-hsspi.c
+> b/drivers/spi/spi-bcm63xx-hsspi.c
+> index b871fd810d80..dc179c4677d4 100644
+> --- a/drivers/spi/spi-bcm63xx-hsspi.c
+> +++ b/drivers/spi/spi-bcm63xx-hsspi.c
+> @@ -130,7 +130,7 @@ static void bcm63xx_hsspi_set_cs(struct bcm63xx_hsspi
+> *bs, unsigned int cs,
+>   static void bcm63xx_hsspi_set_clk(struct bcm63xx_hsspi *bs,
+>   				  struct spi_device *spi, int hz)
+>   {
+> -	unsigned int profile = spi->chip_select;
+> +	unsigned int profile = spi_get_chipselect(spi, 0);
+>   	u32 reg;
+>
+>   	reg = DIV_ROUND_UP(2048, DIV_ROUND_UP(bs->speed_hz, hz));
+> @@ -157,7 +157,7 @@ static void bcm63xx_hsspi_set_clk(struct bcm63xx_hsspi
+> *bs,
+>   static int bcm63xx_hsspi_do_txrx(struct spi_device *spi, struct
+> spi_transfer *t)
+>   {
+>   	struct bcm63xx_hsspi *bs = spi_master_get_devdata(spi->master);
+> -	unsigned int chip_select = spi->chip_select;
+> +	unsigned int chip_select = spi_get_chipselect(spi, 0);
+>   	u16 opcode = 0;
+>   	int pending = t->len;
+>   	int step_size = HSSPI_BUFFER_LEN;
+> @@ -165,7 +165,7 @@ static int bcm63xx_hsspi_do_txrx(struct spi_device
+> *spi, struct spi_transfer *t)
+>   	u8 *rx = t->rx_buf;
+>
+>   	bcm63xx_hsspi_set_clk(bs, spi, t->speed_hz);
+> -	bcm63xx_hsspi_set_cs(bs, spi->chip_select, true);
+> +	bcm63xx_hsspi_set_cs(bs, spi_get_chipselect(spi, 0), true);
+>
+>   	if (tx && rx)
+>   		opcode = HSSPI_OP_READ_WRITE;
+> @@ -228,14 +228,14 @@ static int bcm63xx_hsspi_setup(struct spi_device
+> *spi)
+>   	u32 reg;
+>
+>   	reg = __raw_readl(bs->regs +
+> -			  HSSPI_PROFILE_SIGNAL_CTRL_REG(spi->chip_select));
+> +			  HSSPI_PROFILE_SIGNAL_CTRL_REG(spi_get_chipselect(spi, 0)));
+>   	reg &= ~(SIGNAL_CTRL_LAUNCH_RISING | SIGNAL_CTRL_LATCH_RISING);
+>   	if (spi->mode & SPI_CPHA)
+>   		reg |= SIGNAL_CTRL_LAUNCH_RISING;
+>   	else
+>   		reg |= SIGNAL_CTRL_LATCH_RISING;
+>   	__raw_writel(reg, bs->regs +
+> -		     HSSPI_PROFILE_SIGNAL_CTRL_REG(spi->chip_select));
+> +		     HSSPI_PROFILE_SIGNAL_CTRL_REG(spi_get_chipselect(spi, 0)));
+>
+>   	mutex_lock(&bs->bus_mutex);
+>   	reg = __raw_readl(bs->regs + HSSPI_GLOBAL_CTRL_REG);
+> @@ -243,16 +243,16 @@ static int bcm63xx_hsspi_setup(struct spi_device
+> *spi)
+>   	/* only change actual polarities if there is no transfer */
+>   	if ((reg & GLOBAL_CTRL_CS_POLARITY_MASK) == bs->cs_polarity) {
+>   		if (spi->mode & SPI_CS_HIGH)
+> -			reg |= BIT(spi->chip_select);
+> +			reg |= BIT(spi_get_chipselect(spi, 0));
+>   		else
+> -			reg &= ~BIT(spi->chip_select);
+> +			reg &= ~BIT(spi_get_chipselect(spi, 0));
+>   		__raw_writel(reg, bs->regs + HSSPI_GLOBAL_CTRL_REG);
+>   	}
+>
+>   	if (spi->mode & SPI_CS_HIGH)
+> -		bs->cs_polarity |= BIT(spi->chip_select);
+> +		bs->cs_polarity |= BIT(spi_get_chipselect(spi, 0));
+>   	else
+> -		bs->cs_polarity &= ~BIT(spi->chip_select);
+> +		bs->cs_polarity &= ~BIT(spi_get_chipselect(spi, 0));
+>
+>   	mutex_unlock(&bs->bus_mutex);
+>
+> @@ -283,7 +283,7 @@ static int bcm63xx_hsspi_transfer_one(struct
+> spi_master *master,
+>   	 * e. At the end restore the polarities again to their default values.
+>   	 */
+>
+> -	dummy_cs = !spi->chip_select;
+> +	dummy_cs = !spi_get_chipselect(spi, 0);
+>   	bcm63xx_hsspi_set_cs(bs, dummy_cs, true);
+>
+>   	list_for_each_entry(t, &msg->transfers, transfer_list) {
+> @@ -296,7 +296,7 @@ static int bcm63xx_hsspi_transfer_one(struct
+> spi_master *master,
+>   		spi_transfer_delay_exec(t);
+>
+>   		if (t->cs_change)
+> -			bcm63xx_hsspi_set_cs(bs, spi->chip_select, false);
+> +			bcm63xx_hsspi_set_cs(bs, spi_get_chipselect(spi, 0), false);
+>   	}
+>
+>   	mutex_lock(&bs->bus_mutex);
 
-I hope we can get to a point where we don't actually need to protect
-anything but the unicorns. One of my earlier attempts involved a
-counter for each heap that would allow you to limit each one
-individually, but that's not what's proposed now.
+For bcm63xx-hsspi driver,
 
-> Regards,
-> Christian.
->
->
-> >
-> > Thanks,
-> > -James
-> >
-> >>>>> Please take a look and comment.
-> >>>>>
-> >>>>> Thanks,
-> >>>>> Christian.
-> >>>>>
-> >>>>> [1]
-> >>>>> https://lore.kernel.org/all/11a6f97c-e45f-f24b-8a73-48d5a388a2cc@gm=
-ail.com/T/
-> >>
-> >
->
+Acked-by: William Zhang <william.zhang@broadcom.com>
+
+--00000000000056650a05f30c1f1c
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Description: S/MIME Cryptographic Signature
+
+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
+YDZuuBJwnyCzevMoPtVYPharioL5H3BRnQi8YoTXH7/uRo33dewYFm474yFjwwnt82TFtveVZkVq
+6h4WIQ4wTcwFfET8zMkELnGzS5SHCl8sPD+lNxxJ1JDZYwIDAQABo4IB2zCCAdcwDgYDVR0PAQH/
+BAQDAgWgMIGjBggrBgEFBQcBAQSBljCBkzBOBggrBgEFBQcwAoZCaHR0cDovL3NlY3VyZS5nbG9i
+YWxzaWduLmNvbS9jYWNlcnQvZ3NnY2NyM3BlcnNvbmFsc2lnbjJjYTIwMjAuY3J0MEEGCCsGAQUF
+BzABhjVodHRwOi8vb2NzcC5nbG9iYWxzaWduLmNvbS9nc2djY3IzcGVyc29uYWxzaWduMmNhMjAy
+MDBNBgNVHSAERjBEMEIGCisGAQQBoDIBKAowNDAyBggrBgEFBQcCARYmaHR0cHM6Ly93d3cuZ2xv
+YmFsc2lnbi5jb20vcmVwb3NpdG9yeS8wCQYDVR0TBAIwADBJBgNVHR8EQjBAMD6gPKA6hjhodHRw
+Oi8vY3JsLmdsb2JhbHNpZ24uY29tL2dzZ2NjcjNwZXJzb25hbHNpZ24yY2EyMDIwLmNybDAlBgNV
+HREEHjAcgRp3aWxsaWFtLnpoYW5nQGJyb2FkY29tLmNvbTATBgNVHSUEDDAKBggrBgEFBQcDBDAf
+BgNVHSMEGDAWgBSWM9HmWBdbNHWKgVZk1b5I3qGPzzAdBgNVHQ4EFgQUq65GzwZxydFHjjYEU/9h
+xHhPWlwwDQYJKoZIhvcNAQELBQADggEBAA2hGG3JPAdGPH0ZdohGUCIVjKz+U+EFuIDbS6A/5jqX
+VhYAxZlzj7tSjUIM7G7IhyfqPC46GKJ/4x+Amz1Z6YxNGy71L68kYD6hIbBcA5AM42QBUufly6Oa
+/ppSz3WoflVyFFQ5YXniZ+eU+2/cdnYZg4aVUnFjimOF5o3NfMLzOkhQNxbaDjFUfUYD8hKmU6v4
+0vUBj8KZ9Gi1LIagLKUREn8jku0lcLsRbnJ5Ey5ScajC/FESPyYWasOW8j8/1EoJksmhbYGKNS6C
+urb/KlmDGfVrIRYDbL0ckhGQIP5c6L+kSQZ2sHnQK0e0WgIaZYxaPYeY5u0GLCOze+3vyRMxggJt
+MIICaQIBATBrMFsxCzAJBgNVBAYTAkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52LXNhMTEwLwYD
+VQQDEyhHbG9iYWxTaWduIEdDQyBSMyBQZXJzb25hbFNpZ24gMiBDQSAyMDIwAgwxuh2XG3FXRL1W
+JOEwDQYJYIZIAWUDBAIBBQCggdQwLwYJKoZIhvcNAQkEMSIEIPV0GPci7PjhkOLQr5YYlwfjp9bZ
+8n4Nhqy3DqNgqzROMBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEwHAYJKoZIhvcNAQkFMQ8XDTIz
+MDEyNTAwNTc1NFowaQYJKoZIhvcNAQkPMVwwWjALBglghkgBZQMEASowCwYJYIZIAWUDBAEWMAsG
+CWCGSAFlAwQBAjAKBggqhkiG9w0DBzALBgkqhkiG9w0BAQowCwYJKoZIhvcNAQEHMAsGCWCGSAFl
+AwQCATANBgkqhkiG9w0BAQEFAASCAQCDeRwW7sqpu5MnOyyvjxmJvRUbfI/L5CP1JkPtuA2BZ0WX
+P6pe/eXLFP9A//7IMZwRnMYubkHF2KOwoW3nTAZfFZU1MJtjpUcUMyAey4sODSCw78wnDub+b0R4
+rbtgWN26AOILOF9V7rUdA5hd4ZZZWrSVlZOxQOnkEnrrXwRMTZ6H4LILkENVRytDPX6WcNSzofVt
+bTZisKrK4TQRGwagjsH1XbjDJQy3in8wE53Bemw/woVR/U5dKkgH5bIc7O+yvfRkg3Dze87oKtUn
+0jlTOX7lGBKRqMHxDVl2SRBQXJ+ytWpT1WR9l3AFCBIp4QCo4isjywLpWTF5YramMP+j
+--00000000000056650a05f30c1f1c--
