@@ -2,82 +2,73 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4E60B67B5CC
-	for <lists+linux-media@lfdr.de>; Wed, 25 Jan 2023 16:22:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 71FFC67B5DA
+	for <lists+linux-media@lfdr.de>; Wed, 25 Jan 2023 16:27:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235907AbjAYPWS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 25 Jan 2023 10:22:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46628 "EHLO
+        id S235827AbjAYP1N (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 25 Jan 2023 10:27:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49026 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235764AbjAYPWR (ORCPT
+        with ESMTP id S234913AbjAYP1L (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 25 Jan 2023 10:22:17 -0500
-Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com [IPv6:2a00:1450:4864:20::330])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB58126583;
-        Wed, 25 Jan 2023 07:22:14 -0800 (PST)
-Received: by mail-wm1-x330.google.com with SMTP id e19-20020a05600c439300b003db1cac0c1fso1455429wmn.5;
-        Wed, 25 Jan 2023 07:22:14 -0800 (PST)
+        Wed, 25 Jan 2023 10:27:11 -0500
+Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 57ACA367CF;
+        Wed, 25 Jan 2023 07:27:10 -0800 (PST)
+Received: by mail-wm1-x336.google.com with SMTP id j17so14065208wms.0;
+        Wed, 25 Jan 2023 07:27:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=+cKkovPwhRMpRzyfESa0Nn+hlo0AHN0pmurSQImGzGg=;
-        b=c56bBLOwNUcAjFdOKoGKTZgg8PImKyx+ee/GIya27ZazszZv/4X8DalRcCiTxuVUbf
-         0ay7SIKVdx2CfL8p9KMsDDu5uOTzkxFFqd0RuN6Y92X/nWdeGw8i6C/I6bt8VSY2633G
-         Mph8tDz988vKVnezUAHA392AngkNnwyAhIKf5il884nlCMRr9R3fE3v6/h5ow4qdgj+M
-         Fq22FUCrXId6aRexAUOKNAidm7ygLajXRo0MQQvqCwCvcafsYv13aFntghvqRWq0lduO
-         BshGHnVksmh+ctYu3DLo531bxv0+iU5Sbwo6+yl52W160RZ6BEO+K3ik/SxmuwBctvgF
-         c8qQ==
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=yKNvukrUZVkfJrcLs35cGJYgMdjcalP+BqI+yH4alAs=;
+        b=PTCB9nDDuMHNEDQSJWfrYIQAO0gqzMZqtftPkaxooVDP22osj39QfBR1m5uQH5XpGP
+         0Zwj9clLcSJWUrbt4X1Uqb8KNGkMDuB9a/c5ck/0hQ4owznKASqVH60nkmkzeP/N+r3Q
+         ftIGL/PWngiSHBVbO05D47KHoZz2mCamhvp+K3SvRPitlNaY0ixRY6njdKVRwZ4fw4wq
+         Rwilhm1LgkNwLjYfVjJrHbwft7veb50uf9TfNgB/zH19WrqIwnxR/rxlaCZUAmSLdavV
+         41lH6nUKLpKpzDQZxjAuhy05e2K9kUyC63qeiMV8azz0Yw4aHdml4n3pEgJnYcMJkbry
+         MYGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=+cKkovPwhRMpRzyfESa0Nn+hlo0AHN0pmurSQImGzGg=;
-        b=cQ80CS58FeN9lJBPf9PFNyVcWpqD5Ig04NBglBSolFII4yN3xkOFCT7Ys6/R8eL/jj
-         c8DBLVyFjgNFhR2VWw7ua/ZfEhrtCY7Ck1+QAJzTr0tV0CgB8sT3s86UEcQVy3aIyiIv
-         RDlhvQxqXbiLYzZvI3d+AyL/sPKNfndXWeVgEAoeSyws/k90aIj1YA4tzO5+8SzuU3TN
-         v64W2uGca9jgJ615/v86HWrn7VjFCkXLBxiCHAytifj4P8ijHykfIhAeHq/GdXzA9Mif
-         ubBITIdw5pVtwJMFdSTZks0/5qHeBJahpCR2KTbdFjFE69rzRMsh079X2C+ufSBmAg19
-         DFng==
-X-Gm-Message-State: AFqh2kqjyXF+ijfA2sUcK9NbP53sy6SObeQ2MXwLhHaCYsvny7kFVZ/j
-        lxXTlc2bAY+D+7v8ypJTG48=
-X-Google-Smtp-Source: AMrXdXte+pCfs4LGfK4VbuM26cJk1PIH0LuEe4MZdQEOXF06DWuRk4ApCwbryG5b3dH0tXKAc/PKCQ==
-X-Received: by 2002:a05:600c:2d0b:b0:3da:fcf0:a31d with SMTP id x11-20020a05600c2d0b00b003dafcf0a31dmr32278071wmf.22.1674660133088;
-        Wed, 25 Jan 2023 07:22:13 -0800 (PST)
-Received: from [192.168.1.135] ([207.188.167.132])
-        by smtp.gmail.com with ESMTPSA id j15-20020a05600c130f00b003db0659c454sm2432709wmf.32.2023.01.25.07.22.11
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 25 Jan 2023 07:22:12 -0800 (PST)
-Message-ID: <892229a2-01b9-f4cc-95fb-980107166715@gmail.com>
-Date:   Wed, 25 Jan 2023 16:22:11 +0100
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=yKNvukrUZVkfJrcLs35cGJYgMdjcalP+BqI+yH4alAs=;
+        b=I9MWgBf97WncaM6WfnWAYhr4NqnxkLrzrzipvSDw6zsPCc0hKsJr8aZCLbcj/R19Mq
+         JfbwkFrgKwnjwH0jAM5mqBrSgLP2YuWkPDhOa0oZljNoRCA/Eep2M0WSBGffRVcYSPrl
+         hxRr7YsAQ950sOEj/rum8yQUV1N08cMJl10dQ3kR+2ZdWsd6S4N83zpzBRkQCLDuRSvc
+         VJhfIkEluiLjjmgvnm/Yv0bWoU28LaNfeZhfHi+n+r/6Tz+C5EGVgrRjp44d2nA+vUSZ
+         CG63r90aG3csaCRwlJYVc+ip35nosAgVPJZrfhqfwjf7oEkdVgOMANN4NrwrLHMDJgLr
+         jHuw==
+X-Gm-Message-State: AFqh2kqADK3AjaTwSqhKwO5d6lJwDIiU8QQLq1gSMbaS+ad5Rx1iR94q
+        W5OuModxFlbqjEHm+akw5nM=
+X-Google-Smtp-Source: AMrXdXt2M+tmqAUcwmI3R665W1S2ANiQS1SHnpB2bomoeMAf3o65vWXBYeRr1w24dRhukh7CO+u6ZA==
+X-Received: by 2002:a05:600c:4687:b0:3db:2e06:4091 with SMTP id p7-20020a05600c468700b003db2e064091mr22180602wmo.37.1674660428737;
+        Wed, 25 Jan 2023 07:27:08 -0800 (PST)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id h20-20020a05600c351400b003dc1300eab0sm2456161wmq.33.2023.01.25.07.27.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 Jan 2023 07:27:08 -0800 (PST)
+Date:   Wed, 25 Jan 2023 18:27:01 +0300
+From:   Dan Carpenter <error27@gmail.com>
+To:     Brent Pappas <bpappas@pappasbrent.com>
+Cc:     sakari.ailus@linux.intel.com, bingbu.cao@intel.com,
+        tian.shu.qiu@intel.com, mchehab@kernel.org,
+        gregkh@linuxfoundation.org, linux-media@vger.kernel.org,
+        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] mdeia: ipu3: ipu33-mmu: Replace macro IPU3_ADDR2PTE()
+ with a function
+Message-ID: <Y9FKRQiiUxCsidhe@kadam>
+References: <20230124135554.13787-1-bpappas@pappasbrent.com>
+ <Y8/uTYK7qmYD5MSA@kadam>
+ <Y9E+dGgQXFUQnIb8@pappasbrent.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [V1,0/2] Add jpeg enc & dec device node for MT8195
-Content-Language: en-US
-To:     Irui Wang <irui.wang@mediatek.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        angelogioacchino.delregno@collabora.com,
-        nicolas.dufresne@collabora.com, kyrie wu <kyrie.wu@mediatek.com>
-Cc:     Project_Global_Chrome_Upstream_Group@mediatek.com,
-        devicetree@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org,
-        Tomasz Figa <tfiga@chromium.org>, xia.jiang@mediatek.com,
-        maoguang.meng@mediatek.com
-References: <20230112084503.4277-1-irui.wang@mediatek.com>
-From:   Matthias Brugger <matthias.bgg@gmail.com>
-In-Reply-To: <20230112084503.4277-1-irui.wang@mediatek.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y9E+dGgQXFUQnIb8@pappasbrent.com>
+X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -85,26 +76,32 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Applied, thanks!
+I'm sorry, but I don't think this is a worthwhile approach.
 
-On 12/01/2023 09:45, Irui Wang wrote:
-> From: kyrie wu <kyrie.wu@mediatek.com>
-> 
-> This series add jpeg enc and dec device node to dts file
-> for the purpose of supporting multi hardwares jpeg
-> enc & dec of MT8195.
-> 
-> This series has been tested with MT8195 Gstreamer.
-> Encoding and decoding worked for this chip.
-> 
-> Patches 1 Adds jpeg encoder device node for mt8195.
-> 
-> Patches 2 Adds jpeg decoder device node for mt8195.
-> 
-> kyrie wu (2):
->    arm64: dts: mt8195: add jpeg encode device node
->    arm64: dts: mt8195: add jpeg decode device node
-> 
->   arch/arm64/boot/dts/mediatek/mt8195.dtsi | 100 +++++++++++++++++++++++
->   1 file changed, 100 insertions(+)
-> 
+If you created a tool to automatically re-write macros as functions,
+that's super impressive.  But the choice between using a macro and a
+function is just a style debate.  The note in Coding Style is more
+talking about complicated macros instead of these simple ones.  And
+anyway, when it comes to gray areas in the style guidelines, we
+generally defer to the original author because that's who is doing all
+the work.
+
+There are some sorts of bugs associated with using macros like Macro
+Expansion Precedence Bugs where there isn't parentheses around a macro,
+or Double Evaluation Bugs where a parameter is evaluated twice.  But
+these sorts of bugs are very rare in the Linux kernel.  Generally kernel
+programmers have always been good about this sort of stuff.  Also
+checkpatch insists on parentheses.  And it's not like error paths where
+the bugs are difficult to find in testing.  Probably we get a macro
+bug every three years (compared to uninitialized variable bugs where we
+get several per week).  I have a Smatch check for both of these kinds of
+macro bugs.
+
+Another kind of bug would be type related bugs, because macros don't
+have type checking.  But I think those are caught in testing so they're
+extremely rare.  I don't think I have seen a real life example of one of
+those.
+
+regards,
+dan carpenter
+
