@@ -2,180 +2,156 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6866267D43C
-	for <lists+linux-media@lfdr.de>; Thu, 26 Jan 2023 19:31:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EE31E67D446
+	for <lists+linux-media@lfdr.de>; Thu, 26 Jan 2023 19:36:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232018AbjAZSbg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 26 Jan 2023 13:31:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51924 "EHLO
+        id S232006AbjAZSgY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 26 Jan 2023 13:36:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54398 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231944AbjAZSbb (ORCPT
+        with ESMTP id S229473AbjAZSgV (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 26 Jan 2023 13:31:31 -0500
-Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com [IPv6:2607:f8b0:4864:20::42b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 350A872B6;
-        Thu, 26 Jan 2023 10:31:28 -0800 (PST)
-Received: by mail-pf1-x42b.google.com with SMTP id u5so1358490pfm.10;
-        Thu, 26 Jan 2023 10:31:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=/ICu+UjMJo1SoU9Cr/JvBEmEQMIUpKU+TgMOlbYRLhA=;
-        b=UoN+o2EtkjoIuEaqM27B9ox/olbrMrzmDJ949THfGlVehiZbCbx1bITIsgi5jsw6kB
-         7vOSG1vrbvCPVe5mr/w7FhMGZkT0us+DyHefhuqc/zdApSrN0E2u55yKFOLWeBKPcQKX
-         vFdP1ASRFltxsoa0E62z5aO8ZW83QEHEfOpANMs9V1pEqHoVP6tTNnsA5zLP0hfbae6e
-         r2UCOht9DDZu0aDqZEtxj/gi+CiMp02wPFXLAkvuqmb0DC2MBwRuQTiGPCyT4kkwd8cz
-         IPdwa9k+J6zQ3DTnerxkifX/ZW4HFeGvq0ZYTuGwWypDfSWyZ2nC4ygpkobwseqiLSFF
-         8I8w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=/ICu+UjMJo1SoU9Cr/JvBEmEQMIUpKU+TgMOlbYRLhA=;
-        b=VFVIsK0YGL11RzG8tfqjP+TNeJNHZcRQxTWCLbNuR/ZIK9xBv5E6PbJB1K+6iuLMFi
-         J/ZSuzvmc+ure5a4xBGDB97CND7ml2rLmT4kTUY20XMeMr7zKXulkzY5S7e6B0wTi8yf
-         dWDsaqhblhN11Ec8hmnSX9AMuzuKE1p+DemHgNOMx/EwYghoctvr2dqP68LgpMaT/jlR
-         W3ZG1iujq7OHExcHEA7l1rLDr6uWQri6SlR5cnHn4F6WH9yZgD4EU2eFUE21faNJDtpR
-         H8NpX4GkIjObYVvk61CwObT2G1EGYu17vtBamzW+5gn/eOjddRbB7KUVhM61uyODU+37
-         ZMlA==
-X-Gm-Message-State: AFqh2koffAgcWqC3NQBtKXFUhBk2fIARvgc/YdnRhN7Q+dVqb/OiREGQ
-        TnquRppESRNCdmH86q4U3dtZlb2ku8g+yengo7U=
-X-Google-Smtp-Source: AMrXdXvH9JKmlVVqWcNrYNsLqxDYu+Cbju+++TzOptcgBnZ4ktulWI0WBHAcsw5rT7XjXyeUbyNUomWqngf8ORih6hU=
-X-Received: by 2002:a62:3302:0:b0:58d:a7e6:89e3 with SMTP id
- z2-20020a623302000000b0058da7e689e3mr4256277pfz.67.1674757887464; Thu, 26 Jan
- 2023 10:31:27 -0800 (PST)
+        Thu, 26 Jan 2023 13:36:21 -0500
+Received: from kozue.soulik.info (kozue.soulik.info [IPv6:2001:19f0:7000:8404:5054:ff:fe75:428f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A334237F14;
+        Thu, 26 Jan 2023 10:36:20 -0800 (PST)
+Received: from [192.168.0.134] (unknown [192.168.0.134])
+        by kozue.soulik.info (Postfix) with ESMTPSA id 70268100DAB;
+        Fri, 27 Jan 2023 03:35:17 +0900 (JST)
+Message-ID: <02142e8c-7479-1066-b5af-dad954136adc@soulik.info>
+Date:   Fri, 27 Jan 2023 02:36:07 +0800
 MIME-Version: 1.0
-References: <20230126170603.11896-1-laurent.pinchart@ideasonboard.com> <20230126170603.11896-3-laurent.pinchart@ideasonboard.com>
-In-Reply-To: <20230126170603.11896-3-laurent.pinchart@ideasonboard.com>
-From:   Adam Ford <aford173@gmail.com>
-Date:   Thu, 26 Jan 2023 12:31:16 -0600
-Message-ID: <CAHCN7xJNGCd=Sghu3oe9_yjSg0ybXRFHaVLaZmC2guXCy7ty1A@mail.gmail.com>
-Subject: Re: [PATCH v4 2/3] dt-bindings: media: imx8-isi: Use 'port' instead
- of 'ports' for i.MX8MN
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org,
-        Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-        Xavier Roumegue <xavier.roumegue@oss.nxp.com>,
-        linux-imx@nxp.com, kernel@pengutronix.de,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        devicetree@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [RFC PATCH v6 03/11] media: v4l2: Add extended buffer (de)queue
+ operations for video types
+Content-Language: en-US
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     randy.li@synaptics.com, Brian.Starkey@arm.com,
+        frkoenig@chromium.org, hans.verkuil@cisco.com,
+        helen.koike@collabora.com, hiroh@chromium.org,
+        kernel@collabora.com, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, mchehab@kernel.org,
+        narmstrong@baylibre.com, nicolas@ndufresne.ca, sakari.ailus@iki.fi,
+        stanimir.varbanov@linaro.org, tfiga@chromium.org
+References: <20210114180738.1758707-1-helen.koike@collabora.com>
+ <20210114180738.1758707-4-helen.koike@collabora.com>
+ <20230125200026.16643-1-ayaka@soulik.info>
+ <7609d523-667a-49a8-45f5-8186de20c24b@xs4all.nl>
+ <Y9Jd12nYGk2xTYzx@pendragon.ideasonboard.com>
+From:   ayaka <ayaka@soulik.info>
+In-Reply-To: <Y9Jd12nYGk2xTYzx@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-3.0 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Jan 26, 2023 at 11:06 AM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> ---
->  .../bindings/media/nxp,imx8-isi.yaml          | 39 +++++++++++--------
->  1 file changed, 22 insertions(+), 17 deletions(-)
->
 
-Is there a reason not to squash the two bindings into just one patch?
+On 1/26/23 19:02, Laurent Pinchart wrote:
+> On Thu, Jan 26, 2023 at 09:57:51AM +0100, Hans Verkuil wrote:
+>> On 25/01/2023 21:00, ayaka wrote:
+>>> I am currently refresh this patchset, but I didn't see the need beyond v4l2_ext_pix_fmt, which I had done.
+>>> On 2/23/21 20:58, Hans Verkuil wrote:
+>>>> On 14/01/2021 19:07, Helen Koike wrote:
+>>>>> Those extended buffer ops have several purpose:
+>>>>> 1/ Fix y2038 issues by converting the timestamp into an u64 counting
+>>>>>      the number of ns elapsed since 1970
+>>> I think application just use the timestamp field for tracking the
+>>> buffer. It would be just a sequence buffer.
+>>> At least for the most widely cases, the video encoder and decoder
+>>> and ISP, this field is not a wall time.
+>> For video capture and video output this is typically the monotonic
+>> clock value.
+>>
+>> For memory-to-memory devices it is something that is just copied from
+>> output to capture.
+>>
+>> So ISPs definitely use this as a proper timestamp.
+> There are both inline (live-to-memory) and offline (memory-to-memory)
+> ISPs. The former certainly need a proper timestamp.
+>
+I really have not seen a device that has timer starting with the epoch.
 
+I rarely know the ISP has a wall clock timer.
 
-> diff --git a/Documentation/devicetree/bindings/media/nxp,imx8-isi.yaml b/Documentation/devicetree/bindings/media/nxp,imx8-isi.yaml
-> index 6038b9b5ab36..121594569395 100644
-> --- a/Documentation/devicetree/bindings/media/nxp,imx8-isi.yaml
-> +++ b/Documentation/devicetree/bindings/media/nxp,imx8-isi.yaml
-> @@ -52,11 +52,21 @@ properties:
->    power-domains:
->      maxItems: 1
->
-> +  port:
-> +    $ref: /schemas/graph.yaml#/properties/port
-> +    description: |
-> +      The port represents the Pixel Link input to the ISI. It shall have a
-> +      single endpoint. This property is only used for ISI instances with a
-> +      single port (as in the i.MX8MN). For instances that includes multiple
-> +      ports, the 'ports' property shall be used instead.
-> +
->    ports:
->      $ref: /schemas/graph.yaml#/properties/ports
->      description: |
->        Ports represent the Pixel Link inputs to the ISI. Their number and
-> -      assignment are model-dependent. Each port shall have a single endpoint.
-> +      assignment are model-dependent. For ISI instances that have a single
-> +      port, the 'port' property should be used instead. Each port shall have a
-> +      single endpoint.
->
->  required:
->    - compatible
-> @@ -65,7 +75,6 @@ required:
->    - clocks
->    - clock-names
->    - fsl,blk-ctrl
-> -  - ports
->
->  allOf:
->    - if:
-> @@ -77,12 +86,11 @@ allOf:
->        properties:
->          interrupts:
->            maxItems: 1
-> -        ports:
-> -          properties:
-> -            port@0:
-> -              description: MIPI CSI-2 RX
-> -          required:
-> -            - port@0
-> +        port:
-> +          description: MIPI CSI-2 RX
-> +        ports: false
-> +      required:
-> +        - port
->
->    - if:
->        properties:
-> @@ -93,6 +101,7 @@ allOf:
->        properties:
->          interrupts:
->            maxItems: 2
-> +        port: false
->          ports:
->            properties:
->              port@0:
-> @@ -102,6 +111,8 @@ allOf:
->            required:
->              - port@0
->              - port@1
-> +      required:
-> +        - ports
->
->  additionalProperties: false
->
-> @@ -122,15 +133,9 @@ examples:
->          fsl,blk-ctrl = <&disp_blk_ctrl>;
->          power-domains = <&disp_blk_ctrl IMX8MN_DISPBLK_PD_ISI>;
->
-> -        ports {
-> -            #address-cells = <1>;
-> -            #size-cells = <0>;
-> -
-> -            port@0 {
-> -                reg = <0>;
-> -                isi_in: endpoint {
-> -                    remote-endpoint = <&mipi_csi_out>;
-> -                };
-> +        port {
-> +            isi_in: endpoint {
-> +                remote-endpoint = <&mipi_csi_out>;
->              };
->          };
->      };
-> --
-> Regards,
->
-> Laurent Pinchart
->
+Timestamp is not my first concern here. Offset is.
+
+>>>>> 2/ Unify single/multiplanar handling
+>>>>> 3/ Add a new start offset field to each v4l2 plane buffer info struct
+>>>>>      to support the case where a single buffer object is storing all
+>>>>>      planes data, each one being placed at a different offset
+>>> I really care about this. But I think the data_offset field in
+>>> struct v4l2_plane is enough. The rest is the problem of the kernel
+>>> internal API and allocator.
+>> data_offset has proven to be very confusing and is rarely used because
+>> of that.
+Yes, I didn't know any stateful codec driver support this.
+>> We do need some sort of an offset field as proposed here, but it
+>> shouldn't be named data_offset.
+Maybe we could just rename it or make a union in the existing struct.
+> The existing data_offset field was indeed added for other purposes, to
+> let drivers report where the actual image data starts for devices that
+> prepend some sort of header.
+
+For the compressed image, it makes sense. But the most of usage I knew 
+is the upstream would just allocate a large buffer for compression video 
+bitstream,
+
+Then it could tell where the decoder should start.
+
+>   That's indeed not what we want here, we
+> instead need something similar to the offsets field of struct
+> drm_mode_fb_cmd2.
+
+That leads to another question. Should the offset be fixed from the 
+first enqueued?
+
+For the dmabuf, the v4l2 core framework would detatch then attach the 
+buffer when it found the private of a plane is not same. Although it 
+sounds unnecessary, some devices would a different cache line for the 
+chroma channel, it should be updated.
+
+For the drm_mode_fb_cmd2, unless you remove that fb_id, there is no way 
+to modify the offset. But this would break the existing usage I 
+mentioned before.
+
+We need to consider whether we need to keep the previous offset and a 
+hook for update it.
+
+>>> I am thinking just add a field recording the offset input from the user.
+>>> When we return the buffer back to the user, the value of the offset
+>>> should be same as the it is queued.
+>>>
+>>> Meanwhile, the API compatible that I want to keep is user using the
+>>> ext_pix API could access those drivers support old API.
+>>> But I don't want the user would expect they could get correct pixel
+>>> format using the old ioctl(). It could create many duplicated pixel
+>>> formats. If we want to keep the compatible here, that is the job of
+>>> libv4l.
+>>>
+>>> Besides, I think make the driver using the new API be compatible
+>>> with the old ioctl() would lead a huge problem. User won't like to
+>>> update its code if it could work even in a less performance mode
+>>> because this code are for all the other hardware vendors/models.
+>>> Unless we make this a feature, they could make a new branch in their
+>>> code(don't count them would upate the kernel of the other products).
+>> New drivers that require the additional information that these new ioctls give can
+>> decide to just support these new ioctls only. But for existing drivers you want
+>> to automatically support the new ioctls.
+
+What I said didn't break that. Application would use the new ioctl() to 
+contact with the existing driver.
+
+What I want to remove is that Application use the old ioctl() to contact 
+with the driver support new ioctl().
+
+I would omit this related patches in the refresh set. We could always 
+add it back. But what I want is a way  to enqueue and dequeue different 
+formats(or usage) of buffers in both OUTPUT and CAPTURE. I may add a 
+more complex API later.
