@@ -2,164 +2,170 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8F14567D116
-	for <lists+linux-media@lfdr.de>; Thu, 26 Jan 2023 17:13:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0CADA67D17D
+	for <lists+linux-media@lfdr.de>; Thu, 26 Jan 2023 17:26:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229654AbjAZQNp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 26 Jan 2023 11:13:45 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53150 "EHLO
+        id S232721AbjAZQ0l (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 26 Jan 2023 11:26:41 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33972 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229475AbjAZQNo (ORCPT
+        with ESMTP id S232747AbjAZQ0H (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 26 Jan 2023 11:13:44 -0500
-Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E43C51BDC
-        for <linux-media@vger.kernel.org>; Thu, 26 Jan 2023 08:13:42 -0800 (PST)
-Received: by mail-pj1-x1032.google.com with SMTP id z9-20020a17090a468900b00226b6e7aeeaso2197844pjf.1
-        for <linux-media@vger.kernel.org>; Thu, 26 Jan 2023 08:13:42 -0800 (PST)
+        Thu, 26 Jan 2023 11:26:07 -0500
+Received: from mail-yw1-x112e.google.com (mail-yw1-x112e.google.com [IPv6:2607:f8b0:4864:20::112e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6FE4471663
+        for <linux-media@vger.kernel.org>; Thu, 26 Jan 2023 08:25:35 -0800 (PST)
+Received: by mail-yw1-x112e.google.com with SMTP id 00721157ae682-4c131bede4bso30166657b3.5
+        for <linux-media@vger.kernel.org>; Thu, 26 Jan 2023 08:25:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google;
+        d=google.com; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=OuV6ArfPI1NkeZmwOQ7KRH78uXPfNbn/uhsbenhwSo4=;
-        b=dyeoz/8yvKhtESocUhRpRKBZAJkAMeh5kNZTUYTrcdUFASEBf2fHGyJ37WgcsnoG1X
-         nZlIg51abQO2ZtySrrJHsD9KlgU7fqnBSDMcM3Eggcg6RcOiAHQxhYsPxAAyDzlLyMwP
-         i9hLvKDrdkp1Mu6IXFDUXmAnsuurWfSWExiAmmkFttE2ZbpFDrqxLNuui2+NxPiQPXNj
-         dVW+EsGtDlIlXMHQzdzKI0fjW2hxNKKJNkeh1PlwzG3zEUImW67K88/KHdQx1pyPhcfN
-         BLKwxkEu4h5WHLQaGa4pmsEcRtb+ObMUBWz3eiLcwsymop36ZFXEgfu+GLAwPBy8pSQi
-         BjRw==
+        bh=rUFKXit/Slxp5jNkRtm2qJfbudUdkwg/5ym9L9/2xFg=;
+        b=BrNExWGHbV1NeR+vu2Js5zAqwDKTAmFhHgoWjYZ0a3qbH7rru8W3QViuclznskZkVo
+         6Q5eqrGX7jMOOdvE9K9lsVmJpHX9roidNQoqd4ah6qpZ3z5AR/LzfumpWsF7qxr+L/L7
+         2EeJAw9MATGkA5VBf2UwOc7KCg21F0CUspP8pGqPmL78PHbmYrJgHGcDXuiJf+tpyEq5
+         mYd3qiJmdB/mmqbT25mkgF6e/9yHOLIF4ZmJU2qiUjSg09+a1L9BOQF70sP/z/t1hEtG
+         N3QguNCw23qX8RL/9XVLJb/vAzwIwx19tcG6Myly1SJ+d6fdbBsCbrW+Wp9iSE9SLjFe
+         r7Zw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=OuV6ArfPI1NkeZmwOQ7KRH78uXPfNbn/uhsbenhwSo4=;
-        b=dnDpQx9r5T3D6EZlsO760wwUt9h0ZSmYBAUzOOjUVA3MAYXeMtLoUiJkUEHdNS41pr
-         4uRTYIE+i9AXL1C3+I7K8Gh6MG8k1TmI1tMwBqqpltqc8yHhSfVOEs6YkkVly73sRlyp
-         3DQh51ly9Qy6LCwtNuScBCXyvLyF4sxfjS6lzxl1QE+TquCBRushZyZAq0tgu2Pc124H
-         TI+Hw1PajNasa0jT1ru4K1aXo246QRCHtndLz/OTWjrHv+urPsbeWVNcsqfR5GP5rGH4
-         oq/BcsNtYF34a1l+b4N3n3+cgwdQG7leJ3FwFXWQw6h6y/WBwNK7mb+MGzqtSr8wRPCo
-         KZpA==
-X-Gm-Message-State: AO0yUKX/bAFzNQmJPysoVh192ShjoeRBGtxNHTH97Ld3DySk4pCcdL6N
-        UvcEicWOwyvBIPOYLVJFNwMLW/biJBFLbtudFK/YQg==
-X-Google-Smtp-Source: AK7set9eVYF+6pbZIJ8pxQu7+V5b93vKF8h+goUIAVHXRVCAluNYxb3mptg17TbVmQDpyc1HhMHwBFgXPa9Y5JN7X2E=
-X-Received: by 2002:a17:90b:f87:b0:22c:30a:e88 with SMTP id
- ft7-20020a17090b0f8700b0022c030a0e88mr1203522pjb.171.1674749622367; Thu, 26
- Jan 2023 08:13:42 -0800 (PST)
+        bh=rUFKXit/Slxp5jNkRtm2qJfbudUdkwg/5ym9L9/2xFg=;
+        b=aS5bhir29XxYYbSrxG92Ca+aeFIw0TqiTgrg88I3QjWrK3c1bD8dn3TAV+As/VZJo7
+         briz/1calUzg5B3bI0wqtJflClPnp5JHUtL2GcJLvpEekrQI6SY6tgfL2Aq/jwWt2knF
+         IiKnQnHb7ql/fVMwO3lIyGromaan2h6agOt2hgFuAPuyfkij2CuPSPSnh4y3q0lo34bj
+         gspAylQmnKIOdrk0n+KECkwOfqhP6XED7q2yuRc6IdSn2NoPml/NtT+TkrERt0PqCkEB
+         oQfX8lORJ4LF++djEqV9l3qFi7WRpAT5ywt5RMka6QPAVe9UeR8l8wqCyZ1VpyluZ+cj
+         qfNw==
+X-Gm-Message-State: AFqh2ko/L4mmwVfeAsneB8pgThz3v+DONWLvG33zsVcj+UQruvvTOnOn
+        +kaIFQW0DqUAHataW9R/glxsUUHhq+CwOu6heWAoaw==
+X-Google-Smtp-Source: AMrXdXvRVLeaIi85wIrJBS5zRkOyr5/BQ66PCe0y1aLe9hmWIu7jqHBlhyy2SYPoXbE9x4WotKo1j1aRHLVU6Hd1LsI=
+X-Received: by 2002:a81:1b8b:0:b0:4ff:774b:7ffb with SMTP id
+ b133-20020a811b8b000000b004ff774b7ffbmr3541685ywb.218.1674750315051; Thu, 26
+ Jan 2023 08:25:15 -0800 (PST)
 MIME-Version: 1.0
-References: <20230117100603.51631-1-jacopo.mondi@ideasonboard.com>
- <Y9KTkSqgyxJbvsj9@kekkonen.localdomain> <CAPY8ntCWUSbvUKziuq0ABX2vOGJyCwtQN7MEt5LXQf0yKpfMKA@mail.gmail.com>
- <Y9Kjzm2PqSRBuoBT@pendragon.ideasonboard.com>
-In-Reply-To: <Y9Kjzm2PqSRBuoBT@pendragon.ideasonboard.com>
-From:   Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date:   Thu, 26 Jan 2023 16:13:25 +0000
-Message-ID: <CAPY8ntDPoacU1P2TUGEhWmzrx3ykbTFzrTQRjWZrd4sTXLKRwA@mail.gmail.com>
-Subject: Re: [PATCH 0/3] media: imx258: Remove rotation=<80 requirement
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-        Robert Mader <robert.mader@collabora.com>,
-        linux-media@vger.kernel.org
+References: <20230125083851.27759-1-surenb@google.com> <20230125083851.27759-2-surenb@google.com>
+ <Y9JFFYjfJf9uDijE@kernel.org> <Y9KTUw/04FmBVplw@kernel.org> <Y9KXjLaFFUvqqdd4@casper.infradead.org>
+In-Reply-To: <Y9KXjLaFFUvqqdd4@casper.infradead.org>
+From:   Suren Baghdasaryan <surenb@google.com>
+Date:   Thu, 26 Jan 2023 08:25:03 -0800
+Message-ID: <CAJuCfpHs4wvQpitiAYc+PQX3LnitF=wvm=zVX7CzMozzmnbcnw@mail.gmail.com>
+Subject: Re: [PATCH v2 1/6] mm: introduce vma->vm_flags modifier functions
+To:     Matthew Wilcox <willy@infradead.org>
+Cc:     Mike Rapoport <rppt@kernel.org>, akpm@linux-foundation.org,
+        michel@lespinasse.org, jglisse@google.com, mhocko@suse.com,
+        vbabka@suse.cz, hannes@cmpxchg.org, mgorman@techsingularity.net,
+        dave@stgolabs.net, liam.howlett@oracle.com, peterz@infradead.org,
+        ldufour@linux.ibm.com, paulmck@kernel.org, luto@kernel.org,
+        songliubraving@fb.com, peterx@redhat.com, david@redhat.com,
+        dhowells@redhat.com, hughd@google.com, bigeasy@linutronix.de,
+        kent.overstreet@linux.dev, punit.agrawal@bytedance.com,
+        lstoakes@gmail.com, peterjung1337@gmail.com, rientjes@google.com,
+        axelrasmussen@google.com, joelaf@google.com, minchan@google.com,
+        jannh@google.com, shakeelb@google.com, tatashin@google.com,
+        edumazet@google.com, gthelen@google.com, gurua@google.com,
+        arjunroy@google.com, soheil@google.com, hughlynch@google.com,
+        leewalsh@google.com, posk@google.com, will@kernel.org,
+        aneesh.kumar@linux.ibm.com, npiggin@gmail.com,
+        chenhuacai@kernel.org, tglx@linutronix.de, mingo@redhat.com,
+        bp@alien8.de, dave.hansen@linux.intel.com, richard@nod.at,
+        anton.ivanov@cambridgegreys.com, johannes@sipsolutions.net,
+        qianweili@huawei.com, wangzhou1@hisilicon.com,
+        herbert@gondor.apana.org.au, davem@davemloft.net, vkoul@kernel.org,
+        airlied@gmail.com, daniel@ffwll.ch,
+        maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+        tzimmermann@suse.de, l.stach@pengutronix.de,
+        krzysztof.kozlowski@linaro.org, patrik.r.jakobsson@gmail.com,
+        matthias.bgg@gmail.com, robdclark@gmail.com,
+        quic_abhinavk@quicinc.com, dmitry.baryshkov@linaro.org,
+        tomba@kernel.org, hjc@rock-chips.com, heiko@sntech.de,
+        ray.huang@amd.com, kraxel@redhat.com, sre@kernel.org,
+        mcoquelin.stm32@gmail.com, alexandre.torgue@foss.st.com,
+        tfiga@chromium.org, m.szyprowski@samsung.com, mchehab@kernel.org,
+        dimitri.sivanich@hpe.com, zhangfei.gao@linaro.org,
+        jejb@linux.ibm.com, martin.petersen@oracle.com,
+        dgilbert@interlog.com, hdegoede@redhat.com, mst@redhat.com,
+        jasowang@redhat.com, alex.williamson@redhat.com, deller@gmx.de,
+        jayalk@intworks.biz, viro@zeniv.linux.org.uk, nico@fluxnic.net,
+        xiang@kernel.org, chao@kernel.org, tytso@mit.edu,
+        adilger.kernel@dilger.ca, miklos@szeredi.hu,
+        mike.kravetz@oracle.com, muchun.song@linux.dev, bhe@redhat.com,
+        andrii@kernel.org, yoshfuji@linux-ipv6.org, dsahern@kernel.org,
+        kuba@kernel.org, pabeni@redhat.com, perex@perex.cz, tiwai@suse.com,
+        haojian.zhuang@gmail.com, robert.jarzmik@free.fr,
+        linux-mm@kvack.org, linux-arm-kernel@lists.infradead.org,
+        linuxppc-dev@lists.ozlabs.org, x86@kernel.org,
+        linux-kernel@vger.kernel.org, linux-graphics-maintainer@vmware.com,
+        linux-ia64@vger.kernel.org, linux-arch@vger.kernel.org,
+        loongarch@lists.linux.dev, kvm@vger.kernel.org,
+        linux-s390@vger.kernel.org, linux-sgx@vger.kernel.org,
+        linux-um@lists.infradead.org, linux-acpi@vger.kernel.org,
+        linux-crypto@vger.kernel.org, nvdimm@lists.linux.dev,
+        dmaengine@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+        dri-devel@lists.freedesktop.org, etnaviv@lists.freedesktop.org,
+        linux-samsung-soc@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+        linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+        freedreno@lists.freedesktop.org,
+        linux-rockchip@lists.infradead.org, linux-tegra@vger.kernel.org,
+        virtualization@lists.linux-foundation.org,
+        xen-devel@lists.xenproject.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-rdma@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-accelerators@lists.ozlabs.org, sparclinux@vger.kernel.org,
+        linux-scsi@vger.kernel.org, linux-staging@lists.linux.dev,
+        target-devel@vger.kernel.org, linux-usb@vger.kernel.org,
+        netdev@vger.kernel.org, linux-fbdev@vger.kernel.org,
+        linux-aio@kvack.org, linux-fsdevel@vger.kernel.org,
+        linux-erofs@lists.ozlabs.org, linux-ext4@vger.kernel.org,
+        devel@lists.orangefs.org, kexec@lists.infradead.org,
+        linux-xfs@vger.kernel.org, bpf@vger.kernel.org,
+        linux-perf-users@vger.kernel.org, kasan-dev@googlegroups.com,
+        selinux@vger.kernel.org, alsa-devel@alsa-project.org,
+        kernel-team@android.com
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent
-
-On Thu, 26 Jan 2023 at 16:01, Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
+On Thu, Jan 26, 2023 at 7:09 AM Matthew Wilcox <willy@infradead.org> wrote:
 >
-> Hi Dave,
->
-> On Thu, Jan 26, 2023 at 03:48:04PM +0000, Dave Stevenson wrote:
-> > On Thu, 26 Jan 2023 at 14:52, Sakari Ailus wrote:
-> > > On Tue, Jan 17, 2023 at 11:06:00AM +0100, Jacopo Mondi wrote:
-> > > > Currently the imx258 driver requires to have the 'rotation' device node
-> > > > property specified in DTS with a fixed value of 180 degrees.
-> > > >
-> > > > The "rotation" fwnode device property is intended to allow specify the
-> > > > sensor's physical mounting rotation, so that it can be exposed through
-> > > > the read-only V4L2_CID_CAMERA_SENSOR_ROTATION control and applications
-> > > > can decide how to compensate for that.
-> > > >
-> > > > The imx258 driver has read-only VFLIP and HFLIP enabled, resulting in
-> > > > a 180 degrees image rotation being produced by the sensor. But this
-> > > > doesn't imply that the physical mounting rotation should match the
-> > > > driver's implementation.
-> > > >
-> > > > I took into the series Robert's patch that register device node properties and
-> > > > on top of that register flips controls, in order to remove the hard requirement
-> > > > of the 180 degrees rotation property presence.
+> On Thu, Jan 26, 2023 at 04:50:59PM +0200, Mike Rapoport wrote:
+> > On Thu, Jan 26, 2023 at 11:17:09AM +0200, Mike Rapoport wrote:
+> > > On Wed, Jan 25, 2023 at 12:38:46AM -0800, Suren Baghdasaryan wrote:
+> > > > +/* Use when VMA is not part of the VMA tree and needs no locking */
+> > > > +static inline void init_vm_flags(struct vm_area_struct *vma,
+> > > > +                          unsigned long flags)
 > > >
-> > > Reconsidering these patches after the flipping vs. rotation discussion,
-> > > they seem fine. The only thing I'd like to see, after removing the rotation
-> > > property check, would be to add support for the actual flipping controls.
-> > > I'm pretty sure they can be found in the same registers as on CCS --- the
-> > > rest of the registers look very much like that. Would you like to send a
-> > > patch? :-)
+> > > I'd suggest to make it vm_flags_init() etc.
 > >
-> > Yes it is register 0x0101, bits 0 (H) & 1 (V).
-> >
-> > Do watch out as there are register errors in the driver. Currently
-> > Y_ADD_STA is set to 0, and Y_ADD_END to 3118, giving 3119 lines total.
-> > That means that when you initially implement flips the Bayer order
-> > won't change, but you change the field of view by one line.
-> > The start and end values also break the requirements listed in the
-> > datasheets for STA/END values being multiples of X (table 4-2 of the
-> > datasheet). Correcting that will change the Bayer order when inverted.
-> > Does that count as a regression to userspace? I hope not. Memory says
-> > that if you don't correct Y_ADD_END then some of the binned modes
-> > misbehave.
+> > Thinking more about it, it will be even clearer to name these vma_flags_xyz()
 >
-> As long as the driver reports the correct bayer pattern, it should be
-> fine.
-
-It does report the correct Bayer order so I would hope so too, however
-I know the hard coding that can go on in client apps!
-
-> Interactions between formats and flip controls is something we still
-> need to clarify. I plan to have a follow-up discussion on this with
-> Jacopo and Sakari after sending documentation patches for the
-> interactions between rotation and flips. If you would like to join the
-> fun, please let me know.
-
-Feel free to send me an invite for future discussions, however I'm
-currently assigned to other tasks and have been told to leave image
-sensors alone :-(
-
-> Also, if you have any comment on the rotation & flip discussion notes,
-> and especially if there's anything that doesn't seem right to you,
-> feedback would be appreciated. If everything is good, you can just ack
-> the documentation patches when I'll post them :-)
-
-I have the luxury of being able to largely ignore the existing
-clients, but the proposals as currently described seem like they
-should work for all parties. I'll respond to your docs when they're
-posted.
-
-> > I have been through this loop before as Soho Enterprise [1] make an
-> > IMX258 board for the Pi. I haven't upstreamed the patches [2] though
-> > (sorry).
+> Perhaps vma_VERB_flags()?
 >
-> Thanks for sharing the branch.
+> vma_init_flags()
+> vma_reset_flags()
+> vma_set_flags()
+> vma_clear_flags()
+> vma_mod_flags()
 
-No problem. I am trying to persuade management here that it is worth
-the effort to upstream patches, but it's tough going sometimes.
-I do always try to ensure that our downstream patches follow the rules
-and have SoB etc, so others are at liberty to lift them if they wish.
+Due to excessive email bouncing I posted the v3 of this patchset using
+the original per-VMA patchset's distribution list. That might have
+dropped Mike from the list. Sorry about that Mike, I'll add you to my
+usual list of suspects :)
+The v3 is here:
+https://lore.kernel.org/all/20230125233554.153109-1-surenb@google.com/
+and Andrew did suggest the same renames, so I'll be posting v4 with
+those changes later today.
+Thanks for the feedback!
 
-  Dave
-
-> > [1] https://soho-enterprise.com/
-> > [2] https://github.com/raspberrypi/linux/commits/rpi-5.15.y/drivers/media/i2c/imx258.c
 >
-> --
-> Regards,
->
-> Laurent Pinchart
