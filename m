@@ -2,300 +2,285 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 41CD267CDFF
-	for <lists+linux-media@lfdr.de>; Thu, 26 Jan 2023 15:26:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5786667CE23
+	for <lists+linux-media@lfdr.de>; Thu, 26 Jan 2023 15:30:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232077AbjAZO0Y (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 26 Jan 2023 09:26:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34242 "EHLO
+        id S232011AbjAZOau (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 26 Jan 2023 09:30:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39914 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232070AbjAZO0W (ORCPT
+        with ESMTP id S231754AbjAZOat (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 26 Jan 2023 09:26:22 -0500
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 614BE64D9B;
-        Thu, 26 Jan 2023 06:25:56 -0800 (PST)
-Received: from nicolas-tpx395.localdomain (192-222-136-102.qc.cable.ebox.net [192.222.136.102])
+        Thu, 26 Jan 2023 09:30:49 -0500
+Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [IPv6:2a0b:5c81:1c1::37])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 11F89213F
+        for <linux-media@vger.kernel.org>; Thu, 26 Jan 2023 06:30:48 -0800 (PST)
+Received: from hillosipuli.retiisi.eu (82-181-192-243.bb.dnainternet.fi [82.181.192.243])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
         (No client certificate requested)
-        (Authenticated sender: nicolas)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 3ACD66602D35;
-        Thu, 26 Jan 2023 14:24:31 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1674743073;
-        bh=jZLZz1sJIqshnxO6ri0Zy5I0ab3cJATthNe1kU/yfNQ=;
-        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-        b=nsankNL5xUw5oFW6kfARNiIKi/PfUUWDT+rAzA3yFXWFgnZ7IPEErasM7KF4rRElQ
-         YxLw2+Hl4T9/rQdIdcg9phVzxvBXuy1nxlY+vXlLksrDk5hWps3z/jdm9cE2Lh4K0+
-         jqoiDe1v7Eh1JnEJjFeG5LMai1Mg4Xrc8cpOGXxo9YAYBmDb5pAT7sD74A42eZqqQQ
-         jaT8Hb2OgmkO3vH68djTWUgdqIkYTkhJjGacS9rB1PWZsfLxUXcDkidrtz/waaXvNR
-         owPxZ2x3roA7tIb77VlNdX45Gw9YAcbb7dHJScFT77ni8Hfcf7cqWDvH64j1pQHxtv
-         3AKzyOzZGdHtA==
-Message-ID: <76a3cde17a0b05ca563af0a2a89870d4c4ad966f.camel@collabora.com>
-Subject: Re: [PATCH v4 1/2] media: verisilicon: Do not change context bit
- depth before validating the format
-From:   Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
-        mchehab@kernel.org, shawnguo@kernel.org, s.hauer@pengutronix.de,
-        kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
-        hverkuil-cisco@xs4all.nl, nicolas.dufresne@collabora.co.uk
-Cc:     linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        kernel@collabora.com
-Date:   Thu, 26 Jan 2023 09:24:21 -0500
-In-Reply-To: <20230125172755.1498973-2-benjamin.gaignard@collabora.com>
-References: <20230125172755.1498973-1-benjamin.gaignard@collabora.com>
-         <20230125172755.1498973-2-benjamin.gaignard@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.2 (3.46.2-1.fc37) 
+        (Authenticated sender: sailus)
+        by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 01FE81B001FC;
+        Thu, 26 Jan 2023 16:30:44 +0200 (EET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
+        t=1674743444;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=ajF8C7vEfJhYS2xe9lzuUPkFZkpF8GKo/WV5ac3FBlo=;
+        b=K2knpkQ88tIH2SuDzxahM9X6i1hQ98Rl7j5zBSEOiSGqA6Gt3zEEdskLz3kqOzaqkJEfLl
+        PSa5vP6N2toNvBV5b85Aqo/ZHJhC+aAqoVtdPMmFyV1hizd/h6EUyCMdK3cbw8gDtEUwq9
+        DXaCI77QGOQmX/939NXahZVyqdneIr6eb13u5B0COea21IgqduMmMDL/gGCp+miVIR/H0Y
+        QoH0SkHk+9kIxD8csUNjTfDjwe+lfKMCqkK6oOp9lExEpfNWYko3YrVepLYz3m4u7jBU3Q
+        MtiK2Yh3HL2hLSjUK8GxCKS/zQSTm9PTUsbCD3C/5HdCW5+QR1DBwgAb081yJA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+        s=lahtoruutu; t=1674743444;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=ajF8C7vEfJhYS2xe9lzuUPkFZkpF8GKo/WV5ac3FBlo=;
+        b=A+9FO+FYPJSyzH3e7qTBztglyKcRdbisOWA5GlP6qp9eKmB4jgmujzZK6/bBBTjysHjNHx
+        Lu94uV3xzzsEI7G0Mo6mL881UW5zGSrpjUIGU84pLdbyUqCWSyBmZluPWtBdvmczWdF2pJ
+        DNRKM0F0uIYh9zowwDh4sb+1pr7c29tXyGR2vmvjNleBj8VxOwCrNMAejUHxgp3oXY9hNX
+        HNQDHDIIaqGtyFFMbcGg7c79zYIVKOysVWidlRM8hroDGHJ3dGTFh/BbLCIKJEmc6CcixW
+        CozuqdrZMLNuh3JUxKkWHjZA7XLKCpAP9RRYOechbusYRmLDnqdD2no0Uug6CA==
+ARC-Authentication-Results: i=1;
+        ORIGINATING;
+        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1674743444; a=rsa-sha256;
+        cv=none;
+        b=QUxZCBBvdkJvuZytHmqTkAtHNtG0sxfjc1pbKyDQzFVZ4YtI9Z/O79vSMTsX4Z8KjwTf2K
+        hKwwqltqS6oA/nsJGxp16xocD5si3SNGW/RpE8acq0QYCbOtyK844LQe/9pPTW4mRQtzyV
+        I0uoOCHcwW5bWiiLR57TNmClIkCKiMORh6db2/S4a79cHf+jXlvIpx58ttadCCppdIOhMU
+        rfiPP54IxX28w/Ch7FXR2IXhGDv7uCy6UJI0OXQULhvYwOG+M5SZTVV2RNo9/w/lQcNWaB
+        XIjEUK3YTvqu4Kc22JlF6FDzoejIeEHkPS18mbTiNhyJ7gRoNmfI6LM792AAJQ==
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 4B0C1634C92;
+        Thu, 26 Jan 2023 16:30:37 +0200 (EET)
+Date:   Thu, 26 Jan 2023 16:30:37 +0200
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc:     Chiranjeevi Rapolu <chiranjeevi.rapolu@intel.com>,
+        Luca Weiss <luca@z3ntu.xyz>, laurent.pinchart@ideasonboard.com,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH v5 6/9] media: i2c: ov5670: Add runtime_pm operations
+Message-ID: <Y9KOjRLH8TM+4egg@valkosipuli.retiisi.eu>
+References: <20230126124632.45842-1-jacopo.mondi@ideasonboard.com>
+ <20230126124632.45842-7-jacopo.mondi@ideasonboard.com>
 MIME-Version: 1.0
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230126124632.45842-7-jacopo.mondi@ideasonboard.com>
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Le mercredi 25 janvier 2023 =C3=A0 18:27 +0100, Benjamin Gaignard a =C3=A9c=
-rit=C2=A0:
-> It is needed to check if the proposed pixels format is valid before
-> updating context bit depth and other internal states.
-> Stop using ctx->bit_depth to check format depth match and return
-> result to the caller.
->=20
-> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Hi Jacopo,
 
-Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-
-I'm not sure if the fixes tag will do a great job, but blame indicated that=
- it
-fixes. Ezequiel, can you provide your feedback on if we need a Fixes and wh=
-ich
-hash should be point to ? My quick blame says this:
-
-Fixes: 953aaa1492c5 ("media: rockchip/vpu: Prepare things to support decode=
-rs")
-
+On Thu, Jan 26, 2023 at 01:46:29PM +0100, Jacopo Mondi wrote:
+> Implement the power up and power down routines and install them as
+> runtime_pm handler for runtime_suspend and runtime_resume operations.
+> 
+> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 > ---
-> version 4:
-> - Change hantro_check_depth_match() prototype to avoid using
->   ctx->bit_depth
-> - Return the result of hantro_reset_raw_fmt() to the caller.
->=20
->  .../platform/verisilicon/hantro_postproc.c    |  2 +-
->  .../media/platform/verisilicon/hantro_v4l2.c  | 53 +++++++++----------
->  .../media/platform/verisilicon/hantro_v4l2.h  |  3 +-
->  3 files changed, 28 insertions(+), 30 deletions(-)
->=20
-> diff --git a/drivers/media/platform/verisilicon/hantro_postproc.c b/drive=
-rs/media/platform/verisilicon/hantro_postproc.c
-> index 09d8cf942689..6437423ccf3a 100644
-> --- a/drivers/media/platform/verisilicon/hantro_postproc.c
-> +++ b/drivers/media/platform/verisilicon/hantro_postproc.c
-> @@ -197,7 +197,7 @@ int hantro_postproc_alloc(struct hantro_ctx *ctx)
->  	unsigned int i, buf_size;
-> =20
->  	/* this should always pick native format */
-> -	fmt =3D hantro_get_default_fmt(ctx, false);
-> +	fmt =3D hantro_get_default_fmt(ctx, false, ctx->bit_depth);
->  	if (!fmt)
->  		return -EINVAL;
->  	v4l2_fill_pixfmt_mp(&pix_mp, fmt->fourcc, ctx->src_fmt.width,
-> diff --git a/drivers/media/platform/verisilicon/hantro_v4l2.c b/drivers/m=
-edia/platform/verisilicon/hantro_v4l2.c
-> index 2c7a805289e7..2475bc05dee9 100644
-> --- a/drivers/media/platform/verisilicon/hantro_v4l2.c
-> +++ b/drivers/media/platform/verisilicon/hantro_v4l2.c
-> @@ -76,17 +76,16 @@ int hantro_get_format_depth(u32 fourcc)
->  }
-> =20
->  static bool
-> -hantro_check_depth_match(const struct hantro_ctx *ctx,
-> -			 const struct hantro_fmt *fmt)
-> +hantro_check_depth_match(const struct hantro_fmt *fmt, int bit_depth)
->  {
-> -	int fmt_depth, ctx_depth =3D 8;
-> +	int fmt_depth, depth =3D 8;
-> =20
->  	if (!fmt->match_depth && !fmt->postprocessed)
->  		return true;
-> =20
->  	/* 0 means default depth, which is 8 */
-> -	if (ctx->bit_depth)
-> -		ctx_depth =3D ctx->bit_depth;
-> +	if (bit_depth)
-> +		depth =3D bit_depth;
-> =20
->  	fmt_depth =3D hantro_get_format_depth(fmt->fourcc);
-> =20
-> @@ -95,9 +94,9 @@ hantro_check_depth_match(const struct hantro_ctx *ctx,
->  	 * It may be possible to relax that on some HW.
->  	 */
->  	if (!fmt->match_depth)
-> -		return fmt_depth <=3D ctx_depth;
-> +		return fmt_depth <=3D depth;
-> =20
-> -	return fmt_depth =3D=3D ctx_depth;
-> +	return fmt_depth =3D=3D depth;
->  }
-> =20
->  static const struct hantro_fmt *
-> @@ -119,7 +118,7 @@ hantro_find_format(const struct hantro_ctx *ctx, u32 =
-fourcc)
->  }
-> =20
->  const struct hantro_fmt *
-> -hantro_get_default_fmt(const struct hantro_ctx *ctx, bool bitstream)
-> +hantro_get_default_fmt(const struct hantro_ctx *ctx, bool bitstream, int=
- bit_depth)
->  {
->  	const struct hantro_fmt *formats;
->  	unsigned int i, num_fmts;
-> @@ -128,7 +127,7 @@ hantro_get_default_fmt(const struct hantro_ctx *ctx, =
-bool bitstream)
->  	for (i =3D 0; i < num_fmts; i++) {
->  		if (bitstream =3D=3D (formats[i].codec_mode !=3D
->  				  HANTRO_MODE_NONE) &&
-> -		    hantro_check_depth_match(ctx, &formats[i]))
-> +		    hantro_check_depth_match(&formats[i], bit_depth))
->  			return &formats[i];
->  	}
->  	return NULL;
-> @@ -203,7 +202,7 @@ static int vidioc_enum_fmt(struct file *file, void *p=
-riv,
-> =20
->  		if (skip_mode_none =3D=3D mode_none)
->  			continue;
-> -		if (!hantro_check_depth_match(ctx, fmt))
-> +		if (!hantro_check_depth_match(fmt, ctx->bit_depth))
->  			continue;
->  		if (j =3D=3D f->index) {
->  			f->pixelformat =3D fmt->fourcc;
-> @@ -223,7 +222,7 @@ static int vidioc_enum_fmt(struct file *file, void *p=
-riv,
->  	for (i =3D 0; i < num_fmts; i++) {
->  		fmt =3D &formats[i];
-> =20
-> -		if (!hantro_check_depth_match(ctx, fmt))
-> +		if (!hantro_check_depth_match(fmt, ctx->bit_depth))
->  			continue;
->  		if (j =3D=3D f->index) {
->  			f->pixelformat =3D fmt->fourcc;
-> @@ -291,7 +290,7 @@ static int hantro_try_fmt(const struct hantro_ctx *ct=
-x,
-> =20
->  	fmt =3D hantro_find_format(ctx, pix_mp->pixelformat);
->  	if (!fmt) {
-> -		fmt =3D hantro_get_default_fmt(ctx, coded);
-> +		fmt =3D hantro_get_default_fmt(ctx, coded, 0);
->  		pix_mp->pixelformat =3D fmt->fourcc;
->  	}
-> =20
-> @@ -379,15 +378,12 @@ hantro_reset_encoded_fmt(struct hantro_ctx *ctx)
->  	const struct hantro_fmt *vpu_fmt;
->  	struct v4l2_pix_format_mplane *fmt;
-> =20
-> -	vpu_fmt =3D hantro_get_default_fmt(ctx, true);
-> +	vpu_fmt =3D hantro_get_default_fmt(ctx, true, 0);
-> =20
-> -	if (ctx->is_encoder) {
-> -		ctx->vpu_dst_fmt =3D vpu_fmt;
-> +	if (ctx->is_encoder)
->  		fmt =3D &ctx->dst_fmt;
-> -	} else {
-> -		ctx->vpu_src_fmt =3D vpu_fmt;
-> +	else
->  		fmt =3D &ctx->src_fmt;
-> -	}
-> =20
->  	hantro_reset_fmt(fmt, vpu_fmt);
->  	fmt->width =3D vpu_fmt->frmsize.min_width;
-> @@ -398,20 +394,21 @@ hantro_reset_encoded_fmt(struct hantro_ctx *ctx)
->  		hantro_set_fmt_out(ctx, fmt);
->  }
-> =20
-> -static void
-> -hantro_reset_raw_fmt(struct hantro_ctx *ctx)
-> +int
-> +hantro_reset_raw_fmt(struct hantro_ctx *ctx, int bit_depth)
->  {
->  	const struct hantro_fmt *raw_vpu_fmt;
->  	struct v4l2_pix_format_mplane *raw_fmt, *encoded_fmt;
-> =20
-> -	raw_vpu_fmt =3D hantro_get_default_fmt(ctx, false);
-> +	raw_vpu_fmt =3D hantro_get_default_fmt(ctx, false, bit_depth);
+>  drivers/media/i2c/ov5670.c | 79 +++++++++++++++++++++++++++++++++-----
+>  1 file changed, 69 insertions(+), 10 deletions(-)
+> 
+> diff --git a/drivers/media/i2c/ov5670.c b/drivers/media/i2c/ov5670.c
+> index 6843b2d9a2d4..12091a5c992e 100644
+> --- a/drivers/media/i2c/ov5670.c
+> +++ b/drivers/media/i2c/ov5670.c
+> @@ -1,8 +1,10 @@
+>  // SPDX-License-Identifier: GPL-2.0
+>  // Copyright (c) 2017 Intel Corporation.
+>  
+> +#include <asm/unaligned.h>
+>  #include <linux/acpi.h>
+>  #include <linux/clk.h>
+> +#include <linux/delay.h>
+>  #include <linux/gpio/consumer.h>
+>  #include <linux/i2c.h>
+>  #include <linux/mod_devicetable.h>
+> @@ -15,6 +17,8 @@
+>  #include <media/v4l2-event.h>
+>  #include <media/v4l2-fwnode.h>
+>  
+> +#define OV5670_XVCLK_FREQ		19200000
 > +
-> +	if (!raw_vpu_fmt)
-> +		return -EINVAL;
-> =20
->  	if (ctx->is_encoder) {
-> -		ctx->vpu_src_fmt =3D raw_vpu_fmt;
->  		raw_fmt =3D &ctx->src_fmt;
->  		encoded_fmt =3D &ctx->dst_fmt;
->  	} else {
-> -		ctx->vpu_dst_fmt =3D raw_vpu_fmt;
->  		raw_fmt =3D &ctx->dst_fmt;
->  		encoded_fmt =3D &ctx->src_fmt;
->  	}
-> @@ -420,15 +417,15 @@ hantro_reset_raw_fmt(struct hantro_ctx *ctx)
->  	raw_fmt->width =3D encoded_fmt->width;
->  	raw_fmt->height =3D encoded_fmt->height;
->  	if (ctx->is_encoder)
-> -		hantro_set_fmt_out(ctx, raw_fmt);
-> +		return hantro_set_fmt_out(ctx, raw_fmt);
->  	else
-> -		hantro_set_fmt_cap(ctx, raw_fmt);
-> +		return hantro_set_fmt_cap(ctx, raw_fmt);
+>  #define OV5670_REG_CHIP_ID		0x300a
+>  #define OV5670_CHIP_ID			0x005670
+>  
+> @@ -1841,6 +1845,9 @@ struct ov5670 {
+>  	/* Current mode */
+>  	const struct ov5670_mode *cur_mode;
+>  
+> +	/* xvclk input clock */
+> +	struct clk *xvclk;
+> +
+>  	/* Regulators */
+>  	struct regulator_bulk_data supplies[OV5670_NUM_SUPPLIES];
+>  
+> @@ -2424,6 +2431,48 @@ static int ov5670_set_stream(struct v4l2_subdev *sd, int enable)
+>  	return ret;
 >  }
-> =20
->  void hantro_reset_fmts(struct hantro_ctx *ctx)
->  {
->  	hantro_reset_encoded_fmt(ctx);
-> -	hantro_reset_raw_fmt(ctx);
-> +	hantro_reset_raw_fmt(ctx, 0);
->  }
-> =20
->  static void
-> @@ -528,7 +525,7 @@ static int hantro_set_fmt_out(struct hantro_ctx *ctx,
->  	 * changes to the raw format.
->  	 */
->  	if (!ctx->is_encoder)
-> -		hantro_reset_raw_fmt(ctx);
-> +		hantro_reset_raw_fmt(ctx, hantro_get_format_depth(pix_mp->pixelformat)=
-);
-> =20
->  	/* Colorimetry information are always propagated. */
->  	ctx->dst_fmt.colorspace =3D pix_mp->colorspace;
-> @@ -591,7 +588,7 @@ static int hantro_set_fmt_cap(struct hantro_ctx *ctx,
->  	 * changes to the raw format.
->  	 */
->  	if (ctx->is_encoder)
-> -		hantro_reset_raw_fmt(ctx);
-> +		hantro_reset_raw_fmt(ctx, 0);
-> =20
->  	/* Colorimetry information are always propagated. */
->  	ctx->src_fmt.colorspace =3D pix_mp->colorspace;
-> diff --git a/drivers/media/platform/verisilicon/hantro_v4l2.h b/drivers/m=
-edia/platform/verisilicon/hantro_v4l2.h
-> index 64f6f57e9d7a..9ea2fef57dcd 100644
-> --- a/drivers/media/platform/verisilicon/hantro_v4l2.h
-> +++ b/drivers/media/platform/verisilicon/hantro_v4l2.h
-> @@ -21,9 +21,10 @@
->  extern const struct v4l2_ioctl_ops hantro_ioctl_ops;
->  extern const struct vb2_ops hantro_queue_ops;
-> =20
-> +int hantro_reset_raw_fmt(struct hantro_ctx *ctx, int bit_depth);
->  void hantro_reset_fmts(struct hantro_ctx *ctx);
->  int hantro_get_format_depth(u32 fourcc);
->  const struct hantro_fmt *
-> -hantro_get_default_fmt(const struct hantro_ctx *ctx, bool bitstream);
-> +hantro_get_default_fmt(const struct hantro_ctx *ctx, bool bitstream, int=
- bit_depth);
-> =20
->  #endif /* HANTRO_V4L2_H_ */
+>  
+> +static int __maybe_unused ov5670_runtime_resume(struct device *dev)
+> +{
+> +	struct i2c_client *client = to_i2c_client(dev);
+> +	struct v4l2_subdev *sd = i2c_get_clientdata(client);
+> +	struct ov5670 *ov5670 = to_ov5670(sd);
+> +	unsigned long delay_us;
+> +	int ret;
+> +
+> +	ret = clk_prepare_enable(ov5670->xvclk);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = regulator_bulk_enable(OV5670_NUM_SUPPLIES, ov5670->supplies);
+> +	if (ret) {
+> +		clk_disable_unprepare(ov5670->xvclk);
+> +		return ret;
+> +	}
+> +
+> +	gpiod_set_value_cansleep(ov5670->pwdn_gpio, 0);
+> +	gpiod_set_value_cansleep(ov5670->reset_gpio, 0);
+> +
+> +	/* 8192 * 2 clock pulses before the first SCCB transaction. */
+> +	delay_us = DIV_ROUND_UP(8192 * 2, OV5670_XVCLK_FREQ / 1000 / 1000);
 
+This will round down the required delay. Could you use DIV_ROUND_UP() for
+converting the clock frequency to MHz?
+
+> +	fsleep(delay_us);
+> +
+> +	return 0;
+> +}
+> +
+> +static int __maybe_unused ov5670_runtime_suspend(struct device *dev)
+> +{
+> +	struct i2c_client *client = to_i2c_client(dev);
+> +	struct v4l2_subdev *sd = i2c_get_clientdata(client);
+> +	struct ov5670 *ov5670 = to_ov5670(sd);
+> +
+> +	gpiod_set_value_cansleep(ov5670->reset_gpio, 1);
+> +	gpiod_set_value_cansleep(ov5670->pwdn_gpio, 1);
+> +	regulator_bulk_disable(OV5670_NUM_SUPPLIES, ov5670->supplies);
+> +	clk_disable_unprepare(ov5670->xvclk);
+> +
+> +	return 0;
+> +}
+> +
+>  static int __maybe_unused ov5670_suspend(struct device *dev)
+>  {
+>  	struct v4l2_subdev *sd = dev_get_drvdata(dev);
+> @@ -2522,7 +2571,6 @@ static int ov5670_probe(struct i2c_client *client)
+>  	struct ov5670 *ov5670;
+>  	const char *err_msg;
+>  	u32 input_clk = 0;
+> -	struct clk *clk;
+>  	bool full_power;
+>  	int ret;
+>  
+> @@ -2535,18 +2583,19 @@ static int ov5670_probe(struct i2c_client *client)
+>  
+>  	/* OF uses the common clock framework, ACPI uses "clock-frequency". */
+>  	if (is_of_node(dev_fwnode(&client->dev))) {
+> -		clk = devm_clk_get(&client->dev, NULL);
+> -		if (IS_ERR(clk))
+> -			return dev_err_probe(&client->dev, PTR_ERR(clk),
+> +		ov5670->xvclk = devm_clk_get(&client->dev, NULL);
+> +		if (IS_ERR(ov5670->xvclk))
+> +			return dev_err_probe(&client->dev,
+> +					     PTR_ERR(ov5670->xvclk),
+>  					     "error getting clock\n");
+>  
+> -		input_clk = clk_get_rate(clk);
+> +		input_clk = clk_get_rate(ov5670->xvclk);
+>  	} else {
+>  		device_property_read_u32(&client->dev, "clock-frequency",
+>  					 &input_clk);
+>  	}
+>  
+> -	if (input_clk != 19200000) {
+> +	if (input_clk != OV5670_XVCLK_FREQ) {
+>  		dev_err(&client->dev,
+>  			"Unsupported clock frequency %u\n", input_clk);
+>  		return -EINVAL;
+> @@ -2569,12 +2618,20 @@ static int ov5670_probe(struct i2c_client *client)
+>  
+>  	full_power = acpi_dev_state_d0(&client->dev);
+>  	if (full_power) {
+> +		ret = ov5670_runtime_resume(&client->dev);
+> +		if (ret) {
+> +			err_msg = "Power up failed";
+> +			goto error_print;
+> +		}
+> +
+>  		/* Check module identity */
+>  		ret = ov5670_identify_module(ov5670);
+>  		if (ret) {
+>  			err_msg = "ov5670_identify_module() error";
+> -			goto error_print;
+> +			goto error_power_off;
+>  		}
+> +
+> +		pm_runtime_set_active(&client->dev);
+>  	}
+>  
+>  	mutex_init(&ov5670->mutex);
+> @@ -2611,9 +2668,6 @@ static int ov5670_probe(struct i2c_client *client)
+>  
+>  	ov5670->streaming = false;
+>  
+> -	/* Set the device's state to active if it's in D0 state. */
+> -	if (full_power)
+> -		pm_runtime_set_active(&client->dev);
+
+You should do this just before enabling runtime PM at the end of probe, or
+at least set it to suspended again in the error path.
+
+This driver should actually register the async subdev after enabling
+runtime PM. Not a fault of this series though.
+
+>  	pm_runtime_enable(&client->dev);
+>  	pm_runtime_idle(&client->dev);
+>  
+> @@ -2628,6 +2682,9 @@ static int ov5670_probe(struct i2c_client *client)
+>  error_mutex_destroy:
+>  	mutex_destroy(&ov5670->mutex);
+>  
+> +error_power_off:
+> +	ov5670_runtime_suspend(&client->dev);
+> +
+>  error_print:
+>  	dev_err(&client->dev, "%s: %s %d\n", __func__, err_msg, ret);
+>  
+> @@ -2644,11 +2701,13 @@ static void ov5670_remove(struct i2c_client *client)
+>  	v4l2_ctrl_handler_free(sd->ctrl_handler);
+>  	mutex_destroy(&ov5670->mutex);
+>  
+> +	ov5670_runtime_suspend(&client->dev);
+>  	pm_runtime_disable(&client->dev);
+>  }
+>  
+>  static const struct dev_pm_ops ov5670_pm_ops = {
+>  	SET_SYSTEM_SLEEP_PM_OPS(ov5670_suspend, ov5670_resume)
+> +	SET_RUNTIME_PM_OPS(ov5670_runtime_suspend, ov5670_runtime_resume, NULL)
+>  };
+>  
+>  #ifdef CONFIG_ACPI
+
+-- 
+Kind regards
+
+Sakari Ailus
