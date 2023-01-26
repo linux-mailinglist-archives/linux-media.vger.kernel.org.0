@@ -2,51 +2,80 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2ED5B67C99D
-	for <lists+linux-media@lfdr.de>; Thu, 26 Jan 2023 12:18:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CC2C667C9AA
+	for <lists+linux-media@lfdr.de>; Thu, 26 Jan 2023 12:20:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236850AbjAZLSc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 26 Jan 2023 06:18:32 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36962 "EHLO
+        id S236303AbjAZLU2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 26 Jan 2023 06:20:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38544 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236903AbjAZLSa (ORCPT
+        with ESMTP id S229844AbjAZLU1 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 26 Jan 2023 06:18:30 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 38D9542DFB
-        for <linux-media@vger.kernel.org>; Thu, 26 Jan 2023 03:18:26 -0800 (PST)
-Received: from ideasonboard.com (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 31B142B3;
-        Thu, 26 Jan 2023 12:18:24 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1674731904;
-        bh=NWc+BT1irtmZ6rpwVpd5jrGZ5sxMM6Nw3YWpIQmKhTU=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=GqsebPZIHe0Jiz5lCGkAk1eCG/8TTbS0men82FUTCsF9tIpalzl3w80ugq7V/co/i
-         KimDZzyUW8TkyFVf8IIOh3n2VcYuod4MKYN3Wp32VfObdDHuDHzi70DfnoWTWDIosH
-         K+n6luIH6hpUxY7Lw4uIjbxFeeTAyajoneqP7bPI=
-Date:   Thu, 26 Jan 2023 12:18:20 +0100
-From:   Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+        Thu, 26 Jan 2023 06:20:27 -0500
+Received: from meesny.iki.fi (meesny.iki.fi [195.140.195.201])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6DEB942BCC
+        for <linux-media@vger.kernel.org>; Thu, 26 Jan 2023 03:20:21 -0800 (PST)
+Received: from hillosipuli.retiisi.eu (82-181-192-243.bb.dnainternet.fi [82.181.192.243])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: sailus)
+        by meesny.iki.fi (Postfix) with ESMTPSA id 34CBE2018E;
+        Thu, 26 Jan 2023 13:20:18 +0200 (EET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
+        t=1674732018;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=6vS1N1uaHGBpBjH9CM1IXKyhUZD0o0GJm8oYXWImtKk=;
+        b=J/3Qcz5EJWe+B9/6hxv3Ly8VdQglIoHQwsf2n/LKs1rEoYinorESCYmlxAv18GVioHyD9m
+        TLOpDDMmqlvcZqbwvqV8yK0Lll4y96HFXh2X9O9Bjf6r1nNwskweCNueeNyVa7V51lk3x0
+        b5SQ+m+pWQtJvwHd4ZpL7XFVhLfhUck=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+        s=meesny; t=1674732018;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=6vS1N1uaHGBpBjH9CM1IXKyhUZD0o0GJm8oYXWImtKk=;
+        b=Nptat67ULY9xlQOhsFFGSyO2hReMmO7PjknP6vGaNSIXSUUaK8L/FRGn8Vm6mY2ZCwJKE1
+        C3+leXJM7JUV6uON69rVvWpgcpXcISkTB5qoarZb0dmKlqSoZaBwCqohV4gZ6TrqoH6uP7
+        j+YbcNVOdSc6dQm6aK2FELiGu2SmoaA=
+ARC-Authentication-Results: i=1;
+        ORIGINATING;
+        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Seal: i=1; s=meesny; d=iki.fi; t=1674732018; a=rsa-sha256; cv=none;
+        b=AVIrcmbXxCc1x14vqqkCiXnt0bC7n/OkXTcv2ySl6aYXMmxEP9TbWUx7uR26aSwLw/7/hM
+        UjVxjBWfeSvrG+JfZNkrB0uqCcNRnP1VoZ6QH4kxHrW6lO8OgSUzOSHPOBRvvxxJ9Ge+rn
+        BlP85l/ZOB2TPXqw9CGa6moG3HrLbco=
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id F353A634C91;
+        Thu, 26 Jan 2023 13:20:11 +0200 (EET)
+Date:   Thu, 26 Jan 2023 13:20:11 +0200
+From:   Sakari Ailus <sakari.ailus@iki.fi>
 To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-        Sakari Ailus <sakari.ailus@iki.fi>,
         linux-media@vger.kernel.org,
         Dave Stevenson <dave.stevenson@raspberrypi.com>
 Subject: Re: [RFC] Interactions between camera sensor rotation and flip
  controls
-Message-ID: <20230126111820.7h366vp4a2xztvgy@uno.localdomain>
+Message-ID: <Y9Jh67fI3GzFXSVt@valkosipuli.retiisi.eu>
 References: <Y9G3RV1+Tz23GTA5@pendragon.ideasonboard.com>
  <Y9G4zLehoFIq6D/1@pendragon.ideasonboard.com>
  <Y9JMZc6aSMSt0wcN@valkosipuli.retiisi.eu>
  <20230126101626.uocuz3og7dgalg66@uno.localdomain>
  <Y9JcwIwfTxzO/mzU@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
 In-Reply-To: <Y9JcwIwfTxzO/mzU@pendragon.ideasonboard.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -54,7 +83,7 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent
+Hi Laurent,
 
 On Thu, Jan 26, 2023 at 12:58:08PM +0200, Laurent Pinchart wrote:
 > On Thu, Jan 26, 2023 at 11:16:26AM +0100, Jacopo Mondi wrote:
@@ -200,7 +229,7 @@ On Thu, Jan 26, 2023 at 12:58:08PM +0200, Laurent Pinchart wrote:
 > > > > >   - Overriding the V4L2_CID_CAMERA_SENSOR_ROTATION value and setting it
 > > > > >     to 0 when it is 180 is less risky.
 > > > > > - ccs should expose the V4L2_CID_CAMERA_SENSOR_ROTATION control, and modify it
-> > > > >   internally to account the transparent 180Â° compensation.
+> > > > >   internally to account the transparent 180° compensation.
 > > > > > - For imx258 and ov02a10, two options are possible:
 > > > > >   - Expose the V4L2_CID_CAMERA_SENSOR_ROTATION control as-is, and expose the
 > > > > >     HFLIP and VFLIP controls read-only and hardcoded to enabled (for imx258) or
@@ -219,63 +248,57 @@ On Thu, Jan 26, 2023 at 12:58:08PM +0200, Laurent Pinchart wrote:
 > > >
 > > > How will it be different? The only user-visible difference, as far as I can
 > > > tell, is the order of the Bayer pattern.
-> >
+> > 
 > > I expressed a similar concern as the one Laurent has here summarized.
-> >
+> > 
 > > I'm thinking about industrial/machine vision applications where knowing the
 > > real mounting rotation and being in control of the row/col read
 > > direction is possibily important with rolling shutters and fast moving
 > > objects? This is mostly speculation, but it might be a valid use case
 > > for very specialized applications..
-> >
+> > 
 > > If we compensate V4L2_CID_CAMERA_SENSOR_ROTATION and invert flips to
 > > hide the implicit mirroring that takes place in the driver,
 > > application that expects full control might get confused.
->
+> 
 > That's my concern too. Imagine an object moving in the top-down
 > direction in front of the sensor. With rolling-shutter sensors, the
 > object will appear stretched vertically if the sensor is mounted
 > upside-up, and squashed if the sensor is mounted upside-down. This may
 > be important information for applications.
->
+
+That's not how it works: with the pixel matrix reading direction changed,
+it is read in the same (upright) order than when mounted upright. It
+couldn't be different: the sensor does not have a large buffer where to
+store the data. It's simply sent over the CSI-2 bus in the order it is
+read.
+
+> 
 > > > The users of these drivers have relied on getting upright images without
 > > > further device configuration. The existing user space can be expected to
 > > > break if this is changed.
-> >
+> > 
 > > Users that do not manipulate flips doesn't need to be changed, and as
 > > those drivers do not expose flips I don't think there's any issue
 > > here ? IOW current users will continue to work as they do afaict
-> >
+> > 
 > > However they will find H/VFLIP enabled by default and (once V/FLIP
 > > controls are registered and made writable) they will have to "disable"
 > > the control to mirror/flip the image if they want to do so.
-> >
+> > 
 > > I don't think that's an issue but maybe I'm overlooking it.
->
+> 
 > For the imx258 and ov02a10, existing users that have the ability to take
 > flip controls or the sensor rotation controls into account, but not
 > both, may be affected. Users that take neither controls into account, or
 > all of them, should be fine. I thus don't expect regressions. For ccs,
-
-Both drivers do not currently register any flip control nor
-V4L2_CID_CAMERA_SENSOR_ROTATION, so there is likely no risks of
-regressions for code written specifically for this drivers.
-
-You concern is valid for existing code bases, that as you said, do not
-take into account both the flips and the rotation. If any existing
-code goes an see that rotation = 180, but does not consider flips to infer
-if the rotation has been compensated already, it might try to rotate the
-image by itself. But that's quite a lot of assumptions to what
-userspace does and how it does it that it feels a bit of a stretch to
-call it a regression. But on this point I'm happy to defer the call to
-the two of you :)
-
 > we may need to check more carefully.
->
 
-CCS has flips already, I concur it's more risky in this case and we'll
-make it a bit of an outlier
+If the flip control defaults are changed, then there could be fewer
+regressions. But it's hard to tell: the control values are have a
+different meaning after the change.
 
+> 
 > > > > reason, I think it would be better to never override the
 > > > > V4L2_CID_CAMERA_SENSOR_ROTATION value exposed to userspace, thus going
 > > > > for the first of the above two options. The ccs driver should ideally do
@@ -290,8 +313,8 @@ make it a bit of an outlier
 > > > > > - The captured video is upright if rotation == 0 and both flipping controls are
 > > > > >   disabled or rotation == 180 and both flipping controls are enabled.
 > > > > > - Userspace *must* support read-only HFLIP and VFLIP controls.
->
-> --
-> Regards,
->
-> Laurent Pinchart
+
+-- 
+Kind regards,
+
+Sakari Ailus
