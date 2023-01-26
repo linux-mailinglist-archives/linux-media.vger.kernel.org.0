@@ -2,170 +2,373 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0CADA67D17D
-	for <lists+linux-media@lfdr.de>; Thu, 26 Jan 2023 17:26:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2C43467D1C8
+	for <lists+linux-media@lfdr.de>; Thu, 26 Jan 2023 17:37:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232721AbjAZQ0l (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 26 Jan 2023 11:26:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33972 "EHLO
+        id S231509AbjAZQhD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 26 Jan 2023 11:37:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46338 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232747AbjAZQ0H (ORCPT
+        with ESMTP id S231475AbjAZQhC (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 26 Jan 2023 11:26:07 -0500
-Received: from mail-yw1-x112e.google.com (mail-yw1-x112e.google.com [IPv6:2607:f8b0:4864:20::112e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6FE4471663
-        for <linux-media@vger.kernel.org>; Thu, 26 Jan 2023 08:25:35 -0800 (PST)
-Received: by mail-yw1-x112e.google.com with SMTP id 00721157ae682-4c131bede4bso30166657b3.5
-        for <linux-media@vger.kernel.org>; Thu, 26 Jan 2023 08:25:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=rUFKXit/Slxp5jNkRtm2qJfbudUdkwg/5ym9L9/2xFg=;
-        b=BrNExWGHbV1NeR+vu2Js5zAqwDKTAmFhHgoWjYZ0a3qbH7rru8W3QViuclznskZkVo
-         6Q5eqrGX7jMOOdvE9K9lsVmJpHX9roidNQoqd4ah6qpZ3z5AR/LzfumpWsF7qxr+L/L7
-         2EeJAw9MATGkA5VBf2UwOc7KCg21F0CUspP8pGqPmL78PHbmYrJgHGcDXuiJf+tpyEq5
-         mYd3qiJmdB/mmqbT25mkgF6e/9yHOLIF4ZmJU2qiUjSg09+a1L9BOQF70sP/z/t1hEtG
-         N3QguNCw23qX8RL/9XVLJb/vAzwIwx19tcG6Myly1SJ+d6fdbBsCbrW+Wp9iSE9SLjFe
-         r7Zw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=rUFKXit/Slxp5jNkRtm2qJfbudUdkwg/5ym9L9/2xFg=;
-        b=aS5bhir29XxYYbSrxG92Ca+aeFIw0TqiTgrg88I3QjWrK3c1bD8dn3TAV+As/VZJo7
-         briz/1calUzg5B3bI0wqtJflClPnp5JHUtL2GcJLvpEekrQI6SY6tgfL2Aq/jwWt2knF
-         IiKnQnHb7ql/fVMwO3lIyGromaan2h6agOt2hgFuAPuyfkij2CuPSPSnh4y3q0lo34bj
-         gspAylQmnKIOdrk0n+KECkwOfqhP6XED7q2yuRc6IdSn2NoPml/NtT+TkrERt0PqCkEB
-         oQfX8lORJ4LF++djEqV9l3qFi7WRpAT5ywt5RMka6QPAVe9UeR8l8wqCyZ1VpyluZ+cj
-         qfNw==
-X-Gm-Message-State: AFqh2ko/L4mmwVfeAsneB8pgThz3v+DONWLvG33zsVcj+UQruvvTOnOn
-        +kaIFQW0DqUAHataW9R/glxsUUHhq+CwOu6heWAoaw==
-X-Google-Smtp-Source: AMrXdXvRVLeaIi85wIrJBS5zRkOyr5/BQ66PCe0y1aLe9hmWIu7jqHBlhyy2SYPoXbE9x4WotKo1j1aRHLVU6Hd1LsI=
-X-Received: by 2002:a81:1b8b:0:b0:4ff:774b:7ffb with SMTP id
- b133-20020a811b8b000000b004ff774b7ffbmr3541685ywb.218.1674750315051; Thu, 26
- Jan 2023 08:25:15 -0800 (PST)
+        Thu, 26 Jan 2023 11:37:02 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EFFA740BDC;
+        Thu, 26 Jan 2023 08:36:51 -0800 (PST)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2958D2B3;
+        Thu, 26 Jan 2023 17:36:50 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1674751010;
+        bh=4gLj5f9D7ZETJNyyVrfZI2U861s5gHK9S5oVPKaALt8=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=EPFr1zaUNgst4mgJG1wjPIh3xzJFGsWMMLqueBlfLtkP0e5Kf8mbKIgrsRQMibR8y
+         a5RcEp9hMIem1569t05BlXMYISoupsAjkKHNRJiaXXvMsbEMi11nlPz7ZWYerAIxNx
+         xoQkiygj3WnHr4YNGXR4fdrgw2hEKdt36epB9Cy4=
+Date:   Thu, 26 Jan 2023 18:36:46 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Adam Ford <aford173@gmail.com>
+Cc:     linux-media@vger.kernel.org,
+        Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+        Xavier Roumegue <xavier.roumegue@oss.nxp.com>,
+        linux-imx@nxp.com, kernel@pengutronix.de,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        devicetree@vger.kernel.org
+Subject: Re: [PATCH v3 1/2] dt-bindings: media: Add i.MX8 ISI DT bindings
+Message-ID: <Y9KsHnQWIRTWzVoT@pendragon.ideasonboard.com>
+References: <20230126003320.10047-1-laurent.pinchart@ideasonboard.com>
+ <20230126003320.10047-2-laurent.pinchart@ideasonboard.com>
+ <CAHCN7x+PcBk-Y+t3AP4saJK=tntYr85btTzQMFD=WL+KYQfHGg@mail.gmail.com>
+ <Y9Jehk+qOXkaI3SH@pendragon.ideasonboard.com>
+ <Y9Jvm1GxfNRhPBP/@pendragon.ideasonboard.com>
+ <CAHCN7x+GO7mL9myhqP4xGe12_wAF37rr8n5TcN7Cx8a=gOytPQ@mail.gmail.com>
 MIME-Version: 1.0
-References: <20230125083851.27759-1-surenb@google.com> <20230125083851.27759-2-surenb@google.com>
- <Y9JFFYjfJf9uDijE@kernel.org> <Y9KTUw/04FmBVplw@kernel.org> <Y9KXjLaFFUvqqdd4@casper.infradead.org>
-In-Reply-To: <Y9KXjLaFFUvqqdd4@casper.infradead.org>
-From:   Suren Baghdasaryan <surenb@google.com>
-Date:   Thu, 26 Jan 2023 08:25:03 -0800
-Message-ID: <CAJuCfpHs4wvQpitiAYc+PQX3LnitF=wvm=zVX7CzMozzmnbcnw@mail.gmail.com>
-Subject: Re: [PATCH v2 1/6] mm: introduce vma->vm_flags modifier functions
-To:     Matthew Wilcox <willy@infradead.org>
-Cc:     Mike Rapoport <rppt@kernel.org>, akpm@linux-foundation.org,
-        michel@lespinasse.org, jglisse@google.com, mhocko@suse.com,
-        vbabka@suse.cz, hannes@cmpxchg.org, mgorman@techsingularity.net,
-        dave@stgolabs.net, liam.howlett@oracle.com, peterz@infradead.org,
-        ldufour@linux.ibm.com, paulmck@kernel.org, luto@kernel.org,
-        songliubraving@fb.com, peterx@redhat.com, david@redhat.com,
-        dhowells@redhat.com, hughd@google.com, bigeasy@linutronix.de,
-        kent.overstreet@linux.dev, punit.agrawal@bytedance.com,
-        lstoakes@gmail.com, peterjung1337@gmail.com, rientjes@google.com,
-        axelrasmussen@google.com, joelaf@google.com, minchan@google.com,
-        jannh@google.com, shakeelb@google.com, tatashin@google.com,
-        edumazet@google.com, gthelen@google.com, gurua@google.com,
-        arjunroy@google.com, soheil@google.com, hughlynch@google.com,
-        leewalsh@google.com, posk@google.com, will@kernel.org,
-        aneesh.kumar@linux.ibm.com, npiggin@gmail.com,
-        chenhuacai@kernel.org, tglx@linutronix.de, mingo@redhat.com,
-        bp@alien8.de, dave.hansen@linux.intel.com, richard@nod.at,
-        anton.ivanov@cambridgegreys.com, johannes@sipsolutions.net,
-        qianweili@huawei.com, wangzhou1@hisilicon.com,
-        herbert@gondor.apana.org.au, davem@davemloft.net, vkoul@kernel.org,
-        airlied@gmail.com, daniel@ffwll.ch,
-        maarten.lankhorst@linux.intel.com, mripard@kernel.org,
-        tzimmermann@suse.de, l.stach@pengutronix.de,
-        krzysztof.kozlowski@linaro.org, patrik.r.jakobsson@gmail.com,
-        matthias.bgg@gmail.com, robdclark@gmail.com,
-        quic_abhinavk@quicinc.com, dmitry.baryshkov@linaro.org,
-        tomba@kernel.org, hjc@rock-chips.com, heiko@sntech.de,
-        ray.huang@amd.com, kraxel@redhat.com, sre@kernel.org,
-        mcoquelin.stm32@gmail.com, alexandre.torgue@foss.st.com,
-        tfiga@chromium.org, m.szyprowski@samsung.com, mchehab@kernel.org,
-        dimitri.sivanich@hpe.com, zhangfei.gao@linaro.org,
-        jejb@linux.ibm.com, martin.petersen@oracle.com,
-        dgilbert@interlog.com, hdegoede@redhat.com, mst@redhat.com,
-        jasowang@redhat.com, alex.williamson@redhat.com, deller@gmx.de,
-        jayalk@intworks.biz, viro@zeniv.linux.org.uk, nico@fluxnic.net,
-        xiang@kernel.org, chao@kernel.org, tytso@mit.edu,
-        adilger.kernel@dilger.ca, miklos@szeredi.hu,
-        mike.kravetz@oracle.com, muchun.song@linux.dev, bhe@redhat.com,
-        andrii@kernel.org, yoshfuji@linux-ipv6.org, dsahern@kernel.org,
-        kuba@kernel.org, pabeni@redhat.com, perex@perex.cz, tiwai@suse.com,
-        haojian.zhuang@gmail.com, robert.jarzmik@free.fr,
-        linux-mm@kvack.org, linux-arm-kernel@lists.infradead.org,
-        linuxppc-dev@lists.ozlabs.org, x86@kernel.org,
-        linux-kernel@vger.kernel.org, linux-graphics-maintainer@vmware.com,
-        linux-ia64@vger.kernel.org, linux-arch@vger.kernel.org,
-        loongarch@lists.linux.dev, kvm@vger.kernel.org,
-        linux-s390@vger.kernel.org, linux-sgx@vger.kernel.org,
-        linux-um@lists.infradead.org, linux-acpi@vger.kernel.org,
-        linux-crypto@vger.kernel.org, nvdimm@lists.linux.dev,
-        dmaengine@vger.kernel.org, amd-gfx@lists.freedesktop.org,
-        dri-devel@lists.freedesktop.org, etnaviv@lists.freedesktop.org,
-        linux-samsung-soc@vger.kernel.org, intel-gfx@lists.freedesktop.org,
-        linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-        freedreno@lists.freedesktop.org,
-        linux-rockchip@lists.infradead.org, linux-tegra@vger.kernel.org,
-        virtualization@lists.linux-foundation.org,
-        xen-devel@lists.xenproject.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-rdma@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-accelerators@lists.ozlabs.org, sparclinux@vger.kernel.org,
-        linux-scsi@vger.kernel.org, linux-staging@lists.linux.dev,
-        target-devel@vger.kernel.org, linux-usb@vger.kernel.org,
-        netdev@vger.kernel.org, linux-fbdev@vger.kernel.org,
-        linux-aio@kvack.org, linux-fsdevel@vger.kernel.org,
-        linux-erofs@lists.ozlabs.org, linux-ext4@vger.kernel.org,
-        devel@lists.orangefs.org, kexec@lists.infradead.org,
-        linux-xfs@vger.kernel.org, bpf@vger.kernel.org,
-        linux-perf-users@vger.kernel.org, kasan-dev@googlegroups.com,
-        selinux@vger.kernel.org, alsa-devel@alsa-project.org,
-        kernel-team@android.com
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=unavailable
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CAHCN7x+GO7mL9myhqP4xGe12_wAF37rr8n5TcN7Cx8a=gOytPQ@mail.gmail.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Jan 26, 2023 at 7:09 AM Matthew Wilcox <willy@infradead.org> wrote:
->
-> On Thu, Jan 26, 2023 at 04:50:59PM +0200, Mike Rapoport wrote:
-> > On Thu, Jan 26, 2023 at 11:17:09AM +0200, Mike Rapoport wrote:
-> > > On Wed, Jan 25, 2023 at 12:38:46AM -0800, Suren Baghdasaryan wrote:
-> > > > +/* Use when VMA is not part of the VMA tree and needs no locking */
-> > > > +static inline void init_vm_flags(struct vm_area_struct *vma,
-> > > > +                          unsigned long flags)
+Hi Adam,
+
+On Thu, Jan 26, 2023 at 07:04:09AM -0600, Adam Ford wrote:
+> On Thu, Jan 26, 2023 at 6:18 AM Laurent Pinchart wrote:
+> > On Thu, Jan 26, 2023 at 01:05:43PM +0200, Laurent Pinchart wrote:
+> > > On Wed, Jan 25, 2023 at 08:36:41PM -0600, Adam Ford wrote:
+> > > > On Wed, Jan 25, 2023 at 6:33 PM Laurent Pinchart wrote:
+> > > > >
+> > > > > The Image Sensing Interface (ISI) combines image processing pipelines
+> > > > > with DMA engines to process and capture frames originating from a
+> > > > > variety of sources. The inputs to the ISI go through Pixel Link
+> > > > > interfaces, and their number and nature is SoC-dependent. They cover
+> > > > > both capture interfaces (MIPI CSI-2 RX, HDMI RX) and memory inputs.
+> > > > >
+> > > > > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > > > > ---
+> > > > > Changes since v2:
+> > > > >
+> > > > > - Describe the interrupts property
+> > > > > - Set global minItems and maxItems for interrupts
+> > > > > - Set maxItems for power-domains
+> > > > >
+> > > > > Changes since v1:
+> > > > >
+> > > > > - Fix compatible string checks in conditional schema
+> > > > > - Fix interrupts property handling
+> > > > > ---
+> > > > >  .../bindings/media/nxp,imx8-isi.yaml          | 152 ++++++++++++++++++
+> > > > >  1 file changed, 152 insertions(+)
+> > > > >  create mode 100644 Documentation/devicetree/bindings/media/nxp,imx8-isi.yaml
+> > > > >
+> > > > > diff --git a/Documentation/devicetree/bindings/media/nxp,imx8-isi.yaml b/Documentation/devicetree/bindings/media/nxp,imx8-isi.yaml
+> > > > > new file mode 100644
+> > > > > index 000000000000..130fa41b9d8e
+> > > > > --- /dev/null
+> > > > > +++ b/Documentation/devicetree/bindings/media/nxp,imx8-isi.yaml
+> > > > > @@ -0,0 +1,152 @@
+> > > > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > > > > +%YAML 1.2
+> > > > > +---
+> > > > > +$id: http://devicetree.org/schemas/media/nxp,imx8-isi.yaml#
+> > > > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > > > > +
+> > > > > +title: i.MX8 Image Sensing Interface
+> > > > > +
+> > > > > +maintainers:
+> > > > > +  - Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > > > > +
+> > > > > +description: |
+> > > > > +  The Image Sensing Interface (ISI) combines image processing pipelines with
+> > > > > +  DMA engines to process and capture frames originating from a variety of
+> > > > > +  sources. The inputs to the ISI go through Pixel Link interfaces, and their
+> > > > > +  number and nature is SoC-dependent. They cover both capture interfaces (MIPI
+> > > > > +  CSI-2 RX, HDMI RX, ...) and display engine outputs for writeback support.
+> > > > > +
+> > > > > +properties:
+> > > > > +  compatible:
+> > > > > +    enum:
+> > > > > +      - fsl,imx8mn-isi
+> > > > > +      - fsl,imx8mp-isi
+> > > > > +
+> > > > > +  reg:
+> > > > > +    maxItems: 1
+> > > > > +
+> > > > > +  clocks:
+> > > > > +    items:
+> > > > > +      - description: The AXI clock
+> > > > > +      - description: The APB clock
+> > > > > +      # TODO: Check if the per-channel ipg_proc_clk clocks need to be specified
+> > > > > +      # as well, in case some SoCs have the ability to control them separately.
+> > > > > +      # This may be the case of the i.MX8[DQ]X(P)
+> > > > > +
+> > > > > +  clock-names:
+> > > > > +    items:
+> > > > > +      - const: axi
+> > > > > +      - const: apb
+> > > > > +
+> > > > > +  fsl,blk-ctrl:
+> > > > > +    $ref: /schemas/types.yaml#/definitions/phandle
+> > > > > +    description:
+> > > > > +      A phandle referencing the block control that contains the CSIS to ISI
+> > > > > +      gasket.
+> > > > > +
+> > > > > +  interrupts:
+> > > > > +    description: Processing pipeline interrupts, one per pipeline
+> > > > > +    minItems: 1
+> > > > > +    maxItems: 2
+> > > > > +
+> > > > > +  power-domains:
+> > > > > +    maxItems: 1
+> > > > > +
+> > > > > +  ports:
+> > > > > +    $ref: /schemas/graph.yaml#/properties/ports
+> > > > > +    description: |
+> > > > > +      Ports represent the Pixel Link inputs to the ISI. Their number and
+> > > > > +      assignment are model-dependent. Each port shall have a single endpoint.
+> > > > > +
+> > > > > +    patternProperties:
+> > > > > +      "^port@[0-9]$":
+> > > > > +        $ref: /schemas/graph.yaml#/properties/port
+> > > > > +        unevaluatedProperties: false
+> > > > > +
+> > > > > +    unevaluatedProperties: false
+> > > > > +
+> > > > > +required:
+> > > > > +  - compatible
+> > > > > +  - reg
+> > > > > +  - interrupts
+> > > > > +  - clocks
+> > > > > +  - clock-names
+> > > > > +  - fsl,blk-ctrl
+> > > > > +  - ports
+> > > > > +
+> > > > > +allOf:
+> > > > > +  - if:
+> > > > > +      properties:
+> > > > > +        compatible:
+> > > > > +          contains:
+> > > > > +            const: fsl,imx8mn-isi
+> > > > > +    then:
+> > > > > +      properties:
+> > > > > +        interrupts:
+> > > > > +          maxItems: 1
+> > > > > +        ports:
+> > > > > +          properties:
+> > > > > +            port@0:
+> > > > > +              description: MIPI CSI-2 RX
+> > > > > +          required:
+> > > > > +            - port@0
+> > > >
+> > > > The imx8mn only has one port for the ISI.  When I compile the device
+> > > > tree with W=1, I get the following:
+> > > > arch/arm64/boot/dts/freescale/imx8mn.dtsi:1058.11-1068.7: Warning
+> > > > (graph_child_address): /soc@0/bus@32c00000/isi@32e20000/ports: graph
+> > > > node has single child node 'port@0', #address-cells/#size-cells are
+> > > > not necessary
 > > >
-> > > I'd suggest to make it vm_flags_init() etc.
+> > > The only appropriate answer to this is of course aaaarrrrghhhhhhhh.
+> > >
+> > > > Should the "ports" node be replaced with a single port with port@0 removed?
+> > > >
+> > > > The device tree would look something like:
+> > > >
+> > > > port {
+> > > >     isi_in: endpoint {
+> > > >         remote-endpoint = <&mipi_csi_out>;
+> > > >     };
+> > > > };
+> > >
+> > > I understand why DT tools (and before them, DT maintainers) recommend
+> > > (or require ?) single-port devices to use the short-hand syntax without
+> > > a ports node. In this specific case, or in the more general case of
+> > > devices that can have a variable number of ports depending on how
+> > > they're instantiated in a particular SoC, allowing a ports node to have
+> > > a single port child would be best I believe, as it would make DT
+> > > bindings more consistent, and simpler.
+> > >
+> > > > With the above, the messages go away, and I can still see the media
+> > > > pipeline and the video captures.  I am not good with YAML, so I am not
+> > > > exactly sure how to code that in YAML form.
+> > >
+> > > It's possible, and I can do so, but I'll wait for feedback from DT
+> > > maintainers.
 > >
-> > Thinking more about it, it will be even clearer to name these vma_flags_xyz()
->
-> Perhaps vma_VERB_flags()?
->
-> vma_init_flags()
-> vma_reset_flags()
-> vma_set_flags()
-> vma_clear_flags()
-> vma_mod_flags()
+> > Here's a patch on top of this one to support port/ports depending on the
+> > number of ports. Adam, could you test it ? Could you also share the
+> 
+> I can test it tonight.
+> 
+> > i.MX8MN DT node for the ISI ? I'd like to add it as an example to the
+> > bindings.
+> 
+> Here is git repo where took your stuff and added the Nano stuff:
+> 
+> https://github.com/aford173/linux/commit/f1ab727b4f6429aab281a3269ff4567008b72de3
 
-Due to excessive email bouncing I posted the v3 of this patchset using
-the original per-VMA patchset's distribution list. That might have
-dropped Mike from the list. Sorry about that Mike, I'll add you to my
-usual list of suspects :)
-The v3 is here:
-https://lore.kernel.org/all/20230125233554.153109-1-surenb@google.com/
-and Andrew did suggest the same renames, so I'll be posting v4 with
-those changes later today.
-Thanks for the feedback!
+Thanks. I notice you list two interrupt lines there, while the ISI has a
+single channel. Is that an oversight ?
 
->
+> Once the bindings are accepted, I'll push this (or similar) patch to the LKML.
+> 
+> > diff --git a/Documentation/devicetree/bindings/media/nxp,imx8-isi.yaml b/Documentation/devicetree/bindings/media/nxp,imx8-isi.yaml
+> > index cead41a017bf..8bbdc4ed929d 100644
+> > --- a/Documentation/devicetree/bindings/media/nxp,imx8-isi.yaml
+> > +++ b/Documentation/devicetree/bindings/media/nxp,imx8-isi.yaml
+> > @@ -52,11 +52,21 @@ properties:
+> >    power-domains:
+> >      maxItems: 1
+> >
+> > +  port:
+> > +    $ref: /schemas/graph.yaml#/properties/port
+> > +    description: |
+> > +      The port represents the Pixel Link input to the ISI. It shall have a
+> > +      single endpoint. This property is only used for ISI instances with a
+> > +      single port (as in the i.MX8MN). For instances that includes multiple
+> > +      ports, the 'ports' property shall be used instead.
+> > +
+> >    ports:
+> >      $ref: /schemas/graph.yaml#/properties/ports
+> >      description: |
+> >        Ports represent the Pixel Link inputs to the ISI. Their number and
+> > -      assignment are model-dependent. Each port shall have a single endpoint.
+> > +      assignment are model-dependent. For ISI instances that have a single
+> > +      port, the 'port' property should be used instead. Each port shall have a
+> > +      single endpoint.
+> >
+> >  required:
+> >    - compatible
+> > @@ -65,7 +75,6 @@ required:
+> >    - clocks
+> >    - clock-names
+> >    - fsl,blk-ctrl
+> > -  - ports
+> >
+> >  allOf:
+> >    - if:
+> > @@ -77,12 +86,11 @@ allOf:
+> >        properties:
+> >          interrupts:
+> >            maxItems: 1
+> > -        ports:
+> > -          properties:
+> > -            port@0:
+> > -              description: MIPI CSI-2 RX
+> > -          required:
+> > -            - port@0
+> > +        port:
+> > +          description: MIPI CSI-2 RX
+> > +        ports: false
+> > +      required:
+> > +        - port
+> >
+> >    - if:
+> >        properties:
+> > @@ -93,6 +101,7 @@ allOf:
+> >        properties:
+> >          interrupts:
+> >            maxItems: 2
+> > +        port: false
+> >          ports:
+> >            properties:
+> >              port@0:
+> > @@ -102,6 +111,8 @@ allOf:
+> >            required:
+> >              - port@0
+> >              - port@1
+> > +      required:
+> > +        - ports
+> >
+> >  additionalProperties: false
+> >
+> > > > > +
+> > > > > +  - if:
+> > > > > +      properties:
+> > > > > +        compatible:
+> > > > > +          contains:
+> > > > > +            const: fsl,imx8mp-isi
+> > > > > +    then:
+> > > > > +      properties:
+> > > > > +        interrupts:
+> > > > > +          maxItems: 2
+> > > > > +        ports:
+> > > > > +          properties:
+> > > > > +            port@0:
+> > > > > +              description: MIPI CSI-2 RX 0
+> > > > > +            port@1:
+> > > > > +              description: MIPI CSI-2 RX 1
+> > > > > +          required:
+> > > > > +            - port@0
+> > > > > +            - port@1
+> > > > > +
+> > > > > +additionalProperties: false
+> > > > > +
+> > > > > +examples:
+> > > > > +  - |
+> > > > > +    #include <dt-bindings/clock/imx8mp-clock.h>
+> > > > > +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> > > > > +    #include <dt-bindings/interrupt-controller/irq.h>
+> > > > > +
+> > > > > +    isi@32e00000 {
+> > > > > +        compatible = "fsl,imx8mp-isi";
+> > > > > +        reg = <0x32e00000 0x4000>;
+> > > > > +        interrupts = <GIC_SPI 16 IRQ_TYPE_LEVEL_HIGH>,
+> > > > > +                     <GIC_SPI 42 IRQ_TYPE_LEVEL_HIGH>;
+> > > > > +        clocks = <&clk IMX8MP_CLK_MEDIA_AXI_ROOT>,
+> > > > > +                 <&clk IMX8MP_CLK_MEDIA_APB_ROOT>;
+> > > > > +        clock-names = "axi", "apb";
+> > > > > +        fsl,blk-ctrl = <&media_blk_ctrl>;
+> > > > > +        power-domains = <&mediamix_pd>;
+> > > > > +
+> > > > > +        ports {
+> > > > > +            #address-cells = <1>;
+> > > > > +            #size-cells = <0>;
+> > > > > +
+> > > > > +            port@0 {
+> > > > > +                reg = <0>;
+> > > > > +                isi_in_0: endpoint {
+> > > > > +                    remote-endpoint = <&mipi_csi_0_out>;
+> > > > > +                };
+> > > > > +            };
+> > > > > +
+> > > > > +            port@1 {
+> > > > > +                reg = <1>;
+> > > > > +                isi_in_1: endpoint {
+> > > > > +                    remote-endpoint = <&mipi_csi_1_out>;
+> > > > > +                };
+> > > > > +            };
+> > > > > +        };
+> > > > > +    };
+> > > > > +
+> > > > > +...
+
+-- 
+Regards,
+
+Laurent Pinchart
