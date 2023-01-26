@@ -2,196 +2,155 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BFB8567D495
-	for <lists+linux-media@lfdr.de>; Thu, 26 Jan 2023 19:47:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 33A3867D542
+	for <lists+linux-media@lfdr.de>; Thu, 26 Jan 2023 20:19:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231621AbjAZSrp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 26 Jan 2023 13:47:45 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37580 "EHLO
+        id S231895AbjAZTTT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 26 Jan 2023 14:19:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59878 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230229AbjAZSrp (ORCPT
+        with ESMTP id S229446AbjAZTTR (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 26 Jan 2023 13:47:45 -0500
-Received: from mail-pg1-x533.google.com (mail-pg1-x533.google.com [IPv6:2607:f8b0:4864:20::533])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 082C33C11;
-        Thu, 26 Jan 2023 10:47:43 -0800 (PST)
-Received: by mail-pg1-x533.google.com with SMTP id 7so1693406pga.1;
-        Thu, 26 Jan 2023 10:47:43 -0800 (PST)
+        Thu, 26 Jan 2023 14:19:17 -0500
+Received: from mail-il1-x12a.google.com (mail-il1-x12a.google.com [IPv6:2607:f8b0:4864:20::12a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2996B2E0DD
+        for <linux-media@vger.kernel.org>; Thu, 26 Jan 2023 11:19:15 -0800 (PST)
+Received: by mail-il1-x12a.google.com with SMTP id i17so1188926ila.9
+        for <linux-media@vger.kernel.org>; Thu, 26 Jan 2023 11:19:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=/sYNXgIceCk3p6tYWEDeSR7UlzMzyVQx3QPxbApKokA=;
-        b=AHZu8Ckc2ufLvj7Ocu9KgpHcNeap19k0hx5RUV/h3oC/6bY1U4SA793D1HXzjJL3Je
-         1OpaGJ8Npgda4U5m/v7vzslkAQBoYzU3gEw6BBx3mkOJn6qEMedxlU9uSlusdWPguEZ9
-         6feNUNtaPDvMDfBQEEzreWSVc19lEotTLDaiF6lHoefbRvYywCoMYoqlkPrcaayT+r+/
-         eIUWdgqmsa/qZpD9oOhnZ+fNKSjwOBVt7Z1oaTuQfOsEk6jL77uDHHBBrs0NQtiEDaQZ
-         oNUzWUOn2RKdL35xABSgIYxfjdwK2co+RRaGiGZKKKrstqyITcfYlzHUtp1kAoGBVR3a
-         Y8VA==
+        d=chromium.org; s=google;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=cZz77IiOmTXjxpIQn9VIxxQTtn+oWpcv1UvGfAoxk1Y=;
+        b=LAWxeYrVBxWMMwcgBsn7pEWXxE4UGESq9f25C2xP9QvowropQk9kAGLyBGg4ce6A8+
+         oRpFeyw1zE2Pk34nrLKD+UB9topakGySH5ozV3cwcmOVnnwmAhPX+5epVhYu5X0WKS7b
+         3foB3Y9PF88+rA+3huXV9Iub3mQ9bmxGa9ToA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=/sYNXgIceCk3p6tYWEDeSR7UlzMzyVQx3QPxbApKokA=;
-        b=Rc/nlf/lItpsTzdXKgTPWxjBa6xYeiSFgGXGJumvaxS9Vbgdirauif7duQL9FcPVDq
-         SN1wncnQhOslnJHCkvc+deVMeYoNr8yPcjmMSpq/QE3IZioU2EfNfw08crxzysqFcpCy
-         V7ZS3vItf1y1Xcq2rwBb0DASwxhDcbwN5W6nrqxPErJ1dHa4rosUoSAhoQvd1vcjNO9Q
-         LLQ/c9RnO5quNPo7d6rXIOJgARzbzmP4ZBdLfe+dWPP2vwiVAubTNtVfHun7oIbJADIH
-         p7qm/RBbriT9LEoeThKAfO4Nsci7YkKIBWPDRTCga+hkv8/64IW8/AX1rxV8tchuKbKf
-         wLUg==
-X-Gm-Message-State: AFqh2kpQQkxlkLSrRFk/TbC9WoOYSmJ0hyI33m/n3NS00XdwbnX3B+xC
-        Rwfe/EjEzKOGO8Jcs/G/hD+Ul24ck46XgRRrdQ8=
-X-Google-Smtp-Source: AMrXdXuyDwrdlZHbEe0uUseFr8ZI2hhnifBc/+qcRC0OIBVHykjj4/o/ZLRoIDSYDLXodJGN9yJUygwFAnDGKHmeGp4=
-X-Received: by 2002:a62:3302:0:b0:58d:a7e6:89e3 with SMTP id
- z2-20020a623302000000b0058da7e689e3mr4265162pfz.67.1674758862290; Thu, 26 Jan
- 2023 10:47:42 -0800 (PST)
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=cZz77IiOmTXjxpIQn9VIxxQTtn+oWpcv1UvGfAoxk1Y=;
+        b=MVe8BiRyZKGLePhX+UwKIrrwFY3GTRNHDB7XIjuV94QiQEGVDsiRzN/u+iuj+dwHfN
+         zHi1hu7mRjhgBYtItjTJAHRJb1qW9x3JT0ECNiE0kDmIq54VKZHJ1DEyECxO2kxBmz11
+         tRZmC/2wsV0Zp90937YJiJXsPrRtksLc0jGdiiOJCl6nk3JYuPVBIdeLtMo0tW+K13Gc
+         mRmHxFEuUUafUIk7Jw1blAVPYI7SXZlD25Rkv+lGpxGg+RTiGM+ZMqbAdZQwO8bZm9xV
+         pEHMiFkHwLywVjQTBXtCIeLGRIembuMaMrRlc0vnfAlb3hD4i7b6iJIyQ/uYLw/EfZlW
+         iiAQ==
+X-Gm-Message-State: AO0yUKVgi6StmrLIMCGFLrrMsxdrLuTqCB9m3GW1wT3gmCY1rftODhmo
+        z+jgb5O1MapsT/AKvTyypDEmFw==
+X-Google-Smtp-Source: AK7set9a3lo30KgC8wBrwxCGVr9Ul78Wd9CZpSjzGhw/+UNEuPpX66X6l8uMOn8Xdwas6+FgH5Jeuw==
+X-Received: by 2002:a05:6e02:154e:b0:310:a8a0:338d with SMTP id j14-20020a056e02154e00b00310a8a0338dmr5369211ilu.28.1674760754513;
+        Thu, 26 Jan 2023 11:19:14 -0800 (PST)
+Received: from localhost (30.23.70.34.bc.googleusercontent.com. [34.70.23.30])
+        by smtp.gmail.com with UTF8SMTPSA id l35-20020a026663000000b0039e5418fb01sm686007jaf.73.2023.01.26.11.19.13
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 26 Jan 2023 11:19:13 -0800 (PST)
+Date:   Thu, 26 Jan 2023 19:19:13 +0000
+From:   Matthias Kaehlcke <mka@chromium.org>
+To:     Stanimir Varbanov <stanimir.varbanov@linaro.org>
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org,
+        Fritz Koenig <frkoenig@chromium.org>,
+        Nathan Hebert <nhebert@chromium.org>
+Subject: Re: [PATCH 2/3] venus: firmware: Correct non-pix start and end
+ addresses
+Message-ID: <Y9LSMap+jRxbtpC8@google.com>
+References: <20221005083730.963322-1-stanimir.varbanov@linaro.org>
+ <20221005083730.963322-3-stanimir.varbanov@linaro.org>
 MIME-Version: 1.0
-References: <20230126170603.11896-1-laurent.pinchart@ideasonboard.com>
- <20230126170603.11896-3-laurent.pinchart@ideasonboard.com>
- <CAHCN7xJNGCd=Sghu3oe9_yjSg0ybXRFHaVLaZmC2guXCy7ty1A@mail.gmail.com> <Y9LI//H0a8P8c0gL@pendragon.ideasonboard.com>
-In-Reply-To: <Y9LI//H0a8P8c0gL@pendragon.ideasonboard.com>
-From:   Adam Ford <aford173@gmail.com>
-Date:   Thu, 26 Jan 2023 12:47:31 -0600
-Message-ID: <CAHCN7xJ1KxbQGrt657HAz3_PiFtmkjaUoDKxbOMwO124TgXvfg@mail.gmail.com>
-Subject: Re: [PATCH v4 2/3] dt-bindings: media: imx8-isi: Use 'port' instead
- of 'ports' for i.MX8MN
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org,
-        Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-        Xavier Roumegue <xavier.roumegue@oss.nxp.com>,
-        linux-imx@nxp.com, kernel@pengutronix.de,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        devicetree@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20221005083730.963322-3-stanimir.varbanov@linaro.org>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Jan 26, 2023 at 12:40 PM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> Hi Adam,
->
-> On Thu, Jan 26, 2023 at 12:31:16PM -0600, Adam Ford wrote:
-> > On Thu, Jan 26, 2023 at 11:06 AM Laurent Pinchart wrote:
-> > >
-> > > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > > ---
-> > >  .../bindings/media/nxp,imx8-isi.yaml          | 39 +++++++++++--------
-> > >  1 file changed, 22 insertions(+), 17 deletions(-)
-> >
-> > Is there a reason not to squash the two bindings into just one patch?
->
-> As indicated in the cover letter, I've kept this separate to clearly
-> show the impact on the bindings. If using a 'port' node is the preferred
-> option, I can squash this patch, if using a 'ports' unconditionally is
-> favoured, then I'll just drop it.
+Hi Stanimir,
 
-Sorry, I missed that.
+On Wed, Oct 05, 2022 at 11:37:29AM +0300, Stanimir Varbanov wrote:
+> The default values for those registers are zero.
+> 
+> Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
+> ---
+>  drivers/media/platform/qcom/venus/firmware.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/media/platform/qcom/venus/firmware.c b/drivers/media/platform/qcom/venus/firmware.c
+> index 3851cedc3329..71e43611d1cf 100644
+> --- a/drivers/media/platform/qcom/venus/firmware.c
+> +++ b/drivers/media/platform/qcom/venus/firmware.c
+> @@ -38,8 +38,8 @@ static void venus_reset_cpu(struct venus_core *core)
+>  	writel(fw_size, wrapper_base + WRAPPER_FW_END_ADDR);
+>  	writel(0, wrapper_base + WRAPPER_CPA_START_ADDR);
+>  	writel(fw_size, wrapper_base + WRAPPER_CPA_END_ADDR);
+> -	writel(fw_size, wrapper_base + WRAPPER_NONPIX_START_ADDR);
+> -	writel(fw_size, wrapper_base + WRAPPER_NONPIX_END_ADDR);
+> +	writel(0, wrapper_base + WRAPPER_NONPIX_START_ADDR);
+> +	writel(0, wrapper_base + WRAPPER_NONPIX_END_ADDR);
+>  
+>  	if (IS_V6(core)) {
+>  		/* Bring XTSS out of reset */
 
-That makes sense
+I found that this commit prevents the AOSS from entering sleep mode during
+system suspend at least on sc7180 and sc7280. AOSS not entering sleep mode
+leads to a (apparently significant) increase in S3 power consumption, on
+trogdor and herobrine it prevents the system from staying suspended, because
+the embedded controller detect the condition and wakes the sytem up again.
 
-adam
->
-> > > diff --git a/Documentation/devicetree/bindings/media/nxp,imx8-isi.yaml b/Documentation/devicetree/bindings/media/nxp,imx8-isi.yaml
-> > > index 6038b9b5ab36..121594569395 100644
-> > > --- a/Documentation/devicetree/bindings/media/nxp,imx8-isi.yaml
-> > > +++ b/Documentation/devicetree/bindings/media/nxp,imx8-isi.yaml
-> > > @@ -52,11 +52,21 @@ properties:
-> > >    power-domains:
-> > >      maxItems: 1
-> > >
-> > > +  port:
-> > > +    $ref: /schemas/graph.yaml#/properties/port
-> > > +    description: |
-> > > +      The port represents the Pixel Link input to the ISI. It shall have a
-> > > +      single endpoint. This property is only used for ISI instances with a
-> > > +      single port (as in the i.MX8MN). For instances that includes multiple
-> > > +      ports, the 'ports' property shall be used instead.
-> > > +
-> > >    ports:
-> > >      $ref: /schemas/graph.yaml#/properties/ports
-> > >      description: |
-> > >        Ports represent the Pixel Link inputs to the ISI. Their number and
-> > > -      assignment are model-dependent. Each port shall have a single endpoint.
-> > > +      assignment are model-dependent. For ISI instances that have a single
-> > > +      port, the 'port' property should be used instead. Each port shall have a
-> > > +      single endpoint.
-> > >
-> > >  required:
-> > >    - compatible
-> > > @@ -65,7 +75,6 @@ required:
-> > >    - clocks
-> > >    - clock-names
-> > >    - fsl,blk-ctrl
-> > > -  - ports
-> > >
-> > >  allOf:
-> > >    - if:
-> > > @@ -77,12 +86,11 @@ allOf:
-> > >        properties:
-> > >          interrupts:
-> > >            maxItems: 1
-> > > -        ports:
-> > > -          properties:
-> > > -            port@0:
-> > > -              description: MIPI CSI-2 RX
-> > > -          required:
-> > > -            - port@0
-> > > +        port:
-> > > +          description: MIPI CSI-2 RX
-> > > +        ports: false
-> > > +      required:
-> > > +        - port
-> > >
-> > >    - if:
-> > >        properties:
-> > > @@ -93,6 +101,7 @@ allOf:
-> > >        properties:
-> > >          interrupts:
-> > >            maxItems: 2
-> > > +        port: false
-> > >          ports:
-> > >            properties:
-> > >              port@0:
-> > > @@ -102,6 +111,8 @@ allOf:
-> > >            required:
-> > >              - port@0
-> > >              - port@1
-> > > +      required:
-> > > +        - ports
-> > >
-> > >  additionalProperties: false
-> > >
-> > > @@ -122,15 +133,9 @@ examples:
-> > >          fsl,blk-ctrl = <&disp_blk_ctrl>;
-> > >          power-domains = <&disp_blk_ctrl IMX8MN_DISPBLK_PD_ISI>;
-> > >
-> > > -        ports {
-> > > -            #address-cells = <1>;
-> > > -            #size-cells = <0>;
-> > > -
-> > > -            port@0 {
-> > > -                reg = <0>;
-> > > -                isi_in: endpoint {
-> > > -                    remote-endpoint = <&mipi_csi_out>;
-> > > -                };
-> > > +        port {
-> > > +            isi_in: endpoint {
-> > > +                remote-endpoint = <&mipi_csi_out>;
-> > >              };
-> > >          };
-> > >      };
->
-> --
-> Regards,
->
-> Laurent Pinchart
+Testing is slightly involved, since unfortunately this is not the only issue
+in v6.2-rcN that impacts AOSS sleep.
+
+To reach AOSS sleep you also have to revert this commit:
+
+3a39049f88e4 soc: qcom: rpmhpd: Use highest corner until sync_state
+
+And apply something like the diff below (or enable the bwmon driver).
+
+On a trogdor device you will see something like this when AOSS doesn't
+enter sleep mode during system suspend:
+
+  [   32.882869] EC detected sleep transition timeout. Total sleep transitions: 0
+  [   32.882886] WARNING: CPU: 7 PID: 5682 at drivers/platform/chrome/cros_ec.c:146 cros_ec_sleep_event+0x100/0x10c
+  [   32.900393] Modules linked in: uinput veth uvcvideo videobuf2_vmalloc venus_enc venus_dec videobuf2_dma_contig videobuf2_memops onboard_usb_hub cros_ec_typec typec hci_uart btqca xt_MASQUERADE venus_core v4l2_mem2mem videobuf2_v4l2 videobuf2_common qcom_q6v5_mss qcom_pil_v
+  [   32.940015] CPU: 7 PID: 5682 Comm: cat Tainted: G        W          6.1.0-rc2+ #295 d14276115b3f6b03fc99220174e5d7724847cbd6
+  [   32.951525] Hardware name: Google Villager (rev1+) with LTE (DT)
+  [   32.957695] pstate: 60400009 (nZCv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+  [   32.964848] pc : cros_ec_sleep_event+0x100/0x10c
+  [   32.969596] lr : cros_ec_sleep_event+0x100/0x10c
+
+I'm also happy to help with testing if you have a candidate fix.
+
+Thanks
+
+Matthias
+
+--
+
+diff --git a/arch/arm64/boot/dts/qcom/sc7280.dtsi b/arch/arm64/boot/dts/qcom/sc7280.dtsi
+index 0adf13399e64..c1f6952764c5 100644
+--- a/arch/arm64/boot/dts/qcom/sc7280.dtsi
++++ b/arch/arm64/boot/dts/qcom/sc7280.dtsi
+@@ -3488,7 +3488,7 @@ IPCC_MPROC_SIGNAL_GLINK_QMP
+                };
+
+                pmu@9091000 {
+		-                       compatible = "qcom,sc7280-llcc-bwmon";
+		+                       // compatible = "qcom,sc7280-llcc-bwmon";
+		                        reg = <0 0x9091000 0 0x1000>;
+
+                        interrupts = <GIC_SPI 81 IRQ_TYPE_LEVEL_HIGH>;
+			@@ -3528,7 +3528,7 @@ opp-7 {
+			                };
+
+                pmu@90b6400 {
+		-                       compatible = "qcom,sc7280-cpu-bwmon", "qcom,msm8998-bwmon";
+		+                       // compatible = "qcom,sc7280-cpu-bwmon", "qcom,msm8998-bwmon";
+		                        reg = <0 0x090b6400 0 0x600>;
+
+                        interrupts = <GIC_SPI 581 IRQ_TYPE_LEVEL_HIGH>;
