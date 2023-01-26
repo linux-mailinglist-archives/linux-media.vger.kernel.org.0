@@ -2,62 +2,36 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7CF6567CEF6
-	for <lists+linux-media@lfdr.de>; Thu, 26 Jan 2023 15:52:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AB50967CF30
+	for <lists+linux-media@lfdr.de>; Thu, 26 Jan 2023 16:07:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232424AbjAZOwd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 26 Jan 2023 09:52:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57676 "EHLO
+        id S231487AbjAZPHD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 26 Jan 2023 10:07:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40700 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232334AbjAZOw2 (ORCPT
+        with ESMTP id S229792AbjAZPHC (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 26 Jan 2023 09:52:28 -0500
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A813D6B983
-        for <linux-media@vger.kernel.org>; Thu, 26 Jan 2023 06:52:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674744727; x=1706280727;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=2N5D1m4snBceSn9Sapn5bPspHgnZJJD4sfwKEEXiLhY=;
-  b=QQIIOTIGCMz7s8KsPRlVPJMGLjbUeuicXqcuM6p5ufiUfgm8/DT6iKYu
-   DgqdvOGWed1RyqjqwI/oGcvwi/9kvaTdFzjuJ6+pJ6iRPSKbr6XCC2l/W
-   ucYZSB7xFg7pnrviHzk+D1TRwdKhMy2dSDqx/gJYw16eHM/Y3R/HLi0hC
-   CKtzL8Wj4RrkYw5AOgluY9xaT3mjlDIzDPkzSJrDMSz+VeklzffkThG1i
-   OtMF2JalyQUEnRSffjU1wXOB25knYrQ9h8v1tsiRNKEKuGmunGumm/lGB
-   qVfwXmbyT9cz/ZmwGfCS7zEtZDupxFP+2TEK+5Fp3bFAwlK7ZfDmCVne8
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10602"; a="354126900"
-X-IronPort-AV: E=Sophos;i="5.97,248,1669104000"; 
-   d="scan'208";a="354126900"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2023 06:52:06 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10602"; a="612820298"
-X-IronPort-AV: E=Sophos;i="5.97,248,1669104000"; 
-   d="scan'208";a="612820298"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2023 06:52:04 -0800
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-        by kekkonen.fi.intel.com (Postfix) with SMTP id AF4C311F78D;
-        Thu, 26 Jan 2023 16:52:01 +0200 (EET)
-Date:   Thu, 26 Jan 2023 16:52:01 +0200
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc:     Robert Mader <robert.mader@collabora.com>,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH 0/3] media: imx258: Remove rotation=<80 requirement
-Message-ID: <Y9KTkSqgyxJbvsj9@kekkonen.localdomain>
-References: <20230117100603.51631-1-jacopo.mondi@ideasonboard.com>
+        Thu, 26 Jan 2023 10:07:02 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD9D748A24
+        for <linux-media@vger.kernel.org>; Thu, 26 Jan 2023 07:07:00 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 7361C61870
+        for <linux-media@vger.kernel.org>; Thu, 26 Jan 2023 15:07:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 78B77C433EF
+        for <linux-media@vger.kernel.org>; Thu, 26 Jan 2023 15:06:59 +0000 (UTC)
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: [PATCH 00/17] media: sparse/smatch fixes
+Date:   Thu, 26 Jan 2023 16:06:40 +0100
+Message-Id: <20230126150657.367921-1-hverkuil-cisco@xs4all.nl>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230117100603.51631-1-jacopo.mondi@ideasonboard.com>
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -65,34 +39,55 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jacopo,
+We have way too many sparse/smatch warnings and errors today, making
+it hard to tell when new issues are introduced.
 
-On Tue, Jan 17, 2023 at 11:06:00AM +0100, Jacopo Mondi wrote:
-> Currently the imx258 driver requires to have the 'rotation' device node
-> property specified in DTS with a fixed value of 180 degrees.
-> 
-> The "rotation" fwnode device property is intended to allow specify the
-> sensor's physical mounting rotation, so that it can be exposed through
-> the read-only V4L2_CID_CAMERA_SENSOR_ROTATION control and applications
-> can decide how to compensate for that.
-> 
-> The imx258 driver has read-only VFLIP and HFLIP enabled, resulting in
-> a 180 degrees image rotation being produced by the sensor. But this
-> doesn't imply that the physical mounting rotation should match the
-> driver's implementation.
-> 
-> I took into the series Robert's patch that register device node properties and
-> on top of that register flips controls, in order to remove the hard requirement
-> of the 180 degrees rotation property presence.
+This series will get rid of most of them.
 
-Reconsidering these patches after the flipping vs. rotation discussion,
-they seem fine. The only thing I'd like to see, after removing the rotation
-property check, would be to add support for the actual flipping controls.
-I'm pretty sure they can be found in the same registers as on CCS --- the
-rest of the registers look very much like that. Would you like to send a
-patch? :-)
-
--- 
 Regards,
 
-Sakari Ailus
+	Hans
+
+Hans Verkuil (17):
+  media: visl: make visl_qops static
+  media: davinci/vpif.c: drop unnecessary cast
+  media: i2c: s5c73m3: return 0 instead of 'ret'.
+  media: dvb-frontends: cxd2880: return 0 instead of 'ret'.
+  media: usb: dvb-usb-v2: af9015.c: return 0 instead of 'ret'.
+  media: dvb-frontends: cxd2880: return 0 instead of 'ret'.
+  media: marvell: change return to goto for proper unwind
+  media: dvb-frontends: drx39xyj: replace return with goto for proper
+    unwind
+  media: nxp: imx-jpeg: replace dummy gotos by returns
+  media: mediatek: mdp3: replace return by goto for proper unwind
+  media: mediatek: vcodec/venc: return 0 instead of 'ret'.
+  media: ti: davinci: vpbe_display.c: return 0 instead of 'ret'.
+  media: i2c: ov7670: 0 instead of -EINVAL was returned
+  media: usb: go7007: add second unwind label
+  media: i2c: adp1653: introduce 'no_child' label
+  media: st: delta: introduce 'err_too_many_comps' label
+  media: dvb-frontends: mb86a16.c: always use the same error path
+
+ .../dvb-frontends/cxd2880/cxd2880_tnrdmd.c    |  4 ++--
+ .../cxd2880/cxd2880_tnrdmd_dvbt.c             | 14 +++++++-------
+ .../cxd2880/cxd2880_tnrdmd_dvbt2.c            | 14 +++++++-------
+ drivers/media/dvb-frontends/drx39xyj/drxj.c   |  9 ++++++---
+ drivers/media/dvb-frontends/mb86a16.c         |  9 ++++++---
+ drivers/media/i2c/adp1653.c                   |  5 +++--
+ drivers/media/i2c/ov7670.c                    |  2 +-
+ drivers/media/i2c/s5c73m3/s5c73m3-core.c      |  2 +-
+ drivers/media/platform/marvell/mmp-driver.c   |  2 +-
+ .../platform/mediatek/mdp3/mtk-mdp3-comp.c    |  3 ++-
+ .../mediatek/vcodec/venc/venc_h264_if.c       |  4 ++--
+ .../media/platform/nxp/imx-jpeg/mxc-jpeg.c    | 19 ++++++-------------
+ .../platform/st/sti/delta/delta-mjpeg-hdr.c   | 16 +++++++++-------
+ .../media/platform/ti/davinci/vpbe_display.c  |  2 +-
+ drivers/media/platform/ti/davinci/vpif.c      |  2 +-
+ drivers/media/test-drivers/visl/visl-video.c  |  2 +-
+ drivers/media/usb/dvb-usb-v2/af9015.c         |  4 ++--
+ drivers/media/usb/go7007/go7007-usb.c         | 11 +++++++----
+ 18 files changed, 65 insertions(+), 59 deletions(-)
+
+-- 
+2.39.0
+
