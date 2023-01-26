@@ -2,208 +2,152 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 57AFF67CE35
-	for <lists+linux-media@lfdr.de>; Thu, 26 Jan 2023 15:33:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 340E667CEC6
+	for <lists+linux-media@lfdr.de>; Thu, 26 Jan 2023 15:49:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232182AbjAZOdi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 26 Jan 2023 09:33:38 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42762 "EHLO
+        id S232029AbjAZOs6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 26 Jan 2023 09:48:58 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55868 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230322AbjAZOdh (ORCPT
+        with ESMTP id S229473AbjAZOsz (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 26 Jan 2023 09:33:37 -0500
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A0CE1222D4;
-        Thu, 26 Jan 2023 06:33:36 -0800 (PST)
-Received: from nicolas-tpx395.localdomain (192-222-136-102.qc.cable.ebox.net [192.222.136.102])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits))
+        Thu, 26 Jan 2023 09:48:55 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 606A94489;
+        Thu, 26 Jan 2023 06:48:53 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        (Authenticated sender: nicolas)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 959296602E70;
-        Thu, 26 Jan 2023 14:33:33 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1674743615;
-        bh=8qFUxdsl7twq591uo+X+TfuQMTvgNu9wejrziThHdEk=;
-        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-        b=ngH9Ek/2a+3iJwWPHctejHS/IkeA/HAsHuLRvGU5a1xIjuL6pRKYKcCaTI1wkXecN
-         y9Cdb3EDU3PhQtV+fHL3BH1mfgaQNc/YXDY7vpsHi/qCrb94EVvzR+nsMybyrGOdBI
-         9hcNpWwWFJAuyaoNWr+o03VgYWOlbULq5+sXxsWUqtkRQ2XVBVJ6qebje2BqOb7bW5
-         j2eXGYymttnohVyr0f4S0w0EkxTwB4k7dNTVGxQB+orkFeihT6a33VqtRM6LhZ1/qv
-         WD83I+0ZdF/j63kNHPoc8F+zWkKEyvCAuKBy/UvQ6WFkNZBkImXKrhV9LNT1uIO79M
-         GIPlfrRa9MWCA==
-Message-ID: <beb018218c6b0763ae15e28752f3292240f664c6.camel@collabora.com>
-Subject: Re: [PATCH v4 2/2] media: verisilicon: HEVC: Only propose 10 bits
- compatible pixels formats
-From:   Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
-        mchehab@kernel.org, shawnguo@kernel.org, s.hauer@pengutronix.de,
-        kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
-        hverkuil-cisco@xs4all.nl, nicolas.dufresne@collabora.co.uk
-Cc:     linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        kernel@collabora.com
-Date:   Thu, 26 Jan 2023 09:33:24 -0500
-In-Reply-To: <20230125172755.1498973-3-benjamin.gaignard@collabora.com>
-References: <20230125172755.1498973-1-benjamin.gaignard@collabora.com>
-         <20230125172755.1498973-3-benjamin.gaignard@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.2 (3.46.2-1.fc37) 
+        by dfw.source.kernel.org (Postfix) with ESMTPS id EE0DA61856;
+        Thu, 26 Jan 2023 14:48:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 05241C4339B;
+        Thu, 26 Jan 2023 14:48:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1674744532;
+        bh=WNohoknU9nLfbwIXeO77neZ4yMyv64MASZK2UIAfOfc=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=OyaVsT5ePzTFS76R1FH5KLxOUgzscan6sLv55lgf+totKkalpj5P4hTJ0CFzpg2nB
+         FjnAcEI6WBL0tfwF/TTw8b+wwY6a9pfQDEoFaNDhDzv4Bx4E//TKL2HIis05iqFTqA
+         6cWnwUhcKJagQmydnhE9MWdKN98RZA7QH0/g2op6Qc+WX5kkWc6P8AxP1IQok4d4Iv
+         rC+rDq5bfpCpp87TX2zmlNbavkxhh4pjEZT5VQ1/5GQQQR5j3P3SiDxYUla0TLmDmY
+         tHoanGw9DWG+oAt/RnrhsxsQ7gltrsJN75kvWssUX4MOKayClNcjWM9UluK5fqquNs
+         P9OGQuC06AeFQ==
+Date:   Thu, 26 Jan 2023 16:48:04 +0200
+From:   Mike Rapoport <rppt@kernel.org>
+To:     Suren Baghdasaryan <surenb@google.com>
+Cc:     akpm@linux-foundation.org, michel@lespinasse.org,
+        jglisse@google.com, mhocko@suse.com, vbabka@suse.cz,
+        hannes@cmpxchg.org, mgorman@techsingularity.net, dave@stgolabs.net,
+        willy@infradead.org, liam.howlett@oracle.com, peterz@infradead.org,
+        ldufour@linux.ibm.com, paulmck@kernel.org, luto@kernel.org,
+        songliubraving@fb.com, peterx@redhat.com, david@redhat.com,
+        dhowells@redhat.com, hughd@google.com, bigeasy@linutronix.de,
+        kent.overstreet@linux.dev, punit.agrawal@bytedance.com,
+        lstoakes@gmail.com, peterjung1337@gmail.com, rientjes@google.com,
+        axelrasmussen@google.com, joelaf@google.com, minchan@google.com,
+        jannh@google.com, shakeelb@google.com, tatashin@google.com,
+        edumazet@google.com, gthelen@google.com, gurua@google.com,
+        arjunroy@google.com, soheil@google.com, hughlynch@google.com,
+        leewalsh@google.com, posk@google.com, will@kernel.org,
+        aneesh.kumar@linux.ibm.com, npiggin@gmail.com,
+        chenhuacai@kernel.org, tglx@linutronix.de, mingo@redhat.com,
+        bp@alien8.de, dave.hansen@linux.intel.com, richard@nod.at,
+        anton.ivanov@cambridgegreys.com, johannes@sipsolutions.net,
+        qianweili@huawei.com, wangzhou1@hisilicon.com,
+        herbert@gondor.apana.org.au, davem@davemloft.net, vkoul@kernel.org,
+        airlied@gmail.com, daniel@ffwll.ch,
+        maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+        tzimmermann@suse.de, l.stach@pengutronix.de,
+        krzysztof.kozlowski@linaro.org, patrik.r.jakobsson@gmail.com,
+        matthias.bgg@gmail.com, robdclark@gmail.com,
+        quic_abhinavk@quicinc.com, dmitry.baryshkov@linaro.org,
+        tomba@kernel.org, hjc@rock-chips.com, heiko@sntech.de,
+        ray.huang@amd.com, kraxel@redhat.com, sre@kernel.org,
+        mcoquelin.stm32@gmail.com, alexandre.torgue@foss.st.com,
+        tfiga@chromium.org, m.szyprowski@samsung.com, mchehab@kernel.org,
+        dimitri.sivanich@hpe.com, zhangfei.gao@linaro.org,
+        jejb@linux.ibm.com, martin.petersen@oracle.com,
+        dgilbert@interlog.com, hdegoede@redhat.com, mst@redhat.com,
+        jasowang@redhat.com, alex.williamson@redhat.com, deller@gmx.de,
+        jayalk@intworks.biz, viro@zeniv.linux.org.uk, nico@fluxnic.net,
+        xiang@kernel.org, chao@kernel.org, tytso@mit.edu,
+        adilger.kernel@dilger.ca, miklos@szeredi.hu,
+        mike.kravetz@oracle.com, muchun.song@linux.dev, bhe@redhat.com,
+        andrii@kernel.org, yoshfuji@linux-ipv6.org, dsahern@kernel.org,
+        kuba@kernel.org, pabeni@redhat.com, perex@perex.cz, tiwai@suse.com,
+        haojian.zhuang@gmail.com, robert.jarzmik@free.fr,
+        linux-mm@kvack.org, linux-arm-kernel@lists.infradead.org,
+        linuxppc-dev@lists.ozlabs.org, x86@kernel.org,
+        linux-kernel@vger.kernel.org, linux-graphics-maintainer@vmware.com,
+        linux-ia64@vger.kernel.org, linux-arch@vger.kernel.org,
+        loongarch@lists.linux.dev, kvm@vger.kernel.org,
+        linux-s390@vger.kernel.org, linux-sgx@vger.kernel.org,
+        linux-um@lists.infradead.org, linux-acpi@vger.kernel.org,
+        linux-crypto@vger.kernel.org, nvdimm@lists.linux.dev,
+        dmaengine@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+        dri-devel@lists.freedesktop.org, etnaviv@lists.freedesktop.org,
+        linux-samsung-soc@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+        linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+        freedreno@lists.freedesktop.org,
+        linux-rockchip@lists.infradead.org, linux-tegra@vger.kernel.org,
+        virtualization@lists.linux-foundation.org,
+        xen-devel@lists.xenproject.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-rdma@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-accelerators@lists.ozlabs.org, sparclinux@vger.kernel.org,
+        linux-scsi@vger.kernel.org, linux-staging@lists.linux.dev,
+        target-devel@vger.kernel.org, linux-usb@vger.kernel.org,
+        netdev@vger.kernel.org, linux-fbdev@vger.kernel.org,
+        linux-aio@kvack.org, linux-fsdevel@vger.kernel.org,
+        linux-erofs@lists.ozlabs.org, linux-ext4@vger.kernel.org,
+        devel@lists.orangefs.org, kexec@lists.infradead.org,
+        linux-xfs@vger.kernel.org, bpf@vger.kernel.org,
+        linux-perf-users@vger.kernel.org, kasan-dev@googlegroups.com,
+        selinux@vger.kernel.org, alsa-devel@alsa-project.org,
+        kernel-team@android.com
+Subject: Re: [PATCH v2 6/6] mm: export dump_mm()
+Message-ID: <Y9KSpNJ4y0GMwkrW@kernel.org>
+References: <20230125083851.27759-1-surenb@google.com>
+ <20230125083851.27759-7-surenb@google.com>
 MIME-Version: 1.0
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230125083851.27759-7-surenb@google.com>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Benjamin,
+On Wed, Jan 25, 2023 at 12:38:51AM -0800, Suren Baghdasaryan wrote:
+> mmap_assert_write_locked() is used in vm_flags modifiers. Because
+> mmap_assert_write_locked() uses dump_mm() and vm_flags are sometimes
+> modified from from inside a module, it's necessary to export
+> dump_mm() function.
+> 
+> Signed-off-by: Suren Baghdasaryan <surenb@google.com>
 
-Le mercredi 25 janvier 2023 =C3=A0 18:27 +0100, Benjamin Gaignard a =C3=A9c=
-rit=C2=A0:
-> When decoding a 10bits bitstreams HEVC driver should only expose
-> 10bits pixel formats.
-> To fulfill this requirement it is needed to call hantro_reset_raw_fmt()
-> when bit depth change and to correctly set match_depth in pixel formats
-> enumeration.
->=20
-> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Acked-by: Mike Rapoport (IBM) <rppt@kernel.org>
+
 > ---
-> version 4:
-> - Only set ctx->bit_depth when hantro_reset_raw_fmt() returns is ok.
->=20
->  .../media/platform/verisilicon/hantro_drv.c   | 46 +++++++++++++++----
->  .../media/platform/verisilicon/imx8m_vpu_hw.c |  2 +
->  2 files changed, 40 insertions(+), 8 deletions(-)
->=20
-> diff --git a/drivers/media/platform/verisilicon/hantro_drv.c b/drivers/me=
-dia/platform/verisilicon/hantro_drv.c
-> index 8cb4a68c9119..30abab7ac9bf 100644
-> --- a/drivers/media/platform/verisilicon/hantro_drv.c
-> +++ b/drivers/media/platform/verisilicon/hantro_drv.c
-> @@ -251,11 +251,6 @@ queue_init(void *priv, struct vb2_queue *src_vq, str=
-uct vb2_queue *dst_vq)
-> =20
->  static int hantro_try_ctrl(struct v4l2_ctrl *ctrl)
->  {
-> -	struct hantro_ctx *ctx;
-> -
-> -	ctx =3D container_of(ctrl->handler,
-> -			   struct hantro_ctx, ctrl_handler);
-> -
->  	if (ctrl->id =3D=3D V4L2_CID_STATELESS_H264_SPS) {
->  		const struct v4l2_ctrl_h264_sps *sps =3D ctrl->p_new.p_h264_sps;
-> =20
-> @@ -274,8 +269,6 @@ static int hantro_try_ctrl(struct v4l2_ctrl *ctrl)
->  		if (sps->bit_depth_luma_minus8 !=3D 0 && sps->bit_depth_luma_minus8 !=
-=3D 2)
->  			/* Only 8-bit and 10-bit are supported */
->  			return -EINVAL;
-> -
-> -		ctx->bit_depth =3D sps->bit_depth_luma_minus8 + 8;
->  	} else if (ctrl->id =3D=3D V4L2_CID_STATELESS_VP9_FRAME) {
->  		const struct v4l2_ctrl_vp9_frame *dec_params =3D ctrl->p_new.p_vp9_fra=
-me;
-> =20
-> @@ -286,6 +279,38 @@ static int hantro_try_ctrl(struct v4l2_ctrl *ctrl)
->  	return 0;
+>  mm/debug.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/mm/debug.c b/mm/debug.c
+> index 9d3d893dc7f4..96d594e16292 100644
+> --- a/mm/debug.c
+> +++ b/mm/debug.c
+> @@ -215,6 +215,7 @@ void dump_mm(const struct mm_struct *mm)
+>  		mm->def_flags, &mm->def_flags
+>  	);
 >  }
-> =20
-> +static int hantro_hevc_s_ctrl(struct v4l2_ctrl *ctrl)
-> +{
-> +	struct hantro_ctx *ctx;
-> +
-> +	ctx =3D container_of(ctrl->handler,
-> +			   struct hantro_ctx, ctrl_handler);
-> +
-> +	vpu_debug(1, "s_ctrl: id =3D %d, val =3D %d\n", ctrl->id, ctrl->val);
-
-This trace feels redundant with the v4l2 core traces, mind dropping it ?
-
-Other then that, the patch looks good to me, but should have included a Fix=
-es
-tag for backport purposes. Could it be ?
-
-Fixes: dc39473d0340 ("media: hantro: imx8m: Enable 10bit decoding")
-
-With that adjusted:
-
-Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-
-> +
-> +	switch (ctrl->id) {
-> +	case V4L2_CID_STATELESS_HEVC_SPS:
-> +	{
-> +		const struct v4l2_ctrl_hevc_sps *sps =3D ctrl->p_new.p_hevc_sps;
-> +		int bit_depth =3D sps->bit_depth_luma_minus8 + 8;
-> +		int ret;
-> +
-> +		if (ctx->bit_depth =3D=3D bit_depth)
-> +			return 0;
-> +
-> +		ret =3D hantro_reset_raw_fmt(ctx, bit_depth);
-> +		if (!ret)
-> +			ctx->bit_depth =3D bit_depth;
-> +
-> +		return ret;
-> +	}
-> +	default:
-> +		return -EINVAL;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
->  static int hantro_jpeg_s_ctrl(struct v4l2_ctrl *ctrl)
->  {
->  	struct hantro_ctx *ctx;
-> @@ -328,6 +353,11 @@ static const struct v4l2_ctrl_ops hantro_ctrl_ops =
-=3D {
->  	.try_ctrl =3D hantro_try_ctrl,
->  };
-> =20
-> +static const struct v4l2_ctrl_ops hantro_hevc_ctrl_ops =3D {
-> +	.s_ctrl =3D hantro_hevc_s_ctrl,
-> +	.try_ctrl =3D hantro_try_ctrl,
-> +};
-> +
->  static const struct v4l2_ctrl_ops hantro_jpeg_ctrl_ops =3D {
->  	.s_ctrl =3D hantro_jpeg_s_ctrl,
->  };
-> @@ -470,7 +500,7 @@ static const struct hantro_ctrl controls[] =3D {
->  		.codec =3D HANTRO_HEVC_DECODER,
->  		.cfg =3D {
->  			.id =3D V4L2_CID_STATELESS_HEVC_SPS,
-> -			.ops =3D &hantro_ctrl_ops,
-> +			.ops =3D &hantro_hevc_ctrl_ops,
->  		},
->  	}, {
->  		.codec =3D HANTRO_HEVC_DECODER,
-> diff --git a/drivers/media/platform/verisilicon/imx8m_vpu_hw.c b/drivers/=
-media/platform/verisilicon/imx8m_vpu_hw.c
-> index b390228fd3b4..f850d8bddef6 100644
-> --- a/drivers/media/platform/verisilicon/imx8m_vpu_hw.c
-> +++ b/drivers/media/platform/verisilicon/imx8m_vpu_hw.c
-> @@ -152,6 +152,7 @@ static const struct hantro_fmt imx8m_vpu_g2_postproc_=
-fmts[] =3D {
->  	{
->  		.fourcc =3D V4L2_PIX_FMT_NV12,
->  		.codec_mode =3D HANTRO_MODE_NONE,
-> +		.match_depth =3D true,
->  		.postprocessed =3D true,
->  		.frmsize =3D {
->  			.min_width =3D FMT_MIN_WIDTH,
-> @@ -165,6 +166,7 @@ static const struct hantro_fmt imx8m_vpu_g2_postproc_=
-fmts[] =3D {
->  	{
->  		.fourcc =3D V4L2_PIX_FMT_P010,
->  		.codec_mode =3D HANTRO_MODE_NONE,
-> +		.match_depth =3D true,
->  		.postprocessed =3D true,
->  		.frmsize =3D {
->  			.min_width =3D FMT_MIN_WIDTH,
-
+> +EXPORT_SYMBOL(dump_mm);
+>  
+>  static bool page_init_poisoning __read_mostly = true;
+>  
+> -- 
+> 2.39.1
+> 
