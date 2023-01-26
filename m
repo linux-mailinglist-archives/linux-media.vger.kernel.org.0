@@ -2,136 +2,86 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B593867D7CD
-	for <lists+linux-media@lfdr.de>; Thu, 26 Jan 2023 22:35:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CCD2A67D80C
+	for <lists+linux-media@lfdr.de>; Thu, 26 Jan 2023 22:56:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231725AbjAZVfH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 26 Jan 2023 16:35:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56192 "EHLO
+        id S231253AbjAZV45 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 26 Jan 2023 16:56:57 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39818 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233009AbjAZVfF (ORCPT
+        with ESMTP id S232834AbjAZV44 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 26 Jan 2023 16:35:05 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E9A9523C66
-        for <linux-media@vger.kernel.org>; Thu, 26 Jan 2023 13:35:03 -0800 (PST)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id A2B59975;
-        Thu, 26 Jan 2023 22:35:01 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1674768902;
-        bh=dlgWHoOO0Ly7P3GmVcC/r9QXKdJkZqiONF/Y7fqDyf8=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=k8r5+gowqPtJkSINelxejysIIctCk7eN0JZKGFQ4+Ol/wgoIGapQG3m876hMAQrG/
-         LXgI2cfQYXvf2du9LmGRGk4BzoB5n/dRK2/k4bltMGY+h1b8sd8SGbX4EN3Vx3QlJj
-         WAnU45WSx4Jfzs3RmqCy8lkC7aX0m2Z6ziWNU1O4=
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     linux-media@vger.kernel.org
-Cc:     Rui Miguel Silva <rmfrfs@gmail.com>,
-        Adam Ford <aford173@gmail.com>, kernel@pengutronix.de,
-        linux-imx@nxp.com
-Subject: [PATCH v1 5/5] media: imx-mipi-csis: Implement .init_cfg() using .set_fmt()
-Date:   Thu, 26 Jan 2023 23:34:37 +0200
-Message-Id: <20230126213437.20796-6-laurent.pinchart@ideasonboard.com>
-X-Mailer: git-send-email 2.39.1
-In-Reply-To: <20230126213437.20796-1-laurent.pinchart@ideasonboard.com>
-References: <20230126213437.20796-1-laurent.pinchart@ideasonboard.com>
+        Thu, 26 Jan 2023 16:56:56 -0500
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A466330D1
+        for <linux-media@vger.kernel.org>; Thu, 26 Jan 2023 13:56:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1674770183; x=1706306183;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=j5ngRpgDPuYXogjV5FWZCWm/7KO8WF8ro6vZUh07RTc=;
+  b=MOocI1QEqd9uo7nKOpttYo7Kw7hjQvI3Q6FjRy6aVXVLzpwXNvTRRo9K
+   w4YR43DOrQNXKfj5Lm6S5AVrK6GzPkLsy1HYBDU+A/HmFYQTNZOBGsjuC
+   VJGAT+ctp/b40Lsd+ZcJphZLcgg9EqSc2J01AXSqjavHpUkXj/iZc+/af
+   tylqSHvlknNeKBUbpmJ9/t/DWlNdTNoJ1i+TSKzwfQgLi1uSJqnqLV5pB
+   OPDu9XOLnPAbfjb9T9lR8x8wLYob0117mQDyQ2dVFmOnp9L+PW8LvoF42
+   PbNr8FvjLfQZYPP2sx287M7EB9GVFsC9o/AuTp8B0xEeheBRa9BQceLq1
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10602"; a="391491332"
+X-IronPort-AV: E=Sophos;i="5.97,249,1669104000"; 
+   d="scan'208";a="391491332"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2023 13:44:23 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10602"; a="908402330"
+X-IronPort-AV: E=Sophos;i="5.97,249,1669104000"; 
+   d="scan'208";a="908402330"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2023 13:44:22 -0800
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+        by kekkonen.fi.intel.com (Postfix) with SMTP id E150411F725;
+        Thu, 26 Jan 2023 23:44:19 +0200 (EET)
+Date:   Thu, 26 Jan 2023 23:44:19 +0200
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     linux-media@vger.kernel.org
+Subject: Re: [PATCH 13/17] media: i2c: ov7670: 0 instead of -EINVAL was
+ returned
+Message-ID: <Y9L0M9HHU8cZmexS@kekkonen.localdomain>
+References: <20230126150657.367921-1-hverkuil-cisco@xs4all.nl>
+ <20230126150657.367921-14-hverkuil-cisco@xs4all.nl>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230126150657.367921-14-hverkuil-cisco@xs4all.nl>
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The .set_fmt() handler is responsible for adjusting the requested format
-based on the device limitations. Implement .init_cfg() as a wrapper of
-.set_fmt(), to ensure that the initial configuration always matches the
-rules implemented in .set_fmt(), should they ever change.
+Hi Hans,
 
-Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
----
- drivers/media/platform/nxp/imx-mipi-csis.c | 48 ++++++++++------------
- 1 file changed, 22 insertions(+), 26 deletions(-)
+On Thu, Jan 26, 2023 at 04:06:53PM +0100, Hans Verkuil wrote:
+> If the media bus is unsupported, then return -EINVAL. Instead it
+> returned 'ret' which happened to be 0.
+> 
+> This fixes a smatch warning:
+> 
+> ov7670.c:1843 ov7670_parse_dt() warn: missing error code? 'ret'
+> 
+> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> Cc: Sakari Ailus <sakari.ailus@linux.intel.com>
 
-diff --git a/drivers/media/platform/nxp/imx-mipi-csis.c b/drivers/media/platform/nxp/imx-mipi-csis.c
-index 9e424cb1c4b1..e99633565463 100644
---- a/drivers/media/platform/nxp/imx-mipi-csis.c
-+++ b/drivers/media/platform/nxp/imx-mipi-csis.c
-@@ -989,32 +989,6 @@ static int mipi_csis_s_stream(struct v4l2_subdev *sd, int enable)
- 	return ret;
- }
- 
--static int mipi_csis_init_cfg(struct v4l2_subdev *sd,
--			      struct v4l2_subdev_state *sd_state)
--{
--	struct v4l2_mbus_framefmt *fmt_sink;
--	struct v4l2_mbus_framefmt *fmt_source;
--
--	fmt_sink = v4l2_subdev_get_pad_format(sd, sd_state, CSIS_PAD_SINK);
--	fmt_source = v4l2_subdev_get_pad_format(sd, sd_state, CSIS_PAD_SOURCE);
--
--	fmt_sink->code = MEDIA_BUS_FMT_UYVY8_1X16;
--	fmt_sink->width = MIPI_CSIS_DEF_PIX_WIDTH;
--	fmt_sink->height = MIPI_CSIS_DEF_PIX_HEIGHT;
--	fmt_sink->field = V4L2_FIELD_NONE;
--
--	fmt_sink->colorspace = V4L2_COLORSPACE_SMPTE170M;
--	fmt_sink->xfer_func = V4L2_MAP_XFER_FUNC_DEFAULT(fmt_sink->colorspace);
--	fmt_sink->ycbcr_enc = V4L2_MAP_YCBCR_ENC_DEFAULT(fmt_sink->colorspace);
--	fmt_sink->quantization =
--		V4L2_MAP_QUANTIZATION_DEFAULT(false, fmt_sink->colorspace,
--					      fmt_sink->ycbcr_enc);
--
--	*fmt_source = *fmt_sink;
--
--	return 0;
--}
--
- static int mipi_csis_enum_mbus_code(struct v4l2_subdev *sd,
- 				    struct v4l2_subdev_state *sd_state,
- 				    struct v4l2_subdev_mbus_code_enum *code)
-@@ -1101,6 +1075,7 @@ static int mipi_csis_set_fmt(struct v4l2_subdev *sd,
- 	fmt->code = csis_fmt->code;
- 	fmt->width = sdformat->format.width;
- 	fmt->height = sdformat->format.height;
-+	fmt->field = V4L2_FIELD_NONE;
- 	fmt->colorspace = sdformat->format.colorspace;
- 	fmt->quantization = sdformat->format.quantization;
- 	fmt->xfer_func = sdformat->format.xfer_func;
-@@ -1147,6 +1122,27 @@ static int mipi_csis_get_frame_desc(struct v4l2_subdev *sd, unsigned int pad,
- 	return 0;
- }
- 
-+static int mipi_csis_init_cfg(struct v4l2_subdev *sd,
-+			      struct v4l2_subdev_state *sd_state)
-+{
-+	struct v4l2_subdev_format fmt = {
-+		.pad = CSIS_PAD_SINK,
-+	};
-+
-+	fmt.format.code = mipi_csis_formats[0].code;
-+	fmt.format.width = MIPI_CSIS_DEF_PIX_WIDTH;
-+	fmt.format.height = MIPI_CSIS_DEF_PIX_HEIGHT;
-+
-+	fmt.format.colorspace = V4L2_COLORSPACE_SMPTE170M;
-+	fmt.format.xfer_func = V4L2_MAP_XFER_FUNC_DEFAULT(fmt.format.colorspace);
-+	fmt.format.ycbcr_enc = V4L2_MAP_YCBCR_ENC_DEFAULT(fmt.format.colorspace);
-+	fmt.format.quantization =
-+		V4L2_MAP_QUANTIZATION_DEFAULT(false, fmt.format.colorspace,
-+					      fmt.format.ycbcr_enc);
-+
-+	return mipi_csis_set_fmt(sd, sd_state, &fmt);
-+}
-+
- static int mipi_csis_log_status(struct v4l2_subdev *sd)
- {
- 	struct mipi_csis_device *csis = sd_to_mipi_csis_device(sd);
+Thanks for the fix.
+
+Could you add:
+
+Fixes: 01b8444828fc ("media: v4l2: i2c: ov7670: Implement OF mbus configuration")
+Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+
 -- 
-Regards,
-
-Laurent Pinchart
-
+Sakari Ailus
