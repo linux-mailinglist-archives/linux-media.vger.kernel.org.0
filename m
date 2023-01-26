@@ -2,225 +2,173 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9AF5767C60B
-	for <lists+linux-media@lfdr.de>; Thu, 26 Jan 2023 09:40:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7084767C618
+	for <lists+linux-media@lfdr.de>; Thu, 26 Jan 2023 09:41:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236436AbjAZIk2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 26 Jan 2023 03:40:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58868 "EHLO
+        id S235570AbjAZIl5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 26 Jan 2023 03:41:57 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33684 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236654AbjAZIkJ (ORCPT
+        with ESMTP id S234095AbjAZIlz (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 26 Jan 2023 03:40:09 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03F8228D31;
-        Thu, 26 Jan 2023 00:40:04 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 80FE161755;
-        Thu, 26 Jan 2023 08:40:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B9507C433D2;
-        Thu, 26 Jan 2023 08:40:01 +0000 (UTC)
-Message-ID: <7d1a375a-c3d1-0f8e-4d69-10dedacf6974@xs4all.nl>
-Date:   Thu, 26 Jan 2023 09:39:59 +0100
+        Thu, 26 Jan 2023 03:41:55 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 42554101;
+        Thu, 26 Jan 2023 00:41:54 -0800 (PST)
+Received: from [192.168.1.15] (91-154-32-225.elisa-laajakaista.fi [91.154.32.225])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id B8A802B3;
+        Thu, 26 Jan 2023 09:41:50 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1674722511;
+        bh=3Sn2T7DMDWtvzEED2cak6HvLalouEIQ7lEIkSxU3JQA=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=gjKVterZbX4h4nkyhb0l49OHnESdB5QVCQpmCzl7sH0SfkVlFGElC3gCBMGaF5JSB
+         89TpgOOCGNLfvDf1Wx+c4q310/yfCIbpFq1nwU0ih+pzuwv9fP8ILxNlXdZ+BkQD3p
+         +fWYWm0c3ojmvv0vWPmzpXYKDS1T1kas4Ag1Y86U=
+Message-ID: <04a82b08-524f-8d03-ac47-73d826907fc3@ideasonboard.com>
+Date:   Thu, 26 Jan 2023 10:41:47 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH v5 4/6] media: platform: visconti: Add Toshiba Visconti
- Video Input Interface driver v4l2 controls handler
+ Thunderbird/102.4.2
+Subject: Re: [PATCH v7 5/7] media: i2c: add DS90UB960 driver
 Content-Language: en-US
-To:     yuji2.ishikawa@toshiba.co.jp, laurent.pinchart@ideasonboard.com,
-        mchehab@kernel.org, nobuhiro1.iwamatsu@toshiba.co.jp,
-        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-        rafael.j.wysocki@intel.com, broonie@kernel.org
-Cc:     linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-References: <20230111022433.25950-1-yuji2.ishikawa@toshiba.co.jp>
- <20230111022433.25950-5-yuji2.ishikawa@toshiba.co.jp>
- <741cc02e-9d72-db59-171a-14bbd7925c7c@xs4all.nl>
- <TYAPR01MB6201386D11891171A984744792CF9@TYAPR01MB6201.jpnprd01.prod.outlook.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-In-Reply-To: <TYAPR01MB6201386D11891171A984744792CF9@TYAPR01MB6201.jpnprd01.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8
+To:     Andy Shevchenko <andriy.shevchenko@intel.com>
+Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Wolfram Sang <wsa@kernel.org>,
+        Luca Ceresoli <luca.ceresoli@bootlin.com>,
+        Matti Vaittinen <Matti.Vaittinen@fi.rohmeurope.com>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Peter Rosin <peda@axentia.se>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Michael Tretter <m.tretter@pengutronix.de>,
+        Shawn Tu <shawnx.tu@intel.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Mike Pagano <mpagano@gentoo.org>,
+        =?UTF-8?Q?Krzysztof_Ha=c5=82asa?= <khalasa@piap.pl>,
+        Marek Vasut <marex@denx.de>
+References: <20230118124031.788940-1-tomi.valkeinen@ideasonboard.com>
+ <20230118124031.788940-6-tomi.valkeinen@ideasonboard.com>
+ <Y8gUuqLBXsXQoNUC@smile.fi.intel.com>
+ <aba49d82-c76f-7ff2-751c-d1be7b8f3bca@ideasonboard.com>
+ <Y8rFh6zO7Hp9mLxE@smile.fi.intel.com>
+ <4286abe2-f23f-d4c9-ef18-f351af7a3a8b@ideasonboard.com>
+ <Y9EcRlooHwIjOqiZ@smile.fi.intel.com>
+ <cad92dbb-43ef-fa8c-1962-13c4a8578899@ideasonboard.com>
+ <Y9FBlMl4b3l1zVck@smile.fi.intel.com>
+ <5d208710-f284-e6e9-18dc-f5ef63a9ea44@ideasonboard.com>
+ <Y9FKcoVlgUWR4rhn@smile.fi.intel.com>
+From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+In-Reply-To: <Y9FKcoVlgUWR4rhn@smile.fi.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-7.8 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-3.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 26/01/2023 01:38, yuji2.ishikawa@toshiba.co.jp wrote:
->>> +#define VISCONTI_VIIF_DPC_TABLE_SIZE 8192
->>> +static int viif_l1_set_dpc(struct viif_device *viif_dev, struct viif_l1_dpc_config
->> *l1_dpc)
->>> +{
->>> +	uintptr_t table_h_paddr = 0;
->>> +	uintptr_t table_m_paddr = 0;
->>> +	uintptr_t table_l_paddr = 0;
->>> +	unsigned long irqflags;
->>> +	int ret;
->>> +
->>> +	if (l1_dpc->table_h_addr) {
->>> +		if (copy_from_user(viif_dev->table_vaddr->dpc_table_h,
->>> +				   u64_to_user_ptr(l1_dpc->table_h_addr),
->>> +				   VISCONTI_VIIF_DPC_TABLE_SIZE))
->>> +			return -EFAULT;
+On 25/01/2023 17:27, Andy Shevchenko wrote:
+
+>>>>>>>>>> +struct ds90ub9xx_platform_data {
+>>>>>>>>>> +	u32 port;
+>>>>>>>>>> +	struct i2c_atr *atr;
+>>>>>>>>>> +	unsigned long bc_rate;
+>>>>>>>>>
+>>>>>>>>> Not sure why we need this to be public except, probably, atr...
+>>>>>>>>
+>>>>>>>> The port and atr are used by the serializers, for atr. The bc_rate is used
+>>>>>>>> by the serializers to figure out the clocking (they may use the FPD-Link's
+>>>>>>>> frequency internally).
+>>>>>>>
+>>>>>>> The plain numbers can be passed as device properties. That's why the question
+>>>>>>> about platform data. Platform data in general is discouraged to be used in a
+>>>>>>> new code.
+>>>>>>
+>>>>>> Device properties, as in, coming from DT?
+>>>>>
+>>>>>    From anywhere.
+>>>>>
+>>>>>> The port could be in the DT, but
+>>>>>> the others are not hardware properties.
+>>>>>
+>>>>> Why do we need them? For example, bc_rate.
+>>>>
+>>>> The atr pointer is needed so that the serializers (ub913, ub953) can add
+>>>> their i2c adapter to the deserializer's i2c-atr. The port is also needed for
+>>>> that.
+>>>>
+>>>> The bc rate (back-channel rate) is the FPD-Link back-channel rate which the
+>>>> serializers use for various functionalities. At the moment only the ub953
+>>>> uses it for calculating an output clock rate.
+>>>>
+>>>> The bc-rate could be implemented using the clock framework, even if it's not
+>>>> quite a plain clock. I had that code at some point, but it felt a bit off
+>>>> and as we needed the pdata for the ATR, I added the bc-rate there.
+>>>
+>>> And I don't see why it is not a property of the device.
 >>
->> NACK!
+>> It with a "property of the device" you mean a hardware property, it's not
+>> because we don't know it, it can be changed at runtime. It's not supposed to
+>> change after probing the serializer, but up to that point it can change.
+> 
+> Yes, which is still property of the device, isn't it?
+
+No, I don't see it as a property of the serializer device.
+
+The deserializer sends messages to the serializer over the back-channel. 
+The rate of the back-channel is defined by the clock used for 
+deserializer's refclock, and internal deserializer configuration. The 
+serializer may use the back-channel rate for its own operations.
+
+>>>>>> Yes, I don't like using platform data. We need some way to pass information
+>>>>>> between the drivers.
+>>>>>
+>>>>> Device properties allow that and targeting to remove the legacy platform data
+>>>>> in zillions of the drivers.
+>>>>
+>>>> Do you have any pointers to guide me into the right direction? I couldn't
+>>>> find anything with some grepping and googling.
+>>>>
+>>>> If you mean "device properties" as in ACPI, and so similar to DT properties,
+>>>> aren't those hardware properties? Only the port here is about the hardware.
+>>>
+>>> About hardware, or PCB, or as quirks for missing DT/ACPI/any FW properties,
+>>> like clock rates.
+>>>
+>>> The Linux kernel layer for that is called software nodes. The rough
+>>> approximation to see where and how it's being used can be achieved
+>>> by grepping for specific macros:
+>>>
+>>> 	git grep -lw PROPERTY_ENTRY_.*
+>>>
+>>> E.g. arch/arm/mach-tegra/board-paz00.c tegra_paz00_wifikill_init()
+>>> implementation.
 >>
->> I thought those addresses in a struct were iffy. This is not supported, it
->> basically bypasses the whole control framework.
+>> Thanks, I'll have a look. But I presume we can only pass "plain" values, so
+>> it won't work for the ATR pointer anyway.
 > 
-> I understand. 
+> Yes, that's what I have told at the very beginning when answering to your
+> patch.
 > 
->> The way to do this is to create separate array controls for these tables.
->> And table_h_addr becomes a simple 0 or 1 value, indicating whether to use
->> the table set by that control. For small arrays it is also an option to
->> embed them in the control structure.
-> 
-> As I wrote in reply for patch 2/6, I thought embedding is the only solution.
-> Thank you for giving another plan: adding controls for tables.
-> When I use individual controls for tables, are there some orderings between controls?
->  -- such that control DPC_TABLE_{H,M,L} should be configured before SET_DPC
+> But I probably don't understand the ATR structure and what exactly we need to
+> pass to it, perhaps it also can be replaced with properties (note, that we have
+> some interesting ones that called references, which is an alternative to DT
+> phandle).
 
-There is no ordering dependency. But you can cluster controls:
+Well, maybe this needs a Linux bus implementation. I'm not that familiar 
+with implementing a bus, but I think that would make it easier to share 
+data between the deserializer and the serializer. A bus sounds a bit 
+like an overkill for a 1-to-1 connection, used by a few drivers, but 
+maybe it wouldn't be too much code.
 
-https://linuxtv.org/downloads/v4l-dvb-apis-new/driver-api/v4l2-controls.html#control-clusters
-
-The idea is that userspace sets all the related controls with one VIDIOC_S_EXT_CTRLS
-ioctl, and then for the clustered controls the s_ctrl callback is called only
-once.
-
-You can also check in try_ctrl if the controls in a cluster are sane. E.g.
-if control A has value 1, and that requires that control B has a value >= 5,
-then try_ctrl can verify that. Normally controls are independent from one
-another, but clustering will link them together.
-
-It's really what you want here. A good example is here: drivers/media/common/cx2341x.c
-It's used by several PCI drivers that use this MPEG codec chipset, and it uses
-clusters and also implements try_ctrl.
-
-> 
->> Are these l, h and m tables independent from one another? I.e. is it possible
->> to set l but not h and m? I suspect it is all or nothing, and in that case you
->> need only a single control to set all three tables (a two dimensional array).
-> 
-> These three tables can be setup individually.
-> 
->> Anyway, the same issue applies to all the controls were you pass addresses for
->> tables, that all needs to change.
-> 
-> All right. These controls must be fixed.
-> 
->>> +		table_h_paddr =
->> (uintptr_t)viif_dev->table_paddr->dpc_table_h;
->>> +	}
->>> +	if (l1_dpc->table_m_addr) {
->>> +		if (copy_from_user(viif_dev->table_vaddr->dpc_table_m,
->>> +				   u64_to_user_ptr(l1_dpc->table_m_addr),
->>> +				   VISCONTI_VIIF_DPC_TABLE_SIZE))
->>> +			return -EFAULT;
->>> +		table_m_paddr =
->> (uintptr_t)viif_dev->table_paddr->dpc_table_m;
->>> +	}
->>> +	if (l1_dpc->table_l_addr) {
->>> +		if (copy_from_user(viif_dev->table_vaddr->dpc_table_l,
->>> +				   u64_to_user_ptr(l1_dpc->table_l_addr),
->>> +				   VISCONTI_VIIF_DPC_TABLE_SIZE))
->>> +			return -EFAULT;
->>> +		table_l_paddr = (uintptr_t)viif_dev->table_paddr->dpc_table_l;
->>> +	}
->>> +
->>> +	spin_lock_irqsave(&viif_dev->lock, irqflags);
->>> +	hwd_viif_isp_guard_start(viif_dev->hwd_res);
->>> +	ret = hwd_viif_l1_set_dpc_table_transmission(viif_dev->hwd_res,
->> table_h_paddr,
->>> +						     table_m_paddr,
->> table_l_paddr);
->>> +	if (ret)
->>> +		goto err;
->>> +
->>> +	ret = hwd_viif_l1_set_dpc(viif_dev->hwd_res, &l1_dpc->param_h,
->> &l1_dpc->param_m,
->>> +				  &l1_dpc->param_l);
->>> +
->>> +err:
->>> +	hwd_viif_isp_guard_end(viif_dev->hwd_res);
->>> +	spin_unlock_irqrestore(&viif_dev->lock, irqflags);
->>> +	return ret;
->>> +}
-
-<snip>
-
->>> +static int visconti_viif_isp_get_ctrl(struct v4l2_ctrl *ctrl)
->>> +{
->>> +	struct viif_device *viif_dev = ctrl->priv;
->>> +
->>> +	pr_info("isp_get_ctrl: %s", ctrl->name);
->>> +	if (pm_runtime_status_suspended(viif_dev->dev)) {
->>> +		pr_info("warning: visconti viif HW is not powered");
->>> +		return 0;
->>> +	}
->>> +
->>> +	switch (ctrl->id) {
->>> +	case V4L2_CID_VISCONTI_VIIF_CSI2RX_GET_CALIBRATION_STATUS:
->>> +		return viif_csi2rx_get_calibration_status(viif_dev,
->> ctrl->p_new.p);
->>> +	case V4L2_CID_VISCONTI_VIIF_CSI2RX_GET_ERR_STATUS:
->>> +		return viif_csi2rx_get_err_status(viif_dev, ctrl->p_new.p);
->>> +	case V4L2_CID_VISCONTI_VIIF_GET_LAST_CAPTURE_STATUS:
->>> +		return viif_isp_get_last_capture_status(viif_dev,
->> ctrl->p_new.p);
->>> +	case V4L2_CID_VISCONTI_VIIF_GET_REPORTED_ERRORS:
->>> +		return viif_isp_get_reported_errors(viif_dev, ctrl->p_new.p);
->>
->> My question for these four controls is: are these really volatile controls?
->> A volatile control means that the hardware can change the registers at any
->> time without telling the CPU about it via an interrupt or some similar
->> mechanism.
->>
->> If there *is* such a mechanism, then it is not a volatile control, instead the
->> driver has to update the control value whenever the HW informs it about the
->> new value.
->>
->> I can't tell, so that's why I ask here to double check.
->>
-> 
-> I quickly checked HW and found ...
-> 
-> * CSI2RX_GET_CALIBRATION_STATUS: No interrupt mechanism
-
-So that remains volatile.
-
-> * CSI2RX_GET_ERR_STATUS: An interrupt handler can be used
-> * GET_LAST_CAPTURE_STATUS: information can be updated at Vsync interrupt
-
-For these two you can use v4l2_ctrl_s_ctrl to set the new value.
-Note that this function takes a mutex, so you might not be able
-to call it directly from the irq handler.
-
-> * GET_LAST_ERROR: An interrupt handler can be used
-> 
-> I'll try building control values while running interrupt services.
-> Do I have to do G_EXT_CTRLS followed by S_EXT_CTRLS if I want Read-To-Clear operation?
-> Currently, GET_LAST_ERROR control reports accumerated errors since last read.
-
-Interesting use-case. I think this can stay a volatile control. Make sure
-to document that reading this control will clear the values.
-
-> 
->>> +	default:
->>> +		pr_info("unknown_ctrl: id=%08X val=%d", ctrl->id, ctrl->val);
->>> +		break;
->>> +	}
->>> +	return 0;
->>> +}
-
-Regards,
-
-	Hans
+  Tomi
 
