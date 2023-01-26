@@ -1,87 +1,121 @@
 Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CCD2A67D80C
-	for <lists+linux-media@lfdr.de>; Thu, 26 Jan 2023 22:56:58 +0100 (CET)
+Received: from out1.vger.email (unknown [IPv6:2620:137:e000::1:20])
+	by mail.lfdr.de (Postfix) with ESMTP id 6462A67D851
+	for <lists+linux-media@lfdr.de>; Thu, 26 Jan 2023 23:27:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231253AbjAZV45 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 26 Jan 2023 16:56:57 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39818 "EHLO
+        id S232835AbjAZW0u (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 26 Jan 2023 17:26:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54954 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232834AbjAZV44 (ORCPT
+        with ESMTP id S229828AbjAZW0t (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 26 Jan 2023 16:56:56 -0500
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A466330D1
-        for <linux-media@vger.kernel.org>; Thu, 26 Jan 2023 13:56:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674770183; x=1706306183;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=j5ngRpgDPuYXogjV5FWZCWm/7KO8WF8ro6vZUh07RTc=;
-  b=MOocI1QEqd9uo7nKOpttYo7Kw7hjQvI3Q6FjRy6aVXVLzpwXNvTRRo9K
-   w4YR43DOrQNXKfj5Lm6S5AVrK6GzPkLsy1HYBDU+A/HmFYQTNZOBGsjuC
-   VJGAT+ctp/b40Lsd+ZcJphZLcgg9EqSc2J01AXSqjavHpUkXj/iZc+/af
-   tylqSHvlknNeKBUbpmJ9/t/DWlNdTNoJ1i+TSKzwfQgLi1uSJqnqLV5pB
-   OPDu9XOLnPAbfjb9T9lR8x8wLYob0117mQDyQ2dVFmOnp9L+PW8LvoF42
-   PbNr8FvjLfQZYPP2sx287M7EB9GVFsC9o/AuTp8B0xEeheBRa9BQceLq1
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10602"; a="391491332"
-X-IronPort-AV: E=Sophos;i="5.97,249,1669104000"; 
-   d="scan'208";a="391491332"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2023 13:44:23 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10602"; a="908402330"
-X-IronPort-AV: E=Sophos;i="5.97,249,1669104000"; 
-   d="scan'208";a="908402330"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2023 13:44:22 -0800
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-        by kekkonen.fi.intel.com (Postfix) with SMTP id E150411F725;
-        Thu, 26 Jan 2023 23:44:19 +0200 (EET)
-Date:   Thu, 26 Jan 2023 23:44:19 +0200
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     linux-media@vger.kernel.org
-Subject: Re: [PATCH 13/17] media: i2c: ov7670: 0 instead of -EINVAL was
- returned
-Message-ID: <Y9L0M9HHU8cZmexS@kekkonen.localdomain>
-References: <20230126150657.367921-1-hverkuil-cisco@xs4all.nl>
- <20230126150657.367921-14-hverkuil-cisco@xs4all.nl>
+        Thu, 26 Jan 2023 17:26:49 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EF836530C1
+        for <linux-media@vger.kernel.org>; Thu, 26 Jan 2023 14:25:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1674771956;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=HklvufQZfBWJQ24G/LaO8a1AhEjWrY545//BpSv4N9I=;
+        b=Rt2px9EgioGatrCi9DxrTTeQqH2jw3u4OIIjbjEZwmZpSlh4KsjUnRK+fHu69qhSjAMUfY
+        IjNE+4bzfe57GIGduscE5RJ/jHyhr9PDcbRiVz3efIC7D79+n3rJfO0FtrPoO35KbCmsF3
+        9CVs+niDuxMzWEU1+XnB+Jrjo1HPjD4=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-357-4YWU1hKmP0eByOm6aSE6dA-1; Thu, 26 Jan 2023 17:25:52 -0500
+X-MC-Unique: 4YWU1hKmP0eByOm6aSE6dA-1
+Received: by mail-ed1-f72.google.com with SMTP id l17-20020a056402255100b00472d2ff0e59so2299885edb.19
+        for <linux-media@vger.kernel.org>; Thu, 26 Jan 2023 14:25:52 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:organization:from:references
+         :cc:to:content-language:subject:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=HklvufQZfBWJQ24G/LaO8a1AhEjWrY545//BpSv4N9I=;
+        b=GKwv3Q0KePa9Gm4TF5Tyjm8rigJWhN0nu2gCiH/YSvi3DILrRXauwhNg/3KKQQVpoB
+         1P9nsHNYfi2hlgfQGJq/KdOToM7Kcv/4zF+JDFVSEwDaM+d6Fk/dGKMVzx97lMd00ipg
+         p6Z2opgchYUB15QcQbXTVgi4Aty+ttwZJ3xoTAfUAuoFIl0qA5bP9bQIrFpuwzcdWvBe
+         rZgzv3kaCqhTJE9+8lqZAZE8QPLNHZemSsEudIA7D1qeLLy/3lCvsKcAF9vffhBiB4dm
+         6TmYffnpDGxQ0/GihvAvht2vUzuDMfKFR3CSC2G7wKA/p1G2Bu/zEf96s2lH2VcDWt+v
+         RVOA==
+X-Gm-Message-State: AFqh2kqazm4x9QQWxXuPTBXh29yi+Gz28DbpaT0qAC0zPn8/Z76wH5t4
+        jvCXbYgVVcGnp1Hnfczcfi+ksHOa9GlMX9uEmTaFOIcI7542QjC/QTbJCcHGC9IG2/IJfmzlm7q
+        ib7z5MsrirwtSOlFaaIJK7FY=
+X-Received: by 2002:a17:907:8999:b0:877:83ea:2bfc with SMTP id rr25-20020a170907899900b0087783ea2bfcmr29298592ejc.39.1674771951249;
+        Thu, 26 Jan 2023 14:25:51 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXu8weu5499CBW7EQXZLSCEzQQ9uDVPguSl7RkTew9/qlc9qQ7QRBuzQoH7Teg0s42R+asqjQg==
+X-Received: by 2002:a17:907:8999:b0:877:83ea:2bfc with SMTP id rr25-20020a170907899900b0087783ea2bfcmr29298582ejc.39.1674771951068;
+        Thu, 26 Jan 2023 14:25:51 -0800 (PST)
+Received: from ?IPV6:2a02:810d:4b3f:de78:642:1aff:fe31:a15c? ([2a02:810d:4b3f:de78:642:1aff:fe31:a15c])
+        by smtp.gmail.com with ESMTPSA id e14-20020a1709062c0e00b007c0a7286ac8sm1193875ejh.69.2023.01.26.14.25.50
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 26 Jan 2023 14:25:50 -0800 (PST)
+Message-ID: <5caf64b6-0e3c-4c24-4fe8-9ed2caf43822@redhat.com>
+Date:   Thu, 26 Jan 2023 23:25:49 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230126150657.367921-14-hverkuil-cisco@xs4all.nl>
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH] dma-buf: actually set signaling bit for private sub
+ fences
+Content-Language: en-US
+To:     =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+        Arvind.Yadav@amd.com, sumit.semwal@linaro.org, gustavo@padovan.org
+Cc:     dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20230126002844.339593-1-dakr@redhat.com>
+ <4b13c48e-1677-3947-42e5-5ba241bcb96a@amd.com>
+From:   Danilo Krummrich <dakr@redhat.com>
+Organization: RedHat
+In-Reply-To: <4b13c48e-1677-3947-42e5-5ba241bcb96a@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-3.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans,
-
-On Thu, Jan 26, 2023 at 04:06:53PM +0100, Hans Verkuil wrote:
-> If the media bus is unsupported, then return -EINVAL. Instead it
-> returned 'ret' which happened to be 0.
+On 1/26/23 07:58, Christian König wrote:
+> Am 26.01.23 um 01:28 schrieb Danilo Krummrich:
+>> In dma_fence_allocate_private_stub() set the signaling bit of the newly
+>> allocated private stub fence rather than the signaling bit of the
+>> shared dma_fence_stub.
+>>
+>> Fixes: c85d00d4fd8b ("dma-buf: set signaling bit for the stub fence")
+>> Signed-off-by: Danilo Krummrich <dakr@redhat.com>
 > 
-> This fixes a smatch warning:
+> Good catch, Reviewed-by: Christian König <christian.koenig@amd.com>
 > 
-> ov7670.c:1843 ov7670_parse_dt() warn: missing error code? 'ret'
+> Should I push it upstream as well or do you have commit access?
+
+Thanks, I can push it to drm-misc-next.
+
 > 
-> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> Cc: Sakari Ailus <sakari.ailus@linux.intel.com>
+>> ---
+>>   drivers/dma-buf/dma-fence.c | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
+>> index 406b4e26f538..0de0482cd36e 100644
+>> --- a/drivers/dma-buf/dma-fence.c
+>> +++ b/drivers/dma-buf/dma-fence.c
+>> @@ -167,7 +167,7 @@ struct dma_fence 
+>> *dma_fence_allocate_private_stub(void)
+>>                  0, 0);
+>>       set_bit(DMA_FENCE_FLAG_ENABLE_SIGNAL_BIT,
+>> -        &dma_fence_stub.flags);
+>> +        &fence->flags);
+>>       dma_fence_signal(fence);
+> 
 
-Thanks for the fix.
-
-Could you add:
-
-Fixes: 01b8444828fc ("media: v4l2: i2c: ov7670: Implement OF mbus configuration")
-Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-
--- 
-Sakari Ailus
