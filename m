@@ -1,121 +1,142 @@
 Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from out1.vger.email (unknown [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6462A67D851
-	for <lists+linux-media@lfdr.de>; Thu, 26 Jan 2023 23:27:11 +0100 (CET)
+Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
+	by mail.lfdr.de (Postfix) with ESMTP id 5CDE567D87F
+	for <lists+linux-media@lfdr.de>; Thu, 26 Jan 2023 23:34:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232835AbjAZW0u (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 26 Jan 2023 17:26:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54954 "EHLO
+        id S233186AbjAZWea (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 26 Jan 2023 17:34:30 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33844 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229828AbjAZW0t (ORCPT
+        with ESMTP id S232161AbjAZWeR (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 26 Jan 2023 17:26:49 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EF836530C1
-        for <linux-media@vger.kernel.org>; Thu, 26 Jan 2023 14:25:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1674771956;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=HklvufQZfBWJQ24G/LaO8a1AhEjWrY545//BpSv4N9I=;
-        b=Rt2px9EgioGatrCi9DxrTTeQqH2jw3u4OIIjbjEZwmZpSlh4KsjUnRK+fHu69qhSjAMUfY
-        IjNE+4bzfe57GIGduscE5RJ/jHyhr9PDcbRiVz3efIC7D79+n3rJfO0FtrPoO35KbCmsF3
-        9CVs+niDuxMzWEU1+XnB+Jrjo1HPjD4=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-357-4YWU1hKmP0eByOm6aSE6dA-1; Thu, 26 Jan 2023 17:25:52 -0500
-X-MC-Unique: 4YWU1hKmP0eByOm6aSE6dA-1
-Received: by mail-ed1-f72.google.com with SMTP id l17-20020a056402255100b00472d2ff0e59so2299885edb.19
-        for <linux-media@vger.kernel.org>; Thu, 26 Jan 2023 14:25:52 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:organization:from:references
-         :cc:to:content-language:subject:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=HklvufQZfBWJQ24G/LaO8a1AhEjWrY545//BpSv4N9I=;
-        b=GKwv3Q0KePa9Gm4TF5Tyjm8rigJWhN0nu2gCiH/YSvi3DILrRXauwhNg/3KKQQVpoB
-         1P9nsHNYfi2hlgfQGJq/KdOToM7Kcv/4zF+JDFVSEwDaM+d6Fk/dGKMVzx97lMd00ipg
-         p6Z2opgchYUB15QcQbXTVgi4Aty+ttwZJ3xoTAfUAuoFIl0qA5bP9bQIrFpuwzcdWvBe
-         rZgzv3kaCqhTJE9+8lqZAZE8QPLNHZemSsEudIA7D1qeLLy/3lCvsKcAF9vffhBiB4dm
-         6TmYffnpDGxQ0/GihvAvht2vUzuDMfKFR3CSC2G7wKA/p1G2Bu/zEf96s2lH2VcDWt+v
-         RVOA==
-X-Gm-Message-State: AFqh2kqazm4x9QQWxXuPTBXh29yi+Gz28DbpaT0qAC0zPn8/Z76wH5t4
-        jvCXbYgVVcGnp1Hnfczcfi+ksHOa9GlMX9uEmTaFOIcI7542QjC/QTbJCcHGC9IG2/IJfmzlm7q
-        ib7z5MsrirwtSOlFaaIJK7FY=
-X-Received: by 2002:a17:907:8999:b0:877:83ea:2bfc with SMTP id rr25-20020a170907899900b0087783ea2bfcmr29298592ejc.39.1674771951249;
-        Thu, 26 Jan 2023 14:25:51 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXu8weu5499CBW7EQXZLSCEzQQ9uDVPguSl7RkTew9/qlc9qQ7QRBuzQoH7Teg0s42R+asqjQg==
-X-Received: by 2002:a17:907:8999:b0:877:83ea:2bfc with SMTP id rr25-20020a170907899900b0087783ea2bfcmr29298582ejc.39.1674771951068;
-        Thu, 26 Jan 2023 14:25:51 -0800 (PST)
-Received: from ?IPV6:2a02:810d:4b3f:de78:642:1aff:fe31:a15c? ([2a02:810d:4b3f:de78:642:1aff:fe31:a15c])
-        by smtp.gmail.com with ESMTPSA id e14-20020a1709062c0e00b007c0a7286ac8sm1193875ejh.69.2023.01.26.14.25.50
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 26 Jan 2023 14:25:50 -0800 (PST)
-Message-ID: <5caf64b6-0e3c-4c24-4fe8-9ed2caf43822@redhat.com>
-Date:   Thu, 26 Jan 2023 23:25:49 +0100
+        Thu, 26 Jan 2023 17:34:17 -0500
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE94B728C1
+        for <linux-media@vger.kernel.org>; Thu, 26 Jan 2023 14:33:37 -0800 (PST)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <mgr@pengutronix.de>)
+        id 1pLAoF-0007bJ-8o; Thu, 26 Jan 2023 23:33:31 +0100
+Received: from mgr by ptx.hi.pengutronix.de with local (Exim 4.92)
+        (envelope-from <mgr@pengutronix.de>)
+        id 1pLAoE-0000lb-Nw; Thu, 26 Jan 2023 23:33:30 +0100
+Date:   Thu, 26 Jan 2023 23:33:30 +0100
+From:   Michael Grzeschik <mgr@pengutronix.de>
+To:     laurent.pinchart@ideasonboard.com
+Cc:     marex@denx.de, gregkh@linuxfoundation.org, kernel@pengutronix.de,
+        linux-media@vger.kernel.org
+Subject: Re: [GIT PULL FOR v6.3] uvcgadget changes
+Message-ID: <20230126223330.GI7611@pengutronix.de>
+References: <20230124144929.GB19219@pengutronix.de>
+ <Y8/6vHUoB4WjbLk2@kroah.com>
+ <20230124161709.GA23507@pengutronix.de>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH] dma-buf: actually set signaling bit for private sub
- fences
-Content-Language: en-US
-To:     =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
-        Arvind.Yadav@amd.com, sumit.semwal@linaro.org, gustavo@padovan.org
-Cc:     dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20230126002844.339593-1-dakr@redhat.com>
- <4b13c48e-1677-3947-42e5-5ba241bcb96a@amd.com>
-From:   Danilo Krummrich <dakr@redhat.com>
-Organization: RedHat
-In-Reply-To: <4b13c48e-1677-3947-42e5-5ba241bcb96a@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-3.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE
-        autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="iRjOs3ViPWHdlw/I"
+Content-Disposition: inline
+In-Reply-To: <20230124161709.GA23507@pengutronix.de>
+X-Sent-From: Pengutronix Hildesheim
+X-URL:  http://www.pengutronix.de/
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: mgr@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 1/26/23 07:58, Christian König wrote:
-> Am 26.01.23 um 01:28 schrieb Danilo Krummrich:
->> In dma_fence_allocate_private_stub() set the signaling bit of the newly
->> allocated private stub fence rather than the signaling bit of the
->> shared dma_fence_stub.
+
+--iRjOs3ViPWHdlw/I
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hi Laurent,
+
+On Tue, Jan 24, 2023 at 05:17:09PM +0100, Michael Grzeschik wrote:
+>On Tue, Jan 24, 2023 at 04:35:24PM +0100, Greg KH wrote:
+>>On Tue, Jan 24, 2023 at 03:49:29PM +0100, Michael Grzeschik wrote:
+>>>The following changes since commit 82adfe34694c98f1115a7b75cff6af9c4a35d=
+ba9:
+>>>
+>>> Merge tag 'media-uvc-next-20230115' of git://git.kernel.org/pub/scm/lin=
+ux/kernel/git/pinchartl/linux into media_stage (2023-01-22 08:43:14 +0100)
+>>>
+>>>are available in the Git repository at:
+>>>
+>>> git://git.pengutronix.de/mgr/linux tags/uvc-gadget-next-20230124
+>>>
+>>>for you to fetch changes up to e88f760d0f7054f49aa68b75bf0530840f031d34:
+>>>
+>>> usb: uvc: use v4l2_fill_fmtdesc instead of open coded format name (2023=
+-01-24 15:26:07 +0100)
+>>>
+>>>----------------------------------------------------------------
+>>>Marek Vasut (1):
+>>>     media: uvcvideo: Add GUID for BGRA/X 8:8:8:8
+>>>
+>>>Michael Grzeschik (4):
+>>>     usb: uvc: move media/v4l2-uvc.h to usb/uvc.h
+>>>     usb: uvc: move uvc_fmts and uvc_format_by_guid to own compile unit
+>>>     usb: uvc: make uvc_format_desc table const
+>>>     usb: uvc: use v4l2_fill_fmtdesc instead of open coded format name
 >>
->> Fixes: c85d00d4fd8b ("dma-buf: set signaling bit for the stub fence")
->> Signed-off-by: Danilo Krummrich <dakr@redhat.com>
-> 
-> Good catch, Reviewed-by: Christian König <christian.koenig@amd.com>
-> 
-> Should I push it upstream as well or do you have commit access?
+>>Sorry, but I can't take patches like this as a pull request.  I want to
+>>see the real patches and get people to review them properly that way.
+>
+>I just did like Laurent suggested. Since the series was already properly
+>reviewed I also thought this would be fine.
+>
+>https://lore.kernel.org/linux-media/Y8VdpQGcqmoKESk8@pendragon.ideasonboar=
+d.com/
+>
+>Anyway. I can send another round with the patch from Marek in the
+>series.
 
-Thanks, I can push it to drm-misc-next.
+I am unsure how to proceed here.
 
-> 
->> ---
->>   drivers/dma-buf/dma-fence.c | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
->> index 406b4e26f538..0de0482cd36e 100644
->> --- a/drivers/dma-buf/dma-fence.c
->> +++ b/drivers/dma-buf/dma-fence.c
->> @@ -167,7 +167,7 @@ struct dma_fence 
->> *dma_fence_allocate_private_stub(void)
->>                  0, 0);
->>       set_bit(DMA_FENCE_FLAG_ENABLE_SIGNAL_BIT,
->> -        &dma_fence_stub.flags);
->> +        &fence->flags);
->>       dma_fence_signal(fence);
-> 
+I could send the series again and hope for Greg to take them. But
+without Mauros merge of your changes underneath, Greg will not be
+able to apply my series.
 
+
+Thanks,
+Michael
+
+--=20
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+
+--iRjOs3ViPWHdlw/I
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEElXvEUs6VPX6mDPT8C+njFXoeLGQFAmPS/7cACgkQC+njFXoe
+LGQRHQ//VOag6XPHtBfWGshyKaMGUnIiFzr7DzxKphcEkiSUDtNpwt7O/YRJkarV
+JzmPXwNmyRoyCJCNyV/oU3XxanxN/wMlaNW10XVr6n7jaaUIGmiaHR5caZ0w/1gS
+j90gGo5lcvmlhaPgIJLeIFIfR/5X8mMV8+JmFsqVpDWQQF/BQtGHgcHXpkYg9MMs
+AB5xr4PVcwKlrWsi6fD6AWHfQKgJts/YgMRg7HzmMNL0gZYaqBTk2qF5ZU0jV0Vy
+rNWUkc/JNZXS9H46pIpJDQ+JQimcAqIRZ9MgBE8qFIjA/kWd0VYoUJp+qqMtDpOZ
+fOSfxTxr0h/Cc4nu0I7vBtyYiHh6qIdPyaSOZAPcagNQgmtyBf05QuFeRWIeHXHB
+bD8y96wdW16CZSfYwaRRnQuNiB75CouwdSW4rQYvQsbRJcdPxwVqfYakKh6nkE2m
+k3D6G9w82gIKFDYBgrABzN/nVMm4NUKsvHKWiaENItGZLifmFdaW8Vwz6ZBSnabX
+SIBnEGuFkN/GxplXWYPIBrseoVdRbhDN1AWR4OymIN6asxbhVALllDYIQ3IHs95b
+Y5fvbddOJd1P7Ltuc+J+NQcHWrxTUj19QbBb58Zo9a/U/6ns8W4JnSxBBOZshygR
+S4XbdOLnsTxeBYkuv2IgOnHHW1bPF16yp7yNgH4oBtvI3zoejPk=
+=RhpI
+-----END PGP SIGNATURE-----
+
+--iRjOs3ViPWHdlw/I--
