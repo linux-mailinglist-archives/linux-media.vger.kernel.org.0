@@ -2,203 +2,225 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E311E67C5CC
-	for <lists+linux-media@lfdr.de>; Thu, 26 Jan 2023 09:32:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9AF5767C60B
+	for <lists+linux-media@lfdr.de>; Thu, 26 Jan 2023 09:40:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236001AbjAZIcv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 26 Jan 2023 03:32:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51982 "EHLO
+        id S236436AbjAZIk2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 26 Jan 2023 03:40:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58868 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235972AbjAZIcr (ORCPT
+        with ESMTP id S236654AbjAZIkJ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 26 Jan 2023 03:32:47 -0500
-Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com [IPv6:2a00:1450:4864:20::535])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B605E6A33B
-        for <linux-media@vger.kernel.org>; Thu, 26 Jan 2023 00:32:39 -0800 (PST)
-Received: by mail-ed1-x535.google.com with SMTP id w11so1241891edv.0
-        for <linux-media@vger.kernel.org>; Thu, 26 Jan 2023 00:32:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=+dNfuQD8R0OH1NRN4QQMGdpi2c3Ohq29FUGmeUeM6v0=;
-        b=ADdFce1tt5QpaiY3ES4FU/cV7fSxaLZx52GpHGCuQLhgP5wr/fe9Y2Z4knOddsYGcs
-         byIStlk4kW7IdL0pup9Le91exoJfOYaKc2FGdDKgQwHILBUHtPFueSwRX5PCsqXqbXs2
-         ubQWNd4OUWAwLv1i7/QjxB9AOa5Z4ZzHqYIJ1ueuiqjSGYzU2ZhonUpGXrONWOn7KVO4
-         xVQzOthLFWoGipcL/GTxu26C1PZ3Ij2XQvcOqAkaObyGEiuP+4HVVCfmA7uZb1kwa3yS
-         WoXwxxWuNtPnfPiD84zx8hkUM7lHESKjC/unvNA/Q360ES7Cgw9+KLiato/YPsVCuoo3
-         r4mg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=+dNfuQD8R0OH1NRN4QQMGdpi2c3Ohq29FUGmeUeM6v0=;
-        b=MguFLmI8ZRL7RJwQu0K1XJUOivEkioSOPLbSmbGwlv+2uJ0BqbwHPcEp8rfs1dYBva
-         57a5/HIlwa5u6OpVr6W5csm834oEEbp/6vbvsegMTHKA/lEFnXlsyU+BMJwAe/AF4mMx
-         OOHjcoc9DWJwuNJUg930opJrD8IqthP4xgxRIds94ObCm06aQI8N+muHVL0ARXYbHpXA
-         ydLc0GTbFhZUcfAU/wy4hMK+uo9zComwekP/IMQ73be7fUSi+JUptBSjvJqzLfPQ3KXi
-         DChTsVhUNiQY+UzkDJcsCZdtnQ+XWUxPqRMyuZ/z4t81zhqCAEfo3vuYk2ABtUoKLQD/
-         Svvw==
-X-Gm-Message-State: AFqh2kqHJJ45p9WFpQ3HMdRU7U5EHAaLCg45QjFoEPZjsRsLIFI6XUBq
-        9votYhF3AmpH5OPRkDKGYNc=
-X-Google-Smtp-Source: AMrXdXs2JZt6IHXy7Vt4oyB4bsHDvQd01MApDhi4HjAniTw15k9NDoVLeiJKZB5mgYnbcHZFRdixuA==
-X-Received: by 2002:a05:6402:28c6:b0:498:f2d:f52e with SMTP id ef6-20020a05640228c600b004980f2df52emr37688077edb.21.1674721958148;
-        Thu, 26 Jan 2023 00:32:38 -0800 (PST)
-Received: from [10.0.0.215] (31-10-206-125.static.upc.ch. [31.10.206.125])
-        by smtp.gmail.com with ESMTPSA id f5-20020a056402068500b0046dd0c2a08esm394387edy.36.2023.01.26.00.32.37
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 26 Jan 2023 00:32:37 -0800 (PST)
-Message-ID: <cacfe146-101b-35b3-5f66-1a1cabfd342f@gmail.com>
-Date:   Thu, 26 Jan 2023 09:32:36 +0100
+        Thu, 26 Jan 2023 03:40:09 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03F8228D31;
+        Thu, 26 Jan 2023 00:40:04 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 80FE161755;
+        Thu, 26 Jan 2023 08:40:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B9507C433D2;
+        Thu, 26 Jan 2023 08:40:01 +0000 (UTC)
+Message-ID: <7d1a375a-c3d1-0f8e-4d69-10dedacf6974@xs4all.nl>
+Date:   Thu, 26 Jan 2023 09:39:59 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH] media: v4l2-async: fix binding async subdevs with
- multiple source ports
+ Thunderbird/102.6.0
+Subject: Re: [PATCH v5 4/6] media: platform: visconti: Add Toshiba Visconti
+ Video Input Interface driver v4l2 controls handler
 Content-Language: en-US
-To:     Philipp Zabel <p.zabel@pengutronix.de>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, kernel@pengutronix.de,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        francesco.dolcini@toradex.com, marcel.ziswiler@toradex.com
-References: <20220810104848.846783-1-p.zabel@pengutronix.de>
- <Y8afrhfjw+EhAH4o@paasikivi.fi.intel.com>
- <Y8aivWrN6Hg/O7Wr@pendragon.ideasonboard.com>
- <d45fa085-ce6f-2141-fba9-ac4e6094ef2a@gmail.com>
- <20230120163311.GA15915@pengutronix.de>
-From:   Aishwarya Kothari <aishwaryakothari75@gmail.com>
-In-Reply-To: <20230120163311.GA15915@pengutronix.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To:     yuji2.ishikawa@toshiba.co.jp, laurent.pinchart@ideasonboard.com,
+        mchehab@kernel.org, nobuhiro1.iwamatsu@toshiba.co.jp,
+        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        rafael.j.wysocki@intel.com, broonie@kernel.org
+Cc:     linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
+References: <20230111022433.25950-1-yuji2.ishikawa@toshiba.co.jp>
+ <20230111022433.25950-5-yuji2.ishikawa@toshiba.co.jp>
+ <741cc02e-9d72-db59-171a-14bbd7925c7c@xs4all.nl>
+ <TYAPR01MB6201386D11891171A984744792CF9@TYAPR01MB6201.jpnprd01.prod.outlook.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+In-Reply-To: <TYAPR01MB6201386D11891171A984744792CF9@TYAPR01MB6201.jpnprd01.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-7.8 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Philipp,
-
-On 20.01.23 17:33, Philipp Zabel wrote:
-> Hi,
+On 26/01/2023 01:38, yuji2.ishikawa@toshiba.co.jp wrote:
+>>> +#define VISCONTI_VIIF_DPC_TABLE_SIZE 8192
+>>> +static int viif_l1_set_dpc(struct viif_device *viif_dev, struct viif_l1_dpc_config
+>> *l1_dpc)
+>>> +{
+>>> +	uintptr_t table_h_paddr = 0;
+>>> +	uintptr_t table_m_paddr = 0;
+>>> +	uintptr_t table_l_paddr = 0;
+>>> +	unsigned long irqflags;
+>>> +	int ret;
+>>> +
+>>> +	if (l1_dpc->table_h_addr) {
+>>> +		if (copy_from_user(viif_dev->table_vaddr->dpc_table_h,
+>>> +				   u64_to_user_ptr(l1_dpc->table_h_addr),
+>>> +				   VISCONTI_VIIF_DPC_TABLE_SIZE))
+>>> +			return -EFAULT;
+>>
+>> NACK!
+>>
+>> I thought those addresses in a struct were iffy. This is not supported, it
+>> basically bypasses the whole control framework.
 > 
-> On Wed, Jan 18, 2023 at 02:14:54PM +0100, Aishwarya Kothari wrote:
-> [...]
->> I stumbled over the commit 1f391df44607 ("media: v4l2-async: Use endpoints
->> in __v4l2_async_nf_add_fwnode_remote()") and started this discussion :
->> https://lore.kernel.org/linux-media/Y8AIRPd4RFYmssal@valkosipuli.retiisi.eu/
->>
->> I applied this patch on top of the commit c1649ec55708.The hardware used is
->> Apalis iMX6 (i.MX 6Q) with ov5640 mipi-csi2 camera.
->>
->> The /dev/media0 is created and pipeline was configured using below script :
->> root@apalis-imx6-10774951:~# cat ov5640.sh
->> media-ctl -l "'ov5640 1-003c':0 -> 'imx6-mipi-csi2':0[1]"
->> media-ctl -l "'imx6-mipi-csi2':2 -> 'ipu1_csi1':0[1]"
->> media-ctl -l "'ipu1_csi1':2 -> 'ipu1_csi1 capture':0[1]"
->> # Configure pads
->> media-ctl -V "'ov5640 1-003c':0 [fmt:UYVY8_1X16/1920x1080 field:none]"
->> media-ctl -V "'imx6-mipi-csi2':2 [fmt:UYVY8_1X16/1920x1080 field:none]"
->> media-ctl -V "'ipu1_csi1':2 [fmt:UYVY8_1X16/1920x1080 field:none]"
->>
->> But it gives the following error when trying to set up the pipeline:
->>
->> [   37.211276] ipu1_csi1: entity ov5640 1-003c does not implement
->> get_mbus_config()
->> [   37.218872] ipu1_csi1: failed to get upstream media bus configuration
->>
->> When adding the missing functionality as follows:
->>
->> diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
->> index e0f908af581b..618c677ec89b 100644
->> --- a/drivers/media/i2c/ov5640.c
->> +++ b/drivers/media/i2c/ov5640.c
->> @@ -3733,6 +3733,17 @@ static int ov5640_init_cfg(struct v4l2_subdev *sd,
->>          return 0;
->>   }
->>
->> +static int ov5640_get_mbus_config(struct v4l2_subdev *sd,
->> +                                  unsigned int pad,
->> +                                  struct v4l2_mbus_config *cfg)
->> +{
->> +       cfg->type = V4L2_MBUS_CSI2_DPHY;
->> +       cfg->bus.mipi_csi2.num_data_lanes = 1;
+> I understand. 
 > 
-> Isn't OV5640 dual-lane by default?
+>> The way to do this is to create separate array controls for these tables.
+>> And table_h_addr becomes a simple 0 or 1 value, indicating whether to use
+>> the table set by that control. For small arrays it is also an option to
+>> embed them in the control structure.
+> 
+> As I wrote in reply for patch 2/6, I thought embedding is the only solution.
+> Thank you for giving another plan: adding controls for tables.
+> When I use individual controls for tables, are there some orderings between controls?
+>  -- such that control DPC_TABLE_{H,M,L} should be configured before SET_DPC
 
-Thank you for pointing this out, I updated the number of data lanes to 2 
-in this function and applied your patch and everything works now.
+There is no ordering dependency. But you can cluster controls:
 
-I tested on top of v6.2-rc5 on an Apalis iMX6Q with an ov5640 camera.
-Tested-by: Aishwarya Kothari <aishwarya.kothari@toradex.com>
+https://linuxtv.org/downloads/v4l-dvb-apis-new/driver-api/v4l2-controls.html#control-clusters
+
+The idea is that userspace sets all the related controls with one VIDIOC_S_EXT_CTRLS
+ioctl, and then for the clustered controls the s_ctrl callback is called only
+once.
+
+You can also check in try_ctrl if the controls in a cluster are sane. E.g.
+if control A has value 1, and that requires that control B has a value >= 5,
+then try_ctrl can verify that. Normally controls are independent from one
+another, but clustering will link them together.
+
+It's really what you want here. A good example is here: drivers/media/common/cx2341x.c
+It's used by several PCI drivers that use this MPEG codec chipset, and it uses
+clusters and also implements try_ctrl.
 
 > 
->> +       cfg->bus.mipi_csi2.flags = 0;
->> +
->> +       return 0;
->> +}
->> +
->>   static const struct v4l2_subdev_core_ops ov5640_core_ops = {
->>          .log_status = v4l2_ctrl_subdev_log_status,
->>          .subscribe_event = v4l2_ctrl_subdev_subscribe_event,
->> @@ -3753,6 +3764,7 @@ static const struct v4l2_subdev_pad_ops ov5640_pad_ops
->> = {
->>          .get_selection = ov5640_get_selection,
->>          .enum_frame_size = ov5640_enum_frame_size,
->>          .enum_frame_interval = ov5640_enum_frame_interval,
->> +       .get_mbus_config = ov5640_get_mbus_config,
->>   };
->>
->>   static const struct v4l2_subdev_ops ov5640_subdev_ops = {
->>
->> The script was executed correctly without any errors and the links were
->> created. Now when running the Gstreamer it gives the below output :
->>
->> root@apalis-imx6-10774951:~# gst-launch-1.0 v4l2src device='/dev/video3' !
->> videoconvert ! waylandsink
->> Setting pipeline to PAUSED ...
->> Pipeline is live and does not need PREROLL ...
->> Pipeline is PREROLLED ...
->> Setting pipeline to PLAYING ...
->> New clock: GstSystemClock
->> [  192.526110] imx6-mipi-csi2: LP-11 wait timeout, likely a sensor driver
->> bug, expect capture failures.
->> [  192.535550] imx6-mipi-csi2: phy_state = 0x00000200
+>> Are these l, h and m tables independent from one another? I.e. is it possible
+>> to set l but not h and m? I suspect it is all or nothing, and in that case you
+>> need only a single control to set all three tables (a two dimensional array).
 > 
-> This is timing out in the imx6-mipi-csi2 driver, waiting for OV5640 to
-> signal the LP-11 stop state on lane 0 (phy_state bit 4).
+> These three tables can be setup individually.
 > 
->> [  192.833456] ov5640 1-003c: ov5640_write_reg: error: reg=3008, val=2
+>> Anyway, the same issue applies to all the controls were you pass addresses for
+>> tables, that all needs to change.
 > 
-> A write to the SYS_CTRL0 register failed, presumably trying to clear the
-> software reset or power down bits. Could this be the reason that OV5640
-> doesn't put the MIPI CSI-2 link into LP-11 as expected?
+> All right. These controls must be fixed.
 > 
-> All further errors follow from the timeout above.
-> 
-> [...]
->> While going through the dmesg kernel logs I found this :
->>
->>      4.333202] imx6-mipi-csi2 21dc000.mipi: Consider updating driver
->> imx6-mipi-csi2 to match on endpoints
->> [    4.347001] imx6-mipi-csi2 21dc000.mipi: Consider updating driver
->> imx6-mipi-csi2 to match on endpoints
->> [    5.173588] video-mux 20e0000.iomuxc-gpr:ipu2_csi1_mux: Consider updating
->> driver video-mux to match on endpoints
-> 
-> These shouldn't cause any issue. These drivers should be updated
-> to set the subdev->fwnode field to an endpoint fwnode before calling
-> v4l2_async_register_subdev().
-> 
-> regards
-> Philipp
-> 
+>>> +		table_h_paddr =
+>> (uintptr_t)viif_dev->table_paddr->dpc_table_h;
+>>> +	}
+>>> +	if (l1_dpc->table_m_addr) {
+>>> +		if (copy_from_user(viif_dev->table_vaddr->dpc_table_m,
+>>> +				   u64_to_user_ptr(l1_dpc->table_m_addr),
+>>> +				   VISCONTI_VIIF_DPC_TABLE_SIZE))
+>>> +			return -EFAULT;
+>>> +		table_m_paddr =
+>> (uintptr_t)viif_dev->table_paddr->dpc_table_m;
+>>> +	}
+>>> +	if (l1_dpc->table_l_addr) {
+>>> +		if (copy_from_user(viif_dev->table_vaddr->dpc_table_l,
+>>> +				   u64_to_user_ptr(l1_dpc->table_l_addr),
+>>> +				   VISCONTI_VIIF_DPC_TABLE_SIZE))
+>>> +			return -EFAULT;
+>>> +		table_l_paddr = (uintptr_t)viif_dev->table_paddr->dpc_table_l;
+>>> +	}
+>>> +
+>>> +	spin_lock_irqsave(&viif_dev->lock, irqflags);
+>>> +	hwd_viif_isp_guard_start(viif_dev->hwd_res);
+>>> +	ret = hwd_viif_l1_set_dpc_table_transmission(viif_dev->hwd_res,
+>> table_h_paddr,
+>>> +						     table_m_paddr,
+>> table_l_paddr);
+>>> +	if (ret)
+>>> +		goto err;
+>>> +
+>>> +	ret = hwd_viif_l1_set_dpc(viif_dev->hwd_res, &l1_dpc->param_h,
+>> &l1_dpc->param_m,
+>>> +				  &l1_dpc->param_l);
+>>> +
+>>> +err:
+>>> +	hwd_viif_isp_guard_end(viif_dev->hwd_res);
+>>> +	spin_unlock_irqrestore(&viif_dev->lock, irqflags);
+>>> +	return ret;
+>>> +}
 
-Kind regards,
-Aishwarya
+<snip>
+
+>>> +static int visconti_viif_isp_get_ctrl(struct v4l2_ctrl *ctrl)
+>>> +{
+>>> +	struct viif_device *viif_dev = ctrl->priv;
+>>> +
+>>> +	pr_info("isp_get_ctrl: %s", ctrl->name);
+>>> +	if (pm_runtime_status_suspended(viif_dev->dev)) {
+>>> +		pr_info("warning: visconti viif HW is not powered");
+>>> +		return 0;
+>>> +	}
+>>> +
+>>> +	switch (ctrl->id) {
+>>> +	case V4L2_CID_VISCONTI_VIIF_CSI2RX_GET_CALIBRATION_STATUS:
+>>> +		return viif_csi2rx_get_calibration_status(viif_dev,
+>> ctrl->p_new.p);
+>>> +	case V4L2_CID_VISCONTI_VIIF_CSI2RX_GET_ERR_STATUS:
+>>> +		return viif_csi2rx_get_err_status(viif_dev, ctrl->p_new.p);
+>>> +	case V4L2_CID_VISCONTI_VIIF_GET_LAST_CAPTURE_STATUS:
+>>> +		return viif_isp_get_last_capture_status(viif_dev,
+>> ctrl->p_new.p);
+>>> +	case V4L2_CID_VISCONTI_VIIF_GET_REPORTED_ERRORS:
+>>> +		return viif_isp_get_reported_errors(viif_dev, ctrl->p_new.p);
+>>
+>> My question for these four controls is: are these really volatile controls?
+>> A volatile control means that the hardware can change the registers at any
+>> time without telling the CPU about it via an interrupt or some similar
+>> mechanism.
+>>
+>> If there *is* such a mechanism, then it is not a volatile control, instead the
+>> driver has to update the control value whenever the HW informs it about the
+>> new value.
+>>
+>> I can't tell, so that's why I ask here to double check.
+>>
+> 
+> I quickly checked HW and found ...
+> 
+> * CSI2RX_GET_CALIBRATION_STATUS: No interrupt mechanism
+
+So that remains volatile.
+
+> * CSI2RX_GET_ERR_STATUS: An interrupt handler can be used
+> * GET_LAST_CAPTURE_STATUS: information can be updated at Vsync interrupt
+
+For these two you can use v4l2_ctrl_s_ctrl to set the new value.
+Note that this function takes a mutex, so you might not be able
+to call it directly from the irq handler.
+
+> * GET_LAST_ERROR: An interrupt handler can be used
+> 
+> I'll try building control values while running interrupt services.
+> Do I have to do G_EXT_CTRLS followed by S_EXT_CTRLS if I want Read-To-Clear operation?
+> Currently, GET_LAST_ERROR control reports accumerated errors since last read.
+
+Interesting use-case. I think this can stay a volatile control. Make sure
+to document that reading this control will clear the values.
+
+> 
+>>> +	default:
+>>> +		pr_info("unknown_ctrl: id=%08X val=%d", ctrl->id, ctrl->val);
+>>> +		break;
+>>> +	}
+>>> +	return 0;
+>>> +}
+
+Regards,
+
+	Hans
+
