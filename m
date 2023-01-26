@@ -2,29 +2,29 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C916E67D289
-	for <lists+linux-media@lfdr.de>; Thu, 26 Jan 2023 18:06:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 92BBB67D28B
+	for <lists+linux-media@lfdr.de>; Thu, 26 Jan 2023 18:06:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230236AbjAZRGS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 26 Jan 2023 12:06:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43730 "EHLO
+        id S231599AbjAZRGT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 26 Jan 2023 12:06:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43726 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229964AbjAZRGP (ORCPT
+        with ESMTP id S229721AbjAZRGR (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 26 Jan 2023 12:06:15 -0500
+        Thu, 26 Jan 2023 12:06:17 -0500
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D998A10E0;
-        Thu, 26 Jan 2023 09:06:10 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6495B5B90;
+        Thu, 26 Jan 2023 09:06:16 -0800 (PST)
 Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id F3997975;
-        Thu, 26 Jan 2023 18:06:08 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 99BCED77;
+        Thu, 26 Jan 2023 18:06:10 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1674752769;
-        bh=7I1XOUN1k4cqXr6A2LG6cn3N5y0ycWl6FIX6/TC5dbI=;
+        s=mail; t=1674752770;
+        bh=+hdXPGbzHByKztFlx+pbbcoPvK2k/6UnHURKhPfQPa0=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=be5Lb1xwKFIa6yT8G9jzZXA7QvHYU73pE6dzlprBzl6YqJW9gW5Wyw2f/Azg8BsGS
-         k67aXqX9XJKWRKuzlNdxUBH4cxGxAxJlZDeZSn9loB9LEITohi3zrcFkGDmY0qqd6N
-         oD4ISuRk0WfLc0XQeDPbTAxq4kk2ZQkM846lbeDg=
+        b=A4qRNWbAG6psE412xsvEIudchprjemfUq93uzbsxNaRqbqtk7I1ouADisiE/mF5XL
+         NmiAL9MsreT5t0cCzGGzV4Ed6CGnIEb2dTiN04PeBT3wMKDrSE3y3+bkqA2/ceflGf
+         GHprg898Ggw97GYfkCLr295m53Szl+qX1O98XNSw=
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     linux-media@vger.kernel.org
 Cc:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
@@ -34,9 +34,9 @@ Cc:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         devicetree@vger.kernel.org
-Subject: [PATCH v4 1/3] dt-bindings: media: Add i.MX8 ISI DT bindings
-Date:   Thu, 26 Jan 2023 19:06:01 +0200
-Message-Id: <20230126170603.11896-2-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v4 2/3] dt-bindings: media: imx8-isi: Use 'port' instead of 'ports' for i.MX8MN
+Date:   Thu, 26 Jan 2023 19:06:02 +0200
+Message-Id: <20230126170603.11896-3-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230126170603.11896-1-laurent.pinchart@ideasonboard.com>
 References: <20230126170603.11896-1-laurent.pinchart@ideasonboard.com>
@@ -51,217 +51,100 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The Image Sensing Interface (ISI) combines image processing pipelines
-with DMA engines to process and capture frames originating from a
-variety of sources. The inputs to the ISI go through Pixel Link
-interfaces, and their number and nature is SoC-dependent. They cover
-both capture interfaces (MIPI CSI-2 RX, HDMI RX) and memory inputs.
-
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
-Changes since v3:
-
-- Drop patternProperties for ports node
-- Add i.MX8MN example
-
-Changes since v2:
-
-- Describe the interrupts property
-- Set global minItems and maxItems for interrupts
-- Set maxItems for power-domains
-
-Changes since v1:
-
-- Fix compatible string checks in conditional schema
-- Fix interrupts property handling
-
-dt-bindings: media: imx8-isi: Add i.MX8MN example
-
-Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
----
- .../bindings/media/nxp,imx8-isi.yaml          | 173 ++++++++++++++++++
- 1 file changed, 173 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/media/nxp,imx8-isi.yaml
+ .../bindings/media/nxp,imx8-isi.yaml          | 39 +++++++++++--------
+ 1 file changed, 22 insertions(+), 17 deletions(-)
 
 diff --git a/Documentation/devicetree/bindings/media/nxp,imx8-isi.yaml b/Documentation/devicetree/bindings/media/nxp,imx8-isi.yaml
-new file mode 100644
-index 000000000000..6038b9b5ab36
---- /dev/null
+index 6038b9b5ab36..121594569395 100644
+--- a/Documentation/devicetree/bindings/media/nxp,imx8-isi.yaml
 +++ b/Documentation/devicetree/bindings/media/nxp,imx8-isi.yaml
-@@ -0,0 +1,173 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/media/nxp,imx8-isi.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: i.MX8 Image Sensing Interface
-+
-+maintainers:
-+  - Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-+
-+description: |
-+  The Image Sensing Interface (ISI) combines image processing pipelines with
-+  DMA engines to process and capture frames originating from a variety of
-+  sources. The inputs to the ISI go through Pixel Link interfaces, and their
-+  number and nature is SoC-dependent. They cover both capture interfaces (MIPI
-+  CSI-2 RX, HDMI RX, ...) and display engine outputs for writeback support.
-+
-+properties:
-+  compatible:
-+    enum:
-+      - fsl,imx8mn-isi
-+      - fsl,imx8mp-isi
-+
-+  reg:
-+    maxItems: 1
-+
-+  clocks:
-+    items:
-+      - description: The AXI clock
-+      - description: The APB clock
-+      # TODO: Check if the per-channel ipg_proc_clk clocks need to be specified
-+      # as well, in case some SoCs have the ability to control them separately.
-+      # This may be the case of the i.MX8[DQ]X(P)
-+
-+  clock-names:
-+    items:
-+      - const: axi
-+      - const: apb
-+
-+  fsl,blk-ctrl:
-+    $ref: /schemas/types.yaml#/definitions/phandle
-+    description:
-+      A phandle referencing the block control that contains the CSIS to ISI
-+      gasket.
-+
-+  interrupts:
-+    description: Processing pipeline interrupts, one per pipeline
-+    minItems: 1
-+    maxItems: 2
-+
-+  power-domains:
-+    maxItems: 1
-+
-+  ports:
-+    $ref: /schemas/graph.yaml#/properties/ports
+@@ -52,11 +52,21 @@ properties:
+   power-domains:
+     maxItems: 1
+ 
++  port:
++    $ref: /schemas/graph.yaml#/properties/port
 +    description: |
-+      Ports represent the Pixel Link inputs to the ISI. Their number and
-+      assignment are model-dependent. Each port shall have a single endpoint.
++      The port represents the Pixel Link input to the ISI. It shall have a
++      single endpoint. This property is only used for ISI instances with a
++      single port (as in the i.MX8MN). For instances that includes multiple
++      ports, the 'ports' property shall be used instead.
 +
-+required:
-+  - compatible
-+  - reg
-+  - interrupts
-+  - clocks
-+  - clock-names
-+  - fsl,blk-ctrl
-+  - ports
-+
-+allOf:
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            const: fsl,imx8mn-isi
-+    then:
-+      properties:
-+        interrupts:
-+          maxItems: 1
-+        ports:
-+          properties:
-+            port@0:
-+              description: MIPI CSI-2 RX
-+          required:
-+            - port@0
-+
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            const: fsl,imx8mp-isi
-+    then:
-+      properties:
-+        interrupts:
-+          maxItems: 2
-+        ports:
-+          properties:
-+            port@0:
-+              description: MIPI CSI-2 RX 0
-+            port@1:
-+              description: MIPI CSI-2 RX 1
-+          required:
-+            - port@0
-+            - port@1
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/clock/imx8mn-clock.h>
-+    #include <dt-bindings/interrupt-controller/arm-gic.h>
-+    #include <dt-bindings/interrupt-controller/irq.h>
-+    #include <dt-bindings/power/imx8mn-power.h>
-+
-+    isi@32e20000 {
-+        compatible = "fsl,imx8mn-isi";
-+        reg = <0x32e20000 0x100>;
-+        interrupts = <GIC_SPI 16 IRQ_TYPE_LEVEL_HIGH>;
-+        clocks = <&clk IMX8MN_CLK_DISP_AXI_ROOT>,
-+                 <&clk IMX8MN_CLK_DISP_APB_ROOT>;
-+        clock-names = "axi", "apb";
-+        fsl,blk-ctrl = <&disp_blk_ctrl>;
-+        power-domains = <&disp_blk_ctrl IMX8MN_DISPBLK_PD_ISI>;
-+
-+        ports {
-+            #address-cells = <1>;
-+            #size-cells = <0>;
-+
-+            port@0 {
-+                reg = <0>;
-+                isi_in: endpoint {
-+                    remote-endpoint = <&mipi_csi_out>;
-+                };
-+            };
-+        };
-+    };
-+
-+  - |
-+    #include <dt-bindings/clock/imx8mp-clock.h>
-+    #include <dt-bindings/interrupt-controller/arm-gic.h>
-+    #include <dt-bindings/interrupt-controller/irq.h>
-+
-+    isi@32e00000 {
-+        compatible = "fsl,imx8mp-isi";
-+        reg = <0x32e00000 0x4000>;
-+        interrupts = <GIC_SPI 16 IRQ_TYPE_LEVEL_HIGH>,
-+                     <GIC_SPI 42 IRQ_TYPE_LEVEL_HIGH>;
-+        clocks = <&clk IMX8MP_CLK_MEDIA_AXI_ROOT>,
-+                 <&clk IMX8MP_CLK_MEDIA_APB_ROOT>;
-+        clock-names = "axi", "apb";
-+        fsl,blk-ctrl = <&media_blk_ctrl>;
-+        power-domains = <&mediamix_pd>;
-+
-+        ports {
-+            #address-cells = <1>;
-+            #size-cells = <0>;
-+
-+            port@0 {
-+                reg = <0>;
-+                isi_in_0: endpoint {
-+                    remote-endpoint = <&mipi_csi_0_out>;
-+                };
-+            };
-+
-+            port@1 {
-+                reg = <1>;
-+                isi_in_1: endpoint {
-+                    remote-endpoint = <&mipi_csi_1_out>;
-+                };
-+            };
-+        };
-+    };
-+...
+   ports:
+     $ref: /schemas/graph.yaml#/properties/ports
+     description: |
+       Ports represent the Pixel Link inputs to the ISI. Their number and
+-      assignment are model-dependent. Each port shall have a single endpoint.
++      assignment are model-dependent. For ISI instances that have a single
++      port, the 'port' property should be used instead. Each port shall have a
++      single endpoint.
+ 
+ required:
+   - compatible
+@@ -65,7 +75,6 @@ required:
+   - clocks
+   - clock-names
+   - fsl,blk-ctrl
+-  - ports
+ 
+ allOf:
+   - if:
+@@ -77,12 +86,11 @@ allOf:
+       properties:
+         interrupts:
+           maxItems: 1
+-        ports:
+-          properties:
+-            port@0:
+-              description: MIPI CSI-2 RX
+-          required:
+-            - port@0
++        port:
++          description: MIPI CSI-2 RX
++        ports: false
++      required:
++        - port
+ 
+   - if:
+       properties:
+@@ -93,6 +101,7 @@ allOf:
+       properties:
+         interrupts:
+           maxItems: 2
++        port: false
+         ports:
+           properties:
+             port@0:
+@@ -102,6 +111,8 @@ allOf:
+           required:
+             - port@0
+             - port@1
++      required:
++        - ports
+ 
+ additionalProperties: false
+ 
+@@ -122,15 +133,9 @@ examples:
+         fsl,blk-ctrl = <&disp_blk_ctrl>;
+         power-domains = <&disp_blk_ctrl IMX8MN_DISPBLK_PD_ISI>;
+ 
+-        ports {
+-            #address-cells = <1>;
+-            #size-cells = <0>;
+-
+-            port@0 {
+-                reg = <0>;
+-                isi_in: endpoint {
+-                    remote-endpoint = <&mipi_csi_out>;
+-                };
++        port {
++            isi_in: endpoint {
++                remote-endpoint = <&mipi_csi_out>;
+             };
+         };
+     };
 -- 
 Regards,
 
