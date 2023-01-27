@@ -2,126 +2,95 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A056567EBD7
-	for <lists+linux-media@lfdr.de>; Fri, 27 Jan 2023 18:02:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2969967EC3B
+	for <lists+linux-media@lfdr.de>; Fri, 27 Jan 2023 18:14:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234543AbjA0RCK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 27 Jan 2023 12:02:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55600 "EHLO
+        id S235053AbjA0ROf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 27 Jan 2023 12:14:35 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44968 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231342AbjA0RCI (ORCPT
+        with ESMTP id S234381AbjA0ROd (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 27 Jan 2023 12:02:08 -0500
-Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [185.132.182.106])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A5E1525F;
-        Fri, 27 Jan 2023 09:02:07 -0800 (PST)
-Received: from pps.filterd (m0241204.ppops.net [127.0.0.1])
-        by mx07-00178001.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 30REGmZ8019692;
-        Fri, 27 Jan 2023 18:01:06 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=selector1;
- bh=QNH1ux7cYrF5KW+Ey5DCbKnkWudemJAed1CdOisOzwU=;
- b=aWrFglN6WN9lJ9UfkuNRCOf+eZLqOK/K/MwebDvkvlJ9BbraR7IaDQjfWJsuxG3qEl+w
- /zcbla1ATkb34/cgfv+jY98hV15W4tnl5ImuyPNlwMV+YJAdJjbH1aopG15aLRkh8wmM
- l4dhdDRjV+hC6xAWQteP9ugkWvZRUn+2SbiSOelz6JrhmEzzjMybo5hBxA3Bcimg9qnY
- zdsENVEPxj6CymobQqyNOE70uQpKyrM9lu7NqbOzhejcg3jASSLXeSHG2+UOFLtTC114
- gDpaZ6/KFUEeQG46+8MaDOHr4QDhzeheFE/3snJXRXDYFzO0erPQuMETrlvse78cpBw2 ww== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-        by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3n89chde7x-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 27 Jan 2023 18:01:06 +0100
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 8FD5D100039;
-        Fri, 27 Jan 2023 18:00:43 +0100 (CET)
-Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
-        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 6F28D21F0C6;
-        Fri, 27 Jan 2023 18:00:43 +0100 (CET)
-Received: from [10.201.21.177] (10.201.21.177) by SHFDAG1NODE1.st.com
- (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.13; Fri, 27 Jan
- 2023 18:00:40 +0100
-Message-ID: <179fe90c-0ac9-bb43-6e49-8b1d7ec520df@foss.st.com>
-Date:   Fri, 27 Jan 2023 18:00:39 +0100
+        Fri, 27 Jan 2023 12:14:33 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB07013B;
+        Fri, 27 Jan 2023 09:14:32 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 7540061D54;
+        Fri, 27 Jan 2023 17:14:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BDC12C433D2;
+        Fri, 27 Jan 2023 17:14:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1674839671;
+        bh=p+a8OGgpraBX/ZldFFkNUfzskgq3bl7Tj0rZRDJNZJo=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=berjOZ3TccsQkIfHgvIL0zQEb0Ssaqus6sAl5rbnnuRnm14SxX9c1Mit0ojW406Yb
+         UIxv/ZH/hDnCKKg8kBC8Mx8B5ukJCYp1LO0yxuzQDKFOapeTnpyux6lvDZnkwDE2W3
+         OwpVS0g79aJbgDNA0K6/d1QDCwapYpe/rSujf1lpZIvf/AepY4esepfP+eQC+b+ilx
+         qRfJTWiC+xql7ikM+3NDV5US5A94ZVWlmUv7GXOHvsuWGlUk0KH7p+ZrArYc/cJ4NW
+         xNFB3K4nlIs0Olvp0Bo7Y8ZdFMiVcCqrM/vcTuqNs1tdQxI0Xy2oMLdAC7f8UJyed3
+         uG/YLBq7FUd2A==
+Date:   Fri, 27 Jan 2023 17:14:24 +0000
+From:   Lee Jones <lee@kernel.org>
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Mark Gross <markgross@kernel.org>,
+        Andy Shevchenko <andy@kernel.org>, Pavel Machek <pavel@ucw.cz>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Daniel Scally <djrscally@gmail.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        platform-driver-x86@vger.kernel.org, linux-leds@vger.kernel.org,
+        linux-gpio@vger.kernel.org, Kate Hsuan <hpa@redhat.com>,
+        Mark Pearson <markpearson@lenovo.com>,
+        Andy Yeh <andy.yeh@intel.com>, Hao Yao <hao.yao@intel.com>,
+        linux-media@vger.kernel.org
+Subject: [GIT PULL] Immutable branch from LEDs due for the v6.3 merge window
+Message-ID: <Y9QGcA+9nlmOOy2d@google.com>
+References: <20230120114524.408368-1-hdegoede@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH v3 1/6] dt-bindings: Document common device controller
- bindings
-Content-Language: en-US
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        <Oleksii_Moisieiev@epam.com>, <gregkh@linuxfoundation.org>,
-        <herbert@gondor.apana.org.au>, <davem@davemloft.net>,
-        <robh+dt@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>,
-        <alexandre.torgue@foss.st.com>, <vkoul@kernel.org>,
-        <jic23@kernel.org>, <olivier.moysan@foss.st.com>,
-        <arnaud.pouliquen@foss.st.com>, <mchehab@kernel.org>,
-        <fabrice.gasnier@foss.st.com>, <ulf.hansson@linaro.org>,
-        <edumazet@google.com>, <kuba@kernel.org>, <pabeni@redhat.com>
-CC:     <linux-crypto@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>, <dmaengine@vger.kernel.org>,
-        <linux-i2c@vger.kernel.org>, <linux-iio@vger.kernel.org>,
-        <alsa-devel@alsa-project.org>, <linux-media@vger.kernel.org>,
-        <linux-mmc@vger.kernel.org>, <netdev@vger.kernel.org>,
-        <linux-phy@lists.infradead.org>, <linux-serial@vger.kernel.org>,
-        <linux-spi@vger.kernel.org>, <linux-usb@vger.kernel.org>
-References: <20230127164040.1047583-1-gatien.chevallier@foss.st.com>
- <20230127164040.1047583-2-gatien.chevallier@foss.st.com>
- <1e498b93-d3bd-bd12-e991-e3f4bedf632d@linaro.org>
-From:   Gatien CHEVALLIER <gatien.chevallier@foss.st.com>
-In-Reply-To: <1e498b93-d3bd-bd12-e991-e3f4bedf632d@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.201.21.177]
-X-ClientProxiedBy: EQNCAS1NODE3.st.com (10.75.129.80) To SHFDAG1NODE1.st.com
- (10.75.129.69)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
- definitions=2023-01-27_10,2023-01-27_01,2022-06-22_01
-X-Spam-Status: No, score=-3.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,NICE_REPLY_A,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230120114524.408368-1-hdegoede@redhat.com>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello Krzysztof,
+Enjoy!
 
-On 1/27/23 17:49, Krzysztof Kozlowski wrote:
-> On 27/01/2023 17:40, Gatien Chevallier wrote:
->> From: Oleksii Moisieiev <Oleksii_Moisieiev@epam.com>
->>
->> Introducing of the common device controller bindings for the controller
->> provider and consumer devices. Those bindings are intended to allow
->> divided system on chip into muliple domains, that can be used to
->> configure hardware permissions.
->>
->> Signed-off-by: Oleksii Moisieiev <oleksii_moisieiev@epam.com>
->> ---
->>
->> No change since V1. I'm letting this patch for dependency with bindings to
->> avoid noise with dt/bindings checks. Therefore, it should be reviewed on the
->> appropriate thread.
-> 
-> There was a v6 already, this is v3 and I don't understand this comment.
-> What do you let? Whom? If it is not for review and not for merging,
-> please annotate it in the title ([IGNORE PATCH] or something).
-> 
+The following changes since commit 1b929c02afd37871d5afb9d498426f83432e71c2:
 
-Sorry for not being clear in the previous comment.
+  Linux 6.2-rc1 (2022-12-25 13:41:39 -0800)
 
-I meant I'm letting this patch in this patch set so the dependencies on 
-the feature-domain-controller.yaml file are satisfied.
+are available in the Git repository at:
 
-I will annotate it with [IGNORE PATCH], as you suggest.
+  git://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git tags/ib-leds-led_get-v6.3
 
-> Best regards,
-> Krzysztof
-> 
+for you to fetch changes up to abc3100fcba6827444ef4bdb17065ac3b6619dff:
 
-Best regards,
-Gatien
+  leds: led-class: Add generic [devm_]led_get() (2023-01-27 11:07:11 +0000)
+
+----------------------------------------------------------------
+Immutable branch from LEDs due for the v6.3 merge window
+
+----------------------------------------------------------------
+Hans de Goede (4):
+      leds: led-class: Add missing put_device() to led_put()
+      leds: led-class: Add led_module_get() helper
+      leds: led-class: Add __devm_led_get() helper
+      leds: led-class: Add generic [devm_]led_get()
+
+ drivers/leds/led-class.c | 138 ++++++++++++++++++++++++++++++++++++++++-------
+ include/linux/leds.h     |  21 ++++++++
+ 2 files changed, 139 insertions(+), 20 deletions(-)
+
+-- 
+Lee Jones [李琼斯]
