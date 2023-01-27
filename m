@@ -2,124 +2,166 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D4ADA67E2B5
-	for <lists+linux-media@lfdr.de>; Fri, 27 Jan 2023 12:08:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2F99E67E2D7
+	for <lists+linux-media@lfdr.de>; Fri, 27 Jan 2023 12:13:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232893AbjA0LIe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 27 Jan 2023 06:08:34 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48860 "EHLO
+        id S232741AbjA0LNY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 27 Jan 2023 06:13:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53270 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232878AbjA0LIb (ORCPT
+        with ESMTP id S232933AbjA0LNX (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 27 Jan 2023 06:08:31 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B3CB8206A2;
-        Fri, 27 Jan 2023 03:08:27 -0800 (PST)
+        Fri, 27 Jan 2023 06:13:23 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 68A281040D
+        for <linux-media@vger.kernel.org>; Fri, 27 Jan 2023 03:13:21 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 45B62B8207C;
-        Fri, 27 Jan 2023 11:08:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 09CDAC433A1;
-        Fri, 27 Jan 2023 11:08:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1674817704;
-        bh=LEk5tYcopisk6LFE5R2WpdBlpwyByKD2XTmBkBzMUFc=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=tYFY5iMFp8QJcNeIBAUNnQnHmD4/OhxH07o8Z8q6TjMAKVIMb1NJfcbSOt55Jgz74
-         2UubmN1o2Dwh2vLmxFfzJ0KUiEVULawjq/zhtFjluElzFQ1JR0LfcuvnxlVo017KA+
-         pIiRQlhC63VZ59QyDo2sl4k3qDIcp217UF+9P5HG0T3Q9FJS+jlHqiBwNRkGGjS0WS
-         jyr1A/dPC0rNhaoi8npjouOikDNvgHONqlEchkxXDYr678r+bY69q3Q2KWLLfLWGLU
-         /pbrY5B7PKHHqj47jsdn8aiCImcBt7k71ImVU7lMywMlmi/Bj2bf6KmVHY1Uq68sTD
-         t1e/kllxFsoZA==
-Date:   Fri, 27 Jan 2023 11:08:17 +0000
-From:   Lee Jones <lee@kernel.org>
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Mark Gross <markgross@kernel.org>,
-        Andy Shevchenko <andy@kernel.org>, Pavel Machek <pavel@ucw.cz>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Daniel Scally <djrscally@gmail.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        platform-driver-x86@vger.kernel.org, linux-leds@vger.kernel.org,
-        linux-gpio@vger.kernel.org, Kate Hsuan <hpa@redhat.com>,
-        Mark Pearson <markpearson@lenovo.com>,
-        Andy Yeh <andy.yeh@intel.com>, Hao Yao <hao.yao@intel.com>,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH v5 00/11] leds: lookup-table support + int3472/media
- privacy LED support
-Message-ID: <Y9Owocyg9eJaJ9Zv@google.com>
-References: <20230120114524.408368-1-hdegoede@redhat.com>
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 0312F61AC0
+        for <linux-media@vger.kernel.org>; Fri, 27 Jan 2023 11:13:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 23BC9C433D2
+        for <linux-media@vger.kernel.org>; Fri, 27 Jan 2023 11:13:19 +0000 (UTC)
+Message-ID: <f8051b0e-55f2-a7d0-6d20-9d6e5fe9d082@xs4all.nl>
+Date:   Fri, 27 Jan 2023 12:13:18 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Content-Language: en-US
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [GIT PULL FOR v6.3] Various fixes and enhancements
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230120114524.408368-1-hdegoede@redhat.com>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, 20 Jan 2023, Hans de Goede wrote:
+The following changes since commit 7120d6bfd6d0b26b49958f429701996f2d3e2c2a:
 
-> Hi All,
-> 
-> Here is version 5 of my series to adjust the INT3472 code's handling of
-> the privacy LED on x86 laptops with MIPI camera(s) so that it will also
-> work on devices which have a privacy-LED GPIO but not a clk-enable GPIO
-> (so that we cannot just tie the LED state to the clk-enable state).
-> 
-> Changes in v5:
-> - Rename lookup-table names to match those from the gpio and reset lookups:
->   s/led_name/provider/
->   s/consumer_dev_name/dev_id/
->   s/consumer_function/con_id/
-> - Add static inline wrappers for the v4l2_async debugfs init/exit funcs,
->   to fix build errors when CONFIG_V4L2_ASYNC is not enabled
-> 
-> Changes in v4:
-> - Rename new __led_get() helper to led_module_get()
-> - Drop of/devicetree support from "led-class: Add generic [devm_]led_get()"
-> - Add RFC patch to re-add of/devicetree support to show that the new
->   led_get() can easily be extended with dt support when the need for this
->   arises (proof-of-concept dt code, not intended for merging)
-> - New patch to built async and fwnode code into videodev.ko,
->   to avoid issues with some of the new LED code getting builtin vs
->   other parts possibly being in a module
-> - Move the led_get() call to v4l2_async_register_subdev_sensor()
-> - Move the led_disable_sysfs() call to be done at led_get() time
-> - Address some other minor review comments
-> 
-> Changes in v3:
-> - Due to popular request by multiple people this new version now models
->   the privacy LED as a LED class device. This requires being able to
->   "tie" the LED class device to a specific camera sensor (some devices
->   have multiple sensors + privacy-LEDs).
-> 
-> Patches 1-5 are LED subsystem patches for this. 1 is a bug fix, 2-4 add
-> the new [devm_]led_get() functions. Patch 5 is the RFC patch adding dt
-> support to led_get() and is not intended for merging.
-> 
-> Patch 6 + 7 add generic privacy-LED support to the v4l2-core/v4l2-subdev.c
-> code automatically enabling the privacy-LED when s_stream(subdev, 1)
-> is called. So that we don't need to add privacy-LED code to all the
-> camera sensor drivers separately (as requested by Sakari).
-> 
-> Patches 8-11 are patches to the platform specific INT3472 code to register
-> privacy-LED class devices + lookup table entries for privacy-LEDs described
-> in the special INT3472 ACPI nodes found on x86 devices with MIPI cameras.
-> 
-> Assuming at least the LED maintainers are happy with the approach suggested
-> here, the first step to merging this would be to merge patches 1-4 and then
-> provide an immutable branch with those to merge for the other subsystems
-> since the other changes depend on these.
+  media: tm6000: remove deprecated driver (2023-01-22 09:57:19 +0100)
 
-LEDs pull request to follow.
+are available in the Git repository at:
 
--- 
-Lee Jones [李琼斯]
+  git://linuxtv.org/hverkuil/media_tree.git tags/br-v6.3e
+
+for you to fetch changes up to 27e5b51fcaac53096826f6a04af5f8a6b6d52ca3:
+
+  drivers/media/v4l2-core/v4l2-h264 : add detection of null pointers (2023-01-27 11:50:40 +0100)
+
+----------------------------------------------------------------
+Tag branch
+
+----------------------------------------------------------------
+Arnd Bergmann (2):
+      media: camss: csiphy-3ph: avoid undefined behavior
+      media: platform: mtk-mdp3: fix Kconfig dependencies
+
+Chen-Yu Tsai (1):
+      media: hantro: Use core-generated bus_info value
+
+Colin Ian King (2):
+      media: vidtv: make const array DURATION static
+      media: rkisp1: make a few const arrays static
+
+Deepak R Varma (1):
+      staging: media: imx: change imx_media_fim_set_stream() to return void
+
+Dmitry Torokhov (1):
+      media: i2c: s5c73m3: remove support for platform data
+
+Dong Chuanjian (1):
+      drivers/media/v4l2-core/v4l2-h264 : add detection of null pointers
+
+Eugen Hristev (1):
+      media: microchip: microchip-isc: replace v4l2_{dbg|info|err} with dev-*
+
+Hans Verkuil (4):
+      media: videobuf2-core: drop obsolete sanity check in __vb2_queue_free()
+      media: s5p-mfc: use vb2_is_streaming()
+      media: v4l2-mem2mem: use vb2_is_streaming()
+      media: go7007: don't modify q->streaming
+
+Jammy Huang (2):
+      media: docs: aspeed-video: Update reference
+      media: docs: pixfmt-reserved: Update reference
+
+Krzysztof Kozlowski (2):
+      docs: admin-guide: media: align HDMI CEC node names with dtschema
+      media: exynos4-is: drop unused pctrl field and headers
+
+Ming Qian (5):
+      media: amphion: remove redundant check of colorspace in venc_s_fmt
+      media: v4l2-jpeg: correct the skip count in jpeg_parse_app14_data
+      media: v4l2-jpeg: ignore the unknown APP14 marker
+      media: imx-jpeg: Apply clk_bulk api instead of operating specific clk
+      media: amphion: correct the unspecified color space
+
+Nicolas Dufresne (1):
+      hantro: Fix JPEG encoder ENUM_FRMSIZE on RK3399
+
+Oleg Verych (1):
+      media: sun4i-csi: Fix 'Unbalanced pm_runtime_enable!'
+
+Qiheng Lin (1):
+      media: platform: mtk-mdp3: Fix return value check in mdp_probe()
+
+Uwe Kleine-König (3):
+      media: ti/davinci: vpbe_osd: Drop empty platform remove function
+      media: ti/davinci: vpbe_venc: Drop empty platform remove function
+      media: chips-media/imx-vdoa: Drop empty platform remove function
+
+Yang Li (1):
+      media: rzg2l-cru: Remove unneeded semicolon
+
+Yunfei Dong (1):
+      media: mediatek: vcodec: Using pm_runtime_put instead of pm_runtime_put_sync
+
+Zhou jie (1):
+      radio/wl128x: remove unnecessary (void*) conversions
+
+ Documentation/admin-guide/media/cec.rst                    |   4 +--
+ Documentation/userspace-api/media/drivers/aspeed-video.rst |   2 +-
+ Documentation/userspace-api/media/v4l/pixfmt-reserved.rst  |   2 +-
+ drivers/media/common/videobuf2/videobuf2-core.c            |  25 ++-----------
+ drivers/media/i2c/s5c73m3/s5c73m3-core.c                   |  20 +++--------
+ drivers/media/i2c/s5c73m3/s5c73m3-ctrls.c                  |   1 -
+ drivers/media/i2c/s5c73m3/s5c73m3.h                        |   1 -
+ drivers/media/platform/amphion/venc.c                      |  18 +++-------
+ drivers/media/platform/amphion/vpu_color.c                 |   6 ++--
+ drivers/media/platform/chips-media/imx-vdoa.c              |   6 ----
+ drivers/media/platform/mediatek/mdp3/Kconfig               |   7 ++--
+ drivers/media/platform/mediatek/mdp3/mtk-mdp3-core.c       |   7 ++--
+ drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_pm.c |   6 ++--
+ drivers/media/platform/microchip/microchip-isc-base.c      | 109 +++++++++++++++++++++++++--------------------------------
+ drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c             |  35 +++++-------------
+ drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.h             |   4 +--
+ drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c   |   3 +-
+ drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c      |   2 +-
+ drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c     |   2 +-
+ drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c    |  15 ++++----
+ drivers/media/platform/samsung/exynos4-is/fimc-is.h        |   3 --
+ drivers/media/platform/samsung/exynos4-is/media-dev.h      |   1 -
+ drivers/media/platform/samsung/s5p-mfc/s5p_mfc.c           |   4 +--
+ drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.c         |   1 +
+ drivers/media/platform/ti/davinci/vpbe_osd.c               |   6 ----
+ drivers/media/platform/ti/davinci/vpbe_venc.c              |   6 ----
+ drivers/media/platform/verisilicon/hantro_drv.c            |   2 --
+ drivers/media/platform/verisilicon/hantro_v4l2.c           |   9 ++---
+ drivers/media/radio/wl128x/fmdrv_common.c                  |   2 +-
+ drivers/media/test-drivers/vidtv/vidtv_psi.c               |   2 +-
+ drivers/media/usb/go7007/go7007-v4l2.c                     |   6 +---
+ drivers/media/v4l2-core/v4l2-h264.c                        |   4 +++
+ drivers/media/v4l2-core/v4l2-jpeg.c                        |   4 +--
+ drivers/media/v4l2-core/v4l2-mem2mem.c                     |   4 +--
+ drivers/staging/media/imx/imx-media-csi.c                  |   7 ++--
+ drivers/staging/media/imx/imx-media-fim.c                  |   8 ++---
+ drivers/staging/media/imx/imx-media.h                      |   6 ++--
+ include/media/i2c/s5c73m3.h                                |  41 ----------------------
+ 38 files changed, 127 insertions(+), 264 deletions(-)
+ delete mode 100644 include/media/i2c/s5c73m3.h
