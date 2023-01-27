@@ -2,145 +2,149 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 55D8767E110
-	for <lists+linux-media@lfdr.de>; Fri, 27 Jan 2023 11:08:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4D5D367E166
+	for <lists+linux-media@lfdr.de>; Fri, 27 Jan 2023 11:18:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233355AbjA0KIp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 27 Jan 2023 05:08:45 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47390 "EHLO
+        id S233512AbjA0KSy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 27 Jan 2023 05:18:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57964 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232583AbjA0KIo (ORCPT
+        with ESMTP id S233513AbjA0KSu (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 27 Jan 2023 05:08:44 -0500
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7FA9B3EC40;
-        Fri, 27 Jan 2023 02:08:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674814123; x=1706350123;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=f67KzVxHpdXmqPA8CszlUnWN06gxy+VJ0oxvgBWzgFw=;
-  b=KiNugtqFm0hO1elXkrEfsTzpLczGu6Dw7qu8JnuVdBwGAGI/RQQ3Cd02
-   zyGe+jKtTToFCgTBP146G/IYMCiQVLgaOK+xO+F6UkRXijYEH7qySS0gH
-   8s5PTT+leZmH0af9RsVonsw4JOolf3DWEDR894mYQxegv+EOapqZgnDGY
-   JDVddKvIRFob5AToCpCEUlgTKe+03lvMBKUMdP6uyNTBiYYTJkno7pRKm
-   nKNlAeKSfPuZcnBfBaa5Tpf9TpswsuIraO/X9RoQcIJKOJsKgFIicKXTT
-   koAk37WctvIg9NG6bkfOsou/zVtGCmUHeizrePUdMKLiapUMTk1XbmC9o
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10602"; a="329183496"
-X-IronPort-AV: E=Sophos;i="5.97,250,1669104000"; 
-   d="scan'208";a="329183496"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2023 02:08:43 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10602"; a="726647928"
-X-IronPort-AV: E=Sophos;i="5.97,250,1669104000"; 
-   d="scan'208";a="726647928"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by fmsmga008.fm.intel.com with ESMTP; 27 Jan 2023 02:08:41 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1pLLey-00FuNs-0e;
-        Fri, 27 Jan 2023 12:08:40 +0200
-Date:   Fri, 27 Jan 2023 12:08:39 +0200
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     linux-acpi@vger.kernel.org, linux-media@vger.kernel.org,
-        rafael@kernel.org, heikki.krogerus@linux.intel.com
-Subject: Re: [PATCH v3 2/8] ACPI: property: Parse _CRS CSI-2 descriptor
-Message-ID: <Y9Oip7cLqWgdzKry@smile.fi.intel.com>
-References: <20230125224101.401285-1-sakari.ailus@linux.intel.com>
- <20230125224101.401285-3-sakari.ailus@linux.intel.com>
+        Fri, 27 Jan 2023 05:18:50 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A92D6757B9
+        for <linux-media@vger.kernel.org>; Fri, 27 Jan 2023 02:18:39 -0800 (PST)
+Received: from desky.lan (91-154-32-225.elisa-laajakaista.fi [91.154.32.225])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 561BD2B3;
+        Fri, 27 Jan 2023 11:18:36 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1674814716;
+        bh=LXk+/MtR7CO8YAJaFVplGeUXMW2EIWt+TreRf9S3SVc=;
+        h=From:To:Cc:Subject:Date:From;
+        b=Hldaz1Z0xN36XFdtyX3LptmXpglBEN5L1HBSBSg8GJHEtADRvrMFTxHfhhe256WuN
+         sY9SHz/mS6dtykgZKP7z5RIRrmsGd4X4k5mX9H1v7VLvYB8gBD06FfoOQZomMQsedZ
+         L5wBH2d2mrOzj4GgP3Risa4j62Sgkjo+3KfV6YCs=
+From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-media@vger.kernel.org
+Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: [PATCH] media: subdev: Split V4L2_SUBDEV_ROUTING_NO_STREAM_MIX
+Date:   Fri, 27 Jan 2023 12:18:22 +0200
+Message-Id: <20230127101822.191933-1-tomi.valkeinen@ideasonboard.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230125224101.401285-3-sakari.ailus@linux.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Jan 26, 2023 at 12:40:55AM +0200, Sakari Ailus wrote:
-> Parse newly added ACPI _CRS CSI-2 descriptor for CSI-2 and camera
-> configuration. For now, only figure out where the descriptor is present in
-> order to allow adding information from it to related devices.
+V4L2_SUBDEV_ROUTING_NO_STREAM_MIX routing validation flag means that all
+routes from a sink pad must go to the same source pad and all routes
+going to the same source pad must originate from the same sink pad.
 
-...
+This does not cover all use cases. For example, if a device routes
+all streams from a single sink pad to any of the source pads, but
+streams from multiple sink pads can go to the same source pad, the
+current flag is too restrictive.
 
-> +	if (status != AE_OK) {
+Split the flag into two parts, V4L2_SUBDEV_ROUTING_NO_SINK_STREAM_MIX
+and V4L2_SUBDEV_ROUTING_NO_SOURCE_STREAM_MIX, which add the restriction
+only on one side of the device. Together they mean the same as
+V4L2_SUBDEV_ROUTING_NO_STREAM_MIX.
 
-ACPI_FAILURE()
+Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+---
+ drivers/media/v4l2-core/v4l2-subdev.c | 17 +++++++++++++----
+ include/media/v4l2-subdev.h           | 16 +++++++++++++---
+ 2 files changed, 26 insertions(+), 7 deletions(-)
 
-> +		acpi_handle_warn(inst_context->handle,
-> +				 "cannot get handle for %s\n",
-> +				 csi2->resource_source.string_ptr);
-> +		return AE_OK;
-> +	}
-
-...
-
-> +	struct scan_check_crs_csi2_context inst_context = {
-> +		.handle = handle,
-> +		.res_list = LIST_HEAD_INIT(inst_context.res_list),
-> +	};
-> +	struct list_head *list = context;
-> +	struct crs_csi2 *csi2;
-
-> +	INIT_LIST_HEAD(&inst_context.res_list);
-
-Do you still need this?
-
-...
-
-> +	acpi_walk_resources(handle, METHOD_NAME__CRS,
-> +			    scan_check_crs_csi2_instance, &inst_context);
-> +
-> +	if (list_empty(&inst_context.res_list))
-> +		return AE_OK;
-
-I'm wondering if you can utilize acpi_dev_get_resources().
-
-...
-
-> +	/* Collect the devices that have a _CRS CSI-2 resource */
-> +	acpi_walk_namespace(ACPI_TYPE_DEVICE, handle, ACPI_UINT32_MAX,
-
-Other serial buses limit the DEPTH by 32, why do we need more here?
-
-> +			    scan_check_crs_csi2, NULL, &crs_csi2_handles, NULL);
-
-...
-
-> +	sort(handle_refs, handle_count, sizeof(*handle_refs), crs_handle_cmp,
-> +	     NULL);
-
-A single line?
-
-...
-
-> +		if (check_mul_overflow(sizeof(*ads->ports) +
-> +				       sizeof(*ads->nodes) * 2 +
-> +				       sizeof(*ads->nodeptrs) * 2,
-> +				       (size_t)this_count, &alloc_size) ||
-
-So, now you know why this_count can't be type of size_t?
-
-> +		    check_add_overflow(sizeof(*ads) + sizeof(*ads->nodes) +
-> +				       sizeof(*ads->nodeptrs) * 2,
-> +				       alloc_size, &alloc_size)) {
-> +			acpi_handle_warn(handle, "too many handles (%u)",
-> +					 this_count);
-> +			continue;
-> +		}
-
+diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
+index 1bebcda2bd20..84ae656c770d 100644
+--- a/drivers/media/v4l2-core/v4l2-subdev.c
++++ b/drivers/media/v4l2-core/v4l2-subdev.c
+@@ -1678,10 +1678,11 @@ int v4l2_subdev_routing_validate(struct v4l2_subdev *sd,
+ 		}
+ 
+ 		/*
+-		 * V4L2_SUBDEV_ROUTING_NO_STREAM_MIX: Streams on the same pad
+-		 * may not be routed to streams on different pads.
++		 * V4L2_SUBDEV_ROUTING_NO_SINK_STREAM_MIX: Streams on the same
++		 * sink pad may not be routed to streams on different source
++		 * pads.
+ 		 */
+-		if (disallow & V4L2_SUBDEV_ROUTING_NO_STREAM_MIX) {
++		if (disallow & V4L2_SUBDEV_ROUTING_NO_SINK_STREAM_MIX) {
+ 			if (remote_pads[route->sink_pad] != U32_MAX &&
+ 			    remote_pads[route->sink_pad] != route->source_pad) {
+ 				dev_dbg(sd->dev,
+@@ -1690,6 +1691,15 @@ int v4l2_subdev_routing_validate(struct v4l2_subdev *sd,
+ 				goto out;
+ 			}
+ 
++			remote_pads[route->sink_pad] = route->source_pad;
++		}
++
++		/*
++		 * V4L2_SUBDEV_ROUTING_NO_SOURCE_STREAM_MIX: Streams on the same
++		 * source pad may not be routed to streams on different sink
++		 * pads.
++		 */
++		if (disallow & V4L2_SUBDEV_ROUTING_NO_SOURCE_STREAM_MIX) {
+ 			if (remote_pads[route->source_pad] != U32_MAX &&
+ 			    remote_pads[route->source_pad] != route->sink_pad) {
+ 				dev_dbg(sd->dev,
+@@ -1698,7 +1708,6 @@ int v4l2_subdev_routing_validate(struct v4l2_subdev *sd,
+ 				goto out;
+ 			}
+ 
+-			remote_pads[route->sink_pad] = route->source_pad;
+ 			remote_pads[route->source_pad] = route->sink_pad;
+ 		}
+ 
+diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
+index 17773be4a4ee..4b8cb37c9448 100644
+--- a/include/media/v4l2-subdev.h
++++ b/include/media/v4l2-subdev.h
+@@ -1643,19 +1643,29 @@ u64 v4l2_subdev_state_xlate_streams(const struct v4l2_subdev_state *state,
+  * @V4L2_SUBDEV_ROUTING_NO_N_TO_1:
+  *	multiple input streams may not be routed to the same output stream
+  *	(stream merging)
+- * @V4L2_SUBDEV_ROUTING_NO_STREAM_MIX:
+- *	streams on the same pad may not be routed to streams on different pads
++ * @V4L2_SUBDEV_ROUTING_NO_SINK_STREAM_MIX:
++ *	streams on the same sink pad may not be routed to streams on different
++ * 	source pads
++ * @V4L2_SUBDEV_ROUTING_NO_SOURCE_STREAM_MIX:
++ *	streams on the same source pad may not be routed to streams on different
++ * 	sink pads
+  * @V4L2_SUBDEV_ROUTING_ONLY_1_TO_1:
+  *	only non-overlapping 1-to-1 stream routing is allowed (a combination of
+  *	@V4L2_SUBDEV_ROUTING_NO_1_TO_N and @V4L2_SUBDEV_ROUTING_NO_N_TO_1)
++ * @V4L2_SUBDEV_ROUTING_NO_STREAM_MIX:
++ *	streams on the same pad may not be routed to streams on different pads
+  */
+ enum v4l2_subdev_routing_restriction {
+ 	V4L2_SUBDEV_ROUTING_NO_1_TO_N = BIT(0),
+ 	V4L2_SUBDEV_ROUTING_NO_N_TO_1 = BIT(1),
+-	V4L2_SUBDEV_ROUTING_NO_STREAM_MIX = BIT(2),
++	V4L2_SUBDEV_ROUTING_NO_SINK_STREAM_MIX = BIT(2),
++	V4L2_SUBDEV_ROUTING_NO_SOURCE_STREAM_MIX = BIT(3),
+ 	V4L2_SUBDEV_ROUTING_ONLY_1_TO_1 =
+ 		V4L2_SUBDEV_ROUTING_NO_1_TO_N |
+ 		V4L2_SUBDEV_ROUTING_NO_N_TO_1,
++	V4L2_SUBDEV_ROUTING_NO_STREAM_MIX =
++		V4L2_SUBDEV_ROUTING_NO_SINK_STREAM_MIX |
++		V4L2_SUBDEV_ROUTING_NO_SOURCE_STREAM_MIX,
+ };
+ 
+ /**
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.34.1
 
