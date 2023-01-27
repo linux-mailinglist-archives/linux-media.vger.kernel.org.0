@@ -2,197 +2,122 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 807EB67DEDB
-	for <lists+linux-media@lfdr.de>; Fri, 27 Jan 2023 09:11:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3444A67DF04
+	for <lists+linux-media@lfdr.de>; Fri, 27 Jan 2023 09:24:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231856AbjA0ILp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 27 Jan 2023 03:11:45 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58282 "EHLO
+        id S232020AbjA0IYO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 27 Jan 2023 03:24:14 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35478 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229508AbjA0ILp (ORCPT
+        with ESMTP id S229606AbjA0IYN (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 27 Jan 2023 03:11:45 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A7030279B6;
-        Fri, 27 Jan 2023 00:11:43 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 1E66A61A30;
-        Fri, 27 Jan 2023 08:11:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8717BC433D2;
-        Fri, 27 Jan 2023 08:11:39 +0000 (UTC)
-Message-ID: <197c3574-2ffa-7c8a-2372-a373123087a3@xs4all.nl>
-Date:   Fri, 27 Jan 2023 09:11:38 +0100
+        Fri, 27 Jan 2023 03:24:13 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0817C4FC31;
+        Fri, 27 Jan 2023 00:24:11 -0800 (PST)
+Received: from [192.168.1.15] (91-154-32-225.elisa-laajakaista.fi [91.154.32.225])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 677642B3;
+        Fri, 27 Jan 2023 09:24:08 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1674807849;
+        bh=niDyqFDWqiArhyvutjU5y1QCfPrstLEbn01CZDRz5yE=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=utkgh9xOt6RyqBx6BRc/W34PP9y14HzAXTXaBKoL3rvxkL6KE9OECUZ1heRpNHJeX
+         0Dsr4fWmfVtEo7R8n7LYjtRfsypG6KJbXRpzPVPYBy8wPmiH63QRRpEZAEIhmXC5TS
+         WUClIj0vn6sCqbXsRJOuhx+TypGzwsYmbM9gnN54=
+Message-ID: <0c13eac3-cadb-b923-d475-7851dbef0c4e@ideasonboard.com>
+Date:   Fri, 27 Jan 2023 10:24:04 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [RFC PATCH v6 03/11] media: v4l2: Add extended buffer (de)queue
- operations for video types
+ Thunderbird/102.4.2
+Subject: Re: [PATCH v7 5/7] media: i2c: add DS90UB960 driver
 Content-Language: en-US
-To:     ayaka <ayaka@soulik.info>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     randy.li@synaptics.com, Brian.Starkey@arm.com,
-        frkoenig@chromium.org, hans.verkuil@cisco.com,
-        helen.koike@collabora.com, hiroh@chromium.org,
-        kernel@collabora.com, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, mchehab@kernel.org,
-        narmstrong@baylibre.com, nicolas@ndufresne.ca, sakari.ailus@iki.fi,
-        stanimir.varbanov@linaro.org, tfiga@chromium.org
-References: <20210114180738.1758707-1-helen.koike@collabora.com>
- <20210114180738.1758707-4-helen.koike@collabora.com>
- <20230125200026.16643-1-ayaka@soulik.info>
- <7609d523-667a-49a8-45f5-8186de20c24b@xs4all.nl>
- <Y9Jd12nYGk2xTYzx@pendragon.ideasonboard.com>
- <02142e8c-7479-1066-b5af-dad954136adc@soulik.info>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-In-Reply-To: <02142e8c-7479-1066-b5af-dad954136adc@soulik.info>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-7.8 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Andy Shevchenko <andriy.shevchenko@intel.com>
+Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Wolfram Sang <wsa@kernel.org>,
+        Luca Ceresoli <luca.ceresoli@bootlin.com>,
+        Matti Vaittinen <Matti.Vaittinen@fi.rohmeurope.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Peter Rosin <peda@axentia.se>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Michael Tretter <m.tretter@pengutronix.de>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Mike Pagano <mpagano@gentoo.org>,
+        =?UTF-8?Q?Krzysztof_Ha=c5=82asa?= <khalasa@piap.pl>,
+        Marek Vasut <marex@denx.de>
+References: <aba49d82-c76f-7ff2-751c-d1be7b8f3bca@ideasonboard.com>
+ <Y8rFh6zO7Hp9mLxE@smile.fi.intel.com>
+ <4286abe2-f23f-d4c9-ef18-f351af7a3a8b@ideasonboard.com>
+ <Y9EcRlooHwIjOqiZ@smile.fi.intel.com>
+ <cad92dbb-43ef-fa8c-1962-13c4a8578899@ideasonboard.com>
+ <Y9FBlMl4b3l1zVck@smile.fi.intel.com>
+ <5d208710-f284-e6e9-18dc-f5ef63a9ea44@ideasonboard.com>
+ <Y9FKcoVlgUWR4rhn@smile.fi.intel.com>
+ <04a82b08-524f-8d03-ac47-73d826907fc3@ideasonboard.com>
+ <Y9JUEv66Gze8FjMZ@smile.fi.intel.com>
+ <Y9JbMjPM3Ea3RVzH@pendragon.ideasonboard.com>
+From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+In-Reply-To: <Y9JbMjPM3Ea3RVzH@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-3.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 26/01/2023 19:36, ayaka wrote:
-> 
-> On 1/26/23 19:02, Laurent Pinchart wrote:
->> On Thu, Jan 26, 2023 at 09:57:51AM +0100, Hans Verkuil wrote:
->>> On 25/01/2023 21:00, ayaka wrote:
->>>> I am currently refresh this patchset, but I didn't see the need beyond v4l2_ext_pix_fmt, which I had done.
->>>> On 2/23/21 20:58, Hans Verkuil wrote:
->>>>> On 14/01/2021 19:07, Helen Koike wrote:
->>>>>> Those extended buffer ops have several purpose:
->>>>>> 1/ Fix y2038 issues by converting the timestamp into an u64 counting
->>>>>>      the number of ns elapsed since 1970
->>>> I think application just use the timestamp field for tracking the
->>>> buffer. It would be just a sequence buffer.
->>>> At least for the most widely cases, the video encoder and decoder
->>>> and ISP, this field is not a wall time.
->>> For video capture and video output this is typically the monotonic
->>> clock value.
->>>
->>> For memory-to-memory devices it is something that is just copied from
->>> output to capture.
->>>
->>> So ISPs definitely use this as a proper timestamp.
->> There are both inline (live-to-memory) and offline (memory-to-memory)
->> ISPs. The former certainly need a proper timestamp.
+On 26/01/2023 12:51, Laurent Pinchart wrote:
+> On Thu, Jan 26, 2023 at 12:21:06PM +0200, Andy Shevchenko wrote:
+>> On Thu, Jan 26, 2023 at 10:41:47AM +0200, Tomi Valkeinen wrote:
+>>> On 25/01/2023 17:27, Andy Shevchenko wrote:
 >>
-> I really have not seen a device that has timer starting with the epoch.
+>> ...
+>>
+>>>> But I probably don't understand the ATR structure and what exactly we need to
+>>>> pass to it, perhaps it also can be replaced with properties (note, that we have
+>>>> some interesting ones that called references, which is an alternative to DT
+>>>> phandle).
+>>>
+>>> Well, maybe this needs a Linux bus implementation. I'm not that familiar
+>>> with implementing a bus, but I think that would make it easier to share data
+>>> between the deserializer and the serializer. A bus sounds a bit like an
+>>> overkill for a 1-to-1 connection, used by a few drivers, but maybe it
+>>> wouldn't be too much code.
+>>
+>> Have you looked at auxiliary bus (appeared a few releases ago in kernel)?
 > 
-> I rarely know the ISP has a wall clock timer.
-> 
-> Timestamp is not my first concern here. Offset is.
+> As far as I understand, the auxiliary bus infrastructure is meant for
+> use cases where a single hardware device needs to be split into multiple
+> logical devices (as in struct device). Platform devices were
+> historically (ab)used for this, and the auxiliary bus is meant as a
+> cleaner solution. I'm not sure if it would be a good match here, or if
+> it would be considered an abuse of the auxiliary bus API.
 
-You are working in the V4L2 core framework here, something that is used
-by all V4L2 drivers. So everything is important. You can't just focus on
-your own use-case.
+The aux bus docs say "A key requirement for utilizing the auxiliary bus 
+is that there is no dependency on a physical bus, device, register 
+accesses or regmap support. These individual devices split from the core 
+cannot live on the platform bus as they are not physical devices that 
+are controlled by DT/ACPI.", which doesn't sound like a good fit.
 
-> 
->>>>>> 2/ Unify single/multiplanar handling
->>>>>> 3/ Add a new start offset field to each v4l2 plane buffer info struct
->>>>>>      to support the case where a single buffer object is storing all
->>>>>>      planes data, each one being placed at a different offset
->>>> I really care about this. But I think the data_offset field in
->>>> struct v4l2_plane is enough. The rest is the problem of the kernel
->>>> internal API and allocator.
->>> data_offset has proven to be very confusing and is rarely used because
->>> of that.
-> Yes, I didn't know any stateful codec driver support this.
->>> We do need some sort of an offset field as proposed here, but it
->>> shouldn't be named data_offset.
-> Maybe we could just rename it or make a union in the existing struct.
->> The existing data_offset field was indeed added for other purposes, to
->> let drivers report where the actual image data starts for devices that
->> prepend some sort of header.
-> 
-> For the compressed image, it makes sense. But the most of usage I knew is the upstream would just allocate a large buffer for compression video bitstream,
-> 
-> Then it could tell where the decoder should start.
+The deserializer and serializers are currently independent devices and 
+drivers (the pdata is the only shared thing), but I think we may need 
+something better here. The devices are more tightly tied together than 
+"normal" video devices, in my opinion, as the serializer is fully 
+controlled by the deserializer (including power).
 
-It's not codec specific, it's meant to be used with raw video frames.
+And if we ever want to implement something like power management, we 
+probably need something more than what we have now. Although I don't 
+know how that would be done, as all the peripherals behind the 
+serializer would also lose power...
 
-The key problem in today's API is that if the buffer for the video frame
-contains multiple planes, typically Y and UV (2 planes) or Y, U and V (3 planes).
+  Tomi
 
-The offset at which each plane begins is currently a property of the
-pixelformat. That doesn't scale since there are often HW requirements
-that influence this.
-
-One of the main confusing issues is that data_offset is included in
-the bytesused value, which was a design mistake in hindsight.
-
-For the new APIs just ignore the existing data_offset and design
-this from scratch.
-
-> 
->>   That's indeed not what we want here, we
->> instead need something similar to the offsets field of struct
->> drm_mode_fb_cmd2.
-> 
-> That leads to another question. Should the offset be fixed from the first enqueued?
-
-It's always been fixed in the hardware I have seen, but I'm sure someone will
-make it dynamic at some point in the future :-(
-
-So I would say that the public API has to support this as a future enhancement,
-but it is OK to write the initial code with the assumption that it will remain
-fixed.
-
-> 
-> For the dmabuf, the v4l2 core framework would detatch then attach the buffer when it found the private of a plane is not same. Although it sounds unnecessary, some devices would a different cache line
-> for the chroma channel, it should be updated.
-> 
-> For the drm_mode_fb_cmd2, unless you remove that fb_id, there is no way to modify the offset. But this would break the existing usage I mentioned before.
-> 
-> We need to consider whether we need to keep the previous offset and a hook for update it.
-> 
->>>> I am thinking just add a field recording the offset input from the user.
->>>> When we return the buffer back to the user, the value of the offset
->>>> should be same as the it is queued.
->>>>
->>>> Meanwhile, the API compatible that I want to keep is user using the
->>>> ext_pix API could access those drivers support old API.
->>>> But I don't want the user would expect they could get correct pixel
->>>> format using the old ioctl(). It could create many duplicated pixel
->>>> formats. If we want to keep the compatible here, that is the job of
->>>> libv4l.
->>>>
->>>> Besides, I think make the driver using the new API be compatible
->>>> with the old ioctl() would lead a huge problem. User won't like to
->>>> update its code if it could work even in a less performance mode
->>>> because this code are for all the other hardware vendors/models.
->>>> Unless we make this a feature, they could make a new branch in their
->>>> code(don't count them would upate the kernel of the other products).
->>> New drivers that require the additional information that these new ioctls give can
->>> decide to just support these new ioctls only. But for existing drivers you want
->>> to automatically support the new ioctls.
-> 
-> What I said didn't break that. Application would use the new ioctl() to contact with the existing driver.
-> 
-> What I want to remove is that Application use the old ioctl() to contact with the driver support new ioctl().
-
-No, you can't do that. Not unless the driver uses features that only work with the new API.
-
-I.e. if I make a new driver whose properties are completely compatible with the existing
-APIs (so no weird offsets etc.), then I want to write the driver using the new ioctls,
-and leave it to the V4L2 framework to provide support for the old ioctls.
-
-There is absolutely no reason to block old ioctls in that case. Applications will not
-just be able to support a new API overnight, that takes years.
-
-> 
-> I would omit this related patches in the refresh set. We could always add it back. But what I want is a way  to enqueue and dequeue different formats(or usage) of buffers in both OUTPUT and CAPTURE. I
-> may add a more complex API later.
-
-For discussion it is OK to drop the old ioctl support, but once you go beyond the RFC stage
-it has to be put back.
-
-Regards,
-
-	Hans
