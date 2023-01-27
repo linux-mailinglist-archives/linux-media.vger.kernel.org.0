@@ -2,184 +2,125 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C70E567DFE9
-	for <lists+linux-media@lfdr.de>; Fri, 27 Jan 2023 10:21:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0CB5867E06E
+	for <lists+linux-media@lfdr.de>; Fri, 27 Jan 2023 10:38:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232438AbjA0JVh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 27 Jan 2023 04:21:37 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35072 "EHLO
+        id S233126AbjA0Jic (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 27 Jan 2023 04:38:32 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53096 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232163AbjA0JVg (ORCPT
+        with ESMTP id S233028AbjA0Jib (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 27 Jan 2023 04:21:36 -0500
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 970D59EFB;
-        Fri, 27 Jan 2023 01:21:35 -0800 (PST)
-Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:4623:efe7:8a8:33c2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: benjamin.gaignard)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id EBB536602EA1;
-        Fri, 27 Jan 2023 09:21:33 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1674811294;
-        bh=7Fa9dzvTgBivHIPI4iHsytCfPy7D6F7WBpQuVBtYwF8=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=YWw6QuA4FDh22bhiEkZZUUBAskmKEsnvyu6ddHe9fd8TIV7CicdTkZ74WwJwjIxQh
-         qQsl+9uhurLo58HpxZc7yjGO1j53x4onDuSM6Ax9/sDM1r7SBDnA6uIaUhCrD4lmiZ
-         kooH7vIEZa/zGTCylqBDYQps+hT8oOnepCZ97Kxhq6eFLzmRcM7zYTXM4CbbyVodnr
-         ZKtZ1uUBFCmH+3J7pXnUFT8f2xKEtyeIosw3hTDLZWL93yvtnmggpYniMB/bFC4MQK
-         BFZfKzsks+w9HN3VbFWm9s3zz0SxcEcycI3MLYhrNUHAKfula1LyaMm5k59wdJRCgZ
-         MZ7l+Ll3Kwtzw==
-From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
-To:     ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
-        mchehab@kernel.org, shawnguo@kernel.org, s.hauer@pengutronix.de,
-        kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
-        hverkuil-cisco@xs4all.nl, nicolas.dufresne@collabora.co.uk
-Cc:     linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        kernel@collabora.com,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Subject: [PATCH v5 2/2] media: verisilicon: HEVC: Only propose 10 bits compatible pixels formats
-Date:   Fri, 27 Jan 2023 10:21:26 +0100
-Message-Id: <20230127092126.318268-3-benjamin.gaignard@collabora.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230127092126.318268-1-benjamin.gaignard@collabora.com>
-References: <20230127092126.318268-1-benjamin.gaignard@collabora.com>
+        Fri, 27 Jan 2023 04:38:31 -0500
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5EA1E2CFE7
+        for <linux-media@vger.kernel.org>; Fri, 27 Jan 2023 01:37:56 -0800 (PST)
+Received: by mail-wr1-x434.google.com with SMTP id n7so4412431wrx.5
+        for <linux-media@vger.kernel.org>; Fri, 27 Jan 2023 01:37:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=yksAV7yHL3wN3w9c8k40mCMMPiyV1hd99TyFgaBpDUE=;
+        b=Q1IgsFXQgA4vRbKnGHEV09YcIKYNHOU6wbfDCYOa/8oRhBoDcw6DOo3ZtKEAlh/hVz
+         DJXrF3MPff5EwbaLVr5ax7Z1ASkgVRgaqhrum6TGTC4BF4AzSIDJb3HMsnFv3BL0KI6/
+         hDyRGvdPoXOnHloSa515sLqxxEYhkDAy5I3adl8lqK6S6sLoLLXSpvC4rxcCWqU2ePVU
+         g4M/iYrz5B1PflrG4UZ8+Cg4sFR761tiBYlxlG4aqy9XJdeCYl+0isoKHa/U8upK4wMy
+         xZmtzVlG9Z1mYf0Zgf3inLuQupaVfE7vsRrndR0C/EA1zbyvM6leuc7wKxEh9L+cR0JY
+         QEjA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=yksAV7yHL3wN3w9c8k40mCMMPiyV1hd99TyFgaBpDUE=;
+        b=FMXEMJBY7AXWiTEgFxZMkU1KamPZQTid0CnELsOvIcQ0HQcV6zC0ZW3qYshzdFgEKr
+         C3J1W0Rmb4htNSRFCoQixrI/+DzdMjM7piEbpQLYNXrKQLGNMU+BJsMWgZxKu5IWDQyv
+         v89lUecEN2ZXmmlcDw8tRrmszJb5kIpRUz37ss2ygFWPIervKt9/U28xEfLpKUEo+gLE
+         5E13FBXmchMKDaOzstzDFgJili2cOYbV1xmyWYKN7mZOV1S6DmsaUKxGTVsjI8BLqnIJ
+         k6YJTtNJfXY/A/nD3PuBVhv9+ZErkkK8TlVlx2jTtDDswT7ZJ5368RFl88/tdhv627hb
+         bpWg==
+X-Gm-Message-State: AO0yUKUDe7hddJC9k68wVIalQQ8UxQkPv7fX/oNoMEbU39ayQJJbgvGw
+        gU8ECqJEuMbP8vRcJASiZ9GM1Q==
+X-Google-Smtp-Source: AK7set88fvpm7mZ/TBDrWIqtjTBm/K9NABW+jcJf7uWpwGFZ9Oh/xUoCN/DyAVGGqWyO2zpOiFJfPA==
+X-Received: by 2002:a5d:65cd:0:b0:2bf:bd43:aacc with SMTP id e13-20020a5d65cd000000b002bfbd43aaccmr7088381wrw.55.1674812274879;
+        Fri, 27 Jan 2023 01:37:54 -0800 (PST)
+Received: from [192.168.1.109] ([178.197.216.144])
+        by smtp.gmail.com with ESMTPSA id n6-20020a7bcbc6000000b003d237d60318sm3842947wmi.2.2023.01.27.01.37.52
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 27 Jan 2023 01:37:54 -0800 (PST)
+Message-ID: <7e941a2d-25d9-44e0-7438-13225c87d8ac@linaro.org>
+Date:   Fri, 27 Jan 2023 10:37:49 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH v4 0/9] media: dt-bindings: common CEC properties
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Neil Armstrong <neil.armstrong@linaro.org>,
+        Alain Volmat <alain.volmat@foss.st.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jerome Brunet <jbrunet@baylibre.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Kevin Hilman <khilman@baylibre.com>,
+        devicetree@vger.kernel.org, Joe Tessler <jrt@google.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        linux-tegra@vger.kernel.org,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        linux-media@vger.kernel.org, Jeff Chase <jnchase@google.com>,
+        linux-arm-kernel@lists.infradead.org,
+        linux-amlogic@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        Yannick Fertre <yannick.fertre@foss.st.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        linux-kernel@vger.kernel.org
+References: <20221208103115.25512-1-krzysztof.kozlowski@linaro.org>
+ <cd803c70-faf0-963e-fca3-0edd13fa8a29@linaro.org>
+ <c092c11f-870f-6520-ad89-001468ed59dc@xs4all.nl>
+Content-Language: en-US
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <c092c11f-870f-6520-ad89-001468ed59dc@xs4all.nl>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-3.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-When decoding a 10bits bitstreams HEVC driver should only expose
-10bits pixel formats.
-To fulfill this requirement it is needed to call hantro_reset_raw_fmt()
-when bit depth change and to correctly set match_depth in pixel formats
-enumeration.
+On 13/01/2023 10:04, Hans Verkuil wrote:
+> Hi Krzysztof,
+> 
+> On 13/01/2023 09:59, Krzysztof Kozlowski wrote:
+>> On 08/12/2022 11:31, Krzysztof Kozlowski wrote:
+>>> Hi,
+>>>
+>>> Changes since v3
+>>> ================
+>>> 1. cec-gpio: Add missing SPDX.
+>>> 2. nvidia,tegra114-cec: Correct path in maintainers.
+>>>
+>>
+>>
+>> Mauro (and maybe Hans?), any comments here. Can you apply the patchset?
+> 
+> No comments yet. I plan to review and likely merge this next week.
 
-Fixes: dc39473d0340 ("media: hantro: imx8m: Enable 10bit decoding")
+Hi Hans,
 
-Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
----
-version 5:
-- Add Review and Fixes tags
+I hope they didn't get forgotten and you still have a plan to look at
+these. Patchwork shows they are waiting for review:
+https://patchwork.kernel.org/project/linux-media/patch/20221208103115.25512-2-krzysztof.kozlowski@linaro.org/
 
- .../media/platform/verisilicon/hantro_drv.c   | 44 +++++++++++++++----
- .../media/platform/verisilicon/imx8m_vpu_hw.c |  2 +
- 2 files changed, 38 insertions(+), 8 deletions(-)
-
-diff --git a/drivers/media/platform/verisilicon/hantro_drv.c b/drivers/media/platform/verisilicon/hantro_drv.c
-index 8cb4a68c9119..a736050fef5a 100644
---- a/drivers/media/platform/verisilicon/hantro_drv.c
-+++ b/drivers/media/platform/verisilicon/hantro_drv.c
-@@ -251,11 +251,6 @@ queue_init(void *priv, struct vb2_queue *src_vq, struct vb2_queue *dst_vq)
- 
- static int hantro_try_ctrl(struct v4l2_ctrl *ctrl)
- {
--	struct hantro_ctx *ctx;
--
--	ctx = container_of(ctrl->handler,
--			   struct hantro_ctx, ctrl_handler);
--
- 	if (ctrl->id == V4L2_CID_STATELESS_H264_SPS) {
- 		const struct v4l2_ctrl_h264_sps *sps = ctrl->p_new.p_h264_sps;
- 
-@@ -274,8 +269,6 @@ static int hantro_try_ctrl(struct v4l2_ctrl *ctrl)
- 		if (sps->bit_depth_luma_minus8 != 0 && sps->bit_depth_luma_minus8 != 2)
- 			/* Only 8-bit and 10-bit are supported */
- 			return -EINVAL;
--
--		ctx->bit_depth = sps->bit_depth_luma_minus8 + 8;
- 	} else if (ctrl->id == V4L2_CID_STATELESS_VP9_FRAME) {
- 		const struct v4l2_ctrl_vp9_frame *dec_params = ctrl->p_new.p_vp9_frame;
- 
-@@ -286,6 +279,36 @@ static int hantro_try_ctrl(struct v4l2_ctrl *ctrl)
- 	return 0;
- }
- 
-+static int hantro_hevc_s_ctrl(struct v4l2_ctrl *ctrl)
-+{
-+	struct hantro_ctx *ctx;
-+
-+	ctx = container_of(ctrl->handler,
-+			   struct hantro_ctx, ctrl_handler);
-+
-+	switch (ctrl->id) {
-+	case V4L2_CID_STATELESS_HEVC_SPS:
-+	{
-+		const struct v4l2_ctrl_hevc_sps *sps = ctrl->p_new.p_hevc_sps;
-+		int bit_depth = sps->bit_depth_luma_minus8 + 8;
-+		int ret;
-+
-+		if (ctx->bit_depth == bit_depth)
-+			return 0;
-+
-+		ret = hantro_reset_raw_fmt(ctx, bit_depth);
-+		if (!ret)
-+			ctx->bit_depth = bit_depth;
-+
-+		return ret;
-+	}
-+	default:
-+		return -EINVAL;
-+	}
-+
-+	return 0;
-+}
-+
- static int hantro_jpeg_s_ctrl(struct v4l2_ctrl *ctrl)
- {
- 	struct hantro_ctx *ctx;
-@@ -328,6 +351,11 @@ static const struct v4l2_ctrl_ops hantro_ctrl_ops = {
- 	.try_ctrl = hantro_try_ctrl,
- };
- 
-+static const struct v4l2_ctrl_ops hantro_hevc_ctrl_ops = {
-+	.s_ctrl = hantro_hevc_s_ctrl,
-+	.try_ctrl = hantro_try_ctrl,
-+};
-+
- static const struct v4l2_ctrl_ops hantro_jpeg_ctrl_ops = {
- 	.s_ctrl = hantro_jpeg_s_ctrl,
- };
-@@ -470,7 +498,7 @@ static const struct hantro_ctrl controls[] = {
- 		.codec = HANTRO_HEVC_DECODER,
- 		.cfg = {
- 			.id = V4L2_CID_STATELESS_HEVC_SPS,
--			.ops = &hantro_ctrl_ops,
-+			.ops = &hantro_hevc_ctrl_ops,
- 		},
- 	}, {
- 		.codec = HANTRO_HEVC_DECODER,
-diff --git a/drivers/media/platform/verisilicon/imx8m_vpu_hw.c b/drivers/media/platform/verisilicon/imx8m_vpu_hw.c
-index b390228fd3b4..f850d8bddef6 100644
---- a/drivers/media/platform/verisilicon/imx8m_vpu_hw.c
-+++ b/drivers/media/platform/verisilicon/imx8m_vpu_hw.c
-@@ -152,6 +152,7 @@ static const struct hantro_fmt imx8m_vpu_g2_postproc_fmts[] = {
- 	{
- 		.fourcc = V4L2_PIX_FMT_NV12,
- 		.codec_mode = HANTRO_MODE_NONE,
-+		.match_depth = true,
- 		.postprocessed = true,
- 		.frmsize = {
- 			.min_width = FMT_MIN_WIDTH,
-@@ -165,6 +166,7 @@ static const struct hantro_fmt imx8m_vpu_g2_postproc_fmts[] = {
- 	{
- 		.fourcc = V4L2_PIX_FMT_P010,
- 		.codec_mode = HANTRO_MODE_NONE,
-+		.match_depth = true,
- 		.postprocessed = true,
- 		.frmsize = {
- 			.min_width = FMT_MIN_WIDTH,
--- 
-2.34.1
+Best regards,
+Krzysztof
 
