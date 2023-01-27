@@ -2,118 +2,118 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B6EFB67E5F5
-	for <lists+linux-media@lfdr.de>; Fri, 27 Jan 2023 14:01:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F038D67E802
+	for <lists+linux-media@lfdr.de>; Fri, 27 Jan 2023 15:19:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229909AbjA0NBA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 27 Jan 2023 08:01:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41980 "EHLO
+        id S232723AbjA0OTR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 27 Jan 2023 09:19:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33302 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233974AbjA0NA7 (ORCPT
+        with ESMTP id S232678AbjA0OTO (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 27 Jan 2023 08:00:59 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA67015C83
-        for <linux-media@vger.kernel.org>; Fri, 27 Jan 2023 05:00:54 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 4E63261BAA
-        for <linux-media@vger.kernel.org>; Fri, 27 Jan 2023 13:00:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 275E4C433D2;
-        Fri, 27 Jan 2023 13:00:52 +0000 (UTC)
-Message-ID: <b282ed11-2de9-cf11-8e11-a1bd35397013@xs4all.nl>
-Date:   Fri, 27 Jan 2023 14:00:51 +0100
+        Fri, 27 Jan 2023 09:19:14 -0500
+Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8EFC17F30A
+        for <linux-media@vger.kernel.org>; Fri, 27 Jan 2023 06:19:12 -0800 (PST)
+Received: by mail-wm1-x32a.google.com with SMTP id k16so3555009wms.2
+        for <linux-media@vger.kernel.org>; Fri, 27 Jan 2023 06:19:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Q90LqhbGnu+8NGoWHaROTF+dgNnQu0A3NfUHfPBol2I=;
+        b=vDnSb6zzcf9fSflFaUewXVsO+IY5upzoyUgIX4p3oakESbRQfdiV4mfekjUeU+8hLs
+         h9PR+HIgaVIkS1zFYuO4xFbq8fKfYgblN6YlyZLkvBS3ABkBJ/iKyKiLsYvwG5FmDCR7
+         gwSa3X0LRi24JhoSDiTAvCh+ILT2NeTbi9aKbRfoBY3bammhNBiJ0jrCVfwVqwhzt0Mx
+         pcvfJgwHnnnK4ig80oQ22X43T6zPHq+CFImtCc34SsAou1r+uDzoW86Z9sDwR4sFTfvB
+         MVFeMI2COfLBkYQL8RmaFiCdqEVDCRAG8f7bMjK1ZPtqKH3Ux79QfdTFfgLzkINbA6ts
+         Hqqw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Q90LqhbGnu+8NGoWHaROTF+dgNnQu0A3NfUHfPBol2I=;
+        b=zf044Y2Hyql9x+ev+P9d90HU634QtzLL9YwbW5NL9EwYSV2aUNNROV16kjLaOnS6pI
+         aZsB4xkJwP8f8GBeNRf+2g98kT/eSQsy068OecEMdl7Ax8EK+OfzQkLxUOwCCC9noVcl
+         q5gN1nz+pFf6Ljl/8qjabBBD17S/OgtseBJXhsRE/cv2NrCrvuviISkV4qjaG4779ahq
+         XyZsUF/H3MLGzde2YzSu7rRCD2nLYapA7UD2GiL9yyo+j8CgK+rm6eq4niSaUYMi5Ypa
+         uljrGb7SeDZkPMjNIiVGRhyf9/Y7Q9K87s7ZziqT5N4Oq1E+blJ4bPlcuYY4e0rKbFeo
+         cfsQ==
+X-Gm-Message-State: AFqh2kqy8joak4UD4abL4V5pIgS+wI02R9NxbkU+E5/hv+uKTGRe8v4i
+        yyxB+T9Wnl6M0fMDN1pE8DsVFw==
+X-Google-Smtp-Source: AMrXdXsrrhDYWnQRbfAB5CqXYb/vB5ZwubcX3m5L1cXbILamRp4UWD69ytbzEE8ymVPevzGLFClwoQ==
+X-Received: by 2002:a05:600c:1d29:b0:3d9:69fd:7707 with SMTP id l41-20020a05600c1d2900b003d969fd7707mr47084813wms.2.1674829151161;
+        Fri, 27 Jan 2023 06:19:11 -0800 (PST)
+Received: from [192.168.1.109] ([178.197.216.144])
+        by smtp.gmail.com with ESMTPSA id bg6-20020a05600c3c8600b003db06493ee7sm9092561wmb.47.2023.01.27.06.19.09
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 27 Jan 2023 06:19:10 -0800 (PST)
+Message-ID: <482b464b-c5fb-8af2-b0f7-4388fccea3fd@linaro.org>
+Date:   Fri, 27 Jan 2023 15:19:08 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: Can smatch handle this better? (was: [PATCH 15/17] media: i2c:
- adp1653: introduce 'no_child' label)
+ Thunderbird/102.7.1
+Subject: Re: [PATCH v6 1/9] media: dt-bindings: Add OV5670
 Content-Language: en-US
-To:     Dan Carpenter <error27@gmail.com>
-Cc:     linux-media@vger.kernel.org,
-        Sakari Ailus <sakari.ailus@linux.intel.com>
-References: <20230126150657.367921-1-hverkuil-cisco@xs4all.nl>
- <20230126150657.367921-16-hverkuil-cisco@xs4all.nl>
- <Y9KaFkDXIWjiKPzc@kekkonen.localdomain>
- <7bd53f49-c7ae-db42-35a7-51d7b27d079c@xs4all.nl> <Y9PGezJ9ww20xCup@kadam>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <Y9PGezJ9ww20xCup@kadam>
+To:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+        Chiranjeevi Rapolu <chiranjeevi.rapolu@intel.com>,
+        Luca Weiss <luca@z3ntu.xyz>, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org
+Cc:     laurent.pinchart@ideasonboard.com, sakari.ailus@iki.fi,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org
+References: <20230126165909.121302-1-jacopo.mondi@ideasonboard.com>
+ <20230126165909.121302-2-jacopo.mondi@ideasonboard.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230126165909.121302-2-jacopo.mondi@ideasonboard.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-7.8 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-3.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 27/01/2023 13:41, Dan Carpenter wrote:
-> On Fri, Jan 27, 2023 at 08:43:51AM +0100, Hans Verkuil wrote:
->> Hi Dan,
->>
->> While trying to clean up smatch warnings in the media subsystem I came
->> across a number of 'warn: missing unwind goto?' warnings that all had
->> the same root cause as illustrated by this patch: the 'unwind' path
->> just has a variation on printk(), it is not actually cleaning up anything.
->>
->> As Sakari suggested, is this something that smatch can be improved for?
->> These false positives are a bit annoying.
->>
->> You can see the whole series here if you are interested:
->>
->> https://patchwork.linuxtv.org/project/linux-media/list/?series=9747
->>
->> Regards,
->>
+On 26/01/2023 17:59, Jacopo Mondi wrote:
+> Add the bindings documentation for Omnivision OV5670 image sensor.
 > 
-> Oh wow.  I really hate do nothing gotos.  The canonical bug for do
-> nothing gotos is forgetting to set the error code.
-> 
-> I like that check because it finds a lot of error handling bugs.
+> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> ---
 
-I do too, I did find some real bugs with this as well.
+(...)
 
-> 
-> It's not just about the printk().  I could and probably should make the
-> check ignore printks.  There is also an of_node_put(child);
+> +
+> +  dovdd-supply:
+> +    description: Digital I/O circuit power. Typically 2.8V or 1.8V.
+> +
+> +  port:
+> +    $ref: /schemas/graph.yaml#/$defs/port-base
+> +    additionalProperties: false
+> +
+> +    properties:
+> +      endpoint:
+> +        $ref: /schemas/media/video-interfaces.yaml#
+> +        unevaluatedProperties: false
+> +
+> +        properties:
+> +          data-lanes:
+> +            minItems: 1
+> +            maxItems: 2
+> +            items:
+> +              enum: [1, 2]
+> +
+> +          clock-noncontinuous: true
 
-This are other examples in my patch series where there is only an
-error message:
+You do not need this. Drop.
 
-https://patchwork.linuxtv.org/project/linux-media/patch/20230126150657.367921-15-hverkuil-cisco@xs4all.nl/
-https://patchwork.linuxtv.org/project/linux-media/patch/20230126150657.367921-17-hverkuil-cisco@xs4all.nl/
+> +
 
-> 
-> The check doesn't look at what the error handling does, only that there
-> is a direct returns surrounded by gotos.
-> 
-> I could make the check so that it's only enabled when --spammy is turned
-> on.
-> 
-> I guess another option would be to only enable the warning if there were
-> more than one label in the cleanup section at the end of the function.
-> I can make that a warning and if there is only one label, then make that
-> disable unless --spammy is used.
-
-That would cause us to miss a real bug like this:
-
-https://patchwork.linuxtv.org/project/linux-media/patch/20230126150657.367921-8-hverkuil-cisco@xs4all.nl/
-
-I think that if you were able to check that all the code after a goto label
-consisted of variations on printk, then that would solve most of the
-false positives I've seen in the media subsystem.
-
-The few remaining ones we can work around ourselves.
-
-Regards,
-
-	Hans
-
-> 
-> regards,
-> dan carpenter
-> 
+Best regards,
+Krzysztof
 
