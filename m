@@ -2,82 +2,55 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3B63A67EFE3
-	for <lists+linux-media@lfdr.de>; Fri, 27 Jan 2023 21:45:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A802067F09C
+	for <lists+linux-media@lfdr.de>; Fri, 27 Jan 2023 22:45:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229709AbjA0Uo7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 27 Jan 2023 15:44:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50598 "EHLO
+        id S231837AbjA0Vp1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 27 Jan 2023 16:45:27 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57068 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231917AbjA0Uo5 (ORCPT
+        with ESMTP id S231878AbjA0Vp0 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 27 Jan 2023 15:44:57 -0500
-Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com [IPv6:2a00:1450:4864:20::32e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 337337EFC0
-        for <linux-media@vger.kernel.org>; Fri, 27 Jan 2023 12:44:35 -0800 (PST)
-Received: by mail-wm1-x32e.google.com with SMTP id l8so4260997wms.3
-        for <linux-media@vger.kernel.org>; Fri, 27 Jan 2023 12:44:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=HSR2VjWWnAix4Brx2mQHhfEFj2hXAap+lyJ8hXBw3YM=;
-        b=zBhlYaJMcLENbcuzKQ+/8nvJOrVC+l2q+acOcjTiQq/gix0+L2uEsoESoPtdxf0/UC
-         PnTwOyYL8MdSYGSrTnuban7PAbkiicxv3aF/E4quhcsPM7+H41rMlCF/3BrWt7LwOLCW
-         BFHPWNjjwRlO11qhNpTbKF+2RZNnsBvfzopYVMAUSIZO5P6XROwZX7L4Yd5ADKmga0rD
-         7Orm+COH5PhK+AuONLULlBcBuLJV5U7dnf8lyCq+AB8+OJU5KC2Cy8ET8iAlQAszIJvk
-         X3Kt8kwxdhyHm5nm76jL/Sj7k3BPBZ2EzWSKej8iKoGAAs+YEJKv20QMbARuULZxioOj
-         Ixsw==
+        Fri, 27 Jan 2023 16:45:26 -0500
+Received: from mail-il1-f197.google.com (mail-il1-f197.google.com [209.85.166.197])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CBF095CFC1
+        for <linux-media@vger.kernel.org>; Fri, 27 Jan 2023 13:45:23 -0800 (PST)
+Received: by mail-il1-f197.google.com with SMTP id g11-20020a056e021a2b00b0030da3e7916fso3881720ile.18
+        for <linux-media@vger.kernel.org>; Fri, 27 Jan 2023 13:45:23 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
+        h=to:from:subject:message-id:in-reply-to:date:mime-version
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=HSR2VjWWnAix4Brx2mQHhfEFj2hXAap+lyJ8hXBw3YM=;
-        b=TDza4qnzanwL+b5+ILrhvAu6jKjlpX3TO5SrK2izTjvYp86c9EhQIrXrHiRWl0vHYq
-         9FAiM+T43BfF8jo3G0hPfjhexj6VNqvGuZQbBzxWdJbIBoieu6qh3CYD3+NTwGcvVf3M
-         JSm0PLI8fs6UZtYOMyTTf4NgoeVLT+aINvPh1UJzEzseKrcnYFcjBGj3fJmLv34APwPY
-         FCyJ1dzlTjQH+aHl6F7ipA183pc9R3rVtfRZXbs2OozORYQ4H+fJuk9S5YJ3eAGP3Owl
-         jeNRKTGvXrx2C7tSchUTRhi1tCBYShRfZYsm8YLcJ4Nb7X+CoAE4IVWo1GHM1Ma+/3Rz
-         xOPg==
-X-Gm-Message-State: AFqh2kpJWzkQf0zmXwVtuONc5ihhzwfE8ng5cDiJzvy1mMBhsRZ+VPYy
-        R0WgbZXk3E3PswNfruyMsZa3Ww==
-X-Google-Smtp-Source: AMrXdXvlqm2Mz7dbbKfh/r2twHQmLpHjuqWIDF1hcIbW+2NCP9nhaEyv36EBZonHnf2roL8pq4Io8A==
-X-Received: by 2002:a05:600c:34d1:b0:3db:1637:e415 with SMTP id d17-20020a05600c34d100b003db1637e415mr37175868wmq.22.1674852267080;
-        Fri, 27 Jan 2023 12:44:27 -0800 (PST)
-Received: from [192.168.1.109] ([178.197.216.144])
-        by smtp.gmail.com with ESMTPSA id l41-20020a05600c08a900b003dc3d9fb09asm2035467wmp.47.2023.01.27.12.44.26
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 27 Jan 2023 12:44:26 -0800 (PST)
-Message-ID: <042332a6-3407-2c75-362c-db7b922bd99f@linaro.org>
-Date:   Fri, 27 Jan 2023 21:44:25 +0100
+        bh=JjOKySvD02qbiNRroHzsUl+VbL3SPqNF9aYSI9Pxhmo=;
+        b=LJiqL7MrPQLyjoZrCIn0ayKFJB3oy4vqH3WclUoS0pnLOj7ALFAU0SJxIatDUseABv
+         a2VyE19mr7JEmzJGwT5WXUXD/HXQQLC73DbN9Zeoq1i9NmHVCnqJ9Y2wck+4/Fc4fBPu
+         XWpQ4npVpKIv32iWIlOCVf/5k7k2nkWoOx8EuGQz1/BQbKARZFGhdizborMGjztejsGl
+         qHfdAb8PViHyPYa4AmEdcQrQ5WuwknG0G0I4zUOefYAHhRdrQWOddjCC836TjcgDypyw
+         dEX2o4RquMYvo3R0FiDBkp3NpCkoYdL7KiWIOo7+U2lK8a0hDHOodKnID35JDnDYgKyU
+         w82w==
+X-Gm-Message-State: AFqh2koJbavdnKC7oovy8CSfxxgAGg0Yru6ADZ+kMwV7spgEH8pPd3g/
+        PzMcl7RABk0ykhNz8bEc2E+Cn3Rjuexap0w3TBU+SWj4Gpm0
+X-Google-Smtp-Source: AMrXdXuprXVu0QioCRd44GzfJqotzVn6zqBkzVKpPJRXPLHeFlyIEnCB3+uHEbUdAHJaNm/89d13N+ypErN5CmqPD1Ev3+Hn97le
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH v6 1/9] media: dt-bindings: Add OV5670
-Content-Language: en-US
-To:     Sakari Ailus <sakari.ailus@iki.fi>
-Cc:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-        Chiranjeevi Rapolu <chiranjeevi.rapolu@intel.com>,
-        Luca Weiss <luca@z3ntu.xyz>, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org,
-        laurent.pinchart@ideasonboard.com,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org
-References: <20230126165909.121302-1-jacopo.mondi@ideasonboard.com>
- <20230126165909.121302-2-jacopo.mondi@ideasonboard.com>
- <482b464b-c5fb-8af2-b0f7-4388fccea3fd@linaro.org>
- <20230127181435.3d5rnrg5omxhn6l7@uno.localdomain>
- <00139f11-76b0-138a-2f7b-c67d149eb25e@linaro.org>
- <Y9Q2T3h50eudVbbb@valkosipuli.retiisi.eu>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <Y9Q2T3h50eudVbbb@valkosipuli.retiisi.eu>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+X-Received: by 2002:a05:6e02:8a7:b0:30d:8748:c541 with SMTP id
+ a7-20020a056e0208a700b0030d8748c541mr5208214ilt.64.1674855923113; Fri, 27 Jan
+ 2023 13:45:23 -0800 (PST)
+Date:   Fri, 27 Jan 2023 13:45:23 -0800
+In-Reply-To: <00000000000065419205cb454ac4@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <00000000000058e86005f345c88f@google.com>
+Subject: Re: [syzbot] KASAN: vmalloc-out-of-bounds Write in
+ tpg_fill_plane_buffer (2)
+From:   syzbot <syzbot+272ce7abd8e49c0ddf42@syzkaller.appspotmail.com>
+To:     hverkuil-cisco@xs4all.nl, hverkuil@xs4all.nl,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        liushixin2@huawei.com, mchehab@kernel.org,
+        syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=0.9 required=5.0 tests=BAYES_00,FROM_LOCAL_HEX,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SORTED_RECIPS,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -85,96 +58,24 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 27/01/2023 21:38, Sakari Ailus wrote:
-> Hi Krzysztof,
-> 
-> On Fri, Jan 27, 2023 at 08:58:20PM +0100, Krzysztof Kozlowski wrote:
->> On 27/01/2023 19:14, Jacopo Mondi wrote:
->>> Hi Krzysztof
->>>
->>> On Fri, Jan 27, 2023 at 03:19:08PM +0100, Krzysztof Kozlowski wrote:
->>>> On 26/01/2023 17:59, Jacopo Mondi wrote:
->>>>> Add the bindings documentation for Omnivision OV5670 image sensor.
->>>>>
->>>>> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
->>>>> ---
->>>>
->>>> (...)
->>>>
->>>>> +
->>>>> +  dovdd-supply:
->>>>> +    description: Digital I/O circuit power. Typically 2.8V or 1.8V.
->>>>> +
->>>>> +  port:
->>>>> +    $ref: /schemas/graph.yaml#/$defs/port-base
->>>>> +    additionalProperties: false
->>>>> +
->>>>> +    properties:
->>>>> +      endpoint:
->>>>> +        $ref: /schemas/media/video-interfaces.yaml#
->>>>> +        unevaluatedProperties: false
->>>>> +
->>>>> +        properties:
->>>>> +          data-lanes:
->>>>> +            minItems: 1
->>>>> +            maxItems: 2
->>>>> +            items:
->>>>> +              enum: [1, 2]
->>>>> +
->>>>> +          clock-noncontinuous: true
->>>>
->>>> You do not need this. Drop.
->>>>
->>>
->>> Is this due to "unevaluatedProperties: false" ?
->>>
->>> I read you recent explanation to a similar question on the Visconti
->>> bindings. Let me summarize my understanding:
->>>
->>> For a given schema a property could be
->>> - required
->>>         required:
->>>           - foo
->>>
->>> - optional
->>>         by default with "unevaluatedProperties: false"
->>>         "foo: true" with "additionalProperties: false"
->>>
->>> - forbidden
->>>         "foo: false" with "unevaluatedProperties: false"
->>>         by default wiht "additionalProperties: false"
->>>
->>> clock-noncontinuous is defined in video-interfaces.yaml. as I specify
->>> "unevaluatedProperties: false" does it mean
->>> all the properties defined in video-interfaces.yaml are optionally
->>> accepted ? If that's the case that's not what I want as
->>> clock-noncontinuous is -the only- property from that file we want to
->>> accept here (and data-lanes ofc).
->>>
->>> Should I change "unevaluatedProperties: false" to
->>> "additionalProperties: false" and keep "clock-noncontinuous: true"  ?
->>>
->>
->> Why would you disallow other properties? Just because driver does not
->> use them? That's not correct, driver change but bindings should stay the
->> same.
-> 
-> The clock-noncontinuous property is relevant for the hardware. There are
-> some properties not listed here that might be relevant (for all camera
-> sensors) but most properties in video-interfaces.yaml are not applicable to
-> this device.
-> 
-> I also think is be useful to say what is relevant in DT bindings, as the
-> other sources of information left are hardware datasheets (if you have
-> access to them) or the driver (which is supposed not to be relevant for the
-> bindings).
-> 
+syzbot suspects this issue was fixed by commit:
 
-Then it might be meaningful to list all allowed properties - even if not
-currently supported by the driver - and use additionalProperties:false.
-This has drawback - whenever video-interfaces gets something new, the
-bindings here (and other such devices) will have to be explicitly enabled.
+commit 94a7ad9283464b75b12516c5512541d467cefcf8
+Author: Liu Shixin <liushixin2@huawei.com>
+Date:   Thu Oct 27 12:38:55 2022 +0000
 
-Best regards,
-Krzysztof
+    media: vivid: fix compose size exceed boundary
 
+bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=10a3509e480000
+start commit:   f1583cb1be35 Merge tag 'linux-kselftest-next-5.15-rc1' of ..
+git tree:       upstream
+kernel config:  https://syzkaller.appspot.com/x/.config?x=9c582b69de20dde2
+dashboard link: https://syzkaller.appspot.com/bug?extid=272ce7abd8e49c0ddf42
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=14f79ecd300000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1489a4c9300000
+
+If the result looks correct, please mark the issue as fixed by replying with:
+
+#syz fix: media: vivid: fix compose size exceed boundary
+
+For information about bisection process see: https://goo.gl/tpsmEJ#bisection
