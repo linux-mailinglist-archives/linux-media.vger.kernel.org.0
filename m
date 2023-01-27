@@ -2,29 +2,29 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 633EE67DC3E
+	by mail.lfdr.de (Postfix) with ESMTP id C9AA767DC3F
 	for <lists+linux-media@lfdr.de>; Fri, 27 Jan 2023 03:27:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233160AbjA0C1Z (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 26 Jan 2023 21:27:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55712 "EHLO
+        id S232959AbjA0C10 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 26 Jan 2023 21:27:26 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55714 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229759AbjA0C1Y (ORCPT
+        with ESMTP id S232343AbjA0C1Y (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Thu, 26 Jan 2023 21:27:24 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2450A4109A
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 936C14109C
         for <linux-media@vger.kernel.org>; Thu, 26 Jan 2023 18:27:23 -0800 (PST)
 Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3F85AE1F;
-        Fri, 27 Jan 2023 03:27:20 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id BB68AF4E;
+        Fri, 27 Jan 2023 03:27:21 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1674786440;
-        bh=o1F8Wv4tqJuZ4MR+yu+1xhC/5+B4wZYdGB6szwBwlc8=;
+        s=mail; t=1674786442;
+        bh=I32+3RJ3yVBazMDdNQa7yeNCb3a2uMKAgqzyMoyo+Fo=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Djy2oWA85MJclwA8ie1sSuxufeC/eeZKfPPJ4tcMkKwpI9zBKb7pnVjDL1G98Znmy
-         bOMIDxz59F40CqixsMCJCZx5Q+jqqqRkbE+DqwwhN/eZrSXWybUe21N63NwNi1lt8R
-         8PnN2Z0a/UJ9FQAS68vRgxVno3W7RqoKiNZQKwTY=
+        b=jDEY/3X5xDVPsPmAokFhPmRTyma79Em4B/SmsXEfZqI6nED5gM7s+JVsoM3Y+ihY2
+         oiAdpnXJ4YuQPg7+iZ6SirvMHjScwWunzYwvKGB13F41rnQyPjt6jQeqMMLklsvw/3
+         6HGGedj37DDnqVkurhLJ4t9HVQwUlVKPl7kkvFLE=
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     linux-media@vger.kernel.org
 Cc:     Rui Miguel Silva <rmfrfs@gmail.com>,
@@ -32,9 +32,9 @@ Cc:     Rui Miguel Silva <rmfrfs@gmail.com>,
         Martin Kepplinger <martin.kepplinger@puri.sm>,
         Adam Ford <aford173@gmail.com>, kernel@pengutronix.de,
         linux-imx@nxp.com
-Subject: [PATCH v1 1/6] media: imx: imx7-media-csi: Drop imx7_csi.cc field
-Date:   Fri, 27 Jan 2023 04:27:10 +0200
-Message-Id: <20230127022715.27234-2-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v1 2/6] media: imx: imx7-media-csi: Simplify imx7_csi_video_init_format()
+Date:   Fri, 27 Jan 2023 04:27:11 +0200
+Message-Id: <20230127022715.27234-3-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230127022715.27234-1-laurent.pinchart@ideasonboard.com>
 References: <20230127022715.27234-1-laurent.pinchart@ideasonboard.com>
@@ -49,48 +49,44 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The imx7_csi.cc field is set but never used. Drop it.
+The imx7_csi_video_init_format() function instantiates a
+v4l2_subdev_format on the stack, to only use the .format field of that
+structure. Replace it with a v4l2_mbus_framefmt instance.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- drivers/media/platform/nxp/imx7-media-csi.c | 9 ---------
- 1 file changed, 9 deletions(-)
+ drivers/media/platform/nxp/imx7-media-csi.c | 18 ++++++++----------
+ 1 file changed, 8 insertions(+), 10 deletions(-)
 
 diff --git a/drivers/media/platform/nxp/imx7-media-csi.c b/drivers/media/platform/nxp/imx7-media-csi.c
-index 886374d3a6ff..be3c1494cfb3 100644
+index be3c1494cfb3..e96bee4e5921 100644
 --- a/drivers/media/platform/nxp/imx7-media-csi.c
 +++ b/drivers/media/platform/nxp/imx7-media-csi.c
-@@ -228,7 +228,6 @@ struct imx7_csi {
- 	struct media_pad pad[IMX7_CSI_PADS_NUM];
+@@ -1598,17 +1598,15 @@ static struct imx7_csi_vb2_buffer *imx7_csi_video_next_buf(struct imx7_csi *csi)
  
- 	struct v4l2_mbus_framefmt format_mbus[IMX7_CSI_PADS_NUM];
--	const struct imx7_csi_pixfmt *cc[IMX7_CSI_PADS_NUM];
+ static int imx7_csi_video_init_format(struct imx7_csi *csi)
+ {
+-	struct v4l2_subdev_format fmt_src = {
+-		.pad = IMX7_CSI_PAD_SRC,
+-		.which = V4L2_SUBDEV_FORMAT_ACTIVE,
+-	};
+-	fmt_src.format.code = IMX7_CSI_DEF_MBUS_CODE;
+-	fmt_src.format.width = IMX7_CSI_DEF_PIX_WIDTH;
+-	fmt_src.format.height = IMX7_CSI_DEF_PIX_HEIGHT;
++	struct v4l2_mbus_framefmt format = { };
  
- 	/* Video device */
- 	struct video_device *vdev;		/* Video device */
-@@ -1805,8 +1804,6 @@ static int imx7_csi_init_cfg(struct v4l2_subdev *sd,
- 		mf->ycbcr_enc = V4L2_MAP_YCBCR_ENC_DEFAULT(mf->colorspace);
- 		mf->quantization = V4L2_MAP_QUANTIZATION_DEFAULT(!cc->yuv,
- 					mf->colorspace, mf->ycbcr_enc);
--
--		csi->cc[i] = cc;
- 	}
+-	imx7_csi_mbus_fmt_to_pix_fmt(&csi->vdev_fmt, &fmt_src.format, NULL);
+-	csi->vdev_compose.width = fmt_src.format.width;
+-	csi->vdev_compose.height = fmt_src.format.height;
++	format.code = IMX7_CSI_DEF_MBUS_CODE;
++	format.width = IMX7_CSI_DEF_PIX_WIDTH;
++	format.height = IMX7_CSI_DEF_PIX_HEIGHT;
++
++	imx7_csi_mbus_fmt_to_pix_fmt(&csi->vdev_fmt, &format, NULL);
++	csi->vdev_compose.width = format.width;
++	csi->vdev_compose.height = format.height;
  
- 	return 0;
-@@ -2014,14 +2011,8 @@ static int imx7_csi_set_fmt(struct v4l2_subdev *sd,
- 		outfmt = imx7_csi_get_format(csi, sd_state, IMX7_CSI_PAD_SRC,
- 					     sdformat->which);
- 		*outfmt = format.format;
--
--		if (sdformat->which == V4L2_SUBDEV_FORMAT_ACTIVE)
--			csi->cc[IMX7_CSI_PAD_SRC] = outcc;
- 	}
- 
--	if (sdformat->which == V4L2_SUBDEV_FORMAT_ACTIVE)
--		csi->cc[sdformat->pad] = cc;
--
- out_unlock:
- 	mutex_unlock(&csi->lock);
+ 	csi->vdev_cc = imx7_csi_find_pixel_format(csi->vdev_fmt.pixelformat);
  
 -- 
 Regards,
