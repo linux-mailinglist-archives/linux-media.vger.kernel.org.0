@@ -2,530 +2,386 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id ED1FA67E320
-	for <lists+linux-media@lfdr.de>; Fri, 27 Jan 2023 12:21:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DDEA467E326
+	for <lists+linux-media@lfdr.de>; Fri, 27 Jan 2023 12:24:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233067AbjA0LVW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 27 Jan 2023 06:21:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56262 "EHLO
+        id S233274AbjA0LYP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 27 Jan 2023 06:24:15 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34578 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233082AbjA0LVD (ORCPT
+        with ESMTP id S233144AbjA0LXw (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 27 Jan 2023 06:21:03 -0500
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2061c.outbound.protection.outlook.com [IPv6:2a01:111:f400:7eaa::61c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 95E33126C2;
-        Fri, 27 Jan 2023 03:20:01 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=RzQJ8fBUiTZKYi0A6OCMWjn6yhkZ9I3x8+eZ4/bs6T0SBugdvojUQbXZttOINoTENETd2JQjjKGAWVj+fbRHL6ENQMfT9ECTmcgvSiR8ektKQ227KJsUA1WebWYFKs89oyJmo3kTKq7DhomY3U3TAMGjXm1VqdZkqUVGOZX8KAsPBI0aMY9AlTm9H2hi0++neLxpO5QpPI2ovzORs2wpY+PuKMjQ/3+8Sdi1IhWZT1fsSPGKjsAWBSA1c2gniUUvqpa8XoO6g3mcBeJ3a8n2JKvfMiYfJ5NDGmeIm5xhrJKUHmb4VAwmgw1r6vGi3j0rKQWf16ZasI39Zhm8TcT28g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Ydsw0zBCuqNwyQsT0xnS2PWx/byn61AQCSDOezGQ3aU=;
- b=Mdf+0JqU1EN4fyMNtm58VyRiae+cMM1ZNFFwkp0tZam0oECDfgRvl6JizdZ2Ni0YOaKr28QRD4JIptcWr9I7TR4yVA4xS7nqRvRO/kunBqtyOEa2fSUdczy0UnjrmUMCOxM5nXr9afR31S0KroC4xMwv4Eg7i8HCjbJ4ibn1AhKWwnGVrYAwYwk0RFDYbTB+useyTGY8WtOGcxnFVnbwFLVXli6izbptlMS451W3MYI8bOZCpAvJisuHYwzcT70N/jz58KVsgjnEV+CYKyExAiK+Ly+GzcPLGrApDwLZV2aH6Zqwxns+qoa/WV+RdfydRQxS9S9oA0EY4y/5Z/5q5g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Ydsw0zBCuqNwyQsT0xnS2PWx/byn61AQCSDOezGQ3aU=;
- b=GP+VgJ6tKp8t41Vt4xCuyJz8NTVndwPRW550rfS5oOn9FmiQdxX0V+mda2cRxY1L845d0EJqbZPMnpbz5jlolMVBgmPwBRJiYptSYiVRhHuzlzlGT5K7OK65fvm6xdArKjt4KBLywzArYREu7spLjDaCo6zD1DtBKJzCY6LJOhk=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by PH7PR12MB6418.namprd12.prod.outlook.com (2603:10b6:510:1fe::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6043.23; Fri, 27 Jan
- 2023 11:19:08 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::2e4f:4041:28be:ba7a]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::2e4f:4041:28be:ba7a%6]) with mapi id 15.20.6043.017; Fri, 27 Jan 2023
- 11:19:08 +0000
-Message-ID: <7f42ae75-c269-68a9-9037-91fd2ff6cbff@amd.com>
-Date:   Fri, 27 Jan 2023 12:19:02 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH v2 1/1] tee: new ioctl to a register tee_shm from a dmabuf
- file descriptor
-Content-Language: en-US
-To:     Olivier Masse <olivier.masse@nxp.com>,
-        "fredgc@google.com" <fredgc@google.com>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
-        "afd@ti.com" <afd@ti.com>,
-        "op-tee@lists.trustedfirmware.org" <op-tee@lists.trustedfirmware.org>,
-        "jens.wiklander@linaro.org" <jens.wiklander@linaro.org>,
-        "joakim.bech@linaro.org" <joakim.bech@linaro.org>,
-        "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
-        Peter Griffin <peter.griffin@linaro.org>,
-        "sumit.garg@linaro.org" <sumit.garg@linaro.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "etienne.carriere@linaro.org" <etienne.carriere@linaro.org>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-Cc:     =?UTF-8?Q?Cl=c3=a9ment_Faure?= <clement.faure@nxp.com>,
-        Cyrille Fleury <cyrille.fleury@nxp.com>
-References: <20220812143055.12938-1-olivier.masse@nxp.com>
- <20220812143055.12938-2-olivier.masse@nxp.com>
- <30534fadb8172088eddef46ae71d87c167cbf32e.camel@nxp.com>
-From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <30534fadb8172088eddef46ae71d87c167cbf32e.camel@nxp.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR2P281CA0050.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:92::13) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
+        Fri, 27 Jan 2023 06:23:52 -0500
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ABF13222DE
+        for <linux-media@vger.kernel.org>; Fri, 27 Jan 2023 03:22:34 -0800 (PST)
+Received: by mail-pl1-f169.google.com with SMTP id k18so4625804pll.5
+        for <linux-media@vger.kernel.org>; Fri, 27 Jan 2023 03:22:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=M2quNsZvkj6+CtNRG7tUSjUeX18R2DoUgiKr1v5Ifvs=;
+        b=P4837tLDIww7K81nR54Hs1JY+6NuFuUHU4fhhzg2AdJ0VQz+VBGdAeGOBaHeQH3iEe
+         xPwRT2ynXyDYlLc1JKvtW6hxhONaI5TPvBKOrLA5i0jRaLuNwpkDXi9Q8hrRFksrZs1y
+         b3VFJpCxkiI79nzNeQ1jLSBudTxjUhjfAkJMY02eQuh1z+/Zo3HNyIByZKEkxA14W/nG
+         mJPl8cIDisQOOxzZ3K8RiNgdT/s0GkJoDbeB3VR1XqAoeEsCRDe30hLkgiFg0KZjixVn
+         juxLCoF+Ue44NudZCyQE0SpnrwX3/jJzeqCDvxg2jn7S0CtNmtyZk3JpJ5RwDSQkiu+9
+         G4LA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=M2quNsZvkj6+CtNRG7tUSjUeX18R2DoUgiKr1v5Ifvs=;
+        b=7h5McRdFYOv/SeSh58teX00vaq1cw9DdBtVYuvxSK2J72G/s7WWyrvCvRL4d7Fsnbr
+         dp2UYCWu8k8LHKBBu3LAC68HG7LdJNDKHiaeiRxTVudDc7nPZUmfgEfo1ioMLpiksJKG
+         p9A9nwYra8scTXhmgJgygwGlG5Eletq9Du/tmDO7Ub1hhHwo6tuQyKdi5VyNKZGIV9eO
+         gRsTR2Mp/Rco1RX97WY2EaRZt7n7A4+lPPKnLR0FkhdoMki8SXuy0EzMeS0miuKzY9Z8
+         fhiCI7wto4UaleiAjB4219B2CeGQ3bAzdhK5wU48Wyx7idUgaMPC8aQ3SFN7MQ3JGpn7
+         NxyA==
+X-Gm-Message-State: AFqh2krzt3i4PQDxF1IIR79n+ROIrhkOnVrzgZNNYLluS/pB/pc7h1zX
+        nP+dTUoMzvQazIVJ7l05QQwSnCTl91A0C7eGnCQ=
+X-Google-Smtp-Source: AMrXdXumyq/h34jyyI2Vb3kOyVirzt1y63eGVd/0wa1rVX/XkD34+WL99t+ZEhwPVso9Q4/EyhQ0YJrI9c1qOOaXECY=
+X-Received: by 2002:a17:90a:31c2:b0:22b:b19e:9feb with SMTP id
+ j2-20020a17090a31c200b0022bb19e9febmr3764232pjf.5.1674818417207; Fri, 27 Jan
+ 2023 03:20:17 -0800 (PST)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|PH7PR12MB6418:EE_
-X-MS-Office365-Filtering-Correlation-Id: 97275d53-2491-4638-aaf6-08db00584ea5
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: szkOkxk3xLg8qF/E0Iga+klOmOUnBdHZUHsqKrMUaqhs447L5aj9VCfl/vMWAL+QC0T6VoRR7aE7f8QU495oDTzAwCus8Qp83EEDH41Ra3JA+1bKctaiHdHaFe9VGQNmNjg36sKpO5a4kDGKG66JmQ0bIuaeQ3o0vicoD2B1aX8snM5jIykQi1339te9TgFkerpwiKNXHgrgqfBmeq3BeMi7I8c6p+hpefQ3m7Ywf4PIXuDXhNDZZSmDzsiQk/1kZxZumw9obVwS0g4miBPfHJ3sxg6mFwn4qFvV6I6i1SLSPxEAnG1+kEazDe2g/zvCpiDON1rLV3m12ZiYDNDtLq29gmTg4bnP5kJvKi8M5zK/rAMj/zdkuCkKRLsf60SI5+wzHbQd8RuBC7+zgbqi3jbszFXlNM7ZD+g1UIzW1Vr3REuUDwUu6/HE46A9ebzmC8d1OukeaBhvpIOP4227uf4t5QMUDIxEvG2DV9DTdZC/umW9mciHPDIxURZZ0QZLzZTiC23HQ0SVFw2nZiCWD6u1YHutMM7QlWvhThHB4PYlbE1DcQQLVfemup/9QZ9sonFZMPFM9STI9bHzvkZTjEZEvjo+SrO//chkj7M/tx89+M9ygfE+J+7re3VPlbD/io3L0+vRjfkvHGOmYdLz3BFz3KqhOsLhs1pBic0VtUpSVN9dN7lbqHFUE/heFGboggEXLaw8ndRd4HCBxnFHTLwftUsIHuTXSqsBL5hbkMM3z11gPiBE0FGiqNwdX36Q6QAPra+e0AzJ8S8lPTRv0DfPUJ6k4tigfa+I9vn2Rqw=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN8PR12MB3587.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(39860400002)(366004)(136003)(396003)(346002)(376002)(451199018)(110136005)(316002)(66946007)(66574015)(66556008)(66476007)(8676002)(83380400001)(4326008)(54906003)(2616005)(31696002)(86362001)(2906002)(38100700002)(8936002)(41300700001)(36756003)(7416002)(5660300002)(30864003)(921005)(6666004)(6506007)(31686004)(6486002)(6512007)(966005)(186003)(478600001)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?QzlZTDRkOTRSaG16UndzaEE2NmZXN2N6NVBqRFErS0lUdXlhbkRWVGd2NmJO?=
- =?utf-8?B?Z2cxVXc4cnUrWWRqTnZqR3pGaFdXSDk4WFVTR0RhM3poNG11SkJHVHNqU21M?=
- =?utf-8?B?ajlsY3lUekRHY0Eyb1BKYjBoQ3Z6cFRMNVY0ZUNWTzBKbENZczFKV2dHa1F0?=
- =?utf-8?B?UEpKOU5vbnRKRkdBTmVReUpmQWNJaWlVNE5IUERFVTRrZ1hUekFHSENscjY4?=
- =?utf-8?B?cDJXK0JIalZxcGNoYmczS3VWS29LSXhaMmU0Q0FJeGtRbFJ0UXBCRW80dmps?=
- =?utf-8?B?MEoyMzRScTBYb2FQZnhxQkp4UDYzZTk4b0dLNDFJcTArRjNyV0d3SnptVy9P?=
- =?utf-8?B?MDNtbGROQWRJVkFRMmowZkRpSFF5SWRGSWdBSmRVdml2TE5KNkZDK0hWU01p?=
- =?utf-8?B?MnRvN0lBYk1YT3J3eWZZN3lySmtmdjNzK2paMVRNUEZjOThuQnZ6dTRKQThV?=
- =?utf-8?B?dUJkZVlKRWVaeGZNSHBHMEZyaXNTREVwckZjTTVJcGNIS0U5KzJvY1ZNNU1M?=
- =?utf-8?B?czJGcGM3Rm14cm1iUHFQcGgwY3JVcEROenNBbGtMamVza291VGRadzc5REgw?=
- =?utf-8?B?eDRIUXZ1S29FVlg3NnRIYkU0M1p0aENsaVdid3BURHFETS84TlVpL0dnSUp4?=
- =?utf-8?B?b0phUG5GYUE0ck9QTUx3ZFJjbWw4cnhqTW93YVNYOVBiMDRtY1lMZi9sZ082?=
- =?utf-8?B?NlZ2Zm9JdHpHVVF5RU55OG1hclpKY0pSbVJkQnljcy9Yc0RzUzUyVTJ5N250?=
- =?utf-8?B?TmpiZWxiNWNlQTAzL2VLejE4ZFpEUnVSOWNmMUc1bGlaZ0NzNU5pTzJFNzdk?=
- =?utf-8?B?SFdjaC9DRjVlQjBlWGpWbmhWN0tiWWUzcy9ndEd6MWM5d21FYzZwQndXNksz?=
- =?utf-8?B?cmJXZzBhbEo3czFnczhBSW1nOVc0TkZidFNSL0hSUHNvNjk0RmtCb24zdE5k?=
- =?utf-8?B?c2h3WEZmemlyODVrYm9FdytBdi9ScWVXQ2UzaU9oTXQ4TDlqS3BEWHByT09U?=
- =?utf-8?B?SjhIL0k1VXZ4Vkh1TjZTbWpwY1dOaXA2ZUYxMzdKMnoxUXRvTk1aSC9HRGNV?=
- =?utf-8?B?WHIvWHBoOWhlVTVxcU1rMmFyWGpEQjFPeVFJUXNVUFptc2d5OGZadm5uV3Y1?=
- =?utf-8?B?NkRlWCtud0xYVFp4YVFPU3VRVjZ0YzhiRndob3gvQ202TnRqc25NTWpLRm5P?=
- =?utf-8?B?eCs0bG9CanU4MmRaMHllOGJ5QjN3T1Bud0lyYUw5ZmpNQ2Z2R0JDVkpDZHpY?=
- =?utf-8?B?UlJQaHJQc3NZbzhBdzVWNGkrbEIwNkthcVdXdUJHREdSZ2FLdFl5anBjSjhR?=
- =?utf-8?B?R2FXOTFDemdnWVBLOGFvbFc0SG1hZytlcFVtZU5iek5Xd2ErUDYrYVdmNG96?=
- =?utf-8?B?Q2Y5ZFFTTllIRTFZNjd1d2tCREw3amRFTGVmeVVYbitMekZ1MnRHNnN5NFRi?=
- =?utf-8?B?SXR4VG1WWUhobTJVTmkreVoxUDRMSmV4UHQyNi82SEx2bFJ1TEFlNmZ6dVJs?=
- =?utf-8?B?S3QzZlFXUldxRXpsdFZiNjIzUy9LZk1uK0NObis5V0tHQ2VCdGZVL0FOSlBk?=
- =?utf-8?B?OFRUYms1TVpwN1NZWE5xNGRpWjJ1MDV5OXhEam1yYjBTb3FicHRPbFhJc2t1?=
- =?utf-8?B?Y25OWFBQNHhRZGkwN2g4YUMwTFlKNm9oQnJWRWRvcTRydEFsMGE2UFJ0UEdN?=
- =?utf-8?B?ZUhucmUyS3JxQ0h3QTJ0T0FMQzk2Rmo1aEJEblA1MmtYMmdBVm1hMzlDYk84?=
- =?utf-8?B?V0hQa2NEK29sVUVmankzc1c2U1BnbWlIUGY3Q0xsZUd1cWxpN0FqWCtOT2Ft?=
- =?utf-8?B?ZUkvTG4xOXZRM1FlY3dpT2FTMHk4VGtMWlRaMHZOWks0Z0FwN3kyS2FoQUo4?=
- =?utf-8?B?c3pXODRPdG1pVXpFRHVZRjhjYVdIaUVFN0d0dldsRkZzb0JPOGlHUmxjNEdz?=
- =?utf-8?B?SzJqcFJudW1BYnZZYUpPSmFGWXpBU0o4VG5oVzBpU3o5cU1xVXZ5cFhpRDhM?=
- =?utf-8?B?SXBzaGtpU01sWjNJUWQ4dGsrQmRnUnBORWxQS0d4cFArYlVrWFdGNWxlRndQ?=
- =?utf-8?B?bVVQQ2cvQmYvMzVzRXpIQUVkdnRMSVQ5SlRvRk1uUzBYdWx2bTFCUUttMVN1?=
- =?utf-8?B?aU1vTzRkVDk3SW1YcUIrRXp0cHJ2VWN1S2dxSzJCUTQzQVFZKzJtT1JVOGdo?=
- =?utf-8?Q?aUabebNW8xudEKPPobu/hUFQL/CuoMs+LMC4KfDqAW3E?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 97275d53-2491-4638-aaf6-08db00584ea5
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Jan 2023 11:19:08.1377
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 6kR1Jq7cSXrR6HjfZg/NRRgdwWiF+UDi7tl0zOkprdKuDuY5obk42mm/yJL/Aneo
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB6418
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,NICE_REPLY_A,
-        SPF_HELO_PASS,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+References: <20230127022715.27234-1-laurent.pinchart@ideasonboard.com>
+ <20230127022715.27234-3-laurent.pinchart@ideasonboard.com>
+ <CAHCN7x+VFoQskRGSSRxLPkE0=LGZ+vA=23Cc04NBTUyR03WNUw@mail.gmail.com>
+ <Y9N11U7x/5h5eKHf@pendragon.ideasonboard.com> <CAHCN7xJamKJK6=rtk21M=izamvdo9aMNijh4gEJy2hd+gW=oAg@mail.gmail.com>
+In-Reply-To: <CAHCN7xJamKJK6=rtk21M=izamvdo9aMNijh4gEJy2hd+gW=oAg@mail.gmail.com>
+From:   Adam Ford <aford173@gmail.com>
+Date:   Fri, 27 Jan 2023 05:20:05 -0600
+Message-ID: <CAHCN7xKGa6wcOeK+4+Sou6wUmfnh=gTQG2Bx3=q5fTys=kMn7g@mail.gmail.com>
+Subject: Re: [PATCH v1 2/6] media: imx: imx7-media-csi: Simplify imx7_csi_video_init_format()
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, Rui Miguel Silva <rmfrfs@gmail.com>,
+        Paul Elder <paul.elder@ideasonboard.com>,
+        Martin Kepplinger <martin.kepplinger@puri.sm>,
+        kernel@pengutronix.de, linux-imx@nxp.com
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi guys,
-
-Am 27.01.23 um 11:54 schrieb Olivier Masse:
-> Hi Joakim,
-> Hi Etienne,
+On Fri, Jan 27, 2023 at 5:07 AM Adam Ford <aford173@gmail.com> wrote:
 >
-> Let me bring back this pull request for OPTEE Linux driver.
+> On Fri, Jan 27, 2023 at 12:57 AM Laurent Pinchart
+> <laurent.pinchart@ideasonboard.com> wrote:
+> >
+> > Hi Adam,
+> >
+> > On Thu, Jan 26, 2023 at 09:19:28PM -0600, Adam Ford wrote:
+> > > On Thu, Jan 26, 2023 at 8:27 PM Laurent Pinchart wrote:
+> > > >
+> > > > The imx7_csi_video_init_format() function instantiates a
+> > > > v4l2_subdev_format on the stack, to only use the .format field of that
+> > > > structure. Replace it with a v4l2_mbus_framefmt instance.
+> > > >
+> > > > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > > > ---
+> > >
+> > > With this series and the CSIS series you posted earlier, I get a ton
+> > > of splat and the ov5640 camera doesn't appear in the media information
+> > > with media-ctrl -p
+> >
+> > Oops :-S Thank a lot for testing.
+> >
+> > >    12.386980] lr : imx7_csi_probe+0x26c/0x380 [imx7_media_csi]
+> > > [   12.387010] sp : ffff80000afd3900
+> > > [   12.387013] x29: ffff80000afd3900 x28: 0000000000000000 x27: 0000000000000000
+> > > [   12.387025] x26: ffff8000012ae180 x25: 0000000000000001 x24: ffff000005bb8340
+> > > [   12.387033] x23: ffff000005bb8450 x22: ffff000005bb80a8 x21: ffff8000012ac4f8
+> > > [   12.387040] x20: 0000000000000000 x19: ffff000005bb8080 x18: ffffffffffffffff
+> > > [   12.387048] x17: 0000000000000000
+> > > [   12.393690] Bluetooth: HCI UART protocol QCA registered
+> > > [   12.397321]  x16: 0000000000000000 x15: 64656d3d4d455453
+> > > [   12.397327] x14: ffff80000a56d220 x13: 0000000000000040 x12: 0000000000000228
+> > > [   12.397335] x11: 0000000000000000 x10: 0000000000000000 x9 : 000001e000000280
+> > > [   12.397342] x8 : 0000000100002006 x7 : 0002000100000008 x6 : 0000000000000002
+> > > [   12.397350] x5 : 0000000000000000 x4 : 0000000000000000 x3 : 0000000000000000
+> > > [   12.397357] x2 : ffff000005bb84c8 x1 : 0000000000000000 x0 : ffff000005bb8450
+> > > [   12.397365] Call trace:
+> > > [   12.397368]  imx7_csi_init_cfg+0x64/0x9c [imx7_media_csi]
+> > > [   12.397385]  platform_probe+0x68/0xe0
+> > > [   12.406436] Bluetooth: HCI UART protocol Marvell registered
+> > > [   12.413735]  really_probe+0xbc/0x2dc
+> > > [   12.413743]  __driver_probe_device+0x78/0xe0
+> > > [   12.413748]  driver_probe_device+0xd8/0x160
+> > > [   12.413754]  __driver_attach+0x94/0x19c
+> > > [   12.413759]  bus_for_each_dev+0x70/0xd0
+> > > [   12.413764]  driver_attach+0x24/0x30
+> > > [   12.413769]  bus_add_driver+0x154/0x20c
+> > > [   12.413774]  driver_register+0x78/0x130
+> > > [   12.413780]  __platform_driver_register+0x28/0x34
+> > > [   12.413786]  imx7_csi_driver_init+0x20/0x1000 [imx7_media_csi]
+> > > [   12.413803]  do_one_initcall+0x50/0x1d0
+> > > [   12.413810]  do_init_module+0x48/0x1d0
+> > > [   12.413817]  load_module+0x193c/0x1cb0
+> > > [   12.413822]  __do_sys_finit_module+0xa8/0x100
+> > > [   12.413828]  __arm64_sys_finit_module+0x20/0x30
+> > > [   12.413834]  invoke_syscall+0x48/0x114
+> > > [   12.413842]  el0_svc_common.constprop.0+0xd4/0xfc
+> > > [   12.413848]  do_el0_svc+0x3c/0xc0
+> > > [   12.413854]  el0_svc+0x2c/0x84
+> > > [   12.413863]  el0t_64_sync_handler+0xbc/0x140
+> > > [   12.624336]  el0t_64_sync+0x190/0x194
+> > > [   12.628002] ---[ end trace 0000000000000000 ]---
+> > > [   12.633012] Unable to handle kernel NULL pointer dereference at
+> > > virtual address 0000000000000000
+> > > [   12.641948] Mem abort info:
+> > > [   12.644812]   ESR = 0x0000000096000044
+> > > [   12.648652]   EC = 0x25: DABT (current EL), IL = 32 bits
+> > > [   12.654047]   SET = 0, FnV = 0
+> > > [   12.654923] imx8m-ddrc-devfreq 3d400000.memory-controller: failed
+> > > to init firmware freq info: -19
+> > > [   12.657176]   EA = 0, S1PTW = 0
+> > > [   12.669382]   FSC = 0x04: level 0 translation fault
+> > > [   12.674349] Data abort info:
+> > > [   12.677284]   ISV = 0, ISS = 0x00000044
+> > > [   12.681169]   CM = 0, WnR = 1
+> > > [   12.684189] user pgtable: 4k pages, 48-bit VAs, pgdp=000000004597e000
+> > > [   12.690698] [0000000000000000] pgd=0000000000000000, p4d=0000000000000000
+> > > [   12.697570] Internal error: Oops: 0000000096000044 [#1] PREEMPT SMP
+> > > [   12.703848] Modules linked in: imx8m_ddrc v4l2_h264
+> > > fsl_imx8_ddr_perf hci_uart cfg80211 imx7_media_csi(+) v4l2_mem2mem
+> > > btqca videobuf2_dma_contig videobuf2_memops btbcm videobuf2_v4l2
+> > > imx_mipi_csis etnaviv videobuf2_common gpu_sched bluetooth
+> > > snd_soc_wm8962 clk_bd718x7 ecdh_generic ecc rfkill rtc_pcf85363 at24
+> > > caam error spi_imx snd_soc_fsl_sai rtc_snvs snvs_pwrkey
+> > > snd_soc_fsl_utils imx_pcm_dma imx8mm_thermal imx_cpufreq_dt imx_sdma
+> > > ov5640 v4l2_fwnode v4l2_async videodev mc fuse drm ipv6
+> > > [   12.747111] CPU: 0 PID: 161 Comm: systemd-udevd Tainted: G        W
+> > >          6.2.0-rc3-30330-gb58b9dd3fb9e-dirty #3
+> > > [   12.757549] Hardware name: Beacon EmbeddedWorks i.MX8M Mini
+> > > Development Kit (DT)
+> > > [   12.764945] pstate: 60000005 (nZCv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+> > > [   12.771908] pc : imx7_csi_init_cfg+0x70/0x9c [imx7_media_csi]
+> > > [   12.777674] lr : imx7_csi_probe+0x26c/0x380 [imx7_media_csi]
+> > > [   12.783344] sp : ffff80000afd3900
+> > > [   12.786655] x29: ffff80000afd3900 x28: 0000000000000000 x27: 0000000000000000
+> > > [   12.793796] x26: ffff8000012ae180 x25: 0000000000000001 x24: ffff000005bb8340
+> > > [   12.800934] x23: ffff000005bb8450 x22: ffff000005bb80a8 x21: ffff8000012ac4f8
+> > > [   12.808072] x20: 0000000000000000 x19: ffff000005bb8080 x18: ffffffffffffffff
+> > > [   12.815215] x17: 0000000000000000 x16: 0000000000000000 x15: 64656d3d4d455453
+> > > [   12.822354] x14: ffff80000a56d220 x13: 0000000000000040 x12: 0000000000000228
+> > > [   12.829497] x11: 0000000000000000 x10: 0000000000000000 x9 : 000001e000000280
+> > > [   12.836636] x8 : 0000000100002006 x7 : 0002000100000008 x6 : 0000000000000002
+> > > [   12.843778] x5 : 0000000000000000 x4 : 0000000000000000 x3 : 0000000000000050
+> > > [   12.850918] x2 : 0000000000000000 x1 : 0000000000000000 x0 : ffff000005bb8450
+> > > [   12.858058] Call trace:
+> > > [   12.860503]  imx7_csi_init_cfg+0x70/0x9c [imx7_media_csi]
+> > > [   12.865915]  platform_probe+0x68/0xe0
+> > > [   12.869584]  really_probe+0xbc/0x2dc
+> > > [   12.873160]  __driver_probe_device+0x78/0xe0
+> > > [   12.877434]  driver_probe_device+0xd8/0x160
+> > > [   12.881618]  __driver_attach+0x94/0x19c
+> > > [   12.885456]  bus_for_each_dev+0x70/0xd0
+> > > [   12.889293]  driver_attach+0x24/0x30
+> > > [   12.892868]  bus_add_driver+0x154/0x20c
+> > > [   12.896707]  driver_register+0x78/0x130
+> > > [   12.900545]  __platform_driver_register+0x28/0x34
+> > > [   12.905255]  imx7_csi_driver_init+0x20/0x1000 [imx7_media_csi]
+> > > [   12.911099]  do_one_initcall+0x50/0x1d0
+> > > [   12.914937]  do_init_module+0x48/0x1d0
+> > > [   12.918691]  load_module+0x193c/0x1cb0
+> > > [   12.922442]  __do_sys_finit_module+0xa8/0x100
+> > > [   12.926802]  __arm64_sys_finit_module+0x20/0x30
+> > > [   12.931336]  invoke_syscall+0x48/0x114
+> > > [   12.935090]  el0_svc_common.constprop.0+0xd4/0xfc
+> > > [   12.939796]  do_el0_svc+0x3c/0xc0
+> > > [   12.943114]  el0_svc+0x2c/0x84
+> > > [   12.946174]  el0t_64_sync_handler+0xbc/0x140
+> > > [   12.950446]  el0t_64_sync+0x190/0x194
+> > > [   12.954114] Code: b5fffe81 d4210000 d2800002 91014063 (a9002049)
+> > > [   12.960209] ---[ end trace 0000000000000000 ]---
+> >
+> > It appears I forgot something. Could you try with the following change ?
+> >
+> > diff --git a/drivers/media/platform/nxp/imx7-media-csi.c b/drivers/media/platform/nxp/imx7-media-csi.c
+> > index 9275447987d1..81d5f08b02d1 100644
+> > --- a/drivers/media/platform/nxp/imx7-media-csi.c
+> > +++ b/drivers/media/platform/nxp/imx7-media-csi.c
+> > @@ -2259,21 +2259,15 @@ static int imx7_csi_probe(struct platform_device *pdev)
+> >         if (ret)
+> >                 return ret;
+> >
+> > -       /* Set the default mbus formats. */
+> > -       ret = imx7_csi_init_cfg(&csi->sd, NULL);
+> > -       if (ret)
+> > -               goto media_cleanup;
+> > -
+> >         ret = imx7_csi_async_register(csi);
+> >         if (ret)
+> > -               goto subdev_notifier_cleanup;
+> > +               goto err_async_unregister;
+> >
+> >         return 0;
+> >
+> > -subdev_notifier_cleanup:
+> > +err_async_unregister:
+> >         v4l2_async_nf_unregister(&csi->notifier);
+> >         v4l2_async_nf_cleanup(&csi->notifier);
+> > -media_cleanup:
+> >         imx7_csi_media_cleanup(csi);
+> >
+> >         return ret;
+> >
 >
-> Last feedback was from Christian König and Sumit Garg.
->  From Christian:
->> Just two comments:
->>
->> 1. Dmitry is working on a change which renames some functions and
->> makes
->> it mandatory to call them with the dma_resv lock held.
->>
->> Depending on how you want to upstream this change you will certainly
->> run
->> into conflicts with that.
-> Is there any update on these changes ?
-
-Just FYI: The upstream changes Dmitry worked on are now committed, so 
-you just need to rebase your work on top and send it out once more.
-
->> 2. Would it be possible to do this dynamically? In other words does
->> the
->> tee driver has a concept of buffers moving around?
-> We do not support dynamic secure memory heap.
-
-That's not an issue. If you pin the memory anyway then you can expose it 
-pinned through DMA-buf as well.
-
-The only thing you should avoid is pinning it extra for DMA-buf, because 
-then you often create a really nice possibility for an OOM deny of service.
-
-Regards,
-Christian.
-
 >
->  From Sumit:
->> What limits you to extend this feature to non-contiguous memory
->> buffers? I believe that should be possible with OP-TEE dynamic shared
->> memory which gives you the granularity to register a list of pages.
-> Our solution use a fixed protected reserved memory region and do not
-> rely on a dynamic protection managed in secure.
+> The patch seems to have fixed the splat, and the camera appears in the
+> media device information again, but I still cannot capture:
 >
-> The scope of this implementation rely on a static memory region handled
-> by a specific DMA Heap type.
->
-> Best regards,
-> Olivier MASSE
+> root@beacon-imx8mm-kit:~# gst-launch-1.0 -v v4l2src num-buffers=1 !
+> video/x-raw,format=UYVY,width=640,height=480 ! videoconvert ! jpegenc
+> ! filesink location=tst2.jpg
+> Setting pipeline to PAUSED ...
+> Pipeline is live and does not need PREROLL ...
+> Pipeline is PREROLLED ...
+> Setting pipeline t[  186.993715] imx7-csi 32e20000.csi: capture format not valid
+> o PLAYING ...
+> New clock: GstSystemClock
 >
 >
-> On ven., 2022-08-12 at 16:30 +0200, Olivier Masse wrote:
->> From: Etienne Carriere <etienne.carriere@linaro.org>
->>
->> This change allows userland to create a tee_shm object that refers
->> to a dmabuf reference.
->>
->> Userland provides a dmabuf file descriptor as buffer reference.
->> The created tee_shm object exported as a brand new dmabuf reference
->> used to provide a clean fd to userland. Userland shall closed this
->> new
->> fd to release the tee_shm object resources. The initial dmabuf
->> resources
->> are tracked independently through original dmabuf file descriptor.
->>
->> Once the buffer is registered and until it is released, TEE driver
->> keeps a refcount on the registered dmabuf structure.
->>
->> This change only support dmabuf references that relates to physically
->> contiguous memory buffers.
->>
->> New tee_shm flag to identify tee_shm objects built from a registered
->> dmabuf: TEE_SHM_EXT_DMA_BUF. Such tee_shm structures are flagged with
->> TEE_SHM_EXT_DMA_BUF.
->>
->> Co-Developed-by: Etienne Carriere <etienne.carriere@linaro.org>
->> Signed-off-by: Olivier Masse <olivier.masse@nxp.com>
->> Reported-by: kernel test robot <lkp@intel.com>
->> From: https://github.com/linaro-swg/linux.git
->> (cherry picked from commit 41e21e5c405530590dc2dd10b2a8dbe64589840f)
->> ---
->>   drivers/tee/tee_core.c   | 38 +++++++++++++++
->>   drivers/tee/tee_shm.c    | 99
->> +++++++++++++++++++++++++++++++++++++++-
->>   include/linux/tee_drv.h  | 11 +++++
->>   include/uapi/linux/tee.h | 29 ++++++++++++
->>   4 files changed, 175 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/tee/tee_core.c b/drivers/tee/tee_core.c
->> index 8aa1a4836b92..7c45cbf85eb9 100644
->> --- a/drivers/tee/tee_core.c
->> +++ b/drivers/tee/tee_core.c
->> @@ -355,6 +355,42 @@ tee_ioctl_shm_register(struct tee_context *ctx,
->>   	return ret;
->>   }
->>   
->> +static int tee_ioctl_shm_register_fd(struct tee_context *ctx,
->> +				     struct
->> tee_ioctl_shm_register_fd_data __user *udata)
->> +{
->> +	struct tee_ioctl_shm_register_fd_data data;
->> +	struct tee_shm *shm;
->> +	long ret;
->> +
->> +	if (copy_from_user(&data, udata, sizeof(data)))
->> +		return -EFAULT;
->> +
->> +	/* Currently no input flags are supported */
->> +	if (data.flags)
->> +		return -EINVAL;
->> +
->> +	shm = tee_shm_register_fd(ctx, data.fd);
->> +	if (IS_ERR(shm))
->> +		return -EINVAL;
->> +
->> +	data.id = shm->id;
->> +	data.flags = shm->flags;
->> +	data.size = shm->size;
->> +
->> +	if (copy_to_user(udata, &data, sizeof(data)))
->> +		ret = -EFAULT;
->> +	else
->> +		ret = tee_shm_get_fd(shm);
->> +
->> +	/*
->> +	 * When user space closes the file descriptor the shared memory
->> +	 * should be freed or if tee_shm_get_fd() failed then it will
->> +	 * be freed immediately.
->> +	 */
->> +	tee_shm_put(shm);
->> +	return ret;
->> +}
->> +
->>   static int params_from_user(struct tee_context *ctx, struct
->> tee_param *params,
->>   			    size_t num_params,
->>   			    struct tee_ioctl_param __user *uparams)
->> @@ -829,6 +865,8 @@ static long tee_ioctl(struct file *filp, unsigned
->> int cmd, unsigned long arg)
->>   		return tee_ioctl_shm_alloc(ctx, uarg);
->>   	case TEE_IOC_SHM_REGISTER:
->>   		return tee_ioctl_shm_register(ctx, uarg);
->> +	case TEE_IOC_SHM_REGISTER_FD:
->> +		return tee_ioctl_shm_register_fd(ctx, uarg);
->>   	case TEE_IOC_OPEN_SESSION:
->>   		return tee_ioctl_open_session(ctx, uarg);
->>   	case TEE_IOC_INVOKE:
->> diff --git a/drivers/tee/tee_shm.c b/drivers/tee/tee_shm.c
->> index 836872467dc6..55a3fbbb022e 100644
->> --- a/drivers/tee/tee_shm.c
->> +++ b/drivers/tee/tee_shm.c
->> @@ -4,6 +4,7 @@
->>    */
->>   #include <linux/anon_inodes.h>
->>   #include <linux/device.h>
->> +#include <linux/dma-buf.h>
->>   #include <linux/idr.h>
->>   #include <linux/mm.h>
->>   #include <linux/sched.h>
->> @@ -12,6 +13,14 @@
->>   #include <linux/uio.h>
->>   #include "tee_private.h"
->>   
->> +/* extra references appended to shm object for registered shared
->> memory */
->> +struct tee_shm_dmabuf_ref {
->> +     struct tee_shm shm;
->> +     struct dma_buf *dmabuf;
->> +     struct dma_buf_attachment *attach;
->> +     struct sg_table *sgt;
->> +};
->> +
->>   static void shm_put_kernel_pages(struct page **pages, size_t
->> page_count)
->>   {
->>   	size_t n;
->> @@ -71,7 +80,16 @@ static void release_registered_pages(struct
->> tee_shm *shm)
->>   
->>   static void tee_shm_release(struct tee_device *teedev, struct
->> tee_shm *shm)
->>   {
->> -	if (shm->flags & TEE_SHM_POOL) {
->> +	if (shm->flags & TEE_SHM_EXT_DMA_BUF) {
->> +		struct tee_shm_dmabuf_ref *ref;
->> +
->> +		ref = container_of(shm, struct tee_shm_dmabuf_ref,
->> shm);
->> +		dma_buf_unmap_attachment(ref->attach, ref->sgt,
->> +					 DMA_BIDIRECTIONAL);
->> +
->> +		dma_buf_detach(ref->dmabuf, ref->attach);
->> +		dma_buf_put(ref->dmabuf);
->> +	} else if (shm->flags & TEE_SHM_POOL) {
->>   		teedev->pool->ops->free(teedev->pool, shm);
->>   	} else if (shm->flags & TEE_SHM_DYNAMIC) {
->>   		int rc = teedev->desc->ops->shm_unregister(shm->ctx,
->> shm);
->> @@ -195,7 +213,7 @@ struct tee_shm *tee_shm_alloc_user_buf(struct
->> tee_context *ctx, size_t size)
->>    * tee_client_invoke_func(). The memory allocated is later freed
->> with a
->>    * call to tee_shm_free().
->>    *
->> - * @returns a pointer to 'struct tee_shm'
->> + * @returns a pointer to 'struct tee_shm' on success, and ERR_PTR on
->> failure
->>    */
->>   struct tee_shm *tee_shm_alloc_kernel_buf(struct tee_context *ctx,
->> size_t size)
->>   {
->> @@ -229,6 +247,83 @@ struct tee_shm *tee_shm_alloc_priv_buf(struct
->> tee_context *ctx, size_t size)
->>   }
->>   EXPORT_SYMBOL_GPL(tee_shm_alloc_priv_buf);
->>   
->> +struct tee_shm *tee_shm_register_fd(struct tee_context *ctx, int fd)
->> +{
->> +	struct tee_shm_dmabuf_ref *ref;
->> +	int rc;
->> +
->> +	if (!tee_device_get(ctx->teedev))
->> +		return ERR_PTR(-EINVAL);
->> +
->> +	teedev_ctx_get(ctx);
->> +
->> +	ref = kzalloc(sizeof(*ref), GFP_KERNEL);
->> +	if (!ref) {
->> +		rc = -ENOMEM;
->> +		goto err_put_tee;
->> +	}
->> +
->> +	refcount_set(&ref->shm.refcount, 1);
->> +	ref->shm.ctx = ctx;
->> +	ref->shm.id = -1;
->> +
->> +	ref->dmabuf = dma_buf_get(fd);
->> +	if (IS_ERR(ref->dmabuf)) {
->> +		rc = PTR_ERR(ref->dmabuf);
->> +		goto err_put_dmabuf;
->> +	}
->> +
->> +	ref->attach = dma_buf_attach(ref->dmabuf, &ref->shm.ctx-
->>> teedev->dev);
->> +	if (IS_ERR(ref->attach)) {
->> +		rc = PTR_ERR(ref->attach);
->> +		goto err_detach;
->> +	}
->> +
->> +	ref->sgt = dma_buf_map_attachment(ref->attach,
->> DMA_BIDIRECTIONAL);
->> +	if (IS_ERR(ref->sgt)) {
->> +		rc = PTR_ERR(ref->sgt);
->> +		goto err_unmap_attachement;
->> +	}
->> +
->> +	if (sg_nents(ref->sgt->sgl) != 1) {
->> +		rc = PTR_ERR(ref->sgt->sgl);
->> +		goto err_unmap_attachement;
->> +	}
->> +
->> +	ref->shm.paddr = sg_dma_address(ref->sgt->sgl);
->> +	ref->shm.size = sg_dma_len(ref->sgt->sgl);
->> +	ref->shm.flags = TEE_SHM_EXT_DMA_BUF;
->> +
->> +	mutex_lock(&ref->shm.ctx->teedev->mutex);
->> +	ref->shm.id = idr_alloc(&ref->shm.ctx->teedev->idr, &ref->shm,
->> +				1, 0, GFP_KERNEL);
->> +	mutex_unlock(&ref->shm.ctx->teedev->mutex);
->> +	if (ref->shm.id < 0) {
->> +		rc = ref->shm.id;
->> +		goto err_idr_remove;
->> +	}
->> +
->> +	return &ref->shm;
->> +
->> +err_idr_remove:
->> +	mutex_lock(&ctx->teedev->mutex);
->> +	idr_remove(&ctx->teedev->idr, ref->shm.id);
->> +	mutex_unlock(&ctx->teedev->mutex);
->> +err_unmap_attachement:
->> +	dma_buf_unmap_attachment(ref->attach, ref->sgt,
->> DMA_BIDIRECTIONAL);
->> +err_detach:
->> +	dma_buf_detach(ref->dmabuf, ref->attach);
->> +err_put_dmabuf:
->> +	dma_buf_put(ref->dmabuf);
->> +	kfree(ref);
->> +err_put_tee:
->> +	teedev_ctx_put(ctx);
->> +	tee_device_put(ctx->teedev);
->> +
->> +	return ERR_PTR(rc);
->> +}
->> +EXPORT_SYMBOL_GPL(tee_shm_register_fd);
->> +
->>   static struct tee_shm *
->>   register_shm_helper(struct tee_context *ctx, unsigned long addr,
->>   		    size_t length, u32 flags, int id)
->> diff --git a/include/linux/tee_drv.h b/include/linux/tee_drv.h
->> index 911cad324acc..40ddd5376c2d 100644
->> --- a/include/linux/tee_drv.h
->> +++ b/include/linux/tee_drv.h
->> @@ -25,6 +25,7 @@
->>   #define TEE_SHM_USER_MAPPED	BIT(1)  /* Memory mapped in user space
->> */
->>   #define TEE_SHM_POOL		BIT(2)  /* Memory allocated from pool
->> */
->>   #define TEE_SHM_PRIV		BIT(3)  /* Memory private to TEE driver
->> */
->> +#define TEE_SHM_EXT_DMA_BUF     BIT(4)  /* Memory with dma-buf
->> handle */
->>   
->>   struct device;
->>   struct tee_device;
->> @@ -276,6 +277,16 @@ struct tee_shm *tee_shm_alloc_kernel_buf(struct
->> tee_context *ctx, size_t size);
->>   struct tee_shm *tee_shm_register_kernel_buf(struct tee_context *ctx,
->>   					    void *addr, size_t length);
->>   
->> +/**
->> + * tee_shm_register_fd() - Register shared memory from file
->> descriptor
->> + *
->> + * @ctx:	Context that allocates the shared memory
->> + * @fd:		Shared memory file descriptor reference
->> + *
->> + * @returns a pointer to 'struct tee_shm' on success, and ERR_PTR on
->> failure
->> + */
->> +struct tee_shm *tee_shm_register_fd(struct tee_context *ctx, int
->> fd);
->> +
->>   /**
->>    * tee_shm_is_dynamic() - Check if shared memory object is of the
->> dynamic kind
->>    * @shm:	Shared memory handle
->> diff --git a/include/uapi/linux/tee.h b/include/uapi/linux/tee.h
->> index 25a6c534beb1..baf3cd7cfdac 100644
->> --- a/include/uapi/linux/tee.h
->> +++ b/include/uapi/linux/tee.h
->> @@ -121,6 +121,35 @@ struct tee_ioctl_shm_alloc_data {
->>   #define TEE_IOC_SHM_ALLOC	_IOWR(TEE_IOC_MAGIC, TEE_IOC_BASE + 1,
->> \
->>   				     struct tee_ioctl_shm_alloc_data)
->>   
->> +/**
->> + * struct tee_ioctl_shm_register_fd_data - Shared memory registering
->> argument
->> + * @fd:		[in] File descriptor identifying the shared
->> memory
->> + * @size:	[out] Size of shared memory to allocate
->> + * @flags:	[in] Flags to/from allocation.
->> + * @id:		[out] Identifier of the shared memory
->> + *
->> + * The flags field should currently be zero as input. Updated by the
->> call
->> + * with actual flags as defined by TEE_IOCTL_SHM_* above.
->> + * This structure is used as argument for TEE_IOC_SHM_REGISTER_FD
->> below.
->> + */
->> +struct tee_ioctl_shm_register_fd_data {
->> +	__s64 fd;
->> +	__u64 size;
->> +	__u32 flags;
->> +	__s32 id;
->> +} __attribute__ ((aligned (8)));
->> +
->> +/**
->> + * TEE_IOC_SHM_REGISTER_FD - register a shared memory from a file
->> descriptor
->> + *
->> + * Returns a file descriptor on success or < 0 on failure
->> + *
->> + * The returned file descriptor refers to the shared memory object
->> in kernel
->> + * land. The shared memory is freed when the descriptor is closed.
->> + */
->> +#define TEE_IOC_SHM_REGISTER_FD	_IOWR(TEE_IOC_MAGIC,
->> TEE_IOC_BASE + 8, \
->> +				     struct
->> tee_ioctl_shm_register_fd_data)
->> +
->>   /**
->>    * struct tee_ioctl_buf_data - Variable sized buffer
->>    * @buf_ptr:	[in] A __user pointer to a buffer
+> Yet every node shows the same format:
+>
+> Media device information
+> ------------------------
+> driver          imx7-csi
+> model           imx-media
+> serial
+> bus info        platform:32e20000.csi
+> hw revision     0x0
+> driver version  6.2.0
+>
+> Device topology
+> - entity 1: csi (2 pads, 2 links)
+>             type V4L2 subdev subtype Unknown flags 0
+>             device node name /dev/v4l-subdev0
+> pad0: Sink
+> [fmt:UYVY8_1X16/640x480 field:none colorspace:srgb xfer:srgb ycbcr:601
+> quantization:lim-range]
+> <- "csis-32e30000.mipi-csi":1 [ENABLED,IMMUTABLE]
+> pad1: Source
+> [fmt:UYVY8_1X16/640x480 field:none colorspace:srgb xfer:srgb ycbcr:601
+> quantization:lim-range]
+> -> "csi capture":0 [ENABLED,IMMUTABLE]
+>
+> - entity 4: csi capture (1 pad, 1 link)
+>             type Node subtype V4L flags 0
+>             device node name /dev/video0
+> pad0: Sink
+> <- "csi":1 [ENABLED,IMMUTABLE]
+>
+> - entity 10: csis-32e30000.mipi-csi (2 pads, 2 links)
+>              type V4L2 subdev subtype Unknown flags 0
+>              device node name /dev/v4l-subdev1
+> pad0: Sink
+> [fmt:UYVY8_1X16/640x480 field:none]
+> <- "ov5640 1-003c":0 [ENABLED]
+> pad1: Source
+> [fmt:UYVY8_1X16/640x480 field:none]
+> -> "csi":0 [ENABLED,IMMUTABLE]
+>
+> - entity 15: ov5640 1-003c (1 pad, 1 link)
+>              type V4L2 subdev subtype Sensor flags 0
+>              device node name /dev/v4l-subdev2
+> pad0: Source
+> [fmt:UYVY8_1X16/640x480@1/30 field:none colorspace:srgb xfer:srgb
+> ycbcr:601 quantization:full-range
+> crop.bounds:(0,0)/2624x1964
+> crop:(16,14)/2592x1944]
+> -> "csis-32e30000.mipi-csi":0 [ENABLED]
+>
+>
+>
 
+After a little debugging, i found that imx7_csi_video_validate_fmt is
+returning EINVAL.  Unfortunately, I have to be done for the weekend,
+but I can try something again on Monday.
+
+adam
+
+>
+>
+>
+> > > The media information:
+> > >
+> > > root@beacon-imx8mm-kit:~# media-ctl -p
+> > > Media controller API version 6.2.0
+> > >
+> > > Media device information
+> > > ------------------------
+> > > driver          imx7-csi
+> > > model           imx-media
+> > > serial
+> > > bus info        platform:32e20000.csi
+> > > hw revision     0x0
+> > > driver version  6.2.0
+> > >
+> > > Device topology
+> > > - entity 1: csi (2 pads, 1 link)
+> > >             type V4L2 subdev subtype Unknown flags 0
+> > > pad0: Sink
+> > > pad1: Source
+> > > -> "csi capture":0 [ENABLED,IMMUTABLE]
+> > >
+> > > - entity 4: csi capture (1 pad, 1 link)
+> > >             type Node subtype V4L flags 0
+> > >             device node name /dev/video0
+> > > pad0: Sink
+> > > <- "csi":1 [ENABLED,IMMUTABLE]
+> > >
+> > > I confirmed the ov5640 camera enumerated:
+> > >
+> > > I'm going to roll back this latest series to verify whether or not
+> > > this series caused the splat.
+> > >
+> > > adam
+> > >
+> > > >  drivers/media/platform/nxp/imx7-media-csi.c | 18 ++++++++----------
+> > > >  1 file changed, 8 insertions(+), 10 deletions(-)
+> > > >
+> > > > diff --git a/drivers/media/platform/nxp/imx7-media-csi.c b/drivers/media/platform/nxp/imx7-media-csi.c
+> > > > index be3c1494cfb3..e96bee4e5921 100644
+> > > > --- a/drivers/media/platform/nxp/imx7-media-csi.c
+> > > > +++ b/drivers/media/platform/nxp/imx7-media-csi.c
+> > > > @@ -1598,17 +1598,15 @@ static struct imx7_csi_vb2_buffer *imx7_csi_video_next_buf(struct imx7_csi *csi)
+> > > >
+> > > >  static int imx7_csi_video_init_format(struct imx7_csi *csi)
+> > > >  {
+> > > > -       struct v4l2_subdev_format fmt_src = {
+> > > > -               .pad = IMX7_CSI_PAD_SRC,
+> > > > -               .which = V4L2_SUBDEV_FORMAT_ACTIVE,
+> > > > -       };
+> > > > -       fmt_src.format.code = IMX7_CSI_DEF_MBUS_CODE;
+> > > > -       fmt_src.format.width = IMX7_CSI_DEF_PIX_WIDTH;
+> > > > -       fmt_src.format.height = IMX7_CSI_DEF_PIX_HEIGHT;
+> > > > +       struct v4l2_mbus_framefmt format = { };
+> > > >
+> > > > -       imx7_csi_mbus_fmt_to_pix_fmt(&csi->vdev_fmt, &fmt_src.format, NULL);
+> > > > -       csi->vdev_compose.width = fmt_src.format.width;
+> > > > -       csi->vdev_compose.height = fmt_src.format.height;
+> > > > +       format.code = IMX7_CSI_DEF_MBUS_CODE;
+> > > > +       format.width = IMX7_CSI_DEF_PIX_WIDTH;
+> > > > +       format.height = IMX7_CSI_DEF_PIX_HEIGHT;
+> > > > +
+> > > > +       imx7_csi_mbus_fmt_to_pix_fmt(&csi->vdev_fmt, &format, NULL);
+> > > > +       csi->vdev_compose.width = format.width;
+> > > > +       csi->vdev_compose.height = format.height;
+> > > >
+> > > >         csi->vdev_cc = imx7_csi_find_pixel_format(csi->vdev_fmt.pixelformat);
+> > > >
+> >
+> > --
+> > Regards,
+> >
+> > Laurent Pinchart
