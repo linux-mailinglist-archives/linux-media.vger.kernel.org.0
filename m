@@ -2,32 +2,32 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 71BDA67E867
-	for <lists+linux-media@lfdr.de>; Fri, 27 Jan 2023 15:37:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3DD8A67E87F
+	for <lists+linux-media@lfdr.de>; Fri, 27 Jan 2023 15:42:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233443AbjA0Oho (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 27 Jan 2023 09:37:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48312 "EHLO
+        id S233726AbjA0OmN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 27 Jan 2023 09:42:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52226 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231629AbjA0Ohn (ORCPT
+        with ESMTP id S232176AbjA0OmM (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 27 Jan 2023 09:37:43 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A0F9E10AAF;
-        Fri, 27 Jan 2023 06:37:37 -0800 (PST)
+        Fri, 27 Jan 2023 09:42:12 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88F771711;
+        Fri, 27 Jan 2023 06:42:10 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 52C85B82126;
-        Fri, 27 Jan 2023 14:37:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A0AE2C433D2;
-        Fri, 27 Jan 2023 14:37:32 +0000 (UTC)
-Message-ID: <93c8ae69-c765-f88e-23c3-9c6b8cf67b40@xs4all.nl>
-Date:   Fri, 27 Jan 2023 15:37:31 +0100
+        by ams.source.kernel.org (Postfix) with ESMTPS id 42834B82128;
+        Fri, 27 Jan 2023 14:42:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9791CC433D2;
+        Fri, 27 Jan 2023 14:42:05 +0000 (UTC)
+Message-ID: <a46040a4-f274-1e07-0829-86facf550496@xs4all.nl>
+Date:   Fri, 27 Jan 2023 15:42:04 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.6.0
-Subject: Re: [PATCH 03/10] media: Add Y212 video format
+Subject: Re: [PATCH 04/10] media: Add Y312 video format
 Content-Language: en-US
 To:     Ming Qian <ming.qian@nxp.com>, mchehab@kernel.org,
         mirela.rabulea@oss.nxp.com
@@ -36,9 +36,9 @@ Cc:     shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
         linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
         devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org
 References: <cover.1671071730.git.ming.qian@nxp.com>
- <9aa51224d2c37cca5f1283532cb99f3c8251b120.1671071730.git.ming.qian@nxp.com>
+ <4eb46df4bb84da00560c6c757cd661a1d00e76fb.1671071730.git.ming.qian@nxp.com>
 From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <9aa51224d2c37cca5f1283532cb99f3c8251b120.1671071730.git.ming.qian@nxp.com>
+In-Reply-To: <4eb46df4bb84da00560c6c757cd661a1d00e76fb.1671071730.git.ming.qian@nxp.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-7.8 required=5.0 tests=BAYES_00,
@@ -51,38 +51,32 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 On 20/12/2022 04:11, Ming Qian wrote:
-> Y212 is a YUV format with 12-bits per component like YUYV,
+> Y312 is a YUV format with 12-bits per component like YUV24,
 > expanded to 16bits.
 > Data in the 12 high bits, zeros in the 4 low bits,
 > arranged in little endian order.
 > 
 > Signed-off-by: Ming Qian <ming.qian@nxp.com>
 > ---
->  .../media/v4l/pixfmt-packed-yuv.rst           | 42 +++++++++++++++++++
+>  .../media/v4l/pixfmt-packed-yuv.rst           | 28 +++++++++++++++++++
 >  drivers/media/v4l2-core/v4l2-common.c         |  1 +
 >  drivers/media/v4l2-core/v4l2-ioctl.c          |  1 +
 >  include/uapi/linux/videodev2.h                |  1 +
->  4 files changed, 45 insertions(+)
+>  4 files changed, 31 insertions(+)
 > 
 > diff --git a/Documentation/userspace-api/media/v4l/pixfmt-packed-yuv.rst b/Documentation/userspace-api/media/v4l/pixfmt-packed-yuv.rst
-> index bf283a1b5581..39ded0b1e65c 100644
+> index 39ded0b1e65c..a91c30ba6b73 100644
 > --- a/Documentation/userspace-api/media/v4l/pixfmt-packed-yuv.rst
 > +++ b/Documentation/userspace-api/media/v4l/pixfmt-packed-yuv.rst
-> @@ -341,6 +341,48 @@ components horizontally by 2, storing 2 pixels in 4 bytes.
+> @@ -257,6 +257,34 @@ the second byte and Y'\ :sub:`7-0` in the third byte.
+>      - The padding bits contain undefined values that must be ignored by all
+>        applications and drivers.
 >  
->      \normalsize
->  
-> +The next lists the packed YUV 4:2:2 formats with more than 8 bits per component.
+> +The next lists the packed YUV 4:4:4 formats with more than 8 bits per component.
 > +expand the bits per component to 16 bits, data in the high bits, zeros in the low bits,
-> +arranged in little endian order. storing 2 pixels in 8 bytes.
+> +arranged in little endian order. storing 1 pixels in 6 bytes.
 > +
-> +.. raw:: latex
-> +
-> +    \footnotesize
-> +
-> +.. tabularcolumns:: |p{3.4cm}|p{1.2cm}|p{0.8cm}|p{0.8cm}|p{0.8cm}|p{0.8cm}|p{0.8cm}|p{0.8cm}|p{0.8cm}|p{0.8cm}|
-> +
-> +.. flat-table:: Packed YUV 4:2:2 Formats (more than 8bpc)
+> +.. flat-table:: Packed YUV 4:4:4 Image Formats (more than 8bpc)
 > +    :header-rows: 1
 > +    :stub-columns: 0
 > +
@@ -94,69 +88,56 @@ On 20/12/2022 04:11, Ming Qian wrote:
 > +      - Byte 7-6
 > +      - Byte 9-8
 > +      - Byte 11-10
-> +      - Byte 13-12
-> +      - Byte 15-14
-> +    * .. _V4L2-PIX-FMT-Y212:
 > +
-> +      - ``V4L2_PIX_FMT_Y212``
-> +      - 'Y212'
+> +    * .. _V4L2-PIX-FMT-Y312:
+> +
+> +      - ``V4L2_PIX_FMT_Y312``
+> +      - 'Y312'
 > +
 > +      - Y'\ :sub:`0`
 > +      - Cb\ :sub:`0`
-> +      - Y'\ :sub:`1`
 > +      - Cr\ :sub:`0`
-> +      - Y'\ :sub:`2`
-> +      - Cb\ :sub:`2`
-> +      - Y'\ :sub:`3`
-> +      - Cr\ :sub:`2`
-> +
-> +.. raw:: latex
-> +
-> +    \normalsize
-> +
->  **Color Sample Location:**
->  Chroma samples are :ref:`interstitially sited<yuv-chroma-centered>`
->  horizontally.
+> +      - Y'\ :sub:`1`
+> +      - Cb\ :sub:`1`
+> +      - Cr\ :sub:`1`
+>  
+>  4:2:2 Subsampling
+>  =================
 > diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-core/v4l2-common.c
-> index a5e8ba370d33..21ace56fac04 100644
+> index 21ace56fac04..332d4b11bc1b 100644
 > --- a/drivers/media/v4l2-core/v4l2-common.c
 > +++ b/drivers/media/v4l2-core/v4l2-common.c
-> @@ -258,6 +258,7 @@ const struct v4l2_format_info *v4l2_format_info(u32 format)
->  		{ .format = V4L2_PIX_FMT_YVYU,    .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 1, .bpp = { 2, 0, 0, 0 }, .hdiv = 2, .vdiv = 1 },
+> @@ -259,6 +259,7 @@ const struct v4l2_format_info *v4l2_format_info(u32 format)
 >  		{ .format = V4L2_PIX_FMT_UYVY,    .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 1, .bpp = { 2, 0, 0, 0 }, .hdiv = 2, .vdiv = 1 },
 >  		{ .format = V4L2_PIX_FMT_VYUY,    .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 1, .bpp = { 2, 0, 0, 0 }, .hdiv = 2, .vdiv = 1 },
-> +		{ .format = V4L2_PIX_FMT_Y212,    .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 1, .bpp = { 4, 0, 0, 0 }, .hdiv = 2, .vdiv = 1 },
+>  		{ .format = V4L2_PIX_FMT_Y212,    .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 1, .bpp = { 4, 0, 0, 0 }, .hdiv = 2, .vdiv = 1 },
+> +		{ .format = V4L2_PIX_FMT_Y312,    .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 1, .bpp = { 6, 0, 0, 0 }, .hdiv = 1, .vdiv = 1 },
 >  
 >  		/* YUV planar formats */
 >  		{ .format = V4L2_PIX_FMT_NV12,    .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 2, .bpp = { 1, 2, 0, 0 }, .hdiv = 2, .vdiv = 2 },
 > diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
-> index 0ee730aa6cc7..4d5f722b674a 100644
+> index 4d5f722b674a..5b97d7e5dbbf 100644
 > --- a/drivers/media/v4l2-core/v4l2-ioctl.c
 > +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-> @@ -1342,6 +1342,7 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
->  	case V4L2_PIX_FMT_YUV420:	descr = "Planar YUV 4:2:0"; break;
+> @@ -1343,6 +1343,7 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
 >  	case V4L2_PIX_FMT_HI240:	descr = "8-bit Dithered RGB (BTTV)"; break;
 >  	case V4L2_PIX_FMT_M420:		descr = "YUV 4:2:0 (M420)"; break;
-> +	case V4L2_PIX_FMT_Y212:		descr = "12-bit Depth YUYV 4:2:2"; break;
+>  	case V4L2_PIX_FMT_Y212:		descr = "12-bit Depth YUYV 4:2:2"; break;
+> +	case V4L2_PIX_FMT_Y312:		descr = "12-bit Depth YUV 4:4:4"; break;
 >  	case V4L2_PIX_FMT_NV12:		descr = "Y/UV 4:2:0"; break;
 >  	case V4L2_PIX_FMT_NV21:		descr = "Y/VU 4:2:0"; break;
 >  	case V4L2_PIX_FMT_NV16:		descr = "Y/UV 4:2:2"; break;
 > diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-> index 3d8f89bff33c..b8a501dccfa4 100644
+> index b8a501dccfa4..3475331737af 100644
 > --- a/include/uapi/linux/videodev2.h
 > +++ b/include/uapi/linux/videodev2.h
-> @@ -618,6 +618,7 @@ struct v4l2_pix_format {
->  #define V4L2_PIX_FMT_YUVA32  v4l2_fourcc('Y', 'U', 'V', 'A') /* 32  YUVA-8-8-8-8  */
+> @@ -619,6 +619,7 @@ struct v4l2_pix_format {
 >  #define V4L2_PIX_FMT_YUVX32  v4l2_fourcc('Y', 'U', 'V', 'X') /* 32  YUVX-8-8-8-8  */
 >  #define V4L2_PIX_FMT_M420    v4l2_fourcc('M', '4', '2', '0') /* 12  YUV 4:2:0 2 lines y, 1 line uv interleaved */
-> +#define V4L2_PIX_FMT_Y212    v4l2_fourcc('Y', '2', '1', '2') /* 32  YUYV 12-bit per component */
+>  #define V4L2_PIX_FMT_Y212    v4l2_fourcc('Y', '2', '1', '2') /* 32  YUYV 12-bit per component */
+> +#define V4L2_PIX_FMT_Y312    v4l2_fourcc('Y', '3', '1', '2') /* 48  YUV 4:4:4 12-bit per component */
 
-This definitely needs to be renamed to prevent repeating the 'P010' mistake.
-
-It's a YUYV format, so perhaps: _YUYV_12?
-
-You definitely need to have 'YUYV' in the name in order to deal with different
-YUV orders.
+YUV24_12 would work, I think. Y312 suggests a greyscale format, so that's definitely wrong.
 
 Regards,
 
