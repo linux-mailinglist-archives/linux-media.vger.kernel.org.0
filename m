@@ -2,47 +2,62 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7001A67E8A6
-	for <lists+linux-media@lfdr.de>; Fri, 27 Jan 2023 15:53:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7FCA967E8C2
+	for <lists+linux-media@lfdr.de>; Fri, 27 Jan 2023 15:59:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233986AbjA0OxR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 27 Jan 2023 09:53:17 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59594 "EHLO
+        id S231547AbjA0O7D (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 27 Jan 2023 09:59:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35672 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233973AbjA0OxP (ORCPT
+        with ESMTP id S229447AbjA0O7C (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 27 Jan 2023 09:53:15 -0500
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2335223657;
-        Fri, 27 Jan 2023 06:53:13 -0800 (PST)
+        Fri, 27 Jan 2023 09:59:02 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B9BB24205;
+        Fri, 27 Jan 2023 06:59:01 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by sin.source.kernel.org (Postfix) with ESMTPS id 5383ACE28BB;
-        Fri, 27 Jan 2023 14:53:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57053C433D2;
-        Fri, 27 Jan 2023 14:53:08 +0000 (UTC)
-Message-ID: <9f34a103-2dab-39bc-43c6-ea9ca494d7ad@xs4all.nl>
-Date:   Fri, 27 Jan 2023 15:53:06 +0100
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 56C5F61CC5;
+        Fri, 27 Jan 2023 14:59:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1715EC433EF;
+        Fri, 27 Jan 2023 14:58:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1674831540;
+        bh=ayLVSt/XTI3V4PQVpc6YfvwCxzBwSOgTMqF+wN9LB+Y=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=fiw+pxZNNjdwseMGGbQM7Dd5dicm2NNq2ehmgt89FZgr6W2PPL10CuyaW2e4lXzTm
+         P2UaNLHk8PYGP0j/lItINt5UHnJMcNVShAtYjtNlK91STdY3X/uVYT2VUzhl86iMlN
+         b8j1G5KrPZ71qOon/3bV0VdI02asAYHHwug5UYSD8d89X6H3EE4kNIcn8n2AV6RgBD
+         UPdaevT+H2GCg3bI5eQCetUNQFaWGwUph3ZomRJxNECuJcK3+vQyfYyH9mW4fCRNjf
+         czVlDM53M4B4iMP3DHu2vSU7nvku7k0xxOd45TgTtH1XlnLt7cLIDm9v9Lb4z067iP
+         QjoX+AO1zNOsw==
+Date:   Fri, 27 Jan 2023 14:58:54 +0000
+From:   Lee Jones <lee@kernel.org>
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Mark Gross <markgross@kernel.org>,
+        Andy Shevchenko <andy@kernel.org>, Pavel Machek <pavel@ucw.cz>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Daniel Scally <djrscally@gmail.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        platform-driver-x86@vger.kernel.org, linux-leds@vger.kernel.org,
+        linux-gpio@vger.kernel.org, Kate Hsuan <hpa@redhat.com>,
+        Mark Pearson <markpearson@lenovo.com>,
+        Andy Yeh <andy.yeh@intel.com>, Hao Yao <hao.yao@intel.com>,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH v5 00/11] leds: lookup-table support + int3472/media
+ privacy LED support
+Message-ID: <Y9PmrnIOHI09uSju@google.com>
+References: <20230120114524.408368-1-hdegoede@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH 06/10] media: Add B412 video format
-Content-Language: en-US
-To:     Ming Qian <ming.qian@nxp.com>, mchehab@kernel.org,
-        mirela.rabulea@oss.nxp.com
-Cc:     shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
-        festevam@gmail.com, xiahong.bao@nxp.com, linux-imx@nxp.com,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-References: <cover.1671071730.git.ming.qian@nxp.com>
- <86983e95cfd05ba9b3b4688e25b58e96ab23d185.1671071730.git.ming.qian@nxp.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <86983e95cfd05ba9b3b4688e25b58e96ab23d185.1671071730.git.ming.qian@nxp.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-7.8 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230120114524.408368-1-hdegoede@redhat.com>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -50,87 +65,30 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 20/12/2022 04:11, Ming Qian wrote:
-> B412 is a reversed RGB format with alpha channel last,
-> 12 bits per component like ABGR32,
-> expanded to 16bits.
-> Data in the 12 high bits, zeros in the 4 low bits,
-> arranged in little endian order.
-> 
-> Signed-off-by: Ming Qian <ming.qian@nxp.com>
-> ---
->  Documentation/userspace-api/media/v4l/pixfmt-rgb.rst | 9 +++++++++
->  drivers/media/v4l2-core/v4l2-common.c                | 1 +
->  drivers/media/v4l2-core/v4l2-ioctl.c                 | 1 +
->  include/uapi/linux/videodev2.h                       | 1 +
->  4 files changed, 12 insertions(+)
-> 
-> diff --git a/Documentation/userspace-api/media/v4l/pixfmt-rgb.rst b/Documentation/userspace-api/media/v4l/pixfmt-rgb.rst
-> index f7785c93292a..b9d1e48c0224 100644
-> --- a/Documentation/userspace-api/media/v4l/pixfmt-rgb.rst
-> +++ b/Documentation/userspace-api/media/v4l/pixfmt-rgb.rst
-> @@ -793,6 +793,15 @@ arranged in little endian order.
->        - G\ :sub:`15-4`
->        - R\ :sub:`15-4`
->        -
-> +    * .. _V4L2-PIX-FMT-B412:
-> +
-> +      - ``V4L2_PIX_FMT_B412``
-> +      - 'B412'
-> +
-> +      - B\ :sub:`15-4`
-> +      - G\ :sub:`15-4`
-> +      - R\ :sub:`15-4`
-> +      - A\ :sub:`15-4`
->  
->  .. raw:: latex
->  
-> diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-core/v4l2-common.c
-> index 0cc58abae562..5384648903a9 100644
-> --- a/drivers/media/v4l2-core/v4l2-common.c
-> +++ b/drivers/media/v4l2-core/v4l2-common.c
-> @@ -253,6 +253,7 @@ const struct v4l2_format_info *v4l2_format_info(u32 format)
->  		{ .format = V4L2_PIX_FMT_RGB555,  .pixel_enc = V4L2_PIXEL_ENC_RGB, .mem_planes = 1, .comp_planes = 1, .bpp = { 2, 0, 0, 0 }, .hdiv = 1, .vdiv = 1 },
->  		{ .format = V4L2_PIX_FMT_BGR666,  .pixel_enc = V4L2_PIXEL_ENC_RGB, .mem_planes = 1, .comp_planes = 1, .bpp = { 4, 0, 0, 0 }, .hdiv = 1, .vdiv = 1 },
->  		{ .format = V4L2_PIX_FMT_B312,    .pixel_enc = V4L2_PIXEL_ENC_RGB, .mem_planes = 1, .comp_planes = 1, .bpp = { 6, 0, 0, 0 }, .hdiv = 1, .vdiv = 1 },
-> +		{ .format = V4L2_PIX_FMT_B412,    .pixel_enc = V4L2_PIXEL_ENC_RGB, .mem_planes = 1, .comp_planes = 1, .bpp = { 8, 0, 0, 0 }, .hdiv = 1, .vdiv = 1 },
->  
->  		/* YUV packed formats */
->  		{ .format = V4L2_PIX_FMT_YUYV,    .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 1, .bpp = { 2, 0, 0, 0 }, .hdiv = 2, .vdiv = 1 },
-> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
-> index 8c3d40d3acf5..8cb21024bd96 100644
-> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
-> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-> @@ -1299,6 +1299,7 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
->  	case V4L2_PIX_FMT_RGBA32:	descr = "32-bit RGBA 8-8-8-8"; break;
->  	case V4L2_PIX_FMT_RGBX32:	descr = "32-bit RGBX 8-8-8-8"; break;
->  	case V4L2_PIX_FMT_B312:		descr = "12-bit Depth BGR"; break;
-> +	case V4L2_PIX_FMT_B412:		descr = "12-bit Depth BGRA"; break;
->  	case V4L2_PIX_FMT_GREY:		descr = "8-bit Greyscale"; break;
->  	case V4L2_PIX_FMT_Y4:		descr = "4-bit Greyscale"; break;
->  	case V4L2_PIX_FMT_Y6:		descr = "6-bit Greyscale"; break;
-> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-> index c67f895210de..a26ff16a52c8 100644
-> --- a/include/uapi/linux/videodev2.h
-> +++ b/include/uapi/linux/videodev2.h
-> @@ -579,6 +579,7 @@ struct v4l2_pix_format {
->  
->  /* RGB formats (6 or 8 bytes per pixel) */
->  #define V4L2_PIX_FMT_B312    v4l2_fourcc('B', '3', '1', '2') /* 48  BGR 12-bit per component */
-> +#define V4L2_PIX_FMT_B412    v4l2_fourcc('B', '4', '1', '2') /* 64  BGRA 12-bit per component */
+Enjoy!
 
-This would be ABGR32_12, to correspond with the 8 bit ABGR32.
-Unfortunately, that define has a terrible mismatch with the actual component
-order (alpha comes last in memory, not first as the name suggests).
+The following changes since commit 1b929c02afd37871d5afb9d498426f83432e71c2:
 
-It would be nice to be able to fix this, but I think that would be even
-more confusing.
+  Linux 6.2-rc1 (2022-12-25 13:41:39 -0800)
 
-Regards,
+are available in the Git repository at:
 
-	Hans
+  git://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git ib-leds-led_get-6.3
 
->  
->  /* Grey formats */
->  #define V4L2_PIX_FMT_GREY    v4l2_fourcc('G', 'R', 'E', 'Y') /*  8  Greyscale     */
+for you to fetch changes up to abc3100fcba6827444ef4bdb17065ac3b6619dff:
 
+  leds: led-class: Add generic [devm_]led_get() (2023-01-27 11:07:11 +0000)
+
+----------------------------------------------------------------
+Hans de Goede (4):
+      leds: led-class: Add missing put_device() to led_put()
+      leds: led-class: Add led_module_get() helper
+      leds: led-class: Add __devm_led_get() helper
+      leds: led-class: Add generic [devm_]led_get()
+
+ drivers/leds/led-class.c | 138 ++++++++++++++++++++++++++++++++++++++++-------
+ include/linux/leds.h     |  21 ++++++++
+ 2 files changed, 139 insertions(+), 20 deletions(-)
+
+-- 
+Lee Jones [李琼斯]
