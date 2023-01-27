@@ -2,102 +2,116 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C25E867E560
-	for <lists+linux-media@lfdr.de>; Fri, 27 Jan 2023 13:36:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AFCF267E5A2
+	for <lists+linux-media@lfdr.de>; Fri, 27 Jan 2023 13:42:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233994AbjA0MgB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 27 Jan 2023 07:36:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46988 "EHLO
+        id S234212AbjA0Mma (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 27 Jan 2023 07:42:30 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50534 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234011AbjA0Mfz (ORCPT
+        with ESMTP id S234220AbjA0MmT (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 27 Jan 2023 07:35:55 -0500
-X-Greylist: delayed 3157 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 27 Jan 2023 04:35:44 PST
-Received: from comms.puri.sm (comms.puri.sm [159.203.221.185])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 456D26810A
-        for <linux-media@vger.kernel.org>; Fri, 27 Jan 2023 04:35:43 -0800 (PST)
-Received: from localhost (localhost [127.0.0.1])
-        by comms.puri.sm (Postfix) with ESMTP id 736C5ED087;
-        Fri, 27 Jan 2023 03:41:32 -0800 (PST)
-Received: from comms.puri.sm ([127.0.0.1])
-        by localhost (comms.puri.sm [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id VlvSZ-67GJIF; Fri, 27 Jan 2023 03:41:31 -0800 (PST)
-Message-ID: <c38b1842a6e3042c66ab885ea8e46d832d238ce4.camel@puri.sm>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=puri.sm; s=comms;
-        t=1674819691; bh=oLpeFGeQwcw7WEBaJOEIzBdVIYSFwMztdi1JXlqhKYs=;
-        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-        b=PJv/90txFiSkdUcdBa5igD7OzQ8fsMm57TiT1x2eV3rFQXWJbV5iEndxQMDJU4ukN
-         s/zZYzb3h5Rs7PfkB8/+5NKGK2UpPNwTg7A+SHf60ZRWhBViuINXZiSja5Zh/T5/sA
-         Lgsu3YK+t5c2fsTh2S2Xsei57CS7g1FpH4M/TT07utqXndbeFZkT2Wey0Ff+x+y7BS
-         n7LYCPBxEaiwrtvp0ofOVPhEobCxAE0d0tS2Lrfb2RFM3GD9V0PgZpXOtxzEaJzYta
-         BFf5y5d1lE+8qTOKxcrnwERV1tyBgZKGP727x/SKcqm5aAIYe0ohJIRZtGbO56f/nH
-         XSsmD0m8LINhw==
-Subject: Re: [PATCH v1 0/6] media: nxp: imx7-media-csi: Move to subdev
- active state
-From:   Martin Kepplinger <martin.kepplinger@puri.sm>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-media@vger.kernel.org
-Cc:     Rui Miguel Silva <rmfrfs@gmail.com>,
-        Paul Elder <paul.elder@ideasonboard.com>,
-        Adam Ford <aford173@gmail.com>, kernel@pengutronix.de,
-        linux-imx@nxp.com
-Date:   Fri, 27 Jan 2023 12:41:26 +0100
-In-Reply-To: <20230127022715.27234-1-laurent.pinchart@ideasonboard.com>
-References: <20230127022715.27234-1-laurent.pinchart@ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.38.3-1+deb11u1 
+        Fri, 27 Jan 2023 07:42:19 -0500
+Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C415674A63
+        for <linux-media@vger.kernel.org>; Fri, 27 Jan 2023 04:41:56 -0800 (PST)
+Received: by mail-wr1-x429.google.com with SMTP id t18so4882273wro.1
+        for <linux-media@vger.kernel.org>; Fri, 27 Jan 2023 04:41:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=X8sLEHpABmelP9Xrr4tNzmYgP5QTR2exVVWmUeftg6M=;
+        b=dhHZQyl8+tFCN4Ujzz1O7hn5vpSJZ61UsHzHzf93pnMWzTpkx8QYS6oxBMtUjqteTH
+         zTttqJlVevidzVnvsDSb933qmepj2eJhVga73s0oubkAzSuFShQAM7bBRXQpgN0sB6ks
+         Pg8hh5RhoaV1N7Yjk3/TQLmMeSvtC2Oxbzj46eJtkahDz4PnsXnDY58M3+5T/gQjrMmo
+         6f3QIdP+pkK+EqQO0lPHfo2YxOGwxJTNrarkB1MfXyHZgHGskDXV/fwVyXI+AhqTCShX
+         QPWcs9Ujxr36vLWw8VQI7s6gnYcGrX/1Q5Ow7+qL2qe3tLtgXfB6PoHpNNO2evOvqH9N
+         Ti6g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=X8sLEHpABmelP9Xrr4tNzmYgP5QTR2exVVWmUeftg6M=;
+        b=Z93g/jGErx88fQnX/2HaYTWTt/Vt+Fw+rn3q7fcgAhNHBgmAiAxNIraA4S7J82A2kn
+         rgXCY95LEr1AbqW+befKIZT0hCcu2CbLv7IDLvXj+8cekdX96/2So674jhOvaFQcePcG
+         IrC0Kem+T90HL+NTWiTQRYD6hlqERtpwu9hIQWKmirPKoOSmsJXYgqOgnfA7hyyOIBQ8
+         hZgfgbEi/+PJ87FOf0UKMlW/zptJRQe0PFAb1flIQ4jrAwm3CTSkSvfn/jmTOkkz9MnK
+         mglEMH4HT9vO8u1Rd2QR5vYJGeKheh6TPCm3md7H1OeRScLNGsYOoL/cWIPymGlzxTyV
+         qZlA==
+X-Gm-Message-State: AO0yUKXIZ7mH7Xb009rm1qFoyNvtb1QM3d7mnQrJ72Xpu4ARJbO3fABW
+        SQAyCkv8nbsjokD/1SuPiOw=
+X-Google-Smtp-Source: AK7set9PHZ8LXt7ZKyGjgbLsdHebLkM1r7cEjNaDm/+Rjg9817vE8fX7xo3XvrpgAIueHVVqN22SUg==
+X-Received: by 2002:adf:f1ca:0:b0:2bf:d3dd:6f68 with SMTP id z10-20020adff1ca000000b002bfd3dd6f68mr1815493wro.7.1674823314815;
+        Fri, 27 Jan 2023 04:41:54 -0800 (PST)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id l7-20020adffe87000000b002bfbe30e8f8sm3826773wrr.98.2023.01.27.04.41.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 27 Jan 2023 04:41:54 -0800 (PST)
+Date:   Fri, 27 Jan 2023 15:41:31 +0300
+From:   Dan Carpenter <error27@gmail.com>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     linux-media@vger.kernel.org,
+        Sakari Ailus <sakari.ailus@linux.intel.com>
+Subject: Re: Can smatch handle this better? (was: [PATCH 15/17] media: i2c:
+ adp1653: introduce 'no_child' label)
+Message-ID: <Y9PGezJ9ww20xCup@kadam>
+References: <20230126150657.367921-1-hverkuil-cisco@xs4all.nl>
+ <20230126150657.367921-16-hverkuil-cisco@xs4all.nl>
+ <Y9KaFkDXIWjiKPzc@kekkonen.localdomain>
+ <7bd53f49-c7ae-db42-35a7-51d7b27d079c@xs4all.nl>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <7bd53f49-c7ae-db42-35a7-51d7b27d079c@xs4all.nl>
+X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am Freitag, dem 27.01.2023 um 04:27 +0200 schrieb Laurent Pinchart:
-> Hello,
+On Fri, Jan 27, 2023 at 08:43:51AM +0100, Hans Verkuil wrote:
+> Hi Dan,
 > 
-> This small series moves the imx7-mipi-csi driver to use the subdev
-> active state. Patches 1/6 to 5/6 are small preparatory cleanups, with
-> the main change in 6/6.
+> While trying to clean up smatch warnings in the media subsystem I came
+> across a number of 'warn: missing unwind goto?' warnings that all had
+> the same root cause as illustrated by this patch: the 'unwind' path
+> just has a variation on printk(), it is not actually cleaning up anything.
 > 
-> I haven't tested the series yet as I need to dig up the hardware
-> first.
-> Adam, you offered to test the similar imx-mipi-csis series I've sent
-> recently on the i.MX8MM, would you be able to test this one at the
-> same
-> time ?
+> As Sakari suggested, is this something that smatch can be improved for?
+> These false positives are a bit annoying.
+> 
+> You can see the whole series here if you are interested:
+> 
+> https://patchwork.linuxtv.org/project/linux-media/list/?series=9747
+> 
+> Regards,
 > 
 
-a first test of streaming frames on imx8mq with these patches + your
-inline fix works fine. just so you know. I can keep testing possible
-future revisions. thanks a lot!
+Oh wow.  I really hate do nothing gotos.  The canonical bug for do
+nothing gotos is forgetting to set the error code.
 
-                          martin
+I like that check because it finds a lot of error handling bugs.
 
+It's not just about the printk().  I could and probably should make the
+check ignore printks.  There is also an of_node_put(child);
 
-ps. I know something similar needs to be done for the imx8mq mipi csi
-driver.
+The check doesn't look at what the error handling does, only that there
+is a direct returns surrounded by gotos.
 
+I could make the check so that it's only enabled when --spammy is turned
+on.
 
+I guess another option would be to only enable the warning if there were
+more than one label in the cleanup section at the end of the function.
+I can make that a warning and if there is only one label, then make that
+disable unless --spammy is used.
 
-> Laurent Pinchart (6):
->   media: imx: imx7-media-csi: Drop imx7_csi.cc field
->   media: imx: imx7-media-csi: Simplify imx7_csi_video_init_format()
->   media: imx: imx7-media-csi: Drop unneeded check when starting
->     streaming
->   media: imx: imx7-media-csi: Drop unneeded src_sd check
->   media: imx: imx7-media-csi: Drop unneeded pad checks
->   media: imx: imx7-media-csi: Use V4L2 subdev active state
-> 
->  drivers/media/platform/nxp/imx7-media-csi.c | 208 ++++++------------
-> --
->  1 file changed, 58 insertions(+), 150 deletions(-)
-> 
-> 
-> base-commit: 1b929c02afd37871d5afb9d498426f83432e71c2
-
+regards,
+dan carpenter
 
