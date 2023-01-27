@@ -2,95 +2,115 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2969967EC3B
-	for <lists+linux-media@lfdr.de>; Fri, 27 Jan 2023 18:14:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D213567ECBC
+	for <lists+linux-media@lfdr.de>; Fri, 27 Jan 2023 18:50:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235053AbjA0ROf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 27 Jan 2023 12:14:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44968 "EHLO
+        id S235201AbjA0RuL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 27 Jan 2023 12:50:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37376 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234381AbjA0ROd (ORCPT
+        with ESMTP id S229711AbjA0RuK (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 27 Jan 2023 12:14:33 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB07013B;
-        Fri, 27 Jan 2023 09:14:32 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 7540061D54;
-        Fri, 27 Jan 2023 17:14:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BDC12C433D2;
-        Fri, 27 Jan 2023 17:14:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1674839671;
-        bh=p+a8OGgpraBX/ZldFFkNUfzskgq3bl7Tj0rZRDJNZJo=;
+        Fri, 27 Jan 2023 12:50:10 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 47799222F8;
+        Fri, 27 Jan 2023 09:50:09 -0800 (PST)
+Received: from ideasonboard.com (host-212-171-97-20.retail.telecomitalia.it [212.171.97.20])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 00FFE2B3;
+        Fri, 27 Jan 2023 18:50:06 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1674841807;
+        bh=v7G07t5L08i5boBm0RLnOVqjSaVBg3gd6Vet3cm421A=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=berjOZ3TccsQkIfHgvIL0zQEb0Ssaqus6sAl5rbnnuRnm14SxX9c1Mit0ojW406Yb
-         UIxv/ZH/hDnCKKg8kBC8Mx8B5ukJCYp1LO0yxuzQDKFOapeTnpyux6lvDZnkwDE2W3
-         OwpVS0g79aJbgDNA0K6/d1QDCwapYpe/rSujf1lpZIvf/AepY4esepfP+eQC+b+ilx
-         qRfJTWiC+xql7ikM+3NDV5US5A94ZVWlmUv7GXOHvsuWGlUk0KH7p+ZrArYc/cJ4NW
-         xNFB3K4nlIs0Olvp0Bo7Y8ZdFMiVcCqrM/vcTuqNs1tdQxI0Xy2oMLdAC7f8UJyed3
-         uG/YLBq7FUd2A==
-Date:   Fri, 27 Jan 2023 17:14:24 +0000
-From:   Lee Jones <lee@kernel.org>
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Mark Gross <markgross@kernel.org>,
-        Andy Shevchenko <andy@kernel.org>, Pavel Machek <pavel@ucw.cz>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Daniel Scally <djrscally@gmail.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        b=OicZoMW3ofW8PgV1RjsoL1hCWsuCh2zOT+9wxZjefNRVdYAYWHDff9gYiGDWkJ8pw
+         D5YDZvfVDhUAZx2q41uEDY2/EPdRL2Bk3lGOpaail7uLu/4XNYFy5TV9qCfwbOawX9
+         1FwXowKjk7GEvbgxpZaJWl453d2ZOdQWe+oo54mQ=
+Date:   Fri, 27 Jan 2023 18:50:03 +0100
+From:   Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To:     Marcel Ziswiler <marcel@ziswiler.com>
+Cc:     linux-media@vger.kernel.org, kernel@pengutronix.de,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
-        platform-driver-x86@vger.kernel.org, linux-leds@vger.kernel.org,
-        linux-gpio@vger.kernel.org, Kate Hsuan <hpa@redhat.com>,
-        Mark Pearson <markpearson@lenovo.com>,
-        Andy Yeh <andy.yeh@intel.com>, Hao Yao <hao.yao@intel.com>,
-        linux-media@vger.kernel.org
-Subject: [GIT PULL] Immutable branch from LEDs due for the v6.3 merge window
-Message-ID: <Y9QGcA+9nlmOOy2d@google.com>
-References: <20230120114524.408368-1-hdegoede@redhat.com>
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Francesco Dolcini <francesco.dolcini@toradex.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Aishwarya Kothari <aishwarya.kothari@toradex.com>,
+        Marcel Ziswiler <marcel.ziswiler@toradex.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1] media: i2c: ov5640: Implement get_mbus_config
+Message-ID: <20230127175003.6ofmfaqovbqu54hg@uno.localdomain>
+References: <20230127151245.46732-1-marcel@ziswiler.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230120114524.408368-1-hdegoede@redhat.com>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <20230127151245.46732-1-marcel@ziswiler.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Enjoy!
+Hi Marcel
 
-The following changes since commit 1b929c02afd37871d5afb9d498426f83432e71c2:
+On Fri, Jan 27, 2023 at 04:12:44PM +0100, Marcel Ziswiler wrote:
+> From: Aishwarya Kothari <aishwarya.kothari@toradex.com>
+>
+> Implement the introduced get_mbus_config operation to report the
+> number of used data lanes on the MIPI CSI-2 interface.
+>
 
-  Linux 6.2-rc1 (2022-12-25 13:41:39 -0800)
+OV5640 can operate in parallel mode too.
 
-are available in the Git repository at:
+You can check how it currently configured with ov5640_is_csi2() and
+populate struct v4l2_mbus_config accordingly.
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git tags/ib-leds-led_get-v6.3
+Thanks
+   j
 
-for you to fetch changes up to abc3100fcba6827444ef4bdb17065ac3b6619dff:
-
-  leds: led-class: Add generic [devm_]led_get() (2023-01-27 11:07:11 +0000)
-
-----------------------------------------------------------------
-Immutable branch from LEDs due for the v6.3 merge window
-
-----------------------------------------------------------------
-Hans de Goede (4):
-      leds: led-class: Add missing put_device() to led_put()
-      leds: led-class: Add led_module_get() helper
-      leds: led-class: Add __devm_led_get() helper
-      leds: led-class: Add generic [devm_]led_get()
-
- drivers/leds/led-class.c | 138 ++++++++++++++++++++++++++++++++++++++++-------
- include/linux/leds.h     |  21 ++++++++
- 2 files changed, 139 insertions(+), 20 deletions(-)
-
--- 
-Lee Jones [李琼斯]
+> Signed-off-by: Aishwarya Kothari <aishwarya.kothari@toradex.com>
+> Signed-off-by: Marcel Ziswiler <marcel.ziswiler@toradex.com>
+>
+> ---
+>
+>  drivers/media/i2c/ov5640.c | 14 ++++++++++++++
+>  1 file changed, 14 insertions(+)
+>
+> diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
+> index e0f908af581b..42d43f0d1e1c 100644
+> --- a/drivers/media/i2c/ov5640.c
+> +++ b/drivers/media/i2c/ov5640.c
+> @@ -3733,6 +3733,19 @@ static int ov5640_init_cfg(struct v4l2_subdev *sd,
+>  	return 0;
+>  }
+>
+> +static int ov5640_get_mbus_config(struct v4l2_subdev *sd,
+> +				   unsigned int pad,
+> +				   struct v4l2_mbus_config *cfg)
+> +{
+> +	struct ov5640_dev *sensor = to_ov5640_dev(sd);
+> +
+> +	cfg->type = V4L2_MBUS_CSI2_DPHY;
+> +	cfg->bus.mipi_csi2.num_data_lanes = sensor->ep.bus.mipi_csi2.num_data_lanes;
+> +	cfg->bus.mipi_csi2.flags = 0;
+> +
+> +	return 0;
+> +}
+> +
+>  static const struct v4l2_subdev_core_ops ov5640_core_ops = {
+>  	.log_status = v4l2_ctrl_subdev_log_status,
+>  	.subscribe_event = v4l2_ctrl_subdev_subscribe_event,
+> @@ -3753,6 +3766,7 @@ static const struct v4l2_subdev_pad_ops ov5640_pad_ops = {
+>  	.get_selection = ov5640_get_selection,
+>  	.enum_frame_size = ov5640_enum_frame_size,
+>  	.enum_frame_interval = ov5640_enum_frame_interval,
+> +	.get_mbus_config = ov5640_get_mbus_config,
+>  };
+>
+>  static const struct v4l2_subdev_ops ov5640_subdev_ops = {
+> --
+> 2.36.1
+>
