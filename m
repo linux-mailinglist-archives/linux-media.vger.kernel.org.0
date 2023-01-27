@@ -2,117 +2,124 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1028967DE58
-	for <lists+linux-media@lfdr.de>; Fri, 27 Jan 2023 08:15:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9FA4167DEAB
+	for <lists+linux-media@lfdr.de>; Fri, 27 Jan 2023 08:44:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232038AbjA0HPe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 27 Jan 2023 02:15:34 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38270 "EHLO
+        id S232797AbjA0HoB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 27 Jan 2023 02:44:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51644 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231769AbjA0HPd (ORCPT
+        with ESMTP id S232784AbjA0Hn6 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 27 Jan 2023 02:15:33 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C5DB745F66
-        for <linux-media@vger.kernel.org>; Thu, 26 Jan 2023 23:15:29 -0800 (PST)
+        Fri, 27 Jan 2023 02:43:58 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D361F39282
+        for <linux-media@vger.kernel.org>; Thu, 26 Jan 2023 23:43:56 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 57C74619EB
-        for <linux-media@vger.kernel.org>; Fri, 27 Jan 2023 07:15:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5CBE5C433D2;
-        Fri, 27 Jan 2023 07:15:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1674803728;
-        bh=0RhprIRGcYQQjw+lfWUpycE8l6HXlVurbYVUmzm1gio=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=rVAtHboqItd1kpXsNCUnGlKLF6F1Fcs4x0jTGEMkQoqRQVhjwm4Fh42PEc8XuvBkk
-         QOPXKU1YUtSYLrOfcREc5ii7HwJRoMbYD6MUCDpPXksz9ovCy33h4KquJFHROAAxLf
-         AWiaZ2dheuv+J5dvT8MpZVqctYp8FMqpA7bo3EPI=
-Date:   Fri, 27 Jan 2023 08:15:25 +0100
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Michael Grzeschik <mgr@pengutronix.de>, marex@denx.de,
-        kernel@pengutronix.de, linux-media@vger.kernel.org
-Subject: Re: [GIT PULL FOR v6.3] uvcgadget changes
-Message-ID: <Y9N6DYUHcS9hzIte@kroah.com>
-References: <20230124144929.GB19219@pengutronix.de>
- <Y8/6vHUoB4WjbLk2@kroah.com>
- <20230124161709.GA23507@pengutronix.de>
- <20230126223330.GI7611@pengutronix.de>
- <Y9MDPEyN8+oRPkre@pendragon.ideasonboard.com>
+        by ams.source.kernel.org (Postfix) with ESMTPS id 7B293B81FB3
+        for <linux-media@vger.kernel.org>; Fri, 27 Jan 2023 07:43:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 86777C433D2;
+        Fri, 27 Jan 2023 07:43:53 +0000 (UTC)
+Message-ID: <7bd53f49-c7ae-db42-35a7-51d7b27d079c@xs4all.nl>
+Date:   Fri, 27 Jan 2023 08:43:51 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y9MDPEyN8+oRPkre@pendragon.ideasonboard.com>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Can smatch handle this better? (was: [PATCH 15/17] media: i2c:
+ adp1653: introduce 'no_child' label)
+To:     Dan Carpenter <error27@gmail.com>
+Cc:     linux-media@vger.kernel.org,
+        Sakari Ailus <sakari.ailus@linux.intel.com>
+References: <20230126150657.367921-1-hverkuil-cisco@xs4all.nl>
+ <20230126150657.367921-16-hverkuil-cisco@xs4all.nl>
+ <Y9KaFkDXIWjiKPzc@kekkonen.localdomain>
+Content-Language: en-US
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <Y9KaFkDXIWjiKPzc@kekkonen.localdomain>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Jan 27, 2023 at 12:48:28AM +0200, Laurent Pinchart wrote:
-> Hello,
-> 
-> On Thu, Jan 26, 2023 at 11:33:30PM +0100, Michael Grzeschik wrote:
-> > On Tue, Jan 24, 2023 at 05:17:09PM +0100, Michael Grzeschik wrote:
-> > > On Tue, Jan 24, 2023 at 04:35:24PM +0100, Greg KH wrote:
-> > >> On Tue, Jan 24, 2023 at 03:49:29PM +0100, Michael Grzeschik wrote:
-> > >>> The following changes since commit 82adfe34694c98f1115a7b75cff6af9c4a35dba9:
-> > >>>
-> > >>> Merge tag 'media-uvc-next-20230115' of git://git.kernel.org/pub/scm/linux/kernel/git/pinchartl/linux into media_stage (2023-01-22 08:43:14 +0100)
-> > >>>
-> > >>> are available in the Git repository at:
-> > >>>
-> > >>> git://git.pengutronix.de/mgr/linux tags/uvc-gadget-next-20230124
-> > >>>
-> > >>> for you to fetch changes up to e88f760d0f7054f49aa68b75bf0530840f031d34:
-> > >>>
-> > >>> usb: uvc: use v4l2_fill_fmtdesc instead of open coded format name (2023-01-24 15:26:07 +0100)
-> > >>>
-> > >>> ----------------------------------------------------------------
-> > >>> Marek Vasut (1):
-> > >>>     media: uvcvideo: Add GUID for BGRA/X 8:8:8:8
-> > >>>
-> > >>> Michael Grzeschik (4):
-> > >>>     usb: uvc: move media/v4l2-uvc.h to usb/uvc.h
-> > >>>     usb: uvc: move uvc_fmts and uvc_format_by_guid to own compile unit
-> > >>>     usb: uvc: make uvc_format_desc table const
-> > >>>     usb: uvc: use v4l2_fill_fmtdesc instead of open coded format name
-> > >>
-> > >> Sorry, but I can't take patches like this as a pull request.  I want to
-> > >> see the real patches and get people to review them properly that way.
-> > >
-> > > I just did like Laurent suggested. Since the series was already properly
-> > > reviewed I also thought this would be fine.
-> > >
-> > > https://lore.kernel.org/linux-media/Y8VdpQGcqmoKESk8@pendragon.ideasonboard.com/
-> > >
-> > > Anyway. I can send another round with the patch from Marek in the
-> > > series.
-> > 
-> > I am unsure how to proceed here.
-> > 
-> > I could send the series again and hope for Greg to take them. But
-> > without Mauros merge of your changes underneath, Greg will not be
-> > able to apply my series.
-> 
-> I think Greg would like to see a v3 of the series exactly as it exists
-> in your branch, based on top of media-uvc-next-20230115, with Marek's
-> patch included. Could you post that, and indicate in the cover letter
-> than it applies on top of
-> 
-> git://git.kernel.org/pub/scm/linux/kernel/git/pinchartl/linux.git media-uvc-next-20230115
-> 
-> which has been merged in the Linux media tree for v6.3 (as shown by
-> https://git.linuxtv.org/media_stage.git/commit/?id=82adfe34694c98f1115a7b75cff6af9c4a35dba9).
-> 
-> Greg, can you then merge that tag in your tree first, and then pick
-> Michael's patches up on top ?
+Hi Dan,
 
-Yes, I will be glad to do that, thanks.
+While trying to clean up smatch warnings in the media subsystem I came
+across a number of 'warn: missing unwind goto?' warnings that all had
+the same root cause as illustrated by this patch: the 'unwind' path
+just has a variation on printk(), it is not actually cleaning up anything.
 
-greg k-h
+As Sakari suggested, is this something that smatch can be improved for?
+These false positives are a bit annoying.
+
+You can see the whole series here if you are interested:
+
+https://patchwork.linuxtv.org/project/linux-media/list/?series=9747
+
+Regards,
+
+	Hans
+
+On 26/01/2023 16:19, Sakari Ailus wrote:
+> Hi Hans,
+> 
+> On Thu, Jan 26, 2023 at 04:06:55PM +0100, Hans Verkuil wrote:
+>> The code mixed gotos and returns, which confused smatch. Add a no_child
+>> label before the 'return -EINVAL;' to help smatch understand this.
+>> It's a bit more consistent as well.
+>>
+>> This fixes this smatch warning:
+>>
+>> adp1653.c:444 adp1653_of_init() warn: missing unwind goto?
+> 
+> This is clearly a false positive. There's also no reason to just have a
+> label where you simply return a value.
+> 
+> Would it be possible to just fix smatch instead?
+> 
+>>
+>> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+>> Cc: Sakari Ailus <sakari.ailus@linux.intel.com>
+>> ---
+>>  drivers/media/i2c/adp1653.c | 5 +++--
+>>  1 file changed, 3 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/media/i2c/adp1653.c b/drivers/media/i2c/adp1653.c
+>> index a61a77de6eee..136bca801db7 100644
+>> --- a/drivers/media/i2c/adp1653.c
+>> +++ b/drivers/media/i2c/adp1653.c
+>> @@ -420,7 +420,7 @@ static int adp1653_of_init(struct i2c_client *client,
+>>  
+>>  	child = of_get_child_by_name(node, "flash");
+>>  	if (!child)
+>> -		return -EINVAL;
+>> +		goto no_child;
+>>  
+>>  	if (of_property_read_u32(child, "flash-timeout-us",
+>>  				 &pd->max_flash_timeout))
+>> @@ -441,7 +441,7 @@ static int adp1653_of_init(struct i2c_client *client,
+>>  
+>>  	child = of_get_child_by_name(node, "indicator");
+>>  	if (!child)
+>> -		return -EINVAL;
+>> +		goto no_child;
+>>  
+>>  	if (of_property_read_u32(child, "led-max-microamp",
+>>  				 &pd->max_indicator_intensity))
+>> @@ -459,6 +459,7 @@ static int adp1653_of_init(struct i2c_client *client,
+>>  err:
+>>  	dev_err(&client->dev, "Required property not found\n");
+>>  	of_node_put(child);
+>> +no_child:
+>>  	return -EINVAL;
+>>  }
+>>  
+> 
+
