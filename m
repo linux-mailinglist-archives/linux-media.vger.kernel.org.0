@@ -2,56 +2,64 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AA82A67E927
-	for <lists+linux-media@lfdr.de>; Fri, 27 Jan 2023 16:13:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8536567E98C
+	for <lists+linux-media@lfdr.de>; Fri, 27 Jan 2023 16:34:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234196AbjA0PNb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 27 Jan 2023 10:13:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47474 "EHLO
+        id S233710AbjA0Pe4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 27 Jan 2023 10:34:56 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32834 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234165AbjA0PN0 (ORCPT
+        with ESMTP id S234618AbjA0Pey (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 27 Jan 2023 10:13:26 -0500
-Received: from mout.perfora.net (mout.perfora.net [74.208.4.196])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BFAC284B44;
-        Fri, 27 Jan 2023 07:13:10 -0800 (PST)
-Received: from toolbox.int.toradex.com ([213.55.225.206]) by
- mrelay.perfora.net (mreueus004 [74.208.5.2]) with ESMTPSA (Nemesis) id
- 1MbS8j-1oo0Ko1wqH-00bs7h; Fri, 27 Jan 2023 16:12:52 +0100
-From:   Marcel Ziswiler <marcel@ziswiler.com>
+        Fri, 27 Jan 2023 10:34:54 -0500
+Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C9DC80009
+        for <linux-media@vger.kernel.org>; Fri, 27 Jan 2023 07:34:52 -0800 (PST)
+Received: by mail-wr1-x42b.google.com with SMTP id b7so5327542wrt.3
+        for <linux-media@vger.kernel.org>; Fri, 27 Jan 2023 07:34:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kynesim-co-uk.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=wiofnt06/2YnOi5riywAOCp/UNp1DDfntXDSuWyqqVo=;
+        b=z87Ie7ZGVECo2oxbzKEZFMQzgB879wc5UXGnVWe7wuicH7DJutgmGJ1HI3pqlrkuJ+
+         n//LEIGTALhM7I9tjKSzvgy+bKpAaF3v3dvKT0s7M2q2zAaeaaFhxylKo5fsueI7twQU
+         jWytlZn+yld6t3RePrXg/eGgilIVNMhQ8vL/CAED37VukIXzOtitvrWsDJ775OATG8la
+         we9YKMDDwxjZpq5FuRPk2Rv0ssYar7ZYMev/mm8+ZH1YuqE5rMA+zqmKIKEXTWxys/aW
+         JkdzMpGX/0cBgqWULLjbQQ5DCL2YngWsV5U3+VG66x9vhHtPmA7LUIc2ioMIT+EAcCO2
+         48Rg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=wiofnt06/2YnOi5riywAOCp/UNp1DDfntXDSuWyqqVo=;
+        b=24dAOd+x8P9a/wLAlMzwtxfCA6UYQZIgYrR2dJgoa/UWXYDp4WMj7TIz+gUfGTvA2r
+         GWYd7vTZ/Z7GscVqxn+Xi+kaAqRYTydnuwIHL134L2v5pFrqF03QR5uhlidjBh+lSQJp
+         k5Fy9CBmfpQCG+piBAGSNS5hDFDDkaTBnvSjlpSKLaRW6VDUGXOWeeHBgJwdeTy2W9Dj
+         LoTzzu6S2DDWax51YawJTl4T7NCO6OI+8C7hgoPYWhO9vFw3BKTNWU8fON5jkXYqkvQh
+         Z8HGjGsZrZpnPm6O++nJaIVXZ5JF/i1qUgsPSNzWkfb2+fAaMC1Wb2axKQ2D/3AUUdhP
+         4w+w==
+X-Gm-Message-State: AFqh2koSJufeiLpZqPDcrjTsPLIGItuUMNaZadHnOPm30t4DB+P7Olh7
+        CMNO5pDHoLB4rpnoezWt272P54JZCKN6tBcXoCA=
+X-Google-Smtp-Source: AMrXdXsuCKfmoyb7PfGVqHVlhN9MkqUByVk/NxnYdGFbOeRqdyw4i/XkPubL9TggmQh8RY0d5BTTqQ==
+X-Received: by 2002:a5d:6b85:0:b0:2bd:d782:c2bc with SMTP id n5-20020a5d6b85000000b002bdd782c2bcmr35399633wrx.33.1674833690633;
+        Fri, 27 Jan 2023 07:34:50 -0800 (PST)
+Received: from sucnaath.outer.uphall.net (cpc1-cmbg20-2-0-cust759.5-4.cable.virginm.net. [86.21.218.248])
+        by smtp.gmail.com with ESMTPSA id z14-20020a5d4d0e000000b002bde537721dsm4231826wrt.20.2023.01.27.07.34.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 27 Jan 2023 07:34:49 -0800 (PST)
+From:   John Cox <jc@kynesim.co.uk>
 To:     linux-media@vger.kernel.org
-Cc:     kernel@pengutronix.de, Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Francesco Dolcini <francesco.dolcini@toradex.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Aishwarya Kothari <aishwarya.kothari@toradex.com>,
-        Marcel Ziswiler <marcel.ziswiler@toradex.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v1] media: i2c: ov5640: Implement get_mbus_config
-Date:   Fri, 27 Jan 2023 16:12:44 +0100
-Message-Id: <20230127151245.46732-1-marcel@ziswiler.com>
-X-Mailer: git-send-email 2.36.1
+Cc:     hverkuil-cisco@xs4all.nl, John Cox <jc@kynesim.co.uk>
+Subject: [PATCH 0/2] media: v4l: Add Broadcom sand format to the list of V4L formats
+Date:   Fri, 27 Jan 2023 15:34:13 +0000
+Message-Id: <20230127153415.83126-1-jc@kynesim.co.uk>
+X-Mailer: git-send-email 2.37.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:LnLuZcGr6caawagCtkpnB1i5EvvBvoA99joMC/8n7db4UpRqxDF
- /kTDm0JlL0aQVopzNSCMzELW62EdafVtbmph0Uhtw8JM8dNzbgC/1J0/sf9U/52AeifLsXj
- ueX+Ixo6DRjLMt2KYHFLJzpdWmInHAK9fwZAj2ZpE46B6cg5PrGutCd258pQKHvWMIwW12t
- APWbUkutTiPTkrRjsH01A==
-UI-OutboundReport: notjunk:1;M01:P0:ySWAG/RI/kA=;Gohj3tVTcUbQQTJ5pdivTjMNnAF
- 820xv5X0DUFjZ9RZp3oxSB3Kam7h9o0U0Ne5W39XYnM+NYVcxnQXgZbduPTyeBu9vxbRNl82K
- MqmaUWOzVzcu9a8+jOVe0nMdW0aUROIjYkrouZBpe1gso0aIabALjhxvilDju9TNp1NS9dSJa
- ZD/Iw2omEZFPViKRMFlhvRsCb3r4Tm1+ziXOPk7Dj1rhyznOOXCRh+LBOm8lAHoHkVLuWMJCr
- 1gCzH4bFoXicfniLL+qKCSjUmI1akROH3vV3pVKW63H/mbaTRjfzibfuJ0v4XGEZQMpRfq/zM
- q1YRkaU4v9ws3ZwZzEJT75sqjLaaPCgZpPQacZgtrWXplm6sxHLM+9k5/2zTLltJ5sTspLbRu
- LVhHHqY3Gde5SgloanuHRecwiNmJKQCqcPGTahGzNwXobCeO8N3hYArCKVvTdcWu1m/xi+7Zl
- tQS2Z+7gNmmFdy9/UR/3iQWfKXTXoj5mEUbDZJ1xEW2sr7Z5pjQdYJAQoe4PjCTT1xnTV6s4E
- 5NCX7LqhABiy9ELdn1OVpa8TMmiq5dqo0/EwerX9rHQvQmygdQGZn4XcMl8/176/qAp+VfYoq
- I0S/YlEgDu2aYzzA+fN0WF4j9y+cfE9Fdmv1ox5bLwcSd/SFd7VZ8Z9fF0FkxBOn+jRk4jKqo
- uyW99pkAUirc90WM1Tf3PqKRTf3J2K9mkrMmL3hhBjRSu+YfkZRDNRAiCB4RwgU=
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE autolearn=ham
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -59,51 +67,23 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Aishwarya Kothari <aishwarya.kothari@toradex.com>
+This is in preparation for attempting to upstream the Rpi H265 decoder
+as these formats are the only ones the hardware can decode to. They are
+a column format rather than a tile format but I've added them to the
+list of tiled formats as that seems the closest match.
 
-Implement the introduced get_mbus_config operation to report the
-number of used data lanes on the MIPI CSI-2 interface.
+V4L2_PIX_FMT_NV12_C128 matches DRM format NV12 with modifier
+DRM_FORMAT_MOD_BROADCOM_SAND128_COL_HEIGHT(ch) and
+V4L2_PIX_FMT_P030_C128 matches DRM format P030 with the same modifier.
 
-Signed-off-by: Aishwarya Kothari <aishwarya.kothari@toradex.com>
-Signed-off-by: Marcel Ziswiler <marcel.ziswiler@toradex.com>
+John Cox (2):
+  media: v4l: Add Broadcom sand formats to videodev2.h
+  media: v4l: Add documentation for Broadcom sand formats
 
----
+ .../media/v4l/pixfmt-yuv-planar.rst           | 192 ++++++++++++++++++
+ include/uapi/linux/videodev2.h                |   2 +
+ 2 files changed, 194 insertions(+)
 
- drivers/media/i2c/ov5640.c | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
-
-diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
-index e0f908af581b..42d43f0d1e1c 100644
---- a/drivers/media/i2c/ov5640.c
-+++ b/drivers/media/i2c/ov5640.c
-@@ -3733,6 +3733,19 @@ static int ov5640_init_cfg(struct v4l2_subdev *sd,
- 	return 0;
- }
- 
-+static int ov5640_get_mbus_config(struct v4l2_subdev *sd,
-+				   unsigned int pad,
-+				   struct v4l2_mbus_config *cfg)
-+{
-+	struct ov5640_dev *sensor = to_ov5640_dev(sd);
-+
-+	cfg->type = V4L2_MBUS_CSI2_DPHY;
-+	cfg->bus.mipi_csi2.num_data_lanes = sensor->ep.bus.mipi_csi2.num_data_lanes;
-+	cfg->bus.mipi_csi2.flags = 0;
-+
-+	return 0;
-+}
-+
- static const struct v4l2_subdev_core_ops ov5640_core_ops = {
- 	.log_status = v4l2_ctrl_subdev_log_status,
- 	.subscribe_event = v4l2_ctrl_subdev_subscribe_event,
-@@ -3753,6 +3766,7 @@ static const struct v4l2_subdev_pad_ops ov5640_pad_ops = {
- 	.get_selection = ov5640_get_selection,
- 	.enum_frame_size = ov5640_enum_frame_size,
- 	.enum_frame_interval = ov5640_enum_frame_interval,
-+	.get_mbus_config = ov5640_get_mbus_config,
- };
- 
- static const struct v4l2_subdev_ops ov5640_subdev_ops = {
 -- 
-2.36.1
+2.37.2
 
