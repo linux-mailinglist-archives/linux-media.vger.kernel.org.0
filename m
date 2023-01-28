@@ -2,97 +2,151 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1F81167F6AA
-	for <lists+linux-media@lfdr.de>; Sat, 28 Jan 2023 10:23:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 36E9867F6C3
+	for <lists+linux-media@lfdr.de>; Sat, 28 Jan 2023 10:42:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233397AbjA1JXV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 28 Jan 2023 04:23:21 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48160 "EHLO
+        id S233631AbjA1JmG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 28 Jan 2023 04:42:06 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53330 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232296AbjA1JXU (ORCPT
+        with ESMTP id S229599AbjA1JmF (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 28 Jan 2023 04:23:20 -0500
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 11A421E9E0
-        for <linux-media@vger.kernel.org>; Sat, 28 Jan 2023 01:23:19 -0800 (PST)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1pLhQa-0003ee-Be; Sat, 28 Jan 2023 10:23:16 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1pLhQZ-000yhJ-8W; Sat, 28 Jan 2023 10:23:14 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1pLhQX-00GVIG-L6; Sat, 28 Jan 2023 10:23:13 +0100
-Date:   Sat, 28 Jan 2023 10:23:10 +0100
-From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To:     Shunqian Zheng <zhengsq@rock-chips.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     kernel@pengutronix.de, linux-media@vger.kernel.org,
-        Wolfram Sang <wsa@kernel.org>
-Subject: Re: [PATCH] media: i2c: ov2685: convert to i2c's .probe_new()
-Message-ID: <20230128092310.4s3462q3w5ablfmr@pengutronix.de>
-References: <20221121102838.16448-1-u.kleine-koenig@pengutronix.de>
+        Sat, 28 Jan 2023 04:42:05 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E7D9C13DF7
+        for <linux-media@vger.kernel.org>; Sat, 28 Jan 2023 01:41:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1674898880;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=k/+dGwbz0zDWDEkIhYFWgOukr6XgocaommysHbGNBvs=;
+        b=d5DXvnF8f3VzwI2lbkvMPccEGzb42kwTRv29+VZZwcPQUH9f4LJd7Yu9Fro0VbN3kUN1CN
+        YJ+gb+NkHCl7x40I9J1EtJsHYcSk/JKarBAH3JRKN4mIWvUMdRLdKIeQKSIfA+UYkF0cjx
+        L9kmXHepsRZEQYD/u+b+cIiNoJO7GoA=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-487-I8HpmfEoMYmn0ChoINODpg-1; Sat, 28 Jan 2023 04:41:18 -0500
+X-MC-Unique: I8HpmfEoMYmn0ChoINODpg-1
+Received: by mail-ej1-f69.google.com with SMTP id nd38-20020a17090762a600b00871ff52c6b5so4709884ejc.0
+        for <linux-media@vger.kernel.org>; Sat, 28 Jan 2023 01:41:18 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=k/+dGwbz0zDWDEkIhYFWgOukr6XgocaommysHbGNBvs=;
+        b=wEyorECRAeY4kf8oqlfheLTa37h1Hi4WNY4mj5Np7tb/79AqOBazkuZ+gNpiOdtm24
+         pn/O0AUgxNKse7hLxlfXFXwGCrKOVvl16oINUPjDbHNHng/AlPpOHBPBPSZ3M4JpDjHs
+         4aLl5alLIiIC8+ZzlHCOO7OHa67SEG8RqL1FGGM14tvRAAiZscGA2pnxO9KHGm+A0atW
+         aONVYHHT+/cFSg4vFscIZOgoQTS15ehuPYV3QhanxKtAVpoBlWmbKNOYpPrSPwxEAY8J
+         C5VBDnFwtvL9OF1juTy3VPt/o3HXMsMhpEC9oBWSRUD09rs0X1ZJvxTVIXHCGrLYn6OD
+         le2Q==
+X-Gm-Message-State: AFqh2kqtnPUijxczxqQWakrQAZvTAePQ0esuTC4gsD97dkY/s/ZTgxCU
+        0LEWLCo0IP2Gn2glO8nq+Wi00nTKPKn8BfMG3zssXEn0uL7anXwEgVMo/kdGbDNhSdxfEA7oxJV
+        QN16amf+Bqmfg77PVxebYWF0=
+X-Received: by 2002:a05:6402:189:b0:499:376e:6b27 with SMTP id r9-20020a056402018900b00499376e6b27mr44119990edv.5.1674898877067;
+        Sat, 28 Jan 2023 01:41:17 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXvkr8z/9KKq2AYlcjqdBULj9zqbIQz12ZEaKsbRqhQk9ARLEd7wxrB+TnsmtMDNVq2t+/Hisg==
+X-Received: by 2002:a05:6402:189:b0:499:376e:6b27 with SMTP id r9-20020a056402018900b00499376e6b27mr44119972edv.5.1674898876844;
+        Sat, 28 Jan 2023 01:41:16 -0800 (PST)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id l11-20020aa7d94b000000b004954c90c94bsm3709340eds.6.2023.01.28.01.41.15
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 28 Jan 2023 01:41:16 -0800 (PST)
+Message-ID: <17f5f57e-0003-2b6b-bfaa-18b03a6d1874@redhat.com>
+Date:   Sat, 28 Jan 2023 10:41:15 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="2gnxu2uiyxxnkjb6"
-Content-Disposition: inline
-In-Reply-To: <20221121102838.16448-1-u.kleine-koenig@pengutronix.de>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH v6 1/5] media: v4l2-core: Make the v4l2-core code
+ enable/disable the privacy LED if present
+To:     kernel test robot <lkp@intel.com>,
+        Mark Gross <mgross@linux.intel.com>,
+        Andy Shevchenko <andy@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Daniel Scally <djrscally@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+        linux-media@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        linux-gpio@vger.kernel.org, Kate Hsuan <hpa@redhat.com>,
+        Mark Pearson <markpearson@lenovo.com>,
+        Andy Yeh <andy.yeh@intel.com>, Hao Yao <hao.yao@intel.com>
+References: <20230127203729.10205-2-hdegoede@redhat.com>
+ <202301281534.9Z8xRsrX-lkp@intel.com>
+Content-Language: en-US, nl
+From:   Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <202301281534.9Z8xRsrX-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-3.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi,
 
---2gnxu2uiyxxnkjb6
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 1/28/23 08:35, kernel test robot wrote:
+> Hi Hans,
+> 
+> I love your patch! Yet something to improve:
+> 
+> [auto build test ERROR on linus/master]
+> [also build test ERROR on v6.2-rc5]
+> [cannot apply to media-tree/master]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Hans-de-Goede/media-v4l2-core-Make-the-v4l2-core-code-enable-disable-the-privacy-LED-if-present/20230128-131233
+> patch link:    https://lore.kernel.org/r/20230127203729.10205-2-hdegoede%40redhat.com
+> patch subject: [PATCH v6 1/5] media: v4l2-core: Make the v4l2-core code enable/disable the privacy LED if present
+> config: riscv-randconfig-r026-20230123 (https://download.01.org/0day-ci/archive/20230128/202301281534.9Z8xRsrX-lkp@intel.com/config)
+> compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 4196ca3278f78c6e19246e54ab0ecb364e37d66a)
+> reproduce (this is a W=1 build):
+>         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+>         chmod +x ~/bin/make.cross
+>         # install riscv cross compiling tool for clang build
+>         # apt-get install binutils-riscv64-linux-gnu
+>         # https://github.com/intel-lab-lkp/linux/commit/000ccec1824b3256e3fc1a94079bb953f19faab5
+>         git remote add linux-review https://github.com/intel-lab-lkp/linux
+>         git fetch --no-tags linux-review Hans-de-Goede/media-v4l2-core-Make-the-v4l2-core-code-enable-disable-the-privacy-LED-if-present/20230128-131233
+>         git checkout 000ccec1824b3256e3fc1a94079bb953f19faab5
+>         # save the config file
+>         mkdir build_dir && cp config build_dir/.config
+>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv olddefconfig
+>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash drivers/media/v4l2-core/
+> 
+> If you fix the issue, kindly add following tag where applicable
+> | Reported-by: kernel test robot <lkp@intel.com>
+> 
+> All errors (new ones prefixed by >>):
+> 
+>>> drivers/media/v4l2-core/v4l2-subdev.c:1124:20: error: call to undeclared function 'led_get'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+>            sd->privacy_led = led_get(sd->dev, "privacy-led");
+>                              ^
+>>> drivers/media/v4l2-core/v4l2-subdev.c:1124:18: error: incompatible integer to pointer conversion assigning to 'struct led_classdev *' from 'int' [-Wint-conversion]
+>            sd->privacy_led = led_get(sd->dev, "privacy-led");
+>                            ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>    2 errors generated.
 
-Hello,
+As mentioned in the cover-letter this series depends on this immutable-branch:
 
-On Mon, Nov 21, 2022 at 11:28:38AM +0100, Uwe Kleine-K=F6nig wrote:
-> The probe function doesn't make use of the i2c_device_id * parameter so
-> it can be trivially converted.
+https://lore.kernel.org/platform-driver-x86/Y9QGcA+9nlmOOy2d@google.com/
 
-Gentle ping! As of yesterday's next there are only <10 drivers left that
-make use of the old .probe function. I'd like to complete the conversion
-to .probe_new() after the next merge window. So I ask you to either take
-this patch (and the similar ov5695 one) during the next merge window (my
-preferred option), or accept that I will send it in a series with the
-patch removing .probe() with the id parameter to be merged via the i2c
-tree.
+That branch not being present in the base used by LKP is what is causing this
+error.
 
-Best regards
-Uwe
+Regards,
 
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+Hans
 
---2gnxu2uiyxxnkjb6
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmPU6XsACgkQwfwUeK3K
-7AnzvwgAkL4wDoLkrvJ8axTL+rl81mARBB3FT0VUkbjdn8NKuEYXm5rAgorkJlov
-0hSti1wxuDqn7cSlTxY02NYFlkA7o78/OPDLH7gSDxrie2mPKTP2hpzjhIAC2fwK
-YMXcC+IVIPH2osanHjkW65RH0gKZ8HJGHaZf1BNEIL3xyJr5AvFNZPGJnUPKX+Ku
-wS/a+ZktfGv0xcTEwT+9+gDJPDjs+lHp233FZi7Ay1si3NSOZMmmjUza005rUg97
-di6EOOzTudmB8CX61XY+kq0kk/HxEpxzi/uM199GIMqe0hi5VS4/GtdFfhQ73JWY
-4q5Qj13gJKYh5SM7JLFqN7e0jzDVuQ==
-=RUem
------END PGP SIGNATURE-----
-
---2gnxu2uiyxxnkjb6--
