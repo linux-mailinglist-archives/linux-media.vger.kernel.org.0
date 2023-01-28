@@ -2,269 +2,291 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9A86567F950
-	for <lists+linux-media@lfdr.de>; Sat, 28 Jan 2023 16:58:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 91D7867FA22
+	for <lists+linux-media@lfdr.de>; Sat, 28 Jan 2023 18:57:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233443AbjA1P6h (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 28 Jan 2023 10:58:37 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59804 "EHLO
+        id S233982AbjA1R5v (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 28 Jan 2023 12:57:51 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49924 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231496AbjA1P6f (ORCPT
+        with ESMTP id S232174AbjA1R5t (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 28 Jan 2023 10:58:35 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E081298DA;
-        Sat, 28 Jan 2023 07:58:30 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 816D460C23;
-        Sat, 28 Jan 2023 15:58:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3DC8FC433D2;
-        Sat, 28 Jan 2023 15:58:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1674921508;
-        bh=7R+Y0pFZ9qQaQE2Of8Zyt01fF+w51NH/3ezIsAynqvk=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=d4enHA5MJ371GrPucjk++EVvYqWfJUb0Rmdj7ygsHD6FdJSuKLpmLKZObRmyoduRb
-         F7/rgXbXthLnxMVJdAyroI/3tQf7IL+wc3TYMiY9DLLWZ9lgFPGplKFOxflb3tFuNt
-         UtYcUlsjz0il95gmiB3mk4Bvk/TbRiYPJ9FjEivIPmpDedLPGd1WcinaLHdellNT7Y
-         g/L7fp8K98T+nO5sT29tqenfN8c3UVjvN0Ncbjl4SfTpSGVwHHakRtS6Y7/70MN4yc
-         AsRCXMaJ9yLeFgwHKcot/dcC5xFelUPaBwh2MZkhTt1C1Gr3icbGZaQVBWurLjEUVb
-         0mCC0mntbHQgQ==
-Date:   Sat, 28 Jan 2023 16:12:17 +0000
-From:   Jonathan Cameron <jic23@kernel.org>
-To:     Gatien Chevallier <gatien.chevallier@foss.st.com>
-Cc:     <Oleksii_Moisieiev@epam.com>, <gregkh@linuxfoundation.org>,
-        <herbert@gondor.apana.org.au>, <davem@davemloft.net>,
-        <robh+dt@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>,
-        <alexandre.torgue@foss.st.com>, <vkoul@kernel.org>,
-        <olivier.moysan@foss.st.com>, <arnaud.pouliquen@foss.st.com>,
-        <mchehab@kernel.org>, <fabrice.gasnier@foss.st.com>,
-        <ulf.hansson@linaro.org>, <edumazet@google.com>, <kuba@kernel.org>,
-        <pabeni@redhat.com>, <linux-crypto@vger.kernel.org>,
-        <devicetree@vger.kernel.org>,
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>, <dmaengine@vger.kernel.org>,
-        <linux-i2c@vger.kernel.org>, <linux-iio@vger.kernel.org>,
-        <alsa-devel@alsa-project.org>, <linux-media@vger.kernel.org>,
-        <linux-mmc@vger.kernel.org>, <netdev@vger.kernel.org>,
-        <linux-phy@lists.infradead.org>, <linux-serial@vger.kernel.org>,
-        <linux-spi@vger.kernel.org>, <linux-usb@vger.kernel.org>,
-        Loic PALLARDY <loic.pallardy@st.com>
-Subject: Re: [PATCH v3 4/6] bus: stm32_sys_bus: add support for STM32MP15
- and STM32MP13 system bus
-Message-ID: <20230128161217.0e79436e@jic23-huawei>
-In-Reply-To: <20230127164040.1047583-5-gatien.chevallier@foss.st.com>
-References: <20230127164040.1047583-1-gatien.chevallier@foss.st.com>
-        <20230127164040.1047583-5-gatien.chevallier@foss.st.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.36; x86_64-pc-linux-gnu)
+        Sat, 28 Jan 2023 12:57:49 -0500
+Received: from mail.z3ntu.xyz (mail.z3ntu.xyz [128.199.32.197])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BCFCB28869
+        for <linux-media@vger.kernel.org>; Sat, 28 Jan 2023 09:57:45 -0800 (PST)
+Received: from g550jk.localnet (unknown [62.108.10.64])
+        by mail.z3ntu.xyz (Postfix) with ESMTPSA id E0EA5C3FEB;
+        Sat, 28 Jan 2023 17:57:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=z3ntu.xyz; s=z3ntu;
+        t=1674928664; bh=zXZrlmp7eYqpWcgqAbQdR34I1cdi56K6z+qVZTjHUiQ=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References;
+        b=Gq+4QkJZNA2ikefWxZvCp6W8AEJO020S0EV9pwZzEpO8TXbP2WwDXcCzXQQEANfEP
+         TWKZTYbjh6k5aWX/xbKqqnp1v271PMtjAoIxOy/cWHFlgz+EDWxH4sL8EKNwNsFt/7
+         iGFi0LxWqZeW9VJnrR6nLAQW9gkaKZNNVJj0FywA=
+From:   Luca Weiss <luca@z3ntu.xyz>
+To:     Chiranjeevi Rapolu <chiranjeevi.rapolu@intel.com>,
+        Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+        laurent.pinchart@ideasonboard.com, sakari.ailus@iki.fi,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org,
+        Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>
+Subject: Re: [PATCH v6 8/9] media: i2c: ov5670: Add .get_selection() support
+Date:   Sat, 28 Jan 2023 18:57:43 +0100
+Message-ID: <1918352.PYKUYFuaPT@g550jk>
+In-Reply-To: <20230126165909.121302-9-jacopo.mondi@ideasonboard.com>
+References: <20230126165909.121302-1-jacopo.mondi@ideasonboard.com>
+ <20230126165909.121302-9-jacopo.mondi@ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_INVALID,
+        DKIM_SIGNED,FROM_SUSPICIOUS_NTLD,SPF_HELO_NONE,SPF_PASS,
+        T_PDS_OTHER_BAD_TLD autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, 27 Jan 2023 17:40:38 +0100
-Gatien Chevallier <gatien.chevallier@foss.st.com> wrote:
-
-> This driver is checking the access rights of the different
-> peripherals connected to the system bus. If access is denied,
-> the associated device tree node is skipped so the platform bus
-> does not probe it.
-> 
-> Signed-off-by: Gatien Chevallier <gatien.chevallier@foss.st.com>
-> Signed-off-by: Loic PALLARDY <loic.pallardy@st.com>
-
-Hi Gatien,
-
-A few comments inline,
-
-Thanks,
-
-Jonathan
-
-> diff --git a/drivers/bus/stm32_sys_bus.c b/drivers/bus/stm32_sys_bus.c
-> new file mode 100644
-> index 000000000000..c12926466bae
-> --- /dev/null
-> +++ b/drivers/bus/stm32_sys_bus.c
-> @@ -0,0 +1,168 @@
-> +// SPDX-License-Identifier: GPL-2.0
+On Donnerstag, 26. J=E4nner 2023 17:59:08 CET Jacopo Mondi wrote:
+> From: Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>
+>=20
+> Add support for the .get_selection() pad operation to the ov5670 sensor
+> driver.
+>=20
+> Report the native sensor size (pixel array), the crop bounds (readable
+> pixel array area) and the current and default analog crop rectangles.
+>=20
+> Currently all driver's modes use an analog crop rectangle of size
+> [12, 4, 2600, 1952]. Instead of hardcoding the value in the operation
+> implementation, ad an .analog_crop field to the sensor's modes
+> definitions, to make sure that if any mode gets added, its crop
+> rectangle will be defined as well.
+>=20
+> While at it re-sort the modes' field definition order to match the
+> declaration order and initialize the crop rectangle in init_cfg().
+>=20
+> Signed-off-by: Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>
+> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> ---
+>  drivers/media/i2c/ov5670.c | 89 +++++++++++++++++++++++++++++++++++---
+>  1 file changed, 83 insertions(+), 6 deletions(-)
+>=20
+> diff --git a/drivers/media/i2c/ov5670.c b/drivers/media/i2c/ov5670.c
+> index 898f564e0c3e..e2a3db7e4e20 100644
+> --- a/drivers/media/i2c/ov5670.c
+> +++ b/drivers/media/i2c/ov5670.c
+> @@ -74,6 +74,10 @@
+>  #define OV5670_REG_VALUE_16BIT		2
+>  #define OV5670_REG_VALUE_24BIT		3
+>=20
+> +/* Pixel Array */
+> +#define OV5670_NATIVE_WIDTH		2624
+> +#define OV5670_NATIVE_HEIGHT		1980
+> +
+>  /* Initial number of frames to skip to avoid possible garbage */
+>  #define OV5670_NUM_OF_SKIP_FRAMES	2
+>=20
+> @@ -116,10 +120,25 @@ struct ov5670_mode {
+>  	/* Link frequency needed for this resolution */
+>  	u32 link_freq_index;
+>=20
+> +	/* Analog crop rectangle */
+> +	const struct v4l2_rect *analog_crop;
+> +
+>  	/* Sensor register settings for this resolution */
+>  	const struct ov5670_reg_list reg_list;
+>  };
+>=20
 > +/*
-> + * Copyright (C) 2023, STMicroelectronics - All Rights Reserved
+> + * All the modes supported by the driver are obtained by subsampling the
+> + * full pixel array. The below values are reflected in registers from
+> + * 03800-0x3807 in the modes register-value tables.
+
+nit: 03800 should be 0x3800
+
+Regards
+Luca
+
 > + */
-> +
-> +#include <linux/bitfield.h>
-> +#include <linux/bits.h>
-> +#include <linux/device.h>
-> +#include <linux/err.h>
-> +#include <linux/io.h>
-> +#include <linux/init.h>
-> +#include <linux/kernel.h>
-> +#include <linux/module.h>
-> +#include <linux/of.h>
-> +#include <linux/of_platform.h>
-> +#include <linux/platform_device.h>
-> +
-> +/* ETZPC peripheral as firewall bus */
-> +/* ETZPC registers */
-> +#define ETZPC_DECPROT			0x10
-> +
-> +/* ETZPC miscellaneous */
-> +#define ETZPC_PROT_MASK			GENMASK(1, 0)
-> +#define ETZPC_PROT_A7NS			0x3
-> +#define ETZPC_DECPROT_SHIFT		1
-
-This define makes the code harder to read.  What we care about is
-the number of bits in the register divided by number of entries.
-(which is 2) hence the shift by 1. See below for more on this.
-
-
-> +
-> +#define IDS_PER_DECPROT_REGS		16
-
-> +#define STM32MP15_ETZPC_ENTRIES		96
-> +#define STM32MP13_ETZPC_ENTRIES		64
-
-These defines just make the code harder to check.
-They aren't magic numbers, but rather just telling us how many
-entries there are, so I would just put them in the structures directly.
-Their use make it clear what they are without needing to give them a name.
-
-
-> +struct stm32_sys_bus_match_data {
-
-Comment on naming of this below.
-
-> +	unsigned int max_entries;
+> +static const struct v4l2_rect ov5670_analog_crop =3D {
+> +	.left	=3D 12,
+> +	.top	=3D 4,
+> +	.width	=3D 2600,
+> +	.height	=3D 1952,
 > +};
 > +
-
-+static int stm32_etzpc_get_access(struct sys_bus_data *pdata, struct device_node *np)
-+{
-+	int err;
-+	u32 offset, reg_offset, sec_val, id;
-+
-+	err = stm32_sys_bus_get_periph_id(pdata, np, &id);
-+	if (err)
-+		return err;
-+
-+	/* Check access configuration, 16 peripherals per register */
-+	reg_offset = ETZPC_DECPROT + 0x4 * (id / IDS_PER_DECPROT_REGS);
-+	offset = (id % IDS_PER_DECPROT_REGS) << ETZPC_DECPROT_SHIFT;
-
-Use of defines in here is actively unhelpful when it comes to review. I would suggest letting
-the maths be self explanatory (even if it's more code).
-
-	offset = (id % IDS_PER_DECPROT_REGS) * (sizeof(u32) * BITS_PER_BYTE / IDS_PER_DECPROT_REGS);
-
-Or if you prefer have a define of
-
-#define DECPROT_BITS_PER_ID (sizeof(u32) * BITS_PER_BYTE / IDS_PER_DECPROT_REGS)
-
-and
-	offset = (id % IDS_PER_DECPROT_REGS) * DECPROT_BITS_PER_ID;
-
-+
-+	/* Verify peripheral is non-secure and attributed to cortex A7 */
-+	sec_val = (readl(pdata->sys_bus_base + reg_offset) >> offset) & ETZPC_PROT_MASK;
-+	if (sec_val != ETZPC_PROT_A7NS) {
-+		dev_dbg(pdata->dev, "Invalid bus configuration: reg_offset %#x, value %d\n",
-+			reg_offset, sec_val);
-+		return -EACCES;
-+	}
-+
-+	return 0;
-+}
-+
-...
-
-> +static int stm32_sys_bus_probe(struct platform_device *pdev)
+>  static const struct ov5670_reg mipi_data_rate_840mbps[] =3D {
+>  	{0x0300, 0x04},
+>  	{0x0301, 0x00},
+> @@ -1767,66 +1786,73 @@ static const struct ov5670_mode supported_modes[]=
+ =3D
+> { .height =3D 1944,
+>  		.vts_def =3D OV5670_VTS_30FPS,
+>  		.vts_min =3D OV5670_VTS_30FPS,
+> +		.link_freq_index =3D OV5670_LINK_FREQ_422MHZ_INDEX,
+> +		.analog_crop =3D &ov5670_analog_crop,
+>  		.reg_list =3D {
+>  			.num_of_regs =3D ARRAY_SIZE(mode_2592x1944_regs),
+>  			.regs =3D mode_2592x1944_regs,
+>  		},
+> -		.link_freq_index =3D OV5670_LINK_FREQ_422MHZ_INDEX,
+>  	},
+>  	{
+>  		.width =3D 1296,
+>  		.height =3D 972,
+>  		.vts_def =3D OV5670_VTS_30FPS,
+>  		.vts_min =3D 996,
+> +		.link_freq_index =3D OV5670_LINK_FREQ_422MHZ_INDEX,
+> +		.analog_crop =3D &ov5670_analog_crop,
+>  		.reg_list =3D {
+>  			.num_of_regs =3D ARRAY_SIZE(mode_1296x972_regs),
+>  			.regs =3D mode_1296x972_regs,
+>  		},
+> -		.link_freq_index =3D OV5670_LINK_FREQ_422MHZ_INDEX,
+>  	},
+>  	{
+>  		.width =3D 648,
+>  		.height =3D 486,
+>  		.vts_def =3D OV5670_VTS_30FPS,
+>  		.vts_min =3D 516,
+> +		.link_freq_index =3D OV5670_LINK_FREQ_422MHZ_INDEX,
+> +		.analog_crop =3D &ov5670_analog_crop,
+>  		.reg_list =3D {
+>  			.num_of_regs =3D ARRAY_SIZE(mode_648x486_regs),
+>  			.regs =3D mode_648x486_regs,
+>  		},
+> -		.link_freq_index =3D OV5670_LINK_FREQ_422MHZ_INDEX,
+>  	},
+>  	{
+>  		.width =3D 2560,
+>  		.height =3D 1440,
+>  		.vts_def =3D OV5670_VTS_30FPS,
+>  		.vts_min =3D OV5670_VTS_30FPS,
+> +		.link_freq_index =3D OV5670_LINK_FREQ_422MHZ_INDEX,
+> +		.analog_crop =3D &ov5670_analog_crop,
+>  		.reg_list =3D {
+>  			.num_of_regs =3D ARRAY_SIZE(mode_2560x1440_regs),
+>  			.regs =3D mode_2560x1440_regs,
+>  		},
+> -		.link_freq_index =3D OV5670_LINK_FREQ_422MHZ_INDEX,
+>  	},
+>  	{
+>  		.width =3D 1280,
+>  		.height =3D 720,
+>  		.vts_def =3D OV5670_VTS_30FPS,
+>  		.vts_min =3D 1020,
+> +
+> +		.link_freq_index =3D OV5670_LINK_FREQ_422MHZ_INDEX,
+> +		.analog_crop =3D &ov5670_analog_crop,
+>  		.reg_list =3D {
+>  			.num_of_regs =3D ARRAY_SIZE(mode_1280x720_regs),
+>  			.regs =3D mode_1280x720_regs,
+>  		},
+> -		.link_freq_index =3D OV5670_LINK_FREQ_422MHZ_INDEX,
+>  	},
+>  	{
+>  		.width =3D 640,
+>  		.height =3D 360,
+>  		.vts_def =3D OV5670_VTS_30FPS,
+>  		.vts_min =3D 510,
+> +		.link_freq_index =3D OV5670_LINK_FREQ_422MHZ_INDEX,
+> +		.analog_crop =3D &ov5670_analog_crop,
+>  		.reg_list =3D {
+>  			.num_of_regs =3D ARRAY_SIZE(mode_640x360_regs),
+>  			.regs =3D mode_640x360_regs,
+>  		},
+> -		.link_freq_index =3D OV5670_LINK_FREQ_422MHZ_INDEX,
+>  	}
+>  };
+>=20
+> @@ -2167,6 +2193,7 @@ static int ov5670_init_cfg(struct v4l2_subdev *sd,
+>  	struct v4l2_mbus_framefmt *fmt =3D
+>  				v4l2_subdev_get_try_format(sd, state,=20
+0);
+>  	const struct ov5670_mode *default_mode =3D &supported_modes[0];
+> +	struct v4l2_rect *crop =3D v4l2_subdev_get_try_crop(sd, state, 0);
+>=20
+>  	fmt->width =3D default_mode->width;
+>  	fmt->height =3D default_mode->height;
+> @@ -2177,6 +2204,8 @@ static int ov5670_init_cfg(struct v4l2_subdev *sd,
+>  	fmt->quantization =3D V4L2_QUANTIZATION_FULL_RANGE;
+>  	fmt->xfer_func =3D V4L2_MAP_XFER_FUNC_DEFAULT(V4L2_COLORSPACE_SRGB);
+>=20
+> +	*crop =3D *default_mode->analog_crop;
+> +
+>  	return 0;
+>  }
+>=20
+> @@ -2506,6 +2535,52 @@ static const struct v4l2_subdev_core_ops
+> ov5670_core_ops =3D { .unsubscribe_event =3D v4l2_event_subdev_unsubscrib=
+e,
+>  };
+>=20
+> +static const struct v4l2_rect *
+> +__ov5670_get_pad_crop(struct ov5670 *sensor, struct v4l2_subdev_state
+> *state, +		      unsigned int pad, enum=20
+v4l2_subdev_format_whence which)
 > +{
-> +	struct sys_bus_data *pdata;
-> +	void __iomem *mmio;
-> +	struct device_node *np = pdev->dev.of_node;
-
-I'd be consistent. You use dev_of_node() accessor elsewhere, so should
-use it here as well.
-
+> +	const struct ov5670_mode *mode =3D sensor->cur_mode;
 > +
-> +	pdata = devm_kzalloc(&pdev->dev, sizeof(*pdata), GFP_KERNEL);
-> +	if (!pdata)
-> +		return -ENOMEM;
+> +	switch (which) {
+> +	case V4L2_SUBDEV_FORMAT_TRY:
+> +		return v4l2_subdev_get_try_crop(&sensor->sd, state, pad);
+> +	case V4L2_SUBDEV_FORMAT_ACTIVE:
+> +		return mode->analog_crop;
+> +	}
 > +
-> +	mmio = devm_platform_ioremap_resource(pdev, 0);
-> +	if (IS_ERR(mmio))
-> +		return PTR_ERR(mmio);
-> +
-> +	pdata->sys_bus_base = mmio;
-> +	pdata->pconf = of_device_get_match_data(&pdev->dev);
-> +	pdata->dev = &pdev->dev;
-> +
-> +	platform_set_drvdata(pdev, pdata);
-
-Does this get used? I can't immediately spot where but maybe I just
-missed it.
-
-> +
-> +	stm32_sys_bus_populate(pdata);
-> +
-> +	/* Populate all available nodes */
-> +	return of_platform_populate(np, NULL, NULL, &pdev->dev);
-
-As np only used here, I'd not bother with the local variable in this function.
-
+> +	return NULL;
 > +}
 > +
-> +static const struct stm32_sys_bus_match_data stm32mp15_sys_bus_data = {
-
-Naming a structure after where it comes from is a little unusual and
-confusion when a given call gets it from somewhere else.
-
-I'd expect it to be named after what sort of thing it contains.
-stm32_sys_bus_info or something like that.
-
-> +	.max_entries = STM32MP15_ETZPC_ENTRIES,
-> +};
-> +
-> +static const struct stm32_sys_bus_match_data stm32mp13_sys_bus_data = {
-> +	.max_entries = STM32MP13_ETZPC_ENTRIES,
-> +};
-> +
-> +static const struct of_device_id stm32_sys_bus_of_match[] = {
-> +	{ .compatible = "st,stm32mp15-sys-bus", .data = &stm32mp15_sys_bus_data },
-> +	{ .compatible = "st,stm32mp13-sys-bus", .data = &stm32mp13_sys_bus_data },
-
-Alphabetical order usually preferred when there isn't a strong reason for
-another choice.
-
-> +	{}
-> +};
-> +MODULE_DEVICE_TABLE(of, stm32_sys_bus_of_match);
-> +
-> +static struct platform_driver stm32_sys_bus_driver = {
-> +	.probe  = stm32_sys_bus_probe,
-> +	.driver = {
-> +		.name = "stm32-sys-bus",
-> +		.of_match_table = stm32_sys_bus_of_match,
-> +	},
-> +};
-> +
-> +static int __init stm32_sys_bus_init(void)
+> +static int ov5670_get_selection(struct v4l2_subdev *subdev,
+> +				struct v4l2_subdev_state *state,
+> +				struct v4l2_subdev_selection *sel)
 > +{
-> +	return platform_driver_register(&stm32_sys_bus_driver);
-> +}
-> +arch_initcall(stm32_sys_bus_init);
+> +	struct ov5670 *sensor =3D to_ov5670(subdev);
 > +
+> +	switch (sel->target) {
+> +	case V4L2_SEL_TGT_CROP:
+> +		mutex_lock(&sensor->mutex);
+> +		sel->r =3D *__ov5670_get_pad_crop(sensor, state, sel->pad,
+> +						sel->which);
+> +		mutex_unlock(&sensor->mutex);
+> +		break;
+> +	case V4L2_SEL_TGT_NATIVE_SIZE:
+> +	case V4L2_SEL_TGT_CROP_BOUNDS:
+> +		sel->r.top =3D 0;
+> +		sel->r.left =3D 0;
+> +		sel->r.width =3D OV5670_NATIVE_WIDTH;
+> +		sel->r.height =3D OV5670_NATIVE_HEIGHT;
+> +		break;
+> +	case V4L2_SEL_TGT_CROP_DEFAULT:
+> +		sel->r =3D ov5670_analog_crop;
+> +		break;
+> +	default:
+> +		return -EINVAL;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+>  static const struct v4l2_subdev_video_ops ov5670_video_ops =3D {
+>  	.s_stream =3D ov5670_set_stream,
+>  };
+> @@ -2516,6 +2591,8 @@ static const struct v4l2_subdev_pad_ops ov5670_pad_=
+ops
+> =3D { .get_fmt =3D ov5670_get_pad_format,
+>  	.set_fmt =3D ov5670_set_pad_format,
+>  	.enum_frame_size =3D ov5670_enum_frame_size,
+> +	.get_selection =3D ov5670_get_selection,
+> +	.set_selection =3D ov5670_get_selection,
+>  };
+>=20
+>  static const struct v4l2_subdev_sensor_ops ov5670_sensor_ops =3D {
 
-Unwanted trailing blank line.
+
 
 
