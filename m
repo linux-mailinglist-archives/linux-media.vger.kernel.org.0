@@ -2,55 +2,44 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 66F7567F76B
-	for <lists+linux-media@lfdr.de>; Sat, 28 Jan 2023 12:03:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 46DAC67F78C
+	for <lists+linux-media@lfdr.de>; Sat, 28 Jan 2023 12:27:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232020AbjA1LDV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 28 Jan 2023 06:03:21 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55376 "EHLO
+        id S231575AbjA1L15 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 28 Jan 2023 06:27:57 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35396 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229836AbjA1LDU (ORCPT
+        with ESMTP id S230110AbjA1L1z (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 28 Jan 2023 06:03:20 -0500
+        Sat, 28 Jan 2023 06:27:55 -0500
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E0B913DCD;
-        Sat, 28 Jan 2023 03:03:19 -0800 (PST)
-Received: from ideasonboard.com (host-212-171-97-20.pool212171.interbusiness.it [212.171.97.20])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id DA0D95A9;
-        Sat, 28 Jan 2023 12:03:15 +0100 (CET)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8943586AB;
+        Sat, 28 Jan 2023 03:27:50 -0800 (PST)
+Received: from uno.homenet.telecomitalia.it (host-212-171-97-20.pool212171.interbusiness.it [212.171.97.20])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id E00EB5A9;
+        Sat, 28 Jan 2023 12:27:47 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1674903796;
-        bh=OpnfBdL4j6Ht7p1lepj/aokGtwIX8rrlMsLJsh3Harc=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=GoynAhBiOmquaouDCf19Zf+noOmae59B2xSnM40MkQaiXS0cxcpgXE5uSuNmPE7XE
-         TdZ5FTJH5Pfoe+RG5w3gUklpec1tMYomRyNYl9IagbKppGAhNlnQj0IMWatrLmThzC
-         6YKkcRpDi22QU6v2/Ohl9hcU/oWZWh9GgyP1hueo=
-Date:   Sat, 28 Jan 2023 12:03:11 +0100
+        s=mail; t=1674905268;
+        bh=TAW6i2myVpNO7kFpXLP5KznGOEQvjw3iGn708vIufk0=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=Vbyc6qRWeE1wDytx6Hmib7qoIjmPM7W7bppb2pE6Uxn5kvtkYvcpG2UTyLOhsqAYT
+         WpTm3T2QtxjeSwKOazNdRY1u6xlw6R1DSRsVBct/Bck8Wfv8zROciiN9iJZ64/n/At
+         EVDokccISULC0dtrEpdB2sTa+cwOi8OPt+FOIKJA=
 From:   Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To:     Sakari Ailus <sakari.ailus@iki.fi>
-Cc:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Chiranjeevi Rapolu <chiranjeevi.rapolu@intel.com>,
-        Luca Weiss <luca@z3ntu.xyz>, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org,
-        laurent.pinchart@ideasonboard.com,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH v6 1/9] media: dt-bindings: Add OV5670
-Message-ID: <20230128110311.bpm6btxgtp5wsmfq@uno.localdomain>
-References: <20230126165909.121302-1-jacopo.mondi@ideasonboard.com>
- <20230126165909.121302-2-jacopo.mondi@ideasonboard.com>
- <482b464b-c5fb-8af2-b0f7-4388fccea3fd@linaro.org>
- <20230127181435.3d5rnrg5omxhn6l7@uno.localdomain>
- <00139f11-76b0-138a-2f7b-c67d149eb25e@linaro.org>
- <Y9Q2T3h50eudVbbb@valkosipuli.retiisi.eu>
- <042332a6-3407-2c75-362c-db7b922bd99f@linaro.org>
- <20230128095831.k7ywrlbmiesaewgg@uno.localdomain>
- <Y9Tz8AWds51vGgsM@valkosipuli.retiisi.eu>
+To:     chiranjeevi.rapolu@intel.com, luca@z3ntu.xyz, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org
+Cc:     laurent.pinchart@ideasonboard.com, sakari.ailus@iki.fi,
+        mchehab@kernel.org, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org,
+        Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Subject: [PATCH v6.1] media: dt-bindings: Add OV5670
+Date:   Sat, 28 Jan 2023 12:27:36 +0100
+Message-Id: <20230128112736.8000-1-jacopo.mondi@ideasonboard.com>
+X-Mailer: git-send-email 2.39.0
+In-Reply-To: <20230126165909.121302-2-jacopo.mondi@ideasonboard.com>
+References: <20230126165909.121302-2-jacopo.mondi@ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <Y9Tz8AWds51vGgsM@valkosipuli.retiisi.eu>
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
         autolearn=ham autolearn_force=no version=3.4.6
@@ -60,187 +49,132 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Since I got the attention of both of you, let me point out another
-issue I'm facing.
+Add the bindings documentation for Omnivision OV5670 image sensor.
 
-We also have video-interface-devices.yaml which lists properties for
-the device node and not for the endpoints.
+Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+---
+v6->6.1
+- Use additionalProperties: false for endpoint properties from
+  video-interfaces.yaml
+- List 'remote-endpoint' among the accepted endpoint properties
+  now that we use additionalProperties: false
+---
+ .../bindings/media/i2c/ovti,ov5670.yaml       | 93 +++++++++++++++++++
+ MAINTAINERS                                   |  1 +
+ 2 files changed, 94 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/ovti,ov5670.yaml
 
-video-interface-devices lists properties that should be all optionally
-accepted, as they can potentially apply to all sensors (things like
-rotation, orientation, lens-focus, flash-leds are valid for all
-devices)
+diff --git a/Documentation/devicetree/bindings/media/i2c/ovti,ov5670.yaml b/Documentation/devicetree/bindings/media/i2c/ovti,ov5670.yaml
+new file mode 100644
+index 000000000000..6e089fe1d613
+--- /dev/null
++++ b/Documentation/devicetree/bindings/media/i2c/ovti,ov5670.yaml
+@@ -0,0 +1,93 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/media/i2c/ovti,ov5670.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Omnivision OV5670 5 Megapixels raw image sensor
++
++maintainers:
++  - Jacopo Mondi <jacopo.mondi@ideasonboard.com>
++
++description: |-
++  The OV5670 is a 5 Megapixels raw image sensor which provides images in 10-bits
++  RAW BGGR Bayer format on a 2 data lanes MIPI CSI-2 serial interface and is
++  controlled through an I2C compatible control bus.
++
++properties:
++  compatible:
++    const: ovti,ov5670
++
++  reg:
++    maxItems: 1
++
++  clocks:
++    description: System clock. From 6 to 27 MHz.
++    maxItems: 1
++
++  powerdown-gpios:
++    description: Reference to the GPIO connected to the PWDNB pin. Active low.
++
++  reset-gpios:
++    description: Reference to the GPIO connected to the XSHUTDOWN pin. Active low.
++    maxItems: 1
++
++  avdd-supply:
++    description: Analog circuit power. Typically 2.8V.
++
++  dvdd-supply:
++    description: Digital circuit power. Typically 1.2V.
++
++  dovdd-supply:
++    description: Digital I/O circuit power. Typically 2.8V or 1.8V.
++
++  port:
++    $ref: /schemas/graph.yaml#/$defs/port-base
++    additionalProperties: false
++
++    properties:
++      endpoint:
++        $ref: /schemas/media/video-interfaces.yaml#
++        additionalProperties: false
++
++        properties:
++          data-lanes:
++            minItems: 1
++            maxItems: 2
++            items:
++              enum: [1, 2]
++
++          clock-noncontinuous: true
++          remote-endpoint: true
++
++required:
++  - compatible
++  - reg
++  - clocks
++  - port
++
++additionalProperties: false
++
++examples:
++  - |
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        ov5670: sensor@36 {
++            compatible = "ovti,ov5670";
++            reg = <0x36>;
++
++            clocks = <&sensor_xclk>;
++
++            port {
++                ov5670_ep: endpoint {
++                    remote-endpoint = <&csi_ep>;
++                    data-lanes = <1 2>;
++                    clock-noncontinuous;
++                };
++            };
++        };
++    };
++
++...
+diff --git a/MAINTAINERS b/MAINTAINERS
+index f61eb221415b..38d8d1d5d536 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -15468,6 +15468,7 @@ M:	Chiranjeevi Rapolu <chiranjeevi.rapolu@intel.com>
+ L:	linux-media@vger.kernel.org
+ S:	Maintained
+ T:	git git://linuxtv.org/media_tree.git
++F:	Documentation/devicetree/bindings/media/i2c/ovti,ov5670.yaml
+ F:	drivers/media/i2c/ov5670.c
 
-Being properties for the device node they should be specified in the
-schema top-level and I see a few schema that do that by
+ OMNIVISION OV5675 SENSOR DRIVER
+--
+2.39.0
 
-        allOf:
-          - $ref: /schemas/media/video-interface-devices.yaml#
-
-However top level schemas usually specify
-
-        additionalProperties: false
-
-Which means each sensor schema has to list the properties it accepts from
-video-interface-devices.yaml. It's easy to verify this just by
-adding "orientation" to the example in a schema that refers to
-video-interface-devices.yaml and see that the bindings validation
-fails (see below)
-
-TL;DR is there a way to tell in a schema with a top-level
-"additionalProperties: false" that all properties from a referenced
-schema are accepted ?
-
-I'll leave video-interface-devices.yaml this out from this series for
-now and only resend this patch with the previous comments on the usage
-of unevaluatedProperties fixed.
-
-Thanks
-  j
-
-
------------------------------------------------------------------------------
---- a/Documentation/devicetree/bindings/media/i2c/ovti,ov5640.yaml
-+++ b/Documentation/devicetree/bindings/media/i2c/ovti,ov5640.yaml
-@@ -109,6 +109,7 @@ examples:
-               powerdown-gpios = <&gpio1 19 GPIO_ACTIVE_HIGH>;
-               reset-gpios = <&gpio1 20 GPIO_ACTIVE_LOW>;
-               rotation = <180>;
-+              orientation = <0>;
-
-               port {
-                   /* MIPI CSI-2 bus endpoint */
-
-
-$ make ARCH=arm64 dt_binding_check DT_SCHEMA_FILES=Documentation/devicetree/bindings/media/i2c/ovti,ov5640.yaml
-  DTEX    Documentation/devicetree/bindings/media/i2c/ovti,ov5640.example.dts
-  DTC_CHK Documentation/devicetree/bindings/media/i2c/ovti,ov5640.example.dtb
-  /home/jmondi/linux-worktree/mainline/Documentation/devicetree/bindings/media/i2c/ovti,ov5640.example.dtb: camera@3c: 'orientation' does not match any of the regexes: 'pinctrl-[0-9]+'
-	From schema: /home/jmondi/linux-worktree/mainline/Documentation/devicetree/bindings/media/i2c/ovti,ov5640.yaml
-
-On Sat, Jan 28, 2023 at 12:07:44PM +0200, Sakari Ailus wrote:
-> Hi Jacopo, Krzysztof,
->
-> On Sat, Jan 28, 2023 at 10:58:31AM +0100, Jacopo Mondi wrote:
-> > Hi Krzysztof
-> >
-> > On Fri, Jan 27, 2023 at 09:44:25PM +0100, Krzysztof Kozlowski wrote:
-> > > On 27/01/2023 21:38, Sakari Ailus wrote:
-> > > > Hi Krzysztof,
-> > > >
-> > > > On Fri, Jan 27, 2023 at 08:58:20PM +0100, Krzysztof Kozlowski wrote:
-> > > >> On 27/01/2023 19:14, Jacopo Mondi wrote:
-> > > >>> Hi Krzysztof
-> > > >>>
-> > > >>> On Fri, Jan 27, 2023 at 03:19:08PM +0100, Krzysztof Kozlowski wrote:
-> > > >>>> On 26/01/2023 17:59, Jacopo Mondi wrote:
-> > > >>>>> Add the bindings documentation for Omnivision OV5670 image sensor.
-> > > >>>>>
-> > > >>>>> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-> > > >>>>> ---
-> > > >>>>
-> > > >>>> (...)
-> > > >>>>
-> > > >>>>> +
-> > > >>>>> +  dovdd-supply:
-> > > >>>>> +    description: Digital I/O circuit power. Typically 2.8V or 1.8V.
-> > > >>>>> +
-> > > >>>>> +  port:
-> > > >>>>> +    $ref: /schemas/graph.yaml#/$defs/port-base
-> > > >>>>> +    additionalProperties: false
-> > > >>>>> +
-> > > >>>>> +    properties:
-> > > >>>>> +      endpoint:
-> > > >>>>> +        $ref: /schemas/media/video-interfaces.yaml#
-> > > >>>>> +        unevaluatedProperties: false
-> > > >>>>> +
-> > > >>>>> +        properties:
-> > > >>>>> +          data-lanes:
-> > > >>>>> +            minItems: 1
-> > > >>>>> +            maxItems: 2
-> > > >>>>> +            items:
-> > > >>>>> +              enum: [1, 2]
-> > > >>>>> +
-> > > >>>>> +          clock-noncontinuous: true
-> > > >>>>
-> > > >>>> You do not need this. Drop.
-> > > >>>>
-> > > >>>
-> > > >>> Is this due to "unevaluatedProperties: false" ?
-> > > >>>
-> > > >>> I read you recent explanation to a similar question on the Visconti
-> > > >>> bindings. Let me summarize my understanding:
-> > > >>>
-> > > >>> For a given schema a property could be
-> > > >>> - required
-> > > >>>         required:
-> > > >>>           - foo
-> > > >>>
-> > > >>> - optional
-> > > >>>         by default with "unevaluatedProperties: false"
-> > > >>>         "foo: true" with "additionalProperties: false"
-> > > >>>
-> > > >>> - forbidden
-> > > >>>         "foo: false" with "unevaluatedProperties: false"
-> > > >>>         by default wiht "additionalProperties: false"
-> > > >>>
-> > > >>> clock-noncontinuous is defined in video-interfaces.yaml. as I specify
-> > > >>> "unevaluatedProperties: false" does it mean
-> > > >>> all the properties defined in video-interfaces.yaml are optionally
-> > > >>> accepted ? If that's the case that's not what I want as
-> > > >>> clock-noncontinuous is -the only- property from that file we want to
-> > > >>> accept here (and data-lanes ofc).
-> > > >>>
-> > > >>> Should I change "unevaluatedProperties: false" to
-> > > >>> "additionalProperties: false" and keep "clock-noncontinuous: true"  ?
-> > > >>>
-> > > >>
-> > > >> Why would you disallow other properties? Just because driver does not
-> > > >> use them? That's not correct, driver change but bindings should stay the
-> > > >> same.
-> > > >
-> > > > The clock-noncontinuous property is relevant for the hardware. There are
-> > > > some properties not listed here that might be relevant (for all camera
-> > > > sensors) but most properties in video-interfaces.yaml are not applicable to
-> > > > this device.
-> > > >
-> > > > I also think is be useful to say what is relevant in DT bindings, as the
-> > > > other sources of information left are hardware datasheets (if you have
-> > > > access to them) or the driver (which is supposed not to be relevant for the
-> > > > bindings).
-> > > >
-> > >
-> > > Then it might be meaningful to list all allowed properties - even if not
-> > > currently supported by the driver - and use additionalProperties:false.
-> >
-> > Have a look at what properties video-interfaces.yaml lists. Some of
-> > them only apply to CSI-2 sensors (data lanes, link-frequencies etc),
-> > some of them only to parallel sensors (lines polarities, bus-width
-> > etc).
-> >
-> > I see most of the bindings in media/i2c reporting
-> >
-> >         $ref: /schemas/media/video-interfaces.yaml#
-> >         unevaluatedProperties: false
-> >
-> > I think that's actually wrong as there's no way all the properties in
-> > video-interfaces.yaml can apply to a single device (with the exception
-> > of a few sensors that support both bus types).
->
-> It's been in my plan to split this into multiple files so you could refer
-> to fewer than all the properties. I have no schedule for this though.
->
-> >
-> > > This has drawback - whenever video-interfaces gets something new, the
-> > > bindings here (and other such devices) will have to be explicitly enabled.
-> >
-> > video-interfaces is rarely updated, and when it happes it's to add
-> > properties required by a newly supported device, so this doesn't
-> > concern me much personally.
->
-> Me neither.
->
-> --
-> Kind regards,
->
-> Sakari Ailus
