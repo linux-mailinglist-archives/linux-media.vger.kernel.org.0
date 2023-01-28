@@ -2,191 +2,284 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6994367F397
-	for <lists+linux-media@lfdr.de>; Sat, 28 Jan 2023 02:13:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id ECF2967F456
+	for <lists+linux-media@lfdr.de>; Sat, 28 Jan 2023 04:36:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232953AbjA1BNN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 27 Jan 2023 20:13:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43592 "EHLO
+        id S231902AbjA1DgZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 27 Jan 2023 22:36:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56448 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232979AbjA1BNL (ORCPT
+        with ESMTP id S229498AbjA1DgY (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 27 Jan 2023 20:13:11 -0500
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DFD3868AEA;
-        Fri, 27 Jan 2023 17:13:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674868387; x=1706404387;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=JM0DsUAXnIVbnyyRDEiq76v4MhII6gm7ppcnS6Lm9Js=;
-  b=W9yRSalk+rDz88pl6h0b+FTni/a1UZPC3v7MpPHJeReU9+8Ifse7Z9Bi
-   owifdTNyVOYuFFPxBm3TSCh3nhCKUZ9HAL9P1p19Lm9NYgdl+0Q+/BSM1
-   MT1yRt/uHOeXHowwTCe43j2pEb4owg/D65NZp21m5EgRdyJKgm4GNn6GN
-   LNUlTU17Myv9AgJ8fcEzTH+9UA8x4K41zWuOz9sIrEAWYEBSrazACxfIp
-   1FVaB8F2moWBZSfJ80UVlkyhNMr7DwAg6qEZve02a4CwR8IlsfWhyht6M
-   mi6xXTOAp0Z4W5Q9sJ6YQDydHSrb/pdGYqTCRv3IJEkssxVaiKAFXStXB
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10603"; a="307586085"
-X-IronPort-AV: E=Sophos;i="5.97,252,1669104000"; 
-   d="scan'208";a="307586085"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2023 17:12:43 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10603"; a="695721767"
-X-IronPort-AV: E=Sophos;i="5.97,252,1669104000"; 
-   d="scan'208";a="695721767"
-Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 27 Jan 2023 17:12:40 -0800
-Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1pLZln-0000AT-0S;
-        Sat, 28 Jan 2023 01:12:39 +0000
-Date:   Sat, 28 Jan 2023 09:11:50 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Andrew Morton <akpm@linux-foundation.org>
-Cc:     netdev@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        amd-gfx@lists.freedesktop.org,
-        Linux Memory Management List <linux-mm@kvack.org>
-Subject: [linux-next:master] BUILD REGRESSION
- 9fbee811e479aca2f3523787cae1f46553141b40
-Message-ID: <63d47656.PrqiDwRpfWhLZF/8%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        Fri, 27 Jan 2023 22:36:24 -0500
+Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com [IPv6:2a00:1450:4864:20::332])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB1717E699;
+        Fri, 27 Jan 2023 19:36:22 -0800 (PST)
+Received: by mail-wm1-x332.google.com with SMTP id m5-20020a05600c4f4500b003db03b2559eso4784529wmq.5;
+        Fri, 27 Jan 2023 19:36:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=q5K4HXiAI9WMBlWj6fUm1a3om0emz0NBz8cWVPc3cRU=;
+        b=P1KjKsIK1K1STfus6HblxCdlDsLUa9wL9AtzhhxAd19pXIVoJD0adgKdUPUryQURR2
+         rI1E2cT5g97WWY6AphKheGah2INvWVA9IcsAdBPqq51hfsPUQeKvam9TnHHZrOv+dGYM
+         2cZIN4Spn+T5oxk1ulVXnuBQB0jBKXkpWETo4baU8Kwa70JYcm9e32kMwrmM8GQT+13I
+         0n/GTedNbagI4T7nGry/t3pDxRnB773vG3dAUHDdIfvd3tWBmvKgkIbygjl5rI/pRCuZ
+         nMnzCmEIFcDGrFeD3OAUs8Qg3/lq3kcqtJtd3sh9nu8Zi2iqPZzq7CjFH6eQ/+dgO2At
+         Wm3Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=q5K4HXiAI9WMBlWj6fUm1a3om0emz0NBz8cWVPc3cRU=;
+        b=d+HPzwaXrzYUO0NkP5eEljOQWW09bPy56xmBZj9d/KrYcLp9sBWgcbs2w64u8/iaTN
+         jFM3yHQPwKb0N+PSk0oM357AVl/4DRBAmpNnFwSgTmuvucjxgopFUGNLA4APk5Od4rXV
+         4B0BUFo4y3NBT1CL9zEec+VtxLIOr7HiebOVtG1h1ABhlId7P5P4GX2Sfh+9A2dF/XeW
+         eK2+9jmEFU97TNFaxqi/bCUQJMy6mck2KhxoWUg3Js/r3psJ0JgloJxlgRVVAaUlSdK6
+         4dAsyH54rfqWRsF2hUn8RXx2fwbe/xbcH/1prYTbIYixfsnmjn8o4cwicx57pVsH18wo
+         cvPA==
+X-Gm-Message-State: AFqh2kqaxkY+nobSVrEGNKos3x6FKmQNM/RC7HDXoUxLNkb9Dl8TQTwt
+        bu+cG8ONzBMiQERDhFOQ2BE=
+X-Google-Smtp-Source: AMrXdXtxwZ0VY3zU3ARpeczt2cftyfRWjU3uHu9nrbOgsJOwXg4VlvXmJTvKemlIrHYoONnvycmtHA==
+X-Received: by 2002:a05:600c:1c1f:b0:3db:2d7e:1204 with SMTP id j31-20020a05600c1c1f00b003db2d7e1204mr32308648wms.27.1674876981192;
+        Fri, 27 Jan 2023 19:36:21 -0800 (PST)
+Received: from toolbox.. ([87.200.95.144])
+        by smtp.gmail.com with ESMTPSA id v2-20020a05600c214200b003dc4a47605fsm341316wml.8.2023.01.27.19.36.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 27 Jan 2023 19:36:20 -0800 (PST)
+From:   Christian Hewitt <christianshewitt@gmail.com>
+To:     Sean Young <sean@mess.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org
+Cc:     Christian Hewitt <christianshewitt@gmail.com>,
+        Emanuel Strobel <emanuel.strobel@yahoo.com>
+Subject: [PATCH] media: rc: add common keymap for Dreambox RC10 and RC20/RC-BT remotes
+Date:   Sat, 28 Jan 2023 03:36:16 +0000
+Message-Id: <20230128033616.3982911-1-christianshewitt@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-branch HEAD: 9fbee811e479aca2f3523787cae1f46553141b40  Add linux-next specific files for 20230125
+From: Emanuel Strobel <emanuel.strobel@yahoo.com>
 
-Error/Warning: (recently discovered and may have been fixed)
+Add a common keymap and bindings for the RC10 and RC20/RC-BT remotes
+used with the Dreambox One and Dreambox Two DVB-S/T boxes. The maps
+are combined since the IR codes do not conflict and both boxes have
+shipped with both remote designs.
 
-ERROR: modpost: "devm_platform_ioremap_resource" [drivers/dma/fsl-edma.ko] undefined!
-ERROR: modpost: "devm_platform_ioremap_resource" [drivers/dma/idma64.ko] undefined!
-drivers/gpu/drm/amd/amdgpu/../display/dc/link/accessories/link_dp_trace.c:148:6: warning: no previous prototype for 'link_dp_trace_set_edp_power_timestamp' [-Wmissing-prototypes]
-drivers/gpu/drm/amd/amdgpu/../display/dc/link/accessories/link_dp_trace.c:158:10: warning: no previous prototype for 'link_dp_trace_get_edp_poweron_timestamp' [-Wmissing-prototypes]
-drivers/gpu/drm/amd/amdgpu/../display/dc/link/accessories/link_dp_trace.c:163:10: warning: no previous prototype for 'link_dp_trace_get_edp_poweroff_timestamp' [-Wmissing-prototypes]
-drivers/gpu/drm/amd/amdgpu/../display/dc/link/protocols/link_dp_capability.c:1294:32: warning: variable 'result_write_min_hblank' set but not used [-Wunused-but-set-variable]
-drivers/gpu/drm/amd/amdgpu/../display/dc/link/protocols/link_dp_capability.c:1295:32: warning: variable 'result_write_min_hblank' set but not used [-Wunused-but-set-variable]
-drivers/gpu/drm/amd/amdgpu/../display/dc/link/protocols/link_dp_capability.c:278:42: warning: variable 'ds_port' set but not used [-Wunused-but-set-variable]
-drivers/gpu/drm/amd/amdgpu/../display/dc/link/protocols/link_dp_capability.c:279:42: warning: variable 'ds_port' set but not used [-Wunused-but-set-variable]
-drivers/gpu/drm/amd/amdgpu/../display/dc/link/protocols/link_dp_training.c:1585:38: warning: variable 'result' set but not used [-Wunused-but-set-variable]
+Signed-off-by: Emanuel Strobel <emanuel.strobel@yahoo.com>
+Signed-off-by: Christian Hewitt <christianshewitt@gmail.com>
+---
+ .../devicetree/bindings/media/rc.yaml         |   1 +
+ drivers/media/rc/keymaps/Makefile             |   1 +
+ drivers/media/rc/keymaps/rc-dreambox.c        | 147 ++++++++++++++++++
+ include/media/rc-map.h                        |   1 +
+ 4 files changed, 150 insertions(+)
+ create mode 100644 drivers/media/rc/keymaps/rc-dreambox.c
 
-Unverified Error/Warning (likely false positive, please contact us if interested):
-
-drivers/media/i2c/max9286.c:802 max9286_s_stream() error: buffer overflow 'priv->fmt' 4 <= 32
-drivers/nvmem/imx-ocotp.c:599:21: sparse: sparse: symbol 'imx_ocotp_layout' was not declared. Should it be static?
-net/devlink/leftover.c:7160 devlink_fmsg_prepare_skb() error: uninitialized symbol 'err'.
-
-Error/Warning ids grouped by kconfigs:
-
-gcc_recent_errors
-|-- arc-randconfig-m031-20230123
-|   `-- drivers-media-i2c-max9286.c-max9286_s_stream()-error:buffer-overflow-priv-fmt
-|-- loongarch-randconfig-r014-20230123
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-accessories-link_dp_trace.c:warning:no-previous-prototype-for-link_dp_trace_get_edp_poweroff_timestamp
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-accessories-link_dp_trace.c:warning:no-previous-prototype-for-link_dp_trace_get_edp_poweron_timestamp
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-accessories-link_dp_trace.c:warning:no-previous-prototype-for-link_dp_trace_set_edp_power_timestamp
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_capability.c:warning:variable-ds_port-set-but-not-used
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_capability.c:warning:variable-result_write_min_hblank-set-but-not-used
-|   `-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_training.c:warning:variable-result-set-but-not-used
-|-- riscv-randconfig-s033-20230123
-|   `-- drivers-nvmem-imx-ocotp.c:sparse:sparse:symbol-imx_ocotp_layout-was-not-declared.-Should-it-be-static
-|-- s390-allmodconfig
-|   |-- ERROR:devm_platform_ioremap_resource-drivers-dma-fsl-edma.ko-undefined
-|   `-- ERROR:devm_platform_ioremap_resource-drivers-dma-idma64.ko-undefined
-|-- s390-randconfig-c042-20230123
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-accessories-link_dp_trace.c:warning:no-previous-prototype-for-link_dp_trace_get_edp_poweroff_timestamp
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-accessories-link_dp_trace.c:warning:no-previous-prototype-for-link_dp_trace_get_edp_poweron_timestamp
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-accessories-link_dp_trace.c:warning:no-previous-prototype-for-link_dp_trace_set_edp_power_timestamp
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_capability.c:warning:variable-ds_port-set-but-not-used
-|   `-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_capability.c:warning:variable-result_write_min_hblank-set-but-not-used
-|-- s390-randconfig-r032-20230123
-|   `-- ERROR:devm_platform_ioremap_resource-drivers-dma-idma64.ko-undefined
-`-- x86_64-randconfig-m001-20230123
-    `-- net-devlink-leftover.c-devlink_fmsg_prepare_skb()-error:uninitialized-symbol-err-.
-
-elapsed time: 4125m
-
-configs tested: 62
-configs skipped: 2
-
-gcc tested configs:
-um                             i386_defconfig
-x86_64                            allnoconfig
-um                           x86_64_defconfig
-x86_64                          rhel-8.3-func
-powerpc                           allnoconfig
-x86_64                    rhel-8.3-kselftests
-x86_64                              defconfig
-i386                                defconfig
-x86_64                           rhel-8.3-syz
-x86_64                         rhel-8.3-kunit
-x86_64                           rhel-8.3-kvm
-x86_64                           rhel-8.3-bpf
-arc                                 defconfig
-s390                             allmodconfig
-alpha                               defconfig
-x86_64                               rhel-8.3
-x86_64               randconfig-a002-20230123
-arm                                 defconfig
-i386                 randconfig-a004-20230123
-ia64                             allmodconfig
-i386                 randconfig-a003-20230123
-s390                                defconfig
-sh                               allmodconfig
-x86_64               randconfig-a001-20230123
-x86_64                           allyesconfig
-arc                  randconfig-r043-20230123
-arm                  randconfig-r046-20230123
-i386                 randconfig-a002-20230123
-x86_64               randconfig-a004-20230123
-m68k                             allyesconfig
-i386                 randconfig-a001-20230123
-x86_64               randconfig-a003-20230123
-s390                             allyesconfig
-x86_64               randconfig-a005-20230123
-i386                 randconfig-a005-20230123
-i386                             allyesconfig
-m68k                             allmodconfig
-mips                             allyesconfig
-x86_64               randconfig-a006-20230123
-i386                 randconfig-a006-20230123
-powerpc                          allmodconfig
-arc                              allyesconfig
-alpha                            allyesconfig
-arm64                            allyesconfig
-arm                              allyesconfig
-
-clang tested configs:
-x86_64                          rhel-8.3-rust
-x86_64               randconfig-a013-20230123
-x86_64               randconfig-a011-20230123
-i386                 randconfig-a012-20230123
-x86_64               randconfig-a012-20230123
-i386                 randconfig-a013-20230123
-i386                 randconfig-a011-20230123
-x86_64               randconfig-a015-20230123
-hexagon              randconfig-r041-20230123
-x86_64               randconfig-a014-20230123
-x86_64               randconfig-a016-20230123
-i386                 randconfig-a014-20230123
-hexagon              randconfig-r045-20230123
-i386                 randconfig-a016-20230123
-i386                 randconfig-a015-20230123
-s390                 randconfig-r044-20230123
-riscv                randconfig-r042-20230123
-
+diff --git a/Documentation/devicetree/bindings/media/rc.yaml b/Documentation/devicetree/bindings/media/rc.yaml
+index d4ef523cb3d5..f390a5d2c82d 100644
+--- a/Documentation/devicetree/bindings/media/rc.yaml
++++ b/Documentation/devicetree/bindings/media/rc.yaml
+@@ -56,6 +56,7 @@ properties:
+       - rc-dm1105-nec
+       - rc-dntv-live-dvb-t
+       - rc-dntv-live-dvbt-pro
++      - rc-dreambox
+       - rc-dtt200u
+       - rc-dvbsky
+       - rc-dvico-mce
+diff --git a/drivers/media/rc/keymaps/Makefile b/drivers/media/rc/keymaps/Makefile
+index 77d8b5a69815..03bc9a8d355e 100644
+--- a/drivers/media/rc/keymaps/Makefile
++++ b/drivers/media/rc/keymaps/Makefile
+@@ -38,6 +38,7 @@ obj-$(CONFIG_RC_MAP) += \
+ 			rc-dm1105-nec.o \
+ 			rc-dntv-live-dvb-t.o \
+ 			rc-dntv-live-dvbt-pro.o \
++			rc-dreambox.o \
+ 			rc-dtt200u.o \
+ 			rc-dvbsky.o \
+ 			rc-dvico-mce.o \
+diff --git a/drivers/media/rc/keymaps/rc-dreambox.c b/drivers/media/rc/keymaps/rc-dreambox.c
+new file mode 100644
+index 000000000000..0ccbed367ea3
+--- /dev/null
++++ b/drivers/media/rc/keymaps/rc-dreambox.c
+@@ -0,0 +1,147 @@
++// SPDX-License-Identifier: GPL-2.0+
++//
++// Copyright (c) 2021 Emanuel Strobel <emanuel.strobel@yahoo.com>
++
++#include <media/rc-map.h>
++#include <linux/module.h>
++
++//
++// Keytable for the Dreabox RC10 and RC20/RC-BT remote controls
++//
++
++static struct rc_map_table dreambox[] = {
++
++	/* Dreambox RC10 remote */
++
++	{ 0x3401, KEY_POWER },
++
++	// DREAM
++	{ 0x3426, KEY_HELP },
++	// TV
++
++	{ 0x3404, KEY_1 },
++	{ 0x3405, KEY_2 },
++	{ 0x3406, KEY_3 },
++	{ 0x3408, KEY_4 },
++	{ 0x3409, KEY_5 },
++	{ 0x340a, KEY_6 },
++	{ 0x340c, KEY_7 },
++	{ 0x340d, KEY_8 },
++	{ 0x340e, KEY_9 },
++	{ 0x340b, KEY_PREVIOUS },
++	{ 0x3410, KEY_0 },
++	{ 0x340f, KEY_NEXT },
++
++	{ 0x341f, KEY_RED },
++	{ 0x3420, KEY_GREEN },
++	{ 0x3421, KEY_YELLOW },
++	{ 0x3422, KEY_BLUE },
++
++	{ 0x341b, KEY_INFO },
++	{ 0x341c, KEY_MENU },
++	{ 0x3430, KEY_AUDIO },
++	{ 0x3431, KEY_PVR },
++
++	{ 0x3414, KEY_LEFT },
++	{ 0x3411, KEY_UP },
++	{ 0x3416, KEY_RIGHT },
++	{ 0x3419, KEY_DOWN },
++	{ 0x3415, KEY_OK },
++
++	{ 0x3413, KEY_VOLUMEUP },
++	{ 0x3418, KEY_VOLUMEDOWN },
++
++	{ 0x3412, KEY_ESC }, // EXIT
++	{ 0x3407, KEY_MUTE },
++
++	{ 0x3417, KEY_PAGEUP },
++	{ 0x341a, KEY_PAGEDOWN },
++
++	{ 0x3432, KEY_PREVIOUSSONG },
++	{ 0x3433, KEY_PLAYPAUSE },
++	{ 0x3434, KEY_STOP },
++	{ 0x3435, KEY_NEXTSONG },
++
++	// TV
++	// RADIO
++	{ 0x3425, KEY_TEXT },
++	{ 0x3436, KEY_RECORD },
++
++	/* Dreambox RC20/RC-BT */
++
++	{ 0x321a, KEY_MUTE },
++	// MODE
++	{ 0x3200, KEY_POWER },
++
++	{ 0x3223, KEY_PREVIOUSSONG },
++	{ 0x3224, KEY_PLAYPAUSE },
++	{ 0x3226, KEY_NEXTSONG },
++
++	{ 0x322a, KEY_RECORD },
++	{ 0x3225, KEY_STOP },
++	{ 0x3229, KEY_TEXT },
++
++	{ 0x321f, KEY_RED },
++	{ 0x3220, KEY_GREEN },
++	{ 0x3221, KEY_YELLOW },
++	{ 0x3222, KEY_BLUE },
++
++	{ 0x3210, KEY_INFO },
++	{ 0x3212, KEY_MENU },
++	{ 0x320e, KEY_AUDIO },
++	{ 0x3218, KEY_PVR },
++
++	{ 0x3213, KEY_LEFT },
++	{ 0x3211, KEY_UP },
++	{ 0x3215, KEY_RIGHT },
++	{ 0x3217, KEY_DOWN },
++	{ 0x3214, KEY_OK },
++
++	{ 0x3219, KEY_VOLUMEUP },
++	{ 0x321c, KEY_VOLUMEDOWN },
++
++	{ 0x321d, KEY_ESC }, // EXIT
++	{ 0x3290, KEY_HELP },
++
++	{ 0x321b, KEY_PAGEUP },
++	{ 0x321e, KEY_PAGEDOWN },
++
++	{ 0x3201, KEY_1 },
++	{ 0x3202, KEY_2 },
++	{ 0x3203, KEY_3 },
++	{ 0x3204, KEY_4 },
++	{ 0x3205, KEY_5 },
++	{ 0x3206, KEY_6 },
++	{ 0x3207, KEY_7 },
++	{ 0x3208, KEY_8 },
++	{ 0x3209, KEY_9 },
++	{ 0x320a, KEY_PREVIOUS },
++	{ 0x320b, KEY_0 },
++	{ 0x320c, KEY_NEXT },
++
++};
++
++static struct rc_map_list dreambox_map = {
++	.map = {
++		.scan     = dreambox,
++		.size     = ARRAY_SIZE(dreambox),
++		.rc_proto = RC_PROTO_NEC,
++		.name     = RC_MAP_DREAMBOX,
++	}
++};
++
++static int __init init_rc_map_dreambox(void)
++{
++	return rc_map_register(&dreambox_map);
++}
++
++static void __exit exit_rc_map_dreambox(void)
++{
++	rc_map_unregister(&dreambox_map);
++}
++
++module_init(init_rc_map_dreambox)
++module_exit(exit_rc_map_dreambox)
++
++MODULE_LICENSE("GPL");
++MODULE_AUTHOR("Emanuel Strobel <emanuel.strobel@yahoo.com>");
+diff --git a/include/media/rc-map.h b/include/media/rc-map.h
+index 43d254930daa..dadd4d27a760 100644
+--- a/include/media/rc-map.h
++++ b/include/media/rc-map.h
+@@ -242,6 +242,7 @@ struct rc_map *rc_map_get(const char *name);
+ #define RC_MAP_DM1105_NEC                "rc-dm1105-nec"
+ #define RC_MAP_DNTV_LIVE_DVB_T           "rc-dntv-live-dvb-t"
+ #define RC_MAP_DNTV_LIVE_DVBT_PRO        "rc-dntv-live-dvbt-pro"
++#define RC_MAP_DREAMBOX                  "rc-dreambox"
+ #define RC_MAP_DTT200U                   "rc-dtt200u"
+ #define RC_MAP_DVBSKY                    "rc-dvbsky"
+ #define RC_MAP_DVICO_MCE		 "rc-dvico-mce"
 -- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+2.34.1
+
