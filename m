@@ -2,185 +2,173 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7E24F67F460
-	for <lists+linux-media@lfdr.de>; Sat, 28 Jan 2023 04:41:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 41AFB67F580
+	for <lists+linux-media@lfdr.de>; Sat, 28 Jan 2023 08:25:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230343AbjA1DlZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 27 Jan 2023 22:41:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58048 "EHLO
+        id S233495AbjA1HZc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 28 Jan 2023 02:25:32 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58278 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229498AbjA1DlY (ORCPT
+        with ESMTP id S233272AbjA1HZ3 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 27 Jan 2023 22:41:24 -0500
-Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com [IPv6:2a00:1450:4864:20::32d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C564A8B7AC;
-        Fri, 27 Jan 2023 19:41:23 -0800 (PST)
-Received: by mail-wm1-x32d.google.com with SMTP id m15so4717060wms.4;
-        Fri, 27 Jan 2023 19:41:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=mQ+81Fws2lq/NhKgavsg4624xh5ot56CxL/cmzyR1Ik=;
-        b=MvXtvmjfVc/SHBbD1rHRW+NK4dG+TFqTK7wZIK9pjgCV8jp15Va45IX4lJqf50pphK
-         5s+gPC6BdB4m4nmnkHI32g7Z+61PlfOA+A9f9dl5QyrOxTcWsUBLU4V9jpohvA4nGkZy
-         HNATFvbr8JQEbEhCSWtfEriXBGXYbzVsMwUXBjYvy1a/9Ou4ypS7EYPLoB6qRKkJnM31
-         T2ifsPknUxZbltTAaFQOJjFAmSa35igzNU2L+Ln8vQ5UbtO7teKVN2i/11uoxuy3XNTO
-         WqipjGUoT7hUgQYjd/TmCSlFPp2AioURk9mYi4xyEKeULavJFr+YBTR7Cm3Bpy5altZ+
-         5N+g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=mQ+81Fws2lq/NhKgavsg4624xh5ot56CxL/cmzyR1Ik=;
-        b=M1qgsKEXsbK3uQBSv0Dnwcdldc6Cu1pA8OY4TT66UpeJ8t9iHXGb6g/8XSGGNz21SK
-         aN8dPuQCDL0X0UVsOVCblDcLXo7JSVC6Zj+mJg3l2TXqSPaxQeHVI8lHIGxZNUMleao1
-         xYtmt8jeJzhecUZF5jGF7AVy80mbiGtBvgxdRC1F+5sqljB8Q9h3adw+lEs+2TQsFkVT
-         VK3r3yGLVA0Kx12EOGy/jbSgWKck/rUx2SkPIv/bS7W5jaoh8Qo4JXDDjBpyywFizmge
-         99aNNDNaoUIp3pB2cS+B9ILn/t5hKDJfU7ZH6Fm96hIgVcbq2kJtKEvAQimYYgnpk5y6
-         RfuQ==
-X-Gm-Message-State: AFqh2krhsBgMhtMpBzCeAMSMSoPbqpLKji8drVRonJqOsnb4JWmR0lNt
-        5T2PP5lfIRgA3B3j9eZ3tzRiAzdA93eUxA==
-X-Google-Smtp-Source: AMrXdXv2vQnMLTbdyIBercQfamwgwIDJ2zbeFEPCDI+PtAq7MglcMlYKeCEJ5JgxN437oVtwhfWIzQ==
-X-Received: by 2002:a05:600c:4e94:b0:3db:bc5:b2ae with SMTP id f20-20020a05600c4e9400b003db0bc5b2aemr38694812wmq.41.1674877282313;
-        Fri, 27 Jan 2023 19:41:22 -0800 (PST)
-Received: from toolbox.. ([87.200.95.144])
-        by smtp.gmail.com with ESMTPSA id u13-20020a5d514d000000b002be2f18938csm5221169wrt.41.2023.01.27.19.41.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Jan 2023 19:41:21 -0800 (PST)
-From:   Christian Hewitt <christianshewitt@gmail.com>
-To:     Sean Young <sean@mess.org>,
+        Sat, 28 Jan 2023 02:25:29 -0500
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2B06C84B6A;
+        Fri, 27 Jan 2023 23:25:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1674890728; x=1706426728;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=bBDwQWuILdGbSqDjOuULlrnqbX7XKFkvjxkQmUDj2Zo=;
+  b=I7UPOHXEl1DKePya8tpCmk81hgSv1cRKA0KDWSfDmcGzmHofaSTNYAXu
+   GNodpcswDYxNQaqhp69eAO7WmhDg+Jx8cJ4EF6SnDvMucEntUvrJvuhFm
+   W3r2lpXF6RoBCkCaiaZkHDaow/lvZjNvDVM/h5366H4tCj3CSg9z6ireL
+   CUJ/XEF2IN/OkVuNHcth77Yz2W4YPfZKFlfEeWi2laTMsNJZWBix+8zrU
+   OBqkv+YmSKf/yibxGTxRwPqfSH0S1oyf/qlMtzHytUGkb1o+GxywyvRNM
+   KM3bb0FJlWun7D6+yOS2edUD5FgOhrYobDRSyTm8kxg2gccqonpi0ZvfK
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10603"; a="315225913"
+X-IronPort-AV: E=Sophos;i="5.97,253,1669104000"; 
+   d="scan'208";a="315225913"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2023 23:25:27 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10603"; a="663539347"
+X-IronPort-AV: E=Sophos;i="5.97,253,1669104000"; 
+   d="scan'208";a="663539347"
+Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
+  by orsmga002.jf.intel.com with ESMTP; 27 Jan 2023 23:25:22 -0800
+Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1pLfaS-0000U3-33;
+        Sat, 28 Jan 2023 07:25:20 +0000
+Date:   Sat, 28 Jan 2023 15:24:40 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Hans de Goede <hdegoede@redhat.com>,
+        Mark Gross <mgross@linux.intel.com>,
+        Andy Shevchenko <andy@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Daniel Scally <djrscally@gmail.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org
-Cc:     Christian Hewitt <christianshewitt@gmail.com>
-Subject: [PATCH] media: rc: add keymap for Beelink Mini MXIII remote
-Date:   Sat, 28 Jan 2023 03:41:17 +0000
-Message-Id: <20230128034117.3983105-1-christianshewitt@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+        Hans de Goede <hdegoede@redhat.com>,
+        platform-driver-x86@vger.kernel.org, linux-gpio@vger.kernel.org,
+        Kate Hsuan <hpa@redhat.com>,
+        Mark Pearson <markpearson@lenovo.com>,
+        Andy Yeh <andy.yeh@intel.com>, Hao Yao <hao.yao@intel.com>
+Subject: Re: [PATCH v6 3/5] platform/x86: int3472/discrete: Create a LED
+ class device for the privacy LED
+Message-ID: <202301281537.fKVHsgf4-lkp@intel.com>
+References: <20230127203729.10205-4-hdegoede@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230127203729.10205-4-hdegoede@redhat.com>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add a keymap and bindings for the simple IR (NEC) remote used with
-the Beelink Mini MXIII Android STB device.
+Hi Hans,
 
-Signed-off-by: Christian Hewitt <christianshewitt@gmail.com>
----
- .../devicetree/bindings/media/rc.yaml         |  1 +
- drivers/media/rc/keymaps/Makefile             |  1 +
- drivers/media/rc/keymaps/rc-beelink-mxiii.c   | 54 +++++++++++++++++++
- include/media/rc-map.h                        |  1 +
- 4 files changed, 57 insertions(+)
- create mode 100644 drivers/media/rc/keymaps/rc-beelink-mxiii.c
+I love your patch! Yet something to improve:
 
-diff --git a/Documentation/devicetree/bindings/media/rc.yaml b/Documentation/devicetree/bindings/media/rc.yaml
-index 266f1d5cae51..f390a5d2c82d 100644
---- a/Documentation/devicetree/bindings/media/rc.yaml
-+++ b/Documentation/devicetree/bindings/media/rc.yaml
-@@ -39,6 +39,7 @@ properties:
-       - rc-avertv-303
-       - rc-azurewave-ad-tu700
-       - rc-beelink-gs1
-+      - rc-beelink-mxiii
-       - rc-behold
-       - rc-behold-columbus
-       - rc-budget-ci-old
-diff --git a/drivers/media/rc/keymaps/Makefile b/drivers/media/rc/keymaps/Makefile
-index ec0361b0b758..03bc9a8d355e 100644
---- a/drivers/media/rc/keymaps/Makefile
-+++ b/drivers/media/rc/keymaps/Makefile
-@@ -22,6 +22,7 @@ obj-$(CONFIG_RC_MAP) += \
- 			rc-avertv-303.o \
- 			rc-azurewave-ad-tu700.o \
- 			rc-beelink-gs1.o \
-+			rc-beelink-mxiii.o \
- 			rc-behold-columbus.o \
- 			rc-behold.o \
- 			rc-budget-ci-old.o \
-diff --git a/drivers/media/rc/keymaps/rc-beelink-mxiii.c b/drivers/media/rc/keymaps/rc-beelink-mxiii.c
-new file mode 100644
-index 000000000000..09b77295e0a3
---- /dev/null
-+++ b/drivers/media/rc/keymaps/rc-beelink-mxiii.c
-@@ -0,0 +1,54 @@
-+// SPDX-License-Identifier: GPL-2.0+
-+//
-+// Copyright (C) 2019 Christian Hewitt <christianshewitt@gmail.com>
-+
-+#include <media/rc-map.h>
-+#include <linux/module.h>
-+
-+//
-+// Keytable for the Beelink Mini MXIII remote control
-+//
-+
-+static struct rc_map_table beelink_mxiii[] = {
-+	{ 0xb2dc, KEY_POWER },
-+
-+	{ 0xb288, KEY_MUTE },
-+	{ 0xb282, KEY_HOME },
-+
-+	{ 0xb2ca, KEY_UP },
-+	{ 0xb299, KEY_LEFT },
-+	{ 0xb2ce, KEY_OK },
-+	{ 0xb2c1, KEY_RIGHT },
-+	{ 0xb2d2, KEY_DOWN },
-+
-+	{ 0xb2c5, KEY_MENU },
-+	{ 0xb29a, KEY_BACK },
-+
-+	{ 0xb281, KEY_VOLUMEDOWN },
-+	{ 0xb280, KEY_VOLUMEUP },
-+};
-+
-+static struct rc_map_list beelink_mxiii_map = {
-+	.map = {
-+		.scan     = beelink_mxiii,
-+		.size     = ARRAY_SIZE(beelink_mxiii),
-+		.rc_proto = RC_PROTO_NEC,
-+		.name     = RC_MAP_BEELINK_MXIII,
-+	}
-+};
-+
-+static int __init init_rc_map_beelink_mxiii(void)
-+{
-+	return rc_map_register(&beelink_mxiii_map);
-+}
-+
-+static void __exit exit_rc_map_beelink_mxiii(void)
-+{
-+	rc_map_unregister(&beelink_mxiii_map);
-+}
-+
-+module_init(init_rc_map_beelink_mxiii)
-+module_exit(exit_rc_map_beelink_mxiii)
-+
-+MODULE_LICENSE("GPL");
-+MODULE_AUTHOR("Christian Hewitt <christianshewitt@gmail.com");
-diff --git a/include/media/rc-map.h b/include/media/rc-map.h
-index 5178dcae5ff7..dadd4d27a760 100644
---- a/include/media/rc-map.h
-+++ b/include/media/rc-map.h
-@@ -225,6 +225,7 @@ struct rc_map *rc_map_get(const char *name);
- #define RC_MAP_AVERTV_303                "rc-avertv-303"
- #define RC_MAP_AZUREWAVE_AD_TU700        "rc-azurewave-ad-tu700"
- #define RC_MAP_BEELINK_GS1               "rc-beelink-gs1"
-+#define RC_MAP_BEELINK_MXIII             "rc-beelink-mxiii"
- #define RC_MAP_BEHOLD                    "rc-behold"
- #define RC_MAP_BEHOLD_COLUMBUS           "rc-behold-columbus"
- #define RC_MAP_BUDGET_CI_OLD             "rc-budget-ci-old"
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.2-rc5]
+[cannot apply to media-tree/master]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Hans-de-Goede/media-v4l2-core-Make-the-v4l2-core-code-enable-disable-the-privacy-LED-if-present/20230128-131233
+patch link:    https://lore.kernel.org/r/20230127203729.10205-4-hdegoede%40redhat.com
+patch subject: [PATCH v6 3/5] platform/x86: int3472/discrete: Create a LED class device for the privacy LED
+config: i386-randconfig-r004-20230123 (https://download.01.org/0day-ci/archive/20230128/202301281537.fKVHsgf4-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+reproduce (this is a W=1 build):
+        # https://github.com/intel-lab-lkp/linux/commit/d71a1bce9c9ea0bd5b98920b2d72a5b0a36ca19d
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Hans-de-Goede/media-v4l2-core-Make-the-v4l2-core-code-enable-disable-the-privacy-LED-if-present/20230128-131233
+        git checkout d71a1bce9c9ea0bd5b98920b2d72a5b0a36ca19d
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 O=build_dir ARCH=i386 olddefconfig
+        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/platform/
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+
+All errors (new ones prefixed by >>):
+
+   In file included from drivers/platform/x86/intel/int3472/discrete.c:17:
+>> drivers/platform/x86/intel/int3472/common.h:107:40: error: field 'lookup' has incomplete type
+     107 |                 struct led_lookup_data lookup;
+         |                                        ^~~~~~
+--
+   In file included from drivers/platform/x86/intel/int3472/led.c:7:
+>> drivers/platform/x86/intel/int3472/common.h:107:40: error: field 'lookup' has incomplete type
+     107 |                 struct led_lookup_data lookup;
+         |                                        ^~~~~~
+   drivers/platform/x86/intel/int3472/led.c: In function 'skl_int3472_register_pled':
+>> drivers/platform/x86/intel/int3472/led.c:57:9: error: implicit declaration of function 'led_add_lookup'; did you mean 'd_can_lookup'? [-Werror=implicit-function-declaration]
+      57 |         led_add_lookup(&int3472->pled.lookup);
+         |         ^~~~~~~~~~~~~~
+         |         d_can_lookup
+   drivers/platform/x86/intel/int3472/led.c: In function 'skl_int3472_unregister_pled':
+>> drivers/platform/x86/intel/int3472/led.c:71:9: error: implicit declaration of function 'led_remove_lookup' [-Werror=implicit-function-declaration]
+      71 |         led_remove_lookup(&int3472->pled.lookup);
+         |         ^~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+
+
+vim +/lookup +107 drivers/platform/x86/intel/int3472/common.h
+
+    80	
+    81	struct int3472_discrete_device {
+    82		struct acpi_device *adev;
+    83		struct device *dev;
+    84		struct acpi_device *sensor;
+    85		const char *sensor_name;
+    86	
+    87		const struct int3472_sensor_config *sensor_config;
+    88	
+    89		struct int3472_gpio_regulator {
+    90			char regulator_name[GPIO_REGULATOR_NAME_LENGTH];
+    91			char supply_name[GPIO_REGULATOR_SUPPLY_NAME_LENGTH];
+    92			struct gpio_desc *gpio;
+    93			struct regulator_dev *rdev;
+    94			struct regulator_desc rdesc;
+    95		} regulator;
+    96	
+    97		struct int3472_gpio_clock {
+    98			struct clk *clk;
+    99			struct clk_hw clk_hw;
+   100			struct clk_lookup *cl;
+   101			struct gpio_desc *ena_gpio;
+   102			u32 frequency;
+   103		} clock;
+   104	
+   105		struct int3472_pled {
+   106			struct led_classdev classdev;
+ > 107			struct led_lookup_data lookup;
+   108			char name[INT3472_LED_MAX_NAME_LEN];
+   109			struct gpio_desc *gpio;
+   110		} pled;
+   111	
+   112		unsigned int ngpios; /* how many GPIOs have we seen */
+   113		unsigned int n_sensor_gpios; /* how many have we mapped to sensor */
+   114		struct gpiod_lookup_table gpios;
+   115	};
+   116	
+
 -- 
-2.34.1
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
