@@ -2,29 +2,29 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C440A67FC61
-	for <lists+linux-media@lfdr.de>; Sun, 29 Jan 2023 03:34:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3F5C967FC62
+	for <lists+linux-media@lfdr.de>; Sun, 29 Jan 2023 03:34:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234449AbjA2Ceq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 28 Jan 2023 21:34:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59838 "EHLO
+        id S233641AbjA2Ces (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 28 Jan 2023 21:34:48 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59886 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233641AbjA2Cen (ORCPT
+        with ESMTP id S234382AbjA2Cep (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 28 Jan 2023 21:34:43 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 98E17233DD
-        for <linux-media@vger.kernel.org>; Sat, 28 Jan 2023 18:34:42 -0800 (PST)
+        Sat, 28 Jan 2023 21:34:45 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 87A2E233DD
+        for <linux-media@vger.kernel.org>; Sat, 28 Jan 2023 18:34:44 -0800 (PST)
 Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 25D72327;
-        Sun, 29 Jan 2023 03:34:41 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 87142FE8;
+        Sun, 29 Jan 2023 03:34:42 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1674959681;
-        bh=Fzuc9ErDIehn3XSwp9LhJBmgl7exuQbb1ULFbXI1U1s=;
+        s=mail; t=1674959682;
+        bh=gxeXGrKdiZbwcQszKCnIUXsMb5XT/hlCD79EmxriPFU=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=C2tRYa/tRckzPcSZl06gnDhnRAvndumaFBRZlDMRCc8/Hv82KU4EaGSRnKrLEcH6I
-         7BteTq7U2UOzLZMtROOiMoZ2kIaBgagKeqhFPtMu/d56Hj63nMxG00/2sEQnSLQGwD
-         D2GbwTllcuYVc4BR6DFWU0jN5ISO+Rom9B6wjWxk=
+        b=KGQ/XVM8pnlneYqQTXjhTZF4hWNDFkIoeHD5Wu4PPLZacI2xYtAZPLeKvG97Y8Bj6
+         QSPlz6WhVkcQPglL4u4qEN8bO10qQhWdy5VEbmPbcPIgsA0PI/VgIaRPOtcW4dVq2E
+         5xpktnb2yIC6OkRkIePgDctw8aEUIFc2STxX8+cE=
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     linux-media@vger.kernel.org
 Cc:     Adam Ford <aford173@gmail.com>,
@@ -32,9 +32,9 @@ Cc:     Adam Ford <aford173@gmail.com>,
         Paul Elder <paul.elder@ideasonboard.com>,
         Rui Miguel Silva <rmfrfs@gmail.com>, kernel@pengutronix.de,
         linux-imx@nxp.com
-Subject: [PATCH v2 5/8] media: imx: imx7-media-csi: Drop unneeded pad checks
-Date:   Sun, 29 Jan 2023 04:34:26 +0200
-Message-Id: <20230129023429.22467-6-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v2 6/8] media: imx: imx7-media-csi: Cleanup errors in imx7_csi_async_register()
+Date:   Sun, 29 Jan 2023 04:34:27 +0200
+Message-Id: <20230129023429.22467-7-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230129023429.22467-1-laurent.pinchart@ideasonboard.com>
 References: <20230129023429.22467-1-laurent.pinchart@ideasonboard.com>
@@ -49,45 +49,60 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The subdev core guarantees that the .set_fmt() operation is always
-called with a valid pad. Drop the unneeded pad checks.
+It's good practice for functions to perform error cleanup internally
+when they fail, in order to not leave the device in a half-initialized
+state. Move the async notifier cleanup from the probe error path to the
+imx7_csi_async_register(), and drop the v4l2_async_nf_unregister() call
+as there is no error path after the async notifier gets registered.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- drivers/media/platform/nxp/imx7-media-csi.c | 6 +-----
- 1 file changed, 1 insertion(+), 5 deletions(-)
+ drivers/media/platform/nxp/imx7-media-csi.c | 13 +++++++------
+ 1 file changed, 7 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/media/platform/nxp/imx7-media-csi.c b/drivers/media/platform/nxp/imx7-media-csi.c
-index 62232cd6775f..1adf5c3392d9 100644
+index 1adf5c3392d9..733e44700ff9 100644
 --- a/drivers/media/platform/nxp/imx7-media-csi.c
 +++ b/drivers/media/platform/nxp/imx7-media-csi.c
-@@ -1936,6 +1936,7 @@ static int imx7_csi_try_fmt(struct imx7_csi *csi,
- 		sdformat->format.quantization = in_fmt->quantization;
- 		sdformat->format.ycbcr_enc = in_fmt->ycbcr_enc;
- 		break;
-+
- 	case IMX7_CSI_PAD_SINK:
- 		*cc = imx7_csi_find_mbus_format(sdformat->format.code);
- 		if (!*cc) {
-@@ -1947,8 +1948,6 @@ static int imx7_csi_try_fmt(struct imx7_csi *csi,
- 		if (sdformat->format.field != V4L2_FIELD_INTERLACED)
- 			sdformat->format.field = V4L2_FIELD_NONE;
- 		break;
--	default:
--		return -EINVAL;
+@@ -2177,7 +2177,7 @@ static int imx7_csi_async_register(struct imx7_csi *csi)
+ 			ret = PTR_ERR(asd);
+ 			/* OK if asd already exists */
+ 			if (ret != -EEXIST)
+-				return ret;
++				goto error;
+ 		}
  	}
  
- 	imx7_csi_try_colorimetry(&sdformat->format);
-@@ -1968,9 +1967,6 @@ static int imx7_csi_set_fmt(struct v4l2_subdev *sd,
- 	struct v4l2_subdev_format format;
- 	int ret = 0;
+@@ -2185,9 +2185,13 @@ static int imx7_csi_async_register(struct imx7_csi *csi)
  
--	if (sdformat->pad >= IMX7_CSI_PADS_NUM)
--		return -EINVAL;
--
- 	mutex_lock(&csi->lock);
+ 	ret = v4l2_async_nf_register(&csi->v4l2_dev, &csi->notifier);
+ 	if (ret)
+-		return ret;
++		goto error;
  
- 	if (csi->is_streaming) {
+ 	return 0;
++
++error:
++	v4l2_async_nf_cleanup(&csi->notifier);
++	return ret;
+ }
+ 
+ static void imx7_csi_media_cleanup(struct imx7_csi *csi)
+@@ -2329,13 +2333,10 @@ static int imx7_csi_probe(struct platform_device *pdev)
+ 
+ 	ret = imx7_csi_async_register(csi);
+ 	if (ret)
+-		goto subdev_notifier_cleanup;
++		goto media_cleanup;
+ 
+ 	return 0;
+ 
+-subdev_notifier_cleanup:
+-	v4l2_async_nf_unregister(&csi->notifier);
+-	v4l2_async_nf_cleanup(&csi->notifier);
+ media_cleanup:
+ 	imx7_csi_media_cleanup(csi);
+ 
 -- 
 Regards,
 
