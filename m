@@ -2,120 +2,130 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 92E4567FEE4
-	for <lists+linux-media@lfdr.de>; Sun, 29 Jan 2023 13:31:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8F0FD67FF4B
+	for <lists+linux-media@lfdr.de>; Sun, 29 Jan 2023 14:06:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233753AbjA2MbM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 29 Jan 2023 07:31:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35530 "EHLO
+        id S234941AbjA2NGI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 29 Jan 2023 08:06:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49272 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232009AbjA2MbK (ORCPT
+        with ESMTP id S229825AbjA2NGH (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 29 Jan 2023 07:31:10 -0500
-Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com [IPv6:2a00:1450:4864:20::433])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 28A7D22001
-        for <linux-media@vger.kernel.org>; Sun, 29 Jan 2023 04:31:05 -0800 (PST)
-Received: by mail-wr1-x433.google.com with SMTP id m7so8751175wru.8
-        for <linux-media@vger.kernel.org>; Sun, 29 Jan 2023 04:31:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=2oMMCjG7xw4KeHO7R13X8iVeuFR01DNR9QgxRsd6r90=;
-        b=MJaSgPTYB14TsGSK1qWSJSFkz7r+czxV2yh780u0A+e7b+zJlI5RiTeP63VhOlnKyj
-         6mBoI51wz0aG77IeuyOPGpWILfiuVjzTpIfywxSwvqsEAuxzBgOnVPtrogCbTXnzj1zA
-         3CF48PGScvJIG3KBTMTklUDDQY8ueHovYutTuW1J4cyyZp2mLn9lHQs4XZa/ApYhCOlI
-         xZgcrIcjvWiyD3AwOcxX3dzvBds/Dm0hm/dafvyGv4bl+GtqzrmcfnzU+MKBUjltwJrD
-         v+FRUPc45z7r6PWJwHQTQR0qFjgtSlJg4zF23HopDNLNwKLAFao9Peiyso9KAVuPv9Dl
-         XRIA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=2oMMCjG7xw4KeHO7R13X8iVeuFR01DNR9QgxRsd6r90=;
-        b=wYEvQO6p6do0Ebz48pUiTh1HYNF4QH2pjR9pgbK8eK3JhzqhQ2gUstuKsJ2249Kc0F
-         s+fHt8C6d+OdztiJFSIrNgBBXgB/DfYV99hcMDHgwJwaXrYShrA5NAoFOCzZnDxCXfBH
-         DEdt6pX32MjgdCZvPoji3gvKVgY2TVJ3iaRTrF19Z/vNy5O7ipIKqII9oYYzFSTwvYNT
-         grJLuU8XvNnlAYPrI80QWp1EIaZebKgF7mlYEoVYm7zi3Q2J6HFrt/w3sNOhshLE1pX0
-         ati8UICmPpZO7W3+DhsX/XQC5DccUzEl9A7hzxPr+s8TpBpPUq1vqRTITxR04BHuOwTg
-         theg==
-X-Gm-Message-State: AO0yUKV9DQGqZDA9/kjO6URPergO5gssV9F4pJpl6cjOEP3/Fg3qnqRJ
-        LiO3j6EF80RE2V9lZSFHP1+04Q==
-X-Google-Smtp-Source: AK7set+N19HuPpZ4vhIU3bm1no6GXtfmLeR0XP24mRXinhmCJgsfNb1JKf4KjTM9OAsNlCC8aatg5A==
-X-Received: by 2002:adf:cf08:0:b0:2bf:bbd1:1db3 with SMTP id o8-20020adfcf08000000b002bfbbd11db3mr14020755wrj.44.1674995463769;
-        Sun, 29 Jan 2023 04:31:03 -0800 (PST)
-Received: from [192.168.1.109] ([178.197.216.144])
-        by smtp.gmail.com with ESMTPSA id g6-20020adfe406000000b002bf95500254sm9137097wrm.64.2023.01.29.04.31.02
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 29 Jan 2023 04:31:03 -0800 (PST)
-Message-ID: <0f1fb9df-65e7-d779-e725-84ddd8c5bb1e@linaro.org>
-Date:   Sun, 29 Jan 2023 13:31:01 +0100
+        Sun, 29 Jan 2023 08:06:07 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9237B1E5EA;
+        Sun, 29 Jan 2023 05:06:02 -0800 (PST)
+Received: from ideasonboard.com (host-212-171-97-20.pool212171.interbusiness.it [212.171.97.20])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9BBFC327;
+        Sun, 29 Jan 2023 14:05:56 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1674997560;
+        bh=IW7Jzg4uvMKHkGW9e8JbWz5TgBn3wz6lgFae71RROV8=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=o9utlLVFX8KmyH0dE7hH4jz7AOV7L2AN/ZNWuK4ytns3cE86dwRcBXZUgMWmrJa8h
+         sRyMxf81xzeRIMV4ZAR2WpQFlXYG1dBvro4zhhvqLWidPrW9qUCRlp2IowX4dNXD55
+         Q8qAi1rId/JBGVScu8wH2DCOGvk4YoONeK7QqeCk=
+Date:   Sun, 29 Jan 2023 14:05:48 +0100
+From:   Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To:     Luca Weiss <luca@z3ntu.xyz>
+Cc:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+        ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
+        Shunqian Zheng <zhengsq@rock-chips.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/4] media: i2c: ov2685: Make reset gpio optional
+Message-ID: <20230129130548.bsqcnjh2lfu4bn2y@uno.localdomain>
+References: <20230129-ov2685-improvements-v1-0-f281bd49399c@z3ntu.xyz>
+ <20230129-ov2685-improvements-v1-1-f281bd49399c@z3ntu.xyz>
+ <20230129112249.lf2vb7pthrv4nien@uno.localdomain>
+ <2543677.Lt9SDvczpP@g550jk>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH v6.1] media: dt-bindings: Add OV5670
-Content-Language: en-US
-To:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc:     chiranjeevi.rapolu@intel.com, luca@z3ntu.xyz, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org,
-        laurent.pinchart@ideasonboard.com, sakari.ailus@iki.fi,
-        mchehab@kernel.org, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org
-References: <20230126165909.121302-2-jacopo.mondi@ideasonboard.com>
- <20230128112736.8000-1-jacopo.mondi@ideasonboard.com>
- <b4794490-b059-373a-dec0-58fcd2344f6f@linaro.org>
- <20230129121132.uamuvywdsuah5ivn@uno.localdomain>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230129121132.uamuvywdsuah5ivn@uno.localdomain>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <2543677.Lt9SDvczpP@g550jk>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 29/01/2023 13:11, Jacopo Mondi wrote:
-> On Sun, Jan 29, 2023 at 12:40:03PM +0100, Krzysztof Kozlowski wrote:
->> On 28/01/2023 12:27, Jacopo Mondi wrote:
->>> Add the bindings documentation for Omnivision OV5670 image sensor.
->>>
->>> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
->>> ---
->>> v6->6.1
->>> - Use additionalProperties: false for endpoint properties from
->>>   video-interfaces.yaml
->>> - List 'remote-endpoint' among the accepted endpoint properties
->>>   now that we use additionalProperties: false
->>
->> b4 diff '20230128112736.8000-1-jacopo.mondi@ideasonboard.com'
->> Could not create fake-am range for lower series v1
->>
->> Can you send patches in a way it does not break out workflows? Why
->> making our review process more difficult?
-> 
-> Because it's a nit on a 10 patches series with no other changes
-> requested ?
-> 
-> What is difficult exactly ?
+Hi Luca
 
-I wrote above what's difficult.
+On Sun, Jan 29, 2023 at 12:49:03PM +0100, Luca Weiss wrote:
+> On Sonntag, 29. Jänner 2023 12:22:49 CET Jacopo Mondi wrote:
+> > Hi Luca
+> >
+> > On Sun, Jan 29, 2023 at 10:42:35AM +0100, Luca Weiss wrote:
+> > > In some setups XSHUTDOWN is connected to DOVDD when it's unused,
+> > > therefore treat the reset gpio as optional.
+> >
+> > I don't have a datasheet for this sensor, but OV sensors usually have
+> > to gpio lines to control powerdown and reset. Datasheets usually
+> > suggest to hook one of the 2 to DOVDD and control the other from the
+> > SoC. How is the sensor hooked up in your design ? No gpio lines is
+> > controlled by the SoC ?
+>
+> It looks like this sensor only has XSHUTDOWN pin and no extra reset pin.
+>
 
-> 
-> I see several patches in linux-media being sent inline to a previous
-> version for small fixes if the only required changed is a nit like
-> this one.
+Ack, I see the same for OV2680 (for which I have a datasheet)
 
-If you sent it as separate v7 would be fine, but:
-1. Threading is wrong - it's buried in other patch.
-2. Version is wrong - you did there changes, not nits. There are no
-point versions...
+> In my setup there's the normal I2C & CSI & mclk hookups, but the supply lines
+> and shutdown line are all just connected to regulator-fixed, so gpio-
+> controlled on/off regulators.
+>
+> >
+> > Another question is if we need to software-reset the sensor if no gpio
+> > line is hooked up to XSHUTDOWN.
+>
+> The datasheet mentions it resets itself during power up (so when the supplies
+> are turned on), so I don't think we need to add anything.
+>
 
-Best regards,
-Krzysztof
+Thanks for the clarification!
 
+Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+
+Thanks
+   j
+
+
+> Regards
+> Luca
+>
+> >
+> > > Signed-off-by: Luca Weiss <luca@z3ntu.xyz>
+> > > ---
+> > >
+> > >  drivers/media/i2c/ov2685.c | 2 +-
+> > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > >
+> > > diff --git a/drivers/media/i2c/ov2685.c b/drivers/media/i2c/ov2685.c
+> > > index a3b524f15d89..a422f4c8a2eb 100644
+> > > --- a/drivers/media/i2c/ov2685.c
+> > > +++ b/drivers/media/i2c/ov2685.c
+> > > @@ -734,7 +734,7 @@ static int ov2685_probe(struct i2c_client *client,
+> > >
+> > >  	if (clk_get_rate(ov2685->xvclk) != OV2685_XVCLK_FREQ)
+> > >
+> > >  		dev_warn(dev, "xvclk mismatched, modes are based on
+> 24MHz\n");
+> > >
+> > > -	ov2685->reset_gpio = devm_gpiod_get(dev, "reset", GPIOD_OUT_LOW);
+> > > +	ov2685->reset_gpio = devm_gpiod_get_optional(dev, "reset",
+> > > GPIOD_OUT_LOW);>
+> > >  	if (IS_ERR(ov2685->reset_gpio)) {
+> > >
+> > >  		dev_err(dev, "Failed to get reset-gpios\n");
+> > >  		return -EINVAL;
+> > >
+> > > --
+> > > 2.39.1
+>
+>
+>
+>
