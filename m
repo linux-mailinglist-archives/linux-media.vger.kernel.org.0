@@ -2,114 +2,99 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DEB8C67FEA7
-	for <lists+linux-media@lfdr.de>; Sun, 29 Jan 2023 12:49:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7096E67FEB6
+	for <lists+linux-media@lfdr.de>; Sun, 29 Jan 2023 12:59:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234654AbjA2Lti (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 29 Jan 2023 06:49:38 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54624 "EHLO
+        id S231998AbjA2L7k (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 29 Jan 2023 06:59:40 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56498 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229637AbjA2Lth (ORCPT
+        with ESMTP id S229519AbjA2L7i (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 29 Jan 2023 06:49:37 -0500
-Received: from mail.z3ntu.xyz (mail.z3ntu.xyz [128.199.32.197])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A38D520D10;
-        Sun, 29 Jan 2023 03:49:36 -0800 (PST)
-Received: from g550jk.localnet (unknown [62.108.10.64])
-        by mail.z3ntu.xyz (Postfix) with ESMTPSA id 605B5CD59C;
-        Sun, 29 Jan 2023 11:49:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=z3ntu.xyz; s=z3ntu;
-        t=1674992944; bh=+DytX3gjjZuPPIiQNsyksb2H8Iuk01FVUyWItEe4f34=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References;
-        b=AWFV76mIjxf9A7AfgNSZhN+k8xt5l2DNlywaRNbOGykObF/hxkcf/9evUNRSvaQYS
-         Ov8vw4p8W0KFn2TnPxPE5e2ymENJgHSFxDzOjrY+zccxkc9njbnRIBDwsjDSRWgMQb
-         QPtIOT3cnqJkPufWaCCKoyTCIFyJbPf9bCxEfFBs=
-From:   Luca Weiss <luca@z3ntu.xyz>
-To:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc:     ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
-        Shunqian Zheng <zhengsq@rock-chips.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/4] media: i2c: ov2685: Make reset gpio optional
-Date:   Sun, 29 Jan 2023 12:49:03 +0100
-Message-ID: <2543677.Lt9SDvczpP@g550jk>
-In-Reply-To: <20230129112249.lf2vb7pthrv4nien@uno.localdomain>
-References: <20230129-ov2685-improvements-v1-0-f281bd49399c@z3ntu.xyz>
- <20230129-ov2685-improvements-v1-1-f281bd49399c@z3ntu.xyz>
- <20230129112249.lf2vb7pthrv4nien@uno.localdomain>
+        Sun, 29 Jan 2023 06:59:38 -0500
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 292D21A4A7;
+        Sun, 29 Jan 2023 03:59:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net; s=s31663417;
+        t=1674993565; bh=dsYA3TJFoKxRXCyOmwr6lbeTv9iP7lBwN1Z82eU3mBE=;
+        h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
+        b=Mgr8rUWoNDXTxMZhQ+9BnfLs1XhOD/7GNsKxCWWXsnZi8QYWWt6xnoT8XpdFtnzjM
+         wdND8adrg/LH6/TcyDILhU26jQIz7IKQ1KwSZrkUI9Qq/mjMP01ig2o946xAq41DmQ
+         xD9ao13Iwc+PwbV5wCNTVLZNLqH2xvanIk1H1dcbsi48HQSfKu734FsFVXZDNhUtu1
+         UpHK1ONXxW5lTwVaUM35kykMRZkjf2uFl+bd/wOsLlkXotDG7AqTv+uMOXqWgsnApw
+         SM4bD6jWMqyE+Bnie04trUS4rdO9sP1xGdAkK6ghnMYp5DV0o3xus7/3FQdfYNPbFI
+         zCd8Nd/65XaJQ==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from probook ([95.223.44.193]) by mail.gmx.net (mrgmx104
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MYNJq-1p8IaU3vAw-00VMyl; Sun, 29
+ Jan 2023 12:59:24 +0100
+From:   =?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>
+To:     linux-doc@vger.kernel.org
+Cc:     =?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] dma-buf: Add "dma-buf" to title of documentation
+Date:   Sun, 29 Jan 2023 12:59:17 +0100
+Message-Id: <20230129115917.1229529-1-j.neuschaefer@gmx.net>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_INVALID,
-        DKIM_SIGNED,FROM_SUSPICIOUS_NTLD,SPF_HELO_NONE,SPF_PASS,
-        T_PDS_OTHER_BAD_TLD autolearn=no autolearn_force=no version=3.4.6
+X-Provags-ID: V03:K1:oi5JlNYNUWp/c7+muHI4kjvbKTuF7k4nnmPz0F0CEVayxmY3pvC
+ Wb8boStiLvOC2QrclCRf8hl1M0OO0hLMItz0N9D6u8oQ2kSXEl2+Mxn18usJIiQYLmazR4L
+ vcy6MRZ0uK8bSGr490VkZrYD3rGBLOZcwPz5FKuLTMapfHtmXBgEevzzmSG4zFn/iImQcX3
+ 87ZqC7McaihczOjLb6XPQ==
+UI-OutboundReport: notjunk:1;M01:P0:huz1cX/hXdw=;NCwhynrk+L8Fjw8o9/ouSpJiPBi
+ +JinvjApiOya4DA70vc1hjj5tfjP79zPjCkwOAloe/Xg4e7UB/XXw5gV1Czbzve9DXNXmZbug
+ vj3IgR0PMLgjBGsUEb1yChibSyJl3ewT9cgWi2m2ROmTEzSWEjU5LhoX5HlE0bJ3Oi4k75vER
+ P2qEPgfuU78o5vyW/4GaniG10vLljm/5PmwHvuPAHdWb+YRz+veZq41FK3rDpbsb1DOzfbSX4
+ oSPeNmqjPGurYB+Bred3J9KNEzcLraLOngyfOgxqYtm1ae7M2p+OGPq0CX989GOoP8t+WZ6QV
+ oJi9Nn2JxllNI5DY4SZ9rNA7CcDFevPm2rzKaTpikEp2mbP/VFjVDg2Vre0MoASzMSCiVhTkm
+ 4TwTzYkboI9UHSM+q0eNKneyQ7W0VNDBFwec9kpCokp7A12btvWMqUZsNCuwzRLbw9/Tq1U/5
+ ZqIZF0VZUScbKs2tPVSaBvT6EMh2avVPGDI5Yk0/EGqQKD7deOwSoQzEmmtOcavVxc9D1QYKF
+ nvojhqaUTaWlmn+gb50QStfEws/CVPhKlvz3XPYWT6aj31V1lnS4ZyX4Nk79QO6j1NkhHh0aY
+ CnIu4cdiPb5E5N09JqAfaVN8YglXkmfqcrKBxkW+IObE9iBxX5d5YAWfmF4jaBrZEqrzPQ2QK
+ PuDRz3zxbqm+ChFyetKMX/mZjgf/1li6bSQ3/vDOZyBeWCLAHGVxdSsNdZKsW0xVU9bxj5dXr
+ MGCDEMKvgE7y5q9FAX4hl2SA85hMa9f4DqOXCLicVp39PVEj/yVySl2a5uaLGdqsnl240Nx3X
+ WtIvmMnCORLzFmhAekHRLuCy0P5FflN4x6Jl7E8/pyJJoM/skf9wN+6nh9r9iWdEnwGrmRT1A
+ 9JVECEv6Y6lhGwh5C9RydAosTcOOh3NP826+SLIhfxmNXBgub3kvBJMnGho1O3eWDLwOyzFMl
+ aoWMSvvIweuVsytdLYgQDkxKhlc=
+X-Spam-Status: No, score=0.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H2,RCVD_IN_SBL_CSS,SPF_HELO_NONE,SPF_PASS autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sonntag, 29. J=E4nner 2023 12:22:49 CET Jacopo Mondi wrote:
-> Hi Luca
->=20
-> On Sun, Jan 29, 2023 at 10:42:35AM +0100, Luca Weiss wrote:
-> > In some setups XSHUTDOWN is connected to DOVDD when it's unused,
-> > therefore treat the reset gpio as optional.
->=20
-> I don't have a datasheet for this sensor, but OV sensors usually have
-> to gpio lines to control powerdown and reset. Datasheets usually
-> suggest to hook one of the 2 to DOVDD and control the other from the
-> SoC. How is the sensor hooked up in your design ? No gpio lines is
-> controlled by the SoC ?
+To make it easier to find the dma-buf documentation when looking through
+tables-of-contents etc., put the name "dma-buf" in the title.
 
-It looks like this sensor only has XSHUTDOWN pin and no extra reset pin.
+Signed-off-by: Jonathan Neusch=C3=A4fer <j.neuschaefer@gmx.net>
+=2D--
+ Documentation/driver-api/dma-buf.rst | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-In my setup there's the normal I2C & CSI & mclk hookups, but the supply lin=
-es=20
-and shutdown line are all just connected to regulator-fixed, so gpio-
-controlled on/off regulators.
+diff --git a/Documentation/driver-api/dma-buf.rst b/Documentation/driver-a=
+pi/dma-buf.rst
+index 622b8156d2127..61b6f42ed0f18 100644
+=2D-- a/Documentation/driver-api/dma-buf.rst
++++ b/Documentation/driver-api/dma-buf.rst
+@@ -1,5 +1,5 @@
+-Buffer Sharing and Synchronization
+-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
++Buffer Sharing and Synchronization (dma-buf)
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
 
->=20
-> Another question is if we need to software-reset the sensor if no gpio
-> line is hooked up to XSHUTDOWN.
-
-The datasheet mentions it resets itself during power up (so when the suppli=
-es=20
-are turned on), so I don't think we need to add anything.
-
-Regards
-Luca
-
->=20
-> > Signed-off-by: Luca Weiss <luca@z3ntu.xyz>
-> > ---
-> >=20
-> >  drivers/media/i2c/ov2685.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >=20
-> > diff --git a/drivers/media/i2c/ov2685.c b/drivers/media/i2c/ov2685.c
-> > index a3b524f15d89..a422f4c8a2eb 100644
-> > --- a/drivers/media/i2c/ov2685.c
-> > +++ b/drivers/media/i2c/ov2685.c
-> > @@ -734,7 +734,7 @@ static int ov2685_probe(struct i2c_client *client,
-> >=20
-> >  	if (clk_get_rate(ov2685->xvclk) !=3D OV2685_XVCLK_FREQ)
-> >  =09
-> >  		dev_warn(dev, "xvclk mismatched, modes are based on=20
-24MHz\n");
-> >=20
-> > -	ov2685->reset_gpio =3D devm_gpiod_get(dev, "reset", GPIOD_OUT_LOW);
-> > +	ov2685->reset_gpio =3D devm_gpiod_get_optional(dev, "reset",
-> > GPIOD_OUT_LOW);>=20
-> >  	if (IS_ERR(ov2685->reset_gpio)) {
-> >  =09
-> >  		dev_err(dev, "Failed to get reset-gpios\n");
-> >  		return -EINVAL;
-> >=20
-> > --
-> > 2.39.1
-
-
-
+ The dma-buf subsystem provides the framework for sharing buffers for
+ hardware (DMA) access across multiple device drivers and subsystems, and
+=2D-
+2.39.0
 
