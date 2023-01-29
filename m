@@ -2,167 +2,113 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7586667FF72
-	for <lists+linux-media@lfdr.de>; Sun, 29 Jan 2023 14:43:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1C09468002F
+	for <lists+linux-media@lfdr.de>; Sun, 29 Jan 2023 17:16:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233622AbjA2Nn4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 29 Jan 2023 08:43:56 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57544 "EHLO
+        id S231143AbjA2QQj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 29 Jan 2023 11:16:39 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37532 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231586AbjA2Nn4 (ORCPT
+        with ESMTP id S229605AbjA2QQi (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 29 Jan 2023 08:43:56 -0500
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B92441F905;
-        Sun, 29 Jan 2023 05:43:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674999834; x=1706535834;
-  h=message-id:subject:from:to:cc:date:mime-version:
-   content-transfer-encoding;
-  bh=IvXmT10hHiA0X2ce3w2g38OlhPIqHmnyw3DcFPNVzco=;
-  b=O5xNT0r5VtKmILbn/Ma/CAF4kr8dR89AsjiZm/Vrdj0W1B86tl1a8gG5
-   /49/qPwq/9TmxjadpKX6FOIlCgSvEilM62alFPuN75kAJ6aJZBeiZTH8W
-   /cO89qwyHsQIeIohvjxLxwFCETG2gliY1yeiudvXVFlgBuecLR4WQ2ZOu
-   6sde45q8H2sgG9LK/yoGrCmZyaJ4NcYZgVE9nfpys4JAos82dK/DSwi7q
-   koTRSDjju4FlVRtZcxy+jK7wa0vAdXETKxnhmFc80Mu4dEkXedetSd5fM
-   pBUVofrIqw2aHFWJQkFBnWstl7RAhpIA53d2D1Dk/NUREbQWBp8O+PY7G
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10605"; a="354711078"
-X-IronPort-AV: E=Sophos;i="5.97,256,1669104000"; 
-   d="scan'208";a="354711078"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2023 05:43:52 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10605"; a="657154421"
-X-IronPort-AV: E=Sophos;i="5.97,256,1669104000"; 
-   d="scan'208";a="657154421"
-Received: from dperchan-mobl1.ger.corp.intel.com (HELO terminus) ([10.214.201.237])
-  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2023 05:43:50 -0800
-Message-ID: <9001ccdec3e3234253cf2f93ea39745ed6f525f1.camel@intel.com>
-Subject: [PATCH] uvc: Intel PID enabling UVC Metadata attributes
-From:   Dmitry Perchanov <dmitry.perchanov@intel.com>
+        Sun, 29 Jan 2023 11:16:38 -0500
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 48D3F1E2B6;
+        Sun, 29 Jan 2023 08:16:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net; s=s31663417;
+        t=1675008982; bh=urxmFyOj59HOKLixvBBRQqIlv7zJ5t7JlEJfrmi2bUM=;
+        h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
+        b=ipygiERTJfX/xiEYJoybYiPCCSnkksblihYnjBdew2yvHLCLLFP0xxbOQcnfkqOIS
+         dHJqoKB5tbravgHAF2deuHJ393XyAUs4jByQdJjBrouMcezw+4YYL4GVtTtO+nyo62
+         XFmgyggco619zdZ9MCuOUGBCEw41dI0xUDTqKWCXYSDVh8ALzOEL0m/lzjYS+8WH9h
+         R2q5ZJKIC6M72rOAlwxVPfwxdEOjkIFS3tR8jP31Oi+mxmFnpHsojS6h7FAvNlPys4
+         014FcKQplExRo7f+UDQAQMLWU0UkJF6/gNFNR1loy42FO8mKOCeYq2HRbzbmRADkJ1
+         WlV+i3VpDPvRw==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from probook ([95.223.44.193]) by mail.gmx.net (mrgmx005
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MGhyS-1pQ1yR3RzO-00Dq1m; Sun, 29
+ Jan 2023 17:16:21 +0100
+From:   =?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>
 To:     linux-media@vger.kernel.org
-Cc:     laurent.pinchart@ideasonboard.com, mchehab@kernel.org,
-        linux-kernel@vger.kernel.org, evgeni.raikhel@intel.com,
-        demisrael@gmail.com
-Date:   Sun, 29 Jan 2023 15:43:38 +0200
-User-Agent: Evolution 3.36.5-0ubuntu1 
+Cc:     =?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Jason Wang <wangborong@cdjrlc.com>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] media: dvb-frontends: Fix a typo ("Unknow sleep mode")
+Date:   Sun, 29 Jan 2023 17:16:18 +0100
+Message-Id: <20230129161619.1621869-1-j.neuschaefer@gmx.net>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="iso-8859-1"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Provags-ID: V03:K1:97XDzuNMG3RkYiarUOisY/cT9NekfsIE18aZDknDljmPbrGoWcZ
+ G6MD3V/Ae03DxBnvt+2Ad6sz6V+bXPA/7kuvyQSWlFIVV69aR60t62MzFKzs190mPeqYu6S
+ iY9MgMBD9tYVTAHGC3ZIwPywYerHfSeCnyTSsRAxIBhOhiJEJyde9ZvopxHQMtbHbO6N2q8
+ SntAcMlhuivlUmWmvA0gw==
+UI-OutboundReport: notjunk:1;M01:P0:oUTbO46JV6M=;3CzPWs8NHjbJrclgsZsb5rEL4tG
+ ScpyAGhTOLNGGTt2X39SxKGibj7DFr9UJNmNBx7yL+9hr2KKOjKGTXLlHLoFZ0YhgUhH7+VHC
+ Ru88AhrqbnvmI3i4UQyH3quBjwVzVnm1MwHbE0mL/IpfEP1qaXp5vBk5ldG3NvS5PRb17fuht
+ UKjhfOON6dZNyQFW7kwjt574oieCaLl5fyKb3r16IKU6tXBDgZUuV5leDhiSadQgBlItzTD1e
+ vBl4v0pIjz+Y1t6mxiajekHqP4zLMgtartsjnkikwyxGVfEPXmBaZQAg6cmgMXRml581NPHTU
+ itegBKZD3wlMIkwQDRo7W5Gj3bdd55Gp9vWsfq/ADF5MCBH2AICobmpFJmPhyC4yb9WFXNrw+
+ Vsb8y7EgH6/7n3YnXXL2m507WaiXplEZt1wb71tZAcHSp68BqtsBlH1tHxi2ht2CNcoi6hNJe
+ RI65aTIlLBwi8PEgEwR6IwQVxvQsil0kjaGIU+dhsSNKuc84bNPwjx9BtgJ6lCoB535KjUwWR
+ 8uec9v065AFKyjZeOgISD8t1BXYS3faoRaLsUmVmLFZeuOlR4utIdjQWXlQynPlw7EF59ebR3
+ G/AsYssPMEQ/l+B/PbtCijzXSqybb9FNPXoMT4rUNQug2V6ZKvH+8KsDiiVFuWuqHVRDJL2K0
+ 0RXtSffuW3Ah4AOgREsnuVMryJ9VuGFXjlGl1+UrZhOchTvYYMalAtIkdtrPTSVJACOh345K3
+ VhLeFKhBac+fCzMC0TfXPzfLLski7+pOg4vFoVgbFE8+LL6ab2aNzESUWNGlIJ5gymb3DxyhU
+ Q3PijoTXQS5E7UewyMEFSakU3UI4d5jJE22ecqNj4Jj3W9xr7DqtNeGTZbnQM6Fu6EqUfdbkQ
+ BK+pHS4UFMebmLrb/FEfEKUdzXf/gOlcHcsH9dRvx11F8ay5OGt2OVte9bjBn6RNaNNaDvcR0
+ Uhp6n0nKQWlIlf+C1LPlxjDZ6KY=
+X-Spam-Status: No, score=0.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H2,RCVD_IN_SBL_CSS,SPF_HELO_NONE,SPF_PASS autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Intel RealSense UVC cameras Metadata support.
+Spell "unknown" correctly.
 
-Co-developed-by: Yu MENG <yu1.meng@intel.com>
-Co-developed-by: Evgeni Raikhel <evgeni.raikhel@intel.com>
-Signed-off-by: Dmitry Perchanov <dmitry.perchanov@intel.com>
----
- drivers/media/usb/uvc/uvc_driver.c | 72 ++++++++++++++++++++++++++++++
- 1 file changed, 72 insertions(+)
+Signed-off-by: Jonathan Neusch=C3=A4fer <j.neuschaefer@gmx.net>
+=2D--
+ drivers/media/dvb-frontends/drx39xyj/drxj.c | 2 +-
+ drivers/media/dvb-frontends/drxk_hard.c     | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc=
-_driver.c
-index e4bcb5011360..955f67d9a993 100644
---- a/drivers/media/usb/uvc/uvc_driver.c
-+++ b/drivers/media/usb/uvc/uvc_driver.c
-@@ -3000,6 +3000,78 @@ static const struct usb_device_id uvc_ids[] =3D {
- 	  .bInterfaceSubClass	=3D 1,
- 	  .bInterfaceProtocol	=3D 0,
- 	  .driver_info		=3D UVC_INFO_META(V4L2_META_FMT_D4XX) },
-+	/* Intel D410/ASR depth camera */
-+	{ .match_flags		=3D USB_DEVICE_ID_MATCH_DEVICE
-+				| USB_DEVICE_ID_MATCH_INT_INFO,
-+	  .idVendor		=3D 0x8086,
-+	  .idProduct		=3D 0x0ad2,
-+	  .bInterfaceClass	=3D USB_CLASS_VIDEO,
-+	  .bInterfaceSubClass	=3D 1,
-+	  .bInterfaceProtocol	=3D 0,
-+	  .driver_info		=3D UVC_INFO_META(V4L2_META_FMT_D4XX) },
-+	/* Intel D415/ASRC depth camera */
-+	{ .match_flags		=3D USB_DEVICE_ID_MATCH_DEVICE
-+				| USB_DEVICE_ID_MATCH_INT_INFO,
-+	  .idVendor		=3D 0x8086,
-+	  .idProduct		=3D 0x0ad3,
-+	  .bInterfaceClass	=3D USB_CLASS_VIDEO,
-+	  .bInterfaceSubClass	=3D 1,
-+	  .bInterfaceProtocol	=3D 0,
-+	  .driver_info		=3D UVC_INFO_META(V4L2_META_FMT_D4XX) },
-+	/* Intel D430/AWG depth camera */
-+	{ .match_flags		=3D USB_DEVICE_ID_MATCH_DEVICE
-+				| USB_DEVICE_ID_MATCH_INT_INFO,
-+	  .idVendor		=3D 0x8086,
-+	  .idProduct		=3D 0x0ad4,
-+	  .bInterfaceClass	=3D USB_CLASS_VIDEO,
-+	  .bInterfaceSubClass	=3D 1,
-+	  .bInterfaceProtocol	=3D 0,
-+	  .driver_info		=3D UVC_INFO_META(V4L2_META_FMT_D4XX) },
-+	/* Intel Fallback USB2 Descriptor */
-+	{ .match_flags		=3D USB_DEVICE_ID_MATCH_DEVICE
-+				| USB_DEVICE_ID_MATCH_INT_INFO,
-+	  .idVendor		=3D 0x8086,
-+	  .idProduct		=3D 0x0ad6,
-+	  .bInterfaceClass	=3D USB_CLASS_VIDEO,
-+	  .bInterfaceSubClass	=3D 1,
-+	  .bInterfaceProtocol	=3D 0,
-+	  .driver_info		=3D UVC_INFO_META(V4L2_META_FMT_D4XX) },
-+	/* Intel D435/AWGC depth camera */
-+	{ .match_flags		=3D USB_DEVICE_ID_MATCH_DEVICE
-+				| USB_DEVICE_ID_MATCH_INT_INFO,
-+	  .idVendor		=3D 0x8086,
-+	  .idProduct		=3D 0x0b07,
-+	  .bInterfaceClass	=3D USB_CLASS_VIDEO,
-+	  .bInterfaceSubClass	=3D 1,
-+	  .bInterfaceProtocol	=3D 0,
-+	  .driver_info		=3D UVC_INFO_META(V4L2_META_FMT_D4XX) },
-+	/* Intel D435i depth camera */
-+	{ .match_flags		=3D USB_DEVICE_ID_MATCH_DEVICE
-+				| USB_DEVICE_ID_MATCH_INT_INFO,
-+	  .idVendor		=3D 0x8086,
-+	  .idProduct		=3D 0x0b3a,
-+	  .bInterfaceClass	=3D USB_CLASS_VIDEO,
-+	  .bInterfaceSubClass	=3D 1,
-+	  .bInterfaceProtocol	=3D 0,
-+	  .driver_info		=3D UVC_INFO_META(V4L2_META_FMT_D4XX) },
-+	/* Intel D405 Depth Camera */
-+	{ .match_flags		=3D USB_DEVICE_ID_MATCH_DEVICE
-+				| USB_DEVICE_ID_MATCH_INT_INFO,
-+	  .idVendor		=3D 0x8086,
-+	  .idProduct		=3D 0x0b5b,
-+	  .bInterfaceClass	=3D USB_CLASS_VIDEO,
-+	  .bInterfaceSubClass	=3D 1,
-+	  .bInterfaceProtocol	=3D 0,
-+	  .driver_info		=3D UVC_INFO_META(V4L2_META_FMT_D4XX) },
-+	/* Intel D455 Depth Camera */
-+	{ .match_flags		=3D USB_DEVICE_ID_MATCH_DEVICE
-+				| USB_DEVICE_ID_MATCH_INT_INFO,
-+	  .idVendor		=3D 0x8086,
-+	  .idProduct		=3D 0x0b5c,
-+	  .bInterfaceClass	=3D USB_CLASS_VIDEO,
-+	  .bInterfaceSubClass	=3D 1,
-+	  .bInterfaceProtocol	=3D 0,
-+	  .driver_info		=3D UVC_INFO_META(V4L2_META_FMT_D4XX) },
- 	/* Generic USB Video Class */
- 	{ USB_INTERFACE_INFO(USB_CLASS_VIDEO, 1, UVC_PC_PROTOCOL_UNDEFINED) },
- 	{ USB_INTERFACE_INFO(USB_CLASS_VIDEO, 1, UVC_PC_PROTOCOL_15) },
--- =
+diff --git a/drivers/media/dvb-frontends/drx39xyj/drxj.c b/drivers/media/d=
+vb-frontends/drx39xyj/drxj.c
+index 1dff59ca21a17..637e428e71ee5 100644
+=2D-- a/drivers/media/dvb-frontends/drx39xyj/drxj.c
++++ b/drivers/media/dvb-frontends/drx39xyj/drxj.c
+@@ -11068,7 +11068,7 @@ ctrl_power_mode(struct drx_demod_instance *demod, =
+enum drx_power_mode *mode)
+ 		sio_cc_pwd_mode =3D SIO_CC_PWD_MODE_LEVEL_OSC;
+ 		break;
+ 	default:
+-		/* Unknow sleep mode */
++		/* Unknown sleep mode */
+ 		return -EINVAL;
+ 	}
 
-2.25.1
+diff --git a/drivers/media/dvb-frontends/drxk_hard.c b/drivers/media/dvb-f=
+rontends/drxk_hard.c
+index 9807f54119965..3301ef75d4417 100644
+=2D-- a/drivers/media/dvb-frontends/drxk_hard.c
++++ b/drivers/media/dvb-frontends/drxk_hard.c
+@@ -1585,7 +1585,7 @@ static int ctrl_power_mode(struct drxk_state *state,=
+ enum drx_power_mode *mode)
+ 		sio_cc_pwd_mode =3D SIO_CC_PWD_MODE_LEVEL_OSC;
+ 		break;
+ 	default:
+-		/* Unknow sleep mode */
++		/* Unknown sleep mode */
+ 		return -EINVAL;
+ 	}
 
-
----------------------------------------------------------------------
-Intel Israel (74) Limited
-
-This e-mail and any attachments may contain confidential material for
-the sole use of the intended recipient(s). Any review or distribution
-by others is strictly prohibited. If you are not the intended
-recipient, please contact the sender and delete all copies.
+=2D-
+2.39.0
 
