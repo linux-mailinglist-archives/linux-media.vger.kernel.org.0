@@ -2,50 +2,57 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8F0FD67FF4B
-	for <lists+linux-media@lfdr.de>; Sun, 29 Jan 2023 14:06:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7586667FF72
+	for <lists+linux-media@lfdr.de>; Sun, 29 Jan 2023 14:43:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234941AbjA2NGI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 29 Jan 2023 08:06:08 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49272 "EHLO
+        id S233622AbjA2Nn4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 29 Jan 2023 08:43:56 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57544 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229825AbjA2NGH (ORCPT
+        with ESMTP id S231586AbjA2Nn4 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 29 Jan 2023 08:06:07 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9237B1E5EA;
-        Sun, 29 Jan 2023 05:06:02 -0800 (PST)
-Received: from ideasonboard.com (host-212-171-97-20.pool212171.interbusiness.it [212.171.97.20])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9BBFC327;
-        Sun, 29 Jan 2023 14:05:56 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1674997560;
-        bh=IW7Jzg4uvMKHkGW9e8JbWz5TgBn3wz6lgFae71RROV8=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=o9utlLVFX8KmyH0dE7hH4jz7AOV7L2AN/ZNWuK4ytns3cE86dwRcBXZUgMWmrJa8h
-         sRyMxf81xzeRIMV4ZAR2WpQFlXYG1dBvro4zhhvqLWidPrW9qUCRlp2IowX4dNXD55
-         Q8qAi1rId/JBGVScu8wH2DCOGvk4YoONeK7QqeCk=
-Date:   Sun, 29 Jan 2023 14:05:48 +0100
-From:   Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To:     Luca Weiss <luca@z3ntu.xyz>
-Cc:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-        ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
-        Shunqian Zheng <zhengsq@rock-chips.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/4] media: i2c: ov2685: Make reset gpio optional
-Message-ID: <20230129130548.bsqcnjh2lfu4bn2y@uno.localdomain>
-References: <20230129-ov2685-improvements-v1-0-f281bd49399c@z3ntu.xyz>
- <20230129-ov2685-improvements-v1-1-f281bd49399c@z3ntu.xyz>
- <20230129112249.lf2vb7pthrv4nien@uno.localdomain>
- <2543677.Lt9SDvczpP@g550jk>
+        Sun, 29 Jan 2023 08:43:56 -0500
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B92441F905;
+        Sun, 29 Jan 2023 05:43:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1674999834; x=1706535834;
+  h=message-id:subject:from:to:cc:date:mime-version:
+   content-transfer-encoding;
+  bh=IvXmT10hHiA0X2ce3w2g38OlhPIqHmnyw3DcFPNVzco=;
+  b=O5xNT0r5VtKmILbn/Ma/CAF4kr8dR89AsjiZm/Vrdj0W1B86tl1a8gG5
+   /49/qPwq/9TmxjadpKX6FOIlCgSvEilM62alFPuN75kAJ6aJZBeiZTH8W
+   /cO89qwyHsQIeIohvjxLxwFCETG2gliY1yeiudvXVFlgBuecLR4WQ2ZOu
+   6sde45q8H2sgG9LK/yoGrCmZyaJ4NcYZgVE9nfpys4JAos82dK/DSwi7q
+   koTRSDjju4FlVRtZcxy+jK7wa0vAdXETKxnhmFc80Mu4dEkXedetSd5fM
+   pBUVofrIqw2aHFWJQkFBnWstl7RAhpIA53d2D1Dk/NUREbQWBp8O+PY7G
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10605"; a="354711078"
+X-IronPort-AV: E=Sophos;i="5.97,256,1669104000"; 
+   d="scan'208";a="354711078"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2023 05:43:52 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10605"; a="657154421"
+X-IronPort-AV: E=Sophos;i="5.97,256,1669104000"; 
+   d="scan'208";a="657154421"
+Received: from dperchan-mobl1.ger.corp.intel.com (HELO terminus) ([10.214.201.237])
+  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2023 05:43:50 -0800
+Message-ID: <9001ccdec3e3234253cf2f93ea39745ed6f525f1.camel@intel.com>
+Subject: [PATCH] uvc: Intel PID enabling UVC Metadata attributes
+From:   Dmitry Perchanov <dmitry.perchanov@intel.com>
+To:     linux-media@vger.kernel.org
+Cc:     laurent.pinchart@ideasonboard.com, mchehab@kernel.org,
+        linux-kernel@vger.kernel.org, evgeni.raikhel@intel.com,
+        demisrael@gmail.com
+Date:   Sun, 29 Jan 2023 15:43:38 +0200
+User-Agent: Evolution 3.36.5-0ubuntu1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <2543677.Lt9SDvczpP@g550jk>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -53,79 +60,109 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Luca
+Intel RealSense UVC cameras Metadata support.
 
-On Sun, Jan 29, 2023 at 12:49:03PM +0100, Luca Weiss wrote:
-> On Sonntag, 29. Jänner 2023 12:22:49 CET Jacopo Mondi wrote:
-> > Hi Luca
-> >
-> > On Sun, Jan 29, 2023 at 10:42:35AM +0100, Luca Weiss wrote:
-> > > In some setups XSHUTDOWN is connected to DOVDD when it's unused,
-> > > therefore treat the reset gpio as optional.
-> >
-> > I don't have a datasheet for this sensor, but OV sensors usually have
-> > to gpio lines to control powerdown and reset. Datasheets usually
-> > suggest to hook one of the 2 to DOVDD and control the other from the
-> > SoC. How is the sensor hooked up in your design ? No gpio lines is
-> > controlled by the SoC ?
->
-> It looks like this sensor only has XSHUTDOWN pin and no extra reset pin.
->
+Co-developed-by: Yu MENG <yu1.meng@intel.com>
+Co-developed-by: Evgeni Raikhel <evgeni.raikhel@intel.com>
+Signed-off-by: Dmitry Perchanov <dmitry.perchanov@intel.com>
+---
+ drivers/media/usb/uvc/uvc_driver.c | 72 ++++++++++++++++++++++++++++++
+ 1 file changed, 72 insertions(+)
 
-Ack, I see the same for OV2680 (for which I have a datasheet)
+diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc=
+_driver.c
+index e4bcb5011360..955f67d9a993 100644
+--- a/drivers/media/usb/uvc/uvc_driver.c
++++ b/drivers/media/usb/uvc/uvc_driver.c
+@@ -3000,6 +3000,78 @@ static const struct usb_device_id uvc_ids[] =3D {
+ 	  .bInterfaceSubClass	=3D 1,
+ 	  .bInterfaceProtocol	=3D 0,
+ 	  .driver_info		=3D UVC_INFO_META(V4L2_META_FMT_D4XX) },
++	/* Intel D410/ASR depth camera */
++	{ .match_flags		=3D USB_DEVICE_ID_MATCH_DEVICE
++				| USB_DEVICE_ID_MATCH_INT_INFO,
++	  .idVendor		=3D 0x8086,
++	  .idProduct		=3D 0x0ad2,
++	  .bInterfaceClass	=3D USB_CLASS_VIDEO,
++	  .bInterfaceSubClass	=3D 1,
++	  .bInterfaceProtocol	=3D 0,
++	  .driver_info		=3D UVC_INFO_META(V4L2_META_FMT_D4XX) },
++	/* Intel D415/ASRC depth camera */
++	{ .match_flags		=3D USB_DEVICE_ID_MATCH_DEVICE
++				| USB_DEVICE_ID_MATCH_INT_INFO,
++	  .idVendor		=3D 0x8086,
++	  .idProduct		=3D 0x0ad3,
++	  .bInterfaceClass	=3D USB_CLASS_VIDEO,
++	  .bInterfaceSubClass	=3D 1,
++	  .bInterfaceProtocol	=3D 0,
++	  .driver_info		=3D UVC_INFO_META(V4L2_META_FMT_D4XX) },
++	/* Intel D430/AWG depth camera */
++	{ .match_flags		=3D USB_DEVICE_ID_MATCH_DEVICE
++				| USB_DEVICE_ID_MATCH_INT_INFO,
++	  .idVendor		=3D 0x8086,
++	  .idProduct		=3D 0x0ad4,
++	  .bInterfaceClass	=3D USB_CLASS_VIDEO,
++	  .bInterfaceSubClass	=3D 1,
++	  .bInterfaceProtocol	=3D 0,
++	  .driver_info		=3D UVC_INFO_META(V4L2_META_FMT_D4XX) },
++	/* Intel Fallback USB2 Descriptor */
++	{ .match_flags		=3D USB_DEVICE_ID_MATCH_DEVICE
++				| USB_DEVICE_ID_MATCH_INT_INFO,
++	  .idVendor		=3D 0x8086,
++	  .idProduct		=3D 0x0ad6,
++	  .bInterfaceClass	=3D USB_CLASS_VIDEO,
++	  .bInterfaceSubClass	=3D 1,
++	  .bInterfaceProtocol	=3D 0,
++	  .driver_info		=3D UVC_INFO_META(V4L2_META_FMT_D4XX) },
++	/* Intel D435/AWGC depth camera */
++	{ .match_flags		=3D USB_DEVICE_ID_MATCH_DEVICE
++				| USB_DEVICE_ID_MATCH_INT_INFO,
++	  .idVendor		=3D 0x8086,
++	  .idProduct		=3D 0x0b07,
++	  .bInterfaceClass	=3D USB_CLASS_VIDEO,
++	  .bInterfaceSubClass	=3D 1,
++	  .bInterfaceProtocol	=3D 0,
++	  .driver_info		=3D UVC_INFO_META(V4L2_META_FMT_D4XX) },
++	/* Intel D435i depth camera */
++	{ .match_flags		=3D USB_DEVICE_ID_MATCH_DEVICE
++				| USB_DEVICE_ID_MATCH_INT_INFO,
++	  .idVendor		=3D 0x8086,
++	  .idProduct		=3D 0x0b3a,
++	  .bInterfaceClass	=3D USB_CLASS_VIDEO,
++	  .bInterfaceSubClass	=3D 1,
++	  .bInterfaceProtocol	=3D 0,
++	  .driver_info		=3D UVC_INFO_META(V4L2_META_FMT_D4XX) },
++	/* Intel D405 Depth Camera */
++	{ .match_flags		=3D USB_DEVICE_ID_MATCH_DEVICE
++				| USB_DEVICE_ID_MATCH_INT_INFO,
++	  .idVendor		=3D 0x8086,
++	  .idProduct		=3D 0x0b5b,
++	  .bInterfaceClass	=3D USB_CLASS_VIDEO,
++	  .bInterfaceSubClass	=3D 1,
++	  .bInterfaceProtocol	=3D 0,
++	  .driver_info		=3D UVC_INFO_META(V4L2_META_FMT_D4XX) },
++	/* Intel D455 Depth Camera */
++	{ .match_flags		=3D USB_DEVICE_ID_MATCH_DEVICE
++				| USB_DEVICE_ID_MATCH_INT_INFO,
++	  .idVendor		=3D 0x8086,
++	  .idProduct		=3D 0x0b5c,
++	  .bInterfaceClass	=3D USB_CLASS_VIDEO,
++	  .bInterfaceSubClass	=3D 1,
++	  .bInterfaceProtocol	=3D 0,
++	  .driver_info		=3D UVC_INFO_META(V4L2_META_FMT_D4XX) },
+ 	/* Generic USB Video Class */
+ 	{ USB_INTERFACE_INFO(USB_CLASS_VIDEO, 1, UVC_PC_PROTOCOL_UNDEFINED) },
+ 	{ USB_INTERFACE_INFO(USB_CLASS_VIDEO, 1, UVC_PC_PROTOCOL_15) },
+-- =
 
-> In my setup there's the normal I2C & CSI & mclk hookups, but the supply lines
-> and shutdown line are all just connected to regulator-fixed, so gpio-
-> controlled on/off regulators.
->
-> >
-> > Another question is if we need to software-reset the sensor if no gpio
-> > line is hooked up to XSHUTDOWN.
->
-> The datasheet mentions it resets itself during power up (so when the supplies
-> are turned on), so I don't think we need to add anything.
->
-
-Thanks for the clarification!
-
-Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-
-Thanks
-   j
+2.25.1
 
 
-> Regards
-> Luca
->
-> >
-> > > Signed-off-by: Luca Weiss <luca@z3ntu.xyz>
-> > > ---
-> > >
-> > >  drivers/media/i2c/ov2685.c | 2 +-
-> > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > >
-> > > diff --git a/drivers/media/i2c/ov2685.c b/drivers/media/i2c/ov2685.c
-> > > index a3b524f15d89..a422f4c8a2eb 100644
-> > > --- a/drivers/media/i2c/ov2685.c
-> > > +++ b/drivers/media/i2c/ov2685.c
-> > > @@ -734,7 +734,7 @@ static int ov2685_probe(struct i2c_client *client,
-> > >
-> > >  	if (clk_get_rate(ov2685->xvclk) != OV2685_XVCLK_FREQ)
-> > >
-> > >  		dev_warn(dev, "xvclk mismatched, modes are based on
-> 24MHz\n");
-> > >
-> > > -	ov2685->reset_gpio = devm_gpiod_get(dev, "reset", GPIOD_OUT_LOW);
-> > > +	ov2685->reset_gpio = devm_gpiod_get_optional(dev, "reset",
-> > > GPIOD_OUT_LOW);>
-> > >  	if (IS_ERR(ov2685->reset_gpio)) {
-> > >
-> > >  		dev_err(dev, "Failed to get reset-gpios\n");
-> > >  		return -EINVAL;
-> > >
-> > > --
-> > > 2.39.1
->
->
->
->
+---------------------------------------------------------------------
+Intel Israel (74) Limited
+
+This e-mail and any attachments may contain confidential material for
+the sole use of the intended recipient(s). Any review or distribution
+by others is strictly prohibited. If you are not the intended
+recipient, please contact the sender and delete all copies.
+
