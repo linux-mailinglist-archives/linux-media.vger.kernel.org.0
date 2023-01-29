@@ -2,98 +2,114 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 77C7467FE9D
-	for <lists+linux-media@lfdr.de>; Sun, 29 Jan 2023 12:40:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DEB8C67FEA7
+	for <lists+linux-media@lfdr.de>; Sun, 29 Jan 2023 12:49:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231586AbjA2Lkt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 29 Jan 2023 06:40:49 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52722 "EHLO
+        id S234654AbjA2Lti (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 29 Jan 2023 06:49:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54624 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229637AbjA2Lks (ORCPT
+        with ESMTP id S229637AbjA2Lth (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 29 Jan 2023 06:40:48 -0500
-Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com [IPv6:2a00:1450:4864:20::32e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 986211F91F
-        for <linux-media@vger.kernel.org>; Sun, 29 Jan 2023 03:40:47 -0800 (PST)
-Received: by mail-wm1-x32e.google.com with SMTP id l41-20020a05600c1d2900b003daf986faaeso6354013wms.3
-        for <linux-media@vger.kernel.org>; Sun, 29 Jan 2023 03:40:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=jazwuo7S7PRaKzzmzo6+Ei6xg2t6TmeOjR55UzCFgww=;
-        b=KLbl4LXEc5WnIUdM9m46JUZFytcAbOiTBFMhOkJ2BnF/LvTl04DR3/7Yhi+HF8egY/
-         Ia7Da/2zDM0DmUroHUp85Kfz0YqPnj0zziJcLpRbQ0LhspCIiB2zBJWIx3MLje+kwHd0
-         JnQDCK4szG3TB9Xpq+9vd9sfvSYKiL80lNy7pJizdRjQa0VuRwvLar7l0oW8r8E5tdD3
-         hnONeqtHZhXwC98ObquKhLZWD2mE4ksNd2zoor6X0YGmtyQoXkeQmKY5afTQB1N7usoC
-         sMQ0z8T5ukKgqER0Dmz4mIUm9Jk14gy9XFgr+DJPIrXqTCIMO1QUz1BjREWw61Y1bEnb
-         4y7w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=jazwuo7S7PRaKzzmzo6+Ei6xg2t6TmeOjR55UzCFgww=;
-        b=3Jw/PxwhCKL3arvOi50yiqq0Hhj36rRJHegtVDu3CRSkoeMkZWcEdssyV/+DoG7CjA
-         MAtQrB4A3mPC0sIIbunEsm2zdu4VBWj0RDm3qMpXdemJ/5mLWZ1P+pRodVDVQTGykK+U
-         tFlHZw8Wm6iDbV47kjZ4ZKHqXLdLYFysIaPBPGF44+RQNCZ6fXEppLC3N+3l7a8kuqoZ
-         Na7xUs47Kfs+O+OrpliUocoyb3F6qkoMMfZTp65F53tWvCM+I5usPLD48LpTrvJF0BxD
-         D6Tol9bPNpYWpHBE8fhhos3XgQpAqPMLNGgUZBwpSV/up8OoJBrFmcxmOl1bR2VlCot4
-         M8tA==
-X-Gm-Message-State: AFqh2kpg08vTbLTuPcLlby7fMc+UDRSqiozs62WOtCmJr6OPXY5TXe8X
-        TyzpgpaLq/oonRe+aVqQSPAAag==
-X-Google-Smtp-Source: AMrXdXsegIHmYjOYJSE0fSWflDV/55+6tBA+4ojGllu2fgzkaYVsvnDzw2FvVytEDn7qcOyjyTiH5Q==
-X-Received: by 2002:a1c:7504:0:b0:3d3:52bb:3984 with SMTP id o4-20020a1c7504000000b003d352bb3984mr42806695wmc.17.1674992446156;
-        Sun, 29 Jan 2023 03:40:46 -0800 (PST)
-Received: from [192.168.1.109] ([178.197.216.144])
-        by smtp.gmail.com with ESMTPSA id x26-20020a1c7c1a000000b003db01178b62sm12963733wmc.40.2023.01.29.03.40.44
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 29 Jan 2023 03:40:45 -0800 (PST)
-Message-ID: <144a0e59-0652-7e73-cc01-354f6a18f265@linaro.org>
-Date:   Sun, 29 Jan 2023 12:40:43 +0100
+        Sun, 29 Jan 2023 06:49:37 -0500
+Received: from mail.z3ntu.xyz (mail.z3ntu.xyz [128.199.32.197])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A38D520D10;
+        Sun, 29 Jan 2023 03:49:36 -0800 (PST)
+Received: from g550jk.localnet (unknown [62.108.10.64])
+        by mail.z3ntu.xyz (Postfix) with ESMTPSA id 605B5CD59C;
+        Sun, 29 Jan 2023 11:49:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=z3ntu.xyz; s=z3ntu;
+        t=1674992944; bh=+DytX3gjjZuPPIiQNsyksb2H8Iuk01FVUyWItEe4f34=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References;
+        b=AWFV76mIjxf9A7AfgNSZhN+k8xt5l2DNlywaRNbOGykObF/hxkcf/9evUNRSvaQYS
+         Ov8vw4p8W0KFn2TnPxPE5e2ymENJgHSFxDzOjrY+zccxkc9njbnRIBDwsjDSRWgMQb
+         QPtIOT3cnqJkPufWaCCKoyTCIFyJbPf9bCxEfFBs=
+From:   Luca Weiss <luca@z3ntu.xyz>
+To:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc:     ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
+        Shunqian Zheng <zhengsq@rock-chips.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/4] media: i2c: ov2685: Make reset gpio optional
+Date:   Sun, 29 Jan 2023 12:49:03 +0100
+Message-ID: <2543677.Lt9SDvczpP@g550jk>
+In-Reply-To: <20230129112249.lf2vb7pthrv4nien@uno.localdomain>
+References: <20230129-ov2685-improvements-v1-0-f281bd49399c@z3ntu.xyz>
+ <20230129-ov2685-improvements-v1-1-f281bd49399c@z3ntu.xyz>
+ <20230129112249.lf2vb7pthrv4nien@uno.localdomain>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH v6.1] media: dt-bindings: Add OV5670
-Content-Language: en-US
-To:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-        chiranjeevi.rapolu@intel.com, luca@z3ntu.xyz, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org
-Cc:     laurent.pinchart@ideasonboard.com, sakari.ailus@iki.fi,
-        mchehab@kernel.org, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org
-References: <20230126165909.121302-2-jacopo.mondi@ideasonboard.com>
- <20230128112736.8000-1-jacopo.mondi@ideasonboard.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230128112736.8000-1-jacopo.mondi@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_INVALID,
+        DKIM_SIGNED,FROM_SUSPICIOUS_NTLD,SPF_HELO_NONE,SPF_PASS,
+        T_PDS_OTHER_BAD_TLD autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 28/01/2023 12:27, Jacopo Mondi wrote:
-> Add the bindings documentation for Omnivision OV5670 image sensor.
-> 
-> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-> ---
-> v6->6.1
-> - Use additionalProperties: false for endpoint properties from
->   video-interfaces.yaml
-> - List 'remote-endpoint' among the accepted endpoint properties
->   now that we use additionalProperties: false
-> ---
+On Sonntag, 29. J=E4nner 2023 12:22:49 CET Jacopo Mondi wrote:
+> Hi Luca
+>=20
+> On Sun, Jan 29, 2023 at 10:42:35AM +0100, Luca Weiss wrote:
+> > In some setups XSHUTDOWN is connected to DOVDD when it's unused,
+> > therefore treat the reset gpio as optional.
+>=20
+> I don't have a datasheet for this sensor, but OV sensors usually have
+> to gpio lines to control powerdown and reset. Datasheets usually
+> suggest to hook one of the 2 to DOVDD and control the other from the
+> SoC. How is the sensor hooked up in your design ? No gpio lines is
+> controlled by the SoC ?
+
+It looks like this sensor only has XSHUTDOWN pin and no extra reset pin.
+
+In my setup there's the normal I2C & CSI & mclk hookups, but the supply lin=
+es=20
+and shutdown line are all just connected to regulator-fixed, so gpio-
+controlled on/off regulators.
+
+>=20
+> Another question is if we need to software-reset the sensor if no gpio
+> line is hooked up to XSHUTDOWN.
+
+The datasheet mentions it resets itself during power up (so when the suppli=
+es=20
+are turned on), so I don't think we need to add anything.
+
+Regards
+Luca
+
+>=20
+> > Signed-off-by: Luca Weiss <luca@z3ntu.xyz>
+> > ---
+> >=20
+> >  drivers/media/i2c/ov2685.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >=20
+> > diff --git a/drivers/media/i2c/ov2685.c b/drivers/media/i2c/ov2685.c
+> > index a3b524f15d89..a422f4c8a2eb 100644
+> > --- a/drivers/media/i2c/ov2685.c
+> > +++ b/drivers/media/i2c/ov2685.c
+> > @@ -734,7 +734,7 @@ static int ov2685_probe(struct i2c_client *client,
+> >=20
+> >  	if (clk_get_rate(ov2685->xvclk) !=3D OV2685_XVCLK_FREQ)
+> >  =09
+> >  		dev_warn(dev, "xvclk mismatched, modes are based on=20
+24MHz\n");
+> >=20
+> > -	ov2685->reset_gpio =3D devm_gpiod_get(dev, "reset", GPIOD_OUT_LOW);
+> > +	ov2685->reset_gpio =3D devm_gpiod_get_optional(dev, "reset",
+> > GPIOD_OUT_LOW);>=20
+> >  	if (IS_ERR(ov2685->reset_gpio)) {
+> >  =09
+> >  		dev_err(dev, "Failed to get reset-gpios\n");
+> >  		return -EINVAL;
+> >=20
+> > --
+> > 2.39.1
 
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-Best regards,
-Krzysztof
 
