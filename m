@@ -2,303 +2,372 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E5B36680A69
-	for <lists+linux-media@lfdr.de>; Mon, 30 Jan 2023 11:07:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 59382680A84
+	for <lists+linux-media@lfdr.de>; Mon, 30 Jan 2023 11:13:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236011AbjA3KHb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 30 Jan 2023 05:07:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42940 "EHLO
+        id S235902AbjA3KNJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 30 Jan 2023 05:13:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47272 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235898AbjA3KHa (ORCPT
+        with ESMTP id S236093AbjA3KNH (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 30 Jan 2023 05:07:30 -0500
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2059.outbound.protection.outlook.com [40.107.223.59])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CEF8A16305;
-        Mon, 30 Jan 2023 02:07:25 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Z4yGLjMHlno+N6HvQzCFsCjU8BPyM4rYEUI4Q5Rn9jN6fyVkxIPFsD6CfaHkrna51zJA9wR1aSbapdXhhome8/Ne33cJsWUc27iV5sSfKVpzBPotpA7ANER6FPNRGReW8OV6ereqPG7TaID2p8CwUFuVN3k1w5YgKAEcdL0fkWTq9TO9miSoFAnyf4T5zpfgyPDVn2MY5TMAHgt2M8xdkJq8doCJLEJ8Ay1z9wAcvnHAxiVkXIZQ0TeRgkWd2X2cuDXjgyk5u5qh1+109xmYlXM1QtMNAAtrTtm3u/ktPg5zcK7T/YDy307wsY/yzPDy53/olD5vJVH2p44aK/KM7w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=1j3Q70HNx+996ygc8e+a+7Xn6Y+US94YeXkzRlur7l4=;
- b=JSaqf71NoNyso5CGw3Ue5P7wY5OhmgkuwxrdO7vBnkdovoC67HXubXpNMpdQH55fdG1dV+OFoaIq4cRwE6JUgNJeKk0velzv8OSB4VcVidfPITqxNiVIsolctKfUIGDO23RSpa6B3YS4XA86H2LPZhrG4Bp4D76YfWff1zi5afIZ5lIOCg/TE04PQi6NY/HY02+0Dt6Wnc/q3Tv8AkHUdwNHArZ4vdR7KAaDmH4V+dYO46LhSF6O9IlsNaKsrImMZzdIhoHeNRrCmn8eBPVAdhFAy7j5W2/phRXlz3iKoXWBZU3EuPZJ2O9/6qU+ePKuM51FPg99+yzManf7ZvHiaw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=synaptics.com; dmarc=pass action=none
- header.from=synaptics.com; dkim=pass header.d=synaptics.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=Synaptics.onmicrosoft.com; s=selector2-Synaptics-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1j3Q70HNx+996ygc8e+a+7Xn6Y+US94YeXkzRlur7l4=;
- b=IsmD2lDypd1y6wtJnax8JnwqeQzZHFh2hYNBcw4IsGzqy6q+puvsUiJpxsooN7/98yRQTQM7AgNvLUscS1dlL2OshjLPBFlFAUwZFCYsBOoxV9se2So82M/wzPqo+krluMNd6vOpcUOsV02225V1OGQQG/fvRK2tLmyXiMcgCBU=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=synaptics.com;
-Received: from DM6PR03MB5196.namprd03.prod.outlook.com (2603:10b6:5:24a::19)
- by BY5PR03MB5141.namprd03.prod.outlook.com (2603:10b6:a03:1e9::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6043.36; Mon, 30 Jan
- 2023 10:07:23 +0000
-Received: from DM6PR03MB5196.namprd03.prod.outlook.com
- ([fe80::10e9:e275:9f10:67cc]) by DM6PR03MB5196.namprd03.prod.outlook.com
- ([fe80::10e9:e275:9f10:67cc%9]) with mapi id 15.20.6043.033; Mon, 30 Jan 2023
- 10:07:23 +0000
-Message-ID: <413ed194-2302-1161-c74f-768faeb999f2@synaptics.com>
-Date:   Mon, 30 Jan 2023 18:07:12 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [RFC PATCH v6 03/11] media: v4l2: Add extended buffer (de)queue
- operations for video types
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     Brian.Starkey@arm.com, frkoenig@chromium.org,
-        hans.verkuil@cisco.com, helen.koike@collabora.com,
-        hiroh@chromium.org, kernel@collabora.com,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        mchehab@kernel.org, narmstrong@baylibre.com, nicolas@ndufresne.ca,
-        sakari.ailus@iki.fi, stanimir.varbanov@linaro.org,
-        tfiga@chromium.org,
+        Mon, 30 Jan 2023 05:13:07 -0500
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 037DB2726;
+        Mon, 30 Jan 2023 02:13:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1675073586; x=1706609586;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=lkzQnJaDnZsjoC5W0+1xU1mLq9d2iemOIAHUFDXsbkM=;
+  b=baGfeGWInx2JCMDv0UfVtqivSrUHVHuQA6Yo7fidqwNORx0dGFNPnLwS
+   dGNrbi521xLkiLIsfMlLq0IzdIN9Kxs36K6uW/330iefguresX+Vlc9J6
+   gnIaaleNaMF3oXP7AzXMYiIV+c4CBpmESBvXxceLwvVBKF/pzQFC82F1p
+   heiUG8YT5D9Qs3WLuI4hrhEnemRSRocsBwWJdAWyl6z2kKWPEt7dg3S1g
+   mdIfpL9sL53WPyyVZVaAaFvaA6+FXNUIzOiVv40l8DX6T/a2isT83jqdY
+   /ZzeoBzbGsewmID16K2dIUXWMD50L2+6/OsQb5ohAHKvp5MSjeQVsaq1q
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10605"; a="307867038"
+X-IronPort-AV: E=Sophos;i="5.97,257,1669104000"; 
+   d="scan'208";a="307867038"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2023 02:13:05 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10605"; a="752768538"
+X-IronPort-AV: E=Sophos;i="5.97,257,1669104000"; 
+   d="scan'208";a="752768538"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2023 02:13:01 -0800
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+        by kekkonen.fi.intel.com (Postfix) with SMTP id 2A9D2120243;
+        Mon, 30 Jan 2023 12:12:59 +0200 (EET)
+Date:   Mon, 30 Jan 2023 12:12:59 +0200
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Mark Gross <mgross@linux.intel.com>,
+        Andy Shevchenko <andy@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        ayaka <ayaka@soulik.info>
-References: <20210114180738.1758707-1-helen.koike@collabora.com>
- <20210114180738.1758707-4-helen.koike@collabora.com>
- <20230125200026.16643-1-ayaka@soulik.info>
- <7609d523-667a-49a8-45f5-8186de20c24b@xs4all.nl>
- <Y9Jd12nYGk2xTYzx@pendragon.ideasonboard.com>
- <02142e8c-7479-1066-b5af-dad954136adc@soulik.info>
- <197c3574-2ffa-7c8a-2372-a373123087a3@xs4all.nl>
-From:   Hsia-Jun Li <Randy.Li@synaptics.com>
-Content-Language: en-GB
-In-Reply-To: <197c3574-2ffa-7c8a-2372-a373123087a3@xs4all.nl>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: BY5PR13CA0034.namprd13.prod.outlook.com
- (2603:10b6:a03:180::47) To DM6PR03MB5196.namprd03.prod.outlook.com
- (2603:10b6:5:24a::19)
+        Daniel Scally <djrscally@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        platform-driver-x86@vger.kernel.org, linux-gpio@vger.kernel.org,
+        Kate Hsuan <hpa@redhat.com>,
+        Mark Pearson <markpearson@lenovo.com>,
+        Andy Yeh <andy.yeh@intel.com>, Hao Yao <hao.yao@intel.com>,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH v6 3/5] platform/x86: int3472/discrete: Create a LED
+ class device for the privacy LED
+Message-ID: <Y9eYKxdo7BvqI9sR@kekkonen.localdomain>
+References: <20230127203729.10205-1-hdegoede@redhat.com>
+ <20230127203729.10205-4-hdegoede@redhat.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6PR03MB5196:EE_|BY5PR03MB5141:EE_
-X-MS-Office365-Filtering-Correlation-Id: f2e1ea14-8fdb-410d-96a0-08db02a9c805
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: YxdzC4D+EAGgWxg47PB/uL0qN0EeWVvwIBzT1sbEu5Xgrc42WvQFGgXZEijiDZ7j/J44JQF7vW3mpkECPeZbKWM9sRRa4vDWe50LB8DODmtCWU5Kg+ubBt8mO47JZxmDWOkHMCu6QxPdFyfHal2dZXSyFnbromdV8J6Upo4qi8bX2uttXm5v5oVlWDf3ZvnVi7PQg/z7UgZtaNNi/VtiDuC07fTUh+d5jCdOBoTqJxc9fMags4yYQEFTC8vsokouULj9ZxCwv7sWD+ZBQAhdOA4bSZ6j6/BAckqJ6Vv6sy96eBSaJoCfsAhMWLHtxbpreNkNqk2WfGx4EknEz0irlzOahWqEN/Ih3hNOxFkj2qJ8C5N526a6/ZiEYMoB9bbuzwr/L+VXupYls5HaFiuw1TVpdBaqr1dySEhr/WEdetrT2LpbvJyHVmP2cdSn9p4kbg8HbBx3XNz123VnH4KT7aTs6a3i7y2ILVdO1k5McaMnn1bFhfeOb+2c92d/Ev8Favz2dHHTl8hbgGSePcmeCOTp2MxM36lBEVzHB0tZJYyvGK8ys1Blgw7IRGcD+WF+3sAR32E6bpzfags0Amm/qO8pUoj3pPQhZPDu9otahYj/A7d7XBopOHgqzJCo3+2DoXTn9Y7gCsxsGUwh5XXkBx2tOlvI0YMiw+soeP7PeZ9mmKre8UyLkPamgtbCGc3LOJU0dmxQFxZK8Dh5449sr5XBM88LG8pPPWWH4op6UQJ5jD6d3zwmO8N2HSPj5AHCb4AUDyPD58Fv5BRoT5V//A==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR03MB5196.namprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(366004)(346002)(376002)(39850400004)(396003)(136003)(451199018)(52116002)(31696002)(31686004)(8676002)(66476007)(66556008)(6916009)(4326008)(41300700001)(66946007)(8936002)(83380400001)(478600001)(86362001)(316002)(2906002)(38350700002)(38100700002)(6666004)(6486002)(26005)(6506007)(53546011)(5660300002)(186003)(6512007)(54906003)(7416002)(36756003)(2616005)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ejlHTzlONHdadHdUR3dyQUl0M0hhMzNjZzBrMHlPTHpTcFMxKzYyS1BVekR1?=
- =?utf-8?B?OHRWenpnWWw0bjFLd0xnR0VyblBEMGxMZ0dKRGkvOFNvMyt3a3kyV2J2UDVU?=
- =?utf-8?B?ejh4OG1talNpZG5mV1RhOVU5SXB6V0xwNlZGVlc5MjZ5Mmx1a3lYaDJzemgx?=
- =?utf-8?B?ZHJwQ3JCdjFXcjJHTlVRNHF1OGtBQ2hmSDJhWjk3THFvN0krUXZIanp3L2Jw?=
- =?utf-8?B?Mk5OVTRpR3FFaVpQU2kwZ0NmV1RFTlZWL3JNbk1Fa2tLQUtXcDYzVzM2Ym4z?=
- =?utf-8?B?ZWYzQ0JrSXpqMUFKUXp4OEI2cXo2UU03dTJjdXIyd3RxUm55Wjd6dG9uUmJO?=
- =?utf-8?B?UkRpWEplalFoWW5XWmJhRHZHQVNuTDdBQ2d3WDRMY25oWXEzK1N0WDVjdVFD?=
- =?utf-8?B?WXg4NGExazB2U2VlYm05eUpsNnhZOHlTcGhaWjBHaW9Yd3hPeDdvNk50d0JG?=
- =?utf-8?B?Kzl2YUloY0tXU2xlczNsWnpIVENnNHhGdTdkbmcwSDJlazhITkFZZDV3cGNP?=
- =?utf-8?B?QnJwYkNsb2pjMUs4V0FQa2VpSGMyQ0ZPcUhTejRDeStaSWcwS1QxVVBJT1RX?=
- =?utf-8?B?UG5MY0dCZFBUTFVOZlV6MDdCd0UveU5RVWZ6NlZFelZQOWZKbTFXU1lrSUxP?=
- =?utf-8?B?Y3kzRzJLME5tVkdMU0p2aXc4YkhTdlcwMUN0RTVqdmpHTDlzdGRRdE8wejl3?=
- =?utf-8?B?SG0rSkxiaGg3YlBST0tNaUNYSVVndVlEL2U0MzZVbzkxWGRMS0pSZjczaXo2?=
- =?utf-8?B?QzFydHF6L05oNm5mNmkwQUdNUEZldWJnRERRRndDRE1PSVlrbjl0N2RNTE1r?=
- =?utf-8?B?TXRmUHUrb1hHandxV215WE9kUmovVWNvVjhmY2ZNVDJ0Z1YyWlRtQ3I1REpH?=
- =?utf-8?B?SHYrYVhsU1FWRzdaSVkzWFNQeFgvVUJIYWxQRUJPdXJudWpiemczZU5tL0pr?=
- =?utf-8?B?LzZxR2NFRHFGMlFuQzhwQUpDSnBGS2c1eGpDYlFRQk43SDhtei9WOEUwWFdo?=
- =?utf-8?B?UE1Wbk41STIxWXlEa0FnMzlOZ2xESS9Sd2pLMUE0VFJzL3l6bVRaZmZOdE8x?=
- =?utf-8?B?K1JyWmNzQkNFZW5WVmp2M1J6dituYlVwZlNEbUx2VmZnYWkrRWVoVTRKNWVm?=
- =?utf-8?B?ei8zcGdjV2djUjR4UXFOYXdCOUM3R1lDTEZJMHcxY1lhVkFkdFJYWlI3WWF5?=
- =?utf-8?B?T3h2Q0pBWDRDMkprSnZPcm9IRVJFeDFodjBnL0Y4dUlaWmV2MThOTVc3dXZO?=
- =?utf-8?B?TUtmcjF5SUxVU21uWXFSRFhia2xGNXVkVHBYdUd2aVZhRjdSVjhBVVB4emZy?=
- =?utf-8?B?eTNIZW4rM29IL01TTnM4YUlwWmpxRHhNR3lYK0hKdFlqd3g4SnBzY3Q3VEdT?=
- =?utf-8?B?SDgxaUVwZGhTSTJYTTFPWVpLT3RjL3Z5Vm1FUnVhbnNZOEk1VkRmTkJzZ1Fr?=
- =?utf-8?B?Zkl5dXBTSDg2UitUblYydHQwVVlmUHFRMDdtelpJVUczejI5RmhQcjh4SUxS?=
- =?utf-8?B?bU5ycWk2MGFHK0VWRjA4Y3RWRWtMQXk1UkZNdHlSSm0yaitwbFMwZDQ5Szha?=
- =?utf-8?B?YnduUi9tSzRTeFF6ZC9rOEdKNXVaUHR2cEE2ajlrdWJIOUxKa3V4T3BMeXhN?=
- =?utf-8?B?Y1B6VmcxTWdINWlBVmR3RTB4VTR4blJIdXZ5aWpVRWFPcW03aVZuUkVXK25E?=
- =?utf-8?B?NnF4QXpmNFIxSWNuSkF6T1drbW8wZGRWTlRzcGl3MkRQTW1qYU5BY2swK01B?=
- =?utf-8?B?T1BESnZxTEpxU1lDRVpaMHFrQlltRUFQQmE1eWV1aEt1YkY3cnQreEZwK3lC?=
- =?utf-8?B?ZEtkTDJHeExvVEdpaThaVldyKzN6ZXRncDc0M2xrRU9yZVpvRU5LZ3NVYnc5?=
- =?utf-8?B?V2JzSUJ3Si9iNXhCSHNYVnp1MnhOTjhaSG9zN21ZMzhGbFdtS0JLZ1RxVHJ6?=
- =?utf-8?B?dndib3FXeEI1ZWJNdTdDeHdZYlFCOG5jMTBadmZ2eitqS1VIeGpReGU2WXcw?=
- =?utf-8?B?dFhNOE9NOGN1ZWN5bGlWbC9wc0hVOWgwOFYzcmVUdzBRSGFwWVAvVFBxVmNq?=
- =?utf-8?B?eFUrSDh4S3lRRUx2Z3dDTHZTTEtMa3grM0c4NnQ2REMzREFjNTRGTGRQRE1C?=
- =?utf-8?Q?qFq1ZPYpBWlWcCGfwHzB2SYOd?=
-X-OriginatorOrg: synaptics.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f2e1ea14-8fdb-410d-96a0-08db02a9c805
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR03MB5196.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jan 2023 10:07:23.3156
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 335d1fbc-2124-4173-9863-17e7051a2a0e
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: k3osg3QHQGB/BgXpBoRgRM7m7r7zsa3t7fsHGZZrSqkUaa/BSFnPnsXSVs2/8Y6G7fJnj+VYlmxR/9YzuXlgnw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR03MB5141
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230127203729.10205-4-hdegoede@redhat.com>
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Hans,
 
+On Fri, Jan 27, 2023 at 09:37:27PM +0100, Hans de Goede wrote:
+> On some systems, e.g. the Lenovo ThinkPad X1 Yoga gen 7 and the ThinkPad
+> X1 Nano gen 2 there is no clock-enable pin, triggering the:
+> "No clk GPIO. The privacy LED won't work" warning and causing the privacy
+> LED to not work.
+> 
+> Fix this by modeling the privacy LED as a LED class device rather then
+> integrating it with the registered clock.
+> 
+> Note this relies on media subsys changes to actually turn the LED on/off
+> when the sensor's v4l2_subdev's s_stream() operand gets called.
+> 
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> ---
+> Changes in v4:
+> - Make struct led_classdev the first member of the pled struct
+> - Use strchr to replace the : with _ in the acpi_dev_name()
+> ---
+>  drivers/platform/x86/intel/int3472/Makefile   |  2 +-
+>  .../x86/intel/int3472/clk_and_regulator.c     |  3 -
+>  drivers/platform/x86/intel/int3472/common.h   | 15 +++-
+>  drivers/platform/x86/intel/int3472/discrete.c | 58 ++++-----------
+>  drivers/platform/x86/intel/int3472/led.c      | 74 +++++++++++++++++++
+>  5 files changed, 105 insertions(+), 47 deletions(-)
+>  create mode 100644 drivers/platform/x86/intel/int3472/led.c
+> 
+> diff --git a/drivers/platform/x86/intel/int3472/Makefile b/drivers/platform/x86/intel/int3472/Makefile
+> index cfec7784c5c9..9f16cb514397 100644
+> --- a/drivers/platform/x86/intel/int3472/Makefile
+> +++ b/drivers/platform/x86/intel/int3472/Makefile
+> @@ -1,4 +1,4 @@
+>  obj-$(CONFIG_INTEL_SKL_INT3472)		+= intel_skl_int3472_discrete.o \
+>  					   intel_skl_int3472_tps68470.o
+> -intel_skl_int3472_discrete-y		:= discrete.o clk_and_regulator.o common.o
+> +intel_skl_int3472_discrete-y		:= discrete.o clk_and_regulator.o led.o common.o
+>  intel_skl_int3472_tps68470-y		:= tps68470.o tps68470_board_data.o common.o
+> diff --git a/drivers/platform/x86/intel/int3472/clk_and_regulator.c b/drivers/platform/x86/intel/int3472/clk_and_regulator.c
+> index 74dc2cff799e..e3b597d93388 100644
+> --- a/drivers/platform/x86/intel/int3472/clk_and_regulator.c
+> +++ b/drivers/platform/x86/intel/int3472/clk_and_regulator.c
+> @@ -23,8 +23,6 @@ static int skl_int3472_clk_prepare(struct clk_hw *hw)
+>  	struct int3472_gpio_clock *clk = to_int3472_clk(hw);
+>  
+>  	gpiod_set_value_cansleep(clk->ena_gpio, 1);
+> -	gpiod_set_value_cansleep(clk->led_gpio, 1);
+> -
+>  	return 0;
+>  }
+>  
+> @@ -33,7 +31,6 @@ static void skl_int3472_clk_unprepare(struct clk_hw *hw)
+>  	struct int3472_gpio_clock *clk = to_int3472_clk(hw);
+>  
+>  	gpiod_set_value_cansleep(clk->ena_gpio, 0);
+> -	gpiod_set_value_cansleep(clk->led_gpio, 0);
+>  }
+>  
+>  static int skl_int3472_clk_enable(struct clk_hw *hw)
+> diff --git a/drivers/platform/x86/intel/int3472/common.h b/drivers/platform/x86/intel/int3472/common.h
+> index 53270d19c73a..82dc37e08882 100644
+> --- a/drivers/platform/x86/intel/int3472/common.h
+> +++ b/drivers/platform/x86/intel/int3472/common.h
+> @@ -6,6 +6,7 @@
+>  
+>  #include <linux/clk-provider.h>
+>  #include <linux/gpio/machine.h>
+> +#include <linux/leds.h>
+>  #include <linux/regulator/driver.h>
+>  #include <linux/regulator/machine.h>
+>  #include <linux/types.h>
+> @@ -28,6 +29,8 @@
+>  #define GPIO_REGULATOR_NAME_LENGTH				21
+>  #define GPIO_REGULATOR_SUPPLY_NAME_LENGTH			9
+>  
+> +#define INT3472_LED_MAX_NAME_LEN				32
+> +
+>  #define CIO2_SENSOR_SSDB_MCLKSPEED_OFFSET			86
+>  
+>  #define INT3472_REGULATOR(_name, _supply, _ops)			\
+> @@ -96,10 +99,16 @@ struct int3472_discrete_device {
+>  		struct clk_hw clk_hw;
+>  		struct clk_lookup *cl;
+>  		struct gpio_desc *ena_gpio;
+> -		struct gpio_desc *led_gpio;
+>  		u32 frequency;
+>  	} clock;
+>  
+> +	struct int3472_pled {
+> +		struct led_classdev classdev;
+> +		struct led_lookup_data lookup;
+> +		char name[INT3472_LED_MAX_NAME_LEN];
+> +		struct gpio_desc *gpio;
+> +	} pled;
+> +
+>  	unsigned int ngpios; /* how many GPIOs have we seen */
+>  	unsigned int n_sensor_gpios; /* how many have we mapped to sensor */
+>  	struct gpiod_lookup_table gpios;
+> @@ -119,4 +128,8 @@ int skl_int3472_register_regulator(struct int3472_discrete_device *int3472,
+>  				   struct acpi_resource_gpio *agpio);
+>  void skl_int3472_unregister_regulator(struct int3472_discrete_device *int3472);
+>  
+> +int skl_int3472_register_pled(struct int3472_discrete_device *int3472,
+> +			      struct acpi_resource_gpio *agpio, u32 polarity);
+> +void skl_int3472_unregister_pled(struct int3472_discrete_device *int3472);
+> +
+>  #endif
+> diff --git a/drivers/platform/x86/intel/int3472/discrete.c b/drivers/platform/x86/intel/int3472/discrete.c
+> index 708d51f9b41d..38b1372e0745 100644
+> --- a/drivers/platform/x86/intel/int3472/discrete.c
+> +++ b/drivers/platform/x86/intel/int3472/discrete.c
+> @@ -155,37 +155,21 @@ static int skl_int3472_map_gpio_to_sensor(struct int3472_discrete_device *int347
+>  }
+>  
+>  static int skl_int3472_map_gpio_to_clk(struct int3472_discrete_device *int3472,
+> -				       struct acpi_resource_gpio *agpio, u8 type)
+> +				       struct acpi_resource_gpio *agpio)
+>  {
+>  	char *path = agpio->resource_source.string_ptr;
+>  	u16 pin = agpio->pin_table[0];
+>  	struct gpio_desc *gpio;
+>  
+> -	switch (type) {
+> -	case INT3472_GPIO_TYPE_CLK_ENABLE:
+> -		gpio = acpi_get_and_request_gpiod(path, pin, "int3472,clk-enable");
+> -		if (IS_ERR(gpio))
+> -			return (PTR_ERR(gpio));
+> -
+> -		int3472->clock.ena_gpio = gpio;
+> -		/* Ensure the pin is in output mode and non-active state */
+> -		gpiod_direction_output(int3472->clock.ena_gpio, 0);
+> -		break;
+> -	case INT3472_GPIO_TYPE_PRIVACY_LED:
+> -		gpio = acpi_get_and_request_gpiod(path, pin, "int3472,privacy-led");
+> -		if (IS_ERR(gpio))
+> -			return (PTR_ERR(gpio));
+> +	gpio = acpi_get_and_request_gpiod(path, pin, "int3472,clk-enable");
+> +	if (IS_ERR(gpio))
+> +		return (PTR_ERR(gpio));
+>  
+> -		int3472->clock.led_gpio = gpio;
+> -		/* Ensure the pin is in output mode and non-active state */
+> -		gpiod_direction_output(int3472->clock.led_gpio, 0);
+> -		break;
+> -	default:
+> -		dev_err(int3472->dev, "Invalid GPIO type 0x%02x for clock\n", type);
+> -		break;
+> -	}
+> +	int3472->clock.ena_gpio = gpio;
+> +	/* Ensure the pin is in output mode and non-active state */
+> +	gpiod_direction_output(int3472->clock.ena_gpio, 0);
+>  
+> -	return 0;
+> +	return skl_int3472_register_clock(int3472);
+>  }
+>  
+>  static void int3472_get_func_and_polarity(u8 type, const char **func, u32 *polarity)
+> @@ -293,11 +277,16 @@ static int skl_int3472_handle_gpio_resources(struct acpi_resource *ares,
+>  
+>  		break;
+>  	case INT3472_GPIO_TYPE_CLK_ENABLE:
+> -	case INT3472_GPIO_TYPE_PRIVACY_LED:
+> -		ret = skl_int3472_map_gpio_to_clk(int3472, agpio, type);
+> +		ret = skl_int3472_map_gpio_to_clk(int3472, agpio);
+>  		if (ret)
+>  			err_msg = "Failed to map GPIO to clock\n";
+>  
+> +		break;
+> +	case INT3472_GPIO_TYPE_PRIVACY_LED:
+> +		ret = skl_int3472_register_pled(int3472, agpio, polarity);
+> +		if (ret)
+> +			err_msg = "Failed to register LED\n";
+> +
+>  		break;
+>  	case INT3472_GPIO_TYPE_POWER_ENABLE:
+>  		ret = skl_int3472_register_regulator(int3472, agpio);
+> @@ -341,21 +330,6 @@ static int skl_int3472_parse_crs(struct int3472_discrete_device *int3472)
+>  
+>  	acpi_dev_free_resource_list(&resource_list);
+>  
+> -	/*
+> -	 * If we find no clock enable GPIO pin then the privacy LED won't work.
+> -	 * We've never seen that situation, but it's possible. Warn the user so
+> -	 * it's clear what's happened.
+> -	 */
+> -	if (int3472->clock.ena_gpio) {
+> -		ret = skl_int3472_register_clock(int3472);
+> -		if (ret)
+> -			return ret;
+> -	} else {
+> -		if (int3472->clock.led_gpio)
+> -			dev_warn(int3472->dev,
+> -				 "No clk GPIO. The privacy LED won't work\n");
+> -	}
+> -
+>  	int3472->gpios.dev_id = int3472->sensor_name;
+>  	gpiod_add_lookup_table(&int3472->gpios);
+>  
+> @@ -372,8 +346,8 @@ static int skl_int3472_discrete_remove(struct platform_device *pdev)
+>  		skl_int3472_unregister_clock(int3472);
+>  
+>  	gpiod_put(int3472->clock.ena_gpio);
+> -	gpiod_put(int3472->clock.led_gpio);
+>  
+> +	skl_int3472_unregister_pled(int3472);
+>  	skl_int3472_unregister_regulator(int3472);
+>  
+>  	return 0;
+> diff --git a/drivers/platform/x86/intel/int3472/led.c b/drivers/platform/x86/intel/int3472/led.c
+> new file mode 100644
+> index 000000000000..251c6524458e
+> --- /dev/null
+> +++ b/drivers/platform/x86/intel/int3472/led.c
+> @@ -0,0 +1,74 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/* Author: Hans de Goede <hdegoede@redhat.com> */
+> +
+> +#include <linux/acpi.h>
+> +#include <linux/gpio/consumer.h>
+> +#include <linux/leds.h>
+> +#include "common.h"
+> +
+> +static int int3472_pled_set(struct led_classdev *led_cdev,
+> +				     enum led_brightness brightness)
+> +{
+> +	struct int3472_discrete_device *int3472 =
+> +		container_of(led_cdev, struct int3472_discrete_device, pled.classdev);
+> +
+> +	gpiod_set_value_cansleep(int3472->pled.gpio, brightness);
+> +	return 0;
+> +}
+> +
+> +int skl_int3472_register_pled(struct int3472_discrete_device *int3472,
+> +			      struct acpi_resource_gpio *agpio, u32 polarity)
+> +{
+> +	char *p, *path = agpio->resource_source.string_ptr;
+> +	int ret;
+> +
+> +	if (int3472->pled.classdev.dev)
+> +		return -EBUSY;
+> +
+> +	int3472->pled.gpio = acpi_get_and_request_gpiod(path, agpio->pin_table[0],
+> +							     "int3472,privacy-led");
+> +	if (IS_ERR(int3472->pled.gpio))
+> +		return dev_err_probe(int3472->dev, PTR_ERR(int3472->pled.gpio),
+> +				     "getting privacy LED GPIO\n");
+> +
+> +	if (polarity == GPIO_ACTIVE_LOW)
+> +		gpiod_toggle_active_low(int3472->pled.gpio);
+> +
+> +	/* Ensure the pin is in output mode and non-active state */
+> +	gpiod_direction_output(int3472->pled.gpio, 0);
+> +
+> +	/* Generate the name, replacing the ':' in the ACPI devname with '_' */
+> +	snprintf(int3472->pled.name, sizeof(int3472->pled.name),
+> +		 "%s::privacy_led", acpi_dev_name(int3472->sensor));
+> +	p = strchr(int3472->pled.name, ':');
+> +	*p = '_';
 
-On 1/27/23 16:11, Hans Verkuil wrote:
-> CAUTION: Email originated externally, do not click links or open attachments unless you recognize the sender and know the content is safe.
-> 
-> 
-> On 26/01/2023 19:36, ayaka wrote:
->>
->> On 1/26/23 19:02, Laurent Pinchart wrote:
->>> On Thu, Jan 26, 2023 at 09:57:51AM +0100, Hans Verkuil wrote:
->>>> On 25/01/2023 21:00, ayaka wrote:
->>>>> I am currently refresh this patchset, but I didn't see the need beyond v4l2_ext_pix_fmt, which I had done.
->>>>> On 2/23/21 20:58, Hans Verkuil wrote:
->>>>>> On 14/01/2021 19:07, Helen Koike wrote:
->>>>>>> Those extended buffer ops have several purpose:
->>>>>>> 1/ Fix y2038 issues by converting the timestamp into an u64 counting
->>>>>>>       the number of ns elapsed since 1970
->>>>> I think application just use the timestamp field for tracking the
->>>>> buffer. It would be just a sequence buffer.
->>>>> At least for the most widely cases, the video encoder and decoder
->>>>> and ISP, this field is not a wall time.
->>>> For video capture and video output this is typically the monotonic
->>>> clock value.
->>>>
->>>> For memory-to-memory devices it is something that is just copied from
->>>> output to capture.
->>>>
->>>> So ISPs definitely use this as a proper timestamp.
->>> There are both inline (live-to-memory) and offline (memory-to-memory)
->>> ISPs. The former certainly need a proper timestamp.
->>>
->> I really have not seen a device that has timer starting with the epoch.
->>
->> I rarely know the ISP has a wall clock timer.
->>
->> Timestamp is not my first concern here. Offset is.
-> 
-> You are working in the V4L2 core framework here, something that is used
-> by all V4L2 drivers. So everything is important. You can't just focus on
-> your own use-case.
-> 
-I was trying to say we could focus on a more important item: offset.
->>
->>>>>>> 2/ Unify single/multiplanar handling
->>>>>>> 3/ Add a new start offset field to each v4l2 plane buffer info struct
->>>>>>>       to support the case where a single buffer object is storing all
->>>>>>>       planes data, each one being placed at a different offset
->>>>> I really care about this. But I think the data_offset field in
->>>>> struct v4l2_plane is enough. The rest is the problem of the kernel
->>>>> internal API and allocator.
->>>> data_offset has proven to be very confusing and is rarely used because
->>>> of that.
->> Yes, I didn't know any stateful codec driver support this.
->>>> We do need some sort of an offset field as proposed here, but it
->>>> shouldn't be named data_offset.
->> Maybe we could just rename it or make a union in the existing struct.
->>> The existing data_offset field was indeed added for other purposes, to
->>> let drivers report where the actual image data starts for devices that
->>> prepend some sort of header.
->>
->> For the compressed image, it makes sense. But the most of usage I knew is the upstream would just allocate a large buffer for compression video bitstream,
->>
->> Then it could tell where the decoder should start.
-> 
-> It's not codec specific, it's meant to be used with raw video frames.
-> 
-> The key problem in today's API is that if the buffer for the video frame
-> contains multiple planes, typically Y and UV (2 planes) or Y, U and V (3 planes).
-> 
-> The offset at which each plane begins is currently a property of the
-> pixelformat. That doesn't scale since there are often HW requirements
-> that influence this.
-> 
-> One of the main confusing issues is that data_offset is included in
-> the bytesused value, which was a design mistake in hindsight.
-> 
-I didn't see any problem here.
-And v6 does NOT have the length property. There are many reasons that we 
-want to limit the hardware access region for a plane.
-> For the new APIs just ignore the existing data_offset and design
-> this from scratch.
-> 
-All I am worrying is the effort we spent didn't have much change to the 
-previous. Beyond breaking the userspace compatibility, it needs huge 
-work on updating existing drivers included those could be replaced with 
-the new framework.
+While I suppose ACPI device names generally are shorter than
+sizeof(int3472->pled.name), it'd be nice to still check p is non-NULL here,
+just to be sure.
 
-I highly recommend just rename a property which was not used by any 
-drivers in the upstream and make a new description for it.
-
->>
->>>    That's indeed not what we want here, we
->>> instead need something similar to the offsets field of struct
->>> drm_mode_fb_cmd2.
->>
->> That leads to another question. Should the offset be fixed from the first enqueued?
-> 
-> It's always been fixed in the hardware I have seen, but I'm sure someone will
-> make it dynamic at some point in the future :-(
-> 
-There have been two cases the offset won't be fixed.
-1. video codec bitstream input in a circular buffer as mentioned in the 
-previous mail
-2. decoder resolution change(down) while reusing the existing 
-buffer(re-allocation costs lots of time)
-> So I would say that the public API has to support this as a future enhancement,
-> but it is OK to write the initial code with the assumption that it will remain
-> fixed.
-> 
->>
->> For the dmabuf, the v4l2 core framework would detatch then attach the buffer when it found the private of a plane is not same. Although it sounds unnecessary, some devices would a different cache line
->> for the chroma channel, it should be updated.
->>
->> For the drm_mode_fb_cmd2, unless you remove that fb_id, there is no way to modify the offset. But this would break the existing usage I mentioned before.
->>
->> We need to consider whether we need to keep the previous offset and a hook for update it.
->>
->>>>> I am thinking just add a field recording the offset input from the user.
->>>>> When we return the buffer back to the user, the value of the offset
->>>>> should be same as the it is queued.
->>>>>
->>>>> Meanwhile, the API compatible that I want to keep is user using the
->>>>> ext_pix API could access those drivers support old API.
->>>>> But I don't want the user would expect they could get correct pixel
->>>>> format using the old ioctl(). It could create many duplicated pixel
->>>>> formats. If we want to keep the compatible here, that is the job of
->>>>> libv4l.
->>>>>
->>>>> Besides, I think make the driver using the new API be compatible
->>>>> with the old ioctl() would lead a huge problem. User won't like to
->>>>> update its code if it could work even in a less performance mode
->>>>> because this code are for all the other hardware vendors/models.
->>>>> Unless we make this a feature, they could make a new branch in their
->>>>> code(don't count them would upate the kernel of the other products).
->>>> New drivers that require the additional information that these new ioctls give can
->>>> decide to just support these new ioctls only. But for existing drivers you want
->>>> to automatically support the new ioctls.
->>
->> What I said didn't break that. Application would use the new ioctl() to contact with the existing driver.
->>
->> What I want to remove is that Application use the old ioctl() to contact with the driver support new ioctl().
-> 
-> No, you can't do that. Not unless the driver uses features that only work with the new API.
-> 
-> I.e. if I make a new driver whose properties are completely compatible with the existing
-> APIs (so no weird offsets etc.), then I want to write the driver using the new ioctls,
-> and leave it to the V4L2 framework to provide support for the old ioctls.
-> 
-> There is absolutely no reason to block old ioctls in that case. Applications will not
-> just be able to support a new API overnight, that takes years.
-> 
->>
->> I would omit this related patches in the refresh set. We could always add it back. But what I want is a way  to enqueue and dequeue different formats(or usage) of buffers in both OUTPUT and CAPTURE. I
->> may add a more complex API later.
-> 
-> For discussion it is OK to drop the old ioctl support, but once you go beyond the RFC stage
-> it has to be put back.
-> 
-> Regards,
-> 
->          Hans
+> +
+> +	int3472->pled.classdev.name = int3472->pled.name;
+> +	int3472->pled.classdev.max_brightness = 1;
+> +	int3472->pled.classdev.brightness_set_blocking = int3472_pled_set;
+> +
+> +	ret = led_classdev_register(int3472->dev, &int3472->pled.classdev);
+> +	if (ret)
+> +		goto err_free_gpio;
+> +
+> +	int3472->pled.lookup.provider = int3472->pled.name;
+> +	int3472->pled.lookup.dev_id = int3472->sensor_name;
+> +	int3472->pled.lookup.con_id = "privacy-led";
+> +	led_add_lookup(&int3472->pled.lookup);
+> +
+> +	return 0;
+> +
+> +err_free_gpio:
+> +	gpiod_put(int3472->pled.gpio);
+> +	return ret;
+> +}
+> +
+> +void skl_int3472_unregister_pled(struct int3472_discrete_device *int3472)
+> +{
+> +	if (IS_ERR_OR_NULL(int3472->pled.classdev.dev))
+> +		return;
+> +
+> +	led_remove_lookup(&int3472->pled.lookup);
+> +	led_classdev_unregister(&int3472->pled.classdev);
+> +	gpiod_put(int3472->pled.gpio);
+> +}
 
 -- 
-Hsia-Jun(Randy) Li
+Kind regards,
+
+Sakari Ailus
