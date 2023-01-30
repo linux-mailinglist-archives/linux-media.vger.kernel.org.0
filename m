@@ -2,112 +2,128 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B6340681782
-	for <lists+linux-media@lfdr.de>; Mon, 30 Jan 2023 18:22:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E96C1681882
+	for <lists+linux-media@lfdr.de>; Mon, 30 Jan 2023 19:17:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237655AbjA3RWp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 30 Jan 2023 12:22:45 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43252 "EHLO
+        id S235392AbjA3SR5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 30 Jan 2023 13:17:57 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49978 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236037AbjA3RWn (ORCPT
+        with ESMTP id S235932AbjA3SRz (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 30 Jan 2023 12:22:43 -0500
-Received: from mail-4323.proton.ch (mail-4323.proton.ch [185.70.43.23])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A7A342BE2
-        for <linux-media@vger.kernel.org>; Mon, 30 Jan 2023 09:22:41 -0800 (PST)
-Date:   Mon, 30 Jan 2023 17:22:30 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
-        s=protonmail; t=1675099358; x=1675358558;
-        bh=pmo4z0XPK0vRFYh8pWRCLi7NtxRhKqwfiEQHTG4Av6c=;
-        h=Date:To:From:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
-         Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
-        b=Gm4N0z1QraydmYL1+18obnSdKX2963mMQeLVnDU84lwyZpJowkRJSoNFR0saWh8q2
-         HyXm6zb+cmd4UdQscCIRy3ocbh+anQd73XngE3BvinG/eT/y6RgO0bXJ3e+XBqYZfS
-         3k1GrpeNfm8i3eDeByjPM3/7YeqMUhy0Pa1U60QHUjzmDhkl86oahluFTuRgJo1x99
-         n2Xzvhn8pGru9J59/bTOb4d7NQl1v/SNwKaadMBLO7/w20cyg293tDq0HCRZZT/IuD
-         iD16fuhBzr8IGLTb1bqPBsqja6I8Z7/SK8HUFIASiSWoF7DjI8uU90i9r7z6YoqbZr
-         a+PQtQ/pTNw+w==
-To:     linux-media@vger.kernel.org
-From:   Simon Ser <contact@emersion.fr>
-Subject: [PATCH] edid-decode: print human-readable CTA infoframe types
-Message-ID: <20230130172224.65193-1-contact@emersion.fr>
-Feedback-ID: 1358184:user:proton
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        Mon, 30 Jan 2023 13:17:55 -0500
+Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com [66.111.4.27])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E7A192D7E;
+        Mon, 30 Jan 2023 10:17:51 -0800 (PST)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+        by mailout.nyi.internal (Postfix) with ESMTP id E75265C0117;
+        Mon, 30 Jan 2023 13:17:50 -0500 (EST)
+Received: from imap51 ([10.202.2.101])
+  by compute6.internal (MEProxy); Mon, 30 Jan 2023 13:17:50 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+        :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+        :message-id:mime-version:references:reply-to:sender:subject
+        :subject:to:to; s=fm3; t=1675102670; x=1675189070; bh=9OsIGbEQni
+        7gAWb33xW9zSfxbjrh3qiBjY82YoAPGIw=; b=iK3sQxbt48tiOwi9M0ZGgAvI69
+        XmHFuxQ0CdzWdwgdT9OtFPyI4v5YVLHuUXI5XrFDOi70e1tNRQSB4WTneJhHEJO2
+        ewTx7JIzDfXyy99nJ3TQp1nBWcOwSJFhUAtsJ09tDrBU+//2gx/Gj4vdwkcplUAo
+        N3QssiK6W0dC3O87ciOh5Hf/7DTyVstTonI7qm3LvDv5ThovDttFdKHLNYPDLCnO
+        GNOTliEAX/C4WgsncZ3IgWmyYchzoulAKzjB/9xcIEFMlNF6f2IdVmTdRumD4Wmr
+        ARvbDpMBjsy2xxRVDZDLf45MEdO2SnMEimc2NV2vECugSHbb0PPWNnohCv2w==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+        :mime-version:references:reply-to:sender:subject:subject:to:to
+        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+        fm3; t=1675102670; x=1675189070; bh=9OsIGbEQni7gAWb33xW9zSfxbjrh
+        3qiBjY82YoAPGIw=; b=nyOwxgilRxk1rTnVZtlwK6hdaxqgQBnWNbjfugG/bYjz
+        jHEGlf4a0uc1qXKjXLWveuXzhcAM5I6yZi2D6gjjHQBWmV8o+0CtsXzwiNYpu8gG
+        xFzJYfxLr/RGQxOzA1AZIdOrvCfXa82YFOHrXQ+WcEw4XS8zs1lyr0xAZl0O0Wqs
+        3wk1fS3FoquxVHA78AO4huBaxADbi/7+3Z9ZSzUuJh1s5ZaTTiScaHxTd4BMsTjC
+        gTWEpZ2AO66xYNcm/CpDjgH3jBlXqK1axocdx3yEy7QgarsNm2+eXZskHCIA9zXY
+        ucwUe5dOoWItZS/5Bq+Ni9RzRx2Ooo5XuG6AvrAxGw==
+X-ME-Sender: <xms:zgnYY97ltbgApZy_ZHNvu3VjhiiqUOLFPPFuXzDwGzcoQ6x0JMu7Nw>
+    <xme:zgnYY65vlsZrnBQrFYbLnlp4v3_wv0bmO4lXJey0V4lx6PWEuCDyFoWUCUmaD2twA
+    hft0gfspxdisumKTdA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudefvddguddufecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+    enucfjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdet
+    rhhnugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrg
+    htthgvrhhnpeffheeugeetiefhgeethfejgfdtuefggeejleehjeeutefhfeeggefhkedt
+    keetffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    grrhhnugesrghrnhgusgdruggv
+X-ME-Proxy: <xmx:zgnYY0c5LIZ_5AJ_VN0h6LCuzgC8XKoYdl3qn4YE5FIjqPFHCC6mcQ>
+    <xmx:zgnYY2KZoYBKPA5wCJLCzSkRr3xwhoDf57_hNfjm5AqJAoQ2gI1BbA>
+    <xmx:zgnYYxIfOJOw8znJXFiI52vtPk_8hq-vnBfavOTkQgVpdtzT2pYviw>
+    <xmx:zgnYY59-AGYy5PK12xUk65VnNIudNIW6Tmczs_Sf103KP51iYCc3sg>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+        id 9A14CB60086; Mon, 30 Jan 2023 13:17:50 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.9.0-alpha0-106-gfe3ab13a96-fm-20230124.001-gfe3ab13a
+Mime-Version: 1.0
+Message-Id: <14e7d2ba-1a24-42a1-b19e-842e0fd8286e@app.fastmail.com>
+In-Reply-To: <Y9f7/q3aS5nlY7nJ@smile.fi.intel.com>
+References: <20230130131003.668888-1-arnd@kernel.org>
+ <Y9f7/q3aS5nlY7nJ@smile.fi.intel.com>
+Date:   Mon, 30 Jan 2023 19:17:32 +0100
+From:   "Arnd Bergmann" <arnd@arndb.de>
+To:     "Andy Shevchenko" <andriy.shevchenko@linux.intel.com>,
+        "Arnd Bergmann" <arnd@kernel.org>
+Cc:     "Patrice Chotard" <patrice.chotard@foss.st.com>,
+        "Mauro Carvalho Chehab" <mchehab@kernel.org>,
+        "Hans Verkuil" <hverkuil-cisco@xs4all.nl>,
+        "Hugues Fruchet" <hugues.fruchet@st.com>,
+        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: c8sectpfe: convert to gpio descriptors
+Content-Type: text/plain
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Instead of printing the code, print the human-readable infoframe
-type. This is more informative.
+On Mon, Jan 30, 2023, at 18:18, Andy Shevchenko wrote:
+> On Mon, Jan 30, 2023 at 02:09:47PM +0100, Arnd Bergmann wrote:
 
-Signed-off-by: Simon Ser <contact@emersion.fr>
----
- parse-cta-block.cpp | 27 +++++++++++++++++++++++----
- 1 file changed, 23 insertions(+), 4 deletions(-)
+>> +		ret = PTR_ERR_OR_ZERO(tsin->rst_gpio);
+>>  		if (ret && ret != -EBUSY) {
+>> -			dev_err(dev, "Can't request tsin%d reset gpio\n"
+>> -				, fei->channel_data[index]->tsin_id);
+>> +			dev_err_probe(dev, ret,
+>> +				      "reset gpio for tsin%d not valid\n",
+>> +				      tsin->tsin_id);
+>>  			goto err_node_put;
+>>  		}
+>>  
+>>  		if (!ret) {
+>
+> Can be 
+>
+> 	if (IS_ERR() && PTR_ERR() != -EBUSY) {
+> 		ret = dev_err_probe(dev, PTR_ERR(), ...);
+> 		...
+> 	}
+>
+> 	if (!IS_ERR())
+>
+> (Up to you)
 
-diff --git a/parse-cta-block.cpp b/parse-cta-block.cpp
-index 02730a9eafb1..3a6be3972e50 100644
---- a/parse-cta-block.cpp
-+++ b/parse-cta-block.cpp
-@@ -2203,6 +2203,17 @@ static void cta_hdr_dyn_metadata_block(const unsigne=
-d char *x, unsigned length)
- =09}
- }
-=20
-+static const char *infoframe_types[] =3D {
-+=09NULL,
-+=09"Vendor-Specific",
-+=09"Auxiliary Video Information",
-+=09"Source Product Description",
-+=09"Audio",
-+=09"MPEG Source",
-+=09"NTSC VBI",
-+=09"Dynamic Range and Mastering",
-+};
-+
- static void cta_ifdb(const unsigned char *x, unsigned length)
- {
- =09unsigned len_hdr =3D x[0] >> 5;
-@@ -2218,16 +2229,24 @@ static void cta_ifdb(const unsigned char *x, unsign=
-ed length)
- =09x +=3D len_hdr + 2;
- =09while (length > 0) {
- =09=09int payload_len =3D x[0] >> 5;
-+=09=09unsigned char type =3D x[0] & 0x1f;
-+
-+=09=09const char *name =3D NULL;
-+=09=09if (type < ARRAY_SIZE(infoframe_types))
-+=09=09=09name =3D infoframe_types[type];
-+=09=09if (name)
-+=09=09=09printf("    %s InfoFrame", name);
-+=09=09else
-+=09=09=09printf("    Unknown InfoFrame (%u)", type);
-=20
--=09=09if ((x[0] & 0x1f) =3D=3D 1 && length >=3D 4) {
-+=09=09if (type =3D=3D 1 && length >=3D 4) {
- =09=09=09unsigned oui =3D (x[3] << 16) | (x[2] << 8) | x[1];
-=20
--=09=09=09printf("    InfoFrame Type Code %u, OUI %s\n",
--=09=09=09       x[0] & 0x1f, ouitohex(oui).c_str());
-+=09=09=09printf(", OUI %s\n", ouitohex(oui).c_str());
- =09=09=09x +=3D 4;
- =09=09=09length -=3D 4;
- =09=09} else {
--=09=09=09printf("    InfoFrame Type Code %u\n", x[0] & 0x1f);
-+=09=09=09printf("\n");
- =09=09=09x++;
- =09=09=09length--;
- =09=09}
+I prefer the version that only has one PTR_ERR(), but
+either way is fine with me.
 
-base-commit: e052f5f9fdf74ca11aa1a8edfa62eff8d0aa3d0d
---=20
-2.39.1
+> But -EBUSY check seems strange to me. What was the motivation behind?
+> (As far as I can read the code the possibility to get this if and only
+>  if we have requested GPIO too early at initcall level. Would it be
+>  ever a possibility to get it in real life?)
 
+I noticed this part as being odd as well, no idea why the
+code is like this. I just left the logic unchanged here.
 
+      Arnd
