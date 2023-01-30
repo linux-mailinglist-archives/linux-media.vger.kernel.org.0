@@ -2,120 +2,105 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9DC66681E2B
-	for <lists+linux-media@lfdr.de>; Mon, 30 Jan 2023 23:35:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3FED0681E4D
+	for <lists+linux-media@lfdr.de>; Mon, 30 Jan 2023 23:45:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229494AbjA3WfU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 30 Jan 2023 17:35:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43790 "EHLO
+        id S230078AbjA3Wpc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 30 Jan 2023 17:45:32 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48030 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230015AbjA3WfT (ORCPT
+        with ESMTP id S229460AbjA3Wpb (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 30 Jan 2023 17:35:19 -0500
-Received: from mail-yb1-xb2d.google.com (mail-yb1-xb2d.google.com [IPv6:2607:f8b0:4864:20::b2d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E19026866
-        for <linux-media@vger.kernel.org>; Mon, 30 Jan 2023 14:35:18 -0800 (PST)
-Received: by mail-yb1-xb2d.google.com with SMTP id 129so16028438ybb.0
-        for <linux-media@vger.kernel.org>; Mon, 30 Jan 2023 14:35:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=jzhzJ9t+7joWmqNqB/SOlPs9Pb0rtxD3MhXTdTmhVQ4=;
-        b=CmtyRf0pqKWKE9DIPlnm6Hj2IncPz5FCyh5FKr8NZq7zc14b/NVSdexEgzVP7+DEFN
-         Glf+CkDY0YhQbBerBkvjF5EF0VH4VctdYCWT32S0mTFnmBzJSmUIDXwJnopDHuTJSO3z
-         +9KSje4kZ6WJZljV6na2ZTdUA8ajbComDXgAkFxGWvR/0Q5qsKMXwbK19EXxEPWxS8Xc
-         wN2TLu78GUhAIcIzbdHVgArXJWdOn6ZYzA4/Zr+8wWy939Z4VHeV/jojmgPbop4EIM4A
-         wpgQwNa1n/S0fEPcXogjUvDI7Uc7q+LQz7nfRfEPavST6FQduFJrhGDZLZiW1POl1eVb
-         mJOg==
+        Mon, 30 Jan 2023 17:45:31 -0500
+Received: from mail-ot1-f52.google.com (mail-ot1-f52.google.com [209.85.210.52])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A43C55B5;
+        Mon, 30 Jan 2023 14:45:30 -0800 (PST)
+Received: by mail-ot1-f52.google.com with SMTP id f5-20020a9d5f05000000b00684c0c2eb3fso4970184oti.10;
+        Mon, 30 Jan 2023 14:45:30 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=jzhzJ9t+7joWmqNqB/SOlPs9Pb0rtxD3MhXTdTmhVQ4=;
-        b=Rl2QRoT2+YoInkrdCIlVdwSXsHm15i+FGk5Ef79OtN4yztVkLtgaO4zZovfzPEWkVP
-         hoU6nta5Y9FC+KpY1+I6QZsgtYETWdYrEaqPeSEHxfSutEB3oznoSTr+VUjVkwXX2BY/
-         Ylt6btsDZBY7WzbDzys8xHdPRTxG75Trc++wXULCKMP8JhE/Izv68zKlbrpD9PU3pS1c
-         fTGnFOfT1OUFiTisiBbg9BG3DaEXQ3QjDrUQjQjelCr7KMac4lRfs7JJhd0g1Jd9WIkH
-         HaY8zenrUHCPBbV+4IRLhAsqPiNRpy43h0M4PsrEuC1qXemEVL26NbyAxfPZo0ng6Mo0
-         Jnfw==
-X-Gm-Message-State: AO0yUKUxjWwl68nL86h6IwQz2ySiNkJ890XUeo/U60zAlRbnvA9JFoDV
-        LMiLhdWuk76b9rwiCiuXVNX/2GgjTcnB5SAt4Qj8Fg==
-X-Google-Smtp-Source: AK7set9IzZZuZ5y/dwHHXS+Nc2RJfj+BVuCjSnwpeGsa5/FTy1GPw5TA3/6jKefac4EQHLv3R+KeSj5OUR6HGCCtiwA=
-X-Received: by 2002:a5b:c1:0:b0:80b:c9d0:c676 with SMTP id d1-20020a5b00c1000000b0080bc9d0c676mr2182645ybp.341.1675118117810;
- Mon, 30 Jan 2023 14:35:17 -0800 (PST)
-MIME-Version: 1.0
-References: <20230127203729.10205-1-hdegoede@redhat.com> <20230127203729.10205-2-hdegoede@redhat.com>
- <Y9eZOmDAYW8lm/By@kekkonen.localdomain> <694b482c-5c67-2e9c-603a-e79bb4d7fd9a@redhat.com>
-In-Reply-To: <694b482c-5c67-2e9c-603a-e79bb4d7fd9a@redhat.com>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Mon, 30 Jan 2023 23:35:06 +0100
-Message-ID: <CACRpkdZefaSbT0SXZAkuyRwSFuc9FzOmfQ2eMxon0Z8reaGpFQ@mail.gmail.com>
-Subject: Re: [PATCH v6 1/5] media: v4l2-core: Make the v4l2-core code
- enable/disable the privacy LED if present
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Mark Gross <mgross@linux.intel.com>,
-        Andy Shevchenko <andy@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Daniel Scally <djrscally@gmail.com>,
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Rl5Si2GhIDsH6kxBYyiKSWExT/rTdUC4vy4aVHfukIs=;
+        b=aCcEbg/Oo/rk4sZ5gbqhpNwKCuAdxEuUleMzi/Sc1nrtdTQcXdnuJyhFmHfNxeofry
+         sa0Wv28D60spxJLFFfRgYu/4SEXVFHdZmVMc3PF9RRwNxFqTtjMYgOMKMq0dpNvIzIRk
+         ecxSriW9cQ/Zq2qSDXjFeSdwmvwayzIiQfuOtl8xsITOoQWjWJ8VWGoIY33Nu4HN42T5
+         2AIJ0Osm2ELqxZZxM8usYyKq8WEamGuCo8yeca9m95AEnJlkjFyRCyMp6SdeR9sLl4Jw
+         bskUIFzxSt+Z7Vu0PgiPHN+aO6kWgt3Lg6mN11bSXBj+SAkZznyvl/UxUUULvfX3Xiab
+         d/oQ==
+X-Gm-Message-State: AFqh2krW3+GBhOEAIkVcKhHDZb4YRlNJlgsxzSIvCUnCATCJcYfUDMPD
+        LGzcvzCdVvVgaSJmCJwXfQ==
+X-Google-Smtp-Source: AMrXdXtb1f6y0s0BvCG7NQRNwf/Ax2t7nmaLT/0pkkZYz2bwokwIXbng60XbbCWFBezlRztymhKYVg==
+X-Received: by 2002:a05:6830:6216:b0:66e:6e2d:77fd with SMTP id cd22-20020a056830621600b0066e6e2d77fdmr29205457otb.7.1675118729510;
+        Mon, 30 Jan 2023 14:45:29 -0800 (PST)
+Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id s126-20020aca5e84000000b003645ec41412sm5159210oib.27.2023.01.30.14.45.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 30 Jan 2023 14:45:29 -0800 (PST)
+Received: (nullmailer pid 3663497 invoked by uid 1000);
+        Mon, 30 Jan 2023 22:45:28 -0000
+Date:   Mon, 30 Jan 2023 16:45:28 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Michael Riesch <michael.riesch@wolfvision.net>
+Cc:     NXP Linux Team <linux-imx@nxp.com>, Marek Vasut <marex@denx.de>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        devicetree@vger.kernel.org, Marco Felsch <m.felsch@pengutronix.de>,
+        linux-kernel@vger.kernel.org,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        platform-driver-x86@vger.kernel.org, linux-gpio@vger.kernel.org,
-        Kate Hsuan <hpa@redhat.com>,
-        Mark Pearson <markpearson@lenovo.com>,
-        Andy Yeh <andy.yeh@intel.com>, Hao Yao <hao.yao@intel.com>,
-        linux-media@vger.kernel.org, hverkuil@xs4all.nl
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Gerald Loacker <gerald.loacker@wolfvision.net>,
+        Shawn Guo <shawnguo@kernel.org>, linux-media@vger.kernel.org,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Mikhail Rudenko <mike.rudenko@gmail.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Krzysztof =?utf-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        linux-arm-kernel@lists.infradead.org,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Fabio Estevam <festevam@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>
+Subject: Re: [PATCH v3 1/2] dt-bindings: media: i2c: add imx415 cmos image
+ sensor
+Message-ID: <167511872765.3663437.604082212385648435.robh@kernel.org>
+References: <20230130084710.297004-1-michael.riesch@wolfvision.net>
+ <20230130084710.297004-2-michael.riesch@wolfvision.net>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230130084710.297004-2-michael.riesch@wolfvision.net>
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
+        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Jan 30, 2023 at 10:00 PM Hans de Goede <hdegoede@redhat.com> wrote:
-> On 1/30/23 11:17, Sakari Ailus wrote:
-> > Hi Hans,
-> >
-> > On Fri, Jan 27, 2023 at 09:37:25PM +0100, Hans de Goede wrote:
-> >> Make v4l2_async_register_subdev_sensor() try to get a privacy LED
-> >> associated with the sensor and extend the call_s_stream() wrapper to
-> >> enable/disable the privacy LED if found.
-> >>
-> >> This makes the core handle privacy LED control, rather then having to
-> >> duplicate this code in all the sensor drivers.
-> >>
-> >> Suggested-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> >> Acked-by: Linus Walleij <linus.walleij@linaro.org>
-> >> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-> >
-> > Please wrap the lines over 80, unless there are tangible reasons to keep
-> > them as-is.
-> >
-> > For this patch:
-> >
-> > Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> >
-> > On my behalf it can be merged via another tree, I don't expect conflicts.
-> > Also cc Hans Verkuil.
->
-> Thanks.
->
-> I've merged the entire series into my pdx86/review-hans branch now:
-> https://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git/log/?h=review-hans
-> (with the lines in this patch shortened to 80 chars).
->
-> Once the builders have had some time to play with this branch
-> (and once I've run some tests to make sure the patches still
-> work as expected) I will push to platform-drivers-x86/for-next .
 
-Excellent progress with this Hans, thanks for investing so heavily
-in getting this right after my initial complaints, the result is extremely
-appealing an useful.
+On Mon, 30 Jan 2023 09:47:09 +0100, Michael Riesch wrote:
+> Add devicetree binding for the Sony IMX415 CMOS image sensor.
+> 
+> Signed-off-by: Michael Riesch <michael.riesch@wolfvision.net>
+> ---
+> v3:
+>  - move description from clock-names to clocks
+>  - drop clock-names property
+>  - drop "link-frequencies: true" in endpoint description
+> 
+> v2:
+>  - fix reference in port (must be /$defs/port-base)
+>  - describe data-lanes in more detail
+>  - remove unexpected property clock-lanes from example
+>  - sort properties in example alphabetically
+> 
+>  .../bindings/media/i2c/sony,imx415.yaml       | 122 ++++++++++++++++++
+>  MAINTAINERS                                   |   7 +
+>  2 files changed, 129 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/i2c/sony,imx415.yaml
+> 
 
-Yours,
-Linus Walleij
+Reviewed-by: Rob Herring <robh@kernel.org>
