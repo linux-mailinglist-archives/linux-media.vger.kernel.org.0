@@ -2,77 +2,93 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6C3516818B8
-	for <lists+linux-media@lfdr.de>; Mon, 30 Jan 2023 19:22:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 081E96819B6
+	for <lists+linux-media@lfdr.de>; Mon, 30 Jan 2023 19:56:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237882AbjA3SWv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 30 Jan 2023 13:22:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55594 "EHLO
+        id S237979AbjA3Sz5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 30 Jan 2023 13:55:57 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60938 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237961AbjA3SWk (ORCPT
+        with ESMTP id S237373AbjA3Sz4 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 30 Jan 2023 13:22:40 -0500
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A93845BD2;
-        Mon, 30 Jan 2023 10:22:17 -0800 (PST)
-Received: by mail-ej1-f52.google.com with SMTP id mc11so11880244ejb.10;
-        Mon, 30 Jan 2023 10:22:17 -0800 (PST)
+        Mon, 30 Jan 2023 13:55:56 -0500
+Received: from mail-oa1-f51.google.com (mail-oa1-f51.google.com [209.85.160.51])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AEEFF6582;
+        Mon, 30 Jan 2023 10:55:55 -0800 (PST)
+Received: by mail-oa1-f51.google.com with SMTP id 586e51a60fabf-1636eae256cso12034447fac.0;
+        Mon, 30 Jan 2023 10:55:55 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=22MJfPAxydUVdhl0ZP7DuAbHPwrfeEL/jbNsu/UleHc=;
-        b=BNB247ex98qLVfEF96GsiYkcbqtF3kOY9cTqolsTETyN8xv3JZdGbi2Wf3Q99ETER7
-         eTCNr2FC/9NePXNxndqRUfWWU3hWS1J0l0rv8/AHLVVRfyLgTXVZI/IIin5CbtWyOf0s
-         TErJuNetfBGvQ+6VtOmbbvvdaDvUEKQWslYiVkqpcuYXN4nStmRyiCM/pn91xmgM6vTC
-         kgU5LsH6COOX4IP5iZsG3pRR/Vg/QKkuURwTXqiA2jOyhse4izHnZ9q0fGdz9A7sIbP0
-         3AmbDUVmoVkY9uKJgKFYlwa6kIoirbK+Ubr49VpZyR8tfZfVA34JLKDPI0UagqKkXTZA
-         oR+A==
-X-Gm-Message-State: AO0yUKXeH2aNCj3DZ8n2aw+zlbY/EYQYXGVasngvsOhWopOohdBRSz0v
-        rnBLDGvdBwrrz4o4IUUpw4EDHDPxd0BEBeLd07A=
-X-Google-Smtp-Source: AK7set8yj9YPjpPvtIK810pfltfuDgOWCxWxxK5PxhAfmu1n2553bTDrRWEYh+Z4ZvV6fl62SSHaEjURsWkdwck2Wjg=
-X-Received: by 2002:a17:906:95d7:b0:88a:30dc:5730 with SMTP id
- n23-20020a17090695d700b0088a30dc5730mr874290ejy.25.1675102883477; Mon, 30 Jan
- 2023 10:21:23 -0800 (PST)
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=4seh/Ei7WAqCGJ7PlzynIqkRSRvPxmIJy7CfdHrTRP0=;
+        b=pXZpAHTIOzuDdNR6Jdms+WAMqbZ8naCPfF3locCLMBS/8NAesZ8nUbxgYOIGomy3S+
+         MCRVN4d5olH4HuQ2NEXwDtbDlpzkff8+FO2DW4wReWMxqVWe9naux1vKkv0rY6k6bdF3
+         NTVHOgkngR3jG492rLx83sSqvrDJoWmxxQmpExQqL3+A7ZBQxW8Fn0IdoSeqB9i3Xet3
+         z3o3fcxYlE70F9TOCS3kWKwgBf9p6SkmDb+BrkRTq3PrpzR6AqdYIUjxld2WF9qqF3oP
+         Wse3tdjZp8/ORvnVodwFFn37r924BmED1YaRZRIIXgyx4bQ46YYNf8hEb3hxymUz1VP5
+         9wHg==
+X-Gm-Message-State: AO0yUKW7e1LCCRBjni7TtE5GkJvDzKc5cDL7JeBNtQ2nsCtqkJVN0/kP
+        dGn1pUpJ3sgrp57fWRlfXQ2mYNRE1g==
+X-Google-Smtp-Source: AK7set8sxh0a0SiInSIvhImrcd54NfN9cb+q/7EqZZA2GPwUitHjsBXSDahHOtTFAoF/hcNcC5D37A==
+X-Received: by 2002:a05:6870:4714:b0:163:4e13:cd7e with SMTP id b20-20020a056870471400b001634e13cd7emr4758237oaq.8.1675104954839;
+        Mon, 30 Jan 2023 10:55:54 -0800 (PST)
+Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id ms25-20020a0568706b9900b001631b545e7csm5449782oab.19.2023.01.30.10.55.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 30 Jan 2023 10:55:54 -0800 (PST)
+Received: (nullmailer pid 3113850 invoked by uid 1000);
+        Mon, 30 Jan 2023 18:55:53 -0000
+Date:   Mon, 30 Jan 2023 12:55:53 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Adam Ford <aford173@gmail.com>, linux-media@vger.kernel.org,
+        Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+        Xavier Roumegue <xavier.roumegue@oss.nxp.com>,
+        linux-imx@nxp.com, kernel@pengutronix.de,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        devicetree@vger.kernel.org
+Subject: Re: [PATCH v4 2/3] dt-bindings: media: imx8-isi: Use 'port' instead
+ of 'ports' for i.MX8MN
+Message-ID: <20230130185553.GA3110926-robh@kernel.org>
+References: <20230126170603.11896-1-laurent.pinchart@ideasonboard.com>
+ <20230126170603.11896-3-laurent.pinchart@ideasonboard.com>
+ <CAHCN7xJNGCd=Sghu3oe9_yjSg0ybXRFHaVLaZmC2guXCy7ty1A@mail.gmail.com>
+ <Y9LI//H0a8P8c0gL@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-References: <20230125224101.401285-1-sakari.ailus@linux.intel.com> <20230125224101.401285-2-sakari.ailus@linux.intel.com>
-In-Reply-To: <20230125224101.401285-2-sakari.ailus@linux.intel.com>
-From:   "Rafael J. Wysocki" <rafael@kernel.org>
-Date:   Mon, 30 Jan 2023 19:21:12 +0100
-Message-ID: <CAJZ5v0g_KhDHRSOu_0tCtJPy9W1vMcXUF=qxc_6YJ=ADRNUv0g@mail.gmail.com>
-Subject: Re: [PATCH v3 1/8] ACPI: property: Parse data node string references
- in properties
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     linux-acpi@vger.kernel.org, linux-media@vger.kernel.org,
-        rafael@kernel.org, andriy.shevchenko@linux.intel.com,
-        heikki.krogerus@linux.intel.com
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y9LI//H0a8P8c0gL@pendragon.ideasonboard.com>
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
+        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Jan 25, 2023 at 11:41 PM Sakari Ailus
-<sakari.ailus@linux.intel.com> wrote:
->
-> Add support for parsing property references using strings, besides
-> reference objects that were previously supported. This allows also
-> referencing data nodes which was not possible with reference objects.
->
-> Also add pr_fmt() macro to prefix printouts.
->
-> While at it, update copyright.
->
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+On Thu, Jan 26, 2023 at 08:39:59PM +0200, Laurent Pinchart wrote:
+> Hi Adam,
+> 
+> On Thu, Jan 26, 2023 at 12:31:16PM -0600, Adam Ford wrote:
+> > On Thu, Jan 26, 2023 at 11:06 AM Laurent Pinchart wrote:
+> > >
+> > > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > > ---
+> > >  .../bindings/media/nxp,imx8-isi.yaml          | 39 +++++++++++--------
+> > >  1 file changed, 22 insertions(+), 17 deletions(-)
+> > 
+> > Is there a reason not to squash the two bindings into just one patch?
+> 
+> As indicated in the cover letter, I've kept this separate to clearly
+> show the impact on the bindings. If using a 'port' node is the preferred
+> option, I can squash this patch, if using a 'ports' unconditionally is
+> favoured, then I'll just drop it.
 
-While there is some design documentation in the last patch, at least
-some pieces of it should go into the changelog of this patch IMO.
+Just always use 'ports'.
 
-Also the spec-related information from the cover letter would be
-useful here, because cover letters don't go into the git record.
+Rob
