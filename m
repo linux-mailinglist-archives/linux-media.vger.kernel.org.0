@@ -2,126 +2,114 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 74EDC680B5A
-	for <lists+linux-media@lfdr.de>; Mon, 30 Jan 2023 11:55:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 56FF6680B6E
+	for <lists+linux-media@lfdr.de>; Mon, 30 Jan 2023 11:59:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236267AbjA3KzF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 30 Jan 2023 05:55:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44112 "EHLO
+        id S236323AbjA3K70 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 30 Jan 2023 05:59:26 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46600 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236522AbjA3KzB (ORCPT
+        with ESMTP id S236008AbjA3K7T (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 30 Jan 2023 05:55:01 -0500
-Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com [IPv6:2a00:1450:4864:20::632])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A51C2E0EE
-        for <linux-media@vger.kernel.org>; Mon, 30 Jan 2023 02:54:58 -0800 (PST)
-Received: by mail-ej1-x632.google.com with SMTP id p26so19283666ejx.13
-        for <linux-media@vger.kernel.org>; Mon, 30 Jan 2023 02:54:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=semihalf.com; s=google;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=RM8U9+B1EhA1/hpyYh3BZmmd/DRaMkOQKBIReWojWE0=;
-        b=cv3yc3hLcy6abkqAAPYgBfLHXl8MIBezAIwxfl/w8Upau1eWpjL9jI1fTECoYetQw7
-         zjH6xrm8Zuoqaxs2WOtTBMxkQhiJH5rD1ya08Bgo3+kmMci6LRh921yjnkEL0D7U0pXT
-         dksHktrE0uY+nXnRjuXRMB3syKpjMCHDJy9nevYNmrsBZpMN6ICpU1Pu7gcy5dxWKW0H
-         aAIWgE3YSlxn5d8LprOMj/Kz/gs0cLLghtQISOqs6ZMSy2qx4yctPZNRpFCWSsQJWBA0
-         NpPmZYNgXahi/0pjV3hO/1UF4wreVE0Hc2CW7Q4CMXCPiVKhgoeqPn1vNz26LHqOYXsl
-         0rPQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=RM8U9+B1EhA1/hpyYh3BZmmd/DRaMkOQKBIReWojWE0=;
-        b=yGwSg0wgrfbwoWliHUZ2gBgWmGJd8Fg1VsoeTPKYOlgMcUXkdS+MoK1TBW7HxXVMWc
-         Zmluxd2MKSiKdqiLomfz1sxNJfGiK6v2dm9b1bcrv7vl5S5DGxdtssQ/LoYvStprUWaQ
-         Fp5LCaoryzcxzLAiiTAkIDmdYOxYdlRDITvu7BXVIBsw8U/WjAu8CCSZVmrXBV5Q2Lp1
-         Y1+ANCrYP3BjwMGDGw9KmET5NMDUacihvlgUoSE5GSvgyo6B8vQSBFprYAUonrWoT2du
-         7F61UK22QV9ZdvLmMADuG8MPX8qjSMW0Qhlf1TK9RF4sj9lnxFo7J++3RVypwN8YbPdm
-         h0xg==
-X-Gm-Message-State: AFqh2kpmQ+g4B8dvlm3A024v39aNqOouXmR0wviG/eQc5hxYnyAoEKdh
-        6kjzl4edurVYqhOYrTyBbLWOwA==
-X-Google-Smtp-Source: AMrXdXvwt9D641Ii6B8VTtLcYp+/Pqtgi0XOcjujklWNr3DjsMFgPwyOH41jdBeSf3vl2jq1HPfbrg==
-X-Received: by 2002:a17:907:6c16:b0:86f:3dfa:4016 with SMTP id rl22-20020a1709076c1600b0086f3dfa4016mr58255800ejc.7.1675076096407;
-        Mon, 30 Jan 2023 02:54:56 -0800 (PST)
-Received: from mikrawczyk.c.googlers.com.com (12.196.204.35.bc.googleusercontent.com. [35.204.196.12])
-        by smtp.gmail.com with ESMTPSA id d20-20020a17090694d400b00887830e535csm2054742ejy.159.2023.01.30.02.54.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Jan 2023 02:54:55 -0800 (PST)
-From:   "=?UTF-8?q?Micha=C5=82=20Krawczyk?=" <mk@semihalf.com>
-X-Google-Original-From: =?UTF-8?q?Micha=C5=82=20Krawczyk?= <mk@semmihalf.com>
-To:     Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
-        Vikash Garodia <quic_vgarodia@quicinc.com>
-Cc:     Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        =?UTF-8?q?Micha=C5=82=20Krawczyk?= <mk@semihalf.com>
-Subject: [PATCH] media: venus: dec: Fix handling of the start cmd
-Date:   Mon, 30 Jan 2023 10:54:23 +0000
-Message-Id: <20230130105423.1338554-1-mk@semmihalf.com>
-X-Mailer: git-send-email 2.39.1.456.gfc5497dd1b-goog
+        Mon, 30 Jan 2023 05:59:19 -0500
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA0BA2B0B9
+        for <linux-media@vger.kernel.org>; Mon, 30 Jan 2023 02:59:14 -0800 (PST)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <mfe@pengutronix.de>)
+        id 1pMRsX-00025o-DT; Mon, 30 Jan 2023 11:59:13 +0100
+Received: from mfe by ptx.hi.pengutronix.de with local (Exim 4.92)
+        (envelope-from <mfe@pengutronix.de>)
+        id 1pMRsW-00041p-Tv; Mon, 30 Jan 2023 11:59:12 +0100
+Date:   Mon, 30 Jan 2023 11:59:12 +0100
+From:   Marco Felsch <m.felsch@pengutronix.de>
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>
+Subject: Re: [PATCH] media: tc358746: init m/p_best to 0
+Message-ID: <20230130105912.vufkpuhiejuyipt7@pengutronix.de>
+References: <15030a07-3615-fca0-1891-a234dc054b00@xs4all.nl>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <15030a07-3615-fca0-1891-a234dc054b00@xs4all.nl>
+User-Agent: NeoMutt/20180716
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: mfe@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Michał Krawczyk <mk@semihalf.com>
+Hi Hans,
 
-The decoder driver should clear the last_buffer_dequeued flag of the
-capture queue upon receiving V4L2_DEC_CMD_START.
+thanks for the patch.
 
-The last_buffer_dequeued flag is set upon receiving EOS (which always
-happens upon receiving V4L2_DEC_CMD_STOP).
+On 23-01-30, Hans Verkuil wrote:
+> This fixes compiler warnings:
+> 
+> In file included from include/linux/printk.h:566,
+>                  from include/linux/kernel.h:29,
+>                  from include/linux/clk.h:13,
+>                  from drivers/media/i2c/tc358746.c:12:
+> drivers/media/i2c/tc358746.c: In function 'tc358746_find_pll_settings':
+> include/linux/dynamic_debug.h:272:33: warning: 'p_best' may be used uninitialized in this function [-Wmaybe-uninitialized]
+>   272 |         _dynamic_func_call(fmt, __dynamic_dev_dbg,              \
+>       |                                 ^~~~~~~~~~~~~~~~~
+> drivers/media/i2c/tc358746.c:817:13: note: 'p_best' was declared here
+>   817 |         u16 p_best, p;
+>       |             ^~~~~~
+> In file included from include/linux/printk.h:566,
+>                  from include/linux/kernel.h:29,
+>                  from include/linux/clk.h:13,
+>                  from drivers/media/i2c/tc358746.c:12:
+> include/linux/dynamic_debug.h:272:33: warning: 'm_best' may be used uninitialized in this function [-Wmaybe-uninitialized]
+>   272 |         _dynamic_func_call(fmt, __dynamic_dev_dbg,              \
+>       |                                 ^~~~~~~~~~~~~~~~~
+> drivers/media/i2c/tc358746.c:816:13: note: 'm_best' was declared here
+>   816 |         u16 m_best, mul;
+>       |             ^~~~~~
 
-Without this patch, after issuing the V4L2_DEC_CMD_STOP and
-V4L2_DEC_CMD_START, the vb2_dqbuf() function will always fail, even if
-the buffers are completed by the hardware.
+I'm not sure why this is printed. The m/p_best variables are only used
+if best_freq != 0 else it is not used. If best_freq != 0 m/p_best is set
+to the found mul/p. So IMHO this is a false positiv from the compiler.
 
-Fixes: beac82904a87 ("media: venus: make decoder compliant with stateful codec API")
+> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 
-Signed-off-by: Michał Krawczyk <mk@semihalf.com>
----
- drivers/media/platform/qcom/venus/vdec.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+to make the compiler happy:
 
-diff --git a/drivers/media/platform/qcom/venus/vdec.c b/drivers/media/platform/qcom/venus/vdec.c
-index 4ceaba37e2e5..175488ea08ff 100644
---- a/drivers/media/platform/qcom/venus/vdec.c
-+++ b/drivers/media/platform/qcom/venus/vdec.c
-@@ -526,6 +526,7 @@ static int
- vdec_decoder_cmd(struct file *file, void *fh, struct v4l2_decoder_cmd *cmd)
- {
- 	struct venus_inst *inst = to_inst(file);
-+	struct vb2_queue *dst_vq;
- 	struct hfi_frame_data fdata = {0};
- 	int ret;
- 
-@@ -556,6 +557,13 @@ vdec_decoder_cmd(struct file *file, void *fh, struct v4l2_decoder_cmd *cmd)
- 			inst->codec_state = VENUS_DEC_STATE_DRAIN;
- 			inst->drain_active = true;
- 		}
-+	} else if (cmd->cmd == V4L2_DEC_CMD_START &&
-+		   inst->codec_state == VENUS_DEC_STATE_STOPPED) {
-+		dst_vq = v4l2_m2m_get_vq(inst->fh.m2m_ctx,
-+					 V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE);
-+		vb2_clear_last_buffer_dequeued(&inst->fh.m2m_ctx->cap_q_ctx.q);
-+
-+		inst->codec_state = VENUS_DEC_STATE_DECODING;
- 	}
- 
- unlock:
--- 
-2.39.1.456.gfc5497dd1b-goog
+Reviewed-by: Marco Felsch <m.felsch@pengutronix.de>
 
+Regards,
+  Marco
+
+> ---
+>  drivers/media/i2c/tc358746.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/media/i2c/tc358746.c b/drivers/media/i2c/tc358746.c
+> index d1f552bd81d4..b86baa5c2d82 100644
+> --- a/drivers/media/i2c/tc358746.c
+> +++ b/drivers/media/i2c/tc358746.c
+> @@ -813,8 +813,8 @@ static unsigned long tc358746_find_pll_settings(struct tc358746 *tc358746,
+>  	u32 min_delta = 0xffffffff;
+>  	u16 prediv_max = 17;
+>  	u16 prediv_min = 1;
+> -	u16 m_best, mul;
+> -	u16 p_best, p;
+> +	u16 m_best = 0, mul;
+> +	u16 p_best = 0, p;
+>  	u8 postdiv;
+> 
+>  	if (fout > 1000 * HZ_PER_MHZ) {
+> -- 
+> 2.39.0
+> 
+> 
+> 
