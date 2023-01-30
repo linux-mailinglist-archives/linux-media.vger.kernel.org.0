@@ -2,98 +2,197 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D014B681D2E
-	for <lists+linux-media@lfdr.de>; Mon, 30 Jan 2023 22:47:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A9165681DEE
+	for <lists+linux-media@lfdr.de>; Mon, 30 Jan 2023 23:19:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231472AbjA3VrC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 30 Jan 2023 16:47:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38828 "EHLO
+        id S229501AbjA3WTp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 30 Jan 2023 17:19:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33662 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231224AbjA3VrB (ORCPT
+        with ESMTP id S229468AbjA3WTo (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 30 Jan 2023 16:47:01 -0500
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3CAA94A1CC;
-        Mon, 30 Jan 2023 13:46:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675115216; x=1706651216;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=AS6XNM+z93ekW75lHzwBkDg76Srt1cfNo+hndyrseYY=;
-  b=jxPpsUsUm4LXd7oBTzj/tWjCasGFhSPvDKbW+UJ60OzvXX5Tl0DIvA/a
-   ILCtBDuNbZXp5P0mKGrRy22vC0SyGrMUmwKQWjeWcOPRlPczym12x8UuX
-   rT4fbhKGsfCI9sSxFiehs+wWJEDIHH855X3iJ3JqKf1uUfbXZGYYHkk6t
-   +nOEKlL9DlENwWt/GNXq0GovCHRVKvp7YlsXhrSeHVTggrQ3Fyumub+zH
-   JCeJ04GhJf7YY3eKitF287mPaYuVpslY8MXV76M2Egs4jUcOlltoHyPWC
-   bqe8oxxb32gDwv21lZ1hEO1a+14hvV5kgi6b5EWuU27YpbqybZ+HUlMpD
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10606"; a="308027282"
-X-IronPort-AV: E=Sophos;i="5.97,259,1669104000"; 
-   d="scan'208";a="308027282"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2023 13:46:55 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10606"; a="727661410"
-X-IronPort-AV: E=Sophos;i="5.97,259,1669104000"; 
-   d="scan'208";a="727661410"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2023 13:46:54 -0800
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-        by kekkonen.fi.intel.com (Postfix) with SMTP id 20E021202B0;
-        Mon, 30 Jan 2023 23:46:52 +0200 (EET)
-Date:   Mon, 30 Jan 2023 23:46:52 +0200
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     linux-acpi@vger.kernel.org, linux-media@vger.kernel.org,
-        rafael@kernel.org, heikki.krogerus@linux.intel.com
-Subject: Re: [PATCH v3 4/8] ACPI: property: Generate camera swnodes for ACPI
- and DisCo for Imaging
-Message-ID: <Y9g6zOfDxrBP0/PP@kekkonen.localdomain>
-References: <20230125224101.401285-1-sakari.ailus@linux.intel.com>
- <20230125224101.401285-5-sakari.ailus@linux.intel.com>
- <Y9Oo4L0ToRTZye2Z@smile.fi.intel.com>
- <Y9g0+L4zrdBtcpZP@kekkonen.localdomain>
- <Y9g5ISkhsJs1Dbgf@smile.fi.intel.com>
+        Mon, 30 Jan 2023 17:19:44 -0500
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A1223AB5
+        for <linux-media@vger.kernel.org>; Mon, 30 Jan 2023 14:19:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=nurfuerspam.de;
+        s=s31663417; t=1675117177;
+        bh=RTE2O48W47ITrVBrjiGTMpfclWMIAL5Ib3PxhiJ5u7M=;
+        h=X-UI-Sender-Class:Date:From:Subject:Cc:To;
+        b=QtjlWBKDRNRj1kgR2FapWcD9Fv8lJjAGb9f+g8vZQD8FidvY8zYkTc+BdZ7MiVQo7
+         HXIlBb7MZkNfciEDxo/C09YB6wMwiuuWkmhKOaGt8336ea92xxkH2kiTIymrISFkTp
+         0Gs7d2Td+QSAjjcJkm4BhnEXR/XZKDtqKQBshJ9Cmxv15s2PiI2heGhkeGqW89HlSR
+         j1sfXKqZTun7N10IslJ5AP+k/5k1H42sGubTg1gY6j4E7Q4D/jIEF6KJVvCmmYR/Hf
+         CzpHxmqyAgdZZ7gmFv8Bs3d1BJse0duwV8Qk+BErhMz4Gl6gCd0EJgECWqrzPoerII
+         DcDvYZoNVdDcg==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [127.0.0.1] ([213.232.102.193]) by mail.gmx.net (mrgmx104
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1N9dwj-1obivs2INh-015VtU; Mon, 30
+ Jan 2023 23:19:37 +0100
+Message-ID: <c78a2740-1b80-2ea2-dc5c-4ead440ff9ed@nurfuerspam.de>
+Date:   Mon, 30 Jan 2023 23:19:37 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y9g5ISkhsJs1Dbgf@smile.fi.intel.com>
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+From:   Stefan Herdler <herdler@nurfuerspam.de>
+Subject: Future of the SAA7146 drivers
+Content-Language: en-US
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Soeren Moch <smoch@web.de>,
+        Manu Abraham <abraham.manu@gmail.com>,
+        Tomasz Maciej Nowak <tmn505@gmail.com>,
+        Corinna Vinschen <vinschen@redhat.com>
+To:     linux-media@vger.kernel.org
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:c98OmAL3fZWtKaSWwaS2d8iZr1dxmjsjWrAXtAJMsZ4quv2rBc0
+ 8gx5t7zabcdQ+WQtRsVeryaXIjP3qmFbAgg8CgbaHa77Bj28ulEwZkq9db0woo1hhbh8DpX
+ HogZCJ7wTQD346ASinp/rYNN+yx2A2zJbSBkYaJIMm1LAOHb2ZZcPMT3kC03qDQGAmC/Fww
+ QROHom/uutFQ6BccDZIGw==
+UI-OutboundReport: notjunk:1;M01:P0:a+UdzaBezXY=;f1UGRZYECY3SoEoF2frluvPN+sW
+ BJmoCB3X+sow9u0Yl84GQthSXt/QbhZbf+Xx/xnM0pKcNTDxscbiR1fAxauURLb8sP/nXhitb
+ HwotDqatTAQivTg1f4bkrpExC/IyR2bpaNzPWkipUAVrjhuXAosafoo5hqu/Ozh95UIyUSp6r
+ Hnasa9AGhQJbqjKfdMZEKR56wifWfen23ba0FNjf4DFQEb2yYvIBwaMMWz/9JSfpYtVTkRNVp
+ Vj+O+ELC6C7NKNWKhSlT6oQYxvdTDe6m2JwW8/leGY6YZKUaG0wnnPycLAIGl86wvkP02+AAC
+ 5yBOjQw6Nk+98+8G/+3K6VDRb9SHBpFFur5jNjYcznOt1q+HOh5dyNUGSYDR3/mD98zarthGv
+ KHy4O+7E7qDFuFepmYRu8IsCPqf+oD3KSBjq9jzGhtW0qbFTb6qq55fAzQYJ7wzpf5x/VYVlo
+ myn5dqE93+zhImFoJg7gwqjb4HoouTz3PBtko2aopUg8eVOxZwLBYPio8ivWewifvda0Uazb4
+ nGm2sN/4REj+KesvgUoDfUxogTyBc9g0syjxiSaCVo23iXQ0lQDfYQ8CcpgAcOkLA1COhOg/I
+ ijDCkTm8qD1wgPMu12gKmQyDexXc4yvs7eGCeTJ3h7CV5B5wdSQgLerb6QmKsEm3PWXW2h0+N
+ w9BUwun97nN27VV1G66cVw0aMyf51Tu2TORtg3KjQwJ1qs+uRASquHoKc+BV6vms2GD1sE2t9
+ ugp3MC6hXywt519tv3tg/dVAb+Tn6m0waDCsW2QAyKaF/dgtx0rg4pK80urmOt2d19A/HtIZQ
+ YMu0KrFIgAM3W9PtRijNgnu/tGDG1e0DxhL4YqURhFt/lMjUUxpjKwUN7gmlnW3OIzb96mYCS
+ +/D+PIgnFfwG/wEQsL9q1DqtDQy8O1VGt1Jc9xoXd5JggAYe0ILpAya7fYObez3F+TCuqtrcF
+ by/tIMW0f7preMXUhUWRbHn057A=
+X-Spam-Status: No, score=1.1 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,URIBL_ABUSE_SURBL
+        autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Jan 30, 2023 at 11:39:45PM +0200, Andy Shevchenko wrote:
-> On Mon, Jan 30, 2023 at 11:22:00PM +0200, Sakari Ailus wrote:
-> > On Fri, Jan 27, 2023 at 12:35:12PM +0200, Andy Shevchenko wrote:
-> > > On Thu, Jan 26, 2023 at 12:40:57AM +0200, Sakari Ailus wrote:
-> 
-> ...
-> 
-> > > > +static struct fwnode_handle *get_mipi_port_handle(struct acpi_device *device,
-> > > > +						  unsigned int port)
-> > > > +{
-> > > > +	static const char mipi_port_prefix[] = "mipi-img-port-";
-> > > > +	char mipi_port_name[sizeof(mipi_port_prefix) + 2];
-> > > 
-> > > I think the following will be better:
-> > > 
-> > > 	char mipi_port_name[16];
-> > 
-> > If the array is too short, this will generate a warning but... this is
-> > already handled better than that. Why not to keep it?
-> 
-> We will get the format string self contained.
+Hello everyone.
 
-I have earlier stated as my opinion that it is a lesser concern.
+This mail is a little bit long, I'm sorry for that.
+But I have to describe the TV-situation in Germany roughly. Without that
+knowledge it is definitely not understandable why this DVB-S cards are
+still very useful here.
+Reader familiar with this crazy situation may proceed to the driver
+section below.
 
-> 
-> > > > +	if (snprintf(mipi_port_name, sizeof(mipi_port_name), "%s%u",
-> > > > +		     mipi_port_prefix, port) >= sizeof(mipi_port_name)) {
+I'm primary a user of this cards but have profound knowledge about the
+Hardware. I used to repair the cards for me and other users back then.
 
--- 
-Sakari Ailus
+I own Fullfeatured and Budget-cards and use them daily in my VDR-System.
+In Germany many channels are free-to-air in the DVB-S version only. I
+would like to use these cards for a few more years until DVB-S is
+deactivated or the HD-Versions of the channels become free-to-air.
+I'm not willing to pay 75 Euro a year for TV-commercials in HD and I'm
+not the only one with this opinion.
+14 million of the 17 million satelite-tv-households in Germany watch
+this channels in SD-quality only (~82%)![1]
+In addition uses the encrypting-system a proprietary CAM extension which
+makes it impossible to watch this channels on a HTPC legally.
+This situation won't change until 2025 (by a kind of law!). What then
+happens is currently completely uncertain.
+
+
+The driver topic however is new to me, the cards where always working
+out of the box. I noticed the upcoming removal right before my first mail.
+
+Honestly I was a little shocked that the driver may be removed from Kernel=
+.
+
+The card may be old and not produced any more, but they are not rare and
+easily obtainable second hand. There are always multiple offers for
+reasonable prices on the common platforms.
+And the cards are running flawless on current mainboards with PCIe-PCI
+Bridge.
+
+There must be a lot of SAA7146 based cards been sold in Europe. Many
+brands sold them, mostly rebranded Technotrend cards.
+Even Hauppauge, the most important brand, sold the TT-Budged as "Nova"
+and the Fullfeatured as "Nexus" for years. Their own Connexant based
+designs came pretty late, short before the PCIe-cards.
+
+I carefully estimate, at least 50% of all PCI-DVB-cards sold in Europe
+where SAA7146 based.
+There must be still a number of users out there.
+
+The relevance of SAA7146 for PCI-DVB-cards is almost like the Bttv-Chips
+for analog TV a few years before. At least in Europe.
+And the bttv driver not deprecated despite older and using videobuf1 API!
+
+
+SAA7146 driver
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+I've read a lot in the last days and the main issue with the SAA7146
+driver seems to be the missing maintainer.
+All other issues seem to be a result of that.
+Right?
+
+And the driver desperately needs someone with expertise about the cards
+and the driver.
+I've spotted a big chunk of unused code just by knowing which cards have
+been build and which not.
+
+S=C3=B6ren Moch offered to maintain the complete SAA7146 driver in the
+VDRportal and in this list too. This offer includes the videobuf2
+conversion too.
+On condition that the support of the fullfeatured cards stays in the
+kernel.
+I understand that. He only owns fullfeatured cards.
+And I am interested in keeping my fullfeatured cards operational too.
+
+I'm convinced S=C3=B6ren could handle the driver well and he is the only o=
+ne
+I know who probably could do that. And he is actively offering to do the
+job.
+
+
+That leads to the DVB-API part for the AV7110 which should be removed.
+
+An API conversion for the AV7110 does not make sense any more. 10 years
+ago maybe, but not now.
+Working software would be broken and there will be no benefit for the
+user at all.
+
+Converting is however not easy and a driver specific UAPI would be
+necessary in any case.
+The ioctl "VIDEO_SELECT_SOURCE" needed and definitely missing in the
+V4l2-API (see ivtv driver).
+The OSD of the FF-Cards is more canvas like, not a framebuffer. The OSD
+ioctl are also needed and I haven't found anything in V4l2-API to
+replace them.
+
+What about putting the 3 API-files into one driver specific UAPI file?
+The deprecated DVB-API part could be officially removed and the
+maintainer of the av7110 driver would become responsible for the API.
+Could that be an acceptable solution for everybody?
+Or do the ~10Kb of possible redundancy in the header hurt so much?
+
+
+The further deferring of the removal by a few years would be a kind of
+solution for me too.
+But I don't think it's a good one.
+
+
+Any other ideas?
+
+
+As a pragmatic user I'm interested in a solution to keep my cards running.
+Probably finding a compromise all parties can live with.
+I'm not interested in a lengthy discussion about APIs leading to nowhere.
+
+Regards
+Stefan
+
+
+
+1.
+https://www.dwdl.de/magazin/88023/sdrepublik_deutschland_privatsender_mit_=
+hdstrategie_gescheitert/?
+In German only, sorry.
