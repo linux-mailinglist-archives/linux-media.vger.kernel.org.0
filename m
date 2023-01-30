@@ -2,348 +2,172 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 820FA681C06
-	for <lists+linux-media@lfdr.de>; Mon, 30 Jan 2023 22:01:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A5E76681C8B
+	for <lists+linux-media@lfdr.de>; Mon, 30 Jan 2023 22:18:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229472AbjA3VBI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 30 Jan 2023 16:01:08 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55360 "EHLO
+        id S229851AbjA3VSi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 30 Jan 2023 16:18:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43140 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229468AbjA3VBH (ORCPT
+        with ESMTP id S230035AbjA3VSh (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 30 Jan 2023 16:01:07 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BDC6846D75
-        for <linux-media@vger.kernel.org>; Mon, 30 Jan 2023 13:00:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1675112415;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=NQR10RvxjfTGxb66NAVT7cY3C5m41ahj69SYknOlOLM=;
-        b=JdUKjY0ccwAj4rJ+AvOcyv8qP61z9H3AznDgD/TltzXKicd/oixM87AY5sV/IaCL7wU/ih
-        4JCmyWB2OTlxuUUMd9D7U5sd8sWYE5jJE3uGXp1l0TCq6l+vjElNvLz9SPqmT75P/ZbS5E
-        ziEpdH6fwYxevDRjarZ7z2EUNps0BpM=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-274-phC8vt3rOA2MN1VSuzARMA-1; Mon, 30 Jan 2023 16:00:13 -0500
-X-MC-Unique: phC8vt3rOA2MN1VSuzARMA-1
-Received: by mail-ej1-f72.google.com with SMTP id 21-20020a170906225500b0088b953a6df6so591399ejr.20
-        for <linux-media@vger.kernel.org>; Mon, 30 Jan 2023 13:00:13 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=NQR10RvxjfTGxb66NAVT7cY3C5m41ahj69SYknOlOLM=;
-        b=yksBAQHU02HsMs4TJ+JdwI2tyKfhk9KHwZlzbXZyJOxOPk+yCooLZBfCH6Y3pMGo9a
-         N3DVSHDwASDuQlXf/n6adRAasO39yrGEdwd9GaIgtX3EEVLezofQbF/3QNCwp95B8u/H
-         OoJIwt9EcDWH16envjwYCTK1thnugpTakVdr8U1d/YHVXwUxfx3dlsiBMDCYg7A8jJlx
-         TEMPJ3uuQEU9m/35TiIi6UzPN5jL3AJcJ6anImq2Bosy6WV5IKafHJH4xGbpXmYgxJjB
-         NdFJvN0YezW2AAzN5ryz2+5g5kKSUu/ErEqdyrhAdealZbjYZlilJ+r78mD6cAJJJ2IV
-         Ufww==
-X-Gm-Message-State: AO0yUKWm0RrBhbsAdVA5Mt40oJ6vAmeZU6N2AZrsTVj3pop3WsYf644i
-        zosqJeCD4nNCq8HTE0ivgVmVyjlj7NdNtTn9CIOmzr3I+AyeWv3SZTAXQfvTRuGM8zzRxX8DS1j
-        8EoNHVmXajrmYa6pHw4T6c5o=
-X-Received: by 2002:a17:907:970b:b0:880:c284:8436 with SMTP id jg11-20020a170907970b00b00880c2848436mr14930073ejc.57.1675112412077;
-        Mon, 30 Jan 2023 13:00:12 -0800 (PST)
-X-Google-Smtp-Source: AK7set8gu2Ch4fsvA7OUiSViVWGyO4eYLyB5XVW44owkpHc++Z9imLV3g6iV/IEtuifLbIMEABPLIA==
-X-Received: by 2002:a17:907:970b:b0:880:c284:8436 with SMTP id jg11-20020a170907970b00b00880c2848436mr14930044ejc.57.1675112411828;
-        Mon, 30 Jan 2023 13:00:11 -0800 (PST)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id oy17-20020a170907105100b0087bd50f6986sm5936035ejb.42.2023.01.30.13.00.10
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 30 Jan 2023 13:00:11 -0800 (PST)
-Message-ID: <694b482c-5c67-2e9c-603a-e79bb4d7fd9a@redhat.com>
-Date:   Mon, 30 Jan 2023 22:00:10 +0100
+        Mon, 30 Jan 2023 16:18:37 -0500
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C89AB3608E;
+        Mon, 30 Jan 2023 13:18:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1675113516; x=1706649516;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=qe+WmYJgRNGkTMxI0SNXZg1RIUYyuZL/j/KynyoRHnQ=;
+  b=A8jbAVU1MLjLtnRrkP8QjwwrqApMnp2Uj4FrZs6pElIr2LUppHi9Zgdx
+   4Pu5bL8Cr8ZYz8BZJd1091719f46N4BXv66P3/vK2zeFux7jqnnzh9Ush
+   puperYYiKiNLg5Im1wNvis/bSDG+Ztx2WT4loFY1lrfWKZaATyhWh5lDm
+   GZ3vn9SVEMofon0uO7PaDIoiqWgqTVHqOVxem1hpbJ/9Er5zzduyQ7Etb
+   EBK+9bgTMVqKnhbS1Cdd1nWOeLf3jqV6Er7b+faKBC/gI4Idow8eQU/Jw
+   OcPqieobkU7fRgVmcTj280opYk3c1I/Gj9IjsAoL/IzQtywKYPkQTHnNe
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10606"; a="327695641"
+X-IronPort-AV: E=Sophos;i="5.97,259,1669104000"; 
+   d="scan'208";a="327695641"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2023 13:18:35 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10606"; a="788167665"
+X-IronPort-AV: E=Sophos;i="5.97,259,1669104000"; 
+   d="scan'208";a="788167665"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2023 13:18:33 -0800
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+        by kekkonen.fi.intel.com (Postfix) with SMTP id C3FC21202B0;
+        Mon, 30 Jan 2023 23:18:30 +0200 (EET)
+Date:   Mon, 30 Jan 2023 23:18:30 +0200
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc:     linux-acpi@vger.kernel.org, linux-media@vger.kernel.org,
+        rafael@kernel.org, heikki.krogerus@linux.intel.com
+Subject: Re: [PATCH v3 2/8] ACPI: property: Parse _CRS CSI-2 descriptor
+Message-ID: <Y9g0JvBWvn9Rsi7Q@kekkonen.localdomain>
+References: <20230125224101.401285-1-sakari.ailus@linux.intel.com>
+ <20230125224101.401285-3-sakari.ailus@linux.intel.com>
+ <Y9Oip7cLqWgdzKry@smile.fi.intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH v6 1/5] media: v4l2-core: Make the v4l2-core code
- enable/disable the privacy LED if present
-Content-Language: en-US, nl
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     Mark Gross <mgross@linux.intel.com>,
-        Andy Shevchenko <andy@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Daniel Scally <djrscally@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        platform-driver-x86@vger.kernel.org, linux-gpio@vger.kernel.org,
-        Kate Hsuan <hpa@redhat.com>,
-        Mark Pearson <markpearson@lenovo.com>,
-        Andy Yeh <andy.yeh@intel.com>, Hao Yao <hao.yao@intel.com>,
-        linux-media@vger.kernel.org, hverkuil@xs4all.nl
-References: <20230127203729.10205-1-hdegoede@redhat.com>
- <20230127203729.10205-2-hdegoede@redhat.com>
- <Y9eZOmDAYW8lm/By@kekkonen.localdomain>
-From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <Y9eZOmDAYW8lm/By@kekkonen.localdomain>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE
-        autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y9Oip7cLqWgdzKry@smile.fi.intel.com>
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+Hi Andy,
 
-On 1/30/23 11:17, Sakari Ailus wrote:
-> Hi Hans,
+Thank you for the review.
+
+On Fri, Jan 27, 2023 at 12:08:39PM +0200, Andy Shevchenko wrote:
+> On Thu, Jan 26, 2023 at 12:40:55AM +0200, Sakari Ailus wrote:
+> > Parse newly added ACPI _CRS CSI-2 descriptor for CSI-2 and camera
+> > configuration. For now, only figure out where the descriptor is present in
+> > order to allow adding information from it to related devices.
 > 
-> On Fri, Jan 27, 2023 at 09:37:25PM +0100, Hans de Goede wrote:
->> Make v4l2_async_register_subdev_sensor() try to get a privacy LED
->> associated with the sensor and extend the call_s_stream() wrapper to
->> enable/disable the privacy LED if found.
->>
->> This makes the core handle privacy LED control, rather then having to
->> duplicate this code in all the sensor drivers.
->>
->> Suggested-by: Sakari Ailus <sakari.ailus@linux.intel.com>
->> Acked-by: Linus Walleij <linus.walleij@linaro.org>
->> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> ...
 > 
-> Please wrap the lines over 80, unless there are tangible reasons to keep
-> them as-is.
+> > +	if (status != AE_OK) {
 > 
-> For this patch:
-> 
-> Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> 
-> On my behalf it can be merged via another tree, I don't expect conflicts.
-> Also cc Hans Verkuil.
+> ACPI_FAILURE()
 
-Thanks.
-
-I've merged the entire series into my pdx86/review-hans branch now:
-https://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git/log/?h=review-hans
-(with the lines in this patch shortened to 80 chars).
-
-Once the builders have had some time to play with this branch
-(and once I've run some tests to make sure the patches still
-work as expected) I will push to platform-drivers-x86/for-next .
-
-Regards,
-
-Hans
-
-
-
-
+Yes.
 
 > 
-> And the rest:
+> > +		acpi_handle_warn(inst_context->handle,
+> > +				 "cannot get handle for %s\n",
+> > +				 csi2->resource_source.string_ptr);
+> > +		return AE_OK;
+> > +	}
 > 
-> Reviewed-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> ...
 > 
-> Please also see my comment on the 3rd patch.
+> > +	struct scan_check_crs_csi2_context inst_context = {
+> > +		.handle = handle,
+> > +		.res_list = LIST_HEAD_INIT(inst_context.res_list),
+> > +	};
+> > +	struct list_head *list = context;
+> > +	struct crs_csi2 *csi2;
 > 
->> ---
->> Changes in v6:
->> - Add v4l2_subdev_privacy_led_get()/_put() helpers
->> - At least the _put helper is necessary for cleanup on errors later on in
->>   v4l2_async_register_subdev_sensor()
->> - This puts all the LED related coded into a single file (v4l2-subdev.c)
->>   removing the need to build the async + fwnode code into videodev.ko,
->>   so that patch is dropped
->> - Move the (non-error-exit) cleanup from v4l2_subdev_cleanup() to
->>    v4l2_async_unregister_subdev()
->>
->> Changes in v4 (requested by Laurent Pinchart):
->> - Move the led_get() call to v4l2_async_register_subdev_sensor() and
->>   make errors other then -ENOENT fail the register() call.
->> - Move the led_disable_sysfs() call to be done at led_get() time, instead
->>   of only disabling the sysfs interface when the sensor is streaming.
->> ---
->>  drivers/media/v4l2-core/v4l2-async.c       |  4 ++
->>  drivers/media/v4l2-core/v4l2-fwnode.c      |  7 ++++
->>  drivers/media/v4l2-core/v4l2-subdev-priv.h | 14 +++++++
->>  drivers/media/v4l2-core/v4l2-subdev.c      | 44 ++++++++++++++++++++++
->>  include/media/v4l2-subdev.h                |  3 ++
->>  5 files changed, 72 insertions(+)
->>  create mode 100644 drivers/media/v4l2-core/v4l2-subdev-priv.h
->>
->> diff --git a/drivers/media/v4l2-core/v4l2-async.c b/drivers/media/v4l2-core/v4l2-async.c
->> index 2f1b718a9189..d7e9ffc7aa23 100644
->> --- a/drivers/media/v4l2-core/v4l2-async.c
->> +++ b/drivers/media/v4l2-core/v4l2-async.c
->> @@ -24,6 +24,8 @@
->>  #include <media/v4l2-fwnode.h>
->>  #include <media/v4l2-subdev.h>
->>  
->> +#include "v4l2-subdev-priv.h"
->> +
->>  static int v4l2_async_nf_call_bound(struct v4l2_async_notifier *n,
->>  				    struct v4l2_subdev *subdev,
->>  				    struct v4l2_async_subdev *asd)
->> @@ -822,6 +824,8 @@ void v4l2_async_unregister_subdev(struct v4l2_subdev *sd)
->>  	if (!sd->async_list.next)
->>  		return;
->>  
->> +	v4l2_subdev_put_privacy_led(sd);
->> +
->>  	mutex_lock(&list_lock);
->>  
->>  	__v4l2_async_nf_unregister(sd->subdev_notifier);
->> diff --git a/drivers/media/v4l2-core/v4l2-fwnode.c b/drivers/media/v4l2-core/v4l2-fwnode.c
->> index 3d9533c1b202..049c2f2001ea 100644
->> --- a/drivers/media/v4l2-core/v4l2-fwnode.c
->> +++ b/drivers/media/v4l2-core/v4l2-fwnode.c
->> @@ -28,6 +28,8 @@
->>  #include <media/v4l2-fwnode.h>
->>  #include <media/v4l2-subdev.h>
->>  
->> +#include "v4l2-subdev-priv.h"
->> +
->>  static const struct v4l2_fwnode_bus_conv {
->>  	enum v4l2_fwnode_bus_type fwnode_bus_type;
->>  	enum v4l2_mbus_type mbus_type;
->> @@ -1302,6 +1304,10 @@ int v4l2_async_register_subdev_sensor(struct v4l2_subdev *sd)
->>  
->>  	v4l2_async_nf_init(notifier);
->>  
->> +	ret = v4l2_subdev_get_privacy_led(sd);
->> +	if (ret < 0)
->> +		goto out_cleanup;
->> +
->>  	ret = v4l2_async_nf_parse_fwnode_sensor(sd->dev, notifier);
->>  	if (ret < 0)
->>  		goto out_cleanup;
->> @@ -1322,6 +1328,7 @@ int v4l2_async_register_subdev_sensor(struct v4l2_subdev *sd)
->>  	v4l2_async_nf_unregister(notifier);
->>  
->>  out_cleanup:
->> +	v4l2_subdev_put_privacy_led(sd);
->>  	v4l2_async_nf_cleanup(notifier);
->>  	kfree(notifier);
->>  
->> diff --git a/drivers/media/v4l2-core/v4l2-subdev-priv.h b/drivers/media/v4l2-core/v4l2-subdev-priv.h
->> new file mode 100644
->> index 000000000000..52391d6d8ab7
->> --- /dev/null
->> +++ b/drivers/media/v4l2-core/v4l2-subdev-priv.h
->> @@ -0,0 +1,14 @@
->> +/* SPDX-License-Identifier: GPL-2.0-or-later */
->> +/*
->> + * V4L2 sub-device pivate header.
->> + *
->> + * Copyright (C) 2023 Hans de Goede <hdegoede@redhat.com>
->> + */
->> +
->> +#ifndef _V4L2_SUBDEV_PRIV_H_
->> +#define _V4L2_SUBDEV_PRIV_H_
->> +
->> +int v4l2_subdev_get_privacy_led(struct v4l2_subdev *sd);
->> +void v4l2_subdev_put_privacy_led(struct v4l2_subdev *sd);
->> +
->> +#endif
->> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
->> index 4988a25bd8f4..9fd183628285 100644
->> --- a/drivers/media/v4l2-core/v4l2-subdev.c
->> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
->> @@ -9,6 +9,7 @@
->>   */
->>  
->>  #include <linux/ioctl.h>
->> +#include <linux/leds.h>
->>  #include <linux/mm.h>
->>  #include <linux/module.h>
->>  #include <linux/slab.h>
->> @@ -23,6 +24,8 @@
->>  #include <media/v4l2-fh.h>
->>  #include <media/v4l2-event.h>
->>  
->> +#include "v4l2-subdev-priv.h"
->> +
->>  #if defined(CONFIG_VIDEO_V4L2_SUBDEV_API)
->>  static int subdev_fh_init(struct v4l2_subdev_fh *fh, struct v4l2_subdev *sd)
->>  {
->> @@ -322,6 +325,14 @@ static int call_s_stream(struct v4l2_subdev *sd, int enable)
->>  {
->>  	int ret;
->>  
->> +#if IS_REACHABLE(CONFIG_LEDS_CLASS)
->> +	if (!IS_ERR_OR_NULL(sd->privacy_led)) {
->> +		if (enable)
->> +			led_set_brightness(sd->privacy_led, sd->privacy_led->max_brightness);
->> +		else
->> +			led_set_brightness(sd->privacy_led, 0);
->> +	}
->> +#endif
->>  	ret = sd->ops->video->s_stream(sd, enable);
->>  
->>  	if (!enable && ret < 0) {
->> @@ -1090,6 +1101,7 @@ void v4l2_subdev_init(struct v4l2_subdev *sd, const struct v4l2_subdev_ops *ops)
->>  	sd->grp_id = 0;
->>  	sd->dev_priv = NULL;
->>  	sd->host_priv = NULL;
->> +	sd->privacy_led = NULL;
->>  #if defined(CONFIG_MEDIA_CONTROLLER)
->>  	sd->entity.name = sd->name;
->>  	sd->entity.obj_type = MEDIA_ENTITY_TYPE_V4L2_SUBDEV;
->> @@ -1105,3 +1117,35 @@ void v4l2_subdev_notify_event(struct v4l2_subdev *sd,
->>  	v4l2_subdev_notify(sd, V4L2_DEVICE_NOTIFY_EVENT, (void *)ev);
->>  }
->>  EXPORT_SYMBOL_GPL(v4l2_subdev_notify_event);
->> +
->> +int v4l2_subdev_get_privacy_led(struct v4l2_subdev *sd)
->> +{
->> +#if IS_REACHABLE(CONFIG_LEDS_CLASS)
->> +	sd->privacy_led = led_get(sd->dev, "privacy-led");
->> +	if (IS_ERR(sd->privacy_led) && PTR_ERR(sd->privacy_led) != -ENOENT)
->> +		return dev_err_probe(sd->dev, PTR_ERR(sd->privacy_led), "getting privacy LED\n");
->> +
->> +	if (!IS_ERR_OR_NULL(sd->privacy_led)) {
->> +		mutex_lock(&sd->privacy_led->led_access);
->> +		led_sysfs_disable(sd->privacy_led);
->> +		led_trigger_remove(sd->privacy_led);
->> +		led_set_brightness(sd->privacy_led, 0);
->> +		mutex_unlock(&sd->privacy_led->led_access);
->> +	}
->> +#endif
->> +	return 0;
->> +}
->> +EXPORT_SYMBOL_GPL(v4l2_subdev_get_privacy_led);
->> +
->> +void v4l2_subdev_put_privacy_led(struct v4l2_subdev *sd)
->> +{
->> +#if IS_REACHABLE(CONFIG_LEDS_CLASS)
->> +	if (!IS_ERR_OR_NULL(sd->privacy_led)) {
->> +		mutex_lock(&sd->privacy_led->led_access);
->> +		led_sysfs_enable(sd->privacy_led);
->> +		mutex_unlock(&sd->privacy_led->led_access);
->> +		led_put(sd->privacy_led);
->> +	}
->> +#endif
->> +}
->> +EXPORT_SYMBOL_GPL(v4l2_subdev_put_privacy_led);
->> diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
->> index b15fa9930f30..0547313f98cc 100644
->> --- a/include/media/v4l2-subdev.h
->> +++ b/include/media/v4l2-subdev.h
->> @@ -38,6 +38,7 @@ struct v4l2_subdev;
->>  struct v4l2_subdev_fh;
->>  struct tuner_setup;
->>  struct v4l2_mbus_frame_desc;
->> +struct led_classdev;
->>  
->>  /**
->>   * struct v4l2_decode_vbi_line - used to decode_vbi_line
->> @@ -982,6 +983,8 @@ struct v4l2_subdev {
->>  	 * appropriate functions.
->>  	 */
->>  
->> +	struct led_classdev *privacy_led;
->> +
->>  	/*
->>  	 * TODO: active_state should most likely be changed from a pointer to an
->>  	 * embedded field. For the time being it's kept as a pointer to more
+> > +	INIT_LIST_HEAD(&inst_context.res_list);
+> 
+> Do you still need this?
+
+Oops. Forgot to remove it, I'll do in v4.
+
+> 
+> ...
+> 
+> > +	acpi_walk_resources(handle, METHOD_NAME__CRS,
+> > +			    scan_check_crs_csi2_instance, &inst_context);
+> > +
+> > +	if (list_empty(&inst_context.res_list))
+> > +		return AE_OK;
+> 
+> I'm wondering if you can utilize acpi_dev_get_resources().
+
+We don't have an acpi_device yet. I'd rather keep scanning for _CRS CSI2
+resources here, as we'd otherwise have to split creating acpi_device's and
+registering them into two.
+
+I'd say if someone had implemented this like that, I'd ask them to change
+it.
+
+> 
+> ...
+> 
+> > +	/* Collect the devices that have a _CRS CSI-2 resource */
+> > +	acpi_walk_namespace(ACPI_TYPE_DEVICE, handle, ACPI_UINT32_MAX,
+> 
+> Other serial buses limit the DEPTH by 32, why do we need more here?
+
+I'm using the same value as for scanning devices to be added. Effectively
+this is not a practical limit but it doesn't need to be.
+
+> 
+> > +			    scan_check_crs_csi2, NULL, &crs_csi2_handles, NULL);
+> 
+> ...
+> 
+> > +	sort(handle_refs, handle_count, sizeof(*handle_refs), crs_handle_cmp,
+> > +	     NULL);
+> 
+> A single line?
+
+Can do...
+
+> 
+> ...
+> 
+> > +		if (check_mul_overflow(sizeof(*ads->ports) +
+> > +				       sizeof(*ads->nodes) * 2 +
+> > +				       sizeof(*ads->nodeptrs) * 2,
+> > +				       (size_t)this_count, &alloc_size) ||
+> 
+> So, now you know why this_count can't be type of size_t?
+
+Forgot to change this one, thanks!
+
+> 
+> > +		    check_add_overflow(sizeof(*ads) + sizeof(*ads->nodes) +
+> > +				       sizeof(*ads->nodeptrs) * 2,
+> > +				       alloc_size, &alloc_size)) {
+> > +			acpi_handle_warn(handle, "too many handles (%u)",
+> > +					 this_count);
+> > +			continue;
+> > +		}
 > 
 
+-- 
+Kind regards,
+
+Sakari Ailus
