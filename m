@@ -2,62 +2,108 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9C08B680C05
-	for <lists+linux-media@lfdr.de>; Mon, 30 Jan 2023 12:31:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 64A7F680C35
+	for <lists+linux-media@lfdr.de>; Mon, 30 Jan 2023 12:45:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235799AbjA3LbW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 30 Jan 2023 06:31:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36346 "EHLO
+        id S235944AbjA3Lpd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 30 Jan 2023 06:45:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43060 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236649AbjA3LbE (ORCPT
+        with ESMTP id S236524AbjA3LpY (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 30 Jan 2023 06:31:04 -0500
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B3D2E2DE57
-        for <linux-media@vger.kernel.org>; Mon, 30 Jan 2023 03:30:59 -0800 (PST)
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <mfe@pengutronix.de>)
-        id 1pMSNG-0006hv-43; Mon, 30 Jan 2023 12:30:58 +0100
-Received: from mfe by ptx.hi.pengutronix.de with local (Exim 4.92)
-        (envelope-from <mfe@pengutronix.de>)
-        id 1pMSNF-0007AB-Rg; Mon, 30 Jan 2023 12:30:57 +0100
-Date:   Mon, 30 Jan 2023 12:30:57 +0100
-From:   Marco Felsch <m.felsch@pengutronix.de>
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Subject: Re: [PATCH] media: tc358746: init m/p_best to 0
-Message-ID: <20230130113057.5fftc5urluieoaeq@pengutronix.de>
-References: <15030a07-3615-fca0-1891-a234dc054b00@xs4all.nl>
- <20230130105912.vufkpuhiejuyipt7@pengutronix.de>
- <aa915c48-14e6-4bdc-09da-644dfedd4f57@xs4all.nl>
+        Mon, 30 Jan 2023 06:45:24 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 68C962D159
+        for <linux-media@vger.kernel.org>; Mon, 30 Jan 2023 03:45:19 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 0B82D60F15
+        for <linux-media@vger.kernel.org>; Mon, 30 Jan 2023 11:45:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2FA6BC433D2
+        for <linux-media@vger.kernel.org>; Mon, 30 Jan 2023 11:45:18 +0000 (UTC)
+Message-ID: <30e837fa-5b1e-4022-b719-6bc318e8fdf9@xs4all.nl>
+Date:   Mon, 30 Jan 2023 12:45:16 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aa915c48-14e6-4bdc-09da-644dfedd4f57@xs4all.nl>
-User-Agent: NeoMutt/20180716
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: mfe@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Content-Language: en-US
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [GIT PULL FOR v6.3] sparse/smatch fixes
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 23-01-30, Hans Verkuil wrote:
-> Hi Marco,
-> 
-> I rejected my own patch :-)
-> 
-> It turned out that I was testing with gcc-11 instead of 12. The latest gcc
-> version doesn't report this warning.
+This series fixes most sparse/smatch issues in the current
+tree.
 
-Good to know that gcc-12 fixed this :)
+My original series is here:
+
+https://patchwork.linuxtv.org/project/linux-media/list/?series=9747
+
+I did not include three patches (14, 15 and 16) for 'proper unwind' fixes
+here since hopefully smatch can become a bit smarter so those patches won't
+be needed.
+
+The others are all good fixes, so I kept those for this PR.
 
 Regards,
-  Marco
+
+	Hans
+
+The following changes since commit 7120d6bfd6d0b26b49958f429701996f2d3e2c2a:
+
+  media: tm6000: remove deprecated driver (2023-01-22 09:57:19 +0100)
+
+are available in the Git repository at:
+
+  git://linuxtv.org/hverkuil/media_tree.git tags/br-v6.3h
+
+for you to fetch changes up to 0ba6b7d83890961e4e93b5cb5de5b506e1db1acc:
+
+  media: dvb-frontends: mb86a16.c: always use the same error path (2023-01-30 09:27:52 +0100)
+
+----------------------------------------------------------------
+Tag branch
+
+----------------------------------------------------------------
+Hans Verkuil (14):
+      media: visl: make visl_qops static
+      media: davinci/vpif.c: drop unnecessary cast
+      media: i2c: s5c73m3: return 0 instead of 'ret'.
+      media: dvb-frontends: cxd2880: return 0 instead of 'ret'.
+      media: usb: dvb-usb-v2: af9015.c: return 0 instead of 'ret'.
+      media: dvb-frontends: cxd2880: return 0 instead of 'ret'.
+      media: marvell: change return to goto for proper unwind
+      media: dvb-frontends: drx39xyj: replace return with goto for proper unwind
+      media: nxp: imx-jpeg: replace dummy gotos by returns
+      media: mediatek: mdp3: replace return by goto for proper unwind
+      media: mediatek: vcodec/venc: return 0 instead of 'ret'.
+      media: ti: davinci: vpbe_display.c: return 0 instead of 'ret'.
+      media: i2c: ov7670: 0 instead of -EINVAL was returned
+      media: dvb-frontends: mb86a16.c: always use the same error path
+
+ drivers/media/dvb-frontends/cxd2880/cxd2880_tnrdmd.c       |  4 ++--
+ drivers/media/dvb-frontends/cxd2880/cxd2880_tnrdmd_dvbt.c  | 14 +++++++-------
+ drivers/media/dvb-frontends/cxd2880/cxd2880_tnrdmd_dvbt2.c | 14 +++++++-------
+ drivers/media/dvb-frontends/drx39xyj/drxj.c                |  9 ++++++---
+ drivers/media/dvb-frontends/mb86a16.c                      |  9 ++++++---
+ drivers/media/i2c/ov7670.c                                 |  2 +-
+ drivers/media/i2c/s5c73m3/s5c73m3-core.c                   |  2 +-
+ drivers/media/platform/marvell/mmp-driver.c                |  2 +-
+ drivers/media/platform/mediatek/mdp3/mtk-mdp3-comp.c       |  3 ++-
+ drivers/media/platform/mediatek/vcodec/venc/venc_h264_if.c |  4 ++--
+ drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c             | 19 ++++++-------------
+ drivers/media/platform/ti/davinci/vpbe_display.c           |  2 +-
+ drivers/media/platform/ti/davinci/vpif.c                   |  2 +-
+ drivers/media/test-drivers/visl/visl-video.c               |  2 +-
+ drivers/media/usb/dvb-usb-v2/af9015.c                      |  4 ++--
+ 15 files changed, 46 insertions(+), 46 deletions(-)
