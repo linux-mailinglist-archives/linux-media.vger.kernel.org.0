@@ -2,125 +2,97 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E94C0681008
-	for <lists+linux-media@lfdr.de>; Mon, 30 Jan 2023 14:59:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 11B1768110C
+	for <lists+linux-media@lfdr.de>; Mon, 30 Jan 2023 15:09:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236915AbjA3N7G (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 30 Jan 2023 08:59:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39706 "EHLO
+        id S237164AbjA3OJp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 30 Jan 2023 09:09:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51470 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236800AbjA3N65 (ORCPT
+        with ESMTP id S237157AbjA3OJo (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 30 Jan 2023 08:58:57 -0500
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4EE4B36FEA;
-        Mon, 30 Jan 2023 05:58:37 -0800 (PST)
-Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:e655:2335:9172:6e39])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: benjamin.gaignard)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 996E96602F10;
-        Mon, 30 Jan 2023 13:58:13 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1675087094;
-        bh=R5a/mEpnxaqGwC3EbPKXrQNBPFEzTc0n/5f90KTNBzU=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=UbeFUDJNjH+boCT1h8uJhzuLeqp2wTx96eCbu0JLaU1/SUDFSJmZWNun3sKp/eTq4
-         Z9JlKRyaD57WcD78uF34AkuL4sOnpO5Z3MVZlamrTDr3tmzPTyw1YWl+KIXuCgTAI6
-         7lb3WaYZMzVrkEqbZnpujWMWiVShNEVwqWfIJrQiEqXE97N6tfcj43R564dC3ItQcx
-         zmy2wZlIUVs8qj+36vV8mwiqHQsXgvKW60WolHykjBDgCSiOPQDdciKy+YeU2pzgMn
-         6GkT3nEOV3N1sa53CZ1kdGaYOR+kP0PBQDNN6853mzqZbgKcxeOgP7l8+EIpYjtX4E
-         PszSStAJgWSZg==
-From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
-To:     ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
-        mchehab@kernel.org, shawnguo@kernel.org, s.hauer@pengutronix.de,
-        kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
-        hverkuil-cisco@xs4all.nl, nicolas.dufresne@collabora.co.uk
-Cc:     linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        kernel@collabora.com,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Subject: [PATCH v6 5/5] media: verisilicon: HEVC: Only propose 10 bitscompatible pixels formats
-Date:   Mon, 30 Jan 2023 14:58:02 +0100
-Message-Id: <20230130135802.744743-6-benjamin.gaignard@collabora.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230130135802.744743-1-benjamin.gaignard@collabora.com>
-References: <20230130135802.744743-1-benjamin.gaignard@collabora.com>
+        Mon, 30 Jan 2023 09:09:44 -0500
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C2193B0F3;
+        Mon, 30 Jan 2023 06:09:41 -0800 (PST)
+Received: from booty (unknown [77.244.183.192])
+        (Authenticated sender: luca.ceresoli@bootlin.com)
+        by mail.gandi.net (Postfix) with ESMTPSA id 003BA1C0018;
+        Mon, 30 Jan 2023 14:09:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1675087780;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=KD4t6AFD7zWRuav/9wfKI/33NlxRT+vOROmFd5NS47E=;
+        b=ldhsz/T6pvQk9zJ+osMNoqfhUEntk27/80Ft3G6zKe2Roz+Zgcx4HSuwH9VWfGvcYwxyJu
+        2Uf43LiYczJZQDCWMzegUMOZTV2SIdik3qb64ONTophqff7ObdB4h6ExKbvomDlI6ThUTA
+        67TCnClen+rBEHirq2hf333lEG1G25vOO/tx0S0Us51dcnGGQD77xjbdnrtL5p9ucchTtQ
+        qc8TMEF7BBdhaJ5chrEB/qgkpr3PgIIqcFQgYrHmqCKpbW1oBB6+kmGxZxByQLiSnuYWni
+        T8NziJRpHdFAgJl620jTp42QKKDTrxvonvf1DLsGah582qWwPbbNtshBXE9XYA==
+Date:   Mon, 30 Jan 2023 15:09:36 +0100
+From:   Luca Ceresoli <luca.ceresoli@bootlin.com>
+To:     Dmitry Osipenko <dmitry.osipenko@collabora.com>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Sowjanya Komatineni <skomatineni@nvidia.com>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Dmitry Osipenko <digetx@gmail.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Richard Leitner <richard.leitner@skidata.com>
+Subject: Re: [PATCH v3 01/21] dt-bindings: display: tegra: add Tegra20 VIP
+Message-ID: <20230130150936.381f4008@booty>
+In-Reply-To: <e426497b-0421-1bc1-2a72-871b0e2d48a4@collabora.com>
+References: <20221229133205.981397-1-luca.ceresoli@bootlin.com>
+        <20221229133205.981397-2-luca.ceresoli@bootlin.com>
+        <e426497b-0421-1bc1-2a72-871b0e2d48a4@collabora.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-When decoding a 10bits bitstreams HEVC driver should only expose
-10bits pixel formats.
-To fulfill this requirement it is needed to call hantro_reset_raw_fmt()
-when bit depth change and to correctly set match_depth in pixel formats
-enumeration.
+Hi Dmitry,
 
-Fixes: dc39473d0340 ("media: hantro: imx8m: Enable 10bit decoding")
+On Wed, 25 Jan 2023 01:15:22 +0300
+Dmitry Osipenko <dmitry.osipenko@collabora.com> wrote:
 
-Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
----
- drivers/media/platform/verisilicon/hantro_drv.c  | 16 ++++++++++++++--
- .../media/platform/verisilicon/imx8m_vpu_hw.c    |  2 ++
- 2 files changed, 16 insertions(+), 2 deletions(-)
+> On 12/29/22 16:31, Luca Ceresoli wrote:
+> > VIP is the parallel video capture component within the video input
+> > subsystem of Tegra20 (and other Tegra chips, apparently).
+> > 
+> > Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 
-diff --git a/drivers/media/platform/verisilicon/hantro_drv.c b/drivers/media/platform/verisilicon/hantro_drv.c
-index 715075f15596..e3656649c717 100644
---- a/drivers/media/platform/verisilicon/hantro_drv.c
-+++ b/drivers/media/platform/verisilicon/hantro_drv.c
-@@ -331,8 +331,20 @@ static int hantro_hevc_s_ctrl(struct v4l2_ctrl *ctrl)
- 
- 	switch (ctrl->id) {
- 	case V4L2_CID_STATELESS_HEVC_SPS:
--		ctx->bit_depth = ctrl->p_new.p_hevc_sps->bit_depth_luma_minus8 + 8;
--		break;
-+	{
-+		const struct v4l2_ctrl_hevc_sps *sps = ctrl->p_new.p_hevc_sps;
-+		int bit_depth = sps->bit_depth_luma_minus8 + 8;
-+		int ret;
-+
-+		if (ctx->bit_depth == bit_depth)
-+			return 0;
-+
-+		ret = hantro_reset_raw_fmt(ctx, bit_depth);
-+		if (!ret)
-+			ctx->bit_depth = bit_depth;
-+
-+		return ret;
-+	}
- 	default:
- 		return -EINVAL;
- 	}
-diff --git a/drivers/media/platform/verisilicon/imx8m_vpu_hw.c b/drivers/media/platform/verisilicon/imx8m_vpu_hw.c
-index b390228fd3b4..f850d8bddef6 100644
---- a/drivers/media/platform/verisilicon/imx8m_vpu_hw.c
-+++ b/drivers/media/platform/verisilicon/imx8m_vpu_hw.c
-@@ -152,6 +152,7 @@ static const struct hantro_fmt imx8m_vpu_g2_postproc_fmts[] = {
- 	{
- 		.fourcc = V4L2_PIX_FMT_NV12,
- 		.codec_mode = HANTRO_MODE_NONE,
-+		.match_depth = true,
- 		.postprocessed = true,
- 		.frmsize = {
- 			.min_width = FMT_MIN_WIDTH,
-@@ -165,6 +166,7 @@ static const struct hantro_fmt imx8m_vpu_g2_postproc_fmts[] = {
- 	{
- 		.fourcc = V4L2_PIX_FMT_P010,
- 		.codec_mode = HANTRO_MODE_NONE,
-+		.match_depth = true,
- 		.postprocessed = true,
- 		.frmsize = {
- 			.min_width = FMT_MIN_WIDTH,
+...
+
+> Reviewed-by: Dmitry Osipenko <digetx@gmail.com>
+> 
+> Please feel free to add my r-b to the rest of the patches. I looked
+> though them and haven't noticed anything suspicious.
+
+Thanks you very much, I have applied your r-b tag to all patches except
+patch 2 where you spotted a mistake. v4 coming soon.
+
 -- 
-2.34.1
-
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
