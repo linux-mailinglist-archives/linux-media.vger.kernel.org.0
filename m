@@ -2,107 +2,98 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 89588681CC4
-	for <lists+linux-media@lfdr.de>; Mon, 30 Jan 2023 22:30:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F04DA681CD1
+	for <lists+linux-media@lfdr.de>; Mon, 30 Jan 2023 22:34:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231164AbjA3Va0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 30 Jan 2023 16:30:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49658 "EHLO
+        id S230502AbjA3Ve6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 30 Jan 2023 16:34:58 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52308 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229768AbjA3VaZ (ORCPT
+        with ESMTP id S230398AbjA3Ve5 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 30 Jan 2023 16:30:25 -0500
-Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com [209.85.210.49])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C494D38B4C;
-        Mon, 30 Jan 2023 13:30:22 -0800 (PST)
-Received: by mail-ot1-f49.google.com with SMTP id v24-20020a05683011d800b0068bdd29b160so499860otq.13;
-        Mon, 30 Jan 2023 13:30:22 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=hiqzkzUxt8/xNcC+60X48Uy9vsc/Fvpd3yplhrNClzI=;
-        b=Ne4yJs5hDgAvZp3W2tHqfVA+fzw1guibnqbxUUdwLiAQkT/CRGWOlM8yvDYpfCsodH
-         +e9z7sJFqjLZ5PGho2FBoYWnQI7244/dNyOyowrfat3Sb8opgFLeUbjD76ameWQVQ0li
-         WTZc2C2Mxxs49sJH0FtFHBdQdT8u7iQZW4pQGpuPPrtjmp6M8sUzqpjqrAS3J+Davw9Z
-         PjMLq/qm3LAStxcyissX8eFJHaMX7DSg3bZHKJk2cSA1PxqJNuD4BcHKiAEUosp4SyW1
-         impD1anRkawkPKlS1l0AofQ08fPZRNdZXOUXcWTQEEfwp0ueOiz4l0q4QDTUsgvWssU3
-         RYdA==
-X-Gm-Message-State: AO0yUKWKgFh51bP4i32g8erf05yxyM6jCi0AnaitiOEzGYl1weAqMmPx
-        bxIDcTNDVvlcdp8c91qhWg==
-X-Google-Smtp-Source: AK7set+6elnwmrJx/eaOfyIFc6WxpSKhpCfomvw9nxGz714z5NUpgPl/HV2aAEHWF/qfxPSAKsxSfA==
-X-Received: by 2002:a9d:6f93:0:b0:684:c309:def3 with SMTP id h19-20020a9d6f93000000b00684c309def3mr4545109otq.12.1675114222006;
-        Mon, 30 Jan 2023 13:30:22 -0800 (PST)
-Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id df17-20020a056830479100b006884c42a38asm4331361otb.41.2023.01.30.13.30.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Jan 2023 13:30:21 -0800 (PST)
-Received: (nullmailer pid 3563341 invoked by uid 1000);
-        Mon, 30 Jan 2023 21:30:20 -0000
-Date:   Mon, 30 Jan 2023 15:30:20 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Sean Young <sean@mess.org>
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Christian Hewitt <christianshewitt@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org
-Subject: Re: [PATCH] media: rc: add keymap for Beelink Mini MXIII remote
-Message-ID: <20230130213020.GA3541260-robh@kernel.org>
-References: <20230128034117.3983105-1-christianshewitt@gmail.com>
- <6e953652-4a24-6f3c-74e7-07c25fa1c6c1@linaro.org>
- <Y9YwbiJz9vOBejdL@gofer.mess.org>
+        Mon, 30 Jan 2023 16:34:57 -0500
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10C20C17C;
+        Mon, 30 Jan 2023 13:34:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1675114497; x=1706650497;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=91mT2guxtmssZqSQ3Oq8hCF3hLtVVz8v9dZYenx0D8Q=;
+  b=a/irUYxuYjqjjCa+ULz1fTCSYHBZfhGvWgzpbzYQQne7+OP2ctoSCzK1
+   EwItjNKUjQWLDyV2/hCKsq7Oq2yqd2ZiZ1B++2x3jwZrjnyufBv7XWm+/
+   e9WX3pPH1Q2F3phBXpuoA2MMBc3DI538EQDWa1H8FxTVnmza1eeHDILmP
+   Kv1DzkqZ8TCxWH5gGOutdkJAPCQb26nnSZYjDBgylPFbh1NkzrLLy+lR5
+   mk01ok3Q3Q1g4KKjZjWrXoJzNGKidrxvpqY5878fI14rH+MVbocqNeDcE
+   +JoWYiplbpwJzWW64BaZo/2I6d3DAkvs6iCouPxaqauQsW3P354G7xg/M
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10606"; a="326342302"
+X-IronPort-AV: E=Sophos;i="5.97,259,1669104000"; 
+   d="scan'208";a="326342302"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2023 13:34:56 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10606"; a="909652876"
+X-IronPort-AV: E=Sophos;i="5.97,259,1669104000"; 
+   d="scan'208";a="909652876"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by fmsmga006.fm.intel.com with ESMTP; 30 Jan 2023 13:34:55 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1pMbnh-00HYuB-2T;
+        Mon, 30 Jan 2023 23:34:53 +0200
+Date:   Mon, 30 Jan 2023 23:34:53 +0200
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     "Rafael J. Wysocki" <rafael@kernel.org>
+Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-acpi@vger.kernel.org, linux-media@vger.kernel.org,
+        heikki.krogerus@linux.intel.com
+Subject: Re: [PATCH v3 1/8] ACPI: property: Parse data node string references
+ in properties
+Message-ID: <Y9g3/fSDdBDVwQ+W@smile.fi.intel.com>
+References: <20230125224101.401285-1-sakari.ailus@linux.intel.com>
+ <20230125224101.401285-2-sakari.ailus@linux.intel.com>
+ <CAJZ5v0g_KhDHRSOu_0tCtJPy9W1vMcXUF=qxc_6YJ=ADRNUv0g@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Y9YwbiJz9vOBejdL@gofer.mess.org>
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
-        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS autolearn=no
-        autolearn_force=no version=3.4.6
+In-Reply-To: <CAJZ5v0g_KhDHRSOu_0tCtJPy9W1vMcXUF=qxc_6YJ=ADRNUv0g@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sun, Jan 29, 2023 at 08:38:06AM +0000, Sean Young wrote:
-> On Sat, Jan 28, 2023 at 11:11:32AM +0100, Krzysztof Kozlowski wrote:
-> > On 28/01/2023 04:41, Christian Hewitt wrote:
-> > > Add a keymap and bindings for the simple IR (NEC) remote used with
-> > > the Beelink Mini MXIII Android STB device.
-> > > 
-> > > Signed-off-by: Christian Hewitt <christianshewitt@gmail.com>
-> > > ---
-> > >  .../devicetree/bindings/media/rc.yaml         |  1 +
-> > >  drivers/media/rc/keymaps/Makefile             |  1 +
-> > >  drivers/media/rc/keymaps/rc-beelink-mxiii.c   | 54 +++++++++++++++++++
-> > >  include/media/rc-map.h                        |  1 +
-> > >  4 files changed, 57 insertions(+)
-> > >  create mode 100644 drivers/media/rc/keymaps/rc-beelink-mxiii.c
-> > > 
-> > > diff --git a/Documentation/devicetree/bindings/media/rc.yaml b/Documentation/devicetree/bindings/media/rc.yaml
-> > > index 266f1d5cae51..f390a5d2c82d 100644
-> > > --- a/Documentation/devicetree/bindings/media/rc.yaml
-> > > +++ b/Documentation/devicetree/bindings/media/rc.yaml
-> > > @@ -39,6 +39,7 @@ properties:
-> > >        - rc-avertv-303
-> > >        - rc-azurewave-ad-tu700
-> > >        - rc-beelink-gs1
-> > > +      - rc-beelink-mxiii
-> > 
-> > Bindings are separate patches. Didn't you get such feedback already?
+On Mon, Jan 30, 2023 at 07:21:12PM +0100, Rafael J. Wysocki wrote:
+> On Wed, Jan 25, 2023 at 11:41 PM Sakari Ailus
+> <sakari.ailus@linux.intel.com> wrote:
+> >
+> > Add support for parsing property references using strings, besides
+> > reference objects that were previously supported. This allows also
+> > referencing data nodes which was not possible with reference objects.
+> >
+> > Also add pr_fmt() macro to prefix printouts.
+> >
+> > While at it, update copyright.
 > 
-> The only change for new keymaps is an added entry to the rc-map-name enum.
-> In the past, new keymaps have been accepted with that single line in the
-> same commit.
+> While there is some design documentation in the last patch, at least
+> some pieces of it should go into the changelog of this patch IMO.
+> 
+> Also the spec-related information from the cover letter would be
+> useful here, because cover letters don't go into the git record.
 
-It's been a checkpatch.pl warning since 2018. The separation is so that 
-commit messages in the DT only repo[1] make sense.
+Interestingly if a maintainer starts using `b4` tool it has the mode in which
+the series is represented as a pull request and cover letter contents go as a
+commit message into the merge commit. That said, it depends on the maintainer's
+workflow.
 
-Rob
+-- 
+With Best Regards,
+Andy Shevchenko
 
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/devicetree/devicetree-rebasing.git/
+
