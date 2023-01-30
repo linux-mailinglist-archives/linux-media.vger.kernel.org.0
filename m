@@ -2,143 +2,131 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 393C2680E8F
-	for <lists+linux-media@lfdr.de>; Mon, 30 Jan 2023 14:10:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A1663680FA0
+	for <lists+linux-media@lfdr.de>; Mon, 30 Jan 2023 14:55:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236029AbjA3NKT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 30 Jan 2023 08:10:19 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34198 "EHLO
+        id S236500AbjA3NzW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 30 Jan 2023 08:55:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34186 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229694AbjA3NKO (ORCPT
+        with ESMTP id S236448AbjA3NzU (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 30 Jan 2023 08:10:14 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B327D11671;
-        Mon, 30 Jan 2023 05:10:09 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 6C272B810B3;
-        Mon, 30 Jan 2023 13:10:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 15CECC433EF;
-        Mon, 30 Jan 2023 13:10:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1675084207;
-        bh=bZA+wZr8NdCCPrh2rvo5BbcTdhiDb0tNcViWpZHHSXQ=;
-        h=From:To:Cc:Subject:Date:From;
-        b=soqa2bDobZh0j+klshJUgTokPs/tiAaXd7xgN/pvhIgN1i63K+wcslJsMvSHsf0Cx
-         s0gKXrHchYiZgOWOMQRsnEeQGe/JX5GA9fESpmdsgVMzpRfK/tFWg85YeRSq7LXUB3
-         U4u1swXhRK1sAP/KSO/zhaA4iHlBSy0hy1m1cN0/pOKY0UK+mB6CQu8UCGB8u9oxVe
-         u8OfoAk1MdhSsQBK1yrbPBcBwSKjAY1leK/5gxJMr4p4bzWAy6lzAK1sTs8iIMQjm4
-         id7tHX34c5wMtDgBH+SpzqjbtbBE3O1vcQOn8zE3n0VGwo5sXwcA2bLniZPQKGBKoI
-         Mla4/YvUqwuyg==
-From:   Arnd Bergmann <arnd@kernel.org>
-To:     Patrice Chotard <patrice.chotard@foss.st.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Arnd Bergmann <arnd@arndb.de>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Hugues Fruchet <hugues.fruchet@st.com>,
-        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] media: c8sectpfe: convert to gpio descriptors
-Date:   Mon, 30 Jan 2023 14:09:47 +0100
-Message-Id: <20230130131003.668888-1-arnd@kernel.org>
-X-Mailer: git-send-email 2.39.0
+        Mon, 30 Jan 2023 08:55:20 -0500
+Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3685539296
+        for <linux-media@vger.kernel.org>; Mon, 30 Jan 2023 05:55:17 -0800 (PST)
+Received: by mail-ej1-x629.google.com with SMTP id kt14so31966484ejc.3
+        for <linux-media@vger.kernel.org>; Mon, 30 Jan 2023 05:55:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=semihalf.com; s=google;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=FB2g2c4rIfuYP/zAUAb6cfWJDSl3EKVoz2j41/PaiwQ=;
+        b=oKKlyJ2KD24h9FCrjwuz/haUT4fzJRmeTAUFdwJELfay8Hmrr9RdTuldtoXPKk7l3p
+         wjKE05wTsqwxE5Pwrlk+viGHJ0zt5C88PFLySSl6dpFly3lU7rEyNJbhlQhQSfteMStA
+         Dolm5Q6viMft++3VFIlYMcJr8QTay8FUw/huQfHa5Qs5iC0uTR+zgPrjPBKveRITU5g5
+         CLUuP7zVsF46o9mCmdOEbmUE+fpgKU+51AfmEabkJIWdHGRcF3u86F4tz+tkoNLvuDGM
+         /B9ZZSAVlSJUSid0Tz1xI2bhfxk1SOPrxYdmQvZdXeJ7wbLNefyCRwRCJW8ivCDCVNnk
+         GmyA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=FB2g2c4rIfuYP/zAUAb6cfWJDSl3EKVoz2j41/PaiwQ=;
+        b=LigtIlUXP6uiVTRz0XwUr6Xa7usF0IXi0diSdFLiAE+0TJxgf7YWqpcBwm6o/8S8MZ
+         RuVe0EVB61zqa+XjBW7C9LcACH5FqNBpeuKogXr0ZSZD+9W+eHAYulrCOPwZZDswtRmT
+         di6Zqu3BKlsGsD8OlgUYQGMLnlOdYgMljowuoU2don1AwWPGO+dLYzITM/1ubQ9hm1so
+         L2lDuusB4K6GGGjyuBrQ+U/qMY82eRATJvT7bieoOn0r7wfi6pULsk/+JFAUnVDJi37K
+         5bLe2hZySsWSGQjwC+NC0az71y4suoO4K6jyQ63IKsJpxbQfv6M5iOFcG5QFivAipR2Q
+         TTzg==
+X-Gm-Message-State: AO0yUKVm2wBIBD+/x4uyscpIpj0DDIUsQE6auXVVISTn/CC+Q4aoggDT
+        BnQVxnU6Ltqe+P+93opc03EMJg==
+X-Google-Smtp-Source: AK7set8RiuC4MJp0K/vak5+3A+l8zKpBr/VhleJ2+63A+X8OKSsDz4eoJInidBH7tvWLzyPa7G0hYQ==
+X-Received: by 2002:a17:906:b353:b0:87d:dd22:a93 with SMTP id cd19-20020a170906b35300b0087ddd220a93mr12275786ejb.54.1675086915736;
+        Mon, 30 Jan 2023 05:55:15 -0800 (PST)
+Received: from mikrawczyk.c.googlers.com.com (12.196.204.35.bc.googleusercontent.com. [35.204.196.12])
+        by smtp.gmail.com with ESMTPSA id a6-20020aa7cf06000000b004a23558f01fsm2817513edy.43.2023.01.30.05.55.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 30 Jan 2023 05:55:15 -0800 (PST)
+From:   "=?UTF-8?q?Micha=C5=82=20Krawczyk?=" <mk@semihalf.com>
+X-Google-Original-From: =?UTF-8?q?Micha=C5=82=20Krawczyk?= <mk@semmihalf.com>
+To:     Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+        Vikash Garodia <quic_vgarodia@quicinc.com>
+Cc:     Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, mw@semihalf.com,
+        =?UTF-8?q?Micha=C5=82=20Krawczyk?= <mk@semihalf.com>
+Subject: [PATCH v2] media: venus: dec: Fix handling of the start cmd
+Date:   Mon, 30 Jan 2023 13:54:18 +0000
+Message-Id: <20230130135418.1604455-1-mk@semmihalf.com>
+X-Mailer: git-send-email 2.39.1.456.gfc5497dd1b-goog
+In-Reply-To: <20230130105423.1338554-1-mk@semmihalf.com>
+References: <20230130105423.1338554-1-mk@semmihalf.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Arnd Bergmann <arnd@arndb.de>
+From: Michał Krawczyk <mk@semihalf.com>
 
-The gpio usage in the function is fairly straightforward,
-but the normal gpiod_get() interface cannot be used here
-since the gpio is referenced by a child node of the device.
+The decoder driver should clear the last_buffer_dequeued flag of the
+capture queue upon receiving V4L2_DEC_CMD_START.
 
-Using devm_fwnode_gpiod_get_index() is the best alternative
-here.
+The last_buffer_dequeued flag is set upon receiving EOS (which always
+happens upon receiving V4L2_DEC_CMD_STOP).
 
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+Without this patch, after issuing the V4L2_DEC_CMD_STOP and
+V4L2_DEC_CMD_START, the vb2_dqbuf() function will always fail, even if
+the buffers are completed by the hardware.
+
+Fixes: beac82904a87 ("media: venus: make decoder compliant with stateful codec API")
+
+Signed-off-by: Michał Krawczyk <mk@semihalf.com>
 ---
- .../st/sti/c8sectpfe/c8sectpfe-core.c         | 30 ++++++++-----------
- .../st/sti/c8sectpfe/c8sectpfe-core.h         |  2 +-
- 2 files changed, 13 insertions(+), 19 deletions(-)
+V1 -> V2: Fix warning regarding unused variable
 
-diff --git a/drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-core.c b/drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-core.c
-index c38b62d4f1ae..86a2c77c5471 100644
---- a/drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-core.c
-+++ b/drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-core.c
-@@ -22,7 +22,7 @@
- #include <linux/interrupt.h>
- #include <linux/io.h>
- #include <linux/module.h>
--#include <linux/of_gpio.h>
-+#include <linux/gpio/consumer.h>
- #include <linux/of_platform.h>
- #include <linux/pinctrl/consumer.h>
- #include <linux/pinctrl/pinctrl.h>
-@@ -812,30 +812,24 @@ static int c8sectpfe_probe(struct platform_device *pdev)
+ drivers/media/platform/qcom/venus/vdec.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/drivers/media/platform/qcom/venus/vdec.c b/drivers/media/platform/qcom/venus/vdec.c
+index 4ceaba37e2e5..9d26587716bf 100644
+--- a/drivers/media/platform/qcom/venus/vdec.c
++++ b/drivers/media/platform/qcom/venus/vdec.c
+@@ -526,6 +526,7 @@ static int
+ vdec_decoder_cmd(struct file *file, void *fh, struct v4l2_decoder_cmd *cmd)
+ {
+ 	struct venus_inst *inst = to_inst(file);
++	struct vb2_queue *dst_vq;
+ 	struct hfi_frame_data fdata = {0};
+ 	int ret;
+ 
+@@ -556,6 +557,13 @@ vdec_decoder_cmd(struct file *file, void *fh, struct v4l2_decoder_cmd *cmd)
+ 			inst->codec_state = VENUS_DEC_STATE_DRAIN;
+ 			inst->drain_active = true;
  		}
- 		of_node_put(i2c_bus);
++	} else if (cmd->cmd == V4L2_DEC_CMD_START &&
++		   inst->codec_state == VENUS_DEC_STATE_STOPPED) {
++		dst_vq = v4l2_m2m_get_vq(inst->fh.m2m_ctx,
++					 V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE);
++		vb2_clear_last_buffer_dequeued(dst_vq);
++
++		inst->codec_state = VENUS_DEC_STATE_DECODING;
+ 	}
  
--		tsin->rst_gpio = of_get_named_gpio(child, "reset-gpios", 0);
--
--		ret = gpio_is_valid(tsin->rst_gpio);
--		if (!ret) {
--			dev_err(dev,
--				"reset gpio for tsin%d not valid (gpio=%d)\n",
--				tsin->tsin_id, tsin->rst_gpio);
--			ret = -EINVAL;
--			goto err_node_put;
--		}
--
--		ret = devm_gpio_request_one(dev, tsin->rst_gpio,
--					GPIOF_OUT_INIT_LOW, "NIM reset");
-+		tsin->rst_gpio = devm_fwnode_gpiod_get_index(dev,
-+							     of_node_to_fwnode(child),
-+							     "reset-gpios",
-+							     0, GPIOD_OUT_LOW,
-+							     "NIM reset");
-+		ret = PTR_ERR_OR_ZERO(tsin->rst_gpio);
- 		if (ret && ret != -EBUSY) {
--			dev_err(dev, "Can't request tsin%d reset gpio\n"
--				, fei->channel_data[index]->tsin_id);
-+			dev_err_probe(dev, ret,
-+				      "reset gpio for tsin%d not valid\n",
-+				      tsin->tsin_id);
- 			goto err_node_put;
- 		}
- 
- 		if (!ret) {
- 			/* toggle reset lines */
--			gpio_direction_output(tsin->rst_gpio, 0);
-+			gpiod_direction_output(tsin->rst_gpio, 0);
- 			usleep_range(3500, 5000);
--			gpio_direction_output(tsin->rst_gpio, 1);
-+			gpiod_direction_output(tsin->rst_gpio, 1);
- 			usleep_range(3000, 5000);
- 		}
- 
-diff --git a/drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-core.h b/drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-core.h
-index c9d6021904cd..f2a6991e064e 100644
---- a/drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-core.h
-+++ b/drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-core.h
-@@ -25,7 +25,7 @@ struct channel_info {
- 	int i2c;
- 	int dvb_card;
- 
--	int rst_gpio;
-+	struct gpio_desc *rst_gpio;
- 
- 	struct i2c_adapter  *i2c_adapter;
- 	struct i2c_adapter  *tuner_i2c;
+ unlock:
 -- 
-2.39.0
+2.39.1.456.gfc5497dd1b-goog
 
