@@ -2,197 +2,120 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A9165681DEE
-	for <lists+linux-media@lfdr.de>; Mon, 30 Jan 2023 23:19:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9DC66681E2B
+	for <lists+linux-media@lfdr.de>; Mon, 30 Jan 2023 23:35:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229501AbjA3WTp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 30 Jan 2023 17:19:45 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33662 "EHLO
+        id S229494AbjA3WfU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 30 Jan 2023 17:35:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43790 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229468AbjA3WTo (ORCPT
+        with ESMTP id S230015AbjA3WfT (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 30 Jan 2023 17:19:44 -0500
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A1223AB5
-        for <linux-media@vger.kernel.org>; Mon, 30 Jan 2023 14:19:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=nurfuerspam.de;
-        s=s31663417; t=1675117177;
-        bh=RTE2O48W47ITrVBrjiGTMpfclWMIAL5Ib3PxhiJ5u7M=;
-        h=X-UI-Sender-Class:Date:From:Subject:Cc:To;
-        b=QtjlWBKDRNRj1kgR2FapWcD9Fv8lJjAGb9f+g8vZQD8FidvY8zYkTc+BdZ7MiVQo7
-         HXIlBb7MZkNfciEDxo/C09YB6wMwiuuWkmhKOaGt8336ea92xxkH2kiTIymrISFkTp
-         0Gs7d2Td+QSAjjcJkm4BhnEXR/XZKDtqKQBshJ9Cmxv15s2PiI2heGhkeGqW89HlSR
-         j1sfXKqZTun7N10IslJ5AP+k/5k1H42sGubTg1gY6j4E7Q4D/jIEF6KJVvCmmYR/Hf
-         CzpHxmqyAgdZZ7gmFv8Bs3d1BJse0duwV8Qk+BErhMz4Gl6gCd0EJgECWqrzPoerII
-         DcDvYZoNVdDcg==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [127.0.0.1] ([213.232.102.193]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1N9dwj-1obivs2INh-015VtU; Mon, 30
- Jan 2023 23:19:37 +0100
-Message-ID: <c78a2740-1b80-2ea2-dc5c-4ead440ff9ed@nurfuerspam.de>
-Date:   Mon, 30 Jan 2023 23:19:37 +0100
+        Mon, 30 Jan 2023 17:35:19 -0500
+Received: from mail-yb1-xb2d.google.com (mail-yb1-xb2d.google.com [IPv6:2607:f8b0:4864:20::b2d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E19026866
+        for <linux-media@vger.kernel.org>; Mon, 30 Jan 2023 14:35:18 -0800 (PST)
+Received: by mail-yb1-xb2d.google.com with SMTP id 129so16028438ybb.0
+        for <linux-media@vger.kernel.org>; Mon, 30 Jan 2023 14:35:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=jzhzJ9t+7joWmqNqB/SOlPs9Pb0rtxD3MhXTdTmhVQ4=;
+        b=CmtyRf0pqKWKE9DIPlnm6Hj2IncPz5FCyh5FKr8NZq7zc14b/NVSdexEgzVP7+DEFN
+         Glf+CkDY0YhQbBerBkvjF5EF0VH4VctdYCWT32S0mTFnmBzJSmUIDXwJnopDHuTJSO3z
+         +9KSje4kZ6WJZljV6na2ZTdUA8ajbComDXgAkFxGWvR/0Q5qsKMXwbK19EXxEPWxS8Xc
+         wN2TLu78GUhAIcIzbdHVgArXJWdOn6ZYzA4/Zr+8wWy939Z4VHeV/jojmgPbop4EIM4A
+         wpgQwNa1n/S0fEPcXogjUvDI7Uc7q+LQz7nfRfEPavST6FQduFJrhGDZLZiW1POl1eVb
+         mJOg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=jzhzJ9t+7joWmqNqB/SOlPs9Pb0rtxD3MhXTdTmhVQ4=;
+        b=Rl2QRoT2+YoInkrdCIlVdwSXsHm15i+FGk5Ef79OtN4yztVkLtgaO4zZovfzPEWkVP
+         hoU6nta5Y9FC+KpY1+I6QZsgtYETWdYrEaqPeSEHxfSutEB3oznoSTr+VUjVkwXX2BY/
+         Ylt6btsDZBY7WzbDzys8xHdPRTxG75Trc++wXULCKMP8JhE/Izv68zKlbrpD9PU3pS1c
+         fTGnFOfT1OUFiTisiBbg9BG3DaEXQ3QjDrUQjQjelCr7KMac4lRfs7JJhd0g1Jd9WIkH
+         HaY8zenrUHCPBbV+4IRLhAsqPiNRpy43h0M4PsrEuC1qXemEVL26NbyAxfPZo0ng6Mo0
+         Jnfw==
+X-Gm-Message-State: AO0yUKUxjWwl68nL86h6IwQz2ySiNkJ890XUeo/U60zAlRbnvA9JFoDV
+        LMiLhdWuk76b9rwiCiuXVNX/2GgjTcnB5SAt4Qj8Fg==
+X-Google-Smtp-Source: AK7set9IzZZuZ5y/dwHHXS+Nc2RJfj+BVuCjSnwpeGsa5/FTy1GPw5TA3/6jKefac4EQHLv3R+KeSj5OUR6HGCCtiwA=
+X-Received: by 2002:a5b:c1:0:b0:80b:c9d0:c676 with SMTP id d1-20020a5b00c1000000b0080bc9d0c676mr2182645ybp.341.1675118117810;
+ Mon, 30 Jan 2023 14:35:17 -0800 (PST)
 MIME-Version: 1.0
-From:   Stefan Herdler <herdler@nurfuerspam.de>
-Subject: Future of the SAA7146 drivers
-Content-Language: en-US
-Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Soeren Moch <smoch@web.de>,
-        Manu Abraham <abraham.manu@gmail.com>,
-        Tomasz Maciej Nowak <tmn505@gmail.com>,
-        Corinna Vinschen <vinschen@redhat.com>
-To:     linux-media@vger.kernel.org
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:c98OmAL3fZWtKaSWwaS2d8iZr1dxmjsjWrAXtAJMsZ4quv2rBc0
- 8gx5t7zabcdQ+WQtRsVeryaXIjP3qmFbAgg8CgbaHa77Bj28ulEwZkq9db0woo1hhbh8DpX
- HogZCJ7wTQD346ASinp/rYNN+yx2A2zJbSBkYaJIMm1LAOHb2ZZcPMT3kC03qDQGAmC/Fww
- QROHom/uutFQ6BccDZIGw==
-UI-OutboundReport: notjunk:1;M01:P0:a+UdzaBezXY=;f1UGRZYECY3SoEoF2frluvPN+sW
- BJmoCB3X+sow9u0Yl84GQthSXt/QbhZbf+Xx/xnM0pKcNTDxscbiR1fAxauURLb8sP/nXhitb
- HwotDqatTAQivTg1f4bkrpExC/IyR2bpaNzPWkipUAVrjhuXAosafoo5hqu/Ozh95UIyUSp6r
- Hnasa9AGhQJbqjKfdMZEKR56wifWfen23ba0FNjf4DFQEb2yYvIBwaMMWz/9JSfpYtVTkRNVp
- Vj+O+ELC6C7NKNWKhSlT6oQYxvdTDe6m2JwW8/leGY6YZKUaG0wnnPycLAIGl86wvkP02+AAC
- 5yBOjQw6Nk+98+8G/+3K6VDRb9SHBpFFur5jNjYcznOt1q+HOh5dyNUGSYDR3/mD98zarthGv
- KHy4O+7E7qDFuFepmYRu8IsCPqf+oD3KSBjq9jzGhtW0qbFTb6qq55fAzQYJ7wzpf5x/VYVlo
- myn5dqE93+zhImFoJg7gwqjb4HoouTz3PBtko2aopUg8eVOxZwLBYPio8ivWewifvda0Uazb4
- nGm2sN/4REj+KesvgUoDfUxogTyBc9g0syjxiSaCVo23iXQ0lQDfYQ8CcpgAcOkLA1COhOg/I
- ijDCkTm8qD1wgPMu12gKmQyDexXc4yvs7eGCeTJ3h7CV5B5wdSQgLerb6QmKsEm3PWXW2h0+N
- w9BUwun97nN27VV1G66cVw0aMyf51Tu2TORtg3KjQwJ1qs+uRASquHoKc+BV6vms2GD1sE2t9
- ugp3MC6hXywt519tv3tg/dVAb+Tn6m0waDCsW2QAyKaF/dgtx0rg4pK80urmOt2d19A/HtIZQ
- YMu0KrFIgAM3W9PtRijNgnu/tGDG1e0DxhL4YqURhFt/lMjUUxpjKwUN7gmlnW3OIzb96mYCS
- +/D+PIgnFfwG/wEQsL9q1DqtDQy8O1VGt1Jc9xoXd5JggAYe0ILpAya7fYObez3F+TCuqtrcF
- by/tIMW0f7preMXUhUWRbHn057A=
-X-Spam-Status: No, score=1.1 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,URIBL_ABUSE_SURBL
-        autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Level: *
+References: <20230127203729.10205-1-hdegoede@redhat.com> <20230127203729.10205-2-hdegoede@redhat.com>
+ <Y9eZOmDAYW8lm/By@kekkonen.localdomain> <694b482c-5c67-2e9c-603a-e79bb4d7fd9a@redhat.com>
+In-Reply-To: <694b482c-5c67-2e9c-603a-e79bb4d7fd9a@redhat.com>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Mon, 30 Jan 2023 23:35:06 +0100
+Message-ID: <CACRpkdZefaSbT0SXZAkuyRwSFuc9FzOmfQ2eMxon0Z8reaGpFQ@mail.gmail.com>
+Subject: Re: [PATCH v6 1/5] media: v4l2-core: Make the v4l2-core code
+ enable/disable the privacy LED if present
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Mark Gross <mgross@linux.intel.com>,
+        Andy Shevchenko <andy@kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Daniel Scally <djrscally@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        platform-driver-x86@vger.kernel.org, linux-gpio@vger.kernel.org,
+        Kate Hsuan <hpa@redhat.com>,
+        Mark Pearson <markpearson@lenovo.com>,
+        Andy Yeh <andy.yeh@intel.com>, Hao Yao <hao.yao@intel.com>,
+        linux-media@vger.kernel.org, hverkuil@xs4all.nl
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello everyone.
+On Mon, Jan 30, 2023 at 10:00 PM Hans de Goede <hdegoede@redhat.com> wrote:
+> On 1/30/23 11:17, Sakari Ailus wrote:
+> > Hi Hans,
+> >
+> > On Fri, Jan 27, 2023 at 09:37:25PM +0100, Hans de Goede wrote:
+> >> Make v4l2_async_register_subdev_sensor() try to get a privacy LED
+> >> associated with the sensor and extend the call_s_stream() wrapper to
+> >> enable/disable the privacy LED if found.
+> >>
+> >> This makes the core handle privacy LED control, rather then having to
+> >> duplicate this code in all the sensor drivers.
+> >>
+> >> Suggested-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> >> Acked-by: Linus Walleij <linus.walleij@linaro.org>
+> >> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> >
+> > Please wrap the lines over 80, unless there are tangible reasons to keep
+> > them as-is.
+> >
+> > For this patch:
+> >
+> > Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> >
+> > On my behalf it can be merged via another tree, I don't expect conflicts.
+> > Also cc Hans Verkuil.
+>
+> Thanks.
+>
+> I've merged the entire series into my pdx86/review-hans branch now:
+> https://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git/log/?h=review-hans
+> (with the lines in this patch shortened to 80 chars).
+>
+> Once the builders have had some time to play with this branch
+> (and once I've run some tests to make sure the patches still
+> work as expected) I will push to platform-drivers-x86/for-next .
 
-This mail is a little bit long, I'm sorry for that.
-But I have to describe the TV-situation in Germany roughly. Without that
-knowledge it is definitely not understandable why this DVB-S cards are
-still very useful here.
-Reader familiar with this crazy situation may proceed to the driver
-section below.
+Excellent progress with this Hans, thanks for investing so heavily
+in getting this right after my initial complaints, the result is extremely
+appealing an useful.
 
-I'm primary a user of this cards but have profound knowledge about the
-Hardware. I used to repair the cards for me and other users back then.
-
-I own Fullfeatured and Budget-cards and use them daily in my VDR-System.
-In Germany many channels are free-to-air in the DVB-S version only. I
-would like to use these cards for a few more years until DVB-S is
-deactivated or the HD-Versions of the channels become free-to-air.
-I'm not willing to pay 75 Euro a year for TV-commercials in HD and I'm
-not the only one with this opinion.
-14 million of the 17 million satelite-tv-households in Germany watch
-this channels in SD-quality only (~82%)![1]
-In addition uses the encrypting-system a proprietary CAM extension which
-makes it impossible to watch this channels on a HTPC legally.
-This situation won't change until 2025 (by a kind of law!). What then
-happens is currently completely uncertain.
-
-
-The driver topic however is new to me, the cards where always working
-out of the box. I noticed the upcoming removal right before my first mail.
-
-Honestly I was a little shocked that the driver may be removed from Kernel=
-.
-
-The card may be old and not produced any more, but they are not rare and
-easily obtainable second hand. There are always multiple offers for
-reasonable prices on the common platforms.
-And the cards are running flawless on current mainboards with PCIe-PCI
-Bridge.
-
-There must be a lot of SAA7146 based cards been sold in Europe. Many
-brands sold them, mostly rebranded Technotrend cards.
-Even Hauppauge, the most important brand, sold the TT-Budged as "Nova"
-and the Fullfeatured as "Nexus" for years. Their own Connexant based
-designs came pretty late, short before the PCIe-cards.
-
-I carefully estimate, at least 50% of all PCI-DVB-cards sold in Europe
-where SAA7146 based.
-There must be still a number of users out there.
-
-The relevance of SAA7146 for PCI-DVB-cards is almost like the Bttv-Chips
-for analog TV a few years before. At least in Europe.
-And the bttv driver not deprecated despite older and using videobuf1 API!
-
-
-SAA7146 driver
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-
-I've read a lot in the last days and the main issue with the SAA7146
-driver seems to be the missing maintainer.
-All other issues seem to be a result of that.
-Right?
-
-And the driver desperately needs someone with expertise about the cards
-and the driver.
-I've spotted a big chunk of unused code just by knowing which cards have
-been build and which not.
-
-S=C3=B6ren Moch offered to maintain the complete SAA7146 driver in the
-VDRportal and in this list too. This offer includes the videobuf2
-conversion too.
-On condition that the support of the fullfeatured cards stays in the
-kernel.
-I understand that. He only owns fullfeatured cards.
-And I am interested in keeping my fullfeatured cards operational too.
-
-I'm convinced S=C3=B6ren could handle the driver well and he is the only o=
-ne
-I know who probably could do that. And he is actively offering to do the
-job.
-
-
-That leads to the DVB-API part for the AV7110 which should be removed.
-
-An API conversion for the AV7110 does not make sense any more. 10 years
-ago maybe, but not now.
-Working software would be broken and there will be no benefit for the
-user at all.
-
-Converting is however not easy and a driver specific UAPI would be
-necessary in any case.
-The ioctl "VIDEO_SELECT_SOURCE" needed and definitely missing in the
-V4l2-API (see ivtv driver).
-The OSD of the FF-Cards is more canvas like, not a framebuffer. The OSD
-ioctl are also needed and I haven't found anything in V4l2-API to
-replace them.
-
-What about putting the 3 API-files into one driver specific UAPI file?
-The deprecated DVB-API part could be officially removed and the
-maintainer of the av7110 driver would become responsible for the API.
-Could that be an acceptable solution for everybody?
-Or do the ~10Kb of possible redundancy in the header hurt so much?
-
-
-The further deferring of the removal by a few years would be a kind of
-solution for me too.
-But I don't think it's a good one.
-
-
-Any other ideas?
-
-
-As a pragmatic user I'm interested in a solution to keep my cards running.
-Probably finding a compromise all parties can live with.
-I'm not interested in a lengthy discussion about APIs leading to nowhere.
-
-Regards
-Stefan
-
-
-
-1.
-https://www.dwdl.de/magazin/88023/sdrepublik_deutschland_privatsender_mit_=
-hdstrategie_gescheitert/?
-In German only, sorry.
+Yours,
+Linus Walleij
