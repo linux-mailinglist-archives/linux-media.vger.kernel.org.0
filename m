@@ -2,49 +2,90 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2F122681B27
-	for <lists+linux-media@lfdr.de>; Mon, 30 Jan 2023 21:14:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3CD29681BE2
+	for <lists+linux-media@lfdr.de>; Mon, 30 Jan 2023 21:55:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229531AbjA3UOj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 30 Jan 2023 15:14:39 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57404 "EHLO
+        id S230138AbjA3Uzt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 30 Jan 2023 15:55:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50024 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229505AbjA3UOi (ORCPT
+        with ESMTP id S229546AbjA3Uzs (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 30 Jan 2023 15:14:38 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92C4A302B5
-        for <linux-media@vger.kernel.org>; Mon, 30 Jan 2023 12:14:35 -0800 (PST)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6F7AF8B8;
-        Mon, 30 Jan 2023 21:14:33 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1675109673;
-        bh=ekha6I51pESM3ka4T+gQdnKIUsIw9GQ1I1XXyRf6O/c=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=nMc9asNZ6dI8D5TZjty5B/5gpvajLzZovPyEtLzzNlnZF+h9O78NOj7XlVZzUzL4I
-         qN/NzC4L17dY4i2SfLj1hn+B6DXkhkgySyARJe1yqa/R5MnctxnquVVYoNYIAXKkK0
-         Zv0H4LZ5XtKJIwkOL+ONJFHiJhHVJagO3LzLysZA=
-Date:   Mon, 30 Jan 2023 22:14:30 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, Adam Ford <aford173@gmail.com>,
-        Martin Kepplinger <martin.kepplinger@puri.sm>,
-        Paul Elder <paul.elder@ideasonboard.com>,
-        Rui Miguel Silva <rmfrfs@gmail.com>, kernel@pengutronix.de,
-        linux-imx@nxp.com
-Subject: Re: [PATCH v2 8/8] media: imx: imx7-media-csi: Use V4L2 subdev
- active state
-Message-ID: <Y9glJgXTnuAmwdG+@pendragon.ideasonboard.com>
-References: <20230129023429.22467-1-laurent.pinchart@ideasonboard.com>
- <20230129023429.22467-9-laurent.pinchart@ideasonboard.com>
- <20230130192610.u4svu2cxc6qjb22k@uno.localdomain>
+        Mon, 30 Jan 2023 15:55:48 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C446B45220
+        for <linux-media@vger.kernel.org>; Mon, 30 Jan 2023 12:55:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1675112099;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=RMBTjf9dX7Thl50RTCE+QgN0YSOMd4ZkDeyqa4Eg9KE=;
+        b=eYhN8CFp9Xe3RCd5TCrOsKE35pqMslGVpVwvqT2PRCUUBiPHFXtNwk3lkl76S2oQ28bnOz
+        r9Q0oBjKH3A7/71RltDo+fMfF5HnWZWHEmomQdlA3f+dgPn43+QOn9zXnKKxfyyakG9k3Q
+        iyIOU/bsZ4NPtlWVWuqoJQXBBT4ShkI=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-661-71DU6uP1PY2WTeUfcpuFCg-1; Mon, 30 Jan 2023 15:54:58 -0500
+X-MC-Unique: 71DU6uP1PY2WTeUfcpuFCg-1
+Received: by mail-ed1-f72.google.com with SMTP id z6-20020aa7cf86000000b0049f95687b88so9017630edx.4
+        for <linux-media@vger.kernel.org>; Mon, 30 Jan 2023 12:54:57 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=RMBTjf9dX7Thl50RTCE+QgN0YSOMd4ZkDeyqa4Eg9KE=;
+        b=s4KcHmdMJfJ19UTFdFdJvCZkvhoLPfd2WTh2m2q0pXxod8n+lbdD/S2U3NYKBJboX5
+         XBR2NAK4KUxPYDOlooloqQQ/n9gpYVQfedQpwd8b3h953Jm0lKHE04FVKbKSHsDeSMwo
+         dPWaLHyxhjnRFBiYBpcfNAtuGOsEfiBbV+YP7hNd1F2v8DBtzPO8NsR/9lkIy9ZSfkyk
+         P4B7VVNMoQvsDn26/hVbBNF2UBeuaaU+3bLDeSY1qV9t98OK05wHmmZkRiEAHe4wQF5K
+         pY55hZlHncP/YQletLJPfFFa0yL861HN1i8c7O9FiUyf6+Ctx/yCKvd4l9YUGF9bHiCf
+         kHHw==
+X-Gm-Message-State: AO0yUKXkfwZ35EdRToTEu4hSNwecMcFyELdYrguIG/8kHvVI9Qn9JG/4
+        CrwQR2vWeCYcfwdtvOct+k8GwszBMmJRhQdbFlNAZRyG9Vblqf9AI64tatlUvxlucrpqf2EfQAZ
+        z6QCTsWYOkDVeY0aEUGbxz6A=
+X-Received: by 2002:a17:906:aad0:b0:87b:d41b:67dc with SMTP id kt16-20020a170906aad000b0087bd41b67dcmr11874386ejb.74.1675112096948;
+        Mon, 30 Jan 2023 12:54:56 -0800 (PST)
+X-Google-Smtp-Source: AK7set93L3tVDZyk5rYWNsyfbay/gpIqz9wvCIeqpAV0PUVsMZvjAiRoxHs30ugUvYPmg8Op548DIw==
+X-Received: by 2002:a17:906:aad0:b0:87b:d41b:67dc with SMTP id kt16-20020a170906aad000b0087bd41b67dcmr11874370ejb.74.1675112096638;
+        Mon, 30 Jan 2023 12:54:56 -0800 (PST)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id mb18-20020a170906eb1200b0084f7d38713esm7357883ejb.108.2023.01.30.12.54.55
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 30 Jan 2023 12:54:55 -0800 (PST)
+Message-ID: <900ebfbc-5a8a-7aba-97b4-00dbc194beb5@redhat.com>
+Date:   Mon, 30 Jan 2023 21:54:55 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20230130192610.u4svu2cxc6qjb22k@uno.localdomain>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH v6 3/5] platform/x86: int3472/discrete: Create a LED class
+ device for the privacy LED
+Content-Language: en-US, nl
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     Mark Gross <mgross@linux.intel.com>,
+        Andy Shevchenko <andy@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Daniel Scally <djrscally@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        platform-driver-x86@vger.kernel.org, linux-gpio@vger.kernel.org,
+        Kate Hsuan <hpa@redhat.com>,
+        Mark Pearson <markpearson@lenovo.com>,
+        Andy Yeh <andy.yeh@intel.com>, Hao Yao <hao.yao@intel.com>,
+        linux-media@vger.kernel.org
+References: <20230127203729.10205-1-hdegoede@redhat.com>
+ <20230127203729.10205-4-hdegoede@redhat.com>
+ <Y9eYKxdo7BvqI9sR@kekkonen.localdomain>
+From:   Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <Y9eYKxdo7BvqI9sR@kekkonen.localdomain>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -52,432 +93,310 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jacopo,
+Hi,
 
-On Mon, Jan 30, 2023 at 08:26:10PM +0100, Jacopo Mondi wrote:
-> On Sun, Jan 29, 2023 at 04:34:29AM +0200, Laurent Pinchart wrote:
-> > Use the V4L2 subdev active state API to store the active format. This
-> > simplifies the driver not only by dropping the state stored in the
-> > imx7_csi structure, but also by replacing the manual lock with the state
-> > lock.
-> >
-> > The is_streaming field is now protected by the active state lock, either
-> > explicitly in .s_stream(), where the active state is locked manually, or
-> > implicitly in .set_fmt(), which is called with the state locked.
-> >
-> > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > ---
-> > Changes since v1:
-> >
-> > - Drop manual init_cfg call from probe
-> > ---
-> >  drivers/media/platform/nxp/imx7-media-csi.c | 173 ++++++--------------
-> >  1 file changed, 51 insertions(+), 122 deletions(-)
-> >
-> > diff --git a/drivers/media/platform/nxp/imx7-media-csi.c b/drivers/media/platform/nxp/imx7-media-csi.c
-> > index 943e541768bd..c22bf5c827e7 100644
-> > --- a/drivers/media/platform/nxp/imx7-media-csi.c
-> > +++ b/drivers/media/platform/nxp/imx7-media-csi.c
-> > @@ -211,7 +211,6 @@ struct imx7_csi {
-> >  	int irq;
-> >  	struct clk *mclk;
-> >
-> > -	struct mutex lock; /* Protects is_streaming, format_mbus, cc */
-> >  	spinlock_t irqlock; /* Protects last_eof */
-> >
-> >  	/* Media and V4L2 device */
-> > @@ -227,8 +226,6 @@ struct imx7_csi {
-> >  	struct v4l2_subdev sd;
-> >  	struct media_pad pad[IMX7_CSI_PADS_NUM];
-> >
-> > -	struct v4l2_mbus_framefmt format_mbus[IMX7_CSI_PADS_NUM];
-> > -
-> >  	/* Video device */
-> >  	struct video_device *vdev;		/* Video device */
-> >  	struct media_pad vdev_pad;		/* Video device pad */
-> > @@ -509,7 +506,8 @@ static void imx7_csi_dma_stop(struct imx7_csi *csi)
-> >  	imx7_csi_hw_disable_irq(csi);
-> >  }
-> >
-> > -static void imx7_csi_configure(struct imx7_csi *csi)
-> > +static void imx7_csi_configure(struct imx7_csi *csi,
-> > +			       struct v4l2_subdev_state *sd_state)
-> >  {
-> >  	struct v4l2_pix_format *out_pix = &csi->vdev_fmt;
-> >  	int width = out_pix->width;
-> > @@ -540,12 +538,17 @@ static void imx7_csi_configure(struct imx7_csi *csi)
-> >  		    out_pix->pixelformat == V4L2_PIX_FMT_YUYV)
-> >  			width *= 2;
-> >  	} else {
-> > +		const struct v4l2_mbus_framefmt *sink_fmt;
-> > +
-> > +		sink_fmt = v4l2_subdev_get_pad_format(&csi->sd, sd_state,
-> > +						      IMX7_CSI_PAD_SINK);
-> > +
-> >  		cr1 = BIT_SOF_POL | BIT_REDGE | BIT_HSYNC_POL | BIT_FCC
-> >  		    | BIT_MCLKDIV(1) | BIT_MCLKEN;
-> >
-> >  		cr18 |= BIT_DATA_FROM_MIPI;
-> >
-> > -		switch (csi->format_mbus[IMX7_CSI_PAD_SINK].code) {
-> > +		switch (sink_fmt->code) {
-> >  		case MEDIA_BUS_FMT_Y8_1X8:
-> >  		case MEDIA_BUS_FMT_SBGGR8_1X8:
-> >  		case MEDIA_BUS_FMT_SGBRG8_1X8:
-> > @@ -626,7 +629,8 @@ static void imx7_csi_configure(struct imx7_csi *csi)
-> >  	imx7_csi_reg_write(csi, stride, CSI_CSIFBUF_PARA);
-> >  }
-> >
-> > -static int imx7_csi_init(struct imx7_csi *csi)
-> > +static int imx7_csi_init(struct imx7_csi *csi,
-> > +			 struct v4l2_subdev_state *sd_state)
-> >  {
-> >  	int ret;
-> >
-> > @@ -634,7 +638,7 @@ static int imx7_csi_init(struct imx7_csi *csi)
-> >  	if (ret < 0)
-> >  		return ret;
-> >
-> > -	imx7_csi_configure(csi);
-> > +	imx7_csi_configure(csi, sd_state);
-> >
-> >  	ret = imx7_csi_dma_setup(csi);
-> >  	if (ret < 0) {
-> > @@ -1420,7 +1424,7 @@ static int imx7_csi_video_validate_fmt(struct imx7_csi *csi)
-> >  	int ret;
-> >
-> >  	/* Retrieve the media bus format on the source subdev. */
-> > -	ret = v4l2_subdev_call(&csi->sd, pad, get_fmt, NULL, &fmt_src);
-> > +	ret = v4l2_subdev_call_state_active(&csi->sd, pad, get_fmt, &fmt_src);
-> >  	if (ret)
-> >  		return ret;
-> >
-> > @@ -1728,12 +1732,13 @@ static int imx7_csi_video_init(struct imx7_csi *csi)
-> >  static int imx7_csi_s_stream(struct v4l2_subdev *sd, int enable)
-> >  {
-> >  	struct imx7_csi *csi = v4l2_get_subdevdata(sd);
-> > +	struct v4l2_subdev_state *sd_state;
-> >  	int ret = 0;
-> >
-> > -	mutex_lock(&csi->lock);
-> > +	sd_state = v4l2_subdev_lock_and_get_active_state(sd);
-> >
-> >  	if (enable) {
-> > -		ret = imx7_csi_init(csi);
-> > +		ret = imx7_csi_init(csi, sd_state);
-> >  		if (ret < 0)
-> >  			goto out_unlock;
-> >
-> > @@ -1755,29 +1760,14 @@ static int imx7_csi_s_stream(struct v4l2_subdev *sd, int enable)
-> >  	csi->is_streaming = !!enable;
-> >
-> >  out_unlock:
-> > -	mutex_unlock(&csi->lock);
-> > +	v4l2_subdev_unlock_state(sd_state);
-> >
-> >  	return ret;
-> >  }
-> >
-> > -static struct v4l2_mbus_framefmt *
-> > -imx7_csi_get_format(struct imx7_csi *csi,
-> > -		    struct v4l2_subdev_state *sd_state,
-> > -		    unsigned int pad,
-> > -		    enum v4l2_subdev_format_whence which)
-> > -{
-> > -	if (which == V4L2_SUBDEV_FORMAT_TRY)
-> > -		return v4l2_subdev_get_try_format(&csi->sd, sd_state, pad);
-> > -
-> > -	return &csi->format_mbus[pad];
-> > -}
-> > -
-> >  static int imx7_csi_init_cfg(struct v4l2_subdev *sd,
-> >  			     struct v4l2_subdev_state *sd_state)
-> >  {
-> > -	const enum v4l2_subdev_format_whence which =
-> > -		sd_state ? V4L2_SUBDEV_FORMAT_TRY : V4L2_SUBDEV_FORMAT_ACTIVE;
-> > -	struct imx7_csi *csi = v4l2_get_subdevdata(sd);
-> >  	const struct imx7_csi_pixfmt *cc;
-> >  	int i;
-> >
-> > @@ -1785,7 +1775,7 @@ static int imx7_csi_init_cfg(struct v4l2_subdev *sd,
-> >
-> >  	for (i = 0; i < IMX7_CSI_PADS_NUM; i++) {
-> >  		struct v4l2_mbus_framefmt *mf =
-> > -			imx7_csi_get_format(csi, sd_state, i, which);
-> > +			v4l2_subdev_get_pad_format(sd, sd_state, i);
-> >
-> >  		mf->code = IMX7_CSI_DEF_MBUS_CODE;
-> >  		mf->width = IMX7_CSI_DEF_PIX_WIDTH;
-> > @@ -1806,59 +1796,30 @@ static int imx7_csi_enum_mbus_code(struct v4l2_subdev *sd,
-> >  				   struct v4l2_subdev_state *sd_state,
-> >  				   struct v4l2_subdev_mbus_code_enum *code)
-> >  {
-> > -	struct imx7_csi *csi = v4l2_get_subdevdata(sd);
-> >  	struct v4l2_mbus_framefmt *in_fmt;
-> >  	int ret = 0;
-> >
-> > -	mutex_lock(&csi->lock);
-> > -
-> > -	in_fmt = imx7_csi_get_format(csi, sd_state, IMX7_CSI_PAD_SINK,
-> > -				     code->which);
-> > +	in_fmt = v4l2_subdev_get_pad_format(sd, sd_state, IMX7_CSI_PAD_SINK);
-> >
-> >  	switch (code->pad) {
-> >  	case IMX7_CSI_PAD_SINK:
-> >  		ret = imx7_csi_enum_mbus_formats(&code->code, code->index);
-> >  		break;
-> > +
-> >  	case IMX7_CSI_PAD_SRC:
-> >  		if (code->index != 0) {
-> >  			ret = -EINVAL;
-> > -			goto out_unlock;
-> > +			break;
-> >  		}
-> >
-> >  		code->code = in_fmt->code;
-> >  		break;
-> > +
-> >  	default:
-> >  		ret = -EINVAL;
-> > +		break;
-> >  	}
-> >
-> > -out_unlock:
-> > -	mutex_unlock(&csi->lock);
-> > -
-> > -	return ret;
-> > -}
-> > -
-> > -static int imx7_csi_get_fmt(struct v4l2_subdev *sd,
-> > -			    struct v4l2_subdev_state *sd_state,
-> > -			    struct v4l2_subdev_format *sdformat)
-> > -{
-> > -	struct imx7_csi *csi = v4l2_get_subdevdata(sd);
-> > -	struct v4l2_mbus_framefmt *fmt;
-> > -	int ret = 0;
-> > -
-> > -	mutex_lock(&csi->lock);
-> > -
-> > -	fmt = imx7_csi_get_format(csi, sd_state, sdformat->pad,
-> > -				  sdformat->which);
-> > -	if (!fmt) {
-> > -		ret = -EINVAL;
-> > -		goto out_unlock;
-> > -	}
-> > -
-> > -	sdformat->format = *fmt;
-> > -
-> > -out_unlock:
-> > -	mutex_unlock(&csi->lock);
-> > -
-> >  	return ret;
-> >  }
-> >
-> > @@ -1908,19 +1869,16 @@ static void imx7_csi_try_colorimetry(struct v4l2_mbus_framefmt *tryfmt)
-> >  						      tryfmt->ycbcr_enc);
-> >  }
-> >
-> > -static int imx7_csi_try_fmt(struct imx7_csi *csi,
-> > -			    struct v4l2_subdev_state *sd_state,
-> > -			    struct v4l2_subdev_format *sdformat,
-> > -			    const struct imx7_csi_pixfmt **cc)
-> > +static void imx7_csi_try_fmt(struct v4l2_subdev *sd,
-> > +			     struct v4l2_subdev_state *sd_state,
-> > +			     struct v4l2_subdev_format *sdformat,
-> > +			     const struct imx7_csi_pixfmt **cc)
-> >  {
-> >  	const struct imx7_csi_pixfmt *in_cc;
-> >  	struct v4l2_mbus_framefmt *in_fmt;
-> >  	u32 code;
-> >
-> > -	in_fmt = imx7_csi_get_format(csi, sd_state, IMX7_CSI_PAD_SINK,
-> > -				     sdformat->which);
-> > -	if (!in_fmt)
-> > -		return -EINVAL;
-> > +	in_fmt = v4l2_subdev_get_pad_format(sd, sd_state, IMX7_CSI_PAD_SINK);
-> >
-> >  	switch (sdformat->pad) {
-> >  	case IMX7_CSI_PAD_SRC:
-> > @@ -1952,8 +1910,6 @@ static int imx7_csi_try_fmt(struct imx7_csi *csi,
-> >  	}
-> >
-> >  	imx7_csi_try_colorimetry(&sdformat->format);
-> > -
-> > -	return 0;
-> >  }
-> >
-> >  static int imx7_csi_set_fmt(struct v4l2_subdev *sd,
-> > @@ -1966,25 +1922,13 @@ static int imx7_csi_set_fmt(struct v4l2_subdev *sd,
-> >  	const struct imx7_csi_pixfmt *cc;
-> >  	struct v4l2_mbus_framefmt *fmt;
-> >  	struct v4l2_subdev_format format;
-> > -	int ret = 0;
-> >
-> > -	mutex_lock(&csi->lock);
-> > +	if (csi->is_streaming)
-> > +		return -EBUSY;
+On 1/30/23 11:12, Sakari Ailus wrote:
+> Hi Hans,
 > 
-> Do you still need this or the state is locked by s_stream() and if I'm
-> not mistaken the core locks the state before calling the op ?
+> On Fri, Jan 27, 2023 at 09:37:27PM +0100, Hans de Goede wrote:
+>> On some systems, e.g. the Lenovo ThinkPad X1 Yoga gen 7 and the ThinkPad
+>> X1 Nano gen 2 there is no clock-enable pin, triggering the:
+>> "No clk GPIO. The privacy LED won't work" warning and causing the privacy
+>> LED to not work.
+>>
+>> Fix this by modeling the privacy LED as a LED class device rather then
+>> integrating it with the registered clock.
+>>
+>> Note this relies on media subsys changes to actually turn the LED on/off
+>> when the sensor's v4l2_subdev's s_stream() operand gets called.
+>>
+>> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+>> ---
+>> Changes in v4:
+>> - Make struct led_classdev the first member of the pled struct
+>> - Use strchr to replace the : with _ in the acpi_dev_name()
+>> ---
+>>  drivers/platform/x86/intel/int3472/Makefile   |  2 +-
+>>  .../x86/intel/int3472/clk_and_regulator.c     |  3 -
+>>  drivers/platform/x86/intel/int3472/common.h   | 15 +++-
+>>  drivers/platform/x86/intel/int3472/discrete.c | 58 ++++-----------
+>>  drivers/platform/x86/intel/int3472/led.c      | 74 +++++++++++++++++++
+>>  5 files changed, 105 insertions(+), 47 deletions(-)
+>>  create mode 100644 drivers/platform/x86/intel/int3472/led.c
+>>
+>> diff --git a/drivers/platform/x86/intel/int3472/Makefile b/drivers/platform/x86/intel/int3472/Makefile
+>> index cfec7784c5c9..9f16cb514397 100644
+>> --- a/drivers/platform/x86/intel/int3472/Makefile
+>> +++ b/drivers/platform/x86/intel/int3472/Makefile
+>> @@ -1,4 +1,4 @@
+>>  obj-$(CONFIG_INTEL_SKL_INT3472)		+= intel_skl_int3472_discrete.o \
+>>  					   intel_skl_int3472_tps68470.o
+>> -intel_skl_int3472_discrete-y		:= discrete.o clk_and_regulator.o common.o
+>> +intel_skl_int3472_discrete-y		:= discrete.o clk_and_regulator.o led.o common.o
+>>  intel_skl_int3472_tps68470-y		:= tps68470.o tps68470_board_data.o common.o
+>> diff --git a/drivers/platform/x86/intel/int3472/clk_and_regulator.c b/drivers/platform/x86/intel/int3472/clk_and_regulator.c
+>> index 74dc2cff799e..e3b597d93388 100644
+>> --- a/drivers/platform/x86/intel/int3472/clk_and_regulator.c
+>> +++ b/drivers/platform/x86/intel/int3472/clk_and_regulator.c
+>> @@ -23,8 +23,6 @@ static int skl_int3472_clk_prepare(struct clk_hw *hw)
+>>  	struct int3472_gpio_clock *clk = to_int3472_clk(hw);
+>>  
+>>  	gpiod_set_value_cansleep(clk->ena_gpio, 1);
+>> -	gpiod_set_value_cansleep(clk->led_gpio, 1);
+>> -
+>>  	return 0;
+>>  }
+>>  
+>> @@ -33,7 +31,6 @@ static void skl_int3472_clk_unprepare(struct clk_hw *hw)
+>>  	struct int3472_gpio_clock *clk = to_int3472_clk(hw);
+>>  
+>>  	gpiod_set_value_cansleep(clk->ena_gpio, 0);
+>> -	gpiod_set_value_cansleep(clk->led_gpio, 0);
+>>  }
+>>  
+>>  static int skl_int3472_clk_enable(struct clk_hw *hw)
+>> diff --git a/drivers/platform/x86/intel/int3472/common.h b/drivers/platform/x86/intel/int3472/common.h
+>> index 53270d19c73a..82dc37e08882 100644
+>> --- a/drivers/platform/x86/intel/int3472/common.h
+>> +++ b/drivers/platform/x86/intel/int3472/common.h
+>> @@ -6,6 +6,7 @@
+>>  
+>>  #include <linux/clk-provider.h>
+>>  #include <linux/gpio/machine.h>
+>> +#include <linux/leds.h>
+>>  #include <linux/regulator/driver.h>
+>>  #include <linux/regulator/machine.h>
+>>  #include <linux/types.h>
+>> @@ -28,6 +29,8 @@
+>>  #define GPIO_REGULATOR_NAME_LENGTH				21
+>>  #define GPIO_REGULATOR_SUPPLY_NAME_LENGTH			9
+>>  
+>> +#define INT3472_LED_MAX_NAME_LEN				32
+>> +
+>>  #define CIO2_SENSOR_SSDB_MCLKSPEED_OFFSET			86
+>>  
+>>  #define INT3472_REGULATOR(_name, _supply, _ops)			\
+>> @@ -96,10 +99,16 @@ struct int3472_discrete_device {
+>>  		struct clk_hw clk_hw;
+>>  		struct clk_lookup *cl;
+>>  		struct gpio_desc *ena_gpio;
+>> -		struct gpio_desc *led_gpio;
+>>  		u32 frequency;
+>>  	} clock;
+>>  
+>> +	struct int3472_pled {
+>> +		struct led_classdev classdev;
+>> +		struct led_lookup_data lookup;
+>> +		char name[INT3472_LED_MAX_NAME_LEN];
+>> +		struct gpio_desc *gpio;
+>> +	} pled;
+>> +
+>>  	unsigned int ngpios; /* how many GPIOs have we seen */
+>>  	unsigned int n_sensor_gpios; /* how many have we mapped to sensor */
+>>  	struct gpiod_lookup_table gpios;
+>> @@ -119,4 +128,8 @@ int skl_int3472_register_regulator(struct int3472_discrete_device *int3472,
+>>  				   struct acpi_resource_gpio *agpio);
+>>  void skl_int3472_unregister_regulator(struct int3472_discrete_device *int3472);
+>>  
+>> +int skl_int3472_register_pled(struct int3472_discrete_device *int3472,
+>> +			      struct acpi_resource_gpio *agpio, u32 polarity);
+>> +void skl_int3472_unregister_pled(struct int3472_discrete_device *int3472);
+>> +
+>>  #endif
+>> diff --git a/drivers/platform/x86/intel/int3472/discrete.c b/drivers/platform/x86/intel/int3472/discrete.c
+>> index 708d51f9b41d..38b1372e0745 100644
+>> --- a/drivers/platform/x86/intel/int3472/discrete.c
+>> +++ b/drivers/platform/x86/intel/int3472/discrete.c
+>> @@ -155,37 +155,21 @@ static int skl_int3472_map_gpio_to_sensor(struct int3472_discrete_device *int347
+>>  }
+>>  
+>>  static int skl_int3472_map_gpio_to_clk(struct int3472_discrete_device *int3472,
+>> -				       struct acpi_resource_gpio *agpio, u8 type)
+>> +				       struct acpi_resource_gpio *agpio)
+>>  {
+>>  	char *path = agpio->resource_source.string_ptr;
+>>  	u16 pin = agpio->pin_table[0];
+>>  	struct gpio_desc *gpio;
+>>  
+>> -	switch (type) {
+>> -	case INT3472_GPIO_TYPE_CLK_ENABLE:
+>> -		gpio = acpi_get_and_request_gpiod(path, pin, "int3472,clk-enable");
+>> -		if (IS_ERR(gpio))
+>> -			return (PTR_ERR(gpio));
+>> -
+>> -		int3472->clock.ena_gpio = gpio;
+>> -		/* Ensure the pin is in output mode and non-active state */
+>> -		gpiod_direction_output(int3472->clock.ena_gpio, 0);
+>> -		break;
+>> -	case INT3472_GPIO_TYPE_PRIVACY_LED:
+>> -		gpio = acpi_get_and_request_gpiod(path, pin, "int3472,privacy-led");
+>> -		if (IS_ERR(gpio))
+>> -			return (PTR_ERR(gpio));
+>> +	gpio = acpi_get_and_request_gpiod(path, pin, "int3472,clk-enable");
+>> +	if (IS_ERR(gpio))
+>> +		return (PTR_ERR(gpio));
+>>  
+>> -		int3472->clock.led_gpio = gpio;
+>> -		/* Ensure the pin is in output mode and non-active state */
+>> -		gpiod_direction_output(int3472->clock.led_gpio, 0);
+>> -		break;
+>> -	default:
+>> -		dev_err(int3472->dev, "Invalid GPIO type 0x%02x for clock\n", type);
+>> -		break;
+>> -	}
+>> +	int3472->clock.ena_gpio = gpio;
+>> +	/* Ensure the pin is in output mode and non-active state */
+>> +	gpiod_direction_output(int3472->clock.ena_gpio, 0);
+>>  
+>> -	return 0;
+>> +	return skl_int3472_register_clock(int3472);
+>>  }
+>>  
+>>  static void int3472_get_func_and_polarity(u8 type, const char **func, u32 *polarity)
+>> @@ -293,11 +277,16 @@ static int skl_int3472_handle_gpio_resources(struct acpi_resource *ares,
+>>  
+>>  		break;
+>>  	case INT3472_GPIO_TYPE_CLK_ENABLE:
+>> -	case INT3472_GPIO_TYPE_PRIVACY_LED:
+>> -		ret = skl_int3472_map_gpio_to_clk(int3472, agpio, type);
+>> +		ret = skl_int3472_map_gpio_to_clk(int3472, agpio);
+>>  		if (ret)
+>>  			err_msg = "Failed to map GPIO to clock\n";
+>>  
+>> +		break;
+>> +	case INT3472_GPIO_TYPE_PRIVACY_LED:
+>> +		ret = skl_int3472_register_pled(int3472, agpio, polarity);
+>> +		if (ret)
+>> +			err_msg = "Failed to register LED\n";
+>> +
+>>  		break;
+>>  	case INT3472_GPIO_TYPE_POWER_ENABLE:
+>>  		ret = skl_int3472_register_regulator(int3472, agpio);
+>> @@ -341,21 +330,6 @@ static int skl_int3472_parse_crs(struct int3472_discrete_device *int3472)
+>>  
+>>  	acpi_dev_free_resource_list(&resource_list);
+>>  
+>> -	/*
+>> -	 * If we find no clock enable GPIO pin then the privacy LED won't work.
+>> -	 * We've never seen that situation, but it's possible. Warn the user so
+>> -	 * it's clear what's happened.
+>> -	 */
+>> -	if (int3472->clock.ena_gpio) {
+>> -		ret = skl_int3472_register_clock(int3472);
+>> -		if (ret)
+>> -			return ret;
+>> -	} else {
+>> -		if (int3472->clock.led_gpio)
+>> -			dev_warn(int3472->dev,
+>> -				 "No clk GPIO. The privacy LED won't work\n");
+>> -	}
+>> -
+>>  	int3472->gpios.dev_id = int3472->sensor_name;
+>>  	gpiod_add_lookup_table(&int3472->gpios);
+>>  
+>> @@ -372,8 +346,8 @@ static int skl_int3472_discrete_remove(struct platform_device *pdev)
+>>  		skl_int3472_unregister_clock(int3472);
+>>  
+>>  	gpiod_put(int3472->clock.ena_gpio);
+>> -	gpiod_put(int3472->clock.led_gpio);
+>>  
+>> +	skl_int3472_unregister_pled(int3472);
+>>  	skl_int3472_unregister_regulator(int3472);
+>>  
+>>  	return 0;
+>> diff --git a/drivers/platform/x86/intel/int3472/led.c b/drivers/platform/x86/intel/int3472/led.c
+>> new file mode 100644
+>> index 000000000000..251c6524458e
+>> --- /dev/null
+>> +++ b/drivers/platform/x86/intel/int3472/led.c
+>> @@ -0,0 +1,74 @@
+>> +// SPDX-License-Identifier: GPL-2.0
+>> +/* Author: Hans de Goede <hdegoede@redhat.com> */
+>> +
+>> +#include <linux/acpi.h>
+>> +#include <linux/gpio/consumer.h>
+>> +#include <linux/leds.h>
+>> +#include "common.h"
+>> +
+>> +static int int3472_pled_set(struct led_classdev *led_cdev,
+>> +				     enum led_brightness brightness)
+>> +{
+>> +	struct int3472_discrete_device *int3472 =
+>> +		container_of(led_cdev, struct int3472_discrete_device, pled.classdev);
+>> +
+>> +	gpiod_set_value_cansleep(int3472->pled.gpio, brightness);
+>> +	return 0;
+>> +}
+>> +
+>> +int skl_int3472_register_pled(struct int3472_discrete_device *int3472,
+>> +			      struct acpi_resource_gpio *agpio, u32 polarity)
+>> +{
+>> +	char *p, *path = agpio->resource_source.string_ptr;
+>> +	int ret;
+>> +
+>> +	if (int3472->pled.classdev.dev)
+>> +		return -EBUSY;
+>> +
+>> +	int3472->pled.gpio = acpi_get_and_request_gpiod(path, agpio->pin_table[0],
+>> +							     "int3472,privacy-led");
+>> +	if (IS_ERR(int3472->pled.gpio))
+>> +		return dev_err_probe(int3472->dev, PTR_ERR(int3472->pled.gpio),
+>> +				     "getting privacy LED GPIO\n");
+>> +
+>> +	if (polarity == GPIO_ACTIVE_LOW)
+>> +		gpiod_toggle_active_low(int3472->pled.gpio);
+>> +
+>> +	/* Ensure the pin is in output mode and non-active state */
+>> +	gpiod_direction_output(int3472->pled.gpio, 0);
+>> +
+>> +	/* Generate the name, replacing the ':' in the ACPI devname with '_' */
+>> +	snprintf(int3472->pled.name, sizeof(int3472->pled.name),
+>> +		 "%s::privacy_led", acpi_dev_name(int3472->sensor));
+>> +	p = strchr(int3472->pled.name, ':');
+>> +	*p = '_';
+> 
+> While I suppose ACPI device names generally are shorter than
+> sizeof(int3472->pled.name), it'd be nice to still check p is non-NULL here,
+> just to be sure.
 
-The lock protects .set_fmt() racing with .s_stream(), but it doesn't
-prevent .set_fmt() from being called while the stream is active, after
-.s_stream() has returned. I think this should be handled by the subdev
-core, but at the moment it isn't.
+Sure, I've added a check for this while merging this.
 
-> > -	if (csi->is_streaming) {
-> > -		ret = -EBUSY;
-> > -		goto out_unlock;
-> > -	}
-> > +	imx7_csi_try_fmt(sd, sd_state, sdformat, &cc);
-> >
-> > -	ret = imx7_csi_try_fmt(csi, sd_state, sdformat, &cc);
-> > -	if (ret < 0)
-> > -		goto out_unlock;
-> > -
-> > -	fmt = imx7_csi_get_format(csi, sd_state, sdformat->pad,
-> > -				  sdformat->which);
-> > -	if (!fmt) {
-> > -		ret = -EINVAL;
-> > -		goto out_unlock;
-> > -	}
-> > +	fmt = v4l2_subdev_get_pad_format(sd, sd_state, sdformat->pad);
-> >
-> >  	*fmt = sdformat->format;
-> >
-> > @@ -1993,19 +1937,14 @@ static int imx7_csi_set_fmt(struct v4l2_subdev *sd,
-> >  		format.pad = IMX7_CSI_PAD_SRC;
-> >  		format.which = sdformat->which;
-> >  		format.format = sdformat->format;
-> > -		if (imx7_csi_try_fmt(csi, sd_state, &format, &outcc)) {
-> > -			ret = -EINVAL;
-> > -			goto out_unlock;
-> > -		}
-> > -		outfmt = imx7_csi_get_format(csi, sd_state, IMX7_CSI_PAD_SRC,
-> > -					     sdformat->which);
-> > +		imx7_csi_try_fmt(sd, sd_state, &format, &outcc);
-> > +
-> > +		outfmt = v4l2_subdev_get_pad_format(sd, sd_state,
-> > +						    IMX7_CSI_PAD_SRC);
-> >  		*outfmt = format.format;
-> >  	}
-> >
-> > -out_unlock:
-> > -	mutex_unlock(&csi->lock);
-> > -
-> > -	return ret;
-> > +	return 0;
-> >  }
-> >
-> >  static int imx7_csi_pad_link_validate(struct v4l2_subdev *sd,
-> > @@ -2105,7 +2044,7 @@ static const struct v4l2_subdev_video_ops imx7_csi_video_ops = {
-> >  static const struct v4l2_subdev_pad_ops imx7_csi_pad_ops = {
-> >  	.init_cfg	= imx7_csi_init_cfg,
-> >  	.enum_mbus_code	= imx7_csi_enum_mbus_code,
-> > -	.get_fmt	= imx7_csi_get_fmt,
-> > +	.get_fmt	= v4l2_subdev_get_fmt,
-> >  	.set_fmt	= imx7_csi_set_fmt,
-> >  	.link_validate	= imx7_csi_pad_link_validate,
-> >  };
-> > @@ -2199,6 +2138,7 @@ static void imx7_csi_media_cleanup(struct imx7_csi *csi)
-> >  {
-> >  	v4l2_device_unregister(&csi->v4l2_dev);
-> >  	media_device_unregister(&csi->mdev);
-> > +	v4l2_subdev_cleanup(&csi->sd);
-> >  	media_device_cleanup(&csi->mdev);
-> >  }
-> >
-> > @@ -2266,6 +2206,10 @@ static int imx7_csi_media_init(struct imx7_csi *csi)
-> >  	if (ret)
-> >  		goto error;
-> >
-> > +	ret = v4l2_subdev_init_finalize(&csi->sd);
-> > +	if (ret)
-> > +		goto error;
-> > +
-> >  	ret = v4l2_device_register_subdev(&csi->v4l2_dev, &csi->sd);
-> >  	if (ret)
-> >  		goto error;
-> > @@ -2291,27 +2235,22 @@ static int imx7_csi_probe(struct platform_device *pdev)
-> >  	platform_set_drvdata(pdev, csi);
-> >
-> >  	spin_lock_init(&csi->irqlock);
-> > -	mutex_init(&csi->lock);
-> >
-> >  	/* Acquire resources and install interrupt handler. */
-> >  	csi->mclk = devm_clk_get(&pdev->dev, "mclk");
-> >  	if (IS_ERR(csi->mclk)) {
-> >  		ret = PTR_ERR(csi->mclk);
-> >  		dev_err(dev, "Failed to get mclk: %d", ret);
-> > -		goto destroy_mutex;
-> > +		return ret;
-> >  	}
-> >
-> >  	csi->irq = platform_get_irq(pdev, 0);
-> > -	if (csi->irq < 0) {
-> > -		ret = csi->irq;
-> > -		goto destroy_mutex;
-> > -	}
-> > +	if (csi->irq < 0)
-> > +		return csi->irq;
-> >
-> >  	csi->regbase = devm_platform_ioremap_resource(pdev, 0);
-> > -	if (IS_ERR(csi->regbase)) {
-> > -		ret = PTR_ERR(csi->regbase);
-> > -		goto destroy_mutex;
-> > -	}
-> > +	if (IS_ERR(csi->regbase))
-> > +		return PTR_ERR(csi->regbase);
-> >
-> >  	csi->model = (enum imx_csi_model)(uintptr_t)of_device_get_match_data(&pdev->dev);
-> >
-> > @@ -2319,31 +2258,23 @@ static int imx7_csi_probe(struct platform_device *pdev)
-> >  			       (void *)csi);
-> >  	if (ret < 0) {
-> >  		dev_err(dev, "Request CSI IRQ failed.\n");
-> > -		goto destroy_mutex;
-> > +		return ret;
-> >  	}
-> >
-> >  	/* Initialize all the media device infrastructure. */
-> >  	ret = imx7_csi_media_init(csi);
-> >  	if (ret)
-> > -		goto destroy_mutex;
-> > -
-> > -	/* Set the default mbus formats. */
-> > -	ret = imx7_csi_init_cfg(&csi->sd, NULL);
-> > -	if (ret)
-> > -		goto media_cleanup;
-> > +		return ret;
-> >
-> >  	ret = imx7_csi_async_register(csi);
-> >  	if (ret)
-> > -		goto media_cleanup;
-> > +		goto err_media_cleanup;
-> >
-> >  	return 0;
-> >
-> > -media_cleanup:
-> > +err_media_cleanup:
-> >  	imx7_csi_media_cleanup(csi);
-> >
-> > -destroy_mutex:
-> > -	mutex_destroy(&csi->lock);
-> > -
-> >  	return ret;
-> >  }
-> >
-> > @@ -2357,8 +2288,6 @@ static int imx7_csi_remove(struct platform_device *pdev)
-> >  	v4l2_async_nf_cleanup(&csi->notifier);
-> >  	v4l2_async_unregister_subdev(&csi->sd);
-> >
-> > -	mutex_destroy(&csi->lock);
-> > -
-> >  	return 0;
-> >  }
-> >
-
--- 
 Regards,
 
-Laurent Pinchart
+Hans
+
+
+
+> 
+>> +
+>> +	int3472->pled.classdev.name = int3472->pled.name;
+>> +	int3472->pled.classdev.max_brightness = 1;
+>> +	int3472->pled.classdev.brightness_set_blocking = int3472_pled_set;
+>> +
+>> +	ret = led_classdev_register(int3472->dev, &int3472->pled.classdev);
+>> +	if (ret)
+>> +		goto err_free_gpio;
+>> +
+>> +	int3472->pled.lookup.provider = int3472->pled.name;
+>> +	int3472->pled.lookup.dev_id = int3472->sensor_name;
+>> +	int3472->pled.lookup.con_id = "privacy-led";
+>> +	led_add_lookup(&int3472->pled.lookup);
+>> +
+>> +	return 0;
+>> +
+>> +err_free_gpio:
+>> +	gpiod_put(int3472->pled.gpio);
+>> +	return ret;
+>> +}
+>> +
+>> +void skl_int3472_unregister_pled(struct int3472_discrete_device *int3472)
+>> +{
+>> +	if (IS_ERR_OR_NULL(int3472->pled.classdev.dev))
+>> +		return;
+>> +
+>> +	led_remove_lookup(&int3472->pled.lookup);
+>> +	led_classdev_unregister(&int3472->pled.classdev);
+>> +	gpiod_put(int3472->pled.gpio);
+>> +}
+> 
+
