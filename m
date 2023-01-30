@@ -2,56 +2,56 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AC89C68042D
-	for <lists+linux-media@lfdr.de>; Mon, 30 Jan 2023 04:08:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 51A75680438
+	for <lists+linux-media@lfdr.de>; Mon, 30 Jan 2023 04:13:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235662AbjA3DI1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 29 Jan 2023 22:08:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55496 "EHLO
+        id S234398AbjA3DNV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 29 Jan 2023 22:13:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34074 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235575AbjA3DIT (ORCPT
+        with ESMTP id S229675AbjA3DNU (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 29 Jan 2023 22:08:19 -0500
-Received: from mail-oa1-x29.google.com (mail-oa1-x29.google.com [IPv6:2001:4860:4864:20::29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 37EA765B4
-        for <linux-media@vger.kernel.org>; Sun, 29 Jan 2023 19:07:55 -0800 (PST)
-Received: by mail-oa1-x29.google.com with SMTP id 586e51a60fabf-15f97c478a8so13455053fac.13
-        for <linux-media@vger.kernel.org>; Sun, 29 Jan 2023 19:07:55 -0800 (PST)
+        Sun, 29 Jan 2023 22:13:20 -0500
+Received: from mail-oo1-xc34.google.com (mail-oo1-xc34.google.com [IPv6:2607:f8b0:4864:20::c34])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 30DE21BF6
+        for <linux-media@vger.kernel.org>; Sun, 29 Jan 2023 19:13:19 -0800 (PST)
+Received: by mail-oo1-xc34.google.com with SMTP id 19-20020a4ae1b3000000b005173e0749cbso555121ooy.7
+        for <linux-media@vger.kernel.org>; Sun, 29 Jan 2023 19:13:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
         h=mime-version:references:in-reply-to:message-id:cc:to:subject:from
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=CDdsLGnbwjXMf6AAv2TZ1fTBXdcA4ZARN+cATS/kf4A=;
-        b=vY7vTFz9x2gbNxpfwfYkDN6V/AbZkZhiG1QbWcJLgx+PvzL5st+K7Hjd8J6jJMM00I
-         4wWONZJw8kHIKaApTfB5RrvSq9Y5B6iFsvAWJ/m5dkopLFQybmXZMJQVq4Ah4SVBKzX8
-         gHwwvf/i/NOy4adxSK3HX3Qhk0KElfHKKylxaf7lAgz2w3w9HTVrMPMV0n0n/umwVlmM
-         Tv0DLXTiOUpddCYbUPERocb4DX/XumjBNiNU28qyACTCirOvVkjHxnFvl3vC00UPHHO5
-         OPiw4mco6+/d834icvuvx5lQWFMaZBTNmkcIzvlobE6nopwZjPnV0Zna91Wwgw79TS7K
-         oBfw==
+        bh=CTu6F24MqMbAJlXYaKwd3yi8Qfnk8wpGkhBK8iYWWDQ=;
+        b=jnt9DQSwQ/Ur8IJ9UrZwPrtybbNaC1r+KuxS4nvGYz7ojACw4Jh5DECkp6Fbpdl4cR
+         fQIIURSL8Ieih2Ou80GtwdK1uqJG5ktVWS2tInYacHsYEtL6u5G589utkM/5rgKfupOo
+         gIz7WkXR1PSU1n1D7UcoU2ygPpIiQNSTU8IPF8AFdveOmUWvvoq7FUxpWpITPS01s1X5
+         a8ONNSISFfXaSGIdxGWRqkWYYjd5487REhepdry5ms6L/NogcXE2TnOivz5Ksite++vj
+         ROhmByC9ZSQZwfPOmJl2j0/TrQIxJCYxDW3ZVN95Ifo2v77xR4/h3274JIgU5fvs5Q2V
+         Lr7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=mime-version:references:in-reply-to:message-id:cc:to:subject:from
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=CDdsLGnbwjXMf6AAv2TZ1fTBXdcA4ZARN+cATS/kf4A=;
-        b=XSIXb2TqdKjeGjYvCUQd/oG1ZuX6qs5Dv9qDGJpbLEFlYpTib/3TAiXNTbe+CsW6Wl
-         Jh0toWx2VajVTR1qo4yYvPEtT1YUZTxszBvUJaD6UkRPJWFqUzmCf0wbxKLxyjPXyM2f
-         jp+/Fyny6yeV3sr3OwCyAtzJQkn5k/iU0LgCJZSgQj4WbfzR2fleXsJBQghgw+itkCMC
-         LrUaCmqh0KPGVGDdEf5zUrf+AGbSCVVeCJO+Cn8y67WNH6juyS/vIz9vsDWb+fRT1ctQ
-         TTO8dY3BWa0L/zoKORRaGXmtktTYzABo1bHcplEfrcP1UWeyiDiKwr5g0EwqYDRFbU7F
-         TFvg==
-X-Gm-Message-State: AO0yUKVvKsGTKhwC9p7uyvQgljefcycnmoELgJ1RqRLEH3/uFph4M3TF
-        xYk6bOl/Ys+ZmmoePdKUmWokzg==
-X-Google-Smtp-Source: AK7set+Hkm+FishLKI9RCflN+QwH3Spm8xjGJPBUNA9GCvyx2OXOZGFjWMzERaYlYsBo9wDtqhP1iA==
-X-Received: by 2002:a05:6871:b11:b0:163:a45a:9fe1 with SMTP id fq17-20020a0568710b1100b00163a45a9fe1mr2226437oab.2.1675048073779;
-        Sun, 29 Jan 2023 19:07:53 -0800 (PST)
+        bh=CTu6F24MqMbAJlXYaKwd3yi8Qfnk8wpGkhBK8iYWWDQ=;
+        b=WMh4Nibwuif0V4NK73zTAgxC4yRBJSsdYW72bMPjQcOxzXNkYlOH+T4mXrKHhpZWZa
+         sqPzE4v4I/BTZJpVN2QC7LqfcLVoIjfqoeOOcujW4U1wAmK1sF/WgMTVz8B3rrJb7fCd
+         Ylef4oPevYKwQ5ANJCzpeNBRZgVS/iO7JW9cLbxMk+/V31O2eACZ7CCRkuVrgbGk6ehk
+         Avtsor7bWyp0ZcJmMQ+fFWxCmbSHOBoAEzImu6futytgsJSGwJlq31elsmLgy11juGQM
+         MTgQrodx97J8ceogYyF9SR5/7ZLutiT/2fQiWtBBHyneWceCYDTAXQhXD4msDIamS6Bs
+         8F3A==
+X-Gm-Message-State: AO0yUKXk4MUsImK2Wi27R+gDgtLP84J2muHcIed5yJ4Y2XSUr4n3NGsG
+        jbuJc1DRJuxhjkpT6NGzkl1ioA==
+X-Google-Smtp-Source: AK7set/CiwEkUdJjQvtgDYsbBuJvmT6nW80SlOcWcwweRlx8EJHuWUbXBGRLG9XBdLXzbn7/PEgGMA==
+X-Received: by 2002:a4a:3791:0:b0:517:67ba:586 with SMTP id r139-20020a4a3791000000b0051767ba0586mr1605298oor.3.1675048398516;
+        Sun, 29 Jan 2023 19:13:18 -0800 (PST)
 Received: from [192.168.10.175] ([190.106.125.239])
-        by smtp.gmail.com with ESMTPSA id ld24-20020a0568702b1800b00163b3472300sm837588oab.2.2023.01.29.19.07.48
+        by smtp.gmail.com with ESMTPSA id j26-20020a4ad2da000000b00517425df590sm2524174oos.14.2023.01.29.19.13.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 29 Jan 2023 19:07:52 -0800 (PST)
-Date:   Mon, 30 Jan 2023 00:07:41 -0300
+        Sun, 29 Jan 2023 19:13:17 -0800 (PST)
+Date:   Mon, 30 Jan 2023 00:13:05 -0300
 From:   Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-Subject: Re: [PATCH v5 1/2] media: verisilicon: Do not change context bit
- depth before validating the format
+Subject: Re: [PATCH v5 2/2] media: verisilicon: HEVC: Only propose 10 bits
+ compatible pixels formats
 To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>
 Cc:     p.zabel@pengutronix.de, mchehab@kernel.org, shawnguo@kernel.org,
         s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
@@ -60,10 +60,10 @@ Cc:     p.zabel@pengutronix.de, mchehab@kernel.org, shawnguo@kernel.org,
         linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org, kernel@collabora.com,
         Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Message-Id: <TC3APR.E9HSCZZ5SCPF@vanguardiasur.com.ar>
-In-Reply-To: <20230127092126.318268-2-benjamin.gaignard@collabora.com>
+Message-Id: <TL3APR.DGMI81ZTIDLJ1@vanguardiasur.com.ar>
+In-Reply-To: <20230127092126.318268-3-benjamin.gaignard@collabora.com>
 References: <20230127092126.318268-1-benjamin.gaignard@collabora.com>
-        <20230127092126.318268-2-benjamin.gaignard@collabora.com>
+        <20230127092126.318268-3-benjamin.gaignard@collabora.com>
 X-Mailer: geary/43.0
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii; format=flowed
@@ -78,32 +78,150 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 
 
-On Fri, Jan 27 2023 at 10:21:25 AM +0100, Benjamin Gaignard 
+On Fri, Jan 27 2023 at 10:21:26 AM +0100, Benjamin Gaignard 
 <benjamin.gaignard@collabora.com> wrote:
-> It is needed to check if the proposed pixels format is valid before
-> updating context bit depth and other internal states.
-> Stop using ctx->bit_depth to check format depth match and return
-> result to the caller.
+> When decoding a 10bits bitstreams HEVC driver should only expose
+> 10bits pixel formats.
+> To fulfill this requirement it is needed to call 
+> hantro_reset_raw_fmt()
+> when bit depth change and to correctly set match_depth in pixel 
+> formats
+> enumeration.
 > 
 > Fixes: dc39473d0340 ("media: hantro: imx8m: Enable 10bit decoding")
+> 
 > Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 > Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 > ---
+> version 5:
+> - Add Review and Fixes tags
+> 
+>  .../media/platform/verisilicon/hantro_drv.c   | 44 
+> +++++++++++++++----
+>  .../media/platform/verisilicon/imx8m_vpu_hw.c |  2 +
+>  2 files changed, 38 insertions(+), 8 deletions(-)
+> 
+> diff --git a/drivers/media/platform/verisilicon/hantro_drv.c 
+> b/drivers/media/platform/verisilicon/hantro_drv.c
+> index 8cb4a68c9119..a736050fef5a 100644
+> --- a/drivers/media/platform/verisilicon/hantro_drv.c
+> +++ b/drivers/media/platform/verisilicon/hantro_drv.c
+> @@ -251,11 +251,6 @@ queue_init(void *priv, struct vb2_queue *src_vq, 
+> struct vb2_queue *dst_vq)
+> 
+>  static int hantro_try_ctrl(struct v4l2_ctrl *ctrl)
+>  {
+> -	struct hantro_ctx *ctx;
+> -
+> -	ctx = container_of(ctrl->handler,
+> -			   struct hantro_ctx, ctrl_handler);
+> -
+>  	if (ctrl->id == V4L2_CID_STATELESS_H264_SPS) {
+>  		const struct v4l2_ctrl_h264_sps *sps = ctrl->p_new.p_h264_sps;
+> 
+> @@ -274,8 +269,6 @@ static int hantro_try_ctrl(struct v4l2_ctrl *ctrl)
+>  		if (sps->bit_depth_luma_minus8 != 0 && sps->bit_depth_luma_minus8 
+> != 2)
+>  			/* Only 8-bit and 10-bit are supported */
+>  			return -EINVAL;
+> -
+> -		ctx->bit_depth = sps->bit_depth_luma_minus8 + 8;
 
-..
-
->  	 */
->  	if (ctx->is_encoder)
-> -		hantro_reset_raw_fmt(ctx);
-> +		hantro_reset_raw_fmt(ctx, 0);
-
-
-Explicit is better than implicit.
-
-Please replace the "0" to imply default, and instead
-pass HANTRO_DEFAULT_BIT_DEPTH explicitly.
+I think we need to make this change in a separate patch, so we can
+clarify the reason using s_ctrl instead of try_ctrl.
 
 Thanks!
+Ezequiel
+
+>  	} else if (ctrl->id == V4L2_CID_STATELESS_VP9_FRAME) {
+>  		const struct v4l2_ctrl_vp9_frame *dec_params = 
+> ctrl->p_new.p_vp9_frame;
+> 
+> @@ -286,6 +279,36 @@ static int hantro_try_ctrl(struct v4l2_ctrl 
+> *ctrl)
+>  	return 0;
+>  }
+> 
+> +static int hantro_hevc_s_ctrl(struct v4l2_ctrl *ctrl)
+> +{
+> +	struct hantro_ctx *ctx;
+> +
+> +	ctx = container_of(ctrl->handler,
+> +			   struct hantro_ctx, ctrl_handler);
+> +
+> +	switch (ctrl->id) {
+> +	case V4L2_CID_STATELESS_HEVC_SPS:
+> +	{
+> +		const struct v4l2_ctrl_hevc_sps *sps = ctrl->p_new.p_hevc_sps;
+> +		int bit_depth = sps->bit_depth_luma_minus8 + 8;
+> +		int ret;
+> +
+> +		if (ctx->bit_depth == bit_depth)
+> +			return 0;
+> +
+> +		ret = hantro_reset_raw_fmt(ctx, bit_depth);
+> +		if (!ret)
+> +			ctx->bit_depth = bit_depth;
+> +
+> +		return ret;
+> +	}
+> +	default:
+> +		return -EINVAL;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+>  static int hantro_jpeg_s_ctrl(struct v4l2_ctrl *ctrl)
+>  {
+>  	struct hantro_ctx *ctx;
+> @@ -328,6 +351,11 @@ static const struct v4l2_ctrl_ops 
+> hantro_ctrl_ops = {
+>  	.try_ctrl = hantro_try_ctrl,
+>  };
+> 
+> +static const struct v4l2_ctrl_ops hantro_hevc_ctrl_ops = {
+> +	.s_ctrl = hantro_hevc_s_ctrl,
+> +	.try_ctrl = hantro_try_ctrl,
+> +};
+> +
+>  static const struct v4l2_ctrl_ops hantro_jpeg_ctrl_ops = {
+>  	.s_ctrl = hantro_jpeg_s_ctrl,
+>  };
+> @@ -470,7 +498,7 @@ static const struct hantro_ctrl controls[] = {
+>  		.codec = HANTRO_HEVC_DECODER,
+>  		.cfg = {
+>  			.id = V4L2_CID_STATELESS_HEVC_SPS,
+> -			.ops = &hantro_ctrl_ops,
+> +			.ops = &hantro_hevc_ctrl_ops,
+>  		},
+>  	}, {
+>  		.codec = HANTRO_HEVC_DECODER,
+> diff --git a/drivers/media/platform/verisilicon/imx8m_vpu_hw.c 
+> b/drivers/media/platform/verisilicon/imx8m_vpu_hw.c
+> index b390228fd3b4..f850d8bddef6 100644
+> --- a/drivers/media/platform/verisilicon/imx8m_vpu_hw.c
+> +++ b/drivers/media/platform/verisilicon/imx8m_vpu_hw.c
+> @@ -152,6 +152,7 @@ static const struct hantro_fmt 
+> imx8m_vpu_g2_postproc_fmts[] = {
+>  	{
+>  		.fourcc = V4L2_PIX_FMT_NV12,
+>  		.codec_mode = HANTRO_MODE_NONE,
+> +		.match_depth = true,
+>  		.postprocessed = true,
+>  		.frmsize = {
+>  			.min_width = FMT_MIN_WIDTH,
+> @@ -165,6 +166,7 @@ static const struct hantro_fmt 
+> imx8m_vpu_g2_postproc_fmts[] = {
+>  	{
+>  		.fourcc = V4L2_PIX_FMT_P010,
+>  		.codec_mode = HANTRO_MODE_NONE,
+> +		.match_depth = true,
+>  		.postprocessed = true,
+>  		.frmsize = {
+>  			.min_width = FMT_MIN_WIDTH,
+> --
+> 2.34.1
 > 
 
 
