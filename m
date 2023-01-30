@@ -2,162 +2,107 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2B483681C96
-	for <lists+linux-media@lfdr.de>; Mon, 30 Jan 2023 22:22:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 89588681CC4
+	for <lists+linux-media@lfdr.de>; Mon, 30 Jan 2023 22:30:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230394AbjA3VWI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 30 Jan 2023 16:22:08 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44750 "EHLO
+        id S231164AbjA3Va0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 30 Jan 2023 16:30:26 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49658 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230261AbjA3VWH (ORCPT
+        with ESMTP id S229768AbjA3VaZ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 30 Jan 2023 16:22:07 -0500
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AFB1136FD8;
-        Mon, 30 Jan 2023 13:22:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675113726; x=1706649726;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Bkz7I7V4uOJBEptj1PZg1CbnEqkLHyvvT+7+hty2jUU=;
-  b=EkkR1wRAdc+jXsy2IGOReQTSeFJ/fG2iltFW7UvF7XStTveERNkn0PT0
-   NiTl2J5QAb/a2ux96Uwyr1VvpPfpIJM1+xk14HX/2AKIcYJM590SDmm2S
-   gS+kuix5nKnH5ZETHlv+g66QyULuSAokavIUbEPYfbmxJaz28j8DJXfKz
-   iJoFl/dlPMR1bIlnjrGtD2zXKUxVDzhvSR7YXovYz2EAiHO+GDMPP11Cy
-   iARu5GAe10QTBDxV1TqFLayY3F2NJtVtavvM/d+EaV0WcWvnvAh2pTwG8
-   onij7APzOrnLoKJ1cD1MXvb8yHybNEeFgxdr98tjuZTQSE3j43XvD8K7W
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10606"; a="327696191"
-X-IronPort-AV: E=Sophos;i="5.97,259,1669104000"; 
-   d="scan'208";a="327696191"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2023 13:22:06 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10606"; a="788170348"
-X-IronPort-AV: E=Sophos;i="5.97,259,1669104000"; 
-   d="scan'208";a="788170348"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2023 13:22:04 -0800
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-        by kekkonen.fi.intel.com (Postfix) with SMTP id 57F841202B0;
-        Mon, 30 Jan 2023 23:22:00 +0200 (EET)
-Date:   Mon, 30 Jan 2023 23:22:00 +0200
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     linux-acpi@vger.kernel.org, linux-media@vger.kernel.org,
-        rafael@kernel.org, heikki.krogerus@linux.intel.com
-Subject: Re: [PATCH v3 4/8] ACPI: property: Generate camera swnodes for ACPI
- and DisCo for Imaging
-Message-ID: <Y9g0+L4zrdBtcpZP@kekkonen.localdomain>
-References: <20230125224101.401285-1-sakari.ailus@linux.intel.com>
- <20230125224101.401285-5-sakari.ailus@linux.intel.com>
- <Y9Oo4L0ToRTZye2Z@smile.fi.intel.com>
+        Mon, 30 Jan 2023 16:30:25 -0500
+Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com [209.85.210.49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C494D38B4C;
+        Mon, 30 Jan 2023 13:30:22 -0800 (PST)
+Received: by mail-ot1-f49.google.com with SMTP id v24-20020a05683011d800b0068bdd29b160so499860otq.13;
+        Mon, 30 Jan 2023 13:30:22 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=hiqzkzUxt8/xNcC+60X48Uy9vsc/Fvpd3yplhrNClzI=;
+        b=Ne4yJs5hDgAvZp3W2tHqfVA+fzw1guibnqbxUUdwLiAQkT/CRGWOlM8yvDYpfCsodH
+         +e9z7sJFqjLZ5PGho2FBoYWnQI7244/dNyOyowrfat3Sb8opgFLeUbjD76ameWQVQ0li
+         WTZc2C2Mxxs49sJH0FtFHBdQdT8u7iQZW4pQGpuPPrtjmp6M8sUzqpjqrAS3J+Davw9Z
+         PjMLq/qm3LAStxcyissX8eFJHaMX7DSg3bZHKJk2cSA1PxqJNuD4BcHKiAEUosp4SyW1
+         impD1anRkawkPKlS1l0AofQ08fPZRNdZXOUXcWTQEEfwp0ueOiz4l0q4QDTUsgvWssU3
+         RYdA==
+X-Gm-Message-State: AO0yUKWKgFh51bP4i32g8erf05yxyM6jCi0AnaitiOEzGYl1weAqMmPx
+        bxIDcTNDVvlcdp8c91qhWg==
+X-Google-Smtp-Source: AK7set+6elnwmrJx/eaOfyIFc6WxpSKhpCfomvw9nxGz714z5NUpgPl/HV2aAEHWF/qfxPSAKsxSfA==
+X-Received: by 2002:a9d:6f93:0:b0:684:c309:def3 with SMTP id h19-20020a9d6f93000000b00684c309def3mr4545109otq.12.1675114222006;
+        Mon, 30 Jan 2023 13:30:22 -0800 (PST)
+Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id df17-20020a056830479100b006884c42a38asm4331361otb.41.2023.01.30.13.30.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 30 Jan 2023 13:30:21 -0800 (PST)
+Received: (nullmailer pid 3563341 invoked by uid 1000);
+        Mon, 30 Jan 2023 21:30:20 -0000
+Date:   Mon, 30 Jan 2023 15:30:20 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Sean Young <sean@mess.org>
+Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Christian Hewitt <christianshewitt@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org
+Subject: Re: [PATCH] media: rc: add keymap for Beelink Mini MXIII remote
+Message-ID: <20230130213020.GA3541260-robh@kernel.org>
+References: <20230128034117.3983105-1-christianshewitt@gmail.com>
+ <6e953652-4a24-6f3c-74e7-07c25fa1c6c1@linaro.org>
+ <Y9YwbiJz9vOBejdL@gofer.mess.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Y9Oo4L0ToRTZye2Z@smile.fi.intel.com>
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <Y9YwbiJz9vOBejdL@gofer.mess.org>
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
+        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Andy,
+On Sun, Jan 29, 2023 at 08:38:06AM +0000, Sean Young wrote:
+> On Sat, Jan 28, 2023 at 11:11:32AM +0100, Krzysztof Kozlowski wrote:
+> > On 28/01/2023 04:41, Christian Hewitt wrote:
+> > > Add a keymap and bindings for the simple IR (NEC) remote used with
+> > > the Beelink Mini MXIII Android STB device.
+> > > 
+> > > Signed-off-by: Christian Hewitt <christianshewitt@gmail.com>
+> > > ---
+> > >  .../devicetree/bindings/media/rc.yaml         |  1 +
+> > >  drivers/media/rc/keymaps/Makefile             |  1 +
+> > >  drivers/media/rc/keymaps/rc-beelink-mxiii.c   | 54 +++++++++++++++++++
+> > >  include/media/rc-map.h                        |  1 +
+> > >  4 files changed, 57 insertions(+)
+> > >  create mode 100644 drivers/media/rc/keymaps/rc-beelink-mxiii.c
+> > > 
+> > > diff --git a/Documentation/devicetree/bindings/media/rc.yaml b/Documentation/devicetree/bindings/media/rc.yaml
+> > > index 266f1d5cae51..f390a5d2c82d 100644
+> > > --- a/Documentation/devicetree/bindings/media/rc.yaml
+> > > +++ b/Documentation/devicetree/bindings/media/rc.yaml
+> > > @@ -39,6 +39,7 @@ properties:
+> > >        - rc-avertv-303
+> > >        - rc-azurewave-ad-tu700
+> > >        - rc-beelink-gs1
+> > > +      - rc-beelink-mxiii
+> > 
+> > Bindings are separate patches. Didn't you get such feedback already?
+> 
+> The only change for new keymaps is an added entry to the rc-map-name enum.
+> In the past, new keymaps have been accepted with that single line in the
+> same commit.
 
-On Fri, Jan 27, 2023 at 12:35:12PM +0200, Andy Shevchenko wrote:
-> On Thu, Jan 26, 2023 at 12:40:57AM +0200, Sakari Ailus wrote:
-> > Generate software nodes for information parsed from ACPI _CRS for CSI-2 as
-> > well as MIPI DisCo for Imaging spec. The software nodes are compliant with
-> > existing ACPI or DT definitions and are parsed by relevant drivers without
-> > changes.
-> 
-> ...
-> 
-> > +static unsigned int next_csi2_port_index(struct acpi_device_software_nodes *ads,
-> > +					 unsigned int port_nr)
-> > +{
-> > +	unsigned int i;
-> > +
-> > +	for (i = 0; i < ads->num_ports; i++) {
-> > +		struct acpi_device_software_node_port *port = &ads->ports[i];
-> > +
-> > +		if (port->port_nr == port_nr)
-> > +			return i;
-> 
-> > +		if (port->port_nr != NO_CSI2_PORT)
-> > +			continue;
-> > +
-> > +		port->port_nr = port_nr;
-> > +
-> > +		return i;
-> 
-> Maybe it would be better to use the same pattern as above?
-> 
-> 		if (port->port_nr == NO_CSI2_PORT) {
-> 			port->port_nr = port_nr;
-> 			return i;
-> 		}
+It's been a checkpatch.pl warning since 2018. The separation is so that 
+commit messages in the DT only repo[1] make sense.
 
-Works for me...
+Rob
 
-> 
-> > +	}
-> > +
-> > +	return NO_CSI2_PORT;
-> > +}
-> 
-> ...
-> 
-> > +static struct fwnode_handle *get_mipi_port_handle(struct acpi_device *device,
-> > +						  unsigned int port)
-> > +{
-> > +	static const char mipi_port_prefix[] = "mipi-img-port-";
-> > +	char mipi_port_name[sizeof(mipi_port_prefix) + 2];
-> 
-> I think the following will be better:
-> 
-> 	char mipi_port_name[16];
-
-If the array is too short, this will generate a warning but... this is
-already handled better than that. Why not to keep it?
-
-> 
-> 
-> > +	if (snprintf(mipi_port_name, sizeof(mipi_port_name), "%s%u",
-> > +		     mipi_port_prefix, port) >= sizeof(mipi_port_name)) {
-> 
-> 	if (snprintf(mipi_port_name, sizeof(mipi_port_name), "mipi-img-port-%u",
-> 		     port) >= sizeof(mipi_port_name)) {
-> 
-> > +		acpi_handle_info(acpi_device_handle(device),
-> > +				 "mipi port name too long for port %u\n", port);
-> > +		return NULL;
-> > +	}
-> > +
-> > +	return fwnode_get_named_child_node(acpi_fwnode_handle(device),
-> > +					   mipi_port_name);
-> > +}
-> 
-> ...
-> 
-> > +	union {
-> > +		u32 val;
-> 
-> OK. I stopped here, because I'm not sure you have really sent an updated
-> version. For sure the val and union is not used.
-
-Indeed. My apologies --- I missed making a few changes I intended to do.
-I'll go through those once more and then send v4.
-
-> 
-> > +		/* Data lanes + the clock lane */
-> > +		u8 val8[BITS_TO_BYTES(ARRAY_SIZE(port->data_lanes) + 1)];
-> > +	} u;
-
--- 
-Kind regards,
-
-Sakari Ailus
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/devicetree/devicetree-rebasing.git/
